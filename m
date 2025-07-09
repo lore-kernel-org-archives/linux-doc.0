@@ -1,130 +1,90 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCCD1DE2B4;
-	Wed,  9 Jul 2025 02:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529501EDA2F
+	for <linux-doc@vger.kernel.org>; Wed,  9 Jul 2025 03:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752029111; cv=none; b=Odp+3mEB9HgHot8Y2XGQd3ypMw1yz2Xo7uzU/2OVnHiFvlw60x74CqkGsDaNsVsDfVdHIH07yMhCG0W3sqIOuBA/+MQV8owQV3/ijploBq1BHs26sx+2yxWqfzj0Y+peDTAoYAaST5EixEF8zwGqX/scs16cOd0S8YWe3jYZAbE=
+	t=1752031626; cv=none; b=ZSbeeaFmQLalzLKexiUztooZuG+zq9DPeGEYaonDEAmmhqeL18ua0jcPhkDR3Wa6VDVuqdIjEhynNCHfzm96zMktAB9ySwxRtHFdkBz5dp0zgOlqOMDlpKT4GdldY8mlkdVsu2BX7Y+LRQP+eP5rBhx6kXA1oDBXAdcqE7vpKh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752029111; c=relaxed/simple;
-	bh=v5gWJHZSziQ9AK4ivNXRbjP5Rm/JcvFHiODpyoVd+Gk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sg9KrW8On7wqdSfjOvRKd8nFb3nePxAbiZN2oP3DlznzW0qluHLJyDm9VogXoeHjw5ge9O49KO3GIYIuw8Lj6IGuJ1zCZGgJH7R5t4D8i4P0xHeeGI/Zw0RTjwfNOae1cfh9dKXAGGiA4reLfRQlBpxKwBmgrkYJBLEf3ivUHVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pr1o1zah; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752031626; c=relaxed/simple;
+	bh=zw/fej0GkXW5A++Ge3FEYjbMmbv+hTBMbj5gw+U4//w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LP3gaKTmvYfdE/KqK+cVWJe3cJiq9xeeDO+/zybhAHfVdHsOGmQ6vJ8dbxoKoXuF291LRiTcbJyaQCcNNH8kiLUhg0yQFSKOEUD7rWDnETiTSACtXMeJVQ7Eunql+r0vz1ObavW1u+zV8GI9CxsyARrwqNUv8VeCd4PViGf9xxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=KXQxlaqY; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pr1o1zah"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-748f5a4a423so2958664b3a.1;
-        Tue, 08 Jul 2025 19:45:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="KXQxlaqY"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4a58d95ea53so7336761cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 20:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752029109; x=1752633909; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MPq+2uwW5apwANEY0SAy/z4/pBz0JuDXsQOXkU84O0M=;
-        b=Pr1o1zahIdyV5+mK3M/fsUOuIeOAC5iAXc7GP8EMkkeVBtqD/vfTcoYH3pgqfMM8T7
-         qFfA2Dvo+GgSBReR8RPlDvtHTeQMVXyUKFw47K/NSi/jDeIXA3Pzwj/4pjqOxNFe1XrB
-         mHsBjWxxncxWNSl7WDiHzoBYOsPIFyN4CaNpnw7uqYlbLtcxd9zA9wVGlKD5wdZqhUXA
-         HMNItcMREXfKCC+pNXV5r7vVOPVRPxYTGJw2mXZj9DlQ+a8zbKM7s5U8PdcptqTQFUmu
-         Q2rLGEUMHHmDJkUpPyjaEtJjTlbAAyFQK8rGyfQq4fzXVWhLC934x22mu3SruvXeiLNw
-         0GAA==
+        d=szeredi.hu; s=google; t=1752031624; x=1752636424; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zw/fej0GkXW5A++Ge3FEYjbMmbv+hTBMbj5gw+U4//w=;
+        b=KXQxlaqYQfw0jkMx0UszkFkz6yZAkJym2Y4XdWw6DJwfxo7h8FDx3GciGZ4GfjpWq7
+         2by7ourxfJDrIk221f12+zzD98YK2TkxAwAEVam8W15bHr1Mj1EDYPPa85YXU51sAsSQ
+         /b/56IISOz1C8GvDDn5t0r5YCFfLOOHuTQUNo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752029109; x=1752633909;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1752031624; x=1752636424;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MPq+2uwW5apwANEY0SAy/z4/pBz0JuDXsQOXkU84O0M=;
-        b=lriFJ67SMU/n1EJVEyXKhqGrp5dhssUqy0W8tfq63Qg/h6NMgG3YF09KOjpRatq6B0
-         0t8jAEYGvOLqUittnkFTEmKaJxYkPWjQQU3ZFGtk1JDc72E1sqMNVrWUF1fj/JO9EWUo
-         hR6eOFESvY+l9SRGYp5tNqfBDTnWEimqTWuBa8f4gNXuOalLUPgu2P6pM1ZZ3InS6QsY
-         atSLyQ42N9K9bLSjR0ptNyWKvavBChGnE35K/054Wddu3GW9/usskHyK2RpjzsaH/VFU
-         wVNVlF2b0KX92A13X6juVrsqk9FQ7fsxKSt/tcb/peZr/e3VDqcqQZbPMw5JhL3/uU6z
-         euYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXbzje4tl+ZwKtqGUumokfZQyIVt1J+NtjePThWE9VYVvXgA+GhX2jlYdrg+YZfPI9TpEaUiQlAo8Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRy2K3TToM8xKBsz+Z1Dsb7mqYGboBZS/tS+QWL+I4WmWx0bBG
-	j2/BjUY5mLqp+UQV5lLhu9wgrc+x527GE4A+0aj0xxWlav/HBTfakq53
-X-Gm-Gg: ASbGncuFlkgrsAR/3tq1sQe/QO1Dl+1Eu26V1DiUxBvB8rbz3rpUPsVSsIPZ8z//JjJ
-	OdIKqcpp+8VoD5PqWNZfsdb1bsZKIO+8Xm7PU+2eoh3oe6leByc3GMf4r8VnPEt+1jOXCjRhv/n
-	4LPep1JEaIOKQ/SP3IUhp3APjoZXeGmgcWDbqAczxz31rUp5zSczbzcCHTIN86Lbr6uGnptwfIP
-	hntb1xP9KjYlKFDZAKPB5Pi80vfjNcFmDQRe9T4blkk+sawbMNeH7zMgPpt81pPEQSItvLfI7Q/
-	zlEuHraRb4vR/4mCjRogSjfZupL08AzkPGVWB851RdzvuLQEVN6ksJ4YrhBavQ==
-X-Google-Smtp-Source: AGHT+IH+kdEVZvs9IAFbHwWw/WF5McIPt9LcfUjjAjzh/4FnuSalS1e/sXDSWzZtol1ZOl8HqeNVpA==
-X-Received: by 2002:a05:6a00:ac8:b0:748:ffaf:9b53 with SMTP id d2e1a72fcca58-74ea666190fmr1263828b3a.16.1752029108518;
-        Tue, 08 Jul 2025 19:45:08 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce417f206sm12092598b3a.76.2025.07.08.19.45.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 19:45:07 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 8EB9E410194B; Wed, 09 Jul 2025 09:45:03 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Antonino Maniscalco <antomani103@gmail.com>,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
-	Raag Jadav <raag.jadav@intel.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected usage in literal code block
-Date: Wed,  9 Jul 2025 09:45:01 +0700
-Message-ID: <20250709024501.9105-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.50.0
+        bh=zw/fej0GkXW5A++Ge3FEYjbMmbv+hTBMbj5gw+U4//w=;
+        b=HpbOL0r/N4kuul6T7f9FUUYUCEAHfUqodZbUlLoENqxBe2BLLEYzZDbepwzfRCEv4x
+         NxOOV6RBIbqIG9KwN4c/6DWCE44+MX39mw/EduPvd65htUbVJa+SniDU3Cm1Zrgn1vRp
+         tsUNPlPcm+Aq6i26TzvvZClRdI7cGU5hQ4egoC6nHOWtWx5X/En7fPGLCMq2aMnBRdXn
+         FrSYXQ16xggmya42n++QCFuExpr2JnxDEjwWW9bOxeuLuQB2JKyX4b/4kxibEhQOe8vK
+         bBLiaJ8c8lp4ljyf7CE48r3PeYSe4NxZpSjgsWxaUXygEgv4jCNsKmDbyyK0gwWVk41h
+         MwTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWmly/g1wPk5B1Es5bMV+wktFMh7Nh13+5FEtcQu0vqDyzGzxomppNvC6zKNUHos8A38HEZB8C5I8I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuNNpN0wdVz0z3j1UYpYA8Cs8zZA1sjTTljnz7sh7vdElnOgSH
+	Z4vR4E3KchqA30PLI3Gw1V4OCkQGILMxKcfgraGdR6OCcsvuLJMBt5q18VcjcPtYgrxnMcdklSn
+	WvSU5Fmu8Rp15q+d10WkxftlC93dRNqDATRqawrK3iQ==
+X-Gm-Gg: ASbGnctbF2hI18jIcN54H1r1o4Cai4tWTnT8Ow6p1Gop5kE+w8clne+hXUh1X2ltOLW
+	1HojwzwR28b44F72j1bWcYC+QcFzs0MVFW2NJIOTTgUJt82Z4OlzOCXQUL9sWlqlS25y8Fb1xPY
+	E6h4EKU3eZ/egp16CvsgZuqli6EUaliGm2s0M4uDcosF+k
+X-Google-Smtp-Source: AGHT+IEbfuPtiB8SJ8mM3IIy/0e+1oWhx4UxNRjIANMV3UTN0UVNRrT4FqNMCrH6Q0szGd55OwaVpm23wRX15i4H4tQ=
+X-Received: by 2002:ac8:6f19:0:b0:4a9:8b58:6300 with SMTP id
+ d75a77b69052e-4a9ce5bbb43mr86267521cf.16.1752031623903; Tue, 08 Jul 2025
+ 20:27:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2245; i=bagasdotme@gmail.com; h=from:subject; bh=v5gWJHZSziQ9AK4ivNXRbjP5Rm/JcvFHiODpyoVd+Gk=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBm51/Z53YsLvGWmMfnpq8p+i6L/rxLu7T034YfIl8zXD T/rwnoOdZSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiE8IZ/vv97ebV6XSa7Ob+ teACe8RxsyrBF3beIv7TDe/P/iDzKomRYcsD5ZjsB2xqks158UX/dz4+dv6xy4m7yw7e4/YtcVi bzAUA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20250703185032.46568-1-john@groves.net> <os4kk3dq6pyntqgcm4kmzb2tvzpywooim2qi5esvsyvn5mjkmt@zpzxxbzuw3lq>
+In-Reply-To: <os4kk3dq6pyntqgcm4kmzb2tvzpywooim2qi5esvsyvn5mjkmt@zpzxxbzuw3lq>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 9 Jul 2025 05:26:53 +0200
+X-Gm-Features: Ac12FXw6hgYHynMi-MN39oWlDifPLmPqesU1MFQWRlURFDaTLnL4XYV-SQPgaEw
+Message-ID: <CAJfpeguOAZ0np25+pv2P-AHPOepMn+ycQeMwiqnPs4e0kmWwuQ@mail.gmail.com>
+Subject: Re: [RFC V2 00/18] famfs: port into fuse
+To: John Groves <John@groves.net>
+Cc: Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Stephen Rothwell reports multiple indentation warnings when merging
-drm-msm tree:
+On Thu, 3 Jul 2025 at 20:56, John Groves <John@groves.net> wrote:
+>
+> DERP: I did it again; Miklos' email is wrong in this series.
 
-Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2445: ERROR: Unexpected indentation. [docutils]
-Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2447: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2451: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2452: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2456: ERROR: Unexpected indentation. [docutils]
-Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2457: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2458: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2459: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+linux-fsdevel also lands in my inbox, so I don't even notice.
 
-Fix these by wrapping drm_gpuvm_sm_map_exec_lock() expected usage
-example in literal code block.
+I won't get to review this until August, sorry about that.
 
-Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250708192038.6b0fd31d@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- drivers/gpu/drm/drm_gpuvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index bbc7fecb6f4ab4..f62005ff9b2eef 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -2430,7 +2430,7 @@ static const struct drm_gpuvm_ops lock_ops = {
-  * remapped, and locks+prepares (drm_exec_prepare_object()) objects that
-  * will be newly mapped.
-  *
-- * The expected usage is:
-+ * The expected usage is::
-  *
-  *    vm_bind {
-  *        struct drm_exec exec;
-
-base-commit: 8290d37ad2b087bbcfe65fa5bcaf260e184b250a
--- 
-An old man doll... just what I always wanted! - Clara
-
+Thanks,
+Miklos
