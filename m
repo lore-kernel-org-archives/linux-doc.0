@@ -1,126 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D692A2D3EC5;
-	Wed,  9 Jul 2025 15:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76FB2E92C6;
+	Wed,  9 Jul 2025 15:47:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752075893; cv=none; b=Km9ULW1huugwvepvobANsDqK9ymU0G95i6VFk8SbHIvSoZ5NUIjG442eLXMjKDU2tR8Q97Ztad4EZh8XkHZ3B8E7BSuzcb5Ku4zKyY0YXbou7RQsg/+HPucwrkqSrpyz1oKtTqxoaC2PoRnMJ6Rihl9hV0hf9HSPGi6GTw5IY+4=
+	t=1752076080; cv=none; b=GqrmjbMZR5sUIyKxPcglAJDEqp48DpakDKmeBkIpA6TRJLhBGBwIhwOxsiOpFk37MeVPEelHviJxo8kcMr88d2afPgff4bPPbICiEMTl3ZuU7pLvaogOJbEvw6F2mUZHi4ZRiqHFCo/P+0GDKay/jRkON7QKuQlRAlwnI9oK2EA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752075893; c=relaxed/simple;
-	bh=faK0ZcZx9HxOdB6jQlzbXh6mkQSJ4VnVDjYLsm75zDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JS6nhMiAVS6MANCpom+wx6KiVY1AbHZIDiqn6aUR3JdwsqpROXU0kbv6YfePJJaYx4pJrIrBavf6bkJi3+CU4wvJvFMpN0yN1s+QOQmkOEpIX6R44f4RtYMHsTgRF800ceKGiUD0FlAFTPWmT+l9A20mYQniUw1WHlXtUMj4STU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ekenn0eo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752076080; c=relaxed/simple;
+	bh=SOheTdsRFKozeT9Fp2mcGWDzaSdmePACoK8QhwFtSik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pyrrFscxZLEkc1QpFTSw0+0P+s3saQWABukVIndKiU9+qzG++Nlrc0yjxFhOQyObB9AfvD1d6sU7GVx7Yg8NxY4HJz/KTFVbcCqmUa043pGPRmb10bGIECon0yUkqE5pykvTuX8WUCMcyD8YTt3x3koTsCGpGGfSz7JWVBbdGOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lfgKfkIS; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ekenn0eo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31445C4CEF9;
-	Wed,  9 Jul 2025 15:44:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752075892;
-	bh=faK0ZcZx9HxOdB6jQlzbXh6mkQSJ4VnVDjYLsm75zDQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ekenn0eonP+8DTcaA8V08ebMOrVY2uW/sSO1IseARj9uplvipipWkzvW/FH6Dtw8h
-	 k3dNwLLDxBTZKRyvTrUlB5RkxG84teQsL8uDwXcgG3N/OfehygX77fThw8lbdrh62I
-	 SnTRGvFdeU9OfWHoxerAv+f3RWRueXD5Q5QmqDGIgzCF/tXC5EtGyiISGQo9y+sBmX
-	 7i9jQmmhDAGAQtDR2FypDRPfvs30wNXQO95GCDg+yU52DceFBwQF7mqJ1paQ5Ue66c
-	 ZfzAUpc76vUE7eflBYX0GOgOfKvAAENXvcBz0cbwchEvdlMgcAUo0+URPWImK3SRJq
-	 dodYpEazrY0qg==
-Date: Wed, 9 Jul 2025 17:44:40 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, "Akira Yokosawa" <akiyks@gmail.com>, "Breno Leitao"
- <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Ignacio Encinas Rubio"
- <ignacio@iencinas.com>, "Jan Stancek" <jstancek@redhat.com>, "Marco Elver"
- <elver@google.com>, "Paolo Abeni" <pabeni@redhat.com>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Ruben Wauters" <rubenru09@aol.com>, "Shuah Khan"
- <skhan@linuxfoundation.org>, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
- stern@rowland.harvard.edu
-Subject: Re: [PATCH v8 11/13] tools: netlink_yml_parser.py: add line numbers
- to parsed data
-Message-ID: <20250709174440.39b0f49e@sal.lan>
-In-Reply-To: <m2bjq98n10.fsf@gmail.com>
-References: <cover.1750925410.git.mchehab+huawei@kernel.org>
-	<549be41405b5ddb6b78ead71f26c33fd6ce8e190.1750925410.git.mchehab+huawei@kernel.org>
-	<m2bjq98n10.fsf@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lfgKfkIS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=Ks2OjtLyTmyTH0uiJf+Wx9c4m1e3G4yvXwX2JOxKTn0=; b=lfgKfkISo1BG4DBxjL6yDIGKUN
+	WNWbUSFg3ukA6KIC9DR7hg1cy2zM5iK8LW9f7DGpreu/u6Rz2PU7m6zoURZ7t8A/YFarYuoYfkzVA
+	izANtTATbD5a5FaCp/jSl7pca5nBRRqH0sXLnaN30spveEcr1zFhnmidRxwrZNejWdoYFXcJm+qp5
+	2NgVydLM5IVw9uWFI+y09MsYGXokEusbRqHBUIoIrqzTk6DEGbvQaEB2X1d8fBJTaw4z5yOgNnLux
+	6nHNKYs5tnwu5NzUN5K8Vei6A7ZwhKZ5MLElhwNC1B2l214FoNH6/4lWOfq8cDrxLDhbj0JC7Ycyr
+	1ofov0Zg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uZX1V-00000004fEx-3k3o;
+	Wed, 09 Jul 2025 15:47:54 +0000
+Message-ID: <47d5f907-f2a9-4a4a-91b3-0cf6ea997678@infradead.org>
+Date: Wed, 9 Jul 2025 08:47:48 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] PM: add kernel parameter to disable asynchronous
+ suspend/resume
+To: Tudor Ambarus <tudor.ambarus@linaro.org>, Jonathan Corbet
+ <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Len Brown <len.brown@intel.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, peter.griffin@linaro.org,
+ andre.draszik@linaro.org, willmcvicker@google.com, kernel-team@android.com
+References: <20250709-pm-async-off-v3-1-cb69a6fc8d04@linaro.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250709-pm-async-off-v3-1-cb69a6fc8d04@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Fri, 27 Jun 2025 12:03:07 +0100
-Donald Hunter <donald.hunter@gmail.com> escreveu:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+
+On 7/9/25 5:31 AM, Tudor Ambarus wrote:
+> On some platforms, device dependencies are not properly represented by
+> device links, which can cause issues when asynchronous power management
+> is enabled. While it is possible to disable this via sysfs, doing so
+> at runtime can race with the first system suspend event.
 > 
-> > When something goes wrong, we want Sphinx error to point to the
-> > right line number from the original source, not from the
-> > processed ReST data.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  tools/net/ynl/pyynl/lib/doc_generator.py | 34 ++++++++++++++++++++++--
-> >  1 file changed, 32 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tools/net/ynl/pyynl/lib/doc_generator.py b/tools/net/ynl/pyynl/lib/doc_generator.py
-> > index 866551726723..a9d8ab6f2639 100644
-> > --- a/tools/net/ynl/pyynl/lib/doc_generator.py
-> > +++ b/tools/net/ynl/pyynl/lib/doc_generator.py
-> > @@ -20,6 +20,16 @@
-> >  from typing import Any, Dict, List
-> >  import yaml
-> >  
-> > +LINE_STR = '__lineno__'
-> > +
-> > +class NumberedSafeLoader(yaml.SafeLoader):
-> > +    """Override the SafeLoader class to add line number to parsed data"""
-> > +
-> > +    def construct_mapping(self, node):
-> > +        mapping = super().construct_mapping(node)
-> > +        mapping[LINE_STR] = node.start_mark.line
-> > +
-> > +        return mapping  
+> This patch introduces a kernel command-line parameter, "pm_async", which
+> can be set to "off" to globally disable asynchronous suspend and resume
+> operations from early boot. It effectively provides a way to set the
+> initial value of the existing pm_async sysfs knob at boot time. This
+> offers a robust method to fall back to synchronous (sequential) operation,
+> which can stabilize platforms with problematic dependencies and also
+> serve as a useful debugging tool.
 > 
-> pylint gives these 2 warnings:
+> The default behavior remains unchanged (asynchronous enabled). To disable
+> it, boot the kernel with the "pm_async=off" parameter.
 > 
-> tools/net/ynl/pyynl/lib/doc_generator.py:25:0: R0901: Too many ancestors (9/7) (too-many-ancestors)
+> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+> ---
+> Dealing with the pixel6 downstream drivers to cope with the changes from
+> https://lore.kernel.org/linux-pm/10629535.nUPlyArG6x@rjwysocki.net/.
+> 
+> Similar to what people already reported it seems pixel6 lacks proper
+> device links dependencies downstream causing i2c and spi client drivers
+> to fail to suspend. Add kernel param to disable async suspend/resume.
+> ---
+> Changes in v3:
+> - update documentation with "pm_async=" and "Format: off" (Randy)
+> - reword documentation to make it clear "on" isn't a selectable option
+>   for pm_async because it's the default behavior.
+> - Link to v2: https://lore.kernel.org/r/20250708-pm-async-off-v2-1-7fada54f01c0@linaro.org
+> 
+> Changes in v2:
+> - update the documentation and the commit message to describe that the
+>   "pm_async" kernel parameter provides a way to change the initial value
+>   of the existing /sys/power/pm_async sysfs knob.
+> - Link to v1: https://lore.kernel.org/r/20250708-pm-async-off-v1-1-1b200cc03d9c@linaro.org
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++++
+>  kernel/power/main.c                             |  9 +++++++++
+>  2 files changed, 21 insertions(+)
+> 
 
-I'm yet to find any pylint Rxxx warning that I didn't have to
-disable ;-)
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-This particular one is useless for us, as it basically tells that PyYAML
-has a big class hierarchy.
-
-> tools/net/ynl/pyynl/lib/doc_generator.py:28:4: W0221: Number of parameters was 3 in 'SafeConstructor.construct_mapping' and is now 2 in overriding 'NumberedSafeLoader.construct_mapping' method (arguments-differ)
-
-I'll fix this one to prevent potential future issues.
-
-Changing the code to:
- 
--class NumberedSafeLoader(yaml.SafeLoader):
-+class NumberedSafeLoader(yaml.SafeLoader):              # pylint: disable=R0901
-     """Override the SafeLoader class to add line number to parsed data"""
- 
--    def construct_mapping(self, node):
--        mapping = super().construct_mapping(node)
-+    def construct_mapping(self, node, *args, **kwargs):
-+        mapping = super().construct_mapping(node, *args, **kwargs)
-         mapping[LINE_STR] = node.start_mark.line
- 
-         return mapping
-
-This should hopefully be future-proof.
-
-Regards,
-Mauro
-
-
+Thanks.
+-- 
+~Randy
