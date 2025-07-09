@@ -1,211 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B82283FC8;
-	Wed,  9 Jul 2025 08:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E9B284B25
+	for <linux-doc@vger.kernel.org>; Wed,  9 Jul 2025 09:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752051518; cv=none; b=QMX26q06P/8+lLt7BwsBTwJBaWgZenvmXz0Y6IVPMsrX5qiwCgAzEzBfQpQ+UDAhntyph7AopZ3rqUQkh0seYmdKgUg2qDGZkwHIMwDrBPRkj68j7nQlRYiahDMuMQrjmt6u74GxCYSqjV3M9Wozk6zLIoB7VMW+XBRXLxYuGcg=
+	t=1752051745; cv=none; b=hNUj0TJ6Qsmhyuf7qtzooU8y4JRmIoPrXWodTiwuCbGM+Q7bqG96VD80FOjf0koyXSE4n92T+1zFJrh4X9aNR8Yek8aN912LD5LcSRLXZQ6HNJ3qoWnVZ9DEgx/Y040Q4fGHZNRRmZYrUGU+RpzPyMXrv9uGH+k72u74r4DFUhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752051518; c=relaxed/simple;
-	bh=/0NZDy7r80MqGg2EtP9K8SkjJnkRbWobikENSWLwTj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OxvpZ2GLFXD6xxFeRqjMXSnaJJfa/hUY7UkySJaLBligVc5RIICJpAQO6Qq+Pmxg6c5XamKXjZVpCPY/On6msI6wWd8JDwZfFk8CkwaTckjgnvRR+VjnWujR/UsrBkRG2SY+GCla6FhlNJnIC0lMwDSV3zsCs7lFlylJMz5JRu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TFtiwSEj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752051745; c=relaxed/simple;
+	bh=/J0ESgh0mnZJh7VIVascAzPB03YG2Nks06BWwBkQ7wA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FoAGFDHJT4cXuI1P7f1DG48LWl6pP9eL6nSzyFUgcXTVhFnTJRgLhPmH6aEZ8zEG+UyAZsh+jmU2Z+0YEbQtH0WmlL21WuZGD44fjXdIL0OyvPECs+QI+p+qZGNjAJrSSdKGcedT+yljELd1IfEH7F66hQmlYs7Df63S3NiNLgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cdcyfnAd; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TFtiwSEj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD68C4CEEF;
-	Wed,  9 Jul 2025 08:58:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752051517;
-	bh=/0NZDy7r80MqGg2EtP9K8SkjJnkRbWobikENSWLwTj8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TFtiwSEjtM6k8Cb2bRcr7vgpE0etL1ynwP0lDgq7/UOxFd5CQZ0YGqKi1igdF74eC
-	 lycwgz8EbSb8ez9cYvPcDF6EkOMmZuMLHtBOvbT/d+qb+5RddkevvUF07PaXb/KqJ/
-	 +l24lWnMpuWU0//j8O9m/Vwaju99zH2t6jJ6dejSCMAodX6nvdOpBZs7/EOgzzfW8U
-	 GBMdPRtOvdpd2BT6HjSChmNwte9/FzI4ew7vjJ15xzQg5mtCOcC5P/6vOQLU89OoXy
-	 l/XCpbG2mEm+0EBpdsPN5hcG5XM/veDriFbymqfVNEc4lheKrRX5E/p9gZfqcAcTfU
-	 6XiQcGebsR1Og==
-Date: Wed, 9 Jul 2025 10:58:33 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org, Sai Vishnu M
- <saivishnu725@gmail.com>
-Subject: Re: [PATCH 00/15] Translate sphinx-pre-install to Python
-Message-ID: <20250709105833.48a56708@foz.lan>
-In-Reply-To: <d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
-References: <cover.1751318230.git.mchehab+huawei@kernel.org>
-	<d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cdcyfnAd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752051742;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gP/GXbkE1NcvqZ2RDyr5+g96OSyeyTW+E8pt68Nv348=;
+	b=cdcyfnAdDecCXP6N7ALPN6Wnh2huithZFmn3G9SCyLW9xrKhmyBUZpVSgTD+1hVKaG2Soh
+	T9l3Vbyh42064+Ux/Vb7pR5wiFb5XOFlVSW6PBMnccdf7E5SJaFuicVVeNY6Ppq3oNa921
+	DEhlpEAoG41kCXKtvKe9Gioh7hLVeOY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-428-jxJIWr05O42GL5bhEZ7W7A-1; Wed, 09 Jul 2025 05:02:21 -0400
+X-MC-Unique: jxJIWr05O42GL5bhEZ7W7A-1
+X-Mimecast-MFC-AGG-ID: jxJIWr05O42GL5bhEZ7W7A_1752051740
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3af3c860ed7so2431782f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 09 Jul 2025 02:02:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752051740; x=1752656540;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gP/GXbkE1NcvqZ2RDyr5+g96OSyeyTW+E8pt68Nv348=;
+        b=IwvkTLGmHAorfHCaIskkpcNGEB0LC/aHzf6xNlNrpzQDJQZmWxFzi9vCl+vqjIfet2
+         fztzHHk7dSGm9M8wtPbsxXKkQRc3H3V45uLhaHvStdLSuEpyyVTQ5W6E1qOPNwkxbj6e
+         w6rh2PRLhP2mH2PSyHh0rXI8Scc7Ac6ryhTmXfsQbVsy58Qbq1PpcZyPg0p5upvVI2/a
+         MZxP//E20WuCuoTD8zd8VTtSqw/VMZ8oaTtUeYrkbXnq1effiyexLCsCbDqFjbVu21JP
+         UZCV9oVo0oaKQAewjw3q7V1C5wE2+VSYYK5F/teXJu8XZ0ml4DyqQyebdSOWbyPaiakt
+         AAlw==
+X-Forwarded-Encrypted: i=1; AJvYcCUOjQKBs9OafP7ogTqiMnprIQOVSwgz9rpxb44ISUK8ZHZoZQ5nj8HJTQRZPPUTJVJaPw5EuYsaqr4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkrcWiylmAW/LzEnPXbNpAbmVsQ9Z/ud5R49uOW/Ad+H9bOLW1
+	p5QXlsEFo/lKZPItZu6KlEd2uhg44c4kE/esB812koR2J++XZGINjlWv4UEpbNr+WG+QYotd4JV
+	Dl4HIow9jmSqqx4UVWITCnHQVbdv+XnjZhhl8mtkkkVUlgKV6t6h4OAfJdnTpfA==
+X-Gm-Gg: ASbGncugnXFVA6cwHE93K3jVDJaghC4dRef5mHl/T5MnCJw3QXHpprRXDAMHyJeeGRj
+	S18t2/K7x4AkWidixP9qPek50IxwI3RuUBF+BuQeKW/e57l5QjtK3GAsofZr5e2pf9dpKjJsyNO
+	WP4/ZOQsrUSgAKZT/PEgOOIWfxX6vdrjuHnZMIbkrMZNMDSNdz96Vxq34SsXUMHoaCCeAaLMdg5
+	kLzNHgDJRG5LUkyw01VDCbUUDw1gTep82XswOaHwmuZtzKu6ay7+S1lgzfyxbVssGfmbXSxUFPZ
+	sB0z8ku7Tb7WpjxDFC3BgtDpKAhX64YAwXZviOgc+JEwd6EzbTP4ZudEIW6m5ArNcYq7Pw==
+X-Received: by 2002:a05:6000:401e:b0:3a4:dd16:a26d with SMTP id ffacd0b85a97d-3b5e4557000mr1138902f8f.38.1752051739625;
+        Wed, 09 Jul 2025 02:02:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEw4zbfGS21uIVcbjgAQJWRQweoo04GUYIyOc9k/VYy3AR2hTTjemFRoGraFLo8yVdWPnB2Pw==
+X-Received: by 2002:a05:6000:401e:b0:3a4:dd16:a26d with SMTP id ffacd0b85a97d-3b5e4557000mr1138868f8f.38.1752051739120;
+        Wed, 09 Jul 2025 02:02:19 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:271f:bc10:144e:d87a:be22:d005? ([2a0d:3344:271f:bc10:144e:d87a:be22:d005])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47030ba29sm14962982f8f.2.2025.07.09.02.02.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Jul 2025 02:02:18 -0700 (PDT)
+Message-ID: <cc4d09e8-d11a-4188-9f80-3ac7bb6e89e9@redhat.com>
+Date: Wed, 9 Jul 2025 11:02:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 net-next 0/9] virtio: introduce GSO over UDP tunnel
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet <corbet@lwn.net>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <cover.1751874094.git.pabeni@redhat.com>
+ <20250708105816-mutt-send-email-mst@kernel.org>
+ <20250708082404.21d1fe61@kernel.org>
+ <20250708120014-mutt-send-email-mst@kernel.org>
+ <27d6b80a-3153-4523-9ccf-0471a85cb245@redhat.com>
+ <20250708142248-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250708142248-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Tue, 8 Jul 2025 12:09:52 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
-
-> Hi Mauro,
+On 7/8/25 8:23 PM, Michael S. Tsirkin wrote:
+> On Tue, Jul 08, 2025 at 06:43:17PM +0200, Paolo Abeni wrote:
+>> On 7/8/25 6:00 PM, Michael S. Tsirkin wrote:
+>>> On Tue, Jul 08, 2025 at 08:24:04AM -0700, Jakub Kicinski wrote:
+>>>> On Tue, 8 Jul 2025 11:01:30 -0400 Michael S. Tsirkin wrote:
+>>>>>> git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_07_07_2025
+>>>>>>
+>>>>>> The first 5 patches in this series, that is, the virtio features
+>>>>>> extension bits are also available at [2]:
+>>>>>>
+>>>>>> git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
+>>>>>>
+>>>>>> Ideally the virtio features extension bit should go via the virtio tree
+>>>>>> and the virtio_net/tun patches via the net-next tree. The latter have
+>>>>>> a dependency in the first and will cause conflicts if merged via the
+>>>>>> virtio tree, both when applied and at merge window time - inside Linus
+>>>>>> tree.
+>>>>>>
+>>>>>> To avoid such conflicts and duplicate commits I think the net-next
+>>>>>> could pull from [1], while the virtio tree could pull from [2].  
+>>>>>
+>>>>> Or I could just merge all of this in my tree, if that's ok
+>>>>> with others?
+>>>>
+>>>> No strong preference here. My first choice would be a branch based
+>>>> on v6.16-rc5 so we can all pull in and resolve the conflicts that
+>>>> already exist. But I haven't looked how bad the conflicts would 
+>>>> be for virtio if we did that. On net-next side they look manageable.
+>>>
+>>> OK, let's do it the way Paolo wants then.
+>>
+>> I actually messed a bit with my proposal, as I forgot I need to use a
+>> common ancestor for the branches I shared.
+>>
+>> git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
+>>
+>> is based on current net-next and pulling from such tag will take a lot
+>> of unwanted stuff into the vhost tree.
+>>
+>> @Michael: AFAICS the current vhost devel tree is based on top of
+>> v6.15-rc7, am I correct?
 > 
-> On Mon, 30 Jun 2025 23:34:48 +0200, Mauro Carvalho Chehab wrote:
-> [...]
-> 
-> > The test script also ran the install procedure for system,
-> > venv and native Sphinx install.  
-> 
-> Which install procedure did you test?  The short one with the "--no-pdf"
-> option?
+> Yes I'll rebase it soon.
 
-No, I'm testing it with PDF.
+I see you rebase on v6.16-rc5, thanks!
 
-> I am asking because installing the full list of packages in podman run
-> of opensuse/leap:15.6 didn't complete successfully for me.
+The whole series in now also available based on top of v6.16-rc5 here:
 
-I got a couple of extra fixes for Leap. Will be submitting in a few.
+git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_08_07_2025
 
-> And by the look of things, you stopped at installation, because you are
-> well aware of all the issues in running "make htmldocs" and its friends
-> after the install.
-> 
-> I assume you (or somebody else) are going to update the script once this
-> series is applied to make the suggested lists of packages be useful for
-> newcomers.
+I'm not sending the above to netdev, as it will likely foul the bot and
+the CI. Please LMK if you prefer otherwise.
 
-I'm not actually building the docs, just checking that the script will
-install Sphinx and required dependencies. There are a couple of reasons
-for that:
+With default config/strategy I can pull the above on top of the vhost
+tree with no conflicts and auto merging.
 
-- the disk space on my desktop. Right now, I'm just copying the
-  files instead of doing a Kernel git clone. Even so, testing all
-  those distros is requiring about 100GB on my /var partition;
-- test time. Right now, I'm starting dozens of machines in
-  lxc or podman in parallel. Still, it takes a lot of time to
-  download and install all packages;
-- compilation build itself is out of the scope of the script.
-  I'm pretty sure we'll have compilation issues(*).
+Pulling on net-next will see a conflict in patch 8/9, file tun.c inside
+tun_xdp_one(), and the resolution is as follow, which will yield the
+code posted here:
 
-(*) on some RHEL-based distros, for instance, texlive-ctex package
-    is not there (I guess version 8). so, I suspect that CJK
-    builds may fail.
+https://lore.kernel.org/netdev/f076f2e1fa91041b15cf46efadc6708924afe8e0.1751874094.git.pabeni@redhat.com/
 
-Anyway, fore sure there will be space for improvements after it, and
-I really appreciate if you could send patches on the top of the new
-series addressing the issues. 
+---
+diff --cc drivers/net/tun.c
+index 447c37959504,abc91f28dac4..49bcd12a4ac8
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@@ -2356,12 -2378,15 +2378,14 @@@ static int tun_xdp_one(struct tun_struc
+                       struct tun_page *tpage)
+  {
+        unsigned int datasize = xdp->data_end - xdp->data;
+ -      struct tun_xdp_hdr *hdr = xdp->data_hard_start;
+ +      struct virtio_net_hdr *gso = xdp->data_hard_start;
++       struct virtio_net_hdr_v1_hash_tunnel *tnl_hdr;
+ -      struct virtio_net_hdr *gso = &hdr->gso;
+        struct bpf_prog *xdp_prog;
+        struct sk_buff *skb = NULL;
+        struct sk_buff_head *queue;
++       netdev_features_t features;
+        u32 rxhash = 0, act;
+ -      int buflen = hdr->buflen;
+ +      int buflen = xdp->frame_sz;
+        int metasize = 0;
 
-> > The tests were done with those containers, obtained from
-> > lxc download templates or via podman run:  
-> [...]
-> 
-> > It also properly detected RHEL 8 string:
-> > 
-> > Detected OS                : Red Hat Enterprise Linux release 8.10 (Ootpa).
-> > Installing venv            : WARNING: No such file or directory: 'sphinx-build'
-> > Installing package_install : WARNING: No such file or directory: 'sphinx-build'
-> > 
-> > But, at this particular docker container, no repositories had
-> > python3-sphinx nor python3-virtualenv, but I suspect that this
-> > is a problem on this particular image, as I'm almost sure we
-> > tested RHEL 8 in the past, so, I have hopes that this could
-> > still work with real RHEL, if it has Python >= 3.7.  
-
-On this container, you can only install Sphinx with packages with
-a subscription, as the repository where it sits can't be enabled
-without registering. 
-
-> FWIW, almalinux 8 provides python3-sphinx in the "PowerTools" repo.
-> It installs Sphinx 1.7.6 on top of python 3.6.8.
-> python3-virtualenv is in the "AppStream" repo. It also comes with
-> python 3.6.8.
-
-I added a version check on my test script. I'm opting to use
-rockylinux 8 instead, as it is meant to be 1:1 binary compatible
-with RHEL.
-
-I will provide the output for it at the next version.
-
-> > 
-> > Yet, our goal is to support the latest LTS version, so
-> > RHEL 8 is out of scope.  
-> 
-> Yes, I think it is reasonable to ignore RHEL 8 and its clones.
-
-Yes, but still it may work with venv. I'm adjusting the script
-right now for it to propose installing python39 package and
-accepting install on venv.
-
-> For the record, here is a WIP scorecard of suggested procedure by
-> actually running "make htmldocs" and its friends after installing distro
-> packages (if it succeeds):
-> 
-> ------------------------------------------------------------------------
-> * debian:12
-> 
-> htmldocs:  OK
-> latexdocs: NG
-> 
-> Debian and its derivative prohibit convert(1) (of ImageMagick) from
-> generating PDF by their default policy, so you'll get a bunch of:
-> 
-> [while building userspace-api.tex]
-> 
-> WARNING: Error #1 when calling: /usr/bin/convert /<srcdir>/Documentation/userspace-api/media/typical_media_device.svg /<srcdir>/Documentation/output/userspace-api/latex/typical_media_device.pdf
-> WARNING: Warning msg from convert(1): convert: attempt to perform an operation not allowed by the security policy `PDF' @ error/constitute.c/IsCoderAuthorized/426.
-> 
-> , and if you ignore them and try to build PDF, you'll get:
-> 
-> [while building userspace-api.pdf]
-> 
-> ! Dimension too large.
-> \spx@boxes@fcolorbox ...dimexpr \ht \spx@tempboxa 
->                                                   +\spx@boxes@border@top +\s...
-> l.54887 \end{sphinxVerbatim}
->                             
-> ? 
-> ! Emergency stop.
-> \spx@boxes@fcolorbox ...dimexpr \ht \spx@tempboxa 
->                                                   +\spx@boxes@border@top +\s...
-> l.54887 \end{sphinxVerbatim}
-
-I use Debian to regularly produce html results. It requires a
-change at ImageMagick policies for it to run.
-
-> * fedora:latest (42)
-> 
-> htmldocs:  NG
-> 
-> Container images of fedora has stopped having "which" as a command.
-> You need to install it manually.  After installing "which": OK
-
-Thanks for the feedback! I'm installing which on my container's
-setup, as my test scripts require it. I'll add a check to install
-it.
-
-> 
-> pdfdocs:  OK
-> 
-> * opensuse/leap:15.6
-> 
-> htmldocs:  NG
-> After installing "which": OK
-
-Will do the same here.
-
-> 
-> latexdocs: NG
-> Can't complete "zypper install" inside a podman container run using the
-> full package list ???
-
-I added some fixes for it.
-
-> Having look at these poor results, I don't see any reason to continue
-> testing further.
-
-Thanks for the feedback!
-
-Thanks,
-Mauro
