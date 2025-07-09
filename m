@@ -1,194 +1,169 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2089.outbound.protection.outlook.com [40.107.93.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E6D21516E;
-	Wed,  9 Jul 2025 16:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752078552; cv=none; b=QNHxA0ZOnZCqcyQggnncPG/b/xDpBxAqb51mC841XrQqWtD1ljhXO/7QEEUQZqfHhL7/myGdzudivyida59K9/46JYVsJ19ii1y0TTICLrM4uCXuKy31YtZBlxH6ac/U4LU0+MCi2j+4RRJCq9qfJd4HAPktvTyAg0fk2XvlPHU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752078552; c=relaxed/simple;
-	bh=sRZinxGJp0LHZgzPtfypMxAGSMAGRbauJmTwYUBpiyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D06BiLo6SYrPEsc/bgEO8m6m/+9FEhjYlakbEn8P0nXWgY5oBq787p7xuVX/wzOQRUu8wG8OcIOtNWdT8hjR/yebAnPwei9B8UAwdDI+HXm1IqFHwytDBO7dRAXeEObbmK+H+iWwNGhX+dXaw0IdRBE4pciJnTD0gPy/Bv1HWis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQHVHgFe; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F2921C194;
+	Wed,  9 Jul 2025 16:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752079662; cv=fail; b=BWEmhRQGKn41YZCs4S/Ic0+ODBOillaXEpCSJTPQ8ipOsnM6gsT22XMo+5hkA01BPh7qyZbxnDuHyLWCX3/aCMXfrGq95BSRFzQofyOsKvuqTlZQXmNULJZC7bMFhRCr2crR9FPyZAy8jiqya6tYqJPMWb6ZL/Wnd4hm1XKo9gk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752079662; c=relaxed/simple;
+	bh=y2Qh6nuWI/4hcImieucNWqVO6e+geDH6oU9Q9i6KqT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=cMtLmJvKQndRy8Hc6EQVlIJypvYT9IHrFPoa74A0ZcpixwyuYjhE7jYx84DQTABrjVxU9kHd9ncqk+RvP4DpDKHU/mtT6AsYjFM1zuaiEy6mWj8dEyhxZezZSXKn+T4ndcWlQ7dRQjfdeW5230lJ6B1Y5NNUnAev1cwfhA2YgtQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LLHGobru; arc=fail smtp.client-ip=40.107.93.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQHVHgFe"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-31393526d0dso141275a91.0;
-        Wed, 09 Jul 2025 09:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752078550; x=1752683350; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cNKPiHQhGuB2A2mBLDUtVdPtTHbu/csglYuDV6e8cnY=;
-        b=FQHVHgFeGNgDsvHp14YKIZDGOBh0z1MHwIHrzDMFvr8X4N98afMuilMOj7eq3P9xIt
-         LZm3c+q5Xebw9mgJYmq2OE91gG67+wXeNyT1mGrR2vbe44/ZLJIUWB96hh3Yz4LypZI5
-         UCMAqsWniUR61s0saSMm5BZDYg0dG7kXp/yO5/yO/XwQO6nUq2nWeNiUuAlJdzkoDV49
-         f1wiymxqvY+gg0j9m7JHowk2W007n72aa5YXR6MV/DRnqReBgl8qN+dwVlQ3uvov682n
-         MSjrJrFRHbAcGk3zCYAUbpFdKU/2rwEeR5QD0x1UdhBHRhrpawxCiUvIEnbPJ0BzfBea
-         gD+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752078550; x=1752683350;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cNKPiHQhGuB2A2mBLDUtVdPtTHbu/csglYuDV6e8cnY=;
-        b=LEEyTlVeLfgllH0T+sA50MN8Ao0LRW+M/iFrEDkPogqFTXYrAF7OkGyNjI1351agCL
-         hooQwu0cyvq9pvGzHlGo2RzFaU2u0A92HO8mroA3YXd124eLEcS4MufEEnYGpzTLQl1b
-         1aNhP30VL0kZfnnXP9vAv/VudvwgVLgHBMAN5rRJCUXWTtxcCAmgWqr14i6x92s6Su9B
-         F0XvXd0h/79euj0oRB5vKdB/Q7TWCPUD2XZZ3B4Gl6i7pb60DBYBdFv0w99kMEWlw1E5
-         1JqlxBekiaIS6Pi2OonkTsckjLSyDtOlWTH9SA5pvu2C3qNek2Ix7jaTTfE8MeDOmhUr
-         qBcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/pp54qU8CwmxHEZ6TkZml+01aUZ8b0Rqh3Peehf7k3F0SyszWM+Nq2GtHNFaZ0tN2x+yz+ARR@vger.kernel.org, AJvYcCWIprSFA2cMoUYwCchdyJkviP+UxZV+EQ4EmxseMN1+wLYn1iUZCYZ3ULt5nqX2Y80Rl3Q2M9P+iZlA3EkH@vger.kernel.org, AJvYcCWMpYKE8TO7tCyEwArUt00uBAJRB8QBTRWANWcyxPGBnlUsiIrqZzh33nkE5drRy/TL7tOS+CBfYbRTb+m+41kM@vger.kernel.org, AJvYcCWNdjFpyQWGR6iO1BjIIOJZ0a2Ght5+IyChX8ZCuFIS+R8jCrSiFGsZkY7+bu4j9o0mDAQ=@vger.kernel.org, AJvYcCWszxf5RY3tgDdfXdNRBmxa2JgMGfYQSm0VzQdUDFm+DKp7BWi2+JHZDshHPXXBn+lMcNGj1iMT16Jk@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuU57ipT/ZwyTg0Lxc00W/k9tJdZS7hdoaCqfX5xcrLETlVvO3
-	qlYnCBa0TFAO7SQXQrIpuh4vcXCCjJ3m7NCLEtPpVrRhpq7bs2JuGsE=
-X-Gm-Gg: ASbGncsrcDccC6nG5digysRkb5YNIbtnhR0xlDgibJiG1HJ+85/lwAuyy6FM91UDV27
-	Sz/qEKruSWpeegSexZ7zalDvB0odktuybqZDGtzE3QWUgYcoGLJI8F6U4b9FyCBd6KANzKny1yH
-	TwPMypD+CFSVrX0RmS+Vy95gWh21mXOSZol2lX9MgeU8pgP0DkaFayJglBkBPL3vyJ0//3x8Bw8
-	W1COQgo84d2sifE95ojLvjMS659d06WfY/M2lDDWlaiV893RsCfrOS9+Hh/52PRKtob/3Hzx+XL
-	dGeP80ljYvhg2Ilwaoi955LEced9U2Slbj6nLEBhaEoxSkZAEu5HlbgMCMlx3v1swmmY/y22eRg
-	cQ8AYbZQ4UMycW6h4gP02r3A=
-X-Google-Smtp-Source: AGHT+IEay738lMrbJZ6+Qln/Mixh/N/XCUQ86AX7IEDIBEjNMhpWd1QA49Fe+glBMuPqgQKN87d2vg==
-X-Received: by 2002:a17:90b:57c7:b0:313:271a:af56 with SMTP id 98e67ed59e1d1-31c3c30a79amr705858a91.30.1752078550125;
-        Wed, 09 Jul 2025 09:29:10 -0700 (PDT)
-Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-31c301ae5fesm2516829a91.38.2025.07.09.09.29.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jul 2025 09:29:09 -0700 (PDT)
-Date: Wed, 9 Jul 2025 09:29:08 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: Jesper Dangaard Brouer <hawk@kernel.org>,
-	"Song, Yoong Siang" <yoong.siang.song@intel.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>, Mykola Lysenko <mykolal@fb.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Magnus Karlsson <magnus.karlsson@gmail.com>,
-	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH bpf-next,v3 2/2] selftests/bpf: Enhance XDP Rx metadata
- handling
-Message-ID: <aG6Y1J9Li2DdjqWv@mini-arch>
-References: <20250702165757.3278625-1-yoong.siang.song@intel.com>
- <20250702165757.3278625-3-yoong.siang.song@intel.com>
- <77463344-1b1a-443a-97be-a7ef8a88b8af@kernel.org>
- <IA3PR11MB92546301B67FB3A9FDCD716DD842A@IA3PR11MB9254.namprd11.prod.outlook.com>
- <88a64a65-bd8c-4b73-af19-6764054d4572@kernel.org>
- <f5d724ab-0eb6-41a1-b694-8aea566e99ab@iogearbox.net>
- <aGvhzDLSuOolCCWW@mini-arch>
- <27edae8a-f1a8-4000-ac1e-fd4d5b01e807@iogearbox.net>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LLHGobru"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wpjmvg5kcVVxbJrQgnz8OMxPYEL4ZosJcyHFq+nd/TgSpvDJlWzvxTnY5zqEM6ozasB4qOa1nlqOui3c46fmquMJCOxeC/PfhuoBntTjfJFhpM1flFlRUKCDW+9xXgcS43KrUXiv7GHqx3tfmtA2drHPEAjSN9v4rMjPWPjEebonl6y75MHxyzhTCzjaZF+r6mDDDO6X1tUZK16ksAH8glAl5nu6aKFMeLblRtPSEz8g1oMUp59OY+a0dNVa/4trdfjX9dv6nkbVITg4Dk1uuSIB2pyt65kWb2qvEHyeJROs0TJXj6a+HU5/K+vu0W+qoSJTKSuCtRpZYBWnLMRZww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cIwg46X23AvbKHPn4lfk3M1qqaWyaXutcPU1TpokyTk=;
+ b=QQ8JVbc3Egvcxu8e2oehoyLRgmD2V7/D5FR7oB5vhxb/PgQGdB2KLfe0n0OggNe3DCekgbe34wQwLZKOlAJ9N/CvIB91PA0Us1uQBg+4Y9S6gioQ6+38QKAdmv11P4Bhwblq8vfYDnnGtBnz7cx/QvE97t1gIUbYhyPgXMfYqX6hogsXUjfLQ+h3t54IgRPsR43CnuhHKTDQDrm8q7NbCG5KvxfsBiNk06+fytqSOlrbj/SteSGNkyxFdK8ISgU+d4Z1NRT8G96xqA3hwLPI7p7Qb8prGM1q8k/5vlL4dR3F58Wkad5gO302V5IOvyCqBQINJ6dEgfd9gOEuEkLk9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cIwg46X23AvbKHPn4lfk3M1qqaWyaXutcPU1TpokyTk=;
+ b=LLHGobruc7TPJ/PiYJODk76RrofYzGs4uc0DhfmmZf/xrLpQ9t89Rean16CIiBVsbbGScGm7EQPJts3HQV5qFTe4w+wqgOLzVUPs3oY1aUHjk83Evw3POymGTD/ep7cp4H4Pz+1A81MmP0NxP+dDAPrxSWSzBoWezj6vEprwqbjxO3quNVHtxxwxfAy0SLLe09GXCxyd7CNt+bh2D/HJBTdtIxoC8X2brYJ3zJ3UHWR0IKui2tZLajJ4DT9+M+1i/arQph1az7gx4y01RMI+sBvadqPbYSuvoVFS5blhkwB6Vz09rZ7h1rHun9Zpwej4kZpAxoFtZyus5/NrluM8Zg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by SJ1PR12MB6364.namprd12.prod.outlook.com (2603:10b6:a03:452::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Wed, 9 Jul
+ 2025 16:47:38 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8901.024; Wed, 9 Jul 2025
+ 16:47:37 +0000
+Date: Wed, 9 Jul 2025 13:47:34 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+	praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com,
+	dwmw2@infradead.org, baolu.lu@linux.intel.com
+Subject: Re: [PATCH v8 04/29] iommu: Use enum iommu_hw_info_type for type in
+ hw_info op
+Message-ID: <20250709164734.GF1599700@nvidia.com>
+References: <cover.1751677708.git.nicolinc@nvidia.com>
+ <64a4c22755d828a80a80d30f6903f4003b62ba5c.1751677708.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64a4c22755d828a80a80d30f6903f4003b62ba5c.1751677708.git.nicolinc@nvidia.com>
+X-ClientProxiedBy: SA9P223CA0013.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:806:26::18) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <27edae8a-f1a8-4000-ac1e-fd4d5b01e807@iogearbox.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SJ1PR12MB6364:EE_
+X-MS-Office365-Filtering-Correlation-Id: a18417e6-49e7-4792-1435-08ddbf084fae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Q/x8d4o3SUlB667m+ZHNDl3MeQkgdZgh/kNF7n/it9uXXnJynAPu/OIn1A+o?=
+ =?us-ascii?Q?1AEaPxjLe9AaiMbW0HVF6lYuKMQQBPyLA7tGktfLTMm3MHt8QlFAZAFf6dAo?=
+ =?us-ascii?Q?+nWN/KNiatWJ7Ux9ZdIdmKPSXyVVHcWpUx85M88MdT+IWMS0Y7EDB9sQdH9I?=
+ =?us-ascii?Q?5gzgN2FNmgZdn41XCWkaD+IU4ij+tpyCfkxYWU5yDcPgv74jneYn1qLarwFx?=
+ =?us-ascii?Q?Kzq/Zwz0R53xq9JNClfruuuWRHli1pKGgpkvHvstAVoFV1GWHblquKZubIVx?=
+ =?us-ascii?Q?Y98YJc7J9EvfsRTa5aPdtXoxvG5z5KOL7PWhMLurl+UHxXhi/ymn6HzIEStX?=
+ =?us-ascii?Q?fnfUbVyiRTetr2H44nTy2uxJdUOHyTuXtK4pAqVsBHpVCVeoZs2sRhYgJRaA?=
+ =?us-ascii?Q?E4f5XAwWCkBugzjOrBDiTd4Zhk8GHCvcIPAzVD7HPqVlAsRYMyyaAut4X5kt?=
+ =?us-ascii?Q?YBY5R00lLmjQXXjWQkpzOFfy+SNy/hcv+vZGQTlGnPtupHEq9r2C/OE6JgyO?=
+ =?us-ascii?Q?sxZEQxPAajeC+k9XAnyEFClCLFyJnPUXL+9z6vpa3fVhqUy4/4kOsOBAB/NP?=
+ =?us-ascii?Q?k7B41345E/QWVPBlxwRJbO316iIVKy1SvEWePs7D8/jq3BGpd8jZQemYY6Iv?=
+ =?us-ascii?Q?72d13dq2GSD7WP3z+XraZRD1gOXDjoyXooCt5HIdpu8Ox4CbiqM/eQdICsKV?=
+ =?us-ascii?Q?89cAsa8u9wr6hnkUMt8bK6LWEtYVSZeeECAZg6d16iEB/rJV8Qpe9lwfEO/W?=
+ =?us-ascii?Q?jAtO7hiEJEMdLMcoUTQjZjD1OshIEz2fRfcQTKnHULISXLHu5fTgv551E3SJ?=
+ =?us-ascii?Q?pXauzsIXUbwW9+u5Mn2Lo6u2ffQpNTUx+A8jy89G/xDKXJZpOjH71j0Xmzd4?=
+ =?us-ascii?Q?EADfBFPjnYccxNcUhALJqPmtvE8IKRESpRBRuJ2V7XIoEEO2PusMpWLZgVF5?=
+ =?us-ascii?Q?Zn2NqvgvHpDjrw1qvMw26FSKqWDBf2OPOdKB3EJ+VJO22UWUWnjBSXXIsxY9?=
+ =?us-ascii?Q?mvWOQkqcKSCSqv1xXDOliagSwpXiBon06zsAzZZ9lA4GpLaZ1YpOCpJZSyHQ?=
+ =?us-ascii?Q?/i3G5i8/9Cg/pa7fe4QNcAUhmp2P/70VGLb8VEpZ8cbyvGQcfBWTBbYWJVFZ?=
+ =?us-ascii?Q?RUky0onhxcG+fWjDrsgpzetbSWNmed+OpfKNgeMvCUfSrSE3iGt65D+HPgKv?=
+ =?us-ascii?Q?deC5R49imJMIskyUgNwiYkqK4Ri/4DFE3KApwaL87Wfm74GhA1AOLnRTEotH?=
+ =?us-ascii?Q?AD0Ze8j+0CytsgfH5vW5TgbAQEobHWC1MKjEAWo0YzvYIQdu6LjrX0luRmV3?=
+ =?us-ascii?Q?PNVNpT0jU2nLAO9JahuW7qJMV0AAb4VUIikTCxmYGdb1loYzF6H1VMV+AK/F?=
+ =?us-ascii?Q?DZLyOl95OIk/d3hfxPGPNA3ew55OmmeVYR7dVgxofmJGhRl3aeBZ8JNjQD+R?=
+ =?us-ascii?Q?R1rs6EXz/gU=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?CRVLufN8+yo44QfezqTnhc+Q0NWdMdaIIcw4i8QqrKmZ5OigQEpLjLGozVlq?=
+ =?us-ascii?Q?PbT94wboRFnklFZVUFDb5wc3N6odcabDvtnZX+0ECSjj5qO3VwZMn18WgUP4?=
+ =?us-ascii?Q?G65o9GHrJ+umTqPNWzfTdz2WgscEXElGOHQ8eZsEVlKlrxIdeVhQmX4JyvCC?=
+ =?us-ascii?Q?I7yuNHVLrivNF1j3rZe1Gh6NUM/+LiJ9X3KmM5LY9D/s7WWo/8BlYOVwPrnE?=
+ =?us-ascii?Q?AFvShvNBTWx9/uwSVTyGylf8H8XhC83+B56sb2QKqWqBY2cbbQIHGwuTXamJ?=
+ =?us-ascii?Q?bwmrIKt0zRbvPS3uB9kG/JVz8PlUKnLMMuUhASy9rgNaWK6sGMmtMnOzm/sa?=
+ =?us-ascii?Q?7HGtJ7sdtpTx8y+HQf7OICpRVq3puQb8BPbuLJpO+zGRotWGke+KURT4QNmD?=
+ =?us-ascii?Q?ngyEPipTfAi/VuPxCINYSzWYL5bXADuPqBW3lLxo6wF6w/m6c3MKicOWPT7l?=
+ =?us-ascii?Q?ukQwGP84Fmvk7CsxuYDPXU2+ORzxKAfvKj2hQadvoiOboB6keZBGP1j4WpED?=
+ =?us-ascii?Q?cVadF5Q167jOF8QvNvPRrVgXs5/KxnEhmezLQ+2Zptp4l4fdvx6R2Vxjp3Ue?=
+ =?us-ascii?Q?YdItIbWKJRxtypiCv3Ui3TNwWCCNMxN8SPJwRpifis9m61ezQvNhiq67z0X3?=
+ =?us-ascii?Q?4728PKtFn2LHYEPsISUEzLSmHHwn7atpOeaE5kUYml56189oJHDW86llbZEm?=
+ =?us-ascii?Q?NRYSp76CEfICpbNu+FeJ4sQKZht8quWZWQEG+8A0zxU3NBY+L4gmISuWkvtS?=
+ =?us-ascii?Q?hixWW6lD+4/QqpQQsQ3aeVf03YEynzm7p4dr3ytM2WboIhGiceS1nsOH6fzw?=
+ =?us-ascii?Q?pQh/BST5hjihXnejFMG/DqaXGWkxM9ZhhoHel+QHT2LoxMIgMl3KTdTitwGG?=
+ =?us-ascii?Q?a2pw+TrUo0Fb5BMFdtdR6DhVAlSXZQO67FW9brzIudd0bWd6YUi29KGAHgVH?=
+ =?us-ascii?Q?awc86OPbB87dmy4wkHRZTipWBTAyC5I1ybl65PhpCuHQkgRhchomqEWX6RP1?=
+ =?us-ascii?Q?BAqKx9G4q316EL7VBaYILeqKF3b1Cwu0O3U3Cm7gBfYtQ6/mIBrYF9gidjmW?=
+ =?us-ascii?Q?v82RDIv+crtOdEx2XMPoZubK2qtFkQ1oNAieIUWRTzG58Ua2ZYZlUvuUIO/C?=
+ =?us-ascii?Q?VjCpek28RZYIRCKWwUy6sANgJRT04eedsfxzFy246f3YoC43Gus8Eb5zOfXr?=
+ =?us-ascii?Q?3GxZmzbMoOLvOWqQwzt71OxJLex6BcFoNJATEV5MoW+l2P1l2uvz7M4WbvjJ?=
+ =?us-ascii?Q?Rz36GwXdHSbeVjjHuwVDw9eM6cUge1WV5Z80KKoAvpdcFUshIjX0YTQIB/Sg?=
+ =?us-ascii?Q?xzI3HukJbecr+wgX2vA8AojD+ZY2BY9DVb5PgiHCkYDq2I7MoIk7Ig7cA5N6?=
+ =?us-ascii?Q?5sbLO66uCQVLx6rI6HYLWlF8UyiyR62WqYSurI7LsKJ7HqVfsQMZQ+kqBqw5?=
+ =?us-ascii?Q?dCPl6poI/MBePqF+wG11ql2nPxicIQevlFmzx+DW5vlS32VvMvD7+oyZQBIb?=
+ =?us-ascii?Q?CKz6xgm3VqGiqFiBKKMnuwAADuocBHdEYwYYcykHf1NToQO4mINUA9P3Q57f?=
+ =?us-ascii?Q?TAxlT+PjccQ12rwajDruO5n6ay02tf8xQNaJSM2d?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a18417e6-49e7-4792-1435-08ddbf084fae
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 16:47:37.6438
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pVpxlnz2+BVcXjPWQgSozigN+PfnBBLxb0ooWEJzr1NfgXRzy3Zz2oHNh4Nvvdh/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6364
 
-On 07/09, Daniel Borkmann wrote:
-> On 7/7/25 5:03 PM, Stanislav Fomichev wrote:
-> > On 07/04, Daniel Borkmann wrote:
-> > > On 7/4/25 11:58 AM, Jesper Dangaard Brouer wrote:
-> > > > On 04/07/2025 03.17, Song, Yoong Siang wrote:
-> > > > > On Friday, July 4, 2025 1:05 AM, Jesper Dangaard Brouer <hawk@kernel.org> wrote:
-> > > > > > On 02/07/2025 18.57, Song Yoong Siang wrote:
-> > > > > > > Introduce the XDP_METADATA_SIZE macro as a conservative measure to
-> > > > > > > accommodate any metadata areas reserved by Ethernet devices.
-> > > > > > 
-> > > > > > This seems like a sloppy workaround :-(
-> > > > > > 
-> > > > > > To me, the problem arise because AF_XDP is lacking the ability to
-> > > > > > communicate the size of the data_meta area.  If we had this capability,
-> > > > > > then we could allow the IGC driver to take some of the space, have the
-> > > > > > BPF-prog expand it futher (bpf_xdp_adjust_meta) and then userspace
-> > > > > > AF_XDP would simply be able to see the size of the data_meta area, and
-> > > > > > apply the struct xdp_meta at right offset.
-> > > > > > 
-> > > > > Thanks for your input.
-> > > > > 
-> > > > > I agree with you that the implementation will be simple if user application
-> > > > > able to get the size of data_meta area. The intention of this patch set is to let
-> > > > > developer aware of such limitations before we have a perfect solution.
-> > > > > 
-> > > > > Btw, do you got any suggestion on how to expose the metadata length?
-> > > > > I not sure whether xdp_desc.options is a simple and good idea or not?
-> > > > 
-> > > > That is a question to the AF_XDP maintainers... added them to this email.
-> > > > 
-> > > > /* Rx/Tx descriptor */
-> > > > struct xdp_desc {
-> > > >       __u64 addr;
-> > > >       __u32 len;
-> > > >       __u32 options;
-> > > > };
-> > > > 
-> > > > As far as I know, the xdp_desc.options field isn't used, right?
-> > > 
-> > > The options holds flags, see also XDP_PKT_CONTD and XDP_TX_METADATA.
-> > > 
-> > > > (Please AF_XDP experts, please verify below statements:)
-> > > > Something else we likely want to document: The available headroom in the
-> > > > AF_XDP frame.  When accessing the metadata in userspace AF_XDP we do a
-> > > > negative offset from the UMEM packet pointer.  IIRC on RX the available
-> > > > headroom will be either 255 or 192 bytes (depending on NIC drivers).
-> > > > 
-> > > > Slightly confusing when AF_XDP transmitting from userspace the UMEM
-> > > > headroom is default zero (XSK_UMEM__DEFAULT_FRAME_HEADROOM is zero).
-> > > > This is configurable via xsk_umem_config.frame_headroom, like I did in
-> > > > this example[1].
-> > > > 
-> > > > Maybe I did something wrong in[1], because I see that the new method is
-> > > > setting xsk_umem_config.tx_metadata_len + flag XDP_UMEM_TX_METADATA_LEN.
-> > > > This is nicely documented in [2]. How does this interact with setting
-> > > > xsk_umem_config.frame_headroom ?
-> > > 
-> > > If you request XDP_UMEM_TX_METADATA_LEN then on TX side you can fill
-> > > struct xsk_tx_metadata before the start of packet data, that is,
-> > > meta = data - sizeof(struct xsk_tx_metadata). The validity of the
-> > > latter is indicated via desc->options |= XDP_TX_METADATA and then
-> > > you fill meta->flags with things like XDP_TXMD_FLAGS_CHECKSUM to
-> > > tell that the related fields are valid (ex. request.csum_start,
-> > > request.csum_offset) and that you expect the driver to do the
-> > > offload with this info. This is also what I mentioned in the other
-> > > thread some time ago that imho it would make sense to have this also
-> > > on RX side somewhat similar to virtio_net_hdr..
-> > 
-> > Let's at least document the current behavior where some (small minority of)
-> > drivers can reuse the rx metadata area for some of its state? If we want
-> > to improve on that by adding another knob, we can follow up?
-> > (but I remember last time it was discussed, about a year ago, people
-> > were not enthusiastic about another parameter exported as uapi)
+On Fri, Jul 04, 2025 at 06:13:20PM -0700, Nicolin Chen wrote:
+> Replace u32 to make it clear. No functional changes.
 > 
-> But its still fundamentally broken no? Unless there is no harm for BPF devs
-> to override that rx metadata area when the pkt later on goes up the stack, but
-> it sounds this is not the case here. Iiuc, Yoong is trying a different approach
-> now to prepend before data_hard_start [0]? Then if BPF prog needs it, igc
-> already implements xmo_rx_timestamp callback which can copy it from there.
+> Also simplify the kdoc since the type itself is clear enough.
 > 
->   [0] https://lore.kernel.org/bpf/20250707191742.662aeffb@kernel.org/
+> Reviewed-by: Pranjal Shrivastava <praan@google.com>
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
+>  include/linux/iommu.h                               | 6 +++---
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c | 3 ++-
+>  drivers/iommu/intel/iommu.c                         | 3 ++-
+>  drivers/iommu/iommufd/selftest.c                    | 3 ++-
+>  4 files changed, 9 insertions(+), 6 deletions(-)
 
-True, Jakub mentioned the same thread to me. This is, indeed, a better
-idea!
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+
+Jason
