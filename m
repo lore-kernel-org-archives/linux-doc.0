@@ -1,113 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88462877C1;
-	Thu, 10 Jul 2025 10:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA4D2E5421
+	for <linux-doc@vger.kernel.org>; Thu, 10 Jul 2025 11:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752145159; cv=none; b=fw1+2bDs/LxQBZtFOIN/Le7CrHyLE13ceG2MmvOudr+tW8CLfTc6VMcNlFikyLj9BztG9k4w/XvKVw/uOnSPifUOuOt2kZgcm98rSxYbihWJzrghmoJxS96sqvIGgoxC/w8tDmIp4iZVYRfuF4mm5wICmr2yPmoUScs0Zv3bJxg=
+	t=1752145783; cv=none; b=gy7KWnawe+q22bGjbjo5eET9pyVcrur3ZFta1KJeuoWBPHj8lM0ANDva2BSfRlez33gbDTQZK0378WzULeubm3VY/QTJ26STC4s+SZJmICWvSqmL9Crl+y5KZSqRyEUQbQeSk7qInJHqvZNFSb4zxIRlo4pYhLaVm+YUzLhfSy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752145159; c=relaxed/simple;
-	bh=+9Aiaj5Zj4iemiwWv8ITBr4HJpVztCAHhr9QST4AMpM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=szbwSuLfYociy5OcU6D1UwPELm0y3BVO8y4j95jjH1t8yWEkFreTXNRKbuICIOHNOeTnvOjscPu6zyCAs/x65Bfi9MIg97go1tdpDiAf7DXqT2ryxG+m53yxrHGAUfO+BMRczHoqvJNcKI53yaO2LwfHOlkT7oZkbYTWV6BmF+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mYNHFa70; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752145783; c=relaxed/simple;
+	bh=0jzrMYG/Zqi4a1LCUXgB/nVmLmrbFykZy+3KzRBvXgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d8AydfNxYJvEFbcM3NvL/5Zi44zg/Tu3XLguKxJe5cpji7BahqgGTNVr0IEe/4c4P/bDYiu+cyQqDoNsKSPsNlY2KmFkU1U6jQuWio0OGmqYxJTE7Hjt3Kpjd/FSpocVTkyuzL3JbFVXN97knpIjLgmxLwR8RUwnaFTAvior7mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=arJWV9Uu; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mYNHFa70"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18449C4CEE3;
-	Thu, 10 Jul 2025 10:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752145158;
-	bh=+9Aiaj5Zj4iemiwWv8ITBr4HJpVztCAHhr9QST4AMpM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mYNHFa70nvJ50iL0uCKjVAMeHVhRxcAByGoCreYB1OOp3FDxAgj18gj/ArF19YSCY
-	 rfC9xCmDPyFvE3H32en0cVmTRA1Tpzgzr01k8K2bXxpv8UB3gecqtB6h0zYx/Lesuz
-	 ws9IQkzBfoBYuHsps28B4NHdktVFPwACRAF47jULOSaWQ+l/5qfAdlZU++HuUQFfvO
-	 Y45AY4AoH32nhwtXeA2aWKohzAcZhOQPEPXu4LEJCwm51H5PRfjr2m77WIUSsxVKk8
-	 /USo0wB7j1g532G0k17lWxSr6djiN3MtrSURwsnbONHi/NS4f58v80xNMAWYxM2Yom
-	 uI/X1Rgqq5gsw==
-Date: Thu, 10 Jul 2025 12:59:14 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 12/12] docs: kdoc: Improve the output text accumulation
-Message-ID: <20250710125914.41fe8cf6@foz.lan>
-In-Reply-To: <20250710123155.1045831d@foz.lan>
-References: <20250702223524.231794-1-corbet@lwn.net>
-	<20250702223524.231794-13-corbet@lwn.net>
-	<20250710084119.3e5c1ced@foz.lan>
-	<20250710091352.4ae01211@foz.lan>
-	<20250710101931.202953d1@foz.lan>
-	<20250710121033.42db5ef3@foz.lan>
-	<20250710123155.1045831d@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="arJWV9Uu"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-23dd9ae5aacso132985ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Jul 2025 04:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1752145781; x=1752750581; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5JO/Qlx6QEcthLvC0sGmt+qm/PZ0F4XLP2KPhYGX+AQ=;
+        b=arJWV9UuylaF1Pzgn2qVQ3quLRFthJYNeTORJa24xbcfHDd2kEM/5oBt9V10tG9Hoz
+         9XybwXPZGqZAPv229SXNbEQnEP0ij/K10n5TUNId3cDH9BoyR/EKHWW5PO5psewjBLNv
+         sCRvStJRswYyZzJ5An3LnOfS7zQq6zuwJpOwZMBf2Y9CzZ++ZME8B86dbT0p9wTa6miz
+         yahc1sBTphHxcML2KGDj97IcRz3XLrqYPqBllG7Yrk4L74aNiknG+kb/NEfsXhS2droH
+         f80H1lOb7HaWtkn5A6N7w6gG9fz6J9EBHUM+5CLzCTVtr9l+PPmq1H9Wzts8hewxlrGP
+         xnOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752145781; x=1752750581;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5JO/Qlx6QEcthLvC0sGmt+qm/PZ0F4XLP2KPhYGX+AQ=;
+        b=q+HSUsh6l1qCSq2JcrgYUtUvPdUjNKkagIBNguK+ZHXbTVQT7dO+Wj9wVfee/P/rrP
+         0GCmhc7cah8ue1QWk4XsS4x+R5ajqSjvSCAESZ9Put2toU30DYVyOjrAW9zGWwf5RfAA
+         pTV4fNbvRFTKipGopM1pDcH9/65GJH9ABzXdNTzPPNZVko1RxAUlE0+MV+8kSMVaMRNV
+         lp7SpZ5NELHsQF7ydu14oePzyvRG0bgg/oYfzWlFdECixApbhZ7wnYf5QzSLHOGATF+8
+         vjs0jbFUcgm1By5OoPPrF5ogXjbV85Mb4/ctohc/zBZ9N+3Hyxa3CsuGWimE6tcx03nK
+         /U2A==
+X-Forwarded-Encrypted: i=1; AJvYcCXTs0n/DPj/Hjd1WOP3jNLwrDWnR3hLVTiJqbgeFKLevJL604kk2bH5mxbLNWpOLrlEu+EiNB7p8tc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4xejHu5RXjkFCpFRy3hQDc/vjQGBz6bAOh54Zn4sCvAyk5Qjh
+	+HiMp99wxfcwcr5O6ey0ASwjx9rpQWPz8tyUwNI8satmCXnJHu2rMe6URPuvUURSfw==
+X-Gm-Gg: ASbGncuRRNualSlhEib9L+yjCLOaGyexi3n0lI6KbxhEg0A4bG8beGqShVt35IL/CR+
+	9wCx3k7LTA5s7j4MpSXdl7zIxmJGTToPJtyh51/WHIvsv1lacHwhNMUiUST+RMM3a9Z9fVqGk9g
+	k2r177LfhTWl0JyRLh1A23COh3PqQadOHBrEbhJPgsPcEZY1E6hRfd6QXS+ziuah67YOOngNFrr
+	PB7R5fDiJmPDfRPAB9O/9p9pEqx3DvK26AWRIhixAIUcK0Ye2TNsu1W6zF5z1+eyLFQ6KIlWHyd
+	vlbekANq0g6TBICvwRyA04kvztVy5Yt1dyjwMLRm6mb0ssFCPmodngr6rtKEZJddfz6pueRUfMx
+	U5V89D2IshcXyC6ilYCu4
+X-Google-Smtp-Source: AGHT+IFn1YIIoN9D12OH+6EFBum3x9hdmg0bQvNt4lFk/nH2gQNwHagVfZTJ5ra5fh+Eufg2l4KArw==
+X-Received: by 2002:a17:903:120b:b0:237:e45b:4f45 with SMTP id d9443c01a7336-23de4314a3cmr2237805ad.1.1752145776361;
+        Thu, 10 Jul 2025 04:09:36 -0700 (PDT)
+Received: from google.com (232.98.126.34.bc.googleusercontent.com. [34.126.98.232])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c3007e53fsm4845325a91.19.2025.07.10.04.09.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 04:09:35 -0700 (PDT)
+Date: Thu, 10 Jul 2025 11:09:26 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net,
+	bagasdotme@gmail.com, will@kernel.org, robin.murphy@arm.com,
+	joro@8bytes.org, thierry.reding@gmail.com, vdumpa@nvidia.com,
+	jonathanh@nvidia.com, shuah@kernel.org, jsnitsel@redhat.com,
+	nathan@kernel.org, peterz@infradead.org, yi.l.liu@intel.com,
+	mshavit@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com,
+	dwmw2@infradead.org, baolu.lu@linux.intel.com
+Subject: Re: [PATCH v9 22/29] iommufd/selftest: Update hw_info coverage for
+ an input data_type
+Message-ID: <aG-fZv39ci6yip3z@google.com>
+References: <cover.1752126748.git.nicolinc@nvidia.com>
+ <f01a1e50cd7366f217cbf192ad0b2b79e0eb89f0.1752126748.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f01a1e50cd7366f217cbf192ad0b2b79e0eb89f0.1752126748.git.nicolinc@nvidia.com>
 
-Em Thu, 10 Jul 2025 12:31:55 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+On Wed, Jul 09, 2025 at 10:59:14PM -0700, Nicolin Chen wrote:
+> Test both IOMMU_HW_INFO_TYPE_DEFAULT and IOMMU_HW_INFO_TYPE_SELFTEST, and
+> add a negative test for an unsupported type.
+> 
+> Also drop the unused mask in test_cmd_get_hw_capabilities() as checkpatch
+> is complaining.
+> 
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
 
-> Em Thu, 10 Jul 2025 12:10:33 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> 
-> > From the above:
-> > 
-> > - It is not worth applying patch 12/12 as it makes the code slower;
-> > - Python 3.13t (no-GIL version) had very bad results. It seems it
-> >   still requires optimization;
-> > - Python 3.9 is a lot worse (140% to 190%) when using list append;
-> > - when there are not many concats, Python 3.13 is about 15% slower
-> >   with lists than concat strings. It only approaches str concat
-> >   when the number of concats is high.
-> > 
-> > With the above, clearly str += is faster than list append.
-> > 
-> > So, except if I did something wrong on this benchmark script, please
-> > don't apply patch 12/12.  
-> 
-> And I did: I forgot the final line at the concat code to get the
-> result as strings.
-> 
-> For explicit list:
-> 	result = obj.output()
-> 
-> For implicit ones:
-> 	result = str(obj)
-> 
-> Yet, the conclusion is similar. With Python 3.13:
-> 
->     $ for i in python3.13; do for j in 1 10 100 1000; do $i /tmp/bench.py $((1000000/$j)) $j 1; done; done
->     1 strings in a loop with 1000000 interactions, repeating 24 times
->         str +=       : time: 41.42
->         list join    : time: 127.33: 207.42% slower than str +=
->     10 strings in a loop with 100000 interactions, repeating 24 times
->         str +=       : time: 27.15
->         list join    : time: 39.19: 44.36% slower than str +=
->     100 strings in a loop with 10000 interactions, repeating 24 times
->         str +=       : time: 24.84
->         list join    : time: 30.70: 23.57% slower than str +=
->     1000 strings in a loop with 1000 interactions, repeating 24 times
->         str +=       : time: 21.84
->         list join    : time: 27.85: 27.50% slower than str +=
-> 
-> Explict list concat was between ~30% to ~200% worse than str concat.
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
 
-Looking for an explanation, PEP 509 and PEP 393 did Short String Optimization
-and Inline Caching. This was applied Python 3.6, and Python 3.13 came with
-extra string optimizations.
+Note: I see a couple of warnings while building the selftests on Jason's
+tree, but these seem unrelated to this series:
 
-On the other hand, lists do more memory allocations, have some logic to
-extend list growth and has an extra concat loop.
+make -C tools/testing/selftests TARGETS=iommu
+make: Entering directory '/usr/local/google/home/praan/master/iommufd/iommufd/tools/testing/selftests'
+  CC       iommufd
+In file included from iommufd.c:12:
+In function ‘_test_ioctl_ioas_map_file’,
+    inlined from ‘iommufd_mock_domain_all_aligns’ at iommufd.c:1789:5,
+    inlined from ‘wrapper_iommufd_mock_domain_all_aligns’ at iommufd.c:1757:1:
+iommufd_utils.h:679:36: warning: ‘mfd’ may be used uninitialized [-Wmaybe-uninitialized]
+  679 |         struct iommu_ioas_map_file cmd = {
+      |                                    ^~~
+iommufd.c: In function ‘wrapper_iommufd_mock_domain_all_aligns’:
+iommufd.c:1766:13: note: ‘mfd’ was declared here
+ 1766 |         int mfd;
+      |             ^~~
+In function ‘_test_ioctl_ioas_map_file’,
+    inlined from ‘iommufd_mock_domain_all_aligns_copy’ at iommufd.c:1843:5,
+    inlined from ‘wrapper_iommufd_mock_domain_all_aligns_copy’ at iommufd.c:1809:1:
+iommufd_utils.h:679:36: warning: ‘mfd’ may be used uninitialized [-Wmaybe-uninitialized]
+  679 |         struct iommu_ioas_map_file cmd = {
+      |                                    ^~~
+iommufd.c: In function ‘wrapper_iommufd_mock_domain_all_aligns_copy’:
+iommufd.c:1818:13: note: ‘mfd’ was declared here
+ 1818 |         int mfd;
+      |             ^~~
+In file included from iommufd_utils.h:11:
+In function ‘_test_cmd_get_hw_info’,
+    inlined from ‘iommufd_ioas_get_hw_info’ at iommufd.c:792:3,
+    inlined from ‘wrapper_iommufd_ioas_get_hw_info’ at iommufd.c:752:1:
+iommufd_utils.h:812:37: warning: array subscript ‘struct iommu_test_hw_info[0]’ is partly outside array bounds of ‘struct iommu_test_hw_info_buffer_smaller[1]’ [-Warray-bounds=]
+  812 |                         assert(!info->flags);
+      |                                 ~~~~^~~~~~~
+iommufd.c: In function ‘wrapper_iommufd_ioas_get_hw_info’:
+iommufd.c:761:11: note: object ‘buffer_smaller’ of size 4
+  761 |         } buffer_smaller;
+      |           ^~~~~~~~~~~~~~
+  CC       iommufd_fail_nth
+make: Leaving directory '/usr/local/google/home/praan/master/iommufd/iommufd/tools/testing/selftests'
 
-With that, contrary to popular belief, it sounds that str concat are
-nowadays faster.
+> ---
+>  tools/testing/selftests/iommu/iommufd_utils.h | 33 +++++++++++--------
+>  tools/testing/selftests/iommu/iommufd.c       | 32 +++++++++++++-----
+>  .../selftests/iommu/iommufd_fail_nth.c        |  4 +--
+>  3 files changed, 46 insertions(+), 23 deletions(-)
+>
+
+[...]
+
+> -- 
+> 2.43.0
+> 
 
 Thanks,
-Mauro
+Praan
