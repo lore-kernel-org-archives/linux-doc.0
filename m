@@ -1,99 +1,113 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1459B1FBEA2
-	for <linux-doc@vger.kernel.org>; Thu, 10 Jul 2025 10:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88462877C1;
+	Thu, 10 Jul 2025 10:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752144589; cv=none; b=U8uMPSpOISaH+S+sP4pjZK2bq9JzpwguMqus7PDOlEo9LMYTwKJzYZ4xa2szUU/41yZm8mZGoxkzrj95hoeX4pG06VloaydGchJkF0orYJR4FHMYhsCOJABO5H/FlHywOFQWKwOyyrdkLmk7YrbgW2d1alTe1rumkX67M8K0S2Q=
+	t=1752145159; cv=none; b=fw1+2bDs/LxQBZtFOIN/Le7CrHyLE13ceG2MmvOudr+tW8CLfTc6VMcNlFikyLj9BztG9k4w/XvKVw/uOnSPifUOuOt2kZgcm98rSxYbihWJzrghmoJxS96sqvIGgoxC/w8tDmIp4iZVYRfuF4mm5wICmr2yPmoUScs0Zv3bJxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752144589; c=relaxed/simple;
-	bh=0ERYadl4idWZ6bP47UPPD8JzYK00w75uLtXXgxW78Zw=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=RB7hhU6iiTwVjx45mzNrS9h+rj+AZteL6pQuokJimFVnP7yJG3pyxyH6VnJyDMhcPWQQMmEDIv1c7dMb8TSqJdP7iYJ3DS5LoXmcFVGCEfRaCLMT8sdnGIwWKI1eZl6HoP5696o1tjTJQ5/gcWkQk6f8yoHui4pKUB+iEaBunOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z2K9Qnog; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752145159; c=relaxed/simple;
+	bh=+9Aiaj5Zj4iemiwWv8ITBr4HJpVztCAHhr9QST4AMpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=szbwSuLfYociy5OcU6D1UwPELm0y3BVO8y4j95jjH1t8yWEkFreTXNRKbuICIOHNOeTnvOjscPu6zyCAs/x65Bfi9MIg97go1tdpDiAf7DXqT2ryxG+m53yxrHGAUfO+BMRczHoqvJNcKI53yaO2LwfHOlkT7oZkbYTWV6BmF+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mYNHFa70; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z2K9Qnog"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4a77ffcb795so8070211cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Jul 2025 03:49:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752144587; x=1752749387; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ERYadl4idWZ6bP47UPPD8JzYK00w75uLtXXgxW78Zw=;
-        b=Z2K9QnogARTMb9Np4MniBPB61NFHx2G08LJLBXxJLmm5A5KAMxuifVTPBFF6EFkjj2
-         FjdXoF5dPHGXio3HDNaKMe6uShlXHYyfhtZfQVdMeUgyRXzdyNg+ssvhSUyNnIurr43Q
-         9y3s2CSOsxvfSk0sVj4Z7nxtLoDQTNJgLVNqwB7sXvZiE3vMG2yA3DW+F4c089U6z38W
-         IfgEL6b5c6L9ogbQTvHvJBxy/ktNeS1YSnUy/Yj/wkr5VFhOUrWwV+kObqOs+4t+79Pk
-         he73f7ZlAKmp4mh9T64GMBNqRnGl7XWCZfIYOTAfuwOWWmH1bpUdWd90xSUQlQCLScnU
-         OzBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752144587; x=1752749387;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0ERYadl4idWZ6bP47UPPD8JzYK00w75uLtXXgxW78Zw=;
-        b=D2T5sBwxjkxSKBe62VoKJY5eJ6z8xS2NG8tJw+odKPvPeuCLe6gsSBGqJEh6GNkDKY
-         B11fDJrbu6PDT4gjT47yZ5zwoZ2shcrLeUcvaE7R5QO/biDkTENHp8MpDlV1hBbcYh+c
-         IoncarJw4BaMbbMzV7aYHNofHdJQHRlGWgS1TKUzZNnwVjjUPNqFDeYmPIpba9Es9S2Z
-         taWqFSGtef4QGYEiikOP95v3vZi08AQuy5sj86I+BB+YBMMGsJQagCIbs+3gkVKu+QJ9
-         Cfp7D+vJ4jOgkXiHSo7OGtPRMeJ0ArCqflbrJFAUZ5w0u1y+a9y9tNMY/7F6rRGdimJc
-         76nw==
-X-Gm-Message-State: AOJu0Yzxb6nLqI2zEcPSfaIflXlPpl6qR47nvD9wbuS8V6OLV93MYdD6
-	7ODPXQg7jzlqSQ1+VXVB65+tyFN59BiUBGQfXwmGxNEzaN/S3phL7lySstY3yZbHxD7WmKvMsQg
-	rkkHdXRX+azvOTThtjuu6LPPrRAAgFieMMMCYimU=
-X-Gm-Gg: ASbGnct1pag3NcJVdQNM4yBRZFE5U35RR1JpmgKB7KVN2n9LLJ8ogo/byt54YxSzuZQ
-	UTkLoLzLnyKqwg8Ib/QbMp3dcZ/nSOHbEXtW+vlIL9JHmDsthEjq+OS7psbluwRbc4af2QW7PpS
-	spDIXyRVj0OKkaz2FnhRvurQ0sY6nJUYRXsAKYTY0szSGu
-X-Google-Smtp-Source: AGHT+IHWw0CZKqRk64V415MOqgLOIKESkwVjGL0N10xSRI6Mm0wnCDnJjVi17GkUAIjRjLNneu639e1Y2aeoCfW7ur4=
-X-Received: by 2002:ac8:5a8e:0:b0:4a9:ab9b:6603 with SMTP id
- d75a77b69052e-4a9ded45e9dmr85023741cf.38.1752144586839; Thu, 10 Jul 2025
- 03:49:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mYNHFa70"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18449C4CEE3;
+	Thu, 10 Jul 2025 10:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752145158;
+	bh=+9Aiaj5Zj4iemiwWv8ITBr4HJpVztCAHhr9QST4AMpM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mYNHFa70nvJ50iL0uCKjVAMeHVhRxcAByGoCreYB1OOp3FDxAgj18gj/ArF19YSCY
+	 rfC9xCmDPyFvE3H32en0cVmTRA1Tpzgzr01k8K2bXxpv8UB3gecqtB6h0zYx/Lesuz
+	 ws9IQkzBfoBYuHsps28B4NHdktVFPwACRAF47jULOSaWQ+l/5qfAdlZU++HuUQFfvO
+	 Y45AY4AoH32nhwtXeA2aWKohzAcZhOQPEPXu4LEJCwm51H5PRfjr2m77WIUSsxVKk8
+	 /USo0wB7j1g532G0k17lWxSr6djiN3MtrSURwsnbONHi/NS4f58v80xNMAWYxM2Yom
+	 uI/X1Rgqq5gsw==
+Date: Thu, 10 Jul 2025 12:59:14 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 12/12] docs: kdoc: Improve the output text accumulation
+Message-ID: <20250710125914.41fe8cf6@foz.lan>
+In-Reply-To: <20250710123155.1045831d@foz.lan>
+References: <20250702223524.231794-1-corbet@lwn.net>
+	<20250702223524.231794-13-corbet@lwn.net>
+	<20250710084119.3e5c1ced@foz.lan>
+	<20250710091352.4ae01211@foz.lan>
+	<20250710101931.202953d1@foz.lan>
+	<20250710121033.42db5ef3@foz.lan>
+	<20250710123155.1045831d@foz.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Samiksha Palav <samiksha.palav27@gmail.com>
-Date: Thu, 10 Jul 2025 16:19:35 +0530
-X-Gm-Features: Ac12FXw8s_b1xMA6WB1ON0Gyw9gRFthMQFXOw1PORjMtbwC1qw_8VcJ3gljb6TQ
-Message-ID: <CALq_ZGG87NMgwpjoEq9UmhUu3iSEEr-RQoC8HhJKrByd_6qxBw@mail.gmail.com>
-Subject: Introduction
-To: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi everyone,
+Em Thu, 10 Jul 2025 12:31:55 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-I=E2=80=99m Samiksha (a.k.a. Shdwcodr), an undergrad BCA student from India
-with a relentless drive to get deep into the Linux kernel. I've
-recently begun my journey contributing to the kernel, focusing on
-staging drivers, learning the kernel development workflow, and
-understanding the culture of patch submission and review.
+> Em Thu, 10 Jul 2025 12:10:33 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> 
+> > From the above:
+> > 
+> > - It is not worth applying patch 12/12 as it makes the code slower;
+> > - Python 3.13t (no-GIL version) had very bad results. It seems it
+> >   still requires optimization;
+> > - Python 3.9 is a lot worse (140% to 190%) when using list append;
+> > - when there are not many concats, Python 3.13 is about 15% slower
+> >   with lists than concat strings. It only approaches str concat
+> >   when the number of concats is high.
+> > 
+> > With the above, clearly str += is faster than list append.
+> > 
+> > So, except if I did something wrong on this benchmark script, please
+> > don't apply patch 12/12.  
+> 
+> And I did: I forgot the final line at the concat code to get the
+> result as strings.
+> 
+> For explicit list:
+> 	result = obj.output()
+> 
+> For implicit ones:
+> 	result = str(obj)
+> 
+> Yet, the conclusion is similar. With Python 3.13:
+> 
+>     $ for i in python3.13; do for j in 1 10 100 1000; do $i /tmp/bench.py $((1000000/$j)) $j 1; done; done
+>     1 strings in a loop with 1000000 interactions, repeating 24 times
+>         str +=       : time: 41.42
+>         list join    : time: 127.33: 207.42% slower than str +=
+>     10 strings in a loop with 100000 interactions, repeating 24 times
+>         str +=       : time: 27.15
+>         list join    : time: 39.19: 44.36% slower than str +=
+>     100 strings in a loop with 10000 interactions, repeating 24 times
+>         str +=       : time: 24.84
+>         list join    : time: 30.70: 23.57% slower than str +=
+>     1000 strings in a loop with 1000 interactions, repeating 24 times
+>         str +=       : time: 21.84
+>         list join    : time: 27.85: 27.50% slower than str +=
+> 
+> Explict list concat was between ~30% to ~200% worse than str concat.
 
-Over the past few days, I=E2=80=99ve:
-- Set up a local kernel build and testing workflow.
-- Sent out my first real patch (not a dummy), with more lined up.
-- Subscribed to key mailing lists and joined IRC channels to stay in the lo=
-op.
-- Started tracking patch feedback and diving into
-`scripts/checkpatch.pl`, git send-email, and the entire mailing
-list-based workflow.
+Looking for an explanation, PEP 509 and PEP 393 did Short String Optimization
+and Inline Caching. This was applied Python 3.6, and Python 3.13 came with
+extra string optimizations.
 
-My short-term goal is to get multiple patches accepted into staging by
-early 2025, and long-term I=E2=80=99m aiming for the **LFX Kernel Mentorshi=
-p
-Program in 2026**.
+On the other hand, lists do more memory allocations, have some logic to
+extend list growth and has an extra concat loop.
 
-I=E2=80=99ll be lurking, learning, and asking questions when stuck. Thanks =
-in
-advance to everyone who shares knowledge and guidance =E2=80=94 it means a =
-lot
-to newcomers like me.
+With that, contrary to popular belief, it sounds that str concat are
+nowadays faster.
 
-Looking forward to learning from you all and giving back as I grow.
-
-Cheers,
-Samiksha (Shdwcodr)
+Thanks,
+Mauro
