@@ -1,327 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5C522154B;
-	Thu, 10 Jul 2025 05:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B052036FF;
+	Thu, 10 Jul 2025 05:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752126348; cv=none; b=k8b0MsMDTarbnBBVrpVsSwQIAKf1A+OcfdCl+6NsLiPEu7YTXAIUqWpBeG2+1xXtTVF8UJSWS9GHAKv/doXz5HGhEMwenylHtKWK/kMoqrpYmVczHDIj0/QQ8dmFqkpt5Pr9lxGbPFh8cldfMHzqdmdk2d3IXhCz7KXn4qEVYaY=
+	t=1752126720; cv=none; b=gmtFBi1eg7ZWL5Rqb/eWvLCnKhYpAEuCFYkHAVdCdMvHtWwo19N1x1fozg8o3RaCk/hlr6GtyRFezcvD4cCa+4OeUg6EQuU+eyUf/Ie1R9guM9XTqevedsirWMA9WBmBR+vb5QhfM+G9B4z6yDBVQz8mRC2LnQD93TD/dxrPlII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752126348; c=relaxed/simple;
-	bh=LqYPBrbfE8Cba8IPSNY5pWNkJYaTs7Jun0idPVbdbOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UhKEpB2TRZUvBthmJ85xzQyfdrQQD5fZX6lB+jXEaWppfUL9AZMqXI3jjXxcXohqhxvROh+rXldH9NQYKsr7wX939ild2cSKyDgOlCTt9tog/tbmNEjuL6khO6S2qWq0QFVaANP9gyFDb2Qbf8VBA1vmdmR0E04tuK+jMJ5G4EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NoKPThNQ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NoKPThNQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAF1BC4CEE3;
-	Thu, 10 Jul 2025 05:45:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752126347;
-	bh=LqYPBrbfE8Cba8IPSNY5pWNkJYaTs7Jun0idPVbdbOI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NoKPThNQn4rofB3yBRmnXcsbUmOK4gNDIyM9L6zfTQkepaVl17XL0idPqqQwYCZ5Z
-	 i+PItJjSA1GcVQjbMjoDLWp8xRi071cYg14Lbe0wsTlsj2cPeX6jiQF+xzMH0e7uTb
-	 4zp+qeqXZtpBZm7ZtaKj89rZ9fx7apGnVFUFFG4+IaH0zt1dzlF1TjGVbTrcRRBpqg
-	 0AZ0NT0g99q/ir26vUUytQzFIvkdDvpgzuhXNzdTWMQLl7j7P7VH0LQ2bX/Dv39K5V
-	 AD2IhH744OGikmFGRdlfXtDFhiHJ//TH4JWLj6gIvLSsmk09u7FEzZKHjjKdL38z0J
-	 8t2RAD16JCXmA==
-Date: Thu, 10 Jul 2025 07:45:43 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 04/12] docs: kdoc: Centralize handling of the item
- section list
-Message-ID: <20250710074543.31b909d8@foz.lan>
-In-Reply-To: <20250702223524.231794-5-corbet@lwn.net>
-References: <20250702223524.231794-1-corbet@lwn.net>
-	<20250702223524.231794-5-corbet@lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1752126720; c=relaxed/simple;
+	bh=vERoAnTtuv55lMm9AjGiShvQq0udC6vkMtjkt2WaJ+w=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=NPEH/sDodaQTAbtT+kEQOVM0Zbe+nnvTz7AA5B4FGFZeVZT2BMF43mV3mD3aUp/wFXf2prTk+w/H2aQMk58w7+fDshZgrQ8hdei284BD71Hci9MjQtxI6iWHVv3EOH7nktzFQWUUWdo36Be4WVanVEEx+OwCVe/kK4kT07tYKXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bd3rL3f6Cz5F2lt;
+	Thu, 10 Jul 2025 13:51:46 +0800 (CST)
+Received: from njy2app02.zte.com.cn ([10.40.13.116])
+	by mse-fl2.zte.com.cn with SMTP id 56A5pen3017791;
+	Thu, 10 Jul 2025 13:51:40 +0800 (+08)
+	(envelope-from jiang.kun2@zte.com.cn)
+Received: from mapi (njy2app01[null])
+	by mapi (Zmail) with MAPI id mid204;
+	Thu, 10 Jul 2025 13:51:41 +0800 (CST)
+Date: Thu, 10 Jul 2025 13:51:41 +0800 (CST)
+X-Zmail-TransId: 2af9686f54ed565-26977
+X-Mailer: Zmail v1.0
+Message-ID: <2025071013514177028RdjISjqeIOnTCRvGAwy@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+From: <jiang.kun2@zte.com.cn>
+To: <bsingharora@gmail.com>, <akpm@linux-foundation.org>, <david@redhat.com>,
+        <yang.yang29@zte.com.cn>
+Cc: <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
+        <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>,
+        <zhang.yunkai@zte.com.cn>, <xu.xin16@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4IG5leHRdIGRvY3M6IHVwZGF0ZSBkb2NzIGFmdGVyIGludHJvZHVjaW5nIGRlbGF5dG9w?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 56A5pen3017791
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 686F54F2.000/4bd3rL3f6Cz5F2lt
 
-Em Wed,  2 Jul 2025 16:35:16 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-> The section list always comes directly from the under-construction entry
-> and is used uniformly.  Formalize section handling in the KdocItem class,
-> and have output_declaration() load the sections directly from the entry,
-> eliminating a lot of duplicated, verbose parameters.
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  scripts/lib/kdoc/kdoc_item.py   |  8 ++++++++
->  scripts/lib/kdoc/kdoc_output.py | 36 ++++++++++++---------------------
->  scripts/lib/kdoc/kdoc_parser.py | 20 +++---------------
->  3 files changed, 24 insertions(+), 40 deletions(-)
-> 
-> diff --git a/scripts/lib/kdoc/kdoc_item.py b/scripts/lib/kdoc/kdoc_item.py
-> index add2cc772fec..c8329019a219 100644
-> --- a/scripts/lib/kdoc/kdoc_item.py
-> +++ b/scripts/lib/kdoc/kdoc_item.py
-> @@ -9,6 +9,7 @@ class KdocItem:
->          self.name = name
->          self.type = type
->          self.declaration_start_line = start_line
-> +        self.sections = self.sections_start_lines = { }
+The "getdelays" can only display the latency of a single task
+by specifying a PID, we introduce the "delaytop" with the
+following capabilities:
 
-Nitpicks:
-- to make coding-style uniform, please use "{}" without spaces;
-- Please place one statement per line, just like we (usually) do in Kernel. 
+1. system view: monitors latency metrics (CPU, I/O, memory, IRQ, etc.)
+   for all system processes
 
-  In this specific case, I strongly suspect that what you coded is not
-  implementing the semantics you want. See:
+2. supports field-based sorting (e.g., default sort by CPU latency in
+   descending order)
 
-	1. are you creating a single dict and placing the same dict on two
-	   variables?
-  or:
-	2. are you initializing two different vars with their own empty
-	   dict?
+3. dynamic interactive interface: focus on specific processes with
+   --pid; limit displayed entries with --processes 20; control monitoring
+   duration with --iterations;
 
-The subsequent code assumes (2), but a quick check with python3 command
-line:
+Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
+Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+---
+ Documentation/accounting/delay-accounting.rst | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-	>>> a = b = {}
-	>>> a["foo"] = "bar"
-	>>> print(b)
-	{'foo': 'bar'}
+diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
+index 210c194d4a7b..664950328fb7 100644
+--- a/Documentation/accounting/delay-accounting.rst
++++ b/Documentation/accounting/delay-accounting.rst
+@@ -131,3 +131,50 @@ Get IO accounting for pid 1, it works only with -p::
+ 	linuxrc: read=65536, write=0, cancelled_write=0
 
-Shows that Python is doing (1) here: it basically creates a single
-dict and assign pointers to it for both self.declaration_start_line
-and self.sections. Clearly, this is not what we want. 
-
-This is not a problem in practice with the current code, as 
-set_sections will replace both at the same time, but if we ever
-handle them using different functions, this will become a problem.
-
-The rest of the code looks sane to me.
-
->          #
->          # Just save everything else into our own dict so that the output
->          # side can grab it directly as before.  As we move things into more
-> @@ -24,3 +25,10 @@ class KdocItem:
->  
->      def __getitem__(self, key):
->          return self.get(key)
-> +
-> +    #
-> +    # Tracking of section information.
-> +    #
-> +    def set_sections(self, sections, start_lines):
-> +        self.sections = sections
-> +        self.section_start_lines = start_lines
-> diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-> index 4895c80e4b81..15cb89f91987 100644
-> --- a/scripts/lib/kdoc/kdoc_output.py
-> +++ b/scripts/lib/kdoc/kdoc_output.py
-> @@ -338,11 +338,7 @@ class RestFormat(OutputFormat):
->          starts by putting out the name of the doc section itself, but that
->          tends to duplicate a header already in the template file.
->          """
-> -
-> -        sections = args.get('sections', {})
-> -        section_start_lines = args.get('section_start_lines', {})
-> -
-> -        for section in sections:
-> +        for section, text in args.sections.items():
->              # Skip sections that are in the nosymbol_table
->              if section in self.nosymbol:
->                  continue
-> @@ -354,8 +350,8 @@ class RestFormat(OutputFormat):
->              else:
->                  self.data += f'{self.lineprefix}**{section}**\n\n'
->  
-> -            self.print_lineno(section_start_lines.get(section, 0))
-> -            self.output_highlight(sections[section])
-> +            self.print_lineno(args.section_start_lines.get(section, 0))
-> +            self.output_highlight(text)
->              self.data += "\n"
->          self.data += "\n"
->  
-> @@ -635,23 +631,20 @@ class ManFormat(OutputFormat):
->                  self.data += line + "\n"
->  
->      def out_doc(self, fname, name, args):
-> -        sections = args.get('sections', {})
-> -
->          if not self.check_doc(name, args):
->              return
->  
->          self.data += f'.TH "{self.modulename}" 9 "{self.modulename}" "{self.man_date}" "API Manual" LINUX' + "\n"
->  
-> -        for section in sections:
-> +        for section, text in args.sections.items():
->              self.data += f'.SH "{section}"' + "\n"
-> -            self.output_highlight(sections.get(section))
-> +            self.output_highlight(text)
->  
->      def out_function(self, fname, name, args):
->          """output function in man"""
->  
->          parameterlist = args.get('parameterlist', [])
->          parameterdescs = args.get('parameterdescs', {})
-> -        sections = args.get('sections', {})
->  
->          self.data += f'.TH "{args["function"]}" 9 "{args["function"]}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
->  
-> @@ -692,15 +685,14 @@ class ManFormat(OutputFormat):
->              self.data += f'.IP "{parameter}" 12' + "\n"
->              self.output_highlight(parameterdescs.get(parameter_name, ""))
->  
-> -        for section in sections:
-> +        for section, text in args.sections.items():
->              self.data += f'.SH "{section.upper()}"' + "\n"
-> -            self.output_highlight(sections[section])
-> +            self.output_highlight(text)
->  
->      def out_enum(self, fname, name, args):
->  
->          name = args.get('enum', '')
->          parameterlist = args.get('parameterlist', [])
-> -        sections = args.get('sections', {})
->  
->          self.data += f'.TH "{self.modulename}" 9 "enum {args["enum"]}" "{self.man_date}" "API Manual" LINUX' + "\n"
->  
-> @@ -727,24 +719,23 @@ class ManFormat(OutputFormat):
->              self.data += f'.IP "{parameter}" 12' + "\n"
->              self.output_highlight(args['parameterdescs'].get(parameter_name, ""))
->  
-> -        for section in sections:
-> +        for section, text in args.sections.items():
->              self.data += f'.SH "{section}"' + "\n"
-> -            self.output_highlight(sections[section])
-> +            self.output_highlight(text)
->  
->      def out_typedef(self, fname, name, args):
->          module = self.modulename
->          typedef = args.get('typedef')
->          purpose = args.get('purpose')
-> -        sections = args.get('sections', {})
->  
->          self.data += f'.TH "{module}" 9 "{typedef}" "{self.man_date}" "API Manual" LINUX' + "\n"
->  
->          self.data += ".SH NAME\n"
->          self.data += f"typedef {typedef} \\- {purpose}\n"
->  
-> -        for section in sections:
-> +        for section, text in args.sections.items():
->              self.data += f'.SH "{section}"' + "\n"
-> -            self.output_highlight(sections.get(section))
-> +            self.output_highlight(text)
->  
->      def out_struct(self, fname, name, args):
->          module = self.modulename
-> @@ -753,7 +744,6 @@ class ManFormat(OutputFormat):
->          purpose = args.get('purpose')
->          definition = args.get('definition')
->          parameterlist = args.get('parameterlist', [])
-> -        sections = args.get('sections', {})
->          parameterdescs = args.get('parameterdescs', {})
->  
->          self.data += f'.TH "{module}" 9 "{struct_type} {struct_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-> @@ -782,6 +772,6 @@ class ManFormat(OutputFormat):
->              self.data += f'.IP "{parameter}" 12' + "\n"
->              self.output_highlight(parameterdescs.get(parameter_name))
->  
-> -        for section in sections:
-> +        for section, text in args.sections.items():
->              self.data += f'.SH "{section}"' + "\n"
-> -            self.output_highlight(sections.get(section))
-> +            self.output_highlight(text)
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 2e00c8b3a5f2..608f3a1045dc 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -272,13 +272,13 @@ class KernelDoc:
->          item = KdocItem(name, dtype, self.entry.declaration_start_line, **args)
->          item.warnings = self.entry.warnings
->  
-> -        sections = item.get('sections', {})
-> -
->          # Drop empty sections
->          # TODO: improve empty sections logic to emit warnings
-> +        sections = self.entry.sections
->          for section in ["Description", "Return"]:
->              if section in sections and not sections[section].rstrip():
->                  del sections[section]
-> +        item.set_sections(sections, self.entry.section_start_lines)
->  
->          self.entries.append(item)
->  
-> @@ -824,8 +824,6 @@ class KernelDoc:
->                                  parameterdescs=self.entry.parameterdescs,
->                                  parametertypes=self.entry.parametertypes,
->                                  parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                sections=self.entry.sections,
-> -                                section_start_lines=self.entry.section_start_lines,
->                                  purpose=self.entry.declaration_purpose)
->  
->      def dump_enum(self, ln, proto):
-> @@ -908,8 +906,6 @@ class KernelDoc:
->                                  parameterlist=self.entry.parameterlist,
->                                  parameterdescs=self.entry.parameterdescs,
->                                  parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                sections=self.entry.sections,
-> -                                section_start_lines=self.entry.section_start_lines,
->                                  purpose=self.entry.declaration_purpose)
->  
->      def dump_declaration(self, ln, prototype):
-> @@ -1079,8 +1075,6 @@ class KernelDoc:
->                                      parameterdescs=self.entry.parameterdescs,
->                                      parametertypes=self.entry.parametertypes,
->                                      parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                    sections=self.entry.sections,
-> -                                    section_start_lines=self.entry.section_start_lines,
->                                      purpose=self.entry.declaration_purpose,
->                                      func_macro=func_macro)
->          else:
-> @@ -1092,8 +1086,6 @@ class KernelDoc:
->                                      parameterdescs=self.entry.parameterdescs,
->                                      parametertypes=self.entry.parametertypes,
->                                      parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                    sections=self.entry.sections,
-> -                                    section_start_lines=self.entry.section_start_lines,
->                                      purpose=self.entry.declaration_purpose,
->                                      func_macro=func_macro)
->  
-> @@ -1137,8 +1129,6 @@ class KernelDoc:
->                                      parameterdescs=self.entry.parameterdescs,
->                                      parametertypes=self.entry.parametertypes,
->                                      parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                    sections=self.entry.sections,
-> -                                    section_start_lines=self.entry.section_start_lines,
->                                      purpose=self.entry.declaration_purpose)
->              return
->  
-> @@ -1159,8 +1149,6 @@ class KernelDoc:
->  
->              self.output_declaration('typedef', declaration_name,
->                                      typedef=declaration_name,
-> -                                    sections=self.entry.sections,
-> -                                    section_start_lines=self.entry.section_start_lines,
->                                      purpose=self.entry.declaration_purpose)
->              return
->  
-> @@ -1642,9 +1630,7 @@ class KernelDoc:
->  
->          if doc_end.search(line):
->              self.dump_section()
-> -            self.output_declaration("doc", self.entry.identifier,
-> -                                    sections=self.entry.sections,
-> -                                    section_start_lines=self.entry.section_start_lines)
-> +            self.output_declaration("doc", self.entry.identifier)
->              self.reset_state(ln)
->  
->          elif doc_content.search(line):
-
-
-
-Thanks,
-Mauro
+ The above command can be used with -v to get more debug information.
++
++After the system starts, use `delaytop` to get the Top-N high-latency tasks.
++this tool supports sorting by CPU latency in descending order by default,
++displays the top 20 high-latency tasks by default, and refreshes the latency
++data every 2 seconds by default.
++
++Get Top-N tasks delay, since system boot::
++
++	bash# ./delaytop
++	Top 20 processes (sorted by CPU delay):
++
++	  PID   TGID  COMMAND            CPU(ms)  IO(ms)        SWAP(ms) RCL(ms) THR(ms)  CMP(ms)  WP(ms)  IRQ(ms)
++	---------------------------------------------------------------------------------------------
++	   32     32  kworker/2:0H-sy   23.65     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	  497    497  kworker/R-scsi_    1.20     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	  495    495  kworker/R-scsi_    1.13     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	  494    494  scsi_eh_0          1.12     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	  485    485  kworker/R-ata_s    0.90     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	  574    574  kworker/R-kdmfl    0.36     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	   34     34  idle_inject/3      0.33     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	 1123   1123  nde-netfilter      0.28     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	   60     60  ksoftirqd/7        0.25     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	  114    114  kworker/0:2-cgr    0.25     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	  496    496  scsi_eh_1          0.24     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	   51     51  cpuhp/6            0.24     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	 1667   1667  atd                0.24     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	   45     45  cpuhp/5            0.23     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	 1102   1102  nde-backupservi    0.22     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	 1098   1098  systemsettings     0.21     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	 1100   1100  audit-monitor      0.20     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	   53     53  migration/6        0.20     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	 1482   1482  sshd               0.19     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++	   39     39  cpuhp/4            0.19     0.00     0.00     0.00    0.00     0.00     0.00     0.00
++
++Dynamic interactive interface of delaytop::
++
++	# ./delaytop -p pid
++	Print delayacct stats
++
++	# ./delaytop -P num
++	Display the top N tasks
++
++	# ./delaytop -n num
++	Set delaytop refresh frequency (num times)
++
++	# ./delaytop -d secs
++	Specify refresh interval as secs
+-- 
+2.25.1
