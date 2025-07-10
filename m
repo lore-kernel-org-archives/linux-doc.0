@@ -1,342 +1,182 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2074.outbound.protection.outlook.com [40.107.212.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BF15383;
-	Thu, 10 Jul 2025 05:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752126909; cv=none; b=KhDHovSfCQ/elxNhK+pIIyNU/Yn89cM4duWJ3pfbn2XLZxvNlqMmNSJZk/p1IcyzCcKCeUnQwl1m/Gbqm2odOcvbrj2gZz8IqZfSr6O9rF58nLl7Tkqr39HBl28FK8VA+AR2DBwJPUd/2rFbWuFIIiY0XgQ6qfSNjKodu5djoQY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752126909; c=relaxed/simple;
-	bh=SI9KbhP6hIZ/8v4pGRoQDQgsPaxDH03U56iVsHXbOS8=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=WWmxAGHXASX/nlTQYn7H14sZyuI12lbAjpzfnZL+xCzjX+oy9fYpkzbhbxeLvoRAKxXZkjejN0PIkFwrNYV+C4kbKeXFetYvrXly2a9vAX6DNKZj2Jnag74MsUcbhzD/fq9l9a4KmSoQbxCaYHgRfymKKQrBqGFc3/Ew9s1+r6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bd3w81w7lz5F2lj;
-	Thu, 10 Jul 2025 13:55:04 +0800 (CST)
-Received: from njb2app06.zte.com.cn ([10.55.23.119])
-	by mse-fl1.zte.com.cn with SMTP id 56A5sn09052681;
-	Thu, 10 Jul 2025 13:54:49 +0800 (+08)
-	(envelope-from jiang.kun2@zte.com.cn)
-Received: from mapi (njb2app07[null])
-	by mapi (Zmail) with MAPI id mid204;
-	Thu, 10 Jul 2025 13:54:51 +0800 (CST)
-Date: Thu, 10 Jul 2025 13:54:51 +0800 (CST)
-X-Zmail-TransId: 2aff686f55abffffffff869-26c7b
-X-Mailer: Zmail v1.0
-Message-ID: <20250710135451340_5pOgpIFi0M5AE7H44W1D@zte.com.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9513B280;
+	Thu, 10 Jul 2025 06:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752127207; cv=fail; b=MWQiXQH8B+vVYYu0HSYNQvWveSpN99GU5iwcNqN5EMSPuAvpwDriIWR9C9f1Yu4PJ5Cy4k6M8Qg4+1Bokycs3iWiunUtqsUaGLy/T5fWlR7zRJWKTNu0NbhC1Am2XUEvBDsGfWbtNRFaBk1Xk/2gDKu45gRz85bA1gs4n8zVLwk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752127207; c=relaxed/simple;
+	bh=2J+j32eo3dPCDRvxdB6elZRRB1LgpKPEa7yqvlEGFgQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UjxVbUdCb3XnS7FIn8gY34LTIoK7cxQhFbGZfXwy1G4VMhA3OxG9pS3aj2R9trP763694Tdu/6uFPjbrN/bRTLrVfQFXkpR9mHuHPSmZ2mr+omRFnpHrbcG0c83CXbOdK6NQBPDGlS6UkP7+cT0uMHjgS9JIwUFcCais58PJsxY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VdAVgvhs; arc=fail smtp.client-ip=40.107.212.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VdAVgvhs"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DLWgE5dJEQ3wUU10d0+NlyBpSfaRGEBXp0LECXE+1YfmiMEKne43GMPamRe7MZdOqEF9ob5inBHkFBSopRafF+dkVaJNxEYx9EHr90cTv4ODd5tObQ6TMjQpXuKG9Dg9bBzCaF6VmGsCXYjy03gAA7TSL9/9r+IjEE8+d5PkQU74bsajKSHYENPxmbW/J8fk3uAJ3PjeplIuYZJT011ZtqHZfdmy/GnH8N/HUYHYiJlX8f6gwWpQrk/UzeJ4PBjWj/lVOHZEEAAbpH8pwvxpfJr38myS2joQbADSh/8fiU08wGhUByTWlWg4BM+BvjfArI+87dRY8mDyLy23aNgdRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/BnabqTncymFIsnzldAZgcWH6gkUjxym7aZDsKbUhlY=;
+ b=pe9m7chcvyX8PNpiYpV/CZbBP555MSFAV0sjeFIMk9+ZWMk7ZDd1KK6JETl/t41PA8ZUsCBMbLyh43HSbLr0evfrflnSMl/q17xlOKxU9NR4XokV8R7+5E0dfKnkaM7QWbpKZDtCkBpY0TXR6f9om1nmaokYv9DpSPyJU67pyj50IUdk7nGeB9VIEP5xwMblJmhUJrCEzQdtHamgVqEnqeFMfPcKgcT9jU4KXbCih7xC398U8wPNg0o8if3KskqECMi5+NEktjeSSwxkOvLMkf9hjXWcJXUeJWWuNnJ2KSFqiJAAKEI6xiu0UWyvHT5fgexIivAEF/LYr6vF9KQ08g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/BnabqTncymFIsnzldAZgcWH6gkUjxym7aZDsKbUhlY=;
+ b=VdAVgvhsCymbcRXQeyS/MxPKJY2QL8QNV7oH9dSMLr1+zm+gwD5x76jHwSPzQh7TQckOr7pj4WpUbkf17HV2Uri9RKICC6P9zQgn/R9Q8cE66D1LiSJJQLs5h/9vuYUhz1ffN/e5JaxXS/xIqErEX8G1uE4Fl3I48nVMY7jTMWiSK7U/KIIvSzcZQN4O+9xhJ/F6xDAmRj4MZok0GFGwBUTqbj6OLi1M5wsAleT4T5id6QySkOzyAj3wsTvvjge0ED253pio7MVtVo1IJZxyUYrJ9P5F52ePTSg/+zzEoRJzhLxjtXHIl6xSwYmLEds8EItfAJQPXVShA1u8RzNiIg==
+Received: from CH0PR03CA0398.namprd03.prod.outlook.com (2603:10b6:610:11b::29)
+ by DS7PR12MB6214.namprd12.prod.outlook.com (2603:10b6:8:96::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.29; Thu, 10 Jul
+ 2025 06:00:00 +0000
+Received: from CH2PEPF00000144.namprd02.prod.outlook.com
+ (2603:10b6:610:11b:cafe::88) by CH0PR03CA0398.outlook.office365.com
+ (2603:10b6:610:11b::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.22 via Frontend Transport; Thu,
+ 10 Jul 2025 06:00:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CH2PEPF00000144.mail.protection.outlook.com (10.167.244.101) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8922.22 via Frontend Transport; Thu, 10 Jul 2025 06:00:00 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 9 Jul 2025
+ 22:59:48 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 9 Jul
+ 2025 22:59:47 -0700
+Received: from Asurada-Nvidia.nvidia.com (10.127.8.14) by mail.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
+ Transport; Wed, 9 Jul 2025 22:59:46 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: <jgg@nvidia.com>
+CC: <kevin.tian@intel.com>, <corbet@lwn.net>, <bagasdotme@gmail.com>,
+	<will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
+	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
+	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
+	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
+	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>,
+	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>
+Subject: [PATCH v9 01/29] iommufd: Report unmapped bytes in the error path of iopt_unmap_iova_range
+Date: Wed, 9 Jul 2025 22:58:53 -0700
+Message-ID: <e2b61303bbc008ba1a4e2d7c2a2894749b59fdac.1752126748.git.nicolinc@nvidia.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1752126748.git.nicolinc@nvidia.com>
+References: <cover.1752126748.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <jiang.kun2@zte.com.cn>
-To: <bsingharora@gmail.com>, <akpm@linux-foundation.org>, <david@redhat.com>,
-        <yang.yang29@zte.com.cn>
-Cc: <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
-        <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
-        <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>,
-        <zhang.yunkai@zte.com.cn>, <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4IG5leHRdIGRlbGF5dG9wOiBhZGQgcHNpIGluZm8gdG8gc2hvdyBzeXN0ZW0gZGVsYXk=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 56A5sn09052681
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 686F55B8.000/4bd3w81w7lz5F2lj
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000144:EE_|DS7PR12MB6214:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a82a150-62f5-4a02-cbc5-08ddbf770181
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?b/zM/HywbG360pl8CfeIVuCC5S8BoftrdTi12KwWGUeNvORr4mInB4uItsQq?=
+ =?us-ascii?Q?3HuDCm7g+//U7F3nn4NU/1lc96GA60L1qkwUx1ZyIFFDASexB0vf+Gb3T+xt?=
+ =?us-ascii?Q?WO1WWT8PCH3zJLocixv+XEWsFAMbBTpB0vc6j14MIiHiFRZrqfimhQllwJZl?=
+ =?us-ascii?Q?RVktmlgJ9k47heBvzeZfK3XZpTqBtg+aXPdyszLCqv+wj8Y3mvVaD8J/0ZiJ?=
+ =?us-ascii?Q?x5M4/jR12XjBPCPlKWMEih0mmqi5daQhXP/+etAybcsV1n0q4Vc3Zc1t2eCy?=
+ =?us-ascii?Q?ZZHdYcd/o44pGVrOyvKIg6suxaHg2jDqLPTfMqHtNAqpdVO/9mz065MzRHg9?=
+ =?us-ascii?Q?UJ7hUsAD2RvNcT0j+j9aUbANY/rWx6u+gALKmRdNc2aKGdo4+b8kZ1UNr4fi?=
+ =?us-ascii?Q?E/syfYo4/1t9SrHdSxSs1pOHDHprM0t4NnVJDMWL+M+gHE6xBFbg1gov3amL?=
+ =?us-ascii?Q?PDMz5QeD3l+xvry1fkFkTKj1qyuN8JD2SgboDmXahYnK3qYUyFEVcpad87JX?=
+ =?us-ascii?Q?Fhr7Nrta+mG//AbieMJt2rIrNEZM4Rix8sQMWBJxensCtmii1HAYrRgaqsWE?=
+ =?us-ascii?Q?rRuGfjUlRoTVbdJE01hrlysOKQckaa/SyyT5VHckQxxiPRx0Fa7ajuLXtSx2?=
+ =?us-ascii?Q?PKHwgYITwi8o0MdF2jOVzdWsuZEvV5c0p38IVuznjvgWyEKd6wNGgPrl5IJD?=
+ =?us-ascii?Q?+CIck0ofCU7n35oNMakn0D9s3fXmGeG8iEd1CA+GeLn7vfsw5jDtu0g3po+I?=
+ =?us-ascii?Q?Jk9xxAVXkK7hR+DsgFmEcZ49uoLXEx2QNDZjeq07taZTOVAjfVnW1ZYsMNGt?=
+ =?us-ascii?Q?dojTkpUwUmpFzKnX8M16Sk5JPFQ/qFDaxfvIhrKkJNDtD/z3Ujp4Sh3BEkQ/?=
+ =?us-ascii?Q?5pr5N4kP6JGS0lnv9crr37FiB99W9QXK8Wv8k3EMJ58cNcc5HdJLkT0MbafT?=
+ =?us-ascii?Q?w+0UYZ3ptKMqTHk+r9olo/K9OQge812gHNwwiNSU9XUkA+HeTs+6riq1qvqd?=
+ =?us-ascii?Q?fUOEvHuksUx1WymbnXkcy8Ou+fpJSHBc3lHcPIqR4BMlWyDPE37DWLBSwquV?=
+ =?us-ascii?Q?uQyqbEYfgLwhAqGVIaclSTMmLCzYU/ynCmF+y8RjtG2Pru6GWS1gnWWPkHwc?=
+ =?us-ascii?Q?d41IToQVoXFMyYAm4kbVeqaq/ZDFiUvVe3p7tU1gRT0vogRuQBSg54kf+HsC?=
+ =?us-ascii?Q?YNl45QADhlzeQD9frS+6P2TVEd00cn2HSUzE6KZE2qjlKoNmHkiXzKScWikR?=
+ =?us-ascii?Q?/ZJdV4BmSdVfHDzsGbfif8ryLFvx95VBWI7z78mYdkNpl8COxYZuU7GM1/lX?=
+ =?us-ascii?Q?ROrzalvcaX0VjXPckpYxYkQ5sdCz4n+Zd8BqHd3BAmTMQbs4cba2iZVnQvFm?=
+ =?us-ascii?Q?Pv8drjJ/tRSdkSn4iWzWl7o0/P9haxvVd8znB81IIhS2BKbH4fnv3O1FWulc?=
+ =?us-ascii?Q?s/xuFuiGce00GOEbee1xmdXeqcGRhpilVGs00/tjkZCW/b8AEuyQz+aJrwqY?=
+ =?us-ascii?Q?6pEf/bdyjFNWurgjHPG8Hu+FAaAk3nIRUE3u?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 06:00:00.2254
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a82a150-62f5-4a02-cbc5-08ddbf770181
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF00000144.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6214
 
-From: Wang Yaxin <wang.yaxin@zte.com.cn>
+There are callers that read the unmapped bytes even when rc != 0. Thus, do
+not forget to report it in the error path too.
 
-support showing whole delay of system by reading PSI,
-just like the first few lines of information output
-by the top command. the output of delaytop includes
-both system-wide delay and delay of individual tasks,
-providing a more comprehensive reflection of system
-latency status.
-
-Use case
-========
-bash# ./delaytop
-System Pressure Information: (avg10/avg60/avg300/total)
-CPU:    full:    0.0%/   0.0%/   0.0%/0           some:    0.1%/   0.0%/   0.0%/14216596
-Memory: full:    0.0%/   0.0%/   0.0%/34010659    some:    0.0%/   0.0%/   0.0%/35406492
-IO:     full:    0.1%/   0.0%/   0.0%/51029453    some:    0.1%/   0.0%/   0.0%/55330465
-IRQ:    full:    0.0%/   0.0%/   0.0%/0
-
-Top 20 processes (sorted by CPU delay):
-
-  PID   TGID  COMMAND            CPU(ms)  IO(ms)        SWAP(ms) RCL(ms) THR(ms)  CMP(ms)  WP(ms)  IRQ(ms)
----------------------------------------------------------------------------------------------
-   32     32  kworker/2:0H-sy   23.65     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-  497    497  kworker/R-scsi_    1.20     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-  495    495  kworker/R-scsi_    1.13     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-  494    494  scsi_eh_0          1.12     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-  485    485  kworker/R-ata_s    0.90     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-  574    574  kworker/R-kdmfl    0.36     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-   34     34  idle_inject/3      0.33     0.00     0.00     0.00    0.00     0.00     0.00     0.00
- 1123   1123  nde-netfilter      0.28     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-   60     60  ksoftirqd/7        0.25     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-  114    114  kworker/0:2-cgr    0.25     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-  496    496  scsi_eh_1          0.24     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-   51     51  cpuhp/6            0.24     0.00     0.00     0.00    0.00     0.00     0.00     0.00
- 1667   1667  atd                0.24     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-   45     45  cpuhp/5            0.23     0.00     0.00     0.00    0.00     0.00     0.00     0.00
- 1102   1102  nde-backupservi    0.22     0.00     0.00     0.00    0.00     0.00     0.00     0.00
- 1098   1098  systemsettings     0.21     0.00     0.00     0.00    0.00     0.00     0.00     0.00
- 1100   1100  audit-monitor      0.20     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-   53     53  migration/6        0.20     0.00     0.00     0.00    0.00     0.00     0.00     0.00
- 1482   1482  sshd               0.19     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-   39     39  cpuhp/4            0.19     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-
-Co-developed-by: Fan Yu <fan.yu9@zte.com.cn>
-Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
-Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+Fixes: 8d40205f6093 ("iommufd: Add kAPI toward external drivers for kernel access")
+Cc: stable@vger.kernel.org
+Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
 ---
- tools/accounting/delaytop.c | 163 ++++++++++++++++++++++++++++++++----
- 1 file changed, 149 insertions(+), 14 deletions(-)
+ drivers/iommu/iommufd/io_pagetable.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/tools/accounting/delaytop.c b/tools/accounting/delaytop.c
-index 23e38f39e97d..cd848af9a856 100644
---- a/tools/accounting/delaytop.c
-+++ b/tools/accounting/delaytop.c
-@@ -10,9 +10,9 @@
-  * individual tasks (PIDs).
-  *
-  * Key features:
-- *   - Collects per-task delay accounting statistics via taskstats.
-- *   - Supports sorting, filtering.
-- *   - Supports both interactive (screen refresh).
-+ *	- Collects per-task delay accounting statistics via taskstats.
-+ *	- Supports sorting, filtering.
-+ *	- Supports both interactive (screen refresh).
-  *
-  * Copyright (C) Fan Yu, ZTE Corp. 2025
-  * Copyright (C) Wang Yaxin, ZTE Corp. 2025
-@@ -43,6 +43,14 @@
- #include <linux/cgroupstats.h>
- #include <ncurses.h>
-
-+#define PSI_CPU_SOME "/proc/pressure/cpu"
-+#define PSI_CPU_FULL	"/proc/pressure/cpu"
-+#define PSI_MEMORY_SOME "/proc/pressure/memory"
-+#define PSI_MEMORY_FULL "/proc/pressure/memory"
-+#define PSI_IO_SOME "/proc/pressure/io"
-+#define PSI_IO_FULL "/proc/pressure/io"
-+#define PSI_IRQ_FULL	"/proc/pressure/irq"
-+
- #define NLA_NEXT(na)			((struct nlattr *)((char *)(na) + NLA_ALIGN((na)->nla_len)))
- #define NLA_DATA(na)			((void *)((char *)(na) + NLA_HDRLEN))
- #define NLA_PAYLOAD(len)		(len - NLA_HDRLEN)
-@@ -66,6 +74,24 @@ struct config {
- 	char *container_path;	/* Path to container cgroup */
- };
-
-+/* PSI statistics structure */
-+struct psi_stats {
-+	double cpu_some_avg10, cpu_some_avg60, cpu_some_avg300;
-+	unsigned long long cpu_some_total;
-+	double cpu_full_avg10, cpu_full_avg60, cpu_full_avg300;
-+	unsigned long long cpu_full_total;
-+	double memory_some_avg10, memory_some_avg60, memory_some_avg300;
-+	unsigned long long memory_some_total;
-+	double memory_full_avg10, memory_full_avg60, memory_full_avg300;
-+	unsigned long long memory_full_total;
-+	double io_some_avg10, io_some_avg60, io_some_avg300;
-+	unsigned long long io_some_total;
-+	double io_full_avg10, io_full_avg60, io_full_avg300;
-+	unsigned long long io_full_total;
-+	double irq_full_avg10, irq_full_avg60, irq_full_avg300;
-+	unsigned long long irq_full_total;
-+};
-+
- /* Task delay information structure */
- struct task_info {
- 	int pid;
-@@ -100,6 +126,7 @@ struct container_stats {
-
- /* Global variables */
- static struct config cfg;
-+static struct psi_stats psi;
- static struct task_info tasks[MAX_TASKS];
- static int task_count;
- static int running = 1;
-@@ -130,13 +157,13 @@ static void usage(void)
- {
- 	printf("Usage: delaytop [Options]\n"
- 	"Options:\n"
--	"  -h, --help               Show this help message and exit\n"
--	"  -d, --delay=SECONDS      Set refresh interval (default: 2 seconds, min: 1)\n"
--	"  -n, --iterations=COUNT   Set number of updates (default: 0 = infinite)\n"
--	"  -P, --processes=NUMBER   Set maximum number of processes to show (default: 20, max: 1000)\n"
--	"  -o, --once               Display once and exit\n"
--	"  -p, --pid=PID            Monitor only the specified PID\n"
--	"  -C, --container=PATH     Monitor the container at specified cgroup path\n");
-+	"  -h, --help				Show this help message and exit\n"
-+	"  -d, --delay=SECONDS	  Set refresh interval (default: 2 seconds, min: 1)\n"
-+	"  -n, --iterations=COUNT	Set number of updates (default: 0 = infinite)\n"
-+	"  -P, --processes=NUMBER	Set maximum number of processes to show (default: 20, max: 1000)\n"
-+	"  -o, --once				Display once and exit\n"
-+	"  -p, --pid=PID			Monitor only the specified PID\n"
-+	"  -C, --container=PATH	 Monitor the container at specified cgroup path\n");
- 	exit(0);
- }
-
-@@ -276,7 +303,7 @@ static int send_cmd(int sd, __u16 nlmsg_type, __u32 nlmsg_pid,
- 	memset(&nladdr, 0, sizeof(nladdr));
- 	nladdr.nl_family = AF_NETLINK;
- 	while ((r = sendto(sd, buf, buflen, 0, (struct sockaddr *) &nladdr,
--				   sizeof(nladdr))) < buflen) {
-+					sizeof(nladdr))) < buflen) {
- 		if (r > 0) {
- 			buf += r;
- 			buflen -= r;
-@@ -320,6 +347,89 @@ static int get_family_id(int sd)
- 	return id;
- }
-
-+static void read_psi_stats(void)
-+{
-+	FILE *fp;
-+	char line[256];
-+	int ret = 0;
-+	/* Zero all fields */
-+	memset(&psi, 0, sizeof(psi));
-+	/* CPU pressure */
-+	fp = fopen(PSI_CPU_SOME, "r");
-+	if (fp) {
-+		while (fgets(line, sizeof(line), fp)) {
-+			if (strncmp(line, "some", 4) == 0) {
-+				ret = sscanf(line, "some avg10=%lf avg60=%lf avg300=%lf total=%llu",
-+							&psi.cpu_some_avg10, &psi.cpu_some_avg60,
-+							&psi.cpu_some_avg300, &psi.cpu_some_total);
-+				if (ret != 4)
-+					fprintf(stderr, "Failed to parse CPU some PSI data\n");
-+			} else if (strncmp(line, "full", 4) == 0) {
-+				ret = sscanf(line, "full avg10=%lf avg60=%lf avg300=%lf total=%llu",
-+						&psi.cpu_full_avg10, &psi.cpu_full_avg60,
-+						&psi.cpu_full_avg300, &psi.cpu_full_total);
-+				if (ret != 4)
-+					fprintf(stderr, "Failed to parse CPU full PSI data\n");
+diff --git a/drivers/iommu/iommufd/io_pagetable.c b/drivers/iommu/iommufd/io_pagetable.c
+index 13d010f19ed1..22fc3a12109f 100644
+--- a/drivers/iommu/iommufd/io_pagetable.c
++++ b/drivers/iommu/iommufd/io_pagetable.c
+@@ -743,8 +743,10 @@ static int iopt_unmap_iova_range(struct io_pagetable *iopt, unsigned long start,
+ 			iommufd_access_notify_unmap(iopt, area_first, length);
+ 			/* Something is not responding to unmap requests. */
+ 			tries++;
+-			if (WARN_ON(tries > 100))
+-				return -EDEADLOCK;
++			if (WARN_ON(tries > 100)) {
++				rc = -EDEADLOCK;
++				goto out_unmapped;
 +			}
-+		}
-+		fclose(fp);
-+	}
-+	/* Memory pressure */
-+	fp = fopen(PSI_MEMORY_SOME, "r");
-+	if (fp) {
-+		while (fgets(line, sizeof(line), fp)) {
-+			if (strncmp(line, "some", 4) == 0) {
-+				ret = sscanf(line, "some avg10=%lf avg60=%lf avg300=%lf total=%llu",
-+						&psi.memory_some_avg10, &psi.memory_some_avg60,
-+						&psi.memory_some_avg300, &psi.memory_some_total);
-+				if (ret != 4)
-+					fprintf(stderr, "Failed to parse Memory some PSI data\n");
-+			} else if (strncmp(line, "full", 4) == 0) {
-+				ret = sscanf(line, "full avg10=%lf avg60=%lf avg300=%lf total=%llu",
-+						&psi.memory_full_avg10, &psi.memory_full_avg60,
-+						&psi.memory_full_avg300, &psi.memory_full_total);
-+			}
-+				if (ret != 4)
-+					fprintf(stderr, "Failed to parse Memory full PSI data\n");
-+		}
-+		fclose(fp);
-+	}
-+	/* IO pressure */
-+	fp = fopen(PSI_IO_SOME, "r");
-+	if (fp) {
-+		while (fgets(line, sizeof(line), fp)) {
-+			if (strncmp(line, "some", 4) == 0) {
-+				ret = sscanf(line, "some avg10=%lf avg60=%lf avg300=%lf total=%llu",
-+						&psi.io_some_avg10, &psi.io_some_avg60,
-+						&psi.io_some_avg300, &psi.io_some_total);
-+				if (ret != 4)
-+					fprintf(stderr, "Failed to parse IO some PSI data\n");
-+			} else if (strncmp(line, "full", 4) == 0) {
-+				ret = sscanf(line, "full avg10=%lf avg60=%lf avg300=%lf total=%llu",
-+						&psi.io_full_avg10, &psi.io_full_avg60,
-+						&psi.io_full_avg300, &psi.io_full_total);
-+				if (ret != 4)
-+					fprintf(stderr, "Failed to parse IO full PSI data\n");
-+			}
-+		}
-+		fclose(fp);
-+	}
-+	/* IRQ pressure (only full) */
-+	fp = fopen(PSI_IRQ_FULL, "r");
-+	if (fp) {
-+		while (fgets(line, sizeof(line), fp)) {
-+			if (strncmp(line, "full", 4) == 0) {
-+				ret = sscanf(line, "full avg10=%lf avg60=%lf avg300=%lf total=%llu",
-+						&psi.irq_full_avg10, &psi.irq_full_avg60,
-+						&psi.irq_full_avg300, &psi.irq_full_total);
-+				if (ret != 4)
-+					fprintf(stderr, "Failed to parse IRQ full PSI data\n");
-+			}
-+		}
-+		fclose(fp);
-+	}
-+}
-+
- static int read_comm(int pid, char *comm_buf, size_t buf_size)
- {
- 	char path[64];
-@@ -549,7 +659,29 @@ static void display_results(void)
- 	FILE *out = stdout;
-
- 	fprintf(out, "\033[H\033[J");
--
-+	/* PSI output (one-line, no cat style) */
-+	fprintf(out, "System Pressure Information: ");
-+	fprintf(out, "(avg10/avg60/avg300/total)\n");
-+	fprintf(out, "CPU:");
-+	fprintf(out, "	full: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu", psi.cpu_full_avg10,
-+			psi.cpu_full_avg60, psi.cpu_full_avg300, psi.cpu_full_total);
-+	fprintf(out, "  some: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu\n", psi.cpu_some_avg10,
-+			psi.cpu_some_avg60, psi.cpu_some_avg300, psi.cpu_some_total);
-+
-+	fprintf(out, "Memory:");
-+	fprintf(out, " full: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu", psi.memory_full_avg10,
-+			psi.memory_full_avg60, psi.memory_full_avg300, psi.memory_full_total);
-+	fprintf(out, "  some: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu\n", psi.memory_some_avg10,
-+			psi.memory_some_avg60, psi.memory_some_avg300, psi.memory_some_total);
-+
-+	fprintf(out, "IO:");
-+	fprintf(out, "	full: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu", psi.io_full_avg10,
-+			psi.io_full_avg60, psi.io_full_avg300, psi.io_full_total);
-+	fprintf(out, "  some: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu\n", psi.io_some_avg10,
-+			psi.io_some_avg60, psi.io_some_avg300, psi.io_some_total);
-+	fprintf(out, "IRQ:");
-+	fprintf(out, "	full: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu\n\n", psi.irq_full_avg10,
-+			psi.irq_full_avg60, psi.irq_full_avg300, psi.irq_full_total);
- 	if (cfg.container_path) {
- 		fprintf(out, "Container Information (%s):\n", cfg.container_path);
- 		fprintf(out, "Processes: running=%d, sleeping=%d, ",
-@@ -559,8 +691,8 @@ static void display_results(void)
- 			container_stats.nr_io_wait);
- 	}
- 	fprintf(out, "Top %d processes (sorted by CPU delay):\n\n",
--		   cfg.max_processes);
--	fprintf(out, "  PID	TGID  COMMAND		 CPU(ms)  IO(ms)   ");
-+			cfg.max_processes);
-+	fprintf(out, "  PID	TGID  COMMAND		 CPU(ms)  IO(ms)	");
- 	fprintf(out, "SWAP(ms) RCL(ms) THR(ms)  CMP(ms)  WP(ms)  IRQ(ms)\n");
- 	fprintf(out, "-----------------------------------------------");
- 	fprintf(out, "----------------------------------------------\n");
-@@ -616,6 +748,9 @@ int main(int argc, char **argv)
-
- 	/* Main loop */
- 	while (running) {
-+		/* Read PSI statistics */
-+		read_psi_stats();
-+
- 		/* Get container stats if container path provided */
- 		if (cfg.container_path)
- 			get_container_stats();
+ 			goto again;
+ 		}
+ 
+@@ -766,6 +768,7 @@ static int iopt_unmap_iova_range(struct io_pagetable *iopt, unsigned long start,
+ out_unlock_iova:
+ 	up_write(&iopt->iova_rwsem);
+ 	up_read(&iopt->domains_rwsem);
++out_unmapped:
+ 	if (unmapped)
+ 		*unmapped = unmapped_bytes;
+ 	return rc;
 -- 
-2.25.1
+2.43.0
+
