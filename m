@@ -1,160 +1,187 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F442882B4;
-	Thu, 10 Jul 2025 07:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E961A8F5E;
+	Thu, 10 Jul 2025 07:27:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752131636; cv=none; b=rxbTZQQTWgzLoRKXfvXuUziJwnvZZAAUhXdvU5VmG2QgaJBQBa5JSKHIxS/belsrho6uCARktZlhBdaQFCzeZR4/9tuv23VjzlpJYZpR5lbFPHTuLVpSpGUqLCpbW5TFUaeo1hYEmrItjCF592cK6DrGh7H2ump84wJ5/i4STIg=
+	t=1752132428; cv=none; b=AuWQlqTwaVrfJe/tqN7QQjVlua7fOSmaFHLZ9yYPZ7EdJQnse0mw87fQ8IE4+w0fY6TVpNGGJTOFQQ3dU8aMseGolZhKUtAA1i74bWbnguAB04nYBpEKu2dLBlqJeq7Q5KVh0EFbRGI2YjbawtiCmTzgfmUkJQWxyDdm7LULZnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752131636; c=relaxed/simple;
-	bh=hdRfm4Bc1vo7jizqAwjuIhPIxmBfBrVaGeZdSTTpIE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=otWxAMVSoPpfHYw/qjHtu48VWBpnyopRcqS2yOngJPiyi0r7VgKo0ACCFamWJUPjSNC/4C6oA3DAx0UFEn9RUiYzLNXNDf5Fm7A57s/6RBvaGEdKdYQyhRL7yABXEjox9SKltxczx7wx+hyLokx8uY/1UzIxHdPfBE+Dy+AuKJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fc7C7KAk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752132428; c=relaxed/simple;
+	bh=q8eQa8h3G+1BUbeKwUG/+c6FzsMMOTsEwlY/U/VRJq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EbNHm5ZJRXKKau8z+t/KZiPS0EOCq0R8+4PhUNbfysTCVtkdMnIh0J0bdDtGe1W0FWiDvex/gNUuIcOFr43+wXccyNz2Eq0jROFa3MSGbq8oUOw+viYQjJMb9qQXfIAyXRD5rI3gSM+nu7qJbsymMyQLsqWWejBFZkIqHam4pMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sv22hU7e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fc7C7KAk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A7FCC4CEF4;
-	Thu, 10 Jul 2025 07:13:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sv22hU7e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A35C4CEE3;
+	Thu, 10 Jul 2025 07:26:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752131636;
-	bh=hdRfm4Bc1vo7jizqAwjuIhPIxmBfBrVaGeZdSTTpIE8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fc7C7KAkt5khRYDnQJRF9/sU7prycldCaPx23orPVkvSvZvxhm3BHLmMaBiMXSUh2
-	 eBsJHM9xyUaCFmAU/waTqF4HD7KoCCyg36KDbgvNFJiHWgMs7/xwYCjvLz9+UeAdlU
-	 EJgLjrZ/Ld6gF1SK5ntCOeTagF4dKQMzFPgeKGWXG3G1fAQFrTje5vV9uXG1wzaMQn
-	 RGCgfipRjPo8dfzBEBxZdmPUOXwKg/BSdC0X48w0ot4TmwmvnK/lRxr0+iVIRBuv45
-	 v0yBeAazIFyYCYy+2Dzp7kj3tAzV2xsbSgnjVczLraeOri3lZqMIWpWdXo3fZWuCu4
-	 kWngY0pupAw+g==
-Date: Thu, 10 Jul 2025 09:13:52 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 12/12] docs: kdoc: Improve the output text accumulation
-Message-ID: <20250710091352.4ae01211@foz.lan>
-In-Reply-To: <20250710084119.3e5c1ced@foz.lan>
-References: <20250702223524.231794-1-corbet@lwn.net>
-	<20250702223524.231794-13-corbet@lwn.net>
-	<20250710084119.3e5c1ced@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1752132427;
+	bh=q8eQa8h3G+1BUbeKwUG/+c6FzsMMOTsEwlY/U/VRJq4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sv22hU7eDntyWDea+W8G3nJxqHVDscPWMcXGvQKTcjjDvycY9Iaf68KLjGlBWxIGQ
+	 U6ijuHlmSsfE6qNOLSBDpOojSUWJwJR81oMSU2OfqhKEQalv2rvOI7klGpoL48gs37
+	 owl8tKt1gY5jqUaFfYfMiFpNcSeAeNgTixi18OeLlfRCHGU2hmoixdpCjtPKve6VAZ
+	 9XikS4R7HWWG236SnW9XShLGB1tP1667qhMKBlwiKBubK4DkgHVAfZBc3iDeOwmeJ+
+	 AMUUNt4tENX6pAtuXdWSD2E91l74cj/o7pg97QLRsHZLBICdBqNj3XIPOP+r6KT/pJ
+	 ND44JKhgqtDsQ==
+Date: Thu, 10 Jul 2025 10:26:45 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
+	graf@amazon.com, changyuanl@google.com, dmatlack@google.com,
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
+Message-ID: <aG9rNQ277weSR_dl@kernel.org>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+ <20250515182322.117840-11-pasha.tatashin@soleen.com>
+ <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
+ <aGqHFkPWOrD6whv6@kernel.org>
+ <mafs0qzypys0j.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mafs0qzypys0j.fsf@kernel.org>
 
-Em Thu, 10 Jul 2025 08:41:19 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-
-> Em Wed,  2 Jul 2025 16:35:24 -0600
-> Jonathan Corbet <corbet@lwn.net> escreveu:
+On Wed, Jul 09, 2025 at 11:27:08PM +0200, Pratyush Yadav wrote:
+> On Sun, Jul 06 2025, Mike Rapoport wrote:
 > 
-> > Building strings with repeated concatenation is somewhat inefficient in
-> > Python; it is better to make a list and glom them all together at the end.
-> > Add a small set of methods to the OutputFormat superclass to manage the
-> > output string, and use them throughout.
-> > 
-> > Signed-off-by: Jonathan Corbet <corbet@lwn.net>  
+> > On Tue, Jun 24, 2025 at 11:50:49AM +0200, Christian Brauner wrote:
+> >> On Thu, May 15, 2025 at 06:23:14PM +0000, Pasha Tatashin wrote:
+> >> > Introduce the user-space interface for the Live Update Orchestrator
+> >> > via ioctl commands, enabling external control over the live update
+> >> > process and management of preserved resources.
+> >> > 
+> >> > Create a misc character device at /dev/liveupdate. Access
+> >> > to this device requires the CAP_SYS_ADMIN capability.
+> >> > 
+> >> > A new UAPI header, <uapi/linux/liveupdate.h>, defines the necessary
+> >> > structures. The magic number is registered in
+> >> > Documentation/userspace-api/ioctl/ioctl-number.rst.
+> >> > 
+> >> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> >> > ---
+> >> >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+> >> >  drivers/misc/liveupdate/Makefile              |   1 +
+> >> >  drivers/misc/liveupdate/luo_ioctl.c           | 199 ++++++++++++
+> >> >  include/linux/liveupdate.h                    |  34 +-
+> >> >  include/uapi/linux/liveupdate.h               | 300 ++++++++++++++++++
+> >> >  5 files changed, 502 insertions(+), 33 deletions(-)
+> >> >  create mode 100644 drivers/misc/liveupdate/luo_ioctl.c
+> >> >  create mode 100644 include/uapi/linux/liveupdate.h
+> >
+> > ...
+> >
+> >> > +static const struct file_operations fops = {
+> >> > +	.owner          = THIS_MODULE,
+> >> > +	.open           = luo_open,
+> >> > +	.unlocked_ioctl = luo_ioctl,
+> >> > +};
+> >> > +
+> >> > +static struct miscdevice liveupdate_miscdev = {
+> >> > +	.minor = MISC_DYNAMIC_MINOR,
+> >> > +	.name  = "liveupdate",
+> >> > +	.fops  = &fops,
+> >> > +};
+> >> 
+> >> I'm not sure why people are so in love with character device based apis.
+> >> It's terrible. It glues everything to devtmpfs which isn't namespacable
+> >> in any way. It's terrible to delegate and extremely restrictive in terms
+> >> of extensiblity if you need additional device entries (aka the loop
+> >> driver folly).
+> >> 
+> >> One stupid question: I probably have asked this before and just swapped
+> >> out that I a) asked this already and b) received an explanation. But why
+> >> isn't this a singleton simple in-memory filesystem with a flat
+> >> hierarchy?
+> >> 
+> >> mount -t kexecfs kexecfs /kexecfs
+> >> 
+> >> So userspace mounts kexecfs (or the kernel does it automagically) and
+> >> then to add fds into that thing you do the following:
+> >> 
+> >> linkat(fd_my_anon_inode_memfd, "", -EBADF, "kexecfs/my_serialized_memfd", AT_EMPTY_PATH)
+> >
+> > Having an ability to link a file descriptor to kexecfs would have been
+> > nice. We could even create a dependency hierarchy there, e.g.
+> >
+> > mkdir -p kexecfs/vm1/kvm/{iommu,memfd}
+> >
+> > linkat(kvmfd, "", -EBADF, "kexecfs/vm1/kvm/kvmfd", AT_EMPTY_PATH)
+> > linkat(iommufd, "", -EBADF, "kexecfs/vm1/kvm/iommu/iommufd", AT_EMPTY_PATH)
+> > linkat(memfd, "", -EBADF, "kexecfs/vm1/kvm/memfd/memfd", AT_EMPTY_PATH)
+> >
+> > But unfortunately this won't work because VFS checks that new and old paths
+> > are on the same mount. And even if cross-mount links were allowed, VFS does
+> > not pass the file objects to link* APIs, so preserving a file backed by
+> > anon_inode is another issue.
 > 
-> The patch looks good to me. Just a minor nit below.
+> Yep, I was poking around the VFS code last week and saw the same
+> problem.
 > 
-> > ---
-> >  scripts/lib/kdoc/kdoc_output.py | 185 +++++++++++++++++---------------
-> >  1 file changed, 98 insertions(+), 87 deletions(-)
-> > 
-> > diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-> > index ea8914537ba0..d4aabdaa9c51 100644
-> > --- a/scripts/lib/kdoc/kdoc_output.py
-> > +++ b/scripts/lib/kdoc/kdoc_output.py
-> > @@ -73,7 +73,19 @@ class OutputFormat:
-> >          self.config = None
-> >          self.no_doc_sections = False
-> >  
-> > -        self.data = ""
-> > +    #
-> > +    # Accumulation and management of the output text.
-> > +    #
-> > +    def reset_output(self):
-> > +        self._output = []
-> > +
-> > +    def emit(self, text):
-> > +        """Add a string to out output text"""
-> > +        self._output.append(text)
-> > +
-> > +    def output(self):
-> > +        """Obtain the accumulated output text"""
-> > +        return ''.join(self._output)  
+> >
+> >> which will serialize the fd_my_anon_inode_memfd. You can also do this
+> >> with ioctls on the kexecfs filesystem of course.
+> >
+> > ioctls seem to be the only option, but I agree they don't have to be bound
+> > to a miscdev.
 > 
-> I would prefer to use a more Pythonic name for this function:
+> I suppose you can have a special file, say "preserve_fd", where you can
+> write() the FD number.
 > 
-> 	def __str__(self)
+> This is in some ways similar to how you would write it to the ioctl()
+> via the arg buffer/struct. And I suppose you can have other special
+> files to do the things that other ioctls would do.
 > 
-> This way, all it takes to get the final string is to use str():
-> 
-> 	out_str = str(out)
-> 
-> With that:
-> 
-> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> That is one way to do it, although I dunno if it classifies as a
+> "proper" use of the VFS APIs...
 
+IIUC Christian's point was mostly not about using VFS APIs (i.e.
+read/write) but about using a special pseudo fs rather than devtmpfs to
+drive ioctls.
+ 
+So instead of 
 
-Hmm... actually, I would code it on a different way, using something like:
+	fd = open("/dev/liveupdate", ...);
+	ioctl(fd, ...);
 
-class OutputString:
-    def __init__(self):
-	"""Initialize internal list"""
-        self._output = []
-    
-    # Probably not needed - The code can simply do, instead:
-    # a = OutputString() to create a new string.
-    def reset(self):
-        """Reset the output text"""
-        self._output = []
-    
-    def __add__(self, text):
-	"""Add a string to out output text"""
-        if not isinstance(text, str):
-            raise TypeError("Can only append strings")
-        self._output.append(text)
-        return self
+we'd use
 
-    def __str__(self):
-        return ''.join(self._output)
-    
-    # and, if needed, add a getter/setter:
+	fd = open("/sys/fs/kexec/control", ...);
+	ioctl(fd, ...);
 
-    @property
-    def data(self):
-        """Getter for the current output"""
-        return ''.join(self._output)
+> -- 
+> Regards,
+> Pratyush Yadav
 
-    @data.setter
-    def data(self, new_value):
-        if isinstance(new_value, str):
-	    self._output = [new_value]
-	elif isinstance(new_value, list):
-            self._output = new_value
-        else:
-            raise TypeError("Value should be either list or string")
-
-That would allow things like:
-
-	out = OutputString()
-	out = out + "Foo" + " " + "Bar"
-	print(out)
-
-	out = OutputString()
-	out += "Foo"
-	out += " "
-	out += "Bar"
-	return(str(out))
-
-and won't require much changes at the output logic, and IMO will
-provide a cleaner code.
-
-Thanks,
-Mauro
+-- 
+Sincerely yours,
+Mike.
