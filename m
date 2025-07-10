@@ -1,164 +1,160 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01014FC1D;
-	Thu, 10 Jul 2025 07:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F442882B4;
+	Thu, 10 Jul 2025 07:13:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752131169; cv=none; b=pv5g8RsN3JNLpK+d/sflKJhdbOHM7czeHJPli3ZjlnD1tjZ4FS5Wc79T/vmDi4B2wqZ11yi8qH/g2wc9ME/j3PsKBc5Px5iNeik0N85vnXTQ5kiFgf65nsnZU18DpN8XaBUDsjIQoRZCONcvEXxbXmgq+zDkvbCS3kdpIdhPu7s=
+	t=1752131636; cv=none; b=rxbTZQQTWgzLoRKXfvXuUziJwnvZZAAUhXdvU5VmG2QgaJBQBa5JSKHIxS/belsrho6uCARktZlhBdaQFCzeZR4/9tuv23VjzlpJYZpR5lbFPHTuLVpSpGUqLCpbW5TFUaeo1hYEmrItjCF592cK6DrGh7H2ump84wJ5/i4STIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752131169; c=relaxed/simple;
-	bh=2rsqAsMWywrwSTFuoWoPqSM41RgFfbsJD7gr5xyRK3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lu5Vj1Bzoaq+rlTYhVxMgysIa2mmnh25scYP4KPeyGftUcx2aBwyPygFt9Vy01jbw2Z2Gi7t1kq96HGH3B3lF7e+2M3hLfEScQAP6QDO2t8hyfL9OOMnU4E1XteiuzQvp2kE3F5Ot0I5CJd+4gwibxA7Lf/4nW/fvyf3pEogwuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jzOJBawL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752131636; c=relaxed/simple;
+	bh=hdRfm4Bc1vo7jizqAwjuIhPIxmBfBrVaGeZdSTTpIE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=otWxAMVSoPpfHYw/qjHtu48VWBpnyopRcqS2yOngJPiyi0r7VgKo0ACCFamWJUPjSNC/4C6oA3DAx0UFEn9RUiYzLNXNDf5Fm7A57s/6RBvaGEdKdYQyhRL7yABXEjox9SKltxczx7wx+hyLokx8uY/1UzIxHdPfBE+Dy+AuKJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fc7C7KAk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jzOJBawL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 367F6C4CEE3;
-	Thu, 10 Jul 2025 07:06:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fc7C7KAk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A7FCC4CEF4;
+	Thu, 10 Jul 2025 07:13:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752131168;
-	bh=2rsqAsMWywrwSTFuoWoPqSM41RgFfbsJD7gr5xyRK3M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jzOJBawL72CNgNRoq/cF7tG9xR+kP+G1r42rtJIfrzLA3cVwiT6Akuvx3ey6skLIX
-	 zA9OU8MJrWX9d1kQVd8za2PbIfNVD8HPqD1xiTYzd3dtRSWq/KF7bb9eaX9ShEA7C0
-	 wQwpPsIMis0HMadUNtphlLV65t1XPiugfHmN//9t1XHDyn9c9agdy08wP8ah/Upz+y
-	 8hXPdaGeJR2mgJc9qET7S2JwY30EwC8d9Q5axarCUgPA/LExLrL++ujJMVJDRZhXxI
-	 IfHRw8G5+WT93u7pSTe7eieBsPmqydjiaCqc0XWa+dpCcudnhSiSRT5GHpr69RfrhW
-	 XB9fV4i0tEoTA==
-Date: Thu, 10 Jul 2025 09:06:05 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Andrew Davis <afd@ti.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jared Kangas <jkangas@redhat.com>, Mattijs Korpershoek <mkorpershoek@kernel.org>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add naming guidelines
-Message-ID: <20250710-knowing-premium-goldfish-0bfe6e@houat>
-References: <20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org>
- <9182c5cd-b3de-470b-bf84-3ebef309def6@ti.com>
+	s=k20201202; t=1752131636;
+	bh=hdRfm4Bc1vo7jizqAwjuIhPIxmBfBrVaGeZdSTTpIE8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fc7C7KAkt5khRYDnQJRF9/sU7prycldCaPx23orPVkvSvZvxhm3BHLmMaBiMXSUh2
+	 eBsJHM9xyUaCFmAU/waTqF4HD7KoCCyg36KDbgvNFJiHWgMs7/xwYCjvLz9+UeAdlU
+	 EJgLjrZ/Ld6gF1SK5ntCOeTagF4dKQMzFPgeKGWXG3G1fAQFrTje5vV9uXG1wzaMQn
+	 RGCgfipRjPo8dfzBEBxZdmPUOXwKg/BSdC0X48w0ot4TmwmvnK/lRxr0+iVIRBuv45
+	 v0yBeAazIFyYCYy+2Dzp7kj3tAzV2xsbSgnjVczLraeOri3lZqMIWpWdXo3fZWuCu4
+	 kWngY0pupAw+g==
+Date: Thu, 10 Jul 2025 09:13:52 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 12/12] docs: kdoc: Improve the output text accumulation
+Message-ID: <20250710091352.4ae01211@foz.lan>
+In-Reply-To: <20250710084119.3e5c1ced@foz.lan>
+References: <20250702223524.231794-1-corbet@lwn.net>
+	<20250702223524.231794-13-corbet@lwn.net>
+	<20250710084119.3e5c1ced@foz.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="3pv5hyaxempbdl7i"
-Content-Disposition: inline
-In-Reply-To: <9182c5cd-b3de-470b-bf84-3ebef309def6@ti.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Em Thu, 10 Jul 2025 08:41:19 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
---3pv5hyaxempbdl7i
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add naming guidelines
-MIME-Version: 1.0
-
-On Wed, Jul 09, 2025 at 12:39:15PM -0500, Andrew Davis wrote:
-> On 6/16/25 10:21 AM, Maxime Ripard wrote:
-> > We've discussed a number of times of how some heap names are bad, but
-> > not really what makes a good heap name.
-> >=20
-> > Let's document what we expect the heap names to look like.
-> >=20
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Em Wed,  2 Jul 2025 16:35:24 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+> 
+> > Building strings with repeated concatenation is somewhat inefficient in
+> > Python; it is better to make a list and glom them all together at the end.
+> > Add a small set of methods to the OutputFormat superclass to manage the
+> > output string, and use them throughout.
+> > 
+> > Signed-off-by: Jonathan Corbet <corbet@lwn.net>  
+> 
+> The patch looks good to me. Just a minor nit below.
+> 
 > > ---
-> > Changes in v2:
-> > - Added justifications for each requirement / suggestions
-> > - Added a mention and example of buffer attributes
-> > - Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc=
--v1-1-ab31f74809ee@kernel.org
-> > ---
-> >   Documentation/userspace-api/dma-buf-heaps.rst | 38 ++++++++++++++++++=
-+++++++++
-> >   1 file changed, 38 insertions(+)
-> >=20
-> > diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentat=
-ion/userspace-api/dma-buf-heaps.rst
-> > index 535f49047ce6450796bf4380c989e109355efc05..835ad1c3a65bc07b6f41d38=
-7d85c57162909e859 100644
-> > --- a/Documentation/userspace-api/dma-buf-heaps.rst
-> > +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> > @@ -21,5 +21,43 @@ following heaps:
-> >      usually created either through the kernel commandline through the
-> >      `cma` parameter, a memory region Device-Tree node with the
-> >      `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES`=
- or
-> >      `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, =
-it
-> >      might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+> >  scripts/lib/kdoc/kdoc_output.py | 185 +++++++++++++++++---------------
+> >  1 file changed, 98 insertions(+), 87 deletions(-)
+> > 
+> > diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+> > index ea8914537ba0..d4aabdaa9c51 100644
+> > --- a/scripts/lib/kdoc/kdoc_output.py
+> > +++ b/scripts/lib/kdoc/kdoc_output.py
+> > @@ -73,7 +73,19 @@ class OutputFormat:
+> >          self.config = None
+> >          self.no_doc_sections = False
+> >  
+> > -        self.data = ""
+> > +    #
+> > +    # Accumulation and management of the output text.
+> > +    #
+> > +    def reset_output(self):
+> > +        self._output = []
 > > +
-> > +Naming Convention
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +    def emit(self, text):
+> > +        """Add a string to out output text"""
+> > +        self._output.append(text)
 > > +
-> > +``dma-buf`` heaps name should meet a number of constraints:
-> > +
-> > +- That name must be stable, and must not change from one version to the
-> > +  other. Userspace identifies heaps by their name, so if the names ever
-> > +  changes, we would be likely to introduce regressions.
-> > +
-> > +- That name must describe the memory region the heap will allocate fro=
-m,
-> > +  and must uniquely identify it in a given platform. Since userspace
-> > +  applications use the heap name as the discriminant, it must be able =
-to
-> > +  tell which heap it wants to use reliably if there's multiple heaps.
-> > +
-> > +- That name must not mention implementation details, such as the
-> > +  allocator. The heap driver will change over time, and implementation
-> > +  details when it was introduced might not be relevant in the future.
-> > +
-> > +- The name should describe properties of the buffers that would be
-> > +  allocated. Doing so will make heap identification easier for
-> > +  userspace. Such properties are:
-> > +
-> > +  - ``cacheable`` / ``uncacheable`` for buffers with CPU caches enabled
-> > +    or disabled;
-> > +
->=20
-> We should avoid exposing cacheability to userspace. What users care about
-> is if writes are readable by the other side (and vice versa) without SYNC
-> operations in-between. This property is "coherency". Being non-cached
-> is just one way to achieve coherency on some systems. For many systems
-> even cached buffers are still coherent and manually specifying "non-cache=
-d"
-> causes unneeded performance issues.
+> > +    def output(self):
+> > +        """Obtain the accumulated output text"""
+> > +        return ''.join(self._output)  
+> 
+> I would prefer to use a more Pythonic name for this function:
+> 
+> 	def __str__(self)
+> 
+> This way, all it takes to get the final string is to use str():
+> 
+> 	out_str = str(out)
+> 
+> With that:
+> 
+> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-I disagree. If you want to do any kind of software rendering, the
-buffers being cached is absolutely critical to having decent
-performance.
 
-> DMA-BUFs are default assumed to be non-coherent and sync operations should
-> be always be performed (if the buffer is actually coherent these operatio=
-ns
-> are turned into NOPs and no harm done). If sync operations cannot be done
-> (for instance small multi-writer ring-buffers), then the property can
-> be simply:
->=20
-> - ``coherent`` for buffers which do not require sync operations
+Hmm... actually, I would code it on a different way, using something like:
 
-That would be a change in the uAPI which, so far, requires sync
-operations to be performed. I'm not necessarily agaisnt it, but handling
-coherency in general is not what this patch is about.
+class OutputString:
+    def __init__(self):
+	"""Initialize internal list"""
+        self._output = []
+    
+    # Probably not needed - The code can simply do, instead:
+    # a = OutputString() to create a new string.
+    def reset(self):
+        """Reset the output text"""
+        self._output = []
+    
+    def __add__(self, text):
+	"""Add a string to out output text"""
+        if not isinstance(text, str):
+            raise TypeError("Can only append strings")
+        self._output.append(text)
+        return self
 
-Maxime
+    def __str__(self):
+        return ''.join(self._output)
+    
+    # and, if needed, add a getter/setter:
 
---3pv5hyaxempbdl7i
-Content-Type: application/pgp-signature; name="signature.asc"
+    @property
+    def data(self):
+        """Getter for the current output"""
+        return ''.join(self._output)
 
------BEGIN PGP SIGNATURE-----
+    @data.setter
+    def data(self, new_value):
+        if isinstance(new_value, str):
+	    self._output = [new_value]
+	elif isinstance(new_value, list):
+            self._output = new_value
+        else:
+            raise TypeError("Value should be either list or string")
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaG9mVAAKCRAnX84Zoj2+
-dowXAYDGfPub9kqiHZxZAgjBCjYI1+bysy9zqYNVFPXKQit6jVElaE/b4h8UBIhu
-BqPeyRUBfR/oAiC05NHDJaX8Q2apzbT2BQsYyRs9RvJP+nErimerl3p2BOj1vya/
-KaclhnfZBQ==
-=wxVn
------END PGP SIGNATURE-----
+That would allow things like:
 
---3pv5hyaxempbdl7i--
+	out = OutputString()
+	out = out + "Foo" + " " + "Bar"
+	print(out)
+
+	out = OutputString()
+	out += "Foo"
+	out += " "
+	out += "Bar"
+	return(str(out))
+
+and won't require much changes at the output logic, and IMO will
+provide a cleaner code.
+
+Thanks,
+Mauro
