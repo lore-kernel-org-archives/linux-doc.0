@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F407C1F948;
-	Thu, 10 Jul 2025 06:27:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C6243AA1;
+	Thu, 10 Jul 2025 06:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752128831; cv=none; b=qu4T/o7cyKrPBNrW3WRM1R+J6ze/UtxYbtiDg0s3qDqUqv3wVFRGNgqjneIs4+GEndvv8SlKMcE5ml5n0vv1K5+1XodOzvjBeNA8r2D4rRAq/53rUvokFhUHHj4Y50ged68tr4+r13kPhb+2lcHSv6EDHLWqo55KYzVMHi34g88=
+	t=1752128973; cv=none; b=MbSkYVtIfaOzTRnZjEPxp7jOtkMgE52moYHpFXnQPTNMuZkvee0IhdB03rx4eyRRJf1mrkECv+VPCFMJ/2AJCxZGlD7SXHW4u6S6WgONzT647f6AzRXX/YlBmC+GYEj2CaDwRmu9lCDurfq2Lz+90TRQcQ1dfmJ6T5Y5F8Jb3yY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752128831; c=relaxed/simple;
-	bh=FgMAIbywnYWDoP2M5I9ksUW7xiYt3tuJr8sDlOh8U4E=;
+	s=arc-20240116; t=1752128973; c=relaxed/simple;
+	bh=ffM5skOHJyuqemBuXSUWFaQh2Zi0Kcb5KVfxZLvWKoY=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t8DIk3R0ZssHdzc3I8yxGO6MgcJ2mUvxSlBzHCf6UAY3rxpfgm6+7W4ximOUV0FTQnhBQ7PZIKoOn82jfrJBlXJrQNYn8pKuiCtB3lTA7zA14tLeH6mrY8ubmx7402Lic8lZywyB+4mi/1AoRWQsLoXkFJOo1GUb92a867RyrVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bWQ4exlP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ejTyTXiUaGMdkl4t4VVC09f/OKs4WC7FuWpdVyd4SCZfIwRB7OEUPfzCynwhSpupAAQWeko8e6TduNBhTAoblcUpFdNdUEz1CBh1d0SyL5pdOX/muhNXAAN4E8SiZIn1i171WBsMGrQUbSEnSefIwor7GO9mBo6mmdC6aLgeIRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uA93EhAp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bWQ4exlP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AAD3C4CEE3;
-	Thu, 10 Jul 2025 06:27:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uA93EhAp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E6B6C4CEF5;
+	Thu, 10 Jul 2025 06:29:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752128830;
-	bh=FgMAIbywnYWDoP2M5I9ksUW7xiYt3tuJr8sDlOh8U4E=;
+	s=k20201202; t=1752128972;
+	bh=ffM5skOHJyuqemBuXSUWFaQh2Zi0Kcb5KVfxZLvWKoY=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bWQ4exlPflTxdNYw//ITcNHXsU/dYIuF0rsLNVB7sy69nagRTaR7mpFgFv1MswnhG
-	 KtD/ud1k18hIKoSWGJt0wsVQzG1ofUk3TDRfLgm/sFk/E/slp73TTZm8dHOcPnOGlS
-	 267yYIxao+wV51Q+qFmvvWbe/AZsY+Rjzhwx1I/d4p63bGCybJ3CqVWVq1CpKdRtzp
-	 HgrROMxn5KtEY0Tt1tuBuU+iXZudTMYbRD7s0J38QFWeIQeOAwbrIukBN4wTOX/QNd
-	 a0mVqZT9gqugjtsHaJoytJc1HznZLsQvrH1JF5TRLUmX2eFBLU3OdxQIqWeA/BqL7D
-	 9WBS8kQIhqR3A==
-Date: Thu, 10 Jul 2025 08:27:06 +0200
+	b=uA93EhApmzRMr3l2azxesncXsGYG3NlPfIJ0FIGkOK31aTyKEW9a8yzrtauCxNvjv
+	 qsbXk2WTnUygbpQ6/ezpaTyzBo0vMCxqMRtHrOcd/0nRUwEKepfngcl7QmPQn502qu
+	 m22Bb1JvMogCpVrHXoX51tWyHR3qcN3Qt0JoaEmduhrzytUEyVTl4z8T1AzXRjfjWV
+	 0VN0hx2xEPHCSZLYjz5wt/sFNAAGhpGAOkXFfpoms3+7SuSrWrTJzLOutudN6Hye7E
+	 ozYt+rIqfsiLzwmXgUDhjtcZFw9CkWcPf7ce0U6SmwcaPkc3XDqjUYu+fPaOif//V/
+	 Ceo9qFVshi9xA==
+Date: Thu, 10 Jul 2025 08:29:27 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>
-Subject: Re: [PATCH 10/12] docs: kdoc: directly access the always-there
- KdocItem fields
-Message-ID: <20250710082706.5f93df25@foz.lan>
-In-Reply-To: <20250702223524.231794-11-corbet@lwn.net>
+Subject: Re: [PATCH 11/12] docs: kdoc: clean up check_sections()
+Message-ID: <20250710082927.10b13862@foz.lan>
+In-Reply-To: <20250702223524.231794-12-corbet@lwn.net>
 References: <20250702223524.231794-1-corbet@lwn.net>
-	<20250702223524.231794-11-corbet@lwn.net>
+	<20250702223524.231794-12-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -47,11 +46,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Wed,  2 Jul 2025 16:35:22 -0600
+Em Wed,  2 Jul 2025 16:35:23 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> They are part of the interface, so use them directly.  This allows the
-> removal of the transitional __dict__ hack in KdocItem.
+> entry.sectcheck is just a duplicate of our list of sections that is only
+> passed to check_sections(); its main purpose seems to be to avoid checking
+> the special named sections.  Rework check_sections() to not use that field
+> (which is then deleted), tocheck for the known sections directly, and
+> tighten up the logic in general.
 > 
 > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
@@ -59,87 +61,95 @@ LGTM.
 Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 > ---
->  scripts/lib/kdoc/kdoc_item.py   |  5 +----
->  scripts/lib/kdoc/kdoc_output.py | 16 +++++++---------
->  2 files changed, 8 insertions(+), 13 deletions(-)
+>  scripts/lib/kdoc/kdoc_parser.py | 31 +++++++++++--------------------
+>  1 file changed, 11 insertions(+), 20 deletions(-)
 > 
-> diff --git a/scripts/lib/kdoc/kdoc_item.py b/scripts/lib/kdoc/kdoc_item.py
-> index 51e8669b9a6e..807290678984 100644
-> --- a/scripts/lib/kdoc/kdoc_item.py
-> +++ b/scripts/lib/kdoc/kdoc_item.py
-> @@ -20,10 +20,7 @@ class KdocItem:
->          self.other_stuff = other_stuff
+> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> index 7191fa94e17a..fdde14b045fe 100644
+> --- a/scripts/lib/kdoc/kdoc_parser.py
+> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> @@ -42,9 +42,11 @@ doc_decl = doc_com + KernRe(r'(\w+)', cache=False)
+>  #         @{section-name}:
+>  # while trying to not match literal block starts like "example::"
+>  #
+> +known_section_names = 'description|context|returns?|notes?|examples?'
+> +known_sections = KernRe(known_section_names, flags = re.I)
+>  doc_sect = doc_com + \
+> -            KernRe(r'\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:([^:].*)?$',
+> -                flags=re.I, cache=False)
+> +    KernRe(r'\s*(\@[.\w]+|\@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
+> +           flags=re.I, cache=False)
 >  
->      def get(self, key, default = None):
-> -        ret = self.other_stuff.get(key, default)
-> -        if ret == default:
-> -            return self.__dict__.get(key, default)
-> -        return ret
-> +        return self.other_stuff.get(key, default)
+>  doc_content = doc_com_body + KernRe(r'(.*)', cache=False)
+>  doc_inline_start = KernRe(r'^\s*/\*\*\s*$', cache=False)
+> @@ -115,7 +117,6 @@ class KernelEntry:
+>          self.config = config
 >  
->      def __getitem__(self, key):
->          return self.get(key)
-> diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-> index 8a31b637ffd2..ea8914537ba0 100644
-> --- a/scripts/lib/kdoc/kdoc_output.py
-> +++ b/scripts/lib/kdoc/kdoc_output.py
-> @@ -124,9 +124,7 @@ class OutputFormat:
->          Output warnings for identifiers that will be displayed.
+>          self._contents = []
+> -        self.sectcheck = ""
+>          self.prototype = ""
+>  
+>          self.warnings = []
+> @@ -187,7 +188,6 @@ class KernelEntry:
+>              self.parameterdescs[name] = contents
+>              self.parameterdesc_start_lines[name] = self.new_start_line
+>  
+> -            self.sectcheck += name + " "
+>              self.new_start_line = 0
+>  
+>          else:
+> @@ -478,29 +478,20 @@ class KernelDoc:
+>                          self.push_parameter(ln, decl_type, param, dtype,
+>                                              arg, declaration_name)
+>  
+> -    def check_sections(self, ln, decl_name, decl_type, sectcheck):
+> +    def check_sections(self, ln, decl_name, decl_type):
 >          """
->  
-> -        warnings = args.get('warnings', [])
+>          Check for errors inside sections, emitting warnings if not found
+>          parameters are described.
+>          """
 > -
-> -        for log_msg in warnings:
-> +        for log_msg in args.warnings:
->              self.config.warning(log_msg)
+> -        sects = sectcheck.split()
+> -
+> -        for sx in range(len(sects)):                  # pylint: disable=C0200
+> -            err = True
+> -            for param in self.entry.parameterlist:
+> -                if param == sects[sx]:
+> -                    err = False
+> -                    break
+> -
+> -            if err:
+> +        for section in self.entry.sections:
+> +            if section not in self.entry.parameterlist and \
+> +               not known_sections.search(section):
+>                  if decl_type == 'function':
+>                      dname = f"{decl_type} parameter"
+>                  else:
+>                      dname = f"{decl_type} member"
+> -
+>                  self.emit_msg(ln,
+> -                              f"Excess {dname} '{sects[sx]}' description in '{decl_name}'")
+> +                              f"Excess {dname} '{section}' description in '{decl_name}'")
 >  
->      def check_doc(self, name, args):
-> @@ -184,7 +182,7 @@ class OutputFormat:
+>      def check_return_section(self, ln, declaration_name, return_type):
+>          """
+> @@ -754,7 +745,7 @@ class KernelDoc:
 >  
->          self.data = ""
+>          self.create_parameter_list(ln, decl_type, members, ';',
+>                                     declaration_name)
+> -        self.check_sections(ln, declaration_name, decl_type, self.entry.sectcheck)
+> +        self.check_sections(ln, declaration_name, decl_type)
 >  
-> -        dtype = args.get('type', "")
-> +        dtype = args.type
+>          # Adjust declaration for better display
+>          declaration = KernRe(r'([\{;])').sub(r'\1\n', declaration)
+> @@ -1018,7 +1009,7 @@ class KernelDoc:
+>                            f"expecting prototype for {self.entry.identifier}(). Prototype was for {declaration_name}() instead")
+>              return
 >  
->          if dtype == "doc":
->              self.out_doc(fname, name, args)
-> @@ -373,7 +371,7 @@ class RestFormat(OutputFormat):
->                  signature = args['functiontype'] + " "
->              signature += name + " ("
+> -        self.check_sections(ln, declaration_name, "function", self.entry.sectcheck)
+> +        self.check_sections(ln, declaration_name, "function")
 >  
-> -        ln = args.get('declaration_start_line', 0)
-> +        ln = args.declaration_start_line
->          count = 0
->          for parameter in args.parameterlist:
->              if count != 0:
-> @@ -445,7 +443,7 @@ class RestFormat(OutputFormat):
->      def out_enum(self, fname, name, args):
->  
->          oldprefix = self.lineprefix
-> -        ln = args.get('declaration_start_line', 0)
-> +        ln = args.declaration_start_line
->  
->          self.data += f"\n\n.. c:enum:: {name}\n\n"
->  
-> @@ -474,7 +472,7 @@ class RestFormat(OutputFormat):
->      def out_typedef(self, fname, name, args):
->  
->          oldprefix = self.lineprefix
-> -        ln = args.get('declaration_start_line', 0)
-> +        ln = args.declaration_start_line
->  
->          self.data += f"\n\n.. c:type:: {name}\n\n"
->  
-> @@ -492,8 +490,8 @@ class RestFormat(OutputFormat):
->  
->          purpose = args.get('purpose', "")
->          declaration = args.get('definition', "")
-> -        dtype = args.get('type', "struct")
-> -        ln = args.get('declaration_start_line', 0)
-> +        dtype = args.type
-> +        ln = args.declaration_start_line
->  
->          self.data += f"\n\n.. c:{dtype}:: {name}\n\n"
+>          self.check_return_section(ln, declaration_name, return_type)
 >  
 
 
