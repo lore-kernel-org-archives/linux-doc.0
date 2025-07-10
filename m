@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE772367B2;
-	Thu, 10 Jul 2025 06:20:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D3827FD4A;
+	Thu, 10 Jul 2025 06:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752128420; cv=none; b=YOGSa1YAdm7sOwYLxZYJYZjYbpyJiPS7V36GKoQ3U/aJ3Hmj6ZBJ1ZjnCpQJ4r3Y2TJwE7VxAr+nWYKi382dCk0RSoMceed43LdJqX6tHrDlmMTe+KFdDUlAXMLA5ATuPR3qTz64jKYBG/DrbSNCxIBJv1624GKSErjo29IxCMQ=
+	t=1752128526; cv=none; b=O1QwbekeGjtP8FVuxmOK3sS4wiHE7FNy2OupRhbyVd+7TeQmfUtp/i5uI2xqv/+qRrUMRz6IwK0eYYu1W34I38D0V9w/ERByPX/doFXKseMEYJNIF74NPUF0X7FbeFWDi7H/ZPWUDhuO5yQOfKxahgpp5se3PACONtR8yuLtH/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752128420; c=relaxed/simple;
-	bh=m9xAVFhwDPE+SyQyIXksEJsex+1AZ81fkHbVFf2hIbk=;
+	s=arc-20240116; t=1752128526; c=relaxed/simple;
+	bh=F7IPP3+v5+yxFwd4x9NFi1Xh15+8h2Kg9anbcfSMzko=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hir0oDzPUeZ8sqdqnj4yQ/Zqe60414z7FowFcPIg7VeoMTRJFZUIvhBnkfNcPdsgsrOrvtnMgMVr+NX2eCao4aNw+Z/1gcmBBJHFlLC+asmWhWp3fWZCf8V4L2tN5qjRXWjRLJ/V/F/1ce5o59as9dxJO5igU7ts6tOYAr5fyXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pVing695; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=KzGIDaSHf5d7qynAyyP+osPJDbDeSuzguHKHxea1oo+lIIwy70ZMTxUuMWh1UUv1HZaYWw3BNcb5WuKqZeNP561/gsFsAtsJx9phntBmCHlxmypl7ShvCbRmnb30NvLk396AVvnGlpRHy2KCc2+6MaIIZJEQcINRx6Pls702kP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C7H2EAJG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pVing695"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE3FC4CEE3;
-	Thu, 10 Jul 2025 06:20:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C7H2EAJG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7019C4CEE3;
+	Thu, 10 Jul 2025 06:22:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752128419;
-	bh=m9xAVFhwDPE+SyQyIXksEJsex+1AZ81fkHbVFf2hIbk=;
+	s=k20201202; t=1752128525;
+	bh=F7IPP3+v5+yxFwd4x9NFi1Xh15+8h2Kg9anbcfSMzko=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pVing695EHb2gnav8ABwwJUJf0JKF+W31M+ET77/nrd3suZ5/NYlWR2yEb4Axmg3+
-	 qshreJZuc7dutKyiV7C4cRKWEFI8aWBymv//gaiUWDbAhlyFaRj6JuU+vnvb3svUnr
-	 PQmj5QSuWb5i7kF2frrcS9ZKPA84aFuE+dvzHMgN1mJIyhh/jDw7fFy09TqW/DAznm
-	 Uot0JO9yien4hKm3Z6mgs4KNlTdirxtxlzSEvBleOdoyh2yJ4oDrMYBfEq3kLvNror
-	 HENvDUa+YhrDKtnl9IF8agFn14NBhyGHsb6FbMuRKhjEKf7zfeeV/t40opogI/F6Y+
-	 o6szRc1LOyvbA==
-Date: Thu, 10 Jul 2025 08:20:15 +0200
+	b=C7H2EAJGY/Dzmahul98jnr0SJGHUEfAM7mJs40hQIxn9I/bYnwYDYRcs2GJ0bQa8d
+	 RHZL3OsKwE5+ESDQAi2CfDin/7dlIfAUiH2uDif9abqp0+UKvMHmVoljnEc9YSwziS
+	 ykEJBA5/Su3jYmwNizPcenaFp+HxvqIKzO8ZCsECSY484osXiUQDwjWXmrllozKfX0
+	 4x6A/hUWL2BQ1t1iNfvmQmQHFJBv3HcEPmRbJkEBviR4zNMJUlrNpfvXHna2EVmyzo
+	 al6P4xfq3knjtnThkdmJZtHiGbhRkysyNvbnxHMV+zrk5Zf2lfiYMKq7hM6aL/17T9
+	 adEBNd0xbxSxw==
+Date: Thu, 10 Jul 2025 08:22:01 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>
-Subject: Re: [PATCH 07/12] docs: kdoc: Coalesce parameter-list handling
-Message-ID: <20250710082015.3b37024e@foz.lan>
-In-Reply-To: <20250702223524.231794-8-corbet@lwn.net>
+Subject: Re: [PATCH 08/12] docs: kdoc: Regularize the use of the declaration
+ name
+Message-ID: <20250710082201.3a4aa762@foz.lan>
+In-Reply-To: <20250702223524.231794-9-corbet@lwn.net>
 References: <20250702223524.231794-1-corbet@lwn.net>
-	<20250702223524.231794-8-corbet@lwn.net>
+	<20250702223524.231794-9-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,362 +47,205 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Wed,  2 Jul 2025 16:35:19 -0600
+Em Wed,  2 Jul 2025 16:35:20 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Callers to output_declaration() always pass the parameter information from
-> self.entry; remove all of the boilerplate arguments and just get at that
-> information directly.  Formalize its placement in the KdocItem class.
-> 
-> It would be nice to get rid of parameterlist as well, but that has the
-> effect of reordering the output of function parameters and struct fields to
-> match the order in the kerneldoc comment rather than in the declaration.
-> One could argue about which is more correct, but the ordering has been left
-> unchanged for now.
+> Each declaration type passes through the name in a unique field of the
+> "args" blob - even though we have always just passed the name separately.
+> Get rid of all the weird names and just use the common version.
 > 
 > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+
+LGTM.
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
 > ---
->  scripts/lib/kdoc/kdoc_item.py   | 10 ++++-
->  scripts/lib/kdoc/kdoc_output.py | 75 +++++++++++++--------------------
->  scripts/lib/kdoc/kdoc_parser.py | 23 ++--------
->  3 files changed, 41 insertions(+), 67 deletions(-)
+>  scripts/lib/kdoc/kdoc_output.py | 39 +++++++++++++--------------------
+>  scripts/lib/kdoc/kdoc_parser.py |  6 -----
+>  2 files changed, 15 insertions(+), 30 deletions(-)
 > 
-> diff --git a/scripts/lib/kdoc/kdoc_item.py b/scripts/lib/kdoc/kdoc_item.py
-> index c8329019a219..51e8669b9a6e 100644
-> --- a/scripts/lib/kdoc/kdoc_item.py
-> +++ b/scripts/lib/kdoc/kdoc_item.py
-> @@ -10,6 +10,8 @@ class KdocItem:
->          self.type = type
->          self.declaration_start_line = start_line
->          self.sections = self.sections_start_lines = { }
-> +        self.parameterlist = self.parameterdesc_start_lines = []
-> +        self.parameterdescs = self.parametertypes = { }
-
-See my comments on a previous e-mail:
-
-- place "{}" without spaces;
-- don't assign the same pointer to multiple variables (*)
-
-(*) On Python, dict and list type assignments are always handled
-    as pointers - except if you call copy() or deepcopy().
-
->          #
->          # Just save everything else into our own dict so that the output
->          # side can grab it directly as before.  As we move things into more
-> @@ -27,8 +29,14 @@ class KdocItem:
->          return self.get(key)
->  
->      #
-> -    # Tracking of section information.
-> +    # Tracking of section and parameter information.
->      #
->      def set_sections(self, sections, start_lines):
->          self.sections = sections
->          self.section_start_lines = start_lines
-> +
-> +    def set_params(self, names, descs, types, starts):
-> +        self.parameterlist = names
-> +        self.parameterdescs = descs
-> +        self.parametertypes = types
-> +        self.parameterdesc_start_lines = starts
-
-Your output was unchanged just because you're replacing all four
-lists at the same time here. If we ever modify the code to store them
-one by one, or to update previous set values, then we'll have
-troubles.
-
 > diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-> index 15cb89f91987..d6f4d9e7173b 100644
+> index d6f4d9e7173b..8a31b637ffd2 100644
 > --- a/scripts/lib/kdoc/kdoc_output.py
 > +++ b/scripts/lib/kdoc/kdoc_output.py
-> @@ -373,18 +373,13 @@ class RestFormat(OutputFormat):
+> @@ -367,11 +367,11 @@ class RestFormat(OutputFormat):
+>  
+>          func_macro = args.get('func_macro', False)
+>          if func_macro:
+> -            signature = args['function']
+> +            signature = name
+>          else:
+>              if args.get('functiontype'):
 >                  signature = args['functiontype'] + " "
->              signature += args['function'] + " ("
+> -            signature += args['function'] + " ("
+> +            signature += name + " ("
 >  
-> -        parameterlist = args.get('parameterlist', [])
-> -        parameterdescs = args.get('parameterdescs', {})
-> -        parameterdesc_start_lines = args.get('parameterdesc_start_lines', {})
-> -
 >          ln = args.get('declaration_start_line', 0)
-> -
 >          count = 0
-> -        for parameter in parameterlist:
-> +        for parameter in args.parameterlist:
->              if count != 0:
->                  signature += ", "
->              count += 1
-> -            dtype = args['parametertypes'].get(parameter, "")
-> +            dtype = args.parametertypes.get(parameter, "")
+> @@ -391,7 +391,7 @@ class RestFormat(OutputFormat):
 >  
->              if function_pointer.search(dtype):
->                  signature += function_pointer.group(1) + parameter + function_pointer.group(3)
-> @@ -419,26 +414,26 @@ class RestFormat(OutputFormat):
->          # function prototypes apart
->          self.lineprefix = "  "
+>          self.print_lineno(ln)
+>          if args.get('typedef') or not args.get('functiontype'):
+> -            self.data += f".. c:macro:: {args['function']}\n\n"
+> +            self.data += f".. c:macro:: {name}\n\n"
 >  
-> -        if parameterlist:
-> +        if args.parameterlist:
->              self.data += ".. container:: kernelindent\n\n"
->              self.data += f"{self.lineprefix}**Parameters**\n\n"
->  
-> -        for parameter in parameterlist:
-> +        for parameter in args.parameterlist:
->              parameter_name = KernRe(r'\[.*').sub('', parameter)
-> -            dtype = args['parametertypes'].get(parameter, "")
-> +            dtype = args.parametertypes.get(parameter, "")
->  
->              if dtype:
->                  self.data += f"{self.lineprefix}``{dtype}``\n"
->              else:
->                  self.data += f"{self.lineprefix}``{parameter}``\n"
->  
-> -            self.print_lineno(parameterdesc_start_lines.get(parameter_name, 0))
-> +            self.print_lineno(args.parameterdesc_start_lines.get(parameter_name, 0))
->  
->              self.lineprefix = "    "
-> -            if parameter_name in parameterdescs and \
-> -               parameterdescs[parameter_name] != KernelDoc.undescribed:
-> +            if parameter_name in args.parameterdescs and \
-> +               args.parameterdescs[parameter_name] != KernelDoc.undescribed:
->  
-> -                self.output_highlight(parameterdescs[parameter_name])
-> +                self.output_highlight(args.parameterdescs[parameter_name])
->                  self.data += "\n"
->              else:
->                  self.data += f"{self.lineprefix}*undescribed*\n\n"
-> @@ -451,8 +446,6 @@ class RestFormat(OutputFormat):
+>              if args.get('typedef'):
+>                  self.data += "   **Typedef**: "
+> @@ -445,7 +445,6 @@ class RestFormat(OutputFormat):
+>      def out_enum(self, fname, name, args):
 >  
 >          oldprefix = self.lineprefix
->          name = args.get('enum', '')
-> -        parameterlist = args.get('parameterlist', [])
-> -        parameterdescs = args.get('parameterdescs', {})
+> -        name = args.get('enum', '')
 >          ln = args.get('declaration_start_line', 0)
 >  
 >          self.data += f"\n\n.. c:enum:: {name}\n\n"
-> @@ -467,11 +460,11 @@ class RestFormat(OutputFormat):
->          self.lineprefix = outer + "  "
->          self.data += f"{outer}**Constants**\n\n"
+> @@ -475,7 +474,6 @@ class RestFormat(OutputFormat):
+>      def out_typedef(self, fname, name, args):
 >  
-> -        for parameter in parameterlist:
-> +        for parameter in args.parameterlist:
->              self.data += f"{outer}``{parameter}``\n"
->  
-> -            if parameterdescs.get(parameter, '') != KernelDoc.undescribed:
-> -                self.output_highlight(parameterdescs[parameter])
-> +            if args.parameterdescs.get(parameter, '') != KernelDoc.undescribed:
-> +                self.output_highlight(args.parameterdescs[parameter])
->              else:
->                  self.data += f"{self.lineprefix}*undescribed*\n\n"
->              self.data += "\n"
-> @@ -505,10 +498,6 @@ class RestFormat(OutputFormat):
->          dtype = args.get('type', "struct")
+>          oldprefix = self.lineprefix
+> -        name = args.get('typedef', '')
 >          ln = args.get('declaration_start_line', 0)
 >  
-> -        parameterlist = args.get('parameterlist', [])
-> -        parameterdescs = args.get('parameterdescs', {})
-> -        parameterdesc_start_lines = args.get('parameterdesc_start_lines', {})
-> -
->          self.data += f"\n\n.. c:{dtype}:: {name}\n\n"
+>          self.data += f"\n\n.. c:type:: {name}\n\n"
+> @@ -492,7 +490,6 @@ class RestFormat(OutputFormat):
 >  
->          self.print_lineno(ln)
-> @@ -531,21 +520,21 @@ class RestFormat(OutputFormat):
+>      def out_struct(self, fname, name, args):
 >  
->          self.lineprefix = "  "
->          self.data += f"{self.lineprefix}**Members**\n\n"
-> -        for parameter in parameterlist:
-> +        for parameter in args.parameterlist:
->              if not parameter or parameter.startswith("#"):
->                  continue
->  
->              parameter_name = parameter.split("[", maxsplit=1)[0]
->  
-> -            if parameterdescs.get(parameter_name) == KernelDoc.undescribed:
-> +            if args.parameterdescs.get(parameter_name) == KernelDoc.undescribed:
->                  continue
->  
-> -            self.print_lineno(parameterdesc_start_lines.get(parameter_name, 0))
-> +            self.print_lineno(args.parameterdesc_start_lines.get(parameter_name, 0))
->  
->              self.data += f"{self.lineprefix}``{parameter}``\n"
->  
->              self.lineprefix = "    "
-> -            self.output_highlight(parameterdescs[parameter_name])
-> +            self.output_highlight(args.parameterdescs[parameter_name])
->              self.lineprefix = "  "
->  
->              self.data += "\n"
-> @@ -643,9 +632,6 @@ class ManFormat(OutputFormat):
+> -        name = args.get('struct', "")
+>          purpose = args.get('purpose', "")
+>          declaration = args.get('definition', "")
+>          dtype = args.get('type', "struct")
+> @@ -632,16 +629,16 @@ class ManFormat(OutputFormat):
 >      def out_function(self, fname, name, args):
 >          """output function in man"""
 >  
-> -        parameterlist = args.get('parameterlist', [])
-> -        parameterdescs = args.get('parameterdescs', {})
-> -
->          self.data += f'.TH "{args["function"]}" 9 "{args["function"]}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
+> -        self.data += f'.TH "{args["function"]}" 9 "{args["function"]}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
+> +        self.data += f'.TH "{name}" 9 "{name}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
 >  
 >          self.data += ".SH NAME\n"
-> @@ -661,11 +647,11 @@ class ManFormat(OutputFormat):
->          parenth = "("
->          post = ","
+> -        self.data += f"{args['function']} \\- {args['purpose']}\n"
+> +        self.data += f"{name} \\- {args['purpose']}\n"
 >  
-> -        for parameter in parameterlist:
-> -            if count == len(parameterlist) - 1:
-> +        for parameter in args.parameterlist:
-> +            if count == len(args.parameterlist) - 1:
->                  post = ");"
->  
-> -            dtype = args['parametertypes'].get(parameter, "")
-> +            dtype = args.parametertypes.get(parameter, "")
->              if function_pointer.match(dtype):
->                  # Pointer-to-function
->                  self.data += f'".BI "{parenth}{function_pointer.group(1)}" " ") ({function_pointer.group(2)}){post}"' + "\n"
-> @@ -676,14 +662,14 @@ class ManFormat(OutputFormat):
->              count += 1
->              parenth = ""
->  
-> -        if parameterlist:
-> +        if args.parameterlist:
->              self.data += ".SH ARGUMENTS\n"
->  
-> -        for parameter in parameterlist:
-> +        for parameter in args.parameterlist:
->              parameter_name = re.sub(r'\[.*', '', parameter)
->  
->              self.data += f'.IP "{parameter}" 12' + "\n"
-> -            self.output_highlight(parameterdescs.get(parameter_name, ""))
-> +            self.output_highlight(args.parameterdescs.get(parameter_name, ""))
->  
->          for section, text in args.sections.items():
->              self.data += f'.SH "{section.upper()}"' + "\n"
-> @@ -692,7 +678,6 @@ class ManFormat(OutputFormat):
->      def out_enum(self, fname, name, args):
->  
->          name = args.get('enum', '')
-> -        parameterlist = args.get('parameterlist', [])
->  
->          self.data += f'.TH "{self.modulename}" 9 "enum {args["enum"]}" "{self.man_date}" "API Manual" LINUX' + "\n"
->  
-> @@ -703,9 +688,9 @@ class ManFormat(OutputFormat):
->          self.data += f"enum {args['enum']}" + " {\n"
+>          self.data += ".SH SYNOPSIS\n"
+>          if args.get('functiontype', ''):
+> -            self.data += f'.B "{args["functiontype"]}" {args["function"]}' + "\n"
+> +            self.data += f'.B "{args["functiontype"]}" {name}' + "\n"
+>          else:
+> -            self.data += f'.B "{args["function"]}' + "\n"
+> +            self.data += f'.B "{name}' + "\n"
 >  
 >          count = 0
-> -        for parameter in parameterlist:
-> +        for parameter in args.parameterlist:
->              self.data += f'.br\n.BI "    {parameter}"' + "\n"
-> -            if count == len(parameterlist) - 1:
-> +            if count == len(args.parameterlist) - 1:
->                  self.data += "\n};\n"
->              else:
->                  self.data += ", \n.br\n"
-> @@ -714,10 +699,10 @@ class ManFormat(OutputFormat):
+>          parenth = "("
+> @@ -676,16 +673,13 @@ class ManFormat(OutputFormat):
+>              self.output_highlight(text)
 >  
->          self.data += ".SH Constants\n"
+>      def out_enum(self, fname, name, args):
+> -
+> -        name = args.get('enum', '')
+> -
+> -        self.data += f'.TH "{self.modulename}" 9 "enum {args["enum"]}" "{self.man_date}" "API Manual" LINUX' + "\n"
+> +        self.data += f'.TH "{self.modulename}" 9 "enum {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
 >  
-> -        for parameter in parameterlist:
-> +        for parameter in args.parameterlist:
->              parameter_name = KernRe(r'\[.*').sub('', parameter)
->              self.data += f'.IP "{parameter}" 12' + "\n"
-> -            self.output_highlight(args['parameterdescs'].get(parameter_name, ""))
-> +            self.output_highlight(args.parameterdescs.get(parameter_name, ""))
+>          self.data += ".SH NAME\n"
+> -        self.data += f"enum {args['enum']} \\- {args['purpose']}\n"
+> +        self.data += f"enum {name} \\- {args['purpose']}\n"
+>  
+>          self.data += ".SH SYNOPSIS\n"
+> -        self.data += f"enum {args['enum']}" + " {\n"
+> +        self.data += f"enum {name}" + " {\n"
+>  
+>          count = 0
+>          for parameter in args.parameterlist:
+> @@ -710,13 +704,12 @@ class ManFormat(OutputFormat):
+>  
+>      def out_typedef(self, fname, name, args):
+>          module = self.modulename
+> -        typedef = args.get('typedef')
+>          purpose = args.get('purpose')
+>  
+> -        self.data += f'.TH "{module}" 9 "{typedef}" "{self.man_date}" "API Manual" LINUX' + "\n"
+> +        self.data += f'.TH "{module}" 9 "{name}" "{self.man_date}" "API Manual" LINUX' + "\n"
+>  
+>          self.data += ".SH NAME\n"
+> -        self.data += f"typedef {typedef} \\- {purpose}\n"
+> +        self.data += f"typedef {name} \\- {purpose}\n"
 >  
 >          for section, text in args.sections.items():
 >              self.data += f'.SH "{section}"' + "\n"
-> @@ -743,8 +728,6 @@ class ManFormat(OutputFormat):
->          struct_name = args.get('struct')
+> @@ -724,22 +717,20 @@ class ManFormat(OutputFormat):
+>  
+>      def out_struct(self, fname, name, args):
+>          module = self.modulename
+> -        struct_type = args.get('type')
+> -        struct_name = args.get('struct')
 >          purpose = args.get('purpose')
 >          definition = args.get('definition')
-> -        parameterlist = args.get('parameterlist', [])
-> -        parameterdescs = args.get('parameterdescs', {})
 >  
->          self.data += f'.TH "{module}" 9 "{struct_type} {struct_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
+> -        self.data += f'.TH "{module}" 9 "{struct_type} {struct_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
+> +        self.data += f'.TH "{module}" 9 "{args.type} {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
 >  
-> @@ -760,17 +743,17 @@ class ManFormat(OutputFormat):
+>          self.data += ".SH NAME\n"
+> -        self.data += f"{struct_type} {struct_name} \\- {purpose}\n"
+> +        self.data += f"{args.type} {name} \\- {purpose}\n"
+>  
+>          # Replace tabs with two spaces and handle newlines
+>          declaration = definition.replace("\t", "  ")
+>          declaration = KernRe(r"\n").sub('"\n.br\n.BI "', declaration)
+>  
+>          self.data += ".SH SYNOPSIS\n"
+> -        self.data += f"{struct_type} {struct_name} " + "{" + "\n.br\n"
+> +        self.data += f"{args.type} {name} " + "{" + "\n.br\n"
 >          self.data += f'.BI "{declaration}\n' + "};\n.br\n\n"
 >  
 >          self.data += ".SH Members\n"
-> -        for parameter in parameterlist:
-> +        for parameter in args.parameterlist:
->              if parameter.startswith("#"):
->                  continue
->  
->              parameter_name = re.sub(r"\[.*", "", parameter)
->  
-> -            if parameterdescs.get(parameter_name) == KernelDoc.undescribed:
-> +            if args.parameterdescs.get(parameter_name) == KernelDoc.undescribed:
->                  continue
->  
->              self.data += f'.IP "{parameter}" 12' + "\n"
-> -            self.output_highlight(parameterdescs.get(parameter_name))
-> +            self.output_highlight(args.parameterdescs.get(parameter_name))
->  
->          for section, text in args.sections.items():
->              self.data += f'.SH "{section}"' + "\n"
 > diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index ffd49f9395ae..298abd260264 100644
+> index 298abd260264..6e35e508608b 100644
 > --- a/scripts/lib/kdoc/kdoc_parser.py
 > +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -278,7 +278,9 @@ class KernelDoc:
->              if section in sections and not sections[section].rstrip():
->                  del sections[section]
->          item.set_sections(sections, self.entry.section_start_lines)
-> -
-> +        item.set_params(self.entry.parameterlist, self.entry.parameterdescs,
-> +                        self.entry.parametertypes,
-> +                        self.entry.parameterdesc_start_lines)
->          self.entries.append(item)
+> @@ -790,7 +790,6 @@ class KernelDoc:
+>                  level += 1
 >  
->          self.config.log.debug("Output: %s:%s = %s", dtype, name, pformat(args))
-> @@ -790,10 +792,6 @@ class KernelDoc:
 >          self.output_declaration(decl_type, declaration_name,
->                                  struct=declaration_name,
+> -                                struct=declaration_name,
 >                                  definition=declaration,
-> -                                parameterlist=self.entry.parameterlist,
-> -                                parameterdescs=self.entry.parameterdescs,
-> -                                parametertypes=self.entry.parametertypes,
-> -                                parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
 >                                  purpose=self.entry.declaration_purpose)
 >  
->      def dump_enum(self, ln, proto):
-> @@ -873,9 +871,6 @@ class KernelDoc:
+> @@ -870,7 +869,6 @@ class KernelDoc:
+>                                f"Excess enum value '%{k}' description in '{declaration_name}'")
 >  
 >          self.output_declaration('enum', declaration_name,
->                                  enum=declaration_name,
-> -                                parameterlist=self.entry.parameterlist,
-> -                                parameterdescs=self.entry.parameterdescs,
-> -                                parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
+> -                                enum=declaration_name,
 >                                  purpose=self.entry.declaration_purpose)
 >  
 >      def dump_declaration(self, ln, prototype):
-> @@ -1039,10 +1034,6 @@ class KernelDoc:
->                                      function=declaration_name,
+> @@ -1031,14 +1029,12 @@ class KernelDoc:
+>  
+>          if 'typedef' in return_type:
+>              self.output_declaration(decl_type, declaration_name,
+> -                                    function=declaration_name,
 >                                      typedef=True,
 >                                      functiontype=return_type,
-> -                                    parameterlist=self.entry.parameterlist,
-> -                                    parameterdescs=self.entry.parameterdescs,
-> -                                    parametertypes=self.entry.parametertypes,
-> -                                    parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
 >                                      purpose=self.entry.declaration_purpose,
 >                                      func_macro=func_macro)
 >          else:
-> @@ -1050,10 +1041,6 @@ class KernelDoc:
->                                      function=declaration_name,
+>              self.output_declaration(decl_type, declaration_name,
+> -                                    function=declaration_name,
 >                                      typedef=False,
 >                                      functiontype=return_type,
-> -                                    parameterlist=self.entry.parameterlist,
-> -                                    parameterdescs=self.entry.parameterdescs,
-> -                                    parametertypes=self.entry.parametertypes,
-> -                                    parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
 >                                      purpose=self.entry.declaration_purpose,
->                                      func_macro=func_macro)
+> @@ -1077,7 +1073,6 @@ class KernelDoc:
+>              self.create_parameter_list(ln, decl_type, args, ',', declaration_name)
 >  
-> @@ -1093,10 +1080,6 @@ class KernelDoc:
->                                      function=declaration_name,
+>              self.output_declaration(decl_type, declaration_name,
+> -                                    function=declaration_name,
 >                                      typedef=True,
 >                                      functiontype=return_type,
-> -                                    parameterlist=self.entry.parameterlist,
-> -                                    parameterdescs=self.entry.parameterdescs,
-> -                                    parametertypes=self.entry.parametertypes,
-> -                                    parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
+>                                      purpose=self.entry.declaration_purpose)
+> @@ -1099,7 +1094,6 @@ class KernelDoc:
+>                  return
+>  
+>              self.output_declaration('typedef', declaration_name,
+> -                                    typedef=declaration_name,
 >                                      purpose=self.entry.declaration_purpose)
 >              return
 >  
