@@ -1,104 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2053.outbound.protection.outlook.com [40.107.223.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E4927FB15;
-	Thu, 10 Jul 2025 02:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752114616; cv=none; b=sUOC6p9rsQmdCQV+PD0c3gZPGt69bo5ssKiqmXqbLWYOHxRKhYgsHa5xnIhEo4tOa4jp+qi/MbeE2h6898ubIjg8hSH+RhQLchWwCgo1JOHasxvlSf1ZRD2VD7XhMNGUPEvqwjBOc9dDTF9YZIgb3fHRQr+PhwjZn6nOhRy09uY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752114616; c=relaxed/simple;
-	bh=2fA8pPj3CirGI1XbwELZkyUbdwGc9Cb1v77k1T5uJSQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=M1og2bAPgTKnfCNNQxVvyRX6D66NhCL4qoSGGO2w3UT0GvytdZJhDtWBV2FdBl5xELQVAQZNsgB8sNCg90xaXCjmTD68u8WifQojB+8jkjayHRqBAeZ0DjsNVS6VMC4/FEMka4zgc7q02cXaQg3AjS/PQtzRWQDcuGL8Vgjx/qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K5hQpsav; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AC227FB28;
+	Thu, 10 Jul 2025 02:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752116271; cv=fail; b=VgOD9M2qZv0YuvvvFFE3+AOaiQbzi0MJZ0xxZfi4lz6ytKHkq0JJlqvR/IiUnETHTJ3TL4dHB4hVqSCNFd620AQ3zT4hqAlNg8+rIMoi5wZrcL/fiR55yLY4gZYO2pxmVTKY+PXnV7l8iTP8uRhvsGat+fKmvh0+YE5hT8gRMuc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752116271; c=relaxed/simple;
+	bh=UsUYpoj2XyOPi3GquuWQuSROt96LKd2e34cYxTb4LHQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D//wsW5T4IHv5INRVCCEUwzvdSvbMhyzFmEzexJGBrPmlGZivqma9E7ipji2EyWfRmZNcVHSZ9iWDFeAZwfNBH+cg5ilhadw5ksj5yS4fLowIyonBYbCuEXm4Kg8mYCjXRT7w7De2nxpLK7KGHY9i/LYT+LY4tR/AfBoMZla224=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MrDvXrnt; arc=fail smtp.client-ip=40.107.223.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K5hQpsav"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B96DC4CEEF;
-	Thu, 10 Jul 2025 02:30:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752114615;
-	bh=2fA8pPj3CirGI1XbwELZkyUbdwGc9Cb1v77k1T5uJSQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=K5hQpsavSiZEUBHW8GK3RSCOh2dJtoqGGFmrL67FERSZfs45a/ZzO0fEgQ/a50sXj
-	 f3f8+K8p4UdZLN19F9BpPVhVl6xHmCnInvxJpnVvlyPzWdijEPF0a0KcDhxC+OIL/P
-	 t7f+MlQtRrg8qtFnyD9pDlkvgjoK0zLEe1OcvXoybTJioTto1pw7MA12SRxxyXUmgk
-	 IY9XUD7O2y0XXWz5Rh8zvo2L9fK/uU+PyHnBt9rPWAq+3XSd/Alb83d8zwMkdR2gCD
-	 SiAfvr9HSTqeQcH99QWrEXcELekFMabCN9buadk3H78TOsmNUHOMY0HuDdHtTuKNKc
-	 ikF4oiqZzNXRw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB018383B261;
-	Thu, 10 Jul 2025 02:30:38 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MrDvXrnt"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JKS32HAFmtqm4vCAbl/cplf5gAyqYVmcX4Gugx/pE7v3szeJSbQNw7cEc82FlBVYV8sdxMhnrYamugdKDZUIfN6m9pEzdrN42ALIgv5FFNN9XGQx2INEar8VKDvMX+czVfqY4thIRV9/NAmEuvB9YwNt0l0sVznMd3OllOG8/P+W4iswW55LsMEXUAcrH+DbfKrinfl0h/4FloQxuTabxQRljL46LAyCDWZWnFrGsnOFFvJ0kr2pXTb3dDzawygAfqy+/+JILSfvVghClIhSi8MO0p53tz+2QD1v1axkOKR3IsmZBiuG15gtf2zCmdW4QBdgNQndEbnDBOO+OT4BTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mAnjUy1E6CvEOxfWvkVSiKMqa2xpHS2Nnyz5+PInGA0=;
+ b=bc59YPZ44Yv3hbHkC4DI2YvYx/aaaGxb+eOg57gEbhlBBRiogbUWm6e1s+c5Qk/jYp6aLtBHnyGS2AgZY2u2Af7MFqJPG9UDDXKSGmBlxU13ZNnib9kkdEndWrkyXlEP5wRb1lcsah5agWUWLikRVqvZcf9oxsZ9XvyFlr3eTSrQgcU9EMFeTcMhZiVSQ8eU2XIsz8/a2zTS9rj/hC1XF7B7yW1DVdBKlm6B80ciLIm0UJdtWMiLYbZRqyJAJP4WwxJ8ytyOzBRwaShUXMq0H6jg8dCoV+rJ2435I9HtkaNaUfxXXBvsEqjURyxSTJubcimJMTSAhwLCl37GiEnNog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mAnjUy1E6CvEOxfWvkVSiKMqa2xpHS2Nnyz5+PInGA0=;
+ b=MrDvXrntXn5ng9VLIhG56L92MIfDnPDL+XuRuY7/eUNE+L9WkhLaDGrR4LiFBJQIiUfjkdJoDvLk/GD1vASmqhVG6LjtZ6VJqu84knd5wLG85tzV+FcQevJ28/Titzgu+j/fzVvOjh8GTOBevbHKjlLj39qsWGYWqesGPqagMLh8LA9WZwgj8pbvSp/GSNOFaYlEiIs93IdiA4UZ4dWmlKeSL1Eaj06yrdmK2vsfOk5kWniVgJgEZFpSNr8AHwJfZJTElejLk4NNHLEHPIAYtADhpcatUtVOmasozjVQeHqUWoBjeMgVDqliCQLbhT3yua2e9E4U566Djig0u77+yg==
+Received: from PH8PR21CA0004.namprd21.prod.outlook.com (2603:10b6:510:2ce::11)
+ by PH7PR12MB6834.namprd12.prod.outlook.com (2603:10b6:510:1b4::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Thu, 10 Jul
+ 2025 02:57:45 +0000
+Received: from CY4PEPF0000EE3C.namprd03.prod.outlook.com
+ (2603:10b6:510:2ce:cafe::12) by PH8PR21CA0004.outlook.office365.com
+ (2603:10b6:510:2ce::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.5 via Frontend Transport; Thu,
+ 10 Jul 2025 02:57:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CY4PEPF0000EE3C.mail.protection.outlook.com (10.167.242.13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8922.22 via Frontend Transport; Thu, 10 Jul 2025 02:57:44 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 9 Jul 2025
+ 19:57:37 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 9 Jul 2025 19:57:37 -0700
+Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Wed, 9 Jul 2025 19:57:36 -0700
+Date: Wed, 9 Jul 2025 19:57:34 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
+	<will@kernel.org>
+CC: <bagasdotme@gmail.com>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
+	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
+	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
+	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
+	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>,
+	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v8 04/29] iommu: Use enum iommu_hw_info_type for type in
+ hw_info op
+Message-ID: <aG8sHjkIwWtum85Q@Asurada-Nvidia>
+References: <cover.1751677708.git.nicolinc@nvidia.com>
+ <64a4c22755d828a80a80d30f6903f4003b62ba5c.1751677708.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v13 00/12] Add Microchip ZL3073x support (part 1)
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175211463746.963219.2173385068913716730.git-patchwork-notify@kernel.org>
-Date: Thu, 10 Jul 2025 02:30:37 +0000
-References: <20250704182202.1641943-1-ivecera@redhat.com>
-In-Reply-To: <20250704182202.1641943-1-ivecera@redhat.com>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: jiri@resnulli.us, netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
- arkadiusz.kubalewski@intel.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, Prathosh.Satish@microchip.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, jgg@ziepe.ca, shannon.nelson@amd.com, dave.jiang@intel.com,
- Jonathan.Cameron@huawei.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, mschmidt@redhat.com,
- poros@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <64a4c22755d828a80a80d30f6903f4003b62ba5c.1751677708.git.nicolinc@nvidia.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3C:EE_|PH7PR12MB6834:EE_
+X-MS-Office365-Filtering-Correlation-Id: f1ee4213-c1dc-4c86-088c-08ddbf5d8b60
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?+Dnhxl7GMCpE/sDlTGZDIlTVXmoYkvyCE5FOZV3fCaun9g9r9QLJFaku4zIj?=
+ =?us-ascii?Q?1jFuEFFtjT34mtmz498s0hSOBT4w6Gp45SLP/dsKE1VmOdc6Gk8F04dHK7Ge?=
+ =?us-ascii?Q?cZOtQ4lV+IIZYVsRf1zBj/P0mXl8tKNI8qtDfSnpBEsR4TJqHOna9JNni3Dy?=
+ =?us-ascii?Q?ItKCe+J72CC/FqENAiGc3jg3yrquJ1OHjv4AggRrSW61RwGCeFm9weiH2SiN?=
+ =?us-ascii?Q?qeif4AQVPPfDI38l49/X5LfVSNVtHFXz6hRlZX+kKkMsTDo+Dd7hwu95cEII?=
+ =?us-ascii?Q?csoWr1lS7jPZNjFM97oVUXIiq1WjBwQe+13B8RNpt/5FXQRNZKqG8EG1FoPE?=
+ =?us-ascii?Q?7IsPRYV8pGgshJebcYRegFKKnFtLApGibxoWT+VIW90HKQZOrTPrwrFFIl4S?=
+ =?us-ascii?Q?3SuexGqOZ3fLGdpr4roZWv8XminSU52WDUWQYfYqaPdLgaWYn+dwcoFQone6?=
+ =?us-ascii?Q?VlQgFy90hplApmHriKDprSOacb4gXN+XFKx21QAP0dzjpO374jlRwC9HC1ay?=
+ =?us-ascii?Q?QzFn1NhQQ7/PHYzJ5eXI63anNI44qrn40Yr+8Pgk2W2HH2jJCSR1y/p7WBx4?=
+ =?us-ascii?Q?MpXwWinl4TCOc462+uIDs1FKIevAVTbDd6KOOkVpMrSngo2Nw6Eo41WAUiAf?=
+ =?us-ascii?Q?rI6yiSbftL1ce7r6cBsvbg+jyBkBPIw9F+nrzgxS7bQDv7JB0qoXrX6qmQH6?=
+ =?us-ascii?Q?P1Pmm7h+0rM9KS0JNqdZSacqC2jPNUF5xR95JFf3tnZmg5/GPp+Li8sTEUJd?=
+ =?us-ascii?Q?gdNSwidAsjL9aQDQd8DPGs+qcFjix5+0BTpTLiwJXNCiuAEGS/hQ3jJsKUGO?=
+ =?us-ascii?Q?eGbUWZZrQlNZkFN5fpu5diai9u4DhCUy/OiCuM4Fq+q9atXjyinA/RsAhimG?=
+ =?us-ascii?Q?651TeMPN+cdIETNlkz19h1RqAmq59dsE1RNQRJhhMpnGNdU24/AlxAvHC0rf?=
+ =?us-ascii?Q?oNoeq9S68Ad+Bc5bM0/vKV93sw31qPYqHc14XwnOu2dhx3DJ0+296Qo9l+9F?=
+ =?us-ascii?Q?mJW64jVPHtCJ1G5vPYz8dg/TfUhLGLjUz0ImH3tvZoO8wZnPIeeUXfDhDzbR?=
+ =?us-ascii?Q?X+ifGSUNm7EGaBnGgMWws1mP3gkfzq1MTMkrqqr6eu6uXBSoaViWr5ucWJOj?=
+ =?us-ascii?Q?3jl19veE7L9AUAjfljhFK6v7luNI1q46eHp5bqdFKTJeEJfXoRx7Jld8RpF9?=
+ =?us-ascii?Q?+eiwiv6o/n8Rm7wfeEJkt2TN2bx7AMq6Stod0IVGu5k5mwfh6imK1jfne7hc?=
+ =?us-ascii?Q?c8lwNIrqNnIT+e/CYBcp+GQJQnDMwEFOWqMRFFDmkdFqQTpYl13HowIwPYQG?=
+ =?us-ascii?Q?w9peZF9ndWXgCGWn1LygM9NW596sytZjCrD50K0i4/+fhhWka50tfsuGuLNQ?=
+ =?us-ascii?Q?k5uhZC0VW1igypH+hxB8oeAcKLrwAQByDIKHUJNF8x+Qh/PIH0mQwyNkvfv0?=
+ =?us-ascii?Q?ucKFomBfEvF9o+ztp/I7QUCl1yALcQIkmJrQMC7q3ETajeI83A09E/kJdV/K?=
+ =?us-ascii?Q?nv+LIr0/Ex8GqYDgw3TVJcpBmBsiKidciyDc?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 02:57:44.6616
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1ee4213-c1dc-4c86-088c-08ddbf5d8b60
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EE3C.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6834
 
-Hello:
+On Fri, Jul 04, 2025 at 06:13:20PM -0700, Nicolin Chen wrote:
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+> index 9f59c95a254c..69bbe39e28de 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+> @@ -7,7 +7,8 @@
+>  
+>  #include "arm-smmu-v3.h"
+>  
+> -void *arm_smmu_hw_info(struct device *dev, u32 *length, u32 *type)
+> +void *arm_smmu_hw_info(struct device *dev, u32 *length,
+> +		       enum iommu_hw_info_type *type)
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+I found that this needed to update the header as well.
 
-On Fri,  4 Jul 2025 20:21:50 +0200 you wrote:
-> Add support for Microchip Azurite DPLL/PTP/SyncE chip family that
-> provides DPLL and PTP functionality. This series bring first part
-> that adds the core functionality and basic DPLL support.
-> 
-> The next part of the series will bring additional DPLL functionality
-> like eSync support, phase offset and frequency offset reporting and
-> phase adjustments.
-> 
-> [...]
+Fixing in v9..
 
-Here is the summary with links:
-  - [net-next,v13,01/12] dt-bindings: dpll: Add DPLL device and pin
-    https://git.kernel.org/netdev/net-next/c/0afcee10dda1
-  - [net-next,v13,02/12] dt-bindings: dpll: Add support for Microchip Azurite chip family
-    https://git.kernel.org/netdev/net-next/c/9f149c5d6dbe
-  - [net-next,v13,03/12] devlink: Add support for u64 parameters
-    https://git.kernel.org/netdev/net-next/c/c0ef14469591
-  - [net-next,v13,04/12] devlink: Add new "clock_id" generic device param
-    https://git.kernel.org/netdev/net-next/c/de9ccf2296ac
-  - [net-next,v13,05/12] dpll: Add basic Microchip ZL3073x support
-    https://git.kernel.org/netdev/net-next/c/2df8e64e01c1
-  - [net-next,v13,06/12] dpll: zl3073x: Fetch invariants during probe
-    https://git.kernel.org/netdev/net-next/c/b7d907d1f84a
-  - [net-next,v13,07/12] dpll: zl3073x: Read DPLL types and pin properties from system firmware
-    https://git.kernel.org/netdev/net-next/c/a99a9f0ebdaa
-  - [net-next,v13,08/12] dpll: zl3073x: Register DPLL devices and pins
-    https://git.kernel.org/netdev/net-next/c/75a71ecc2412
-  - [net-next,v13,09/12] dpll: zl3073x: Implement input pin selection in manual mode
-    https://git.kernel.org/netdev/net-next/c/9686c8b01676
-  - [net-next,v13,10/12] dpll: zl3073x: Add support to get/set priority on input pins
-    https://git.kernel.org/netdev/net-next/c/12ba92f0a6de
-  - [net-next,v13,11/12] dpll: zl3073x: Implement input pin state setting in automatic mode
-    https://git.kernel.org/netdev/net-next/c/bf33c93c1a16
-  - [net-next,v13,12/12] dpll: zl3073x: Add support to get/set frequency on pins
-    https://git.kernel.org/netdev/net-next/c/ce26d7ca50a5
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Thanks
+Nicolin
