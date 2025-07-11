@@ -1,126 +1,186 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B132E4981;
-	Fri, 11 Jul 2025 14:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDA12E9EBB;
+	Fri, 11 Jul 2025 14:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752243605; cv=none; b=FyAALrhLhO8MynQR1SG1Idu+3OJDgnQow4XwNkixM2mwR1ap2XLjnh12itlyEmKX5P+Eo0UGuLc9fgYpUD0/JJKygcxUYoH2k4OUoO1NKxCAoQg9ZZ9hmjgaZ4gwce+GECzcKbfVyja++yCLT34nD95aCl+Oz736DPKQDwl2Mq8=
+	t=1752245504; cv=none; b=bgLd/U6TxLot1VDFyelUnEPDJKvUb+tDj34qzQ5GuuS9PsVOsvhAvAP2k1K24kqm2cXGRd2S5JtJjNm3REQGsST1QGcK5vioM2JguP9g/60dHok0+e2bOB/J2pHy1ata0cj8P3PdifJ6ypG0FS40DRttf4V7Z4WWRh/rcJWEUO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752243605; c=relaxed/simple;
-	bh=g0FY8KEhs3+5ZwzMuOJoxWtCZ12e+cotRCpz7ImwO0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=scAleIAMIWHSpCO298T0zmcuNRDTuRYdlzk64KwFtOH66yhU5XKV9bfxvhFteXkNsnNjFXyTWRJCzWbA5vpndT8rpchDNwmZ54PUkeBZlZ+8vjSj3TTwtCGqmKuhsbHAW/VyziHcLplTaxtNvVbXDwRfSo6M5tRhAxHPpfI0uPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.53.4)
-	(envelope-from <n.schier@avm.de>)
-	id 68711c0d-037b-7f0000032729-7f000001a796-1
-	for <multiple-recipients>; Fri, 11 Jul 2025 16:13:33 +0200
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Fri, 11 Jul 2025 16:13:33 +0200 (CEST)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 5F78280666;
-	Fri, 11 Jul 2025 16:13:34 +0200 (CEST)
-Received: from l-nschier-aarch64.ads.avm.de (unknown [IPv6:fde4:4c1b:acd5:6472::1])
-	by buildd.core.avm.de (Postfix) with ESMTPS id 07985182D09;
-	Fri, 11 Jul 2025 16:13:32 +0200 (CEST)
-Date: Fri, 11 Jul 2025 16:13:29 +0200
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Matthias Maennich <maennich@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Christoph Hellwig <hch@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	David Hildenbrand <david@redhat.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-Message-ID: <20250711-fascinating-dramatic-mongrel-06bb3d@l-nschier-aarch64>
-References: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
+	s=arc-20240116; t=1752245504; c=relaxed/simple;
+	bh=zHL0/JrntZk6f9z9OaKUCRl5Ve/+xb8bifr4gesVLAc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=a1DzlAXlwi7ggjQSycCk8veOXjYQx9A0/q1epdCy0D0Gp5JPVLT2pJe1j5t/ydHEj3bpn4zNPA8fOQAr5HXB620rOC2pLKDTlQ2YeCvGwgXIoTz25SM4orClQqvw59T7CWQ1PDyA+E0ozSVSVn9KsVKCN8VF/D6k8JcOqGUUpAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=u7DZO7tr; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="u7DZO7tr"
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56BEdBmp004956;
+	Fri, 11 Jul 2025 16:51:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	c84xGmzk0WDtYO8pxiXJLl1Oz2OVFtl3JU/pJXFAfdc=; b=u7DZO7trtCD/HxZr
+	DyMkaBwMOG0vBJcMLSkdGeLG3hs+0MewWCBbSoV99OhTFVy6+ZuCh8J6/JR/49BI
+	ZsJQx8q+fGVxigrytX4tCGX1ZXPbAVVEhdsD6hMgycSOEC4ya7HIlu/joAmMaZle
+	Ja+jS6+T6JP+Jqkw7xr6ntV1Dj/3xg58Tjqnge4QeWNw60aEKUPrqRU9/79l8FTH
+	T/XQiTl5KMH2qI2oFQ78QasPO/gds8kL0w8t65kWas7MSbiXIGElrhsTCG9YxTSS
+	eB4yM9KNo2IL1JPObbnJlR59XswLyzFIJrp+Af/x4fVa2E/v9j5Eu9j+6OVAWQLR
+	GOHAyw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47ps6ay385-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Jul 2025 16:51:13 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 21E2B40055;
+	Fri, 11 Jul 2025 16:49:55 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E7C65B4B45D;
+	Fri, 11 Jul 2025 16:49:14 +0200 (CEST)
+Received: from localhost (10.252.16.187) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 11 Jul
+ 2025 16:49:14 +0200
+From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+Date: Fri, 11 Jul 2025 16:48:55 +0200
+Subject: [PATCH v2 03/16] clk: stm32mp25: add firewall grant_access ops
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="vsByBMB2KLXp1vNx"
-Content-Disposition: inline
-In-Reply-To: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1752243213-8E7B2EE7-5F8E945F/0/0
-X-purgate-type: clean
-X-purgate-size: 2145
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-ID: <20250711-ddrperfm-upstream-v2-3-cdece720348f@foss.st.com>
+References: <20250711-ddrperfm-upstream-v2-0-cdece720348f@foss.st.com>
+In-Reply-To: <20250711-ddrperfm-upstream-v2-0-cdece720348f@foss.st.com>
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Gabriel Fernandez
+	<gabriel.fernandez@foss.st.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Le
+ Goffic <legoffic.clement@gmail.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-perf-users@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>,
+        =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+X-Mailer: b4 0.15-dev-7616d
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-11_03,2025-07-09_01,2025-03-28_01
 
+On STM32MP25, the RCC peripheral manages the secure level of resources
+that are used by other devices such as clocks.
+Declare this peripheral as a firewall controller.
 
---vsByBMB2KLXp1vNx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+---
+ drivers/clk/stm32/clk-stm32mp25.c | 40 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
-On Fri, Jul 11, 2025 at 04:05:16PM +0200, Vlastimil Babka wrote:
-> Christoph suggested that the explicit _GPL_ can be dropped from the
-> module namespace export macro, as it's intended for in-tree modules
-> only. It would be possible to resrict it technically, but it was pointed
+diff --git a/drivers/clk/stm32/clk-stm32mp25.c b/drivers/clk/stm32/clk-stm32mp25.c
+index 52f0e8a12926..af4bc06d703a 100644
+--- a/drivers/clk/stm32/clk-stm32mp25.c
++++ b/drivers/clk/stm32/clk-stm32mp25.c
+@@ -4,8 +4,10 @@
+  * Author: Gabriel Fernandez <gabriel.fernandez@foss.st.com> for STMicroelectronics.
+  */
+ 
++#include <linux/bus/stm32_firewall.h>
+ #include <linux/bus/stm32_firewall_device.h>
+ #include <linux/clk-provider.h>
++#include <linux/device.h>
+ #include <linux/io.h>
+ #include <linux/platform_device.h>
+ 
+@@ -1602,6 +1604,11 @@ static int stm32_rcc_get_access(void __iomem *base, u32 index)
+ 	return 0;
+ }
+ 
++static int stm32mp25_rcc_grant_access(struct stm32_firewall_controller *ctrl, u32 firewall_id)
++{
++	return stm32_rcc_get_access(ctrl->mmio, firewall_id);
++}
++
+ static int stm32mp25_check_security(struct device_node *np, void __iomem *base,
+ 				    const struct clock_config *cfg)
+ {
+@@ -1970,6 +1977,7 @@ MODULE_DEVICE_TABLE(of, stm32mp25_match_data);
+ 
+ static int stm32mp25_rcc_clocks_probe(struct platform_device *pdev)
+ {
++	struct stm32_firewall_controller *rcc_controller;
+ 	struct device *dev = &pdev->dev;
+ 	void __iomem *base;
+ 	int ret;
+@@ -1982,7 +1990,36 @@ static int stm32mp25_rcc_clocks_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	return stm32_rcc_init(dev, stm32mp25_match_data, base);
++	ret = stm32_rcc_init(dev, stm32mp25_match_data, base);
++	if (ret)
++		return ret;
++
++	rcc_controller = devm_kzalloc(&pdev->dev, sizeof(*rcc_controller), GFP_KERNEL);
++	if (!rcc_controller)
++		return -ENOMEM;
++
++	rcc_controller->dev = dev;
++	rcc_controller->mmio = base;
++	rcc_controller->name = dev_driver_string(dev);
++	rcc_controller->type = STM32_PERIPHERAL_FIREWALL;
++	rcc_controller->grant_access = stm32mp25_rcc_grant_access;
++
++	platform_set_drvdata(pdev, rcc_controller);
++
++	ret = stm32_firewall_controller_register(rcc_controller);
++	if (ret) {
++		dev_err(dev, "Couldn't register as a firewall controller: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void stm32mp25_rcc_clocks_remove(struct platform_device *pdev)
++{
++	struct stm32_firewall_controller *rcc_controller = platform_get_drvdata(pdev);
++
++	stm32_firewall_controller_unregister(rcc_controller);
+ }
+ 
+ static struct platform_driver stm32mp25_rcc_clocks_driver = {
+@@ -1991,6 +2028,7 @@ static struct platform_driver stm32mp25_rcc_clocks_driver = {
+ 		.of_match_table = stm32mp25_match_data,
+ 	},
+ 	.probe = stm32mp25_rcc_clocks_probe,
++	.remove = stm32mp25_rcc_clocks_remove,
+ };
+ 
+ static int __init stm32mp25_clocks_init(void)
 
-s/resrict/restrict/
+-- 
+2.43.0
 
-> out [2] that some cases of using an out-of-tree build of an in-tree
-> module with the same name are legitimate. But in that case those also
-> have to be GPL anyway so it's unnecessary to spell it out.
->=20
-> Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
-> Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey=
-5sb_8muzdWTMkA@mail.gmail.com/ [2]
-> Suggested-by: Christoph Hellwig <hch@infradead.org>
-> Reviewed-by: Shivank Garg <shivankg@amd.com>
-> Acked-by: Christian Brauner <brauner@kernel.org>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
-
-Looks good to me, thanks!
-
-Acked-by: Nicolas Schier <n.schier@avm.de>
-
---vsByBMB2KLXp1vNx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmhxHAMACgkQiMa8nIia
-bbhOGw/6A9j10gjqoU3cU58K0DP3tXeBiNGfbAwaAYMhKF5qqCTZoVXYZnXlkoqx
-aonsaV+KHjIcgOP3NchS4R290Y+VexSvnltxjlAPSYn4hJXlkLrkozxkGEs6ptE2
-HKyrlo0JPTF5O2XWwVJAcC9bgwdL5N1xxVZPUrOtkjwCt5CP5S6cQVn9F+8E8j24
-u3ZdBTVBzUDzvpdWijFja3eJInjGv5dTS7njg66q/xcfn7flOu9Fka0yvwmwV4aG
-ClESQCXzKBUohjG+02n1j0x/QJqSn7RVnq+sjG75al9T0ggFKH0FRxpiTbbGMRf/
-VTzicAeBesZy+6YdYL5uDUpBdzSUS2xUihzey/xpovKgmbuG9RRx0TK87XAqr/X+
-+4R6q4LwREMB7+dezzlh73DY0NJyROWsocmCcyewbDP7BhXmgVy/8bbWrItVmeyG
-GoBwZn1jI3jw00fRtxXV1JwwD4i9vAnhP4w3w/HfGB7bTMVUaGLwcUfFzOQ083lu
-A41+qAhk71ET9JYF3P6KI5SuINeTX/XzD93F+D5sB//bi4yhVnbjHcWTDgF2n2xT
-kfUZ+7i0xs6OUbFwZdHoy2B92zrShyHNeXkKYRnlPvzt9XBiUMKRfJpnlRUX9/H1
-ij2ZskGClUCirLzrNp3hSfC4vnBmNAopyo8xPSHYyd7/W5lx+XM=
-=XfC4
------END PGP SIGNATURE-----
-
---vsByBMB2KLXp1vNx--
