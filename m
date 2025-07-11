@@ -1,234 +1,289 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE49173;
-	Fri, 11 Jul 2025 01:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752197077; cv=fail; b=mpxr0UhHeIggnfwnzRqrVz9APhG7XJ2Ll8rUI5NnVZcmjl037kquD5NI7MMEeYSAxfiIYP2abTj5HOAFFgLa73JN4Iqd9GgtpK1euNt6hbgnK++e4X3QrlGqP1qvT2SsWXak0kvdd8IGe7ZAMuGQ9Fz//Jz4pQldM0122RyxQms=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752197077; c=relaxed/simple;
-	bh=bbYJAbgemh+PAU91ZB+voLmdlRPsCU/dv95vFk20hGA=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=E8UArovebVFVA5YQtZCv77oNnpI6+6uVKGVVXHSn3aklvTqMMZx+hY11uMWPX6jWUscEGJZd/PrwyZNVy0fZPEjMkljofLWpWyBVyP68mrC+i1gmteOC5/qmC17zmTC1JMiPqIfOgXamcJ2v1DgX79xforpCokPPe3DgGJcMIXk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHJ2OEI1; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A62382;
+	Fri, 11 Jul 2025 01:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752197539; cv=none; b=D6pegk7x2nwW+j23xq/7xedQ/2esdWyfHaf5GuUMlstaqm251cxjgXkPcnOCOsEcWfcbiVyJtTyVPTF71voLg3co/bS3z5ozyP7mGzPKlbavVifkrouKD0S1UClOlxHhPLkZDjid+F459wwm0DG8gA6TiCQfCLLwQOO8wdQknLE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752197539; c=relaxed/simple;
+	bh=CKXvvxaHebrXQfNhSPrEzZD6qgE2lsscG0q1tH5pt/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pPsGw63j0YgNACnWKU9gV+Us24QSQOkGb5SpK03p8aTKqTTdVdBPbVN/m2Scs1Ya3P/kE/6qjcCIPs+/628HJOIwa8Fv4g26ucX5JcX/O9W6kq2L4Fp92e1ATy4mMHV+Awnn/xi0iTXju1bNpcSpSR9dv7WnUivzdBjS82QvKw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EjgsRyX3; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHJ2OEI1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752197077; x=1783733077;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=bbYJAbgemh+PAU91ZB+voLmdlRPsCU/dv95vFk20hGA=;
-  b=CHJ2OEI13Bqk/RTn/W5ZT1NiN3Kxp7zZEdEcQCORZ6my/Ns0w+6umzfB
-   uaeLlmJ6ZxMCmEszklr5HHdkNZUUs/xchY5KDSIF9TpwMXPGGPDyQ8kAu
-   eV8K5DASP0t+Gw24rpHKgObSufgYL/M3Hk8JeE0vDQNi64+RXxEFBDBGk
-   MH41JEQAmx/hZfJlrCSM95uo382oIZh7oaDaFVeLgAEXYPRUqn2+OJlSa
-   ffeHttHoTuzdXbK4bbKu5tJcxKZ0va5FwcITWLiDIpD6kfRk7Dyg/TckW
-   chW984pmxH4HP6BIOIAgjErIxESqOi2cf5uvN+2eOhVtuDFO0ijTPOGnq
-   w==;
-X-CSE-ConnectionGUID: fjDHDumKTkyNyt0OFwIWPA==
-X-CSE-MsgGUID: zbrBdXLvSIaTcs6UXyfB5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="57106018"
-X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="57106018"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 18:24:35 -0700
-X-CSE-ConnectionGUID: 1NsozOi0TL2dLGxx86Sa2g==
-X-CSE-MsgGUID: zRwrmaX1RyaQBLJu7Wn6vg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="160541248"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 18:24:34 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 10 Jul 2025 18:24:32 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Thu, 10 Jul 2025 18:24:32 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.78) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 10 Jul 2025 18:24:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K5GmApbVeNHzeB4y72zCnIvs24fqCdQeTt1lhN8C0ebDY8PBsLpFLPqvLbt2JPDqYeYEQFsQfkQC6WRKP88Kxmpdn/hICHj/nX8m+Bu5YquZwFPlf5yw83BjugQdvCZa4mUZjuaWWDdae7GhnRFyX3QK+4A9ZgLq+IzPDoGBQ7wHMkl+So/OvKk6545dOQ1zP3pgQTCCxUx1XkS1TJSY1NoPl5vzIGlUo+bH+Ee8lcWAuzugDBvj+kRc7lEB0H0WBEVU4nYEsr9BHAMmzxDiDCdfhDAgIYM2KNRNjdnPomHLI/fFCh5Om3WnDH/zxZ/toaumbiPruNNcn4u9FZnztA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bqYX8O0Yz2kR2NY7ZanyYh/JiXNSufJiiLimahL7ZcU=;
- b=plcNJ5jk8f0D2mqpBrBbZUqOdcnYtu4gfGPUd+D5qpvaMNvbLE5UUuCaARGEXzbGGB67bsEr3lkrgknB1dY4xkmGL6itIlCNv/DKM1PW17hIcs0CYE4vkBNPQG5aY3/MzVA28kjYw5FaNo0chPw751TxxjW1PVMQ0qkvRWuNjn4xt8plURQ3ay3BY32Y8E32mxsuQcm6dadhgykDc7+uCKujnFIOdFazM1qy1oCFdL0tOsOg7gJVc2EU0itV1oODRRZ5kxMITbVke0nIazPYqh2JGiEbo1vrEgYxr3USqBjNxEDZuPsWuNXTDvqRr+zCsCkGJ8TyyPIZWuwP95KBsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
- by IA4PR11MB8992.namprd11.prod.outlook.com (2603:10b6:208:56e::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.24; Fri, 11 Jul
- 2025 01:23:55 +0000
-Received: from BYAPR11MB3320.namprd11.prod.outlook.com
- ([fe80::e8c4:59e3:f1d5:af3b]) by BYAPR11MB3320.namprd11.prod.outlook.com
- ([fe80::e8c4:59e3:f1d5:af3b%7]) with mapi id 15.20.8901.024; Fri, 11 Jul 2025
- 01:23:55 +0000
-Message-ID: <f2d4b46d-9a8c-462b-be71-27bd02a0ab49@intel.com>
-Date: Thu, 10 Jul 2025 18:23:52 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv9 13/16] x86/traps: Handle LASS thrown #SS
-Content-Language: en-US
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Andy Lutomirski
-	<luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel
-	<ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf
-	<jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>, Xin Li
-	<xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh
-	<brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>, Tony Luck
-	<tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin
-	<alexander.shishkin@linux.intel.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, "Pawan
- Gupta" <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
-	<daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, "Sandipan
- Das" <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, Rick Edgecombe
-	<rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, Hou Tao
-	<houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, Vegard Nossum
-	<vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers
-	<ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu
- (Google)" <mhiramat@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
-	"Rasmus Villemoes" <linux@rasmusvillemoes.dk>, Christophe Leroy
-	<christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du
-	<changbin.du@huawei.com>, Huang Shijie <shijie@os.amperecomputing.com>,
-	"Geert Uytterhoeven" <geert+renesas@glider.be>, Namhyung Kim
-	<namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-efi@vger.kernel.org>, <linux-mm@kvack.org>
-References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
- <20250707080317.3791624-14-kirill.shutemov@linux.intel.com>
-From: Sohil Mehta <sohil.mehta@intel.com>
-In-Reply-To: <20250707080317.3791624-14-kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0105.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::20) To BYAPR11MB3320.namprd11.prod.outlook.com
- (2603:10b6:a03:18::25)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EjgsRyX3"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-735a6d7c5b1so913276a34.2;
+        Thu, 10 Jul 2025 18:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752197537; x=1752802337; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YiweCKjgFw6vGUv1NePRFx77ntMi7TxsGN2+4y1P0/0=;
+        b=EjgsRyX3nL2i6nmFgDqVrsqLMhZDxp4ySZPOByiOnlZuq/9+Nn2KeCtNgjeJ/gI7Rg
+         eZ53xaDUR+FDXFkWdwhrGRYm3QJsanc2fxgT4ny6W5xx+PIuPunOLwyNL3KIA2w7Fomq
+         BRz1Uz/gXd0mbYVIZk/IdJqJ4cGRmaN2H5oIpd6GuE4Uia/di2LbfIOIpOQAiXX7Lenz
+         nUoC3lT6lG48V802y9Mp3kriyoaVCxW/TkBvCSsEHDWFfjAEDjrvGTtGCCukP8V7tDGF
+         Wan1ieZDoKW/Zq004nSWe6C6zeBeGWx3BuakHiZLgy0L71i0E42YvRzRqxn2AV8HaemH
+         caPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752197537; x=1752802337;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YiweCKjgFw6vGUv1NePRFx77ntMi7TxsGN2+4y1P0/0=;
+        b=pPPEQzrjb2VddD3q/bd8cC2DiArjryfRtr7Jr8Wa8PyNuNWbS8lYXrcs1QQ6mrscY3
+         vp+BCAipMPUxjP0DkS0dSydw9MkIlJ8SgX10gdgSFrvlWFArPvux1Ev2OBIWnOoXTB+f
+         ijru1K9mvgHZAyj6YreeaGxeqe+WmjKvSr+l67HRRrjM6banDeUxurkqGx/LjPeKIt1I
+         vObmOSZ0mh3xyHH5FWZDsxauahQlMRAn5wry42eusPtG/7ysE+ncfLqZHZOgmzmelG7N
+         QFqmTc8dkK9TnPwFSQpDDksRQ4SAYzPafYmMYj4Jk9kQmx5uy8M1daPC7kRgz50aLb4H
+         OcEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUlmJnxzrDwKbZY4YSzHt0A7hGSxhCzjFvOq0yTdcSg1MTtK5RxgylEFCBqcSnXb+M1rC9f2MPM5n9dAhdoVg==@vger.kernel.org, AJvYcCWDuCmQQnzhkFIVVBjsn4oiG6Nc7ODRD8adkMAQ9N5imIr4ZvXOd4H3dSTuH8lcZKPcf+5+XEyyOg1I@vger.kernel.org, AJvYcCXJiEGys24fwK33CKAlQ+P5L2N/hkfGsp+00n3oTbbgVdlS543hdwvmRcpuiprXvxKZl1jqkUJOfmI=@vger.kernel.org, AJvYcCXWiCRYBp9W3GtRMwOpPFDbhhR3cnPN1SPPsAG9TEE83hDDeyr//gKTYHIyIEe5kciN5TmNhxoP7+mYA7Go@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK2/cNATNJShFq2IKQPRhiqfFmQCOsGTIBJvlrviSuqnlbN/fi
+	SSU4lvrzinJ+2UfTq3NQysYHNz3wilN0k4KLkiKk9doGspYJiiBM6QkQ
+X-Gm-Gg: ASbGncuhADbO/UMQVkadJ8eERv80FGMdHLB66tTK6zc9W9cZ3N8G+s+5+u6Z0uLIv3f
+	m5+B1EXDevTqGYz91m/QZ4iL94hxzjK4zNSPitz7o/2MkznPMUCLeRkyZGsqr9+VZCjisy5eh67
+	ezpURIjM41EBOPD0aCQTI4c+uUeMqiCTDgDpN761GFwF9lS1s7ALChOG9hzUhtlCn6LrgolR28s
+	b2V9X/QSiudy3d9xGoTbdtt0X1jfcF3sAjAE1Sadw6+ZQ2kKXOI17DhtaccEXsmCw0+fqbOD4V+
+	dfEWgoy3o2KSq4uiOQp0px5AaP5JEf6l1fzHoUzv+LJB2gFxayXL3fOBeCyayvOTbq5FYs7L8CQ
+	ZrU5Kl2aWmMxkXuL2iGwLLveJbTXC6UDGmS4A
+X-Google-Smtp-Source: AGHT+IG4OQ4RGKPIQAtxam3MPA3mdWbg+LYWtIDggxBK7DL3lhUQ9aFSO8NNXxdSJZlYCW2Y4xalfQ==
+X-Received: by 2002:a05:6830:8107:b0:739:fa45:5918 with SMTP id 46e09a7af769-73cfc4a5334mr208039a34.28.1752197536496;
+        Thu, 10 Jul 2025 18:32:16 -0700 (PDT)
+Received: from groves.net ([2603:8080:1500:3d89:25b0:db8a:a7d3:ffe1])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf12a4c21sm393479a34.46.2025.07.10.18.32.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 18:32:15 -0700 (PDT)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Thu, 10 Jul 2025 20:32:13 -0500
+From: John Groves <John@groves.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Amir Goldstein <amir73il@gmail.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC V2 10/18] famfs_fuse: Basic fuse kernel ABI enablement for
+ famfs
+Message-ID: <wam2qo5r7tbpf4ork5qcdqnw4olhfpkvlqpnbuqpwfhrymf3dq@hw3frnbadhk7>
+References: <20250703185032.46568-1-john@groves.net>
+ <20250703185032.46568-11-john@groves.net>
+ <CAOQ4uxi7fvMgYqe1M3_vD3+YXm7x1c4YjA=eKSGLuCz2Dsk0TQ@mail.gmail.com>
+ <yhso6jddzt6c7glqadrztrswpisxmuvg7yopc6lp4gn44cxd4m@my4ajaw47q7d>
+ <20250707173942.GC2672029@frogsfrogsfrogs>
+ <ueepqz3oqeqzwiidk2wlf3f7enxxte4ws27gtxhakfmdiq4t26@cvfmozym5rme>
+ <20250709015348.GD2672029@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3320:EE_|IA4PR11MB8992:EE_
-X-MS-Office365-Filtering-Correlation-Id: 399008aa-4dc7-4c47-799a-08ddc0199a74
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dTBsaHNLRzdDSGp3QTQ2QlhGaUhkcjJYcllxcytpRDdRcFdDc3d4a3VER1c1?=
- =?utf-8?B?QktVRTJTbGxjUUVoVGY5d3pPZlNBc0I3clN1bG9taStMZWJCcFdPZ0NIb3h2?=
- =?utf-8?B?V1pnajliMWFuUVZteFBHc0hGZXBvNjNNcklvT1BlSEZ1dXk5LzE2SWc2ZWVM?=
- =?utf-8?B?YzNtRWFUemVuL2R1SW5xQ1hoYWRSNm1scFBLVG93cm80Nnh3QzZYcjJsMWNU?=
- =?utf-8?B?cWh2RjF2ZDhsSWxiaUFiVFFvaHd5RUJuTjBVblpKRzFoMVRtN0UzWE1idy9v?=
- =?utf-8?B?Nnp3RmQvbnA3aUZsMmw2Vi9pRmVLSVUvRkw4dUJjUk90MEh0SzRtVExTb0pj?=
- =?utf-8?B?SFYrUTRVNStTdUdQc011REZscTdibnFBaWg1OUx6eTYxU01Ra3p3a3pzWCtS?=
- =?utf-8?B?YVNyZGtqdjZZOVl1cUFxR0ZHend5akx4QzNnd2RxK3NIQlVsOHUyRHFYMzVM?=
- =?utf-8?B?ODdsWEU5N2I3VU5DRDNxR29lcGRudENzbXNSTjJobWk2aG9RZTQxZVg5Q3Nh?=
- =?utf-8?B?WEV4YTNWb0ZZNkZZalhzOVhvbE9tYTk1M2k2dDBiUldKL0N1ZWd0RFZ4aUFY?=
- =?utf-8?B?QnVZeGh2UDE3TDlKd1I1YXNVdGxBU2VWeWs5N3RrVFB3eHgrNFVrV2JvVVJs?=
- =?utf-8?B?a1dJWWVVcDZzUjhKeU5IakNvY05vaENxbGhTQnhPWWNTTnlSTE5BMDN4bEVH?=
- =?utf-8?B?LzJRbis0c2JUSVRnbGkyRXRnWUVPWk1BbDBzWlpTSFg4VEtsdS9xK0JFNzFN?=
- =?utf-8?B?WG9wdk1keEc4TTNBTmZvZHNDTkZsSWlUSWE2ajViellUaXhJMkc1ZkJhR092?=
- =?utf-8?B?WGZ1WDFWaENiNENUSE5ONCs0QjRnakplR1RsckxXbGtIeGxWaTlaYU16SE8z?=
- =?utf-8?B?VDFZbXFFWkh3d0I1L2dwTjQxOGJYc09HVWJCaXJ4SlRaSjVrek1nVEV6THhB?=
- =?utf-8?B?Mkt1dStmOUV2aThUVnJUUzlrZmowaEFKTngwR2dCdGg0R1BDY09sejBoUU4z?=
- =?utf-8?B?dmRrY1pzdTdhNzdpZmoySEQwbUxIeVVoUjNvYVV6Ni9EUklwNmJxQmFZa0sz?=
- =?utf-8?B?My8wblhJOFVzZXRVRDUxRlJnTGJOVmlwNFR3VjhybFNRd05VNXNvMGl3SWFw?=
- =?utf-8?B?b0JXdFB0Rk1ObXU2VW4wNEJUVS83TFJYcG1EMCtla2h3MjlmYnpKSE40dGNO?=
- =?utf-8?B?Q0tWZ3haTDZrTFZkQUhLQUlOS1dPQnVxVnFWL043bnI1bi9HSzZmVDY2SUdZ?=
- =?utf-8?B?bUxaWXh2NHYxdDFRMks1SlMrMk4ydkpua0YybjkyL2d5Nm5vbE9FU04yU3dj?=
- =?utf-8?B?MUNDejc4b0dqeVdscU5taklUVjZZNlczVDcyb2piazZnNWVlLzE1QmlTT2tp?=
- =?utf-8?B?RHBheVFVT0ZtdlhOVGYzMEh3d2Z3S1V4Y0QxSVMyNXNMc21LUHNmVmhVZGFK?=
- =?utf-8?B?ZjE5ckI1TGZ3bkhHMGp6NVVvd040SFJKVXNQOWZsdmQ5bUd1Z1NKRmE2TWpT?=
- =?utf-8?B?SE1SK2ZSR08vWlVIRk9DejRja080Zkw2VWJHWU85L2hLL05KV1Z4blM4M0k2?=
- =?utf-8?B?TlZ6bzhtdk9JQ3dKMDhCWEE0NTE1YjFmeGVUUFZrS0JteTliY0NoRzFES1Fl?=
- =?utf-8?B?RVlNVE9EUS83cTBqOHd5UzhaZ3Vhai8ycDRBSGxVVmdKdjlFQWNkQ3dUOFo0?=
- =?utf-8?B?ZjRZUXVTS2V1NzZIbTdBdXpNaUZIMW50VjR0MUdoRksyZXo5bUg4QlN4c3Fa?=
- =?utf-8?B?R2gxVzlGNEN4ZXJWVGF3b1ErM1k0TzZNME5JNzcxVit5KzhGL3RKM24wQjd2?=
- =?utf-8?B?SkF1ZDkzTGJuOXdOZ254MndLU3BxeVU4bllNdkl3S25FYWpqeG45YWRPNi93?=
- =?utf-8?B?RFN0OE5IZVl3TENWdUpZZEZGVkdsVnozS3pSdGp0VWk3Q2JBbzJrYloyWG1i?=
- =?utf-8?Q?DKEjD9EqV3QF3yvMikb0JubkcOHwlTF9?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YzN5YWl4cnUvNnJLMGJMdS80YVNjNFk4NXZlMFFzSGtCM2FGeTZYRUR6NFE2?=
- =?utf-8?B?SmY4WmVOMWZuV1NvSU9UZHJUL2duOEVmVHY1a21DU1BNc01XM1pIblF0UVNF?=
- =?utf-8?B?RkNlcVFxZy9rNkk2azAvNzhXaHM0azZzeWx2WEdyU1M0WktJNVQ5dVBmREYr?=
- =?utf-8?B?VUFoTDc3Qy96MmFIcTB6Y3FQWkwyd3pBSkYxSGIyazRiSmRSb200M0VWUDZV?=
- =?utf-8?B?aEpVNnFMNHF0T09XMGpQYksxSkp0WExITXRSemR5dG9kbHFYUXRHM1diOHVq?=
- =?utf-8?B?c2lHSC9iUzhMeGlOZXJ3WW0zYlJMbU8yL1ZmaDB6cW04QXdDMG1JYWVTTWV3?=
- =?utf-8?B?NmhCSFRqNVVleTZZZlo0dmsrZ05VNFFRNzZWL3JmUFRUZ2lEUmFtdFJLTjRq?=
- =?utf-8?B?bkZLUCtPdU5JelR2U08rOUswTjA1Vko1Y3cycTA4anJtbGFZQVJBa1hIa0FR?=
- =?utf-8?B?SklobE52ZWViWFgzSFJZbWJBR2UyUEMvYUdyVzdxR3hvQ0U4RFJueUxoRlFU?=
- =?utf-8?B?RFNZbVMveDVWbmVqbFdEaDBLQ0N6YjdINUl5eWRweHJYUFIzYkIzY2k2UmQ4?=
- =?utf-8?B?YU9WbUpIUFJONXkxWStpNk9UN0E0VDYxS0U1WU9sYlZKV2ZmZXlQSjFUY05n?=
- =?utf-8?B?ZDNiOUhlT0FzS1ZWYVlWV0JiWnpXaEZoNVBHOFNhMUJ3VU1IYTlyVTFtKzFF?=
- =?utf-8?B?S0s1SHRNTUNEWi9PcUI0ZVpHOGRhbXhpSkJMSElxd2JKOGhlTmJBbTFOR3dz?=
- =?utf-8?B?Z3lCSGE0N25RNnhDcmlUOThPbFJ5V0VYVzh3Zmh2M1lwdUkvamJKc0p3ZnJ6?=
- =?utf-8?B?NnY3elI2aGtMSkJDVVFESC93VmZnbHFzS3ZyU3laZ09PSHVKQjc3cHRkbThX?=
- =?utf-8?B?SlZhNGtrTlFlaEkrUGZGcWZRTzNkRGdXQ0t6L2U3ZWVSZlZLV0tiWXlyMEFs?=
- =?utf-8?B?L1gvKzY2b2pSdWxyRmpneEk0Tm5ONUdCREJjek11bFVMU2xxUURyK1RXZGx4?=
- =?utf-8?B?SmNha0o2NFlHdkRBTFpwZ0hYTWpTbDNnRktLb01VN2ZoSzRsbjFtcFR4bU5i?=
- =?utf-8?B?MzVTN0FzZm1BWGdmUlFLNHdVd1hJOWdqQTd0R09UblZZN2xQalZKR2ROaGt0?=
- =?utf-8?B?S25GYUxZQUduTDZmeENseWhuY1NCYld0d2RLd25paUVJOFk1bUpYdWRnV0E5?=
- =?utf-8?B?dmpqWjByUDEySkVSUW85K1REdkU2NFM5SWllc3AwZTByRSsrSVl6NXZGSEg4?=
- =?utf-8?B?NzVQTkhZYjEzaFRySGRzWmFIQVhpUDVmT1Q2bjRIZUhPc1R0VlRXbFB6NjBK?=
- =?utf-8?B?THEzdWV1WXArNDNsTkd4QTQyaU9Kam1KeitkaHJrVkFjSllLQitvekV0MUN3?=
- =?utf-8?B?RnFBZEZCWllMQStBY2xlQ0RHNjRKRFk0SFFXTkNTUVVzNi9pcGxQUk9LRXpr?=
- =?utf-8?B?bjVEeGJycFVZUlErNVhjVXcrOXdmQVBQNEJXVmlNY004NklSRnp1SmN2Qks4?=
- =?utf-8?B?bkF6NXI2eUtaK1VTTDlvOEV2UUxzM3h4a3dVbVpCYy9hRkRxQThYRkhVUXZh?=
- =?utf-8?B?MUEvOUgwRGpPY3pEMllibTdpVHBsMWxyTGVkbzVVZzhRM2g5TWdxS3o3Z0FL?=
- =?utf-8?B?V1BSdmJBa2tHL21BaGhDY0xkMjBEUkFxU1dyVlpqeVl2QVhlMG9WMGhzYmlK?=
- =?utf-8?B?RmE1NS9hdndHVHlGY0dqYldKRWRURjBneE1kRU5lVlNLN3dPYnlRMyt5L0dS?=
- =?utf-8?B?ZHlVSUIwdmV0aDJzR29IQ2dvYTBtMFVUWnhjRnY5MnZKTThZWTlMS3IyT3p4?=
- =?utf-8?B?UVJYZTRDN0tGUXgyQWN0bG1QYkRxYzF6WUhrRThVQXdUQWoxYVJsaFNiSnpY?=
- =?utf-8?B?eExBREthMndXd0t6MXU4YW9kTVVTVnhCd1dmU2xPbVg4Q042eldFTGdabEJh?=
- =?utf-8?B?cEgrRXNzRkJ3VVdrZkRYQUZxKzFyNTlNZ0J3aE13aStLblhTLzRFQWZEZkxi?=
- =?utf-8?B?WjZ0eE4zSjkrU1Y2bzRBbzFnQ2t3ZTNCaUUrL01pbHBuLzkxbytJazRIY3FQ?=
- =?utf-8?B?eFA0M2xFcDZ0b0hFczZva0RIREV1Mk1QWXN0eERwdUJ6Z0l5NmpJT3F2ZXV1?=
- =?utf-8?Q?DG0Qt2LA4RjZtuDHIfXH2OKNo?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 399008aa-4dc7-4c47-799a-08ddc0199a74
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 01:23:55.7714
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P+rTf0DkQEsDI/pWo2BuTUCsMm6zI7X60xRQO1C2cRcaahI0lKPgT7RmLt5LeaEPYcsP9fe3kiCOtYspTKYRcg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB8992
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250709015348.GD2672029@frogsfrogsfrogs>
 
-On 7/7/2025 1:03 AM, Kirill A. Shutemov wrote:
-> LASS throws a #GP for any violations except for stack register accesses,
-> in which case it throws a #SS instead. Handle this similarly to how other
-> LASS violations are handled.
+On 25/07/08 06:53PM, Darrick J. Wong wrote:
+> On Tue, Jul 08, 2025 at 07:02:03AM -0500, John Groves wrote:
+> > On 25/07/07 10:39AM, Darrick J. Wong wrote:
+> > > On Fri, Jul 04, 2025 at 08:39:59AM -0500, John Groves wrote:
+> > > > On 25/07/04 09:54AM, Amir Goldstein wrote:
+> > > > > On Thu, Jul 3, 2025 at 8:51 PM John Groves <John@groves.net> wrote:
+> > > > > >
+> > > > > > * FUSE_DAX_FMAP flag in INIT request/reply
+> > > > > >
+> > > > > > * fuse_conn->famfs_iomap (enable famfs-mapped files) to denote a
+> > > > > >   famfs-enabled connection
+> > > > > >
+> > > > > > Signed-off-by: John Groves <john@groves.net>
+> > > > > > ---
+> > > > > >  fs/fuse/fuse_i.h          |  3 +++
+> > > > > >  fs/fuse/inode.c           | 14 ++++++++++++++
+> > > > > >  include/uapi/linux/fuse.h |  4 ++++
+> > > > > >  3 files changed, 21 insertions(+)
+> > > > > >
+> > > > > > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > > > > > index 9d87ac48d724..a592c1002861 100644
+> > > > > > --- a/fs/fuse/fuse_i.h
+> > > > > > +++ b/fs/fuse/fuse_i.h
+> > > > > > @@ -873,6 +873,9 @@ struct fuse_conn {
+> > > > > >         /* Use io_uring for communication */
+> > > > > >         unsigned int io_uring;
+> > > > > >
+> > > > > > +       /* dev_dax_iomap support for famfs */
+> > > > > > +       unsigned int famfs_iomap:1;
+> > > > > > +
+> > > > > 
+> > > > > pls move up to the bit fields members.
+> > > > 
+> > > > Oops, done, thanks.
+> > > > 
+> > > > > 
+> > > > > >         /** Maximum stack depth for passthrough backing files */
+> > > > > >         int max_stack_depth;
+> > > > > >
+> > > > > > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> > > > > > index 29147657a99f..e48e11c3f9f3 100644
+> > > > > > --- a/fs/fuse/inode.c
+> > > > > > +++ b/fs/fuse/inode.c
+> > > > > > @@ -1392,6 +1392,18 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
+> > > > > >                         }
+> > > > > >                         if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled())
+> > > > > >                                 fc->io_uring = 1;
+> > > > > > +                       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&
+> > > > > > +                           flags & FUSE_DAX_FMAP) {
+> > > > > > +                               /* XXX: Should also check that fuse server
+> > > > > > +                                * has CAP_SYS_RAWIO and/or CAP_SYS_ADMIN,
+> > > > > > +                                * since it is directing the kernel to access
+> > > > > > +                                * dax memory directly - but this function
+> > > > > > +                                * appears not to be called in fuse server
+> > > > > > +                                * process context (b/c even if it drops
+> > > > > > +                                * those capabilities, they are held here).
+> > > > > > +                                */
+> > > > > > +                               fc->famfs_iomap = 1;
+> > > > > > +                       }
+> > > > > 
+> > > > > 1. As long as the mapping requests are checking capabilities we should be ok
+> > > > >     Right?
+> > > > 
+> > > > It depends on the definition of "are", or maybe of "mapping requests" ;)
+> > > > 
+> > > > Forgive me if this *is* obvious, but the fuse server capabilities are what
+> > > > I think need to be checked here - not the app that it accessing a file.
+> > > > 
+> > > > An app accessing a regular file doesn't need permission to do raw access to
+> > > > the underlying block dev, but the fuse server does - becuase it is directing
+> > > > the kernel to access that for apps.
+> > > > 
+> > > > > 2. What's the deal with capable(CAP_SYS_ADMIN) in process_init_limits then?
+> > > > 
+> > > > I *think* that's checking the capabilities of the app that is accessing the
+> > > > file, and not the fuse server. But I might be wrong - I have not pulled very
+> > > > hard on that thread yet.
+> > > 
+> > > The init reply should be processed in the context of the fuse server.
+> > > At that point the kernel hasn't exposed the fs to user programs, so
+> > > (AFAICT) there won't be any other programs accessing that fuse mount.
+> > 
+> > Hmm. It would be good if you're right about that. My fuse server *is* running
+> > as root, and when I check those capabilities in process_init_reply(), I
+> > find those capabilities. So far so good.
+> > 
+> > Then I added code to my fuse server to drop those capabilities prior to
+> > starting the fuse session (prctl(PR_CAPBSET_DROP, CAP_SYS_RAWIO) and 
+> > prctl(PR_CAPBSET_DROP, CAP_SYS_ADMIN). I expected (hoped?) to see those 
+> > capabilities disappear in process_init_reply() - but they did not disappear.
+> > 
+> > I'm all ears if somebody can see a flaw in my logic here. Otherwise, the
+> > capabilities need to be stashed away before the reply is processsed, when 
+> > fs/fuse *is* running in fuse server context.
+> > 
+> > I'm somewhat surprised if that isn't already happening somewhere...
 > 
-> In case of FRED, before handling #SS as LASS violation, kernel has to
-> check if there's a fixup for the exception. It can address #SS due to
-> invalid user context on ERETU. See 5105e7687ad3 ("x86/fred: Fixup
-> fault on ERETU by jumping to fred_entrypoint_user") for more details.
+> Hrm.  I *thought* that since FUSE_INIT isn't queued as a background
+> command, it should still execute in the same process context as the fuse
+> server.
 > 
-> Co-developed-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> ---
->  arch/x86/kernel/traps.c | 41 +++++++++++++++++++++++++++++++++++------
->  1 file changed, 35 insertions(+), 6 deletions(-)
+> OTOH it also occurs to me that I have this code in fuse_send_init:
 > 
+> 	if (has_capability_noaudit(current, CAP_SYS_RAWIO))
+> 		flags |= FUSE_IOMAP | FUSE_IOMAP_DIRECTIO | FUSE_IOMAP_PAGECACHE;
+> 	...
+> 	ia->in.flags = flags;
+> 	ia->in.flags2 = flags >> 32;
+> 
+> which means that we only advertise iomap support in FUSE_INIT if the
+> process running fuse_fill_super (which you hope is the fuse server)
+> actually has CAP_SYS_RAWIO.  Would that work for you?  Or are you
+> dropping privileges before you even open /dev/fuse?
 
-Reviewed-by: Sohil Mehta <sohil.mehta@intel.com>
+Ah - that might be the answer. I will check if dropped capabilities 
+disappear in fuse_send_init. If so, I can work with that - not advertising 
+the famfs capability unless the capability is present at that point looks 
+like a perfectly good option. Thanks for that idea!
+
+> 
+> Note: I might decide to relax that approach later on, since iomap
+> requires you to have opened a block device ... which implies that the
+> process had read/write access to start with; and maybe we're ok with
+> unprivileged fuse2fs servers running on a chmod 666 block device?
+> 
+> <shrug> always easier to /relax/ the privilege checks. :)
+
+My policy on security is that I'm against it...
+
+> 
+> > > > > 3. Darrick mentioned the need for a synchronic INIT variant for his work on
+> > > > >     blockdev iomap support [1]
+> > > > 
+> > > > I'm not sure that's the same thing (Darrick?), but I do think Darrick's
+> > > > use case probably needs to check capabilities for a server that is sending
+> > > > apps (via files) off to access extents of block devices.
+> > > 
+> > > I don't know either, Miklos hasn't responded to my questions.  I think
+> > > the motivation for a synchronous 
+> > 
+> > ?
+> 
+> ..."I don't know what his motivations for synchronous FUSE_INIT are."
+> 
+> I guess I fubard vim. :(
+
+So I'm not alone...
+
+> 
+> > > As for fuse/iomap, I just only need to ask the kernel if iomap support
+> > > is available before calling ext2fs_open2() because the iomap question
+> > > has some implications for how we open the ext4 filesystem.
+> > > 
+> > > > > I also wonder how much of your patches and Darrick's patches end up
+> > > > > being an overlap?
+> > > > 
+> > > > Darrick and I spent some time hashing through this, and came to the conclusion
+> > > > that the actual overlap is slim-to-none. 
+> > > 
+> > > Yeah.  The neat thing about FMAPs is that you can establish repeating
+> > > patterns, which is useful for interleaved DRAM/pmem devices.  Disk
+> > > filesystems don't do repeating patterns, so they'd much rather manage
+> > > non-repeating mappings.
+> > 
+> > Right. Interleaving is critical to how we use memory, so fmaps are designed
+> > to support it.
+> > 
+> > Tangent: at some point a broader-than-just-me discussion of how block devices
+> > have the device mapper, but memory has no such layout tools, might be good
+> > to have. Without such a thing (which might or might not be possible/practical),
+> > it's essential that famfs do the interleaving. Lacking a mapper layer also
+> > means that we need dax to provide a clean "device abstraction" (meaning
+> > a single CXL allocation [which has a uuid/tag] needs to appear as a single
+> > dax device whether or not it's HPA-contiguous).
+> 
+> Well it's not as simple as device-mapper, where we can intercept struct
+> bio and remap/split it to our heart's content.  I guess you could do
+> that with an iovec...?  Would be sorta amusing if you could software
+> RAID10 some DRAM. :P
+
+SW RAID, and mapper in general, has a "store and forward" property (or maybe
+"store, transmogrify, and forward") that doesn't really work for memory. 
+It's vma's (and files) that can remap memory address regions. Layered vma's 
+anyone? I need to think about whether that's utter nonsense, or just mostly 
+nonsense.
+
+Continuing to think about this...
+
+Thanks!
+John
+
+
