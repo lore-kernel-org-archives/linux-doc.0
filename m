@@ -1,93 +1,154 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEAA1EE7A1;
-	Fri, 11 Jul 2025 07:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DA01E9B08;
+	Fri, 11 Jul 2025 07:29:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752218837; cv=none; b=QoyD1Q8tbch44NwZco0Mmnf86XVHWy53pAZvIlJh71r+WM0gTjpI3Y41n/3UEH96ji3tJO0rE06vbgFnqeZR8ZVjTSVTxv6IquAkv1ZyhEyzdg3LsHv+Tq5KJ1L5D9i75esJ9w1iVa7J0UPSm9z1qyhRzPOzszelviyvoAGtE18=
+	t=1752218962; cv=none; b=UVA/qTcfKJvQ0wQp6ETMTwQP1PdkCvA12E6pgMNJsilxuNMI+7OsFGiaE+2bTsR8IGzPb/bmAzAOTReC43scNR0HUExNANR5VM1gK9iJpa1wmcFmMIi+IyNFUtB7Puf8eOHHhB1LGCvAEorYy7ZAfrSdXzaWKv2Y5DDIrKBM1T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752218837; c=relaxed/simple;
-	bh=eVTLcMK7oKgBVI6TDwgs1/kzz/4Jkz57v7A2+Jm5cPQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cON3DQ1towwTFu0SSjlEkY6JAaW+Kzhb3j1LNIz21zzif41aclBQpm1K44zBoJha35jNfkphQsLdj0qmgn3urflY40qX67g08Mb6mgGODWPtwVtv7+5k4IYaKfLOu0lf0iQX1JlHROvLXOhN0rCSQKqhb/CEcUqv3SxdWjZOjIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=onJDwMIP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752218962; c=relaxed/simple;
+	bh=1bYQFKIcAn0s1xDS2MgBRnt8iLRkzAExHI5zhkCBABA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C9TylIC8w8fpflOXX1sj+9/lFkcNwhTDoTuLsG+xNKwI6IqmE6m4gBg+rf7i4khyDEVeO72pZp28aujtSjjoR4k5XbO+CZkpBI5jmS+vO621wpwK5fGPaIvl9gOtM1WvNBAobotAE0L28rSm7RHj5/C0J6S5sGrw/P57rfMWhpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sr2JNfMH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="onJDwMIP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39C3C4AF09;
-	Fri, 11 Jul 2025 07:27:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sr2JNfMH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44311C4CEED;
+	Fri, 11 Jul 2025 07:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752218836;
-	bh=eVTLcMK7oKgBVI6TDwgs1/kzz/4Jkz57v7A2+Jm5cPQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=onJDwMIPE2FjhQn4a//t+Ukrip+5u1HeCwnaphNhgElu2hJ73ZQryHaKF9jW55xzS
-	 Y/9YkzYYZFYLsuQADrotcPreKFteikCk1l3JwM24rYooraU2sH6pNec9RhO7sQF++/
-	 2ZjFp9VVUPqwls6ctPL2lJRq+gw65g9pee+/vHTxdh76jARubqhUzSzs1+sHDyugDi
-	 osdnVqQu1GO6EGC921/spYm6CGfQfRxpU5RCBW2iwAzXL390FNkYtmu0WzEZibJ/PJ
-	 BC7lpxNCGs6oVhgRjIUWkYGGjsQrjPt9uTCDpkxK1ogmIWZwKunOU3ozXvVy+sbtfp
-	 ikSfKTPhoygIg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ua8A6-0000000FSSo-3HIr;
-	Fri, 11 Jul 2025 09:27:14 +0200
+	s=k20201202; t=1752218961;
+	bh=1bYQFKIcAn0s1xDS2MgBRnt8iLRkzAExHI5zhkCBABA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Sr2JNfMHO8x4Zvt10+1DTJTVI3SbUWuUb8UNKm5iDpElYTN1tNSGQPewefAPXNHi1
+	 K5JFOhzSpqpUxob1nIi2iIA5iCI0+5vLhWrd6+tvXLb/+VyQ0tSUE07QPg5aUnPxJW
+	 DlfK1ta2W2pZIk5TMBb75sg5RwvkgLL7uYfbkP161tk3vAYrYLAsiIMxCjpBgg2o+b
+	 +RSev1lt1JQ4vbUIKgwFvFZcBj5rphtd3JUrFm4dnlBtajx8+aXA0uJDfBtg7liStf
+	 1L8fFKAdqYeZP1rjT5IzP0lsu+3oiVvyncReT3n0pkG5Typii/i4PbqhD0qynqgtNW
+	 duedNyJmZVgMg==
+Date: Fri, 11 Jul 2025 09:29:17 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/2] Restore kernel-doc support for Python 3.6
-Date: Fri, 11 Jul 2025 09:27:07 +0200
-Message-ID: <cover.1752218291.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.50.0
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 00/12] Thrash up the parser/output interface
+Message-ID: <20250711092917.229bcc89@foz.lan>
+In-Reply-To: <92ff26c0-6952-4f7e-965e-2f020adb859b@gmail.com>
+References: <20250710233142.246524-1-corbet@lwn.net>
+	<92ff26c0-6952-4f7e-965e-2f020adb859b@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Jon,
+Em Fri, 11 Jul 2025 13:29:00 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-While discussing patch v2 12/12 from your kdoc series, I realized
-that kernel-doc command line should not crash with Python 3.6,
-nor cause compilation breakages with older versions.
+> On Thu, 10 Jul 2025 17:31:30 -0600, Jonathan Corbet wrote:
+> [...]
+> 
+> > Changes since v1:
+> > - Coding-style tweaks requested by Mauro
+> > - Drop the reworking of output-text accumulation for now
+> > - Add a warning for prehistoric Python versions  
+> 
+> Serious review of python code is beyond my background, but I did a test
+> on this against opensuse/leap:15.6's python3-Sphinx_4_2_0, which comes with
+> python 3.6.15.
+> 
+> Running "./scripts/kernel-doc.py -none include/linux/rcupdate.h" emits this:
+> 
+> ------------------------------------------------------------------------
+> Traceback (most recent call last):
+>   File "./scripts/kernel-doc.py", line 315, in <module>
+>     main()
+>   File "./scripts/kernel-doc.py", line 286, in main
+>     kfiles.parse(args.files, export_file=args.export_file)
+>   File "/linux/scripts/lib/kdoc/kdoc_files.py", line 222, in parse
+>     self.parse_file(fname)
+>   File "/linux/scripts/lib/kdoc/kdoc_files.py", line 119, in parse_file
+>     doc = KernelDoc(self.config, fname)
+>   File "/linux/scripts/lib/kdoc/kdoc_parser.py", line 247, in __init__
+>     self.emit_message(0,
+> AttributeError: 'KernelDoc' object has no attribute 'emit_message'
+> ------------------------------------------------------------------------
+> 
+> This error appeared in 12/12.  No errors with python3 >=3.9.
 
-The problem mainly affect builds with CONFIG_DRM enabled, due to:
+This is actually a bug. See:
 
-drivers/gpu/drm/Makefile:                PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-drivers/gpu/drm/i915/Makefile:    cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none -Werror $<
-include/drm/Makefile:           PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
+	+        #
+	+        # We need Python 3.7 for its "dicts remember the insertion
+	+        # order" guarantee
+	+        #
+	+        if sys.version_info.major == 3 and sys.version_info.minor < 7:
+	+            self.emit_message(0,
+	+                              'Python 3.7 or later is required for correct results')
+	+
+	     def emit_msg(self, ln, msg, warning=True):
+	         """Emit a message"""
 
-This small series prevent Kernel build breakages on such case,
-and it is meant to be merged after your kdoc patches.
+The answer is just below the modified code: the function name is actually:
+	self.emit_msg()
 
-Patch 1 emits a warning wih Python 3.7 siilar to kdoc class,
-but on an early stage. More importantly, it emits a warning
-and exits the script for versions <= 3.6. 
+> I'm not sure but asking compatibility with python <3.9 increases
+> maintainers/testers' burden.  Obsoleting <3.9 all together would
+> make everyone's life easier, wouldn't it?
 
-We still need the kdoc warning, as it detect troubles when
-calling kernel-doc as a class.
+I'd say that the best is to have:
 
-Patch 2 fix a backward-compatibility issue that otherwise
-would require Python 3.9.
+scripts/sphinx-pre-install:
 
-With that, building the Kernel with older versions won't break.
+- be compatible with Python 3.6, as it is needed to detect and
+  request Python upgrades where needed.
+
+- For the doc build, based on my tests with the pre-install tool,
+  all distros on my testlist have at least Python >= 3.9 as optional
+  packages.
+
+Now, kernel-doc is a special case, as it is called during Kernel
+builds, with "-none". In the specific case of this patchset, running
+Python 3.6 would randomize the order of struct and function arguments.
+Not a problem when "-none" is used. So, compilation should not
+break.
+
+Shifting kernel-doc minimal version to Python >= 3.9, will
+require an extra logic at kerneldoc to abort early if "-none"
+is used with too old Python, as otherwise it will break kernel
+builds for RHEL8, OpenSUSE Leap, OpenMandriva Lx 4.3 and to 
+other distros (those three comes with 3.6).
+
+Jon,
+
+I sent a two-patches series addressing such issues with kernel-doc
+exec file.
+
+I would keep patch 12/12, fixing it from:
+
+	 self.emit_message -> self.emit_msg
+
+as the warning is emitted when using kdoc classes, which is now the
+default.
+
+-
+
+Btw, if you use Fedora, you can easily install python 3.6 there via 
+dnf:
+
+	$ dnf search python 3.6
+	Updating and loading repositories:
+	Repositories loaded.
+	Matched fields: name, summary
+	 python3.6.i686: Version 3.6 of the Python interpreter
+	 python3.6.x86_64: Version 3.6 of the Python interpreter
+
+	(Fedora 42 also have all python versions from 3.9 to 3.14 beta also
+	 via dnf)
 
 Regards,
 Mauro
-
-Mauro Carvalho Chehab (2):
-  docs: kernel-doc: emit warnings for ancient versions of Python
-  scripts: kdoc: make it backward-compatible with Python 3.7
-
- scripts/kernel-doc.py           | 10 ++++++++++
- scripts/lib/kdoc/kdoc_parser.py |  4 +++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
--- 
-2.50.0
-
-
