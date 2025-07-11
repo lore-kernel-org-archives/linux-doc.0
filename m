@@ -1,179 +1,130 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F231A08DB
-	for <linux-doc@vger.kernel.org>; Fri, 11 Jul 2025 16:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440411547CC;
+	Fri, 11 Jul 2025 17:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752252362; cv=none; b=kZGoiln+ZWhSx4iQPAPXVmP8NBXhovF0dq3MfS7QlkJcXYuu89duRQpmEEmhs2NNTQWZuTtVej8/9kEN6OfEu11E5vHUOslii0GQN/ZNqZsZjIgEmp+f0JU3hRwFOQkQ/A3DMmOzNBDhfqSH/Oziyt7+toDdu99SE5UDTNNLuF4=
+	t=1752254165; cv=none; b=h9T9UN1uJ6VLqboqne0sRxtgvCYKTIFRlSdfD1qFXKxff52rDOcCdidduwAqy9VwZAlXoTDiRgsWb2Pg2mBUrxV9L3dOB80De8UUXcuBEXDpT7CPreA+Wwi24es9GjbgjcTU0zeSi/W7YJ+eXG4lJasYe7z5QHaYpxWP1+e45DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752252362; c=relaxed/simple;
-	bh=/lyNWm+N+92DlLe9EWHRgcUgtDsWEk9hDtMlng2SaeE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f9BEznw1N2+J3SjkRuMjIRbK9mzMvgt837znXE53Q51NXMJ1ULryUDXA4UyIpq/5WdxVItzB+GgXfMjq8dDoDB9W+cg2cZhkqrOd8WHSz2lJ9Br3tf9tKKC+T0y66MpclvsoqjW9aM2eLfxBJJp5c3Ag8Sz8m8H8c38NagSUArQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=tomeuvizoso.net; dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b=e/mk2M0G; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
+	s=arc-20240116; t=1752254165; c=relaxed/simple;
+	bh=punT/qboQi6RwL4rhScmANJJEIkXEYqHxfa0D+uO4Lo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W15EhCpr2T1VsyJPEgANnVDZ6xNnILVV9r5kycK0sBCRW03KgU8GwieYgeLNugBhzwT9/9rudbTgbtK8m4t+1pyTR2RDou3So5WQKeMEmAzZyz5bSDvomfytF3r7kACyrxoRRqqmayPsjNhy57CPksnIrTY9BwZ4xcxJ7vn8HxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gkBlRWob; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="e/mk2M0G"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-711756ae8c9so17647127b3.3
-        for <linux-doc@vger.kernel.org>; Fri, 11 Jul 2025 09:46:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gkBlRWob"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4537fdec33bso13775145e9.1;
+        Fri, 11 Jul 2025 10:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1752252360; x=1752857160; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1752254163; x=1752858963; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KVqtR2y37+fGKASYTrCFwyYcRTeea2/g0YbtiZzMR3k=;
-        b=e/mk2M0Gnw6N5eTQA9mVBaXVXaZOlOXeX7Y55QGHvH8Fe/wKasuVUY9xDbcxtrNosR
-         2URQc8f1MQhHua90PvS6R7ACUnBzXG1Pa5xW3IttSz8WeDjKx09s4b8mPU3VvfWePB1J
-         K+wRp7D0qr34Tw/o2bfXx/5G3Ym2VhE82ZQEeSvwlrf20qyMxFsem2Z+tUK4yK+jsSnh
-         hie9HzaiVz5HD8Ev0mLO4DbaUFsDaHt/NR/rPHBcu/Jznm4kY/wF+OBEyQxnUP4Oinha
-         Ydj6uERz5bMR/kKOZ021x2kcWOE3eOJgqcN/5aKqI9sHwMbab//dFrrT9l9sCbk2MV6q
-         JGfQ==
+        bh=XgDIVlF1DvYfUM2yQqqKFY/jQV517y2whN5qoc38Vxc=;
+        b=gkBlRWob7+1RCeHVZLecQ9Lde3df+2x301kewbb8FRdDZ6DLzkqUjj09TYlYKonWGT
+         ayjwe5RWc2wJzf75IsEKzTZKNyXH0JTzyJo7DZKco7nLvWlJY6uY8hA0q9n7FSYbUTvh
+         bOOnMn0qj5PrxgwXWu3NDGJdC1HHqAHx9FqgGHzknRyp53XTDCONdSJzHSbs6aE3xG2g
+         i4J8AcHWlbpWZaHqpJ8rt6Jgdz1HVUAoulrtpbhYncf299TYqYKeFbRpJ0DCjhDNmMgc
+         luTe14btUuwn4+j0j9C4XyhsakaKp3qQGNs39FC0Z2wVzKZHq3AU+MC/b9W7CVQuEAc2
+         hY/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752252360; x=1752857160;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1752254163; x=1752858963;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KVqtR2y37+fGKASYTrCFwyYcRTeea2/g0YbtiZzMR3k=;
-        b=kL7ddB2oqtfbfYEcG0s6y6WJNnrSrX60Eudcyr74RzmFKDSqmKvHS9GRfqZPokxTjw
-         IN81brQ26mYgOzERizYegXo+Vw576SJKzuzR1NPqvbBzAOAAoXwgOs5Btg8Yb4kFYVsB
-         0Bub7Ygxf3sds6rBcC3M7+4ELksN6ojNp0uE9K7oeO62n/rimFw3Y4Gk7NYlq/QxMBvn
-         VsO/EusZMdE6ZENY1z71l5PZJcS4qL3Fg+Ycynv/0RCtgdw7RNHQeeRQFMdQ4m6gZpVb
-         Tf2InMqRLIJwtCtO4HYzRvi6sN8gSkHM5Cgtcr2ZGo9U6QEjthXc80ulJL2g21Zp5qvt
-         SnSg==
-X-Forwarded-Encrypted: i=1; AJvYcCXhix29dfCr8M0HGqp0qWCKslGElE/ukynSCSZ/OZpPYbwp7VUJSfCAchYKvYQn0dFhabxKfE3BS/0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywn3dP5ykyo2xN/K9uzBJ1savX51APriKL905p5l9rIg6jhES8i
-	lgwNLL2U8ZaSFSAIti9SnLV9LpTTdfYYT2ezI2DThqsVTGTROtQBUvWW+5VDbPnwP0c=
-X-Gm-Gg: ASbGncuSZQMo0RfvZHmPPjKZLvX5Ma5MbzeMIRQmvtB619obzOFB2tUMnmRgBbuQWuF
-	5TXlB9namvJDN7CNYiFds1DGU3w/Svlr5KvbQ/H2qSdRbs7ux8dc24Z8hFyPIxfFdqxadt4D/yj
-	kMjQeZ5T9ubycPCFgOwOBNYzaPVF7Z/99bwfOuPicAbp1fJvaDkjpRsDIDSv+FvGHqs8OHN94pH
-	Er7oY4OqMpIKs4f6oH/2lz1UR/OsyzPONa6MvNemRCTtA/jweVjeIXa8k8WY++oxhNcJ1S9T+Vh
-	jl3j5MbYptNIn2ULcF549Tgfuj2iG/30Woyp1hfu2SZq2KEmmeZ4cHIAda3aTWKLdnS8VYFpEEp
-	6ZTel8CSgAKUU5p9wvWT4nJUHhUcb/dfT1bGzbZKNLTaA9SIMJsh7RVZgWk4YCSgJZw==
-X-Google-Smtp-Source: AGHT+IFq8mDE8PudB+If0p/yz9r5BMm3b0sAMcM401GT4XSFuAGCatql+fXY5z//W9+Ngzp3GWU/hg==
-X-Received: by 2002:a05:690c:45c2:b0:70e:7503:1181 with SMTP id 00721157ae682-717d5e944a0mr69820747b3.18.1752252359978;
-        Fri, 11 Jul 2025 09:45:59 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e8b7ae26c85sm1216180276.7.2025.07.11.09.45.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Jul 2025 09:45:59 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e81f311a86fso2092861276.3;
-        Fri, 11 Jul 2025 09:45:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUOR5hTHgAwiY5xeogRVxrriILkAAQY3hgd7EO0OCBaD93pSwQIsLRh98I+HKPM34Xn395md2m8mbpXsqM=@vger.kernel.org, AJvYcCXiMcZov/rhk4piecetDTfgSQx9HtN/TnV3iTn7Sf8mew6kB8U0iUNow48MiyoWcufNBn7Pukpdp3qy@vger.kernel.org, AJvYcCXslclD+Zm1wiY9+vBWQSe9u5GfkcE3t5LrtMJuGfhZkmKDjwfI6470H2dkiLDqSahweXrfDQvdMA4zbER3@vger.kernel.org, AJvYcCXtCSrLKC1bu8u13cJo2KD2wAIDNbWzDsxTpaWVTiALo/xH7ioNyVjtFgJwIO+0+kWh+fDuT3pLp7/C@vger.kernel.org
-X-Received: by 2002:a05:690c:fc9:b0:711:406f:7735 with SMTP id
- 00721157ae682-717d5d7b900mr75779167b3.13.1752252358549; Fri, 11 Jul 2025
- 09:45:58 -0700 (PDT)
+        bh=XgDIVlF1DvYfUM2yQqqKFY/jQV517y2whN5qoc38Vxc=;
+        b=EvmF7hpGxumDSLGr9mBv8OLJuW7Qsf/mypertDr5VoNb9k+9iMGkFbDp6XmUEwNMMn
+         Na8kw0MxNXZ4jYpMu+sumsOfd/GEND198XT92R2Fv64k5B0iN64sv7rYmzNexLSprntR
+         RIjVIrOB6Trg1VBWZ4nVx5ox4tf/tzbQ33c2eo1Imae09UuYm3yNc9HxyMPdw6RA0nvT
+         rUhEn9UZv4pHu76nYjOw9AS+rWIvmaqDDFSgDPwyq2ruIsvSgHCLAylUmd0NpWWROzBE
+         NtW1MhUWBVFTiOVt2O+d+Q1uTGIfsnWJSmAPjzerH5WMKyZjDXHBlAShHGV2gXIp63NN
+         ExwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3IzkWd0iE0qFHGfSBWZ3bzrYV5b8c/MrINNauGmZMt7AfzFPvXsGtyVszX19v5oN56nxSDpdNPMRcIMKU3w==@vger.kernel.org, AJvYcCW7PbMVUusxk088m0LygdZkHOvxIhAvq49ih6epvz7RDb9TB5R6OObQBaQcWU6UGVJmyaOhpp0KvVWer6TtIg==@vger.kernel.org, AJvYcCWP4tMlHiXKNPi+Yx7p84vJjgxi2xLJcKqNn0L4pKLdlGk19M9WawdRNM4X7TOXmpD0KIstW6JFfd0=@vger.kernel.org, AJvYcCXZhE8vH4SvRrGn9MvgQT3ATBqLpNMsehTjsnFpJ/qyaFezCZFZrPW4+Ku4/nEt0ootdHZx2pBMYQI1T1BH@vger.kernel.org, AJvYcCXj6Epwpp3aQiZlFyZt+nUZqicfmicXRIU4n88gNL4YTvWUa1xfwVU4HvilARd2UA6jP2fQYKj3nITRO4P0@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqwyhAg7M8MXxLvwRri7gdZC/4N3MZ0G3zKXNE1ERsGksgBEj1
+	PFbKtJn2jf/cJKgVEduScde4wLrptU9itRD31IvsextjKvc2FhsCp/EJ
+X-Gm-Gg: ASbGnctw+wbHFPL5/Ei6g4WeH3RiUNAwAH3uYjfexNP/VJmlLJ44I1kCLhFlV2maJcZ
+	OuatrvbsqnVDzpP/2ByWHLJXlhyqcd9vOasr+NWYXzRqG2APSosTL/eqfndQjHwco5S222wOku3
+	vmNCEulL7QpNtSy1LGePuvw6WB5DHQKOqRwZKYHIkYVIzTjpH2J9EnqflgM9ffoObamv8UTMMdm
+	eEOUE6HUIodm/WP2n39TpIPFyRjGaD99PXbL1VlZ6MIG+0GhZyABeSskswBee6p4Tk8U98Gu0YY
+	cW1m9YRirRWo76G0fsD59zwuN7AukC7qwsTZGfM9yox1xwvGxFygcE0zbWpktLRb+2+RPWJpWjv
+	2QX/YoRUsLRB0cmfNHT/e7Ddnd/ChmD/sjSQQ1xgwGuFI6mrfTRirIg==
+X-Google-Smtp-Source: AGHT+IELepidXrimYt+aX1iyNVRfD3WkoM6qJxSS6lwzOVMRvsBDCdDvOitxBrAgoPpT5TSjelS97g==
+X-Received: by 2002:a05:600c:540f:b0:453:9bf:6f7c with SMTP id 5b1f17b1804b1-454ec1274demr41997825e9.9.1752254162453;
+        Fri, 11 Jul 2025 10:16:02 -0700 (PDT)
+Received: from pumpkin (host-92-21-58-28.as13285.net. [92.21.58.28])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e14e82sm5003521f8f.71.2025.07.11.10.16.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jul 2025 10:16:02 -0700 (PDT)
+Date: Fri, 11 Jul 2025 18:16:00 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Matthias Maennich
+ <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen
+ <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, Masahiro
+ Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig
+ <hch@infradead.org>, Peter Zijlstra <peterz@infradead.org>, David
+ Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>, "Jiri
+ Slaby (SUSE)" <jirislaby@kernel.org>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/2] Restrict module namespace to in-tree modules and
+ rename macro
+Message-ID: <20250711181600.36fac178@pumpkin>
+In-Reply-To: <20250708-merkmal-erhitzen-23e7e9daa150@brauner>
+References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
+	<20250708-merkmal-erhitzen-23e7e9daa150@brauner>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net> <fcb3ca23-7ebd-4f48-92d2-969b24936b9b@arm.com>
- <CAAObsKBiSX0HcxJJjTNGgE4FD4eAYW5wvY=bROtdkZ1mqf_0VQ@mail.gmail.com> <a1a93c41-4c21-4b7a-a8b8-5d4e83d73931@arm.com>
-In-Reply-To: <a1a93c41-4c21-4b7a-a8b8-5d4e83d73931@arm.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 11 Jul 2025 18:45:46 +0200
-X-Gmail-Original-Message-ID: <CAAObsKAgmDANvWop-GRAqE6eFRHeQiVHkF1nSwEqyWWY=mdRfg@mail.gmail.com>
-X-Gm-Features: Ac12FXx7z145GnPjkDCiCeIztHHyJGSgIFJExInPlpkFTI1qLEtbnsvv5usQDuA
-Message-ID: <CAAObsKAgmDANvWop-GRAqE6eFRHeQiVHkF1nSwEqyWWY=mdRfg@mail.gmail.com>
-Subject: Re: [PATCH v7 04/10] accel/rocket: Add job submission IOCTL
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Kever Yang <kever.yang@rock-chips.com>, 
-	Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 11, 2025 at 6:40=E2=80=AFPM Robin Murphy <robin.murphy@arm.com>=
- wrote:
->
-> On 11/07/2025 5:00 pm, Tomeu Vizoso wrote:
-> > On Tue, Jun 24, 2025 at 3:50=E2=80=AFPM Robin Murphy <robin.murphy@arm.=
-com> wrote:
-> >>
-> >> On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
-> >> [...]
-> >>> diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/roc=
-ket/rocket_device.h
-> >>> index 10acfe8534f00a7985d40a93f4b2f7f69d43caee..50e46f0516bd1615b5f82=
-6c5002a6c0ecbf9aed4 100644
-> >>> --- a/drivers/accel/rocket/rocket_device.h
-> >>> +++ b/drivers/accel/rocket/rocket_device.h
-> >>> @@ -13,6 +13,8 @@
-> >>>    struct rocket_device {
-> >>>        struct drm_device ddev;
-> >>>
-> >>> +     struct mutex sched_lock;
-> >>> +
-> >>>        struct mutex iommu_lock;
-> >>
-> >> Just realised I missed this in the last patch, but iommu_lock appears =
-to
-> >> be completely unnecessary now.
-> >>
-> >>>        struct rocket_core *cores;
-> >> [...]
-> >>> +static void rocket_job_hw_submit(struct rocket_core *core, struct ro=
-cket_job *job)
-> >>> +{
-> >>> +     struct rocket_task *task;
-> >>> +     bool task_pp_en =3D 1;
-> >>> +     bool task_count =3D 1;
-> >>> +
-> >>> +     /* GO ! */
-> >>> +
-> >>> +     /* Don't queue the job if a reset is in progress */
-> >>> +     if (atomic_read(&core->reset.pending))
-> >>> +             return;
-> >>> +
-> >>> +     task =3D &job->tasks[job->next_task_idx];
-> >>> +     job->next_task_idx++;
-> >>> +
-> >>> +     rocket_pc_writel(core, BASE_ADDRESS, 0x1);
-> >>> +
-> >>> +     rocket_cna_writel(core, S_POINTER, 0xe + 0x10000000 * core->ind=
-ex);
-> >>> +     rocket_core_writel(core, S_POINTER, 0xe + 0x10000000 * core->in=
-dex);
-> >>
-> >> Those really look like bitfield operations rather than actual arithmet=
-ic
-> >> to me.
-> >>
-> >>> +
-> >>> +     rocket_pc_writel(core, BASE_ADDRESS, task->regcmd);
-> >>
-> >> I don't see how regcmd is created (I guess that's in userspace?), but
-> >> given that it's explicitly u64 all the way through - and especially
-> >> since you claim to support 40-bit DMA addresses - it definitely seems
-> >> suspicious that the upper 32 bits never seem to be consumed anywhere :=
-/
-> >
-> > Yeah, but there's no other register for BASE_ADDRESS address in the TRM=
-.
->
-> That only reaffirms the question then - if this value is only ever
-> written verbatim to a 32-bit register, why is it 64-bit?
+On Tue, 8 Jul 2025 09:40:37 +0200
+Christian Brauner <brauner@kernel.org> wrote:
 
-Ah, sure, it will be 32-bit in v8.
+> On Tue, Jul 08, 2025 at 09:28:56AM +0200, Vlastimil Babka wrote:
+> > Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
+> > part to avoid controversy converting selected existing EXPORT_SYMBOL().
+> > Christoph argued [2] that the _FOR_MODULES() export is intended for
+> > in-tree modules and thus GPL is implied anyway and can be simply dropped
+> > from the export macro name. Peter agreed [3] about the intention for
+> > in-tree modules only, although nothing currently enforces it.
+> > 
+> > It seems straightforward to add this enforcement, so patch 1 does that.
+> > Patch 2 then drops the _GPL_ from the name and so we're left with
+> > EXPORT_SYMBOL_FOR_MODULES() restricted to in-tree modules only.
 
-Thanks,
+Bikeshedding somewhat, isn't that a silly name.
+All EXPORT_SYMBOL are 'for modules'.
+Wouldn't something like EXPORT_SYMBOL_IN_TREE be more descriptive.
 
-Tomeu
+	David
 
-> Thanks,
-> Robin.
+> > 
+> > Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
+> > in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
+> > 8250: export RSA functions"). Hopefully it's resolvable by a merge
+> > commit fixup and we don't need to provide a temporary alias.
+> > 
+> > [1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
+> > [2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
+> > [3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
+> > 
+> > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> > ---  
+> 
+> Love this. It'd be great to get this in as a bugfix,
+> Acked-by: Christian Brauner <brauner@kernel.org>
+> 
+
