@@ -1,95 +1,148 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC3F309A52;
-	Thu, 10 Jul 2025 23:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABBB18D;
+	Fri, 11 Jul 2025 00:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752190321; cv=none; b=FIPso+jcvTjB0QxcNICnk5uLD2lDceJ21jXpQIdvvxRQx2Zm5iif5XwbkfHAkOB9fVKfzIL2L0jhU4GYMNnZNW9OvAd6jZ1xqkO1GEASDm4VGW7yDOyTAOd5eQat7vCrEkkXGWTzY/59tl+NAtjZ506/AQlEANEJXrQAKa8CQGY=
+	t=1752192108; cv=none; b=ne6Lhr9Qr5eW1/Ozffg/NWuZCR9SuhLygDrzR9EqorTSfPQ8TFXZy94N6xpWcveWkWi6MFU0U5hFOpQjLQpSjim/Vcimghg13KMVoxqeTAEQGdCG2JCozP9uvEYwq33EVDzAoL5otfEoO1prA2rC598tFELYd6+Qsh3N16u3Ubs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752190321; c=relaxed/simple;
-	bh=AYb/kMhuMfcuVGw0rn9Jk1tH146m3ywJMggP+HSSk9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YrB4aqVAGLkxt+TMhYlUm/YRu3AzXDe9wXBo+hjIbgfe9Ngh0s7bBK0HdKYtkRXfXbaFkc1SbOAjjaCKWvq2y9nxAbRiEvJk4e7h3Q8VKz1fmTXMMsVe+xayZgdPE9HdjETGNn8MCVMHdJiKpBAApdQq8XB2rq4VTpaEwWHN2ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tNX+qUP3; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1752192108; c=relaxed/simple;
+	bh=bfhRUE9KLj4AiPwRuPJog/FV9o9BOqxquXFb122pM2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eBmHTLJe7i4Gaythn/QgOdOr2RFDRLaMoATfMBe3Z4DkouAyIkTR6jUKQYoeqzJKENyCUk7L2Bm5F0guO7CnM6M+I1prcxxEI5NWESZ2hVyiwBFVLu3OckUJEyPJGeOHXcPAU1UzMzStq74xtmmMd8caoK/qXMySEc5fTah8gKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uIkw7as1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tNX+qUP3"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B88FD40AD8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1752190319; bh=osk9iDvYkT2VDAGfp2kEG6eJBgGqe8CmQwDNIjc52AU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tNX+qUP31g1pp2x3jBWH+QbcKAbnRLxSbbBwHIg5ltZP0cQziXve9hkZp5ROi3URY
-	 7NGCfxu8D6+2XluOxs66EDY8DNfFQAP8IBBvR/K/J3r/29Apk4rfaW/o+6rLL4TsEA
-	 5v9HF53KZwwDGES02qb97u2rLfnZ41esNPIlJccvkYSmGNfMo0+my3qhBNyVHEP/oy
-	 e0381LiEk9T8EwiOjFXe/jeYkttkSiiTdySd6NWZOqyv+nw8xONgijsXyBDy0vHhfh
-	 lxL9sjkS0yYUxlnCoX2fe+w53Un13HGuRFbkGLD9+rXmbalCU/vUo67O4C7N3GsqEe
-	 Q6f6XgICENUNw==
-Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id B88FD40AD8;
-	Thu, 10 Jul 2025 23:31:58 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 12/12] docs: kdoc: emit a warning for ancient versions of Python
-Date: Thu, 10 Jul 2025 17:31:42 -0600
-Message-ID: <20250710233142.246524-13-corbet@lwn.net>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250710233142.246524-1-corbet@lwn.net>
-References: <20250710233142.246524-1-corbet@lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uIkw7as1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C31C6C4CEE3;
+	Fri, 11 Jul 2025 00:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752192107;
+	bh=bfhRUE9KLj4AiPwRuPJog/FV9o9BOqxquXFb122pM2w=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=uIkw7as1EA4K7vu69fCnQpgXiGQ9LgO/KFw/3aJb6hBMxQ/Bw0Lm7V1Pz9KCev0mY
+	 47II1sSNNKOIrk32GLgK166HOzEEBxoIVroUsx2P8XpCzDxKaN3upG9Js3ccu6EyJ8
+	 A9GJwIAVrnwTq4po8l9c6escr1TeukqgAl2XwxOC5Hm4lOYxKKCbgiXAjAM79Bz9z6
+	 mt50hsSOc0u0/mtnlRIgDRK1fK0wRTyHdEaS2KNplmTK5/mlqHTp1YSqyUhzwynGa4
+	 PP5Nc42WWFjx3JAfVg77u6074TpmV7mqzZ19s6N9lSa1iDIRzL23hiDehnDKut6/9c
+	 ecQ6Il9cRchUA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 662EACE0A44; Thu, 10 Jul 2025 17:01:47 -0700 (PDT)
+Date: Thu, 10 Jul 2025 17:01:47 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+	rcu@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH -rcu -next 5/7] rcu: Document GP init vs hotplug-scan
+ ordering requirements
+Message-ID: <92d599bc-dbaa-4dd6-93b7-8fb07b10cf8e@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20250708142224.3940851-1-joelagnelf@nvidia.com>
+ <20250708142224.3940851-5-joelagnelf@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250708142224.3940851-5-joelagnelf@nvidia.com>
 
-Versions of Python prior to 3.7 do not guarantee to remember the insertion
-order of dicts; since kernel-doc depends on that guarantee, running with
-such older versions could result in output with reordered sections.
+On Tue, Jul 08, 2025 at 10:22:22AM -0400, Joel Fernandes wrote:
+> Add detailed comments explaining the critical ordering constraints
+> during RCU grace period initialization, based on discussions with
+> Frederic.
+> 
+> Co-developed-by: Frederic Weisbecker <frederic@kernel.org>
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 
-Python 3.9 is the minimum for the kernel as a whole, so this should not be
-a problem, but put in a warning just in case somebody tries to use
-something older.
+Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
 
-Suggested-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- scripts/lib/kdoc/kdoc_parser.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index fdde14b045fe..23ac4ad204f4 100644
---- a/scripts/lib/kdoc/kdoc_parser.py
-+++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -12,6 +12,7 @@ Read a C language source or header FILE and extract embedded
- documentation comments
- """
- 
-+import sys
- import re
- from pprint import pformat
- 
-@@ -238,6 +239,14 @@ class KernelDoc:
-         # Place all potential outputs into an array
-         self.entries = []
- 
-+        #
-+        # We need Python 3.7 for its "dicts remember the insertion
-+        # order" guarantee
-+        #
-+        if sys.version_info.major == 3 and sys.version_info.minor < 7:
-+            self.emit_message(0,
-+                              'Python 3.7 or later is required for correct results')
-+
-     def emit_msg(self, ln, msg, warning=True):
-         """Emit a message"""
- 
--- 
-2.49.0
-
+> ---
+>  .../RCU/Design/Requirements/Requirements.rst  | 41 +++++++++++++++++++
+>  kernel/rcu/tree.c                             |  8 ++++
+>  2 files changed, 49 insertions(+)
+> 
+> diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+> index 6125e7068d2c..771a1ce4c84d 100644
+> --- a/Documentation/RCU/Design/Requirements/Requirements.rst
+> +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+> @@ -1970,6 +1970,47 @@ corresponding CPU's leaf node lock is held. This avoids race conditions
+>  between RCU's hotplug notifier hooks, the grace period initialization
+>  code, and the FQS loop, all of which refer to or modify this bookkeeping.
+>  
+> +Note that grace period initialization (rcu_gp_init()) must carefully sequence
+> +CPU hotplug scanning with grace period state changes. For example, the
+> +following race could occur in rcu_gp_init() if rcu_seq_start() were to happen
+> +after the CPU hotplug scanning.
+> +
+> +.. code-block:: none
+> +
+> +   CPU0 (rcu_gp_init)                   CPU1                          CPU2
+> +   ---------------------                ----                          ----
+> +   // Hotplug scan first (WRONG ORDER)
+> +   rcu_for_each_leaf_node(rnp) {
+> +       rnp->qsmaskinit = rnp->qsmaskinitnext;
+> +   }
+> +                                        rcutree_report_cpu_starting()
+> +                                            rnp->qsmaskinitnext |= mask;
+> +                                        rcu_read_lock()
+> +                                        r0 = *X;
+> +                                                                      r1 = *X;
+> +                                                                      X = NULL;
+> +                                                                      cookie = get_state_synchronize_rcu();
+> +                                                                      // cookie = 8 (future GP)
+> +   rcu_seq_start(&rcu_state.gp_seq);
+> +   // gp_seq = 5
+> +
+> +   // CPU1 now invisible to this GP!
+> +   rcu_for_each_node_breadth_first() {
+> +       rnp->qsmask = rnp->qsmaskinit;
+> +       // CPU1 not included!
+> +   }
+> +
+> +   // GP completes without CPU1
+> +   rcu_seq_end(&rcu_state.gp_seq);
+> +   // gp_seq = 8
+> +                                                                      poll_state_synchronize_rcu(cookie);
+> +                                                                      // Returns true!
+> +                                                                      kfree(r1);
+> +                                        r2 = *r0; // USE-AFTER-FREE!
+> +
+> +By incrementing gp_seq first, CPU1's RCU read-side critical section
+> +is guaranteed to not be missed by CPU2.
+> +
+>  Scheduler and RCU
+>  ~~~~~~~~~~~~~~~~~
+>  
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index 327848f436e7..32fdb66e9c9f 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -1835,6 +1835,14 @@ static noinline_for_stack bool rcu_gp_init(void)
+>  	start_new_poll = rcu_sr_normal_gp_init();
+>  	/* Record GP times before starting GP, hence rcu_seq_start(). */
+>  	old_gp_seq = rcu_state.gp_seq;
+> +	/*
+> +	 * Critical ordering: rcu_seq_start() must happen BEFORE the CPU hotplug
+> +	 * scan below. Otherwise we risk a race where a newly onlining CPU could
+> +	 * be missed by the current grace period, potentially leading to
+> +	 * use-after-free errors. For a detailed explanation of this race, see
+> +	 * Documentation/RCU/Design/Requirements/Requirements.rst in the
+> +	 * "Hotplug CPU" section.
+> +	 */
+>  	rcu_seq_start(&rcu_state.gp_seq);
+>  	/* Ensure that rcu_seq_done_exact() guardband doesn't give false positives. */
+>  	WARN_ON_ONCE(IS_ENABLED(CONFIG_PROVE_RCU) &&
+> -- 
+> 2.34.1
+> 
