@@ -1,96 +1,99 @@
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [220.197.32.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB96188907;
-	Fri, 11 Jul 2025 05:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892BB469D;
+	Fri, 11 Jul 2025 05:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752212290; cv=none; b=LJfX2bFhp5M0ZbNdCmq6oio6aMUcchhkDXOsaO8HItNpI7+JRdfEnyow/hExynteAUsE8g7lCUKbM/3ES+mIB/8rwGuUWIhsd1DdCqEGY/Tz5HLZFwoUvuMUwfyxOazO8qWSUijy9ugkQ8YByKaQMW8k1xXJ3echptLAst86z8E=
+	t=1752212994; cv=none; b=kkbQBzrfG6ebF+9Ph7U2rcRiWnDT0tG5LIqiHn7Jc9ZquuuFqHpsZSYT5k0v6NIMS9XQdbhv4RcdkGVaES0OzRZOC+QhwcN5zZUt61pmlN20UeAH4zyN3gQE1QtrDuhv3/AODnkdW90ofQihFSnY6rxo5utCwbbYjie1kxTFCvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752212290; c=relaxed/simple;
-	bh=dSzZXBtaUtF6MwhCEZHgYoOFBwfwB4QKpkWElkUK1o4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VI0/Dt2iK8yuypLnXtzK5VsBSUhERqJlE1Teyc2sWtOAZmTsTFHMWXDVncX+wbFKaV76rtO2xq6TV+xA6JjnU11UezwKi+oy4S4ChBWxSaq/Sr2uajAqCJZpPNrQF5TxXgcpgTkyPDzGFqEnpIe42kNhQ4ANc0hlZnH95Lecgys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=H62B/Bbg; arc=none smtp.client-ip=220.197.32.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+	s=arc-20240116; t=1752212994; c=relaxed/simple;
+	bh=N547kb+EDzrWedKEp0F4foA8weUWsuctW/SSslhI4H0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PxLP9TOS2yAkcCIzYQ5Tcjm70Yez/5DK06yzrg/kLquMBDePI8/E/aIdHMde8CdTGnSkQOku+P3M14P1GKm5Q+bLIwRshVOdYdqj7Aj5toPLn6HRy79/BZAVCaSjDMrnn5xKa/DMOzfp2h9REud+/nAdltCTbp936j3ecW7KWuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTeaLxeX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="H62B/Bbg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=OhAsV/CBrgYXlLFY+8qkcKo/GadLSGwmgLi8pRb4QUk=;
-	b=H62B/Bbg/cEOgUnp7ap3h3tfUm7W4fQQmbCIIu7+/C38Ajeij8sKBhr6nwaiI3
-	03t8NYs71gCAxHhpYnrVzpereZLFz2CdbnKGk5w2MU1NOHSKh6rFJZ/0Id7N7Av8
-	e9mxbeNGEaKp/i3Nir3h+qEI66llfAv+KbFqy0+FEBZ7U=
-Received: from dragon (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id M88vCgDHX52HonBobvdOAA--.742S3;
-	Fri, 11 Jul 2025 13:35:05 +0800 (CST)
-Date: Fri, 11 Jul 2025 13:35:03 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	Frank Li <frank.li@nxp.com>
-Subject: Re: [EXT] Re: [PATCH v17 0/7] firmware: imx: driver for NXP
- secure-enclave
-Message-ID: <aHCihwHKVck-emEX@dragon>
-References: <20250426-imx-se-if-v17-0-0c85155a50d1@nxp.com>
- <aEqMSG8k+NpQ7ROH@dragon>
- <AM9PR04MB86048A698B03E974CFD3DB489574A@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <aEuB1qgd6aVl0i7i@dragon>
- <AM9PR04MB8604F77BCD3427B38CB9E664957DA@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <AM9PR04MB8604BFF7161570CD464723FA9549A@AM9PR04MB8604.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTeaLxeX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1316FC4CEED;
+	Fri, 11 Jul 2025 05:49:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752212994;
+	bh=N547kb+EDzrWedKEp0F4foA8weUWsuctW/SSslhI4H0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cTeaLxeXuAF9A79hastFo2SzBvR4ZWrW6bjDiYf65JUz8dTW2D6KZ35AEH8Sozzqz
+	 sHHz2a4klDnV75wBvRZmvC5RurxKTFqfge8iVdYc4w0vTegjXUIJS3/+zBpUEm9wLU
+	 kPl1EKvPYuz7OemngbV+M6v/JZyxGtV8j8Gzj8Z66vMOQgtSjL8/yZpIXw+dEHZrrQ
+	 4tFIyXKTD1E2Xzzf2yRkH4gupP/N7vmaLiiuBaR/o612YBS48KlO+ESDikjdxiKe36
+	 c5ejDiehZKTFOrmeKcdZT7qJd/HUOwA9pO34hb9PgsD2qjQ1dVHp/iO3uTLS0087LN
+	 Ofeh0ypW0Jbjg==
+Date: Fri, 11 Jul 2025 07:49:50 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH v2 12/12] docs: kdoc: emit a warning for ancient
+ versions of Python
+Message-ID: <20250711074950.3e1ea8ce@foz.lan>
+In-Reply-To: <20250710233142.246524-13-corbet@lwn.net>
+References: <20250710233142.246524-1-corbet@lwn.net>
+	<20250710233142.246524-13-corbet@lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM9PR04MB8604BFF7161570CD464723FA9549A@AM9PR04MB8604.eurprd04.prod.outlook.com>
-X-CM-TRANSID:M88vCgDHX52HonBobvdOAA--.742S3
-X-Coremail-Antispam: 1Uf129KBjvdXoW7JF4DurW5ZrWDuFWkGrWDCFg_yoW3KFc_CF
-	Wqv3ZrC3WUG3y7tFsxJryqyrnxK3yj93Wft3yUtrZIy3s3Ar4kZFWkGryfAw18JayrGF9r
-	Cr4DZa4DA34xZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUj7DGUUUUUU==
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiNQkBZmhwookRsgAA3L
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 09, 2025 at 10:23:45AM +0000, Pankaj Gupta wrote:
-> >>> Hi Shawn,
-> >>>
-> >>> To test it on MX93, you need additional patches on top of these.
-> >>>
-> >>> The plan was to send the next patch-set to enable the support for 
-> >>> MX93, once these got merged.
-> >>>
-> >>> If you suggest, I can share the patche-set to enable MX93, as an 
-> >>> attachment to you only.
-> 
-> >> Yes, please.  I would like to test the driver before it gets merged,
-> thanks!
-> 
-> > Please find attached the patches for enabling iMX93.
-> 
-> > I have also sent v18 to dispose off the comments:
-> > 1. documentation,
-> > 2. updating the commit message with collected reviewed by tags.
-> 
-> Are you able to test the driver on i.MX93?
-> Any help needed?
+Em Thu, 10 Jul 2025 17:31:42 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-I did not expect those additional patches (except i.MX93 DTS
-changes) for testing the series on i.MX93.  So, no, I didn't test,
-sorry!
+> Versions of Python prior to 3.7 do not guarantee to remember the insertion
+> order of dicts; since kernel-doc depends on that guarantee, running with
+> such older versions could result in output with reordered sections.
+> 
+> Python 3.9 is the minimum for the kernel as a whole, so this should not be
+> a problem, but put in a warning just in case somebody tries to use
+> something older.
+> 
+> Suggested-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  scripts/lib/kdoc/kdoc_parser.py | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> index fdde14b045fe..23ac4ad204f4 100644
+> --- a/scripts/lib/kdoc/kdoc_parser.py
+> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> @@ -12,6 +12,7 @@ Read a C language source or header FILE and extract embedded
+>  documentation comments
+>  """
+>  
+> +import sys
+>  import re
+>  from pprint import pformat
+>  
+> @@ -238,6 +239,14 @@ class KernelDoc:
+>          # Place all potential outputs into an array
+>          self.entries = []
+>  
+> +        #
+> +        # We need Python 3.7 for its "dicts remember the insertion
+> +        # order" guarantee
+> +        #
+> +        if sys.version_info.major == 3 and sys.version_info.minor < 7:
+> +            self.emit_message(0,
+> +                              'Python 3.7 or later is required for correct results')
+> +
+>      def emit_msg(self, ln, msg, warning=True):
+>          """Emit a message"""
+>  
 
-Shawn
 
+
+Thanks,
+Mauro
