@@ -1,149 +1,147 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7256C2F1991;
-	Fri, 11 Jul 2025 17:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8682F0E59
+	for <linux-doc@vger.kernel.org>; Fri, 11 Jul 2025 17:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752255676; cv=none; b=CnoR/2SbiHJ8hB/lKhYKay+sR/pIFD4RA3qu39y8nPiVqG+k5OEuo4RE2alEDcS+IpSFI8m3cfO8jUuIrS3UUNgJylH2pUNiNKJCGjP5OFkOu9+MbUn2sbzvuhAhX/alx5FjmF6eZYLeXaddwgVnYJbC1j2pS8JuBRTGrN5B8qY=
+	t=1752255710; cv=none; b=fZsujl5ccGpOwWuiem30hM+YcBUSYPhcyQfP7CyDKo7xXMij/DJCDuMOdgV3xp93zXMwXoOkDkEETX6IRbtv0B9XJLiRxOVvOR+P5KCQkI7ZhrhK/aVMXebtq3JIU0CUrkV3P5/z9OkKBvqYIoACoou4DDJFdym3xecBlHqTQIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752255676; c=relaxed/simple;
-	bh=A+IZMmbCmHFz7LA5U90SHkR83aX68N0xOOmAhTQfdps=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lgMAVqy913t/8HMojoP8HR427pl38aGBjbIT0QmCvu4wHANJEInGQbGY1PJ7CmAn2Yi9lN2da1RFD5aZFaZIsehdtTcUTsGbR1+Sj1JuqpcQRIvdupELZCqEo+aIJRrj9tc3a0MJ/khpB+tDC7AI5a6IMhlZ4Zh4vFS76uUptTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=MfxRnRrK; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1752255710; c=relaxed/simple;
+	bh=tT7wPE70oe7dzBsi7RXbG4kZfWut7Hwc/EXvaRJKRy8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n+UEhrsLHJzXu0y5a4oSgMqQGR21+QkvhQ/M1VZLozAmQbqwrcmuzj/7T5O3TP1iB50edX95uvrBoZOziwcUHqj8I4S4IeT9d8z26B0mQ483SNDr6idWVD6OLSc8zvnSU06Zs/6FINsGc3swJL0GmldHlYAwdvMQdWZ4BonZvm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=C89xLl9Q; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="MfxRnRrK"
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56BHemug1861107;
-	Fri, 11 Jul 2025 12:40:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1752255648;
-	bh=avkCSBI/cy3dHICmDxAzJXYe1H+unqcSXKS5zVohgaE=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=MfxRnRrKgfCUgO2J9UsENDPiXwTOrv7M+KRQK4+WubWagVc1t8P07KW7Eqp+XtZUK
-	 kEbQVJRSEM/E4NEI1bAIugDacmCrpCTnuo/gdgQp7j9MAA3mc4VLjM+KuTu0R+rRO6
-	 ZiN1UFF5JJS6uX5fPKjBaY5Yzkevs1GL6yNSaKfk=
-Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56BHem8U533293
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Fri, 11 Jul 2025 12:40:48 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 11
- Jul 2025 12:40:47 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 11 Jul 2025 12:40:47 -0500
-Received: from [10.250.35.60] ([10.250.35.60])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56BHekf83588411;
-	Fri, 11 Jul 2025 12:40:46 -0500
-Message-ID: <7178abc9-8f92-4bba-9b50-ffdf5f8d1279@ti.com>
-Date: Fri, 11 Jul 2025 12:40:46 -0500
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="C89xLl9Q"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-31384c8ba66so460073a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 11 Jul 2025 10:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1752255708; x=1752860508; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tT7wPE70oe7dzBsi7RXbG4kZfWut7Hwc/EXvaRJKRy8=;
+        b=C89xLl9QtMMaAd/E9IWBYbE5Ad6X0m+UAOj9v5eAKywx6kosR55S7eHpXP1p4z6v5q
+         RcwKnwPQgg30YIvLjcMo9nQHh8oU7BrltzXkQR6Pp6iPZ6ePbLk+IwH7IenEGxoedYTe
+         VfanQg2MwQVZCXQj3XggkqZ4J59AXLtYz7QED27nSlDdL4JFJop1FLunmkwkcdgoBznl
+         z0ePBwHhjwDcx5gi0GOswVQ6FO3WNT55I3idNU9QzeNhBOeQHUU0N4AXgpDPbIrQ0AUu
+         KAZmKg9SX3uVzKtw/PUlKlE7wg5pwlYafMu1GEHyjAIbwHRE0JWPnRgcxI5yvXTBLl/g
+         8HyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752255708; x=1752860508;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tT7wPE70oe7dzBsi7RXbG4kZfWut7Hwc/EXvaRJKRy8=;
+        b=WQZnZVQiWIitBy9Ay7OaPhrWrQRYyOsYStDrf6aELMByq0+hWWUAGuqzqUJk4u1vKh
+         dqy9KXc110qCzitZmr5qrvpFTrZVAXt0CH+aibXfuB+aLi7SFzFW2Se8zbRxA2jq1xBf
+         MTkK+iFj77lX3mRJ0pqD5lnAo5zgAoO53p+SsSmnSZKLIdm+AL0xxgHN4KL7WQVTmCwz
+         KUu/4IGiz4uA0peQGgByqqtmdC/9cP0XOCCkwm+vF0ve7bi0NcRCPyAX/4kRY2Tqi2cY
+         2Kvs96uJbpd9WW80SfpvrS1V8UZz07AfZTISiNs8eY6fjn8CUX6yWjQM9rYYTAyzLhKZ
+         /+9w==
+X-Forwarded-Encrypted: i=1; AJvYcCU9nEOREJh72+hrsvWw6v9Xjdpl7AaMe2tNgVb+wf1mLDwEt53zaFKzP6uQvNU1uzPZ/mduz8obA0I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yweh8zXHefW9nM4ej8aTets6A4iRj8s0uVLcs8dTlOGxPm24K6W
+	/EVq/8sDwJMrMxAm0X+FHhKhr6WGgw5su3U7EUwOl4ZgGGL5e9zNiGKTCpGlY/pv6Jd1/CC1Wul
+	i18t+LZ28MaVAvuMDYhQT8dKRkSv59SZJKxYGfn3Kzw==
+X-Gm-Gg: ASbGncv6z2AUTdwZAmG0IFg9ZmS03GIm+ybjzvl8Vbv9Z91tDY7eXRrG1rGYdJHzWP/
+	4NSeQWqaeU+8bs6uG78lbhGXpcrJArWPPi7bvuGmJO6HF4Tt5MfHBar4sc8L69VlklE/fhV1wFw
+	dIJMMFTBxU1s9HXkZSaZyoxI9X1UK3b8fIhD8hxz7VQfgiY+5uY/vH3lhPdjYrpqfbru/eTy9PN
+	XK5V2Y=
+X-Google-Smtp-Source: AGHT+IFMl4SOsBNCWSNMVioKK3ph3e85yFGBL3ByOiB15jaiAYdBhfZ9gIl691PiBIkdZctaSd5iyta4TNPAm0XoiR4=
+X-Received: by 2002:a17:90b:3cc8:b0:30a:80bc:ad4 with SMTP id
+ 98e67ed59e1d1-31c4f37b71cmr1911945a91.0.1752255707877; Fri, 11 Jul 2025
+ 10:41:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/10] accel/rocket: Add IOCTL for BO creation
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-        Oded Gabbay <ogabbay@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sebastian
- Reichel <sebastian.reichel@collabora.com>,
-        Nicolas Frattaroli
-	<nicolas.frattaroli@collabora.com>,
-        Kever Yang <kever.yang@rock-chips.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Daniel Stone <daniel@fooishbar.org>, Da
- Xue <da@libre.computer>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-CC: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-3-dc16cfe6fe4e@tomeuvizoso.net>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250606-6-10-rocket-v7-3-dc16cfe6fe4e@tomeuvizoso.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250711002322.1303421-1-cachen@purestorage.com>
+ <CALCePG3a6wG+3Nu7-JHha+LMtyRRNF3sXp13sS-=Xv1pvsX09Q@mail.gmail.com>
+ <fhy4rcjrwwmlebgoiwepmga3fovxdvqeylsub6lk3opl2fi2td@ucuwdpu4ua7r>
+ <CALCePG1h8NE010EGpBh8CxhiWqr4-GantEJ4P0Dnck+cnioBiw@mail.gmail.com> <vyguhk4hzhf6zyg6hn77satnmsrsr5hmcl7bifws32bnilqbs2@374p6che72yz>
+In-Reply-To: <vyguhk4hzhf6zyg6hn77satnmsrsr5hmcl7bifws32bnilqbs2@374p6che72yz>
+From: Casey Chen <cachen@purestorage.com>
+Date: Fri, 11 Jul 2025 10:41:36 -0700
+X-Gm-Features: Ac12FXxsYtMviMJqxEQ9G8qJWSE_VTggBxwThpyFF_kw7PGNiKJUHiqTVkGYiMM
+Message-ID: <CALCePG0gw9aJM5dWWxrk1Vh850kOB4wDqvmsuwyM-4q0QAz1Qw@mail.gmail.com>
+Subject: Re: [PATCH v3] alloc_tag: add per-NUMA node stats
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: akpm@linux-foundation.org, surenb@google.com, corbet@lwn.net, 
+	dennis@kernel.org, tj@kernel.org, cl@gentwo.org, vbabka@suse.cz, 
+	mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, 
+	rientjes@google.com, roman.gushchin@linux.dev, harry.yoo@oracle.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	yzhong@purestorage.com, souravpanda@google.com, 00107082@163.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/6/25 1:28 AM, Tomeu Vizoso wrote:
-> This uses the SHMEM DRM helpers and we map right away to the CPU and NPU
-> sides, as all buffers are expected to be accessed from both.
-> 
-> v2:
-> - Sync the IOMMUs for the other cores when mapping and unmapping.
-> 
-> v3:
-> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-> 
-> v6:
-> - Use mutexes guard (Markus Elfring)
-> 
-> v7:
-> - Assign its own IOMMU domain to each client, for isolation (Daniel
->    Stone and Robin Murphy)
-> 
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->   drivers/accel/rocket/Makefile        |   3 +-
->   drivers/accel/rocket/rocket_device.c |   4 ++
->   drivers/accel/rocket/rocket_device.h |   2 +
->   drivers/accel/rocket/rocket_drv.c    |   7 ++-
->   drivers/accel/rocket/rocket_gem.c    | 115 +++++++++++++++++++++++++++++++++++
->   drivers/accel/rocket/rocket_gem.h    |  27 ++++++++
->   include/uapi/drm/rocket_accel.h      |  44 ++++++++++++++
->   7 files changed, 200 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/accel/rocket/Makefile b/drivers/accel/rocket/Makefile
-> index abdd75f2492eaecf8bf5e78a2ac150ea19ac3e96..4deef267f9e1238c4d8bd108dcc8afd9dc8b2b8f 100644
-> --- a/drivers/accel/rocket/Makefile
-> +++ b/drivers/accel/rocket/Makefile
-> @@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_ROCKET) := rocket.o
->   rocket-y := \
->   	rocket_core.o \
->   	rocket_device.o \
-> -	rocket_drv.o
-> +	rocket_drv.o \
-> +	rocket_gem.o
-> diff --git a/drivers/accel/rocket/rocket_device.c b/drivers/accel/rocket/rocket_device.c
-> index a05c103e117e3eaa6439884b7acb6e3483296edb..5e559104741af22c528914c96e44558323ab6c89 100644
-> --- a/drivers/accel/rocket/rocket_device.c
-> +++ b/drivers/accel/rocket/rocket_device.c
-> @@ -4,6 +4,7 @@
->   #include <linux/array_size.h>
->   #include <linux/clk.h>
->   #include <linux/dev_printk.h>
-> +#include <linux/mutex.h>
->   
->   #include "rocket_device.h"
->   
-> @@ -16,10 +17,13 @@ int rocket_device_init(struct rocket_device *rdev)
->   	if (err)
->   		return err;
->   
-> +	mutex_init(&rdev->iommu_lock);
+On Thu, Jul 10, 2025 at 8:09=E2=80=AFPM Kent Overstreet
+<kent.overstreet@linux.dev> wrote:
+>
+> On Thu, Jul 10, 2025 at 06:07:13PM -0700, Casey Chen wrote:
+> > On Thu, Jul 10, 2025 at 5:54=E2=80=AFPM Kent Overstreet
+> > <kent.overstreet@linux.dev> wrote:
+> > >
+> > > On Thu, Jul 10, 2025 at 05:42:05PM -0700, Casey Chen wrote:
+> > > > Hi All,
+> > > >
+> > > > Thanks for reviewing my previous patches. I am replying some commen=
+ts
+> > > > in our previous discussion
+> > > > https://lore.kernel.org/all/CAJuCfpHhSUhxer-6MP3503w6520YLfgBTGp7Q9=
+Qm9kgN4TNsfw@mail.gmail.com/T/#u
+> > > >
+> > > > Most people care about the motivations and usages of this feature.
+> > > > Internally, we used to have systems having asymmetric memory to NUM=
+A
+> > > > nodes. Node 0 uses a lot of memory but node 1 is pretty empty.
+> > > > Requests to allocate memory on node 0 always fail. With this patch,=
+ we
+> > > > can find the imbalance and optimize the memory usage. Also, David
+> > > > Rientjes and Sourav Panda provide their scenarios in which this pat=
+ch
+> > > > would be very useful. It is easy to turn on an off so I think it is
+> > > > nice to have, enabling more scenarios in the future.
+> > > >
+> > > > Andrew / Kent,
+> > > > * I agree with Kent on using for_each_possible_cpu rather than
+> > > > for_each_online_cpu, considering CPU online/offline.
+> > > > * When failing to allocate counters for in-kernel alloc_tag, panic(=
+)
+> > > > is better than WARN(), eventually the kernel would panic at invalid
+> > > > memory access.
+> > > > * percpu stats would bloat data structures quite a bit.
+> > > >
+> > > > David Wang,
+> > > > I don't really understand what is 'granularity of calling sites'. I=
+f
+> > > > NUMA imbalance is found, the calling site could request memory
+> > > > allocation from different nodes. Other factors can affect NUMA
+> > > > balance, those information can be implemented in a different patch.
+> > >
+> > > Let's get this functionality in.
+> > >
+> > > We've already got userspace parsing and consuming /proc/allocinfo, so=
+ we
+> > > just need to do it without changing that format.
+> >
+> > You mean keep the format without per-NUMA info the same as before ?
+> > My patch v3 changed the header and the alignment of bytes and calls. I
+> > can restore them back.
+>
+> I mean an ioctl interface - so we can have a userspace program with
+> different switches for getting different types of output.
+>
+> Otherwise the existing programs people have already written for
+> consuming /proc/allocinfo are going to break.
 
-devm_mutex_init() again keeps you from needing rocket_device_fini().
-Same in the next patch even if you don't end up needing the iommu_lock.
-
-Andrew
+What does this IOCTL interface do ? get bytes/calls per allocating
+site ? or get total bytes/calls per module ? or per-NUMA bytes/calls
+for each allocating site or module ?
+Would it be too much work for this patch ? If you can show me an
+example, it would be useful. I can try implementing it.
