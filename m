@@ -1,102 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB75347DD;
-	Fri, 11 Jul 2025 02:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A697494
+	for <linux-doc@vger.kernel.org>; Fri, 11 Jul 2025 03:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752199652; cv=none; b=G9RN1TDJkTsBN3N4fbDV0asVYt5URBZL/ivVJvG8ZAaynGV4nMQjsvIJrA8OVRFSF+0rqzwa1rt5NrKF8jvYSbk9glItGO9H7wEntrJuxdxRjmRoJEpPA8nq+d2PHkMRFzHHwXOz+wdYYK3hIhskXuEHlrL7Zmp8x8pnOufkWU4=
+	t=1752202927; cv=none; b=Kyc1lVjFZ9W99fLKgpi3gNaaNQmcaSBpZET57J3UWF0oJnPy1oHvby2ajEQqzZKZM/vmKfOZ9NSAK4Xlidc6JlkuFuV5UzdMCrEG+IOwRtMKxzXJgrC2PLEn89WHs2HgMbJ4HK5yVp0H0pMHlgkx0dCa6YgCGl7TPy5Uu8sb/7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752199652; c=relaxed/simple;
-	bh=PvjSKPyD0gXbh2bB6YpiAqsa881j4RTXn+Ts3T8ihPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xte4W+9m/6bPNl3PQAdmGl1l6KofGvP6aC909kGj2aIkH9Yhq3USBVjufNuZSR3TfQkR5gsyn/Rh93oth9pS1PHGmAPevpFvclCQla/psQNDcGiKDa3Hjd9czMY1ccKGu5eEEQV/nfG3cNkdt42CyRTTupOQjLrIY/mtX8TUDPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0o1sq+f; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752202927; c=relaxed/simple;
+	bh=LGWAtyXrM2PxxMeZprVLJBwaxJToCaYtQ/uTGw3d918=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SktCry4als3S8cAWqPPSHYqndL4T4lYMSjIizaCS1Wcdclf4elo3HXfK7T2w1RP+LWsBBgSvgDQ1/J95h+FFTDa9LMHGEpylVKuW5KJBgwwz3fi9OlbSN4Gr7wLX/oQX+H5CyJLDvox2WijV/oC8MKcE+CoLubLosse/GhjjEhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=KZD5bMDF; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0o1sq+f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752199649; x=1783735649;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PvjSKPyD0gXbh2bB6YpiAqsa881j4RTXn+Ts3T8ihPM=;
-  b=b0o1sq+fiQ9oUkAwWKvaPFjoh6Jgx9TcAEHn0kT3jiUI0W4le81yjwCs
-   WBUSZR5VqUVu2a14xyQN/JQbwBRrutUBPGFRzwVoVpi83Dv0pwqWXUhgK
-   wmsjmlR1DLsmxJHqT4QrYfvjM5gmucyQ0LMk/5qilbqmHBMrVNZbtxGvT
-   jTqkFQWnGw97I0kP+szuYdmP7IdPuzD9XcdkJ+M2VSjyyJdvNQ8CnDrr2
-   cJmJ1aoKC9jBaIfqiXnJtoyhdThpsBzfjKHOIamyF8fPKzZJHDDnd5sDb
-   6BZMfAV0u/Cw7pX4Nm5OkwfcuPFLUitxXymm395cFfwA3kH64/RHkp4un
-   g==;
-X-CSE-ConnectionGUID: SxJy35KLRX+crdHurMv2CA==
-X-CSE-MsgGUID: UR7Y/F2TSGG2EcY+mgmv9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="77040273"
-X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="77040273"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 19:07:29 -0700
-X-CSE-ConnectionGUID: ezwbokgsSPCaJxheSsnC4A==
-X-CSE-MsgGUID: 56D/N/8bSouThmQuhjJlFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="160583219"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Jul 2025 19:07:24 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ua3AY-0005jj-1k;
-	Fri, 11 Jul 2025 02:07:22 +0000
-Date: Fri, 11 Jul 2025 10:06:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Saeed Mahameed <saeed@kernel.org>,
-	Gal Pressman <gal@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
-	Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dragos Tatulea <dtatulea@nvidia.com>
-Subject: Re: [PATCH net-next V2 2/3] net/mlx5e: Add device PCIe congestion
- ethtool stats
-Message-ID: <202507110932.iOkSE74e-lkp@intel.com>
-References: <1752130292-22249-3-git-send-email-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="KZD5bMDF"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-23526264386so15686335ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 10 Jul 2025 20:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1752202924; x=1752807724; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sadpaz8PrWvHMkbxmc3mROAwLmTsdYFXlPsL8N6jUTo=;
+        b=KZD5bMDF74gWp434LcIvPJx3Pe5rLUkY3df7/onhWNTp19WhDKNaWXosGoCcQROZBn
+         mY9RY6XKyQF0RHFO+bpr92ql2+3LnJBsrEakbkCsSJCPqGuxQoAl7QSQAy0DvM89IkOL
+         /3FUQVgZxjbJGzYZeTPPZO5TJ6n1c5Dsee0b33GIimWpXgsIRRD5fphu2cqqyXLg/kZc
+         LIozeLQZD7VsFy+ofnouHUOial79M3Cl+hLEFnAXSTKUQO5qXvNHaSYzaVkGiCI/cnBX
+         Sf2E5WnubCgrfRrl3Ek7U971gKpvHQM3UF6pMJgkU/Uih72cvrSpoyE7IKVcnBS8YgVG
+         aVBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752202924; x=1752807724;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Sadpaz8PrWvHMkbxmc3mROAwLmTsdYFXlPsL8N6jUTo=;
+        b=OSVaQNmBo4AEkBcd+UekJ0hFIARoCdSA6XBF8ozEWnulPJ8mjqp2GiTKSquLcoUVm0
+         cmyqe6QXABJVbl/WXLLQAaG22tnD6CvhnaQ+y763rvg0OQSTP4Y6LSzlE4F9y4Np+Ver
+         mhbvOVXSMorJTI6Lo57VUAXYmM/b7peHR+MEZJr0uB26dxas9/DDhZ1ucJc5BP6INpWz
+         3wLYVLEp1NRmvpbvb5BQOnLfy8yHHn5eVSChCvM3tNOLcVDrNrlU828CvvqUUIEkBg0x
+         4cgSTQA3pXYlYJvUikJ8JEDhGvy5En9gQzxymSeubWil99AUSx9i/9UI22bXFOoiDEQ3
+         QSEw==
+X-Forwarded-Encrypted: i=1; AJvYcCWP/gSfCWoL5qgV7ZrfC0waapZiv1nXIxMPYvLSsNPSKqLijtXFJTb8R5RbBeRrhmLyvXpRLZpFAM8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyijLApTJbNV7LwjOhW6YC4CzGoGAss2DZTkCkYJ7oPHdpbMvbo
+	+Y//flHCfvzd497nnlRm5mTG14995bDDzZe9k8E0lhjDHgf40NAZsi7jnCoKhx3AC1U=
+X-Gm-Gg: ASbGncuIev8lNfepGhqDJMnYRge5V+QSPor8eABplquf0YSoO4OiuVO4lsDjhw4+d+H
+	nhUZT5fkcTCPOs0szzLzJmVl/CmSN4L2IoouzMCmm3ci8a2qVRgPovqBdJZxcrDtHqjcoK32RXW
+	yaPdZ+CoE1fK6wbrhQ3gK0aWFkyCw9Px0IXxNiZ++zQp2idMgF0Z3WUVFcgDELDLgEHv25QFxBB
+	8sJURrHDRYM+69kqNg5UoNP8uKYy4MkakwQvVbg8+BT08ZIur1jCOMRcSy35gvZlWQlUOYRyLPA
+	l985YlIKVWwLNt5VZ2M57AUdvzO9ZR9luAkVSFRT5BdsJ9NoOT9XKGWnvegIrVHWGpyGFwhJ1uC
+	VDi7ssx4Q/6fvldNdi3iGrh5xdMSheGLHNO27afn6ZkUYRoDgVw82uw==
+X-Google-Smtp-Source: AGHT+IG3BdlUocDPxEIVRsXKPoLXrNsAE7NpPAv9kznyZrwFjv8MOOYM3yOY/fwUdxGzEatLzBzkSw==
+X-Received: by 2002:a17:903:f87:b0:223:619e:71da with SMTP id d9443c01a7336-23dee28523bmr21809105ad.49.1752202924535;
+        Thu, 10 Jul 2025 20:02:04 -0700 (PDT)
+Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de42ad25dsm34219115ad.64.2025.07.10.20.02.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 20:02:03 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH RESEND] drm: docs: Fix typo in introduction.rst
+Date: Thu, 10 Jul 2025 21:01:57 -0600
+Message-ID: <20250711030157.124778-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1752130292-22249-3-git-send-email-tariqt@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Tariq,
+Fix typo in Documentation/gpu/introduction.rst
 
-kernel test robot noticed the following build errors:
+Link: https://lore.kernel.org/all/20250620180258.132160-1-me@brighamcampbell.com/
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+---
 
-[auto build test ERROR on c65d34296b2252897e37835d6007bbd01b255742]
+This patch has received no response as of June 20th. If it's
+unacceptable for whatever reason, please let me know and I'll drop it.
+This is the only typo I happened across while reading the document. I
+scanned it for more typos when I prepared this patch, but found none.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5e-Create-destroy-PCIe-Congestion-Event-object/20250710-145940
-base:   c65d34296b2252897e37835d6007bbd01b255742
-patch link:    https://lore.kernel.org/r/1752130292-22249-3-git-send-email-tariqt%40nvidia.com
-patch subject: [PATCH net-next V2 2/3] net/mlx5e: Add device PCIe congestion ethtool stats
-config: powerpc-randconfig-003-20250711 (https://download.01.org/0day-ci/archive/20250711/202507110932.iOkSE74e-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110932.iOkSE74e-lkp@intel.com/reproduce)
+ Documentation/gpu/introduction.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507110932.iOkSE74e-lkp@intel.com/
+diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
+index 3cd0c8860b94..39b4c943fa00 100644
+--- a/Documentation/gpu/introduction.rst
++++ b/Documentation/gpu/introduction.rst
+@@ -32,7 +32,7 @@ member, only the structure.
+ 
+ Except in special situations (to separate locked from unlocked variants)
+ locking requirements for functions aren't documented in the kerneldoc.
+-Instead locking should be check at runtime using e.g.
++Instead locking should be checked at runtime using e.g.
+ ``WARN_ON(!mutex_is_locked(...));``. Since it's much easier to ignore
+ documentation than runtime noise this provides more value. And on top of
+ that runtime checks do need to be updated when the locking rules change,
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "mlx5e_pcie_cong_event_supported" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] undefined!
-
+base-commit: 667efb341917bde19f5d7517b65defcdaed67c9e
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.49.0
+
