@@ -1,128 +1,111 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237EC2745E
-	for <linux-doc@vger.kernel.org>; Fri, 11 Jul 2025 01:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC7B746E;
+	Fri, 11 Jul 2025 01:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752196046; cv=none; b=SONuReHCSnRAVeVSMRytBY0LM16jIAQ3xlN4nO1+XbCNhhJ+pXUZ0GWfWIM9KuN+WtbC7LO9nRsU7XZyA91b0vS3+u3H9OLI6xM1nJImQz5YTOc7rbV5k2TiyH2q52xKrWPA4XSxjU05wo8GnYzhvA76HPzkQAdjHGnA4kY8ot4=
+	t=1752196732; cv=none; b=KJkxRB0QPGP03YUk4tTm5YcUFqazglYFqP4gxWDZ0NUTEibAZF6qTn2nPZowTinxyUlLKpd17jJxGLjDqzaOXAZSVKg2dx/DAPwX7EhQqllOB1DIRlbBYl3e7nW17s6o5YV1rjxkVSKrZM7/i3OzkgXb5vuqTGdPOtwQeNiZcNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752196046; c=relaxed/simple;
-	bh=YRvwCC2Ha4y1rPhJk146f/loFd2WpTlx2lEwZSYmXVQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OFnt/1SjnGw+34v6zdYHl4nwHj8Zlb+i4reJHQTSZVB3DTxycQ6WZMFjApFgAbIUO0lF4sOvXPLlsaeCoBmg2Ztk1tPTJSH0OTRjsK+rCoajAhdY5Lb8pSTx+K9t+6s4Iv8z2unCTUL6jZUjrd8Mzig58l61E7etXrw+wssl9n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=QpqmL3Wn; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+	s=arc-20240116; t=1752196732; c=relaxed/simple;
+	bh=R8AABabAlWYs5sROsKxYgIr8UcUVRhflbLr2PL7WTUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QCR2DDJkDBlcKGFLeGKRvhpAmVWuGzDWvZmWMKlfbXx6M83yW2xTYjx6w1+aH7yEbv1foQaD3ZQ2MMfUnNMJPw/UxkqqKTpLetSJZNT0g8McRx9JGG11//aosvgGcgx+uR3F0ijdhg1xXLuUHp8fX/o/UP8sonzYVRLf/tMlkv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NLGbzQgj; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="QpqmL3Wn"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-313756c602fso242963a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 10 Jul 2025 18:07:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NLGbzQgj"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-611e20dd2ffso526834eaf.2;
+        Thu, 10 Jul 2025 18:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1752196044; x=1752800844; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pTpOdXsMQLzrcYHow8zySMbXm3VVzD+3w6bdwbkL+9A=;
-        b=QpqmL3WnTWY+aaZ+yV4l7EgGxPehD6XOjs6EH7y0GrZjD8yooRqtleAsbpvZyZCkxL
-         TiSFp9LXn3bT6TydLbO4DZmGlyWBaTAuFDjILoCkvnCcf5jAIUq9tT3ttuPXfWyzv86E
-         Aio6eznbgcs00LgmqLxWEQiqCSXHqMeLyyIo2nR8gqUHmF0PX6j9aDs/y+IXSykxtT7c
-         v+Vnl4gQwmib8+qQYbARNwvsZEEt3+OBholzuMUA4katZR5m+/2OB3GISvwxVaMEyyEM
-         LtxGVg0DXTuKEpVu9KlJu/go6FGz6BNaIAxE9XOXIcjVjLqT9BfPtPKxwTvx9e45VM1v
-         A5fQ==
+        d=gmail.com; s=20230601; t=1752196730; x=1752801530; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2g0KFXDxtk/APA3qVySJRW2x29mZCIrc20VuPGvJudw=;
+        b=NLGbzQgj+NmTc55XOejmp+5lX3sI0mSh+dKlRVf/Z8ZPU8foxVFFOoiBbUV/6rJSPu
+         K/VwmK2HevBQvt+SYkB2ESFfj61jxfCk1K1ph+6sIebRMYAXQaXHj95R1hQW6iKf0xOh
+         XvshEAx+7wiIQC4szwbYHyROS3rOo2wA6feKZXTH6bqUjXwFOoVOpwOy0UUx7cIiEMfi
+         UBuW+pI5I8vd4sKbYQcJMzjkSkny8G0XFFaC8rCyq/Ki/Eq/X6w9dY9GspWFRkny9Qoe
+         wZzONqbUTjcivs3m4RW5yJdVeK9gA3R3nX6PnuRnbYYUZiraN9ho19fgoGm4jC3pPMQ+
+         cDiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752196044; x=1752800844;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1752196730; x=1752801530;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pTpOdXsMQLzrcYHow8zySMbXm3VVzD+3w6bdwbkL+9A=;
-        b=v0e2vGgN+z1GqSfoXUp0ljzRCtYTHnyRr1LkGr5wRCr9+VV8KtaGvnSG3/mZZENxim
-         wnyJbowAC1WhVgibHFEhwLYBHJORcNm7t8C9WtcEjdjC+M6PZ8EkcSGvvvwWhI+mEjaB
-         2ufcei4r3yFpz3oE7mYMqskkUZa7qEd0QJP7Dts0PCaLYe9UqHfCYCQhtyQXU+lvWh8a
-         +cJgy16Wr3EGf+gw2lTcrzu1/cDBfv6DyJxQgbYjtdVKIYtEWK0QgysbGEpB4S6jIw0l
-         7QDV9ItnrIIxL/WmLIU7s9xRg2o2Sd1X1gKb8HemYgrHuGHCjbvGQUtsY2SzKFX56Ooe
-         nJBw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8L3Wc0J634XNC5vm05YsugGmYgtiX9AA6R46BOuUoHRrzgRMvS5dWKUbBxkMaZb6ibDyQfh0qPBE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaNirsdwJbbcQ80vdwp+5zST+WZG71LaSH9UQUc+02CZC8OOji
-	1j3muxE035pph2r2h05WyQW36R4JeDmlbfz0/c6J6CUo4k+B/lDiMGN/ADiDrjjJqq9yEcTR1Qe
-	jR79QET7Wr4BsP5Mx4qm6REkQsDOEjFyLygjeK41Vww==
-X-Gm-Gg: ASbGncsJP+uCMwuayLIagDKuA1trwBhL6WjOdoFZ6q3BQwEGHehZmqBc+1oY7NUOLNt
-	EJLHfjwqHv4/Yx4rxhefqrPxIU8Lp7CBMZjtcJRtW/4XbbxUquM4PJKj2YOhUIac8IJZ8Va1JRV
-	KzhVzFyqysikxI3JjCJVNopMvc7tLUlvjENhDIZJgzgGxvQNuf0/tFyws4D+g4wRr6UdyAhtQfh
-	Ils7ok=
-X-Google-Smtp-Source: AGHT+IG152UMqrIIRd2Xd90YPDSf5pEnbfvoOgqoYDrpOcF3WJk5ojY35gB4oWHE2yxNeXBAd3hQBEsb+k4GAvmvpHo=
-X-Received: by 2002:a17:90b:2711:b0:311:9c9a:58e2 with SMTP id
- 98e67ed59e1d1-31c4f563077mr309964a91.7.1752196044222; Thu, 10 Jul 2025
- 18:07:24 -0700 (PDT)
+        bh=2g0KFXDxtk/APA3qVySJRW2x29mZCIrc20VuPGvJudw=;
+        b=BzaWJCDf39eTLRdXL2LnuNFe674j0RK2RDaSMQjorUI+oqRt4y2hgy1WvqAwrGd8wk
+         YtzJ1+pc9dvBhh/LJgLmaDBe9t5GREUkktyPoNdd78nIKhFtqbZXG4HRT1SraNjcE38e
+         B2b3HMPUc6lJF4hb8f75aJ0Dm7co+QzYGB/1HeAVXVsgbCJT1kiQ4NeN1Lvx9XAOpyYO
+         bwDup/MAA4c8YjozHCNJG7FxqdWzjN2yh2CsdUUo67k+fwCoeuVQVWWAz4FRSzWIjnyb
+         dsGOyuT9bh50d8NFlHqePtGmQ6Io6wPxS/yU5uxTMcWsKYtZIiI3kUz0b/TvFfWA0XG6
+         f31g==
+X-Forwarded-Encrypted: i=1; AJvYcCVq6WIcQ3/jJC3iRocKtE8yOsNHnMlyLvD3JGGfn03QsDnNToZlmZWAmbN4zSJ7vQ+X4Ph5F0xTxuvU@vger.kernel.org, AJvYcCWLa0ENFY78XvLGqwYAnHSMBAhenS/gBN7l7aOIuty7vdEpy1HJmIolBdVD8bZtEdGobL1T+a2v9bAYSEB2yw==@vger.kernel.org, AJvYcCWecTC33XPCZfiERaqRyrVKOzb9pfICgrSbmnvNXBYWAcBnMFeldqviO3WrQ0R06tuWmP1biHtyc5X1GHJM@vger.kernel.org, AJvYcCXc8S8p/lWVN/C9ae6YBepjuo3umfbsjhunFlwqV662a8/rCffyh84ozMn6hKB2oNJHzp46dFQH21k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNefcEcmym96Rt5+O4vZJNC9VVr7aGDw681wCJivTl+7E07nKf
+	/6zn8CcrU2nJb54RI2lQOHUaWBSvJvCwhgzlb87USoE96qVE8dEuI2qj
+X-Gm-Gg: ASbGncuE/xOiGGxLJ3KVU2RbIGsLdpwX//9TwIe5pmS0oDJ4gxpPp2sG65OjLf1dFPO
+	qN7HOa8W1PftSjqxGRke5nu6dX/FbIe484yzRjXGiENl/9MuCfdywxTc6sB9T6qDvIzx9ohftra
+	hqOxk26tX082tRwMt0Y2lnx1pIazVQ9+0YF+bpsBo1NhRpeNSC6BC2fqi4KTFqISQug3ICZzFhC
+	NGtVDCq7n4l1oobA7Dw1MZvZzZI1rfjmUxDrqK2AczwWbZwCLRTJA4ucWHG+fLyqnMODuaR4pB7
+	J0TPS7GtKBN/FTze89XzqsuaYWjotuAc8eL+/rk9f85+b6pP9za//bRPrYvrafnIs8f6Zsfm2kt
+	4arqj5O25Q+WDya8BC1h9RZqSkBw4S9BCI6iM
+X-Google-Smtp-Source: AGHT+IGJCnaqGvb/J1NAhW1XcF8WESVSsXDnoLdvhZ4+00xo2gwgbnca4tl65tWGfO6KVztDNniiVg==
+X-Received: by 2002:a05:6830:6c0d:b0:727:3957:8522 with SMTP id 46e09a7af769-73cf9f2c45emr1252973a34.20.1752196730333;
+        Thu, 10 Jul 2025 18:18:50 -0700 (PDT)
+Received: from groves.net ([2603:8080:1500:3d89:25b0:db8a:a7d3:ffe1])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf108af60sm396801a34.21.2025.07.10.18.18.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 18:18:49 -0700 (PDT)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Thu, 10 Jul 2025 20:18:47 -0500
+From: John Groves <John@groves.net>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC V2 00/18] famfs: port into fuse
+Message-ID: <qcro3gfcssyvto7rtqkykurb6uh5kqslse4zllosk6bukaualp@xmy6jchvm65p>
+References: <20250703185032.46568-1-john@groves.net>
+ <os4kk3dq6pyntqgcm4kmzb2tvzpywooim2qi5esvsyvn5mjkmt@zpzxxbzuw3lq>
+ <CAJfpeguOAZ0np25+pv2P-AHPOepMn+ycQeMwiqnPs4e0kmWwuQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250711002322.1303421-1-cachen@purestorage.com>
- <CALCePG3a6wG+3Nu7-JHha+LMtyRRNF3sXp13sS-=Xv1pvsX09Q@mail.gmail.com> <fhy4rcjrwwmlebgoiwepmga3fovxdvqeylsub6lk3opl2fi2td@ucuwdpu4ua7r>
-In-Reply-To: <fhy4rcjrwwmlebgoiwepmga3fovxdvqeylsub6lk3opl2fi2td@ucuwdpu4ua7r>
-From: Casey Chen <cachen@purestorage.com>
-Date: Thu, 10 Jul 2025 18:07:13 -0700
-X-Gm-Features: Ac12FXw6y-q8rSNhM9jBT1X4xydypPX-JJoJktrjXOfl29h8h5Mx4Q3MEQyzFt0
-Message-ID: <CALCePG1h8NE010EGpBh8CxhiWqr4-GantEJ4P0Dnck+cnioBiw@mail.gmail.com>
-Subject: Re: [PATCH v3] alloc_tag: add per-NUMA node stats
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: akpm@linux-foundation.org, surenb@google.com, corbet@lwn.net, 
-	dennis@kernel.org, tj@kernel.org, cl@gentwo.org, vbabka@suse.cz, 
-	mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, 
-	rientjes@google.com, roman.gushchin@linux.dev, harry.yoo@oracle.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	yzhong@purestorage.com, souravpanda@google.com, 00107082@163.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpeguOAZ0np25+pv2P-AHPOepMn+ycQeMwiqnPs4e0kmWwuQ@mail.gmail.com>
 
-On Thu, Jul 10, 2025 at 5:54=E2=80=AFPM Kent Overstreet
-<kent.overstreet@linux.dev> wrote:
->
-> On Thu, Jul 10, 2025 at 05:42:05PM -0700, Casey Chen wrote:
-> > Hi All,
+On 25/07/09 05:26AM, Miklos Szeredi wrote:
+> On Thu, 3 Jul 2025 at 20:56, John Groves <John@groves.net> wrote:
 > >
-> > Thanks for reviewing my previous patches. I am replying some comments
-> > in our previous discussion
-> > https://lore.kernel.org/all/CAJuCfpHhSUhxer-6MP3503w6520YLfgBTGp7Q9Qm9k=
-gN4TNsfw@mail.gmail.com/T/#u
-> >
-> > Most people care about the motivations and usages of this feature.
-> > Internally, we used to have systems having asymmetric memory to NUMA
-> > nodes. Node 0 uses a lot of memory but node 1 is pretty empty.
-> > Requests to allocate memory on node 0 always fail. With this patch, we
-> > can find the imbalance and optimize the memory usage. Also, David
-> > Rientjes and Sourav Panda provide their scenarios in which this patch
-> > would be very useful. It is easy to turn on an off so I think it is
-> > nice to have, enabling more scenarios in the future.
-> >
-> > Andrew / Kent,
-> > * I agree with Kent on using for_each_possible_cpu rather than
-> > for_each_online_cpu, considering CPU online/offline.
-> > * When failing to allocate counters for in-kernel alloc_tag, panic()
-> > is better than WARN(), eventually the kernel would panic at invalid
-> > memory access.
-> > * percpu stats would bloat data structures quite a bit.
-> >
-> > David Wang,
-> > I don't really understand what is 'granularity of calling sites'. If
-> > NUMA imbalance is found, the calling site could request memory
-> > allocation from different nodes. Other factors can affect NUMA
-> > balance, those information can be implemented in a different patch.
->
-> Let's get this functionality in.
->
-> We've already got userspace parsing and consuming /proc/allocinfo, so we
-> just need to do it without changing that format.
+> > DERP: I did it again; Miklos' email is wrong in this series.
+> 
+> linux-fsdevel also lands in my inbox, so I don't even notice.
+> 
+> I won't get to review this until August, sorry about that.
+> 
+> Thanks,
+> Miklos
 
-You mean keep the format without per-NUMA info the same as before ?
-My patch v3 changed the header and the alignment of bytes and calls. I
-can restore them back.
+Thanks Miklos. I'll probably get one more update out to this series by
+August. Best possible case, I will have fixed the poisoned page problem - 
+but I haven't worked out what the fix is yet, so that's an aspiration.
 
--       seq_buf_printf(buf, "#     <size>  <calls> <tag info>\n");
-+       seq_buf_printf(buf, "<size> <calls> <tag info>\n");
+Regards,
+John
 
--       seq_buf_printf(out, "%12lli %8llu ", bytes, counter.calls);
-+       seq_buf_printf(out, "%-12lli %-8llu ", bytes, counter.calls);
