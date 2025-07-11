@@ -1,95 +1,118 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED626B660;
-	Fri, 11 Jul 2025 04:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C06AA933;
+	Fri, 11 Jul 2025 04:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752207386; cv=none; b=s77xSMzKNYoAaY8tGTKv4G9kYPckJEElHMnRai2SfJlG+I+6m3revjL/gtrMNaxyvPeFz1dEPHhnrIuYjgQfSdmdZmYvZYKhQxTVu/dAVjgXk0vqZXP8P1jVQjdyqWZt3Ib+Xrk+K7RyPwJOhmnsnUBJqgNPWP4H9jNyKfS5DL8=
+	t=1752208145; cv=none; b=IayeAJJV4bqt6WU+S++My0cp1M2+V9a8pwv33WC6CrOQhnFAOVOl6fRWCVy3JJaANhLRA08j3XnEmoNO2tQ46G/LUZBB0BdH7j0bilbhmAn/XQNOaPZjSFWVaw8McWixtaToaMXCxdZRZjwTn6lRhwLmGJ+WXV9NoZ/Br7aOKE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752207386; c=relaxed/simple;
-	bh=mCQaV6UksmWLTWLnG32apzggSUlVTICCRgDsrCK+xJc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=T7HmQ/rWP9y24LuCjaQjZPiYM2GZBCTT+mRg2QG/xKiFYghx4D1puUiKK4geggwZOVe8D4e4YfaNT0h+tR7M6eR//NIPAM4fOCpkRT4ZhFAqQqG+a59gFUoqyM84kMtUd6+j/lffQGj0VRYIboHZyBLIrhPUnolIPEOpJXidL9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=PfujcV1i reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1752208145; c=relaxed/simple;
+	bh=XjMkPaDLUEXmnWYWJFJpunnRj1nYjQOU+Vs80ZT9Ncc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TjQnmWC2EWZ5kGDqPyXkiaAnuuxoq7zv0qInq+xgG2GtPUxkfBVt9Zisnkw9cv5/fDCXmZUNb5UENbGKCqCSPEvgETDQZsJ9UikLPK4otFB72KcBqhGmGgkTvZnIcY3HoFaM8egJKwfYH6lhumSWwDDrM0GaIvB0kUnkiV74pS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B0diEgnt; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="PfujcV1i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=1wA3FN+4ZRs727KqLiOvCjQ7mfds2gOwjHXg09NIDZY=; b=P
-	fujcV1iBIVz++Xf3q1JZiuU8Jt6MkPryfS0PQlkBY6maqysHe6101Y4S1xfjA4PS
-	uHE6/TemRGvaEtu0LuCcrQ+8lt8zYJEzFV5HILW2PXXm/oOkaqbY27Hbaah14NuC
-	sWV07ydE24KO+84ONDeMOyBfHG8NAXou1KkJAnIbCQ=
-Received: from 00107082$163.com ( [111.35.191.166] ) by
- ajax-webmail-wmsvr-40-148 (Coremail) ; Fri, 11 Jul 2025 12:14:35 +0800
- (CST)
-Date: Fri, 11 Jul 2025 12:14:35 +0800 (CST)
-From: "David Wang" <00107082@163.com>
-To: "Casey Chen" <cachen@purestorage.com>
-Cc: akpm@linux-foundation.org, surenb@google.com, kent.overstreet@linux.dev,
-	corbet@lwn.net, dennis@kernel.org, tj@kernel.org, cl@gentwo.org,
-	vbabka@suse.cz, mhocko@suse.com, jackmanb@google.com,
-	hannes@cmpxchg.org, ziy@nvidia.com, rientjes@google.com,
-	roman.gushchin@linux.dev, harry.yoo@oracle.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	yzhong@purestorage.com, souravpanda@google.com
-Subject: Re: [PATCH v3] alloc_tag: add per-NUMA node stats
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <CALCePG3a6wG+3Nu7-JHha+LMtyRRNF3sXp13sS-=Xv1pvsX09Q@mail.gmail.com>
-References: <20250711002322.1303421-1-cachen@purestorage.com>
- <CALCePG3a6wG+3Nu7-JHha+LMtyRRNF3sXp13sS-=Xv1pvsX09Q@mail.gmail.com>
-X-NTES-SC: AL_Qu2eAP6buEos4yObbekZnEYQheY4XMKyuPkg1YJXOp80uSbI5RslTU9jLEHX7saWByq0gCizVzt24/lKT5lgXLqVQzyBj4NOox5qbZ4RMkhJ
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B0diEgnt"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-74b52bf417cso1222506b3a.0;
+        Thu, 10 Jul 2025 21:29:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752208143; x=1752812943; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5TWupXdIrDPQsYywPixImzAtxDIdN4drh546kbi5oAY=;
+        b=B0diEgntU6QqEEyZTem17vxuhfpo8PMVZ0iInaSB//SnTuN4XXQWo18OnqCCpsQDf+
+         U/ZNOd6XUH10Ghq/J4QFAcPUR7VJ0OIpocoshwS8jg/Sip6B3nPSFKHaYijlia8gVCXA
+         nyLVBD41mMgInHfw41m9jhfDwQh7Kqe4qbfw7vQG0ZpkRlOMap2h+6/0IzLo4K+9ILp1
+         v2mjYjyfTlf0d1UmQbp7/o8p8ak+6ezfzWLyQeA5nDAx25LAI5vMTEADvShoS//TyFkf
+         DB6ZCB562SXgRn4VcVaaM3w5y89zAKVQ2lcGPTKqsWaYWqmHqVJt31lWBe7DAZKPl+q7
+         emPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752208143; x=1752812943;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5TWupXdIrDPQsYywPixImzAtxDIdN4drh546kbi5oAY=;
+        b=qkJ/EEGk8cCX78GbHLXW66jreVfDHjaNbtEIJBzMZRNYR1lHqNcMm8A0P4ld/ctF6G
+         9aPunkZuGzmce4ev+ASqpUt1feI1xa7rN6tdQGui4F4pazP5BORWnBHAXb8wLyTF+AvD
+         NV1+A9Qzz9V9SHKT3I14Qn2tfYS+JB0r4ACR+Rbggu39qENaOZNJDRKZQogy5RenlTXJ
+         Dg6XCrNDKDQt6B6KnBPdAdFEyIwkwEhRgyWhl+sAZ9yCsTVlCGqHud3nSoV3bn1wvJGM
+         jieZ7Lo+J0xEQdrkj96hvz27tv/BkWuHAPmUDGRXM4+7bQNjNL7WVz7l1fsIyJI/Ke6j
+         25rw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjoH2hQM8VAysDsB5pOtfOtwa4/8NgsV3wCYMDaI0r0XHQ+f9YsiR4gv/HP1GAU/JdowSzAm24BUo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaEmyn/DU9u42oQGDdWWGXchmnEzgkIaHUrzero5DoeLMAKF0k
+	9DDxL8bN06orI6g7h2Jri4q4TL1fjPAWRypfqQzcRab1VX48TymAIYOq
+X-Gm-Gg: ASbGnctjYDp4Zhn451tvWe6ul+X742ExeVN1uN8SUhnB8Isaalqi0GxgKs8MLn6QghL
+	DqmJ/9Ahh/lU3D1ailjvywGEZul1oSweUDeOixzodBy+YSm4nVRhAReciXfdJN0Tv+8ZVp+zvB1
+	ekb6eZ2mRA/uJZZ+Jxf9fcHRUG1DFtmc/caO95qjIG1e55/mvs9GrHJ5XSFgop7lQq7phnApXR8
+	eQiKED55qYbudvB7JAly/DLQ+h08qSuAmdzG6eEmDVAUk4s9wJe8QlbUpW3A4nfTrrBJisfSnWx
+	kc0jKE/nY55AuZuF5hnVMM3FkAYoSy/1apV4w4u5EFqfP1pLEDQ714h8XfbPA7gDX24eUFrc59K
+	JmyYAJhFkug0gumAs22xniRjX478wk7OVqWzinuO5432SPVMI/7Aff2GoMAyleTorjlk9
+X-Google-Smtp-Source: AGHT+IHFYb1vxmkDULuNKIS7QoSFl+2tfuF/PYECCNbNlltvEkGcZPW7zxcSpdAQxm7TMxfIBFedcQ==
+X-Received: by 2002:a05:6a20:3c90:b0:20a:bde0:beb9 with SMTP id adf61e73a8af0-2311e04b20dmr3081872637.1.1752208143577;
+        Thu, 10 Jul 2025 21:29:03 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3bbe731effsm3426618a12.77.2025.07.10.21.29.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Jul 2025 21:29:02 -0700 (PDT)
+Message-ID: <92ff26c0-6952-4f7e-965e-2f020adb859b@gmail.com>
+Date: Fri, 11 Jul 2025 13:29:00 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <2272d95.4512.197f7b1354f.Coremail.00107082@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:lCgvCgD3t_Ksj3BoXX4BAA--.12169W
-X-CM-SenderInfo: qqqrilqqysqiywtou0bp/xtbBEgyHqmhwe9ijVwADs-
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/12] Thrash up the parser/output interface
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <20250710233142.246524-1-corbet@lwn.net>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250710233142.246524-1-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-CkF0IDIwMjUtMDctMTEgMDg6NDI6MDUsICJDYXNleSBDaGVuIiA8Y2FjaGVuQHB1cmVzdG9yYWdl
-LmNvbT4gd3JvdGU6Cj5IaSBBbGwsCj4KPlRoYW5rcyBmb3IgcmV2aWV3aW5nIG15IHByZXZpb3Vz
-IHBhdGNoZXMuIEkgYW0gcmVwbHlpbmcgc29tZSBjb21tZW50cwo+aW4gb3VyIHByZXZpb3VzIGRp
-c2N1c3Npb24KPmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC9DQUp1Q2ZwSGhTVWh4ZXItNk1Q
-MzUwM3c2NTIwWUxmZ0JUR3A3UTlRbTlrZ040VE5zZndAbWFpbC5nbWFpbC5jb20vVC8jdQo+Cj5N
-b3N0IHBlb3BsZSBjYXJlIGFib3V0IHRoZSBtb3RpdmF0aW9ucyBhbmQgdXNhZ2VzIG9mIHRoaXMg
-ZmVhdHVyZS4KPkludGVybmFsbHksIHdlIHVzZWQgdG8gaGF2ZSBzeXN0ZW1zIGhhdmluZyBhc3lt
-bWV0cmljIG1lbW9yeSB0byBOVU1BCj5ub2Rlcy4gTm9kZSAwIHVzZXMgYSBsb3Qgb2YgbWVtb3J5
-IGJ1dCBub2RlIDEgaXMgcHJldHR5IGVtcHR5Lgo+UmVxdWVzdHMgdG8gYWxsb2NhdGUgbWVtb3J5
-IG9uIG5vZGUgMCBhbHdheXMgZmFpbC4gV2l0aCB0aGlzIHBhdGNoLCB3ZQo+Y2FuIGZpbmQgdGhl
-IGltYmFsYW5jZSBhbmQgb3B0aW1pemUgdGhlIG1lbW9yeSB1c2FnZS4gQWxzbywgRGF2aWQKPlJp
-ZW50amVzIGFuZCBTb3VyYXYgUGFuZGEgcHJvdmlkZSB0aGVpciBzY2VuYXJpb3MgaW4gd2hpY2gg
-dGhpcyBwYXRjaAo+d291bGQgYmUgdmVyeSB1c2VmdWwuIEl0IGlzIGVhc3kgdG8gdHVybiBvbiBh
-biBvZmYgc28gSSB0aGluayBpdCBpcwo+bmljZSB0byBoYXZlLCBlbmFibGluZyBtb3JlIHNjZW5h
-cmlvcyBpbiB0aGUgZnV0dXJlLgo+Cj5BbmRyZXcgLyBLZW50LAo+KiBJIGFncmVlIHdpdGggS2Vu
-dCBvbiB1c2luZyBmb3JfZWFjaF9wb3NzaWJsZV9jcHUgcmF0aGVyIHRoYW4KPmZvcl9lYWNoX29u
-bGluZV9jcHUsIGNvbnNpZGVyaW5nIENQVSBvbmxpbmUvb2ZmbGluZS4KPiogV2hlbiBmYWlsaW5n
-IHRvIGFsbG9jYXRlIGNvdW50ZXJzIGZvciBpbi1rZXJuZWwgYWxsb2NfdGFnLCBwYW5pYygpCj5p
-cyBiZXR0ZXIgdGhhbiBXQVJOKCksIGV2ZW50dWFsbHkgdGhlIGtlcm5lbCB3b3VsZCBwYW5pYyBh
-dCBpbnZhbGlkCj5tZW1vcnkgYWNjZXNzLgo+KiBwZXJjcHUgc3RhdHMgd291bGQgYmxvYXQgZGF0
-YSBzdHJ1Y3R1cmVzIHF1aXRlIGEgYml0Lgo+Cj5EYXZpZCBXYW5nLAo+SSBkb24ndCByZWFsbHkg
-dW5kZXJzdGFuZCB3aGF0IGlzICdncmFudWxhcml0eSBvZiBjYWxsaW5nIHNpdGVzJy4gSWYKPk5V
-TUEgaW1iYWxhbmNlIGlzIGZvdW5kLCB0aGUgY2FsbGluZyBzaXRlIGNvdWxkIHJlcXVlc3QgbWVt
-b3J5Cj5hbGxvY2F0aW9uIGZyb20gZGlmZmVyZW50IG5vZGVzLiBPdGhlciBmYWN0b3JzIGNhbiBh
-ZmZlY3QgTlVNQQo+YmFsYW5jZSwgdGhvc2UgaW5mb3JtYXRpb24gY2FuIGJlIGltcGxlbWVudGVk
-IGluIGEgZGlmZmVyZW50IHBhdGNoLgoKSSB0aGluayBteSBjb25jZXJuIG1vc3RseSBkdWUgdG8g
-bXkgbGFjayBvZiBrbm93bGVkZ2UgYW5kIGV4cGVyaWVuY2Ugb2YgTlVNQSwKYnV0IEkgc3RpbGwg
-d29uZGVyaW5nIHdoYXQgYWN0aW9uIHRvIHRha2Ugd2hlbiAiIHRoZSBjYWxsaW5nIHNpdGUgY291
-bGQgcmVxdWVzdCBtZW1vcnkKYWxsb2NhdGlvbiBmcm9tIGRpZmZlcmVudCBub2RlcyIsIGRvZXMg
-dGhlIGNhbGxpbmcgc2l0ZSBuZWVkcyB0byBkZXRlY3QgbnVtYSB1bmJhbGFuY2UgYXQgcnVudGlt
-ZQogb3IgaXQgc2hvdWxkIGNoYW5nZSB0byBoYXJkIGNvZGVkIG51bWEgbm9kZT8KCkJ5ICdncmFu
-dWxhcml0eSBvZiBjYWxsaW5nIHNpdGVzJywgaSBtZWFudCB0byBlbXBoYXNpemUgdGhhdCBpbmZv
-cm1hdGlvbiBpcyBsb2NhbCBwZXIgY2FsbGluZyBzaXRlLApub3QgZ2xvYmFsLiAgV2hhdCBpZiB0
-aGUgbnVtYSBub2RlcyB1c2FnZSBhcmUgYWxtb3N0IGJhbGFuY2VkIGdsb2JhbGx5LCBidXQgc3Ry
-YW5nZWx5IHVuYmFsYW5jZSBsb2NhbGx5IGZvciBzb21lIGNhbGxpbmcgc2l0ZS4KCiJ3aGF0IGFk
-anVzdG1lbnQgdGhlIGNhbGxpbmcgc2l0ZSB3b3VsZCBtYWtlIHRvIHNvbHZlIG51bWEgdW5iYWxh
-bmNlIiBpcyB0aGUgKmJpZyogcXVlc3Rpb24gdG8gbWUgIAoKVGhhbmtzCkRhdmlkCgo+Cj5UaGFu
-a3MsCj5DYXNleQo+Cg==
+On Thu, 10 Jul 2025 17:31:30 -0600, Jonathan Corbet wrote:
+[...]
+
+> Changes since v1:
+> - Coding-style tweaks requested by Mauro
+> - Drop the reworking of output-text accumulation for now
+> - Add a warning for prehistoric Python versions
+
+Serious review of python code is beyond my background, but I did a test
+on this against opensuse/leap:15.6's python3-Sphinx_4_2_0, which comes with
+python 3.6.15.
+
+Running "./scripts/kernel-doc.py -none include/linux/rcupdate.h" emits this:
+
+------------------------------------------------------------------------
+Traceback (most recent call last):
+  File "./scripts/kernel-doc.py", line 315, in <module>
+    main()
+  File "./scripts/kernel-doc.py", line 286, in main
+    kfiles.parse(args.files, export_file=args.export_file)
+  File "/linux/scripts/lib/kdoc/kdoc_files.py", line 222, in parse
+    self.parse_file(fname)
+  File "/linux/scripts/lib/kdoc/kdoc_files.py", line 119, in parse_file
+    doc = KernelDoc(self.config, fname)
+  File "/linux/scripts/lib/kdoc/kdoc_parser.py", line 247, in __init__
+    self.emit_message(0,
+AttributeError: 'KernelDoc' object has no attribute 'emit_message'
+------------------------------------------------------------------------
+
+This error appeared in 12/12.  No errors with python3 >=3.9.
+
+I'm not sure but asking compatibility with python <3.9 increases
+maintainers/testers' burden.  Obsoleting <3.9 all together would
+make everyone's life easier, wouldn't it?
+
+    Thanks, Akira
+
