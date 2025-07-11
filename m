@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26F91A072C;
-	Fri, 11 Jul 2025 05:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9661A072C;
+	Fri, 11 Jul 2025 05:52:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752213030; cv=none; b=m4kcXTxPP2txGXF0E16iMzgvAL+gYhBqnZvAoT13OMzh0ZV6iZrwmw2VYoCQQzmnReUWlvBSCV0uxqCr85w1gwrk/oE3jdxksLV5E5gzYP3sK60X1PmMAUub1Naml54euVdvVI4lQVCm9vC58ZX995VVVdU1YwzjJO56hzuDUio=
+	t=1752213162; cv=none; b=YBVO5KxF/n3QZ9WXlEYtbnG0hkYzgjF0RynHwNU+kPbHS+Mso14eI+R+Qz7flZYPzsQAIIZStz6fY+JApiqSmPg0qX1fvBVFtoBhMmmpCn9c6hEFSxMflePq2v+cSRX1pAPdfiD7TWll5sTc5LMF9GvyF7vWQoVUeb8bSBIEiks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752213030; c=relaxed/simple;
-	bh=k9TboyNWQGCLb7YfUFfPQCgH/7NFPcVelvMeYXFAla0=;
+	s=arc-20240116; t=1752213162; c=relaxed/simple;
+	bh=uXJf4KapdN6sLxFHutaU7DnEN/OIuFGBODqTC1RLkyg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NJsdyJ6BkiwjLqQJvY2gMAkVGMUaXmUBOC0bZG2JwWPEcrvcJP1q/bM0FRBDTuV0jaZ4gwc8wCNNoKz8ZsfFlSfMrFa+DtOP347+kyli/VU2LrwDt+B346yQI4Aglbl4n3fuKbCm8prPajFID0BirAdiIee+EZHVvTmyk8TJ7MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHne3v9/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HytAAdZwmtX/v/X0sg3uROlezwxWpTau4wsbyOXAbijMDmXA7cj9hhSniv/MJ+0clhgokIUzMLZw8efkKWAxhD0jvDupUP2hcmW3ALikVR+ImpoIsER19Rb6GjeC3lXZI8XkUVUJXQFvL+PR1LGtrdlZ8KiV4xPguHQZWqCI4UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sla+/u9k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHne3v9/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42983C4CEED;
-	Fri, 11 Jul 2025 05:50:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sla+/u9k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA0E6C4CEED;
+	Fri, 11 Jul 2025 05:52:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752213030;
-	bh=k9TboyNWQGCLb7YfUFfPQCgH/7NFPcVelvMeYXFAla0=;
+	s=k20201202; t=1752213160;
+	bh=uXJf4KapdN6sLxFHutaU7DnEN/OIuFGBODqTC1RLkyg=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lHne3v9/rByBSgoA7e4rhaq3dPck9ibWnGLly7fDp2rDUySAzqFudP5g9x4Emp2I+
-	 LJFFWHkd0PPOxij2Vkek++QHvXEZcx35THlzqsnMGHB+mTuoSFvsZsftNMvzydG1Eu
-	 0nDnLKiNs1m24Hp4vjr3LIvrqSd4TU2CisCCubXIKtpR4fJRZ9EAFGrJL9REdT1gWU
-	 iZ1hIAQW1TRoA5m149vm0GTqRLg3cmWL3UY21fJQ4RC+9sWlaIeKzr+pbbbK3EvCGa
-	 7Vuqbk6UKhSf/NeSVdW9gzc443MRBsaVAOxVmKLilNQekFIFQAzSTMOK6I5arwKYnt
-	 1tIfAUPKcqHMw==
-Date: Fri, 11 Jul 2025 07:50:26 +0200
+	b=Sla+/u9kL8+anLO4viCwj7x0ORw3/MpJmfXqHfEx11yIXbE8kWOy2aEo9DsNG6r3L
+	 gP8GN+brtHSVZFPFK48riWKac7qOokuOLZXfK7RTHwQj8eNkyvKRM7ooXXwlcYZM2s
+	 Z5amAHvnrXse/xR0xTQQzfCQ+lB9R1EF8mCC8kkleU/husIOl5lwVedjZbq+MTz1u+
+	 v78MHLPELAo7n88MSABORB57HqpBTk39plN82m51SPQCMTKv/8xBSY+sPPU0wZkgoR
+	 jMoujSaERM4zxtch/Sj8u7co4dD0YDXGBrVpRil6r5iwCYlxb4dX1VAU+il4ObzkzZ
+	 A+59GYHqG5NgQ==
+Date: Fri, 11 Jul 2025 07:52:36 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>
-Subject: Re: [PATCH v2 03/12] docs: kdoc: drop "sectionlist"
-Message-ID: <20250711075026.6da00103@foz.lan>
-In-Reply-To: <20250710233142.246524-4-corbet@lwn.net>
+Subject: Re: [PATCH v2 04/12] docs: kdoc: Centralize handling of the item
+ section list
+Message-ID: <20250711075236.60847103@foz.lan>
+In-Reply-To: <20250710233142.246524-5-corbet@lwn.net>
 References: <20250710233142.246524-1-corbet@lwn.net>
-	<20250710233142.246524-4-corbet@lwn.net>
+	<20250710233142.246524-5-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,216 +47,251 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 10 Jul 2025 17:31:33 -0600
+Em Thu, 10 Jul 2025 17:31:34 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Python dicts (as of 3.7) are guaranteed to remember the insertion order of
-> items, so we do not need a separate list for that purpose.  Drop the
-> per-entry sectionlist variable and just rely on native dict ordering.
+> The section list always comes directly from the under-construction entry
+> and is used uniformly.  Formalize section handling in the KdocItem class,
+> and have output_declaration() load the sections directly from the entry,
+> eliminating a lot of duplicated, verbose parameters.
 > 
 > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
 Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-
 > ---
->  scripts/lib/kdoc/kdoc_output.py | 18 ++++++------------
->  scripts/lib/kdoc/kdoc_parser.py | 13 +------------
->  2 files changed, 7 insertions(+), 24 deletions(-)
+>  scripts/lib/kdoc/kdoc_item.py   |  9 +++++++++
+>  scripts/lib/kdoc/kdoc_output.py | 36 ++++++++++++---------------------
+>  scripts/lib/kdoc/kdoc_parser.py | 20 +++---------------
+>  3 files changed, 25 insertions(+), 40 deletions(-)
 > 
+> diff --git a/scripts/lib/kdoc/kdoc_item.py b/scripts/lib/kdoc/kdoc_item.py
+> index add2cc772fec..f0b2b9082c56 100644
+> --- a/scripts/lib/kdoc/kdoc_item.py
+> +++ b/scripts/lib/kdoc/kdoc_item.py
+> @@ -9,6 +9,8 @@ class KdocItem:
+>          self.name = name
+>          self.type = type
+>          self.declaration_start_line = start_line
+> +        self.sections = {}
+> +        self.sections_start_lines = {}
+>          #
+>          # Just save everything else into our own dict so that the output
+>          # side can grab it directly as before.  As we move things into more
+> @@ -24,3 +26,10 @@ class KdocItem:
+>  
+>      def __getitem__(self, key):
+>          return self.get(key)
+> +
+> +    #
+> +    # Tracking of section information.
+> +    #
+> +    def set_sections(self, sections, start_lines):
+> +        self.sections = sections
+> +        self.section_start_lines = start_lines
 > diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-> index 86102e628d91..4895c80e4b81 100644
+> index 4895c80e4b81..15cb89f91987 100644
 > --- a/scripts/lib/kdoc/kdoc_output.py
 > +++ b/scripts/lib/kdoc/kdoc_output.py
-> @@ -339,11 +339,10 @@ class RestFormat(OutputFormat):
+> @@ -338,11 +338,7 @@ class RestFormat(OutputFormat):
+>          starts by putting out the name of the doc section itself, but that
 >          tends to duplicate a header already in the template file.
 >          """
->  
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
->          section_start_lines = args.get('section_start_lines', {})
->  
-> -        for section in sectionlist:
-> +        for section in sections:
+> -
+> -        sections = args.get('sections', {})
+> -        section_start_lines = args.get('section_start_lines', {})
+> -
+> -        for section in sections:
+> +        for section, text in args.sections.items():
 >              # Skip sections that are in the nosymbol_table
 >              if section in self.nosymbol:
 >                  continue
-> @@ -636,7 +635,6 @@ class ManFormat(OutputFormat):
+> @@ -354,8 +350,8 @@ class RestFormat(OutputFormat):
+>              else:
+>                  self.data += f'{self.lineprefix}**{section}**\n\n'
+>  
+> -            self.print_lineno(section_start_lines.get(section, 0))
+> -            self.output_highlight(sections[section])
+> +            self.print_lineno(args.section_start_lines.get(section, 0))
+> +            self.output_highlight(text)
+>              self.data += "\n"
+>          self.data += "\n"
+>  
+> @@ -635,23 +631,20 @@ class ManFormat(OutputFormat):
 >                  self.data += line + "\n"
 >  
 >      def out_doc(self, fname, name, args):
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
->  
+> -        sections = args.get('sections', {})
+> -
 >          if not self.check_doc(name, args):
-> @@ -644,7 +642,7 @@ class ManFormat(OutputFormat):
+>              return
 >  
 >          self.data += f'.TH "{self.modulename}" 9 "{self.modulename}" "{self.man_date}" "API Manual" LINUX' + "\n"
 >  
-> -        for section in sectionlist:
-> +        for section in sections:
+> -        for section in sections:
+> +        for section, text in args.sections.items():
 >              self.data += f'.SH "{section}"' + "\n"
->              self.output_highlight(sections.get(section))
+> -            self.output_highlight(sections.get(section))
+> +            self.output_highlight(text)
 >  
-> @@ -653,7 +651,6 @@ class ManFormat(OutputFormat):
+>      def out_function(self, fname, name, args):
+>          """output function in man"""
 >  
 >          parameterlist = args.get('parameterlist', [])
 >          parameterdescs = args.get('parameterdescs', {})
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
+> -        sections = args.get('sections', {})
 >  
 >          self.data += f'.TH "{args["function"]}" 9 "{args["function"]}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
-> @@ -695,7 +692,7 @@ class ManFormat(OutputFormat):
+>  
+> @@ -692,15 +685,14 @@ class ManFormat(OutputFormat):
 >              self.data += f'.IP "{parameter}" 12' + "\n"
 >              self.output_highlight(parameterdescs.get(parameter_name, ""))
 >  
-> -        for section in sectionlist:
-> +        for section in sections:
+> -        for section in sections:
+> +        for section, text in args.sections.items():
 >              self.data += f'.SH "{section.upper()}"' + "\n"
->              self.output_highlight(sections[section])
+> -            self.output_highlight(sections[section])
+> +            self.output_highlight(text)
 >  
-> @@ -703,7 +700,6 @@ class ManFormat(OutputFormat):
+>      def out_enum(self, fname, name, args):
 >  
 >          name = args.get('enum', '')
 >          parameterlist = args.get('parameterlist', [])
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
+> -        sections = args.get('sections', {})
 >  
 >          self.data += f'.TH "{self.modulename}" 9 "enum {args["enum"]}" "{self.man_date}" "API Manual" LINUX' + "\n"
-> @@ -731,7 +727,7 @@ class ManFormat(OutputFormat):
+>  
+> @@ -727,24 +719,23 @@ class ManFormat(OutputFormat):
 >              self.data += f'.IP "{parameter}" 12' + "\n"
 >              self.output_highlight(args['parameterdescs'].get(parameter_name, ""))
 >  
-> -        for section in sectionlist:
-> +        for section in sections:
+> -        for section in sections:
+> +        for section, text in args.sections.items():
 >              self.data += f'.SH "{section}"' + "\n"
->              self.output_highlight(sections[section])
+> -            self.output_highlight(sections[section])
+> +            self.output_highlight(text)
 >  
-> @@ -739,7 +735,6 @@ class ManFormat(OutputFormat):
+>      def out_typedef(self, fname, name, args):
 >          module = self.modulename
 >          typedef = args.get('typedef')
 >          purpose = args.get('purpose')
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
+> -        sections = args.get('sections', {})
 >  
 >          self.data += f'.TH "{module}" 9 "{typedef}" "{self.man_date}" "API Manual" LINUX' + "\n"
-> @@ -747,7 +742,7 @@ class ManFormat(OutputFormat):
+>  
 >          self.data += ".SH NAME\n"
 >          self.data += f"typedef {typedef} \\- {purpose}\n"
 >  
-> -        for section in sectionlist:
-> +        for section in sections:
+> -        for section in sections:
+> +        for section, text in args.sections.items():
 >              self.data += f'.SH "{section}"' + "\n"
->              self.output_highlight(sections.get(section))
+> -            self.output_highlight(sections.get(section))
+> +            self.output_highlight(text)
 >  
-> @@ -757,7 +752,6 @@ class ManFormat(OutputFormat):
->          struct_name = args.get('struct')
+>      def out_struct(self, fname, name, args):
+>          module = self.modulename
+> @@ -753,7 +744,6 @@ class ManFormat(OutputFormat):
 >          purpose = args.get('purpose')
 >          definition = args.get('definition')
-> -        sectionlist = args.get('sectionlist', [])
 >          parameterlist = args.get('parameterlist', [])
->          sections = args.get('sections', {})
+> -        sections = args.get('sections', {})
 >          parameterdescs = args.get('parameterdescs', {})
-> @@ -788,6 +782,6 @@ class ManFormat(OutputFormat):
+>  
+>          self.data += f'.TH "{module}" 9 "{struct_type} {struct_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
+> @@ -782,6 +772,6 @@ class ManFormat(OutputFormat):
 >              self.data += f'.IP "{parameter}" 12' + "\n"
 >              self.output_highlight(parameterdescs.get(parameter_name))
 >  
-> -        for section in sectionlist:
-> +        for section in sections:
+> -        for section in sections:
+> +        for section, text in args.sections.items():
 >              self.data += f'.SH "{section}"' + "\n"
->              self.output_highlight(sections.get(section))
+> -            self.output_highlight(sections.get(section))
+> +            self.output_highlight(text)
 > diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 97380ff30a0d..2e00c8b3a5f2 100644
+> index 2e00c8b3a5f2..608f3a1045dc 100644
 > --- a/scripts/lib/kdoc/kdoc_parser.py
 > +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -127,7 +127,6 @@ class KernelEntry:
->          self.parameterdesc_start_lines = {}
->  
->          self.section_start_lines = {}
-> -        self.sectionlist = []
->          self.sections = {}
->  
->          self.anon_struct_union = False
-> @@ -202,7 +201,6 @@ class KernelEntry:
->                  self.sections[name] += '\n' + contents
->              else:
->                  self.sections[name] = contents
-> -                self.sectionlist.append(name)
->                  self.section_start_lines[name] = self.new_start_line
->                  self.new_start_line = 0
->  
-> @@ -275,14 +273,12 @@ class KernelDoc:
+> @@ -272,13 +272,13 @@ class KernelDoc:
+>          item = KdocItem(name, dtype, self.entry.declaration_start_line, **args)
 >          item.warnings = self.entry.warnings
 >  
->          sections = item.get('sections', {})
-> -        sectionlist = item.get('sectionlist', [])
->  
+> -        sections = item.get('sections', {})
+> -
 >          # Drop empty sections
 >          # TODO: improve empty sections logic to emit warnings
+> +        sections = self.entry.sections
 >          for section in ["Description", "Return"]:
-> -            if section in sectionlist and not sections[section].rstrip():
-> +            if section in sections and not sections[section].rstrip():
+>              if section in sections and not sections[section].rstrip():
 >                  del sections[section]
-> -                sectionlist.remove(section)
+> +        item.set_sections(sections, self.entry.section_start_lines)
 >  
 >          self.entries.append(item)
 >  
-> @@ -828,7 +824,6 @@ class KernelDoc:
+> @@ -824,8 +824,6 @@ class KernelDoc:
 >                                  parameterdescs=self.entry.parameterdescs,
 >                                  parametertypes=self.entry.parametertypes,
 >                                  parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                sectionlist=self.entry.sectionlist,
->                                  sections=self.entry.sections,
->                                  section_start_lines=self.entry.section_start_lines,
+> -                                sections=self.entry.sections,
+> -                                section_start_lines=self.entry.section_start_lines,
 >                                  purpose=self.entry.declaration_purpose)
-> @@ -913,7 +908,6 @@ class KernelDoc:
+>  
+>      def dump_enum(self, ln, proto):
+> @@ -908,8 +906,6 @@ class KernelDoc:
 >                                  parameterlist=self.entry.parameterlist,
 >                                  parameterdescs=self.entry.parameterdescs,
 >                                  parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                sectionlist=self.entry.sectionlist,
->                                  sections=self.entry.sections,
->                                  section_start_lines=self.entry.section_start_lines,
+> -                                sections=self.entry.sections,
+> -                                section_start_lines=self.entry.section_start_lines,
 >                                  purpose=self.entry.declaration_purpose)
-> @@ -1085,7 +1079,6 @@ class KernelDoc:
+>  
+>      def dump_declaration(self, ln, prototype):
+> @@ -1079,8 +1075,6 @@ class KernelDoc:
 >                                      parameterdescs=self.entry.parameterdescs,
 >                                      parametertypes=self.entry.parametertypes,
 >                                      parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines,
+> -                                    sections=self.entry.sections,
+> -                                    section_start_lines=self.entry.section_start_lines,
 >                                      purpose=self.entry.declaration_purpose,
-> @@ -1099,7 +1092,6 @@ class KernelDoc:
+>                                      func_macro=func_macro)
+>          else:
+> @@ -1092,8 +1086,6 @@ class KernelDoc:
 >                                      parameterdescs=self.entry.parameterdescs,
 >                                      parametertypes=self.entry.parametertypes,
 >                                      parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines,
+> -                                    sections=self.entry.sections,
+> -                                    section_start_lines=self.entry.section_start_lines,
 >                                      purpose=self.entry.declaration_purpose,
-> @@ -1145,7 +1137,6 @@ class KernelDoc:
+>                                      func_macro=func_macro)
+>  
+> @@ -1137,8 +1129,6 @@ class KernelDoc:
 >                                      parameterdescs=self.entry.parameterdescs,
 >                                      parametertypes=self.entry.parametertypes,
 >                                      parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines,
+> -                                    sections=self.entry.sections,
+> -                                    section_start_lines=self.entry.section_start_lines,
 >                                      purpose=self.entry.declaration_purpose)
-> @@ -1168,7 +1159,6 @@ class KernelDoc:
+>              return
+>  
+> @@ -1159,8 +1149,6 @@ class KernelDoc:
 >  
 >              self.output_declaration('typedef', declaration_name,
 >                                      typedef=declaration_name,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines,
+> -                                    sections=self.entry.sections,
+> -                                    section_start_lines=self.entry.section_start_lines,
 >                                      purpose=self.entry.declaration_purpose)
-> @@ -1653,7 +1643,6 @@ class KernelDoc:
+>              return
+>  
+> @@ -1642,9 +1630,7 @@ class KernelDoc:
+>  
 >          if doc_end.search(line):
 >              self.dump_section()
->              self.output_declaration("doc", self.entry.identifier,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines)
+> -            self.output_declaration("doc", self.entry.identifier,
+> -                                    sections=self.entry.sections,
+> -                                    section_start_lines=self.entry.section_start_lines)
+> +            self.output_declaration("doc", self.entry.identifier)
 >              self.reset_state(ln)
+>  
+>          elif doc_content.search(line):
 
 
 
