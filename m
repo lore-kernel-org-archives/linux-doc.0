@@ -1,140 +1,407 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E42274658;
-	Fri, 11 Jul 2025 15:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6542ED160;
+	Fri, 11 Jul 2025 15:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752247706; cv=none; b=kjhZXjX/CSBAFa8WR1ecZsD9Q/AvRF41qEowajVXori6v5RBu9HV+Hqdbixf1XfMW1o9+YG7CotEGKSwSOKc3Km++AuMFR93J1aMT9uDw0e3F/jkLbTo+35ttHO/t5adBQPK3YD1Whs8N/I3pmoWwtidq7fjOcCzrCF1A9RJn9U=
+	t=1752248431; cv=none; b=WOoYRTPx8oHeVfssT8SDK5HqxrNt+bTWOHaBlEOmbln4ZQBLFnWyWScleKu3g3j3yTmS2JpJ2KOC9pYq62HdtAyx2iVvkeLIPvSCAjmt3pU0UzIudYRpk+oyZQxHqJN1VdiIxGE6BgyuKyXyVUHxc6Wb6fZqN8h4pRoqVbLKaUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752247706; c=relaxed/simple;
-	bh=jJsQMAM8FiXHMdKty5y/XyaVhDgU86KQ3YEd2qZWf5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NmzmP1xVEN+jH+cXYdjybrNJMLWQXxduGHC35Em9le3+S95TKSk8r7ge4FPwuNls8UfUH+F2BrvULaxy5i6mt11YnJHSkBEa8Cmf8ELk1qKiGJ8cax3f1I+HNeIMY9uj4gZzHLsYKL2v9Jzqgf4GKfoBKJIIGLufIS3lwvoubRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kTFYiGsH; arc=none smtp.client-ip=209.85.160.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kTFYiGsH"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2ef461b9daeso1440786fac.2;
-        Fri, 11 Jul 2025 08:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752247703; x=1752852503; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RCT28qnij7KcqmnQf/Iz1goywJwPmt6gNk4a8gqOzGQ=;
-        b=kTFYiGsHLvnJeVjc79Pke84Q8yHizUDJeO/XjGFccOpz3HxyKyhs1dMvty3KNe1j21
-         qMwq5UQLkeo8sbwhrzvgzTw+ZXOs+D7pL/eEKRHRDEE/o1RkanG4H1+2n63CZK3KwGsz
-         AJtuQuJVUaPNxgGqpPJjQJm71GoTtq4BYgilY6vlPXgjRVzPs4qCBQWVly6rhoFvGo+1
-         sRQc4eNn0xnSvHB8npRt/q/FSGUmwwOv4WOIILrHSYJL6hPEre8BcpX+NQFeqDg2UEvu
-         UHNFE+IEZLDEI9dR4IOqqEVEZ2QhLFdoy16f6zAdk56Nt9n+5urLxk9yroVxxmg5wirN
-         JF9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752247703; x=1752852503;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RCT28qnij7KcqmnQf/Iz1goywJwPmt6gNk4a8gqOzGQ=;
-        b=kht+7pqBOO7Z0fVZZvbKgdHFDOfj1MmP9D5ECg0DO8vzsTYHuaFHnpCq9/0RGZPOmX
-         0NbkTBqLR8ebKroy1VA4mP4yO3sYwZBlJk58kRKoL7xJ5ZOTinl3stCzYUm/jmyMsohK
-         p6xhTS6Wym1CTWO1j34C//l+YYUZA+459qtPorgiPxV6IaPG/g1KxbM6s/i/5B8TcUrx
-         rNjcLel94kCFutACXfswMGyPqkV0vfIHef7b+8DYBaAIsrecjz10cLpdb/Ua0AyovSLI
-         kaK83W7qjiKnAfDHGRfeHPVy0/4crOSIiZKIJZ2rtaH+0f2u3eMGWKUJKgB5GDUtgUF8
-         ki1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUP+B7TyO433zQ/LVrb9cRItbQUsFEctWbFKDn8lnKRg8oYNMz9Gu1ZW4oJb+4NHXWIwjAs+dpGIqxSqOR/@vger.kernel.org, AJvYcCUkGfNyZaacuSQ8eBdVxijASVuQbefmLfL14sLnctq7na3NeuObPj5JmvutmEYpV3M0ZRx7wa8FkUP+@vger.kernel.org, AJvYcCUpZBivixWXTUHxY2E4W0C/YptvjFfPDIwfGHwuOKcwrk+wwsLuda/QZMSbshM0UB/Pq3ezH/lJh0Q=@vger.kernel.org, AJvYcCVaND/CMv9y1L5yG84+LdR/Z+z1oO3JSoDWAKY5iRegl09MReb2zuWFoC0er3SCB5LVPjTh1Jbnorcmo2mbhA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwahcPFeOr0CIBRNmwJW/V6/rfKg95q5+wsR5BmVL5tuD9iCxBO
-	gfjvalZMsg+DHobNfGZBLaNuWrevHzVK/gHKXLSOYS0Yy5CN8siqWMPT
-X-Gm-Gg: ASbGncuSk0fE6q4hG8gw9w/5JWgUmB2sa9dC67qRwrOmPqIytAndPBOCnsMO8kZycRL
-	oZpUacBbBMuGiFRuggDcRi+uKLoU2bI+uQT3EJbO4ztg0TbUq7+MBV5CHHJidO8gsFJAS6u9AN8
-	BpXyJcCdavOGC3/v1mkcHuVaTeAnP/1tlBny0WYcYGEyAKtroXhiuHYEWwsfHWp7FAiUXgHvfsl
-	M17oAx9iLmdqHdAfHqy6o6W3L4SPthSq+e+0dMfoEuJtxXD6TBH/QpBh+HTZ36DdZF2rR4z+nTd
-	ycMVilv9sGx62SYZzM3zE6xcmel0WH2RCvbk+uIovK7HOeQJWMRzkkbALsGhaFHCktAyk3t22p+
-	Z0DNggIXd9Ox2XYKwTuVvk523MJnc2vje5KjEAkP6HhoCSUE=
-X-Google-Smtp-Source: AGHT+IGzBgxg7rIzuTtcrrEUrQvsX4CkyLDr3x3XrSAFIZzmksXTQyVmWxDZllhKHdsEcj10mjoRIg==
-X-Received: by 2002:a05:6870:6c14:b0:2d5:2955:aa6b with SMTP id 586e51a60fabf-2ff2b4d9b3fmr1955440fac.5.1752247703301;
-        Fri, 11 Jul 2025 08:28:23 -0700 (PDT)
-Received: from groves.net ([2603:8080:1500:3d89:25b0:db8a:a7d3:ffe1])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff1172e579sm762537fac.45.2025.07.11.08.28.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jul 2025 08:28:22 -0700 (PDT)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Fri, 11 Jul 2025 10:28:20 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Dan Williams <dan.j.williams@intel.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 11/18] famfs_fuse: Basic famfs mount opts
-Message-ID: <ttjh3gqk3fmykwrb7dg6xaqhkpxk7g773fkvuzvbdlefimpseg@l5ermgxixeen>
-References: <20250703185032.46568-1-john@groves.net>
- <20250703185032.46568-12-john@groves.net>
- <20250709035911.GE2672029@frogsfrogsfrogs>
+	s=arc-20240116; t=1752248431; c=relaxed/simple;
+	bh=HaQOLJQQuclMlLLNemF5yVy60Z2HFjGPKuNXEndcjbA=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A6k1Kl3mH31lVwMhYHcpzPYDiG2iUplEK6w6GYzkjImzAja/bYDsOa9RN3mLzTJSBbH1/FJFIQw3eFjeT5B9TQlVnNtt5tHewwVdNY1NbTDHMMjQnicONDntKkM6oBEnPuloIB5UUqVc6wGbpHQIXw/BI8bxuAHGoEAykFI9piI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bdwnG30Qlz6L563;
+	Fri, 11 Jul 2025 23:37:06 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id D2EA5140279;
+	Fri, 11 Jul 2025 23:40:24 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 11 Jul
+ 2025 17:40:24 +0200
+Date: Fri, 11 Jul 2025 16:40:22 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Koichi Okuno <fj2767dz@fujitsu.com>
+CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Catalin Marinas <catalin.marinas@arm.com>,
+	Gowthami Thiagarajan <gthiagarajan@marvell.com>, Linu Cherian
+	<lcherian@marvell.com>, Robin Murphy <robin.murphy@arm.com>,
+	<linux-arm-kernel@lists.infradead.org>, Bjorn Andersson
+	<quic_bjorande@quicinc.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Konrad Dybcio
+	<konradybcio@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, "Arnd
+ Bergmann" <arnd@arndb.de>, "=?ISO-8859-1?Q?N=EDcolas?= \"F. R. A. Prado\""
+	<nfraprado@collabora.com>, Thomas Gleixner <tglx@linutronix.de>, "Peter
+ Zijlstra" <peterz@infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+Message-ID: <20250711164022.000059b9@huawei.com>
+In-Reply-To: <20250711071404.2138816-2-fj2767dz@fujitsu.com>
+References: <20250711071404.2138816-1-fj2767dz@fujitsu.com>
+	<20250711071404.2138816-2-fj2767dz@fujitsu.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250709035911.GE2672029@frogsfrogsfrogs>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On 25/07/08 08:59PM, Darrick J. Wong wrote:
-> On Thu, Jul 03, 2025 at 01:50:25PM -0500, John Groves wrote:
-> > * -o shadow=<shadowpath>
+On Fri, 11 Jul 2025 16:13:39 +0900
+Koichi Okuno <fj2767dz@fujitsu.com> wrote:
+
+> This adds two new dynamic PMUs to the Perf Events framework to program
+> and control the Uncore MAC PMUs in Fujitsu chips.
 > 
-> What is a shadow?
+> These drivers were created with reference to drivers/perf/qcom_l3_pmu.c.
 > 
-> > * -o daxdev=<daxdev>
-
-Derp - OK, that's a stale commit message. Here is the one for the -next
-version of this patch:
-
-    famfs_fuse: Basic famfs mount opt: -o shadow=<shadowpath>
-
-    The shadow path is a (usually tmpfs) file system area used by the famfs 
-    user space to commuicate with the famfs fuse server. There is a minor 
-    dilemma that the user space tools must be able to resolve from a mount 
-    point path to a shadow path. The shadow path is exposed via /proc/mounts, 
-    but otherwise not used by the kernel. User space gets the shadow path 
-    from /proc/mounts...
-
-
+> These drivers export formatting and event information to sysfs so they can
+> be used by the perf user space tools with the syntaxes:
 > 
-> And, uh, if there's a FUSE_GET_DAXDEV command, then what does this mount
-> option do?  Pre-populate the first element of that set?
+> perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
+> perf stat -e mac_iod0_mac0_ch0/event=0x80/ ls
 > 
-> --D
+> FUJITSU-MONAKA PMU Events Specification v1.1 URL:
+> https://github.com/fujitsu/FUJITSU-MONAKA
 > 
+> Signed-off-by: Koichi Okuno <fj2767dz@fujitsu.com>
+Hi
 
-I took out -o daxdev, but had failed to update the commit msg.
+We may have discussed on an earlier version and I've forgotten about it
+(in which case sorry!) but why can't this be modular?
 
-The logic is this: The general model requires the FUSE_GET_DAXDEV message /
-response, so passing in the primary daxdev as a -o arg creates two ways to
-do the same thing.
+Given the chances are we will want it in standard distributions, a
+bool kconfig seems to ensure bloat that people are not going to want to
+see.
 
-The only initial heartburn about this was one could imagine a case where a
-mount happens, but no I/O happens for a while so the mount could "succeed",
-only to fail later if the primary daxdev could not be accessed.
+A few other minor comments inline.
 
-But this can't happen with famfs, because the mount procedure includes 
-creating "meta files" - .meta/.superblock and .meta/.log and accessing them
-immediately. So it is guaranteed that FUSE_GET_DAXDEV will be sent right away,
-and if it fails, the mount will be unwound.
+Thanks,
 
-Thanks Darrick!
-John
+Jonathan
 
-<snip>
+> ---
+>  .../admin-guide/perf/fujitsu_mac_pmu.rst      |  73 +++
+>  Documentation/admin-guide/perf/index.rst      |   1 +
+>  drivers/perf/Kconfig                          |   9 +
+>  drivers/perf/Makefile                         |   1 +
+>  drivers/perf/fujitsu_mac_pmu.c                | 569 ++++++++++++++++++
+>  5 files changed, 653 insertions(+)
+>  create mode 100644 Documentation/admin-guide/perf/fujitsu_mac_pmu.rst
+>  create mode 100644 drivers/perf/fujitsu_mac_pmu.c
+> 
+> diff --git a/Documentation/admin-guide/perf/fujitsu_mac_pmu.rst b/Documentation/admin-guide/perf/fujitsu_mac_pmu.rst
+> new file mode 100644
+> index 000000000000..383f3c1bbde7
+> --- /dev/null
+> +++ b/Documentation/admin-guide/perf/fujitsu_mac_pmu.rst
+> @@ -0,0 +1,73 @@
+> +====================================================
+> +Fujitsu Uncore MAC Performance Monitoring Unit (PMU)
+> +====================================================
+> +
+> +This driver supports the Uncore MAC PMUs found in Fujitsu chips.
+> +Each MAC PMU on these chips is exposed as a uncore perf PMU with device name
+> +mac_iod<iod>_mac<mac>_ch<ch>.
+> +
+> +The driver provides a description of its available events and configuration
+> +options in sysfs, see /sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/.
+> +This driver exports:
+> +- formats, used by perf user space and other tools to configure events
+> +- events, used by perf user space and other tools to create events
+> +  symbolically, e.g.:
+> +    perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
+> +- cpumask, used by perf user space and other tools to know on which CPUs
+> +  to open the events
+> +
+> +This driver supports the following events:
+> +- cycles
+> +  This event counts MAC cycles at MAC frequency.
+
+Trivial but you could shorten all these by rewording to drop the This Event and counts
+as both obvious from context.
+
+  - cycles
+    MAC Cycles at MAC frequency.
+  - read-count
+    Number of read requests to MAC.
+etc
+
+> +- read-count
+> +  This event counts the number of read requests to MAC.
+> +- read-count-request
+> +  This event counts the number of read requests including retry to MAC.
+> +- read-count-return
+> +  This event counts the number of responses to read requests to MAC.
+> +- read-count-request-pftgt
+> +  This event counts the number of read requests including retry with PFTGT
+> +  flag.
+> +- read-count-request-normal
+> +  This event counts the number of read requests including retry without PFTGT
+> +  flag.
+> +- read-count-return-pftgt-hit
+> +  This event counts the number of responses to read requests which hit the
+> +  PFTGT buffer.
+> +- read-count-return-pftgt-miss
+> +  This event counts the number of responses to read requests which miss the
+> +  PFTGT buffer.
+> +- read-wait
+> +  This event counts outstanding read requests issued by DDR memory controller
+> +  per cycle.
+> +- write-count
+> +  This event counts the number of write requests to MAC (including zero write,
+> +  full write, partial write, write cancel).
+> +- write-count-write
+> +  This event counts the number of full write requests to MAC (not including
+> +  zero write).
+> +- write-count-pwrite
+> +  This event counts the number of partial write requests to MAC.
+> +- memory-read-count
+> +  This event counts the number of read requests from MAC to memory.
+> +- memory-write-count
+> +  This event counts the number of full write requests from MAC to memory.
+> +- memory-pwrite-count
+> +  This event counts the number of partial write requests from MAC to memory.
+> +- ea-mac
+> +  This event counts energy consumption of MAC.
+> +- ea-memory
+> +  This event counts energy consumption of memory.
+> +- ea-memory-mac-write
+> +  This event counts the number of write requests from MAC to memory.
+> +- ea-ha
+> +  This event counts energy consumption of HA.
+> +
+> +  'ea' is the abbreviation for 'Energy Analyzer'.
+> +
+> +Examples for use with perf::
+> +
+> +  perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
+> +
+> +Given that these are uncore PMUs the driver does not support sampling, therefore
+> +"perf record" will not work. Per-task perf sessions are not supported.
+
+> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+> index 278c929dc87a..269bf72a512a 100644
+> --- a/drivers/perf/Kconfig
+> +++ b/drivers/perf/Kconfig
+> @@ -178,6 +178,15 @@ config FSL_IMX9_DDR_PMU
+>  	 can give information about memory throughput and other related
+>  	 events.
+>  
+> +config FUJITSU_MAC_PMU
+> +	bool "Fujitsu Uncore MAC PMU"
+
+We may have discussed this in an earlier version but why not
+tristate? + module_init() 
+
+> +	depends on (ARM64 && (ACPI || COMPILE_TEST))
+> +	help
+> +	 Provides support for the Uncore MAC performance monitor unit (PMU)
+> +	 in Fujitsu processors.
+> +	 Adds the Uncore MAC PMU into the perf events subsystem for
+> +	 monitoring Uncore MAC events.
+> +
+>  config QCOM_L2_PMU
+>  	bool "Qualcomm Technologies L2-cache PMU"
+>  	depends on ARCH_QCOM && ARM64 && ACPI
+
+> diff --git a/drivers/perf/fujitsu_mac_pmu.c b/drivers/perf/fujitsu_mac_pmu.c
+> new file mode 100644
+> index 000000000000..3c5e838b9894
+> --- /dev/null
+> +++ b/drivers/perf/fujitsu_mac_pmu.c
+> @@ -0,0 +1,569 @@
+
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/bitops.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/list.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/perf_event.h>
+> +#include <linux/platform_device.h>
+> +
+> +/* Number of counters on each PMU */
+> +#define MAC_NUM_COUNTERS  8
+> +/* Mask for the event type field within perf_event_attr.config and EVTYPE reg */
+> +#define MAC_EVTYPE_MASK   0xFF
+> +
+> +/* Perfmon registers */
+> +#define MAC_PM_EVCNTR(__cntr) (0x000 + (__cntr) * 8)
+> +#define MAC_PM_CNTCTL(__cntr) (0x100 + (__cntr) * 8)
+> +#define MAC_PM_EVTYPE(__cntr) (0x200 + (__cntr) * 8)
+> +#define MAC_PM_CR         0x400
+> +#define MAC_PM_CNTENSET   0x410
+> +#define MAC_PM_CNTENCLR   0x418
+> +#define MAC_PM_INTENSET   0x420
+> +#define MAC_PM_INTENCLR   0x428
+> +#define MAC_PM_OVSR       0x440
+
+> +
+> +/* MAC_PM_INTENCLR */
+> +#define PMINTENCLR(__cntr)    BIT(__cntr)
+> +#define PM_INTENCLR_RESET     0xFF
+> +
+> +/* MAC_PM_OVSR */
+
+I'd rather see the macros named to make it clear which register
+they apply to sufficiently that the comments aren't needed.
+Also in my view good to put them directly under the register definine.
+
+> +#define PMOVSRCLR(__cntr)     BIT(__cntr)
+Not used.
+> +#define PMOVSRCLR_RESET       0xFF
+
+
+> +/*
+> + * We must NOT create groups containing events from multiple hardware PMUs,
+> + * although mixing different software and hardware PMUs is allowed.
+> + */
+> +static bool fujitsu_mac__validate_event_group(struct perf_event *event)
+> +{
+> +	struct perf_event *leader = event->group_leader;
+> +	struct perf_event *sibling;
+> +	int counters = 0;
+
+Value never used.
+
+> +
+> +	if (leader->pmu != event->pmu && !is_software_event(leader))
+> +		return false;
+> +
+> +	/* The sum of the counters used by the event and its leader event */
+> +	counters = 2;
+> +
+> +	for_each_sibling_event(sibling, leader) {
+> +		if (is_software_event(sibling))
+> +			continue;
+> +		if (sibling->pmu != event->pmu)
+> +			return false;
+> +		counters++;
+> +	}
+> +
+> +	/*
+> +	 * If the group requires more counters than the HW has, it
+> +	 * cannot ever be scheduled.
+> +	 */
+> +	return counters <= MAC_NUM_COUNTERS;
+> +}
+
+> +static int fujitsu_mac_pmu_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct acpi_device *acpi_dev;
+> +	struct mac_pmu *macpmu;
+> +	struct resource *memrc;
+> +	char *name;
+> +	int ret;
+> +	u64 uid;
+> +
+> +	acpi_dev = ACPI_COMPANION(dev);
+> +	if (!acpi_dev)
+> +		return -ENODEV;
+> +
+> +	ret = acpi_dev_uid_to_integer(acpi_dev, &uid);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "unable to read ACPI uid\n");
+> +
+> +	macpmu = devm_kzalloc(dev, sizeof(*macpmu), GFP_KERNEL);
+> +	if (!macpmu)
+> +		return -ENOMEM;
+> +
+> +	name = devm_kasprintf(dev, GFP_KERNEL, "mac_iod%llu_mac%llu_ch%llu",
+> +			  (uid >> 8) & 0xF, (uid >> 4) & 0xF, uid & 0xF);
+> +	if (!name)
+> +		return -ENOMEM;
+> +
+> +	macpmu->pmu = (struct pmu) {
+> +		.parent		= dev,
+> +		.task_ctx_nr	= perf_invalid_context,
+> +
+> +		.pmu_enable	= fujitsu_mac__pmu_enable,
+> +		.pmu_disable	= fujitsu_mac__pmu_disable,
+> +		.event_init	= fujitsu_mac__event_init,
+> +		.add		= fujitsu_mac__event_add,
+> +		.del		= fujitsu_mac__event_del,
+> +		.start		= fujitsu_mac__event_start,
+> +		.stop		= fujitsu_mac__event_stop,
+> +		.read		= fujitsu_mac__event_read,
+> +
+> +		.attr_groups	= fujitsu_mac_pmu_attr_grps,
+> +		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE | PERF_PMU_CAP_NO_INTERRUPT,
+> +	};
+> +
+> +	macpmu->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &memrc);
+> +	if (IS_ERR(macpmu->regs))
+> +		return PTR_ERR(macpmu->regs);
+> +
+> +	fujitsu_mac__init(macpmu);
+> +
+> +	ret = platform_get_irq(pdev, 0);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = devm_request_irq(dev, ret, fujitsu_mac__handle_irq, 0,
+> +						   name, macpmu);
+
+Unusual indentation.  Normally second line of parametes should just be
+aligned under first set of parameters.  E.g.
+
+	ret = devm_request_irq(dev, ret, fujitsu_mac__handle_irq, 0,
+			       name, macpmu);
+
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Request for IRQ failed for slice @%pa\n",
+> +							 &memrc->start);
+
+Similar for this second line set of parameters.
+
+> +
+> +	/* Add this instance to the list used by the offline callback */
+> +	ret = cpuhp_state_add_instance(mac_pmu_cpuhp_state, &macpmu->node);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Error registering hotplug");
+> +
+> +	ret = perf_pmu_register(&macpmu->pmu, name, -1);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Failed to register MAC PMU\n");
+> +
+> +	dev_dbg(dev, "Registered %s, type: %d\n", name, macpmu->pmu.type);
+> +
+> +	return 0;
+> +}
+
+
+> +static int __init register_fujitsu_mac_pmu_driver(void)
+> +{
+> +	int ret;
+> +
+> +	/* Install a hook to update the reader CPU in case it goes offline */
+> +	ret = cpuhp_setup_state_multi(CPUHP_AP_ONLINE_DYN,
+> +				      "perf/fujitsu/mac:online",
+> +				      fujitsu_mac_pmu_online_cpu,
+> +				      fujitsu_mac_pmu_offline_cpu);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	mac_pmu_cpuhp_state = ret;
+> +	return platform_driver_register(&fujitsu_mac_pmu_driver);
+> +}
+> +device_initcall(register_fujitsu_mac_pmu_driver);
+
+Perhaps add a comment on why this can be a module? Would need a trivial
+exit plus to use module_init() / module_exit()
+ 
+
 
