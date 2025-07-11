@@ -1,88 +1,518 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5CC2EAB81;
-	Fri, 11 Jul 2025 15:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0E31A0BF3
+	for <linux-doc@vger.kernel.org>; Fri, 11 Jul 2025 16:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752248544; cv=none; b=CHMDsxAqoKp4+AvvXx1TDg+nVT+UiK//3FMGzDD1JtRYw7aS84NctcYFnqHp5cjK55UJPrsWESYw3ZjchAC+EvD6Wfzq9i0709Vu0hdFTDofim2BxbDDZcdx6gOEf2/m+ke2UYHaTqrfW5kt5SUxlP3YBjadStFjL+IKhE+0Mc0=
+	t=1752249672; cv=none; b=E7jCUTwwb0i3bA+SU3rxZcInPQy9J2wB8bkH6QnmmACQjAck2nd04kunnWJWcGDoygFzTMyJ8hnRd8+6Qk2HKnMo/6Wu9yo8y/3SDQH/SRnscm3H/ooxvsSspKKJMeSN62YzzZrg6ZD4poyaLhZ7CwoAShx2NlJY9cCGZZepFE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752248544; c=relaxed/simple;
-	bh=nycwG7GIvMQIk9kBYwsfurRzpNNcp7d6kK9wqfNCeOI=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FsQprpbXka1bOdMbsylhT6JfP+3Q/hOj7XQl2+QR2pPE3xBt1TsWEVmZocNoI1bq1e/Th9stOhBaK8HiGa3rK1UWBS0pWZAT1z3Z2RXADLJZafCtOASnUi+d5hbRqca5QqOEIFs0diNXLK4oFN1MWSJSaM7ONNtei6xT2Cp72UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bdwqT1jQ0z6L56x;
-	Fri, 11 Jul 2025 23:39:01 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id A774D140279;
-	Fri, 11 Jul 2025 23:42:19 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 11 Jul
- 2025 17:42:18 +0200
-Date: Fri, 11 Jul 2025 16:42:17 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Koichi Okuno <fj2767dz@fujitsu.com>
-CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Catalin Marinas <catalin.marinas@arm.com>,
-	Gowthami Thiagarajan <gthiagarajan@marvell.com>, Linu Cherian
-	<lcherian@marvell.com>, Robin Murphy <robin.murphy@arm.com>,
-	<linux-arm-kernel@lists.infradead.org>, Bjorn Andersson
-	<quic_bjorande@quicinc.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Konrad Dybcio
-	<konradybcio@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, "Arnd
- Bergmann" <arnd@arndb.de>, "=?ISO-8859-1?Q?N=EDcolas?= \"F. R. A. Prado\""
-	<nfraprado@collabora.com>, Thomas Gleixner <tglx@linutronix.de>, "Peter
- Zijlstra" <peterz@infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
-Message-ID: <20250711164217.00006ea7@huawei.com>
-In-Reply-To: <20250711071404.2138816-3-fj2767dz@fujitsu.com>
-References: <20250711071404.2138816-1-fj2767dz@fujitsu.com>
-	<20250711071404.2138816-3-fj2767dz@fujitsu.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1752249672; c=relaxed/simple;
+	bh=9KmwEE2ZxZmK/iL7pflQHkaHDGeMqSD2S6Bnv08jRAc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZwefS+MHpUMhq5g++GfVt22g1mCsbwz8dMVWLxAtwiGWBuRQuVp+XTekht2bCzsffY7OA5eY1mxDFHyoHLgo9O2mFJU1dcUpnCcNe0OxOVNXVw7SjwtfhWZM1qJyDOFbugCXovamlDYTEsAIyXWmPJjq0iXvDjbYf0mu/PJLTx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=tomeuvizoso.net; dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b=i+ZTXNMs; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="i+ZTXNMs"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e7dc89108bfso2040097276.3
+        for <linux-doc@vger.kernel.org>; Fri, 11 Jul 2025 09:01:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1752249668; x=1752854468; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ODMKcE1p5YgqiPmFZ5yGUw8T4mr2KE6M7w5D5YC/OsI=;
+        b=i+ZTXNMspT/iQURpUVZB6wrcgDItAaFWoeLxdv2SANV7baGtn0WhtuckuFkJ85iQhM
+         A/HYy1w1+zYzC/IHgPIoHbgCBkLH9ByucaGzHB2xYD86qE/SgqIryWE0OcM8OMNx9zZ4
+         j/yjRnKPOo+VWN/RwmzgFZP2hzj4GNhODN+KkBZKvNGbAepyd5G2dUEyiC7K9HXpKN7D
+         8ikPz/qldVIBYbQ0AxKL4aKzlAhAxR+zZDXke9q3Xl4m7ZJIQiJTD8ef9+fKEZldAiL3
+         ufrOIAuDJrj20RE70boKnBj8eJGDthUZxd2oQsreFBnSf+2Z52vFzp32EgvymGO17A9Z
+         Ha6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752249668; x=1752854468;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ODMKcE1p5YgqiPmFZ5yGUw8T4mr2KE6M7w5D5YC/OsI=;
+        b=Rwgs1f7kSRrS11APjfdq72EEIwEayqTEDLyMvTAiQ2n45V6nKqCqkTvl/Zcpk3HDms
+         /9twaWGdMPPtBJHExOsdDr7Ct20XuBo6x/9L8D5567/SOqlJ2WNbNGtefFRO9J3V+wL2
+         b2EOdQHzLrM8IQg4osz68wnTHMP9AukbSpv/gSx5ezy/zncAG/nk3NRj0yrL/T7GRzQ0
+         LUkqA5vFdsAAmYp1h1WbpZPf0tQItX3b2snjuHwF3SXKaqK+q+HkcAV0Hy5mxQ8qzjma
+         YrvkaHhISYYro+6+Eds9lfPA8oIGQIqkozMJKxm5icvq/VqFHEi8cgshNOBJpOLvXL7O
+         PiCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXvZvVEaO0kIAWPLpvhaXECOB0nGDNnQtvt7KELsxxBkhKVUUMpLpGVkbqrV0EIr09DyLEqlS3iUKk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPIz/A2XOME/PMYrGPNb19kZZbPawPDmAc5VcW/M3ZzASz6y+D
+	TtVo2z68ehAZRPoTpDQ1DjboDGYot0w7QzJ15/eOm2JhR/JGHiqRUvTNZoDjwwY/P/g=
+X-Gm-Gg: ASbGncvOebw/ZDUcLoCX5UBAhhf/XxAxQ4e9cVX+tGg1LzNMC/F/axyS3hyCyEzDmYQ
+	OiwXvw9qds7SUwZajLC1VRn7litv0mOvsTNnAw4TMorzY3HHIOkRGqf03Ez6B/eyvlNFouiA1fy
+	1K7+0e04tMY8+9crhcqdkikOkozcW3P48hSsW7OU8i9Xj9nAdAiOJVdjehR/AuME5AGkPlo5wDS
+	GlTt2dUfQPEWlYu/C9Idk8nAaDnvZnM+0q/i4jAiIDO46I4B0tre8CgNFIdds9llrh71BlsNmaN
+	yfXK5d8Iw8ZQ25HIuJGL2w3pEOhEPgnRqvUlCk/M5fApKpwXOtkFs6XAmp/obK1REkyOQoUSLh5
+	qE2aTe/Q0r++t8J5eFakRtCe2IU21ALu7CuxUjyNFJM0CFdDrVgemkrxNAr8t3JIKcw==
+X-Google-Smtp-Source: AGHT+IGjcQLwypga1GfnDL8vVb8q1g4mvmz+GxG5GNEG+uL0PaddwAjbmCB7GX1SigBGeVY0UL1kSw==
+X-Received: by 2002:a05:690c:6e8b:b0:70e:779:7e84 with SMTP id 00721157ae682-717daeb2ec2mr41112637b3.27.1752249668069;
+        Fri, 11 Jul 2025 09:01:08 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-717c5d4f9bdsm8008887b3.18.2025.07.11.09.01.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Jul 2025 09:01:07 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e819ebc3144so2171542276.0;
+        Fri, 11 Jul 2025 09:01:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUdRHCKsug6ylsjqjizziphWgNK9ARq7KxlqkwAyGyUvM+lZPXvrl6xnNIil+6c8rnVxXEG2h44vS8RAtbm@vger.kernel.org, AJvYcCWRxBObszoCaohAV11KIGX9NVVPEtEBA9GMdnK/fpWv1e6dEdC8zXuhPkItEVXdk4ZBJdAxy9HEpRE1hqE=@vger.kernel.org, AJvYcCX5bHQrzFIdHTmLsRFqNZ2CcehhborKxlkn1EefUgnBHJ9vR9HdQigvZQVB+8wrNoyt2sFpBkCxsMdv@vger.kernel.org, AJvYcCXcoO50Jq7n/BI2hVpeFpk58lPn09nlrfUOFEAPfJJXmpAr/TloVGDytRn9o8ZFEL1xu5CD2et1HAGy@vger.kernel.org
+X-Received: by 2002:a05:6902:1ac3:b0:e8b:5388:af71 with SMTP id
+ 3f1490d57ef6-e8b874165a9mr3797674276.38.1752249665718; Fri, 11 Jul 2025
+ 09:01:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
- frapeml500008.china.huawei.com (7.182.85.71)
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+ <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net> <fcb3ca23-7ebd-4f48-92d2-969b24936b9b@arm.com>
+In-Reply-To: <fcb3ca23-7ebd-4f48-92d2-969b24936b9b@arm.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Fri, 11 Jul 2025 18:00:54 +0200
+X-Gmail-Original-Message-ID: <CAAObsKBiSX0HcxJJjTNGgE4FD4eAYW5wvY=bROtdkZ1mqf_0VQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyh56JbSSKIXGZmdm1LF3IopYU6qYCVm7YM4utxq79Gbdb5weokuDKkAc8
+Message-ID: <CAAObsKBiSX0HcxJJjTNGgE4FD4eAYW5wvY=bROtdkZ1mqf_0VQ@mail.gmail.com>
+Subject: Re: [PATCH v7 04/10] accel/rocket: Add job submission IOCTL
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, 
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Kever Yang <kever.yang@rock-chips.com>, 
+	Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 11 Jul 2025 16:13:40 +0900
-Koichi Okuno <fj2767dz@fujitsu.com> wrote:
+On Tue, Jun 24, 2025 at 3:50=E2=80=AFPM Robin Murphy <robin.murphy@arm.com>=
+ wrote:
+>
+> On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
+> [...]
+> > diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/rocke=
+t/rocket_device.h
+> > index 10acfe8534f00a7985d40a93f4b2f7f69d43caee..50e46f0516bd1615b5f826c=
+5002a6c0ecbf9aed4 100644
+> > --- a/drivers/accel/rocket/rocket_device.h
+> > +++ b/drivers/accel/rocket/rocket_device.h
+> > @@ -13,6 +13,8 @@
+> >   struct rocket_device {
+> >       struct drm_device ddev;
+> >
+> > +     struct mutex sched_lock;
+> > +
+> >       struct mutex iommu_lock;
+>
+> Just realised I missed this in the last patch, but iommu_lock appears to
+> be completely unnecessary now.
+>
+> >       struct rocket_core *cores;
+> [...]
+> > +static void rocket_job_hw_submit(struct rocket_core *core, struct rock=
+et_job *job)
+> > +{
+> > +     struct rocket_task *task;
+> > +     bool task_pp_en =3D 1;
+> > +     bool task_count =3D 1;
+> > +
+> > +     /* GO ! */
+> > +
+> > +     /* Don't queue the job if a reset is in progress */
+> > +     if (atomic_read(&core->reset.pending))
+> > +             return;
+> > +
+> > +     task =3D &job->tasks[job->next_task_idx];
+> > +     job->next_task_idx++;
+> > +
+> > +     rocket_pc_writel(core, BASE_ADDRESS, 0x1);
+> > +
+> > +     rocket_cna_writel(core, S_POINTER, 0xe + 0x10000000 * core->index=
+);
+> > +     rocket_core_writel(core, S_POINTER, 0xe + 0x10000000 * core->inde=
+x);
+>
+> Those really look like bitfield operations rather than actual arithmetic
+> to me.
+>
+> > +
+> > +     rocket_pc_writel(core, BASE_ADDRESS, task->regcmd);
+>
+> I don't see how regcmd is created (I guess that's in userspace?), but
+> given that it's explicitly u64 all the way through - and especially
+> since you claim to support 40-bit DMA addresses - it definitely seems
+> suspicious that the upper 32 bits never seem to be consumed anywhere :/
 
-> This adds two new dynamic PMUs to the Perf Events framework to program
-> and control the Uncore PCI PMUs in Fujitsu chips.
-> 
-> These drivers were created with reference to drivers/perf/qcom_l3_pmu.c.
-> 
-> These drivers export formatting and event information to sysfs so they can
-> be used by the perf user space tools with the syntaxes:
-> 
-> perf stat -e pci_iod0_pci0/ea-pci/ ls
-> perf stat -e pci_iod0_pci0/event=0x80/ ls
-> 
-> FUJITSU-MONAKA PMU Events Specification v1.1 URL:
-> https://github.com/fujitsu/FUJITSU-MONAKA
-> 
-> Signed-off-by: Koichi Okuno <fj2767dz@fujitsu.com>
-Hi.
+Yeah, but there's no other register for BASE_ADDRESS address in the TRM.
 
-As much comments would be much the same as on patch 1
-I'll wait for v7 to take another look at this one.
+> > +     rocket_pc_writel(core, REGISTER_AMOUNTS, (task->regcmd_count + 1)=
+ / 2 - 1);
+> > +
+> > +     rocket_pc_writel(core, INTERRUPT_MASK, PC_INTERRUPT_MASK_DPU_0 | =
+PC_INTERRUPT_MASK_DPU_1);
+> > +     rocket_pc_writel(core, INTERRUPT_CLEAR, PC_INTERRUPT_CLEAR_DPU_0 =
+| PC_INTERRUPT_CLEAR_DPU_1);
+> > +
+> > +     rocket_pc_writel(core, TASK_CON, ((0x6 | task_pp_en) << 12) | tas=
+k_count);
+> > +
+> > +     rocket_pc_writel(core, TASK_DMA_BASE_ADDR, 0x0);
+> > +
+> > +     rocket_pc_writel(core, OPERATION_ENABLE, 0x1);
+> > +
+> > +     dev_dbg(core->dev, "Submitted regcmd at 0x%llx to core %d", task-=
+>regcmd, core->index);
+> > +}
+> [...]
+> > +static struct dma_fence *rocket_job_run(struct drm_sched_job *sched_jo=
+b)
+> > +{
+> > +     struct rocket_job *job =3D to_rocket_job(sched_job);
+> > +     struct rocket_device *rdev =3D job->rdev;
+> > +     struct rocket_core *core =3D sched_to_core(rdev, sched_job->sched=
+);
+> > +     struct dma_fence *fence =3D NULL;
+> > +     int ret;
+> > +
+> > +     if (unlikely(job->base.s_fence->finished.error))
+> > +             return NULL;
+> > +
+> > +     /*
+> > +      * Nothing to execute: can happen if the job has finished while
+> > +      * we were resetting the GPU.
+>
+> GPU? (Similarly in various other comments/prints)
+>
+> > +      */
+> > +     if (job->next_task_idx =3D=3D job->task_count)
+> > +             return NULL;
+> > +
+> > +     fence =3D rocket_fence_create(core);
+> > +     if (IS_ERR(fence))
+> > +             return fence;
+> > +
+> > +     if (job->done_fence)
+> > +             dma_fence_put(job->done_fence);
+> > +     job->done_fence =3D dma_fence_get(fence);
+> > +
+> > +     ret =3D pm_runtime_get_sync(core->dev);
+> > +     if (ret < 0)
+> > +             return fence;
+> > +
+> > +     ret =3D iommu_attach_group(job->domain, iommu_group_get(core->dev=
+));
+>
+> I don't see iommu_group_put() anywhere, so you're leaking refcounts all
+> over.
+>
+> > +     if (ret < 0)
+> > +             return fence;
+> > +
+> > +     scoped_guard(spinlock, &core->job_lock) {
+> > +             core->in_flight_job =3D job;
+> > +             rocket_job_hw_submit(core, job);
+> > +     }
+> > +
+> > +     return fence;
+> > +}
+> [...]
+> > +static void rocket_job_handle_irq(struct rocket_core *core)
+> > +{
+> > +     u32 status, raw_status;
+> > +
+> > +     pm_runtime_mark_last_busy(core->dev);
+> > +
+> > +     status =3D rocket_pc_readl(core, INTERRUPT_STATUS);
+> > +     raw_status =3D rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
+> > +
+> > +     rocket_pc_writel(core, OPERATION_ENABLE, 0x0);
+> > +     rocket_pc_writel(core, INTERRUPT_CLEAR, 0x1ffff);
+>
+> What was the point of reading the status registers if we're just going
+> to blindly clear every possible condition anyway?
+>
+> > +     scoped_guard(spinlock, &core->job_lock)
+> > +             if (core->in_flight_job)
+> > +                     rocket_job_handle_done(core, core->in_flight_job)=
+;
+>
+> But then is it really OK to just start the next task regardless of
+> whether the current task was reporting successful completion or an error?
+>
+> > +}
+> > +
+> > +static void
+> > +rocket_reset(struct rocket_core *core, struct drm_sched_job *bad)
+> > +{
+> > +     bool cookie;
+> > +
+> > +     if (!atomic_read(&core->reset.pending))
+> > +             return;
+> > +
+> > +     /*
+> > +      * Stop the scheduler.
+> > +      *
+> > +      * FIXME: We temporarily get out of the dma_fence_signalling sect=
+ion
+> > +      * because the cleanup path generate lockdep splats when taking l=
+ocks
+> > +      * to release job resources. We should rework the code to follow =
+this
+> > +      * pattern:
+> > +      *
+> > +      *      try_lock
+> > +      *      if (locked)
+> > +      *              release
+> > +      *      else
+> > +      *              schedule_work_to_release_later
+> > +      */
+> > +     drm_sched_stop(&core->sched, bad);
+> > +
+> > +     cookie =3D dma_fence_begin_signalling();
+> > +
+> > +     if (bad)
+> > +             drm_sched_increase_karma(bad);
+> > +
+> > +     /*
+> > +      * Mask job interrupts and synchronize to make sure we won't be
+> > +      * interrupted during our reset.
+> > +      */
+> > +     rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
+> > +     synchronize_irq(core->irq);
+>
+> ...except it's a shared IRQ, so it can still merrily fire at any time.
+>
+> > +
+> > +     /* Handle the remaining interrupts before we reset. */
+> > +     rocket_job_handle_irq(core);
+> > +
+> > +     /*
+> > +      * Remaining interrupts have been handled, but we might still hav=
+e
+> > +      * stuck jobs. Let's make sure the PM counters stay balanced by
+> > +      * manually calling pm_runtime_put_noidle() and
+> > +      * rocket_devfreq_record_idle() for each stuck job.
+> > +      * Let's also make sure the cycle counting register's refcnt is
+> > +      * kept balanced to prevent it from running forever
+>
+> Comments that don't match the code are more confusing than helpful :/
+>
+> > +      */
+> > +     scoped_guard(spinlock, &core->job_lock) {
+> > +             if (core->in_flight_job)
+> > +                     pm_runtime_put_noidle(core->dev);
+> > +
+> > +             core->in_flight_job =3D NULL;
+> > +     }
+> > +
+> > +     /* Proceed with reset now. */
+> > +     pm_runtime_force_suspend(core->dev);
+> > +     pm_runtime_force_resume(core->dev);
+>
+> Can you guarantee that actually resets the hardware if something else is
+> holding the power domain open or RPM is disabled? I'm not familiar with
+> the details of drm_sched, but if there are other jobs queued behind the
+> stuck one would it even pass the rocket_job_is_idle() check for suspend
+> to succeed anyway?
+>
+> Not to mention that you have an actual reset control in the DT binding,
+> which isn't even optional... :/
 
-In general both are really clean drivers so just minor stuff
-to work on for v7.
+Yeah, I think in my testing the resets didn't work because we didn't
+have the right resources in the DT nodes. Have retested and the
+documented reset process is enough to reset each core.
+
+Will be sending soon a revised version.
 
 Thanks,
 
-Jonathan
+Tomeu
 
+> > +     /* GPU has been reset, we can clear the reset pending bit. */
+> > +     atomic_set(&core->reset.pending, 0);
+> > +
+> > +     /*
+> > +      * Now resubmit jobs that were previously queued but didn't have =
+a
+> > +      * chance to finish.
+> > +      * FIXME: We temporarily get out of the DMA fence signalling sect=
+ion
+> > +      * while resubmitting jobs because the job submission logic will
+> > +      * allocate memory with the GFP_KERNEL flag which can trigger mem=
+ory
+> > +      * reclaim and exposes a lock ordering issue.
+> > +      */
+> > +     dma_fence_end_signalling(cookie);
+> > +     drm_sched_resubmit_jobs(&core->sched);
+>
+> Since I happened to look, this says it's deprecated?
+>
+> > +     cookie =3D dma_fence_begin_signalling();
+> > +
+> > +     /* Restart the scheduler */
+> > +     drm_sched_start(&core->sched, 0);
+> > +
+> > +     dma_fence_end_signalling(cookie);
+> > +}
+> > +
+> > +static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_jo=
+b *sched_job)
+> > +{
+> > +     struct rocket_job *job =3D to_rocket_job(sched_job);
+> > +     struct rocket_device *rdev =3D job->rdev;
+> > +     struct rocket_core *core =3D sched_to_core(rdev, sched_job->sched=
+);
+> > +
+> > +     /*
+> > +      * If the GPU managed to complete this jobs fence, the timeout is
+> > +      * spurious. Bail out.
+> > +      */
+> > +     if (dma_fence_is_signaled(job->done_fence))
+> > +             return DRM_GPU_SCHED_STAT_NOMINAL;
+>
+> Do we really need the same return condition twice? What if the IRQ fires
+> immediately after we've made this check, and is handled without delay
+> such that sychronize_irq() effectively still does nothing? Either way
+> we've taken longer than the timeout value to observe the job completing
+> successfully, and either that's significant and worth warning about or
+> it's not - I don't see any point in trying to (inaccurately) nitpick
+> *why* it might have happened.
+>
+> > +     /*
+> > +      * Rocket IRQ handler may take a long time to process an interrup=
+t
+> > +      * if there is another IRQ handler hogging the processing.
+> > +      * For example, the HDMI encoder driver might be stuck in the IRQ
+> > +      * handler for a significant time in a case of bad cable connecti=
+on.
+>
+> What have HDMI cables got to do with anything here? Yes, in general IRQ
+> latency can be high, since CPUs can have IRQs masked and/or be taking
+> higher-priority interrupts for any number of reasons. I don't see how an
+> oddly-specific example (of apparently poor driver design, to boot) is
+> useful.
+>
+> > +      * In order to catch such cases and not report spurious rocket
+> > +      * job timeouts, synchronize the IRQ handler and re-check the fen=
+ce
+> > +      * status.
+> > +      */
+> > +     synchronize_irq(core->irq);
+> > +
+> > +     if (dma_fence_is_signaled(job->done_fence)) {
+> > +             dev_warn(core->dev, "unexpectedly high interrupt latency\=
+n");
+> > +             return DRM_GPU_SCHED_STAT_NOMINAL;
+> > +     }
+> > +
+> > +     dev_err(core->dev, "gpu sched timeout");
+> > +
+> > +     atomic_set(&core->reset.pending, 1);
+> > +     rocket_reset(core, sched_job);
+> > +     iommu_detach_group(NULL, iommu_group_get(core->dev));
+> > +
+> > +     return DRM_GPU_SCHED_STAT_NOMINAL;
+> > +}
+> > +
+> > +static void rocket_reset_work(struct work_struct *work)
+> > +{
+> > +     struct rocket_core *core;
+> > +
+> > +     core =3D container_of(work, struct rocket_core, reset.work);
+> > +     rocket_reset(core, NULL);
+> > +}
+> > +
+> > +static const struct drm_sched_backend_ops rocket_sched_ops =3D {
+> > +     .run_job =3D rocket_job_run,
+> > +     .timedout_job =3D rocket_job_timedout,
+> > +     .free_job =3D rocket_job_free
+> > +};
+> > +
+> > +static irqreturn_t rocket_job_irq_handler_thread(int irq, void *data)
+> > +{
+> > +     struct rocket_core *core =3D data;
+> > +
+> > +     rocket_job_handle_irq(core);
+> > +
+> > +     return IRQ_HANDLED;
+> > +}
+> > +
+> > +static irqreturn_t rocket_job_irq_handler(int irq, void *data)
+> > +{
+> > +     struct rocket_core *core =3D data;
+> > +     u32 raw_status =3D rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
+>
+> Given that this can be a shared IRQ as above, it would be a good idea to
+> take care to avoid register accesses while suspended. Especially if
+> you're trying to utilise suspend to reset a failing job that may well be
+> throwing IOMMU faults.
+>
+> > +
+> > +     WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
+> > +     WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
+> > +
+> > +     if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
+> > +           raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
+> > +             return IRQ_NONE;
+> > +
+> > +     rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
+> > +
+> > +     return IRQ_WAKE_THREAD;
+> > +}
+> > +
+> > +int rocket_job_init(struct rocket_core *core)
+> > +{
+> > +     struct drm_sched_init_args args =3D {
+> > +             .ops =3D &rocket_sched_ops,
+> > +             .num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
+> > +             .credit_limit =3D 1,
+>
+> Ah, does this mean that all the stuff about queued jobs was in fact all
+> nonsense anyway?
+>
+> > +             .timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
+> > +             .name =3D dev_name(core->dev),
+> > +             .dev =3D core->dev,
+> > +     };
+> > +     int ret;
+> > +
+> > +     INIT_WORK(&core->reset.work, rocket_reset_work);
+> > +     spin_lock_init(&core->job_lock);
+> > +
+> > +     core->irq =3D platform_get_irq(to_platform_device(core->dev), 0);
+> > +     if (core->irq < 0)
+> > +             return core->irq;
+> > +
+> > +     ret =3D devm_request_threaded_irq(core->dev, core->irq,
+> > +                                     rocket_job_irq_handler,
+> > +                                     rocket_job_irq_handler_thread,
+> > +                                     IRQF_SHARED, KBUILD_MODNAME "-job=
+",
+>
+> Is it really a "job" interrupt though? The binding and the register
+> definitions suggest it's just a general status interrupt for the core.
+> Furthermore since we expect to have multiple cores, being able to more
+> easily identify and attribute per-core IRQ activity seems more useful
+> for debugging than copy-pasting from something really rather different
+> which also expects to be the only one of its kind on the system.
+>
+> Thanks,
+> Robin.
+>
+> > +                                     core);
+> > +     if (ret) {
+> > +             dev_err(core->dev, "failed to request job irq");
+> > +             return ret;
+> > +     }
