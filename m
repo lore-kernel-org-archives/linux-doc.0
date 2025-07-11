@@ -1,787 +1,246 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FA51B4242;
-	Fri, 11 Jul 2025 17:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8B4219A91;
+	Fri, 11 Jul 2025 17:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752255570; cv=none; b=n8RXzKW+wOaPComXhsmQ2qtWbAmZMQg4fJEYGmFEoj3gE2mgXcuV9HTE5wnfVyWVEeK8LEfotzYGmTAOdIgn8vgoC9/iPV+oR1DlxoSOF3faX7JWSu3NGg5cfNj6eK94wL3aXwOJjX1Du6NBZZn/AVokc/kDddTx/blAMdD+N+Y=
+	t=1752255655; cv=none; b=MPCN7zQS8zZWn0OET7pAyUeaEw1Zr8spx8IhZ9wBRBxvHRZ46bDkykM8fOuJQXdxSmnzar8koogCRmFgUDGEH9AA4S5foswBXc84AhX1yx3av8djthHpxcImRuLD5WDIvt3m1HeazpxN9KyZwv960sVsfBrcukYoEC8w+D3OYSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752255570; c=relaxed/simple;
-	bh=pkPL7MphAYj4+U2RucE0GQ3Puv+y9MD6GGgkLOMhf2Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Qcr9ek0RHVpfcefZSrtT7ce6oZNftNHwVYcsPJVInOSMeTc1FJoUAq02cXu0NXS4mvjLZYZCtB27cf+MEvy8lubK+np7hAC+I2O/AhyWfyxDuRqJomlyEtaWaruVOq4pSgAdFr7s7X4t2COdT83F0wP28D5Cf/8P38E7y9TcpEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=armfpt2B; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1752255655; c=relaxed/simple;
+	bh=Z5h8RYJc6k17AEf7UTbWHnSOM2I8FCkIKpXNIERJo78=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XR1LaYu3pLN0X+0iupIRFSRtBRvdGSZlWNWQ8UZ0wSCgCQeiYpTCAcS3Yxohi03Lus9F9PWx3Qi3FB8a1rHdIjhfBOET6VwjMyEI+5Vf+3h5o1XPWe/4k/8wZkQo2k4oOty6piEaegxLVAL6FWCwvHv4EB0gj4HAv4ZdFdnIih0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEvXuqzN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="armfpt2B"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56BHcjws1860585;
-	Fri, 11 Jul 2025 12:38:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1752255525;
-	bh=GonjaYAIVlxl/JvjmVt8d514RYmBvUxiENaWcY+FoEI=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=armfpt2BoJquAdBgTUqzoZQcH3f6OGxEJe2hRNjLa6vmDF82IB+ugKuWDQhj5iLTG
-	 ov6imhUmNyV6itjqUNoVnsjoaXeWIfgAMbCRVBKZhZ5oo7P1ibRZ/fZBXlCIgWU96w
-	 mNiURKMjblY0cC4uKcLffzzNDEo4w/ZIMN3zIjyw=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56BHciVr2512034
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Fri, 11 Jul 2025 12:38:44 -0500
-Received: from lewvowa01.ent.ti.com (10.180.75.79) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 11
- Jul 2025 12:38:43 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by lewvowa01.ent.ti.com
- (10.180.75.79) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2507.55; Fri, 11 Jul
- 2025 12:38:43 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 11 Jul 2025 12:38:43 -0500
-Received: from [10.250.35.60] ([10.250.35.60])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56BHcguC3585082;
-	Fri, 11 Jul 2025 12:38:42 -0500
-Message-ID: <d4178216-8440-4c57-bb06-867e96ca7dae@ti.com>
-Date: Fri, 11 Jul 2025 12:38:41 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEvXuqzN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37011C4CEED;
+	Fri, 11 Jul 2025 17:40:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752255654;
+	bh=Z5h8RYJc6k17AEf7UTbWHnSOM2I8FCkIKpXNIERJo78=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UEvXuqzNsjkR9n9ms5hU7W4gRqcQOTFDIMNJfU/Mk4UVCDaKfkzCI893GKZx9DIAo
+	 qdt4OvG0eBTuEjiINckV9baYfNAgqRE2a2pqn1yoDRHy7nD7eO/7I80Q1LJ2jtSIsI
+	 vlkx7iHkzfOc1q3umC23An6lHW2kRxmnAIiz9KUTCy4wi2XifdjsQg9y49fgyfSZ6y
+	 TvvEOCYZgZit6f/jFA2PwTV5h0be8ZewiOWw31vMyYRc+mTz5joOrbbucZgBNBjuc3
+	 zxLgsNCW9R3CltpYWl0vtEQlvShg/v01SXWTlv8AFFrL6BQpzssSO7M3qmRJioVfps
+	 mP3tvhoeldj0g==
+Date: Fri, 11 Jul 2025 19:40:47 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, "Akira Yokosawa" <akiyks@gmail.com>, "Breno Leitao"
+ <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, "Ignacio Encinas Rubio"
+ <ignacio@iencinas.com>, "Jan Stancek" <jstancek@redhat.com>, "Marco Elver"
+ <elver@google.com>, "Paolo Abeni" <pabeni@redhat.com>, "Randy Dunlap"
+ <rdunlap@infradead.org>, "Ruben Wauters" <rubenru09@aol.com>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, Jakub Kicinski <kuba@kernel.org>, Simon Horman
+ <horms@kernel.org>, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
+ stern@rowland.harvard.edu
+Subject: Re: [PATCH v9 12/13] docs: parser_yaml.py: add support for line
+ numbers from the parser
+Message-ID: <20250711194047.4be0df4c@foz.lan>
+In-Reply-To: <m2ecun5a3a.fsf@gmail.com>
+References: <cover.1752076293.git.mchehab+huawei@kernel.org>
+	<3b18b30b1b50b01a014fd4b5a38423e529cde2fb.1752076293.git.mchehab+huawei@kernel.org>
+	<m2zfdc5ltn.fsf@gmail.com>
+	<m2ms9c5din.fsf@gmail.com>
+	<20250710195757.02e8844a@sal.lan>
+	<m2ecun5a3a.fsf@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 02/10] accel/rocket: Add a new driver for Rockchip's
- NPU
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-        Oded Gabbay <ogabbay@kernel.org>, "Jonathan
- Corbet" <corbet@lwn.net>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Sebastian
- Reichel" <sebastian.reichel@collabora.com>,
-        Nicolas Frattaroli
-	<nicolas.frattaroli@collabora.com>,
-        Kever Yang <kever.yang@rock-chips.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Daniel Stone <daniel@fooishbar.org>, "Da
- Xue" <da@libre.computer>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-CC: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-2-dc16cfe6fe4e@tomeuvizoso.net>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250606-6-10-rocket-v7-2-dc16cfe6fe4e@tomeuvizoso.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 6/6/25 1:28 AM, Tomeu Vizoso wrote:
-> This initial version supports the NPU as shipped in the RK3588 SoC and
-> described in the first part of its TRM, in Chapter 36.
-> 
-> This NPU contains 3 independent cores that the driver can submit jobs
-> to.
-> 
-> This commit adds just hardware initialization and power management.
-> 
-> v2:
-> - Split cores and IOMMUs as independent devices (Sebastian Reichel)
-> - Add some documentation (Jeffrey Hugo)
-> - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
-> - Remove resets, as these haven't been found useful so far (Zenghui Yu)
-> - Repack structs (Jeffrey Hugo)
-> - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
-> - Use devm_drm_dev_alloc (Jeffrey Hugo)
-> - Use probe log helper (Jeffrey Hugo)
-> - Introduce UABI header in a later patch (Jeffrey Hugo)
-> 
-> v3:
-> - Adapt to a split of the register block in the DT bindings (Nicolas
->    Frattaroli)
-> - Move registers header to its own commit (Thomas Zimmermann)
-> - Misc. cleanups (Thomas Zimmermann and Jeff Hugo)
-> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-> - PM improvements (Nicolas Frattaroli)
-> 
-> v4:
-> - Use bulk clk API (Krzysztof Kozlowski)
-> 
-> v6:
-> - Remove mention to NVDLA, as the hardware is only incidentally related
->    (Kever Yang)
-> - Use calloc instead of GFP_ZERO (Jeff Hugo)
-> - Explicitly include linux/container_of.h (Jeff Hugo)
-> - pclk and npu clocks are now needed by all cores (Rob Herring)
-> 
-> v7:
-> - Assign its own IOMMU domain to each client, for isolation (Daniel
->    Stone and Robin Murphy)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->   Documentation/accel/index.rst        |   1 +
->   Documentation/accel/rocket/index.rst |  19 +++
->   MAINTAINERS                          |  10 ++
->   drivers/accel/Kconfig                |   1 +
->   drivers/accel/Makefile               |   1 +
->   drivers/accel/rocket/Kconfig         |  25 ++++
->   drivers/accel/rocket/Makefile        |   8 +
->   drivers/accel/rocket/rocket_core.c   |  70 +++++++++
->   drivers/accel/rocket/rocket_core.h   |  45 ++++++
->   drivers/accel/rocket/rocket_device.c |  25 ++++
->   drivers/accel/rocket/rocket_device.h |  26 ++++
->   drivers/accel/rocket/rocket_drv.c    | 279 +++++++++++++++++++++++++++++++++++
->   drivers/accel/rocket/rocket_drv.h    |  15 ++
->   13 files changed, 525 insertions(+)
-> 
-> diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
-> index bc85f26533d88891dde482f91e26c99991b22869..d8fa332d60a890dbb617454d2a26d9b6f9b196aa 100644
-> --- a/Documentation/accel/index.rst
-> +++ b/Documentation/accel/index.rst
-> @@ -10,6 +10,7 @@ Compute Accelerators
->      introduction
->      amdxdna/index
->      qaic/index
-> +   rocket/index
->   
->   .. only::  subproject and html
->   
-> diff --git a/Documentation/accel/rocket/index.rst b/Documentation/accel/rocket/index.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..300eb3aeab1d8c6514c65af4d216b2d5a1669131
-> --- /dev/null
-> +++ b/Documentation/accel/rocket/index.rst
-> @@ -0,0 +1,19 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=====================================
-> + accel/rocket Rockchip NPU driver
-> +=====================================
-> +
-> +The accel/rocket driver supports the Neural Processing Units (NPUs) inside some
-> +Rockchip SoCs such as the RK3588. Rockchip calls it RKNN and sometimes RKNPU.
-> +
-> +The hardware is described in chapter 36 in the RK3588 TRM.
-> +
-> +This driver just powers the hardware on and off, allocates and maps buffers to
-> +the device and submits jobs to the frontend unit. Everything else is done in
-> +userspace, as a Gallium driver (also called rocket) that is part of the Mesa3D
-> +project.
-> +
-> +Hardware currently supported:
-> +
-> +* RK3588
-> \ No newline at end of file
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 96b82704950184bd71623ff41fc4df31e4c7fe87..2d8833bf1f2db06ca624d703f19066adab2f9fde 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7263,6 +7263,16 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->   F:	drivers/accel/ivpu/
->   F:	include/uapi/drm/ivpu_accel.h
->   
-> +DRM ACCEL DRIVER FOR ROCKCHIP NPU
-> +M:	Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Supported
-> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> +F:	Documentation/accel/rocket/
-> +F:	Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> +F:	drivers/accel/rocket/
-> +F:	include/uapi/drm/rocket_accel.h
-> +
->   DRM COMPUTE ACCELERATORS DRIVERS AND FRAMEWORK
->   M:	Oded Gabbay <ogabbay@kernel.org>
->   L:	dri-devel@lists.freedesktop.org
-> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
-> index 5b9490367a39fd12d35a8d9021768aa186c09308..bb01cebc42bf16ebf02e938040f339ff94869e33 100644
-> --- a/drivers/accel/Kconfig
-> +++ b/drivers/accel/Kconfig
-> @@ -28,5 +28,6 @@ source "drivers/accel/amdxdna/Kconfig"
->   source "drivers/accel/habanalabs/Kconfig"
->   source "drivers/accel/ivpu/Kconfig"
->   source "drivers/accel/qaic/Kconfig"
-> +source "drivers/accel/rocket/Kconfig"
->   
->   endif
-> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
-> index a301fb6089d4c515430175c5e2ba9190f6dc9158..ffc3fa58866616d933184a7659573cd4d4780a8d 100644
-> --- a/drivers/accel/Makefile
-> +++ b/drivers/accel/Makefile
-> @@ -4,3 +4,4 @@ obj-$(CONFIG_DRM_ACCEL_AMDXDNA)		+= amdxdna/
->   obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
->   obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
->   obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
-> +obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-> \ No newline at end of file
+Em Fri, 11 Jul 2025 10:51:37 +0100
+Donald Hunter <donald.hunter@gmail.com> escreveu:
 
-Couple of these no newline warnings
-
-> diff --git a/drivers/accel/rocket/Kconfig b/drivers/accel/rocket/Kconfig
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..9a59c6c61bf4d6460d8008b16331f001c97de67d
-> --- /dev/null
-> +++ b/drivers/accel/rocket/Kconfig
-> @@ -0,0 +1,25 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +config DRM_ACCEL_ROCKET
-> +       tristate "Rocket (support for Rockchip NPUs)"
-> +       depends on DRM
-> +       depends on ARM64 || COMPILE_TEST
-
-Should this be more specific for now ARCH_ROCKCHIP?
-
-> +       depends on MMU
-> +       select DRM_SCHED
-> +       select IOMMU_SUPPORT
-> +       select IOMMU_IO_PGTABLE_LPAE
-> +       select DRM_GEM_SHMEM_HELPER
-> +       help
-> +	  Choose this option if you have a Rockchip SoC that contains a
-> +	  compatible Neural Processing Unit (NPU), such as the RK3588. Called by
-> +	  Rockchip either RKNN or RKNPU, it accelerates inference of neural
-> +	  networks.
-> +
-> +	  The interface exposed to userspace is described in
-> +	  include/uapi/drm/rocket_accel.h and is used by the Rocket userspace
-> +	  driver in Mesa3D.
-> +
-> +	  If unsure, say N.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called rocket.
-> diff --git a/drivers/accel/rocket/Makefile b/drivers/accel/rocket/Makefile
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..abdd75f2492eaecf8bf5e78a2ac150ea19ac3e96
-> --- /dev/null
-> +++ b/drivers/accel/rocket/Makefile
-> @@ -0,0 +1,8 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-$(CONFIG_DRM_ACCEL_ROCKET) := rocket.o
-> +
-> +rocket-y := \
-> +	rocket_core.o \
-> +	rocket_device.o \
-> +	rocket_drv.o
-> diff --git a/drivers/accel/rocket/rocket_core.c b/drivers/accel/rocket/rocket_core.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..3a6f25f2b4103075102739588bcdad96510e2a4e
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_core.c
-> @@ -0,0 +1,70 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/err.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include "rocket_core.h"
-> +
-> +int rocket_core_init(struct rocket_core *core)
-> +{
-> +	struct device *dev = core->dev;
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +	u32 version;
-> +	int err = 0;
-> +
-> +	err = devm_clk_bulk_get(dev, ARRAY_SIZE(core->clks), core->clks);
-> +	if (err)
-> +		return dev_err_probe(dev, err, "failed to get clocks for core %d\n", core->index);
-> +
-> +	core->pc_iomem = devm_platform_ioremap_resource_byname(pdev, "pc");
-> +	if (IS_ERR(core->pc_iomem)) {
-> +		dev_err(dev, "couldn't find PC registers %ld\n", PTR_ERR(core->pc_iomem));
-> +		return PTR_ERR(core->pc_iomem);
-> +	}
-> +
-> +	core->cna_iomem = devm_platform_ioremap_resource_byname(pdev, "cna");
-> +	if (IS_ERR(core->cna_iomem)) {
-> +		dev_err(dev, "couldn't find CNA registers %ld\n", PTR_ERR(core->cna_iomem));
-> +		return PTR_ERR(core->cna_iomem);
-> +	}
-> +
-> +	core->core_iomem = devm_platform_ioremap_resource_byname(pdev, "core");
-> +	if (IS_ERR(core->core_iomem)) {
-> +		dev_err(dev, "couldn't find CORE registers %ld\n", PTR_ERR(core->core_iomem));
-> +		return PTR_ERR(core->core_iomem);
-> +	}
-> +
-> +	pm_runtime_use_autosuspend(dev);
-> +
-> +	/*
-> +	 * As this NPU will be most often used as part of a media pipeline that
-> +	 * ends presenting in a display, choose 50 ms (~3 frames at 60Hz) as an
-> +	 * autosuspend delay as that will keep the device powered up while the
-> +	 * pipeline is running.
-> +	 */
-> +	pm_runtime_set_autosuspend_delay(dev, 50);
-> +
-> +	pm_runtime_enable(dev);
-
-
-devm_pm_runtime_enable(dev) here would take care of both functions
-in rocket_core_fini() so you wouldn't need that and can cleanup
-some return paths here.
-
-Andrew
-
-> +
-> +	err = pm_runtime_get_sync(dev);
-> +
-> +	version = rocket_pc_readl(core, VERSION);
-> +	version += rocket_pc_readl(core, VERSION_NUM) & 0xffff;
-> +
-> +	pm_runtime_mark_last_busy(dev);
-> +	pm_runtime_put_autosuspend(dev);
-> +
-> +	dev_info(dev, "Rockchip NPU core %d version: %d\n", core->index, version);
-> +
-> +	return 0;
-> +}
-> +
-> +void rocket_core_fini(struct rocket_core *core)
-> +{
-> +	pm_runtime_dont_use_autosuspend(core->dev);
-> +	pm_runtime_disable(core->dev);
-> +}
-> diff --git a/drivers/accel/rocket/rocket_core.h b/drivers/accel/rocket/rocket_core.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..1b1beb9798f03ec2ca325496a4d894674d0b798d
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_core.h
-> @@ -0,0 +1,45 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#ifndef __ROCKET_CORE_H__
-> +#define __ROCKET_CORE_H__
-> +
-> +#include <drm/gpu_scheduler.h>
-> +#include <linux/clk.h>
-> +#include <linux/io.h>
-> +#include <linux/mutex_types.h>
-> +
-> +#include "rocket_registers.h"
-> +
-> +#define rocket_pc_readl(core, reg) \
-> +	readl((core)->pc_iomem + (REG_PC_##reg))
-> +#define rocket_pc_writel(core, reg, value) \
-> +	writel(value, (core)->pc_iomem + (REG_PC_##reg))
-> +
-> +#define rocket_cna_readl(core, reg) \
-> +	readl((core)->cna_iomem + (REG_CNA_##reg) - REG_CNA_S_STATUS)
-> +#define rocket_cna_writel(core, reg, value) \
-> +	writel(value, (core)->cna_iomem + (REG_CNA_##reg) - REG_CNA_S_STATUS)
-> +
-> +#define rocket_core_readl(core, reg) \
-> +	readl((core)->core_iomem + (REG_CORE_##reg) - REG_CORE_S_STATUS)
-> +#define rocket_core_writel(core, reg, value) \
-> +	writel(value, (core)->core_iomem + (REG_CORE_##reg) - REG_CORE_S_STATUS)
-> +
-> +struct rocket_core {
-> +	struct device *dev;
-> +	struct rocket_device *rdev;
-> +	struct device_link *link;
-> +	unsigned int index;
-> +
-> +	int irq;
-> +	void __iomem *pc_iomem;
-> +	void __iomem *cna_iomem;
-> +	void __iomem *core_iomem;
-> +	struct clk_bulk_data clks[4];
-> +};
-> +
-> +int rocket_core_init(struct rocket_core *core);
-> +void rocket_core_fini(struct rocket_core *core);
-> +
-> +#endif
-> diff --git a/drivers/accel/rocket/rocket_device.c b/drivers/accel/rocket/rocket_device.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..a05c103e117e3eaa6439884b7acb6e3483296edb
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_device.c
-> @@ -0,0 +1,25 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#include <linux/array_size.h>
-> +#include <linux/clk.h>
-> +#include <linux/dev_printk.h>
-> +
-> +#include "rocket_device.h"
-> +
-> +int rocket_device_init(struct rocket_device *rdev)
-> +{
-> +	int err;
-> +
-> +	/* Initialize core 0 (top) */
-> +	err = rocket_core_init(&rdev->cores[0]);
-> +	if (err)
-> +		return err;
-> +
-> +	return 0;
-> +}
-> +
-> +void rocket_device_fini(struct rocket_device *rdev)
-> +{
-> +	rocket_core_fini(&rdev->cores[0]);
-> +}
-> diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/rocket/rocket_device.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..b5d5f1479d56e2fde59bbcad9de2b58cef9a9a4d
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_device.h
-> @@ -0,0 +1,26 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#ifndef __ROCKET_DEVICE_H__
-> +#define __ROCKET_DEVICE_H__
-> +
-> +#include <drm/drm_device.h>
-> +#include <linux/clk.h>
-> +#include <linux/container_of.h>
-> +
-> +#include "rocket_core.h"
-> +
-> +struct rocket_device {
-> +	struct drm_device ddev;
-> +
-> +	struct rocket_core *cores;
-> +	unsigned int num_cores;
-> +};
-> +
-> +int rocket_device_init(struct rocket_device *rdev);
-> +void rocket_device_fini(struct rocket_device *rdev);
-> +
-> +#define to_rocket_device(drm_dev) \
-> +	((struct rocket_device *)container_of(drm_dev, struct rocket_device, ddev))
-> +
-> +#endif
-> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/rocket_drv.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..b38a5c6264cb4e74d5e381adaeba1426e576fa56
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_drv.c
-> @@ -0,0 +1,279 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#include <drm/drm_accel.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_ioctl.h>
-> +#include <drm/drm_of.h>
-> +#include <linux/array_size.h>
-> +#include <linux/clk.h>
-> +#include <linux/component.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/iommu.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include "rocket_drv.h"
-> +
-> +static int
-> +rocket_open(struct drm_device *dev, struct drm_file *file)
-> +{
-> +	struct rocket_device *rdev = to_rocket_device(dev);
-> +	struct rocket_file_priv *rocket_priv;
-> +
-> +	rocket_priv = kzalloc(sizeof(*rocket_priv), GFP_KERNEL);
-> +	if (!rocket_priv)
-> +		return -ENOMEM;
-> +
-> +	rocket_priv->rdev = rdev;
-> +	rocket_priv->domain = iommu_paging_domain_alloc(dev->dev);
-> +	file->driver_priv = rocket_priv;
-> +
-> +	return 0;
-> +}
-> +
-> +static void
-> +rocket_postclose(struct drm_device *dev, struct drm_file *file)
-> +{
-> +	struct rocket_file_priv *rocket_priv = file->driver_priv;
-> +
-> +	iommu_domain_free(rocket_priv->domain);
-> +	kfree(rocket_priv);
-> +}
-> +
-> +static const struct drm_ioctl_desc rocket_drm_driver_ioctls[] = {
-> +#define ROCKET_IOCTL(n, func) \
-> +	DRM_IOCTL_DEF_DRV(ROCKET_##n, rocket_ioctl_##func, 0)
-> +};
-> +
-> +DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
-> +
-> +/*
-> + * Rocket driver version:
-> + * - 1.0 - initial interface
-> + */
-> +static const struct drm_driver rocket_drm_driver = {
-> +	.driver_features	= DRIVER_COMPUTE_ACCEL,
-> +	.open			= rocket_open,
-> +	.postclose		= rocket_postclose,
-> +	.ioctls			= rocket_drm_driver_ioctls,
-> +	.num_ioctls		= ARRAY_SIZE(rocket_drm_driver_ioctls),
-> +	.fops			= &rocket_accel_driver_fops,
-> +	.name			= "rocket",
-> +	.desc			= "rocket DRM",
-> +};
-> +
-> +static int rocket_drm_bind(struct device *dev)
-> +{
-> +	struct device_node *core_node;
-> +	struct rocket_device *rdev;
-> +	struct drm_device *ddev;
-> +	unsigned int num_cores = 1;
-> +	int err;
-> +
-> +	rdev = devm_drm_dev_alloc(dev, &rocket_drm_driver, struct rocket_device, ddev);
-> +	if (IS_ERR(rdev))
-> +		return PTR_ERR(rdev);
-> +
-> +	ddev = &rdev->ddev;
-> +	dev_set_drvdata(dev, rdev);
-> +
-> +	for_each_compatible_node(core_node, NULL, "rockchip,rk3588-rknn-core")
-> +		if (of_device_is_available(core_node))
-> +			num_cores++;
-> +
-> +	rdev->cores = devm_kcalloc(dev, num_cores, sizeof(*rdev->cores), GFP_KERNEL);
-> +	if (IS_ERR(rdev->cores))
-> +		return PTR_ERR(rdev->cores);
-> +
-> +	/* Add core 0, any other cores will be added later when they are bound */
-> +	rdev->cores[0].rdev = rdev;
-> +	rdev->cores[0].dev = dev;
-> +	rdev->cores[0].index = 0;
-> +	rdev->num_cores = 1;
-> +
-> +	err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(40));
-> +	if (err)
-> +		return err;
-> +
-> +	err = rocket_device_init(rdev);
-> +	if (err) {
-> +		dev_err_probe(dev, err, "Fatal error during NPU init\n");
-> +		goto err_device_fini;
-> +	}
-> +
-> +	err = component_bind_all(dev, rdev);
-> +	if (err)
-> +		goto err_device_fini;
-> +
-> +	err = drm_dev_register(ddev, 0);
-> +	if (err < 0)
-> +		goto err_unbind;
-> +
-> +	return 0;
-> +
-> +err_unbind:
-> +	component_unbind_all(dev, rdev);
-> +err_device_fini:
-> +	rocket_device_fini(rdev);
-> +	return err;
-> +}
-> +
-> +static void rocket_drm_unbind(struct device *dev)
-> +{
-> +	struct rocket_device *rdev = dev_get_drvdata(dev);
-> +	struct drm_device *ddev = &rdev->ddev;
-> +
-> +	drm_dev_unregister(ddev);
-> +
-> +	component_unbind_all(dev, rdev);
-> +
-> +	rocket_device_fini(rdev);
-> +}
-> +
-> +const struct component_master_ops rocket_drm_ops = {
-> +	.bind = rocket_drm_bind,
-> +	.unbind = rocket_drm_unbind,
-> +};
-> +
-> +static int rocket_core_bind(struct device *dev, struct device *master, void *data)
-> +{
-> +	struct rocket_device *rdev = data;
-> +	unsigned int core = rdev->num_cores;
-> +	int err;
-> +
-> +	dev_set_drvdata(dev, rdev);
-> +
-> +	rdev->cores[core].rdev = rdev;
-> +	rdev->cores[core].dev = dev;
-> +	rdev->cores[core].index = core;
-> +	rdev->cores[core].link = device_link_add(dev, rdev->cores[0].dev,
-> +						 DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
-> +
-> +	rdev->num_cores++;
-> +
-> +	err = rocket_core_init(&rdev->cores[core]);
-> +	if (err) {
-> +		rocket_device_fini(rdev);
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void rocket_core_unbind(struct device *dev, struct device *master, void *data)
-> +{
-> +	struct rocket_device *rdev = data;
-> +
-> +	for (unsigned int core = 1; core < rdev->num_cores; core++) {
-> +		if (rdev->cores[core].dev == dev) {
-> +			rocket_core_fini(&rdev->cores[core]);
-> +			device_link_del(rdev->cores[core].link);
-> +			break;
-> +		}
-> +	}
-> +}
-> +
-> +const struct component_ops rocket_core_ops = {
-> +	.bind = rocket_core_bind,
-> +	.unbind = rocket_core_unbind,
-> +};
-> +
-> +static int rocket_probe(struct platform_device *pdev)
-> +{
-> +	struct component_match *match = NULL;
-> +	struct device_node *core_node;
-> +
-> +	if (fwnode_device_is_compatible(pdev->dev.fwnode, "rockchip,rk3588-rknn-core"))
-> +		return component_add(&pdev->dev, &rocket_core_ops);
-> +
-> +	for_each_compatible_node(core_node, NULL, "rockchip,rk3588-rknn-core") {
-> +		if (!of_device_is_available(core_node))
-> +			continue;
-> +
-> +		drm_of_component_match_add(&pdev->dev, &match,
-> +					   component_compare_of, core_node);
-> +	}
-> +
-> +	return component_master_add_with_match(&pdev->dev, &rocket_drm_ops, match);
-> +}
-> +
-> +static void rocket_remove(struct platform_device *pdev)
-> +{
-> +	if (fwnode_device_is_compatible(pdev->dev.fwnode, "rockchip,rk3588-rknn-core-top"))
-> +		component_master_del(&pdev->dev, &rocket_drm_ops);
-> +	else if (fwnode_device_is_compatible(pdev->dev.fwnode, "rockchip,rk3588-rknn-core"))
-> +		component_del(&pdev->dev, &rocket_core_ops);
-> +}
-> +
-> +static const struct of_device_id dt_match[] = {
-> +	{ .compatible = "rockchip,rk3588-rknn-core-top" },
-> +	{ .compatible = "rockchip,rk3588-rknn-core" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, dt_match);
-> +
-> +static int find_core_for_dev(struct device *dev)
-> +{
-> +	struct rocket_device *rdev = dev_get_drvdata(dev);
-> +
-> +	for (unsigned int core = 0; core < rdev->num_cores; core++) {
-> +		if (dev == rdev->cores[core].dev)
-> +			return core;
-> +	}
-> +
-> +	return -1;
-> +}
-> +
-> +static int rocket_device_runtime_resume(struct device *dev)
-> +{
-> +	struct rocket_device *rdev = dev_get_drvdata(dev);
-> +	int core = find_core_for_dev(dev);
-> +	int err = 0;
-> +
-> +	if (core < 0)
-> +		return -ENODEV;
-> +
-> +	err = clk_bulk_prepare_enable(ARRAY_SIZE(rdev->cores[core].clks), rdev->cores[core].clks);
-> +	if (err) {
-> +		dev_err(dev, "failed to enable (%d) clocks for core %d\n", err, core);
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int rocket_device_runtime_suspend(struct device *dev)
-> +{
-> +	struct rocket_device *rdev = dev_get_drvdata(dev);
-> +	int core = find_core_for_dev(dev);
-> +
-> +	if (core < 0)
-> +		return -ENODEV;
-> +
-> +	clk_bulk_disable_unprepare(ARRAY_SIZE(rdev->cores[core].clks), rdev->cores[core].clks);
-> +
-> +	return 0;
-> +}
-> +
-> +EXPORT_GPL_DEV_PM_OPS(rocket_pm_ops) = {
-> +	RUNTIME_PM_OPS(rocket_device_runtime_suspend, rocket_device_runtime_resume, NULL)
-> +	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-> +};
-> +
-> +static struct platform_driver rocket_driver = {
-> +	.probe = rocket_probe,
-> +	.remove = rocket_remove,
-> +	.driver	 = {
-> +		.name = "rocket",
-> +		.pm = pm_ptr(&rocket_pm_ops),
-> +		.of_match_table = dt_match,
-> +	},
-> +};
-> +module_platform_driver(rocket_driver);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("DRM driver for the Rockchip NPU IP");
-> +MODULE_AUTHOR("Tomeu Vizoso");
-> diff --git a/drivers/accel/rocket/rocket_drv.h b/drivers/accel/rocket/rocket_drv.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..3219621afb72acdfa915c110e2ec3aacb66bd940
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_drv.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#ifndef __ROCKET_DRV_H__
-> +#define __ROCKET_DRV_H__
-> +
-> +#include "rocket_device.h"
-> +
-> +struct rocket_file_priv {
-> +	struct rocket_device *rdev;
-> +
-> +	struct iommu_domain *domain;
-> +};
-> +
-> +#endif
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
+> > Em Thu, 10 Jul 2025 15:25:20 +0100
+> > Donald Hunter <donald.hunter@gmail.com> escreveu:
+> >  
+> >> Donald Hunter <donald.hunter@gmail.com> writes:
+> >>   
+> >> >>              # Parse message with RSTParser
+> >> >> -            for i, line in enumerate(msg.split('\n')):
+> >> >> -                result.append(line, document.current_source, i)
+> >> >> +            lineoffset = 0;
+> >> >> +            for line in msg.split('\n'):
+> >> >> +                match = self.re_lineno.match(line)
+> >> >> +                if match:
+> >> >> +                    lineoffset = int(match.group(1))
+> >> >> +                    continue
+> >> >> +
+> >> >> +                result.append(line, document.current_source, lineoffset)    
+> >> >
+> >> > I expect this would need to be source=document.current_source, offset=lineoffset    
+> >> 
+> >> Ignore that. I see it's not kwargs. It's just the issue below.
+> >>   
+> >> >>              rst_parser = RSTParser()
+> >> >>              rst_parser.parse('\n'.join(result), document)    
+> >> >
+> >> > But anyway this discards any line information by just concatenating the
+> >> > lines together again.    
+> >> 
+> >> Looks to me like there's no Parser() API that works with ViewList() so
+> >> it would be necessary to directly use the docutils RSTStateMachine() for
+> >> this approach to work.  
+> >
+> > It sounds so.
+> >
+> > The enclosed patch seems to address it:
+> >
+> > 	$ make cleandocs; make SPHINXDIRS="netlink/specs" htmldocs
+> > 	...
+> > 	Using alabaster theme
+> > 	source directory: netlink/specs
+> > 	Using Python kernel-doc
+> > 	/new_devel/v4l/docs/Documentation/netlink/specs/rt-neigh.yaml:13: ERROR: Unknown directive type "bogus".
+> >
+> > 	.. bogus:: [docutils]
+> >
+> > Please notice that I added a hunk there to generate the error, just
+> > to make easier to test - I'll drop it at the final version, and add
+> > the proper reported-by/closes/... tags once you test it.
+> >
+> > Regards,
+> > Mauro  
+> 
+> Awesome!
+> 
+> Tested-by: Donald Hunter <donald.hunter@gmail.com>
+> 
+> Patch comments below.
+> 
+> > [PATCH RFC] sphinx: parser_yaml.py: preserve line numbers
+> >
+> > Instead of converting viewlist to text, use it directly, if
+> > docutils supports it.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >
+> > diff --git a/Documentation/netlink/specs/rt-neigh.yaml b/Documentation/netlink/specs/rt-neigh.yaml
+> > index e9cba164e3d1..937d2563f151 100644
+> > --- a/Documentation/netlink/specs/rt-neigh.yaml
+> > +++ b/Documentation/netlink/specs/rt-neigh.yaml
+> > @@ -11,6 +11,7 @@ doc:
+> >  definitions:
+> >    -
+> >      name: ndmsg
+> > +    doc: ".. bogus::"
+> >      type: struct
+> >      members:
+> >        -
+> > diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
+> > index 1602b31f448e..2a2faaf759ef 100755
+> > --- a/Documentation/sphinx/parser_yaml.py
+> > +++ b/Documentation/sphinx/parser_yaml.py
+> > @@ -11,7 +11,9 @@ import sys
+> >  
+> >  from pprint import pformat
+> >  
+> > +from docutils import nodes, statemachine  
+> 
+> nodes is not used
+
+I dropped it on patch 14/13.
+
+> 
+> >  from docutils.parsers.rst import Parser as RSTParser  
+> 
+> This import is no longer needed
+
+I'll drop on a next spin.
+> 
+> > +from docutils.parsers.rst import states
+> >  from docutils.statemachine import ViewList
+> >  
+> >  from sphinx.util import logging
+> > @@ -66,10 +68,24 @@ class YamlParser(Parser):  
+> 
+> I'm wondering if it makes much sense for this to inherit from Parser any
+> more?
+
+Yes. It still needs other things from the Parser class.
+
+> >          result = ViewList()
+> >  
+> > +        tab_width = 8
+> > +
+> > +        self.state_classes = states.state_classes
+> > +        self.initial_state = 'Body'
+> > +
+> > +        self.statemachine = states.RSTStateMachine(
+> > +              state_classes=self.state_classes,
+> > +              initial_state=self.initial_state,
+> > +              debug=document.reporter.debug_flag)  
+> 
+> I don't think 'self.' is needed for any of these. They can be local to
+> the method. You could just inline states.state_classes and 'Body' into
+> the parameter list.
+
+I dropped from most stuff, but self.statemachine is still needed.
+
+I suspect that because of some other stuff inside the Parser class.
+
+> 
+> > +
+> >          try:
+> >              # Parse message with RSTParser  
+> 
+> Comment is out of date.
+> 
+> >              lineoffset = 0;  
+> 
+> Rogue semicolon
+
+I dropped at patch 14/13.
+
+> 
+> > -            for line in msg.split('\n'):
+> > +
+> > +            lines = statemachine.string2lines(msg, tab_width,
+> > +                                            convert_whitespace=True)
+> > +
+> > +            for line in lines:
+> >                  match = self.re_lineno.match(line)
+> >                  if match:
+> >                      lineoffset = int(match.group(1))
+> > @@ -77,12 +93,7 @@ class YamlParser(Parser):
+> >  
+> >                  result.append(line, document.current_source, lineoffset)
+> >  
+> > -            # Fix backward compatibility with docutils < 0.17.1
+> > -            if "tab_width" not in vars(document.settings):
+> > -                document.settings.tab_width = 8
+> > -
+> > -            rst_parser = RSTParser()
+> > -            rst_parser.parse('\n'.join(result), document)
+> > +            self.statemachine.run(result, document, inliner=None)
+> >  
+> >          except Exception as e:  
+> 
+> I think you could catch StateMachineError here.
+
+Good point. will try that.
+
+> >              document.reporter.error("YAML parsing error: %s" % pformat(e))  
+> 
+> Can you change this to an f"" string.
+
+I prefer f-strings as well, but usually logger classes are recommended
+to use the old way. I guess this came from a previous check with pylint.
+
+Thanks,
+Mauro
