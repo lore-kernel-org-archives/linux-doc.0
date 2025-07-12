@@ -1,151 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3611442E8;
-	Sat, 12 Jul 2025 18:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780FE81E
+	for <linux-doc@vger.kernel.org>; Sat, 12 Jul 2025 19:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752344784; cv=none; b=WX93NWdoXdQdiCBYsUXaBX3bRcu/DMsWKc7x/7fEoOMyS5J8WSqDEF9NrBXqmQIvlOoxZVtDKaVD5vGBrf+DzcTT0oQ2CQgR0zxtz4fE+XuYkcRy0gMsWh3GThW+cvfmNyDNfSOrKB4o8FLfQlgMSrjV6fdin0ZNUS9SV6uK9zg=
+	t=1752349664; cv=none; b=nraFR4a+pTOLJRfMza4pUGvm81ZtfTUWy4F4NUe24jh1tyV3keUIdGcdClFG35M0r6Q8wVFG3/3oad8sgNvcosf9+fXptjp1qnCe9zn+tVpmSL6kWAm40OAcAwf4ULzD75oXbRS6Y8SYRkYoMTz6+avwZT5LP+nSis0Pl98sRK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752344784; c=relaxed/simple;
-	bh=dVHOVLobbxpJBiobMxxxyDbFXWxu0ncpCUVo+d4Jgys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XxXyI6SyaaVqUJlZVLksn1r/Bs56OL2cJIWVF2/7gzmZj1lfgql8/SgJh0dV4iDX8xr3KbkZPvqTNQwZxTt/TsGMo2aRSxRlTwsDAYdZDyC4WwB7vGpQc9u+o7+M09gF2++xwgsQSUJIOm37mLXrpqAdVqpq9JANBfiT1IxXSyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rTKGZei/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752349664; c=relaxed/simple;
+	bh=f7jirJngtZPmjp6nUuToVUR1+33dys87/8xXFSMeddQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=brS7dmlPdYcfrJNMcBLyLd0xVinmsH7gmtuj2g9UvJU95Qt5pwZx59DgknoGp59wtWqoxcg9Jxyj/ikP1cV54wx7I4E8mrOOcQ6uQ58fxHjTy4X17eVl0NBFPWw3iNy7vXDFTWgdRnaomKO8TKpnWQ/9U7Hqwk5EoUoMoxHgAZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ri65r+c5; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rTKGZei/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2A94C4CEEF;
-	Sat, 12 Jul 2025 18:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752344784;
-	bh=dVHOVLobbxpJBiobMxxxyDbFXWxu0ncpCUVo+d4Jgys=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rTKGZei/AFGwW6fNmpxPvM258M3yFq21CpyDLqheql+XbVzOeLNG3dUY2UrKpG8HF
-	 /DlXSPFhX7LJPacLyh3hVyfhPEIvKUKVe1IQenvpLq6mU3lJh0dz+/bv+My9j/gjyt
-	 3FBUzenfutXM7ZiRnBa4c9IvN7fuoS79vu5J5mshiJY3qOQ4cDxtFaPrKiyrYbVYi9
-	 pDIaMZ+1YmO9EdeSxcdgWdiyyVyEY8JtqnI+bjSbuyi4KEvh3zSc4sGti05RMLGHlw
-	 ZuGXoBZgKVXPZ8Fp6wva6A+rSGvo6Bxgoft7ZR1wkiuChkdzJ4Mkwos5uV4tO6PnQh
-	 5jAWr7qY4oipg==
-Message-ID: <b9b74600-4467-4c76-aa41-0a36b1cce1f4@kernel.org>
-Date: Sat, 12 Jul 2025 20:26:17 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ri65r+c5"
+Date: Sat, 12 Jul 2025 12:47:15 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1752349649;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=t/KO7cxY55TZXEuxm/aJMlnOT2I2d5MUZFj4P6QELUY=;
+	b=Ri65r+c54bI2Dx0vVIuVeDzldrENr3nFiK2CbHP8HII66ewc/paI3WssyPiPfNrGcdB//4
+	Z14A96Kb4SwBP+zq6/FtDPWBPhETyDJXYfATv3PnpWMTj34Qn4ihFcM7hWAG6/gm0+ONYp
+	AgolM6pN6cUvnHKnZ+EXg6jN/91qaTg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Jiaqi Yan <jiaqiyan@google.com>
+Cc: maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com,
+	yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+	pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org,
+	kvm@vger.kernel.org, kvmarm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	duenwen@google.com, rananta@google.com, jthoughton@google.com
+Subject: Re: [PATCH v2 3/6] KVM: arm64: Allow userspace to inject external
+ instruction aborts
+Message-ID: <aHK7w4TTEm7a1mco@linux.dev>
+References: <20250604050902.3944054-1-jiaqiyan@google.com>
+ <20250604050902.3944054-4-jiaqiyan@google.com>
+ <aHFpIpIfqVCQZVgG@linux.dev>
+ <CACw3F51xRWr5LXz4-JhK+mjizY7D7Oa+GrJ-OZHktfPzFGKeiw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [PATCH v2] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-To: Vlastimil Babka <vbabka@suse.cz>, Matthias Maennich
- <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
- <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>,
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Shivank Garg <shivankg@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
-Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACw3F51xRWr5LXz4-JhK+mjizY7D7Oa+GrJ-OZHktfPzFGKeiw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 11/07/2025 16.05, Vlastimil Babka wrote:
-> Christoph suggested that the explicit _GPL_ can be dropped from the
-> module namespace export macro, as it's intended for in-tree modules
-> only. It would be possible to resrict it technically, but it was pointed
-> out [2] that some cases of using an out-of-tree build of an in-tree
-> module with the same name are legitimate. But in that case those also
-> have to be GPL anyway so it's unnecessary to spell it out.
+On Fri, Jul 11, 2025 at 04:58:57PM -0700, Jiaqi Yan wrote:
+> On Fri, Jul 11, 2025 at 12:42 PM Oliver Upton <oliver.upton@linux.dev> wrote:
+> >
+> > On Wed, Jun 04, 2025 at 05:08:58AM +0000, Jiaqi Yan wrote:
+> > > From: Raghavendra Rao Ananta <rananta@google.com>
+> > >
+> > > When KVM returns to userspace for KVM_EXIT_ARM_SEA, the userspace is
+> > > encouraged to inject the abort into the guest via KVM_SET_VCPU_EVENTS.
+> > >
+> > > KVM_SET_VCPU_EVENTS currently only allows injecting external data aborts.
+> > > However, the synchronous external abort that caused KVM_EXIT_ARM_SEA
+> > > is possible to be an instruction abort. Userspace is already able to
+> > > tell if an abort is due to data or instruction via kvm_run.arm_sea.esr,
+> > > by checking its Exception Class value.
+> > >
+> > > Extend the KVM_SET_VCPU_EVENTS ioctl to allow injecting instruction
+> > > abort into the guest.
+> > >
+> > > Signed-off-by: Raghavendra Rao Ananta <rananta@google.com>
+> > > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+> >
+> > Hmm. Since we expose an ESR value to userspace I get the feeling that we
+> > should allow the user to supply an ISS for the external abort, similar
+> > to what we already do for SErrors.
 > 
-> Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
-> Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey5sb_8muzdWTMkA@mail.gmail.com/ [2]
-> Suggested-by: Christoph Hellwig <hch@infradead.org>
-> Reviewed-by: Shivank Garg <shivankg@amd.com>
-> Acked-by: Christian Brauner <brauner@kernel.org>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
-> Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
-> part to avoid controversy converting selected existing EXPORT_SYMBOL().
-> Christoph argued [2] that the _FOR_MODULES() export is intended for
-> in-tree modules and thus GPL is implied anyway and can be simply dropped
-> from the export macro name. Peter agreed [3] about the intention for
-> in-tree modules only, although nothing currently enforces it.
+> Oh, I will create something in v3, by extending kvm_vcpu_events to
+> something like:
 > 
-> It seemed straightforward to add this enforcement, so v1 did that. But
-> there were concerns of breaking the (apparently legitimate) usecases of
-> loading an updated/development out of tree built version of an in-tree
-> module.
+> struct {
+>   __u8 serror_pending;
+>   __u8 serror_has_esr;
+>   __u8 ext_dabt_pending;
+>   __u8 ext_iabt_pending;
+>   __u8 ext_abt_has_esr;  // <= new
+>   /* Align it to 8 bytes */
+>   __u8 pad[3];
+>   union {
+>     __u64 serror_esr;
+>     __u64 ext_abt_esr;  // <= new
+
+This doesn't work. The ABI allows userspace to pend both an SError and
+SEA, so we can't use the same storage for the ESR.
+
+>   };
+> } exception;
 > 
-> So leave out the enforcement part and just drop the _GPL_ from the
-> export macro name and so we're left with EXPORT_SYMBOL_FOR_MODULES()
-> only. Any in-tree module used in an out-of-tree way will have to be GPL
-> anyway by definition.
-> 
-> Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
-> in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
-> 8250: export RSA functions"). Hopefully it's resolvable by a merge
-> commit fixup and we don't need to provide a temporary alias.
-> 
-> [1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
-> [2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
-> [3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
-> ---
-> Changes in v2:
-> - drop the patch to restrict module namespace export for in-tree modules
-> - fix a pre-existing documentation typo (Nicolas Schier)
-> - Link to v1: https://patch.msgid.link/20250708-export_modules-v1-0-fbf7a282d23f@suse.cz
-> ---
->  Documentation/core-api/symbol-namespaces.rst | 8 ++++----
->  fs/anon_inodes.c                             | 2 +-
->  include/linux/export.h                       | 2 +-
->  3 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-> index 32fc73dc5529e8844c2ce2580987155bcd13cd09..6f7f4f47d43cdeb3b5008c795d254ca2661d39a6 100644
-> --- a/Documentation/core-api/symbol-namespaces.rst
-> +++ b/Documentation/core-api/symbol-namespaces.rst
-> @@ -76,8 +76,8 @@ A second option to define the default namespace is directly in the compilation
->  within the corresponding compilation unit before the #include for
->  <linux/export.h>. Typically it's placed before the first #include statement.
->  
-> -Using the EXPORT_SYMBOL_GPL_FOR_MODULES() macro
-> ------------------------------------------------
-> +Using the EXPORT_SYMBOL_FOR_MODULES() macro
-> +-------------------------------------------
->  
->  Symbols exported using this macro are put into a module namespace. This
->  namespace cannot be imported.
+> One question about the naming since we cannot change it once
+> committed. Taking the existing SError injection as example, although
+> the name in kvm_vcpu_events is serror_has_esr, it is essentially just
+> the ISS fields of the ESR (which is also written in virt/kvm/api.rst).
+> Why named after "esr" instead of "iss"? The only reason I can think of
+> is, KVM wants to leave the room to accept more fields than ISS from
+> userspace. Does this reason apply to external aborts? Asking in case
+> if "iss" is a better name in kvm_vcpu_events, maybe for external
+> aborts, we should use ext_abt_has_iss?
 
-The new naming makes sense, but it breaks the pattern with _GPL suffix:
+We will probably need to include more ESR fields in the future, like
+ESR_ELx.ISS2. So let's just keep the existing naming if that's OK with
+you.
 
-* EXPORT_SYMBOL(sym)
-* EXPORT_SYMBOL_GPL(sym)
-* EXPORT_SYMBOL_NS(sym, ns)
-* EXPORT_SYMBOL_NS_GPL(sym, ns)
-* EXPORT_SYMBOL_FOR_MODULES(sym, mods)
-
-So I think when reading this one may forget about the _obvious_ reason. That's
-why I think clarifying that in the documentation would be great. Something like:
-
-Symbols exported using this macro are put into a module namespace. This
-namespace cannot be imported. And it's implicitly GPL-only as it's only intended
-for in-tree modules.
-
-Other than that, it looks good.
-
-Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
+Thanks,
+Oliver
