@@ -1,100 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F9522A4CC;
-	Sat, 12 Jul 2025 20:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB671A2632;
+	Sat, 12 Jul 2025 22:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752353218; cv=none; b=dS2wEJl7ud5MZtf+rPLNlDB/2CYqWCpC3XdBUnD80X1ZLCdRSkyqC9u9CfR/Otr2uQ7LrIVHdY6PRQnUVGwst24NkPTvYTknFBaUitp2m11karnPaej2OmVVjKMQ2RF029gk1SCnWTYLLPnGMrtF0kCsCS5A74gvpCMQuPRpi80=
+	t=1752359122; cv=none; b=bZUU53M3KrRL/YeVN7i3gtHTupzdhsGHSC8aQmTqSHdK5v41TzHsYdy0fnvmvKWFqZdAsA08FIn9DjgjSOa7p1HaD5z3+N8hQmtzruAE5mZ+QD4vuQGDU8NjMAhuBUt/mpBJiIHE+XOjcLZUKTaFzqm+S3h07z/Y8j0TBiPrIqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752353218; c=relaxed/simple;
-	bh=oDJKqZFFqV/IVUvVAZh+/YozTjWBAbZi/gNGteq41Is=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HwoeWUr1wvAbL7g/oYApyDNXtm/R9n8a0+857H38Hpopv24ohu7TRin6i8v+Fqfvc9YO0ArbDg4/C7jvDGv8hWKzPY1Jf0IoDOh7CnkZMbMoweMKhft6JJTRP/cG8aP1sePf7nEnahR6j+6pUzpXLtSlh9/X781a+K5bOt3PWS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A4P9c6Js; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752359122; c=relaxed/simple;
+	bh=Pb59kI0V+CsYfGf7Co6OsYTxadRWaErlQCZTbso4Y0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=auGupQBKGBoGVeHaIWSqiGp+31VKfe7NbbJRecxoCtTcSicWx66n8S14yWTop7tXnurYRCgs1bGphGTSMvYfrbJrEfktYheb2TkKwqZ618cX0wR8pedN3s7yD3DVRdNg5owgpEXqPJrwyMlWLD6/2MzbxwHwOs6iHeoFsKXzOXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UzlsQU+e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A4P9c6Js"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F35EC4CEF5;
-	Sat, 12 Jul 2025 20:46:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UzlsQU+e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F3B5C4CEEF;
+	Sat, 12 Jul 2025 22:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752353217;
-	bh=oDJKqZFFqV/IVUvVAZh+/YozTjWBAbZi/gNGteq41Is=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A4P9c6Js+zvo8A4MsqkzVMy5O2C/43OLwBhMKP59zA5ydz/3ZMhrDhBmNy+ZH6uhM
-	 v4Kgto6MfSdBu1/HAUaYEHRGavO3n6rekuoQB0ir4i2IzeHbKfOeOCL6sJNd1v1NvE
-	 Z++XKQoDdYAnvqQ4ANHkQi8bNO+8hgC+1s7qcqx1V7sjmUh6AmZzP9PXiGeI4JImDv
-	 VstlJLPm3HmMR8Vv8sIklDswlMw2htH6TL2pftIduH4i+R1vUF/cT/iO2IUOOaSwnB
-	 Q+zGbv3Y9M16mYBRHFlGZzNJ8TVF+hNwuh6UxfkdMjzQbI14mwOwLt0ZRn40UYoVk4
-	 kOzvJX1Isbo6A==
-From: SeongJae Park <sj@kernel.org>
-To: 
-Cc: SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH 3/4] Docs/admin-guide/mm/damon/usage: document refresh_ms file
-Date: Sat, 12 Jul 2025 13:46:48 -0700
-Message-Id: <20250712204650.155988-4-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250712204650.155988-1-sj@kernel.org>
-References: <20250712204650.155988-1-sj@kernel.org>
+	s=k20201202; t=1752359121;
+	bh=Pb59kI0V+CsYfGf7Co6OsYTxadRWaErlQCZTbso4Y0c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UzlsQU+eSL2Zytwxpn7KxvPBArBguAIJol3LHvMdEHhQGnmrzvkr92blGlFHxWlRo
+	 Uj3vY4sMEtRSS7AXkS31RGNq30nu4MGWKLCWrqAuMGOxjoOphftZ6w9b7fyenTiqmL
+	 iS0bDTAPwxa07A64cHdc3cfgYrNd9umkIWA3W6zUBs8JNyKYN/idBrVqPpVyxA+4Yi
+	 j13cunyYEKn0vXFrrB6Ql1hcWH+nt1JUuWBhg0NMFDH8NlLG1MPwQSRRc92iFDhZjm
+	 fFtLWpuOzxM0ncZj2TiSggbOShFv6uSquT1Wdlpdv+tFsmQO/QJ7Ppok05fBsRdnaQ
+	 PiIaUtqOEadBg==
+Date: Sun, 13 Jul 2025 00:25:17 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
+Message-ID: <20250713002517.7f52b0e9@foz.lan>
+In-Reply-To: <20250712163155.GA22640@pendragon.ideasonboard.com>
+References: <cover.1752307866.git.mchehab+huawei@kernel.org>
+	<58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
+	<20250712163155.GA22640@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Document the new DAMON sysfs file, refresh_ms, on the usage document.
+Em Sat, 12 Jul 2025 19:31:55 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+> Hi Mauro,
+> 
+> Thank you for the patch.
+> 
+> On Sat, Jul 12, 2025 at 10:32:38AM +0200, Mauro Carvalho Chehab wrote:
+> > Python is listed as an optional dependency, but this is not
+> > true, as kernel-doc is called during compilation when DRM is
+> > enabled. Better document that.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> 
+> Isn't it only when CONFIG_DRM_HEADER_TEST is enabled ? That option
+> depends on EXPERT && BROKEN, so I wouldn't expect it to be widely
+> enabled. A quick grep shows that CONFIG_DRM_I915_WERROR does the same
+> (with a dependency on EXPERT but not BROKEN though).
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index fc5c962353ed..ff3a2dda1f02 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -59,7 +59,7 @@ comma (",").
- 
-     :ref:`/sys/kernel/mm/damon <sysfs_root>`/admin
-     │ :ref:`kdamonds <sysfs_kdamonds>`/nr_kdamonds
--    │ │ :ref:`0 <sysfs_kdamond>`/state,pid
-+    │ │ :ref:`0 <sysfs_kdamond>`/state,pid,refresh_ms
-     │ │ │ :ref:`contexts <sysfs_contexts>`/nr_contexts
-     │ │ │ │ :ref:`0 <sysfs_context>`/avail_operations,operations
-     │ │ │ │ │ :ref:`monitoring_attrs <sysfs_monitoring_attrs>`/
-@@ -123,8 +123,8 @@ kdamond.
- kdamonds/<N>/
- -------------
- 
--In each kdamond directory, two files (``state`` and ``pid``) and one directory
--(``contexts``) exist.
-+In each kdamond directory, three files (``state``, ``pid`` and ``refresh_ms``)
-+and one directory (``contexts``) exist.
- 
- Reading ``state`` returns ``on`` if the kdamond is currently running, or
- ``off`` if it is not running.
-@@ -161,6 +161,13 @@ Users can write below commands for the kdamond to the ``state`` file.
- 
- If the state is ``on``, reading ``pid`` shows the pid of the kdamond thread.
- 
-+Users can ask the kernel to periodically update files showing auto-tuned
-+parameters and DAMOS stats instead of manually writing
-+``update_tuned_intervals`` like keywords to ``state`` file.  For this, users
-+should write the desired update time interval in milliseconds to ``refresh_ms``
-+file.  If the interval is zero, the periodic update is disabled.  Reading the
-+file shows currently set time interval.
-+
- ``contexts`` directory contains files for controlling the monitoring contexts
- that this kdamond will execute.
- 
--- 
-2.39.5
+Well, EXPERT is currently enabled on several distros. The three ones I have
+it handy all have it:
+
+Fedora 42:
+	$ grep CONFIG_EXPERT /boot/config*
+	/boot/config-6.14.9-300.fc42.x86_64:CONFIG_EXPERT=y
+	/boot/config-6.15.3-200.fc42.x86_64:CONFIG_EXPERT=y
+	/boot/config-6.15.4-200.fc42.x86_64:CONFIG_EXPERT=y
+
+Ubuntu 24.10:
+	$ grep CONFIG_EXPERT /boot/config*
+	/boot/config-6.11.0-26-generic:CONFIG_EXPERT=y
+	/boot/config-6.8.0-60-generic:CONFIG_EXPERT=y
+
+Debian 12:
+	$ grep CONFIG_EXPERT /boot/config*
+	/boot/config-6.1.0-34-amd64:CONFIG_EXPERT=y
+	/boot/config-6.1.0-37-amd64:CONFIG_EXPERT=y
+	/boot/config-6.1.0-37-rt-amd64:CONFIG_EXPERT=y
+
+So, expert on distros seem quite common those days.
+
+Fedora has it enabled for a long time. On Fedora 42:
+
+	$ grep CONFIG_DRM_WERROR /boot/config*
+	/boot/config-6.14.9-300.fc42.x86_64:CONFIG_DRM_WERROR=y
+	/boot/config-6.15.3-200.fc42.x86_64:CONFIG_DRM_WERROR=y
+	/boot/config-6.15.4-200.fc42.x86_64:CONFIG_DRM_WERROR=y
+
+I would expect to have it enabled on other distros as well.
+
+> Is there something else in DRM that invokes kernel-doc ?
+> 
+> > ---
+> >  Documentation/process/changes.rst | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> > index bccfa19b45df..6a7d7c1ee274 100644
+> > --- a/Documentation/process/changes.rst
+> > +++ b/Documentation/process/changes.rst
+> > @@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+> >  GNU tar                1.28             tar --version
+> >  gtags (optional)       6.6.5            gtags --version
+> >  mkimage (optional)     2017.01          mkimage --version
+> > -Python (optional)      3.9.x            python3 --version
+> > +Python                 3.9.x            python3 --version
+> >  GNU AWK (optional)     5.1.0            gawk --version
+> >  ====================== ===============  ========================================
+> >  
+> > @@ -154,6 +154,13 @@ Perl
+> >  You will need perl 5 and the following modules: ``Getopt::Long``,
+> >  ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
+> >  
+> > +Python
+> > +------
+> > +
+> > +At least Python 2.7 or 3.4 is required if CONFIG_DRM is selected to avoid
+> > +breaking compilation. Documentation build and kernel-doc won't produce
+> > +valid results if version is below 3.7.
+
+Maybe I can place instead CONFIG_DRM_I915_WERROR.
+
+
+Thanks,
+Mauro
