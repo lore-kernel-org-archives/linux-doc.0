@@ -1,88 +1,102 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E53C289817;
-	Sat, 12 Jul 2025 16:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=58.251.27.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3C0283C93;
+	Sat, 12 Jul 2025 16:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752337664; cv=none; b=SOCGlZ42FBi5eJUMS6tj/kc19t0k6bS3XCYXqooi4VawBTeFxE2iDY1xogwz+uE6GDOX9mnAbwzcHZPWkzI84k3bQPGF4aZWhuduBbfXF/OzeZ+x+iC2fKQ5k1LsNd1zN498E3cmEsiYaOHxR3Cw2PASm+06ESEQMcyBMqX/qmY=
+	t=1752337955; cv=none; b=ta8BcWYIdgeVRpqnblf9qXhlsvTINMQMjGVabPxAiFr/WD5CrP6hD3tIqLDVrpJ3eBxnSVQEfFpv8TWno/tHOBSKkDaZt3TTPw2iD1g4DpssB8OBypuRRwl9+mAYfBBYOfo7Y8CSkA/U8tt7jYt/TB03svPPMhq7oRpvTJEiNk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752337664; c=relaxed/simple;
-	bh=Nnt37dI/JlltrwT6kQWCW24E3SAEtajEsHbqJYoUqGc=;
-	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=skumNPnyr79JCPwJSfleUzR3tsqshkrGhClI1WsXVoD0pKmk20QBlZd1XLc9NNpSGPay7+9Tqu0YLNgPwwFyMECNmeY2GKk6XZyBPv++yKL2ZPqxyv3mGiOWs3fk2DV/QMXcbGHGw9dHxgVKAki2ny0xpmtQaBgZjE1u1JJVjo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=58.251.27.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mxde.zte.com.cn (unknown [10.35.20.165])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4bfYhZ0XSVzKjY;
-	Sun, 13 Jul 2025 00:20:14 +0800 (CST)
-Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mxde.zte.com.cn (FangMail) with ESMTPS id 4bfYhT06xRz4xBTt;
-	Sun, 13 Jul 2025 00:20:09 +0800 (CST)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bfYhH6ddwz5F2ln;
-	Sun, 13 Jul 2025 00:19:59 +0800 (CST)
-Received: from szxl2zmapp06.zte.com.cn ([10.1.32.108])
-	by mse-fl2.zte.com.cn with SMTP id 56CGJcFu086543;
-	Sun, 13 Jul 2025 00:19:38 +0800 (+08)
-	(envelope-from yang.yang29@zte.com.cn)
-Received: from mapi (szxlzmapp01[null])
-	by mapi (Zmail) with MAPI id mid14;
-	Sun, 13 Jul 2025 00:19:42 +0800 (CST)
-Date: Sun, 13 Jul 2025 00:19:42 +0800 (CST)
-X-Zmail-TransId: 2b0368728b1effffffffb7f-2b1a9
-X-Mailer: Zmail v1.0
-Message-ID: <20250713001942027bne2UhpkDuiSVPMxA3LZj@zte.com.cn>
-In-Reply-To: <20250710135451340_5pOgpIFi0M5AE7H44W1D@zte.com.cn>
-References: 20250710135451340_5pOgpIFi0M5AE7H44W1D@zte.com.cn
+	s=arc-20240116; t=1752337955; c=relaxed/simple;
+	bh=bHZT+o+zslXuF3GIjfBilkmBnK1lcCmainWJp9sUfbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nrBUxgsNfl1SkXtD456+LDL7iY3ZKLirr20ThN7iGtOAZZTJ7f9a/LcB1Ac9wsMqZ6Yykq8WTX1zQCdaf5uTROM9tUaGegrSxcgVdwf/tAZ7b2cLSP0WoEGAlAS7YALiaMFK1xAOn7o5DH0q1r88F2NlZwoYae1gSSIlO1HAszQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ikcPqpuE; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ikcPqpuE"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B9EF01306;
+	Sat, 12 Jul 2025 18:31:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752337915;
+	bh=bHZT+o+zslXuF3GIjfBilkmBnK1lcCmainWJp9sUfbQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ikcPqpuEkrVeOLNnbgykrCBNlo9aKgl6QtTRWfjiXXzJm6Mrr6wj8EDwiuElooZhe
+	 Uu2aKRkxKBz44CGBnGCmAzSzJfkD2XqxMGEkuQIvZqnV8rdo1yb9Ga701quxDh1WOH
+	 w5nA7kdCD6A1FxnyBCm88gkyxgvkDKWiSObiyqkU=
+Date: Sat, 12 Jul 2025 19:31:55 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
+Message-ID: <20250712163155.GA22640@pendragon.ideasonboard.com>
+References: <cover.1752307866.git.mchehab+huawei@kernel.org>
+ <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <yang.yang29@zte.com.cn>
-To: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>
-Cc: <bsingharora@gmail.com>, <akpm@linux-foundation.org>, <david@redhat.com>,
-        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
-        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
-        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>,
-        <xu.xin16@zte.com.cn>, <jiang.kun2@zte.com.cn>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eCBuZXh0XSBkZWxheXRvcDogYWRkIHBzaSBpbmZvIHRvIHNob3cgc3lzdGVtIGRlbGF5?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 56CGJcFu086543
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68728B3C.001/4bfYhZ0XSVzKjY
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
 
-> bash# ./delaytop
-> System Pressure Information: (avg10/avg60/avg300/total)
-> CPU: full: 0.0%/ 0.0%/ 0.0%/0 some: 0.1%/ 0.0%/ 0.0%/14216596
-> Memory: full: 0.0%/ 0.0%/ 0.0%/34010659 some: 0.0%/ 0.0%/ 0.0%/35406492
-> IO: full: 0.1%/ 0.0%/ 0.0%/51029453 some: 0.1%/ 0.0%/ 0.0%/55330465
-> IRQ: full: 0.0%/ 0.0%/ 0.0%/0
-I see the unit of PSI and task delay are different, they are microseconds
-and milliseconds. We'd better keep the units aligned for better user
-understanding.
+Hi Mauro,
 
-And what about split the output of each delay into different lines just as
-PSI, this help us to better compare the results of some and full.
-bash# cat /proc/pressure/cpu 
-some avg10=0.00 avg60=0.00 avg300=0.00 total=682581546
-full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+Thank you for the patch.
 
-For example:
-bash# ./delaytop
-System Pressure Information: (avg10/avg60/avg300/total)
-CPU some: 0.1%/ 0.0%/ 0.0%/14216596
-CPU full: 0.0%/ 0.0%/ 0.0%/0
-Memory some: 0.0%/ 0.0%/ 0.0%/35406492
-Memory full: 0.0%/ 0.0%/ 0.0%/34010659
+On Sat, Jul 12, 2025 at 10:32:38AM +0200, Mauro Carvalho Chehab wrote:
+> Python is listed as an optional dependency, but this is not
+> true, as kernel-doc is called during compilation when DRM is
+> enabled. Better document that.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Isn't it only when CONFIG_DRM_HEADER_TEST is enabled ? That option
+depends on EXPERT && BROKEN, so I wouldn't expect it to be widely
+enabled. A quick grep shows that CONFIG_DRM_I915_WERROR does the same
+(with a dependency on EXPERT but not BROKEN though).
+
+Is there something else in DRM that invokes kernel-doc ?
+
+> ---
+>  Documentation/process/changes.rst | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index bccfa19b45df..6a7d7c1ee274 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+>  GNU tar                1.28             tar --version
+>  gtags (optional)       6.6.5            gtags --version
+>  mkimage (optional)     2017.01          mkimage --version
+> -Python (optional)      3.9.x            python3 --version
+> +Python                 3.9.x            python3 --version
+>  GNU AWK (optional)     5.1.0            gawk --version
+>  ====================== ===============  ========================================
+>  
+> @@ -154,6 +154,13 @@ Perl
+>  You will need perl 5 and the following modules: ``Getopt::Long``,
+>  ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
+>  
+> +Python
+> +------
+> +
+> +At least Python 2.7 or 3.4 is required if CONFIG_DRM is selected to avoid
+> +breaking compilation. Documentation build and kernel-doc won't produce
+> +valid results if version is below 3.7.
+> +
+>  BC
+>  --
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
