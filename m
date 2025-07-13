@@ -1,183 +1,145 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBA3226D00;
-	Sun, 13 Jul 2025 08:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BFF5D8F0;
+	Sun, 13 Jul 2025 09:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752395966; cv=none; b=ewQsJcd81JOoBKP7W43sIaNp2ctpqdBRT2/Ss5ySG19XtAsE0InAhFsDS+fYvNmqQ5LOJ7B9bbBe2E9s9BbMY3IIWbH4QtWW1A7BCDnp7uBQluhfKrWB78mpsiLuWY+2D78oHK3hpFL7ElwxyZiAOQQsIzPlOoGVRhI09THr3Kk=
+	t=1752398866; cv=none; b=VY+0TvV6Eh/t6XSKOeq3kHSRH5I6Yy/fSf7lTrh8A0v2+HTOYO7sLUayGAI2zfZ+hEI8EYXTQtdtSFXcxI7TVMT1aTI9Nl/tWne8xRJx0o7wOXCGeOJ2WCj0/Xzj4Ee2r/1RKuyDgSz51jI8TTQCjrNSpIKg3/JvsI7anmJYCqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752395966; c=relaxed/simple;
-	bh=IDU5g2bdtAMUN0f0RXOKiJM3pIAbXry4sN/fjHfr62o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tnLx+ERARd92e3WFa0jtge34dVC+WmkRYORHRt/PEe2uc5ILDCRGXS/lpxk/EFfPAnmZjzYmTdZ5hdeQymk7kScfbegsdN3D2PXT254dJrjBQ8PnAv3MAV4FMaOpTpFlxiDoh/QpduUM2LK5jkkDsZmcK8FX8JONU64PDw74onU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ae360b6249fso582962066b.1;
-        Sun, 13 Jul 2025 01:39:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752395963; x=1753000763;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FeyMo4Jt7UfkzhL/r2KfmA979+uFc7fR7QoglkpcpSU=;
-        b=csBTriSSSvQmOrCnny/Lph4pxRSSYsWY+Gnh/DxYxwIE+YkFMs5+aGclF/jB22KM9b
-         RRLzByGy5pz7n62AgFo+wtxSwktrO75cbTJyw902mtwKQnX/WTx3IpeoxOzwMymnAOHD
-         N/rLlmXUjzD4uK8IgTl5idcMoJkuVB0XMJoye1duDbDdN0aMgVlPXPMAKQqOpouOs1MB
-         KKA45WCuSPsUedAF7Ciht+Hp5uMLNb871jnpWxbSW05Ovi/LxNNU0ahDagYGXkS0ttB5
-         YuaNSv7+kD+MvQLx7qfHpEQ1PmCJp+8TeTjulxd+URWT4HEZ1XySx/Dvyyamxixw/U8T
-         n4UA==
-X-Forwarded-Encrypted: i=1; AJvYcCVaBSs95ck7Jl00cT50eB+NfIjJS29n+v8ZyRZDbq1kPMhUUIQgn248nBEQqQfBILocOITwbzJemTrR5RI=@vger.kernel.org, AJvYcCWeQxn+pNcu+MBqHlq4qVBxkhAjckBh9nHFmQ+JJP+a8M4nosDjWYcbSuglYc1/CvuM3qeDQRGqhxBruIKv@vger.kernel.org, AJvYcCXrw8EARcn6g/BaiiIfnS2UoJFlHSJ8oeLc96W0bEvz8C4glEmrAxWOLyzpZzUH2Nmfpw44Dp2eL8o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9jtuw4U+8/yXwV7IG3q1Cn0k1bufQFEffntv+0F4AvaxrZTAE
-	7OgXOaPiyQMpz+IuyTHYN5hMvtLNFzvD54uBn/fNma16Frqr8Ivq4YNXgXNy3g4o
-X-Gm-Gg: ASbGnct/CJQ7NJlvQpUyGqseCydVCE/LOdo2qfSv/lZme/GGMwlyk6J5H/sqWieXjx3
-	Bt5u4i5bVmH3V0sdLZawtZ13uJT53TCcQJr1QBogneIF7Z6gC9JegNJ8m8Pkv/UympjWwEMCXNq
-	i0avKTwcw8BTWTN/fd1WfcS+5eiE/rj5qyOK1KlLt2Tdrruq7xZP6RsQ4DRT9Wi2VNSn5x60Ap9
-	iXbVU9aPat4BW0b4pev58unjvqQNkaKQFOpl3mNfL1Vzk9mHOyOFlqSVZ+bqDV3Rp7x34VOHmJX
-	iw7U80RNr5M2q1h7UxlXsQR0rWD7AWd24PpjWgzGSQcK21s/bs07enHVljeS1xtJD1DzQGTFgRC
-	n504AOq83Fn0hahOivBwSwr1dmsF+PXdXzUh/qOigZHvKchWasx7ywCCV
-X-Google-Smtp-Source: AGHT+IHxIHGjEkE5SiJCVQleLSfE7Ew8CiAdy3INMXoGnJecgmb8mpelQgFGDmsS+2hlzLznSM+Hlw==
-X-Received: by 2002:a17:907:803:b0:add:ede0:b9c4 with SMTP id a640c23a62f3a-ae6fc0c3696mr934268766b.42.1752395963198;
-        Sun, 13 Jul 2025 01:39:23 -0700 (PDT)
-Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7e90a42sm610876266b.27.2025.07.13.01.39.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jul 2025 01:39:22 -0700 (PDT)
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Sun, 13 Jul 2025 10:39:00 +0200
-Subject: [PATCH v8 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
+	s=arc-20240116; t=1752398866; c=relaxed/simple;
+	bh=T42cfsc+7VU7rLmZUluCFiFQFi4Cq1hv3QS+DPaGt1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ucomEX48mRubfMv5SdOrH9F4vjCnrT60324HlspYl+NuTN1L+T+4vvXCrBEuhKmCxn+Nou3zIvtPUYVsIJY6FFnVYDvYjQXesgC0HZ7rpA36hhIHjYBLtI+mnguJMU/vGE0PYS6bBTlnQau0GNRhNzNNDnhk1D5tkmNxkHQn57E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CWxr3Rr4; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CWxr3Rr4"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3712C3DC;
+	Sun, 13 Jul 2025 11:27:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752398831;
+	bh=T42cfsc+7VU7rLmZUluCFiFQFi4Cq1hv3QS+DPaGt1g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CWxr3Rr4jzTDt/oGy6ek/20W0/eajivzHVs21lcz7NbtdmnDQlxDsql5ocKADhg6I
+	 fg49idYEN60XhBIO0AH5fB7LJRNcVt4jHXHvlc97l7Orp97hI30OwqIx/lZnKBQP53
+	 zE564JaUOQpyRlFzICngTAaDZ2qUcybkq8SvKMN8=
+Date: Sun, 13 Jul 2025 12:27:10 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
+Message-ID: <20250713092710.GB22640@pendragon.ideasonboard.com>
+References: <cover.1752307866.git.mchehab+huawei@kernel.org>
+ <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
+ <20250712163155.GA22640@pendragon.ideasonboard.com>
+ <20250713002517.7f52b0e9@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250713-6-10-rocket-v8-10-64fa3115e910@tomeuvizoso.net>
-References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
-In-Reply-To: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>, 
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250713002517.7f52b0e9@foz.lan>
 
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+On Sun, Jul 13, 2025 at 12:25:17AM +0200, Mauro Carvalho Chehab wrote:
+> Em Sat, 12 Jul 2025 19:31:55 +0300 Laurent Pinchart escreveu:
+> 
+> > Hi Mauro,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Sat, Jul 12, 2025 at 10:32:38AM +0200, Mauro Carvalho Chehab wrote:
+> > > Python is listed as an optional dependency, but this is not
+> > > true, as kernel-doc is called during compilation when DRM is
+> > > enabled. Better document that.
+> > > 
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> > 
+> > Isn't it only when CONFIG_DRM_HEADER_TEST is enabled ? That option
+> > depends on EXPERT && BROKEN, so I wouldn't expect it to be widely
+> > enabled. A quick grep shows that CONFIG_DRM_I915_WERROR does the same
+> > (with a dependency on EXPERT but not BROKEN though).
+> 
+> Well, EXPERT is currently enabled on several distros. The three ones I have
+> it handy all have it:
+> 
+> Fedora 42:
+> 	$ grep CONFIG_EXPERT /boot/config*
+> 	/boot/config-6.14.9-300.fc42.x86_64:CONFIG_EXPERT=y
+> 	/boot/config-6.15.3-200.fc42.x86_64:CONFIG_EXPERT=y
+> 	/boot/config-6.15.4-200.fc42.x86_64:CONFIG_EXPERT=y
+> 
+> Ubuntu 24.10:
+> 	$ grep CONFIG_EXPERT /boot/config*
+> 	/boot/config-6.11.0-26-generic:CONFIG_EXPERT=y
+> 	/boot/config-6.8.0-60-generic:CONFIG_EXPERT=y
+> 
+> Debian 12:
+> 	$ grep CONFIG_EXPERT /boot/config*
+> 	/boot/config-6.1.0-34-amd64:CONFIG_EXPERT=y
+> 	/boot/config-6.1.0-37-amd64:CONFIG_EXPERT=y
+> 	/boot/config-6.1.0-37-rt-amd64:CONFIG_EXPERT=y
+> 
+> So, expert on distros seem quite common those days.
 
-The NPU on the ROCK5B uses the same regulator for both the sram-supply
-and the npu's supply. Add this regulator, and enable all the NPU bits.
-Also add the regulator as a domain-supply to the pd_npu power domain.
+But not CONFIG_BROKEN, right ? That would leave only
+CONFIG_DRM_I915_WERROR.
 
-v8:
-- Remove notion of top core (Robin Murphy)
+> Fedora has it enabled for a long time. On Fedora 42:
+> 
+> 	$ grep CONFIG_DRM_WERROR /boot/config*
+> 	/boot/config-6.14.9-300.fc42.x86_64:CONFIG_DRM_WERROR=y
+> 	/boot/config-6.15.3-200.fc42.x86_64:CONFIG_DRM_WERROR=y
+> 	/boot/config-6.15.4-200.fc42.x86_64:CONFIG_DRM_WERROR=y
+> 
+> I would expect to have it enabled on other distros as well.
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
----
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi | 57 ++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+CONFIG_DRM_WERROR doesn't seem related to running kernel-doc though, is
+it ?
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-index 6052787d2560978d2bae6cfbeea5fc1d419d583a..06f73f16901026485c02cecf9176d0d7dc7a021a 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-@@ -309,6 +309,29 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c1m2_xfer>;
-+	status = "okay";
-+
-+	vdd_npu_s0: regulator@42 {
-+		compatible = "rockchip,rk8602";
-+		reg = <0x42>;
-+		fcs,suspend-voltage-selector = <1>;
-+		regulator-name = "vdd_npu_s0";
-+		regulator-boot-on;
-+		regulator-enable-ramp-delay = <500>;
-+		regulator-min-microvolt = <550000>;
-+		regulator-max-microvolt = <950000>;
-+		regulator-ramp-delay = <2300>;
-+		vin-supply = <&vcc5v0_sys>;
-+
-+		regulator-state-mem {
-+			regulator-off-in-suspend;
-+		 };
-+	};
-+};
-+
- &i2c6 {
- 	status = "okay";
- 
-@@ -433,6 +456,10 @@ &pd_gpu {
- 	domain-supply = <&vdd_gpu_s0>;
- };
- 
-+&pd_npu {
-+	domain-supply = <&vdd_npu_s0>;
-+};
-+
- &pinctrl {
- 	hdmirx {
- 		hdmirx_hpd: hdmirx-5v-detection {
-@@ -487,6 +514,36 @@ &pwm1 {
- 	status = "okay";
- };
- 
-+&rknn_core_0 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_1 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_2 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_mmu_top {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_1 {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_2 {
-+	status = "okay";
-+};
-+
- &saradc {
- 	vref-supply = <&avcc_1v8_s0>;
- 	status = "okay";
+> > Is there something else in DRM that invokes kernel-doc ?
+> > 
+> > > ---
+> > >  Documentation/process/changes.rst | 9 ++++++++-
+> > >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> > > index bccfa19b45df..6a7d7c1ee274 100644
+> > > --- a/Documentation/process/changes.rst
+> > > +++ b/Documentation/process/changes.rst
+> > > @@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+> > >  GNU tar                1.28             tar --version
+> > >  gtags (optional)       6.6.5            gtags --version
+> > >  mkimage (optional)     2017.01          mkimage --version
+> > > -Python (optional)      3.9.x            python3 --version
+> > > +Python                 3.9.x            python3 --version
+> > >  GNU AWK (optional)     5.1.0            gawk --version
+> > >  ====================== ===============  ========================================
+> > >  
+> > > @@ -154,6 +154,13 @@ Perl
+> > >  You will need perl 5 and the following modules: ``Getopt::Long``,
+> > >  ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
+> > >  
+> > > +Python
+> > > +------
+> > > +
+> > > +At least Python 2.7 or 3.4 is required if CONFIG_DRM is selected to avoid
+> > > +breaking compilation. Documentation build and kernel-doc won't produce
+> > > +valid results if version is below 3.7.
+> 
+> Maybe I can place instead CONFIG_DRM_I915_WERROR.
+
+I think that's better. I also wouldn't consider CONFIG_DRM_I915_WERROR
+to make Python "required".
 
 -- 
-2.50.0
+Regards,
 
+Laurent Pinchart
