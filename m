@@ -1,145 +1,154 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BFF5D8F0;
-	Sun, 13 Jul 2025 09:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BBE17A2EC;
+	Sun, 13 Jul 2025 16:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752398866; cv=none; b=VY+0TvV6Eh/t6XSKOeq3kHSRH5I6Yy/fSf7lTrh8A0v2+HTOYO7sLUayGAI2zfZ+hEI8EYXTQtdtSFXcxI7TVMT1aTI9Nl/tWne8xRJx0o7wOXCGeOJ2WCj0/Xzj4Ee2r/1RKuyDgSz51jI8TTQCjrNSpIKg3/JvsI7anmJYCqk=
+	t=1752424505; cv=none; b=q/x6cfxA7ASj8TIA5bRfVD5hufZpixmdiVvRGsEHGSyc+2t6rhg3Kmc9prqVupVb0iWSwRclIqbZdVDz1hpbgt6FEIbcR6NvAOZBGLqu1OnHZo1LyrcqHC1PwpZVKaL8CqCqbf8WkPwXt9/9hMegbKrnPGWriF4fFq+twQbhPy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752398866; c=relaxed/simple;
-	bh=T42cfsc+7VU7rLmZUluCFiFQFi4Cq1hv3QS+DPaGt1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ucomEX48mRubfMv5SdOrH9F4vjCnrT60324HlspYl+NuTN1L+T+4vvXCrBEuhKmCxn+Nou3zIvtPUYVsIJY6FFnVYDvYjQXesgC0HZ7rpA36hhIHjYBLtI+mnguJMU/vGE0PYS6bBTlnQau0GNRhNzNNDnhk1D5tkmNxkHQn57E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CWxr3Rr4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1752424505; c=relaxed/simple;
+	bh=Wx3/Ugp1PE6gQfK/orfJrD+E7Wj1KckD0qVUkrkgnWc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ffV60mYRn3DmFwrVmUBLnJdfzEt24jMUBOdg9yD05Ox4LyV1rtZaOdhXrOm2T5VaHA2smFTRxoJKD1JR7igeqd/70bx1SlJPgggxwcBPZxZb5Yonlrr+rB/O3kFB+Ez3zKO5HmZqt4YAlEdV7PBAW1RR7XDhYlEQmQ4vzik9yh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JGaMq925; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CWxr3Rr4"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3712C3DC;
-	Sun, 13 Jul 2025 11:27:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752398831;
-	bh=T42cfsc+7VU7rLmZUluCFiFQFi4Cq1hv3QS+DPaGt1g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CWxr3Rr4jzTDt/oGy6ek/20W0/eajivzHVs21lcz7NbtdmnDQlxDsql5ocKADhg6I
-	 fg49idYEN60XhBIO0AH5fB7LJRNcVt4jHXHvlc97l7Orp97hI30OwqIx/lZnKBQP53
-	 zE564JaUOQpyRlFzICngTAaDZ2qUcybkq8SvKMN8=
-Date: Sun, 13 Jul 2025 12:27:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
-Message-ID: <20250713092710.GB22640@pendragon.ideasonboard.com>
-References: <cover.1752307866.git.mchehab+huawei@kernel.org>
- <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
- <20250712163155.GA22640@pendragon.ideasonboard.com>
- <20250713002517.7f52b0e9@foz.lan>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JGaMq925"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so3740815b3a.0;
+        Sun, 13 Jul 2025 09:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752424503; x=1753029303; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dY9XOuYENfLx2Di4rM2clK1Msz1KBnfoQBOq3qV3zNo=;
+        b=JGaMq9257hStA5LRX6DAyDXsdQv1aSUCeyMTX0I+LguVd+6sRSDG+aEap4tT/HQG4r
+         Ki5bgTDV3ABaML9ddAjSFVseP6g5AgBAeRatu8Xi/zXonIMkOqE4JonM6dhHnd0JpS6A
+         t3kVSlpy1E5YAz5UHEbP6NxaSUN2lM1SBfJcekohsKSh+JGyW+h/JmYpmd26d0P/aFqk
+         mZTYryl+p9QqbNh6Cy10UwjenOcz3TQ2fgV5Kh/f7CyWfz5WkADj+HKQYGLYgZQkV3wQ
+         9f5xO9Ca8d5ByR40RGZqgVU4bT3ZfKQLk95vCKdZi2Y8PsgQoYGyDAHvMFqCtnorbsCy
+         7zXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752424503; x=1753029303;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dY9XOuYENfLx2Di4rM2clK1Msz1KBnfoQBOq3qV3zNo=;
+        b=AOtzlhQ6gP+0fvw6+7uWU2HvWlJJmTbWSH9Z4fjpzFxR5bLgBeqJoX9eTW7hAanbzl
+         nhwk8RdxpNuR9uojRZ7rHR1JHLeBL9MuqohBf7E9PfxIPKm82ngnCe2yp9Zx+LctRBSm
+         nCuh9DkJq5hsm/dHr71eF1vEOJ0P7ildPCrb8Bhcss/nYvT12X/ZclGEr+BTvpk8okpO
+         cBPEcCJQhpwbUjI8ZjlDyJl/+KB+milL0nBQh9qp2K6kpaQdYbL01z1Rc57yY70oXYdJ
+         50g+HcDKFxtyFtMSfYgOZeLsST4A/P7u36rvJThoqFcblnIMLHEJH6n0ZmAjDN3XGTvX
+         hEiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVwtxxuI1LjgMM/xlJ1jTw2NtQZLncCz+CWOCxsz6FhFKVdhnXRPgK7TbqkSgBzyYSFegO/JDVLE9s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdDgmtxp4KrhY5kN8f/PHHTv3hMrhAeO4q8knROlKHfaRRaLuO
+	w8DcHsBeKTS4CmCk8M5d89BrwcGnNU+UZL7UPt3AaHO8HWj1n0I41g4P
+X-Gm-Gg: ASbGncuWJI/svKviHkL1tCXOpgxi9wtExPNtckqm/JVczrYA3yMUWSBsh3x6y3z75Xd
+	IXdZ34NS30+ciwkJIFouNw9VlQpyI45kpPp76kqx3jBt+ovKsKWx32kl912Nc85runjyoxQzsMG
+	trrI+PNxbREMR+GGoVpf9Pd0EcGU+/5BNy3TXgqi5vDHrwkJ2ObCg7m4T8tysexwVO9GscOZMYb
+	gx6sUNLCakFR/0vA1EyIPR39I9p+ZG0jEwJEG3yTAukxppN8jphWLoR6Yztzs9hCB0h81PZDLu6
+	1XqOX6qNmrZVg3G2kI5HWbXnAMFtHs1EWfcd8e088upBGXjoVLiZVdXM46niJcJyljA9k5ME7kM
+	kR27qFT94fU27sue2ynt1jvqyo76vd6HkXo49goP+Ir1aaXSSph+0PmuWP6q8aFi7fDDcYw==
+X-Google-Smtp-Source: AGHT+IGNeMQj3tpu4L38r4CwZWt7NeEWUfmFN2WhzAQSsjvalG5h82vTkC1mCCtHHMDwgwsf4GFkxg==
+X-Received: by 2002:a05:6a21:9206:b0:231:c73:7a76 with SMTP id adf61e73a8af0-23124f1a6ebmr16831708637.2.1752424502450;
+        Sun, 13 Jul 2025 09:35:02 -0700 (PDT)
+Received: from localhost.localdomain ([159.226.94.129])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9f1b715sm9007424b3a.93.2025.07.13.09.35.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Jul 2025 09:35:02 -0700 (PDT)
+From: Zhiyu Zhang <zhiyuzhang999@gmail.com>
+To: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	si.yanteng@linux.dev,
+	zhiyuzhang999@gmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] scripts: add origin commit identification based on specific patterns
+Date: Mon, 14 Jul 2025 00:34:18 +0800
+Message-Id: <20250713163418.1459-1-zhiyuzhang999@gmail.com>
+X-Mailer: git-send-email 2.39.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250713002517.7f52b0e9@foz.lan>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 13, 2025 at 12:25:17AM +0200, Mauro Carvalho Chehab wrote:
-> Em Sat, 12 Jul 2025 19:31:55 +0300 Laurent Pinchart escreveu:
-> 
-> > Hi Mauro,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Sat, Jul 12, 2025 at 10:32:38AM +0200, Mauro Carvalho Chehab wrote:
-> > > Python is listed as an optional dependency, but this is not
-> > > true, as kernel-doc is called during compilation when DRM is
-> > > enabled. Better document that.
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> > 
-> > Isn't it only when CONFIG_DRM_HEADER_TEST is enabled ? That option
-> > depends on EXPERT && BROKEN, so I wouldn't expect it to be widely
-> > enabled. A quick grep shows that CONFIG_DRM_I915_WERROR does the same
-> > (with a dependency on EXPERT but not BROKEN though).
-> 
-> Well, EXPERT is currently enabled on several distros. The three ones I have
-> it handy all have it:
-> 
-> Fedora 42:
-> 	$ grep CONFIG_EXPERT /boot/config*
-> 	/boot/config-6.14.9-300.fc42.x86_64:CONFIG_EXPERT=y
-> 	/boot/config-6.15.3-200.fc42.x86_64:CONFIG_EXPERT=y
-> 	/boot/config-6.15.4-200.fc42.x86_64:CONFIG_EXPERT=y
-> 
-> Ubuntu 24.10:
-> 	$ grep CONFIG_EXPERT /boot/config*
-> 	/boot/config-6.11.0-26-generic:CONFIG_EXPERT=y
-> 	/boot/config-6.8.0-60-generic:CONFIG_EXPERT=y
-> 
-> Debian 12:
-> 	$ grep CONFIG_EXPERT /boot/config*
-> 	/boot/config-6.1.0-34-amd64:CONFIG_EXPERT=y
-> 	/boot/config-6.1.0-37-amd64:CONFIG_EXPERT=y
-> 	/boot/config-6.1.0-37-rt-amd64:CONFIG_EXPERT=y
-> 
-> So, expert on distros seem quite common those days.
+This patch adds the functionability to smartly identify origin commit
+of the translation by matching the following patterns in commit log:
+1) update to commit HASH
+2) Update the translation through commit HASH
+If no such pattern is found, script will obey the original workflow.
 
-But not CONFIG_BROKEN, right ? That would leave only
-CONFIG_DRM_I915_WERROR.
+Signed-off-by: Zhiyu Zhang <zhiyuzhang999@gmail.com>
+---
+ scripts/checktransupdate.py | 38 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-> Fedora has it enabled for a long time. On Fedora 42:
-> 
-> 	$ grep CONFIG_DRM_WERROR /boot/config*
-> 	/boot/config-6.14.9-300.fc42.x86_64:CONFIG_DRM_WERROR=y
-> 	/boot/config-6.15.3-200.fc42.x86_64:CONFIG_DRM_WERROR=y
-> 	/boot/config-6.15.4-200.fc42.x86_64:CONFIG_DRM_WERROR=y
-> 
-> I would expect to have it enabled on other distros as well.
-
-CONFIG_DRM_WERROR doesn't seem related to running kernel-doc though, is
-it ?
-
-> > Is there something else in DRM that invokes kernel-doc ?
-> > 
-> > > ---
-> > >  Documentation/process/changes.rst | 9 ++++++++-
-> > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> > > index bccfa19b45df..6a7d7c1ee274 100644
-> > > --- a/Documentation/process/changes.rst
-> > > +++ b/Documentation/process/changes.rst
-> > > @@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-> > >  GNU tar                1.28             tar --version
-> > >  gtags (optional)       6.6.5            gtags --version
-> > >  mkimage (optional)     2017.01          mkimage --version
-> > > -Python (optional)      3.9.x            python3 --version
-> > > +Python                 3.9.x            python3 --version
-> > >  GNU AWK (optional)     5.1.0            gawk --version
-> > >  ====================== ===============  ========================================
-> > >  
-> > > @@ -154,6 +154,13 @@ Perl
-> > >  You will need perl 5 and the following modules: ``Getopt::Long``,
-> > >  ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
-> > >  
-> > > +Python
-> > > +------
-> > > +
-> > > +At least Python 2.7 or 3.4 is required if CONFIG_DRM is selected to avoid
-> > > +breaking compilation. Documentation build and kernel-doc won't produce
-> > > +valid results if version is below 3.7.
-> 
-> Maybe I can place instead CONFIG_DRM_I915_WERROR.
-
-I think that's better. I also wouldn't consider CONFIG_DRM_I915_WERROR
-to make Python "required".
-
+diff --git a/scripts/checktransupdate.py b/scripts/checktransupdate.py
+index 578c3fecfdfd..e39529e46c3d 100755
+--- a/scripts/checktransupdate.py
++++ b/scripts/checktransupdate.py
+@@ -24,6 +24,7 @@ commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
+ """
+ 
+ import os
++import re
+ import time
+ import logging
+ from argparse import ArgumentParser, ArgumentTypeError, BooleanOptionalAction
+@@ -69,6 +70,38 @@ def get_origin_from_trans(origin_path, t_from_head):
+     return o_from_t
+ 
+ 
++def get_origin_from_trans_smartly(origin_path, t_from_head):
++    """Get the latest origin commit from the formatted translation commit:
++    (1) update to commit HASH (TITLE)
++    (2) Update the translation through commit HASH (TITLE)
++    """
++    # catch flag for 12-bit commit hash
++    HASH = r'([0-9a-f]{12})'
++    # pattern 1: contains "update to commit HASH"
++    pat_update_to = re.compile(rf'update to commit {HASH}')
++    # pattern 2: contains "Update the translation through commit HASH"
++    pat_update_translation = re.compile(rf'Update the translation through commit {HASH}')
++
++    origin_commit_hash = None
++    for line in t_from_head["message"]:
++        # check if the line matches the first pattern
++        match = pat_update_to.search(line)
++        if match:
++            origin_commit_hash = match.group(1)
++            break
++        # check if the line matches the second pattern
++        match = pat_update_translation.search(line)
++        if match:
++            origin_commit_hash = match.group(1)
++            break
++    if origin_commit_hash is None:
++        return None
++    o_from_t = get_latest_commit_from(origin_path, origin_commit_hash)
++    if o_from_t is not None:
++        logging.debug("tracked origin commit id: %s", o_from_t["hash"])
++    return o_from_t
++
++
+ def get_commits_count_between(opath, commit1, commit2):
+     """Get the commits count between two commits for the specified file"""
+     command = f"git log --pretty=format:%H {commit1}...{commit2} -- {opath}"
+@@ -108,7 +141,10 @@ def check_per_file(file_path):
+         logging.error("Cannot find the latest commit for %s", file_path)
+         return
+ 
+-    o_from_t = get_origin_from_trans(opath, t_from_head)
++    o_from_t = get_origin_from_trans_smartly(opath, t_from_head)
++    # notice, o_from_t from get_*_smartly() is always more accurate than from get_*()
++    if o_from_t is None:
++        o_from_t = get_origin_from_trans(opath, t_from_head)
+ 
+     if o_from_t is None:
+         logging.error("Error: Cannot find the latest origin commit for %s", file_path)
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
