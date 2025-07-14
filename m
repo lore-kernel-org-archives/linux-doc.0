@@ -1,124 +1,123 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834BF254B09
-	for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 13:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA44248883;
+	Mon, 14 Jul 2025 13:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752499376; cv=none; b=oplsEOk2ciSST7P9m8Gq7rd/dcmXE+/3SV9a95eUxClagR1z47zj1PFbl8T1JpyWtG+lk9wB3gQVF8rqqe1EvU64x6h3D6rQGBUT+gy9OjF9p5uYISsWPk6u1y2/mM7Jt6oHbn/owIuObwgWyJPjwVPMhPpSIEDyxrQ+ROFbN2I=
+	t=1752499607; cv=none; b=KtVps/esgVohwjjXylRJz+qSmRD3Th4kTTkEHtl3Jj+58IwPnBU61iSLFh6UnckdG8ZN4X8uv6VGvJ+u/+gkdes/iFDIwdfuzYi1KED4dh0k3kSYDgS9qZj/Z6oAqkNpRKOh6isWtmhYFZCwuDI6URhkFnfqqTCjN5Uq2bxtytg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752499376; c=relaxed/simple;
-	bh=DSltvb0vEhfUg7AEaM3U6pLDRM1PmY8c4GSdMZ0F3aQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=GT0cJTWtGuTX1zVxJkq1KNHoQzSoHMUFsmAt5GGCfSYHswX+nw/KoUmdMSWkytyuVLC/tMoy2f3iVQzpRkilRN+Dwkv8Q2EExF6euLYryESu11reMlohqT2taA+aw3a9jasPjY4otzYrW9fvTrLCGOVAskY4x4m8RfexB7+OuXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KtzCk5eQ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1752499607; c=relaxed/simple;
+	bh=F0h9qPfS1IFEzVFRGzECq3FkHstZL9RWV6sL0z924sM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bPJ3XLYnLY+fg9CAQsXqdvgSSOF7e0mgoi+LQ9yOR0Wd7EAVZFamsbniBMGuIGR9xPAO1tGB+G849oa2svcEoz0VaPidHFKk7zJsGImPp8WiS9v8s64FX79ujih440EGWyQERpdhYZ661EUq4800ZAHb3QSX0YV08qOedVTE3N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qw1miNrN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KtzCk5eQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752499373;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+74sl1h9XcDCGHLtxtil1RR5aKu+l0UGJeyQC88qo+g=;
-	b=KtzCk5eQDTIEP3LW8VGRh9EL8q0ClmFn3JgDB+sIL5b3VnB92TG/9swsjbe7It4tcrcZGX
-	Za3FwKDrB2IlJJvd0RkOgYz7awZRk7Bhe6wA3vNZvheEfBA7Y+1rvL3ob9RAF03VIsYdKv
-	3Zp8QMtpiaPUmNvz/O0jV9AT202o3qU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-64-gr1S3L6wNM6tAsXW4aopjw-1; Mon, 14 Jul 2025 09:22:52 -0400
-X-MC-Unique: gr1S3L6wNM6tAsXW4aopjw-1
-X-Mimecast-MFC-AGG-ID: gr1S3L6wNM6tAsXW4aopjw_1752499371
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45611579300so10414425e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 06:22:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752499371; x=1753104171;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+74sl1h9XcDCGHLtxtil1RR5aKu+l0UGJeyQC88qo+g=;
-        b=Yo1UMw8Nm1jqFy2Pct38o00AWr0FO8WSXOSKiBca1XajVCq+xNf+H1Psvq8eZ/h0h+
-         mdqEIjdZpStMnzjitV/8d+yDLWCEyHNrDvemg72VeDa5NklllNzHX4HW64vK9F6Obnnw
-         iRyUdRLtyvq71wbD+W9+hwX93JD9lN4mORmj7FOx+WyhJJgZKt6eRvw6pstMoB0ca8OR
-         M/4eG+5DK1M1jHoTVgWuoS2B88gKi95NSEDCxVtOfj7lWwydiW+li3qm6o5O+68BqMOC
-         qZuyYTmJBOBy5PuN+xMlkdRGT3AzbNtr8rlILI9y1CB/j0h4ksSu8qGZYdgzcB2v0cs/
-         C7NA==
-X-Forwarded-Encrypted: i=1; AJvYcCUtQX/j88UV26KUstBw5XEgBeq09UGpr0GZ0oyPfreE83X8ldxo3oAcWAQl3BRRRqPcNzX82705hq4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzspfZhREQhEaeWadZBOJ9X0uVqlkQcFL6skBSJKn4Qhl5EHgyn
-	0leFBpZWH+L+ZLTVuwFVyXw6E4Gsre9wuae68twA9WLC8Tp8BYJAqoVtQYBI5yelslZTkhSStbK
-	W7akgmuUdy/q6K40V/3biwowFaSSLaGl0Rf+BTWzcUQDRu+PrSSak8kBVZB8Jlw==
-X-Gm-Gg: ASbGncsDcx0saF6j9gCmSIqm2PFJYBULqVyb8Wgrk9I43TFZTeyTiu9oD1ujgZp11jx
-	gqPSt870ot0bnqEXiG/WRcmHw4dihMWDXI283N5lL2jb/PzjLJSYAJJvII91HHwVBV3M0Z00fIV
-	FMF6VpWS3DD3DfUcBWpJLRem/dsGNqWV/H78A2o1YTu9seA3u0Ubn9zS/VmLs+dAMqYZMbpqFPJ
-	MZfJQfb3TUnyBlG8SYBUE/Kqk8qya3PBfdaiC8EyzFFOZpv8UIFT7Yb8iYj18ubVCOzqYha/WE2
-	cQpEpoApx6PfLalqa/qaAjiHNJVD64fAEBXxi5aaD/0=
-X-Received: by 2002:a05:600c:848c:b0:43c:e70d:44f0 with SMTP id 5b1f17b1804b1-4557f0b52f2mr103652135e9.19.1752499370526;
-        Mon, 14 Jul 2025 06:22:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHNCV4TnpnSpBNGL5u+cKnLCGpcA5mGUjaCcEkgIGAq0CDxzLK13e64IbjzNHnO8ged+huEHA==
-X-Received: by 2002:a05:600c:848c:b0:43c:e70d:44f0 with SMTP id 5b1f17b1804b1-4557f0b52f2mr103651615e9.19.1752499370003;
-        Mon, 14 Jul 2025 06:22:50 -0700 (PDT)
-Received: from [192.168.0.115] ([212.105.155.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454d5032fcbsm173656775e9.6.2025.07.14.06.22.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Jul 2025 06:22:49 -0700 (PDT)
-Message-ID: <eaeaf8e5-ac94-4368-b897-538c757f4e34@redhat.com>
-Date: Mon, 14 Jul 2025 15:22:47 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qw1miNrN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F583C4CEED;
+	Mon, 14 Jul 2025 13:26:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752499607;
+	bh=F0h9qPfS1IFEzVFRGzECq3FkHstZL9RWV6sL0z924sM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qw1miNrNBh0wkTZ/anfy7aGB7/NfB3gC2jbI1iY9RGdvO/jyibOW8mHgITKi/WHqR
+	 9oruhqtRVHi/HQFfXtVrXuYJ8tZSUnO4DVdS2NHst28qKNxNDDzU6WK5nYKhHQJYVb
+	 uowtKbBVr9JRIUntIH7+S1lUBzaDpxa9otPil7K44hjlPzCqul67n3QFd3ZGZczViR
+	 U+QDSKRGKRyVd5PIhDK8FPKGWsmsA9XaPAHHpeTvU5IVhI4905xdRra3VdM/HwM3UG
+	 KBpN/xFSGxOEZpAnqx2ouiyPiaYCl3uVQthDvJqmqbutytAYTgehiKk7kY17tExVdO
+	 uzSg3fUKz4cAA==
+Date: Mon, 14 Jul 2025 14:26:39 +0100
+From: Will Deacon <will@kernel.org>
+To: James Clark <james.clark@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>, leo.yan@arm.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v3 02/10] perf: arm_spe: Support FEAT_SPEv1p4 filters
+Message-ID: <aHUFj9lH5bZwa4Z2@willie-the-truck>
+References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org>
+ <20250605-james-perf-feat_spe_eft-v3-2-71b0c9f98093@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 net-next 07/15] tcp: Add wait_third_ack for ECN
- negotiation in simultaneous connect
-To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com,
- linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
- dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org,
- netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
- kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
- jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
- donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
- shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
- ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
- g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
- mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
- Jason_Livingood@comcast.com, vidhi_goel@apple.com
-References: <20250704085345.46530-1-chia-yu.chang@nokia-bell-labs.com>
- <20250704085345.46530-8-chia-yu.chang@nokia-bell-labs.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250704085345.46530-8-chia-yu.chang@nokia-bell-labs.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250605-james-perf-feat_spe_eft-v3-2-71b0c9f98093@linaro.org>
 
-On 7/4/25 10:53 AM, chia-yu.chang@nokia-bell-labs.com wrote:
-> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+On Thu, Jun 05, 2025 at 11:49:00AM +0100, James Clark wrote:
+> FEAT_SPEv1p4 (optional from Armv8.8) adds some new filter bits, so
+> remove them from the previous version's RES0 bits using
+> PMSEVFR_EL1_RES0_V1P4_EXCL. It also makes some previously available bits
+> unavailable again, so add those back using PMSEVFR_EL1_RES0_V1P4_INCL.
+> E.g:
 > 
-> In simultaneous connect scenario, the connection will be established
-> when SYN/ACK is received after patch 23e89e8ee7be7. However, the
-> third ACK is still anticipated to complete the negotiation for either
-> RFC3168 ECN and Accurate ECN. In this sense, an additional flag
-> wait_third_ack is introduced to identify that the 3rd ACK is still
-> anticipated to ensure ECN or AccECN negotiation will be done in the
-> ESTABLISHED state.
+>   E[30], bit [30]
+>   When FEAT_SPEv1p4 is _not_ implemented ...
 > 
-> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> Co-developed-by: Ilpo Järvinen <ij@kernel.org>
-> Signed-off-by: Ilpo Järvinen <ij@kernel.org>
+> FEAT_SPE_V1P3 has the same filters as V1P2 so explicitly add it to the
+> switch.
+> 
+> Reviewed-by: Leo Yan <leo.yan@arm.com>
+> Tested-by: Leo Yan <leo.yan@arm.com>
+> Signed-off-by: James Clark <james.clark@linaro.org>
+> ---
+>  arch/arm64/include/asm/sysreg.h | 7 +++++++
+>  drivers/perf/arm_spe_pmu.c      | 5 ++++-
+>  2 files changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+> index f1bb0d10c39a..880090df3efc 100644
+> --- a/arch/arm64/include/asm/sysreg.h
+> +++ b/arch/arm64/include/asm/sysreg.h
+> @@ -358,6 +358,13 @@
+>  	(PMSEVFR_EL1_RES0_IMP & ~(BIT_ULL(18) | BIT_ULL(17) | BIT_ULL(11)))
+>  #define PMSEVFR_EL1_RES0_V1P2	\
+>  	(PMSEVFR_EL1_RES0_V1P1 & ~BIT_ULL(6))
+> +#define PMSEVFR_EL1_RES0_V1P4_EXCL \
+> +	(BIT_ULL(2) | BIT_ULL(4) | GENMASK_ULL(10, 8) | GENMASK_ULL(23, 19))
+> +#define PMSEVFR_EL1_RES0_V1P4_INCL \
+> +	(GENMASK_ULL(31, 26))
+> +#define PMSEVFR_EL1_RES0_V1P4	\
+> +	(PMSEVFR_EL1_RES0_V1P4_INCL | \
+> +	(PMSEVFR_EL1_RES0_V1P2 & ~PMSEVFR_EL1_RES0_V1P4_EXCL))
+>  
+>  /* Buffer error reporting */
+>  #define PMBSR_EL1_FAULT_FSC_SHIFT	PMBSR_EL1_MSS_SHIFT
+> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
+> index 3efed8839a4e..d9f6d229dce8 100644
+> --- a/drivers/perf/arm_spe_pmu.c
+> +++ b/drivers/perf/arm_spe_pmu.c
+> @@ -701,9 +701,12 @@ static u64 arm_spe_pmsevfr_res0(u16 pmsver)
+>  	case ID_AA64DFR0_EL1_PMSVer_V1P1:
+>  		return PMSEVFR_EL1_RES0_V1P1;
+>  	case ID_AA64DFR0_EL1_PMSVer_V1P2:
+> +	case ID_AA64DFR0_EL1_PMSVer_V1P3:
+> +		return PMSEVFR_EL1_RES0_V1P2;
+> +	case ID_AA64DFR0_EL1_PMSVer_V1P4:
+>  	/* Return the highest version we support in default */
+>  	default:
+> -		return PMSEVFR_EL1_RES0_V1P2;
+> +		return PMSEVFR_EL1_RES0_V1P4;
 
-I saw there are existing pktdrill test for ECN with simultaneous
-connect, but I'm still wondering it there is a real use case behind?
+See my reply [1] to Leo about this function, but I think we should just
+remove it.
 
-AFAICS simult connect can happen only on loopback, and [Acc]ECN on
-loopback looks useless.
+Will
 
-I would simply not allow AccECN on simultaneous connect - assuming that
-would basically drop all the code in this patch without no fourther
-modification required.
-
-/P
-
+[1] https://lore.kernel.org/all/20250707-arm_spe_support_hitm_overhead_v1_public-v3-0-33ea82da3280@arm.com/
