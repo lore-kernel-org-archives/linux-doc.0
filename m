@@ -1,157 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B882253A7;
-	Mon, 14 Jul 2025 18:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23AB204C1A
+	for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 19:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752519002; cv=none; b=asdlwW0ppdWc1DFZmiMfvq57cvfZVBvEEeH34lqOgj7tGhuTLm48EQAjc4yThDTxpYlqNaxn4DxBf/Z8HgZApYJh8KqjPytPbZUKh/j0ilxQWZebsJyJdp+73esp64BNwAoDqG89c4cEPzQImCGme3Lh+a9zeu2vKK2lBhUvEUs=
+	t=1752521986; cv=none; b=S5eh9Xu2vRwwvgXrbQ3Gk+q/TDRZrtpx7zyl7HribF+4gI/TA07zepO1q6bMH7zEQaQhQrEuzLc8REwoO0BBOfD9clCu/1Kkw0f8AJIn8Af8GHh0Z2vR5INTRSUTujPgg5nHztffsAHfTG15+qpILdel7nI0oajHj8tM/J1hN7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752519002; c=relaxed/simple;
-	bh=g/hdVwW4OrDEpaJ2jeOYNUGdpDfpOP3FpqeHfrFX5Q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UmD3g2W6W3ID2nclMWzHVmTZZXoCPuMIvMnvjsxZenJfoyn8SPjKbTlmofPQLHVK5t7BF+L2Z+pFDShaMZKRXQEEFIvuIMcxWFdu3PgZtRAY3x/jT2j52f37GSfFDtOtb6E3S84xih/dowvfIMI0sNOC9rjulMdEzP3FXqOhg0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qyu7Fvom; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752521986; c=relaxed/simple;
+	bh=5cSCYdKyaKnlsB59d7LA/sqcozRwuYbnW6S02DziChQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=P9k1Jc6sulWZibZQPlOyH+koekLd0fr1M46PWrxeyAER2YrKgD0To1TqYu9FtnR+seoW0WPeowQ2Ji/ewMoSazM3xzJMnRJVf0RvYNfgWknS8YxD3ZjxMDUtzHvl5JAG44KTnj7yS4Ph4Az+YKeN5kzr3pr4WIMU6eEnqbMBY0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F+lEts+O; arc=none smtp.client-ip=209.85.161.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qyu7Fvom"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752519001; x=1784055001;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g/hdVwW4OrDEpaJ2jeOYNUGdpDfpOP3FpqeHfrFX5Q4=;
-  b=Qyu7FvomqSBeaQc4dV6s/XpHySGK/WmhngPKChdZIiyzTemp/mHHxUQ+
-   wkUT1zRxuQOKWgJCeK80t6lJiUIreM8+T5JWn7zymnULEGtL+GoMKPYr0
-   3CqmBSR5DTzhVd7QgK+90ybNOQv4pHatS+yVpHACHiWFDXQkXDv/0oMMK
-   K8Kbs9EsFFNY32IQ+5PBcEjgCQ8Kv0JZ2Y/UYY6/yt4xurj9wpw9GCuro
-   9B6tiLWAtdmNdOI0CzGppga0ZVaVlnIRjjd7fvaCyaIiFaKQsmXhTTEB8
-   8TyR3yuCDTQ80rNQUbuKhpYD2F+SpgDF5nwxT7zHdtRDtnsYKH0Zx9I+L
-   Q==;
-X-CSE-ConnectionGUID: 4XeZdS7fQ8SsdQOuRx6g3A==
-X-CSE-MsgGUID: Ochzz3YvRC6TT4cjvcy6gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66171359"
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="66171359"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 11:50:00 -0700
-X-CSE-ConnectionGUID: n6iP6M2LTgWMCXmgik1TTw==
-X-CSE-MsgGUID: LOJAA0uFQLidXjoFjsHfaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="156651276"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 14 Jul 2025 11:49:54 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubOFM-0009EJ-1n;
-	Mon, 14 Jul 2025 18:49:52 +0000
-Date: Tue, 15 Jul 2025 02:49:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v6 09/12] tee: add Qualcomm TEE driver
-Message-ID: <202507150221.oWiaX1I9-lkp@intel.com>
-References: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F+lEts+O"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-615917848ccso179405eaf.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 12:39:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752521983; x=1753126783; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=urOya2QD0PAv3aRyUi92qVBccHFN0GyUQM4mpsavCC0=;
+        b=F+lEts+OFVJIPuwVRnJK5F1pfmdT8s0b33WyPl3yTSpNzYc94+Ra3pdGqSBX9oXkZj
+         zc5FeOr9OPpCrRH3OUAE2AHItRNZXv0JzsCwrS4IQlZexQ/8ObfrLmgTilXyv757B5rS
+         sqTbM4JjI/euxM6GVNOWtBwz4PURIWU2GnNKOmguIxcWb2WuED7OQjtuH7NqUTcKCrcL
+         56GOombgsGoU6TcZCI8HQpOlxRl1dEo3smb1sYZGU5ks/yd7qjJOcwAinl9CsqCsUncx
+         V5T4qgOOy2+0ZK5j+7fhFq23EbhI9FM6PgC2MHLNaBRI5iN7mCjmUfEL5q7DQXkvT2D6
+         vpdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752521983; x=1753126783;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=urOya2QD0PAv3aRyUi92qVBccHFN0GyUQM4mpsavCC0=;
+        b=Fv4J9qMixiNI/B82HlNDBySK0AYTU3izf6aSSRcXDQeSHYiAPhepAii1EMW3foEYFg
+         RXI1mW/gv030m9+rcgXgj4InIKpk6xdB35onWIcCpJ0tbdqO52/yuYINeYla4HBHGu6h
+         OHwuaWDobQ2zig1+QLa22gg+68v02G23bHSzaKDiv1upQtDn+/yA4VFTW1mA/fFVppBW
+         B4QPgWjsBA6Zd1fMoEXwF46SEuFasgVY9+I7WZIu8F7oTD3bWZdHXQv8MMR1NmGCcTKb
+         xXLtzZFmUUMEmroP9EGuYvb8PXAzDxKPi908wZXD7DObbemHL1q9Vf6RUAx4jyzzEuYC
+         8Jvg==
+X-Forwarded-Encrypted: i=1; AJvYcCVudK/d6etfcAkdMX26xitb89jVU7fPwDzheXCivIaH3PXNOM68CPClVTMneaF8ppQXaynzB36c7IY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHKrzx2irn6FtNlfT729dAfynaXE6KsSxWGZA5YcuqDuua7LGI
+	Fh3bOVPM8LK0lebBP6LolvwGQyyz7WfxodPzbtUFMi0nV84r5SnQdc3cVakFDvJRgDs=
+X-Gm-Gg: ASbGncsoEf42qTVSVQPzr7DWhMI3mKiCkRN8x38cDCllibIZ1Avevuqy/We0alVVlfp
+	tofudDjLKj8TW6HS//x947ZAoWtDh0IBzjiQ4IM3FXzObmVLNNcVRPVsfP9KiXA83aV/Q+S+wmD
+	mBlAT1ynkS/0hwUkLJjBFLG5WQgjVz7zLZs96fX4rA7nP7Jr3o3Hdz9Aukwt63EpdWv0LshuC/p
+	kUtiESQbNGLLYpd57VPsMfpGc27RBXHH3f8MqJCviHkXQ4UhwINPY23TYNYw2btcZGhvj3wNkxQ
+	+NDbaLyZOVdWFNgVAZakZDTCGITOzdFBqnofq81hUxtN8OI9wLSpIKODwW2AbKtb9SOywJmCwqs
+	qX2KxttVToIG6EfJOwEFkhA0XJs3bRQ==
+X-Google-Smtp-Source: AGHT+IG9YCfy/a8BjNGBo1GzQjJuR8GmP8UR9cv+uwP5yDJexmfxPdWGAOu8EtDFH9IyIV9EN6mZeg==
+X-Received: by 2002:a05:6870:c03:b0:296:bbc8:4a82 with SMTP id 586e51a60fabf-2ff2706c894mr10579426fac.27.1752521982792;
+        Mon, 14 Jul 2025 12:39:42 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:6bb2:d90f:e5da:befc])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf12b62e8sm1674368a34.60.2025.07.14.12.39.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 12:39:42 -0700 (PDT)
+Date: Mon, 14 Jul 2025 22:39:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+	Le Goffic <legoffic.clement@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Subject: Re: [PATCH v2 09/16] perf: stm32: introduce DDRPERFM driver
+Message-ID: <1fd92742-0958-4f64-8e50-4d0595fe74eb@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250711-ddrperfm-upstream-v2-9-cdece720348f@foss.st.com>
 
-Hi Amirreza,
+Hi Clément,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 835244aba90de290b4b0b1fa92b6734f3ee7b3d9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250714-085215
-base:   835244aba90de290b4b0b1fa92b6734f3ee7b3d9
-patch link:    https://lore.kernel.org/r/20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36%40oss.qualcomm.com
-patch subject: [PATCH v6 09/12] tee: add Qualcomm TEE driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250715/202507150221.oWiaX1I9-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150221.oWiaX1I9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/bus-firewall-move-stm32_firewall-header-file-in-include-folder/20250712-030518
+base:   d7b8f8e20813f0179d8ef519541a3527e7661d3a
+patch link:    https://lore.kernel.org/r/20250711-ddrperfm-upstream-v2-9-cdece720348f%40foss.st.com
+patch subject: [PATCH v2 09/16] perf: stm32: introduce DDRPERFM driver
+config: sh-randconfig-r071-20250712 (https://download.01.org/0day-ci/archive/20250712/202507122125.eve8lg60-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150221.oWiaX1I9-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202507122125.eve8lg60-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/perf/stm32_ddr_pmu.c:380 stm32_ddr_pmu_get_counter() warn: variable dereferenced before check 'pmu' (see line 376)
+drivers/perf/stm32_ddr_pmu.c:380 stm32_ddr_pmu_get_counter() warn: variable dereferenced before check 'event' (see line 377)
 
-   In file included from drivers/tee/qcomtee/qcomtee.h:12,
-                    from drivers/tee/qcomtee/async.c:8:
-   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
->> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
-         |                ^~~~~~~~~
---
-   In file included from drivers/tee/qcomtee/qcomtee.h:12,
-                    from drivers/tee/qcomtee/core.c:14:
-   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
->> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
-         |                ^~~~~~~~~
-   drivers/tee/qcomtee/core.c: In function 'qcomtee_object_user_init':
-   drivers/tee/qcomtee/core.c:303:17: warning: function 'qcomtee_object_user_init' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     303 |                 object->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
-         |                 ^~~~~~
-   drivers/tee/qcomtee/core.c: In function 'qcomtee_prepare_msg':
-   drivers/tee/qcomtee/core.c:417:26: error: implicit declaration of function 'copy_from_user' [-Wimplicit-function-declaration]
-     417 |                 else if (copy_from_user(ptr, u[i].b.uaddr, u[i].b.size))
-         |                          ^~~~~~~~~~~~~~
-   drivers/tee/qcomtee/core.c: In function 'qcomtee_update_args':
-   drivers/tee/qcomtee/core.c:496:26: error: implicit declaration of function 'copy_to_user' [-Wimplicit-function-declaration]
-     496 |                 else if (copy_to_user(u[i].b.uaddr, ptr, u[i].b.size))
-         |                          ^~~~~~~~~~~~
---
-   In file included from drivers/tee/qcomtee/qcomtee.h:12,
-                    from drivers/tee/qcomtee/user_obj.c:10:
-   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
->> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
-         |                ^~~~~~~~~
-   drivers/tee/qcomtee/user_obj.c: In function 'qcomtee_cb_params_from_args':
-   drivers/tee/qcomtee/user_obj.c:449:29: error: implicit declaration of function 'copy_to_user' [-Wimplicit-function-declaration]
-     449 |                         if (copy_to_user(params[i].u.ubuf.uaddr, u[i].b.addr,
-         |                             ^~~~~~~~~~~~
-   drivers/tee/qcomtee/user_obj.c: In function 'qcomtee_cb_params_to_args':
-   drivers/tee/qcomtee/user_obj.c:526:29: error: implicit declaration of function 'copy_from_user' [-Wimplicit-function-declaration]
-     526 |                         if (copy_from_user(u[i].b.addr, params[i].u.ubuf.uaddr,
-         |                             ^~~~~~~~~~~~~~
+vim +/pmu +380 drivers/perf/stm32_ddr_pmu.c
 
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  374  static int stm32_ddr_pmu_get_counter(struct stm32_ddr_pmu *pmu, struct perf_event *event)
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  375  {
+73af3c4ba702d7 Clément Le Goffic 2025-07-11 @376  	u32 time_cnt_idx = pmu->cfg->time_cnt_idx;
+                                                                           ^^^^^^^^
 
-vim +/FIELD_GET +172 drivers/tee/qcomtee/qcomtee_msg.h
+73af3c4ba702d7 Clément Le Goffic 2025-07-11 @377  	u32 config = event->attr.config;
+                                                                     ^^^^^^^
 
-   169	
-   170	static inline unsigned int qcomtee_msg_num_ib(u32 counts)
-   171	{
- > 172		return FIELD_GET(QCOMTEE_MASK_IB, counts);
-   173	}
-   174	
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  378  	struct stm32_ddr_cnt *cnt;
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  379  
+73af3c4ba702d7 Clément Le Goffic 2025-07-11 @380  	if (!pmu || !event)
+                                                            ^^^^^^^^^^^^^^
+Checks are too late.  The variables have already been dereferenced.
+
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  381  		return -EINVAL;
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  382  
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  383  	pmu->selected_set = GROUP_VALUE(config);
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  384  
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  385  	if (config == TIME_CNT) {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
