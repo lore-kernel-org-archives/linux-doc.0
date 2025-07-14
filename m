@@ -1,164 +1,118 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2071.outbound.protection.outlook.com [40.107.244.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C3724291A;
-	Mon, 14 Jul 2025 12:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752494595; cv=fail; b=o3KOZXSc6ik7oE94B8K9kGA/O4p/jHwTcVTOpxf7FkQ1c0NIyManbMkMbejzgU69hwXVxh6/bUzQs5T4QGLDglmyfezrIUaOnhHrZXCK1vfoV+aIY+bDKa3x7IZqOzhRme8Z+liEcs69b9oU/6xeUinuHrJyA6IbqIoPY2RNgfk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752494595; c=relaxed/simple;
-	bh=CubFzVyM4ezL+gbC2osOdmv/xbE94URim6OlYRpCkGY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=hCMN3C29I8LZVGVWeTJfcBS6o5tMv9DqVgZ7vcGcfxZGwvyG4mkF0VACzO+sscBzdZsgqvk6PosYg5w7U2c9804sD6V7KIX+GlaMNfrbXkytku9/2p6+qTKyE0bmAgIWfAmzs2K+JjIjJvsd1yED1EE+EvLdc1A4sdQwafXWLSs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VvQ2V3LO; arc=fail smtp.client-ip=40.107.244.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VvQ2V3LO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uejUeptLz2uxsPZh58QPxdEJF2S0wbuW0cgia+jbEHKbmmhEC18jIDsuJ6AVOhfVrF/ajpM2J3jA85aGhD6D1cnn1+jDaeqh+qygP+roS23fDrtX+a3snlxHkUYp+EaNuvniSdw5V3OFyuijsVfC9I83pN9dmi/LyfEcxB5EVJxdFP3QVmypb6wfppXV45GmWMgsY+HhFTI7U2lxjUs79z6Gz7dK3bpFDl6SE5ApZKCghvXvE/qAkwqs1HLENMzpyP93J4pd3SZhYYGzwzxx4dfaVyqjan+8814+KMe+6vr1wOfXQqumGaN7WJ+hFXg38tvvcQm9k6DRG0NLh3E29g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KUhpJOQ0L8l1RlQScd0VmS2sbzIHS3ZRRGMICuaS+uY=;
- b=aTzc3MVua6W+OxT67NIo/etDdxPWHYhhIPJZMnkaneHoUMtWJRhSIUCnT4GQ5vbRDtrRSfXxjG88V7BB3jIwfp1KsEpwjV8J2LJQqxnWQobSR9lKqVuXn0fX2NXo/w1CxoAlKaf3rQLJRqc0SkZjF81wx6nI5SIjFJTz78M6YwzX8PMJAuN+pBHcXCPfmTjLqx0YSkJLdlLzy3vI04OyDMc4Ymq10G8ijhc6AakCDQJfoeA4gRnwkbiFVvoHh79CC8YjKnQ2whOu8mjkJFTFpAAq9xJoK7khC2jVGKOiEopg+1N352c+EIsS5OPRC7/1GhgKE8+vIOeWz7XGEF99qg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KUhpJOQ0L8l1RlQScd0VmS2sbzIHS3ZRRGMICuaS+uY=;
- b=VvQ2V3LO2U9Q5VkHOpX3a8jEFnP8iXqK0mfxnLLeFa2jXqRgf4UBc4eYDgfpqx/aH9iTSG1e1O+xYDBpfjYz/ZMk3D+WyBPCI2czvA0KjQi7uw24HUua7LCNOje/JSoRTiE53BXan3lA0rVF4UET9rHZeis92kW8eIrzfgGijcG7KRxNEwZQIeAln/HDV1bJcav3Q/SW9+e3VOFmI87W3jxK2ki9T5GlyVu80l/i7FyQxtzY2VTYpJuTwl7Jzk0PSxEHc7Wvv3PBB8xK1M4AyJQBx5G+awgzvrKXVmFj2bjHLewXcNNgdiR7ZtRYMW7ATPD79ktM1TQ6Y7kYRGeBeg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by CY8PR12MB7635.namprd12.prod.outlook.com (2603:10b6:930:9e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Mon, 14 Jul
- 2025 12:03:09 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8901.033; Mon, 14 Jul 2025
- 12:03:09 +0000
-Date: Mon, 14 Jul 2025 09:03:08 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, Kevin Tian <kevin.tian@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Thierry Reding <thierry.reding@gmail.com>, vdumpa@nvidia.com,
-	Jon Hunter <jonathanh@nvidia.com>, shuah <shuah@kernel.org>,
-	jsnitsel@redhat.com, Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Yi Liu <yi.l.liu@intel.com>,
-	mshavit@google.com, praan@google.com, zhangzekun11@huawei.com,
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	patches@lists.linux.dev, mochs@nvidia.com,
-	ALOK TIWARI <alok.a.tiwari@oracle.com>, vasant.hegde@amd.com,
-	David Woodhouse <dwmw2@infradead.org>,
-	Baolu Lu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v9 17/29] iommufd: Add mmap interface
-Message-ID: <20250714120308.GK1951027@nvidia.com>
-References: <cover.1752126748.git.nicolinc@nvidia.com>
- <9a888a326b12aa5fe940083eae1156304e210fe0.1752126748.git.nicolinc@nvidia.com>
- <db221336-2694-4fcf-a2b2-8fcb46ba3c9e@app.fastmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db221336-2694-4fcf-a2b2-8fcb46ba3c9e@app.fastmail.com>
-X-ClientProxiedBy: MN0PR04CA0030.namprd04.prod.outlook.com
- (2603:10b6:208:52d::29) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468331FBCA7;
+	Mon, 14 Jul 2025 12:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752494799; cv=none; b=rNUSWeND61LFuxRd9JmIp+xp35b5WjZ8jdwZNevxDzXl6SFCaikChCV3BCk91dEVtI3OZb6nJ2+f0wsUdlgCxNgryXuA0tOabGLCBWHAd5RfGx5abQWsdzL40y7NrbpowOQluzM2fUBuFmPhYuLmB+U3D814m2Yc4ZHt3yXDlL0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752494799; c=relaxed/simple;
+	bh=jyKF8fukPkvqUEz1+31oAWoM4hg4RgCAuMgyvrXqcEs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=me//7pXoVwc6KGTweKqkjSsKh7UapcWyuLnCb7gMQ4S+s6j3YeYv3gtl1iAWZjAwclQM2TDLe4i4H2EV7pCnFIwK4s/fwBP90Hcn6hoX1va2PZyvAfNcnBWs5+1wwIsFOQEnl5Rx61IYAYc61XuW9j3a9+BGy3llWAEEobYe8MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ae0de1c378fso687034666b.3;
+        Mon, 14 Jul 2025 05:06:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752494793; x=1753099593;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QnE8NcmRUhh5gLGowKcxUkNoDsSW0JZa2ifNZ2DC4io=;
+        b=p/3HGi3tVlQpDiPJm9Ay5o9l9kMow8m+/5jv20hFn+jpD7WbKWCV/oxkjx0j2dHbEU
+         ZaT384S9uyzFK/mNtCqu2/HUoyB000zNJPOFqUslT4amcn5s8I5imku+Cedlo25uE+GV
+         OLQcq1WqnKV1cKkWWjNJMvszB++QUEvZXQMibFrhj1l1uQZYSXqAolKxOiMgjwNOCohT
+         E+ZWgkn2Xvo1nqwd0nlbQMvldvdTBlC3tUeWmi3tDayyO7UOTCjXXdowHgCICFcFMaWN
+         7JoHnyiJ08kaMzPAj82qOJb8XHvu261CmUekRccgrf+uQsxQsoO9EZmj6Ap5fCKd/D5o
+         RYlA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFY80IuOFnQjAKoc0EEsl17IzT4eN1uHMctOV/t+fECx5IbnE9pPLUYxouex9ju1Bd7dJwl3Qrsovz0gGh@vger.kernel.org, AJvYcCX3pCaAiq60z93rapupACGrf1BEsf9/BAGmqcK9bnEoKB/YT86HasG2qFm6zEDyFVtvY6Ptwa8/8ME=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxn7WejTkgMDtqsit5EZiFYVdW14GecE83Tg3lbu2idLzIJ9U9F
+	du/s1Jm2wl5aGIVkLbW0RN2ymXvbbWEZ4G9ZFiBCXWb3BcjqvTX1npyZ
+X-Gm-Gg: ASbGnctK5x5qQojFptiZ8IQaypSqcJOjuIvWwaFNECab7tEjK4gAp0Puoq+kxuYVeI9
+	YBJOHAz4xGmdgUX7LgAIiBTQwzF/iXAvSWkOOKb7DXY5zuaqZDD59+pp3HOCFPhXaoWoeSkDQ7e
+	nj3FzoXlBr8BMN2m4ZBwI4tYuP4a641Qn34G3os3SP0RaZvfyuY+UDCKYJ3QTj19NyccUeY5Xl5
+	CByWvoo0E34NuPedzWCUKjx2IybGWiYwFaPW2Lsr3FaqzzOrxmM0wPcp+nCWb2AmHWm5cvpqk/U
+	F/g7Y5hLO8zBPFM9+pQ+H3zG66gFOmtwokbPuZTMIs7qnsTbjnwcbJPDavdhUWOhUe8AEGldSIy
+	wt734A9fhynxypA==
+X-Google-Smtp-Source: AGHT+IFjL93rz150iKe+jlyv6uDExT4t4gcF9Gf1kGsrwiginPCS9TCgXX/bbH1N5i9tOJTMVleKwA==
+X-Received: by 2002:a17:907:86a6:b0:ae0:d9f3:9131 with SMTP id a640c23a62f3a-ae6fbc13fa4mr1315906166b.6.1752494793145;
+        Mon, 14 Jul 2025 05:06:33 -0700 (PDT)
+Received: from localhost ([2a03:2880:30ff:74::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e826462bsm815755666b.104.2025.07.14.05.06.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 05:06:32 -0700 (PDT)
+From: Breno Leitao <leitao@debian.org>
+Date: Mon, 14 Jul 2025 05:06:27 -0700
+Subject: [PATCH] docs: kernel: Clarify printk_ratelimit_burst reset
+ behavior
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CY8PR12MB7635:EE_
-X-MS-Office365-Filtering-Correlation-Id: b08226b9-53b3-414f-2cd3-08ddc2ce6663
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?GADXLJKGnBaBIQIKi6dcYYBry8t7Qil2pHba8VoPU4ukZrNql6xlQ6QW98Zq?=
- =?us-ascii?Q?xrf9Y1pLiL8T33lmRxg7ZI2uOgkWFSZpyKIwsJTs6xaVD9enQEzHQH9iDd4X?=
- =?us-ascii?Q?9GZLS+FKTH6pmDHoKCc1iWF/lbwfV6Ro1kGDQ3qJ/kOCminvN7shUC+MC60q?=
- =?us-ascii?Q?V3vr4eAFXQYAWNhnAUo9QpzzQ0Fpn8cTqX2q9IsJTUxO3c3GvDkH1YK9YqW3?=
- =?us-ascii?Q?2FJg3JMNyRCqcv4pzUecPjKVVQXJnNmpUqaYk6REpWI+SWNREdZKuEKjc+Op?=
- =?us-ascii?Q?+Z8qeJiiUgRxxB4ietynQX3aAt9z5+DDxBKExjPfZhT5xriU7SmnyzEYMTWZ?=
- =?us-ascii?Q?UUGLYG7rs3mN38EneVDZYM/bYvOk9WOUXNRoz4g3gyrSGzUyi1Bd86SlgEs2?=
- =?us-ascii?Q?eRJpbHwlek1o41Cj5LEmyY3wq2xHjjnu4AqSdgRhLn5RxXfijC5hwUpyem6c?=
- =?us-ascii?Q?ZQqZd5ZJjsctCJ2je3pfN/E11+/VNXT5/s51SqRRXhGXmOUYobqBkp0fVLnH?=
- =?us-ascii?Q?k4KianGAZWjrzzR0x2d0Ma9JTc5NXW0qieUmB6oApnJEy+t2Bfmwr4EvXAwb?=
- =?us-ascii?Q?+W05W/7YxYmTm2IgsCSAGW/AeEwq0/0Ku591dy34rHL8+oXhAvMbjY0v/2T1?=
- =?us-ascii?Q?YM6G0yJDmKyU4g/i9LNyW93FaDE5XFVH2E6gZ33S2yW9K4PBarjUDffHbQY7?=
- =?us-ascii?Q?52HuNQ1akPjWmp4BLYEkkmRLsvzAf+aIBYZhNexXIwT+uWn0O6gvr3EiPCQw?=
- =?us-ascii?Q?ltFt9UbXeOlTZ/QoT0LnNOXuBM84wbczT2Ljwahu9nbZkedJd4mKjRtvflq1?=
- =?us-ascii?Q?ZPx7P3eiQ3nBEowFQcYsvVyKH3sbJsuCGQPaxoQzn84rVpfcT66Okp8fLG11?=
- =?us-ascii?Q?km3U5ymBT7Xn9vWSPIF/NtSUrvgRzhGfFPkjxAOGcIXbctw+xQ188ixMLED4?=
- =?us-ascii?Q?n8v+DVAXVYVTwi83m3Vx6MohlzfIE0gxt1CeuE/0S7BFRaUs3Lbf712mMZBa?=
- =?us-ascii?Q?W5s38bGMWRmqBXYVazMB65OSFdSLZ7mFW/xGowVABjuueP1NKTZ/FJLC5JWF?=
- =?us-ascii?Q?BI6g/uyZROVTWF10AHPdraKpYCLh2pcuW334LokMyRWNOVRat0t8Jav4eiaL?=
- =?us-ascii?Q?RDEsc9GGGNpIRZ5IsTp9mPLy7DzoNMcr0iRwWLVuRQcuesWRak6NCNvLVpoo?=
- =?us-ascii?Q?mM4O3Ce7ShjKMlWHaEvgZanQhRhw0C1Gm6HLNVTCYmKmKfhPWnxhSccKyZlB?=
- =?us-ascii?Q?01+g2GVF6w8guLOGWglMnqiv/3V17Xc2TTyjSfRG9ZBOVU6Jjz39IPOWccIO?=
- =?us-ascii?Q?WsHg7oFTg38Iq7A1UsmO1ThRSOakV28rvT59ukpNi0EPb09weecnMu/XJseL?=
- =?us-ascii?Q?FLh96zxjwXaWruDqB0G8UBirz9L5RGzNgVPrMaVrySWJSxrXaw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?W4g+6YVBBzZ7nddEh6LRZ7D19xDtu8aKz3PkdeISuI6bZaI4pG2UBCVT2hvY?=
- =?us-ascii?Q?mXdSO6BbvlrYPJ7oES2tMvTsRHA2M68wIDft+vItwVsq50nUsfGn4nmCiR7Q?=
- =?us-ascii?Q?5PHFmEn/EdQcS1y2rF/oFzZshroAiw0UeDryuQGza8Xsop06Bf7kuqi667LJ?=
- =?us-ascii?Q?aa47+JW7FeMWzpMNGbpZawB166R642y7Jz0gQ57/U2uCJ0HO7uyD3NBnzo7Z?=
- =?us-ascii?Q?HoG3fOs0fr+atJi4bq68BIwC04H7T3UWVPxOB3Lqnn4dCsm1NZB1Md0lW3ef?=
- =?us-ascii?Q?ojiERCfgHVzzYDY+6+v5qD87eV7WSKp1l7mXwJkE26UL6zknVgP/YboMc+SU?=
- =?us-ascii?Q?iCxZXPiGLSAzGCs4KsXf0lg2KnLGZBAlvLzQgx5M6BSfi2DmvuCdIz+WP0hf?=
- =?us-ascii?Q?D1XXvVVNRWP06FHviovwzbfWexGtVg8XpYfwPmp0c8of6WYwWUfunw6ctiPC?=
- =?us-ascii?Q?++3UWpxLC89Nu8/weVO5RACM84+vlB8EcNJ6wd7K56xox5BAsJaJvCsk6xOy?=
- =?us-ascii?Q?Yyuarltl+DmqwSYmrjDNeZV9b9fFZIjM57fYwmMTXOjRLykQhrRiTpF3uSpp?=
- =?us-ascii?Q?ysUb+ZMUUaeehy7LO23hXO+dV6d/gQGynNS/wPZ6mWkYBiLgBdF02aIg4FzK?=
- =?us-ascii?Q?Y8sxwb+TwE8UmX9BAnKft3x8IkcFiAfpyFOCry9YQCSC6IPXWKg9QyH9bfbJ?=
- =?us-ascii?Q?1goTIwKkg498AwbjQ5fwInGbgpqABboj+3b93/Upgisd3o4RR4q3zq8S1/RN?=
- =?us-ascii?Q?aMRZZm0Q8BlMm0R5UYt9FP5KC4ITMvEeQ0/j1qR7ayEEXPFvtR5EzSD+k35R?=
- =?us-ascii?Q?dJEOWGdUxGH4DMGev5R7z7bi7MNZdCcIxhhNMr0aGanBp3CygNKIwwT8RVaH?=
- =?us-ascii?Q?FDCug+plTpV5cq5hJq/YzsocAqcgrX4q4BNRDbRE7ndwbOONyxaUB4EJVGr6?=
- =?us-ascii?Q?Ywh8i9CXErEBS5S/USoqvvRNvlewMw/lkrPlka9oqPZcEAEFKqE4h5QT5CH+?=
- =?us-ascii?Q?l8tNYN3sKQqlz1HcfOsRt1uBuOp9SEA61PNtkRxjI8wD8oSS2yiRy+YB3zzT?=
- =?us-ascii?Q?azcm0DwZzWITN+HAZTEx/hNfEJAMkBsIF982IrLx0y/EYnj7yRGZEs5gm+Kc?=
- =?us-ascii?Q?vFhpiHhxwxAv59v1aHY+K01H+5C1bCGFe1HXCNWBYfkprACiox61newSMp4I?=
- =?us-ascii?Q?8OhLsazPE1SnArYGHky1MfZAe+VheYcMV8GOqpUnY/blfZaTZIAMS3DoV+hE?=
- =?us-ascii?Q?yOsnyy0Rau4PmVMbCPcWUdlX/6N/7qAAvmlSCniar2PiJmb5tzHD7ASflQJh?=
- =?us-ascii?Q?8pTPnzwHqMVgp1d8VxSseiJZ3jTM3mCoKxmLvTYmhdfhImajeJXaF9tVnTwu?=
- =?us-ascii?Q?4EHsSTAgLDlHK5YgkIBIJPjfOQUSmbqAWyterVVy5Y6a/T4DKQwqLvyCvliq?=
- =?us-ascii?Q?04scDSSVbkeaNJhVXWKrxXVmWdyrlSDxlQLEk0m0JJKXRDR9Jau/jm9RhLck?=
- =?us-ascii?Q?OjX15Zs9/L6PceGm0tj8++acky4rJAP57khL+fNBHPymBKJNWuWUZzGtzZ/i?=
- =?us-ascii?Q?Ebm1C6XwCR8oJWqe570=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b08226b9-53b3-414f-2cd3-08ddc2ce6663
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 12:03:09.6236
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zJiu+8HlHZpVtr7QGpUMcQ8HWnilJoEEQfWrU3wubbGdDKfOUDv+93J+UDBL1DCw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7635
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250714-docs_ratelimit-v1-1-51a6d9071f1a@debian.org>
+X-B4-Tracking: v=1; b=H4sIAMLydGgC/x3M7QpAMBQG4Fs5vb+tZgi7FUmLM075altScu/Kc
+ wHPg8hBOMLSg8CXRDl2WMozwri4fWYlEyzBaFPpOi/VdIxxCC7xKpsk1fjSFdqbttUNMsIZ2Mv
+ 9h13/vh8QLu7rYAAAAA==
+X-Change-ID: 20250714-docs_ratelimit-8f4a30f29908
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: paulmck@kernel.org, pmladek@suse.com, rostedt@goodmis.org, 
+ john.ogness@linutronix.de, senozhatsky@chromium.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.15-dev-dd21f
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1286; i=leitao@debian.org;
+ h=from:subject:message-id; bh=jyKF8fukPkvqUEz1+31oAWoM4hg4RgCAuMgyvrXqcEs=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBodPLH4BPjVaFjlcy8x+acCa80xWuWYnWZO5eWg
+ 4Ped0nADmqJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaHTyxwAKCRA1o5Of/Hh3
+ bU17D/94pMXyV0UhQnrKzQX2GpKtyKEzJI2heR7kEoXwaKruY2gRVMMSMj3OqdLR2bbMCxDPEeS
+ tpJ5BxuA2fGI5weXgeCfjJ95x3U1DcEhoGw0byw1g5Ux4Rt0MrmZU3i0+yasUTHdKmzhsFRGHpO
+ f9HZQJIs2RD4AXn0LWhjBf2guVDYIll6V1QZ2Lto98FWFzmDmUBqgo0xa95GfUy1Aew1znOGOx7
+ wSAbost36AGWO+MkCloSbW2fPwQ1veusqc+p2cnnoaXVoqyxdg/TEakQrWMuN3s3bWcs56OiazZ
+ 0oR5FvWWFyV96MHeNh/mksOgWZl0mj2QHm2CjuBuyGXulXGGabFvop7ovrPKHOosdsf8jUT84df
+ 8ZHczVNapU2PiRts3DA2WxHcx1I1eRHRHXyd1iPfaa5d4D6Oaz+zS2s93AF12F7DG0aXZPrcW2h
+ hYPex35MdVFFdL4D/Ly32Ajs3/ka9ZQVWO7ZNJQl/o3iEp7BPkfhBceL5G4XE/HWJjwhBqkHmzu
+ nxx31CwmZ7Ye+R8sU/2GuVFHXMlmebTDe681N/AY5TQrhV0Nw/Sx50Pjn9zhnFc9ke6cxdv3oSp
+ pbHkeytsvvkKjiKJFBKRvNkTP9lUVA+mx2mXXo4mJUnWCKBhFtQT/dBmd8lpmp6WUd0G9vMl0Pm
+ 73IZKCymwVkVyyA==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
-On Mon, Jul 14, 2025 at 08:08:21AM +0200, Arnd Bergmann wrote:
+Add clarification that the printk_ratelimit_burst window resets after
+printk_ratelimit seconds have elapsed, allowing another burst of
+messages to be sent. This helps users understand that the rate limiting
+is not permanent but operates in periodic windows.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index a43b78b4b6464..6f8d3935147da 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1099,7 +1099,8 @@ printk_ratelimit_burst
+ While long term we enforce one message per `printk_ratelimit`_
+ seconds, we do allow a burst of messages to pass through.
+ ``printk_ratelimit_burst`` specifies the number of messages we can
+-send before ratelimiting kicks in.
++send before ratelimiting kicks in.  After `printk_ratelimit`_ seconds
++have elapsed, another burst of messages may be sent.
  
-> The mtree_alloc_range() interface explicitly operates on 'unsigned long'
-> address values, so I don't see an immediate workaround for this that would
-> make it work on these machines. On the other hand, 
+ The default value is 10 messages.
+ 
 
-I fixed this already, PHYS_ADDR_MAX was just wrong, it should be
-ULONG_MAX. The thing wasn't a physaddr in the first place.
+---
+base-commit: 0907e7fb35756464aa34c35d6abb02998418164b
+change-id: 20250714-docs_ratelimit-8f4a30f29908
 
-Jason
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
+
