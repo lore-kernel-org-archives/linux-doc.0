@@ -1,136 +1,186 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6240D259CB0
-	for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 14:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187B1259CB3
+	for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 14:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752503689; cv=none; b=V+CAVJ8izmCYhUDq2axRTgv+yf62t05h9vXf7ghcBRmxJNRNwP3koJCeA0pGQVNL32ESLVS1fE7ZTLVl1yWGzg+3pqLOU5iFMvQA8ypC67dpGzT7NNZlk+wM48ACoWvIYv7xYBQw+Tt/iN1T9cdTT0TZx5jrTNGsKZRLYm2hL9w=
+	t=1752503837; cv=none; b=Kgmhq4PNuyAeVwdvN3c3iEVWw4+FyheLApbBxKkYD70BuKM2hLXsvDz+KY5QhUz9cQl7T6wFQwhVDbB43RzTEwOspyMrM9JO7mSkanWJudDcbigp8OPSW6UBHOXLTsdAn/oKEWGodJB84w3PDt91JbrIW7kziq4lXj249GnSgQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752503689; c=relaxed/simple;
-	bh=x4VH7WP8We2sREpSucr6S63/HIKE6v5vuALeoeU1eKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AqVY7FhT7OyDC+Sj+wAug9Prl1BOoWb3CtN+mq7D26OGZKW3wB0YhhKUZpH5nKZmvdpqFqa9nh1ZcKKeVhehhbfRHDu6hO5YHa8nN5xeHMMg07dmSn6FIQYQUq2MilBv8dzZGDhVKybfOdRo9MNkCVGNe5FRj92wUaI8DDNPNtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=AmWuMjaD; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1752503837; c=relaxed/simple;
+	bh=TRcpibRTLH9cseWylS1uM49SbJnEmrei1lux8cE11sE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NPyysjFwl3dQ4DMEXvIN/EnsPoiS6PLFU1TwBKBdYydHYs/JWunyR87y84UFkuP3FZhlh/xrf0MG9n4BZzLVuT02buCirsy3RNLP6k7D1bo4zTZedrwiYg0F7BiqRRyyG+fUD+XQPGWiT7TP6KN24D8NxvpmMIo86o5CDwx/fV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YFAjWZJb; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="AmWuMjaD"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7d3dd14a7edso620180985a.2
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 07:34:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YFAjWZJb"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3139027b825so3451934a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 07:37:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1752503686; x=1753108486; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sZ/uMtd7PeY7ArKUEfzEaQhJJ3owfAv8oDZUoZLeu20=;
-        b=AmWuMjaDAhTE8Qz8oOABGBiGJh/Lzrn3OUIF+otBL7hL1G931+0x56xiHyr/QkE7GL
-         NNhJprZZ00o3CHkvQv8vZqsc+Uph0v3iBNKgPrMYVRHhtoar/twrOQbIXENuJMutm/lZ
-         rXi72Ydx72JOyES+gojbLVxlAfboGgvUmMpsh4lY25kg19Z7NYmM4xcE1LQK9Cj8/sp5
-         zzKuFO74Jo5QchP7ob8f41D6LKfdquDY583Jt2ntmwH5D+QfTsuyYyJFY1yVfhyVA2Zs
-         m2REWJpv0uuponGmvwUX2AXH3qa3kPRLZsap7dyTQ096V7GSlDzkAsHBwz6N3BA+wPIE
-         nk2Q==
+        d=linaro.org; s=google; t=1752503835; x=1753108635; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lRw/NX+KklOoltNcYQ1FFnx+QWAS9ZeWaLliEu+hd3U=;
+        b=YFAjWZJbri7WyStVubAZWla8N4Qz/VXHOrXjyK0c8J0cea6UfqQ8y6wpuWvtZBYnTC
+         xVgEiM2vWxUaKWRZPvSGPUu+E201rEd/iyEBqAjvq7fH6nwLU3s028J0exf2/mG3L8f+
+         8wS6QxGHV+rxRHDTO4ehhopMaHGEUumEEgIyfnYSz8JBLmzF6ikeVPp6jgpw2I9xWZ5N
+         UP5dRTzCKjYQ4QosLPc2cjAHlptuaOQatTtbr4EmN9qSipOheaNOkXTHAdJKD9M/7zL9
+         mpaEqnj25guZVZjp2QFzplYmU4EOGXBY8z9lFyW2Oi0t1CxlIiLYwOUOP1YLWL+I5rLa
+         jtWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752503686; x=1753108486;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sZ/uMtd7PeY7ArKUEfzEaQhJJ3owfAv8oDZUoZLeu20=;
-        b=BwKxhLweNgTAMONP+xs8VqA73bKh0dVmdMY7kgkADFHVfdUqMKoP85BmceuGHsfvQI
-         P3LDhrkFPyB/7DDWa+5DREYtwKOT58TH2CadT6v2snfFq53zvYEPb3/UwTHjLJzE/OUi
-         CjdCWhJM8PaouKzzrAjiUiE/ub0Ao3k98nJu0o74pguFANUCZYy/yP+pAHM9Iw7Od3/V
-         GxaUx2KIDO30DPRIxT+8XJjvSWyqMqDF6MS5AZcJ5GkW6x3A/E0hLjRKHaisDK/ob7rG
-         xVluCD3g87w3qNVBVJReps5UvHXOSpbpUyiTw0nSjAQfldAPOw0+SlJd9dAlq3B5jBpP
-         nIvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXrm5bsoTLZ1s3t/2DGbB1N8cW6Aq9YfZkcHLCuCwc2r2apV2V7L1a5qogGFqg81VRVVP3xtJ7qS7o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUh/1EfeTzlhiFfsz6VCCSEDxkwVBafwwjnY0tbbmfxBsKbPsX
-	TDtnq6J+qyqXDXNwihR05t4Err91wT7+B+wGZ7SLCS2we3SVQ12DR57InmchoZaiD24=
-X-Gm-Gg: ASbGncuS+5MtjLMjRoNFZ32bdQGG9VE1YDp0yZcGUsEAjoSIGjSUOycFnc9W8jKFwiL
-	ZEE9K3+4gUPpMG776CDDzB7o9u5j9ACcIPTW8q+sLWvicYQk5RA/+lVg9/nJ1AxnXjEt4J2FPXu
-	bpij+CJVYWl8V2vTMjyNwEz90SWgnNIAqJdPz39nWr3m3bmr/df43Nj2ZB/b7gu7y+24QLrqvlj
-	HuzixszK4xJ94ZcYwRat3CN4aznHA01z3Iy6PO0yERPw7o0PFnVSU6yaKrUOOjceuUUpXy+DaNb
-	1sGd8ckoKUayBO2tMnSgCwMlaMCxwYOfMndjEatV5pJa7qW+08QvROhJmYUxRgx6y1cnYvb7/Tl
-	0r5+FVSvxI4eW9LYNYF0SnX5+/16Fe+mddiDM7mNh+UDNj+lAVF9yFgA5lbx5VfMfFnGc8xzW1A
-	==
-X-Google-Smtp-Source: AGHT+IHDPqyfa5MILfbuRhIA4DZi+evKn5JL2EKdUIYjPKjjIxXzRswcxsKcTqlW4cqrt/sU14Hkyw==
-X-Received: by 2002:a05:620a:4613:b0:7e3:2ec5:69e2 with SMTP id af79cd13be357-7e32ec570ffmr287943285a.28.1752503686149;
-        Mon, 14 Jul 2025 07:34:46 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.56.70])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7dcdc0f5d42sm515494885a.28.2025.07.14.07.34.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 07:34:44 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1ubKGR-00000008ft9-1MVt;
-	Mon, 14 Jul 2025 11:34:43 -0300
-Date: Mon, 14 Jul 2025 11:34:43 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
-	graf@amazon.com, changyuanl@google.com, dmatlack@google.com,
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
-Message-ID: <20250714143443.GF1870174@ziepe.ca>
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-11-pasha.tatashin@soleen.com>
- <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
- <aGqHFkPWOrD6whv6@kernel.org>
- <mafs0qzypys0j.fsf@kernel.org>
- <aG9rNQ277weSR_dl@kernel.org>
+        d=1e100.net; s=20230601; t=1752503835; x=1753108635;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lRw/NX+KklOoltNcYQ1FFnx+QWAS9ZeWaLliEu+hd3U=;
+        b=c7WvW7wjIrYu9hDG9UaGX0ZcVsqd2ctFqFRIXftBKi3oA9j/C+Pp2skItM0S+huCY/
+         YtOg8oWUwyI2N/ipVuCJctHn3Gl8s/ozcfskYqHh5fvU3OKhPKGZMR3dhXVfS6yolghB
+         C9TVIASqLV4ZhupLyZLx2PDmHJ4KmG+YAb9SzTeskCpgWUjnxvdFFk6KzPzX7R6Zwyq6
+         t0QltQw9e//IBYBKa5c/vUCXxRU6q7MbHcgRIpOCov7vF54DKg/2u40n3ayYJc2f3bBT
+         nJDbO70teOIyiVqrHbgMel/u2Y7pXRYn6aygdE8dnAaYsfGyhVP8hYsuT3hW3Y6GiYXX
+         bdww==
+X-Gm-Message-State: AOJu0Yxf0waX6AnbFoKevahmOXg4aoqYSUjJpgbe7Dhmi4kwpnP8BQhO
+	iGdszE14NtKHKk1lW9zGuhjAW4B4D9xLQhjpGmuxIdXQpBI8Ln5up2fxz5d6pTwGpxAFFXU6Uyg
+	OKfVHkr/aDsrVX4Ut1pXbULnoYYC8w9eucttJd6VGPA==
+X-Gm-Gg: ASbGnctLRR+AXJrOU8OtA20XJ02K7Y7lYDtAOvgZ8z7Fhal33LvZHxmc3lWE8ZnXghy
+	ZMDMl9uCC++bMNyLSDkZQWkJjZU4EntYXzx+LF5PXyhqglyM6y8k5wo2TzdZDrm7MOLp1oTvx9Z
+	9lakKlSn9ZB+17iW0HYJv7lzXSndqiZHUnKpd0jypFW9DnHGwfU6t4VZ/apU9dbvWxgmxnhZZe7
+	eiqnVqOgzMQLfhWi0Y=
+X-Google-Smtp-Source: AGHT+IE9vli31u992ZT8kPqLb073rl0Qa9Fp1wDpRWfD+6c5waYC0lIxt4DAIY775EghGpjiJXOpIWCdhZUB6c4WwNM=
+X-Received: by 2002:a17:90b:1643:b0:311:9c9a:58d7 with SMTP id
+ 98e67ed59e1d1-31c4ccdcce7mr20175039a91.19.1752503835123; Mon, 14 Jul 2025
+ 07:37:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aG9rNQ277weSR_dl@kernel.org>
+References: <20250624181320.2810521-1-raymond.mao@linaro.org> <20250710005821.GA94507-robh@kernel.org>
+In-Reply-To: <20250710005821.GA94507-robh@kernel.org>
+From: Raymond Mao <raymond.mao@linaro.org>
+Date: Mon, 14 Jul 2025 10:37:03 -0400
+X-Gm-Features: Ac12FXwMK2ygdSLWZAPAf0rvYVKKrh58aGskfqls54bumEBc4Dr9Mohtz6UOLQI
+Message-ID: <CAEfUkUKXskNxdsFG0htpmcgNnVeau7n4wtH2FOweEW7BxC3scA@mail.gmail.com>
+Subject: Re: [PATCH] docs: devicetree: overlay-notes: recommend top-level
+ compatible in DTSO
+To: Rob Herring <robh@kernel.org>
+Cc: linux-doc@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree-spec@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 10, 2025 at 10:26:45AM +0300, Mike Rapoport wrote:
-> IIUC Christian's point was mostly not about using VFS APIs (i.e.
-> read/write) but about using a special pseudo fs rather than devtmpfs to
-> drive ioctls.
->  
-> So instead of 
-> 
-> 	fd = open("/dev/liveupdate", ...);
-> 	ioctl(fd, ...);
-> 
-> we'd use
-> 
-> 	fd = open("/sys/fs/kexec/control", ...);
-> 	ioctl(fd, ...);
+Hi Rob,
 
-Please no, /sys/ is much worse.
+On Wed, 9 Jul 2025 at 20:58, Rob Herring <robh@kernel.org> wrote:
+>
+> +devicetree-spec (because linux-doc doesn't really care)
+>
+> On Tue, Jun 24, 2025 at 11:13:20AM -0700, Raymond Mao wrote:
+> > When managing multiple base device trees and overlays in a structured
+> > way (e.g. bundled in firmware or tools), it is helpful to identify the
+> > intended target base DT for each overlay, which can be done via a
+> > top-level compatible string in the overlay.
+>
+> I think this should be more general and more specific at the same time.
+>
+> You might not want to match on a top-level board/soc compatible, but
+> rather the compatible for a specific node. For example, you may have an
+> overlay for a cape, hat, etc. that applies to a connector node and that
+> connector node could be on any number of boards or even multiple
+> connectors on 1 board. That's all under development, but so far in those
+> cases we expect some sort of connector driver to apply the overlays. But
+> I think you could have the same issue of identifying which overlay files
+> are relevant. I don't think folks working on add-on boards have thought
+> that far ahead.
+>
 
-/dev/ has lots of infrastructure to control permissions/etc that /sys/
-does not.
+The use case from the angle of a specific driver might be a completely
+different scenario.
+The motivation of this patch is to support handing over DTOs as
+transfer entries across different boot stages via transfer list.
+Unlike for a specific driver, a DTO within a transfer entry is usually
+board-leveled and contains nodes for more than one driver.
+The transfer list library in each boot stage does not have knowledge
+on a single specific driver and which target base should be applied is
+the only interest.
+That is the common DTO use case in Firmware Handoff and why we need
+the top-level compatible to be introduced.
+For details, please see my PR for the Firmware Handoff spec update to
+support DTO as transfer entries at:
+https://github.com/FirmwareHandoff/firmware_handoff/pull/74
 
-If you want to do ioctls to something that you open() is a character
-dev and you accept the limitations with namespaces, coarse permissions
-and so on.
+> And since we don't know the target-path up front, it is just left blank
+> so far. It would be better if we expressed *something*. Perhaps
+> 'target-compatible'? Something like that would work in your case I
+> think.
+>
+> You'd have to be somewhat crazy, but you can bundle a bunch of
+> mutually-exclusive or unrelated overlays within a single overlay file. I
+> don't know that we want to prevent doing that. Someone might come up
+> with some not crazy reason to do that...
+>
+> >
+> > This patch updates the document with a note and example for this
+> > practice.
+> >
+> > Signed-off-by: Raymond Mao <raymond.mao@linaro.org>
+> > ---
+> >  Documentation/devicetree/overlay-notes.rst | 28 ++++++++++++++++++++++
+> >  1 file changed, 28 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
+> > index 35e79242af9a..30b142d1b2ee 100644
+> > --- a/Documentation/devicetree/overlay-notes.rst
+> > +++ b/Documentation/devicetree/overlay-notes.rst
+> > @@ -103,6 +103,34 @@ The above bar.dtso example modified to use target path syntax is::
+> >      ---- bar.dtso --------------------------------------------------------------
+> >
+> >
+> > +Overlay identification
+> > +----------------------
+> > +
+> > +When managing overlays dynamically or bundling multiple base device trees
+> > +and overlays in a single system (e.g., in firmware, initramfs, or user-space
+> > +tools), it becomes important to associate each overlay with its intended
+> > +target base DT.
+> > +
+> > +To support this, overlays should include the top-level compatible string
+> > +from its base DT.
+>
+> The base has multiple compatible strings, so which one? Has to match on
+> any one or all of them?
 
-Jason
+Match only with base's top-level compatible, see above for the
+explanation of the use case.
+
+Regards,
+Raymond
+
+>
+> > +This enables higher-level software or firmware to identify which base DT
+> > +an overlay is compatible with and apply it accordingly.
+> > +
+> > +Example usage::
+> > +
+> > +    ---- bar.dtso - overlay with top-level compatible string -------------------
+> > +     /dts-v1/;
+> > +     /plugin/;
+> > +     compatible = "corp,foo";
+> > +
+> > +     ...
+> > +    ---- bar.dtso --------------------------------------------------------------
+> > +
+> > +This top-level compatible string is not required by the kernel overlay
+> > +mechanism itself, but it is strongly recommended for managing overlays in
+> > +scalable systems.
+> > +
+> > +
+> >  Overlay in-kernel API
+> >  --------------------------------
+> >
+> > --
+> > 2.25.1
+> >
