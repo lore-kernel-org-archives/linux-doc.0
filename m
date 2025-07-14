@@ -1,158 +1,225 @@
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F05E17736;
-	Mon, 14 Jul 2025 06:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B1D22FAFD
+	for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 07:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752473328; cv=none; b=KqN1gdTR6K3yTi8L5FqNRy786Esgr/kNBX6jpG+KMSWWCyxl2IsfqKi+uER3Jw91Icv2yHq9ynHRdpe3eNhLI8r5IxYwyepMZ7jhCckdzOO6fWD52WVIptHh8Q+yaISZRTSRhekK28gUEuQ866xOB+CXmjh9Cxaaizk3G5edVH4=
+	t=1752476986; cv=none; b=SqYQtIV41gkdSzOQ9z4zcxdAYhESFqEsDMpAJcrGyz+lnDAQzeQEATpXd5jLKwcxwRJjFU/CPEmybjcIwtK/Elqh48BrVgy/dEAGVjs2ogPeJ12dNW2Md2vH8yxRhC6Ob6mYZvSOr39d9RqNmT2TL1Vs/gpvXC+9na31j5Cck/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752473328; c=relaxed/simple;
-	bh=IT52CMMNQVZe/JpsyeRDyVjFNpZ1hXZyOCPsnriWGuY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=hQeTcZ/KiF3ujRi3wVOfAdtXCxUu78/FQqg112QL9Vngr6Fqsi4/Zyjeriw0uIRoO2wDhf0d9CAbeTKsnWvvm+1WeDaeHWRyqTJ/QztsTObAFC+d6K0a5QFHigy67n2DHx8ZuMlSTMjcVlJR5sAu6C+hLrRyzigWvbXe/fWRoI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=aDQRSUNA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NMOIB9oI; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1752476986; c=relaxed/simple;
+	bh=ehiJGRMp02AIO8z2cJ0eoOGCKNObyvEOvni2x0THx1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WiMmwfKudsgfU00+Xfmky2IQrHR5aLfsHsCFCQj2If9g8EGehqsgtLTXtaHAmR2wZmJz8vF8mKdYpN4l10yv53wrN+rO6CP2boKkpdPSKR+0Sx+rtuUO8RsQP3SEiWRneZGYI0DGkxQ2pwancaHieQFw4/ir2PiPG/9B830budo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=B45H+o2d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bIIJaQsF; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=a0b9zZBX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aAl4sERf; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="aDQRSUNA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NMOIB9oI"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 75D78EC0453;
-	Mon, 14 Jul 2025 02:08:45 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Mon, 14 Jul 2025 02:08:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1752473325;
-	 x=1752559725; bh=RC+CFVWd/VWYy7402scfBHaFNOZ1+z4P3lAFBCgGdWQ=; b=
-	aDQRSUNAXm+/DcRr8JHFpYax0uaM0MtbIvLQBkPE0LGP414DcT3gKnoamV8T8SEN
-	xYDBlC2feBCzsPE8RIOl9gJX/ikFb2POYxKMPEA05S+M8ypfatJ8ALGNrb5cALTL
-	KDCKokVRPEcA/wH7mmkvLR21BSJnfsWKsmCPIHbSqW3OM967bPW7ofJ0SSVIqSJx
-	3LMnM/KApSyk04F8E1kcEeNy8Yh8Bz3/lpnj04X5uLq2XaQLMgFVQdx3k352jNpu
-	6MHc13Lzk98yPzAMgNkUOlqeSsAqcThKlOyCRgE+3WdAUM9G2skt5RrdeoJrr4+v
-	WcchmnE45GeMCekZhRbOAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1752473325; x=
-	1752559725; bh=RC+CFVWd/VWYy7402scfBHaFNOZ1+z4P3lAFBCgGdWQ=; b=N
-	MOIB9oIK4aFGz/MAFD2nsL3q6bVhYxOa+1rkg2f7yWSgVHnNep35yY+c0xwQzgsP
-	vMRwxeJnGvzwwxmEaQjimrah2ANgib3/waRIs7J0MBff5JWK2BuRG3V/gs48X2mH
-	vlSX0MrI8YV61X2YvowWrBpkGbPwwZgKMONU56Du0DBDjQ5pvBmdCMh/Ak6cISlM
-	7YxINbF6R4HK3hpbeP6adI/ZbzcjdrSk1IZzjIJr2ToCdWjW9MBjV3kknOLRcbC1
-	bAbloGmDZcko0XSzOVQtxTfXl9rd+Dx5DcSZgsIirq7CM+sIpLRzc9Enub5Y6Rzk
-	eo+eEwiVAq6EJ3fdKbTeg==
-X-ME-Sender: <xms:6550aNISqkL_c_gKSI1GS6zwoONBMO-j0aQrHirsA-Dx9-qhip8wJw>
-    <xme:6550aJLL4Ox0N4jUEaYXAg0enHEgZ0Hvj03HUlMKvtRESzvOZlCtNu5UrKmGPZXjZ
-    N-Z2U0G_l8VX-cujzE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehuddulecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeefuddpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopehvrghsrg
-    hnthdrhhgvghguvgesrghmugdrtghomhdprhgtphhtthhopehrohgsihhnrdhmuhhrphhh
-    hiesrghrmhdrtghomhdprhgtphhtthhopegsrghgrghsughothhmvgesghhmrghilhdrtg
-    homhdprhgtphhtthhopehthhhivghrrhihrdhrvgguihhnghesghhmrghilhdrtghomhdp
-    rhgtphhtthhopehmshhhrghvihhtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprh
-    grrghnsehgohhoghhlvgdrtghomhdprhgtphhtthhopeiihhgrnhhgiigvkhhunhduudes
-    hhhurgifvghirdgtohhmpdhrtghpthhtohepugifmhifvdesihhnfhhrrgguvggrugdroh
-    hrgh
-X-ME-Proxy: <xmx:6550aCsD6On8GiPFBuhmhjg2cQ8kX7cKAjv83xfvNnNf8nYQRggg1w>
-    <xmx:6550aKpYGV3_6_Cw9r9zZqL9Q_5umAHi98hyl4oNeTYJZsfFeuThwA>
-    <xmx:6550aEmSWAshMXkV1Pf880BQ9xBOxPKTnOyiXYTu6frVsoV0UZLpTA>
-    <xmx:6550aCT8AC-3Qk2ejJ1a-d5tfh-z3Z7Ik7HcexIq2X1piS7MnP9Efw>
-    <xmx:7Z50aC55r5eujMz0Dvb8Ej99ArwfSU_zftLIRLdUgHJFaXhmzaUc6tH4>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id AB571700068; Mon, 14 Jul 2025 02:08:43 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="B45H+o2d";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bIIJaQsF";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="a0b9zZBX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aAl4sERf"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B29612118D;
+	Mon, 14 Jul 2025 07:09:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1752476982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=G2qA91gO6tcAaQVJpknYZYn5HNXpIJ5Jl9tGtCwshMU=;
+	b=B45H+o2dArwfpWQVw6f8KwhITXmgUUfld6sm0XCePHhEanZqKUaynj7zuU4uSX5Jec7b45
+	polvJPSwsGaa+9I5jbTDJD0d8hXct9bIi2UQNkNbzmjxvhLOjz1wiWzSYcDOx/b/wZmAVu
+	Bg3FNd1QEb0Zt1pa72AcfHw8HsYh42U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1752476982;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=G2qA91gO6tcAaQVJpknYZYn5HNXpIJ5Jl9tGtCwshMU=;
+	b=bIIJaQsFVhYA5PtUI14DXQ90MyAz5IlSJetvVU6svzab1tvF5e3+bYcHwwKMkXNjxEAWAU
+	JOA4DKk9jTv8LHDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1752476980; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=G2qA91gO6tcAaQVJpknYZYn5HNXpIJ5Jl9tGtCwshMU=;
+	b=a0b9zZBXUyXDVSKGdsLvzTJaR1HooezpI6e87kx1DOO8/KtDOJY8lypC1keEgOsnZJYxAl
+	gyioNPZcpDy16jxI461iH4KWS8xx0McbO+L5pIG+0hBcLcyJqySDKIjjV1yRNyWeiGWqwH
+	2SPKs06woC6Ey6MDEj3HcZ4kDyK+Bqo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1752476980;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=G2qA91gO6tcAaQVJpknYZYn5HNXpIJ5Jl9tGtCwshMU=;
+	b=aAl4sERfiHATIupx8nDix0OXGGT4Z38OK6MOjKwlBwWm5WERIIwttitCCHbBsPV7RO4BMq
+	9rcEUCHyRF+oh+Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8639E138A1;
+	Mon, 14 Jul 2025 07:09:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id oUtwIDStdGgNFAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 14 Jul 2025 07:09:40 +0000
+Message-ID: <678290fe-f171-4680-82bd-fa50e5fde7a4@suse.cz>
+Date: Mon, 14 Jul 2025 09:09:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T0ce86a4a9bc2801a
-Date: Mon, 14 Jul 2025 08:08:21 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Nicolin Chen" <nicolinc@nvidia.com>, "Jason Gunthorpe" <jgg@nvidia.com>
-Cc: "Kevin Tian" <kevin.tian@intel.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Bagas Sanjaya" <bagasdotme@gmail.com>, "Will Deacon" <will@kernel.org>,
- "Robin Murphy" <robin.murphy@arm.com>, "Joerg Roedel" <joro@8bytes.org>,
- "Thierry Reding" <thierry.reding@gmail.com>, vdumpa@nvidia.com,
- "Jon Hunter" <jonathanh@nvidia.com>, shuah <shuah@kernel.org>,
- jsnitsel@redhat.com, "Nathan Chancellor" <nathan@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>, "Yi Liu" <yi.l.liu@intel.com>,
- mshavit@google.com, praan@google.com, zhangzekun11@huawei.com,
- iommu@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
- patches@lists.linux.dev, mochs@nvidia.com,
- "ALOK TIWARI" <alok.a.tiwari@oracle.com>, vasant.hegde@amd.com,
- "David Woodhouse" <dwmw2@infradead.org>,
- "Baolu Lu" <baolu.lu@linux.intel.com>
-Message-Id: <db221336-2694-4fcf-a2b2-8fcb46ba3c9e@app.fastmail.com>
-In-Reply-To: 
- <9a888a326b12aa5fe940083eae1156304e210fe0.1752126748.git.nicolinc@nvidia.com>
-References: <cover.1752126748.git.nicolinc@nvidia.com>
- <9a888a326b12aa5fe940083eae1156304e210fe0.1752126748.git.nicolinc@nvidia.com>
-Subject: Re: [PATCH v9 17/29] iommufd: Add mmap interface
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
+ EXPORT_SYMBOL_FOR_MODULES
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Gomez <da.gomez@kernel.org>
+Cc: Matthias Maennich <maennich@google.com>, Jonathan Corbet
+ <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>,
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>,
+ Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Christoph Hellwig <hch@infradead.org>, Peter Zijlstra
+ <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
+ Shivank Garg <shivankg@amd.com>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
+ <b9b74600-4467-4c76-aa41-0a36b1cce1f4@kernel.org>
+ <2025071355-debunk-sprang-e1ad@gregkh>
+Content-Language: en-US
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <2025071355-debunk-sprang-e1ad@gregkh>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_COUNT_TWO(0.00)[2];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 
-On Thu, Jul 10, 2025, at 07:59, Nicolin Chen wrote:
->  EXPORT_SYMBOL_NS_GPL(_iommufd_object_undepend, "IOMMUFD");
+On 7/13/25 10:31, Greg Kroah-Hartman wrote:
+> On Sat, Jul 12, 2025 at 08:26:17PM +0200, Daniel Gomez wrote:
+>> On 11/07/2025 16.05, Vlastimil Babka wrote:
+>> > Changes in v2:
+>> > - drop the patch to restrict module namespace export for in-tree modules
+>> > - fix a pre-existing documentation typo (Nicolas Schier)
+>> > - Link to v1: https://patch.msgid.link/20250708-export_modules-v1-0-fbf7a282d23f@suse.cz
+>> > ---
+>> >  Documentation/core-api/symbol-namespaces.rst | 8 ++++----
+>> >  fs/anon_inodes.c                             | 2 +-
+>> >  include/linux/export.h                       | 2 +-
+>> >  3 files changed, 6 insertions(+), 6 deletions(-)
+>> > 
+>> > diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
+>> > index 32fc73dc5529e8844c2ce2580987155bcd13cd09..6f7f4f47d43cdeb3b5008c795d254ca2661d39a6 100644
+>> > --- a/Documentation/core-api/symbol-namespaces.rst
+>> > +++ b/Documentation/core-api/symbol-namespaces.rst
+>> > @@ -76,8 +76,8 @@ A second option to define the default namespace is directly in the compilation
+>> >  within the corresponding compilation unit before the #include for
+>> >  <linux/export.h>. Typically it's placed before the first #include statement.
+>> >  
+>> > -Using the EXPORT_SYMBOL_GPL_FOR_MODULES() macro
+>> > ------------------------------------------------
+>> > +Using the EXPORT_SYMBOL_FOR_MODULES() macro
+>> > +-------------------------------------------
+>> >  
+>> >  Symbols exported using this macro are put into a module namespace. This
+>> >  namespace cannot be imported.
+>> 
+>> The new naming makes sense, but it breaks the pattern with _GPL suffix:
+>> 
+>> * EXPORT_SYMBOL(sym)
+>> * EXPORT_SYMBOL_GPL(sym)
+>> * EXPORT_SYMBOL_NS(sym, ns)
+>> * EXPORT_SYMBOL_NS_GPL(sym, ns)
+>> * EXPORT_SYMBOL_FOR_MODULES(sym, mods)
+>> 
+>> So I think when reading this one may forget about the _obvious_ reason. That's
+>> why I think clarifying that in the documentation would be great. Something like:
+>> 
+>> Symbols exported using this macro are put into a module namespace. This
+>> namespace cannot be imported. And it's implicitly GPL-only as it's only intended
+>> for in-tree modules.
 > 
-> +/*
-> + * Allocate an @offset to return to user space to use for an mmap() 
-> syscall
-> + *
-> + * Driver should use a per-structure helper in include/linux/iommufd.h
-> + */
-> +int _iommufd_alloc_mmap(struct iommufd_ctx *ictx, struct 
-> iommufd_object *owner,
-> +			phys_addr_t mmio_addr, size_t length,
-> +			unsigned long *offset)
-> +{
-...
-> +
-> +	/* Skip the first page to ease caller identifying the returned offset 
-> */
-> +	rc = mtree_alloc_range(&ictx->mt_mmap, &startp, immap, immap->length,
-> +			       PAGE_SIZE, PHYS_ADDR_MAX, GFP_KERNEL);
+> s/implicitly/explicitly/
 
+From the point of the macro name,
+it was explicit with "EXPORT_SYMBOL_GPL_FOR_MODULES()"
+it's implicit with "EXPORT_SYMBOL_FOR_MODULES()"
 
-This produces a warning on 32-bit targets with a 64-bit phys_addr_t,
-in practice this would be ARM Cortex-A15 or -A17 systems:
+> thanks,
+> 
+> greg k-h
 
-In file included from include/linux/overflow.h:6,
-                 ...
-                 from drivers/iommu/iommufd/driver.c:4:
-drivers/iommu/iommufd/driver.c: In function '_iommufd_alloc_mmap':
-include/linux/limits.h:11:25: error: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Werror=overflow]
-   11 | #define PHYS_ADDR_MAX   (~(phys_addr_t)0)
-      |                         ^~~~~~~~~~~~~~~~~
-drivers/iommu/iommufd/driver.c:61:43: note: in expansion of macro 'PHYS_ADDR_MAX'
-   61 |                                PAGE_SIZE, PHYS_ADDR_MAX, GFP_KERNEL);
-      |                                           ^~~~~~~~~~~~~
-
-
-The mtree_alloc_range() interface explicitly operates on 'unsigned long'
-address values, so I don't see an immediate workaround for this that would
-make it work on these machines. On the other hand, 
-
-At the moment, the only drivers that select CONFIG_IOMMUFD_DRIVER
-on 32-bit Arm systems are CONFIG_PDS_VFIO_PCI and CONFIG_MLX5_VFIO_PCI.
-It's probably fine to make all three symbols "depends on 64BIT" for
-now, but I don't know if there may be more drivers like this in the
-future that actually could make sense on embedded systems.
-
-     Arnd
