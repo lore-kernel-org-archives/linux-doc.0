@@ -1,55 +1,55 @@
 Received: from mail-io1-f74.google.com (mail-io1-f74.google.com [209.85.166.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4089B285CA5
-	for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 22:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63DBE285CAF
+	for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 22:59:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752533981; cv=none; b=pJB0vWtW7zMqhwJrq1VYlIXFM8f9smpf+mI+dRnhPUeqCa3Xjj9TSktwvhWRrdlvKD5J0HSKuVqDRjmZWomKH5qSMfXNWxAw8FpqO8pGhPVteV6LQNT+jYN3XPjflmDgp2vB1rQsa/y8gd+4LyZUAWEYBtb28DGnsnYOpM5OfnA=
+	t=1752533983; cv=none; b=m66qxKcUk4oMZ31D0Uu4thJ4AXeYPUh6JoptqrZm0ZDpuQI2u2UW11W4qd/omBDSsviW1D04VAHTO68OtnmxWVGpEYnCwaXVuxcazPZ3GNphyNTzpNKBPYOcbebYivgcqmi8BKGgGmGNjQI9sKymK4hX0mOuufxYUHxpuqHTzmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752533981; c=relaxed/simple;
-	bh=7v4sX5q8lLRJ/EAnEhPnRBoogEWKPydlhazoaBQzE90=;
+	s=arc-20240116; t=1752533983; c=relaxed/simple;
+	bh=JP8zf6L3hflAD9DfHgHhFb+z9U9XgJ/aXorJou5xHMY=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Rf/DbeIRzw8kkcvFWr1MdyHaXlbsBIyceevvXWVGyIbJRInavamnfos4pJ+NE+TmnQsf6nTX/IvYxjrrr/GnNbbdWcCsQmKpRx6OhoMY9j/qPmFI21E21X2UVmDiaCX06B7Y1apKph4jDsttcUkmQvTADUbhZmIzbvzY2nAHMnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Zu+YNcNa; arc=none smtp.client-ip=209.85.166.74
+	 To:Cc:Content-Type; b=p6OqVGwkXXeYeks9PzInG7AW2WHMs4nsyNVHC52skJqfZTDgWHTwVu041PKv3OqWtKAMkD2iXct3qsxMe2XXso5fImGQHLCYmkcVw6HDYhd40Q3p7xz+579kq3q85pFaQqJVGTuRQKmme+TG4aExlDFo2+ZZyJ2mRog7gKxwfgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eGLY0u6C; arc=none smtp.client-ip=209.85.166.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Zu+YNcNa"
-Received: by mail-io1-f74.google.com with SMTP id ca18e2360f4ac-86cc7cdb86fso524065839f.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 15:59:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eGLY0u6C"
+Received: by mail-io1-f74.google.com with SMTP id ca18e2360f4ac-876a65a7157so446347539f.1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 15:59:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1752533975; x=1753138775; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1752533978; x=1753138778; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4LikijBgA9hgJn1z8WT/27yywkDcxcZWUZywAO0Cb1M=;
-        b=Zu+YNcNa3/K+QAWxd2ELbUb/41b/6dRNMoftovfqHLGBpm5S0u89xQcHtiOMDeeTt9
-         EUJ6s07PSjHp9PwA+Hxu/XV3Y+lx7lZfKnfMB0pV5C5oRMbjAaDx/WKPXQJasbDzP2MS
-         rvqq29m8+GocQa1PjLMe2Wgs6j9IsKTVWhiRHaWOyWcYn3/E1W28D4SFmgtQSt6gdWMn
-         2j8laq+kTXU68TZxPgsHI6klJ1/vGyhDgTgq+yPg2TD0fjX9k9Z6KTWVwISeY4yXJB82
-         vJ5hg/PGehayVO7ItFwBZJgdDpEeGvaz9lCF+i67TRwnsMI2EFhX5hBjBhf3r9zS0+OQ
-         cBdQ==
+        bh=SJZ+xwDjyMIGIgaKCFQ3UPZ4fJ+Lh0B/3NWWuRP6Bzw=;
+        b=eGLY0u6CFnxwv/RPEJcT+LpqFXCvh1BMcsuGBXwJc+sx3IoVmJSNKdlswWg+CMn7gz
+         foZzuOhgTK/j1659Voo2EeHBWdoeDXjK0CzkESDDu+7lq5yFN9/v/zzDtjFcfxWNMY6D
+         JVkb3QUNO28luHCECOU4mewKSIY4lBwCaktDVP41Rhu4B5MBxfH2pbAYDYn0FjuyjcQQ
+         HgWbWHjnQbd+h3SmRud/Qhp/5vyjFiL38iFo78Bwqgl934g5wZBZFyt1xAl+4ZElCkgg
+         +lPtDZ+Fsl46VsST//NQaAb/Mx2cl4aL9aHRJZizvC0sI+dGzVGMH+izp6JtWz3Ym/Zi
+         Nrfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752533975; x=1753138775;
+        d=1e100.net; s=20230601; t=1752533978; x=1753138778;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4LikijBgA9hgJn1z8WT/27yywkDcxcZWUZywAO0Cb1M=;
-        b=jl8oEEO0iyb3Ef+9g9uNZmW0YkJDO3c418zavOOS0YzoRKXtULfkp6ngCiLPGZswYa
-         8A11gaWobrBaf0EeLzVOdt44yEtQdk04eJi65OxVeYlrsb+dgMG8/0Fys1XYINcHmgPG
-         e4i14+Ea84jc6Lf7Uq9MlwC7t1FRhauIUaEeRCCXui3RBdpDqyZSzZNFEtTWUBHPE5xz
-         3RGgdkp1ONr0bAaIKvoLJzu4m5zMQ+EnLDgg+jCRIbqQg4UB35Xzr9L1jqVvvBC48bZs
-         dQcTVKxFnXk8dj7pl/ciITKArmecHmA85HkOEpwa1vQ3zdIP9/W1OZJ70iDOCclEXu3M
-         Uixw==
-X-Forwarded-Encrypted: i=1; AJvYcCXq0caf18Zio9WUSZ+cv/z00VuJJl0I0GhHcoRVjYl10arf7KXL9sdfhu3a0MnTkpJgv9h9zLU4FKQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxTbMXQ7bhKPSfxnJE8wE684Raay4aZ2RCAIX2JdijO2zxseDs
-	iWDsQ1GxM0QS1Bi0IcmWywUQqUuyFzpw7rkvcLmvQR0iPObwkZwjsy1wqAJHOIB1vprI7VBUZid
-	PaY07D/c0zEoaxo7gXxznGmqhAg==
-X-Google-Smtp-Source: AGHT+IEwx9UBGT/8wheREiWV+S0ihYQlL4yh0otkxzUq1va/b8+IqqW7BehvDHYAb7BE/vWyVZofNwSdDr4keaqSbQ==
-X-Received: from iove26.prod.google.com ([2002:a05:6602:45a:b0:861:c7b1:d848])
+        bh=SJZ+xwDjyMIGIgaKCFQ3UPZ4fJ+Lh0B/3NWWuRP6Bzw=;
+        b=eYz3i5JEsyHuhu0wXsIOeZ9aw4cqDSMyLvnphr/hYaW/s4QYSt6EYGLAVWxdJk1Ri9
+         bKmI6nv3utd0dfTYjD3kqkxPBp6r4MYd4NUUT+STD9nuxVcq6BIl3zFKiwKQv7wmfCxh
+         N6Ck8QCEXxk3KnLow2FFosIuNxSA2BTroCOkR/QUk4zxpkn1P5RSJPxVcqQTza6gDo06
+         AscoreG3QoqmZUg4NXkiIICRfK4urSklOFvZaHXOO4pnhmpKb2mLFTxHM8ef9C1QPZNn
+         DAsh304MWq30GXuKx11iLZjaFhgTIGykZXyUTe5JXYJLusa//i9g6DX5QpohJaevz3nf
+         RlTA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTzsVR2bp8Elqh4Nw9aQ35x1pDSoE1qFWwv8+Q2sYzTFNcxNAG/UjjuBDP6TyfHmvFZo5jCAxJQJM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOL7+7JYAwxQyFEZ1ujy6HVXkNxSZFs/WAyCi+9PCz7ugz4OCj
+	0XVRV9WtztaPDjDd5YiBLXdiWmWBeGfzbQABX0X/YvF4ltwSuvmKzfNFT3y6JbK/ejZZ17OG0iP
+	W8KpqlUd662w0YlogPntaFjrXAw==
+X-Google-Smtp-Source: AGHT+IGcsfYXq37Q6WkECHaXfuTpZ4xUC2MHD5EzXhz1ZNa8q/Bm5uigtDkeVAlpUUfariaZ73ybTmOi3F0pZZ07NA==
+X-Received: from ioxw3.prod.google.com ([2002:a05:6602:5c3:b0:86c:9981:d21d])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6602:7402:b0:873:35c8:16f9 with SMTP id ca18e2360f4ac-8797882781amr1351696339f.8.1752533975408;
- Mon, 14 Jul 2025 15:59:35 -0700 (PDT)
-Date: Mon, 14 Jul 2025 22:58:59 +0000
+ 2002:a05:6602:3411:b0:876:b17c:dec3 with SMTP id ca18e2360f4ac-879af05ab13mr188823039f.8.1752533978200;
+ Mon, 14 Jul 2025 15:59:38 -0700 (PDT)
+Date: Mon, 14 Jul 2025 22:59:02 +0000
 In-Reply-To: <20250714225917.1396543-1-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250714225917.1396543-1-coltonlewis@google.com>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-Message-ID: <20250714225917.1396543-6-coltonlewis@google.com>
-Subject: [PATCH v4 05/23] perf: arm_pmuv3: Generalize counter bitmasks
+Message-ID: <20250714225917.1396543-9-coltonlewis@google.com>
+Subject: [PATCH v4 08/23] KVM: arm64: Introduce non-UNDEF FGT control
 From: Colton Lewis <coltonlewis@google.com>
 To: kvm@vger.kernel.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -71,67 +71,80 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
 	Mark Rutland <mark.rutland@arm.com>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Colton Lewis <coltonlewis@google.com>
+	linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+	Colton Lewis <coltonlewis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-The OVSR bitmasks are valid for enable and interrupt registers as well as
-overflow registers. Generalize the names.
+From: Mark Brown <broonie@kernel.org>
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+We have support for determining a set of fine grained traps to enable for
+the guest which is tied to the support for injecting UNDEFs for undefined
+features. This means that we can't use the mechanism for system registers
+which should be present but need emulation, such as SMPRI_EL1 which should
+be accessible when SME is present but if SME priority support is absent
+SMPRI_EL1.Priority should be RAZ.
+
+Add an additional set of fine grained traps fgt, mirroring the existing fgu
+array. We use the same format where we always set the bit for the trap in
+the array as for FGU. This makes it clear what is being explicitly managed
+and keeps the code consistent.
+
+We do not convert the handling of ARM_WORKAROUND_AMPERE_ACO3_CPU_38 to this
+mechanism since this only enables a write trap and when implementing the
+existing UNDEF that we would share the read and write trap enablement (this
+being the overwhelmingly common case).
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
+[Removed unused vcpu argument from macro]
 Signed-off-by: Colton Lewis <coltonlewis@google.com>
 ---
- drivers/perf/arm_pmuv3.c       |  4 ++--
- include/linux/perf/arm_pmuv3.h | 14 +++++++-------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ arch/arm64/include/asm/kvm_host.h       | 6 ++++++
+ arch/arm64/kvm/hyp/include/hyp/switch.h | 7 ++++---
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
-index 294ccbdc3816..339d3c2d91a0 100644
---- a/drivers/perf/arm_pmuv3.c
-+++ b/drivers/perf/arm_pmuv3.c
-@@ -518,7 +518,7 @@ static u64 armv8pmu_pmcr_n_read(void)
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 92d672429233..f705eb4538c3 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -301,6 +301,12 @@ struct kvm_arch {
+ 	 */
+ 	u64 fgu[__NR_FGT_GROUP_IDS__];
  
- static int armv8pmu_has_overflowed(u64 pmovsr)
- {
--	return !!(pmovsr & ARMV8_PMU_OVERFLOWED_MASK);
-+	return !!(pmovsr & ARMV8_PMU_CNT_MASK_ALL);
- }
++	/*
++	 * Additional FGTs to enable for the guests, eg. for emulated
++	 * registers,
++	 */
++	u64 fgt[__NR_FGT_GROUP_IDS__];
++
+ 	/*
+ 	 * Stage 2 paging state for VMs with nested S2 using a virtual
+ 	 * VMID.
+diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
+index 7599844908c0..7fe5b087c95a 100644
+--- a/arch/arm64/kvm/hyp/include/hyp/switch.h
++++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
+@@ -153,9 +153,9 @@ static inline void __activate_traps_fpsimd32(struct kvm_vcpu *vcpu)
+ 		id;							\
+ 	})
  
- static int armv8pmu_counter_has_overflowed(u64 pmnc, int idx)
-@@ -754,7 +754,7 @@ static u64 armv8pmu_getreset_flags(void)
- 	value = read_pmovsclr();
- 
- 	/* Write to clear flags */
--	value &= ARMV8_PMU_OVERFLOWED_MASK;
-+	value &= ARMV8_PMU_CNT_MASK_ALL;
- 	write_pmovsclr(value);
- 
- 	return value;
-diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
-index d698efba28a2..fd2a34b4a64d 100644
---- a/include/linux/perf/arm_pmuv3.h
-+++ b/include/linux/perf/arm_pmuv3.h
-@@ -224,14 +224,14 @@
- 				 ARMV8_PMU_PMCR_LC | ARMV8_PMU_PMCR_LP)
- 
- /*
-- * PMOVSR: counters overflow flag status reg
-+ * Counter bitmask layouts for overflow, enable, and interrupts
-  */
--#define ARMV8_PMU_OVSR_P		GENMASK(30, 0)
--#define ARMV8_PMU_OVSR_C		BIT(31)
--#define ARMV8_PMU_OVSR_F		BIT_ULL(32) /* arm64 only */
--/* Mask for writable bits is both P and C fields */
--#define ARMV8_PMU_OVERFLOWED_MASK	(ARMV8_PMU_OVSR_P | ARMV8_PMU_OVSR_C | \
--					ARMV8_PMU_OVSR_F)
-+#define ARMV8_PMU_CNT_MASK_P		GENMASK(30, 0)
-+#define ARMV8_PMU_CNT_MASK_C		BIT(31)
-+#define ARMV8_PMU_CNT_MASK_F		BIT_ULL(32) /* arm64 only */
-+#define ARMV8_PMU_CNT_MASK_ALL		(ARMV8_PMU_CNT_MASK_P | \
-+					 ARMV8_PMU_CNT_MASK_C | \
-+					 ARMV8_PMU_CNT_MASK_F)
- 
- /*
-  * PMXEVTYPER: Event selection reg
+-#define compute_undef_clr_set(vcpu, kvm, reg, clr, set)			\
++#define compute_trap_clr_set(kvm, trap, reg, clr, set)			\
+ 	do {								\
+-		u64 hfg = kvm->arch.fgu[reg_to_fgt_group_id(reg)];	\
++		u64 hfg = kvm->arch.trap[reg_to_fgt_group_id(reg)];	\
+ 		struct fgt_masks *m = reg_to_fgt_masks(reg);		\
+ 		set |= hfg & m->mask;					\
+ 		clr |= hfg & m->nmask;					\
+@@ -171,7 +171,8 @@ static inline void __activate_traps_fpsimd32(struct kvm_vcpu *vcpu)
+ 		if (vcpu_has_nv(vcpu) && !is_hyp_ctxt(vcpu))		\
+ 			compute_clr_set(vcpu, reg, c, s);		\
+ 									\
+-		compute_undef_clr_set(vcpu, kvm, reg, c, s);		\
++		compute_trap_clr_set(kvm, fgu, reg, c, s);		\
++		compute_trap_clr_set(kvm, fgt, reg, c, s);		\
+ 									\
+ 		val = m->nmask;						\
+ 		val |= s;						\
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 
