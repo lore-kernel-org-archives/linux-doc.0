@@ -1,72 +1,92 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BBE17A2EC;
-	Sun, 13 Jul 2025 16:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3644835979
+	for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 00:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752424505; cv=none; b=q/x6cfxA7ASj8TIA5bRfVD5hufZpixmdiVvRGsEHGSyc+2t6rhg3Kmc9prqVupVb0iWSwRclIqbZdVDz1hpbgt6FEIbcR6NvAOZBGLqu1OnHZo1LyrcqHC1PwpZVKaL8CqCqbf8WkPwXt9/9hMegbKrnPGWriF4fFq+twQbhPy0=
+	t=1752453173; cv=none; b=fdgkkEwTpnWgFTy1b9Kl6OKr1jTyy0wuOe9vmx3EQI0K4GdCZu2bne5wfRBKZzab27nml2ye4CD/WEfXIQIGLAwzrvOHWKTZ/fZJUyy0fQeXICN3qv+i35m+lhFWEdKTcdGboa5qqRb9tX0178UKB++mBReZa0MjmKBTS1wwnTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752424505; c=relaxed/simple;
-	bh=Wx3/Ugp1PE6gQfK/orfJrD+E7Wj1KckD0qVUkrkgnWc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ffV60mYRn3DmFwrVmUBLnJdfzEt24jMUBOdg9yD05Ox4LyV1rtZaOdhXrOm2T5VaHA2smFTRxoJKD1JR7igeqd/70bx1SlJPgggxwcBPZxZb5Yonlrr+rB/O3kFB+Ez3zKO5HmZqt4YAlEdV7PBAW1RR7XDhYlEQmQ4vzik9yh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JGaMq925; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752453173; c=relaxed/simple;
+	bh=yhIP0PQkEMVEKTxXFLCn1pnrj5LywfBMjAGR7a8z9fQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BdLLbV+YTXgQ2v+zBST5txhSAPxB+ND0dn86h0uZsuziUuGDFVOo7X4N+Jg5AarhfuEedfQC+9eYmhRC/jp9J44DAvhUiErkeoigpREz6RNpXBBi7UV1pXtdY0S9p+1GgmEgF3OaVUZZs8XRlZedv5MCqcWB3s2p5TmcQn5wDOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P9p67Qq6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JGaMq925"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so3740815b3a.0;
-        Sun, 13 Jul 2025 09:35:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752424503; x=1753029303; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dY9XOuYENfLx2Di4rM2clK1Msz1KBnfoQBOq3qV3zNo=;
-        b=JGaMq9257hStA5LRX6DAyDXsdQv1aSUCeyMTX0I+LguVd+6sRSDG+aEap4tT/HQG4r
-         Ki5bgTDV3ABaML9ddAjSFVseP6g5AgBAeRatu8Xi/zXonIMkOqE4JonM6dhHnd0JpS6A
-         t3kVSlpy1E5YAz5UHEbP6NxaSUN2lM1SBfJcekohsKSh+JGyW+h/JmYpmd26d0P/aFqk
-         mZTYryl+p9QqbNh6Cy10UwjenOcz3TQ2fgV5Kh/f7CyWfz5WkADj+HKQYGLYgZQkV3wQ
-         9f5xO9Ca8d5ByR40RGZqgVU4bT3ZfKQLk95vCKdZi2Y8PsgQoYGyDAHvMFqCtnorbsCy
-         7zXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752424503; x=1753029303;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dY9XOuYENfLx2Di4rM2clK1Msz1KBnfoQBOq3qV3zNo=;
-        b=AOtzlhQ6gP+0fvw6+7uWU2HvWlJJmTbWSH9Z4fjpzFxR5bLgBeqJoX9eTW7hAanbzl
-         nhwk8RdxpNuR9uojRZ7rHR1JHLeBL9MuqohBf7E9PfxIPKm82ngnCe2yp9Zx+LctRBSm
-         nCuh9DkJq5hsm/dHr71eF1vEOJ0P7ildPCrb8Bhcss/nYvT12X/ZclGEr+BTvpk8okpO
-         cBPEcCJQhpwbUjI8ZjlDyJl/+KB+milL0nBQh9qp2K6kpaQdYbL01z1Rc57yY70oXYdJ
-         50g+HcDKFxtyFtMSfYgOZeLsST4A/P7u36rvJThoqFcblnIMLHEJH6n0ZmAjDN3XGTvX
-         hEiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVwtxxuI1LjgMM/xlJ1jTw2NtQZLncCz+CWOCxsz6FhFKVdhnXRPgK7TbqkSgBzyYSFegO/JDVLE9s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdDgmtxp4KrhY5kN8f/PHHTv3hMrhAeO4q8knROlKHfaRRaLuO
-	w8DcHsBeKTS4CmCk8M5d89BrwcGnNU+UZL7UPt3AaHO8HWj1n0I41g4P
-X-Gm-Gg: ASbGncuWJI/svKviHkL1tCXOpgxi9wtExPNtckqm/JVczrYA3yMUWSBsh3x6y3z75Xd
-	IXdZ34NS30+ciwkJIFouNw9VlQpyI45kpPp76kqx3jBt+ovKsKWx32kl912Nc85runjyoxQzsMG
-	trrI+PNxbREMR+GGoVpf9Pd0EcGU+/5BNy3TXgqi5vDHrwkJ2ObCg7m4T8tysexwVO9GscOZMYb
-	gx6sUNLCakFR/0vA1EyIPR39I9p+ZG0jEwJEG3yTAukxppN8jphWLoR6Yztzs9hCB0h81PZDLu6
-	1XqOX6qNmrZVg3G2kI5HWbXnAMFtHs1EWfcd8e088upBGXjoVLiZVdXM46niJcJyljA9k5ME7kM
-	kR27qFT94fU27sue2ynt1jvqyo76vd6HkXo49goP+Ir1aaXSSph+0PmuWP6q8aFi7fDDcYw==
-X-Google-Smtp-Source: AGHT+IGNeMQj3tpu4L38r4CwZWt7NeEWUfmFN2WhzAQSsjvalG5h82vTkC1mCCtHHMDwgwsf4GFkxg==
-X-Received: by 2002:a05:6a21:9206:b0:231:c73:7a76 with SMTP id adf61e73a8af0-23124f1a6ebmr16831708637.2.1752424502450;
-        Sun, 13 Jul 2025 09:35:02 -0700 (PDT)
-Received: from localhost.localdomain ([159.226.94.129])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9f1b715sm9007424b3a.93.2025.07.13.09.35.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jul 2025 09:35:02 -0700 (PDT)
-From: Zhiyu Zhang <zhiyuzhang999@gmail.com>
-To: dzm91@hust.edu.cn,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P9p67Qq6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752453170;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=y3rvNRx3HiUBI+1o5nUE5L+ZnigJpgcsiEMHMla8Gi4=;
+	b=P9p67Qq6XfPaBrkMR3qvcCHS14u9+t+XsopXaZx+jTyi3Q2W3/xU8ama7ZWbu5Cri5HSfh
+	jj0G47Nr1WengSPmDIU7OKf7is4tHYNif/k51heeywSCxXve4Bqm0ZZg7W01h8YQti1Wcc
+	1UwbKcf9LZsVdJISCsHuhPYYMkjO7lw=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-103-HKMP-jPAMCSFYXcKVuqSAw-1; Sun,
+ 13 Jul 2025 20:32:46 -0400
+X-MC-Unique: HKMP-jPAMCSFYXcKVuqSAw-1
+X-Mimecast-MFC-AGG-ID: HKMP-jPAMCSFYXcKVuqSAw_1752453162
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2AE381808985;
+	Mon, 14 Jul 2025 00:32:40 +0000 (UTC)
+Received: from h1.redhat.com (unknown [10.22.64.9])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CDBA630001A1;
+	Mon, 14 Jul 2025 00:32:23 +0000 (UTC)
+From: Nico Pache <npache@redhat.com>
+To: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: david@redhat.com,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
 	corbet@lwn.net,
-	si.yanteng@linux.dev,
-	zhiyuzhang999@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] scripts: add origin commit identification based on specific patterns
-Date: Mon, 14 Jul 2025 00:34:18 +0800
-Message-Id: <20250713163418.1459-1-zhiyuzhang999@gmail.com>
-X-Mailer: git-send-email 2.39.1.windows.1
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	akpm@linux-foundation.org,
+	baohua@kernel.org,
+	willy@infradead.org,
+	peterx@redhat.com,
+	wangkefeng.wang@huawei.com,
+	usamaarif642@gmail.com,
+	sunnanyong@huawei.com,
+	vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com,
+	yang@os.amperecomputing.com,
+	kirill.shutemov@linux.intel.com,
+	aarcange@redhat.com,
+	raquini@redhat.com,
+	anshuman.khandual@arm.com,
+	catalin.marinas@arm.com,
+	tiwai@suse.de,
+	will@kernel.org,
+	dave.hansen@linux.intel.com,
+	jack@suse.cz,
+	cl@gentwo.org,
+	jglisse@google.com,
+	surenb@google.com,
+	zokeefe@google.com,
+	hannes@cmpxchg.org,
+	rientjes@google.com,
+	mhocko@suse.com,
+	rdunlap@infradead.org,
+	hughd@google.com
+Subject: [PATCH v9 00/14] khugepaged: mTHP support
+Date: Sun, 13 Jul 2025 18:31:53 -0600
+Message-ID: <20250714003207.113275-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,81 +94,159 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-This patch adds the functionability to smartly identify origin commit
-of the translation by matching the following patterns in commit log:
-1) update to commit HASH
-2) Update the translation through commit HASH
-If no such pattern is found, script will obey the original workflow.
+The following series provides khugepaged with the capability to collapse
+anonymous memory regions to mTHPs.
 
-Signed-off-by: Zhiyu Zhang <zhiyuzhang999@gmail.com>
----
- scripts/checktransupdate.py | 38 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+To achieve this we generalize the khugepaged functions to no longer depend
+on PMD_ORDER. Then during the PMD scan, we use a bitmap to track chunks of
+pages (defined by KHUGEPAGED_MTHP_MIN_ORDER) that are utilized. After the
+PMD scan is done, we do binary recursion on the bitmap to find the optimal
+mTHP sizes for the PMD range. The restriction on max_ptes_none is removed
+during the scan, to make sure we account for the whole PMD range. When no
+mTHP size is enabled, the legacy behavior of khugepaged is maintained.
+max_ptes_none will be scaled by the attempted collapse order to determine
+how full a mTHP must be to be eligible for the collapse to occur. If a
+mTHP collapse is attempted, but contains swapped out, or shared pages, we
+don't perform the collapse. It is now also possible to collapse to mTHPs
+without requiring the PMD THP size to be enabled.
 
-diff --git a/scripts/checktransupdate.py b/scripts/checktransupdate.py
-index 578c3fecfdfd..e39529e46c3d 100755
---- a/scripts/checktransupdate.py
-+++ b/scripts/checktransupdate.py
-@@ -24,6 +24,7 @@ commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
- """
- 
- import os
-+import re
- import time
- import logging
- from argparse import ArgumentParser, ArgumentTypeError, BooleanOptionalAction
-@@ -69,6 +70,38 @@ def get_origin_from_trans(origin_path, t_from_head):
-     return o_from_t
- 
- 
-+def get_origin_from_trans_smartly(origin_path, t_from_head):
-+    """Get the latest origin commit from the formatted translation commit:
-+    (1) update to commit HASH (TITLE)
-+    (2) Update the translation through commit HASH (TITLE)
-+    """
-+    # catch flag for 12-bit commit hash
-+    HASH = r'([0-9a-f]{12})'
-+    # pattern 1: contains "update to commit HASH"
-+    pat_update_to = re.compile(rf'update to commit {HASH}')
-+    # pattern 2: contains "Update the translation through commit HASH"
-+    pat_update_translation = re.compile(rf'Update the translation through commit {HASH}')
-+
-+    origin_commit_hash = None
-+    for line in t_from_head["message"]:
-+        # check if the line matches the first pattern
-+        match = pat_update_to.search(line)
-+        if match:
-+            origin_commit_hash = match.group(1)
-+            break
-+        # check if the line matches the second pattern
-+        match = pat_update_translation.search(line)
-+        if match:
-+            origin_commit_hash = match.group(1)
-+            break
-+    if origin_commit_hash is None:
-+        return None
-+    o_from_t = get_latest_commit_from(origin_path, origin_commit_hash)
-+    if o_from_t is not None:
-+        logging.debug("tracked origin commit id: %s", o_from_t["hash"])
-+    return o_from_t
-+
-+
- def get_commits_count_between(opath, commit1, commit2):
-     """Get the commits count between two commits for the specified file"""
-     command = f"git log --pretty=format:%H {commit1}...{commit2} -- {opath}"
-@@ -108,7 +141,10 @@ def check_per_file(file_path):
-         logging.error("Cannot find the latest commit for %s", file_path)
-         return
- 
--    o_from_t = get_origin_from_trans(opath, t_from_head)
-+    o_from_t = get_origin_from_trans_smartly(opath, t_from_head)
-+    # notice, o_from_t from get_*_smartly() is always more accurate than from get_*()
-+    if o_from_t is None:
-+        o_from_t = get_origin_from_trans(opath, t_from_head)
- 
-     if o_from_t is None:
-         logging.error("Error: Cannot find the latest origin commit for %s", file_path)
+With the default max_ptes_none=511, the code should keep its most of its
+original behavior. When enabling multiple adjacent (m)THP sizes we need to
+set max_ptes_none<=255. With max_ptes_none > HPAGE_PMD_NR/2 you will
+experience collapse "creep" and constantly promote mTHPs to the next
+available size. This is due the fact that a collapse will introduce at
+least 2x the number of pages, and on a future scan will satisfy the
+promotion condition once again.
+
+Patch 1:     Refactor/rename hpage_collapse
+Patch 2:     Some refactoring to combine madvise_collapse and khugepaged
+Patch 3-5:   Generalize khugepaged functions for arbitrary orders
+Patch 6-9:   The mTHP patches
+Patch 10-11: Allow khugepaged to operate without PMD enabled
+Patch 12-13: Tracing/stats
+Patch 14:    Documentation
+
+---------
+ Testing
+---------
+- Built for x86_64, aarch64, ppc64le, and s390x
+- selftests mm
+- I created a test script that I used to push khugepaged to its limits
+   while monitoring a number of stats and tracepoints. The code is
+   available here[1] (Run in legacy mode for these changes and set mthp
+   sizes to inherit)
+   The summary from my testings was that there was no significant
+   regression noticed through this test. In some cases my changes had
+   better collapse latencies, and was able to scan more pages in the same
+   amount of time/work, but for the most part the results were consistent.
+- redis testing. I tested these changes along with my defer changes
+  (see followup [4] post for more details). We've decided to get the mTHP
+  changes merged first before attempting the defer series.
+- some basic testing on 64k page size.
+- lots of general use.
+
+V9 Changes:
+- Drop madvise_collapse support [2]. Further discussion needed.
+- Add documentation entries for new stats (Baolin)
+- Fix missing stat update (MTHP_STAT_COLLAPSE_EXCEED_SWAP) that was
+  accidentally dropped in v7 (Baolin)
+- Fix mishandled conflict noted in v8 (merged into wrong commit)
+- change rename from khugepaged to collapse (Dev)
+
+V8 Changes: [3]
+- Fix mishandled conflict with shmem config changes (Baolin)
+- Add Baolin's patches for allowing collapse without PMD enabled
+- Add additional patch for allowing madvise_collapse without PMD enabled
+- Documentations nits (Randy)
+- Simplify SCAN_ANY_PROCESS lock jumbling (Liam)
+- Add a BUG_ON to the mTHP collapse similar to PMD (Dev)
+- Remove doc comment about khugepaged PMD only limitation (Dev)
+- Change revalidation function to accept multiple orders
+- Handled conflicts introduced by Lorenzo's madvise changes
+
+V7 (RESEND)
+
+V6 Changes:
+- Dont release the anon_vma_lock early (like in the PMD case), as not all
+  pages are isolated.
+- Define the PTE as null to avoid a uninitilized condition
+- minor nits and newline cleanup
+- make sure to unmap and unlock the pte for the swapin case
+- change the revalidation to always check the PMD order (as this will make
+  sure that no other VMA spans it)
+
+V5 Changes:
+- switched the order of patches 1 and 2
+- fixed some edge cases on the unified madvise_collapse and khugepaged
+- Explained the "creep" some more in the docs
+- fix EXCEED_SHARED vs EXCEED_SWAP accounting issue
+- fix potential highmem issue caused by a early unmap of the PTE
+
+V4 Changes:
+- Rebased onto mm-unstable
+- small changes to Documentation
+
+V3 Changes:
+- corrected legacy behavior for khugepaged and madvise_collapse
+- added proper mTHP stat tracking
+- Minor changes to prevent a nested lock on non-split-lock arches
+- Took Devs version of alloc_charge_folio as it has the proper stats
+- Skip cases were trying to collapse to a lower order would still fail
+- Fixed cases were the bitmap was not being updated properly
+- Moved Documentation update to this series instead of the defer set
+- Minor bugs discovered during testing and review
+- Minor "nit" cleanup
+
+V2 Changes:
+- Minor bug fixes discovered during review and testing
+- removed dynamic allocations for bitmaps, and made them stack based
+- Adjusted bitmap offset from u8 to u16 to support 64k pagesize.
+- Updated trace events to include collapsing order info.
+- Scaled max_ptes_none by order rather than scaling to a 0-100 scale.
+- No longer require a chunk to be fully utilized before setting the bit.
+   Use the same max_ptes_none scaling principle to achieve this.
+- Skip mTHP collapse that requires swapin or shared handling. This helps
+   prevent some of the "creep" that was discovered in v1.
+
+A big thanks to everyone that has reviewed, tested, and participated in
+the development process. Its been a great experience working with all of
+you on this long endeavour.
+
+[1] - https://gitlab.com/npache/khugepaged_mthp_test
+[2] - https://lore.kernel.org/all/23b8ad10-cd1f-45df-a25c-78d01c8af44f@redhat.com/
+[3] - https://lore.kernel.org/lkml/20250702055742.102808-1-npache@redhat.com/
+[4] - https://lore.kernel.org/lkml/20250515033857.132535-1-npache@redhat.com/
+
+Baolin Wang (2):
+  khugepaged: allow khugepaged to check all anonymous mTHP orders
+  khugepaged: kick khugepaged for enabling none-PMD-sized mTHPs
+
+Dev Jain (1):
+  khugepaged: generalize alloc_charge_folio()
+
+Nico Pache (11):
+  khugepaged: rename hpage_collapse_* to collapse_*
+  introduce collapse_single_pmd to unify khugepaged and madvise_collapse
+  khugepaged: generalize hugepage_vma_revalidate for mTHP support
+  khugepaged: generalize __collapse_huge_page_* for mTHP support
+  khugepaged: introduce collapse_scan_bitmap for mTHP support
+  khugepaged: add mTHP support
+  khugepaged: skip collapsing mTHP to smaller orders
+  khugepaged: avoid unnecessary mTHP collapse attempts
+  khugepaged: improve tracepoints for mTHP orders
+  khugepaged: add per-order mTHP khugepaged stats
+  Documentation: mm: update the admin guide for mTHP collapse
+
+ Documentation/admin-guide/mm/transhuge.rst |  44 +-
+ include/linux/huge_mm.h                    |   5 +
+ include/linux/khugepaged.h                 |   4 +
+ include/trace/events/huge_memory.h         |  34 +-
+ mm/huge_memory.c                           |  11 +
+ mm/khugepaged.c                            | 514 ++++++++++++++-------
+ 6 files changed, 434 insertions(+), 178 deletions(-)
+
 -- 
-2.34.1
+2.50.0
 
