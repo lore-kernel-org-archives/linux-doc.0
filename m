@@ -1,89 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F739184;
-	Mon, 14 Jul 2025 02:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D668EDDC5;
+	Mon, 14 Jul 2025 02:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752459761; cv=none; b=KyCrIj4oLU4PfoP2bMRh1v5mlV95V9HcCmnLKwZ+QJQlm1dQ6czrf/1MAguG/KjTh4MdTx3dNdr9JmNEvWSi1w6j+An9mmbq4yNSf3XrfPHooQC28Yz7ov3O6fD1Gxn/XZjMWl911bpogax7o3/MheeW2Kgwzvwx47ktCuvROEg=
+	t=1752461213; cv=none; b=dimXMv+TiGGcNfD8oJn1/hg61YecAVcyQikAjCbqy3Kc9Iw6mrl4X4JeI1WKyiucesSJKLCBYCLOX8dIOOL0bMqI9JBSPHOM8bH/7WIrgWO7vg8UVIgkv9PdIFsm5lbPQN6+rJ+/9b0aMVWW+AJFgf9SqMKQ858wP8WpPFJdozI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752459761; c=relaxed/simple;
-	bh=zix9ri6vfTswvmpA/jCkVghWpzfujrWr8l27YzRLFZA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sb8LRx6c1dnPhJaRaIWRAqP39kXJTc1Wyx/xmfA5MCL1kWF8VXFifqCbq+saMe+ReO9G1tGOdppF+j64RP1DjRQuP4kJ3C98cykPsXoaZjOYYpdn2BuGIRQ9vQKRSzpS26MxxiDjjD6m2jLy035k1/Y8LcOuIZLIZIrENolNGsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ad3CmMEJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752461213; c=relaxed/simple;
+	bh=6jVlByuyw2bTejNgVlSpF2RAfEYJ8+KaVDGnkIsYty4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Un7+DXf0Rvmg5QCsOBSpLCZLFUuCY4Q4jUaawhNQONE6FiWX5g6Vw6yaK3C05W5DvTFaGbbc+xzHRxShLkpF/QYKijAEryOiZeXAdpEMPPCh+cKaLMdQjM0BJg7f90n/8DxArzfWOLnbzpg97TvYlEd8FL3vM68totNJXkqFDU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Pruja2CJ; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ad3CmMEJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8780BC4CEF7;
-	Mon, 14 Jul 2025 02:22:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752459760;
-	bh=zix9ri6vfTswvmpA/jCkVghWpzfujrWr8l27YzRLFZA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ad3CmMEJUjZx6ln8A23SIatIJIl1k/kQBv2jle24TqsxgCeBdgRySqXj8Wh5v0nTJ
-	 LV5OCH4ZEVJwDTZbo9+zIWB/vZ91jZc7rlvZWAS/UMkRwKOw+WFvquVRZ1nU+wBqfw
-	 cYef3l4rPlQUbXWR7D85fLJKl81oRbpl/zExX3VI3wPXJJ29L1UxBFhY5muNwlNuBr
-	 tKQpQcKhp/I2KFKymubbSAr4RJ545hPeAxokSDhkF3NueRh6DL3cQHKEI3328R0bva
-	 YJ8s7Mtp552Zr9jDLaU+gKmhxjX0OaAPEtRUc6vde0aiHbYufjpSViBBldKrQxVSKW
-	 NsEe6LaD0npzQ==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-32b561a861fso32970151fa.0;
-        Sun, 13 Jul 2025 19:22:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWbJ1nhJHfeQz0Lha1HeXgo0Ak4Rd8NrU1T+D9kZsvHncU8lKgo+jGiXryBEbj4FjoPLqk6Q76o8Q3Ie8rS@vger.kernel.org, AJvYcCXhTzYgYOnyxDe6g796IQhM3vFbCTEY55BP7jMh1KknQMg+slRnyQocZ+HyOasfpepSd54UbVcBXpw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwazjZHn61hpEAxNXkCh8iBwNc6D0eQmv42U627zBAZrW7Q9L8g
-	3D1MZ7tw4YBiHyoV+vaJQ9P4Sf3PPTiSoboB1WoTn/x/RdZd4joLq67XC8ITFpReuKHzOgqiFbv
-	CO5cCbDuLLtOXpWwWTgFUHJvBIxqRpAI=
-X-Google-Smtp-Source: AGHT+IEn91j/73d1i/bAP+/uNV+DKkD1Gnv2YyhYH9rtQ+TBzQd5HefPzO//qx9sbRsJzcxnV0AbP0KnOImK77KCkdg=
-X-Received: by 2002:a2e:b88e:0:b0:32b:2fba:8b90 with SMTP id
- 38308e7fff4ca-3306ce94ad2mr7854221fa.14.1752459758912; Sun, 13 Jul 2025
- 19:22:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Pruja2CJ"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56DNHoVl026978;
+	Mon, 14 Jul 2025 02:46:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=JWfYSI
+	G6I7rVkluKLLqWpmYdSnPexiUt7de1+X95vKU=; b=Pruja2CJxc0MnzqChhVvb/
+	ZuA53oYN8peSUHjiCHeInFHueTQpDbHTSd7OQ3CYjsG8BHes8NMFh4s366qdCszp
+	Nb1CD3FCCKOuOKL1okfjOMFlxFxgq+XXbJjB3WjEbbeZWdIka3bbak7Sb8S4UE3e
+	zAADUvZo3c4Tm+GpsC69QMJs57gFMIDfoEtQTwnwdzBe+5n3hWLF/4MDMhHM63AB
+	LKn5krCLIRNwz1tDHYvz7Q4Q4vM4rQ68xOnEalyOH3cOhxOUV6IkawIP9St61OjK
+	hSx7USa+CGm3PP7boyyt0G3gT6sOkSPs4XIzkx+JLWVvaMk6u2tjbkhIgqJ+hrwQ
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 47uf7cq8dv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 14 Jul 2025 02:46:39 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 56E2kcuA015642;
+	Mon, 14 Jul 2025 02:46:38 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 47uf7cq8cr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 14 Jul 2025 02:46:38 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 56DMcLsE031903;
+	Mon, 14 Jul 2025 02:46:06 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 47v21tv6ms-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 14 Jul 2025 02:46:06 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 56E2k5aP12649174
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 14 Jul 2025 02:46:05 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 668A35805B;
+	Mon, 14 Jul 2025 02:46:05 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 48DF758055;
+	Mon, 14 Jul 2025 02:46:00 +0000 (GMT)
+Received: from [9.39.29.80] (unknown [9.39.29.80])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 14 Jul 2025 02:45:59 +0000 (GMT)
+Message-ID: <926d9ce3-04fc-4055-b5e5-fda8772e3da8@linux.ibm.com>
+Date: Mon, 14 Jul 2025 08:15:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250711054446.1537700-1-kraxel@redhat.com>
-In-Reply-To: <20250711054446.1537700-1-kraxel@redhat.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 14 Jul 2025 12:22:26 +1000
-X-Gmail-Original-Message-ID: <CAMj1kXEsERVQgm2PF4npmeKg_tM2-ivFXwFObQzddxMaU5HMyg@mail.gmail.com>
-X-Gm-Features: Ac12FXyY6r9URRzQ90qQCOY-4pySoh-E8L_P9Pr_ZLgTl0X5ko6UYOxRdt7PlVg
-Message-ID: <CAMj1kXEsERVQgm2PF4npmeKg_tM2-ivFXwFObQzddxMaU5HMyg@mail.gmail.com>
-Subject: Re: [PATCH] efi: add API doc entry for ovmf_debug_log
-To: Gerd Hoffmann <kraxel@redhat.com>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-efi@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] ioctl numbers list cleanup for
+ papr-physical-attestation.h
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux PowerPC <linuxppc-dev@lists.ozlabs.org>,
+        Linux Networking <netdev@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Haren Myneni <haren@linux.ibm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nathan Lynch <nathanl@linux.ibm.com>
+References: <20250714015711.14525-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Madhavan Srinivasan <maddy@linux.ibm.com>
+In-Reply-To: <20250714015711.14525-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: txyLKlAusqD86jgsu6Jhws2pezSwcL-B
+X-Authority-Analysis: v=2.4 cv=LoGSymdc c=1 sm=1 tr=0 ts=68746f8f cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=k9sf4av91IVL3TbTha8A:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: ejVelwgNTWVw-bzXUfSzhnsqVssm4XJi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE0MDAxNCBTYWx0ZWRfX+49B4kjAte+2 bQC1hgd9dbASOcQGSUWS4i3BCc1CuWkDPqzZLX3g6bkS6joh/jI/tW7kIQpY5FkhHAPSEl5xZdV dolDM6K8gieG3MO7X97M7PFWAybp1Qe1mPpYRUBlW/7ninEmnYYQ8C0fBG9zo8aqmUZJHbXBo6W
+ Ef+2nyugMp0AZ/BfylMX+50UiU+pIHWmNoEX2dzvWNYc5plpiVpQa2HrAvz1sYoK0j14/HHfEey ZiF+Po351nfTNx6KELqBCYCQUNl9AhBkPJUPxUEVpW3EaJuRIAGZC+OhPZ90ZUP7bw9vZLaZm3g 8jen2oe1g/fTktvOqVzN4nOSwMr+2vrRxpQiAnOtDw4Hknk308uMn9x5H3JpMvawNNBTASb5rRW
+ pWQEm1lN7V7CDpFISPrKa1t/uq5KwmI/4AoaCY+qnH5QgJ3lbV2o1EHhPMPc3ObOD6phaHFh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_01,2025-07-09_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ clxscore=1011 phishscore=0 mlxlogscore=999 priorityscore=1501
+ suspectscore=0 mlxscore=0 adultscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507140014
 
-(cc Jon and linux-doc)
-
-On Fri, 11 Jul 2025 at 17:04, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-Thanks. I'll queue this up in the EFI tree unless Jon prefers to take it.
 
 
-> ---
->  Documentation/ABI/testing/sysfs-firmware-efi | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/Documentation/ABI/testing/sysfs-firmware-efi b/Documentation/ABI/testing/sysfs-firmware-efi
-> index 5e4d0b27cdfe..927e362d4974 100644
-> --- a/Documentation/ABI/testing/sysfs-firmware-efi
-> +++ b/Documentation/ABI/testing/sysfs-firmware-efi
-> @@ -36,3 +36,10 @@ Description: Displays the content of the Runtime Configuration Interface
->                 Table version 2 on Dell EMC PowerEdge systems in binary format
->  Users:         It is used by Dell EMC OpenManage Server Administrator tool to
->                 populate BIOS setup page.
-> +
-> +What:          /sys/firmware/efi/ovmf_debug_log
-> +Date:          July 2025
-> +Contact:       Gerd Hoffmann <kraxel@redhat.com>, linux-efi@vger.kernel.org
-> +Description:   Displays the content of the OVMF debug log buffer.  The file is
-> +               only present in case the firmware supports logging to a memory
-> +               buffer.
-> --
-> 2.50.1
->
+On 7/14/25 7:27 AM, Bagas Sanjaya wrote:
+> Hi,
+> 
+> This is the cleanup series following up from 03c9d1a5a30d93 ("Documentation:
+> Fix description format for powerpc RTAS ioctls"). It is based on docs-next
+> tree. The end result should be the same as my previous fixup patch [1].
+> 
+> Enjoy!
+> 
+
+for powerpc changes
+Acked-by: Madhavan Srinivasan <maddy@linux.ibm.com>
+
+
+> Changes since v1 (RESEND) [2]:
+> 
+>   * Add Fixes: and Reviewed-by: trailers (Haren)
+>   * Expand tabs for uapi/misc/amd-apml.h to match other entries
+> 
+> Jon: Would you like to apply this series on docs-next or should powerpc
+> folks handle it?
+> 
+> [1]: https://lore.kernel.org/linuxppc-dev/20250429130524.33587-2-bagasdotme@gmail.com/
+> [2]: https://lore.kernel.org/lkml/20250708004334.15861-1-bagasdotme@gmail.com/
+> 
+> Bagas Sanjaya (3):
+>   Documentation: ioctl-number: Fix linuxppc-dev mailto link
+>   Documentation: ioctl-number: Extend "Include File" column width
+>   Documentation: ioctl-number: Correct full path to
+>     papr-physical-attestation.h
+> 
+>  .../userspace-api/ioctl/ioctl-number.rst      | 516 +++++++++---------
+>  1 file changed, 258 insertions(+), 258 deletions(-)
+> 
+> 
+> base-commit: f55b3ca3cf1d1652c4b3481b671940461331d69f
+
