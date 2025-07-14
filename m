@@ -1,220 +1,157 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7287267AFC;
-	Mon, 14 Jul 2025 17:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B882253A7;
+	Mon, 14 Jul 2025 18:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752513878; cv=none; b=QuelVp4pfR3WQYTx64BQi78prU/7kdEzDf0PoOy5pzE5/8Eyb6943Y5JBbr9AvyFK9nAEkCu5rXl20aCaSMaXH3E1KUH4K6g2NC+NBNaGtO3dMgJ190c4pw7D+4ZJ0kPuNYiUL+c8BC8O5dwWoOdy1yU7fGmljc8ElwS7IDNXuA=
+	t=1752519002; cv=none; b=asdlwW0ppdWc1DFZmiMfvq57cvfZVBvEEeH34lqOgj7tGhuTLm48EQAjc4yThDTxpYlqNaxn4DxBf/Z8HgZApYJh8KqjPytPbZUKh/j0ilxQWZebsJyJdp+73esp64BNwAoDqG89c4cEPzQImCGme3Lh+a9zeu2vKK2lBhUvEUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752513878; c=relaxed/simple;
-	bh=56Sl/nGt3m5t3J5G+VzsIzv0+c8kzRwGZwhJI4NYYaI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ctP1f6/oueXSlMs2WCBDO3tx+elIEyNaD6jSe3VZ7sgqr/RC+ivY2/nHEh+Ys4CQUH5cGLQC8aXdI0YlWHETvopWRYarHm7Fef1bH8y/bUffJtmSf8pRq9OE5iGtGJbxR0QKTUusZyBiXGIw7CrcdxVRXWvsNXFcrApBU3PB6UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hkNU2zvo; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752519002; c=relaxed/simple;
+	bh=g/hdVwW4OrDEpaJ2jeOYNUGdpDfpOP3FpqeHfrFX5Q4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UmD3g2W6W3ID2nclMWzHVmTZZXoCPuMIvMnvjsxZenJfoyn8SPjKbTlmofPQLHVK5t7BF+L2Z+pFDShaMZKRXQEEFIvuIMcxWFdu3PgZtRAY3x/jT2j52f37GSfFDtOtb6E3S84xih/dowvfIMI0sNOC9rjulMdEzP3FXqOhg0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qyu7Fvom; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hkNU2zvo"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-748feca4a61so2572243b3a.3;
-        Mon, 14 Jul 2025 10:24:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752513876; x=1753118676; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4V9Yp9AA3hWAb7aqFhJTn2UKytTjSMNN61SVrfVNk7w=;
-        b=hkNU2zvopT3DJgrEUqXD6pMaRgQgNkTJNXjVdsFpoWWD1Or07isluURJ/oZeTGDZ+q
-         DqWb7kFkkeeuExs5EbWKmG2jjB7/fO6kqRaSRxFDX0wQkvgSd8G/7zISCtWse4Ool9Fk
-         qrpbefK0Hqfh02FqcyybEn3mCZeS23r3D1w5LkClN7gnmNRx7ECLNyYl0llyoh/4M+vm
-         LjbWSFBccP0b+CtiX7p6QmjEBSo8C8q55VXXQY4fI+svHA3zmhOlMsm12btbgmd1yUo0
-         wlJiIGQUHdBUy3vFmOF8FeWmBooE4NlwIou0QIAIJb93dajiU4t8LPTMl+bbDPWiIYk3
-         U0pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752513876; x=1753118676;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4V9Yp9AA3hWAb7aqFhJTn2UKytTjSMNN61SVrfVNk7w=;
-        b=QXLKCC5QdlXzDEXhaNz3TlwwNkmlYKbnLepHOIPR9uvcNabfXKlf+DAl/csNJWP7pQ
-         3RJ8szwkAVqWoKiMe9dxlTZSv7LELo8MKalcwBaqJF6sgo/ZhN7pzPegXOfhmh6AFCE4
-         oTLprRgyrKVTz9C1+f2GLUGzY9HmctIQVG78/jtq5/CF7nFqFMXIPNGz2A6aon1ffJQz
-         5LGW8uEA4pqjsEdUKYntN138x+F4vw1PcWUZsrHSEX/DgvpeH4Wk1qKNvxoy8l40yxRJ
-         evIeemgrmCMmb2HSKzXTpM6jOyVoiLWrRSquysnydn8pkuxjNVzu/MPHlYcBSowQ3nzw
-         v9uw==
-X-Forwarded-Encrypted: i=1; AJvYcCUKNl6Mw1BigeE7Vmlcp7TfaUUAD/gfEq7DSN1w5Jldm3nhYvE1V/cLG/YN+1ww1b96O1nqRIS0ItPyJeRR@vger.kernel.org, AJvYcCWq+Yk0q/MC7zKUuOcFOsJBD7fMoGy+7NLX1oeKv1+awTtALwwJYK11QX455saRotcsJYrbebFMab8G@vger.kernel.org, AJvYcCWr5T4XGu3z38p8QaLWhT681tGGzwc+00k+1GucQsK0lesNp/rCT7SVNnF04GSK73owni4ozKrq5qHGiQ==@vger.kernel.org, AJvYcCX+0wtEvQE1/mZeeLhAmuC/gqjDpZdi1jrCXAXQu8i5tzuEVFQn911H67KEzgdq9+O0ai36OymkGwsr@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKxu2MUOh+UpE3DpBywe2bchwiqTgDv+8hsTmJs4CrTbSR6IIy
-	9oP/jJkte9/jFNal5TEZUQh4BzezJ+c9FgCxWJouTRil0zahWHmhQJP2
-X-Gm-Gg: ASbGncvJ6vskCKXUxwgiB05dWCZsKq71KIbW5bPKy5uY0Tf8zeODiC/Wlhiw2CR14Q3
-	5Z52wqONQf+irqlk57AyRjDJPEUuxzrDaf46Gam9SnX8IJyU5nMjaaIETHVjMmS83yx7/8fFg7x
-	sJOMP0215msc9kcJuRGVRIED4rBA9GYsgJaVpbXwL5DufkeeqqJRHx+Ny1jkimV29Sw3/B9WEpx
-	Dfizuw3gNSTHv8bQdzfAgwEAmLtZToqZonf6YpBHcwJ7CRQuqAGqdSus2USLQyAWONoU2/3SLIV
-	OshtuJZQ6WURVJbcJxjxBQ1Mg8+5y+i42fqVLE7cAhl3Z7tFggzw4Mo+cu+vpCQpLxVMFXhvehq
-	zFrWbzOGs8tlqNoF1ibSS8DBLFOCs+PJqsA==
-X-Google-Smtp-Source: AGHT+IE0vWBFAezL6BFt/xd6WGaxPsrHQkKxkqR4Xfc2/0QldAgEmWlTpd+zhOh8PwX2N7mWh7mZEg==
-X-Received: by 2002:a05:6a00:3cc9:b0:747:b04e:941a with SMTP id d2e1a72fcca58-74ee274d335mr15918850b3a.17.1752513875900;
-        Mon, 14 Jul 2025 10:24:35 -0700 (PDT)
-Received: from DESKTOP-P76LG1N.lan ([42.114.162.205])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9e06537sm10495468b3a.43.2025.07.14.10.24.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 10:24:35 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qyu7Fvom"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752519001; x=1784055001;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g/hdVwW4OrDEpaJ2jeOYNUGdpDfpOP3FpqeHfrFX5Q4=;
+  b=Qyu7FvomqSBeaQc4dV6s/XpHySGK/WmhngPKChdZIiyzTemp/mHHxUQ+
+   wkUT1zRxuQOKWgJCeK80t6lJiUIreM8+T5JWn7zymnULEGtL+GoMKPYr0
+   3CqmBSR5DTzhVd7QgK+90ybNOQv4pHatS+yVpHACHiWFDXQkXDv/0oMMK
+   K8Kbs9EsFFNY32IQ+5PBcEjgCQ8Kv0JZ2Y/UYY6/yt4xurj9wpw9GCuro
+   9B6tiLWAtdmNdOI0CzGppga0ZVaVlnIRjjd7fvaCyaIiFaKQsmXhTTEB8
+   8TyR3yuCDTQ80rNQUbuKhpYD2F+SpgDF5nwxT7zHdtRDtnsYKH0Zx9I+L
+   Q==;
+X-CSE-ConnectionGUID: 4XeZdS7fQ8SsdQOuRx6g3A==
+X-CSE-MsgGUID: Ochzz3YvRC6TT4cjvcy6gA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66171359"
+X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
+   d="scan'208";a="66171359"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 11:50:00 -0700
+X-CSE-ConnectionGUID: n6iP6M2LTgWMCXmgik1TTw==
+X-CSE-MsgGUID: LOJAA0uFQLidXjoFjsHfaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
+   d="scan'208";a="156651276"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 14 Jul 2025 11:49:54 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubOFM-0009EJ-1n;
+	Mon, 14 Jul 2025 18:49:52 +0000
+Date: Tue, 15 Jul 2025 02:49:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Apurupa Pattapu <quic_apurupa@quicinc.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
 	linux-doc@vger.kernel.org,
-	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v11 4/4] docs: leds: Document TI LP5812 LED driver
-Date: Tue, 15 Jul 2025 00:23:55 +0700
-Message-Id: <20250714172355.84609-5-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250714172355.84609-1-trannamatk@gmail.com>
-References: <20250714172355.84609-1-trannamatk@gmail.com>
+	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v6 09/12] tee: add Qualcomm TEE driver
+Message-ID: <202507150221.oWiaX1I9-lkp@intel.com>
+References: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36@oss.qualcomm.com>
 
-The driver provides sysfs interfaces to control and configure the
-LP5812 device and its LED channels.
+Hi Amirreza,
 
-The documetation describes the chip's capabilities, sysfs interface,
-and usage examples.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Nam Tran <trannamatk@gmail.com>
----
- Documentation/leds/index.rst       |  1 +
- Documentation/leds/leds-lp5812.rst | 84 ++++++++++++++++++++++++++++++
- MAINTAINERS                        |  1 +
- 3 files changed, 86 insertions(+)
- create mode 100644 Documentation/leds/leds-lp5812.rst
+[auto build test ERROR on 835244aba90de290b4b0b1fa92b6734f3ee7b3d9]
 
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index 76fae171039c..bebf44004278 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -25,6 +25,7 @@ LEDs
-    leds-lp5523
-    leds-lp5562
-    leds-lp55xx
-+   leds-lp5812
-    leds-mlxcpld
-    leds-mt6370-rgb
-    leds-sc27xx
-diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
-new file mode 100644
-index 000000000000..4538cfdf415d
---- /dev/null
-+++ b/Documentation/leds/leds-lp5812.rst
-@@ -0,0 +1,84 @@
-+========================
-+Kernel driver for lp5812
-+========================
-+
-+* TI/National Semiconductor LP5812 LED Driver
-+* Datasheet: https://www.ti.com/product/LP5812#tech-docs
-+
-+Authors: Jared Zhou <jared-zhou@ti.com>
-+
-+Description
-+===========
-+
-+The LP5812 is a 4x3 matrix LED driver with support for both manual and
-+autonomous animation control. It provides features such as:
-+
-+- PWM dimming and DC current control
-+- Slope time configuration
-+- Autonomous Engine Unit (AEU) for LED animation playback
-+- Flexible scan and drive mode configuration
-+
-+This driver provides sysfs interfaces to control and configure the LP5812
-+device and its LED channels.
-+
-+Sysfs Interface
-+===============
-+
-+LP5812 device exposes a chip-level sysfs group:
-+  /sys/bus/i2c/devices/<i2c-dev-addr>/lp5812_chip_setup/
-+
-+The following attributes are available at chip level:
-+  - dev_config: Configure drive mode and scan order (RW)
-+  - device_command: Issue device-wide commands (WO)
-+  - sw_reset: Reset the hardware (WO)
-+  - fault_clear: Clear any device faults (WO)
-+  - tsd_config_status: Read thermal shutdown config status (RO)
-+
-+Each LED channel is exposed as:
-+  /sys/class/leds/led_<id>/
-+
-+Each LED exposes the following attributes:
-+  - activate: Activate or deactivate the LED (WO)
-+  - mode: manual or autonomous mode (WO)
-+  - led_current: DC current value (0–255) (WO)
-+  - max_current: maximum DC current bit setting (RO)
-+  - pwm_dimming_scale: linear or exponential (WO)
-+  - pwm_phase_align: PWM alignment mode (WO)
-+  - auto_time_pause_at_start: config start pause time (WO)
-+  - auto_time_pause_at_stop: config stop pause time (WO)
-+  - auto_playback_eau_number: Activate AEU number (WO)
-+  - auto_playback_time: Animation pattern playback times (WO)
-+  - aeu_playback_time: playback times for the specific AEU (WO)
-+  - aeu_pwm_<pwm_id>: PWM duty cycle setting for the specific AEU (WO)
-+  - aeu_slop_time_<st_id>: slop time setting for the specific AEU (WO)
-+  - lod_lsd: lod and lsd fault detected status (RO)
-+
-+Example Usage
-+=============
-+
-+To control led_A in manual mode::
-+    echo 1 1 1 > /sys/class/leds/LED_A/activate
-+    echo manual manual manual > /sys/class/leds/LED_A/mode
-+    echo 100 100 100 > /sys/class/leds/LED_A/led_current
-+    echo 50 50 50 > /sys/class/leds/LED_A/multi-intensity
-+
-+To control led_A in autonomous mode::
-+    echo 1 1 1 > /sys/bus/i2c/drivers/lp5812/xxxx/led_A/activate
-+    echo autonomous autonomous autonomous > /sys/class/leds/LED_A/mode
-+    echo linear exponential linear > /sys/class/leds/led_<id>/pwm_dimming_scale
-+    echo forward forward backward > /sys/class/leds/led_<id>/pwm_phase_align
-+    echo 0 0 0 > /sys/class/leds/led_A/auto_playback_eau_number # only use AEU1
-+    echo 10 10 10 > /sys/class/leds/led_A/auto_time_pause_at_start
-+    echo 10 10 10 > /sys/class/leds/led_A/auto_time_pause_at_stop
-+    echo 15 15 15 > /sys/class/leds/led_A/auto_playback_time
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm1
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm2
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm3
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm4
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm5
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t1
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t2
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t3
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t4
-+    echo aeu1:1 1 1 > /sys/class/leds/led_A/aeu_playback_time
-+    echo start > /sys/bus/i2c/drivers/lp5812/xxxx/lp5812_chip_setup/device_command
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cdba86f1768b..4fefc7fb7a9a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24568,6 +24568,7 @@ S:	Maintained
- F:	Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
- F:	Documentation/ABI/testing/sysfs-class-led-lp5812
- F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-+F:	Documentation/leds/leds-lp5812.rst
- F:	drivers/leds/rgb/Kconfig
- F:	drivers/leds/rgb/Makefile
- F:	drivers/leds/rgb/leds-lp5812.c
+url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250714-085215
+base:   835244aba90de290b4b0b1fa92b6734f3ee7b3d9
+patch link:    https://lore.kernel.org/r/20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36%40oss.qualcomm.com
+patch subject: [PATCH v6 09/12] tee: add Qualcomm TEE driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250715/202507150221.oWiaX1I9-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150221.oWiaX1I9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507150221.oWiaX1I9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/tee/qcomtee/qcomtee.h:12,
+                    from drivers/tee/qcomtee/async.c:8:
+   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
+>> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
+         |                ^~~~~~~~~
+--
+   In file included from drivers/tee/qcomtee/qcomtee.h:12,
+                    from drivers/tee/qcomtee/core.c:14:
+   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
+>> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
+         |                ^~~~~~~~~
+   drivers/tee/qcomtee/core.c: In function 'qcomtee_object_user_init':
+   drivers/tee/qcomtee/core.c:303:17: warning: function 'qcomtee_object_user_init' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     303 |                 object->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                 ^~~~~~
+   drivers/tee/qcomtee/core.c: In function 'qcomtee_prepare_msg':
+   drivers/tee/qcomtee/core.c:417:26: error: implicit declaration of function 'copy_from_user' [-Wimplicit-function-declaration]
+     417 |                 else if (copy_from_user(ptr, u[i].b.uaddr, u[i].b.size))
+         |                          ^~~~~~~~~~~~~~
+   drivers/tee/qcomtee/core.c: In function 'qcomtee_update_args':
+   drivers/tee/qcomtee/core.c:496:26: error: implicit declaration of function 'copy_to_user' [-Wimplicit-function-declaration]
+     496 |                 else if (copy_to_user(u[i].b.uaddr, ptr, u[i].b.size))
+         |                          ^~~~~~~~~~~~
+--
+   In file included from drivers/tee/qcomtee/qcomtee.h:12,
+                    from drivers/tee/qcomtee/user_obj.c:10:
+   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
+>> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
+         |                ^~~~~~~~~
+   drivers/tee/qcomtee/user_obj.c: In function 'qcomtee_cb_params_from_args':
+   drivers/tee/qcomtee/user_obj.c:449:29: error: implicit declaration of function 'copy_to_user' [-Wimplicit-function-declaration]
+     449 |                         if (copy_to_user(params[i].u.ubuf.uaddr, u[i].b.addr,
+         |                             ^~~~~~~~~~~~
+   drivers/tee/qcomtee/user_obj.c: In function 'qcomtee_cb_params_to_args':
+   drivers/tee/qcomtee/user_obj.c:526:29: error: implicit declaration of function 'copy_from_user' [-Wimplicit-function-declaration]
+     526 |                         if (copy_from_user(u[i].b.addr, params[i].u.ubuf.uaddr,
+         |                             ^~~~~~~~~~~~~~
+
+
+vim +/FIELD_GET +172 drivers/tee/qcomtee/qcomtee_msg.h
+
+   169	
+   170	static inline unsigned int qcomtee_msg_num_ib(u32 counts)
+   171	{
+ > 172		return FIELD_GET(QCOMTEE_MASK_IB, counts);
+   173	}
+   174	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
