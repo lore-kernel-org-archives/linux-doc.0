@@ -1,62 +1,74 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9712E279DB3;
-	Mon, 14 Jul 2025 22:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752531355; cv=none; b=ZW4UiQUp5deKHXZY7foRRhOhkUPZZj2FO6OuXOpwOpYA3rnxiPqLCnyemJGD39CiGFI1D92gZKn4r05VwsvTGMa2F7apyDUMgB/4cIw01uuv53lTWJ9TWiXPq90s9A8g5zC/rJgneO/C3mfCbR6vI2dEPuQEgHkSaqmvZrAMCHw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752531355; c=relaxed/simple;
-	bh=L0cEdguqIHIbUbQ6E6fS4wlEd7bciMBnSjOWK4P7KKk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JBem2szFVMOJfGu/aW8b5U4uzD7wWQU/nH7ka9X2FssWe40eAnFrEZRg2ZbRDt6evgUGGt98BwG6dnG3/02Y2wz0ovxtzoRzpMAehLkXA2SqHrbO4Kw3bIvaabY50ExKQ+jHay4jgL2LeCYt77mcEzdZAD8gct5e5IIaA5iC58s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=p1J/Gi1I; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2043.outbound.protection.outlook.com [40.107.223.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78F62C86D;
+	Mon, 14 Jul 2025 22:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752532768; cv=fail; b=WDf9w+WISlKag26EaTA0HpSTOXPU5M4jw9SNmqbsHysXx5iDM0Olfh2kA9qG396FCZMaJ0QoJfa5zJuzVm0eQV4/FBg1mFEHAcM1y48WSXfjBqkC0amiUtC6pv4xRAkAadGsC/jdCIlSi2kWIMF3oGXoPfdGx4VeIbD+6ZWYBhU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752532768; c=relaxed/simple;
+	bh=7toR4iyZuYylMZ8F3iXPwU9OzjTf+xKPNeQSnLZseT8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=T+grtEeG19OPWRHLpNtvU7XoLmFWhaCSGoOwjxKS/PDsU/c675kK2vI0Ih58VVQqxZDG7Xbkjjesq4qmFYF/44o9VBSoCps+CyxD/wUcnWUuSMufBBi2bB1ytgU/S7S7oPn8VHk8byHNvQsHo87J9tiFUUvvS/kLYFnApkRH/g0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=oy5ranA8; arc=fail smtp.client-ip=40.107.223.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="p1J/Gi1I"
-Received: from romank-3650.corp.microsoft.com (unknown [131.107.160.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0A502201B1CD;
-	Mon, 14 Jul 2025 15:15:51 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0A502201B1CD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1752531351;
-	bh=W8J2zGpFifnp+H2iTJGi0AjmiMmoEjxacsnTVf87d8w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p1J/Gi1IiywwemzamVJgSiFSarmYRsnA0lhfkUz2tcQ6qCnBETzKplaL9gRtwB5Z1
-	 V6m+bU89LbA6d7fnsGpvzi9u6tJiwvg6gs9ecnIyZ2AR39dxCtB6qJU0nqo/7AT5+F
-	 Q9M/9MGY7HovikLqcYri45wal+BMfOfvgmJZgAwQ=
-From: Roman Kisel <romank@linux.microsoft.com>
-To: alok.a.tiwari@oracle.com,
-	arnd@arndb.de,
-	bp@alien8.de,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	decui@microsoft.com,
-	haiyangz@microsoft.com,
-	hpa@zytor.com,
-	kys@microsoft.com,
-	mhklinux@outlook.com,
-	mingo@redhat.com,
-	rdunlap@infradead.org,
-	tglx@linutronix.de,
-	Tianyu.Lan@microsoft.com,
-	wei.liu@kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-coco@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Cc: apais@microsoft.com,
-	benhill@microsoft.com,
-	bperkins@microsoft.com,
-	sunilmut@microsoft.com
-Subject: [PATCH hyperv-next v4 15/16] Drivers: hv: Support establishing the confidential VMBus connection
-Date: Mon, 14 Jul 2025 15:15:44 -0700
-Message-ID: <20250714221545.5615-16-romank@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250714221545.5615-1-romank@linux.microsoft.com>
-References: <20250714221545.5615-1-romank@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oy5ranA8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qHkRAIVkjDyX9DajAU86M+HeJnjG8/j53qs6le9BchssXZf6Q6Br1O6TehgeyVBUKWg8+nr+aWb7KAo0ko/lM7Up/pOsU2peE2uSgEianm12jFVMZId7A+p+MX6/TaLbQlWAw63w7WfnboaTzmlehhlYkPrXKXkLfgK/UqCvnSu7SyGcpQVIt2jeAnvGUa7xIfqDO/u9JREUyqO2cSdDm/MnegeUcLyQlDPP+o6aybRpWsPiM2bwtrIe8XCQo1E5L7/OcCaXXlnIaYCgfL6NTydw9quLeX+siUKxp7PrgmfgZ3dru8LtbHP30j9DEwAkEqOArey4CifOySq5ciU/Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=892jIfaFx2+sBGgwJqhHIx6GUfYbFomvua9bLUcG/Jc=;
+ b=u+Rb8tWWOSOlZHRuZx9ijjwZ8ulSkdUJA5N9jxMe4aG9ZElXFbouxnxAlqjTFOZmdVQ1JQJ7NhqKieeh2E3X2FhRrKt25BJkffq3MrHZYbq9vzPJtAc1qrGffNRZ3WImXT3uGwmwXbFR4MP5JqqRjUvztUDHWRzjfqoRLVKI/8ejhOw+bJLYeMoVV3QNNobWw4lXOBwDFfQpsLd2lOxYuwx6IU9PncMfwb6aNekwOOYwd/TXYIamasvBSgIUMuOivTSgb5RwR04U9vxH8pUQScjs3kh4qCv6FrcoWR6jowtxfABm+OBGmP+j7T+hKnhdgZjyQUMI6u9XBw3EWhfVgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=892jIfaFx2+sBGgwJqhHIx6GUfYbFomvua9bLUcG/Jc=;
+ b=oy5ranA8v2osLY1CKlCS6Qm+9FZg6IWBzS8fn1qrOPduySR62kPc49fXu7E+Xsr5W4BByhRARBrXTkV273zBEtWhFTJ73B1aTNl5hoeQyIBiSW249la8lRklbHzgkAhm7khRUieDbyc1XRod2oNMnJASIfVtqh0lz//nuKDoBBY=
+Received: from SJ0PR03CA0268.namprd03.prod.outlook.com (2603:10b6:a03:3a0::33)
+ by MW3PR12MB4444.namprd12.prod.outlook.com (2603:10b6:303:5c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.33; Mon, 14 Jul
+ 2025 22:39:22 +0000
+Received: from SN1PEPF0002BA52.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a0:cafe::81) by SJ0PR03CA0268.outlook.office365.com
+ (2603:10b6:a03:3a0::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.33 via Frontend Transport; Mon,
+ 14 Jul 2025 22:39:22 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF0002BA52.mail.protection.outlook.com (10.167.242.75) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8922.22 via Frontend Transport; Mon, 14 Jul 2025 22:39:21 +0000
+Received: from purico-ed09host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 14 Jul
+ 2025 17:39:19 -0500
+From: Ashish Kalra <Ashish.Kalra@amd.com>
+To: <corbet@lwn.net>, <seanjc@google.com>, <pbonzini@redhat.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<thomas.lendacky@amd.com>, <john.allen@amd.com>,
+	<herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+	<akpm@linux-foundation.org>, <rostedt@goodmis.org>, <paulmck@kernel.org>
+CC: <nikunj@amd.com>, <Neeraj.Upadhyay@amd.com>, <aik@amd.com>,
+	<ardb@kernel.org>, <michael.roth@amd.com>, <arnd@arndb.de>,
+	<linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
+Subject: [PATCH v6 0/7] Add SEV-SNP CipherTextHiding feature support
+Date: Mon, 14 Jul 2025 22:39:09 +0000
+Message-ID: <cover.1752531191.git.ashish.kalra@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,303 +76,164 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA52:EE_|MW3PR12MB4444:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e8806c2-0110-463d-7cd4-08ddc32746d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700013|82310400026|7416014|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Ez6TnKz9Rjfcu/FWN7yMr4GKDEfqeF2RcmFIVYUXL15fR2hXyvhMq2rcs+fC?=
+ =?us-ascii?Q?154aobGeJwonerrsW4zQFqyXTnpN9yiOIocP2qBV9PmYENELBdyKczOhG1EI?=
+ =?us-ascii?Q?1NvgkB8jy7XJkJIxTR6axvhc39KADL/eg7CMJPUsJAP8r/SIhkzjx1aXFXuD?=
+ =?us-ascii?Q?TK6EQkO7VjDLRvvqfD3ILH/oEMJD9phCqf3rk4YaPEezIic6WgXOxmVGexWb?=
+ =?us-ascii?Q?pzJDTBsdeCKOjFyTzY0G9Zlathp7Hs8rNBuWvyeH1qBrmKDJtgq0Ay84Zn7E?=
+ =?us-ascii?Q?keOIB0OdGLGrUSJbAjjgWT5OplRkQ/H9hCUR4TtQ0IJVaxZJa0RKAJGKvD0a?=
+ =?us-ascii?Q?E24YFlI444RbYbwk7Zg0zrkJDMkxDsmdho8r4SR2j4DF89NDwUPWbyFmfKN9?=
+ =?us-ascii?Q?iEk3G7X+EUxl4ZPuXKvYGRxuy7VDtLpfgH4faLxOxUfpVuncQbbR11teYm3V?=
+ =?us-ascii?Q?eiIY++45BejC5aW6LbS3RnSOWPwS0wd78aA7Grjl/XM2jHCb24FYiqDsi50a?=
+ =?us-ascii?Q?nbWe4PH3KU29aSNy5cPtcLFlBTpOSOi2xOw1YkVVSRlbqDJY6JeLDJ2mpFGu?=
+ =?us-ascii?Q?tT0LMYSp/Qf3R7CP8luphtnZxYMKY2rYH2PDyis0anqnpc+6PaZ4fQXDNLlV?=
+ =?us-ascii?Q?4pYGdgz83Oj3oVxox4rv+CER4kMFKWp4niWltbwWva3WwzD2noDcPgFZZ1UN?=
+ =?us-ascii?Q?ptFx9aPBkoJ1N+Azw2i1K5NSkb8+eQNAJ9wCcc2bopz5vORtfUwNWPkAj7lh?=
+ =?us-ascii?Q?JVzShBsxjKT9b1mFoAi2ZgR61EGFsvPOfVxzSu98J7E3M4QW3468uW+JX4vP?=
+ =?us-ascii?Q?qYqLDGHiir9xRBaNG+99rvK89WX24eq1qT3Q+ja1sMmEH+3ZnTCEZLf5+KNj?=
+ =?us-ascii?Q?0EQBc4IE6KpsMjhxwQOwBWlvJj1LzwRC9BtkZFMGwV/90/qk6ehH28tz9R13?=
+ =?us-ascii?Q?GcoucHhWnYB21lb1Sd5CEDyY8kx3rTEPM4dQM51jSl0V2B8UGc4AEbFzUn9l?=
+ =?us-ascii?Q?DEwVgkFyZcJNzOP4CNiCttaCEQPx+L1y51PiqnEXg/ygT+8eGfgMQXXQGr20?=
+ =?us-ascii?Q?UJdyJ3ksKdiTyJNXohbF2r+9pk/muJLz5z79bkDwSv1uQL15YPP0fvvx1RwR?=
+ =?us-ascii?Q?hyf0Mc88UFihAlQ9WgfHq0gAZUy38eZNwsMV6dMJDwYe+plaKB+ihCBASjNn?=
+ =?us-ascii?Q?Y63+rzLMiiQVLeyWujd9fVXOp1rgnZaBb6GKLuhwtRtV7n4s63+qGxyv26JZ?=
+ =?us-ascii?Q?/PqSxHWak/HY8qrFn9SRxSpIEqOxwKk2PLfHgDsvmTqmVwb8b26qQTneubKu?=
+ =?us-ascii?Q?3Zap9OqfzrUzlFNAXz6JF79NkCG/3XkZELtmLjisNDPvX2wupVaizpouR4Zf?=
+ =?us-ascii?Q?jO9CozSu/OH48Kykns7Uh39VgjKGbXYin/Cw5j9tKibDSbBzcT8v41ueLIeZ?=
+ =?us-ascii?Q?wmryMo27ffa5XcLD4FQ3+Dt0lYP3iMyeSo0HIYWWkH68I4ri7pF6meLVNqJi?=
+ =?us-ascii?Q?UmRcbmB5iuwdZ7ubwJizj+8GjIjx4aBwMscuV27TV0JVfIr0+5ERRVfZjw?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(7416014)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 22:39:21.5154
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e8806c2-0110-463d-7cd4-08ddc32746d2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF0002BA52.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4444
 
-To establish the confidential VMBus connection the CoCo VM guest
-first attempts to connect to the VMBus server run by the paravisor.
-If that fails, the guest falls back to the non-confidential VMBus.
+From: Ashish Kalra <ashish.kalra@amd.com>
 
-Implement that in the VMBus driver initialization.
+Ciphertext hiding prevents host accesses from reading the ciphertext
+of SNP guest private memory. Instead of reading ciphertext, the host
+will see constant default values (0xff).
 
-Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
----
- drivers/hv/vmbus_drv.c | 189 ++++++++++++++++++++++++++++-------------
- 1 file changed, 130 insertions(+), 59 deletions(-)
+The SEV ASID space is split into SEV and SEV-ES/SNP ASID ranges.
+Enabling ciphertext hiding further splits the SEV-ES/SEV-SNP ASID space
+into separate ASID ranges for SEV-ES and SEV-SNP guests.
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 13aca5abc7d8..53be3157e22c 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1057,12 +1057,9 @@ static void vmbus_onmessage_work(struct work_struct *work)
- 	kfree(ctx);
- }
- 
--void vmbus_on_msg_dpc(unsigned long data)
-+static void __vmbus_on_msg_dpc(void *message_page_addr)
- {
--	struct hv_per_cpu_context *hv_cpu = (void *)data;
--	void *page_addr = hv_cpu->hyp_synic_message_page;
--	struct hv_message msg_copy, *msg = (struct hv_message *)page_addr +
--				  VMBUS_MESSAGE_SINT;
-+	struct hv_message msg_copy, *msg;
- 	struct vmbus_channel_message_header *hdr;
- 	enum vmbus_channel_message_type msgtype;
- 	const struct vmbus_channel_message_table_entry *entry;
-@@ -1070,6 +1067,10 @@ void vmbus_on_msg_dpc(unsigned long data)
- 	__u8 payload_size;
- 	u32 message_type;
- 
-+	if (!message_page_addr)
-+		return;
-+	msg = (struct hv_message *)message_page_addr + VMBUS_MESSAGE_SINT;
-+
- 	/*
- 	 * 'enum vmbus_channel_message_type' is supposed to always be 'u32' as
- 	 * it is being used in 'struct vmbus_channel_message_header' definition
-@@ -1195,6 +1196,14 @@ void vmbus_on_msg_dpc(unsigned long data)
- 	vmbus_signal_eom(msg, message_type);
- }
- 
-+void vmbus_on_msg_dpc(unsigned long data)
-+{
-+	struct hv_per_cpu_context *hv_cpu = (void *)data;
-+
-+	__vmbus_on_msg_dpc(hv_cpu->hyp_synic_message_page);
-+	__vmbus_on_msg_dpc(hv_cpu->para_synic_message_page);
-+}
-+
- #ifdef CONFIG_PM_SLEEP
- /*
-  * Fake RESCIND_CHANNEL messages to clean up hv_sock channels by force for
-@@ -1233,21 +1242,19 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
- #endif /* CONFIG_PM_SLEEP */
- 
- /*
-- * Schedule all channels with events pending
-+ * Schedule all channels with events pending.
-+ * The event page can be directly checked to get the id of
-+ * the channel that has the interrupt pending.
-  */
--static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
-+static void vmbus_chan_sched(void *event_page_addr)
- {
- 	unsigned long *recv_int_page;
- 	u32 maxbits, relid;
-+	union hv_synic_event_flags *event;
- 
--	/*
--	 * The event page can be directly checked to get the id of
--	 * the channel that has the interrupt pending.
--	 */
--	void *page_addr = hv_cpu->hyp_synic_event_page;
--	union hv_synic_event_flags *event
--		= (union hv_synic_event_flags *)page_addr +
--					 VMBUS_MESSAGE_SINT;
-+	if (!event_page_addr)
-+		return;
-+	event = (union hv_synic_event_flags *)event_page_addr + VMBUS_MESSAGE_SINT;
- 
- 	maxbits = HV_EVENT_FLAGS_COUNT;
- 	recv_int_page = event->flags;
-@@ -1255,6 +1262,11 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
- 	if (unlikely(!recv_int_page))
- 		return;
- 
-+	/*
-+	 * Suggested-by: Michael Kelley <mhklinux@outlook.com>
-+	 * One possible optimization would be to keep track of the largest relID that's in use,
-+	 * and only scan up to that relID.
-+	 */
- 	for_each_set_bit(relid, recv_int_page, maxbits) {
- 		void (*callback_fn)(void *context);
- 		struct vmbus_channel *channel;
-@@ -1318,26 +1330,35 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
- 	}
- }
- 
--static void vmbus_isr(void)
-+static void vmbus_message_sched(struct hv_per_cpu_context *hv_cpu, void *message_page_addr)
- {
--	struct hv_per_cpu_context *hv_cpu
--		= this_cpu_ptr(hv_context.cpu_context);
--	void *page_addr;
- 	struct hv_message *msg;
- 
--	vmbus_chan_sched(hv_cpu);
--
--	page_addr = hv_cpu->hyp_synic_message_page;
--	msg = (struct hv_message *)page_addr + VMBUS_MESSAGE_SINT;
-+	if (!message_page_addr)
-+		return;
-+	msg = (struct hv_message *)message_page_addr + VMBUS_MESSAGE_SINT;
- 
- 	/* Check if there are actual msgs to be processed */
- 	if (msg->header.message_type != HVMSG_NONE) {
- 		if (msg->header.message_type == HVMSG_TIMER_EXPIRED) {
- 			hv_stimer0_isr();
- 			vmbus_signal_eom(msg, HVMSG_TIMER_EXPIRED);
--		} else
-+		} else {
- 			tasklet_schedule(&hv_cpu->msg_dpc);
-+		}
- 	}
-+}
-+
-+static void vmbus_isr(void)
-+{
-+	struct hv_per_cpu_context *hv_cpu
-+		= this_cpu_ptr(hv_context.cpu_context);
-+
-+	vmbus_chan_sched(hv_cpu->hyp_synic_event_page);
-+	vmbus_chan_sched(hv_cpu->para_synic_event_page);
-+
-+	vmbus_message_sched(hv_cpu, hv_cpu->hyp_synic_message_page);
-+	vmbus_message_sched(hv_cpu, hv_cpu->para_synic_message_page);
- 
- 	add_interrupt_randomness(vmbus_interrupt);
- }
-@@ -1355,6 +1376,59 @@ static void vmbus_percpu_work(struct work_struct *work)
- 	hv_synic_init(cpu);
- }
- 
-+static int vmbus_alloc_synic_and_connect(void)
-+{
-+	int ret, cpu;
-+	struct work_struct __percpu *works;
-+	int hyperv_cpuhp_online;
-+
-+	ret = hv_synic_alloc();
-+	if (ret < 0)
-+		goto err_alloc;
-+
-+	works = alloc_percpu(struct work_struct);
-+	if (!works) {
-+		ret = -ENOMEM;
-+		goto err_alloc;
-+	}
-+
-+	/*
-+	 * Initialize the per-cpu interrupt state and stimer state.
-+	 * Then connect to the host.
-+	 */
-+	cpus_read_lock();
-+	for_each_online_cpu(cpu) {
-+		struct work_struct *work = per_cpu_ptr(works, cpu);
-+
-+		INIT_WORK(work, vmbus_percpu_work);
-+		schedule_work_on(cpu, work);
-+	}
-+
-+	for_each_online_cpu(cpu)
-+		flush_work(per_cpu_ptr(works, cpu));
-+
-+	/* Register the callbacks for possible CPU online/offline'ing */
-+	ret = cpuhp_setup_state_nocalls_cpuslocked(CPUHP_AP_ONLINE_DYN, "hyperv/vmbus:online",
-+						   hv_synic_init, hv_synic_cleanup);
-+	cpus_read_unlock();
-+	free_percpu(works);
-+	if (ret < 0)
-+		goto err_alloc;
-+	hyperv_cpuhp_online = ret;
-+
-+	ret = vmbus_connect();
-+	if (ret)
-+		goto err_connect;
-+	return 0;
-+
-+err_connect:
-+	cpuhp_remove_state(hyperv_cpuhp_online);
-+	return -ENODEV;
-+err_alloc:
-+	hv_synic_free();
-+	return -ENOMEM;
-+}
-+
- /*
-  * vmbus_bus_init -Main vmbus driver initialization routine.
-  *
-@@ -1365,8 +1439,7 @@ static void vmbus_percpu_work(struct work_struct *work)
-  */
- static int vmbus_bus_init(void)
- {
--	int ret, cpu;
--	struct work_struct __percpu *works;
-+	int ret;
- 
- 	ret = hv_init();
- 	if (ret != 0) {
-@@ -1401,41 +1474,42 @@ static int vmbus_bus_init(void)
- 		}
- 	}
- 
--	ret = hv_synic_alloc();
--	if (ret)
--		goto err_alloc;
--
--	works = alloc_percpu(struct work_struct);
--	if (!works) {
--		ret = -ENOMEM;
--		goto err_alloc;
--	}
--
- 	/*
--	 * Initialize the per-cpu interrupt state and stimer state.
--	 * Then connect to the host.
-+	 * Attempt to establish the confidential VMBus connection first if this VM is
-+	 * a hardware confidential VM, and the paravisor is present.
-+	 *
-+	 * All scenarios here are:
-+	 *	1. No paravisor,
-+	 *  2. Paravisor without VMBus relay, no hardware isolation,
-+	 *  3. Paravisor without VMBus relay, with hardware isolation,
-+	 *  4. Paravisor with VMBus relay, no hardware isolation,
-+	 *  5. Paravisor with VMBus relay, with hardware isolation.
-+	 *
-+	 * In the cloud, scenarios 1, 4, 5 are most common, and outside the cloud,
-+	 * scenario 1 should be the most common at the moment. Detecting of the Confidential
-+	 * VMBus support below takes that into account running `vmbus_alloc_synic_and_connect()`
-+	 * only once (barring any faults not related to VMBus) in these cases. That is true
-+	 * for the scenario 2, too, albeit it might be not as feature-rich as 1, 4, 5.
-+	 *
-+	 * However, the code will be doing much more work in scenario 3 where it will have to
-+	 * first initialize lots of structures for every CPU only to likely tear them down later
-+	 * and start again, now without attempting to use Confidential VMBus, thus taking a
-+	 * performance hit. Such systems are rather uncomoon today, don't support more than
-+	 * ~300 CPUs, and are rarely used with many dozens of CPUs. As the time goes on, that
-+	 * will be even less common. Hence, the preference is to not specialize the code for
-+	 * that scenario.
- 	 */
--	cpus_read_lock();
--	for_each_online_cpu(cpu) {
--		struct work_struct *work = per_cpu_ptr(works, cpu);
-+	ret = -ENODEV;
-+	if (ms_hyperv.paravisor_present && (hv_isolation_type_tdx() || hv_isolation_type_snp())) {
-+		is_confidential = true;
-+		ret = vmbus_alloc_synic_and_connect();
-+		is_confidential = !ret;
- 
--		INIT_WORK(work, vmbus_percpu_work);
--		schedule_work_on(cpu, work);
-+		pr_info("VMBus is confidential: %d\n", is_confidential);
- 	}
- 
--	for_each_online_cpu(cpu)
--		flush_work(per_cpu_ptr(works, cpu));
--
--	/* Register the callbacks for possible CPU online/offline'ing */
--	ret = cpuhp_setup_state_nocalls_cpuslocked(CPUHP_AP_ONLINE_DYN, "hyperv/vmbus:online",
--						   hv_synic_init, hv_synic_cleanup);
--	cpus_read_unlock();
--	free_percpu(works);
--	if (ret < 0)
--		goto err_alloc;
--	hyperv_cpuhp_online = ret;
--
--	ret = vmbus_connect();
-+	if (!is_confidential)
-+		ret = vmbus_alloc_synic_and_connect();
- 	if (ret)
- 		goto err_connect;
- 
-@@ -1451,9 +1525,6 @@ static int vmbus_bus_init(void)
- 	return 0;
- 
- err_connect:
--	cpuhp_remove_state(hyperv_cpuhp_online);
--err_alloc:
--	hv_synic_free();
- 	if (vmbus_irq == -1) {
- 		hv_remove_vmbus_handler();
- 	} else {
+Add new module parameter to the KVM module to enable ciphertext hiding
+support and a user configurable system-wide maximum SNP ASID value. If
+the module parameter value is "max" then the complete SEV-ES/SEV-SNP
+space is allocated to SEV-SNP guests.
+
+v6:
+- Fix module parameter ciphertext_hiding_asids=0 case.
+- Coalesce multiple cases of handling invalid module parameter
+ciphertext_hiding_asids into a single branch/label.
+- Fix commit logs.
+- Fix Documentation.
+
+v5:
+- Add pre-patch to cache SEV platform status and use this cached
+information to set api_major/api_minor/build.
+- Since the SEV platform status and SNP platform status differ, 
+remove the state field from sev_device structure and instead track
+SEV platform state from cached SEV platform status.
+- If SNP is enabled then cached SNP platform status is used for 
+api_major/api_minor/build.
+- Fix using sev_do_cmd() instead of __sev_do_cmd_locked().
+- Fix commit logs.
+- Fix kernel-parameters documentation. 
+- Modify KVM module parameter to enable CipherTextHiding to support
+"max" option to allow complete SEV-ES+ ASID space to be allocated
+to SEV-SNP guests.
+- Do not enable ciphertext hiding if module parameter to specify
+maximum SNP ASID is invalid.
+
+v4:
+- Fix buffer allocation for SNP_FEATURE_INFO command to correctly
+handle page boundary check requirements.
+- Return correct length for SNP_FEATURE_INFO command from
+sev_cmd_buffer_len().
+- Switch to using SNP platform status instead of SEV platform status if
+SNP is enabled and cache SNP platform status and feature information.
+Modify sev_get_api_version() accordingly.
+- Fix commit logs.
+- Expand the comments on why both the feature info and the platform
+status fields have to be checked for CipherTextHiding feature 
+detection and enablement.
+- Add new preperation patch for CipherTextHiding feature which
+introduces new {min,max}_{sev_es,snp}_asid variables along with
+existing {min,max}_sev_asid variable to simplify partitioning of the
+SEV and SEV-ES+ ASID space.
+- Switch to single KVM module parameter to enable CipherTextHiding
+feature and the maximum SNP ASID usable for SNP guests when 
+CipherTextHiding feature is enabled.
+
+v3:
+- rebase to linux-next.
+- rebase on top of support to move SEV-SNP initialization to
+KVM module from CCP driver.
+- Split CipherTextHiding support between CCP driver and KVM module
+with KVM module calling into CCP driver to initialize SNP with
+CipherTextHiding enabled and MAX ASID usable for SNP guest if
+KVM is enabling CipherTextHiding feature.
+- Move module parameters to enable CipherTextHiding feature and
+MAX ASID usable for SNP guests from CCP driver to KVM module
+which allows KVM to be responsible for enabling CipherTextHiding
+feature if end-user requests it.
+
+v2:
+- Fix and add more description to commit logs.
+- Rename sev_cache_snp_platform_status_and_discover_features() to 
+snp_get_platform_data().
+- Add check in snp_get_platform_data to guard against being called
+after SNP_INIT_EX.
+- Fix comments for new structure field definitions being added.
+- Fix naming for new structure being added.
+- Add new vm-type parameter to sev_asid_new().
+- Fix identation.
+- Rename CCP module parameters psp_cth_enabled to cipher_text_hiding and 
+psp_max_snp_asid to max_snp_asid.
+- Rename max_snp_asid to snp_max_snp_asid. 
+
+Ashish Kalra (7):
+  crypto: ccp - New bit-field definitions for SNP_PLATFORM_STATUS
+    command
+  crypto: ccp - Cache SEV platform status and platform state
+  crypto: ccp - Add support for SNP_FEATURE_INFO command
+  crypto: ccp - Introduce new API interface to indicate SEV-SNP
+    Ciphertext hiding feature
+  crypto: ccp - Add support to enable CipherTextHiding on SNP_INIT_EX
+  KVM: SEV: Introduce new min,max sev_es and sev_snp asid variables
+  KVM: SEV: Add SEV-SNP CipherTextHiding support
+
+ .../admin-guide/kernel-parameters.txt         |  18 +++
+ arch/x86/kvm/svm/sev.c                        |  97 +++++++++++--
+ drivers/crypto/ccp/sev-dev.c                  | 127 ++++++++++++++++--
+ drivers/crypto/ccp/sev-dev.h                  |   6 +-
+ include/linux/psp-sev.h                       |  44 +++++-
+ include/uapi/linux/psp-sev.h                  |  10 +-
+ 6 files changed, 275 insertions(+), 27 deletions(-)
+
 -- 
-2.43.0
+2.34.1
 
