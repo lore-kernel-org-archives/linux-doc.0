@@ -1,169 +1,209 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894CA253F11
-	for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 14:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772B224E4AD;
+	Mon, 14 Jul 2025 14:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752504908; cv=none; b=hLQoVzfQXAgUbpFiwC9ltzQB8Q+F0iaMoR+0TcWgVf8/E0/huY48FyhtbEmIXfbtkrwCBtUUkw6lFjVjUedNzvvN4F56DmDB2+kt+yE8RGRg2dnNxzkq7vtth7Jmc4ULExRtYtLOQcECLFSgjaW6Mj3J4056Zirsc5vTe60/WyQ=
+	t=1752505005; cv=none; b=FnkVT2wX7rA300kkoGnqL90iyVlm7kR8HTDy3L9W8a3qVCLevjl9I+fk9gSDlO0qeD015poOyrKWtnSikq/mn25jZ9zvswkuT4fAf1mtRp99vHmShUGIl6yFvtgtoZsVQcaIWQbEhTRButpZ3FUCUx9JBgJ8z7B0fE8nLkA7xAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752504908; c=relaxed/simple;
-	bh=JyG/AJppLSffr5nyP8a8dgSsegV2gn4CUhImXqjMdRI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=dfzq8jRIaGAaRQ/5MqXuIM6FwhKcwskSXOxEksLU+vPyXeTFk6klWmbJ2gNLs/qNs73CeqbjlmKUvWCWN4ssZO30jgHmqHAE1ti/k/YEyys5GKC9u1Iv3KNjO7nHs69aYQ5RDhih2xITgDAVXZxyWAwnJqkiFzHnRWm/wbiIX1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AvV3ek8Q; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1752505005; c=relaxed/simple;
+	bh=603QU5t2EV5T1tw1hCkBQXZ4TlGTcXH3cQEDUeEh1P4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bH/A2kw0iwXdN6BwaE2+uDHOsic/pROYWDfON7a+pyeq4NKhqUx9gqdlnT+jbl5cU0yK4hW/PE0HMDaPOMUE3Fv1vy01tLqE6WwNqu3z2wdNxS5VNYkUEtV1W6P4sqfI/LwQnJqGTauBPnLMYjDVpxOtngAgXFwCrI9LLmDRBR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OxlVJYU9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AvV3ek8Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752504905;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d4czQZKucpykxaQ1IUiKG7YZbA5p+JpK4GLzUGwBBME=;
-	b=AvV3ek8QwGS4/XpjWNO+Zjng2s/DBPNr6HHy9E6nsWTia7WpSJJH02t21EbYZHUF2eXJna
-	MjpmPkq8HMnRcIXUaiw1HX16A3Bsrd+SnUM+WC4v8bv7VvWb6eBp/cI7EzHy7//QG6Vf/3
-	s88XSMuy2gqt8zx82Me3oldNnRTF3Jk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-367-KkqKqxiJNkKI4J6E2CcJlQ-1; Mon, 14 Jul 2025 10:55:03 -0400
-X-MC-Unique: KkqKqxiJNkKI4J6E2CcJlQ-1
-X-Mimecast-MFC-AGG-ID: KkqKqxiJNkKI4J6E2CcJlQ_1752504903
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3a4f7f1b932so2621361f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jul 2025 07:55:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752504903; x=1753109703;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d4czQZKucpykxaQ1IUiKG7YZbA5p+JpK4GLzUGwBBME=;
-        b=LY73DbRZJ24DP+AhNSfo0EDbFeS9IJgxMrECsGmCgBi2rzpZu+5fE+deEWzSQ0Rike
-         U7Ng0OOj/9pxy7602Q/VEt0snd11b9fKf8FR14fC8kfIByzGEogJUMWIAKWBxnjRTJjo
-         Uu2ufhB+tiwYyKyKkQGuobfScdC6cRKZpMWZjG+nChiPgFHtH2jmlC0AZaB+RWmi2Gns
-         /AskvUziVthh/K+agsam6ByTEH14snH4qycP1epDY9V4ull2ACOy4qhSFeQDo7Qvccw7
-         +D6OFMy/eMaT7vSrMUoL9xYkFHhaBSxSQ5nlrHXHgTU39n3zMkVXeZEr+R4CdmE0CT+L
-         +S6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUWPOAJLhATrMhHZ4SV76Q3rcUfT8Yng6Mzj7RYBomV/BNhUPtXD5bz47k6JJ8w+1hAoAtXxPEpR4A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMcDZqF5g4vAQaMJ1xHQUBpVYlSdEkGeHGy4EbI5K0zeec1a4z
-	KguPaKEMrfLtQxHTmO7ZnddqMqnlxPKWuX5X+AFxv0SYxyq+9LsY4kf3VOxxtl+HC5ufkrLeM4g
-	TBC0XHAGOhLSODoRqn80VsVMhG3thkAq4L/14IoQ1z38K5FUBQmmE09oPG+26IQ==
-X-Gm-Gg: ASbGncvgTqVg35wzem1zoc8CF1B5D67x8kPNEF9/gPZKFHia3aVMU8Ov1OOdF1Xe4Ze
-	1Wwd/YcsROwM/JSyESXuoSxyC+YqQcSjYKigvhWYshqQyQyzMXiQdvXNzrgbKR/YBcnscLTz9yx
-	Fv6GvrTv7sAWEZVUaHaRc4+fUzyj4R4CXH1/C2Gif3cRLDZ+cr716eBGa5i8mCtmw+81MW+Rm0m
-	YKL0WsfWbWZpVGw41CWRcl0tr1emz+So3XL0cUFfc09jMIRRWFwqQfcLM1/Zp2lfJu8yZ7AntYH
-	PfI1vIT0UPlQukVjze0KAVxBWvu2cOqPQdcXUWyjYDQ=
-X-Received: by 2002:a05:6000:18a5:b0:3a6:d5fd:4687 with SMTP id ffacd0b85a97d-3b5f2dc2906mr7617432f8f.18.1752504902641;
-        Mon, 14 Jul 2025 07:55:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IERlxdXbSclUMLbYuj4ecUcsIzdJdVAuc2ie1F4jKPNjqTeVSRJVRcaIsaZVJV8X9Sn1hIeGQ==
-X-Received: by 2002:a05:6000:18a5:b0:3a6:d5fd:4687 with SMTP id ffacd0b85a97d-3b5f2dc2906mr7617398f8f.18.1752504902111;
-        Mon, 14 Jul 2025 07:55:02 -0700 (PDT)
-Received: from [192.168.0.115] ([212.105.155.228])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8bd1776sm12844954f8f.12.2025.07.14.07.54.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Jul 2025 07:55:01 -0700 (PDT)
-Message-ID: <b2c0653e-077f-4609-922e-777f1d868dd0@redhat.com>
-Date: Mon, 14 Jul 2025 16:54:59 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OxlVJYU9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35D28C4CEED;
+	Mon, 14 Jul 2025 14:56:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752505005;
+	bh=603QU5t2EV5T1tw1hCkBQXZ4TlGTcXH3cQEDUeEh1P4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OxlVJYU9dFpuJT5A7474EhhBynMHnCS1VzDTP7agtlH6C7+5du+Wy48NktA8GISCK
+	 9lCcE8XO99SvvMcCqb9CvXol3Ev5sBC18mCbb3bijyaxM8fLd4c+1uJoOGYhcnpNzq
+	 Z7PPhsAOITr+dR2NXmgR0ROZaDGD9w8e7en6334b6/eP3YU63VrtjvITsMT9jgmfae
+	 4CdBlDfCt3jvwbffeYgJrquh595/AeC07U3rqjrxf2G6IOU8sn6hXedDDDDySRokUZ
+	 EqHGd0Mmwl+kloVP4Anui9N7GeSQvQxzmCPXwzO1jbw4MoVwUHolomYcZAa7UZBsDS
+	 P1U3S7K8FAFsQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Christian Brauner
+ <brauner@kernel.org>,  Pasha Tatashin <pasha.tatashin@soleen.com>,
+  jasonmiu@google.com,  graf@amazon.com,  changyuanl@google.com,
+  rppt@kernel.org,  rientjes@google.com,  corbet@lwn.net,
+  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
+In-Reply-To: <CALzav=dhuoaS73ikufCf2D11Vq=jfMceYv0abdMxOdaHzmVR0g@mail.gmail.com>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+	<20250515182322.117840-11-pasha.tatashin@soleen.com>
+	<20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
+	<CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com>
+	<20250625-akrobatisch-libellen-352997eb08ef@brauner>
+	<CALzav=d+XgS1bUs-v7+ws5nYU9y=4uc1c8oVLHrJ16qLpnUi9Q@mail.gmail.com>
+	<mafs0sejmse57.fsf@kernel.org>
+	<CALzav=dhuoaS73ikufCf2D11Vq=jfMceYv0abdMxOdaHzmVR0g@mail.gmail.com>
+Date: Mon, 14 Jul 2025 16:56:35 +0200
+Message-ID: <mafs04iveu8gs.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 net-next 12/15] tcp: accecn: AccECN option send
- control
-To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com,
- linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
- dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org,
- netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
- kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
- jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
- donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
- shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
- ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
- g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
- mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
- Jason_Livingood@comcast.com, vidhi_goel@apple.com
-References: <20250704085345.46530-1-chia-yu.chang@nokia-bell-labs.com>
- <20250704085345.46530-13-chia-yu.chang@nokia-bell-labs.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250704085345.46530-13-chia-yu.chang@nokia-bell-labs.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 7/4/25 10:53 AM, chia-yu.chang@nokia-bell-labs.com wrote:
-> @@ -285,9 +297,33 @@ static inline void tcp_ecn_received_counters(struct sock *sk,
->  
->  		if (len > 0) {
->  			u8 minlen = tcp_ecnfield_to_accecn_optfield(ecnfield);
-> +			u32 oldbytes = tp->received_ecn_bytes[ecnfield - 1];
-> +
->  			tp->received_ecn_bytes[ecnfield - 1] += len;
->  			tp->accecn_minlen = max_t(u8, tp->accecn_minlen,
->  						  minlen);
-> +
-> +			/* Demand AccECN option at least every 2^22 bytes to
-> +			 * avoid overflowing the ECN byte counters.
-> +			 */
-> +			if ((tp->received_ecn_bytes[ecnfield - 1] ^ oldbytes) &
-> +			    ~((1 << 22) - 1)) {
+Hi David,
 
-I don't understand the above statement, I don't think it yield the
-result expected according to the above comment.
+On Thu, Jun 26 2025, David Matlack wrote:
 
-> @@ -365,6 +401,7 @@ static inline void tcp_accecn_init_counters(struct tcp_sock *tp)
->  	__tcp_accecn_init_bytes_counters(tp->received_ecn_bytes);
->  	__tcp_accecn_init_bytes_counters(tp->delivered_ecn_bytes);
->  	tp->accecn_minlen = 0;
-> +	tp->accecn_opt_demand = 0;
->  	tp->est_ecnfield = 0;
->  }
->  
-> @@ -447,6 +484,7 @@ static inline void tcp_ecn_rcv_synack(struct sock *sk, const struct tcphdr *th,
->  	default:
->  		tcp_ecn_mode_set(tp, TCP_ECN_MODE_ACCECN);
->  		tp->syn_ect_rcv = ip_dsfield & INET_ECN_MASK;
-> +		tp->accecn_opt_demand = 2;
->  		if (INET_ECN_is_ce(ip_dsfield) &&
->  		    tcp_accecn_validate_syn_feedback(sk, ace,
->  						     tp->syn_ect_snt)) {
-> @@ -467,6 +505,7 @@ static inline void tcp_ecn_rcv_syn(struct tcp_sock *tp, const struct tcphdr *th,
->  		} else {
->  			tp->syn_ect_rcv = TCP_SKB_CB(skb)->ip_dsfield &
->  					  INET_ECN_MASK;
-> +			tp->prev_ecnfield = tp->syn_ect_rcv;
->  			tcp_ecn_mode_set(tp, TCP_ECN_MODE_ACCECN);
->  		}
->  	}
-> @@ -565,4 +604,16 @@ tcp_ecn_make_synack(const struct request_sock *req, struct tcphdr *th)
->  		th->ece = 1;
->  }
->  
-> +static inline bool tcp_accecn_option_beacon_check(const struct sock *sk)
-> +{
-> +	const struct tcp_sock *tp = tcp_sk(sk);
-> +
-> +	if (!READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option_beacon))
-> +		return false;
-> +
-> +	return tcp_stamp_us_delta(tp->tcp_mstamp, tp->accecn_opt_tstamp) *
-> +	       READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option_beacon) >=
-> +	       (tp->srtt_us >> 3);
+> On Thu, Jun 26, 2025 at 8:42=E2=80=AFAM Pratyush Yadav <pratyush@kernel.o=
+rg> wrote:
+>>
+>> On Wed, Jun 25 2025, David Matlack wrote:
+>>
+>> > On Wed, Jun 25, 2025 at 2:36=E2=80=AFAM Christian Brauner <brauner@ker=
+nel.org> wrote:
+>> >> >
+>> >> > While I agree that a filesystem offers superior introspection and
+>> >> > integration with standard tools, building this complex, stateful
+>> >> > orchestration logic on top of VFS seemed to be forcing a square peg
+>> >> > into a round hole. The ioctl interface, while more opaque, provides=
+ a
+>> >> > direct and explicit way to command the state machine and manage the=
+se
+>> >> > complex lifecycle and dependency rules.
+>> >>
+>> >> I'm not going to argue that you have to switch to this kexecfs idea
+>> >> but...
+>> >>
+>> >> You're using a character device that's tied to devmptfs. In other wor=
+ds,
+>> >> you're already using a filesystem interface. Literally the whole code
+>> >> here is built on top of filesystem APIs. So this argument is just very
+>> >> wrong imho. If you can built it on top of a character device using VFS
+>> >> interfaces you can do it as a minimal filesystem.
+>> >>
+>> >> You're free to define the filesystem interface any way you like it. We
+>> >> have a ton of examples there. All your ioctls would just be tied to t=
+he
+>> >> fileystem instance instead of the /dev/somethingsomething character
+>> >> device. The state machine could just be implemented the same way.
+>> >>
+>> >> One of my points is that with an fs interface you can have easy state
+>> >> seralization on a per-service level. IOW, you have a bunch of virtual
+>> >> machines running as services or some networking services or whatever.
+>> >> You could just bind-mount an instance of kexecfs into the service and
+>> >> the service can persist state into the instance and easily recover it
+>> >> after kexec.
+>> >
+>> > This approach sounds worth exploring more. It would avoid the need for
+>> > a centralized daemon to mediate the preservation and restoration of
+>> > all file descriptors.
+>>
+>> One of the jobs of the centralized daemon is to decide the _policy_ of
+>> who gets to preserve things and more importantly, make sure the right
+>> party unpreserves the right FDs after a kexec. I don't see how this
+>> interface fixes this problem. You would still need a way to identify
+>> which kexecfs instance belongs to who and enforce that. The kernel
+>> probably shouldn't be the one doing this kind of policy so you still
+>> need some userspace component to make those decisions.
+>
+> The main benefits I see of kexecfs is that it avoids needing to send
+> all FDs over UDS to/from liveupdated and therefore the need for
+> dynamic cross-process communication (e.g. RPCs).
+>
+> Instead, something just needs to set up a kexecfs for each VM when it
+> is created, and give the same kexecfs back to each VM after kexec.
+> Then VMs are free to save/restore any FDs in that kexecfs without
+> cross-process communication or transferring file descriptors.
 
-To be consistent:
+Isn't giving back the right kexecfs instance to the right VMM the main
+problem? After a kexec, you need a way to make that policy decision. You
+would need a userspace agent to do that.
 
-	u32 ecn_beacon =
-READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option_beacon);
+I think what you are suggesting does make a lot of sense -- the agent
+should be handing out sessions instead of FDs, which would make FD
+save/restore simpler for applications. But that can be done using the
+ioctl interface as well. Each time you open() the /dev/liveupdate, you
+get a new session. Instead of file FDs like memfd or iommufs, we can
+have the agent hand out these session FDs and anything that was saved
+using this session would be ready for restoring.
 
-	if (!ecn_beacon)
-		return false;
+My main point is that this can be done with the current interface as
+well as kexecfs. I think there is very much a reason for considering
+kexecfs (like not being dependent on devtmpfs), but I don't think this
+is necessarily the main one.
 
-	return tcp_stamp_us_delta(tp->tcp_mstamp, tp->accecn_opt_tstamp) *
-ecn_beacon // ...
+>
+> Policy can be enforced by controlling access to kexecfs mounts. This
+> naturally fits into the standard architecture of running untrusted VMs
+> (e.g. using chroots and containers to enforce security and isolation).
 
-/P
+How? After a kexec, how do you tell which process can get which kexecfs
+mount/instance? If any of them can get any, then we lose all sort of
+policy enforcement.
 
+>
+>>
+>> >
+>> > I'm not sure that we can get rid of the machine-wide state machine
+>> > though, as there is some kernel state that will necessarily cross
+>> > these kexecfs domains (e.g. IOMMU driver state). So we still might
+>> > need /dev/liveupdate for that.
+>>
+>> Generally speaking, I think both VFS-based and IOCTL-based interfaces
+>> are more or less equally expressive/powerful. Most of the ioctl
+>> operations can be translated to a VFS operation and vice versa.
+>>
+>> For example, the fsopen() call is similar to open("/dev/liveupdate") --
+>> both would create a live update session which auto closes when the FD is
+>> closed or FS unmounted. Similarly, each ioctl can be replaced with a
+>> file in the FS. For example, LIVEUPDATE_IOCTL_FD_PRESERVE can be
+>> replaced with a fd_preserve file where you write() the FD number.
+>> LIVEUPDATE_IOCTL_GET_STATE or LIVEUPDATE_IOCTL_PREPARE, etc. can be
+>> replaced by a "state" file where you can read() or write() the state.
+>>
+>> I think the main benefit of the VFS-based interface is ease of use.
+>> There already exist a bunch of utilites and libraries that we can use to
+>> interact with files. When we have ioctls, we would need to write
+>> everything ourselves. For example, instead of
+>> LIVEUPDATE_IOCTL_GET_STATE, you can do "cat state", which is a bit
+>> easier to do.
+>>
+>> As for downsides, I think we might end up with a bit more boilerplate
+>> code, but beyond that I am not sure.
+>
+> I agree we can more or less get to the same end state with either
+> approach. And also, I don't think we have to do one or the other. I
+> think kexecfs is something that we can build on top of this series.
+> For example, kexecfs would be a new kernel subsystem that registers
+> with LUO.
+
+Yeah, fair point. Though I'd rather we agree on one and go with that.
+Having two interfaces for the same thing isn't the best.
+
+--=20
+Regards,
+Pratyush Yadav
