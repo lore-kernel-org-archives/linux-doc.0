@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FA94279327;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B30E279904;
 	Mon, 14 Jul 2025 22:15:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752531354; cv=none; b=kLvfXZ1dtcFo6cVWz6kah6nb4Qx5+iCf2A57ImTnxaMOsrEoVPU4K05NObyUlw9YSd+Q6hk2/O8nGEF9kwKCOBExFiYoJhHOHH5nYeoGr2oW7JaDLa52gLHl5UvyNdu2VUQE6827p6Ypn2Lyiiiiyqu2c8a0BXCOLObckpFZNj0=
+	t=1752531354; cv=none; b=HBtilVLdXU04om/85cxWugFnMHhthK8PKR3j8CmKz2Dr+vSknmM83arFUvNfnAy0OVCoATZ7KLjral0nhT3l3xW9QRxicl+pRXoK9GjGmwn987eMSEq/BuZcvMmBr23UwrT5GyeDRx5BG7CdiYeXPZSPDyxzCPWP4U45YsGWYig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752531354; c=relaxed/simple;
-	bh=NwWtU4pQqupYr0rrxiC/LfZQoDejFRAujTn7n0rRKVI=;
+	bh=dumwlVQAuaRbcn1p/IF4QNNVcpVnsy76a7SVLjV8Q3o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PSyzHsFRla4ISMFCcnXEbXlu9KVyfQTHnRlAFPYoJhDh0ivdCm4fWPFkU8wD1m9hdp7p3ySTK1DGDMOR5AeR5LjUlnke7zCwrC9b4XJT7hQy2xJ1CKvye2PXTjOhH7PnBKIzD1/veciqTJOAjc2vLoPWzsr+oZrKgI+riNpzlPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LdNp/KDn; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=HkVDGH4qSwo313a1SgI+NZB9ETBsChtZh7ZvfFoLUtsDmodHiiV5CXz/G2j5yZ7FIWxMPZdKb0bQodO6bjc2KU0w47ue9hqCuwrqKv48uBSuSWlQP3nummFW7Ctg1ueSCp0IOytgzDtwXefaFi4g7wLMR578FObSxoeTmp54ZWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qc//hMsk; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LdNp/KDn"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qc//hMsk"
 Received: from romank-3650.corp.microsoft.com (unknown [131.107.160.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A6F84201A4A1;
-	Mon, 14 Jul 2025 15:15:49 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A6F84201A4A1
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3727B201A4CD;
+	Mon, 14 Jul 2025 15:15:50 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3727B201A4CD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1752531349;
-	bh=8xRSjjAXOHXCVTJfOWaC61Gx4ioYySGsoSFmStFww+M=;
+	s=default; t=1752531350;
+	bh=42IHhrO4islY3PvMR+vhbbQVAyXFdhkMLiuZuOP40Cg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LdNp/KDn3G92CXUx4Z28jlwRu6Z7unV4x9a7ziuTrswy3mjk8BmxeLHU8InX7aAn1
-	 l6AzMS9smN+pK3z5ORqp+H1p/uMghs/JfQxpJZdBJf6Mj6/XJ1VTu389YUJuax3ZSs
-	 E7+2OyFr159nV9m0oWsRDFXXcyTzizDMIQOnR3gk=
+	b=qc//hMskvHvj8KLR89RpfUaEbmkkZGUIf8gaOC7XYOXh5/9hyBBP3jbi8m285N1jz
+	 mwzXPdYcyzVN65THd0VRgoxt8y0bCyVUoIBb9wqzM8JrZx8dQubWVO1IKu+4/a33UQ
+	 raUdHqkePqBkkxL5NvpfH9N0W3IN45QbFr8P3e1s=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: alok.a.tiwari@oracle.com,
 	arnd@arndb.de,
@@ -51,9 +51,9 @@ Cc: apais@microsoft.com,
 	benhill@microsoft.com,
 	bperkins@microsoft.com,
 	sunilmut@microsoft.com
-Subject: [PATCH hyperv-next v4 10/16] Drivers: hv: Rename the SynIC enable and disable routines
-Date: Mon, 14 Jul 2025 15:15:39 -0700
-Message-ID: <20250714221545.5615-11-romank@linux.microsoft.com>
+Subject: [PATCH hyperv-next v4 12/16] Drivers: hv: Allocate encrypted buffers when requested
+Date: Mon, 14 Jul 2025 15:15:41 -0700
+Message-ID: <20250714221545.5615-13-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250714221545.5615-1-romank@linux.microsoft.com>
 References: <20250714221545.5615-1-romank@linux.microsoft.com>
@@ -65,123 +65,140 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The confidential VMBus requires support for the both hypervisor
-facing SynIC and the paravisor one.
+Confidential VMBus is built around using buffers not shared with
+the host.
 
-Rename the functions that enable and disable SynIC with the
-hypervisor. No functional changes.
+Support allocating encrypted buffers when requested.
 
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
 ---
- drivers/hv/channel_mgmt.c |  2 +-
- drivers/hv/hv.c           | 11 ++++++-----
- drivers/hv/hyperv_vmbus.h |  4 ++--
- drivers/hv/vmbus_drv.c    |  6 +++---
- 4 files changed, 12 insertions(+), 11 deletions(-)
+ drivers/hv/channel.c      | 49 +++++++++++++++++++++++----------------
+ drivers/hv/hyperv_vmbus.h |  3 ++-
+ drivers/hv/ring_buffer.c  |  5 ++--
+ 3 files changed, 34 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 6f87220e2ca3..ca2fe10c110a 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -845,7 +845,7 @@ static void vmbus_wait_for_unload(void)
- 			/*
- 			 * In a CoCo VM the hyp_synic_message_page is not allocated
- 			 * in hv_synic_alloc(). Instead it is set/cleared in
--			 * hv_synic_enable_regs() and hv_synic_disable_regs()
-+			 * hv_hyp_synic_enable_regs() and hv_hyp_synic_disable_regs()
- 			 * such that it is set only when the CPU is online. If
- 			 * not all present CPUs are online, the message page
- 			 * might be NULL, so skip such CPUs.
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index a8669843c56e..94a81bb3c8c7 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -266,9 +266,10 @@ void hv_synic_free(void)
- }
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 35f26fa1ffe7..051eeba800f2 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -443,20 +443,23 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 		return ret;
+ 	}
  
- /*
-- * hv_synic_enable_regs - Initialize the Synthetic Interrupt Controller.
-+ * hv_hyp_synic_enable_regs - Initialize the Synthetic Interrupt Controller
-+ * with the hypervisor.
-  */
--void hv_synic_enable_regs(unsigned int cpu)
-+void hv_hyp_synic_enable_regs(unsigned int cpu)
- {
- 	struct hv_per_cpu_context *hv_cpu =
- 		per_cpu_ptr(hv_context.cpu_context, cpu);
-@@ -334,14 +335,14 @@ void hv_synic_enable_regs(unsigned int cpu)
+-	/*
+-	 * Set the "decrypted" flag to true for the set_memory_decrypted()
+-	 * success case. In the failure case, the encryption state of the
+-	 * memory is unknown. Leave "decrypted" as true to ensure the
+-	 * memory will be leaked instead of going back on the free list.
+-	 */
+-	gpadl->decrypted = true;
+-	ret = set_memory_decrypted((unsigned long)kbuffer,
+-				   PFN_UP(size));
+-	if (ret) {
+-		dev_warn(&channel->device_obj->device,
+-			 "Failed to set host visibility for new GPADL %d.\n",
+-			 ret);
+-		return ret;
++	gpadl->decrypted = !((channel->co_external_memory && type == HV_GPADL_BUFFER) ||
++		(channel->co_ring_buffer && type == HV_GPADL_RING));
++	if (gpadl->decrypted) {
++		/*
++		 * The "decrypted" flag being true assumes that set_memory_decrypted() succeeds.
++		 * But if it fails, the encryption state of the memory is unknown. In that case,
++		 * leave "decrypted" as true to ensure the memory is leaked instead of going back
++		 * on the free list.
++		 */
++		ret = set_memory_decrypted((unsigned long)kbuffer,
++					PFN_UP(size));
++		if (ret) {
++			dev_warn(&channel->device_obj->device,
++				"Failed to set host visibility for new GPADL %d.\n",
++				ret);
++			return ret;
++		}
+ 	}
  
- int hv_synic_init(unsigned int cpu)
- {
--	hv_synic_enable_regs(cpu);
-+	hv_hyp_synic_enable_regs(cpu);
- 
- 	hv_stimer_legacy_init(cpu, VMBUS_MESSAGE_SINT);
- 
- 	return 0;
- }
- 
--void hv_synic_disable_regs(unsigned int cpu)
-+void hv_hyp_synic_disable_regs(unsigned int cpu)
- {
- 	struct hv_per_cpu_context *hv_cpu =
- 		per_cpu_ptr(hv_context.cpu_context, cpu);
-@@ -528,7 +529,7 @@ int hv_synic_cleanup(unsigned int cpu)
- always_cleanup:
- 	hv_stimer_legacy_cleanup(cpu);
- 
--	hv_synic_disable_regs(cpu);
-+	hv_hyp_synic_disable_regs(cpu);
+ 	init_completion(&msginfo->waitevent);
+@@ -544,8 +547,10 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 		 * left as true so the memory is leaked instead of being
+ 		 * put back on the free list.
+ 		 */
+-		if (!set_memory_encrypted((unsigned long)kbuffer, PFN_UP(size)))
+-			gpadl->decrypted = false;
++		if (gpadl->decrypted) {
++			if (!set_memory_encrypted((unsigned long)kbuffer, PFN_UP(size)))
++				gpadl->decrypted = false;
++		}
+ 	}
  
  	return ret;
- }
+@@ -676,12 +681,13 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+ 		goto error_clean_ring;
+ 
+ 	err = hv_ringbuffer_init(&newchannel->outbound,
+-				 page, send_pages, 0);
++				 page, send_pages, 0, newchannel->co_ring_buffer);
+ 	if (err)
+ 		goto error_free_gpadl;
+ 
+ 	err = hv_ringbuffer_init(&newchannel->inbound, &page[send_pages],
+-				 recv_pages, newchannel->max_pkt_size);
++				 recv_pages, newchannel->max_pkt_size,
++				 newchannel->co_ring_buffer);
+ 	if (err)
+ 		goto error_free_gpadl;
+ 
+@@ -862,8 +868,11 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct vmbus_gpadl *gpad
+ 
+ 	kfree(info);
+ 
+-	ret = set_memory_encrypted((unsigned long)gpadl->buffer,
+-				   PFN_UP(gpadl->size));
++	if (gpadl->decrypted)
++		ret = set_memory_encrypted((unsigned long)gpadl->buffer,
++					PFN_UP(gpadl->size));
++	else
++		ret = 0;
+ 	if (ret)
+ 		pr_warn("Fail to set mem host visibility in GPADL teardown %d.\n", ret);
+ 
 diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 16b5cf1bca19..2873703d08a9 100644
+index 2873703d08a9..beae68a70939 100644
 --- a/drivers/hv/hyperv_vmbus.h
 +++ b/drivers/hv/hyperv_vmbus.h
-@@ -189,10 +189,10 @@ extern int hv_synic_alloc(void);
+@@ -200,7 +200,8 @@ extern int hv_synic_cleanup(unsigned int cpu);
+ void hv_ringbuffer_pre_init(struct vmbus_channel *channel);
  
- extern void hv_synic_free(void);
+ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
+-		       struct page *pages, u32 pagecnt, u32 max_pkt_size);
++		       struct page *pages, u32 pagecnt, u32 max_pkt_size,
++			   bool confidential);
  
--extern void hv_synic_enable_regs(unsigned int cpu);
-+extern void hv_hyp_synic_enable_regs(unsigned int cpu);
- extern int hv_synic_init(unsigned int cpu);
+ void hv_ringbuffer_cleanup(struct hv_ring_buffer_info *ring_info);
  
--extern void hv_synic_disable_regs(unsigned int cpu);
-+extern void hv_hyp_synic_disable_regs(unsigned int cpu);
- extern int hv_synic_cleanup(unsigned int cpu);
+diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
+index 3c9b02471760..05c2cd42fc75 100644
+--- a/drivers/hv/ring_buffer.c
++++ b/drivers/hv/ring_buffer.c
+@@ -183,7 +183,8 @@ void hv_ringbuffer_pre_init(struct vmbus_channel *channel)
  
- /* Interface */
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 72940a64b0b6..13aca5abc7d8 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -2809,7 +2809,7 @@ static void hv_crash_handler(struct pt_regs *regs)
- 	 */
- 	cpu = smp_processor_id();
- 	hv_stimer_cleanup(cpu);
--	hv_synic_disable_regs(cpu);
-+	hv_hyp_synic_disable_regs(cpu);
- };
- 
- static int hv_synic_suspend(void)
-@@ -2834,14 +2834,14 @@ static int hv_synic_suspend(void)
- 	 * interrupts-disabled context.
- 	 */
- 
--	hv_synic_disable_regs(0);
-+	hv_hyp_synic_disable_regs(0);
- 
- 	return 0;
- }
- 
- static void hv_synic_resume(void)
+ /* Initialize the ring buffer. */
+ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
+-		       struct page *pages, u32 page_cnt, u32 max_pkt_size)
++		       struct page *pages, u32 page_cnt, u32 max_pkt_size,
++			   bool confidential)
  {
--	hv_synic_enable_regs(0);
-+	hv_hyp_synic_enable_regs(0);
+ 	struct page **pages_wraparound;
+ 	int i;
+@@ -207,7 +208,7 @@ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
  
- 	/*
- 	 * Note: we don't need to call hv_stimer_init(0), because the timer
+ 	ring_info->ring_buffer = (struct hv_ring_buffer *)
+ 		vmap(pages_wraparound, page_cnt * 2 - 1, VM_MAP,
+-			pgprot_decrypted(PAGE_KERNEL));
++			confidential ? PAGE_KERNEL : pgprot_decrypted(PAGE_KERNEL));
+ 
+ 	kfree(pages_wraparound);
+ 	if (!ring_info->ring_buffer)
 -- 
 2.43.0
 
