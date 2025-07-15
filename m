@@ -1,277 +1,390 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013031.outbound.protection.outlook.com [40.107.159.31])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0629D1FBC8C;
-	Tue, 15 Jul 2025 09:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752570499; cv=fail; b=m45VCRjvWw1/o7BWUk85er8+4EufTiHdeNlEQnq0Ufiioul7eFHRNY9D05FwhLKfeU+27vuidNn/nB5WFmunECokq5QmMEiNS2yAAS+7SNR8oQgmiWC4MqyF6wcg6OLTwVsMLtnk44XIO+XjyKOhdIzeJCiTaolVdIy+PUVNg/k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752570499; c=relaxed/simple;
-	bh=fKvfwR99/ByPsNN4ij874hhQTqxtcnxbxdt/qOnQZRY=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=OS5h9gf7hkPK/xlRjD+yoTC+yTEEcIN8bGqy8n1WIFtKsD9aY17KVs3OClrnyRDWJzUYOW/fUWZs+FfxcWWwFZcUcZNAWgKjvYPzNEbxCaKSOg+OCfURyRQSTxDx9ij6LV9MzxBGv/9cu2lC0of5UjjRKUk3QSVVLWL2OH4KqzI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=CVopkc32; arc=fail smtp.client-ip=40.107.159.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476502D5406;
+	Tue, 15 Jul 2025 09:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752573205; cv=none; b=BlD3hDscz+MHEaRUqo+RqaqTLW3l1IS5vCQwjAI9KmI4UeWE8z3Qp0in4dsyNm2cM2/AS9oQEQqlz2a/UeScGlghnYpQStEWGaiv0Z3dAZwIYOwxsD25ttjaYL4ujDInq3Fd29FOATASyQLMX477lMj1x39xmjmquSGNhA7e88k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752573205; c=relaxed/simple;
+	bh=tmHF7gRStiy8BJTFYsfZHMVqt0KO2UrdQFipnPx5lP4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qILFLe590piW4PVxnpV08gyNeafiIl7hUZbOjCeN69OpHnmCRJyRCczTwDWECxKcE2U2kguH16hPCgGMPmF4kUtz3YGvCBbHLQEeuxcbtWZlV0kDEK6sGBfF94UEQByG1t+QmEICbrXnyj15GvmUYkM13EHuDbappSRX98Qt7jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=YKNS/mj1; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="CVopkc32"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GsgX8lw2TQqgYl9ebUd+MGQ6guL2ynFh4gfILlLSFAU/cZB2XzUl3ckykmCQNPn2K1mDuJxZtAr1ye6CUyHcDTjGGe+jickLvleb9zCIEblqFleV7GKVSDaDTLPsDabOlb6BXiCINwj/t7n+sdObfXDuurSw1ucpDQxCSwBvJ530Wm2dBqz6fXuh5wcUGxW03xyQbqF1n+O9Wp6fnAWSZINh7+aiMrqHKC5BYEKneH/1acD89VdU8zkz6PUYZ8EzrYr6rgdiJ33jEttlogiiee2Jm9VI+pLltTkD17vNGJ0sNoZO1JXp211DcpoHpyjAwDUucaQyF05mvSgR0qc0RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fKvfwR99/ByPsNN4ij874hhQTqxtcnxbxdt/qOnQZRY=;
- b=LRdQyNlfOAEPl61lvSfEiElmzN70y1EEToCYCYVqcDxUCXWK4NzgsXS+Xqc/D4n6laORiawUl17grBx8WBFrcmkN/8u3oTCpyLvf0PTNDVzYJNEH8OVbpeUH+7dO1DJ0LAfUWG1HcmJlP+HMnExwj6Z8oixiIz4ELEZbcCw0Mo3kpQLsjqHgfNGPLTRwbSXy60B+D6EC5VsGAqYhjt+rxrv5U5o43BTv7I5nbV2kpXqJ3WGAYmT1qDzl2nwceDlOIgQzW8FPkqEQRiGN19YjYXNQk4xPFpBSbO1yl9JsuFKXMNX6DjHGUuiDBKO7qWX87Pixr00fmthIFlFsqlE+6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nokia-bell-labs.com; dmarc=pass action=none
- header.from=nokia-bell-labs.com; dkim=pass header.d=nokia-bell-labs.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fKvfwR99/ByPsNN4ij874hhQTqxtcnxbxdt/qOnQZRY=;
- b=CVopkc32tWJB/lM0e5OswdzwslaXvVQiq52XCO0e5f38Og0E8oFSZMuI36q5N78Wfn1pqEDe0ODsDbiAaFLx+BGqq1SZ5rdT+FmKnkmPTyMWUxERgYIdD3t5yFbOMEJ1+BWDwILweakCsw5xrmSN5OtFXt6p3gAvHpEyO8qR2r64ZBQOtT23tdf2glp+poxCGmH3QgKbLpbn+Ledbox+wDXND6aG7sxXTPnf2lPeiSvk5GRfN8fIvRwAhioOBQyZmFiLVW9vZlxMHbWaAiTGvMQQZ1IVTnTx0ZFubChhLrPolfHOp1dkIciGwAoC/2u+hS4L8rITPA1yPVzRqD8tMQ==
-Received: from PAXPR07MB7984.eurprd07.prod.outlook.com (2603:10a6:102:133::12)
- by DBAPR07MB6984.eurprd07.prod.outlook.com (2603:10a6:10:17c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Tue, 15 Jul
- 2025 09:08:12 +0000
-Received: from PAXPR07MB7984.eurprd07.prod.outlook.com
- ([fe80::b7f8:dc0a:7e8d:56]) by PAXPR07MB7984.eurprd07.prod.outlook.com
- ([fe80::b7f8:dc0a:7e8d:56%6]) with mapi id 15.20.8922.028; Tue, 15 Jul 2025
- 09:08:12 +0000
-From: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-To: Paolo Abeni <pabeni@redhat.com>, "edumazet@google.com"
-	<edumazet@google.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org"
-	<dsahern@kernel.org>, "kuniyu@amazon.com" <kuniyu@amazon.com>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>,
-	"jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
-	"stephen@networkplumber.org" <stephen@networkplumber.org>,
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us"
-	<jiri@resnulli.us>, "davem@davemloft.net" <davem@davemloft.net>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "donald.hunter@gmail.com"
-	<donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>,
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org"
-	<shuah@kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>,
-	"ncardwell@google.com" <ncardwell@google.com>, "Koen De Schepper (Nokia)"
-	<koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
-	<g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
-	<ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
-	<mirja.kuehlewind@ericsson.com>, "cheshire@apple.com" <cheshire@apple.com>,
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
-	<Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
-Subject: RE: [PATCH v12 net-next 09/15] tcp: accecn: AccECN needs to know
- delivered bytes
-Thread-Topic: [PATCH v12 net-next 09/15] tcp: accecn: AccECN needs to know
- delivered bytes
-Thread-Index: AQHb7MFipACBkVXviUG/0wlsu3u5BLQxrlmAgAFEJ5A=
-Date: Tue, 15 Jul 2025 09:08:12 +0000
-Message-ID:
- <PAXPR07MB7984A9327EF12B0E011511CCA357A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-References: <20250704085345.46530-1-chia-yu.chang@nokia-bell-labs.com>
- <20250704085345.46530-10-chia-yu.chang@nokia-bell-labs.com>
- <226c49dc-ee9c-4edb-9428-2b8b37f542fe@redhat.com>
-In-Reply-To: <226c49dc-ee9c-4edb-9428-2b8b37f542fe@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nokia-bell-labs.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR07MB7984:EE_|DBAPR07MB6984:EE_
-x-ms-office365-filtering-correlation-id: 293cea54-27e8-4edf-0128-08ddc37f2056
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|7416014|376014|921020|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?a0dsMlNwK1dac1dqK2xwWTBoakw2cVFiSjMyZWUzNUh4L0ZzNVA1K09mNGhw?=
- =?utf-8?B?OG56VVhRTG80SytpZTZ0MTZuQ0k5NjFxeXg2QW1GMjg5VVViOGw3UFdFNTht?=
- =?utf-8?B?K244enVKN1JhTy9tSkVBWlR5NHVSaHNxeEhoZVg0UUdhNHBHelRiU1B6eXJR?=
- =?utf-8?B?azVDV0J5WHhWYzMreS9DY0hrbUJ6R05KRFRUVGhRN3VpLzdDbHlObDBUeDlx?=
- =?utf-8?B?emd4cWZiVjdqTy9UeUZrRXFacUdzMkNQMHYrVjR1Tjh0OSsxQUt0aDh5akFq?=
- =?utf-8?B?QlBwZWxLd3kzRUNkQWhPMTdzWDY2V0x3Q21iMVhpMExaTFJEVnppVitvV3pE?=
- =?utf-8?B?VExKcnZVc0lJL0o3cmduUWpyVk0xWTRPTmJ4M2NodlJEVWFsdWlLY2JQZ1FD?=
- =?utf-8?B?VVhoaFgxMFp0N0hCNG5Md1JKblVlazU4enB1NUhZdmVJeWQxVWJLd2NRVnVa?=
- =?utf-8?B?WDY5SVpyMDB6cFRDYVZaSjNXL2hTS2xMS2ZJUmRTQ3JDcVQxYi83bzVMTmtu?=
- =?utf-8?B?ZmtDN25BTWc2cHhIWWZhcFl6a0h0Z0lTQWY0MlRQckQyaCs4LzZRSGY4Rkxn?=
- =?utf-8?B?NmJveGY0SmgzcWVsTG00cytzQ2N5WFNmWmFSamZJbVU0QXJlVHJmcHFEMTRl?=
- =?utf-8?B?eXNtTmhmM3VBeFV5NzJyaXJuNXNRR09mMFRQa3JiYWwxc0hCMS8xM2Fua0Vu?=
- =?utf-8?B?Sit2UExmR1h4WmFzQmdWMXNCSGVsMTByTXQ1ZlNCbXRVby9rVkpUOFhLTUlX?=
- =?utf-8?B?RmZNbWFaY25rYTlycUVBUzVmbHU4dnkrVldlTEEwNlJFZkZzTkg1SlBwOTAw?=
- =?utf-8?B?dmhUY0tFbHJYSEF1ZjB3WUwyUk40aFNjeENKaytVNmZmMlVyZVN6azU1b1RP?=
- =?utf-8?B?WEVqTU9odU9XY1c1U3R5RHFjaDVzalJXRk9OMGthL3A2SjV6Z3ozSDQzcEt5?=
- =?utf-8?B?aWhOVDdqZTRqMFhHUHB4RTJWQURHV2NqSnYvMTY2NEZpb0pud0prU2R4VXlk?=
- =?utf-8?B?cm5aV3FOdHd2WWk1Um1FVmJtbFpXbitNQTRQNzJSSmgzWkkxdnRGWThqVWs0?=
- =?utf-8?B?bTdDdE41MGhJUzFxSHl4bTdoTk5yUGc3S0hmdit3WVg1NHd3WWlTNXB3ZkNM?=
- =?utf-8?B?N2pSTGU2U29hSGpjZkNjZFJqVm1PWFZaTUZUbm50cHEvS2VvREZTa2hwS1ZR?=
- =?utf-8?B?c0lNVHQ0SXU4ZG1FWldhcUhRWHhsSERDRlYwemFqN2lxcnlURHp2UlJwN2dh?=
- =?utf-8?B?RXBnN3FMeWJiaW1HbXhYK20wd2JXYnhZT0xvQ3huRXAvTEF1ZEMxTmFUS1Za?=
- =?utf-8?B?UXdnNm1MR0E4YUU3MGczMERWdWkyZUtQRE5EbGlRTzJhMW13MzFVdXVRZHpu?=
- =?utf-8?B?cGVVRkVIMDBuaGw5TVBwWUM5aTBWdm1mZHlVMWg4Rm5NZ2JVT3lyU1dYZlNK?=
- =?utf-8?B?L2tLdWlDS3pHSEh3S1FUT3JINHlmOXFzRGhXNFdQbjN3SWtWUEZrQXd6WWVV?=
- =?utf-8?B?R3QyQWdLVk5nVGdiekF0WUxDT1I2YVdSVDR1d1BqQ0krb2s5aXVDWU5HK0pX?=
- =?utf-8?B?d05oRHh6M0dqT09ZdWw3THZaSHB2Sm5YUjZ4VFMyM3lXRnRnWHUrRytHamxm?=
- =?utf-8?B?VzBzVm43MzR3NkZJNUhTUUlISGpZY21zVUwzT0ZhSDBESTQwa3Y4Z2wwWXB1?=
- =?utf-8?B?c0REMTRmZDhSS3JCb2x2MHl0U014VkRXR0hQclQvalc3YlhMZFhWTUJYRVo1?=
- =?utf-8?B?SFZTUG5mbjBaT3RBTW5aZ0V5NjVkaXNrV1UvTFpJNWFIMXFHZXgxaDNXMjhn?=
- =?utf-8?B?dkdMNEllc0xXUVhzU1MxK0tzZ2t0Z0M3QjlTckpZYkJhS0FDTFhNRkxVallZ?=
- =?utf-8?B?Wkl4ZEZMbmtaY0luS2xHMTYxd2V6NUR5eEhBVm5pTjNjdXdGTVg1bGtnN0xR?=
- =?utf-8?B?MUxCVy9jbjVmL2RQQWw0OFhWakVjam91d2VVYWQyQU1xa2dVNDNodGhIdzZv?=
- =?utf-8?Q?MHmUNW8cB3FHzJv06DN+3xsir6Vm/8=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR07MB7984.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?VUNHYXo1ZnBNVjVVaUdlMkRvNFpra0dnUFdaYnR3WlFvK1RmQ1dOYk0yQ2dE?=
- =?utf-8?B?WWxVZmF3Uk41WEFTZndmVXVvZlp3VEV0VHd1RVE4OTN5ZXUzTElNalJnUzBJ?=
- =?utf-8?B?dFN4ZENiKzhVYWxHckJpL0V0S3p5TitGM01oZjhtbmRXSk1JNnZxbENWczdM?=
- =?utf-8?B?N1NOdkN0NGFrTHArVVpNVzJyUTRPZGlJZ0l2a2FydGh3MVJkcU8vcUQ5T00v?=
- =?utf-8?B?N25pSG53YjRrdGNMUTA5Y0wvR1FiSFBqanBaeGQ2a3YvSHRGYlRkdFYyQVRH?=
- =?utf-8?B?MnJmZTV1SDVLWTNDN0dxeVhLWG9LQXJnblYzWC94YXFTSjRQQVhHRUIvaHVr?=
- =?utf-8?B?eG0ybXU2aERvcEVHVXhWYWZYNUNlQ1Nsc3F3VjZ6RHVYQjZVVDN5alhIellM?=
- =?utf-8?B?L29yY0RJODZLY2pVNEk4MkRYbGhBclFmNnVEVVB3VHFBbW8yNFlFQ21TZVFY?=
- =?utf-8?B?SVZSZURqTktYOHBrNHQwUzYzRG14L3JzSk1qSmV5dlNpelRzd2NsRlgwOE8w?=
- =?utf-8?B?QkNjazlRNGl4ZG9QVWJacldDL0MwczRTMGlGNVUzU1oyQTAyNGxaVVY3N2RT?=
- =?utf-8?B?a3h3MFVadnlQUGpaS0wveGF6U1JFQnp4S2E3WXR3LzNCQUFMRU1wdnE4b1BG?=
- =?utf-8?B?eXAzVExzTlA1REJwNW15U0swZUNURjYzaURaWEJGK3hiTmNzMXhyL2YyNWRt?=
- =?utf-8?B?YUpwcGxlMTJjUzFNbkRTOWNISlhUa29qc3BEdlJ1L0Y2d2FCaDlKZktNSC9w?=
- =?utf-8?B?WEtDN2NGMUpjRDFyZEZDYTR4TlZQTmV3aFk4UXNHOGtURStOOEhPNjc3NDlx?=
- =?utf-8?B?V0ZnSmg3VWNac2RySjh0VzEyMnI5S3NsOWZKVk9qcVdiN2ZZVjdtVVlXZG5O?=
- =?utf-8?B?b0VXT01PRFJiMjJLOU5aUU4zVEhsZjBMOHRnTnVWOFNBSVozS25TSXlEcXR3?=
- =?utf-8?B?SzNScTZWazFqSE0zS3ExVTBReC9RcGRsaGVDUVpIOWEzVEZuTFlEMlo3ZEls?=
- =?utf-8?B?UUNEaXgxeWdtTkE3a21DU3B0U0RSYXRsRnZQZXBoR2VCL1p2R1B2TVZLZWU5?=
- =?utf-8?B?L3BabFVGTGVncTlXWG5pVFIybC8xZTczaExKZDl0UjJEeFhFcEV1S3BxZzQy?=
- =?utf-8?B?OHRzVUZsa1ZIT2xudllTWEZqL2xNdU56VzBpSENCMTlQcmk3c1JyaElObWxS?=
- =?utf-8?B?aFF4UEFNSTVuWlhzMDNEK2tib1Frby95RHljOXpHeTJYSk9FRkNUbzNiemNw?=
- =?utf-8?B?M3g5WXNXdlM1eERUeXkwazl6a3R5ZC9uTXUzU1VIVFhjMmpQSHVITllmQ0FV?=
- =?utf-8?B?dFNTRlZlaHRjMUhqYXBNV3ZpNTdBcXM3dGVpQTRoUVB4YVBRWk1QMUZpcnUv?=
- =?utf-8?B?Y3lUL0lWNEMwWSt1NUpYQnV6Si83WXlXWDl6Y1g1Rnh4enpscDhBc01OUEly?=
- =?utf-8?B?bm1KUUNRL202cFBtZXVELzJ0Lzc5ZHY3UFYxTFNhWkd4bVllbDVmbXNSS2Nt?=
- =?utf-8?B?cVMxOFlzQ3Q0clZnYjJaZjkrNHp0TjhIZjNGSzEraEM5SXY4Wi94cGFtNXBJ?=
- =?utf-8?B?NHN1aEdZNjBucWpLUXMwTEx2RW42dG9zc1lwSXRsVVA5Z0dPYy9aSUhVeVNG?=
- =?utf-8?B?SllCT3g5VzZPOEk0VFREU2d2bTN0cmplNEZobDVZV0lZRUN2UEVSWitEaE9m?=
- =?utf-8?B?UDFrRTBhTXN1Y3ZGNXNnSGp4dGY5SFQvNzluZDhjM004Z1pLZER3VlVPSm16?=
- =?utf-8?B?Y21IaGhFbVZzcm5MYURSNzBGVjRFTURMSkkreGswazFiTUU4M05lamlNSmlG?=
- =?utf-8?B?eGYrdGI4bnZFMUowNGg0b2VIQ1NaYldMcGp4RGhVaW95dlkyYTJmdDJiY1Jh?=
- =?utf-8?B?SDF2NW1aZVgwUjNwSDloNXV4Ukh2SEJLK1BOMjVaWDQwZ3AxS3hXVFRrNmtt?=
- =?utf-8?B?emwvUlVMUDJhZVFOM1NyS0pnT2ZuaitjeWplNFBsSmR0cjNpNlppZTBralFE?=
- =?utf-8?B?KzlUYkRKRnZTSWMvYzk5amVtaGZqdFExSStiNlJHZWRzeDJLNENBcmtZay9D?=
- =?utf-8?B?ZDJwdmhtU21mdElNOGgvNm5SS0NiRWVnTlUzTmplUHd5cUo3VVpsKzE0S2JH?=
- =?utf-8?B?UFdEdTRWaHh2KzNrK1A0eWs4UUkrZ29kbHlKN2FOYnM5alNUV1FuaFhSdXEv?=
- =?utf-8?Q?NGiVc2kEbooUo0kcjEyWvFY=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="YKNS/mj1"
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56F6uNQR002322;
+	Tue, 15 Jul 2025 11:52:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	G1/gp4B+L0w00yUAj4aY/kWgU6WTpYFWiQQBVNHuBZg=; b=YKNS/mj1LT/6AIJY
+	+8QQVR+QBp0xP38nrqNwzF1iu2AWohdHl67RWB0HupkfYK2dzhwq0DVRmzMeyAUK
+	Bczm3DLmg0hapbdZxuMkeqgkx+H31vHa9rak9IRO3QREsWJVE/5Wbe0Ukibb7pOF
+	U0m+pJ8m10/FbMpMolE11jeAhCJt2tSg0t09RHgEFjh4Ei5/DHtaZ4n9iDiUPXY+
+	4hAtt4FYFh6E87hzoap+tBeUvSOhgCaCGGvbuH4ZZb5gFP7CNhZcKwNfbLzQ/GDS
+	9kyBHq7ax+ADFLTED/lyL0IgP2bySJImYvTuovPh/KNfpyQVeIENyEmqy9llvxnR
+	Ws5b1w==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47uf22mk5t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Jul 2025 11:52:55 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A118F4004A;
+	Tue, 15 Jul 2025 11:51:26 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 03564B6CE36;
+	Tue, 15 Jul 2025 11:49:43 +0200 (CEST)
+Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 15 Jul
+ 2025 11:49:41 +0200
+Message-ID: <1d22a89d-f060-4663-aef9-6645a66d15a5@foss.st.com>
+Date: Tue, 15 Jul 2025 11:49:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nokia-bell-labs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR07MB7984.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 293cea54-27e8-4edf-0128-08ddc37f2056
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2025 09:08:12.6999
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qWPQoZqgJqF4PTI5fnXirQU939DnwI3bw+fzqDGAOeF2CYnH/dRf2Z1nIDm7bYZX9pMr34UeJerAHtDCh2cFvupfiU2LOKI2qP+xlBYfxdWEk6GkZ+Vg1a1uKqbZpE0g
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR07MB6984
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/16] perf: stm32: introduce DDRPERFM driver
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Gabriel Fernandez
+	<gabriel.fernandez@foss.st.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Le
+ Goffic <legoffic.clement@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-perf-users@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>
+References: <20250711-ddrperfm-upstream-v2-0-cdece720348f@foss.st.com>
+ <20250711-ddrperfm-upstream-v2-9-cdece720348f@foss.st.com>
+ <20250711170415.00001901@huawei.com>
+Content-Language: en-US
+From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
+In-Reply-To: <20250711170415.00001901@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-15_01,2025-07-14_01,2025-03-28_01
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQYW9sbyBBYmVuaSA8cGFiZW5p
-QHJlZGhhdC5jb20+IA0KPiBTZW50OiBNb25kYXksIEp1bHkgMTQsIDIwMjUgMzozNCBQTQ0KPiBU
-bzogQ2hpYS1ZdSBDaGFuZyAoTm9raWEpIDxjaGlhLXl1LmNoYW5nQG5va2lhLWJlbGwtbGFicy5j
-b20+OyBlZHVtYXpldEBnb29nbGUuY29tOyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBjb3Ji
-ZXRAbHduLm5ldDsgaG9ybXNAa2VybmVsLm9yZzsgZHNhaGVybkBrZXJuZWwub3JnOyBrdW5peXVA
-YW1hem9uLmNvbTsgYnBmQHZnZXIua2VybmVsLm9yZzsgbmV0ZGV2QHZnZXIua2VybmVsLm9yZzsg
-ZGF2ZS50YWh0QGdtYWlsLmNvbTsgamhzQG1vamF0YXR1LmNvbTsga3ViYUBrZXJuZWwub3JnOyBz
-dGVwaGVuQG5ldHdvcmtwbHVtYmVyLm9yZzsgeGl5b3Uud2FuZ2NvbmdAZ21haWwuY29tOyBqaXJp
-QHJlc251bGxpLnVzOyBkYXZlbUBkYXZlbWxvZnQubmV0OyBhbmRyZXcrbmV0ZGV2QGx1bm4uY2g7
-IGRvbmFsZC5odW50ZXJAZ21haWwuY29tOyBhc3RAZmliZXJieS5uZXQ7IGxpdWhhbmdiaW5AZ21h
-aWwuY29tOyBzaHVhaEBrZXJuZWwub3JnOyBsaW51eC1rc2VsZnRlc3RAdmdlci5rZXJuZWwub3Jn
-OyBpakBrZXJuZWwub3JnOyBuY2FyZHdlbGxAZ29vZ2xlLmNvbTsgS29lbiBEZSBTY2hlcHBlciAo
-Tm9raWEpIDxrb2VuLmRlX3NjaGVwcGVyQG5va2lhLWJlbGwtbGFicy5jb20+OyBnLndoaXRlQGNh
-YmxlbGFicy5jb207IGluZ2VtYXIucy5qb2hhbnNzb25AZXJpY3Nzb24uY29tOyBtaXJqYS5rdWVo
-bGV3aW5kQGVyaWNzc29uLmNvbTsgY2hlc2hpcmVAYXBwbGUuY29tOyBycy5pZXRmQGdteC5hdDsg
-SmFzb25fTGl2aW5nb29kQGNvbWNhc3QuY29tOyB2aWRoaV9nb2VsQGFwcGxlLmNvbQ0KPiBTdWJq
-ZWN0OiBSZTogW1BBVENIIHYxMiBuZXQtbmV4dCAwOS8xNV0gdGNwOiBhY2NlY246IEFjY0VDTiBu
-ZWVkcyB0byBrbm93IGRlbGl2ZXJlZCBieXRlcw0KPiANCj4gDQo+IENBVVRJT046IFRoaXMgaXMg
-YW4gZXh0ZXJuYWwgZW1haWwuIFBsZWFzZSBiZSB2ZXJ5IGNhcmVmdWwgd2hlbiBjbGlja2luZyBs
-aW5rcyBvciBvcGVuaW5nIGF0dGFjaG1lbnRzLiBTZWUgdGhlIFVSTCBub2suaXQvZXh0IGZvciBh
-ZGRpdGlvbmFsIGluZm9ybWF0aW9uLg0KPiANCj4gDQo+IA0KPiBPbiA3LzQvMjUgMTA6NTMgQU0s
-IGNoaWEteXUuY2hhbmdAbm9raWEtYmVsbC1sYWJzLmNvbSB3cm90ZToNCj4gPiBkaWZmIC0tZ2l0
-IGEvbmV0L2lwdjQvdGNwX2lucHV0LmMgYi9uZXQvaXB2NC90Y3BfaW5wdXQuYyBpbmRleCANCj4g
-PiBlZWE3OTAyOTVlNTQuLmY3ZDc2NDk2MTJhMiAxMDA2NDQNCj4gPiAtLS0gYS9uZXQvaXB2NC90
-Y3BfaW5wdXQuYw0KPiA+ICsrKyBiL25ldC9pcHY0L3RjcF9pbnB1dC5jDQo+ID4gQEAgLTEwNTAs
-NiArMTA1MCw3IEBAIHN0cnVjdCB0Y3Bfc2Fja3RhZ19zdGF0ZSB7DQo+ID4gICAgICAgdTY0ICAg
-ICBsYXN0X3NhY2t0Ow0KPiA+ICAgICAgIHUzMiAgICAgcmVvcmQ7DQo+ID4gICAgICAgdTMyICAg
-ICBzYWNrX2RlbGl2ZXJlZDsNCj4gPiArICAgICB1MzIgICAgIGRlbGl2ZXJlZF9ieXRlczsNCj4g
-DQo+IEV4cGxpY2l0bHkgbWVudGlvbmluZyBpbiB0aGUgY29tbWl0IG1lc3NhZ2UgdGhhdCB0aGUg
-YWJvdmUgZmlsbHMgYSA0IGJ5dGVzIGhvbGUgY291bGQgYmUgaGVscGZ1bCBmb3IgcmV2aWV3ZXJz
-Lg0KPiANCkhpIFBhb2xvLA0KDQpKdXN0IHdhbnQgdG8gYXNrIHRvIGNsYXJpZnkgb24gInRoZSBh
-Ym92ZSBmaWxscyBhIDQgYnl0ZXMgaG9sZSIuDQoNCk5vdyBJIHNlZSBpZiBJIG1vdmUgdGhlIGRl
-bGl2ZXJlZF9ieXRlcyB0byB0aGUgZW5kIG9mIHRoaXMgc3RydWN0LCB0aGUgcGFob2xlIHJlc3Vs
-dHMgb2YgQVJNMzIgYml0IGNvbXBpbGF0aW9uOg0KDQpbQkVGT1JFIFBBVENIXQ0Kc3RydWN0IHRj
-cF9zYWNrdGFnX3N0YXRlIHsNCiAgICAgICAgdTY0ICAgICAgICAgICAgICAgICAgICAgICAgZmly
-c3Rfc2Fja3Q7ICAgICAgICAgIC8qICAgICAwICAgICA4ICovDQogICAgICAgIHU2NCAgICAgICAg
-ICAgICAgICAgICAgICAgIGxhc3Rfc2Fja3Q7ICAgICAgICAgICAvKiAgICAgOCAgICAgOCAqLw0K
-ICAgICAgICB1MzIgICAgICAgICAgICAgICAgICAgICAgICByZW9yZDsgICAgICAgICAgICAgICAg
-LyogICAgMTYgICAgIDQgKi8NCiAgICAgICAgdTMyICAgICAgICAgICAgICAgICAgICAgICAgc2Fj
-a19kZWxpdmVyZWQ7ICAgICAgIC8qICAgIDIwICAgICA0ICovDQogICAgICAgIGludCAgICAgICAg
-ICAgICAgICAgICAgICAgIGZsYWc7ICAgICAgICAgICAgICAgICAvKiAgICAyNCAgICAgNCAqLw0K
-ICAgICAgICB1bnNpZ25lZCBpbnQgICAgICAgICAgICAgICBtc3Nfbm93OyAgICAgICAgICAgICAg
-LyogICAgMjggICAgIDQgKi8NCiAgICAgICAgc3RydWN0IHJhdGVfc2FtcGxlICogICAgICAgcmF0
-ZTsgICAgICAgICAgICAgICAgIC8qICAgIDMyICAgICA0ICovDQoNCiAgICAgICAgLyogc2l6ZTog
-NDAsIGNhY2hlbGluZXM6IDEsIG1lbWJlcnM6IDcgKi8NCiAgICAgICAgLyogcGFkZGluZzogNCAq
-Lw0KICAgICAgICAvKiBsYXN0IGNhY2hlbGluZTogNDAgYnl0ZXMgKi8NCn07DQoNCltBRlRFUiBQ
-QVRDSF0NCnN0cnVjdCB0Y3Bfc2Fja3RhZ19zdGF0ZSB7DQogICAgICAgIHU2NCAgICAgICAgICAg
-ICAgICAgICAgICAgIGZpcnN0X3NhY2t0OyAgICAgICAgICAvKiAgICAgMCAgICAgOCAqLw0KICAg
-ICAgICB1NjQgICAgICAgICAgICAgICAgICAgICAgICBsYXN0X3NhY2t0OyAgICAgICAgICAgLyog
-ICAgIDggICAgIDggKi8NCiAgICAgICAgdTMyICAgICAgICAgICAgICAgICAgICAgICAgcmVvcmQ7
-ICAgICAgICAgICAgICAgIC8qICAgIDE2ICAgICA0ICovDQogICAgICAgIHUzMiAgICAgICAgICAg
-ICAgICAgICAgICAgIHNhY2tfZGVsaXZlcmVkOyAgICAgICAvKiAgICAyMCAgICAgNCAqLw0KICAg
-ICAgICBpbnQgICAgICAgICAgICAgICAgICAgICAgICBmbGFnOyAgICAgICAgICAgICAgICAgLyog
-ICAgMjQgICAgIDQgKi8NCiAgICAgICAgdW5zaWduZWQgaW50ICAgICAgICAgICAgICAgbXNzX25v
-dzsgICAgICAgICAgICAgIC8qICAgIDI4ICAgICA0ICovDQogICAgICAgIHN0cnVjdCByYXRlX3Nh
-bXBsZSAqICAgICAgIHJhdGU7ICAgICAgICAgICAgICAgICAvKiAgICAzMiAgICAgNCAqLw0KICAg
-ICAgICB1MzIgICAgICAgICAgICAgICAgICAgICAgICBkZWxpdmVyZWRfYnl0ZXM7ICAgICAgLyog
-ICAgMzYgICAgIDQgKi8NCg0KICAgICAgICAvKiBzaXplOiA0MCwgY2FjaGVsaW5lczogMSwgbWVt
-YmVyczogOCAqLw0KICAgICAgICAvKiBsYXN0IGNhY2hlbGluZTogNDAgYnl0ZXMgKi8NCn07DQoN
-CkFuZCB0aGUgNjQgYml0IHJlc3VsdHMgYXJlOg0KW0JFRk9SRSBQQVRDSF0NCnN0cnVjdCB0Y3Bf
-c2Fja3RhZ19zdGF0ZSB7DQogICAgICAgIHU2NCAgICAgICAgICAgICAgICAgICAgICAgIGZpcnN0
-X3NhY2t0OyAgICAgICAgICAvKiAgICAgMCAgICAgOCAqLw0KICAgICAgICB1NjQgICAgICAgICAg
-ICAgICAgICAgICAgICBsYXN0X3NhY2t0OyAgICAgICAgICAgLyogICAgIDggICAgIDggKi8NCiAg
-ICAgICAgdTMyICAgICAgICAgICAgICAgICAgICAgICAgcmVvcmQ7ICAgICAgICAgICAgICAgIC8q
-ICAgIDE2ICAgICA0ICovDQogICAgICAgIHUzMiAgICAgICAgICAgICAgICAgICAgICAgIHNhY2tf
-ZGVsaXZlcmVkOyAgICAgICAvKiAgICAyMCAgICAgNCAqLw0KICAgICAgICBpbnQgICAgICAgICAg
-ICAgICAgICAgICAgICBmbGFnOyAgICAgICAgICAgICAgICAgLyogICAgMjQgICAgIDQgKi8NCiAg
-ICAgICAgdW5zaWduZWQgaW50ICAgICAgICAgICAgICAgbXNzX25vdzsgICAgICAgICAgICAgIC8q
-ICAgIDI4ICAgICA0ICovDQogICAgICAgIHN0cnVjdCByYXRlX3NhbXBsZSAqICAgICAgIHJhdGU7
-ICAgICAgICAgICAgICAgICAvKiAgICAzMiAgICAgOCAqLw0KDQogICAgICAgIC8qIHNpemU6IDQw
-LCBjYWNoZWxpbmVzOiAxLCBtZW1iZXJzOiA3ICovDQogICAgICAgIC8qIGxhc3QgY2FjaGVsaW5l
-OiA0MCBieXRlcyAqLw0KfTsNCg0KW0FGVEVSIFBBVENIXQ0Kc3RydWN0IHRjcF9zYWNrdGFnX3N0
-YXRlIHsNCiAgICAgICAgdTY0ICAgICAgICAgICAgICAgICAgICAgICAgZmlyc3Rfc2Fja3Q7ICAg
-ICAgICAgIC8qICAgICAwICAgICA4ICovDQogICAgICAgIHU2NCAgICAgICAgICAgICAgICAgICAg
-ICAgIGxhc3Rfc2Fja3Q7ICAgICAgICAgICAvKiAgICAgOCAgICAgOCAqLw0KICAgICAgICB1MzIg
-ICAgICAgICAgICAgICAgICAgICAgICByZW9yZDsgICAgICAgICAgICAgICAgLyogICAgMTYgICAg
-IDQgKi8NCiAgICAgICAgdTMyICAgICAgICAgICAgICAgICAgICAgICAgc2Fja19kZWxpdmVyZWQ7
-ICAgICAgIC8qICAgIDIwICAgICA0ICovDQogICAgICAgIGludCAgICAgICAgICAgICAgICAgICAg
-ICAgIGZsYWc7ICAgICAgICAgICAgICAgICAvKiAgICAyNCAgICAgNCAqLw0KICAgICAgICB1bnNp
-Z25lZCBpbnQgICAgICAgICAgICAgICBtc3Nfbm93OyAgICAgICAgICAgICAgLyogICAgMjggICAg
-IDQgKi8NCiAgICAgICAgc3RydWN0IHJhdGVfc2FtcGxlICogICAgICAgcmF0ZTsgICAgICAgICAg
-ICAgICAgIC8qICAgIDMyICAgICA4ICovDQogICAgICAgIHUzMiAgICAgICAgICAgICAgICAgICAg
-ICAgIGRlbGl2ZXJlZF9ieXRlczsgICAgICAvKiAgICA0MCAgICAgNCAqLw0KDQogICAgICAgIC8q
-IHNpemU6IDQ4LCBjYWNoZWxpbmVzOiAxLCBtZW1iZXJzOiA4ICovDQogICAgICAgIC8qIHBhZGRp
-bmc6IDQgKi8NCiAgICAgICAgLyogbGFzdCBjYWNoZWxpbmU6IDQ4IGJ5dGVzICovDQp9Ow0KDQpJ
-IHNlZSB0aGlzIHBhdGNoIGRvZXMgbm90IGNyZWF0ZSBhbnkgZXh0cmEgaG9sZSBhbmQgaXQgY2Fu
-IHJldXNlIHRoZSBleGlzdGluZyBwYWRkaW5nIDQgQnl0ZXMgZm9yIEFSTTMyIGFyY2hpdGVjdHVy
-ZS4NCg0KRG9lcyBpdCBtYXRjaCB3aGVuIHlvdSBtZW50aW9uZWQ/DQoNCkJScywNCkNoaWEtWXUN
-Cg==
+Hi Jonathan,
+
+On 7/11/25 18:04, Jonathan Cameron wrote:
+> On Fri, 11 Jul 2025 16:49:01 +0200
+> Clément Le Goffic <clement.legoffic@foss.st.com> wrote:
+> 
+>> Introduce the driver for the DDR Performance Monitor available on
+>> STM32MPU SoC.
+>>
+>> On STM32MP2 platforms, the DDRPERFM allows to monitor up to 8 DDR events
+>> that come from the DDR Controller such as read or write events.
+>>
+>> On STM32MP1 platforms, the DDRPERFM cannot monitor any event on any
+>> counter, there is a notion of set of events.
+>> Events from different sets cannot be monitored at the same time.
+>> The first chosen event selects the set.
+>> The set is coded in the first two bytes of the config value which is on 4
+>> bytes.
+>>
+>> On STM32MP25x series, the DDRPERFM clock is shared with the DDR controller
+>> and may be secured by bootloaders.
+>> Access controllers allow to check access to a resource. Use the access
+>> controller defined in the devicetree to know about the access to the
+>> DDRPERFM clock.
+>>
+>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+> 
+> Hi Clément,
+> 
+> A quick drive by review as it's Friday afternoon and I was curious..
+> 
+> Mostly superficial stuff. I didn't look closely at the perf logic.
+
+Thank you for the review.
+The perf logic is new to me so if you have any suggestion, you're welcome.
+
+
+> 
+>> diff --git a/drivers/perf/stm32_ddr_pmu.c b/drivers/perf/stm32_ddr_pmu.c
+>> new file mode 100644
+>> index 000000000000..1be5bbe12978
+>> --- /dev/null
+>> +++ b/drivers/perf/stm32_ddr_pmu.c
+>> @@ -0,0 +1,910 @@
+> 
+>> +#define EVENT_NUMBER(group, index)	(((group) << 8) | (index))
+>> +#define GROUP_VALUE(event_number)		((event_number) >> 8)
+>> +#define EVENT_INDEX(event_number)	((event_number) & 0xFF)
+> 
+> Prefix these macro names with something driver specific.  They are
+> very likely to clash with something in a header in future otherwise.
+
+Ok
+
+> 
+>> +
+>> +enum stm32_ddr_pmu_memory_type {
+>> +	STM32_DDR_PMU_LPDDR4,
+>> +	STM32_DDR_PMU_LPDDR3,
+>> +	STM32_DDR_PMU_DDR4,
+>> +	STM32_DDR_PMU_DDR3
+> 
+> This should have a trailing comma as might well be more
+> added in future if this IP gets used in more devices.
+
+Ok
+
+>> +};
+>>
+> 
+> 
+>> +
+>> +static const struct attribute_group *stm32_ddr_pmu_attr_groups_mp2[] = {
+>> +	&stm32_ddr_pmu_events_attrs_group_mp2,
+>> +	&stm32_ddr_pmu_format_attr_group,
+>> +	NULL,
+> 
+> No comma needed on terminating entries.
+
+Ok, will also be fixed for `stm32_ddr_pmu_attr_groups_mp1[]` and
+`stm32_ddr_pmu_format_attrs[]`
+> 
+>> +};
+>> +
+>> +static int stm32_ddr_pmu_device_probe(struct platform_device *pdev)
+>> +{
+>> +	struct stm32_firewall firewall;
+>> +	struct stm32_ddr_pmu *pmu;
+>> +	struct reset_control *rst;
+>> +	struct resource *res;
+>> +	int ret;
+>> +
+>> +	pmu = devm_kzalloc(&pdev->dev, struct_size(pmu, counters, MP2_CNT_NB), GFP_KERNEL);
+>> +	if (!pmu)
+>> +		return -ENOMEM;
+>> +
+>> +	platform_set_drvdata(pdev, pmu);
+>> +	pmu->dev = &pdev->dev;
+>> +
+>> +	pmu->cfg = device_get_match_data(&pdev->dev);
+>> +
+>> +	pmu->membase = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+>> +	if (IS_ERR(pmu->membase))
+>> +		return PTR_ERR(pmu->membase);
+>> +
+>> +	if (of_property_present(pmu->dev->of_node, "access-controllers")) {
+>> +		ret = stm32_firewall_get_firewall(pmu->dev->of_node, &firewall, 1);
+>> +		if (ret)
+>> +			return dev_err_probe(pmu->dev, ret, "Failed to get firewall\n");
+>> +		ret = stm32_firewall_grant_access_by_id(&firewall, firewall.firewall_id);
+>> +		if (ret)
+>> +			return dev_err_probe(pmu->dev, ret, "Failed to grant access\n");
+>> +	}
+>> +
+>> +	pmu->clk = devm_clk_get_optional_prepared(pmu->dev, NULL);
+> 
+> Given there are quite a few uses of pmu->dev, maybe worth a local
+> struct device *dev = &pdev->dev; at the top and use dev to replace all these.
+
+As I need pmu->dev elsewhere in the driver I'll stick to it and replace 
+all &pdev->dev
+
+> 
+>> +	if (IS_ERR(pmu->clk))
+>> +		return dev_err_probe(pmu->dev, PTR_ERR(pmu->clk), "Failed to get prepare clock\n");
+>> +
+>> +	clk_enable(pmu->clk);
+>> +
+>> +	rst = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
+> 
+> You mix and match between pdev->dev, and pmu->dev. Good to pick one or use local
+> variable as suggested above.
+
+Ok
+> 
+>> +	if (IS_ERR(rst)) {
+>> +		clk_disable_unprepare(pmu->clk);
+> Given use of _prepared() get above. This doesn't look right - the unprepare
+> should be handled by devm unwinding. clk_disable()
+
+Oh you're right, I can fix this unwinding issue by using 
+`devm_clk_get_optional_enabled()` instead of 
+`devm_clk_get_optional_prepared()` and remove the `clk_enable()` so all 
+`clk_disable_unprepare()` disappear from the probe
+
+
+>> +		return dev_err_probe(&pdev->dev, PTR_ERR(rst), "Failed to get reset\n");
+>> +	}
+>> +
+>> +	reset_control_assert(rst);
+>> +	reset_control_deassert(rst);
+>> +
+>> +	pmu->poll_period = ms_to_ktime(POLL_MS);
+>> +	hrtimer_setup(&pmu->hrtimer, stm32_ddr_pmu_poll, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+>> +
+>> +	for (int i = 0; i < MP2_CNT_NB; i++)
+>> +		INIT_LIST_HEAD(&pmu->counters[i]);
+>> +
+>> +	pmu->selected_set = -1;
+>> +
+>> +	pmu->pmu = (struct pmu) {
+>> +		.task_ctx_nr = perf_invalid_context,
+>> +		.start = stm32_ddr_pmu_event_start,
+>> +		.stop = stm32_ddr_pmu_event_stop,
+>> +		.add = stm32_ddr_pmu_event_add,
+>> +		.del = stm32_ddr_pmu_event_del,
+>> +		.read = stm32_ddr_pmu_event_read,
+>> +		.event_init = stm32_ddr_pmu_event_init,
+>> +		.attr_groups = pmu->cfg->attribute,
+>> +		.module = THIS_MODULE,
+>> +	};
+>> +
+>> +	ret = perf_pmu_register(&pmu->pmu, DRIVER_NAME, -1);
+> 
+> Calling this exposes user interfaces etc.  Does it really make sense to
+> do that and then write another register?  I'd normally expect this
+> last in probe.
+
+Indeed, will move it at the end of the probe
+
+> 
+>> +	if (ret) {
+>> +		clk_disable_unprepare(pmu->clk);
+> 
+> As above.
+
+Ok
+> 
+>> +		return dev_err_probe(&pdev->dev, ret,
+>> +				     "Couldn't register DDRPERFM driver as a PMU\n");
+>> +	}
+>> +
+>> +	if (pmu->cfg->regs->dram_inf.reg) {
+>> +		ret = stm32_ddr_pmu_get_memory_type(pmu);
+>> +		if (ret) {
+>> +			perf_pmu_unregister(&pmu->pmu);
+>> +			clk_disable_unprepare(pmu->clk);
+>> +			return dev_err_probe(&pdev->dev, ret, "Failed to get memory type\n");
+>> +		}
+>> +
+>> +		writel_relaxed(pmu->dram_type, pmu->membase + pmu->cfg->regs->dram_inf.reg);
+>> +	}
+>> +
+>> +	clk_disable(pmu->clk);
+>> +
+>> +	return 0;
+>> +}
+> 
+>> +static const struct stm32_ddr_pmu_regspec stm32_ddr_pmu_regspec_mp2 = {
+>> +	.stop =		{ DDRPERFM_CTRL, CTRL_STOP },
+>> +	.start =	{ DDRPERFM_CTRL, CTRL_START },
+>> +	.status =	{ DDRPERFM_MP2_STATUS, MP2_STATUS_BUSY },
+>> +	.clear_cnt =	{ DDRPERFM_CLR, MP2_CLR_CNT},
+>> +	.clear_time =	{ DDRPERFM_CLR, MP2_CLR_TIME},
+> 
+> Spaces before } are missing
+> There are a few others above that I'll not mention directly.
+
+Ok thanks
+
+> 
+> 
+>> +	.cfg0 =		{ DDRPERFM_MP2_CFG0 },
+>> +	.cfg1 =		{ DDRPERFM_MP2_CFG1 },
+>> +	.enable =	{ DDRPERFM_MP2_CFG5 },
+>> +	.dram_inf =	{ DDRPERFM_MP2_DRAMINF },
+>> +	.counter_time =	{ DDRPERFM_MP2_TCNT },
+>> +	.counter_evt =	{
+>> +				{ DDRPERFM_MP2_EVCNT(0) },
+> Somewhat unusual formatting though neat I guess so fine if you
+> really like it!.
+> 	.counter_evt =	{
+> 		{ DDRPERFM_MP2_EVCNT(0) },
+> 
+> would be what I'd normally expect.
+
+I'll stick to normality, don't wanna be special here
+
+>> +				{ DDRPERFM_MP2_EVCNT(1) },
+>> +				{ DDRPERFM_MP2_EVCNT(2) },
+>> +				{ DDRPERFM_MP2_EVCNT(3) },
+>> +				{ DDRPERFM_MP2_EVCNT(4) },
+>> +				{ DDRPERFM_MP2_EVCNT(5) },
+>> +				{ DDRPERFM_MP2_EVCNT(6) },
+>> +				{ DDRPERFM_MP2_EVCNT(7) },
+>> +	},
+>> +};
+>> +
+>> +static const struct stm32_ddr_pmu_cfg stm32_ddr_pmu_cfg_mp1 = {
+>> +	.regs = &stm32_ddr_pmu_regspec_mp1,
+>> +	.attribute = stm32_ddr_pmu_attr_groups_mp1,
+>> +	.counters_nb = MP1_CNT_NB,
+>> +	.evt_counters_nb = MP1_CNT_NB - 1, /* Time counter is not an event counter */
+>> +	.time_cnt_idx = MP1_TIME_CNT_IDX,
+>> +	.get_counter = stm32_ddr_pmu_get_event_counter_mp1,
+>> +};
+>> +
+>> +static const struct stm32_ddr_pmu_cfg stm32_ddr_pmu_cfg_mp2 = {
+>> +	.regs = &stm32_ddr_pmu_regspec_mp2,
+>> +	.attribute = stm32_ddr_pmu_attr_groups_mp2,
+>> +	.counters_nb = MP2_CNT_NB,
+>> +	.evt_counters_nb = MP2_CNT_NB - 1, /* Time counter is an event counter */
+>> +	.time_cnt_idx = MP2_TIME_CNT_IDX,
+>> +	.get_counter = stm32_ddr_pmu_get_event_counter_mp2,
+>> +};
+>> +
+>> +static const struct dev_pm_ops stm32_ddr_pmu_pm_ops = {
+>> +	SET_SYSTEM_SLEEP_PM_OPS(NULL, stm32_ddr_pmu_device_resume)
+>> +};
+> 
+> static DEFINE_SIMPLE_DEV_PM_OPS() looks appropriate here.
+
+Indeed, Thank you
+
+> 
+> 
+>> +
+>> +static const struct of_device_id stm32_ddr_pmu_of_match[] = {
+>> +	{
+>> +		.compatible = "st,stm32mp131-ddr-pmu",
+>> +		.data = &stm32_ddr_pmu_cfg_mp1
+>> +	},
+>> +	{
+>> +		.compatible = "st,stm32mp251-ddr-pmu",
+>> +		.data = &stm32_ddr_pmu_cfg_mp2
+>> +	},
+>> +	{ },
+> 
+> No comma need after terminating entry.  Nice to make it hard
+> to accidentally add entries after one of these!
+
+Yes, I'll fix it
+
+Best regards,
+Clément
