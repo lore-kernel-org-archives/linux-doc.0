@@ -1,131 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2055.outbound.protection.outlook.com [40.107.223.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F701289375;
-	Tue, 15 Jul 2025 17:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752602367; cv=none; b=PDj81tHZ6kJxu6ggjYt1LCW4QSrrQmKFmnvdWC7sQxfVcII0ylsQDJ5JvMRC8iM+14YrBpLprJZyNvQ04WZBJKtphIi9AUhh3+lERggAEuwS7coWnf4fN7i2FUG0se6IwJj8ZCxgHAJl7628f0wdm93qVk16k3gGmVSIPrakk5k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752602367; c=relaxed/simple;
-	bh=pGWjgJnPdhc6fxanyYZ44FtDswTCW9PE9eD1cW30BAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GePeyNBtlfpaC0N/WTekde58t1h9wTLkzjlpr6r/ZIAXYv6rlarLuBAH+oeKm6bJ3wG9gfKt6g20DORW36Umj3EEkt62moQpJydvfUjXDVTAI991C9aClAeeLI0LYlHdm+gyxQVQvzgoagqw5bcAWS40pYOMncM1qzlcxrYAM+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgVSePaI; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCC0242D9B;
+	Tue, 15 Jul 2025 18:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752604960; cv=fail; b=YhXaWQpzuL1kzU+bciXACTmcMCHHE1Z2u9dz4lgvaWRawhlYGMW0vj6YpfpWmJekzzBpYFQMmXOL37XgSWFqwC9LNPpclhBSjXaaKKn2eBowK8EtPKBSN/DHbRBT2msIjkiK/AVwh1jdMbdBBiuHwsdkrCYzM2Qo4f3Z3KFdcQA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752604960; c=relaxed/simple;
+	bh=ryqFIOcqR6b/1iuGgOI0USOrEdW94x9SXoFupKYcpiY=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EhIqFTnmR1WcmXKRM+9UFOPIDlAXQ73zmCTdyoWTJkKlIqbdxjrb1CxNnWB8xTqMU4fnWViT2MbjNVXCzOSdzPRWZXILntl0iPctklGmfqGWGYVhmYWdK67S1AlgYp6N9ud+5Tr8vqwLJXPDrAuR/ts2sMJdta5uEqrOZmKZLKE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rBjS+6wq; arc=fail smtp.client-ip=40.107.223.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgVSePaI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752602365; x=1784138365;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pGWjgJnPdhc6fxanyYZ44FtDswTCW9PE9eD1cW30BAE=;
-  b=IgVSePaIrZ5zYk+ADsYR3JY8anq2cDIeU6whcrDWCzFiECvbXoF70yhw
-   g8ZdbfmO3u+NjWl06maQ2fQa++/TCtugkqghTPUI+hvshLcG+Nbpw80mF
-   wdo/MJaqTM9s1WkRraqBeRyrj8o0MiYLAyp3ZeMfvqW6Zu0IMMAtDzc1n
-   thTr6vlRtYbS4oGXLJyEltuKwaYrVcR8aiK78BYnCvEv736i9S6TLLTvr
-   epY5Je63pVCaxS8mJ2AAQ9ZSsBt0m8ObhE7uAsFC5izLMtUuqJfrq08ic
-   tHCcF6wyv64jUoiLQGLwgfP1ac0OTLYLPbOWqPlme2APW5s61NuJoyEmz
-   A==;
-X-CSE-ConnectionGUID: HS8wq2aPQK+L/V/Xj8/0ag==
-X-CSE-MsgGUID: tWcPbZHqQ9ugnc6Iahpg1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58488313"
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="58488313"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 10:59:25 -0700
-X-CSE-ConnectionGUID: zbQificGQ6SQHgfamneVcA==
-X-CSE-MsgGUID: Nr8pyyslSZW3SyFUOS5XWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="161838950"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Jul 2025 10:59:19 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubjvw-000BPn-01;
-	Tue, 15 Jul 2025 17:59:16 +0000
-Date: Wed, 16 Jul 2025 01:58:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Roman Kisel <romank@linux.microsoft.com>, alok.a.tiwari@oracle.com,
-	arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
-	dave.hansen@linux.intel.com, decui@microsoft.com,
-	haiyangz@microsoft.com, hpa@zytor.com, kys@microsoft.com,
-	mhklinux@outlook.com, mingo@redhat.com, rdunlap@infradead.org,
-	tglx@linutronix.de, Tianyu.Lan@microsoft.com, wei.liu@kernel.org,
-	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, apais@microsoft.com,
-	benhill@microsoft.com, bperkins@microsoft.com,
-	sunilmut@microsoft.com
-Subject: Re: [PATCH hyperv-next v4 04/16] arch/x86: mshyperv: Trap on access
- for some synthetic MSRs
-Message-ID: <202507160105.yQ34bnKl-lkp@intel.com>
-References: <20250714221545.5615-5-romank@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rBjS+6wq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Yk7IuIg6GPEQXmlJ6EvSSmdLfbC4+Jb88gkAHmKfrp4zwVPkrdODY3J197ct00taRSpWE22G/p4MenBwJpu0nUU2Vw660mz3ThfpYVt9zQlHj6TqLjbAjgR7Oi98WcFXJkwADoapYhwV66/L65CKtllt6XVtyTjKoiSP8hVNhJuN1lgdr8Jt92iH4KrsXr2is7AmEXJUjZO8rsMLQNV4jA7PzL/0FKDbJiFgS298PHfrFBkDhvCtmpM+tlSNTq6wCeX3Gt6yj4nfINpGWSblzbV9jgvbC7nW//0Y2hq7UanKPRt2PAlFkEQmuA/w0xfKekzcsZMJq6S/d8lqndj5ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ooVBky2w0pyGpmE87gB/Yf/cvpRyLy/tEUaN5aPuJBo=;
+ b=P1kNiLkGI1VpwSetJe7z2rcAWLjqOz8b1SQyPpbaMmQxvdpMj8qEhJ/luSSJHSBm1kbXXOzMF3lQkp9eg321oaSi6ciSaX3yy9DZnFYuS4tuEPxoGCr21rCsQ3vLjfsWUADMB4iflaL9SJvH3xG64Avjuz1WXtS1PMHSp2PBG4FYwmDEV99C+ulX+CMasYy6E8fJVD7mPBEcy2QIO0fI+hZecdHzFtxX2o7QG7fjvLvYLkVd0wjVwmzHwDfQ7qIJk8ISaPkOrXJakYzx1iMHLQxwcqIiagOvrxeZklu3esv+sMXoh0qQ0RSvAqRQTzEjyctr8TnuybZPspV2At4YTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ooVBky2w0pyGpmE87gB/Yf/cvpRyLy/tEUaN5aPuJBo=;
+ b=rBjS+6wqg2Bux/9OBkQriJIp469C88R1JUyvRppYEw7DuyHuukddD9cs/nem7avNZK0TjwY3Z4H1zk4/SoHyvNtCH5v7f71NRq5qzynLYHaAv+vRAF9/QqMDXVhb6wtnidau+uRsb+reNtIjqn97UwLWeA+H0Z16G2xVRt+BG247UVIfwJ79SRS/HybZcEmDXZ/cu5x9aiknN2RQyk2wp/gIrWbGHQy+S0M4tALDmV86D5Eqzq4aRcp/2pX1DdbRjeDkZ8aJBkBq6YSKVKqtqRGaDYYMAssmoY7sALEaV3zBRXDN5uPFARxBynSWgKijDlDPgJFwRnIwqtFtq77UtQ==
+Received: from BN0PR04CA0200.namprd04.prod.outlook.com (2603:10b6:408:e9::25)
+ by CH2PR12MB4231.namprd12.prod.outlook.com (2603:10b6:610:7d::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Tue, 15 Jul
+ 2025 18:42:35 +0000
+Received: from BN2PEPF000044A3.namprd02.prod.outlook.com
+ (2603:10b6:408:e9:cafe::75) by BN0PR04CA0200.outlook.office365.com
+ (2603:10b6:408:e9::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.17 via Frontend Transport; Tue,
+ 15 Jul 2025 18:42:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ BN2PEPF000044A3.mail.protection.outlook.com (10.167.243.154) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8922.22 via Frontend Transport; Tue, 15 Jul 2025 18:42:35 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 15 Jul
+ 2025 11:42:27 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Tue, 15 Jul 2025 11:42:26 -0700
+Received: from Asurada-Nvidia (10.127.8.10) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Tue, 15 Jul 2025 11:42:25 -0700
+Date: Tue, 15 Jul 2025 11:42:24 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Will Deacon <will@kernel.org>
+CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
+	<bagasdotme@gmail.com>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
+	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
+	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
+	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
+	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>,
+	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v9 23/29] iommu/arm-smmu-v3-iommufd: Add vsmmu_size/type
+ and vsmmu_init impl ops
+Message-ID: <aHahEP0+LKmeA/Tf@Asurada-Nvidia>
+References: <cover.1752126748.git.nicolinc@nvidia.com>
+ <375ac2b056764534bb7c10ecc4f34a0bae82b108.1752126748.git.nicolinc@nvidia.com>
+ <aHE4Y-fbucm-j-yi@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20250714221545.5615-5-romank@linux.microsoft.com>
+In-Reply-To: <aHE4Y-fbucm-j-yi@willie-the-truck>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044A3:EE_|CH2PR12MB4231:EE_
+X-MS-Office365-Filtering-Correlation-Id: c89f945d-def0-4d37-bef7-08ddc3cf5dda
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|376014|7416014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?X8R9Tqw6ekqTYPSYAkBQtPedhg4Ynjdb+KtJABAjzduJvzuq3MAWyXjckWyu?=
+ =?us-ascii?Q?tB36liIhM8KqXfCwEP6R0BOLu7ZEXP3WsZhl+X88H3ycK1zTytbkqTVAj0yJ?=
+ =?us-ascii?Q?hwiEVKzOv/Aqwy+BurtQpliE8/0X+hONhKL4rTz2HgWRb0Pm2g+5oqCybXLM?=
+ =?us-ascii?Q?zDjfDHLnKe6eECRrH8HxrcVbL3oe4sZAxrRf9Arela/S3mk06RMfPcAJclFT?=
+ =?us-ascii?Q?z6USTd+A3jYntTMqLR9hdcGCdpTAM+NVlDdSeJaJjgtTQgR68Isx1VHCgT44?=
+ =?us-ascii?Q?7i2jyQSUivIgo4HkXtMs+GHR8qdQId1uanOVx92fHTbIUjlzOOZzMO2SZ++v?=
+ =?us-ascii?Q?iAJzPynd4rPePVOmeWnW25lrkNLqloX4npX27xvmGmBxxRXpCFhCaDC4N+di?=
+ =?us-ascii?Q?u0vlFwnCnD8j/4TjAH6jiVV040TRm/Dfvkt0H7LVlgY8mhl1Qaok+fSNxaB8?=
+ =?us-ascii?Q?vLMQwp3ZJjwsI6NPbFinjiKb0WP0iUu7E0exfNhCfBAeu2k5WMmEXsvVKI61?=
+ =?us-ascii?Q?nA+c8TAkzOJIIZcmCz1uf350LLEO8ibu0p1OtlAKmqmOpucgAw8l25tJgWyt?=
+ =?us-ascii?Q?bYpnYkWDo1/PnHWO2TvVerMUkp/L6YPylni9P82gjdJLtcWfCoo2CwMaTnGB?=
+ =?us-ascii?Q?xHU/z8a66efp28OmYb2zj5evuU4EceaMJkiyZcJ3OoSiiBLSpzCJjWi8CW7/?=
+ =?us-ascii?Q?mpibta0klNLEzHBfgwUFl7RoruMUNPAOJP3abWZchjJobW2Ua6wG1U2vomYs?=
+ =?us-ascii?Q?FrwyiPxMiGxJW39A0sn9liZWITCPzMFuyc8Do168UoYCsxuGKkopZG/33HWX?=
+ =?us-ascii?Q?ZBRi07swFDmtsJdLep6smNJFoCMukstzH6f1Ypjfwltr3FOYQ3XR6U6pfdpC?=
+ =?us-ascii?Q?VU/h+QTU2ej/zeDW/RvmPagdzTpmojLJd+PtEPVGikhgpasE7pr+UJqU7Kr+?=
+ =?us-ascii?Q?uGKuG8XZD4Pm2q8ybQwK1EPlCv5hIsKiPx2Nu9VBRN+BHa+E6TGtrtwzJ52g?=
+ =?us-ascii?Q?dNWSq0dF2n4q9RpKwiu69EcKkB+zwY21mUYHQLqlV79gTgkffsAiLn75NprI?=
+ =?us-ascii?Q?bBOvdhbXTuBSmq52wlahhZ2Emuf+OM0vXyxuv1MewXHwMmvPhsSMMSrLDgGI?=
+ =?us-ascii?Q?atmNFUdp/vxu77su45pEaDV56DEJtlLY3PBaHtZ4X4qGVWfLiGkTHGdZPyO1?=
+ =?us-ascii?Q?wZB6nsgiKLNulGL7MDibVZWWLshuQxJ6m4dZolH7fTpBZmz1vQSJiiC0W4pL?=
+ =?us-ascii?Q?F4QuC89qs6tYbVMoLck6OO8aZecIMZdTsIClVv3JfFl1wyT/TTROkEBjEmhd?=
+ =?us-ascii?Q?s53JT4wMnNoLKKzxAKILSiLFSoPy2iKc+baTuJPn/iZD6Ha3F6eGqDjavy4f?=
+ =?us-ascii?Q?/wm/t35Qy+cla0R1Z2TKC27yYcJ/45zmkLR/sf0IkPNpuuDnIzCCs6TD+SyH?=
+ =?us-ascii?Q?/LWyPn8B6ExypZ5NsIyGeQhiRUWkAwQhEP9mvDPEs/jky1fHZPTXws3/RsuL?=
+ =?us-ascii?Q?Jh27t/MgNkFmXM6rE/JeFZBvVP8iyQOVh1Nj?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(7416014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2025 18:42:35.4910
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c89f945d-def0-4d37-bef7-08ddc3cf5dda
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF000044A3.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4231
 
-Hi Roman,
+Hi Will,
 
-kernel test robot noticed the following build errors:
+Sorry for the late response.
 
-[auto build test ERROR on d9016a249be5316ec2476f9947356711e70a16ec]
+On Fri, Jul 11, 2025 at 05:14:27PM +0100, Will Deacon wrote:
+> >  /* MMIO registers */
+> >  #define ARM_SMMU_IDR0			0x0
+> > @@ -720,6 +721,10 @@ struct arm_smmu_impl_ops {
+> >  	int (*init_structures)(struct arm_smmu_device *smmu);
+> >  	struct arm_smmu_cmdq *(*get_secondary_cmdq)(
+> >  		struct arm_smmu_device *smmu, struct arm_smmu_cmdq_ent *ent);
+> > +	const size_t vsmmu_size;
+> > +	const enum iommu_viommu_type vsmmu_type;
+> > +	int (*vsmmu_init)(struct arm_vsmmu *vsmmu,
+> > +			  const struct iommu_user_data *user_data);
+> 
+> It would be nice to avoid adding data members to the ops structure, if
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/Documentation-hyperv-Confidential-VMBus/20250715-062125
-base:   d9016a249be5316ec2476f9947356711e70a16ec
-patch link:    https://lore.kernel.org/r/20250714221545.5615-5-romank%40linux.microsoft.com
-patch subject: [PATCH hyperv-next v4 04/16] arch/x86: mshyperv: Trap on access for some synthetic MSRs
-config: x86_64-buildonly-randconfig-002-20250715 (https://download.01.org/0day-ci/archive/20250716/202507160105.yQ34bnKl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160105.yQ34bnKl-lkp@intel.com/reproduce)
+You mean the "vsmmu_size" and "vsmmu_type" right?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507160105.yQ34bnKl-lkp@intel.com/
+So you want them to be removed, by having two impl_ops:
+	size_t get_vsmmu_size(enum iommu_viommu_type vsmmu_type);
+	int (*vsmmu_init)(struct arm_vsmmu *vsmmu,
+			  const struct iommu_user_data *user_data);
 
-All errors (new ones prefixed by >>):
+right?
 
-   ld: vmlinux.o: in function `hv_set_non_nested_msr':
->> arch/x86/kernel/cpu/mshyperv.c:91: undefined reference to `vmbus_is_confidential'
+> at all possible. The easiest thing would probably be to add a function
+> for getting the vsmmu size and then pushing the two checks against
+> 'vsmmu_type' down into the impl_ops callbacks so that:
+> 
+>   1. If the type is IOMMU_VIOMMU_TYPE_ARM_SMMUV3, we don't bother with
+>      the impl_ops at all in arm_vsmmu_init() and arm_smmu_get_viommu_size()
 
+Hmm, I was hoping for an implementation could support the default
+IOMMU_VIOMMU_TYPE_ARM_SMMUV3 while having its own viommu_ops or so.
+But I think your suggestion is fine since there is no such a use
+case at this moment :)
 
-vim +91 arch/x86/kernel/cpu/mshyperv.c
+>   2. Otherwise, we pass the type into the impl_ops and they can check it
+> 
+> Of course, that can be a patch on top of the series as there's no point
+> respinning the whole just for this.
 
-    79	
-    80	void hv_set_non_nested_msr(unsigned int reg, u64 value)
-    81	{
-    82		if (hv_is_synic_msr(reg) && ms_hyperv.paravisor_present) {
-    83			/* The hypervisor will get the intercept. */
-    84			hv_ivm_msr_write(reg, value);
-    85	
-    86			if (hv_is_sint_msr(reg)) {
-    87				/*
-    88				 * Write proxy bit in the case of non-confidential VMBus.
-    89				 * Using wrmsrq instruction so the following goes to the paravisor.
-    90				 */
-  > 91				u32 proxy = vmbus_is_confidential() ? 0 : 1;
-    92	
-    93				value |= (proxy << 20);
-    94				native_wrmsrq(reg, value);
-    95			}
-    96		} else {
-    97			native_wrmsrq(reg, value);
-    98		}
-    99	}
-   100	EXPORT_SYMBOL_GPL(hv_set_non_nested_msr);
-   101	
+Thanks for that! I can draft a patch to send later this week once
+the requirements are confirmed.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Nicolin
