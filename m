@@ -1,103 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4E280B;
-	Tue, 15 Jul 2025 03:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EF92CA8;
+	Tue, 15 Jul 2025 06:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752549621; cv=none; b=C/XVzWqcBGuIZBWPy3s6Mf4ncBODzx51B0MafzoqE8yGvUhOAcU4EDEXX6X9KdeG9/VPagXKKUu8hMEx10L3DaaiP9FOtonpFrO2bskFtYBUDGc38ETMIk1vKH+a1y+rk7mXbItAGwHW9OuE/JrTe6P2ageFu9M+zGHE9AIaCcI=
+	t=1752560153; cv=none; b=oEZpL0EfEMLRvtNzrlTfFKFt5E67e0Gdiioqn7bmQour2mduucJGMBoCBimeO2X+1NH1uEiFjZUA07IH+ZhIGy4sfracYmaJH5ThDnj+qqe9EBNSSIvjfRYemfacqabapgxcHombrdP/jWJgH3HD9B3d48mUGmBRukvHzI1KYVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752549621; c=relaxed/simple;
-	bh=TDYuRWmFZrwnvk8qMS3AlGvkZ3xUWYu930vi3adDEoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lCqaYP5nxrM1X9ra+vZftmt3pgMMpm8pvWBSMsTXiD00pnK6fN6m3R/F6TgdGrqotxDCh/pC+7EO2eNvfS+/qsqw7CPeJV41syb1G5dMM9fle5tBe/dm7fx9pLZ0rXDY3zh0tJx7WtrEy45mTQRBfwvxkEOTzTKL8RJqSRPplQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mhnvEVxT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752560153; c=relaxed/simple;
+	bh=WTy1aa3OenxvoxmBAf6IceGklWn8Jzstk7awYeZjqMY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ml/IaJf5V9374XDbK1PJ0CJRRgJY9uuCfv53UStp1uaKzZxxHTks2kJN54e+la/A0BPO1Ag7w9IxqUnSQWwKEv8ehaqChBmToxaQts4Prot6Ygel5wJCbQ+wvewSjO3C/+xcUdUqMHE2fAYmvg04LDcbnfXQsqyw1yagS4J40Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=qZtohutC; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mhnvEVxT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5B9C4CEED;
-	Tue, 15 Jul 2025 03:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752549621;
-	bh=TDYuRWmFZrwnvk8qMS3AlGvkZ3xUWYu930vi3adDEoY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mhnvEVxTxd7nbP4JvA3c5oAI7v4Uh1XECXIYdE/N/qy0huEeZvo77oD3clb4yTeWg
-	 ymcvNK/OWxZiNy8QB28n853qDQu5Onfy2QbNM99FmG7C495d6/1pBwDdOtioibMSSr
-	 /rlMD2bWz/hqVqcD18knvPH4J8lLajX/kcQ2Ilm7eWdWbm7ZGc4Q/ZTnOWmINuwNNe
-	 BxX9zMQoXhN+gpCMRRtNwTSi0RuN0t+Gkpq8fEib5xKs3IOxjBmVBIpaSmzbYDP8qg
-	 xOWvSr5FiKi9K5beUealNgIeVFiD9nCqjoctx0r+oRvwk+1p8VUoHmrFlNxs9LXyT7
-	 106sWikoj8ffw==
-Date: Mon, 14 Jul 2025 22:20:20 -0500
-From: Rob Herring <robh@kernel.org>
-To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Le Goffic <legoffic.clement@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 06/16] arm64: dts: st: add LPDDR channel to
- stm32mp257f-dk board
-Message-ID: <20250715032020.GB4144523-robh@kernel.org>
-References: <20250711-ddrperfm-upstream-v2-0-cdece720348f@foss.st.com>
- <20250711-ddrperfm-upstream-v2-6-cdece720348f@foss.st.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="qZtohutC"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56EKfD9M020124;
+	Tue, 15 Jul 2025 06:15:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=nP/E9UZXRWlJZvX/E4yNRLrOxasX9t+ppX7bweOD7
+	Ik=; b=qZtohutCDSZMQmRfDcQifCPO+VbJXfMkQebEijQMys6/GG6iBkZAFEh9s
+	71WAmvrLseuHMFad6YQSVzDAIi2CV4YE9pg18dmua2B+++rCW149FAw4ADDq7rtw
+	cXF7BshSlpO1xP0Wxo+tAxB/tW8aSn2zeFjwKotdsfYEAvgJAlmdgq/VCaW7Y68r
+	0wj2u9obqgJe4aOxyKKec8Rm7v/15bmzLDePudaOsBeeVSvNQ1gRa5NpJtIhwoKM
+	7gI2ihx2tnrWh5BkbhOzPpNsEBOole9hFBZTxprWVvYP2vWZM8cTZ2esaZF5MhQA
+	EUZsBh5nnjrs8daYq6VzEMPJ+NtGQ==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 47ufc6w72e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Jul 2025 06:15:46 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 56F3NDfe031903;
+	Tue, 15 Jul 2025 06:15:45 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 47v21u1bt0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Jul 2025 06:15:45 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 56F6FiUg26083870
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 15 Jul 2025 06:15:44 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5AA095805A;
+	Tue, 15 Jul 2025 06:15:44 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B97C258056;
+	Tue, 15 Jul 2025 06:15:41 +0000 (GMT)
+Received: from jarvis.ozlabs.ibm.com.com (unknown [9.36.27.213])
+	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 15 Jul 2025 06:15:41 +0000 (GMT)
+From: Andrew Donnellan <ajd@linux.ibm.com>
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Subject: [PATCH] Documentation: core-api: entry: Fix typo "systcalls" -> "syscalls"
+Date: Tue, 15 Jul 2025 16:15:29 +1000
+Message-ID: <20250715061529.56268-1-ajd@linux.ibm.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250711-ddrperfm-upstream-v2-6-cdece720348f@foss.st.com>
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=Je68rVKV c=1 sm=1 tr=0 ts=6875f212 cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=Wb1JkmetP80A:10 a=20KFwNOVAAAA:8 a=VnNF1IyMAAAA:8 a=2Dt5MM4rC1aRafM5efAA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDA1MSBTYWx0ZWRfXy/gXzbivEjsk z7ODChMYSWiudx0+Xe6sTFR3VyqhRKLIoPx6KTckBq7daYE26Gc8dpbGQDoMZRw3fn6hnD2nZG+ nOKq3SUi6SXzeu0OSpdFClmhttizPEcN9/vvvQ54MFc3JQmb17dHoIzTkYmWTYpm71m2LaVMROd
+ 3Jj6FaOh/BYyndD2s5IPEZ1aF4va2lynBy8Z9vBlFXOTQWwi4VSkg7Em1KTL5sxABIpNyY8Fk1H AB+xZl8ZYM7FLxAhN2EIvkrqC4i5JVFtbLHSaQvAZ+qBgPLPqEe0St5MYouStuc6+IW2p+Yq8wm 2aSb55RfuLGBtP89UHVtc1JK22Hs6MPtL3eZemUhHovOX95T7VnpET0Y/8c3dbzrRNrnBO54oxo
+ gcMXJaZbhYAH8azjpFuVXCRXMQP49vsSPX4PvwLk3RwjF0s4JJq1BqYGNcvj4Krr8SCtlRLQ
+X-Proofpoint-GUID: jTu7R-wLPJZrCJTIBqshr3G1TLB0mTJR
+X-Proofpoint-ORIG-GUID: jTu7R-wLPJZrCJTIBqshr3G1TLB0mTJR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_03,2025-07-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 clxscore=1011 bulkscore=0 phishscore=0 spamscore=0
+ mlxlogscore=999 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507150051
 
-On Fri, Jul 11, 2025 at 04:48:58PM +0200, Clément Le Goffic wrote:
-> Add 32bits LPDDR4 channel to the stm32mp257f-dk board.
-> 
-> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
-> ---
->  arch/arm64/boot/dts/st/stm32mp257f-dk.dts | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/st/stm32mp257f-dk.dts b/arch/arm64/boot/dts/st/stm32mp257f-dk.dts
-> index a278a1e3ce03..a97b41f14ecc 100644
-> --- a/arch/arm64/boot/dts/st/stm32mp257f-dk.dts
-> +++ b/arch/arm64/boot/dts/st/stm32mp257f-dk.dts
-> @@ -54,6 +54,13 @@ led-blue {
->  		};
->  	};
->  
-> +	lpddr_channel: lpddr4-channel {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		compatible = "jedec,lpddr4-channel";
+Fix a typo: "systcalls" should be "syscalls".
 
-Not tested because this doesn't match the binding.
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Signed-off-by: Andrew Donnellan <ajd@linux.ibm.com>
+---
+ Documentation/core-api/entry.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +		io-width = <32>;
-> +	};
+diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
+index a15f9b1767a2..e406a325341d 100644
+--- a/Documentation/core-api/entry.rst
++++ b/Documentation/core-api/entry.rst
+@@ -105,7 +105,7 @@ has to do extra work between the various steps. In such cases it has to
+ ensure that enter_from_user_mode() is called first on entry and
+ exit_to_user_mode() is called last on exit.
+ 
+-Do not nest syscalls. Nested systcalls will cause RCU and/or context tracking
++Do not nest syscalls. Nested syscalls will cause RCU and/or context tracking
+ to print a warning.
+ 
+ KVM
+-- 
+2.50.1
 
-What would multiple channels look like? I think this needs some work. 
-Like it should perhaps be within the memory node. It's a lot to just say 
-32-bit LPDDR4 x1.
-
-> +
->  	memory@80000000 {
->  		device_type = "memory";
->  		reg = <0x0 0x80000000 0x1 0x0>;
-> 
-> -- 
-> 2.43.0
-> 
