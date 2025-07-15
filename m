@@ -1,46 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB0A15E5BB
-	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 19:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535882BEC59;
+	Tue, 15 Jul 2025 19:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752607709; cv=none; b=ZwOQjAJu7PK45VBH4PgzZwVtpw0ZPG0VWE9CEdgsAR4x6mBGlskW+HYnbCXyzx5lqeYoIqs4s56DEyWpOaUkxLHc2cx/U928EttMbnkUFhvPDXjqpOtGIZhDkxFSp+ABGLjweiqmBGVlAf04PVIzCMmLhHnfssepMa32QVF0dyQ=
+	t=1752607773; cv=none; b=O2xl+QGOB5MJEn+s4ZV9mqlUeVRpym9pHd5C/4GfPu3w7ArvYSlVACVgpLKHZpTGNAdkB76Lw6y846LHf8xVm6U6siSq6nVc2LMGPTJEUpEjdkPmnRsNVPlGOjtIlzcxhyNb5YGfhCikUG4HtuHVATTk62bPLgghclKzeP7C0DM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752607709; c=relaxed/simple;
-	bh=89GWXGxwWrgOZH+7T/YYz20o8iXTMHYQljW3qW/pbcI=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=capdw68K1STfemC99SGBut/Fr7yV+m9E8f+B3zLu8k5xFlt+2SGkqILL3coEMrH+UpvUyhcFMKnpYyQHK6EGzJtQaLBalgAikb14D8nh+rRPWHVqzG3PXtQkNQGFVLB7NO/74VW3vZDOGSW7yxndBtNaUdvDnUz3iB0ed4t/sHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PY2n5Mdo; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1752607773; c=relaxed/simple;
+	bh=tD2M3STvO6QMH8CUOiJax6XIEfdOHUIyi5nrrYjhorw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rgPX3sKk0Fy+6jCgtEivs4yWrIbE+IP8dzHcnV/hp11lReSIInvylaFD3+nXcdzxl0Y8w3NAVXe7yyXEvCEYji16ej9ckseJ5gA7cjCblmsAS+o0gPa56R4JAogS2s3YlCABK5t21z5VkRLwrm87lb4JjoAKx2ozdjGnNBrn1qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eOl18izD; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PY2n5Mdo"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DAD104040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eOl18izD"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 61C934040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1752607707; bh=iwgVUYeMcl/AMD0BaZckE1s4YoNBzPVHiTn3f0ZHkQg=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=PY2n5MdouwHQM5X+I6y7nojakMnQeJYSkBLA+oeyHwC6jBKe7SeK4MP0L5+P0CEXq
-	 HUjpSMhmURMtsDsNFZTXh/sZbCU0fqRkv5DXHpyhykpb02b6goYYfaJncQiF0Mj71k
-	 NUHrNDZpS+IAs1J26GGu9Mpe9URczyuEIRRSQRgFG19NuG23oua/oAmRg4q/g1pdju
-	 RxIrHtnu5xKFC60Xdgp4pouxvvQrgv1IO86a9hsMxWK5khy6i5CSdXsonFPJIVvhL6
-	 4cGIlcsl3nBl5OzevnpVZXHsj8mEV0N8M9i1y/H1e69v/lNzmdWx4OjJx/2BwhHILP
-	 Kxbxlm2BPr9bg==
+	t=1752607770; bh=9rLpOJ6yYHLhvtBiJSu80vzIO9Kmxclnk+mvKnUWy2o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=eOl18izDfSKpG46K5hoYfTjxdc04U7Ll9a8zYXFlHZ47meu8f54jvT1H7jJI50m3J
+	 3+d4czHAq+3YArMPTwX5xcsMY4Be78QXgsDEsuRchik/OngIyXxaz8w4xpUoIsC73F
+	 NhejithuWqwJkMY8uX0e/HtAKxZv98RqY5N+qwJ0vw5MB62evJUCSjuFgt4qOGZUU6
+	 5jMjuWCbxeKVjNGsRFGPdpbT9YraBa7KEMrrUMzT1xcfvo/h91wpdkbxBbp4iSD29X
+	 5oyR4uQQ8NZZ9eD3/PLLM8CRytVUC13gjF/lSP8hsBKctS633oOxrwN6N9X4nwkxaq
+	 r53WO5bJP6lBg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DAD104040B;
-	Tue, 15 Jul 2025 19:28:26 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 61C934040B;
+	Tue, 15 Jul 2025 19:29:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Alex Shi <seakeel@gmail.com>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
- Mu <dzm91@hust.edu.cn>
-Subject: Re: [GIT PULL] Chinese-docs changes for v6.15-rc1
-In-Reply-To: <CAJy-AmkHszv8wV2qjVuALNfF4dpmwfk4APavqXUso+ebkJtHNA@mail.gmail.com>
-References: <CAJy-AmkHszv8wV2qjVuALNfF4dpmwfk4APavqXUso+ebkJtHNA@mail.gmail.com>
-Date: Tue, 15 Jul 2025 13:28:26 -0600
-Message-ID: <87o6tlfe3p.fsf@trenco.lwn.net>
+To: Andrew Donnellan <ajd@linux.ibm.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>, Nicolas Saenz Julienne
+ <nsaenzju@redhat.com>
+Subject: Re: [PATCH] Documentation: core-api: entry: Fix typo "systcalls" ->
+ "syscalls"
+In-Reply-To: <20250715061529.56268-1-ajd@linux.ibm.com>
+References: <20250715061529.56268-1-ajd@linux.ibm.com>
+Date: Tue, 15 Jul 2025 13:29:29 -0600
+Message-ID: <87jz49fe1y.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,40 +51,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Alex Shi <seakeel@gmail.com> writes:
+Andrew Donnellan <ajd@linux.ibm.com> writes:
 
-> Hi Jon,
-> Please merge the Chinese translation docs for v6.16-rc1.
+> Fix a typo: "systcalls" should be "syscalls".
 >
-> Thanks
-> ----
-> The following changes since commit d3f825032091fc14c7d5e34bcd54317ae4246903:
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+> Signed-off-by: Andrew Donnellan <ajd@linux.ibm.com>
+> ---
+>  Documentation/core-api/entry.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->   docs/sched: Make the sched-stats documentation consistent
-> (2025-06-09 16:23:58 -0600)
->
-> are available in the Git repository at:
->
->   git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git
-> tags/chinese-doc-6.16-rc1
->
-> for you to fetch changes up to 744cc616b8d80ae57b6fdb3d23dd2fa27bd25d2f:
->
->   Docs/zh_CN: Translate alias.rst to Simplified Chinese (2025-07-06
-> 21:13:46 +0800)
->
-> ----------------------------------------------------------------
-> Chinese translation docs for 6.16-rc1
->
-> This is the Chinese translation subtree for 6.16-rc1. It
-> includes few changes:
->         - Updates to the process documentation
->         - Added translations for network and speculation docs
->         - Polished zh_CN/how-to.rst
-> The above patches have been tested by 'make htmldocs'
->
-> Signed-off-by: Alex Shi <alexs@kernel.org>
+> diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
+> index a15f9b1767a2..e406a325341d 100644
+> --- a/Documentation/core-api/entry.rst
+> +++ b/Documentation/core-api/entry.rst
+> @@ -105,7 +105,7 @@ has to do extra work between the various steps. In such cases it has to
+>  ensure that enter_from_user_mode() is called first on entry and
+>  exit_to_user_mode() is called last on exit.
+>  
+> -Do not nest syscalls. Nested systcalls will cause RCU and/or context tracking
+> +Do not nest syscalls. Nested syscalls will cause RCU and/or context tracking
+>  to print a warning.
 
-Pulled - thanks!
+Applied, thanks.
 
 jon
