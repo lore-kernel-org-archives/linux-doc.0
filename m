@@ -1,65 +1,67 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EF92CA8;
-	Tue, 15 Jul 2025 06:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC76626F478;
+	Tue, 15 Jul 2025 07:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752560153; cv=none; b=oEZpL0EfEMLRvtNzrlTfFKFt5E67e0Gdiioqn7bmQour2mduucJGMBoCBimeO2X+1NH1uEiFjZUA07IH+ZhIGy4sfracYmaJH5ThDnj+qqe9EBNSSIvjfRYemfacqabapgxcHombrdP/jWJgH3HD9B3d48mUGmBRukvHzI1KYVM=
+	t=1752563741; cv=none; b=kpXW3UxySfinsoUGjR78q7bulE1f1DZH+t0qB1LeRU8b+uhdf+YrcK32IXhlVCrl9oeCHOd36zWC4iR8py0/1O430oanVknIcsQ0DOqAllKu8j9RLW0andlhy2f7aV6rPXpMNlJwQzAsEzoNCZLZQLS5XjFbOu3K8EhP9W/1T/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752560153; c=relaxed/simple;
-	bh=WTy1aa3OenxvoxmBAf6IceGklWn8Jzstk7awYeZjqMY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ml/IaJf5V9374XDbK1PJ0CJRRgJY9uuCfv53UStp1uaKzZxxHTks2kJN54e+la/A0BPO1Ag7w9IxqUnSQWwKEv8ehaqChBmToxaQts4Prot6Ygel5wJCbQ+wvewSjO3C/+xcUdUqMHE2fAYmvg04LDcbnfXQsqyw1yagS4J40Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=qZtohutC; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1752563741; c=relaxed/simple;
+	bh=66XFHTlp/vLtCpVft2/nBl04cFbKoI8kcWKDesGdOEQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lTy/ggFCXmbCGXKOZXW3xJeqsOH/RtjEKAhkUxIbtm+PXMYW5/EuLxshyLtsIgli+DiarqMGB0jI8HooRUFtegpAOCtP1k7v76yn2MJlGEcD2+CblgptLdGU8gVGvNwofiIxJ6gqFWhB9+vyV4442vH9vCD1FekNOfvD1MBWwBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5bWZrNa; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="qZtohutC"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56EKfD9M020124;
-	Tue, 15 Jul 2025 06:15:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=nP/E9UZXRWlJZvX/E4yNRLrOxasX9t+ppX7bweOD7
-	Ik=; b=qZtohutCDSZMQmRfDcQifCPO+VbJXfMkQebEijQMys6/GG6iBkZAFEh9s
-	71WAmvrLseuHMFad6YQSVzDAIi2CV4YE9pg18dmua2B+++rCW149FAw4ADDq7rtw
-	cXF7BshSlpO1xP0Wxo+tAxB/tW8aSn2zeFjwKotdsfYEAvgJAlmdgq/VCaW7Y68r
-	0wj2u9obqgJe4aOxyKKec8Rm7v/15bmzLDePudaOsBeeVSvNQ1gRa5NpJtIhwoKM
-	7gI2ihx2tnrWh5BkbhOzPpNsEBOole9hFBZTxprWVvYP2vWZM8cTZ2esaZF5MhQA
-	EUZsBh5nnjrs8daYq6VzEMPJ+NtGQ==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 47ufc6w72e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Jul 2025 06:15:46 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 56F3NDfe031903;
-	Tue, 15 Jul 2025 06:15:45 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 47v21u1bt0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Jul 2025 06:15:45 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 56F6FiUg26083870
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jul 2025 06:15:44 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5AA095805A;
-	Tue, 15 Jul 2025 06:15:44 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B97C258056;
-	Tue, 15 Jul 2025 06:15:41 +0000 (GMT)
-Received: from jarvis.ozlabs.ibm.com.com (unknown [9.36.27.213])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 15 Jul 2025 06:15:41 +0000 (GMT)
-From: Andrew Donnellan <ajd@linux.ibm.com>
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-        Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Subject: [PATCH] Documentation: core-api: entry: Fix typo "systcalls" -> "syscalls"
-Date: Tue, 15 Jul 2025 16:15:29 +1000
-Message-ID: <20250715061529.56268-1-ajd@linux.ibm.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5bWZrNa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752563740; x=1784099740;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=66XFHTlp/vLtCpVft2/nBl04cFbKoI8kcWKDesGdOEQ=;
+  b=l5bWZrNa0njdriL2m/+9rSIR/4fq6BVyvF293cGYIRATyuj6cypdDcUn
+   Tl2tqV0/hnk7Wyj0oK4J1bWbrrAs+ZY4D/WZ4yQqiCr7aKgnJNqJ8N2qV
+   TQY/bp2dnrkUmfxmWW+mqwuiSHkFdGc0LIGF0laBQ/T0S9WQyyQiev2eG
+   RSA0Y0MpXWq/YEzEGOpjONx+COp6VPiAcj37rBX89uqe7gAK1YvOeuVsJ
+   S4VWpaG5BbcVnN3DERjwLiiXtX8/I/dRmkM/Zdcs8azK8x9rkXMHH4SyN
+   tTUx0vUxzqyovWrN2MbHd71H5N7b4g2w7jV/mf5wdAw7UZnm8q/LEMel7
+   g==;
+X-CSE-ConnectionGUID: dgq2UFbaTx2XxRaw9v5qyg==
+X-CSE-MsgGUID: vrWH766zSq2CD5X/dZz7bA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="58427976"
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="58427976"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 00:15:36 -0700
+X-CSE-ConnectionGUID: Pv1ZxgCOTJONF08bK+CveQ==
+X-CSE-MsgGUID: j90nGgMtTZuXn4FtKbEdaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="188155495"
+Received: from p12ill20yoongsia.png.intel.com ([10.88.227.38])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Jul 2025 00:15:32 -0700
+From: Song Yoong Siang <yoong.siang.song@intel.com>
+To: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>
+Cc: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: [PATCH bpf-next,v4 1/1] doc: clarify XDP Rx metadata handling and driver requirements
+Date: Tue, 15 Jul 2025 15:15:02 +0800
+Message-Id: <20250715071502.3503440-1-yoong.siang.song@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,45 +69,103 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Je68rVKV c=1 sm=1 tr=0 ts=6875f212 cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=Wb1JkmetP80A:10 a=20KFwNOVAAAA:8 a=VnNF1IyMAAAA:8 a=2Dt5MM4rC1aRafM5efAA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDA1MSBTYWx0ZWRfXy/gXzbivEjsk z7ODChMYSWiudx0+Xe6sTFR3VyqhRKLIoPx6KTckBq7daYE26Gc8dpbGQDoMZRw3fn6hnD2nZG+ nOKq3SUi6SXzeu0OSpdFClmhttizPEcN9/vvvQ54MFc3JQmb17dHoIzTkYmWTYpm71m2LaVMROd
- 3Jj6FaOh/BYyndD2s5IPEZ1aF4va2lynBy8Z9vBlFXOTQWwi4VSkg7Em1KTL5sxABIpNyY8Fk1H AB+xZl8ZYM7FLxAhN2EIvkrqC4i5JVFtbLHSaQvAZ+qBgPLPqEe0St5MYouStuc6+IW2p+Yq8wm 2aSb55RfuLGBtP89UHVtc1JK22Hs6MPtL3eZemUhHovOX95T7VnpET0Y/8c3dbzrRNrnBO54oxo
- gcMXJaZbhYAH8azjpFuVXCRXMQP49vsSPX4PvwLk3RwjF0s4JJq1BqYGNcvj4Krr8SCtlRLQ
-X-Proofpoint-GUID: jTu7R-wLPJZrCJTIBqshr3G1TLB0mTJR
-X-Proofpoint-ORIG-GUID: jTu7R-wLPJZrCJTIBqshr3G1TLB0mTJR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-14_03,2025-07-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 clxscore=1011 bulkscore=0 phishscore=0 spamscore=0
- mlxlogscore=999 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507150051
 
-Fix a typo: "systcalls" should be "syscalls".
+Improves the documentation for XDP Rx metadata handling, especially for
+AF_XDP use cases. It clarifies that drivers must remove any device-reserved
+metadata from the data_meta area before passing the frame to the XDP
+program.
 
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Signed-off-by: Andrew Donnellan <ajd@linux.ibm.com>
+Besides, expand the explanation of how userspace and BPF programs should
+coordinate the use of METADATA_SIZE, and adds a detailed diagram to
+illustrate pointer adjustments and metadata layout.
+
+Additional, describe the requirements and constraints enforced by
+bpf_xdp_adjust_meta().
+
+Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
 ---
- Documentation/core-api/entry.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
-index a15f9b1767a2..e406a325341d 100644
---- a/Documentation/core-api/entry.rst
-+++ b/Documentation/core-api/entry.rst
-@@ -105,7 +105,7 @@ has to do extra work between the various steps. In such cases it has to
- ensure that enter_from_user_mode() is called first on entry and
- exit_to_user_mode() is called last on exit.
+V4:
+  - update the documentation to indicate that drivers are expected to copy
+    any device-reserved metadata from the metadata area (Jakub)
+  - remove selftest tool changes.
+
+V3: https://lore.kernel.org/netdev/20250702165757.3278625-1-yoong.siang.song@intel.com/
+  - update doc and commit msg accordingly.
+
+V2: https://lore.kernel.org/netdev/20250702030349.3275368-1-yoong.siang.song@intel.com/
+  - unconditionally do bpf_xdp_adjust_meta with -XDP_METADATA_SIZE (Stanislav)
+
+V1: https://lore.kernel.org/netdev/20250701042940.3272325-1-yoong.siang.song@intel.com/
+---
+ Documentation/networking/xdp-rx-metadata.rst | 47 ++++++++++++++------
+ 1 file changed, 34 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/networking/xdp-rx-metadata.rst b/Documentation/networking/xdp-rx-metadata.rst
+index a6e0ece18be5..2e067eb6c5d6 100644
+--- a/Documentation/networking/xdp-rx-metadata.rst
++++ b/Documentation/networking/xdp-rx-metadata.rst
+@@ -49,7 +49,10 @@ as follows::
+              |                 |
+    xdp_buff->data_meta   xdp_buff->data
  
--Do not nest syscalls. Nested systcalls will cause RCU and/or context tracking
-+Do not nest syscalls. Nested syscalls will cause RCU and/or context tracking
- to print a warning.
+-An XDP program can store individual metadata items into this ``data_meta``
++Certain devices may utilize the ``data_meta`` area for specific purposes.
++Drivers for these devices must move any hardware-related metadata out from the
++``data_meta`` area before presenting the frame to the XDP program. This ensures
++that the XDP program can store individual metadata items into this ``data_meta``
+ area in whichever format it chooses. Later consumers of the metadata
+ will have to agree on the format by some out of band contract (like for
+ the AF_XDP use case, see below).
+@@ -63,18 +66,36 @@ the final consumer. Thus the BPF program manually allocates a fixed number of
+ bytes out of metadata via ``bpf_xdp_adjust_meta`` and calls a subset
+ of kfuncs to populate it. The userspace ``XSK`` consumer computes
+ ``xsk_umem__get_data() - METADATA_SIZE`` to locate that metadata.
+-Note, ``xsk_umem__get_data`` is defined in ``libxdp`` and
+-``METADATA_SIZE`` is an application-specific constant (``AF_XDP`` receive
+-descriptor does _not_ explicitly carry the size of the metadata).
+-
+-Here is the ``AF_XDP`` consumer layout (note missing ``data_meta`` pointer)::
+-
+-  +----------+-----------------+------+
+-  | headroom | custom metadata | data |
+-  +----------+-----------------+------+
+-                               ^
+-                               |
+-                        rx_desc->address
++Note, ``xsk_umem__get_data`` is defined in ``libxdp`` and ``METADATA_SIZE`` is
++an application-specific constant. Since the ``AF_XDP`` receive descriptor does
++_not_ explicitly carry the size of the metadata, it is the responsibility of the
++driver to copy any device-reserved metadata out from the metadata area and
++ensure that ``xdp_buff->data_meta`` is set equal to ``xdp_buff->data`` before a
++BPF program is executed. This is necessary so that, after the BPF program
++adjusts the metadata area, the consumer can reliably retrieve the metadata
++address using ``METADATA_SIZE`` offset.
++
++The following diagram shows how custom metadata is positioned relative to the
++packet data and how pointers are adjusted for metadata access (note the absence
++of the ``data_meta`` pointer in ``xdp_desc``)::
++
++              |<-- bpf_xdp_adjust_meta(xdp_buff, -METADATA_SIZE) --|
++  new xdp_buff->data_meta                              old xdp_buff->data_meta
++              |                                                    |
++              |                                            xdp_buff->data
++              |                                                    |
++   +----------+----------------------------------------------------+------+
++   | headroom |                  custom metadata                   | data |
++   +----------+----------------------------------------------------+------+
++              |                                                    |
++              |                                            xdp_desc->addr
++              |<------ xsk_umem__get_data() - METADATA_SIZE -------|
++
++``bpf_xdp_adjust_meta`` ensures that ``METADATA_SIZE`` is aligned to 4 bytes,
++does not exceed 252 bytes, and leaves sufficient space for building the
++xdp_frame. If these conditions are not met, it returns a negative error. In this
++case, the BPF program should not proceed to populate data into the ``data_meta``
++area.
  
- KVM
+ XDP_PASS
+ ========
 -- 
-2.50.1
+2.34.1
 
