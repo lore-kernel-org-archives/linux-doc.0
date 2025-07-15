@@ -1,131 +1,116 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59D6F7261D;
-	Tue, 15 Jul 2025 23:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929E51F1537;
+	Tue, 15 Jul 2025 23:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752621744; cv=none; b=u5l8VzG8J+28OwBiL+2dSVDJ2zRMDqU4lmROETeoN7C8kGNwB/nq7gw6JQVJyLaLgCY/z3qiadwfzS5QTGHGmGWqxUpv4ryeqzF0rLMwIj/dTZnvo+gJbj0cP2y7+0fWg9k9pHrZrBgVeYGIE2UVbWv8BVH4HxnpGNpJy1R4z+M=
+	t=1752623001; cv=none; b=g1ozMKF2CRkncjgnBZ2zfGHL1w8gFxZ3YJ2/1FncOc7q1GcPQqE8OYIpsHBwJIoJr0W6/ZNqWsOF9IIHED6WgVTjAR5itFH0RWDCnpvOrUCZp8YM5gZ7OmkPMBHxqQgkfG1mdBLGu9MqG1qzUXxOR1GXJJIdOxJiUQmmkEY+0GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752621744; c=relaxed/simple;
-	bh=x67+Hru3euykHmBuyLooA2lRlilf1qyeV+pefGwKg6Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KwLNMyXU1yQU9DCvOy5/6PkYU017X1TQZp1onCjveRUTy37R6OiclWrzS/ZwqwUwYUAgiuftX0OcTb1918gPjLjO+Kmif4nBXLBXXa+YJZSE3zjhuuhgh+ttSz6oqyVYY2WxPMiZZ1ul37Oh1p5zM9iskEzJFvJx7cAJ4fZ8u88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0045C12FC;
-	Tue, 15 Jul 2025 16:22:12 -0700 (PDT)
-Received: from [10.57.0.241] (unknown [10.57.0.241])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9D9533F66E;
-	Tue, 15 Jul 2025 16:22:17 -0700 (PDT)
-Message-ID: <153b5191-c585-433e-9cf5-1ed19b9a7f5c@arm.com>
-Date: Wed, 16 Jul 2025 00:22:16 +0100
+	s=arc-20240116; t=1752623001; c=relaxed/simple;
+	bh=NqbD9ygF1hlwI4boz9O4hjEYJgzHWcdtC7erVdnxiWY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ovhRwHZYBYGl25G84Wn0KV+4yCNOilIl71ITIjkofiF5JuTfTHVmqjrlz2UOLf2vQ1MRVEx55URm29Jv/U1fBEFSCyeRWgxM/ZV+9gopX/1sU875kRUijbRpSF1HVENTyXVhimPzwFDr7Smcr7bW4J3ZKpqoulMpHmoGOpeHvqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pbmlVz+d; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pbmlVz+d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 224D5C4CEE3;
+	Tue, 15 Jul 2025 23:43:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752622999;
+	bh=NqbD9ygF1hlwI4boz9O4hjEYJgzHWcdtC7erVdnxiWY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=pbmlVz+d03qRwos3/KLI4MCbZ0dxgvy+sMbqSQfQPhj8tWYezwOTroxWIdkyoR+0V
+	 BqvbHvvcvb7clyEQ60TJME4cNRBPKyFm53LfStCea9jKypX1KbDrmqwTanurdK7DoI
+	 XMua84zSY1PEghjPqpaFHSYUEXqrqvv0nWOC4aYmueBQ7wWG+6N1mXdY/Fny5sQrPt
+	 u6ma5+nCqewsS/bCdZ9BbtQj3cCNYYHRrM2H1tKrBI48zU+qeb9mWmpJWkB8HKkbXY
+	 lK8F7H1mJE2DTUbaa0n6xq0km3zR4ejeTsnxzPaQ5JrMngk7UGqiJoA1n0EneFEEuL
+	 yN7NDg1A9bcGw==
+From: SeongJae Park <sj@kernel.org>
+To: Honggyu Kim <honggyu.kim@sk.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	kernel_team@skhynix.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [RFC PATCH 0/4] mm/damon/sysfs: support periodic and automated stats update
+Date: Tue, 15 Jul 2025 16:43:16 -0700
+Message-Id: <20250715234316.91272-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <923d9fe1-b959-4fba-9da7-10d2b3126858@sk.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/23] arm64: cpufeature: Add cpucap for HPMN0
-Content-Language: en-GB
-To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>,
- Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20250714225917.1396543-1-coltonlewis@google.com>
- <20250714225917.1396543-2-coltonlewis@google.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20250714225917.1396543-2-coltonlewis@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 14/07/2025 23:58, Colton Lewis wrote:
-> Add a capability for FEAT_HPMN0, whether MDCR_EL2.HPMN can specify 0
-> counters reserved for the guest.
+On Wed, 16 Jul 2025 07:20:57 +0900 Honggyu Kim <honggyu.kim@sk.com> wrote:
+
+> Hi SeongJae,
 > 
-> This required changing HPMN0 to an UnsignedEnum in tools/sysreg
-> because otherwise not all the appropriate macros are generated to add
-> it to arm64_cpu_capabilities_arm64_features.
+> On 7/13/2025 5:46 AM, SeongJae Park wrote:
+> > DAMON sysfs interface provides files for reading DAMON internal status
+> > including DAMOS stats.  The content of the files are not automatically
+> > updated, though.  Users should manually request updates of the contents
+> > by writing a special command to 'state' file of each kdamond directory.
+> > This interface is good for minimizing overhead, but causes the below
+> > problems.
+> > 
+> > First, the usage is cumbersome.  This is arguably not a big problem,
+> > since the user-space tool (damo) can do this instead of the user.
+> > 
+> > Second, it can be too slow.  The update request is not directly handled
+> > by the sysfs interface but kdamond thread.  And kdamond threads wake up
+> > only once per the sampling interval.  Hence if sampling interval is not
+> > short, each update request could take too long time.  The recommended
+> > sampling interval setup is asking DAMON to automatically tune it, within
+> > a range between 5 milliseconds and 10 seconds.  On production systems it
+> > is not very rare to have a few seconds sampling interval as a result of
+> > the auto-tuning, so this can disturb observing DAMON internal status.
+> > 
+> > Finally, parallel update requests can conflict with each other.  When
+> > parallel update requests are received, DAMON sysfs interface simply
+> > returns -EBUSY to one of the requests.  DAMON user-space tool is hence
+> > implementing its own backoff mechanism, but this can make the operation
+> > even slower.
+> > 
+> > Introduce a new sysfs file, namely refresh_ms, for asking DAMON sysfs
+> > interface to repeat the essential contents update with a user-specified
+> > time delay.
 > 
-> Acked-by: Mark Rutland <mark.rutland@arm.com>
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> ---
->   arch/arm64/kernel/cpufeature.c | 8 ++++++++
->   arch/arm64/tools/cpucaps       | 1 +
->   arch/arm64/tools/sysreg        | 6 +++---
->   3 files changed, 12 insertions(+), 3 deletions(-)
+> Thanks for working on this, but I have a few questions.
+> 1. Could you please list up what are the "essential contents"?
+
+Thank you for asking this.  The contents are auto-tuned monitoring intervals,
+DAMOS stats, and auto-tuned effective size quota.
+
+I will add these on the next version cover letter.
+
+> 2. Does it mean that it is different from writing "commit" to "state"?
+> 3. If not, then is there equivalent action to writing something to "state"?
+
+"refresh_ms" works same to other DAMON parameter files.  You can set it before
+starting DAMON, or "commit" new values (including 0 for turning this refresh
+off) in runtime.
+
+I'm not that confident if I understood your point very well, especially what
+"it"s mean.  Let me know if I'm misunderstanding something.
+
 > 
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> index b34044e20128..f38d7b5294ec 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -548,6 +548,7 @@ static const struct arm64_ftr_bits ftr_id_mmfr0[] = {
->   };
->   
->   static const struct arm64_ftr_bits ftr_id_aa64dfr0[] = {
-> +	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_HPMN0_SHIFT, 4, 0),
+> If possible, then this kind of information is better to be documented because
+> users might get confused if something isn't udpated when "refresh_ms" is set.
 
-This doesn't have to be FTR_STRICT. The kernel can deal with 
-differences, by skipping to use HPMN0. We anyway rely on the
-system wide cap for using the feature.
-
-Otherwise,
-
-Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+You're right!  I'll add above things on the next version of the cover letter.
 
 
->   	S_ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_DoubleLock_SHIFT, 4, 0),
->   	ARM64_FTR_BITS(FTR_HIDDEN, FTR_NONSTRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_PMSVer_SHIFT, 4, 0),
->   	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_CTX_CMPs_SHIFT, 4, 0),
-> @@ -2896,6 +2897,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
->   		.matches = has_cpuid_feature,
->   		ARM64_CPUID_FIELDS(ID_AA64MMFR0_EL1, FGT, FGT2)
->   	},
-> +	{
-> +		.desc = "HPMN0",
-> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
-> +		.capability = ARM64_HAS_HPMN0,
-> +		.matches = has_cpuid_feature,
-> +		ARM64_CPUID_FIELDS(ID_AA64DFR0_EL1, HPMN0, IMP)
-> +	},
->   #ifdef CONFIG_ARM64_SME
->   	{
->   		.desc = "Scalable Matrix Extension",
-> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-> index 10effd4cff6b..5b196ba21629 100644
-> --- a/arch/arm64/tools/cpucaps
-> +++ b/arch/arm64/tools/cpucaps
-> @@ -39,6 +39,7 @@ HAS_GIC_CPUIF_SYSREGS
->   HAS_GIC_PRIO_MASKING
->   HAS_GIC_PRIO_RELAXED_SYNC
->   HAS_HCR_NV1
-> +HAS_HPMN0
->   HAS_HCX
->   HAS_LDAPR
->   HAS_LPA2
-> diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
-> index 8a8cf6874298..d29742481754 100644
-> --- a/arch/arm64/tools/sysreg
-> +++ b/arch/arm64/tools/sysreg
-> @@ -1531,9 +1531,9 @@ EndEnum
->   EndSysreg
->   
->   Sysreg	ID_AA64DFR0_EL1	3	0	0	5	0
-> -Enum	63:60	HPMN0
-> -	0b0000	UNPREDICTABLE
-> -	0b0001	DEF
-> +UnsignedEnum	63:60	HPMN0
-> +	0b0000	NI
-> +	0b0001	IMP
->   EndEnum
->   UnsignedEnum	59:56	ExtTrcBuff
->   	0b0000	NI
+Thanks,
+SJ
 
+[...]
