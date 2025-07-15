@@ -1,224 +1,170 @@
-Received: from AS8PR03CU001.outbound.protection.outlook.com (mail-westeuropeazon11012048.outbound.protection.outlook.com [52.101.71.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB28D1E1C36;
-	Tue, 15 Jul 2025 15:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.71.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752592458; cv=fail; b=qHJuy7sS3w+r694lOCz+ZPaj6SnM4djbfWOa7OYGMuyguZNwd5ptNd/1R30o7gYm2o39wmMeJeak7U0T6joair2RfOmXz6kDqeJhjwFSbGtfPeVJ6BwEUCeaVKXuRX0mUqGEJj5v/RXxdJ7qsv2t29Q9hCRjBr0Ho7Ec4IjKv24=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752592458; c=relaxed/simple;
-	bh=CAB6daWfq+hGpSDCmcjrvsRLiUmFDKZDEGdvbB5z/MU=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=X1mFw5enOINEdWrjgTp08gXuRSIM0c5lPkB3ACpmaQJAK2nNhallgaG4QQGBTfDThFuIXOZqGtpIFdVwgJSeJjEkQnjmhn+TqjLatMlUXz5FeZkeeLwsTUc+HbRRqcGvO/HuGbAcaUayM6QjvTyJQ6ZlPgLCSoV41eoasWCsgMk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=BHoyKigj; arc=fail smtp.client-ip=52.101.71.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7E82248B5
+	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 15:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752592555; cv=none; b=senqhpAIvmjg6YpEwVbOmmXjxoGZPNva9mZbEDTjVq8ctXnBKr02pM5KiCqNiAWLNOsnbGMRkJVlNmSUHIpp+HmKXucWC8uEeygBYsyZHY/h7geV94LurTz8ODiUtGRIYQadIVQLfdSqU9nV42FS0+E5LK7yWgiyPOKQpALYB8c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752592555; c=relaxed/simple;
+	bh=kA7Tc0YyD8NMu5sGrY2IU4ip9Dwu2U/CiZk8LkiU/JQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=sGxsUjUu6mbUNILVJ9QiNzgqVcLsnN+APth0Nh90fxJ1KIES+I9oATc2DAK34b3PKVHZRiQ1M3t3LbPNu3ypE2YBx19D5LXfpggrZuz8TkOOpUGEB90tWdwtFJScJlo5SDYOfokWibDPKPjKqvuYXkZ+UG/WQd1HK98VsNGb5PI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C/qu15gj; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="BHoyKigj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yzSWn113iC0kOxlMWTNuH0F4mqcM+6zQxohyd9HbGJvv5FaC/GmNs7GwWH+mw1tnVy/9HadMWNEABYo6LE/EkOCIaF+SxaVbSM7aAIleXLkJL+8M2dbdE0t1/WIU7V1ZK3384krmrkXPw4coicsU32f8pZ1G4Whwb+jaqGyWMrrN6bhew13LHzSYUKxU7RHp67gMcNo6+bKf9PY+8fRiRD8hSc72ajk23AJjgUZ16UE4iSh+2L9qDx+P5/Rh+uETEap84r4DzDIai8UL5qGpz8CfLeoIrUEGISWCJkyxAPwSCVxgdSFvQAxfqGzLWmCUe5MEyrD7FusUsNb4Av76+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CAB6daWfq+hGpSDCmcjrvsRLiUmFDKZDEGdvbB5z/MU=;
- b=xDCiSBtM9MmnKPBKPo7KczNi1aX2QUlrrdk/qYT6SLqBoPv31yrP7WyZLHbBkuL3/4+qESvzEM8rMArqnET1TLOpKk535taI4GmfGzE+17YE/J05++HaKjDT0eQgRSnd/8gerxeQkyFJnDQJeT8WeKNmffcNPM4KP3hZm1SItMveTue2RhIPJlPN98tBlOHq/5muEqrWmmOwClyv5VIP83SgfhFdtCNIVMCbR4BEeiE9BACM45w8e3w8D8DsXnV54YIP9l3fs9tZ7Npf6Y6ZP5FjiOZo/Lc37XQJBm8mMhEGyKbb+7hTvBYeUPX93XltLXOvJxW5EhA0b6hlmMVk8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nokia-bell-labs.com; dmarc=pass action=none
- header.from=nokia-bell-labs.com; dkim=pass header.d=nokia-bell-labs.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CAB6daWfq+hGpSDCmcjrvsRLiUmFDKZDEGdvbB5z/MU=;
- b=BHoyKigjjMzN2OHr6GDBdMr7lQP5FCH2uabgU7nYBHRrYN7PPXLIgjh3ObDMjD7soxh1+Cr+EIHNFyEOmZ1dFL4JAhsnmOUm0hCZoaf/NMn1F3cd/O0E0GD7Sxfwhts1/fLbOj2/o5JmnYGDIfpPj0gI8eWWFqv8LwRKb5IKe94iNmb3hEjsU0ZNO8JHUCc6TJJUrdRPc4dvt73Immn/opLx4jlxkhA7lQ1nii6CTIx9fwpLzhGbny2bjr744QUtuKPIEJt6QgtzmgqWko3Lm/FPDPYLKqSVGTxiBlRdqmN+JgoiayLMklKaJgl9nyPzsKbYsQno20JzRm65464HZA==
-Received: from PAXPR07MB7984.eurprd07.prod.outlook.com (2603:10a6:102:133::12)
- by PAWPR07MB9928.eurprd07.prod.outlook.com (2603:10a6:102:38f::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.29; Tue, 15 Jul
- 2025 15:14:12 +0000
-Received: from PAXPR07MB7984.eurprd07.prod.outlook.com
- ([fe80::b7f8:dc0a:7e8d:56]) by PAXPR07MB7984.eurprd07.prod.outlook.com
- ([fe80::b7f8:dc0a:7e8d:56%6]) with mapi id 15.20.8922.028; Tue, 15 Jul 2025
- 15:14:11 +0000
-From: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-To: Paolo Abeni <pabeni@redhat.com>, "edumazet@google.com"
-	<edumazet@google.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org"
-	<dsahern@kernel.org>, "kuniyu@amazon.com" <kuniyu@amazon.com>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>,
-	"jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
-	"stephen@networkplumber.org" <stephen@networkplumber.org>,
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us"
-	<jiri@resnulli.us>, "davem@davemloft.net" <davem@davemloft.net>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "donald.hunter@gmail.com"
-	<donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>,
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org"
-	<shuah@kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>,
-	"ncardwell@google.com" <ncardwell@google.com>, "Koen De Schepper (Nokia)"
-	<koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
-	<g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
-	<ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
-	<mirja.kuehlewind@ericsson.com>, "cheshire@apple.com" <cheshire@apple.com>,
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
-	<Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
-Subject: RE: [PATCH v12 net-next 12/15] tcp: accecn: AccECN option send
- control
-Thread-Topic: [PATCH v12 net-next 12/15] tcp: accecn: AccECN option send
- control
-Thread-Index: AQHb7MFma+VjHWM6Vk+TnZlrvuwkPLQxxQeAgAGXUHA=
-Date: Tue, 15 Jul 2025 15:14:11 +0000
-Message-ID:
- <PAXPR07MB7984D6FA40FF000E51F694F3A357A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-References: <20250704085345.46530-1-chia-yu.chang@nokia-bell-labs.com>
- <20250704085345.46530-13-chia-yu.chang@nokia-bell-labs.com>
- <b2c0653e-077f-4609-922e-777f1d868dd0@redhat.com>
-In-Reply-To: <b2c0653e-077f-4609-922e-777f1d868dd0@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nokia-bell-labs.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR07MB7984:EE_|PAWPR07MB9928:EE_
-x-ms-office365-filtering-correlation-id: e6a410ff-6d64-4f1b-2809-08ddc3b2410c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700018|921020;
-x-microsoft-antispam-message-info:
- =?utf-8?B?Q21MTVpHU1FkUFpOck1QU1Q2NzdJcElWK0t0V3AxZDI3R2F4ZmdVOHV2MjRZ?=
- =?utf-8?B?c2lSNXJsSldxa1VHeFByeVRjZkp0V2oxUXg2T2JtNCtqVEVwYnBCdkZreVNO?=
- =?utf-8?B?eENUZVp3cFJYOU1RdWJULzhjdmxIdnFGb2RMVHU3OFhIMXlxQ2Z0cDdSMlpT?=
- =?utf-8?B?Y2E2SGpqOTlBTzdWbWhVa1I1eFpHbWE5NnpNOW4yWTJhSzVZNXdRRVR0SFg2?=
- =?utf-8?B?NXo2RW1hSHNZcU0yR3RCZStpS0x6eGlObGoySUMxSUdYay9MTUR6T2Q2bjhD?=
- =?utf-8?B?aDJ1TGN2Q1oyQk4veFdWdlhjMlNqcFhyU1JUV1Z5UndpQ1NPeEtkZlk0dnJU?=
- =?utf-8?B?RXlKNzFOMTc1VkFtcjJPNVVnYXFZVUt1U0QwQVk5eHNIWGl5TUIyWUlpT1ZH?=
- =?utf-8?B?KzU4VUx1dStaSVpBM2pKVjB0N282UzE5ZFhRY0JJRlhoRUdjVEhRbXkya01C?=
- =?utf-8?B?N1NoSkdQci9zTU9VQWc4OE9vbElVWW1ONFE2a0wreFNqaTN0MDl4ODNRSThR?=
- =?utf-8?B?VjBaeG9zaldDOGMzNks0My9DdDZEY2hoNjdhZzM5bVg0Mmg0UzhHaHpjN04v?=
- =?utf-8?B?OU1WbFM0WGtiZEVPb3RtVjRpY0FpTFZIdlFJTHlEM1JjeDBiVlFLaktEQjND?=
- =?utf-8?B?YzUyN3RhTmFPS2hrb2swN0x2aGY2cnhJT2ZFQ2c0TTNHZmdZYU5RZmdOeEV1?=
- =?utf-8?B?eHQyeVlOM3VsamFsK0QyaU4rSVVJTm5RNVdNdWFOSEF4OWpnTEVIaFkxNThs?=
- =?utf-8?B?azh2L2p5MG1JL1BPclRJMDZPQmkrY0FZanBnTm5VRUpKR3gwRldzdnBlUEhn?=
- =?utf-8?B?b3hQMTVOV2NVWEFNSVZSenVyRmducXNHalZGaXBWNGNjc2c1b0VHYnJtZmRs?=
- =?utf-8?B?MDEzRytnR0NlL1VUTUkrZXdBbHkycWZQOUY2YStvZVRzMUdaQWtZM3RVQ1Jk?=
- =?utf-8?B?ako4V0tMS1hZSlM0bzRKTDZFMWRkZ1BRM1F4ZnN2MzZlK0t1bjlwZHNHdXJV?=
- =?utf-8?B?SUhHcGpjcWtJcjlJclZTbmpxQ3h5RFhXNEY0aElMVnRIOFo5VmYrakNiY0FC?=
- =?utf-8?B?ZjJHZjNBcngrVG5Mcnh3VFlwZ3pmWEV5TDhxZGIwemEwZUZyeVBvUGdTK3BO?=
- =?utf-8?B?aW1ORUZrYkUyUmVTdVUwZXF0V290TGFlYVVkakxPU3dDOFBqZGszeGJ5VHNY?=
- =?utf-8?B?MW1qcUJNOXdNUzJqZGg3UVpiR1l6UVBEWWo0Y2V3aUovNzg2c3dDRmNRVldU?=
- =?utf-8?B?YlJOQ1RhVGQ0dm9kV1NaNVhuSjBCRDh1NVprZ25zRzlCRkN1REkwcDAycElo?=
- =?utf-8?B?TmZxd0VwZ2N6U3ZMQzBrSHIwVEtLb2RESkFCSnphZkxNMXJzOUI2cDdtKzBO?=
- =?utf-8?B?YjFZSGh3NUw0QVhxajZTQ2QxQm1SMFdFZXJvTEVMTU9vd3NWcXJXeHU0elU5?=
- =?utf-8?B?RnphSUFIY2MwK3pMUUhobmhJNkJpcjBSOVB4bUVEby9FZm9xYi9meGpURVNy?=
- =?utf-8?B?bW0xOUFJMm1wVS94RCtNSnplWmplN3hpSzFUK3prOVlKUS8vMTkvMG5TQzBU?=
- =?utf-8?B?MFY3YnQ2Q3pNK01TT0xXT250ZTZ3ek0wVnhwNUwwOGdOV1hLWU9OaGM5SWNi?=
- =?utf-8?B?RTRqcTkxU3dzU25yZHFrZTRwaVRHeWFDZDFja09KWGRsOWsyYU1KYVNJcloz?=
- =?utf-8?B?Y1JQNGxUdkRRVEQ2V3JEVWxid0F2WlRsYy82dDIxdTBKeDNTYVN6Vnl5MHND?=
- =?utf-8?B?RGxhV3laWUh3ZExYL2VrNGVFQzVWSFhOMGlRUUtuRVBRNDhVb0xjWURNb05X?=
- =?utf-8?B?QjlobGVFUHVzZjJzS09tbHFEMzM0OEl0b3BDMEh6b0VMNDZkbEExMXRKSTNV?=
- =?utf-8?B?MzFobzdOWitreDhHTWdJN0gzc1NZMmY2a2J1dDhaYytJSHFCck5sc0Z6algx?=
- =?utf-8?B?KzBTTnZXWWpScXQwbVFaWHFSRWZQYzh1cWh0RitDRHhoZlY1VXBtMXhFdzlx?=
- =?utf-8?B?b0l1ZDROOTVZWFFjaG5MQ1Q0N2ZrM3RMOXJReVVyOURLRkh0NnRWYzgyQ1py?=
- =?utf-8?Q?5NGgG1?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR07MB7984.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?ZytQTmxnR1Zna0l4ajBHd0FDZk5Dc3F2RXd6MCtMeEFBU0FaVnIwYVgwUXZ6?=
- =?utf-8?B?THMzRXRMb2xaWUQ4SkpPaXRlRCtFK2pxTi83OXBXYW5zMDlqRjQ4UFZlSCt3?=
- =?utf-8?B?WFhEaVd2V0RTNzFBQmhaRWltcmE3SFFTaGNmbEl3WUhGeU5FYW9XVUhsWDFF?=
- =?utf-8?B?a2ZrN2VzYnBUV1VNTzBCUmpreThDSTQ3UzgwNVNhYzRDekprYXhORno2R0wr?=
- =?utf-8?B?d3BsUEFLSVFOaFJDVXNSdUIwQ2NOMk1uOWd4US9IMW5nbW1MZytXNnMwSjdQ?=
- =?utf-8?B?WUZNcS9YbUIvV1krck5hVTFjeFlvdEdZRTdQRXlwMEtBWS9HZU5xVGd1QTBv?=
- =?utf-8?B?MmNSTEh2b2xBMk0wdzUrQVhtQnF5V2UzWkJ2blRoaHB0Z2xWOVBHa2s4RlRC?=
- =?utf-8?B?OHp5YlBiUGZXSFRlN3VWUlVFOXNqa0w4ZmJRdjN0Nnl5Mko2cUxrSCsyUmN6?=
- =?utf-8?B?RzkxQ01pM0s3b1IxcStwdTZLRHZqRjMwdVpRV3hackluOWNLVCszQ0dYT0hN?=
- =?utf-8?B?WDNSSWtNREU4bjhEckZhMXFQK2JwZ1FJczV0UklEK2NMV0JYS2plZWRDcy9N?=
- =?utf-8?B?ays2aXpHeTFHeGdxbSsrZUh6M2JBakJaa1czY0ViRDdNeVNFQnBlVUJLSGVP?=
- =?utf-8?B?VHhSMzRKRkE5VVJVTDRpSHlOU3pSS0h5VktpMlNkeVZXTkZRT1B0MUF1VUpC?=
- =?utf-8?B?Z09GSUtUK3VJb3BlQlYzUHc3RGFqcUNvdklVMmZqWjFnN201WHJTOTluZWQz?=
- =?utf-8?B?M2QwWWorMkROUWxTcVBacWx4WVM0a3hOa08rWjZ4a3V4c0Q4OWdzMGJYdCsx?=
- =?utf-8?B?dTR2WE9sajJ5VVBycDA0LzhMOUJiV3d0bWdLMlZzV3U3SWI2VDNjd0NxcVV3?=
- =?utf-8?B?WWQ4eGFBKzNVTTQybm9ISE84QTgycXhZM0s1RFlBR3RjRkQyd3crd0N1emo0?=
- =?utf-8?B?WmxJbXhSdlI3T044cXhyMXBDcTI3Wk9vMDltU01hS0p4K1E4c055T0dPU2FJ?=
- =?utf-8?B?S2R4OGorR0ZnZWdhSXRZUjNYMHVLVk9nNHRUWFREQ1lvQWw0TU9vQnlFemR3?=
- =?utf-8?B?T2pCUVBMSzJ5emhmeklpVlg0QU12djVZV0Q5b0FwcXBlUWNjUHFwRDVoZzRB?=
- =?utf-8?B?N2dSdEFXdTliTFJiTk1hYXlGdFY5aGNyT3B5U2FNMUVUS2xVL2RpUHJVTGQ1?=
- =?utf-8?B?cldZUXhiUVpxRjhRcUxPWkNHbmduTk02ZDNYenRuaDFtbXhTNDVPc2c1dG5Q?=
- =?utf-8?B?RDV1VkVlaXBkYlZMY0lOZGk0bzEvS0cveS9TUk92dCtxOENIVFNEQk9zeHdE?=
- =?utf-8?B?ZmE1bnBUREtHWEZyaFg0ejFvNGdIR09mZ2Jla3Q0M3lZbkU4M2VDUGdXTHQ5?=
- =?utf-8?B?U2NoZUMwWkpjREpDSkszQjdzVUl0ZThaWVpkUi9keVJnOXZRNDRoQkM0V2xv?=
- =?utf-8?B?NzVUWGJ5elRRdUNqQXZyeWhGbHBONmROdmd4K1p4b0krYWZvM3Zsdm5JUjRB?=
- =?utf-8?B?cGJFWTAwT2UveXN1NkFxeDRHZVdvMkN6S2Z5ZVlaclNxNDVaRitKcm5Hc2lw?=
- =?utf-8?B?Mm1RY3dFNnJDZ0phS0Q0Zml2RTQ5VXNwb2d2bWthNlFKcWlkT09YV05yZGtK?=
- =?utf-8?B?cEY5MjZhd3Bxa2QwQ2tEZU1PSVdibE9VWFBKWGRxMFhQbUpMZzRES2xzNXNk?=
- =?utf-8?B?RkVERlpLUzdFK0tRSThqckc1bDBHZ2s0TGRFWVZpZDBtUzc1Wm9laEIwb2ZO?=
- =?utf-8?B?ZkFPYlUweTRGYVZjcE52U3R2RWtjR2x6NFB4aEthSDkyZmRwRUZ5WFkrSWVx?=
- =?utf-8?B?VUNGQk9ZZjA4RWZGdXlOcUZPZTBkTzg3QVIvR3owRDNkVHBXRVVpbU1ndTlD?=
- =?utf-8?B?QmI0SkE0YzcwVmM3OHZXcUYwNDlxUER4Zis1UkxaMzluR0lUZzBUc1FwLzRt?=
- =?utf-8?B?ZkFXQVpVSGRsWG0vMHErUHVMMHhxaUxDQlk4SXE5QkxRcFlQSG5Iak11aWcy?=
- =?utf-8?B?WU05VnFTMGFNZlhjNnJQMlBibGZGbk9IQXlpWFlDSHh6NUF3L2V1VjZNNmtS?=
- =?utf-8?B?OG5ESmc3dFhYaFlPcEYvWHJHQWpyQUtGaTIzSnlVMm83SkJZeW9mNmJHRVp2?=
- =?utf-8?B?WXEvaHRxQjFRU09IbXZtNU53S2RkUS9QTFdUNGU1d085eFdYVHVyZ3pKN1ls?=
- =?utf-8?Q?4dhMTRhSzxxrztzmqMlOhP8=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C/qu15gj"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-607cc1a2bd8so9226175a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 08:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752592552; x=1753197352; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FJ4/9sTPH3OFAATKO9czyzuAEdg89x7sWwCyPMjl+Fc=;
+        b=C/qu15gjhAMREuQkL0JFd/4UbaKH32qC++YmPCZNwRwx46YqDoLk2oy5GBD5O5ovod
+         tCuyeGCgVcLxDMusLlr5RGUCCLsPs39SF3mWaTBuh+ePMZgcG/hMtKwgiIS4EGF4kGZl
+         l/HYchdeWoxDQ+QVp7YxTFhhmGSzTXrTc80JQ2i+k8uawVD0JaiCy1tNinxORONphPNV
+         y26XlRdxbibbHfvZX/TDjcDMSbQuf28y68jMDuqfL7OKNjS/mxrsZXmwhf6PV74SH4GA
+         /fdlWOTWaenu1TUwLgQpUxpZktOLXxuqR2Ode8C5UG+9XVkTDeI10SryLWBd/KbSHjdI
+         HwXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752592552; x=1753197352;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FJ4/9sTPH3OFAATKO9czyzuAEdg89x7sWwCyPMjl+Fc=;
+        b=PerGcC2vvzmUa+zpf7DNyO32GOhcpS9nU4ET4IB7MZ3u+OcjsHVS6bVEge6VPfppri
+         H3H4/QQI9jC+mv4g+/99q4qcg/7hPVVWhrYDVxTbN5zI7DZHFrGxgqRVjrtUOhwdILY9
+         3gqmu/Ce8ZdAU2GEi9ylFVVcNn7E89eb0kSc7CZ1PhREuf+V1quKjg+2NpotsPyI4f/U
+         8kprkkCmr8ijPZ6pW0WiWX3HJLmBF/DgcaMdimHsZ+BH96UZJ3c277dOXmc3u/+cgxN0
+         KFgH0WOIfHznv0qusyKiGglZYrVk6AKv7obZPf+lZ0C5A5iQ8m7yxpPlZgKzn3moz9qq
+         r+Lw==
+X-Forwarded-Encrypted: i=1; AJvYcCXvb4WpUPFmF3PdjrSBFACyv09STFOE9Hlkfna84sfHRLKoUNwxJpeMZUor26GkbLiSQSX4yI4pF2k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOs2VE8aICXAbF9WU+IDt7PHjHdLVxtPjNVH+jg8NIATCLGC0S
+	4UeB5VVTiBq0wy/AE5Yez9+yQMt4ClRAZ8TNwNbx/joC5N/7GZFAmx6W93LWB9CTRvFd1683xhu
+	vVbbPR3oAWgchXg0utr5Q7isvSUtZE5IUKMkWaKo=
+X-Gm-Gg: ASbGncvBAnM4RVxhkqphBpr/HkUxtNzucuA9csfw0R0IIKH88ghkZ9cZIqIyG5aPf9b
+	SxHMHExPbCypoaGkuSrnqC6OKariIKAeU6+80PtSoKK9478RQD+Lv/zqAU5IIRW1olr6xtN1MHb
+	pDyJunbSLvFJcfirCMVx3zlhMwWrthadzosPMAF5DKBkjMY+7xKdEiYWdzOu3ZOrY1zf+yAVgZo
+	nKeoh4=
+X-Google-Smtp-Source: AGHT+IEUjNv/WLlMNJ5mkHOrfM36GPJWkkIbi/gDvjLZ0DC4BM7ze2SDS0QoFYHrHhkrLAhxcTRt1KxW5rqIw112puU=
+X-Received: by 2002:a05:6402:5291:b0:604:bbd2:7c88 with SMTP id
+ 4fb4d7f45d1cf-611e84cd12fmr16132184a12.26.1752592551896; Tue, 15 Jul 2025
+ 08:15:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nokia-bell-labs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR07MB7984.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6a410ff-6d64-4f1b-2809-08ddc3b2410c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2025 15:14:11.9166
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3q/H7Pas7vs3uvU4qyKY3LHAT4fm8hlYWLKVqgqRuMQ/DZDjzgxy7UfWFfFG0eXouT7ZlcUuMGfUWFJPg0AxwtKIJ6FnDNdwR2IX1X25eFjHqZaVwHEfFgG1xywVrnHy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR07MB9928
+References: <CAJy-AmkHszv8wV2qjVuALNfF4dpmwfk4APavqXUso+ebkJtHNA@mail.gmail.com>
+In-Reply-To: <CAJy-AmkHszv8wV2qjVuALNfF4dpmwfk4APavqXUso+ebkJtHNA@mail.gmail.com>
+From: Alex Shi <seakeel@gmail.com>
+Date: Tue, 15 Jul 2025 23:15:14 +0800
+X-Gm-Features: Ac12FXxMikujHfPP_3krFz_zewJnTgE5RwlOaKCkJ8DfqSeJsqTjQkvPAFx9MyA
+Message-ID: <CAJy-Amk=37wZCJOQjkYGQHCwcvf+48EGObp=dNKZse95rwfniw@mail.gmail.com>
+Subject: Re: [GIT PULL] Chinese-docs changes for v6.15-rc1
+To: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PiBDQVVUSU9OOiBUaGlzIGlzIGFuIGV4dGVybmFsIGVtYWlsLiBQbGVhc2UgYmUgdmVyeSBjYXJl
-ZnVsIHdoZW4gY2xpY2tpbmcgbGlua3Mgb3Igb3BlbmluZyBhdHRhY2htZW50cy4gU2VlIHRoZSBV
-Ukwgbm9rLml0L2V4dCBmb3IgYWRkaXRpb25hbCBpbmZvcm1hdGlvbi4NCj4gDQo+IA0KPiANCj4g
-T24gNy80LzI1IDEwOjUzIEFNLCBjaGlhLXl1LmNoYW5nQG5va2lhLWJlbGwtbGFicy5jb20gd3Jv
-dGU6DQo+ID4gQEAgLTI4NSw5ICsyOTcsMzMgQEAgc3RhdGljIGlubGluZSB2b2lkIA0KPiA+IHRj
-cF9lY25fcmVjZWl2ZWRfY291bnRlcnMoc3RydWN0IHNvY2sgKnNrLA0KPiA+DQo+ID4gICAgICAg
-ICAgICAgICBpZiAobGVuID4gMCkgew0KPiA+ICAgICAgICAgICAgICAgICAgICAgICB1OCBtaW5s
-ZW4gPSANCj4gPiB0Y3BfZWNuZmllbGRfdG9fYWNjZWNuX29wdGZpZWxkKGVjbmZpZWxkKTsNCj4g
-PiArICAgICAgICAgICAgICAgICAgICAgdTMyIG9sZGJ5dGVzID0gdHAtPnJlY2VpdmVkX2Vjbl9i
-eXRlc1tlY25maWVsZCAtIA0KPiA+ICsgMV07DQo+ID4gKw0KPiA+ICAgICAgICAgICAgICAgICAg
-ICAgICB0cC0+cmVjZWl2ZWRfZWNuX2J5dGVzW2VjbmZpZWxkIC0gMV0gKz0gbGVuOw0KPiA+ICAg
-ICAgICAgICAgICAgICAgICAgICB0cC0+YWNjZWNuX21pbmxlbiA9IG1heF90KHU4LCB0cC0+YWNj
-ZWNuX21pbmxlbiwNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBtaW5sZW4pOw0KPiA+ICsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgLyogRGVt
-YW5kIEFjY0VDTiBvcHRpb24gYXQgbGVhc3QgZXZlcnkgMl4yMiBieXRlcyB0bw0KPiA+ICsgICAg
-ICAgICAgICAgICAgICAgICAgKiBhdm9pZCBvdmVyZmxvd2luZyB0aGUgRUNOIGJ5dGUgY291bnRl
-cnMuDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAqLw0KPiA+ICsgICAgICAgICAgICAgICAg
-ICAgICBpZiAoKHRwLT5yZWNlaXZlZF9lY25fYnl0ZXNbZWNuZmllbGQgLSAxXSBeIG9sZGJ5dGVz
-KSAmDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICB+KCgxIDw8IDIyKSAtIDEpKSB7DQo+
-IA0KPiBJIGRvbid0IHVuZGVyc3RhbmQgdGhlIGFib3ZlIHN0YXRlbWVudCwgSSBkb24ndCB0aGlu
-ayBpdCB5aWVsZCB0aGUgcmVzdWx0IGV4cGVjdGVkIGFjY29yZGluZyB0byB0aGUgYWJvdmUgY29t
-bWVudC4NCg0KSGkgUGFvbG8sDQoNCkkgd2FzIHRoaW5raW5nIHRvIGNoYW5nZSBpdCBpbnRvIEdF
-Tk1BU0tfVTMyKCkgYW5kIGNvbW1lbnRzIGxpa2UgYmVsb3cuDQoNCkl0IGlzIGludGVuZGVkIHRv
-IHNlbmQgQWNjRUNOIG9wdGlvbiBhdCBsZWFzdCBvbmNlIHBlciAyXjIyLWJ5dGUgaW5jcmVhc2Ug
-aW4gdGhlIGNvdW50ZXIuDQoNCkJ1dCB0aGlzIGlzIGRvbmUgYnkgY2hlY2tpbmcgdGhlIGJpdCBl
-ZGdlcyAoZnJvbSBiaXQgMjIpIG9mIHRoZSBieXRlIGNvdW50ZXJzIHRvIGF2b2lkIGV4dHJhIHZh
-cmlhYmxlcy4NCg0KdTMyIG9sZGJ5dGVzID0gdHAtPnJlY2VpdmVkX2Vjbl9ieXRlc1tlY25maWVs
-ZCAtIDFdOw0KdTMyIGJ5dGVzX21hc2sgPSBHRU5NQVNLX1UzMigzMSwgMjIpOw0KDQp0cC0+cmVj
-ZWl2ZWRfZWNuX2J5dGVzW2VjbmZpZWxkIC0gMV0gKz0gbGVuOw0KdHAtPmFjY2Vjbl9taW5sZW4g
-PSBtYXhfdCh1OCwgdHAtPmFjY2Vjbl9taW5sZW4sDQogICAgICAgICAgICAgICAgICAgICAgICAg
-IG1pbmxlbik7DQoNCi8qIFNlbmQgQWNjRUNOIG9wdGlvbiBpZiBhbnkgRUNOIGJ5dGUgY291bnRl
-ciBpcw0KICogaW5jcmVhc2VkIGJ5IGF0IGxlYXN0IDJeMjIgYnl0ZXMuDQogKi8NCmlmICgodHAt
-PnJlY2VpdmVkX2Vjbl9ieXRlc1tlY25maWVsZCAtIDFdIF4gb2xkYnl0ZXMpICYNCiAgICBieXRl
-c19tYXNrKSB7DQogICAgICAgIHRjcF9hY2NlY25fb3B0X2RlbWFuZF9taW4oc2ssIDEpOw0KfQ0K
-DQpXb3VsZCBpdCBtYWtlIG1vcmUgc2Vuc2UgdG8geW91Pw0K
+Sorry, forgive the typo in subject line: s/v6.15/v6.16/
+
+Alex Shi <seakeel@gmail.com> =E4=BA=8E2025=E5=B9=B47=E6=9C=8815=E6=97=A5=E5=
+=91=A8=E4=BA=8C 23:06=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi Jon,
+> Please merge the Chinese translation docs for v6.16-rc1.
+>
+> Thanks
+> ----
+> The following changes since commit d3f825032091fc14c7d5e34bcd54317ae42469=
+03:
+>
+>   docs/sched: Make the sched-stats documentation consistent
+> (2025-06-09 16:23:58 -0600)
+>
+> are available in the Git repository at:
+>
+>   git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git
+> tags/chinese-doc-6.16-rc1
+>
+> for you to fetch changes up to 744cc616b8d80ae57b6fdb3d23dd2fa27bd25d2f:
+>
+>   Docs/zh_CN: Translate alias.rst to Simplified Chinese (2025-07-06
+> 21:13:46 +0800)
+>
+> ----------------------------------------------------------------
+> Chinese translation docs for 6.16-rc1
+>
+> This is the Chinese translation subtree for 6.16-rc1. It
+> includes few changes:
+>         - Updates to the process documentation
+>         - Added translations for network and speculation docs
+>         - Polished zh_CN/how-to.rst
+> The above patches have been tested by 'make htmldocs'
+>
+> Signed-off-by: Alex Shi <alexs@kernel.org>
+>
+> ----------------------------------------------------------------
+> Cui Wei (1):
+>       Docs/zh_CN: Translate speculation.rst to Simplified Chinese
+>
+> Dongliang Mu (7):
+>       docs/zh_CN: update the translation of process/1.Intro.rst
+>       docs/zh_CN: update the translation of process/6.Followthrough.rst
+>       docs/zh_CN: update the translation of process/7.AdvancedTopics.rst
+>       docs/zh_CN: update the translation of process/2.Process.rst
+>       docs/zh_CN: update the translation of process/5.Posting.rst
+>       docs/zh_CN: improve formatting and content clarity
+>       docs/zh_CN: update git command examples in how-to.rst
+>
+> Qiu Yutan (2):
+>       Docs/zh_CN: Translate vxlan.rst to Simplified Chinese
+>       Docs/zh_CN: Translate alias.rst to Simplified Chinese
+>
+> Wang Yaxin (4):
+>       Docs/zh_CN: Translate napi.rst to Simplified Chinese
+>       Docs/zh_CN: Translate netif-msg.rst to Simplified Chinese
+>       Docs/zh_CN: Translate xfrm_proc.rst to Simplified Chinese
+>       Docs/zh_CN: Translate netmem.rst to Simplified Chinese
+>
+>  Documentation/translations/zh_CN/how-to.rst                   | 108 ++++=
+++-----
+>  Documentation/translations/zh_CN/networking/alias.rst         |  56 ++++=
+++
+>  Documentation/translations/zh_CN/networking/index.rst         |  12 +-
+>  Documentation/translations/zh_CN/networking/napi.rst          | 362
+> +++++++++++++++++++++++++++++++++++
+>  Documentation/translations/zh_CN/networking/netif-msg.rst     |  92 ++++=
++++++
+>  Documentation/translations/zh_CN/networking/netmem.rst        |  92 ++++=
++++++
+>  Documentation/translations/zh_CN/networking/vxlan.rst         |  85 ++++=
+++++
+>  Documentation/translations/zh_CN/networking/xfrm_proc.rst     | 126
+> ++++++++++++
+>  Documentation/translations/zh_CN/process/1.Intro.rst          |  10 +-
+>  Documentation/translations/zh_CN/process/2.Process.rst        |   7 +-
+>  Documentation/translations/zh_CN/process/5.Posting.rst        |  11 ++
+>  Documentation/translations/zh_CN/process/6.Followthrough.rst  |   5 +
+>  Documentation/translations/zh_CN/process/7.AdvancedTopics.rst |  14 ++
+>  Documentation/translations/zh_CN/staging/index.rst            |   2 +-
+>  Documentation/translations/zh_CN/staging/speculation.rst      |  85 ++++=
+++++
+>  15 files changed, 1004 insertions(+), 63 deletions(-)
+>  create mode 100644 Documentation/translations/zh_CN/networking/alias.rst
+>  create mode 100644 Documentation/translations/zh_CN/networking/napi.rst
+>  create mode 100644 Documentation/translations/zh_CN/networking/netif-msg=
+.rst
+>  create mode 100644 Documentation/translations/zh_CN/networking/netmem.rs=
+t
+>  create mode 100644 Documentation/translations/zh_CN/networking/vxlan.rst
+>  create mode 100644 Documentation/translations/zh_CN/networking/xfrm_proc=
+.rst
+>  create mode 100644 Documentation/translations/zh_CN/staging/speculation.=
+rst
