@@ -1,150 +1,160 @@
-Received: from sg-3-17.ptr.tlmpb.com (sg-3-17.ptr.tlmpb.com [101.45.255.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05884A00
-	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 08:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.45.255.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98B62749C0;
+	Tue, 15 Jul 2025 08:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752566499; cv=none; b=JWRHWwzX2idvvcWjO/6On7WSnLJ+RAs8+hng2lIk/vHdwGId1dsZkx2pg3HCyivQpZhNs/6vzkvjAt93V3KKdQ6QQEc2fcIy8XSUvasTS9L53a1vzcpE1zr7pO2fcUlyDQYe2878Yb7b0XwwWr/fJzOGqGg+bj8Ov642ETRgqfs=
+	t=1752567266; cv=none; b=Hg6rwA9A27Zusr3J5BsTs3nVNgLRK24HMnb9JjIp9gsmFyW1jBcsTOqkTfWPZW5nrmVFNvmJAvk7mN+BEGGHgenN4vJDoNHQx7J1+RRm+QDmp9J3M+3wrDpH8O8WAY2KFL+P2cKpYuxKuroHLMKdh+hQrwIqbYNFM1ZtpS854ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752566499; c=relaxed/simple;
-	bh=mN5Jnq/FJq1zSfL3W2EGrmi4J/3q9ePIt/GOIvHv4+Y=;
-	h=Cc:Subject:Mime-Version:Content-Type:Date:To:In-Reply-To:
-	 References:Message-Id:From; b=pTb1iVHN8jM0AjlKsADGNwReHKf6Clz7rFx1dNyLYEwmTicH6lkD3Ql/PE1Fuy/C5T3uwVuaQgNef0TW/xxdd2yAROcq48xA4ESdEUMTBuPRqWuN0fngfKDTih0xvGiPaQ2tyobtIfRIj7ZVAB/kJmgsiZmmmTkv7ljobRs6e1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leap-io.com; spf=pass smtp.mailfrom=leap-io.com; dkim=pass (2048-bit key) header.d=leap-io-com.20200927.dkim.feishu.cn header.i=@leap-io-com.20200927.dkim.feishu.cn header.b=2quzSHn0; arc=none smtp.client-ip=101.45.255.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leap-io.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-com.20200927.dkim.feishu.cn header.i=@leap-io-com.20200927.dkim.feishu.cn header.b="2quzSHn0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=leap-io-com.20200927.dkim.feishu.cn; t=1752566483;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=mN5Jnq/FJq1zSfL3W2EGrmi4J/3q9ePIt/GOIvHv4+Y=;
- b=2quzSHn0wm3RV9wDUnCX96AbIDBNvjvd0QdAQtSQw6rdr1irimFlaoU72UUGz9IvsFdyFO
- GaRT5nwYQeg/O6F32L1/3ODSrjQIfYQLXnWg42OEXuEaHqaywl2j1HrlyheX09jsQKME14
- 0UnV8/1dCAZorNrAInU38uyXZ9O+KJfJ2HxQQtFjyj5ltRHbVCmPa5WuJyTUo/uXmkx3V5
- zYnFGrftuZc4I97FLyEcgsS9bEotMenTx8hSYbt5pt3KpD1ae/oPGcq1wm5gQWsuCLLFRJ
- LRsZZl+BddRSfgFPbPygQ0AREM7Z35EzukP49h7814Ox0XnUmBI3BqKZSBAqjw==
-Cc: <alexs@kernel.org>, <dzm91@hust.edu.cn>, <corbet@lwn.net>, 
-	<linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 2/7] docs/zh_CN: add scsi.rst translation
+	s=arc-20240116; t=1752567266; c=relaxed/simple;
+	bh=CozvtiMQto95cQtfhxgDc1OyvEQh2kQUE6fSMraS2/I=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XQSX5onKvEmOfy+CMmwciaDyyXrQgRYSjU7cAJEiiOn1ReTU2hogn5Rltiur0S9Fj5+OTx/PwTKHnMXslFASc15ptClse3zC1asy68Myy1Dcub+RU9846STjDAyqsHQfopT37FfFNrtCibSe/w7ClhE7HaQ+AXry/Tj3Wf6PmnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4bhBjM1krcz13MlX;
+	Tue, 15 Jul 2025 16:11:35 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id BF08A180B63;
+	Tue, 15 Jul 2025 16:14:21 +0800 (CST)
+Received: from kwepemq200018.china.huawei.com (7.202.195.108) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 15 Jul 2025 16:14:21 +0800
+Received: from localhost.localdomain (10.50.165.33) by
+ kwepemq200018.china.huawei.com (7.202.195.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 15 Jul 2025 16:14:20 +0800
+From: Yicong Yang <yangyicong@huawei.com>
+To: <catalin.marinas@arm.com>, <will@kernel.org>, <maz@kernel.org>,
+	<oliver.upton@linux.dev>, <corbet@lwn.net>,
+	<linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC: <joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <yuzenghui@huawei.com>,
+	<shuah@kernel.org>, <jonathan.cameron@huawei.com>,
+	<shameerali.kolothum.thodi@huawei.com>, <linuxarm@huawei.com>,
+	<prime.zeng@hisilicon.com>, <xuwei5@huawei.com>, <yangyicong@hisilicon.com>,
+	<tangchengchang@huawei.com>, <wangzhou1@hisilicon.com>
+Subject: [PATCH v4 1/7] KVM: arm64: Add exit to userspace on {LD,ST}64B* outside of memslots
+Date: Tue, 15 Jul 2025 16:13:50 +0800
+Message-ID: <20250715081356.12442-2-yangyicong@huawei.com>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20250715081356.12442-1-yangyicong@huawei.com>
+References: <20250715081356.12442-1-yangyicong@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+168760ad0+6de457+vger.kernel.org+doubled@leap-io.com>
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 15 Jul 2025 16:01:19 +0800
-To: "Yanteng Si" <si.yanteng@linux.dev>
-In-Reply-To: <67a798a3-6ee0-4c08-8c17-943fd02e458b@linux.dev>
-References: <20250708024139.848025-3-doubled@leap-io.com>
-	<67a798a3-6ee0-4c08-8c17-943fd02e458b@linux.dev>
-Content-Transfer-Encoding: base64
-Message-Id: <220d7401030e8c57cb19a90642e0e0ae27071c38.c6773d8e.b2b8.41e4.bdec.a20934933195@feishu.cn>
-From: =?utf-8?q?=E9=83=9D=E6=A0=8B=E6=A0=8B?= <doubled@leap-io.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemq200018.china.huawei.com (7.202.195.108)
 
-Cj4gRnJvbTogIllhbnRlbmcgU2kiPHNpLnlhbnRlbmdAbGludXguZGV2Pgo+IERhdGU6wqAgV2Vk
-LCBKdWwgOSwgMjAyNSwgMDk6MzkKPiBTdWJqZWN0OsKgIFJlOiBbUEFUQ0ggMi83XSBkb2NzL3po
-X0NOOiBhZGQgc2NzaS5yc3QgdHJhbnNsYXRpb24KPiBUbzogImhhb2Rvbmdkb25nIjxkb3VibGVk
-QGxlYXAtaW8uY29tPiwgPGFsZXhzQGtlcm5lbC5vcmc+Cj4gQ2M6IDxkem05MUBodXN0LmVkdS5j
-bj4sIDxjb3JiZXRAbHduLm5ldD4sIDxsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnPgo+IOWcqCA3
-LzgvMjUgMTA6NDEgQU0sIGhhb2Rvbmdkb25nIOWGmemBkzoKCj4gPiBUcmFuc2xhdGUgLi4uL3Nj
-c2kvc2NzaS5yc3QgaW50byBDaGluZXNlLgoKPiA+IEFkZCBzY3NpIGludG8gLi4uL3Njc2kvaW5k
-ZXgucnN0LgoKPiA+Cgo+ID4gU2lnbmVkLW9mZi1ieTogaGFvZG9uZ2RvbmcgPGRvdWJsZWRAbGVh
-cC1pby5jb20+Cgo+ID4gLS0tCgo+ID4gwqAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9zY3NpL2lu
-ZGV4LnJzdCDCoCDCoCDCoCDCoCB8IDk1ICsrKysrKysrKysrKysrKysrKysKCj4gPiDCoCAuLi4v
-dHJhbnNsYXRpb25zL3poX0NOL3Njc2kvc2NzaS5yc3QgwqAgwqAgwqAgwqAgwqB8IDQ4ICsrKysr
-KysrKysKCj4gPiDCoCAyIGZpbGVzIGNoYW5nZWQsIDE0MyBpbnNlcnRpb25zKCspCgo+ID4gwqAg
-Y3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Njc2kv
-aW5kZXgucnN0Cgo+ID4gwqAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL3poX0NOL3Njc2kvc2NzaS5yc3QKCj4gPgoKPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVu
-dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY3NpL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24v
-dHJhbnNsYXRpb25zL3poX0NOL3Njc2kvaW5kZXgucnN0Cgo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2
-NDQKCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLjRlOTU3N2YyYzljNgoKPiA+IC0tLSAvZGV2L251
-bGwKCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY3NpL2luZGV4
-LnJzdAoKPiA+IEBAIC0wLDAgKzEsOTUgQEAKCj4gPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZp
-ZXI6IEdQTC0yLjAKCj4gPiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0Cgo+
-ID4gKwoKPiA+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vc2NzaS9pbmRleC5yc3QKCj4gPiAr
-Cgo+ID4gKzrnv7vor5E6Cgo+ID4gKwoKPiA+ICsg6YOd5qCL5qCLIERvbmdkb25nIEhhbyA8ZG91
-YmxlZEBsZWFwLWlvLmNvbT4KCj4gPiArCgo+ID4gKzrmoKHor5E6Cgo+ID4gKwoKPiA+ICsKCj4g
-PiArCgo+ID4gKz09PT09PT09PT0KCj4gPiArU0NTSeWtkOezu+e7nwoKPiA+ICs9PT09PT09PT09
-Cgo+ID4gKwoKPiA+ICsuLiB0b2N0cmVlOjoKCj4gPiArIMKgIDptYXhkZXB0aDogMQoKPiA+ICsK
-Cj4gPiAr566A5LuLCgo+ID4gKz09PT0KCj4gPiArCgo+ID4gKy4uIHRvY3RyZWU6OgoKPiA+ICsg
-wqAgOm1heGRlcHRoOiAxCgo+ID4gKwoKPiA+ICsgwqAgc2NzaQoKPiA+ICsKCj4gPiArU0NTSemp
-seWKqOaOpeWPowoKPiA+ICs9PT09PT09PT09PT0KCj4gPiArCgo+ID4gKy4uIHRvY3RyZWU6OgoK
-PiA+ICsgwqAgOm1heGRlcHRoOiAxCgo+ID4gKwoKPiA+ICtUb2RvbGlzdDoKCj4gPiArCgo+ID4g
-Kyogc2NzaV9taWRfbG93X2FwaQoKPiA+ICsqIHNjc2lfZWgKCj4gPiArCgo+ID4gK1NDU0npqbHl
-iqjlj4LmlbAKCj4gPiArPT09PT09PT09PT09Cgo+ID4gKwoKPiA+ICsuLiB0b2N0cmVlOjoKCj4g
-PiArIMKgIDptYXhkZXB0aDogMQoKPiA+ICsKCj4gPiArVG9kb2xpc3Q6Cgo+ID4gKwoKPiA+ICsq
-IHNjc2ktcGFyYW1ldGVycwoKPiA+ICsqIGxpbmtfcG93ZXJfbWFuYWdlbWVudF9wb2xpY3kKCj4g
-PiArCgo+ID4gK1NDU0nkuLvmnLrpgILphY3lmajpqbHliqgKCj4gPiArPT09PT09PT09PT09PT09
-PT09Cgo+ID4gKwoKPiA+ICsuLiB0b2N0cmVlOjoKCj4gPiArIMKgIDptYXhkZXB0aDogMQoKPiA+
-ICsKCj4gPiArVG9kb2xpc3Q6Cgo+ID4gKwoKPiA+ICsqIHNkLXBhcmFtZXRlcnMKCj4gPiArKiA1
-M2M3MDAKCj4gPiArKiBhYWNyYWlkCgo+ID4gKyogYWR2YW5zeXMKCj4gPiArKiBhaGExNTJ4Cgo+
-ID4gKyogYWljNzl4eAoKPiA+ICsqIGFpYzd4eHgKCj4gPiArKiBhcmNtc3Jfc3BlYwoKPiA+ICsq
-IGJmYQoKPiA+ICsqIGJueDJmYwoKPiA+ICsqIEJ1c0xvZ2ljCgo+ID4gKyogY3hnYjNpCgo+ID4g
-KyogZGMzOTV4Cgo+ID4gKyogZHB0aQoKPiA+ICsqIEZsYXNoUG9pbnQKCj4gPiArKiBnX05DUjUz
-ODAKCj4gPiArKiBocHNhCgo+ID4gKyogaHB0aW9wCgo+ID4gKyogbGlic2FzCgo+ID4gKyogbHBm
-YwoKPiA+ICsqIG1lZ2FyYWlkCgo+ID4gKyogbmNyNTNjOHh4Cgo+ID4gKyogTmluamFTQ1NJCgo+
-ID4gKyogcHBhCgo+ID4gKyogcWxvZ2ljZmFzCgo+ID4gKyogc2NzaS1jaGFuZ2VyCgo+ID4gKyog
-c2NzaV9mY190cmFuc3BvcnQKCj4gPiArKiBzY3NpLWdlbmVyaWMKCj4gPiArKiBzbWFydHBxaQoK
-PiA+ICsqIHN0Cgo+ID4gKyogc3ltNTNjNTAwX2NzCgo+ID4gKyogc3ltNTNjOHh4XzIKCj4gPiAr
-KiB0Y21fcWxhMnh4eAoKPiA+ICsqIHVmcwoKPiA+ICsqIHdkNzE5eAoKPiA+ICsKCj4gPiArKiBz
-Y3NpX3RyYW5zcG9ydF9zcnAvZmlndXJlcwoKPiBJIHRoaW5rIHlvdSBjYW4gbWVyZ2UgdGhpcyBw
-YXJ0IHdpdGggdGhlIGZpcnN0IHBhdGNoIHRvIHNlcnZlIGFzIHRoZSBmaXJzdCBwYXRjaC4gT2Yg
-Y291cnNlLCB5b3UgbmVlZCB0byBtb3ZlICJzY3NpIiB0byB0aGUgdG9kb2xpc3QuCgo+ID4gZGlm
-ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Njc2kvc2NzaS5yc3Qg
-Yi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY3NpL3Njc2kucnN0Cgo+ID4gbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLjg3NGFkMzRhZThhYQoK
-PiA+IC0tLSAvZGV2L251bGwKCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
-aF9DTi9zY3NpL3Njc2kucnN0Cgo+ID4gQEAgLTAsMCArMSw0OCBAQAoKPiA+ICsuLiBTUERYLUxp
-Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAoKPiA+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1l
-ci16aF9DTi5yc3QKCj4gPiArCgo+ID4gKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi9zY3NpL3Nj
-c2kucnN0Cgo+ID4gKwoKPiA+ICs657+76K+ROgoKPiA+ICsKCj4gPiArIOmDneagi+agiyBEb25n
-ZG9uZyBIYW8gPGRvdWJsZWRAbGVhcC1pby5jb20+Cgo+ID4gKwoKPiA+ICs65qCh6K+ROgoKPiA+
-ICsKCj4gPiArCgo+ID4gKwoKPiA+ICs9PT09PT09PT09PT09PQoKPiA+ICtTQ1NJ5a2Q57O757uf
-5paH5qGjCgo+ID4gKz09PT09PT09PT09PT09Cgo+ID4gKwoKPiA+ICtMaW51eOaWh+aho+mhueeb
-ru+8iExEUO+8iee7tOaKpOS6huS4gOS7veaPj+i/sExpbnV45YaF5qC477yIbGvvvIkgMi405Lit
-U0NTSQoKPiA+ICvlrZDns7vnu5/nmoTmlofmoaPjgILor7flj4LogIPvvJoKCj4gPiAraHR0cHM6
-Ly93d3cudGxkcC5vcmcvSE9XVE8vU0NTSS0yLjQtSE9XVE8g44CCTERQ5o+Q5L6b5Y2V6aG15ZKM
-Cgo+ID4gK+WkmumhteeahEhUTUzniYjmnKzvvIzku6Xlj4pQb3N0U2NyaXB05LiOUERG5qC85byP
-55qE5paH5qGj44CCCgo+ID4gKwoKPiA+ICvlnKhTQ1NJ5a2Q57O757uf5Lit5L2/55So5qih5Z2X
-55qE5rOo5oSP5LqL6aG5Cgo+ID4gKz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cgo+
-ID4gK0xpbnV45YaF5qC45Lit55qEU0NTSeaUr+aMgeWPr+S7peagueaNrue7iOerr+eUqOaIt+ea
-hOmcgOaxguS7peS4jeWQjOeahOaWueW8j+aooeWdlwoKPiA+ICvljJbjgILkuLrkuobnkIbop6Pk
-vaDnmoTpgInmi6nvvIzmiJHku6zpppblhYjpnIDopoHlrprkuYnkuIDkupvmnK/or63jgIIKCj4g
-PiArCgo+ID4gK3Njc2ktY29yZe+8iOS5n+iiq+ensOS4uuKAnOS4remXtOWxguKAne+8ieWMheWQ
-q1NDU0nmlK/mjIHnmoTmoLjlv4PjgILmsqHmnInku5bkvaDlsIYKCj4gPiAr5peg5rOV5L2/55So
-5Lu75L2V5YW25LuWU0NTSempseWKqOeoi+W6j+OAglNDU0nmoLjlv4PmlK/mjIHlj6/ku6XmmK/k
-uIDkuKrmqKHlnZfvvIgKCj4gPiArc2NzaV9tb2Qub++8ie+8jOS5n+WPr+S7pee8luivkei/m+WG
-heaguOOAguWmguaenFNDU0nmoLjlv4PmmK/kuIDkuKrmqKHlnZfvvIzpgqPkuYgKCj4gPiAr5LuW
-5b+F6aG75piv56ys5LiA5Liq6KKr5Yqg6L2955qEU0NTSeaooeWdl++8jOWmguaenOS9oOWwhuWN
-uOi9veivpeaooeWdl++8jOmCo+S5iOS7luW/hQoKPiA+ICvpobvmmK/mnIDlkI7kuIDkuKrooqvl
-jbjovb3nmoTmqKHlnZfjgILlrp7pmYXkuIrvvIxtb2Rwcm9iZeWSjHJtbW9k5ZG95Luk5bCG56Gu
-5L+dCgo+ID4gK1NDU0nlrZDns7vnu5/kuK3mqKHlnZfliqDovb3kuI7ljbjovb3nmoTmraPnoa7p
-obrluo/jgIIKCj4gPiArCgo+ID4gK+S4gOaXplNDU0nmoLjlv4PlrZjlnKjkuo7lhoXmoLjkuK3v
-vIjml6DorrrmmK/nvJbor5Hov5vlhoXmoLjov5jmmK/kvZzkuLrmqKHlnZfliqDovb3vvInvvIwK
-Cj4gPiAr54us56uL55qE5LiK5bGC6amx5Yqo5ZKM5bqV5bGC6amx5Yqo5Y+v5Lul5oyJ54Wn5Lu7
-5oSP6aG65bqP5Yqg6L2944CC56OB55uY6amx5Yqo56iL5bqPCgo+ID4gK++8iHNkX21vZC5v77yJ
-44CB5YWJ55uY6amx5Yqo56iL5bqP77yIc3JfbW9kLm/vvInjgIHno4HluKbpqbHliqjnqIvluo8g
-WzFdXwoKPiA+ICvvvIhzdC5v77yJ5Lul5Y+KU0NTSemAmueUqOmpseWKqOeoi+W6j++8iHNnLm/v
-vInku6PooajkuobkuIrlsYLpqbHliqjvvIznlKjkuo7mjqfliLYKCj4gPiAr55u45bqU55qE5ZCE
-56eN6K6+5aSH44CC5L6L5aaC77yM5L2g5Y+v5Lul5Yqg6L2956OB5bim6amx5Yqo56iL5bqP5p2l
-5L2/55So56OB5bim6amx5Yqo5Zmo77yMCgo+ID4gK+eEtuWQjuWcqOS4jemcgOimgeivpempseWK
-qOeoi+W6j+aXtuWNuOi9veS7lu+8iOW5tumHiuaUvuebuOWFs+WGheWtmO+8ieOAggoKPiA+ICsK
-Cj4gPiAr5bqV5bGC6amx5Yqo56iL5bqP55So5LqO5pSv5oyB5oKo5omA6L+Q6KGM56Gs5Lu25bmz
-5Y+w5pSv5oyB55qE5LiN5ZCM5Li75py65Y2h44CC6L+Z5Lqb5LiN5ZCMCgo+ID4gK+eahOS4u+ac
-uuWNoemAmuW4uOiiq+ensOS4uuS4u+acuuaAu+e6v+mAgumFjeWZqO+8iEhCQXPvvInjgILkvovl
-poLvvIxhaWM3eHh4Lm/pqbHliqgKCj4gPiAr56iL5bqP6KKr55So5LqO5o6n5Yi2QWRhcHRlY+aJ
-gOWxnueahOaJgOacieacgOaWsOeahFNDU0nmjqfliLblmajjgILlh6DkuY7miYDmnInnmoTlupUK
-Cj4gPiAr5bGC6amx5Yqo6YO95Y+v5Lul6KKr57yW6K+R5Li65qih5Z2X5oiW55u05o6l57yW6K+R
-6L+b5YaF5qC444CCCgo+ID4gKwoKPiA+ICsuLiBbMV0g56OB5bim6amx5Yqo56iL5bqP5pyJ5LiA
-5Liq5Y+Y56eN55So5LqO5o6n5Yi2T25TdHJlYW3no4HluKborr7lpIfjgILlhbbmqKHlnZcKCj4g
-PiArIMKgIMKgIMKgIMKgIMKgIOWQjeensOS4um9zc3QubyDjgIIKCj4gPiBcIE5vIG5ld2xpbmUg
-YXQgZW5kIG9mIGZpbGUKCj7CoAo+IG5lZWQgYSBibGFja2xpbmUuCgpUaGFuayB5b3UgZm9yIHBv
-aW50aW5nIHRoaXMgb3V0LiBJ4oCZdmUgYWRkZWQgdGhlIG1pc3NpbmcgbmV3bGluZSBhdCBFT0Yg
-aW4gdjMuCgo+wqAKPsKgCj4gVGhhbmtzLAoKPsKgCj4gWWFudGVuZwo+wqAKCkJlc3QgcmVnYXJk
-cyzCoApEb25nZG9uZyBIYW8K
+From: Marc Zyngier <maz@kernel.org>
+
+The main use of {LD,ST}64B* is to talk to a device, which is hopefully
+directly assigned to the guest and requires no additional handling.
+
+However, this does not preclude a VMM from exposing a virtual device
+to the guest, and to allow 64 byte accesses as part of the programming
+interface. A direct consequence of this is that we need to be able
+to forward such access to userspace.
+
+Given that such a contraption is very unlikely to ever exist, we choose
+to offer a limited service: userspace gets (as part of a new exit reason)
+the ESR, the IPA, and that's it. It is fully expected to handle the full
+semantics of the instructions, deal with ACCDATA, the return values and
+increment PC. Much fun.
+
+A canonical implementation can also simply inject an abort and be done
+with it. Frankly, don't try to do anything else unless you have time
+to waste.
+
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+---
+ arch/arm64/kvm/mmio.c    | 27 ++++++++++++++++++++++++++-
+ include/uapi/linux/kvm.h |  3 ++-
+ 2 files changed, 28 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/kvm/mmio.c b/arch/arm64/kvm/mmio.c
+index ab365e839874..04520f2f6010 100644
+--- a/arch/arm64/kvm/mmio.c
++++ b/arch/arm64/kvm/mmio.c
+@@ -157,6 +157,9 @@ int io_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa)
+ 	bool is_write;
+ 	int len;
+ 	u8 data_buf[8];
++	u64 esr;
++
++	esr = kvm_vcpu_get_esr(vcpu);
+ 
+ 	/*
+ 	 * No valid syndrome? Ask userspace for help if it has
+@@ -166,7 +169,7 @@ int io_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa)
+ 	 * though, so directly deliver an exception to the guest.
+ 	 */
+ 	if (!kvm_vcpu_dabt_isvalid(vcpu)) {
+-		trace_kvm_mmio_nisv(*vcpu_pc(vcpu), kvm_vcpu_get_esr(vcpu),
++		trace_kvm_mmio_nisv(*vcpu_pc(vcpu), esr,
+ 				    kvm_vcpu_get_hfar(vcpu), fault_ipa);
+ 
+ 		if (vcpu_is_protected(vcpu)) {
+@@ -185,6 +188,28 @@ int io_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa)
+ 		return -ENOSYS;
+ 	}
+ 
++	/*
++	 * When (DFSC == 0b00xxxx || DFSC == 0b10101x) && DFSC != 0b0000xx
++	 * ESR_EL2[12:11] describe the Load/Store Type. This allows us to
++	 * punt the LD64B/ST64B/ST64BV/ST64BV0 instructions to luserspace,
++	 * which will have to provide a full emulation of these 4
++	 * instructions.  No, we don't expect this do be fast.
++	 *
++	 * We rely on traps being set if the corresponding features are not
++	 * enabled, so if we get here, userspace has promised us to handle
++	 * it already.
++	 */
++	switch (kvm_vcpu_trap_get_fault(vcpu)) {
++	case 0b000100 ... 0b001111:
++	case 0b101010 ... 0b101011:
++		if (FIELD_GET(GENMASK(12, 11), esr)) {
++			run->exit_reason = KVM_EXIT_ARM_LDST64B;
++			run->arm_nisv.esr_iss = esr & ~(u64)ESR_ELx_FSC;
++			run->arm_nisv.fault_ipa = fault_ipa;
++			return 0;
++		}
++	}
++
+ 	/*
+ 	 * Prepare MMIO operation. First decode the syndrome data we get
+ 	 * from the CPU. Then try if some in-kernel emulation feels
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 7a4c35ff03fe..7169d955c3ec 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -179,6 +179,7 @@ struct kvm_xen_exit {
+ #define KVM_EXIT_LOONGARCH_IOCSR  38
+ #define KVM_EXIT_MEMORY_FAULT     39
+ #define KVM_EXIT_TDX              40
++#define KVM_EXIT_ARM_LDST64B      41
+ 
+ /* For KVM_EXIT_INTERNAL_ERROR */
+ /* Emulate instruction failed. */
+@@ -401,7 +402,7 @@ struct kvm_run {
+ 		} eoi;
+ 		/* KVM_EXIT_HYPERV */
+ 		struct kvm_hyperv_exit hyperv;
+-		/* KVM_EXIT_ARM_NISV */
++		/* KVM_EXIT_ARM_NISV / KVM_EXIT_ARM_LDST64B */
+ 		struct {
+ 			__u64 esr_iss;
+ 			__u64 fault_ipa;
+-- 
+2.24.0
+
