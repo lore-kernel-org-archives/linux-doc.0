@@ -1,130 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFD52E7F37;
-	Tue, 15 Jul 2025 13:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7392E041E;
+	Tue, 15 Jul 2025 13:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752587913; cv=none; b=pOLD2djuhhaoTUeyw791v6IIrpXh3GKN+VWjhlaBkHMAAQVAzC+zC67UyNGAnGyC0LatAoqxAA+hYC06eXcxifilXU/n6wM41LqiB5DpTqIBtQmac0YJ5k3lQwsMO7gakrhJ+fp9M+Qt20KpzuTykCjtt23NqWt4cDaVFgCnMSg=
+	t=1752587999; cv=none; b=kj3pLU+/+tBzgTBKMMlLMw2VX1Tx7IE7WPlsTfUbwba0sq2y1jAzKXjPvtYfrZdeZo8spzui07rWbNt1Kfk/GJxMCqgbh2AfLOfFX4UIaVtI+Dcdg4jrfOFkCgByC6LaYsUlyVSnnai8oT89BNlEAlXFOnQ0BS5UbfMDuVYMqAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752587913; c=relaxed/simple;
-	bh=fxS+g8tNbMk1/UdhRU/HlLfSUskJDrVIrYOCQQhuqIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tY26acRLx8ZqXiV5n/UUwWKZ0uPgbkz5CVQemrVZ8OJ0cOFphuxpThPhREqlsV82JBceouheUCn2I/OGwisYAIu1yQmRj7tf0mTToVLCNPuZ0Hx7EYvAsmKuWCLGGpr45PgKZuqhi+Biy96fezLFWdca0s4KHHamxWEiXpbDsd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l4Vizggn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752587999; c=relaxed/simple;
+	bh=5B0Cs/z2PiZzG1qVGUsvXQhJahtBwNXl++Lfm/ifQnc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YDgGvWswc/oPcRV4AaL5lV0YDNb3A8X9Wb5QEn0bYFnlQswUc0JEDoZ2ADibtwtUVUCIkineQD2Gp6qFMFBnG/F88S5P7Dvd5U0O9yV7Y8E0PSPAsK6wLZHn5VsK2STjWsKPzrfe7xxT+jWRwP3t+dhv8RlXigklYIgUvoP2n+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fffvTAaP; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l4Vizggn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E39CC4CEE3;
-	Tue, 15 Jul 2025 13:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752587913;
-	bh=fxS+g8tNbMk1/UdhRU/HlLfSUskJDrVIrYOCQQhuqIY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l4VizggnWo1DpwbZuWP/wgm3VApTeTCEOnymfwBXT+GilXimDEQE0iPIBqdfv6kCi
-	 kvrSMjoaH00P8jMdB4VBav7nnidtnHwAto4lOKuhIXdRUv9zLac0k9qGP1dt9vU+Kx
-	 besMzcLyEY6CL3CXJ/iulu2Ux2wmI6rIlbokZUIfssTq+7xCt4aR4/gUg5F8zwheNy
-	 38Z2YuBFkCPHKo42aC2RxBV7YCSsmJFp5Nn2VHoOI+x4EAhgotJS6lFClihLkokNmk
-	 clpPZozDwuZYTrNm/DjfETz/I7kal1xj7ibFiF39RZ8jyeg3fbnaBQWAnL0Q+x4geu
-	 jTleqek0Z+P7g==
-Date: Tue, 15 Jul 2025 16:58:28 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Will Deacon <will@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
-	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 8/8] mm/hmm: migrate to physical address-based DMA
- mapping API
-Message-ID: <20250715135828.GE5882@unreal>
-References: <cover.1750854543.git.leon@kernel.org>
- <8a85f4450905fcb6b17d146cc86c11410d522de4.1750854543.git.leon@kernel.org>
- <aHZWlu7Td9ijFhhh@willie-the-truck>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fffvTAaP"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ae0d7b32322so903077966b.2;
+        Tue, 15 Jul 2025 06:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752587996; x=1753192796; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1aNwRbRqWK0fatB8fxz0SpC6c5/9HkHUwS99RcbYSQM=;
+        b=fffvTAaPlfEsR7LgH4F4psYsY4XiqSJoF+l6OFqn74xY1mCHNYA+1VXfa3FcvvDtC1
+         jKgUQoqmLQ1NZ221yTp3YEQjt9+Q59FWgE0MP+NX4UunAFnyuq8QSKp0R7nmZBu+fO7F
+         IzWV8KX1DyXTl3aMylLh90eepP2W6Ugdh8gdgPlrF9ptQVMzDkSl+nOhD1TA+VSmeaec
+         MDiAB+jq9XM1Er0eJy/cTxiY1JtQDqydnGJ/JM8zVukcEy90SV1O092VhaoiZS1agM/R
+         Y1O8scqpQTOJIgt6Mi74sbjZD1o8ssd5vzWzSYyGV5ptpNF+8/pUZh9Tp7mZ9WU78vRu
+         3KIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752587996; x=1753192796;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1aNwRbRqWK0fatB8fxz0SpC6c5/9HkHUwS99RcbYSQM=;
+        b=G/QSIzQ27ZakgHMi7hv1X+sVIuS7cc20VrD5IMZZ8K9N7j5C4HS5qGdWPyMqHPbifV
+         LMCIUViHKegt7pQ1JbLe8L47S8HnsZNIRxnwHjPDeeiNCS2PIOHxuvEW9MOPHrEz9NHb
+         tuErBZeGyhhUj36/YmMs1WBlBTWCn2SfukH146A6PP8u7PGZ1wmnkMiqQZBXrGTRISU2
+         jZpgbajBnPQQ71vQwSk1kUs38wnphJHy62xwuyD8Qx6ZedjawqWQsjkEI66VrN9FItga
+         eRAduAkn/7GPNugIK8etPsdOwOalfj+ckx0YgceqeC3ofHDkCppDqAjr5CU6b9gIJaPu
+         L2Zg==
+X-Forwarded-Encrypted: i=1; AJvYcCUTZKR7OwYfzscaIHda8a8sM1G4BiL+B4cJl44v4D5bbrbiWV6mjjFBiDC/8Wpj96KCG1x5YooTpMw=@vger.kernel.org, AJvYcCUVBUxdnUbZ3KDZ28Gsd180Zsmoh7f6RosXohPYacagAMlwflpi0UM9pQkm30l+uBH4eE9ej5inq7eluw==@vger.kernel.org, AJvYcCUj96QpY+iHn4AoUZlZYXFui7ydz7A1bFOOkuPEvXZKlzKYj74lGveb7O5SzXIUi1er2A2iU48H@vger.kernel.org, AJvYcCXq+9Bq5qwbkhQHIaFjF7FJYn69qwKiYI6704M6ND17WY/JcMc+zk9GcYwZizpszM3mETRdmrValWBWWWgC@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlccwyZYCPvPTASOnv+0WuxxEbd4qwu+MWh0KmkHxO8AgSsynv
+	ude6KLyc6UAVOddONm3l5N+Po57YK3PTFTvYbSj/Nm1Vv54l/7vw0KR1
+X-Gm-Gg: ASbGncsr00pMvM3o7UWPeA0SqYeFfw6fy9r0MqktuP7SGVizl8dEJ1sYKbEeV8wbi02
+	uKQXrNbgIeV5olRwtfjiK4WnDls6d/qTGkYzp6djjxAy8NOC2xTJcviEokQkqc++qNl+e3VIwyW
+	mpPW8T4Uz/NNkwMIZHze2dYToVkBQDQ92avGlY3C8C1qK3ZeryiYIfKtgN1DMCby+5GZu5IQzAG
+	Evkeec+PJGsYOSzgjA2GwQiYrQzH/ptgImZwAqKdb87cttxtGk9BrwfrLlh8Zb9QQc19FcQNJ9i
+	KOIlAgpGNH8po1eZ5No49G4dMXsNN26qPcLzODKpAfsQIWA5o5Gz4vbH/vXO4Qew8S3tnIrNhl+
+	9E/9+fK6IqoCA9sQ1camd47XhBJQpxT5SJxJCXPY0W+Jn8g==
+X-Google-Smtp-Source: AGHT+IF7+qcYv45SXbbrxsf029P5Fbar2rFM/IYkk30spoM3aAc/JjHKYOlRXfHnVz8iGqBalqILwQ==
+X-Received: by 2002:a17:907:3ea4:b0:ae0:da16:f550 with SMTP id a640c23a62f3a-ae6fc3a8c72mr2025439466b.49.1752587995443;
+        Tue, 15 Jul 2025 06:59:55 -0700 (PDT)
+Received: from [172.27.34.41] ([193.47.165.251])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7ee44basm996503666b.42.2025.07.15.06.59.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Jul 2025 06:59:55 -0700 (PDT)
+Message-ID: <b921eefe-3220-4b38-8b41-be6ddd98f913@gmail.com>
+Date: Tue, 15 Jul 2025 16:59:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aHZWlu7Td9ijFhhh@willie-the-truck>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next V2 2/3] net/mlx5e: Add device PCIe congestion
+ ethtool stats
+To: Jakub Kicinski <kuba@kernel.org>, Dragos Tatulea <dtatulea@nvidia.com>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Saeed Mahameed <saeed@kernel.org>,
+ Gal Pressman <gal@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <1752130292-22249-1-git-send-email-tariqt@nvidia.com>
+ <1752130292-22249-3-git-send-email-tariqt@nvidia.com>
+ <20250711162504.2c0b365d@kernel.org>
+ <nqfa765k7djsxh7w5hecuzt6r4hakbyocrp5wtqv63jyrjv3z2@qdar7f2osjcj>
+ <20250714082600.15113118@kernel.org>
+Content-Language: en-US
+From: Tariq Toukan <ttoukan.linux@gmail.com>
+In-Reply-To: <20250714082600.15113118@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 15, 2025 at 02:24:38PM +0100, Will Deacon wrote:
-> Hi Leon,
+
+
+On 14/07/2025 18:26, Jakub Kicinski wrote:
+> On Sat, 12 Jul 2025 07:55:27 +0000 Dragos Tatulea wrote:
+>>> The metrics make sense, but utilization has to be averaged over some
+>>> period of time to be meaningful. Can you shad any light on what the
+>>> measurement period or algorithm is?
+>>
+>> The measurement period in FW is 200 ms.
 > 
-> On Wed, Jun 25, 2025 at 04:19:05PM +0300, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Convert HMM DMA operations from the legacy page-based API to the new
-> > physical address-based dma_map_phys() and dma_unmap_phys() functions.
-> > This demonstrates the preferred approach for new code that should use
-> > physical addresses directly rather than page+offset parameters.
-> > 
-> > The change replaces dma_map_page() and dma_unmap_page() calls with
-> > dma_map_phys() and dma_unmap_phys() respectively, using the physical
-> > address that was already available in the code. This eliminates the
-> > redundant page-to-physical address conversion and aligns with the
-> > DMA subsystem's move toward physical address-centric interfaces.
-> > 
-> > This serves as an example of how new code should be written to leverage
-> > the more efficient physical address API, which provides cleaner interfaces
-> > for drivers that already have access to physical addresses.
+> SG, please include in the doc.
+>   
+>>>> +	changes = cong_event->state ^ new_cong_state;
+>>>> +	if (!changes)
+>>>> +		return;
+>>>
+>>> no risk of the high / low events coming so quickly we'll miss both?
+>> Yes it is possible and it is fine because short bursts are not counted. The
+>> counters are for sustained high PCI BW usage.
+>>
+>>> Should there be a counter for "mis-firing" of that sort?
+>>> You'd be surprised how long the scheduling latency for a kernel worker
+>>> can be on a busy server :(
+>>>   
+>> The event is just a notification to read the state from FW. If the
+>> read is issued later and the state has not changed then it will not be
+>> considered.
 > 
-> I'm struggling a little to see how this is cleaner or more efficient
-> than the old code.
-
-It is not, the main reason for hmm conversion is to show how the API is
-used. HMM is built around struct page.
-
+> 200ms is within the range of normal scheduler latency on a busy server.
+> It's not a deal breaker, but I'd personally add a counter for wakeups
+> which did not result in any state change. Likely recent experience
+> with constant EEVDF regressions and sched_ext is coloring my judgment.
 > 
-> From what I can tell, dma_map_page_attrs() takes a 'struct page *' and
-> converts it to a physical address using page_to_phys() whilst your new
-> dma_map_phys() interface takes a physical address and converts it to
-> a 'struct page *' using phys_to_page(). In both cases, hmm_dma_map_pfn()
-> still needs the page for other reasons. If anything, existing users of
-> dma_map_page_attrs() now end up with a redundant page-to-phys-to-page
-> conversion which hopefully the compiler folds away.
-> 
-> I'm assuming there's future work which builds on top of the new API
-> and removes the reliance on 'struct page' entirely, is that right? If
-> so, it would've been nicer to be clearer about that as, on its own, I'm
-> not really sure this patch series achieves an awful lot and the
-> efficiency argument looks quite weak to me.
 
-Yes, there is ongoing work, which is built on top of dma_map_phys() API
-and can't be built without DMA phys.
+NP with that.
+We'll add it as a followup patch, after it's implemented and properly 
+tested.
 
-My WIP branch, where I'm using it can be found here:
-https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio
+Same applies for the requested devlink config (replacing the sysfs).
 
-In that branch, we save one phys_to_page conversion in block datapath:
-block-dma: migrate to dma_map_phys instead of map_page
-
-and implement DMABUF exporter for MMIO pages:
-vfio/pci: Allow MMIO regions to be exported through dma-buf
-see vfio_pci_dma_buf_map() function.
-
-Thanks
-
-> 
-> Cheers,
-> 
-> Will
-> 
+For now, I'll respin without the configuration part and the extra counter.
