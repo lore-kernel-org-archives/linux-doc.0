@@ -1,54 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45CA2749EC;
-	Tue, 15 Jul 2025 20:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF8F17C77;
+	Tue, 15 Jul 2025 20:05:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752609819; cv=none; b=HrmS2ar4KVaxj5/w/JBqwDdagRkm5om7B+kX4R7vP7Oska8ByT17L7DVTX1ZCka2KAiTj/Mgy6WpZcRuMMeEaqnfyzYBfcwWPBQktAAwwDVvLGIjPpdCQ3K5FjUqsd/TLYlRkM/Elv3ldWfzDuZhxteqppiRHZuSeMKguxUjvaM=
+	t=1752609932; cv=none; b=kzIKWpZhH94sE0Xtw8uihWfJgDUOD5ToXc8TxeoIGcE/h96ZB76JegW/Kp/LqbdMi4JIxLrE26prhc1nwdiZJfHoCi0Z6807wiJYRHt/44/zQnAFmTZ4QPO6/TQcHohfGfZLhvSuayzzRzYdY7+XRy9Y8MSXzrKW9Jp+GlB4Jg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752609819; c=relaxed/simple;
-	bh=hWcwwSCIE1juPICXC7jR+4JoO+FPPx/JLkJnjiyX7Iw=;
+	s=arc-20240116; t=1752609932; c=relaxed/simple;
+	bh=bTD8iFbUHNhctTHp0SpefPgnwr8ORho3hEmUMzcX5lY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mx7VDMgYbVp9AD7MRq1bV9GgcUH38248tz3RAbe0A8mi6uX6O1PQLCy6H5KAU0qXAxPqKlA+WiOz3q+41cPd0QexDsIUa0rEGNmBe98xVxZ6sabUPO0WCxllzw6Fj05n++DMlBP13eoUP1tSHCf8bC0TlFnA9hQgbxYVEPCKpjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pLbFDViD; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=F+Cst0J6IYNbv8k4omBwtJb3q1MbOBUCFvMu/MR4/wCgKXDjlY9cTA50M60phPi9JetfHERLZHz/L13riJxcjyC+i8Oiuwrpic8/CJRdBIzFBueUCYDNeuZy0N99DmFYbSlf/5StbbDuUBFXAec8kylkE4NTz+hUrtTnd+OTS4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fX/fSS+7; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pLbFDViD"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9F8524040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fX/fSS+7"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 177A540AD0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1752609816; bh=5kPEQacK23+5d9HZEBwKwlf08U1WgpD16N1/izqmHtU=;
+	t=1752609930; bh=r1hKgcI6d0PWM41MIr//4GILP2VXdVZ/JyEEwQLZoz8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=pLbFDViDIrgJL8ZQateU2gyMeDQgIUGqckKBl894fT8zEhfferjsoQNUJfu/F2kmi
-	 bHgqmunluMg8/CrAP+1xeAzeyBkwb9k/D8gjRgUcLUtOue7x0CQjovVXSpittsvf8z
-	 QHuolRJl87REBezg0rRnN0jj+EqXpjmuFqUtc9a8Js+uKkCDBjoD5CsAi7GwFpawto
-	 N97D86OaxcchGHK0hiv4wr35SrKHUfZUNx1UUfyju4YWpNfSs3xE8Z4miAkT0VNoil
-	 DaHSRLO19jjiyqSuJMJn7MDoLLiQh2Yx9AB8i0FtGQmhUrD1RtCeNjc96fpMMNIzN4
-	 7g8TuYdwWsqRg==
+	b=fX/fSS+7YBLz1bA+Gx27jke+FcBBGjoOaso2nSHQk1wWUrk2csKa+tjaMR3BSF+FV
+	 rcGWgrdJ7ZcaXhECg8iN4irhWUrSPhaTkRgXosv5QKw9f6WLbbFxMDG4DN+AD1E2sy
+	 3C4hLFu6QaBHVdNTDChODCVBbriha2s04N8u7+5kGEH7LoMjjxWxgdxWE/PLOJEGZS
+	 Vx2wNcppZT5ZbpWFDL7B0aCj4IPPj9FX3DdYRlbMoOjLrTrQeFLnI/Rj1GEDFJ/gU/
+	 fl5NNbSqrB8CoNZQTMoJSARhTHhxVLai7X4JhgALu5oiJoWowvaHb0gs3y1Uj8516h
+	 0MikOt5o3PIaw==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9F8524040B;
-	Tue, 15 Jul 2025 20:03:36 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 177A540AD0;
+	Tue, 15 Jul 2025 20:05:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
  <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux PowerPC
- <linuxppc-dev@lists.ozlabs.org>, Linux Networking <netdev@vger.kernel.org>
-Cc: Richard Cochran <richardcochran@gmail.com>, Haren Myneni
- <haren@linux.ibm.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Andrew Donnellan <ajd@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nathan Lynch
- <nathanl@linux.ibm.com>
-Subject: Re: [PATCH v2 0/3] ioctl numbers list cleanup for
- papr-physical-attestation.h
-In-Reply-To: <20250714015711.14525-1-bagasdotme@gmail.com>
-References: <20250714015711.14525-1-bagasdotme@gmail.com>
-Date: Tue, 15 Jul 2025 14:03:35 -0600
-Message-ID: <878qkpfch4.fsf@trenco.lwn.net>
+ <linux-doc@vger.kernel.org>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Haren Myneni <haren@linux.ibm.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Donnellan
+ <ajd@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Mauro Carvalho
+ Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 0/2] Documentation: ioctl-number: DRY cleanup
+In-Reply-To: <20250715024258.16882-1-bagasdotme@gmail.com>
+References: <20250715024258.16882-1-bagasdotme@gmail.com>
+Date: Tue, 15 Jul 2025 14:05:29 -0600
+Message-ID: <874ivdfcdy.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,24 +56,20 @@ Content-Type: text/plain
 
 Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> Hi,
->
-> This is the cleanup series following up from 03c9d1a5a30d93 ("Documentation:
-> Fix description format for powerpc RTAS ioctls"). It is based on docs-next
-> tree. The end result should be the same as my previous fixup patch [1].
+> As the subject suggests: don't repeat yourself (DRY) on table introduction
+> (ioctl macros-related).
 >
 > Enjoy!
 >
-> Changes since v1 (RESEND) [2]:
+> Bagas Sanjaya (2):
+>   Documentation: ioctl-number: Shorten macros table
+>   Documentation: ioctl-number: Don't repeat macro names
 >
->   * Add Fixes: and Reviewed-by: trailers (Haren)
->   * Expand tabs for uapi/misc/amd-apml.h to match other entries
->
-> Jon: Would you like to apply this series on docs-next or should powerpc
-> folks handle it?
+>  .../userspace-api/ioctl/ioctl-number.rst      | 36 ++++++++++---------
+>  1 file changed, 20 insertions(+), 16 deletions(-)
 
-I've applied it.  I took out the vast pile of Fixes tags, though; I
-don't think all that was justified for these tweaks.
+The first seems like a good cleanup; the second a bit less so, but I've
+applied the pair.
 
 Thanks,
 
