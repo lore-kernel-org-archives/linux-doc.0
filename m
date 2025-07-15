@@ -1,195 +1,201 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A53426FA6A;
-	Tue, 15 Jul 2025 07:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6C9271473
+	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 07:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752563744; cv=none; b=iHZq4motWqf20IWpWrnAJZtHMlHgx4SeWT02aCFkVRMkC4iHl8h0WIsp0KuGdti1/pySo00ZXb4Fv1JFjw19Fkj7XoPQ0X4I4IgvkUfnv5LuagcYDx3wQ3+hNfl43T7Q7PQM+jbs89P1vvG/IfDWf23rZYg28A7ntzIjdblyB0A=
+	t=1752563783; cv=none; b=pdNcL8dCPcwhbZ/B+i7WjWyJcbD1DpqLEhpknS0OnAueMqLUNiw8hbk8gFyM54AI2C1Zzhv0DokbNTdr5WAjQ5DDQ8huWq7QTRjhS9dn6DYn8QX+rxVmA0Bp/q1QLs3YRfm1eKosmFng5rf+6/t8UxiddVakd87+OzateUCeMLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752563744; c=relaxed/simple;
-	bh=659K2a+RVej/0E/JVasPDdOXxmtJmIlt1/h05SIk5TE=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=gXdlK1eDZ0Rs2jpS+ygUf2Zev0/tG8Da49mFtiaxWuhzdehNYEQYQygVg5Uyjn/Gxy1eldK6hH2W1RPTHCNn2nVTln287RjTaxO2hDrctwQ/G9EmDAb9Dl0afU+dp7mcKypq8dol5nLwCUjvkXGrbfCK/M150A7pjro60pmdaDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	s=arc-20240116; t=1752563783; c=relaxed/simple;
+	bh=oKCxdtiHaXrLusltoZ/no3IOGFVOIaODLMIw1eJKc5k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fQJPEnGcYjt/lbszSQCrXwgXQyhpKX1nAHShoqImm7O82C3e8G4/iVkwLgLw74wuVeIhbw37yVHOfOh3faggzoqMjLQFyCPOFeePfgcgdHrZsCck/VaG3PPgPunj7KBVuzomZGMl4KHbRdoXiO3pRIBRal7bzlAmRhPyTTYmKVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V6EEERe2; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V6EEERe2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752563780;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=voQS/lp53ISUhbNDO53K37fCMrXCmD3XHPGgWIewhl0=;
+	b=V6EEERe21YbKvlXLJUmYrHoovBFZ+1COmEnZtFPmYDejXJ9Tqkiz98JbREcV5jBA6r3bn1
+	z94awhBrDGlLM2DA9h66JKDcqpbN4Sjcf4ZHQVGFhffZyiDJiXhzSKk44H89YA+a4PGSLk
+	UCHJH7F4yp8c5e82SpnNM7jS+vpKlJ8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-343-BLjZ0EkBMAWKpN_3HYsVig-1; Tue,
+ 15 Jul 2025 03:16:16 -0400
+X-MC-Unique: BLjZ0EkBMAWKpN_3HYsVig-1
+X-Mimecast-MFC-AGG-ID: BLjZ0EkBMAWKpN_3HYsVig_1752563773
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bh9Sm2p1Wz5F2lq;
-	Tue, 15 Jul 2025 15:15:36 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl1.zte.com.cn with SMTP id 56F7FHiZ002069;
-	Tue, 15 Jul 2025 15:15:17 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Tue, 15 Jul 2025 15:15:19 +0800 (CST)
-Date: Tue, 15 Jul 2025 15:15:19 +0800 (CST)
-X-Zmail-TransId: 2afa68760007ffffffffd15-679fc
-X-Mailer: Zmail v1.0
-Message-ID: <202507151515190926U70E2Wb3ud2PtF5l19ku@zte.com.cn>
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 97C231800289;
+	Tue, 15 Jul 2025 07:16:13 +0000 (UTC)
+Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.45.224.115])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 43CA8180035E;
+	Tue, 15 Jul 2025 07:16:07 +0000 (UTC)
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Gabriele Monaco <gmonaco@redhat.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nam Cao <namcao@linutronix.de>,
+	Tomas Glozar <tglozar@redhat.com>,
+	Juri Lelli <jlelli@redhat.com>,
+	Clark Williams <williams@redhat.com>,
+	John Kacur <jkacur@redhat.com>
+Subject: [PATCH v3 13/17] rv: Adapt the sco monitor to the new set_state
+Date: Tue, 15 Jul 2025 09:14:30 +0200
+Message-ID: <20250715071434.22508-14-gmonaco@redhat.com>
+In-Reply-To: <20250715071434.22508-1-gmonaco@redhat.com>
+References: <20250715071434.22508-1-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <alexs@kernel.org>
-Cc: <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <yang.tao172@zte.com.cn>, <ye.xingchen@zte.com.cn>,
-        <wang.yaxin@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIXSBEb2NzL3poX0NOOiBUcmFuc2xhdGUgdWJpZnMucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 56F7FHiZ002069
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68760018.000/4bh9Sm2p1Wz5F2lq
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
+The sched_set_state tracepoint changed prototype adding a new argument,
+this argument can differentiate between an explicit set_state called by
+a task and a set state to runnable by the scheduler due to a pending
+signal.
 
-translate the "ubifs.rst" into Simplified Chinese.
+Expand the model to handle the new set_state flavour, the monitor was
+making sure set state happens only outside of the scheduler, if the
+event occurs with the new argument (from_signal) set to true, we instead
+expect it to be inside the scheduler.
 
-Update to commit 5f5cae9b0e81("Documentation: ubifs: Fix
-compression idiom")
-
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-Signed-off-by: yang tao <yang.tao172@zte.com.cn>
+Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
 ---
- .../translations/zh_CN/filesystems/index.rst  |   1 +
- .../translations/zh_CN/filesystems/ubifs.rst  | 111 ++++++++++++++++++
- 2 files changed, 112 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs.rst
+ Documentation/trace/rv/monitor_sched.rst | 35 +++++++++++++-----------
+ kernel/trace/rv/monitors/sco/sco.c       |  5 +++-
+ kernel/trace/rv/monitors/sco/sco.h       |  4 +++
+ tools/verification/models/sched/sco.dot  |  1 +
+ 4 files changed, 28 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-index 9f2a8b003778..faaa0f097223 100644
---- a/Documentation/translations/zh_CN/filesystems/index.rst
-+++ b/Documentation/translations/zh_CN/filesystems/index.rst
-@@ -26,4 +26,5 @@ Linux Kernel中的文件系统
-    virtiofs
-    debugfs
-    tmpfs
-+   ubifs
-
-diff --git a/Documentation/translations/zh_CN/filesystems/ubifs.rst b/Documentation/translations/zh_CN/filesystems/ubifs.rst
-new file mode 100644
-index 000000000000..27997777f4ea
---- /dev/null
-+++ b/Documentation/translations/zh_CN/filesystems/ubifs.rst
-@@ -0,0 +1,111 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
+index 24b2c62a3bc26..6f76bba94d9fb 100644
+--- a/Documentation/trace/rv/monitor_sched.rst
++++ b/Documentation/trace/rv/monitor_sched.rst
+@@ -64,22 +64,25 @@ Monitor sco
+ ~~~~~~~~~~~
+ 
+ The scheduling context operations (sco) monitor ensures changes in a task state
+-happen only in thread context::
+-
+-
+-                        |
+-                        |
+-                        v
+-    sched_set_state   +------------------+
+-  +------------------ |                  |
+-  |                   |  thread_context  |
+-  +-----------------> |                  | <+
+-                      +------------------+  |
+-                        |                   |
+-                        | schedule_entry    | schedule_exit
+-                        v                   |
+-                                            |
+-                       scheduling_context  -+
++happen only in thread context, the only exception is a special kind of set
++state that occurs if a task about to sleep has a pending signal. This set state
++is not called by the thread but by the scheduler itself::
 +
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/filesystems/ubifs.rst
-+
-+:翻译:
-+
-+   邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
-+
-+:校译:
-+
-+   - 杨涛 yang tao <yang.tao172@zte.com.cn>
-+
-+===============
-+UBI 文件系统
-+===============
-+
-+简介
-+============
-+
-+UBIFS 文件系统全称为 UBI 文件系统（UBI File System）。UBI 代表无序块镜像（Unsorted
-+Block Images）。UBIFS 是一种闪存文件系统，这意味着它专为闪存设备设计。需要理解的是，UBIFS
-+与 Linux 中任何传统文件系统（如 Ext2、XFS、JFS 等）完全不同。UBIFS 代表一类特殊的文件系统，
-+它们工作在 MTD 设备而非块设备上。该类别的另一个 Linux 文件系统是 JFFS2。
-+
-+为更清晰说明，以下是 MTD 设备与块设备的简要比较：
-+
-+1. MTD 设备代表闪存设备，由较大尺寸的擦除块组成，通常约 128KiB。块设备由小块组成，通常 512
-+   字节。
-+2. MTD 设备支持 3 种主要操作：在擦除块内偏移位置读取、在擦除块内偏移位置写入、以及擦除整个擦除
-+   块。块设备支持 2 种主要操作：读取整个块和写入整个块。
-+3. 整个擦除块必须先擦除才能重写内容。块可直接重写。
-+4. 擦除块在经历一定次数的擦写周期后会磨损，通常 SLC NAND 和 NOR 闪存为 100K-1G 次，MLC
-+   NAND 闪存为 1K-10K 次。块设备不具备磨损特性。
-+5. 擦除块可能损坏（仅限 NAND 闪存），软件需处理此问题。硬盘上的块通常不会损坏，因为硬件有坏块
-+   替换机制（至少现代 LBA 硬盘如此）。
-+
-+这充分说明了 UBIFS 与传统文件系统的本质差异。
-+
-+UBIFS 工作在 UBI 层之上。UBI 是一个独立的软件层（位于 drivers/mtd/ubi），本质上是卷管理和
-+磨损均衡层。它提供称为 UBI 卷的高级抽象，比 MTD 设备更上层。UBI 设备的编程模型与 MTD 设备非
-+常相似，仍由大容量擦除块组成，支持读/写/擦除操作，但 UBI 设备消除了磨损和坏块限制（上述列表的第
-+4 和第 5 项）。
-+
-+某种意义上，UBIFS 是 JFFS2 文件系统的下一代产品，但它与 JFFS2 差异巨大且不兼容。主要区别如下：
-+
-+* JFFS2 工作在 MTD 设备之上，UBIFS 依赖于 UBI 并工作在 UBI 卷之上。
-+* JFFS2 没有介质索引，需在挂载时构建索引，这要求全介质扫描。UBIFS 在闪存介质上维护文件系统索引
-+  信息，无需全介质扫描，因此挂载速度远快于 JFFS2。
-+* JFFS2 是直写（write-through）文件系统，而 UBIFS 支持回写（write-back），这使得 UBIFS
-+  写入速度快得多。
-+
-+与 JFFS2 类似，UBIFS 支持实时压缩，可将大量数据存入闪存。
-+
-+与 JFFS2 类似，UBIFS 能容忍异常重启和断电。它不需要类似 fsck.ext2 的工具。UBIFS 会自动重放日
-+志并从崩溃中恢复，确保闪存数据结构的一致性。
-+
-+UBIFS 具有对数级扩展性（其使用的数据结构多为树形），因此挂载时间和内存消耗不像 JFFS2 那样线性依
-+赖于闪存容量。这是因为 UBIFS 在闪存介质上维护文件系统索引。但 UBIFS 依赖于线性扩展的 UBI 层，
-+因此整体 UBI/UBIFS 栈仍是线性扩展。尽管如此，UBIFS/UBI 的扩展性仍显著优于 JFFS2。
-+
-+UBIFS 开发者认为，未来可开发同样具备对数级扩展性的 UBI2。UBI2 将支持与 UBI 相同的 API，但二进
-+制不兼容。因此 UBIFS 无需修改即可使用 UBI2。
-+
-+挂载选项
-+=============
-+
-+(*) 表示默认选项。
-+
-+====================    =======================================================
-+bulk_read               批量读取以利用闪存介质的顺序读取加速特性
-+no_bulk_read (*)        禁用批量读取
-+no_chk_data_crc (*)     跳过数据节点的 CRC 校验以提高读取性能。 仅在闪存
-+                        介质高度可靠时使用此选项。 此选项可能导致文件内容损坏无法被
-+                        察觉。
-+chk_data_crc            强制校验数据节点的 CRC
-+compr=none              覆盖默认压缩器，设置为"none"
-+compr=lzo               覆盖默认压缩器，设置为"LZO"
-+compr=zlib              覆盖默认压缩器，设置为"zlib"
-+auth_key=               指定用于文件系统身份验证的密钥。
-+                        使用此选项将强制启用身份验证。
-+                        传入的密钥必须存在于内核密钥环中， 且类型必须是'logon'
-+auth_hash_name=         用于身份验证的哈希算法。同时用于哈希计算和 HMAC
-+                        生成。典型值包括"sha256"或"sha512"
-+====================    =======================================================
-+
-+快速使用指南
-+========================
-+
-+挂载的 UBI 卷通过 "ubiX_Y" 或 "ubiX:NAME" 语法指定，其中 "X" 是 UBI 设备编号，"Y" 是 UBI
-+卷编号，"NAME" 是 UBI 卷名称。
-+
-+将 UBI 设备 0 的卷 0 挂载到 /mnt/ubifs::
-+
-+    $ mount -t ubifs ubi0_0 /mnt/ubifs
-+
-+将 UBI 设备 0 的 "rootfs" 卷挂载到 /mnt/ubifs（"rootfs" 是卷名）::
-+
-+    $ mount -t ubifs ubi0:rootfs /mnt/ubifs
-+
-+以下是内核启动参数的示例，用于将 mtd0 附加到 UBI 并挂载 "rootfs" 卷：
-+ubi.mtd=0 root=ubi0:rootfs rootfstype=ubifs
-+
-+参考资料
-+==========
-+
-+UBIFS 文档及常见问题解答/操作指南请访问 MTD 官网：
-+
-+- http://www.linux-mtd.infradead.org/doc/ubifs.html
-+- http://www.linux-mtd.infradead.org/faq/ubifs.html
++                                        |
++                                        |
++                                        v
++    sched_set_state                   +------------------+
++  +---------------------------------- |                  |
++  |                                   |  thread_context  |
++  +---------------------------------> |                  | <+
++                                      +------------------+  |
++                                        |                   |
++                                        | schedule_entry    | schedule_exit
++                                        v                   |
++    sched_set_state_runnable_signal                         |
++  +----------------------------------                       |
++  |                                    scheduling_context   |
++  +--------------------------------->                      -+
+ 
+ Monitor snroc
+ ~~~~~~~~~~~~~
+diff --git a/kernel/trace/rv/monitors/sco/sco.c b/kernel/trace/rv/monitors/sco/sco.c
+index c9206aa12c319..6457ff2469d08 100644
+--- a/kernel/trace/rv/monitors/sco/sco.c
++++ b/kernel/trace/rv/monitors/sco/sco.c
+@@ -22,7 +22,10 @@ DECLARE_DA_MON_PER_CPU(sco, unsigned char);
+ static void handle_sched_set_state(void *data, struct task_struct *tsk,
+ 				   int state, bool from_signal)
+ {
+-	da_handle_start_event_sco(sched_set_state_sco);
++	if (from_signal)
++		da_handle_event_sco(sched_set_state_runnable_signal_sco);
++	else
++		da_handle_start_event_sco(sched_set_state_sco);
+ }
+ 
+ static void handle_schedule_entry(void *data, bool preempt, unsigned long ip)
+diff --git a/kernel/trace/rv/monitors/sco/sco.h b/kernel/trace/rv/monitors/sco/sco.h
+index 83ca9a03331af..2d05ab882b2a6 100644
+--- a/kernel/trace/rv/monitors/sco/sco.h
++++ b/kernel/trace/rv/monitors/sco/sco.h
+@@ -15,6 +15,7 @@ enum states_sco {
+ 
+ enum events_sco {
+ 	sched_set_state_sco = 0,
++	sched_set_state_runnable_signal_sco,
+ 	schedule_entry_sco,
+ 	schedule_exit_sco,
+ 	event_max_sco
+@@ -35,17 +36,20 @@ static const struct automaton_sco automaton_sco = {
+ 	},
+ 	.event_names = {
+ 		"sched_set_state",
++		"sched_set_state_runnable_signal",
+ 		"schedule_entry",
+ 		"schedule_exit"
+ 	},
+ 	.function = {
+ 		{
+ 			thread_context_sco,
++			INVALID_STATE,
+ 			scheduling_context_sco,
+ 			INVALID_STATE
+ 		},
+ 		{
+ 			INVALID_STATE,
++			scheduling_context_sco,
+ 			INVALID_STATE,
+ 			thread_context_sco
+ 		},
+diff --git a/tools/verification/models/sched/sco.dot b/tools/verification/models/sched/sco.dot
+index 20b0e3b449a6b..4e44ed58c62a3 100644
+--- a/tools/verification/models/sched/sco.dot
++++ b/tools/verification/models/sched/sco.dot
+@@ -7,6 +7,7 @@ digraph state_automaton {
+ 	{node [shape = plaintext] "thread_context"};
+ 	"__init_thread_context" -> "thread_context";
+ 	"scheduling_context" [label = "scheduling_context"];
++	"scheduling_context" -> "scheduling_context" [ label = "sched_set_state_runnable_signal" ];
+ 	"scheduling_context" -> "thread_context" [ label = "schedule_exit" ];
+ 	"thread_context" [label = "thread_context", color = green3];
+ 	"thread_context" -> "scheduling_context" [ label = "schedule_entry" ];
 -- 
-2.25.1
+2.50.1
+
