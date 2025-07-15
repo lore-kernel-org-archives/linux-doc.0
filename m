@@ -1,259 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773EB199223;
-	Tue, 15 Jul 2025 12:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7289E227E95
+	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 12:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752583640; cv=none; b=X+JFjriBfV+/33raexkZY0x+A2RzjnvY/dFICfJXQpoTT0Ymx79dbp/og62JPNyf87Ss99lsZJgoOcrFi4k8LhOwXlvSB2yuSt2C4h8lvEm1hB6qAJuyk7j+XpEGylq36JlPh98LtNJUtNzk+fWVc1rTWNcbbFIEuwt7T+97lFQ=
+	t=1752583691; cv=none; b=d+wSL5Yrd0zKBTJL9s1HvlrzXyPUJ1pKmhWD6qsPfkTTWQbjT2laCgrfpmkffR63bC24W4YQXMrjx0Z78n3KV2QPl46ZSwMJkmHQ6tCmTVcta1Sg4Djc9RuW9FSWN7+gVvL0K6yao603J5eX7xvapCrh5mzqT9u9MNlccbe5Jn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752583640; c=relaxed/simple;
-	bh=hBc8ff8HOQ5UtD+3Cw+/ByuYTKjMsXhHB0AAQYZuPe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R3PDOpX9SyJyL5KQovNBpsj2Wri1q0UdThiRAe8Kj+WlX3aJmJ4Id/uO1tJ75MyJhZB02V24ihMuwBuI8ohnkwqj5LgThDw4slfNf/7Qh/Q6JV7qPxdMhnEJ4+vEaDqilEOOwHiJMth1XJuIIqBsYhhMdPJOjhBXn0GrVNpbG/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BTIY5PH5; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752583691; c=relaxed/simple;
+	bh=EPw4dQ8dfonq0P3aVNF8vSgP2GKEr/WhL3SjzkV20GA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GLqrGMPbUPUOeQ2MpKZoBmMZU+U/x9tJGcETI0hoDCz7PSZSue07zKHsHg+h4cVS0SEkx2VtEMrV2pKtEYUYW29R/7VnaeXpyop6iG3g9eg0v/HIK797vE8BGkYUtD0XoFrVoyDb/sUPyHsznDgx+2wpmInYT2+LJgH9gdM/lCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qB0U8wgK; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTIY5PH5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752583639; x=1784119639;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hBc8ff8HOQ5UtD+3Cw+/ByuYTKjMsXhHB0AAQYZuPe4=;
-  b=BTIY5PH5f3IHWc0s7G8Rx4jHEO9iom0o9JWCusf1tXhrbXpUCeo7vR6a
-   PV4qtxy3LTaSG4d0Xkbpzl/QnNMMt7BjqlfXGxodEHGeSf6ksdbfiE6Ky
-   2yiH5JDP8U8+uV3eEkXjC6E50pwu31dEgpJx3iNvfKhQ5NDW5FwykI3gC
-   l69H0qtUVynbR9XTzx1leYTRjVmvorSxJIz/L2nr4X/ytf+VFV/S9yqcZ
-   FqjT3Gy18wBPg5zOiBHSvzibNtxK/xlufXujGjHI/QCgy40PyWBP2iCuj
-   /8+UTKv/BNWnpbr9O7bHJcpxkaeeHcXnXk+RMazqbLNTP+VHMCWr3g7ag
-   w==;
-X-CSE-ConnectionGUID: JoswtDgYSeyH2CqKYFtqng==
-X-CSE-MsgGUID: BYPF9+TxQY6q2eFwS/mpuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="72377307"
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="72377307"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 05:47:18 -0700
-X-CSE-ConnectionGUID: bTOmUedsQVaNXje9djikHw==
-X-CSE-MsgGUID: 2WRmLjLCTWe8cqpsnxua1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="157721361"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Jul 2025 05:47:10 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubf3s-000A49-0j;
-	Tue, 15 Jul 2025 12:47:08 +0000
-Date: Tue, 15 Jul 2025 20:46:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Roman Kisel <romank@linux.microsoft.com>, alok.a.tiwari@oracle.com,
-	arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
-	dave.hansen@linux.intel.com, decui@microsoft.com,
-	haiyangz@microsoft.com, hpa@zytor.com, kys@microsoft.com,
-	mhklinux@outlook.com, mingo@redhat.com, rdunlap@infradead.org,
-	tglx@linutronix.de, Tianyu.Lan@microsoft.com, wei.liu@kernel.org,
-	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	apais@microsoft.com, benhill@microsoft.com, bperkins@microsoft.com,
-	sunilmut@microsoft.com
-Subject: Re: [PATCH hyperv-next v4 03/16] arch: hyperv: Get/set SynIC
- synth.registers via paravisor
-Message-ID: <202507152017.8UNXIbRJ-lkp@intel.com>
-References: <20250714221545.5615-4-romank@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qB0U8wgK"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4561ca74829so18691675e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 05:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752583686; x=1753188486; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Iqo4mhXycGD6rw4UTAUbadK3TxDOKrzOub9ByVVv0xc=;
+        b=qB0U8wgKfVafmrdK4SZntgzOzE/kz1dySTTGLPRY+cRfUl+WrBt/VwC2m6FYNU1yH7
+         Vh5BLKy73qAclnLkaZjE/fXOjsRaiS/LP4k3CVN1eFuAAlmSk98KJ6ARpQwnDoA7xveM
+         OoqV1+X1vjz/ioplbVCKh6qNdpaOY8hji45gbqObDErGAKeuEh8ysJKs8m1bschPqrf/
+         owuYOAwLVuJPWGHB7ULe4Co9G7QC+wuMLsztuA5lc2PoBFbi1ZzJut1uySvsfMELl3sQ
+         OGr+fmEXoAxqLkign944o2Adn8eacojfmhP7KQ/K+B0S3jc9f1fu06kOC4VgvsogcF64
+         RwAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752583686; x=1753188486;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Iqo4mhXycGD6rw4UTAUbadK3TxDOKrzOub9ByVVv0xc=;
+        b=wjlGQIDYAT8x2bdmky+oY0MynA9lS01XrSvPRQMeKbdjQyYLERHCTPlIos6RP2i2Hm
+         LOb6n5s6w0eh39niyjKd+T64BSSxlolgQUvRHD/fpNXiBGGBrUy+cBn70THeTKXyyLHu
+         WqH9589TpNj6zIQ450vwmHVUYxBOiq/e6U9QS/5xOsHwE+Pg7bp2m+beRt3LgYXu2XUR
+         Jo7kZEMv85wpyWtG+9qXEwAlLHxP9TOuJxGQ+lb6sbGAu3kU8oobxglFukXonkuWHkaB
+         7TyZL6NPhKFMWUncB1E9F9J53eg/pLiF+1Ha2A7TCcGFfwHT1Zmipaw3zdSyLQB4AjIs
+         FnCA==
+X-Forwarded-Encrypted: i=1; AJvYcCUM9/g5ytRu5dZ5ALH3u7m1X3GSmN3t5RJMU/FkFDIXUXXUhmhxorSZW/bvEYjyFOwgNd0s2+34/F0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJob0O+TZsmBg2o1OU7VIp/G9LPSBnHVNo6NO5T+tUkJYt2f92
+	tPkl8dSsMPOvfU+8kygQW/MNFCEjNN9AsZUvsWLsrInpieKBZvsZqhTxf/AIjl/dlQg=
+X-Gm-Gg: ASbGncvD2nq4Ym0GMVh1HNlYnD33MQrWnA7yvPdvr5K4zuBGX4xNjuWDnboP06CV9E0
+	iDktQTknRCtQfstLP6koN2F6TDvt2pTtYCW8P5AO0YDtphQ+jHLK9FLz3argrwll7XbS1BNXfNx
+	2HfEYyx5Yp8ldu0y26br6rQzNYZqlOjVIPNIO28AycXjFn+NRtoitPsF89OK+RqIexTXueNfvUD
+	dIKfmqTbBbupz6bU/v6BJVRmWfAAltATWIPg8SrrblSwjeKSuI9hmUNbvVPoEj5dBqCcHlGlNPu
+	IIwvGpcnGM7649bKRs5Hxq9TZtsKCLZQF8jld3wQPzUbLq6BHp8FmedFuARn25l9Xvs8b4qo6K7
+	e3dvvIAdaqUIyTOHRbG6x7sXzKfs=
+X-Google-Smtp-Source: AGHT+IHksQQexPF9xeIAPmAN5RQVQtwJAwRE0OCzaS0bMryNoBsPAdHpgVxKs40ogsxaKO2X4QSDVw==
+X-Received: by 2002:a05:600c:8483:b0:440:6a1a:d89f with SMTP id 5b1f17b1804b1-455bd87a4a2mr140606855e9.4.1752583685607;
+        Tue, 15 Jul 2025 05:48:05 -0700 (PDT)
+Received: from [192.168.1.3] ([185.48.76.109])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45610c518e9sm84882505e9.17.2025.07.15.05.48.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Jul 2025 05:48:05 -0700 (PDT)
+Message-ID: <04d52182-6043-4eaf-a898-9f8ccc893e5f@linaro.org>
+Date: Tue, 15 Jul 2025 13:48:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250714221545.5615-4-romank@linux.microsoft.com>
-
-Hi Roman,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on d9016a249be5316ec2476f9947356711e70a16ec]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/Documentation-hyperv-Confidential-VMBus/20250715-062125
-base:   d9016a249be5316ec2476f9947356711e70a16ec
-patch link:    https://lore.kernel.org/r/20250714221545.5615-4-romank%40linux.microsoft.com
-patch subject: [PATCH hyperv-next v4 03/16] arch: hyperv: Get/set SynIC synth.registers via paravisor
-config: i386-buildonly-randconfig-005-20250715 (https://download.01.org/0day-ci/archive/20250715/202507152017.8UNXIbRJ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507152017.8UNXIbRJ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507152017.8UNXIbRJ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/kvm/vmx/main.c:5:
-   In file included from arch/x86/kvm/vmx/vmx.h:16:
-   In file included from arch/x86/kvm/vmx/vmx_ops.h:9:
-   In file included from arch/x86/kvm/vmx/vmx_onhyperv.h:7:
-   In file included from arch/x86/include/asm/mshyperv.h:345:
->> include/asm-generic/mshyperv.h:377:4: error: call to undeclared function 'hv_para_set_synic_register'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     377 |                         hv_para_set_synic_register(HV_MSR_EOM, 0);
-         |                         ^
-   1 error generated.
---
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:9:
-   In file included from arch/x86/include/asm/mshyperv.h:345:
->> include/asm-generic/mshyperv.h:377:4: error: call to undeclared function 'hv_para_set_synic_register'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     377 |                         hv_para_set_synic_register(HV_MSR_EOM, 0);
-         |                         ^
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:11:
-   In file included from arch/x86/kvm/svm/../hyperv.h:24:
-   In file included from include/linux/kvm_host.h:11:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:11:
-   In file included from arch/x86/kvm/svm/../hyperv.h:24:
-   In file included from include/linux/kvm_host.h:11:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:11:
-   In file included from arch/x86/kvm/svm/../hyperv.h:24:
-   In file included from include/linux/kvm_host.h:11:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:11:
-   In file included from arch/x86/kvm/svm/../hyperv.h:24:
-   In file included from include/linux/kvm_host.h:11:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:11:
-   In file included from arch/x86/kvm/svm/../hyperv.h:24:
-   In file included from include/linux/kvm_host.h:11:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:11:
-   In file included from arch/x86/kvm/svm/../hyperv.h:24:
-   In file included from include/linux/kvm_host.h:11:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:11:
-   In file included from arch/x86/kvm/svm/../hyperv.h:24:
-   In file included from include/linux/kvm_host.h:11:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:11:
-   In file included from arch/x86/kvm/svm/../hyperv.h:24:
-   In file included from include/linux/kvm_host.h:11:
-   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:24: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                                      ^      ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kvm/svm/hyperv.c:7:
-   In file included from arch/x86/kvm/svm/hyperv.h:11:
-   In file included from arch/x86/kvm/svm/../hyperv.h:24:
-   In file included from include/linux/kvm_host.h:11:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:139:8: note: expanded from macro '_SIG_SET_BINOP'
-     139 |                 b3 = b->sig[3]; b2 = b->sig[2];                         \
-         |                      ^      ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/10] arm64/boot: Enable EL2 requirements for
+ SPE_FEAT_FDS
+To: Will Deacon <will@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, leo.yan@arm.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvmarm@lists.linux.dev
+References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org>
+ <20250605-james-perf-feat_spe_eft-v3-4-71b0c9f98093@linaro.org>
+ <aHUMMk9JUdK6luLN@willie-the-truck>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <aHUMMk9JUdK6luLN@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-vim +/hv_para_set_synic_register +377 include/asm-generic/mshyperv.h
 
-   344	
-   345	/* Free the message slot and signal end-of-message if required */
-   346	static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
-   347	{
-   348		/*
-   349		 * On crash we're reading some other CPU's message page and we need
-   350		 * to be careful: this other CPU may already had cleared the header
-   351		 * and the host may already had delivered some other message there.
-   352		 * In case we blindly write msg->header.message_type we're going
-   353		 * to lose it. We can still lose a message of the same type but
-   354		 * we count on the fact that there can only be one
-   355		 * CHANNELMSG_UNLOAD_RESPONSE and we don't care about other messages
-   356		 * on crash.
-   357		 */
-   358		if (cmpxchg(&msg->header.message_type, old_msg_type,
-   359			    HVMSG_NONE) != old_msg_type)
-   360			return;
-   361	
-   362		/*
-   363		 * The cmxchg() above does an implicit memory barrier to
-   364		 * ensure the write to MessageType (ie set to
-   365		 * HVMSG_NONE) happens before we read the
-   366		 * MessagePending and EOMing. Otherwise, the EOMing
-   367		 * will not deliver any more messages since there is
-   368		 * no empty slot
-   369		 */
-   370		if (msg->header.message_flags.msg_pending) {
-   371			/*
-   372			 * This will cause message queue rescan to
-   373			 * possibly deliver another msg from the
-   374			 * hypervisor
-   375			 */
-   376			if (vmbus_is_confidential())
- > 377				hv_para_set_synic_register(HV_MSR_EOM, 0);
-   378			else
-   379				hv_set_msr(HV_MSR_EOM, 0);
-   380		}
-   381	}
-   382	
+On 14/07/2025 2:54 pm, Will Deacon wrote:
+> On Thu, Jun 05, 2025 at 11:49:02AM +0100, James Clark wrote:
+>> SPE data source filtering (optional from Armv8.8) requires that traps to
+>> the filter register PMSDSFR be disabled. Document the requirements and
+>> disable the traps if the feature is present.
+>>
+>> Tested-by: Leo Yan <leo.yan@arm.com>
+>> Signed-off-by: James Clark <james.clark@linaro.org>
+>> ---
+>>   Documentation/arch/arm64/booting.rst | 11 +++++++++++
+>>   arch/arm64/include/asm/el2_setup.h   | 14 ++++++++++++++
+>>   2 files changed, 25 insertions(+)
+>>
+>> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+>> index dee7b6de864f..abd75085a239 100644
+>> --- a/Documentation/arch/arm64/booting.rst
+>> +++ b/Documentation/arch/arm64/booting.rst
+>> @@ -404,6 +404,17 @@ Before jumping into the kernel, the following conditions must be met:
+>>       - HDFGWTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
+>>       - HDFGWTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
+>>   
+>> +  For CPUs with SPE data source filtering (FEAT_SPE_FDS):
+>> +
+>> +  - If EL3 is present:
+>> +
+>> +    - MDCR_EL3.EnPMS3 (bit 42) must be initialised to 0b1.
+>> +
+>> +  - If the kernel is entered at EL1 and EL2 is present:
+>> +
+>> +    - HDFGRTR2_EL2.nPMSDSFR_EL1 (bit 19) must be initialised to 0b1.
+>> +    - HDFGWTR2_EL2.nPMSDSFR_EL1 (bit 19) must be initialised to 0b1.
+>> +
+>>     For CPUs with Memory Copy and Memory Set instructions (FEAT_MOPS):
+>>   
+>>     - If the kernel is entered at EL1 and EL2 is present:
+>> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+>> index 1e7c7475e43f..02b4a7fc016e 100644
+>> --- a/arch/arm64/include/asm/el2_setup.h
+>> +++ b/arch/arm64/include/asm/el2_setup.h
+>> @@ -279,6 +279,20 @@
+>>   	orr	x0, x0, #HDFGRTR2_EL2_nPMICFILTR_EL0
+>>   	orr	x0, x0, #HDFGRTR2_EL2_nPMUACR_EL1
+>>   .Lskip_pmuv3p9_\@:
+>> +	mrs	x1, id_aa64dfr0_el1
+>> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
+>> +	/* If SPE is implemented, */
+>> +	cmp	x1, #ID_AA64DFR0_EL1_PMSVer_IMP
+>> +	b.lt	.Lskip_spefds_\@
+>> +	/* we can read PMSIDR and */
+>> +	mrs_s	x1, SYS_PMSIDR_EL1
+>> +	and	x1, x1,  #PMSIDR_EL1_FDS
+>> +	/* if FEAT_SPE_FDS is implemented, */
+>> +	cbz	x1, .Lskip_spefds_\@
+>> +	/* disable traps to PMSDSFR. */
+>> +	orr	x0, x0, #HDFGRTR2_EL2_nPMSDSFR_EL1
+> 
+> Why is this being done here rather than alongside the existing SPE
+> configuration of HDFGRTR_EL2 and HDFGWTR_EL2 near the start of
+> __init_el2_fgt?
+> 
+> Will
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I thought everything was separated by which trap configs it writes to, 
+rather than the feature. This SPE feature is in HDFGRTR2 so I put it in 
+__init_el2_fgt2 rather than __init_el2_fgt.
+
+I suppose we could have a single __init_el2_spe that writes to both 
+HDFGRTR and HDFGRTR2 but we'd have to be careful to not overwrite what 
+was already done in the other sections.
+
