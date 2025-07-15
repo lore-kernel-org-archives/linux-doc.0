@@ -1,278 +1,277 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013031.outbound.protection.outlook.com [40.107.159.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F621274FFB
-	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 08:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752569042; cv=none; b=bBwoKqpzK48AmQB3kGt8JJFBeZKZvhM/yx3jVciA5fsQVdlpE6xipN90TZVYY1KSk7TKKSDa29Zw09IQgtGuzldynDmMDSOzLSugLx2BgZjcjYXXU9+ljbltfwy8XsIpHN1rkBOu54VEpGk6PWt57PQU+PSYR/ybNC2LvaEn3A4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752569042; c=relaxed/simple;
-	bh=0GHiXuFJ0sPNdExiAaur+rUxx6laEHGWmYoUiB3Ud4Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=oek+eYOsZpnCHQu7Ie49WMEgq6DMw8iVfsGNcvZ6UN2OyeoTsqPpOPDkCoDOoaXZu5YOUh/QF7RHt/OGEqd8u3arnB/X3sia+wvdIGKzwfTKx4wIpHj5HjBVLVXyxlZGs48YCXx6lQnWhFlDDsbzagjyqfpJSeb00POfIJIOYxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=a5jxx6m/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=I5oxk0CU; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uuErKiOE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Js32Augx; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0629D1FBC8C;
+	Tue, 15 Jul 2025 09:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752570499; cv=fail; b=m45VCRjvWw1/o7BWUk85er8+4EufTiHdeNlEQnq0Ufiioul7eFHRNY9D05FwhLKfeU+27vuidNn/nB5WFmunECokq5QmMEiNS2yAAS+7SNR8oQgmiWC4MqyF6wcg6OLTwVsMLtnk44XIO+XjyKOhdIzeJCiTaolVdIy+PUVNg/k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752570499; c=relaxed/simple;
+	bh=fKvfwR99/ByPsNN4ij874hhQTqxtcnxbxdt/qOnQZRY=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=OS5h9gf7hkPK/xlRjD+yoTC+yTEEcIN8bGqy8n1WIFtKsD9aY17KVs3OClrnyRDWJzUYOW/fUWZs+FfxcWWwFZcUcZNAWgKjvYPzNEbxCaKSOg+OCfURyRQSTxDx9ij6LV9MzxBGv/9cu2lC0of5UjjRKUk3QSVVLWL2OH4KqzI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=CVopkc32; arc=fail smtp.client-ip=40.107.159.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="a5jxx6m/";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="I5oxk0CU";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uuErKiOE";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Js32Augx"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5FFAB2123B;
-	Tue, 15 Jul 2025 08:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1752569038; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=vzsbV3x/CTXCYelsSexk/bEtGHCl7KiDjnp2uvahdSc=;
-	b=a5jxx6m/CaOccokz/O0TY8251voZxZC/x/adt4c7wq1vg71be1YVvPFPS6oZ/5LlbJairD
-	iImp1yFdvBadhifv6mXlnAGXe71KHuPv9svha5iOzOQxUWE83DYAUox/jOHY+8msMpKty7
-	SKuVgdKnfM9taLqhgjfWGqAmbnMLzS4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1752569038;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=vzsbV3x/CTXCYelsSexk/bEtGHCl7KiDjnp2uvahdSc=;
-	b=I5oxk0CUHyLD2zS6/YruuonvMwbiLNST4LqQL2sR1MW2g3k0H4ltkTFAhylYWczcJtVBYt
-	otEECBvaOLEJBEAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=uuErKiOE;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Js32Augx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1752569037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=vzsbV3x/CTXCYelsSexk/bEtGHCl7KiDjnp2uvahdSc=;
-	b=uuErKiOEIU91JQCE37oO0BoM/Noc+djNR7nwchwoMe44WFRO4K5sMZFyZKqRqZZlyDCRMa
-	uePtAw9SJe2XfTFvSGfR6AgwKyLk/OmOLfJwpXzhzom5+WALXRLbCHvItzQ7DR8efhfgMd
-	8L0dquaOreW0ag9JIPaO8JfsIIIpGx8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1752569037;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=vzsbV3x/CTXCYelsSexk/bEtGHCl7KiDjnp2uvahdSc=;
-	b=Js32Augx0D2eHWZjVsmFinbwj4bHtj+F8xoIKqgGbc3qD5jUTdO2nRTl38SqeXVBwQAHVh
-	DGCNI/VPk+Ej/JCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3311013306;
-	Tue, 15 Jul 2025 08:43:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RHXbC80UdmhXWQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 15 Jul 2025 08:43:57 +0000
-From: Vlastimil Babka <vbabka@suse.cz>
-Date: Tue, 15 Jul 2025 10:43:42 +0200
-Subject: [PATCH v3] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
+	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="CVopkc32"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GsgX8lw2TQqgYl9ebUd+MGQ6guL2ynFh4gfILlLSFAU/cZB2XzUl3ckykmCQNPn2K1mDuJxZtAr1ye6CUyHcDTjGGe+jickLvleb9zCIEblqFleV7GKVSDaDTLPsDabOlb6BXiCINwj/t7n+sdObfXDuurSw1ucpDQxCSwBvJ530Wm2dBqz6fXuh5wcUGxW03xyQbqF1n+O9Wp6fnAWSZINh7+aiMrqHKC5BYEKneH/1acD89VdU8zkz6PUYZ8EzrYr6rgdiJ33jEttlogiiee2Jm9VI+pLltTkD17vNGJ0sNoZO1JXp211DcpoHpyjAwDUucaQyF05mvSgR0qc0RA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fKvfwR99/ByPsNN4ij874hhQTqxtcnxbxdt/qOnQZRY=;
+ b=LRdQyNlfOAEPl61lvSfEiElmzN70y1EEToCYCYVqcDxUCXWK4NzgsXS+Xqc/D4n6laORiawUl17grBx8WBFrcmkN/8u3oTCpyLvf0PTNDVzYJNEH8OVbpeUH+7dO1DJ0LAfUWG1HcmJlP+HMnExwj6Z8oixiIz4ELEZbcCw0Mo3kpQLsjqHgfNGPLTRwbSXy60B+D6EC5VsGAqYhjt+rxrv5U5o43BTv7I5nbV2kpXqJ3WGAYmT1qDzl2nwceDlOIgQzW8FPkqEQRiGN19YjYXNQk4xPFpBSbO1yl9JsuFKXMNX6DjHGUuiDBKO7qWX87Pixr00fmthIFlFsqlE+6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nokia-bell-labs.com; dmarc=pass action=none
+ header.from=nokia-bell-labs.com; dkim=pass header.d=nokia-bell-labs.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fKvfwR99/ByPsNN4ij874hhQTqxtcnxbxdt/qOnQZRY=;
+ b=CVopkc32tWJB/lM0e5OswdzwslaXvVQiq52XCO0e5f38Og0E8oFSZMuI36q5N78Wfn1pqEDe0ODsDbiAaFLx+BGqq1SZ5rdT+FmKnkmPTyMWUxERgYIdD3t5yFbOMEJ1+BWDwILweakCsw5xrmSN5OtFXt6p3gAvHpEyO8qR2r64ZBQOtT23tdf2glp+poxCGmH3QgKbLpbn+Ledbox+wDXND6aG7sxXTPnf2lPeiSvk5GRfN8fIvRwAhioOBQyZmFiLVW9vZlxMHbWaAiTGvMQQZ1IVTnTx0ZFubChhLrPolfHOp1dkIciGwAoC/2u+hS4L8rITPA1yPVzRqD8tMQ==
+Received: from PAXPR07MB7984.eurprd07.prod.outlook.com (2603:10a6:102:133::12)
+ by DBAPR07MB6984.eurprd07.prod.outlook.com (2603:10a6:10:17c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Tue, 15 Jul
+ 2025 09:08:12 +0000
+Received: from PAXPR07MB7984.eurprd07.prod.outlook.com
+ ([fe80::b7f8:dc0a:7e8d:56]) by PAXPR07MB7984.eurprd07.prod.outlook.com
+ ([fe80::b7f8:dc0a:7e8d:56%6]) with mapi id 15.20.8922.028; Tue, 15 Jul 2025
+ 09:08:12 +0000
+From: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
+To: Paolo Abeni <pabeni@redhat.com>, "edumazet@google.com"
+	<edumazet@google.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org"
+	<dsahern@kernel.org>, "kuniyu@amazon.com" <kuniyu@amazon.com>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>,
+	"jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"stephen@networkplumber.org" <stephen@networkplumber.org>,
+	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us"
+	<jiri@resnulli.us>, "davem@davemloft.net" <davem@davemloft.net>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "donald.hunter@gmail.com"
+	<donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>,
+	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org"
+	<shuah@kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>,
+	"ncardwell@google.com" <ncardwell@google.com>, "Koen De Schepper (Nokia)"
+	<koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
+	<g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
+	<ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
+	<mirja.kuehlewind@ericsson.com>, "cheshire@apple.com" <cheshire@apple.com>,
+	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
+	<Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
+Subject: RE: [PATCH v12 net-next 09/15] tcp: accecn: AccECN needs to know
+ delivered bytes
+Thread-Topic: [PATCH v12 net-next 09/15] tcp: accecn: AccECN needs to know
+ delivered bytes
+Thread-Index: AQHb7MFipACBkVXviUG/0wlsu3u5BLQxrlmAgAFEJ5A=
+Date: Tue, 15 Jul 2025 09:08:12 +0000
+Message-ID:
+ <PAXPR07MB7984A9327EF12B0E011511CCA357A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+References: <20250704085345.46530-1-chia-yu.chang@nokia-bell-labs.com>
+ <20250704085345.46530-10-chia-yu.chang@nokia-bell-labs.com>
+ <226c49dc-ee9c-4edb-9428-2b8b37f542fe@redhat.com>
+In-Reply-To: <226c49dc-ee9c-4edb-9428-2b8b37f542fe@redhat.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nokia-bell-labs.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR07MB7984:EE_|DBAPR07MB6984:EE_
+x-ms-office365-filtering-correlation-id: 293cea54-27e8-4edf-0128-08ddc37f2056
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|7416014|376014|921020|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?a0dsMlNwK1dac1dqK2xwWTBoakw2cVFiSjMyZWUzNUh4L0ZzNVA1K09mNGhw?=
+ =?utf-8?B?OG56VVhRTG80SytpZTZ0MTZuQ0k5NjFxeXg2QW1GMjg5VVViOGw3UFdFNTht?=
+ =?utf-8?B?K244enVKN1JhTy9tSkVBWlR5NHVSaHNxeEhoZVg0UUdhNHBHelRiU1B6eXJR?=
+ =?utf-8?B?azVDV0J5WHhWYzMreS9DY0hrbUJ6R05KRFRUVGhRN3VpLzdDbHlObDBUeDlx?=
+ =?utf-8?B?emd4cWZiVjdqTy9UeUZrRXFacUdzMkNQMHYrVjR1Tjh0OSsxQUt0aDh5akFq?=
+ =?utf-8?B?QlBwZWxLd3kzRUNkQWhPMTdzWDY2V0x3Q21iMVhpMExaTFJEVnppVitvV3pE?=
+ =?utf-8?B?VExKcnZVc0lJL0o3cmduUWpyVk0xWTRPTmJ4M2NodlJEVWFsdWlLY2JQZ1FD?=
+ =?utf-8?B?VVhoaFgxMFp0N0hCNG5Md1JKblVlazU4enB1NUhZdmVJeWQxVWJLd2NRVnVa?=
+ =?utf-8?B?WDY5SVpyMDB6cFRDYVZaSjNXL2hTS2xMS2ZJUmRTQ3JDcVQxYi83bzVMTmtu?=
+ =?utf-8?B?ZmtDN25BTWc2cHhIWWZhcFl6a0h0Z0lTQWY0MlRQckQyaCs4LzZRSGY4Rkxn?=
+ =?utf-8?B?NmJveGY0SmgzcWVsTG00cytzQ2N5WFNmWmFSamZJbVU0QXJlVHJmcHFEMTRl?=
+ =?utf-8?B?eXNtTmhmM3VBeFV5NzJyaXJuNXNRR09mMFRQa3JiYWwxc0hCMS8xM2Fua0Vu?=
+ =?utf-8?B?Sit2UExmR1h4WmFzQmdWMXNCSGVsMTByTXQ1ZlNCbXRVby9rVkpUOFhLTUlX?=
+ =?utf-8?B?RmZNbWFaY25rYTlycUVBUzVmbHU4dnkrVldlTEEwNlJFZkZzTkg1SlBwOTAw?=
+ =?utf-8?B?dmhUY0tFbHJYSEF1ZjB3WUwyUk40aFNjeENKaytVNmZmMlVyZVN6azU1b1RP?=
+ =?utf-8?B?WEVqTU9odU9XY1c1U3R5RHFjaDVzalJXRk9OMGthL3A2SjV6Z3ozSDQzcEt5?=
+ =?utf-8?B?aWhOVDdqZTRqMFhHUHB4RTJWQURHV2NqSnYvMTY2NEZpb0pud0prU2R4VXlk?=
+ =?utf-8?B?cm5aV3FOdHd2WWk1Um1FVmJtbFpXbitNQTRQNzJSSmgzWkkxdnRGWThqVWs0?=
+ =?utf-8?B?bTdDdE41MGhJUzFxSHl4bTdoTk5yUGc3S0hmdit3WVg1NHd3WWlTNXB3ZkNM?=
+ =?utf-8?B?N2pSTGU2U29hSGpjZkNjZFJqVm1PWFZaTUZUbm50cHEvS2VvREZTa2hwS1ZR?=
+ =?utf-8?B?c0lNVHQ0SXU4ZG1FWldhcUhRWHhsSERDRlYwemFqN2lxcnlURHp2UlJwN2dh?=
+ =?utf-8?B?RXBnN3FMeWJiaW1HbXhYK20wd2JXYnhZT0xvQ3huRXAvTEF1ZEMxTmFUS1Za?=
+ =?utf-8?B?UXdnNm1MR0E4YUU3MGczMERWdWkyZUtQRE5EbGlRTzJhMW13MzFVdXVRZHpu?=
+ =?utf-8?B?cGVVRkVIMDBuaGw5TVBwWUM5aTBWdm1mZHlVMWg4Rm5NZ2JVT3lyU1dYZlNK?=
+ =?utf-8?B?L2tLdWlDS3pHSEh3S1FUT3JINHlmOXFzRGhXNFdQbjN3SWtWUEZrQXd6WWVV?=
+ =?utf-8?B?R3QyQWdLVk5nVGdiekF0WUxDT1I2YVdSVDR1d1BqQ0krb2s5aXVDWU5HK0pX?=
+ =?utf-8?B?d05oRHh6M0dqT09ZdWw3THZaSHB2Sm5YUjZ4VFMyM3lXRnRnWHUrRytHamxm?=
+ =?utf-8?B?VzBzVm43MzR3NkZJNUhTUUlISGpZY21zVUwzT0ZhSDBESTQwa3Y4Z2wwWXB1?=
+ =?utf-8?B?c0REMTRmZDhSS3JCb2x2MHl0U014VkRXR0hQclQvalc3YlhMZFhWTUJYRVo1?=
+ =?utf-8?B?SFZTUG5mbjBaT3RBTW5aZ0V5NjVkaXNrV1UvTFpJNWFIMXFHZXgxaDNXMjhn?=
+ =?utf-8?B?dkdMNEllc0xXUVhzU1MxK0tzZ2t0Z0M3QjlTckpZYkJhS0FDTFhNRkxVallZ?=
+ =?utf-8?B?Wkl4ZEZMbmtaY0luS2xHMTYxd2V6NUR5eEhBVm5pTjNjdXdGTVg1bGtnN0xR?=
+ =?utf-8?B?MUxCVy9jbjVmL2RQQWw0OFhWakVjam91d2VVYWQyQU1xa2dVNDNodGhIdzZv?=
+ =?utf-8?Q?MHmUNW8cB3FHzJv06DN+3xsir6Vm/8=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR07MB7984.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?VUNHYXo1ZnBNVjVVaUdlMkRvNFpra0dnUFdaYnR3WlFvK1RmQ1dOYk0yQ2dE?=
+ =?utf-8?B?WWxVZmF3Uk41WEFTZndmVXVvZlp3VEV0VHd1RVE4OTN5ZXUzTElNalJnUzBJ?=
+ =?utf-8?B?dFN4ZENiKzhVYWxHckJpL0V0S3p5TitGM01oZjhtbmRXSk1JNnZxbENWczdM?=
+ =?utf-8?B?N1NOdkN0NGFrTHArVVpNVzJyUTRPZGlJZ0l2a2FydGh3MVJkcU8vcUQ5T00v?=
+ =?utf-8?B?N25pSG53YjRrdGNMUTA5Y0wvR1FiSFBqanBaeGQ2a3YvSHRGYlRkdFYyQVRH?=
+ =?utf-8?B?MnJmZTV1SDVLWTNDN0dxeVhLWG9LQXJnblYzWC94YXFTSjRQQVhHRUIvaHVr?=
+ =?utf-8?B?eG0ybXU2aERvcEVHVXhWYWZYNUNlQ1Nsc3F3VjZ6RHVYQjZVVDN5alhIellM?=
+ =?utf-8?B?L29yY0RJODZLY2pVNEk4MkRYbGhBclFmNnVEVVB3VHFBbW8yNFlFQ21TZVFY?=
+ =?utf-8?B?SVZSZURqTktYOHBrNHQwUzYzRG14L3JzSk1qSmV5dlNpelRzd2NsRlgwOE8w?=
+ =?utf-8?B?QkNjazlRNGl4ZG9QVWJacldDL0MwczRTMGlGNVUzU1oyQTAyNGxaVVY3N2RT?=
+ =?utf-8?B?a3h3MFVadnlQUGpaS0wveGF6U1JFQnp4S2E3WXR3LzNCQUFMRU1wdnE4b1BG?=
+ =?utf-8?B?eXAzVExzTlA1REJwNW15U0swZUNURjYzaURaWEJGK3hiTmNzMXhyL2YyNWRt?=
+ =?utf-8?B?YUpwcGxlMTJjUzFNbkRTOWNISlhUa29qc3BEdlJ1L0Y2d2FCaDlKZktNSC9w?=
+ =?utf-8?B?WEtDN2NGMUpjRDFyZEZDYTR4TlZQTmV3aFk4UXNHOGtURStOOEhPNjc3NDlx?=
+ =?utf-8?B?V0ZnSmg3VWNac2RySjh0VzEyMnI5S3NsOWZKVk9qcVdiN2ZZVjdtVVlXZG5O?=
+ =?utf-8?B?b0VXT01PRFJiMjJLOU5aUU4zVEhsZjBMOHRnTnVWOFNBSVozS25TSXlEcXR3?=
+ =?utf-8?B?SzNScTZWazFqSE0zS3ExVTBReC9RcGRsaGVDUVpIOWEzVEZuTFlEMlo3ZEls?=
+ =?utf-8?B?UUNEaXgxeWdtTkE3a21DU3B0U0RSYXRsRnZQZXBoR2VCL1p2R1B2TVZLZWU5?=
+ =?utf-8?B?L3BabFVGTGVncTlXWG5pVFIybC8xZTczaExKZDl0UjJEeFhFcEV1S3BxZzQy?=
+ =?utf-8?B?OHRzVUZsa1ZIT2xudllTWEZqL2xNdU56VzBpSENCMTlQcmk3c1JyaElObWxS?=
+ =?utf-8?B?aFF4UEFNSTVuWlhzMDNEK2tib1Frby95RHljOXpHeTJYSk9FRkNUbzNiemNw?=
+ =?utf-8?B?M3g5WXNXdlM1eERUeXkwazl6a3R5ZC9uTXUzU1VIVFhjMmpQSHVITllmQ0FV?=
+ =?utf-8?B?dFNTRlZlaHRjMUhqYXBNV3ZpNTdBcXM3dGVpQTRoUVB4YVBRWk1QMUZpcnUv?=
+ =?utf-8?B?Y3lUL0lWNEMwWSt1NUpYQnV6Si83WXlXWDl6Y1g1Rnh4enpscDhBc01OUEly?=
+ =?utf-8?B?bm1KUUNRL202cFBtZXVELzJ0Lzc5ZHY3UFYxTFNhWkd4bVllbDVmbXNSS2Nt?=
+ =?utf-8?B?cVMxOFlzQ3Q0clZnYjJaZjkrNHp0TjhIZjNGSzEraEM5SXY4Wi94cGFtNXBJ?=
+ =?utf-8?B?NHN1aEdZNjBucWpLUXMwTEx2RW42dG9zc1lwSXRsVVA5Z0dPYy9aSUhVeVNG?=
+ =?utf-8?B?SllCT3g5VzZPOEk0VFREU2d2bTN0cmplNEZobDVZV0lZRUN2UEVSWitEaE9m?=
+ =?utf-8?B?UDFrRTBhTXN1Y3ZGNXNnSGp4dGY5SFQvNzluZDhjM004Z1pLZER3VlVPSm16?=
+ =?utf-8?B?Y21IaGhFbVZzcm5MYURSNzBGVjRFTURMSkkreGswazFiTUU4M05lamlNSmlG?=
+ =?utf-8?B?eGYrdGI4bnZFMUowNGg0b2VIQ1NaYldMcGp4RGhVaW95dlkyYTJmdDJiY1Jh?=
+ =?utf-8?B?SDF2NW1aZVgwUjNwSDloNXV4Ukh2SEJLK1BOMjVaWDQwZ3AxS3hXVFRrNmtt?=
+ =?utf-8?B?emwvUlVMUDJhZVFOM1NyS0pnT2ZuaitjeWplNFBsSmR0cjNpNlppZTBralFE?=
+ =?utf-8?B?KzlUYkRKRnZTSWMvYzk5amVtaGZqdFExSStiNlJHZWRzeDJLNENBcmtZay9D?=
+ =?utf-8?B?ZDJwdmhtU21mdElNOGgvNm5SS0NiRWVnTlUzTmplUHd5cUo3VVpsKzE0S2JH?=
+ =?utf-8?B?UFdEdTRWaHh2KzNrK1A0eWs4UUkrZ29kbHlKN2FOYnM5alNUV1FuaFhSdXEv?=
+ =?utf-8?Q?NGiVc2kEbooUo0kcjEyWvFY=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250715-export_modules-v3-1-11fffc67dff7@suse.cz>
-X-B4-Tracking: v=1; b=H4sIAL0UdmgC/3WMSwrCMBQAryJZG8l7/bvyHiKSNi82oE1J2lAtv
- btpNwricgZmZubJGfLsuJuZo2C8sV2EZL9jTSu7G3GjIjMUmIlClJym3rrh+rBqvJPngJUotUx
- BiJzFqHekzbQNz5fIrfGDdc/tH2C1f1cBuOC61oXEEhUm+uRHT4fmxdZRwK8Y4CdGDrzOqjrXU
- qWQyE+8LMsbR41eeucAAAA=
-X-Change-ID: 20250708-export_modules-12908fa41006
-To: Daniel Gomez <da.gomez@samsung.com>, 
- Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>, 
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
- Sami Tolvanen <samitolvanen@google.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>, 
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>, 
- Shivank Garg <shivankg@amd.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Vlastimil Babka <vbabka@suse.cz>, Nicolas Schier <nicolas.schier@linux.dev>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5974; i=vbabka@suse.cz;
- h=from:subject:message-id; bh=0GHiXuFJ0sPNdExiAaur+rUxx6laEHGWmYoUiB3Ud4Q=;
- b=owEBbQGS/pANAwAIAbvgsHXSRYiaAcsmYgBodhTKL+/6akuC8CrysdCHQUIjqsTEUvKr34WYb
- vG0IR2VE1eJATMEAAEIAB0WIQR7u8hBFZkjSJZITfG74LB10kWImgUCaHYUygAKCRC74LB10kWI
- ml+OB/9JEN7quxar46H7voGtAZ9BnamAKmyjYc9fFSAab88gE+V7f9e9tBmF/v1H1ZPWI+c+KIf
- LfRxWCaarttPv2dox17LE5Y6fig0Pa9kxnJZ2y4KVCrRQocAjpfkIVHJEbs9D52j43AjdzXeOHu
- gPJr9F6pLLYgkZq6+HrxIm6Bo3cKoss1VyPbr0qUGxYrRPqPGzO3G3knkCaJQij7RdjxPSbWpW9
- pEqDl8q4O+5gh4c/jxtzcJvL0vIXLqLC0eTnUw34IjvH+CmO/h42xH9o60fkppU16HnkWgNnwDp
- BtLGwqs5MkKog39XNGvt2MKyZJ8ooIrZily+lVt3MQvUyfEQ
-X-Developer-Key: i=vbabka@suse.cz; a=openpgp;
- fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,infradead.org:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:mid,suse.cz:dkim,suse.cz:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 5FFAB2123B
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
+X-OriginatorOrg: nokia-bell-labs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR07MB7984.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 293cea54-27e8-4edf-0128-08ddc37f2056
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2025 09:08:12.6999
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qWPQoZqgJqF4PTI5fnXirQU939DnwI3bw+fzqDGAOeF2CYnH/dRf2Z1nIDm7bYZX9pMr34UeJerAHtDCh2cFvupfiU2LOKI2qP+xlBYfxdWEk6GkZ+Vg1a1uKqbZpE0g
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR07MB6984
 
-Christoph suggested that the explicit _GPL_ can be dropped from the
-module namespace export macro, as it's intended for in-tree modules
-only. It would be possible to restrict it technically, but it was
-pointed out [2] that some cases of using an out-of-tree build of an
-in-tree module with the same name are legitimate. But in that case those
-also have to be GPL anyway so it's unnecessary to spell it out in the
-macro name.
-
-Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
-Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey5sb_8muzdWTMkA@mail.gmail.com/ [2]
-Suggested-by: Christoph Hellwig <hch@infradead.org>
-Reviewed-by: Shivank Garg <shivankg@amd.com>
-Acked-by: David Hildenbrand <david@redhat.com>
-Acked-by: Nicolas Schier <n.schier@avm.de>
-Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
-Reviewed-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
----
-Daniel, please clarify if you'll take this via module tree or Christian
-can take it via vfs tree?
-
-Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
-part to avoid controversy converting selected existing EXPORT_SYMBOL().
-Christoph argued [2] that the _FOR_MODULES() export is intended for
-in-tree modules and thus GPL is implied anyway and can be simply dropped
-from the export macro name. Peter agreed [3] about the intention for
-in-tree modules only, although nothing currently enforces it.
-
-It seemed straightforward to add this enforcement, so v1 did that. But
-there were concerns of breaking the (apparently legitimate) usecases of
-loading an updated/development out of tree built version of an in-tree
-module.
-
-So leave out the enforcement part and just drop the _GPL_ from the
-export macro name and so we're left with EXPORT_SYMBOL_FOR_MODULES()
-only. Any in-tree module used in an out-of-tree way will have to be GPL
-anyway by definition.
-
-Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
-in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
-8250: export RSA functions"). Hopefully it's resolvable by a merge
-commit fixup and we don't need to provide a temporary alias.
-
-[1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
-[2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
-[3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
----
-Changes in v3:
-- Clarified the macro documentation about in-tree intention and GPL
-  implications, per Daniel.
-- Applied tags.
-- Link to v2: https://patch.msgid.link/20250711-export_modules-v2-1-b59b6fad413a@suse.cz
-
-Changes in v2:
-- drop the patch to restrict module namespace export for in-tree modules
-- fix a pre-existing documentation typo (Nicolas Schier)
-- Link to v1: https://patch.msgid.link/20250708-export_modules-v1-0-fbf7a282d23f@suse.cz
----
- Documentation/core-api/symbol-namespaces.rst | 11 ++++++-----
- fs/anon_inodes.c                             |  2 +-
- include/linux/export.h                       |  2 +-
- 3 files changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-index 32fc73dc5529e8844c2ce2580987155bcd13cd09..034898e81ba201097330ab9875429e7d3fa30c0f 100644
---- a/Documentation/core-api/symbol-namespaces.rst
-+++ b/Documentation/core-api/symbol-namespaces.rst
-@@ -76,20 +76,21 @@ A second option to define the default namespace is directly in the compilation
- within the corresponding compilation unit before the #include for
- <linux/export.h>. Typically it's placed before the first #include statement.
- 
--Using the EXPORT_SYMBOL_GPL_FOR_MODULES() macro
-------------------------------------------------
-+Using the EXPORT_SYMBOL_FOR_MODULES() macro
-+-------------------------------------------
- 
- Symbols exported using this macro are put into a module namespace. This
--namespace cannot be imported.
-+namespace cannot be imported. These exports are GPL-only as they are only
-+intended for in-tree modules.
- 
- The macro takes a comma separated list of module names, allowing only those
- modules to access this symbol. Simple tail-globs are supported.
- 
- For example::
- 
--  EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
-+  EXPORT_SYMBOL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
- 
--will limit usage of this symbol to modules whoes name matches the given
-+will limit usage of this symbol to modules whose name matches the given
- patterns.
- 
- How to use Symbols exported in Namespaces
-diff --git a/fs/anon_inodes.c b/fs/anon_inodes.c
-index 1d847a939f29a41356af3f12e5f61372ec2fb550..180a458fc4f74249d674ec3c6e01277df1d9e743 100644
---- a/fs/anon_inodes.c
-+++ b/fs/anon_inodes.c
-@@ -129,7 +129,7 @@ struct inode *anon_inode_make_secure_inode(struct super_block *sb, const char *n
- 	}
- 	return inode;
- }
--EXPORT_SYMBOL_GPL_FOR_MODULES(anon_inode_make_secure_inode, "kvm");
-+EXPORT_SYMBOL_FOR_MODULES(anon_inode_make_secure_inode, "kvm");
- 
- static struct file *__anon_inode_getfile(const char *name,
- 					 const struct file_operations *fops,
-diff --git a/include/linux/export.h b/include/linux/export.h
-index f35d03b4113b19798036d2993d67eb932ad8ce6f..a686fd0ba406509da5f397e3a415d05c5a051c0d 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -91,6 +91,6 @@
- #define EXPORT_SYMBOL_NS(sym, ns)	__EXPORT_SYMBOL(sym, "", ns)
- #define EXPORT_SYMBOL_NS_GPL(sym, ns)	__EXPORT_SYMBOL(sym, "GPL", ns)
- 
--#define EXPORT_SYMBOL_GPL_FOR_MODULES(sym, mods) __EXPORT_SYMBOL(sym, "GPL", "module:" mods)
-+#define EXPORT_SYMBOL_FOR_MODULES(sym, mods) __EXPORT_SYMBOL(sym, "GPL", "module:" mods)
- 
- #endif /* _LINUX_EXPORT_H */
-
----
-base-commit: d7b8f8e20813f0179d8ef519541a3527e7661d3a
-change-id: 20250708-export_modules-12908fa41006
-
-Best regards,
--- 
-Vlastimil Babka <vbabka@suse.cz>
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQYW9sbyBBYmVuaSA8cGFiZW5p
+QHJlZGhhdC5jb20+IA0KPiBTZW50OiBNb25kYXksIEp1bHkgMTQsIDIwMjUgMzozNCBQTQ0KPiBU
+bzogQ2hpYS1ZdSBDaGFuZyAoTm9raWEpIDxjaGlhLXl1LmNoYW5nQG5va2lhLWJlbGwtbGFicy5j
+b20+OyBlZHVtYXpldEBnb29nbGUuY29tOyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBjb3Ji
+ZXRAbHduLm5ldDsgaG9ybXNAa2VybmVsLm9yZzsgZHNhaGVybkBrZXJuZWwub3JnOyBrdW5peXVA
+YW1hem9uLmNvbTsgYnBmQHZnZXIua2VybmVsLm9yZzsgbmV0ZGV2QHZnZXIua2VybmVsLm9yZzsg
+ZGF2ZS50YWh0QGdtYWlsLmNvbTsgamhzQG1vamF0YXR1LmNvbTsga3ViYUBrZXJuZWwub3JnOyBz
+dGVwaGVuQG5ldHdvcmtwbHVtYmVyLm9yZzsgeGl5b3Uud2FuZ2NvbmdAZ21haWwuY29tOyBqaXJp
+QHJlc251bGxpLnVzOyBkYXZlbUBkYXZlbWxvZnQubmV0OyBhbmRyZXcrbmV0ZGV2QGx1bm4uY2g7
+IGRvbmFsZC5odW50ZXJAZ21haWwuY29tOyBhc3RAZmliZXJieS5uZXQ7IGxpdWhhbmdiaW5AZ21h
+aWwuY29tOyBzaHVhaEBrZXJuZWwub3JnOyBsaW51eC1rc2VsZnRlc3RAdmdlci5rZXJuZWwub3Jn
+OyBpakBrZXJuZWwub3JnOyBuY2FyZHdlbGxAZ29vZ2xlLmNvbTsgS29lbiBEZSBTY2hlcHBlciAo
+Tm9raWEpIDxrb2VuLmRlX3NjaGVwcGVyQG5va2lhLWJlbGwtbGFicy5jb20+OyBnLndoaXRlQGNh
+YmxlbGFicy5jb207IGluZ2VtYXIucy5qb2hhbnNzb25AZXJpY3Nzb24uY29tOyBtaXJqYS5rdWVo
+bGV3aW5kQGVyaWNzc29uLmNvbTsgY2hlc2hpcmVAYXBwbGUuY29tOyBycy5pZXRmQGdteC5hdDsg
+SmFzb25fTGl2aW5nb29kQGNvbWNhc3QuY29tOyB2aWRoaV9nb2VsQGFwcGxlLmNvbQ0KPiBTdWJq
+ZWN0OiBSZTogW1BBVENIIHYxMiBuZXQtbmV4dCAwOS8xNV0gdGNwOiBhY2NlY246IEFjY0VDTiBu
+ZWVkcyB0byBrbm93IGRlbGl2ZXJlZCBieXRlcw0KPiANCj4gDQo+IENBVVRJT046IFRoaXMgaXMg
+YW4gZXh0ZXJuYWwgZW1haWwuIFBsZWFzZSBiZSB2ZXJ5IGNhcmVmdWwgd2hlbiBjbGlja2luZyBs
+aW5rcyBvciBvcGVuaW5nIGF0dGFjaG1lbnRzLiBTZWUgdGhlIFVSTCBub2suaXQvZXh0IGZvciBh
+ZGRpdGlvbmFsIGluZm9ybWF0aW9uLg0KPiANCj4gDQo+IA0KPiBPbiA3LzQvMjUgMTA6NTMgQU0s
+IGNoaWEteXUuY2hhbmdAbm9raWEtYmVsbC1sYWJzLmNvbSB3cm90ZToNCj4gPiBkaWZmIC0tZ2l0
+IGEvbmV0L2lwdjQvdGNwX2lucHV0LmMgYi9uZXQvaXB2NC90Y3BfaW5wdXQuYyBpbmRleCANCj4g
+PiBlZWE3OTAyOTVlNTQuLmY3ZDc2NDk2MTJhMiAxMDA2NDQNCj4gPiAtLS0gYS9uZXQvaXB2NC90
+Y3BfaW5wdXQuYw0KPiA+ICsrKyBiL25ldC9pcHY0L3RjcF9pbnB1dC5jDQo+ID4gQEAgLTEwNTAs
+NiArMTA1MCw3IEBAIHN0cnVjdCB0Y3Bfc2Fja3RhZ19zdGF0ZSB7DQo+ID4gICAgICAgdTY0ICAg
+ICBsYXN0X3NhY2t0Ow0KPiA+ICAgICAgIHUzMiAgICAgcmVvcmQ7DQo+ID4gICAgICAgdTMyICAg
+ICBzYWNrX2RlbGl2ZXJlZDsNCj4gPiArICAgICB1MzIgICAgIGRlbGl2ZXJlZF9ieXRlczsNCj4g
+DQo+IEV4cGxpY2l0bHkgbWVudGlvbmluZyBpbiB0aGUgY29tbWl0IG1lc3NhZ2UgdGhhdCB0aGUg
+YWJvdmUgZmlsbHMgYSA0IGJ5dGVzIGhvbGUgY291bGQgYmUgaGVscGZ1bCBmb3IgcmV2aWV3ZXJz
+Lg0KPiANCkhpIFBhb2xvLA0KDQpKdXN0IHdhbnQgdG8gYXNrIHRvIGNsYXJpZnkgb24gInRoZSBh
+Ym92ZSBmaWxscyBhIDQgYnl0ZXMgaG9sZSIuDQoNCk5vdyBJIHNlZSBpZiBJIG1vdmUgdGhlIGRl
+bGl2ZXJlZF9ieXRlcyB0byB0aGUgZW5kIG9mIHRoaXMgc3RydWN0LCB0aGUgcGFob2xlIHJlc3Vs
+dHMgb2YgQVJNMzIgYml0IGNvbXBpbGF0aW9uOg0KDQpbQkVGT1JFIFBBVENIXQ0Kc3RydWN0IHRj
+cF9zYWNrdGFnX3N0YXRlIHsNCiAgICAgICAgdTY0ICAgICAgICAgICAgICAgICAgICAgICAgZmly
+c3Rfc2Fja3Q7ICAgICAgICAgIC8qICAgICAwICAgICA4ICovDQogICAgICAgIHU2NCAgICAgICAg
+ICAgICAgICAgICAgICAgIGxhc3Rfc2Fja3Q7ICAgICAgICAgICAvKiAgICAgOCAgICAgOCAqLw0K
+ICAgICAgICB1MzIgICAgICAgICAgICAgICAgICAgICAgICByZW9yZDsgICAgICAgICAgICAgICAg
+LyogICAgMTYgICAgIDQgKi8NCiAgICAgICAgdTMyICAgICAgICAgICAgICAgICAgICAgICAgc2Fj
+a19kZWxpdmVyZWQ7ICAgICAgIC8qICAgIDIwICAgICA0ICovDQogICAgICAgIGludCAgICAgICAg
+ICAgICAgICAgICAgICAgIGZsYWc7ICAgICAgICAgICAgICAgICAvKiAgICAyNCAgICAgNCAqLw0K
+ICAgICAgICB1bnNpZ25lZCBpbnQgICAgICAgICAgICAgICBtc3Nfbm93OyAgICAgICAgICAgICAg
+LyogICAgMjggICAgIDQgKi8NCiAgICAgICAgc3RydWN0IHJhdGVfc2FtcGxlICogICAgICAgcmF0
+ZTsgICAgICAgICAgICAgICAgIC8qICAgIDMyICAgICA0ICovDQoNCiAgICAgICAgLyogc2l6ZTog
+NDAsIGNhY2hlbGluZXM6IDEsIG1lbWJlcnM6IDcgKi8NCiAgICAgICAgLyogcGFkZGluZzogNCAq
+Lw0KICAgICAgICAvKiBsYXN0IGNhY2hlbGluZTogNDAgYnl0ZXMgKi8NCn07DQoNCltBRlRFUiBQ
+QVRDSF0NCnN0cnVjdCB0Y3Bfc2Fja3RhZ19zdGF0ZSB7DQogICAgICAgIHU2NCAgICAgICAgICAg
+ICAgICAgICAgICAgIGZpcnN0X3NhY2t0OyAgICAgICAgICAvKiAgICAgMCAgICAgOCAqLw0KICAg
+ICAgICB1NjQgICAgICAgICAgICAgICAgICAgICAgICBsYXN0X3NhY2t0OyAgICAgICAgICAgLyog
+ICAgIDggICAgIDggKi8NCiAgICAgICAgdTMyICAgICAgICAgICAgICAgICAgICAgICAgcmVvcmQ7
+ICAgICAgICAgICAgICAgIC8qICAgIDE2ICAgICA0ICovDQogICAgICAgIHUzMiAgICAgICAgICAg
+ICAgICAgICAgICAgIHNhY2tfZGVsaXZlcmVkOyAgICAgICAvKiAgICAyMCAgICAgNCAqLw0KICAg
+ICAgICBpbnQgICAgICAgICAgICAgICAgICAgICAgICBmbGFnOyAgICAgICAgICAgICAgICAgLyog
+ICAgMjQgICAgIDQgKi8NCiAgICAgICAgdW5zaWduZWQgaW50ICAgICAgICAgICAgICAgbXNzX25v
+dzsgICAgICAgICAgICAgIC8qICAgIDI4ICAgICA0ICovDQogICAgICAgIHN0cnVjdCByYXRlX3Nh
+bXBsZSAqICAgICAgIHJhdGU7ICAgICAgICAgICAgICAgICAvKiAgICAzMiAgICAgNCAqLw0KICAg
+ICAgICB1MzIgICAgICAgICAgICAgICAgICAgICAgICBkZWxpdmVyZWRfYnl0ZXM7ICAgICAgLyog
+ICAgMzYgICAgIDQgKi8NCg0KICAgICAgICAvKiBzaXplOiA0MCwgY2FjaGVsaW5lczogMSwgbWVt
+YmVyczogOCAqLw0KICAgICAgICAvKiBsYXN0IGNhY2hlbGluZTogNDAgYnl0ZXMgKi8NCn07DQoN
+CkFuZCB0aGUgNjQgYml0IHJlc3VsdHMgYXJlOg0KW0JFRk9SRSBQQVRDSF0NCnN0cnVjdCB0Y3Bf
+c2Fja3RhZ19zdGF0ZSB7DQogICAgICAgIHU2NCAgICAgICAgICAgICAgICAgICAgICAgIGZpcnN0
+X3NhY2t0OyAgICAgICAgICAvKiAgICAgMCAgICAgOCAqLw0KICAgICAgICB1NjQgICAgICAgICAg
+ICAgICAgICAgICAgICBsYXN0X3NhY2t0OyAgICAgICAgICAgLyogICAgIDggICAgIDggKi8NCiAg
+ICAgICAgdTMyICAgICAgICAgICAgICAgICAgICAgICAgcmVvcmQ7ICAgICAgICAgICAgICAgIC8q
+ICAgIDE2ICAgICA0ICovDQogICAgICAgIHUzMiAgICAgICAgICAgICAgICAgICAgICAgIHNhY2tf
+ZGVsaXZlcmVkOyAgICAgICAvKiAgICAyMCAgICAgNCAqLw0KICAgICAgICBpbnQgICAgICAgICAg
+ICAgICAgICAgICAgICBmbGFnOyAgICAgICAgICAgICAgICAgLyogICAgMjQgICAgIDQgKi8NCiAg
+ICAgICAgdW5zaWduZWQgaW50ICAgICAgICAgICAgICAgbXNzX25vdzsgICAgICAgICAgICAgIC8q
+ICAgIDI4ICAgICA0ICovDQogICAgICAgIHN0cnVjdCByYXRlX3NhbXBsZSAqICAgICAgIHJhdGU7
+ICAgICAgICAgICAgICAgICAvKiAgICAzMiAgICAgOCAqLw0KDQogICAgICAgIC8qIHNpemU6IDQw
+LCBjYWNoZWxpbmVzOiAxLCBtZW1iZXJzOiA3ICovDQogICAgICAgIC8qIGxhc3QgY2FjaGVsaW5l
+OiA0MCBieXRlcyAqLw0KfTsNCg0KW0FGVEVSIFBBVENIXQ0Kc3RydWN0IHRjcF9zYWNrdGFnX3N0
+YXRlIHsNCiAgICAgICAgdTY0ICAgICAgICAgICAgICAgICAgICAgICAgZmlyc3Rfc2Fja3Q7ICAg
+ICAgICAgIC8qICAgICAwICAgICA4ICovDQogICAgICAgIHU2NCAgICAgICAgICAgICAgICAgICAg
+ICAgIGxhc3Rfc2Fja3Q7ICAgICAgICAgICAvKiAgICAgOCAgICAgOCAqLw0KICAgICAgICB1MzIg
+ICAgICAgICAgICAgICAgICAgICAgICByZW9yZDsgICAgICAgICAgICAgICAgLyogICAgMTYgICAg
+IDQgKi8NCiAgICAgICAgdTMyICAgICAgICAgICAgICAgICAgICAgICAgc2Fja19kZWxpdmVyZWQ7
+ICAgICAgIC8qICAgIDIwICAgICA0ICovDQogICAgICAgIGludCAgICAgICAgICAgICAgICAgICAg
+ICAgIGZsYWc7ICAgICAgICAgICAgICAgICAvKiAgICAyNCAgICAgNCAqLw0KICAgICAgICB1bnNp
+Z25lZCBpbnQgICAgICAgICAgICAgICBtc3Nfbm93OyAgICAgICAgICAgICAgLyogICAgMjggICAg
+IDQgKi8NCiAgICAgICAgc3RydWN0IHJhdGVfc2FtcGxlICogICAgICAgcmF0ZTsgICAgICAgICAg
+ICAgICAgIC8qICAgIDMyICAgICA4ICovDQogICAgICAgIHUzMiAgICAgICAgICAgICAgICAgICAg
+ICAgIGRlbGl2ZXJlZF9ieXRlczsgICAgICAvKiAgICA0MCAgICAgNCAqLw0KDQogICAgICAgIC8q
+IHNpemU6IDQ4LCBjYWNoZWxpbmVzOiAxLCBtZW1iZXJzOiA4ICovDQogICAgICAgIC8qIHBhZGRp
+bmc6IDQgKi8NCiAgICAgICAgLyogbGFzdCBjYWNoZWxpbmU6IDQ4IGJ5dGVzICovDQp9Ow0KDQpJ
+IHNlZSB0aGlzIHBhdGNoIGRvZXMgbm90IGNyZWF0ZSBhbnkgZXh0cmEgaG9sZSBhbmQgaXQgY2Fu
+IHJldXNlIHRoZSBleGlzdGluZyBwYWRkaW5nIDQgQnl0ZXMgZm9yIEFSTTMyIGFyY2hpdGVjdHVy
+ZS4NCg0KRG9lcyBpdCBtYXRjaCB3aGVuIHlvdSBtZW50aW9uZWQ/DQoNCkJScywNCkNoaWEtWXUN
+Cg==
