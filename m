@@ -1,147 +1,331 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0132D0C71;
-	Tue, 15 Jul 2025 02:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B632D0C65;
+	Tue, 15 Jul 2025 02:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752547389; cv=none; b=SAAuY9Ai3YfmGO5EOT9CTzIwpjcN3HC9a8Imc/aoSYOTUJ6VlgevhdGuMKcdBeGXo/x5buGZUu4xeCjd2cB6pbxGHa7kZatNrd8AJ6m1KUlLGkcBYf3C7EIJNZHF+MQokGOZFiD+8NaCzRnbq/Kf97aeiav2r5/f85ebP65vkMA=
+	t=1752548290; cv=none; b=Gvxdtg+1+IcnXna7GQ3KTuOc9I2qezHY4hO158TIYARiAA1MKwBROIW1kB/gtS40FjkDq884S/2cwyA9/iWI2mL9lRwNd+2GvjleRkwBLxnqXn9OLyNv8x48TSiYFEdx0dx42ProJD8VICp7xt1Xo6M+/9JC91kpzwA8sEQq94U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752547389; c=relaxed/simple;
-	bh=Dlq14mSTojEp7sGWGKSgiOf4GsdBPAtviYKPpJeMxj0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n3Aoj5Qec5qb122IbHXYZi9j4orVWrbuyFGY1mSMKMRpiKQdKYHYy3Mf86SYF0V528CH2ahA5/kQoFe2oFUaE8fcOGN5LSd1q5dnikz80dRWeubHgJI8ia5qU5nNt790tm6I5E/MIJzcEKkoel9EpIR6K+RQ9jZ5FGvFsruhav8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b+C62sUp; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752548290; c=relaxed/simple;
+	bh=6yTgUKJorR47kxn96iQ3GqWt6LE97FTkIzEnwVaE3as=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iIGORd60U0DhaD4LgSQJKyRQrVKB7tM/7vBVFg9rnzmtXhLOHarrz+2pvWzWeQMlpIhQPK5tyVKtE6P+7ePYxcWMfHzVy2VSskD6wqgd9ZC6zeWiGy0jEhdkV7AgcX6iQ9mI5FIZxkrWrPTqtIciVnVlAPFssuEvSeKME1ebvlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VwigAkba; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+C62sUp"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-748e81d37a7so2970557b3a.1;
-        Mon, 14 Jul 2025 19:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752547387; x=1753152187; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9LmUsYZMwX73hG4aBla/dKzeFfJIEzjX0m8Zhz42YAI=;
-        b=b+C62sUpBu4j77iExFm/b2pypOeu2djB4vSg01VQzJgEz1TiHLdzhmkpU48YwQ33mN
-         mi7a49fX7pK9lgwnO70q77yR7OXLtHBvS59GwxtrEm2ra7B0Erb/yEtPxE+cRumMvjB1
-         DAdoP9GCBse9qSiN9dJXPw+MZbGbuddg03Ad3oa4POdODMg3cYKunbDlS9uRKIzmAEmk
-         9qxGhsT+vQLPy7U7u65FplVRKVPAabeFHlefGfVDWoaKWgFrHjySpWUOfgHwVIBAcSOq
-         fXFotFqMHH7MKt0sKnuP6t1tdTxh0Giuf/9hh+wa1ubJ6ymdqqJDzdeW6Vx3PIbi39Ha
-         NsNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752547387; x=1753152187;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9LmUsYZMwX73hG4aBla/dKzeFfJIEzjX0m8Zhz42YAI=;
-        b=GgiGGtX/OX94XXXdpCmWC3KqrJKJZ/C50/UaKm1K2PzivuHST6VcW8SOUy09lK/EUg
-         IEg7aFoLmsih78stZKwwFSOvyHWr//cRQWpujmqXTGPqdettwqRW4gsMndrOIClsv4Wm
-         Gbx9IgwewmivToQ3uv4wThUgC49DFpxmL3y19/4trpoHvl3CK1sN6PPxcfmNla/YMTvL
-         o3PWr8TqZm24kdSDUBOTwg5m1yqTFW1MZstsjGv1BG4mN86zTvjFHHctU7ntyDfMuAg4
-         qZcKqTPExlbcHaamneZeJJb4bjba7Z0q4A7jc0KOLST2MZsa6ATPabOVQzf+Pl8BMd/Y
-         nxlg==
-X-Forwarded-Encrypted: i=1; AJvYcCWY4kqvm7Ip4WBo8JCGt3aI/yk4NPZlqmFwFESklz+w9mwGQlLlvcDsE8RTImg64gWoNhjknA8zO7o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrQxkA7wlxabR3U2uyX3B1qpx95vDcBGESoLqyfmJPT8CrOuH3
-	7Kq/se6zaT86nRUgmAW3U5ooHyqYejfVqUQPeSqHvAFM7uGdiPmFBhf0
-X-Gm-Gg: ASbGncsi10Km/TNJRs+oBnr4oSuM91Gvltwn1X83NC2WO7oF1eG/QYORaDGQXEHWsHx
-	CEvUrOpOog0zdx39pBtT6eJ9NtbBOkrKxf8//EqDB7/3zLara9GKRdOpQIsBmzj6i7u0UY80peu
-	3Xq8FUgdD4CsgPHejweySQqhOlOXswyS7fzzk2Xur3Ipel9MaZBlwTGUBYuCqFtdNr4rZWvDo5D
-	Srkv2370G0hlyVD9oygtmYeT/Kw/rKjQQLx72hlLv4XVCbCY6aF9kzJ6jS+9yMiRGD3hBY4OdTS
-	quQpJ0tdeNDt912JC0WSUCbxbh5vA31kWGdMvcGuta6b63b3sGXcaW7qxutmgllJlNewBKrQkZf
-	2rvA2N9fFENlUIWxl+lBf7g==
-X-Google-Smtp-Source: AGHT+IEu396ibdfM882DRnu7LQtFSM2Dq9TgDy2BHLHlLpBuZH7Sx8xwpifxVAuNS5A7eXezw0imcw==
-X-Received: by 2002:a05:6a00:1911:b0:748:fb2c:6b95 with SMTP id d2e1a72fcca58-74ee32397afmr20781060b3a.18.1752547386735;
-        Mon, 14 Jul 2025 19:43:06 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3bbe72f8a9sm10740873a12.74.2025.07.14.19.43.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 19:43:05 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id BDDEF420A816; Tue, 15 Jul 2025 09:43:01 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Donnellan <ajd@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH 2/2] Documentation: ioctl-number: Don't repeat macro names
-Date: Tue, 15 Jul 2025 09:42:58 +0700
-Message-ID: <20250715024258.16882-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250715024258.16882-1-bagasdotme@gmail.com>
-References: <20250715024258.16882-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VwigAkba"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752548288; x=1784084288;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=6yTgUKJorR47kxn96iQ3GqWt6LE97FTkIzEnwVaE3as=;
+  b=VwigAkbaszrQ2PthPacJ5nWmRbzZyYenn/Kna2YtAWmgy73lk4Phxhew
+   3TRdsite5erGPzUOl6scJMXxZFJ86jCx0IRDF+4o0hKyK3g4lzx5VLSZn
+   cFasdbiwYg15Ksh0TcFF4mVjuw79PHfKbBqBb08azwEfHt9kiNmurN/rW
+   ej2ATBjnBOLxtuylwlIa/pm+o4pgKbsuqSlPhdgLVZBS3aJgvGWhpr9dj
+   X4ihcpqH7CvHN7++7UOjPF05tIVgPqFAOCm+EE5zrNFIcZHhKyZEEeAv8
+   jwz9Dsji88yJbtMKofkIWylxpH7UXQK7fUGG7hFTkalXc2GSwyqdFFTlV
+   w==;
+X-CSE-ConnectionGUID: +9N9OWdKSeCJ+sqwi4i99A==
+X-CSE-MsgGUID: JNhesDZjSCmXug5fZKfCRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="72331725"
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
+   d="scan'208";a="72331725"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 19:58:07 -0700
+X-CSE-ConnectionGUID: CF4GwnOOSTi92XbIzlfJ2Q==
+X-CSE-MsgGUID: zeZ2AhbVTAmb4Uuu5p3PFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
+   d="scan'208";a="157609384"
+Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.240.57]) ([10.124.240.57])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 19:58:04 -0700
+Message-ID: <3b37d820-12cd-4f33-b059-66e12693b779@linux.intel.com>
+Date: Tue, 15 Jul 2025 10:58:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2845; i=bagasdotme@gmail.com; h=from:subject; bh=Dlq14mSTojEp7sGWGKSgiOf4GsdBPAtviYKPpJeMxj0=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBml+5telZv8/xo7sfLdmfRu3w1nrp7uWF7Lf/XgxM55U a96Jt7R7yhlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBElnkzMvyYzZtxctP7vNlt k7Y+rdr1nt3iVP2KU4GH/lw9Xp8x8+1Uhv8ucsvSxV0ar13JTZbb+djDtZU74PPWLPX8+8f/5LL d1OACAA==
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 04/11] KVM: x86: Add emulation support for Extented LVT
+ registers
+To: Manali Shukla <manali.shukla@amd.com>, kvm@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: seanjc@google.com, pbonzini@redhat.com, nikunj@amd.com, bp@alien8.de,
+ peterz@infradead.org, mingo@redhat.com, mizhang@google.com,
+ thomas.lendacky@amd.com, ravi.bangoria@amd.com, Sandipan.Das@amd.com
+References: <20250627162550.14197-1-manali.shukla@amd.com>
+ <20250627162550.14197-5-manali.shukla@amd.com>
+Content-Language: en-US
+From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
+In-Reply-To: <20250627162550.14197-5-manali.shukla@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Don't repeat mentioning macro names (_IO, _IOW, _IOR, and _IOWR) to
-keep the wording effective.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- .../userspace-api/ioctl/ioctl-number.rst      | 22 ++++++++++---------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+On 6/28/2025 12:25 AM, Manali Shukla wrote:
+> From: Santosh Shukla <santosh.shukla@amd.com>
+>
+> The local interrupts are extended to include more LVT registers in
+> order to allow additional interrupt sources, like Instruction Based
+> Sampling (IBS) and many more.
+>
+> Currently there are four additional LVT registers defined and they are
+> located at APIC offsets 400h-530h.
+>
+> AMD IBS driver is designed to use EXTLVT (Extended interrupt local
+> vector table) by default for driver initialization.
+>
+> Extended LVT registers are required to be emulated to initialize the
+> guest IBS driver successfully.
+>
+> Please refer to Section 16.4.5 in AMD Programmer's Manual Volume 2 at
+> https://bugzilla.kernel.org/attachment.cgi?id=306250 for more details
+> on Extended LVT.
+>
+> Signed-off-by: Santosh Shukla <santosh.shukla@amd.com>
+> Co-developed-by: Manali Shukla <manali.shukla@amd.com>
+> Signed-off-by: Manali Shukla <manali.shukla@amd.com>
+> ---
+>  arch/x86/include/asm/apicdef.h | 17 +++++++++
+>  arch/x86/kvm/cpuid.c           |  6 +++
+>  arch/x86/kvm/lapic.c           | 69 +++++++++++++++++++++++++++++++++-
+>  arch/x86/kvm/lapic.h           |  1 +
+>  arch/x86/kvm/svm/avic.c        |  4 ++
+>  arch/x86/kvm/svm/svm.c         |  4 ++
+>  6 files changed, 99 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/x86/include/asm/apicdef.h b/arch/x86/include/asm/apicdef.h
+> index 094106b6a538..4c0f580578aa 100644
+> --- a/arch/x86/include/asm/apicdef.h
+> +++ b/arch/x86/include/asm/apicdef.h
+> @@ -146,6 +146,23 @@
+>  #define		APIC_EILVT_MSG_EXT	0x7
+>  #define		APIC_EILVT_MASKED	(1 << 16)
+>  
+> +/*
+> + * Initialize extended APIC registers to the default value when guest
+> + * is started and EXTAPIC feature is enabled on the guest.
+> + *
+> + * APIC_EFEAT is a read only Extended APIC feature register, whose
+> + * default value is 0x00040007. However, bits 0, 1, and 2 represent
+> + * features that are not currently emulated by KVM. Therefore, these
+> + * bits must be cleared during initialization. As a result, the
+> + * default value used for APIC_EFEAT in KVM is 0x00040000.
+> + *
+> + * APIC_ECTRL is a read-write Extended APIC control register, whose
+> + * default value is 0x0.
+> + */
+> +
+> +#define		APIC_EFEAT_DEFAULT	0x00040000
+> +#define		APIC_ECTRL_DEFAULT	0x0
+> +
+>  #define APIC_BASE (fix_to_virt(FIX_APIC_BASE))
+>  #define APIC_BASE_MSR		0x800
+>  #define APIC_X2APIC_ID_MSR	0x802
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index eb7be340138b..7270d22fbf31 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -458,6 +458,12 @@ void kvm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
+>  	/* Invoke the vendor callback only after the above state is updated. */
+>  	kvm_x86_call(vcpu_after_set_cpuid)(vcpu);
+>  
+> +	/*
+> +	 * Initialize extended LVT registers at guest startup to support delivery
+> +	 * of interrupts via the extended APIC space (offsets 0x400–0x530).
+> +	 */
+> +	kvm_apic_init_eilvt_regs(vcpu);
+> +
+>  	/*
+>  	 * Except for the MMU, which needs to do its thing any vendor specific
+>  	 * adjustments to the reserved GPA bits.
+> diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
+> index 00ca2b0faa45..cffe44eb3f2b 100644
+> --- a/arch/x86/kvm/lapic.c
+> +++ b/arch/x86/kvm/lapic.c
+> @@ -1624,9 +1624,13 @@ static inline struct kvm_lapic *to_lapic(struct kvm_io_device *dev)
+>  }
+>  
+>  #define APIC_REG_MASK(reg)	(1ull << ((reg) >> 4))
+> +#define APIC_REG_EXT_MASK(reg)	(1ull << (((reg) >> 4) - 0x40))
 
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index ad5e7001f59137..16994ce3a6c576 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -25,9 +25,9 @@ be _IOW, although the kernel would actually read data from user space;
- a GET_FOO ioctl would be _IOR, although the kernel would actually write
- data to user space.
- 
--The first argument to _IO, _IOW, _IOR, or _IOWR is an identifying letter
--or number from the table below.  Because of the large number of drivers,
--many drivers share a partial letter with other drivers.
-+The first argument to the macros is an identifying letter or number from
-+the table below. Because of the large number of drivers, many drivers
-+share a partial letter with other drivers.
- 
- If you are writing a driver for a new device and need a letter, pick an
- unused block with enough room for expansion: 32 to 256 ioctl commands
-@@ -35,12 +35,14 @@ should suffice. You can register the block by patching this file and
- submitting the patch through :doc:`usual patch submission process
- </process/submitting-patches>`.
- 
--The second argument to _IO, _IOW, _IOR, or _IOWR is a sequence number
--to distinguish ioctls from each other.  The third argument to _IOW,
--_IOR, or _IOWR is the type of the data going into the kernel or coming
--out of the kernel (e.g.  'int' or 'struct foo').  NOTE!  Do NOT use
--sizeof(arg) as the third argument as this results in your ioctl thinking
--it passes an argument of type size_t.
-+The second argument is a sequence number to distinguish ioctls from each
-+other. The third argument (not applicable to _IO) is the type of the data
-+going into the kernel or coming out of the kernel (e.g.  'int' or
-+'struct foo').
-+
-+.. note::
-+   Do NOT use sizeof(arg) as the third argument as this results in your
-+   ioctl thinking it passes an argument of type size_t.
- 
- Some devices use their major number as the identifier; this is OK, as
- long as it is unique.  Some devices are irregular and don't follow any
-@@ -53,7 +55,7 @@ Following this convention is good because:
-     error rather than some unexpected behaviour.
- 
- (2) The 'strace' build procedure automatically finds ioctl numbers
--    defined with _IO, _IOW, _IOR, or _IOWR.
-+    defined with the macros.
- 
- (3) 'strace' can decode numbers back into useful names when the
-     numbers are unique.
--- 
-An old man doll... just what I always wanted! - Clara
+It seems there is no difference on the MASK definition between
+APIC_REG_MASK() and APIC_REG_EXT_MASK(). Why not directly use the original
+APIC_REG_MASK()?
 
+BTW, If we indeed need to define this new macro, could we define the macro
+like blow?
+
+#define APIC_REG_EXT_MASK(reg)	(1ull << (((reg) - 0x400) >> 4))
+
+It's more easily to understand. 
+
+
+>  #define APIC_REGS_MASK(first, count) \
+>  	(APIC_REG_MASK(first) * ((1ull << (count)) - 1))
+>  
+> +#define APIC_LAST_REG_OFFSET		0x3f0
+> +#define APIC_EXT_LAST_REG_OFFSET	0x530
+> +
+>  u64 kvm_lapic_readable_reg_mask(struct kvm_lapic *apic)
+>  {
+>  	/* Leave bits '0' for reserved and write-only registers. */
+> @@ -1668,6 +1672,8 @@ EXPORT_SYMBOL_GPL(kvm_lapic_readable_reg_mask);
+>  static int kvm_lapic_reg_read(struct kvm_lapic *apic, u32 offset, int len,
+>  			      void *data)
+>  {
+> +	u64 valid_reg_ext_mask = 0;
+> +	unsigned int last_reg = APIC_LAST_REG_OFFSET;
+>  	unsigned char alignment = offset & 0xf;
+>  	u32 result;
+>  
+> @@ -1677,13 +1683,44 @@ static int kvm_lapic_reg_read(struct kvm_lapic *apic, u32 offset, int len,
+>  	 */
+>  	WARN_ON_ONCE(apic_x2apic_mode(apic) && offset == APIC_ICR);
+>  
+> +	/*
+> +	 * The local interrupts are extended to include LVT registers to allow
+> +	 * additional interrupt sources when the EXTAPIC feature bit is enabled.
+> +	 * The Extended Interrupt LVT registers are located at APIC offsets 400-530h.
+> +	 */
+> +	if (guest_cpu_cap_has(apic->vcpu, X86_FEATURE_EXTAPIC)) {
+> +		valid_reg_ext_mask =
+> +			APIC_REG_EXT_MASK(APIC_EFEAT) |
+> +			APIC_REG_EXT_MASK(APIC_ECTRL) |
+> +			APIC_REG_EXT_MASK(APIC_EILVTn(0)) |
+> +			APIC_REG_EXT_MASK(APIC_EILVTn(1)) |
+> +			APIC_REG_EXT_MASK(APIC_EILVTn(2)) |
+> +			APIC_REG_EXT_MASK(APIC_EILVTn(3));
+> +		last_reg = APIC_EXT_LAST_REG_OFFSET;
+> +	}
+
+Why not move this code piece into kvm_lapic_readable_reg_mask() and
+directly use APIC_REG_MASK() for these extended regs? Then we don't need to
+modify the below code. 
+
+
+> +
+>  	if (alignment + len > 4)
+>  		return 1;
+>  
+> -	if (offset > 0x3f0 ||
+> -	    !(kvm_lapic_readable_reg_mask(apic) & APIC_REG_MASK(offset)))
+> +	if (offset > last_reg)
+>  		return 1;
+>  
+> +	switch (offset) {
+> +	/*
+> +	 * Section 16.3.2 in the AMD Programmer's Manual Volume 2 states:
+> +	 * "APIC registers are aligned to 16-byte offsets and must be accessed
+> +	 * using naturally-aligned DWORD size read and writes."
+> +	 */
+> +	case KVM_APIC_REG_SIZE ... KVM_APIC_EXT_REG_SIZE - 16:
+> +		if (!(valid_reg_ext_mask & APIC_REG_EXT_MASK(offset)))
+> +			return 1;
+> +		break;
+> +	default:
+> +		if (!(kvm_lapic_readable_reg_mask(apic) & APIC_REG_MASK(offset)))
+> +			return 1;
+> +
+> +	}
+> +
+>  	result = __apic_read(apic, offset & ~0xf);
+>  
+>  	trace_kvm_apic_read(offset, result);
+> @@ -2419,6 +2456,14 @@ static int kvm_lapic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
+>  		else
+>  			kvm_apic_send_ipi(apic, APIC_DEST_SELF | val, 0);
+>  		break;
+> +
+> +	case APIC_ECTRL:
+> +	case APIC_EILVTn(0):
+> +	case APIC_EILVTn(1):
+> +	case APIC_EILVTn(2):
+> +	case APIC_EILVTn(3):
+> +		kvm_lapic_set_reg(apic, reg, val);
+> +		break;
+>  	default:
+>  		ret = 1;
+>  		break;
+> @@ -2757,6 +2802,24 @@ void kvm_inhibit_apic_access_page(struct kvm_vcpu *vcpu)
+>  	kvm_vcpu_srcu_read_lock(vcpu);
+>  }
+>  
+> +/*
+> + * Initialize extended APIC registers to the default value when guest is
+> + * started. The extended APIC registers should only be initialized when the
+> + * EXTAPIC feature is enabled on the guest.
+> + */
+> +void kvm_apic_init_eilvt_regs(struct kvm_vcpu *vcpu)
+> +{
+> +	struct kvm_lapic *apic = vcpu->arch.apic;
+> +	int i;
+> +
+> +	if (guest_cpu_cap_has(vcpu, X86_FEATURE_EXTAPIC)) {
+> +		kvm_lapic_set_reg(apic, APIC_EFEAT, APIC_EFEAT_DEFAULT);
+> +		kvm_lapic_set_reg(apic, APIC_ECTRL, APIC_ECTRL_DEFAULT);
+> +		for (i = 0; i < APIC_EILVT_NR_MAX; i++)
+> +			kvm_lapic_set_reg(apic, APIC_EILVTn(i), APIC_EILVT_MASKED);
+> +	}
+> +}
+> +
+>  void kvm_lapic_reset(struct kvm_vcpu *vcpu, bool init_event)
+>  {
+>  	struct kvm_lapic *apic = vcpu->arch.apic;
+> @@ -2818,6 +2881,8 @@ void kvm_lapic_reset(struct kvm_vcpu *vcpu, bool init_event)
+>  		kvm_lapic_set_reg(apic, APIC_ISR + 0x10 * i, 0);
+>  		kvm_lapic_set_reg(apic, APIC_TMR + 0x10 * i, 0);
+>  	}
+> +	kvm_apic_init_eilvt_regs(vcpu);
+> +
+>  	kvm_apic_update_apicv(vcpu);
+>  	update_divide_count(apic);
+>  	atomic_set(&apic->lapic_timer.pending, 0);
+> diff --git a/arch/x86/kvm/lapic.h b/arch/x86/kvm/lapic.h
+> index 7ad946b3738d..ff0f9eb3417b 100644
+> --- a/arch/x86/kvm/lapic.h
+> +++ b/arch/x86/kvm/lapic.h
+> @@ -96,6 +96,7 @@ void kvm_apic_ack_interrupt(struct kvm_vcpu *vcpu, int vector);
+>  int kvm_apic_accept_pic_intr(struct kvm_vcpu *vcpu);
+>  int kvm_apic_accept_events(struct kvm_vcpu *vcpu);
+>  void kvm_lapic_reset(struct kvm_vcpu *vcpu, bool init_event);
+> +void kvm_apic_init_eilvt_regs(struct kvm_vcpu *vcpu);
+>  u64 kvm_lapic_get_cr8(struct kvm_vcpu *vcpu);
+>  void kvm_lapic_set_tpr(struct kvm_vcpu *vcpu, unsigned long cr8);
+>  void kvm_lapic_set_eoi(struct kvm_vcpu *vcpu);
+> diff --git a/arch/x86/kvm/svm/avic.c b/arch/x86/kvm/svm/avic.c
+> index 7338879d1c0c..323927fb6f57 100644
+> --- a/arch/x86/kvm/svm/avic.c
+> +++ b/arch/x86/kvm/svm/avic.c
+> @@ -682,6 +682,10 @@ static bool is_avic_unaccelerated_access_trap(u32 offset)
+>  	case APIC_LVTERR:
+>  	case APIC_TMICT:
+>  	case APIC_TDCR:
+> +	case APIC_EILVTn(0):
+> +	case APIC_EILVTn(1):
+> +	case APIC_EILVTn(2):
+> +	case APIC_EILVTn(3):
+>  		ret = true;
+>  		break;
+>  	default:
+> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+> index fffc3320ea00..f9a7ff37ea10 100644
+> --- a/arch/x86/kvm/svm/svm.c
+> +++ b/arch/x86/kvm/svm/svm.c
+> @@ -791,6 +791,10 @@ void svm_set_x2apic_msr_interception(struct vcpu_svm *svm, bool intercept)
+>  		X2APIC_MSR(APIC_TMICT),
+>  		X2APIC_MSR(APIC_TMCCT),
+>  		X2APIC_MSR(APIC_TDCR),
+> +		X2APIC_MSR(APIC_EILVTn(0)),
+> +		X2APIC_MSR(APIC_EILVTn(1)),
+> +		X2APIC_MSR(APIC_EILVTn(2)),
+> +		X2APIC_MSR(APIC_EILVTn(3)),
+>  	};
+>  	int i;
+>  
