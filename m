@@ -1,116 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929E51F1537;
-	Tue, 15 Jul 2025 23:43:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3FA2253FE;
+	Tue, 15 Jul 2025 23:49:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752623001; cv=none; b=g1ozMKF2CRkncjgnBZ2zfGHL1w8gFxZ3YJ2/1FncOc7q1GcPQqE8OYIpsHBwJIoJr0W6/ZNqWsOF9IIHED6WgVTjAR5itFH0RWDCnpvOrUCZp8YM5gZ7OmkPMBHxqQgkfG1mdBLGu9MqG1qzUXxOR1GXJJIdOxJiUQmmkEY+0GA=
+	t=1752623357; cv=none; b=B9xMXuDpPUPcMVg6jS7W74TkN77bGLtn7TKbOKArfjmo7aOx2rZBrAY+9oiYRBtJwJK1bW6T0Pk1zQJ6iyA8oInMznE7CPvIlTNwl+motl/nlXOIhiBF5LiaSLvjoDrRhWo8lq3KIEYytpdaVzPP1bwzT4VG4+fqJ/C+MgYOXlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752623001; c=relaxed/simple;
-	bh=NqbD9ygF1hlwI4boz9O4hjEYJgzHWcdtC7erVdnxiWY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ovhRwHZYBYGl25G84Wn0KV+4yCNOilIl71ITIjkofiF5JuTfTHVmqjrlz2UOLf2vQ1MRVEx55URm29Jv/U1fBEFSCyeRWgxM/ZV+9gopX/1sU875kRUijbRpSF1HVENTyXVhimPzwFDr7Smcr7bW4J3ZKpqoulMpHmoGOpeHvqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pbmlVz+d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752623357; c=relaxed/simple;
+	bh=rTwjNk2XHUB+TgCQDxch8dh4VWi/8YBRQJzUHMoyxjE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nhbYcY1LHVA67MT0pcRXxJaVajA4wB8oih1MUnxuBEY2Vz5IWkydKbWbgk+IIHg4vsPqKj4pCId1WQdyoCCVaUgdzFodZLKQmnzS7MYHITI3MjM1qu25+laa5sg6YjJRxlAAwAarPOZvPSB/85bMDyaS8BqQ/YgXXlATQVtrE/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a987uHj8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pbmlVz+d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 224D5C4CEE3;
-	Tue, 15 Jul 2025 23:43:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a987uHj8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D44DCC4CEE3;
+	Tue, 15 Jul 2025 23:49:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752622999;
-	bh=NqbD9ygF1hlwI4boz9O4hjEYJgzHWcdtC7erVdnxiWY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pbmlVz+d03qRwos3/KLI4MCbZ0dxgvy+sMbqSQfQPhj8tWYezwOTroxWIdkyoR+0V
-	 BqvbHvvcvb7clyEQ60TJME4cNRBPKyFm53LfStCea9jKypX1KbDrmqwTanurdK7DoI
-	 XMua84zSY1PEghjPqpaFHSYUEXqrqvv0nWOC4aYmueBQ7wWG+6N1mXdY/Fny5sQrPt
-	 u6ma5+nCqewsS/bCdZ9BbtQj3cCNYYHRrM2H1tKrBI48zU+qeb9mWmpJWkB8HKkbXY
-	 lK8F7H1mJE2DTUbaa0n6xq0km3zR4ejeTsnxzPaQ5JrMngk7UGqiJoA1n0EneFEEuL
-	 yN7NDg1A9bcGw==
-From: SeongJae Park <sj@kernel.org>
-To: Honggyu Kim <honggyu.kim@sk.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	kernel_team@skhynix.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [RFC PATCH 0/4] mm/damon/sysfs: support periodic and automated stats update
-Date: Tue, 15 Jul 2025 16:43:16 -0700
-Message-Id: <20250715234316.91272-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <923d9fe1-b959-4fba-9da7-10d2b3126858@sk.com>
-References: 
+	s=k20201202; t=1752623354;
+	bh=rTwjNk2XHUB+TgCQDxch8dh4VWi/8YBRQJzUHMoyxjE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=a987uHj8xrtN0EATfTVGQYerXdJF1RaVdYjMsZIxbK/PEW6T0Ow+c2XR4XswiFP+S
+	 CFoKSUxO8gxYKMgihEWfKXVMbGHWPZ5aiav1vk+ZP7ua0qN8FLSh6CVucnNjczq46h
+	 1Hg8onNCAtSG9T2XzvWdkUdZ8yC3ljlqiaNuxuBCio4ZXcmFQS3karUEpV0U5MpYTI
+	 kgJJZYvOA3OLsYy6toXbm0a5tlRDJvgbJizYR58UVdLQv4rBXolKtoXtMQTSYGASgw
+	 sOl8wcRI2QbUKOkxp1TPev2NQIfXx7zPT67NhRj9sbaJXarPSK4BOXq5FuA5+O/DrJ
+	 h5mcpUUIzZYeQ==
+Date: Tue, 15 Jul 2025 16:49:13 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Song Yoong Siang <yoong.siang.song@intel.com>
+Cc: "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next,v4 1/1] doc: clarify XDP Rx metadata handling
+ and driver requirements
+Message-ID: <20250715164913.3ed08273@kernel.org>
+In-Reply-To: <20250715071502.3503440-1-yoong.siang.song@intel.com>
+References: <20250715071502.3503440-1-yoong.siang.song@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 16 Jul 2025 07:20:57 +0900 Honggyu Kim <honggyu.kim@sk.com> wrote:
+On Tue, 15 Jul 2025 15:15:02 +0800 Song Yoong Siang wrote:
+> -An XDP program can store individual metadata items into this ``data_meta``
+> +Certain devices may utilize the ``data_meta`` area for specific purposes.
 
-> Hi SeongJae,
-> 
-> On 7/13/2025 5:46 AM, SeongJae Park wrote:
-> > DAMON sysfs interface provides files for reading DAMON internal status
-> > including DAMOS stats.  The content of the files are not automatically
-> > updated, though.  Users should manually request updates of the contents
-> > by writing a special command to 'state' file of each kdamond directory.
-> > This interface is good for minimizing overhead, but causes the below
-> > problems.
-> > 
-> > First, the usage is cumbersome.  This is arguably not a big problem,
-> > since the user-space tool (damo) can do this instead of the user.
-> > 
-> > Second, it can be too slow.  The update request is not directly handled
-> > by the sysfs interface but kdamond thread.  And kdamond threads wake up
-> > only once per the sampling interval.  Hence if sampling interval is not
-> > short, each update request could take too long time.  The recommended
-> > sampling interval setup is asking DAMON to automatically tune it, within
-> > a range between 5 milliseconds and 10 seconds.  On production systems it
-> > is not very rare to have a few seconds sampling interval as a result of
-> > the auto-tuning, so this can disturb observing DAMON internal status.
-> > 
-> > Finally, parallel update requests can conflict with each other.  When
-> > parallel update requests are received, DAMON sysfs interface simply
-> > returns -EBUSY to one of the requests.  DAMON user-space tool is hence
-> > implementing its own backoff mechanism, but this can make the operation
-> > even slower.
-> > 
-> > Introduce a new sysfs file, namely refresh_ms, for asking DAMON sysfs
-> > interface to repeat the essential contents update with a user-specified
-> > time delay.
-> 
-> Thanks for working on this, but I have a few questions.
-> 1. Could you please list up what are the "essential contents"?
+Calling headroom "``data_meta`` area" is confusing, IMO. I'd say:
 
-Thank you for asking this.  The contents are auto-tuned monitoring intervals,
-DAMOS stats, and auto-tuned effective size quota.
+  Certain devices may prepend metadata to received packets.
 
-I will add these on the next version cover letter.
+And the rest of this paragraph can stay as is.
 
-> 2. Does it mean that it is different from writing "commit" to "state"?
-> 3. If not, then is there equivalent action to writing something to "state"?
-
-"refresh_ms" works same to other DAMON parameter files.  You can set it before
-starting DAMON, or "commit" new values (including 0 for turning this refresh
-off) in runtime.
-
-I'm not that confident if I understood your point very well, especially what
-"it"s mean.  Let me know if I'm misunderstanding something.
-
-> 
-> If possible, then this kind of information is better to be documented because
-> users might get confused if something isn't udpated when "refresh_ms" is set.
-
-You're right!  I'll add above things on the next version of the cover letter.
-
-
-Thanks,
-SJ
-
-[...]
+> +Drivers for these devices must move any hardware-related metadata out from the
+> +``data_meta`` area before presenting the frame to the XDP program. This ensures
+> +that the XDP program can store individual metadata items into this ``data_meta``
