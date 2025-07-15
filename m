@@ -1,190 +1,81 @@
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A512741CB;
-	Tue, 15 Jul 2025 08:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088A1275104;
+	Tue, 15 Jul 2025 08:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752567276; cv=none; b=kDU4epMDjtds4fNNQOGVlWH5ECNl26Vx5/XXG1VrbxrqHQ5SWg+nSF3YHfJ0ij2Yhn8K+2U6dLYgTt59o3CN1fcGDrXzca/SKSAU5H3eCfTyFCt6491l54W6SKdeqn6ZP7nE8kfYS0xZcWS8JbC1TvnakPeGaWSe+HZu6A+oSs8=
+	t=1752567594; cv=none; b=jLINz4C7CwD3GhBlqtkFbGF61uhSkKJviYskB4uPg9Kz2NCOLV8fZNeZpgY/z6MwuQAreUXl5Zg/gBFswyMSUze73vBnoYNiE8Q76wsp8O7ZgS0RSTLWTCqErN0ZfbxS1cSwNjzlSu8BOfq/oOmeotdPps2FajOWUS04p690/3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752567276; c=relaxed/simple;
-	bh=YX5yK9dgZEEpUwn+6ePHgBtfY/+RAMpBL6wfjM/LHK8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n+4DkwGVUPYUcsXVOorXJ6RMSFDG5WZQfI9ZFaqqddP4J7xNzR93ncP5e5IvnZlk7NOLZwOcsitX4mmZXJTd/DJ4jMAPKqWjbYXHuVdD3yX3o+MTm/Z4oAK5aB25+dqqdhj2M/k8e+Wtf892pSzYFZSnxhnBUFAck9F5W1O+Oxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4bhBnm5VgXz27j0j;
-	Tue, 15 Jul 2025 16:15:24 +0800 (CST)
-Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
-	by mail.maildlp.com (Postfix) with ESMTPS id F36541A016C;
-	Tue, 15 Jul 2025 16:14:25 +0800 (CST)
-Received: from kwepemq200018.china.huawei.com (7.202.195.108) by
- dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 15 Jul 2025 16:14:25 +0800
-Received: from localhost.localdomain (10.50.165.33) by
- kwepemq200018.china.huawei.com (7.202.195.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 15 Jul 2025 16:14:24 +0800
-From: Yicong Yang <yangyicong@huawei.com>
-To: <catalin.marinas@arm.com>, <will@kernel.org>, <maz@kernel.org>,
-	<oliver.upton@linux.dev>, <corbet@lwn.net>,
-	<linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>
-CC: <joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <yuzenghui@huawei.com>,
-	<shuah@kernel.org>, <jonathan.cameron@huawei.com>,
-	<shameerali.kolothum.thodi@huawei.com>, <linuxarm@huawei.com>,
-	<prime.zeng@hisilicon.com>, <xuwei5@huawei.com>, <yangyicong@hisilicon.com>,
-	<tangchengchang@huawei.com>, <wangzhou1@hisilicon.com>
-Subject: [PATCH v4 7/7] kselftest/arm64: Add HWCAP test for FEAT_{LS64, LS64_V}
-Date: Tue, 15 Jul 2025 16:13:56 +0800
-Message-ID: <20250715081356.12442-8-yangyicong@huawei.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20250715081356.12442-1-yangyicong@huawei.com>
-References: <20250715081356.12442-1-yangyicong@huawei.com>
+	s=arc-20240116; t=1752567594; c=relaxed/simple;
+	bh=BM4P1drWzjMjfg/pk0Xn1FWtYJygertGpkbq/ASGuqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WyFLIFuze/wYZkLZmRu39SEc+Vg6v7HhZ6WnluCwQy6QWaRtKxLYP9iOE6qHKO/YyjR8yeHYybG997LCOsFqWrh0R1vtX2Pd0T1P8lXwZo+Nc2p7yTl3WX+uraTr51R0UCyUs3/CEBTjHKH0LgKHtu14DN8vIXOr+IyywkVA+8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A0m7zk3C; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0m7zk3C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24862C4CEE3;
+	Tue, 15 Jul 2025 08:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752567593;
+	bh=BM4P1drWzjMjfg/pk0Xn1FWtYJygertGpkbq/ASGuqg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A0m7zk3C0jSevJgK6jHj+8KsagqEKqsohNFNjyxuUufAK0FsT7yJNCNpaFOU4qIx9
+	 u5U9AJpnkIbaI8iC8Dg4oZAecD5oub8zKKyVtM16y5Qs2D5okcKbPp5PQ8IKt9Mnrd
+	 FUFZCnQ4p6IvkvCBWBTUgxF3w+A3Ri2VqbA0DuzPsHnsN6kywA88NMDdZGek85OLA1
+	 yygBzAIe+X6glhbwR0mkYgosi0w9Rzx8T88TxgNpPWzn8IdAhtJxkJopO2XixHkdwu
+	 tMo8uetR18UQcRZ8q52L5tdNT1W3eE/qPrDItMRTCW13sGPEVEo0ID28KDRWTsRwqn
+	 ayjlkQsVSjg4g==
+Date: Tue, 15 Jul 2025 10:19:51 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	=?utf-8?Q?Cl=C3=A9ment?= Le Goffic <clement.legoffic@foss.st.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>, 
+	Le Goffic <legoffic.clement@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 02/16] dt-bindings: stm32: stm32mp25: add
+ `access-controller-cell` property
+Message-ID: <20250715-belligerent-savvy-marten-fbd1a5@krzk-bin>
+References: <20250711-ddrperfm-upstream-v2-0-cdece720348f@foss.st.com>
+ <20250711-ddrperfm-upstream-v2-2-cdece720348f@foss.st.com>
+ <20250715031717.GA4144523-robh@kernel.org>
+ <765eccdc-7d51-42c6-bcba-07813077fc1d@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemq200018.china.huawei.com (7.202.195.108)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <765eccdc-7d51-42c6-bcba-07813077fc1d@foss.st.com>
 
-From: Yicong Yang <yangyicong@hisilicon.com>
+On Tue, Jul 15, 2025 at 09:37:00AM +0200, Gatien CHEVALLIER wrote:
+> Hello Rob,
+>=20
+> On 7/15/25 05:17, Rob Herring wrote:
+> > On Fri, Jul 11, 2025 at 04:48:54PM +0200, Cl=C3=A9ment Le Goffic wrote:
+> > > RCC is able to check the availability of a clock.
+> > > Allow to query the RCC with a firewall ID.
+> >=20
+> > If it is tied to a clock, do we need another provider? We have the
+> > "protected clocks" thing, but that might be a bit different.
+> >=20
+>=20
+> I couldn't find any reference to "protected-clocks" outside of qcom
+> related code, is there a documentation? (Couldn't find it in
+> clocks.yaml).
 
-Add tests for FEAT_{LS64, LS64_V}. Issue related instructions
-if feature presents, no SIGILL should be received. When such
-instructions operate on Device memory or non-cacheable memory,
-we may received a SIGBUS during the test (w/o FEAT_LS64WB).
-Just ignore it since we only tested whether the instruction
-itself can be issued as expected on platforms declaring the
-support of such features.
+Huh? protected-clocks is in clocks.yaml... It is there with an explanation.
 
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
----
- tools/testing/selftests/arm64/abi/hwcap.c | 90 +++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
-
-diff --git a/tools/testing/selftests/arm64/abi/hwcap.c b/tools/testing/selftests/arm64/abi/hwcap.c
-index 35f521e5f41c..e1724f038cc1 100644
---- a/tools/testing/selftests/arm64/abi/hwcap.c
-+++ b/tools/testing/selftests/arm64/abi/hwcap.c
-@@ -11,6 +11,8 @@
- #include <stdlib.h>
- #include <string.h>
- #include <unistd.h>
-+#include <linux/auxvec.h>
-+#include <linux/compiler.h>
- #include <sys/auxv.h>
- #include <sys/prctl.h>
- #include <asm/hwcap.h>
-@@ -578,6 +580,78 @@ static void lrcpc3_sigill(void)
- 	              : "=r" (data0), "=r" (data1) : "r" (src) :);
- }
- 
-+static void ignore_signal(int sig, siginfo_t *info, void *context)
-+{
-+	ucontext_t *uc = context;
-+
-+	uc->uc_mcontext.pc += 4;
-+}
-+
-+static void ls64_sigill(void)
-+{
-+	struct sigaction ign, old;
-+	char src[64] __aligned(64) = { 1 };
-+
-+	/*
-+	 * LS64, LS64_V require target memory to be Device/Non-cacheable (if
-+	 * FEAT_LS64WB not supported) and the completer supports these
-+	 * instructions, otherwise we'll receive a SIGBUS. Since we are only
-+	 * testing the ABI here, so just ignore the SIGBUS and see if we can
-+	 * execute the instructions without receiving a SIGILL. Restore the
-+	 * handler of SIGBUS after this test.
-+	 */
-+	ign.sa_sigaction = ignore_signal;
-+	ign.sa_flags = SA_SIGINFO | SA_RESTART;
-+	sigemptyset(&ign.sa_mask);
-+	sigaction(SIGBUS, &ign, &old);
-+
-+	register void *xn asm ("x8") = src;
-+	register u64 xt_1 asm ("x0");
-+	register u64 __maybe_unused xt_2 asm ("x1");
-+	register u64 __maybe_unused xt_3 asm ("x2");
-+	register u64 __maybe_unused xt_4 asm ("x3");
-+	register u64 __maybe_unused xt_5 asm ("x4");
-+	register u64 __maybe_unused xt_6 asm ("x5");
-+	register u64 __maybe_unused xt_7 asm ("x6");
-+	register u64 __maybe_unused xt_8 asm ("x7");
-+
-+	/* LD64B x0, [x8] */
-+	asm volatile(".inst 0xf83fd100" : "=r" (xt_1) : "r" (xn));
-+
-+	/* ST64B x0, [x8] */
-+	asm volatile(".inst 0xf83f9100" : : "r" (xt_1), "r" (xn));
-+
-+	sigaction(SIGBUS, &old, NULL);
-+}
-+
-+static void ls64_v_sigill(void)
-+{
-+	struct sigaction ign, old;
-+	char dst[64] __aligned(64);
-+
-+	/* See comment in ls64_sigill() */
-+	ign.sa_sigaction = ignore_signal;
-+	ign.sa_flags = SA_SIGINFO | SA_RESTART;
-+	sigemptyset(&ign.sa_mask);
-+	sigaction(SIGBUS, &ign, &old);
-+
-+	register void *xn asm ("x8") = dst;
-+	register u64 xt_1 asm ("x0") = 1;
-+	register u64 __maybe_unused xt_2 asm ("x1") = 2;
-+	register u64 __maybe_unused xt_3 asm ("x2") = 3;
-+	register u64 __maybe_unused xt_4 asm ("x3") = 4;
-+	register u64 __maybe_unused xt_5 asm ("x4") = 5;
-+	register u64 __maybe_unused xt_6 asm ("x5") = 6;
-+	register u64 __maybe_unused xt_7 asm ("x6") = 7;
-+	register u64 __maybe_unused xt_8 asm ("x7") = 8;
-+	register u64 st   asm ("x9");
-+
-+	/* ST64BV x9, x0, [x8] */
-+	asm volatile(".inst 0xf829b100" : "=r" (st) : "r" (xt_1), "r" (xn));
-+
-+	sigaction(SIGBUS, &old, NULL);
-+}
-+
- static const struct hwcap_data {
- 	const char *name;
- 	unsigned long at_hwcap;
-@@ -1098,6 +1172,22 @@ static const struct hwcap_data {
- 		.sigill_fn = hbc_sigill,
- 		.sigill_reliable = true,
- 	},
-+	{
-+		.name = "LS64",
-+		.at_hwcap = AT_HWCAP3,
-+		.hwcap_bit = HWCAP3_LS64,
-+		.cpuinfo = "ls64",
-+		.sigill_fn = ls64_sigill,
-+		.sigill_reliable = true,
-+	},
-+	{
-+		.name = "LS64_V",
-+		.at_hwcap = AT_HWCAP3,
-+		.hwcap_bit = HWCAP3_LS64_V,
-+		.cpuinfo = "ls64_v",
-+		.sigill_fn = ls64_v_sigill,
-+		.sigill_reliable = true,
-+	},
- };
- 
- typedef void (*sighandler_fn)(int, siginfo_t *, void *);
--- 
-2.24.0
+Best regards,
+Krzysztof
 
