@@ -1,92 +1,103 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8371E531;
-	Tue, 15 Jul 2025 14:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5ED41E9919;
+	Tue, 15 Jul 2025 15:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752591335; cv=none; b=bvtXGKfy1rQU3pTAMnJiwzk1IWk9VXJdQEByK2BCxmE0VyLPc/03sMupciuFuitG5rQ9Pn2u1u+5BJ6iP2uVLIhwK5tNvE95qsybTKhqnvnOjU17ZeIeLAXBaFu0vUk97jvZ6NdVyyEBMwdFXAWsRjgnuK/lQjzzSE3pm167TYE=
+	t=1752591746; cv=none; b=RukhKOyPwEDS8k5weBMScdeyZXQ6vxvdP7ho7afFeRksXKw0qO/L+KFo9c8XNOovFVnNYM7hTKhMpjDsVjE1qXgybIpyD91HUaYIQ180RDxc2U7iLMKsNQ/vQIpDqd7rI5YZOFp5r0+gB8+dkkzhviZHf6VI8kUYq+CbQMZzokw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752591335; c=relaxed/simple;
-	bh=HngQSBN6EYgWlWEconlHPxoRXQuQunnOYOhmdluNvvA=;
+	s=arc-20240116; t=1752591746; c=relaxed/simple;
+	bh=exdnCy6Q0C3xztw8Y5wA0w4YeM3tO9kw+ROGW6J34Ko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l3tZsKh00rO1C3jbriRYDSe2bmf4mKwZx7T9faV94EnfUM+I74uof2I8+T1oTprsMaUe4LwAzBf34IuTMKIKx2R8BH6fs7VsCfIK6y6J0oSDeQ5twQgF4cEgYQH9HMfLP6HRFM7Cf+1ykcuK8Z3Z8xAFKNpJyO2mKR9q21T6MN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QYddt5gD; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=563mM4cB; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=j62E4IzItlB0YzpWZ8vYjpbLz4ppI3rsTwHlIscwJVprhMMLsfxTdIzFygGD2S9Qk9U8rx7K+61aybqfHFmL0d3gI4UTaTfxI0doZkFKu+hkeg4JYmbubCLR+rhSBAIOdjNumG4g4CQOSfQ1qawNQvjtOOY5cJNNlQa1CI6DgmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u3nVs5JA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QYddt5gD";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="563mM4cB"
-Date: Tue, 15 Jul 2025 16:55:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1752591331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=esBDBDN6FlIpvsUWf9eWcBpSKBzPnHD4m7HtXZDxmbc=;
-	b=QYddt5gDCDXsNMEV8LYL6KmUhZ22HlFpjxaqDwhCsyD6vucxTOFAJgQyEtSL5M6s3MdMfW
-	5MgBas+VSKOVZmJVqgcVA3bGErbu5ed5lupCYi9QRgWC5ohATv3tLrNue8Ya5MDJNQlxDv
-	Wu0Dx8RYk/aAfXjqkAFnyav+inW68Bjn/tATeTQNa+wA/YCym8hgqSDltotdo2oxHHFJFm
-	8JVRYUL/IyfP5tkaAhKevgO/QMoVDh1FPZFKrPYWrGlkcfcJV49YJKG7JwpizihilUs0cv
-	ez07IsgKN61UrxHptUzwWQLH/ruiXAm9ubq+GUMIRj5NzZjla3X4uYkLmGv4rA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1752591331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=esBDBDN6FlIpvsUWf9eWcBpSKBzPnHD4m7HtXZDxmbc=;
-	b=563mM4cBcMoIGVh434KmQp+HmWsN9BMkuaM32b7AQ3woUpyBfQhYxtQeJfikZn/reASLfM
-	SigdlmGBLGbAX0Bg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	John Ogness <john.ogness@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 3/3] Documentation: Add real-time
-Message-ID: <20250715145530.eAiJbEiG@linutronix.de>
-References: <20250715144127.697787-1-bigeasy@linutronix.de>
- <20250715144127.697787-4-bigeasy@linutronix.de>
- <87ecuhh5jr.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u3nVs5JA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A969C4CEE3;
+	Tue, 15 Jul 2025 15:02:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752591745;
+	bh=exdnCy6Q0C3xztw8Y5wA0w4YeM3tO9kw+ROGW6J34Ko=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u3nVs5JArxYZr5IH2Ok+/K4hHyHoWBVdGIoU6WY8tNh0eZVhrimCIIocOoTFKgPJd
+	 ZY8KvLnsN9tFCaasqmMFKfi17RPbEEOvbvE1XJIf72g/np8VLh7I+KENFzR+c6mJ1/
+	 lREjBaJpi3lTbwvoKrglymKwsd2cFD6hR2i+eNWA11UDOgOzp+dBD2/d1FHvGiZMOO
+	 7smub8SEg4+w2NOnrTOBV8tyvOb5iUl/7hAf/J63avI/ml4S8tKpDgM6GIPX8N/Qqe
+	 0PRTfmcpzkLp+wV/p2hKVJhMhgdC9QZH8kjTRduAUoGsgh6ImOHdA7WFvZKdPrx1Pm
+	 mBI+wFd67+pHw==
+Date: Tue, 15 Jul 2025 10:02:24 -0500
+From: Rob Herring <robh@kernel.org>
+To: Clement LE GOFFIC <clement.legoffic@foss.st.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Le Goffic <legoffic.clement@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 06/16] arm64: dts: st: add LPDDR channel to
+ stm32mp257f-dk board
+Message-ID: <20250715150224.GA1319886-robh@kernel.org>
+References: <20250711-ddrperfm-upstream-v2-0-cdece720348f@foss.st.com>
+ <20250711-ddrperfm-upstream-v2-6-cdece720348f@foss.st.com>
+ <20250715032020.GB4144523-robh@kernel.org>
+ <ae960a16-65ad-4b22-b9fb-89efbffacd3e@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <87ecuhh5jr.fsf@trenco.lwn.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ae960a16-65ad-4b22-b9fb-89efbffacd3e@foss.st.com>
 
-On 2025-07-15 08:50:16 [-0600], Jonathan Corbet wrote:
-> > diff --git a/Documentation/real-time/differences.rst b/Documentation/real-time/differences.rst
-> > new file mode 100644
-> > index 0000000000000..0b9a46a7badf4
-> > --- /dev/null
-> > +++ b/Documentation/real-time/differences.rst
-> > @@ -0,0 +1,244 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +.. _real_time_differences:
+On Tue, Jul 15, 2025 at 10:32:09AM +0200, Clement LE GOFFIC wrote:
+> Hi Rob,
 > 
-> Here, too, you don't need this label, especially since you never
-> reference it.
-
-Okay.
-
-> I'll try to have a more substantive look shortly.
-
-Thank you.
-
-> Thanks,
+> Thanks for the review !
 > 
-> jon
+> On 7/15/25 05:20, Rob Herring wrote:
+> > On Fri, Jul 11, 2025 at 04:48:58PM +0200, Clément Le Goffic wrote:
+> > > Add 32bits LPDDR4 channel to the stm32mp257f-dk board.
+> > > 
+> > > Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+> > > ---
+> > >   arch/arm64/boot/dts/st/stm32mp257f-dk.dts | 7 +++++++
+> > >   1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/arch/arm64/boot/dts/st/stm32mp257f-dk.dts b/arch/arm64/boot/dts/st/stm32mp257f-dk.dts
+> > > index a278a1e3ce03..a97b41f14ecc 100644
+> > > --- a/arch/arm64/boot/dts/st/stm32mp257f-dk.dts
+> > > +++ b/arch/arm64/boot/dts/st/stm32mp257f-dk.dts
+> > > @@ -54,6 +54,13 @@ led-blue {
+> > >   		};
+> > >   	};
+> > > +	lpddr_channel: lpddr4-channel {
+> > > +		#address-cells = <1>;
+> > > +		#size-cells = <0>;
+> > > +		compatible = "jedec,lpddr4-channel";
+> > 
+> > Not tested because this doesn't match the binding.
+> 
+> Hmm, I've tested with make dtbs_check and dt_binding_check and it didn't
+> complain on my side.
+> What I have miss ?
 
-Sebastian
+Oh wait, we already have a binding for that. I was confused with your 
+adding "jedec,ddr4-channel". Sorry for the noise.
+
+Rob
