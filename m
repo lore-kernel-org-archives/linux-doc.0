@@ -1,177 +1,232 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15502E36F9
-	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 11:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674A92D6401;
+	Tue, 15 Jul 2025 11:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752578594; cv=none; b=VmyxTCk4CfGJgvvTWEx1J6fnrsg3ICsQKAAWSY48b6KEc8cym36tnT2p3YFBC5sbr9zD1jKpbxZ7wir06B0EsAX6aNhLi3gRMjaSQeDfOh+xchLFg/hnblpn3CIcELD0ZIb0HnDq3Ev9Wr36X/b68H37+HMHhUAUfmOl4AvTMec=
+	t=1752579366; cv=none; b=O9qnNmWGJm/lzX3T+STWGVerOo1zQCiZzOx3+d3ixXlf9/wyn97zqjdphTYRCzkVpX8Bwqxm4dZzGKBu+u/65caxH/RKdJHHlBdC+finHInjb8sRYZU9YxqTA+dlT37o5DlNcq7vjU4DuuurE5drjxwbx2dIAiIpLuLx3wcScdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752578594; c=relaxed/simple;
-	bh=mhNykQkifGSKuraYqLYMQoQw6/eZOe4Mg3CeEcJvqi4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CHeHlsZbeoP2z6VADOa4wBE+bDyl2Y3gR0pUC704mMNdaA6Z7ILV+qZ1Fwiodv9jBG3msmNTEuXOuZ2fnHGbChxgpheO9QeE9IDqt1wqeHjrnA82/t1RLHmX/6SENeKxfOpxj+Bg1Xc8sAcR8MJyVgGPZsDw8IurfAKjWsHWAoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XqItrv8s; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1752579366; c=relaxed/simple;
+	bh=n3+8jPGXx9X89AAiNO3h7+WiVtND0rGd3wOyQ93Uc1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LN51DFLlrwJnhGFsFYqCj3H76GSr9DwQqMksWevUDJgxKPlMElYRjodmtZOfkdSHmHcYuxl5ybo31QOfd3Irpac0RMmXRINGWVbYhflG1nvqq1OysC/XZKMPHTYoxeyXSSC5R49FEG3IOy8DTMHu77ASwd/NeTo6gkEo2I7A27Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0ixwoYa; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XqItrv8s"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3b49ffbb31bso3040969f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 04:23:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752578590; x=1753183390; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UnLmuhlpJIPCopV7crhcFtkC5B2uM5pzLBY6qzCT9Rk=;
-        b=XqItrv8s1xFVoYR56a+74U/qg0R5XappgVEc1hgbxXgF3tDfoaTIE0Pg+RiWUCr+PT
-         OZMUOoPPdKRgsLeV+n6pqSnYDtzIAKNjTUsD6n9Qc5DutLp0o2eqvhDBlSqDyPxISpuf
-         7Sdi2RA/uGMby3PkLnihtZAy6qthHHK9YppGlK9LSYW9qxAnGdHzymT0Uyep8+443Zu3
-         HkOAJZe6Q4WCueZrFzq4r3jtUQq7JC3B1rFYSg/6GUKX1ihFDkDQymLWc7RChCaCDmwe
-         aZDDJONqSA47udDmJE908Gd++f1KLKxcDoJRwdb8B5aqQ9ZRZkEsEyMd2mN9VxRvmJjg
-         CejA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752578590; x=1753183390;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UnLmuhlpJIPCopV7crhcFtkC5B2uM5pzLBY6qzCT9Rk=;
-        b=DMnXwSDPVH60MHlDOvmYNek5Z/0Q8V+tHg7II3FgGNkiTLPCcvylIJVYTC+cxCBmnd
-         IsSCWYf8a09l/NpTd3Ta0v6qy0G9y52TIZR2kWaD+9ShQg18WnQl2UPfklSwmTAONmyb
-         Hy42P/SVSa6TW34AFMXhNP0vimOmN2RzsNpD9Lvj1BIuMElGT3GwsdDaGNsXx/fJHvpz
-         6hVCILJb3N7giYEPX02JIqJgPemr6hG1RxHQ8vCQfWlVEbXGIuPD5xwbAwU5tic4ne7C
-         06reQ4bC8zH4NL85H4zSH3OR0v73Z82HLnYQBHHoD0m29QDEoz/QQid1TEggsUrO6nKr
-         JBWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIX1mUOgLMBT3YP/L0RBgkwIdzGEKQkEoHe2f5ca/l1Sh4Cq0TSW6+qWH/sBQ5WlSTZWIvfbAzKQs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWtMgD2YB8f8TZXkVvYt3UGyzn+rmPS4mipUJ8w+C3LukvCqMg
-	0zPxqex0RNEDA5iklaG4djpTdfB3FvnmHCX8u3De4OmyCmaZWupbKN1poJ/oHdVcrD8=
-X-Gm-Gg: ASbGncvJdsIM+UKphf5bNi2SJHWYagbWmbt4EYkurbuDLhUApIF2jaUroJ5sRS1NScq
-	dMyS4ydg1brxAVZaOlK5imON/xE/oovL8jbaK5JiKvXLRwQE0EHS60AZTBNhdiOo0oJCnXJ3R9G
-	V9+1X5oO6fuSnTkSa2E2dSgMQcZagatoZ7gpiQ777QmWfFmGR7r5rLwZ62btbU1t4/t9TlUDcba
-	49SoKRxgNX5Q8VFrqVjoQGbOVw9/+GnjFYnKekqF6LW3jnJVdcMCAgzvgVrTejtD2Hlzz44ViqB
-	Mo1z8yotlGiRAMCRhhzyTvgzOmaAOx85bcURlcFrl8i503Hl88ge4M6PBKm9+7+Z44FwGBPpXe6
-	mBO0o2+Eene/9gKUhNRZ/x5o5i1I=
-X-Google-Smtp-Source: AGHT+IFUgsfz7Ex07AYDtS4oV0I5U/VvNBB0yugLcGoxcyClcNuZz5Pm27qy30apXU2xqduwfNqc/Q==
-X-Received: by 2002:adf:9dc4:0:b0:3a5:42:b17b with SMTP id ffacd0b85a97d-3b5f18b3d0emr10973282f8f.29.1752578590122;
-        Tue, 15 Jul 2025 04:23:10 -0700 (PDT)
-Received: from [192.168.1.3] ([185.48.76.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4561752340esm68968605e9.38.2025.07.15.04.23.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Jul 2025 04:23:09 -0700 (PDT)
-Message-ID: <3578865d-a2c2-4cb6-9271-abf880403097@linaro.org>
-Date: Tue, 15 Jul 2025 12:23:08 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0ixwoYa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752579364; x=1784115364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n3+8jPGXx9X89AAiNO3h7+WiVtND0rGd3wOyQ93Uc1g=;
+  b=K0ixwoYaRuT6bxreH/6w6nkEINdqbbLQo7gQU3bXT2pm9mMB9zwcZeEv
+   oY9FV0w2xV+P3LCMmTBaNvB0Tw2tGdVqAe8lGJnPVVeKZ4dZ5cek3YfF1
+   IDxxaPES/Wj8pVwRVsuR93fWBeK8sw/5nQDoyMahNA/0NnGlGvai8FFx7
+   QmJ9n4Hbvbzp4YJVFXhNHcyNC09fYAP3BONlxTyvhYeyR8woTk9yPQIo9
+   Ub7SwfYUjPJQgtjDIpdQA3WGr0q7a5JvXuKnIlyX4zEs+cgCPLVN2U9iu
+   LbBBlqL6kwg+OYxpwvHbgzud/+VCayDpjH0NY1F+o6WqhFhUo634GyZxm
+   g==;
+X-CSE-ConnectionGUID: C1K6eRIuQzGB3uiEk/eBoQ==
+X-CSE-MsgGUID: SC/l5Uo/R4WRPbUSLWpSyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="42422876"
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="42422876"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 04:36:03 -0700
+X-CSE-ConnectionGUID: irnYdiHMRh+1301yIAE6hA==
+X-CSE-MsgGUID: 9uVKpICBQuSBR9yg6PLlAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="188210056"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Jul 2025 04:36:00 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubdwz-000A0l-2i;
+	Tue, 15 Jul 2025 11:35:57 +0000
+Date: Tue, 15 Jul 2025 19:35:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Angela Czubak <aczubak@google.com>,
+	Sean O'Brien <seobrien@google.com>,
+	Jonathan Denose <jdenose@google.com>
+Subject: Re: [PATCH 11/11] HID: multitouch: add haptic multitouch support
+Message-ID: <202507151942.94dhYylY-lkp@intel.com>
+References: <20250714-support-forcepads-v1-11-71c7c05748c9@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/10] perf: arm_spe: Support FEAT_SPEv1p4 filters
-To: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, leo.yan@arm.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org>
- <20250605-james-perf-feat_spe_eft-v3-2-71b0c9f98093@linaro.org>
- <aHUFj9lH5bZwa4Z2@willie-the-truck>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <aHUFj9lH5bZwa4Z2@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250714-support-forcepads-v1-11-71c7c05748c9@google.com>
+
+Hi Jonathan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 86731a2a651e58953fc949573895f2fa6d456841]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/HID-add-haptics-page-defines/20250714-231444
+base:   86731a2a651e58953fc949573895f2fa6d456841
+patch link:    https://lore.kernel.org/r/20250714-support-forcepads-v1-11-71c7c05748c9%40google.com
+patch subject: [PATCH 11/11] HID: multitouch: add haptic multitouch support
+config: hexagon-randconfig-r112-20250715 (https://download.01.org/0day-ci/archive/20250715/202507151942.94dhYylY-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce: (https://download.01.org/0day-ci/archive/20250715/202507151942.94dhYylY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507151942.94dhYylY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hid/hid-haptic.c:13:6: error: redefinition of 'hid_haptic_feature_mapping'
+      13 | void hid_haptic_feature_mapping(struct hid_device *hdev,
+         |      ^
+   drivers/hid/hid-haptic.h:83:6: note: previous definition is here
+      83 | void hid_haptic_feature_mapping(struct hid_device *hdev,
+         |      ^
+>> drivers/hid/hid-haptic.c:51:6: error: redefinition of 'hid_haptic_check_pressure_unit'
+      51 | bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
+         |      ^
+   drivers/hid/hid-haptic.h:89:6: note: previous definition is here
+      89 | bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
+         |      ^
+>> drivers/hid/hid-haptic.c:65:5: error: redefinition of 'hid_haptic_input_mapping'
+      65 | int hid_haptic_input_mapping(struct hid_device *hdev,
+         |     ^
+   drivers/hid/hid-haptic.h:95:5: note: previous definition is here
+      95 | int hid_haptic_input_mapping(struct hid_device *hdev,
+         |     ^
+>> drivers/hid/hid-haptic.c:81:5: error: redefinition of 'hid_haptic_input_configured'
+      81 | int hid_haptic_input_configured(struct hid_device *hdev,
+         |     ^
+   drivers/hid/hid-haptic.h:104:5: note: previous definition is here
+     104 | int hid_haptic_input_configured(struct hid_device *hdev,
+         |     ^
+>> drivers/hid/hid-haptic.c:403:5: error: redefinition of 'hid_haptic_init'
+     403 | int hid_haptic_init(struct hid_device *hdev,
+         |     ^
+   drivers/hid/hid-haptic.h:114:5: note: previous definition is here
+     114 | int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr)
+         |     ^
+>> drivers/hid/hid-haptic.c:569:6: error: redefinition of 'hid_haptic_pressure_reset'
+     569 | void hid_haptic_pressure_reset(struct hid_haptic_device *haptic)
+         |      ^
+   drivers/hid/hid-haptic.h:126:6: note: previous definition is here
+     126 | void hid_haptic_pressure_reset(struct hid_haptic_device *haptic) {}
+         |      ^
+>> drivers/hid/hid-haptic.c:575:6: error: redefinition of 'hid_haptic_pressure_increase'
+     575 | void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
+         |      ^
+   drivers/hid/hid-haptic.h:128:6: note: previous definition is here
+     128 | void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
+         |      ^
+   7 errors generated.
 
 
+vim +/hid_haptic_feature_mapping +13 drivers/hid/hid-haptic.c
 
-On 14/07/2025 2:26 pm, Will Deacon wrote:
-> On Thu, Jun 05, 2025 at 11:49:00AM +0100, James Clark wrote:
->> FEAT_SPEv1p4 (optional from Armv8.8) adds some new filter bits, so
->> remove them from the previous version's RES0 bits using
->> PMSEVFR_EL1_RES0_V1P4_EXCL. It also makes some previously available bits
->> unavailable again, so add those back using PMSEVFR_EL1_RES0_V1P4_INCL.
->> E.g:
->>
->>    E[30], bit [30]
->>    When FEAT_SPEv1p4 is _not_ implemented ...
->>
->> FEAT_SPE_V1P3 has the same filters as V1P2 so explicitly add it to the
->> switch.
->>
->> Reviewed-by: Leo Yan <leo.yan@arm.com>
->> Tested-by: Leo Yan <leo.yan@arm.com>
->> Signed-off-by: James Clark <james.clark@linaro.org>
->> ---
->>   arch/arm64/include/asm/sysreg.h | 7 +++++++
->>   drivers/perf/arm_spe_pmu.c      | 5 ++++-
->>   2 files changed, 11 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
->> index f1bb0d10c39a..880090df3efc 100644
->> --- a/arch/arm64/include/asm/sysreg.h
->> +++ b/arch/arm64/include/asm/sysreg.h
->> @@ -358,6 +358,13 @@
->>   	(PMSEVFR_EL1_RES0_IMP & ~(BIT_ULL(18) | BIT_ULL(17) | BIT_ULL(11)))
->>   #define PMSEVFR_EL1_RES0_V1P2	\
->>   	(PMSEVFR_EL1_RES0_V1P1 & ~BIT_ULL(6))
->> +#define PMSEVFR_EL1_RES0_V1P4_EXCL \
->> +	(BIT_ULL(2) | BIT_ULL(4) | GENMASK_ULL(10, 8) | GENMASK_ULL(23, 19))
->> +#define PMSEVFR_EL1_RES0_V1P4_INCL \
->> +	(GENMASK_ULL(31, 26))
->> +#define PMSEVFR_EL1_RES0_V1P4	\
->> +	(PMSEVFR_EL1_RES0_V1P4_INCL | \
->> +	(PMSEVFR_EL1_RES0_V1P2 & ~PMSEVFR_EL1_RES0_V1P4_EXCL))
->>   
->>   /* Buffer error reporting */
->>   #define PMBSR_EL1_FAULT_FSC_SHIFT	PMBSR_EL1_MSS_SHIFT
->> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
->> index 3efed8839a4e..d9f6d229dce8 100644
->> --- a/drivers/perf/arm_spe_pmu.c
->> +++ b/drivers/perf/arm_spe_pmu.c
->> @@ -701,9 +701,12 @@ static u64 arm_spe_pmsevfr_res0(u16 pmsver)
->>   	case ID_AA64DFR0_EL1_PMSVer_V1P1:
->>   		return PMSEVFR_EL1_RES0_V1P1;
->>   	case ID_AA64DFR0_EL1_PMSVer_V1P2:
->> +	case ID_AA64DFR0_EL1_PMSVer_V1P3:
->> +		return PMSEVFR_EL1_RES0_V1P2;
->> +	case ID_AA64DFR0_EL1_PMSVer_V1P4:
->>   	/* Return the highest version we support in default */
->>   	default:
->> -		return PMSEVFR_EL1_RES0_V1P2;
->> +		return PMSEVFR_EL1_RES0_V1P4;
-> 
-> See my reply [1] to Leo about this function, but I think we should just
-> remove it.
-> 
-> Will
-> 
-> [1] https://lore.kernel.org/all/20250707-arm_spe_support_hitm_overhead_v1_public-v3-0-33ea82da3280@arm.com/
+783df9659b1cddf Angela Czubak 2025-07-14  12  
+783df9659b1cddf Angela Czubak 2025-07-14 @13  void hid_haptic_feature_mapping(struct hid_device *hdev,
+783df9659b1cddf Angela Czubak 2025-07-14  14  				struct hid_haptic_device *haptic,
+783df9659b1cddf Angela Czubak 2025-07-14  15  				struct hid_field *field, struct hid_usage *usage)
+783df9659b1cddf Angela Czubak 2025-07-14  16  {
+59b86a929daae04 Angela Czubak 2025-07-14  17  	u16 usage_hid;
+59b86a929daae04 Angela Czubak 2025-07-14  18  
+783df9659b1cddf Angela Czubak 2025-07-14  19  	if (usage->hid == HID_HP_AUTOTRIGGER) {
+783df9659b1cddf Angela Czubak 2025-07-14  20  		if (usage->usage_index >= field->report_count) {
+783df9659b1cddf Angela Czubak 2025-07-14  21  			dev_err(&hdev->dev,
+783df9659b1cddf Angela Czubak 2025-07-14  22  				"HID_HP_AUTOTRIGGER out of range\n");
+783df9659b1cddf Angela Czubak 2025-07-14  23  			return;
+783df9659b1cddf Angela Czubak 2025-07-14  24  		}
+783df9659b1cddf Angela Czubak 2025-07-14  25  
+783df9659b1cddf Angela Czubak 2025-07-14  26  		hid_device_io_start(hdev);
+783df9659b1cddf Angela Czubak 2025-07-14  27  		hid_hw_request(hdev, field->report, HID_REQ_GET_REPORT);
+783df9659b1cddf Angela Czubak 2025-07-14  28  		hid_hw_wait(hdev);
+783df9659b1cddf Angela Czubak 2025-07-14  29  		hid_device_io_stop(hdev);
+783df9659b1cddf Angela Czubak 2025-07-14  30  		haptic->default_auto_trigger =
+783df9659b1cddf Angela Czubak 2025-07-14  31  			field->value[usage->usage_index];
+783df9659b1cddf Angela Czubak 2025-07-14  32  		haptic->auto_trigger_report = field->report;
+59b86a929daae04 Angela Czubak 2025-07-14  33  	} else if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ORDINAL) {
+59b86a929daae04 Angela Czubak 2025-07-14  34  		usage_hid = usage->hid & HID_USAGE;
+59b86a929daae04 Angela Czubak 2025-07-14  35  		switch (field->logical) {
+59b86a929daae04 Angela Czubak 2025-07-14  36  		case HID_HP_WAVEFORMLIST:
+59b86a929daae04 Angela Czubak 2025-07-14  37  			if (usage_hid > haptic->max_waveform_id)
+59b86a929daae04 Angela Czubak 2025-07-14  38  				haptic->max_waveform_id = usage_hid;
+59b86a929daae04 Angela Czubak 2025-07-14  39  			break;
+59b86a929daae04 Angela Czubak 2025-07-14  40  		case HID_HP_DURATIONLIST:
+59b86a929daae04 Angela Czubak 2025-07-14  41  			if (usage_hid > haptic->max_duration_id)
+59b86a929daae04 Angela Czubak 2025-07-14  42  				haptic->max_duration_id = usage_hid;
+59b86a929daae04 Angela Czubak 2025-07-14  43  			break;
+59b86a929daae04 Angela Czubak 2025-07-14  44  		default:
+59b86a929daae04 Angela Czubak 2025-07-14  45  			break;
+59b86a929daae04 Angela Czubak 2025-07-14  46  		}
+783df9659b1cddf Angela Czubak 2025-07-14  47  	}
+783df9659b1cddf Angela Czubak 2025-07-14  48  }
+783df9659b1cddf Angela Czubak 2025-07-14  49  EXPORT_SYMBOL_GPL(hid_haptic_feature_mapping);
+783df9659b1cddf Angela Czubak 2025-07-14  50  
+783df9659b1cddf Angela Czubak 2025-07-14 @51  bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
+783df9659b1cddf Angela Czubak 2025-07-14  52  				    struct hid_input *hi, struct hid_field *field)
+783df9659b1cddf Angela Czubak 2025-07-14  53  {
+f96e0cf76b31615 Angela Czubak 2025-07-14  54  	if (field->unit == HID_UNIT_GRAM || field->unit == HID_UNIT_NEWTON) {
+f96e0cf76b31615 Angela Czubak 2025-07-14  55  		haptic->force_logical_minimum = field->logical_minimum;
+f96e0cf76b31615 Angela Czubak 2025-07-14  56  		haptic->force_physical_minimum = field->physical_minimum;
+f96e0cf76b31615 Angela Czubak 2025-07-14  57  		haptic->force_resolution = input_abs_get_res(hi->input,
+f96e0cf76b31615 Angela Czubak 2025-07-14  58  							     ABS_MT_PRESSURE);
+783df9659b1cddf Angela Czubak 2025-07-14  59  		return true;
+f96e0cf76b31615 Angela Czubak 2025-07-14  60  	}
+783df9659b1cddf Angela Czubak 2025-07-14  61  	return false;
+783df9659b1cddf Angela Czubak 2025-07-14  62  }
+783df9659b1cddf Angela Czubak 2025-07-14  63  EXPORT_SYMBOL_GPL(hid_haptic_check_pressure_unit);
+783df9659b1cddf Angela Czubak 2025-07-14  64  
+783df9659b1cddf Angela Czubak 2025-07-14 @65  int hid_haptic_input_mapping(struct hid_device *hdev,
+783df9659b1cddf Angela Czubak 2025-07-14  66  			     struct hid_haptic_device *haptic,
+783df9659b1cddf Angela Czubak 2025-07-14  67  			     struct hid_input *hi,
+783df9659b1cddf Angela Czubak 2025-07-14  68  			     struct hid_field *field, struct hid_usage *usage,
+783df9659b1cddf Angela Czubak 2025-07-14  69  			     unsigned long **bit, int *max)
+783df9659b1cddf Angela Czubak 2025-07-14  70  {
+783df9659b1cddf Angela Czubak 2025-07-14  71  	if (usage->hid == HID_HP_MANUALTRIGGER) {
+783df9659b1cddf Angela Czubak 2025-07-14  72  		haptic->manual_trigger_report = field->report;
+783df9659b1cddf Angela Czubak 2025-07-14  73  		/* we don't really want to map these fields */
+783df9659b1cddf Angela Czubak 2025-07-14  74  		return -1;
+783df9659b1cddf Angela Czubak 2025-07-14  75  	}
+783df9659b1cddf Angela Czubak 2025-07-14  76  
+783df9659b1cddf Angela Czubak 2025-07-14  77  	return 0;
+783df9659b1cddf Angela Czubak 2025-07-14  78  }
+783df9659b1cddf Angela Czubak 2025-07-14  79  EXPORT_SYMBOL_GPL(hid_haptic_input_mapping);
+783df9659b1cddf Angela Czubak 2025-07-14  80  
+783df9659b1cddf Angela Czubak 2025-07-14 @81  int hid_haptic_input_configured(struct hid_device *hdev,
+783df9659b1cddf Angela Czubak 2025-07-14  82  				struct hid_haptic_device *haptic,
+783df9659b1cddf Angela Czubak 2025-07-14  83  				struct hid_input *hi)
+783df9659b1cddf Angela Czubak 2025-07-14  84  {
+783df9659b1cddf Angela Czubak 2025-07-14  85  
+783df9659b1cddf Angela Czubak 2025-07-14  86  	if (hi->application == HID_DG_TOUCHPAD) {
+783df9659b1cddf Angela Czubak 2025-07-14  87  		if (haptic->auto_trigger_report &&
+783df9659b1cddf Angela Czubak 2025-07-14  88  		    haptic->manual_trigger_report) {
+783df9659b1cddf Angela Czubak 2025-07-14  89  			__set_bit(INPUT_PROP_HAPTIC_TOUCHPAD, hi->input->propbit);
+783df9659b1cddf Angela Czubak 2025-07-14  90  			return 1;
+783df9659b1cddf Angela Czubak 2025-07-14  91  		}
+783df9659b1cddf Angela Czubak 2025-07-14  92  		return 0;
+783df9659b1cddf Angela Czubak 2025-07-14  93  	}
+783df9659b1cddf Angela Czubak 2025-07-14  94  	return -1;
+783df9659b1cddf Angela Czubak 2025-07-14  95  }
+783df9659b1cddf Angela Czubak 2025-07-14  96  EXPORT_SYMBOL_GPL(hid_haptic_input_configured);
+59b86a929daae04 Angela Czubak 2025-07-14  97  
 
-We're only refusing filters that we know for sure are RES0. Unless 
-there's a mistake, the ones that are maybes are still up to userspace to 
-decide whether it wants to use them or not.
-
-I think it could be quite useful for some automated tool to fall back to 
-another behavior if it needs an event that isn't implemented.
-
-If they were _all_ defined as maybes like "When FEAT_SPEv1p4 is 
-implemented or filtering on event 2 is optionally supported" then I 
-would agree it's not definite enough to bother restricting them. But a 
-lot of them are known for sure like "When FEAT_SPEv1p4 is not 
-implemented ...", so I don't see the harm in preventing use of those.
-
-Or as I mentioned in the other thread if we think we can probe the valid 
-filters that would be even better.
-
-Thanks
-James
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
