@@ -1,232 +1,238 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674A92D6401;
-	Tue, 15 Jul 2025 11:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A3C2620F5
+	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 11:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752579366; cv=none; b=O9qnNmWGJm/lzX3T+STWGVerOo1zQCiZzOx3+d3ixXlf9/wyn97zqjdphTYRCzkVpX8Bwqxm4dZzGKBu+u/65caxH/RKdJHHlBdC+finHInjb8sRYZU9YxqTA+dlT37o5DlNcq7vjU4DuuurE5drjxwbx2dIAiIpLuLx3wcScdM=
+	t=1752580055; cv=none; b=lZbxHmbsPXRwV4aNaAK3pTbx7ijssSh+aYPJCioOyFehqA4z4DLaqf+nw0Qn+p2aU8KrlZa+gnG7Od+IRF2gztfnBFPn3hMhhUk/Wt46kiCyOd2ZZuFICMjV/o4PFow9BPZJIgt46jjPDWUbivgnB3F8md5ODdZH321m5rNOff8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752579366; c=relaxed/simple;
-	bh=n3+8jPGXx9X89AAiNO3h7+WiVtND0rGd3wOyQ93Uc1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LN51DFLlrwJnhGFsFYqCj3H76GSr9DwQqMksWevUDJgxKPlMElYRjodmtZOfkdSHmHcYuxl5ybo31QOfd3Irpac0RMmXRINGWVbYhflG1nvqq1OysC/XZKMPHTYoxeyXSSC5R49FEG3IOy8DTMHu77ASwd/NeTo6gkEo2I7A27Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0ixwoYa; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752580055; c=relaxed/simple;
+	bh=yHaaynB8oqH4s1RD1xaBnb3JDiNTCzs4s7/O0aKzib4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LOke60c65VyTuyFs8Y9E5RwNgGruqKrq2Nd4T5M5kUUPstZD9M+Ig75f2tn1Sg2ve0PHWfo7EWKynAvZRCWDHdMJZZ0DX8RAUJV45xcj/cQv1vSdmfOyaD5YbHKLh45C+8dyLG4+JiNgUE4RCiYAMmc7s5lAwBsq5kCyl/kwsP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m9fdLdad; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0ixwoYa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752579364; x=1784115364;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n3+8jPGXx9X89AAiNO3h7+WiVtND0rGd3wOyQ93Uc1g=;
-  b=K0ixwoYaRuT6bxreH/6w6nkEINdqbbLQo7gQU3bXT2pm9mMB9zwcZeEv
-   oY9FV0w2xV+P3LCMmTBaNvB0Tw2tGdVqAe8lGJnPVVeKZ4dZ5cek3YfF1
-   IDxxaPES/Wj8pVwRVsuR93fWBeK8sw/5nQDoyMahNA/0NnGlGvai8FFx7
-   QmJ9n4Hbvbzp4YJVFXhNHcyNC09fYAP3BONlxTyvhYeyR8woTk9yPQIo9
-   Ub7SwfYUjPJQgtjDIpdQA3WGr0q7a5JvXuKnIlyX4zEs+cgCPLVN2U9iu
-   LbBBlqL6kwg+OYxpwvHbgzud/+VCayDpjH0NY1F+o6WqhFhUo634GyZxm
-   g==;
-X-CSE-ConnectionGUID: C1K6eRIuQzGB3uiEk/eBoQ==
-X-CSE-MsgGUID: SC/l5Uo/R4WRPbUSLWpSyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="42422876"
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="42422876"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 04:36:03 -0700
-X-CSE-ConnectionGUID: irnYdiHMRh+1301yIAE6hA==
-X-CSE-MsgGUID: 9uVKpICBQuSBR9yg6PLlAQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="188210056"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Jul 2025 04:36:00 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubdwz-000A0l-2i;
-	Tue, 15 Jul 2025 11:35:57 +0000
-Date: Tue, 15 Jul 2025 19:35:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Henrik Rydberg <rydberg@bitmath.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Angela Czubak <aczubak@google.com>,
-	Sean O'Brien <seobrien@google.com>,
-	Jonathan Denose <jdenose@google.com>
-Subject: Re: [PATCH 11/11] HID: multitouch: add haptic multitouch support
-Message-ID: <202507151942.94dhYylY-lkp@intel.com>
-References: <20250714-support-forcepads-v1-11-71c7c05748c9@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m9fdLdad"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ae36e88a5daso1062788666b.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 04:47:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1752580051; x=1753184851; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LJvOv3iC8J0K2u+8XocYvxToXukeLeYZU2F/qIP8yt0=;
+        b=m9fdLdadYoTNrmQS5d2bgbII3TicytkLUvdinWO6E2TJJMdza51miodaGfvmdHAfoL
+         HGPNLBy//nm8zQo+Af8Fvu5kPrqKQ/F9zaEDDP3vLRxC1i6mkyfHE+FprCJXzZrtzLGq
+         3P08RZNQ5g0RvLqOajFBVANLvtuK4Vyx5jx819shXr4JFU6+MH5fiQ+1fhvf54yGIzqv
+         u4JgETj6su/FTIpZz3ir3Vj+yLWWz/8WUb7mMwICMTg808eUvmLHa2NJfUM/VUg1keyB
+         TE/npJjMZS0wuWyDvuwVT/glN8bdgD9jNfxxxIxo2s/zVjvt5WaofdM6LiTUJj4ATSnq
+         kxJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752580051; x=1753184851;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LJvOv3iC8J0K2u+8XocYvxToXukeLeYZU2F/qIP8yt0=;
+        b=YnDoP7DQ/XZ3MyLIdsrVSpDaw0+9bvl1+zO9vp+Kf1dRuYPmVtC3tOsO/QKr5z2lD9
+         mvB2LgRxO1d1HMAI24h4wyxUjvzSCtkrGa2IvRWLMKzl/H3mDXW52lc/qYF6Y8altD9E
+         nEm25u4Nkf4lR36NA34vArr/oFBj4PpHcyDyqgI/dWsU1xGBoMuFFSVEI3f+mpOjIv9U
+         xpRC5lEdxRS5H+3FLT3bmO0TASyDf3XICKvkrFgVJpbJcon05Tgtr3Rh2H9s1iq2cZhq
+         v/UfKD5KA55osSjvOgtYX97MkB3N/z/8UCRLx/c0JZIVmqbpPUeYLYVjveHwa+KxW6gO
+         tmlw==
+X-Forwarded-Encrypted: i=1; AJvYcCWCu5Xt3eBOeaK5Gg6rKHdGbqGNFgzUSmOavrsBxgHMy1If5koInIS6GVnI+N+gGL8R/SyFJYaz54c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVImOQLRF31ZrYuXkZKeuQPbFN4nTavF70JoQwVahmyNOrY3er
+	5iZefJJPyeWqSSlDPALlvjulS2tH80K1DuzVmVp2YTpA7bs0QHcoVnl4rSCCeflqVLTe9RUvStC
+	D/BBalQYP8/7OlkSLWL/GoXSipNBqLFAPDlLapQwa
+X-Gm-Gg: ASbGncuMAdmEJEa/C6PV9WmBIVqfb+S65nzCFFTPmtYS8bvH+UJ8RFfLPUutP+XL2ho
+	Moc5GuOjjC9zQ7hQkrZslDk1ONf5sNucZZIxT0khXCG+aW5AskA6DO6EymJ+4XNPFd6TF/6eJBS
+	Npci6LN5YH8HA7BhG5eOrOfXu6gHH1Bljx0SZ0ZAOhwGSXQzEZI48WTYxzdSnQ0/fwjyY2PmGqv
+	AHDYzc+RW8NBU6LlgIg7lGm2QW7ooiJivdjtecm7WpQEeWX
+X-Google-Smtp-Source: AGHT+IERHtiT8i1MYCr6EUL+SQLpDG5er/ubJ4ykdR4RAvST5au0QfdrvR0mHbAVZKaxtOuDwBcjuu7BF0+dB9RrOh0=
+X-Received: by 2002:a17:907:3d43:b0:ae0:a88e:6f20 with SMTP id
+ a640c23a62f3a-ae6fbe7e2cemr1751024666b.15.1752580051000; Tue, 15 Jul 2025
+ 04:47:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250714-support-forcepads-v1-11-71c7c05748c9@google.com>
+References: <cover.1752013061.git.babu.moger@amd.com> <d55fea7bdb5df1e39de59b23289197ace08020b8.1752013061.git.babu.moger@amd.com>
+In-Reply-To: <d55fea7bdb5df1e39de59b23289197ace08020b8.1752013061.git.babu.moger@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Tue, 15 Jul 2025 13:47:20 +0200
+X-Gm-Features: Ac12FXyvWUuxdrhu_-0M3JaoedyZQtTdtEb61dEMZnOq_NVPoE1izoyVMIb3XaY
+Message-ID: <CALPaoCgt=fk8-pOunx7EiR3ESLV2EWCBxpo3My2q7Nz8uXfz-g@mail.gmail.com>
+Subject: Re: [PATCH v15 05/34] x86/cpufeatures: Add support for Assignable
+ Bandwidth Monitoring Counters (ABMC)
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, tony.luck@intel.com, reinette.chatre@intel.com, 
+	james.morse@arm.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, Dave.Martin@arm.com, x86@kernel.org, 
+	hpa@zytor.com, akpm@linux-foundation.org, paulmck@kernel.org, 
+	rostedt@goodmis.org, Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, 
+	fvdl@google.com, seanjc@google.com, jpoimboe@kernel.org, 
+	pawan.kumar.gupta@linux.intel.com, xin@zytor.com, manali.shukla@amd.com, 
+	tao1.su@linux.intel.com, sohil.mehta@intel.com, kai.huang@intel.com, 
+	xiaoyao.li@intel.com, peterz@infradead.org, xin3.li@intel.com, 
+	kan.liang@linux.intel.com, mario.limonciello@amd.com, thomas.lendacky@amd.com, 
+	perry.yuan@amd.com, gautham.shenoy@amd.com, chang.seok.bae@intel.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jonathan,
+Hi Babu,
 
-kernel test robot noticed the following build errors:
+On Wed, Jul 9, 2025 at 12:18=E2=80=AFAM Babu Moger <babu.moger@amd.com> wro=
+te:
+>
+> Users can create as many monitor groups as RMIDs supported by the hardwar=
+e.
+> However, bandwidth monitoring feature on AMD system only guarantees that
+> RMIDs currently assigned to a processor will be tracked by hardware. The
+> counters of any other RMIDs which are no longer being tracked will be res=
+et
+> to zero. The MBM event counters return "Unavailable" for the RMIDs that a=
+re
+> not tracked by hardware. So, there can be only limited number of groups
+> that can give guaranteed monitoring numbers. With ever changing
+> configurations there is no way to definitely know which of these groups a=
+re
+> being tracked during a particular time. Users do not have the option to
+> monitor a group or set of groups for a certain period of time without
+> worrying about RMID being reset in between.
+>
+> The ABMC feature allows users to assign a hardware counter to an RMID,
+> event pair and monitor bandwidth usage as long as it is assigned. The
+> hardware continues to track the assigned counter until it is explicitly
+> unassigned by the user. There is no need to worry about counters being
+> reset during this period. Additionally, the user can specify the type of
+> memory transactions (e.g., reads, writes) for the counter to track.
+>
+> Without ABMC enabled, monitoring will work in current mode without
+> assignment option.
+>
+> The Linux resctrl subsystem provides an interface that allows monitoring =
+of
+> up to two memory bandwidth events per group, selected from a combination =
+of
+> available total and local events. When ABMC is enabled, two events will b=
+e
+> assigned to each group by default, in line with the current interface
+> design. Users will also have the option to configure which types of memor=
+y
+> transactions are counted by these events.
+>
+> Due to the limited number of available counters (32), users may quickly
+> exhaust the available counters. If the system runs out of assignable ABMC
+> counters, the kernel will report an error. In such cases, users will need
+> to unassign one or more active counters to free up counters for new
+> assignments. resctrl will provide options to assign or unassign events
+> through the group-specific interface file.
+>
+> The feature is detected via CPUID_Fn80000020_EBX_x00 bit 5.
+> Bits Description
+> 5    ABMC (Assignable Bandwidth Monitoring Counters)
+>
+> The feature details are documented in APM listed below [1].
+> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+> Monitoring (ABMC).
+>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+> Note: Checkpatch checks/warnings are ignored to maintain coding style.
+>
+> v15: Minor changelog update.
+>
+> v14: Removed the dependancy on X86_FEATURE_CQM_MBM_TOTAL and X86_FEATURE_=
+CQM_MBM_LOCAL.
+>      as discussed in https://lore.kernel.org/lkml/5f8b21c6-5166-46a6-be14=
+-0c7c9bfb7cde@intel.com/
+>      Need to re-work on ABMC enumeration during the init.
+>      Updated changelog with few text update.
+>
+> v13: Updated the commit log with Linux interface details.
+>
+> v12: Removed the dependancy on X86_FEATURE_BMEC.
+>      Removed the Reviewed-by tag as patch has changed.
+>
+> v11: No changes.
+>
+> v10: No changes.
+>
+> v9: Took care of couple of minor merge conflicts. No other changes.
+>
+> v8: No changes.
+>
+> v7: Removed "" from feature flags. Not required anymore.
+>     https://lore.kernel.org/lkml/20240817145058.GCZsC40neU4wkPXeVR@fat_cr=
+ate.local/
+>
+> v6: Added Reinette's Reviewed-by. Moved the Checkpatch note below ---.
+>
+> v5: Minor rebase change and subject line update.
+>
+> v4: Changes because of rebase. Feature word 21 has few more additions now=
+.
+>     Changed the text to "tracked by hardware" instead of active.
+>
+> v3: Change because of rebase. Actual patch did not change.
+>
+> v2: Added dependency on X86_FEATURE_BMEC.
+> ---
+>  arch/x86/include/asm/cpufeatures.h | 1 +
+>  arch/x86/kernel/cpu/scattered.c    | 1 +
+>  2 files changed, 2 insertions(+)
+>
+> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cp=
+ufeatures.h
+> index b78af55aa22e..d2950a0177cd 100644
+> --- a/arch/x86/include/asm/cpufeatures.h
+> +++ b/arch/x86/include/asm/cpufeatures.h
+> @@ -490,6 +490,7 @@
+>  #define X86_FEATURE_PREFER_YMM         (21*32+ 8) /* Avoid ZMM registers=
+ due to downclocking */
+>  #define X86_FEATURE_APX                        (21*32+ 9) /* Advanced Pe=
+rformance Extensions */
+>  #define X86_FEATURE_INDIRECT_THUNK_ITS (21*32+10) /* Use thunk for indir=
+ect branches in lower half of cacheline */
+> +#define X86_FEATURE_ABMC               (21*32+11) /* Assignable Bandwidt=
+h Monitoring Counters */
 
-[auto build test ERROR on 86731a2a651e58953fc949573895f2fa6d456841]
+It looks like this bit has been taken by X86_FEATURE_TSA_SQ_NO. I had
+to move X86_FEATURE_ABMC down to (21*32+14) on tip/master.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/HID-add-haptics-page-defines/20250714-231444
-base:   86731a2a651e58953fc949573895f2fa6d456841
-patch link:    https://lore.kernel.org/r/20250714-support-forcepads-v1-11-71c7c05748c9%40google.com
-patch subject: [PATCH 11/11] HID: multitouch: add haptic multitouch support
-config: hexagon-randconfig-r112-20250715 (https://download.01.org/0day-ci/archive/20250715/202507151942.94dhYylY-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce: (https://download.01.org/0day-ci/archive/20250715/202507151942.94dhYylY-lkp@intel.com/reproduce)
+Thanks,
+-Peter
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507151942.94dhYylY-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/hid/hid-haptic.c:13:6: error: redefinition of 'hid_haptic_feature_mapping'
-      13 | void hid_haptic_feature_mapping(struct hid_device *hdev,
-         |      ^
-   drivers/hid/hid-haptic.h:83:6: note: previous definition is here
-      83 | void hid_haptic_feature_mapping(struct hid_device *hdev,
-         |      ^
->> drivers/hid/hid-haptic.c:51:6: error: redefinition of 'hid_haptic_check_pressure_unit'
-      51 | bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
-         |      ^
-   drivers/hid/hid-haptic.h:89:6: note: previous definition is here
-      89 | bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
-         |      ^
->> drivers/hid/hid-haptic.c:65:5: error: redefinition of 'hid_haptic_input_mapping'
-      65 | int hid_haptic_input_mapping(struct hid_device *hdev,
-         |     ^
-   drivers/hid/hid-haptic.h:95:5: note: previous definition is here
-      95 | int hid_haptic_input_mapping(struct hid_device *hdev,
-         |     ^
->> drivers/hid/hid-haptic.c:81:5: error: redefinition of 'hid_haptic_input_configured'
-      81 | int hid_haptic_input_configured(struct hid_device *hdev,
-         |     ^
-   drivers/hid/hid-haptic.h:104:5: note: previous definition is here
-     104 | int hid_haptic_input_configured(struct hid_device *hdev,
-         |     ^
->> drivers/hid/hid-haptic.c:403:5: error: redefinition of 'hid_haptic_init'
-     403 | int hid_haptic_init(struct hid_device *hdev,
-         |     ^
-   drivers/hid/hid-haptic.h:114:5: note: previous definition is here
-     114 | int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr)
-         |     ^
->> drivers/hid/hid-haptic.c:569:6: error: redefinition of 'hid_haptic_pressure_reset'
-     569 | void hid_haptic_pressure_reset(struct hid_haptic_device *haptic)
-         |      ^
-   drivers/hid/hid-haptic.h:126:6: note: previous definition is here
-     126 | void hid_haptic_pressure_reset(struct hid_haptic_device *haptic) {}
-         |      ^
->> drivers/hid/hid-haptic.c:575:6: error: redefinition of 'hid_haptic_pressure_increase'
-     575 | void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
-         |      ^
-   drivers/hid/hid-haptic.h:128:6: note: previous definition is here
-     128 | void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
-         |      ^
-   7 errors generated.
-
-
-vim +/hid_haptic_feature_mapping +13 drivers/hid/hid-haptic.c
-
-783df9659b1cddf Angela Czubak 2025-07-14  12  
-783df9659b1cddf Angela Czubak 2025-07-14 @13  void hid_haptic_feature_mapping(struct hid_device *hdev,
-783df9659b1cddf Angela Czubak 2025-07-14  14  				struct hid_haptic_device *haptic,
-783df9659b1cddf Angela Czubak 2025-07-14  15  				struct hid_field *field, struct hid_usage *usage)
-783df9659b1cddf Angela Czubak 2025-07-14  16  {
-59b86a929daae04 Angela Czubak 2025-07-14  17  	u16 usage_hid;
-59b86a929daae04 Angela Czubak 2025-07-14  18  
-783df9659b1cddf Angela Czubak 2025-07-14  19  	if (usage->hid == HID_HP_AUTOTRIGGER) {
-783df9659b1cddf Angela Czubak 2025-07-14  20  		if (usage->usage_index >= field->report_count) {
-783df9659b1cddf Angela Czubak 2025-07-14  21  			dev_err(&hdev->dev,
-783df9659b1cddf Angela Czubak 2025-07-14  22  				"HID_HP_AUTOTRIGGER out of range\n");
-783df9659b1cddf Angela Czubak 2025-07-14  23  			return;
-783df9659b1cddf Angela Czubak 2025-07-14  24  		}
-783df9659b1cddf Angela Czubak 2025-07-14  25  
-783df9659b1cddf Angela Czubak 2025-07-14  26  		hid_device_io_start(hdev);
-783df9659b1cddf Angela Czubak 2025-07-14  27  		hid_hw_request(hdev, field->report, HID_REQ_GET_REPORT);
-783df9659b1cddf Angela Czubak 2025-07-14  28  		hid_hw_wait(hdev);
-783df9659b1cddf Angela Czubak 2025-07-14  29  		hid_device_io_stop(hdev);
-783df9659b1cddf Angela Czubak 2025-07-14  30  		haptic->default_auto_trigger =
-783df9659b1cddf Angela Czubak 2025-07-14  31  			field->value[usage->usage_index];
-783df9659b1cddf Angela Czubak 2025-07-14  32  		haptic->auto_trigger_report = field->report;
-59b86a929daae04 Angela Czubak 2025-07-14  33  	} else if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ORDINAL) {
-59b86a929daae04 Angela Czubak 2025-07-14  34  		usage_hid = usage->hid & HID_USAGE;
-59b86a929daae04 Angela Czubak 2025-07-14  35  		switch (field->logical) {
-59b86a929daae04 Angela Czubak 2025-07-14  36  		case HID_HP_WAVEFORMLIST:
-59b86a929daae04 Angela Czubak 2025-07-14  37  			if (usage_hid > haptic->max_waveform_id)
-59b86a929daae04 Angela Czubak 2025-07-14  38  				haptic->max_waveform_id = usage_hid;
-59b86a929daae04 Angela Czubak 2025-07-14  39  			break;
-59b86a929daae04 Angela Czubak 2025-07-14  40  		case HID_HP_DURATIONLIST:
-59b86a929daae04 Angela Czubak 2025-07-14  41  			if (usage_hid > haptic->max_duration_id)
-59b86a929daae04 Angela Czubak 2025-07-14  42  				haptic->max_duration_id = usage_hid;
-59b86a929daae04 Angela Czubak 2025-07-14  43  			break;
-59b86a929daae04 Angela Czubak 2025-07-14  44  		default:
-59b86a929daae04 Angela Czubak 2025-07-14  45  			break;
-59b86a929daae04 Angela Czubak 2025-07-14  46  		}
-783df9659b1cddf Angela Czubak 2025-07-14  47  	}
-783df9659b1cddf Angela Czubak 2025-07-14  48  }
-783df9659b1cddf Angela Czubak 2025-07-14  49  EXPORT_SYMBOL_GPL(hid_haptic_feature_mapping);
-783df9659b1cddf Angela Czubak 2025-07-14  50  
-783df9659b1cddf Angela Czubak 2025-07-14 @51  bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
-783df9659b1cddf Angela Czubak 2025-07-14  52  				    struct hid_input *hi, struct hid_field *field)
-783df9659b1cddf Angela Czubak 2025-07-14  53  {
-f96e0cf76b31615 Angela Czubak 2025-07-14  54  	if (field->unit == HID_UNIT_GRAM || field->unit == HID_UNIT_NEWTON) {
-f96e0cf76b31615 Angela Czubak 2025-07-14  55  		haptic->force_logical_minimum = field->logical_minimum;
-f96e0cf76b31615 Angela Czubak 2025-07-14  56  		haptic->force_physical_minimum = field->physical_minimum;
-f96e0cf76b31615 Angela Czubak 2025-07-14  57  		haptic->force_resolution = input_abs_get_res(hi->input,
-f96e0cf76b31615 Angela Czubak 2025-07-14  58  							     ABS_MT_PRESSURE);
-783df9659b1cddf Angela Czubak 2025-07-14  59  		return true;
-f96e0cf76b31615 Angela Czubak 2025-07-14  60  	}
-783df9659b1cddf Angela Czubak 2025-07-14  61  	return false;
-783df9659b1cddf Angela Czubak 2025-07-14  62  }
-783df9659b1cddf Angela Czubak 2025-07-14  63  EXPORT_SYMBOL_GPL(hid_haptic_check_pressure_unit);
-783df9659b1cddf Angela Czubak 2025-07-14  64  
-783df9659b1cddf Angela Czubak 2025-07-14 @65  int hid_haptic_input_mapping(struct hid_device *hdev,
-783df9659b1cddf Angela Czubak 2025-07-14  66  			     struct hid_haptic_device *haptic,
-783df9659b1cddf Angela Czubak 2025-07-14  67  			     struct hid_input *hi,
-783df9659b1cddf Angela Czubak 2025-07-14  68  			     struct hid_field *field, struct hid_usage *usage,
-783df9659b1cddf Angela Czubak 2025-07-14  69  			     unsigned long **bit, int *max)
-783df9659b1cddf Angela Czubak 2025-07-14  70  {
-783df9659b1cddf Angela Czubak 2025-07-14  71  	if (usage->hid == HID_HP_MANUALTRIGGER) {
-783df9659b1cddf Angela Czubak 2025-07-14  72  		haptic->manual_trigger_report = field->report;
-783df9659b1cddf Angela Czubak 2025-07-14  73  		/* we don't really want to map these fields */
-783df9659b1cddf Angela Czubak 2025-07-14  74  		return -1;
-783df9659b1cddf Angela Czubak 2025-07-14  75  	}
-783df9659b1cddf Angela Czubak 2025-07-14  76  
-783df9659b1cddf Angela Czubak 2025-07-14  77  	return 0;
-783df9659b1cddf Angela Czubak 2025-07-14  78  }
-783df9659b1cddf Angela Czubak 2025-07-14  79  EXPORT_SYMBOL_GPL(hid_haptic_input_mapping);
-783df9659b1cddf Angela Czubak 2025-07-14  80  
-783df9659b1cddf Angela Czubak 2025-07-14 @81  int hid_haptic_input_configured(struct hid_device *hdev,
-783df9659b1cddf Angela Czubak 2025-07-14  82  				struct hid_haptic_device *haptic,
-783df9659b1cddf Angela Czubak 2025-07-14  83  				struct hid_input *hi)
-783df9659b1cddf Angela Czubak 2025-07-14  84  {
-783df9659b1cddf Angela Czubak 2025-07-14  85  
-783df9659b1cddf Angela Czubak 2025-07-14  86  	if (hi->application == HID_DG_TOUCHPAD) {
-783df9659b1cddf Angela Czubak 2025-07-14  87  		if (haptic->auto_trigger_report &&
-783df9659b1cddf Angela Czubak 2025-07-14  88  		    haptic->manual_trigger_report) {
-783df9659b1cddf Angela Czubak 2025-07-14  89  			__set_bit(INPUT_PROP_HAPTIC_TOUCHPAD, hi->input->propbit);
-783df9659b1cddf Angela Czubak 2025-07-14  90  			return 1;
-783df9659b1cddf Angela Czubak 2025-07-14  91  		}
-783df9659b1cddf Angela Czubak 2025-07-14  92  		return 0;
-783df9659b1cddf Angela Czubak 2025-07-14  93  	}
-783df9659b1cddf Angela Czubak 2025-07-14  94  	return -1;
-783df9659b1cddf Angela Czubak 2025-07-14  95  }
-783df9659b1cddf Angela Czubak 2025-07-14  96  EXPORT_SYMBOL_GPL(hid_haptic_input_configured);
-59b86a929daae04 Angela Czubak 2025-07-14  97  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>  /*
+>   * BUG word(s)
+> diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scatte=
+red.c
+> index dbf6d71bdf18..d5d4a573aaf7 100644
+> --- a/arch/x86/kernel/cpu/scattered.c
+> +++ b/arch/x86/kernel/cpu/scattered.c
+> @@ -50,6 +50,7 @@ static const struct cpuid_bit cpuid_bits[] =3D {
+>         { X86_FEATURE_MBA,                      CPUID_EBX,  6, 0x80000008=
+, 0 },
+>         { X86_FEATURE_SMBA,                     CPUID_EBX,  2, 0x80000020=
+, 0 },
+>         { X86_FEATURE_BMEC,                     CPUID_EBX,  3, 0x80000020=
+, 0 },
+> +       { X86_FEATURE_ABMC,                     CPUID_EBX,  5, 0x80000020=
+, 0 },
+>         { X86_FEATURE_AMD_WORKLOAD_CLASS,       CPUID_EAX, 22, 0x80000021=
+, 0 },
+>         { X86_FEATURE_PERFMON_V2,               CPUID_EAX,  0, 0x80000022=
+, 0 },
+>         { X86_FEATURE_AMD_LBR_V2,               CPUID_EAX,  1, 0x80000022=
+, 0 },
+> --
+> 2.34.1
+>
