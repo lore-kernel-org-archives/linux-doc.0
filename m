@@ -1,131 +1,225 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4062E6122
-	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 13:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029D72ECD17
+	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 13:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752586505; cv=none; b=p1Tyn04zhc4F8FW8hbyLuCn4Lw1qLdaLlDFvB3qQgj3QGV31PkDGmnuJZOm+vMsnNlpH62Z/ROsCF+bK+vTzWM5cDd+HKOwfm8wPWEb3UGhHXHUHcwNKG5kPoI1a9K4WqJ3gQb9S/fNBmzRinnsbcZSyaH0iobIRwoUHteWowHQ=
+	t=1752587638; cv=none; b=OL7Rxqv5jdA15vOPEMUlgbv0v31id/yQ4iRJiQRK/C1kcDbMjovjbvx9HhG2jXqwfQbKPdF4n3FarNN/6hANpNu0ZGdNjPlKeZ7xYSKeHyuR88aowROphAEcPJSNJP6J9sM/C6tjGPrESJSSHaIsNoRvJEdlpRr8ofRTJ92UZ+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752586505; c=relaxed/simple;
-	bh=FNkrpVUP8aBvhfjNdBg9m90d8eea1ssCdQUMoWqFo0g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=maB0dGqKnG1e7GVBlsU38gBnmO2pnVgKHhGutO5AlHAb6MKfp1RIibMrbPSszxH3pQW/f2oWHPUT1jcJsR/Tu8YPm6algZNYd/K3/5ktsLaGF3sA6bfeBwlPbP2YnfsSmDKZd9XMNaQtLAGYmiWSDicd8mpCS2Qsi2cVUVeBsQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Eg2xqcb4; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1752587638; c=relaxed/simple;
+	bh=uwwxjasqJO4igk7PtzbSMKJC28eJ5VJq6uwNzKFK2rA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aZXXXU0REvikLjqznkgRLvmcHMvojeOK1X5pTmtTEUS+vliGZVmAB9WV/b8cy1vR7B3woh78Ub4a+xhT2pLCqd7kB63pRgvqpKZR5quhHT2UcuhRVlbAhDJA2EmPqeACSu5PYCi1ds33sS0k8NRAdDK/CvKRFqsLepP14IX36GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GRJtgFS7; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Eg2xqcb4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752586502;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hna3RjrfnrkuE/vpT4GxFQWfy5w2zHOHWkjX7cFXw9A=;
-	b=Eg2xqcb4oNtXckM5xZlZdI+mEgxwRMtGUSQvQKxuQ0UxdnVADeBkK3m0vM+btNu1z5kyVO
-	e8JkYWIWlSoTrGfoxhkcfp49fzgpfMzPGnsIS0xIZdMOuwguGoDTs+uF8QBk5IL5GOLJO8
-	UNpfSHLpYTgopsPTgu/6q7HrMA/vTzQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-330-gVgSy7DCNyCRSF4rov5J6A-1; Tue, 15 Jul 2025 09:35:00 -0400
-X-MC-Unique: gVgSy7DCNyCRSF4rov5J6A-1
-X-Mimecast-MFC-AGG-ID: gVgSy7DCNyCRSF4rov5J6A_1752586499
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-455f79a2a16so32198675e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 06:35:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GRJtgFS7"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ae708b0e83eso680043066b.2
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 06:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1752587635; x=1753192435; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+emUCSqonhgPO/mBqwd8p0rIuEhAfbqyYT1Ou3tLrYA=;
+        b=GRJtgFS75TXsxrXHZgjPwGwVIuo4p8bh5lWkLM4qSoXskkfXsqON1K+7K/8+OBCgtY
+         Xy68Hsya4oDDkfcMAwumZsm+j3zUoT5bpDk/rR+TTINVao/YXpiz2C1bT1z/kV1Xlx6D
+         ZcUJH/SbkLYmusMHYv6vDdLY0XlhD25Kn8KZv4duza0Fb+Ea024ijfKH9FeejuHVN+Na
+         +M96n6M1twVL0oERpbxV3axL9r1JbzdVxzQEnOaU5WolYnM8cSyhmyEhA3SexzCjHIAP
+         4cm0UKIjsJgvBr+1Qtfyor+yi28TSbSENO3Iq1P8yGVtduH+vhSlph9HTambmdrItyda
+         TyaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752586499; x=1753191299;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hna3RjrfnrkuE/vpT4GxFQWfy5w2zHOHWkjX7cFXw9A=;
-        b=vSPeU5rh0W9DAsIYDFB8r3jYB+GcZ9wq/18eXg50AhGD8hFfLEdLJIqFHpxzs+3b6P
-         eZy0vBJrIC5w18cmKwbd7Zq2NCctiUlD049Jckg5661bo1Ef962z4ZRtGzKu36i2Lxd0
-         zfJ2pSRew/XV6W2PiuFLxS6w+H76sufzBPOzTrasJqL8mVpABvJek2prk9E2VXV2WrTu
-         LtHXZ82hgkc/aRzImd1LziMsalTjisz1StUOukv7yWnOLUhvi8eeAYtZ3zFHo43DAeJ8
-         qp4VNcsCzVRQ5cvDX2jE9nCDLEYpPDO+WFUl9wEmv54jpuSQf0nejLqWfUyymMYl5Ypd
-         gLsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXGNJcSLHK5sMuHjhKQC1T8CuG71l0duMLflDJu6oSsKoXjCE/wu3aSnag3lxwG1mApd47m7cLa/9U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywf7tL81QkN/y901ip6h+jO8YfkWfiNTuckxR3Wi0Qll7FrPhRy
-	I5xtmxoXblYBQyu7vhkbEjX84zDt+vpFwaaY0e1BXBYphdiTKPK5HoKtf4eYNJ/wW0myXm9XL8Y
-	MnQHJ4mb2t5FdlH/wpIKv1Rxm+lKeWHqFfBNXv3p68Ml+rLQ5uj5KYrS2T9Xt5w==
-X-Gm-Gg: ASbGncsKsfrqu91FvHK9s4O9pgnGghwzDbZY8EKur93pnvqttsIaIwp6dByfwbBIjpl
-	SJU60FJdwQA3F/Rss/s7Niv9S1UA6zTNPcV9GQqRnimkwiJ/Q1Pi7hB+lc4PY4brcqjPaU6FtHf
-	/O2NCog9dOWNiPH2kL7mE9gjzs1M7dLqugpy/jlhQHaLtGwyUMTQ9KvlZNvFY1gvM8rtff2Jsl5
-	FCow8LCTERWLxTpG2uNorUPjHyz+gJ5xzq3cxwAhy4L+D/7gksvJMRs5VwonglO5KeQKLrx9hgb
-	+vWEN3aauxtBZQCgnzM98C+SmuG0ekASm/kUclHXfLgq6ZvsG1nAfRG6nwqKlbLHKlmGT/DWArr
-	fYbCArfvG2OM=
-X-Received: by 2002:a05:600c:6295:b0:456:58e:318e with SMTP id 5b1f17b1804b1-4562771c329mr32530625e9.30.1752586499380;
-        Tue, 15 Jul 2025 06:34:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFFLt0H3ouwQHrfzti4Gau5tDX0PXneRZR47ct1MkwMEfPNZ/zhgGSAD+eLXD1StfdRkCurLQ==
-X-Received: by 2002:a05:600c:6295:b0:456:58e:318e with SMTP id 5b1f17b1804b1-4562771c329mr32530235e9.30.1752586498941;
-        Tue, 15 Jul 2025 06:34:58 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-456278a4460sm13752225e9.1.2025.07.15.06.34.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Jul 2025 06:34:58 -0700 (PDT)
-Message-ID: <cb12d567-6654-48b0-8443-522aaddcc406@redhat.com>
-Date: Tue, 15 Jul 2025 15:34:56 +0200
+        d=1e100.net; s=20230601; t=1752587635; x=1753192435;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+emUCSqonhgPO/mBqwd8p0rIuEhAfbqyYT1Ou3tLrYA=;
+        b=COR+YedBYYvaPFhn9ZwIq6sWqWmtynOOCxNrt0QneI/+ItjrRXKNyX0va7pZXkTfMx
+         6zlye/ZCbCSDtcXyVEIWDtGb0CV/VgGrNT3mzd7TbBefq1dHX53ajd6iKu8zJ4TWYYeO
+         ALE+FJcOQ4jcCZN8Si7xt+4baBS0Qug5b2MMgsXPM9aFVPes1UGcSecIQENUd0ASZyqh
+         P7ETtrqNxrxhsNZWJQDJPO7YiaMaerf+XpoRY15/Oj+Uoz1+n1/V5IMXgt1xKhb+uaCi
+         dJLeqNEAt93AfXlX/eN9Kw6LgPPjE2mGoyTQbkskEVUSYtXJld0LZefEojFybNnpZk+Y
+         ftfw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4vKL8I5mIxZ04z/ytHP2LJo95xN5qlACE1GO+ISKzClNxO4/nBS4dQmKPb5sydfH7JYQbOLigYfY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkbHwW08puAshlrDhJgK8ZyaadLMla6V5GUDSRwiA1LDykX0AQ
+	gZdcNnLCzTbqxUqgFJ9jwzpD5J2uSihQNmqTr2ckmm4ARuGWPFT0ayxj95Evs4LMpau+/79m7lQ
+	TIEPF0QbrjGKifWCSlnUFDXwfoVphYFZ+HagOk0Tr
+X-Gm-Gg: ASbGnctvUm6DInF9lDwx0cCudpL3/Gw/kQqkjaJbwyOSs+n1TNQczL53CmKMN9d+Yhy
+	D5FJ/7tnkLjKH7BAzPgc8n5S8EPCXUGCGiq1QWF/yFYJ5wMuFItAxWm+PUC0rWy3bUYha5VDEoa
+	eQgE04w2TL1/VdxpySZ4gY8SNRiVMzJNhvDRd+oL4H89aGK6AuZORJ1DnP4m75YhnRjveRJU/76
+	EAkpokWEka0iWv6c9Aq0tn2//hiyFtabB5HFesfRxwp+l+Z52EyNjjRRw4=
+X-Google-Smtp-Source: AGHT+IERF1/bo0VQBuoWVJ9tpQdiclnsg8TMQW/I/rho0GuxJPXxVFv2J9fakl2U5LCZCZQ8xTHhKdK/oecdr3Ua8ME=
+X-Received: by 2002:a17:906:d553:b0:ae6:c561:764a with SMTP id
+ a640c23a62f3a-ae6fbe131b4mr1920472066b.2.1752587634822; Tue, 15 Jul 2025
+ 06:53:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v6] ipv6: add `force_forwarding` sysctl to enable
- per-interface forwarding
-To: Gabriel Goller <g.goller@proxmox.com>,
- Nicolas Dichtel <nicolas.dichtel@6wind.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>,
- Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20250711124243.526735-1-g.goller@proxmox.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250711124243.526735-1-g.goller@proxmox.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1752013061.git.babu.moger@amd.com> <ef5934fc2b04654c7ff3e6bb910e7c5cf38ba62d.1752013061.git.babu.moger@amd.com>
+In-Reply-To: <ef5934fc2b04654c7ff3e6bb910e7c5cf38ba62d.1752013061.git.babu.moger@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Tue, 15 Jul 2025 15:53:43 +0200
+X-Gm-Features: Ac12FXy18Iy0Vh7y87naP_-8Yfnci7AJuMjWFtBmmx9YWoDFzxmVXKFcUP3ysqI
+Message-ID: <CALPaoCjN7-1fBF+6x1X4SfhRyx6L8aWaOfqOLQzKMRp=zHiyFg@mail.gmail.com>
+Subject: Re: [PATCH v15 28/34] fs/resctrl: Introduce mbm_assign_on_mkdir to
+ enable assignments on mkdir
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, tony.luck@intel.com, reinette.chatre@intel.com, 
+	james.morse@arm.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, Dave.Martin@arm.com, x86@kernel.org, 
+	hpa@zytor.com, akpm@linux-foundation.org, paulmck@kernel.org, 
+	rostedt@goodmis.org, Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, 
+	fvdl@google.com, seanjc@google.com, jpoimboe@kernel.org, 
+	pawan.kumar.gupta@linux.intel.com, xin@zytor.com, manali.shukla@amd.com, 
+	tao1.su@linux.intel.com, sohil.mehta@intel.com, kai.huang@intel.com, 
+	xiaoyao.li@intel.com, peterz@infradead.org, xin3.li@intel.com, 
+	kan.liang@linux.intel.com, mario.limonciello@amd.com, thomas.lendacky@amd.com, 
+	perry.yuan@amd.com, gautham.shenoy@amd.com, chang.seok.bae@intel.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/11/25 2:42 PM, Gabriel Goller wrote:
-> It is currently impossible to enable ipv6 forwarding on a per-interface
-> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
-> enable it on all interfaces and disable it on the other interfaces using
-> a netfilter rule. This is especially cumbersome if you have lots of
-> interface and only want to enable forwarding on a few. According to the
-> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
-> for all interfaces, while the interface-specific
-> `net.ipv6.conf.<interface>.forwarding` configures the interface
-> Host/Router configuration.
-> 
-> Introduce a new sysctl flag `force_forwarding`, which can be set on every
-> interface. The ip6_forwarding function will then check if the global
-> forwarding flag OR the force_forwarding flag is active and forward the
-> packet.
-> 
-> To preserver backwards-compatibility reset the flag (on all interfaces)
-> to 0 if the net.ipv6.conf.all.forwarding flag is set to 0.
-> 
-> Add a short selftest that checks if a packet gets forwarded with and
-> without `force_forwarding`.
-> 
-> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
-> 
-> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
-> Acked-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Hi Babu,
+
+On Wed, Jul 9, 2025 at 12:22=E2=80=AFAM Babu Moger <babu.moger@amd.com> wro=
+te:
+>
+> The "mbm_event" counter assignment mode allows users to assign a hardware
+> counter to an RMID, event pair and monitor the bandwidth as long as it is
+> assigned.
+>
+> Introduce a user-configurable option that determines if a counter will
+> automatically be assigned to an RMID, event pair when its associated
+> monitor group is created via mkdir.
+>
+> Suggested-by: Peter Newman <peternewman@google.com>
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
-> v6: 
->     * rebase
->     * remove brackts around single line
->     * add 'nodad' to addresses in selftest to avoid sporadic failures
+> v15: Fixed the static checker warning in resctrl_mbm_assign_on_mkdir_writ=
+e() reported in
+>      https://lore.kernel.org/lkml/dd4a1021-b996-438e-941c-69dfcea5f22a@in=
+tel.com/
+>
+> v14: Added rdtgroup_mutex in resctrl_mbm_assign_on_mkdir_show().
+>      Updated resctrl.rst for clarity.
+>      Fixed squashing of few previous changes.
+>      Added more code documentation.
+>
+> v13: Added Suggested-by tag.
+>      Resolved conflicts caused by the recent FS/ARCH code restructure.
+>      The rdtgroup.c/monitor.c file has now been split between the FS and =
+ARCH directories.
+>
+> v12: New patch. Added after the discussion on the list.
+>      https://lore.kernel.org/lkml/CALPaoCh8siZKjL_3yvOYGL4cF_n_38KpUFgHVG=
+bQ86nD+Q2_SA@mail.gmail.com/
+> ---
+>  Documentation/filesystems/resctrl.rst | 16 ++++++++++
+>  fs/resctrl/monitor.c                  |  2 ++
+>  fs/resctrl/rdtgroup.c                 | 43 +++++++++++++++++++++++++++
+>  include/linux/resctrl.h               |  3 ++
+>  4 files changed, 64 insertions(+)
+>
+> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesy=
+stems/resctrl.rst
+> index 06c8c08d0341..f9e9a8a66cae 100644
+> --- a/Documentation/filesystems/resctrl.rst
+> +++ b/Documentation/filesystems/resctrl.rst
+> @@ -354,6 +354,22 @@ with the following files:
+>           # cat /sys/fs/resctrl/info/L3_MON/event_configs/mbm_total_bytes=
+/event_filter
+>            local_reads,local_non_temporal_writes
+>
+> +"mbm_assign_on_mkdir":
+> +       Determines if a counter will automatically be assigned to an RMID=
+, event pair
+> +       when its associated monitor group is created via mkdir. It is ena=
+bled by default
+> +       on boot and users can disable by writing to the interface.
+> +
+> +       "0":
+> +               Auto assignment is disabled.
+> +       "1":
+> +               Auto assignment is enabled.
+> +
+> +       Example::
+> +
+> +         # echo 0 > /sys/fs/resctrl/info/L3_MON/mbm_assign_on_mkdir
+> +         # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_on_mkdir
+> +         0
+> +
+>  "max_threshold_occupancy":
+>                 Read/write file provides the largest value (in
+>                 bytes) at which a previously used LLC_occupancy
+> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
+> index 0722e72f6cb1..ccca2330eebd 100644
+> --- a/fs/resctrl/monitor.c
+> +++ b/fs/resctrl/monitor.c
+> @@ -984,6 +984,8 @@ int resctrl_mon_resource_init(void)
+>                 resctrl_file_fflags_init("available_mbm_cntrs",
+>                                          RFTYPE_MON_INFO | RFTYPE_RES_CAC=
+HE);
+>                 resctrl_file_fflags_init("event_filter", RFTYPE_ASSIGN_CO=
+NFIG);
+> +               resctrl_file_fflags_init("mbm_assign_on_mkdir", RFTYPE_MO=
+N_INFO |
+> +                                        RFTYPE_RES_CACHE);
+>         }
+>
+>         return 0;
+> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+> index 4889e7556cc7..b7289ce2b3a6 100644
+> --- a/fs/resctrl/rdtgroup.c
+> +++ b/fs/resctrl/rdtgroup.c
+> @@ -1987,6 +1987,42 @@ static ssize_t event_filter_write(struct kernfs_op=
+en_file *of, char *buf,
+>         return ret ?: nbytes;
+>  }
+>
+> +static int resctrl_mbm_assign_on_mkdir_show(struct kernfs_open_file *of,
+> +                                           struct seq_file *s, void *v)
+> +{
+> +       struct rdt_resource *r =3D rdt_kn_parent_priv(of->kn);
+> +
+> +       mutex_lock(&rdtgroup_mutex);
+> +       rdt_last_cmd_clear();
+> +
+> +       seq_printf(s, "%u\n", r->mon.mbm_assign_on_mkdir);
+> +
+> +       mutex_unlock(&rdtgroup_mutex);
+> +
+> +       return 0;
+> +}
+> +
+> +static ssize_t resctrl_mbm_assign_on_mkdir_write(struct kernfs_open_file=
+ *of,
+> +                                                char *buf, size_t nbytes=
+, loff_t off)
+> +{
+> +       struct rdt_resource *r =3D rdt_kn_parent_priv(of->kn);
+> +       bool value;
+> +       int ret;
+> +
+> +       ret =3D kstrtobool(buf, &value);
+> +       if (ret)
+> +               return ret;
+> +
+> +       mutex_lock(&rdtgroup_mutex);
+> +       rdt_last_cmd_clear();
+> +
+> +       r->mon.mbm_assign_on_mkdir =3D value;
+> +
+> +       mutex_unlock(&rdtgroup_mutex);
+> +
+> +       return 0;
 
-I'm sorry, but it still does not apply. Please rebase again and re-submit.
+I noticed that "echo 0 > mbm_assign_on_mkdir" never completes. This
+should return nbytes.
 
 Thanks,
-
-Paolo
-
+-Peter
