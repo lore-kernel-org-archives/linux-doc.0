@@ -1,144 +1,158 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747371F19A;
-	Tue, 15 Jul 2025 19:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D279241122
+	for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 19:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752606069; cv=none; b=SwoBYjo2Uwp9gybbGLreqWkyINXmb9fGmUz3KRPnj6IzSrKKkPxEjWC1d4u7CpSiGR7cSopEhlpfST8I3VvOLQVjJP0R2lmWmargkcFHqo/bV3M1FvOObE0YZywDJU104n0AJspNLTvmOFdyCScFRV6UNwJhE429NnAX8zuubs0=
+	t=1752606994; cv=none; b=LzCw/+Z1GStNusidMmKsa1vJvkSCtVSQmRjMAs1X+QCWZfqCCwfl1Apy9e8b47AL37ooPjmQNkax7ck/stUVN7TABIfCF2XtyOyso4Hp0J3AazyYWZLRDlCcAT4GYLswits0lYM8Pzm9j41b0ZWIvon7DXSHf0JWgr8n+9R5C1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752606069; c=relaxed/simple;
-	bh=DzC7FSQt83sXsaK/PxNQFpXQ0m8C+erLEI5dnUrtrxY=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=djw4d25y0n1h5vvRTkSy3cgC7MWd+SSJDhicLvbbjdDJ28lTsmSPUQ18Xu+b1SkjUolQ0S7Dc1GMn487Mk5X1QWpqnaRDgRfjMqBbo7RT4gxiH2Qh6lRqd7TjQmnKRTpPkoGaRhoBF7GR8NdpGNQWFLbdOLC1LMqnjflrOgPydM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=YlqART+8; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1752606994; c=relaxed/simple;
+	bh=jmEenBBnJcPJ6JLSnRvcrVhxo7jKKE5kjzYF95A58vQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jg9HeZ0FUuI+e2aC3wh+hjDSp5Lqux4n7TzZIhVNCacsh3o5O7QY+bVzb125cPX6SjdZee/60t5abHUK/yA2gwmGIctaVtxUnTI8jh19tuYx546PsgyNtKh+ZEfOUgv2l3cAz2pEXEgctn7MMNVGyYr1QEl//Dll/mGd6HRmdEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=k4G5FLYV; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="YlqART+8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1752606046; x=1753210846; i=markus.elfring@web.de;
-	bh=07Pa+856qEFo2V8QLHWyjRVReH2nqIS67HTT5nxhfOk=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=YlqART+8hV4BjX8nIa1p1U1XIq6cMK4oq/sNYbg+BRCAgkbFyU3hy8SF6VJYB6Bd
-	 j1zljrTLkiJP4BeqcT4Fxu4J+tcjCd1VzV6GevRjADnnfYJkkusgl6h8hxuQZwD/9
-	 g8KGrSHju4LPMI40i/se8wkgTluvtmSKUm+Gio+6bXt5pu6WR7YdrFZAueSWehD13
-	 nji8FJe9Cn4QCp5mGTF6nfW9UmUSBK2ygpELGBG5hinTScx2L4JZvB0FkrZTcozuY
-	 etYcKaW3ykkUB5LAurgQL3gE4BeE7vNB9pPE2ibwgxSeTtftG6rNM0jk81EOjoj94
-	 RnDYwDzn/nPjeX0t3A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.1]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mmymz-1v0bWr1u3L-00dCx2; Tue, 15
- Jul 2025 21:00:46 +0200
-Message-ID: <01498bc3-4885-4b6e-a437-af3dca58f187@web.de>
-Date: Tue, 15 Jul 2025 21:00:43 +0200
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="k4G5FLYV"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4ab60e97cf8so34936051cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 12:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1752606992; x=1753211792; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EyWMZNHH8t0HhJoB77UysafRoavoppKyzNMNzqOvChI=;
+        b=k4G5FLYV7bs+tpC6ndMGLj+mSrqSyctAEH6RaNim3NJmvSrUn1EkTS+66geC66nhEo
+         Qn84B9GfGOEWIxCOZnEi3wOd7lvDia3j5JlI6OWnPP1XN8Ui37F5AvjflaGrBXSRbM2J
+         1pYiUQ7MEceodNTVBmh49Qq5/cOCpj0cwQzA9PIWSrRNzguRvVg4pOlgv2RM30vQWust
+         xbNJnozB6gcZvjcimiGFgDLBc3I4ItzmlIIlxth7TSTr8yg2kczFtH3mxucAUJzEenBr
+         k5Kjw7tlIPUTuolUm+PfsulCMxyeLgquZAQCnPfpgosDncccyVoaNPu++IQTzQtflme0
+         dkCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752606992; x=1753211792;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EyWMZNHH8t0HhJoB77UysafRoavoppKyzNMNzqOvChI=;
+        b=AhgddA5PTcw33Ir8bt7oNRTGBlMUs9J+QrFlOQmMMOJ2J942BHEsVBfKDOqiwTLto4
+         g6BW8ruhlpuovKjoNdXHagYCqJbX5qvhfcXwkoD2Ql1oPRv8/fSb4z8S277pxrk2y/7Y
+         BV3icmTT+zDw2V/WLZtuAmCx7hVesJtpLrWnQ1zEtz3uz1s7PhbdjOkb097b+lXHS+CO
+         EwxzRl/YreQPtqZd1d8/7IaFe9doCCgdD5XEdM9W4uSqbZngtGt0iGL2fL3WsmGGeprI
+         b+vS1j0wkL+CzsR5apLQsCaBeYOlE8SM9kPUnU47tgRzwlCnRZVVjtxVHlA6/dK4qSZ9
+         Y1bA==
+X-Forwarded-Encrypted: i=1; AJvYcCVT15PpuKxnbXQtv4LsNn5DYGzhJ0EWifpcq7byQj4elj74uzelUbRyL0Fc5wvMr+CxaOwx1iUErxM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUxXrHn/VlSJvqJF4RZS7FjFXBrQ+ce+4WBe5Zs1p2Hia3LyiQ
+	eNdkNfbWCLuqUmKGrNDd+Ez4QUc+uOK+l3XuqHbrqyR6nMSTxvPfelhXVHgXCaS145s=
+X-Gm-Gg: ASbGncufHC6oxNu4kGFArPTTd/AzSWe1ocyFiVp5id8+lf8rwAtjOhGm2VeQ+qAHB9h
+	/vAJFYDX6MzO+E0wvXkITXpZEEbIZgNLQXaz+PEmV/vSY/vi2PhbkJnA5VxchEnmqZ6bv8w9dq5
+	JbthBeIY2z/m5q8G0qQkX9QwR46H1cMZ9Q/kLzDUjUOzUV7KvS9z0aDMtKHOeU7tjCwPC5gXcXA
+	S76O2qJ8CbHFHS2MI6rO/P6QgV7Swra+unx9qd7Dwa4D+G6QAK1yMQ6zCs4scFmsHHC0A00Cjkr
+	tHralT71a/asjA72/VMLUkFCNN8lMymdGb6jE0McItM/pMEsvOLG9isKK7dSmshoHnfeztBKOK6
+	9P8MUibNiwtCVMCjIDNTM+U5LHZpElCq2+VJkJaf4YNWQ5auLS9Q28XhQn4m5siOUZd5h4NpW1g
+	==
+X-Google-Smtp-Source: AGHT+IFNu6OS2CHvkVX/AFP0Ggu6QTgX/HryXXNt8GtSiABsUgLTgba9EtOOht2y1gHxuQnp05k70A==
+X-Received: by 2002:ac8:5acc:0:b0:4a6:f9b0:2093 with SMTP id d75a77b69052e-4ab90cf6cfamr9216651cf.46.1752606991715;
+        Tue, 15 Jul 2025 12:16:31 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.56.70])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a9edc593edsm64349751cf.21.2025.07.15.12.16.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 12:16:30 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1ubl8f-00000008tB4-2UzY;
+	Tue, 15 Jul 2025 16:16:29 -0300
+Date: Tue, 15 Jul 2025 16:16:29 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Abhijit Gangurde <abhijit.gangurde@amd.com>, shannon.nelson@amd.com,
+	brett.creeley@amd.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+	andrew+netdev@lunn.ch, allen.hubbe@amd.com, nikhil.agarwal@amd.com,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Boyer <andrew.boyer@amd.com>
+Subject: Re: [PATCH v3 10/14] RDMA/ionic: Register device ops for control path
+Message-ID: <20250715191629.GA2116306@ziepe.ca>
+References: <20250702131803.GB904431@ziepe.ca>
+ <20250702180007.GK6278@unreal>
+ <bb0ac425-2f01-b8c7-2fd7-4ecf9e9ef8b1@amd.com>
+ <20250704170807.GO6278@unreal>
+ <15b773a4-424b-4aa9-2aa4-457fbbee8ec7@amd.com>
+ <20250707072137.GU6278@unreal>
+ <1a7190d4-f3ef-744c-4e46-8cb255dee6cf@amd.com>
+ <20250707164609.GA592765@unreal>
+ <76a68f62-1f73-cc81-0f5b-48a6982a54c7@amd.com>
+ <20250713062753.GA5882@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Gabriel Goller <g.goller@proxmox.com>, netdev@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, David Ahern <dsahern@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Nicolas Dichtel <nicolas.dichtel@6wind.com>, Paolo Abeni
- <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
- Simon Horman <horms@kernel.org>
-References: <20250711124243.526735-1-g.goller@proxmox.com>
-Subject: Re: [PATCH net-next v6] ipv6: add `force_forwarding` sysctl to enable
- per-interface forwarding
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250711124243.526735-1-g.goller@proxmox.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7kGtyvJj1FDTVdwnxIFDmsgAERx5RXZBaqIFcRPYJYMOMJdR7JC
- 0gOhI0j81bFvBKKRANw8p/bqAJv+UhuNLhig9jvowCOr2T0tB3tYYTpQ3pnCakyim5XpjRy
- 9iEqMkoFME6TaZ6DH6GzhMuYVFKWsWgcxEZbfZuJHPz0KJvgo9oPNwIMIaBlFWqM5DhR6/x
- QRjrO4CZCd6QmvTEXiJww==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:VEMtaAZMOok=;kH4kcySVQdCULVBcGPtpLlS1G41
- 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
- 5JzMNgP8gGUPlSzbQPlPeZJkIc20C0SiANI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250713062753.GA5882@unreal>
 
-=E2=80=A6
-> a netfilter rule. This is especially cumbersome if you have lots of
-> interface and only want to enable forwarding on a few. According to the
+On Sun, Jul 13, 2025 at 09:27:53AM +0300, Leon Romanovsky wrote:
+> Let's do what all other drivers do, please. I prefer simplest solution
+> and objects that can potentially be around after verbs objects were
+> cleaned doesn't sound right.
 
-  interfaces?
+I think it is OK, at least QP makes sense and matches some other
+drivers.
 
++static void ionic_qp_event(struct ionic_ibdev *dev, u32 qpid, u8 code)
++{
++       struct ib_event ibev;
++       struct ionic_qp *qp;
++
++       rcu_read_lock();
++       qp = xa_load(&dev->qp_tbl, qpid);
++       if (qp)
++               kref_get(&qp->qp_kref);
++       rcu_read_unlock();
++
 
-=E2=80=A6
-> To preserver backwards-compatibility reset the flag (on all interfaces)
-=E2=80=A6
+The above is an async event path, and the kref is effectively the open
+coded rwlock pattern we use often.
 
-  preserve?
+The unlock triggers a completion:
 
++       kref_put(&qp->qp_kref, ionic_qp_complete);
++static inline void ionic_qp_complete(struct kref *kref)
++{
++       struct ionic_qp *qp = container_of(kref, struct ionic_qp, qp_kref);
++       
++       complete(&qp->qp_rel_comp);
++}
 
-=E2=80=A6
-> ---
-> v6:=20
->     * rebase
->     * remove brackts around single line
-=E2=80=A6
+Which acts as the unlock. And then qp destruction:
 
-               brackets?
++int ionic_destroy_qp(struct ib_qp *ibqp, struct ib_udata *udata)
++{
++       kref_put(&qp->qp_kref, ionic_qp_complete);
++       wait_for_completion(&qp->qp_rel_comp);
 
+Which is the typical "write" side of the lock.
 
-Regards,
-Markus
+So this is all normal, the qp doesn't outlive destroy, destroy waits
+for all the async event deliver to complete. It has to, we free the
+underlying memory in the core code.
+
+As long as the other case are like this it is fine
+
++       xa_erase_irq(&dev->qp_tbl, qp->qpid);
++       synchronize_rcu();
+
+This should go away though, don't like to see synchronize_rcu(). The
+idea is you kfree the QP with RCU. But the core code doesn't do that..
+
+So in the short term you should take the lock instead of using rcu:
+
+       xa_lock(&dev->qp_tbl);
+       qp = xa_load(&dev->qp_tbl, qpid);
+       if (qp)
+               kref_get(&qp->qp_kref);
+
+Jason
