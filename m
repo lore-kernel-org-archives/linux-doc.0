@@ -1,74 +1,70 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238D31CAA79;
-	Tue, 15 Jul 2025 17:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F701289375;
+	Tue, 15 Jul 2025 17:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752601084; cv=none; b=cAtH6OG1pC2zbSTBv78GqnRxJ0FEa3qlvLy40ZQoP/u9zUNxgceGNtyKu/dtULrWT3XtT5Pw3ws1HZoBT8RlsKAaBTNWQ8lgGqPWzoi+Kdqh+8WrHgUi0blbC/dSIUqy4CjbUOFGfChl7Evq72XO3tsQPfqGaV3Qz6noDvLYBoU=
+	t=1752602367; cv=none; b=PDj81tHZ6kJxu6ggjYt1LCW4QSrrQmKFmnvdWC7sQxfVcII0ylsQDJ5JvMRC8iM+14YrBpLprJZyNvQ04WZBJKtphIi9AUhh3+lERggAEuwS7coWnf4fN7i2FUG0se6IwJj8ZCxgHAJl7628f0wdm93qVk16k3gGmVSIPrakk5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752601084; c=relaxed/simple;
-	bh=RokskiVnHeDOIkG3Zrje271ADxomOe2tpD8OefT3e48=;
+	s=arc-20240116; t=1752602367; c=relaxed/simple;
+	bh=pGWjgJnPdhc6fxanyYZ44FtDswTCW9PE9eD1cW30BAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S2Mlo0vdUB/bIhbnUo06M6uHBj3OGH4FgV0MFhHJZg7iXN8ttIQzGTD0mfkB/7+t74p3Q6Ph5g/yRF75dWOOc6LFPkZCaM+mJCBIwq0/XG1nLC4mVXotkZf+DDIh0mOh418TNrr3yMZ/rng8yxBJT50dC44Dws4ur9/qkgOS+8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eCrHXFKl; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GePeyNBtlfpaC0N/WTekde58t1h9wTLkzjlpr6r/ZIAXYv6rlarLuBAH+oeKm6bJ3wG9gfKt6g20DORW36Umj3EEkt62moQpJydvfUjXDVTAI991C9aClAeeLI0LYlHdm+gyxQVQvzgoagqw5bcAWS40pYOMncM1qzlcxrYAM+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgVSePaI; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eCrHXFKl"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-235f9e87f78so52434855ad.2;
-        Tue, 15 Jul 2025 10:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752601081; x=1753205881; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VJc/XmJl+S7tRYzSOTC45bBg3wo1MIlmmMY6O7r1Xss=;
-        b=eCrHXFKl+mVNOYHR96pgXBXsQImEGykBxhxnMroM/ZoNC6fWsci/Waz0iWtF2n93vf
-         ZF2D7LY4RGWqYBX3RAqqXvLNsDJmhd87lw2zqh6oVd/j1u/APU6fGXzIzEcSohpWhnFS
-         WzhmpDkAgwBTC/5C6cacCOzXTm0YSkb3s7cvcj0t/fCb+57x4IiNbmOf9XN7UVKsHoAy
-         m2bAgauJRwE+auqzAovJXJGfkAt45h2vU5j08nlLaRlWXDhf7ptjRttv+E3eISh3eQR0
-         Ry6mBSsn+7A5vfz6vORGv9ypmhuE9B2rgzkGCVo+ey0Zih6T5Y2fWaPO1Klb2v4ILW+Z
-         hkEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752601081; x=1753205881;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VJc/XmJl+S7tRYzSOTC45bBg3wo1MIlmmMY6O7r1Xss=;
-        b=sh/eeGWAYudySxcR5ERzVTeQPXlSvyiOhHnJA10zKuRWbOK4LS7jmPk/AVGqCeZ60U
-         vUMVZ4SANnYWhbur5cwtWMmBqIZ/6iMDrOk521jW54vmW79k/Ok3J6+V2rZ9nU85Uh1V
-         TH7CAp29qecgCZNBKfrb8cw6o+eb0rSaTHTrAwCpOyhYAdUEvD7kGjPA2eR42wYboHQI
-         s4KtQ5WEDTQt9/I15yorEuYLJ28tcUk248GSZzQ1TBIsElJZLJDQlSt+gnrCWkNBB0fi
-         4x+Ful6LG75sPtVzStnFf36VL9X87MifiR/EBu63vUc/IEyXiJDnLWyDG0+QL19qVEYL
-         c9rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVTkmDmsiRve470mFJrZIHzfwaBIIcS2MbqUOXr50092gzYfRMBZk8NAaywCWjn7LCBlioJGMWtmV5HN8=@vger.kernel.org, AJvYcCV7jFNW5lle4uts7AgyHfYYB7lhnOUBDU76aBchl9IxelBDl61ZJmxtGddP62U5usnLsCuMycZkpGOyInFJ@vger.kernel.org, AJvYcCVPHE2rdpbmT4JdmoIfihndzCiR5BBHUIcyURfIuYJ3CpMqWR1oLzloojTI3KWV2vrk4eBKmc10oSc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVO7ET8PK4qx8cQbxnqyZqWvycHjNxtlsTRw0owQVibgMzwXxI
-	VMpTLPqMdCRJ1iwxrN/7Cn+enUQVCueHa+uRz4W0XkzSWf9kgKcqTfybjNLptg==
-X-Gm-Gg: ASbGncvJ5FDjD94rkb6W3/Pfyn3QPrN9x7HZlewJrCo9FHDlsk63LIPKnyOrhjq+6l8
-	Y0Bj2R1q2G4bBsOLymH201R/boUvfEeXkNkeUqkM5VpxWqLtbM1s9E52FXAeOzRxPRYtTj9Rff/
-	7nPKUPIkpcg72AmlnYTsnD/AGFF/tjcd9RD/oB3/4ShifZ7rxNeMAWQp0khCCqwlN7aRa2EwhU9
-	rltz5QA0Mq2rXPkXwMrpa6ydz6/GyqhFnoqJJqMhzc3elf+BreKtZRhpVUmorvLzPEkNecE9f9C
-	gy994dkIiLcu0mT9r7pmXDEXlw1qpJt+BuHIBWxKPqKey1i63I+btLsiEx5j6lO7f4U24o3WRUW
-	vun2A8i6EV9w9L+CKb7KIaHTfv1spKrzbsI4=
-X-Google-Smtp-Source: AGHT+IFDx7osl3hyBqFwE1F8HYPIldvFoWsc6rInox4Un+XQ97hWb9Rm9pMGGTV5j+tjtbkS76vbvg==
-X-Received: by 2002:a17:902:e947:b0:234:9092:9dda with SMTP id d9443c01a7336-23dede7d49bmr328233875ad.24.1752601081050;
-        Tue, 15 Jul 2025 10:38:01 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de433e527sm116815505ad.187.2025.07.15.10.37.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 10:38:00 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 15 Jul 2025 10:37:59 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Jonas Rebmann <jre@pengutronix.de>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Wenliang Yan <wenliang202407@163.com>,
-	kernel@pengutronix.de
-Subject: Re: [PATCH] hwmon: ina238: Report energy in microjoules
-Message-ID: <a42af051-c9d2-44bc-a8ca-2dcbe9380863@roeck-us.net>
-References: <20250715-hwmon-ina238-microjoules-v1-1-9df678568a41@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgVSePaI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752602365; x=1784138365;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pGWjgJnPdhc6fxanyYZ44FtDswTCW9PE9eD1cW30BAE=;
+  b=IgVSePaIrZ5zYk+ADsYR3JY8anq2cDIeU6whcrDWCzFiECvbXoF70yhw
+   g8ZdbfmO3u+NjWl06maQ2fQa++/TCtugkqghTPUI+hvshLcG+Nbpw80mF
+   wdo/MJaqTM9s1WkRraqBeRyrj8o0MiYLAyp3ZeMfvqW6Zu0IMMAtDzc1n
+   thTr6vlRtYbS4oGXLJyEltuKwaYrVcR8aiK78BYnCvEv736i9S6TLLTvr
+   epY5Je63pVCaxS8mJ2AAQ9ZSsBt0m8ObhE7uAsFC5izLMtUuqJfrq08ic
+   tHCcF6wyv64jUoiLQGLwgfP1ac0OTLYLPbOWqPlme2APW5s61NuJoyEmz
+   A==;
+X-CSE-ConnectionGUID: HS8wq2aPQK+L/V/Xj8/0ag==
+X-CSE-MsgGUID: tWcPbZHqQ9ugnc6Iahpg1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58488313"
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="58488313"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 10:59:25 -0700
+X-CSE-ConnectionGUID: zbQificGQ6SQHgfamneVcA==
+X-CSE-MsgGUID: Nr8pyyslSZW3SyFUOS5XWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="161838950"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 15 Jul 2025 10:59:19 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubjvw-000BPn-01;
+	Tue, 15 Jul 2025 17:59:16 +0000
+Date: Wed, 16 Jul 2025 01:58:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Roman Kisel <romank@linux.microsoft.com>, alok.a.tiwari@oracle.com,
+	arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
+	dave.hansen@linux.intel.com, decui@microsoft.com,
+	haiyangz@microsoft.com, hpa@zytor.com, kys@microsoft.com,
+	mhklinux@outlook.com, mingo@redhat.com, rdunlap@infradead.org,
+	tglx@linutronix.de, Tianyu.Lan@microsoft.com, wei.liu@kernel.org,
+	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, apais@microsoft.com,
+	benhill@microsoft.com, bperkins@microsoft.com,
+	sunilmut@microsoft.com
+Subject: Re: [PATCH hyperv-next v4 04/16] arch/x86: mshyperv: Trap on access
+ for some synthetic MSRs
+Message-ID: <202507160105.yQ34bnKl-lkp@intel.com>
+References: <20250714221545.5615-5-romank@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,76 +73,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715-hwmon-ina238-microjoules-v1-1-9df678568a41@pengutronix.de>
+In-Reply-To: <20250714221545.5615-5-romank@linux.microsoft.com>
 
-On Tue, Jul 15, 2025 at 03:02:41PM +0200, Jonas Rebmann wrote:
-> The hwmon sysfs interface specifies that energy values should be
-> reported in microjoules. This is also what tools such as lmsensors
-> expect, reporting wrong values otherwise.
-> 
-> Adjust the driver to scale the output accordingly and adjust ina238
-> driver documentation.
-> 
-> Fixes: 6daaf15a1173 ("hwmon: (ina238) Add support for SQ52206")
-> Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
+Hi Roman,
 
-Applied.
+kernel test robot noticed the following build errors:
 
-Guenter
-> ---
-> This is a fix for a bug introduced into ina238.c recently (6daaf15a1173
-> ("hwmon: (ina238) Add support for SQ52206")) and merged into
-> v6.16-rc1.
-> 
-> Jean, Guenter, can you include this for 6.16, please?
-> ---
->  Documentation/hwmon/ina238.rst | 2 +-
->  drivers/hwmon/ina238.c         | 8 ++++----
->  2 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> 
-> ---
-> base-commit: 155a3c003e555a7300d156a5252c004c392ec6b0
-> change-id: 20250715-hwmon-ina238-microjoules-3d8edaa5ded0
-> 
-> Best regards,
-> 
-> diff --git a/Documentation/hwmon/ina238.rst b/Documentation/hwmon/ina238.rst
-> index d1b93cf8627f352612f17953c62efc5ef5596fe5..9a24da4786a43f7493b364b005b2ae9992c3b10d 100644
-> --- a/Documentation/hwmon/ina238.rst
-> +++ b/Documentation/hwmon/ina238.rst
-> @@ -65,7 +65,7 @@ Additional sysfs entries for sq52206
->  ------------------------------------
->  
->  ======================= =======================================================
-> -energy1_input		Energy measurement (mJ)
-> +energy1_input		Energy measurement (uJ)
->  
->  power1_input_highest	Peak Power (uW)
->  ======================= =======================================================
-> diff --git a/drivers/hwmon/ina238.c b/drivers/hwmon/ina238.c
-> index a4a41742786bd19e1c5dab34c7d71973527161a1..9a5fd16a4ec2a6d5a6cd5e8070d0442e1ef0135a 100644
-> --- a/drivers/hwmon/ina238.c
-> +++ b/drivers/hwmon/ina238.c
-> @@ -97,7 +97,7 @@
->   *  Power (mW) = 0.2 * register value * 20000 / rshunt / 4 * gain
->   *  (Specific for SQ52206)
->   *  Power (mW) = 0.24 * register value * 20000 / rshunt / 4 * gain
-> - *  Energy (mJ) = 16 * 0.24 * register value * 20000 / rshunt / 4 * gain
-> + *  Energy (uJ) = 16 * 0.24 * register value * 20000 / rshunt / 4 * gain * 1000
->   */
->  #define INA238_CALIBRATION_VALUE	16384
->  #define INA238_FIXED_SHUNT		20000
-> @@ -500,9 +500,9 @@ static ssize_t energy1_input_show(struct device *dev,
->  	if (ret)
->  		return ret;
->  
-> -	/* result in mJ */
-> -	energy = div_u64(regval * INA238_FIXED_SHUNT *	data->gain * 16 *
-> -				data->config->power_calculate_factor, 4 * 100 * data->rshunt);
-> +	/* result in uJ */
-> +	energy = div_u64(regval * INA238_FIXED_SHUNT *	data->gain * 16 * 10 *
-> +				data->config->power_calculate_factor, 4 * data->rshunt);
->  
->  	return sysfs_emit(buf, "%llu\n", energy);
->  }
+[auto build test ERROR on d9016a249be5316ec2476f9947356711e70a16ec]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/Documentation-hyperv-Confidential-VMBus/20250715-062125
+base:   d9016a249be5316ec2476f9947356711e70a16ec
+patch link:    https://lore.kernel.org/r/20250714221545.5615-5-romank%40linux.microsoft.com
+patch subject: [PATCH hyperv-next v4 04/16] arch/x86: mshyperv: Trap on access for some synthetic MSRs
+config: x86_64-buildonly-randconfig-002-20250715 (https://download.01.org/0day-ci/archive/20250716/202507160105.yQ34bnKl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160105.yQ34bnKl-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160105.yQ34bnKl-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `hv_set_non_nested_msr':
+>> arch/x86/kernel/cpu/mshyperv.c:91: undefined reference to `vmbus_is_confidential'
+
+
+vim +91 arch/x86/kernel/cpu/mshyperv.c
+
+    79	
+    80	void hv_set_non_nested_msr(unsigned int reg, u64 value)
+    81	{
+    82		if (hv_is_synic_msr(reg) && ms_hyperv.paravisor_present) {
+    83			/* The hypervisor will get the intercept. */
+    84			hv_ivm_msr_write(reg, value);
+    85	
+    86			if (hv_is_sint_msr(reg)) {
+    87				/*
+    88				 * Write proxy bit in the case of non-confidential VMBus.
+    89				 * Using wrmsrq instruction so the following goes to the paravisor.
+    90				 */
+  > 91				u32 proxy = vmbus_is_confidential() ? 0 : 1;
+    92	
+    93				value |= (proxy << 20);
+    94				native_wrmsrq(reg, value);
+    95			}
+    96		} else {
+    97			native_wrmsrq(reg, value);
+    98		}
+    99	}
+   100	EXPORT_SYMBOL_GPL(hv_set_non_nested_msr);
+   101	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
