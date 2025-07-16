@@ -1,210 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B05270EAA;
-	Wed, 16 Jul 2025 02:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752631513; cv=fail; b=Ed9xxYfWNaUDGDHP/YNyCXWB+cc1Z5JV11jj6D1wqahNixa7t4nhIWwedf/BKTEo6VMtiKZ9JrJON5VTXAzeoHuEpyLQclbX3UO6PuPe/wP9H3lYQx3i1THTk4oGyagO72HRD+epiMEKXx+Di3rPd647QWzYu7njYa3UljULuJI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752631513; c=relaxed/simple;
-	bh=hZ+D9Fclx1zTXL9/zTQg/4ukW6G0Yc+dobQa3hF3Lvk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=PinFE3Zkog7N7oBmfR2UWfLXb5Jj3SjVWcNI0nLjh1lk5SRS+H2kay2uUsZeIN00yb42fGoF9eVwQtuyt+wflQv4DhdGgqZKyYe4A9wxpzivigL5xT8dMxfppimvLzfClJqiPKzvndUnhtkACtLKdTJ+JIyee1ltTeB7x/geIw8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/3gDYqD; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18911214A64
+	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 02:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752631605; cv=none; b=uyg81QPh/n7esgF3p1E7SZCa1zafm65PCP8yTH1xQf529KytAkO3dsLhoy6Be9t3zChtl10ud/IVoTShVLFfImWRLpq1LhjZz3D5Lv6NamuZ3ZOmmq2YxvUQp3Inns70yBjVQZPLVNA+Ywmh7+SjEIluruhLYf8yx/aq+ic5/ss=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752631605; c=relaxed/simple;
+	bh=TPISs9NBFDN53Y3aUroY0WGCUZDIWplP0R+8uYAH4bo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LX+CSyNFBo0DJDpkySmA1cafFrcgFKQiDPS6QcRemndJ/nC0FvRHeBN+7KcFpgfdYaMIY1oPC9MCipt6dn24f/K5DTwwWRe3efZcYiOBrr3KbeZFZY4gDwoPwvgKTdxAb0/fZCWjadldXyTyt1cH2s+LklWRu+A6EbMoxq8v/kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=DSjdlGhS; arc=none smtp.client-ip=209.85.166.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/3gDYqD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752631512; x=1784167512;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=hZ+D9Fclx1zTXL9/zTQg/4ukW6G0Yc+dobQa3hF3Lvk=;
-  b=A/3gDYqD2+a1Pkbl1r6+56zXM9BORG+L+M96er/cIpwFklOboULUWksJ
-   nBOFv0/StzANP0tv/lWeLpUWClnB/vfXwlItMhEX4zOBO1YJ+BlmAbMQb
-   pXC2pG0Poy9H5v86FT8dY1gr/sn1b/ETUQdjzuWc0GktSvr+ocDwFDNXy
-   2sfQktI2F1HsBF8auTOYiRMFxFDazMywh5U5SUvBqeQ3k1j/KT8TRJ/0b
-   nJFNDPrMwbjfH3gZ7nTgCmvBD4Hq2EQ/iIciJ20hpxub6kYnSTAKAgoWQ
-   rnlf3+mrcaoTr6K/6QIJCk7omNsTD2BA7cuo05EuOt/Cxc1INiqVyVMca
-   Q==;
-X-CSE-ConnectionGUID: PcHiyCPCRY+geG9gPemadQ==
-X-CSE-MsgGUID: qECKTdmjT6eCLd0EFRSNVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54575459"
-X-IronPort-AV: E=Sophos;i="6.16,315,1744095600"; 
-   d="scan'208";a="54575459"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 19:05:11 -0700
-X-CSE-ConnectionGUID: 8yNzrBT7S2W/1HMQ86xQtQ==
-X-CSE-MsgGUID: D+xJ6BAEQlSoo8v0Oojw8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,315,1744095600"; 
-   d="scan'208";a="158097419"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 19:05:10 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Tue, 15 Jul 2025 19:05:09 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Tue, 15 Jul 2025 19:05:09 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (40.107.95.44) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Tue, 15 Jul 2025 19:05:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L5YKnYWkcfD0R05JQy8MSjtuQnnffgQ4ly2nq7I5TN2FSOPNZQBkBxkLaqXeHJ8ZRwEEu7cu+q1pqDaH2wq1ORfGXQ9mdiQnvURtlR0Kl7R41RBlSTTNocBir3Z+WTzBDRcyQHr8ByvEXQR/xJzMnZY2Bp1Ty58mBphbXJcBecExwa1mj27qxCRHP1XPWsEEuGjngfv0HT2MN8SzYrK8inO4TF+qIWB4AiBv/gI8mxcFttbJdzs48+3glWsBUqRMAWSmAQpx+bET14mWPa/YhKklnMmx6iMOHBir0l8H+nMEEOsva7TTudddA07uXPgD8DF4c/AvTj3Q3m5iALX7pQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IF7xMPY5iK6Fvnsw3nbdzBu2lEcGr8ZFf465azifljk=;
- b=vwSKLIG7MFDKMnJ1UEUXTvcasvZTYJ91LUGDYnzkJPt+2GawxizDu6nMx9U9XTmk7Lb8RPzPcv0QL4dX7zSqe1UzB6OmyPlvGyl4MQKCZzTp1Nf428DdRnBX9cpY/UDihZVRimaaZXkoFw4npAATJ4wori/B5n/yv2AbStdPtqADK6iy6nd5Fy7V/Oc2uSvl+ibtUpTOK/ZMJ/5qujsrN7VYTVLyUUcg5ZY5aI5LkJprv44TnyOfqeC85iQKZYeXXNNUXqUwuLxBluvXDNvP5Mn2tSomV1fsqDxVaRk7dfcGWTRjAzmj65SYm4Ix5HYumEYAl3SbSQnQ3t9PR3J2OQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA3PR11MB9254.namprd11.prod.outlook.com (2603:10b6:208:573::10)
- by BL3PR11MB6507.namprd11.prod.outlook.com (2603:10b6:208:38e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.27; Wed, 16 Jul
- 2025 02:05:06 +0000
-Received: from IA3PR11MB9254.namprd11.prod.outlook.com
- ([fe80::8547:f00:c13c:8fc7]) by IA3PR11MB9254.namprd11.prod.outlook.com
- ([fe80::8547:f00:c13c:8fc7%5]) with mapi id 15.20.8922.028; Wed, 16 Jul 2025
- 02:05:04 +0000
-From: "Song, Yoong Siang" <yoong.siang.song@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: "David S . Miller" <davem@davemloft.net>, Eric Dumazet
-	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov
-	<ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, "Jesper Dangaard
- Brouer" <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>
-Subject: RE: [PATCH bpf-next,v4 1/1] doc: clarify XDP Rx metadata handling and
- driver requirements
-Thread-Topic: [PATCH bpf-next,v4 1/1] doc: clarify XDP Rx metadata handling
- and driver requirements
-Thread-Index: AQHb9Vhr0Aafvgr6uUyDGhiaxQBAhLQz23GAgAAlxZA=
-Date: Wed, 16 Jul 2025 02:05:04 +0000
-Message-ID: <IA3PR11MB9254FD76B5402AE44F2CAC13D856A@IA3PR11MB9254.namprd11.prod.outlook.com>
-References: <20250715071502.3503440-1-yoong.siang.song@intel.com>
- <20250715164913.3ed08273@kernel.org>
-In-Reply-To: <20250715164913.3ed08273@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA3PR11MB9254:EE_|BL3PR11MB6507:EE_
-x-ms-office365-filtering-correlation-id: 1df5db3f-c3d5-49f5-d050-08ddc40d2e3a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?heGII9kUbB/cHAZtDogeyth/8ULpb5tF+wE8VzBxwUI9liAQtGnXCdWT1y91?=
- =?us-ascii?Q?Y6s6KATEMDHm0pV8ACxaYgpIH2sVZN/kNQMcNgFIwM232NeAU9W1NGMomR0f?=
- =?us-ascii?Q?xGcWocltvHpiJpACErfmxKXFB5FzTk9QCNqFTP59jytNRstZohWnKT/H4ls1?=
- =?us-ascii?Q?qGvCOCGQ1a6k+Gpc0Q2rcgGBTzTFMyVN8NV2shHzKAe53BCDiucjlUMFeiU5?=
- =?us-ascii?Q?hPdkqsACf4rqvOweSi1zHpcZINUGYIrz3E3icRjP3ksT+oChgmS4cD1QGv8u?=
- =?us-ascii?Q?bgMAoDFXCNPqysLwU12GWk+SVOHfV9rweUQxqg0rljUKNyVyAu0zfxe0sfWa?=
- =?us-ascii?Q?ezdLwNM9CYLhw96NgInwLO3BIXg5iblYDEPykOtJ4WL+RHz24ULY9XoxMnJU?=
- =?us-ascii?Q?VOTPu3a4rS9owkqI6SNM8G0vKvTKNS8S8KzzqffjDgMPSwW3flukVN7H6KHc?=
- =?us-ascii?Q?Mj+FRSzOoBxHLETEChDI98ocQDdBjXTwKjVPIv/ozt/9zHVd5KigmYJQfogR?=
- =?us-ascii?Q?vFCTF+GHkl1ZgZsGvQouonO2v2hbHtcG94l38sQFyNEECebW9mhJwSxlX1kw?=
- =?us-ascii?Q?WCUV8RlZJ0Gtmr9T2vmV9w5+tnLFHfQvf6W4xNtDsUt6tTvFoKlWAM4rfWHd?=
- =?us-ascii?Q?o1YyQLofti8N3u3SyKfPl4bYRcVmeyn7koW7+cqXhqWuDGouMJoVID21lsU5?=
- =?us-ascii?Q?hWy9TRvNUY38XheSa9YvVZaMMg2TsMU+AVEcUGu2qm+NOkwJDfugHAtTxnX8?=
- =?us-ascii?Q?dYXTbQc7K0S/i2OGxexFOCDi00+RAHGf5NUI7lfPnfExfZ8xQABfX1IJjJpg?=
- =?us-ascii?Q?hm0QqmcVKUnfWB8/QyXxOcFu1wumqREbLGdtkFMv6tm3MGgC/kjtS4P/aOcP?=
- =?us-ascii?Q?wnuKQLD7nT1w4iadEgrv26KvjmuRbqTQx7T86ljNlzgcP3PUg224ZFptzJyq?=
- =?us-ascii?Q?kzE5rLbrnfnkcnygSz3fBTSgmGwjJ7RylCpWN/+f7l3k5M6FONmBSeZ07S2z?=
- =?us-ascii?Q?w+bt0lU/b2U0L1jz78fTYd84WFua0r1o8+L8HcEOVPsBDaYUqtcVsG152cPQ?=
- =?us-ascii?Q?di8mLJHONf0nq+ADFaOTq5dUujCwfcmwlUVsAYNm2n1ldY2NOJOkut69iqE1?=
- =?us-ascii?Q?YfL4J4U7ehZoZHkUANA9kAmGuSKTY7CS49H+g+M/yu7w7v5A6DjMAaoH7lp1?=
- =?us-ascii?Q?MO6WD1pDvboMcHA379Ppy22hjfWP7K8z34ljutZJLiH7lTUxV2yj9SYWfJ4x?=
- =?us-ascii?Q?aYlbVrLyTcU4hEsEwMnpv5Btxq64OVOtDl+V4Jz/38fcWsrEUsUIyntCx0lu?=
- =?us-ascii?Q?nG4fySxXppVtEZ3NebdVZGvplQ5oR7hUok0U1EkHCpzwDgQx9h4tfQsZk8LF?=
- =?us-ascii?Q?tMputdqQxLL7/RD3Crmnc3aBQ6qJ7BNcfe4pnKus9FthJv43/M0Yun9STKwi?=
- =?us-ascii?Q?Or1q3m17j0l7MRDV3vV5CGG/aJDrVgkAJz1DivAF+x/oBQEtD7hpd/u0kvN9?=
- =?us-ascii?Q?j0nKRZnNFwntZQg=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9254.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?sP6lauBqM8wg7phw6SYNYt495db+wbGfF0Drk/vD2VEYxRX5Ucw+nPhOhqCX?=
- =?us-ascii?Q?9+2KkkB4WejdFljqZl1AhRa8B5Ge4i2pKVJ/5QMJYhKWUSiSBSGlkqL1HX71?=
- =?us-ascii?Q?KHdHkp0d4uuB+FyYkQnBpmGGoZalyaHTZrCHdX6hGVkb8Cc0fuig5UCkQ06J?=
- =?us-ascii?Q?w1hjYbv7waEcDt9Z5nPD9Ul6VTViTGMCvBnnyYSGEnk/pNXf6at7vLRtKsUX?=
- =?us-ascii?Q?Kwk+aX1D9XFTceuqViG51K3BiGstyf9EJcJZfBaYuzanrHAP5oHvrDU4A9ds?=
- =?us-ascii?Q?2sBzWv079bJjKU26OMH+YT0nVc37Pe+lNBWu77dQE3PKpmVnloLdRZ0N2E25?=
- =?us-ascii?Q?ULngny/kFfGTubeJAk2+3D2f9TJWA3QjjrAGQ+bef3F6VKJBx1SzPFOJtAn1?=
- =?us-ascii?Q?ATMQmroHYUrlXLBGqK83IC2hfFGds86h3hPy0VNHF1hfeejAK5cLGgvXidUp?=
- =?us-ascii?Q?zI4HxHIOnrjJMQmLBM/S4HzaqBGr/1c2E+beoeYe9jIlX+hQfOeuNz8wrQbm?=
- =?us-ascii?Q?cZEThODSUc8OehSMJbYTYa8g1mwTD7uPhORkO45ydhsIdyCgS89lqOePAiVd?=
- =?us-ascii?Q?MIzefLdZwp4dm1fUlciRPmYLK/s7LUwce5hZC5kZzo6VE5kCRWc/fctSMbnT?=
- =?us-ascii?Q?nygsubG1iR/fUmJldJrMIVq2rB6ht5G/HJze48T4pKI+BgmG5Ppf12AxzdCa?=
- =?us-ascii?Q?v8hfuHdXx9eK7GxEAyr67n/Fw1/7jrErfLoVKGFrVC1DmQHN6nkiuIn0fvkI?=
- =?us-ascii?Q?TADMvHc6X1Q3JRtk4jnbBggW3JRIN5qa+H+Kpf9z6rS50gAVDkHLedHH5GqY?=
- =?us-ascii?Q?F89OMTjGklkOCEcXyluAZWj3GeyTKqindPdGou6NpnLnXdspAOrTtPPi2G0W?=
- =?us-ascii?Q?mamxs/yGEv2YvOvtVjRf6XMyrdAFDRMV5qTVhLvZiEDhO+oRBzBHa1CkPlKn?=
- =?us-ascii?Q?WK0O2MtOtoQUDq/gkalY0l3rj384r1C/E24QfOwr6cT7eVCz7akCXuxcOkAD?=
- =?us-ascii?Q?OC14KxFrOLM1tWNpqBg3Pe/WYI5P+z9rrLaLwXECaHis0+j2cSi4I4motdaD?=
- =?us-ascii?Q?X0ktgLGZOlz0QSXGcT+gfa3a5TVTcOHE5ujRGRfbSnutdBVQSpDEOZSaK3eo?=
- =?us-ascii?Q?z4ghZ2L0su0gJ+8wzkBxNOCr1hHd03AZQ0UULqPi9YFzKbifuUT1wff0wNWE?=
- =?us-ascii?Q?FJ1eUVg1A79Z52oKPXB2kKzW0EuIY1zTEzj/B9su5u0xWViRbhh2Y6RuBfA6?=
- =?us-ascii?Q?BQWd/g2KIynn6WpOGAlcLdZ2wT9D+N2wq0MOOgJduhrBfMX3FOANgdJbdkGY?=
- =?us-ascii?Q?oM7zJLZkluoh9aVARmKhJzc4YTTvbJRanvTSZMpFw+VQGf5npJ6VsG4bk0gv?=
- =?us-ascii?Q?oCzoViJs99NS07j7b9PFTF2yeRgVWjmejxYBg8OdIA0c1Qtk7u0GOZxm/4r8?=
- =?us-ascii?Q?xFypklKWFK6qcKYWKEk1B6QoIg98JwJo6euKklq4xRsnJOiKjH0N1Dfyu/WZ?=
- =?us-ascii?Q?zO3mghhVicOBUq4JvNoqjQrvR2d2pVv1cgsdj4Tkn30hw49I7v6G/ynU8UMM?=
- =?us-ascii?Q?qMoI1Qi2qxCwXrQBkjND3l1C44SFr8tUoMV5JJ0UoCLkDszDZX5ZjnqTy/Cu?=
- =?us-ascii?Q?wQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="DSjdlGhS"
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3da73df6b6bso23265965ab.3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 19:06:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1752631601; x=1753236401; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5j+F9L1888D1/lTB0yjly7TVvzjMYjvETcZUaJXOGrM=;
+        b=DSjdlGhSODTU8fT6Aw9TLtMH3N/iEdSvZKxeVopfidb1K6wf7w5EDQ9Ap3T3hXmmm3
+         dbqTd+uHD6nWju+4hClirXyxT7tqwI1ClajTD27h2T+M20IeDnCBeUhVFFckars8M4Te
+         0tyqlNrmqeFfY//U9hCdO1XKgFiZurvto1vcWpZNHJFyoOwzcuGTn3aA3Pg4q+ioYjea
+         QaGfk09z9+T3438UoawbjtztZvyh8QXV+peewcAhO5zZyUQqPmyFm2ar2wVep5OrtEGB
+         GIMv1tx/LjrNBhHkjj1FMJFbD9C7zVsllD0sUJNs4zVrAS8X21N0MXCyaXGODKcnluG2
+         sv0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752631601; x=1753236401;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5j+F9L1888D1/lTB0yjly7TVvzjMYjvETcZUaJXOGrM=;
+        b=L0DMygwYZH4Wuc++k5dFE3e1AuBcyBdnFARMFOR9fZ1yUVGhtXO224uyPGUk+Tkfwl
+         F0irKWcvyKHWLc+93kyr8NIlLP3BXOrNXilOZXSaxnS9tYgBPdhyGeVOCJ848UaG95Mv
+         55yv5qA0cUDC7FUlaDkQMuK209GJjJjv1YJNnA91UgKraKK+oSv8TNhTM49ApFDNbVog
+         RrDWmuuFWzE9Q6z+DqgtqMV7PAPROLW7/M4vwepqLldBhTWbOb4L7ljy2fHZqTaBq9Le
+         mwlcDG51riXG/DjXlg7JsS9qIMZsAvpSmKzuO3GB0hM18XoirqtecTsR+hLo6thJc/lM
+         MU9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUhqE3FM8VWR0RJxrNajTV232YA5I9G/GI2JbnPZRQYiPqusd+M3xI9B4xL+AWEjRYH+GRTpHDgtuI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfcxodDCcII7aNBsLzlWW7Ob8EzUZeOMH5zmHu48poPt/2P6bz
+	FYn420h5bc0FNX4Eyc5UI1J3YuA00qvioDIwWD95PB2XUoXs+Cz1cGHifuq3lUlFEYRMTFpTWxn
+	s9AaEO20XRosIv4LHjWCR5633u4goQkpIN3XJtn6H3w==
+X-Gm-Gg: ASbGncuvVwjemxCv8bRNevO16XOrR/G+HePzXcqO9MbmOBySC5gAKkXX5U1Oo1yQ9WF
+	5uSr2Hru4A7nKdt9D29gmPWUBOh8xLEc9TZ50Vn1lYDFQ5xhRIkyPudcTTuqx6nlpqqQzlbLlfE
+	iAIxFW8iWMLnLEVVwI2IPie9us0FbASnL7sI472HnKxjLa8aynCiVgaoWCDuRX97npb53H3dtgb
+	i3JAM3cT6yIDLWv36u/
+X-Google-Smtp-Source: AGHT+IH9/HXYsLu/DJVcgXHmyW23optDc6uoRoN2rcWn2HHkb7B7VzOcj2uDSKGa9qQvekhhenVwxhU+VuPhiZoGO+E=
+X-Received: by 2002:a05:6e02:1aa3:b0:3df:3886:ad6e with SMTP id
+ e9e14a558f8ab-3e282e65b61mr10740485ab.12.1752631601151; Tue, 15 Jul 2025
+ 19:06:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9254.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1df5db3f-c3d5-49f5-d050-08ddc40d2e3a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2025 02:05:04.5313
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LFAbv2HKzY8nRHYMQPq7LJt1JK66B4osG7IFf9Rm2KMfTqJ+zVF2eaHs+RB/taNKLeiVEJWLCb8h+HIUeejW6UicmOlIRuwqc/8yPogBcyg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6507
-X-OriginatorOrg: intel.com
+References: <20250604-v5_user_cfi_series-v17-0-4565c2cf869f@rivosinc.com>
+ <20250604-v5_user_cfi_series-v17-15-4565c2cf869f@rivosinc.com>
+ <CANXhq0pRXX_OMW2g2ui-k7Z_ZT+5a8Sra8oE28nBh5B9K2L5bQ@mail.gmail.com>
+ <CANXhq0p3MVLMsr_r0RWMti476pT0EMx61PQArjo2fUauTdpXaQ@mail.gmail.com> <CAKC1njRNkSfb_0pUQoH0RwJQhWTsz9sdg_3o08w-NuSO5WypcA@mail.gmail.com>
+In-Reply-To: <CAKC1njRNkSfb_0pUQoH0RwJQhWTsz9sdg_3o08w-NuSO5WypcA@mail.gmail.com>
+From: Zong Li <zong.li@sifive.com>
+Date: Wed, 16 Jul 2025 10:06:28 +0800
+X-Gm-Features: Ac12FXxQabhbT3gOiwtrnSWdGCnuEDBYfeHbjfUOFZRTxM5oaqlSklQMtx6WBCk
+Message-ID: <CANXhq0oZz=TTT=py=1BO3OZf45Wg=-bFyNpn+JRLNufHceLjcQ@mail.gmail.com>
+Subject: Re: [PATCH v17 15/27] riscv/traps: Introduce software check exception
+ and uprobe handling
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
+	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
+	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
+	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wednesday, July 16, 2025 7:49 AM, Jakub Kicinski <kuba@kernel.org> wrote=
-:
->On Tue, 15 Jul 2025 15:15:02 +0800 Song Yoong Siang wrote:
->> -An XDP program can store individual metadata items into this ``data_met=
-a``
->> +Certain devices may utilize the ``data_meta`` area for specific purpose=
-s.
+On Wed, Jul 16, 2025 at 5:34=E2=80=AFAM Deepak Gupta <debug@rivosinc.com> w=
+rote:
 >
->Calling headroom "``data_meta`` area" is confusing, IMO. I'd say:
+> Hi Zong,
 >
->  Certain devices may prepend metadata to received packets.
 >
->And the rest of this paragraph can stay as is.
+> On Thu, Jun 19, 2025 at 7:16=E2=80=AFPM Zong Li <zong.li@sifive.com> wrot=
+e:
+> >
+> > On Mon, Jun 16, 2025 at 3:31=E2=80=AFPM Zong Li <zong.li@sifive.com> wr=
+ote:
+> > >
+> > > On Thu, Jun 5, 2025 at 1:17=E2=80=AFAM Deepak Gupta <debug@rivosinc.c=
+om> wrote:
+> > > >
+> > > > zicfiss / zicfilp introduces a new exception to priv isa `software =
+check
+> > > > exception` with cause code =3D 18. This patch implements software c=
+heck
+> > > > exception.
+> > > >
+> .....
 >
+> > > When a user mode CFI violation occurs, the ELP state should be 1, and
+> > > the system traps into supervisor mode. During this trap, sstatus.SPEL=
+P
+> > > is set to 1, and the ELP state is reset to 0. If we don=E2=80=99t cle=
+ar
+> > > sstatus.SPELP, the ELP state will become 1 again after executing the
+> > > sret instruction. As a result, the system might trigger another
+> > > forward CFI violation upon executing the next instruction in the user
+> > > program, unless it happens to be a lpad instruction.
+> > >
+> > > The previous patch was tested on QEMU, but QEMU does not set the
+> > > sstatus.SPELP bit to 1 when a forward CFI violation occurs. Therefore=
+,
+> > > I suspect that QEMU might also require some fixes.
+> >
+> > Hi Deepak,
+> > The issue with QEMU was that the sw-check exception bit in medeleg
+> > couldn't be set. This has been fixed in the latest QEMU mainline. I
+> > have re-tested the latest QEMU version, and it works.
+>
+> What was this issue, can you point me to the patch in mainline?
 
-Noted. Will rework accordingly.=20
+Hi Deepak
+The issue was that my QEMU setup somehow missed the change of
+`target/riscv/csr.c` in your following patch:
+https://github.com/qemu/qemu/commit/6031102401ae8a69a87b20fbec2aae666625d96=
+a
+After I upgraded to the latest QEMU source, I found the kernel issue
+if we didn't clear sstatus.SPELP in the handler
+Thanks
 
->> +Drivers for these devices must move any hardware-related metadata out f=
-rom
->the
->> +``data_meta`` area before presenting the frame to the XDP program. This=
- ensures
->> +that the XDP program can store individual metadata items into this ``da=
-ta_meta``
-
+>
+> >
+> > >
+> > > Thanks
+> > >
+> > > > +
+> > > > +       if (is_fcfi || is_bcfi) {
+> > > > +               do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->epc,
+> > > > +                             "Oops - control flow violation");
+> > > > +               return true;
+> > > > +       }
+> > > > +
+> > > > +       return false;
+> > > > +}
+> > > > +
+> > > > +/*
+> > > > + * software check exception is defined with risc-v cfi spec. Softw=
+are check
+> > > > + * exception is raised when:-
+> > > > + * a) An indirect branch doesn't land on 4 byte aligned PC or `lpa=
+d`
+> > > > + *    instruction or `label` value programmed in `lpad` instr does=
+n't
+> > > > + *    match with value setup in `x7`. reported code in `xtval` is =
+2.
+> > > > + * b) `sspopchk` instruction finds a mismatch between top of shado=
+w stack (ssp)
+> > > > + *    and x1/x5. reported code in `xtval` is 3.
+> > > > + */
+> > > > +asmlinkage __visible __trap_section void do_trap_software_check(st=
+ruct pt_regs *regs)
+> > > > +{
+> > > > +       if (user_mode(regs)) {
+> > > > +               irqentry_enter_from_user_mode(regs);
+> > > > +
+> > > > +               /* not a cfi violation, then merge into flow of unk=
+nown trap handler */
+> > > > +               if (!handle_user_cfi_violation(regs))
+> > > > +                       do_trap_unknown(regs);
+> > > > +
+> > > > +               irqentry_exit_to_user_mode(regs);
+> > > > +       } else {
+> > > > +               /* sw check exception coming from kernel is a bug i=
+n kernel */
+> > > > +               die(regs, "Kernel BUG");
+> > > > +       }
+> > > > +}
+> > > > +
+> > > >  #ifdef CONFIG_MMU
+> > > >  asmlinkage __visible noinstr void do_page_fault(struct pt_regs *re=
+gs)
+> > > >  {
+> > > >
+> > > > --
+> > > > 2.43.0
+> > > >
