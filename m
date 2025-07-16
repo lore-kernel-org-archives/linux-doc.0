@@ -1,103 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EAE2877C8;
-	Wed, 16 Jul 2025 09:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643E52F2734
+	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 10:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752659013; cv=none; b=s2clhrIy9ftdoFvrDGvIC0A3v5eHNuHP4jkwEMW1QSbt6bRBhOdAx0JcSbc3FBHVdWd+NxitP4jDWvNiybtUO79Zxkewc822F4sToQCttn9JwKi789BGkZH3987h/sjWiS/o4CqWBhTOfa/oHOVinEqzExNkYm00LgrfzVmF0rk=
+	t=1752660032; cv=none; b=B4eVQLsDS6OwT3pfsy/rWXRdTXCCm+KecZfZd5gWx8aYih48TJ4d3tQvTJ68YWDk29Asi66QuiKkt69gH6+Gi1SPbu3rdh0WiKkQNQb/kIcQY4tjlOQAH/NR9ESAFjU3grC9reoqum7y2u+EufMUSZIUcMgm4OU5/Mu6Wq5XmRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752659013; c=relaxed/simple;
-	bh=q5LfttOSVPzCartXtZWejPzdbFBiNa7ERB5VCpk6jJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W4rj26KL8DaZFqY88OprlilL9ilD5kn2dk9Yg2PDc94Gu+3g8BgeycmCaArFPGavjfldyC++dFa+XJuXpL5GP5MW5CBK9PdlOhTRjEEzTE2o+qQymcOJ2a2vSCg59nY3ywdu6VGfQsQ1aKSU19joCXNsJRuMXzGgF7TmyMHc+3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QccxkNiH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752660032; c=relaxed/simple;
+	bh=GHlX23A7Hvn+p5ZNPSjNs+wmfu94EHZOaRggXGBJYNU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=r7x/URMx/jUX2jm3JQ4hp4BN/gnDsTrmuIwWasM90jih20hNZm+9MKzhG4btssNohk162hzTVAAQUDGIhbjmfhiN4kdCg8qvkHGKIunZ41tIbsrSXaVbyq2k4+oW3Wa+lBEA85DFc4B2RuqmaI9zhZBOl1VwJgafgGUxloKEoGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D6qUjVCW; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QccxkNiH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D82C4CEF0;
-	Wed, 16 Jul 2025 09:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752659013;
-	bh=q5LfttOSVPzCartXtZWejPzdbFBiNa7ERB5VCpk6jJw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QccxkNiHzqU3CbdaWh8pI3X9zIGdHfPtpPBsv2I/f8ke2IloGRiOuWsWwVyPJqjwm
-	 kqE3KFHjnMUgwtcxSnfjQZgOlc5l39L3q2Iey81EXDzttE0ZpmnIzhDIQyTobq3GuQ
-	 1ZRqfoEY12f3dQdysOqxn6faTTM616N8B+BN7bN4=
-Date: Wed, 16 Jul 2025 11:43:30 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Mike Rapoport <rppt@kernel.org>, Pratyush Yadav <pratyush@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
-	graf@amazon.com, changyuanl@google.com, dmatlack@google.com,
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
-Message-ID: <2025071602-ditch-danger-f5da@gregkh>
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-11-pasha.tatashin@soleen.com>
- <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
- <aGqHFkPWOrD6whv6@kernel.org>
- <mafs0qzypys0j.fsf@kernel.org>
- <aG9rNQ277weSR_dl@kernel.org>
- <20250714143443.GF1870174@ziepe.ca>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D6qUjVCW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752660029;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=c0eHc6+5H9SgZz4Xcjm6r2qNKf2VLwrklymOhya5fbw=;
+	b=D6qUjVCWSM0XVI+D6HHqzbtE/WUrKSSrdGx0xzQjK3pp83oZU45N9tIon7BGKBNnBHx1jk
+	jBMujGufD0Eu2I4ZU6eVJ8LUiq6jaK+jRUFJ0L/79ttVPpAZ/rbmSfMzQc3mzsLdTHR/UI
+	1fl+uxDEu/NDazeOeKUI6Z5JSKWSDXc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-298-mv-JT7qDNHGwUlZ8AJx_6g-1; Wed, 16 Jul 2025 06:00:28 -0400
+X-MC-Unique: mv-JT7qDNHGwUlZ8AJx_6g-1
+X-Mimecast-MFC-AGG-ID: mv-JT7qDNHGwUlZ8AJx_6g_1752660027
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43e9b0fd00cso4961085e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 03:00:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752660027; x=1753264827;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c0eHc6+5H9SgZz4Xcjm6r2qNKf2VLwrklymOhya5fbw=;
+        b=qCXgkvT3crIcj0VS5jL9pnfitZqA6ZvVEF1kjIf7c4DtLBL41n0ijuBul8B79svNr8
+         rRcZ6xZX+vyEQaaW/6Q8HljTRVOJ9nGZn6PTPoD1DLsPGOoqmi9048REA66vah5vDf+/
+         skql+TsnW5ofGFNW7lgWniHT7uqSgZe7isRNQRxq5yG8va5N0Ynw5tK8dnzE6wVK7GRx
+         /Ju7p573LPVlApyPDb01S1rWCzfinCl48tvxAghh5otA5PzILIVfWPNCSugIJdKbCtGS
+         ENZ3G5QH0fO8rDFHTMJa8rL9v/pc3Yxg+JVpvRrg7Or+yzAjCSmoR3czAH3lcHYT+KRx
+         IVdw==
+X-Forwarded-Encrypted: i=1; AJvYcCXC8CQnSirFjZKiwgRnfPiE6QNggCCKgSChGmjV9Rr7w1I2aCAyxrS8ybhStPVgOTlHT+EVGYSr31M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyKa7USxYJakHCZH3JZjrd9A7Cawjj5rIo4mlH2NHJtF3BaDcl
+	vbxRLtCHv22TCghV4VAqkRHklvaMg4exXE1IZtMvPoJmmgTiOO+7W6tRwYeRQq/pLXJuY6CR6uD
+	RebIKjm36b1mcuOq4RO9gh+DL+bjQsbJlWDQlfEtlX5QQiJoBrV5dz2iCh9YhrQ==
+X-Gm-Gg: ASbGncsZ0iY+sED1soaa3eJGoGTmLYREPZJZtMCq6neyafWj1cKnfOYj5p1E6MV/YBJ
+	sXYgrFT39zFyRCqy/uSDioSG+fel3OlmU4DurIYbnev9mgCyVdY2K4R5WXtcLLCFey6o4+GUEaF
+	Xzwz9wTjOhqlYjNA3ICr5hYUK6dLGpFdwmqUp1RbyCNbzIDkr96uDYc8A8DO7mp64GJjonbuFZZ
+	kMU6ipcqucGYGK33eP+IThDF3P/R0pPJfLcFvbzou8RjV83SV7ST1FxTPTHBFD11ugo/mqa+BMY
+	eW3o6FalSswLMwyH8abcMDGabn8kjDiNDsGvdSlJr0jUXYvRiKJDKsT/sA4gxjDBCw==
+X-Received: by 2002:a05:600c:2ad3:b0:456:15be:d113 with SMTP id 5b1f17b1804b1-45625e12572mr49088485e9.1.1752660026632;
+        Wed, 16 Jul 2025 03:00:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFIZgKfShCpN0AhUR7T0WU+hhCNt02vphv8/fP10yQjGMUW3uuMd1ZkzEMXXpDi1pz7gSrpXg==
+X-Received: by 2002:a05:600c:2ad3:b0:456:15be:d113 with SMTP id 5b1f17b1804b1-45625e12572mr49088185e9.1.1752660026195;
+        Wed, 16 Jul 2025 03:00:26 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.40])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc21e7sm17399303f8f.36.2025.07.16.03.00.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 03:00:25 -0700 (PDT)
+Message-ID: <ecc8217af9ad8142abb73d6ef2fe9bdac9df6c95.camel@redhat.com>
+Subject: Re: [PATCH v3 17/17] rv: Add opid per-cpu monitor
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Tomas Glozar
+	 <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>, Clark Williams
+	 <williams@redhat.com>, John Kacur <jkacur@redhat.com>
+Date: Wed, 16 Jul 2025 12:00:24 +0200
+In-Reply-To: <20250716093825.rWXnBtv5@linutronix.de>
+References: <20250715071434.22508-1-gmonaco@redhat.com>
+	 <20250715071434.22508-18-gmonaco@redhat.com>
+	 <20250716093825.rWXnBtv5@linutronix.de>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0ByZWRoYXQuY29tPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmbiuWMCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfJzZgD/TXjnqCyqaZH/Y2w+YVbvm93WX2eqBqiVZ6VEjTuGNs8A/iPrKbzdWC7AicnK
+ xyhmqeUWOzFx5P43S1E1dhsrLWgP
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250714143443.GF1870174@ziepe.ca>
 
-On Mon, Jul 14, 2025 at 11:34:43AM -0300, Jason Gunthorpe wrote:
-> On Thu, Jul 10, 2025 at 10:26:45AM +0300, Mike Rapoport wrote:
-> > IIUC Christian's point was mostly not about using VFS APIs (i.e.
-> > read/write) but about using a special pseudo fs rather than devtmpfs to
-> > drive ioctls.
-> >  
-> > So instead of 
-> > 
-> > 	fd = open("/dev/liveupdate", ...);
-> > 	ioctl(fd, ...);
-> > 
-> > we'd use
-> > 
-> > 	fd = open("/sys/fs/kexec/control", ...);
-> > 	ioctl(fd, ...);
-> 
-> Please no, /sys/ is much worse.
-> 
-> /dev/ has lots of infrastructure to control permissions/etc that /sys/
-> does not.
-> 
-> If you want to do ioctls to something that you open() is a character
-> dev and you accept the limitations with namespaces, coarse permissions
-> and so on.
 
-Then use a special filesystem, and not sysfs.  It's easy to embed a
-virtual filesystem in a driver, please do that instead.
 
-thanks,
+On Wed, 2025-07-16 at 11:38 +0200, Nam Cao wrote:
+> On Tue, Jul 15, 2025 at 09:14:34AM +0200, Gabriele Monaco wrote:
+> > diff --git a/kernel/trace/rv/monitors/nrp/Kconfig
+> > b/kernel/trace/rv/monitors/nrp/Kconfig
+> > index f37ff70e8d204..a175c430d351f 100644
+> > --- a/kernel/trace/rv/monitors/nrp/Kconfig
+> > +++ b/kernel/trace/rv/monitors/nrp/Kconfig
+> > @@ -3,7 +3,7 @@
+> > =C2=A0config RV_MON_NRP
+> > =C2=A0	depends on RV
+> > =C2=A0	depends on RV_MON_SCHED
+> > -	default y if !ARCH_ARM64
+> > +	default y if !ARM64
+>=20
+> I think this is not supposed to be in this patch? It has nothing to
+> do with
+> the opid monitor.
 
-greg k-h
+Damn, fixed up the wrong patch, will move it to the other one..
+
+>=20
+> > =C2=A0	select DA_MON_EVENTS_ID
+> > =C2=A0	bool "nrp monitor"
+> > =C2=A0	help
+> > diff --git a/kernel/trace/rv/monitors/opid/Kconfig
+> > b/kernel/trace/rv/monitors/opid/Kconfig
+> > new file mode 100644
+> > index 0000000000000..23b43d2704153
+> > --- /dev/null
+> > +++ b/kernel/trace/rv/monitors/opid/Kconfig
+> > @@ -0,0 +1,17 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +config RV_MON_OPID
+> > +	depends on RV
+> > +	depends on TRACE_IRQFLAGS
+> > +	depends on TRACE_PREEMPT_TOGGLE
+> > +	depends on RV_MON_SCHED
+> > +	default y if PREEMPT_RT
+> > +	select DA_MON_EVENTS_IMPLICIT
+>=20
+> Shouldn't we add "depends on PREEMPT_RT"? I tried this monitor on
+> non-RT x86 kernel, and got some errors. That could confuse people.
+
+Mmh, my rationale was that it reports errors on non PREEMPT_RT, but it
+does build. If someone wants to try it out there, they are free to do
+it. We are just not supporting it officially.
+The monitor might start working in the future also on non RT kernels,
+or at least if someone wants to try whether it's the case, they can do
+it easily.
+
+Same idea for the ARM64 thing above.
+
+But I should definitely mention this explicitly in the Kconfig entry
+not to confuse people..
+
+>=20
+> And the monitor reports some errors on riscv64 with PREEMPT_RT=3Dy:
+>=20
+> root@riscv:~/rv-tests# uname -a
+> Linux riscv 6.16.0-rc6-00054-g7590637d9ca2 #87 SMP PREEMPT_RT Wed Jul
+> 16 11:26:00 CEST 2025 riscv64 GNU/Linux
+> root@riscv:~/rv-tests# stress-ng --cpu-sched -1
+> stress-ng: info:=C2=A0 [452] defaulting to a 1 day run per stressor
+> stress-ng: info:=C2=A0 [452] dispatching hogs: 4 cpu-sched
+> [=C2=A0 614.390462] rv: monitor opid does not allow event irq_entry on
+> state in_irq
+>=20
+
+Mmh riscv.. I haven't tested it there, guess I need to start keeping a
+VM somewhere.
+
+Thanks,
+Gabriele
+
