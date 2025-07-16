@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECF2291C3B
-	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 15:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA04B291C3B
+	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 15:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752679246; cv=none; b=X3CcPABKGlOZsQNS/G1P9v5WpdG178Ds6rRHciR7h9sm8E9HgpJE+7QmGHHhP/EHY/ouhrZK9a3WXiz0iDzgcH+IbrhK8zzgYr/bQzuYsGmBakEOPUjg6ZZ8xuG2PU0Ianv72SBdsGj4n+XwKjXU8tRch2E+mAT90TGDe2YHH6I=
+	t=1752679729; cv=none; b=jqxX1Zq/RWrIOjAlphIe5vjMEX3jOal3MZKuGFfI+o7rMMe3UDlJfqZ84RtlmJ6aAmaCGcDyz65o0nBuieF301dyN4zwKKkipx2hYgeLP2f3Kra4ro/2oWN0VsAoezuN1cZd4Ozl1TdOo9YOX4EvGKaxATa+mkhjSPfGVaG+Nq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752679246; c=relaxed/simple;
-	bh=YSCk/mhRrH4zzs6WIB4+cLd/DQ9I0q09f/8YYnhuS3o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Z8Q6IkVkyOBKzlxegYolwpzBUWN0iGdGU2if1gx7kC8lBlWstgeJOzHotHTsW3hApaEiDzraDkH3Yc4ASDJEUF82E29MJFDMTaa5b4JTgSW2QNKJuApj3WpK/qqinbaWS/Eygilz3SZkZEmubLNT7JfTeLokriDpTMH1spqOBDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XwlqLQEs; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1752679729; c=relaxed/simple;
+	bh=/5CfB2A12LDeJKCGmDi9/diDz7khZu+BKzJSqKXUUlo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u+yEsefk3OeBNbPJ3r328zLUPq3YmlfSHf/kWhfoGBzwjypPS9H8qf+gpEIzbFAgFV7aoRHCa11K4uqzyG3Yd5fnbkhkFxv+BOuqGNBCdKxvDN78c1Xfm/bdMuoNDQ8Wtka7i92FG5AhF6gnS4cjx9WDsZSDVPAWHJ1FjlNX66Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YuBpSUN2; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XwlqLQEs"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YuBpSUN2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752679244;
+	s=mimecast20190719; t=1752679726;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=lYqVcGPl98IorByiIq9slG84y9r+OvSPRKagz1QeHjs=;
-	b=XwlqLQEsYc4DBsSdu9pq+FHP1MghF06kmuHt8tKFTLIfDHxmbzBSZoFso/E4ShcrRNehC0
-	Q+gGLNe/KPLpVV08W5+Rc3jGuULg3aavfmLEbgqEw5Wccb1dR6NLN1EorJiS3KVxuDsSik
-	PyIzbJPvu5SGJ4RLsT/d9F2KFMbJsYY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=b9muf3y2moPaIuS6pt5tTbdr04dlviAIBJWO4rVo/Lo=;
+	b=YuBpSUN2FRJw60QxpZ/Xz0QYaMjq2p1+ZhnPE+6ZAw0PfNBZrkNpJlAx3Z6S/D4PuZ0eRV
+	hS0qD66tHv4Fm/6QE30OUf7HJMct0PRzidp0PzXF4u7ZuGI+a7HVzYxpNebC6gNGlpRrLe
+	dTaV2O4G3EV3SvwxbMpf9Di9xMgHac8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-654-QLsONAXdNDmU2MjQqdb23g-1; Wed, 16 Jul 2025 11:20:42 -0400
-X-MC-Unique: QLsONAXdNDmU2MjQqdb23g-1
-X-Mimecast-MFC-AGG-ID: QLsONAXdNDmU2MjQqdb23g_1752679241
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-455e918d690so6653265e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 08:20:42 -0700 (PDT)
+ us-mta-195-MECLRwjFOhOhmgWo0SogCw-1; Wed, 16 Jul 2025 11:28:45 -0400
+X-MC-Unique: MECLRwjFOhOhmgWo0SogCw-1
+X-Mimecast-MFC-AGG-ID: MECLRwjFOhOhmgWo0SogCw_1752679724
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3a4f6ff23ccso3937630f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 08:28:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752679241; x=1753284041;
+        d=1e100.net; s=20230601; t=1752679724; x=1753284524;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lYqVcGPl98IorByiIq9slG84y9r+OvSPRKagz1QeHjs=;
-        b=if6TbaXuusRJ5cTY9OxRrcshijYSgAk7fX9F6hBGnJM9v+aKBZ4P1Ep2JFhXoRcFEC
-         iHD4RYUWSY3JoP/4JCct4+idHYPZ5OWEnhdrz1kcRx/xgbpesfBZBGBBzoxa1iW2jiev
-         BovK383FtFvrX5Z9ctKlcteozyPX/BaMRXNAnjFPtovjyHmkjoH6NuLoeCgirnQ7QmKQ
-         N58L/zoqLgUFFW2ruiHRmUsF+9dV1/3GNZ/Nw0hHJPx75Wpv72ZINTWealL4jrODEaXw
-         jQjk2uzOL7czY5pqrslTHaZ0sOKQGO61Azu9/MwV7sX3AMG5qWQ3eTlC4qXQX2iFfvp6
-         DQFw==
-X-Forwarded-Encrypted: i=1; AJvYcCU64aQoT4CRHqxgq36SjpkxFewQAb22abYHx1iE10S0p1TyifXKGio5ZSTILXqVkkkzuWR4VYHJvWQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoHS1dzX5IUdEManDHFGiE1Jnx0g3ztX+I1cp2FBDYxRkDtGiJ
-	Nz7fPdCT+ssLr5G1jKTOTI8bekCEiohbgrEOobRg9QPoWcRET7ofe288J72EGk5IHGcC1dJZKl8
-	5jqNwBbo7wE3e+BB9lVuPITOZ5UwRenWYi9S0agbNFWo7VYzBptTjGXCkU8MQTg==
-X-Gm-Gg: ASbGncvD5s8hg/SoWPgkCZXWyZLbLDvcM3+IFGn2INh/4bbSsmslLDpTFBZV+sc3Qlh
-	hh3f6G7MBNIt8sfHdyTYH/hGyaoPO0srEoxvXRC22d0yfVQSQvqLc2G6aT23JzOwH0wv5xR+z5A
-	KZgyO7h2y8PQQleUmWtoHeMTSzhPWPTpCqnHlGPk8oBcYYHBGCaOr04z44+0p1JtTHMrEH1lNgY
-	tWPsfplnxU+HrR1WjW/0wUe+aJeV59hkEXOTIkn57W4brPLUIkYQGw+eVsUP33qBy2cyrW3zxMW
-	yS0yc2gO7sCqhKBAlrXPBv61nMtOiZtX5v6/RpYtecyYQfCvEjhmAkzCXk+i0SX8Vg0AHelM/9F
-	YZd0E2JKdw2rBWTpIrMrUkt7B2Ze6QITyc0LndEGogHwWOR9HkgeVm026LW+M45wIJW0=
-X-Received: by 2002:a05:600c:a11:b0:456:15a1:9ae0 with SMTP id 5b1f17b1804b1-4562dcc3596mr35066465e9.13.1752679241242;
-        Wed, 16 Jul 2025 08:20:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHRHERGcHpUYU+MGs4am6EvrtyXKGQ5MGu0qRLwnbuyH0kti86o4gVaDAAU7LSNJMHdUEg2ZA==
-X-Received: by 2002:a05:600c:a11:b0:456:15a1:9ae0 with SMTP id 5b1f17b1804b1-4562dcc3596mr35065725e9.13.1752679240699;
-        Wed, 16 Jul 2025 08:20:40 -0700 (PDT)
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=b9muf3y2moPaIuS6pt5tTbdr04dlviAIBJWO4rVo/Lo=;
+        b=S6Th/2LbVncG+TPOXMQbOpe5LGMy9Omx/tqhex4TUqZfyJxs5nNeLNCDpmMh+H/3xQ
+         zizslj3RLf/w1fMYPJoBa7rvXblyV+ghSCSb0pp0UDfKlrvffTmdB7DF3lVOctRfYHCt
+         /ToveO3A8vxW8yAN0M/vXDqDj6FGygE67dDE3HDzwlsZ2frAeVcSLF2a7FE53EY8WvS/
+         hammvFYSCLRlto2B4oh+1FkZc4k0OQqu0lgg+r9pLD5pAuCq0ROIp0CdU70QpHXnDugv
+         vjLaMBLF3QRrIbeOC30RPkMPYmTtLcQ47DeQJ3DF8z7/5XTDOCbLDQfsqWKowUhtYGfX
+         pjGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0JdZOJYxP9TPj5JUsdeK+YT2D2hHDZ+M6Zv1RCm8sZdXBHZf36WcoEM+9jVSiKb0E3D/aJyC8zgE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHjCrL/5XHbsrhD/sTRSSupIWCqRMVgIw9a73wLhQEDQr7w6aC
+	t2MWuxAH+2LQwJ6JPktet+YrmyrsNL/FZeY9sjFasJQ+mQvNCLUHrlT1eHpx6GYdYbeFJtquQNn
+	bYQxe5zsIjEPLggR1SOSR8VAwUv1wbscdGiedRKfywO+X7zTJoNpxDQBU0iuYuw==
+X-Gm-Gg: ASbGncvk0DO786Hdd+t1MEpQT+O9QxsFgOHGsWCiG+6SelTt5tiiVKzHjHpFQU4jH2w
+	65e0uMpDFWRw11MJevGbLPs7KB7/SvaXczI8pXj/7Z7fn1ATxBpy+Xkg2LxvJkG6gjRg38y51vt
+	gxj234h6T4mJP88iCQlIbNV3zSLYQH/hrsJrl0Ze1f9wTNWdBhdPzbGowwTse1wnoKeugo4pxfE
+	eXIE/B+Ut4gfFLGxgbe8ilFk7BEmNxDkWdCdsJH7U33AYAdKyxgacvgkr+Ipn98idcvXpP3058V
+	iNg6LdfFJKfu2LviAm2VRyTYDVcUc+khoY0INrRIYQtpKWmVOkIwyKm/hb1C7xDvSXQu/jxsYHT
+	l0iDFp21uks04wXB0/uwMOVAfTPWlRE1yFpnUUOVwcrJAUxEgZGWjyaSWYmu3tPMbM6w=
+X-Received: by 2002:a05:6000:440e:b0:3a5:1222:ac64 with SMTP id ffacd0b85a97d-3b60dd7b02dmr1895335f8f.38.1752679723900;
+        Wed, 16 Jul 2025 08:28:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEJ78SQM/s0rFpWwJyId0Hih86btopCIgnmO+eV3iVi5SnTVg5Chr4inRc9LECMRO+/9cofVg==
+X-Received: by 2002:a05:6000:440e:b0:3a5:1222:ac64 with SMTP id ffacd0b85a97d-3b60dd7b02dmr1895313f8f.38.1752679723386;
+        Wed, 16 Jul 2025 08:28:43 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f1d:ed00:1769:dd7c:7208:eb33? (p200300d82f1ded001769dd7c7208eb33.dip0.t-ipconnect.de. [2003:d8:2f1d:ed00:1769:dd7c:7208:eb33])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45627898725sm36468085e9.1.2025.07.16.08.20.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc1de0sm18023660f8f.24.2025.07.16.08.28.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Jul 2025 08:20:40 -0700 (PDT)
-Message-ID: <68b99621-31a1-4c80-b409-5557ffd9631b@redhat.com>
-Date: Wed, 16 Jul 2025 17:20:37 +0200
+        Wed, 16 Jul 2025 08:28:42 -0700 (PDT)
+Message-ID: <3b8d32dd-9d40-44b1-a0ab-8185073b9072@redhat.com>
+Date: Wed, 16 Jul 2025 17:28:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,28 +75,27 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 01/14] khugepaged: rename hpage_collapse_* to
- collapse_*
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
+Subject: Re: [PATCH v9 10/14] khugepaged: allow khugepaged to check all
+ anonymous mTHP orders
+To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
- ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
- peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
- sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
- anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
- will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+ baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
+ aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
+ catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
+ dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
  jglisse@google.com, surenb@google.com, zokeefe@google.com,
  hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
  rdunlap@infradead.org, hughd@google.com
 References: <20250714003207.113275-1-npache@redhat.com>
- <20250714003207.113275-2-npache@redhat.com>
- <qgcvsfhoq3pnvxhdn73dopbtvi75oghbaydg27atqfp556u6sa@ixwdwi73lgkl>
+ <20250714003207.113275-11-npache@redhat.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -144,26 +143,71 @@ Autocrypt: addr=david@redhat.com; keydata=
  WBe5lqcozu9LpNDH/brVSzHCSb7vjNGvvSVESDuoiHK8gNlf0v+epy5WYd7CGAgODPvDShGN
  g3eXuA==
 Organization: Red Hat
-In-Reply-To: <qgcvsfhoq3pnvxhdn73dopbtvi75oghbaydg27atqfp556u6sa@ixwdwi73lgkl>
+In-Reply-To: <20250714003207.113275-11-npache@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 16.07.25 16:29, Liam R. Howlett wrote:
-> * Nico Pache <npache@redhat.com> [250713 20:33]:
->> The hpage_collapse functions describe functions used by madvise_collapse
->> and khugepaged. remove the unnecessary hpage prefix to shorten the
->> function name.
->>
->> Reviewed-by: Zi Yan <ziy@nvidia.com>
->> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
->> Signed-off-by: Nico Pache <npache@redhat.com>
-> 
-> 
-> This is funny.  I suggested this sort of thing in v7 but you said that
-> David H. said what to do, but then in v8 there was a discussion where
-> David said differently..
+On 14.07.25 02:32, Nico Pache wrote:
+> From: Baolin Wang <baolin.wang@linux.alibaba.com>
 
-Me recommending something that doesn't make sense? That's unpossible!
+Should the subject better be
+
+"mm/khugepaged: enable collapsing mTHPs even when PMD THPs are disabled"
+
+(in general, I assume all subjects should be prefixed by "mm/khugepaged:")
+
+> 
+> We have now allowed mTHP collapse, but thp_vma_allowable_order() still only
+> checks if the PMD-sized mTHP is allowed to collapse. This prevents scanning
+> and collapsing of 64K mTHP when only 64K mTHP is enabled. Thus, we should
+> modify the checks to allow all large orders of anonymous mTHP.
+> 
+> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>   mm/khugepaged.c | 13 +++++++++----
+>   1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 7a9c4edf0e23..3772dc0d78ea 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -491,8 +491,11 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
+>   {
+>   	if (!test_bit(MMF_VM_HUGEPAGE, &vma->vm_mm->flags) &&
+>   	    hugepage_pmd_enabled()) {
+> -		if (thp_vma_allowable_order(vma, vm_flags, TVA_ENFORCE_SYSFS,
+> -					    PMD_ORDER))
+> +		unsigned long orders = vma_is_anonymous(vma) ?
+> +					THP_ORDERS_ALL_ANON : BIT(PMD_ORDER);
+> +
+> +		if (thp_vma_allowable_orders(vma, vm_flags, TVA_ENFORCE_SYSFS,
+> +					    orders))
+>   			__khugepaged_enter(vma->vm_mm);
+>   	}
+>   }
+> @@ -2624,6 +2627,8 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, int *result,
+>   
+>   	vma_iter_init(&vmi, mm, khugepaged_scan.address);
+>   	for_each_vma(vmi, vma) {
+> +		unsigned long orders = vma_is_anonymous(vma) ?
+> +					THP_ORDERS_ALL_ANON : BIT(PMD_ORDER);
+>   		unsigned long hstart, hend;
+>   
+>   		cond_resched();
+> @@ -2631,8 +2636,8 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, int *result,
+>   			progress++;
+>   			break;
+>   		}
+> -		if (!thp_vma_allowable_order(vma, vma->vm_flags,
+> -					TVA_ENFORCE_SYSFS, PMD_ORDER)) {
+> +		if (!thp_vma_allowable_orders(vma, vma->vm_flags,
+> +			TVA_ENFORCE_SYSFS, orders)) {
+>   skip:
+>   			progress++;
+>   			continue;
+
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
 Cheers,
