@@ -1,68 +1,222 @@
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B0F264F99;
-	Wed, 16 Jul 2025 07:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752650517; cv=pass; b=TlCsqPDLm23fql6OjFtAfeUTQfDOlPXjbMBWGeL66Nl0Xfh57rGKwg61lO8R7pR9UBNxeue56dX9DjdudRJ543UPcjOsOKoN3km9hHmZx5W5StL/JDQtkOELlyYdB3a6kCw8kJgTFX29/xiftPJK2iOJYdfJjDTHYePk/16KcYg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752650517; c=relaxed/simple;
-	bh=AkPuWWeUQJhENcT1gFpBHZq0JPIIccR9dLhAVW74AmA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Q4BOkQn7eF0wynyCZFQZPy8ULedGWRygQMrCJrerit6+AXUIcA84KTpi3HcJc4ON11z92Zstklrfmmp6iKGG+A7K88yEgqgwXlTskedVPn0IAh3ixix0YxGxPRduA3mcsZBqz+oCTig5rWZRIVxfIWZ1ghoWQuy4vU2XRCCb4NY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=R0rt1jzs; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EC128C01C
+	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 07:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752651227; cv=none; b=cmmE4ufi/iaXZ+a4hQ8eGpAR9j+KX79bnOaYt+MeWwIpi5qUShtjrAK1HdQgw0Wo5WHZ6Vc/Jm+3fjcXcdvnRrnCIjb532qkmuFLoATsRkC+WnSfItmHfWCMZZvXeQ3mhpWEvpZ2pd/pv3vCVr38IBejqOL5CMhTiaBjb7ppb5E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752651227; c=relaxed/simple;
+	bh=J1fmkXzQhdy/B2HqE648pLqXswaIxo5hZ2X+m0elNBY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p6KKM2hLFXyaHvZ4fBDjtATaUfQWAnSxxxAcf/tabbBfQ76LQp0yOGCKSf6BYtm64Kf63rA+XZauJMpM6DxQgT3zKf3ej69WqntdFgirvNUWjlmdFiQPZZWxNS09Ib9xAxrl5U003n2BK1ERJmBMbROfbttSjCUV+cnQxvO2xVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=misSRJfn; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="R0rt1jzs"
-ARC-Seal: i=1; a=rsa-sha256; t=1752650511; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=cnM85kQJWO/+MCrFhUq8NSOVNBOE4qL20ARjV2GQCrYKaQpr39w1Ls7NxtkDi+nRm1KyJA8WaiTi7AsZpBfJSDSt0oYZztMs7zXjdWIDoI3659q9Zg1986LWGoT6VbfkM3xwrfVZh+mbM1Yr3+0jV1Y8mAmCo/Cj1yMWScYve60=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1752650511; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=IIpJiWw1Ou29xyTEQgRTXqdwUQYJ5sXBgiE+2a59EB0=; 
-	b=PCO+ccBlG2TRNkJXpK1XDOEKss1X2ScUe0gzS1ZLbeJXP686LPegMU7JtUZ8EWDF5SeO3X3itzTnB2qOsmVLmhH5AadxelPa7zK0GXbAgKHcubbXC0yTjsmD3CRPiByfOUQ6f7mC3O0CZq2Znal6NAhMDyp6mg0OtuIuVlvaJwk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752650511;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Reply-To;
-	bh=IIpJiWw1Ou29xyTEQgRTXqdwUQYJ5sXBgiE+2a59EB0=;
-	b=R0rt1jzsQb6CmTCAzeIh7+ZsLwcPaKE6I2Oyz3k8QVM4pW0pkZuxLZd0Ilc7SpEO
-	y1tTMlKufV5QNAeLfhYD6EXCR7gwxGh1KUk5iwv4ZCdzURLZ3fNjEOeex5z1Hza/3Ul
-	WtDKhMcwBnE4smjzw7t+P76xt8fFTMdBhpiKM8To=
-Received: by mx.zohomail.com with SMTPS id 1752650509175629.2844300355805;
-	Wed, 16 Jul 2025 00:21:49 -0700 (PDT)
-From: Askar Safin <safinaskar@zohomail.com>
-To: sashal@kernel.org
-Cc: linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tools@kernel.org
-Subject: Re: [RFC v3 1/4] kernel/api: introduce kernel API specification framework
-Date: Wed, 16 Jul 2025 10:21:41 +0300
-Message-Id: <20250716072141.12-1-safinaskar@zohomail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250711114248.2288591-2-sashal@kernel.org>
-References: <20250711114248.2288591-2-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="misSRJfn"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-713fba639f3so55128137b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 00:33:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1752651224; x=1753256024; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PW8oj8yyNVG5XPISXOtfA3n2P3zOnfj4By+Eha4u0hU=;
+        b=misSRJfnE5w/pnaSiy1gvtx4w/fzsVlLI5ffuKbQa4C0hghm6aCyOH+Njhh0zrWR6V
+         5Qad0PQGyyfcE6wSPlkg4UNmwMzUU81aYaqyX6mLGRalwxRDBBtxAaWE4ngJLO4tJ/P2
+         Irl1oQ/q+xBDhXzGRfv2gzsTGtPKG5/oD+95gNnxODzG2IfLKoZxYW0iS5p7KeTEpSI7
+         cwi8hB0jW7kFj+C3OpAB74HroXqQiFRiT7pkDEXPsKYw6S8qHq/KWtOB0l8ybcjOjm0d
+         RVY5ljL2drR54iTwW5Ts6z+NiAP3DcrwRjJ1iO5hxNZGHHXjt7r2gKbCCWBwtlT2RG1X
+         ea2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752651224; x=1753256024;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PW8oj8yyNVG5XPISXOtfA3n2P3zOnfj4By+Eha4u0hU=;
+        b=Mm7SUSVipSxYuCJUNM7slh+kC/475iSzVhUbHfq1B/EAwaqWDWyuRZjZejDcsf0YYY
+         nCPwQbZDxmh3m7DunsuEDqv7ybaxai0vMojLmcW4iEgC+dFVmczNrBTcyxjFZfV7E4sJ
+         usVFn1IT1uXyMLGiwRuXMi4XYnhGzhzaieS4t3FFAPmEum5ZwLdV/+XZfkUdjOKlqLo4
+         vd1mrWKeeZoWsgyw1LlagI37emcvHYjsbssXjd1IqNeJUAFrVnjBRMjDPweUOK72p4BK
+         ZWlasbVNn2n7CaZB3VmSbVbc6R50S0xX/INcXhC4AGfmZQKeREZbMvSA6waC7l8Mn/vy
+         Yong==
+X-Forwarded-Encrypted: i=1; AJvYcCVclyiIcaLs18XSmYQ3UT6659qTmeD17ske0ZWftAtbMv1Y3SxltH9fjO7QSCFs3+vPBd07nuZxICg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1wYwWPMagK+511apTSzZegTRUp/Xo2C1vszTZmB1oFUrutblN
+	bFI/Oh+zAM33CN0jCm7rpF5JPS6+Mk5EMqtHUZ84gDAklsNICCfHKGdlWuapMow4QqOE6GxC1nr
+	WXogWl7uIuAdfs/WJrdGN4oLWRv1xkXTs7Tc146d8cQ==
+X-Gm-Gg: ASbGncswO4mhvNhHTwdcrmf7pu+owj7SMbPd20HezdKcsVK0vWyfi0OTp8evfkcRfqq
+	Pqe+WQ6gnGYXtMwDID2s8yhesNt56Q+MRgsBfFvYK9tS3rv9yM0fIEVpEYrvs3rJ6NL+PSWz76n
+	HTgnxIygKAFI+3f/X4DWutCyj/DfUBcbyqQNUPmcFX1kFCLTDHEFj00RoSFhHvI6tRyD4yi7OCF
+	SC0FoTi
+X-Google-Smtp-Source: AGHT+IEBFim0sebTg/GJVvyxJNrliMi5B8Z1CirXQugUtw/MAG7MtHjoXp3XBPYhkfJvHfUUj+zVmynVQDiKVlguiXc=
+X-Received: by 2002:a05:690c:6d0b:b0:6fb:b1dd:a00d with SMTP id
+ 00721157ae682-7183516330bmr29836477b3.30.1752651223909; Wed, 16 Jul 2025
+ 00:33:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: rr08011227666c370a0d35c4a6bf42ce4f000045dfe4322eadd210ecb86cc17d9d320dcfc3d4d625dddab1ed:zu08011227c28c1fdd9a0e5094b968d0ed00000dfb7426e01319edee5c0453ace9e646d2dab386dc098e69ad:rf0801122cd6016866342085134ea12899000023550669c06db70ba8affa3c6479a07dcc0848304c06d0b92c561d258e06:ZohoMail
-X-ZohoMailClient: External
+References: <20250604-v5_user_cfi_series-v17-0-4565c2cf869f@rivosinc.com>
+ <20250604-v5_user_cfi_series-v17-15-4565c2cf869f@rivosinc.com>
+ <CANXhq0pRXX_OMW2g2ui-k7Z_ZT+5a8Sra8oE28nBh5B9K2L5bQ@mail.gmail.com>
+ <CANXhq0p3MVLMsr_r0RWMti476pT0EMx61PQArjo2fUauTdpXaQ@mail.gmail.com>
+ <CAKC1njRNkSfb_0pUQoH0RwJQhWTsz9sdg_3o08w-NuSO5WypcA@mail.gmail.com> <CANXhq0oZz=TTT=py=1BO3OZf45Wg=-bFyNpn+JRLNufHceLjcQ@mail.gmail.com>
+In-Reply-To: <CANXhq0oZz=TTT=py=1BO3OZf45Wg=-bFyNpn+JRLNufHceLjcQ@mail.gmail.com>
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Wed, 16 Jul 2025 00:33:29 -0700
+X-Gm-Features: Ac12FXyXP37ODEjfHSjK8_gGHbTe6nbCLu3r93joGlrq46qsQaqRghNBDnEKWgk
+Message-ID: <CAKC1njRqox8_YNEhQJT8NRMjGuqpDt55ck6QVV2aNPLwTsaj5w@mail.gmail.com>
+Subject: Re: [PATCH v17 15/27] riscv/traps: Introduce software check exception
+ and uprobe handling
+To: Zong Li <zong.li@sifive.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
+	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
+	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
+	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +   KAPI_PARAM_IN       = (1 << 0),
-> +   KAPI_PARAM_OUT      = (1 << 1),
-> +   KAPI_PARAM_INOUT    = (1 << 2),
+On Tue, Jul 15, 2025 at 7:06=E2=80=AFPM Zong Li <zong.li@sifive.com> wrote:
+>
+> On Wed, Jul 16, 2025 at 5:34=E2=80=AFAM Deepak Gupta <debug@rivosinc.com>=
+ wrote:
+> >
+> > Hi Zong,
+> >
+> >
+> > On Thu, Jun 19, 2025 at 7:16=E2=80=AFPM Zong Li <zong.li@sifive.com> wr=
+ote:
+> > >
+> > > On Mon, Jun 16, 2025 at 3:31=E2=80=AFPM Zong Li <zong.li@sifive.com> =
+wrote:
+> > > >
+> > > > On Thu, Jun 5, 2025 at 1:17=E2=80=AFAM Deepak Gupta <debug@rivosinc=
+.com> wrote:
+> > > > >
+> > > > > zicfiss / zicfilp introduces a new exception to priv isa `softwar=
+e check
+> > > > > exception` with cause code =3D 18. This patch implements software=
+ check
+> > > > > exception.
+> > > > >
+> > .....
+> >
+> > > > When a user mode CFI violation occurs, the ELP state should be 1, a=
+nd
+> > > > the system traps into supervisor mode. During this trap, sstatus.SP=
+ELP
+> > > > is set to 1, and the ELP state is reset to 0. If we don=E2=80=99t c=
+lear
+> > > > sstatus.SPELP, the ELP state will become 1 again after executing th=
+e
+> > > > sret instruction. As a result, the system might trigger another
+> > > > forward CFI violation upon executing the next instruction in the us=
+er
+> > > > program, unless it happens to be a lpad instruction.
+> > > >
+> > > > The previous patch was tested on QEMU, but QEMU does not set the
+> > > > sstatus.SPELP bit to 1 when a forward CFI violation occurs. Therefo=
+re,
+> > > > I suspect that QEMU might also require some fixes.
+> > >
+> > > Hi Deepak,
+> > > The issue with QEMU was that the sw-check exception bit in medeleg
+> > > couldn't be set. This has been fixed in the latest QEMU mainline. I
+> > > have re-tested the latest QEMU version, and it works.
+> >
+> > What was this issue, can you point me to the patch in mainline?
+>
+> Hi Deepak
+> The issue was that my QEMU setup somehow missed the change of
+> `target/riscv/csr.c` in your following patch:
+> https://github.com/qemu/qemu/commit/6031102401ae8a69a87b20fbec2aae666625d=
+96a
+> After I upgraded to the latest QEMU source, I found the kernel issue
+> if we didn't clear sstatus.SPELP in the handler
+> Thanks
 
-There is no need for KAPI_PARAM_INOUT. It could be replaced by KAPI_PARAM_IN | KAPI_PARAM_OUT
+Aah ok, got it.
 
---
-Askar Safin
+>
+> >
+> > >
+> > > >
+> > > > Thanks
+> > > >
+> > > > > +
+> > > > > +       if (is_fcfi || is_bcfi) {
+> > > > > +               do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->ep=
+c,
+> > > > > +                             "Oops - control flow violation");
+> > > > > +               return true;
+> > > > > +       }
+> > > > > +
+> > > > > +       return false;
+> > > > > +}
+> > > > > +
+> > > > > +/*
+> > > > > + * software check exception is defined with risc-v cfi spec. Sof=
+tware check
+> > > > > + * exception is raised when:-
+> > > > > + * a) An indirect branch doesn't land on 4 byte aligned PC or `l=
+pad`
+> > > > > + *    instruction or `label` value programmed in `lpad` instr do=
+esn't
+> > > > > + *    match with value setup in `x7`. reported code in `xtval` i=
+s 2.
+> > > > > + * b) `sspopchk` instruction finds a mismatch between top of sha=
+dow stack (ssp)
+> > > > > + *    and x1/x5. reported code in `xtval` is 3.
+> > > > > + */
+> > > > > +asmlinkage __visible __trap_section void do_trap_software_check(=
+struct pt_regs *regs)
+> > > > > +{
+> > > > > +       if (user_mode(regs)) {
+> > > > > +               irqentry_enter_from_user_mode(regs);
+> > > > > +
+> > > > > +               /* not a cfi violation, then merge into flow of u=
+nknown trap handler */
+> > > > > +               if (!handle_user_cfi_violation(regs))
+> > > > > +                       do_trap_unknown(regs);
+> > > > > +
+> > > > > +               irqentry_exit_to_user_mode(regs);
+> > > > > +       } else {
+> > > > > +               /* sw check exception coming from kernel is a bug=
+ in kernel */
+> > > > > +               die(regs, "Kernel BUG");
+> > > > > +       }
+> > > > > +}
+> > > > > +
+> > > > >  #ifdef CONFIG_MMU
+> > > > >  asmlinkage __visible noinstr void do_page_fault(struct pt_regs *=
+regs)
+> > > > >  {
+> > > > >
+> > > > > --
+> > > > > 2.43.0
+> > > > >
