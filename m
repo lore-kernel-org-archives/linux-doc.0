@@ -1,72 +1,72 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589D92EBDE9
-	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 08:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC57F4A3E
+	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 08:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752654577; cv=none; b=ebwTN9Kb8+nD4DiLwTXGJC9y362YOtRycWWV8ofn3cjuTTPKUevG+2GalHqKtmwZOWchQUXSOc+/FqJzVtW4XhftjCjW5C7v82cH0l4uPMOtxnw99qquiDrnOrx+n6cCbT5EJtCP4jpYEAJo5pnVmO3rHqRWBuS538Ic5XJVnU8=
+	t=1752654821; cv=none; b=Fi2Vji/qonztPSdGf1qLLk/J1lBz3ueSNDAXQ1+dBTZ+if+ET92du79ZUnViADWOTQkfSvyGcpMzk9iFIYGuWuGz4iiD2T2kGRvm0aJikZnOXycU4nS41zihkplF/6r45+MvM9VAbkbjIr2wwJ/wYd1vc+S8PJwO75fP0PaSvD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752654577; c=relaxed/simple;
-	bh=RXd93FrMXhD6nQlRw5UhfdK/Fc7hARdOf1IOkW55cdI=;
+	s=arc-20240116; t=1752654821; c=relaxed/simple;
+	bh=PO/hVtAFUJcvYOoFA5Lsz2XawUBmB+drYH34Ga9YmFo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ue5q0ZAsER2Df+CrmETgkwEUZcXlcFmRsev37/XhtpLhJubHAMuSR9RmraIumxdg+urhWp2OYkjEIPQpFu8/AB6CZkaY5OV6SkbrBfE5gnexfb0pO8WfYApAmAw6UX4CVyrRWB4y84Os4TrJYDP6EZZVOTA2BgQlB1R0zbh9NX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hugj5jDO; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=D1NLPDwyy+HhZwI8JPivmITzfERDSrTVxBVcc6IU4AYtRDbrDFl9iUHZlyHFLKouuX1fBI6KzdTLSef5E2J8ixL7XxigUkCiqwCrGD3pN12L4/tu5ROkfR+aGBXrMIasGN12NZeV9iTaLJCxSxEz7XV5o7qq7glCg8RLWA+FvbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ot7ekC/Q; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hugj5jDO"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ot7ekC/Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752654574;
+	s=mimecast20190719; t=1752654819;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ffz+MsDbG4Gm1eq6U3qZmEbUy+20PK+4pgl+eju8lOY=;
-	b=hugj5jDOzI4I836/Xrgw1HCqHFAene5hio//8Mx1xm25YdBQGoogYZ/eFYQcqVI8badZgn
-	JhlTQaatjFNf5C+8GBad1eZF1IfTLxNh5f5VWxDjShkJUK/CuAltpfS8F31kle4PwMXlWE
-	G1puZkCs93/fh7kaSR+MnuNQAWt9SP4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=1/mMMz9r3dZS5fLhT7uV9k7AsWyXJpRGJaGcTiHmpis=;
+	b=Ot7ekC/QeQO4d7qwMfesFi7OCIqtRsPrkTp3ZurfiwbfSLW0ytRCfHWH4uQK/aSDQk0K11
+	ZWiXuH9fdohWhmLNW6R09fQT/VLBtb/EGuKRKJxYd1Xebqv6pJn3Z/D8MeuvfTuGeYAgyD
+	RaJsKUo7I+VecJJRHDQNfPaGkDm1o+k=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-642-ORvlASFuOrqbl6lWpMmUoQ-1; Wed, 16 Jul 2025 04:29:32 -0400
-X-MC-Unique: ORvlASFuOrqbl6lWpMmUoQ-1
-X-Mimecast-MFC-AGG-ID: ORvlASFuOrqbl6lWpMmUoQ_1752654572
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3a4eb6fcd88so4171210f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 01:29:32 -0700 (PDT)
+ us-mta-441-hIPVkM-RM3eGgj1vt8S9wQ-1; Wed, 16 Jul 2025 04:33:37 -0400
+X-MC-Unique: hIPVkM-RM3eGgj1vt8S9wQ-1
+X-Mimecast-MFC-AGG-ID: hIPVkM-RM3eGgj1vt8S9wQ_1752654816
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3a4f8fd1847so2470439f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 01:33:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752654571; x=1753259371;
+        d=1e100.net; s=20230601; t=1752654816; x=1753259616;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ffz+MsDbG4Gm1eq6U3qZmEbUy+20PK+4pgl+eju8lOY=;
-        b=RlpcgM3A5RYZ0WTYQz9hhK7rEFdgUXczjVUqu9cVoI66ZKGF+UWyTldJPYbNOFgU95
-         342IwQjLfzIolo0HQ3Gxpi8B6IkPcHQ6Ldf6Gx/PhzS3ang5VjMJ4PwjrLhp2ezuW3D4
-         XOitp3wYq6SmueCPYMgLVhG33YhD8Ewq+joYTwF1+A0YuEcrU7H+n1J40XPALxzyqn2X
-         iK5D9DLwuP/LFTmt/bsRGoaRRaBWKEoj0RD33BWld1cp6HY8NAiOgPh0SuJg/VJMWFlM
-         aMKwDsvKDJfN+aN47jgS0HnwCIcIq6SlIBFFx4J6eozH6xz/iW9Roa5NGwUabPjdPg5D
-         aRvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW6H/UaJmuwCnWVrvMc6vo0CCaC11voxum5sgphKVp3GsZ2ZkudEZLePzJn6RkiGFDkjyk0QqgFppM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCGzaU9gUGrcEGMxNaD1/M9mkV5EAfI7WN+n3C/y2dz4v7HUiZ
-	MBuM2iq1jmCekff/UCJHNZEK8QG3QK+6dwgG4lXdP4HyVeaY4T6qVXwRPsQN/LXGnIWVwNzq5PI
-	me6rwv4Kmg5LZrwVFEJx84Z4Ur8aYzKC8qM5evO3kyULnlWNi7iiyfGFLzn9hHOfeM9XCBg==
-X-Gm-Gg: ASbGnctCIoMXmZDmjz4FtCwbbG/jB8+FYWuDmv6MfveHvgxaKZXmO+FBK55XlDxJpR2
-	xzOfU8vs7An/6wLP5BHNTlGGyrCHyr2mv/qaFSomUbsIEC6h2AKXHp3rv0zYF8j5oOX4Jg0Z40X
-	wKjvDvAPVtwmXYxFudXVtQzLsYmlgxpzGmf7sbHJ93z+0pGSQc3u8D2FgRL8JIjS+iuUBYwngIM
-	j1cv3kD2qeQS7SDbXhcufIePbFTX7HRnNkHjs1743zsykHE629oqglHjQu0K+X/GMNlo4ZO9XJQ
-	UgbhTlx/msWZQyfynbSItqJbT4iRqSNGtEfGG++BiT8rfRNF9glXGm2nkJreIdMWvWl1Kuig0/H
-	adlZRKDZvjdE=
-X-Received: by 2002:a05:6000:3113:b0:3a4:cb4f:ac2a with SMTP id ffacd0b85a97d-3b60e4c225fmr1234121f8f.21.1752654571229;
-        Wed, 16 Jul 2025 01:29:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHLiGksmElCYFmj6deUhZX70Iugn3d4BK4R3BF8eDMEuaPTLbQdgfRYY0kjWfYoS6K8Me3pxQ==
-X-Received: by 2002:a05:6000:3113:b0:3a4:cb4f:ac2a with SMTP id ffacd0b85a97d-3b60e4c225fmr1234094f8f.21.1752654570753;
-        Wed, 16 Jul 2025 01:29:30 -0700 (PDT)
+        bh=1/mMMz9r3dZS5fLhT7uV9k7AsWyXJpRGJaGcTiHmpis=;
+        b=tlWLDqZ1n5nQ8YG35014ewr8w3pIMHUfNlkrfOiH5XzVfa/9VGz1eg4VFiaoNuhcqh
+         vyNID0rwPcrNN9/qbmqDBjfFKXeyIvr6Bko8KHCMTJKMYoB1I8nSiXuoxS1psy2PmJog
+         kCXUrtWe2k4OiRg+qVByW+mMOUqBlN4tcAGtGD/kHRgFyi3RorKavlL49NblIGPADS9g
+         wu5RKNGN/w3gnBTekCq8AyTWi3/3GfkwQjh4jKIoVNSWG0MqQG7JDjzFkr2TvAF5Lwid
+         q/odu86Vqru5aMUfhBC+mP5tgVqsDbdo9/6EfB7xAFBu1gGJS3Z9rQv9GymJnyhBFScF
+         KxSA==
+X-Forwarded-Encrypted: i=1; AJvYcCV3P+3YoOP6CxIngXvV6K+r7HlkHhF+ny2BWLwKfrcya11+8dPHgUDMmPTowwNjeliHjc++I11IklA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysnqdfEP07oexWwTJDQGVRCDowfuZr3qVi9YGQz04ZS6UPhPYJ
+	uykEGNeJuw05vB78yyRA7q6U6ZWZPRGLCLEy2dSbct/mUb/hUWNTfPx9A+jefWZ3XIhyrIJAIii
+	jSvhWX5qYnFMHKmAXPDo2a3teKDw96VGHH59oGRVENTrpoBcGBfjNNC9jsS5ajw==
+X-Gm-Gg: ASbGncuOFZUoXhn0lYqsZex5BlQUd9L0PqFiaXKPDAoQkTASm/EvoPi62P6Nqbu2AYi
+	SKwWiQcv9gP/SELxq3WyeFUPLry25E/VFp/rHHh7iHIJC9h3ixhkzzKVRJBWL9QziPi9SgTRnZ6
+	N5KEbK3G21PfWSF5Cqe95vJb9Rjf1Eyv0h2bzULsuk4aw+ao43iV+IoVV/NKr5qQB3K3pZGe+ck
+	wSpcrMqPqUTcjk2ttonIsAYr853CCv8ORPP/PyxZUOkx3yztomnMgag7a/AEpTz8dbm8utRxqh3
+	55hQnnKAgnuvvSTe91Q73l0vXmdYWuflRQ+h/ab/0heIvqwYhU3fbVqF1XLS4FaKvOX54ER2N3o
+	Nieuc0311BZs=
+X-Received: by 2002:a05:6000:2101:b0:3a5:67d5:a400 with SMTP id ffacd0b85a97d-3b60dd7ad32mr1289767f8f.33.1752654816272;
+        Wed, 16 Jul 2025 01:33:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF9yD8/Rt4+/VGcbyULapP54i40HRfZLKuicTBEq7LAucDsT5xtqNB3H6FZ/JdSK6n94pjh2w==
+X-Received: by 2002:a05:6000:2101:b0:3a5:67d5:a400 with SMTP id ffacd0b85a97d-3b60dd7ad32mr1289729f8f.33.1752654815741;
+        Wed, 16 Jul 2025 01:33:35 -0700 (PDT)
 Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e1e2cfsm16961144f8f.75.2025.07.16.01.29.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e886286sm13769075e9.26.2025.07.16.01.33.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Jul 2025 01:29:30 -0700 (PDT)
-Message-ID: <f60c5ef5-47b6-4132-bd7c-9707c81289a2@redhat.com>
-Date: Wed, 16 Jul 2025 10:29:27 +0200
+        Wed, 16 Jul 2025 01:33:35 -0700 (PDT)
+Message-ID: <514ca303-149a-4f7e-a473-31051fb7162b@redhat.com>
+Date: Wed, 16 Jul 2025 10:33:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,7 +74,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 net-next 11/15] tcp: accecn: AccECN option
+Subject: Re: [PATCH v12 net-next 12/15] tcp: accecn: AccECN option send
+ control
 To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>,
  "edumazet@google.com" <edumazet@google.com>,
  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
@@ -105,197 +106,46 @@ To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>,
  <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
  <Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
 References: <20250704085345.46530-1-chia-yu.chang@nokia-bell-labs.com>
- <20250704085345.46530-12-chia-yu.chang@nokia-bell-labs.com>
- <0ddc5daf-adb4-4d97-9e8e-e60fdf9a007f@redhat.com>
- <PAXPR07MB7984F66EB2AD576D2385C351A357A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+ <20250704085345.46530-13-chia-yu.chang@nokia-bell-labs.com>
+ <b2c0653e-077f-4609-922e-777f1d868dd0@redhat.com>
+ <PAXPR07MB7984D6FA40FF000E51F694F3A357A@PAXPR07MB7984.eurprd07.prod.outlook.com>
 Content-Language: en-US
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <PAXPR07MB7984F66EB2AD576D2385C351A357A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+In-Reply-To: <PAXPR07MB7984D6FA40FF000E51F694F3A357A@PAXPR07MB7984.eurprd07.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/15/25 4:49 PM, Chia-Yu Chang (Nokia) wrote:
-> On 7/4/25 10:53 AM, chia-yu.chang@nokia-bell-labs.com wrote:
-> [...]
->>> +}
+On 7/15/25 5:14 PM, Chia-Yu Chang (Nokia) wrote:
+>> On 7/4/25 10:53 AM, chia-yu.chang@nokia-bell-labs.com wrote:
+>>> @@ -285,9 +297,33 @@ static inline void 
+>>> tcp_ecn_received_counters(struct sock *sk,
+>>>
+>>>               if (len > 0) {
+>>>                       u8 minlen = 
+>>> tcp_ecnfield_to_accecn_optfield(ecnfield);
+>>> +                     u32 oldbytes = tp->received_ecn_bytes[ecnfield - 
+>>> + 1];
 >>> +
->>> +/* Handles AccECN option ECT and CE 24-bit byte counters update into
->>> + * the u32 value in tcp_sock. As we're processing TCP options, it is
->>> + * safe to access from - 1.
->>> + */
->>> +static inline s32 tcp_update_ecn_bytes(u32 *cnt, const char *from,
->>> +                                    u32 init_offset) {
->>> +     u32 truncated = (get_unaligned_be32(from - 1) - init_offset) &
->>> +                     0xFFFFFFU;
->>> +     u32 delta = (truncated - *cnt) & 0xFFFFFFU;
+>>>                       tp->received_ecn_bytes[ecnfield - 1] += len;
+>>>                       tp->accecn_minlen = max_t(u8, tp->accecn_minlen,
+>>>                                                 minlen);
 >>> +
->>> +     /* If delta has the highest bit set (24th bit) indicating
->>> +      * negative, sign extend to correct an estimation using
->>> +      * sign_extend32(delta, 24 - 1)
->>> +      */
->>> +     delta = sign_extend32(delta, 23);
+>>> +                     /* Demand AccECN option at least every 2^22 bytes to
+>>> +                      * avoid overflowing the ECN byte counters.
+>>> +                      */
+>>> +                     if ((tp->received_ecn_bytes[ecnfield - 1] ^ oldbytes) &
+>>> +                         ~((1 << 22) - 1)) {
 >>
->> I'm under the impression that delta could be simply:
->>
->>         delta = (truncated - *cnt)
->>
->> What am I missing?
+>> I don't understand the above statement, I don't think it yield the result expected according to the above comment.
 > 
 > Hi Paolo,
 > 
-> I think this code is necessary to ensure delta will not a super large value in case of wrap adound.
+> I was thinking to change it into GENMASK_U32() and comments like below.
 > 
-> For instance, if truncated = 0x0000001F and *cnt = 0x00FFFFFF, then (truncated - *cnt) = 0xFF000020
-> 
-> But sign_extend32(((truncated - *cnt) & 0xFFFFFFU, 23) = 0x00000020, which shall be corrrect.
-> 
-> Another example, if truncated = 0x0000001F and *cnt = 0x0000003F, then (truncated - *cnt) = 0xFFFFFFE0
-> 
-> And sign_extend32(((truncated - *cnt) & 0xFFFFFFU, 23) = 0xFFFFFFE0.
-> 
-> In this latter example, both are correct.
+> It is intended to send AccECN option at least once per 2^22-byte increase in the counter.
 
-Ok, I missed the fact that *cnt is a 24 bit integer, too. Your code
-looks good.
+Ok, I see it now. Please mention explicitly the above in the comment and
+test just the 22 bit.
 
-> 
-> [...]
->>> a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c index 
->>> d98a1a17eb52..2169fd28594e 100644
->>> --- a/net/ipv4/tcp_output.c
->>> +++ b/net/ipv4/tcp_output.c
->>> @@ -385,6 +385,7 @@ static inline bool tcp_urg_mode(const struct tcp_sock *tp)
->>>  #define OPTION_SMC           BIT(9)
->>>  #define OPTION_MPTCP         BIT(10)
->>>  #define OPTION_AO            BIT(11)
->>> +#define OPTION_ACCECN                BIT(12)
->>>
->>>  static void smc_options_write(__be32 *ptr, u16 *options)  { @@ -406,6 
->>> +407,8 @@ struct tcp_out_options {
->>>       u16 mss;                /* 0 to disable */
->>>       u8 ws;                  /* window scale, 0 to disable */
->>>       u8 num_sack_blocks;     /* number of SACK blocks to include */
->>> +     u8 num_accecn_fields:7, /* number of AccECN fields needed */
->>> +        use_synack_ecn_bytes:1; /* Use synack_ecn_bytes or not */
->>>       u8 hash_size;           /* bytes in hash_location */
->>>       u8 bpf_opt_len;         /* length of BPF hdr option */
->>>       __u8 *hash_location;    /* temporary pointer, overloaded */
->>> @@ -621,6 +624,8 @@ static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
->>>                             struct tcp_out_options *opts,
->>>                             struct tcp_key *key)  {
->>> +     u8 leftover_highbyte = TCPOPT_NOP; /* replace 1st NOP if avail */
->>> +     u8 leftover_lowbyte = TCPOPT_NOP;  /* replace 2nd NOP in 
->>> + succession */
->>>       __be32 *ptr = (__be32 *)(th + 1);
->>>       u16 options = opts->options;    /* mungable copy */
->>>
->>> @@ -656,15 +661,79 @@ static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
->>>               *ptr++ = htonl(opts->tsecr);
->>>       }
->>>
->>> +     if (OPTION_ACCECN & options) {
->>> +             /* Initial values for AccECN option, ordered is based on ECN field bits
->>> +              * similar to received_ecn_bytes. Used for SYN/ACK AccECN option.
->>> +              */
->>> +             static u32 synack_ecn_bytes[3] = { 0, 0, 0 };
->>
->> I think this does not address Eric's concern on v9 WRT global variable, as every CPU will still touch the same memory while accessing the above array.
->>
->>> +             const u8 ect0_idx = INET_ECN_ECT_0 - 1;
->>> +             const u8 ect1_idx = INET_ECN_ECT_1 - 1;
->>> +             const u8 ce_idx = INET_ECN_CE - 1;
->>> +             u32 e0b;
->>> +             u32 e1b;
->>> +             u32 ceb;
->>> +             u8 len;
->>> +
->>> +             if (opts->use_synack_ecn_bytes) {
->>> +                     e0b = synack_ecn_bytes[ect0_idx] + TCP_ACCECN_E0B_INIT_OFFSET;
->>> +                     e1b = synack_ecn_bytes[ect1_idx] + TCP_ACCECN_E1B_INIT_OFFSET;
->>> +                     ceb = synack_ecn_bytes[ce_idx] + 
->>> + TCP_ACCECN_CEB_INIT_OFFSET;
->>
->> On the flip side I don't see such array modified here, not in later patches?!? If so you could make it const and a global variable would be ok.
-> 
-> Sure, I will make it as static const global variable, which I hope this is ok for you.
-> 
-> 
->>> +/* Calculates how long AccECN option will fit to @remaining option space.
->>> + *
->>> + * AccECN option can sometimes replace NOPs used for alignment of 
->>> +other
->>> + * TCP options (up to @max_combine_saving available).
->>> + *
->>> + * Only solutions with at least @required AccECN fields are accepted.
->>> + *
->>> + * Returns: The size of the AccECN option excluding space repurposed 
->>> +from
->>> + * the alignment of the other options.
->>> + */
->>> +static int tcp_options_fit_accecn(struct tcp_out_options *opts, int required,
->>> +                               int remaining) {
->>> +     int size = TCP_ACCECN_MAXSIZE;
->>> +     int max_combine_saving;
->>> +
->>> +     if (opts->use_synack_ecn_bytes)
->>> +             max_combine_saving = tcp_synack_options_combine_saving(opts);
->>> +     else
->>> +             max_combine_saving = opts->num_sack_blocks > 0 ? 2 : 0;
->>> +     opts->num_accecn_fields = TCP_ACCECN_NUMFIELDS;
->>> +     while (opts->num_accecn_fields >= required) {
->>> +             int leftover_size = size & 0x3;
->>> +             /* Pad to dword if cannot combine */
->>> +             if (leftover_size > max_combine_saving)
->>> +                     leftover_size = -((4 - leftover_size) & 0x3);
->>
->> I *think* that with the above you mean something alike:
->>
->>                         size = ALIGN(size, 4);
->>                         leftover_size = 0
->>
->> ?
->>
->> The used code looks quite obscure to me.
->>
->> /P
-> 
-> Indeed, I will make below changes in the next version by using ALIGN() and ALIGN_DOWN()
-> 
-> Here the aim is to pad up (if max_combine_saving is not enough) or trim down (if max_combine saving is enough) to DWORD.
-> 
-> And the final return size will be the the a multiple of DWORD.
-> 
-> Would it be more readable?
-> 
-> /* Pad to DWORD if cannot combine. Align_size represents
->  * the final size to be used by AccECN options.
->  * +======+=============+====================+============+
->  * | size | size exceed | max_combine_saving | align_size |
->  * |      |    DWORD    |                    |            |
->  * +======+=============+====================+============+
->  * |   2  |       2     |         < 2        |      4     |
->  * |   2  |       2     |         >=2        |      0     |
->  * |   5  |       1     |         < 1        |      8     |
->  * |   5  |       1     |         >=1        |      4     |
->  * |   8  |       0     |         Any        |      8     |
->  * |  11  |       3     |         < 3        |     12     |
->  * |  11  |       3     |         >=3        |      8     |
->  * +======+=============+====================+============+
->  */
-> if ((size & 0x3) > max_combine_saving)
->         align_size = ALIGN(size, 4);
-> else
->         align_size = ALIGN_DOWN(size, 4);
-> 
-> if (remaining >= align_size) {
->         size = align_size;
->         break;
-> }
-
-Yes, IMHO is more readable. No need to add the table, the original
-comment is clear enough.
-
-Thanks,
-
-Paolo
+/P
 
