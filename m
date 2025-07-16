@@ -1,67 +1,67 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FF315D1;
-	Wed, 16 Jul 2025 19:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B7C4501A;
+	Wed, 16 Jul 2025 20:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752695088; cv=none; b=orfAD0znfnHDkOqxMYZnzBu7SGYtxTHxT4t3pGGw9jlsOxW4u8dP2AAE22gEKTU5RRtRK3L0O8JiM+0PBu12/mOicQDrH09boWNNw3TRXMWK3j/ggwSYPFGyvhmMcYEXNfyC5tS4GcXqMfQNt0FbOKBJ95+J0fkCsP4FwepCBpI=
+	t=1752697856; cv=none; b=BRYz8F4wC8ph4lTxtbe+nczUAlhBbWY0K8bPG870f0KbopysLxM8luFvk5nkHHiOLiGQODFEtreZ9ruQa0LYvU2jZfkqKVgdZIhopzuAD41BMP1tOKCYW/Vur0UWi/+kpkwKhY0H5QSxbTCaZSc+nagBGDoe5/B3/MtBN4oDgxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752695088; c=relaxed/simple;
-	bh=rWlxj9bCrZ5JrkdaB9LEQwfdXLFqyvRTJ/M3T9x+27E=;
+	s=arc-20240116; t=1752697856; c=relaxed/simple;
+	bh=W+tj1VjebJyBlbDrUwyTO4k6ZV8Fx/M7ZW+IIVwIEeI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LDiUiyXq9nPmGsaxUSxeh08P2j5qYHn8DVfSfyfymj8hRF9WNeDqstGOzT1i71DFD8PxKyw96cMcrbEfQtcA33ChA2t2SriBS6uEzGS9RNmeYtFeEGbch/TpNf4bZeW/2Pkt4wPmuyz2xlDeigbijVJWjna5jgrYeV6a6hViPc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lJtdSeRW; arc=none smtp.client-ip=209.85.214.180
+	 In-Reply-To:Content-Type; b=ZgraYoU0WqEO0uCsg5iP0T4piNMsLWTIhhlmDkNiWqegadzI5OMX8cGPcMTSvWLyp06BYmvK4V86/kxJIT9vWe/iB8Dxue4waGWu2XrNoRIrSNiJkN+x5rrKKv448rtyJ0vRr6MMu82kc+iU58NmnuVXMCCU5V8HkaErXN+IdL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=amVHrlQq; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJtdSeRW"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2353a2bc210so1674965ad.2;
-        Wed, 16 Jul 2025 12:44:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="amVHrlQq"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-748d982e97cso302618b3a.1;
+        Wed, 16 Jul 2025 13:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752695086; x=1753299886; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1752697854; x=1753302654; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=344G/5oCpBbSmGzTdoVwcn6E4LLYeUG2XVgvtMN0lh4=;
-        b=lJtdSeRWFIikvsDbjXrdKRkFgrh5zEDHSUfbyVZQSt05xraot+Pz+TG23amRnt8GYR
-         TwM0KhT9cnL0yBkS9IA+Y6qWm7zz0TcZKnGarVOmDtm+hWiQQQIHrITs+h2JgjeHKged
-         aSeqAnRlXCwkK0Q7ggSMEzG4D+zZ9bfnFiW3GP5vfBfFfMDmWuZ7W6mTBFN1TgZbQQDI
-         0hYN6786A9RuEPbKpwq/svCD4CVGvUTv4u7lOfxjNKcAS28ScQGG5WHxgw5iaru1X78n
-         bd08FIl8ImR2emZC4TTMwgYamesTvokUID97tg2CAwC1Fk1LyZ3pouIONqaUpjYmB/C/
-         Mq5g==
+        bh=jToX5vgvYOWNpQ7PhcvwxjAp3iiECWlZTnbgwdsh67M=;
+        b=amVHrlQq01/RHDjHkMha+Cs7NG1vXBEdIw80tdQ9bGaBLSKX3byryTLBpy3A41z0C7
+         u60ybXFRod+tD9/E8u97Jvuc1AXsM7O3pEd/G1G2Lsp28yMNUfJnFzmWdywVKf/Nu/IJ
+         DUNZvdUdK3GV/xdXmRF9CpqRzxjmlYEzWvaVJ7/gs2w9pUQfq2LnjKQQ5P7gPC2wR1pa
+         Xz2Kl9f130jfEv29V3pAAXIJnp9vCn13LBoKDgW0P2qaCPb5FFm4kCavOddIyaToN2Z/
+         N5lXKTCjFNsfSxxTfYiSAm93qPkH7VFkaGcCMPsac+/qA4P9pyDy9os0tHUNb095cwOo
+         4OAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752695086; x=1753299886;
+        d=1e100.net; s=20230601; t=1752697854; x=1753302654;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=344G/5oCpBbSmGzTdoVwcn6E4LLYeUG2XVgvtMN0lh4=;
-        b=ZubkpN/xCfyX1Lz7N8PI7SqV2Sfu98XLB9ExJn2VvGkNYXlTqWqvEKKb0w9grqQs6+
-         K3Jp0Asn/8fvrmVfxhw4bJUHuLw2fEsigW0lNxw1F0xo5ktvrIKfnHc+SLajf8QJ/ycZ
-         AsR1HzbLNL8ZLQ+tu9f98nszJ4DVUBY7sLZLvMZ9vpjhZ2SdupAFGG6rL1qWLS+GgMm1
-         D9PY/FCBEzEZndWpHZIAmlrlNW2QGN7WEVkz6RIBIT7iyEo631UtBCGBfO4oafydQMtr
-         IT8cGwWeIvS47pCdGOrLhEsFJPtWYza7eHXMci3JjJc2eR8am+RyfLNkd1PoLxGjPiXe
-         ostQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0yK9fL2S4k0yB+HUZoIFJgUxtgLHY4aK4HC3rQTRzqPRceXCAz8+/0WJnYe0ab8DQ0J3lZp/HUl75hacV@vger.kernel.org, AJvYcCVkPO7lTshcrrSemDYVQLthCISjFHg59RvrYQDYWHOrWmpwmPW0MVj5hDWJLd1iHwLt1LtHRA/qOs3ifh8=@vger.kernel.org, AJvYcCW+Dr3YUp+e8rG4ovdMgF/UZEf6ZP7936sxDFcmw6QgKmWfQ4+4ma1VQ61pIX9Zw4lcbvYHcmJiXgM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoeQMuUT0LtMQeBbPDbqY8iG3wecSMYyuqbSsMssIlE4LYxWWW
-	uix2Io/pv5GkiGN2bYwj3nl8Utx0IW26iJxUkX+tnF4itovK2WUp8vRC
-X-Gm-Gg: ASbGncv2x3GZfkNnEmHDC34LuIIasXgncf/Y/0ZJMM1T65uItv12BzXvvaIUh4xgBWb
-	vevd5zQM/HwPcWquZatYy8fi6x6IRTGHhhX+ZZHqWawrRjAs1ILUb7CMSi2xiYpVFAY8ZymPuDu
-	wt6/klMCQTIrgKP/FVhZ8e8oTzUctZB0v3qdN4sTxWKuNbhEOQCybfRYcVfuHJ+6ZxLkTN0hAlE
-	OCICWSJU2PmZDO9rlipcXIOjWOpNWodsAmlLvH2Yh3NGKWSwuMYlwhyGoyuCpHqq6Klgmos0+pu
-	nD096G8fPS3+fJU4pHrEXgLI+XXYoyaeRo7ZeN1AMksmcxCmFm7itNQZS3OTiElC73DxN45bCtY
-	BruNiOudM+oLzS9iOVa7XmXiEyDTIbux/LM+RIerrhmGa9DHQwbKBljefnNiYheMkKiAUdZ8=
-X-Google-Smtp-Source: AGHT+IFxUCDXSWik+PD1TfU/TfjoOIgNNw8gHrizVoZXaax5sqkNFm0hdOCwHWWPp081iAty4cIIWw==
-X-Received: by 2002:a17:903:1245:b0:235:f143:9b16 with SMTP id d9443c01a7336-23e25770caamr50691815ad.41.1752695085579;
-        Wed, 16 Jul 2025 12:44:45 -0700 (PDT)
+        bh=jToX5vgvYOWNpQ7PhcvwxjAp3iiECWlZTnbgwdsh67M=;
+        b=pvfg/V9Isld4kmC22PlpjQ20VXjJFilbEiHq5M0EuqIlhVZ8e0fvoTmsLvPavYHs6e
+         OcC+0Yz3cZ3XWy7p87iJbqa4M5Dp5ARQaLrnuuh9ka5UrynaNmzFXeHFGRSuUCFBjdWs
+         bh0YsVH1+IHy7/oYFBZvH+LuiJbgfGPJE46IhvriaSCdOP8zsNr59wclGjdknNqzlnl1
+         grfDMWIP8QQBO3gBwNP3WaUvtn2T2phDN4esYGmC6Gwxzs+HjyoXtA9RxEPZ05NhxU0Z
+         vbtyeRGBQLtMBnHa4ldlALsa4FUkH/XojLdUvvJxpSO6JvulMPoCbzMwSis7psQ4D+f4
+         zjJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGb6ltacql5wvXb6A/38lBd5XOidIy6IKMkUkg1ZhXp2DvPPy+Wq2RF9h2beo6aXeScvA2cGmwvjOFzJUY@vger.kernel.org, AJvYcCWTIxmsVsuByKw8vHiVbp5fh5uBcUWr2FsNQVatkbYszcPuvKiloWm4ZexQV3brgEyv2tCwhw3E2jeg7nY=@vger.kernel.org, AJvYcCWtX07KWi2CNy4dQkhrQJdu8OKzvfg7ncc+2UPjQzrg9Nvr0UH7MNE7ZJOYZrujQQFsRe/LZ20jYCA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUWOFBfC4q4U/Qydq7ltaa3KivRwgefwsbgSgvTCBRgXYBA6B3
+	Q67Ln3FNKvhhw7Ue9QI/B9D/bm2Xe/Px4OvuN63kfYFHCeU9+71f0XnlcdsTHQ==
+X-Gm-Gg: ASbGncuLJFllOIifOKlMTvEKZu4FaoUmgZ9Mu9g8wRCDg/XP2H9oyLEVXYo2jctrJqO
+	cvo+QBtCg0qPx4lg5YtAbS6Hu8PaIiFB+J9EQX3M1gqwlUcFJ4fEl3rBqs0i+25oLvB6cyFk9H4
+	NBuAajO8138b7BnLEdAhOq8XdefDGP/zDTv6YlNaVDBUZMi3sNtkT3w6ty3x2Ey6Kjgcaqhy3eU
+	vqjPKCdxtOtDtKEQQ792JGInPK4WYyxX8zJ3ZCHhWHSVeAucFgv5t35FlIN+4YXKptwS1upuYno
+	AcnDA5FVJqkmrxwKEwNE4PaWVezjZpJXlHCZTx/gVqUYz1Scu7zlMkDL3iqoi1BKzpcd8HmnHZg
+	c8r4ceSjuznFI0EQrQX3MhVU7FiQ+YZH6oYF37AEtpSxK2ga6j0I9VSGbbkuaxjZGHfYcZAI=
+X-Google-Smtp-Source: AGHT+IHAttu6gwxIToTJ+F1XiyqkL1tlyMlREf+ZnPiny7r/1mgK6Gn/BYUZnN0LtcXBYnOaReNjgw==
+X-Received: by 2002:a05:6300:619c:b0:232:c9de:4d98 with SMTP id adf61e73a8af0-23811055d11mr6953618637.11.1752697853925;
+        Wed, 16 Jul 2025 13:30:53 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de428663esm127562065ad.15.2025.07.16.12.44.44
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3bbe52cbcasm14152134a12.4.2025.07.16.13.30.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Jul 2025 12:44:45 -0700 (PDT)
+        Wed, 16 Jul 2025 13:30:53 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <1a6c43c7-3f77-4d47-9913-54c50cb59e9d@roeck-us.net>
-Date: Wed, 16 Jul 2025 12:44:43 -0700
+Message-ID: <039c31c3-af15-46e0-98fb-f3a54fcf73e5@roeck-us.net>
+Date: Wed, 16 Jul 2025 13:30:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,12 +69,14 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] hwmon: Add support for MPS mp2869,mp29502 chip
+Subject: Re: [PATCH v3 2/2] hwmon: add MP2869 series and MP29502 driver
 To: wenswang@yeah.net, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20250709092734.455976-1-wenswang@yeah.net>
+ <20250709093420.456304-1-wenswang@yeah.net>
+ <20250709093420.456304-2-wenswang@yeah.net>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -120,48 +122,430 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20250709092734.455976-1-wenswang@yeah.net>
+In-Reply-To: <20250709093420.456304-2-wenswang@yeah.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/9/25 02:27, wenswang@yeah.net wrote:
+On 7/9/25 02:34, wenswang@yeah.net wrote:
 > From: Wensheng Wang <wenswang@yeah.net>
 > 
-> Add mp2869,mp29502 driver in hwmon and add dt-bindings for them.
+> Add support for MPS VR mp2869 series and mp29502 controller. The
+> driver exposes telemetry and limit value readings and writtings.
 > 
+> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
+> ---
 > V2 -> V3:
 >      merge patches for MP29502 and MP2869
-
-Why ? It only makes review more difficult.
-
-Either case, I now have submissions for two drivers supporting MP2869
-(or MP2869). One of them also supports MP29612A. That needs to be consolidated,
-and I guess I'll need to spend a lot of time trying to figure out if separate
-drivers for all those chips are really needed. That is going to take a while.
-
-Guenter
-
 > 
 > V1 -> V2:
 >      add Rob's Acked-by
 > 
-> Wensheng Wang (2):
->    dt-bindings: hwmon: Add MPS mp2869 series and mp29502
->    hwmon: add MP2869 series and MP29502 driver
-> 
->   .../devicetree/bindings/trivial-devices.yaml  |  10 +
->   Documentation/hwmon/index.rst                 |   2 +
->   Documentation/hwmon/mp2869.rst                | 175 +++++
->   Documentation/hwmon/mp29502.rst               |  93 +++
->   MAINTAINERS                                   |   9 +
->   drivers/hwmon/pmbus/Kconfig                   |  18 +
->   drivers/hwmon/pmbus/Makefile                  |   2 +
->   drivers/hwmon/pmbus/mp2869.c                  | 711 ++++++++++++++++++
->   drivers/hwmon/pmbus/mp29502.c                 | 670 +++++++++++++++++
->   9 files changed, 1690 insertions(+)
+>   Documentation/hwmon/index.rst   |   2 +
+>   Documentation/hwmon/mp2869.rst  | 175 ++++++++
+>   Documentation/hwmon/mp29502.rst |  93 +++++
+>   MAINTAINERS                     |   9 +
+>   drivers/hwmon/pmbus/Kconfig     |  18 +
+>   drivers/hwmon/pmbus/Makefile    |   2 +
+>   drivers/hwmon/pmbus/mp2869.c    | 711 ++++++++++++++++++++++++++++++++
+>   drivers/hwmon/pmbus/mp29502.c   | 670 ++++++++++++++++++++++++++++++
+>   8 files changed, 1680 insertions(+)
 >   create mode 100644 Documentation/hwmon/mp2869.rst
 >   create mode 100644 Documentation/hwmon/mp29502.rst
 >   create mode 100644 drivers/hwmon/pmbus/mp2869.c
 >   create mode 100644 drivers/hwmon/pmbus/mp29502.c
 > 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index b45bfb4ebf30..ebc5c92e50b0 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -172,8 +172,10 @@ Hardware Monitoring Kernel Drivers
+>      menf21bmc
+>      mlxreg-fan
+>      mp2856
+> +   mp2869
+>      mp2888
+>      mp2891
+> +   mp29502
+>      mp2975
+>      mp2993
+>      mp5023
+> diff --git a/Documentation/hwmon/mp2869.rst b/Documentation/hwmon/mp2869.rst
+> new file mode 100644
+> index 000000000000..2d9d65fc86b6
+> --- /dev/null
+> +++ b/Documentation/hwmon/mp2869.rst
+> @@ -0,0 +1,175 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver mp2869
+> +====================
+> +
+> +Supported chips:
+> +
+> +  * MPS mp2869
+> +
+> +    Prefix: 'mp2869'
+> +
+> +  * MPS mp29608
+> +
+> +    Prefix: 'mp29608'
+> +
+> +  * MPS mp29612
+> +
+> +    Prefix: 'mp29612'
+> +
+> +  * MPS mp29816
+> +
+> +    Prefix: 'mp29816'
+> +
+> +Author:
+> +
+> +	Wensheng Wang <wenswang@yeah.net>
+> +
+> +Description
+> +-----------
+> +
+> +This driver implements support for Monolithic Power Systems, Inc. (MPS)
+> +MP2869 Dual Loop Digital Multi-phase Controller.
+> +
+> +Device compliant with:
+> +
+> +- PMBus rev 1.3 interface.
+> +
+> +The driver exports the following attributes via the 'sysfs' files
+> +for input voltage:
+> +
+> +**in1_input**
+> +
+> +**in1_label**
+> +
+> +**in1_crit**
+> +
+> +**in1_crit_alarm**
+> +
+> +**in1_lcrit**
+> +
+> +**in1_lcrit_alarm**
+> +
+> +**in1_min**
+> +
+> +**in1_min_alarm**
+> +
+> +The driver provides the following attributes for output voltage:
+> +
+> +**in2_input**
+> +
+> +**in2_label**
+> +
+> +**in2_crit**
+> +
+> +**in2_crit_alarm**
+> +
+> +**in2_lcrit**
+> +
+> +**in2_lcrit_alarm**
+> +
+> +**in3_input**
+> +
+> +**in3_label**
+> +
+> +**in3_crit**
+> +
+> +**in3_crit_alarm**
+> +
+> +**in3_lcrit**
+> +
+> +**in3_lcrit_alarm**
+> +
+> +The driver provides the following attributes for input current:
+> +
+> +**curr1_input**
+> +
+> +**curr1_label**
+> +
+> +**curr2_input**
+> +
+> +**curr2_label**
+> +
+> +The driver provides the following attributes for output current:
+> +
+> +**curr3_input**
+> +
+> +**curr3_label**
+> +
+> +**curr3_crit**
+> +
+> +**curr3_crit_alarm**
+> +
+> +**curr3_max**
+> +
+> +**curr3_max_alarm**
+> +
+> +**curr4_input**
+> +
+> +**curr4_label**
+> +
+> +**curr4_crit**
+> +
+> +**curr4_crit_alarm**
+> +
+> +**curr4_max**
+> +
+> +**curr4_max_alarm**
+> +
+> +The driver provides the following attributes for input power:
+> +
+> +**power1_input**
+> +
+> +**power1_label**
+> +
+> +**power2_input**
+> +
+> +**power2_label**
+> +
+> +The driver provides the following attributes for output power:
+> +
+> +**power3_input**
+> +
+> +**power3_label**
+> +
+> +**power3_input**
+> +
+> +**power3_label**
+> +
+> +**power3_max**
+> +
+> +**power3_max_alarm**
+> +
+> +**power4_input**
+> +
+> +**power4_label**
+> +
+> +**power4_input**
+> +
+> +**power4_label**
+> +
+> +**power4_max**
+> +
+> +**power4_max_alarm**
+> +
+> +The driver provides the following attributes for temperature:
+> +
+> +**temp1_input**
+> +
+> +**temp1_crit**
+> +
+> +**temp1_crit_alarm**
+> +
+> +**temp1_max**
+> +
+> +**temp1_max_alarm**
+> +
+> +**temp2_input**
+> +
+> +**temp2_crit**
+> +
+> +**temp2_crit_alarm**
+> +
+> +**temp2_max**
+> +
+> +**temp2_max_alarm**
+> diff --git a/Documentation/hwmon/mp29502.rst b/Documentation/hwmon/mp29502.rst
+> new file mode 100644
+> index 000000000000..7743056f0aa6
+> --- /dev/null
+> +++ b/Documentation/hwmon/mp29502.rst
+> @@ -0,0 +1,93 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver mp29502
+> +====================
+> +
+> +Supported chips:
+> +
+> +  * MPS mp29502
+> +
+> +    Prefix: 'mp29502'
+> +
+> +Author:
+> +
+> +	Wensheng Wang <wenswang@yeah.net>
+> +
+> +Description
+> +-----------
+> +
+> +This driver implements support for Monolithic Power Systems, Inc. (MPS)
+> +MP29502 Digital Multi-phase Controller.
+> +
+> +Device compliant with:
+> +
+> +- PMBus rev 1.3 interface.
+> +
+> +The driver exports the following attributes via the 'sysfs' files
+> +for input voltage:
+> +
+> +**in1_input**
+> +
+> +**in1_label**
+> +
+> +**in1_crit**
+> +
+> +**in1_crit_alarm**
+> +
+> +The driver provides the following attributes for output voltage:
+> +
+> +**in2_input**
+> +
+> +**in2_label**
+> +
+> +**in2_crit**
+> +
+> +**in2_crit_alarm**
+> +
+> +**in2_lcrit**
+> +
+> +**in2_lcrit_alarm**
+> +
+> +The driver provides the following attributes for input current:
+> +
+> +**curr1_input**
+> +
+> +**curr1_label**
+> +
+> +The driver provides the following attributes for output current:
+> +
+> +**curr2_input**
+> +
+> +**curr2_label**
+> +
+> +**curr2_crit**
+> +
+> +**curr2_crit_alarm**
+> +
+> +**curr2_max**
+> +
+> +**curr2_max_alarm**
+> +
+> +The driver provides the following attributes for input power:
+> +
+> +**power1_input**
+> +
+> +**power1_label**
+> +
+> +The driver provides the following attributes for output power:
+> +
+> +**power2_input**
+> +
+> +**power2_label**
+> +
+> +The driver provides the following attributes for temperature:
+> +
+> +**temp1_input**
+> +
+> +**temp1_crit**
+> +
+> +**temp1_crit_alarm**
+> +
+> +**temp1_max**
+> +
+> +**temp1_max_alarm**
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 240793fbe64b..b4377f0eb3a1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16839,6 +16839,15 @@ F:	scripts/module*
+>   F:	tools/testing/selftests/kmod/
+>   F:	tools/testing/selftests/module/
+>   
+> +MONOLITHIC POWER SYSTEM MULTI-PHASE CONTROLLER DRIVER
+> +M:	Wensheng Wang <wenswang@yeah.net>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/mp2869.rst
+> +F:	Documentation/hwmon/mp29502.rst
+> +F:	drivers/hwmon/pmbus/mp2869.c
+> +F:	drivers/hwmon/pmbus/mp29502.c
+> +
+>   MONOLITHIC POWER SYSTEM PMIC DRIVER
+>   M:	Saravanan Sekar <sravanhome@gmail.com>
+>   S:	Maintained
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 441f984a859d..d0bdd1b5feb6 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -364,6 +364,15 @@ config SENSORS_MP2856
+>   	  This driver can also be built as a module. If so, the module will
+>   	  be called mp2856.
+>   
+> +config SENSORS_MP2869
+> +	tristate "MPS MP2869"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for MPS
+> +	  MP2869 Dual Loop Digital Multi-Phase Controller.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called mp2869.
+> +
+>   config SENSORS_MP2888
+>   	tristate "MPS MP2888"
+>   	help
+> @@ -382,6 +391,15 @@ config SENSORS_MP2891
+>         This driver can also be built as a module. If so, the module will
+>         be called mp2891.
+>   
+> +config SENSORS_MP29502
+> +	tristate "MPS MP29502"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for MPS
+> +	  MP29502 Dual Loop Digital Multi-Phase Controller.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called mp29502.
+> +
+>   config SENSORS_MP2975
+>   	tristate "MPS MP2975"
+>   	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 29cd8a3317d2..4c5ff3f32c5e 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -37,8 +37,10 @@ obj-$(CONFIG_SENSORS_MAX31785)	+= max31785.o
+>   obj-$(CONFIG_SENSORS_MAX34440)	+= max34440.o
+>   obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
+>   obj-$(CONFIG_SENSORS_MP2856)	+= mp2856.o
+> +obj-$(CONFIG_SENSORS_MP2869)	+= mp2869.o
+>   obj-$(CONFIG_SENSORS_MP2888)	+= mp2888.o
+>   obj-$(CONFIG_SENSORS_MP2891)	+= mp2891.o
+> +obj-$(CONFIG_SENSORS_MP29502)	+= mp29502.o
+>   obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+>   obj-$(CONFIG_SENSORS_MP2993)	+= mp2993.o
+>   obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
+> diff --git a/drivers/hwmon/pmbus/mp2869.c b/drivers/hwmon/pmbus/mp2869.c
+> new file mode 100644
+> index 000000000000..af233ffd5230
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/mp2869.c
+> @@ -0,0 +1,711 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Hardware monitoring driver for MPS Multi-phase Digital VR Controllers(MP2869)
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include "pmbus.h"
+> +
+> +#define MFR_READ_PIN_EST	0x94
+> +#define MFR_READ_IIN_EST	0x95
+> +#define MFR_VOUT_SCALE_LOOP	0x29
 
+This is a standard register.
+
+> +#define MFR_SVI3_IOUT_PRT	0x67
+> +#define STATUS_MFR_SPECIFIC	0x80
+
+This is a standard register.
+
+Guenter
