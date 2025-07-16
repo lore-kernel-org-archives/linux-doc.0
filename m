@@ -1,41 +1,37 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3E62F5466;
-	Wed, 16 Jul 2025 16:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952F9188A3A;
+	Wed, 16 Jul 2025 18:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752684726; cv=none; b=Jlhvjyg4PBl1P4xohsoDYtzJqqf+mvfufZ/qNrL0soPrCLBRITVImQPs23evgRwkOgEgqp94StyBIKXXiSsX0QvuqigSNlh4MwewpxPPUCTyB1xvGr7Xs9dtjejpu0vu12d1s+7W0oNr6bS04mlArnnbqU1MLzWNbjLG/wivSxI=
+	t=1752691452; cv=none; b=XdpA/7o3+3ZrWnw2DkRqA5/zTRsLZ0MT2Fl750sxaPJXcqiZ6NpvcnsfQJNGZQWAiXSj2gBx28kxIsLw3Tbi0xzm+dm0JSbQMqxASYLCVyuIIupixFAvohh/7Gtd4eImHdE29jbswijeckne1x68QM+8cocC9yKb5OvIANAR2VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752684726; c=relaxed/simple;
-	bh=c0KFAemiEAizQp2k38W1DuW2PQBYBlNlBSNl4rQu5Qk=;
+	s=arc-20240116; t=1752691452; c=relaxed/simple;
+	bh=H/UhfH/UokN99g637wobOS9cbry1x5qXgto7yjFY4ag=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vEhOcDNQ/EkWsFlXEfum9FoeHFGf61vkt5gvDJ9Bc8alMQNlXUdMViy+yBqkaoZ/lkIbDVu5Zf7ln6hNqCeWyLQCJRfv9QqRVBpomC8GTE/f8jKmx1zR5fnxMOn/9IPOvT5CzDfh+UEedJ3g3jsQWto7tpnLbRM5umT7+Dx3Do4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=aT7Z2p38; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	 In-Reply-To:Content-Type; b=O82msgzMA1UuEHbYkA72wZP6NMNTzio/pc+bDD5Nd6xWE72x9Q3CqpPhJ19nUAobOa1Ug7MlU3qhmWW0hq+Z/lfltEPEOq5zBQO+Vjp5NKkQ3BSNXNuA+xjxz6jzpN7VvZJ0mjzSbkaY/5ZdqwUvBFeRYPO2T4iZaKxGunrWjSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vJO3Z5WI; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="aT7Z2p38"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1752684717; x=1753289517; i=w_armin@gmx.de;
-	bh=c0KFAemiEAizQp2k38W1DuW2PQBYBlNlBSNl4rQu5Qk=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=aT7Z2p38CfjeXl6Mmw7esrto1w5FZbGkF68bV+FRaWPQQ4zYZ/ZJvkUbERqzLRyu
-	 qZ/FOe1w9fRHxmJN8ZkI7EnjcWn8vcUqzswG7BwyerfjMoA+slg9ufkY3slOFgaHI
-	 4JeQDr9Z2eihDDB/Nn3omqip2BUeS5x64tu8tRoJW+CTxwz27fCrCNxrfm8/yQVMw
-	 38jF97088LfHUz2m22zelQBOY/jwFicq6gscsI61r7qUCShm15NxIjSYxy+cQbu3R
-	 Iz3e/49RWIclnXW+E56qdWNpQqxEmTkMYj6Vi6eSD0F8pMPtWBCZmtGa6PogpLlKj
-	 m0Ml4UTUUKzpiR+WQQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mel7v-1v9m9I1omb-00o4dP; Wed, 16
- Jul 2025 18:51:57 +0200
-Message-ID: <20213956-f1f9-4eba-84d0-a4ea5fc745bd@gmx.de>
-Date: Wed, 16 Jul 2025 18:51:54 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vJO3Z5WI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=pyfFofk4+rHlS825JirWA6ODvtQNZleuH6XhENxvc6Q=; b=vJO3Z5WIqa493yE7wWZ30sODik
+	vaR9uAICxAilMkm05KIc+Zlp0jfwp7eTVa0JCYuM0En0QOwT9qogIIibBgA9adr3FwEd7YEh3k0fF
+	QIuLDq2OvDwWbEnVAu5xFkmeK3GHoKIBwQTzmreqJYp6iohgFspuZMyoOyOYIuIbWpUYT4FPtzIvT
+	R4kIY+FA7rpQJeitDD9lTqAzRaWuPLxX1k0LhrYBZ+rlMebt2vNdwjwQCLkAKRR/JK4QbP9tz5CT6
+	BXg+tTP+uV87kW1oi7ih4QtLo+GuqYARe2Ho0NpmpjVDxD8sXAOf4sbyPCp8wTYOx/ZZp4HWyOgAR
+	FEAnG4pA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uc76q-00000008Q9A-3RNM;
+	Wed, 16 Jul 2025 18:44:04 +0000
+Message-ID: <bfcc3a24-b48c-48a6-8280-07f7a2669e6b@infradead.org>
+Date: Wed, 16 Jul 2025 11:44:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,244 +39,91 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [External] : [PATCH 3/3] Documentation: laptops: Add
- documentation for uniwill laptops
-To: ALOK TIWARI <alok.a.tiwari@oracle.com>, ilpo.jarvinen@linux.intel.com,
- hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
- wse@tuxedocomputers.com, ggo@tuxedocomputers.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
- linux-leds@vger.kernel.org, lee@kernel.org, pobrn@protonmail.com
-References: <20250712112310.19964-1-W_Armin@gmx.de>
- <20250712112310.19964-4-W_Armin@gmx.de>
- <533f0f95-69d1-4151-9987-84b7702179d2@oracle.com>
+Subject: Re: [RFC PATCH] tpm, tpm_vtpm_proxy: boot-time TPM
+To: Jarkko Sakkinen <jarkko@kernel.org>, linux-kernel@vger.kernel.org
+Cc: keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+ Stefan Berger <stefanb@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>,
+ Jonathan Corbet <corbet@lwn.net>, Peter Huewe <peterhuewe@gmx.de>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Steven Rostedt
+ <rostedt@goodmis.org>, Neeraj Upadhyay <Neeraj.Upadhyay@amd.com>,
+ "Borislav Petkov (AMD)" <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+ Frank van der Linden <fvdl@google.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20250716121823.173949-1-jarkko@kernel.org>
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <533f0f95-69d1-4151-9987-84b7702179d2@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:kKNpbXcZsNKqp3RQzdjpeMMr5vFRtbkY4YCdoB87SYhLP9UTKXf
- 48VUcQn2QN8eLMps59JNhbwm6/U82ghSkYf6j8XfByK6wmYQtvzZFOb130E8cD/+QB/7DaE
- n/qQZy9bipkcxR2bvgGBw2AVAql8BWcxW0MOi+NkfCoQl7Bhud9uHtV5YkvxhPFE0EU8Fvd
- kfpVjY2jfJjxAF9xtVz0A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:0Pi65zeo9Ik=;bUDGapkUCcufhIjeIvb04i/II65
- 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
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250716121823.173949-1-jarkko@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Am 12.07.25 um 14:54 schrieb ALOK TIWARI:
+(mostly nits, along with Paul's comments)
 
-> On 7/12/2025 4:53 PM, Armin Wolf wrote:
->> Add documentation for admins regarding Uniwill laptops. This should
->> help users to setup the uniwill-laptop and uniwill-wmi drivers, which
->> sadly cannot be loaded automatically.
->>
->> Reported-by: cyear <chumuzero@gmail.com>
->> Closes:=20
->> https://urldefense.com/v3/__https://github.com/lm-sensors/lm-sensors/is=
-sues/508__;!!ACWV5N9M2RV99hQ!MfQKq-XQLt4Lj_zRVzpbw1q-Y2RgiAMwHHbA8oE3H1FH_=
-iL99Vb9H29zjLtdHf1xmTUNkT6ZM-xUiZmfJew$
->> Closes:=20
->> https://urldefense.com/v3/__https://github.com/Wer-Wolf/uniwill-laptop/=
-issues/3__;!!ACWV5N9M2RV99hQ!MfQKq-XQLt4Lj_zRVzpbw1q-Y2RgiAMwHHbA8oE3H1FH_=
-iL99Vb9H29zjLtdHf1xmTUNkT6ZM-xU2Vmgr2k$
->> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->> ---
->> =C2=A0 Documentation/admin-guide/laptops/index.rst=C2=A0=C2=A0 |=C2=A0 =
-1 +
->> =C2=A0 .../admin-guide/laptops/uniwill-laptop.rst=C2=A0=C2=A0=C2=A0 | 6=
-8 +++++++++++++++++++
->> =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 1 +
->> =C2=A0 3 files changed, 70 insertions(+)
->> =C2=A0 create mode 100644=20
->> Documentation/admin-guide/laptops/uniwill-laptop.rst
->>
->> diff --git a/Documentation/admin-guide/laptops/index.rst=20
->> b/Documentation/admin-guide/laptops/index.rst
->> index db842b629303..6432c251dc95 100644
->> --- a/Documentation/admin-guide/laptops/index.rst
->> +++ b/Documentation/admin-guide/laptops/index.rst
->> @@ -17,3 +17,4 @@ Laptop Drivers
->> =C2=A0=C2=A0=C2=A0=C2=A0 sonypi
->> =C2=A0=C2=A0=C2=A0=C2=A0 thinkpad-acpi
->> =C2=A0=C2=A0=C2=A0=C2=A0 toshiba_haps
->> +=C2=A0=C2=A0 uniwill-laptop
->> diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst=20
->> b/Documentation/admin-guide/laptops/uniwill-laptop.rst
->> new file mode 100644
->> index 000000000000..29f6ee88063b
->> --- /dev/null
->> +++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
->> @@ -0,0 +1,68 @@
->> +.. SPDX-License-Identifier: GPL-2.0+
->> +
->> +Uniwill laptop extra features
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->> +
->> +On laptops manufactured by Uniwill (either directly or as ODM), the=20
->> ``uniwill-laptop`` and
->> +``uniwill-wmi`` driver both handle various platform-specific features.
->> +However due to a design flaw in the underlying firmware interface,=20
->> both drivers might need
->
-> might need or may need (optional)
->
->> +to be loaded manually on some devices.
->> +
->> +.. warning:: Not all devices supporting the firmware interface will=20
->> necessarily support those
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 drivers, please be careful.
->> +
->> +Module Loading
->> +--------------
->> +
->> +The ``uniwill-laptop`` driver relies on a DMI table to automatically=
-=20
->> load on supported devices.
->> +When using the ``force`` module parameter, this DMI check will be=20
->> omitted, allowing the driver
->> +to be loaded on unsupported devices for testing purposes.
->> +
->> +The ``uniwill-wmi`` driver always needs to be loaded manually.=20
->> However the ``uniwill-laptop``
->> +driver will automatically load it as a dependency.
->> +
->> +Hotkeys
->> +-------
->> +
->> +Usually the FN keys work without a special driver. However as soon=20
->> as the ``uniwill-laptop`` driver
->> +is loaded, the FN keys need to be handled manually. This is done by=20
->> the ``uniwill-wmi`` driver.
->> +
->> +Keyboard settings
->> +-----------------
->> +
->> +The ``uniwill-laptop`` driver allows the user to enable/disable:
->> +
->> + - the FN and super key lock functionality of the integrated keyboard
->> + - the touchpad toggle functionality of the integrated touchpad
->> +
->> +See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
->> +
->> +Hwmon interface
->> +---------------
->> +
->> +The ``uniwill-laptop`` driver supports reading of the CPU and GPU=20
->> temperature and supports up to
->> +two fans. Userspace applications can access sensor readings over the=
-=20
->> hwmon sysfs interface.
->> +
->> +Platform profile
->> +----------------
->> +
->> +Support for changing the platform performance mode is currently not=20
->> implemented.
->> +
->> +Battery Charging Control
->> +------------------------
->> +
->> +The ``uniwill-laptop`` driver supports controlling the battery=20
->> charge limit. This happens over
->> +the standard ``charge_control_end_threshold`` power supply sysfs=20
->> attribute. All values
->> +between 1 and 100 percent are supported.
->> +
->> +Additionally the driver signals the presence of battery charging=20
->> issues thru the standard ``health``
->
-> thru -> through
->
-Will fix.
 
-Thanks,
-Armin Wolf
+On 7/16/25 5:18 AM, Jarkko Sakkinen wrote:
+> From: Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>
+> 
+> Provide a kernel command-line parameter named as `supplicant`, which
+> contains a path to an TPM emulator binary. When defind, the kernel will
 
->> +power supply sysfs attribute.
->> +
->> +Lightbar
->> +--------
->> +
->> +The ``uniwill-laptop`` driver exposes the lightbar found on some=20
->> models as a standard multicolor
->> +LED class device. The default name of this LED class device is=20
->> ``uniwill:multicolor:status``.
->> +
->> +See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for=20
->> details on how to control the various
->> +animation modes of the lightbar.
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 3efec7a99262..fe302a610fe6 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -25495,6 +25495,7 @@ M:=C2=A0=C2=A0=C2=A0 Armin Wolf <W_Armin@gmx.de=
->
->> =C2=A0 L:=C2=A0=C2=A0=C2=A0 platform-driver-x86@vger.kernel.org
->> =C2=A0 S:=C2=A0=C2=A0=C2=A0 Maintained
->> =C2=A0 F:=C2=A0=C2=A0=C2=A0 Documentation/ABI/testing/sysfs-driver-uniw=
-ill-laptop
->> +F:=C2=A0=C2=A0=C2=A0 Documentation/admin-guide/laptops/uniwill-laptop.=
-rst
->> =C2=A0 F:=C2=A0=C2=A0=C2=A0 Documentation/wmi/devices/uniwill-laptop.rs=
-t
->> =C2=A0 F:=C2=A0=C2=A0=C2=A0 drivers/platform/x86/uniwill/uniwill-laptop=
-.c
->
-> Thanks,
-> Alok
->
+                  to a TPM
+
+> launch the program during boot-time.
+> 
+> This feature is most useful in feature testing e.g., in environments
+
+                                         testing, e.g.,
+
+> where other means are not possible, such as CI runners. Its original use
+> case highlights also quite well of its applicability for pre-production
+> hardware: it was used to provide a TPM implemnentation for a RISC-V SoC
+> running on FPGA with no TPM HW implementation at the time.
+> 
+> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>
+> ---
+> Bumped into this in my archives so thought to make it available just in
+> case anyone is interested.
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 14 +++++
+>  drivers/char/tpm/tpm_vtpm_proxy.c             | 51 +++++++++++++++++++
+>  2 files changed, 65 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index f1f2c0874da9..e062de99480e 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -7230,6 +7230,20 @@
+>  			defined by Trusted Computing Group (TCG) see
+>  			https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
+>  
+> +	tpm_vtpm_proxy.supplicant= [TPM]
+> +			When defined, this field must contain a legit path to a
+
+			                                        legitimate
+or			                                        valid
+
+> +			program emulating a TPM chip, which will be started
+> +			during the driver initialization, thus providing a
+> +			mechanism for the user space have an emulated TPM from
+> +			the get go. Kernel prepares the process with a file
+
+			    get-go.
+or just don't use slang terms.
+
+> +			pre-opened file descriptor in the index 3 for
+> +			/dev/vtpmx.
+> +
+> +			An emulator can optionally provide support for
+> +			localities by reacting to the vendor command defined
+> +			by the driver: 0x20001000. Its payload is a single
+> +			byte containing the new locality.
+> +
+>  	tp_printk	[FTRACE]
+>  			Have the tracepoints sent to printk as well as the
+>  			tracing ring buffer. This is useful for early boot up
+
+thanks.
+-- 
+~Randy
+
