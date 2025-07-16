@@ -1,212 +1,158 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18911214A64
-	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 02:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9F0374D1;
+	Wed, 16 Jul 2025 02:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752631605; cv=none; b=uyg81QPh/n7esgF3p1E7SZCa1zafm65PCP8yTH1xQf529KytAkO3dsLhoy6Be9t3zChtl10ud/IVoTShVLFfImWRLpq1LhjZz3D5Lv6NamuZ3ZOmmq2YxvUQp3Inns70yBjVQZPLVNA+Ywmh7+SjEIluruhLYf8yx/aq+ic5/ss=
+	t=1752634281; cv=none; b=QExbqZYGk7Glb6njcWwmLzmkQKSxrTJKcACc8fCHd6TfEp5aHKgHSAprYe9qKGdQmXTfXail5GtIseIrndSZTy0tlDXXOmmpN7RSe0563DgcRJrlsK6g8nXjYaxWFPllRyOJ3ZdsUrwJ5acWHnynGWC4kX6IhFgju7SsPGJ2BDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752631605; c=relaxed/simple;
-	bh=TPISs9NBFDN53Y3aUroY0WGCUZDIWplP0R+8uYAH4bo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LX+CSyNFBo0DJDpkySmA1cafFrcgFKQiDPS6QcRemndJ/nC0FvRHeBN+7KcFpgfdYaMIY1oPC9MCipt6dn24f/K5DTwwWRe3efZcYiOBrr3KbeZFZY4gDwoPwvgKTdxAb0/fZCWjadldXyTyt1cH2s+LklWRu+A6EbMoxq8v/kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=DSjdlGhS; arc=none smtp.client-ip=209.85.166.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1752634281; c=relaxed/simple;
+	bh=d+O5NiaQs+zx9yRlpf28fAQcJ8qetUFQCeuXtqJaeKM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BbCNJPXtL5R+4Veku7NFTBE/YPOoflfZ2a/QKIhckn8WW2UFyJt5JRxs4pKgBt1ayLkymibgaF6i1a5P6IY12wDzQFlNO0J4Ldzi5nU9a8pvUGK2S1qG7HYoEqjrJN6489pXQt9Qg2Ew/3XQhT+YEbW5y0mXXkYe03qw0Lf/vDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOX9ZdPa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="DSjdlGhS"
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3da73df6b6bso23265965ab.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jul 2025 19:06:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1752631601; x=1753236401; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5j+F9L1888D1/lTB0yjly7TVvzjMYjvETcZUaJXOGrM=;
-        b=DSjdlGhSODTU8fT6Aw9TLtMH3N/iEdSvZKxeVopfidb1K6wf7w5EDQ9Ap3T3hXmmm3
-         dbqTd+uHD6nWju+4hClirXyxT7tqwI1ClajTD27h2T+M20IeDnCBeUhVFFckars8M4Te
-         0tyqlNrmqeFfY//U9hCdO1XKgFiZurvto1vcWpZNHJFyoOwzcuGTn3aA3Pg4q+ioYjea
-         QaGfk09z9+T3438UoawbjtztZvyh8QXV+peewcAhO5zZyUQqPmyFm2ar2wVep5OrtEGB
-         GIMv1tx/LjrNBhHkjj1FMJFbD9C7zVsllD0sUJNs4zVrAS8X21N0MXCyaXGODKcnluG2
-         sv0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752631601; x=1753236401;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5j+F9L1888D1/lTB0yjly7TVvzjMYjvETcZUaJXOGrM=;
-        b=L0DMygwYZH4Wuc++k5dFE3e1AuBcyBdnFARMFOR9fZ1yUVGhtXO224uyPGUk+Tkfwl
-         F0irKWcvyKHWLc+93kyr8NIlLP3BXOrNXilOZXSaxnS9tYgBPdhyGeVOCJ848UaG95Mv
-         55yv5qA0cUDC7FUlaDkQMuK209GJjJjv1YJNnA91UgKraKK+oSv8TNhTM49ApFDNbVog
-         RrDWmuuFWzE9Q6z+DqgtqMV7PAPROLW7/M4vwepqLldBhTWbOb4L7ljy2fHZqTaBq9Le
-         mwlcDG51riXG/DjXlg7JsS9qIMZsAvpSmKzuO3GB0hM18XoirqtecTsR+hLo6thJc/lM
-         MU9g==
-X-Forwarded-Encrypted: i=1; AJvYcCUhqE3FM8VWR0RJxrNajTV232YA5I9G/GI2JbnPZRQYiPqusd+M3xI9B4xL+AWEjRYH+GRTpHDgtuI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfcxodDCcII7aNBsLzlWW7Ob8EzUZeOMH5zmHu48poPt/2P6bz
-	FYn420h5bc0FNX4Eyc5UI1J3YuA00qvioDIwWD95PB2XUoXs+Cz1cGHifuq3lUlFEYRMTFpTWxn
-	s9AaEO20XRosIv4LHjWCR5633u4goQkpIN3XJtn6H3w==
-X-Gm-Gg: ASbGncuvVwjemxCv8bRNevO16XOrR/G+HePzXcqO9MbmOBySC5gAKkXX5U1Oo1yQ9WF
-	5uSr2Hru4A7nKdt9D29gmPWUBOh8xLEc9TZ50Vn1lYDFQ5xhRIkyPudcTTuqx6nlpqqQzlbLlfE
-	iAIxFW8iWMLnLEVVwI2IPie9us0FbASnL7sI472HnKxjLa8aynCiVgaoWCDuRX97npb53H3dtgb
-	i3JAM3cT6yIDLWv36u/
-X-Google-Smtp-Source: AGHT+IH9/HXYsLu/DJVcgXHmyW23optDc6uoRoN2rcWn2HHkb7B7VzOcj2uDSKGa9qQvekhhenVwxhU+VuPhiZoGO+E=
-X-Received: by 2002:a05:6e02:1aa3:b0:3df:3886:ad6e with SMTP id
- e9e14a558f8ab-3e282e65b61mr10740485ab.12.1752631601151; Tue, 15 Jul 2025
- 19:06:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOX9ZdPa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0A9CC4CEE3;
+	Wed, 16 Jul 2025 02:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752634281;
+	bh=d+O5NiaQs+zx9yRlpf28fAQcJ8qetUFQCeuXtqJaeKM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jOX9ZdPai/j9Cng6NxjH2iKFhdAIGa6B4z7xP99jRkvB+yAobcc2tzZGO7nBtHhqO
+	 zZbzMxEMvqyc9AhrsrT/fmvgQ7PFnMEwORNXP+tDfxjjUI2lJPJFGdyPvS1Ask+eQh
+	 0HQdLSIV2/YYM156SGajMMACqYWD4Cy5O0i1jUv1IIWbeLbbhW7NCUZHThH6GyP2Kx
+	 I6VMl1dOkIs6Q3H9jnF7S43iT3fbj8NlDy7xgXbcIZ9i7eyKhwXQ8Rh+ieVeVU9Qkj
+	 De3Wg/XzWphS6eZOpINBBgLuHcKLHz9lIolZDVYmUpRVe4a90SNNiP1khJyI2cvyCu
+	 Yi2+/HDKCNjcg==
+From: SeongJae Park <sj@kernel.org>
+To: Honggyu Kim <honggyu.kim@sk.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	kernel_team@skhynix.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [RFC PATCH 0/4] mm/damon/sysfs: support periodic and automated stats update
+Date: Tue, 15 Jul 2025 19:51:18 -0700
+Message-Id: <20250716025118.92544-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <5d1aa6f2-fa5f-4cc2-a3c7-3b5144391524@sk.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250604-v5_user_cfi_series-v17-0-4565c2cf869f@rivosinc.com>
- <20250604-v5_user_cfi_series-v17-15-4565c2cf869f@rivosinc.com>
- <CANXhq0pRXX_OMW2g2ui-k7Z_ZT+5a8Sra8oE28nBh5B9K2L5bQ@mail.gmail.com>
- <CANXhq0p3MVLMsr_r0RWMti476pT0EMx61PQArjo2fUauTdpXaQ@mail.gmail.com> <CAKC1njRNkSfb_0pUQoH0RwJQhWTsz9sdg_3o08w-NuSO5WypcA@mail.gmail.com>
-In-Reply-To: <CAKC1njRNkSfb_0pUQoH0RwJQhWTsz9sdg_3o08w-NuSO5WypcA@mail.gmail.com>
-From: Zong Li <zong.li@sifive.com>
-Date: Wed, 16 Jul 2025 10:06:28 +0800
-X-Gm-Features: Ac12FXxQabhbT3gOiwtrnSWdGCnuEDBYfeHbjfUOFZRTxM5oaqlSklQMtx6WBCk
-Message-ID: <CANXhq0oZz=TTT=py=1BO3OZf45Wg=-bFyNpn+JRLNufHceLjcQ@mail.gmail.com>
-Subject: Re: [PATCH v17 15/27] riscv/traps: Introduce software check exception
- and uprobe handling
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 16, 2025 at 5:34=E2=80=AFAM Deepak Gupta <debug@rivosinc.com> w=
-rote:
->
-> Hi Zong,
->
->
-> On Thu, Jun 19, 2025 at 7:16=E2=80=AFPM Zong Li <zong.li@sifive.com> wrot=
-e:
-> >
-> > On Mon, Jun 16, 2025 at 3:31=E2=80=AFPM Zong Li <zong.li@sifive.com> wr=
-ote:
-> > >
-> > > On Thu, Jun 5, 2025 at 1:17=E2=80=AFAM Deepak Gupta <debug@rivosinc.c=
-om> wrote:
-> > > >
-> > > > zicfiss / zicfilp introduces a new exception to priv isa `software =
-check
-> > > > exception` with cause code =3D 18. This patch implements software c=
-heck
-> > > > exception.
-> > > >
-> .....
->
-> > > When a user mode CFI violation occurs, the ELP state should be 1, and
-> > > the system traps into supervisor mode. During this trap, sstatus.SPEL=
-P
-> > > is set to 1, and the ELP state is reset to 0. If we don=E2=80=99t cle=
-ar
-> > > sstatus.SPELP, the ELP state will become 1 again after executing the
-> > > sret instruction. As a result, the system might trigger another
-> > > forward CFI violation upon executing the next instruction in the user
-> > > program, unless it happens to be a lpad instruction.
-> > >
-> > > The previous patch was tested on QEMU, but QEMU does not set the
-> > > sstatus.SPELP bit to 1 when a forward CFI violation occurs. Therefore=
-,
-> > > I suspect that QEMU might also require some fixes.
-> >
-> > Hi Deepak,
-> > The issue with QEMU was that the sw-check exception bit in medeleg
-> > couldn't be set. This has been fixed in the latest QEMU mainline. I
-> > have re-tested the latest QEMU version, and it works.
->
-> What was this issue, can you point me to the patch in mainline?
+On Wed, 16 Jul 2025 10:58:06 +0900 Honggyu Kim <honggyu.kim@sk.com> wrote:
 
-Hi Deepak
-The issue was that my QEMU setup somehow missed the change of
-`target/riscv/csr.c` in your following patch:
-https://github.com/qemu/qemu/commit/6031102401ae8a69a87b20fbec2aae666625d96=
-a
-After I upgraded to the latest QEMU source, I found the kernel issue
-if we didn't clear sstatus.SPELP in the handler
-Thanks
+> Hi SeongJae,
+> 
+> On 7/16/2025 8:43 AM, SeongJae Park wrote:
+> > On Wed, 16 Jul 2025 07:20:57 +0900 Honggyu Kim <honggyu.kim@sk.com> wrote:
+> > 
+> >> Hi SeongJae,
+> >>
+> >> On 7/13/2025 5:46 AM, SeongJae Park wrote:
+> >>> DAMON sysfs interface provides files for reading DAMON internal status
+> >>> including DAMOS stats.  The content of the files are not automatically
+> >>> updated, though.  Users should manually request updates of the contents
+> >>> by writing a special command to 'state' file of each kdamond directory.
+> >>> This interface is good for minimizing overhead, but causes the below
+> >>> problems.
+> >>>
+> >>> First, the usage is cumbersome.  This is arguably not a big problem,
+> >>> since the user-space tool (damo) can do this instead of the user.
+> >>>
+> >>> Second, it can be too slow.  The update request is not directly handled
+> >>> by the sysfs interface but kdamond thread.  And kdamond threads wake up
+> >>> only once per the sampling interval.  Hence if sampling interval is not
+> >>> short, each update request could take too long time.  The recommended
+> >>> sampling interval setup is asking DAMON to automatically tune it, within
+> >>> a range between 5 milliseconds and 10 seconds.  On production systems it
+> >>> is not very rare to have a few seconds sampling interval as a result of
+> >>> the auto-tuning, so this can disturb observing DAMON internal status.
+> >>>
+> >>> Finally, parallel update requests can conflict with each other.  When
+> >>> parallel update requests are received, DAMON sysfs interface simply
+> >>> returns -EBUSY to one of the requests.  DAMON user-space tool is hence
+> >>> implementing its own backoff mechanism, but this can make the operation
+> >>> even slower.
+> >>>
+> >>> Introduce a new sysfs file, namely refresh_ms, for asking DAMON sysfs
+> >>> interface to repeat the essential contents update with a user-specified
+> >>> time delay.
+> >>
+> >> Thanks for working on this, but I have a few questions.
+> >> 1. Could you please list up what are the "essential contents"?
+> > 
+> > Thank you for asking this.  The contents are auto-tuned monitoring intervals,
+> > DAMOS stats, and auto-tuned effective size quota.
+> 
+> Thanks, but I meant the specific list of damon knobs refreshed.  If there are
+> too many knobs, then don't have to list them all.
 
->
-> >
-> > >
-> > > Thanks
-> > >
-> > > > +
-> > > > +       if (is_fcfi || is_bcfi) {
-> > > > +               do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->epc,
-> > > > +                             "Oops - control flow violation");
-> > > > +               return true;
-> > > > +       }
-> > > > +
-> > > > +       return false;
-> > > > +}
-> > > > +
-> > > > +/*
-> > > > + * software check exception is defined with risc-v cfi spec. Softw=
-are check
-> > > > + * exception is raised when:-
-> > > > + * a) An indirect branch doesn't land on 4 byte aligned PC or `lpa=
-d`
-> > > > + *    instruction or `label` value programmed in `lpad` instr does=
-n't
-> > > > + *    match with value setup in `x7`. reported code in `xtval` is =
-2.
-> > > > + * b) `sspopchk` instruction finds a mismatch between top of shado=
-w stack (ssp)
-> > > > + *    and x1/x5. reported code in `xtval` is 3.
-> > > > + */
-> > > > +asmlinkage __visible __trap_section void do_trap_software_check(st=
-ruct pt_regs *regs)
-> > > > +{
-> > > > +       if (user_mode(regs)) {
-> > > > +               irqentry_enter_from_user_mode(regs);
-> > > > +
-> > > > +               /* not a cfi violation, then merge into flow of unk=
-nown trap handler */
-> > > > +               if (!handle_user_cfi_violation(regs))
-> > > > +                       do_trap_unknown(regs);
-> > > > +
-> > > > +               irqentry_exit_to_user_mode(regs);
-> > > > +       } else {
-> > > > +               /* sw check exception coming from kernel is a bug i=
-n kernel */
-> > > > +               die(regs, "Kernel BUG");
-> > > > +       }
-> > > > +}
-> > > > +
-> > > >  #ifdef CONFIG_MMU
-> > > >  asmlinkage __visible noinstr void do_page_fault(struct pt_regs *re=
-gs)
-> > > >  {
-> > > >
-> > > > --
-> > > > 2.43.0
-> > > >
+I guess you are saying about sysfs files?  Yes, I think listing those all is
+unnecessary.
+
+> 
+> > I will add these on the next version cover letter.
+> 
+> Thanks.
+> 
+> >> 2. Does it mean that it is different from writing "commit" to "state"?
+> >> 3. If not, then is there equivalent action to writing something to "state"?
+> > 
+> > "refresh_ms" works same to other DAMON parameter files.  You can set it before
+> > starting DAMON, or "commit" new values (including 0 for turning this refresh
+> > off) in runtime.
+> > 
+> > I'm not that confident if I understood your point very well, especially what
+> > "it"s mean.  Let me know if I'm misunderstanding something.
+> 
+> I mean writing "commit" to "state" refresh all knobs,
+
+Assuming "knobs" mean sysfs files, this is incorrect.  Writing "commit" to
+"state" passes the parameters written on appropriate files to running kdamond.
+It doesn't update any sysfs files until a "update_*" keyword is written to the
+"state" file.
+
+> but it seems "refresh_ms"
+> internally refresh paritial knobs so I was wondering what are refreshed and what 
+> aren't.
+> 
+> Regarding the "equivalent action", I was also wondering if there is a command
+> that works same as "refresh_ms" internally does among the command below.
+> 
+>    update_tuned_intervals
+>    commit_schemes_quota_goals
+>    update_schemes_stats
+>    update_schemes_tried_regions
+>    update_schemes_tried_bytes
+>    clear_schemes_tried_regions
+>    update_schemes_effective_quotas
+> 
+> https://docs.kernel.org/admin-guide/mm/damon/usage.html#kdamonds-n
+> 
+> In other words, if there is the same command listed above, then users might be
+> able to run a script that regularaly write the command to the current "state"
+> even without this "refresh_ms".  I know having "refresh_ms" is much better
+> though.
+
+Thank you for this nice question.  Yes.  Enabling "refresh_ms" is roughly same
+to periodically writing
+"update_{tuned_intervals,schemes_stats,schemes_effective_quotas" to "state"
+file.
+
+
+Thanks,
+SJ
+
+[...]
