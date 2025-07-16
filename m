@@ -1,37 +1,67 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952F9188A3A;
-	Wed, 16 Jul 2025 18:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FF315D1;
+	Wed, 16 Jul 2025 19:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752691452; cv=none; b=XdpA/7o3+3ZrWnw2DkRqA5/zTRsLZ0MT2Fl750sxaPJXcqiZ6NpvcnsfQJNGZQWAiXSj2gBx28kxIsLw3Tbi0xzm+dm0JSbQMqxASYLCVyuIIupixFAvohh/7Gtd4eImHdE29jbswijeckne1x68QM+8cocC9yKb5OvIANAR2VA=
+	t=1752695088; cv=none; b=orfAD0znfnHDkOqxMYZnzBu7SGYtxTHxT4t3pGGw9jlsOxW4u8dP2AAE22gEKTU5RRtRK3L0O8JiM+0PBu12/mOicQDrH09boWNNw3TRXMWK3j/ggwSYPFGyvhmMcYEXNfyC5tS4GcXqMfQNt0FbOKBJ95+J0fkCsP4FwepCBpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752691452; c=relaxed/simple;
-	bh=H/UhfH/UokN99g637wobOS9cbry1x5qXgto7yjFY4ag=;
+	s=arc-20240116; t=1752695088; c=relaxed/simple;
+	bh=rWlxj9bCrZ5JrkdaB9LEQwfdXLFqyvRTJ/M3T9x+27E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O82msgzMA1UuEHbYkA72wZP6NMNTzio/pc+bDD5Nd6xWE72x9Q3CqpPhJ19nUAobOa1Ug7MlU3qhmWW0hq+Z/lfltEPEOq5zBQO+Vjp5NKkQ3BSNXNuA+xjxz6jzpN7VvZJ0mjzSbkaY/5ZdqwUvBFeRYPO2T4iZaKxGunrWjSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vJO3Z5WI; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=LDiUiyXq9nPmGsaxUSxeh08P2j5qYHn8DVfSfyfymj8hRF9WNeDqstGOzT1i71DFD8PxKyw96cMcrbEfQtcA33ChA2t2SriBS6uEzGS9RNmeYtFeEGbch/TpNf4bZeW/2Pkt4wPmuyz2xlDeigbijVJWjna5jgrYeV6a6hViPc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lJtdSeRW; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vJO3Z5WI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=pyfFofk4+rHlS825JirWA6ODvtQNZleuH6XhENxvc6Q=; b=vJO3Z5WIqa493yE7wWZ30sODik
-	vaR9uAICxAilMkm05KIc+Zlp0jfwp7eTVa0JCYuM0En0QOwT9qogIIibBgA9adr3FwEd7YEh3k0fF
-	QIuLDq2OvDwWbEnVAu5xFkmeK3GHoKIBwQTzmreqJYp6iohgFspuZMyoOyOYIuIbWpUYT4FPtzIvT
-	R4kIY+FA7rpQJeitDD9lTqAzRaWuPLxX1k0LhrYBZ+rlMebt2vNdwjwQCLkAKRR/JK4QbP9tz5CT6
-	BXg+tTP+uV87kW1oi7ih4QtLo+GuqYARe2Ho0NpmpjVDxD8sXAOf4sbyPCp8wTYOx/ZZp4HWyOgAR
-	FEAnG4pA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uc76q-00000008Q9A-3RNM;
-	Wed, 16 Jul 2025 18:44:04 +0000
-Message-ID: <bfcc3a24-b48c-48a6-8280-07f7a2669e6b@infradead.org>
-Date: Wed, 16 Jul 2025 11:44:02 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJtdSeRW"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2353a2bc210so1674965ad.2;
+        Wed, 16 Jul 2025 12:44:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752695086; x=1753299886; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=344G/5oCpBbSmGzTdoVwcn6E4LLYeUG2XVgvtMN0lh4=;
+        b=lJtdSeRWFIikvsDbjXrdKRkFgrh5zEDHSUfbyVZQSt05xraot+Pz+TG23amRnt8GYR
+         TwM0KhT9cnL0yBkS9IA+Y6qWm7zz0TcZKnGarVOmDtm+hWiQQQIHrITs+h2JgjeHKged
+         aSeqAnRlXCwkK0Q7ggSMEzG4D+zZ9bfnFiW3GP5vfBfFfMDmWuZ7W6mTBFN1TgZbQQDI
+         0hYN6786A9RuEPbKpwq/svCD4CVGvUTv4u7lOfxjNKcAS28ScQGG5WHxgw5iaru1X78n
+         bd08FIl8ImR2emZC4TTMwgYamesTvokUID97tg2CAwC1Fk1LyZ3pouIONqaUpjYmB/C/
+         Mq5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752695086; x=1753299886;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=344G/5oCpBbSmGzTdoVwcn6E4LLYeUG2XVgvtMN0lh4=;
+        b=ZubkpN/xCfyX1Lz7N8PI7SqV2Sfu98XLB9ExJn2VvGkNYXlTqWqvEKKb0w9grqQs6+
+         K3Jp0Asn/8fvrmVfxhw4bJUHuLw2fEsigW0lNxw1F0xo5ktvrIKfnHc+SLajf8QJ/ycZ
+         AsR1HzbLNL8ZLQ+tu9f98nszJ4DVUBY7sLZLvMZ9vpjhZ2SdupAFGG6rL1qWLS+GgMm1
+         D9PY/FCBEzEZndWpHZIAmlrlNW2QGN7WEVkz6RIBIT7iyEo631UtBCGBfO4oafydQMtr
+         IT8cGwWeIvS47pCdGOrLhEsFJPtWYza7eHXMci3JjJc2eR8am+RyfLNkd1PoLxGjPiXe
+         ostQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0yK9fL2S4k0yB+HUZoIFJgUxtgLHY4aK4HC3rQTRzqPRceXCAz8+/0WJnYe0ab8DQ0J3lZp/HUl75hacV@vger.kernel.org, AJvYcCVkPO7lTshcrrSemDYVQLthCISjFHg59RvrYQDYWHOrWmpwmPW0MVj5hDWJLd1iHwLt1LtHRA/qOs3ifh8=@vger.kernel.org, AJvYcCW+Dr3YUp+e8rG4ovdMgF/UZEf6ZP7936sxDFcmw6QgKmWfQ4+4ma1VQ61pIX9Zw4lcbvYHcmJiXgM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoeQMuUT0LtMQeBbPDbqY8iG3wecSMYyuqbSsMssIlE4LYxWWW
+	uix2Io/pv5GkiGN2bYwj3nl8Utx0IW26iJxUkX+tnF4itovK2WUp8vRC
+X-Gm-Gg: ASbGncv2x3GZfkNnEmHDC34LuIIasXgncf/Y/0ZJMM1T65uItv12BzXvvaIUh4xgBWb
+	vevd5zQM/HwPcWquZatYy8fi6x6IRTGHhhX+ZZHqWawrRjAs1ILUb7CMSi2xiYpVFAY8ZymPuDu
+	wt6/klMCQTIrgKP/FVhZ8e8oTzUctZB0v3qdN4sTxWKuNbhEOQCybfRYcVfuHJ+6ZxLkTN0hAlE
+	OCICWSJU2PmZDO9rlipcXIOjWOpNWodsAmlLvH2Yh3NGKWSwuMYlwhyGoyuCpHqq6Klgmos0+pu
+	nD096G8fPS3+fJU4pHrEXgLI+XXYoyaeRo7ZeN1AMksmcxCmFm7itNQZS3OTiElC73DxN45bCtY
+	BruNiOudM+oLzS9iOVa7XmXiEyDTIbux/LM+RIerrhmGa9DHQwbKBljefnNiYheMkKiAUdZ8=
+X-Google-Smtp-Source: AGHT+IFxUCDXSWik+PD1TfU/TfjoOIgNNw8gHrizVoZXaax5sqkNFm0hdOCwHWWPp081iAty4cIIWw==
+X-Received: by 2002:a17:903:1245:b0:235:f143:9b16 with SMTP id d9443c01a7336-23e25770caamr50691815ad.41.1752695085579;
+        Wed, 16 Jul 2025 12:44:45 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de428663esm127562065ad.15.2025.07.16.12.44.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Jul 2025 12:44:45 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <1a6c43c7-3f77-4d47-9913-54c50cb59e9d@roeck-us.net>
+Date: Wed, 16 Jul 2025 12:44:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,91 +69,99 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] tpm, tpm_vtpm_proxy: boot-time TPM
-To: Jarkko Sakkinen <jarkko@kernel.org>, linux-kernel@vger.kernel.org
-Cc: keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
- Stefan Berger <stefanb@linux.ibm.com>,
- Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>,
- Jonathan Corbet <corbet@lwn.net>, Peter Huewe <peterhuewe@gmx.de>,
- Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
- "Paul E. McKenney" <paulmck@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, Neeraj Upadhyay <Neeraj.Upadhyay@amd.com>,
- "Borislav Petkov (AMD)" <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
- Frank van der Linden <fvdl@google.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20250716121823.173949-1-jarkko@kernel.org>
+Subject: Re: [PATCH v3 0/2] hwmon: Add support for MPS mp2869,mp29502 chip
+To: wenswang@yeah.net, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250709092734.455976-1-wenswang@yeah.net>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250716121823.173949-1-jarkko@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20250709092734.455976-1-wenswang@yeah.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-(mostly nits, along with Paul's comments)
-
-
-On 7/16/25 5:18 AM, Jarkko Sakkinen wrote:
-> From: Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>
+On 7/9/25 02:27, wenswang@yeah.net wrote:
+> From: Wensheng Wang <wenswang@yeah.net>
 > 
-> Provide a kernel command-line parameter named as `supplicant`, which
-> contains a path to an TPM emulator binary. When defind, the kernel will
-
-                  to a TPM
-
-> launch the program during boot-time.
+> Add mp2869,mp29502 driver in hwmon and add dt-bindings for them.
 > 
-> This feature is most useful in feature testing e.g., in environments
+> V2 -> V3:
+>      merge patches for MP29502 and MP2869
 
-                                         testing, e.g.,
+Why ? It only makes review more difficult.
 
-> where other means are not possible, such as CI runners. Its original use
-> case highlights also quite well of its applicability for pre-production
-> hardware: it was used to provide a TPM implemnentation for a RISC-V SoC
-> running on FPGA with no TPM HW implementation at the time.
+Either case, I now have submissions for two drivers supporting MP2869
+(or MP2869). One of them also supports MP29612A. That needs to be consolidated,
+and I guess I'll need to spend a lot of time trying to figure out if separate
+drivers for all those chips are really needed. That is going to take a while.
+
+Guenter
+
 > 
-> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>
-> ---
-> Bumped into this in my archives so thought to make it available just in
-> case anyone is interested.
-> ---
->  .../admin-guide/kernel-parameters.txt         | 14 +++++
->  drivers/char/tpm/tpm_vtpm_proxy.c             | 51 +++++++++++++++++++
->  2 files changed, 65 insertions(+)
+> V1 -> V2:
+>      add Rob's Acked-by
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index f1f2c0874da9..e062de99480e 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -7230,6 +7230,20 @@
->  			defined by Trusted Computing Group (TCG) see
->  			https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
->  
-> +	tpm_vtpm_proxy.supplicant= [TPM]
-> +			When defined, this field must contain a legit path to a
-
-			                                        legitimate
-or			                                        valid
-
-> +			program emulating a TPM chip, which will be started
-> +			during the driver initialization, thus providing a
-> +			mechanism for the user space have an emulated TPM from
-> +			the get go. Kernel prepares the process with a file
-
-			    get-go.
-or just don't use slang terms.
-
-> +			pre-opened file descriptor in the index 3 for
-> +			/dev/vtpmx.
-> +
-> +			An emulator can optionally provide support for
-> +			localities by reacting to the vendor command defined
-> +			by the driver: 0x20001000. Its payload is a single
-> +			byte containing the new locality.
-> +
->  	tp_printk	[FTRACE]
->  			Have the tracepoints sent to printk as well as the
->  			tracing ring buffer. This is useful for early boot up
-
-thanks.
--- 
-~Randy
+> Wensheng Wang (2):
+>    dt-bindings: hwmon: Add MPS mp2869 series and mp29502
+>    hwmon: add MP2869 series and MP29502 driver
+> 
+>   .../devicetree/bindings/trivial-devices.yaml  |  10 +
+>   Documentation/hwmon/index.rst                 |   2 +
+>   Documentation/hwmon/mp2869.rst                | 175 +++++
+>   Documentation/hwmon/mp29502.rst               |  93 +++
+>   MAINTAINERS                                   |   9 +
+>   drivers/hwmon/pmbus/Kconfig                   |  18 +
+>   drivers/hwmon/pmbus/Makefile                  |   2 +
+>   drivers/hwmon/pmbus/mp2869.c                  | 711 ++++++++++++++++++
+>   drivers/hwmon/pmbus/mp29502.c                 | 670 +++++++++++++++++
+>   9 files changed, 1690 insertions(+)
+>   create mode 100644 Documentation/hwmon/mp2869.rst
+>   create mode 100644 Documentation/hwmon/mp29502.rst
+>   create mode 100644 drivers/hwmon/pmbus/mp2869.c
+>   create mode 100644 drivers/hwmon/pmbus/mp29502.c
+> 
 
