@@ -1,107 +1,88 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DC91C5D5A;
-	Wed, 16 Jul 2025 21:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95FF291C21;
+	Wed, 16 Jul 2025 22:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752702857; cv=none; b=U9TFw7KH+p9+LRPf2BHajF8XVoJmwXTTcLYMgZgxzLtFt6f0deLHtx8ukeQ59L6bG332tzsRa677MBcTYcIbW/ZyASPcx6nAvQSTL2/QSO1eROvFrUI1Ti0Ee4Hgb/UzggJL2pzK4UsL801CBuRL4phhcgz96V1tERouHSl7x8c=
+	t=1752706147; cv=none; b=Ko8LGBhE2blUXvLNOaqTAQA+sI83nndZQpsTQ9QWK8ShpjqBdeTSq+tjA50WmSfL/EcnLryHDsn60V99D00GqYs5IbBb6FmdKfms5GN0Qq52LQmozZ/LzpwwItVItI5Dhy9Gke4KjF+h4TEHKkxQ8tOtZHyB1isDNGRLFlSFzQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752702857; c=relaxed/simple;
-	bh=VT7C+TbT0SuSF6qYskH+Yc/+8ijqxJTRUH7fUxHR0c8=;
+	s=arc-20240116; t=1752706147; c=relaxed/simple;
+	bh=ym2CfWU3RSFwN8T3+muM+b6qKNFd97WR+uQjtqjXidI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W4bZX2BoN7dXJepe1qqJrFXN7DbWKbVkfP0LUXDK/DU39/0r6oxEG/mgPKlvO8AOGexW134CEuHHrHzgm2iEFSvRJKbsSfrcqUWinG1YuoFU2U7eHbYM+Q2an38fnXrjuNU2UF7K5TIrRexzcg0VkQDWbI6A9wkFyRy/kIFU0GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZ+YyqD9; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=EdzWTDR9Z9Vq/MkGuLplCGXROkMoh7tIkg1WiGcEps36RBR+JluB0kJhgz/WqWTWTC2oV6uzEKkoAqETzj+o220cds4/r6+wnuRnlLHkte7niIe/pS+nsDP1FztJeEV2VS6VeKb5ChJ6wNTFM4ejEx8JGKxzesQGU16eg1XFGvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LLYWiPcc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZ+YyqD9"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-235a3dd4f0dso1892875ad.0;
-        Wed, 16 Jul 2025 14:54:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752702854; x=1753307654; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NHjBO/GvfnhAzBVDxsgsl7bB2fmePvdL7VHBUAaMZzc=;
-        b=IZ+YyqD91yPT7GKju193pYRpgThofk2EcRdG4OzOxUdJzfa0TIE5HLpFI9wJaZ4f5m
-         SXThIATF1aJfE5NPQCUEL+P53p3ez6rYQWSMca5KoDLthFukPsFeb5xTC2/ab/psFsU/
-         UW+e9kO3gJn1jM5lXDqBAuwbMWqvf1w0U+h8pkgYNB/t6AfIibiaVTBxyVZlZQIRk92o
-         ViIs24+9kjmxd2hgb7h/gpomEWuf2xPzBRDpn+mwqV4nsfdqNTDQNQx19MAjLO6RIC86
-         OoZjeRE63yieZZRZ8wmwLOJYmszvZXkPlSK4kO/kjT6xpOmkYoaevCIEQI/2LySU7n9G
-         tXvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752702854; x=1753307654;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NHjBO/GvfnhAzBVDxsgsl7bB2fmePvdL7VHBUAaMZzc=;
-        b=a/qt7Jn5+LGt1Popm4A1yr6klSM+fpZMrjChO2iSsQYDE9AL/Dw0K9dl+D/xO9L6sr
-         GUkJQQgpxXC4QD2/OEug1ewhJI+ehIq62T9khMsmXFTlWV4EgOQhyZykXeVaVqKnJ3tf
-         RKjp7aj5X13fGOPy7tt6tr3HDKFatT9dg6fUa8fJ0q7aQPHaYTP2Lwh9hUE/9QfB4t8v
-         yotJIM5+Ysr+wT3hwxdDUuD/l9ZI39hx55Ui0wbTLmQuGi0jIe9t+8nk6i/E68F1uHqt
-         L9gSgzIjqP7maP/wlMtJZ/cj3bEqh9FeFiOM9sOYGKR0C3gw11q7doMc1CNmwFJape9j
-         UdZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVw9/rxdgfy8AGqjMo7kcEyJu1lKWif7t8iI+4C5ItRxNL9Y1WnSoAr8A0BBrBhhdDtlPs46wBLfngyOA5u@vger.kernel.org, AJvYcCWEGNA8Z9O1P0Dym4HtL8bbXcvqgfg0EMHFvGozzm0c/UhkoYT/37gblTGaefYzgC67bEI=@vger.kernel.org, AJvYcCWlsaC4r8W7b3aW9OpDEC8j6CvvfxR0ccIPtlT6CN6kDb8bPp5nKX62Pka21atduCXYxEP9g35X@vger.kernel.org, AJvYcCXwREe4WHeAL4IcK/FSGzRUfBPoaKmxvBIHsq8BZpwa/AGC7gGktyKzh9FpIKi6I9Olz8lW93fQGI2S@vger.kernel.org
-X-Gm-Message-State: AOJu0YzL7VXtq5s4BDKilHhW9rsFOOcsF85y5kJGW68WosK6jH5ii/R0
-	gdZ1hZCP+Ifdzu9+ahIhzycAOGDc2MtUb7IRR7/inPdTGJf0M+qbjKs=
-X-Gm-Gg: ASbGncssAFMszJktICIw7beDypfqskgo05z6p0IpeIOZHE4RQq2L4N44rKP4ekPU9A5
-	6RhMuhtx8tiWyhFbMSEF2+gz3mYPA6GX7oN7WBp73aF4z1jCxRIXb5w/v6ccH1ch4Yde/BjdKqQ
-	k4JwIFJZSkaXJTCx/m8nBmLFR1/rXisnQwmw6niV9gsXBxrUtG2XORCxqHbDTaoUjbJFYAiLRsl
-	ADR8piM/r/MgFKuLsiDOvr2ALrJ+P0j/tCxxWdTLbhtOTGnyEqhI2Chg8I9J7wMc2AACxhPPESL
-	96E2OzxExtPWxNOBZ6ou+18EQyUbyPtBilqpL/YK4sNTcXRX6r4TGs06RfHF48cKPqgAjJ9yv61
-	BaZCSP8QF27WpWD+E95srLdahfSxKj3H4MzJrFSBRALv0sjR2y8fzGFqny88=
-X-Google-Smtp-Source: AGHT+IE1OSWzcqfoYgFp7hdp+6Jgtk4/KWpl+FiiVduEAHyyC6Qo2e4FZp+2OIflJzC6cAeYBqB1HA==
-X-Received: by 2002:a17:902:e807:b0:235:6aa:1675 with SMTP id d9443c01a7336-23e24f94b60mr67229635ad.52.1752702853772;
-        Wed, 16 Jul 2025 14:54:13 -0700 (PDT)
-Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-23de434d5a7sm128947635ad.204.2025.07.16.14.54.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 14:54:13 -0700 (PDT)
-Date: Wed, 16 Jul 2025 14:54:12 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Song Yoong Siang <yoong.siang.song@intel.com>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next,v5 1/1] doc: xdp: clarify driver implementation
- for XDP Rx metadata
-Message-ID: <aHgfhIUvScQ26-zF@mini-arch>
-References: <20250716154846.3513575-1-yoong.siang.song@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LLYWiPcc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7364DC4CEE7;
+	Wed, 16 Jul 2025 22:49:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752706146;
+	bh=ym2CfWU3RSFwN8T3+muM+b6qKNFd97WR+uQjtqjXidI=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=LLYWiPccl54EOtnJDz8pOjXkMELSF5v9JsTNhXE3B+jvUsjiK/LK5gtgR60yymJ+V
+	 yrqgjgyh01+tVcWIKsRaCW3AOcHTjyJVQpxA9c86vr8Sq+PqjfxYnyoNMJBGNIODuZ
+	 GqbFUiyNeNbeOvh8prQeZ7flhpqrnWaGE+I2Dh0tixQgcDi+VZ1iSspdXgffScf1h/
+	 9XQc4BSx6l66QAT7h7jWELXcFvB6YMA4T9rMS1E26acZNNo56PsLTH/buIpIGXhvkB
+	 cWQrzWfTB0lRiyRrNT5BJZ+XS6DzW9cMhJ87r269l0oBObIl2IhCTh+K66nBPPLMPP
+	 K1Ea9IBhMYh/A==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 15694CE09C2; Wed, 16 Jul 2025 15:49:06 -0700 (PDT)
+Date: Wed, 16 Jul 2025 15:49:06 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, pmladek@suse.com, rostedt@goodmis.org,
+	john.ogness@linutronix.de, senozhatsky@chromium.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: kernel: Clarify printk_ratelimit_burst reset
+ behavior
+Message-ID: <a8549ecf-5cad-415d-81a3-21ffc39e6c4b@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20250714-docs_ratelimit-v1-1-51a6d9071f1a@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250716154846.3513575-1-yoong.siang.song@intel.com>
+In-Reply-To: <20250714-docs_ratelimit-v1-1-51a6d9071f1a@debian.org>
 
-On 07/16, Song Yoong Siang wrote:
-> Clarify that drivers must remove device-reserved metadata from the
-> data_meta area before passing frames to XDP programs.
+On Mon, Jul 14, 2025 at 05:06:27AM -0700, Breno Leitao wrote:
+> Add clarification that the printk_ratelimit_burst window resets after
+> printk_ratelimit seconds have elapsed, allowing another burst of
+> messages to be sent. This helps users understand that the rate limiting
+> is not permanent but operates in periodic windows.
 > 
-> Additionally, expand the explanation of how userspace and BPF programs
-> should coordinate the use of METADATA_SIZE, and add a detailed diagram
-> to illustrate pointer adjustments and metadata layout.
-> 
-> Also describe the requirements and constraints enforced by
-> bpf_xdp_adjust_meta().
-> 
-> Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+
+Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
+
 > ---
-> V5:
->   - create a new section called 'Driver implementation' (Stanislav)
->   - reword 'utilize the data_meta area' to 'prepend metadata to received packets' (Jakub)
-
-Thanks!
-
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+>  Documentation/admin-guide/sysctl/kernel.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index a43b78b4b6464..6f8d3935147da 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -1099,7 +1099,8 @@ printk_ratelimit_burst
+>  While long term we enforce one message per `printk_ratelimit`_
+>  seconds, we do allow a burst of messages to pass through.
+>  ``printk_ratelimit_burst`` specifies the number of messages we can
+> -send before ratelimiting kicks in.
+> +send before ratelimiting kicks in.  After `printk_ratelimit`_ seconds
+> +have elapsed, another burst of messages may be sent.
+>  
+>  The default value is 10 messages.
+>  
+> 
+> ---
+> base-commit: 0907e7fb35756464aa34c35d6abb02998418164b
+> change-id: 20250714-docs_ratelimit-8f4a30f29908
+> 
+> Best regards,
+> --  
+> Breno Leitao <leitao@debian.org>
+> 
