@@ -1,93 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04E5262FD8;
-	Wed, 16 Jul 2025 14:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9E326E6EC;
+	Wed, 16 Jul 2025 14:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752676945; cv=none; b=ikCfy1d8TuWROhJUQ1zuSh38z4L6U4PahfXl6r0uOfvjqqPknT0zInGJwXnTlFH3Z+HmFxKpQrKiYJ5nE/L1yY+5qsHeGbsy5Pwm0ffTNTpf9pbK/nBRBWNaGTc9tCJ5fs0aR6OewNGe1rEh0ajAQLqJSAJZS/9IFrC1FB8llGU=
+	t=1752677541; cv=none; b=Ng1pojmm9fgqvetxM8fGsG0VILRtl483MEjtt8K3oxk8gOyHfsfCKJjTeZ0qgHI/mw7duOkIK8A+FH8BRBNUwFsnyC++Bmvw5Ov/l8/QFrOY+yQolCZbL0QVsOeJLWUDqeNEh8XhCh0g3pjCIZxNPjsDTq/ZgXMn8HCRHKse1ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752676945; c=relaxed/simple;
-	bh=0/ykmWj1NAESuF8csKWErzWHYRAWgml7vr6gVvsbGtk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rMEeb+UCnN2fFPjPO0wfYSHpmsqaiWTJ7ekr9JPCOEp7Cy7nwUGe1HSZ2ItC5AiHuZKdFH2EnyoA8eyd5L4GhlwPWyAnPRB010mT4+UH6nmdBMjzJPDYVBv9mov9gP9Wcgfk2ujpHZvNbhZTTTvfWCoL5aZzXH94+SAfK7phNO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g5hdh3nU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752677541; c=relaxed/simple;
+	bh=00t3f5fFpc0TcNGhJsGnbORylIqmc4eZX3Z3+T+rvaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P7bbBFBi7TwLEKduLi4dzgy2yaCDXhJFp11bpoScsQyZv2aC5+wN9DhDjoBgbu56+Gll3XymoVy10KOYD08nsyFtmV6xeESoVazbVh8O/z3v+96FDDhfQghJo6JyKS7AlEoGYU9fjJldGqpZjCkfxPq7yTFg68+xwkFLlKjR+WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gH7sqO4v; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g5hdh3nU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98312C4CEFB;
-	Wed, 16 Jul 2025 14:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752676945;
-	bh=0/ykmWj1NAESuF8csKWErzWHYRAWgml7vr6gVvsbGtk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=g5hdh3nUncqoUPE+YK96UKA22b8PagJAoHsiHAx3tKc8y5t2vdR2LJJ2q+23aQ/Pn
-	 rhjLRX1XLcZausQtYxJxV6nosyFSiUFvDBmi6NL5XijUszsTxj44VunISwlSjQqvnt
-	 7QRsjJrU7+jcnE2n9pszKGZbJB7WRc5PdyQ2QcWAlU17k6OtMVlotSB9XHWDco/wRs
-	 fOgxLRxHCnqRLLZlvLHsN/aplfIrZBebCv47MZW23WHwT1IdTFMoqn7/h2LpVCeOVc
-	 ey4SAIbfy0+/pjx+ltHugaaIwR3KNp1urJf0yOhmPREbVwj50k6i/VzCdmiWISX3YS
-	 d5JCPtZDt14zQ==
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-41baecbdd33so121b6e.1;
-        Wed, 16 Jul 2025 07:42:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVVKdJfqS+pjeTGLgkZZLfgdHNr/TrOZPNjIEqfVse6IWBikGsW5WtRa46jHAcTdeQEgVfcsy+LI6Mx@vger.kernel.org, AJvYcCVdjfyLkjm9BmQn4ZCdyQSfQEF9A38PfFp3Hthu/mtXtCmjVRxjwg4fqroBWlaCaRkJMuoaKhCDsVG1@vger.kernel.org, AJvYcCWPTeCGISpy44wl5Hg30k7al/4aOlGdnbrNVbWMnh05hO4BGTRIyGFEXL5PouFe+X99TFuX1iX8j2Xgjw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZLr5poD4WFkVsNSgEnYD9Z7xgv60Xv4JaRzWgCz8/upRZ+9CU
-	GGRL3eF+Vuod0jOGclrT8iBV1W48XvHuPDAgVFfMBpRklz0cd4fbEebk975fGncIaX2JcD1Ln97
-	yCbfJhJ7QyU+4yUcBFOd+LfhTxMvBoF0=
-X-Google-Smtp-Source: AGHT+IGqH01WaTHZKIeu9u+hxM8r8VKU0j5xErHnQt7fo8qqxlNE87snX0L+Bksk3cY2EvTLzQWMO8cUAdGYYdtAokQ=
-X-Received: by 2002:a05:6808:1789:b0:41c:4ea9:f293 with SMTP id
- 5614622812f47-41d031f1351mr2204788b6e.2.1752676944730; Wed, 16 Jul 2025
- 07:42:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gH7sqO4v"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b34a6d0c9a3so6681206a12.3;
+        Wed, 16 Jul 2025 07:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752677538; x=1753282338; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SEn/yNAcCZyIEV3FDNWtqBgyQzfyrvjBlDe3jR1D9o0=;
+        b=gH7sqO4v6www1tppka5qVRVdN9sY5yjXqOyRmolxuRKD01qXXt50nf8zIq5HI1MnLD
+         SnYWMROfHcZKYtnsHHW3u9O5BtxohJeJZrNAaRUVf/+IxFpUKQVWWVdbMkOQ69dX2yG3
+         s1+cKNHmY4P70QYK7P81xJVwOf6/RCNyUiPn9j+iwr86yt3XNnrXWp2MCvNz66izEriI
+         cjw7CjAlMHTKfeGrjJxyN2kEAO/LUZ0kNIW7IDjrgA9dDJ0iVGrllLcIkWLkpQetVtYR
+         jhglMZ7IZ9C3lg9+8wiXnYyQDtRMSWWFyEiV+QBOL9Cxn3PDsok3heZhmL1Q7RcaPgjz
+         qAKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752677538; x=1753282338;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SEn/yNAcCZyIEV3FDNWtqBgyQzfyrvjBlDe3jR1D9o0=;
+        b=TEAd7CsuN/AcEdzlGsxi/5mWpSR49Z4spCGIhnblJf1uyYAmJTRtJbuuWu8+u3rq5Y
+         V5gckvR/Z0hysf14zEy2+2Z/Kahshp/J6u4MPq9vIiMSpqGDhlWvKZhVd3VD0cv/HkDT
+         cjhv5Rms05oDxjFxg2x50so2lX0w1q2MxnOLzhzxxbsUUsTryjdJdQsBS6xwI02Y3AHX
+         e/cDDdU4xUhmvenXRTXNophf93eokcwcnkUqCPK3gWuAyh3WhdzksskifW+vnNYC5GbA
+         /KJicdPRzuG4RcfbP+w5MAiXGNobPcZPznzRr9hzDMJybKiN09HrnFa9BmBKQbUG/j1i
+         A+kg==
+X-Forwarded-Encrypted: i=1; AJvYcCVBpwe6qsXc5Yhb0hnyOfSdn/XScA6yBerKU9RiesaaedMJJVitgLsqS3H8X+NgOdYReQVyag45Pas+@vger.kernel.org, AJvYcCVDo3n3E61M9UGxrpM4EyguYOYpFM7Tk61nkHlJvgs5lE6+wUHos9ZGzLtgh6x+4vPtqYBedEcKS2ta@vger.kernel.org, AJvYcCVyTYswlN+FG3nGKpBrtgVmPSiY+RJbbzcUhDNFa6YpI5jyZCGs2P6W9aTMh84u+cmFb3CO6QMzYGLEEN4=@vger.kernel.org, AJvYcCWPbrW2JVJppT4J/78hna1Q4xG+VH1ADv7mzwUyBnnIyEUYHIhR3R1rE02v/v2OUm5/1h4i1KefIUrmpLUz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy76MttVihhGqPnkzCMk4cJshlKV+iqoRj65aGRWIcZqK1apMBY
+	ZcqhIJShkrBeHLHMV3s6V7mVLumuPlhS2Z+Abfi0z7ZwlHIdL7xcYQ4c
+X-Gm-Gg: ASbGncu/FE8AX6wSbqIIxO8mS5QVTOj/4hYqiFwHcBJX/FlALz48eXSMnHVD5WlEYXC
+	l7bqyHB8APfteez2fyNSiZx2n/KpY8Vb4gpoHisOV8g56ZNpWXI6d+AgNChNBDaDby4umVJbI+v
+	mUGSHJQrOdIQMS+cJvRSv+dYvdDXJJRjup3APjoA760Y+nkKes9d8CesXE1/KjDlAFEomUPsZ/B
+	pBZxSgbIy1IOGahnLYqKA824/E+WA4pvN4EY/FJPGLArz8eQi4Tmi5dAiLrRNv/Dd8OUzxy4uM3
+	JSO1FU31lplIILgxILQlvh4VxFuzLdYYvqdtkluvbClJlRVihLAwXb/tPgm2pvCmWlD57aI+LYx
+	l0FVM8YAT1sQocgawd7xfhwf4vC4zZhm53V4=
+X-Google-Smtp-Source: AGHT+IEvTyYKIFNFKtos+Q7xGTJwGDjkxtH9YEdOcir9X6sczH/cSaEvxgJwhnxHV55E/V1jFMVXTQ==
+X-Received: by 2002:a17:90b:5485:b0:311:b0ec:135b with SMTP id 98e67ed59e1d1-31c9f47c799mr4299236a91.24.1752677537737;
+        Wed, 16 Jul 2025 07:52:17 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f1e83d7sm1552211a91.20.2025.07.16.07.52.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 07:52:17 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 16 Jul 2025 07:52:16 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Radu Sabau <radu.sabau@analog.com>,
+	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v5 1/3] dt-bindings: hwmon: (pmbus/adp1050): Add adp1051,
+ adp1055 and ltp8800
+Message-ID: <0d6d9830-ab41-4f21-99aa-2595ebc4c499@roeck-us.net>
+References: <20250709-adp1051-v5-0-539254692252@analog.com>
+ <20250709-adp1051-v5-1-539254692252@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250617161417.1681-1-shiju.jose@huawei.com> <20250716152818.00006759@huawei.com>
-In-Reply-To: <20250716152818.00006759@huawei.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 16 Jul 2025 16:42:13 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hqFOssbnsgcc9c6HASc9FRvth804SJ8oSb5aUKZDu9hQ@mail.gmail.com>
-X-Gm-Features: Ac12FXxxOONRpDkb3up9ebCJ9NQczS2vVIePuAsvxyi1hrUAGaNzPb2RR3BI95s
-Message-ID: <CAJZ5v0hqFOssbnsgcc9c6HASc9FRvth804SJ8oSb5aUKZDu9hQ@mail.gmail.com>
-Subject: Re: [PATCH v9 0/2] ACPI: Add support for ACPI RAS2 feature table
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: shiju.jose@huawei.com, rafael@kernel.org, linux-edac@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, bp@alien8.de, 
-	tony.luck@intel.com, lenb@kernel.org, leo.duran@amd.com, 
-	Yazen.Ghannam@amd.com, mchehab@kernel.org, linux-mm@kvack.org, 
-	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
-	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com, 
-	gthelen@google.com, wschwartz@amperecomputing.com, 
-	dferguson@amperecomputing.com, wbs@os.amperecomputing.com, 
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
-	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
-	wanghuiqiang@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250709-adp1051-v5-1-539254692252@analog.com>
 
-On Wed, Jul 16, 2025 at 4:28=E2=80=AFPM Jonathan Cameron
-<Jonathan.Cameron@huawei.com> wrote:
->
-> On Tue, 17 Jun 2025 17:14:14 +0100
-> <shiju.jose@huawei.com> wrote:
->
-> > From: Shiju Jose <shiju.jose@huawei.com>
-> >
-> > Add support for ACPI RAS2 feature table (RAS2) defined in the
-> > ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
-> > scrubbing feature.
->
-> Hi Rafael,
->
-> Anything remaining that you are look for wrt to this series?
-> Back in v5 Borislav agreed with suggestion that this series should
-> go through the ACPI tree.
->
-> https://lore.kernel.org/all/3A6C3FC9-B347-4FA9-BA88-3DAF423853C5@alien8.d=
-e/
+On Wed, Jul 09, 2025 at 01:43:25PM +0800, Cedric Encarnacion wrote:
+> Add support for adp1051, adp1055, and ltp8800.
+>     ADP1051: 6 PWM for I/O Voltage, I/O Current, Temperature
+>     ADP1055: 6 PWM for I/O Voltage, I/O Current, Power, Temperature
+>     LTP8800-1A/-2/-4A: 150A/135A/200A DC/DC µModule Regulator
+> 
+> Co-developed-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-So what's missing is his ACK on this series.
+Applied.
 
-Thanks!
+Thanks,
+Guenter
