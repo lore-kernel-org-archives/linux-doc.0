@@ -1,172 +1,305 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2055.outbound.protection.outlook.com [40.107.220.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643E52F2734
-	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 10:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752660032; cv=none; b=B4eVQLsDS6OwT3pfsy/rWXRdTXCCm+KecZfZd5gWx8aYih48TJ4d3tQvTJ68YWDk29Asi66QuiKkt69gH6+Gi1SPbu3rdh0WiKkQNQb/kIcQY4tjlOQAH/NR9ESAFjU3grC9reoqum7y2u+EufMUSZIUcMgm4OU5/Mu6Wq5XmRk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752660032; c=relaxed/simple;
-	bh=GHlX23A7Hvn+p5ZNPSjNs+wmfu94EHZOaRggXGBJYNU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=r7x/URMx/jUX2jm3JQ4hp4BN/gnDsTrmuIwWasM90jih20hNZm+9MKzhG4btssNohk162hzTVAAQUDGIhbjmfhiN4kdCg8qvkHGKIunZ41tIbsrSXaVbyq2k4+oW3Wa+lBEA85DFc4B2RuqmaI9zhZBOl1VwJgafgGUxloKEoGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D6qUjVCW; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2C22F2C56;
+	Wed, 16 Jul 2025 10:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752660625; cv=fail; b=syETPRS6JOtUjjvbFXQGEaOvV8IBv3kCyRh5stL0qqxClxFr6JE/3v/oSeX8Xr/XL9dMuy5hAdF0rqt3FM/sanHIEUbz2kGGGkc8S9EwhGyX2n0QdMBl4ww3T7N30wARhfJL/hU72Nt4DjPYFPEAEojkzhowM5g+QuZnC5Kfh10=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752660625; c=relaxed/simple;
+	bh=5KcC5+s11lQKVIYWiS9dABOofmUthY+qBjTLE3m7is8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=s3Vcxx+6neG6cUWZHh6fgi5USwAdd04ByZws2V1ohm886XwZs/eb9i77ZxgZzRX/qtuvpiYZIysejmpvYzRRZNF4qMLrZ1jo3HcpaO75fI08131r3/W4AheSi8Ml/G3VS5gr/GrkEh1NoYdjEOtc6olsse8L1JKh3DrJiSad2v8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hXJpIv0Z; arc=fail smtp.client-ip=40.107.220.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D6qUjVCW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752660029;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=c0eHc6+5H9SgZz4Xcjm6r2qNKf2VLwrklymOhya5fbw=;
-	b=D6qUjVCWSM0XVI+D6HHqzbtE/WUrKSSrdGx0xzQjK3pp83oZU45N9tIon7BGKBNnBHx1jk
-	jBMujGufD0Eu2I4ZU6eVJ8LUiq6jaK+jRUFJ0L/79ttVPpAZ/rbmSfMzQc3mzsLdTHR/UI
-	1fl+uxDEu/NDazeOeKUI6Z5JSKWSDXc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-298-mv-JT7qDNHGwUlZ8AJx_6g-1; Wed, 16 Jul 2025 06:00:28 -0400
-X-MC-Unique: mv-JT7qDNHGwUlZ8AJx_6g-1
-X-Mimecast-MFC-AGG-ID: mv-JT7qDNHGwUlZ8AJx_6g_1752660027
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43e9b0fd00cso4961085e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 03:00:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752660027; x=1753264827;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c0eHc6+5H9SgZz4Xcjm6r2qNKf2VLwrklymOhya5fbw=;
-        b=qCXgkvT3crIcj0VS5jL9pnfitZqA6ZvVEF1kjIf7c4DtLBL41n0ijuBul8B79svNr8
-         rRcZ6xZX+vyEQaaW/6Q8HljTRVOJ9nGZn6PTPoD1DLsPGOoqmi9048REA66vah5vDf+/
-         skql+TsnW5ofGFNW7lgWniHT7uqSgZe7isRNQRxq5yG8va5N0Ynw5tK8dnzE6wVK7GRx
-         /Ju7p573LPVlApyPDb01S1rWCzfinCl48tvxAghh5otA5PzILIVfWPNCSugIJdKbCtGS
-         ENZ3G5QH0fO8rDFHTMJa8rL9v/pc3Yxg+JVpvRrg7Or+yzAjCSmoR3czAH3lcHYT+KRx
-         IVdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXC8CQnSirFjZKiwgRnfPiE6QNggCCKgSChGmjV9Rr7w1I2aCAyxrS8ybhStPVgOTlHT+EVGYSr31M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyKa7USxYJakHCZH3JZjrd9A7Cawjj5rIo4mlH2NHJtF3BaDcl
-	vbxRLtCHv22TCghV4VAqkRHklvaMg4exXE1IZtMvPoJmmgTiOO+7W6tRwYeRQq/pLXJuY6CR6uD
-	RebIKjm36b1mcuOq4RO9gh+DL+bjQsbJlWDQlfEtlX5QQiJoBrV5dz2iCh9YhrQ==
-X-Gm-Gg: ASbGncsZ0iY+sED1soaa3eJGoGTmLYREPZJZtMCq6neyafWj1cKnfOYj5p1E6MV/YBJ
-	sXYgrFT39zFyRCqy/uSDioSG+fel3OlmU4DurIYbnev9mgCyVdY2K4R5WXtcLLCFey6o4+GUEaF
-	Xzwz9wTjOhqlYjNA3ICr5hYUK6dLGpFdwmqUp1RbyCNbzIDkr96uDYc8A8DO7mp64GJjonbuFZZ
-	kMU6ipcqucGYGK33eP+IThDF3P/R0pPJfLcFvbzou8RjV83SV7ST1FxTPTHBFD11ugo/mqa+BMY
-	eW3o6FalSswLMwyH8abcMDGabn8kjDiNDsGvdSlJr0jUXYvRiKJDKsT/sA4gxjDBCw==
-X-Received: by 2002:a05:600c:2ad3:b0:456:15be:d113 with SMTP id 5b1f17b1804b1-45625e12572mr49088485e9.1.1752660026632;
-        Wed, 16 Jul 2025 03:00:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFIZgKfShCpN0AhUR7T0WU+hhCNt02vphv8/fP10yQjGMUW3uuMd1ZkzEMXXpDi1pz7gSrpXg==
-X-Received: by 2002:a05:600c:2ad3:b0:456:15be:d113 with SMTP id 5b1f17b1804b1-45625e12572mr49088185e9.1.1752660026195;
-        Wed, 16 Jul 2025 03:00:26 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.40])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc21e7sm17399303f8f.36.2025.07.16.03.00.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 03:00:25 -0700 (PDT)
-Message-ID: <ecc8217af9ad8142abb73d6ef2fe9bdac9df6c95.camel@redhat.com>
-Subject: Re: [PATCH v3 17/17] rv: Add opid per-cpu monitor
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Tomas Glozar
-	 <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>, Clark Williams
-	 <williams@redhat.com>, John Kacur <jkacur@redhat.com>
-Date: Wed, 16 Jul 2025 12:00:24 +0200
-In-Reply-To: <20250716093825.rWXnBtv5@linutronix.de>
-References: <20250715071434.22508-1-gmonaco@redhat.com>
-	 <20250715071434.22508-18-gmonaco@redhat.com>
-	 <20250716093825.rWXnBtv5@linutronix.de>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0ByZWRoYXQuY29tPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmbiuWMCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfJzZgD/TXjnqCyqaZH/Y2w+YVbvm93WX2eqBqiVZ6VEjTuGNs8A/iPrKbzdWC7AicnK
- xyhmqeUWOzFx5P43S1E1dhsrLWgP
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hXJpIv0Z"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s9iDAYlsZuFsz5tbh6+rIy8n3Yvsr/X80b1kcD9y1OkISdICyJA423lnKsnQ+cEuEi3s+/qkb9hNN+lHNe96EXIl18cO7EckgkPA87qrVtLRfVR8M8MMD0rXcRW5t5KEOgJdxabo5jjVMu+X8/pcILAX67koRwLXeMeIAn5IhpvXPojDnlmUKdZYunUyGgnd0rt/bpZm36dL1XfvX9BsX8tUcQKKOh6FsC+DQdYId/lZYHwawn9psFKXHol3OqNg9EezsWRsYbzLbApd289XlBk2/+9DyFQjibGRvO7jGWbdDGpbtJ9ue6izfxTSaK0T72ohHphXsJjBiefzRKrOww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2fN1eAO0+Nw1gIQpJKtSFwYISMMMpOZ2zzT0ibdKviU=;
+ b=HK0u3S7xLzjF5ad01ACQWCxZDtPnAA2IxdBUBC+LwTEQ9v8FZhSBUVT1Zflu3LxXgXSec/WVGm3ychK7Ad5FTvfiqmlQfBp4TDMF+QaW/pD/RqDQsxObiOd5WE0lERyEkSB00AOJ7xj1V9JxjGgNiLbKKdmox509C1KLI3JEdbilxkz/iMV+wmbwMY5SCZrLCXgirzlewXbbrkZjftz2KagQb/2EShXTvNZ8b3moyeF0JncK472zGY3LCkyoKBfTiLyDCe4Mux/L2j++8/qIwUJXKHruSezolLLEoU6wS1PpTy3kHQdmRvFDPXf9vP++rpUTd8TzOC6colqaKujA1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2fN1eAO0+Nw1gIQpJKtSFwYISMMMpOZ2zzT0ibdKviU=;
+ b=hXJpIv0ZUA4fcRigjEq05SwPymVMewlGvt5CSc7OYXMdRvE3I6itG4gmQNRcazDtFI+jMxerEa7U7oqOA0IM/awW59IPdjv2Z0ZwrcBoIWz/mjfM8+NaaqDj4DhyAgZpd/tbOaquxu7P218mJ8TdpDi8jig1CVnX+ZYtj5CDe8Y=
+Received: from MN2PR22CA0019.namprd22.prod.outlook.com (2603:10b6:208:238::24)
+ by BN7PPFED9549B84.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6e7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Wed, 16 Jul
+ 2025 10:10:19 +0000
+Received: from BL02EPF0001A0FD.namprd03.prod.outlook.com
+ (2603:10b6:208:238:cafe::9d) by MN2PR22CA0019.outlook.office365.com
+ (2603:10b6:208:238::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.20 via Frontend Transport; Wed,
+ 16 Jul 2025 10:10:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BL02EPF0001A0FD.mail.protection.outlook.com (10.167.242.104) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8922.22 via Frontend Transport; Wed, 16 Jul 2025 10:10:18 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 16 Jul
+ 2025 05:10:18 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 16 Jul
+ 2025 05:10:18 -0500
+Received: from [10.252.203.104] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Wed, 16 Jul 2025 05:10:14 -0500
+Message-ID: <afafc865-b42f-4a9d-82d7-a72de16bb47b@amd.com>
+Date: Wed, 16 Jul 2025 15:40:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 04/11] KVM: x86: Add emulation support for Extented LVT
+ registers
+To: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>, <kvm@vger.kernel.org>,
+	<linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC: <seanjc@google.com>, <pbonzini@redhat.com>, <nikunj@amd.com>,
+	<bp@alien8.de>, <peterz@infradead.org>, <mingo@redhat.com>,
+	<mizhang@google.com>, <thomas.lendacky@amd.com>, <ravi.bangoria@amd.com>,
+	<Sandipan.Das@amd.com>
+References: <20250627162550.14197-1-manali.shukla@amd.com>
+ <20250627162550.14197-5-manali.shukla@amd.com>
+ <3b37d820-12cd-4f33-b059-66e12693b779@linux.intel.com>
+Content-Language: en-US
+From: Manali Shukla <manali.shukla@amd.com>
+In-Reply-To: <3b37d820-12cd-4f33-b059-66e12693b779@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FD:EE_|BN7PPFED9549B84:EE_
+X-MS-Office365-Filtering-Correlation-Id: c80b48bf-0a50-4d66-eb1e-08ddc450f7a9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014|7416014|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Um1FUTVvU0FlOHRaS2hwVkhnRnAxck1td3ZUbWI5NTY5Q1BXOXNVL1dSbHdC?=
+ =?utf-8?B?RU8zWDRWZ3BTaG1KYStzVS9haENCb2JsQlJhYXd5UklNNGk3clVFSFhWZGRV?=
+ =?utf-8?B?MmRyRlk3T1ZlSjVlMjlVS0xRTC91S215VDRQcW1VL1M5Tzk2bitrZVBHYTJy?=
+ =?utf-8?B?UVRTa1Q3VUJRcUFPRUkzV3Y2QllaM0ZOb0hhMWlLeDU2d1U3MzNsdlBPRVdF?=
+ =?utf-8?B?NEhzTFNkckdRNUp4S1lTV2pNRnF0Tk8wbTB6VXd5R1A5VFZlSlJvblNWRUhO?=
+ =?utf-8?B?Z2RPb2NXZ05NVURYS0g1aWFnTUk4TTkxWGY0R0dzcU51NUdBN3dNUmd3cnVj?=
+ =?utf-8?B?RHhmc1dkL055OG1QWDVIcXk0NFNCNFhSR1FaYmE4bTNlUnpDZU1SU0Vhc3V3?=
+ =?utf-8?B?WnFNY1dLL2RUS0d3TDJVWFNuTnhiVjVqMjgyYUZ5YjkzMTR2R3d1aTBJdVdy?=
+ =?utf-8?B?cFM4bUowaHNMdE9naHI2d1Nmam1peHRaL3JlSWFIRmw1RG8wcWZZbFJHVU1r?=
+ =?utf-8?B?ZEFKc0pwL3NwYjljUlRBcWp0aTNkNEVuT0ZKUmxFUDgvcFZiRit5bVQzSmd0?=
+ =?utf-8?B?cCtUQkxMaWhRaW81Z1pHU2Y2T3NvbEpFenljVnZ4VVVTSVVkVlFoWHd3M09J?=
+ =?utf-8?B?N1djSXlGYUZNRCsrWjJaL29uUlBDODl6TXVOd3VMb3pXQjIzaDJVUmdKcEt4?=
+ =?utf-8?B?aUZ2NUEyWHQxcGhwSHMzVnA0SVRJZ0cva3FrZW5vU1pxL2R2TC82YjhEa2xz?=
+ =?utf-8?B?dk9JcDgvbG9rWUVQNTRsdFpZNTNmNzc0MEZvWHVzeTBkek1mWlRJU0ZpRjZr?=
+ =?utf-8?B?UTZPbC9mWk5UOTcxeEVwRWZoZC91UmlSYVlMZzRDY1N0aUNHQWVDRXRkYmd3?=
+ =?utf-8?B?VlBmWXpxNTQ0Z0lmN3IwR25QYjdYM0U4ekk5bGtsNGowS29VWkNTdTdwdmtO?=
+ =?utf-8?B?Q3J2S3JVQkdrQy9SYm1abFJoSUhiTC9mWGVvOXZoSXFQMElMck85Q3NzWDcy?=
+ =?utf-8?B?dm1YdmFRYW81Zk1IWlBWa1RwQTVRL2FvMXVlQ2hOd0pWcjNnYTFtSmFaZ3Iz?=
+ =?utf-8?B?SnI3ejhKSE1NV25KRlMvU1cycExFb1FXLzBaN3FNTDFKd3ErWW9jU1RCRGV6?=
+ =?utf-8?B?Q1JVcCtaNW9HeFU0Z0ZqM0tkVWZ4L0Q4ODJxRFFSOTVPTWhadGViWjFyRkli?=
+ =?utf-8?B?V1BtUkhjYTlQWk5OSU1oUFdmbHlTM29oYmhxbzhhS3RvWTRJb25aQVhpdVdo?=
+ =?utf-8?B?OFNTd0FJZ09ZU3EzUWV1TDdZYjBsWlF3WjR5d3BoaHlLb241VlNvQzRkR05s?=
+ =?utf-8?B?dlkrc3JucXFwTWFRMkdPUUUxTFJydnllQUhzaXJYdmNjMGpmQkd5NnZpVUFD?=
+ =?utf-8?B?alZqUFBWTFEvRCtpc0F4RCtPd0Yvd1U3eTFzTUVGcmRKTG5MRGE4U2JiVVJJ?=
+ =?utf-8?B?bzRtbkFCdUF1TUtBc3JFTTlDaG9pSjJDZkd0bE1DdzhNN1huK1U5dDNpWVpi?=
+ =?utf-8?B?Y05FL2Mza0hEZjNMdjQ2bFp5RFRFamkrdzJsQnNhNFY3OElBb0xnTnlHY3pB?=
+ =?utf-8?B?bkdCeGdXTkZ3WUNxdi94YmlYdWVlRXhsU1dJaU8rYXJMM2xwbjNUelgwTjZk?=
+ =?utf-8?B?cXdXZWZ5Q09IRHNmZUtzenBlazlvdHUrRnZUUTNPNnF1S1dkMHplZEk5TlNh?=
+ =?utf-8?B?cTRVck54NDhCb2FqT200bW5Cc3ZKNlJJNEdHQW1adFlXekR3Qzh5YVVkRTZG?=
+ =?utf-8?B?V2xEM2hOcVJ6c25naHVTVlAzT3ptRVFGTFNWVmJrc1piZmc5cFpGZUJZQVpl?=
+ =?utf-8?B?R2VFcXY4OHFpOEp5VFkxd2YxTXd6MGhaUURndzh2aUlSaVQ1bUk2ODkvcnFR?=
+ =?utf-8?B?TU1vSHpKQWI1K1Q0ZXBlTnVVQ0ltWnlLejcrRUxvTmlCZlF6Yks2RWhsZG9W?=
+ =?utf-8?B?RmgydnEyWHFXZFJTTmtwZ1R6bGtOSTk1MVcvMHFOVXJWNlMzb3VOWElEeGI3?=
+ =?utf-8?B?cnFjbjFvcTFwUUN6VURVZTB0UTB3aHBDODlXcGNWaDRrWkZjSjFqdUc2V1JX?=
+ =?utf-8?B?SE11cHJ6cHlTVmhHaFVjMFFaK0s0TzBGSUhLZz09?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014)(7416014)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2025 10:10:18.7501
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c80b48bf-0a50-4d66-eb1e-08ddc450f7a9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A0FD.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPFED9549B84
 
+Hi Dapeng Mi,
 
+Thanks for reviewing my patches.
 
-On Wed, 2025-07-16 at 11:38 +0200, Nam Cao wrote:
-> On Tue, Jul 15, 2025 at 09:14:34AM +0200, Gabriele Monaco wrote:
-> > diff --git a/kernel/trace/rv/monitors/nrp/Kconfig
-> > b/kernel/trace/rv/monitors/nrp/Kconfig
-> > index f37ff70e8d204..a175c430d351f 100644
-> > --- a/kernel/trace/rv/monitors/nrp/Kconfig
-> > +++ b/kernel/trace/rv/monitors/nrp/Kconfig
-> > @@ -3,7 +3,7 @@
-> > =C2=A0config RV_MON_NRP
-> > =C2=A0	depends on RV
-> > =C2=A0	depends on RV_MON_SCHED
-> > -	default y if !ARCH_ARM64
-> > +	default y if !ARM64
->=20
-> I think this is not supposed to be in this patch? It has nothing to
-> do with
-> the opid monitor.
+On 7/15/2025 8:28 AM, Mi, Dapeng wrote:
+> 
+> On 6/28/2025 12:25 AM, Manali Shukla wrote:
+>> From: Santosh Shukla <santosh.shukla@amd.com>
+>>
+>> The local interrupts are extended to include more LVT registers in
+>> order to allow additional interrupt sources, like Instruction Based
+>> Sampling (IBS) and many more.
+>>
+>> Currently there are four additional LVT registers defined and they are
+>> located at APIC offsets 400h-530h.
+>>
+>> AMD IBS driver is designed to use EXTLVT (Extended interrupt local
+>> vector table) by default for driver initialization.
+>>
+>> Extended LVT registers are required to be emulated to initialize the
+>> guest IBS driver successfully.
+>>
+>> Please refer to Section 16.4.5 in AMD Programmer's Manual Volume 2 at
+>> https://bugzilla.kernel.org/attachment.cgi?id=306250 for more details
+>> on Extended LVT.
+>>
+>> Signed-off-by: Santosh Shukla <santosh.shukla@amd.com>
+>> Co-developed-by: Manali Shukla <manali.shukla@amd.com>
+>> Signed-off-by: Manali Shukla <manali.shukla@amd.com>
+>> ---
+>>  arch/x86/include/asm/apicdef.h | 17 +++++++++
+>>  arch/x86/kvm/cpuid.c           |  6 +++
+>>  arch/x86/kvm/lapic.c           | 69 +++++++++++++++++++++++++++++++++-
+>>  arch/x86/kvm/lapic.h           |  1 +
+>>  arch/x86/kvm/svm/avic.c        |  4 ++
+>>  arch/x86/kvm/svm/svm.c         |  4 ++
+>>  6 files changed, 99 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/arch/x86/include/asm/apicdef.h b/arch/x86/include/asm/apicdef.h
+>> index 094106b6a538..4c0f580578aa 100644
+>> --- a/arch/x86/include/asm/apicdef.h
+>> +++ b/arch/x86/include/asm/apicdef.h
+>> @@ -146,6 +146,23 @@
+>>  #define		APIC_EILVT_MSG_EXT	0x7
+>>  #define		APIC_EILVT_MASKED	(1 << 16)
+>>  
+>> +/*
+>> + * Initialize extended APIC registers to the default value when guest
+>> + * is started and EXTAPIC feature is enabled on the guest.
+>> + *
+>> + * APIC_EFEAT is a read only Extended APIC feature register, whose
+>> + * default value is 0x00040007. However, bits 0, 1, and 2 represent
+>> + * features that are not currently emulated by KVM. Therefore, these
+>> + * bits must be cleared during initialization. As a result, the
+>> + * default value used for APIC_EFEAT in KVM is 0x00040000.
+>> + *
+>> + * APIC_ECTRL is a read-write Extended APIC control register, whose
+>> + * default value is 0x0.
+>> + */
+>> +
+>> +#define		APIC_EFEAT_DEFAULT	0x00040000
+>> +#define		APIC_ECTRL_DEFAULT	0x0
+>> +
+>>  #define APIC_BASE (fix_to_virt(FIX_APIC_BASE))
+>>  #define APIC_BASE_MSR		0x800
+>>  #define APIC_X2APIC_ID_MSR	0x802
+>> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+>> index eb7be340138b..7270d22fbf31 100644
+>> --- a/arch/x86/kvm/cpuid.c
+>> +++ b/arch/x86/kvm/cpuid.c
+>> @@ -458,6 +458,12 @@ void kvm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
+>>  	/* Invoke the vendor callback only after the above state is updated. */
+>>  	kvm_x86_call(vcpu_after_set_cpuid)(vcpu);
+>>  
+>> +	/*
+>> +	 * Initialize extended LVT registers at guest startup to support delivery
+>> +	 * of interrupts via the extended APIC space (offsets 0x400–0x530).
+>> +	 */
+>> +	kvm_apic_init_eilvt_regs(vcpu);
+>> +
+>>  	/*
+>>  	 * Except for the MMU, which needs to do its thing any vendor specific
+>>  	 * adjustments to the reserved GPA bits.
+>> diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
+>> index 00ca2b0faa45..cffe44eb3f2b 100644
+>> --- a/arch/x86/kvm/lapic.c
+>> +++ b/arch/x86/kvm/lapic.c
+>> @@ -1624,9 +1624,13 @@ static inline struct kvm_lapic *to_lapic(struct kvm_io_device *dev)
+>>  }
+>>  
+>>  #define APIC_REG_MASK(reg)	(1ull << ((reg) >> 4))
+>> +#define APIC_REG_EXT_MASK(reg)	(1ull << (((reg) >> 4) - 0x40))
+> 
+> It seems there is no difference on the MASK definition between
+> APIC_REG_MASK() and APIC_REG_EXT_MASK(). Why not directly use the original
+> APIC_REG_MASK()?
+> 
 
-Damn, fixed up the wrong patch, will move it to the other one..
+The Extended LVT registers range from 0x400 to 0x530. When using
+APIC_REG_MASK(reg) with reg = 0x400 (as an example), the operation
+results in a right shift of 64(0x40) bits, causing an overflow. This was
+the actual reason of creating a new macro for extended APIC register space.
 
->=20
-> > =C2=A0	select DA_MON_EVENTS_ID
-> > =C2=A0	bool "nrp monitor"
-> > =C2=A0	help
-> > diff --git a/kernel/trace/rv/monitors/opid/Kconfig
-> > b/kernel/trace/rv/monitors/opid/Kconfig
-> > new file mode 100644
-> > index 0000000000000..23b43d2704153
-> > --- /dev/null
-> > +++ b/kernel/trace/rv/monitors/opid/Kconfig
-> > @@ -0,0 +1,17 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +#
-> > +config RV_MON_OPID
-> > +	depends on RV
-> > +	depends on TRACE_IRQFLAGS
-> > +	depends on TRACE_PREEMPT_TOGGLE
-> > +	depends on RV_MON_SCHED
-> > +	default y if PREEMPT_RT
-> > +	select DA_MON_EVENTS_IMPLICIT
->=20
-> Shouldn't we add "depends on PREEMPT_RT"? I tried this monitor on
-> non-RT x86 kernel, and got some errors. That could confuse people.
+> BTW, If we indeed need to define this new macro, could we define the macro
+> like blow?
+> 
+> #define APIC_REG_EXT_MASK(reg)	(1ull << (((reg) - 0x400) >> 4))
+> 
+> It's more easily to understand. 
+> 
 
-Mmh, my rationale was that it reports errors on non PREEMPT_RT, but it
-does build. If someone wants to try it out there, they are free to do
-it. We are just not supporting it officially.
-The monitor might start working in the future also on non RT kernels,
-or at least if someone wants to try whether it's the case, they can do
-it easily.
+I can define the macro in this way.
 
-Same idea for the ARM64 thing above.
-
-But I should definitely mention this explicitly in the Kconfig entry
-not to confuse people..
-
->=20
-> And the monitor reports some errors on riscv64 with PREEMPT_RT=3Dy:
->=20
-> root@riscv:~/rv-tests# uname -a
-> Linux riscv 6.16.0-rc6-00054-g7590637d9ca2 #87 SMP PREEMPT_RT Wed Jul
-> 16 11:26:00 CEST 2025 riscv64 GNU/Linux
-> root@riscv:~/rv-tests# stress-ng --cpu-sched -1
-> stress-ng: info:=C2=A0 [452] defaulting to a 1 day run per stressor
-> stress-ng: info:=C2=A0 [452] dispatching hogs: 4 cpu-sched
-> [=C2=A0 614.390462] rv: monitor opid does not allow event irq_entry on
-> state in_irq
->=20
-
-Mmh riscv.. I haven't tested it there, guess I need to start keeping a
-VM somewhere.
-
-Thanks,
-Gabriele
+> 
+>>  #define APIC_REGS_MASK(first, count) \
+>>  	(APIC_REG_MASK(first) * ((1ull << (count)) - 1))
+>>  
+>> +#define APIC_LAST_REG_OFFSET		0x3f0
+>> +#define APIC_EXT_LAST_REG_OFFSET	0x530
+>> +
+>>  u64 kvm_lapic_readable_reg_mask(struct kvm_lapic *apic)
+>>  {
+>>  	/* Leave bits '0' for reserved and write-only registers. */
+>> @@ -1668,6 +1672,8 @@ EXPORT_SYMBOL_GPL(kvm_lapic_readable_reg_mask);
+>>  static int kvm_lapic_reg_read(struct kvm_lapic *apic, u32 offset, int len,
+>>  			      void *data)
+>>  {
+>> +	u64 valid_reg_ext_mask = 0;
+>> +	unsigned int last_reg = APIC_LAST_REG_OFFSET;
+>>  	unsigned char alignment = offset & 0xf;
+>>  	u32 result;
+>>  
+>> @@ -1677,13 +1683,44 @@ static int kvm_lapic_reg_read(struct kvm_lapic *apic, u32 offset, int len,
+>>  	 */
+>>  	WARN_ON_ONCE(apic_x2apic_mode(apic) && offset == APIC_ICR);
+>>  
+>> +	/*
+>> +	 * The local interrupts are extended to include LVT registers to allow
+>> +	 * additional interrupt sources when the EXTAPIC feature bit is enabled.
+>> +	 * The Extended Interrupt LVT registers are located at APIC offsets 400-530h.
+>> +	 */
+>> +	if (guest_cpu_cap_has(apic->vcpu, X86_FEATURE_EXTAPIC)) {
+>> +		valid_reg_ext_mask =
+>> +			APIC_REG_EXT_MASK(APIC_EFEAT) |
+>> +			APIC_REG_EXT_MASK(APIC_ECTRL) |
+>> +			APIC_REG_EXT_MASK(APIC_EILVTn(0)) |
+>> +			APIC_REG_EXT_MASK(APIC_EILVTn(1)) |
+>> +			APIC_REG_EXT_MASK(APIC_EILVTn(2)) |
+>> +			APIC_REG_EXT_MASK(APIC_EILVTn(3));
+>> +		last_reg = APIC_EXT_LAST_REG_OFFSET;
+>> +	}
+> 
+> Why not move this code piece into kvm_lapic_readable_reg_mask() and
+> directly use APIC_REG_MASK() for these extended regs? Then we don't need to
+> modify the below code. 
+> 
+> 
 
