@@ -1,158 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9F0374D1;
-	Wed, 16 Jul 2025 02:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6349311187;
+	Wed, 16 Jul 2025 03:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752634281; cv=none; b=QExbqZYGk7Glb6njcWwmLzmkQKSxrTJKcACc8fCHd6TfEp5aHKgHSAprYe9qKGdQmXTfXail5GtIseIrndSZTy0tlDXXOmmpN7RSe0563DgcRJrlsK6g8nXjYaxWFPllRyOJ3ZdsUrwJ5acWHnynGWC4kX6IhFgju7SsPGJ2BDA=
+	t=1752636545; cv=none; b=iUAvgJKZaiwUo+7BHmbU8eYuYFMBZ+D2xKxAE+FRmUCBnXbPY/e6f5rzHjXV48SGs0fR48kQbNONIl1vj/80OaW67WhRqKBiiJZyeVQQygi2Not6xlid7Q6haBbwtZwrnvA1rphURFjAo9dQ1EHkfLXMR862tNKSHoI0UWZOZRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752634281; c=relaxed/simple;
-	bh=d+O5NiaQs+zx9yRlpf28fAQcJ8qetUFQCeuXtqJaeKM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BbCNJPXtL5R+4Veku7NFTBE/YPOoflfZ2a/QKIhckn8WW2UFyJt5JRxs4pKgBt1ayLkymibgaF6i1a5P6IY12wDzQFlNO0J4Ldzi5nU9a8pvUGK2S1qG7HYoEqjrJN6489pXQt9Qg2Ew/3XQhT+YEbW5y0mXXkYe03qw0Lf/vDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOX9ZdPa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752636545; c=relaxed/simple;
+	bh=9fVuKRupkpK0jeXpqHJzfBtwNx3YJfAqnBuOqi1+Yog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LMneHEj80qEOyqeH91czQ8cBIke2LwH/xFc2RNKFUmv+xEvbexwylNad7JJtr1nS+hmJdN4oSJdBMFZo5swdY8dcCfEK265htOstoxqgPjvRa8h9eQTWiuaz31Gtk6keh7kfh0gepcXrAsprZLCCa+wqjo+KmoXqqpwCerDHoRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Z+jouwOD; arc=none smtp.client-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOX9ZdPa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0A9CC4CEE3;
-	Wed, 16 Jul 2025 02:51:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752634281;
-	bh=d+O5NiaQs+zx9yRlpf28fAQcJ8qetUFQCeuXtqJaeKM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jOX9ZdPai/j9Cng6NxjH2iKFhdAIGa6B4z7xP99jRkvB+yAobcc2tzZGO7nBtHhqO
-	 zZbzMxEMvqyc9AhrsrT/fmvgQ7PFnMEwORNXP+tDfxjjUI2lJPJFGdyPvS1Ask+eQh
-	 0HQdLSIV2/YYM156SGajMMACqYWD4Cy5O0i1jUv1IIWbeLbbhW7NCUZHThH6GyP2Kx
-	 I6VMl1dOkIs6Q3H9jnF7S43iT3fbj8NlDy7xgXbcIZ9i7eyKhwXQ8Rh+ieVeVU9Qkj
-	 De3Wg/XzWphS6eZOpINBBgLuHcKLHz9lIolZDVYmUpRVe4a90SNNiP1khJyI2cvyCu
-	 Yi2+/HDKCNjcg==
-From: SeongJae Park <sj@kernel.org>
-To: Honggyu Kim <honggyu.kim@sk.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	kernel_team@skhynix.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [RFC PATCH 0/4] mm/damon/sysfs: support periodic and automated stats update
-Date: Tue, 15 Jul 2025 19:51:18 -0700
-Message-Id: <20250716025118.92544-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <5d1aa6f2-fa5f-4cc2-a3c7-3b5144391524@sk.com>
-References: 
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Z+jouwOD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1752636224; bh=rVYXfJ28puNpDsYuCqlsBIEx1NeRES2IwwJ6mZh08HU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Z+jouwODo5fKme7FRH/Ag79iESRnzlQ77J/b0EKsxfiRvcnvOoWGm58iPcQdgPioq
+	 pXM5HsAae9UA2MnRyJ6vESygyrKS4ov2opGA/7WjvezxFIb5IPxnQmz1R+m1v1P3UA
+	 uzDzQdbNrpAYYa3mQlHqMNBZ1NGRsCtnwR9fTEDg=
+Received: from [172.25.20.187] ([111.202.154.66])
+	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
+	id 5E88D015; Wed, 16 Jul 2025 11:23:40 +0800
+X-QQ-mid: xmsmtpt1752636220tycb83gcn
+Message-ID: <tencent_1C2FC8524B8F624445562817A2BE18E5700A@qq.com>
+X-QQ-XMAILINFO: OeJ9zRfntlNPdKuf745NpqchrcYrT80cSkGsEezOdvuR17zHQEAfAqb15k9v58
+	 e6/aINkDvUFB6XtpkSJZ5KY6+PyfVNNOTf8mD4q7weZ7nzy0eZssb4PasUrqSFHhZoxI2KFbfqsF
+	 5uLIgB0jbNAWf+qPV0EYjIE56Ia5BU4l6fV2lfFV+vazL7cUVAqssEw6T5qWHQx5ezxPUFU+Ezpe
+	 bZxOa+0uSgVLhYwFMiIaO8LTbBmE9vmzAs1jp/q4c/z9YCJW5yfAIC13ZXcN/pHnW4BAkbQcazmi
+	 4yv9Bp5ceti/eLFLsHe5ClFNl0tWAWWkfOQkmtS7RQM49aSFxG1pwa3bMTWZc97UJFuus71FETLz
+	 6vQXOTiDzKbl7pYAjYRiIvva3K+qDQINKquuXYbwpT3VwI2iRlb4gCmW94pnMtQJXCARi9G0GL9j
+	 2R7D3ZKfqnz1biSCgdZAq0IfkFcoow7tReKz05Ol8TmGhiPqQbawgy1PpGHg8Di0Beoex1rurbnM
+	 avA3ieh+UrpVV7cjuwRhxy5mDeGZIa19rJWmSnp6kvq1kfuZpHIbohexe2U8LFuCt8kcQiMH3n+y
+	 83UmSX+1vH7z67biSLOGUXze5Pxx3D8huAF+HT4f8dzFfNZ6ziDC8kg8LBrdbd3qHtOHgpsSR8VG
+	 Aid7treeFoiLHnqmd3raHkpQAe16YMDfGGb4IfN1W/5CL2CLgz6e3y8AinBfy9NX8uTxTtM0ujr1
+	 ld4DTcuZWv52alaCQ56b+7JyGb48tm+52llAkbeKrkA6I06FBsFCrakEu0y+OO+Qu5gNpvrgnI6d
+	 q+UVJNPSbVSxwv/6WLjRXqsFxzJ+te7n5AjtM2UCDJOnwn8rCF2+v7xLKkN7kmp+CkGm1nrmbN1R
+	 u7etkw9ViyDwluV2oh312yNMag4FfzrZuZDx498iefnQ040V7R39wtKT2FZfzRzeYdgv3BN2IAlP
+	 p7K4/7Dr3eD9QaPAihIasG/TqpR48mGdeu7F6TzZREX2lkb55/EkSpSNxm2Z/hD0kPBeK2KbPWGa
+	 fo8o4tAV5gqaFp8WFGgHxzUB1lZCpXI4ZNTzhBoity48Yz8FYN
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-OQ-MSGID: <99f2ff09-6921-4c68-9783-c590ed4977f2@qq.com>
+Date: Wed, 16 Jul 2025 11:23:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/5] fs: refactor write_begin/write_end and add ext4
+ IOCB_DONTCACHE support
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-block@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, frank.li@vivo.com,
+ tytso@mit.edu, hch@infradead.org, adilger.kernel@dilger.ca,
+ willy@infradead.org, jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+ tursulin@ursulin.net, airlied@gmail.com
+References: <20250710101404.362146-1-chentaotao@didiglobal.com>
+ <20250714-tolerant-begreifbar-970f01d32a30@brauner>
+From: Taotao Chen <chentao325@qq.com>
+In-Reply-To: <20250714-tolerant-begreifbar-970f01d32a30@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Wed, 16 Jul 2025 10:58:06 +0900 Honggyu Kim <honggyu.kim@sk.com> wrote:
 
-> Hi SeongJae,
-> 
-> On 7/16/2025 8:43 AM, SeongJae Park wrote:
-> > On Wed, 16 Jul 2025 07:20:57 +0900 Honggyu Kim <honggyu.kim@sk.com> wrote:
-> > 
-> >> Hi SeongJae,
-> >>
-> >> On 7/13/2025 5:46 AM, SeongJae Park wrote:
-> >>> DAMON sysfs interface provides files for reading DAMON internal status
-> >>> including DAMOS stats.  The content of the files are not automatically
-> >>> updated, though.  Users should manually request updates of the contents
-> >>> by writing a special command to 'state' file of each kdamond directory.
-> >>> This interface is good for minimizing overhead, but causes the below
-> >>> problems.
-> >>>
-> >>> First, the usage is cumbersome.  This is arguably not a big problem,
-> >>> since the user-space tool (damo) can do this instead of the user.
-> >>>
-> >>> Second, it can be too slow.  The update request is not directly handled
-> >>> by the sysfs interface but kdamond thread.  And kdamond threads wake up
-> >>> only once per the sampling interval.  Hence if sampling interval is not
-> >>> short, each update request could take too long time.  The recommended
-> >>> sampling interval setup is asking DAMON to automatically tune it, within
-> >>> a range between 5 milliseconds and 10 seconds.  On production systems it
-> >>> is not very rare to have a few seconds sampling interval as a result of
-> >>> the auto-tuning, so this can disturb observing DAMON internal status.
-> >>>
-> >>> Finally, parallel update requests can conflict with each other.  When
-> >>> parallel update requests are received, DAMON sysfs interface simply
-> >>> returns -EBUSY to one of the requests.  DAMON user-space tool is hence
-> >>> implementing its own backoff mechanism, but this can make the operation
-> >>> even slower.
-> >>>
-> >>> Introduce a new sysfs file, namely refresh_ms, for asking DAMON sysfs
-> >>> interface to repeat the essential contents update with a user-specified
-> >>> time delay.
-> >>
-> >> Thanks for working on this, but I have a few questions.
-> >> 1. Could you please list up what are the "essential contents"?
-> > 
-> > Thank you for asking this.  The contents are auto-tuned monitoring intervals,
-> > DAMOS stats, and auto-tuned effective size quota.
-> 
-> Thanks, but I meant the specific list of damon knobs refreshed.  If there are
-> too many knobs, then don't have to list them all.
+在 2025/7/14 17:11, Christian Brauner 写道:
+> On Thu, 10 Jul 2025 10:14:06 +0000, 陈涛涛 Taotao Chen wrote:
+>> From: Taotao Chen <chentaotao@didiglobal.com>
+>>
+>> This patch series refactors the address_space_operations write_begin()
+>> and write_end() callbacks to take const struct kiocb * as their first
+>> argument, allowing IOCB flags such as IOCB_DONTCACHE to propagate to the
+>> filesystem's buffered I/O path.
+>>
+>> [...]
+> Applied to the vfs-6.17.misc branch of the vfs/vfs.git tree.
+> Patches in the vfs-6.17.misc branch should appear in linux-next soon.
+>
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+>
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be updated.
+>
+> Note that commit hashes shown below are subject to change due to rebase,
+> trailer updates or similar. If in doubt, please check the listed branch.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs-6.17.misc
+>
+> [1/5] drm/i915: Use kernel_write() in shmem object create
+>        https://git.kernel.org/vfs/vfs/c/110ae5fb48ed
+> [2/5] drm/i915: Refactor shmem_pwrite() to use kiocb and write_iter
+>        https://git.kernel.org/vfs/vfs/c/dd09194ff58c
+> [3/5] fs: change write_begin/write_end interface to take struct kiocb *
+>        https://git.kernel.org/vfs/vfs/c/254a06118b31
+> [4/5] mm/pagemap: add write_begin_get_folio() helper function
+>        https://git.kernel.org/vfs/vfs/c/ff2219c021c5
+> [5/5] ext4: support uncached buffered I/O
+>        https://git.kernel.org/vfs/vfs/c/2677497bc6f4
+Hi Christian,
 
-I guess you are saying about sysfs files?  Yes, I think listing those all is
-unnecessary.
+Kernel testing reported regression bugs in this patch series:
+-  Reported-by: kernel test robot <lkp@intel.com>
+    Closes: 
+202507142128.Zr5StnYh-lkp@intel.com/">https://lore.kernel.org/oe-kbuild-all/202507142128.Zr5StnYh-lkp@intel.com/
 
-> 
-> > I will add these on the next version cover letter.
-> 
-> Thanks.
-> 
-> >> 2. Does it mean that it is different from writing "commit" to "state"?
-> >> 3. If not, then is there equivalent action to writing something to "state"?
-> > 
-> > "refresh_ms" works same to other DAMON parameter files.  You can set it before
-> > starting DAMON, or "commit" new values (including 0 for turning this refresh
-> > off) in runtime.
-> > 
-> > I'm not that confident if I understood your point very well, especially what
-> > "it"s mean.  Let me know if I'm misunderstanding something.
-> 
-> I mean writing "commit" to "state" refresh all knobs,
+- Reported-by: kernel test robot <lkp@intel.com>
+   Closes: 
+202507142040.wppyoX1s-lkp@intel.com/">https://lore.kernel.org/oe-kbuild-all/202507142040.wppyoX1s-lkp@intel.com/
 
-Assuming "knobs" mean sysfs files, this is incorrect.  Writing "commit" to
-"state" passes the parameters written on appropriate files to running kdamond.
-It doesn't update any sysfs files until a "update_*" keyword is written to the
-"state" file.
+I will send an updated version of the patch series shortly to address 
+these issues.
+Please consider dropping the original series from the vfs-6.17.misc 
+branch once the new version is reviewed.
 
-> but it seems "refresh_ms"
-> internally refresh paritial knobs so I was wondering what are refreshed and what 
-> aren't.
-> 
-> Regarding the "equivalent action", I was also wondering if there is a command
-> that works same as "refresh_ms" internally does among the command below.
-> 
->    update_tuned_intervals
->    commit_schemes_quota_goals
->    update_schemes_stats
->    update_schemes_tried_regions
->    update_schemes_tried_bytes
->    clear_schemes_tried_regions
->    update_schemes_effective_quotas
-> 
-> https://docs.kernel.org/admin-guide/mm/damon/usage.html#kdamonds-n
-> 
-> In other words, if there is the same command listed above, then users might be
-> able to run a script that regularaly write the command to the current "state"
-> even without this "refresh_ms".  I know having "refresh_ms" is much better
-> though.
+Thanks, and sorry for the trouble.
 
-Thank you for this nice question.  Yes.  Enabling "refresh_ms" is roughly same
-to periodically writing
-"update_{tuned_intervals,schemes_stats,schemes_effective_quotas" to "state"
-file.
+Taotao
 
-
-Thanks,
-SJ
-
-[...]
