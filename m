@@ -1,65 +1,72 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2051.outbound.protection.outlook.com [40.107.92.51])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F88C2D052;
-	Wed, 16 Jul 2025 07:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752651927; cv=fail; b=IqpfOZccoPOvRuExwhZfx8qOyKV461/jkpBqNC8w9GpqmUG7h+aFPQN4J+iWSAfbCRPYNdSGFkTFJpzJaOKAsHkL/F0Evt8uoupADRxMaGGR7FDE9zZ2Qvri6iGTpOCFGNFiyfyG+TOw2mB4jfLzPfek87S8bkte4wmPXeXmLNk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752651927; c=relaxed/simple;
-	bh=XbwI3QhOkh3UFwGT2uPzsZtriGfi6sMReI3u00sNEs0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=p8gEL/VFsETf08gH8UJ3t28oSK6pfvIQKxje6AgLOjisM4hWHJ0Un8rCin4JSFfPUCHFgJwFWshK1Wb5iSIzJpXR4OQOzP7+9j52NWzgbn91r/QYOQcQwQXO7rY/7IRTGTU53iZ0yLhzy1/t5lVf6oYEwPYk/fCPeUsBjy2rouc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0hzaFx2c; arc=fail smtp.client-ip=40.107.92.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589D92EBDE9
+	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 08:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752654577; cv=none; b=ebwTN9Kb8+nD4DiLwTXGJC9y362YOtRycWWV8ofn3cjuTTPKUevG+2GalHqKtmwZOWchQUXSOc+/FqJzVtW4XhftjCjW5C7v82cH0l4uPMOtxnw99qquiDrnOrx+n6cCbT5EJtCP4jpYEAJo5pnVmO3rHqRWBuS538Ic5XJVnU8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752654577; c=relaxed/simple;
+	bh=RXd93FrMXhD6nQlRw5UhfdK/Fc7hARdOf1IOkW55cdI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ue5q0ZAsER2Df+CrmETgkwEUZcXlcFmRsev37/XhtpLhJubHAMuSR9RmraIumxdg+urhWp2OYkjEIPQpFu8/AB6CZkaY5OV6SkbrBfE5gnexfb0pO8WfYApAmAw6UX4CVyrRWB4y84Os4TrJYDP6EZZVOTA2BgQlB1R0zbh9NX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hugj5jDO; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0hzaFx2c"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T8N7TV+bdBKTYZ2/EPV4vEb9zTA0ygUXTm0l/nvJ0MXUsAd2KdkW81dcNPk6o7XtWlbRPi+3BJUk6XCMwlHwJvxcD2MAhT2bToKA4K+/VEzNa2EsYPUMoU5FydVBQtMuCrTAHah8G30KzMTNwWJFujKrtH9TFRzl5xaVYD74oZNbUTkzWQTydwTaQpfNvzTILDb1VHTVapPq44ASc1ECrnCGcnRd9/5RFpIlbaveduntf78IQJY4Za47WApFi62vFs/sdCPkDcANwJKMETJVJtzUitw5iNlD+3Q+gTrqhpUgUeXCbsz8io/x5rNccn9229ame9g8e4gYPX5vA06ZSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XLNDY6MA4DzFzYtpl8Uik5Rups9gF1KNM6NtO+WfEcA=;
- b=MFsf+vyIFhQOxb0vPj6SmEaMKFKiy2XlSS1wzsffhT/9zQY+coSr5mFDLG9EimlD6c2vwZMfEgU9UcoKhW05ylJGvUDkaBaSGU5mdRheZ5YyX15nUsqUkY8KqKnWO4WPxd8sn1PlWmN7DuhRZCHdDoXyXPeuF3GVDmtw/YM8mAlnYepdZT1/grjVikd5p4FfS8O298Pjf7pxL9CdL7ueS/H3ZsvPMKfeDSs3tB2p8B9DKCDRh760wrQzN5Jbl07GblVUsdoY7T2T1M44I3PUEiy2yDhuITmfBmoGMjqWMBYhgS88m/nMVffngfWkxYRVMwl6XrWB04mjmQTRpxM3IA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XLNDY6MA4DzFzYtpl8Uik5Rups9gF1KNM6NtO+WfEcA=;
- b=0hzaFx2c1gALQyK9fd6L1ZDS/AQ30LNYlFMgDRDZgzsQN1Xvr9QtWJPy7JZ0ncB2KYWyKwUXpqswLhWA5Cg9k0/tVWs2LgMycsY4jHr5Ejscg2rmJ6Xu1KRk2rVN+e1KJa8cVYeymuqiygKH8NiwmFUSIKngcS78bXy2e/OEeSM=
-Received: from BYAPR02CA0012.namprd02.prod.outlook.com (2603:10b6:a02:ee::25)
- by CH3PR12MB8509.namprd12.prod.outlook.com (2603:10b6:610:157::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Wed, 16 Jul
- 2025 07:45:21 +0000
-Received: from CO1PEPF000042AA.namprd03.prod.outlook.com
- (2603:10b6:a02:ee:cafe::e7) by BYAPR02CA0012.outlook.office365.com
- (2603:10b6:a02:ee::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.20 via Frontend Transport; Wed,
- 16 Jul 2025 07:45:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000042AA.mail.protection.outlook.com (10.167.243.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8922.22 via Frontend Transport; Wed, 16 Jul 2025 07:45:20 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 16 Jul
- 2025 02:45:10 -0500
-Received: from [10.252.203.104] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 16 Jul 2025 02:45:06 -0500
-Message-ID: <e79bfe7c-1d42-4bbb-9c15-b43dd412e824@amd.com>
-Date: Wed, 16 Jul 2025 13:15:05 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hugj5jDO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752654574;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ffz+MsDbG4Gm1eq6U3qZmEbUy+20PK+4pgl+eju8lOY=;
+	b=hugj5jDOzI4I836/Xrgw1HCqHFAene5hio//8Mx1xm25YdBQGoogYZ/eFYQcqVI8badZgn
+	JhlTQaatjFNf5C+8GBad1eZF1IfTLxNh5f5VWxDjShkJUK/CuAltpfS8F31kle4PwMXlWE
+	G1puZkCs93/fh7kaSR+MnuNQAWt9SP4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-642-ORvlASFuOrqbl6lWpMmUoQ-1; Wed, 16 Jul 2025 04:29:32 -0400
+X-MC-Unique: ORvlASFuOrqbl6lWpMmUoQ-1
+X-Mimecast-MFC-AGG-ID: ORvlASFuOrqbl6lWpMmUoQ_1752654572
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3a4eb6fcd88so4171210f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 01:29:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752654571; x=1753259371;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ffz+MsDbG4Gm1eq6U3qZmEbUy+20PK+4pgl+eju8lOY=;
+        b=RlpcgM3A5RYZ0WTYQz9hhK7rEFdgUXczjVUqu9cVoI66ZKGF+UWyTldJPYbNOFgU95
+         342IwQjLfzIolo0HQ3Gxpi8B6IkPcHQ6Ldf6Gx/PhzS3ang5VjMJ4PwjrLhp2ezuW3D4
+         XOitp3wYq6SmueCPYMgLVhG33YhD8Ewq+joYTwF1+A0YuEcrU7H+n1J40XPALxzyqn2X
+         iK5D9DLwuP/LFTmt/bsRGoaRRaBWKEoj0RD33BWld1cp6HY8NAiOgPh0SuJg/VJMWFlM
+         aMKwDsvKDJfN+aN47jgS0HnwCIcIq6SlIBFFx4J6eozH6xz/iW9Roa5NGwUabPjdPg5D
+         aRvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6H/UaJmuwCnWVrvMc6vo0CCaC11voxum5sgphKVp3GsZ2ZkudEZLePzJn6RkiGFDkjyk0QqgFppM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCGzaU9gUGrcEGMxNaD1/M9mkV5EAfI7WN+n3C/y2dz4v7HUiZ
+	MBuM2iq1jmCekff/UCJHNZEK8QG3QK+6dwgG4lXdP4HyVeaY4T6qVXwRPsQN/LXGnIWVwNzq5PI
+	me6rwv4Kmg5LZrwVFEJx84Z4Ur8aYzKC8qM5evO3kyULnlWNi7iiyfGFLzn9hHOfeM9XCBg==
+X-Gm-Gg: ASbGnctCIoMXmZDmjz4FtCwbbG/jB8+FYWuDmv6MfveHvgxaKZXmO+FBK55XlDxJpR2
+	xzOfU8vs7An/6wLP5BHNTlGGyrCHyr2mv/qaFSomUbsIEC6h2AKXHp3rv0zYF8j5oOX4Jg0Z40X
+	wKjvDvAPVtwmXYxFudXVtQzLsYmlgxpzGmf7sbHJ93z+0pGSQc3u8D2FgRL8JIjS+iuUBYwngIM
+	j1cv3kD2qeQS7SDbXhcufIePbFTX7HRnNkHjs1743zsykHE629oqglHjQu0K+X/GMNlo4ZO9XJQ
+	UgbhTlx/msWZQyfynbSItqJbT4iRqSNGtEfGG++BiT8rfRNF9glXGm2nkJreIdMWvWl1Kuig0/H
+	adlZRKDZvjdE=
+X-Received: by 2002:a05:6000:3113:b0:3a4:cb4f:ac2a with SMTP id ffacd0b85a97d-3b60e4c225fmr1234121f8f.21.1752654571229;
+        Wed, 16 Jul 2025 01:29:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHLiGksmElCYFmj6deUhZX70Iugn3d4BK4R3BF8eDMEuaPTLbQdgfRYY0kjWfYoS6K8Me3pxQ==
+X-Received: by 2002:a05:6000:3113:b0:3a4:cb4f:ac2a with SMTP id ffacd0b85a97d-3b60e4c225fmr1234094f8f.21.1752654570753;
+        Wed, 16 Jul 2025 01:29:30 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e1e2cfsm16961144f8f.75.2025.07.16.01.29.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Jul 2025 01:29:30 -0700 (PDT)
+Message-ID: <f60c5ef5-47b6-4132-bd7c-9707c81289a2@redhat.com>
+Date: Wed, 16 Jul 2025 10:29:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,183 +74,228 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 02/11] KVM: Add KVM_GET_LAPIC_W_EXTAPIC and
- KVM_SET_LAPIC_W_EXTAPIC for extapic
-To: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>, <kvm@vger.kernel.org>,
-	<linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>
-CC: <seanjc@google.com>, <pbonzini@redhat.com>, <nikunj@amd.com>,
-	<bp@alien8.de>, <peterz@infradead.org>, <mingo@redhat.com>,
-	<mizhang@google.com>, <thomas.lendacky@amd.com>, <ravi.bangoria@amd.com>,
-	<Sandipan.Das@amd.com>
-References: <20250627162550.14197-1-manali.shukla@amd.com>
- <20250627162550.14197-3-manali.shukla@amd.com>
- <03934334-a4b6-4c9f-ad99-5f8041836065@linux.intel.com>
+Subject: Re: [PATCH v12 net-next 11/15] tcp: accecn: AccECN option
+To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>,
+ "edumazet@google.com" <edumazet@google.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>,
+ "dsahern@kernel.org" <dsahern@kernel.org>,
+ "kuniyu@amazon.com" <kuniyu@amazon.com>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "dave.taht@gmail.com" <dave.taht@gmail.com>,
+ "jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
+ "stephen@networkplumber.org" <stephen@networkplumber.org>,
+ "xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>,
+ "jiri@resnulli.us" <jiri@resnulli.us>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+ "donald.hunter@gmail.com" <donald.hunter@gmail.com>,
+ "ast@fiberby.net" <ast@fiberby.net>,
+ "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+ "shuah@kernel.org" <shuah@kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "ij@kernel.org" <ij@kernel.org>, "ncardwell@google.com"
+ <ncardwell@google.com>,
+ "Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>,
+ "g.white@cablelabs.com" <g.white@cablelabs.com>,
+ "ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>,
+ "mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>,
+ "cheshire@apple.com" <cheshire@apple.com>, "rs.ietf@gmx.at"
+ <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
+ <Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
+References: <20250704085345.46530-1-chia-yu.chang@nokia-bell-labs.com>
+ <20250704085345.46530-12-chia-yu.chang@nokia-bell-labs.com>
+ <0ddc5daf-adb4-4d97-9e8e-e60fdf9a007f@redhat.com>
+ <PAXPR07MB7984F66EB2AD576D2385C351A357A@PAXPR07MB7984.eurprd07.prod.outlook.com>
 Content-Language: en-US
-From: Manali Shukla <manali.shukla@amd.com>
-In-Reply-To: <03934334-a4b6-4c9f-ad99-5f8041836065@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB04.amd.com: manali.shukla@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042AA:EE_|CH3PR12MB8509:EE_
-X-MS-Office365-Filtering-Correlation-Id: 658bfdc3-c3e2-4f8b-feb0-08ddc43cb738
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014|7416014|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TWNvbk03SnVzcTI4cmpiUUpNcGwwUE5DK053c2xGemxiUU1tSWhWWnVMWUI3?=
- =?utf-8?B?cUdhc1ZnMTROWEhxOWgzWTBGVGo2c25nVGFEYURpbTVoYUxkamhPNm9qUlJy?=
- =?utf-8?B?WThBek1TdmtJeVZJVk9jNFZDQlVOME53T0F6dUtTUWtFdy9xOURZVXJqK29q?=
- =?utf-8?B?cWdvZUFxMFJQYVZ5OVBKcjRaOEgxRG1EKzNGTUVLei9mV3RUblp0YThLVW90?=
- =?utf-8?B?VUtFdEtkUXlFak1taHNYK1VPT3k3MHpNZW8wRWxNS1lPa21jVEQyMXVrbEVN?=
- =?utf-8?B?Tlp1bnQ4NlpMcktyT3hTSWoyWDhvOENLNG1LZHBIUlh4NFQvbXFFdE5DcUt2?=
- =?utf-8?B?bW4wejRxMmpRdDN6SEtnNWNBOTRQWkVnaGZldk4wZTE4dXV3Vll2SWR2QlVw?=
- =?utf-8?B?SS9wRFRDVUxDNFZ0anlLZStYNk9YUjMrNXB3aTZ4SWErbG16M1lyOGxON1lO?=
- =?utf-8?B?c3hqdjVoSFduQU5OZVhIOVhqYitRbXRxamdUbmkwbStCeHNudGVPVG0wYnJL?=
- =?utf-8?B?alUwU3dmYm81Y1BWNHd2cDlQTDYvVzhFTURrWi9Rd3p5NytQK2xoajRzV3NF?=
- =?utf-8?B?UnI1VzZKdk9JMGhuS3hOblhXOEZCZ1J1TkwyMkpQbHhVN1BLZ2FGWWlFTDZy?=
- =?utf-8?B?b3VzbkRTYjdjM2puZVYxaW1zWHNuR2N5LzB6Y3FVU3Bud2NaaFMvaGkxNzdU?=
- =?utf-8?B?S1UzT0tKVlZSZXM1UkkwUEE0dzVCTzZLcEdTTnNMQXFSVm1Dai9UQWVwUFN6?=
- =?utf-8?B?TXplSlpxem4vYlVJQlJ5Q0RpWlBZQldSWUNNcVVCa2ZUUjNyNGR5cVltRzhu?=
- =?utf-8?B?S1k5aUp3cnhhWlhRS0hncStaQkVVVlZGZzMweHg3OTZ2dkZ5Y2pkYVFnNHlR?=
- =?utf-8?B?bENac0hsY1N6bE1Yb0JFSmFKUHZLMi9kcit0RUtIWktObExNZmZpUmdMaEF3?=
- =?utf-8?B?RStKNDRrbVZuL1A0WWJ6Tmk4M0tVK3IxaWVpOXlOMnF2bU8rSjY5akRFYUpj?=
- =?utf-8?B?UnZ5UUpOWWU2aUlwTFN5MEpQYXRLV3lFMWZBbkdJcFJ5a2U2REhCVzc2dlUz?=
- =?utf-8?B?N00wc0JOenhGRnFFYng1cUd2TlFMWGJ4OEIyR0FWZWRSSWRtRW41aVlWUDlW?=
- =?utf-8?B?bGYzKzJ6eEVZQStHenRUTVRCUFVOT0xlQWtHZ1I2c0pXaGtjb1k2NmpDRnQ5?=
- =?utf-8?B?MTlZSjZFOFlrdnBjN0ZmU2E0b0VzMWZJeXZnMEMwR1lXalhZcHVEZVZYY3ZK?=
- =?utf-8?B?MHlBRlBSd2QxeERJcGwyL3ZDazJhbmNSYitvN1RXTTcvOWVtZVAvVE1JQS9l?=
- =?utf-8?B?SjJoSk00b3RQTjFoTDBLMGhNRldzNkFJQ1BIdWVpTjErOHhSemtpekh0SWdF?=
- =?utf-8?B?RnZ1Q0F0bjRPT0twbDJuN0lIMUZpSGJJMFIxOTVvVUw4azNZQ2ZmVzg3SEht?=
- =?utf-8?B?OVJBZlRUSFpMZFhMSXFoY21BMXdwYXJLc0hTNmRPcHBSSDJsY2tvOWsrY1Nk?=
- =?utf-8?B?LzQ1ZWZDUWhZNmdiREtxOWNCQzYrU25IVFZNLzBoN2NxeklQQURYdmJaSkY3?=
- =?utf-8?B?dW1uaWNwUmZQYlZCaEppUC92aWsxNmVNZnNQbHhac2dCVmY1TWhVSWFhMTg3?=
- =?utf-8?B?Q1c5eGZmdDR4TzExV1k5MlJQaW5sUUhSVkE3M3YzTVBxaElvUmRhTGFPbmFs?=
- =?utf-8?B?ZTdxR2hTVk5nb2JmeXU5NzBmYXhZQ3FQc2lQYUNNMzNFV1dtek1wUjRYcE5r?=
- =?utf-8?B?cWQyWFk3V0RkT0t5UFIwdWM1dEF2eFIySkRjamFWaEUvNWd4bENzSC9nRUha?=
- =?utf-8?B?UGdmcnN2QTJ1RWM4VU0zK1ArZEt5VE9HbjMzYmRqd2ZRd0I1eW8vZnQ4WFZY?=
- =?utf-8?B?SWxQbUlnamhrSHlsUlo2UjhUNXJocmdLdXFpdDlVSjZTVzkyNzFzWUY2WFRh?=
- =?utf-8?B?NVZneVZubC9pUDZjQnVhOUVzaDI2dTFPSmprN0orcVkwWDhGT2lzb1hYalFh?=
- =?utf-8?B?ejRaclpzODZvamRmWEJ5M01VWUV6dnV1V05SNTkvU1RpNnNmQjhWek1oN0py?=
- =?utf-8?B?Wk1YRlhsR1hPOW5ydUlWWU9HVEZNMUt0TXk1UT09?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014)(7416014)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2025 07:45:20.6026
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 658bfdc3-c3e2-4f8b-feb0-08ddc43cb738
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000042AA.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8509
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <PAXPR07MB7984F66EB2AD576D2385C351A357A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Dapeng Mi,
-
-Thank you for reviewing my patches.
-
-On 7/15/2025 7:51 AM, Mi, Dapeng wrote:
+On 7/15/25 4:49 PM, Chia-Yu Chang (Nokia) wrote:
+> On 7/4/25 10:53 AM, chia-yu.chang@nokia-bell-labs.com wrote:
+> [...]
+>>> +}
+>>> +
+>>> +/* Handles AccECN option ECT and CE 24-bit byte counters update into
+>>> + * the u32 value in tcp_sock. As we're processing TCP options, it is
+>>> + * safe to access from - 1.
+>>> + */
+>>> +static inline s32 tcp_update_ecn_bytes(u32 *cnt, const char *from,
+>>> +                                    u32 init_offset) {
+>>> +     u32 truncated = (get_unaligned_be32(from - 1) - init_offset) &
+>>> +                     0xFFFFFFU;
+>>> +     u32 delta = (truncated - *cnt) & 0xFFFFFFU;
+>>> +
+>>> +     /* If delta has the highest bit set (24th bit) indicating
+>>> +      * negative, sign extend to correct an estimation using
+>>> +      * sign_extend32(delta, 24 - 1)
+>>> +      */
+>>> +     delta = sign_extend32(delta, 23);
+>>
+>> I'm under the impression that delta could be simply:
+>>
+>>         delta = (truncated - *cnt)
+>>
+>> What am I missing?
 > 
-> On 6/28/2025 12:25 AM, Manali Shukla wrote:
->> Modern AMD processors expose four additional extended LVT registers in
->> the extended APIC register space, which can be used for additional
->> interrupt sources such as instruction-based sampling and others.
->>
->> To support this, introduce two new vCPU-based IOCTLs:
->> KVM_GET_LAPIC_W_EXTAPIC and KVM_SET_LAPIC_W_EXTAPIC. These IOCTLs works
->> similarly to KVM_GET_LAPIC and KVM_SET_LAPIC, but operate on APIC page
->> with extended APIC register space located at APIC offsets 400h-530h.
->>
->> These IOCTLs are intended for use when extended APIC support is
->> enabled in the guest. They allow saving and restoring the full APIC
->> page, including the extended registers.
->>
->> To support this, the `struct kvm_lapic_state_w_extapic` has been made
->> extensible rather than hardcoding its size, improving forward
->> compatibility.
->>
->> Documentation for the new IOCTLs has also been added.
->>
->> For more details on the extended APIC space, refer to AMD Programmer’s
->> Manual Volume 2, Section 16.4.5: Extended Interrupts.
->> https://bugzilla.kernel.org/attachment.cgi?id=306250
->>
->> Signed-off-by: Manali Shukla <manali.shukla@amd.com>
->> ---
->>  Documentation/virt/kvm/api.rst  | 23 ++++++++++++++++++++
->>  arch/x86/include/uapi/asm/kvm.h |  5 +++++
->>  arch/x86/kvm/lapic.c            | 12 ++++++-----
->>  arch/x86/kvm/lapic.h            |  6 ++++--
->>  arch/x86/kvm/x86.c              | 37 ++++++++++++++++++++++++---------
->>  include/uapi/linux/kvm.h        | 10 +++++++++
->>  6 files changed, 76 insertions(+), 17 deletions(-)
->>
->> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
->> index 1bd2d42e6424..0ca11d43f833 100644
->> --- a/Documentation/virt/kvm/api.rst
->> +++ b/Documentation/virt/kvm/api.rst
->> @@ -2041,6 +2041,18 @@ error.
->>  Reads the Local APIC registers and copies them into the input argument.  The
->>  data format and layout are the same as documented in the architecture manual.
->>  
->> +::
->> +
->> +  #define KVM_APIC_EXT_REG_SIZE 0x540
->> +  struct kvm_lapic_state_w_extapic {
->> +	__DECLARE_FLEX_ARRAY(__u8, regs);
->> +  };
->> +
->> +Applications should use KVM_GET_LAPIC_W_EXTAPIC ioctl if extended APIC is
->> +enabled. KVM_GET_LAPIC_W_EXTAPIC reads Local APIC registers with extended
->> +APIC register space located at offsets 400h-530h and copies them into input
->> +argument.
->> +
->>  If KVM_X2APIC_API_USE_32BIT_IDS feature of KVM_CAP_X2APIC_API is
->>  enabled, then the format of APIC_ID register depends on the APIC mode
->>  (reported by MSR_IA32_APICBASE) of its VCPU.  x2APIC stores APIC ID in
->> @@ -2072,6 +2084,17 @@ always uses xAPIC format.
->>  Copies the input argument into the Local APIC registers.  The data format
->>  and layout are the same as documented in the architecture manual.
->>  
->> +::
->> +
->> +  #define KVM_APIC_EXT_REG_SIZE 0x540
->> +  struct kvm_lapic_state_w_extapic {
->> +	__DECLARE_FLEX_ARRAY(__u8, regs);
->> +  };
->> +
->> +Applications should use KVM_SET_LAPIC_W_EXTAPIC ioctl if extended APIC is enabled.
->> +KVM_SET_LAPIC_W_EXTAPIC copies input arguments with extended APIC register into
->> +Local APIC and extended APIC registers.
->> +
->>  The format of the APIC ID register (bytes 32-35 of struct kvm_lapic_state's
->>  regs field) depends on the state of the KVM_CAP_X2APIC_API capability.
->>  See the note in KVM_GET_LAPIC.
->> diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
->> index 6f3499507c5e..91c3c5b8cae3 100644
->> --- a/arch/x86/include/uapi/asm/kvm.h
->> +++ b/arch/x86/include/uapi/asm/kvm.h
->> @@ -124,6 +124,11 @@ struct kvm_lapic_state {
->>  	char regs[KVM_APIC_REG_SIZE];
->>  };
->>  
->> +#define KVM_APIC_EXT_REG_SIZE 0x540
->> +struct kvm_lapic_state_w_extapic {
->> +	__DECLARE_FLEX_ARRAY(__u8, regs);
->> +};
+> Hi Paolo,
 > 
-> The name "kvm_lapic_state_w_extapic" seems a little bit too long, maybe
-> "kvm_ext_lapic_state" is enough?
+> I think this code is necessary to ensure delta will not a super large value in case of wrap adound.
+> 
+> For instance, if truncated = 0x0000001F and *cnt = 0x00FFFFFF, then (truncated - *cnt) = 0xFF000020
+> 
+> But sign_extend32(((truncated - *cnt) & 0xFFFFFFU, 23) = 0x00000020, which shall be corrrect.
+> 
+> Another example, if truncated = 0x0000001F and *cnt = 0x0000003F, then (truncated - *cnt) = 0xFFFFFFE0
+> 
+> And sign_extend32(((truncated - *cnt) & 0xFFFFFFU, 23) = 0xFFFFFFE0.
+> 
+> In this latter example, both are correct.
 
-I also found the name to be quite long, but I couldn't come up with a
-better alternative. I'm fine with keeping kvm_ext_lapic_state as it
-appears concise and self-explanatory. I will change the name in V2.
+Ok, I missed the fact that *cnt is a 24 bit integer, too. Your code
+looks good.
 
--Manali
+> 
+> [...]
+>>> a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c index 
+>>> d98a1a17eb52..2169fd28594e 100644
+>>> --- a/net/ipv4/tcp_output.c
+>>> +++ b/net/ipv4/tcp_output.c
+>>> @@ -385,6 +385,7 @@ static inline bool tcp_urg_mode(const struct tcp_sock *tp)
+>>>  #define OPTION_SMC           BIT(9)
+>>>  #define OPTION_MPTCP         BIT(10)
+>>>  #define OPTION_AO            BIT(11)
+>>> +#define OPTION_ACCECN                BIT(12)
+>>>
+>>>  static void smc_options_write(__be32 *ptr, u16 *options)  { @@ -406,6 
+>>> +407,8 @@ struct tcp_out_options {
+>>>       u16 mss;                /* 0 to disable */
+>>>       u8 ws;                  /* window scale, 0 to disable */
+>>>       u8 num_sack_blocks;     /* number of SACK blocks to include */
+>>> +     u8 num_accecn_fields:7, /* number of AccECN fields needed */
+>>> +        use_synack_ecn_bytes:1; /* Use synack_ecn_bytes or not */
+>>>       u8 hash_size;           /* bytes in hash_location */
+>>>       u8 bpf_opt_len;         /* length of BPF hdr option */
+>>>       __u8 *hash_location;    /* temporary pointer, overloaded */
+>>> @@ -621,6 +624,8 @@ static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
+>>>                             struct tcp_out_options *opts,
+>>>                             struct tcp_key *key)  {
+>>> +     u8 leftover_highbyte = TCPOPT_NOP; /* replace 1st NOP if avail */
+>>> +     u8 leftover_lowbyte = TCPOPT_NOP;  /* replace 2nd NOP in 
+>>> + succession */
+>>>       __be32 *ptr = (__be32 *)(th + 1);
+>>>       u16 options = opts->options;    /* mungable copy */
+>>>
+>>> @@ -656,15 +661,79 @@ static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
+>>>               *ptr++ = htonl(opts->tsecr);
+>>>       }
+>>>
+>>> +     if (OPTION_ACCECN & options) {
+>>> +             /* Initial values for AccECN option, ordered is based on ECN field bits
+>>> +              * similar to received_ecn_bytes. Used for SYN/ACK AccECN option.
+>>> +              */
+>>> +             static u32 synack_ecn_bytes[3] = { 0, 0, 0 };
+>>
+>> I think this does not address Eric's concern on v9 WRT global variable, as every CPU will still touch the same memory while accessing the above array.
+>>
+>>> +             const u8 ect0_idx = INET_ECN_ECT_0 - 1;
+>>> +             const u8 ect1_idx = INET_ECN_ECT_1 - 1;
+>>> +             const u8 ce_idx = INET_ECN_CE - 1;
+>>> +             u32 e0b;
+>>> +             u32 e1b;
+>>> +             u32 ceb;
+>>> +             u8 len;
+>>> +
+>>> +             if (opts->use_synack_ecn_bytes) {
+>>> +                     e0b = synack_ecn_bytes[ect0_idx] + TCP_ACCECN_E0B_INIT_OFFSET;
+>>> +                     e1b = synack_ecn_bytes[ect1_idx] + TCP_ACCECN_E1B_INIT_OFFSET;
+>>> +                     ceb = synack_ecn_bytes[ce_idx] + 
+>>> + TCP_ACCECN_CEB_INIT_OFFSET;
+>>
+>> On the flip side I don't see such array modified here, not in later patches?!? If so you could make it const and a global variable would be ok.
+> 
+> Sure, I will make it as static const global variable, which I hope this is ok for you.
+> 
+> 
+>>> +/* Calculates how long AccECN option will fit to @remaining option space.
+>>> + *
+>>> + * AccECN option can sometimes replace NOPs used for alignment of 
+>>> +other
+>>> + * TCP options (up to @max_combine_saving available).
+>>> + *
+>>> + * Only solutions with at least @required AccECN fields are accepted.
+>>> + *
+>>> + * Returns: The size of the AccECN option excluding space repurposed 
+>>> +from
+>>> + * the alignment of the other options.
+>>> + */
+>>> +static int tcp_options_fit_accecn(struct tcp_out_options *opts, int required,
+>>> +                               int remaining) {
+>>> +     int size = TCP_ACCECN_MAXSIZE;
+>>> +     int max_combine_saving;
+>>> +
+>>> +     if (opts->use_synack_ecn_bytes)
+>>> +             max_combine_saving = tcp_synack_options_combine_saving(opts);
+>>> +     else
+>>> +             max_combine_saving = opts->num_sack_blocks > 0 ? 2 : 0;
+>>> +     opts->num_accecn_fields = TCP_ACCECN_NUMFIELDS;
+>>> +     while (opts->num_accecn_fields >= required) {
+>>> +             int leftover_size = size & 0x3;
+>>> +             /* Pad to dword if cannot combine */
+>>> +             if (leftover_size > max_combine_saving)
+>>> +                     leftover_size = -((4 - leftover_size) & 0x3);
+>>
+>> I *think* that with the above you mean something alike:
+>>
+>>                         size = ALIGN(size, 4);
+>>                         leftover_size = 0
+>>
+>> ?
+>>
+>> The used code looks quite obscure to me.
+>>
+>> /P
+> 
+> Indeed, I will make below changes in the next version by using ALIGN() and ALIGN_DOWN()
+> 
+> Here the aim is to pad up (if max_combine_saving is not enough) or trim down (if max_combine saving is enough) to DWORD.
+> 
+> And the final return size will be the the a multiple of DWORD.
+> 
+> Would it be more readable?
+> 
+> /* Pad to DWORD if cannot combine. Align_size represents
+>  * the final size to be used by AccECN options.
+>  * +======+=============+====================+============+
+>  * | size | size exceed | max_combine_saving | align_size |
+>  * |      |    DWORD    |                    |            |
+>  * +======+=============+====================+============+
+>  * |   2  |       2     |         < 2        |      4     |
+>  * |   2  |       2     |         >=2        |      0     |
+>  * |   5  |       1     |         < 1        |      8     |
+>  * |   5  |       1     |         >=1        |      4     |
+>  * |   8  |       0     |         Any        |      8     |
+>  * |  11  |       3     |         < 3        |     12     |
+>  * |  11  |       3     |         >=3        |      8     |
+>  * +======+=============+====================+============+
+>  */
+> if ((size & 0x3) > max_combine_saving)
+>         align_size = ALIGN(size, 4);
+> else
+>         align_size = ALIGN_DOWN(size, 4);
+> 
+> if (remaining >= align_size) {
+>         size = align_size;
+>         break;
+> }
 
+Yes, IMHO is more readable. No need to add the table, the original
+comment is clear enough.
+
+Thanks,
+
+Paolo
 
