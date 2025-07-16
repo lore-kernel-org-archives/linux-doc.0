@@ -1,102 +1,244 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC85DDAD;
-	Wed, 16 Jul 2025 12:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A083190472
+	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 13:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752670221; cv=none; b=KdDUT68vghq/EAOF/G8cuPLMuPNJJspfhJaKQ/Lp0jBXOzkn77lfTDW69vi9ahJM2XCNDRiEgoWkypdjFCMBQtqZYZ/w9GQIarDj30IbJhQpyTS8YrHYQ3gSbIWS50D7+eOfRSRl87XFjnQy5Fjo/EgoTJo6vtIsZNGzcUQ+csM=
+	t=1752673587; cv=none; b=gfRVKsWJ3ObYqlQIvPO5w/OaWSIFPxlGSYtn1K7WRaWe3vu/2W4fBpZrz+U/V6eP7WaD4wFUS+oVjrrAGCFaYSmk4zUQAxxFUZBV1Qn9IDPh4ekpbYB/CeIi9xu3qzBwJNro2o7aVBjEXW5P6qDUNXZV/YLqqVXD98tzgv/lZLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752670221; c=relaxed/simple;
-	bh=4HH/7+uv1zqsTl9WSybY+wX55rpatVs4WGpQNqy2vsQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pBWsDdlH0Z7F8r0cpBWeNkkfbUhPtKPfdBcYIncPIIzvwgbT7V5mTE9rKRF7sqMOzUIZ8FmO6BZDxQEFDCP5pr3MqIpA1moe96bEM1QEU2vZ8v1sELOOjUKoGEJUltREFnnORfNCMAz8RnmnR4cSxOOxS3T6mCGwWsVIc9q6udg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6y/kIIc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752673587; c=relaxed/simple;
+	bh=RZl3Z+z07kjYvgAvYVfw79tI4O65PNChsNVaunJecQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M7mZlx3h+vkfzve/dnQuDWuonbxmRLWf2BGnRYzh20NUsObgTXul0x/IrXAYPV0YimYb/da1oLMB2V6eSoOHB8v10NsoOaIJ1/Pqpl2Xm7pcoQl1TfiqWxFPzvePvachiYbx8neuje2aNn6nF+MIDr+7DcGhRFaLRiVn9BIjq84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X2nLh6oz; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6y/kIIc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92A5CC4CEF0;
-	Wed, 16 Jul 2025 12:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752670219;
-	bh=4HH/7+uv1zqsTl9WSybY+wX55rpatVs4WGpQNqy2vsQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=S6y/kIIcjzK27Af//4JSBguOBglPSEovxHsYtB/8Wa8TcuG+tibQdWs4tKJhf9aOP
-	 QAhWvPID1sjc5OU2mMQb9ACaCNT5IdeOBz5k0wIeJAO/T9r4uexndr8qUP8MEEbi3c
-	 dTe/qm0ra4rVRBYhIHD27AIpyq4/UZP6a6a7eIqXxCbDBJY5X6QD8wu6Fyo0w5jff+
-	 N1TvHvPZt9X0nkpkjjZ/MZvJhZ7/uOfEIXdbsbVfM66dJO9/no+J46LR2mtkQUnF1Z
-	 5qQHUbsfXPgi0iUgQvHyGRr3hOr2igv2RsgHFDmA6AC+6L/QCLt+6CzcP5oEx0xWVl
-	 MwkenhVuOckEw==
-From: Christian Brauner <brauner@kernel.org>
-To: =?UTF-8?q?=E9=99=88=E6=B6=9B=E6=B6=9B=20Taotao=20Chen?= <chentaotao@didiglobal.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chentao325@qq.com,
-	frank.li@vivo.com,
-	kernel test robot <lkp@intel.com>,
-	tytso@mit.edu,
-	hch@infradead.org,
-	adilger.kernel@dilger.ca,
-	willy@infradead.org,
-	jani.nikula@linux.intel.com,
-	rodrigo.vivi@intel.com,
-	tursulin@ursulin.net,
-	airlied@gmail.com
-Subject: Re: [PATCH v6 0/5] fs: refactor write_begin/write_end and add ext4 IOCB_DONTCACHE support
-Date: Wed, 16 Jul 2025 14:50:04 +0200
-Message-ID: <20250716-reinigen-kleiden-c6bca9969819@brauner>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250716093559.217344-1-chentaotao@didiglobal.com>
-References: <20250716093559.217344-1-chentaotao@didiglobal.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X2nLh6oz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752673584;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=/1pctBA01/1zkmNnT64qP6k0VirtQtNBqmZ+pkk9rqA=;
+	b=X2nLh6ozRWuKtinzMLNI45Z7JJUzCaNq5O7rUdgqyo+XqcXxhn0HSjJIp2rJzWfCTgeUxh
+	ChtMgEjUC4vpYlt5GEMimvmYYZmQFVy3qRAk5eA0gz/GbjFxTxpJ2lVjjq/JwOOPK9WvuV
+	cMYrNpospO3qNlvQ5bjGQkzBV1DGaOY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-618-gFWnspT-MXqgLXfnn6gY6w-1; Wed, 16 Jul 2025 09:46:22 -0400
+X-MC-Unique: gFWnspT-MXqgLXfnn6gY6w-1
+X-Mimecast-MFC-AGG-ID: gFWnspT-MXqgLXfnn6gY6w_1752673582
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45359bfe631so38521855e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 06:46:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752673581; x=1753278381;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/1pctBA01/1zkmNnT64qP6k0VirtQtNBqmZ+pkk9rqA=;
+        b=ARmlV3XL8DQVPBeLb39W5jJSRMc9E9PwutUxDspS2Aim8n25f98ZQOoeh9dWhRe9ZM
+         VCTYxzdmi3vcNcfwkRMUT3PXYxRSZ7C+AnZpmR9nuDl7HY8jklRMaQ/gMM61iwg2gbBI
+         f6s/0mWURu35/ivSFIrpOFAIrVV6F51FIM32U60T32boflLvSnvPjBP2xV+c9esTzZ53
+         MCqsiVeS2JGqXsUXXOmBH0rnL7JEXWvNCxIBkwenpGtf0Z41OapTo7ALffAIMgyW3oNl
+         32dsZiRKpSPNo2ylqtlnMyF2AYdQ+oRkC2cswjnyTGMhDF6+2NAT2hV9EPx+HiZSRUnr
+         MYWg==
+X-Forwarded-Encrypted: i=1; AJvYcCXjPyfNMv6emnN7MU7GP7gUn/jb4i+7hmt6zSDcn0SSRg7FUaLq3oXb8FUgWTIE00lpzYkPEEfmYZA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+bEDFKKjdWPe+SRE/j20akWSkS0T9KUOQg+eNOTW9sO+6sQkj
+	DtDGkWPdUUlllxAYWuQbc2poa88eGQcsn82r1408ykZUw3+Zkp+FnQFIREj9QB/18gH4Btqzjdf
+	VWeXuKBoyCQWBqafyJ+P0Z2b+ibXaT4LoMYwbf7/oR+3KVZXWAOeWnlYuDdpFSA==
+X-Gm-Gg: ASbGncuNkk9ePUoJMb/sYo384sWUIsWmH/0juOBhu7JsHbyjKm96cjED0zncystwYiW
+	ywqf/9Q0iXUIIraVl0G/LfxroCBfaiy+haxR5QDTvM46kl9tatWROuSuNBVZXy9g5IGHca4LWt7
+	OpDzcgRtinBLxBF2++NhYrtz8Ug/dn0S0Ui/ZG19cvOCzUx/UIQ9VVx2ocl+4ffkf6p26ddIVEn
+	2mCEodTAx/HTekXrYw1PKgxER8Da84YV9Lq6LzT9KWYorxEJpGhLD436WWRMMIb+rZVVrt6n9dg
+	WNbLXXcbllUXydpPJh01mkatrTi3Px0R0dtc1sEEFL+3FzNfRpXy2OwFt9JKFD60pIAMXcc=
+X-Received: by 2002:a05:600c:c09a:b0:456:285b:db3c with SMTP id 5b1f17b1804b1-4562e3b8ccbmr23453735e9.3.1752673581420;
+        Wed, 16 Jul 2025 06:46:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHLfuwv8hTtlovE4F8p1OZCmeKNmt6dxGC9wD6r8RzyYXtB45fc/AjmHbpd1Pns9lK9tCcfyw==
+X-Received: by 2002:a05:600c:c09a:b0:456:285b:db3c with SMTP id 5b1f17b1804b1-4562e3b8ccbmr23453315e9.3.1752673580858;
+        Wed, 16 Jul 2025 06:46:20 -0700 (PDT)
+Received: from [192.168.3.141] (p4fe0f26d.dip0.t-ipconnect.de. [79.224.242.109])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e802984sm21535265e9.12.2025.07.16.06.46.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Jul 2025 06:46:20 -0700 (PDT)
+Message-ID: <a337c251-c152-4f57-8ead-6e4419e49f0c@redhat.com>
+Date: Wed, 16 Jul 2025 15:46:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1628; i=brauner@kernel.org; h=from:subject:message-id; bh=4HH/7+uv1zqsTl9WSybY+wX55rpatVs4WGpQNqy2vsQ=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSUL2DOebyEZcbbPEnRU9cm911muHQr7+ucJ9+yLqz92 xGumRJk2FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRDycY/hmy+tt+KF+b9IEz adGmKavzZK0ZP8zxW8RVWh8v7Gz5DKjCrHI2G9c7vWotdr9Yn+LdOyvn+O/Pcz7jwmwRuVzK3ZU HAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 04/14] khugepaged: generalize alloc_charge_folio()
+To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+ baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
+ aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
+ catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
+ dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com
+References: <20250714003207.113275-1-npache@redhat.com>
+ <20250714003207.113275-5-npache@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ g3eXuA==
+Organization: Red Hat
+In-Reply-To: <20250714003207.113275-5-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 16 Jul 2025 09:36:01 +0000, 陈涛涛 Taotao Chen wrote:
-> From: Taotao Chen <chentaotao@didiglobal.com>
+On 14.07.25 02:31, Nico Pache wrote:
+> From: Dev Jain <dev.jain@arm.com>
 > 
-> This patch series refactors the address_space_operations write_begin()
-> and write_end() callbacks to take const struct kiocb * as their first
-> argument, allowing IOCB flags such as IOCB_DONTCACHE to propagate to the
-> filesystem's buffered I/O path.
+> Pass order to alloc_charge_folio() and update mTHP statistics.
 > 
-> [...]
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Co-developed-by: Nico Pache <npache@redhat.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
+> ---
+>   Documentation/admin-guide/mm/transhuge.rst |  8 ++++++++
+>   include/linux/huge_mm.h                    |  2 ++
+>   mm/huge_memory.c                           |  4 ++++
+>   mm/khugepaged.c                            | 17 +++++++++++------
+>   4 files changed, 25 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> index dff8d5985f0f..2c523dce6bc7 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -583,6 +583,14 @@ anon_fault_fallback_charge
+>   	instead falls back to using huge pages with lower orders or
+>   	small pages even though the allocation was successful.
+>   
+> +collapse_alloc
+> +	is incremented every time a huge page is successfully allocated for a
+> +	khugepaged collapse.
+> +
+> +collapse_alloc_failed
+> +	is incremented every time a huge page allocation fails during a
+> +	khugepaged collapse.
+> +
+>   zswpout
+>   	is incremented every time a huge page is swapped out to zswap in one
+>   	piece without splitting.
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index 7748489fde1b..4042078e8cc9 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -125,6 +125,8 @@ enum mthp_stat_item {
+>   	MTHP_STAT_ANON_FAULT_ALLOC,
+>   	MTHP_STAT_ANON_FAULT_FALLBACK,
+>   	MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE,
+> +	MTHP_STAT_COLLAPSE_ALLOC,
+> +	MTHP_STAT_COLLAPSE_ALLOC_FAILED,
+>   	MTHP_STAT_ZSWPOUT,
+>   	MTHP_STAT_SWPIN,
+>   	MTHP_STAT_SWPIN_FALLBACK,
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index bd7a623d7ef8..e2ed9493df77 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -614,6 +614,8 @@ static struct kobj_attribute _name##_attr = __ATTR_RO(_name)
+>   DEFINE_MTHP_STAT_ATTR(anon_fault_alloc, MTHP_STAT_ANON_FAULT_ALLOC);
+>   DEFINE_MTHP_STAT_ATTR(anon_fault_fallback, MTHP_STAT_ANON_FAULT_FALLBACK);
+>   DEFINE_MTHP_STAT_ATTR(anon_fault_fallback_charge, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
+> +DEFINE_MTHP_STAT_ATTR(collapse_alloc, MTHP_STAT_COLLAPSE_ALLOC);
+> +DEFINE_MTHP_STAT_ATTR(collapse_alloc_failed, MTHP_STAT_COLLAPSE_ALLOC_FAILED);
+>   DEFINE_MTHP_STAT_ATTR(zswpout, MTHP_STAT_ZSWPOUT);
+>   DEFINE_MTHP_STAT_ATTR(swpin, MTHP_STAT_SWPIN);
+>   DEFINE_MTHP_STAT_ATTR(swpin_fallback, MTHP_STAT_SWPIN_FALLBACK);
+> @@ -679,6 +681,8 @@ static struct attribute *any_stats_attrs[] = {
+>   #endif
+>   	&split_attr.attr,
+>   	&split_failed_attr.attr,
+> +	&collapse_alloc_attr.attr,
+> +	&collapse_alloc_failed_attr.attr,
+>   	NULL,
+>   };
+>   
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index fa0642e66790..cc9a35185604 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -1068,21 +1068,26 @@ static int __collapse_huge_page_swapin(struct mm_struct *mm,
+>   }
+>   
+>   static int alloc_charge_folio(struct folio **foliop, struct mm_struct *mm,
+> -			      struct collapse_control *cc)
+> +			      struct collapse_control *cc, u8 order)
 
-Applied to the vfs-6.17.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-6.17.misc branch should appear in linux-next soon.
+u8, really? :)
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Just use an "unsigned int" like folio_order() would or what 
+__folio_alloc() consumes.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-6.17.misc
+Apart from that
 
-[1/5] drm/i915: Use kernel_write() in shmem object create
-      https://git.kernel.org/vfs/vfs/c/e7b840fd4956
-[2/5] drm/i915: Refactor shmem_pwrite() to use kiocb and write_iter
-      https://git.kernel.org/vfs/vfs/c/048832a3f400
-[3/5] fs: change write_begin/write_end interface to take struct kiocb *
-      https://git.kernel.org/vfs/vfs/c/e9d8e2bf2320
-[4/5] mm/pagemap: add write_begin_get_folio() helper function
-      https://git.kernel.org/vfs/vfs/c/b799474b9aeb
-[5/5] ext4: support uncached buffered I/O
-      https://git.kernel.org/vfs/vfs/c/ae21c0c0ac56
+Acked-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Cheers,
+
+David / dhildenb
+
