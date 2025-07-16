@@ -1,222 +1,161 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2043.outbound.protection.outlook.com [40.107.243.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EC128C01C
-	for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 07:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752651227; cv=none; b=cmmE4ufi/iaXZ+a4hQ8eGpAR9j+KX79bnOaYt+MeWwIpi5qUShtjrAK1HdQgw0Wo5WHZ6Vc/Jm+3fjcXcdvnRrnCIjb532qkmuFLoATsRkC+WnSfItmHfWCMZZvXeQ3mhpWEvpZ2pd/pv3vCVr38IBejqOL5CMhTiaBjb7ppb5E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752651227; c=relaxed/simple;
-	bh=J1fmkXzQhdy/B2HqE648pLqXswaIxo5hZ2X+m0elNBY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p6KKM2hLFXyaHvZ4fBDjtATaUfQWAnSxxxAcf/tabbBfQ76LQp0yOGCKSf6BYtm64Kf63rA+XZauJMpM6DxQgT3zKf3ej69WqntdFgirvNUWjlmdFiQPZZWxNS09Ib9xAxrl5U003n2BK1ERJmBMbROfbttSjCUV+cnQxvO2xVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=misSRJfn; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646DD28C2DB;
+	Wed, 16 Jul 2025 07:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752651656; cv=fail; b=C+N+eTNzG+xfnipjYOI+bhvGPJCv1AIdTLYdBv44zAFe5WuSb3/m+m066v5h75S6SZ+lgKfilMAbCNIG5sCFHYGW0U/+Q7SbDwYXf6nOdo5yT6xL/uv5ohiYO5c5Jyz5sOHvepHc6BtFAEd7WZnr4QHv+B20SgGbhZY3q01V3xU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752651656; c=relaxed/simple;
+	bh=ZobGd1KygIkSZCY8CgU08x6w/QfC8nnBPIj0UXro1w4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=giBXkzAI8BjENg+ANT2a2vLC5jWbf+emgFEG1Aa9kaDr2jEq3d6NwsPHq3PUsehE0Z+nQZSUViczzGJdwJzplPHR7HA4y9IKACllOjXBwRkNXLsHyZfu9/aWAvb5yT8q4smrqQxuIMFBbh/jrMFl28bcL1pKLouQ/niOpG43fcs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=YuC7ReL5; arc=fail smtp.client-ip=40.107.243.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="misSRJfn"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-713fba639f3so55128137b3.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jul 2025 00:33:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1752651224; x=1753256024; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PW8oj8yyNVG5XPISXOtfA3n2P3zOnfj4By+Eha4u0hU=;
-        b=misSRJfnE5w/pnaSiy1gvtx4w/fzsVlLI5ffuKbQa4C0hghm6aCyOH+Njhh0zrWR6V
-         5Qad0PQGyyfcE6wSPlkg4UNmwMzUU81aYaqyX6mLGRalwxRDBBtxAaWE4ngJLO4tJ/P2
-         Irl1oQ/q+xBDhXzGRfv2gzsTGtPKG5/oD+95gNnxODzG2IfLKoZxYW0iS5p7KeTEpSI7
-         cwi8hB0jW7kFj+C3OpAB74HroXqQiFRiT7pkDEXPsKYw6S8qHq/KWtOB0l8ybcjOjm0d
-         RVY5ljL2drR54iTwW5Ts6z+NiAP3DcrwRjJ1iO5hxNZGHHXjt7r2gKbCCWBwtlT2RG1X
-         ea2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752651224; x=1753256024;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PW8oj8yyNVG5XPISXOtfA3n2P3zOnfj4By+Eha4u0hU=;
-        b=Mm7SUSVipSxYuCJUNM7slh+kC/475iSzVhUbHfq1B/EAwaqWDWyuRZjZejDcsf0YYY
-         nCPwQbZDxmh3m7DunsuEDqv7ybaxai0vMojLmcW4iEgC+dFVmczNrBTcyxjFZfV7E4sJ
-         usVFn1IT1uXyMLGiwRuXMi4XYnhGzhzaieS4t3FFAPmEum5ZwLdV/+XZfkUdjOKlqLo4
-         vd1mrWKeeZoWsgyw1LlagI37emcvHYjsbssXjd1IqNeJUAFrVnjBRMjDPweUOK72p4BK
-         ZWlasbVNn2n7CaZB3VmSbVbc6R50S0xX/INcXhC4AGfmZQKeREZbMvSA6waC7l8Mn/vy
-         Yong==
-X-Forwarded-Encrypted: i=1; AJvYcCVclyiIcaLs18XSmYQ3UT6659qTmeD17ske0ZWftAtbMv1Y3SxltH9fjO7QSCFs3+vPBd07nuZxICg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1wYwWPMagK+511apTSzZegTRUp/Xo2C1vszTZmB1oFUrutblN
-	bFI/Oh+zAM33CN0jCm7rpF5JPS6+Mk5EMqtHUZ84gDAklsNICCfHKGdlWuapMow4QqOE6GxC1nr
-	WXogWl7uIuAdfs/WJrdGN4oLWRv1xkXTs7Tc146d8cQ==
-X-Gm-Gg: ASbGncswO4mhvNhHTwdcrmf7pu+owj7SMbPd20HezdKcsVK0vWyfi0OTp8evfkcRfqq
-	Pqe+WQ6gnGYXtMwDID2s8yhesNt56Q+MRgsBfFvYK9tS3rv9yM0fIEVpEYrvs3rJ6NL+PSWz76n
-	HTgnxIygKAFI+3f/X4DWutCyj/DfUBcbyqQNUPmcFX1kFCLTDHEFj00RoSFhHvI6tRyD4yi7OCF
-	SC0FoTi
-X-Google-Smtp-Source: AGHT+IEBFim0sebTg/GJVvyxJNrliMi5B8Z1CirXQugUtw/MAG7MtHjoXp3XBPYhkfJvHfUUj+zVmynVQDiKVlguiXc=
-X-Received: by 2002:a05:690c:6d0b:b0:6fb:b1dd:a00d with SMTP id
- 00721157ae682-7183516330bmr29836477b3.30.1752651223909; Wed, 16 Jul 2025
- 00:33:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="YuC7ReL5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LsqiiUnedfXkgnHl1CU/aVoevsohJ0ulN9/F5OaBsb649oajm+r1LHZBsB3h3zyVFV0XC56PK7kXMkr/6KSWtel1WvwJGd/tS41ffqNMLErmjBipuC+319T1Lwi7w4phdchzRjhK5AoHYHWysSjqRL8kLTJoUBG0D5jmaSM05rKJ9q/p7QTSHm76ZIOBgN5rVdyn/qGID/P6XBKN5vax/AO7/5ABl33+rL60f7z26zla3iaT43MWIxd0uDwhxPijcus4wEq75Y3g09uTKnonoQnxPeHEb+5FAfq/rILj6saIKcOnrkgftMQLruu5JvHoJrdU2CjfdWZnHVy1dWEmgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JWGI23wLIE0v2E+4M/GF44b5MZ5eGF4+/7sZCy6CgLQ=;
+ b=X8ta0Xd26XBCBjOsWM4tzDLI71YNoOmzMSiHmKsWGrgf9G0PsApe+llJuZaqh5OETC9mq3kkFDF8NkeAFVV7Wd/EU3BjWpWT9CJI7UkvriPjSx8YXKkYGfTlRttcGy+hM4WoA8SzrLs2LlSZWsy8KwiARglv+0YBL0MzIrAUePhZSafuItbRPncI3TvrVYFUFUg1XufVJdKhfli0tQAo9exGZd2EE85+1VMEd02YsQ7BY54+lDg8CpDY5m2EV7vbUFWpjfaeV0xMeCvUdVjObW8VI77fTbvQgwV7xeL3SAjHZkOF2KF5qsSy9rNVXporahveNn222E7HPgfN4GaqzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JWGI23wLIE0v2E+4M/GF44b5MZ5eGF4+/7sZCy6CgLQ=;
+ b=YuC7ReL5zLgZV9Wexb/B14pBNChwpOBYX1NG26163j/pxsMgjt35ZTO7ANaapaudKtIfFetVaxeP2Exry1tE3atKEkBZ/zzW0qFhEIRdiGVqiECHWLek5tPightbuP4JRmNZYW00K9WU+J3AdxNh+jYvTrppsB5wI+j+0wJJVpI=
+Received: from DS2PEPF00004564.namprd21.prod.outlook.com
+ (2603:10b6:f:fc00::51c) by DM4PR12MB6134.namprd12.prod.outlook.com
+ (2603:10b6:8:ad::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.33; Wed, 16 Jul
+ 2025 07:40:49 +0000
+Received: from DS2PEPF0000343D.namprd02.prod.outlook.com
+ (2603:10b6:2c:400:0:1005:0:8) by DS2PEPF00004564.outlook.office365.com
+ (2603:10b6:f:fc00::51c) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.7 via Frontend Transport; Wed,
+ 16 Jul 2025 07:40:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DS2PEPF0000343D.mail.protection.outlook.com (10.167.18.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8922.22 via Frontend Transport; Wed, 16 Jul 2025 07:40:49 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 16 Jul
+ 2025 02:40:48 -0500
+Received: from [10.252.203.104] (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Wed, 16 Jul 2025 02:40:45 -0500
+Message-ID: <216b4a00-3fff-46b6-ae09-b24690ace088@amd.com>
+Date: Wed, 16 Jul 2025 13:10:39 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250604-v5_user_cfi_series-v17-0-4565c2cf869f@rivosinc.com>
- <20250604-v5_user_cfi_series-v17-15-4565c2cf869f@rivosinc.com>
- <CANXhq0pRXX_OMW2g2ui-k7Z_ZT+5a8Sra8oE28nBh5B9K2L5bQ@mail.gmail.com>
- <CANXhq0p3MVLMsr_r0RWMti476pT0EMx61PQArjo2fUauTdpXaQ@mail.gmail.com>
- <CAKC1njRNkSfb_0pUQoH0RwJQhWTsz9sdg_3o08w-NuSO5WypcA@mail.gmail.com> <CANXhq0oZz=TTT=py=1BO3OZf45Wg=-bFyNpn+JRLNufHceLjcQ@mail.gmail.com>
-In-Reply-To: <CANXhq0oZz=TTT=py=1BO3OZf45Wg=-bFyNpn+JRLNufHceLjcQ@mail.gmail.com>
-From: Deepak Gupta <debug@rivosinc.com>
-Date: Wed, 16 Jul 2025 00:33:29 -0700
-X-Gm-Features: Ac12FXyXP37ODEjfHSjK8_gGHbTe6nbCLu3r93joGlrq46qsQaqRghNBDnEKWgk
-Message-ID: <CAKC1njRqox8_YNEhQJT8NRMjGuqpDt55ck6QVV2aNPLwTsaj5w@mail.gmail.com>
-Subject: Re: [PATCH v17 15/27] riscv/traps: Introduce software check exception
- and uprobe handling
-To: Zong Li <zong.li@sifive.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
-	rust-for-linux@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 08/11] KVM: SVM: Extend VMCB area for virtualized IBS
+ registers
+To: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>, <kvm@vger.kernel.org>,
+	<linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC: <seanjc@google.com>, <pbonzini@redhat.com>, <nikunj@amd.com>,
+	<bp@alien8.de>, <peterz@infradead.org>, <mingo@redhat.com>,
+	<mizhang@google.com>, <thomas.lendacky@amd.com>, <ravi.bangoria@amd.com>,
+	<Sandipan.Das@amd.com>
+References: <20250627162550.14197-1-manali.shukla@amd.com>
+ <20250627162550.14197-9-manali.shukla@amd.com>
+ <03480d7a-7808-454c-8e3d-872901c31b1d@linux.intel.com>
+Content-Language: en-US
+From: Manali Shukla <manali.shukla@amd.com>
+In-Reply-To: <03480d7a-7808-454c-8e3d-872901c31b1d@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+Received-SPF: None (SATLEXMB03.amd.com: manali.shukla@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF0000343D:EE_|DM4PR12MB6134:EE_
+X-MS-Office365-Filtering-Correlation-Id: f21a8fae-a3e9-486c-9fe2-08ddc43c156c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|7416014|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NXNlV2Znem14bjJrWnRvQ2hDWGJERXk1d3N2dVBiemowRkFSVW1Ka2NtWWhh?=
+ =?utf-8?B?bXczZzlTV0liTzJtL2gwRS9XS09VTlhaa2VSWVBWVEQySGRVMWRBdjd1bUtQ?=
+ =?utf-8?B?dUkvQlR2WHJtalRKREpBdUFacnl0Q3lOTVh2SldWeCt0VWl0MXVyM1FoNGtl?=
+ =?utf-8?B?ZVBkSWFXSkhteUU1ajg1UXh0ekxEZG12bEFGYXRsdjlCWWw0MlBXcjNiM3M0?=
+ =?utf-8?B?TjVibjRZbjVUcHhBa1V5cWZEblZyQ2gwaURaS0VwYU9YcjhnUTQrU205MFc0?=
+ =?utf-8?B?THZCeFpNWXRZMnpoenVlaHh6TnQ5YVF3K0wwdjgrWUdBbloxVEtYRkkrRDUy?=
+ =?utf-8?B?SEl0MEovMmFBSHZHUzdTckYyVWM2ZEJkOFpsWnF4cENQWk5Lb21XZXdjalFk?=
+ =?utf-8?B?ZzRJbjRyNTNId0dYWnVIemhaRTNaZmlGcWVERnh1dUtXSDQ5aE5HS0NlRHdH?=
+ =?utf-8?B?bUpXb0ErSE9yNkpPcmNJMlZsVkhXaG5VaEtLSDhrdlgzUTlRM3UzVGJWZ0JE?=
+ =?utf-8?B?RUZJVHhteXgvLy9VcjA2VVVtYnlLeWdGMXE3MTdBMlNSWFEzRzJMdW1PSjI5?=
+ =?utf-8?B?WTd4OU1zdHdTWHhMVUduZWJYaVJDcW9Zb05nZGNFM3QrbVhNeHREL1dMZmVF?=
+ =?utf-8?B?UlJyNm8wa0ZaRFdkNFdEODNBUjdUYUQwaFhLRTdUOWlDalE0dHh3emhnbE5k?=
+ =?utf-8?B?dm9nNTRQMVFwcTBIQlVzeTU2cDZOOERLeGRzQ2lQem5hbDAxTFhtTXFOVnpk?=
+ =?utf-8?B?SHYzdnRGbnZHOUpiRmM2b2UyWnJ6d2o0SWRKbm1VNmdYVE9vM3h4Rkx2ZlJk?=
+ =?utf-8?B?RHlHcEt6TUJVQ0xaNkRReE5ZZEY3RFZVUERoWTVIczR1L05ZSjJBWG9KWC9V?=
+ =?utf-8?B?Vk1rWDRGN2drS2gyTEYrbDVrNWlybDdWZW9BRFpyYWdRMElsMnVMeGQ3QTZk?=
+ =?utf-8?B?T0pOK01uNGlJaTJ4MDNGUFlYNDd2d2hMSlB3SkNVaGU1UGNBazlWTnNaM3B4?=
+ =?utf-8?B?ZzREcVQxTGU4SE83NWoxTzFYcGtzR1k5MlVsdG1VNlF0cXZwemkxWjNKTkxG?=
+ =?utf-8?B?clNPRUtXVVg2a0puQS9ZcnRRZjRlM01kZkZiYk9OWlhOMmhsV1ZvM3JaZENt?=
+ =?utf-8?B?VVcvYmNWMGpsTFoycTAvODRZRHN2b2lHTk9nU0h3Q2pjdVhhcHQ5NDAyc1RM?=
+ =?utf-8?B?UzM3M2hXU2JYM3hORWY2eldmcXdzT3VmNDV0eWpqUTl6WWFuTWl5SnduQ1Ns?=
+ =?utf-8?B?UThZMU8vOWkyclNQeEVUVzE1T0FBZnMxTWVGeDUyY1EraytXQlZKakRQVUla?=
+ =?utf-8?B?WW5pTGFSZTRrZUM5Vkh2UzVmcEd4bW95L1E5Y0hJSlJWVVdtb1JqT0UxNGdN?=
+ =?utf-8?B?aTllY0JSeUJRZFRYcHBmeDh3SytXYUFVMlBLLzlNM2pEUDhjdTNtUWc3cnBi?=
+ =?utf-8?B?TkQ1UllhanU2OXVvaXVvVXJEb3FyU2tQaFQxV2xoSnpCMTFnNEVhZUhlaWE5?=
+ =?utf-8?B?K1I2ZVhRYlVHOGdnNmJGUGZRdXBiRlBNYnBSaldxd2JHUWFJc09YZ0kwZHEw?=
+ =?utf-8?B?VHNtTEs4T0Nta3ladUVNYmJNZHVYK096MUx5U3RPZms5VWYydFVKazhIUzF3?=
+ =?utf-8?B?UE1hb0dqRGVLYkJyMWFvUnZWYzltbm5Ba1VSWk1tVCs3N3RyRjJNbXliR3Qx?=
+ =?utf-8?B?V2IycWFkc1JMUmdoR0JiU3ZpSmhJWGhtWFMyYVN5UGRoeUM1eUZHUVlxQXAv?=
+ =?utf-8?B?T3lHciszVXMxdDVMM0RBV2poak44d1k3WlZrQ21LaXBCMXh5MklLLzVNOXBR?=
+ =?utf-8?B?SDEva2owdVJjQkpOVGlQd2N1Z0czZFhFL3VsRHlrY0pIY1llaGtWaGNCQmhQ?=
+ =?utf-8?B?UTdNU0JWU0l1RGI4enZxbGZadFpkMmxqTEF5TTB6azA0dXJCRzcvWnc3b21C?=
+ =?utf-8?B?ZVVrQnI5Q3RSaDZ4QmZlMnV0Zm1DTi9oZy8zdUlXY0hwOWN5dDB1OTBIVG5p?=
+ =?utf-8?B?bmxRK2RUWU13aUY4YjFJTDVNMEV6OHA2dTJCN1VTdjBwZjJxWlRKN2hBY1dS?=
+ =?utf-8?Q?g8e21l?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(7416014)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2025 07:40:49.2202
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f21a8fae-a3e9-486c-9fe2-08ddc43c156c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS2PEPF0000343D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6134
 
-On Tue, Jul 15, 2025 at 7:06=E2=80=AFPM Zong Li <zong.li@sifive.com> wrote:
->
-> On Wed, Jul 16, 2025 at 5:34=E2=80=AFAM Deepak Gupta <debug@rivosinc.com>=
- wrote:
-> >
-> > Hi Zong,
-> >
-> >
-> > On Thu, Jun 19, 2025 at 7:16=E2=80=AFPM Zong Li <zong.li@sifive.com> wr=
-ote:
-> > >
-> > > On Mon, Jun 16, 2025 at 3:31=E2=80=AFPM Zong Li <zong.li@sifive.com> =
-wrote:
-> > > >
-> > > > On Thu, Jun 5, 2025 at 1:17=E2=80=AFAM Deepak Gupta <debug@rivosinc=
-.com> wrote:
-> > > > >
-> > > > > zicfiss / zicfilp introduces a new exception to priv isa `softwar=
-e check
-> > > > > exception` with cause code =3D 18. This patch implements software=
- check
-> > > > > exception.
-> > > > >
-> > .....
-> >
-> > > > When a user mode CFI violation occurs, the ELP state should be 1, a=
-nd
-> > > > the system traps into supervisor mode. During this trap, sstatus.SP=
-ELP
-> > > > is set to 1, and the ELP state is reset to 0. If we don=E2=80=99t c=
-lear
-> > > > sstatus.SPELP, the ELP state will become 1 again after executing th=
-e
-> > > > sret instruction. As a result, the system might trigger another
-> > > > forward CFI violation upon executing the next instruction in the us=
-er
-> > > > program, unless it happens to be a lpad instruction.
-> > > >
-> > > > The previous patch was tested on QEMU, but QEMU does not set the
-> > > > sstatus.SPELP bit to 1 when a forward CFI violation occurs. Therefo=
-re,
-> > > > I suspect that QEMU might also require some fixes.
-> > >
-> > > Hi Deepak,
-> > > The issue with QEMU was that the sw-check exception bit in medeleg
-> > > couldn't be set. This has been fixed in the latest QEMU mainline. I
-> > > have re-tested the latest QEMU version, and it works.
-> >
-> > What was this issue, can you point me to the patch in mainline?
->
-> Hi Deepak
-> The issue was that my QEMU setup somehow missed the change of
-> `target/riscv/csr.c` in your following patch:
-> https://github.com/qemu/qemu/commit/6031102401ae8a69a87b20fbec2aae666625d=
-96a
-> After I upgraded to the latest QEMU source, I found the kernel issue
-> if we didn't clear sstatus.SPELP in the handler
-> Thanks
+Hi Dapeng Mi,
 
-Aah ok, got it.
+Thank you for reviewing my changes.
 
->
-> >
-> > >
-> > > >
-> > > > Thanks
-> > > >
-> > > > > +
-> > > > > +       if (is_fcfi || is_bcfi) {
-> > > > > +               do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->ep=
-c,
-> > > > > +                             "Oops - control flow violation");
-> > > > > +               return true;
-> > > > > +       }
-> > > > > +
-> > > > > +       return false;
-> > > > > +}
-> > > > > +
-> > > > > +/*
-> > > > > + * software check exception is defined with risc-v cfi spec. Sof=
-tware check
-> > > > > + * exception is raised when:-
-> > > > > + * a) An indirect branch doesn't land on 4 byte aligned PC or `l=
-pad`
-> > > > > + *    instruction or `label` value programmed in `lpad` instr do=
-esn't
-> > > > > + *    match with value setup in `x7`. reported code in `xtval` i=
-s 2.
-> > > > > + * b) `sspopchk` instruction finds a mismatch between top of sha=
-dow stack (ssp)
-> > > > > + *    and x1/x5. reported code in `xtval` is 3.
-> > > > > + */
-> > > > > +asmlinkage __visible __trap_section void do_trap_software_check(=
-struct pt_regs *regs)
-> > > > > +{
-> > > > > +       if (user_mode(regs)) {
-> > > > > +               irqentry_enter_from_user_mode(regs);
-> > > > > +
-> > > > > +               /* not a cfi violation, then merge into flow of u=
-nknown trap handler */
-> > > > > +               if (!handle_user_cfi_violation(regs))
-> > > > > +                       do_trap_unknown(regs);
-> > > > > +
-> > > > > +               irqentry_exit_to_user_mode(regs);
-> > > > > +       } else {
-> > > > > +               /* sw check exception coming from kernel is a bug=
- in kernel */
-> > > > > +               die(regs, "Kernel BUG");
-> > > > > +       }
-> > > > > +}
-> > > > > +
-> > > > >  #ifdef CONFIG_MMU
-> > > > >  asmlinkage __visible noinstr void do_page_fault(struct pt_regs *=
-regs)
-> > > > >  {
-> > > > >
-> > > > > --
-> > > > > 2.43.0
-> > > > >
+On 7/15/2025 8:43 AM, Mi, Dapeng wrote:
+> 
+> On 6/28/2025 12:25 AM, Manali Shukla wrote:
+>> From: Santosh Shukla <santosh.shukla@amd.com>
+>>
+>> Define the new VMCB fields that will beused to save and restore the
+> 
+> s/beused/be used/
+
+Ack. I will correct it in V2.
+
+-Manali
