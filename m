@@ -1,87 +1,116 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BC9204F93
-	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 18:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101972066DE
+	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 18:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752777668; cv=none; b=LdFM+wcf3wj/rV7vSGdYQo7kjdEExjdHd53i9TR7tS0PhQemVHmwsiIssKXgVx4OR7l6T5Us7qOIM4olK1E1A2ivS80VcBqHyvDQFIz8ETojN4bBG/IMsWcMFpEwX0wwZPuOJYqRSctE7TjxypA7DD+ySqaNBbNPr6mgkTYwnoY=
+	t=1752777822; cv=none; b=jGJ2HY7KmNNupksb41bCL9+e7aQsNPuY8CYMH/i64tYVYWzrvCY1cV/O/Eo8cBxE/Lynl9lOdSawHTaAGO+9uAb0AKlSqHipvn8BW4wWQutqm0ZJnTQEc12Ce3h6sKVfEolBkZwkdDqUnqjlPz4hbKCSc3GO8LkDn7hHxkaGX2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752777668; c=relaxed/simple;
-	bh=oOsxMfNQT/qsQwwKg0YZL6vPa28xMbHs+2C6Y8zV2dw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
-	 References:In-Reply-To; b=D8RzeF3eWQVB4lCP7hu9ApLoJNv2WK3zcVi0OWxwAR8vD/TgiGPWVRKHGqEqUT6Ukh13nyvkqCW6o1zWE11RbxRHNmaryuxDwErc6KylocuVUsaiRuT26HXhavWEn5yg5mb+D+AG+7g5BnwuT15CgE7E4+UwNEU/nsX21OAuaSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=Yl5g2Jxy; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1752777822; c=relaxed/simple;
+	bh=2rlUu0OfWYLMMk5E5C0WMmAOCUWyzBpXvXXud0P7wiA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DxzQprdz3iR5s6JdWJSFZpr9N3Gpxx/scbbXagtVnArly+Ga/4zsXhs9QkoDz0XEaqz/RYn9tTyUw/zdV3ikV7CzislRusLoAfd5/z+X+5b3KPbODc8yat87TpgEkXypChakrbGIGXT45VJqahPKl7tZvmvZve3v+y5V/dmPIwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TyXdcU7z; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="Yl5g2Jxy"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-749068b9b63so1017143b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 11:41:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TyXdcU7z"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6fd0a3cd326so14800786d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 11:43:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1752777664; x=1753382464; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1752777820; x=1753382620; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oOsxMfNQT/qsQwwKg0YZL6vPa28xMbHs+2C6Y8zV2dw=;
-        b=Yl5g2Jxy6PDfkL6/DK0P+X78cH6PGX0yaEw8BqxQjdoqwrCR87XhhFZyww8GKAE+Ir
-         I3nteefRMyIz6YMADle63WuNMPHA+/y4B+zLN7w18FTUraxfor9e6ivhHUPuOgFg67NB
-         IXVJLESKxC1d5yHUl1X5BQyk0ramA2S/q3+5mMo2fucQ+h+I1MHEkKOAj2k4nrP1x/Xf
-         /Nns0dDIOnP+7xXdKedXeh24dNlbUy4W3UpmIvq/xV/kUf+u+GgKz1PQGoRS82pseEHF
-         Lv4ocx1UKUZbMNjhOQ8TSOmo6tuYUGf1G8ISXk4opalhTesSBT4DFcIUkqgMZRIQUWE1
-         8/6w==
+        bh=2ThZUcaE7cELL9+x2yCkYIW367w/7LCL9CkjEF+QZYI=;
+        b=TyXdcU7zYFJAm/3n2zsY+VXRijAem4V+I90jbJP3fkFmW2GHgpDDTbpQY7Q4f8Q2/P
+         n7TNaBqkt6nFBVxV65Fvu8TnDqsLBJOLdaSKxij7Ejt3XHlp0ESUZ4+9PbcusBc/I2sw
+         UoQsNk9j/s9vEspIWmtzUiR+8vB2X81fWi1RVp4f2QuXF7t6ypLiogEKpwYxrcgEegjX
+         ojm/OyZt3O5JiUyaFHjzweakq8q1aMi6ukU1cSfnbP136NN0wUs8Mh2cYCnQrSpDxPPA
+         cV+5r2OLEHKmufU7jFlMHtzWRJHd7vp6NxhMxPBFWQLLVFSxGXPZYZrSyASv+bflQKMG
+         K+Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752777664; x=1753382464;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=oOsxMfNQT/qsQwwKg0YZL6vPa28xMbHs+2C6Y8zV2dw=;
-        b=rWlPk3IhW53guxLsIRdeQPB5uHKPFZaDIH2ettUpF2zlJhFP76BG01tUaR/u9dlChC
-         QaX6OwZtM4FjwGavuwaesXYNUTsAciiM78RCIjs5XsZFLGm57YcuGVTtF4agrcwaBQ6e
-         UWlednpu5kT6+zCbq9maLZ/S02GQAT/ohEwnniYKIaXO0mNMqsRnTg7jtHdc+CwghRow
-         PWYcWNjGy7H8OmObL8WZvL8eSKO1XmzI/l0ge6E61/8qyCq0F02KTO+c1cMXH//4lZLV
-         qRxR7ziKjB3BSWjGpZ2rKTf0nn6Ce5YadpVviIiPkEFemFLK/bNQGbWH8odqBwaPVwt4
-         DJbw==
-X-Forwarded-Encrypted: i=1; AJvYcCVJG3sJMo/aHUku9Pz4YZpPGz35O7dJnh4EZoN6AneNEo5/PAcXqFjRjhP8/MpuvFatfzJOwG4zJEg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3f5P1VkjioxTGobls0sx5jjN9UGQjLcKN7PeLbJIhmqDl95WW
-	G5GUhPKEM+ZaMSpGcKAHcmvjrwDSxkXFsZz4GoYH7o/emP3WQU8jjHL8pzk+lu64vWg=
-X-Gm-Gg: ASbGncvrZE9IYPlLtuK4ZhyNcXHzEwD3jRK0rbPN7KUbFiY/z5nN4vv4LZU8ibYvIwC
-	3n/y4d7ENKOWJ8zyUJ9E9STtzDDPM9ySTMQP7yCflyoCEQVmxkYVsvFtqEAhQL0fxtk4+5Ui8aW
-	B2KWMObBBnyfOzyPMbN2kjPLlMBPvFXWT4mIlMzcrxIihyK2VrrMoeZUWfjZjNKY76uWP5hQvwx
-	CStlOFm9GPy76wMeorPKrcIAPLOE6iTe4jmD7M7+NZB3xJQtPTWN3NH5aUnZRUUtQPL0SLjEdn9
-	UEj6HhsmIwHkU7R0VAolGslSRxv4wI7aqs7PWcqaZb6vYhB/MvKrRjaVjABIj4wpXuuEJ9p0Jjo
-	dV+4s6S0pzoTbNINYda0=
-X-Google-Smtp-Source: AGHT+IGJSiqVRqEqNHtQKOugHVGaBNjYMDOrySpKjtT1rTqdZu4A+8+NkiaILNEtNNDxpHEp7TmBLA==
-X-Received: by 2002:a05:6a00:814:b0:748:f3b0:4db6 with SMTP id d2e1a72fcca58-756e99fafffmr13108030b3a.11.1752777664328;
-        Thu, 17 Jul 2025 11:41:04 -0700 (PDT)
-Received: from localhost ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9e06890sm16623945b3a.48.2025.07.17.11.41.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jul 2025 11:41:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752777820; x=1753382620;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2ThZUcaE7cELL9+x2yCkYIW367w/7LCL9CkjEF+QZYI=;
+        b=mv/bp/0c4gZL7CEayRdtWf/oBmbWV7L1ykWVHxzS3l8FvK997A+I5ai3lQMf9UmZXY
+         2VGYPIzL8CW6Fkfh617T5IHU9Ywd9UBpvnRrW41kvUmr/pIGxjVhtKTiFut4DPDny16b
+         bLl2E7v6eMtNQRCLeHV66pNi+QfpwDRsTgOclWQDA3dZq9bHHCymvT3rGlEkStJD/6le
+         J8VRwzF9x4STXJV+Qjqx1ea4zhcdDwxv79Gb5BDyv4q3f6+Mgs/82+oCTQ6sOj/qL5bK
+         7FIMgWKcw50uj8riLPhFeFvvBODu/UVnvBF2NPs9b0SkWA4AV7YPD9y0od8tZhSzUevR
+         e4Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCXMYhWhE1x5iHl4xDjVdcphhLmpvqCUGnKH5zlyF8ZGzMB667KeYY7X2irOFnHdeeDmRb2Dn7uhBKI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2aj5IQvk/DVZnz06PCZQqPT88R+phdKp8tHwvJCzYLcYLsR4C
+	llGJU8MzDwBK1e5WcXgPWStU0qh8mQZmX50Ix2eynIAv2OPGu/DvHpt9gRRKL8v+awghLBBdCDA
+	cd7mdkJs2LALoScqP4fwMLJc3HbRnhefH2YJYJKDg
+X-Gm-Gg: ASbGnctb753xVm8GByDosNv5aFVolgNF0F8N1xNXSWY5nm6qZXCX3+LVQpLqZvs6hwN
+	AFxWxGQ7e/MR4mMJfuaMTBMH9d+DaGGZJxlTrKW9jkBScAlAgHlPHlatIzCVXilCgeWwXXdPsiz
+	rBz9X7Wp+ojCJXqclQtKYBDQxET9ygnG39MkVoK7BnijF/rd/h8Sn511d8YnsyPUrNVHkTt8pDE
+	egeTHc1fjP04IQzO56HpagSH4fp23JeW7spYPi8aQ==
+X-Google-Smtp-Source: AGHT+IErgUnPZNW5DTf24XUOU8ykTnxXG/uEOChv5A5KapAzEGlZz/dsjZwvHFyRV1DWdqxFwCi/2pfA+fFoM90vKmk=
+X-Received: by 2002:a05:6214:5985:b0:702:d837:617e with SMTP id
+ 6a1803df08f44-704f6ac8088mr104372466d6.4.1752777819793; Thu, 17 Jul 2025
+ 11:43:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20250714-support-forcepads-v1-11-71c7c05748c9@google.com> <202507151942.94dhYylY-lkp@intel.com>
+In-Reply-To: <202507151942.94dhYylY-lkp@intel.com>
+From: Jonathan Denose <jdenose@google.com>
+Date: Thu, 17 Jul 2025 13:43:28 -0500
+X-Gm-Features: Ac12FXy84paDZryxjZlQufmfIxp0QfVSXImTWCfW80dfNjKxtiRYlI8eV8MMgtk
+Message-ID: <CAMCVhVNYePCuCw_SSTxwAdcastPP_azik44kG18o0_QK37OiZA@mail.gmail.com>
+Subject: Re: [PATCH 11/11] HID: multitouch: add haptic multitouch support
+To: kernel test robot <lkp@intel.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>, oe-kbuild-all@lists.linux.dev, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
+	"Sean O'Brien" <seobrien@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 17 Jul 2025 12:41:02 -0600
-Message-Id: <DBEJTQ0J7H88.5X7XSNC712Z1@brighamcampbell.com>
-Subject: Re: [PATCH v3 0/4] drm: Fix bug in panel driver, update MIPI
- support macros
-From: "Brigham Campbell" <me@brighamcampbell.com>
-To: "Brigham Campbell" <me@brighamcampbell.com>, <dianders@chromium.org>,
- <tejasvipin76@gmail.com>, <diogo.ivo@tecnico.ulisboa.pt>,
- <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250717164053.284969-1-me@brighamcampbell.com>
-In-Reply-To: <20250717164053.284969-1-me@brighamcampbell.com>
 
-Woops. When I copied over the subject from the previous cover letter, I
-accidentally overwrote v4 with v3. I'll issue a v5 if that's a problem.
+On Tue, Jul 15, 2025 at 6:36=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 86731a2a651e58953fc949573895f2fa6d456841]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/HI=
+D-add-haptics-page-defines/20250714-231444
+> base:   86731a2a651e58953fc949573895f2fa6d456841
+> patch link:    https://lore.kernel.org/r/20250714-support-forcepads-v1-11=
+-71c7c05748c9%40google.com
+> patch subject: [PATCH 11/11] HID: multitouch: add haptic multitouch suppo=
+rt
+> config: hexagon-randconfig-r112-20250715 (https://download.01.org/0day-ci=
+/archive/20250715/202507151942.94dhYylY-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
+708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce: (https://download.01.org/0day-ci/archive/20250715/202507151942=
+.94dhYylY-lkp@intel.com/reproduce)
 
-My bad,
-Brigham
+I'm having trouble reproducing this build error. I tried following the
+steps in the linked reproduce file, but when running:
+COMPILER_INSTALL_PATH=3D$HOME/0day ~/lkp-tests/kbuild/make.cross C=3D1
+CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__ -fmax-errors=3Dunlimited
+-fmax-warnings=3Dunlimited' O=3Dbuild_dir ARCH=3Dhexagon olddefconfig
+
+I get the errors:
+0day/gcc-4.6.1-nolibc/hexagon-linux/bin/hexagon-linux-gcc: unknown C compil=
+er
+scripts/Kconfig.include:45: Sorry, this C compiler is not supported.
+
+It looks to me like the hexagon-linux-gcc compiler is correctly
+installed at $HOME/0day so I'm not sure what to do from here. Can
+someone please assist me with this?
+
+--
+Jonathan
