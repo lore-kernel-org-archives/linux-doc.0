@@ -1,79 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFAA32FD5AD;
-	Thu, 17 Jul 2025 17:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFDC20ED;
+	Thu, 17 Jul 2025 18:39:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752771971; cv=none; b=FoRzRGsPyrIby6ACqDeQkczE3sMhbTxeFtoZLbtNzbrwShUPJj3Cp3bZiw0kV7vPITh0xAYUUTMlgpwCDvuyyf05+1D8OTangv720Gxh/fjmbwiLpScg2I9+1P64rLvao8zhQQiUnLeN6ePDLoO4raBCDSZY8NtEw2tFt2sQDaM=
+	t=1752777586; cv=none; b=D86dlSnQ/ReFBoGdCE3Eh57nB636jPwpXrqSEzmwuWok0mkerIEvCgSs1PXJATMHrvMWODXxO5rS3xKEcmCKR8BdRDwBbfp+UfT3mcfhnGbXl3Dn6T74dCO7VpsDqF4QnoRmvmZQMjOjkVE8+lmwhhMOkYvgNSindUb4GN8w7dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752771971; c=relaxed/simple;
-	bh=t1DK4l7l6P0SZg/OzJJPzKirYKNAZ7sCpI7tcRykSY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VJz4I4rxaS15iSIwiXuoXjRVnoGRgeKE7RQ7v/7qJh0hGN2K0m5UTFFPPmT8G2TA0Q0rEhawtt3JSMlaesOf94n15eSEpPi6UgT38EnwnB9SxNAVoF06sTk7oY57S5HckP257hrWhRnmKCYayaoaVzXsbol/fAd7EYQzwUAUtG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+wK3GFJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752777586; c=relaxed/simple;
+	bh=yIDpDwqOdxcWlcbJAwGAaOuYScJmwet0ohhW+G52cGc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=PPzAo2wYz9MYN4VG6t84OxkTfef06/pBkRraPFLBED0TgVPculgitPlSLC5aKpgAtr0JPW4x8bsV9viFJygwR3bIPKkEjvQD7alb5YbcVEYcGVZpEj/kDqMtkk2gZ/I8NmICWRskPL0G6oCuh8SpEI1PhfgPRMCQm5AkDlwF+cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vAEc3aHP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+wK3GFJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6105EC4CEE3;
-	Thu, 17 Jul 2025 17:06:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vAEc3aHP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E27AC4CEE3;
+	Thu, 17 Jul 2025 18:39:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752771971;
-	bh=t1DK4l7l6P0SZg/OzJJPzKirYKNAZ7sCpI7tcRykSY4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p+wK3GFJ0pCHEPfr34xe47yY7BwT73tdLh5GE1jgQpi7eFsTemXN5U55sSEDvXpXM
-	 zH4HDARWBwYsR0XKugQ5FxAS/w5Rp6Uhy0dLLT08MT1bW1HWLZ/3U00bkadvLZ4RYS
-	 uZNeg4hlbagzoMaTwy9fMe0JZ94dsoypFytluYqlZZmCW5RFpmdyoVquOEuGn43DBQ
-	 COT8DewFLpKsm1/vDvLPdT1PouztO7+keoggnHUzCoA+PyErVArsSxODLs1dULszLl
-	 9lIQRKmfNCZHxIXAdFEGzTWPvLDSBWAGi4wHaSdW69DVNQHuqKxdOYoPe+ocqoDBT9
-	 SjaS1BOIK79OA==
-Date: Thu, 17 Jul 2025 07:06:10 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Chen Ridong <chenridong@huaweicloud.com>
-Cc: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Tiffany Yang <ynaffit@google.com>, linux-kernel@vger.kernel.org,
-	John Stultz <jstultz@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH v2] cgroup: Track time in cgroup v2 freezer
-Message-ID: <aHktgqO3BUg8exXH@slm.duckdns.org>
-References: <20250714050008.2167786-2-ynaffit@google.com>
- <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
- <6c9278b7-4eb4-4b47-b61a-a5bcc7e558b0@huaweicloud.com>
+	s=k20201202; t=1752777586;
+	bh=yIDpDwqOdxcWlcbJAwGAaOuYScJmwet0ohhW+G52cGc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=vAEc3aHPG2vuslvGAPUQycKmTWThErGerRnmfVBtbH+y6UBSyVbkHbzAA3pbLKSQc
+	 yJIDpmH9I/mpjW7STqxACxl6lSFXVntPq8GMP3JUspSIdzvE05b2SPCQf+gc9kgU73
+	 v8l3hhTxHGnVddGJG5gbQ4er7Vv4NqMSSyVKKnUKQqj4Y6JRzayGxn/CCC0elN+7xX
+	 V7mgG6AapGxm092VTzaAA8AfJ8i/Zralw5uPqcWdvgAOPzDRiSrKDmrM03Ma1smK3J
+	 B5qFeKvF39ZMVJjkW5HFYx7wuJm+lQAJMnlXzZIrc36dd0UQlasLshkw2OIZm902t0
+	 t/GirpIj95yOA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70C19383BAC1;
+	Thu, 17 Jul 2025 18:40:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6c9278b7-4eb4-4b47-b61a-a5bcc7e558b0@huaweicloud.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf-next,v5 1/1] doc: xdp: clarify driver implementation
+ for
+ XDP Rx metadata
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175277760626.2036066.11510521662975521609.git-patchwork-notify@kernel.org>
+Date: Thu, 17 Jul 2025 18:40:06 +0000
+References: <20250716154846.3513575-1-yoong.siang.song@intel.com>
+In-Reply-To: <20250716154846.3513575-1-yoong.siang.song@intel.com>
+To: Song Yoong Siang <yoong.siang.song@intel.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, ast@kernel.org,
+ daniel@iogearbox.net, hawk@kernel.org, john.fastabend@gmail.com,
+ sdf@fomichev.me, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org
 
-On Thu, Jul 17, 2025 at 09:52:38PM +0800, Chen Ridong wrote:
-> > With the given implementation (and use scenario), this'd better exposed
-> > in
-> >   cgroup.freeze.stat.local
-> > 
+Hello:
+
+This patch was applied to bpf/bpf-next.git (net)
+by Martin KaFai Lau <martin.lau@kernel.org>:
+
+On Wed, 16 Jul 2025 23:48:46 +0800 you wrote:
+> Clarify that drivers must remove device-reserved metadata from the
+> data_meta area before passing frames to XDP programs.
 > 
-> Would it be possible to add this field to either cgroup.event or cgroup.stat?
-> Since the frozen status is already tracked in cgroup.event, this placement would maintain better
-> cohesion with existing metrics.
+> Additionally, expand the explanation of how userspace and BPF programs
+> should coordinate the use of METADATA_SIZE, and add a detailed diagram
+> to illustrate pointer adjustments and metadata layout.
 > 
-> This is just a suggestion.
+> [...]
 
-Yeah, given that the freezer is an integral part of cgroup core, using
-cgroup.stat[.local] probably makes more sense.
+Here is the summary with links:
+  - [bpf-next,v5,1/1] doc: xdp: clarify driver implementation for XDP Rx metadata
+    https://git.kernel.org/bpf/bpf-next/c/ef57dc6f52e4
 
-Thanks.
-
+You are awesome, thank you!
 -- 
-tejun
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
