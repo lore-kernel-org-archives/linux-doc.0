@@ -1,154 +1,124 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3485A28D8F8;
-	Thu, 17 Jul 2025 11:26:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2771F9F73;
+	Thu, 17 Jul 2025 11:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752751619; cv=none; b=rlFycLJboADhHV9XuXV+C/I/lj9WkzwzvqVzPN65QmDM39QtqGFat50MbfcJs+xpen6HhwMdQZqqILHHoocrFpCkRizgrwLRbzfvdukFIASbCE+6oFDJQMwIkHXtnCEJg9wfvYTPYKGLumCadaMg5K3Ucb2XhwK/iMrgRiaKV4g=
+	t=1752752245; cv=none; b=RgiWbt6jg71gwp19AdNejujDy+4965WV4Id5IniEc40FgBFUF/XFRXFFD9U7Yn79HlS5+cIAsJD7XXSNf3NcaWxj8ZOPPg7pLtRcB42piLxobNUay35HVQINGESQIplw41oRSxtCGz9yztE34ndVZdUMKoUv+aj4LwiOu7ty0ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752751619; c=relaxed/simple;
-	bh=n5lz0P7zqJhekiegT2JchABpgJQ16TCu5PSuMlnO1/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A0OCDgt6myRyY62nxUSuan037OxPdRQPdnMd8QcwmwbV21eRLueuOjQvkZIc4ut8l70Wk2eDFi5pMEjxcf0Wbv57ox4x6iVBEJM4icVQOogoYKRGaiIYVnM+0FL61+DXZzJF0aD2wJx24oqfFyccam97cMfxYFLHdfrSFzVz7/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dw8P4cZb; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752752245; c=relaxed/simple;
+	bh=LZclc8zmVbRhnO1CRhpy4u/m5fe34HId0hi9iXYV0pQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O5/3SzUd76tD/L5LkSsS7er3Oct6CYwNYS27rGmsYFzoQ1mKsTcZ+jjyCedmtAllKTjjyjM8Z19nZMMCVjwzvY1XqfRZ9RCnUoBBSrMLlwhXXCsMAiGdoT0DHTTp2rtLxIFs5zKDto5EFYh1X8f9XwjhoEaFNU04uXV6HGn/Vck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jTFjLUu6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dw8P4cZb"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-31332cff2d5so717916a91.1;
-        Thu, 17 Jul 2025 04:26:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752751617; x=1753356417; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mamQmxuSC1gLOH8NTWGobgALudQdb1hsjmYCRHW0pFo=;
-        b=Dw8P4cZbvvqxoTHoaGVSgRCA1IesPO8Yc6gCmC7HTlpDbjxo5ohDlCA1FjS5DoR/TK
-         tNkgJKcREb7QJ3Xfe+BZqeaHx8QQo3tcDC56jDgLNQ46AWDXQTVXBM9EyEM/aG1kykNo
-         piD0Tx9exBx63V9qLnNfq7Ssx18RZ6Ux91WSr09VqjCViG3Wvch76RwOWPP0pcPVWnF+
-         xKbh5VXYHhI417Uu1IwwjcA1eDwMI7c9TUKGzQJBhbE8lQZw6EUf97G4pa9c6Md2z20k
-         iZmVY92z2AOilczo6f5ZeOVebu9gRgbQ7GMpamfsCor3gjISWJ9r4cxU1/qN4sm76M6C
-         s9jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752751617; x=1753356417;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mamQmxuSC1gLOH8NTWGobgALudQdb1hsjmYCRHW0pFo=;
-        b=bGAo4cZXJW9h22JnP7P35tKYEP8rEzXH8eaWq+n+XzJtAgF5PMJJE0XXMHDNy32ZSC
-         5j0HWlZHH33APMTk638ihWGIMom986nOlgGWE2gaNeYni2i97mSO5ssCprya/0mk94yG
-         UNKFEnHn+X3TkN0Ja8M4wfMRq/hO2yxNy/LK1A1Wue60EKpvNdXxxTOJHXCjylqxE4/x
-         RCV6CQ/B0rw48nI05tFxGYes32V/dKgZKpSFo7cAbqFCy5PEDyZ4OmqnXQEvAp4lAoTX
-         CDsISK8URyofQ6pbT/OF4o9y4AYLc+h1vqgxl8UqpkH4oNbY1NlQyHPiImxL13x5aG9x
-         zlAg==
-X-Forwarded-Encrypted: i=1; AJvYcCWYMnPcwXiITM/Yh4Wvxi6hWtwaZFpUuHU31S7odDLLc/OEP5dXJzG/27zNQIKKkxkSeFZ3@vger.kernel.org, AJvYcCXK2nBmco8ksTvRBzvP60rJVqOeRSWVxPvi+nIEE/sn/ocMTKAoeddCP4eLIXrbMrEVWFIkDF5dcev2sw==@vger.kernel.org, AJvYcCXrKfuYKFyhaKphZ9cY1Gs2xhL/19y8cADwtU0/pk9c6r2MxFHUCSlPHzvyLw4O9mFO6Sw=@vger.kernel.org, AJvYcCXxtIEryRAnRt08/WW6fObKubXP8VHUADPFvpqHxoiBrAu4lnTr84ZO8e563zM+p8fJjnMqXjsz17ka@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6PX5fkihaoGHnI6xvZU2Tagw3Dqt5z0cLbgmmY2aoExlRwaLN
-	qS9iEtD7U8jMSMOvpqCHTcR7HZfS5K7gprwoOeZKnjvIA5qQ8GXht6fH
-X-Gm-Gg: ASbGncspYywC1NR4BR6V4E9dDLaFr8+qJheCAW3stLs2hpVLOErmQAfj41yZexbTRFP
-	iBohiSgqJXWM96D6N1Zupk0D7w0KCWNf3+JBzcEtERQ1IoqRmZZBtplD9DF20HGP6I2gCmSAbAg
-	WzEhpThefhIdVSD9g+UcYE7fRV7cEXk1EwtDs+vXfOVg9PKQEM/YEfP4OTNaWpc+Y8X1ZBkdrc1
-	r63nIwQd0d2Y0YGCavmFBTGZQ/08DmfsRPB68KByDOWVXKxlwI0rlPpECe2mXGonkq312MsFCBQ
-	vGXzNbaLytY44bunnxg+WgCPiSN+BHn0/Ki0Vg+M8NyGtk8loXulRat4Vu2Tc/PL+gBveLmsUtv
-	NtO4zuMBOyzPyfDuOQZBUZ+KAtaZP7/0m
-X-Google-Smtp-Source: AGHT+IHgByp/+dn0A3OWrLhB0GDZBc03RDMuL7JkWfT26AK/PVvD8T61v8pd5crnp3FDaRyCdZGR6g==
-X-Received: by 2002:a17:90b:28cc:b0:311:b0d3:865 with SMTP id 98e67ed59e1d1-31c9e7931a3mr7920094a91.32.1752751617130;
-        Thu, 17 Jul 2025 04:26:57 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31caf7c3729sm1361493a91.18.2025.07.17.04.26.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 04:26:54 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id DFA1D420A819; Thu, 17 Jul 2025 18:26:50 +0700 (WIB)
-Date: Thu, 17 Jul 2025 18:26:50 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux RCU <rcu@vger.kernel.org>,
-	Linux CPU Architectures Development <linux-arch@vger.kernel.org>,
-	Linux LKMM <lkmm@lists.linux.dev>, Linux KVM <kvm@vger.kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Will Deacon <will@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
-	David Howells <dhowells@redhat.com>,
-	Jade Alglave <j.alglave@ucl.ac.uk>,
-	Luc Maranget <luc.maranget@inria.fr>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Mark Rutland <mark.rutland@arm.com>, Ingo Molnar <mingo@redhat.com>,
-	Waiman Long <longman@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Changyuan Lyu <changyuanl@google.com>,
-	Dan Williams <dan.j.williams@intel.com>, Xavier <xavier_qy@163.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Maarten Lankhorst <dev@lankhorst.se>,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH 0/4] Convert atomic_*.txt and memory-barriers.txt to reST
-Message-ID: <aHjd-oisajaKW_Z5@archie.me>
-References: <20250717080617.35577-1-bagasdotme@gmail.com>
- <20250717105554.GA1479557@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jTFjLUu6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EA5CC4CEE3;
+	Thu, 17 Jul 2025 11:37:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752752245;
+	bh=LZclc8zmVbRhnO1CRhpy4u/m5fe34HId0hi9iXYV0pQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jTFjLUu6mEsSa7RGtlRL2ZCF+uqYMKHrqc+hK5NTJl8AhjXIxc+OR3HqmpXj6a8Cl
+	 FY0+LZTUiFBMS3Vr4Qpxz3R+DTyTutylcasZm+M/FRUDRaBzMBubeSu62Zqy2bHSig
+	 STf0wBJmqPbEfN+785prPyI4QZNXAYrBBoQDQJ6zEC1IF9B5VdMuqBxOaQzLAef38F
+	 LIoSBGb6XeIK07nw8W/rSypa7GazVVU3261p1dQrGgt1q7cdmDoTWZOnfwdryjhFod
+	 GU+Zm/KwS+wIjmKg8L4ZTik3q06W9+rVWkQHF6ZVDxxZtqsuUwQ7SnjeyBNNO6Q6fX
+	 pIApCGT3htI/Q==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1ucMvT-0000000BQtO-1Mlf;
+	Thu, 17 Jul 2025 13:37:23 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	Kees Cook <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v2] sphinx: kernel_abi: fix performance regression with O=<dir>
+Date: Thu, 17 Jul 2025 13:37:19 +0200
+Message-ID: <e25673d87357457bc54ee863e97ff8f75956580d.1752752211.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JBAf7wDkA/Ps+xxf"
-Content-Disposition: inline
-In-Reply-To: <20250717105554.GA1479557@noisy.programming.kicks-ass.net>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+The logic there which adds a dependency note to Sphinx cache
+is not taking into account that the build dir may not be
+the source dir. This causes a performance regression:
+
+$ time make O=/tmp/foo SPHINXDIRS=admin-guide htmldocs
+
+	[OUTDATED]
+	Added: set()
+	Changed: {'abi-obsolete', 'abi-removed', 'abi-stable-files', 'abi-obsolete-files', 'abi-stable', 'abi', 'abi-removed-files', 'abi-testing-files', 'abi-testing', 'gpio/index', 'gpio/obsolete'}
+	Removed: set()
+	All docs count: 385
+	Found docs count: 385
+
+	real    0m11,324s
+	user    0m15,783s
+	sys     0m1,164s
+
+To get the root cause of the problem (ABI files reported as changed),
+I used this changeset:
+
+	diff --git a/Documentation/conf.py b/Documentation/conf.py
+	index e8766e689c1b..ab486623bd8b 100644
+	--- a/Documentation/conf.py
+	+++ b/Documentation/conf.py
+	@@ -571,3 +571,16 @@ def setup(app):
+	     """Patterns need to be updated at init time on older Sphinx versions"""
+
+	     app.connect('config-inited', update_patterns)
+	+    app.connect('env-get-outdated', on_outdated)
+	+
+	+def on_outdated(app, env, added, changed, removed):
+	+    """Track cache outdated due to added/changed/removed files"""
+	+    print("\n[OUTDATED]")
+	+    print(f"Added: {added}")
+	+    print(f"Changed: {changed}")
+	+    print(f"Removed: {removed}")
+	+    print(f"All docs count: {len(env.all_docs)}")
+	+    print(f"Found docs count: {len(env.found_docs)}")
+	+
+	+    # Just return what we have
+	+    return added | changed | removed
+
+Reported-by: Akira Yokosawa <akiyks@gmail.com>
+Closes: https://lore.kernel.org/linux-doc/c174f7c5-ec21-4eae-b1c3-f643cca90d9d@gmail.com/
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+v2: updated description. No changes at the diff itself
+
+ Documentation/sphinx/kernel_abi.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index db6f0380de94..4c4375201b9e 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -146,8 +146,10 @@ class KernelCmd(Directive):
+                 n += 1
+ 
+             if f != old_f:
+-                # Add the file to Sphinx build dependencies
+-                env.note_dependency(os.path.abspath(f))
++                # Add the file to Sphinx build dependencies if the file exists
++                fname = os.path.join(srctree, f)
++                if os.path.isfile(fname):
++                    env.note_dependency(fname)
+ 
+                 old_f = f
+ 
+-- 
+2.50.1
 
 
---JBAf7wDkA/Ps+xxf
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jul 17, 2025 at 12:55:54PM +0200, Peter Zijlstra wrote:
-> On Thu, Jul 17, 2025 at 03:06:13PM +0700, Bagas Sanjaya wrote:
-> > Bagas Sanjaya (4):
-> >   Documentation: memory-barriers: Convert to reST format
-> >   Documentation: atomic_bitops: Convert to reST format
-> >   Documentation: atomic_t: Convert to reST format
-> >   Documentation: atomic_bitops, atomic_t, memory-barriers: Link to
-> >     newly-converted docs
->=20
-> NAK
->=20
-> If these are merged I will no longer touch / update these files.
-
-Why? Do you mean these docs should be kept as-is (not converted)? Jon wrote
-in e40573a43d163a that the conversion were opposed but AFAIK I can't find
-the rationale on lore.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---JBAf7wDkA/Ps+xxf
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaHjd9QAKCRD2uYlJVVFO
-o5gTAP9lBzNcAUcWTLaW0MwlnQrRBczAAM2O5+rQWHZiuprqawD9ETZgMoUlvAOY
-cmL08HFZ09BvD9UIA2iITCiObHR22QA=
-=vYMt
------END PGP SIGNATURE-----
-
---JBAf7wDkA/Ps+xxf--
