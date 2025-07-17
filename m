@@ -1,230 +1,254 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2089.outbound.protection.outlook.com [40.107.237.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DF0145346;
-	Thu, 17 Jul 2025 16:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752768547; cv=fail; b=gN//k0AMC7f9T1znf+2qrE+KnNUMXAHd2WSN/d0eo0cQyBnK1d680chQm8inoGaOZpKrIX6Y1H+FqA+UV5NzKd3t/7/fJcOmoafH3J5Fpb7pyVmOXiXds9/63MHwQ/Wt9qFZjSoTBsQ4IW2pe4COm7eChX/vcR5q/Sgdvz51k5Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752768547; c=relaxed/simple;
-	bh=4kuP5ouKzvHGufukgbAIjJOth9Hl5YnEZqZHxVKuizk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UmigqKVDT0Y8NB9ShJk/LHgrsX35gKsEVtyWf6ak6UY+xIpKCnQCBtct3PEaXvbJ3bjv10y19kLylrWUK2Eb2z0V2oarTiW1tn93rSMjAhaXWupm2WJ+f6hfQYjMUjNh7Xhftig0GcSG+YMO6lqcfMftghpadX4gsvx/3YMxsJY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=r/G99WsW; arc=fail smtp.client-ip=40.107.237.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E783A1DC1AB
+	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 16:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752769069; cv=none; b=CtTLkA/X3fR1rw55NgFAhbEDhuyBhN3mT47+4cPhNTZxAqr2mUKw2VvJlFWFzeG9AjA1qhRN+gbWTXbXzAg6dIEqdzwpGjTdBKev6p4+ooDlCRXW2s2ZsByBCicJcVshlLoTwYNZ6C5jniLRvfcfj+h7wjBKRGwpfsUPLgyeLdY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752769069; c=relaxed/simple;
+	bh=4Y/RjTkTJBG1lcOSM/R+PpjsJ58T7Ydi95mMf2enko8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hwXaUtksZAi+2QO6tu3sP+T5gLwQz31boCROVcmn8IQ6b2SsRknICa/0MbsdP8U4RO4qbOPw3VkN56J3BrKDlbdZgUllL1w8V/Y2hu/7R1O3Dhj1DOu1xoL3VVRFQGCiHgT+pCsy2a2Q33LtqUcX6yUWHTdmHasnXaGxf2JFPmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PSgMAeAA; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="r/G99WsW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lY7oMpbtLxYSmPIoOLPWskhAS1M0zIYr4GKwOWpao2lZVPwR/E5CnvGiOqGTuv5qgl6dXiAD/QgxlqcgUc9s/BOaaPIcND/Ig+i0Dy6OtMhuNYRq9CZ3haMekkEeV79Ea31HA6N9T7mZNcDYdN4OxHB0bCgUZR5f/gN/jq/aso9F8zmUarxLVnVW1Q4DSIZt1ijMJBdHxZGqKsx4l3/PbbGSDVTDgmV4p1iolbAbLvhOXxeW+xCp4ms+Q7EqS5KJdBr7Dy21w/R92zApMlGK2GCrQmjkIfUqmt061G7h65flTY0LiJ6p1AyqhYqbN/sB1XiPQvDY6qmwDGcDEPkVNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5KUVVw8QFOwW/eO5P2Va5I82DixybRl2nX/TlW+fPNc=;
- b=KpiWBSVuJRYPRNlXAztairu3thvzpoyNOT/3p76J/AiCZxNVGn+sEwdSQ0kM35Yrr4Z98zKo6LMRrudO/BWVqostMa+KNSXJO59lQ9C2cjrPDhIk8DKQNSaADoSnWzXrfiEKqNEvWKqOPT67nSdCy/xpsP034NEy89gyjmMNhvkkEunvm4WUqLXE/mDVRVCuq5BD8d1WA+pMgBB5iRRHJGyftp8S8RRcyvl5+3WVHnBd++htXSeKM00v0/G286B3bgLiCjlYlpG9c68aIo2CcMjjnib28ns8tZVdR/J6sKr4fFr4GTL4BTgeLeb03zVOTgYVTuS8jL8Is9nDRvJZ7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5KUVVw8QFOwW/eO5P2Va5I82DixybRl2nX/TlW+fPNc=;
- b=r/G99WsW1S+nnBbfI/BK1XMTOIKd1Hwsllk+Ctb3kMsyun+qG0G/obh23tWhvD6KlzS+OS7rDD2/ggEZgE7/+ArgbpF6y4R9tzeSrXpmPLxq/+P2mONv51RdZ1D8HJU6Z2vIm0zzUASydt3cpdMKopuRNbKd/1luYfifBJrTe3tN9BFJoKDycGkBNmiP+8QbnCXI6Nm7yr13OVQFJ4vpV/XWDKxr5LyjRyumz+P4/9KozHiPQbBRdhLZReS9tLxryFtK/W6aa6i1uCZ/NgplDZYICJ8J0MeEG5NhXxxpeWRBT2phod/0uFHM8U7z26hx6f/N/Bk/F9mM7Q5kCBWIuA==
-Received: from BN9PR03CA0188.namprd03.prod.outlook.com (2603:10b6:408:f9::13)
- by BL1PR12MB5921.namprd12.prod.outlook.com (2603:10b6:208:398::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Thu, 17 Jul
- 2025 16:09:02 +0000
-Received: from BL6PEPF0001AB58.namprd02.prod.outlook.com
- (2603:10b6:408:f9:cafe::39) by BN9PR03CA0188.outlook.office365.com
- (2603:10b6:408:f9::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.20 via Frontend Transport; Thu,
- 17 Jul 2025 16:09:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BL6PEPF0001AB58.mail.protection.outlook.com (10.167.241.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8943.21 via Frontend Transport; Thu, 17 Jul 2025 16:09:02 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 17 Jul
- 2025 09:08:42 -0700
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 17 Jul
- 2025 09:08:41 -0700
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.9)
- with Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Thu, 17
- Jul 2025 09:08:34 -0700
-From: Tariq Toukan <tariqt@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>, Jiri Pirko <jiri@resnulli.us>, Jiri Pirko
-	<jiri@nvidia.com>
-CC: Saeed Mahameed <saeed@kernel.org>, Gal Pressman <gal@nvidia.com>, "Leon
- Romanovsky" <leon@kernel.org>, Shahar Shitrit <shshitrit@nvidia.com>, "Donald
- Hunter" <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, "Brett
- Creeley" <brett.creeley@amd.com>, Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, Cai Huoqing
-	<cai.huoqing@linux.dev>, Tony Nguyen <anthony.l.nguyen@intel.com>, "Przemek
- Kitszel" <przemyslaw.kitszel@intel.com>, Sunil Goutham
-	<sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>, Geetha sowjanya
-	<gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>, hariprasad
-	<hkelam@marvell.com>, "Subbaraya Sundeep" <sbhatta@marvell.com>, Saeed
- Mahameed <saeedm@nvidia.com>, "Tariq Toukan" <tariqt@nvidia.com>, Mark Bloch
-	<mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, Petr Machata
-	<petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>,
-	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <intel-wired-lan@lists.osuosl.org>,
-	<linux-rdma@vger.kernel.org>
-Subject: [PATCH net-next 5/5] net/mlx5e: Set default grace period delay for TX and RX reporters
-Date: Thu, 17 Jul 2025 19:07:22 +0300
-Message-ID: <1752768442-264413-6-git-send-email-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <1752768442-264413-1-git-send-email-tariqt@nvidia.com>
-References: <1752768442-264413-1-git-send-email-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PSgMAeAA"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-553d771435fso1326639e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 09:17:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1752769066; x=1753373866; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Y/RjTkTJBG1lcOSM/R+PpjsJ58T7Ydi95mMf2enko8=;
+        b=PSgMAeAAPc/Jl5L/MBOijdfKvVN+tZfTwfp/3VWA+7jBRL6t16zbHUK0bnoIKic4o7
+         PDfdfrfWYz1RPznBcg+ueghDLZpq9RyMrV4oqQDHG4uj79XiYBN9kprUKE0v/jpzSMfw
+         GK5F6JVAmLaumy9iqEYwMrwrsQ5UfmuWPJtVs3HGf7WwygGYu5DGzC3ygrVf2TEnP994
+         D42FhbTXKm5J1WIEaIIKP7MezWOiAwgjO3OHWV+J6FvUQyGD8L5Yqcz83JTCOFCdgyiN
+         pl00AL805j6bfwdmMhwrMmeJa/DILxHrtVPHOsWZZJasMXRGMoSc+HMR1BLnPARGLryR
+         5e9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752769066; x=1753373866;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4Y/RjTkTJBG1lcOSM/R+PpjsJ58T7Ydi95mMf2enko8=;
+        b=cNPsnqf+X5+XH0arN6iYjp9sQjpSAsIPKk2AmB7trVKwReY/RinTX18/lqpFCxyzoW
+         ng8XhvVvgm4uF+nZ2o+QzTsuRAnK8KKrvuMlFSwv/qjmhIvFtk7v/UDndKNBBhDTd/fT
+         NiHVxub02YAum+etGQOWO/Y3k/KpAcliboE6IL5PBnY7ekMppOEwjUmAqHYQDxZYXgzn
+         eQ96KJr8owsNTBnwuhzH7bQ34MdTPpyZlV3goPcQBHdgXmJuRzl/aOeKEoLClO/Khz1A
+         vB0Qb+v6Pb4k5qQ7W1CoIXjWiDoBCRjucBHPKEse4Ilcu+iC+RmprXJvnUE1lxO2HmFI
+         UXwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXQxcNXzNALebJzm+Az/dQgHU+/3FF7BQK29ZjzLtafCXw41NrukEUy3ed+jPSn9hbXl6h4C3XokZ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPc03Y4mp6yFEM4XRS6vzffoSyD3hv361juSqjDarTeVhBioQN
+	R5dlDsF4/1w5sHcSPa6QYFLBGRzPj+3iqsLxtGJAjgfOiLlbwvwSORvPmc08ZY7f71eA6CLjZMd
+	liLC9fTCxDE6qFYnlUBmqlywIu7vNxT1JdRSZrGWC
+X-Gm-Gg: ASbGncsTRTz+un1NjnmpItQRsMfCxiFHgRB2sT+uRQVdYJCLrqJ09FmRW4ibBJuiyY9
+	AkqJIv5X+/G8QeX7PkIKyLGHsqn0qgV86tSkHMVGna1CiLbIX7WcbcSVQeJQDsv/Ufsvgv/K36j
+	Ke8opibS0j3B2WgFQm4TIlmf06fze6RIisrJ9OQgtyVcAHXYxcDtaZAG5ooj91tRgTRfLQkb4xy
+	5+EEus=
+X-Google-Smtp-Source: AGHT+IE9DWaA8FRK4xUpNKqB8FmzMQNZFjlXe/JlqckiMUc8pQOkJKRNMXU1R+kPwSGJz+qYdQKKmPj7Fqf+yBV+I3I=
+X-Received: by 2002:a05:6512:31ca:b0:553:65bc:4250 with SMTP id
+ 2adb3069b0e04-55a2338ab11mr2382217e87.27.1752769065572; Thu, 17 Jul 2025
+ 09:17:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB58:EE_|BL1PR12MB5921:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ab750ba-6db9-496d-e106-08ddc54c3f5f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?JrrnWwQWmd5OCYRyi3hELGx3sZUiEh0s5beXo9r+4ktuD74SCdlBs4xw4LAr?=
- =?us-ascii?Q?H0N4pz7bgQsqjcyjnRJlKWaqsOnsIXPm2fD6oy9QF3rKTFpJ5IGxfM6oCzpx?=
- =?us-ascii?Q?sLEbjo6abbGE651VnFld64fQ0r4LKfBqvUSiAVyU3GuH+k9VZbK41nBenChQ?=
- =?us-ascii?Q?NFrQ0Hl/pG9b1F2ia2xjk2k8x8uUSZVeKmOdA9o4bM612f0fdv2VQj6OnM8o?=
- =?us-ascii?Q?i+Lve/AXowzJp0xE1DXh+Sg74gwX30Lwj6+WdhEVGiBcEpaCRgJkNWsDwAdS?=
- =?us-ascii?Q?UHjuvt6+b2EEznaeULIE+rWrOxzehLFb7br3nMJwl1TXBYPHiuXMBLm7t3YT?=
- =?us-ascii?Q?qSPcObhyTyP+5XxhaQ6pH0Gvl13EOcZz7zqCquW/lIqBLOGT5LutQu+IjBRT?=
- =?us-ascii?Q?KC931yM7WHhPxdKZVHyhKTXlCVEwYRHzcv9E7x+OVt4L+z65JaUijk/TEcnN?=
- =?us-ascii?Q?SDYGzjTDzcU2ScWQwOPxjKdSD7kQqMewax9jOsqPeUbjqRuFiuBAg5SqKzhn?=
- =?us-ascii?Q?xL2PJ1meDHooepAj48V/mEKsTFrqxM+6CpVuMUcReEf7Yp5Ppm0chojhAnwn?=
- =?us-ascii?Q?CJ9X6hUFgZ9DooMreF0C1LbOLwJGw+Xki18A8qYMRSQVTeyaxh24Lcpmf7oy?=
- =?us-ascii?Q?jWW52QKtymv+g+OIaPIuBeicw79itZrQfKDJ9o7WI3bXNzXZEy3sU5XtsBio?=
- =?us-ascii?Q?DC9okpcGed0tYPUxwfpi+wjbS8onqua9vC5gwBH2YZTc//g5aQCj58WZwErf?=
- =?us-ascii?Q?rZ/W50BSRks56apYPxdfh+FDcjE7QTnP+AwRp9d+pgdQfbO9G1yj9dck82/Z?=
- =?us-ascii?Q?YuoLdi7YJ5B754TJg9QYFOcYGrQxR6CtqqqColLjlXuE/AFRWrZGSBAlNojP?=
- =?us-ascii?Q?zpZqRh2GwJRSr6PkNJ9o4x3n0l92zAnoJmqaUI2Ob2y2tJv+zoA3UjPOkkLw?=
- =?us-ascii?Q?YFMVvlFMASHSfjp+nqBZEIu51/GRxXEurTU5W7rsnGtShyNt/7sYx+kj88UT?=
- =?us-ascii?Q?cG8TJPyyTjWEsT5KMOjO3dwnJyStRFoFt1fTdYiaz0fqQ7Gq+R2bZxkUnZ4P?=
- =?us-ascii?Q?DsAENCv0WBD4ld4YnjL7axzXKc+8YCfvAN61dVSpxYR1iBUz/f0GfmwZd3uA?=
- =?us-ascii?Q?5q0sUhWcLbAWfiXn2tOK/8AwqLZpIp6QJGJOStL98XIXsgb5zP7CAgmCHFtX?=
- =?us-ascii?Q?3sIHQmZxoHlHvZ0PGW+R3nV9j+c2pyrUVFTd3elpa6rEZcoLVNVSuZ2WiDTz?=
- =?us-ascii?Q?7QD/Ts/5o6TTApYhbSqqRtqznqOCWETUcQw6sY7dJWk/uIyGupdZjiLawtLc?=
- =?us-ascii?Q?tmJoI2ffJFGxGilrcGEEq1KXsZFsIcyeaGTVBEUGj3z323SLh6ro2L43Udi2?=
- =?us-ascii?Q?eBDEIAx830Qdx3zlVo6edyF5Q40F5Cw1tPUgYLqhRWIXcfZuxQD8zo76rRux?=
- =?us-ascii?Q?roYGP1OVhrk8xV7KMwK4kI6G8JMkIeAs3lBhKX0R0XT8koBPFDgUi9ZqIWj7?=
- =?us-ascii?Q?KribJWCeQ56xACYZt7h2Q8qxJWobutbkjxjc?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2025 16:09:02.5695
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ab750ba-6db9-496d-e106-08ddc54c3f5f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB58.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5921
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+ <20250515182322.117840-11-pasha.tatashin@soleen.com> <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
+ <CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com>
+ <20250625-akrobatisch-libellen-352997eb08ef@brauner> <CALzav=d+XgS1bUs-v7+ws5nYU9y=4uc1c8oVLHrJ16qLpnUi9Q@mail.gmail.com>
+ <mafs0sejmse57.fsf@kernel.org> <CALzav=dhuoaS73ikufCf2D11Vq=jfMceYv0abdMxOdaHzmVR0g@mail.gmail.com>
+ <mafs04iveu8gs.fsf@kernel.org>
+In-Reply-To: <mafs04iveu8gs.fsf@kernel.org>
+From: David Matlack <dmatlack@google.com>
+Date: Thu, 17 Jul 2025 09:17:17 -0700
+X-Gm-Features: Ac12FXw3JFpwS5UWAzvXtdE2XcBaOGxi7uu6xW5eZbBjwaUzxU-r0d7vc1g83dU
+Message-ID: <CALzav=cUQGF_DnmyDOORssoThmfQwnPgUxQiLmXyAKY1-hyT4g@mail.gmail.com>
+Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, rientjes@google.com, 
+	corbet@lwn.net, rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, 
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
+	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
+	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
+	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Shahar Shitrit <shshitrit@nvidia.com>
+On Mon, Jul 14, 2025 at 7:56=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
+> wrote:
+> On Thu, Jun 26 2025, David Matlack wrote:
+> > On Thu, Jun 26, 2025 at 8:42=E2=80=AFAM Pratyush Yadav <pratyush@kernel=
+.org> wrote:
+> >> On Wed, Jun 25 2025, David Matlack wrote:
+> >> > On Wed, Jun 25, 2025 at 2:36=E2=80=AFAM Christian Brauner <brauner@k=
+ernel.org> wrote:
+> >> >> >
+> >> >> > While I agree that a filesystem offers superior introspection and
+> >> >> > integration with standard tools, building this complex, stateful
+> >> >> > orchestration logic on top of VFS seemed to be forcing a square p=
+eg
+> >> >> > into a round hole. The ioctl interface, while more opaque, provid=
+es a
+> >> >> > direct and explicit way to command the state machine and manage t=
+hese
+> >> >> > complex lifecycle and dependency rules.
+> >> >>
+> >> >> I'm not going to argue that you have to switch to this kexecfs idea
+> >> >> but...
+> >> >>
+> >> >> You're using a character device that's tied to devmptfs. In other w=
+ords,
+> >> >> you're already using a filesystem interface. Literally the whole co=
+de
+> >> >> here is built on top of filesystem APIs. So this argument is just v=
+ery
+> >> >> wrong imho. If you can built it on top of a character device using =
+VFS
+> >> >> interfaces you can do it as a minimal filesystem.
+> >> >>
+> >> >> You're free to define the filesystem interface any way you like it.=
+ We
+> >> >> have a ton of examples there. All your ioctls would just be tied to=
+ the
+> >> >> fileystem instance instead of the /dev/somethingsomething character
+> >> >> device. The state machine could just be implemented the same way.
+> >> >>
+> >> >> One of my points is that with an fs interface you can have easy sta=
+te
+> >> >> seralization on a per-service level. IOW, you have a bunch of virtu=
+al
+> >> >> machines running as services or some networking services or whateve=
+r.
+> >> >> You could just bind-mount an instance of kexecfs into the service a=
+nd
+> >> >> the service can persist state into the instance and easily recover =
+it
+> >> >> after kexec.
+> >> >
+> >> > This approach sounds worth exploring more. It would avoid the need f=
+or
+> >> > a centralized daemon to mediate the preservation and restoration of
+> >> > all file descriptors.
+> >>
+> >> One of the jobs of the centralized daemon is to decide the _policy_ of
+> >> who gets to preserve things and more importantly, make sure the right
+> >> party unpreserves the right FDs after a kexec. I don't see how this
+> >> interface fixes this problem. You would still need a way to identify
+> >> which kexecfs instance belongs to who and enforce that. The kernel
+> >> probably shouldn't be the one doing this kind of policy so you still
+> >> need some userspace component to make those decisions.
+> >
+> > The main benefits I see of kexecfs is that it avoids needing to send
+> > all FDs over UDS to/from liveupdated and therefore the need for
+> > dynamic cross-process communication (e.g. RPCs).
+> >
+> > Instead, something just needs to set up a kexecfs for each VM when it
+> > is created, and give the same kexecfs back to each VM after kexec.
+> > Then VMs are free to save/restore any FDs in that kexecfs without
+> > cross-process communication or transferring file descriptors.
+>
+> Isn't giving back the right kexecfs instance to the right VMM the main
+> problem? After a kexec, you need a way to make that policy decision. You
+> would need a userspace agent to do that.
+>
+> I think what you are suggesting does make a lot of sense -- the agent
+> should be handing out sessions instead of FDs, which would make FD
+> save/restore simpler for applications. But that can be done using the
+> ioctl interface as well. Each time you open() the /dev/liveupdate, you
+> get a new session. Instead of file FDs like memfd or iommufs, we can
+> have the agent hand out these session FDs and anything that was saved
+> using this session would be ready for restoring.
+>
+> My main point is that this can be done with the current interface as
+> well as kexecfs. I think there is very much a reason for considering
+> kexecfs (like not being dependent on devtmpfs), but I don't think this
+> is necessarily the main one.
 
-System errors can sometimes cause multiple errors to be reported
-to the TX reporter at the same time. For instance, lost interrupts
-may cause several SQs to time out simultaneously. When dev_watchdog
-notifies the driver for that, it iterates over all SQs to trigger
-recovery for the timed-out ones, via TX health reporter.
-However, grace period allows only one recovery at a time, so only
-the first SQ recovers while others remain blocked. Since no further
-recoveries are allowed during the grace period, subsequent errors
-cause the reporter to enter an ERROR state, requiring manual
-intervention.
+The main problem I'd like solved is requiring all FDs to preserved and
+restored in the context of a central daemon, since I think this will
+inevitably cause problems for KVM. I agree with you that this problem
+can also be solved in other ways, such as session FDs (good idea!).
 
-To address this, set the TX reporter's default grace period
-delay to 0.5 second. This allows the reporter to detect and handle
-all timed-out SQs within this delay window before initiating the
-grace period.
+>
+> >
+> > Policy can be enforced by controlling access to kexecfs mounts. This
+> > naturally fits into the standard architecture of running untrusted VMs
+> > (e.g. using chroots and containers to enforce security and isolation).
+>
+> How? After a kexec, how do you tell which process can get which kexecfs
+> mount/instance? If any of them can get any, then we lose all sort of
+> policy enforcement.
 
-To account for the possibility of a similar issue in the RX reporter,
-its default grace period delay is also configured.
+I was imagining it's up to whatever process/daemon creates the kexecfs
+instances before kexec is also responsible for reassociating them with
+the right processes after kexec.
 
-Additionally, while here, align the TX definition prefix with the RX,
-as these are used only in EN driver.
+If you are asking how that association would be done mechanically, I
+was imagining it would be through a combination of filesystem
+permissions, mounts, and chroots. For example, the kexecfs instance
+for VM A would be mounted in VM A's chroot. VM A would then only have
+access to its own kexecfs instance.
 
-Signed-off-by: Shahar Shitrit <shshitrit@nvidia.com>
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
-Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
----
- drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c | 3 +++
- drivers/net/ethernet/mellanox/mlx5/core/en/reporter_tx.c | 7 +++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+> >> > I'm not sure that we can get rid of the machine-wide state machine
+> >> > though, as there is some kernel state that will necessarily cross
+> >> > these kexecfs domains (e.g. IOMMU driver state). So we still might
+> >> > need /dev/liveupdate for that.
+> >>
+> >> Generally speaking, I think both VFS-based and IOCTL-based interfaces
+> >> are more or less equally expressive/powerful. Most of the ioctl
+> >> operations can be translated to a VFS operation and vice versa.
+> >>
+> >> For example, the fsopen() call is similar to open("/dev/liveupdate") -=
+-
+> >> both would create a live update session which auto closes when the FD =
+is
+> >> closed or FS unmounted. Similarly, each ioctl can be replaced with a
+> >> file in the FS. For example, LIVEUPDATE_IOCTL_FD_PRESERVE can be
+> >> replaced with a fd_preserve file where you write() the FD number.
+> >> LIVEUPDATE_IOCTL_GET_STATE or LIVEUPDATE_IOCTL_PREPARE, etc. can be
+> >> replaced by a "state" file where you can read() or write() the state.
+> >>
+> >> I think the main benefit of the VFS-based interface is ease of use.
+> >> There already exist a bunch of utilites and libraries that we can use =
+to
+> >> interact with files. When we have ioctls, we would need to write
+> >> everything ourselves. For example, instead of
+> >> LIVEUPDATE_IOCTL_GET_STATE, you can do "cat state", which is a bit
+> >> easier to do.
+> >>
+> >> As for downsides, I think we might end up with a bit more boilerplate
+> >> code, but beyond that I am not sure.
+> >
+> > I agree we can more or less get to the same end state with either
+> > approach. And also, I don't think we have to do one or the other. I
+> > think kexecfs is something that we can build on top of this series.
+> > For example, kexecfs would be a new kernel subsystem that registers
+> > with LUO.
+>
+> Yeah, fair point. Though I'd rather we agree on one and go with that.
+> Having two interfaces for the same thing isn't the best.
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
-index e106f0696486..feb3f2bce830 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
-@@ -645,6 +645,7 @@ void mlx5e_reporter_icosq_resume_recovery(struct mlx5e_channel *c)
- }
- 
- #define MLX5E_REPORTER_RX_GRACEFUL_PERIOD 500
-+#define MLX5E_REPORTER_RX_GRACEFUL_PERIOD_DELAY 500
- 
- static const struct devlink_health_reporter_ops mlx5_rx_reporter_ops = {
- 	.name = "rx",
-@@ -652,6 +653,8 @@ static const struct devlink_health_reporter_ops mlx5_rx_reporter_ops = {
- 	.diagnose = mlx5e_rx_reporter_diagnose,
- 	.dump = mlx5e_rx_reporter_dump,
- 	.default_graceful_period = MLX5E_REPORTER_RX_GRACEFUL_PERIOD,
-+	.default_graceful_period_delay =
-+		MLX5E_REPORTER_RX_GRACEFUL_PERIOD_DELAY,
- };
- 
- void mlx5e_reporter_rx_create(struct mlx5e_priv *priv)
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_tx.c b/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_tx.c
-index 6fb0d143ad1b..515b77585926 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_tx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_tx.c
-@@ -514,14 +514,17 @@ void mlx5e_reporter_tx_ptpsq_unhealthy(struct mlx5e_ptpsq *ptpsq)
- 	mlx5e_health_report(priv, priv->tx_reporter, err_str, &err_ctx);
- }
- 
--#define MLX5_REPORTER_TX_GRACEFUL_PERIOD 500
-+#define MLX5E_REPORTER_TX_GRACEFUL_PERIOD 500
-+#define MLX5E_REPORTER_TX_GRACEFUL_PERIOD_DELAY 500
- 
- static const struct devlink_health_reporter_ops mlx5_tx_reporter_ops = {
- 		.name = "tx",
- 		.recover = mlx5e_tx_reporter_recover,
- 		.diagnose = mlx5e_tx_reporter_diagnose,
- 		.dump = mlx5e_tx_reporter_dump,
--		.default_graceful_period = MLX5_REPORTER_TX_GRACEFUL_PERIOD,
-+		.default_graceful_period = MLX5E_REPORTER_TX_GRACEFUL_PERIOD,
-+		.default_graceful_period_delay =
-+			MLX5E_REPORTER_TX_GRACEFUL_PERIOD_DELAY,
- };
- 
- void mlx5e_reporter_tx_create(struct mlx5e_priv *priv)
--- 
-2.31.1
-
+Agreed, tt would be better to have a single way to preserve FDs rather
+than 2 (LUO ioctl and kexecfs).
