@@ -1,112 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB90C2264CD
-	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 22:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4A723771E;
+	Thu, 17 Jul 2025 23:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752792225; cv=none; b=vEBQvoUmC31gvxlyGf2XVQEdNlL2LBrCVJXzFS7LIhqmvST+hTCNP3YNItYUS/OHC3nrrJSiPjY5SnTiEPEEzCuQ6hlbQXBhn+0jjRiFj+YfjT5SxNBsjdjD9lDv/4tafR2IuJQsPsyC9hJc5pm5JX6x9xJ+ON5Y6B6ZPx8pqd8=
+	t=1752794720; cv=none; b=c8yonrc24YZt+QAq2eNw6qR2PVQTpf6fvrxgOOz3hKkJwY0HUqzeuC2dzvH5SsltWqsMB+tL/pCKwX+GHDycJ5+T0ggTI3nf5G0bCbH6GrnISC6D3L5MaYlUHjHqIBlM3F/CRjCimRXXp1eV6kDg7QHZ5HcUKbmEhWPTQuqY5tE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752792225; c=relaxed/simple;
-	bh=5ioziW46RWKQgz+I412mRaPRzSs5PXmg9IfJld32ItM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GmQsvanL7EutaPaNCbG488quPqEq51zoQo3y56y9wVTqJcaZr544H6hrqmoKj9WVSs4FlRSP6sHNoaNhNUfjfZQTjSNl6xPkFLu9ygc64jGZjiwjEyoVpCNH9vz2lxGeTWU8aSdS2G/yiUtIEfLmE7e4TglGbCFQkAkHWvpf3Yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URYze4N4; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752794720; c=relaxed/simple;
+	bh=ix3ybSX3HXyR5ul7nVKO/r/KYy1s5o0+DAZiEgLkmcM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=lWjGbImXRLXkYQAN3ouUQg/JrefeI50iZX6s39DzF1qWyKOcMiHYIWmneI3SiLdQYunrhfnug15u/g7RCO8eWj9Rvx2Jdm+greXXrhOXiYl8BhZPQYmdXjjpv7t93BapY4zkcw9+vLs5ezbr7/BvOCBQFaGk71BQLIsaY1z/8K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gn7vBNA8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URYze4N4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752792224; x=1784328224;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5ioziW46RWKQgz+I412mRaPRzSs5PXmg9IfJld32ItM=;
-  b=URYze4N4bCVMYw1ky8lmxNVLCHfFFkUuojSWLMRMc5hyPnvuVGhgrg+N
-   +/xJlJ8Iiv5Mq8hPa0o+9PYSZAHsIfgHAshbJbSc7ZJAXn13F1tmiMKEU
-   +zKpSbSsn7eit2vuh2SimrzrggA5n4OijJlw7HcTg+xh6bTtDLaKtyx1S
-   FcaItwxagGZ3nGNsIqFbp8A7p86NNrbedu/KzMJkfrOm9myHlqCj2tlre
-   C6iAAhAaP1sK/49jOY9y5Q++lv+yzSCpm9ZW3mRk1Au2Kg8TXolXt1ms2
-   vKNgBypWPv/RhvHAqgGwBbneNkLOGMMsUP000pjPJ5GyFfzmDQKkr7QYx
-   A==;
-X-CSE-ConnectionGUID: oNddA+HyTZ+FuThUpPRdCg==
-X-CSE-MsgGUID: WtgW9pj3QfSihARBAaIrCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="66431497"
-X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
-   d="scan'208";a="66431497"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 15:43:43 -0700
-X-CSE-ConnectionGUID: IPGOJHiASnSbEgxfNo7oyw==
-X-CSE-MsgGUID: i60Bd1BzQ6+ole1V4gbY+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
-   d="scan'208";a="188860904"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Jul 2025 15:43:41 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ucXKE-000E4b-2y;
-	Thu, 17 Jul 2025 22:43:38 +0000
-Date: Fri, 18 Jul 2025 06:43:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dominik Kaszewski <dominik.kaszewski@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ivan Lipski <ivan.lipski@amd.com>,
-	Alvin Lee <alvin.lee2@amd.com>, linux-doc@vger.kernel.org
-Subject: [agd5f:amd-staging-drm-next 2314/2370]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:380: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202507180659.A4dgugSk-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gn7vBNA8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29831C4CEEB;
+	Thu, 17 Jul 2025 23:25:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752794720;
+	bh=ix3ybSX3HXyR5ul7nVKO/r/KYy1s5o0+DAZiEgLkmcM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Gn7vBNA8ECW01pz7bzzi6l7uJmullsgdYyyFGomxO2fchHp+SDepdG+I6wOhD/gNK
+	 T3SEIM+1NfmErc+8DhsFxy8ppv7/K4qPjswgAhSVTH/FsykQ/fNbHEvrnupijvTyea
+	 b5T6AUCskwP0bPJyW348phxgXsYznPGl6Tfu0rEgmHXOlEMleiD7DVHcHq590DH2FY
+	 oMdbUTk24voKuAcf1WeqMrcw3JXvI5a4jYL/MBUz2SF0aWznalOa6/vg9ppvdbzmOv
+	 2MAUd25KsoHSEQdyNB+y5jYu/S+BPCr2PLArdK7j9HFT5emGVOiw+WzwFsulmUJmbM
+	 r4pAIwieJbXxA==
+From: Kees Cook <kees@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Kees Cook <kees@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v3 00/13] stackleak: Support Clang stack depth tracking
+Date: Thu, 17 Jul 2025 16:25:05 -0700
+Message-Id: <20250717231756.make.423-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5918; i=kees@kernel.org; h=from:subject:message-id; bh=ix3ybSX3HXyR5ul7nVKO/r/KYy1s5o0+DAZiEgLkmcM=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmVbZHJG+bN3K/qtDByvmFFwWZOiegr7v9P8cdPbSg4o 3Zj+4WOjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgIkYBjMyfNv4wNam5MZaxztb DVV2bLscf+z93ddLbf58MJq2fUdLOyfDP/uXom2zOn6oGNnZ+vY/6tuxYr3x7FmnbTaV1Sr/nay 2lB0A
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   b78bd8003071f2bcd1a9d2404f274ff0b52a4a6a
-commit: c9130176a41e56044df495a72f7eb2027824034a [2314/2370] drm/amd/display: Workaround for stuck I2C arbitrage
-config: arc-randconfig-002-20250718 (https://download.01.org/0day-ci/archive/20250718/202507180659.A4dgugSk-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180659.A4dgugSk-lkp@intel.com/reproduce)
+ v3:
+  - split up and drop __init vs inline patches that went via arch trees
+  - apply feedback about preferring __init to __always_inline
+  - incorporate Ritesh Harjani's patch for __init cleanups in powerpc
+  - wider build testing on older compilers
+ v2: https://lore.kernel.org/lkml/20250523043251.it.550-kees@kernel.org/
+ v1: https://lore.kernel.org/lkml/20250507180852.work.231-kees@kernel.org/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507180659.A4dgugSk-lkp@intel.com/
+Hi,
 
-All warnings (new ones prefixed by >>):
+As part of looking at what GCC plugins could be replaced with Clang
+implementations, this series uses the recently landed stack depth tracking
+callback in Clang[1] to implement the stackleak feature. Since the Clang
+feature is now landed, I'm moving this out of RFC to a v1.
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:380: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * If we boot without an HDMI display, the I2C engine does not get initialized
+Since this touches a lot of arch-specific Makefiles, I tried to trim
+the CC list down to just mailing lists in those cases, otherwise the CC
+was giant.
 
+Thanks!
 
-vim +380 drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c
+-Kees
 
-   378	
-   379	/**
- > 380	 * If we boot without an HDMI display, the I2C engine does not get initialized
-   381	 * correctly. One of its symptoms is that SW_USE_I2C does not get cleared after
-   382	 * acquire, so that after setting SW_DONE_USING_I2C on release, the engine gets
-   383	 * immediately reacquired by SW, preventing DMUB from using it.
-   384	 */
-   385	static void cntl_stuck_hw_workaround(struct dce_i2c_hw *dce_i2c_hw)
-   386	{
-   387		uint32_t arbitrate = 0;
-   388	
-   389		REG_GET(DC_I2C_ARBITRATION, DC_I2C_REG_RW_CNTL_STATUS, &arbitrate);
-   390		if (arbitrate != DC_I2C_STATUS__DC_I2C_STATUS_USED_BY_SW)
-   391			return;
-   392	
-   393		// Still acquired after release, release again as a workaround
-   394		REG_UPDATE(DC_I2C_ARBITRATION, DC_I2C_SW_DONE_USING_I2C_REG, true);
-   395		REG_GET(DC_I2C_ARBITRATION, DC_I2C_REG_RW_CNTL_STATUS, &arbitrate);
-   396		ASSERT(arbitrate != DC_I2C_STATUS__DC_I2C_STATUS_USED_BY_SW);
-   397	}
-   398	
+[1] https://clang.llvm.org/docs/SanitizerCoverage.html#tracing-stack-depth
+
+Kees Cook (12):
+  stackleak: Rename STACKLEAK to KSTACK_ERASE
+  stackleak: Rename stackleak_track_stack to __sanitizer_cov_stack_depth
+  stackleak: Split KSTACK_ERASE_CFLAGS from GCC_PLUGINS_CFLAGS
+  x86: Handle KCOV __init vs inline mismatches
+  arm: Handle KCOV __init vs inline mismatches
+  arm64: Handle KCOV __init vs inline mismatches
+  s390: Handle KCOV __init vs inline mismatches
+  mips: Handle KCOV __init vs inline mismatch
+  init.h: Disable sanitizer coverage for __init and __head
+  kstack_erase: Support Clang stack depth tracking
+  configs/hardening: Enable CONFIG_KSTACK_ERASE
+  configs/hardening: Enable CONFIG_INIT_ON_FREE_DEFAULT_ON
+
+Ritesh Harjani (IBM) (1):
+  powerpc/mm/book3s64: Move kfence and debug_pagealloc related calls to
+    __init section
+
+ arch/Kconfig                                  |  4 +-
+ arch/arm/Kconfig                              |  2 +-
+ arch/arm64/Kconfig                            |  2 +-
+ arch/riscv/Kconfig                            |  2 +-
+ arch/s390/Kconfig                             |  2 +-
+ arch/x86/Kconfig                              |  2 +-
+ security/Kconfig.hardening                    | 45 +++++++++-------
+ Makefile                                      |  1 +
+ arch/arm/boot/compressed/Makefile             |  2 +-
+ arch/arm/vdso/Makefile                        |  2 +-
+ arch/arm64/kernel/pi/Makefile                 |  2 +-
+ arch/arm64/kernel/vdso/Makefile               |  3 +-
+ arch/arm64/kvm/hyp/nvhe/Makefile              |  2 +-
+ arch/riscv/kernel/pi/Makefile                 |  2 +-
+ arch/riscv/purgatory/Makefile                 |  2 +-
+ arch/sparc/vdso/Makefile                      |  3 +-
+ arch/x86/entry/vdso/Makefile                  |  3 +-
+ arch/x86/purgatory/Makefile                   |  2 +-
+ drivers/firmware/efi/libstub/Makefile         |  8 +--
+ drivers/misc/lkdtm/Makefile                   |  2 +-
+ kernel/Makefile                               | 10 ++--
+ lib/Makefile                                  |  2 +-
+ scripts/Makefile.gcc-plugins                  | 16 +-----
+ scripts/Makefile.kstack_erase                 | 21 ++++++++
+ scripts/gcc-plugins/stackleak_plugin.c        | 52 +++++++++----------
+ Documentation/admin-guide/sysctl/kernel.rst   |  4 +-
+ Documentation/arch/x86/x86_64/mm.rst          |  2 +-
+ Documentation/security/self-protection.rst    |  2 +-
+ .../zh_CN/security/self-protection.rst        |  2 +-
+ arch/arm64/include/asm/acpi.h                 |  2 +-
+ arch/mips/include/asm/time.h                  |  2 +-
+ arch/s390/hypfs/hypfs.h                       |  2 +-
+ arch/s390/hypfs/hypfs_diag.h                  |  2 +-
+ arch/x86/entry/calling.h                      |  4 +-
+ arch/x86/include/asm/acpi.h                   |  4 +-
+ arch/x86/include/asm/init.h                   |  2 +-
+ arch/x86/include/asm/realmode.h               |  2 +-
+ include/linux/acpi.h                          |  4 +-
+ include/linux/bootconfig.h                    |  2 +-
+ include/linux/efi.h                           |  2 +-
+ include/linux/init.h                          |  4 +-
+ include/linux/{stackleak.h => kstack_erase.h} | 20 +++----
+ include/linux/memblock.h                      |  2 +-
+ include/linux/mfd/dbx500-prcmu.h              |  2 +-
+ include/linux/sched.h                         |  4 +-
+ include/linux/smp.h                           |  2 +-
+ arch/arm/kernel/entry-common.S                |  2 +-
+ arch/arm64/kernel/entry.S                     |  2 +-
+ arch/riscv/kernel/entry.S                     |  2 +-
+ arch/s390/kernel/entry.S                      |  2 +-
+ arch/arm/mm/cache-feroceon-l2.c               |  2 +-
+ arch/arm/mm/cache-tauros2.c                   |  2 +-
+ arch/powerpc/mm/book3s64/hash_utils.c         |  6 +--
+ arch/powerpc/mm/book3s64/radix_pgtable.c      |  4 +-
+ arch/s390/mm/init.c                           |  2 +-
+ arch/x86/kernel/kvm.c                         |  2 +-
+ arch/x86/mm/init_64.c                         |  2 +-
+ drivers/clocksource/timer-orion.c             |  2 +-
+ .../lkdtm/{stackleak.c => kstack_erase.c}     | 26 +++++-----
+ drivers/soc/ti/pm33xx.c                       |  2 +-
+ fs/proc/base.c                                |  6 +--
+ kernel/fork.c                                 |  2 +-
+ kernel/kexec_handover.c                       |  4 +-
+ kernel/{stackleak.c => kstack_erase.c}        | 22 ++++----
+ tools/objtool/check.c                         |  4 +-
+ tools/testing/selftests/lkdtm/config          |  2 +-
+ MAINTAINERS                                   |  6 ++-
+ kernel/configs/hardening.config               |  6 +++
+ 68 files changed, 204 insertions(+), 172 deletions(-)
+ create mode 100644 scripts/Makefile.kstack_erase
+ rename include/linux/{stackleak.h => kstack_erase.h} (81%)
+ rename drivers/misc/lkdtm/{stackleak.c => kstack_erase.c} (89%)
+ rename kernel/{stackleak.c => kstack_erase.c} (87%)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
