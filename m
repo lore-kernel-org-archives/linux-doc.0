@@ -1,80 +1,80 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DA822068F
-	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 07:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3CB221FB8
+	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 07:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752737024; cv=none; b=LAllpNfrSgnnG9OqzJhDhIztkJumDem53isaGOZYYnnBSIGRLvfpdNdNg4AFUP0JjkwzlVsb5zqJRAfcWhpRnNhsb/qtyI/PgINvHZQPVlFiKKmvbxN/G6a/wpDXN4Qr+1HYxTMcZX/7IIYKLdnHnpO0BfkuBAJfi8Y4SZOFt/0=
+	t=1752737054; cv=none; b=qMyqYa2lrl3SXVVCuO7H6fJTWI7x96t0jtxFlyUXT7eRP9gkmgf4O9nhrYOjPAGAFdhtKP0wWCrkPzHVvOv9D0YiVas3IURJO6LJggOSeJ6Jg8pJkEBi0nygxbxWiXFtOKoo/A/iTHAivJUeONFEg3qSffqhaapeS5sFoxIO6H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752737024; c=relaxed/simple;
-	bh=izJ7p1OU0lCyCKa4cgyAx8Vf4UaU956Ivc4z6abcz2A=;
+	s=arc-20240116; t=1752737054; c=relaxed/simple;
+	bh=iLhzbbB7DAAxVrNZpn9R8/crsoEMUDnPJf4FnVwDO38=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B0+t9z8EQIb4SKYnFgbqJiT236Zt7mHNEIAd25p3aL53NNnOFbZOjFyhRH8Di5dbZODqHUIGq9T5Huof8RHNOaYPS9bIilqI6L3OrohjHq2B3RRQ1+Hkm/oumTXxi7id+aQz516ySY6e4LOjHDjB/MYWS6RYlj9Y0mytxiTe3b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=b8/y8Z3o; arc=none smtp.client-ip=170.10.133.124
+	 To:Cc:Content-Type; b=qlDFmS3xcXjTTNxAVv1cmNvn2q/Lizdr5codQwt9Qpz1n2jln3zKS50oRb6PH8gNNNWsgrW85Vy30pFCERXmkaQMV/fBNedAOxdBPkfsG6KmJM5WVKr/VdEUc7kRqEUPx00aTr9XxvtRgywpgmYABYqTGWuqMlKBR6+41JKaPiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IWBDXgca; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b8/y8Z3o"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IWBDXgca"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752737022;
+	s=mimecast20190719; t=1752737051;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Xka/ZuoT5H83UsFhmNwZ/doTSozyLFCxoHnEvCahLTQ=;
-	b=b8/y8Z3oShXQyUJtFpkM5h6HLaFt7RJV02nkGsR0fEp3c4GerN7938gLYpm6EdFRSDAe8w
-	VRwpE1K2CGHDERZtI7d+cjNwdUbdpZUdeGh2ZPTGGELf9GckdW9l/+kex/BmYWvp2CE0+n
-	lOlFNf3PdeS+k1A098gPRz53I/vSi/I=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=KfCPGePoOp3LYY/EgVnEL9WU60m9R4sUTYWVjJ8p3AQ=;
+	b=IWBDXgcaOWZYGHB5UQIE9sVwMcdQ3SGK68V0g1EWdBMOdP9f+WV7mDO8ThLaAOcEYy+y+9
+	OmSYFEslJLUoDgnJ+OYjgMZKIPnu3PY/IBNAkD4IjTy4K5QQqcDvN0P6uwwhOfqTDzCary
+	+BCEs3ga5xjLgHeiIuzd60STdYhZs84=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-570-omwT9J3wNOq8MkbEJFBLbg-1; Thu, 17 Jul 2025 03:23:40 -0400
-X-MC-Unique: omwT9J3wNOq8MkbEJFBLbg-1
-X-Mimecast-MFC-AGG-ID: omwT9J3wNOq8MkbEJFBLbg_1752737020
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-7140227e02fso8094027b3.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 00:23:40 -0700 (PDT)
+ us-mta-445-m6sZG6D-OpGq4g1tTG0w8g-1; Thu, 17 Jul 2025 03:24:09 -0400
+X-MC-Unique: m6sZG6D-OpGq4g1tTG0w8g-1
+X-Mimecast-MFC-AGG-ID: m6sZG6D-OpGq4g1tTG0w8g_1752737049
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-710e75f9229so8886017b3.2
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 00:24:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752737019; x=1753341819;
+        d=1e100.net; s=20230601; t=1752737049; x=1753341849;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Xka/ZuoT5H83UsFhmNwZ/doTSozyLFCxoHnEvCahLTQ=;
-        b=BrSLtE7d8pDU7T2niDY8/VQUWdGFQC5QOS1oSVU1jxdx9OdjKTYsbiXugfpvv2bxEw
-         XxNPtmCzCwTjlkJDUIAA87WHLebWbVw334tvjseCGiVhFKeimMLTtVd5s7XtRIfsrnH9
-         qCoaeNlYDbb+z1KELgEwcUETWbB9KuOXKl5boMjuas40y2pGptog3ZWpHVnxjARhr5nq
-         YV5OubKJsb0Ugj6sa8Uu2DrAD9gUSoVfN+EX5rufELO7MiGMPXUNHQgay78tDLA1qIe2
-         WD2piRrjIbaZ6ey+Cmlm9P8eYSchKJ0LfRnvuYHoU6fK3SzCUHWraXvYOVDqPQv+rMw3
-         Eabw==
-X-Forwarded-Encrypted: i=1; AJvYcCWxVS0qmMoVw7hRLvCONunS1Wq3Arfs7bOrBCodWQKLmOk+r8Fzj9NnRv80iznuEOGxzUN4bX8b62Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy++6nhtRHrMhGL10wfOcChILN59ARVIJ7mhFU39Fd2mkhKn23R
-	Fq9azoF02onDCWwz/SXEVfPYI7B9jfiidzlVy+hXPQyNei7DMg+dH6lXsidjNhpAkPUNz2XKYOl
-	U7OQDw94QZKUt95x2r/lsiOttvxlk9aDbpx0Y3/0nopbIovqA/GsQosziw0iH4QgETjCtnBhgPP
-	y2EmcXAbiiQC9kbxzF4LZxzW4doP4byipB28ye
-X-Gm-Gg: ASbGncsMHZwkHUsCWdvuH9wPHjtShtFUagJgxipR+E0sCYAfiZ4VimAyHjo30yxRr73
-	gooiQnQBgwXRX6XUU0qQPqzCNLdYYxrXD6un9LrpMMFE7u6CS3k3RwPNWuw0A/ZxGGb7xGovyUn
-	ADTqbQDYsRT/g4ShlEvSakzqU=
-X-Received: by 2002:a05:690c:1c:b0:714:13:357a with SMTP id 00721157ae682-7183733e754mr75568627b3.20.1752737019372;
-        Thu, 17 Jul 2025 00:23:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG062fQmQMTtzQaORYO8BQfLpIhFpvKSjhTVlHbWcaYDeY88CgnYk46dQY+VDz9L5BhRQfpAlIpXIV3Coe2VM0=
-X-Received: by 2002:a05:690c:1c:b0:714:13:357a with SMTP id
- 00721157ae682-7183733e754mr75568367b3.20.1752737018858; Thu, 17 Jul 2025
- 00:23:38 -0700 (PDT)
+        bh=KfCPGePoOp3LYY/EgVnEL9WU60m9R4sUTYWVjJ8p3AQ=;
+        b=MJ9A24+yXZxEJvHSZa5rUUgBPVL7I/dhLvaMRpWG6oCqiwjJ1+0VT4LOsAeq5HLwk+
+         TOuKVfNbwijP6RjrNYo3jOeR/KdVpONTAh6UiQ/yedLBIJ4UmuQYkvdT5Pf6TZwPdQZi
+         5URvWfAuNiZCGvDjBEuaw8FlpIW5IKNhpqhNc4/Rrnvt44XRFBExcHE51XyL9ZTj8pey
+         zvVxzQSJ8sgMhROMTr3LhInVl5r6nARnle7nWIffn+2RZBtvZ4jYmDERL9eKG/Qy4KKI
+         bWZS07Ya7LGLXc3/UQd9XMb0fh/YCn1CGLrmZQQtYELcm0VnMQ4C5Rhx1JLcZuK18IR+
+         v3Lw==
+X-Forwarded-Encrypted: i=1; AJvYcCWrxpULxFS7InhxlEO9Awm4miT/Mloh9KYvnhrpEuyxEN07jqIAwS0W8eMo3DTluWZCj8wsxHPRaZ0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlWuFHZzLMaYmXkZk5aKn4yPOy+SfGXa6CihBpSNOc63QRqSA1
+	tIqI9OczhAurrAdddegWjMjn5Iq0VsCprp/U//rTMCyeWtq5NCJfxCfgrA9MXaT+UCGAqIxqOUb
+	Yhp1c80OV1NyENms6uWz0KGcdlay52LDeJJzaqBHQxSyEH8Inyw2Iy7yu1rwZp4CTKtfIAhccQs
+	hm3nb/xt94kLRPfnqJbqzn4h8raZA8oU/jrBiB
+X-Gm-Gg: ASbGncttro910fA1/g1CWMFXOEoII4eP4X96rt0z5DNLsHRQ57ZKCsY700ObFXnX7+f
+	PIzxaeoxcqMUqG+pQwjq/yS1JpYw+uiFgwe6+1Nz7cLHxnO2r2OCAY0J4rD6iKYbrBCAs1Fvw8S
+	g6X+DtaMWoGs6XAtXbnx+HPtw=
+X-Received: by 2002:a05:690c:9a83:b0:714:250:833a with SMTP id 00721157ae682-71835178c52mr75128627b3.27.1752737048787;
+        Thu, 17 Jul 2025 00:24:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFfJvKaPzv08Vi4PZEJPmCDSNU/tGELVSQ+5Z8J3b7WhlI4rCEfMfiHtnXHhhga1V1PSe4f41mdlF7ouQLMBAo=
+X-Received: by 2002:a05:690c:9a83:b0:714:250:833a with SMTP id
+ 00721157ae682-71835178c52mr75128277b3.27.1752737048378; Thu, 17 Jul 2025
+ 00:24:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250714003207.113275-1-npache@redhat.com> <20250714003207.113275-6-npache@redhat.com>
- <5ff595db-3720-4ce3-8d92-5f08d0625c75@redhat.com>
-In-Reply-To: <5ff595db-3720-4ce3-8d92-5f08d0625c75@redhat.com>
+References: <20250714003207.113275-1-npache@redhat.com> <20250714003207.113275-7-npache@redhat.com>
+ <82cd57c2-d72f-423a-8dbc-d9b64d1d469b@redhat.com>
+In-Reply-To: <82cd57c2-d72f-423a-8dbc-d9b64d1d469b@redhat.com>
 From: Nico Pache <npache@redhat.com>
-Date: Thu, 17 Jul 2025 01:23:12 -0600
-X-Gm-Features: Ac12FXxSdZgIpFjqwS2OfbfxZpFjuP_7yWTzmxJmAa7_DtUsx7oTR3r9FbXes2k
-Message-ID: <CAA1CXcBsCagKHJndYTKr=NyNCDxvJ=wf_wo0AubFoUe=r+Rdyw@mail.gmail.com>
-Subject: Re: [PATCH v9 05/14] khugepaged: generalize __collapse_huge_page_*
- for mTHP support
+Date: Thu, 17 Jul 2025 01:23:42 -0600
+X-Gm-Features: Ac12FXxiLSehaUAA88Omm39G4YDE8fV_Jkcck06oY9gUgXBKp4aUCgW1_s9ZvsQ
+Message-ID: <CAA1CXcAFyQDZ_n2TLSLVCY0dqt0tudwaOceb+i9tDOLNo9rzZw@mail.gmail.com>
+Subject: Re: [PATCH v9 06/14] khugepaged: introduce collapse_scan_bitmap for
+ mTHP support
 To: David Hildenbrand <david@redhat.com>
 Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
@@ -97,196 +97,195 @@ On Wed, Jul 16, 2025 at 8:03=E2=80=AFAM David Hildenbrand <david@redhat.com=
 > wrote:
 >
 > On 14.07.25 02:31, Nico Pache wrote:
-> > generalize the order of the __collapse_huge_page_* functions
-> > to support future mTHP collapse.
+> > khugepaged scans anons PMD ranges for potential collapse to a hugepage.
+> > To add mTHP support we use this scan to instead record chunks of utiliz=
+ed
+> > sections of the PMD.
 > >
-> > mTHP collapse can suffer from incosistant behavior, and memory waste
-> > "creep". disable swapin and shared support for mTHP collapse.
+> > collapse_scan_bitmap uses a stack struct to recursively scan a bitmap
+> > that represents chunks of utilized regions. We can then determine what
+> > mTHP size fits best and in the following patch, we set this bitmap whil=
+e
+> > scanning the anon PMD. A minimum collapse order of 2 is used as this is
+> > the lowest order supported by anon memory.
 > >
-> > No functional changes in this patch.
+> > max_ptes_none is used as a scale to determine how "full" an order must
+> > be before being considered for collapse.
 > >
-> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> > Co-developed-by: Dev Jain <dev.jain@arm.com>
-> > Signed-off-by: Dev Jain <dev.jain@arm.com>
+> > When attempting to collapse an order that has its order set to "always"
+> > lets always collapse to that order in a greedy manner without
+> > considering the number of bits set.
+> >
 > > Signed-off-by: Nico Pache <npache@redhat.com>
+>
+> Any reason this should not be squashed into the actual mTHP collapse patc=
+h?
+I wanted to keep them seperate to conceptually separate the bitmap and
+collapse, but given youre the second person to point this out, I went
+ahead and squashed them and their commit messages to be one commit.
+>
+> In particular
+>
+> a) The locking changes look weird without the bigger context
+>
+> b) The compiler complains about unused functions
+>
 > > ---
-> >   mm/khugepaged.c | 49 +++++++++++++++++++++++++++++++-----------------=
+> >   include/linux/khugepaged.h |  4 ++
+> >   mm/khugepaged.c            | 94 ++++++++++++++++++++++++++++++++++---=
 -
-> >   1 file changed, 31 insertions(+), 18 deletions(-)
+> >   2 files changed, 89 insertions(+), 9 deletions(-)
 > >
+> > diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
+> > index ff6120463745..0f957711a117 100644
+> > --- a/include/linux/khugepaged.h
+> > +++ b/include/linux/khugepaged.h
+> > @@ -1,6 +1,10 @@
+> >   /* SPDX-License-Identifier: GPL-2.0 */
+> >   #ifndef _LINUX_KHUGEPAGED_H
+> >   #define _LINUX_KHUGEPAGED_H
+> > +#define KHUGEPAGED_MIN_MTHP_ORDER    2
+> > +#define KHUGEPAGED_MIN_MTHP_NR       (1<<KHUGEPAGED_MIN_MTHP_ORDER)
+>
+> "1 << "
+Ah there is a mix of these ("1<<" vs "1 << ") being used across the
+kernel. Fixed it thank you.
+>
+> > +#define MAX_MTHP_BITMAP_SIZE  (1 << (ilog2(MAX_PTRS_PER_PTE) - KHUGEPA=
+GED_MIN_MTHP_ORDER))
+> > +#define MTHP_BITMAP_SIZE  (1 << (HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP=
+_ORDER))
+> >
+> >   extern unsigned int khugepaged_max_ptes_none __read_mostly;
+> >   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
 > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index cc9a35185604..ee54e3c1db4e 100644
+> > index ee54e3c1db4e..59b2431ca616 100644
 > > --- a/mm/khugepaged.c
 > > +++ b/mm/khugepaged.c
-> > @@ -552,15 +552,17 @@ static int __collapse_huge_page_isolate(struct vm=
-_area_struct *vma,
-> >                                       unsigned long address,
-> >                                       pte_t *pte,
-> >                                       struct collapse_control *cc,
-> > -                                     struct list_head *compound_pageli=
-st)
-> > +                                     struct list_head *compound_pageli=
-st,
-> > +                                     u8 order)
-> >   {
-> >       struct page *page =3D NULL;
-> >       struct folio *folio =3D NULL;
-> >       pte_t *_pte;
-> >       int none_or_zero =3D 0, shared =3D 0, result =3D SCAN_FAIL, refer=
-enced =3D 0;
-> >       bool writable =3D false;
-> > +     int scaled_none =3D khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER =
-- order);
+> > @@ -94,6 +94,11 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, M=
+M_SLOTS_HASH_BITS);
 > >
-> > -     for (_pte =3D pte; _pte < pte + HPAGE_PMD_NR;
-> > +     for (_pte =3D pte; _pte < pte + (1 << order);
-> >            _pte++, address +=3D PAGE_SIZE) {
-> >               pte_t pteval =3D ptep_get(_pte);
-> >               if (pte_none(pteval) || (pte_present(pteval) &&
-> > @@ -568,7 +570,7 @@ static int __collapse_huge_page_isolate(struct vm_a=
-rea_struct *vma,
-> >                       ++none_or_zero;
-> >                       if (!userfaultfd_armed(vma) &&
-> >                           (!cc->is_khugepaged ||
-> > -                          none_or_zero <=3D khugepaged_max_ptes_none))=
- {
-> > +                          none_or_zero <=3D scaled_none)) {
-> >                               continue;
-> >                       } else {
-> >                               result =3D SCAN_EXCEED_NONE_PTE;
-> > @@ -596,8 +598,8 @@ static int __collapse_huge_page_isolate(struct vm_a=
-rea_struct *vma,
-> >               /* See hpage_collapse_scan_pmd(). */
-> >               if (folio_maybe_mapped_shared(folio)) {
-> >                       ++shared;
-> > -                     if (cc->is_khugepaged &&
-> > -                         shared > khugepaged_max_ptes_shared) {
-> > +                     if (order !=3D HPAGE_PMD_ORDER || (cc->is_khugepa=
-ged &&
-> > +                         shared > khugepaged_max_ptes_shared)) {
-> >                               result =3D SCAN_EXCEED_SHARED_PTE;
-> >                               count_vm_event(THP_SCAN_EXCEED_SHARED_PTE=
-);
-> >                               goto out;
-> > @@ -698,13 +700,14 @@ static void __collapse_huge_page_copy_succeeded(p=
-te_t *pte,
-> >                                               struct vm_area_struct *vm=
-a,
-> >                                               unsigned long address,
-> >                                               spinlock_t *ptl,
-> > -                                             struct list_head *compoun=
-d_pagelist)
-> > +                                             struct list_head *compoun=
-d_pagelist,
-> > +                                             u8 order)
-> >   {
-> >       struct folio *src, *tmp;
-> >       pte_t *_pte;
-> >       pte_t pteval;
+> >   static struct kmem_cache *mm_slot_cache __ro_after_init;
 > >
-> > -     for (_pte =3D pte; _pte < pte + HPAGE_PMD_NR;
-> > +     for (_pte =3D pte; _pte < pte + (1 << order);
-> >            _pte++, address +=3D PAGE_SIZE) {
-> >               pteval =3D ptep_get(_pte);
-> >               if (pte_none(pteval) || is_zero_pfn(pte_pfn(pteval))) {
-> > @@ -751,7 +754,8 @@ static void __collapse_huge_page_copy_failed(pte_t =
-*pte,
-> >                                            pmd_t *pmd,
-> >                                            pmd_t orig_pmd,
-> >                                            struct vm_area_struct *vma,
-> > -                                          struct list_head *compound_p=
-agelist)
-> > +                                          struct list_head *compound_p=
-agelist,
-> > +                                          u8 order)
-> >   {
-> >       spinlock_t *pmd_ptl;
+> > +struct scan_bit_state {
+> > +     u8 order;
+> > +     u16 offset;
+> > +};
+> > +
+> >   struct collapse_control {
+> >       bool is_khugepaged;
 > >
-> > @@ -768,7 +772,7 @@ static void __collapse_huge_page_copy_failed(pte_t =
-*pte,
-> >        * Release both raw and compound pages isolated
-> >        * in __collapse_huge_page_isolate.
-> >        */
-> > -     release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
-> > +     release_pte_pages(pte, pte + (1 << order), compound_pagelist);
+> > @@ -102,6 +107,18 @@ struct collapse_control {
+> >
+> >       /* nodemask for allocation fallback */
+> >       nodemask_t alloc_nmask;
+> > +
+> > +     /*
+> > +      * bitmap used to collapse mTHP sizes.
+> > +      * 1bit =3D order KHUGEPAGED_MIN_MTHP_ORDER mTHP
+> > +      */
+> > +     DECLARE_BITMAP(mthp_bitmap, MAX_MTHP_BITMAP_SIZE);
+> > +     DECLARE_BITMAP(mthp_bitmap_temp, MAX_MTHP_BITMAP_SIZE);
+> > +     struct scan_bit_state mthp_bitmap_stack[MAX_MTHP_BITMAP_SIZE];
+> > +};
+> > +
+> > +struct collapse_control khugepaged_collapse_control =3D {
+> > +     .is_khugepaged =3D true,
+> >   };
+> >
+> >   /**
+> > @@ -838,10 +855,6 @@ static void khugepaged_alloc_sleep(void)
+> >       remove_wait_queue(&khugepaged_wait, &wait);
 > >   }
 > >
-> >   /*
-> > @@ -789,7 +793,7 @@ static void __collapse_huge_page_copy_failed(pte_t =
-*pte,
-> >   static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
-> >               pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
-> >               unsigned long address, spinlock_t *ptl,
-> > -             struct list_head *compound_pagelist)
-> > +             struct list_head *compound_pagelist, u8 order)
+> > -struct collapse_control khugepaged_collapse_control =3D {
+> > -     .is_khugepaged =3D true,
+> > -};
+> > -
+> >   static bool collapse_scan_abort(int nid, struct collapse_control *cc)
 > >   {
-> >       unsigned int i;
-> >       int result =3D SCAN_SUCCEED;
-> > @@ -797,7 +801,7 @@ static int __collapse_huge_page_copy(pte_t *pte, st=
-ruct folio *folio,
-> >       /*
-> >        * Copying pages' contents is subject to memory poison at any ite=
-ration.
+> >       int i;
+> > @@ -1115,7 +1128,8 @@ static int alloc_charge_folio(struct folio **foli=
+op, struct mm_struct *mm,
+> >
+> >   static int collapse_huge_page(struct mm_struct *mm, unsigned long add=
+ress,
+> >                             int referenced, int unmapped,
+> > -                           struct collapse_control *cc)
+> > +                           struct collapse_control *cc, bool *mmap_loc=
+ked,
+> > +                               u8 order, u16 offset)
+>
+> Indent broken.
+Fixed!
+>
+> >   {
+> >       LIST_HEAD(compound_pagelist);
+> >       pmd_t *pmd, _pmd;
+> > @@ -1134,8 +1148,12 @@ static int collapse_huge_page(struct mm_struct *=
+mm, unsigned long address,
+> >        * The allocation can take potentially a long time if it involves
+> >        * sync compaction, and we do not need to hold the mmap_lock duri=
+ng
+> >        * that. We will recheck the vma after taking it again in write m=
+ode.
+> > +      * If collapsing mTHPs we may have already released the read_lock=
+.
 > >        */
-> > -     for (i =3D 0; i < HPAGE_PMD_NR; i++) {
-> > +     for (i =3D 0; i < (1 << order); i++) {
-> >               pte_t pteval =3D ptep_get(pte + i);
-> >               struct page *page =3D folio_page(folio, i);
-> >               unsigned long src_addr =3D address + i * PAGE_SIZE;
-> > @@ -816,10 +820,10 @@ static int __collapse_huge_page_copy(pte_t *pte, =
-struct folio *folio,
+> > -     mmap_read_unlock(mm);
+> > +     if (*mmap_locked) {
+> > +             mmap_read_unlock(mm);
+> > +             *mmap_locked =3D false;
+> > +     }
 > >
-> >       if (likely(result =3D=3D SCAN_SUCCEED))
-> >               __collapse_huge_page_copy_succeeded(pte, vma, address, pt=
-l,
-> > -                                                 compound_pagelist);
-> > +                                                 compound_pagelist, or=
-der);
-> >       else
-> >               __collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
-> > -                                              compound_pagelist);
-> > +                                              compound_pagelist, order=
-);
-> >
+> >       result =3D alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
+> >       if (result !=3D SCAN_SUCCEED)
+> > @@ -1272,12 +1290,72 @@ static int collapse_huge_page(struct mm_struct =
+*mm, unsigned long address,
+> >   out_up_write:
+> >       mmap_write_unlock(mm);
+> >   out_nolock:
+> > +     *mmap_locked =3D false;
+> >       if (folio)
+> >               folio_put(folio);
+> >       trace_mm_collapse_huge_page(mm, result =3D=3D SCAN_SUCCEED, resul=
+t);
 > >       return result;
 > >   }
-> > @@ -994,11 +998,11 @@ static int check_pmd_still_valid(struct mm_struct=
- *mm,
-> >   static int __collapse_huge_page_swapin(struct mm_struct *mm,
-> >                                      struct vm_area_struct *vma,
-> >                                      unsigned long haddr, pmd_t *pmd,
-> > -                                    int referenced)
-> > +                                    int referenced, u8 order)
-> >   {
-> >       int swapped_in =3D 0;
-> >       vm_fault_t ret =3D 0;
-> > -     unsigned long address, end =3D haddr + (HPAGE_PMD_NR * PAGE_SIZE)=
-;
-> > +     unsigned long address, end =3D haddr + (PAGE_SIZE << order);
-> >       int result;
-> >       pte_t *pte =3D NULL;
-> >       spinlock_t *ptl;
-> > @@ -1029,6 +1033,15 @@ static int __collapse_huge_page_swapin(struct mm=
-_struct *mm,
-> >               if (!is_swap_pte(vmf.orig_pte))
-> >                       continue;
 > >
-> > +             /* Dont swapin for mTHP collapse */
-> > +             if (order !=3D HPAGE_PMD_ORDER) {
-> > +                     count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_=
-SWAP);
+> > +/* Recursive function to consume the bitmap */
+> > +static int collapse_scan_bitmap(struct mm_struct *mm, unsigned long ad=
+dress,
+> > +                     int referenced, int unmapped, struct collapse_con=
+trol *cc,
+> > +                     bool *mmap_locked, unsigned long enabled_orders)
+> > +{
+> > +     u8 order, next_order;
+> > +     u16 offset, mid_offset;
+> > +     int num_chunks;
+> > +     int bits_set, threshold_bits;
+> > +     int top =3D -1;
+> > +     int collapsed =3D 0;
+> > +     int ret;
+> > +     struct scan_bit_state state;
+> > +     bool is_pmd_only =3D (enabled_orders =3D=3D (1 << HPAGE_PMD_ORDER=
+));
+> > +
+> > +     cc->mthp_bitmap_stack[++top] =3D (struct scan_bit_state)
+> > +             { HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER, 0 };
+> > +
+> > +     while (top >=3D 0) {
+> > +             state =3D cc->mthp_bitmap_stack[top--];
+> > +             order =3D state.order + KHUGEPAGED_MIN_MTHP_ORDER;
+> > +             offset =3D state.offset;
+> > +             num_chunks =3D 1 << (state.order);
+> > +             // Skip mTHP orders that are not enabled
 >
-> Doesn't compile. This is introduced way later in this series.
-Whoops I stupidly applied this fixup to the wrong commit.
 >
-> Using something like
+> /* */
 >
-> git rebase -i mm/mm-unstable --exec "make -j16"
-Ah I remember you showing me this in the past! Need to start using it
-more-- Thank you.
-
->
-> You can efficiently make sure that individual patches compile cleanly.
+> Same applies to the other instances.
+Thank you! Fixed all instances
 >
 > --
 > Cheers,
