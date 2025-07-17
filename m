@@ -1,347 +1,275 @@
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED721BD01D;
-	Thu, 17 Jul 2025 11:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AB4219EB
+	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 11:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752750307; cv=none; b=pHJerUN4+DVI/YNLEuyiA48qSrlk7Q757NLQV03y8QSBjTjNbRH50hNhsG57DjiKMClb1gOG2Y2c4NOBf9/g6WeUzd4pySZDZ2vUaWKHQLpiqkYoohsu2hRQtl1BBH0vCbJ9zMC6jUQaiFf+tX4FvUcJ9zqz+ahnf9BRAQEqzHA=
+	t=1752750569; cv=none; b=HMQ2SiwqNixnamfYE7YPvZ1hwferWdE0i0jac9DKmKSzAAnM4VTI6pmlz1C86BZgI+KkxYVOuC92CTEaAhg3swxatFDe5azhiFchDPvw+PPbi1ojyQgyfw7tEM4F9k6wf9H+llaMvBQhqjN/6oGSsucJoADwrwqilMshFiN/l0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752750307; c=relaxed/simple;
-	bh=A8lVAR8D0EwqtMpOgHr0Ol7tGNrtbmaE5fNl1nxKq5o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=E6G+lJAIxhD7ttAxcYW4dlJjTjVgDZ4V4/1Q0S6QFeybpo10t3f9SDBIVx7PxlxkKNbNsaN4Lfkg6pcOM4wlokv3pY/w0Wciok1Imu/IFqHAneIPIBHBq+N9CciScoTjPIG98uPLAizK91AGSK5lLsAjbtHcRgkZcXc/ETuKC0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=suuWglo4; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+	s=arc-20240116; t=1752750569; c=relaxed/simple;
+	bh=eybw7eHJIPQe/HMYAFxBsm2i//4fdASepyAcJ4RhvJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RHrmLGAgjooNY8oRLYn2//jyO82U06g2qaHrDp7/oQJwro29sRK0IdyhLzwb8tgfvjM4dTkZjehwfbk8kRjgd/BJjz4GXAcVdcAs5RxWYZEJZTxuz4CJ4ScPCPeV1xwRQ/B0v8LtThqYSbNbyk/WGWyjM1GpWkDKoP/EuhT5NUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bJJPw95f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="suuWglo4"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id E38BB6002C15;
-	Thu, 17 Jul 2025 11:58:40 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id aYCewej4zTaz; Thu, 17 Jul 2025 11:58:38 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id D191960029A6;
-	Thu, 17 Jul 2025 11:58:37 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail; t=1752749918;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cKY+FE+Wgvh9peRmK8GsaYN7926ab2iXaTwFJhTqn88=;
-	b=suuWglo4cKkF0ZMJhwKAt69jnqanYzI3q2ub+mtUeouIAQR80inOihxc0b7uhxO8EBbh7n
-	65Gr8kteF3U+OfJeWHp/8VOQxKzhruNl/vfmgPA8UOEeYon6Zf/KLabH91jJdrPhTO+GW4
-	EVqXSYcKipyamShclFV4l7+nRERJhU8=
-Received: from [10.78.70.101] (unknown [87.58.94.217])
-	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 94D87360061;
-	Thu, 17 Jul 2025 11:58:35 +0100 (WEST)
-Message-ID: <a387562c-b35e-4268-ab77-402e87db5567@tecnico.ulisboa.pt>
-Date: Thu, 17 Jul 2025 11:58:34 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bJJPw95f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B607C4CEE3;
+	Thu, 17 Jul 2025 11:09:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752750568;
+	bh=eybw7eHJIPQe/HMYAFxBsm2i//4fdASepyAcJ4RhvJk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bJJPw95fpx5+5rTNK1wBp+VXLf8bO5dVoSYOWq5ReyUOY9nSLt82m2k57NSy4TzR9
+	 9TQ/Jz8pxyYYJCEpx3eCSlcCIvKlU5MxWY18FixsU5A89X9o5oJIWE5huz6093b/qG
+	 lSTFpCdgtOzrrvFSnuuHVYideLsU4tbyRe7iFX+dCihhWgLBWER5ePiNuxNGNn8a+5
+	 iWlD9C7evRaB24IWAU4OgySfRmA4byBVFcrlYolJSqmQg2Tb1zsj3aaKzTEBEss2vO
+	 VWPhs4pMTImhLWZf9MntF3Y5Mwbx8uKybtg26KjyHfwZEbfoQP4/Pp4qHQKXIkJdiC
+	 CJf95Tkb3tq2g==
+Date: Thu, 17 Jul 2025 13:09:24 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-doc@vger.kernel.org, Donald Hunter
+ <donald.hunter@gmail.com>
+Subject: Re: [Performance Regression since v6.15] empty docs build with O=
+ option
+Message-ID: <20250717130904.0ce397b4@foz.lan>
+In-Reply-To: <c174f7c5-ec21-4eae-b1c3-f643cca90d9d@gmail.com>
+References: <c174f7c5-ec21-4eae-b1c3-f643cca90d9d@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
- driver
-To: Brigham Campbell <me@brighamcampbell.com>, dianders@chromium.org,
- tejasvipin76@gmail.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250717065757.246122-1-me@brighamcampbell.com>
- <20250717065757.246122-3-me@brighamcampbell.com>
-Content-Language: en-US
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-In-Reply-To: <20250717065757.246122-3-me@brighamcampbell.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Brigham, thanks for the patch! The code looks a lot cleaner.
-Some review follows.
+Hi Akira,
 
-On 7/17/25 7:57 AM, Brigham Campbell wrote:
-> Fix bug in unprepare() which causes the function's return value to be
-> that of the last mipi "enter sleep mode" command.
+Em Mon, 14 Jul 2025 19:42:49 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
+
+> Hi all,
 > 
-> Update driver to use the "multi" variant of MIPI functions in order to
-> facilitate improved error handling and remove the panel's dependency on
-> deprecated MIPI functions.
+> Here is a follow-up to my message at:
+> https://lore.kernel.org/d12fb63e-b346-4094-b9d6-aa6823aea541@gmail.com/
 > 
-> Use the new mipi_dsi_dual macro to reduce code duplication.
+> Quoting relevant parts for your convenience:
 > 
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->   drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 187 ++++++------------
->   1 file changed, 55 insertions(+), 132 deletions(-)
+> Akira wrote:
+> > As a matter of fact, I'm seeing weird performance regression of empty
+> > documentation builds when the O=<somedir> option is used.
+> >
+> > It appeared in v6.15, which has your conversion of get_abi.pl into
+> > get_abi.py.  Will send a report once the time-consuming bisection
+> > completes.  
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> index 5b5082efb282..b72b6518a090 100644
-> --- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> @@ -81,25 +81,25 @@ static int jdi_panel_disable(struct drm_panel *panel)
->   static int jdi_panel_unprepare(struct drm_panel *panel)
->   {
->   	struct jdi_panel *jdi = to_panel_jdi(panel);
-> -	int ret;
->   
-> -	ret = mipi_dsi_dcs_set_display_off(jdi->link1);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-> +	/*
-> +	 * One context per panel since we'll continue trying to shut down the
-> +	 * other panel even if one isn't responding.
-> +	 */
-> +	struct mipi_dsi_multi_context dsi_ctx1 = { .dsi = jdi->link1 };
-> +	struct mipi_dsi_multi_context dsi_ctx2 = { .dsi = jdi->link2 };
->   
-> -	ret = mipi_dsi_dcs_set_display_off(jdi->link2);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx1);
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx2);
->   
->   	/* Specified by JDI @ 50ms, subject to change */
->   	msleep(50);
->   
-> -	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link1);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
-> -	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link2);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
-> +	/* Doesn't hurt to try sleep mode even if display off fails */
-> +	dsi_ctx1.accum_err = 0;
-> +	dsi_ctx2.accum_err = 0;
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx1);
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx2);
->   
->   	/* Specified by JDI @ 150ms, subject to change */
->   	msleep(150);
-> @@ -123,72 +123,47 @@ static int jdi_panel_unprepare(struct drm_panel *panel)
->   	/* Specified by JDI @ 20ms, subject to change */
->   	msleep(20);
->   
-> -	return ret;
-> +	return 0;
->   }
->   
-> -static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
-> +static void jdi_setup_symmetrical_split(struct mipi_dsi_multi_context *dsi_ctx,
-> +				       struct mipi_dsi_device *left,
->   				       struct mipi_dsi_device *right,
->   				       const struct drm_display_mode *mode)
+> Answer to Mauro's question at:
+> https://lore.kernel.org/20250711130446.1b761538@foz.lan/
+> 
+> Mauro wrote:
+> > Did you try with docs-next instead? I remember Jon caught one
+> > issue causing the doctree cache to expire. Can't remember if this
+> > was on 6.15 or at docs-next, but the fixes should be applied there.  
+> 
+> Jon's complaint at https://lore.kernel.org/87frfsdfgc.fsf@trenco.lwn.net/
+> was against Mauro's v2 series.
+> 
+> Jon has applied the v3 series with the issue fixed at:
+> https://lore.kernel.org/cover.1750571906.git.mchehab+huawei@kernel.org/
+> 
+> , so the issue has never been in docs-next.
+> 
+> I'm not a python person and bisection is all I could do.
 
-Nit: align the indentation of the function arguments, here and in the 
-following function.
+This is probably not a python issue itself, but instead, some
+weirdness at the way Sphinx cache is stored.
 
->   {
-> -	int err;
-> -
-> -	err = mipi_dsi_dcs_set_column_address(left, 0, mode->hdisplay / 2 - 1);
-> -	if (err < 0) {
-> -		dev_err(&left->dev, "failed to set column address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_column_address(right, 0, mode->hdisplay / 2 - 1);
-> -	if (err < 0) {
-> -		dev_err(&right->dev, "failed to set column address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_page_address(left, 0, mode->vdisplay - 1);
-> -	if (err < 0) {
-> -		dev_err(&left->dev, "failed to set page address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_page_address(right, 0, mode->vdisplay - 1);
-> -	if (err < 0) {
-> -		dev_err(&right->dev, "failed to set page address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	return 0;
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_column_address_multi,
-> +			left, right, dsi_ctx,
-> +			0, mode->hdisplay / 2 - 1);
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_page_address_multi,
-> +			left, right, dsi_ctx,
-> +			0, mode->vdisplay - 1);
+> TL;DR
+> 
+> 2nd run of "make O=$HOME/output htmldocs" takes much longer since kernel
+> release v6.15.
+> 
+> 2nd run is an empty build and should finish in a matter of 10 seconds.
+> 
+> "make htmldocs" without the O= option doesn't show this symptom.
+> 
+> Here is a summary table.
+> 
+> Note:
+>     Numbers shown as (x) [y] mean 2nd "make O=$HOME/output htmldocs" run
+>     takes x seconds, while 2nd "make htmldocs" run takes y seconds
+>     (rounded up).
+> 
+>        ----------------------------------------
+> Sphinx      8.2.3 venv       8.1.3     7.2.6 
+>        ------------------- --------- ----------
+> Distro    f42      noble      f42      noble 
+>        --------- --------- --------- ----------
+> Good   (13) [13] (16) [16] ( 6) [ 6] (  9) [ 9] v6.14
+> Bad            ---         (72) [ 6] (349) [11] v6.15
+> Bad            ---         (72) [ 6] (365) [11] v6.16-rc1 + [1]
+> Bad            ---         (72) [ 7] (342) [10] docs-next (2025.07.11) + [1]
+> Bad    (77) [14] (82) [15] (73) [ 8] (347) [11] docs-next (2025.07.11) + [1,2,3]
+>        --------- --------- --------- ----------
+> 
+> [1]: cherry-pick 553ab30a1810 ("Documentation: nouveau: Update GSP message
+>      queue kernel-doc reference"), to suppress noise of error handling within
+>      Sphinx.
+> [2]: Mauro's ynl series v9 at https://lore.kernel.org/cover.1752076293.git.mchehab+huawei@kernel.org/
+>      (14/13 applied)
+> [3]: Jon's kdoc series v2 at https://lore.kernel.org/20250710233142.246524-1-corbet@lwn.net/
+>      (12/12 as is)
+> 
+> f42: python 3.13.5, noble: 3.12.3
+> 
+> * Bisection result
+> 
+> Sphinx 8.2.3 (venv) on top of ubuntu:noble (python 3.12.3):
+> 
+> Last good commit:
+> (16) 6b48bea16848 ("scripts/get_abi.py: add support for symbol search")
+> 
+> First bad commit:
+> (48) 9d7ec8867960 ("docs: use get_abi.py for ABI generation")
+> 
+> Merged into Jon's docs-mw branch at:
+> (82) 1ce8294cfefb ("Merge branch 'mauro' into docs-mw")
+> 
+> Pre merge commits of 1ce8294cfefb:
+> (15) 2b087edf588c ("docs/zh_CN: Add secrets index Chinese translation")
+> (82) 1c7e66bc5d20 ("scripts/get_abi.pl: drop now obsoleted script")
+> 
+> Again, The numbers enclosed in () indicate the elapsed times (in seconds,
+> rounded up) of 2nd "make O=$HOME/output htmldocs" runs.
+> 
+> Sphinx 8.2.3 takes longer than 8.1.3 for empty builds, but it is likely
+> an independent issue on Sphinx side.
+> 
+> Mauro, I'd like you to have a look into this regression.
+> 
+>         Thanks, Akira
 
-Nit: align the indentation of the function arguments, here and in the 
-following function calls.
+To debug it, I added the enclosed code to conf.py. See enclosed. The
+logic there uses this from https://www.sphinx-doc.org/en/master/extdev/event_callbacks.html:
 
->   }
->   
-> -static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
-> +static void jdi_write_dcdc_registers(struct mipi_dsi_multi_context *dsi_ctx,
-> +				    struct jdi_panel *jdi)
->   {
->   	/* Clear the manufacturer command access protection */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
-> -				   MCS_CMD_ACS_PROT_OFF);
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
-> -				   MCS_CMD_ACS_PROT_OFF);
-> +	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
-> +			jdi->link1, jdi->link2, dsi_ctx,
-> +			MCS_CMD_ACS_PROT, MCS_CMD_ACS_PROT_OFF);
->   	/*
-> -	 * Change the VGH/VGL divide rations to move the noise generated by the
-> +	 * Change the VGH/VGL divide ratios to move the noise generated by the
->   	 * TCONN. This should hopefully avoid interaction with the backlight
->   	 * controller.
->   	 */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
-> -				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> -				   MCS_PWR_CTRL_PARAM1_DEFAULT,
-> -				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> -				   MCS_PWR_CTRL_PARAM2_DEFAULT);
-> -
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
-> -				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> -				   MCS_PWR_CTRL_PARAM1_DEFAULT,
-> -				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> -				   MCS_PWR_CTRL_PARAM2_DEFAULT);
-> -
-> -	return 0;
-> +	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
-> +			jdi->link1, jdi->link2, dsi_ctx,
-> +			MCS_PWR_CTRL_FUNC,
-> +			MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> +			MCS_PWR_CTRL_PARAM1_DEFAULT,
-> +			MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> +			MCS_PWR_CTRL_PARAM2_DEFAULT);
->   }
->   
->   static int jdi_panel_prepare(struct drm_panel *panel)
->   {
->   	struct jdi_panel *jdi = to_panel_jdi(panel);
-> +	struct mipi_dsi_multi_context dsi_ctx;
+	env-get-outdated(app, env, added, changed, removed)
 
-Here we need dsi_ctx = { .accum_err = 0 }; since by not initializing any
-field of dsi_ctx we can't rely on accum_error being init'ed to 0.
+	Emitted when the environment determines which source files have
+	changed and should be re-read. added, changed and removed are 
+	sets of docnames that the environment has determined. You can 
+	return a list of docnames to re-read in addition to these.
 
->   	int err;
->   
->   	/* Disable backlight to avoid showing random pixels
-> @@ -231,88 +206,36 @@ static int jdi_panel_prepare(struct drm_panel *panel)
->   	 * put in place to communicate the configuration back to the DSI host
->   	 * controller.
->   	 */
-> -	err = jdi_setup_symmetrical_split(jdi->link1, jdi->link2,
-> +	jdi_setup_symmetrical_split(&dsi_ctx, jdi->link1, jdi->link2,
->   					  jdi->mode);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set up symmetrical split: %d\n",
-> -			err);
-> -		goto poweroff;
-> -	}
->   
-> -	err = mipi_dsi_dcs_set_tear_scanline(jdi->link1,
-> -					     jdi->mode->vdisplay - 16);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_tear_scanline_multi,
-> +			jdi->link1, jdi->link2, &dsi_ctx,
-> +			jdi->mode->vdisplay - 16);
->   
-> -	err = mipi_dsi_dcs_set_tear_scanline(jdi->link2,
-> -					     jdi->mode->vdisplay - 16);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_tear_on_multi,
-> +			jdi->link1, jdi->link2, &dsi_ctx,
-> +			MIPI_DSI_DCS_TEAR_MODE_VBLANK);
->   
-> -	err = mipi_dsi_dcs_set_tear_on(jdi->link1,
-> -				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear on: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_pixel_format_multi,
-> +			jdi->link1, jdi->link2, &dsi_ctx,
-> +			MIPI_DCS_PIXEL_FMT_24BIT);
->   
-> -	err = mipi_dsi_dcs_set_tear_on(jdi->link2,
-> -				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear on: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_exit_sleep_mode_multi,
-> +			jdi->link1, jdi->link2, &dsi_ctx);
->   
-> -	err = mipi_dsi_dcs_set_pixel_format(jdi->link1, MIPI_DCS_PIXEL_FMT_24BIT);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_pixel_format(jdi->link2, MIPI_DCS_PIXEL_FMT_24BIT);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link1);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link2);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = jdi_write_dcdc_registers(jdi);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to write dcdc registers: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	jdi_write_dcdc_registers(&dsi_ctx, jdi);
->   	/*
-> -	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode() and
-> -	 * mipi_dsi_dcs_set_display_on().
-> +	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode_multi()
-> +	 * and mipi_dsi_dcs_set_display_on_multi().
->   	 */
-> -	msleep(150);
-> +	mipi_dsi_msleep(&dsi_ctx, 150);
->   
-> -	err = mipi_dsi_dcs_set_display_on(jdi->link1);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set display on: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_display_on_multi,
-> +			jdi->link1, jdi->link2, &dsi_ctx);
->   
-> -	err = mipi_dsi_dcs_set_display_on(jdi->link2);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set display on: %d\n", err);
-> +	if (dsi_ctx.accum_err < 0)
->   		goto poweroff;
-> -	}
->   
->   	jdi->link1->mode_flags &= ~MIPI_DSI_MODE_LPM;
->   	jdi->link2->mode_flags &= ~MIPI_DSI_MODE_LPM;
+
+Assuming that the issue is during ABI generation, we can check with that
+what is the root case.
+
+Running the second time without O= doeesn't require rebuild ABI:
+
+    $ time make SPHINXDIRS=admin-guide htmldocs
+    Python version: 3.13.5
+    Docutils version: 0.21.2
+    make[3]: Nothing to be done for 'html'.
+    Using alabaster theme
+    source directory: admin-guide
+    Using Python kernel-doc
+
+    [OUTDATED]
+    Added: set()
+    Changed: {'gpio/obsolete', 'gpio/index'}
+    Removed: set()
+    All docs count: 385
+    Found docs count: 385
+    /root/Documentation/admin-guide/gpio/index.rst:7: WARNING: toctree contains reference to nonexisting document 'userspace-api/gpio/chardev' [toc.not_readable]
+    /root/Documentation/admin-guide/gpio/obsolete.rst:7: WARNING: toctree contains reference to nonexisting document 'userspace-api/gpio/chardev_v1' [toc.not_readable]
+    /root/Documentation/admin-guide/gpio/obsolete.rst:7: WARNING: toctree contains reference to nonexisting document 'userspace-api/gpio/sysfs' [toc.not_readable]
+
+    real    0m1,489s
+    user    0m1,305s
+    sys     0m0,263s
+
+Here, it seems that the root cause is because of a non-resolved
+dependency at gpio/obsolete.
+
+Now, running the second time with O=, we have:
+
+
+    $ make clean; time make O=/tmp/foo SPHINXDIRS=admin-guide htmldocs
+    ...
+
+    [OUTDATED]
+    Added: set()
+    Changed: {'abi-stable', 'abi-testing-files', 'abi-removed', 'gpio/index', 'abi-obsolete-files', 'abi-testing', 'abi-stable-files', 'abi-obsolete', 'gpio/obsolete', 'abi-removed-files', 'abi'}
+    Removed: set()
+    All docs count: 385
+    Found docs count: 385
+
+Basically, Sphinx thinks that abi* files had some changes, but
+only when O= is used.
+
+At Documentation/sphinx/kernel_abi.py, the only part we touch the
+dependency chain is here:
+
+            if f != old_f:
+                # Add the file to Sphinx build dependencies
+                env.note_dependency(os.path.abspath(f))
+
+If we comment such code or change the logic to:
+
+    diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+    index db6f0380de94..9f2198eb7af1 100644
+    --- a/Documentation/sphinx/kernel_abi.py
+    +++ b/Documentation/sphinx/kernel_abi.py
+    @@ -146,8 +146,9 @@ class KernelCmd(Directive):
+                 n += 1
+ 
+             if f != old_f:
+-                # Add the file to Sphinx build dependencies
+-                env.note_dependency(os.path.abspath(f))
++                # Add the file to Sphinx build dependencies if the file exists
++                if os.path.isfile(f):
++                    env.note_dependency(os.path.abspath(f))
+ 
+                 old_f = f
+ 
+We get a quick build again:
+
+    [OUTDATED]
+    Added: set()
+    Changed: {'gpio/index', 'gpio/obsolete'}
+    Removed: set()
+    All docs count: 385
+    Found docs count: 385
+    /root/Documentation/admin-guide/gpio/index.rst:7: WARNING: toctree contains reference to nonexisting document 'userspace-api/gpio/chardev' [toc.not_readable]
+    /root/Documentation/admin-guide/gpio/obsolete.rst:7: WARNING: toctree contains reference to nonexisting document 'userspace-api/gpio/chardev_v1' [toc.not_readable]
+    /root/Documentation/admin-guide/gpio/obsolete.rst:7: WARNING: toctree contains reference to nonexisting document 'userspace-api/gpio/sysfs' [toc.not_readable]
+    make[1]: Leaving directory '/tmp/foo'
+
+   real    0m1,444s
+   user    0m1,267s
+   sys     0m0,252s
+
+However, that's because it won't add any dependency at all when
+O= is used. The problem seems to be related to relative/absolute
+patches when adding such dependencies.
+
+Let me try to write a proper fix.
+
+Jon,
+
+Btw, should we add something like the code below to be optionally
+used at conf.py when we need to identify cache issues?
+
+Regards,
+Mauro
+
+
+---
+
+This is what I added at the end of conf.py, at setup(app):
+
+Thanks,
+Mauro
