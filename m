@@ -1,133 +1,82 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE27F28A1CB;
-	Thu, 17 Jul 2025 09:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63D1291C2C;
+	Thu, 17 Jul 2025 10:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752745161; cv=none; b=ZyDZk57poT8xoJkmkH4VL0j4mGGDFBggwOcz3p7szwhjvUMg5vVT0z+sOOENqCLzISCaF6zFZ65T2ApV8X3Wsoz3CW7S44BauXicQhqZ0AdMex9EfN+ZxJNXOvuitrVO8ScUwGdmHWMwGGwGuKg45NGGwawPhBFw70S9gd/EEc8=
+	t=1752746505; cv=none; b=DQwXZPjjDaP/Oq3GJVQ4ndO2lezCM4oAMSjX+B5T4/If89e5bqzqgPltc9mLbscPk4S8GoVz8QkoHDLeOG54kTlshSvnB7Vklf08QWvB8sdjX+YX8+seVJYiNyfe6TAbd25C3axBKkB78I5Liiyr9fgyAz/G57Mq+7eFoWm5+Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752745161; c=relaxed/simple;
-	bh=qcEDNnlUMtq2IkP0HriN612nVzOADpXFPILGbH21gWQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GV0e3NGiSC1PK+RKqk9cl6n3unahmNds9t3opqW5CYD1RHfS2IuHjcbeyEJrxX253gRZUiuBndE2pzRqJgQy/fC5IgMKAKxmN9DSg29q7/B+ib7KoPOkUUH7npwQ0iwXJdUUSxRUEuviCiZz5FVXVIBs5QLQ0sPAmbk4dDafQ5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A2122433F0;
-	Thu, 17 Jul 2025 09:39:12 +0000 (UTC)
-Message-ID: <1abf91b9-a295-4b0c-b4c8-176f7c59b950@ghiti.fr>
-Date: Thu, 17 Jul 2025 11:39:11 +0200
+	s=arc-20240116; t=1752746505; c=relaxed/simple;
+	bh=+j+eCxhAwMeuOk6CPW8cOQpG6iMGem0qQfDERMTYX1w=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YkmUR886XH4LHOucX//Zyc82OZXbC29hta+GKjSGB73Ph/Q+ZYHmJtR4/ijD45a/TGmwKNmrDD4iE210U0TyzPa+DPRhezYm0gzPCOgso6SSxOpg8Z97mJhLEeUcW1McsVWXIZQfn0Xv4DV17sKvJhrmrkFl1khmW9ZMIaPkIHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HjBOa/6/; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HjBOa/6/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE8FC4CEE3;
+	Thu, 17 Jul 2025 10:01:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752746503;
+	bh=+j+eCxhAwMeuOk6CPW8cOQpG6iMGem0qQfDERMTYX1w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HjBOa/6/rjeQmkuagBVYJ4w+ptSHrSktsNmbO3EWlM6vHNR9ypNVw27viG1YEVwyN
+	 ZmiBr8p4kRj3Bolr+iAKuSgk1ZBbQvTeAgryria0lU8aQSff/Bpufo/XgxLJ2CFq2G
+	 9hN5hyhJYjZpupuwASgw1SRTWWJbtUHRKEZ/Kp7t217UKJ0Fdzh+4gK8lxkdI04/Ur
+	 xqkD9KJWEGhH+VkHYFJJrIGu3kvZ+dd9tHw0MlxVOLvpuyhDgzjW9zcgukHIzS43OV
+	 ePK6HyZDLkCJdtjRb1XX0exJAx3oaiZRgg21m2c/N0kdFT6uJYPiVGVzPqcjYckyoX
+	 txKEhvgxPhsrQ==
+From: Will Deacon <will@kernel.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux IOMMU <iommu@lists.linux.dev>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: catalin.marinas@arm.com,
+	kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	Dheeraj Kumar Srivastava <dheerajkumar.srivastava@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>,
+	Ashish Kalra <Ashish.Kalra@amd.com>,
+	=?UTF-8?q?J=C3=B6rg=20R=C3=B6del?= <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] iommu/amd: Wrap debugfs ABI testing symbols snippets in literal code blocks
+Date: Thu, 17 Jul 2025 11:01:27 +0100
+Message-Id: <175274236192.231177.6963644719927204310.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250717010331.8941-1-bagasdotme@gmail.com>
+References: <20250717010331.8941-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/7] riscv: Add tools support for xmipsexectl
-To: aleksa.paunovic@htecgroup.com, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Palmer Dabbelt <palmer@sifive.com>, Conor Dooley <conor@kernel.org>,
- devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250625-p8700-pause-v4-0-6c7dd7f85756@htecgroup.com>
- <20250625-p8700-pause-v4-6-6c7dd7f85756@htecgroup.com>
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20250625-p8700-pause-v4-6-6c7dd7f85756@htecgroup.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeitddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnheptdfhleefjeegheevgeeljeellefgvefhkeeiffekueejteefvdevhfelvdeggeeinecukfhppedukeehrddvudefrdduheegrdduhedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepudekhedrvddufedrudehgedrudehuddphhgvlhhopegluddtrddugedrtddrudefngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopedugedprhgtphhtthhopegrlhgvkhhsrgdrphgruhhnohhvihgtsehhthgvtghgrhhouhhprdgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvl
- hhtrdgtohhmpdhrtghpthhtoheprghouhesvggvtghsrdgsvghrkhgvlhgvhidrvgguuhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvth
-X-GND-Sasl: alex@ghiti.fr
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 6/25/25 16:21, Aleksa Paunovic via B4 Relay wrote:
-> From: Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
->
-> Use the hwprobe syscall to decide which PAUSE instruction to execute in
-> userspace code.
->
-> Signed-off-by: Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
-> ---
->   tools/arch/riscv/include/asm/vdso/processor.h | 27 +++++++++++++++++----------
->   1 file changed, 17 insertions(+), 10 deletions(-)
->
-> diff --git a/tools/arch/riscv/include/asm/vdso/processor.h b/tools/arch/riscv/include/asm/vdso/processor.h
-> index 662aca03984817f9c69186658b19e9dad9e4771c..027219a486b7b93814888190f8224af29498707c 100644
-> --- a/tools/arch/riscv/include/asm/vdso/processor.h
-> +++ b/tools/arch/riscv/include/asm/vdso/processor.h
-> @@ -4,26 +4,33 @@
->   
->   #ifndef __ASSEMBLY__
->   
-> +#include <asm/hwprobe.h>
-> +#include <sys/hwprobe.h>
-> +#include <asm/vendor/mips.h>
->   #include <asm-generic/barrier.h>
->   
->   static inline void cpu_relax(void)
->   {
-> +	struct riscv_hwprobe pair;
-> +	bool has_mipspause;
->   #ifdef __riscv_muldiv
->   	int dummy;
->   	/* In lieu of a halt instruction, induce a long-latency stall. */
->   	__asm__ __volatile__ ("div %0, %0, zero" : "=r" (dummy));
->   #endif
->   
-> -#ifdef CONFIG_TOOLCHAIN_HAS_ZIHINTPAUSE
-> -	/*
-> -	 * Reduce instruction retirement.
-> -	 * This assumes the PC changes.
-> -	 */
-> -	__asm__ __volatile__ ("pause");
-> -#else
-> -	/* Encoding of the pause instruction */
-> -	__asm__ __volatile__ (".4byte 0x100000F");
-> -#endif
-> +	pair.key = RISCV_HWPROBE_KEY_VENDOR_EXT_MIPS_0;
-> +	__riscv_hwprobe(&pair, 1, 0, NULL, 0);
+On Thu, 17 Jul 2025 08:03:31 +0700, Bagas Sanjaya wrote:
+> Commit 39215bb3b0d929 ("iommu/amd: Add documentation for AMD IOMMU
+> debugfs support") documents debugfs ABI symbols for AMD IOMMU, but
+> forgets to wrap examples snippets and their output in literal code
+> blocks, hence Sphinx reports indentation warnings:
+> 
+> Documentation/ABI/testing/debugfs-amd-iommu:31: ERROR: Unexpected indentation. [docutils]
+> Documentation/ABI/testing/debugfs-amd-iommu:31: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+> Documentation/ABI/testing/debugfs-amd-iommu:31: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+> 
+> [...]
 
+Applied to iommu (amd/amd-vi), thanks!
 
-So this should not trigger a syscall, so even if it's weird, I guess 
-that's ok.
+[1/1] iommu/amd: Wrap debugfs ABI testing symbols snippets in literal code blocks
+      https://git.kernel.org/iommu/c/9628e5c85b1e
 
-Another solution that was already suggested for CFI would be to 
-implement VDSO alternatives, we could easily parse the VDSO elf and 
-patch it at boot time, I'm pretty sure that will be useful at some point.
+Cheers,
+-- 
+Will
 
-
-> +	has_mipspause = pair.value & RISCV_HWPROBE_VENDOR_EXT_XMIPSEXECTL;
-> +
-> +	if (has_mipspause) {
-> +		/* Encoding of the mips pause instruction */
-> +		__asm__ __volatile__(".4byte 0x00501013");
-
-
-Here you could have used the MIPS_PAUSE introduced earlier.
-
-
-> +	} else {
-> +		/* Encoding of the pause instruction */
-> +		__asm__ __volatile__(".4byte 0x100000F");
-> +	}
-> +
->   	barrier();
->   }
->   
->
-
-Anyway, let's merge this for now:
-
-Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-
-Thanks,
-
-Alex
-
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
