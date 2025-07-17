@@ -1,409 +1,259 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C402AD14;
-	Thu, 17 Jul 2025 07:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBC5277CBD;
+	Thu, 17 Jul 2025 08:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752738479; cv=none; b=lbjMVf0agJRHchSq01oJbU/yepcgb3EzrikQQfcrark57Ed7+3Xqz4aq3x0gb8OUJ7dM/flCp2vnUvOa0j5ro9U16ANkDpLuJbI9O3yOIs3rf1oCySu0Dfiqkp6fmRe6CN9DsLEAD6PxV6FofeyUKWN7Cc3ySJ5N9jukf6Gsz4o=
+	t=1752739623; cv=none; b=ChuAyqu5L2zzjFq4vuq6izpCt0nw8XVe7z9JDbzea7zEQTF2LjICMohc7dALbBQ+WV8aRJ3URYFacqRzVqw+jAgjdr8Q6gQK8wO0QA4ruUuY8bgIsMRXULxSKlaMCpzP3lX4twXSbeiXEoVs/PhAhfyi7m/JjaSJQxdrmD19McE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752738479; c=relaxed/simple;
-	bh=2S5QpJz5HeVbfwdYCyitCABajQTcQVOAJAYG0QR/Fjk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=g5Vlp/w0Iy1rWu1ZTSqgA/1Pph36cpmzlkMnwfr9aQjxkTKXTOfia4B4tnS/jvqgMFiJenUCrS2yDH57pFxloxy3gPnUKwbzw8J8RU9HknmI7k3oki2j/o/aMYGT1m9Hd/ylwAhF+GJmhyZwW/D1n3cHiY99nNrAQK2rtDC2/Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J3vGw98T; arc=none smtp.client-ip=209.85.160.42
+	s=arc-20240116; t=1752739623; c=relaxed/simple;
+	bh=U3rEHkMFDVqeYNM1YK+WP0qvm2uVyLOr+spTs97POZ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WtYOGT78w9i67T19RT8j/W/iXLUH6MVnIDE5QzY75z3s3481uoZx3vD+f58UN/jB9czZ0nv6tmEM4jT1m7WKdgJTEZwZTPfSjfRaKmCg0avpI4Bivt1f2rSLEpZIwXo0Xjcd0AEaxER2NBIYfSNH/IqZ8+RfzfLZNhZ8oH9IxrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UuJZK+r0; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J3vGw98T"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-2ff8d43619cso519883fac.1;
-        Thu, 17 Jul 2025 00:47:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuJZK+r0"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-234f17910d8so5694295ad.3;
+        Thu, 17 Jul 2025 01:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752738477; x=1753343277; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A+UzCB+lQ41hrIIOkXc7xt5gfiM3qc956A0xJdVPAA4=;
-        b=J3vGw98T+NCCUpYrzA2TyT/CrGoPMa+GtQlWR46LiBwNVlZ5iPdXlOD32EmyozM3u8
-         ShMy5BzJ+/f1B5s0SVzZAM+AGMyl6CH9OVQu8d0V+BumcZEQjeaaPb2ldkZpLYQ8+5pd
-         jocRbeoxWSHC25RXuJid5wybJYt4vb5IAHgAT69RhPSJuhQr5qyeo2q2jLE7RqfCjQw4
-         oIk9BmFTa7DpJhn7zSxY4JVJnW1h9/AqUTU98TxiDDbHyNORbF2uOnfaBclOhTpa4lYs
-         0u8URXq80RdKfPzD/MgPHZA/WveBXPebU0vkg0ZpoF0I5o9VErlaPBIBOcuxhxj1rU7i
-         PJSQ==
+        d=gmail.com; s=20230601; t=1752739621; x=1753344421; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9tsmt0+LF0mgELoIzcxHsmAHqp6eKZ3MWd8Pt639i0Q=;
+        b=UuJZK+r0CvJViRbZMiFvJE/YKPeo+l+r7t1/8LhSQRhAh3Bf0HJXcC2DkvxeqMgmMB
+         7syEOdSi53GypkoGuTTemhH/OlXmPrjM2zuoRbSETKdXtk9oUykuiBdJi7UERglB5nuU
+         IIFBHPAkobXM+/JOoDYiekcJR5D4AifobM9z1IkTFuBmdXCQbA1FIBwY8M4DzljgeDT4
+         5FH2c/XHUn3412wa3RT4pbVwHHXyfiBc4+C74SFVS8tw42tcmyVhfN19O0SJZG3sK8XX
+         jgMnzrgeGXlwonVdW7vUTW+fTpftXMg8DLtsK05cBoaPOoIB0KWWvpgqxYRBzfzY53Km
+         d40Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752738477; x=1753343277;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A+UzCB+lQ41hrIIOkXc7xt5gfiM3qc956A0xJdVPAA4=;
-        b=Sl5L3OqUk33rIFm2KZ7By7hDaYawcqxMrNcZkg/szWPAtDsaiKbmjCw2PKnE5KOpU5
-         vt8zQcPCkdXy/Pe6caGuBarrAIQf+5eq8oCnbd2FDrxKuBvFO59iDk/Z+3qP5SpED941
-         1kpPqp0ZO7BYH1QDQKhxOmRZI2lkVGlzV/WG61RpOImYXQ2wxX6xqXxgHM6CHaToI4ZC
-         oQhg2lJk0Oanewr7wmbBJAjRQTyAHs/ktPI8OQGPEr5A6wkbFRPnLwC1A8/Efx43njbb
-         Qac3Q09it236xMwcDqdHBhO4YTDx03fWuuXilxG80ciWlLdxXtXlyoGhzv6ZDBX1X2+m
-         6Nzw==
-X-Forwarded-Encrypted: i=1; AJvYcCWKbyKEQtL/bRo5xciUCqZnP6UY9HupmRKkVHdhlVHb208APIg8LE0eg8KCcBd4LD97mEFz6ij1AxPpDv4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYaW17hIHB59I07vH+vkVPaLDJOcPkqjjHRjmQUoRH9DXb+Imb
-	0sdjQEI4/tGoxO4Z9anCBSoEKX2Vl8HgSIPxjQB1xdlcuD7yJRegJTFI
-X-Gm-Gg: ASbGncuAyKyBPHbPWG/MpzYCNIDDp11ahu5XapfFlUOsPj4pncr9YWUk05Z0/SL5DW1
-	2Lh3CeGI8XJStKCMdFVsibeqVPN9bLzQ4ce3nMEdfkNguCEJ5KqafVDHMtHqPIcCkXJJQ61FM7s
-	g6L0EA0lJVJVcfztZ32Mf3CDbESgXNqPglt1JgtoOsk0D3y4BI0xmI1qlqYFHUWO5mGkXYDyPsL
-	Ju54XR0UCeG+8BxR7hvoA+SFxxuhdhbQ2QmCiGObOLRUl63fsWRTece26jcu6A/44ju4GBVTk3y
-	xMrdrCucNQhrBQQuyl/972VMOTt++4GzbufUZbhEEEtb+V8rDm3VaG6M5rtA3MeOyk73ATBBuKA
-	/bo8LrmTPikuBOCSWHvTPZiw+EGTrtbMOo/T6N9KuVHg1Kduv/s+x
-X-Google-Smtp-Source: AGHT+IEjF60Rn3xo8x8GdcVuVHGDFHQh2dggVbWMzGDElQoKJLnTxBKI+KKFFklA5o/MwIjPPCGUEQ==
-X-Received: by 2002:a05:6870:3e09:b0:2d4:ce45:6988 with SMTP id 586e51a60fabf-2ffb2233b9emr4794215fac.6.1752738476580;
-        Thu, 17 Jul 2025 00:47:56 -0700 (PDT)
-Received: from localhost.localdomain ([181.161.11.224])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73e44f2fb4dsm2470232a34.49.2025.07.17.00.47.55
+        d=1e100.net; s=20230601; t=1752739621; x=1753344421;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9tsmt0+LF0mgELoIzcxHsmAHqp6eKZ3MWd8Pt639i0Q=;
+        b=EvZGXC2TPpBFlMRk9iAsEkTUSw2WhPTQBXQzw0IkhLq/uZfUdVVsvoqTBil/s5gtSk
+         xpP3M51sNHXc8o7BMHTibG/gYDsR48c3h7/L1FmNpS89iSnHgrtNY8yescu++peMc4M8
+         3LVs/ILV9Wtg/EyEsVNtxppMJw0yq2IJWeuVj8p3avNwf+2fgK6WCmQv9ASxIwHU2GwO
+         ZdSS0oguHocPTjcFR8OsDE6XNCAUjP+dbuzY1nSHh2LoZe3rihdX9AHElOBtziV2z9UG
+         Sz82nWvxzOchN5m/2ENCyjawJOyHEQong6h388E8uMow8iZsU2xASBOUe3d7/I9vMex+
+         yayg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZGTlJt7ef8HVRhoryuhEw7EM1nXLRaCZru2ruCPcdGegHugUX7rEtfqcx45KkK9QUS0P1@vger.kernel.org, AJvYcCVG8G25F4twLFqdLb/Fi86LeNHatVMnCaW8T6T2Jo3N9tagcK7fa2rkzhYnc7k3g1uxVplnO6zcGCMs@vger.kernel.org, AJvYcCVnTkFubW/nk5BcRQM/wT191bI45LnusyUSU3GQLCGPDpe7UdSSnb/lBCIQ82VZtNuO98eQ3i/6tbZI5A==@vger.kernel.org, AJvYcCX4fx1Pcn1qsCYfkpZz9Uu9khr3XyULiAcxlny5zsKfUeRBBDUqFfu//lxJY6QOVp4eZ1U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6ihvgvCYTE1iv6NYZHWkWVbHAjth2o7PR+6HWbEUclTlKtXEr
+	S2jTcK1qlyE4Odxm9TNT2Gc0DrlFX0EhPNkkZOb29gjynxZRN8w4IrVl
+X-Gm-Gg: ASbGncusT2i5J64zo/9qRAR+c1CkocvIEkBuC7u7AhnHG0sUQX5+Lxk8PXEO6luXick
+	bc9j3Ze4qceJcWl7xyYwS034xMfX3IKdkafz+rdZCKKw5K7ANLnMpFBkDYb0X+Ifam8ujt+iO4G
+	VY6sHXxV4A1IYAN7TjWNG6l365hVsGJtYuQU9lTaiD+FYi2+2Hr3wahib87hTI4dCai/ed8wsX4
+	ypF5BW4XSyNroqsVWHNIdqygkAYsY6Qt1jTGvyeJgRxDJcWkw1RxT8HoA452MqJRjI/l0e7Ywpj
+	pKjinD8pxuIuQOk0FgXuPFzm2fykUUxeQKD9vrt5Jns/6pP5bj0az51VH6jWPBbbLuy6SFfmxZ4
+	tJveXvO7GO0TSIFLIqB2P1w==
+X-Google-Smtp-Source: AGHT+IFDRHT5gKk69iHNgFOk4RqIEj9LmjlaBFo7IYhVrJNGWIeWcgsmkpyoZXnBkXuTx/sDripipA==
+X-Received: by 2002:a17:902:fc43:b0:234:f15b:f158 with SMTP id d9443c01a7336-23e24ed60f5mr73096245ad.13.1752739620354;
+        Thu, 17 Jul 2025 01:07:00 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de433e527sm142131915ad.187.2025.07.17.01.06.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 00:47:55 -0700 (PDT)
-From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ignacio Pena <ignacio.pena87@gmail.com>
-Subject: [PATCH] Documentation: Add patch-validator to dev-tools
-Date: Thu, 17 Jul 2025 03:47:45 -0400
-Message-Id: <20250717074745.8333-1-ignacio.pena87@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+        Thu, 17 Jul 2025 01:06:59 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id E0828401640C; Thu, 17 Jul 2025 15:06:53 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux RCU <rcu@vger.kernel.org>,
+	Linux CPU Architectures Development <linux-arch@vger.kernel.org>,
+	Linux LKMM <lkmm@lists.linux.dev>,
+	Linux KVM <kvm@vger.kernel.org>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	David Howells <dhowells@redhat.com>,
+	Jade Alglave <j.alglave@ucl.ac.uk>,
+	Luc Maranget <luc.maranget@inria.fr>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Waiman Long <longman@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Tejun Heo <tj@kernel.org>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	Changyuan Lyu <changyuanl@google.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Xavier <xavier_qy@163.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Maarten Lankhorst <dev@lankhorst.se>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 2/4] Documentation: atomic_bitops: Convert to reST format
+Date: Thu, 17 Jul 2025 15:06:15 +0700
+Message-ID: <20250717080617.35577-3-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250717080617.35577-1-bagasdotme@gmail.com>
+References: <20250717080617.35577-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3923; i=bagasdotme@gmail.com; h=from:subject; bh=U3rEHkMFDVqeYNM1YK+WP0qvm2uVyLOr+spTs97POZ4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkVa5MTHyX29kj/kI2qCgg0q/lUFHmwhit6pT9jlmLez YUFX+d1lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCIp1xgZVvSb3tv6Zh3vIYZL 82sr7tezqahkng65dqrq902+n6fe7WNkOLPqpLfAjdMMlme+n+0JF5yQ7jrL5c61eUlnF5yfMm/ CXQYA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-From: Ignacio Pena <ignacio.pena87@gmail.com>
+Convert atomic bitops documentation to reST syntax:
 
-Add documentation for patch-validator, a comprehensive tool that helps
-kernel contributors validate their patches before submission. This tool
-catches common mistakes that frequently lead to patch rejections,
-improving the quality of submissions and reducing maintainer workload.
+* Sentence-case headings
+* List API functions and their semantics in bullet list
 
-The validator performs 21+ automated checks including:
-- Patch format validation (subject line, changelog placement)
-- DCO compliance and licensing verification  
-- checkpatch.pl integration with enhanced reporting
-- Build impact analysis and testing recommendations
-- Common novice pattern detection
-- Git configuration validation
-
-Also includes companion tools for finding first contributions,
-testing patches safely, and validating patch series.
-
-Link: https://github.com/ipenas-cl/kernel-patch-validator
-Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/dev-tools/index.rst           |   1 +
- Documentation/dev-tools/patch-validator.rst | 287 +++++++++++++++++++
- 2 files changed, 288 insertions(+)
- create mode 100644 Documentation/dev-tools/patch-validator.rst
+ .../atomic_bitops.rst}                        | 39 +++++++++----------
+ Documentation/core-api/index.rst              |  2 +-
+ .../core-api/wrappers/atomic_bitops.rst       | 18 ---------
+ 3 files changed, 20 insertions(+), 39 deletions(-)
+ rename Documentation/{atomic_bitops.txt => core-api/atomic_bitops.rst} (60%)
+ delete mode 100644 Documentation/core-api/wrappers/atomic_bitops.rst
 
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 000000000000..111111111111 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -32,6 +32,7 @@ Documentation/dev-tools/testing-overview.rst
-    kunit/index
-    ktap
-    checkpatch
-+   patch-validator
-    coccinelle
-    sparse
-    kcov
-diff --git a/Documentation/dev-tools/patch-validator.rst b/Documentation/dev-tools/patch-validator.rst
-new file mode 100644
-index 000000000000..222222222222
---- /dev/null
-+++ b/Documentation/dev-tools/patch-validator.rst
-@@ -0,0 +1,287 @@
+diff --git a/Documentation/atomic_bitops.txt b/Documentation/core-api/atomic_bitops.rst
+similarity index 60%
+rename from Documentation/atomic_bitops.txt
+rename to Documentation/core-api/atomic_bitops.rst
+index edea4656c5c05f..b93c388fd9bdc4 100644
+--- a/Documentation/atomic_bitops.txt
++++ b/Documentation/core-api/atomic_bitops.rst
+@@ -1,3 +1,5 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+========================
-+Kernel Patch Validator
-+========================
-+
-+The kernel patch validator is a comprehensive tool that helps contributors
-+validate their patches before submission to kernel mailing lists. It catches
-+common mistakes that frequently lead to patch rejections, improving submission
-+quality and reducing maintainer workload.
-+
-+Installation
-+============
-+
-+The validator is available at:
-+https://github.com/ipenas-cl/kernel-patch-validator
-+
-+Quick installation::
-+
-+        $ git clone https://github.com/ipenas-cl/kernel-patch-validator.git ~/kernel-patch-validator
-+        $ cd ~/kernel-patch-validator
-+        $ chmod +x scripts/*.sh
-+
-+        # Optional: Add to PATH
-+        $ echo 'export PATH="$PATH:$HOME/kernel-patch-validator/scripts"' >> ~/.bashrc
-+        $ source ~/.bashrc
-+
-+Quick Start
-+===========
-+
-+Validate a single patch::
-+
-+        $ git format-patch -1
-+        $ validate-patch.sh 0001-your-patch.patch
-+
-+Validate a patch series::
-+
-+        $ git format-patch -3 --cover-letter
-+        $ validate-series.sh .
-+
-+Find contribution opportunities::
-+
-+        $ find-bugs.sh
-+
-+Core Features
-+=============
-+
-+The validator performs 21+ automated checks:
-+
-+Format Validation
-+-----------------
-+* Future date detection (system clock issues)
-+* Signed-off-by presence and format (DCO compliance)
-+* Subject line format ``[PATCH] subsystem: lowercase description``
-+* Version changelog placement after ``---`` marker
-+* Fixes: tag format with 12+ character SHA
-+* Cc: stable format validation
-+
-+Code Quality
-+------------
-+* checkpatch.pl --strict integration
-+* Patch apply verification
-+* Build impact analysis
-+* Single logical change verification
-+* Commit message quality assessment
-+
-+Best Practices
-+--------------
-+* Novice pattern detection (console output, TODOs)
-+* Git configuration validation
-+* Debug configuration mentions
-+* Testing information requirements
-+* Static analysis recommendations
-+* Performance impact assessment for large changes
-+
-+Additional Tools
-+================
-+
-+test-patch.sh
-+-------------
-+Safe patch testing workflow::
-+
-+        $ test-patch.sh 0001-my-patch.patch
-+
-+* Creates temporary test branch
-+* Applies and compiles patch
-+* Runs sparse/smatch if available
-+* Automatically cleans up
-+
-+find-bugs.sh
-+------------
-+Automated contribution finder::
-+
-+        $ find-bugs.sh
-+
-+* Detects spelling/grammar errors
-+* Finds checkpatch issues
-+* Identifies missing .gitignore entries
-+* Suggests debug configurations
-+* Integrates syzbot reports
-+
-+contribution-checklist.sh
-+-------------------------
-+Interactive readiness assessment::
-+
-+        $ contribution-checklist.sh
-+
-+* Evaluates community engagement
-+* Verifies technical setup
-+* Provides personalized action plan
-+* Scores knowledge areas
-+
-+validate-series.sh
-+------------------
-+Patch series validation::
-+
-+        $ validate-series.sh directory/
-+
-+* Validates numbering sequence
-+* Checks cover letter
-+* Ensures version consistency
-+* Tests apply order
-+
-+Common Workflows
-+================
-+
-+First Contribution
-+------------------
-+1. Find an issue to fix::
-+
-+        $ find-bugs.sh
-+        ✓ Found 23 spelling errors
-+        ✓ Found 45 checkpatch issues in staging
-+
-+2. Make your fix and validate::
-+
-+        $ git format-patch -1
-+        $ validate-patch.sh 0001-fix-spelling.patch
-+
-+3. Send if all checks pass::
-+
-+        $ git send-email --to="maintainer@example.com" 0001-fix-spelling.patch
-+
-+Patch Series (v2)
-+-----------------
-+1. Create series with cover letter::
-+
-+        $ git format-patch -3 --cover-letter -v2
-+
-+2. Validate entire series::
-+
-+        $ validate-series.sh .
-+
-+3. Add changelog after --- in each patch::
-+
-+        ---
-+        v2: Split into separate patches per maintainer feedback
-+
-+         drivers/staging/driver.c | 10 +++++-----
-+
-+Common Issues Detected
-+======================
-+
-+Date Problems
-+-------------
-+The validator catches future dates (2025 bug)::
-+
-+        ✗ Date Check - Patch contains future date (2025)
-+
-+Fix: Correct system time before generating patches.
-+
-+Missing Changelog
-+-----------------
-+v2+ patches must document changes::
-+
-+        ✗ Version Changelog - v2+ patches must have changelog after --- marker
-+
-+Example fix::
-+
-+        Subject: [PATCH v2] staging: fix checkpatch warnings
-+        
-+        Fix multiple checkpatch warnings in driver.
-+        
-+        Signed-off-by: Your Name <you@example.com>
-+        ---
-+        v2: Split into separate patches as requested
-+        
-+         drivers/staging/driver.c | 20 ++++++++++----------
-+
-+Multiple Changes
-+----------------
-+Patches doing multiple things::
-+
-+        ⚠ Single Purpose - Patch might be doing multiple things
-+
-+Solution: Split into separate patches, one per logical change.
-+
-+Integration with Kernel Workflow
-+================================
-+
-+The validator complements existing kernel tools:
-+
-+Before checkpatch.pl
-+--------------------
-+* Catches format issues checkpatch might miss
-+* Validates changelog placement
-+* Checks git configuration
-+
-+With get_maintainer.pl
-+----------------------
-+* Reminds to use get_maintainer.pl
-+* Shows suggested recipients
-+* Validates recipient format
-+
-+Testing Integration
-+-------------------
-+* Suggests appropriate test commands
-+* Checks for testing documentation
-+* Validates CI mentions for complex patches
-+
-+Best Practices
-+==============
-+
-+1. **Always validate before sending** - Takes 30 seconds, saves hours
-+2. **Fix all errors** - Don't send patches with validation errors  
-+3. **Consider warnings** - They indicate areas for improvement
-+4. **Use companion tools** - find-bugs.sh helps locate good first issues
-+5. **Document testing** - Include what/how you tested
-+
-+Tips for New Contributors
-+=========================
-+
-+Start Small
-+-----------
-+* Use find-bugs.sh to locate simple fixes
-+* Focus on staging drivers initially
-+* Fix one issue per patch
-+
-+Common Mistakes to Avoid
-+------------------------
-+* Don't mix functional and style changes
-+* Don't send patches from the future (check system date)
-+* Don't forget version changelogs on v2+
-+* Don't skip testing ("compile tested only" = lazy)
-+
-+Follow the Process
-+------------------
-+1. Find issue with find-bugs.sh
-+2. Create fix and commit
-+3. Generate patch with git format-patch
-+4. Validate with validate-patch.sh
-+5. Find maintainers with get_maintainer.pl
-+6. Send with git send-email
-+
-+Example Output
-+==============
-+
-+Successful validation::
-+
-+        $ validate-patch.sh 0001-staging-fix-typo.patch
-+        ======================================
-+           KERNEL PATCH VALIDATOR v1.0
-+        ======================================
-+        
-+        === Basic Patch Checks ===
-+        ✓ Date Check
-+        ✓ Signed-off-by (DCO)
-+        ✓ Subject Format
-+        ✓ Version Changelog (v1 patch)
-+        
-+        === Code Style Checks ===
-+        ✓ checkpatch.pl
-+        ✓ Patch Apply
-+        ⚠ Build Test Required
-+        
-+        ======================================
-+                  VALIDATION SUMMARY
-+        ======================================
-+        ⚠ WARNINGS: 1 issues found (patch is sendable but could be improved)
-+
-+Contributing to the Validator
-+=============================
-+
-+The validator is open source and welcomes contributions:
-+https://github.com/ipenas-cl/kernel-patch-validator
-+
-+Each check is based on real rejection feedback from kernel maintainers.
+ =============
+ Atomic bitops
+ =============
+@@ -11,53 +13,50 @@ API
+ 
+ The single bit operations are:
+ 
+-Non-RMW ops:
++* Non-RMW ops:
+ 
+-  test_bit()
++  * test_bit()
+ 
+-RMW atomic operations without return value:
++* RMW atomic operations without return value:
+ 
+-  {set,clear,change}_bit()
+-  clear_bit_unlock()
++  * {set,clear,change}_bit()
++  * clear_bit_unlock()
+ 
+-RMW atomic operations with return value:
++* RMW atomic operations with return value:
+ 
+-  test_and_{set,clear,change}_bit()
+-  test_and_set_bit_lock()
++  * test_and_{set,clear,change}_bit()
++  * test_and_set_bit_lock()
+ 
+-Barriers:
++* Barriers:
+ 
+-  smp_mb__{before,after}_atomic()
++  * smp_mb__{before,after}_atomic()
+ 
+ 
+ All RMW atomic operations have a '__' prefixed variant which is non-atomic.
+ 
+ 
+-SEMANTICS
++Semantics
+ ---------
+ 
+-Non-atomic ops:
++* Non-atomic ops:
+ 
+-In particular __clear_bit_unlock() suffers the same issue as atomic_set(),
+-which is why the generic version maps to clear_bit_unlock(), see atomic_t.txt.
++  In particular __clear_bit_unlock() suffers the same issue as atomic_set(),
++  which is why the generic version maps to clear_bit_unlock(), see atomic_t.txt.
+ 
+ 
+-RMW ops:
++* RMW ops:
+ 
+-The test_and_{}_bit() operations return the original value of the bit.
++  The test_and_{}_bit() operations return the original value of the bit.
+ 
+ 
+-ORDERING
++Ordering
+ --------
+ 
+ Like with atomic_t, the rule of thumb is:
+ 
+  - non-RMW operations are unordered;
+-
+  - RMW operations that have no return value are unordered;
+-
+  - RMW operations that have a return value are fully ordered.
+-
+  - RMW operations that are conditional are fully ordered.
+ 
+ Except for a successful test_and_set_bit_lock() which has ACQUIRE semantics,
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index a0c3749c655b05..4bc132fefaab7f 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -49,7 +49,7 @@ Library functionality that is used throughout the kernel.
+    timekeeping
+    errseq
+    wrappers/atomic_t
+-   wrappers/atomic_bitops
++   atomic_bitops
+    floating-point
+    union_find
+    min_heap
+diff --git a/Documentation/core-api/wrappers/atomic_bitops.rst b/Documentation/core-api/wrappers/atomic_bitops.rst
+deleted file mode 100644
+index bf24e4081a8f4c..00000000000000
+--- a/Documentation/core-api/wrappers/atomic_bitops.rst
++++ /dev/null
+@@ -1,18 +0,0 @@
+-.. SPDX-License-Identifier: GPL-2.0
+-   This is a simple wrapper to bring atomic_bitops.txt into the RST world
+-   until such a time as that file can be converted directly.
+-
+-=============
+-Atomic bitops
+-=============
+-
+-.. raw:: latex
+-
+-    \footnotesize
+-
+-.. include:: ../../atomic_bitops.txt
+-   :literal:
+-
+-.. raw:: latex
+-
+-    \normalsize
 -- 
-2.39.5
+An old man doll... just what I always wanted! - Clara
+
