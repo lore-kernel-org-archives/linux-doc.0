@@ -1,191 +1,86 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E922FCFC5
-	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 16:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A9D2FE397;
+	Thu, 17 Jul 2025 17:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752770563; cv=none; b=ofWSInyREKLFgYgZ3wHQy+UjAqjBK344iLrY5hIiYsNpeeBlpmeiPUL4MJiQ8Jc+ybiGeaMtnW39uB1kzEk6/JiC+Nx6uXHt07RkVsInnyyUZ7VJeoUuMJQfNv/dFkTwuNZraVFQ7JMYfCzukZli9KuO4XNg35vxC7Tv6mz3QjA=
+	t=1752771917; cv=none; b=jGqwWuegviJLOgiyaquPd7Pu8FpGS7MnQSy5JyLU6b9Us9jLmufX0Qm08QhcqjrfoQyoPfzR3jslHlgQ+cIagbsLukJif82y9fnRa6ak2uejxumYfu4R5fzikMm0htAUbZ9/NbkafO467fszVdH2fBouURhw7+ZSmuYS3ZdFQKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752770563; c=relaxed/simple;
-	bh=Zp+bqdk2AUV+SBqOdeWsNgo02TfpUX044tCk09JCCZY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mr46yXFu/QWZ3hGYjL/YKzksfTJNBSbvHhPUY3YjIgEda5YDzD0VjMu8FHuowsjBU2np3hv0JcKJRg59GkhJSlwdv0CcJK11O4U/Ko8li7sA1JJxJr2fxz5OHpM7VzKuE3VDhLTi/hENlwo/jF44Rd0nzqxlyR+LWiKfOl7NzQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l4uWNSTW; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1752771917; c=relaxed/simple;
+	bh=f4TBundVVp2x6JyWmytFqL4rDtzsnoQsuVW6B2mEUH4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k3c0sxSH0KMJ4YyIfz1gQPPhEWUislv6sHPjaFiUbSjGPsdevurvfiVDxP2e3uvZ+tXwyyimu2MqpmZaMR8TbLZSLVQ+dM3z88aS9ZlWHou7CRXC3SK0bpHtbnzsfIJotGsQGTOUCjYc1Gf7kquTnnJ8Z9u7xOocv78BnOQQ118=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOIjZBB7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l4uWNSTW"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4560add6cd2so9994245e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 09:42:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752770559; x=1753375359; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0KIZvn3WMN/D9GaYJuL0YNSf8jbAXvNffTD/qUx3PrA=;
-        b=l4uWNSTWyIrBIqJn1bARw8DAb0ORCAF6cH2oLOzqdjZG0sZwsXeQBHI8w9wAn/2Ksi
-         vER6D5I68erzfHGK7QAWNe/r78dKLKKyi3SC/djwhGJWD+6xanHb0amlMJI4lwMaSgmI
-         HzrD81BL4vYw7JnpFasjIaAXQoz7DRUT/Lq8vtptFC+/i+Vimn+NqSfHWHtPNIMJzEjx
-         D8HFpTlibcjl6g854o4huw1uvi2PgwBK6qBxiRNFrXhIGFj7HEMwotst/2XZEWugCp/o
-         YpOQjDyUBjOvf2OLpjYNVp3myvfZaAdYnzpZl9ROZFAaa4EiDUyMgvwZm4eGgumGxnes
-         6wAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752770559; x=1753375359;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0KIZvn3WMN/D9GaYJuL0YNSf8jbAXvNffTD/qUx3PrA=;
-        b=cMmUog7impMFwykYxhNljPB15z1nV5GhlI2H6kWzUwUmEr68laI4KzMlUHf7iX3Om9
-         mIIvVOeaj0ofKx6I/+/7SdqYwAM52NQPdzhBdpeOaESBTOL0PSqgrtfY7+QvKWNjvACS
-         OH4Ljtx2W+YBp6RYcCbq0sd6TGRWgOgv2DFpRcD+CjSNYVJ9DJX0SzGXTEQnCiOBpHat
-         8+Z8WR43RBqRYEw/QY6hyq+jKtGyTFVHE+OxnGMlkSAE0QrzZ5h+/IxF7AS8B5Wus8UQ
-         SYpI6V96wblQnio/qx0i3Z2wpe1OKe5BaYh59YkMpnf9EYr95+SIMdEu8z72tEJlsYBK
-         7J2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUn3siXU+eVGycJHrmSIZuaKvhJTuuRGPIwd2XZG1FCRxyyeKFMPUXTkj6iDL13KykeODyReuU7hRM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDfB4biGJOVqV83+mRe97DktWRVkYWtOcjiEN8g+HalwR75xqT
-	MIWBAOsEA/y1zZznURIwMzVd3hPKoRdU7A0JvXGqTTzkAN0nCqfi6Gt9AiANzXNv7p4=
-X-Gm-Gg: ASbGncuZAdtXy7PYqxWBjJDzn8NlJOdhYdIbqTCX2fvGPWjAqTHzAodPVMnRKP2AWxB
-	vqxzVWDLZHBi8sUxSc8uRpr+Jbe5O76nmZakl8kE4G/sioR7m/foJUW1yrjq4UZUHr13IRfkLYE
-	Q2mDuRfct1L+1EzNb82wLjt1dYy2Ez7VWy5JCWUbZ8DEgl+E2N82iU8aQbejjD4johFEl7zg4I5
-	Mpvra3XrfWhJEMopVWy+6km/iKhw11idFNJlId53SHm5Z+Ngdve741EF2X4zLn+c58W7APxAucS
-	zZLJp1MZf/QzYbxk0FKWwgigir4aCrYcNHDQ1GtfzpGoILhjK3rp4vM+eZYWEB+wuRTR0zYQFUM
-	f4ZOPH3MNgzQ3ltmTal+U2iKh4iI=
-X-Google-Smtp-Source: AGHT+IHw2GCF56hApJyEmdx/xTKHHH5iV9N7ia+pyQS/X4tv7tXWZh4hCv08eoEvqDhMJOVRwHk5hg==
-X-Received: by 2002:a05:600c:3f12:b0:456:1ab0:d566 with SMTP id 5b1f17b1804b1-456348cbdb0mr41924525e9.16.1752770558925;
-        Thu, 17 Jul 2025 09:42:38 -0700 (PDT)
-Received: from [192.168.1.3] ([185.48.76.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45634f5dd61sm28041015e9.11.2025.07.17.09.42.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jul 2025 09:42:38 -0700 (PDT)
-Message-ID: <95468171-a09d-4b6b-a0bd-189d83ff33a6@linaro.org>
-Date: Thu, 17 Jul 2025 17:42:37 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOIjZBB7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFAC8C4CEF8;
+	Thu, 17 Jul 2025 17:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752771916;
+	bh=f4TBundVVp2x6JyWmytFqL4rDtzsnoQsuVW6B2mEUH4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jOIjZBB7nU8CwNhHDFRA80VBsXfOlimaTqZPoUiEVSQK2yXapmorp0V7HzIT5/a5p
+	 0PfGhnsSg160RD1rQlErlJCl651qwBRqIgQHTld3BlWXHS9WTdWrfQ8KVAE+Nu9wYV
+	 vB4K/g3iEn+glYyU7Q0T+UA9ZpwIYH03FQEYjc9UBM7zlqbNwSBUrZg+yCk6GR5QuW
+	 X2yp7X3wu9FC09muDTNBc/kK0PxQ1bCrv9LGRjrzuG+aH/L7v8ztx31UqHbBup2j/M
+	 1/xM2ivZisfItTo9XP8fOVDGF9LHKlDi4JlpXb3BTbJorKz6vzJoxOa+rVmiZ6/763
+	 CyuntPEFZLUUA==
+Date: Thu, 17 Jul 2025 07:05:14 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Cc: Tiffany Yang <ynaffit@google.com>, linux-kernel@vger.kernel.org,
+	John Stultz <jstultz@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v2] cgroup: Track time in cgroup v2 freezer
+Message-ID: <aHktSgmh-9dyB7bz@slm.duckdns.org>
+References: <20250714050008.2167786-2-ynaffit@google.com>
+ <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/10] perf: arm_spe: Add support for filtering on data
- source
-To: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, leo.yan@arm.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org>
- <20250605-james-perf-feat_spe_eft-v3-7-71b0c9f98093@linaro.org>
- <aHUOig-kaRo15ZH5@willie-the-truck>
- <7f51d4f9-7e08-49b5-ab43-8bc765bb2ca8@linaro.org>
- <aHkI5_IOV35L4YJa@willie-the-truck>
- <ca99af3b-e358-4c2b-8d62-0b6c29984391@linaro.org>
- <aHkWTlaRKdXbnA0r@willie-the-truck>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <aHkWTlaRKdXbnA0r@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
 
+Hello,
 
-
-On 17/07/2025 4:27 pm, Will Deacon wrote:
-> On Thu, Jul 17, 2025 at 04:16:32PM +0100, James Clark wrote:
->>
->>
->> On 17/07/2025 3:29 pm, Will Deacon wrote:
->>> On Tue, Jul 15, 2025 at 02:04:18PM +0100, James Clark wrote:
->>>> On 14/07/2025 3:04 pm, Will Deacon wrote:
->>>>> On Thu, Jun 05, 2025 at 11:49:05AM +0100, James Clark wrote:
->>>>>> @@ -406,6 +416,9 @@ static u64 arm_spe_event_to_pmsfcr(struct perf_event *event)
->>>>>>     	if (ATTR_CFG_GET_FLD(attr, inv_event_filter))
->>>>>>     		reg |= PMSFCR_EL1_FnE;
->>>>>> +	if (ATTR_CFG_GET_FLD(attr, data_src_filter))
->>>>>> +		reg |= PMSFCR_EL1_FDS;
->>>>>
->>>>> Is the polarity correct here? The description of PMSDSFR_EL1.S<m> suggests
->>>>> that setting bits to 1 _excludes_ the FDS filtering.
->>>>>
->>>>
->>>> Setting filter bits to 1 means that samples matching are included. Setting
->>>> bits to 0 means that they are excluded. And PMSFCR_EL1.FDS enables filtering
->>>> as a whole, so if the user sets any filter bit to 1 we want to enable
->>>> filtering:
->>>>
->>>>     PMSDSFR_EL1.S<m>
->>>>
->>>>     0b0  If PMSFCR_EL1.FDS is 1, do not record load operations that have
->>>>          bits [5:0] of the Data Source packet set to <m>.
->>>>
->>>>     0b1  Load operations with Data Source <m> are unaffected by
->>>>          PMSFCR_EL1.FDS.
->>>>
->>>> I think it's all the right way around and it ends up being the same as the
->>>> other filters in SPE. Because we're using any bit being set to enable the
->>>> filtering, the only thing you can't do is enable filtering with a 0 filter,
->>>> but I didn't think that was useful. See the previous discussion on this
->>>> here:
->>>> https://lore.kernel.org/all/5752f039-51c1-4452-b5df-03ff06da7be3@linaro.org/
->>>>
->>>> Reading the "Data source filtering" section in the docs change at the end
->>>> might help too.
->>>
->>> Sorry, but I still don't get it :/
->>>
->>> afaict, if any of the bits in 'data_src_filter' are _zero_ then we
->>> should set PMSFCR_EL1.FDS. That also means that a mask of zero means all
->>> loads are filtered, which is what the architecture says and is what we
->>> should provide to userspace.
->>>
->>> Will
->>
->> We'd have to add another format flag to enable data source filtering then,
->> because otherwise the default would be zero and people's samples would
->> disappear.
->>
->> But the only use cases I could think of were more like "I want to see
->> samples from data source 1":
->>
->>    -e arm_spe/data_src_filter=0x1/
->>
->> Or "I want to see all data sources except 1":
->>
->>    -e arm_spe/data_src_filter=0xfffffffe/
->>
->> Filtering out all samples with any data source didn't seem to make sense to
->> me, and I think you can already do that with the other filters (remove loads
->> etc).
->>
->> It would be a shame to be inconsistent and to add an enable flag just for
->> that one case because the other filters in SPE are auto enabled for non-zero
->> values. Although to be fair for PMSFCR.FT and others, zero filters are
->> explicitly not allowed:
->>
->>    If this field is set to 1 and the PMSFCR_EL1.{ST, LD, B} bits are all
->>    set to zero, it is CONSTRAINED UNPREDICTABLE whether no samples are
->>    recorded or the PE behaves as if PMSFCR_EL1.FT is set to 0
->>
->> Seems like FDS doesn't end up as neat as the others, but IMO I can't see
->> anyone needing a zero filter. I did discuss it with Leo and we decided that
->> we could always add the enable flag at a later date if a use case turned up
->> and it wouldn't be a breaking change.
->>
->> But if you think it's there so it should be exposed I can add it.
+On Thu, Jul 17, 2025 at 02:56:13PM +0200, Michal Koutný wrote:
+...
+> > +  cgroup.freeze.stat
 > 
-> What about if we expose the inverse of PMSDSFR_EL1 to userspace instead?
+> With the given implementation (and use scenario), this'd better exposed
+> in
+>   cgroup.freeze.stat.local
 > 
-> Will
+> I grok the hierarchical summing would make little sense and it'd make
+> implementaion more complex. With that I'm thinking about formulation:
+> 
+> 	Cumulative time that cgroup has spent between freezing and
+> 	thawing, regardless of whether by self or ancestor cgroups. NB
+> 	(not) reaching "frozen" state is not accounted here.
 
-That's exactly what I was thinking. It does seem a bit weird, but I can 
-call it inv_data_src_filter and document it appropriately so it should 
-be fine.
+I wonder what hierarchical summing would look like for this. It's absolute
+time interval measurement and I'm not sure whether summing up the
+descendants' durations is the best way to go about it. ie. Should it be the
+total duration any of the descendants are freezing or should it be sum of
+the freezing durations of all descendants?
 
+Thanks.
+
+-- 
+tejun
