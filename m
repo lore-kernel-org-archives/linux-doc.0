@@ -1,88 +1,88 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4550E21A420
-	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 07:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2527221ABDC
+	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 07:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752736929; cv=none; b=OpcMg19gQvJO2o4itPXtTlfdqDV9A4Sed3RjQphTb0mQn5vCtfuuYhwCj8Jq5l9VJiC5kULzTDAXW9ObB+UsgzCvVcukBQRCGTMNuK2rJywo9yfF5FuXwuR7G3EJ1yFmk17Xcfwu9pIw+M4RsfNV6MS+2m/AzcQB6iHLsdIzOec=
+	t=1752736975; cv=none; b=XlZVNFIfooMn4BUprdgL1NgTwcNJno5ZIgU0m5oMYvFnaySHT194C3qO1XAubpFgfQGfnpUZeRw1f4HYsmiklO9pb9MaEWOVmrBSi7euUHqKmBFuNdKB5ko2Vp43uvgr33ab9AAmvH4cvFNFJhWKUp1UDdBtAFY/INtkYWA+SVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752736929; c=relaxed/simple;
-	bh=tWDmCspVYb9wK2NOfdDGtxHX3NGRXaIDB6oxJ+Ggx2w=;
+	s=arc-20240116; t=1752736975; c=relaxed/simple;
+	bh=z9j/kRp2E8OBtyHpf3bE3Bgh0h7FB7kKCT1IIylTnNI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=NT09kmlRYsYICV0Lk9u1XmmS9e9sGhjsLOdvpwjDlkn4HXy3KG560PuqTqnEEEETspeOu1LZHyaFmC8cGIuZSZkiIDTdkkl4rdJHVwhIhWddjV1a1qIHZ7qs3Dsdrk65z2EY9R6gRZT4PX4y4d0SSG8ZgEmO/nTapZnetNU3ees=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D54C92or; arc=none smtp.client-ip=170.10.133.124
+	 To:Cc:Content-Type; b=DWAe9j7ZDaZnNmDgzYODfOUQ6CM1Hh//q7IMo0H9OPzjQMVOiQU+ruPKlfFBHZgakmN3wBMKRktFMFDlwTgqCQqMb1cgZElS9/ZtqNFWFK3gl4cgt0KLeG3U0WcZwmZygZyJiL21vkwcwbEwqCCYqFsblKhzIdVyvvhgpsscebM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UV+YusTI; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D54C92or"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UV+YusTI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752736926;
+	s=mimecast20190719; t=1752736973;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XQ39Fnx/vbGSljAimxTrmnp3D5hf3R4yTB7vGUtkUcY=;
-	b=D54C92orjs2WH25LNoUjMOtRq1tBMDglvUW6wrKFwsSWDAaHqxSRFrjOhJWIrpkIo7zpOA
-	0lpMJCa3r9rcUlYptx44LR7Ky76a94ssvhuPHlV8GbeUG/HMBkHTuEtgUp+H+0MQCIJD/k
-	ex57uI7bR956be1Go06BikgWNbPOBow=
+	bh=JFbE7+bxkztH8ht0A9j4wnG3HbzAi42oef01y44iq/o=;
+	b=UV+YusTIjbtxaoLZ0BUwS/JGrjyzzzabkP3m6+pRLlks2xBYBRyNNOLutE/wCJxmts3V9w
+	cJeOZtwh6Uc5nrWwIZ02E2P5kTbqefkOl+/2t4vsGVKHMQpObHtpFVi2PgYP+F7Nlxpyfr
+	xKOvL2KS3KsT1+Nn3Mu+PYN/IqaUI8E=
 Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
  [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-304-K4m3k75lNpGb8MwzjSya4g-1; Thu, 17 Jul 2025 03:22:04 -0400
-X-MC-Unique: K4m3k75lNpGb8MwzjSya4g-1
-X-Mimecast-MFC-AGG-ID: K4m3k75lNpGb8MwzjSya4g_1752736924
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-70e86a2a1b8so9785777b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 00:22:04 -0700 (PDT)
+ us-mta-399-Phy5OQ-0MqOLQWB23FQf-g-1; Thu, 17 Jul 2025 03:22:52 -0400
+X-MC-Unique: Phy5OQ-0MqOLQWB23FQf-g-1
+X-Mimecast-MFC-AGG-ID: Phy5OQ-0MqOLQWB23FQf-g_1752736971
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-710f05af33eso8544537b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 00:22:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752736924; x=1753341724;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1752736971; x=1753341771;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XQ39Fnx/vbGSljAimxTrmnp3D5hf3R4yTB7vGUtkUcY=;
-        b=jft323VCawzM/DXK1WLvWICXvAulEwCEOsBj4WN3cU6h+qsInkVh0exxse7+QibKvd
-         Z41BpEuwti+dwrXNz4L8X/10gvuSGIDIW8HQ9EdBbdrrloPfj9XLXgGoZucj/3ibtCkc
-         YYHWinfzkll+bIJ3JwMEc1yzbaDYL3t9Q/10OCa6lzsi//kwxYAu+6o8U7UOyUu4c8nq
-         oKXSwScQzyAKHt1bfd6xfQRZVfKCz2wzcQts/x4nzn4gVR0cwjx26EWTh0n4+yC8hl2x
-         Izs5bxFCSLo3XHCtk258FMZQRW/cxBdWM2797VjbXtgf5wosPdn3pHnmJJpSA8HdkAbn
-         Gl9g==
-X-Forwarded-Encrypted: i=1; AJvYcCUZtWI57b6L/+D0J9MVS7EsyWfqg0nKbSajIywZBzkmXikxX0AJ5L6DUySoJB3absDXRkx1tdrLjXc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfzHBPXPebMeB4FuBFjwMGIJ6tsFm2y2ahtp3Cv+t5j+hYw8Wo
-	FbX1QboKMkJQ6oWIt+am38sVk7QDa3cDPIE9cJg8tgQ52gORW1VguN4X/aINc+L3VwgEsmcP2ca
-	aCgP/4rqbDNc5rh0YgR70GKh6KicWrulCsERAnUOLYHjqKYrIAVJ0akDCCaqe45AeMWdWuaa8Vh
-	gv0lvPbKphpv8dB55Vbho2c83Fs5Yt7nJnE4Kd
-X-Gm-Gg: ASbGnct8sMtbkFgsCZriYgVaJQGM95ZgLSB7KrMw9wRLRSPpTQ6DFSG9LmcWSuwhBIc
-	8N/XZJPDqguZ8zX0slyfDYMYzteQ3UoaBk2AFrTplzHTf2UDZs+Mn95kuGEJh1Bdo6EK7gdgPiC
-	QQdVPsmD9/aCq1xsIhbqvTaec=
-X-Received: by 2002:a05:690c:7006:b0:70e:82d6:9af2 with SMTP id 00721157ae682-7183519693bmr85546807b3.34.1752736923765;
-        Thu, 17 Jul 2025 00:22:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFulp94zzqufWxgbn/qqUK0u8D80QwhjnNGORTCxK8HgNdkob8Z42M9OX9p9UcMtp5qaidEXGBGcHvo62zvmAU=
-X-Received: by 2002:a05:690c:7006:b0:70e:82d6:9af2 with SMTP id
- 00721157ae682-7183519693bmr85546287b3.34.1752736923365; Thu, 17 Jul 2025
- 00:22:03 -0700 (PDT)
+        bh=JFbE7+bxkztH8ht0A9j4wnG3HbzAi42oef01y44iq/o=;
+        b=UhJNVoMU7UV3pC5buv4lUls8bOjW526idRoihO9JVtNbx7N3FTr8aL2na4VVLwa/Nx
+         REtqJgruaXiEAi5btF6B8RDKxywDIH7x+vEHSGJhEtVePm1NtGfEEg5Ay+qYL32cE2Ph
+         ye1pKbOJJLR8IA0sxGzbt8I9gNzzs3/IDpkHMHI1zYsfyXn/wrRFgdsBhsq0GersLYVn
+         D48ZVAIhE08L6TrMDG0c4Doz5QJP6wKw0AqfSRcZDfgfH8BI0c2hf5gmSzibeHIklJaJ
+         pHdDVQnuXsL/IQkkZGvPIVd5b7YOs8WFj6jxm/PaN+ghdvP8dRGp2/q+4yYB54xhgDac
+         rVsw==
+X-Forwarded-Encrypted: i=1; AJvYcCV5gv5iTIvDw/qs/Uuk0qOSqxBCPai7aV39oXLVCBuwpd4PVxHjV7y0Ag2FUEze27IykbqK7fjCD74=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4s1sHsRblzqkVbwgCHi6iXqHuiqbBQIe0Jxa7xtY6k00TaOSS
+	JNo7RfigxOBMmJCwo+TCYrbgOEFaCKjOvJwyU1SbwNlg4NmFBVEqy/3dmvBD5Vti3RifUc9A9ft
+	l38mX/XyBPZ6wE3ma0XXSJvPR44L9iyGd/pcVo+hdgmJUELleSZ9yz8gSSzo2rlmwCtXo//dKEZ
+	aCVICqKv5zx/BH32Vp0LfIMdH0G+d2FtZ96PL7
+X-Gm-Gg: ASbGncsLfeN0qBxkxsQj5rcIv5R9eFdp1rEE7NJTd1up9WMF/+dmz3uq0z8qPpsBhik
+	4UB5k/uaFPkehmEAT+RSeZll93EVd1V0vBsdB6Vbg3+3IvPdxXXv5fhRhSH2oaI/hEdMq0gm9Yb
+	v+blyI8P+Zqw6plfODtXgKG2c=
+X-Received: by 2002:a05:690c:350d:b0:718:2154:62df with SMTP id 00721157ae682-71837469c95mr83298357b3.35.1752736971128;
+        Thu, 17 Jul 2025 00:22:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHTEQOqXObebRqrlKJLemLbpJQWqKxX4FiFWdy7vlPZ029cLEq4+lOCKX4kkTmc9Zh7ynQj/lyoUlwrfL87Fyg=
+X-Received: by 2002:a05:690c:350d:b0:718:2154:62df with SMTP id
+ 00721157ae682-71837469c95mr83295897b3.35.1752736967211; Thu, 17 Jul 2025
+ 00:22:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250714003207.113275-1-npache@redhat.com> <20250714003207.113275-2-npache@redhat.com>
- <qgcvsfhoq3pnvxhdn73dopbtvi75oghbaydg27atqfp556u6sa@ixwdwi73lgkl>
-In-Reply-To: <qgcvsfhoq3pnvxhdn73dopbtvi75oghbaydg27atqfp556u6sa@ixwdwi73lgkl>
+References: <20250714003207.113275-1-npache@redhat.com> <20250714003207.113275-5-npache@redhat.com>
+ <a337c251-c152-4f57-8ead-6e4419e49f0c@redhat.com>
+In-Reply-To: <a337c251-c152-4f57-8ead-6e4419e49f0c@redhat.com>
 From: Nico Pache <npache@redhat.com>
-Date: Thu, 17 Jul 2025 01:21:37 -0600
-X-Gm-Features: Ac12FXxi7mHJAWB-d7W3oMKlvMwZbeUXqKMgcsTZqrDy3LQaENgncw19n5KwkQU
-Message-ID: <CAA1CXcAmkembYSSYwRq6avfQN6TJnp8=f99MDv1kkEaL-huczA@mail.gmail.com>
-Subject: Re: [PATCH v9 01/14] khugepaged: rename hpage_collapse_* to collapse_*
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, david@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
-	akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org, 
-	peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com, 
-	sunnanyong@huawei.com, vishal.moola@gmail.com, 
+Date: Thu, 17 Jul 2025 01:22:21 -0600
+X-Gm-Features: Ac12FXzL2cbWnmcpfj5Yy4cS_OOfF-n9brr7FXMARu3knPEuWSWCEGWa47WO3XM
+Message-ID: <CAA1CXcDmoJqt7BAnQv=AcJatZ9cvSL-=zuEppLBpYJE_rMNDdQ@mail.gmail.com>
+Subject: Re: [PATCH v9 04/14] khugepaged: generalize alloc_charge_folio()
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	ziy@nvidia.com, baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
 	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
 	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
 	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
@@ -92,83 +92,119 @@ To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 16, 2025 at 8:30=E2=80=AFAM Liam R. Howlett <Liam.Howlett@oracl=
-e.com> wrote:
+On Wed, Jul 16, 2025 at 7:46=E2=80=AFAM David Hildenbrand <david@redhat.com=
+> wrote:
 >
-> * Nico Pache <npache@redhat.com> [250713 20:33]:
-> > The hpage_collapse functions describe functions used by madvise_collaps=
-e
-> > and khugepaged. remove the unnecessary hpage prefix to shorten the
-> > function name.
+> On 14.07.25 02:31, Nico Pache wrote:
+> > From: Dev Jain <dev.jain@arm.com>
 > >
-> > Reviewed-by: Zi Yan <ziy@nvidia.com>
+> > Pass order to alloc_charge_folio() and update mTHP statistics.
+> >
 > > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > Co-developed-by: Nico Pache <npache@redhat.com>
 > > Signed-off-by: Nico Pache <npache@redhat.com>
->
->
-> This is funny.  I suggested this sort of thing in v7 but you said that
-> David H. said what to do, but then in v8 there was a discussion where
-> David said differently..
-Haha yes I'm sorry, I honestly misunderstood your request to mean
-"drop hpage_collapse" not just "hpage". In a meeting with David early
-on in this work he recommended renaming these. Dev made a good point
-that renaming these to khugepaged is a revert of previous commit.
->
-> Yes, I much prefer dropping the prefix that is already implied by the
-> file for static inline functions than anything else from the names.
->
-> Thanks, this looks nicer.
-I agree, thanks!
->
->
+> > Signed-off-by: Dev Jain <dev.jain@arm.com>
 > > ---
-> >  mm/khugepaged.c | 46 +++++++++++++++++++++++-----------------------
-> >  1 file changed, 23 insertions(+), 23 deletions(-)
+> >   Documentation/admin-guide/mm/transhuge.rst |  8 ++++++++
+> >   include/linux/huge_mm.h                    |  2 ++
+> >   mm/huge_memory.c                           |  4 ++++
+> >   mm/khugepaged.c                            | 17 +++++++++++------
+> >   4 files changed, 25 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation=
+/admin-guide/mm/transhuge.rst
+> > index dff8d5985f0f..2c523dce6bc7 100644
+> > --- a/Documentation/admin-guide/mm/transhuge.rst
+> > +++ b/Documentation/admin-guide/mm/transhuge.rst
+> > @@ -583,6 +583,14 @@ anon_fault_fallback_charge
+> >       instead falls back to using huge pages with lower orders or
+> >       small pages even though the allocation was successful.
+> >
+> > +collapse_alloc
+> > +     is incremented every time a huge page is successfully allocated f=
+or a
+> > +     khugepaged collapse.
+> > +
+> > +collapse_alloc_failed
+> > +     is incremented every time a huge page allocation fails during a
+> > +     khugepaged collapse.
+> > +
+> >   zswpout
+> >       is incremented every time a huge page is swapped out to zswap in =
+one
+> >       piece without splitting.
+> > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> > index 7748489fde1b..4042078e8cc9 100644
+> > --- a/include/linux/huge_mm.h
+> > +++ b/include/linux/huge_mm.h
+> > @@ -125,6 +125,8 @@ enum mthp_stat_item {
+> >       MTHP_STAT_ANON_FAULT_ALLOC,
+> >       MTHP_STAT_ANON_FAULT_FALLBACK,
+> >       MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE,
+> > +     MTHP_STAT_COLLAPSE_ALLOC,
+> > +     MTHP_STAT_COLLAPSE_ALLOC_FAILED,
+> >       MTHP_STAT_ZSWPOUT,
+> >       MTHP_STAT_SWPIN,
+> >       MTHP_STAT_SWPIN_FALLBACK,
+> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> > index bd7a623d7ef8..e2ed9493df77 100644
+> > --- a/mm/huge_memory.c
+> > +++ b/mm/huge_memory.c
+> > @@ -614,6 +614,8 @@ static struct kobj_attribute _name##_attr =3D __ATT=
+R_RO(_name)
+> >   DEFINE_MTHP_STAT_ATTR(anon_fault_alloc, MTHP_STAT_ANON_FAULT_ALLOC);
+> >   DEFINE_MTHP_STAT_ATTR(anon_fault_fallback, MTHP_STAT_ANON_FAULT_FALLB=
+ACK);
+> >   DEFINE_MTHP_STAT_ATTR(anon_fault_fallback_charge, MTHP_STAT_ANON_FAUL=
+T_FALLBACK_CHARGE);
+> > +DEFINE_MTHP_STAT_ATTR(collapse_alloc, MTHP_STAT_COLLAPSE_ALLOC);
+> > +DEFINE_MTHP_STAT_ATTR(collapse_alloc_failed, MTHP_STAT_COLLAPSE_ALLOC_=
+FAILED);
+> >   DEFINE_MTHP_STAT_ATTR(zswpout, MTHP_STAT_ZSWPOUT);
+> >   DEFINE_MTHP_STAT_ATTR(swpin, MTHP_STAT_SWPIN);
+> >   DEFINE_MTHP_STAT_ATTR(swpin_fallback, MTHP_STAT_SWPIN_FALLBACK);
+> > @@ -679,6 +681,8 @@ static struct attribute *any_stats_attrs[] =3D {
+> >   #endif
+> >       &split_attr.attr,
+> >       &split_failed_attr.attr,
+> > +     &collapse_alloc_attr.attr,
+> > +     &collapse_alloc_failed_attr.attr,
+> >       NULL,
+> >   };
 > >
 > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index a55fb1dcd224..eb0babb51868 100644
+> > index fa0642e66790..cc9a35185604 100644
 > > --- a/mm/khugepaged.c
 > > +++ b/mm/khugepaged.c
-> > @@ -402,14 +402,14 @@ void __init khugepaged_destroy(void)
-> >       kmem_cache_destroy(mm_slot_cache);
-> >  }
+> > @@ -1068,21 +1068,26 @@ static int __collapse_huge_page_swapin(struct m=
+m_struct *mm,
+> >   }
 > >
-> > -static inline int hpage_collapse_test_exit(struct mm_struct *mm)
-> > +static inline int collapse_test_exit(struct mm_struct *mm)
-> >  {
-> >       return atomic_read(&mm->mm_users) =3D=3D 0;
-> >  }
+> >   static int alloc_charge_folio(struct folio **foliop, struct mm_struct=
+ *mm,
+> > -                           struct collapse_control *cc)
+> > +                           struct collapse_control *cc, u8 order)
 >
-> ...
+> u8, really? :)
+At the time I knew I was going to use u8's at the bitmap level so I
+thought I should have them here too. But you are right I went through
+and cleaned up all the u8 usage with the exception of the actual
+bitmap storage.
 >
-> > -static int hpage_collapse_scan_pmd(struct mm_struct *mm,
-> > +static int collapse_scan_pmd(struct mm_struct *mm,
-> >                                  struct vm_area_struct *vma,
-> >                                  unsigned long address, bool *mmap_lock=
-ed,
-> >                                  struct collapse_control *cc)
+> Just use an "unsigned int" like folio_order() would or what
+> __folio_alloc() consumes.
 >
-> One thing I noticed here.
 >
-> Usually we try to do two tab indents on arguments because it allows for
-> less lines and less churn on argument list edits.
 >
-> That is, if you have two tabs then it does not line up with the code
-> below and allows more arguments on the same line.
+> Apart from that
 >
-> It also means that if the name changes, then you don't have to change
-> the white space of the argument list.
+> Acked-by: David Hildenbrand <david@redhat.com>
+Thank you!
+
 >
-> On that note, the spacing is now off where the names changed, but this
-> isn't a huge deal and I suspect it changes later anyways?  Anyways, this
-> is more of a nit than anything.. The example above looks like it didn't
-> line up to begin with.
-I went through and cleaned these up, both on this patch and future
-patches that had similar indentation issues.
+> --
+> Cheers,
 >
-> ...
->
-> Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
-Thanks for your review!
+> David / dhildenb
 >
 
