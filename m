@@ -1,254 +1,109 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E783A1DC1AB
-	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 16:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211F92FCE05;
+	Thu, 17 Jul 2025 16:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752769069; cv=none; b=CtTLkA/X3fR1rw55NgFAhbEDhuyBhN3mT47+4cPhNTZxAqr2mUKw2VvJlFWFzeG9AjA1qhRN+gbWTXbXzAg6dIEqdzwpGjTdBKev6p4+ooDlCRXW2s2ZsByBCicJcVshlLoTwYNZ6C5jniLRvfcfj+h7wjBKRGwpfsUPLgyeLdY=
+	t=1752769793; cv=none; b=eFhr9KXLnvNaswpq8KwTYGvZX+Lh/6xqYBnLRN7FP8ED0YqMuPxHpAqr8QWG9bQRgjlljUteJgjX2WHlCFugseTgQyEf0R6ylcz2mQuj6sKgdaud04eRRpL/Q96IO/JbNWufzTlqlUb47vSA3xtBRKaYDtrcG7rVJ3xiBgJliJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752769069; c=relaxed/simple;
-	bh=4Y/RjTkTJBG1lcOSM/R+PpjsJ58T7Ydi95mMf2enko8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hwXaUtksZAi+2QO6tu3sP+T5gLwQz31boCROVcmn8IQ6b2SsRknICa/0MbsdP8U4RO4qbOPw3VkN56J3BrKDlbdZgUllL1w8V/Y2hu/7R1O3Dhj1DOu1xoL3VVRFQGCiHgT+pCsy2a2Q33LtqUcX6yUWHTdmHasnXaGxf2JFPmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PSgMAeAA; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1752769793; c=relaxed/simple;
+	bh=APhv1ohooqunwbt1ilpE0uWE0XDIAzeQB7Zkt/Wf6RA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=B6VNbOU/Az03CU/g7ut/SRfVqjw4s3TcwdepbZhrE0wrDvLUfhjvrw4bzPzkAydhB5+phFUpHUz8I0HnwREBbcHamB0+BVn7zXUeJglvHo6BRfNg5opsShNgpcfGFFCParYuRzNEUCt1A1UP9Shbr8SKPXnmkAVP6FG5uxlUwdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kMJlWvv2; arc=none smtp.client-ip=209.85.161.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PSgMAeAA"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-553d771435fso1326639e87.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 09:17:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kMJlWvv2"
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-611f48c6e30so570618eaf.0;
+        Thu, 17 Jul 2025 09:29:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1752769066; x=1753373866; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1752769791; x=1753374591; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4Y/RjTkTJBG1lcOSM/R+PpjsJ58T7Ydi95mMf2enko8=;
-        b=PSgMAeAAPc/Jl5L/MBOijdfKvVN+tZfTwfp/3VWA+7jBRL6t16zbHUK0bnoIKic4o7
-         PDfdfrfWYz1RPznBcg+ueghDLZpq9RyMrV4oqQDHG4uj79XiYBN9kprUKE0v/jpzSMfw
-         GK5F6JVAmLaumy9iqEYwMrwrsQ5UfmuWPJtVs3HGf7WwygGYu5DGzC3ygrVf2TEnP994
-         D42FhbTXKm5J1WIEaIIKP7MezWOiAwgjO3OHWV+J6FvUQyGD8L5Yqcz83JTCOFCdgyiN
-         pl00AL805j6bfwdmMhwrMmeJa/DILxHrtVPHOsWZZJasMXRGMoSc+HMR1BLnPARGLryR
-         5e9A==
+        bh=4Ua9f7sAcXdU92kQoep+0V7OjMGT5TY4UeJF4Gmds1o=;
+        b=kMJlWvv2btEp3SgfooktxVLSnam90nLPx0WiPrO4ONa3fOQOC9X3QeCiQPqKHX/eh0
+         ftCSwe7u/O5SstdFdRTHklHaaz5xgGBRHIFU0Sq2tb5JiRea/9Phq38xtyo2BQ34NsIm
+         GZz7E32DuZicTTPS3zZGQypvxjHdKVCKmLGrpYx1hI0nsCYAnD7LFXCIMgN5tNVSGbWg
+         hyqBqGXY9dMzXzUxVdDd+L2+7VeBz5y868BLV6ZE6yUpRVFXgZVFh3sDi84wFjUB2QE7
+         2g2mgStvKBKFscm6YiTHITTzjtM5saEzcuR1MSjFe8eL8qvJsP0ppHZcAybFw7ciI5IB
+         LrqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752769066; x=1753373866;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1752769791; x=1753374591;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4Y/RjTkTJBG1lcOSM/R+PpjsJ58T7Ydi95mMf2enko8=;
-        b=cNPsnqf+X5+XH0arN6iYjp9sQjpSAsIPKk2AmB7trVKwReY/RinTX18/lqpFCxyzoW
-         ng8XhvVvgm4uF+nZ2o+QzTsuRAnK8KKrvuMlFSwv/qjmhIvFtk7v/UDndKNBBhDTd/fT
-         NiHVxub02YAum+etGQOWO/Y3k/KpAcliboE6IL5PBnY7ekMppOEwjUmAqHYQDxZYXgzn
-         eQ96KJr8owsNTBnwuhzH7bQ34MdTPpyZlV3goPcQBHdgXmJuRzl/aOeKEoLClO/Khz1A
-         vB0Qb+v6Pb4k5qQ7W1CoIXjWiDoBCRjucBHPKEse4Ilcu+iC+RmprXJvnUE1lxO2HmFI
-         UXwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQxcNXzNALebJzm+Az/dQgHU+/3FF7BQK29ZjzLtafCXw41NrukEUy3ed+jPSn9hbXl6h4C3XokZ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPc03Y4mp6yFEM4XRS6vzffoSyD3hv361juSqjDarTeVhBioQN
-	R5dlDsF4/1w5sHcSPa6QYFLBGRzPj+3iqsLxtGJAjgfOiLlbwvwSORvPmc08ZY7f71eA6CLjZMd
-	liLC9fTCxDE6qFYnlUBmqlywIu7vNxT1JdRSZrGWC
-X-Gm-Gg: ASbGncsTRTz+un1NjnmpItQRsMfCxiFHgRB2sT+uRQVdYJCLrqJ09FmRW4ibBJuiyY9
-	AkqJIv5X+/G8QeX7PkIKyLGHsqn0qgV86tSkHMVGna1CiLbIX7WcbcSVQeJQDsv/Ufsvgv/K36j
-	Ke8opibS0j3B2WgFQm4TIlmf06fze6RIisrJ9OQgtyVcAHXYxcDtaZAG5ooj91tRgTRfLQkb4xy
-	5+EEus=
-X-Google-Smtp-Source: AGHT+IE9DWaA8FRK4xUpNKqB8FmzMQNZFjlXe/JlqckiMUc8pQOkJKRNMXU1R+kPwSGJz+qYdQKKmPj7Fqf+yBV+I3I=
-X-Received: by 2002:a05:6512:31ca:b0:553:65bc:4250 with SMTP id
- 2adb3069b0e04-55a2338ab11mr2382217e87.27.1752769065572; Thu, 17 Jul 2025
- 09:17:45 -0700 (PDT)
+        bh=4Ua9f7sAcXdU92kQoep+0V7OjMGT5TY4UeJF4Gmds1o=;
+        b=JwPyFLP7n8YFfGPU2RMe8y/0Q9kYoCXQtoPnQOqJwt0LwSytBh/fagtRJ1sEyWbT5j
+         pB/noO6Nuwu/KlF+iNgnsz/j4wLonTaSrFjoIbK6eUXRRMCxZz/Q8a2D0+2V1hLB7W38
+         R94168NmCNhboB6LjxknAydtBDSCwKEmO8AsilM3OdJyz8xA+FvgVXcjxzzjJgMHDMbf
+         VJT9BJ2s+qTDoljZM5+9PfH8NlsTVdOoe/Nojr5JXIrtzLKKcIu55Ybq6iC1SS2SbDZV
+         tC0HOJ0leVISddXN10FJbwjB7b/sQYlaFoC/eAYZygZ/jma/I7opOEFe/jkfvxc9o/iC
+         4SiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4W43RR+m6D0N/etgY0IBjQTsOLfXHq8vWVJnBmip5xSwXKpD+reGZZRok8UY7kgYJLR4R0mWZq8NWbb0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEfmg39G6CMWkDczkqLnjI/D5kL1j+W1c0fACGmxaHbPz/5q7o
+	7/PqBTfLfum+/X6V2wdvL5nhtob/8KafvN4zivPB5L6mOhuLTSOvyC+JOG6PyZOY
+X-Gm-Gg: ASbGnctOTpMP80b40wp3W+760dBIcy840CJl/w5fFrqzdURXo5jFg53a0qhK3wO1Elq
+	Bk4+qSX+RqPkpmpQBRvXf7Tb/hmIiKrcEGSzk9HKkCkhBPMwHEpJB3didHhxgatHG4nGG+RZX+z
+	6fMd0wUirz6TuphDHupHrk978kivxXsjtofTt/ZOE7ZYd770nIqp+4HPBoJMFzzCbXOP9nXLNhT
+	WD8Cx+3xJeUCKGY0Nq3vczvQqYsmE/p937qmngLhHWbc6USixo3ke8DQROeN6UmWRLFGIoQ573q
+	3cbIpGRYDCrTKwWXXfwYdQk030JvYZjJ4tEIfVTXg1FZqm4i2ezgDW1prQIr4WATAd2Ufe3giAg
+	nZLBNAGq2LOwUv0Pm1b0xcja6ctkTBm0usrjNq6C1N4w/lBdTw0ld
+X-Google-Smtp-Source: AGHT+IG6usb5+O6R8me7aVnWKbhvkdAP83e12EMhLiK/66uff/hRzZY/MEYTTNwywqlNiwHTFybaiQ==
+X-Received: by 2002:a05:6820:518c:b0:615:83d3:7269 with SMTP id 006d021491bc7-615ada1031amr1530004eaf.8.1752769790899;
+        Thu, 17 Jul 2025 09:29:50 -0700 (PDT)
+Received: from localhost.localdomain ([181.161.11.224])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-613d9f122edsm2870462eaf.27.2025.07.17.09.29.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jul 2025 09:29:50 -0700 (PDT)
+From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Add patch-validator to dev-tools
+Date: Thu, 17 Jul 2025 12:29:48 -0400
+Message-Id: <20250717162948.23078-1-ignacio.pena87@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <87wmjy92r6.fsf@trenco.lwn.net>
+References: <87wmjy92r6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-11-pasha.tatashin@soleen.com> <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
- <CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com>
- <20250625-akrobatisch-libellen-352997eb08ef@brauner> <CALzav=d+XgS1bUs-v7+ws5nYU9y=4uc1c8oVLHrJ16qLpnUi9Q@mail.gmail.com>
- <mafs0sejmse57.fsf@kernel.org> <CALzav=dhuoaS73ikufCf2D11Vq=jfMceYv0abdMxOdaHzmVR0g@mail.gmail.com>
- <mafs04iveu8gs.fsf@kernel.org>
-In-Reply-To: <mafs04iveu8gs.fsf@kernel.org>
-From: David Matlack <dmatlack@google.com>
-Date: Thu, 17 Jul 2025 09:17:17 -0700
-X-Gm-Features: Ac12FXw3JFpwS5UWAzvXtdE2XcBaOGxi7uu6xW5eZbBjwaUzxU-r0d7vc1g83dU
-Message-ID: <CALzav=cUQGF_DnmyDOORssoThmfQwnPgUxQiLmXyAKY1-hyT4g@mail.gmail.com>
-Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, rientjes@google.com, 
-	corbet@lwn.net, rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, 
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
-	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
-	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
-	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 14, 2025 at 7:56=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
-> wrote:
-> On Thu, Jun 26 2025, David Matlack wrote:
-> > On Thu, Jun 26, 2025 at 8:42=E2=80=AFAM Pratyush Yadav <pratyush@kernel=
-.org> wrote:
-> >> On Wed, Jun 25 2025, David Matlack wrote:
-> >> > On Wed, Jun 25, 2025 at 2:36=E2=80=AFAM Christian Brauner <brauner@k=
-ernel.org> wrote:
-> >> >> >
-> >> >> > While I agree that a filesystem offers superior introspection and
-> >> >> > integration with standard tools, building this complex, stateful
-> >> >> > orchestration logic on top of VFS seemed to be forcing a square p=
-eg
-> >> >> > into a round hole. The ioctl interface, while more opaque, provid=
-es a
-> >> >> > direct and explicit way to command the state machine and manage t=
-hese
-> >> >> > complex lifecycle and dependency rules.
-> >> >>
-> >> >> I'm not going to argue that you have to switch to this kexecfs idea
-> >> >> but...
-> >> >>
-> >> >> You're using a character device that's tied to devmptfs. In other w=
-ords,
-> >> >> you're already using a filesystem interface. Literally the whole co=
-de
-> >> >> here is built on top of filesystem APIs. So this argument is just v=
-ery
-> >> >> wrong imho. If you can built it on top of a character device using =
-VFS
-> >> >> interfaces you can do it as a minimal filesystem.
-> >> >>
-> >> >> You're free to define the filesystem interface any way you like it.=
- We
-> >> >> have a ton of examples there. All your ioctls would just be tied to=
- the
-> >> >> fileystem instance instead of the /dev/somethingsomething character
-> >> >> device. The state machine could just be implemented the same way.
-> >> >>
-> >> >> One of my points is that with an fs interface you can have easy sta=
-te
-> >> >> seralization on a per-service level. IOW, you have a bunch of virtu=
-al
-> >> >> machines running as services or some networking services or whateve=
-r.
-> >> >> You could just bind-mount an instance of kexecfs into the service a=
-nd
-> >> >> the service can persist state into the instance and easily recover =
-it
-> >> >> after kexec.
-> >> >
-> >> > This approach sounds worth exploring more. It would avoid the need f=
-or
-> >> > a centralized daemon to mediate the preservation and restoration of
-> >> > all file descriptors.
-> >>
-> >> One of the jobs of the centralized daemon is to decide the _policy_ of
-> >> who gets to preserve things and more importantly, make sure the right
-> >> party unpreserves the right FDs after a kexec. I don't see how this
-> >> interface fixes this problem. You would still need a way to identify
-> >> which kexecfs instance belongs to who and enforce that. The kernel
-> >> probably shouldn't be the one doing this kind of policy so you still
-> >> need some userspace component to make those decisions.
-> >
-> > The main benefits I see of kexecfs is that it avoids needing to send
-> > all FDs over UDS to/from liveupdated and therefore the need for
-> > dynamic cross-process communication (e.g. RPCs).
-> >
-> > Instead, something just needs to set up a kexecfs for each VM when it
-> > is created, and give the same kexecfs back to each VM after kexec.
-> > Then VMs are free to save/restore any FDs in that kexecfs without
-> > cross-process communication or transferring file descriptors.
->
-> Isn't giving back the right kexecfs instance to the right VMM the main
-> problem? After a kexec, you need a way to make that policy decision. You
-> would need a userspace agent to do that.
->
-> I think what you are suggesting does make a lot of sense -- the agent
-> should be handing out sessions instead of FDs, which would make FD
-> save/restore simpler for applications. But that can be done using the
-> ioctl interface as well. Each time you open() the /dev/liveupdate, you
-> get a new session. Instead of file FDs like memfd or iommufs, we can
-> have the agent hand out these session FDs and anything that was saved
-> using this session would be ready for restoring.
->
-> My main point is that this can be done with the current interface as
-> well as kexecfs. I think there is very much a reason for considering
-> kexecfs (like not being dependent on devtmpfs), but I don't think this
-> is necessarily the main one.
+On Thu, Jul 17, 2025 at 09:38:00AM -0600, Jonathan Corbet wrote:
+> Interesting ... overall, we don't generally have detailed documentation
+> for out-of-tree utilities, though there isn't necessarily any reason why
+> we couldn't.  But I'm curious as to why you haven't submitted the tool
+> itself?
 
-The main problem I'd like solved is requiring all FDs to preserved and
-restored in the context of a central daemon, since I think this will
-inevitably cause problems for KVM. I agree with you that this problem
-can also be solved in other ways, such as session FDs (good idea!).
+That's a great question! I kept it external for a few reasons:
 
->
-> >
-> > Policy can be enforced by controlling access to kexecfs mounts. This
-> > naturally fits into the standard architecture of running untrusted VMs
-> > (e.g. using chroots and containers to enforce security and isolation).
->
-> How? After a kexec, how do you tell which process can get which kexecfs
-> mount/instance? If any of them can get any, then we lose all sort of
-> policy enforcement.
+First, I'm still pretty new to kernel development and wanted the freedom
+to iterate quickly as I learn what checks are actually useful. Being 
+external means I can push updates immediately when someone points out
+a new common mistake (like Greg just did with the date check!).
 
-I was imagining it's up to whatever process/daemon creates the kexecfs
-instances before kexec is also responsible for reassociating them with
-the right processes after kexec.
+Second, I wrote everything in bash for simplicity, which probably isn't
+the best fit for the kernel's scripts/ directory. Plus, as Greg mentioned
+in his reply, many of these checks really belong in checkpatch.pl rather
+than a separate tool.
 
-If you are asking how that association would be done mechanically, I
-was imagining it would be through a combination of filesystem
-permissions, mounts, and chroots. For example, the kexecfs instance
-for VM A would be mounted in VM A's chroot. VM A would then only have
-access to its own kexecfs instance.
+So my plan now is to work on patches for checkpatch.pl to add the most
+useful checks there (where they belong), while keeping the workflow 
+helpers as an external toolkit.
 
-> >> > I'm not sure that we can get rid of the machine-wide state machine
-> >> > though, as there is some kernel state that will necessarily cross
-> >> > these kexecfs domains (e.g. IOMMU driver state). So we still might
-> >> > need /dev/liveupdate for that.
-> >>
-> >> Generally speaking, I think both VFS-based and IOCTL-based interfaces
-> >> are more or less equally expressive/powerful. Most of the ioctl
-> >> operations can be translated to a VFS operation and vice versa.
-> >>
-> >> For example, the fsopen() call is similar to open("/dev/liveupdate") -=
--
-> >> both would create a live update session which auto closes when the FD =
-is
-> >> closed or FS unmounted. Similarly, each ioctl can be replaced with a
-> >> file in the FS. For example, LIVEUPDATE_IOCTL_FD_PRESERVE can be
-> >> replaced with a fd_preserve file where you write() the FD number.
-> >> LIVEUPDATE_IOCTL_GET_STATE or LIVEUPDATE_IOCTL_PREPARE, etc. can be
-> >> replaced by a "state" file where you can read() or write() the state.
-> >>
-> >> I think the main benefit of the VFS-based interface is ease of use.
-> >> There already exist a bunch of utilites and libraries that we can use =
-to
-> >> interact with files. When we have ioctls, we would need to write
-> >> everything ourselves. For example, instead of
-> >> LIVEUPDATE_IOCTL_GET_STATE, you can do "cat state", which is a bit
-> >> easier to do.
-> >>
-> >> As for downsides, I think we might end up with a bit more boilerplate
-> >> code, but beyond that I am not sure.
-> >
-> > I agree we can more or less get to the same end state with either
-> > approach. And also, I don't think we have to do one or the other. I
-> > think kexecfs is something that we can build on top of this series.
-> > For example, kexecfs would be a new kernel subsystem that registers
-> > with LUO.
->
-> Yeah, fair point. Though I'd rather we agree on one and go with that.
-> Having two interfaces for the same thing isn't the best.
+Given this direction, would you prefer I withdraw this documentation 
+patch? I'm happy either way - just thought it might help other newcomers
+in the meantime, but I totally understand if you'd rather wait until
+the checks are properly integrated into checkpatch.pl.
 
-Agreed, tt would be better to have a single way to preserve FDs rather
-than 2 (LUO ioctl and kexecfs).
+Thanks for reviewing this!
+
+Thanks,
+Ignacio
