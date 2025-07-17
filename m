@@ -1,47 +1,69 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7181223DCE;
-	Thu, 17 Jul 2025 20:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B6520FAB6;
+	Thu, 17 Jul 2025 20:15:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752782910; cv=none; b=Ph5nJYlEd+0a5swrjCjoZKravDeAwtqV+zVFErvzfcSPlLrh2N1LMNlcaf6Qpvuogc3Mdq/miY5aQRHO9qfc0FRjKg47RVZ7TgJimTU5ZQmR42nNY8hWbqJz0EMELdxptG8xZmn7En1nzPfp1df3+QSLkk9goM3kfBnhlSOdV9I=
+	t=1752783321; cv=none; b=X/V1ksPzHcUjUOHrMfCPtvtPUquqN6Gk4nPJua3AV0qlbuL+BIIIgffJ0ZNfg4VnTk9HHacNDZKgHkP1iefyNcO3iKEBMFwjl3wRxDJguftAk5ouWyhhQvPTAOLJks7jgE2neARHvSrYQTJI7eP77JTNE0dwCACg/rosfV4aMW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752782910; c=relaxed/simple;
-	bh=nTpjYF7OS2BfN5+r0VIu6Sj2KcuDF69GVm+Mkzpj8hk=;
+	s=arc-20240116; t=1752783321; c=relaxed/simple;
+	bh=orGo+e6PmYRc0yhWBvx1j4JissPIl+skfAa2q8N5kA0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VVR/lGezP2lHnFNuZV0/qxfELWh+ry084/ngfUDIbq1qC5viNn+l95iD3fOcZD+nmn8CWUiHBLp7ZXvA1W6N+X8KLLfc/dnUjyLs2wvWKtbBr5HyVjXg/wopXTUUmJlYjlFrNj7iJ2Pb8ODuoXzgoEU/UFRTOq3Gdg+nHHpd5VA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OMYv7235; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=lwSJuI0uAhR+b6PT/HeVK5cilLlii/+FzBe/dF0qaMvIewnrp5VL7wCdmk8gxZ0LH8UsuTWJNi9TzdjkzvgtDJpeRRAz9/cMBPMpHci4V6l9iPnsHZyXBnaIxk9rksvMOo3ZYYNE1o2WBAAa+/aOfFJBHadTWP6sVJEumn9Qz1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qYCc5Pq8; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OMYv7235"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 245CD403E1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qYCc5Pq8"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EAA3C403E1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1752782908; bh=I9SR1/DU9UKPIoxKbVay4GFVE4kiXvXdOhs5xJVcEMs=;
+	t=1752783319; bh=JyCg4buwTgeSf92B/ckI/zvTVv0LR8OvvXEMHW9FLS0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OMYv7235y0rkOW2We8V/5ZO1W5xIb3gg0gYEnDM/FjmSWQkhiufhy7ReQ03BB3FFd
-	 AtZctJs2OkmXrl0uV/DtfcQwRXxha6tWge/Bq+VWysYZNfLoZBOtLvMPTq6U0EE5Ep
-	 3n8dGqcOPxDwj2H8Gne+C8pi/n/W8RaslIT+hbOjdVbNeUSnbhYP21bPX5cspi9OUT
-	 1Voa07sL2zBo3yzqjHrlrH0SnuEQydfRaiP+JDuLfVTloEgoeahYCeGwQKOc4QuXnr
-	 NLOOM1Tgxng6ifSmUbtzDU5HDFGAK1rEul+qORi3BZhLnZiORwRzPEp4xdcqgkP20T
-	 9Y/a74iT6AKsg==
+	b=qYCc5Pq80L6NNEBj2nIkMRSfXwRNZVFA142TIKS71oO93QeMrUiwUaGDZ/y7nfxfx
+	 +90gEWFUHF12P+VtJRq1VQ2M0/Oja9691zPeOzeF231p7EhN9jqjSl4ngmWxWAP1+3
+	 FMGh3GIAtNSGzQDpkZEo0p88oolcTwiDszuxwRW8R0di9EOWUDPd7h7I0Z9oYPMY7n
+	 VK0T1VmZQCfIsfH2pQfbU1E19FiXStyvhtDqMYJlM9RjxTy/B6Lz8EUkgWe6xsMiHm
+	 Io5WHV/mpecywRV8aiQDXNeywsfh6aSr6nDggpO3XQMZBkz3k7UIl9q81huOsI+AxG
+	 E8tNUWD+HFvxQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 245CD403E1;
-	Thu, 17 Jul 2025 20:08:28 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id EAA3C403E1;
+	Thu, 17 Jul 2025 20:15:18 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Zhiyu Zhang <zhiyuzhang999@gmail.com>, dzm91@hust.edu.cn,
- si.yanteng@linux.dev, zhiyuzhang999@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] scripts: add origin commit identification based on
- specific patterns
-In-Reply-To: <20250713163418.1459-1-zhiyuzhang999@gmail.com>
-References: <20250713163418.1459-1-zhiyuzhang999@gmail.com>
-Date: Thu, 17 Jul 2025 14:08:27 -0600
-Message-ID: <87o6tia8ck.fsf@trenco.lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux RCU <rcu@vger.kernel.org>, Linux CPU
+ Architectures Development <linux-arch@vger.kernel.org>, Linux LKMM
+ <lkmm@lists.linux.dev>, Linux KVM <kvm@vger.kernel.org>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Frederic Weisbecker
+ <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel
+ Fernandes <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Zqiang <qiang.zhang@linux.dev>, Alan Stern <stern@rowland.harvard.edu>,
+ Andrea Parri <parri.andrea@gmail.com>, Will Deacon <will@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Nicholas Piggin
+ <npiggin@gmail.com>, David Howells <dhowells@redhat.com>, Jade Alglave
+ <j.alglave@ucl.ac.uk>, Luc Maranget <luc.maranget@inria.fr>, Akira
+ Yokosawa <akiyks@gmail.com>, Daniel Lustig <dlustig@nvidia.com>, Mark
+ Rutland <mark.rutland@arm.com>, Ingo Molnar <mingo@redhat.com>, Waiman
+ Long <longman@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Bagas
+ Sanjaya <bagasdotme@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Tejun Heo <tj@kernel.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ Changyuan Lyu <changyuanl@google.com>, Dan Williams
+ <dan.j.williams@intel.com>, Xavier <xavier_qy@163.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Maarten Lankhorst <dev@lankhorst.se>, Christian
+ Brauner <brauner@kernel.org>
+Subject: Re: [PATCH 0/4] Convert atomic_*.txt and memory-barriers.txt to reST
+In-Reply-To: <878qknc56f.fsf@trenco.lwn.net>
+References: <20250717080617.35577-1-bagasdotme@gmail.com>
+ <878qknc56f.fsf@trenco.lwn.net>
+Date: Thu, 17 Jul 2025 14:15:18 -0600
+Message-ID: <87freua815.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,21 +72,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Zhiyu Zhang <zhiyuzhang999@gmail.com> writes:
+Jonathan Corbet <corbet@lwn.net> writes:
 
-> This patch adds the functionability to smartly identify origin commit
-> of the translation by matching the following patterns in commit log:
-> 1) update to commit HASH
-> 2) Update the translation through commit HASH
-> If no such pattern is found, script will obey the original workflow.
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
 >
-> Signed-off-by: Zhiyu Zhang <zhiyuzhang999@gmail.com>
-> ---
->  scripts/checktransupdate.py | 38 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 37 insertions(+), 1 deletion(-)
+>> Atomic types, atomic bitops, and memory barriers docs are included in kernel
+>> docs build since commit e40573a43d163a ("docs: put atomic*.txt and
+>> memory-barriers.txt into the core-api book") as a wrapper stub for
+>> corresponding uncoverted txt docs. Let's turn them into full-fledged reST docs. 
+>
+> Did it occur to you to look at the changelog for the commit you cite,
+> which explains why those documents are handled the way they are...?
 
-So I don't have any objection to this, but wouldn't mind hearing from
-folks who actually use this script - has anybody else tested it out?
+I'm sorry, that caught me at the wrong time, and I was rather more harsh
+than I should have been.  I should not have responded that way.
+
+For future reference, though, when somebody has gone out of their way to
+accomplish a task in a specific way, there usually *is* a reason for it.
+If you can't find that reason, the best thing to do is usually to ask.
 
 Thanks,
 
