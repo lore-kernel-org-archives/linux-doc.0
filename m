@@ -1,102 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6562B262815;
-	Thu, 17 Jul 2025 23:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CBE244663;
+	Thu, 17 Jul 2025 23:40:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752794721; cv=none; b=PiJRkhooH1afwxsGdRJtuJVFE3DqlgG7AI9TroXDp/yph8CMNKuju6ggm8ARMrrayQicXusKR0cds2LuGaBPaBITdLuDFTqWZH0sIJalo/+GUEcEplXK7bH2m9hbkozArmO03lB0uGlln1UZ7V4DXjmxi4TzNgwtRrQ1X0KPpwY=
+	t=1752795644; cv=none; b=j0Ke+msGihRSGrsYPmskkq3cxSAG1ac6TvskDVboRx79vK9wE81Hl2fKq2jYL4gp4jLyRdE0lLhYL9PLd6WulLhPcyVwjErTZGPhoXBPAiwldUUoHMFU3Gflv1BIQ/8I6b0O8O9p5yBi/eSt5TUGK7d0AbfP0gX69+RpojDtqlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752794721; c=relaxed/simple;
-	bh=hftQ+JwDBzI0zRNacsurrBG64kHnxlfHAL+GJc3UtlU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pcPO4mDGdAafO2KAr6atUTCti74qydyxJ6nmOzgaMho8DxAcr78PKStlTjaAzOCcU/cECwuP1PqMOjaEuOEGX1fIKApCyMu6XWlMFAoEqCRgOGxwpR/kSqaGUaLTL3PNgJDt9Qqmsy0ssHkUbnKAro2cp/9wWK7ZkAW5IxVeAO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FsqjdsQS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752795644; c=relaxed/simple;
+	bh=ghBY1u06RQVl7caGRzm3Kqd91PsHNCfEneyju2vTcIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jUCKmSAU0W555P1S/aHn42BRBaO62gWEGW9iZjh4nJNvDKuoBGscjkPXqYBxAx9/l03QgaXCbaFlQdt8mVRJW7DN4bEAUmyniBfwmbDKepALBWFYmmMeJafe69CfhLNitHAWaDRcBSDuMqQyJxLD+vyeRR0gIfoMYx6+NyDsizU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UdLl34r+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FsqjdsQS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B589AC4DDE4;
-	Thu, 17 Jul 2025 23:25:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UdLl34r+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3429C4CEE3;
+	Thu, 17 Jul 2025 23:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752794720;
-	bh=hftQ+JwDBzI0zRNacsurrBG64kHnxlfHAL+GJc3UtlU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FsqjdsQS75ijp4EewZkFNnZ7oGWM+bQuK2TZnkPG1i4tUtkePSQGvhT3cJzizICIP
-	 n7VsETLWXSDSuNlB4j5w4GFk77PgUesXjhwz6yMoT31mNWaWjswPyAxrArx7XoTrzv
-	 qwRQ4j9gCoTu0mZgFXm9mV43Qt0uBu3ieYyCdmQG53nX22891/8O+gwogWE5UBED26
-	 ScLxadVl8C+/OHTvTZH1MoVS2hlIEz8r+PE+d+h/fgLqGQh1uU2RoHTiTONCiUEx+a
-	 5pAsMwG5Sv8s6jqrUJ/cIcIw1BL4yue1cJRn64/wKIgKX5LH0prSsOZ29wNitGYIID
-	 IN144gC7uUisA==
-From: Kees Cook <kees@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v3 12/13] configs/hardening: Enable CONFIG_KSTACK_ERASE
-Date: Thu, 17 Jul 2025 16:25:17 -0700
-Message-Id: <20250717232519.2984886-12-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250717231756.make.423-kees@kernel.org>
-References: <20250717231756.make.423-kees@kernel.org>
+	s=k20201202; t=1752795644;
+	bh=ghBY1u06RQVl7caGRzm3Kqd91PsHNCfEneyju2vTcIA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UdLl34r+HqmNKqWBlkKD1rEBbNQo8dTKaB2cDs3pjy7GoC7tvjxuNI08s91vqC3jy
+	 3muBFKYDArqYVpTO7NwuFpoeSLiZMhYKZ6m0tYtvNmAknUQprv7fGSQmulYKbdVJDj
+	 SyyD9uKEwXibjrJOszDDiNOmKuGDf3vaqNmOe9Mvb+L3FrLgcLC/QK9Hnpb/0HzfS4
+	 ar0PRWxwtVKFgwFdNcEILDKlgapYnkd9nZOVYdJihPJZkutFOSpXWDh0OW8y683kkL
+	 OxTtJ7pagF0Hj4t4H30Tosq3G9mG8FXZnFyG0ImUfxCDlaitqDhrFA31bSeCrQZ4ME
+	 SWU0lipl3oi3g==
+Date: Thu, 17 Jul 2025 16:40:42 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Gur Stavi <gur.stavi@huawei.com>
+Cc: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
+ <corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
+ <fuguiming@h-partners.com>, <gongfan1@huawei.com>, <guoxin09@huawei.com>,
+ <helgaas@kernel.org>, <horms@kernel.org>, <jdamato@fastly.com>,
+ <lee@trager.us>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
+ <meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
+ <pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
+ <shenchenyang1@hisilicon.com>, <shijing34@huawei.com>,
+ <sumang@marvell.com>, <vadim.fedorenko@linux.dev>, <wulike1@huawei.com>,
+ <zhoushuai28@huawei.com>, <zhuyikai1@h-partners.com>
+Subject: Re: [PATCH net-next v09 1/8] hinic3: Async Event Queue interfaces
+Message-ID: <20250717164042.6802a18b@kernel.org>
+In-Reply-To: <20250717080229.1054761-1-gur.stavi@huawei.com>
+References: <20250716183208.26b87aa8@kernel.org>
+	<20250717080229.1054761-1-gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1038; i=kees@kernel.org; h=from:subject; bh=hftQ+JwDBzI0zRNacsurrBG64kHnxlfHAL+GJc3UtlU=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmVbbFBctklSlm/hUWtYmesmm/+4Mz/o2oveebseJx+3 f2N065JHaUsDGJcDLJiiixBdu5xLh5v28Pd5yrCzGFlAhnCwMUpABPZrM/wT/+s9b/zj2UjKz2d 0opOWQdaqM192v1qrb5mpnFiz/LKFYwMM5YFnp723f9/aP7hJMnrxuH6yRfrcxYbWx+zavrULTm NDwA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Since we can wipe the stack with both Clang and GCC plugins, enable this
-for the "hardening.config" for wider testing.
+On Thu, 17 Jul 2025 11:02:29 +0300 Gur Stavi wrote:
+> On Tue, 15 Jul 2025 08:28:36 +0800 Fan Gong wrote:
+> > +/* Data provided to/by cmdq is arranged in structs with little endian fields but
+> > + * every dword (32bits) should be swapped since HW swaps it again when it
+> > + * copies it from/to host memory. This is a mandatory swap regardless of the
+> > + * CPU endianness.  
+> 
+> > This comment makes no sense, FWIW. The device writes a byte steam
+> > to host memory. For what you're saying to make sense the device would
+> > have to intentionally switch the endian based on the host CPU.
+> > And if it could do that why wouldn't it do it in the opposite
+> > direction, avoiding the swap ? :/
+> >
+> > I suppose the device is always writing in be32 words, and you should
+> > be converting from be32.
+> >  
+> 
+> Lets assume the following is a simplified PACKED cmdq struct:
+> 
+> struct some_cmdq {
+> 	__le16 a;
+> 	__le32 b;
+> 	__le16 c;
+> };
+> 
+> Lets denote x0 as lsb of field x. x3 as msb of 32 bits field.
+> 
+> Byte stream in CPU memory is:
+> a0, a1, b0, b1, b2, b3, c0, c1
+> 
+> The HW expects the following byte stream:
+> b1, b0, a1, a0, c1, c0, b3 ,b2
+> 
+> A native struct would be:
+> 
+> struct some_cmdq {
+> 	__be16 b_lo;
+> 	__be16 a;
+> 	__be16 c;
+> 	__be16 b_hi;
+> }
+> 
+> It does not make sense from code readability perspective.
+> While this is a simplified example, there are similar problems in real cmdq
+> structs.
+> Also group of fields that makes sense (based on their names) for being
+> logically near each other become separated in "native" big endian arrangements.
+> 
+> This is a case where driver need to compensate for bad HW decisions.
 
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: <linux-hardening@vger.kernel.org>
----
- kernel/configs/hardening.config | 3 +++
- 1 file changed, 3 insertions(+)
+My point was just that the calculation does not survive change of
+endian on the host. You given an example of the host struct being
+in LE and then the swap working out. But IIRC the driver does not
+use LE for its view of the fields. So the host view of the struct
+is:
 
-diff --git a/kernel/configs/hardening.config b/kernel/configs/hardening.config
-index dd7c32fb5ac1..d24c2772d04d 100644
---- a/kernel/configs/hardening.config
-+++ b/kernel/configs/hardening.config
-@@ -63,6 +63,9 @@ CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y
- # Initialize all stack variables to zero on function entry.
- CONFIG_INIT_STACK_ALL_ZERO=y
- 
-+# Wipe kernel stack after syscall completion to reduce stale data lifetime.
-+CONFIG_KSTACK_ERASE=y
-+
- # Wipe RAM at reboot via EFI. For more details, see:
- # https://trustedcomputinggroup.org/resource/pc-client-work-group-platform-reset-attack-mitigation-specification/
- # https://bugzilla.redhat.com/show_bug.cgi?id=1532058
--- 
-2.34.1
+struct some_cmdq {
+ 	u16 a;
+ 	u32 b;
+ 	u16 c;
+};
 
+The comment saying that the swap is "regardless of host endianness"
+is just confusion on the part of the author :/
