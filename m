@@ -1,97 +1,108 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64A82868B7;
-	Thu, 17 Jul 2025 08:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B615D2877C6;
+	Thu, 17 Jul 2025 08:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752742505; cv=none; b=X3nnt0dBLU51vks1OI8x/0nFIhFY1Czsm6+Mh1b2gFivJEYBPLglI0RInidgpTUgDJDWMu4YCqfxF9NaYMNZyjB5FEcrWHgLUsn28xAgxtDInznxyXCGG95wKrxAKWP09Ervsar/dgtV8/v4Adg3qrio+RNHtD6iluP2C82Jeek=
+	t=1752742689; cv=none; b=Y5vKRpx0QI7Jb0VWaPx3BSqjuNoI2u60YmrkUXGoppVeel45IrPRd+UMParL+5zzJDq+egoyjx7K/xF1/wSHA41tmBGMUWwZt8CiwvQS4mUyeLfc1wQUsv4+J1W0wLxRNbMniwiUdwCgPuZbWoqlxshiOjJazDHdKjInGpHtTbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752742505; c=relaxed/simple;
-	bh=tqxIONYX1LCYkk1Pt0xkmkCz19munA7lGobAGYzCGbE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PM5x1tvHlN2fzWBpR7eo1ERGjTM2h1wf3CcDUoWjpjousTL8R5UhCY4GUdCW1dvVJXea3DmLihnWLS/FqUId5LCgp9Vm7kEKdU5TUq2LkkDC39pyucs2qIZwcdgWstGO9StkJ+SVlH9yYXwAc6jaigzS0ouX+FM/8S5jw169R+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 15AFA41DF1;
-	Thu, 17 Jul 2025 08:54:57 +0000 (UTC)
-Message-ID: <3daff60c-0cf1-437e-bc70-8c84f1866613@ghiti.fr>
-Date: Thu, 17 Jul 2025 10:54:57 +0200
+	s=arc-20240116; t=1752742689; c=relaxed/simple;
+	bh=2jMdX6j55NT9eihyocsisG6oF4T76N5o4zc+QU5NAAM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=BgqOT6G9u57H2VT1fG0h+UlKNicstwaxjCoEarVglKtZD6SBTMaEv3nzh3bv++cV9IZvsUuccTTFCqRJcW/2SP6YbVKlPIWN++EthOXH9psDQD9rlbC2EOdCxbaaSxfsPOTQCqfw+gnrhRiUgkhch2fRPwIhGgB/5J8Hg+6fh64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iyM1zKKI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7NzxRth6; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iyM1zKKI";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7NzxRth6"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1752742134;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pWbDBIIXVL3ZWM9iRY5xS/P3YT+spaFoacgu8gc6A0w=;
+	b=iyM1zKKIkm8FsKvW1XpLqiIs0+6vNqb26PlBs1dckBn+rPECfpE7rV50zGolGtlNG84k7M
+	8tW6dRW9xYhUr7ePkQm6zX94jVSXFqfBVGWwRgmy0oF6weXs1+CmEYwmiOLupy31QbJ40/
+	qEc9VcHdz86LQOAwhBfxODdlV+aLtbWMqTnGR3jnLNaQUMKQ6zrQYNCkeMqS5C1TU8tYVY
+	9URM33pKqrZv9XNAI/XhyBLeC65HoEXgXm368eN3kc3b02OwQK3jHxK9I8B/YJXc80lyA4
+	QTK60AC68VZsJ4vXCh6ZnTu5C5uRZQbbamhi2CjIJ/ANMwQypeC7nLpGfzJFrw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1752742134;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pWbDBIIXVL3ZWM9iRY5xS/P3YT+spaFoacgu8gc6A0w=;
+	b=7NzxRth6zWVV/6I4Dq1iHBWA9/fd5z/WOJ49OSIcjU2VB/cZiJ3oAh1IqTKWw4HSAjRS11
+	vimlphpNeiIQ6+Cg==
+Date: Thu, 17 Jul 2025 10:48:05 +0200
+Subject: [PATCH v5 03/15] kbuild: doc: add label for userprogs section
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/7] riscv: Add xmipsexectl PAUSE instruction
-To: aleksa.paunovic@htecgroup.com, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Palmer Dabbelt <palmer@sifive.com>, Conor Dooley <conor@kernel.org>,
- devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250625-p8700-pause-v4-0-6c7dd7f85756@htecgroup.com>
- <20250625-p8700-pause-v4-3-6c7dd7f85756@htecgroup.com>
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20250625-p8700-pause-v4-3-6c7dd7f85756@htecgroup.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeitdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnheptdeguefhhfevueejteevveeikeelkedvffdufeelveeggfeikeekgfeghfdttdevnecukfhppedukeehrddvudefrdduheegrdduhedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepudekhedrvddufedrudehgedrudehuddphhgvlhhopegluddtrddugedrtddrudefngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopedugedprhgtphhtthhopegrlhgvkhhsrgdrphgruhhnohhvihgtsehhthgvtghgrhhouhhprdgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvl
- hhtrdgtohhmpdhrtghpthhtoheprghouhesvggvtghsrdgsvghrkhgvlhgvhidrvgguuhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvth
-X-GND-Sasl: alex@ghiti.fr
+Message-Id: <20250717-kunit-kselftests-v5-3-442b711cde2e@linutronix.de>
+References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+In-Reply-To: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, Kees Cook <kees@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752742130; l=891;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=2jMdX6j55NT9eihyocsisG6oF4T76N5o4zc+QU5NAAM=;
+ b=+3aySTgi6hWn9mZEvgNetw07NXKrm6NyhIOGMeEqfgPL0d3Qqs8y7i99gbydKBvBgqLxdXGEo
+ Le7o3xihKh1DCfAS37Y50FC2L5PE8tOSeM12h0u6XixSPfJUZrXhOYI
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On 6/25/25 16:20, Aleksa Paunovic via B4 Relay wrote:
-> From: Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
->
-> Add MIPS.PAUSE instruction opcode. This instruction is a part of the
-> xmipsexectl vendor extension.
->
-> Signed-off-by: Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
-> ---
->   arch/riscv/include/asm/vendor_extensions/mips.h | 7 +++++++
->   1 file changed, 7 insertions(+)
->
-> diff --git a/arch/riscv/include/asm/vendor_extensions/mips.h b/arch/riscv/include/asm/vendor_extensions/mips.h
-> index 757c941cfd86e9fced6169b1a82200e6bb5c6132..f8eca0bcf53e2de1bbdc66821fe95987105ed85a 100644
-> --- a/arch/riscv/include/asm/vendor_extensions/mips.h
-> +++ b/arch/riscv/include/asm/vendor_extensions/mips.h
-> @@ -13,4 +13,11 @@
->   
->   extern struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_list_mips;
->   
-> +/* MIPS.PAUSE is an alternative opcode which is implemented to have the */
-> +/* same behavior as PAUSE on some MIPS RISCV cores. */
-> +/* It is a ‘hint’ encoding of the SLLI instruction, */
-> +/* with rd = 0, rs1 = 0 and imm = 5. */
+Some upcoming documentation will link directly to the userprogs section.
 
+Add a label to the section so it can be referenced.
 
-The comment block should have been like this:
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+ Documentation/kbuild/makefiles.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-/*
-  * ...
-  */
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 8aef3650c1f32b6b197e0dc777e26775d371a081..c14c1f632f6069c8751c8388a35bef539e19f9e8 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -891,6 +891,8 @@ This is possible in two ways:
+     This will tell kbuild to build lxdialog even if not referenced in
+     any rule.
+ 
++.. _kbuild_userprogs:
++
+ Userspace Program support
+ =========================
+ 
 
-
-> +
-> +#define MIPS_PAUSE	".4byte 0x00501013\n\t"
-> +
->   #endif // _ASM_RISCV_VENDOR_EXTENSIONS_MIPS_H
->
-
-Unless there is something else to change in the following patches, no 
-need to resend the whole patchset just to fix the comment block, I'll do 
-it when I merge it.
-
-Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-
-Thanks,
-
-Alex
+-- 
+2.50.0
 
