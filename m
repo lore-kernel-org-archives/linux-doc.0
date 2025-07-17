@@ -1,88 +1,102 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399622EBB9C;
-	Thu, 17 Jul 2025 13:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6540D291C1A;
+	Thu, 17 Jul 2025 13:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752759524; cv=none; b=BQdWhX7dBnGINL66I8wABed/KO1ZM/Mzxoa0a1C0hyyem/X1316M8HqcF/c7k1x2oB2Ime/gDy2sW0VFLHqF8vV4smH4ON7BRKzqhk2M8bKfGVvgIL41jc9xxFsgtHGQYzA8CFQWb2mLzJNpE+9axt4U6gDvQYxPKYpNlKu0q/g=
+	t=1752760151; cv=none; b=Q3Y1D+6Y8na5jYNOcyfJHZq6HPPEZmvRUSRTHjFkQgjO3KLFUXUxe1U6o7bIbvsETebYoyWAq1M24t3l/tgg5h6KzRMBgukSfq7HhsoWrxS/QVFkLTNDok5pqisdRTdGCCxX/mitB35f4vnwdv4IaHsNzjZff6jtkQmL5WyKQpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752759524; c=relaxed/simple;
-	bh=uQfSNFlNg98YFrMdP5gFMZ5p5OhiQXKb/LaDDdUua6s=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sR1OPzfxfI7yj0kX+UXvV8kgKItLwv2MrcB/jS/KQoxxUMVQsvboaV1ROuCRotVyvUNHhUzydpRN8QjJCn6aF07Ix/T6tGgRyRatyoANm14w9GYbivQAErkRl/YH4QsZuCXpLhXFb4PmunmoTqb5Sl9HDVO80KSKTIC8GLTLR8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tMsPNcXH; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1752760151; c=relaxed/simple;
+	bh=nHp+NjjyXCVy5oSDMxTXYAES3M36KwyjgL5lVBfYtOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RR/3bMFnawS/m8qvXJOqP1xm6XimYPVa0io8fhctArexwLeURNMj2LZ1dNXe0XFCGtdyAKs2HL52FGnh4z2L3GB8lITG2XgcUzX+BHyBeQrgnX8VjpGeUd2XzKYHGKGRRocCEaFBpg9ZOGW41wDmrrdLCsF5R93sj2g/lqG86Wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jMjZ+mdG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tMsPNcXH"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7E6E6403E1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1752759522; bh=S/PZcD3Zl7lYlVPPjGPO1OpsE0GIe47JfzpR5Bdpu+I=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=tMsPNcXHt3ec5z8as+zeYuIwWyVlKvqrvjV0pDt5DTo2IGyPONxC6OZodicf/ccGZ
-	 hxqPv1URGZHBMV6j1nS3JnB52s3E2jW1GXwf7HeR95Jn3LiaGVQIiBNWjdIqFpyMEm
-	 1dAzSsEYQogvgdaTQwYtQhL7lvgKPEt67/0RSxe8OhEzsWG+zifqyG1XU6GvaQ+wzL
-	 qLZrMQS885cos9VcpCS74uw3B62KQpbxxMsSXHapwr2ONYzhdX6lWVU/1LgIUBEZre
-	 d85vtGBSpd2IUz5yvhL4pisdZbaZHCeZwEoXCbZ5us5cuSIfwKcIVTu0kYckY6bvcK
-	 sPyy0tct5u0Sg==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7E6E6403E1;
-	Thu, 17 Jul 2025 13:38:42 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Ignacio =?utf-8?Q?Pe=C3=B1a?= <ignacio.pena87@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Ignacio Pena
- <ignacio.pena87@gmail.com>
-Subject: Re: [PATCH] Documentation: Add patch-validator to dev-tools
-In-Reply-To: <20250717074745.8333-1-ignacio.pena87@gmail.com>
-References: <20250717074745.8333-1-ignacio.pena87@gmail.com>
-Date: Thu, 17 Jul 2025 07:38:41 -0600
-Message-ID: <874ivbc4ym.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jMjZ+mdG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15904C4CEE3;
+	Thu, 17 Jul 2025 13:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752760150;
+	bh=nHp+NjjyXCVy5oSDMxTXYAES3M36KwyjgL5lVBfYtOw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jMjZ+mdG32BefaMZSw2A5Nl3cP0yrGeQPpIJ5UPA6H0f5cHiQNAHHNA9Vwe4pl1BG
+	 wsZIyoFUWVhchl3yyMjyBkxCuXDJa3Bvw8H20ppUqSY365MLNRwUIQGm2pBp1PngG8
+	 3TsqVRNESm1SQGA0jGdGeAWQoQmu++Wcbg5XaOM/3ymoagoEbpAsNTkUGAA4NKxnH1
+	 LLW9nXl2wr+ylna8xCbL/2Sjjh1XnWnmy0CdxwH5jiASlw3pCNcFdo+sNjLB9jWTiZ
+	 IKBF3EfmFX/gwhHdJ0pIJZUbsHKDTXKMTnK04MhVmgV8VWtxnk1b/FNsDI+w85WkmY
+	 pilwzSi69xZ/w==
+Date: Thu, 17 Jul 2025 14:49:02 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Kees Cook <kees@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 00/15] kunit: Introduce UAPI testing framework
+Message-ID: <aed80898-a805-447e-85dd-473df306a4ed@sirena.org.uk>
+References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+ <20250717132259.GA25835@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bKFrlx/B5i2FyXcs"
+Content-Disposition: inline
+In-Reply-To: <20250717132259.GA25835@lst.de>
+X-Cookie: May I ask a question?
+
+
+--bKFrlx/B5i2FyXcs
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Ignacio Pe=C3=B1a <ignacio.pena87@gmail.com> writes:
+On Thu, Jul 17, 2025 at 03:23:00PM +0200, Christoph Hellwig wrote:
+> On Thu, Jul 17, 2025 at 10:48:02AM +0200, Thomas Wei=DFschuh wrote:
 
-> From: Ignacio Pena <ignacio.pena87@gmail.com>
->
-> Add documentation for patch-validator, a comprehensive tool that helps
-> kernel contributors validate their patches before submission. This tool
-> catches common mistakes that frequently lead to patch rejections,
-> improving the quality of submissions and reducing maintainer workload.
->
-> The validator performs 21+ automated checks including:
-> - Patch format validation (subject line, changelog placement)
-> - DCO compliance and licensing verification=20=20
-> - checkpatch.pl integration with enhanced reporting
-> - Build impact analysis and testing recommendations
-> - Common novice pattern detection
-> - Git configuration validation
->
-> Also includes companion tools for finding first contributions,
-> testing patches safely, and validating patch series.
->
-> Link: https://github.com/ipenas-cl/kernel-patch-validator
-> Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
-> ---
->  Documentation/dev-tools/index.rst           |   1 +
->  Documentation/dev-tools/patch-validator.rst | 287 +++++++++++++++++++
->  2 files changed, 288 insertions(+)
->  create mode 100644 Documentation/dev-tools/patch-validator.rst
+> > If the kernel toolchain is not fit to
+> > produce userspace because of a missing libc, the kernel's own nolibc can
+> > be used instead.
 
-Interesting ... overall, we don't generally have detailed documentation
-for out-of-tree utilities, though there isn't necessarily any reason why
-we couldn't.  But I'm curious as to why you haven't submitted the tool
-itself?
+> Is nolibc enough to run all the selftests?  If so we should just do
+> it unconditionally, but linking to different libraries by availability
+> seems a bit problematic.
 
-Thanks,
+There's some that rely on standard userspace libraries for accessing the
+functionality they're testing or for things like crypto which would
+require a bunch more work.
 
-jon
+--bKFrlx/B5i2FyXcs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmh4/00ACgkQJNaLcl1U
+h9Ch8gf/cpaAY8IBIFlBrmWIiQkiJ0FFikWlfW+MYZ7O15f9qA8GKRgtK4Nyeyrf
+buC78gz9f/UdKKBdArLYyoEf73opCWjXWwP1Fh0nTK3KWwiFPfbYsjpf0w0jx58V
+9ZjqqXzhTMvg8vgJHhEVV57dFkjzE9iOATxG7nwq/mHjZT5ct65LkW0qYFcjaXt9
+P90/dGgYC5BYct1wwET6oTBQ/wzO4iBpBMfg2a/kF1y8hfe08Yp/1VWlxXu4YFTH
+enY7XYkHBTJBoXqbCF9oquWhxKPymOn4gp8ojzBqZZEGHAILJyZOLbJpzeQ865bi
+j1Gh2DNVxeHaX8nSKTWuvmR2g0uPwA==
+=9rbF
+-----END PGP SIGNATURE-----
+
+--bKFrlx/B5i2FyXcs--
