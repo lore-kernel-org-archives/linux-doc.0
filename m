@@ -1,207 +1,239 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA5C1A4E70;
-	Thu, 17 Jul 2025 01:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321AA2E36F3;
+	Thu, 17 Jul 2025 02:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752716453; cv=none; b=lOyTHjaU+O1sJyYBo6lzsUZMgeldrdoe0uxUSK5Jdw0uPSoT6XBzekS7VGezqX2U2mJoD1vHodpZrDJ7F7qcn6uE/Icv2zCrx2eAicQ8Y5ZM6cNm0FVPQQ62W0b3DPj84F5dVTRDffOwWjmwIKnqOwS+CXY9ePFX0Hpiy/wr58k=
+	t=1752717786; cv=none; b=W0NT/I0t9/Z0czL7UK87GYzrFfBcwJ3H284ktWyPe8rQzKCUF+Xv8OZHHfOHNv4S/rDo12WCZ6lOtvofAKRoNqp6ljoe+ZcTUejr9lGJpJTvSmVx4sfVEeMHizgX6sh4GrPQxiC3K/w4BK4uIIYrG79InZgeo2rukr/dqi4u554=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752716453; c=relaxed/simple;
-	bh=/WwDR/d4oXa/ciKPiqYfk2zwyXLr8AxupFFPqjj+4kk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lqzanIDPNlEf225ejzo4N/uGkzoL/MqrZmRsf0cIKaLDIXgvlZBArZNooNE35gqlUgK2eeLeYrMB1Ae12iwlEjkRsPaU7jdYfwAJs7VUnuJsHiIlCYvHq5ne1sj4d4oFiXNGT341AqX7vAZ5SyPC6bHpNajyIG0P1o8ypC0JCQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mOIS7pd9; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752717786; c=relaxed/simple;
+	bh=4JDFqlgxw77PHEPrYQ1mHlH5hocTHgr+G9MySqDo27k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XsduGKhlGhOJiT7O7p0ywAlb6MoVhzv4uNuI8hdKdX0MnVLkgR01Q1nS+GX7M5AYVIbrULaywke3sJIVWQthyofOfOWjOAB8sj+4mWX9WBGuwVrqev3Mpaj6l5IZJ98oMtPEuotJHrbd68hekZM8xYX9Al0Pf6mptjujE0WBbwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L3Pb+uBK; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mOIS7pd9"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-60c60f7eeaaso694268a12.0;
-        Wed, 16 Jul 2025 18:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752716449; x=1753321249; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/WwDR/d4oXa/ciKPiqYfk2zwyXLr8AxupFFPqjj+4kk=;
-        b=mOIS7pd9jKHFI+6LZxtKFjEs3y8UIFvVYAHk/ohREw8A4mcur0wYXCP3z35DbqW8Si
-         d+1aEpXC4glPi0EliunZx3Tvv6DOmyQas1AbC4I89Y4/TOsC4U6IfpbATjPkrZxOkRRw
-         nCnoQHa3b5ZL8dp5eLsGZor+YDkBPNSiBW6xYZA4TNAqMmSGx7N7T1ixXo00NHX/StGb
-         unOKULiIBaJs55LfjFAgHQ0eFCAMl7AzdCxVoVrfgPMWbiah0Rh3TNzCAqQlB1niK+9v
-         9iCZLZP2mFI8eM4BFxJrK9aiMdxrs91INPiIYtKAn1lCrNFY3jUbkludcP5tCFyKTYs5
-         0NZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752716449; x=1753321249;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/WwDR/d4oXa/ciKPiqYfk2zwyXLr8AxupFFPqjj+4kk=;
-        b=GTz633X9qc1vGxdVVUzxPeVOqJ/XwtwpYM//GEmfqsX83t2goUjrY+Qil8N9oJNM6H
-         HVZI9/Qw/IqpeLLQFpbtL8f368R7kvw5Vg4PAj7dKkonMGKsa3ZOH+tGW4anQq8/s4Sl
-         rwRWT1jgxcdfQEhd5SfuDM7MwyJ2gaUy/BpBhZzzQQ12URtMzcCJk1JVylqHABLiA/x5
-         R4RdTrThssM7VksByF6j0DUibqgocOdTDANA7s6ENFWtQBD6Waeped5iJaTCRpr7S9eh
-         qyN0iHQeTuh3P9UJ3Dr1EwAg8YZP78XzluCmbXFUAYx2HmzJ7c4AcEkG21Z4k7RteiYR
-         VDJg==
-X-Forwarded-Encrypted: i=1; AJvYcCU8woOVWglPrZT2nAVoDjcvges02Z/LlvQKPTTkvoTeFcVCJmY5oUThrYkH6t+KFANLg8i+XFH32/E5fvXu@vger.kernel.org, AJvYcCXPlKNKza3h+y3W7POeba2sOlySl23AgnSRLDdnjHXoH59thx4a6jpJsfllO2GivGp49sEyRavuDIU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIErBbzELFjmOtBQ2k1yazRDzHTe/6RGroD5JWm6bdKISnTHLm
-	hE+j8kbwBdCsh1MgHnLvIgzqzs/9Iur5dZe7eE0BpWexx2g/mHUP37F9z38z6PcoG9YXhD13RdM
-	H3vggY6dnRK4EEefoTZ1Oi+B3K2UxFrRuQIOL/NE=
-X-Gm-Gg: ASbGnctUBDs8QvCDsZ7S1YAR2lBXqy/iKc9Xxj2lMM1raI/3puu1ffy31UL0Y87QZ83
-	bXAiuUrFK7Vr7atSrLKSAVkjOnNEtCEmKTHnqYLF3ib1jbaiXTlSi7SEZlgAKI56+f77j1IT+Cu
-	HvFivcgqlNQeb6yUGYLno7gcg5Mgy9Ulh3hPGqb1j3zLs0eYmSOWsdi2+43+N1YrVz8oA5pVMgS
-	ikxX/I=
-X-Google-Smtp-Source: AGHT+IE4sqwKFSQevn/y0gPSVkS5G9Xa26/mA0o1NDkP6bjukWPH2tI1XiJT+p9nV1t7dloOQlTwSw9u5BaymAUgVvo=
-X-Received: by 2002:a05:6402:2548:b0:607:77ed:19da with SMTP id
- 4fb4d7f45d1cf-61281e9caaemr3991521a12.1.1752716449076; Wed, 16 Jul 2025
- 18:40:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L3Pb+uBK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752717784; x=1784253784;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=4JDFqlgxw77PHEPrYQ1mHlH5hocTHgr+G9MySqDo27k=;
+  b=L3Pb+uBKKl22JrtK/AUAHLmu/eMUKYATcD3sLgXPAuNM1EjUfA6nAHFX
+   kpGVdxW3oIJ1LPAZB8m5Ouu+SYW+VoczhAS5sVsGbZF0iV1mD7aFon69u
+   OyC4fumn1N2lvOYAStM/Nr+1lD5G3iLqr6WikoOgDy6ie4R+lqbWD3bMb
+   AM5X4ZlN7VX7Uk2hoLEca7akwHrlYnCEo4Xx7DduDXuxIfXw0HrAKFY7d
+   QvmE6YVrzdAfEOR+zloJpPQ9MSHUFsRWLqUS1AQFP1SMkMNWLNU7xu/3U
+   KpxvyEOmNw4l3aUrWLYY1UjqYW5DETEAUHyyDll04FJmlx9vXFU158u15
+   g==;
+X-CSE-ConnectionGUID: gcNXgHU0RZGspfOw97kDMQ==
+X-CSE-MsgGUID: cYxj8FcFS0SBBZIFI9I+tQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54195132"
+X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
+   d="scan'208";a="54195132"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 19:03:03 -0700
+X-CSE-ConnectionGUID: /N7WZDv7TSulgczoSWxv1Q==
+X-CSE-MsgGUID: bfRoqyoaQvW10Oh2gGHSXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
+   d="scan'208";a="163194811"
+Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.240.106]) ([10.124.240.106])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 19:03:00 -0700
+Message-ID: <71d741d1-9250-4a64-b695-16f8bdc338e7@linux.intel.com>
+Date: Thu, 17 Jul 2025 10:02:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202507151515190926U70E2Wb3ud2PtF5l19ku@zte.com.cn>
-In-Reply-To: <202507151515190926U70E2Wb3ud2PtF5l19ku@zte.com.cn>
-From: Alex Shi <seakeel@gmail.com>
-Date: Thu, 17 Jul 2025 09:40:12 +0800
-X-Gm-Features: Ac12FXxp_snpmVUcVFkXlZF086NiGsoF4plmMp8ydPjclTYHl6lq7sLj4CFvBQU
-Message-ID: <CAJy-AmksZ-kYcNWzYFaOYGFbHA_-1crXUxS8HtVRSLUB0ZrKxw@mail.gmail.com>
-Subject: Re: [PATCH] Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
-To: shao.mingyin@zte.com.cn
-Cc: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	yang.yang29@zte.com.cn, xu.xin16@zte.com.cn, yang.tao172@zte.com.cn, 
-	ye.xingchen@zte.com.cn, wang.yaxin@zte.com.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 04/11] KVM: x86: Add emulation support for Extented LVT
+ registers
+To: Manali Shukla <manali.shukla@amd.com>, kvm@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: seanjc@google.com, pbonzini@redhat.com, nikunj@amd.com, bp@alien8.de,
+ peterz@infradead.org, mingo@redhat.com, mizhang@google.com,
+ thomas.lendacky@amd.com, ravi.bangoria@amd.com, Sandipan.Das@amd.com
+References: <20250627162550.14197-1-manali.shukla@amd.com>
+ <20250627162550.14197-5-manali.shukla@amd.com>
+ <3b37d820-12cd-4f33-b059-66e12693b779@linux.intel.com>
+ <afafc865-b42f-4a9d-82d7-a72de16bb47b@amd.com>
+Content-Language: en-US
+From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
+In-Reply-To: <afafc865-b42f-4a9d-82d7-a72de16bb47b@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-VGhlc2UgMiBwYXRjaGVzIGNvdWxkIGJlIHNlbnQgb3V0IGFzIGEgcGF0Y2hzZXQuDQoNClRoYW5r
-cw0KDQo8c2hhby5taW5neWluQHp0ZS5jb20uY24+IOS6jjIwMjXlubQ35pyIMTXml6Xlkajkuowg
-MTU6MTXlhpnpgZPvvJoNCj4NCj4gRnJvbTogU2hhbyBNaW5neWluIDxzaGFvLm1pbmd5aW5AenRl
-LmNvbS5jbj4NCj4NCj4gdHJhbnNsYXRlIHRoZSAidWJpZnMucnN0IiBpbnRvIFNpbXBsaWZpZWQg
-Q2hpbmVzZS4NCj4NCj4gVXBkYXRlIHRvIGNvbW1pdCA1ZjVjYWU5YjBlODEoIkRvY3VtZW50YXRp
-b246IHViaWZzOiBGaXgNCj4gY29tcHJlc3Npb24gaWRpb20iKQ0KPg0KPiBTaWduZWQtb2ZmLWJ5
-OiBTaGFvIE1pbmd5aW4gPHNoYW8ubWluZ3lpbkB6dGUuY29tLmNuPg0KPiBTaWduZWQtb2ZmLWJ5
-OiB5YW5nIHRhbyA8eWFuZy50YW8xNzJAenRlLmNvbS5jbj4NCj4gLS0tDQo+ICAuLi4vdHJhbnNs
-YXRpb25zL3poX0NOL2ZpbGVzeXN0ZW1zL2luZGV4LnJzdCAgfCAgIDEgKw0KPiAgLi4uL3RyYW5z
-bGF0aW9ucy96aF9DTi9maWxlc3lzdGVtcy91Ymlmcy5yc3QgIHwgMTExICsrKysrKysrKysrKysr
-KysrKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMTIgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1v
-ZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2ZpbGVzeXN0ZW1zL3Vi
-aWZzLnJzdA0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vZmlsZXN5c3RlbXMvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vZmlsZXN5c3RlbXMvaW5kZXgucnN0DQo+IGluZGV4IDlmMmE4YjAwMzc3OC4uZmFhYTBmMDk3
-MjIzIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9maWxl
-c3lzdGVtcy9pbmRleC5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vZmlsZXN5c3RlbXMvaW5kZXgucnN0DQo+IEBAIC0yNiw0ICsyNiw1IEBAIExpbnV4IEtlcm5l
-bOS4reeahOaWh+S7tuezu+e7nw0KPiAgICAgdmlydGlvZnMNCj4gICAgIGRlYnVnZnMNCj4gICAg
-IHRtcGZzDQo+ICsgICB1Ymlmcw0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vZmlsZXN5c3RlbXMvdWJpZnMucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vZmlsZXN5c3RlbXMvdWJpZnMucnN0DQo+IG5ldyBmaWxlIG1vZGUgMTAw
-NjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAwMC4uMjc5OTc3NzdmNGVhDQo+IC0tLSAvZGV2L251bGwN
-Cj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZmlsZXN5c3RlbXMvdWJp
-ZnMucnN0DQo+IEBAIC0wLDAgKzEsMTExIEBADQo+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmll
-cjogR1BMLTIuMA0KPiArDQo+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QN
-Cj4gKw0KPiArOk9yaWdpbmFsOiBEb2N1bWVudGF0aW9uL2ZpbGVzeXN0ZW1zL3ViaWZzLnJzdA0K
-PiArDQo+ICs657+76K+ROg0KPiArDQo+ICsgICDpgrXmmI7lr4UgU2hhbyBNaW5neWluIDxzaGFv
-Lm1pbmd5aW5AenRlLmNvbS5jbj4NCj4gKw0KPiArOuagoeivkToNCj4gKw0KPiArICAgLSDmnajm
-tpsgeWFuZyB0YW8gPHlhbmcudGFvMTcyQHp0ZS5jb20uY24+DQo+ICsNCj4gKz09PT09PT09PT09
-PT09PQ0KPiArVUJJIOaWh+S7tuezu+e7nw0KPiArPT09PT09PT09PT09PT09DQo+ICsNCj4gK+eu
-gOS7iw0KPiArPT09PT09PT09PT09DQo+ICsNCj4gK1VCSUZTIOaWh+S7tuezu+e7n+WFqOensOS4
-uiBVQkkg5paH5Lu257O757uf77yIVUJJIEZpbGUgU3lzdGVt77yJ44CCVUJJIOS7o+ihqOaXoOW6
-j+Wdl+mVnOWDj++8iFVuc29ydGVkDQo+ICtCbG9jayBJbWFnZXPvvInjgIJVQklGUyDmmK/kuIDn
-p43pl6rlrZjmlofku7bns7vnu5/vvIzov5nmhI/lkbPnnYDlroPkuJPkuLrpl6rlrZjorr7lpIfo
-rr7orqHjgILpnIDopoHnkIbop6PnmoTmmK/vvIxVQklGUw0KPiAr5LiOIExpbnV4IOS4reS7u+S9
-leS8oOe7n+aWh+S7tuezu+e7n++8iOWmgiBFeHQy44CBWEZT44CBSkZTIOetie+8ieWujOWFqOS4
-jeWQjOOAglVCSUZTIOS7o+ihqOS4gOexu+eJueauiueahOaWh+S7tuezu+e7n++8jA0KPiAr5a6D
-5Lus5bel5L2c5ZyoIE1URCDorr7lpIfogIzpnZ7lnZforr7lpIfkuIrjgILor6XnsbvliKvnmoTl
-j6bkuIDkuKogTGludXgg5paH5Lu257O757uf5pivIEpGRlMy44CCDQo+ICsNCj4gK+S4uuabtOa4
-heaZsOivtOaYju+8jOS7peS4i+aYryBNVEQg6K6+5aSH5LiO5Z2X6K6+5aSH55qE566A6KaB5q+U
-6L6D77yaDQo+ICsNCj4gKzEuIE1URCDorr7lpIfku6Pooajpl6rlrZjorr7lpIfvvIznlLHovoPl
-pKflsLrlr7jnmoTmk6bpmaTlnZfnu4TmiJDvvIzpgJrluLjnuqYgMTI4S2lC44CC5Z2X6K6+5aSH
-55Sx5bCP5Z2X57uE5oiQ77yM6YCa5bi4IDUxMg0KPiArICAg5a2X6IqC44CCDQo+ICsyLiBNVEQg
-6K6+5aSH5pSv5oyBIDMg56eN5Li76KaB5pON5L2c77ya5Zyo5pOm6Zmk5Z2X5YaF5YGP56e75L2N
-572u6K+75Y+W44CB5Zyo5pOm6Zmk5Z2X5YaF5YGP56e75L2N572u5YaZ5YWl44CB5Lul5Y+K5pOm
-6Zmk5pW05Liq5pOm6ZmkDQo+ICsgICDlnZfjgILlnZforr7lpIfmlK/mjIEgMiDnp43kuLvopoHm
-k43kvZzvvJror7vlj5bmlbTkuKrlnZflkozlhpnlhaXmlbTkuKrlnZfjgIINCj4gKzMuIOaVtOS4
-quaTpumZpOWdl+W/hemhu+WFiOaTpumZpOaJjeiDvemHjeWGmeWGheWuueOAguWdl+WPr+ebtOaO
-pemHjeWGmeOAgg0KPiArNC4g5pOm6Zmk5Z2X5Zyo57uP5Y6G5LiA5a6a5qyh5pWw55qE5pOm5YaZ
-5ZGo5pyf5ZCO5Lya56Oo5o2f77yM6YCa5bi4IFNMQyBOQU5EIOWSjCBOT1Ig6Zeq5a2Y5Li6IDEw
-MEstMUcg5qyh77yMTUxDDQo+ICsgICBOQU5EIOmXquWtmOS4uiAxSy0xMEsg5qyh44CC5Z2X6K6+
-5aSH5LiN5YW35aSH56Oo5o2f54m55oCn44CCDQo+ICs1LiDmk6bpmaTlnZflj6/og73mjZ/lnY/v
-vIjku4XpmZAgTkFORCDpl6rlrZjvvInvvIzova/ku7bpnIDlpITnkIbmraTpl67popjjgILnoazn
-m5jkuIrnmoTlnZfpgJrluLjkuI3kvJrmjZ/lnY/vvIzlm6DkuLrnoazku7bmnInlnY/lnZcNCj4g
-KyAgIOabv+aNouacuuWItu+8iOiHs+WwkeeOsOS7oyBMQkEg56Gs55uY5aaC5q2k77yJ44CCDQo+
-ICsNCj4gK+i/meWFheWIhuivtOaYjuS6hiBVQklGUyDkuI7kvKDnu5/mlofku7bns7vnu5/nmoTm
-nKzotKjlt67lvILjgIINCj4gKw0KPiArVUJJRlMg5bel5L2c5ZyoIFVCSSDlsYLkuYvkuIrjgIJV
-Qkkg5piv5LiA5Liq54us56uL55qE6L2v5Lu25bGC77yI5L2N5LqOIGRyaXZlcnMvbXRkL3Viae+8
-ie+8jOacrOi0qOS4iuaYr+WNt+euoeeQhuWSjA0KPiAr56Oo5o2f5Z2H6KGh5bGC44CC5a6D5o+Q
-5L6b56ew5Li6IFVCSSDljbfnmoTpq5jnuqfmir3osaHvvIzmr5QgTVREIOiuvuWkh+abtOS4iuWx
-guOAglVCSSDorr7lpIfnmoTnvJbnqIvmqKHlnovkuI4gTVREIOiuvuWkh+mdng0KPiAr5bi455u4
-5Ly877yM5LuN55Sx5aSn5a656YeP5pOm6Zmk5Z2X57uE5oiQ77yM5pSv5oyB6K+7L+WGmS/mk6bp
-maTmk43kvZzvvIzkvYYgVUJJIOiuvuWkh+a2iOmZpOS6huejqOaNn+WSjOWdj+Wdl+mZkOWItu+8
-iOS4iui/sOWIl+ihqOeahOesrA0KPiArNCDlkoznrKwgNSDpobnvvInjgIINCj4gKw0KPiAr5p+Q
-56eN5oSP5LmJ5LiK77yMVUJJRlMg5pivIEpGRlMyIOaWh+S7tuezu+e7n+eahOS4i+S4gOS7o+S6
-p+WTge+8jOS9huWug+S4jiBKRkZTMiDlt67lvILlt6jlpKfkuJTkuI3lhbzlrrnjgILkuLvopoHl
-jLrliKvlpoLkuIvvvJoNCj4gKw0KPiArKiBKRkZTMiDlt6XkvZzlnKggTVREIOiuvuWkh+S5i+S4
-iu+8jFVCSUZTIOS+nei1luS6jiBVQkkg5bm25bel5L2c5ZyoIFVCSSDljbfkuYvkuIrjgIINCj4g
-KyogSkZGUzIg5rKh5pyJ5LuL6LSo57Si5byV77yM6ZyA5Zyo5oyC6L295pe25p6E5bu657Si5byV
-77yM6L+Z6KaB5rGC5YWo5LuL6LSo5omr5o+P44CCVUJJRlMg5Zyo6Zeq5a2Y5LuL6LSo5LiK57u0
-5oqk5paH5Lu257O757uf57Si5byVDQo+ICsgIOS/oeaBr++8jOaXoOmcgOWFqOS7i+i0qOaJq+aP
-j++8jOWboOatpOaMgui9vemAn+W6pui/nOW/q+S6jiBKRkZTMuOAgg0KPiArKiBKRkZTMiDmmK/n
-m7TlhpnvvIh3cml0ZS10aHJvdWdo77yJ5paH5Lu257O757uf77yM6ICMIFVCSUZTIOaUr+aMgeWb
-nuWGme+8iHdyaXRlLWJhY2vvvInvvIzov5nkvb/lvpcgVUJJRlMNCj4gKyAg5YaZ5YWl6YCf5bqm
-5b+r5b6X5aSa44CCDQo+ICsNCj4gK+S4jiBKRkZTMiDnsbvkvLzvvIxVQklGUyDmlK/mjIHlrp7m
-l7bljovnvKnvvIzlj6/lsIblpKfph4/mlbDmja7lrZjlhaXpl6rlrZjjgIINCj4gKw0KPiAr5LiO
-IEpGRlMyIOexu+S8vO+8jFVCSUZTIOiDveWuueW/jeW8guW4uOmHjeWQr+WSjOaWreeUteOAguWu
-g+S4jemcgOimgeexu+S8vCBmc2NrLmV4dDIg55qE5bel5YW344CCVUJJRlMg5Lya6Ieq5Yqo6YeN
-5pS+5pelDQo+ICvlv5flubbku47ltKnmuoPkuK3mgaLlpI3vvIznoa7kv53pl6rlrZjmlbDmja7n
-u5PmnoTnmoTkuIDoh7TmgKfjgIINCj4gKw0KPiArVUJJRlMg5YW35pyJ5a+55pWw57qn5omp5bGV
-5oCn77yI5YW25L2/55So55qE5pWw5o2u57uT5p6E5aSa5Li65qCR5b2i77yJ77yM5Zug5q2k5oyC
-6L295pe26Ze05ZKM5YaF5a2Y5raI6ICX5LiN5YOPIEpGRlMyIOmCo+agt+e6v+aAp+S+nQ0KPiAr
-6LWW5LqO6Zeq5a2Y5a656YeP44CC6L+Z5piv5Zug5Li6IFVCSUZTIOWcqOmXquWtmOS7i+i0qOS4
-iue7tOaKpOaWh+S7tuezu+e7n+e0ouW8leOAguS9hiBVQklGUyDkvp3otZbkuo7nur/mgKfmianl
-sZXnmoQgVUJJIOWxgu+8jA0KPiAr5Zug5q2k5pW05L2TIFVCSS9VQklGUyDmoIjku43mmK/nur/m
-gKfmianlsZXjgILlsL3nrqHlpoLmraTvvIxVQklGUy9VQkkg55qE5omp5bGV5oCn5LuN5pi+6JGX
-5LyY5LqOIEpGRlMy44CCDQo+ICsNCj4gK1VCSUZTIOW8gOWPkeiAheiupOS4uu+8jOacquadpeWP
-r+W8gOWPkeWQjOagt+WFt+Wkh+WvueaVsOe6p+aJqeWxleaAp+eahCBVQkky44CCVUJJMiDlsIbm
-lK/mjIHkuI4gVUJJIOebuOWQjOeahCBBUEnvvIzkvYbkuozov5sNCj4gK+WItuS4jeWFvOWuueOA
-guWboOatpCBVQklGUyDml6DpnIDkv67mlLnljbPlj6/kvb/nlKggVUJJMuOAgg0KPiArDQo+ICvm
-jILovb3pgInpobkNCj4gKz09PT09PT09PT09PT0NCj4gKw0KPiArKCopIOihqOekuum7mOiupOmA
-iemhueOAgg0KPiArDQo+ICs9PT09PT09PT09PT09PT09PT09PSAgICA9PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ICtidWxrX3JlYWQgICAg
-ICAgICAgICAgICDmibnph4/or7vlj5bku6XliKnnlKjpl6rlrZjku4votKjnmoTpobrluo/or7vl
-j5bliqDpgJ/nibnmgKcNCj4gK25vX2J1bGtfcmVhZCAoKikgICAgICAgIOemgeeUqOaJuemHj+iv
-u+WPlg0KPiArbm9fY2hrX2RhdGFfY3JjICgqKSAgICAg6Lez6L+H5pWw5o2u6IqC54K555qEIENS
-QyDmoKHpqozku6Xmj5Dpq5jor7vlj5bmgKfog73jgIIg5LuF5Zyo6Zeq5a2YDQo+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICDku4votKjpq5jluqblj6/pnaDml7bkvb/nlKjmraTpgInpobnjgIIg
-5q2k6YCJ6aG55Y+v6IO95a+86Ie05paH5Lu25YaF5a655o2f5Z2P5peg5rOV6KKrDQo+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICDlr5/op4njgIINCj4gK2Noa19kYXRhX2NyYyAgICAgICAgICAg
-IOW8uuWItuagoemqjOaVsOaNruiKgueCueeahCBDUkMNCj4gK2NvbXByPW5vbmUgICAgICAgICAg
-ICAgIOimhueblum7mOiupOWOi+e8qeWZqO+8jOiuvue9ruS4uiJub25lIg0KPiArY29tcHI9bHpv
-ICAgICAgICAgICAgICAg6KaG55uW6buY6K6k5Y6L57yp5Zmo77yM6K6+572u5Li6IkxaTyINCj4g
-K2NvbXByPXpsaWIgICAgICAgICAgICAgIOimhueblum7mOiupOWOi+e8qeWZqO+8jOiuvue9ruS4
-uiJ6bGliIg0KPiArYXV0aF9rZXk9ICAgICAgICAgICAgICAg5oyH5a6a55So5LqO5paH5Lu257O7
-57uf6Lqr5Lu96aqM6K+B55qE5a+G6ZKl44CCDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICDk
-vb/nlKjmraTpgInpobnlsIblvLrliLblkK/nlKjouqvku73pqozor4HjgIINCj4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgIOS8oOWFpeeahOWvhumSpeW/hemhu+WtmOWcqOS6juWGheaguOWvhumS
-peeOr+S4re+8jCDkuJTnsbvlnovlv4XpobvmmK8nbG9nb24nDQo+ICthdXRoX2hhc2hfbmFtZT0g
-ICAgICAgICDnlKjkuo7ouqvku73pqozor4HnmoTlk4jluIznrpfms5XjgILlkIzml7bnlKjkuo7l
-k4jluIzorqHnrpflkowgSE1BQw0KPiArICAgICAgICAgICAgICAgICAgICAgICAg55Sf5oiQ44CC
-5YW45Z6L5YC85YyF5ousInNoYTI1NiLmiJYic2hhNTEyIg0KPiArPT09PT09PT09PT09PT09PT09
-PT0gICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PQ0KPiArDQo+ICvlv6vpgJ/kvb/nlKjmjIfljZcNCj4gKz09PT09PT09PT09PT09PT09PT09
-PT09PQ0KPiArDQo+ICvmjILovb3nmoQgVUJJIOWNt+mAmui/hyAidWJpWF9ZIiDmiJYgInViaVg6
-TkFNRSIg6K+t5rOV5oyH5a6a77yM5YW25LitICJYIiDmmK8gVUJJIOiuvuWkh+e8luWPt++8jCJZ
-IiDmmK8gVUJJDQo+ICvljbfnvJblj7fvvIwiTkFNRSIg5pivIFVCSSDljbflkI3np7DjgIINCj4g
-Kw0KPiAr5bCGIFVCSSDorr7lpIcgMCDnmoTljbcgMCDmjILovb3liLAgL21udC91Ymlmczo6DQo+
-ICsNCj4gKyAgICAkIG1vdW50IC10IHViaWZzIHViaTBfMCAvbW50L3ViaWZzDQo+ICsNCj4gK+Ww
-hiBVQkkg6K6+5aSHIDAg55qEICJyb290ZnMiIOWNt+aMgui9veWIsCAvbW50L3ViaWZz77yIInJv
-b3RmcyIg5piv5Y235ZCN77yJOjoNCj4gKw0KPiArICAgICQgbW91bnQgLXQgdWJpZnMgdWJpMDpy
-b290ZnMgL21udC91Ymlmcw0KPiArDQo+ICvku6XkuIvmmK/lhoXmoLjlkK/liqjlj4LmlbDnmoTn
-pLrkvovvvIznlKjkuo7lsIYgbXRkMCDpmYTliqDliLAgVUJJIOW5tuaMgui9vSAicm9vdGZzIiDl
-jbfvvJoNCj4gK3ViaS5tdGQ9MCByb290PXViaTA6cm9vdGZzIHJvb3Rmc3R5cGU9dWJpZnMNCj4g
-Kw0KPiAr5Y+C6ICD6LWE5paZDQo+ICs9PT09PT09PT09DQo+ICsNCj4gK1VCSUZTIOaWh+aho+WP
-iuW4uOingemXrumimOino+etlC/mk43kvZzmjIfljZfor7forr/pl64gTVREIOWumOe9ke+8mg0K
-PiArDQo+ICstIGh0dHA6Ly93d3cubGludXgtbXRkLmluZnJhZGVhZC5vcmcvZG9jL3ViaWZzLmh0
-bWwNCj4gKy0gaHR0cDovL3d3dy5saW51eC1tdGQuaW5mcmFkZWFkLm9yZy9mYXEvdWJpZnMuaHRt
-bA0KPiAtLQ0KPiAyLjI1LjENCg==
+
+On 7/16/2025 6:10 PM, Manali Shukla wrote:
+> Hi Dapeng Mi,
+>
+> Thanks for reviewing my patches.
+>
+> On 7/15/2025 8:28 AM, Mi, Dapeng wrote:
+>> On 6/28/2025 12:25 AM, Manali Shukla wrote:
+>>> From: Santosh Shukla <santosh.shukla@amd.com>
+>>>
+>>> The local interrupts are extended to include more LVT registers in
+>>> order to allow additional interrupt sources, like Instruction Based
+>>> Sampling (IBS) and many more.
+>>>
+>>> Currently there are four additional LVT registers defined and they are
+>>> located at APIC offsets 400h-530h.
+>>>
+>>> AMD IBS driver is designed to use EXTLVT (Extended interrupt local
+>>> vector table) by default for driver initialization.
+>>>
+>>> Extended LVT registers are required to be emulated to initialize the
+>>> guest IBS driver successfully.
+>>>
+>>> Please refer to Section 16.4.5 in AMD Programmer's Manual Volume 2 at
+>>> https://bugzilla.kernel.org/attachment.cgi?id=306250 for more details
+>>> on Extended LVT.
+>>>
+>>> Signed-off-by: Santosh Shukla <santosh.shukla@amd.com>
+>>> Co-developed-by: Manali Shukla <manali.shukla@amd.com>
+>>> Signed-off-by: Manali Shukla <manali.shukla@amd.com>
+>>> ---
+>>>  arch/x86/include/asm/apicdef.h | 17 +++++++++
+>>>  arch/x86/kvm/cpuid.c           |  6 +++
+>>>  arch/x86/kvm/lapic.c           | 69 +++++++++++++++++++++++++++++++++-
+>>>  arch/x86/kvm/lapic.h           |  1 +
+>>>  arch/x86/kvm/svm/avic.c        |  4 ++
+>>>  arch/x86/kvm/svm/svm.c         |  4 ++
+>>>  6 files changed, 99 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/arch/x86/include/asm/apicdef.h b/arch/x86/include/asm/apicdef.h
+>>> index 094106b6a538..4c0f580578aa 100644
+>>> --- a/arch/x86/include/asm/apicdef.h
+>>> +++ b/arch/x86/include/asm/apicdef.h
+>>> @@ -146,6 +146,23 @@
+>>>  #define		APIC_EILVT_MSG_EXT	0x7
+>>>  #define		APIC_EILVT_MASKED	(1 << 16)
+>>>  
+>>> +/*
+>>> + * Initialize extended APIC registers to the default value when guest
+>>> + * is started and EXTAPIC feature is enabled on the guest.
+>>> + *
+>>> + * APIC_EFEAT is a read only Extended APIC feature register, whose
+>>> + * default value is 0x00040007. However, bits 0, 1, and 2 represent
+>>> + * features that are not currently emulated by KVM. Therefore, these
+>>> + * bits must be cleared during initialization. As a result, the
+>>> + * default value used for APIC_EFEAT in KVM is 0x00040000.
+>>> + *
+>>> + * APIC_ECTRL is a read-write Extended APIC control register, whose
+>>> + * default value is 0x0.
+>>> + */
+>>> +
+>>> +#define		APIC_EFEAT_DEFAULT	0x00040000
+>>> +#define		APIC_ECTRL_DEFAULT	0x0
+>>> +
+>>>  #define APIC_BASE (fix_to_virt(FIX_APIC_BASE))
+>>>  #define APIC_BASE_MSR		0x800
+>>>  #define APIC_X2APIC_ID_MSR	0x802
+>>> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+>>> index eb7be340138b..7270d22fbf31 100644
+>>> --- a/arch/x86/kvm/cpuid.c
+>>> +++ b/arch/x86/kvm/cpuid.c
+>>> @@ -458,6 +458,12 @@ void kvm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
+>>>  	/* Invoke the vendor callback only after the above state is updated. */
+>>>  	kvm_x86_call(vcpu_after_set_cpuid)(vcpu);
+>>>  
+>>> +	/*
+>>> +	 * Initialize extended LVT registers at guest startup to support delivery
+>>> +	 * of interrupts via the extended APIC space (offsets 0x400–0x530).
+>>> +	 */
+>>> +	kvm_apic_init_eilvt_regs(vcpu);
+>>> +
+>>>  	/*
+>>>  	 * Except for the MMU, which needs to do its thing any vendor specific
+>>>  	 * adjustments to the reserved GPA bits.
+>>> diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
+>>> index 00ca2b0faa45..cffe44eb3f2b 100644
+>>> --- a/arch/x86/kvm/lapic.c
+>>> +++ b/arch/x86/kvm/lapic.c
+>>> @@ -1624,9 +1624,13 @@ static inline struct kvm_lapic *to_lapic(struct kvm_io_device *dev)
+>>>  }
+>>>  
+>>>  #define APIC_REG_MASK(reg)	(1ull << ((reg) >> 4))
+>>> +#define APIC_REG_EXT_MASK(reg)	(1ull << (((reg) >> 4) - 0x40))
+>> It seems there is no difference on the MASK definition between
+>> APIC_REG_MASK() and APIC_REG_EXT_MASK(). Why not directly use the original
+>> APIC_REG_MASK()?
+>>
+> The Extended LVT registers range from 0x400 to 0x530. When using
+> APIC_REG_MASK(reg) with reg = 0x400 (as an example), the operation
+> results in a right shift of 64(0x40) bits, causing an overflow. This was
+> the actual reason of creating a new macro for extended APIC register space.
+
+I see. Just ignored that the bit could extend 64 bits.
+
+
+>
+>> BTW, If we indeed need to define this new macro, could we define the macro
+>> like blow?
+>>
+>> #define APIC_REG_EXT_MASK(reg)	(1ull << (((reg) - 0x400) >> 4))
+>>
+>> It's more easily to understand. 
+>>
+> I can define the macro in this way.
+>
+>>>  #define APIC_REGS_MASK(first, count) \
+>>>  	(APIC_REG_MASK(first) * ((1ull << (count)) - 1))
+>>>  
+>>> +#define APIC_LAST_REG_OFFSET		0x3f0
+>>> +#define APIC_EXT_LAST_REG_OFFSET	0x530
+>>> +
+>>>  u64 kvm_lapic_readable_reg_mask(struct kvm_lapic *apic)
+>>>  {
+>>>  	/* Leave bits '0' for reserved and write-only registers. */
+>>> @@ -1668,6 +1672,8 @@ EXPORT_SYMBOL_GPL(kvm_lapic_readable_reg_mask);
+>>>  static int kvm_lapic_reg_read(struct kvm_lapic *apic, u32 offset, int len,
+>>>  			      void *data)
+>>>  {
+>>> +	u64 valid_reg_ext_mask = 0;
+>>> +	unsigned int last_reg = APIC_LAST_REG_OFFSET;
+>>>  	unsigned char alignment = offset & 0xf;
+>>>  	u32 result;
+>>>  
+>>> @@ -1677,13 +1683,44 @@ static int kvm_lapic_reg_read(struct kvm_lapic *apic, u32 offset, int len,
+>>>  	 */
+>>>  	WARN_ON_ONCE(apic_x2apic_mode(apic) && offset == APIC_ICR);
+>>>  
+>>> +	/*
+>>> +	 * The local interrupts are extended to include LVT registers to allow
+>>> +	 * additional interrupt sources when the EXTAPIC feature bit is enabled.
+>>> +	 * The Extended Interrupt LVT registers are located at APIC offsets 400-530h.
+>>> +	 */
+>>> +	if (guest_cpu_cap_has(apic->vcpu, X86_FEATURE_EXTAPIC)) {
+>>> +		valid_reg_ext_mask =
+>>> +			APIC_REG_EXT_MASK(APIC_EFEAT) |
+>>> +			APIC_REG_EXT_MASK(APIC_ECTRL) |
+>>> +			APIC_REG_EXT_MASK(APIC_EILVTn(0)) |
+>>> +			APIC_REG_EXT_MASK(APIC_EILVTn(1)) |
+>>> +			APIC_REG_EXT_MASK(APIC_EILVTn(2)) |
+>>> +			APIC_REG_EXT_MASK(APIC_EILVTn(3));
+>>> +		last_reg = APIC_EXT_LAST_REG_OFFSET;
+>>> +	}
+>> Why not move this code piece into kvm_lapic_readable_reg_mask() and
+>> directly use APIC_REG_MASK() for these extended regs? Then we don't need to
+>> modify the below code. 
+
+I still think we should get a unified APIC reg mask even for the extended
+APIC with kvm_lapic_readable_reg_mask() helper. We can extend current
+kvm_lapic_readable_reg_mask() and let it return a 128 bits bitmap, maybe
+like this,
+
+void kvm_lapic_readable_reg_mask(struct kvm_lapic *apic, u64 *mask)
+
+This makes code more easily maintain. 
+
+
+>>
+>
