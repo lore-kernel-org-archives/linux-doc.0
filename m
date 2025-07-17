@@ -1,139 +1,191 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143A72FD59C
-	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 16:41:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E922FCFC5
+	for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 16:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752770507; cv=none; b=Q6c0aGPAp0P/wp9jES/BPN4MMgYZQfx55UIJp+/+ct0+h9Hb2bJ9HhkgW1LvYN7hTTP7RUogWli2IHwES/jSEJFIQrnmKi7usW1JoSfJ3jPyYy986X4ZAUDhXPRx4FPUBgyTVjL1iC6d9PgzzCe86n1AYVG2dviNADX620wtuNo=
+	t=1752770563; cv=none; b=ofWSInyREKLFgYgZ3wHQy+UjAqjBK344iLrY5hIiYsNpeeBlpmeiPUL4MJiQ8Jc+ybiGeaMtnW39uB1kzEk6/JiC+Nx6uXHt07RkVsInnyyUZ7VJeoUuMJQfNv/dFkTwuNZraVFQ7JMYfCzukZli9KuO4XNg35vxC7Tv6mz3QjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752770507; c=relaxed/simple;
-	bh=7Eifg3KSSA5Jt2qx/3hzXf0HaiUdAumge8P2aIN3a9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c8vDXJ4YSc/BJSrXJbbpAXRTiC7piVh+inA5CF+/9Fd/zWKDFTd6eKEYoyx3yIEnJqIdsUwBBNaFIMNbIl8yBSIiLGlT7/W89wJT1iBYpc1QBBKqQga9G/wfU9TcA1jjHwbgLWOO3ElSaix5pVs7B4vElwTGbiPC5BAu5pEoDsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=if6D8a1g; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1752770563; c=relaxed/simple;
+	bh=Zp+bqdk2AUV+SBqOdeWsNgo02TfpUX044tCk09JCCZY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mr46yXFu/QWZ3hGYjL/YKzksfTJNBSbvHhPUY3YjIgEda5YDzD0VjMu8FHuowsjBU2np3hv0JcKJRg59GkhJSlwdv0CcJK11O4U/Ko8li7sA1JJxJr2fxz5OHpM7VzKuE3VDhLTi/hENlwo/jF44Rd0nzqxlyR+LWiKfOl7NzQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l4uWNSTW; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="if6D8a1g"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3137c20213cso1183258a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 09:41:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l4uWNSTW"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4560add6cd2so9994245e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jul 2025 09:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1752770505; x=1753375305; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4rHylqCjx1w2oDPs7/xM2Riq8NSJ9PhhkdUN4+cutX8=;
-        b=if6D8a1gGyEUOtJ8l2uYCWsiyyKsNSl+YqtpTUMMmzyycSnOVza6Z8eLkBqKBN6/b9
-         zCOx09Ew/HXJXBAipKIicZwKlS/oT4gU4owPhrTGQ8wYppHhNEr6fWvyGkgc0wYwMQTj
-         mrBdqA+iXNuhmidoybQfhTERr2xczFSZW1yjVpb3Vey0FZsQiq2aFZuMrhWyVj2hqWMU
-         Ks9yzlHOU8omBDH7Pb8zXigM2KTeayMHcKoY1kF8JFageEfj/KkYSe8/VSZVx/8zZ2/U
-         FD/mylIO1Pj+FKnOJOXsn7kkWRXo8qsisJtCayt+oYk7qP/X1Zsgzee7HfDZekO6WXzE
-         6VSw==
+        d=linaro.org; s=google; t=1752770559; x=1753375359; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0KIZvn3WMN/D9GaYJuL0YNSf8jbAXvNffTD/qUx3PrA=;
+        b=l4uWNSTWyIrBIqJn1bARw8DAb0ORCAF6cH2oLOzqdjZG0sZwsXeQBHI8w9wAn/2Ksi
+         vER6D5I68erzfHGK7QAWNe/r78dKLKKyi3SC/djwhGJWD+6xanHb0amlMJI4lwMaSgmI
+         HzrD81BL4vYw7JnpFasjIaAXQoz7DRUT/Lq8vtptFC+/i+Vimn+NqSfHWHtPNIMJzEjx
+         D8HFpTlibcjl6g854o4huw1uvi2PgwBK6qBxiRNFrXhIGFj7HEMwotst/2XZEWugCp/o
+         YpOQjDyUBjOvf2OLpjYNVp3myvfZaAdYnzpZl9ROZFAaa4EiDUyMgvwZm4eGgumGxnes
+         6wAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752770505; x=1753375305;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4rHylqCjx1w2oDPs7/xM2Riq8NSJ9PhhkdUN4+cutX8=;
-        b=XxtiwwBEdE9hUMp+nDjWQB4J9qx4QrhARk+YMfO8co4pIMumgSHtxJrSq1XIBb4JAU
-         XtRs2Ctzj5w8fXPKQsoDlAaXqpB3x0PgT7SYvWETaeqYqnxAyTHxXxKiSl3q14PD8V1D
-         /Tt6K6bzH3kQOlz+5btKm0J/M47GiwS0hGDQLOCTmT6lhpYYtCU2nfhzycvEzPv9aplD
-         cDeIdMwdsyzitlgZH3KQy6ASdmqZYlZFRzoAu3eB+5GgyiG5jI7DDRDkR4UcOmUd5DQU
-         MqmqMvxqsbIwg1fXcsmp1jvTe1vpOIpRkuOERn2X6QvDWC3HkR4nX4BUvc/vDBBcoXyi
-         jmeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVoKpMp3eXiF8NvHEI/111vdvMtIBDS9AkAEeELeZvN9HRnzYvOlAikf/QsSoqHe4QTFuqz0f84urg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3hR/eawdSLn3zCB9Wp+vfaEPdGnJPgIoecJIi/OlXonpFzguW
-	PWB/DodiFFp8qQfPBxUSCUGt4QpEhuRjND1q6wjJ7pkU1TuvDyG8PJ9Brs336Ac/cX0=
-X-Gm-Gg: ASbGnct69DAac76efAvvHL+ts4CdxX13JVUBAAnshO0yaMqpj9uAc7SyaqTrPjCSq09
-	/lXRzduvz2DdkaF19R5OdFUeBey+NtEpHoKMdweUHrcK458iA0PJKS7bVO2dtNEpiOJVGIfigyn
-	QTlnKgetCX6vxn95xkc84i1RmI5g/GSU3q0ePXaSfzd/Ui5KXcwG66v20G8ZRnWEBrr+bznsed6
-	YYF9uVvEtootJU0ovF5zw9yRkxkxjDgI4uhYS1lGy4Pn5L9l19c4SlAiKixQQu+W2QlQIlhVE0v
-	L2y0w9BzVITAEvI2gR8fhJIndFqyCnQoNms2OEI9aXpcJWuAU42/pQiMekBSG2MLiRpWH55FhNp
-	ZozgxQb9KbLRlGr6CiCfz4d6taCSwz+Dvm+HuG8xd72ubtAu5jw==
-X-Google-Smtp-Source: AGHT+IHrQlGV1Z7kY2qfK70zL4oggkzABvGWlF/G0WdpxXkZbFgRb1/eSGO9ppbowS9YeBigJnqdWA==
-X-Received: by 2002:a17:90b:4985:b0:312:25dd:1c99 with SMTP id 98e67ed59e1d1-31c9f45e1d0mr10064867a91.19.1752770505309;
-        Thu, 17 Jul 2025 09:41:45 -0700 (PDT)
-Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31caf7e8ae4sm1821750a91.24.2025.07.17.09.41.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 09:41:44 -0700 (PDT)
-From: Brigham Campbell <me@brighamcampbell.com>
-To: dianders@chromium.org,
-	tejasvipin76@gmail.com,
-	diogo.ivo@tecnico.ulisboa.pt,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH v4 4/4] drm: docs: Update task from drm TODO list
-Date: Thu, 17 Jul 2025 10:40:52 -0600
-Message-ID: <20250717164053.284969-5-me@brighamcampbell.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250717164053.284969-1-me@brighamcampbell.com>
-References: <20250717164053.284969-1-me@brighamcampbell.com>
+        d=1e100.net; s=20230601; t=1752770559; x=1753375359;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0KIZvn3WMN/D9GaYJuL0YNSf8jbAXvNffTD/qUx3PrA=;
+        b=cMmUog7impMFwykYxhNljPB15z1nV5GhlI2H6kWzUwUmEr68laI4KzMlUHf7iX3Om9
+         mIIvVOeaj0ofKx6I/+/7SdqYwAM52NQPdzhBdpeOaESBTOL0PSqgrtfY7+QvKWNjvACS
+         OH4Ljtx2W+YBp6RYcCbq0sd6TGRWgOgv2DFpRcD+CjSNYVJ9DJX0SzGXTEQnCiOBpHat
+         8+Z8WR43RBqRYEw/QY6hyq+jKtGyTFVHE+OxnGMlkSAE0QrzZ5h+/IxF7AS8B5Wus8UQ
+         SYpI6V96wblQnio/qx0i3Z2wpe1OKe5BaYh59YkMpnf9EYr95+SIMdEu8z72tEJlsYBK
+         7J2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUn3siXU+eVGycJHrmSIZuaKvhJTuuRGPIwd2XZG1FCRxyyeKFMPUXTkj6iDL13KykeODyReuU7hRM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDfB4biGJOVqV83+mRe97DktWRVkYWtOcjiEN8g+HalwR75xqT
+	MIWBAOsEA/y1zZznURIwMzVd3hPKoRdU7A0JvXGqTTzkAN0nCqfi6Gt9AiANzXNv7p4=
+X-Gm-Gg: ASbGncuZAdtXy7PYqxWBjJDzn8NlJOdhYdIbqTCX2fvGPWjAqTHzAodPVMnRKP2AWxB
+	vqxzVWDLZHBi8sUxSc8uRpr+Jbe5O76nmZakl8kE4G/sioR7m/foJUW1yrjq4UZUHr13IRfkLYE
+	Q2mDuRfct1L+1EzNb82wLjt1dYy2Ez7VWy5JCWUbZ8DEgl+E2N82iU8aQbejjD4johFEl7zg4I5
+	Mpvra3XrfWhJEMopVWy+6km/iKhw11idFNJlId53SHm5Z+Ngdve741EF2X4zLn+c58W7APxAucS
+	zZLJp1MZf/QzYbxk0FKWwgigir4aCrYcNHDQ1GtfzpGoILhjK3rp4vM+eZYWEB+wuRTR0zYQFUM
+	f4ZOPH3MNgzQ3ltmTal+U2iKh4iI=
+X-Google-Smtp-Source: AGHT+IHw2GCF56hApJyEmdx/xTKHHH5iV9N7ia+pyQS/X4tv7tXWZh4hCv08eoEvqDhMJOVRwHk5hg==
+X-Received: by 2002:a05:600c:3f12:b0:456:1ab0:d566 with SMTP id 5b1f17b1804b1-456348cbdb0mr41924525e9.16.1752770558925;
+        Thu, 17 Jul 2025 09:42:38 -0700 (PDT)
+Received: from [192.168.1.3] ([185.48.76.109])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45634f5dd61sm28041015e9.11.2025.07.17.09.42.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Jul 2025 09:42:38 -0700 (PDT)
+Message-ID: <95468171-a09d-4b6b-a0bd-189d83ff33a6@linaro.org>
+Date: Thu, 17 Jul 2025 17:42:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/10] perf: arm_spe: Add support for filtering on data
+ source
+To: Will Deacon <will@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, leo.yan@arm.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvmarm@lists.linux.dev
+References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org>
+ <20250605-james-perf-feat_spe_eft-v3-7-71b0c9f98093@linaro.org>
+ <aHUOig-kaRo15ZH5@willie-the-truck>
+ <7f51d4f9-7e08-49b5-ab43-8bc765bb2ca8@linaro.org>
+ <aHkI5_IOV35L4YJa@willie-the-truck>
+ <ca99af3b-e358-4c2b-8d62-0b6c29984391@linaro.org>
+ <aHkWTlaRKdXbnA0r@willie-the-truck>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <aHkWTlaRKdXbnA0r@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Update TODO item from drm documentation to contain more applicable
-information regarding the removal of deprecated MIPI DSI functions and
-no longer reference functions which have already been removed from the
-kernel.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
----
- Documentation/gpu/todo.rst | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index be8637da3fe9..92db80793bba 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -497,19 +497,19 @@ Contact: Douglas Anderson <dianders@chromium.org>
- 
- Level: Intermediate
- 
--Transition away from using mipi_dsi_*_write_seq()
---------------------------------------------------
-+Transition away from using deprecated MIPI DSI functions
-+--------------------------------------------------------
- 
--The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
--non-intuitive because, if there are errors, they return out of the *caller's*
--function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
--and mipi_dsi_dcs_write_seq_multi() macros instead.
-+There are many functions defined in ``drm_mipi_dsi.c`` which have been
-+deprecated. Each deprecated function was deprecated in favor of its `multi`
-+variant (e.g. `mipi_dsi_generic_write()` and `mipi_dsi_generic_write_multi()`).
-+The `multi` variant of a function includes improved error handling and logic
-+which makes it more convenient to make several calls in a row, as most MIPI
-+drivers do.
- 
--Once all callers are transitioned, the macros and the functions that they call,
--mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
--probably be removed. Alternatively, if people feel like the _multi() variants
--are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
--variants but change them not to return out of the caller.
-+Drivers should be updated to use undeprecated functions. Once all usages of the
-+deprecated MIPI DSI functions have been removed, their definitions may be
-+removed from ``drm_mipi_dsi.c``.
- 
- Contact: Douglas Anderson <dianders@chromium.org>
- 
--- 
-2.50.1
+On 17/07/2025 4:27 pm, Will Deacon wrote:
+> On Thu, Jul 17, 2025 at 04:16:32PM +0100, James Clark wrote:
+>>
+>>
+>> On 17/07/2025 3:29 pm, Will Deacon wrote:
+>>> On Tue, Jul 15, 2025 at 02:04:18PM +0100, James Clark wrote:
+>>>> On 14/07/2025 3:04 pm, Will Deacon wrote:
+>>>>> On Thu, Jun 05, 2025 at 11:49:05AM +0100, James Clark wrote:
+>>>>>> @@ -406,6 +416,9 @@ static u64 arm_spe_event_to_pmsfcr(struct perf_event *event)
+>>>>>>     	if (ATTR_CFG_GET_FLD(attr, inv_event_filter))
+>>>>>>     		reg |= PMSFCR_EL1_FnE;
+>>>>>> +	if (ATTR_CFG_GET_FLD(attr, data_src_filter))
+>>>>>> +		reg |= PMSFCR_EL1_FDS;
+>>>>>
+>>>>> Is the polarity correct here? The description of PMSDSFR_EL1.S<m> suggests
+>>>>> that setting bits to 1 _excludes_ the FDS filtering.
+>>>>>
+>>>>
+>>>> Setting filter bits to 1 means that samples matching are included. Setting
+>>>> bits to 0 means that they are excluded. And PMSFCR_EL1.FDS enables filtering
+>>>> as a whole, so if the user sets any filter bit to 1 we want to enable
+>>>> filtering:
+>>>>
+>>>>     PMSDSFR_EL1.S<m>
+>>>>
+>>>>     0b0  If PMSFCR_EL1.FDS is 1, do not record load operations that have
+>>>>          bits [5:0] of the Data Source packet set to <m>.
+>>>>
+>>>>     0b1  Load operations with Data Source <m> are unaffected by
+>>>>          PMSFCR_EL1.FDS.
+>>>>
+>>>> I think it's all the right way around and it ends up being the same as the
+>>>> other filters in SPE. Because we're using any bit being set to enable the
+>>>> filtering, the only thing you can't do is enable filtering with a 0 filter,
+>>>> but I didn't think that was useful. See the previous discussion on this
+>>>> here:
+>>>> https://lore.kernel.org/all/5752f039-51c1-4452-b5df-03ff06da7be3@linaro.org/
+>>>>
+>>>> Reading the "Data source filtering" section in the docs change at the end
+>>>> might help too.
+>>>
+>>> Sorry, but I still don't get it :/
+>>>
+>>> afaict, if any of the bits in 'data_src_filter' are _zero_ then we
+>>> should set PMSFCR_EL1.FDS. That also means that a mask of zero means all
+>>> loads are filtered, which is what the architecture says and is what we
+>>> should provide to userspace.
+>>>
+>>> Will
+>>
+>> We'd have to add another format flag to enable data source filtering then,
+>> because otherwise the default would be zero and people's samples would
+>> disappear.
+>>
+>> But the only use cases I could think of were more like "I want to see
+>> samples from data source 1":
+>>
+>>    -e arm_spe/data_src_filter=0x1/
+>>
+>> Or "I want to see all data sources except 1":
+>>
+>>    -e arm_spe/data_src_filter=0xfffffffe/
+>>
+>> Filtering out all samples with any data source didn't seem to make sense to
+>> me, and I think you can already do that with the other filters (remove loads
+>> etc).
+>>
+>> It would be a shame to be inconsistent and to add an enable flag just for
+>> that one case because the other filters in SPE are auto enabled for non-zero
+>> values. Although to be fair for PMSFCR.FT and others, zero filters are
+>> explicitly not allowed:
+>>
+>>    If this field is set to 1 and the PMSFCR_EL1.{ST, LD, B} bits are all
+>>    set to zero, it is CONSTRAINED UNPREDICTABLE whether no samples are
+>>    recorded or the PE behaves as if PMSFCR_EL1.FT is set to 0
+>>
+>> Seems like FDS doesn't end up as neat as the others, but IMO I can't see
+>> anyone needing a zero filter. I did discuss it with Leo and we decided that
+>> we could always add the enable flag at a later date if a use case turned up
+>> and it wouldn't be a breaking change.
+>>
+>> But if you think it's there so it should be exposed I can add it.
+> 
+> What about if we expose the inverse of PMSDSFR_EL1 to userspace instead?
+> 
+> Will
+
+That's exactly what I was thinking. It does seem a bit weird, but I can 
+call it inv_data_src_filter and document it appropriately so it should 
+be fine.
 
