@@ -1,33 +1,47 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCF71FBEB0;
-	Thu, 17 Jul 2025 08:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDFF1D7984;
+	Thu, 17 Jul 2025 08:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752739838; cv=none; b=XCHlD4c/mjn9y4yfiYUm5O0q/wP1O/LIjpLNS1i+hPeMv/HX9spx6qiRxj1FyRZH8eJ7ZITDYHDaCM0QfXwwtpE/tLZoK2LnSj5/k+phBxsFzcVoTib25TBhK6lPLkxFmmDtI9cfvdv1fbDRE+HaFPPYf/BUWp4ix164GeSoDiU=
+	t=1752742145; cv=none; b=n6GYna89k3t9YzElwNva/No5YgrR1ytr4FwwY70DNPfzgDaO5/5/JR1WdbuyEW10GBTpVtlFZb80JiLduKNkp3b3qRpfF/uDwmK1iT+zo1hYONBAi2EI6bSNyWtprYQv90FogZ9YU1aQKLuzAlkYDH7qbHTDplgYa5M+82JWls8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752739838; c=relaxed/simple;
-	bh=8pASZhtZ3qwCBE2BfGrchW2HH5fvQFVtEKNbivlGeOc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BNLDi9eAmO4myflkIVI2rQlGsSZndJshlvB8tNWnnqqFcg94uFf71A757QHuLekB3QMQQKlXYuqNyAEjkBh0BJiIt5HVnFwAv4mKJdMIspe6R3l+aLFA8HLv/apKcUaYIDJeq/1gz3D7l2IZBUXMATczzlZs/Q5OWrbeFfjYL3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LCd8B6UO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752742145; c=relaxed/simple;
+	bh=yVjZBovVFYRelPKtg1fQMKDDpGxbxaYJbTiXbrwq7Ao=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=iFyZCUnASBft5A/EY8p8FBn+qVik9Fi/NIdg5D4nFXoywC63IEZjY9XIG5YkGJ0cDB8V/TtsZD5Lfla8IAnyZbVQhaXgucUxlK2apAUxS5A8JiPWfXQaAQVCST39TCLT7YgK9Pyfz5KsCYS+sp06+49Q4PM5vHf4CkJ4++d5L6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=c4InLabs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ddBrI2MT; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LCd8B6UO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 328D8C4CEE3;
-	Thu, 17 Jul 2025 08:10:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752739837;
-	bh=8pASZhtZ3qwCBE2BfGrchW2HH5fvQFVtEKNbivlGeOc=;
-	h=From:Date:Subject:To:Cc:From;
-	b=LCd8B6UOWhRnn9sqomulKaLC7A2aduun/R6o725gOLIY6r2Yww+39J8wFs//msTo1
-	 eijWfhK3VO6tiHMKL7t0bi2v0OffNr0w7W9gp1ONougjpY4JCR4qS/dxeoLep0r5Up
-	 +1E+OWe8ifHpexsKZ3m1Sjh2aOULqYuUaK8nc3KfoSjWyenYPWrPO2Et6SdYpf7LEB
-	 cEusR8DDl62Zx12qnz9MUZU3h5eVs7N7BUpi/El2cv0CzJ9xnt4epYAwsChvuTRcfM
-	 wmhqq57ajrr+S1L2hxL2Q8VGoRWz8RLP2QFI6BygrUgxQvnI9z73PlKGXlChUmc7og
-	 rigHAgjsIzTaQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 17 Jul 2025 10:10:14 +0200
-Subject: [PATCH v3] Documentation: dma-buf: heaps: Add naming guidelines
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="c4InLabs";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ddBrI2MT"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1752742136;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=28EngJ2RMDboH1kPF4R/YHxhFvguWtCe6+9usWrMNYU=;
+	b=c4InLabsGxInUfJEVc4VHN+M7m9gY7FaVq4Fh87mEtQeVsGS7aGcVw2ftFFcKW7J26QtV5
+	hDXIK95Ot9w5B2rQxkIOiYwLuMgRNlFbB4EmiB+LBeU4Px9dNLsNmXXxEKsYkn3Ny/7g/7
+	Dq5fIk6EIxiHUkTcWTN7al+Dd7zZeNkqSxAFFXXrtwPCwbH6DoqGphJebGJXOcsqo2a2Ze
+	K7EYYttIQnUMPv2q6CVmYxbYS/96TPEHXbBY9p03Ngq2W/06oIlYrRD3dq6/twUF99qo3v
+	2c0ZTBOYO1th581QFz2mXoHZ55KTwlqTb7n/W+/uCSk/rNH4rkWr2ldCz3zJnw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1752742136;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=28EngJ2RMDboH1kPF4R/YHxhFvguWtCe6+9usWrMNYU=;
+	b=ddBrI2MT61kbAKq9OFyxCJ9PR3IsugoRkN2Y0EuYU4DRHe3S4fOgCdN+H2GdaeBRbmaACo
+	onKl+M/WN/9jDmAg==
+Date: Thu, 17 Jul 2025 10:48:09 +0200
+Subject: [PATCH v5 07/15] kunit: tool: Add test for nested test result
+ reporting
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,104 +49,83 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250717-dma-buf-heap-names-doc-v3-1-d2dbb4b95ef6@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAOWveGgC/4XNyw7CIBCF4VdpWDuGS2+68j2MCwpDS7TQgBJN0
- 3eXdmNcGJf/SeabmUQMFiM5FjMJmGy03uUQu4KoQboewerchFNe0YpT0KOE7mFgQDmBkyNG0F6
- BYLxmUlJlsCb5eApo7HODz5fcg413H17bn8TW9S+ZGDCQnWCmKVt6QDxdMTi87X3oyWom/nFqV
- v90eHZaiaVgTal0Z76cZVnemc5LnQUBAAA=
-X-Change-ID: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
- Mattijs Korpershoek <mkorpershoek@kernel.org>, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3304; i=mripard@kernel.org;
- h=from:subject:message-id; bh=8pASZhtZ3qwCBE2BfGrchW2HH5fvQFVtEKNbivlGeOc=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkV6389ePzkyB+HKI9ilhcBig9Zmg7Z+vx/o3DhsIXXY
- q93Dt8fdUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJsE1jrC/bd2jy+TOuljxT
- 3Tl3us39kifBf/1L/32vmklsvPczA0+p3faZ/tQgeF6SzYazf1zlpRnrdH4wn+3raJ7jx/fLaxb
- b9qpljDqRZr8bJJ46KHI93TBPueGc35fuxrBve1gdkhq753UAAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250717-kunit-kselftests-v5-7-442b711cde2e@linutronix.de>
+References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+In-Reply-To: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, Kees Cook <kees@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752742130; l=2264;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=yVjZBovVFYRelPKtg1fQMKDDpGxbxaYJbTiXbrwq7Ao=;
+ b=4Rrhad+4zQdJ2WFKLGxo3krskqwms12O3XlbFK00zw7rCvDGjBSyqv5SNZW3aB1Xu4ynOqiRl
+ xpmXlFDkWVhAaEiQgCJwSMO3zlaMRuGoxR6q/z+TdQfJMmqfa8aXr4J
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-We've discussed a number of times of how some heap names are bad, but
-not really what makes a good heap name.
+Currently there is a lack of tests validating the result reporting from
+nested tests. Add one, it will also be used to validate upcoming changes
+to the nested test parsing.
 
-Let's document what we expect the heap names to look like.
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Reviewed-by: David Gow <davidgow@google.com>
+Reviewed-by: Rae Moar <rmoar@google.com>
 ---
-Changes in v3:
-- Grammar, spelling fixes
-- Remove the cacheable / uncacheable name suggestion
-- Link to v2: https://lore.kernel.org/r/20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org
+ tools/testing/kunit/kunit_tool_test.py                         | 10 ++++++++++
+ .../kunit/test_data/test_is_test_passed-failure-nested.log     |  7 +++++++
+ 2 files changed, 17 insertions(+)
 
-Changes in v2:
-- Added justifications for each requirement / suggestions
-- Added a mention and example of buffer attributes
-- Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org
----
- Documentation/userspace-api/dma-buf-heaps.rst | 35 +++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit/kunit_tool_test.py
+index bbba921e0eacb18663abfcabb2bccf330d8666f5..b74dc05fc2fe5b3ff629172fc7aafeb5c3d29fb3 100755
+--- a/tools/testing/kunit/kunit_tool_test.py
++++ b/tools/testing/kunit/kunit_tool_test.py
+@@ -165,6 +165,16 @@ class KUnitParserTest(unittest.TestCase):
+ 		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.status)
+ 		self.assertEqual(result.counts.errors, 0)
+ 
++	def test_parse_failed_nested_tests_log(self):
++		nested_log = test_data_path('test_is_test_passed-failure-nested.log')
++		with open(nested_log) as file:
++			result = kunit_parser.parse_run_tests(file.readlines(), stdout)
++		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.status)
++		self.assertEqual(result.counts.failed, 2)
++		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.subtests[0].status)
++		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.subtests[1].status)
++		self.assertEqual(kunit_parser.TestStatus.FAILURE, result.subtests[1].subtests[0].status)
++
+ 	def test_no_header(self):
+ 		empty_log = test_data_path('test_is_test_passed-no_tests_run_no_header.log')
+ 		with open(empty_log) as file:
+diff --git a/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.log b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.log
+new file mode 100644
+index 0000000000000000000000000000000000000000..2e528da39ab5b2be0fca6cf9160c10929fba3c9e
+--- /dev/null
++++ b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.log
+@@ -0,0 +1,7 @@
++KTAP version 1
++1..2
++not ok 1 subtest 1
++    KTAP version 1
++    1..1
++        not ok 1 subsubtest 1
++not ok 2 subtest 2
 
-diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-index 535f49047ce6450796bf4380c989e109355efc05..3ee4e7961fe390ba356a2125d53b060546c3e4a6 100644
---- a/Documentation/userspace-api/dma-buf-heaps.rst
-+++ b/Documentation/userspace-api/dma-buf-heaps.rst
-@@ -21,5 +21,40 @@ following heaps:
-    usually created either through the kernel commandline through the
-    `cma` parameter, a memory region Device-Tree node with the
-    `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
-    `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
-    might be called ``reserved``, ``linux,cma``, or ``default-pool``.
-+
-+Naming Convention
-+=================
-+
-+``dma-buf`` heaps name should meet a number of constraints:
-+
-+- The name must be stable, and must not change from one version to the other.
-+  Userspace identifies heaps by their name, so if the names ever change, we
-+  would be likely to introduce regressions.
-+
-+- The name must describe the memory region the heap will allocate from, and
-+  must uniquely identify it in a given platform. Since userspace applications
-+  use the heap name as the discriminant, it must be able to tell which heap it
-+  wants to use reliably if there's multiple heaps.
-+
-+- The name must not mention implementation details, such as the allocator. The
-+  heap driver will change over time, and implementation details when it was
-+  introduced might not be relevant in the future.
-+
-+- The name should describe properties of the buffers that would be allocated.
-+  Doing so will make heap identification easier for userspace. Such properties
-+  are:
-+
-+  - ``contiguous`` for physically contiguous buffers;
-+
-+  - ``protected`` for encrypted buffers not accessible the OS;
-+
-+- The name may describe intended usage. Doing so will make heap identification
-+  easier for userspace applications and users.
-+
-+For example, assuming a platform with a reserved memory region located at the
-+RAM address 0x42000000, intended to allocate video framebuffers, physically
-+contiguous, and backed by the CMA kernel allocator, good names would be
-+``memory@42000000-cacheable-contiguous`` or ``video@42000000``, but
-+``cma-video`` wouldn't.
-
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
-
-Best regards,
 -- 
-Maxime Ripard <mripard@kernel.org>
+2.50.0
 
