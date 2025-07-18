@@ -1,130 +1,120 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396B0202983
-	for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 08:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D450EEDE;
+	Fri, 18 Jul 2025 08:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752826825; cv=none; b=jho5dBGM1YJhwo+o0ErXN0beVYMxvhTPh80xQWdxwSsiKGsA7F/3VxPRMTpiRWcoFdoyH7gDc7Sgx1TeHJmm3iGiWeT56zW2jkQqzHN8LdhVfuehWCpY1/aITcuk8YlfGQUjNOF/Mgwgr29JiGUk3wd3DH6sob19lIWXpTjGae8=
+	t=1752827814; cv=none; b=eyntYJaOy4gIbuISg5O630Y3+5gvaeJoIPU5cSsM1zFktkufsRKTpjqpx2pgpt+IPwN7XBU8WWtLt0tmjLElX0aObU4eKT+vhvg5ZmeV+wp+xWFYOduL2bGAPGrdT5VPR/k8Tp5GEKT31wuC57UESjfPK1YoN/M9qoGuEDP9WlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752826825; c=relaxed/simple;
-	bh=dGKkJmaxhFVHM8HKQXN+ruzKyau0iJTAr3sXMaXEuLs=;
+	s=arc-20240116; t=1752827814; c=relaxed/simple;
+	bh=HL/2nr+vhFKcEcF58riyFRNQttwiCB/9fGbm+q71Dgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pv1GAMue/GVg0rqMqOwOfzio1bKzp+mnD+a3Rw347icLW+pNqnA6Fz6XyEeQIFGNah8Fb4gj4yeJQZjMhefQK4OOlzcJpOkhSH/W6xvlbynkZ8oMz86S2L5NBBJnCPDUdorComTFc+FCcJGK7+rAO3OiV8psSKabQkLCzxvSY5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ayLmZxUC; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=S+ghDL96vtdztCGorIA7DWIOOdf3DXo+Wqg5kLolqXr6ayiQzjOmRia/r8q4X1I14CjPThK4ekcYbFzW8537oqCW9rsqJ8wtvZcqT91ucl1IZaajfkMJtQqhTCr7hJw42ia2cDlSM1WIbLcEyX3ka6/I+xVulGxVk8ujaDDQRhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GmH8kuFD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ayLmZxUC"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-60700a745e5so3298309a12.3
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 01:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1752826821; x=1753431621; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ab4gQxsYWdk9x2tiurNH/DMpPwSVpR7XnZUZ/FhW6Xk=;
-        b=ayLmZxUCnph7495FpfHRz5Julx3f4QFzSnlSJwHwgCKdyt80FAp94RXJWhdmj3ev0O
-         bIa23o/5fsUJ5dVLEcqMdI1xLzx3OvW7aCnD5cOYiyg2U19Apmpg1EeJGkkbFzO91UCa
-         33j7s25W7RheXYPljNKyrLORs9xWl3NXxDgH0SyqQ1muLRtDQ9GWLEd4Cw+T58xKFtxK
-         SNrlh3Xh+ryC69zE6p0wfcpruiOaUzRrQLG2Np2GS1bY3jjTaa/0DK175CBNJwTbudhf
-         iJ4Ulm/2Gsg7unpiRXCNsVmUcYdmmB8TZfhK9hgYwe4eTNCQc2oaA+vZ8Ia67JNe977u
-         XnFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752826821; x=1753431621;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ab4gQxsYWdk9x2tiurNH/DMpPwSVpR7XnZUZ/FhW6Xk=;
-        b=hPrwuArnYqkBqCB8t6Eom//avJma51IoBUCSUh3od6qUO5Op2H8ZiEgb9zK8xoL+Ds
-         tcyxmcCVp7GJnnIe+ICk/YHQBm+UM4lIqxyPYpw0ZlBEqnSJ1awylA1KuvCkkRSe+SC2
-         hK+Gl8u4R8kBA+Idt/J4X/nQyp/TkoyzbJJ27RL86lJHeLlwMa0NKLU2PZqkkmLmGhap
-         S7isP1gP/sP61xnVwLDUiQU8ee+ks6vb71WgMKUN2XxER0FGrOx4OP2EtFWClqyI7dFA
-         vwy4I77SD1Bx69Y4CbTJBIZzRZZCsfQekhetAdO/zzkdUwjY60ZcdwsWGW5bDTjmr2ee
-         gA9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUgxZw6XFsWZRf7J1qBgj2e+wOeUdZUZFRpqQtnyg+VmDsU2ziIGy+T0maltEBRIWR4bhpcjUNNFUI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTOkR6xN6q33iSB1WyFBlLe1XdlsuXIemOhVHCQV2qGFefi/E3
-	jJ908n3mGNMFiFu3oIz9r5DzhVdqpcbUfRLiG4sFhiIHt9/BbLLSnbU6Hva82OyNVLI=
-X-Gm-Gg: ASbGncsSMOQ87hYR5seveQlb0iY0ZmlHl254IyQ+0fo2c+D89J6V21CoHn+8gUb3yZw
-	gGz5ehX//3R9qj0T5PZeVqfGtTYPGLj6l1b3Ts39MD/5/t6yq557/OM/O2OkSicHgVviS7deOZO
-	o2osyzVyhs9GhPvyMcmvpNrJVQ4l1pFXKV9xeY+Z3BduE5kUIw2XPZjbZN+YItf6MC8SNI48glq
-	lorsl3fFkAyY94WF2f/VwWfns2Si2lIuucSqP04sb5uY1SZEcUulecY5uTjBcQbrarrNe7LXdCR
-	GbeaS4hw5Ux1QpXnWhKN3uoZEZ2C9DMr8OSrwlqch+iAplCKzo00u1xsJQvRxWL5R+u4tFGOVtH
-	rC9BflrU5VkoJkd4HVIPOPIgDG5ZPO4C30gUP2nXd8Q==
-X-Google-Smtp-Source: AGHT+IFlFmeWi6E0SMdOYun34OYAUB6SXhFoP9bJcXLK1nm2xdgsaBjOm4t+cnMR1jx+yUkBsFJYSA==
-X-Received: by 2002:a05:6402:268c:b0:609:aa85:8d78 with SMTP id 4fb4d7f45d1cf-61285923522mr8734807a12.8.1752826821337;
-        Fri, 18 Jul 2025 01:20:21 -0700 (PDT)
-Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-612c8f07e0fsm635217a12.13.2025.07.18.01.20.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 01:20:20 -0700 (PDT)
-Date: Fri, 18 Jul 2025 10:20:18 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: Tiffany Yang <ynaffit@google.com>, linux-kernel@vger.kernel.org, 
-	John Stultz <jstultz@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Stephen Boyd <sboyd@kernel.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	Frederic Weisbecker <frederic@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Chen Ridong <chenridong@huawei.com>, kernel-team@android.com, 
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH v2] cgroup: Track time in cgroup v2 freezer
-Message-ID: <mknvbcalyaheobnfeeyyldytcoyturmeuq3twcrri5gaxtjojs@bbyqhshtjfab>
-References: <20250714050008.2167786-2-ynaffit@google.com>
- <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
- <aHktSgmh-9dyB7bz@slm.duckdns.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GmH8kuFD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E585C4CEEB;
+	Fri, 18 Jul 2025 08:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752827813;
+	bh=HL/2nr+vhFKcEcF58riyFRNQttwiCB/9fGbm+q71Dgg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GmH8kuFDP69wLkOjDvdpYL8g4oErm+tCxzSYFjNficaE3yVU2VDi2CVybyh3k2vzL
+	 ktrs4o3SmHh9+Ti01m0+zENfWaUVs3rPEOFccIDJ8JzUuMBm7vzDhfYqgJjGzyUfX2
+	 tzprzSBZDHn6R6ZCy1S+ooHnVTZn0aRQWwJVACdL/lb02WuONW5CmJoAQ+l6IEgvXV
+	 YUoaFOXIVofvTGsxJhTxgxblsj38dHI42GL2cErPbWSgZ0WyDVaDQIEbTqk0zRmB/4
+	 6UGfFtVoeLA7gIVsJdymOjI/f87nJMUh+D/2j397DUryS3KRRsJ57CDJHeSOO9dNdu
+	 VnRo0rjVmoxGg==
+Date: Fri, 18 Jul 2025 11:36:32 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Michal Wilczynski <michal.wilczynski@intel.com>,
+	Juergen Gross <jgross@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Roger Pau Monne <roger.pau@citrix.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Usama Arif <usama.arif@bytedance.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
+	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-mm@kvack.org, Ingo Molnar <mingo@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v3 04/13] x86: Handle KCOV __init vs inline mismatches
+Message-ID: <aHoHkDvvp4AHIzU1@kernel.org>
+References: <20250717231756.make.423-kees@kernel.org>
+ <20250717232519.2984886-4-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jv5tpzpajmrvvmyk"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aHktSgmh-9dyB7bz@slm.duckdns.org>
+In-Reply-To: <20250717232519.2984886-4-kees@kernel.org>
 
+Hi Kees,
 
---jv5tpzpajmrvvmyk
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [RFC PATCH v2] cgroup: Track time in cgroup v2 freezer
-MIME-Version: 1.0
+On Thu, Jul 17, 2025 at 04:25:09PM -0700, Kees Cook wrote:
+> When KCOV is enabled all functions get instrumented, unless the
+> __no_sanitize_coverage attribute is used. To prepare for
+> __no_sanitize_coverage being applied to __init functions, we have to
+> handle differences in how GCC's inline optimizations get resolved. For
+> x86 this means forcing several functions to be inline with
+> __always_inline.
+> 
+> Signed-off-by: Kees Cook <kees@kernel.org>
 
-On Thu, Jul 17, 2025 at 07:05:14AM -1000, Tejun Heo <tj@kernel.org> wrote:
-> I wonder what hierarchical summing would look like for this.
+...
 
-So do I.
-Thus I meant to expose this only in a *.local file not the hierarchical
-one.
+> diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+> index bb19a2534224..b96746376e17 100644
+> --- a/include/linux/memblock.h
+> +++ b/include/linux/memblock.h
+> @@ -463,7 +463,7 @@ static inline void *memblock_alloc_raw(phys_addr_t size,
+>  					  NUMA_NO_NODE);
+>  }
+>  
+> -static inline void *memblock_alloc_from(phys_addr_t size,
+> +static __always_inline void *memblock_alloc_from(phys_addr_t size,
+>  						phys_addr_t align,
+>  						phys_addr_t min_addr)
 
-But I realize it should [1] match cpu.stat[.local]:thottled_usec
-since they're similar quantities in principle.
-- cpu.stat:thottled_usec
-  - sums the time the cgroup's quota was in effect
-  - not hierarchical (:-/)
-- cpu.stat.local:thottled_usec
-  - not hierarchical
-  - sums the time cgroup's or ancestor's quota was in effect
-    -> IIUC this is what's the motivation of the original patch
+I'm curious why from all memblock_alloc* wrappers this is the only one that
+needs to be __always_inline?
 
-HTH,
-Michal
-
-[1] I'd find it more logical if
-cpu.stat:thottled_usec were cpu.stat.local:thottling_usec and
-cpu.stat.local:thottled_usec were cpu.stat.local:throttled_usec.
-Only to illustrate my understanding of hierarchy in cpu.stat, it doesn't
-matter since it's what it is now.
-
---jv5tpzpajmrvvmyk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaHoDwAAKCRB+PQLnlNv4
-CBlXAQCByFJfBP7Jk7Z1s3RPv9V0QeD7jkoLucvvfVRWjUYuhgEA4pHMWxkdHUIl
-LfzPAnEZM/k+NpkUWf+uTYbOtaMqcAE=
-=lUcY
------END PGP SIGNATURE-----
-
---jv5tpzpajmrvvmyk--
+-- 
+Sincerely yours,
+Mike.
