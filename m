@@ -1,350 +1,91 @@
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCB713C695;
-	Fri, 18 Jul 2025 10:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6AE28B41A;
+	Fri, 18 Jul 2025 11:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752835410; cv=none; b=XCzL5lsxbs0bdUGd44RBUxY8S2dhIbOyCqwJB9Dmfg4pwCJgaRWL35ax4EKue6FTWVGCTv06UToHQkkNh1fXeAlYs6YtGcxtLBrJrdb/caI9P9XDkMdbOrXKpkDPNLakowvvE2vM0Udsorpi1sTIfcc4XXRbgq1jBMMan3oOy/Y=
+	t=1752837733; cv=none; b=bmU7dcUS/kmqizw3rM3/On5WSZb1Xr7nYvxMRYtUB+8rxhtb2hvhAeKsb2bSyrGLLBruX4+6FZ1WC2uShwy4ziiv3mlNEGl0+n0+6XgOYTSB4o/vaO5cLD5jCNLmOg5ea0mKNSxZ0DdtNwKN2XkC8CAiTvtgydZyH84UCzdbJ7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752835410; c=relaxed/simple;
-	bh=Iaz1Rd3kBAEyTWLqvllRsdXQTdWWMUg8AIhm6vpfNd8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=sQFTvcMS5rOyKy/xKMx/epRROg7nMCTEeBqF7K1UMONb11Z7+MC8PRfHvDcqRcZEqSLuKv9orTSlIad28cM9gJ631bhiU7U8UWPorDwe0laMSeqkF9eIqZrmhdLtRevXwD090QFmY+1iNdHUw1ELuW50ZMZF3F3AUZRq+Q3iZwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=fKkWo/Q3; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+	s=arc-20240116; t=1752837733; c=relaxed/simple;
+	bh=z3gndaGJcN2hgsC7vt0hd7Xv3Nt3ExEva3jSiEJodDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t8U33/gZAIGFbC22qeWk+9Akb7kwIGE0TWfD0p70WbC3oFe+qBjf1cGHSYK/0zL5fB4IKItYuaZQvaAkzaPkyT11/VxG/mEG4kCl5nKqK8rQxG06GMBEG9Hi/iMawN7qNIXfAd2TMkircPU292hxhJI4OPit1XSxyvDb4pPq9sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R8N985kT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="fKkWo/Q3"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 77C99600343C;
-	Fri, 18 Jul 2025 11:43:24 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id 6DHWSyV4V5To; Fri, 18 Jul 2025 11:43:22 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 0103B600024F;
-	Fri, 18 Jul 2025 11:43:21 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail; t=1752835402;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=okyo7RN/5T+nGVlbhx/5uQVBucvQdaKOetxBZHKb90k=;
-	b=fKkWo/Q3KTDG0gtM4VokVwM87V7Y+7gIgSWh3BtCsJcOmIra1sreIdBbp1S/w4cwjpCF6f
-	LqQpyO3LjLGiw2gAcTsZUj7494Ju/02pGU3XIS9tU2obYbgyj99wORdkxDmvqApODbWAKl
-	q6wyffoGPRBMc88fuMg40JeXR5xdQZ0=
-Received: from [IPV6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde] (unknown [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
-	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 898A3360071;
-	Fri, 18 Jul 2025 11:43:20 +0100 (WEST)
-Message-ID: <fe1d5f6b-006e-494f-8d07-e6c751d4c694@tecnico.ulisboa.pt>
-Date: Fri, 18 Jul 2025 11:43:20 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R8N985kT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 833A3C4CEEB;
+	Fri, 18 Jul 2025 11:22:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752837733;
+	bh=z3gndaGJcN2hgsC7vt0hd7Xv3Nt3ExEva3jSiEJodDw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=R8N985kTHPLNugtnVOg+RXuGHqT+Zz+SodSw21j8A2XMNGSyAS2qLmGjRtdbzVdfe
+	 IFIMulnZKrhgbpw3w3A/wIDLW7jS+0lr7ib7SjYztz4624iM9GPyVasvL+ut1PbsP5
+	 GATm09kiT/gS55onS8uWpLtxEReQqqli+IZv1Yy9PgkTsUWUEC0/zWoIWjaqVIVhco
+	 SkIA3BmQ+Qhzd2LQH9Ep7QagVHdJoHE7Ob0JsgkdtSsXlR4nkYf283TsM9C81gdIQ2
+	 5WVhkuIH1cek7XJyrnqpNFcrBlNvDicGrWLCZv53/xtUyuqeVZlNXH4XKH4CTgNd7Z
+	 8s9kw2QnTs+AQ==
+Date: Fri, 18 Jul 2025 12:22:04 +0100
+From: Will Deacon <will@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Gavin Shan <gshan@redhat.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	James Morse <james.morse@arm.com>,
+	Oza Pawandeep <quic_poza@quicinc.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Ingo Molnar <mingo@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+	x86@kernel.org, kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v3 06/13] arm64: Handle KCOV __init vs inline mismatches
+Message-ID: <aHouXI5-tyQw78Ht@willie-the-truck>
+References: <20250717231756.make.423-kees@kernel.org>
+ <20250717232519.2984886-6-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
- driver
-To: Brigham Campbell <me@brighamcampbell.com>, dianders@chromium.org,
- tejasvipin76@gmail.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250717164053.284969-1-me@brighamcampbell.com>
- <20250717164053.284969-3-me@brighamcampbell.com>
-Content-Language: en-US
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-In-Reply-To: <20250717164053.284969-3-me@brighamcampbell.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250717232519.2984886-6-kees@kernel.org>
 
+Hey Kees,
 
+On Thu, Jul 17, 2025 at 04:25:11PM -0700, Kees Cook wrote:
+> When KCOV is enabled all functions get instrumented, unless
+> the __no_sanitize_coverage attribute is used. To prepare for
+> __no_sanitize_coverage being applied to __init functions, we
+> have to handle differences in how GCC's inline optimizations get
+> resolved. For arm64 this requires forcing one function to be inline
+> with __always_inline.
 
-On 7/17/25 5:40 PM, Brigham Campbell wrote:
-> Fix bug in unprepare() which causes the function's return value to be
-> that of the last mipi "enter sleep mode" command.
-> 
-> Update driver to use the "multi" variant of MIPI functions in order to
-> facilitate improved error handling and remove the panel's dependency on
-> deprecated MIPI functions.
-> 
-> Use the new mipi_dsi_dual macro to reduce code duplication.
-> 
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+Please can you spell out the issue a bit more here? From the description
+you've given, I can't figure out why acpi_get_enable_method() is the
+only function that needs fixing up so I worry that this could be
+fragile.
 
-Reviewed-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Thanks,
 
-Thanks for the patch! Just the smallest of nits in the review but it's
-fine by me if this goes in as is.
-
-> ---
->   drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 197 ++++++------------
->   1 file changed, 60 insertions(+), 137 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> index 5b5082efb282..9df67facdc47 100644
-> --- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> @@ -81,25 +81,25 @@ static int jdi_panel_disable(struct drm_panel *panel)
->   static int jdi_panel_unprepare(struct drm_panel *panel)
->   {
->   	struct jdi_panel *jdi = to_panel_jdi(panel);
-> -	int ret;
->   
-> -	ret = mipi_dsi_dcs_set_display_off(jdi->link1);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-> +	/*
-> +	 * One context per panel since we'll continue trying to shut down the
-> +	 * other panel even if one isn't responding.
-> +	 */
-> +	struct mipi_dsi_multi_context dsi_ctx1 = { .dsi = jdi->link1 };
-> +	struct mipi_dsi_multi_context dsi_ctx2 = { .dsi = jdi->link2 };
->   
-> -	ret = mipi_dsi_dcs_set_display_off(jdi->link2);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx1);
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx2);
->   
->   	/* Specified by JDI @ 50ms, subject to change */
->   	msleep(50);
->   
-> -	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link1);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
-> -	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link2);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
-> +	/* Doesn't hurt to try sleep mode even if display off fails */
-> +	dsi_ctx1.accum_err = 0;
-> +	dsi_ctx2.accum_err = 0;
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx1);
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx2);
->   
->   	/* Specified by JDI @ 150ms, subject to change */
->   	msleep(150);
-> @@ -123,72 +123,47 @@ static int jdi_panel_unprepare(struct drm_panel *panel)
->   	/* Specified by JDI @ 20ms, subject to change */
->   	msleep(20);
->   
-> -	return ret;
-> -}
-> -
-> -static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
-> -				       struct mipi_dsi_device *right,
-> -				       const struct drm_display_mode *mode)
-> -{
-> -	int err;
-> -
-> -	err = mipi_dsi_dcs_set_column_address(left, 0, mode->hdisplay / 2 - 1);
-> -	if (err < 0) {
-> -		dev_err(&left->dev, "failed to set column address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_column_address(right, 0, mode->hdisplay / 2 - 1);
-> -	if (err < 0) {
-> -		dev_err(&right->dev, "failed to set column address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_page_address(left, 0, mode->vdisplay - 1);
-> -	if (err < 0) {
-> -		dev_err(&left->dev, "failed to set page address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_page_address(right, 0, mode->vdisplay - 1);
-> -	if (err < 0) {
-> -		dev_err(&right->dev, "failed to set page address: %d\n", err);
-> -		return err;
-> -	}
-> -
->   	return 0;
->   }
->   
-> -static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
-> +static void jdi_setup_symmetrical_split(struct mipi_dsi_multi_context *dsi_ctx,
-> +					struct mipi_dsi_device *left,
-> +					struct mipi_dsi_device *right,
-> +					const struct drm_display_mode *mode)
-> +{
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_column_address_multi,
-> +		      left, right, dsi_ctx,
-> +		      0, mode->hdisplay / 2 - 1);
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_page_address_multi,
-> +		      left, right, dsi_ctx,
-> +		      0, mode->vdisplay - 1);
-> +}
-> +
-> +static void jdi_write_dcdc_registers(struct mipi_dsi_multi_context *dsi_ctx,
-> +				     struct jdi_panel *jdi)
->   {
->   	/* Clear the manufacturer command access protection */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
-> -				   MCS_CMD_ACS_PROT_OFF);
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
-> -				   MCS_CMD_ACS_PROT_OFF);
-> +	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
-> +		      jdi->link1, jdi->link2, dsi_ctx,
-> +		      MCS_CMD_ACS_PROT, MCS_CMD_ACS_PROT_OFF);
->   	/*
-> -	 * Change the VGH/VGL divide rations to move the noise generated by the
-> +	 * Change the VGH/VGL divide ratios to move the noise generated by the
->   	 * TCONN. This should hopefully avoid interaction with the backlight
->   	 * controller.
->   	 */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
-> -				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> -				   MCS_PWR_CTRL_PARAM1_DEFAULT,
-> -				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> -				   MCS_PWR_CTRL_PARAM2_DEFAULT);
-> -
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
-> -				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> -				   MCS_PWR_CTRL_PARAM1_DEFAULT,
-> -				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> -				   MCS_PWR_CTRL_PARAM2_DEFAULT);
-> -
-> -	return 0;
-> +	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
-> +		      jdi->link1, jdi->link2, dsi_ctx,
-> +		      MCS_PWR_CTRL_FUNC,
-> +		      MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> +		      MCS_PWR_CTRL_PARAM1_DEFAULT,
-> +		      MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> +		      MCS_PWR_CTRL_PARAM2_DEFAULT);
->   }
->   
->   static int jdi_panel_prepare(struct drm_panel *panel)
->   {
->   	struct jdi_panel *jdi = to_panel_jdi(panel);
-> +	struct mipi_dsi_multi_context dsi_ctx = { .accum_err = 0 };
-
-Technically this should be in reverse christmas tree order but it is
-just a tiny nitpick.
-
->   	int err;
->   
->   	/* Disable backlight to avoid showing random pixels
-> @@ -231,88 +206,36 @@ static int jdi_panel_prepare(struct drm_panel *panel)
->   	 * put in place to communicate the configuration back to the DSI host
->   	 * controller.
->   	 */
-> -	err = jdi_setup_symmetrical_split(jdi->link1, jdi->link2,
-> -					  jdi->mode);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set up symmetrical split: %d\n",
-> -			err);
-> -		goto poweroff;
-> -	}
-> +	jdi_setup_symmetrical_split(&dsi_ctx, jdi->link1, jdi->link2,
-> +				    jdi->mode);
->   
-> -	err = mipi_dsi_dcs_set_tear_scanline(jdi->link1,
-> -					     jdi->mode->vdisplay - 16);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_tear_scanline_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx,
-> +		      jdi->mode->vdisplay - 16);
->   
-> -	err = mipi_dsi_dcs_set_tear_scanline(jdi->link2,
-> -					     jdi->mode->vdisplay - 16);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_tear_on_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx,
-> +		      MIPI_DSI_DCS_TEAR_MODE_VBLANK);
->   
-> -	err = mipi_dsi_dcs_set_tear_on(jdi->link1,
-> -				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear on: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_pixel_format_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx,
-> +		      MIPI_DCS_PIXEL_FMT_24BIT);
->   
-> -	err = mipi_dsi_dcs_set_tear_on(jdi->link2,
-> -				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear on: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_exit_sleep_mode_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx);
->   
-> -	err = mipi_dsi_dcs_set_pixel_format(jdi->link1, MIPI_DCS_PIXEL_FMT_24BIT);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_pixel_format(jdi->link2, MIPI_DCS_PIXEL_FMT_24BIT);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link1);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link2);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = jdi_write_dcdc_registers(jdi);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to write dcdc registers: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	jdi_write_dcdc_registers(&dsi_ctx, jdi);
->   	/*
-> -	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode() and
-> -	 * mipi_dsi_dcs_set_display_on().
-> +	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode_multi()
-> +	 * and mipi_dsi_dcs_set_display_on_multi().
->   	 */
-> -	msleep(150);
-> +	mipi_dsi_msleep(&dsi_ctx, 150);
->   
-> -	err = mipi_dsi_dcs_set_display_on(jdi->link1);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set display on: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_display_on_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx);
->   
-> -	err = mipi_dsi_dcs_set_display_on(jdi->link2);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set display on: %d\n", err);
-> +	if (dsi_ctx.accum_err < 0)
->   		goto poweroff;
-> -	}
->   
->   	jdi->link1->mode_flags &= ~MIPI_DSI_MODE_LPM;
->   	jdi->link2->mode_flags &= ~MIPI_DSI_MODE_LPM;
+Will
