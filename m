@@ -1,211 +1,169 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B2920FAB6
-	for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 20:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B351CA84;
+	Fri, 18 Jul 2025 20:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752870764; cv=none; b=abu8aP9lj4WXqHAyI+fGlXj1vi6E8HnLBAxdGY8E+ZwvaCK/uBm4Ebx6H3281Fljx5JdY8GWcHnmKiH9k4T6ZWSTLl5xUhJKMdoiY+rP52c5aIEh4Ww7udCvO839h9VQf6jXKG6KwP1VZgJj2vgGl/Nv4G9zy+7rNN0qGPTobHo=
+	t=1752872008; cv=none; b=HL3Ui/C12+tn615OLFrYpUO24Dz2kON6u1zPO3cXVeDnhlDotdIPs3hejZpp2cctm/aTd0gK+LBiKyokGXRLx5+QXlf8twQrtlBsg+CCEdZbG2RU7wutydseAm1p7BST9v4ib+Rrse5lxCd26IL/+kedEDM8FbY/QT1b2d1M5p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752870764; c=relaxed/simple;
-	bh=VYLFPInX5wYDsdSBLHlW5bQbgZ8bMLX6OLJt3sa/vVE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oLyIWadoTxw4FCuwep0Tw7xZ6wRyCU8OQzdmy0xdUNamVmijzpr4r5WtpcS+hrzFciFZVWv/AgSMIC2PEO/Em8/InC2AW76lysghEemd23cqmATOtrf96Rnu05qxKMRrkzIVAXX4kj2SXeL7lKWJPpeYL/tL8kGTU1A5Q8d/19A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=I8itxYzV; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1752872008; c=relaxed/simple;
+	bh=xLNKt/lWj0ahP/K+1RUOTT9zzV2/lT3d5fXlStGDV/E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ooSSujdsPcu1o6JjrjqdEPS+S/mKZlTYS757+CtH5E/57f4B7GXE3ljxb8Bq/IUkHnLTieYEgyBD3dY6mMhmAuZRJKBG7tVZpMuKqyiDsijDD7LSAjE7mvvOCWBxXwygIYXBSjr7VfshDBSlxPN+3PRJl3KxcJt2Uz97LMMUB+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3AHbLCHa; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lagEFNVx; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I8itxYzV"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-234bfe37cccso20638875ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 13:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1752870761; x=1753475561; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TKZtbK4lVu+Fa2vzfgm/vl63kukiWlzYzbXwLbRXVPM=;
-        b=I8itxYzVHzQwdBhRTNS4RfpHY4+ttbKbzKb38RDKuY3Y20TX4vEZ6t/1aDuWrtjxzu
-         tpa9TZucOQGRzGaEpVHdmNf7Y+/8wj3H72Hkm9mfXX+786li/DoNHO7ig/bracc+1VDx
-         DRRg4VWA0zCJtVmU6IaazxwosUEgpHqq5GGAc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752870761; x=1753475561;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TKZtbK4lVu+Fa2vzfgm/vl63kukiWlzYzbXwLbRXVPM=;
-        b=NboXMx8Tl7N8lNAxS6YjOBH4QIF/OlOwlWMe7tg93W4nPiTAtQzDZuVVOecAYpmP4/
-         wOc1pYuJ2l7XnqyaiNj8o5T2Sx6lUkG4SMRQtzgWm+CrOca8QExpV5ApUg8f60Gc/3D9
-         h5dOt/cMh2ABiqgrvZF4WctUfFD/8o3NKb3KT4TDFyj6rL2/8T6paKr8Zw3Wn/WvLt4b
-         o+H/WVSO+Pa7THtIcBOszm92L13rtUfmHq76LfZdtwQzzJS8vG+aR66uSNzmbBgKnryU
-         5m3k2Qzkw5ojQa+mUXzoVNUswPqZiTCqE49CaRnKU8WBWgD36h1hYWKGWG03uazSTlSJ
-         OdcA==
-X-Forwarded-Encrypted: i=1; AJvYcCW7vLHpTQbxDDGM3SVBUhyjFRJtLBPsNYELphkBIZjC2X4D4yNlv+Ify5iK8bn+uFGtAbSAA4/K100=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSDcsCrAm3e+IBrdW48QYUxZg6FHr2eLtnwi61H9rI8FjaeD/L
-	av31NJQxA3pni2uF/lCRQO+n+w7luX2959ygDzR9Ow2z3CG4WORCauZlHAiCuUHULXZKxNoyg4+
-	jdhM=
-X-Gm-Gg: ASbGncsRN9Ju6EAwNFoeS8HORibnV9/FoHetRty0A/kb+JOHsA9XaLCIzPWTg8b+YwY
-	/5rDCnwjV8divzJ5UEfVmDwIsOX28Upj36nskX7gUQuCuKD0LxugQK1kgtiF7W8OFFZ/7IkMtyA
-	NxALC70x2u4UV1ZC78EWMThGxw4lBvL7vEwJKJvY9pTA6FqeoDbLIN+m1sS0TtKRYGK//AihZKb
-	O4e7DMMx4kAu0MK411VihaQAv/U8VIAk8b1tHFzsad2cCyk8vcy5mCBgFT+Sowgj4KKNVN8pvzY
-	mhfOPwr+hS+cVrssnhEFrs0480D98+jDwO5Fmwih+9DlOTbynB3czMn3ixfzSzgvVKQDdXsNmtn
-	FSRgr6SSg91KXmML56OFapdKY9ZPzlyoOETQdxKr7TCcrsW4e+Wq1yntyXXajY6XbCcGG6XdoUC
-	C7
-X-Google-Smtp-Source: AGHT+IH8pFUwJ9Kj+2DMnh4Nh6CeFeAbj93dN7r8aitascRqtHKeKCqP7dGnw2vyb3dHJ7sckeRioA==
-X-Received: by 2002:a17:903:1aa3:b0:235:e76c:4362 with SMTP id d9443c01a7336-23e3b79a5acmr45588685ad.18.1752870761075;
-        Fri, 18 Jul 2025 13:32:41 -0700 (PDT)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com. [209.85.214.176])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6b4e84sm17614225ad.104.2025.07.18.13.32.39
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jul 2025 13:32:40 -0700 (PDT)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-234d3261631so20368925ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 13:32:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWEE131RI8qG4OfDiuLKH2qpvUlUz3vm/dHVo+JTR7GiyjPKhvCuEQElFuPPYR6gYZcuANxcrnJSRg=@vger.kernel.org
-X-Received: by 2002:a17:90b:2e06:b0:312:e49b:c972 with SMTP id
- 98e67ed59e1d1-31cc256fb86mr7355028a91.15.1752870759183; Fri, 18 Jul 2025
- 13:32:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3AHbLCHa";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lagEFNVx"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1752872004;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iK1R06UG5GJ6VRHa5zdFleL46v8S6s7PAcqB3w2iutI=;
+	b=3AHbLCHa7+jKYUHB0ivi7XaWOkknPY6VTBPI2djDbc/25K9eyUT/eyxD7LOHAo5LdNhldQ
+	WcwrIOS49+xfijFwJNi8wxvKJLfLOPT2e+0/A9vC6aK9EaUszaUZs50q9FRQARGpXaIGRR
+	WPsLTyq/I/eFUWLbgTpJCGKQuj3j96v0VxHgggaGQeWpBmxgtQFV8tq5zqCIb+BmlsvhIZ
+	A8eML6ks3VGRS+S9swz6yuNrZx1KQsvh2bbLDSbhn6rVHZxh+RHGnfb4K494Yz75wUhLj3
+	bLw6W4qf2cbO68n6frXcvYum36Bqe4QLjgq7x6OdAdnuN/KoL2XgVZc67+gfhQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1752872004;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iK1R06UG5GJ6VRHa5zdFleL46v8S6s7PAcqB3w2iutI=;
+	b=lagEFNVxsKJhSl4DAbk7Y2h30PFz1bCuPZJmyNXJ+8kQrNpxpImmAnE8qYxLnUnAARLxJQ
+	IQzgWVLwQVQAtOBg==
+To: Wladislav Wiebe <wladislav.wiebe@nokia.com>, corbet@lwn.net
+Cc: akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
+ Neeraj.Upadhyay@amd.com, david@redhat.com, bp@alien8.de, arnd@arndb.de,
+ fvdl@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ wladislav.wiebe@nokia.com, peterz@infradead.org
+Subject: Re: [PATCH v2] genirq: add support for warning on long-running IRQ
+ handlers
+In-Reply-To: <20250714084209.918-1-wladislav.wiebe@nokia.com>
+References: <20250714084209.918-1-wladislav.wiebe@nokia.com>
+Date: Fri, 18 Jul 2025 22:53:23 +0200
+Message-ID: <877c05w798.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250717164053.284969-1-me@brighamcampbell.com>
- <20250717164053.284969-2-me@brighamcampbell.com> <CAD=FV=WYBFrm-J55BTEJ7s=Jk4EFuMVAkahVZfdzW6V8mxE7Tg@mail.gmail.com>
- <DBFCOJFGI5HB.1RNJBDPNTEL2U@brighamcampbell.com>
-In-Reply-To: <DBFCOJFGI5HB.1RNJBDPNTEL2U@brighamcampbell.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 18 Jul 2025 13:32:27 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VZUr=cwAQyPFWVDXg4pRavLWChpR4dOOyUywQN4GdE-w@mail.gmail.com>
-X-Gm-Features: Ac12FXzSqdFPsH4TrONq3wFHu-HzqqxZ5pwzD4g92X8kRwKlib7OsOrk_7f6tnM
-Message-ID: <CAD=FV=VZUr=cwAQyPFWVDXg4pRavLWChpR4dOOyUywQN4GdE-w@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] drm: Create mipi_dsi_dual macro
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi,
+On Mon, Jul 14 2025 at 10:41, Wladislav Wiebe wrote:
+> This patch adds a mechanism to detect and warn about long-running IRQ
 
-On Fri, Jul 18, 2025 at 10:17=E2=80=AFAM Brigham Campbell
-<me@brighamcampbell.com> wrote:
->
-> On Fri Jul 18, 2025 at 10:10 AM MDT, Doug Anderson wrote:
-> >> +#define mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...)           \
-> >> +       _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ##__VA_ARGS__)
-> >> +
-> >> +#define _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...) \
-> >> +       do {                                           \
-> >> +               (_ctx)->dsi =3D (_dsi1);                 \
-> >> +               _func((_ctx), ##__VA_ARGS__);          \
-> >
-> > nit: shouldn't func be in parenthesis for safety? It's unlikely to
-> > really matter, but just in case it's somehow a calculated value that
-> > would make it safe from an order-of-operations point of view.
->
-> My assumption is that wrapping _func in parenthesis would cause a
-> compilation error in the case of _func being a macro (more on that
-> later...). I'll test that later today.
+# git grep 'This patch' Documentation/process/
 
-Huh, OK. If that's the case then no need to do it.
+Also please read:
 
+  https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#changelog
 
-> >> +               (_ctx)->dsi =3D (_dsi2);                 \
-> >> +               _func((_ctx), ##__VA_ARGS__);          \
-> >> +       } while (0)
-> >
-> > Can you explain why you need the extra level of indirection here (in
-> > other words, why do you need to define _mipi_dsi_dual() and then use
-> > it in mipi_dsi_dual())? I don't see it buying anything, but maybe it's
-> > performing some magic trick I'm not aware of?
->
-> I mentioned this in v3 after the changelog and prompty forgot to include
-> that information in v4: The extra indirection between mipi_dsi_dual()
-> and _mipi_dsi_dual() is to allow for the expansion of _func in the case
-> that _func is also a macro (as is the case with
-> mipi_dsi_generic_write_seq_multi, i believe). Compilation fails after
-> removing the indirection.
->
-> There may very well be a better solution to this problem. I'd appreciate
-> your thoughts.
+> +static int __init irqhandler_duration_check_setup(char *arg)
+> +{
+> +	unsigned long val;
+> +	int ret;
+> +
+> +	if (!arg)
+> +		return 0;
+> +
+> +	ret = kstrtoul(arg, 0, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val > 0) {
+> +		irqhandler_duration_threshold_us = val;
+> +		static_branch_enable(&irqhandler_duration_check_enabled);
+> +	} else {
+> +		pr_err("Invalid irqhandler.duration_warn_us setting (%lu)\n", val);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +early_param("irqhandler.duration_warn_us", irqhandler_duration_check_setup);
 
-Wow, crazy. I think the C preprocessor is one step away from magic.
-While I know there are rules for it, I often find the way that it
-behaves to be counter-intuitive. I can't say I've followed exactly how
-your solution is working, but if it works and is needed then it's OK
-w/ me. It might be worth promoting the note to be in the commit
-message itself (or even a code comment?) so future people trying to
-understand the code will have some chance of stumbling across it...
+Why early_param? Nothing cares about this during early boot.
 
-You might hate this, but one possible other solution would be to make
-a custom `mipi_dsi_dual_dcs_write_seq_multi` (lifting it out of the
-novatek driver) and then say that the "_func" parameter can't be a
-macro. If you did it correctly, it would be a pretty big space savings
-too. Unlike how we did it in the novatek driver, I think a proper way
-to do it that would save the most space would be:
+> +static inline void irqhandler_duration_check(u64 ts_start, unsigned int irq,
+> +					      struct irqaction *action)
+> +{
+> +	u64 delta_us = (local_clock() - ts_start) >> 10;
 
-#define mipi_dsi_dual_dcs_write_seq_multi(ctx, dsi0, dsi1, cmd, seq...) \
-  do { \
-  static const u8 d[] =3D { cmd, seq }; \
-  mipi_dsi_dual_dcs_write_buffer_multi(ctx, dsi0, dsi1, \
-                             d, ARRAY_SIZE(d)); \
-  } while (0)
+Lacks a comment that this is an intentional approximation.
 
-...and then mipi_dsi_dual_dcs_write_buffer_multi() would be
-implemented in drm_mipi_dsi.c.
+> +	if (unlikely(delta_us > irqhandler_duration_threshold_us)) {
+> +		pr_warn_ratelimited("[CPU%d] long duration on IRQ[%u:%ps], took: %llu us\n",
+> +			smp_processor_id(), irq, action->handler, delta_us);
 
-With the above implementation, you only have one "static const" buffer
-(maybe the compiler is smart enough to combine w/ the novatek code,
-but  it might not be) and also only have a single function call taking
-up space in the panel driver. You'd only have the "custom" dual
-implementation for the "write_seq" stuff since that appears to be the
-most common. All the other DSI calls could use the normal
-mipi_dsi_dual() macro...
+Please align the arguments in the second line properly.
 
-I was thinking of suggesting that as an optional followup to your
-series anyway (for the space savings), but it could also solve some of
-the preprocessor woes. :-P
+  https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#line-breaks
 
-I'm certainly not dead-set on this, so if you want to just keep
-something like your current solution that's OK w/ me too.
+> +	}
+> +}
+> +
+>  irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
+>  {
+>  	irqreturn_t retval = IRQ_NONE;
+> @@ -146,6 +184,7 @@ irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
+>  
+>  	for_each_action_of_desc(desc, action) {
+>  		irqreturn_t res;
+> +		u64 ts_start;
 
+This wants to be in the if() branch where it is actually used.
 
-> > Reading this with a fresh set of eyes, I also realize that this macro
-> > is probably vulnerable to issues where arguments have side effects
-> > since we have to repeat them. I don't think there's a way around this
-> > and I think the macro is still worthwhile, but something to go into
-> > with open eyes. Possibly worth noting in the macro description? We
-> > could probably at least eliminate the need to reference "_ctx" more
-> > than once by assigning it to a local variable. I think referencing
-> > "_func" and "__VA_ARGS__" more than once is unavoidable...
->
-> I'm using _func, _ctx, and __VA_ARGS__ more than once in this macro and
-> I don't expect the indirection to fix the potential issue of unintended
-> side effects. I believe we can use GNU extensions to eliminate side
-> effects to _ctx,
+>  		/*
+>  		 * If this IRQ would be threaded under force_irqthreads, mark it so.
+> @@ -155,7 +194,14 @@ irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
+>  			lockdep_hardirq_threaded();
+>  
+>  		trace_irq_handler_entry(irq, action);
+> -		res = action->handler(irq, action->dev_id);
+> +
+> +		if (static_branch_unlikely(&irqhandler_duration_check_enabled)) {
+> +			ts_start = local_clock();
+> +			res = action->handler(irq, action->dev_id);
+> +			irqhandler_duration_check(ts_start, irq, action);
+> +		} else
+> +			res = action->handler(irq, action->dev_id);
+> +
 
-I wasn't thinking of any GNU extensions. Just using a scope-defined
-local variable...
+Even if not required by C, the else clause wants brackets too for
+symmetry.
 
-#define _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...) \
-  do { \
-    struct mipi_dsi_multi_context *__ctx =3D (_ctx); \
-    __ctx->dsi =3D (_dsi1); \
-    ...
+        if (foo)
+        	bar();
+        else
+                baz();
 
-> but especially since _func can be a macro, I don't
-> think there's much to be done about it. Not sure about __VA_ARGS__.
->
-> I fear my inexperience is made sorely manifest here.
+parses perfectly fine.
 
-I think it's a rare person who fully understands the dirty corners of
-the C preprocessor and I wouldn't count myself as one of them. I can
-sometimes make it do what I want, but I think we're up against my
-limits too...
+        if (foo) {
+                do_stuff();
+        	bar();
+        } else
+                baz();
 
--Doug
+is asymmetrical and disturbs the reading flow, which is pattern
+based. The extra brackets just make it easier to parse:
+
+        if (foo) {
+                do_stuff();
+        	bar();
+        } else {
+                baz();
+        }
+
+See?
+
+Thanks,
+
+        tglx
