@@ -1,162 +1,154 @@
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084D826ADD;
-	Fri, 18 Jul 2025 16:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A391EB5B
+	for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 17:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752857194; cv=none; b=kac2KAUMgp7MNdyfJUDOGZqL5v+4A/9S+nqDabiWCE+yuQdSgPht1SGhvyC5B9CW/y0tbh2CxjGddbgG0JDa8aY4T0ToTvm8jhO7WsK6ataYNyxdJkHQAUuzgwcrR1+/Red+oCDhERCTAYC7ymWyPzgO0alN3uffqfyckaPpuf8=
+	t=1752858581; cv=none; b=oV4qWP1y0IricsZXdO4ei75IbhwwE29v80ui8R/ngHbVrwYzksyJRS7eVQQ3FZ1706mR4Qxc+AH8eLXEnmo8ywKv7hrd2C9pVbhU8Ql2W4pP+j16WTxWtUn4m+ot1mK/UucrZTTiz9pO60ZW7RXmZ5Om2DasPNAE+GINyYkgwP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752857194; c=relaxed/simple;
-	bh=Y9/HzNLHHfWUMA2navFffKgWJsVgRHpXB4KSXUWZNro=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EvYOj7GU2NUUVqVSTMOdyeb9Ojg7D81+RkbfWMX/syBjzX11Y14vHNmSBMnXoqL4lYU7yAlB4MczrcfnA31rixmhiWNYSAe1aoJ6GNGHtfpeAn4x/LRGMJRB20ze/X7tIRS1nnpHhrP0fKrb8JpaWqjJjN0AiMfdqZ4+BdrViCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=hCq2gHor; arc=none smtp.client-ip=88.99.38.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1752858581; c=relaxed/simple;
+	bh=7jRgCSNtMJ+4XBY+7GdkIf+b0OTtc3sZXlxYI5FwFc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=efZJ0r5h0GT7PtQo8ciIPd5i97dgi583qp4h3fl+4qYRH0szmHIh74Ibv4jFUBeJuFYN2F+G52G8eMPtLiDTUEfvT07FIKwQ/pnyTUMCf++UkHMuhdzj454NXAjNLCtX3X78emnGTB0X4srsXMUvTueb9Cbdf0XivWqKVjHp1dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BhVQL7bg; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="hCq2gHor"
-Received: from relay12 (localhost [127.0.0.1])
-	by relay12.grserver.gr (Proxmox) with ESMTP id 98F9ABE42E;
-	Fri, 18 Jul 2025 19:38:22 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay12.grserver.gr (Proxmox) with ESMTPS id 35830BE408;
-	Fri, 18 Jul 2025 19:38:22 +0300 (EEST)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 5D13E1FDAD2;
-	Fri, 18 Jul 2025 19:38:21 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1752856701;
-	bh=T/KHd8xSTyD2a62npLK0GCGhjwX/ZOXYPvlAwzv4DnI=;
-	h=Received:From:Subject:To;
-	b=hCq2gHorp3QxPG8wzB7MCr6R7F0+9EjtImF1nVTQXMrdTXFdL7/bbi6wt7bmNCFDy
-	 iabIXZCU4XkPIwKiTbuG8hdwz4pCK+LGXXsr3i2/Ls7qHAGN7IXUbjYLs2t4akGPS/
-	 y3hrQJmSzrKwHInaVUra0294+hqYC1UbHuIerkdLP1CCZBn/1cwfjJTV5HZ9ON4sRD
-	 YPYuHB5H0vEmAE3sjoc0V08Ppo6axjk5OBSLZcwF/NIMCCphQpf/xZoifxA53fwtRJ
-	 g/9hG+JSlIubFlmtc/u0O176D3nXeoz+Y1JjFfu9gBZG/BPv3unggq2XVrpSNDmHVq
-	 t5Nd+nZ8OxJNg==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.208.177) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f177.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-32b595891d2so17893381fa.2;
-        Fri, 18 Jul 2025 09:38:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW3079P2V2AwKBo3MOg0WYRdCnB/UYR1dxqV79dSHbRvsfEgYU2sD4msgaRhm7/+IC90AIIgomi1vI=@vger.kernel.org,
- AJvYcCWqJMPaETLOd09cFp8b+4YJdrTNajiSEzs4BywsrBTo73+/GwXAMAEJPVRRXke0bNKmGiuENKzCy0FS3z0=@vger.kernel.org,
- AJvYcCXfeae9z3Ts3JXqlMtMCVr/dO9LnvzbEOA/ZNWvs+iR+Ltq5nyqvsZy+q5UFohvhxibRclU6+1S7XYIG4+v@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy82tVz2UyZN3w2aUdxvUDY0kKBLvLhWmjMsfVL5Itnd0V+D0Hg
-	QCmAfBIM0Kgf//EwzOBDuCHZ0fuveT2Xr7BxAP9N7UhFGm2xfvxE5NZiG/t8Qo68ma6L7DLW4T7
-	lLSZpMXABsC4WLAf+S1me278vxdd3dYo=
-X-Google-Smtp-Source: 
- AGHT+IH2EOYwVpYNC/dzFgzHOVWnAxLuBk2IBVmgSEVg2YWME1umiaot9LuowLPm+vix6mRC2tvBW2r1o/qDyjmuZqg=
-X-Received: by 2002:a05:651c:419c:b0:32b:755e:6cd4 with SMTP id
- 38308e7fff4ca-330a7c5726fmr8906081fa.38.1752856700745; Fri, 18 Jul 2025
- 09:38:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BhVQL7bg"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56IG6Ylj032365
+	for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 17:09:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	MvWIjxTgsWqTg+EpU1jF6w7w0dCuZOGk2IF4h2JIZKw=; b=BhVQL7bg08dH1Lyy
+	sCNahyhXgLOooPUk6k8lhKr8X6uJk+1Pa2UywOtv1yU1ysnUtDgNZt4yqdpLZuE+
+	K0tv2dxCzW6dvx8A4AAJj193IuREjeMHuDLlmtdnunNxuIVo2SkVCir+j0RyVX/M
+	DYLgDAHww3n9z70tbq466VWkBPIVGCMhK+FGx8MfhiEBU9WEbLjFPgNtruQac7W4
+	H0ncRaq33YzE0XB6rSNXGqFRZcmgcu5MhyjlXY0V7iyZJUiP7XPWZL0Oj9dh/qRa
+	WzKiISQhUKpSQuddWBkeXHQ2hpidzoxFHYU6x5T5fvEiwFh+6mY2YvQkzlkNqfQh
+	hbR8bA==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ug38chrk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 17:09:39 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2356ce66d7cso34302955ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 10:09:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752858578; x=1753463378;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MvWIjxTgsWqTg+EpU1jF6w7w0dCuZOGk2IF4h2JIZKw=;
+        b=UuLKx9n+jS0lSUtemoysAKKGky5Rq2ewVb4ccUm3Ykj3PpwuMn+mVlF1lhsencVE1W
+         AYxc7fqnq56dzUYVucnoFZEi00QR8beQIS3JIAoraPGE1pKm7lop+IdOhRguGxNuXXw3
+         fsR+GlT1239TNkh+UkC5vl3YRl0UFFS5JvRjm0Hk1QwYRLDT3d4ronT8lpcCdM7v2qgo
+         za3bTsiWFzYrH1iaPI6cSOuhxMt0N+0veSf4d7S+Mgbnt5ObH036grD45rTxY5Yep5zQ
+         hJ8RrttzIuYli9BER9iSNrzXcn+Y+2bwlWY/DUDBR5COYhweV+c1t7TJxLVki3KPYMb9
+         SYgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV1dnwUR82g91T/MgoePYAnnmKd2YOz8wHC7jgLksJDBC0aZTP3ij4Qz42FXa5+Kb1rt7V6dzY9r4M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQgjEElMLdYn89qy2TjsBidoU0hVZEmoE7CV1yRloY8N1wWip+
+	WZ5yr0PEdSOhfGJo9xR8oGZjpQ+NJeH5pwMG/RR2/JeWBv37RVIkY6UwnR08V/9N3TieVyHI2Yp
+	mmACopCj2PiOSdMLhzlmTeu+1sEN7Cm0r5IcowRiI3P86dLaqRXHVcGaUpuJ/RFk=
+X-Gm-Gg: ASbGnctQ/YYImaPdjzbfv/NEwobef/sXqMcIQwIjdmqc13pwOqZ6Ox7H94ODx6ViEAk
+	slYoR3Sm9IzCRJTKs4PFd6JEq6FHWLp+pnvCaThYPgI3T/noxPMlAns4HupLo3ivra4a+l6sWnO
+	8+jXJaSYFSF2C/ytIR1QB/wwi/8glkEnVyfptYBunLophQsBHMbn6PJ3kc7IKmYOjq6qoZtlC1f
+	gOXE6tyt+iYQVSB5aD5l4FfKHG9HnJITyYvdNTvW7nTSyrduWIQ0qfJQlFt3YsgnL244XN4vfxP
+	3xCREjzG06ULvSIwjgzX1x8IGtC+crmq/xVGPoYMxOcZzqha2wu5WONPm9DP2gFLViNbL9QuNIg
+	FCkZS/TLELTd8Ag==
+X-Received: by 2002:a17:902:c40a:b0:235:1706:1fe7 with SMTP id d9443c01a7336-23e25693727mr159582665ad.4.1752858577936;
+        Fri, 18 Jul 2025 10:09:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IETvEp5rZykda6Fkwq9ZXpRv9woHFJ3xh4GKGF4HzLDjXZN+/v8QGQrNtiX8DgvikLdgkWCIA==
+X-Received: by 2002:a17:902:c40a:b0:235:1706:1fe7 with SMTP id d9443c01a7336-23e25693727mr159582215ad.4.1752858577500;
+        Fri, 18 Jul 2025 10:09:37 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b60ec88sm16079385ad.65.2025.07.18.10.09.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Jul 2025 10:09:37 -0700 (PDT)
+Message-ID: <b7653a05-f747-4764-9c33-793346cae223@oss.qualcomm.com>
+Date: Fri, 18 Jul 2025 11:09:33 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250314-gpd_fan-v6-0-1dc992050e42@gmail.com>
- <20250314-gpd_fan-v6-1-1dc992050e42@gmail.com>
- <CAGwozwENLOOS5q1Bs5SEh3FFJAY-=kcVimf5U+tWzy6HaiGd=g@mail.gmail.com>
- <bb57fe1d-fde9-45f8-9f5c-0836a6e557ff@roeck-us.net>
-In-Reply-To: <bb57fe1d-fde9-45f8-9f5c-0836a6e557ff@roeck-us.net>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Fri, 18 Jul 2025 18:38:09 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwGdZ5tzHg7_TF5d_AWVDmypP987XS-x_GWqrSF81PiG2Q@mail.gmail.com>
-X-Gm-Features: Ac12FXy0Tx-o6uIT1821wM3-KJwlgmKE7INI2kkaYx6M9jkGi9kwYvBZc7x-lOg
-Message-ID: 
- <CAGwozwGdZ5tzHg7_TF5d_AWVDmypP987XS-x_GWqrSF81PiG2Q@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] hwmon: add GPD devices sensor driver
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Cryolitia@gmail.com, Jean Delvare <jdelvare@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
-	Yao Zi <ziyao@disroot.org>, Derek John Clark <derekjohn.clark@gmail.com>,
-	=?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>,
-	someone5678 <someone5678.dev@gmail.com>,
- Justin Weiss <justin@justinweiss.com>,
-	command_block <mtf@ik.me>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <175285670187.3291495.16286230662434257056@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.0.9 at linux3247.grserver.gr
-X-Virus-Status: Clean
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 01/10] accel/rocket: Add registers header
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+        Kever Yang <kever.yang@rock-chips.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Robert Foss <rfoss@kernel.org>
+References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
+ <20250713-6-10-rocket-v8-1-64fa3115e910@tomeuvizoso.net>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250713-6-10-rocket-v8-1-64fa3115e910@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDEzNSBTYWx0ZWRfX9UT4Z/0LQZed
+ 8L6jehRJ8dGxBvjpVAppPzkrXIQoks4r14tps/p4ztMVSfwJK/gteUMl8JZqjOdbq3G88L0wvws
+ qeSPMnRCUrYMckY459oTRXjf11JEtkwv+Uke4ovl6yvn0S/FogUVZeWbE8ScwBnyJxwrWyFbDv/
+ 8/2b06kQXTmJuQ8GvWImNyhL5b5rRCXSmJy8xU/J2lEyML7wWQw4AQZ2TJO+N107ntl+X3ZLylj
+ MoEM/b6WTUbSmnfKXWeejv3QjCaIVSiSRlaM8shu+P9zg0RZQaOXjmfCEycUfRyuR9A7BJ3jqfb
+ rC2joEmBG723Nbji9toVe42bWffU5DeKqV+fpnb14ZI9R3F0hjuyquJw4iEVJXXdWTBA8kwaXi9
+ i5Fa15IthC91vCjShQbkWSQPAIgIZ/1kCjPmmhGb15MJ4IAo5Vi2nJc/ZowXtNfuOesRzeMy
+X-Proofpoint-GUID: DemJ_UVd5Jx8zWTSIXNrv_1s_4EmVSpY
+X-Authority-Analysis: v=2.4 cv=SZT3duRu c=1 sm=1 tr=0 ts=687a7fd3 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=DISFzqtZAAAA:8
+ a=EUspDBNiAAAA:8 a=4Ppn7do-3_l0xiadvqUA:9 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22 a=aug85vrO5LANNmmtkfAW:22
+X-Proofpoint-ORIG-GUID: DemJ_UVd5Jx8zWTSIXNrv_1s_4EmVSpY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-18_04,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 mlxlogscore=876 mlxscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ phishscore=0 spamscore=0 suspectscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507180135
 
-On Thu, 17 Jul 2025 at 04:32, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 3/13/25 13:58, Antheas Kapenekakis wrote:
-> > On Thu, 13 Mar 2025 at 21:10, Cryolitia PukNgae via B4 Relay
-> > <devnull+Cryolitia.gmail.com@kernel.org> wrote:
-> >>
-> >> From: Cryolitia PukNgae <Cryolitia@gmail.com>
-> >>
-> >> Sensors driver for GPD Handhelds that expose fan reading and control via
-> >> hwmon sysfs.
-> >>
-> >> Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
-> >> devices. This driver implements these functions through x86 port-mapped IO.
-> >>
-> >> Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
-> >> ---
-> >>   MAINTAINERS             |   6 +
-> >>   drivers/hwmon/Kconfig   |  10 +
-> >>   drivers/hwmon/Makefile  |   1 +
-> >>   drivers/hwmon/gpd-fan.c | 681 ++++++++++++++++++++++++++++++++++++++++++++++++
-> >>   4 files changed, 698 insertions(+)
-> >>
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index 0fa7c5728f1e64d031f4a47b6fce1db484ce0fc2..777ba74ccb07ccc0840c3cd34e7b4d98d726f964 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -9762,6 +9762,12 @@ F:       drivers/phy/samsung/phy-gs101-ufs.c
-> >>   F:     include/dt-bindings/clock/google,gs101.h
-> >>   K:     [gG]oogle.?[tT]ensor
-> >>
-> >> +GPD FAN DRIVER
-> >> +M:     Cryolitia PukNgae <Cryolitia@gmail.com>
-> >> +L:     linux-hwmon@vger.kernel.org
-> >> +S:     Maintained
-> >> +F:     drivers/hwmon/gpd-fan.c
-> >
-> > A problem we had with oxp sensors is that once OneXPlayer expanded
-> > their EC to include e.g., battery capacity limits, it was no longer
-> > appropriate for it to reside in hwmon. I expect GPD to do the same
-> > sometime in the near future. If that is the case, should we
-> > futureproof the driver by moving it to platform-x86 right away?
-> >
->
-> My problem with platform drivers, especially with x86 platform drivers,
-> including the OneXPlayer driver, is that the developers responsible for
-> those drivers refrain from implementing the client drivers as auxiliary
-> drivers but instead like to bundle everything into a non-subsystem
-> directory. I have always wondered why that is the case. My best guess
-> is that it is to limit and/or avoid subsystem maintainer oversight.
-> Does that work out for you ?
+On 7/13/2025 2:38 AM, Tomeu Vizoso wrote:
+> A XML file was generated with the data from the TRM, and then this
+> header was generated from it.
+> 
+> The canonical location for the XML file is the Mesa3D repository.
+> 
+> v3:
+> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
+> 
+> v8:
+> - Remove full MIT license blob, to match other files with the same
+>    licensing arrangement in the kernel
+> 
+> Reviewed-by: Robert Foss <rfoss@kernel.org>
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-Particularly for simple ECs such as OneXPlayer and GPD boards I think
-keeping all the addresses in the same file makes sense. E.g., I just
-sent a Fixes for the OneXPlayer G1 AMD variant and it was one commit
-instead of 2 or 3. At least for me it was practical, I did not
-consider having a lesser oversight as a benefit when making that
-choice.
+Structure of the file and markings look sane. I'm not familiar with the 
+hardware specifics, so the autogenerated content is a bit over my head, 
+but I guess for something so large using automated generation should 
+minimize errors.
 
-But I do understand the concern.
-
-Antheas
-
-> Not objecting, I am just curious.
->
-> Guenter
->
->
-
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
