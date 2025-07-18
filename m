@@ -1,171 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE311624E9;
-	Fri, 18 Jul 2025 07:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1661A8F97;
+	Fri, 18 Jul 2025 07:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752822522; cv=none; b=eYxJvnW5XWfLy0dxse87fRa10oRFC0///A8oxp4IQAGaJVZ+0h8mzgpp2HfMkCF3SBorZ6JPFGabz3tXinvUp8ktHR0PyL9tVTJsyI83U6Vn6lZ7n4VEUcQD3NOMCjhauCUMEgl1XW66nXX77sOtKADoSr30LW6MPYA++pmKs9E=
+	t=1752824513; cv=none; b=mAHm2QcANWWhxx/hPDVQ8ITfwsS//Du78odCNNxO6yi5xaA7cybgkvo/JulfUbehHEQiS+5v/wsupkQNBhBL2ccGIE+bXUhJONMIfvRgZlHsVM4eCBCY658/ElevdoCyIlGNsHxbe3AFn18PQQPyjVPzwTF8iKzs6VyJUcgf8wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752822522; c=relaxed/simple;
-	bh=fUvHQZqTl24PCF89+WJfWZK205oQzlOcq+fyKB4X7l4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DTr86fQ07pGSIFQjTaPRWvE4/pf3G8XJP5VSQpALKNJVSTGYFbSuT7ErbjTmNIG15iBmEEWyuhmyxOAXtYBHK+YCwf7Qe8Hf6YONIrrpv94xkxWgmmJBN/1IvSSvDyGcaTVgHTtUtQzKrdu+POee6oPfQACYSbJ/FQfG/XKGWl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lsB5/D3m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752824513; c=relaxed/simple;
+	bh=J5kKqTKlg4ioIqTAnV2dtolGEeERqKQr/KzPEPbUKz8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UcJGE+H5fJ4tsFyMhaFg/DBF8raW/C6nPGIZny9Ka0VYF/usrsSe9DpjnTj+rJ9NYahCz8sp/AZheL5b49yeKCh87CHGAZWI8xmXazcl7OVBo6alglOJu8LQc3CkwSWx2Et3WFhsEAp74sKMezXB+d95Nm0LFqNgtEa6FsjcL4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QTy2Kqxm; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lsB5/D3m"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 80092C4CEF0;
-	Fri, 18 Jul 2025 07:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752822521;
-	bh=fUvHQZqTl24PCF89+WJfWZK205oQzlOcq+fyKB4X7l4=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=lsB5/D3m3BzQw6WHzO27RsejVZVIi3iQxUpiqbJ/LvsHBF+sxgaDtsj3uLxGVRM/M
-	 iFOM+TEHz11w234jT9gSpnECfv5e0kTxyjTbcpeY4V04NltXSoNbz/MqBk3MzpxlUh
-	 cNs0IF5UiFozLpTXmCjLOmht5A94JFGWZULTH8MA249ga0jgIGojd4rOn3er5I3thM
-	 6yRQIlHyAMgA88F/BqzBPfed5I3bSIymObDIS47UP2sok0ANhbFqgoDoahnRrtFkaK
-	 pA+qGXDr5JSmAHugqWF+F6awmdOvPL528voZIJoA/smoxpfzDM6SzrC9GFuL6Is19Z
-	 IXw9+hPBh6O8A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F10CC83F34;
-	Fri, 18 Jul 2025 07:08:41 +0000 (UTC)
-From: Sung-Chi Li via B4 Relay <devnull+lschyi.chromium.org@kernel.org>
-Subject: [PATCH v6 0/2] Export fan control and register fans as cooling
- devices
-Date: Fri, 18 Jul 2025 15:08:28 +0800
-Message-Id: <20250718-cros_ec_fan-v6-0-8df018396b56@chromium.org>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QTy2Kqxm"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56I7cjHo009576;
+	Fri, 18 Jul 2025 07:41:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FFAOMChFqrKhKYfUFTQm9VW1DmXhkt4PhiDLnZ9VC2M=; b=QTy2Kqxm09sxhe30
+	oq1riXFH+6JvVlsJoFElb+y9/z/QhwqNLKFRBtJjZzmaQWg5tHu//P6+gSglvwBD
+	d/XYDK+zzityzeIoJg8CoPQlhhQrnr/V7pQxxL37da/FUkMQFzhtLsQYT2Iszk6w
+	63YSdnPxT750gWzVEBmmXh8MxwS5tf63HQUUgC3gtwbRYIQ6YEQHiBwlIimpNie/
+	yVuIzzxlgG9DxKQuBn9APVvv1aQGT/hejB78Q/68Jiiw7o8NGcd0h22o7BFBxzAz
+	skWtQLq2Ro78XdLHsk2GBJHmgDSSd8EENrM/w+sbaDuivQsNO+kg1m6yC56GY0yc
+	7LYZIg==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufxbam37-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Jul 2025 07:41:34 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56I7fXVK013574
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Jul 2025 07:41:33 GMT
+Received: from [10.253.76.178] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 18 Jul
+ 2025 00:41:27 -0700
+Message-ID: <13ca4d6e-d5db-4fd5-af14-9ccda55ddba2@quicinc.com>
+Date: Fri, 18 Jul 2025 15:41:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5 10/14] net: ethernet: qualcomm: Initialize PPE
+ RSS hash settings
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Andrew Lunn
+	<andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric
+ Dumazet" <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Lei Wei
+	<quic_leiwei@quicinc.com>,
+        Suruchi Agarwal <quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>
+References: <20250626-qcom_ipq_ppe-v5-0-95bdc6b8f6ff@quicinc.com>
+ <20250626-qcom_ipq_ppe-v5-10-95bdc6b8f6ff@quicinc.com>
+ <793434f9-7cdc-409f-b855-380be7a2b0db@oss.qualcomm.com>
+Content-Language: en-US
+From: Luo Jie <quic_luoj@quicinc.com>
+In-Reply-To: <793434f9-7cdc-409f-b855-380be7a2b0db@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOzyeWgC/23OTW7DIBCG4atErEPF8OOYrHKPqooGGGIWMRG0V
- qvIdy/OJonl5Yf0vMOdVSqJKjvu7qzQlGrKYxvdfsf8gOOFeAptMymkEVpa7kuuZ/LniCMPqFy
- n0VsPgjVxKxTT76P2+dX2kOp3Ln+P+ATL63ZnAi449sGSougc4MkPJV/Tz/UjlwtbUpN8ciPkO
- 5eN62D6vqVRQNzg6oXDiqvluo3SSWOi8GGD6yfvYPV53bhHAKN7T1rbDW5euBTv3DRu7MESAjq
- nYMXnef4HfgesnaUBAAA=
-X-Change-ID: 20250429-cros_ec_fan-da3b64ac9c10
-To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- Sung-Chi Li <lschyi@google.com>, Sung-Chi Li <lschyi@chromium.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752822520; l=4414;
- i=lschyi@chromium.org; s=20250429; h=from:subject:message-id;
- bh=fUvHQZqTl24PCF89+WJfWZK205oQzlOcq+fyKB4X7l4=;
- b=ja3jexFOHyCaNVploN4rGApv+Exlr5UOcylDy5nMbClEN871PDR1+ygfdIO/AoQ0s2vtkk5+d
- gY6mUlGbMQRCzjQnbXS5RVRJkB2Xvi07/5ZxeMxnVHV7IdUGQu5JCyr
-X-Developer-Key: i=lschyi@chromium.org; a=ed25519;
- pk=9gCZPRJmYyHDt6VN9FV2UreFcUr73JFrwYvmsltW9Y8=
-X-Endpoint-Received: by B4 Relay for lschyi@chromium.org/20250429 with
- auth_id=392
-X-Original-From: Sung-Chi Li <lschyi@chromium.org>
-Reply-To: lschyi@chromium.org
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: d_Ee6WCGIkzRAaD8MJrO82z3Rn9nrrvQ
+X-Proofpoint-ORIG-GUID: d_Ee6WCGIkzRAaD8MJrO82z3Rn9nrrvQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDA1OSBTYWx0ZWRfXzWtpS0NkR21S
+ bKygKN8oh1IUv8AVDh/vUd/98aZ1oaCRQpBNmnNHVo+bU0S20YIhwjsQfAGy8QYS8WmMWEhjMuh
+ dOEjt7OBI0xihMiqz95prDVSpkl+qR5vNDTqFFu/S5iixN7P4Q7k/dPXBGiu4152Y64ZCT0kgy4
+ IsNKfG6OInSNOWwIGk1E2H5zs0CecuE8LQnvsSa3h8/Bk1kynfcR/EYLONf5ZsGaParQWlh+ZgF
+ 6bFwKiSXXkavGCM0iDeit/p5+CBfc4c5N8BvrbaMeMovs8UT0JHfNz0rA2J1BcLXaCde1PXtTbU
+ OSeDdCdNTQ1CyL+HvZjr+IU6AVKhPnr1440unU7xxT0Ht2vq/MPuQF++CpGHHjclr3DfAWQgh4V
+ kGt0b7fqYgCsDzRrgTV5rnNQrs8tJx5idRSJgbWUJj6ShIHBnq6AWK0QWpwM7pjEN0Jbfnie
+X-Authority-Analysis: v=2.4 cv=Xc2JzJ55 c=1 sm=1 tr=0 ts=6879faae cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8
+ a=8GLID_3tYxgRnLsb8HMA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-18_01,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999
+ phishscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
+ clxscore=1015 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507180059
 
-This is a continuation of the previous series "Export the target RPM fan
-control by ChromeOS EC under hwmon"
-(https://lore.kernel.org/lkml/20250313-extend_ec_hwmon_fan-v1-0-5c566776f2c4@chromium.org/T/#t).
-There is a change from controlling the target fan RPM value to control
-the PWM value.
 
-We anticipate to involve fans connected to EC as thermal cooling
-devices, so we can utilize the thermal framework to have further thermal
-control strategies.
 
-This series updates the required EC controls definitions, implements the
-mechanism for controlling fan PWM values, and registers these fans under
-thermal framework as cooling devices.
+On 7/18/2025 4:48 AM, Konrad Dybcio wrote:
+> On 6/26/25 4:31 PM, Luo Jie wrote:
+>> The PPE RSS hash is generated during PPE receive, based on the packet
+>> content (3 tuples or 5 tuples) and as per the configured RSS seed. The
+>> hash is then used to select the queue to transmit the packet to the
+>> ARM CPU.
+>>
+>> This patch initializes the RSS hash settings that are used to generate
+>> the hash for the packet during PPE packet receive.
+>>
+>> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+>> ---
+>>   drivers/net/ethernet/qualcomm/ppe/ppe_config.c | 194 ++++++++++++++++++++++++-
+>>   drivers/net/ethernet/qualcomm/ppe/ppe_config.h |  39 +++++
+>>   drivers/net/ethernet/qualcomm/ppe/ppe_regs.h   |  40 +++++
+>>   3 files changed, 272 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/net/ethernet/qualcomm/ppe/ppe_config.c b/drivers/net/ethernet/qualcomm/ppe/ppe_config.c
+>> index dd7a4949f049..3b290eda7633 100644
+>> --- a/drivers/net/ethernet/qualcomm/ppe/ppe_config.c
+>> +++ b/drivers/net/ethernet/qualcomm/ppe/ppe_config.c
+>> @@ -1216,6 +1216,143 @@ int ppe_counter_enable_set(struct ppe_device *ppe_dev, int port)
+>>   	return regmap_set_bits(ppe_dev->regmap, reg, PPE_PORT_EG_VLAN_TBL_TX_COUNTING_EN);
+>>   }
+>>   
+>> +static int ppe_rss_hash_ipv4_config(struct ppe_device *ppe_dev, int index,
+>> +				    struct ppe_rss_hash_cfg cfg)
+>> +{
+>> +	u32 reg, val;
+>> +
+>> +	switch (index) {
+>> +	case 0:
+>> +		val = FIELD_PREP(PPE_RSS_HASH_MIX_IPV4_VAL, cfg.hash_sip_mix[0]);
+>> +		break;
+>> +	case 1:
+>> +		val = FIELD_PREP(PPE_RSS_HASH_MIX_IPV4_VAL, cfg.hash_dip_mix[0]);
+>> +		break;
+>> +	case 2:
+>> +		val = FIELD_PREP(PPE_RSS_HASH_MIX_IPV4_VAL, cfg.hash_protocol_mix);
+>> +		break;
+>> +	case 3:
+>> +		val = FIELD_PREP(PPE_RSS_HASH_MIX_IPV4_VAL, cfg.hash_dport_mix);
+>> +		break;
+>> +	case 4:
+>> +		val = FIELD_PREP(PPE_RSS_HASH_MIX_IPV4_VAL, cfg.hash_sport_mix);
+>> +		break;
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	reg = PPE_RSS_HASH_MIX_IPV4_ADDR + index * PPE_RSS_HASH_MIX_IPV4_INC;
+>> +
+>> +	return regmap_write(ppe_dev->regmap, reg, val);
+> 
+> FWIW you can assign the value in the switch statement and only FIELD_PREP
+> it in the regmap_write, since the bitfield is the same
+> 
+> Konrad
 
-Adapting comments from the previous series, the driver probes the host
-command capability at beginning to see whether a fan is controllable:
-  - if command `EC_CMD_PWM_GET_FAN_DUTY` is supported (v0, this is a
-    new command).
-  - if command `EC_CMD_THERMAL_AUTO_FAN_CTRL` v2 is supported.
-  - if command `EC_CMD_PWM_SET_FAN_DUTY` v1 is supported.
-
-This combination is selected as this is the minimum requirement for a
-fan to be fully controllable under hwmon framework.
-
-The driver supports changing the fan control mode, and allows to change
-the fan PWM value only if the fan is in manual control mode. The power
-management hook is implemented as well for keeping the fan control
-settings, as EC will automatically restore the control method to auto
-when device is suspended.
-
-Change-Id: I4e2fdc8c4bc50778c0d04cfbefeaab7088d3181e
-Signed-off-by: Sung-Chi Li <lschyi@google.com>
----
-Changes in v6:
-- Fix lines over 100 characters.
-- Remove unnecessary out of memory message.
-- Link to v5: https://lore.kernel.org/r/20250620-cros_ec_fan-v5-0-5979ea1abb31@chromium.org
-
-Changes in v5:
-- Fix line breaks.
-- Directly return 0 when there is no error (rather than return ret
-  variable).
-- Rename CROS to CrOS.
-- Preserve Acked-by and Reviewed-by tags.
-- Link to v4: https://lore.kernel.org/r/20250619-cros_ec_fan-v4-0-ca11548ce449@chromium.org
-
-Changes in v4:
-- Treat fan control is supported without `CONFIG_PM` is enabled.
-- Change logic of registering cooling devices for fan from abandom
-  immediately to log warning logs, then continue with the next fan.
-- Fix error checking logic to use IS_ERR for
-  devm_thermal_of_cooling_device_register.
-- Revise variable declaration ordering with reverse christmas tree.
-- Rename member variable `manual_fan_pwm_values` to `manual_fan_pwm`.
-- Use %pe for printing error pointers, and add newline for logs.
-- Revise comments in suspend and resume hook.
-- Link to v3: https://lore.kernel.org/r/20250512-cros_ec_fan-v3-0-a9f2b255f0cd@chromium.org
-
-Changes in v3:
-- Make required EC command versions macros.
-- Add `CONFIG_THERMAL` guarding for registering as thermal fan cooling
-  devices.
-- Add error handling during registering thermal cooling devices, and
-  immediately abort the registration if any error occurred to align with
-  the thermal sensor registration in hwmon core.
-- Add error handling for EC fan communication during suspend and resume.
-- Add `CONFIG_PM` guarding for checking whether the EC supports a
-  complete fan control in hwmon driver.
-- Sort variables order in declaration.
-- Separate declaration and logic to different sections.
-- Move `cros_ec_thermal_cooling_ops` next right after the operation
-  functions declaration.
-- Improve describing the resume behavior in documentation.
-
-Changes in v2:
-- Change column from 80 to 100 and fix styles.
-- Directly store driver data into platform dev with
-  platform_set_drvdata.
-- Unify the PWM unit (from 0 ~ 255) between hwmon and thermal cooling
-  devices.
-- Only fetch the fan control mode and PWM value when suspending rather
-  than caching values when writing. The suspend hook is thus added.
-- Link to v1: https://lore.kernel.org/r/20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org
-
----
-Sung-Chi Li (2):
-      hwmon: (cros_ec) add PWM control over fans
-      hwmon: (cros_ec) register fans into thermal framework cooling devices
-
- Documentation/hwmon/cros_ec_hwmon.rst |   7 +-
- drivers/hwmon/cros_ec_hwmon.c         | 313 ++++++++++++++++++++++++++++++++++
- 2 files changed, 319 insertions(+), 1 deletion(-)
----
-base-commit: 024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-change-id: 20250429-cros_ec_fan-da3b64ac9c10
-
-Best regards,
--- 
-Sung-Chi Li <lschyi@chromium.org>
-
+Thank you for the suggestion, I'll update the code accordingly.
 
