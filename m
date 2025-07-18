@@ -1,124 +1,167 @@
 Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E164296163;
-	Fri, 18 Jul 2025 09:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CA7214A9E;
+	Fri, 18 Jul 2025 09:29:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752830826; cv=none; b=f9g/c8xujZMRIqdB0sPtzFTF5eG54f04MY55ouU2wbWFOCRWwDBg+BzyNpc/awysEfWLkGnuhmDKn+53yh9q/6yvy5Hi7CNxDoBah0mS2ppQwuu30acC0SGvIH2jyfUwQt/V3BaKYo3ZkvkYVpXkQfJiEjYbEnRAwmA076qocaI=
+	t=1752830993; cv=none; b=utdvNi4GrZcsNkhdqtLf0KanTQolYq0g9GPwvqzXDJfheVHYCGsTxqXNGSn6EuXAOX8bCY0ctj1peo4hIJTiqSq//Kla340swvSDjD30yYlguq/K0sZHEMpsrBQBAv3u+3n3hvCGYD3Lb8Z0kcOgVrcQEPDB6gYQI/RkzFmD7+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752830826; c=relaxed/simple;
-	bh=HUhy81ZaP0p0/423HH16uiwt9y5XJBXuD6+67+pGmRs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dv/BzeMH+3Eb42B49PJVFLIfXahGah1SUzdyVLsE+n5Q3uOrgEtwO6JhZ0WhWBz2xoMXLXtPLW5t/Fsoam5FZnjuNmgiVHGw0PcvRF/njMnAMu48Jtr6j+LHF5Vz1BD6rmfLwbtco9/8yYf5o45AKkrpWC/CiYuj+ixJK9CVq3E=
+	s=arc-20240116; t=1752830993; c=relaxed/simple;
+	bh=lVk1h3Nyy2oOV0MueVYQyRRfBWUzCm05W4/32ARFtOo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Asy8xViRuuKDpfu/iDUegCQyxYgpsUetLNCvvAyg7+FbRCYIua80427Nlc/ee/FGbIp0lM0hnriUA2wIqQF1Ra6U0kQIz3BuS+OQT/cp491+C70HzDOsnLrWhIkCcJ6D+IE70UkHQuB4V1hB3x1MkK0RlRhfHA0jnwsK2nwzvdI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
 Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bk4Dw6xv6zKHN3X;
-	Fri, 18 Jul 2025 17:26:56 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 93C491A1355;
-	Fri, 18 Jul 2025 17:26:55 +0800 (CST)
-Received: from [10.67.109.79] (unknown [10.67.109.79])
-	by APP1 (Coremail) with SMTP id cCh0CgBXFLBeE3po8Z6eAg--.17315S2;
-	Fri, 18 Jul 2025 17:26:55 +0800 (CST)
-Message-ID: <180b4c3f-9ea2-4124-b014-226ff8a97877@huaweicloud.com>
-Date: Fri, 18 Jul 2025 17:26:54 +0800
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bk4JG2wlrzKHN1j;
+	Fri, 18 Jul 2025 17:29:50 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 08C261A08AC;
+	Fri, 18 Jul 2025 17:29:49 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.104.67])
+	by APP4 (Coremail) with SMTP id gCh0CgDXUxQGFHpoDl6qAg--.5172S8;
+	Fri, 18 Jul 2025 17:29:48 +0800 (CST)
+From: Yu Kuai <yukuai1@huaweicloud.com>
+To: corbet@lwn.net,
+	agk@redhat.com,
+	snitzer@kernel.org,
+	mpatocka@redhat.com,
+	song@kernel.org,
+	yukuai3@huawei.com,
+	hare@suse.de
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org,
+	yukuai1@huaweicloud.com,
+	yi.zhang@huawei.com,
+	yangerkun@huawei.com,
+	johnny.chenyi@huawei.com
+Subject: [PATCH v3 04/11] md: add a new mddev field 'bitmap_id'
+Date: Fri, 18 Jul 2025 17:23:29 +0800
+Message-Id: <20250718092336.3346644-5-yukuai1@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20250718092336.3346644-1-yukuai1@huaweicloud.com>
+References: <20250718092336.3346644-1-yukuai1@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2] cgroup: Track time in cgroup v2 freezer
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Tejun Heo <tj@kernel.org>
-Cc: Tiffany Yang <ynaffit@google.com>, linux-kernel@vger.kernel.org,
- John Stultz <jstultz@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Stephen Boyd <sboyd@kernel.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
- Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250714050008.2167786-2-ynaffit@google.com>
- <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
- <aHktSgmh-9dyB7bz@slm.duckdns.org>
- <mknvbcalyaheobnfeeyyldytcoyturmeuq3twcrri5gaxtjojs@bbyqhshtjfab>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <mknvbcalyaheobnfeeyyldytcoyturmeuq3twcrri5gaxtjojs@bbyqhshtjfab>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgBXFLBeE3po8Z6eAg--.17315S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr4kJrWfZF4DKr15CF1rWFg_yoW8Ar13p3
-	yYy34fJa98JFW0yFs293Z8WF1Fv348Can8XF9xuw18JF1UXryj93yftayYva4akFZagw1U
-	ArWa9wn7ua9FyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	s2-5UUUUU==
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+X-CM-TRANSID:gCh0CgDXUxQGFHpoDl6qAg--.5172S8
+X-Coremail-Antispam: 1UD129KBjvJXoWxuF45Cr4kKrWrWF4kZF13urg_yoW5GF4xpa
+	yxXFyfCF4rXFZaqw43Ga4DuFnYgwn2yFZFgrWfJ34rWFn8WrZ8WF4FgF4Utr1kG3WxXFnr
+	u3W5tr48Cry8ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+	z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+	4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
+	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+	IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+	kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
+	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
+	42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
+	CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
+	WIevJa73UjIFyTuYvjfUOyIUUUUUU
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
+From: Yu Kuai <yukuai3@huawei.com>
 
+Prepare to store the bitmap id selected by user, also refactor
+mddev_set_bitmap_ops a bit in case the value is invalid.
 
-On 2025/7/18 16:20, Michal Koutný wrote:
-> On Thu, Jul 17, 2025 at 07:05:14AM -1000, Tejun Heo <tj@kernel.org> wrote:
->> I wonder what hierarchical summing would look like for this.
-> 
-> So do I.
-> Thus I meant to expose this only in a *.local file not the hierarchical
-> one.
-> 
-> But I realize it should [1] match cpu.stat[.local]:thottled_usec
-> since they're similar quantities in principle.
-> - cpu.stat:thottled_usec
->   - sums the time the cgroup's quota was in effect
->   - not hierarchical (:-/)
-> - cpu.stat.local:thottled_usec
->   - not hierarchical
->   - sums the time cgroup's or ancestor's quota was in effect
->     -> IIUC this is what's the motivation of the original patch
-> 
-> HTH,
-> Michal
-> 
-> [1] I'd find it more logical if
-> cpu.stat:thottled_usec were cpu.stat.local:thottling_usec and
-> cpu.stat.local:thottled_usec were cpu.stat.local:throttled_usec.
-> Only to illustrate my understanding of hierarchy in cpu.stat, it doesn't
-> matter since it's what it is now.
+Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/md/md.c | 37 +++++++++++++++++++++++++++++++------
+ drivers/md/md.h |  2 ++
+ 2 files changed, 33 insertions(+), 6 deletions(-)
 
-Hi Michal and TJ,
-
-I'd like to raise a separate thought unrelated to the current discussion.:)
-
-With the recent merge of the series "cgroup: separate rstat trees," the rstat are not bound to CPU
-system. This makes me wonder: should we consider moving the cpu.stat and cpu.stat.local interfaces
-to the CPU subsystem?
-
-The CPU subsystem could then align more closely with other resource controllers like memory or I/O
-subsystems. By decoupling these CPU-specific statistics from the cgroup core, it could help keep
-both cgroup and rstat implementations more focused.
-
-Is there any particular reason why the CPU subsystem must remain bound to the cgroup core?
-
-Looking forward to your insights.
-
-Best regards,
-Ridong
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index b3af0172f4e2..48537577caf8 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -672,13 +672,33 @@ static void active_io_release(struct percpu_ref *ref)
+ 
+ static void no_op(struct percpu_ref *r) {}
+ 
+-static void mddev_set_bitmap_ops(struct mddev *mddev, enum md_submodule_id id)
++static bool mddev_set_bitmap_ops(struct mddev *mddev)
+ {
++	struct md_submodule_head *head;
++
++	if (mddev->bitmap_id == ID_BITMAP_NONE)
++		return true;
++
+ 	xa_lock(&md_submodule);
+-	mddev->bitmap_ops = xa_load(&md_submodule, id);
++	head = xa_load(&md_submodule, mddev->bitmap_id);
++
++	if (!head) {
++		pr_warn("md: can't find bitmap id %d\n", mddev->bitmap_id);
++		goto err;
++	}
++
++	if (head->type != MD_BITMAP) {
++		pr_warn("md: invalid bitmap id %d\n", mddev->bitmap_id);
++		goto err;
++	}
++
++	mddev->bitmap_ops = (void *)head;
+ 	xa_unlock(&md_submodule);
+-	if (!mddev->bitmap_ops)
+-		pr_warn_once("md: can't find bitmap id %d\n", id);
++	return true;
++
++err:
++	xa_unlock(&md_submodule);
++	return false;
+ }
+ 
+ static void mddev_clear_bitmap_ops(struct mddev *mddev)
+@@ -688,8 +708,13 @@ static void mddev_clear_bitmap_ops(struct mddev *mddev)
+ 
+ int mddev_init(struct mddev *mddev)
+ {
+-	/* TODO: support more versions */
+-	mddev_set_bitmap_ops(mddev, ID_BITMAP);
++	if (!IS_ENABLED(CONFIG_MD_BITMAP)) {
++		mddev->bitmap_id = ID_BITMAP_NONE;
++	} else {
++		mddev->bitmap_id = ID_BITMAP;
++		if (!mddev_set_bitmap_ops(mddev))
++			return -EINVAL;
++	}
+ 
+ 	if (percpu_ref_init(&mddev->active_io, active_io_release,
+ 			    PERCPU_REF_ALLOW_REINIT, GFP_KERNEL)) {
+diff --git a/drivers/md/md.h b/drivers/md/md.h
+index 5c1da47fe73b..c7661e01212f 100644
+--- a/drivers/md/md.h
++++ b/drivers/md/md.h
+@@ -40,6 +40,7 @@ enum md_submodule_id {
+ 	ID_CLUSTER,
+ 	ID_BITMAP,
+ 	ID_LLBITMAP,	/* TODO */
++	ID_BITMAP_NONE,
+ };
+ 
+ struct md_submodule_head {
+@@ -565,6 +566,7 @@ struct mddev {
+ 	struct percpu_ref		writes_pending;
+ 	int				sync_checkers;	/* # of threads checking writes_pending */
+ 
++	enum md_submodule_id		bitmap_id;
+ 	void				*bitmap; /* the bitmap for the device */
+ 	struct bitmap_operations	*bitmap_ops;
+ 	struct {
+-- 
+2.39.2
 
