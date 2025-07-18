@@ -1,114 +1,350 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5204029E11E
-	for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 10:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCB713C695;
+	Fri, 18 Jul 2025 10:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752834424; cv=none; b=dYVYSL502avGNTisZEO72P/7zkFXL42xFzN/gEU/Xw3OOJD89d5H9QHObg/bQEhgk31mG9HBzYRIqCB6B65S3MvWnVV8IReufMIgb7O7NZnoNrB/V//0867HratzB3gZPsw70Ij1+JdnE+MqpcrYHsAbSCPDjWGFI0G4EzAYOkA=
+	t=1752835410; cv=none; b=XCzL5lsxbs0bdUGd44RBUxY8S2dhIbOyCqwJB9Dmfg4pwCJgaRWL35ax4EKue6FTWVGCTv06UToHQkkNh1fXeAlYs6YtGcxtLBrJrdb/caI9P9XDkMdbOrXKpkDPNLakowvvE2vM0Udsorpi1sTIfcc4XXRbgq1jBMMan3oOy/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752834424; c=relaxed/simple;
-	bh=d71UqziCB1PEqXMxGJqpbsDzqYOwk82CEFioZiPyyZQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sTgerFQ1MQb8C2SV53qksrUhzSFdYqCU6fEg5aeMy4ZSpzxY0a/j6PgFPampx+LhGXnl4o3yCHPG6be9bDOrLC7KfD26lI5XvaTfBR1wkApHV+BLN2JczhCJzUtkFysbAgXUYelScTgkNFMkpaywXpnXYyuEBSXOCORzRmCcl8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ey+0tlEA; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1752835410; c=relaxed/simple;
+	bh=Iaz1Rd3kBAEyTWLqvllRsdXQTdWWMUg8AIhm6vpfNd8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=sQFTvcMS5rOyKy/xKMx/epRROg7nMCTEeBqF7K1UMONb11Z7+MC8PRfHvDcqRcZEqSLuKv9orTSlIad28cM9gJ631bhiU7U8UWPorDwe0laMSeqkF9eIqZrmhdLtRevXwD090QFmY+1iNdHUw1ELuW50ZMZF3F3AUZRq+Q3iZwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=fKkWo/Q3; arc=none smtp.client-ip=193.136.128.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ey+0tlEA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752834422;
+	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="fKkWo/Q3"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 77C99600343C;
+	Fri, 18 Jul 2025 11:43:24 +0100 (WEST)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id 6DHWSyV4V5To; Fri, 18 Jul 2025 11:43:22 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 0103B600024F;
+	Fri, 18 Jul 2025 11:43:21 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+	s=mail; t=1752835402;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=d71UqziCB1PEqXMxGJqpbsDzqYOwk82CEFioZiPyyZQ=;
-	b=ey+0tlEArXMNs/tr3wxApEYjW65lI8yKtgKyr8/YvPkCONpExPbBRUHbKrgdFqqmLG16PE
-	J9155tug0fBuAF4pNf2LUuB0xJtOGz2cMvymIzX4nTVxh8HcIjIy0Ci6RrYspm56jVfkma
-	VKqkcWVmwGxRUKI9KcMMc4sNot22cE8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-433-VQ61QsbUONGRmLtwDuGj3Q-1; Fri, 18 Jul 2025 06:27:00 -0400
-X-MC-Unique: VQ61QsbUONGRmLtwDuGj3Q-1
-X-Mimecast-MFC-AGG-ID: VQ61QsbUONGRmLtwDuGj3Q_1752834419
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3a4f8fd1847so841083f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 03:27:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752834419; x=1753439219;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d71UqziCB1PEqXMxGJqpbsDzqYOwk82CEFioZiPyyZQ=;
-        b=F7ePRBNRdfTfdDL48hA2jZkeMdLWPbJ1+aEAZca5dnS2vnzhtGGslyaVeKKyp/Mjke
-         pLwkRx/xRW4aqct8dPf5YCw9gaJH9LwPN2CjtvhRQg+RWyQNYiMx3cuA4Ns/oYFTRtWH
-         k05P/POQYRmPaFjUeX2qxp8k9eBgsLk3Jrm+yoKgi6v1mtDyAORtmdG2U+dT7UMX6yXC
-         +EY+WsjunnQZZPiRRfDuliV8nAkV9QuSuPutiQSzSJdbalHCHvn2i0AHUHnxVanLyWtW
-         i4UkzXOYlVO79bvncXyuR+uDLcLctMsnfO47adQXluy8+AG2W7wTltQg86mLCb8RhHqD
-         iToQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVXVe/VpJ2ukB36hBrQSCfQqGEiUGNtK/aEO1lHGZxxqAmq85nPzznIzZa2HC5w3WNqp7FPM2Z7ChU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6Djzm/DJL8oqX4qv64VbsrBtMERzuVPU9To4eys3RDTfyPC1G
-	herD0GJ0S5TA33zJTqAMKySB8II7ULcRVltUUD2+dfmaJ/PCexV9kKFNuW8f1uCUtNhDx+EIybY
-	3DRe07m+sIYSINkcVJhSiGp4NSz1dmimsbCIZ1DfIoGBogRDwQ0ngWbnFtGMEEA==
-X-Gm-Gg: ASbGncsj4RVm8NanMsve/beUnkJOfPFAYSnFDxctYqjorKDJfO3EYfVbdFL4p8gbdoU
-	jwIy4cSxup+KiCQvjskAPWS17MoD8CIJxuo/peF0XXlxfueZFNor+YRUvHJJVTByIf5haZPwzoL
-	I/4xJHmmRVOTjpGdFAmhThmgmFosNsZ/I7GVMssI2uWkS0suaz5+uiLdr9WmXlwq08V9ERpF3k3
-	b+fehw+10wbhj8Nb6XV+nTnkj/Zf1JBVmY0x/ywszQFgVoP7zWPRCiRuUWrzSUS1xWLHkCwivT5
-	hK/6tM/QVLCNub3RHU8ZDXmAVKIPgPDajB/AmXjWvXaYuUCKVJMVnSawlDP7TuZm7Q==
-X-Received: by 2002:a05:6000:250d:b0:3a5:58a5:6a83 with SMTP id ffacd0b85a97d-3b613e66eaemr5223588f8f.13.1752834419496;
-        Fri, 18 Jul 2025 03:26:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEpi/oLZSfF2NXEYGs/7vTSjp4YTnet4cpMnngioIMkIsZI/XYrA/Hg+gK4DTjgtUrkSgaj9A==
-X-Received: by 2002:a05:6000:250d:b0:3a5:58a5:6a83 with SMTP id ffacd0b85a97d-3b613e66eaemr5223568f8f.13.1752834419110;
-        Fri, 18 Jul 2025 03:26:59 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4563b74029bsm15741565e9.22.2025.07.18.03.26.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 03:26:58 -0700 (PDT)
-Message-ID: <b9b66047398157a26ea78017d3b36482fb67226d.camel@redhat.com>
-Subject: Re: [PATCH v3 17/17] rv: Add opid per-cpu monitor
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Tomas Glozar
-	 <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>, Clark Williams
-	 <williams@redhat.com>, John Kacur <jkacur@redhat.com>
-Date: Fri, 18 Jul 2025 12:26:56 +0200
-In-Reply-To: <20250716093825.rWXnBtv5@linutronix.de>
-References: <20250715071434.22508-1-gmonaco@redhat.com>
-	 <20250715071434.22508-18-gmonaco@redhat.com>
-	 <20250716093825.rWXnBtv5@linutronix.de>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0ByZWRoYXQuY29tPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmbiuWMCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfJzZgD/TXjnqCyqaZH/Y2w+YVbvm93WX2eqBqiVZ6VEjTuGNs8A/iPrKbzdWC7AicnK
- xyhmqeUWOzFx5P43S1E1dhsrLWgP
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	 in-reply-to:in-reply-to:references:references;
+	bh=okyo7RN/5T+nGVlbhx/5uQVBucvQdaKOetxBZHKb90k=;
+	b=fKkWo/Q3KTDG0gtM4VokVwM87V7Y+7gIgSWh3BtCsJcOmIra1sreIdBbp1S/w4cwjpCF6f
+	LqQpyO3LjLGiw2gAcTsZUj7494Ju/02pGU3XIS9tU2obYbgyj99wORdkxDmvqApODbWAKl
+	q6wyffoGPRBMc88fuMg40JeXR5xdQZ0=
+Received: from [IPV6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde] (unknown [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
+	(Authenticated sender: ist187313)
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 898A3360071;
+	Fri, 18 Jul 2025 11:43:20 +0100 (WEST)
+Message-ID: <fe1d5f6b-006e-494f-8d07-e6c751d4c694@tecnico.ulisboa.pt>
+Date: Fri, 18 Jul 2025 11:43:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
+ driver
+To: Brigham Campbell <me@brighamcampbell.com>, dianders@chromium.org,
+ tejasvipin76@gmail.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250717164053.284969-1-me@brighamcampbell.com>
+ <20250717164053.284969-3-me@brighamcampbell.com>
+Content-Language: en-US
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+In-Reply-To: <20250717164053.284969-3-me@brighamcampbell.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2025-07-16 at 11:38 +0200, Nam Cao wrote:
-> And the monitor reports some errors on riscv64 with PREEMPT_RT=3Dy:
->=20
-> root@riscv:~/rv-tests# uname -a
-> Linux riscv 6.16.0-rc6-00054-g7590637d9ca2 #87 SMP PREEMPT_RT Wed Jul
-> 16 11:26:00 CEST 2025 riscv64 GNU/Linux
-> root@riscv:~/rv-tests# stress-ng --cpu-sched -1
-> stress-ng: info:=C2=A0 [452] defaulting to a 1 day run per stressor
-> stress-ng: info:=C2=A0 [452] dispatching hogs: 4 cpu-sched
-> [=C2=A0 614.390462] rv: monitor opid does not allow event irq_entry on
-> state in_irq
 
-Finally managed to bootstrap a riscv VM, that is an error I thought I'd
-fixed and I'm genuinely surprised I didn't notice on other
-architectures.
 
-Thanks again for catching it though!
-Gabriele
+On 7/17/25 5:40 PM, Brigham Campbell wrote:
+> Fix bug in unprepare() which causes the function's return value to be
+> that of the last mipi "enter sleep mode" command.
+> 
+> Update driver to use the "multi" variant of MIPI functions in order to
+> facilitate improved error handling and remove the panel's dependency on
+> deprecated MIPI functions.
+> 
+> Use the new mipi_dsi_dual macro to reduce code duplication.
+> 
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 
+Reviewed-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+
+Thanks for the patch! Just the smallest of nits in the review but it's
+fine by me if this goes in as is.
+
+> ---
+>   drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 197 ++++++------------
+>   1 file changed, 60 insertions(+), 137 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+> index 5b5082efb282..9df67facdc47 100644
+> --- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+> @@ -81,25 +81,25 @@ static int jdi_panel_disable(struct drm_panel *panel)
+>   static int jdi_panel_unprepare(struct drm_panel *panel)
+>   {
+>   	struct jdi_panel *jdi = to_panel_jdi(panel);
+> -	int ret;
+>   
+> -	ret = mipi_dsi_dcs_set_display_off(jdi->link1);
+> -	if (ret < 0)
+> -		dev_err(panel->dev, "failed to set display off: %d\n", ret);
+> +	/*
+> +	 * One context per panel since we'll continue trying to shut down the
+> +	 * other panel even if one isn't responding.
+> +	 */
+> +	struct mipi_dsi_multi_context dsi_ctx1 = { .dsi = jdi->link1 };
+> +	struct mipi_dsi_multi_context dsi_ctx2 = { .dsi = jdi->link2 };
+>   
+> -	ret = mipi_dsi_dcs_set_display_off(jdi->link2);
+> -	if (ret < 0)
+> -		dev_err(panel->dev, "failed to set display off: %d\n", ret);
+> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx1);
+> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx2);
+>   
+>   	/* Specified by JDI @ 50ms, subject to change */
+>   	msleep(50);
+>   
+> -	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link1);
+> -	if (ret < 0)
+> -		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
+> -	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link2);
+> -	if (ret < 0)
+> -		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
+> +	/* Doesn't hurt to try sleep mode even if display off fails */
+> +	dsi_ctx1.accum_err = 0;
+> +	dsi_ctx2.accum_err = 0;
+> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx1);
+> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx2);
+>   
+>   	/* Specified by JDI @ 150ms, subject to change */
+>   	msleep(150);
+> @@ -123,72 +123,47 @@ static int jdi_panel_unprepare(struct drm_panel *panel)
+>   	/* Specified by JDI @ 20ms, subject to change */
+>   	msleep(20);
+>   
+> -	return ret;
+> -}
+> -
+> -static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
+> -				       struct mipi_dsi_device *right,
+> -				       const struct drm_display_mode *mode)
+> -{
+> -	int err;
+> -
+> -	err = mipi_dsi_dcs_set_column_address(left, 0, mode->hdisplay / 2 - 1);
+> -	if (err < 0) {
+> -		dev_err(&left->dev, "failed to set column address: %d\n", err);
+> -		return err;
+> -	}
+> -
+> -	err = mipi_dsi_dcs_set_column_address(right, 0, mode->hdisplay / 2 - 1);
+> -	if (err < 0) {
+> -		dev_err(&right->dev, "failed to set column address: %d\n", err);
+> -		return err;
+> -	}
+> -
+> -	err = mipi_dsi_dcs_set_page_address(left, 0, mode->vdisplay - 1);
+> -	if (err < 0) {
+> -		dev_err(&left->dev, "failed to set page address: %d\n", err);
+> -		return err;
+> -	}
+> -
+> -	err = mipi_dsi_dcs_set_page_address(right, 0, mode->vdisplay - 1);
+> -	if (err < 0) {
+> -		dev_err(&right->dev, "failed to set page address: %d\n", err);
+> -		return err;
+> -	}
+> -
+>   	return 0;
+>   }
+>   
+> -static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
+> +static void jdi_setup_symmetrical_split(struct mipi_dsi_multi_context *dsi_ctx,
+> +					struct mipi_dsi_device *left,
+> +					struct mipi_dsi_device *right,
+> +					const struct drm_display_mode *mode)
+> +{
+> +	mipi_dsi_dual(mipi_dsi_dcs_set_column_address_multi,
+> +		      left, right, dsi_ctx,
+> +		      0, mode->hdisplay / 2 - 1);
+> +	mipi_dsi_dual(mipi_dsi_dcs_set_page_address_multi,
+> +		      left, right, dsi_ctx,
+> +		      0, mode->vdisplay - 1);
+> +}
+> +
+> +static void jdi_write_dcdc_registers(struct mipi_dsi_multi_context *dsi_ctx,
+> +				     struct jdi_panel *jdi)
+>   {
+>   	/* Clear the manufacturer command access protection */
+> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
+> -				   MCS_CMD_ACS_PROT_OFF);
+> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
+> -				   MCS_CMD_ACS_PROT_OFF);
+> +	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
+> +		      jdi->link1, jdi->link2, dsi_ctx,
+> +		      MCS_CMD_ACS_PROT, MCS_CMD_ACS_PROT_OFF);
+>   	/*
+> -	 * Change the VGH/VGL divide rations to move the noise generated by the
+> +	 * Change the VGH/VGL divide ratios to move the noise generated by the
+>   	 * TCONN. This should hopefully avoid interaction with the backlight
+>   	 * controller.
+>   	 */
+> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
+> -				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
+> -				   MCS_PWR_CTRL_PARAM1_DEFAULT,
+> -				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
+> -				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+> -
+> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
+> -				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
+> -				   MCS_PWR_CTRL_PARAM1_DEFAULT,
+> -				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
+> -				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+> -
+> -	return 0;
+> +	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
+> +		      jdi->link1, jdi->link2, dsi_ctx,
+> +		      MCS_PWR_CTRL_FUNC,
+> +		      MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
+> +		      MCS_PWR_CTRL_PARAM1_DEFAULT,
+> +		      MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
+> +		      MCS_PWR_CTRL_PARAM2_DEFAULT);
+>   }
+>   
+>   static int jdi_panel_prepare(struct drm_panel *panel)
+>   {
+>   	struct jdi_panel *jdi = to_panel_jdi(panel);
+> +	struct mipi_dsi_multi_context dsi_ctx = { .accum_err = 0 };
+
+Technically this should be in reverse christmas tree order but it is
+just a tiny nitpick.
+
+>   	int err;
+>   
+>   	/* Disable backlight to avoid showing random pixels
+> @@ -231,88 +206,36 @@ static int jdi_panel_prepare(struct drm_panel *panel)
+>   	 * put in place to communicate the configuration back to the DSI host
+>   	 * controller.
+>   	 */
+> -	err = jdi_setup_symmetrical_split(jdi->link1, jdi->link2,
+> -					  jdi->mode);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to set up symmetrical split: %d\n",
+> -			err);
+> -		goto poweroff;
+> -	}
+> +	jdi_setup_symmetrical_split(&dsi_ctx, jdi->link1, jdi->link2,
+> +				    jdi->mode);
+>   
+> -	err = mipi_dsi_dcs_set_tear_scanline(jdi->link1,
+> -					     jdi->mode->vdisplay - 16);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
+> -		goto poweroff;
+> -	}
+> +	mipi_dsi_dual(mipi_dsi_dcs_set_tear_scanline_multi,
+> +		      jdi->link1, jdi->link2, &dsi_ctx,
+> +		      jdi->mode->vdisplay - 16);
+>   
+> -	err = mipi_dsi_dcs_set_tear_scanline(jdi->link2,
+> -					     jdi->mode->vdisplay - 16);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
+> -		goto poweroff;
+> -	}
+> +	mipi_dsi_dual(mipi_dsi_dcs_set_tear_on_multi,
+> +		      jdi->link1, jdi->link2, &dsi_ctx,
+> +		      MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+>   
+> -	err = mipi_dsi_dcs_set_tear_on(jdi->link1,
+> -				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to set tear on: %d\n", err);
+> -		goto poweroff;
+> -	}
+> +	mipi_dsi_dual(mipi_dsi_dcs_set_pixel_format_multi,
+> +		      jdi->link1, jdi->link2, &dsi_ctx,
+> +		      MIPI_DCS_PIXEL_FMT_24BIT);
+>   
+> -	err = mipi_dsi_dcs_set_tear_on(jdi->link2,
+> -				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to set tear on: %d\n", err);
+> -		goto poweroff;
+> -	}
+> +	mipi_dsi_dual(mipi_dsi_dcs_exit_sleep_mode_multi,
+> +		      jdi->link1, jdi->link2, &dsi_ctx);
+>   
+> -	err = mipi_dsi_dcs_set_pixel_format(jdi->link1, MIPI_DCS_PIXEL_FMT_24BIT);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
+> -		goto poweroff;
+> -	}
+> -
+> -	err = mipi_dsi_dcs_set_pixel_format(jdi->link2, MIPI_DCS_PIXEL_FMT_24BIT);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
+> -		goto poweroff;
+> -	}
+> -
+> -	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link1);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
+> -		goto poweroff;
+> -	}
+> -
+> -	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link2);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
+> -		goto poweroff;
+> -	}
+> -
+> -	err = jdi_write_dcdc_registers(jdi);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to write dcdc registers: %d\n", err);
+> -		goto poweroff;
+> -	}
+> +	jdi_write_dcdc_registers(&dsi_ctx, jdi);
+>   	/*
+> -	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode() and
+> -	 * mipi_dsi_dcs_set_display_on().
+> +	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode_multi()
+> +	 * and mipi_dsi_dcs_set_display_on_multi().
+>   	 */
+> -	msleep(150);
+> +	mipi_dsi_msleep(&dsi_ctx, 150);
+>   
+> -	err = mipi_dsi_dcs_set_display_on(jdi->link1);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to set display on: %d\n", err);
+> -		goto poweroff;
+> -	}
+> +	mipi_dsi_dual(mipi_dsi_dcs_set_display_on_multi,
+> +		      jdi->link1, jdi->link2, &dsi_ctx);
+>   
+> -	err = mipi_dsi_dcs_set_display_on(jdi->link2);
+> -	if (err < 0) {
+> -		dev_err(panel->dev, "failed to set display on: %d\n", err);
+> +	if (dsi_ctx.accum_err < 0)
+>   		goto poweroff;
+> -	}
+>   
+>   	jdi->link1->mode_flags &= ~MIPI_DSI_MODE_LPM;
+>   	jdi->link2->mode_flags &= ~MIPI_DSI_MODE_LPM;
