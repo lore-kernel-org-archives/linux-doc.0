@@ -1,260 +1,284 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E3820C00C
-	for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 21:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752872459; cv=none; b=crjO4n1g9czJT6osle2w6bcQF1CPRb9N0ZAUQ5wPJeQDIf61RzmgBmdnugErEkcKPrxEM/dyI1IXrpMnQ0C8mD0U6wwizNy/ZtkbmLnKcKQx619ZQLTf6kVxeiEFr1eqM+ofS9YcxLBBo967HslaYukNofRRBh2Q6MISA4saCWE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752872459; c=relaxed/simple;
-	bh=ItX9nLm0rKHfLSwYPt3aRk0stdgRo5qgnqLw2DNuo5Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AQpe1KFE0PZvnej1C21sI4NUUWfZ+FyTyUb47motFdIl/1bZOzp3opwqsGVQURjpyt4mI8W5LiRNUhSbLVZ6HN4emLYhCx1aMgOB9W+grTEEm8CDDXYlYbQaB6I3gmBah+gpiOTaY6WVT08U+tIdPz1XIkOKbagcrlF97uKi4l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TFtgiq+Y; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D92221FA4;
+	Fri, 18 Jul 2025 22:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752877280; cv=fail; b=BEQtv85OAitxitzn6kiksEINqwu0LZVtiGLGp02oxaaIlt9QiC4Kp7wFO/SCi6O7BCSbSPDqhyRcVZHcCB3xARcHhbVmlp/i8y+KlRz9DjRvqCaCoOkZMdSurnqaW9voHZLTXxRfwJNvmwiZxmVkl3Lu/9+iHHPBJINogZDOsug=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752877280; c=relaxed/simple;
+	bh=QluAKbrBSuplZDqYRnczbawR6p8gIFDk0V/fw51c52M=;
+	h=Message-ID:Date:Subject:From:To:CC:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=BHKKcp5SxTM7enH0NZvBGoZfGBjAExAASLu8x+J0PtcFxhiSkh5qSOSSDeIPd0kRGCWvAC2r5l2BmWkVyt7sMo+JB5uC5s3mxPoH5xe4K0YLKSY24bl/GpNbkaX1zKFsrInP6Up4w9HYKU6USAHdlPq4LdJ9/Jlkj1Bm3mnmcug=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H6K7i7Tv; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TFtgiq+Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752872456;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XswQuaaE2754OlYhBT3pS/FTBtUgeNS0s3HKHNzAPSU=;
-	b=TFtgiq+YL6mW/eydQpVoTwcU81rJpy/vqTKGzboSV1EDWVgzoMhlalaeh448dbhHv6Kod4
-	eLX50gK5+XhB7usHUGhDs2uWPBQVaEMAjR4SVzQwgIIH1eZMzJMUx3nUc8bRHaX7FBMZSA
-	0REm+u3/PtidRzhHeUmSanPRhFW4bMw=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-287-ZjrX5XDHNn-6L372EkMyBg-1; Fri, 18 Jul 2025 17:00:54 -0400
-X-MC-Unique: ZjrX5XDHNn-6L372EkMyBg-1
-X-Mimecast-MFC-AGG-ID: ZjrX5XDHNn-6L372EkMyBg_1752872452
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-70e86a2a1b8so37530117b3.1
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jul 2025 14:00:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752872452; x=1753477252;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XswQuaaE2754OlYhBT3pS/FTBtUgeNS0s3HKHNzAPSU=;
-        b=JN0dfcKFZC+Sur3U6FgyJU0yg0g3Ge+TG1s9z7plrxmzRDSN46fe8nAXvP/gnqUEYa
-         xItLDkoG5oJn4WKVfbrVj7EcoUU0jenSxKtsl/YT9gNqYqTu+7ABBPL3+2SEMetyLo03
-         X77nQfZictfikU0tF6b6786yhrKBMqmRDBqJVkfEelcasgA2JvChzrmyfxDLv6RMwK2Q
-         mywqMduvifJNxq+HSdXZqvRE66SkuH8sc+fq1y5T9G+cQKZnOo7hLy6xboqCfLHMlRzz
-         +GhNhrQ+O1hp5spvFSCgGBe3LPp31SDnnhnXswgQleRRM14nnprPKY3ChoB6otsX3W+h
-         MzIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVbecGNq+wq1v6/iDcd/C3Ek5ce44z8mYJjaavQbIowBnb3mos1u9jgc2RTnVjjHfxgPUdF71iUh0I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxX3dJ5pNwi5LjgjiEjyYRc5ayK98uXVx2GYpxzVjxOTV9QxAs9
-	n9bLHaFZUTIpCn5GJKrmlkZgkrrNxm4RSyFSid2GjtT9gd+MBb323/L06jNzVlKMTXkkiM/sO1l
-	RnFxAHasG2nf0DKL9Kw4GrobIG3b44LHTGxltADLNkz5ZoTfLtc9qq98HDOLtYFD5KTbhawWwTC
-	H0WGHptG1AS9i16+mnk8XYojyRcriE6jVJI+C1
-X-Gm-Gg: ASbGncsNcwhuk3G+NL0oX6rwohS/ToN/zcfekkO/Xxs5zWLub/hepwJjofGK6sWodtV
-	/ZGCU5t3T4giahojC3lhLHqCemz9QePcxpHQe3QJVMbkMZtbZhcCQm7TeQJ8kINNB4l7etYSqLh
-	iprcMnSgsHE0OWt0kGonEbQvM=
-X-Received: by 2002:a05:690c:3703:b0:70c:a854:8384 with SMTP id 00721157ae682-719521a381cmr41623607b3.11.1752872452185;
-        Fri, 18 Jul 2025 14:00:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFbt85bf5Kp+dxoJKo0BjW8mtOr2VJ49x22KnfNGF3rtqH8j5TzQacIXdf97YAgrjTlUoNcqs6kDMtwdOrWCrU=
-X-Received: by 2002:a05:690c:3703:b0:70c:a854:8384 with SMTP id
- 00721157ae682-719521a381cmr41623077b3.11.1752872451784; Fri, 18 Jul 2025
- 14:00:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H6K7i7Tv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752877278; x=1784413278;
+  h=message-id:date:subject:from:to:cc:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=QluAKbrBSuplZDqYRnczbawR6p8gIFDk0V/fw51c52M=;
+  b=H6K7i7Tvkd+1r+MapMh5ez/dbpD7Bf8nQbMbdemOuFhaL/W7Ddq73sKM
+   HJ3HPTXMHip3qQm1IZCkOE8Nb1VlLwpPFrXVKcuz6MdLEpTMzVYONV8dx
+   QoRQYOyEPABtbn9kjMAPiFmciV9azZSLFigXRI3VS8Rr2m6LuFfoB9oYT
+   0+q6UTCmopGB9VSZNghS45DG/HwRASFxhNPbuUImHhhjpEevyhy34zqlW
+   VMuwhIBWVTPM2y7gG43it+IoGKtMp1QLUWWQr9TKrpgNRgBuIcZhjLiCF
+   q9cRYt+S8unNUUheio2Dkj9jGc2Z8X71yEIsjfqRa80vXGw9Q3egAjSMK
+   A==;
+X-CSE-ConnectionGUID: bErWncnHS3OcD50bRvy2mg==
+X-CSE-MsgGUID: Y3R4iXg6TvenY8zs4PuJEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="65439878"
+X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
+   d="scan'208";a="65439878"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 15:21:17 -0700
+X-CSE-ConnectionGUID: vsyOxOBdQ2q6VY95UTMEDw==
+X-CSE-MsgGUID: dTgLW648TyGe3XXxqhQskg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
+   d="scan'208";a="162316632"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 15:21:16 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Fri, 18 Jul 2025 15:21:16 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Fri, 18 Jul 2025 15:21:16 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (40.107.95.83) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Fri, 18 Jul 2025 15:21:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=h5mkBYhY0FMhVnxiStW33ie0C6GnUKMPS/ROegkkdVDP0r9XCtudFlUkyVIJCd67ebs1PJC5jgr1tydNHxbUPh0MDrofks2OJWssjvGITpWQ8j2uCqWifMn2JgA/PLZAszJf2o9mnAmBFZ1UbpeDa7fpVDEXLTzxHFdmu+xN/vg15MbIxF9ACy7vi4y7wWeOcZkcEBMHFsJZMuQ/MQHiHTa02V6dsbmtvfMSs3V66DwQT6EvZWboEEq6bu/kx4NN33PEo3H4dQTc2sL2jN55WVV+wKTHXLOoAvWhD8mMSsvsGNwF8ed7Jx86Cv19WnN0tDSCQC0Moo56EhpOBelXMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uJdX6kXIEBbshWC6zE8B72JyKiFAA6Yn84MtmJN4v8M=;
+ b=ZiaRkYmfwqRDhqypFfVnRZzolTbgIgY9hEukYhMNFXqg1EruK7x8lSOakrqryyoPwPxjzvnpVBU17Xm0ev3XS3cKzR4Pe6w5ifxfCU20vOAnwujZeQ/cEf3MSlVNc4dUIKoglpVIdnf9NZ4A+SjrMqOOAKoTRaF7+kf3Ed5jdP+NlIsLQ5xBzU5b3P/lNVGnmEEFdeYHiSqdesk8E2kRVN6fbr7s2dXoiw7OjP5qSjW/dtLvIfjwtoQDLujWuntSfLGYr0NYyzwvAQa0m+8TAGg0hKf+Egb0Z3ET1tgtFYi3LeQeQ/Z21ppVSFzzTZCuBXvZOo+DjeFzHdxNDbh5MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by CH0PR11MB5250.namprd11.prod.outlook.com (2603:10b6:610:e1::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.25; Fri, 18 Jul
+ 2025 22:20:28 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.8922.037; Fri, 18 Jul 2025
+ 22:20:28 +0000
+Message-ID: <0fa9a12b-e900-4ceb-b59c-e653ec3db0ca@intel.com>
+Date: Fri, 18 Jul 2025 15:20:22 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 26/34] fs/resctrl: Add event configuration directory
+ under info/L3_MON/
+From: Reinette Chatre <reinette.chatre@intel.com>
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
+	<james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <Dave.Martin@arm.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<akpm@linux-foundation.org>, <paulmck@kernel.org>, <rostedt@goodmis.org>,
+	<Neeraj.Upadhyay@amd.com>, <david@redhat.com>, <arnd@arndb.de>,
+	<fvdl@google.com>, <seanjc@google.com>, <jpoimboe@kernel.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <xin@zytor.com>,
+	<manali.shukla@amd.com>, <tao1.su@linux.intel.com>, <sohil.mehta@intel.com>,
+	<kai.huang@intel.com>, <xiaoyao.li@intel.com>, <peterz@infradead.org>,
+	<xin3.li@intel.com>, <kan.liang@linux.intel.com>,
+	<mario.limonciello@amd.com>, <thomas.lendacky@amd.com>, <perry.yuan@amd.com>,
+	<gautham.shenoy@amd.com>, <chang.seok.bae@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <eranian@google.com>
+References: <cover.1752013061.git.babu.moger@amd.com>
+ <0fda2f958001dec07827f803f0e31158a2b77a8f.1752013061.git.babu.moger@amd.com>
+ <2028b020-bb31-421c-b7d8-acb9ac7e9f77@intel.com>
+Content-Language: en-US
+In-Reply-To: <2028b020-bb31-421c-b7d8-acb9ac7e9f77@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW3PR05CA0007.namprd05.prod.outlook.com
+ (2603:10b6:303:2b::12) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250714003207.113275-1-npache@redhat.com> <20250714003207.113275-14-npache@redhat.com>
- <94c8899a-f116-4b6a-94d3-f8295ee3f535@linux.alibaba.com>
-In-Reply-To: <94c8899a-f116-4b6a-94d3-f8295ee3f535@linux.alibaba.com>
-From: Nico Pache <npache@redhat.com>
-Date: Fri, 18 Jul 2025 15:00:25 -0600
-X-Gm-Features: Ac12FXyZkvpO72Y8KuApMa6zkujq0hEtG4p8bsgfkYpSM3DyaV_34-FVHPb5UAY
-Message-ID: <CAA1CXcDQeiMjVhxVjnCvBuTQLSBQh0ea7FJXg52ebNFDHfXm1g@mail.gmail.com>
-Subject: Re: [PATCH v9 13/14] khugepaged: add per-order mTHP khugepaged stats
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
-	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
-	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
-	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
-	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CH0PR11MB5250:EE_
+X-MS-Office365-Filtering-Correlation-Id: b8468f14-dac6-471a-4add-08ddc6494cea
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ekxNVjRRMGtMeS95aXVWTnlKaytiM0J1YzZFclpzV1AzOEtOOXJLRmY2SFNk?=
+ =?utf-8?B?MUtBRGVsY2lpTUltTkM0MnF4MiszMk1NcktyeTdhSTB2M2szQ1hqYkNaQ29w?=
+ =?utf-8?B?RmhSUU9XY01kaDc0MGY0dGdxdkdVazgvS2J5WDgrTEgwbXBDcnBIUERQd0ZS?=
+ =?utf-8?B?aGt1ZnpiKytBQUYvQi9qRVRVZVI0Z0IrT0t5ekFlZW1kajQ3N3FyZGk2VU9t?=
+ =?utf-8?B?NEg3MXdzL0trbmtLZXlqck9TbTRpcVJwOVBEUU12cUFBY0pnMitQN2FyUUFj?=
+ =?utf-8?B?eHNHR1lBaERSQU9KbVB2N0R2R3JHcCs1YllUanZTZ1hKS3h4THIyVU55Q0RU?=
+ =?utf-8?B?TmFmSll2WmpzUU9scHRxTHVnTy9HS002V2FwNjNwTThEb2wyMHNNMVRoR04v?=
+ =?utf-8?B?R2ZVRUkvdm5XaktvVjl2V0I0MVAxZ3hwSU1tMEU4bGpUN3ZhTTBLaVVXdGgw?=
+ =?utf-8?B?TVU0dGo2d1RsV0psdk8wcTFMUldXb1pnVVZWVmVuMHBxQTlaTlBrWmY3UzY2?=
+ =?utf-8?B?cnA5YUxxMEU1Rm5GQWRpS0dxeVRPVHVnU01LNnlWUG40MTRmNmEyQ2tvZXlz?=
+ =?utf-8?B?dWd4LzUyQURUT1BVM3JRZjh6OFJxaHpxY1hVQWJQMVNHSXFTd3ZPL1U3S3RW?=
+ =?utf-8?B?MkxLYjFlWGliMVNnOUJpWlYzejlFRTAyWmNJR2tnMDljRExXSGVJMGtNb0xq?=
+ =?utf-8?B?M1RQOVNxanUxYXpvM2Z3WFFXd3lNTHVwaVA3MVkxbzMxOVBEWE9HVXhLdm1u?=
+ =?utf-8?B?cWx2a05mVW5XQnZPWXlEemswMnR4dHIrZGpCRk02SkNKN1F3L3VUODRTZDJr?=
+ =?utf-8?B?TjJjazZ3eEhaUHhzS2U0WVo2ZUpGb0lKN0NCaWxiN3E5SkdDRjFnZ2R0SjZm?=
+ =?utf-8?B?Ti92a0FQbU9mYzRZUXdUOHdlZ1FvdkNtaHB0RER3UkpMWWZ5Sk5JNzlHSW9S?=
+ =?utf-8?B?T1ZaeU05T1Q1VExBbHE2VGszWEJJSzluSjFGNE9ualFWQnZCdXJXMHhpRHdi?=
+ =?utf-8?B?WUtrcUZWb0k3dXQrT3pKbEpzbEpZOXVYWW44TU1SRFREUWIyL1NvRWdYWEJa?=
+ =?utf-8?B?NXI0ZnFaTTZOdEgrQkZYTUZsOGJzTlZpU2N1NVU0WkRsb1dycVlkNGM2b3dV?=
+ =?utf-8?B?dEs4YUsvMkkwRXluVnVIa3F5U3dhUXRJMHVyYXdLNWhsRXg5dU1heXhrNUNt?=
+ =?utf-8?B?NW5SY3QyT1FDckZZQklHd05USmJMSEtmYTZXT3RMNjBtVlVEQWdOMG0rblkr?=
+ =?utf-8?B?WDBjNGNRNDI4d2JCeXhTTU5ibDhDdWc0Q0hyZ3hGU091MHVUZU5mWWJMRHgy?=
+ =?utf-8?B?UUNlSDV3bXJHcVpGbUEzT1E2YjVYU05KbVRaN0pudm5iUFVsZXNqd2FTc3NO?=
+ =?utf-8?B?ZHNkMGFuNHM3cUxSRTZacEczWjRCZE9YcktZVkpqcTlCNDN0L3Y1RndxTld5?=
+ =?utf-8?B?TnBMajZnb1IzdTlwM0dmWXJxTjBjaDlOZU56MXlYMm5BaTFPY0VHMFkxeTdW?=
+ =?utf-8?B?TUhFaXFFOG1NSnlodUJHNDBkZFNnR3k0TlMzVHU0TGxMeHRoMkcza2Y1L3k5?=
+ =?utf-8?B?RzI4ZGk0eXRIbndPT2l5NE9GdkZUUUVYNHl2ZldVNnJkWXBLSGpQZXBuQXdL?=
+ =?utf-8?B?TWo2UXVYQktsY2p0Y2s4VGdMWHF4ZGVZWEI5NUpVUWkzM2ZLRWxvTnFEUFRL?=
+ =?utf-8?B?OWowTktFdlFyT1RBRzU5R3BNTGNUS2dQV2ZUa1J0LytiOGdaQmhBWnVzYnlD?=
+ =?utf-8?B?TERmbGJCZEJhZVU3eEFtNlRtaUt2QWtycHRZUkx5eFVHbEY3aHFsOFA3cGVy?=
+ =?utf-8?B?b1YvU05naU9GNDhmMXJxQkV5bHZlSzlKYVBzRXE4b2pVSEI1eHJZSFRtOXpi?=
+ =?utf-8?B?ZmtReHNZeW02MWNPWGZhQjdxVDRJcFpQYXF0UmpWU3RPcHdIM1hiQTY1WHVj?=
+ =?utf-8?Q?fs5tA1zNPTc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UWVnSGd4RkxBRitXbzBibVhweU55SzQ3Q1N2bjIweXU3VnBteFl6SG1ScCs5?=
+ =?utf-8?B?YXhpNm5ibVRhbXl6MWgxMlM2dXU2bUxObS9lT0QxKzJTUVN6OGNKMTdVRytJ?=
+ =?utf-8?B?ZkRHNWljZ1FIVzI0TkFub0QyOVYyWDJiZ1J4cVU2VkpkdmtER0E5TE16RVJs?=
+ =?utf-8?B?MTJMcjhyQUtlMWFwS1hmcXlzaEt5MCt3OUZwNk5reWdRQ0VXYkkrYWtvTldE?=
+ =?utf-8?B?aEVWUjFVcnRPQ0ZGVGRnMUJoVWhZdkRBVmRmLzhrUVZkamdWcGxIWUsxOXNT?=
+ =?utf-8?B?TE5XU0JlcGdxb2dZdDN0cklYNmtHOGwwdDFhQVlnT1NSd2tGajAzQitBS0hi?=
+ =?utf-8?B?TU9wdmMweFEyYUxLdjZJYUEzV2tUMnZTdWUzSjdxQUdWZ00rWThsMG9HS1Rs?=
+ =?utf-8?B?WWpwcitVODhlUSs1T3Z5UGhmYWlGa0xxYTJLTW5PV1N2SjBPeFcrK3BxcW1B?=
+ =?utf-8?B?Z1JLRmJDTFZCSnBCZXF6ckp5a0lQMEVJVXVyaXFVRG9YNlQ1YTlKNjZ5S2Zy?=
+ =?utf-8?B?OFFpQUREYW13TkZLWDBGK1VZYUlPNkh2N0pUU0x5ejg2L3ViRG9MMXFFeW44?=
+ =?utf-8?B?VFNJV1p1UmdTVzRLaTlFZDBsUVVlZ0g0YWd4RzlXNFVoRkdLOTBuc2QyMVFn?=
+ =?utf-8?B?djFUSXo1M3lMOUllNUtCQUNPeTYyQXFhK3dMZ3hSQUI5TU5iM1VkaW9CcEhk?=
+ =?utf-8?B?dzFzNzBXaFdBaW0vM3ZoeWd3NyszVDhpa0U1WEdwbGtJajE0bEo0NEd4cWdL?=
+ =?utf-8?B?RWRDMUJNYlliOXI4RkN6K0EyRXhKUXpSNVYzTDA5Ukl2T2hYUXdJMGp3WXB4?=
+ =?utf-8?B?bS9sWUlKQ2Ewa2I3c3RnNVIranZRMmtlNzRiY2N1N3h4MCtpNU4vTUloaDh2?=
+ =?utf-8?B?L2N0VVBaZEMxYnU1VEdwRkRFVS82Yk5PYUN0VDJzbXJMMkZCbXpPU1dzZjBo?=
+ =?utf-8?B?WU5jYVVuTXhJT3ZSR0NPYnk3NFljOURNdWU1T1lXTW5KS1plZGxyUk9nd3VL?=
+ =?utf-8?B?VjdpNW9WM2ZZN3ZnaHlRKzRhUDJYd1ZNWW5pSURoWlRZYnQrbVpvUERmdU5i?=
+ =?utf-8?B?YW5oS0ZrWnppMG1qcnlnSnZIMm1mZXVFREUrS0grb1kyZ0pjeFBoUkdSTDNU?=
+ =?utf-8?B?QWhNbFFxS0E2S05TR2o2SmtGcnlGaEpQWDRpV3BGNEVJT0QwSUsyNmYvQUdq?=
+ =?utf-8?B?RnZtU2R0SXVLMGhXaEdlNnBmdm5mYlFzWlljU1BuVG5YOVVzVzRESjJLcmxJ?=
+ =?utf-8?B?dUl6bWxhcWVObThnUHVnTzFHQXJnMko5NWRyYnVMOTVHK280bll1anJ1SXJG?=
+ =?utf-8?B?dHY5OTJ6bEVYRi9mblhIN0JUZHJrVTYvTXlyQXdRdXQzUkZ3NWVtTjJxYkpP?=
+ =?utf-8?B?Sml6TGNpckxsV0FyandGNTFjRlVJUUFBcGZlMGFCMGt4S2ZjTG9VKzBmbEYv?=
+ =?utf-8?B?SmI5T2dVOFhrSCtoL2hURk41S013MkVCZEdlWnpZdjVoblREUWFhUjI1Tlow?=
+ =?utf-8?B?NGwxSTE1bVl0MmlvM1dtbEFmWno5MmxrSjc2Z00vZXN6eVZLYzJmSDdnS3lz?=
+ =?utf-8?B?aDJWZHZEd2JvR0JrNDdKUWppYmVMOFdzWDl2eW1LMm5xMndrNmJFakhXeDZL?=
+ =?utf-8?B?WE9jL3pZbXFRZmNrWnRZN3lzengyWWpMYmo2WXp0TUtBL3djN1kxd2MrUWhU?=
+ =?utf-8?B?T1BLcmY0TUhIK2tUbzdoT2pkUkpaK1l2ZmlqUUlIMnd1U25IWDU5V0J4M3Ji?=
+ =?utf-8?B?blhRUmM1QVovU3FpUnZSR2VvSXQzUkxpa0d0UjBQcWEzQUVvWVpKOHRiR3JT?=
+ =?utf-8?B?WUN2UmhwS2tqTjV3cWx4OW5pc3FjVm9SVmpxME9HMG1od3FSTlBIcExqcDV5?=
+ =?utf-8?B?N3REMXphaDV0WUk2YS8rOEsveGNIWW5ITHQ0bkN1UDRuUnRqUFdJZ1VMZ1ZQ?=
+ =?utf-8?B?dk9aM2QwRnpGZ0wrcHJaNHZvYTZ0aDBxTzRnMFJVUUVOVjZBSzIwZm4xSUgw?=
+ =?utf-8?B?b2w1Q2l0ckZUc1NxNzJ2dmg3Z1ZEbFhFaE9zTG01UDRNUFNWK1NHcmRGR0Nz?=
+ =?utf-8?B?SHl6TmJiVHhwN2JRQndIZHE0dXQyMkhxQ01JRVRZSzJNWHBFV3QyU2EwekhJ?=
+ =?utf-8?B?dmlCeEdpZDd6QldJcUF0djlNbUU5bVRvcXJrQkpaSnFkcytZTlYxcnVyanFp?=
+ =?utf-8?B?QkE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8468f14-dac6-471a-4add-08ddc6494cea
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 22:20:28.3332
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lMHIYv3ilbIrcVEPvUWmfd1QKK5n4KUvvr0f6ZT4NfZY2yLREWNhLHssiucSEHIFnI9xlxw21LYA5NImzARZDwnVgvlhxDKepY02BFdxNd4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5250
+X-OriginatorOrg: intel.com
 
-On Thu, Jul 17, 2025 at 11:05=E2=80=AFPM Baolin Wang
-<baolin.wang@linux.alibaba.com> wrote:
->
->
->
-> On 2025/7/14 08:32, Nico Pache wrote:
-> > With mTHP support inplace, let add the per-order mTHP stats for
-> > exceeding NONE, SWAP, and SHARED.
-> >
-> > Signed-off-by: Nico Pache <npache@redhat.com>
-> > ---
-> >   Documentation/admin-guide/mm/transhuge.rst | 17 +++++++++++++++++
-> >   include/linux/huge_mm.h                    |  3 +++
-> >   mm/huge_memory.c                           |  7 +++++++
-> >   mm/khugepaged.c                            | 15 ++++++++++++---
-> >   4 files changed, 39 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation=
-/admin-guide/mm/transhuge.rst
-> > index 2c523dce6bc7..28c8af61efba 100644
-> > --- a/Documentation/admin-guide/mm/transhuge.rst
-> > +++ b/Documentation/admin-guide/mm/transhuge.rst
-> > @@ -658,6 +658,23 @@ nr_anon_partially_mapped
-> >          an anonymous THP as "partially mapped" and count it here, even=
- though it
-> >          is not actually partially mapped anymore.
-> >
-> > +collapse_exceed_swap_pte
-> > +       The number of anonymous THP which contain at least one swap PTE=
-.
-> > +       Currently khugepaged does not support collapsing mTHP regions t=
-hat
-> > +       contain a swap PTE.
-> > +
-> > +collapse_exceed_none_pte
-> > +       The number of anonymous THP which have exceeded the none PTE th=
-reshold.
-> > +       With mTHP collapse, a bitmap is used to gather the state of a P=
-MD region
-> > +       and is then recursively checked from largest to smallest order =
-against
-> > +       the scaled max_ptes_none count. This counter indicates that the=
- next
-> > +       enabled order will be checked.
-> > +
-> > +collapse_exceed_shared_pte
-> > +       The number of anonymous THP which contain at least one shared P=
-TE.
-> > +       Currently khugepaged does not support collapsing mTHP regions t=
-hat
-> > +       contain a shared PTE.
-> > +
-> >   As the system ages, allocating huge pages may be expensive as the
-> >   system uses memory compaction to copy data around memory to free a
-> >   huge page for use. There are some counters in ``/proc/vmstat`` to hel=
-p
-> > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> > index 4042078e8cc9..e0a27f80f390 100644
-> > --- a/include/linux/huge_mm.h
-> > +++ b/include/linux/huge_mm.h
-> > @@ -141,6 +141,9 @@ enum mthp_stat_item {
-> >       MTHP_STAT_SPLIT_DEFERRED,
-> >       MTHP_STAT_NR_ANON,
-> >       MTHP_STAT_NR_ANON_PARTIALLY_MAPPED,
-> > +     MTHP_STAT_COLLAPSE_EXCEED_SWAP,
-> > +     MTHP_STAT_COLLAPSE_EXCEED_NONE,
-> > +     MTHP_STAT_COLLAPSE_EXCEED_SHARED,
-> >       __MTHP_STAT_COUNT
-> >   };
-> >
-> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > index e2ed9493df77..57e5699cf638 100644
-> > --- a/mm/huge_memory.c
-> > +++ b/mm/huge_memory.c
-> > @@ -632,6 +632,10 @@ DEFINE_MTHP_STAT_ATTR(split_failed, MTHP_STAT_SPLI=
-T_FAILED);
-> >   DEFINE_MTHP_STAT_ATTR(split_deferred, MTHP_STAT_SPLIT_DEFERRED);
-> >   DEFINE_MTHP_STAT_ATTR(nr_anon, MTHP_STAT_NR_ANON);
-> >   DEFINE_MTHP_STAT_ATTR(nr_anon_partially_mapped, MTHP_STAT_NR_ANON_PAR=
-TIALLY_MAPPED);
-> > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_swap_pte, MTHP_STAT_COLLAPSE_EXC=
-EED_SWAP);
-> > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_none_pte, MTHP_STAT_COLLAPSE_EXC=
-EED_NONE);
-> > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_shared_pte, MTHP_STAT_COLLAPSE_E=
-XCEED_SHARED);
-> > +
-> >
-> >   static struct attribute *anon_stats_attrs[] =3D {
-> >       &anon_fault_alloc_attr.attr,
-> > @@ -648,6 +652,9 @@ static struct attribute *anon_stats_attrs[] =3D {
-> >       &split_deferred_attr.attr,
-> >       &nr_anon_attr.attr,
-> >       &nr_anon_partially_mapped_attr.attr,
-> > +     &collapse_exceed_swap_pte_attr.attr,
-> > +     &collapse_exceed_none_pte_attr.attr,
-> > +     &collapse_exceed_shared_pte_attr.attr,
-> >       NULL,
-> >   };
-> >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index d0c99b86b304..8a5873d0a23a 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -594,7 +594,10 @@ static int __collapse_huge_page_isolate(struct vm_=
-area_struct *vma,
-> >                               continue;
-> >                       } else {
-> >                               result =3D SCAN_EXCEED_NONE_PTE;
-> > -                             count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
-> > +                             if (order =3D=3D HPAGE_PMD_ORDER)
-> > +                                     count_vm_event(THP_SCAN_EXCEED_NO=
-NE_PTE);
-> > +                             else
-> > +                                     count_mthp_stat(order, MTHP_STAT_=
-COLLAPSE_EXCEED_NONE);
->
-> Please follow the same logic as other mTHP statistics, meaning there is
-> no need to filter out PMD-sized orders, because mTHP also supports
-> PMD-sized orders. So logic should be:
->
-> if (order =3D=3D HPAGE_PMD_ORDER)
->         count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
->
-> count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_NONE);
-Good point-- I will fix that!
->
-> >                               goto out;
-> >                       }
-> >               }
-> > @@ -623,8 +626,14 @@ static int __collapse_huge_page_isolate(struct vm_=
-area_struct *vma,
-> >               /* See khugepaged_scan_pmd(). */
-> >               if (folio_maybe_mapped_shared(folio)) {
-> >                       ++shared;
-> > -                     if (order !=3D HPAGE_PMD_ORDER || (cc->is_khugepa=
-ged &&
-> > -                         shared > khugepaged_max_ptes_shared)) {
-> > +                     if (order !=3D HPAGE_PMD_ORDER) {
-> > +                             result =3D SCAN_EXCEED_SHARED_PTE;
-> > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE=
-_EXCEED_SHARED);
-> > +                             goto out;
-> > +                     }
->
-> Ditto.
-Thanks!
+Hi Babu,
 
-There is also the SWAP one, which is slightly different as it is
-calculated during the scan phase, and in the mTHP case in the swapin
-faulting code. Not sure if during the scan phase we should also
-increment the counter for the PMD order... or just leave it as a
-general vm_event counter since it's not attributed to an order during
-scan. I believe the latter is the correct approach and only attribute
-an order to it in the __collapse_huge_page_swapin function if its mTHP
-collapses.
->
-> > +
-> > +                     if (cc->is_khugepaged &&
-> > +                             shared > khugepaged_max_ptes_shared) {
-> >                               result =3D SCAN_EXCEED_SHARED_PTE;
-> >                               count_vm_event(THP_SCAN_EXCEED_SHARED_PTE=
-);
-> >                               goto out;
->
+On 7/17/25 8:54 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/8/25 3:17 PM, Babu Moger wrote:
+>> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+>> index 15d10c346307..bb28ef7e4600 100644
+>> --- a/fs/resctrl/rdtgroup.c
+>> +++ b/fs/resctrl/rdtgroup.c
+>> @@ -86,6 +86,8 @@ enum resctrl_event_id mba_mbps_default_event;
+>>  
+>>  static bool resctrl_debug;
+>>  
+>> +extern struct mbm_transaction mbm_transactions[NUM_MBM_TRANSACTIONS];
+>> +
+> 
+> Please move this extern to fs/resctrl/internal.h.
+> 
+>>  void rdt_last_cmd_clear(void)
+>>  {
+>>  	lockdep_assert_held(&rdtgroup_mutex);
+>> @@ -1895,6 +1897,25 @@ static int resctrl_available_mbm_cntrs_show(struct kernfs_open_file *of,
+>>  	return ret;
+>>  }
+>>  
+>> +static int event_filter_show(struct kernfs_open_file *of, struct seq_file *seq, void *v)
+>> +{
+>> +	struct mon_evt *mevt = rdt_kn_parent_priv(of->kn);
+>> +	bool sep = false;
+>> +	int i;
+>> +
+>> +	for (i = 0; i < NUM_MBM_TRANSACTIONS; i++) {
+>> +		if (mevt->evt_cfg & mbm_transactions[i].val) {
+> 
+> mevt->evt_cfg could possibly be changed concurrently. This should
+> be protected with the rdtgroup_mutex.
+> 
+>> +			if (sep)
+>> +				seq_putc(seq, ',');
+>> +			seq_printf(seq, "%s", mbm_transactions[i].name);
+>> +			sep = true;
+>> +		}
+>> +	}
+>> +	seq_putc(seq, '\n');
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  /* rdtgroup information files for one cache resource. */
+>>  static struct rftype res_common_files[] = {
+>>  	{
+>> @@ -2019,6 +2040,12 @@ static struct rftype res_common_files[] = {
+>>  		.seq_show	= mbm_local_bytes_config_show,
+>>  		.write		= mbm_local_bytes_config_write,
+>>  	},
+>> +	{
+>> +		.name		= "event_filter",
+>> +		.mode		= 0444,
+>> +		.kf_ops		= &rdtgroup_kf_single_ops,
+>> +		.seq_show	= event_filter_show,
+>> +	},
+>>  	{
+>>  		.name		= "mbm_assign_mode",
+>>  		.mode		= 0444,
 
+I am looking at the SDCIAE series now and it really looks like rdtgroup.c is
+becoming very large with code from various areas mixed in. In this series I
+requested several functions to be moved to monitor.c but generally did not
+highlight the main handlers added by this work. For example event_filter_show()
+added by this patch. For this work, could you please take a look if the
+handlers can also be moved to monitor.c? I think this will make things cleaner
+since the same helpers and data structures no longer need to be shared by multiple
+resctrl files. For example here, mbm_transactions[] can remain private
+to monitor.c where it is most relevant. In retrospect I think this is what
+we should have done for the BMEC work also.
+
+Reinette
