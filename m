@@ -1,118 +1,186 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4365A12E7E;
-	Sat, 19 Jul 2025 04:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB821C861B;
+	Sat, 19 Jul 2025 06:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752900334; cv=none; b=dVYjI1cLT4+N+iRDxfbK1BjTH8GwGH1v4vmNgLdsjR/qhTILoLFSs7QOskXRZpjcoJCM2JBNf3GZDbW0u0UkvTDakwOWb1WTLjCDIoGlFa26KM78DIivg06gOitkyuAOHnNXpsy9SacVUM6oCrM4j96aCVGN2J0+4VzXYibZ6zk=
+	t=1752907755; cv=none; b=ptdbB+ivBLikHIlTvXzruL0pRBsLp6bA/q8mC3OIWTx/FYQeasuchLdVwTl+G5sOGAsSUu/BVvGWlxWrbQyTZp4L/V5T7zqfMry4ZDvA+Ybm6i9gYwBYp3igsFqYJPxV9SrhHQqiS9HU2fmrSkUVWaalMmxyAr2t9FhnfkRFZaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752900334; c=relaxed/simple;
-	bh=91BZLZBnHol3G5D2pQNEOuhB92MjBsnbv9dL7ro7hKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VsvNN/V5PYAmK5bhBbYyzI7XaVbeFudtzu6uI586SKDxojDES8gswDXbfo81zWvlgS7yzyyuUHw08XLke70H7p96aisVqWW7WSd/KCDe774cGSL5ujTrP006auGYYnZyIVmGt3Be3XmeK0SAmHI0tR7FHO+LlA5/DLdC7ySS4nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bq9C0mB8; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bq9C0mB8"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3122368d7cfso2079165a91.1;
-        Fri, 18 Jul 2025 21:45:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752900331; x=1753505131; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VDSwmwyHdOHdY5y6kv9+AKkxnfvOoBedcBRoJCdOkHI=;
-        b=bq9C0mB8PL1QjEQslZBxkrG2L4aQT1Vy62x3pjgyxrrm1VepVXHu//m5VfdeOYUEFx
-         L1563chhMaRwIZqquACRWjPJkcr3QPS7Ky/c/+mLBgVq/Uqw3zUW6ArBLnFmCfFadzEN
-         ttXT9fwtb1MQShqYjJ6OcBus2X37kZoZpwPFmG4w+8l5ZliBcgIFAzssa/KmLyzWs8Yx
-         jwZ85m8WPkkZZZcE+sW0kDec9zEiCtlDcxG7YHjK6E3SVg9LOu+oR7euuUNAGVsEpIy7
-         FeKRZL5WJdtQLSPIVNAoq7TaDBrxubzqUw9G6L8+0kdaJfl90Fmrnt5cbA73bn5JYgv1
-         72FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752900331; x=1753505131;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VDSwmwyHdOHdY5y6kv9+AKkxnfvOoBedcBRoJCdOkHI=;
-        b=nGWC9RBRYze6/Fy/b2Ktjd1iccbwL5Mz59FQjoSLmP/ezxSl60ufC4lz9lBIV+dr8y
-         e0O/HuDkWQCHfH8klaNX3R9xsD57R8cAVcnGTjoKrn1F1un6z1ZvI52Iku61zziWf38v
-         9UAxD6hLK24Qgknqg94cnKdfWDwplpnuhMIS5qNgx8fDEr6jyaoRf1HIeBuVr+uONfmK
-         cdE7aJslPOSavlK0qJBIl/tRHeqdCt0skHXltTj8iHG6XtjpjKYSPq4/UD8Psyd/R3x0
-         tg6rXam9j/RrGxVP703PTvS83lpxLZyjXuB4Iafn9bDq/JZwVNPLKdub0tc1lmXlk9Va
-         HXLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUax9pVij8OCuLYc3qlmj2hHttvSAUdm2J8QmNw9L5qvtvaeyEIt/EcHMnDiFCSkQKSJ1i5M5dB7oEbzhbj@vger.kernel.org, AJvYcCVssjy2CwHoIu3oiq5LL0t2wV+glPHORcrqQARcYrdWTokxEbLlZg009qTDzDT+YBKnCT5sQPrb6JwvCyg=@vger.kernel.org, AJvYcCXp6rAt86rwUPpfHFup//5q6/KaamivMcbwSxQg9HzvtDKsENymewPFBSJpHEp8vgUqEc0ohbBFE28=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEP3KxwFBBjUfqIWwofp56QITgYujROvLKzj2HstjwK22MNyXA
-	ELda+zu+qtwVOuozO+lLfv1HrWu0uTQ4zqTflIHT7ax5O8x1DyfCScoQYDI/zA==
-X-Gm-Gg: ASbGnctkej8Rbq0UXB8USOkpnmkQJiXGDB53JEYT5Fu03U96o0gj0n+wm0Ewx9OfEjH
-	pPf3mTgPPHRU+GZC+Bv8sYHM/DtvOLixZFja7jwuxs8PgHkVFk3/XMsliDZSKglqq5LTmg0yDGm
-	0MR/ggWx0+60HUTlWpVz1oDfaVdGAVW0SziwiwXfCR83mj9En9JOAGAVvryukcoie9klELMDNTA
-	bPYKrwTzhE7ZNcvWT0SwEzqbQCFF935+wjZ8V2Rj+nzUIuV4kcch1K8RUtmvlgbmclgtGnmMtOM
-	A9Aq/A+oTHcgwA0uFUSVtM23Lxd22k3kXfIp7n9YQ6Z+/WeBQdvSeXYWhcnpttke3GxdyR2K9KV
-	wbMUiVekJQH/sPhQyObupnwuWk0Uv8LVav0A=
-X-Google-Smtp-Source: AGHT+IH80ZxQCk9Ldxy2HcCZ94uxkc5cXHP4oMobg8T6kOM+VRAaXBoHX6GyCi79GvkHwqNKchitfQ==
-X-Received: by 2002:a17:90b:1810:b0:313:271a:af56 with SMTP id 98e67ed59e1d1-31cc2608a57mr6627758a91.30.1752900331477;
-        Fri, 18 Jul 2025 21:45:31 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f1e61f3sm5956304a91.15.2025.07.18.21.45.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 21:45:30 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 18 Jul 2025 21:45:29 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Sung-Chi Li <lschyi@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	Sung-Chi Li <lschyi@google.com>
-Subject: Re: [PATCH v6 1/2] hwmon: (cros_ec) add PWM control over fans
-Message-ID: <8869b525-c32d-4a8c-8e1c-b2718896dd2a@roeck-us.net>
-References: <20250718-cros_ec_fan-v6-0-8df018396b56@chromium.org>
- <20250718-cros_ec_fan-v6-1-8df018396b56@chromium.org>
+	s=arc-20240116; t=1752907755; c=relaxed/simple;
+	bh=kxdB6V/A9iBSlknMAs0moABiseCV1oQqESUopgkYZn8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XgFuoAJOl+PUlqKX73CV217+MIkxVmwfLSX3Qlc3cmNnfEK3cg7N+F/RgMXUuQNyrE2uLQp6KRtyHmxcRQSLLDMfyAMeDx9haRW9YUbr4B/KB2HOvlzZQ0Nnj2v48QtnrFUOOiGCoflzNvxeUjNudRSWzQuCZfvEda9pN2n/1vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bkchQ1RnbzKHLyg;
+	Sat, 19 Jul 2025 14:49:10 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id CF8C21A0D68;
+	Sat, 19 Jul 2025 14:49:08 +0800 (CST)
+Received: from [10.174.179.247] (unknown [10.174.179.247])
+	by APP4 (Coremail) with SMTP id gCh0CgDnYhPiP3tonuMMAw--.29572S3;
+	Sat, 19 Jul 2025 14:49:08 +0800 (CST)
+Message-ID: <d1ee0f33-40e9-5586-36ec-88192747998f@huaweicloud.com>
+Date: Sat, 19 Jul 2025 14:49:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 06/11] md/md-bitmap: delay registration of bitmap_ops
+ until creating bitmap
+To: Yu Kuai <yukuai1@huaweicloud.com>, corbet@lwn.net, agk@redhat.com,
+ snitzer@kernel.org, mpatocka@redhat.com, song@kernel.org,
+ yukuai3@huawei.com, hare@suse.de
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-raid@vger.kernel.org, yi.zhang@huawei.com,
+ yangerkun@huawei.com, johnny.chenyi@huawei.com
+References: <20250718092336.3346644-1-yukuai1@huaweicloud.com>
+ <20250718092336.3346644-7-yukuai1@huaweicloud.com>
+From: Li Nan <linan666@huaweicloud.com>
+In-Reply-To: <20250718092336.3346644-7-yukuai1@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250718-cros_ec_fan-v6-1-8df018396b56@chromium.org>
+X-CM-TRANSID:gCh0CgDnYhPiP3tonuMMAw--.29572S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxXF43AF1DKw4xtw48Cr4fAFb_yoW5try3p3
+	97JF9xCr4rJrWSqa17Xa4q9F1rZrn7trZayryIqw1rGrnrWrnxWa1FgF4Utw1kGa4xuF4D
+	Zw45tr48Cr1j9F7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBSb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487
+	Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aV
+	AFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E
+	8cxan2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82
+	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMI
+	IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
+	0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+	Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFDGOUUUUU
+X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
 
-On Fri, Jul 18, 2025 at 03:08:29PM +0800, Sung-Chi Li wrote:
-> From: Sung-Chi Li <lschyi@chromium.org>
+
+
+在 2025/7/18 17:23, Yu Kuai 写道:
+> From: Yu Kuai <yukuai3@huawei.com>
 > 
-> Newer EC firmware supports controlling fans through host commands, so
-> adding corresponding implementations for controlling these fans in the
-> driver for other kernel services and userspace to control them.
+> Currently bitmap_ops is registered while allocating mddev, this is fine
+> when there is only one bitmap_ops.
 > 
-> The driver will first probe the supported host command versions (get and
-> set of fan PWM values, get and set of fan control mode) to see if the
-> connected EC fulfills the requirements of controlling the fan, then
-> exposes corresponding sysfs nodes for userspace to control the fan with
-> corresponding read and write implementations.
-> As EC will automatically change the fan mode to auto when the device is
-> suspended, the power management hooks are added as well to keep the fan
-> control mode and fan PWM value consistent during suspend and resume. As
-> we need to access the hwmon device in the power management hook, update
-> the driver by storing the hwmon device in the driver data as well.
+> Delay setting bitmap_ops until creating bitmap, so that user can choose
+> which bitmap to use before running the array.
 > 
-> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-> Acked-by: Thomas Wei�schuh <linux@weissschuh.net>
+> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+> ---
+>   Documentation/admin-guide/md.rst |  3 ++
+>   drivers/md/md.c                  | 82 +++++++++++++++++++++-----------
+>   2 files changed, 56 insertions(+), 29 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/md.rst b/Documentation/admin-guide/md.rst
+> index 356d2a344f08..03a9f5025f99 100644
+> --- a/Documentation/admin-guide/md.rst
+> +++ b/Documentation/admin-guide/md.rst
+> @@ -388,6 +388,9 @@ All md devices contain:
+>        bitmap
+>            The default internal bitmap
+>   
+> +If bitmap_type is not none, then additional bitmap attributes will be
+> +created after md device KOBJ_CHANGE event.
 > +
-...
+>   If bitmap_type is bitmap, then the md device will also contain:
+>   
+>     bitmap/location
+> diff --git a/drivers/md/md.c b/drivers/md/md.c
+> index d8b0dfdb4bfc..639b0143cbb1 100644
+> --- a/drivers/md/md.c
+> +++ b/drivers/md/md.c
+> @@ -674,9 +674,11 @@ static void no_op(struct percpu_ref *r) {}
+>   
+>   static bool mddev_set_bitmap_ops(struct mddev *mddev)
+>   {
+> +	struct bitmap_operations *old = mddev->bitmap_ops;
+>   	struct md_submodule_head *head;
+>   
+> -	if (mddev->bitmap_id == ID_BITMAP_NONE)
+> +	if (mddev->bitmap_id == ID_BITMAP_NONE ||
+> +	    (old && old->head.id == mddev->bitmap_id))
+>   		return true;
+>   
+>   	xa_lock(&md_submodule);
+> @@ -694,6 +696,18 @@ static bool mddev_set_bitmap_ops(struct mddev *mddev)
+>   
+>   	mddev->bitmap_ops = (void *)head;
+>   	xa_unlock(&md_submodule);
+> +
+> +	if (mddev->bitmap_ops->group) {
+> +		if (sysfs_create_group(&mddev->kobj, mddev->bitmap_ops->group))
+> +			pr_warn("md: cannot register extra bitmap attributes for %s\n",
+> +				mdname(mddev));
+> +		else
+> +			/*
+> +			 * Inform user with KOBJ_CHANGE about new bitmap
+> +			 * attributes.
+> +			 */
+> +			kobject_uevent(&mddev->kobj, KOBJ_CHANGE);
+> +	}
+>   	return true;
+>   
+>   err:
+> @@ -703,28 +717,25 @@ static bool mddev_set_bitmap_ops(struct mddev *mddev)
+>   
+>   static void mddev_clear_bitmap_ops(struct mddev *mddev)
+>   {
+> +	if (mddev->bitmap_ops && mddev->bitmap_ops->group)
+> +		sysfs_remove_group(&mddev->kobj, mddev->bitmap_ops->group);
+> +
+>   	mddev->bitmap_ops = NULL;
+>   }
+>   
+>   int mddev_init(struct mddev *mddev)
+>   {
+> -	if (!IS_ENABLED(CONFIG_MD_BITMAP)) {
+> +	if (!IS_ENABLED(CONFIG_MD_BITMAP))
+>   		mddev->bitmap_id = ID_BITMAP_NONE;
+> -	} else {
+> +	else
+>   		mddev->bitmap_id = ID_BITMAP;
 
-> +static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec, u8 index,
-> +					 u8 *control_method)
-> +{
-> +	struct ec_params_auto_fan_ctrl_v2 req = {
+'bitmap_id' is set here.
 
-ec_params_auto_fan_ctrl_v2 isn't declared anywhere. Looks like some patch
-is missing, and I don't immediately see it. Dropping the series.
+> -		if (!mddev_set_bitmap_ops(mddev))
+> -			return -EINVAL;
+> -	}
+>   
+>   	if (percpu_ref_init(&mddev->active_io, active_io_release,
+> -			    PERCPU_REF_ALLOW_REINIT, GFP_KERNEL)) {
+> -		mddev_clear_bitmap_ops(mddev);
+> +			    PERCPU_REF_ALLOW_REINIT, GFP_KERNEL))
+>   		return -ENOMEM;
+> -	}
+>   
+>   	if (percpu_ref_init(&mddev->writes_pending, no_op,
+>   			    PERCPU_REF_ALLOW_REINIT, GFP_KERNEL)) {
+> -		mddev_clear_bitmap_ops(mddev);
+>   		percpu_ref_exit(&mddev->active_io);
+>   		return -ENOMEM;
+>   	}
+> @@ -752,6 +763,7 @@ int mddev_init(struct mddev *mddev)
+>   	mddev->resync_min = 0;
+>   	mddev->resync_max = MaxSector;
+>   	mddev->level = LEVEL_NONE;
+> +	mddev->bitmap_id = ID_BITMAP;
+>   
 
-Guenter
+This change is wrong.
+
+-- 
+Thanks,
+Nan
+
