@@ -1,98 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AFA1D90C8;
-	Sat, 19 Jul 2025 08:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5082235345
+	for <linux-doc@vger.kernel.org>; Sat, 19 Jul 2025 08:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752913316; cv=none; b=EEf9DKcwpHTSGdSw9Tn466bmE8sIhM+ThmlxYLx3NI7wYy5bMoHM5glnyYtvQXJt/WqMIutpXN8W0EFGWV3IDt6FUDbcuxv00iyuOmUyt6VfSTrTgtd268uA88ij9AixjwPaIdMenXdJiQ47kbiXpQS/97E6uQJvhCoye72EHn4=
+	t=1752913624; cv=none; b=g/z39aJbInaXQCXCMw9KeAKZpygatqpMS9Q9SqXIMlq/JnzlOLqRJV2bjJEKP34WyqOCSziU6qC9lvjZE4ddlVbEV5IuSzLx4jLoz/hREv6Y98c98l7bxvX4ES1578jJc4VaUBUrqKVqij16YbQUbs+4khGw7B/axdb378cB7XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752913316; c=relaxed/simple;
-	bh=K3obeuqOlZ0dOsy9POpDIMdiMQA5/BwRN6ASQEjGPL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p8J/R+yqOr9HoCyMg7NFp8aYpnJ41y2yfOwDiXq5u7JwpMix+0hqB71pMqTqNYoCuNOnTx5qeJGcsZbyiit3rKQJ8QZnzIZh+CsvaCJOMKI8SfiodpkTtlLO5Q+x4k3FyKG7vYMvyFVY1itPtRpb4GRy1ZcNHqopEHunMAMmBCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dJd5L2vA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752913624; c=relaxed/simple;
+	bh=P22GETLL8XCTAG82w5KLzdw5PA4pQl85CxmaEqGA3PE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fWjF/Yj7Pw6syG9F4NqE6ESC0P6FFyA+WfyDjYMAIZ3tJsjVGINusnQeWfUiyFh3aUFPpBF3wjO7vxn2qM/TAsLpPcV4i5SBNBc+N+IZMuhYQDtVWKnx7eiz5OZUmx1Ie7RbjhEJ+rlfIq9YQLbsAs8zjKHs0YC59lKAbr1A7og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=DKhGQBj7; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dJd5L2vA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30A0C4CEF4;
-	Sat, 19 Jul 2025 08:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752913315;
-	bh=K3obeuqOlZ0dOsy9POpDIMdiMQA5/BwRN6ASQEjGPL4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dJd5L2vAZ3K4Zas346UWsng/P35XCs8z8hc2xSX+/KHx6hCr7ihi9CoLbdDu00uWJ
-	 zRKNkNstvdtQ2VHxPgI0XQ/NDy+WiqPEDGLGsCrwUuFB6LOYT+7npgUxrDCHfNh20f
-	 i7G3k0PFTV9vLfQbYku6SwKoMXoCDtSG1E7dNEvgS+p9W45uFeM8kc2sMnFK+30OVC
-	 pJX0+z2xAn04DZnhGvFQNXDCl4nquEc637Xhb8p5FM35YR8rkw/ej8XX+z8IR95UvI
-	 woI8vB1wOT4PpUlBLSZ18A9Sw9UiFb/FMbJb/4hcSjV/okUivVEaVviUYJelHt8uWy
-	 bnpPNEcnoCtMA==
-Date: Sat, 19 Jul 2025 09:21:47 +0100
-From: Simon Horman <horms@kernel.org>
-To: chia-yu.chang@nokia-bell-labs.com
-Cc: pabeni@redhat.com, edumazet@google.com, linux-doc@vger.kernel.org,
-	corbet@lwn.net, dsahern@kernel.org, kuniyu@amazon.com,
-	bpf@vger.kernel.org, netdev@vger.kernel.org, dave.taht@gmail.com,
-	jhs@mojatatu.com, kuba@kernel.org, stephen@networkplumber.org,
-	xiyou.wangcong@gmail.com, jiri@resnulli.us, davem@davemloft.net,
-	andrew+netdev@lunn.ch, donald.hunter@gmail.com, ast@fiberby.net,
-	liuhangbin@gmail.com, shuah@kernel.org,
-	linux-kselftest@vger.kernel.org, ij@kernel.org,
-	ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
-	g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
-	mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
-	Jason_Livingood@comcast.com, vidhi_goel@apple.com
-Subject: Re: [PATCH v13 net-next 11/14] tcp: accecn: AccECN option send
- control
-Message-ID: <20250719082147.GP2459@horms.kernel.org>
-References: <20250718142032.10725-1-chia-yu.chang@nokia-bell-labs.com>
- <20250718142032.10725-12-chia-yu.chang@nokia-bell-labs.com>
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="DKhGQBj7"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-74b54cead6cso1911240b3a.1
+        for <linux-doc@vger.kernel.org>; Sat, 19 Jul 2025 01:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1752913622; x=1753518422; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EPId7hlRtak29cJpHNdXMRMJJGzWtgzI1RuZFg9RVGU=;
+        b=DKhGQBj75kL0R1fRR/ZxZOoXIWHAutNRIfNM0BwMDkuJMHJ+V5u7f6xOUnGD1ltdMr
+         OSYvUOM14UptrgS3hzeqviZbCwlt/lLH2n8MRcwbFAiVJ5OtTOefhp6I0nJWdF1vGkAk
+         V+opPAEZItYdf20IRt1f51h0RQVR5QQwyND3urfYeiimutHcE18NEVUhrx2DDiL9Af7Z
+         K6rv0hDBXR4JvQudGv/54mnuiGbppuCXDyyb5aaSVpr3jVNviLBL+mCYnuosMUIIPbQl
+         Prl6WjFEpwni1kWEGKxfwkb47rIGQZxACu6+jy6FaZ9eGkgcPGCMBibbnMsgTV1Pqh+7
+         dppA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752913622; x=1753518422;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EPId7hlRtak29cJpHNdXMRMJJGzWtgzI1RuZFg9RVGU=;
+        b=TtsvI9DTv4/BrebjOfQ7ow9GPKTqrA6t7OkYX0pXxOsPHfGHQXY7DBG9vFUXqBJJEl
+         nzPgrDD3X3ARVWGtsaf5a88q/+54dtXPqXYOVWrjaG+8rRwTu0ZFa/LIKbEk2xxHDOi5
+         ua6c7nN8xNR1OtB8CYBRt+AQg4kkm8aLkLGFfb6+IvQEE3AmXk2n7Dtx4sD/NZY4bStm
+         o6z3jn+qYQHI8t1bzO9ThVpdVDAQS88c2nvLFDs5bxo/gYM5ea6ZitwErSEo8oRxV1L2
+         DgxYRwE07PiLCUztNhaeCyAu9PvUATAnwHB1k7WIw/3oSPQcIwMgAgyiyBFMZDOS9dpq
+         lZEA==
+X-Forwarded-Encrypted: i=1; AJvYcCWMJez6ZeqwkV2SLbwBzHgyHp3/z/FSwl64eGQC0nfl8BbcqNNZfJ9VVLIKrxdgXvWzVvFX9fZRHuI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjkcKgh4vCk7vlpsUg+9Px6kEmuwY845IrC5O5YwWugN/WPZg1
+	QFiZtJdjJBV7FtXY+wW35cbCVa4NnHiHX/1IM+pnM+DAQ5BcED2+XrQbJQ8U1Co8tt0jZjEMBO2
+	OyQui9rigOw==
+X-Gm-Gg: ASbGncuTIB0PKVBPRZZ60hKr7B95S+zfcelUxUDQqUU039acGDzRQKn9JQRr/XNA2kJ
+	1jWMkI2Zx2TFpah3PSdYQtXTKokJBvhBdryXEoT0KX6VBMHvI660F430eeIw1Z7hW4iXZ327hPm
+	5BPWjBQYFyb282KjgHn176tZKCjEKP3tpwTn1GlTpvQwcGTttQgVZyKuQn5XLzOZNBK62Rgo2yK
+	tG+amEeGmWo87wjdthhAnuvTTulB07MiIxl4mLFCEegZiI7khwR5UUGIPIp4SCGUlJjXfKwFIno
+	3/es9Tf4SoYTDKu7ufWkxropFN6J1xMUvHzDSHwhrcAm6aOAvwSIkgRffwM2vnGz0sfWyych316
+	zzPrw/iygQG4RChddUvijAcpCBJcqyJI3f5pi8QkMu4mQHiOFiQ==
+X-Google-Smtp-Source: AGHT+IEzBjqgE2BlaLz1oOWFjBrHioQyEDfCtdHE+F0FDfd8OvpCDexvgvzMEwrHYyRAhMYVJmlFCA==
+X-Received: by 2002:a05:6a00:3a11:b0:736:51ab:7aed with SMTP id d2e1a72fcca58-75724180944mr17224932b3a.16.1752913621977;
+        Sat, 19 Jul 2025 01:27:01 -0700 (PDT)
+Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb157635sm2475260b3a.83.2025.07.19.01.27.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Jul 2025 01:27:01 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: dianders@chromium.org,
+	tejasvipin76@gmail.com,
+	diogo.ivo@tecnico.ulisboa.pt,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH v5 0/4] drm: Fix bug in panel driver, update MIPI support macros
+Date: Sat, 19 Jul 2025 02:26:34 -0600
+Message-ID: <20250719082639.307545-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250718142032.10725-12-chia-yu.chang@nokia-bell-labs.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 18, 2025 at 04:20:29PM +0200, chia-yu.chang@nokia-bell-labs.com wrote:
+This series removes the unintuitive mipi_dsi_generic_write_seq() macro
+and related mipi_dsi_generic_write_chatty() method from the drm
+subsystem. This is in accordance with a TODO item from Douglas Anderson
+in the drm subsystem documentation. Tejas Vipin (among others) has
+largely spearheaded this effort up until now, converting MIPI panel
+drivers one at a time.
 
-> @@ -549,4 +589,16 @@ tcp_ecn_make_synack(const struct request_sock *req, struct tcphdr *th)
->  		th->ece = 1;
->  }
->  
-> +static inline bool tcp_accecn_option_beacon_check(const struct sock *sk)
-> +{
-> +	u32 ecn_beacon = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option_beacon);
-> +	struct tcp_sock *tp = tcp_sk(sk);
+The second patch of the series removes the last remaining references to
+mipi_dsi_generic_write_seq() in the jdi-lpm102a188a driver and updates
+the driver to use the undeprecated _multi variants of MIPI functions. It
+fixes a bug in the driver's unprepare function and cleans up duplicated
+code using the new mipi_dsi_dual macro introduced in the first patch.
 
-Hi Chia-Yu Chang,
+changes to v5:
+ - Rework mipi_dsi_dual to explicitly not support passing macros into
+   _func and add "dual" variants of the generic and dcs write macros.
+ - Make jdi-lpm102a188a use the new
+   mipi_dsi_dual_generic_write_seq_multi macro.
+ - Make local struct variable in jdi-lpm102a188a conform to reverse
+   christmas tree order.
 
-This is not a full review, but I have observed a minor problem with this
-patch.
+changes to v4:
+ - Fix whitespace (I forgot to run checkpatch. Thanks for your patience
+   as I familiarize myself with the kernel development process)
+ - Initialize mipi_dsi_multi_context struct
 
-Commit e9d9da91548b ("tcp: preserve const qualifier in tcp_sk()")
-updated tcp_sk so that, as it's subject says, the const qualifier
-of it's argument is preserved.
+changes to v3:
+ - Define new mipi_dsi_dual macro in drm_mipi_dsi.h to reduce code
+   duplication.
+ - Fix bug in lpm102a188a panel driver's unprepare function which causes
+   it to return a nonsensical value.
+ - Make lpm102a188a panel driver's unprepare function send "display off"
+   and "enter sleep mode" commands to both serial interfaces regardless
+   of whether an error occurred when sending the last command.
 
-But here sk is not const while tp is not.
+changes to v2:
+ - Remove all usages of deprecated MIPI functions from jdi-lpm102a188a
+   driver instead of just mipi_dsi_generic_write_seq().
+ - Update TODO item in drm documentation instead of removing it
+   entirely.
 
-I think the solution here is to make tp const.
+Brigham Campbell (4):
+  drm: Create mipi_dsi_dual* macros
+  drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
+  drm: Remove unused MIPI write seq and chatty functions
+  drm: docs: Update task from drm TODO list
 
-	const struct tcp_sock *tp = tcp_sk(sk);
+ Documentation/gpu/todo.rst                    |  22 +-
+ drivers/gpu/drm/drm_mipi_dsi.c                |  82 +++++---
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++++++------------
+ include/drm/drm_mipi_dsi.h                    | 112 ++++++++--
+ 4 files changed, 210 insertions(+), 202 deletions(-)
 
-Flagged by GCC 15.1.0 and Clang 20.1.8 allmodconfig builds.
+v4: https://lore.kernel.org/all/20250717164053.284969-1-me@brighamcampbell.com/
+v3: https://lore.kernel.org/all/20250717065757.246122-1-me@brighamcampbell.com/
+v2: https://lore.kernel.org/all/20250708073901.90027-1-me@brighamcampbell.com/
+v1: https://lore.kernel.org/all/20250707075659.75810-1-me@brighamcampbell.com/
 
-> +
-> +	if (!ecn_beacon)
-> +		return false;
-> +
-> +	return tcp_stamp_us_delta(tp->tcp_mstamp, tp->accecn_opt_tstamp) * ecn_beacon >=
-> +	       (tp->srtt_us >> 3);
-> +}
-> +
->  #endif /* _LINUX_TCP_ECN_H */
+base-commit: ca2a6abdaee43808034cdb218428d2ed85fd3db8
 
+May you all have a wonderful weekend. I'll be riding my motorcycle up
+Logan Canyon.
 -- 
-pw-bot: changes-requested
+2.50.1
+
