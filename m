@@ -1,133 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E717881E;
-	Sat, 19 Jul 2025 14:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A51A1F0995;
+	Sat, 19 Jul 2025 16:27:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752934644; cv=none; b=n9nFkoODNn1fj084wa6EhWRMwi9NWfW2ENLLkGyP0hp3Hv9gzd6LbCDxxtf76sdRMAI64PhXbD2Agb63MtD/PJAQHfoWB1pHDEY4B9FD7tgl0eR8Oaqh1xhJ74GJLCdjHvRYeOiUyIba6UfViPyyf5BNz0Oa4HcUtnPPHSC7Go0=
+	t=1752942449; cv=none; b=NT8c2pV5e2qHBKTVNkKtIrhP6sot/VxAfmB9DvBiyjHSw7QVSaQhjt3spcfW+3a3Jr5d1dhr7jBJA68jvnay/CfrAI5ddGGEUKvgIVl4H6P8kCBOw4H3VDfQoCTkrpWXhSW22/cOrqkBT3XJVRUugT3bO2pFkqqW+VciZphymiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752934644; c=relaxed/simple;
-	bh=KUofb521B8AZVG1D7BsR/ikz80zn5hGl17C7QpRR16o=;
+	s=arc-20240116; t=1752942449; c=relaxed/simple;
+	bh=x59sCC/nT63ijVIF6qQAi5qHK7n8i7j+AwnQIsEn6l0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nyjWhbSltVZlQ6nz4nl7bkY2EvnU62K2dRVC3nDilO3y0EF+lrac2eZDrPpe2x2Bk0r4/yCnoVx7hPzWEFKMBHxBgpCL6G1DPYXYLlUwtTyIoFUT2OemMPLW9PgTCCNRim/8eNpS+lqvd+hgvE+1mDB96Lu4WKfcb3tDYW44Ph4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SVUdM+0K; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ip/ROa8A54W2A5s8OfyEECe2P4TS6nD/gPyxvD9P0dr78XD4kz6MdklkrA/MKHomN3boB9YRhtgXI08ZpZYfZ+4hzm757BvqWcaN+dfg4DzFL+zXsCwwqH/q6/L0KEBWKYabSDJs3h8hYASTRFg3rfmG30U09TsqUwdHk7mylvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PD4qVCij; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SVUdM+0K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F87AC4CEE7;
-	Sat, 19 Jul 2025 14:17:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PD4qVCij"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A486C4CEE3;
+	Sat, 19 Jul 2025 16:27:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752934644;
-	bh=KUofb521B8AZVG1D7BsR/ikz80zn5hGl17C7QpRR16o=;
+	s=k20201202; t=1752942448;
+	bh=x59sCC/nT63ijVIF6qQAi5qHK7n8i7j+AwnQIsEn6l0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SVUdM+0K0jGe4rVqrY0b0y344DhaNF/P4l5qjcxHDZvjs1Sz5lEaHuUgqbvaNEk53
-	 qQnUBOgvlrcAm4zN71fyfN0akPvw/r1ml61YT3oGeexTcYdu/yhx9FzkdMacNyRNTE
-	 zyv+HGIXmcJ0L36rHQzw5SOny2Rg8llXUoO/L8Si1gfO5eJCm5+HS+FjpcPSHzj46P
-	 wwH+vlfJORYkYA65kjGqarey6/GIYwgDIS+PBmngoO9/dqd8SZTjQXQ77/y7bSQnem
-	 2aXfilZYH0Gma9kVAdLA7hP3yS6+DftAVDwDHFrwttCgKK6fRvpP/mcsYh6NPp0qYL
-	 8r1iJCcLOAHyw==
-Date: Sat, 19 Jul 2025 17:17:20 +0300
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	Stefan Berger <stefanb@linux.ibm.com>,
-	Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>,
-	Jonathan Corbet <corbet@lwn.net>, Peter Huewe <peterhuewe@gmx.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Neeraj Upadhyay <Neeraj.Upadhyay@amd.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Frank van der Linden <fvdl@google.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [RFC PATCH] tpm, tpm_vtpm_proxy: boot-time TPM
-Message-ID: <aHuo8Fh_S8aEi7VM@kernel.org>
-References: <20250716121823.173949-1-jarkko@kernel.org>
- <bfcc3a24-b48c-48a6-8280-07f7a2669e6b@infradead.org>
+	b=PD4qVCij5GQf+kLinTcQTataL/IQ5nhr/iRTuNWWAfctQi54nLrwpPv0rpMDKhfOW
+	 +W51TVEVpygulJ4H1b4q+rP8/JKK7XYzOPzlPzZPRQLMGGIw3o8aYdD4IUe1wAgxK0
+	 jYI55yLZD3bhBwIQ4Ahy6+MeO6+Uu4O8k9U61aFq/PEKTCj6pNo/+b6nOuS1UstCK7
+	 aUeNMXcRFlt2MWWJJ5snAw0QYAA22ZSrzsi19ScyEcBmkY6Mn0+vr3VYSbz7khUIMx
+	 uffoiF8oUWuBlyY9QCMeAkxSCjLlKDkR+ld8zskqKeTbaAHrs0n++mDRToIP4uKcYc
+	 Y51GtgnA0rbtQ==
+Date: Sat, 19 Jul 2025 06:27:27 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Chen Ridong <chenridong@huaweicloud.com>
+Cc: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Tiffany Yang <ynaffit@google.com>, linux-kernel@vger.kernel.org,
+	John Stultz <jstultz@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: cpu.stat in core or cpu controller (was Re: [RFC PATCH v2]
+ cgroup: Track time in cgroup v2 freezer)
+Message-ID: <aHvHb0i6c8A_aCIo@slm.duckdns.org>
+References: <20250714050008.2167786-2-ynaffit@google.com>
+ <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
+ <aHktSgmh-9dyB7bz@slm.duckdns.org>
+ <mknvbcalyaheobnfeeyyldytcoyturmeuq3twcrri5gaxtjojs@bbyqhshtjfab>
+ <180b4c3f-9ea2-4124-b014-226ff8a97877@huaweicloud.com>
+ <jyvlpm6whamo5ge533xdsvqnsjsxdonpvdjbtt5gqvcw5fjp56@q4ej7gy5frj7>
+ <e065b8da-9e7c-4214-9122-83d83700a729@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <bfcc3a24-b48c-48a6-8280-07f7a2669e6b@infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e065b8da-9e7c-4214-9122-83d83700a729@huaweicloud.com>
 
-On Wed, Jul 16, 2025 at 11:44:02AM -0700, Randy Dunlap wrote:
-> (mostly nits, along with Paul's comments)
+On Sat, Jul 19, 2025 at 10:01:07AM +0800, Chen Ridong wrote:
+...
+> What I'm considering is moving the implementation of cpu.stat from cgroup_base_files to
+> cpu_cgrp_subsys—without changing the user-facing interface (filenames and content remain the same).
+> However, the interface would only appear if the CPU subsystem is enabled.
 > 
+> Currently, cpu.stat and cpu.stat.local are visible in every cgroup, even when the CPU subsystem is
+> disabled. The only populated fields in such cases are:
 > 
-> On 7/16/25 5:18 AM, Jarkko Sakkinen wrote:
-> > From: Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>
-> > 
-> > Provide a kernel command-line parameter named as `supplicant`, which
-> > contains a path to an TPM emulator binary. When defind, the kernel will
+> - usage_usec
+> - user_usec
+> - system_usec
+> - nice_usec
 > 
->                   to a TPM
-> 
-> > launch the program during boot-time.
-> > 
-> > This feature is most useful in feature testing e.g., in environments
-> 
->                                          testing, e.g.,
-> 
-> > where other means are not possible, such as CI runners. Its original use
-> > case highlights also quite well of its applicability for pre-production
-> > hardware: it was used to provide a TPM implemnentation for a RISC-V SoC
-> > running on FPGA with no TPM HW implementation at the time.
-> > 
-> > Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>
-> > ---
-> > Bumped into this in my archives so thought to make it available just in
-> > case anyone is interested.
-> > ---
-> >  .../admin-guide/kernel-parameters.txt         | 14 +++++
-> >  drivers/char/tpm/tpm_vtpm_proxy.c             | 51 +++++++++++++++++++
-> >  2 files changed, 65 insertions(+)
-> > 
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index f1f2c0874da9..e062de99480e 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -7230,6 +7230,20 @@
-> >  			defined by Trusted Computing Group (TCG) see
-> >  			https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
-> >  
-> > +	tpm_vtpm_proxy.supplicant= [TPM]
-> > +			When defined, this field must contain a legit path to a
-> 
-> 			                                        legitimate
-> or			                                        valid
-> 
-> > +			program emulating a TPM chip, which will be started
-> > +			during the driver initialization, thus providing a
-> > +			mechanism for the user space have an emulated TPM from
-> > +			the get go. Kernel prepares the process with a file
-> 
-> 			    get-go.
-> or just don't use slang terms.
-> 
-> > +			pre-opened file descriptor in the index 3 for
-> > +			/dev/vtpmx.
-> > +
-> > +			An emulator can optionally provide support for
-> > +			localities by reacting to the vendor command defined
-> > +			by the driver: 0x20001000. Its payload is a single
-> > +			byte containing the new locality.
-> > +
-> >  	tp_printk	[FTRACE]
-> >  			Have the tracepoints sent to printk as well as the
-> >  			tracing ring buffer. This is useful for early boot up
-> 
-> thanks.
-> -- 
-> ~Randy
-> 
+> I’m unsure whether this change would be acceptable?
 
-Thank you for reviewing this (especially given how bad shape it was)!
+I don't think so and don't really see what benefits moving the stats would
+bring. Why would we move these?
 
-BR, Jarkko
+Thanks.
+
+-- 
+tejun
