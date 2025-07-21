@@ -1,295 +1,570 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2048.outbound.protection.outlook.com [40.107.223.48])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351C62DA756;
-	Mon, 21 Jul 2025 14:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753107291; cv=fail; b=YMxgus/3KXRtYQZzDFXaY1R7G1tBitAQ+X1v7D6Tx3U+WAJ4g9+XpRj22+BWmMQepK0UnvF/BK+CX51GxA7w+o6uY103EqOMSNBRPD9QVPjUfWfLTM+tpRIGaGiAPcU/7gN+EZy9nc8neEPGnpZeh/S3iT/HbRQndY8ujkMsTPM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753107291; c=relaxed/simple;
-	bh=QnqatDwS6C1TlUaiLjpLpxoRyDSjrOoyEljr42P1nCU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CDzgiTnYHZnTPSH6pZcOfHOn2AaRBqbXCsy3BAxhV6pIhExwjejb1tfPCVVmJpZYXUDWa8Kz1Mo/pnuZTE8cQKoiPybdirt5WWcvnYgDS0eWC5bz5vpCxbcKFmkNC8rzBg8SYHav9bceJcQClTvrLqMAzG3P81pbVhcz3dlt/QI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GHfnDonw; arc=fail smtp.client-ip=40.107.223.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1692D3EEE
+	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 14:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753107703; cv=none; b=pCjxS08GB442cbIlvZ/NZ/cieQc0MEUaAbMJou1FBicV4TimKdKdNhPCezzqTNTt/4YAZ5sgUHIYjii3xDfNIIpwt0ssj/Qkv9wb0vKlGFCm53n29KieVIsb36l0cYV+m5s7mFQUoTrNP/AwZXKgGz8CrEup5r1h1WChSvKK27g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753107703; c=relaxed/simple;
+	bh=PTWSl+wAEhXohoDtp9bVp5FIerEdPinZroN3Hbl7BSY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P4DRerT/kmni9j60/sjAsoEsgyQKPQLfw3olGODfOMmTDlY4COQL3NFmlPtv1BGUaC/n5meSlU+GPo7aDNXdRN9m01StRmYPxgoJKHlBIgvHg2KIJsHLhT7gKkv3/xFOWEF6ol+qWDIL0PwsJur22AzGZga3f4WRo3WpPb/2PdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NibAJOcY; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GHfnDonw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G4OuMREGbTnmKqBXFqLwiVYeZBn12+a4cb5VxHL42wLBi0gXeqNRpG4q2wrO5ARcNigSYO2AdkoQ9KTXa7EYdWngK9CbI7CKGat3Yh5ITq1L92v0cvDI0jKD5IIPCDRD4VSnSoRBPZze1hlO0RWKOJvDe5nbcgHJ7Z1bWd+Mtrkah18GRNhq66ARlWOaTp5ohsy8AKLmaJBCTMNI35aTVgw0qbHuwgwlZ8magFxJNj/1tisW5d7At8z4YAzm7ehcp1WlCWNE9RdxYs9CLCJFS8NRXgbFemCnlFrrz42N8cYyK1WVn/vGPRcuUVpKGzQiCn5BaQ0pAg88wd6fi37OqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AZ1rDRUfkYnTzBDta/PF7CJ/rp4tiA2xA3l5HM5c84g=;
- b=m1We/oJ1/ZIY0AE8lhocbxisp1O3/TQ056Lhwi8WdwTHcM6bK+kzm0FAQZusiGh8Dh8DNIR+5EtqBf7emcYUoHG0OwCPl2Zyl8oXUcLEmieWO0ZEX3FGg/3SoojKuM2IittRZnEvOCHOoqzqFXn1K0a/ZJDwGJ53Q4m99GXS74GNrMad6jPPjz/WL90Wq1kk7iw0Rw1v9p64BLtpxlQRAEz5x1GnDnfM5DfXRRGU4lCDtMCJMgCljKSnOW5EA79cOqwvMe92aUnKJURufJ/fBAM4klUgULHmLqn0wPP3kVFHgQCR/P8WxvHbR4bgE3RCD02Dk12lbc5XcXyckWfx1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AZ1rDRUfkYnTzBDta/PF7CJ/rp4tiA2xA3l5HM5c84g=;
- b=GHfnDonwHGkRo5qVvYEyvcT/MguiHrAnIQQ+hpcTLt11LkAuavyM9Ivw0FFlV9rYes3Mrbqb/+xp3ySNaKdhx/8Rf+uUeniCQJtpuNSU1pRqSbkcxLIS5FsvdPaT2cUyCAeUCUmaBY/0VA6LC+GEjzLOtR+v7FtDYpeBOiQUnUE=
-Received: from SN7PR04CA0218.namprd04.prod.outlook.com (2603:10b6:806:127::13)
- by BL3PR12MB6449.namprd12.prod.outlook.com (2603:10b6:208:3b8::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Mon, 21 Jul
- 2025 14:14:47 +0000
-Received: from SN1PEPF00026368.namprd02.prod.outlook.com
- (2603:10b6:806:127:cafe::24) by SN7PR04CA0218.outlook.office365.com
- (2603:10b6:806:127::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.23 via Frontend Transport; Mon,
- 21 Jul 2025 14:14:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF00026368.mail.protection.outlook.com (10.167.241.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8964.20 via Frontend Transport; Mon, 21 Jul 2025 14:14:47 +0000
-Received: from purico-ed09host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 21 Jul
- 2025 09:14:45 -0500
-From: Ashish Kalra <Ashish.Kalra@amd.com>
-To: <corbet@lwn.net>, <seanjc@google.com>, <pbonzini@redhat.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<thomas.lendacky@amd.com>, <john.allen@amd.com>,
-	<herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-	<akpm@linux-foundation.org>, <rostedt@goodmis.org>, <paulmck@kernel.org>
-CC: <nikunj@amd.com>, <Neeraj.Upadhyay@amd.com>, <aik@amd.com>,
-	<ardb@kernel.org>, <michael.roth@amd.com>, <arnd@arndb.de>,
-	<linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
-Subject: [PATCH v7 7/7] KVM: SEV: Add SEV-SNP CipherTextHiding support
-Date: Mon, 21 Jul 2025 14:14:34 +0000
-Message-ID: <44866a07107f2b43d99ab640680eec8a08e66ee1.1752869333.git.ashish.kalra@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1752869333.git.ashish.kalra@amd.com>
-References: <cover.1752869333.git.ashish.kalra@amd.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NibAJOcY"
+Message-ID: <b4233af1-7143-402b-a45c-379c39edf274@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753107688;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KF58D9MGsLNUYJPC/+9oNbaKPqecsAp57941TID+TE8=;
+	b=NibAJOcY8cWSKRZykmD3aK5y5oaFU4cqzAJz45wCEdzhwG/5d3V2bS8tGeI4aIeX33juUz
+	ybPHzbl0VEknxZkO+V0PLynaWpV6BlGg6U4LuP4s62qmYrzpMmoD/Wve2g26CnbRmCbw9U
+	70zHIGitc8KnkGchjTFBW3p5JWcHX48=
+Date: Mon, 21 Jul 2025 15:21:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00026368:EE_|BL3PR12MB6449:EE_
-X-MS-Office365-Filtering-Correlation-Id: a569ea05-6df9-4635-22ed-08ddc860f2e3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|7416014|82310400026|376014|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?jNnHcCXc7UrzrYDszK5BtglkYi1irknFj9CMvpzzl0Bg8M5SiY7lWkpmRanF?=
- =?us-ascii?Q?qamJ7jvWFGyuWFFNjdQGN0I89rGAj+aLhGryZlWQWh0B/RedcsL4KGbnBC2H?=
- =?us-ascii?Q?+ZW52uxU7FHgWh1y9TTE5AxzQqBaLd6bMV+RhGjw2quClMvfQq4LI0nz8He7?=
- =?us-ascii?Q?EN8kH/V6ucJ/EmbUNoOVB/Vvr5slRPyOpiAzLm7UWKZ6HoxyzzMJvDtSFcdX?=
- =?us-ascii?Q?7qm/oXVn3mQ8/cP4GliORZF9snypcguf6s6IsVVLyu3y1ODXSCK3L5A8amvz?=
- =?us-ascii?Q?RPBuLmhHLz6NGXhALiiyWG3M/RIzo2iYDDNgwnUyRRecgwMdS5mbif/xfjYE?=
- =?us-ascii?Q?wSTZyLyAZ6lcBvFmEeu612kDFbK6Bq1H2kwk1Y1wt/n0k96aWbXrHBm1AS2U?=
- =?us-ascii?Q?E9HlFXtcZLvmJNDjTyQyf38JznKAYPGITLMPFhYmkU+7YdEd0vxpkPKywYiu?=
- =?us-ascii?Q?WBA3+YPTs3o7PRjXvwh9lLmNG34RtInkpMEvcLovFzapLXNhVeLKct0KW/qF?=
- =?us-ascii?Q?adoRWfNRr1uLMwNJ8PGQYVBqOrFjy/4vKOp8DhM4pn/q3lFIWtiElnC7bENr?=
- =?us-ascii?Q?oT2YnUYwDzoHs81IUnNWHt1uvpJSwFUa/UndakXNtotvZYiYT46GDS2/hinf?=
- =?us-ascii?Q?ZGpDzrn8dY1HXwbgE1kXBzbe8Hrgu8KudPtJgYGPwrsJlSSS2CJ/eKdDyU0L?=
- =?us-ascii?Q?+b+YDqOITb7EyM580c3sgAucUd6kjCUn5vSAPUN8atPtD2zeO+zsHaeGLuLC?=
- =?us-ascii?Q?k8Un0BwpbRgVMyhjUntcIedYg8UcsvRnkS79cwNjjTvqvTe5KEJB7JqUpBAK?=
- =?us-ascii?Q?eyhUULPZPIctf38fawiu8BlTxCoJAe1szLe9bzcJjxqdCktNj+XtXmdhC3tz?=
- =?us-ascii?Q?bGnxazFiBaFdtD9iscMhgPt6Gh3v2+EgEtnK0KRBSAePWy+9KGZ3QimMORzC?=
- =?us-ascii?Q?rdStjoQvpdvKNjMrytJ254uLmZxZf+Uxu++5CFHGdB9aCuGFL/RbVqRJ+GZV?=
- =?us-ascii?Q?Q8UZJSVCJVS+YF/FKfSllgdmXix3+0wUi7qFgn/G7fNxIda808ifLFFLO8DC?=
- =?us-ascii?Q?iIu0+Ur+1UBjY1BKt9BJaCQEHwjKZ3l7ik+5zz+Pgd4WNXA2qgtzm4DgqOFr?=
- =?us-ascii?Q?H5U8G2MuAoEI7L2/EXcQAKjjo9OU+96bfoAPi0aWNLN4SFtVSiqQS1AdbGvl?=
- =?us-ascii?Q?Y0dxccq1Zn17oBBYfmxUM2I45bP0dnQpa/4cCdhy/QJBupjD6BRU1rAKBUJZ?=
- =?us-ascii?Q?FaLlMhi9JkCyn/rXnwjJ5Rhdrr4IqklW8597sUF9jrKE19N/u4POuo9iSNTw?=
- =?us-ascii?Q?9hObSWfsTEkI7G0JCnn1UohcXCnraq+u/efqahe+CqPjnAQHpshKSS14l2r2?=
- =?us-ascii?Q?KeMaJpLz6H9Q74VYgaYWHAwW6ptWg/dkz1Y3LhV+/MRmaMBXXqQLdauWZvfR?=
- =?us-ascii?Q?V6ILKTdGY47LDb6KDjIlqyzSbP/U43vw3a2zxT6fzHkVgsppy+QxGS6FlDoG?=
- =?us-ascii?Q?AGlLVllP2efmx7ECxQQtWQ9blYNF1JOS6DbN4Pm3gWjkxMizJ6uzG8CdSw?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(7416014)(82310400026)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 14:14:47.3228
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a569ea05-6df9-4635-22ed-08ddc860f2e3
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF00026368.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6449
+Subject: Re: [PATCH v2 02/15] net: rnpgbe: Add n500/n210 chip support
+To: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
+ maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+ gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+ Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+ alexanderduyck@fb.com, richardcochran@gmail.com
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250721113238.18615-1-dong100@mucse.com>
+ <20250721113238.18615-3-dong100@mucse.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20250721113238.18615-3-dong100@mucse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-From: Ashish Kalra <ashish.kalra@amd.com>
+On 21/07/2025 12:32, Dong Yibo wrote:
+> Initialize n500/n210 chip bar resource map and
+> dma, eth, mbx ... info for future use.
+> 
+> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> ---
+>   drivers/net/ethernet/mucse/rnpgbe/Makefile    |   4 +-
+>   drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 138 ++++++++++++++++++
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 138 ++++++++++++++++++
+>   drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  27 ++++
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   |  68 ++++++++-
+>   5 files changed, 370 insertions(+), 5 deletions(-)
+>   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+>   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> 
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> index 0942e27f5913..42c359f459d9 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> @@ -5,5 +5,5 @@
+>   #
+>   
+>   obj-$(CONFIG_MGBE) += rnpgbe.o
+> -
+> -rnpgbe-objs := rnpgbe_main.o
+> +rnpgbe-objs := rnpgbe_main.o\
+> +	       rnpgbe_chip.o
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> index 224e395d6be3..2ae836fc8951 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> @@ -4,21 +4,156 @@
+>   #ifndef _RNPGBE_H
+>   #define _RNPGBE_H
+>   
+> +#include <linux/types.h>
+> +#include <linux/netdevice.h>
+> +
+> +extern const struct rnpgbe_info rnpgbe_n500_info;
+> +extern const struct rnpgbe_info rnpgbe_n210_info;
+> +extern const struct rnpgbe_info rnpgbe_n210L_info;
+> +
+>   enum rnpgbe_boards {
+>   	board_n500,
+>   	board_n210,
+>   	board_n210L,
+>   };
+>   
+> +enum rnpgbe_hw_type {
+> +	rnpgbe_hw_n500 = 0,
+> +	rnpgbe_hw_n210,
+> +	rnpgbe_hw_n210L,
+> +	rnpgbe_hw_unknow
+> +};
+> +
+> +struct mucse_dma_info {
+> +	u8 __iomem *dma_base_addr;
+> +	u8 __iomem *dma_ring_addr;
+> +	void *back;
+> +	u32 max_tx_queues;
+> +	u32 max_rx_queues;
+> +	u32 dma_version;
+> +};
+> +
+> +#define RNPGBE_MAX_MTA 128
+> +struct mucse_eth_info {
+> +	u8 __iomem *eth_base_addr;
+> +	void *back;
+> +	u32 mta_shadow[RNPGBE_MAX_MTA];
+> +	int mc_filter_type;
+> +	u32 mcft_size;
+> +	u32 vft_size;
+> +	u32 num_rar_entries;
+> +};
+> +
+> +struct mii_regs {
+> +	unsigned int addr; /* MII Address */
+> +	unsigned int data; /* MII Data */
+> +	unsigned int addr_shift; /* MII address shift */
+> +	unsigned int reg_shift; /* MII reg shift */
+> +	unsigned int addr_mask; /* MII address mask */
+> +	unsigned int reg_mask; /* MII reg mask */
+> +	unsigned int clk_csr_shift;
+> +	unsigned int clk_csr_mask;
+> +};
+> +
+> +struct mucse_mac_info {
+> +	u8 __iomem *mac_addr;
+> +	void *back;
+> +	struct mii_regs mii;
+> +	int phy_addr;
+> +	int clk_csr;
+> +};
+> +
+> +#define MAX_VF_NUM (8)
+> +
+> +struct mucse_mbx_info {
+> +	u32 timeout;
+> +	u32 usec_delay;
+> +	u32 v2p_mailbox;
+> +	u16 size;
+> +	u16 vf_req[MAX_VF_NUM];
+> +	u16 vf_ack[MAX_VF_NUM];
+> +	u16 fw_req;
+> +	u16 fw_ack;
+> +	/* lock for only one use mbx */
+> +	struct mutex lock;
+> +	bool irq_enabled;
+> +	int mbx_size;
+> +	int mbx_mem_size;
+> +#define MBX_FEATURE_NO_ZERO BIT(0)
+> +#define MBX_FEATURE_WRITE_DELAY BIT(1)
+> +	u32 mbx_feature;
+> +	/* fw <--> pf mbx */
+> +	u32 fw_pf_shm_base;
+> +	u32 pf2fw_mbox_ctrl;
+> +	u32 pf2fw_mbox_mask;
+> +	u32 fw_pf_mbox_mask;
+> +	u32 fw2pf_mbox_vec;
+> +	/* pf <--> vf mbx */
+> +	u32 pf_vf_shm_base;
+> +	u32 pf2vf_mbox_ctrl_base;
+> +	u32 pf_vf_mbox_mask_lo;
+> +	u32 pf_vf_mbox_mask_hi;
+> +	u32 pf2vf_mbox_vec_base;
+> +	u32 vf2pf_mbox_vec_base;
+> +	u32 fw_vf_share_ram;
+> +	int share_size;
+> +};
+> +
+> +struct mucse_hw {
+> +	void *back;
+> +	u8 pfvfnum;
+> +	u8 pfvfnum_system;
+> +	u8 __iomem *hw_addr;
+> +	u8 __iomem *ring_msix_base;
+> +	struct pci_dev *pdev;
+> +	u16 device_id;
+> +	u16 vendor_id;
+> +	u16 subsystem_device_id;
+> +	u16 subsystem_vendor_id;
+> +	enum rnpgbe_hw_type hw_type;
+> +	struct mucse_dma_info dma;
+> +	struct mucse_eth_info eth;
+> +	struct mucse_mac_info mac;
+> +	struct mucse_mbx_info mbx;
+> +#define M_NET_FEATURE_SG BIT(0)
+> +#define M_NET_FEATURE_TX_CHECKSUM BIT(1)
+> +#define M_NET_FEATURE_RX_CHECKSUM BIT(2)
+> +#define M_NET_FEATURE_TSO BIT(3)
+> +#define M_NET_FEATURE_TX_UDP_TUNNEL BIT(4)
+> +#define M_NET_FEATURE_VLAN_FILTER BIT(5)
+> +#define M_NET_FEATURE_VLAN_OFFLOAD BIT(6)
+> +#define M_NET_FEATURE_RX_NTUPLE_FILTER BIT(7)
+> +#define M_NET_FEATURE_TCAM BIT(8)
+> +#define M_NET_FEATURE_RX_HASH BIT(9)
+> +#define M_NET_FEATURE_RX_FCS BIT(10)
+> +#define M_NET_FEATURE_HW_TC BIT(11)
+> +#define M_NET_FEATURE_USO BIT(12)
+> +#define M_NET_FEATURE_STAG_FILTER BIT(13)
+> +#define M_NET_FEATURE_STAG_OFFLOAD BIT(14)
+> +#define M_NET_FEATURE_VF_FIXED BIT(15)
+> +#define M_VEB_VLAN_MASK_EN BIT(16)
+> +#define M_HW_FEATURE_EEE BIT(17)
+> +#define M_HW_SOFT_MASK_OTHER_IRQ BIT(18)
+> +	u32 feature_flags;
+> +	u16 usecstocount;
+> +};
+> +
+>   struct mucse {
+>   	struct net_device *netdev;
+>   	struct pci_dev *pdev;
+> +	struct mucse_hw hw;
+>   	/* board number */
+>   	u16 bd_number;
+>   
+>   	char name[60];
+>   };
+>   
+> +struct rnpgbe_info {
+> +	int total_queue_pair_cnts;
+> +	enum rnpgbe_hw_type hw_type;
+> +	void (*get_invariants)(struct mucse_hw *hw);
+> +};
+> +
+>   /* Device IDs */
+>   #ifndef PCI_VENDOR_ID_MUCSE
+>   #define PCI_VENDOR_ID_MUCSE 0x8848
+> @@ -30,4 +165,7 @@ struct mucse {
+>   #define PCI_DEVICE_ID_N210 0x8208
+>   #define PCI_DEVICE_ID_N210L 0x820a
+>   
+> +#define m_rd_reg(reg) readl(reg)
+> +#define m_wr_reg(reg, val) writel((val), reg)
+> +
+>   #endif /* _RNPGBE_H */
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> new file mode 100644
+> index 000000000000..38c094965db9
+> --- /dev/null
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> @@ -0,0 +1,138 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
+> +
+> +#include <linux/types.h>
+> +#include <linux/string.h>
+> +
+> +#include "rnpgbe.h"
+> +#include "rnpgbe_hw.h"
+> +
+> +/**
+> + * rnpgbe_get_invariants_n500 - setup for hw info
+> + * @hw: hw information structure
+> + *
+> + * rnpgbe_get_invariants_n500 initializes all private
+> + * structure, such as dma, eth, mac and mbx base on
+> + * hw->addr for n500
+> + **/
+> +static void rnpgbe_get_invariants_n500(struct mucse_hw *hw)
+> +{
+> +	struct mucse_dma_info *dma = &hw->dma;
+> +	struct mucse_eth_info *eth = &hw->eth;
+> +	struct mucse_mac_info *mac = &hw->mac;
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +
+> +	/* setup msix base */
+> +	hw->ring_msix_base = hw->hw_addr + 0x28700;
+> +	/* setup dma info */
+> +	dma->dma_base_addr = hw->hw_addr;
+> +	dma->dma_ring_addr = hw->hw_addr + RNPGBE_RING_BASE;
+> +	dma->max_tx_queues = RNPGBE_MAX_QUEUES;
+> +	dma->max_rx_queues = RNPGBE_MAX_QUEUES;
+> +	dma->back = hw;
+> +	/* setup eth info */
+> +	eth->eth_base_addr = hw->hw_addr + RNPGBE_ETH_BASE;
+> +	eth->back = hw;
+> +	eth->mc_filter_type = 0;
+> +	eth->mcft_size = RNPGBE_MC_TBL_SIZE;
+> +	eth->vft_size = RNPGBE_VFT_TBL_SIZE;
+> +	eth->num_rar_entries = RNPGBE_RAR_ENTRIES;
+> +	/* setup mac info */
+> +	mac->mac_addr = hw->hw_addr + RNPGBE_MAC_BASE;
+> +	mac->back = hw;
+> +	/* set mac->mii */
+> +	mac->mii.addr = RNPGBE_MII_ADDR;
+> +	mac->mii.data = RNPGBE_MII_DATA;
+> +	mac->mii.addr_shift = 11;
+> +	mac->mii.addr_mask = 0x0000F800;
+> +	mac->mii.reg_shift = 6;
+> +	mac->mii.reg_mask = 0x000007C0;
+> +	mac->mii.clk_csr_shift = 2;
+> +	mac->mii.clk_csr_mask = GENMASK(5, 2);
+> +	mac->clk_csr = 0x02; /* csr 25M */
+> +	/* hw fixed phy_addr */
+> +	mac->phy_addr = 0x11;
+> +
+> +	mbx->mbx_feature |= MBX_FEATURE_NO_ZERO;
+> +	/* mbx offset */
+> +	mbx->vf2pf_mbox_vec_base = 0x28900;
+> +	mbx->fw2pf_mbox_vec = 0x28b00;
+> +	mbx->pf_vf_shm_base = 0x29000;
+> +	mbx->mbx_mem_size = 64;
+> +	mbx->pf2vf_mbox_ctrl_base = 0x2a100;
+> +	mbx->pf_vf_mbox_mask_lo = 0x2a200;
+> +	mbx->pf_vf_mbox_mask_hi = 0;
+> +	mbx->fw_pf_shm_base = 0x2d000;
+> +	mbx->pf2fw_mbox_ctrl = 0x2e000;
+> +	mbx->fw_pf_mbox_mask = 0x2e200;
+> +	mbx->fw_vf_share_ram = 0x2b000;
+> +	mbx->share_size = 512;
+> +
+> +	/* setup net feature here */
+> +	hw->feature_flags |= M_NET_FEATURE_SG |
+> +			     M_NET_FEATURE_TX_CHECKSUM |
+> +			     M_NET_FEATURE_RX_CHECKSUM |
+> +			     M_NET_FEATURE_TSO |
+> +			     M_NET_FEATURE_VLAN_FILTER |
+> +			     M_NET_FEATURE_VLAN_OFFLOAD |
+> +			     M_NET_FEATURE_RX_NTUPLE_FILTER |
+> +			     M_NET_FEATURE_RX_HASH |
+> +			     M_NET_FEATURE_USO |
+> +			     M_NET_FEATURE_RX_FCS |
+> +			     M_NET_FEATURE_STAG_FILTER |
+> +			     M_NET_FEATURE_STAG_OFFLOAD;
+> +	/* start the default ahz, update later */
+> +	hw->usecstocount = 125;
+> +}
+> +
+> +/**
+> + * rnpgbe_get_invariants_n210 - setup for hw info
+> + * @hw: hw information structure
+> + *
+> + * rnpgbe_get_invariants_n210 initializes all private
+> + * structure, such as dma, eth, mac and mbx base on
+> + * hw->addr for n210
+> + **/
+> +static void rnpgbe_get_invariants_n210(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +	/* get invariants based from n500 */
+> +	rnpgbe_get_invariants_n500(hw);
 
-Ciphertext hiding prevents host accesses from reading the ciphertext of
-SNP guest private memory. Instead of reading ciphertext, the host reads
-will see constant default values (0xff).
+it's not a good pattern. if you have some configuration that is
+shared amoung devices, it's better to create *base() or *common()
+helper and call it from each specific initializer. BTW, why do you
+name these functions get_invariants*()? They don't get anything, but
+rather init/setup configuration values. It's better to rename it
+according to the function.
 
-The SEV ASID space is split into SEV and SEV-ES/SEV-SNP ASID ranges.
-Enabling ciphertext hiding further splits the SEV-ES/SEV-SNP ASID space
-into separate ASID ranges for SEV-ES and SEV-SNP guests.
+> +
+> +	/* update msix base */
+> +	hw->ring_msix_base = hw->hw_addr + 0x29000;
+> +	/* update mbx offset */
+> +	mbx->vf2pf_mbox_vec_base = 0x29200;
+> +	mbx->fw2pf_mbox_vec = 0x29400;
+> +	mbx->pf_vf_shm_base = 0x29900;
+> +	mbx->mbx_mem_size = 64;
+> +	mbx->pf2vf_mbox_ctrl_base = 0x2aa00;
+> +	mbx->pf_vf_mbox_mask_lo = 0x2ab00;
+> +	mbx->pf_vf_mbox_mask_hi = 0;
+> +	mbx->fw_pf_shm_base = 0x2d900;
+> +	mbx->pf2fw_mbox_ctrl = 0x2e900;
+> +	mbx->fw_pf_mbox_mask = 0x2eb00;
+> +	mbx->fw_vf_share_ram = 0x2b900;
+> +	mbx->share_size = 512;
+> +	/* update hw feature */
+> +	hw->feature_flags |= M_HW_FEATURE_EEE;
+> +	hw->usecstocount = 62;
+> +}
+> +
+> +const struct rnpgbe_info rnpgbe_n500_info = {
+> +	.total_queue_pair_cnts = RNPGBE_MAX_QUEUES,
+> +	.hw_type = rnpgbe_hw_n500,
+> +	.get_invariants = &rnpgbe_get_invariants_n500,
+> +};
+> +
+> +const struct rnpgbe_info rnpgbe_n210_info = {
+> +	.total_queue_pair_cnts = RNPGBE_MAX_QUEUES,
+> +	.hw_type = rnpgbe_hw_n210,
+> +	.get_invariants = &rnpgbe_get_invariants_n210,
+> +};
+> +
+> +const struct rnpgbe_info rnpgbe_n210L_info = {
+> +	.total_queue_pair_cnts = RNPGBE_MAX_QUEUES,
+> +	.hw_type = rnpgbe_hw_n210L,
+> +	.get_invariants = &rnpgbe_get_invariants_n210,
+> +};
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> new file mode 100644
+> index 000000000000..2c7372a5e88d
+> --- /dev/null
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
+> +
+> +#ifndef _RNPGBE_HW_H
+> +#define _RNPGBE_HW_H
+> +/*                     BAR                   */
+> +/* ----------------------------------------- */
+> +/*      module  | size  |  start   |    end  */
+> +/*      DMA     | 32KB  | 0_0000H  | 0_7FFFH */
+> +/*      ETH     | 64KB  | 1_0000H  | 1_FFFFH */
+> +/*      MAC     | 32KB  | 2_0000H  | 2_7FFFH */
+> +/*      MSIX    | 32KB  | 2_8000H  | 2_FFFFH */
+> +
+> +#define RNPGBE_RING_BASE (0x1000)
+> +#define RNPGBE_MAC_BASE (0x20000)
+> +#define RNPGBE_ETH_BASE (0x10000)
+> +/* chip resourse */
+> +#define RNPGBE_MAX_QUEUES (8)
+> +/* multicast control table */
+> +#define RNPGBE_MC_TBL_SIZE (128)
+> +/* vlan filter table */
+> +#define RNPGBE_VFT_TBL_SIZE (128)
+> +#define RNPGBE_RAR_ENTRIES (32)
 
-Add new module parameter to the KVM module to enable ciphertext hiding
-support and a user configurable system-wide maximum SNP ASID value. If
-the module parameter value is "max" then the complete SEV-ES/SEV-SNP
-ASID space is allocated to SEV-SNP guests.
+no need for extra parentheses
 
-Suggested-by: Sean Christopherson <seanjc@google.com>
-Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
-Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
----
- .../admin-guide/kernel-parameters.txt         | 18 ++++++
- arch/x86/kvm/svm/sev.c                        | 60 ++++++++++++++++++-
- 2 files changed, 77 insertions(+), 1 deletion(-)
+> +
+> +#define RNPGBE_MII_ADDR 0x00000010 /* MII Address */
+> +#define RNPGBE_MII_DATA 0x00000014 /* MII Data */
+> +#endif /* _RNPGBE_HW_H */
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> index 13b49875006b..08f773199e9b 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> @@ -11,6 +11,11 @@
+>   #include "rnpgbe.h"
+>   
+>   char rnpgbe_driver_name[] = "rnpgbe";
+> +static const struct rnpgbe_info *rnpgbe_info_tbl[] = {
+> +	[board_n500] = &rnpgbe_n500_info,
+> +	[board_n210] = &rnpgbe_n210_info,
+> +	[board_n210L] = &rnpgbe_n210L_info,
+> +};
+>   
+>   /* rnpgbe_pci_tbl - PCI Device ID Table
+>    *
+> @@ -33,6 +38,7 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
+>   /**
+>    * rnpgbe_add_adapter - add netdev for this pci_dev
+>    * @pdev: PCI device information structure
+> + * @ii: chip info structure
+>    *
+>    * rnpgbe_add_adapter initializes a netdev for this pci_dev
+>    * structure. Initializes Bar map, private structure, and a
+> @@ -40,16 +46,24 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
+>    *
+>    * @return: 0 on success, negative on failure
+>    **/
+> -static int rnpgbe_add_adapter(struct pci_dev *pdev)
+> +static int rnpgbe_add_adapter(struct pci_dev *pdev,
+> +			      const struct rnpgbe_info *ii)
+>   {
+>   	struct mucse *mucse = NULL;
+> +	struct mucse_hw *hw = NULL;
+> +	u8 __iomem *hw_addr = NULL;
+>   	struct net_device *netdev;
+>   	static int bd_number;
+> +	u32 dma_version = 0;
+> +	int err = 0;
+> +	u32 queues;
+>   
+> -	netdev = alloc_etherdev_mq(sizeof(struct mucse), 1);
+> +	queues = ii->total_queue_pair_cnts;
+> +	netdev = alloc_etherdev_mq(sizeof(struct mucse), queues);
+>   	if (!netdev)
+>   		return -ENOMEM;
+>   
+> +	SET_NETDEV_DEV(netdev, &pdev->dev);
+>   	mucse = netdev_priv(netdev);
+>   	mucse->netdev = netdev;
+>   	mucse->pdev = pdev;
+> @@ -58,7 +72,54 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev)
+>   		 rnpgbe_driver_name, mucse->bd_number);
+>   	pci_set_drvdata(pdev, mucse);
+>   
+> +	hw = &mucse->hw;
+> +	hw->back = mucse;
+> +	hw->hw_type = ii->hw_type;
+> +
+> +	switch (hw->hw_type) {
+> +	case rnpgbe_hw_n500:
+> +		/* n500 use bar2 */
+> +		hw_addr = devm_ioremap(&pdev->dev,
+> +				       pci_resource_start(pdev, 2),
+> +				       pci_resource_len(pdev, 2));
+> +		if (!hw_addr) {
+> +			dev_err(&pdev->dev, "map bar2 failed!\n");
+> +			return -EIO;
+> +		}
+> +
+> +		/* get dma version */
+> +		dma_version = m_rd_reg(hw_addr);
+> +		break;
+> +	case rnpgbe_hw_n210:
+> +	case rnpgbe_hw_n210L:
+> +		/* check bar0 to load firmware */
+> +		if (pci_resource_len(pdev, 0) == 0x100000)
+> +			return -EIO;
+> +		/* n210 use bar2 */
+> +		hw_addr = devm_ioremap(&pdev->dev,
+> +				       pci_resource_start(pdev, 2),
+> +				       pci_resource_len(pdev, 2));
+> +		if (!hw_addr) {
+> +			dev_err(&pdev->dev, "map bar2 failed!\n");
+> +			return -EIO;
+> +		}
+> +
+> +		/* get dma version */
+> +		dma_version = m_rd_reg(hw_addr);
+> +		break;
+> +	default:
+> +		err = -EIO;
+> +		goto err_free_net;
+> +	}
+> +	hw->hw_addr = hw_addr;
+> +	hw->dma.dma_version = dma_version;
+> +	ii->get_invariants(hw);
+> +
+>   	return 0;
+> +
+> +err_free_net:
+> +	free_netdev(netdev);
+> +	return err;
+>   }
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index eb2fab9bd0dc..379350d7ae19 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2942,6 +2942,24 @@
- 			(enabled). Disable by KVM if hardware lacks support
- 			for NPT.
- 
-+	kvm-amd.ciphertext_hiding_asids=
-+			[KVM,AMD] Ciphertext hiding prevents host accesses from reading
-+			the ciphertext of SNP guest private memory. Instead of reading
-+			ciphertext, the host will see constant default values (0xff).
-+			The SEV ASID space is split into SEV and joint SEV-ES and SEV-SNP
-+			ASID space. Ciphertext hiding further partitions the joint
-+			SEV-ES/SEV-SNP ASID space into separate SEV-ES and SEV-SNP ASID
-+			ranges with the SEV-SNP ASID range starting at 1. For SEV-ES/
-+			SEV-SNP guests the maximum ASID available is MIN_SEV_ASID - 1
-+			where MIN_SEV_ASID value is discovered by CPUID Fn8000_001F[EDX].
-+
-+			Format: { <unsigned int> | "max" }
-+			A non-zero value enables SEV-SNP ciphertext hiding feature and sets
-+			the ASID range available for SEV-SNP guests.
-+			A Value of "max" assigns all ASIDs available in the joint SEV-ES
-+			and SEV-SNP ASID range to SNP guests, effectively disabling
-+			SEV-ES.
-+
- 	kvm-arm.mode=
- 			[KVM,ARM,EARLY] Select one of KVM/arm64's modes of
- 			operation.
-diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
-index b5f4e69ff579..7ac0f0f25e68 100644
---- a/arch/x86/kvm/svm/sev.c
-+++ b/arch/x86/kvm/svm/sev.c
-@@ -59,6 +59,11 @@ static bool sev_es_debug_swap_enabled = true;
- module_param_named(debug_swap, sev_es_debug_swap_enabled, bool, 0444);
- static u64 sev_supported_vmsa_features;
- 
-+static char ciphertext_hiding_asids[16];
-+module_param_string(ciphertext_hiding_asids, ciphertext_hiding_asids,
-+		    sizeof(ciphertext_hiding_asids), 0444);
-+MODULE_PARM_DESC(ciphertext_hiding_asids, "  Enable ciphertext hiding for SEV-SNP guests and specify the number of ASIDs to use ('max' to utilize all available SEV-SNP ASIDs");
-+
- #define AP_RESET_HOLD_NONE		0
- #define AP_RESET_HOLD_NAE_EVENT		1
- #define AP_RESET_HOLD_MSR_PROTO		2
-@@ -201,6 +206,9 @@ static int sev_asid_new(struct kvm_sev_info *sev, unsigned long vm_type)
- 	/*
- 	 * The min ASID can end up larger than the max if basic SEV support is
- 	 * effectively disabled by disallowing use of ASIDs for SEV guests.
-+	 * Similarly for SEV-ES guests the min ASID can end up larger than the
-+	 * max when ciphertext hiding is enabled, effectively disabling SEV-ES
-+	 * support.
- 	 */
- 	if (min_asid > max_asid)
- 		return -ENOTTY;
-@@ -2269,6 +2277,7 @@ static int sev_gmem_post_populate(struct kvm *kvm, gfn_t gfn_start, kvm_pfn_t pf
- 				ret = -EFAULT;
- 				goto err;
- 			}
-+
- 			kunmap_local(vaddr);
- 		}
- 
-@@ -2959,6 +2968,46 @@ static bool is_sev_snp_initialized(void)
- 	return initialized;
- }
- 
-+static bool check_and_enable_sev_snp_ciphertext_hiding(void)
-+{
-+	unsigned int ciphertext_hiding_asid_nr = 0;
-+
-+	if (!ciphertext_hiding_asids[0])
-+		return false;
-+
-+	if (!sev_is_snp_ciphertext_hiding_supported()) {
-+		pr_warn("Module parameter ciphertext_hiding_asids specified but ciphertext hiding not supported\n");
-+		return false;
-+	}
-+
-+	if (isdigit(ciphertext_hiding_asids[0])) {
-+		if (kstrtoint(ciphertext_hiding_asids, 10, &ciphertext_hiding_asid_nr))
-+			goto invalid_parameter;
-+
-+		/* Do sanity check on user-defined ciphertext_hiding_asids */
-+		if (ciphertext_hiding_asid_nr >= min_sev_asid) {
-+			pr_warn("Module parameter ciphertext_hiding_asids (%u) exceeds or equals minimum SEV ASID (%u)\n",
-+				ciphertext_hiding_asid_nr, min_sev_asid);
-+			return false;
-+		}
-+	} else if (!strcmp(ciphertext_hiding_asids, "max")) {
-+		ciphertext_hiding_asid_nr = min_sev_asid - 1;
-+	}
-+
-+	if (ciphertext_hiding_asid_nr) {
-+		max_snp_asid = ciphertext_hiding_asid_nr;
-+		min_sev_es_asid = max_snp_asid + 1;
-+		pr_info("SEV-SNP ciphertext hiding enabled\n");
-+
-+		return true;
-+	}
-+
-+invalid_parameter:
-+	pr_warn("Module parameter ciphertext_hiding_asids (%s) invalid\n",
-+		ciphertext_hiding_asids);
-+	return false;
-+}
-+
- void __init sev_hardware_setup(void)
- {
- 	unsigned int eax, ebx, ecx, edx, sev_asid_count, sev_es_asid_count;
-@@ -3068,6 +3117,13 @@ void __init sev_hardware_setup(void)
- out:
- 	if (sev_enabled) {
- 		init_args.probe = true;
-+		/*
-+		 * The ciphertext hiding feature partitions the joint SEV-ES/SEV-SNP
-+		 * ASID range into separate SEV-ES and SEV-SNP ASID ranges with
-+		 * the SEV-SNP ASID starting at 1.
-+		 */
-+		if (check_and_enable_sev_snp_ciphertext_hiding())
-+			init_args.max_snp_asid = max_snp_asid;
- 		if (sev_platform_init(&init_args))
- 			sev_supported = sev_es_supported = sev_snp_supported = false;
- 		else if (sev_snp_supported)
-@@ -3082,7 +3138,9 @@ void __init sev_hardware_setup(void)
- 			min_sev_asid, max_sev_asid);
- 	if (boot_cpu_has(X86_FEATURE_SEV_ES))
- 		pr_info("SEV-ES %s (ASIDs %u - %u)\n",
--			str_enabled_disabled(sev_es_supported),
-+			sev_es_supported ? min_sev_es_asid <= max_sev_es_asid ? "enabled" :
-+										"unusable" :
-+										"disabled",
- 			min_sev_es_asid, max_sev_es_asid);
- 	if (boot_cpu_has(X86_FEATURE_SEV_SNP))
- 		pr_info("SEV-SNP %s (ASIDs %u - %u)\n",
--- 
-2.34.1
+You have err_free_net label, which is used only in really impossible
+case of unknown device, while other cases can return directly and
+memleak netdev...
+
+
+>   
+>   /**
+> @@ -74,6 +135,7 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev)
+>    **/
+>   static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>   {
+> +	const struct rnpgbe_info *ii = rnpgbe_info_tbl[id->driver_data];
+>   	int err;
+>   
+>   	err = pci_enable_device_mem(pdev);
+> @@ -97,7 +159,7 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>   
+>   	pci_set_master(pdev);
+>   	pci_save_state(pdev);
+> -	err = rnpgbe_add_adapter(pdev);
+> +	err = rnpgbe_add_adapter(pdev, ii);
+>   	if (err)
+>   		goto err_regions;
+>   
 
