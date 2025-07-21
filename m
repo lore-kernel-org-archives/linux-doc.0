@@ -1,509 +1,193 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69342877CF
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 09:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE15F27462;
+	Mon, 21 Jul 2025 09:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753088991; cv=none; b=Pf1CcPPbyuzbskyAmWsPfwzCA8fp+GVQb21iEFpyBrNmN5uGUWbTUD0AC1B6KQQj5qTZbFSX+his8lp1iZHBoI5T2KMyGqgYnR2sHu0xv2FgMORRDOQkRcYhZsnMohIMtuILLTPe7QhtgKYxloLM5Inw0NlVyVGcDNjJmeWsgEE=
+	t=1753089486; cv=none; b=H+Fv+ljPLx0FSzgTMNgG1lZrkIJXtVUzk5Kf2IxFVQ8eB4okiaj2pd58DfpzYgl4h1x25afmeJ8CC1h4m9fYJGTRQG5tT8w2UKuqUlSWXCkpBN4k7s3gY4nsvbPWYYc5gOebOp4kot8YLPUFrP+eaTEVV1GkigjDOnmB4li2TqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753088991; c=relaxed/simple;
-	bh=Wa3FNnx2OnNWPflO9+BmCciJrxToLZxmHGGLzyuMWzg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KkAtWBvFfDgzJKLTPdrMCoBwPONKtsiKhIhiEdrjIy5a5SYsVwiapiQSAx3moMdmUTAHhZwWMphRry4IbttPz9E8zklaMI4aIB0H5cGD7hHgmt3rqu9I9B4LQA7ak9JBQkIofZSvyyi0DTFFHlFFqgT2oV6J/gAqWLRGQ5do7pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eWPcq+ZY; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eWPcq+ZY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753088988;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7u6caywsLvYLuVxkpsdUT2qNKGKBBqyOD5l/+WUF5hI=;
-	b=eWPcq+ZY7qmSVJAcQvy65uhjFr/3BgiF3pqCpFrYiEZ72u6TjsQOiIGB8wgh1KnIYlOw4C
-	KXbSonPyyNKhtSypglJnuTLs0pUbXVV56hGrTJvNxDdf7Vw2nx95r32N3/NMNsT1VEMMhc
-	RMS2GALR2FWPD+qt6srSO463eU35z04=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-146-mCkDC7V5MOu1j7q_lrNHDA-1; Mon, 21 Jul 2025 05:09:46 -0400
-X-MC-Unique: mCkDC7V5MOu1j7q_lrNHDA-1
-X-Mimecast-MFC-AGG-ID: mCkDC7V5MOu1j7q_lrNHDA_1753088985
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4538f375e86so37025325e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 02:09:46 -0700 (PDT)
+	s=arc-20240116; t=1753089486; c=relaxed/simple;
+	bh=Q+DqUPOC/vJz1agwFs9+r+mEvbZAoSgyOpkBS/8JrKg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RBylqYBYgChyCZ7P4Lu4U9zQMy/ghCCdVWC2VPEyKSOWU3HQ1qYj9UqaUGaW283B2EQKdb5lODwQ1fazNYOU9vQWE1PpwJkSnoE6f1YfRNgOwNSnuiyvonVUg19Y3Gl7ZbgSv54tOBsTV6r5RUhZXIz+s+naJbSlWBGf+blOR6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-612bc52ac2bso6482085a12.2;
+        Mon, 21 Jul 2025 02:18:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753088985; x=1753693785;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1753089482; x=1753694282;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7u6caywsLvYLuVxkpsdUT2qNKGKBBqyOD5l/+WUF5hI=;
-        b=pih6m3iGuBgxl6XSt65ftJOZqgO6fzxwbskR/J4uO1nb45d9ifLy/Pn+HlMFBX/OEJ
-         B65WROb+wPol7pioUgNrY/VHfG07BCXcg6pg2//M7OcBXl4FRAbvmqN7BRfPO2/74bQd
-         Lzj8zNSjBlsrd2ObEOQntk4q0vo5H3I+1y71DcwKeT/SdML8f+NwiYVlvR0rYBCFFRNk
-         XLnZFzlMd10U4K3LlQ0HiTviLdtyy6ChbCIbvq9I81VLvPZ0hX/HcfnTpkOgig6pqLQn
-         xVbTBPaHeii/W2Lx6IkzptNZEyfHBFM6RjfIrIHUkQavyzuAKsGEnikyYydnqWr0EyjM
-         cdeA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUtuDQMKoSPJNX5oUuj8JD86/0IRpR0QTMuhMIm2eelbbHNUM8uYZ9J8BnGohhNsRCqhUyn2z6IoE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzfr083UCybwJsrU8n77JybRSqLkPJCvQlzGfJaxxRehZYqz9uv
-	m7B5dterDu54ChIlcrDzDFhj+9S/7nldPEDneTmSjpYnE6ki95EQIcbHZ19k3H337YN5Z81XKal
-	qHX2jY085mv/gfPGG/XOVlKluCtkI5aajTl91ltSAXR9mGgl4QDgq5DiTEogv8A==
-X-Gm-Gg: ASbGncsFZw1js228Bp+coVENTO6Az8cPXjd99JAZs9cIDhOTCmxz5d/dtiBCsGhZQ3o
-	58zakHK0VxITQKjpLRKyEV7jO09qhbFFDJdttSx5a1eIvCV8+uzvTtAdT/d9w/uX/2y+6se7JZF
-	58oaNsPRM3r8OqPdvQ3qRChk37zl8Ls3Tf6agSxytYdpWSnAHwuQD8zcM91TrCKt8/dRodnqhgk
-	PQbWfL5PoR9KbieNXB/ruvypssU0J5xigQhSIeNa63nS0lTpgayQCd/+Zs7KY8PZB4ujZ2bOKjc
-	kD39VX/SpVncAuEqvwTDDva8pZt+CHCvIYCYrfj0VbNzlyLP8C2699Pgaac/1B4mcyr7ZpXOgDY
-	0WV2UxNWWOmevlmPMgNxoa+k=
-X-Received: by 2002:a05:600c:310a:b0:456:58e:318e with SMTP id 5b1f17b1804b1-4562e29c660mr198562005e9.30.1753088985020;
-        Mon, 21 Jul 2025 02:09:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGe98w4qflWkYM9Zg6Fz1StAofoZoYSsF8y704An1WPPyMZMujFAEA1iHOUaqnCNO3tWo5ofg==
-X-Received: by 2002:a05:600c:310a:b0:456:58e:318e with SMTP id 5b1f17b1804b1-4562e29c660mr198561375e9.30.1753088984354;
-        Mon, 21 Jul 2025 02:09:44 -0700 (PDT)
-Received: from localhost (p200300d82f4cdf00a9f5b75b033ca17f.dip0.t-ipconnect.de. [2003:d8:2f4c:df00:a9f5:b75b:33c:a17f])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b61ca4d807sm9898705f8f.73.2025.07.21.02.09.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 02:09:43 -0700 (PDT)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	David Hildenbrand <david@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Usama Arif <usamaarif642@gmail.com>,
-	SeongJae Park <sj@kernel.org>,
-	Jann Horn <jannh@google.com>,
-	Yafang Shao <laoar.shao@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH POC] prctl: extend PR_SET_THP_DISABLE to optionally exclude VM_HUGEPAGE
-Date: Mon, 21 Jul 2025 11:09:42 +0200
-Message-ID: <20250721090942.274650-1-david@redhat.com>
-X-Mailer: git-send-email 2.50.1
+        bh=jTeHDjGkhFkvg/YRWgLqjcyb9gjsvev3mCT5Vhm+++g=;
+        b=L6Mip+PFrhPoMr09zNzhrP3MV0ziYEEf/DBY3mNKrZt8GPZep2qhSspy5PNSxWyTUt
+         nYvpNc4PNsNDT9IaDZ9alt0mYU9nAZMNbrqduo62sD/gXPqOEj4PPi16PXw2k+x9L4Mn
+         FRJH4RD6eOF2T6OtTCL2nf1jEU9RjYyrjSb6idcYx9gfs5yWo6bANt6orxsUcU/9nZtN
+         zprBOfgULWpLVJvi8RmZ7JF/IHTcOqk+vfX6EVOtHD2n8LPGPcgNsw0ml9ESSTW5RgjR
+         DegzWMusGqOVwvTzmlqoV3abKoE8aYodOXShuD6ewo0uJOqsbYl/BuGq+wPtD9EGzVR/
+         i2KA==
+X-Forwarded-Encrypted: i=1; AJvYcCUC+DvFDJnL4t8GTaXQAuHjhAdqX/BpZw0ezhUM7e0fnoBXRw5nIwgMBNtai0j5twCQR4uJFGvyNhxKlDY=@vger.kernel.org, AJvYcCVgk+sG0kkd6ec14MKjMmPaicM2zUxWYLf9X50rXIvttayCoIRWM9mK9GUlxElw9dZ3SI0gYAz6ldzGKnnx@vger.kernel.org, AJvYcCXloCWA++jcbr9B1PSt4ET4fMOVygw/1DxCLELhAnA4Tut/p9bG3+1xIHJH1aaWn2kH9gYn3H/lKpw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1OZlYAHZPBL0dfzIX2JtsEcJCM/93TNaCFoSScBh2gbZy8RtX
+	6Fp2+MGhAST7qWE/V+FFIQMKEsjZpNk22pSlYPSiByqbuL0hUAltrgMv
+X-Gm-Gg: ASbGnctwQSl03sNNIfCZC5Qqpse6mQGmkYyvWgcEyPzCA1jg+PGOLHxsrYbXPcmxNpk
+	lVuVUy5BiLSzIvkgWsCffptFHwM+zKweDgHmd/o2gMmt1TZQ3cJzEALwjjcTVoHO0VgP2IfVYE1
+	tqKF+S9pwDRv3npRJ0z0sybr2t6r85SEfzk7x6FFaqVkLyJaveADGwtYFGZw0wwURBoYyV6CzP0
+	ul9hb2j0fdiIUN/prUG36a9QtUIIqh2rsMdU6Qn4AboFkOYLffltoczt51K+xXBTAXVyyx0esSt
+	M+F+iXlPHhoJaS1pRKZUYQebJ5wQSkBunY4ANgQmjczm6iTzROfBRGVZ109eBZYx77yJlR8i9hJ
+	YxALd+U66ixYGYLmPcKKf3i+HwPW67hIcrlUMx7KHy2NR6rWpEkBde9DDRt5pjJ4wQFU=
+X-Google-Smtp-Source: AGHT+IHl+0nahXzPJ+TOdKgEbWmzdgqogdIzkQS4hORjMP1a1LTh3JgaQ8eJnMZ77b9c8piYcC6LIQ==
+X-Received: by 2002:a17:906:9fc9:b0:ae3:5e2d:a8bf with SMTP id a640c23a62f3a-ae9cddd7bb8mr1956533166b.14.1753089481637;
+        Mon, 21 Jul 2025 02:18:01 -0700 (PDT)
+Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca2efc1sm643125266b.83.2025.07.21.02.17.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Jul 2025 02:18:01 -0700 (PDT)
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: [PATCH v9 00/10] New DRM accel driver for Rockchip's RKNN NPU
+Date: Mon, 21 Jul 2025 11:17:27 +0200
+Message-Id: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKcFfmgC/3XR3UrEMBAF4FdZcm0kk59J65XvIV6kk4kbxHZpa
+ 1GXvrvpgrSV7uUZyMeZzFUM3GcexNPpKnqe8pC7toT64SToHNo3ljmWLLTSViFoiRKU7Dt651H
+ WBjByIrDkRXlx6Tnlr5v28lryOQ9j13/f8AmW6bEzgVRSoWJbMQft1PPYffDnlH+6oXtseRSLN
+ uk/wSmt3V7QRYg2NpTC0geOBbMKDnAvmCL4Mg5UFz02x4LdCvVesEsHjClhY0kFPhbcRtBqL7g
+ iQEU1BZWoMXQs4CqgsnsBi6CND+RdjI2708FvhX//4JctCJASY2J7R6hWwYPZC1UR0KZgABzXc
+ HDNeZ5/AXSl78d6AgAA
+X-Change-ID: 20240612-6-10-rocket-9316defc14c7
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>, 
+ Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, Robert Foss <rfoss@kernel.org>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 
-People want to make use of more THPs, for example, moving from
-THP=never to THP=madvise, or from THP=madvise to THP=never.
+This series adds a new driver for the NPU that Rockchip includes in its
+newer SoCs, developed by them on the NVDLA base.
 
-While this is great news for every THP desperately waiting to get
-allocated out there, apparently there are some workloads that require a
-bit of care during that transition: once problems are detected, these
-workloads should be started with the old behavior, without making all
-other workloads on the system go back to the old behavior as well.
+In its current form, it supports the specific NPU in the RK3588 SoC.
 
-In essence, the following scenarios are imaginable:
+The userspace driver is part of Mesa and an initial draft can be found at:
 
-(1) Switch from THP=none to THP=madvise or THP=always, but keep the old
-    behavior (no THP) for selected workloads.
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
 
-(2) Stay at THP=none, but have "madvise" or "always" behavior for
-    selected workloads.
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+---
+Changes in v9:
+- Rename the DT reference for the IOMMU for core 0
+- Link to v8: https://lore.kernel.org/r/20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net
 
-(3) Switch from THP=madvise to THP=always, but keep the old behavior
-    (THP only when advised) for selected workloads.
+Changes in v8:
+- Kconfig improvements
+- Removed notion of top core, all cores are equivalent now
+- Explicitly allocate DMA addresses
+- Sync BOs always in both directions
+- UAPI improvements
+- Simplified job scheduling
+- Misc. style improvements
+- Link to v7: https://lore.kernel.org/r/20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net
 
-(4) Stay at THP=madvise, but have "always" behavior for selected
-    workloads.
+Changes in v7:
+- Actually enable process isolation by allocating its own IOMMU domain
+  to each DRM client.
+- Link to v6: https://lore.kernel.org/r/20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net
 
-In essence, (2) can be emulated through (1), by setting THP!=none while
-disabling THPs for all processes that don't want THPs. It requires
-configuring all workloads, but that is a user-space problem to sort out.
+Changes in v6:
+- Make all cores depend on pclk and npu clocks
+- Fix BO sync direction logic
+- Misc. cleanups
+- Link to v5: https://lore.kernel.org/r/20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net
 
-(4) can be emulated through (3) in a similar way.
+Changes in v5:
+- Use bulk clk API
+- Rename bindings file
+- Syntax improvement to bindings
+- Link to v4: https://lore.kernel.org/r/20250519-6-10-rocket-v4-0-d6dff6b4c0ae@tomeuvizoso.net
 
-Back when (1) was relevant in the past, as people started enabling THPs,
-we added PR_SET_THP_DISABLE, so relevant workloads that were not ready
-yet (i.e., used by Redis) were able to just disable THPs completely. Redis
-still implements the option to use this interface to disable THPs
-completely.
+Changes in v4:
+- Several fixes to DT bindings.
+- Link to v3: https://lore.kernel.org/r/20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net
 
-With PR_SET_THP_DISABLE, we added a way to force-disable THPs for a
-workload -- a process, including fork+exec'ed process hierarchy.
-That essentially made us support (1): simply disable THPs for all workloads
-that are not ready for THPs yet, while still enabling THPs system-wide.
+Changes in v3:
+- Reference in the device tree only the register blocks that are
+  actually used.
+- Several style and robustness fixes suggested in the mailing list.
+- Added patches from Nicolas Frattaroli that add support to the NPU for
+  the Rock 5B board.
+- Link to v2: https://lore.kernel.org/r/20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net
 
-The quest for handling (3) and (4) started, but current approaches
-(completely new prctl, options to set other policies per processm,
- alternatives to prctl -- mctrl, cgroup handling) don't look particularly
-promising. Likely, the future will use bpf or something similar to
-implement better policies, in particular to also make better decisions
-about THP sizes to use, but this will certainly take a while as that work
-just started.
-
-Long story short: a simple enable/disable is not really suitable for the
-future, so we're not willing to add completely new toggles.
-
-While we could emulate (3)+(4) through (1)+(2) by simply disabling THPs
-completely for these processes, this scares many THPs in our system
-because they could no longer get allocated where they used to be allocated
-for: regions flagged as VM_HUGEPAGE. Apparently, that imposes a
-problem for relevant workloads, because "not THPs" is certainly worse
-than "THPs only when advised".
-
-Could we simply relax PR_SET_THP_DISABLE, to "disable THPs unless not
-explicitly advised by the app through MAD_HUGEPAGE"? *maybe*, but this
-would change the documented semantics quite a bit, and the versatility
-to use it for debugging purposes, so I am not 100% sure that is what we
-want -- although it would certainly be much easier.
-
-So instead, as an easy way forward for (3) and (4), an option to
-make PR_SET_THP_DISABLE disable *less* THPs for a process.
-
-In essence, this patch:
-
-(A) Adds PR_THP_DISABLE_EXCEPT_ADVISED, to be used as a flag in arg3
-    of prctl(PR_SET_THP_DISABLE) when disabling THPs (arg2 != 0).
-
-    For now, arg3 was not allowed to be set (-EINVAL). Now it holds
-    flags.
-
-(B) Makes prctl(PR_GET_THP_DISABLE) return 3 if
-    PR_THP_DISABLE_EXCEPT_ADVISED was set while disabling.
-
-    For now, it would return 1 if THPs were disabled completely. Now
-    it essentially returns the set flags as well.
-
-(C) Renames MMF_DISABLE_THP to MMF_DISABLE_THP_COMPLETELY, to express
-    the semantics clearly.
-
-    Fortunately, there are only two instances outside of prctl() code.
-
-(D) Adds MMF_DISABLE_THP_EXCEPT_ADVISED to express "no THP except for VMAs
-    with VM_HUGEPAGE" -- essentially "thp=madvise" behavior
-
-    Fortunately, we only have to extend vma_thp_disabled().
-
-(E) Indicates "THP_enabled: 0" in /proc/pid/status only if THPs are not
-    disabled completely
-
-    Only indicating that THPs are disabled when they are really disabled
-    completely, not only partially.
-
-The documented semantics in the man page for PR_SET_THP_DISABLE
-"is inherited by a child created via fork(2) and is preserved across
-execve(2)" is maintained. This behavior, for example, allows for
-disabling THPs for a workload through the launching process (e.g.,
-systemd where we fork() a helper process to then exec()).
-
-There is currently not way to prevent that a process will not issue
-PR_SET_THP_DISABLE itself to re-enable THP. We could add a "seal" option
-to PR_SET_THP_DISABLE through another flag if ever required. The known
-users (such as redis) really use PR_SET_THP_DISABLE to disable THPs, so
-that is not added for now.
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Zi Yan <ziy@nvidia.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: Nico Pache <npache@redhat.com>
-Cc: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Dev Jain <dev.jain@arm.com>
-Cc: Barry Song <baohua@kernel.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Usama Arif <usamaarif642@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>
-Cc: Jann Horn <jannh@google.com>
-Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
-Cc: Yafang Shao <laoar.shao@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+Changes in v2:
+- Drop patch adding the rk3588 compatible to rockchip-iommu (Sebastian Reichel)
+- Drop patch adding support for multiple power domains to rockchip-iommu (Sebastian Reichel)
+- Link to v1: https://lore.kernel.org/r/20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net
 
 ---
+Nicolas Frattaroli (2):
+      arm64: dts: rockchip: add pd_npu label for RK3588 power domains
+      arm64: dts: rockchip: enable NPU on ROCK 5B
 
-At first, I thought of "why not simply relax PR_SET_THP_DISABLE", but I
-think there might be real use cases where we want to disable any THPs --
-in particular also around debugging THP-related problems, and
-"THP=never" not meaning ... "never" anymore. PR_SET_THP_DISABLE will
-also block MADV_COLLAPSE, which can be very helpful. Of course, I thought
-of having a system-wide config to change PR_SET_THP_DISABLE behavior, but
-I just don't like the semantics.
+Tomeu Vizoso (8):
+      accel/rocket: Add registers header
+      accel/rocket: Add a new driver for Rockchip's NPU
+      accel/rocket: Add IOCTL for BO creation
+      accel/rocket: Add job submission IOCTL
+      accel/rocket: Add IOCTLs for synchronizing memory accesses
+      dt-bindings: npu: rockchip,rknn: Add bindings
+      arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588-base
+      arm64: dts: rockchip: Enable the NPU on quartzpro64
 
-"prctl: allow overriding system THP policy to always"[1] proposed
-"overriding policies to always", which is just the wrong way around: we
-should not add mechanisms to "enable more" when we already have an
-interface/mechanism to "disable" them (PR_SET_THP_DISABLE). It all gets
-weird otherwise.
-
-"[PATCH 0/6] prctl: introduce PR_SET/GET_THP_POLICY"[2] proposed
-setting the default of the VM_HUGEPAGE, which is similarly the wrong way
-around I think now.
-
-The proposals by Lorenzo to extend process_madvise()[3] and mctrl()[4]
-similarly were around the "default for VM_HUGEPAGE" idea, but after the
-discussion, I think we should better leave VM_HUGEPAGE untouched.
-
-Happy to hear naming suggestions for "PR_THP_DISABLE_EXCEPT_ADVISED" where
-we essentially want to say "leave advised regions alone" -- "keep THP
-enabled for advised regions",
-
-The only thing I really dislike about this is using another MMF_* flag,
-but well, no way around it -- and seems like we could easily support
-more than 32 if we want to, or storing this thp information elsewhere.
-
-I think this here (modifying an existing toggle) is the only prctl()
-extension that we might be willing to accept. In general, I agree like
-most others, that prctl() is a very bad interface for that -- but
-PR_SET_THP_DISABLE is already there and is getting used.
-
-Long-term, I think the answer will be something based on bpf[5]. Maybe
-in that context, I there could still be value in easily disabling THPs for
-selected workloads (esp. debugging purposes).
-
-Jann raised valid concerns[6] about new flags that are persistent across
-exec[6]. As this here is a relaxation to existing PR_SET_THP_DISABLE I
-consider it having a similar security risk as our existing
-PR_SET_THP_DISABLE, but devil is in the detail.
-
-This is *completely* untested and might be utterly broken. It merely
-serves as a PoC of what I think could be done. If this ever goes upstream,
-we need some kselftests for it, and extensive tests.
-
-[1] https://lore.kernel.org/r/20250507141132.2773275-1-usamaarif642@gmail.com
-[2] https://lkml.kernel.org/r/20250515133519.2779639-2-usamaarif642@gmail.com
-[3] https://lore.kernel.org/r/cover.1747686021.git.lorenzo.stoakes@oracle.com
-[4] https://lkml.kernel.org/r/85778a76-7dc8-4ea8-8827-acb45f74ee05@lucifer.local
-[5] https://lkml.kernel.org/r/20250608073516.22415-1-laoar.shao@gmail.com
-[6] https://lore.kernel.org/r/CAG48ez3-7EnBVEjpdoW7z5K0hX41nLQN5Wb65Vg-1p8DdXRnjg@mail.gmail.com
-
+ Documentation/accel/index.rst                      |    1 +
+ Documentation/accel/rocket/index.rst               |   19 +
+ .../bindings/npu/rockchip,rk3588-rknn-core.yaml    |  112 +
+ MAINTAINERS                                        |   10 +
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi      |   93 +-
+ .../arm64/boot/dts/rockchip/rk3588-quartzpro64.dts |   30 +
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi   |   57 +
+ drivers/accel/Kconfig                              |    1 +
+ drivers/accel/Makefile                             |    1 +
+ drivers/accel/rocket/Kconfig                       |   24 +
+ drivers/accel/rocket/Makefile                      |   10 +
+ drivers/accel/rocket/rocket_core.c                 |  110 +
+ drivers/accel/rocket/rocket_core.h                 |   64 +
+ drivers/accel/rocket/rocket_device.c               |   60 +
+ drivers/accel/rocket/rocket_device.h               |   30 +
+ drivers/accel/rocket/rocket_drv.c                  |  290 ++
+ drivers/accel/rocket/rocket_drv.h                  |   30 +
+ drivers/accel/rocket/rocket_gem.c                  |  181 +
+ drivers/accel/rocket/rocket_gem.h                  |   34 +
+ drivers/accel/rocket/rocket_job.c                  |  636 +++
+ drivers/accel/rocket/rocket_job.h                  |   52 +
+ drivers/accel/rocket/rocket_registers.h            | 4404 ++++++++++++++++++++
+ include/uapi/drm/rocket_accel.h                    |  142 +
+ 23 files changed, 6390 insertions(+), 1 deletion(-)
 ---
- Documentation/filesystems/proc.rst |  5 +--
- fs/proc/array.c                    |  2 +-
- include/linux/huge_mm.h            | 20 ++++++++---
- include/linux/mm_types.h           | 13 +++----
- include/uapi/linux/prctl.h         |  7 ++++
- kernel/sys.c                       | 58 +++++++++++++++++++++++-------
- mm/khugepaged.c                    |  2 +-
- 7 files changed, 78 insertions(+), 29 deletions(-)
+base-commit: 156faa3ffe21347203b35a3edb6d2bcb663f429b
+change-id: 20240612-6-10-rocket-9316defc14c7
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 2971551b72353..915a3e44bc120 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -291,8 +291,9 @@ It's slow but very precise.
-  HugetlbPages                size of hugetlb memory portions
-  CoreDumping                 process's memory is currently being dumped
-                              (killing the process may lead to a corrupted core)
-- THP_enabled		     process is allowed to use THP (returns 0 when
--			     PR_SET_THP_DISABLE is set on the process
-+ THP_enabled                 process is allowed to use THP (returns 0 when
-+                             PR_SET_THP_DISABLE is set on the process to disable
-+                             THP completely, not just partially)
-  Threads                     number of threads
-  SigQ                        number of signals queued/max. number for queue
-  SigPnd                      bitmap of pending signals for the thread
-diff --git a/fs/proc/array.c b/fs/proc/array.c
-index d6a0369caa931..c4f91a784104f 100644
---- a/fs/proc/array.c
-+++ b/fs/proc/array.c
-@@ -422,7 +422,7 @@ static inline void task_thp_status(struct seq_file *m, struct mm_struct *mm)
- 	bool thp_enabled = IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE);
- 
- 	if (thp_enabled)
--		thp_enabled = !test_bit(MMF_DISABLE_THP, &mm->flags);
-+		thp_enabled = !test_bit(MMF_DISABLE_THP_COMPLETELY, &mm->flags);
- 	seq_printf(m, "THP_enabled:\t%d\n", thp_enabled);
- }
- 
-diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-index e0a27f80f390d..c4127104d9bc3 100644
---- a/include/linux/huge_mm.h
-+++ b/include/linux/huge_mm.h
-@@ -323,16 +323,26 @@ struct thpsize {
- 	(transparent_hugepage_flags &					\
- 	 (1<<TRANSPARENT_HUGEPAGE_USE_ZERO_PAGE_FLAG))
- 
-+/*
-+ * Check whether THPs are explicitly disabled through madvise or prctl, or some
-+ * architectures may disable THP for some mappings, for example, s390 kvm.
-+ */
- static inline bool vma_thp_disabled(struct vm_area_struct *vma,
- 		vm_flags_t vm_flags)
- {
-+	/* Are THPs disabled for this VMA? */
-+	if (vm_flags & VM_NOHUGEPAGE)
-+		return true;
-+	/* Are THPs disabled for all VMAs in the whole process? */
-+	if (test_bit(MMF_DISABLE_THP_COMPLETELY, &vma->vm_mm->flags))
-+		return true;
- 	/*
--	 * Explicitly disabled through madvise or prctl, or some
--	 * architectures may disable THP for some mappings, for
--	 * example, s390 kvm.
-+	 * Are THPs disabled only for VMAs where we didn't get an explicit
-+	 * advise to use them?
- 	 */
--	return (vm_flags & VM_NOHUGEPAGE) ||
--	       test_bit(MMF_DISABLE_THP, &vma->vm_mm->flags);
-+	if (vm_flags & VM_HUGEPAGE)
-+		return false;
-+	return test_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, &vma->vm_mm->flags);
- }
- 
- static inline bool thp_disabled_by_hw(void)
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 1ec273b066915..a999f2d352648 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -1743,19 +1743,16 @@ enum {
- #define MMF_VM_MERGEABLE	16	/* KSM may merge identical pages */
- #define MMF_VM_HUGEPAGE		17	/* set when mm is available for khugepaged */
- 
--/*
-- * This one-shot flag is dropped due to necessity of changing exe once again
-- * on NFS restore
-- */
--//#define MMF_EXE_FILE_CHANGED	18	/* see prctl_set_mm_exe_file() */
-+#define MMF_HUGE_ZERO_PAGE	18      /* mm has ever used the global huge zero page */
- 
- #define MMF_HAS_UPROBES		19	/* has uprobes */
- #define MMF_RECALC_UPROBES	20	/* MMF_HAS_UPROBES can be wrong */
- #define MMF_OOM_SKIP		21	/* mm is of no interest for the OOM killer */
- #define MMF_UNSTABLE		22	/* mm is unstable for copy_from_user */
--#define MMF_HUGE_ZERO_PAGE	23      /* mm has ever used the global huge zero page */
--#define MMF_DISABLE_THP		24	/* disable THP for all VMAs */
--#define MMF_DISABLE_THP_MASK	(1 << MMF_DISABLE_THP)
-+#define MMF_DISABLE_THP_EXCEPT_ADVISED	23	/* no THP except for VMAs with VM_HUGEPAGE */
-+#define MMF_DISABLE_THP_COMPLETELY	24	/* no THP for all VMAs */
-+#define MMF_DISABLE_THP_MASK	((1 << MMF_DISABLE_THP_COMPLETELY) |\
-+				 (1 << MMF_DISABLE_THP_EXCEPT_ADVISED))
- #define MMF_OOM_REAP_QUEUED	25	/* mm was queued for oom_reaper */
- #define MMF_MULTIPROCESS	26	/* mm is shared between processes */
- /*
-diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-index 43dec6eed559a..1949bb9270d48 100644
---- a/include/uapi/linux/prctl.h
-+++ b/include/uapi/linux/prctl.h
-@@ -177,7 +177,14 @@ struct prctl_mm_map {
- 
- #define PR_GET_TID_ADDRESS	40
- 
-+/*
-+ * Flags for PR_SET_THP_DISABLE are only applicable when disabling. Bit 0
-+ * is reserved, so PR_GET_THP_DISABLE can return 1 when no other flags were
-+ * specified for PR_SET_THP_DISABLE.
-+ */
- #define PR_SET_THP_DISABLE	41
-+/* Don't disable THPs when explicitly advised (MADV_HUGEPAGE / VM_HUGEPAGE). */
-+# define PR_THP_DISABLE_EXCEPT_ADVISED	(1 << 1)
- #define PR_GET_THP_DISABLE	42
- 
- /*
-diff --git a/kernel/sys.c b/kernel/sys.c
-index b153fb345ada2..2a34b2f708900 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -2423,6 +2423,50 @@ static int prctl_get_auxv(void __user *addr, unsigned long len)
- 	return sizeof(mm->saved_auxv);
- }
- 
-+static int prctl_get_thp_disable(unsigned long arg2, unsigned long arg3,
-+				 unsigned long arg4, unsigned long arg5)
-+{
-+	unsigned long *mm_flags = &current->mm->flags;
-+
-+	if (arg2 || arg3 || arg4 || arg5)
-+		return -EINVAL;
-+
-+	if (test_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags))
-+		return 1;
-+	else if (test_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags))
-+		return 1 | PR_THP_DISABLE_EXCEPT_ADVISED;
-+	return 0;
-+}
-+
-+static int prctl_set_thp_disable(unsigned long thp_disable, unsigned long flags,
-+				 unsigned long arg4, unsigned long arg5)
-+{
-+	unsigned long *mm_flags = &current->mm->flags;
-+
-+	if (arg4 || arg5)
-+		return -EINVAL;
-+
-+	/* Flags are only allowed when disabling. */
-+	if (!thp_disable || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
-+		return -EINVAL;
-+	if (mmap_write_lock_killable(current->mm))
-+		return -EINTR;
-+	if (thp_disable) {
-+		if (flags & PR_THP_DISABLE_EXCEPT_ADVISED) {
-+			clear_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags);
-+			set_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags);
-+		} else {
-+			set_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags);
-+			clear_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags);
-+		}
-+	} else {
-+		clear_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags);
-+		clear_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags);
-+	}
-+	mmap_write_unlock(current->mm);
-+	return 0;
-+}
-+
- SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
- 		unsigned long, arg4, unsigned long, arg5)
- {
-@@ -2596,20 +2640,10 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
- 			return -EINVAL;
- 		return task_no_new_privs(current) ? 1 : 0;
- 	case PR_GET_THP_DISABLE:
--		if (arg2 || arg3 || arg4 || arg5)
--			return -EINVAL;
--		error = !!test_bit(MMF_DISABLE_THP, &me->mm->flags);
-+		error = prctl_get_thp_disable(arg2, arg3, arg4, arg5);
- 		break;
- 	case PR_SET_THP_DISABLE:
--		if (arg3 || arg4 || arg5)
--			return -EINVAL;
--		if (mmap_write_lock_killable(me->mm))
--			return -EINTR;
--		if (arg2)
--			set_bit(MMF_DISABLE_THP, &me->mm->flags);
--		else
--			clear_bit(MMF_DISABLE_THP, &me->mm->flags);
--		mmap_write_unlock(me->mm);
-+		error = prctl_set_thp_disable(arg2, arg3, arg4, arg5);
- 		break;
- 	case PR_MPX_ENABLE_MANAGEMENT:
- 	case PR_MPX_DISABLE_MANAGEMENT:
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 8a5873d0a23a7..a685077644b4e 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -427,7 +427,7 @@ static inline int collapse_test_exit(struct mm_struct *mm)
- static inline int collapse_test_exit_or_disable(struct mm_struct *mm)
- {
- 	return collapse_test_exit(mm) ||
--	       test_bit(MMF_DISABLE_THP, &mm->flags);
-+	       test_bit(MMF_DISABLE_THP_COMPLETELY, &mm->flags);
- }
- 
- static bool hugepage_enabled(void)
-
-base-commit: 760b462b3921c5dc8bfa151d2d27a944e4e96081
+Best regards,
 -- 
-2.50.1
+Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
