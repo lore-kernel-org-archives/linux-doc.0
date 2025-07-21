@@ -1,573 +1,163 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B9C2882C0
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 08:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD17E2820AB;
+	Mon, 21 Jul 2025 08:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753086318; cv=none; b=ddQq1WQap96zBaLcVuwnvr5LCmh08aAZqSO0HXD/igFRRunRFfrgEaEkIsVuBUARXJGxpmMHJaWtREnzDf9rFL8jYTuCW2K2A2hbdj8RUc8B+S5demmpZaEHGP5x2vzy1eH8gNG/sACdPBN2PMPcryuLCds4Q0e3yPiwsHeqQkQ=
+	t=1753087490; cv=none; b=n+/o4cKJ5UhjrUJlZ5hTelHs1VMYaqmxr0RGRFjMjmaO9MRLvs3mOLPjdtbdqUkPMr2f9dnHBcynxy6YmhQ9/L83knUvE6DJ0lk7YoEG6BRWvubIWpYlJxGGoyd+sZjlS0+0iS1ClAYrIkCTt8JM1JtVew6z9acYFMintv+L9Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753086318; c=relaxed/simple;
-	bh=IiRKu3kzYkLcyUm0UgZIanPxMcWPJ/sp5gA/MEU3E4I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R1m+RmsZpC5iz8og5BTm63SrKhwixPqyPf/kZFH1Xwvy5OMxaEm9LPnaSSLC+nkB+wqP/HG4PJm2N7lNf4uHbddoPOZXNTdEGUDFx1carvm16U7H+sO8Tsxtzabg3lCBtZwTRjqPpyuqRGQTdV8FeaqrCg5EH8DBJX4I74ahw24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dgxuPeeT; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1753087490; c=relaxed/simple;
+	bh=YWX3DE0Aan818S7gIkr8GLZTXCVTsALTdSNXc97vXoI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=aVkTZDgGmDY0glqf+VvISrq/nNzjoQTQ385QU+6ev/Nv8EJ3ZhzM+YTJTrVUUdllKc450AE4ZQbSnC3BrXoi3toAwlkvPyPAmqLJ1exEAqewNPsC9AdyO4klgxThqhse7zPvfGKJyOWX1j9ZmGrNl4mWD9/sgNLVQz5OUD9Pmqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=nwlCbLHO; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dgxuPeeT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753086314;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CLXsBHQwN3bPXwAgmQNrSUPdL4Dn0JADYnxrHRe5aac=;
-	b=dgxuPeeTnvIqjbyuUxxIpV2ZnJNTjaOQ83Zh1pNZllSIkgY8CBsPRDL5yDFPsBUV4x+/Dt
-	OclFpspKWiTVJLhwHXiG173YKdXVkTmzIFy4GmQ30qS1lgX1hjotoOeMff1zCkks3eanq1
-	rXE0Ua5lhGDmhelJbjeUlW1yScYufSg=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-396-LLOUS7b2P1uHPCB_BN8CfA-1; Mon,
- 21 Jul 2025 04:25:10 -0400
-X-MC-Unique: LLOUS7b2P1uHPCB_BN8CfA-1
-X-Mimecast-MFC-AGG-ID: LLOUS7b2P1uHPCB_BN8CfA_1753086309
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="nwlCbLHO"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0C2901956048;
-	Mon, 21 Jul 2025 08:25:09 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.44.32.136])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1E086195608D;
-	Mon, 21 Jul 2025 08:25:03 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Gabriele Monaco <gmonaco@redhat.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Nam Cao <namcao@linutronix.de>,
-	Tomas Glozar <tglozar@redhat.com>,
-	Juri Lelli <jlelli@redhat.com>,
-	Clark Williams <williams@redhat.com>,
-	John Kacur <jkacur@redhat.com>
-Subject: [PATCH v4 14/14] rv: Add opid per-cpu monitor
-Date: Mon, 21 Jul 2025 10:23:24 +0200
-Message-ID: <20250721082325.71554-15-gmonaco@redhat.com>
-In-Reply-To: <20250721082325.71554-1-gmonaco@redhat.com>
-References: <20250721082325.71554-1-gmonaco@redhat.com>
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4blv8q0nvHz9scY;
+	Mon, 21 Jul 2025 10:44:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1753087483;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=M9LQnCq1xiY9dvqH/3V8T7UlKGfMNq6Pf3NbYrD3FGE=;
+	b=nwlCbLHOwI+Ln0MI9voaLlK37jpNOOjlJu+/OTwfG+cu/Ad+DBJeyZXi65oofCr4HMb2SP
+	P/qzat0/F2ZpNdMy/SyzvOa02YZQHYqsHUG1ZYGzJcjYprQ2SXFd5/a6HySjJG9oL4Xac2
+	i4plOWRR7KCtqEo062vbJoCaA0E7rKY/q00E0fzxjJzt+TSbfV06hlVeCU+Ywptab42chL
+	gn3CbLDTWZ/IkQSKFNmqZb5DMjIEiAIP+A29Sm3k31ISqWC+DqKZylnHKKsPSGP68ZV1/a
+	nT7Mfa5Ny1E1E7+oleLHsdcf2c2QgweoiKJe4fT+nSQc49zPy2vCl7rsi9/PEw==
+From: Aleksa Sarai <cyphar@cyphar.com>
+Subject: [PATCH RFC 0/4] procfs: make reference pidns more user-visible
+Date: Mon, 21 Jul 2025 18:44:10 +1000
+Message-Id: <20250721-procfs-pidns-api-v1-0-5cd9007e512d@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANr9fWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDc0Nz3YKi/OS0Yt2CzJS8Yt3Egkxdi9QUQ1MLYxNjwzQDJaC2gqLUtMw
+ KsJHRSkFuzkqxtbUAKGfTX2cAAAA=
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4913; i=cyphar@cyphar.com;
+ h=from:subject:message-id; bh=YWX3DE0Aan818S7gIkr8GLZTXCVTsALTdSNXc97vXoI=;
+ b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWTU/n3ffy70yIV/e5bVc/yvdrzzyip3t4FgtMVrllc5z
+ zz7lkad7ShlYRDjYpAVU2TZ5ucZumn+4ivJn1aywcxhZQIZwsDFKQATWW7D8Fdu36SyPW+7I7w9
+ Dj0Jn23clTfpgLPUcps/Vq5yH2redUYx/NMV25rz/I7mTJP0pfJCVWdO2d7IM1y0cY2IuVd2L6u
+ BPzMA
+X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
+ fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
 
-Add a per-cpu monitor as part of the sched model:
-* opid: operations with preemption and irq disabled
-    Monitor to ensure wakeup and need_resched occur with irq and
-    preemption disabled or in irq handlers.
+Ever since the introduction of pid namespaces, procfs has had very
+implicit behaviour surrounding them (the pidns used by a procfs mount is
+auto-selected based on the mounting process's active pidns, and the
+pidns itself is basically hidden once the mount has been constructed).
+This has historically meant that userspace was required to do some
+special dances in order to configure the pidns of a procfs mount as
+desired. Examples include:
 
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+ * In order to bypass the mnt_too_revealing() check, Kubernetes creates
+   a procfs mount from an empty pidns so that user namespaced containers
+   can be nested (without this, the nested containers would fail to
+   mount procfs). But this requires forking off a helper process because
+   you cannot just one-shot this using mount(2).
+
+ * Container runtimes in general need to fork into a container before
+   configuring its mounts, which can lead to security issues in the case
+   of shared-pidns containers (a privileged process in the pidns can
+   interact with your container runtime process). While
+   SUID_DUMP_DISABLE and user namespaces make this less of an issue, the
+   strict need for this due to a minor uAPI wart is kind of unfortunate.
+
+Things would be much easier if there was a way for userspace to just
+specify the pidns they want. Patch 1 implements a new "pidns" argument
+which can be set using fsconfig(2):
+
+    fsconfig(procfd, FSCONFIG_SET_FD, "pidns", NULL, nsfd);
+    fsconfig(procfd, FSCONFIG_SET_STRING, "pidns", "/proc/self/ns/pid", 0);
+
+or classic mount(2) / mount(8):
+
+    // mount -t proc -o pidns=/proc/self/ns/pid proc /tmp/proc
+    mount("proc", "/tmp/proc", "proc", MS_..., "pidns=/proc/self/ns/pid");
+
+The initial security model I have in this RFC is to be as conservative
+as possible and just mirror the security model for setns(2) -- which
+means that you can only set pidns=... to pid namespaces that your
+current pid namespace is a direct ancestor of. This fulfils the
+requirements of container runtimes, but I suspect that this may be too
+strict for some usecases.
+
+The pidns argument is not displayed in mountinfo -- it's not clear to me
+what value it would make sense to show (maybe we could just use ns_dname
+to provide an identifier for the namespace, but this number would be
+fairly useless to userspace). I'm open to suggestions.
+
+In addition, being able to figure out what pid namespace is being used
+by a procfs mount is quite useful when you have an administrative
+process (such as a container runtime) which wants to figure out the
+correct way of mapping PIDs between its own namespace and the namespace
+for procfs (using NS_GET_{PID,TGID}_{IN,FROM}_PIDNS). There are
+alternative ways to do this, but they all rely on ancillary information
+that third-party libraries and tools do not necessarily have access to.
+
+To make this easier, add a new ioctl (PROCFS_GET_PID_NAMESPACE) which
+can be used to get a reference to the pidns that a procfs is using.
+
+It's not quite clear what is the correct security model for this API,
+but the current approach I've taken is to:
+
+ * Make the ioctl only valid on the root (meaning that a process without
+   access to the procfs root -- such as only having an fd to a procfs
+   file or some open_tree(2)-like subset -- cannot use this API).
+
+ * Require that the process requesting either has access to
+   /proc/1/ns/pid anyway (i.e. has ptrace-read access to the pidns
+   pid1), has CAP_SYS_ADMIN access to the pidns (i.e. has administrative
+   access to it and can join it if they had a handle), or is in a pidns
+   that is a direct ancestor of the target pidns (i.e. all of the pids
+   are already visible in the procfs for the current process's pidns).
+
+The security model for this is a little loose, as it seems to me that
+all of the cases mentioned are valid cases to allow access, but I'm open
+to suggestions for whether we need to make this stricter or looser.
+
+Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 ---
- Documentation/trace/rv/monitor_sched.rst   |  55 +++++++
- kernel/trace/rv/Kconfig                    |   1 +
- kernel/trace/rv/Makefile                   |   1 +
- kernel/trace/rv/monitors/opid/Kconfig      |  19 +++
- kernel/trace/rv/monitors/opid/opid.c       | 169 +++++++++++++++++++++
- kernel/trace/rv/monitors/opid/opid.h       | 104 +++++++++++++
- kernel/trace/rv/monitors/opid/opid_trace.h |  15 ++
- kernel/trace/rv/rv_trace.h                 |   1 +
- tools/verification/models/sched/opid.dot   |  35 +++++
- 9 files changed, 400 insertions(+)
- create mode 100644 kernel/trace/rv/monitors/opid/Kconfig
- create mode 100644 kernel/trace/rv/monitors/opid/opid.c
- create mode 100644 kernel/trace/rv/monitors/opid/opid.h
- create mode 100644 kernel/trace/rv/monitors/opid/opid_trace.h
- create mode 100644 tools/verification/models/sched/opid.dot
+Aleksa Sarai (4):
+      pidns: move is-ancestor logic to helper
+      procfs: add pidns= mount option
+      procfs: add PROCFS_GET_PID_NAMESPACE ioctl
+      selftests/proc: add tests for new pidns APIs
 
-diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
-index 11ef963cb5780..3f8381ad9ec7b 100644
---- a/Documentation/trace/rv/monitor_sched.rst
-+++ b/Documentation/trace/rv/monitor_sched.rst
-@@ -341,6 +341,61 @@ can be triggered also by preemption, but cannot occur after the task got to
-                              |           | switch_yield
-                              +-----------+ wakeup
- 
-+Monitor opid
-+------------
-+
-+The operations with preemption and irq disabled (opid) monitor ensures
-+operations like ``wakeup`` and ``need_resched`` occur with interrupts and
-+preemption disabled or during interrupt context, in such case preemption may
-+not be disabled explicitly.
-+``need_resched`` can be set by some RCU internals functions, in which case it
-+doesn't match a task wakeup and might occur with only interrupts disabled::
-+
-+                 |                     sched_need_resched
-+                 |                     sched_waking
-+                 |                     irq_entry
-+                 |                   +--------------------+
-+                 v                   v                    |
-+               +------------------------------------------------------+
-+  +----------- |                     disabled                         | <+
-+  |            +------------------------------------------------------+  |
-+  |              |                 ^                                     |
-+  |              |          preempt_disable      sched_need_resched      |
-+  |       preempt_enable           |           +--------------------+    |
-+  |              v                 |           v                    |    |
-+  |            +------------------------------------------------------+  |
-+  |            |                   irq_disabled                       |  |
-+  |            +------------------------------------------------------+  |
-+  |                              |             |        ^                |
-+  |     irq_entry            irq_entry         |        |                |
-+  |     sched_need_resched       v             |   irq_disable           |
-+  |     sched_waking +--------------+          |        |                |
-+  |           +----- |              |     irq_enable    |                |
-+  |           |      |    in_irq    |          |        |                |
-+  |           +----> |              |          |        |                |
-+  |                  +--------------+          |        |          irq_disable
-+  |                     |                      |        |                |
-+  | irq_enable          | irq_enable           |        |                |
-+  |                     v                      v        |                |
-+  |            #======================================================#  |
-+  |            H                     enabled                          H  |
-+  |            #======================================================#  |
-+  |              |                   ^         ^ preempt_enable     |    |
-+  |       preempt_disable     preempt_enable   +--------------------+    |
-+  |              v                   |                                   |
-+  |            +------------------+  |                                   |
-+  +----------> | preempt_disabled | -+                                   |
-+               +------------------+                                      |
-+                 |                                                       |
-+                 +-------------------------------------------------------+
-+
-+This monitor is designed to work on ``PREEMPT_RT`` kernels, the special case of
-+events occurring in interrupt context is a shortcut to identify valid scenarios
-+where the preemption tracepoints might not be visible, during interrupts
-+preemption is always disabled. On non- ``PREEMPT_RT`` kernels, the interrupts
-+might invoke a softirq to set ``need_resched`` and wake up a task. This is
-+another special case that is currently not supported by the monitor.
-+
- References
- ----------
- 
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index 59d0db898d4ab..5b4be87ba59d3 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -57,6 +57,7 @@ source "kernel/trace/rv/monitors/snep/Kconfig"
- source "kernel/trace/rv/monitors/sts/Kconfig"
- source "kernel/trace/rv/monitors/nrp/Kconfig"
- source "kernel/trace/rv/monitors/sssw/Kconfig"
-+source "kernel/trace/rv/monitors/opid/Kconfig"
- # Add new sched monitors here
- 
- source "kernel/trace/rv/monitors/rtapp/Kconfig"
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index 2afac88539d3f..750e4ad6fa0ff 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -16,6 +16,7 @@ obj-$(CONFIG_RV_MON_SLEEP) += monitors/sleep/sleep.o
- obj-$(CONFIG_RV_MON_STS) += monitors/sts/sts.o
- obj-$(CONFIG_RV_MON_NRP) += monitors/nrp/nrp.o
- obj-$(CONFIG_RV_MON_SSSW) += monitors/sssw/sssw.o
-+obj-$(CONFIG_RV_MON_OPID) += monitors/opid/opid.o
- # Add new monitors here
- obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
- obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
-diff --git a/kernel/trace/rv/monitors/opid/Kconfig b/kernel/trace/rv/monitors/opid/Kconfig
-new file mode 100644
-index 0000000000000..561d32da572b2
---- /dev/null
-+++ b/kernel/trace/rv/monitors/opid/Kconfig
-@@ -0,0 +1,19 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+config RV_MON_OPID
-+	depends on RV
-+	depends on TRACE_IRQFLAGS
-+	depends on TRACE_PREEMPT_TOGGLE
-+	depends on RV_MON_SCHED
-+	default y if PREEMPT_RT
-+	select DA_MON_EVENTS_IMPLICIT
-+	bool "opid monitor"
-+	help
-+	  Monitor to ensure operations like wakeup and need resched occur with
-+	  interrupts and preemption disabled or during IRQs, where preemption
-+	  may not be disabled explicitly.
-+
-+	  This monitor is unstable on !PREEMPT_RT, say N unless you are testing it.
-+
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_sched.rst
-diff --git a/kernel/trace/rv/monitors/opid/opid.c b/kernel/trace/rv/monitors/opid/opid.c
-new file mode 100644
-index 0000000000000..4f1902f24805c
---- /dev/null
-+++ b/kernel/trace/rv/monitors/opid/opid.c
-@@ -0,0 +1,169 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+#include <rv/instrumentation.h>
-+#include <rv/da_monitor.h>
-+
-+#define MODULE_NAME "opid"
-+
-+#include <trace/events/sched.h>
-+#include <trace/events/irq.h>
-+#include <trace/events/preemptirq.h>
-+#include <rv_trace.h>
-+#include <monitors/sched/sched.h>
-+
-+#include "opid.h"
-+
-+static struct rv_monitor rv_opid;
-+DECLARE_DA_MON_PER_CPU(opid, unsigned char);
-+
-+#ifdef CONFIG_X86_LOCAL_APIC
-+#include <asm/trace/irq_vectors.h>
-+
-+static void handle_vector_irq_entry(void *data, int vector)
-+{
-+	da_handle_event_opid(irq_entry_opid);
-+}
-+
-+static void attach_vector_irq(void)
-+{
-+	rv_attach_trace_probe("opid", local_timer_entry, handle_vector_irq_entry);
-+	if (IS_ENABLED(CONFIG_IRQ_WORK))
-+		rv_attach_trace_probe("opid", irq_work_entry, handle_vector_irq_entry);
-+	if (IS_ENABLED(CONFIG_SMP)) {
-+		rv_attach_trace_probe("opid", reschedule_entry, handle_vector_irq_entry);
-+		rv_attach_trace_probe("opid", call_function_entry, handle_vector_irq_entry);
-+		rv_attach_trace_probe("opid", call_function_single_entry, handle_vector_irq_entry);
-+	}
-+}
-+
-+static void detach_vector_irq(void)
-+{
-+	rv_detach_trace_probe("opid", local_timer_entry, handle_vector_irq_entry);
-+	if (IS_ENABLED(CONFIG_IRQ_WORK))
-+		rv_detach_trace_probe("opid", irq_work_entry, handle_vector_irq_entry);
-+	if (IS_ENABLED(CONFIG_SMP)) {
-+		rv_detach_trace_probe("opid", reschedule_entry, handle_vector_irq_entry);
-+		rv_detach_trace_probe("opid", call_function_entry, handle_vector_irq_entry);
-+		rv_detach_trace_probe("opid", call_function_single_entry, handle_vector_irq_entry);
-+	}
-+}
-+
-+#else
-+/* We assume irq_entry tracepoints are sufficient on other architectures */
-+static void attach_vector_irq(void) { }
-+static void detach_vector_irq(void) { }
-+#endif
-+
-+static void handle_irq_disable(void *data, unsigned long ip, unsigned long parent_ip)
-+{
-+	da_handle_event_opid(irq_disable_opid);
-+}
-+
-+static void handle_irq_enable(void *data, unsigned long ip, unsigned long parent_ip)
-+{
-+	da_handle_event_opid(irq_enable_opid);
-+}
-+
-+static void handle_irq_entry(void *data, int irq, struct irqaction *action)
-+{
-+	da_handle_event_opid(irq_entry_opid);
-+}
-+
-+static void handle_preempt_disable(void *data, unsigned long ip, unsigned long parent_ip)
-+{
-+	da_handle_event_opid(preempt_disable_opid);
-+}
-+
-+static void handle_preempt_enable(void *data, unsigned long ip, unsigned long parent_ip)
-+{
-+	da_handle_event_opid(preempt_enable_opid);
-+}
-+
-+static void handle_sched_need_resched(void *data, struct task_struct *tsk, int cpu, int tif)
-+{
-+	/* The monitor's intitial state is not in_irq */
-+	if (this_cpu_read(hardirq_context))
-+		da_handle_event_opid(sched_need_resched_opid);
-+	else
-+		da_handle_start_event_opid(sched_need_resched_opid);
-+}
-+
-+static void handle_sched_waking(void *data, struct task_struct *p)
-+{
-+	/* The monitor's intitial state is not in_irq */
-+	if (this_cpu_read(hardirq_context))
-+		da_handle_event_opid(sched_waking_opid);
-+	else
-+		da_handle_start_event_opid(sched_waking_opid);
-+}
-+
-+static int enable_opid(void)
-+{
-+	int retval;
-+
-+	retval = da_monitor_init_opid();
-+	if (retval)
-+		return retval;
-+
-+	rv_attach_trace_probe("opid", irq_disable, handle_irq_disable);
-+	rv_attach_trace_probe("opid", irq_enable, handle_irq_enable);
-+	rv_attach_trace_probe("opid", irq_handler_entry, handle_irq_entry);
-+	rv_attach_trace_probe("opid", preempt_disable, handle_preempt_disable);
-+	rv_attach_trace_probe("opid", preempt_enable, handle_preempt_enable);
-+	rv_attach_trace_probe("opid", sched_set_need_resched_tp, handle_sched_need_resched);
-+	rv_attach_trace_probe("opid", sched_waking, handle_sched_waking);
-+	attach_vector_irq();
-+
-+	return 0;
-+}
-+
-+static void disable_opid(void)
-+{
-+	rv_opid.enabled = 0;
-+
-+	rv_detach_trace_probe("opid", irq_disable, handle_irq_disable);
-+	rv_detach_trace_probe("opid", irq_enable, handle_irq_enable);
-+	rv_detach_trace_probe("opid", irq_handler_entry, handle_irq_entry);
-+	rv_detach_trace_probe("opid", preempt_disable, handle_preempt_disable);
-+	rv_detach_trace_probe("opid", preempt_enable, handle_preempt_enable);
-+	rv_detach_trace_probe("opid", sched_set_need_resched_tp, handle_sched_need_resched);
-+	rv_detach_trace_probe("opid", sched_waking, handle_sched_waking);
-+	detach_vector_irq();
-+
-+	da_monitor_destroy_opid();
-+}
-+
-+/*
-+ * This is the monitor register section.
-+ */
-+static struct rv_monitor rv_opid = {
-+	.name = "opid",
-+	.description = "operations with preemption and irq disabled.",
-+	.enable = enable_opid,
-+	.disable = disable_opid,
-+	.reset = da_monitor_reset_all_opid,
-+	.enabled = 0,
-+};
-+
-+static int __init register_opid(void)
-+{
-+	rv_register_monitor(&rv_opid, &rv_sched);
-+	return 0;
-+}
-+
-+static void __exit unregister_opid(void)
-+{
-+	rv_unregister_monitor(&rv_opid);
-+}
-+
-+module_init(register_opid);
-+module_exit(unregister_opid);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
-+MODULE_DESCRIPTION("opid: operations with preemption and irq disabled.");
-diff --git a/kernel/trace/rv/monitors/opid/opid.h b/kernel/trace/rv/monitors/opid/opid.h
-new file mode 100644
-index 0000000000000..b4b8c2ff7f643
---- /dev/null
-+++ b/kernel/trace/rv/monitors/opid/opid.h
-@@ -0,0 +1,104 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Automatically generated C representation of opid automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
-+
-+enum states_opid {
-+	disabled_opid = 0,
-+	enabled_opid,
-+	in_irq_opid,
-+	irq_disabled_opid,
-+	preempt_disabled_opid,
-+	state_max_opid
-+};
-+
-+#define INVALID_STATE state_max_opid
-+
-+enum events_opid {
-+	irq_disable_opid = 0,
-+	irq_enable_opid,
-+	irq_entry_opid,
-+	preempt_disable_opid,
-+	preempt_enable_opid,
-+	sched_need_resched_opid,
-+	sched_waking_opid,
-+	event_max_opid
-+};
-+
-+struct automaton_opid {
-+	char *state_names[state_max_opid];
-+	char *event_names[event_max_opid];
-+	unsigned char function[state_max_opid][event_max_opid];
-+	unsigned char initial_state;
-+	bool final_states[state_max_opid];
-+};
-+
-+static const struct automaton_opid automaton_opid = {
-+	.state_names = {
-+		"disabled",
-+		"enabled",
-+		"in_irq",
-+		"irq_disabled",
-+		"preempt_disabled"
-+	},
-+	.event_names = {
-+		"irq_disable",
-+		"irq_enable",
-+		"irq_entry",
-+		"preempt_disable",
-+		"preempt_enable",
-+		"sched_need_resched",
-+		"sched_waking"
-+	},
-+	.function = {
-+		{
-+			INVALID_STATE,
-+			preempt_disabled_opid,
-+			disabled_opid,
-+			INVALID_STATE,
-+			irq_disabled_opid,
-+			disabled_opid,
-+			disabled_opid
-+		},
-+		{
-+			irq_disabled_opid,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			preempt_disabled_opid,
-+			enabled_opid,
-+			INVALID_STATE,
-+			INVALID_STATE
-+		},
-+		{
-+			INVALID_STATE,
-+			enabled_opid,
-+			in_irq_opid,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			in_irq_opid,
-+			in_irq_opid
-+		},
-+		{
-+			INVALID_STATE,
-+			enabled_opid,
-+			in_irq_opid,
-+			disabled_opid,
-+			INVALID_STATE,
-+			irq_disabled_opid,
-+			INVALID_STATE
-+		},
-+		{
-+			disabled_opid,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			enabled_opid,
-+			INVALID_STATE,
-+			INVALID_STATE
-+		},
-+	},
-+	.initial_state = disabled_opid,
-+	.final_states = { 0, 1, 0, 0, 0 },
-+};
-diff --git a/kernel/trace/rv/monitors/opid/opid_trace.h b/kernel/trace/rv/monitors/opid/opid_trace.h
-new file mode 100644
-index 0000000000000..3df6ff955c300
---- /dev/null
-+++ b/kernel/trace/rv/monitors/opid/opid_trace.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Snippet to be included in rv_trace.h
-+ */
-+
-+#ifdef CONFIG_RV_MON_OPID
-+DEFINE_EVENT(event_da_monitor, event_opid,
-+	     TP_PROTO(char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(state, event, next_state, final_state));
-+
-+DEFINE_EVENT(error_da_monitor, error_opid,
-+	     TP_PROTO(char *state, char *event),
-+	     TP_ARGS(state, event));
-+#endif /* CONFIG_RV_MON_OPID */
-diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
-index 4c89032f01efe..97708f4e6b4e0 100644
---- a/kernel/trace/rv/rv_trace.h
-+++ b/kernel/trace/rv/rv_trace.h
-@@ -62,6 +62,7 @@ DECLARE_EVENT_CLASS(error_da_monitor,
- #include <monitors/scpd/scpd_trace.h>
- #include <monitors/snep/snep_trace.h>
- #include <monitors/sts/sts_trace.h>
-+#include <monitors/opid/opid_trace.h>
- // Add new monitors based on CONFIG_DA_MON_EVENTS_IMPLICIT here
- 
- #endif /* CONFIG_DA_MON_EVENTS_IMPLICIT */
-diff --git a/tools/verification/models/sched/opid.dot b/tools/verification/models/sched/opid.dot
-new file mode 100644
-index 0000000000000..840052f6952b8
---- /dev/null
-+++ b/tools/verification/models/sched/opid.dot
-@@ -0,0 +1,35 @@
-+digraph state_automaton {
-+	center = true;
-+	size = "7,11";
-+	{node [shape = plaintext, style=invis, label=""] "__init_disabled"};
-+	{node [shape = circle] "disabled"};
-+	{node [shape = doublecircle] "enabled"};
-+	{node [shape = circle] "enabled"};
-+	{node [shape = circle] "in_irq"};
-+	{node [shape = circle] "irq_disabled"};
-+	{node [shape = circle] "preempt_disabled"};
-+	"__init_disabled" -> "disabled";
-+	"disabled" [label = "disabled"];
-+	"disabled" -> "disabled" [ label = "sched_need_resched\nsched_waking\nirq_entry" ];
-+	"disabled" -> "irq_disabled" [ label = "preempt_enable" ];
-+	"disabled" -> "preempt_disabled" [ label = "irq_enable" ];
-+	"enabled" [label = "enabled", color = green3];
-+	"enabled" -> "enabled" [ label = "preempt_enable" ];
-+	"enabled" -> "irq_disabled" [ label = "irq_disable" ];
-+	"enabled" -> "preempt_disabled" [ label = "preempt_disable" ];
-+	"in_irq" [label = "in_irq"];
-+	"in_irq" -> "enabled" [ label = "irq_enable" ];
-+	"in_irq" -> "in_irq" [ label = "sched_need_resched\nsched_waking\nirq_entry" ];
-+	"irq_disabled" [label = "irq_disabled"];
-+	"irq_disabled" -> "disabled" [ label = "preempt_disable" ];
-+	"irq_disabled" -> "enabled" [ label = "irq_enable" ];
-+	"irq_disabled" -> "in_irq" [ label = "irq_entry" ];
-+	"irq_disabled" -> "irq_disabled" [ label = "sched_need_resched" ];
-+	"preempt_disabled" [label = "preempt_disabled"];
-+	"preempt_disabled" -> "disabled" [ label = "irq_disable" ];
-+	"preempt_disabled" -> "enabled" [ label = "preempt_enable" ];
-+	{ rank = min ;
-+		"__init_disabled";
-+		"disabled";
-+	}
-+}
+ Documentation/filesystems/proc.rst        |  10 ++
+ fs/proc/root.c                            | 132 +++++++++++++-
+ include/linux/pid_namespace.h             |   9 +
+ include/uapi/linux/fs.h                   |   3 +
+ kernel/pid_namespace.c                    |  21 ++-
+ tools/testing/selftests/proc/.gitignore   |   1 +
+ tools/testing/selftests/proc/Makefile     |   1 +
+ tools/testing/selftests/proc/proc-pidns.c | 286 ++++++++++++++++++++++++++++++
+ 8 files changed, 448 insertions(+), 15 deletions(-)
+---
+base-commit: 4c838c7672c39ec6ec48456c6ce22d14a68f4cda
+change-id: 20250717-procfs-pidns-api-8ed1583431f0
+
+Best regards,
 -- 
-2.50.1
+Aleksa Sarai <cyphar@cyphar.com>
 
