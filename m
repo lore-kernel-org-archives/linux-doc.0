@@ -1,252 +1,174 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2061.outbound.protection.outlook.com [40.107.96.61])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA21128C2D3;
-	Mon, 21 Jul 2025 15:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753111243; cv=fail; b=OluZF0vO10Npl633H/56mNi/bb9uHh1quYNpbhizOJP3DjERy9Eh5XsnrLHxOfT68Kj2IILZNmZmJU/6afhYfbOC52PK76RpQ7B5uQveocwe34Xi0YbI7r29dnO0PRFeYEkBz+teOo5LRV+PD8E0qQlyX4edpBdAzORmrmRbMUk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753111243; c=relaxed/simple;
-	bh=K9LIz5ve+A7lGx741FPtmpFclQCQR4c/zVkRyV4y3vw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=c1qhpSk+TIpLZd73MZftTyk1V6EKeHs+CeMSYYLcSevy6BRPKlCy+OdVgcni7mCuIdLsSqwcOEhFonqZ11SoM7Rg9r+O6eMV9trsLF8uO8FDtoBro/aiK1k/JIeqdxCsG8mNzdhBMk40/7IeAUvmzBqjaXzZKwiALZkAE87VDJo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=O77MbH4K; arc=fail smtp.client-ip=40.107.96.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B26D27CB02;
+	Mon, 21 Jul 2025 15:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753111556; cv=none; b=H6FlEPwpW1mzZr+5hJ7AtDVbgcwt6Q7voMRzNkNuxGb7AudXNcdixMw1xzfRgn7dxlATnn1FIq3eZckJ6uzmdl+yK0TGVTTGWaTRFdbTiibXwH/knRZX/vjYkQQf1mgivFB88lBKiWXKmHn9EX+qgnMu4ruAEqbKd55C9tyg+p0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753111556; c=relaxed/simple;
+	bh=WGiK6CgbNg6MkBAFiYfTThbtuFTJq4NwamN1AqSNwNU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LGoCO2+Rvp/v8QCn+RMRxfKvezpmD0MV/qxLU5urj+0H2h3dRI7TG5MimwlhIK4Aiyk96Jn2gaw1du/hnQSe4yxkJLKe+q1QTxA9rlWqEuW0rWfJC0+U68cvDRzPWYHiJKsrwHoXM92vyXMUXVf8BJ2E8EW1K5mkzLviRCPx4rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=LcWD2kUF; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="O77MbH4K"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MZuqERPSEc6uIcGDRXCY+h2Hn707GKVCGFD43ZbCGr5BNOP08he+sgQSah1AorXSMdiBHJ/tNkl8hLDeOirLsYX6rzi5wklK3xWvEH/bLx8lxR1xigW3NIxT68KluyH3i22qOM0fQhCyrvmy0N5JZUcf9UfUK5kJ+mVLj5LD0cqlqTcdOUrbndHM5H1rlFPJZ9tWVYZoUw1d59JofFfDyIk/2KfZyFNk+H4z/atZQ5eHViz7ICK3ypxmiDL/RGCF9MCDuyZBceCm4atysQjDgppifXQbzM+jQDXfxeMVG5Mrm3aaKzkUTaDqMOI4Gxl+o0yH4YiOAWj3OV8ApGV5oQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AtIwq4VfrFtRiCF8lnY6U5LCN16S35f3gSkzqd1ZCHk=;
- b=VUUl/nRePA62wK084ZVosRb4ZvHFJZOE7NlQkAnwJMIm64LfrhfwoXhqsN6qzfE92s6d8wNXPGh5wZy97aYcXhbAg8vTGlDGhd3YQAK1qyNPcRMOIcB+OyoWwNF5u7tNi7hTtiVtwWzIELWYZwqOBE/OKxwQQeafQG23vx4tlF6cAToyY8bPpbU9hCIecmX6YNISg7tunSxP8s0Lk/r1kEKAwHeu5qVLeS18U3kE/b1SPqRondzA0frfnG6+p1wvs20HTK10LoOTdAi8vw3t2Z7vP92kL7IOlsdjDpL1OJIIdlHtSKMZ8qCtYLIQBL14IYcrlw0YiKaL3/VAox7upA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AtIwq4VfrFtRiCF8lnY6U5LCN16S35f3gSkzqd1ZCHk=;
- b=O77MbH4KqhAzpE7aG2tw3R+D0orvtUTrJFTeI4KL26/8QqQeAeYup1JfcK1ljOGUIiRDKkkzwoOmSPmYc7onAp0GKWDPAPAEy7gAO9rpojRrsVj3JEGR0OR9IdrHx6OBRH2trHuQuMcYTsJWV9xLeXrCQfeMDBnilGJWEcB0kUU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by IA0PR12MB9047.namprd12.prod.outlook.com (2603:10b6:208:402::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Mon, 21 Jul
- 2025 15:20:37 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%3]) with mapi id 15.20.8943.028; Mon, 21 Jul 2025
- 15:20:37 +0000
-Message-ID: <f0b62df8-3582-4f94-bd06-cae2fe1451b1@amd.com>
-Date: Mon, 21 Jul 2025 10:20:32 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v15 08/34] x86,fs/resctrl: Detect Assignable Bandwidth
- Monitoring feature details
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, james.morse@arm.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: Dave.Martin@arm.com, x86@kernel.org, hpa@zytor.com,
- akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
- Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, fvdl@google.com,
- seanjc@google.com, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
- xin@zytor.com, manali.shukla@amd.com, tao1.su@linux.intel.com,
- sohil.mehta@intel.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- peterz@infradead.org, xin3.li@intel.com, kan.liang@linux.intel.com,
- mario.limonciello@amd.com, thomas.lendacky@amd.com, perry.yuan@amd.com,
- gautham.shenoy@amd.com, chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
-References: <cover.1752013061.git.babu.moger@amd.com>
- <e48edcbf4fe2c258ab8d38d9ff78fdb8849c353b.1752013061.git.babu.moger@amd.com>
- <ca71d550-86d1-40ac-a416-c02fbc1ed77e@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <ca71d550-86d1-40ac-a416-c02fbc1ed77e@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR10CA0026.namprd10.prod.outlook.com
- (2603:10b6:806:a7::31) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="LcWD2kUF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Dy3PggWmA6e6dQc4DmqpbzZpai7iCi9bZI8JxAEFj3Y=; b=LcWD2kUFQBY+Y+SkfKjehSw2bg
+	ANvFNsGn2nDh8gJ2nRgwXQHozvj6kgy1Z6qsS4WiSTZdi4y2suvAxECtUDBMFQjnWEmSLO6DnkZuk
+	MrBfOWYsIJr+jg129NN0fY9/GL8qlK1ZQiAhNjkvu/7VU02HPMC8meJYWE82+E/wbLck=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1udsO8-002N63-Hx; Mon, 21 Jul 2025 17:25:12 +0200
+Date: Mon, 21 Jul 2025 17:25:12 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Dong Yibo <dong100@mucse.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/15] net: rnpgbe: Add n500/n210 chip support
+Message-ID: <4dea5acc-dd7d-463c-b099-53713dd3d7ee@lunn.ch>
+References: <20250721113238.18615-1-dong100@mucse.com>
+ <20250721113238.18615-3-dong100@mucse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA0PR12MB9047:EE_
-X-MS-Office365-Filtering-Correlation-Id: ffed0d5b-509c-4442-0688-08ddc86a253e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZmttOEQrN3dtU0t4LzBWcXJoRTh3eE1RM2cwbDJYME5RR1ZOcGh6RnBvSE5O?=
- =?utf-8?B?WTVqcDArb0wwUm0reThlTUNxbGtqeGI0bVdxcWNPK01ONE5BVU9vNTVyMlRP?=
- =?utf-8?B?cEFGK1B3N1FDSDRmTUpvL25SRS9TcFJtdm1QRmJIVndidFVNTmw0M010NkZ5?=
- =?utf-8?B?SVhFUThkRnVDZzRYUFVtZVBxV0xVS1dZanlHWnV2OXhKejNZb01kRXlUdUtn?=
- =?utf-8?B?YXJUcmgxMythUlY4cjFTYS9WY1d5MXhSRE9SMXhlR2ZYNFE0Nmg4NERyaW5N?=
- =?utf-8?B?dW1hakJjWjdBbDA1RDVETWFwS1NEaFJBenZsdmdNdkJJWWxyMFZFVjU2S1Zw?=
- =?utf-8?B?bTNhNHMrWmpVamhIRWd3Tm5wUUJ2ZVpuZFNZaWp2YlErYjFYS1VEV2h3Q3lw?=
- =?utf-8?B?Vy9DOWFPbGpNRjdtUlNCZ2pJL2Zhb1JmY0dBWHhUWkowMjhCcVUyMlhTdU1K?=
- =?utf-8?B?MGZEdEo2WEpKbHlnSC8zajNYSkFwcFdodnUwSmFZRFRscTBwdVV2V2phcklJ?=
- =?utf-8?B?U1BHUWxaVWtrdkk1MU9zS0thbFVLUDJydGZvTSsvSkJOQlh0TTF3VzhFS09Z?=
- =?utf-8?B?dVgzYUdRN3ZkZG9RYjY0WGFCRVRwNnJpdkloako3cmZxekthaVNrenhUdU4w?=
- =?utf-8?B?VkgvQ2xheEd1Z3k5V0hITG4xdittVWw1SDRWWXE3UkpHQlllM0x6MDlCK3hQ?=
- =?utf-8?B?blVndEtTV05DSk5ueDdZOXFYNlU0RUZZZjFhTlk5QXVEVENrdkZuYVZSRUZ2?=
- =?utf-8?B?TllBZjMrWFdnR0tLSTJSaDFqOTZRZE1uUWZncnFRaHQ3ZDNnb2lGOG9ZWkVE?=
- =?utf-8?B?RC9LaDdkK1d2dlNHUzdOczc2TjJQUmlYRVZJOGtWK0FJd29kT2RZSzRmd29B?=
- =?utf-8?B?VlNxUXhndW1pakN2dktZMklsRlU3R1c5b1JjaU5mcU5hTzlHM2NWMkJBWSt2?=
- =?utf-8?B?SU9nNnJ3elVaWEE5c2Nhdyt0aGU2MWIyNHlTUGF1N0J4WWpPaXg0YnMyWUVj?=
- =?utf-8?B?YkNHMmd6Wk4zMG5WMGxVeWZoQlB1MnQzd09YWU9Fc1BxUGxsS2lhSjZoT0Ey?=
- =?utf-8?B?UTlLYVQrV3lDWG5zbzg0Tko3V1hVbzEybXdORWZXaEVjdXpIOEZFSWl5WVVt?=
- =?utf-8?B?elBGYk4zdTRzQUJvcE5aQXJuUmdDYm1EVDJmdis4MlNkOTMrT1gyeHBhVVpE?=
- =?utf-8?B?TVFLK1Zsdjg4NTNEZkxLdUw3V3dEL1Jxa0ZhL0hNK3cyTzhQZmtTQjlsNTJS?=
- =?utf-8?B?c3JWaFV6QXB4aHhBMVprZ0JlaUo0WThnWmpkOEhtMjI2L0I2L0p5NURUY29P?=
- =?utf-8?B?czdFYjRSdVhOUFJPOTJCeldRaVNSRG94ci9wdCtYZDJkMzZ0WmdIeW41NTl3?=
- =?utf-8?B?enRWRkliendGSzlYV1F4MHVyYTJTODBrNFpDdGlESFN5NTNXRURtYmJCSThp?=
- =?utf-8?B?V21YckF3aXdtSS81WkZwNVRFaTlyQ0hNWmNod1BPQjZ3clNvRHQ5STZ2NmQx?=
- =?utf-8?B?MXpxMHdGL0xHbktMUW5yajRWZjRpb2EwMVBNcXFFbGdqeERlVVpMMlR0NCtG?=
- =?utf-8?B?alJoeDcwbXM4SkJtYzlJdTU2YmhyanhaR2MyNWhyNzZwcVhHMGo4OWtaYVFH?=
- =?utf-8?B?TWEybm1UbG5IQmlnblltZldmTnRIVWdreHJlT1FIK3ZYcE9GZG5lb2hwRnV6?=
- =?utf-8?B?OFU2UnppTXpGTzBreEJsck1JQWkrV0lYaUgxRldSUjEvcFZ3QU92QW9Pd1M2?=
- =?utf-8?B?Z3NhWU9odDFjbWIyYVdwQk84dlJsbzRDZ21uT05qL0hOY29vaGlkREtPbGNO?=
- =?utf-8?B?djR6S2d3V3Y5dXNGU0pSRGpKSHdEU0NyNWJuUjZXNlJ1YnY2WHpDd05YME43?=
- =?utf-8?B?ZUZmY0tUckhBM2U4SzYrdUVVNmUrMnZoZ1N4U001STZReWFTRng0UHF0eEcz?=
- =?utf-8?Q?VVp4Ay93y9w=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a2srNWx6cHVsYUhaNE5Pd1NYN0tuYXdBc3FFdE9ZbzRwMFhFT2hJVFZqSXQw?=
- =?utf-8?B?RS9ic3BVL1JWRFZEcmtNMVZQOHAybEh1T01vMVVFZEFBZlNJd1JrUk5RNTQw?=
- =?utf-8?B?S2RJU3kwNWF4U3NMT0laTmZ0L01VQVcvQTZPeTRBaCtzOU1qWmdzV1A2VWMv?=
- =?utf-8?B?K1FFbnVzWXNxajNEM0Q3MFI5WjQ0eGNlU0M3MEhDdEV1bHVWQmZsM0VybXhp?=
- =?utf-8?B?K1JNYmxBR3RQV3hINEo3Wm4zTVNiQ3kwemNQdjRNNlpMRENDWmV4TjhKTzIv?=
- =?utf-8?B?eW5uMTN2WU94enk5UFdjaUdGYzIvbS94ZkFTSVkxZzBhM2VrTGlBcU9CN2I3?=
- =?utf-8?B?N2Y1L3BIcDkvTWVyWkR6dWd3OTdnQUZiSGFOeHJWdHZmWHlGZjRuWEpxMzhU?=
- =?utf-8?B?dXNTZDc2TFltbmJYdmRJZlRLM3J0eTBXa0ppMEJXam05U05sOVFXRllLSGZK?=
- =?utf-8?B?VUp2ZmQwZUJjeW1WbWd1bDhkZDhiWnE0OTZHeHBqeUNSWTNjMFR5ZVNjQzlw?=
- =?utf-8?B?dXBDeHpjb1lUVng0dE5GMkFuNGRFNGwrcTBNT3Y2MkJJbk9TS1ZJWXE2ekRV?=
- =?utf-8?B?amRFUTZ5QlBnaVlIb0J6bHNIZjhPbURXcytGdUJhTmJ6YXp4OWRGRWcxLzVV?=
- =?utf-8?B?SVF6WDllSEpudnJMdkxlekZkSlNNVlBUVWJDbzdlWVhrMnlNaEY2ZXNmSmV4?=
- =?utf-8?B?RDJuZFcyOHJUam0vaUplbm9wQTVhZkVnNld1WEVxOWxWM2ErVHNGc1hMdUZB?=
- =?utf-8?B?SitqQUNqVWZnQzBVRkRTdGtjb0tQSUFvMTVmVjI4R0FyVjVvYkxiczEwZjlx?=
- =?utf-8?B?MThqQ2NkdW50SFdMWENHQ3g2aTVsK005OCtjSjI1TFk1RVk2VnNRNzBFOXMr?=
- =?utf-8?B?cGFkYytST2ZqSE5DSWw2TVdqMU0yUDhXUUR1NVFWMzVzWjAvUUZ2bnRWNDQr?=
- =?utf-8?B?d2IzQzVPK3lJTW45ZkNkVE41bzNyZUZrRUpuZ29zN2lNblV2NkdFa2puTUxz?=
- =?utf-8?B?a3FrRUZvV0kwdG5MZXA4SjBROXRIOEtYUGNXRUdoYUxMMTBTVEkxc3QwVUFJ?=
- =?utf-8?B?aWNaRjdUZGplRk1CUGwxazllZTRwOTZQT25lOXlzV0ZBekJWUGMwM1JjMDF5?=
- =?utf-8?B?emJHQ1lMaGhCcUkrd3ZtM1Y2ckpXUnhkT3NQRC9QdnlKV0NueUI2dXRFaWxq?=
- =?utf-8?B?SDhLNGpoRWorbmF2UXd5clBOcmpvZFhmblYvajZwREhyWjhab2ZKd1lMWDM1?=
- =?utf-8?B?MU5kTXNhZ0d3ZU1YWUp1WitaNmN3QlJ6MDhLLzAwQ3FDbkZoODlsWmh4eERx?=
- =?utf-8?B?SDNhdWk0cjBHZmJiV3o1REZ4emxFeS92VXpEaVNaRUlUQ1ROeFY4UUtPT3V0?=
- =?utf-8?B?ZG9SSWorc0daYVV4NWhPQ29MV3BQZVdYTE5lYnM0MWo2RFFRT1FPQ2J1RGd0?=
- =?utf-8?B?RHgxdkVUY3lyaU1OeEt6T0VtM0Z2QytpbGpzeWtyNHV4ckQ3K0orT0lQQkcv?=
- =?utf-8?B?S0pMSUFLSEI4Y2lNNkw4NVZQeUFsUmFZdjN1dXorTXFGR3pVd1V5Q1dOOTB3?=
- =?utf-8?B?cVJxQm1obHZzQmE4WEJlRWp5em9ZcnZPRnVWZElMMk5zT0FUcmRNQ1A5TFFp?=
- =?utf-8?B?M015SnJ2bXRrbFdodDJyTW9vNTlUL2l0ZjU0UGlySXFqbFIyTUR3UFpWbldQ?=
- =?utf-8?B?UjhVUFdza1BUVU0vOHVod0cwOEpXNWhHQWtiQlorbWY2WENSVkdqdm56Znpv?=
- =?utf-8?B?QjdibVdBNXNtWjFvN1hYRjVTWTNlZXVneXhONWZmaTlKT2p0MTNWRU9HeUVC?=
- =?utf-8?B?T0ZWVlRBNFByMzAxVUdYZ2lzNmw3Um9Pam4wMS9NVEtObWxXaEFwd0V1U2hR?=
- =?utf-8?B?V2t1UCtTN3JiNGdVZ29JZkszQmFVQ1VnbkFoMVdTT2h0RlpIV1ZpdEd1amZs?=
- =?utf-8?B?UFBpOXBUMVh0Z21TS3VyU0Myc1ZoVFhITEp2RTZzZWF6eDdjVjZLRXJEMEg1?=
- =?utf-8?B?bS9RU2l4YWZ1M3JyVkloOXFNTkxxSEpuNWRISlZlTXc0c3JJd3A5Q1hPUmFT?=
- =?utf-8?B?eXRYRlNmUXg2cXZ4NmFjRndsWFdLeWNGRk5hYitLdGxLSXhUQ1M5ckpaM0Fl?=
- =?utf-8?Q?qFRA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffed0d5b-509c-4442-0688-08ddc86a253e
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 15:20:37.5858
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QLU0NlrQREMQqM4UaNMMkzBsBmVf1rF6ZPRW+9McNxn9JP5iDE4OqzdF3GGf55dr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9047
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250721113238.18615-3-dong100@mucse.com>
 
-Hi Reinette,
+> +struct mii_regs {
+> +	unsigned int addr; /* MII Address */
+> +	unsigned int data; /* MII Data */
+> +	unsigned int addr_shift; /* MII address shift */
+> +	unsigned int reg_shift; /* MII reg shift */
+> +	unsigned int addr_mask; /* MII address mask */
+> +	unsigned int reg_mask; /* MII reg mask */
+> +	unsigned int clk_csr_shift;
+> +	unsigned int clk_csr_mask;
+> +};
 
-On 7/17/25 13:45, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 7/8/25 3:17 PM, Babu Moger wrote:
->> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
->> index 267e9206a999..b48cc67cbbe3 100644
->> --- a/arch/x86/kernel/cpu/resctrl/core.c
->> +++ b/arch/x86/kernel/cpu/resctrl/core.c
->> @@ -990,7 +990,8 @@ void resctrl_cpu_detect(struct cpuinfo_x86 *c)
->>  
->>  	if (cpu_has(c, X86_FEATURE_CQM_OCCUP_LLC) ||
->>  	    cpu_has(c, X86_FEATURE_CQM_MBM_TOTAL) ||
->> -	    cpu_has(c, X86_FEATURE_CQM_MBM_LOCAL)) {
->> +	    cpu_has(c, X86_FEATURE_CQM_MBM_LOCAL) ||
->> +	    cpu_has(c, X86_FEATURE_ABMC)) {
-> 
-> I interpret this to mean that ABMC does not depend on any of the
-> "legacy" monitoring features.
-> 
->>  		u32 eax, ebx, ecx, edx;
->>  
->>  		/* QoS sub-leaf, EAX=0Fh, ECX=1 */
->> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
->> index 2558b1bdef8b..0a695ce68f46 100644
->> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
->> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
->> @@ -339,6 +339,7 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
->>  	unsigned int mbm_offset = boot_cpu_data.x86_cache_mbm_width_offset;
->>  	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
->>  	unsigned int threshold;
->> +	u32 eax, ebx, ecx, edx;
->>  
->>  	snc_nodes_per_l3_cache = snc_get_config();
->>  
->> @@ -368,14 +369,18 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
-> 
-> rdt_get_mon_l3_config() is only called when one or more of the "legacy" monitoring
-> features are supported ...
-> 
->>  	 */
->>  	resctrl_rmid_realloc_threshold = resctrl_arch_round_mon_val(threshold);
->>  
->> -	if (rdt_cpu_has(X86_FEATURE_BMEC)) {
->> -		u32 eax, ebx, ecx, edx;
->> -
->> +	if (rdt_cpu_has(X86_FEATURE_BMEC) || rdt_cpu_has(X86_FEATURE_ABMC)) {
->>  		/* Detect list of bandwidth sources that can be tracked */
->>  		cpuid_count(0x80000020, 3, &eax, &ebx, &ecx, &edx);
->>  		r->mon.mbm_cfg_mask = ecx & MAX_EVT_CONFIG_BITS;
->>  	}
->>  
->> +	if (rdt_cpu_has(X86_FEATURE_ABMC)) {
-> 
-> ... so having this check within rdt_get_mon_l3_config() implies that ABMC depends
-> on the "legacy" monitoring features. This contradicts the change to resctrl_cpu_detect()
-> though so it seems that get_rdt_mon_resources() is missing a check for ABMC to ensure
-> rdt_get_mon_l3_config() is called when ABMC is supported (but "legacy" monitoring features
-> are not)?
+So MII interests me, being the MDIO/PHY maintainer....
 
-Yes. That is correct. Added a new check in get_rdt_mon_resources().
+You have introduced this without any user, which is not good, so i
+cannot see how it is actually used. It is better to introduce
+structures in the patch which makes use of them.
 
-diff --git a/arch/x86/kernel/cpu/resctrl/core.c
-b/arch/x86/kernel/cpu/resctrl/core.c
-index b48cc67cbbe3..09cb5a70b1cb 100644
---- a/arch/x86/kernel/cpu/resctrl/core.c
-+++ b/arch/x86/kernel/cpu/resctrl/core.c
-@@ -883,6 +883,8 @@ static __init bool get_rdt_mon_resources(void)
-                resctrl_enable_mon_event(QOS_L3_MBM_LOCAL_EVENT_ID);
-                ret = true;
-        }
-+       if (rdt_cpu_has(X86_FEATURE_ABMC))
-+               ret = true;
+Please add this only when you add the mdiobus driver, so i can see how
+it is used. Please look at the other structures you have here. Please
+add them as they are actually used.
 
-        if (!ret)
-                return false;
+> +struct mucse_hw {
+> +	void *back;
+> +	u8 pfvfnum;
+> +	u8 pfvfnum_system;
+> +	u8 __iomem *hw_addr;
+> +	u8 __iomem *ring_msix_base;
 
--- 
-Thanks
-Babu Moger
+I spotted this somewhere else. A u8 __iomem * is odd. Why is this not
+a void *? ioremap() returns a void __iomem *, and all the readb(),
+readw(), readX() functions expect a void * __iomem. So this looks odd.
+
+> +#define m_rd_reg(reg) readl(reg)
+> +#define m_wr_reg(reg, val) writel((val), reg)
+
+Please don't wrap standard functions like this. Everybody knows what
+readl() does. Nobody has any idea what m_rd_reg() does! You are just
+making your driver harder to understand and maintain.
+
+> +	mac->mii.addr = RNPGBE_MII_ADDR;
+> +	mac->mii.data = RNPGBE_MII_DATA;
+> +	mac->mii.addr_shift = 11;
+> +	mac->mii.addr_mask = 0x0000F800;
+
+GENMASK()? If you are using these helpers correctly, you probably
+don't need the _shift members.
+
+> +	mac->mii.reg_shift = 6;
+> +	mac->mii.reg_mask = 0x000007C0;
+> +	mac->mii.clk_csr_shift = 2;
+> +	mac->mii.clk_csr_mask = GENMASK(5, 2);
+> +	mac->clk_csr = 0x02; /* csr 25M */
+> +	/* hw fixed phy_addr */
+> +	mac->phy_addr = 0x11;
+
+That is suspicious. But until i see the PHY handling code, it is hard
+to say.
+
+> +static void rnpgbe_get_invariants_n210(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +	/* get invariants based from n500 */
+> +	rnpgbe_get_invariants_n500(hw);
+> +
+> +	/* update msix base */
+> +	hw->ring_msix_base = hw->hw_addr + 0x29000;
+> +	/* update mbx offset */
+> +	mbx->vf2pf_mbox_vec_base = 0x29200;
+> +	mbx->fw2pf_mbox_vec = 0x29400;
+> +	mbx->pf_vf_shm_base = 0x29900;
+> +	mbx->mbx_mem_size = 64;
+> +	mbx->pf2vf_mbox_ctrl_base = 0x2aa00;
+> +	mbx->pf_vf_mbox_mask_lo = 0x2ab00;
+> +	mbx->pf_vf_mbox_mask_hi = 0;
+> +	mbx->fw_pf_shm_base = 0x2d900;
+> +	mbx->pf2fw_mbox_ctrl = 0x2e900;
+> +	mbx->fw_pf_mbox_mask = 0x2eb00;
+> +	mbx->fw_vf_share_ram = 0x2b900;
+> +	mbx->share_size = 512;
+> +	/* update hw feature */
+> +	hw->feature_flags |= M_HW_FEATURE_EEE;
+> +	hw->usecstocount = 62;
+
+This variant does not have an MDIO bus?
+
+> +#define RNPGBE_RING_BASE (0x1000)
+> +#define RNPGBE_MAC_BASE (0x20000)
+> +#define RNPGBE_ETH_BASE (0x10000)
+
+Please drop all the () on plain constants. You only need () when it is
+an expression.
+
+> +			      const struct rnpgbe_info *ii)
+
+I don't really see how the variable name ii has anything to do with
+rnpgbe_info. I know naming is hard, but why not call it info?
+
+
+>  {
+>  	struct mucse *mucse = NULL;
+> +	struct mucse_hw *hw = NULL;
+> +	u8 __iomem *hw_addr = NULL;
+>  	struct net_device *netdev;
+>  	static int bd_number;
+> +	u32 dma_version = 0;
+> +	int err = 0;
+> +	u32 queues;
+>  
+> -	netdev = alloc_etherdev_mq(sizeof(struct mucse), 1);
+> +	queues = ii->total_queue_pair_cnts;
+> +	netdev = alloc_etherdev_mq(sizeof(struct mucse), queues);
+
+I pointed out this before. Try to avoid changing code added in
+previous patches. I just wasted time looking up what the function is
+called which allocates a single queue, and writing a review comment.
+
+Waiting reviewers time is a good way to get less/slower reviews.
+
+	Andrew
