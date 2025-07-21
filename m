@@ -1,145 +1,122 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12C62F32;
-	Mon, 21 Jul 2025 00:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F0EA95C
+	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 01:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753059307; cv=none; b=fjy2b2X9bG/uvD/cewQNwf9kug07KTsEIV476Vkuu9Zc4u3PmdQA9pTP7L/QUTVCCzclFB4CHj79d1qssQTHfX2n8EMDQ1ltvT8HgBFrlBJnk2qKRoHQ/B6ww+vN+2PBtff2TLmLM+pf27BKCj788HeBNOhsnfnc/+m3JOAGqDU=
+	t=1753062262; cv=none; b=ZsIYcyiMFDBohu0//xTBmLqWU4B88KN/d5kxm9zVtd/8YCmgpdIyVCpenUkSVDtSYtHu7ne8NF5ndV7IEaAxMQPUmb9EOTMq/ytle6H5F3IRIZjijTn+N645qhLMiyaWjNPgDeQwrxc1Oz3xmk5j+T5YLufzMaMbm40H0bjWTNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753059307; c=relaxed/simple;
-	bh=sM9yBsMCLLRYDK7HcYMiFENLAMw/Qrsw0/qfDYalqnM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BX6p8Gf0fp3i0832lGiGCedKwE0Mmh7sYkP/R2LTUjfgI7apIEXt3Mx83ZQvOWJgHsCt6Ty8ZAjj8Ab3pFWKseeYFCdAweYP2aHhstnUsfrl18FMWwJDGw5TqAAVvHnYF2eymjA1rIXOJTJZybv3aRNaLnIMUF3nQvDr7Jw4CF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WmAYMWJ2; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1753062262; c=relaxed/simple;
+	bh=L0Z9t9Wh/A4zDDhS1MGR1fwaP7pno+4uy6OTqGnwfSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dSqZbWsFk1JpyJ8ViEw1yLRhp703rfNtvtpOLj2pdxDcxrbkx33D9IoOrFfhChij6LmfBicSIMfzL3IDtpLmM/MQ4W2qQUsm6EdSIw62e7sDnupKDYqP2U7UfyNHg/RYnsdpKn343HdMghe3+pVcCwIHXG1MUjlcXEAJRV8pLLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UDIkX8q8; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WmAYMWJ2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=yL7XvIZ8aSR18txK0A+NfWoqxJXFpqXiT6eL6G1IbIY=; b=WmAYMWJ2Z4gaMirSioF2MktZHK
-	wlRnKKud+MiqOBUX3tB10mQ/WR0olJQDS5DeHiN4LM/YDB/kgWiME0fFO6Vaiga97ccX1DDX/MJhK
-	egbNGJ7d/qbGqlroD78VjGKtLR7LUWl0OB01Ef1Au4lAplNX6j1LG7oqTIoOrSv5GHC9saePK2Keh
-	idEy6BlyoN+tWY9Tze56QTdyRx7M0h3GLCP3l/muMkl5fY9CMZQ2Ioq1jHKYo4CtpT5twsECXxrAJ
-	ji33s/O7uw3qAhYZl3F+s2jcvGCaiSSKStuO/G8mPEDeBKCe6EjsOJECJd8nvqoRpO/sdFFFm8V6t
-	6PNQttxw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1udeo5-0000000FtkO-1rpu;
-	Mon, 21 Jul 2025 00:55:05 +0000
-Message-ID: <4777f4d7-f1c6-4345-92b2-0ba5d6563ee2@infradead.org>
-Date: Sun, 20 Jul 2025 17:55:05 -0700
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UDIkX8q8"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-23602481460so36183085ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jul 2025 18:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753062260; x=1753667060; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tHBrdYq45/4WdF0whEY2tHmY6Z0msFU6dYk6tOWf77k=;
+        b=UDIkX8q8yOmYyKQIfapdj1Uh8+eJP7VxIQPGXoiEYXpw/cBI3JlLBCpx2vw6+LVsWO
+         mRpjFqcH5lmVguVxWJicDpg/TWo03L0F4bwyU0S3Mr0xAcwDHtBq4e6gsDuRLNbzmXlE
+         I9tpYXyGnh+qmmquACC8Lyfl3X4M07VXg72Zk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753062260; x=1753667060;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tHBrdYq45/4WdF0whEY2tHmY6Z0msFU6dYk6tOWf77k=;
+        b=BMXUsXvFPyOMlqTHXvDxenX33LbvmBYEppNMvZGXlyPLOHOT1slC+Wfa62OFXWa6Ft
+         snfCEvHfUHTMjBeBkTVbPtPGBUatOrbdbm267JAZ6GoerpaFyAKJxrFfnBMuBKKG4TKZ
+         /aKjAlfEAHB/O2BYiAOeUxzlRTr2ILIZmG6hbdY+35yg4Nev6DQUBbtuhDlaNUOjf7fJ
+         KAuCkxeiGxKXLKw0EP7/sASBM6erX1IWy6+VcE7oPyKWPptucongW7HnLG/BaWqrnunu
+         Wwax58xPGvgraMxGTIbZ8Tll9UcFBYdusf75bohkb9mhAX2Divt0NSZTfG7uucQ22kIe
+         r/GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVE0npaVYAsGg0A0tWaDi7i6qYm81BJFVCcwKCujI/rWxnVr4f8LSlkaQYsPfnDS/BYoGK40CqLX6Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywff6eLtK7ThpE1KUqiaVvCBqbkBbHv+z9dXcesZ+WysBQAdjbD
+	wU+lpvsSUVsu39e4FUUDgAbxdVwUtfX5E7bx7hUiTL4qFwiF1KtdzrZTIGkZjNLvYGxlkiMktiG
+	WZ5I=
+X-Gm-Gg: ASbGnctdVIzMPwNw5fsAABLrVmqKR4uDkVheGkMobZAwT0q8lqVoRG/MIMoh+qiSGRO
+	+4st0qlHvbSIEIg3RvHMJvpe7CEgpDWa1DSETOmUlYVbCVxOxDvbN+lRMyw6k5wr6ACNaSKWeZw
+	vl7Lf0yJ2IcDmATUrpigTDguCvWnE5C5CoOI+qNnVO/5wIe2FQCXPTpYz8rd/+opsrZp/fKw5gZ
+	nmgRcamqtBzQ6QlNvUmO6C1ljUETFWOIv+0oJJ9AES36z+ayOmXDFYo7OxXXI6N0eokIHrF5+90
+	Ri9n8d50TPekHbfVLanm/Xgr8PPzrt4s/JTnsxteTBfXvmdOtoy+D9UPB5/jTbjHE+n8xGyuYb0
+	d59HaxMyrDPajBZfF
+X-Google-Smtp-Source: AGHT+IHHK3JkTcCKaUDYK0J7ie9NU72X6OylFLHnhOs1ylG4T57NGJcGpo7Az0XrymfkUHKXHfTIYA==
+X-Received: by 2002:a17:903:2f06:b0:234:914b:3841 with SMTP id d9443c01a7336-23e24fe9429mr272868615ad.39.1753062260496;
+        Sun, 20 Jul 2025 18:44:20 -0700 (PDT)
+Received: from google.com ([2401:fa00:1:10:43c7:b6cd:7386:78ec])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6b48e5sm47188745ad.101.2025.07.20.18.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Jul 2025 18:44:20 -0700 (PDT)
+Date: Mon, 21 Jul 2025 09:44:15 +0800
+From: Sung-Chi Li <lschyi@chromium.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] hwmon: (cros_ec) add PWM control over fans
+Message-ID: <aH2bbzDbpf3RMcMp@google.com>
+References: <20250718-cros_ec_fan-v6-0-8df018396b56@chromium.org>
+ <20250718-cros_ec_fan-v6-1-8df018396b56@chromium.org>
+ <8869b525-c32d-4a8c-8e1c-b2718896dd2a@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 2/4] kernel/api: enable kerneldoc-based API
- specifications
-To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-api@vger.kernel.org, tools@kernel.org
-References: <20250711114248.2288591-1-sashal@kernel.org>
- <20250711114248.2288591-3-sashal@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250711114248.2288591-3-sashal@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8869b525-c32d-4a8c-8e1c-b2718896dd2a@roeck-us.net>
 
-Hi Sasha,
-
-I would like to ask a few questions to try to clarify/understand, please.
-
-On 7/11/25 4:42 AM, Sasha Levin wrote:
-> Allow kernel developers to write API specifications directly in
-> kerneldoc comments, which are automatically converted to machine-readable
-> C macros during build.
+On Fri, Jul 18, 2025 at 09:45:29PM -0700, Guenter Roeck wrote:
+> On Fri, Jul 18, 2025 at 03:08:29PM +0800, Sung-Chi Li wrote:
+> > From: Sung-Chi Li <lschyi@chromium.org>
+> > 
+> > Newer EC firmware supports controlling fans through host commands, so
+> > adding corresponding implementations for controlling these fans in the
+> > driver for other kernel services and userspace to control them.
+> > 
+> > The driver will first probe the supported host command versions (get and
+> > set of fan PWM values, get and set of fan control mode) to see if the
+> > connected EC fulfills the requirements of controlling the fan, then
+> > exposes corresponding sysfs nodes for userspace to control the fan with
+> > corresponding read and write implementations.
+> > As EC will automatically change the fan mode to auto when the device is
+> > suspended, the power management hooks are added as well to keep the fan
+> > control mode and fan PWM value consistent during suspend and resume. As
+> > we need to access the hwmon device in the power management hook, update
+> > the driver by storing the hwmon device in the driver data as well.
+> > 
+> > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+> > Acked-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> > +
+> ...
 > 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  kernel/api/Makefile              |  21 +-
->  scripts/Makefile.build           |  28 ++
->  scripts/generate_api_specs.sh    |  59 +++
->  scripts/kernel-doc.py            |   5 +
->  scripts/lib/kdoc/kdoc_apispec.py | 623 +++++++++++++++++++++++++++++++
->  scripts/lib/kdoc/kdoc_output.py  |   5 +-
->  scripts/lib/kdoc/kdoc_parser.py  |  54 ++-
->  7 files changed, 791 insertions(+), 4 deletions(-)
->  create mode 100755 scripts/generate_api_specs.sh
->  create mode 100644 scripts/lib/kdoc/kdoc_apispec.py
+> > +static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec, u8 index,
+> > +					 u8 *control_method)
+> > +{
+> > +	struct ec_params_auto_fan_ctrl_v2 req = {
 > 
+> ec_params_auto_fan_ctrl_v2 isn't declared anywhere. Looks like some patch
+> is missing, and I don't immediately see it. Dropping the series.
+> 
+> Guenter
 
-[snip]
+Hi, these structs are defined in the patchset v5
+(https://lore.kernel.org/lkml/20250620-cros_ec_fan-v5-1-5979ea1abb31@chromium.org/).
 
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index a6461ea411f7a..5c0e44d1b6dbc 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -172,6 +172,34 @@ ifneq ($(KBUILD_EXTRA_WARN),)
->          $<
->  endif
->  
-> +# Generate API spec headers from kernel-doc comments
-> +ifeq ($(CONFIG_KAPI_SPEC),y)
-> +# Function to check if a file has API specifications
-> +has-apispec = $(shell grep -qE '^\s*\*\s*(api-type|long-desc|context-flags|param-type|error-code|capability|signal|lock|side-effect|state-trans):' $(src)/$(1) 2>/dev/null && echo $(1))
-> +
-> +# Get base names without directory prefix
-> +c-objs-base := $(notdir $(real-obj-y) $(real-obj-m))
-> +# Filter to only .o files with corresponding .c source files
-> +c-files := $(foreach o,$(c-objs-base),$(if $(wildcard $(src)/$(o:.o=.c)),$(o:.o=.c)))
-
-1. One must build a kernel (with some desired .config file) to use/test this,
-correct?
-
-2. It looks like it only checks .c files, omitting header files. (?)
-Some APIs are only present in header files (e.g., all of <linux/list.h> is
-either macros or inline functions).
-
-
-> +# Also check for any additional .c files that contain API specs but are included
-> +extra-c-files := $(shell find $(src) -maxdepth 1 -name "*.c" -exec grep -l '^\s*\*\s*\(api-type\|long-desc\|context-flags\|param-type\|error-code\|capability\|signal\|lock\|side-effect\|state-trans\):' {} \; 2>/dev/null | xargs -r basename -a)
-
-3a. included files: does this catch the (rare) use of a C file doing
-#include <path to some other C file> ?
-
-3b. Quite a few makefiles generate final .o files with a different name
-from the source files. It looks like that is handled above by looking
-for the first (or intermediate) .o file for each .c file, so the final
-.o file with a different name is ignored (or at least doesn't come into
-play here). Yes?
-
-
-> +# Combine both lists and remove duplicates
-> +all-c-files := $(sort $(c-files) $(extra-c-files))
-> +# Only include files that actually have API specifications
-> +apispec-files := $(foreach f,$(all-c-files),$(call has-apispec,$(f)))
-> +# Generate apispec targets with proper directory prefix
-> +apispec-y := $(addprefix $(obj)/,$(apispec-files:.c=.apispec.h))
-> +always-y += $(apispec-y)
-> +targets += $(apispec-y)
-> +
-> +quiet_cmd_apispec = APISPEC $@
-> +      cmd_apispec = PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -apispec \
-> +                    $(KDOCFLAGS) $< > $@ 2>/dev/null || rm -f $@
-> +
-> +$(obj)/%.apispec.h: $(src)/%.c FORCE
-> +	$(call if_changed,apispec)
-> +endif
-> +
->  # Compile C sources (.c)
->  # ---------------------------------------------------------------------------
->  
-
-[snip]
-
-Thanks.
-
--- 
-~Randy
-
+I removed it from v6 because it was applied before. Can you help pick that
+patch? Thank you.
