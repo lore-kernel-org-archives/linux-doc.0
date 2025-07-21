@@ -1,241 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD11E217736;
-	Mon, 21 Jul 2025 20:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753129402; cv=fail; b=QeiTSjjSwogNoLoZl9+B75EtInHAJJ32GMkaxXpeyHcArJdCPxTpQORfDGhzVCH1uQGKW6DbKeexWD08sJGWdpGrUXfwTYY4FNUCzifvQzkDJ2iQ+Afeb7m2t4HVVBmXscLtPJX8UZU1iSZszoEApA9r7T9g5Bq95wpFX8+SjoQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753129402; c=relaxed/simple;
-	bh=Xtyopffcgz4lIhrPUnHp9CyjByuLk024fVahx1sw+Bk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=kCD2xSiuftrROEYNV/3QYjFErtLg/mVeHQa2rJBrwp+mPtYG96hfoXepWBaHlhpUHaeQU/uMTDpHAWYqBrmoYqeNU9iFK3mQvSrILbyqP5zjnjoVW3nQkbV8SpqjmMu73M6k3+0aWQ8XnxxD0ev4uI5EcN5LEzO5khgbtZcyXWA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=meNJ7p3/; arc=fail smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B0222F16C;
+	Mon, 21 Jul 2025 20:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753130994; cv=none; b=XcF5tWe03lfzSPFwvh9DS8+1MX74O3iRvJOvF9EbsgSwioqcLgmaPwHtiunOnwHPf16v10FsTUXRoTD+1pCFNZu1G5gAOm4VPlddyagvA2gxIWOWN4II1j2v1s+JpKiHsiE3FnOPOHhSLJE/K4aV6DxWgLYdQkN3FSS6UMnB7Es=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753130994; c=relaxed/simple;
+	bh=RGpMFousrm9JXr2aga1XoiQZq81gXpkDZQCrU7p8kG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J+n0C7+8nLAWgOnQW0vsAOF+FaLhTTplzKC54xFgeQ6Gu6Yfxn82pTzBXT7OIcicQDss77m0fR5TKg4i6AgdpM5k8LR3a1Qvi/HMsV6fjtQoClC2B2Nh+HMcxqviyz4ogdjjtSdxhmiUaMIn2yEw5re21gJzMp9WCXi7VWIa34g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=USwBlGGy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="meNJ7p3/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753129401; x=1784665401;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=Xtyopffcgz4lIhrPUnHp9CyjByuLk024fVahx1sw+Bk=;
-  b=meNJ7p3/D5fyIup3TJJBoZVwHRA16v3XE9sE1oV3bPprnnXWQTUCTcqc
-   jxyfLqFJ3/INOZLcbaP4PttltZ84HOh581Of2GgPBUkq3WQQUtbXPw3vF
-   VOJ6W2nRXSSYZmCwtKw33ye7r4iYU26j1B9mgXNbA6LC5U1HxyTm3kyaN
-   3XtCSZXH9gC6Vhge3Vil90QynTkyZnFXBhMdOIySEA6T67rv/C2HgW47i
-   fdI+nO8auK1ikdyqPpXbrxUIQQnvjbN+Esvh78Oav91rei4EP2k1wQFK3
-   obiOTh1wzzT2xxa0o8nYAQnHyw4zCmuskkDdH7Fvqfj+Fj6l8W3+sG/Li
-   w==;
-X-CSE-ConnectionGUID: XX8ZaCWqQ1+FPByOpDXZCw==
-X-CSE-MsgGUID: UyEd6zAWQZS1kOchlNaYFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="77899680"
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="77899680"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 13:23:20 -0700
-X-CSE-ConnectionGUID: ZUcmDyzbR7WFNas2VFpqAw==
-X-CSE-MsgGUID: OUBFk1uoSRmqT3p+yKgBgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="182651472"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 13:23:19 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Mon, 21 Jul 2025 13:23:09 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Mon, 21 Jul 2025 13:23:09 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.52)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Mon, 21 Jul 2025 13:23:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dUAB7wl5HM3m1XRxwj3qxYMeh+/DhMNiAI0WGuEUTxra1aS2paBPWvYTEbT2WNkv0eYoN/huaLJ/RqzdmSC3Nj3ux9MYq6KiQ8jAmmTPXJahi1yOSOeAmS6akMA70UksxeKeqPk15ZPndczFFiEmxgzG9klXWWyNi3ss9UTMUF/xFumaEq16Z6KMTPHO05E1g0Ecnzu/9+loAxXoMCp+3MUsbZd9qraS6GfWOeN1S9rXqFUupJHsKKHfEUJB8cgNmIZUTfFvKyFnu5eoPmRK/KnVkI8dcJG0Z7vJ/lTD6w3B8YDISV5svE9v5ilG1mViKq2mJXuRMa8rnFoUEME3lA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lqsnbUfh4nce6z/hI8JZCrlviPQcXqGxPN95qH+uvOs=;
- b=VBynJyQG4ugnomTUdfJipPjT/D0w/VZRq3mR9xKQZkAUOSLFJAoq/VzKkacpogGfkIti+FJGNKWRTT57uUZiNpNErZ16Q0wp5tFuqPKKIWTNSvgNCBwdoCihtdMhsbvAsmI9WY4E+pf42pI6c3t5lUDVuhXgMJlkuxZ6Bmwa0feA1h3ah/P406LlcX0LF/WPSImOBt3CrO3Jr8TbFx8SMrOFJaC6gvnwGndaW3mp/aPaPud5wYKxqDqTYqk+RIR34Y1InaS7VfiHTxws0X5Px0M7XCUzVkDMSeAdEHaZtcdNxLK70RcWyapOFhl8Jl+E9hHB5QCzSoquYiYYNh/bGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
- (2603:10b6:518:1::d3c) by CH3PR11MB7348.namprd11.prod.outlook.com
- (2603:10b6:610:14d::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Mon, 21 Jul
- 2025 20:23:06 +0000
-Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
- ([fe80::bbd5:541c:86ba:3efa]) by PH3PPF9E162731D.namprd11.prod.outlook.com
- ([fe80::bbd5:541c:86ba:3efa%5]) with mapi id 15.20.8943.029; Mon, 21 Jul 2025
- 20:23:06 +0000
-Date: Mon, 21 Jul 2025 15:24:45 -0500
-From: Ira Weiny <ira.weiny@intel.com>
-To: Gregory Price <gourry@gourry.net>, "Fabio M. De Francesco"
-	<fabio.m.de.francesco@linux.intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>, <linux-cxl@vger.kernel.org>, "Davidlohr
- Bueso" <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Alison Schofield <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
-	<dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] cxl: docs/driver-api/conventions resolve conflicts
- btw CFMWS, LMH, ED
-Message-ID: <687ea20d2e508_34e0f2941@iweiny-mobl.notmuch>
-References: <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
- <1985851.b9uPGUboIS@fdefranc-mobl3>
- <aGwmFwGNmw8n9zGR@gourry-fedora-PF4VCD3F>
- <17128669.tgchFWduMW@fdefranc-mobl3>
- <aH2PAju1rLxIbXXk@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aH2PAju1rLxIbXXk@gourry-fedora-PF4VCD3F>
-X-ClientProxiedBy: MW3PR05CA0025.namprd05.prod.outlook.com
- (2603:10b6:303:2b::30) To PH3PPF9E162731D.namprd11.prod.outlook.com
- (2603:10b6:518:1::d3c)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="USwBlGGy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 464E6C4CEF4;
+	Mon, 21 Jul 2025 20:49:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753130994;
+	bh=RGpMFousrm9JXr2aga1XoiQZq81gXpkDZQCrU7p8kG4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=USwBlGGycUbYKwRlz8H1PUciShFkTuZXfVpLM5MtEpyQ2A97ZmBOIYa0cGOwBplAM
+	 P/UloDehuLPGSIqgqNRVeLye3ZQJwvjrIvND/8XbCEE/heb6TuWjlHXRTmnHic7i+/
+	 ufyzJfA+Tj1dnxW4WNlS2ijwfnLETqFwratBaRXG4lRw2vboY071pv4Rgj4gG0uneL
+	 vJADYIT6M2Sug0BnFp+wdbmKStgy/2g++iMRLOa45PAedgg8EJByYxkT5u6rz9xzId
+	 7//OhF3fMircm2SYJfkHca/mWkXbMTQEr5KB9GUZB1xfjt2aV3YLzdWsmNabD0jVLY
+	 gzg6qfQMQz07w==
+Date: Mon, 21 Jul 2025 13:49:53 -0700
+From: Kees Cook <kees@kernel.org>
+To: Will Deacon <will@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Wilczynski <michal.wilczynski@intel.com>,
+	Juergen Gross <jgross@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Roger Pau Monne <roger.pau@citrix.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Usama Arif <usama.arif@bytedance.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
+	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-mm@kvack.org, Ingo Molnar <mingo@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v3 04/13] x86: Handle KCOV __init vs inline mismatches
+Message-ID: <202507211349.D93679FB25@keescook>
+References: <20250717231756.make.423-kees@kernel.org>
+ <20250717232519.2984886-4-kees@kernel.org>
+ <aHoHkDvvp4AHIzU1@kernel.org>
+ <202507181541.B8CFAC7E@keescook>
+ <CAMj1kXGAwjChyFvjQcTbL8dFXkFWnn9n47bkN7FP=+EsLNsJdg@mail.gmail.com>
+ <aH42--h-ARsvX5Wk@willie-the-truck>
+ <202507211311.8DAC4C7@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH3PPF9E162731D:EE_|CH3PR11MB7348:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc965039-7529-4c08-6822-08ddc89466d1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9uSZr73bFPWNTFUDGNuE0iKJ5J3o5GWt4Gv6B8xFZkt36NFcxbKYlR/EqyKc?=
- =?us-ascii?Q?rA9mLQ5dxZSkc6E3R/IlZBMowAWuqU4tVOU7TrZUQfUvbVMcKl3oEUD8y5nd?=
- =?us-ascii?Q?cUfpIKii4WXUbYCDIGQtbx51KQ8oRc1XGcjGHzWLKk8XeozCztj7U9UZqiUy?=
- =?us-ascii?Q?SbVkRrColkLMmE8Y2X2+J1l8vuD+4s7GXaECN3sQRBvueEyAVFfVJ9zE5JeL?=
- =?us-ascii?Q?w1Ac4HnM7+l+Qe49L9odF2CCcHWYRKx+NVLpXUSF/jSjYeVhr+a3XUniXURq?=
- =?us-ascii?Q?U8DkOShmCEXQ1Tg95Qnx6Ex+q4/6G+AQ0LzjGT24zm2jiZOfNMRis4jiaO5n?=
- =?us-ascii?Q?UqYY6ihnrP1/st0kgvT1MGdpsBnzz3XxfF57Fef5RYtRJZSO8LOqGwvhNvRt?=
- =?us-ascii?Q?8BoEAJsjl8vTbnTtrfQFQXJsxcssW0ES1FYcghl4JlYZCr0spvIwN2J/JM3n?=
- =?us-ascii?Q?GipCSpMemQr9qWQ/BNhq8SzQirXf3pwOCgilDu09W/BEUO9GnNLrXG7NMWxI?=
- =?us-ascii?Q?H3vA8ocMhgqzbZUzAiaCc2STebmDsRtVpu/XBozqxrnseFvv7e0uYnutmc7u?=
- =?us-ascii?Q?rO+JXMTc4YV6dmy6ByGQzHR0fXzfsXGKJBfy/1Ep/NMplOe7hXJoSWnmgr0O?=
- =?us-ascii?Q?vBFg4EW9/uYh1eA54yva9CfSUDWbxNQRp/jHoeVANGL7T44ExeKjv3jsRjpx?=
- =?us-ascii?Q?amOPL8YPC6lcwqN/c/ydb33GfpOcYLCm+uKlajsXNZBi1EpujQJYMcDUGMyy?=
- =?us-ascii?Q?XlqhoxwSVrfogPCezbhLOyqhAVtSpA3CkxpDUU0Dp9ipbn49GgbG4Otb7vCY?=
- =?us-ascii?Q?IJe6K3gOAnB1wJ4qhGQ155ziHRX8pXQxhHE8M09xZceXYLzXzAzKkP7sqnlw?=
- =?us-ascii?Q?uVoATdZEQcx+G01JPKPsaD/mdS0lvpILhqAni2TUxbo4m3+B9hptlwG3A5oT?=
- =?us-ascii?Q?PIkCFqyh6nycdFe7Qw/FPuomR2Kb3KRkyHELjMplmXlDPYRJbtFMI03wPJiB?=
- =?us-ascii?Q?aL9Tu4ryZ905/Yj1ue5M44jwvEVtUGqw8CiiMgeNNGvUpiY39VYcH9AfHNL0?=
- =?us-ascii?Q?qD+CPP/k1QOEWpynt4bdrHZ01tYs6lHv6odqQ+kl04xPLYwc+7gVToewqWCf?=
- =?us-ascii?Q?OcUC8X4Dud33+uxHJmsxya4pLf16REkG7jpMEmK0a/wJrNZh2tfa6zwRq408?=
- =?us-ascii?Q?qVunN0hzRaLC8v5Ev0awRexYS16DgYdGRwu+8okvcmtbxfsSj/I+Zh4LyO1q?=
- =?us-ascii?Q?DSkslhF/CJ912HmzHrE1STE+HlclmAl6ML9WJiJ7uPdOFbOqCCF9toaEh7bm?=
- =?us-ascii?Q?93aTKtgqe8ik+x8A4i+Q18ZykZXbQPYciDln0nndhykVeFrbcfXJQWAMlQg7?=
- =?us-ascii?Q?+3aBINCoq4nPrHk59xTC5ZH25hq9qCos8FMwJ1KI4Y8vCDVWaA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH3PPF9E162731D.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JC+ZepFVyVyPN109uz2MAUVfKqI+2vO4IW2Nyjbi0QNdo3NU8D/kBfPrYkEG?=
- =?us-ascii?Q?V9G0Sw9qAgJLjCl+uIccIG3vz2TQ7GCnsC8pELgKna6YuBPljZbA9iQZ0psW?=
- =?us-ascii?Q?vdgmUOJL2colXKTQpCAYnWc3+cv52bjVZ3nsi6AqvA72brnmLqL1T3wmMhM5?=
- =?us-ascii?Q?d4NayRIml9g4HLJLI9oZ0/4fzMjXRpCLCksCzpjKgXFbKWc46rmZtbTUZT5H?=
- =?us-ascii?Q?UXBfPZYDCUq/sX2u1oV14FJ/47lpmRBJlDangrqnbYOPjxHHO9uh8wyz5kA/?=
- =?us-ascii?Q?YqvWS4p8qyQ8mSWd9k00if7JFpj1m2WLJ8UIrcfbCS2H5Il1ZBVYCDcobtza?=
- =?us-ascii?Q?qT/YAAK/f95h4laY+y39b9qm28KINcD6pCuPl+3K40E6Xj624dOcuSxF4wkH?=
- =?us-ascii?Q?x5vg3ogzAHo4IuW5BZJJX13r2GOGa8IsYhuK14KVIAEhhYzfXhFgVQjUZlRD?=
- =?us-ascii?Q?VbRiSktEwD1AZ0ORYFfzumrDwxIAb/eUxkzWd2Yy5Er3vDNxM/CVOW4tOzXo?=
- =?us-ascii?Q?EnBIegMObo8rshuIuX5sMPaLf5LSy7NT1hButEnI4VYdJXGzwGU4/JAjmdIl?=
- =?us-ascii?Q?3bMOQDuf1G2GOVJvXcw8AodAGVqD1ZGVl+CVkfxfoWuBO15i7Go3lYN8ksly?=
- =?us-ascii?Q?t4IO4tt7gsjuLvMb03crX3IrnCsPFg4lfozYMeuzJ1R1c3X62FGPZ4dA8LSD?=
- =?us-ascii?Q?gB55V64keLzaERbIZLcuF14RI0DcaFx6xUBMaEdI9dAv1hwlG5y3p5BfYGHC?=
- =?us-ascii?Q?JaJ2Qjh8IrPk3awekc0ZVQEGqOxqVqdJD8Z9hTca4jZJMsZxRF0o5OerKHHB?=
- =?us-ascii?Q?9Scrzp8UWpzSE1nlDUxeveHegn9dNcNarlxCC+5ejf6YhhuKRErVjb3FjQwW?=
- =?us-ascii?Q?Gc4fOhpPWcKsp8k5N+p4/bpyn9/Amy0YEtFh/rCqufuZY0QUxSLXRnnTew3G?=
- =?us-ascii?Q?Ap2mbfX7hm9S47ymJzMSIkqAIrRGtGO3F8Q/0MMZJs3pO/BXGmakShGXnUaQ?=
- =?us-ascii?Q?wsS46IRDYR6S/gJQiI5SLvDVoTyctxGMH76/GZ8CCqySzMAfcuWx/W7h7XTG?=
- =?us-ascii?Q?GhVQ5sp9YDLnzolxnsmijBc1lIQHC3AMJkUsdIlrOuF95PP1xvrlP0Foeift?=
- =?us-ascii?Q?CpuOWvK9N/KNPIBe5m/l57qAf22LatZEkBF08rxN2SsX/cHqMzs70wxZp9Ra?=
- =?us-ascii?Q?O7ATVth+yqZ+VaEuQS8faQiLdAKTplJ1u/Mx0D4J1I9cwk+KMkLuRLxjbQqh?=
- =?us-ascii?Q?ERt+MU14NKub0xlxSpr9wgzM+PkMj8bS9YpC/76TCACFDe1AYHag/EOWSSAE?=
- =?us-ascii?Q?yLXK41puUsVxSuGVUPGmOg2lfqR5D9HVU20Pd3img3ke7ZzEo+JmX9CCn71Q?=
- =?us-ascii?Q?eQ4S+gWJaGo8ckrvalCmExZaiZhuegX5mgRGN2XRJgCT7A55xYKyARs1lar6?=
- =?us-ascii?Q?bDj9ntuji+kAOPXSKW7XRfc7/MzmS9dwfI3kGM0ilF/B/P9X77rWx8QKg8mC?=
- =?us-ascii?Q?y1SKub3zxDtLID/IcseYCO8fctUg72wYq8X/4ACjtLddWvLSFUumnfgWI+B3?=
- =?us-ascii?Q?26aVOKaB5Gd7y0aK7PG4aW4WN2iOGJSnemSih81b?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc965039-7529-4c08-6822-08ddc89466d1
-X-MS-Exchange-CrossTenant-AuthSource: PH3PPF9E162731D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 20:23:06.3623
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cgwynTYbHOzv1f9/kj7A3VPrG+p0QfeMWUX6Yz55SJyQKWopZyNQN92np5eyW8yuLhL9s7PSLEaBI5vhKsr/+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7348
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202507211311.8DAC4C7@keescook>
 
-Gregory Price wrote:
-> On Thu, Jul 17, 2025 at 04:14:13PM +0200, Fabio M. De Francesco wrote:
-> > The table above shows a real configuration copied from an x86 platform 
-> > where the Low Memory Hole (LMH) starts at 2GB. 
+On Mon, Jul 21, 2025 at 01:14:36PM -0700, Kees Cook wrote:
+> On Mon, Jul 21, 2025 at 01:47:55PM +0100, Will Deacon wrote:
+> > On Sun, Jul 20, 2025 at 04:10:01PM +1000, Ard Biesheuvel wrote:
+> > > On Sat, 19 Jul 2025 at 08:51, Kees Cook <kees@kernel.org> wrote:
+> > > > On Fri, Jul 18, 2025 at 11:36:32AM +0300, Mike Rapoport wrote:
+> > > > > On Thu, Jul 17, 2025 at 04:25:09PM -0700, Kees Cook wrote:
+> > > > > > When KCOV is enabled all functions get instrumented, unless the
+> > > > > > __no_sanitize_coverage attribute is used. To prepare for
+> > > > > > __no_sanitize_coverage being applied to __init functions, we have to
+> > > > > > handle differences in how GCC's inline optimizations get resolved. For
+> > > > > > x86 this means forcing several functions to be inline with
+> > > > > > __always_inline.
+> > > > > >
+> > > > > > Signed-off-by: Kees Cook <kees@kernel.org>
+> > > > >
+> > > > > ...
+> > > > >
+> > > > > > diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+> > > > > > index bb19a2534224..b96746376e17 100644
+> > > > > > --- a/include/linux/memblock.h
+> > > > > > +++ b/include/linux/memblock.h
+> > > > > > @@ -463,7 +463,7 @@ static inline void *memblock_alloc_raw(phys_addr_t size,
+> > > > > >                                       NUMA_NO_NODE);
+> > > > > >  }
+> > > > > >
+> > > > > > -static inline void *memblock_alloc_from(phys_addr_t size,
+> > > > > > +static __always_inline void *memblock_alloc_from(phys_addr_t size,
+> > > > > >                                             phys_addr_t align,
+> > > > > >                                             phys_addr_t min_addr)
+> > > > >
+> > > > > I'm curious why from all memblock_alloc* wrappers this is the only one that
+> > > > > needs to be __always_inline?
+> > > >
+> > > > Thread-merge[1], adding Will Deacon, who was kind of asking the same
+> > > > question.
+> > > >
+> > > > Based on what I can tell, GCC has kind of fragile inlining logic, in the
+> > > > sense that it can change whether or not it inlines something based on
+> > > > optimizations. It looks like the kcov instrumentation being added (or in
+> > > > this case, removed) from a function changes the optimization results,
+> > > > and some functions marked "inline" are _not_ inlined. In that case, we end up
+> > > > with __init code calling a function not marked __init, and we get the
+> > > > build warnings I'm trying to eliminate.
 > > 
-> > The"HDM Decoder Base/Size" refers specifically to the CXL Endpoint 
-> > Decoders HPA range Base/Size. The first row of the table describes the 
-> > first window (CFMWS[0]), whose HPA rage base/size is 0/2GB, and the 
-> > Endpoint Decoder that the CXL driver should match with that CFMWS, 
-> > whose HPA range base/size is 0/3GB.
-> 
-> The only thing i ask is being more precise with decoder references.
-> 
-> HDM Decoder can refer to any of: root, switch, hb, or endpoint decoders.
-> 
-> Below you make this distinct in the explanation, but in the table it's
-> simply general "HDM Decoder".  All I ask is for a bit more clarity on
-> what decoder will contain what values to avoid further ambiguity.
-> 
-> > The driver expects that the Endpoint Decoders HPA ranges to be contained 
-> > into their corresponding Root Decoders. Furthermore, Linux fails to 
-> > attach Endpoint decoders to already constructed CXL Regions because of 
-> > the same size discrepancy issue. 
+> > Got it, thanks for the explanation!
+> > 
+> > > > So, to Will's comment, yes, the problem is somewhat fragile (though
+> > > > using either __always_inline or __init will deterministically solve it).
+> > > > We've tripped over this before with GCC and the solution has usually
+> > > > been to just use __always_inline and move on.
+> > > >
 > > > 
-> > > I think you need to describe what the expected behavior is for what linux
-> > > will produce in terms of the decoder objects given the above.
-> > >
-> > The expected behavior is that Linux should be able to match the Endpoint 
-> > Decoder with the Root Decoder range even if the CFMWS size is smaller 
-> > than the Decoder's, as long as the latter adheres to the 256MB * interleave 
-> > ways rule. Furthermore, Linux should be able to match the Endpoint decoders 
-> > with already constructed CXL Regions and allow the attachment process to 
-> > succeed. 
+> > > Given that 'inline' is already a macro in the kernel, could we just
+> > > add __attribute__((__always_inline__)) to it when KCOV is enabled?
 > > 
-> 
-> You may also need to describe more than just the contents of the
-> endpoint decoder.  What would the content of any intermediate decoders
-> be (matching the root or matching the endpoint?).
-
-I wonder if the explanation is lacking intermediate decoders because the
-test system does not have them?
-
-Is this true Fabio?
-
-Regardless I think Gregory is correct here.  We should try and document
-the general case.
-
-Ira
-
-> 
-> > If this explanation suffices, I will incorporate it into the next version
-> > of this patch and also explain that "HDM Decoder" stands for Endpoint Decoder 
-> > and that the CFMWS HPA base/size describes the System Physical Address (SPA) 
-> > which the CXL driver uses to make Root Decoders HPA range base/size. 
+> > That sounds like a more robust approach and, by the sounds of it, we
+> > could predicate it on GCC too. That would also provide a neat place for
+> > a comment describing the problem.
 > > 
+> > Kees, would that work for you?
 > 
-> This explanation is better, just need a few more bits of data and I
-> think you're good to go.
+> That seems like an extremely large hammer for this problem, IMO. It
+> feels like it could cause new strange corner cases. I'd much prefer the
+> small fixes I've currently got since it keeps it focused. KCOV is
+> already enabled for "allmodconfig", so any new instances would be found
+> very quickly, etc. (And GCC's fragility in this regard has already been
+> exposed to these cases -- it's just that I changed one of the
+> combinations of __init vs inline vs instrumentation.
 > 
-> ~Gregory
+> I could give it a try, if you really prefer the big hammer approach...
 
+I gave it a try -- it fails spectacularly. ;) Let's stick to my small
+fixes instead?
 
+-- 
+Kees Cook
