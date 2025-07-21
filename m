@@ -1,271 +1,290 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831702E03E5
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 16:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5FA1E32D3;
+	Mon, 21 Jul 2025 17:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753115452; cv=none; b=uXGMvADcZ9gbT/cQ+SEFGZBb4Aq8tp4cMkNSm1stzEju7aImyV/WEHbvW54Hj6QVNUBvhR9b4h0N3VWdNU3j0WR5BmZA7XtTRBIbp7K+E8UAWI4YY3CsKLKCeKVk0VihJjCUsotd6bRgQieN7dCigklL7jiLnvNAhjN1xZ+Pbqk=
+	t=1753118194; cv=none; b=KLOX8iRF9J/GcspMePSCRKNDfhH+vo5v3/0tZ0Qnt37Liki/1xhZfczgcHfSNSJZbHalfog7JkyPTI3P+gWuloUy5FsfLbGu2klN71j7VYeKnHW2h0yVtP5Atvv/wewxLbDNErzqpy3s3tzJMYkmrRSDcyVCZXCXE39lE0Rq3Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753115452; c=relaxed/simple;
-	bh=LcK4LIDhkpmNmzFtUfX5BsXG1e79f98fn51x8mcpMnk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N0vGfTbvdvg/AiXG8Xx5b1tBXUKCzcaiXfMhLcOezPUtFWP8pDalsxHQWtkTnzEDjHJZtc2zuQixlG+qcZpF57lII3ydjB5vqJCr3ZuEnkZCbYe3S1lNwBV4kTFV896cr4zk643SxoIrzfWDtRoE7daEBiy3mjRNpycIrdyH7fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=b7Z0e0aO; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1753118194; c=relaxed/simple;
+	bh=1GT4lWwNp8stNHLex+5QlywJON0Cd9VdZN+XvmXNm9A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u5NtPCMlozArXiDUldXYH3caouMJUXEhnjK+2UA2rwezSAH9mqXJXnK+rRTIdCQi9/mNH3XCHtMJuzUF720V7JnES+x2ej4MI5QWC1UKV08LDf7lcJzH8urjtAJe7X/nkeTp0o70wapIrqJUywuodtGTZF7p1PSELe0wYBOXaQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tbkhZT2F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b7Z0e0aO"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-236377f00a1so37515345ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 09:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753115446; x=1753720246; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e1OthpiQLo0yn+Ex+1T1Nl8yMpcQVCC1Su5Bulvu4QQ=;
-        b=b7Z0e0aOONvXPaHGb8wxS+7LuUABesDFBUtJZSQEvqOxAVcaki8X0ceb/Man28jyMH
-         1QPt/G2zNcRSDTYHBbiMsQ37qTK7sTgYuuCUvUvOXF6+bnLAc2JSeMz0XBhMEgAMz2C7
-         01QBrGjWMyPwOMFaexouqkXN+/K8q8Fu1Jfmw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753115446; x=1753720246;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e1OthpiQLo0yn+Ex+1T1Nl8yMpcQVCC1Su5Bulvu4QQ=;
-        b=ryE8UIXbfn2WhU3IVbSgT00r1FbZRTkkuVEkAOyHf/wYna2xVndM1zlNLp0OS8crbt
-         4ZUngotlNkryp9OJqWIMOE+/Od2yJazzmBgPu6240CNrBCdCkJNgpeMP/MIoO+sRlNy5
-         Fc+kZuJOGeDdFvV2PJxNRbDiw6jfGM/TJiCGkdj0DCkqv2GucHUCu9XDfg5W2wssS6Zi
-         X76j8ax+pQCDLfWA1q/vnnywutgM7UTYknF/mOobc6hYf87YQwEYNwu1CVUUTpN09CIr
-         a06qBWjBXQNETrADBzOiWnHYEII18qLbtVZk33+x2VfHxR7U7bXrGCfqeDZUzevnGDRY
-         q2XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGtFwoRgOODVId1JELezCu0FuB1QWWbQ67c1Z9ZNKJld/BeQTAB6q71QVjqNlR2fkESTXmoYbcbGk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzszZZAkOpfnhjVZrteT4584zlej9UCOlMtTzGIxbD7j4V7YNM+
-	wq5oBmGj+eZcCi//tRP3bmg+Zo1O5Gcyg4Bi17PgIxWH49R33egj+GFefAe8Y/yi1JI7lJsy3gJ
-	mUQQ=
-X-Gm-Gg: ASbGncuTNTQ4hm75tzthsdHeI7ufKCthPAd2ggmDHop7HhFrCzDTJKj0ngaLiKo+qAM
-	irGS6IFykl7juyDss6r0tichgZsRxZnbm7vdY7Cgq+pDJ5ZeT4bfq4zHqChhakObrB/BEAswUoi
-	z2aRYKlchmbMR8h2ktvHNsxZgMDxHsouOuVoBGCmOX3fwtsXN+TvGnwqX7rMkBIkwHJKLUtNN/O
-	IPdkEgiG6lozWzrgIjORy0rlmUHjWckIChsYac53v0b36UGkUQ91mB9IRptQnjfSR5PwkgO+CY9
-	QEfm35etnyhXlNNPjARdOKiB/uH/xD5xr5+2pKygeV5vL9KLsjghmrZhURCK+aiuN34vY182u6H
-	wHApJop8rnLC/4o1DznvsW4HC22wv2SzSoYKsRoJ2jf3RO5JE/UUjSKJp/nB4W33tsdRGeAFeF7
-	mL
-X-Google-Smtp-Source: AGHT+IEyUNfCRtPq8jq9g0k9PD9CXI1udRsV08aFRDZKoZ8fQspwPm1cI/BCSiczrw2KMKFbvwpBMg==
-X-Received: by 2002:a17:903:1a84:b0:234:8a4a:ada5 with SMTP id d9443c01a7336-23e24f59832mr285084265ad.37.1753115446146;
-        Mon, 21 Jul 2025 09:30:46 -0700 (PDT)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com. [209.85.214.171])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6d23b5sm60727005ad.146.2025.07.21.09.30.44
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 09:30:44 -0700 (PDT)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-235a3dd4f0dso27689425ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 09:30:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXi3ja8K/WNQYAsmPpXPI9nr0yepG1SsAZwhjFLDO9OLzpnrStk3pnz7oEkJSZFjcXlBA8ncNGUG0Q=@vger.kernel.org
-X-Received: by 2002:a17:903:3bcc:b0:235:f298:cbbe with SMTP id
- d9443c01a7336-23e24edc278mr357296245ad.12.1753115443448; Mon, 21 Jul 2025
- 09:30:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tbkhZT2F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F036CC4CEED;
+	Mon, 21 Jul 2025 17:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753118194;
+	bh=1GT4lWwNp8stNHLex+5QlywJON0Cd9VdZN+XvmXNm9A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tbkhZT2FNanibBwM9Q3Dp4dkbsYM77XTmHz5Db6bUAgTGFruCprlZTixHQqEB746h
+	 VUmUAZtLybbkJ99nPPZnq5Jw5ghPMRv7Qi2cW4+PmxxE9d7A+roA3bWT0k89LvXTu0
+	 FFhtMSyZoo/CZpDZuC+06PvBVss81jGMRS7R6PH4+j24kV+EGgUM4ghRVhiVV3fN7H
+	 IbGMbc1h0cD3HNWZUQrqtzWeZfanR83THL+ic1lUXDo2muIELIvkA/bOwynY0KcFWb
+	 b3GVEIQ+CLC9In2S5cnhpVMeUT1KxvGUqfus4gkaxDc+abCMV5/a2ZJOiHQDqjUs8d
+	 8eqyxlEriqTXA==
+From: Yu Kuai <yukuai@kernel.org>
+To: corbet@lwn.net,
+	agk@redhat.co,
+	snitzer@kernel.org,
+	mpatocka@redhat.com,
+	hch@lst.de,
+	song@kernel.org,
+	hare@suse.de
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org,
+	yukuai3@huawei.com,
+	yangerkun@huawei.com,
+	yi.zhang@huawei.com,
+	johnny.chenyi@huawei.com
+Subject: [PATCH v4 00/11] md/llbitmap: md/md-llbitmap: introduce a new lockless bitmap
+Date: Tue, 22 Jul 2025 01:15:46 +0800
+Message-ID: <20250721171557.34587-1-yukuai@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250719082639.307545-1-me@brighamcampbell.com> <20250719082639.307545-2-me@brighamcampbell.com>
-In-Reply-To: <20250719082639.307545-2-me@brighamcampbell.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 21 Jul 2025 09:30:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xzno3ReSyp9w+DC+nLoy1AXmcwd+j1=_XRxFi_k+bmng@mail.gmail.com>
-X-Gm-Features: Ac12FXy9MlSRxUz0cgfvqURcfFQN33HCDR1ifsxTc8_3lTfiq4MM633TTSdKa88
-Message-ID: <CAD=FV=Xzno3ReSyp9w+DC+nLoy1AXmcwd+j1=_XRxFi_k+bmng@mail.gmail.com>
-Subject: Re: [PATCH v5 1/4] drm: Create mipi_dsi_dual* macros
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Yu Kuai <yukuai3@huawei.com>
 
-On Sat, Jul 19, 2025 at 1:27=E2=80=AFAM Brigham Campbell <me@brighamcampbel=
-l.com> wrote:
->
-> @@ -827,6 +827,30 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_mu=
-lti_context *ctx,
->  }
->  EXPORT_SYMBOL(mipi_dsi_generic_write_multi);
->
-> +/**
-> + * mipi_dsi_dual_generic_write_multi() - mipi_dsi_generic_write_multi() =
-for
-> + * two dsi channels, one after the other
-> + * @dsi1: First dsi channel to write buffer to
-> + * @dsi2: Second dsi channel to write buffer to
-> + * @ctx: Context for multiple DSI transactions
-> + * @payload: Buffer containing the payload
-> + * @size: Size of payload buffer
-> + *
-> + * A wrapper around mipi_dsi_generic_write_multi() that allows the user =
-to
-> + * conveniently write to two dsi channels, one after the other.
-> + */
-> +void mpi_dsi_dual_generic_write_multi(struct mipi_dsi_device *dsi1,
+Changes from v3:
+ - fix redundant setting mddev->bitmap_id in patch 6;
+ - add explanation of bitmap attributes in Documentation;
+ - add llbitmap/barrier_idle in patch 11;
+ - add some comments in patch 11;
+Changes from v2:
+ - add comments about KOBJECT_CHANGE uevent in patch 6;
+ - convert llbitmap_suspend() to llbitmap_suspend_timeout() in patch 11;
+ - add some comments in patch 11;
+ - add review tag:
+  - patch 3,4,5,9 from Hannes
+Changes from v1:
+ - explain md_bitmap_fn in commit message, patch 3;
+ - handle the case CONFIG_MD_BITMAP is disabled, patch 4;
+ - split patch 7 from v1 into patch 5 + 6;
+ - rewrite bitmap_type_store, patch 5;
+ - fix dm-raid regerssion that md-bitmap sysfs entries should not be
+ created under mddev kobject, patch 6
+ - merge llbitmap patches into one patch, with lots of cleanups;
+ - add review tag:
+  - patch 1,2,7,8,9,10 from Christoph
+  - patch 1,2,7,8,10 from Hannes
+  - patch 1,2,3,7 from Xiao
 
-BUG: above should be "mipi", not "mpi"
+v3: https://lore.kernel.org/linux-raid/20250718092336.3346644-1-yukuai1@huaweicloud.com/
+v2: https://lore.kernel.org/all/20250707165202.11073-12-yukuai@kernel.org/
+v1: https://lore.kernel.org/all/20250524061320.370630-1-yukuai1@huaweicloud.com/
+RFC: https://lore.kernel.org/all/20250512011927.2809400-1-yukuai1@huaweicloud.com/
 
+Branch for review:
+https://git.kernel.org/pub/scm/linux/kernel/git/yukuai/linux.git/log/?h=yukuai/md-llbitmap-v4
 
-> +                                     struct mipi_dsi_device *dsi2,
-> +                                     struct mipi_dsi_multi_context *ctx,
-> +                                     const void *payload, size_t size)
-> +{
-> +       ctx->dsi =3D dsi1;
-> +       mipi_dsi_generic_write_multi(ctx, data, len);
+#### Background
 
-BUG: "data" and "len" are not valid local variables...
+Redundant data is used to enhance data fault tolerance, and the storage
+method for redundant data vary depending on the RAID levels. And it's
+important to maintain the consistency of redundant data.
 
+Bitmap is used to record which data blocks have been synchronized and which
+ones need to be resynchronized or recovered. Each bit in the bitmap
+represents a segment of data in the array. When a bit is set, it indicates
+that the multiple redundant copies of that data segment may not be
+consistent. Data synchronization can be performed based on the bitmap after
+power failure or readding a disk. If there is no bitmap, a full disk
+synchronization is required.
 
-> @@ -431,6 +439,87 @@ void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi=
-_multi_context *ctx);
->                 mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
->         } while (0)
->
-> +/**
-> + * mipi_dsi_dual - send the same MIPI DSI command to two interfaces
-> + *
-> + * This macro will send the specified MIPI DSI command twice, once per e=
-ach of
-> + * the two interfaces supplied. This is useful for reducing duplication =
-of code
-> + * in panel drivers which use two parallel serial interfaces.
-> + *
-> + * WARNING: This macro reuses the _func argument and the optional traili=
-ng
-> + * arguments twice each, which may cause unintended side effects. For ex=
-ample,
-> + * adding the postfix increment ++ operator to one of the arguments to b=
-e
-> + * passed to _func will cause the variable to be incremented twice inste=
-ad of
-> + * once and the variable will be its original value + 1 when sent to _ds=
-i2.
+#### Key Features
 
-It could be worth also pointing people to
-mipi_dsi_dual_generic_write_seq_multi() and
-mipi_dsi_dual_dcs_write_seq_multi() below?
+ - IO fastpath is lockless, if user issues lots of write IO to the same
+ bitmap bit in a short time, only the first write have additional overhead
+ to update bitmap bit, no additional overhead for the following writes;
+ - support only resync or recover written data, means in the case creating
+ new array or replacing with a new disk, there is no need to do a full disk
+ resync/recovery;
 
+#### Key Concept
 
-> + *
-> + * @_func: MIPI DSI function or macro to pass context and arguments into
+##### State Machine
 
-nit: remove "or macro".
+Each bit is one byte, contain 6 difference state, see llbitmap_state. And
+there are total 8 differenct actions, see llbitmap_action, can change state:
 
+llbitmap state machine: transitions between states
 
-> + * @_dsi1: First DSI interface to act as recipient of the MIPI DSI comma=
-nd
-> + * @_dsi2: Second DSI interface to act as recipient of the MIPI DSI comm=
-and
-> + * @_ctx: Context for multiple DSI transactions
-> + * @...: Arguments to pass to MIPI DSI function or macro
-> + */
-> +#define mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...)           \
-> +       do {                                                     \
-> +               struct mipi_dsi_multi_context *_ctxcpy =3D (_ctx); \
-> +               (_ctxcpy)->dsi =3D (_dsi1);                        \
+|           | Startwrite | Startsync | Endsync | Abortsync|
+| --------- | ---------- | --------- | ------- | -------  |
+| Unwritten | Dirty      | x         | x       | x        |
+| Clean     | Dirty      | x         | x       | x        |
+| Dirty     | x          | x         | x       | x        |
+| NeedSync  | x          | Syncing   | x       | x        |
+| Syncing   | x          | Syncing   | Dirty   | NeedSync |
 
-nit: now that "_ctxcpy" is a local variable you no longer need the
-extra parenthesis around it.
+|           | Reload   | Daemon | Discard   | Stale     |
+| --------- | -------- | ------ | --------- | --------- |
+| Unwritten | x        | x      | x         | x         |
+| Clean     | x        | x      | Unwritten | NeedSync  |
+| Dirty     | NeedSync | Clean  | Unwritten | NeedSync  |
+| NeedSync  | x        | x      | Unwritten | x         |
+| Syncing   | NeedSync | x      | Unwritten | NeedSync  |
 
+Typical scenarios:
 
-> +               (_func)((_ctxcpy), ##__VA_ARGS__);               \
-> +               (_ctxcpy)->dsi =3D (_dsi2);                        \
-> +               (_func)((_ctxcpy), ##__VA_ARGS__);               \
-> +       } while (0)
-> +
-> +/**
-> + * mipi_dsi_dual_generic_write_seq_multi - transmit data using a generic=
- write
-> + * packet to two dsi interfaces, one after the other
-> + *
-> + * This macro will send the specified generic packet twice, once per eac=
-h of
-> + * the two interfaces supplied. This is useful for reducing duplication =
-of code
-> + * in panel drivers which use two parallel serial interfaces.
-> + *
-> + * Note that if an error occurs while transmitting the packet to the fir=
-st DSI
-> + * interface, the packet will not be sent to the second DSI interface.
-> + *
-> + * This macro will print errors for you and error handling is optimized =
-for
-> + * callers that call this multiple times in a row.
-> + *
-> + * @_dsi1: First DSI interface to act as recipient of packet
-> + * @_dsi2: Second DSI interface to act as recipient of packet
-> + * @_ctx: Context for multiple DSI transactions
-> + * @_seq: buffer containing the payload
-> + */
-> +#define mipi_dsi_dual_generic_write_seq_multi(_dsi1, _dsi2, _ctx, _seq..=
-.)     \
-> +       do {                                                             =
-       \
-> +               static const u8 d[] =3D { _seq };                        =
-         \
-> +               mipi_dsi_dual_generic_write_multi(_dsi1, _dsi2, _ctx, d, =
-       \
-> +                                                        ARRAY_SIZE(d)); =
-       \
+1) Create new array
+All bits will be set to Unwritten by default, if --assume-clean is set,
+all bits will be set to Clean instead.
 
-nit: the indentation of ARRAY_SIZE() is slightly off.
+2) write data, raid1/raid10 have full copy of data, while raid456 doesn't and
+rely on xor data
 
+2.1) write new data to raid1/raid10:
+Unwritten --StartWrite--> Dirty
 
-> +       } while (0)
-> +
-> +/**
-> + * mipi_dsi_dual_dcs_write_seq_multi - transmit a DCS command with paylo=
-ad to
-> + * two dsi interfaces, one after the other
-> + *
-> + * This macro will send the specified DCS command with payload twice, on=
-ce per
-> + * each of the two interfaces supplied. This is useful for reducing dupl=
-ication
-> + * of code in panel drivers which use two parallel serial interfaces.
-> + *
-> + * Note that if an error occurs while transmitting the payload to the fi=
-rst DSI
-> + * interface, the payload will not be sent to the second DSI interface.
-> + *
-> + * This macro will print errors for you and error handling is optimized =
-for
-> + * callers that call this multiple times in a row.
-> + *
-> + * @_dsi1: First DSI interface to act as recipient of packet
-> + * @_dsi2: Second DSI interface to act as recipient of packet
-> + * @_ctx: Context for multiple DSI transactions
-> + * @_cmd: Command
-> + * @_seq: buffer containing the payload
-> + */
-> +#define mipi_dsi_dual_dcs_write_seq_multi(_dsi1, _dsi2, _ctx, _cmd, _seq=
-)   \
+2.2) write new data to raid456:
+Unwritten --StartWrite--> NeedSync
 
-BUG: doesn't "_seq" need to be "_seq..." ?
+Because the initial recover for raid456 is skipped, the xor data is not build
+yet, the bit must set to NeedSync first and after lazy initial recover is
+finished, the bit will finially set to Dirty(see 5.1 and 5.4);
 
-BUG: You need to remove the definition of this macro from
-`panel-novatek-nt36523.c` or else it won't compile anymore since the
-name of your macro is the exact same as theirs and they include this
-header file. It would be OK w/ me if you squashed that into the same
-patch since otherwise rejiggering things would just be churn...
+2.3) cover write
+Clean --StartWrite--> Dirty
 
-I guess we also chose different argument orders than they did (that's
-probably my fault, sorry!). They had the "ctx" still first and this
-patch consistently has "dsi1" and "dsi2" first. I don't think it
-really matters, but we should be consistent which means either
-adjusting your patch or theirs. It's probably worth confirming that
-the novatek driver at least compiles before you submit v6.
+3) daemon, if the array is not degraded:
+Dirty --Daemon--> Clean
 
+For degraded array, the Dirty bit will never be cleared, prevent full disk
+recovery while readding a removed disk.
 
--Doug
+4) discard
+{Clean, Dirty, NeedSync, Syncing} --Discard--> Unwritten
+
+5) resync and recover
+
+5.1) common process
+NeedSync --Startsync--> Syncing --Endsync--> Dirty --Daemon--> Clean
+
+5.2) resync after power failure
+Dirty --Reload--> NeedSync
+
+5.3) recover while replacing with a new disk
+By default, the old bitmap framework will recover all data, and llbitmap
+implement this by a new helper, see llbitmap_skip_sync_blocks:
+
+skip recover for bits other than dirty or clean;
+
+5.4) lazy initial recover for raid5:
+By default, the old bitmap framework will only allow new recover when there
+are spares(new disk), a new recovery flag MD_RECOVERY_LAZY_RECOVER is add
+to perform raid456 lazy recover for set bits(from 2.2).
+
+##### Bitmap IO
+
+##### Chunksize
+
+The default bitmap size is 128k, incluing 1k bitmap super block, and
+the default size of segment of data in the array each bit(chunksize) is 64k,
+and chunksize will adjust to twice the old size each time if the total number
+bits is not less than 127k.(see llbitmap_init)
+
+##### READ
+
+While creating bitmap, all pages will be allocated and read for llbitmap,
+there won't be read afterwards
+
+##### WRITE
+
+WRITE IO is divided into logical_block_size of the array, the dirty state
+of each block is tracked independently, for example:
+
+each page is 4k, contain 8 blocks; each block is 512 bytes contain 512 bit;
+
+| page0 | page1 | ... | page 31 |
+|       |
+|        \-----------------------\
+|                                |
+| block0 | block1 | ... | block 8|
+|        |
+|         \-----------------\
+|                            |
+| bit0 | bit1 | ... | bit511 |
+
+>From IO path, if one bit is changed to Dirty or NeedSync, the corresponding
+subpage will be marked dirty, such block must write first before the IO is
+issued. This behaviour will affect IO performance, to reduce the impact, if
+multiple bits are changed in the same block in a short time, all bits in this
+block will be changed to Dirty/NeedSync, so that there won't be any overhead
+until daemon clears dirty bits.
+
+##### Dirty Bits syncronization
+
+IO fast path will set bits to dirty, and those dirty bits will be cleared
+by daemon after IO is done. llbitmap_page_ctl is used to synchronize between
+IO path and daemon;
+
+IO path:
+ 1) try to grab a reference, if succeed, set expire time after 5s and return;
+ 2) if failed to grab a reference, wait for daemon to finish clearing dirty
+ bits;
+
+Daemon(Daemon will be waken up every daemon_sleep seconds):
+For each page:
+ 1) check if page expired, if not skip this page; for expired page:
+ 2) suspend the page and wait for inflight write IO to be done;
+ 3) change dirty page to clean;
+ 4) resume the page;
+
+Performance Test:
+Simple fio randwrite test to build array with 20GB ramdisk in my VM:
+
+|                      | none      | bitmap    | llbitmap  |
+| -------------------- | --------- | --------- | --------- |
+| raid1                | 13.7MiB/s | 9696KiB/s | 19.5MiB/s |
+| raid1(assume clean)  | 19.5MiB/s | 11.9MiB/s | 19.5MiB/s |
+| raid10               | 21.9MiB/s | 11.6MiB/s | 27.8MiB/s |
+| raid10(assume clean) | 27.8MiB/s | 15.4MiB/s | 27.8MiB/s |
+| raid5                | 14.0MiB/s | 11.6MiB/s | 12.9MiB/s |
+| raid5(assume clean)  | 17.8MiB/s | 13.4MiB/s | 13.9MiB/s |
+
+For raid1/raid10 llbitmap can be better than none bitmap with background
+initial resync, and it's the same as none bitmap without it.
+
+Noted that llbitmap performance improvement for raid5 is not obvious,
+this is due to raid5 has many other performance bottleneck, perf
+results still shows that bitmap overhead will be much less.
+
+Yu Kuai (11):
+  md: add a new parameter 'offset' to md_super_write()
+  md: factor out a helper raid_is_456()
+  md/md-bitmap: support discard for bitmap ops
+  md: add a new mddev field 'bitmap_id'
+  md/md-bitmap: add a new sysfs api bitmap_type
+  md/md-bitmap: delay registration of bitmap_ops until creating bitmap
+  md/md-bitmap: add a new method skip_sync_blocks() in bitmap_operations
+  md/md-bitmap: add a new method blocks_synced() in bitmap_operations
+  md: add a new recovery_flag MD_RECOVERY_LAZY_RECOVER
+  md/md-bitmap: make method bitmap_ops->daemon_work optional
+  md/md-llbitmap: introduce new lockless bitmap
+
+ Documentation/admin-guide/md.rst |   86 +-
+ drivers/md/Kconfig               |   11 +
+ drivers/md/Makefile              |    1 +
+ drivers/md/md-bitmap.c           |   15 +-
+ drivers/md/md-bitmap.h           |   45 +-
+ drivers/md/md-llbitmap.c         | 1598 ++++++++++++++++++++++++++++++
+ drivers/md/md.c                  |  288 ++++--
+ drivers/md/md.h                  |   20 +-
+ drivers/md/raid5.c               |    6 +
+ 9 files changed, 1963 insertions(+), 107 deletions(-)
+ create mode 100644 drivers/md/md-llbitmap.c
+
+-- 
+2.43.0
+
