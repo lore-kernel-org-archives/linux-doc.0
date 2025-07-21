@@ -1,172 +1,137 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47EE382;
-	Sun, 20 Jul 2025 18:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DC2A921
+	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 00:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753037427; cv=none; b=VNKsK/F4qwircQC1vbxhNDqCtkyJDfJuG+fvP0YOIpwUGflm0Cce/VFxqC1KqpgWR6DXQIP8yfqAveRXlfX+KTalMnrxou3nynxjbE7DvDg2+O64DM2xgpotPfnKsl+JskkzRd3zfU3A/Z+5VlWSm4WlGvfYTZ1IRXIPhkPUN7s=
+	t=1753059079; cv=none; b=qEMAvJ7bZozNVKpXL0LLa2w/Fli/YrH3OA94IeKqqq7uwqRYLALQm8+IJUjUPwJMIhWwFLuo1FwF63aUuutRPKUIbaW4gx6pF6zuS8AlUfEbiXO9lJjgsyIuQ6ve38jw7tS97AmDO4nk3ingumiY5I2VRfbVnl9MWwZeEhoqF9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753037427; c=relaxed/simple;
-	bh=w6KP4M19R0S1kKUIBWkQBmHQAqBJGN4yegkkLZaODII=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lExN7OMiKRIBGoVGJDju7B5KFs8SUXly6WyFyg+P98s5tqs57xp+ZeJVPfp2p8aJ3PMXFAc1HjtYvKzvVmDcnlrFevBPKAEP8HANmrNhaURsC33hhnMzjcde/io4nSiiF75dLBcdhip7sOXzmixAFt6ZhYsZ3adc3nV6CIvNC5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GoTYM1pr; arc=none smtp.client-ip=209.85.219.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753059079; c=relaxed/simple;
+	bh=flz3KI+pObSKl6+JdCtMWPSPqM5U/a/duvHNej2nPwI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L5+jYowi2dY9GaZEkxp2t2XsE1V0fGkQ24M0/BL6DVKI71lazGlQlsNTIqVzPHvrKT4m7eN2PJd55eUFymXiMAwaX9o1H2gCmx2JhKHsIpd0m4+mxZCMC9WnSYhqvJpbg7igAnvxYW4wL4YncLBDQwm/qCzHP78QRsMrxxh7AkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Wuki6RHE; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GoTYM1pr"
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e8bb867ac78so372661276.0;
-        Sun, 20 Jul 2025 11:50:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Wuki6RHE"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4ab93f24dc3so70506631cf.0
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jul 2025 17:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753037425; x=1753642225; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jn9SLuFGmitp9BvlucUTu3HHbVjGTQvf3Kb6WKYE6hU=;
-        b=GoTYM1prYd7ZHMexPzZh1Up+IlzQjRzuWPXTyf+KOp6qfY/x0aPyJ4XzUsD051eR46
-         EpPnNSdIa2f6fQcoEFby8wXfdwQCiZzpRZgiM1TcuS1NOrNEGAaG5jzsMcfmPgPP+ol7
-         2a1+AGJSe8NS9FDA9ZzKiDeDZvpPZozC6LMBv2IoiO/gaj5bFkJT17FIqcdlQ/tp7ByD
-         g8a+6dvvck7ul/ZTYLrbkhOaGzlVJo2rsqzSgTX/X2rOvHg07Qd1piUKeF/KZbzldWJq
-         riaExUG3y0pfvfL6HRaRnUAxICr/wY10dL0LzB7B7sWJcRmf/39q1/nRKthBFvEuNhl6
-         +Asw==
+        d=gourry.net; s=google; t=1753059077; x=1753663877; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UpYWz0hHkJ5czp6E2Ogh66jdWDkJrXo9PJQzqqTm/Fc=;
+        b=Wuki6RHEfJTxiD+F6P9VAA1AmczSE7s1E/nTpYm5wXMo6RQaI/dAfBZclKatIhRU/e
+         PaQUKdUzNB1sANwHNJc8vHB7Be3RN+BQf2NlQf6fiYTF2s+PM8UkFDgyFXqHF9N1GMOR
+         ygIRhfnElJbHTvjFpEv/WE57CNYAaX2Qqvd2+yX+JEi7B8DqM7cZZW/FGUZuQJa3UDXG
+         6ojn3XG84PX8fxjFLVJD+eWQXai8HrhrGUmiUA+SqpVANz2vzJugJgH6seHfYEoC7mhe
+         cGToFNoETlcPnr0jqufQpODB9nfFSf5WXF61TCh6ZGKnT5IXGlMreHfUykz8lAkhYObz
+         AYTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753037425; x=1753642225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jn9SLuFGmitp9BvlucUTu3HHbVjGTQvf3Kb6WKYE6hU=;
-        b=douqpiKm/eryqapkJfcH8aL66sbyzd6evxVnWQMvrkz21xBXmpib17p/A7swN3VtII
-         tr/9Tg+a2FBUCLCr1BbfBJkA0Y4nRNxlnIr5bKEhiJmm8zukUH5W2fa8mE/pt3Hu8J/F
-         Qc+S9/mBYS4XaVwodS9VCW4I1B7HDBgTia38VnE4pFisdLd+S6SHH/EuwrvetkmJJTCi
-         SHyqkDgJVC6+1We9edzB7anOVA3+vUqOk/UMg0H3rJ5YDV81lQkGIwRU/faQokjBF0B9
-         1Q9mhoZfit39qdEDRcSoehag1VwCcL5rVVclAzeZAa/Ezx81D3Lwn2/1nbdBCLoVnFIz
-         SVqg==
-X-Forwarded-Encrypted: i=1; AJvYcCURddeeBJC7ZkcNfspJA/iW/reBainysZCi1BrJjgUV63slWh2H7qf7v5RhBLJDAqy+UCehH6zYaUc=@vger.kernel.org, AJvYcCVbx/gmIYuTtqreMzrYJoDQ5sIwFAAdE8/0yJ1wQ6T44iEw8+F491zgg/p6vybfTkuZAv89qftcGMY5@vger.kernel.org, AJvYcCXl6OO9EXA59j41h6CwvaQO3XSluur4hyPD7CrVg3BKxpIxBiCnYzbKeevfxt8yr5GlCQyyqddRkFM2PzNf@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRJuel5P+ztzpPioBDqV/X+VlGRSJM20qejNhwE2Z/Ljj+NJi6
-	TCyeBBwT8XcLD1nCy2Wwd8w/1nVUHKgB8iR7JxKIfhjeEmVy1o/LreL4SaemMcnDuOpHO+QgVB4
-	3Je1biezFV30GU9/Rmg9Jube3oYhDErM=
-X-Gm-Gg: ASbGnctd839Wk3fWiG/Pyh9jUewxITmv9gBlEFSG9n0IhHAN7V9K9PLOL6j8RymohB5
-	6o4X3mU0Xqy8EV4mRWK6JFuhS1NgVg2n+HyPg0Qdkoa2vrlFq35yfmY0RCOreDAIKx1tpbNJmwF
-	BLlImk95AcP94LWjCM7C+kXrzgUPkO99D9MdLQ36OilLzrBYpSrGs2PNTVXMkFBWNqLqM0j8U1f
-	yIY/OY=
-X-Google-Smtp-Source: AGHT+IHdPRUyZA/x9dvBYJSWQrxWHjoyseFbAjjyswLRXyfQ4x6txtrTjTfOwyBWADYy7cyV0sIb4rmeKz4IquBazgM=
-X-Received: by 2002:a81:a808:0:b0:718:3b54:6b78 with SMTP id
- 00721157ae682-7183b54af4cmr88446257b3.4.1753037424773; Sun, 20 Jul 2025
- 11:50:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753059077; x=1753663877;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UpYWz0hHkJ5czp6E2Ogh66jdWDkJrXo9PJQzqqTm/Fc=;
+        b=m8oRJQsgKb+bLCKHYfaFuJKI934++wp96wZCZ5lHeNV66c/xeZI8kH5G2NM5oiPDKU
+         ycvV3yKWjRSth8fd9FjXVl9EQV5Zd4ldAAghagOx7mLkGsBUMdEzWap4BSuqcQCcEZwW
+         EfrWDHEn1YQJumjnci5xdJuXrjTl6pN8ik4Zn0vVy+MxzUc4Tf28969vk6WYMlfdfRSV
+         BqLI7xrpxZXTJywryiY/83B71s2tRY9LVQOoHR6Ub0WD1oTgV3fiJbc5J3TUne4uan2b
+         2bIF+enDGzI0npFwfjY0wRzeCF0jjM1Sq0uBm0O6y/jQff72JYNxYSIEdgQLU04gv2BL
+         8uAg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1jGgvKvHswo8AO/5P/NJm1kGJphrO4wDm/Pg0xeswM0GyWSSspoB9eGbcO4aLy/Kf6F1eYIzGYHE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytmGfUpyHh3w0v+FXWCdyNKkWQtlOI7vH8Cv/hG7hv53anx+WQ
+	vQYiJOTLtB7tFKEcKOdQFWnTVxwPE575QFrlNYwi2tHkzK9ey7Y/7MMHk2OHLVCZ6dU=
+X-Gm-Gg: ASbGncsTzI+qSquV73OQ/MIwwWvXz15gmmm3cxG86xTyHfIGDDwutf4BKwuZqEi35Sd
+	gW+81e0oBh1NnY7NJV+zFTDA4Hya1437vjUpl4cLux5YYjjZDBgqkPjfPNPpTccmGCpFqNuYxUb
+	ixDAicyFpRHW1fzk/HXJhiGrJDiDQmjc7H6myz4oOjrhzLUE3YgVTrOKQfAC4yVOFgUtwZ9WMat
+	5nS8Sh+seRNkrhxX9f65VasEGQb5S3UpXjLYFccnY1zncVxbGIX+GSk2yxIGWAvHaG/9kDK1pMJ
+	8UC+nJVXnUHLV8S3hOBP1+jznoFLB+FXqwCtpLHqLT5hp4XQYFr43BK8J8DhftpfZqrI7k1tQhR
+	we+YsenBBwGxBsC+/jWBV8m2I2gysznhF8M6nJ3tkoTgvrR8x49O2Dl43q4/IFaqPgaib9Q1ky4
+	BK7Q==
+X-Google-Smtp-Source: AGHT+IHJ8BDCuM0ht9jJt2VhuA48Qsrq7u0dKStcaY7gkl2qUWPyhDCmG32ZpnKotK9wXF3jPQv7ew==
+X-Received: by 2002:a05:622a:1a25:b0:4ab:95a7:cf9f with SMTP id d75a77b69052e-4abb2db8e1cmr169676251cf.54.1753059076774;
+        Sun, 20 Jul 2025 17:51:16 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-42.washdc.ftas.verizon.net. [96.255.20.42])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4abb4b204cdsm35378211cf.56.2025.07.20.17.51.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Jul 2025 17:51:16 -0700 (PDT)
+Date: Sun, 20 Jul 2025 20:51:14 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Cc: Dave Jiang <dave.jiang@intel.com>, linux-cxl@vger.kernel.org,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] cxl: docs/driver-api/conventions resolve conflicts
+ btw CFMWS, LMH, ED
+Message-ID: <aH2PAju1rLxIbXXk@gourry-fedora-PF4VCD3F>
+References: <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
+ <1985851.b9uPGUboIS@fdefranc-mobl3>
+ <aGwmFwGNmw8n9zGR@gourry-fedora-PF4VCD3F>
+ <17128669.tgchFWduMW@fdefranc-mobl3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250702230315.19297-1-l.rubusch@gmail.com> <20250702230315.19297-9-l.rubusch@gmail.com>
- <20250706171611.7b4ae1a1@jic23-huawei>
-In-Reply-To: <20250706171611.7b4ae1a1@jic23-huawei>
-From: Lothar Rubusch <l.rubusch@gmail.com>
-Date: Sun, 20 Jul 2025 20:49:48 +0200
-X-Gm-Features: Ac12FXzBcnqd78UKdnaBsnXCJZ7qBFpIhNONOQuDMZK4OYbIxPuhkhlIhlg-lig
-Message-ID: <CAFXKEHa4M-Tp-y4dvNeWgYtUGo_ymyS7kqGbkhf+NJnmrrRxqg@mail.gmail.com>
-Subject: Re: [PATCH v11 8/8] docs: iio: describe inactivity and free-fall
- detection on the ADXL345
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: eraretuya@gmail.com, lars@metafoo.de, Michael.Hennerich@analog.com, 
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <17128669.tgchFWduMW@fdefranc-mobl3>
 
-Hi
+On Thu, Jul 17, 2025 at 04:14:13PM +0200, Fabio M. De Francesco wrote:
+> The table above shows a real configuration copied from an x86 platform 
+> where the Low Memory Hole (LMH) starts at 2GB. 
+> 
+> The"HDM Decoder Base/Size" refers specifically to the CXL Endpoint 
+> Decoders HPA range Base/Size. The first row of the table describes the 
+> first window (CFMWS[0]), whose HPA rage base/size is 0/2GB, and the 
+> Endpoint Decoder that the CXL driver should match with that CFMWS, 
+> whose HPA range base/size is 0/3GB.
 
-On Sun, Jul 6, 2025 at 6:16=E2=80=AFPM Jonathan Cameron <jic23@kernel.org> =
-wrote:
->
-> On Wed,  2 Jul 2025 23:03:15 +0000
-> Lothar Rubusch <l.rubusch@gmail.com> wrote:
->
-> > Describe the inactivity detection additionally using the free-fall
-> > register. Due to the controversial discussions on the mailing list, thi=
-s
-> > section of the documentation will be committed separately to allow for =
-a
-> > more focused and detailed elaboration of the topic.
+The only thing i ask is being more precise with decoder references.
+
+HDM Decoder can refer to any of: root, switch, hb, or endpoint decoders.
+
+Below you make this distinct in the explanation, but in the table it's
+simply general "HDM Decoder".  All I ask is for a bit more clarity on
+what decoder will contain what values to avoid further ambiguity.
+
+> The driver expects that the Endpoint Decoders HPA ranges to be contained 
+> into their corresponding Root Decoders. Furthermore, Linux fails to 
+> attach Endpoint decoders to already constructed CXL Regions because of 
+> the same size discrepancy issue. 
+> > 
+> > I think you need to describe what the expected behavior is for what linux
+> > will produce in terms of the decoder objects given the above.
 > >
-> > Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
-> > ---
-> >  Documentation/iio/adxl345.rst | 25 +++++++++++++++++++++++++
-> >  1 file changed, 25 insertions(+)
-> >
-> > diff --git a/Documentation/iio/adxl345.rst b/Documentation/iio/adxl345.=
-rst
-> > index 8ee01b8b87f4..c5525267ea12 100644
-> > --- a/Documentation/iio/adxl345.rst
-> > +++ b/Documentation/iio/adxl345.rst
-> > @@ -150,6 +150,31 @@ functions, so that one follows the other. The auto=
--sleep function puts the
-> >  sensor into sleep mode when inactivity is detected, reducing power con=
-sumption
-> >  to the sub-12.5=E2=80=AFHz rate.
-> >
-> > +The inactivity time is configurable between 1 and 255 seconds. In addi=
-tion to
-> > +inactivity detection, the sensor also supports free-fall detection, wh=
-ich, from
-> > +the IIO perspective, is treated as a fall in magnitude across all axes=
-. In
-> > +sensor terms, free-fall is defined using an inactivity period ranging =
-from 0.000
-> > +to 1.000 seconds.
-> > +
-> > +The driver behaves as follows:
-> > +* If the configured inactivity period is 1 second or more, the driver =
-uses the
-> > +  sensor's inactivity register. This allows the event to be linked wit=
-h
-> > +  activity detection, use auto-sleep, and be either AC- or DC-coupled.
-> > +
-> > +* If the inactivity period is less than 1 second, the event is treated=
- as plain
-> > +  inactivity or free-fall detection. In this case, auto-sleep and coup=
-ling
-> > +  (AC/DC) are not applied.
-> > +
-> > +* If an inactivity time of 0 seconds is configured, the driver selects=
- a
-> > +  heuristically determined default period (greater than 1 second) to o=
-ptimize
-> > +  power consumption. This also uses the inactivity register.
-> > +
-> > +Note: It is recommended to use the activity, inactivity, or free-fall =
-registers
-> > +when operating with an ODR between 12.5=E2=80=AFHz and 400=E2=80=AFHz.
->
-> This seems a tiny bit backwards.   It is recommend that the activity, ina=
-ctivity or
-> free-fall registers are only used when operating with an ODR...
->
+> The expected behavior is that Linux should be able to match the Endpoint 
+> Decoder with the Root Decoder range even if the CFMWS size is smaller 
+> than the Decoder's, as long as the latter adheres to the 256MB * interleave 
+> ways rule. Furthermore, Linux should be able to match the Endpoint decoders 
+> with already constructed CXL Regions and allow the attachment process to 
+> succeed. 
+> 
 
-Ehm, Doesn't the sensor always have an ODR? The real question is which
-ODR should be configured. There are recommendations for specific
-features. I may have either misunderstood or misdocumented this part.
+You may also need to describe more than just the contents of the
+endpoint decoder.  What would the content of any intermediate decoders
+be (matching the root or matching the endpoint?).
 
-> As currently written it seems to be recommending that if you want those s=
-ampling
-> frequencies you should also enable one of these detectors.
->
+> If this explanation suffices, I will incorporate it into the next version
+> of this patch and also explain that "HDM Decoder" stands for Endpoint Decoder 
+> and that the CFMWS HPA base/size describes the System Physical Address (SPA) 
+> which the CXL driver uses to make Root Decoders HPA range base/size. 
+> 
 
-Ah, no. The other way around, when someone wants one of events
-detected, the recommended frequencies should be used. I'll have a look
-at it.
+This explanation is better, just need a few more bits of data and I
+think you're good to go.
 
-> Reminds me of the classic London underground sign that said "Dogs must be
-> carried." which raised the question of how people with out dogs were mean=
-t to travel.
->
-> Otherwise this new section looks good to me.  Thanks,
->
-> Jonathan
->...
-
-Best,
-Lothar
+~Gregory
