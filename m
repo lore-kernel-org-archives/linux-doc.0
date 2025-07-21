@@ -1,67 +1,67 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11F82D879D
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 12:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51C52D948A
+	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 12:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753102462; cv=none; b=AEnoTpU2BWcmqoRvsp39I+tbh97WDrhtKaVHUWr6W2jpsteHkICZN4AKEob3qFAH/bNe2Ygg9pokv695yhS7LvoHZxAziONxnruwibRWTtprmWeZKyfCrvEyeQokrvq0E0QbxchjFsPxwmBQT/dsJg4mkTjNsBA9hSWVfpURBDI=
+	t=1753102463; cv=none; b=lmwlCH70EUxOXSuNN8v06G8oP/FtkbwTrl6UtA9mnwy089Ahx7LTH2Evh4FKqxmqkjEssal7XPIqIm8a5Qmygc1USQpZYE57jEy9P/bk79qx/cL5UMizmtr9O9796PrDQEjS8x7JdeX5DgbaUGaoXrOs0AZYEZG8jgRC3J28MzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753102462; c=relaxed/simple;
-	bh=hLgSVAZXcKLj9iMv2rrwXU/lzaoYubHOtjtwFpzEH48=;
+	s=arc-20240116; t=1753102463; c=relaxed/simple;
+	bh=luIKfiwgtXeAFEj50ve3W9I2lyEw3hMNW0iXhyMCu40=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mH1dd7dgySCLaGs8WCIV3T2T4Jo394P2k42iCAgiPFi2lbD4JPiMYaaTUgSZ+cAC5o5Izf93Y/N6fRWsk17Msd0VvHrJ1Iyxvnzn8y8pFLOyrexbvcyS3u/QlSw8PginP1J50NduY6SPKI8aaNDZa2HF//lmYdFD9tfORu+ktkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kYfKmEmT; arc=none smtp.client-ip=209.85.128.51
+	 In-Reply-To:To:Cc; b=Uq57oUkLpVzg8iYDS8kOE5oJ1djbKygD2IUBqj1HKmyktgvBm/D1omo6tBYQ2K/MJBsCebv/RbdmSJdA5P9X+grY9jIJlIbLkYetEzgVeJwbeN++yZr/XifDRVYbR9FKTN2VIdS+ZvU5qdyQz9VdLNKX12ED4S01F3UZkjHlWQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yzeReaVt; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kYfKmEmT"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45622a1829eso12894315e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 05:54:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yzeReaVt"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4563bc166a5so18384695e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 05:54:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753102459; x=1753707259; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1753102460; x=1753707260; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oBEcxDyhRjewO1Y6U9fnxashwhAKoNPmyA1X1nUDdJU=;
-        b=kYfKmEmTmW/4cXDIq0/Fx7Fq2U9zjvl6AruLdrwuG6+sMS2OFYXYIAnAza2p6fZpbg
-         H5QwJpqIBKKjUV4wb8CnfLqqZfkqaAhNTxHDqTlR+5IZT6W4vat7+NMRVx/V+K5MMhSw
-         Iwcex4Qch80Fg9l/89JVqvufvJAV5F9FyOgO30fEyUWDI4IaXi2X/EeB7WDi9FUURRgh
-         UoStq47/y/PFkRhpOu6xWycCfsVhgyIG1HFB0f4RwPV7x1JheDFjRth4XB0EIa0iecXZ
-         AdEY+kbmsNXSnQdtc3N4nl7Klp90T840hinnU2b2Rd+Zr9887/JRanJ4WBUX7HQln4XF
-         8ulQ==
+        bh=j9Rue6bPIg/trhgv/sEGIp6PJe+iLR+ZUbz2D5vC1ck=;
+        b=yzeReaVtC1gTdZ22qQr9laznUR9VsPBzpt83ldD/JXfdyYsctknu8lvST5EDOiWss/
+         cwj1ui61wPe7h8HomQL/vIhHSThTeJnHmx+ZPpHdgXN/tILKuIW8K+vGo08KuTnezV0p
+         AtEoqWjfqUuxaKto73hsk80vMSm8GK43NpqZgSKlDFHz3f7DdDmHaHrMBCj5xojTXGeH
+         Fc9tQxS7FrvZV8QPVaVz1Q9XyvMtDuJR9J/6N5+dY8V2x+ePF9ZDPOqhD8n7Nw/sK0Im
+         6e1abmjwv6Z0uuBw5DDGtfLyD0B2PAyHlF/za77nJlKXaB4VvXifxQCIbVHRaVcUr3QZ
+         Lxzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753102459; x=1753707259;
+        d=1e100.net; s=20230601; t=1753102460; x=1753707260;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oBEcxDyhRjewO1Y6U9fnxashwhAKoNPmyA1X1nUDdJU=;
-        b=nrYXqCtvKfULeQW+TMY40y3M9eHiNr9jjKozacCoYGAFHIJX1vRYbW7SsXhU4ntlRa
-         2Yafqq6EcgCLVWxlj932fYoSjGvTB3Ib7gb0vUB9XGBgb4PYkf/mpK0f9MCH/pHzRM7+
-         4m3n2OnRFCFDo72MrMsHI7msE4UrjKTfXCQ8H9758KgD3BOyuYySwNC5Ihcxn2YTWt0I
-         OiTOYBtNZN9SExEkWR14Jdt92qLJwim4IUb3muOz5fMhsiymGwiza9HO5/E+D3VIY96Y
-         dUxNE5wdAGcmp48ONccTsvNAc856PLNh2Hc+78DvXqEF1lSrNkRKtlfhP4k1Txx6SZl1
-         dM/A==
-X-Forwarded-Encrypted: i=1; AJvYcCXOMI7SYSbsR+ghU0Z4i2RUH4HTrhSpfCzEg+jrLxT7MkZkUiCKlbLszptxJEDQABujOp+/NwcC2LA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDKw55sM9W63uZrnS4mTCYD6tHGD9+gfwnCLEjDV3JvY/Bsgak
-	+YSGsh0kxkp1zrEp3+EYa0pLPD8nQ1MTEvLI2Yk2ej0bD8ciCWm0kiMk2COOLEYBjbK8foLGTdN
-	S5J1fIhA=
-X-Gm-Gg: ASbGncunRnOsB8hB1hyp91LcMXyHgYizv6kMyXw8+daNlNF+Svfose+nadfuer0lK51
-	YdS7hAq9x2PSoCCV7WWHLzjgUbqSDYqFYy2tnoVmWqNh+e2KjgMvd2vk4Ke/ajq53KKQZzluzR2
-	DPBUP4t7UZvsbNcPpGPVqGXQrIAOuSIjMNAMXvHoInMMDtthZ07m2Ylmw5WL5OBcHJMzNrdEYNY
-	pHbgMs9haid79ZBMqGnbPrccj/YRIwf97RUl5cMPAp5dyM5ix+J8gbS0sxpwgex7AGflDzreBNE
-	kjtAWqj6uIumRAaasRHQ5tx1i3nRLswwuJP5551J9RTN8zfVk2GJWJcBw0fKDZHGVC6k9RU765r
-	w467jpTOt+wTHelZuafUfmAVgXUIWZIQ=
-X-Google-Smtp-Source: AGHT+IFQ1W9RXFUvbYcVwuXuyPJydskAvKt1bW7ZkyNo1Omk2ZtSQ1JxYK5EzOAeDKe7/8CRt880JQ==
-X-Received: by 2002:a05:600c:348c:b0:456:1d4e:c14f with SMTP id 5b1f17b1804b1-4564ab4fe8cmr29396345e9.28.1753102458979;
-        Mon, 21 Jul 2025 05:54:18 -0700 (PDT)
+        bh=j9Rue6bPIg/trhgv/sEGIp6PJe+iLR+ZUbz2D5vC1ck=;
+        b=Ucx+ZCXa8Ed1nJKTG3235VRK0uhmYwJybm7a5dATfwAR4k1DFZhm+nNvmeIsUE2yrW
+         upOwdMH9X2cbTi72bqd1yTohJyefAXlLv/Ol6Nfj5dBRVgmzAe++xMb7lJrzeG9YYiCS
+         yjhWg45rzgyjs7n++VLq8HWP6oFuPH8RYGfjr0SmnhdxYIDD1arnU0lu3PSDEcBgn49o
+         MzXz1XjuiDwIWTAFfy1Vo5duWVI92fIVf3nsz6SPicUQ67v3fnwWUavbo9jy2CYCH+tF
+         jwTIuhwt7zUnn200HjliAHZOT/DhRgM5D+UItgKeIFQLXCVLT6FPUR7JRtS65HEtoAOw
+         Vz2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV1tA62zKyEV0L1MhWoT16Yd1Fvzah5kwEeEP3xWENrhbNDIFXeZOFeW+25qkChHIszDLyL6VXyej0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKy9wGFDq2M3676ZSe5ZeK7fEHmdzGG68dbUedNpmf/Vge41FE
+	LJuapxkVUKEhxLyROvcY8pNn5LdciBD8ajHdcN10MXSaAZVgSOotoTsP9fZGRaFeZcb0koimdS1
+	GEFeUWNk=
+X-Gm-Gg: ASbGnctqKaZm38sOd8UnUKNG0w8QqR3zHpHEP4qi7zv/7vRZLlxS3eV6PkdgCugUb0P
+	TDunDbuPf0eCW/+dMVGRK5LDkYk0VzpqkLgKNKXldJTbSqcKR7tyCQwYMKYa3C02acZYHpDpAjX
+	EB8PKY42BbJNqBnHS2awmRitLjV8V2/xXZgaOiEz8fVtFh+QvFBTTDFxCeFL3yavtsGHivZ0co9
+	XbIG8cDKktZjXRxUQjOds8dbHw231Ngsak4wMYfVmsDd1mB6gxvMvTyjvxE+2kLdow4MaR5AU2E
+	IpGPmYHJH6RMNIa95GaTai++ewhXsnPv30nYOTM7hkPAuEac5dIAsaF0aTvJcRONXNRrRJkMt1n
+	ed3mcuQYaK7PzUpdLZKzAQg5YmhOmyil1eDfkX/H5GQ==
+X-Google-Smtp-Source: AGHT+IGxBZUjqF1XoJ+We5sWi+shDrL0KCK0BKEfbRSuVRqaPLjbWwQUIAjCsxGeF4Kf4L6TaJ/XuA==
+X-Received: by 2002:a05:600c:45d0:b0:456:21f4:a0a3 with SMTP id 5b1f17b1804b1-4563561a6c1mr160172795e9.5.1753102460225;
+        Mon, 21 Jul 2025 05:54:20 -0700 (PDT)
 Received: from ho-tower-lan.lan ([185.48.76.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4563b75de26sm98995225e9.33.2025.07.21.05.54.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4563b75de26sm98995225e9.33.2025.07.21.05.54.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jul 2025 05:54:18 -0700 (PDT)
+        Mon, 21 Jul 2025 05:54:19 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Mon, 21 Jul 2025 13:53:38 +0100
-Subject: [PATCH v4 07/12] KVM: arm64: Add trap configs for PMSDSFR_EL1
+Date: Mon, 21 Jul 2025 13:53:39 +0100
+Subject: [PATCH v4 08/12] perf: Add perf_event_attr::config4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250721-james-perf-feat_spe_eft-v4-7-0a527410f8fd@linaro.org>
+Message-Id: <20250721-james-perf-feat_spe_eft-v4-8-0a527410f8fd@linaro.org>
 References: <20250721-james-perf-feat_spe_eft-v4-0-0a527410f8fd@linaro.org>
 In-Reply-To: <20250721-james-perf-feat_spe_eft-v4-0-0a527410f8fd@linaro.org>
 To: Catalin Marinas <catalin.marinas@arm.com>, 
@@ -90,55 +90,38 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-SPE data source filtering (SPE_FEAT_FDS) adds a new register
-PMSDSFR_EL1, add the trap configs for it. PMSNEVFR_EL1 was also missing
-its VNCR offset so add it along with PMSDSFR_EL1.
+Arm FEAT_SPE_FDS adds the ability to filter on the data source of a
+packet using another 64-bits of event filtering control. As the existing
+perf_event_attr::configN fields are all used up for SPE PMU, an
+additional field is needed. Add a new 'config4' field.
 
+Reviewed-by: Leo Yan <leo.yan@arm.com>
 Tested-by: Leo Yan <leo.yan@arm.com>
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- arch/arm64/include/asm/vncr_mapping.h | 2 ++
- arch/arm64/kvm/emulate-nested.c       | 1 +
- arch/arm64/kvm/sys_regs.c             | 1 +
- 3 files changed, 4 insertions(+)
+ include/uapi/linux/perf_event.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/include/asm/vncr_mapping.h b/arch/arm64/include/asm/vncr_mapping.h
-index 6f556e993644..dba0e58a5fac 100644
---- a/arch/arm64/include/asm/vncr_mapping.h
-+++ b/arch/arm64/include/asm/vncr_mapping.h
-@@ -92,6 +92,8 @@
- #define VNCR_PMSICR_EL1         0x838
- #define VNCR_PMSIRR_EL1         0x840
- #define VNCR_PMSLATFR_EL1       0x848
-+#define VNCR_PMSNEVFR_EL1       0x850
-+#define VNCR_PMSDSFR_EL1        0x858
- #define VNCR_TRFCR_EL1          0x880
- #define VNCR_MPAM1_EL1          0x900
- #define VNCR_MPAMHCR_EL2        0x930
-diff --git a/arch/arm64/kvm/emulate-nested.c b/arch/arm64/kvm/emulate-nested.c
-index 3a384e9660b8..60bd8b7f0e5b 100644
---- a/arch/arm64/kvm/emulate-nested.c
-+++ b/arch/arm64/kvm/emulate-nested.c
-@@ -1174,6 +1174,7 @@ static const struct encoding_to_trap_config encoding_to_cgt[] __initconst = {
- 	SR_TRAP(SYS_PMSIRR_EL1,		CGT_MDCR_TPMS),
- 	SR_TRAP(SYS_PMSLATFR_EL1,	CGT_MDCR_TPMS),
- 	SR_TRAP(SYS_PMSNEVFR_EL1,	CGT_MDCR_TPMS),
-+	SR_TRAP(SYS_PMSDSFR_EL1,	CGT_MDCR_TPMS),
- 	SR_TRAP(SYS_TRFCR_EL1,		CGT_MDCR_TTRF),
- 	SR_TRAP(SYS_TRBBASER_EL1,	CGT_MDCR_E2TB),
- 	SR_TRAP(SYS_TRBLIMITR_EL1,	CGT_MDCR_E2TB),
-diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index c20bd6f21e60..82bddd631b47 100644
---- a/arch/arm64/kvm/sys_regs.c
-+++ b/arch/arm64/kvm/sys_regs.c
-@@ -3010,6 +3010,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
- 	{ SYS_DESC(SYS_PMBLIMITR_EL1), undef_access },
- 	{ SYS_DESC(SYS_PMBPTR_EL1), undef_access },
- 	{ SYS_DESC(SYS_PMBSR_EL1), undef_access },
-+	{ SYS_DESC(SYS_PMSDSFR_EL1), undef_access },
- 	/* PMBIDR_EL1 is not trapped */
+diff --git a/include/uapi/linux/perf_event.h b/include/uapi/linux/perf_event.h
+index 78a362b80027..0d0ed85ad8cb 100644
+--- a/include/uapi/linux/perf_event.h
++++ b/include/uapi/linux/perf_event.h
+@@ -382,6 +382,7 @@ enum perf_event_read_format {
+ #define PERF_ATTR_SIZE_VER6			120	/* Add: aux_sample_size */
+ #define PERF_ATTR_SIZE_VER7			128	/* Add: sig_data */
+ #define PERF_ATTR_SIZE_VER8			136	/* Add: config3 */
++#define PERF_ATTR_SIZE_VER9			144	/* add: config4 */
  
- 	{ PMU_SYS_REG(PMINTENSET_EL1),
+ /*
+  * 'struct perf_event_attr' contains various attributes that define
+@@ -543,6 +544,7 @@ struct perf_event_attr {
+ 	__u64	sig_data;
+ 
+ 	__u64	config3; /* extension of config2 */
++	__u64	config4; /* extension of config3 */
+ };
+ 
+ /*
 
 -- 
 2.34.1
