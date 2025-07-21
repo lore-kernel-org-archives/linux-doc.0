@@ -1,456 +1,274 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA7E1E5B6D
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 14:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54362957BA
+	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 14:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753108758; cv=none; b=nDzE+KJhYa/NH7wBMparSjNpBCGQjunnV8fPp8Nn//3/seCQSwRaHWvxSDYDO/l+jts/Q5s5IYsZcuyyQqli7bRXFTwtVHPShHSH4HTPQFYVz/UC5Ynq0v6xwfHcgXHRaKqU/Bo3mumBWyb9frdYpYFLC2OnrfTmCHrrto8u5Mk=
+	t=1753108870; cv=none; b=D1Ri/QbnoeGlx3KL/N83M8q+RzSQ6B8FsoxLqCtD0u8nhBZqoD2ocXEQDJBkZ6bOEf4Mmiv8QHWkV+UkBDgmIlKo+P4a1oH+uPaVXt5V5nEThizylgXChIMrgBLySAninN9KHv6bL1+2OSVh0HFN5Z8i6PUNNGeXjUFoCD6xWc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753108758; c=relaxed/simple;
-	bh=G+c/TlNOS3jJTgyl3Nflox4D4gS2l1ucS9SxXA86ljQ=;
+	s=arc-20240116; t=1753108870; c=relaxed/simple;
+	bh=1RtQBzOEC4Zl0bIPrchjsS6gz98G25dZlBbimhRn9mg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AGDxV/pRKCXqkCWhWa5n7UguISdo1dAzI7u2UcgNzQsRnjeyPu1Difi3XT40WPZMiPH0QwmT3jS5hjpOvBDsxQQ8GjmK3NjbuCAR0cSlJklxY57w+fvazD/UbpyMvM9+UK42c76FbWsLeFXm68/0N9zgTelr8KVRj8OKkp6Upog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ij1tLv6y; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=ACE/yUVinSfOpZuwujrtZ2r7eQAqsxgJcao1pavrdgQ7S6e+zYBIIn5iVDN5J0hRRo05ffatSGg41eVB7fAWm3tzghnBFTLK2w7JXidsXZBKZf7pRgl1ZPpT8ep3J8NDCUsDDaFzSkK/FGik0NOmXOqG3VfHgmqR27IBRNcqV2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=X7472c1K; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ij1tLv6y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753108753;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="X7472c1K"
+Message-ID: <165897af-fa84-428d-9e93-52be1f2d09e5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753108854;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=hcQicqR8pWhi54pYA2CCTCgwLgxgBUS5Et0jONJVtLc=;
-	b=Ij1tLv6ylkolddSe9KuIx5rPAL8txg06Iy3vAvvB6UrftBtDhavaLCo0Vly0vb2abnF6k0
-	B2Tnt3BkcqNmVcTsMoqTNfZtZCDb1zvQGMiOvuj56Yi019WQw/lpnZG5XXrkQdPF0ucFq2
-	KQoi/ytgmDfhKfK30ifCgeRk+IKFjOc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-651-kt24XhgMNja_rpEi1whdRA-1; Mon, 21 Jul 2025 10:39:12 -0400
-X-MC-Unique: kt24XhgMNja_rpEi1whdRA-1
-X-Mimecast-MFC-AGG-ID: kt24XhgMNja_rpEi1whdRA_1753108751
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a4f8fd1847so1687564f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 07:39:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753108751; x=1753713551;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hcQicqR8pWhi54pYA2CCTCgwLgxgBUS5Et0jONJVtLc=;
-        b=CTjV8pk6Ik3D8uVZMnc8v0PgY7V1kTUDqTlfq/Y0zq6znEpv372OjFRSL+VKTNIt31
-         oxs9m+wqqzksq4XtXZr+FiqlQleApFLa7YvzNTpZFeiipyEmvmZx2jV7uFGberoobbLT
-         X5mqADxUJg4Ow/TncI6IPLarxo5iurKRr0HD+Z7/AmM7Bb9zefyq8gL0Sbm/k3avi9xo
-         mzp//n2dqvvOcFOHO9jjCm1d+Q2yxIR+KiEDCm1vCnslXMb27+or7s2Hbiy0+veS9fQK
-         Vo79rHsiiZwxXI+3RiIxeQ7uawcnl8+SFh12jz1flvGGoIU4/gkOjRX4q8EfFEPQZmYG
-         qIXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWcR76Q2skruHjsWraMaqnYFv3VkFO8qsnHnCLuTHCuanCCmk2oY3NrI26Zz+6Dui0mCthLLKnj6Ok=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEvh7nzGXaq0J64e/w1rLtdv73DWKxNRRh4TrQHDZJt9BTAVD3
-	qiMXNh94rDgg5gx5DNqK91vU7KcnvJvLUMmbBT/WiY9wElH8Ip6OZcQUa13tmzGQ8Ritf8ouPGT
-	KXVnoYkByLjAl85qE32zaZ6fLb6RS5CslF+sL84NNkAb2ARG+Ak69L0rX44LUKHrHExJuFwhu
-X-Gm-Gg: ASbGncsOZ0Z0Q0p7sLdY4B6rrcPd0ulSKCyw08rbURlPbOWrawTXH8CeThjt6VqvDRp
-	mzy1aEJHIocliIh5tV/GyLIR7M7D08TT6Zz1pSi0YsXS3z0BdQSLjGNSRnbvGQr/VOy4QO5+h3p
-	JLuEGdMg5ezZ5J/kUfEWjY7tm/VXiWC/luX89XvPNsZIm0CvpC3+31wVA1UmlfPkdYbXiMBk7TC
-	8PX01vAY7CKMvamKrPtAH4I/s3+tchKvFXVGge/bGTwBhnnd4T/jAHHXOqO1XSEjEP6UdZGR5X7
-	E+BTCuNEDqR4tsjZP/QFJEqAAvvuTpCe2Bixiz6krYUX79HVZQoNNkyhv1cvdvU+6Y1DqILFkuD
-	mA/z1g9yiL0096G0WHoZl06Yt+Xrd9Lhj3IqZ3VjcusvhsCS6tu+WdVaU3XocrioS
-X-Received: by 2002:a05:6000:41ed:b0:3a3:6e62:d8e8 with SMTP id ffacd0b85a97d-3b613eab461mr13055531f8f.55.1753108750837;
-        Mon, 21 Jul 2025 07:39:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHd/BEozKWNQb4XV80/bHyTLAPcbI5dj6IOAUADBKINgEM9wyT3XARPgEGmapMgN+VE2Jeorg==
-X-Received: by 2002:a05:6000:41ed:b0:3a3:6e62:d8e8 with SMTP id ffacd0b85a97d-3b613eab461mr13055487f8f.55.1753108750165;
-        Mon, 21 Jul 2025 07:39:10 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f4c:df00:a9f5:b75b:33c:a17f? (p200300d82f4cdf00a9f5b75b033ca17f.dip0.t-ipconnect.de. [2003:d8:2f4c:df00:a9f5:b75b:33c:a17f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca5d266sm10549499f8f.91.2025.07.21.07.39.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 07:39:09 -0700 (PDT)
-Message-ID: <c5942226-2102-48bd-949e-2369437e8599@redhat.com>
-Date: Mon, 21 Jul 2025 16:39:07 +0200
+	 in-reply-to:in-reply-to:references:references;
+	bh=bDQ+R+MAd9ERvWMuuaknZR5JiVowZsZ4r7mCULkiSX0=;
+	b=X7472c1K55Kef8FN/3V41ZpFASwDxZ8NEelc6muTh7Lu1Nm6YpbFJHDyDkDCVqN3IMYd/c
+	zbqnCPhoaO5c5TGY1nmUO0Yw4W+zcrB4y1cgVz1aAAwv7As8hSkEm0MZVEb4/ZpoC0JUFB
+	asN2qpTveEFrXeu6TtAmRfIdC4yWNBE=
+Date: Mon, 21 Jul 2025 15:40:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH POC] prctl: extend PR_SET_THP_DISABLE to optionally
- exclude VM_HUGEPAGE
-To: Usama Arif <usamaarif642@gmail.com>, linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, SeongJae Park <sj@kernel.org>,
- Jann Horn <jannh@google.com>, Yafang Shao <laoar.shao@gmail.com>,
- Matthew Wilcox <willy@infradead.org>
-References: <20250721090942.274650-1-david@redhat.com>
- <4d9d25b0-49ee-438d-8698-59c835506cbd@gmail.com>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 03/15] net: rnpgbe: Add basic mbx ops support
+To: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
+ maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+ gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+ Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+ alexanderduyck@fb.com, richardcochran@gmail.com
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250721113238.18615-1-dong100@mucse.com>
+ <20250721113238.18615-4-dong100@mucse.com>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <4d9d25b0-49ee-438d-8698-59c835506cbd@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20250721113238.18615-4-dong100@mucse.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-
->> (B) Makes prctl(PR_GET_THP_DISABLE) return 3 if
->>      PR_THP_DISABLE_EXCEPT_ADVISED was set while disabling.
->>
->>      For now, it would return 1 if THPs were disabled completely. Now
->>      it essentially returns the set flags as well.
->>
+On 21/07/2025 12:32, Dong Yibo wrote:
+> Initialize basic mbx function.
 > 
-> No strong opinion, but maybe we have it return 2 (i.e. bit 1 set)?
+> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> ---
+>   drivers/net/ethernet/mucse/rnpgbe/Makefile    |   5 +-
+>   drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  46 ++
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |   5 +-
+>   drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |   2 +
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   |   1 +
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c    | 623 ++++++++++++++++++
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h    |  48 ++
+>   7 files changed, 727 insertions(+), 3 deletions(-)
+>   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+>   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
 > 
-> I know that you are returning bit 1 set to indicate the flag, and I know that
-> everyone dislikes prctl so its likely no more flags will be added :),
-> but in the off chance there are extra flags, than it can make the return
-> value weird?
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> index 42c359f459d9..41177103b50c 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> @@ -5,5 +5,6 @@
+>   #
+>   
+>   obj-$(CONFIG_MGBE) += rnpgbe.o
+> -rnpgbe-objs := rnpgbe_main.o\
+> -	       rnpgbe_chip.o
+> +rnpgbe-objs := rnpgbe_main.o \
+> +	       rnpgbe_chip.o \
+> +	       rnpgbe_mbx.o
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> index 2ae836fc8951..46e2bb2fe71e 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> @@ -63,9 +63,51 @@ struct mucse_mac_info {
+>   	int clk_csr;
+>   };
+>   
+> +struct mucse_hw;
+> +
+> +enum MBX_ID {
+> +	MBX_VF0 = 0,
+> +	MBX_VF1,
+> +	MBX_VF2,
+> +	MBX_VF3,
+> +	MBX_VF4,
+> +	MBX_VF5,
+> +	MBX_VF6,
+> +	MBX_VF7,
+> +	MBX_CM3CPU,
+> +	MBX_FW = MBX_CM3CPU,
+> +	MBX_VFCNT
+> +};
+> +
+> +struct mucse_mbx_operations {
+> +	void (*init_params)(struct mucse_hw *hw);
+> +	int (*read)(struct mucse_hw *hw, u32 *msg,
+> +		    u16 size, enum MBX_ID id);
+> +	int (*write)(struct mucse_hw *hw, u32 *msg,
+> +		     u16 size, enum MBX_ID id);
+> +	int (*read_posted)(struct mucse_hw *hw, u32 *msg,
+> +			   u16 size, enum MBX_ID id);
+> +	int (*write_posted)(struct mucse_hw *hw, u32 *msg,
+> +			    u16 size, enum MBX_ID id);
+> +	int (*check_for_msg)(struct mucse_hw *hw, enum MBX_ID id);
+> +	int (*check_for_ack)(struct mucse_hw *hw, enum MBX_ID id);
+> +	void (*configure)(struct mucse_hw *hw, int num_vec,
+> +			  bool enable);
+> +};
+> +
+> +struct mucse_mbx_stats {
+> +	u32 msgs_tx;
+> +	u32 msgs_rx;
+> +	u32 acks;
+> +	u32 reqs;
+> +	u32 rsts;
+> +};
+> +
+>   #define MAX_VF_NUM (8)
+>   
+>   struct mucse_mbx_info {
+> +	struct mucse_mbx_operations ops;
+> +	struct mucse_mbx_stats stats;
+>   	u32 timeout;
+>   	u32 usec_delay;
+>   	u32 v2p_mailbox;
+> @@ -99,6 +141,8 @@ struct mucse_mbx_info {
+>   	int share_size;
+>   };
+>   
+> +#include "rnpgbe_mbx.h"
+> +
+>   struct mucse_hw {
+>   	void *back;
+>   	u8 pfvfnum;
+> @@ -110,6 +154,8 @@ struct mucse_hw {
+>   	u16 vendor_id;
+>   	u16 subsystem_device_id;
+>   	u16 subsystem_vendor_id;
+> +	int max_vfs;
+> +	int max_vfs_noari;
+>   	enum rnpgbe_hw_type hw_type;
+>   	struct mucse_dma_info dma;
+>   	struct mucse_eth_info eth;
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> index 38c094965db9..b0e5fda632f3 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> @@ -6,6 +6,7 @@
+>   
+>   #include "rnpgbe.h"
+>   #include "rnpgbe_hw.h"
+> +#include "rnpgbe_mbx.h"
+>   
+>   /**
+>    * rnpgbe_get_invariants_n500 - setup for hw info
+> @@ -67,7 +68,7 @@ static void rnpgbe_get_invariants_n500(struct mucse_hw *hw)
+>   	mbx->fw_pf_mbox_mask = 0x2e200;
+>   	mbx->fw_vf_share_ram = 0x2b000;
+>   	mbx->share_size = 512;
+> -
+> +	memcpy(&hw->mbx.ops, &mucse_mbx_ops_generic, sizeof(hw->mbx.ops));
 
-Well, never say never, so I decided to just return the set flags :)
+that's bad pattern. it's better to have a constant set of callbacks per
+device type and assign const pointer to it. It will make further debugs
+much easier.
 
-> If instead we return a value with only a single bit set, might be better?
-> 
-> Again, no strong opinion here.
+>   	/* setup net feature here */
+>   	hw->feature_flags |= M_NET_FEATURE_SG |
+>   			     M_NET_FEATURE_TX_CHECKSUM |
+> @@ -83,6 +84,7 @@ static void rnpgbe_get_invariants_n500(struct mucse_hw *hw)
+>   			     M_NET_FEATURE_STAG_OFFLOAD;
+>   	/* start the default ahz, update later */
+>   	hw->usecstocount = 125;
+> +	hw->max_vfs = 7;
+>   }
+>   
+>   /**
+> @@ -117,6 +119,7 @@ static void rnpgbe_get_invariants_n210(struct mucse_hw *hw)
+>   	/* update hw feature */
+>   	hw->feature_flags |= M_HW_FEATURE_EEE;
+>   	hw->usecstocount = 62;
+> +	hw->max_vfs_noari = 7;
+>   }
+>   
+>   const struct rnpgbe_info rnpgbe_n500_info = {
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> index 2c7372a5e88d..ff7bd9b21550 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> @@ -14,6 +14,8 @@
+>   #define RNPGBE_RING_BASE (0x1000)
+>   #define RNPGBE_MAC_BASE (0x20000)
+>   #define RNPGBE_ETH_BASE (0x10000)
+> +
+> +#define RNPGBE_DMA_DUMY (0x000c)
+>   /* chip resourse */
+>   #define RNPGBE_MAX_QUEUES (8)
+>   /* multicast control table */
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> index 08f773199e9b..1e8360cae560 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> @@ -114,6 +114,7 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
+>   	hw->hw_addr = hw_addr;
+>   	hw->dma.dma_version = dma_version;
+>   	ii->get_invariants(hw);
+> +	hw->mbx.ops.init_params(hw);
+>   
+>   	return 0;
+>   
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+> new file mode 100644
+> index 000000000000..56ace3057fea
+> --- /dev/null
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+> @@ -0,0 +1,623 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright(c) 2022 - 2025 Mucse Corporation. */
+> +
+> +#include <linux/pci.h>
+> +#include <linux/errno.h>
+> +#include <linux/delay.h>
+> +#include <linux/iopoll.h>
+> +#include "rnpgbe.h"
+> +#include "rnpgbe_mbx.h"
+> +#include "rnpgbe_hw.h"
+> +
+> +/**
+> + * mucse_read_mbx - Reads a message from the mailbox
+> + * @hw: Pointer to the HW structure
+> + * @msg: The message buffer
+> + * @size: Length of buffer
+> + * @mbx_id: Id of vf/fw to read
+> + *
+> + * @return: 0 on success, negative on failure
+> + **/
+> +int mucse_read_mbx(struct mucse_hw *hw, u32 *msg, u16 size,
+> +		   enum MBX_ID mbx_id)
+> +{
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +
+> +	/* limit read to size of mailbox */
+> +	if (size > mbx->size)
+> +		size = mbx->size;
+> +
+> +	if (!mbx->ops.read)
+> +		return -EIO;
 
-I prefer the current approach, until there is good reason not do do it.
+is it even possible? you control the set of callbacks, and these
+operations must be setup to have HW working. avoid defensive programming
+here and in other places you use callbacks.
 
-IOW, set bit-0 if something is disabled, and specify using flag what 
-exectly (provided flags).
+> +
+> +	return mbx->ops.read(hw, msg, size, mbx_id);
+> +}
+> +
 
-> 
->> (C) Renames MMF_DISABLE_THP to MMF_DISABLE_THP_COMPLETELY, to express
->>      the semantics clearly.
->>
->>      Fortunately, there are only two instances outside of prctl() code.
->>
->> (D) Adds MMF_DISABLE_THP_EXCEPT_ADVISED to express "no THP except for VMAs
->>      with VM_HUGEPAGE" -- essentially "thp=madvise" behavior
->>
->>      Fortunately, we only have to extend vma_thp_disabled().
->>
->> (E) Indicates "THP_enabled: 0" in /proc/pid/status only if THPs are not
->>      disabled completely
->>
->>      Only indicating that THPs are disabled when they are really disabled
->>      completely, not only partially.
->>
->> The documented semantics in the man page for PR_SET_THP_DISABLE
->> "is inherited by a child created via fork(2) and is preserved across
->> execve(2)" is maintained. This behavior, for example, allows for
->> disabling THPs for a workload through the launching process (e.g.,
->> systemd where we fork() a helper process to then exec()).
->>
->> There is currently not way to prevent that a process will not issue
->> PR_SET_THP_DISABLE itself to re-enable THP. We could add a "seal" option
->> to PR_SET_THP_DISABLE through another flag if ever required. The known
->> users (such as redis) really use PR_SET_THP_DISABLE to disable THPs, so
->> that is not added for now.
->>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->> Cc: Zi Yan <ziy@nvidia.com>
->> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->> Cc: Nico Pache <npache@redhat.com>
->> Cc: Ryan Roberts <ryan.roberts@arm.com>
->> Cc: Dev Jain <dev.jain@arm.com>
->> Cc: Barry Song <baohua@kernel.org>
->> Cc: Vlastimil Babka <vbabka@suse.cz>
->> Cc: Mike Rapoport <rppt@kernel.org>
->> Cc: Suren Baghdasaryan <surenb@google.com>
->> Cc: Michal Hocko <mhocko@suse.com>
->> Cc: Usama Arif <usamaarif642@gmail.com>
->> Cc: SeongJae Park <sj@kernel.org>
->> Cc: Jann Horn <jannh@google.com>
->> Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
->> Cc: Yafang Shao <laoar.shao@gmail.com>
->> Cc: Matthew Wilcox <willy@infradead.org>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->>
->> ---
->>
->> At first, I thought of "why not simply relax PR_SET_THP_DISABLE", but I
->> think there might be real use cases where we want to disable any THPs --
->> in particular also around debugging THP-related problems, and
->> "THP=never" not meaning ... "never" anymore. PR_SET_THP_DISABLE will
->> also block MADV_COLLAPSE, which can be very helpful. Of course, I thought
->> of having a system-wide config to change PR_SET_THP_DISABLE behavior, but
->> I just don't like the semantics.
->>
->> "prctl: allow overriding system THP policy to always"[1] proposed
->> "overriding policies to always", which is just the wrong way around: we
->> should not add mechanisms to "enable more" when we already have an
->> interface/mechanism to "disable" them (PR_SET_THP_DISABLE). It all gets
->> weird otherwise.
->>
->> "[PATCH 0/6] prctl: introduce PR_SET/GET_THP_POLICY"[2] proposed
->> setting the default of the VM_HUGEPAGE, which is similarly the wrong way
->> around I think now.
->>
->> The proposals by Lorenzo to extend process_madvise()[3] and mctrl()[4]
->> similarly were around the "default for VM_HUGEPAGE" idea, but after the
->> discussion, I think we should better leave VM_HUGEPAGE untouched.
->>
->> Happy to hear naming suggestions for "PR_THP_DISABLE_EXCEPT_ADVISED" where
->> we essentially want to say "leave advised regions alone" -- "keep THP
->> enabled for advised regions",
->>
->> The only thing I really dislike about this is using another MMF_* flag,
->> but well, no way around it -- and seems like we could easily support
->> more than 32 if we want to, or storing this thp information elsewhere.
->>
->> I think this here (modifying an existing toggle) is the only prctl()
->> extension that we might be willing to accept. In general, I agree like
->> most others, that prctl() is a very bad interface for that -- but
->> PR_SET_THP_DISABLE is already there and is getting used.
->>
->> Long-term, I think the answer will be something based on bpf[5]. Maybe
->> in that context, I there could still be value in easily disabling THPs for
->> selected workloads (esp. debugging purposes).
->>
->> Jann raised valid concerns[6] about new flags that are persistent across
->> exec[6]. As this here is a relaxation to existing PR_SET_THP_DISABLE I
->> consider it having a similar security risk as our existing
->> PR_SET_THP_DISABLE, but devil is in the detail.
->>
->> This is *completely* untested and might be utterly broken. It merely
->> serves as a PoC of what I think could be done. If this ever goes upstream,
->> we need some kselftests for it, and extensive tests.
->>
->> [1] https://lore.kernel.org/r/20250507141132.2773275-1-usamaarif642@gmail.com
->> [2] https://lkml.kernel.org/r/20250515133519.2779639-2-usamaarif642@gmail.com
->> [3] https://lore.kernel.org/r/cover.1747686021.git.lorenzo.stoakes@oracle.com
->> [4] https://lkml.kernel.org/r/85778a76-7dc8-4ea8-8827-acb45f74ee05@lucifer.local
->> [5] https://lkml.kernel.org/r/20250608073516.22415-1-laoar.shao@gmail.com
->> [6] https://lore.kernel.org/r/CAG48ez3-7EnBVEjpdoW7z5K0hX41nLQN5Wb65Vg-1p8DdXRnjg@mail.gmail.com
->>
->> ---
->>   Documentation/filesystems/proc.rst |  5 +--
->>   fs/proc/array.c                    |  2 +-
->>   include/linux/huge_mm.h            | 20 ++++++++---
->>   include/linux/mm_types.h           | 13 +++----
->>   include/uapi/linux/prctl.h         |  7 ++++
->>   kernel/sys.c                       | 58 +++++++++++++++++++++++-------
->>   mm/khugepaged.c                    |  2 +-
->>   7 files changed, 78 insertions(+), 29 deletions(-)
->>
->> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
->> index 2971551b72353..915a3e44bc120 100644
->> --- a/Documentation/filesystems/proc.rst
->> +++ b/Documentation/filesystems/proc.rst
->> @@ -291,8 +291,9 @@ It's slow but very precise.
->>    HugetlbPages                size of hugetlb memory portions
->>    CoreDumping                 process's memory is currently being dumped
->>                                (killing the process may lead to a corrupted core)
->> - THP_enabled		     process is allowed to use THP (returns 0 when
->> -			     PR_SET_THP_DISABLE is set on the process
->> + THP_enabled                 process is allowed to use THP (returns 0 when
->> +                             PR_SET_THP_DISABLE is set on the process to disable
->> +                             THP completely, not just partially)
->>    Threads                     number of threads
->>    SigQ                        number of signals queued/max. number for queue
->>    SigPnd                      bitmap of pending signals for the thread
->> diff --git a/fs/proc/array.c b/fs/proc/array.c
->> index d6a0369caa931..c4f91a784104f 100644
->> --- a/fs/proc/array.c
->> +++ b/fs/proc/array.c
->> @@ -422,7 +422,7 @@ static inline void task_thp_status(struct seq_file *m, struct mm_struct *mm)
->>   	bool thp_enabled = IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE);
->>   
->>   	if (thp_enabled)
->> -		thp_enabled = !test_bit(MMF_DISABLE_THP, &mm->flags);
->> +		thp_enabled = !test_bit(MMF_DISABLE_THP_COMPLETELY, &mm->flags);
->>   	seq_printf(m, "THP_enabled:\t%d\n", thp_enabled);
->>   }
->>   
->> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
->> index e0a27f80f390d..c4127104d9bc3 100644
->> --- a/include/linux/huge_mm.h
->> +++ b/include/linux/huge_mm.h
->> @@ -323,16 +323,26 @@ struct thpsize {
->>   	(transparent_hugepage_flags &					\
->>   	 (1<<TRANSPARENT_HUGEPAGE_USE_ZERO_PAGE_FLAG))
->>   
->> +/*
->> + * Check whether THPs are explicitly disabled through madvise or prctl, or some
->> + * architectures may disable THP for some mappings, for example, s390 kvm.
->> + */
->>   static inline bool vma_thp_disabled(struct vm_area_struct *vma,
->>   		vm_flags_t vm_flags)
->>   {
->> +	/* Are THPs disabled for this VMA? */
->> +	if (vm_flags & VM_NOHUGEPAGE)
->> +		return true;
->> +	/* Are THPs disabled for all VMAs in the whole process? */
->> +	if (test_bit(MMF_DISABLE_THP_COMPLETELY, &vma->vm_mm->flags))
->> +		return true;
->>   	/*
->> -	 * Explicitly disabled through madvise or prctl, or some
->> -	 * architectures may disable THP for some mappings, for
->> -	 * example, s390 kvm.
->> +	 * Are THPs disabled only for VMAs where we didn't get an explicit
->> +	 * advise to use them?
->>   	 */
->> -	return (vm_flags & VM_NOHUGEPAGE) ||
->> -	       test_bit(MMF_DISABLE_THP, &vma->vm_mm->flags);
->> +	if (vm_flags & VM_HUGEPAGE)
->> +		return false;
->> +	return test_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, &vma->vm_mm->flags);
->>   }
->>   
->>   static inline bool thp_disabled_by_hw(void)
->> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
->> index 1ec273b066915..a999f2d352648 100644
->> --- a/include/linux/mm_types.h
->> +++ b/include/linux/mm_types.h
->> @@ -1743,19 +1743,16 @@ enum {
->>   #define MMF_VM_MERGEABLE	16	/* KSM may merge identical pages */
->>   #define MMF_VM_HUGEPAGE		17	/* set when mm is available for khugepaged */
->>   
->> -/*
->> - * This one-shot flag is dropped due to necessity of changing exe once again
->> - * on NFS restore
->> - */
->> -//#define MMF_EXE_FILE_CHANGED	18	/* see prctl_set_mm_exe_file() */
->> +#define MMF_HUGE_ZERO_PAGE	18      /* mm has ever used the global huge zero page */
->>   
->>   #define MMF_HAS_UPROBES		19	/* has uprobes */
->>   #define MMF_RECALC_UPROBES	20	/* MMF_HAS_UPROBES can be wrong */
->>   #define MMF_OOM_SKIP		21	/* mm is of no interest for the OOM killer */
->>   #define MMF_UNSTABLE		22	/* mm is unstable for copy_from_user */
->> -#define MMF_HUGE_ZERO_PAGE	23      /* mm has ever used the global huge zero page */
->> -#define MMF_DISABLE_THP		24	/* disable THP for all VMAs */
->> -#define MMF_DISABLE_THP_MASK	(1 << MMF_DISABLE_THP)
->> +#define MMF_DISABLE_THP_EXCEPT_ADVISED	23	/* no THP except for VMAs with VM_HUGEPAGE */
->> +#define MMF_DISABLE_THP_COMPLETELY	24	/* no THP for all VMAs */
->> +#define MMF_DISABLE_THP_MASK	((1 << MMF_DISABLE_THP_COMPLETELY) |\
->> +				 (1 << MMF_DISABLE_THP_EXCEPT_ADVISED))
->>   #define MMF_OOM_REAP_QUEUED	25	/* mm was queued for oom_reaper */
->>   #define MMF_MULTIPROCESS	26	/* mm is shared between processes */
->>   /*
->> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
->> index 43dec6eed559a..1949bb9270d48 100644
->> --- a/include/uapi/linux/prctl.h
->> +++ b/include/uapi/linux/prctl.h
->> @@ -177,7 +177,14 @@ struct prctl_mm_map {
->>   
->>   #define PR_GET_TID_ADDRESS	40
->>   
->> +/*
->> + * Flags for PR_SET_THP_DISABLE are only applicable when disabling. Bit 0
->> + * is reserved, so PR_GET_THP_DISABLE can return 1 when no other flags were
->> + * specified for PR_SET_THP_DISABLE.
->> + */
->>   #define PR_SET_THP_DISABLE	41
->> +/* Don't disable THPs when explicitly advised (MADV_HUGEPAGE / VM_HUGEPAGE). */
->> +# define PR_THP_DISABLE_EXCEPT_ADVISED	(1 << 1)
->>   #define PR_GET_THP_DISABLE	42
->>   
->>   /*
->> diff --git a/kernel/sys.c b/kernel/sys.c
->> index b153fb345ada2..2a34b2f708900 100644
->> --- a/kernel/sys.c
->> +++ b/kernel/sys.c
->> @@ -2423,6 +2423,50 @@ static int prctl_get_auxv(void __user *addr, unsigned long len)
->>   	return sizeof(mm->saved_auxv);
->>   }
->>   
->> +static int prctl_get_thp_disable(unsigned long arg2, unsigned long arg3,
->> +				 unsigned long arg4, unsigned long arg5)
->> +{
->> +	unsigned long *mm_flags = &current->mm->flags;
->> +
->> +	if (arg2 || arg3 || arg4 || arg5)
->> +		return -EINVAL;
->> +
->> +	if (test_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags))
->> +		return 1;
->> +	else if (test_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags))
->> +		return 1 | PR_THP_DISABLE_EXCEPT_ADVISED;
->> +	return 0;
->> +}
->> +
->> +static int prctl_set_thp_disable(unsigned long thp_disable, unsigned long flags,
->> +				 unsigned long arg4, unsigned long arg5)
->> +{
->> +	unsigned long *mm_flags = &current->mm->flags;
->> +
->> +	if (arg4 || arg5)
->> +		return -EINVAL;
->> +
->> +	/* Flags are only allowed when disabling. */
->> +	if (!thp_disable || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
-> 
-> 
-> I think you meant over here?
-> 
-> 	if (!thp_disable && (flags & PR_THP_DISABLE_EXCEPT_ADVISED))
-> 
-
-
-When re-enabling, we don't allow flags, otherwise we only allow the 
-supported (PR_THP_DISABLE_EXCEPT_ADVISED) flag.
-
-So I think it should probably be something like
-
-if ((!thp_disable && flags) || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
-
-
--- 
-Cheers,
-
-David / dhildenb
-
+[...]
