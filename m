@@ -1,168 +1,149 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B107528C878
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 14:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EA52D3EFC
+	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 14:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753109685; cv=none; b=somx9C29T6p2LImOkmnI//uFhYQECZYjqoDhzd6K5279BxD7B5GXQfgU9s8eclp/q6f8gTqhpE4kQNay2qvSLOqIYp7dc/cn7rHIK1odlKwc2VktIspgGN9YbkBnht4++KaRP0tXSYiP132y7Uf7RUX6CVA5rz/3K7z9OiNq9ng=
+	t=1753109710; cv=none; b=jBu+LYDS9AMearJNvkoPYIQtstPU1Zm41gzdWfuULO2RTH5xUDBgx2hThOmLB1/hHicobWjbUm13tKyzFX1ovcVrwZhF+Ed82IeX4P3VDZzIkrWw3xD7F6uVI4GmfKMrONVXAez5lfRkGql0m6jlzzd6fjjPG5fmvyr//BWrGz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753109685; c=relaxed/simple;
-	bh=518kXeLj6kbtVwBxVqSfjB6e5f4U9FEy5Advv0uhCPY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QGSEIOvaFy9IFxpY+YURUsMfkXUy+Zm+CQGIMnMTb5QTtUio0bYn9fGg+bSg0g0sAEls7llMAHPd5OSjlP0hb1IEUJ/V8wAhc+04pQ4ops3IgqCC3lIqPJRPtDLzm2oiSpXpeY8zD5Oth2R/uCnszMC/cvvbT+Dt97a+Vt02yV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=PQ9+huo7; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	s=arc-20240116; t=1753109710; c=relaxed/simple;
+	bh=eu38xfBfAicNC4yirAnVz/9TXXLd3ffTXfWGMol/+Sg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ej4TvxTNc4XZJhBSdpLxvX+h9MfeL7CWgLGzxPRbJKEpTtIxkDZNjVtzc2iKxoGgZ1hjhRWUDr+PqdDA8HhWYby8/aZF9PpasBlhYC0pVIbWJQZJ9YUyevLfOU/ZxmRNcADoPzZhJ1ZjuSQFhcuft2CGL3Cwr22njKY+5zuJHwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PNXilcgU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="PQ9+huo7"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-553d52cb80dso4970849e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 07:54:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1753109682; x=1753714482; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5XmXS/nI5r2hga5CDWMuJ3Ma6+XCmtN/p6vOD3DC5Wg=;
-        b=PQ9+huo7rjPRLmGo5wtJUxoy1RX+5TfKwF34BATWdlr76c5mq+EdH5vaVYCK109NNi
-         6lc87WH8bUd6dFbTtm5LMMBUzMrbhzHaKD9eKUQDUKqbVgjyP8BhxIBErJ1Eqt2vUcEE
-         zMh9WG4tiXuY4FKs30BAvYO/4cV00shkTrkphOypcI7E4kRcJyERb/oKSxofKA/3W+Wj
-         Ot5EJSdrO8UBQkL4SQoY1m6Q9pFPUFsnq5qJAqphc7LYqzQeWNtR1pkhWuZoKln58U8+
-         ZIzXVlJtofk4hd7s31vKRrOHzkF+iUTUiSx7XecAFsi9NNP1ou/K0+2olp1Ik6K4IcIa
-         ixog==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PNXilcgU"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56L9mDQX016262
+	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 14:55:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FejjzcessRXamuxdGef6IiWtk5XK9CE9N5H4NCWgoR4=; b=PNXilcgUTbMv1ouq
+	A1YYn1t4ZKuvtrEsH12jT5n1aov+zYfP8o8+0WQP6+kg+4OMdpBurm8ataI9Yw75
+	bbL0Yuj0mw33YiN+G0TsVc/fEtdvAlMObpiKSDHgHN/kWSajdPZTh3fpciqa6t8C
+	qL+bU5nSd7BjCvu2t8EM85mbo79+Us41V0/xkeqOzmqQVcJPubC47CzFtQxj7Hhp
+	eLjnJ3Mb8iHwtdJJ6ZiWLFTen9nj9Fupt1Anrm7QLGUHBPiPp3hwY8sljekyf+iM
+	bP2He1bdTd/PcUuemlCkKHgrM4DrGv2NGBWc143uV/VLaZFYJX6GQAyu92P8iToY
+	r4oAkA==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48048rwsch-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 14:55:06 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-235c897d378so40999395ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 07:55:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753109682; x=1753714482;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5XmXS/nI5r2hga5CDWMuJ3Ma6+XCmtN/p6vOD3DC5Wg=;
-        b=poNpNJK4nqkgKu3KTtMakTuZrY2p0G/ure5G6SJoVrIixIiI/z8NQ8ys7xJ2CPfWxi
-         wHtOjHS63Mtg9k2622LAImDftD1pYe0gcebFst/KnAOj59lnX7rjZW0ZrnfBO+eUFeNf
-         oUnOOaWlK35He0Ysgswrhfg/r9FMyeyDuFfBksfvynZi+wJA8haIRrCbKCgDPMI9VTsa
-         Gq8mmFe1iVwlJhU1WAS/aH2AVRS8iQpp0t4i9tcffKebUDjDw2L/ySvi0JW6dQCsVyF0
-         3PHA0BuEAAsUBw2bU4Fpjh1Zrdg0WVkj5MyaDyV6IcI8CXp+4TV+5Rl1EhSoZm+LYV8e
-         Dqtg==
-X-Forwarded-Encrypted: i=1; AJvYcCWyc7oThEbZaE5eNz4dakR5G7BdrlZf8gmesKWpGpFDFs84x1ICWEF7FsL4EyeFAi9IJvqoHIvnsGs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDTz8ziRSiKdyj9KvPrW3eDnT7R5SuSfqZEIxF5rBAPRx1O48I
-	OYZ2c0QZsnE3Ea5/turFjHnEqUxRrkas7QXqgRvTJtG6O/ixGF2dqiNK9IfSNfN6ViJMWd7hKm7
-	+2kxl99a96qu7sihABnm0kn4xMqFh70o2pVuPP6fl
-X-Gm-Gg: ASbGncv+PvqJ1GMfBfZQTE/Pr0BnXiBZIdGkUEyBmcDFfuga0wDy9hkuy5tiqHaY6Pt
-	1J94N64QWp7QbIzLyQjXjTCgmnI/c3OPBt2CGRMr0LqUOwntnOA2VY6dXvjHmTJXdXS49cXcIge
-	Rtj1g9NBGBjYqgAW++J5CRNo+8JdnoEiSJjRZvA3W19nNvHkRR5090JtCOEgcDSJc1emQ3pry6n
-	UFOlw==
-X-Google-Smtp-Source: AGHT+IEtAqgZcpU79/xXRzqVJ4e2WhSjNHLjvVNLiF1Rk9rzxfztT5QgvrGsTSD/4JlI4WCGerKhBMKc7bH8+8ZLaBE=
-X-Received: by 2002:ac2:4e0c:0:b0:55a:32ef:6bc2 with SMTP id
- 2adb3069b0e04-55a32ef6f42mr3865325e87.25.1753109681521; Mon, 21 Jul 2025
- 07:54:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753109705; x=1753714505;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FejjzcessRXamuxdGef6IiWtk5XK9CE9N5H4NCWgoR4=;
+        b=bVjBGnxix+LuqUsbCNHWQi7ju5yByLxeuOM3mIxEr4upWxxEhMDaU1irY9moIrgeWu
+         ncP2ksN8CjPWlM6wdo11KKiYZzeOEm0fKw4XmIkHfFOwPxFydYF4xZobaCDJe/C1Y8Y6
+         Y/SkT/v7JSerNfyHX9KBDe24eP4kDmnfxIYuXlQxNxxLI60fnUU1eqqrCz6TD+X++nZI
+         vsuxPmRvjhzaA42ANy3bbNHH81CCmksAi8YJFJztMk80jMRLf6WfU04HSviIdkAmS+q0
+         PmDHJYB0lMdTQWqb90k5jXVPLcvHU0pxbQbPB4kqvWsJ7oDxKalxDp0xbv/YcMDsiook
+         HCxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWz4n2b+npdUlb3726rhA74Qt/6fx8ZjFAjAckc5DOqGPLybI94JT94+z/NYI6bX6M3Yngsy6A4GBI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3NuRyk9W+MQGMC7lonMLUtIR18V5W5wl4GeVIVwJrF/1GAHkS
+	9tiJYO0QHmin9uKampvSbZuvWm2IJ14E2/JhBsbL6ZU29rUfZT9UZfVFiolLCLWmhU6adQLa0lj
+	EiSjmqrAEUVsgMRceAxtX40RXc5i4V6L+BAl1ZRQ2O/sfMQ4j4nblWZetU+OHFX4=
+X-Gm-Gg: ASbGncumLfJeDJ/aC2LsexImZPRsSPvBOL7eQ2RAc61KLKK9TfTOwiJfWXfyX5AkxtA
+	Ru/VrYI1Xx2EcUtJIPLijIhD3bL8kLCAV7Wg+o7da3+CqKvc/0eqskhzE/gsfYpdWcVaqV7ejf1
+	EfJuqs9/LHBi9uiuuJRNVtZ37BoLV7doKlYqJtJa+j0+9j+mRvvgInoQhyN/3dYG7t3y+P/P99q
+	ZKn7LviLAB0kmwZ7tGrT/pM1DrbBGmFLBXil3GwhZlPGXt9wOj5woqK337MF9jtw6UtxWO94Cne
+	9wBLThnwVwYkRM49Uzz+AZyy+i7Yo8rjUkIxS+onE42bIzDPnzxq7xQnStF/ZiY6QG4Rk++rfjz
+	X6ESmJGQlz61gYA==
+X-Received: by 2002:a17:903:284d:b0:234:f580:9f8 with SMTP id d9443c01a7336-23e24ec73bdmr227526225ad.3.1753109705042;
+        Mon, 21 Jul 2025 07:55:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGJ97391DW7uxpfMEy3HG26NDZaHXwi2jparAOfw5+iKlWu2Jnai8JQP+g81zAyqSEzBAX4EA==
+X-Received: by 2002:a17:903:284d:b0:234:f580:9f8 with SMTP id d9443c01a7336-23e24ec73bdmr227525925ad.3.1753109704562;
+        Mon, 21 Jul 2025 07:55:04 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6cfa0esm59073595ad.145.2025.07.21.07.55.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Jul 2025 07:55:04 -0700 (PDT)
+Message-ID: <b48c6694-2bd1-44d0-9dd1-1b7a67e22d87@oss.qualcomm.com>
+Date: Mon, 21 Jul 2025 08:55:01 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250721-procfs-pidns-api-v1-0-5cd9007e512d@cyphar.com>
-In-Reply-To: <20250721-procfs-pidns-api-v1-0-5cd9007e512d@cyphar.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Mon, 21 Jul 2025 07:54:25 -0700
-X-Gm-Features: Ac12FXzKaqLBu09o8y3jyqrwQXTdN07vZbAIAukCaEYRRYZu2yxBvBVI4Rm-DbU
-Message-ID: <CALCETrVo+Mdj7as2R0R+FqTBbjqwTkXu5Zkj=dg8EVM9xRhBPw@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/4] procfs: make reference pidns more user-visible
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/10] New DRM accel driver for Rockchip's RKNN NPU
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+        Kever Yang <kever.yang@rock-chips.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Robert Foss <rfoss@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIxMDEzMyBTYWx0ZWRfX1r+Jr4jZDb4H
+ jO05nhqpz4VeBTcfaPAF80vtPUwG9cgFGZ78SZVr2hridRguk+l86fRHxwpq+NIPi7Bpcsl5nX7
+ 6BtDm/HcXawEKc9QcLbfV3Cy4YGCqQ8B3AfFwoswbeoiFuoH+HO0Pz0FGogwbf0BLXEpqLUM6U6
+ xTFfmpiakrtI0QvP7DWI5NRNY/pi7oiT42w+SaYU0/b6faOoQTgYXS6A3XuQZr2NldeoRvLcmZY
+ pYx4DRXzQu+1J/TbWpHkwKLd0diYgtjXQqpF4jnBmIf3MwEVFzfjrI44pKkOc8I5mvRCSLCVcHM
+ cj6eyKDJTWN22MsZRNUYOb3lsIaUl5OaQ4+n+ZimYCvVnW67QwZcfaBNcMUiweP8X54MxuQVc/i
+ +dq6ED/1d7qnKQ7N7pXCuM7Utw/WDGjkiSAlkmsOpSCzfxnUInEXwotdUg94UncWaAOYdEf4
+X-Proofpoint-ORIG-GUID: 3_gbja-mOhAxlB0H4bygkkU8r0uqTEdl
+X-Proofpoint-GUID: 3_gbja-mOhAxlB0H4bygkkU8r0uqTEdl
+X-Authority-Analysis: v=2.4 cv=OPUn3TaB c=1 sm=1 tr=0 ts=687e54ca cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=e5mUnYsNAAAA:8 a=DISFzqtZAAAA:8
+ a=I0N-cO3Jf6GV4mgy0ZYA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
+ a=1OuFwYUASf3TG4hYMiVC:22 a=Vxmtnl_E_bksehYqCbjh:22 a=aug85vrO5LANNmmtkfAW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-21_04,2025-07-21_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 mlxlogscore=865 lowpriorityscore=0 suspectscore=0
+ spamscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507210133
 
-On Mon, Jul 21, 2025 at 1:44=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com> wr=
-ote:
->
-> Ever since the introduction of pid namespaces, procfs has had very
-> implicit behaviour surrounding them (the pidns used by a procfs mount is
-> auto-selected based on the mounting process's active pidns, and the
-> pidns itself is basically hidden once the mount has been constructed).
-> This has historically meant that userspace was required to do some
-> special dances in order to configure the pidns of a procfs mount as
-> desired. Examples include:
->
->  * In order to bypass the mnt_too_revealing() check, Kubernetes creates
->    a procfs mount from an empty pidns so that user namespaced containers
->    can be nested (without this, the nested containers would fail to
->    mount procfs). But this requires forking off a helper process because
->    you cannot just one-shot this using mount(2).
->
->  * Container runtimes in general need to fork into a container before
->    configuring its mounts, which can lead to security issues in the case
->    of shared-pidns containers (a privileged process in the pidns can
->    interact with your container runtime process). While
->    SUID_DUMP_DISABLE and user namespaces make this less of an issue, the
->    strict need for this due to a minor uAPI wart is kind of unfortunate.
->
-> Things would be much easier if there was a way for userspace to just
-> specify the pidns they want. Patch 1 implements a new "pidns" argument
-> which can be set using fsconfig(2):
->
->     fsconfig(procfd, FSCONFIG_SET_FD, "pidns", NULL, nsfd);
->     fsconfig(procfd, FSCONFIG_SET_STRING, "pidns", "/proc/self/ns/pid", 0=
-);
->
-> or classic mount(2) / mount(8):
->
->     // mount -t proc -o pidns=3D/proc/self/ns/pid proc /tmp/proc
->     mount("proc", "/tmp/proc", "proc", MS_..., "pidns=3D/proc/self/ns/pid=
-");
->
-> The initial security model I have in this RFC is to be as conservative
-> as possible and just mirror the security model for setns(2) -- which
-> means that you can only set pidns=3D... to pid namespaces that your
-> current pid namespace is a direct ancestor of. This fulfils the
-> requirements of container runtimes, but I suspect that this may be too
-> strict for some usecases.
->
-> The pidns argument is not displayed in mountinfo -- it's not clear to me
-> what value it would make sense to show (maybe we could just use ns_dname
-> to provide an identifier for the namespace, but this number would be
-> fairly useless to userspace). I'm open to suggestions.
->
-> In addition, being able to figure out what pid namespace is being used
-> by a procfs mount is quite useful when you have an administrative
-> process (such as a container runtime) which wants to figure out the
-> correct way of mapping PIDs between its own namespace and the namespace
-> for procfs (using NS_GET_{PID,TGID}_{IN,FROM}_PIDNS). There are
-> alternative ways to do this, but they all rely on ancillary information
-> that third-party libraries and tools do not necessarily have access to.
->
-> To make this easier, add a new ioctl (PROCFS_GET_PID_NAMESPACE) which
-> can be used to get a reference to the pidns that a procfs is using.
->
-> It's not quite clear what is the correct security model for this API,
-> but the current approach I've taken is to:
->
->  * Make the ioctl only valid on the root (meaning that a process without
->    access to the procfs root -- such as only having an fd to a procfs
->    file or some open_tree(2)-like subset -- cannot use this API).
->
->  * Require that the process requesting either has access to
->    /proc/1/ns/pid anyway (i.e. has ptrace-read access to the pidns
->    pid1), has CAP_SYS_ADMIN access to the pidns (i.e. has administrative
->    access to it and can join it if they had a handle), or is in a pidns
->    that is a direct ancestor of the target pidns (i.e. all of the pids
->    are already visible in the procfs for the current process's pidns).
+On 7/21/2025 3:17 AM, Tomeu Vizoso wrote:
+> This series adds a new driver for the NPU that Rockchip includes in its
+> newer SoCs, developed by them on the NVDLA base.
+> 
+> In its current form, it supports the specific NPU in the RK3588 SoC.
+> 
+> The userspace driver is part of Mesa and an initial draft can be found at:
+> 
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-What's the motivation for the ptrace-read option?  While I don't see
-an attack off the top of my head, it seems like creating a procfs
-mount may give write-ish access to things in the pidns (because the
-creator is likely to have CAP_DAC_OVERRIDE, etc) and possibly even
-access to namespace-wide things that aren't inherently visible to
-PID1.
+This (and the userspace component) appear ready for merge from what I 
+can tell. Tomeu is still working on his drm-misc access so I've offered 
+to merge on his behalf. Planning on waiting until Friday for any final 
+feedback to come in before doing so.
 
-Even the ancestor check seems dicey.  Imagine that uid 1000 makes an
-unprivileged container complete with a userns.  Then uid 1001 (outside
-the container) makes its own userns and mountns but stays in the init
-pidns and then mounts (and owns, with all filesystem-related
-capabilities) that mount.  Is this really safe?
-
-CAP_SYS_ADMIN seems about right.
-
---Andy
+-Jeff
