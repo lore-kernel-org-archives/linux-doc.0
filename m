@@ -1,86 +1,118 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA4E2E406;
-	Mon, 21 Jul 2025 14:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E2514D70E;
+	Mon, 21 Jul 2025 15:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753109891; cv=none; b=cyh0tuzDgDAQe5FcnVe/C5FNYTU6RJypC1Eo0Gn3wVYIZhNSIeGlmwqjfAJ6y5oDP6sOckfIZ25EAbvG0NKqy3UysSGnsJUbnWQR9Ht/5IIk1fhgvUAblppWrf8hqh/9JnT5NprSoozmwADn9MWeOt80p15M2iVLzLIHXFrMunY=
+	t=1753110012; cv=none; b=Z3wQYCwdtYQi9RgmrA19CbnBfrq3FvQtZzFGRRYIN4+MDWV2xk8KrlloQF99eAPirPJNgwatXdTha/J2STRq7NhJ730N3f84b9jkxJnWkpc2iN3JCBk7DmCMuJ2Ch8lwr98Ab8aNnQbrEkgSbFgU6sKlfyrpPETDnySuzXDZVZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753109891; c=relaxed/simple;
-	bh=IXMpzorN0DpbTX6QQuw1FzgLXmltEX1pZmXF9lOrz0U=;
+	s=arc-20240116; t=1753110012; c=relaxed/simple;
+	bh=VZAFEBYGkW7zkA9QHXJ+nLYWvFYNy70boXd5O+3hoTc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ISOGMVLH+5iG26mMbebJ4gGQxVxf6e/Mliq14jJWA0BsWY+46pig6IAmhVJskn5iI5KXrZqyW0k8F40mENnxJZsdx9jTCpP4JEP2kKj73XZDgLKi2nwzrPptNwMabHO9YO1uReFl/SX/rPmt+udVXEtjd+JW9Db/q7wky1/ErgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=B+dK7Yr5; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=CThkbw7vwvo4QVbd+i+lhb9yA0Gnt4W6Rkwak2V8su7FEd0uHy0JlPiKS2r9F7YD576YTJUPcRyBI8ZNQmgKe/EAwrYw+znm+TUkMO9Sl4UAn0h6hmH5A6m9Tlv7FUXYOQKsPI/O8QZ7mZlUaqBLZnhep5VZybkD3TUyp4fB9vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IB/CSD6V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="B+dK7Yr5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=WS1Xbv45ET5YWY4e1pY2jzB+5AD0h/g8lcMpQh8JFX4=; b=B+dK7Yr52bNUa/8wL/Ge2xlEQ7
-	mu1Ea1J+W2r1ggv9PnXiXImSVabc+QIXL7FRQZNvF5H78JM9fqQw10lGmWJaAFY/LbMjf/6WrzMkz
-	44NNZeHPaS4bwq8+pg98eJryb6QCV1uG8TyGrZLussEmNjxL+B6Fza1IQqcbNwfmEpQE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1udrxP-002MvA-JG; Mon, 21 Jul 2025 16:57:35 +0200
-Date: Mon, 21 Jul 2025 16:57:35 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] net: rnpgbe: Add build support for rnpgbe
-Message-ID: <1a6ea9a1-6b79-41f7-a272-037e6a075f0e@lunn.ch>
-References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-2-dong100@mucse.com>
- <32fc367c-46a4-4c76-b8a8-494bf79a6409@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IB/CSD6V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39475C4CEED;
+	Mon, 21 Jul 2025 15:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753110012;
+	bh=VZAFEBYGkW7zkA9QHXJ+nLYWvFYNy70boXd5O+3hoTc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IB/CSD6Vq+QSQx7hD4TITcqcR5SxQBlyS50DA0avSGhIjlvqkcRKYI17VaEjvhG9G
+	 8EkxIyAshM5qj5/Ca5ztlQkj1/5by7Mn9fXzKf4k03zrNSF4q6xKRa+9ynRjtY32c1
+	 koQ/MqhOdb++vqwtjVnKSWpw8D55HKl5tj8mVRhwr8N/crPeyeNEJXMwY/S5CE8p8V
+	 kD7P+aQdsXlW2q/DsTXwF+7EQEN/Fa5+0Tg3w6c5t9/A3e3yqdRXuhO3vmRAcdsZfN
+	 IVxJw+tZ2vk2x/To/uEb0vgzEKb9n3+yTioSZBLwKbhoPU54izO08bAtR3kGxOEwzH
+	 TX8rvX67snRIQ==
+Date: Mon, 21 Jul 2025 10:00:11 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-rockchip@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	linux-media@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+	Kever Yang <kever.yang@rock-chips.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-doc@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
+	Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v9 06/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Message-ID: <175311001041.629023.12786244001330541185.robh@kernel.org>
+References: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
+ <20250721-6-10-rocket-v9-6-77ebd484941e@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <32fc367c-46a4-4c76-b8a8-494bf79a6409@linux.dev>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250721-6-10-rocket-v9-6-77ebd484941e@tomeuvizoso.net>
 
-On Mon, Jul 21, 2025 at 02:30:40PM +0100, Vadim Fedorenko wrote:
 
-> > +/* Device IDs */
-> > +#ifndef PCI_VENDOR_ID_MUCSE
-> > +#define PCI_VENDOR_ID_MUCSE 0x8848
-> > +#endif /* PCI_VENDOR_ID_MUCSE */
-
-Hi Vadim
-
-Please trim the quoted text when doing reviews.
-
+On Mon, 21 Jul 2025 11:17:33 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
 > 
-> this should go to include/linux/pci_ids.h without any ifdefs
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> v4:
+> - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
+> - Remove unneeded items: (Krzysztof Kozlowski)
+> - Fix use of minItems/maxItems (Krzysztof Kozlowski)
+> - Add reg-names to list of required properties (Krzysztof Kozlowski)
+> - Fix example (Krzysztof Kozlowski)
+> 
+> v5:
+> - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
+> - Streamline compatible property (Krzysztof Kozlowski)
+> 
+> v6:
+> - Remove mention to NVDLA, as the hardware is only incidentally related
+>   (Kever Yang)
+> - Mark pclk and npu clocks as required by all clocks (Rob Herring)
+> 
+> v7:
+> - Remove allOf section, not needed now that all nodes require 4 clocks
+>   (Heiko Stübner)
+> 
+> v8:
+> - Remove notion of top core (Robin Murphy)
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 112 +++++++++++++++++++++
+>  1 file changed, 112 insertions(+)
+> 
 
-Actually, no. include/linux/pci_ids.h says:
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-/* SPDX-License-Identifier: GPL-2.0 */
-/*
- *      PCI Class, Vendor and Device IDs
- *
- *      Please keep sorted by numeric Vendor ID and Device ID.
- *
- *      Do not add new entries to this file unless the definitions
- *      are shared between multiple drivers.
- */
-
-But the #ifndef should be removed.
-
-	Andrew
