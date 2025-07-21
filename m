@@ -1,204 +1,203 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478E4292B4E
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 10:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40420294A03;
+	Mon, 21 Jul 2025 10:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753094440; cv=none; b=YViJaKsgi+HzZdwtUezElOVgfrm/KtZ5DxPiz/PvG/1jmdv0ZU7iXoOXMPM4zyCrtEQHGPnNwL4Qed/kLk4BWdSKMF2TznuBlXz1RDWS4nylaUJra0t9lVs9Lc2Uq8uo9PGI1ru7Kv0N9hoWsSdO/H9eTFZli+VItJwn8dnmCLE=
+	t=1753094509; cv=none; b=Dom1Gm9LF1k3rCr3KCzDrfTkbyQJk4pAqMtV8rKAMFl6Ui+WhiOOGaTd1HlbGm1zA7rY1j1gvOvTJJ8KOWOy05rTp5U6JkC7xFWbslMJdlCBmhuHyAwflhQKU8hXpijOc+jgzxcRk2BPqswP14NpcB2vnHVraema4QrDG7q0+EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753094440; c=relaxed/simple;
-	bh=HwJPqklxIi4TxHGwi2RXoqe6O4MmTclYjH3w0n8qsZ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ao2wckMGbkfCMqHM0djiSFX/yggqcQxMIre7ztGwvdcRpUCvVU7B2OA6hcuWCLIIZVZ4GUCoeElEF0WzyoI1CpbZuxS9NYRIJcc29IcX3wFjivg9FOBIuB7nf36FgMMxb77Cooi7JEMgLW70raM0KUH+v5MYvlC3d606SaYwswg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kxMXG9kq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ICSfBX58; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kxMXG9kq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ICSfBX58; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1753094509; c=relaxed/simple;
+	bh=32Ezd9NHPvzGB4MDFi30pMB3r9Wjp+fpFw2xP3JHvY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qywd4gcDqzDQP8yJg6I9Zbp2u84uiKQ0v2kQb/Cxabnrlyc1LJkz1Dlk6D4ZQ6wxmy5Mf98Mkd5pERPSGBt2dmLgpUcbD3zlhR0e540bgZfLX6Z1lqjnrHKuvMXS17XXEDpez+WK/QsnTkbAl6xWu0UikkTWzudka59X1bf1MWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LlmGrbRw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kxMXG9kq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ICSfBX58";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kxMXG9kq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ICSfBX58"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6BB362198A;
-	Mon, 21 Jul 2025 10:40:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1753094434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DGT86XjEs8yUfWXy1Dj1eOgiciVU8QCPotf/nQIicGA=;
-	b=kxMXG9kqvqWuM9I/9r/hsVpe6woZ/TQRgAd+XXywmh+ERAds1E1aVPE3z71ebOTZe14d+u
-	OYXNgAAzKhqzqzNlr1dVvAZjqp3fMl7uHHDk0CPvRO2Vcpo10nD0U6S4l+1inYr0brmUpS
-	G3PquTDhBvTJfKgpk1t0jw2uZiBmJEA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1753094434;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DGT86XjEs8yUfWXy1Dj1eOgiciVU8QCPotf/nQIicGA=;
-	b=ICSfBX58lcEx17GB6hJdMgeICEtXc+3j0Tw2OOzMR5Ma3B1jtprylWsf0J4yWQRmocS5HU
-	JqJUpGLo6x/nQKDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1753094434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DGT86XjEs8yUfWXy1Dj1eOgiciVU8QCPotf/nQIicGA=;
-	b=kxMXG9kqvqWuM9I/9r/hsVpe6woZ/TQRgAd+XXywmh+ERAds1E1aVPE3z71ebOTZe14d+u
-	OYXNgAAzKhqzqzNlr1dVvAZjqp3fMl7uHHDk0CPvRO2Vcpo10nD0U6S4l+1inYr0brmUpS
-	G3PquTDhBvTJfKgpk1t0jw2uZiBmJEA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1753094434;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DGT86XjEs8yUfWXy1Dj1eOgiciVU8QCPotf/nQIicGA=;
-	b=ICSfBX58lcEx17GB6hJdMgeICEtXc+3j0Tw2OOzMR5Ma3B1jtprylWsf0J4yWQRmocS5HU
-	JqJUpGLo6x/nQKDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41897136A8;
-	Mon, 21 Jul 2025 10:40:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tKaeDyIZfmhLHwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 21 Jul 2025 10:40:34 +0000
-Message-ID: <24f995fe-df76-4495-b9c6-9339b6afa6be@suse.cz>
-Date: Mon, 21 Jul 2025 12:40:34 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LlmGrbRw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8605C4CEED;
+	Mon, 21 Jul 2025 10:41:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753094508;
+	bh=32Ezd9NHPvzGB4MDFi30pMB3r9Wjp+fpFw2xP3JHvY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LlmGrbRwMWzgGwcOoMjFfintV8khXNcvjHKwl4d5ba703ep1CUXoCSElSrZg41zJL
+	 NiwpSBE1SpIFC8eashXR3B3/MbumZoqlqQpc1W6Panr7a+ba4Yuez589tTwZQGHs4G
+	 WvaU5rDfW9uBKwQhe1dVtobUkiOnUzZ91ufbNvvUt5NPeM7Ebca4kMejSnmJNMpfgC
+	 43/WqkAfQCU9EgY+NdsZ2u6gUszl+BLcTSY6Xu2E5sLMggIWdEYoJkTcLLEBy2uMsg
+	 i7ICE/bBMUfhF4rUoaI+KQHN40j8JJvBRlNNpDm9mPb/rXSpf8v6wyeBZZwGDNMcad
+	 n2ieNHuK0n9sQ==
+Date: Mon, 21 Jul 2025 16:11:34 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+Cc: Jens Wiklander <jens.wiklander@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Apurupa Pattapu <quic_apurupa@quicinc.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 12/12] Documentation: tee: Add Qualcomm TEE driver
+Message-ID: <aH4ZXmsKu08F5uPL@sumit-X1>
+References: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-0-697fb7d41c36@oss.qualcomm.com>
+ <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-12-697fb7d41c36@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-Content-Language: en-US
-To: Daniel Gomez <da.gomez@kernel.org>, Daniel Gomez <da.gomez@samsung.com>,
- Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>,
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Shivank Garg <shivankg@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20250715-export_modules-v3-1-11fffc67dff7@suse.cz>
- <b340eb9f-a336-461c-befe-6b09c68b731e@kernel.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <b340eb9f-a336-461c-befe-6b09c68b731e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-12-697fb7d41c36@oss.qualcomm.com>
 
-On 7/15/25 20:58, Daniel Gomez wrote:
-> On 15/07/2025 10.43, Vlastimil Babka wrote:
->> Christoph suggested that the explicit _GPL_ can be dropped from the
->> module namespace export macro, as it's intended for in-tree modules
->> only. It would be possible to restrict it technically, but it was
->> pointed out [2] that some cases of using an out-of-tree build of an
->> in-tree module with the same name are legitimate. But in that case those
->> also have to be GPL anyway so it's unnecessary to spell it out in the
->> macro name.
->> 
->> Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
->> Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey5sb_8muzdWTMkA@mail.gmail.com/ [2]
->> Suggested-by: Christoph Hellwig <hch@infradead.org>
->> Reviewed-by: Shivank Garg <shivankg@amd.com>
->> Acked-by: David Hildenbrand <david@redhat.com>
->> Acked-by: Nicolas Schier <n.schier@avm.de>
->> Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
->> Reviewed-by: Christian Brauner <brauner@kernel.org>
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->> ---
->> Daniel, please clarify if you'll take this via module tree or Christian
->> can take it via vfs tree?
+On Sun, Jul 13, 2025 at 05:49:24PM -0700, Amirreza Zarrabi wrote:
+> Add documentation for the Qualcomm TEE driver.
 > 
-> Patch 707f853d7fa3 ("module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper")
-> from Peter was merged through Masahiro in v6.16-rc1. Since this is a related
-> fix/rename/cleanup, it'd make sense for it to go through his kbuild tree as
-> well. Masahiro, please let me know if you'd prefer otherwise. If not, I'll queue
-> it up in the modules tree.
+> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+> ---
+>  Documentation/tee/index.rst |  1 +
+>  Documentation/tee/qtee.rst  | 96 +++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                 |  1 +
+>  3 files changed, 98 insertions(+)
 
-Maybe with no reply, you can queue it then?
+Acked-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 
-Thanks,
-Vlastimil
+-Sumit
+
+> 
+> diff --git a/Documentation/tee/index.rst b/Documentation/tee/index.rst
+> index 4be6e69d7837..62afb7ee9b52 100644
+> --- a/Documentation/tee/index.rst
+> +++ b/Documentation/tee/index.rst
+> @@ -11,6 +11,7 @@ TEE Subsystem
+>     op-tee
+>     amd-tee
+>     ts-tee
+> +   qtee
+>  
+>  .. only::  subproject and html
+>  
+> diff --git a/Documentation/tee/qtee.rst b/Documentation/tee/qtee.rst
+> new file mode 100644
+> index 000000000000..2fa2c1bf6384
+> --- /dev/null
+> +++ b/Documentation/tee/qtee.rst
+> @@ -0,0 +1,96 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=============================================
+> +QTEE (Qualcomm Trusted Execution Environment)
+> +=============================================
+> +
+> +The QTEE driver handles communication with Qualcomm TEE [1].
+> +
+> +The lowest level of communication with QTEE builds on the ARM SMC Calling
+> +Convention (SMCCC) [2], which is the foundation for QTEE's Secure Channel
+> +Manager (SCM) [3] used internally by the driver.
+> +
+> +In a QTEE-based system, services are represented as objects with a series of
+> +operations that can be called to produce results, including other objects.
+> +
+> +When an object is hosted within QTEE, executing its operations is referred
+> +to as "direct invocation". QTEE can also invoke objects hosted in the non-secure
+> +world using a method known as "callback request".
+> +
+> +The SCM provides two functions to support direct invocation and callback requests:
+> +
+> +- QCOM_SCM_SMCINVOKE_INVOKE: Used for direct invocation. It can return either
+> +  a result or initiate a callback request.
+> +- QCOM_SCM_SMCINVOKE_CB_RSP: Used to submit a response to a callback request
+> +  triggered by a previous direct invocation.
+> +
+> +The QTEE Transport Message [4] is stacked on top of the SCM driver functions.
+> +
+> +A message consists of two buffers shared with QTEE: inbound and outbound
+> +buffers. The inbound buffer is used for direct invocation, and the outbound
+> +buffer is used to make callback requests. This picture shows the contents of
+> +a QTEE transport message::
+> +
+> +                                      +---------------------+
+> +                                      |                     v
+> +    +-----------------+-------+-------+------+--------------------------+
+> +    | qcomtee_msg_    |object | buffer       |                          |
+> +    |  object_invoke  |  id   | offset, size |                          | (inbound buffer)
+> +    +-----------------+-------+--------------+--------------------------+
+> +    <---- header -----><---- arguments ------><- in/out buffer payload ->
+> +
+> +                                      +-----------+
+> +                                      |           v
+> +    +-----------------+-------+-------+------+----------------------+
+> +    | qcomtee_msg_    |object | buffer       |                      |
+> +    |  callback       |  id   | offset, size |                      | (outbound buffer)
+> +    +-----------------+-------+--------------+----------------------+
+> +
+> +Each buffer is started with a header and array of arguments.
+> +
+> +QTEE Transport Message supports four types of arguments:
+> +
+> +- Input Object (IO) is an object parameter to the current invocation
+> +  or callback request.
+> +- Output Object (OO) is an object parameter from the current invocation
+> +  or callback request.
+> +- Input Buffer (IB) is (offset, size) pair to the inbound or outbound region
+> +  to store parameter to the current invocation or callback request.
+> +- Output Buffer (OB) is (offset, size) pair to the inbound or outbound region
+> +  to store parameter from the current invocation or callback request.
+> +
+> +Picture of the relationship between the different components in the QTEE
+> +architecture::
+> +
+> +         User space               Kernel                     Secure world
+> +         ~~~~~~~~~~               ~~~~~~                     ~~~~~~~~~~~~
+> +   +--------+   +----------+                                +--------------+
+> +   | Client |   |callback  |                                | Trusted      |
+> +   +--------+   |server    |                                | Application  |
+> +      /\        +----------+                                +--------------+
+> +      ||  +----------+ /\                                          /\
+> +      ||  |callback  | ||                                          ||
+> +      ||  |server    | ||                                          \/
+> +      ||  +----------+ ||                                   +--------------+
+> +      ||       /\      ||                                   | TEE Internal |
+> +      ||       ||      ||                                   | API          |
+> +      \/       \/      \/   +--------+--------+             +--------------+
+> +   +---------------------+  | TEE    | QTEE   |             | QTEE         |
+> +   |   libqcomtee [5]    |  | subsys | driver |             | Trusted OS   |
+> +   +-------+-------------+--+----+-------+----+-------------+--------------+
+> +   |      Generic TEE API        |       |   QTEE MSG                      |
+> +   |      IOCTL (TEE_IOC_*)      |       |   SMCCC (QCOM_SCM_SMCINVOKE_*)  |
+> +   +-----------------------------+       +---------------------------------+
+> +
+> +References
+> +==========
+> +
+> +[1] https://docs.qualcomm.com/bundle/publicresource/topics/80-70015-11/qualcomm-trusted-execution-environment.html
+> +
+> +[2] http://infocenter.arm.com/help/topic/com.arm.doc.den0028a/index.html
+> +
+> +[3] drivers/firmware/qcom/qcom_scm.c
+> +
+> +[4] drivers/tee/qcomtee/qcomtee_msg.h
+> +
+> +[5] https://github.com/quic/quic-teec
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9fc58f48fa14..391fc6e6defc 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20706,6 +20706,7 @@ QUALCOMM TEE (QCOMTEE) DRIVER
+>  M:	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+>  L:	linux-arm-msm@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/tee/qtee.rst
+>  F:	drivers/tee/qcomtee/
+>  
+>  QUALCOMM TRUST ZONE MEMORY ALLOCATOR
+> 
+> -- 
+> 2.34.1
+> 
