@@ -1,118 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E2514D70E;
-	Mon, 21 Jul 2025 15:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A166FE55B;
+	Mon, 21 Jul 2025 15:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753110012; cv=none; b=Z3wQYCwdtYQi9RgmrA19CbnBfrq3FvQtZzFGRRYIN4+MDWV2xk8KrlloQF99eAPirPJNgwatXdTha/J2STRq7NhJ730N3f84b9jkxJnWkpc2iN3JCBk7DmCMuJ2Ch8lwr98Ab8aNnQbrEkgSbFgU6sKlfyrpPETDnySuzXDZVZg=
+	t=1753110944; cv=none; b=ofqpKARmzTY7R9wNU+UwMGAYkOX5X+qSC/pri6SU01NNKCx2yEdPJlny9+XnBC8V3565NmisxKjgSQUJN+vTybuE0PzQwsQjzzvwCQ1pUgUJSg4pKZee1OeRX8n2BBtJKdioWaPcXnEpK1JCzNM5fOZPsJ++FLvGfGTljjz09BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753110012; c=relaxed/simple;
-	bh=VZAFEBYGkW7zkA9QHXJ+nLYWvFYNy70boXd5O+3hoTc=;
+	s=arc-20240116; t=1753110944; c=relaxed/simple;
+	bh=6/7aExFJkxOwLw78r5brWycPpzr4k6dmoO402VCFHys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CThkbw7vwvo4QVbd+i+lhb9yA0Gnt4W6Rkwak2V8su7FEd0uHy0JlPiKS2r9F7YD576YTJUPcRyBI8ZNQmgKe/EAwrYw+znm+TUkMO9Sl4UAn0h6hmH5A6m9Tlv7FUXYOQKsPI/O8QZ7mZlUaqBLZnhep5VZybkD3TUyp4fB9vI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IB/CSD6V; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=d57SWcEhffP97O9A/wIbx3t50HMGQsIcv9YXL+IbJIFQdBHJvqXk03zbrHMQ/kvX20zYJYdLUpquHRq3kot56w5e4w4BG2RwBiNTeJW/b1T6r+0G9VN28WiOc2loFwtj2VW/xIrQ5sjZvavyf7sd7v8EBGlKQ/dhbsYIVQkExps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=17Kwozq4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=8de6h+pd; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IB/CSD6V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39475C4CEED;
-	Mon, 21 Jul 2025 15:00:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753110012;
-	bh=VZAFEBYGkW7zkA9QHXJ+nLYWvFYNy70boXd5O+3hoTc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IB/CSD6Vq+QSQx7hD4TITcqcR5SxQBlyS50DA0avSGhIjlvqkcRKYI17VaEjvhG9G
-	 8EkxIyAshM5qj5/Ca5ztlQkj1/5by7Mn9fXzKf4k03zrNSF4q6xKRa+9ynRjtY32c1
-	 koQ/MqhOdb++vqwtjVnKSWpw8D55HKl5tj8mVRhwr8N/crPeyeNEJXMwY/S5CE8p8V
-	 kD7P+aQdsXlW2q/DsTXwF+7EQEN/Fa5+0Tg3w6c5t9/A3e3yqdRXuhO3vmRAcdsZfN
-	 IVxJw+tZ2vk2x/To/uEb0vgzEKb9n3+yTioSZBLwKbhoPU54izO08bAtR3kGxOEwzH
-	 TX8rvX67snRIQ==
-Date: Mon, 21 Jul 2025 10:00:11 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="17Kwozq4";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8de6h+pd"
+Date: Mon, 21 Jul 2025 17:15:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1753110940;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dzbh3RdKnhVKI7pyWYDdy13al39jKyzCMr6I0KG52wQ=;
+	b=17Kwozq4JODdnw0nzGY5Y2k/qePhE8TNfInZ901E/yj+vGOGh4EWcAsu34+G5T552lZ6Ep
+	M5pqOsxHV/EL3O5rF0XgKEDaGBz31dxd/rpeQH3fc5WvOLMaMqX74M28YRqod6h1ZoF3xx
+	HzuShuKE1ovlLgVxSJnd0/h9s/iKVs4TUAngbM/RrDLqeLc4og8C8NZBNh6/gXVTN/IpV3
+	T9+OjXIaBfMmkc8VCB5K4TRCTHIEH806xAUSmD51HYOMcW8UHBs1DXlgmgqp/7HmjkFBD1
+	nxMQ0eBX5uWs7Fz9gYUoQ/CDXnpuDbM7OsDMZ3vkC9UB6lmcOj/ijYWNQGSnwA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1753110940;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dzbh3RdKnhVKI7pyWYDdy13al39jKyzCMr6I0KG52wQ=;
+	b=8de6h+pdHXfEhx7jV4N8gI1mOnmxDC8iYRoyu9FpCHC4azB47PGaxO1VAelJYk1hBki3Oi
+	2xGZy7LejYcBnkBQ==
+From: Nam Cao <namcao@linutronix.de>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-rockchip@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-media@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-doc@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
-	Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v9 06/10] dt-bindings: npu: rockchip,rknn: Add bindings
-Message-ID: <175311001041.629023.12786244001330541185.robh@kernel.org>
-References: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
- <20250721-6-10-rocket-v9-6-77ebd484941e@tomeuvizoso.net>
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,
+	Clark Williams <williams@redhat.com>,
+	John Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH v4 12/14] rv: Replace tss and sncid monitors with more
+ complete sts
+Message-ID: <20250721151539.EXglDXpl@linutronix.de>
+References: <20250721082325.71554-1-gmonaco@redhat.com>
+ <20250721082325.71554-13-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250721-6-10-rocket-v9-6-77ebd484941e@tomeuvizoso.net>
+In-Reply-To: <20250721082325.71554-13-gmonaco@redhat.com>
 
+On Mon, Jul 21, 2025 at 10:23:22AM +0200, Gabriele Monaco wrote:
+> The tss monitor currently guarantees task switches can happen only while
+> scheduling, whereas the sncid monitor enforces scheduling occurs with
+> interrupt disabled.
+> 
+> Replace the monitors with a more comprehensive specification which
+> implies both but also ensures that:
+> * each scheduler call disable interrupts to switch
+> * each task switch happens with interrupts disabled
+> 
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> 
+> fixup sts remove sncid
 
-On Mon, 21 Jul 2025 11:17:33 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> v4:
-> - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
-> - Remove unneeded items: (Krzysztof Kozlowski)
-> - Fix use of minItems/maxItems (Krzysztof Kozlowski)
-> - Add reg-names to list of required properties (Krzysztof Kozlowski)
-> - Fix example (Krzysztof Kozlowski)
-> 
-> v5:
-> - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
-> - Streamline compatible property (Krzysztof Kozlowski)
-> 
-> v6:
-> - Remove mention to NVDLA, as the hardware is only incidentally related
->   (Kever Yang)
-> - Mark pclk and npu clocks as required by all clocks (Rob Herring)
-> 
-> v7:
-> - Remove allOf section, not needed now that all nodes require 4 clocks
->   (Heiko Stübner)
-> 
-> v8:
-> - Remove notion of top core (Robin Murphy)
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->  .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 112 +++++++++++++++++++++
->  1 file changed, 112 insertions(+)
-> 
+Is this here by accident?
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+I cannot comment on the model. The CONFIG_X86_LOCAL_APIC case looks
+complex, but I cannot comment on that either.
 
+But things look fine from RV perspective, so:
+Acked-by: Nam Cao <namcao@linutronix.de>
