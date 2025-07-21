@@ -1,109 +1,335 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB0C3BB48;
-	Mon, 21 Jul 2025 07:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168141EDA0F;
+	Mon, 21 Jul 2025 07:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753081806; cv=none; b=WG4vtaXcBMDYbgo/oioCMiLk8+499+CxhAyxuIT2VgfZjWi3vxY10K7C9XvJ3TrdZQT/A/huDRAkGDTAfLhhyPaJrCyI0ndUNg4yjcOpq2hKtlApSg9/WDBoLTuVBHVfZnzESlenK+F0soT2AM3vEzzicCicl3hW5zIxuvkjf+4=
+	t=1753081977; cv=none; b=a/RBw1I9A/NBO9ACNpSKIADUazsb8+s7C8IVVWCt9U+TFxM939rvEYgqlQla3f1pJZ9L6G8aKU5UOmK8eeu98pS75yo4poswan0fgR/NJd73WAdKLoo3hWZg/n1kX0uX7GIB5CPBY79JB1obH2CWsGUUGZyD3gAjo15MhFcU7ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753081806; c=relaxed/simple;
-	bh=YbRazSO+bR8Uqt1x97vsHYhhB3rrxVcwiGJqpGBRc8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=neNkhbKBkgKFmuBzjcMr56KE5qr8ay5cZ60/R7Fp/cmzNptvy1bQ8FFp5FjuHeUrxPAiGAf9E4CCJ5RU/WY42UORcqSXxzfRQnRIowtPutSTtwS08BxIjYidOBT3qpuMcOXB+AORuTobt3FuU4MmB7BpbiktuCJRzIY5+/FZmzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C0F0168B05; Mon, 21 Jul 2025 09:09:58 +0200 (CEST)
-Date: Mon, 21 Jul 2025 09:09:58 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Christoph Hellwig <hch@lst.de>, Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Kees Cook <kees@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5 00/15] kunit: Introduce UAPI testing framework
-Message-ID: <20250721070958.GA29367@lst.de>
-References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de> <20250717132259.GA25835@lst.de> <20250718073743-d4a1f713-f81b-4e89-b3f8-7eed838798e6@linutronix.de>
+	s=arc-20240116; t=1753081977; c=relaxed/simple;
+	bh=HHrQXBQ8/2N/DSFHNO9uanVncwDRi38IvAN8uzcrkMw=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=D/FSqQaYHBq9aIKQcKSyqdEdwFdv0mj1y6GkvLRz9dew85DPHq3kQL76jwC3Vw9P6Hc/4us6jpVvLHNKjU3nRbGJlW9GZqLa/Ry5xk876Kjb+PfNlKNCD25n/THnn/YsLh3BAGWuCe7cLZIqqZ1jDLFER/lOvOpoSjwcakxa+y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4bls6s0YD0zYQtq4;
+	Mon, 21 Jul 2025 15:12:53 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id C7B361A1776;
+	Mon, 21 Jul 2025 15:12:51 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP4 (Coremail) with SMTP id gCh0CgCnIxRx6H1o1WHtAw--.25659S3;
+	Mon, 21 Jul 2025 15:12:51 +0800 (CST)
+Subject: Re: [PATCH v3 11/11] md/md-llbitmap: introduce new lockless bitmap
+To: Hannes Reinecke <hare@suse.de>, Yu Kuai <yukuai1@huaweicloud.com>,
+ corbet@lwn.net, agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com,
+ song@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-raid@vger.kernel.org, yi.zhang@huawei.com,
+ yangerkun@huawei.com, johnny.chenyi@huawei.com,
+ "yukuai (C)" <yukuai3@huawei.com>
+References: <20250718092336.3346644-1-yukuai1@huaweicloud.com>
+ <20250718092336.3346644-12-yukuai1@huaweicloud.com>
+ <04ba77bb-464d-4b98-91e6-4225204ae679@suse.de>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <bc215f88-a652-090f-ae99-8aaba6c591c4@huaweicloud.com>
+Date: Mon, 21 Jul 2025 15:12:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <04ba77bb-464d-4b98-91e6-4225204ae679@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250718073743-d4a1f713-f81b-4e89-b3f8-7eed838798e6@linutronix.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CM-TRANSID:gCh0CgCnIxRx6H1o1WHtAw--.25659S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3WFyUurWUtFy8uFy3Zry5urg_yoWfZF47pF
+	1kJrWUGrW3Jrn5Xr1UXryDAFyFyrn7J3ZFqF18XFy5JrnFyrnYgFy8WFyqgw1UZr48GF1j
+	yw15WrsruwnrXrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
+	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
-On Fri, Jul 18, 2025 at 08:22:26AM +0200, Thomas Wei�schuh wrote:
-> > I had my own fair share of problems with kselftests,
-> > mostly because of the lack of structure and automated way to run them,
+Hi,
+
+在 2025/07/21 14:20, Hannes Reinecke 写道:
+> On 7/18/25 11:23, Yu Kuai wrote:
+>> From: Yu Kuai <yukuai3@huawei.com>
+>>
+
+>> +
+>> +#define BITMAP_DATA_OFFSET 1024
+>> +
+>> +/* 64k is the max IO size of sync IO for raid1/raid10 */
+>> +#define MIN_CHUNK_SIZE (64 * 2)
+>> +
 > 
-> How did you overcome these issues? Why does everbody need to reinvent the
-> wheel here?
+> Hmm? Which one is it?
+> Comment says 'max IO size', but it's called 'MIN_CHUNK_SIZE'...
 
-Told people to use everything remotely file system related to use
-xfstests instead, and either ignore or suffer from the rest.
+max IO size here means the internal recovery IO size for raid1/10,
+and we're handling at most one llbimtap bit(chunksie) at a time, so
+chunksize should be at least 64k, otherwise recovery IO size will be
+less.
 
-> KUnit already exists and provides a lot of structure and tooling.
-
-That's great.  Let's reuse it without having to drive running userspace
-programs from kernel code.
-
-> > but adding them to the kernel (or a module) is overshooting the target
-> > by far.
+>> +/*
+>> + * Dirtied bits that have not been accessed for more than 5s will be 
+>> cleared
+>> + * by daemon.
+>> + */
+>> +#define BARRIER_IDLE 5
+>> +
 > 
-> That's a subjective statement without any reasoning I can engange with.
+> Should this be changeable, too?
 
-Well, then we're done here if you can't engage.
+Yes, idealy this should. Perhaps a new sysfs api?
 
-> I would be happy to do so, but for now I can only say that I disagree.
-> The patches have been on the testing-related lists for
-> some time and so far nobody had an issue with this aspect.
-
-Has anyone actually chimed in and said "it's great that we bloat the
-kernel to run userspace tests", or have people just mostly ignored it
-like most things?
-
-> > > If the kernel toolchain is not fit to
-> > > produce userspace because of a missing libc, the kernel's own nolibc can
-> > > be used instead.
-> > 
-> > Is nolibc enough to run all the selftests?
 > 
-> It is not and most probably won't ever be. The maintainers of each testcase
-> will decide which libc to use. Like it is in tools/testing/selftests/ today.
-> Some use glibc, some nolibc and some can do both.
 
-So why do you want to use it here?  And how is is related to the rest
-of the series?
+>> +    if (!test_bit(LLPageDirty, &pctl->flags))
+>> +        set_bit(LLPageDirty, &pctl->flags);
+>> +
+>> +    /*
+>> +     * The subpage usually contains a total of 512 bits. If any 
+>> single bit
+>> +     * within the subpage is marked as dirty, the entire sector will be
+>> +     * written. To avoid impacting write performance, when multiple bits
+>> +     * within the same sector are modified within a short time frame, 
+>> all
+>> +     * bits in the sector will be collectively marked as dirty at once.
+>> +     */
+> 
+> How short is the 'short timeframe'?
+> Is this the BARRIER_IDLE setting?
+> Please clarify.
 
-> While having this discussion, can we also work on dealing with the symbol
-> exports, as discussed before?
+Yes, if the page is not accessed for BARRIER_IDLE seconds.
 
-Well, the scope of the entire series makes it pretty clear that this
-series as is simply should not go in.
+>> +static struct page *llbitmap_read_page(struct llbitmap *llbitmap, int 
+>> idx)
+>> +{
+>> +    struct mddev *mddev = llbitmap->mddev;
+>> +    struct page *page = NULL;
+>> +    struct md_rdev *rdev;
+>> +
+>> +    if (llbitmap->pctl && llbitmap->pctl[idx])
+>> +        page = llbitmap->pctl[idx]->page;
+>> +    if (page)
+>> +        return page;
+>> +
+>> +    page = alloc_page(GFP_KERNEL | __GFP_ZERO);
+>> +    if (!page)
+>> +        return ERR_PTR(-ENOMEM);
+>> +
+>> +    rdev_for_each(rdev, mddev) {
+>> +        sector_t sector;
+>> +
+>> +        if (rdev->raid_disk < 0 || test_bit(Faulty, &rdev->flags))
+>> +            continue;
+>> +
+>> +        sector = mddev->bitmap_info.offset +
+>> +             (idx << PAGE_SECTORS_SHIFT);
+>> +
+>> +        if (sync_page_io(rdev, sector, PAGE_SIZE, page, REQ_OP_READ,
+>> +                 true))
+>> +            return page;
+>> +
+>> +        md_error(mddev, rdev);
+>> +    }
+>> +
+>> +    __free_page(page);
+>> +    return ERR_PTR(-EIO);
+>> +}
+>> +
+> 
+> Have you considered moving to folios here?
+> 
 
-You present running pure userspace tests as the solution to a problem
-you don't even explain, or rather just state very highlevel.  Yes,
-kselftests suck as most people will agree.  But the answer is not
-to add a lot of kernel bloat to treat userspace integration tests
-like kernel units tests.  How about you just fix kselftests, preferably
-by reusing well known and teststed userland code?
+Of course, however, because the md high level helpers is still using
+page, I'm thinking about using page for now, which is simpler, and
+moving to folios for all md code later.
+
+
+>> +static int llbitmap_resize(struct mddev *mddev, sector_t blocks, int 
+>> chunksize)
+>> +{
+>> +    struct llbitmap *llbitmap = mddev->bitmap;
+>> +    unsigned long chunks;
+>> +
+>> +    if (chunksize == 0)
+>> +        chunksize = llbitmap->chunksize;
+>> +
+>> +    /* If there is enough space, leave the chunksize unchanged. */
+>> +    chunks = DIV_ROUND_UP(blocks, chunksize);
+>> +    while (chunks > mddev->bitmap_info.space << SECTOR_SHIFT) {
+>> +        chunksize = chunksize << 1;
+>> +        chunks = DIV_ROUND_UP(blocks, chunksize);
+>> +    }
+>> +
+>> +    llbitmap->chunkshift = ffz(~chunksize);
+>> +    llbitmap->chunksize = chunksize;
+>> +    llbitmap->chunks = chunks;
+>> +
+>> +    return 0;
+>> +}
+>> +
+> 
+> Hmm. I do get confused with the chunksize here.
+> Is this the granularity of the bits in the bitmap
+> (ie how many data bytes are covered by one bit)?
+> Or is it the chunksize of the bitmap itself?
+
+Yes, the llbitmap->chunksize means the data bytes by one llbitmap bit.
+> 
+> In either case, if it's a 'chunksize' in the sense
+> of the block layer (namely a boundary which I/O
+> must not cross), shouldn't you set the request
+> queue limits accordingly?
+
+I think we don't, it's fine if IO cross the boundary of
+llbitmap->chunksize, multiple bits will be recorded. In fact, we support
+plug and recored lots of bits at a time, the only restriction is that
+dirty bits have to be written beffore issuing IO.
+
+> 
+>> +static int llbitmap_load(struct mddev *mddev)
+>> +{
+>> +    enum llbitmap_action action = BitmapActionReload;
+>> +    struct llbitmap *llbitmap = mddev->bitmap;
+>> +
+>> +    if (test_and_clear_bit(BITMAP_STALE, &llbitmap->flags))
+>> +        action = BitmapActionStale;
+>> +
+>> +    llbitmap_state_machine(llbitmap, 0, llbitmap->chunks - 1, action);
+>> +    return 0;
+>> +}
+>> +
+>> +static void llbitmap_destroy(struct mddev *mddev)
+>> +{
+>> +    struct llbitmap *llbitmap = mddev->bitmap;
+>> +
+>> +    if (!llbitmap)
+>> +        return;
+>> +
+>> +    mutex_lock(&mddev->bitmap_info.mutex);
+>> +
+>> +    timer_delete_sync(&llbitmap->pending_timer);
+>> +    flush_workqueue(md_llbitmap_io_wq);
+>> +    flush_workqueue(md_llbitmap_unplug_wq);
+>> +
+>> +    mddev->bitmap = NULL;
+>> +    llbitmap_free_pages(llbitmap);
+>> +    kfree(llbitmap);
+>> +    mutex_unlock(&mddev->bitmap_info.mutex);
+>> +}
+>> +
+>> +static void llbitmap_start_write(struct mddev *mddev, sector_t offset,
+>> +                 unsigned long sectors)
+>> +{
+>> +    struct llbitmap *llbitmap = mddev->bitmap;
+>> +    unsigned long start = offset >> llbitmap->chunkshift;
+>> +    unsigned long end = (offset + sectors - 1) >> llbitmap->chunkshift;
+>> +    int page_start = (start + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
+>> +    int page_end = (end + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
+>> +
+>> +    llbitmap_state_machine(llbitmap, start, end, 
+>> BitmapActionStartwrite);
+>> +
+>> +
+>> +    while (page_start <= page_end) {
+>> +        llbitmap_raise_barrier(llbitmap, page_start);
+>> +        page_start++;
+>> +    }
+>> +}
+>> +
+>> +static void llbitmap_end_write(struct mddev *mddev, sector_t offset,
+>> +                   unsigned long sectors)
+>> +{
+>> +    struct llbitmap *llbitmap = mddev->bitmap;
+>> +    unsigned long start = offset >> llbitmap->chunkshift;
+>> +    unsigned long end = (offset + sectors - 1) >> llbitmap->chunkshift;
+>> +    int page_start = (start + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
+>> +    int page_end = (end + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
+>> +
+>> +    while (page_start <= page_end) {
+>> +        llbitmap_release_barrier(llbitmap, page_start);
+>> +        page_start++;
+>> +    }
+>> +}
+>> +
+>> +static void llbitmap_start_discard(struct mddev *mddev, sector_t offset,
+>> +                   unsigned long sectors)
+>> +{
+>> +    struct llbitmap *llbitmap = mddev->bitmap;
+>> +    unsigned long start = DIV_ROUND_UP(offset, llbitmap->chunksize);
+>> +    unsigned long end = (offset + sectors - 1) >> llbitmap->chunkshift;
+>> +    int page_start = (start + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
+>> +    int page_end = (end + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
+>> +
+>> +    llbitmap_state_machine(llbitmap, start, end, BitmapActionDiscard);
+>> +
+>> +    while (page_start <= page_end) {
+>> +        llbitmap_raise_barrier(llbitmap, page_start);
+>> +        page_start++;
+>> +    }
+>> +}
+>> +
+>> +static void llbitmap_end_discard(struct mddev *mddev, sector_t offset,
+>> +                 unsigned long sectors)
+>> +{
+>> +    struct llbitmap *llbitmap = mddev->bitmap;
+>> +    unsigned long start = DIV_ROUND_UP(offset, llbitmap->chunksize);
+>> +    unsigned long end = (offset + sectors - 1) >> llbitmap->chunkshift;
+>> +    int page_start = (start + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
+>> +    int page_end = (end + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
+>> +
+>> +    while (page_start <= page_end) {
+>> +        llbitmap_release_barrier(llbitmap, page_start);
+>> +        page_start++;
+>> +    }
+>> +}
+>> +
+>> +static void llbitmap_unplug_fn(struct work_struct *work)
+>> +{
+>> +    struct llbitmap_unplug_work *unplug_work =
+>> +        container_of(work, struct llbitmap_unplug_work, work);
+>> +    struct llbitmap *llbitmap = unplug_work->llbitmap;
+>> +    struct blk_plug plug;
+>> +    int i;
+>> +
+>> +    blk_start_plug(&plug);
+>> +
+>> +    for (i = 0; i < llbitmap->nr_pages; i++) {
+>> +        if (!test_bit(LLPageDirty, &llbitmap->pctl[i]->flags) ||
+>> +            !test_and_clear_bit(LLPageDirty, &llbitmap->pctl[i]->flags))
+> 
+> Confused. Is this some kind of micro-optimisation?
+> Why not simply 'test_and_clear_bit()'?
+
+Yes, because this is called from IO hot path, and in the most cases,
+only a few pages will be dirtied by plugged IO.
+
+Thanks for the review!
+Kuai
+
+> Cheers,
+> 
+> Hannes
 
