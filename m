@@ -1,570 +1,517 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1692D3EEE
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 14:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BBB15748F;
+	Mon, 21 Jul 2025 14:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753107703; cv=none; b=pCjxS08GB442cbIlvZ/NZ/cieQc0MEUaAbMJou1FBicV4TimKdKdNhPCezzqTNTt/4YAZ5sgUHIYjii3xDfNIIpwt0ssj/Qkv9wb0vKlGFCm53n29KieVIsb36l0cYV+m5s7mFQUoTrNP/AwZXKgGz8CrEup5r1h1WChSvKK27g=
+	t=1753108363; cv=none; b=MqaSd9R/Mx9q+BaUjSzl9d1xGQ+aDrH8h2rAdtg1Dlmf8KnCGCZ0abvHusVAd/Yuwv0ywZjWqmScKj4euNQWGTtIyf1lfYk45bUxjnuw1LAx19N4mrUPiry/7HSIveJwdFSgPgkwP6HLZoWVu7F6OCFts2SSj2VL6S+O94EXaoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753107703; c=relaxed/simple;
-	bh=PTWSl+wAEhXohoDtp9bVp5FIerEdPinZroN3Hbl7BSY=;
+	s=arc-20240116; t=1753108363; c=relaxed/simple;
+	bh=Bmdat96LiQUk1B/BRPa997UJAFHNzmBEDWZgvD5DnMI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P4DRerT/kmni9j60/sjAsoEsgyQKPQLfw3olGODfOMmTDlY4COQL3NFmlPtv1BGUaC/n5meSlU+GPo7aDNXdRN9m01StRmYPxgoJKHlBIgvHg2KIJsHLhT7gKkv3/xFOWEF6ol+qWDIL0PwsJur22AzGZga3f4WRo3WpPb/2PdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NibAJOcY; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=h0wBhPQgjRheycAu8DmTTr0r0gvc66cYTb67mW/7V/w3sqUL1dmY2PqNAl30Y8pbIpAnU/TjeacxDOtbA57uRM/h1UgMcx3Em30Xvzffi87wMhNZGUtRyimaVjK6V50v/DQKIMGnd4EswbHJqQSMGvylqjKGNcYF6fRRzTJsaH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kyKEbm8x; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NibAJOcY"
-Message-ID: <b4233af1-7143-402b-a45c-379c39edf274@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1753107688;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KF58D9MGsLNUYJPC/+9oNbaKPqecsAp57941TID+TE8=;
-	b=NibAJOcY8cWSKRZykmD3aK5y5oaFU4cqzAJz45wCEdzhwG/5d3V2bS8tGeI4aIeX33juUz
-	ybPHzbl0VEknxZkO+V0PLynaWpV6BlGg6U4LuP4s62qmYrzpMmoD/Wve2g26CnbRmCbw9U
-	70zHIGitc8KnkGchjTFBW3p5JWcHX48=
-Date: Mon, 21 Jul 2025 15:21:23 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kyKEbm8x"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ae0a0cd709bso1000401066b.0;
+        Mon, 21 Jul 2025 07:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753108359; x=1753713159; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6ZyFvS81aM0m2BitG2602WE9RizHNryvEDg5/uTy6bk=;
+        b=kyKEbm8xRV03wWC0goBhSs3FHP0TCZ8djro6+2NFGcW3PR6vR0YEr9SzJfM1CEuFM+
+         8Rcd9uv/zoarJ2qJ8mjxorHbfeORTYurc7gnMcLx35ggrFqeHytlL9Nz85aYZ4ykZQEM
+         ojeRG2tGvF+pDlY3/F/sd7zbbYSlqFHNT4rlyOhs50phNLaPI3eBD9wIZsLn/r04rTj1
+         xKdwxwCDkElnHUzpXv8GreGiojbb/gPIj1OanwgwUif/MYL0GawE5/mZX1ZImqlvpyru
+         aqnmn1Gj6AFtoq05wc+q9p3ETZW9xoRAE0hir+5xSwU6mvV1azhdZFVdFVKn9V63i/es
+         juGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753108359; x=1753713159;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6ZyFvS81aM0m2BitG2602WE9RizHNryvEDg5/uTy6bk=;
+        b=kUbVCC9myB1QrXnFUkEcEYJoCC8ry7j5KhQBo1Qd3bQYaYM7ZjVa/+ijfb/YEe1XK0
+         JCiOfd4Y15t2KBll1k4sYS0zC/uc1KQusMWFI1XkH5gTHveY4Jtjo1hyWVuquFR5hne5
+         XS/mTas0dsYb5oLHPyTbEd5ax1oUbhpvQ2dPcNyaMnxeE2x5pU9zEM8YSWNntvneXAFV
+         JjJUPV6tQnOPVrOJtb6+CVfCeNJE+zyHhOBvbLaBcffgJpZRldLShbGvRvf1jz6hlH9q
+         sDf96ilgHEWI/HHX9pVdP9NEyRyeoUQ1b7Fuun/dUs8v2M6oYzyk8UXf840kGLe2h6XX
+         xatg==
+X-Forwarded-Encrypted: i=1; AJvYcCU2OaQ46o9ikEFHrWVOyAMjh9EQbPJLqvz4k2mfHIbHKZ3UNj+8bQZgOf7tkUEDPxI7yYWdXv2S5kY=@vger.kernel.org, AJvYcCUhdzl/+Q1rsU9amaCl36Qk4otUe0hC2kOk7AHEuLmVL/7sgyfhKlRtLLkmzp9zRUJAu5H4ARrh2oO1lWiV@vger.kernel.org, AJvYcCWzdts3Yn5Ph1tYgnSp6toU+tcKWEs/o4Tnm5UAZNjfF9fcgBmV425TR/EHvRsiWISTI/0kkLUUrPMh8A0T1A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywm0yYknCfwO4i2Tmr1GV6FOZYxuk4IgVWvJ4dpUrMFpntnWy7F
+	OmpIUw/i2b1mFNBalMHsAJ+BFC5nYjw9w1X/DzMrEJzx8jNudJ2lZVsu
+X-Gm-Gg: ASbGnctB6mBd0oyO82lSswh58CifzF9o15PQenfHuXwr9c022e6ZkEkFHXcpsEGY8Ch
+	+1V7/BgDfIL8pOfbZ3C0k1GfufUg8DVmYHcEHvzmTKeOkxWpL882sQrGRBBrNq9PLAnDTkQQ1bf
+	BGUep8mRgE8KlotRohL2AY9QAyk6SgKuvM5n2/FcroX5Cv4RFR1ukGhohR9k/JyeBdaVXG3LNC4
+	IyiMNaOZyvr66pQa61FaHbzES6qgLsrKALsCqySR0Ub6JVVIemzUw5Z8iPGfo8X4O7vVI17bReP
+	pdoswEYbA8LhF4S4H3oWLfGd2cX7tDk6YTpXntcAfpsgeVRLiYFHI+rMSsq0/T/s+9pQA/4HdeS
+	O9deI2zzeMQ4shFGP3+tLzEhQOwnFKV/yFAmcdlDfAij7oWM1zh0BH8uhZsOucVjqjr5T7yxgMM
+	bMFO5m8A==
+X-Google-Smtp-Source: AGHT+IE9TaBDlsLEh8LV2s6X3r4uriyB72tSI5rQQYZAV2sIxauOTbkGREgZpW4PUuy4XEROm2Pgjw==
+X-Received: by 2002:a17:907:e2c7:b0:acb:37ae:619c with SMTP id a640c23a62f3a-aec4de62d50mr1585600266b.15.1753108358847;
+        Mon, 21 Jul 2025 07:32:38 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:14f1:c189:9748:5e5a? ([2620:10d:c092:500::7:cc27])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6cad0feasm684502466b.138.2025.07.21.07.32.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Jul 2025 07:32:38 -0700 (PDT)
+Message-ID: <4d9d25b0-49ee-438d-8698-59c835506cbd@gmail.com>
+Date: Mon, 21 Jul 2025 15:32:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 02/15] net: rnpgbe: Add n500/n210 chip support
-To: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
- maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
- gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
- Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
- alexanderduyck@fb.com, richardcochran@gmail.com
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-3-dong100@mucse.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH POC] prctl: extend PR_SET_THP_DISABLE to optionally
+ exclude VM_HUGEPAGE
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, SeongJae Park <sj@kernel.org>,
+ Jann Horn <jannh@google.com>, Yafang Shao <laoar.shao@gmail.com>,
+ Matthew Wilcox <willy@infradead.org>
+References: <20250721090942.274650-1-david@redhat.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20250721113238.18615-3-dong100@mucse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <20250721090942.274650-1-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 
-On 21/07/2025 12:32, Dong Yibo wrote:
-> Initialize n500/n210 chip bar resource map and
-> dma, eth, mbx ... info for future use.
+
+
+On 21/07/2025 10:09, David Hildenbrand wrote:
+> People want to make use of more THPs, for example, moving from
+> THP=never to THP=madvise, or from THP=madvise to THP=never.
 > 
-> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> While this is great news for every THP desperately waiting to get
+> allocated out there, apparently there are some workloads that require a
+> bit of care during that transition: once problems are detected, these
+> workloads should be started with the old behavior, without making all
+> other workloads on the system go back to the old behavior as well.
+> 
+> In essence, the following scenarios are imaginable:
+> 
+> (1) Switch from THP=none to THP=madvise or THP=always, but keep the old
+>     behavior (no THP) for selected workloads.
+> 
+> (2) Stay at THP=none, but have "madvise" or "always" behavior for
+>     selected workloads.
+> 
+> (3) Switch from THP=madvise to THP=always, but keep the old behavior
+>     (THP only when advised) for selected workloads.
+> 
+> (4) Stay at THP=madvise, but have "always" behavior for selected
+>     workloads.
+> 
+> In essence, (2) can be emulated through (1), by setting THP!=none while
+> disabling THPs for all processes that don't want THPs. It requires
+> configuring all workloads, but that is a user-space problem to sort out.
+> 
+> (4) can be emulated through (3) in a similar way.
+> 
+> Back when (1) was relevant in the past, as people started enabling THPs,
+> we added PR_SET_THP_DISABLE, so relevant workloads that were not ready
+> yet (i.e., used by Redis) were able to just disable THPs completely. Redis
+> still implements the option to use this interface to disable THPs
+> completely.
+> 
+> With PR_SET_THP_DISABLE, we added a way to force-disable THPs for a
+> workload -- a process, including fork+exec'ed process hierarchy.
+> That essentially made us support (1): simply disable THPs for all workloads
+> that are not ready for THPs yet, while still enabling THPs system-wide.
+> 
+> The quest for handling (3) and (4) started, but current approaches
+> (completely new prctl, options to set other policies per processm,
+>  alternatives to prctl -- mctrl, cgroup handling) don't look particularly
+> promising. Likely, the future will use bpf or something similar to
+> implement better policies, in particular to also make better decisions
+> about THP sizes to use, but this will certainly take a while as that work
+> just started.
+> 
+> Long story short: a simple enable/disable is not really suitable for the
+> future, so we're not willing to add completely new toggles.
+> 
+> While we could emulate (3)+(4) through (1)+(2) by simply disabling THPs
+> completely for these processes, this scares many THPs in our system
+> because they could no longer get allocated where they used to be allocated
+> for: regions flagged as VM_HUGEPAGE. Apparently, that imposes a
+> problem for relevant workloads, because "not THPs" is certainly worse
+> than "THPs only when advised".
+> 
+> Could we simply relax PR_SET_THP_DISABLE, to "disable THPs unless not
+> explicitly advised by the app through MAD_HUGEPAGE"? *maybe*, but this
+> would change the documented semantics quite a bit, and the versatility
+> to use it for debugging purposes, so I am not 100% sure that is what we
+> want -- although it would certainly be much easier.
+> 
+> So instead, as an easy way forward for (3) and (4), an option to
+> make PR_SET_THP_DISABLE disable *less* THPs for a process.
+> 
+> In essence, this patch:
+> 
+> (A) Adds PR_THP_DISABLE_EXCEPT_ADVISED, to be used as a flag in arg3
+>     of prctl(PR_SET_THP_DISABLE) when disabling THPs (arg2 != 0).
+> 
+>     For now, arg3 was not allowed to be set (-EINVAL). Now it holds
+>     flags.
+> 
+> (B) Makes prctl(PR_GET_THP_DISABLE) return 3 if
+>     PR_THP_DISABLE_EXCEPT_ADVISED was set while disabling.
+> 
+>     For now, it would return 1 if THPs were disabled completely. Now
+>     it essentially returns the set flags as well.
+> 
+
+No strong opinion, but maybe we have it return 2 (i.e. bit 1 set)?
+
+I know that you are returning bit 1 set to indicate the flag, and I know that
+everyone dislikes prctl so its likely no more flags will be added :),
+but in the off chance there are extra flags, than it can make the return
+value weird?
+If instead we return a value with only a single bit set, might be better?
+
+Again, no strong opinion here.
+
+> (C) Renames MMF_DISABLE_THP to MMF_DISABLE_THP_COMPLETELY, to express
+>     the semantics clearly.
+> 
+>     Fortunately, there are only two instances outside of prctl() code.
+> 
+> (D) Adds MMF_DISABLE_THP_EXCEPT_ADVISED to express "no THP except for VMAs
+>     with VM_HUGEPAGE" -- essentially "thp=madvise" behavior
+> 
+>     Fortunately, we only have to extend vma_thp_disabled().
+> 
+> (E) Indicates "THP_enabled: 0" in /proc/pid/status only if THPs are not
+>     disabled completely
+> 
+>     Only indicating that THPs are disabled when they are really disabled
+>     completely, not only partially.
+> 
+> The documented semantics in the man page for PR_SET_THP_DISABLE
+> "is inherited by a child created via fork(2) and is preserved across
+> execve(2)" is maintained. This behavior, for example, allows for
+> disabling THPs for a workload through the launching process (e.g.,
+> systemd where we fork() a helper process to then exec()).
+> 
+> There is currently not way to prevent that a process will not issue
+> PR_SET_THP_DISABLE itself to re-enable THP. We could add a "seal" option
+> to PR_SET_THP_DISABLE through another flag if ever required. The known
+> users (such as redis) really use PR_SET_THP_DISABLE to disable THPs, so
+> that is not added for now.
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+> Cc: Nico Pache <npache@redhat.com>
+> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> Cc: Dev Jain <dev.jain@arm.com>
+> Cc: Barry Song <baohua@kernel.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Usama Arif <usamaarif642@gmail.com>
+> Cc: SeongJae Park <sj@kernel.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+> Cc: Yafang Shao <laoar.shao@gmail.com>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> 
 > ---
->   drivers/net/ethernet/mucse/rnpgbe/Makefile    |   4 +-
->   drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 138 ++++++++++++++++++
->   .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 138 ++++++++++++++++++
->   drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  27 ++++
->   .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   |  68 ++++++++-
->   5 files changed, 370 insertions(+), 5 deletions(-)
->   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
->   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
 > 
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> index 0942e27f5913..42c359f459d9 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> @@ -5,5 +5,5 @@
->   #
->   
->   obj-$(CONFIG_MGBE) += rnpgbe.o
-> -
-> -rnpgbe-objs := rnpgbe_main.o
-> +rnpgbe-objs := rnpgbe_main.o\
-> +	       rnpgbe_chip.o
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> index 224e395d6be3..2ae836fc8951 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> @@ -4,21 +4,156 @@
->   #ifndef _RNPGBE_H
->   #define _RNPGBE_H
->   
-> +#include <linux/types.h>
-> +#include <linux/netdevice.h>
-> +
-> +extern const struct rnpgbe_info rnpgbe_n500_info;
-> +extern const struct rnpgbe_info rnpgbe_n210_info;
-> +extern const struct rnpgbe_info rnpgbe_n210L_info;
-> +
->   enum rnpgbe_boards {
->   	board_n500,
->   	board_n210,
->   	board_n210L,
->   };
->   
-> +enum rnpgbe_hw_type {
-> +	rnpgbe_hw_n500 = 0,
-> +	rnpgbe_hw_n210,
-> +	rnpgbe_hw_n210L,
-> +	rnpgbe_hw_unknow
-> +};
-> +
-> +struct mucse_dma_info {
-> +	u8 __iomem *dma_base_addr;
-> +	u8 __iomem *dma_ring_addr;
-> +	void *back;
-> +	u32 max_tx_queues;
-> +	u32 max_rx_queues;
-> +	u32 dma_version;
-> +};
-> +
-> +#define RNPGBE_MAX_MTA 128
-> +struct mucse_eth_info {
-> +	u8 __iomem *eth_base_addr;
-> +	void *back;
-> +	u32 mta_shadow[RNPGBE_MAX_MTA];
-> +	int mc_filter_type;
-> +	u32 mcft_size;
-> +	u32 vft_size;
-> +	u32 num_rar_entries;
-> +};
-> +
-> +struct mii_regs {
-> +	unsigned int addr; /* MII Address */
-> +	unsigned int data; /* MII Data */
-> +	unsigned int addr_shift; /* MII address shift */
-> +	unsigned int reg_shift; /* MII reg shift */
-> +	unsigned int addr_mask; /* MII address mask */
-> +	unsigned int reg_mask; /* MII reg mask */
-> +	unsigned int clk_csr_shift;
-> +	unsigned int clk_csr_mask;
-> +};
-> +
-> +struct mucse_mac_info {
-> +	u8 __iomem *mac_addr;
-> +	void *back;
-> +	struct mii_regs mii;
-> +	int phy_addr;
-> +	int clk_csr;
-> +};
-> +
-> +#define MAX_VF_NUM (8)
-> +
-> +struct mucse_mbx_info {
-> +	u32 timeout;
-> +	u32 usec_delay;
-> +	u32 v2p_mailbox;
-> +	u16 size;
-> +	u16 vf_req[MAX_VF_NUM];
-> +	u16 vf_ack[MAX_VF_NUM];
-> +	u16 fw_req;
-> +	u16 fw_ack;
-> +	/* lock for only one use mbx */
-> +	struct mutex lock;
-> +	bool irq_enabled;
-> +	int mbx_size;
-> +	int mbx_mem_size;
-> +#define MBX_FEATURE_NO_ZERO BIT(0)
-> +#define MBX_FEATURE_WRITE_DELAY BIT(1)
-> +	u32 mbx_feature;
-> +	/* fw <--> pf mbx */
-> +	u32 fw_pf_shm_base;
-> +	u32 pf2fw_mbox_ctrl;
-> +	u32 pf2fw_mbox_mask;
-> +	u32 fw_pf_mbox_mask;
-> +	u32 fw2pf_mbox_vec;
-> +	/* pf <--> vf mbx */
-> +	u32 pf_vf_shm_base;
-> +	u32 pf2vf_mbox_ctrl_base;
-> +	u32 pf_vf_mbox_mask_lo;
-> +	u32 pf_vf_mbox_mask_hi;
-> +	u32 pf2vf_mbox_vec_base;
-> +	u32 vf2pf_mbox_vec_base;
-> +	u32 fw_vf_share_ram;
-> +	int share_size;
-> +};
-> +
-> +struct mucse_hw {
-> +	void *back;
-> +	u8 pfvfnum;
-> +	u8 pfvfnum_system;
-> +	u8 __iomem *hw_addr;
-> +	u8 __iomem *ring_msix_base;
-> +	struct pci_dev *pdev;
-> +	u16 device_id;
-> +	u16 vendor_id;
-> +	u16 subsystem_device_id;
-> +	u16 subsystem_vendor_id;
-> +	enum rnpgbe_hw_type hw_type;
-> +	struct mucse_dma_info dma;
-> +	struct mucse_eth_info eth;
-> +	struct mucse_mac_info mac;
-> +	struct mucse_mbx_info mbx;
-> +#define M_NET_FEATURE_SG BIT(0)
-> +#define M_NET_FEATURE_TX_CHECKSUM BIT(1)
-> +#define M_NET_FEATURE_RX_CHECKSUM BIT(2)
-> +#define M_NET_FEATURE_TSO BIT(3)
-> +#define M_NET_FEATURE_TX_UDP_TUNNEL BIT(4)
-> +#define M_NET_FEATURE_VLAN_FILTER BIT(5)
-> +#define M_NET_FEATURE_VLAN_OFFLOAD BIT(6)
-> +#define M_NET_FEATURE_RX_NTUPLE_FILTER BIT(7)
-> +#define M_NET_FEATURE_TCAM BIT(8)
-> +#define M_NET_FEATURE_RX_HASH BIT(9)
-> +#define M_NET_FEATURE_RX_FCS BIT(10)
-> +#define M_NET_FEATURE_HW_TC BIT(11)
-> +#define M_NET_FEATURE_USO BIT(12)
-> +#define M_NET_FEATURE_STAG_FILTER BIT(13)
-> +#define M_NET_FEATURE_STAG_OFFLOAD BIT(14)
-> +#define M_NET_FEATURE_VF_FIXED BIT(15)
-> +#define M_VEB_VLAN_MASK_EN BIT(16)
-> +#define M_HW_FEATURE_EEE BIT(17)
-> +#define M_HW_SOFT_MASK_OTHER_IRQ BIT(18)
-> +	u32 feature_flags;
-> +	u16 usecstocount;
-> +};
-> +
->   struct mucse {
->   	struct net_device *netdev;
->   	struct pci_dev *pdev;
-> +	struct mucse_hw hw;
->   	/* board number */
->   	u16 bd_number;
->   
->   	char name[60];
->   };
->   
-> +struct rnpgbe_info {
-> +	int total_queue_pair_cnts;
-> +	enum rnpgbe_hw_type hw_type;
-> +	void (*get_invariants)(struct mucse_hw *hw);
-> +};
-> +
->   /* Device IDs */
->   #ifndef PCI_VENDOR_ID_MUCSE
->   #define PCI_VENDOR_ID_MUCSE 0x8848
-> @@ -30,4 +165,7 @@ struct mucse {
->   #define PCI_DEVICE_ID_N210 0x8208
->   #define PCI_DEVICE_ID_N210L 0x820a
->   
-> +#define m_rd_reg(reg) readl(reg)
-> +#define m_wr_reg(reg, val) writel((val), reg)
-> +
->   #endif /* _RNPGBE_H */
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> new file mode 100644
-> index 000000000000..38c094965db9
-> --- /dev/null
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> @@ -0,0 +1,138 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
-> +
-> +#include <linux/types.h>
-> +#include <linux/string.h>
-> +
-> +#include "rnpgbe.h"
-> +#include "rnpgbe_hw.h"
-> +
-> +/**
-> + * rnpgbe_get_invariants_n500 - setup for hw info
-> + * @hw: hw information structure
-> + *
-> + * rnpgbe_get_invariants_n500 initializes all private
-> + * structure, such as dma, eth, mac and mbx base on
-> + * hw->addr for n500
-> + **/
-> +static void rnpgbe_get_invariants_n500(struct mucse_hw *hw)
+> At first, I thought of "why not simply relax PR_SET_THP_DISABLE", but I
+> think there might be real use cases where we want to disable any THPs --
+> in particular also around debugging THP-related problems, and
+> "THP=never" not meaning ... "never" anymore. PR_SET_THP_DISABLE will
+> also block MADV_COLLAPSE, which can be very helpful. Of course, I thought
+> of having a system-wide config to change PR_SET_THP_DISABLE behavior, but
+> I just don't like the semantics.
+> 
+> "prctl: allow overriding system THP policy to always"[1] proposed
+> "overriding policies to always", which is just the wrong way around: we
+> should not add mechanisms to "enable more" when we already have an
+> interface/mechanism to "disable" them (PR_SET_THP_DISABLE). It all gets
+> weird otherwise.
+> 
+> "[PATCH 0/6] prctl: introduce PR_SET/GET_THP_POLICY"[2] proposed
+> setting the default of the VM_HUGEPAGE, which is similarly the wrong way
+> around I think now.
+> 
+> The proposals by Lorenzo to extend process_madvise()[3] and mctrl()[4]
+> similarly were around the "default for VM_HUGEPAGE" idea, but after the
+> discussion, I think we should better leave VM_HUGEPAGE untouched.
+> 
+> Happy to hear naming suggestions for "PR_THP_DISABLE_EXCEPT_ADVISED" where
+> we essentially want to say "leave advised regions alone" -- "keep THP
+> enabled for advised regions",
+> 
+> The only thing I really dislike about this is using another MMF_* flag,
+> but well, no way around it -- and seems like we could easily support
+> more than 32 if we want to, or storing this thp information elsewhere.
+> 
+> I think this here (modifying an existing toggle) is the only prctl()
+> extension that we might be willing to accept. In general, I agree like
+> most others, that prctl() is a very bad interface for that -- but
+> PR_SET_THP_DISABLE is already there and is getting used.
+> 
+> Long-term, I think the answer will be something based on bpf[5]. Maybe
+> in that context, I there could still be value in easily disabling THPs for
+> selected workloads (esp. debugging purposes).
+> 
+> Jann raised valid concerns[6] about new flags that are persistent across
+> exec[6]. As this here is a relaxation to existing PR_SET_THP_DISABLE I
+> consider it having a similar security risk as our existing
+> PR_SET_THP_DISABLE, but devil is in the detail.
+> 
+> This is *completely* untested and might be utterly broken. It merely
+> serves as a PoC of what I think could be done. If this ever goes upstream,
+> we need some kselftests for it, and extensive tests.
+> 
+> [1] https://lore.kernel.org/r/20250507141132.2773275-1-usamaarif642@gmail.com
+> [2] https://lkml.kernel.org/r/20250515133519.2779639-2-usamaarif642@gmail.com
+> [3] https://lore.kernel.org/r/cover.1747686021.git.lorenzo.stoakes@oracle.com
+> [4] https://lkml.kernel.org/r/85778a76-7dc8-4ea8-8827-acb45f74ee05@lucifer.local
+> [5] https://lkml.kernel.org/r/20250608073516.22415-1-laoar.shao@gmail.com
+> [6] https://lore.kernel.org/r/CAG48ez3-7EnBVEjpdoW7z5K0hX41nLQN5Wb65Vg-1p8DdXRnjg@mail.gmail.com
+> 
+> ---
+>  Documentation/filesystems/proc.rst |  5 +--
+>  fs/proc/array.c                    |  2 +-
+>  include/linux/huge_mm.h            | 20 ++++++++---
+>  include/linux/mm_types.h           | 13 +++----
+>  include/uapi/linux/prctl.h         |  7 ++++
+>  kernel/sys.c                       | 58 +++++++++++++++++++++++-------
+>  mm/khugepaged.c                    |  2 +-
+>  7 files changed, 78 insertions(+), 29 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 2971551b72353..915a3e44bc120 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -291,8 +291,9 @@ It's slow but very precise.
+>   HugetlbPages                size of hugetlb memory portions
+>   CoreDumping                 process's memory is currently being dumped
+>                               (killing the process may lead to a corrupted core)
+> - THP_enabled		     process is allowed to use THP (returns 0 when
+> -			     PR_SET_THP_DISABLE is set on the process
+> + THP_enabled                 process is allowed to use THP (returns 0 when
+> +                             PR_SET_THP_DISABLE is set on the process to disable
+> +                             THP completely, not just partially)
+>   Threads                     number of threads
+>   SigQ                        number of signals queued/max. number for queue
+>   SigPnd                      bitmap of pending signals for the thread
+> diff --git a/fs/proc/array.c b/fs/proc/array.c
+> index d6a0369caa931..c4f91a784104f 100644
+> --- a/fs/proc/array.c
+> +++ b/fs/proc/array.c
+> @@ -422,7 +422,7 @@ static inline void task_thp_status(struct seq_file *m, struct mm_struct *mm)
+>  	bool thp_enabled = IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE);
+>  
+>  	if (thp_enabled)
+> -		thp_enabled = !test_bit(MMF_DISABLE_THP, &mm->flags);
+> +		thp_enabled = !test_bit(MMF_DISABLE_THP_COMPLETELY, &mm->flags);
+>  	seq_printf(m, "THP_enabled:\t%d\n", thp_enabled);
+>  }
+>  
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index e0a27f80f390d..c4127104d9bc3 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -323,16 +323,26 @@ struct thpsize {
+>  	(transparent_hugepage_flags &					\
+>  	 (1<<TRANSPARENT_HUGEPAGE_USE_ZERO_PAGE_FLAG))
+>  
+> +/*
+> + * Check whether THPs are explicitly disabled through madvise or prctl, or some
+> + * architectures may disable THP for some mappings, for example, s390 kvm.
+> + */
+>  static inline bool vma_thp_disabled(struct vm_area_struct *vma,
+>  		vm_flags_t vm_flags)
+>  {
+> +	/* Are THPs disabled for this VMA? */
+> +	if (vm_flags & VM_NOHUGEPAGE)
+> +		return true;
+> +	/* Are THPs disabled for all VMAs in the whole process? */
+> +	if (test_bit(MMF_DISABLE_THP_COMPLETELY, &vma->vm_mm->flags))
+> +		return true;
+>  	/*
+> -	 * Explicitly disabled through madvise or prctl, or some
+> -	 * architectures may disable THP for some mappings, for
+> -	 * example, s390 kvm.
+> +	 * Are THPs disabled only for VMAs where we didn't get an explicit
+> +	 * advise to use them?
+>  	 */
+> -	return (vm_flags & VM_NOHUGEPAGE) ||
+> -	       test_bit(MMF_DISABLE_THP, &vma->vm_mm->flags);
+> +	if (vm_flags & VM_HUGEPAGE)
+> +		return false;
+> +	return test_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, &vma->vm_mm->flags);
+>  }
+>  
+>  static inline bool thp_disabled_by_hw(void)
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 1ec273b066915..a999f2d352648 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -1743,19 +1743,16 @@ enum {
+>  #define MMF_VM_MERGEABLE	16	/* KSM may merge identical pages */
+>  #define MMF_VM_HUGEPAGE		17	/* set when mm is available for khugepaged */
+>  
+> -/*
+> - * This one-shot flag is dropped due to necessity of changing exe once again
+> - * on NFS restore
+> - */
+> -//#define MMF_EXE_FILE_CHANGED	18	/* see prctl_set_mm_exe_file() */
+> +#define MMF_HUGE_ZERO_PAGE	18      /* mm has ever used the global huge zero page */
+>  
+>  #define MMF_HAS_UPROBES		19	/* has uprobes */
+>  #define MMF_RECALC_UPROBES	20	/* MMF_HAS_UPROBES can be wrong */
+>  #define MMF_OOM_SKIP		21	/* mm is of no interest for the OOM killer */
+>  #define MMF_UNSTABLE		22	/* mm is unstable for copy_from_user */
+> -#define MMF_HUGE_ZERO_PAGE	23      /* mm has ever used the global huge zero page */
+> -#define MMF_DISABLE_THP		24	/* disable THP for all VMAs */
+> -#define MMF_DISABLE_THP_MASK	(1 << MMF_DISABLE_THP)
+> +#define MMF_DISABLE_THP_EXCEPT_ADVISED	23	/* no THP except for VMAs with VM_HUGEPAGE */
+> +#define MMF_DISABLE_THP_COMPLETELY	24	/* no THP for all VMAs */
+> +#define MMF_DISABLE_THP_MASK	((1 << MMF_DISABLE_THP_COMPLETELY) |\
+> +				 (1 << MMF_DISABLE_THP_EXCEPT_ADVISED))
+>  #define MMF_OOM_REAP_QUEUED	25	/* mm was queued for oom_reaper */
+>  #define MMF_MULTIPROCESS	26	/* mm is shared between processes */
+>  /*
+> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> index 43dec6eed559a..1949bb9270d48 100644
+> --- a/include/uapi/linux/prctl.h
+> +++ b/include/uapi/linux/prctl.h
+> @@ -177,7 +177,14 @@ struct prctl_mm_map {
+>  
+>  #define PR_GET_TID_ADDRESS	40
+>  
+> +/*
+> + * Flags for PR_SET_THP_DISABLE are only applicable when disabling. Bit 0
+> + * is reserved, so PR_GET_THP_DISABLE can return 1 when no other flags were
+> + * specified for PR_SET_THP_DISABLE.
+> + */
+>  #define PR_SET_THP_DISABLE	41
+> +/* Don't disable THPs when explicitly advised (MADV_HUGEPAGE / VM_HUGEPAGE). */
+> +# define PR_THP_DISABLE_EXCEPT_ADVISED	(1 << 1)
+>  #define PR_GET_THP_DISABLE	42
+>  
+>  /*
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index b153fb345ada2..2a34b2f708900 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -2423,6 +2423,50 @@ static int prctl_get_auxv(void __user *addr, unsigned long len)
+>  	return sizeof(mm->saved_auxv);
+>  }
+>  
+> +static int prctl_get_thp_disable(unsigned long arg2, unsigned long arg3,
+> +				 unsigned long arg4, unsigned long arg5)
 > +{
-> +	struct mucse_dma_info *dma = &hw->dma;
-> +	struct mucse_eth_info *eth = &hw->eth;
-> +	struct mucse_mac_info *mac = &hw->mac;
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +	unsigned long *mm_flags = &current->mm->flags;
 > +
-> +	/* setup msix base */
-> +	hw->ring_msix_base = hw->hw_addr + 0x28700;
-> +	/* setup dma info */
-> +	dma->dma_base_addr = hw->hw_addr;
-> +	dma->dma_ring_addr = hw->hw_addr + RNPGBE_RING_BASE;
-> +	dma->max_tx_queues = RNPGBE_MAX_QUEUES;
-> +	dma->max_rx_queues = RNPGBE_MAX_QUEUES;
-> +	dma->back = hw;
-> +	/* setup eth info */
-> +	eth->eth_base_addr = hw->hw_addr + RNPGBE_ETH_BASE;
-> +	eth->back = hw;
-> +	eth->mc_filter_type = 0;
-> +	eth->mcft_size = RNPGBE_MC_TBL_SIZE;
-> +	eth->vft_size = RNPGBE_VFT_TBL_SIZE;
-> +	eth->num_rar_entries = RNPGBE_RAR_ENTRIES;
-> +	/* setup mac info */
-> +	mac->mac_addr = hw->hw_addr + RNPGBE_MAC_BASE;
-> +	mac->back = hw;
-> +	/* set mac->mii */
-> +	mac->mii.addr = RNPGBE_MII_ADDR;
-> +	mac->mii.data = RNPGBE_MII_DATA;
-> +	mac->mii.addr_shift = 11;
-> +	mac->mii.addr_mask = 0x0000F800;
-> +	mac->mii.reg_shift = 6;
-> +	mac->mii.reg_mask = 0x000007C0;
-> +	mac->mii.clk_csr_shift = 2;
-> +	mac->mii.clk_csr_mask = GENMASK(5, 2);
-> +	mac->clk_csr = 0x02; /* csr 25M */
-> +	/* hw fixed phy_addr */
-> +	mac->phy_addr = 0x11;
+> +	if (arg2 || arg3 || arg4 || arg5)
+> +		return -EINVAL;
 > +
-> +	mbx->mbx_feature |= MBX_FEATURE_NO_ZERO;
-> +	/* mbx offset */
-> +	mbx->vf2pf_mbox_vec_base = 0x28900;
-> +	mbx->fw2pf_mbox_vec = 0x28b00;
-> +	mbx->pf_vf_shm_base = 0x29000;
-> +	mbx->mbx_mem_size = 64;
-> +	mbx->pf2vf_mbox_ctrl_base = 0x2a100;
-> +	mbx->pf_vf_mbox_mask_lo = 0x2a200;
-> +	mbx->pf_vf_mbox_mask_hi = 0;
-> +	mbx->fw_pf_shm_base = 0x2d000;
-> +	mbx->pf2fw_mbox_ctrl = 0x2e000;
-> +	mbx->fw_pf_mbox_mask = 0x2e200;
-> +	mbx->fw_vf_share_ram = 0x2b000;
-> +	mbx->share_size = 512;
-> +
-> +	/* setup net feature here */
-> +	hw->feature_flags |= M_NET_FEATURE_SG |
-> +			     M_NET_FEATURE_TX_CHECKSUM |
-> +			     M_NET_FEATURE_RX_CHECKSUM |
-> +			     M_NET_FEATURE_TSO |
-> +			     M_NET_FEATURE_VLAN_FILTER |
-> +			     M_NET_FEATURE_VLAN_OFFLOAD |
-> +			     M_NET_FEATURE_RX_NTUPLE_FILTER |
-> +			     M_NET_FEATURE_RX_HASH |
-> +			     M_NET_FEATURE_USO |
-> +			     M_NET_FEATURE_RX_FCS |
-> +			     M_NET_FEATURE_STAG_FILTER |
-> +			     M_NET_FEATURE_STAG_OFFLOAD;
-> +	/* start the default ahz, update later */
-> +	hw->usecstocount = 125;
+> +	if (test_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags))
+> +		return 1;
+> +	else if (test_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags))
+> +		return 1 | PR_THP_DISABLE_EXCEPT_ADVISED;
+> +	return 0;
 > +}
 > +
-> +/**
-> + * rnpgbe_get_invariants_n210 - setup for hw info
-> + * @hw: hw information structure
-> + *
-> + * rnpgbe_get_invariants_n210 initializes all private
-> + * structure, such as dma, eth, mac and mbx base on
-> + * hw->addr for n210
-> + **/
-> +static void rnpgbe_get_invariants_n210(struct mucse_hw *hw)
+> +static int prctl_set_thp_disable(unsigned long thp_disable, unsigned long flags,
+> +				 unsigned long arg4, unsigned long arg5)
 > +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +	/* get invariants based from n500 */
-> +	rnpgbe_get_invariants_n500(hw);
+> +	unsigned long *mm_flags = &current->mm->flags;
+> +
+> +	if (arg4 || arg5)
+> +		return -EINVAL;
+> +
+> +	/* Flags are only allowed when disabling. */
+> +	if (!thp_disable || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
 
-it's not a good pattern. if you have some configuration that is
-shared amoung devices, it's better to create *base() or *common()
-helper and call it from each specific initializer. BTW, why do you
-name these functions get_invariants*()? They don't get anything, but
-rather init/setup configuration values. It's better to rename it
-according to the function.
 
-> +
-> +	/* update msix base */
-> +	hw->ring_msix_base = hw->hw_addr + 0x29000;
-> +	/* update mbx offset */
-> +	mbx->vf2pf_mbox_vec_base = 0x29200;
-> +	mbx->fw2pf_mbox_vec = 0x29400;
-> +	mbx->pf_vf_shm_base = 0x29900;
-> +	mbx->mbx_mem_size = 64;
-> +	mbx->pf2vf_mbox_ctrl_base = 0x2aa00;
-> +	mbx->pf_vf_mbox_mask_lo = 0x2ab00;
-> +	mbx->pf_vf_mbox_mask_hi = 0;
-> +	mbx->fw_pf_shm_base = 0x2d900;
-> +	mbx->pf2fw_mbox_ctrl = 0x2e900;
-> +	mbx->fw_pf_mbox_mask = 0x2eb00;
-> +	mbx->fw_vf_share_ram = 0x2b900;
-> +	mbx->share_size = 512;
-> +	/* update hw feature */
-> +	hw->feature_flags |= M_HW_FEATURE_EEE;
-> +	hw->usecstocount = 62;
-> +}
-> +
-> +const struct rnpgbe_info rnpgbe_n500_info = {
-> +	.total_queue_pair_cnts = RNPGBE_MAX_QUEUES,
-> +	.hw_type = rnpgbe_hw_n500,
-> +	.get_invariants = &rnpgbe_get_invariants_n500,
-> +};
-> +
-> +const struct rnpgbe_info rnpgbe_n210_info = {
-> +	.total_queue_pair_cnts = RNPGBE_MAX_QUEUES,
-> +	.hw_type = rnpgbe_hw_n210,
-> +	.get_invariants = &rnpgbe_get_invariants_n210,
-> +};
-> +
-> +const struct rnpgbe_info rnpgbe_n210L_info = {
-> +	.total_queue_pair_cnts = RNPGBE_MAX_QUEUES,
-> +	.hw_type = rnpgbe_hw_n210L,
-> +	.get_invariants = &rnpgbe_get_invariants_n210,
-> +};
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-> new file mode 100644
-> index 000000000000..2c7372a5e88d
-> --- /dev/null
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-> @@ -0,0 +1,27 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
-> +
-> +#ifndef _RNPGBE_HW_H
-> +#define _RNPGBE_HW_H
-> +/*                     BAR                   */
-> +/* ----------------------------------------- */
-> +/*      module  | size  |  start   |    end  */
-> +/*      DMA     | 32KB  | 0_0000H  | 0_7FFFH */
-> +/*      ETH     | 64KB  | 1_0000H  | 1_FFFFH */
-> +/*      MAC     | 32KB  | 2_0000H  | 2_7FFFH */
-> +/*      MSIX    | 32KB  | 2_8000H  | 2_FFFFH */
-> +
-> +#define RNPGBE_RING_BASE (0x1000)
-> +#define RNPGBE_MAC_BASE (0x20000)
-> +#define RNPGBE_ETH_BASE (0x10000)
-> +/* chip resourse */
-> +#define RNPGBE_MAX_QUEUES (8)
-> +/* multicast control table */
-> +#define RNPGBE_MC_TBL_SIZE (128)
-> +/* vlan filter table */
-> +#define RNPGBE_VFT_TBL_SIZE (128)
-> +#define RNPGBE_RAR_ENTRIES (32)
+I think you meant over here?
 
-no need for extra parentheses
+	if (!thp_disable && (flags & PR_THP_DISABLE_EXCEPT_ADVISED))
 
-> +
-> +#define RNPGBE_MII_ADDR 0x00000010 /* MII Address */
-> +#define RNPGBE_MII_DATA 0x00000014 /* MII Data */
-> +#endif /* _RNPGBE_HW_H */
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-> index 13b49875006b..08f773199e9b 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-> @@ -11,6 +11,11 @@
->   #include "rnpgbe.h"
->   
->   char rnpgbe_driver_name[] = "rnpgbe";
-> +static const struct rnpgbe_info *rnpgbe_info_tbl[] = {
-> +	[board_n500] = &rnpgbe_n500_info,
-> +	[board_n210] = &rnpgbe_n210_info,
-> +	[board_n210L] = &rnpgbe_n210L_info,
-> +};
->   
->   /* rnpgbe_pci_tbl - PCI Device ID Table
->    *
-> @@ -33,6 +38,7 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
->   /**
->    * rnpgbe_add_adapter - add netdev for this pci_dev
->    * @pdev: PCI device information structure
-> + * @ii: chip info structure
->    *
->    * rnpgbe_add_adapter initializes a netdev for this pci_dev
->    * structure. Initializes Bar map, private structure, and a
-> @@ -40,16 +46,24 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
->    *
->    * @return: 0 on success, negative on failure
->    **/
-> -static int rnpgbe_add_adapter(struct pci_dev *pdev)
-> +static int rnpgbe_add_adapter(struct pci_dev *pdev,
-> +			      const struct rnpgbe_info *ii)
->   {
->   	struct mucse *mucse = NULL;
-> +	struct mucse_hw *hw = NULL;
-> +	u8 __iomem *hw_addr = NULL;
->   	struct net_device *netdev;
->   	static int bd_number;
-> +	u32 dma_version = 0;
-> +	int err = 0;
-> +	u32 queues;
->   
-> -	netdev = alloc_etherdev_mq(sizeof(struct mucse), 1);
-> +	queues = ii->total_queue_pair_cnts;
-> +	netdev = alloc_etherdev_mq(sizeof(struct mucse), queues);
->   	if (!netdev)
->   		return -ENOMEM;
->   
-> +	SET_NETDEV_DEV(netdev, &pdev->dev);
->   	mucse = netdev_priv(netdev);
->   	mucse->netdev = netdev;
->   	mucse->pdev = pdev;
-> @@ -58,7 +72,54 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev)
->   		 rnpgbe_driver_name, mucse->bd_number);
->   	pci_set_drvdata(pdev, mucse);
->   
-> +	hw = &mucse->hw;
-> +	hw->back = mucse;
-> +	hw->hw_type = ii->hw_type;
-> +
-> +	switch (hw->hw_type) {
-> +	case rnpgbe_hw_n500:
-> +		/* n500 use bar2 */
-> +		hw_addr = devm_ioremap(&pdev->dev,
-> +				       pci_resource_start(pdev, 2),
-> +				       pci_resource_len(pdev, 2));
-> +		if (!hw_addr) {
-> +			dev_err(&pdev->dev, "map bar2 failed!\n");
-> +			return -EIO;
+> +		return -EINVAL;
+> +	if (mmap_write_lock_killable(current->mm))
+> +		return -EINTR;
+> +	if (thp_disable) {
+> +		if (flags & PR_THP_DISABLE_EXCEPT_ADVISED) {
+> +			clear_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags);
+> +			set_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags);
+> +		} else {
+> +			set_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags);
+> +			clear_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags);
 > +		}
-> +
-> +		/* get dma version */
-> +		dma_version = m_rd_reg(hw_addr);
-> +		break;
-> +	case rnpgbe_hw_n210:
-> +	case rnpgbe_hw_n210L:
-> +		/* check bar0 to load firmware */
-> +		if (pci_resource_len(pdev, 0) == 0x100000)
-> +			return -EIO;
-> +		/* n210 use bar2 */
-> +		hw_addr = devm_ioremap(&pdev->dev,
-> +				       pci_resource_start(pdev, 2),
-> +				       pci_resource_len(pdev, 2));
-> +		if (!hw_addr) {
-> +			dev_err(&pdev->dev, "map bar2 failed!\n");
-> +			return -EIO;
-> +		}
-> +
-> +		/* get dma version */
-> +		dma_version = m_rd_reg(hw_addr);
-> +		break;
-> +	default:
-> +		err = -EIO;
-> +		goto err_free_net;
+> +	} else {
+> +		clear_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags);
+> +		clear_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags);
 > +	}
-> +	hw->hw_addr = hw_addr;
-> +	hw->dma.dma_version = dma_version;
-> +	ii->get_invariants(hw);
+> +	mmap_write_unlock(current->mm);
+> +	return 0;
+> +}
 > +
->   	return 0;
-> +
-> +err_free_net:
-> +	free_netdev(netdev);
-> +	return err;
->   }
-
-You have err_free_net label, which is used only in really impossible
-case of unknown device, while other cases can return directly and
-memleak netdev...
-
-
->   
->   /**
-> @@ -74,6 +135,7 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev)
->    **/
->   static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   {
-> +	const struct rnpgbe_info *ii = rnpgbe_info_tbl[id->driver_data];
->   	int err;
->   
->   	err = pci_enable_device_mem(pdev);
-> @@ -97,7 +159,7 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   
->   	pci_set_master(pdev);
->   	pci_save_state(pdev);
-> -	err = rnpgbe_add_adapter(pdev);
-> +	err = rnpgbe_add_adapter(pdev, ii);
->   	if (err)
->   		goto err_regions;
->   
+>  SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>  		unsigned long, arg4, unsigned long, arg5)
+>  {
+> @@ -2596,20 +2640,10 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>  			return -EINVAL;
+>  		return task_no_new_privs(current) ? 1 : 0;
+>  	case PR_GET_THP_DISABLE:
+> -		if (arg2 || arg3 || arg4 || arg5)
+> -			return -EINVAL;
+> -		error = !!test_bit(MMF_DISABLE_THP, &me->mm->flags);
+> +		error = prctl_get_thp_disable(arg2, arg3, arg4, arg5);
+>  		break;
+>  	case PR_SET_THP_DISABLE:
+> -		if (arg3 || arg4 || arg5)
+> -			return -EINVAL;
+> -		if (mmap_write_lock_killable(me->mm))
+> -			return -EINTR;
+> -		if (arg2)
+> -			set_bit(MMF_DISABLE_THP, &me->mm->flags);
+> -		else
+> -			clear_bit(MMF_DISABLE_THP, &me->mm->flags);
+> -		mmap_write_unlock(me->mm);
+> +		error = prctl_set_thp_disable(arg2, arg3, arg4, arg5);
+>  		break;
+>  	case PR_MPX_ENABLE_MANAGEMENT:
+>  	case PR_MPX_DISABLE_MANAGEMENT:
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 8a5873d0a23a7..a685077644b4e 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -427,7 +427,7 @@ static inline int collapse_test_exit(struct mm_struct *mm)
+>  static inline int collapse_test_exit_or_disable(struct mm_struct *mm)
+>  {
+>  	return collapse_test_exit(mm) ||
+> -	       test_bit(MMF_DISABLE_THP, &mm->flags);
+> +	       test_bit(MMF_DISABLE_THP_COMPLETELY, &mm->flags);
+>  }
+>  
+>  static bool hugepage_enabled(void)
+> 
+> base-commit: 760b462b3921c5dc8bfa151d2d27a944e4e96081
 
