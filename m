@@ -1,149 +1,128 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7692F238D57
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 20:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EB621FF3E;
+	Mon, 21 Jul 2025 20:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753128177; cv=none; b=IxHsM40ICV0qMHRj7XAr1ZgRy7D18KZHiRjm+IJ7dULx//QWZCPO7PJHJtt/n8UbzjlH2Y7myhwPWvQSI5zlZW/6tVSKpHPhp9lAkJfcibSNVXx3bvnVgCV1RqQU95FeWhAkraH4eA9RM3rt27sJ8vm+x6fLNgCI2e2+pd8KsXA=
+	t=1753128568; cv=none; b=dkdJZwL2Mo2gpxmDZSHCBleD4Yyq4ofaHaeyZaggLSmz4Mm5V09FIKNoJhbwuBhUUsLEoCH/Y82Ey185Nz6/DFyZ0ejfamVI1UiTNXMConu5bn51ctO8fwDD40AmY/aoVzwNOjBZc0w2XyRa5tGiq2WXqRImCMPIcMZcXy2NP+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753128177; c=relaxed/simple;
-	bh=pXoWU9veiwZFqXfcQj4hfPSB156GlcTIOr4f0ulrhNc=;
+	s=arc-20240116; t=1753128568; c=relaxed/simple;
+	bh=0tI7Ckz46vRExgHt7/KrtPSDrZcdVJNbVoF8HN/Bt+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UVM9dZfvX6W9/fLL1pkA3zrrcMey9kHZFK8vuGdRmbx+eSeoUWQlSBADuDostdcXPwitUz1kPP7tsz8+Ch2KeLPjdpLe8E4qNz/tWEXWPvgNde29+zkzMqNKGW1oZdUYQCwGJwqMOHWWUKxpUdOh3Rn3OVJWyKryJQ9wkOGUfQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Q8Bzke5+; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=AtuPoHWwgyApaRHoWVJEyD7VhKJI6Z5qJ10OtkC/Pb0rp7XDoWFtzozYLhVU1Iep23TnOBCWnbMbrfuJWtzdgwQWYiK5smbtRcgAy0Byo83kvE2w22orn08CXdKCbs91C6UVlLkpPce42e8u1upH+K0d9tCUQCRCiCI9iqd+/FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLNm4FZ5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Q8Bzke5+"
-Date: Mon, 21 Jul 2025 22:02:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1753128162;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=faRHgN5I3SJaokyooR8tND95TU4Zl2EbUy+q1BeFqEE=;
-	b=Q8Bzke5+07H93rEHZBxSdaUZQO1HcSJZZbt3Y31GkjyWATtGLr9GYplTDdMz9XA5tI1+Qt
-	Mse4e9n9h6U8ANxFWVdiKbdr9BlxJ8bvJzeTJkJQtiXhOKptSQSGIlERkBNxVvepTZrk0w
-	VZSK32PGBIQJoDgradRp6NFwqNeMUhg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: Kees Cook <kees@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Ingo Molnar <mingo@kernel.org>,
-	x86@kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, sparclinux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v3 01/13] stackleak: Rename STACKLEAK to KSTACK_ERASE
-Message-ID: <20250721-spiked-adamant-hyrax-eea284@lindesnes>
-References: <20250717231756.make.423-kees@kernel.org>
- <20250717232519.2984886-1-kees@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLNm4FZ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E3ACC4CEED;
+	Mon, 21 Jul 2025 20:09:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753128567;
+	bh=0tI7Ckz46vRExgHt7/KrtPSDrZcdVJNbVoF8HN/Bt+w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DLNm4FZ5DqGkI0BU+e1MbrutQHnfbD5PddxRwA7qx8WwP7lB0AdvIUP/ThYm8iPFN
+	 SzXrVa8azY5hs/h1p1uGNUckSDkGI+j5pLuDgpF1xTD27zOPveIAn/U3TNhXOWxkLh
+	 iNa+jVUmuI78lSAg9urGHTuq+UnDFppKmiIM3TgHmxCbNwxN4OAcF8blVRSMn3Q9s2
+	 XdaY67ZvK907ChVjCXl2eRgw1fNC/xfInBrQmQYfBSlo30m6JyPTesbV1rgE9LbDoF
+	 a2gUXEOWrFnK/RNCSniPEmuDVSgcZIEkvoH+3R7565JMM81xzjMZ8u4JVPdN9I0rkv
+	 FLJoxRcsCc4sw==
+Date: Mon, 21 Jul 2025 15:09:26 -0500
+From: Rob Herring <robh@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Le Goffic <legoffic.clement@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 05/16] dt-bindings: memory: add jedec,ddr[3-4]-channel
+ binding
+Message-ID: <20250721200926.GA1179079-robh@kernel.org>
+References: <20250711-ddrperfm-upstream-v2-0-cdece720348f@foss.st.com>
+ <20250711-ddrperfm-upstream-v2-5-cdece720348f@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cgD5lPAL2MBjPn/0"
-Content-Disposition: inline
-In-Reply-To: <20250717232519.2984886-1-kees@kernel.org>
-X-Operating-System: Debian GNU/Linux 13.0
-X-Migadu-Flow: FLOW_OUT
-
-
---cgD5lPAL2MBjPn/0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250711-ddrperfm-upstream-v2-5-cdece720348f@foss.st.com>
 
-On Thu, Jul 17, 2025 at 04:25:06PM -0700, Kees Cook wrote:
-> In preparation for adding Clang sanitizer coverage stack depth tracking
-> that can support stack depth callbacks:
->=20
-> - Add the new top-level CONFIG_KSTACK_ERASE option which will be
->   implemented either with the stackleak GCC plugin, or with the Clang
->   stack depth callback support.
-> - Rename CONFIG_GCC_PLUGIN_STACKLEAK as needed to CONFIG_KSTACK_ERASE,
->   but keep it for anything specific to the GCC plugin itself.
-> - Rename all exposed "STACKLEAK" names and files to "KSTACK_ERASE" (named
->   for what it does rather than what it protects against), but leave as
->   many of the internals alone as possible to avoid even more churn.
->=20
-> While here, also split "prev_lowest_stack" into CONFIG_KSTACK_ERASE_METRI=
-CS,
-> since that's the only place it is referenced from.
->=20
-> Suggested-by: Ingo Molnar <mingo@kernel.org>
-> Signed-off-by: Kees Cook <kees@kernel.org>
+On Fri, Jul 11, 2025 at 04:48:57PM +0200, Clément Le Goffic wrote:
+> Introduce as per jedec,lpddrX-channel binding, jdec,ddr[3-4]-channel
+> binding.
+> 
+> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
 > ---
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: <x86@kernel.org>
-> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Cc: <linux-doc@vger.kernel.org>
-> Cc: <linux-arm-kernel@lists.infradead.org>
-> Cc: <kvmarm@lists.linux.dev>
-> Cc: <linux-riscv@lists.infradead.org>
-> Cc: <linux-s390@vger.kernel.org>
-> Cc: <linux-efi@vger.kernel.org>
-> Cc: <linux-hardening@vger.kernel.org>
-> Cc: <linux-kbuild@vger.kernel.org>
-> Cc: <linux-security-module@vger.kernel.org>
-> Cc: <linux-kselftest@vger.kernel.org>
-> ---
->  arch/Kconfig                                  |  4 +--
->  arch/arm/Kconfig                              |  2 +-
->  arch/arm64/Kconfig                            |  2 +-
->  arch/riscv/Kconfig                            |  2 +-
->  arch/s390/Kconfig                             |  2 +-
->  arch/x86/Kconfig                              |  2 +-
->  security/Kconfig.hardening                    | 36 ++++++++++---------
->  arch/arm/boot/compressed/Makefile             |  2 +-
->  arch/arm64/kernel/pi/Makefile                 |  2 +-
->  arch/arm64/kvm/hyp/nvhe/Makefile              |  2 +-
->  arch/riscv/kernel/pi/Makefile                 |  2 +-
->  arch/riscv/purgatory/Makefile                 |  2 +-
->  arch/x86/purgatory/Makefile                   |  2 +-
+>  .../memory-controllers/ddr/jedec,ddr-channel.yaml  | 53 ++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr-channel.yaml b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr-channel.yaml
+> new file mode 100644
+> index 000000000000..31daa22bcd4a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr-channel.yaml
+> @@ -0,0 +1,53 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/memory-controllers/ddr/jedec,ddr-channel.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: DDR channel with chip/rank topology description
+> +
+> +description:
+> +  A DDR channel is a logical grouping of memory chips that are connected
+> +  to a host system. The main purpose of this node is to describe the
+> +  overall DDR topology of the system, including the amount of individual
+> +  DDR chips.
+> +
+> +maintainers:
+> +  - Clément Le Goffic <legoffic.clement@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - jedec,ddr3-channel
+> +      - jedec,ddr4-channel
+> +
+> +  io-width:
+> +    description:
+> +      The number of DQ pins in the channel. If this number is different
+> +      from (a multiple of) the io-width of the DDR chip, that means that
+> +      multiple instances of that type of chip are wired in parallel on this
+> +      channel (with the channel's DQ pins split up between the different
+> +      chips, and the CA, CS, etc. pins of the different chips all shorted
+> +      together).  This means that the total physical memory controlled by a
+> +      channel is equal to the sum of the densities of each rank on the
+> +      connected DDR chip, times the io-width of the channel divided by
+> +      the io-width of the DDR chip.
+> +    enum:
+> +      - 8
+> +      - 16
+> +      - 32
+> +      - 64
+> +      - 128
 
-Did you miss arch/loongarch/Kconfig by accident?
+This is duplicating what's in jedec,lpddr-channel.yaml. Refactor or add 
+to it rather than duplicating.
 
-$ git grep -Hrne ARCH_STACKLEAK
-arch/loongarch/Kconfig:127:     select HAVE_ARCH_STACKLEAK
+Is there some reason regular DDR3/4 doesn't have ranks? I'm pretty sure 
+it can...
 
-Kind regards,
-Nicolas
-
---cgD5lPAL2MBjPn/0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmh+nNwACgkQB1IKcBYm
-EmlaKg/+Oulyjlzl6ITiwJiV1weZc0KBlop49wW3/ilmJ9U/16ChNrQlv9S6c21O
-ytwj5NZ3lgiznFSMFUOkOxA6ctKIXVyGyNPSmJIUJ6Sqk9iHm3zMakHBxpr2uemy
-DP6Nb6zORIiNJiTd3lVcdz1XQJRGfHfoMpUoW+GRKqQMtw4NyankD/eCESFv6mKh
-T27cet3p0OMQg5S3lM/AD8uuhCxYlLXnD2LJ1XC7z5v9s2QMFnm2FKuEbwwRikgZ
-k4V5IQ6fVjZRe7AuIZpAgOC2mWYkumx3EriVPGKNQu7L0MSQfUAjDF83NE4CBwIO
-EKdR7rp9ZBpJXIQwG0SNnVDCG/xfryC0LzVorLlZOR65GUHYiONL5Eq+J2QE8zwZ
-ugfv15CDaABIA5Rc6VW655EQePy0grJb6wQRpZAQRtsg5HQQfPgWXewm+OetC6sk
-1yqSuYqUrmJ0j4usrxCxbZRrRcGzfdDuGAmg4XpUKrEJIZRxfsV5InrSJ+o2nA14
-yjqgSeDRliPvyePCLddpnDyye4RgIyNgDQSuYJoivHQryIdrYJE3LIk+EoQdw3dv
-c+5c9ea/sNADpeyyA/RAzDrLGAEXAh2qZFu/o71KZIUOwOLp6IjYtZ9MfI54KyhK
-0TTlmcFody1uFinctfOk+8zBzO/foM1hkNF9knW0vJmnEV4khOU=
-=dSeG
------END PGP SIGNATURE-----
-
---cgD5lPAL2MBjPn/0--
+Rob
