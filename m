@@ -1,152 +1,141 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777572D9489
-	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 15:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CD32989B4;
+	Mon, 21 Jul 2025 15:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753112844; cv=none; b=RP2NFX6CynXwxmW3FCBb2QkRUTpo9WEEGsJUikGF/8+shGM7UJGrBGhUtY1QFTqxwminBlTuOvslRq6q0UtaZnyBxRUUqCUX9TqF8Yz1x0gD+L9pZyntauUqLcDfRzwaNoSM8f2bL4y9aeYqztBaI0IhWqKUqnhK6A5y5wPZXLU=
+	t=1753112866; cv=none; b=WWJQvAhqaWdNm6+ERyMZU4NUFcCSiHmb1oHwIPpJXLTu+T3NYV8cOqHzb6GwVA6HFHOqT3PUhMF3Ek+FsTJ+fv9pIZ0IrWovmaE4sIz8x1GsW50IaClAXephqqXjitlK4FDF/klswi6Q5r5C8wfKUFjSMWDLqFpfGbB8TrbrNwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753112844; c=relaxed/simple;
-	bh=JGN33wEJGPqudqX5w145Jh0yXvNgU9KTiqxmC8hFPY8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AQyQBfSuBBWe7eGOrR3nEOHQo6rJlZTpQy133UYBhw3tvHJPViu6TKB317t/glm7VR9CaydEfiw9rZtheFeysq0H/aNsX1Kdviy4Ti+OSTm6SgXUdESUIKmaP38iQu1tCA7XzHyO36WuD+5cVBHhImArUFIIDfyF9DfTKW/o9fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lGel9uE6; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1753112866; c=relaxed/simple;
+	bh=yf93avLfOcBjv9y23grxTOASqvyH83/l7cM6ZlT0nAM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=URB4eYZzf6pObeOwSj72yKpxEBuzFT6MyPVHNuxnyKFKVv3Ml6r7tsUlAdtKj1Nisk+9Srv8gCy0b9QeINyUSyameQAy5dHG9T0cEwjJ7ZtcZSHzKsxMRjRRVVEL8zpjHDLm+zfIfeQhpU1Ncy6jyQzYF1iNZLr4hJMYv9HJleM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=3xbpjXFn; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lGel9uE6"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-315f6b20cf9so4733193a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 08:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753112840; x=1753717640; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JGN33wEJGPqudqX5w145Jh0yXvNgU9KTiqxmC8hFPY8=;
-        b=lGel9uE6dWzOTnleIyLQtGlyYlWh6dF7t1oukHeuC+1hkNuhioIvlG/QOteOJ3vf3o
-         OIp1l/Me7Ku+pnnJCcWLk8jDzPuTfPEe0D9GIGOjgYECbusz5B1UFk1rJRAz07NJuPb8
-         AzYr7Z7Mcd3vzlN7SYL/izvhVPo2iXWyGIbOk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753112840; x=1753717640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JGN33wEJGPqudqX5w145Jh0yXvNgU9KTiqxmC8hFPY8=;
-        b=kwz4OXOFe1ngAI/PSaFoctSHkfcznKblSi49X+xq0DrGwnQQiNYt5mthbiEPCI5m9P
-         Hz0Yyf+Y3Q3ZToZ4D0dnRP4VN4+w9XaaYQYcL9EFQ0WSaTRdkZv3qdr/Xz+9R+gfDAN4
-         O42hQQA42CjAQY+nMjpfYYilIpd4kila1Jg2bRqWaUUrpVtB/YzMaVgJTP4ZxXUZ08Dw
-         uwhPReITFfUOTyEaMsXUjRW96WoDnqojDJUl6c8U5P0jIvZd3Zt3uFpqaG75FYPMt2Uv
-         919Z2hB2zKKNuv00eBiYMzUa0aJjxDCHorr6J09UJsWzbpVZWQNPnQuT1iDLGyW4Kl77
-         Y+JQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV4CXGEDE52pEdTIoef9nEINqK2563dQV6uMNMRKruvJrAhYC18vDIY6gzHTeezlmVsdzzLRyJebew=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywlc8iVttju9P09hmiOB7nSkxxqoJ93IJlF9zzPJ5CR4ldspH0x
-	TNa8iiJSuJKYrx64IimwyHpywEFsQJwqkPio67/9LZv9tIyyHXkUmue8+a1/cLtQPAqLI0GkW8a
-	Acaw=
-X-Gm-Gg: ASbGnctLGr0f7u1WqvF60RAFOMRUCFYbliOe4SkL5ZNteNPrUmu86rDCwj9gqx2B0BO
-	ErTDhNBXYXDmcfRVa6co6a1LY/2WFyN1M5qWRXgBfbHFZLUptSYeJ9WF7iWww1Ha1CCwYfo/+MJ
-	+I3CLSYuM5MzwMHM+b0xr+Ih6zMlJ7WhEPjCiereyVdQcDAoRI0ldttUk3+b/4BE9hTq5cms9Sw
-	5gFU5OhVPG6qxjmhVWLEiBbgS9b+A2jIhqYBsz07+Yu0hl4RLIOVj/XJZqDTXH5lCI8HHb9W79P
-	Z2RrYbBRtxwfMBGNMBbJ9jst2iifpERfDkQgMFbalo0ALbqhSvB4yFtRnbHXhc/BeU0YS6c4NVE
-	Iq8XZUIUNrRaMKkInrU77FhpfemQ0RPkM8TaR0Ro5U5MBLFbA2/n9uyX3/7I+Iw==
-X-Google-Smtp-Source: AGHT+IHctIyD6i2LvwVaw6xGvxp3nJ1r0fziUFPXJazaEBUMei+1WjLIa418c5ppgOCES2Ot8bk3Ig==
-X-Received: by 2002:a17:90b:134f:b0:312:639:a064 with SMTP id 98e67ed59e1d1-31c9f43748bmr30766617a91.28.1753112839814;
-        Mon, 21 Jul 2025 08:47:19 -0700 (PDT)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com. [209.85.216.49])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f288071sm10135646a91.29.2025.07.21.08.47.13
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 08:47:15 -0700 (PDT)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-315f6b20cf9so4733051a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 08:47:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVHLe2zxPQWkVRRN7wSE+mtgZfGsCnoMipzgE7j6kBAeAZ3emeZbXywvN79rJRlHoBza4xLRHxnVKQ=@vger.kernel.org
-X-Received: by 2002:a17:90b:224c:b0:313:1769:eb49 with SMTP id
- 98e67ed59e1d1-31c9f3c570emr31120725a91.8.1753112832610; Mon, 21 Jul 2025
- 08:47:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="3xbpjXFn"
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56LDt62k020590;
+	Mon, 21 Jul 2025 17:47:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	P1ZuzEzRREiwLydWZlhzK+dlWBAxlIhEYuf20M8l1eU=; b=3xbpjXFnyMs0SC5A
+	i2NSTVksJj+qckbzFNDpYbQCrsNAuBlK574aC/pSgp9d95ovb31I7jR/KuivJ7Z7
+	vrlAF+Tjwygg8on9g8Nk5p0sTilTUvoy9mumnLwxZBwjmm5NG/irpmq9NNUmkiFu
+	0wrn5CM/J1V4wrupgXWM38kPE8qB0Av7ZcgyJMY415Yd2dEUQK7cZuJkMRI5BKp/
+	DW2K9XPdF4dI97k5wGLSQiynVfnweB2tJ1SZhLZSWwfrcbbY7ZWOHj3Oq1ycURsO
+	5wh+4Djrh+l9cQH6KWUDkkJClULDqjLBmk0Ufn2f8W5yGH6gc1qtD7k05Ef/cmMt
+	a3Wd6g==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4800g8hn2a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Jul 2025 17:47:23 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 822DF4007D;
+	Mon, 21 Jul 2025 17:46:05 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 36E51768F09;
+	Mon, 21 Jul 2025 17:44:23 +0200 (CEST)
+Received: from [10.252.5.249] (10.252.5.249) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 21 Jul
+ 2025 17:44:21 +0200
+Message-ID: <162aa05f-69df-4607-bf47-fbec60589f95@foss.st.com>
+Date: Mon, 21 Jul 2025 17:44:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250717164053.284969-1-me@brighamcampbell.com>
- <20250717164053.284969-3-me@brighamcampbell.com> <CAD=FV=Vrp9MM_5de10sV-TC_mp-D7en9gjU8DBoD6mBrRvF2eg@mail.gmail.com>
- <f0d300fc-0141-4eab-a888-d1d32778f5de@tecnico.ulisboa.pt> <DBGPVFN5DTGU.5UTP35ALYS2Q@brighamcampbell.com>
- <73686985-27c4-4a4f-8b75-18df112367a7@tecnico.ulisboa.pt>
-In-Reply-To: <73686985-27c4-4a4f-8b75-18df112367a7@tecnico.ulisboa.pt>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 21 Jul 2025 08:46:59 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xbijn6j9Oxc88k3iq+wSF9bV76X6uw4ADWWxwR+q=o0w@mail.gmail.com>
-X-Gm-Features: Ac12FXwZOEsXzYGcRcET3f78cuk2K33ah-CaSaDSzBavG_qBk9uaa3AvVsHX2XQ
-Message-ID: <CAD=FV=Xbijn6j9Oxc88k3iq+wSF9bV76X6uw4ADWWxwR+q=o0w@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
-To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Cc: Brigham Campbell <me@brighamcampbell.com>, tejasvipin76@gmail.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/16] arm64: dts: st: add LPDDR channel to
+ stm32mp257f-dk board
+To: Rob Herring <robh@kernel.org>
+CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue
+	<alexandre.torgue@foss.st.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Gabriel Fernandez
+	<gabriel.fernandez@foss.st.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Le
+ Goffic <legoffic.clement@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-perf-users@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>
+References: <20250711-ddrperfm-upstream-v2-0-cdece720348f@foss.st.com>
+ <20250711-ddrperfm-upstream-v2-6-cdece720348f@foss.st.com>
+ <20250715032020.GB4144523-robh@kernel.org>
+ <ae960a16-65ad-4b22-b9fb-89efbffacd3e@foss.st.com>
+ <20250715150224.GA1319886-robh@kernel.org>
+Content-Language: en-US
+From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
+In-Reply-To: <20250715150224.GA1319886-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-21_04,2025-07-21_02,2025-03-28_01
 
-Hi,
+Hi Rob
 
-On Sun, Jul 20, 2025 at 4:19=E2=80=AFAM Diogo Ivo <diogo.ivo@tecnico.ulisbo=
-a.pt> wrote:
->
-> On 7/20/25 8:50 AM, Brigham Campbell wrote:
-> > On Sat Jul 19, 2025 at 11:10 AM MDT, Diogo Ivo wrote:
-> >>> nit: can just be this:
-> >>>
-> >>> struct mipi_dsi_multi_context dsi_ctx =3D {};
-> >>
-> >> I am not an expert here but I was under the impression that this is on=
-ly
-> >> valid with C23 while the kernel is written in C11. Is there something =
-I
-> >> am missing?
-> >>
-> >> Diogo
-> >
-> > You're right, C23 was the first standard to bless the usage of the empt=
-y
-> > initializer, ` =3D {};`, but if I'm right, it's been a GNU extension lo=
-ng
-> > before C11. At risk of being pedantic, I'll draw attention to line 580
-> > of the kernel's root Makefile:
-> >
-> > KBUILD_CFLAGS +=3D -std=3Dgnu11
-> >
-> > The kernel is technically written in the GNU variant of C11, extensions
-> > and all. In fact, the first patch of this series uses optional variadic
-> > macro arguments, which aren't a part of any official C standard as far
-> > as I'm aware.
-> >
-> > In any case, a simple grep for some forms of the empty initializer show=
-s
-> > usages all over the drm subsystem.
-> >
-> > That said, I don't know if GNU extensions are formally documented or
-> > where one would look for that information. Importantly, I am by far the
-> > junior as far as kernel coding is concerned. I yield to your experience
-> > and I'm happy to change this initialization in v6 if that's best.
->
-> I found the documentation here [1], and it does state regarding designate=
-d
-> initializers that "Omitted fields are implicitly initialized the same as =
-for
-> objects that have static storage duration." so I take it that no v6 is
-> needed :)
->
-> Diogo
->
-> [1]:
-> https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html#Designated-Inits
+On 7/15/25 17:02, Rob Herring wrote:
+> On Tue, Jul 15, 2025 at 10:32:09AM +0200, Clement LE GOFFIC wrote:
+>> Hi Rob,
+>>
+>> Thanks for the review !
+>>
+>> On 7/15/25 05:20, Rob Herring wrote:
+>>> On Fri, Jul 11, 2025 at 04:48:58PM +0200, Clément Le Goffic wrote:
+>>>> Add 32bits LPDDR4 channel to the stm32mp257f-dk board.
+>>>>
+>>>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+>>>> ---
+>>>>    arch/arm64/boot/dts/st/stm32mp257f-dk.dts | 7 +++++++
+>>>>    1 file changed, 7 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm64/boot/dts/st/stm32mp257f-dk.dts b/arch/arm64/boot/dts/st/stm32mp257f-dk.dts
+>>>> index a278a1e3ce03..a97b41f14ecc 100644
+>>>> --- a/arch/arm64/boot/dts/st/stm32mp257f-dk.dts
+>>>> +++ b/arch/arm64/boot/dts/st/stm32mp257f-dk.dts
+>>>> @@ -54,6 +54,13 @@ led-blue {
+>>>>    		};
+>>>>    	};
+>>>> +	lpddr_channel: lpddr4-channel {
+>>>> +		#address-cells = <1>;
+>>>> +		#size-cells = <0>;
+>>>> +		compatible = "jedec,lpddr4-channel";
+>>>
+>>> Not tested because this doesn't match the binding.
+>>
+>> Hmm, I've tested with make dtbs_check and dt_binding_check and it didn't
+>> complain on my side.
+>> What I have miss ?
+> 
+> Oh wait, we already have a binding for that. I was confused with your
+> adding "jedec,ddr4-channel". Sorry for the noise.
 
-Right. I think the key here is (as Brigham said) `git grep '=3D {}'`
-shows countless hits in the kernel. :-) ...so we're not introducing
-any new compiler requirement here with your patch. ;-)
+It's fine no worries.
+However, in the patch 8, I add the property "memory-channel" that is not 
+in the dtschema repo and I didn't get any reviews on it.
+Is it ok for you ? or maybe should we discuss it over there ?
+I can try to do a PR on the dtschema thought, if it is ok.
 
--Doug
+Best regards,
+Clément
