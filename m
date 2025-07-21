@@ -1,395 +1,509 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6021ABED9;
-	Mon, 21 Jul 2025 08:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69342877CF
+	for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 09:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753087513; cv=none; b=MeIBihIk3wFEve5dbuP3u4+VkQBrhuDxBQYRA/S24/EsYoX3KoC0+OTwB7coTMsfrfUwRUNIlbDLqG0Rc4hH3auGQ9KwRsYjorWZkCHQyiWGjCcJCASajNhlZ6OdGovbh6P/wOJ7XIkuXVWL1GE4FZDbEfrGZYO9jiPZNW3iWUw=
+	t=1753088991; cv=none; b=Pf1CcPPbyuzbskyAmWsPfwzCA8fp+GVQb21iEFpyBrNmN5uGUWbTUD0AC1B6KQQj5qTZbFSX+his8lp1iZHBoI5T2KMyGqgYnR2sHu0xv2FgMORRDOQkRcYhZsnMohIMtuILLTPe7QhtgKYxloLM5Inw0NlVyVGcDNjJmeWsgEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753087513; c=relaxed/simple;
-	bh=iERN6Xzk9sHzsB4pLCPzg+cd0rkOPiJ6NJagUizg4D0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=u/ROAqnRgOUL3e0fGP/PB8epJ+FetmpBSnYHN2+y2NyNL1nbazIk3UBUXrvUg4AWgiNvVAX86+mOKMggHI/T1jjjJSGkkHfSEtAWeFAVQpwu3rsz7srpg4PKw2Tu47tHLM+/DdBh3l2D/2IrqnLgyH4sVaEQK+/nEcV3Mu3Kcto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=Uv1zY+Mw; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	s=arc-20240116; t=1753088991; c=relaxed/simple;
+	bh=Wa3FNnx2OnNWPflO9+BmCciJrxToLZxmHGGLzyuMWzg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KkAtWBvFfDgzJKLTPdrMCoBwPONKtsiKhIhiEdrjIy5a5SYsVwiapiQSAx3moMdmUTAHhZwWMphRry4IbttPz9E8zklaMI4aIB0H5cGD7hHgmt3rqu9I9B4LQA7ak9JBQkIofZSvyyi0DTFFHlFFqgT2oV6J/gAqWLRGQ5do7pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eWPcq+ZY; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="Uv1zY+Mw"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4blv9H6kGwz9tJm;
-	Mon, 21 Jul 2025 10:45:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1753087508;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eWPcq+ZY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1753088988;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ga146VfUnbYMyYkmA+aailWJBUlJlGizk/gmO5Hyyfg=;
-	b=Uv1zY+MwXnDcLR14+LPmtIhODIUR+30RApR7k08bh1MtOoRhHr9SDbGVboFMLkQ6cDQN5m
-	32aSS/m74x+blPhDqFrd45G63FIqUwul6jnrW1eOe2jDXDzeXp6TS+Aay2/8xiB1f4Cogh
-	bOf/P3PO5dSTUDyqDlN6hPH7YmzQq+hYfvyfvH285ZqfQxj0idhPi+N46BHpyfpjfljRQ3
-	x2ZYZ1j/RZi9iDKOlqYUdxfEDGZcw6fqYjl3HernEsYNyQSDVnErsKb77sRrnZ+xjSqKox
-	lSc85pTV4YzLLyozYLApWG3t5nOXzrvbVTh8fTGVk/CH/hjfRoLThV+AZjS1/Q==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-From: Aleksa Sarai <cyphar@cyphar.com>
-Date: Mon, 21 Jul 2025 18:44:14 +1000
-Subject: [PATCH RFC 4/4] selftests/proc: add tests for new pidns APIs
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7u6caywsLvYLuVxkpsdUT2qNKGKBBqyOD5l/+WUF5hI=;
+	b=eWPcq+ZY7qmSVJAcQvy65uhjFr/3BgiF3pqCpFrYiEZ72u6TjsQOiIGB8wgh1KnIYlOw4C
+	KXbSonPyyNKhtSypglJnuTLs0pUbXVV56hGrTJvNxDdf7Vw2nx95r32N3/NMNsT1VEMMhc
+	RMS2GALR2FWPD+qt6srSO463eU35z04=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-146-mCkDC7V5MOu1j7q_lrNHDA-1; Mon, 21 Jul 2025 05:09:46 -0400
+X-MC-Unique: mCkDC7V5MOu1j7q_lrNHDA-1
+X-Mimecast-MFC-AGG-ID: mCkDC7V5MOu1j7q_lrNHDA_1753088985
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4538f375e86so37025325e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 02:09:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753088985; x=1753693785;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7u6caywsLvYLuVxkpsdUT2qNKGKBBqyOD5l/+WUF5hI=;
+        b=pih6m3iGuBgxl6XSt65ftJOZqgO6fzxwbskR/J4uO1nb45d9ifLy/Pn+HlMFBX/OEJ
+         B65WROb+wPol7pioUgNrY/VHfG07BCXcg6pg2//M7OcBXl4FRAbvmqN7BRfPO2/74bQd
+         Lzj8zNSjBlsrd2ObEOQntk4q0vo5H3I+1y71DcwKeT/SdML8f+NwiYVlvR0rYBCFFRNk
+         XLnZFzlMd10U4K3LlQ0HiTviLdtyy6ChbCIbvq9I81VLvPZ0hX/HcfnTpkOgig6pqLQn
+         xVbTBPaHeii/W2Lx6IkzptNZEyfHBFM6RjfIrIHUkQavyzuAKsGEnikyYydnqWr0EyjM
+         cdeA==
+X-Forwarded-Encrypted: i=1; AJvYcCVUtuDQMKoSPJNX5oUuj8JD86/0IRpR0QTMuhMIm2eelbbHNUM8uYZ9J8BnGohhNsRCqhUyn2z6IoE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzfr083UCybwJsrU8n77JybRSqLkPJCvQlzGfJaxxRehZYqz9uv
+	m7B5dterDu54ChIlcrDzDFhj+9S/7nldPEDneTmSjpYnE6ki95EQIcbHZ19k3H337YN5Z81XKal
+	qHX2jY085mv/gfPGG/XOVlKluCtkI5aajTl91ltSAXR9mGgl4QDgq5DiTEogv8A==
+X-Gm-Gg: ASbGncsFZw1js228Bp+coVENTO6Az8cPXjd99JAZs9cIDhOTCmxz5d/dtiBCsGhZQ3o
+	58zakHK0VxITQKjpLRKyEV7jO09qhbFFDJdttSx5a1eIvCV8+uzvTtAdT/d9w/uX/2y+6se7JZF
+	58oaNsPRM3r8OqPdvQ3qRChk37zl8Ls3Tf6agSxytYdpWSnAHwuQD8zcM91TrCKt8/dRodnqhgk
+	PQbWfL5PoR9KbieNXB/ruvypssU0J5xigQhSIeNa63nS0lTpgayQCd/+Zs7KY8PZB4ujZ2bOKjc
+	kD39VX/SpVncAuEqvwTDDva8pZt+CHCvIYCYrfj0VbNzlyLP8C2699Pgaac/1B4mcyr7ZpXOgDY
+	0WV2UxNWWOmevlmPMgNxoa+k=
+X-Received: by 2002:a05:600c:310a:b0:456:58e:318e with SMTP id 5b1f17b1804b1-4562e29c660mr198562005e9.30.1753088985020;
+        Mon, 21 Jul 2025 02:09:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGe98w4qflWkYM9Zg6Fz1StAofoZoYSsF8y704An1WPPyMZMujFAEA1iHOUaqnCNO3tWo5ofg==
+X-Received: by 2002:a05:600c:310a:b0:456:58e:318e with SMTP id 5b1f17b1804b1-4562e29c660mr198561375e9.30.1753088984354;
+        Mon, 21 Jul 2025 02:09:44 -0700 (PDT)
+Received: from localhost (p200300d82f4cdf00a9f5b75b033ca17f.dip0.t-ipconnect.de. [2003:d8:2f4c:df00:a9f5:b75b:33c:a17f])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b61ca4d807sm9898705f8f.73.2025.07.21.02.09.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Jul 2025 02:09:43 -0700 (PDT)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	David Hildenbrand <david@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Usama Arif <usamaarif642@gmail.com>,
+	SeongJae Park <sj@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Yafang Shao <laoar.shao@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH POC] prctl: extend PR_SET_THP_DISABLE to optionally exclude VM_HUGEPAGE
+Date: Mon, 21 Jul 2025 11:09:42 +0200
+Message-ID: <20250721090942.274650-1-david@redhat.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250721-procfs-pidns-api-v1-4-5cd9007e512d@cyphar.com>
-References: <20250721-procfs-pidns-api-v1-0-5cd9007e512d@cyphar.com>
-In-Reply-To: <20250721-procfs-pidns-api-v1-0-5cd9007e512d@cyphar.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9962; i=cyphar@cyphar.com;
- h=from:subject:message-id; bh=iERN6Xzk9sHzsB4pLCPzg+cd0rkOPiJ6NJagUizg4D0=;
- b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWTU/v3AyfntrMi9mMzomFoPHcHe5KXLfzZs14s9+/aOd
- +uryrRLHaUsDGJcDLJiiizb/DxDN81ffCX500o2mDmsTCBDGLg4BWAiIpsZGb66x8puMvv3XVhS
- Ys153pjrq2ab3H08YW9uWo1TleS+3XWMDGeWPav+U9qoy+zgcTXU4UGdxp2fvmsulBr+dzaeOo1
- DhQMA
-X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
- fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
-X-Rspamd-Queue-Id: 4blv9H6kGwz9tJm
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+People want to make use of more THPs, for example, moving from
+THP=never to THP=madvise, or from THP=madvise to THP=never.
+
+While this is great news for every THP desperately waiting to get
+allocated out there, apparently there are some workloads that require a
+bit of care during that transition: once problems are detected, these
+workloads should be started with the old behavior, without making all
+other workloads on the system go back to the old behavior as well.
+
+In essence, the following scenarios are imaginable:
+
+(1) Switch from THP=none to THP=madvise or THP=always, but keep the old
+    behavior (no THP) for selected workloads.
+
+(2) Stay at THP=none, but have "madvise" or "always" behavior for
+    selected workloads.
+
+(3) Switch from THP=madvise to THP=always, but keep the old behavior
+    (THP only when advised) for selected workloads.
+
+(4) Stay at THP=madvise, but have "always" behavior for selected
+    workloads.
+
+In essence, (2) can be emulated through (1), by setting THP!=none while
+disabling THPs for all processes that don't want THPs. It requires
+configuring all workloads, but that is a user-space problem to sort out.
+
+(4) can be emulated through (3) in a similar way.
+
+Back when (1) was relevant in the past, as people started enabling THPs,
+we added PR_SET_THP_DISABLE, so relevant workloads that were not ready
+yet (i.e., used by Redis) were able to just disable THPs completely. Redis
+still implements the option to use this interface to disable THPs
+completely.
+
+With PR_SET_THP_DISABLE, we added a way to force-disable THPs for a
+workload -- a process, including fork+exec'ed process hierarchy.
+That essentially made us support (1): simply disable THPs for all workloads
+that are not ready for THPs yet, while still enabling THPs system-wide.
+
+The quest for handling (3) and (4) started, but current approaches
+(completely new prctl, options to set other policies per processm,
+ alternatives to prctl -- mctrl, cgroup handling) don't look particularly
+promising. Likely, the future will use bpf or something similar to
+implement better policies, in particular to also make better decisions
+about THP sizes to use, but this will certainly take a while as that work
+just started.
+
+Long story short: a simple enable/disable is not really suitable for the
+future, so we're not willing to add completely new toggles.
+
+While we could emulate (3)+(4) through (1)+(2) by simply disabling THPs
+completely for these processes, this scares many THPs in our system
+because they could no longer get allocated where they used to be allocated
+for: regions flagged as VM_HUGEPAGE. Apparently, that imposes a
+problem for relevant workloads, because "not THPs" is certainly worse
+than "THPs only when advised".
+
+Could we simply relax PR_SET_THP_DISABLE, to "disable THPs unless not
+explicitly advised by the app through MAD_HUGEPAGE"? *maybe*, but this
+would change the documented semantics quite a bit, and the versatility
+to use it for debugging purposes, so I am not 100% sure that is what we
+want -- although it would certainly be much easier.
+
+So instead, as an easy way forward for (3) and (4), an option to
+make PR_SET_THP_DISABLE disable *less* THPs for a process.
+
+In essence, this patch:
+
+(A) Adds PR_THP_DISABLE_EXCEPT_ADVISED, to be used as a flag in arg3
+    of prctl(PR_SET_THP_DISABLE) when disabling THPs (arg2 != 0).
+
+    For now, arg3 was not allowed to be set (-EINVAL). Now it holds
+    flags.
+
+(B) Makes prctl(PR_GET_THP_DISABLE) return 3 if
+    PR_THP_DISABLE_EXCEPT_ADVISED was set while disabling.
+
+    For now, it would return 1 if THPs were disabled completely. Now
+    it essentially returns the set flags as well.
+
+(C) Renames MMF_DISABLE_THP to MMF_DISABLE_THP_COMPLETELY, to express
+    the semantics clearly.
+
+    Fortunately, there are only two instances outside of prctl() code.
+
+(D) Adds MMF_DISABLE_THP_EXCEPT_ADVISED to express "no THP except for VMAs
+    with VM_HUGEPAGE" -- essentially "thp=madvise" behavior
+
+    Fortunately, we only have to extend vma_thp_disabled().
+
+(E) Indicates "THP_enabled: 0" in /proc/pid/status only if THPs are not
+    disabled completely
+
+    Only indicating that THPs are disabled when they are really disabled
+    completely, not only partially.
+
+The documented semantics in the man page for PR_SET_THP_DISABLE
+"is inherited by a child created via fork(2) and is preserved across
+execve(2)" is maintained. This behavior, for example, allows for
+disabling THPs for a workload through the launching process (e.g.,
+systemd where we fork() a helper process to then exec()).
+
+There is currently not way to prevent that a process will not issue
+PR_SET_THP_DISABLE itself to re-enable THP. We could add a "seal" option
+to PR_SET_THP_DISABLE through another flag if ever required. The known
+users (such as redis) really use PR_SET_THP_DISABLE to disable THPs, so
+that is not added for now.
+
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Nico Pache <npache@redhat.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Dev Jain <dev.jain@arm.com>
+Cc: Barry Song <baohua@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Usama Arif <usamaarif642@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>
+Cc: Jann Horn <jannh@google.com>
+Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+Cc: Yafang Shao <laoar.shao@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+
 ---
- tools/testing/selftests/proc/.gitignore   |   1 +
- tools/testing/selftests/proc/Makefile     |   1 +
- tools/testing/selftests/proc/proc-pidns.c | 286 ++++++++++++++++++++++++++++++
- 3 files changed, 288 insertions(+)
 
-diff --git a/tools/testing/selftests/proc/.gitignore b/tools/testing/selftests/proc/.gitignore
-index 973968f45bba..2dced03e9e0e 100644
---- a/tools/testing/selftests/proc/.gitignore
-+++ b/tools/testing/selftests/proc/.gitignore
-@@ -17,6 +17,7 @@
- /proc-tid0
- /proc-uptime-001
- /proc-uptime-002
-+/proc-pidns
- /read
- /self
- /setns-dcache
-diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
-index b12921b9794b..c6f7046b9860 100644
---- a/tools/testing/selftests/proc/Makefile
-+++ b/tools/testing/selftests/proc/Makefile
-@@ -27,5 +27,6 @@ TEST_GEN_PROGS += setns-sysvipc
- TEST_GEN_PROGS += thread-self
- TEST_GEN_PROGS += proc-multiple-procfs
- TEST_GEN_PROGS += proc-fsconfig-hidepid
-+TEST_GEN_PROGS += proc-pidns
+At first, I thought of "why not simply relax PR_SET_THP_DISABLE", but I
+think there might be real use cases where we want to disable any THPs --
+in particular also around debugging THP-related problems, and
+"THP=never" not meaning ... "never" anymore. PR_SET_THP_DISABLE will
+also block MADV_COLLAPSE, which can be very helpful. Of course, I thought
+of having a system-wide config to change PR_SET_THP_DISABLE behavior, but
+I just don't like the semantics.
+
+"prctl: allow overriding system THP policy to always"[1] proposed
+"overriding policies to always", which is just the wrong way around: we
+should not add mechanisms to "enable more" when we already have an
+interface/mechanism to "disable" them (PR_SET_THP_DISABLE). It all gets
+weird otherwise.
+
+"[PATCH 0/6] prctl: introduce PR_SET/GET_THP_POLICY"[2] proposed
+setting the default of the VM_HUGEPAGE, which is similarly the wrong way
+around I think now.
+
+The proposals by Lorenzo to extend process_madvise()[3] and mctrl()[4]
+similarly were around the "default for VM_HUGEPAGE" idea, but after the
+discussion, I think we should better leave VM_HUGEPAGE untouched.
+
+Happy to hear naming suggestions for "PR_THP_DISABLE_EXCEPT_ADVISED" where
+we essentially want to say "leave advised regions alone" -- "keep THP
+enabled for advised regions",
+
+The only thing I really dislike about this is using another MMF_* flag,
+but well, no way around it -- and seems like we could easily support
+more than 32 if we want to, or storing this thp information elsewhere.
+
+I think this here (modifying an existing toggle) is the only prctl()
+extension that we might be willing to accept. In general, I agree like
+most others, that prctl() is a very bad interface for that -- but
+PR_SET_THP_DISABLE is already there and is getting used.
+
+Long-term, I think the answer will be something based on bpf[5]. Maybe
+in that context, I there could still be value in easily disabling THPs for
+selected workloads (esp. debugging purposes).
+
+Jann raised valid concerns[6] about new flags that are persistent across
+exec[6]. As this here is a relaxation to existing PR_SET_THP_DISABLE I
+consider it having a similar security risk as our existing
+PR_SET_THP_DISABLE, but devil is in the detail.
+
+This is *completely* untested and might be utterly broken. It merely
+serves as a PoC of what I think could be done. If this ever goes upstream,
+we need some kselftests for it, and extensive tests.
+
+[1] https://lore.kernel.org/r/20250507141132.2773275-1-usamaarif642@gmail.com
+[2] https://lkml.kernel.org/r/20250515133519.2779639-2-usamaarif642@gmail.com
+[3] https://lore.kernel.org/r/cover.1747686021.git.lorenzo.stoakes@oracle.com
+[4] https://lkml.kernel.org/r/85778a76-7dc8-4ea8-8827-acb45f74ee05@lucifer.local
+[5] https://lkml.kernel.org/r/20250608073516.22415-1-laoar.shao@gmail.com
+[6] https://lore.kernel.org/r/CAG48ez3-7EnBVEjpdoW7z5K0hX41nLQN5Wb65Vg-1p8DdXRnjg@mail.gmail.com
+
+---
+ Documentation/filesystems/proc.rst |  5 +--
+ fs/proc/array.c                    |  2 +-
+ include/linux/huge_mm.h            | 20 ++++++++---
+ include/linux/mm_types.h           | 13 +++----
+ include/uapi/linux/prctl.h         |  7 ++++
+ kernel/sys.c                       | 58 +++++++++++++++++++++++-------
+ mm/khugepaged.c                    |  2 +-
+ 7 files changed, 78 insertions(+), 29 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 2971551b72353..915a3e44bc120 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -291,8 +291,9 @@ It's slow but very precise.
+  HugetlbPages                size of hugetlb memory portions
+  CoreDumping                 process's memory is currently being dumped
+                              (killing the process may lead to a corrupted core)
+- THP_enabled		     process is allowed to use THP (returns 0 when
+-			     PR_SET_THP_DISABLE is set on the process
++ THP_enabled                 process is allowed to use THP (returns 0 when
++                             PR_SET_THP_DISABLE is set on the process to disable
++                             THP completely, not just partially)
+  Threads                     number of threads
+  SigQ                        number of signals queued/max. number for queue
+  SigPnd                      bitmap of pending signals for the thread
+diff --git a/fs/proc/array.c b/fs/proc/array.c
+index d6a0369caa931..c4f91a784104f 100644
+--- a/fs/proc/array.c
++++ b/fs/proc/array.c
+@@ -422,7 +422,7 @@ static inline void task_thp_status(struct seq_file *m, struct mm_struct *mm)
+ 	bool thp_enabled = IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE);
  
- include ../lib.mk
-diff --git a/tools/testing/selftests/proc/proc-pidns.c b/tools/testing/selftests/proc/proc-pidns.c
-new file mode 100644
-index 000000000000..e7e34c78d383
---- /dev/null
-+++ b/tools/testing/selftests/proc/proc-pidns.c
-@@ -0,0 +1,286 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
+ 	if (thp_enabled)
+-		thp_enabled = !test_bit(MMF_DISABLE_THP, &mm->flags);
++		thp_enabled = !test_bit(MMF_DISABLE_THP_COMPLETELY, &mm->flags);
+ 	seq_printf(m, "THP_enabled:\t%d\n", thp_enabled);
+ }
+ 
+diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+index e0a27f80f390d..c4127104d9bc3 100644
+--- a/include/linux/huge_mm.h
++++ b/include/linux/huge_mm.h
+@@ -323,16 +323,26 @@ struct thpsize {
+ 	(transparent_hugepage_flags &					\
+ 	 (1<<TRANSPARENT_HUGEPAGE_USE_ZERO_PAGE_FLAG))
+ 
 +/*
-+ * Author: Aleksa Sarai <cyphar@cyphar.com>
-+ * Copyright (C) 2025 SUSE LLC.
++ * Check whether THPs are explicitly disabled through madvise or prctl, or some
++ * architectures may disable THP for some mappings, for example, s390 kvm.
 + */
-+
-+#include <assert.h>
-+#include <errno.h>
-+#include <sched.h>
-+#include <stdbool.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <stdio.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/ioctl.h>
-+#include <sys/prctl.h>
-+
-+#include "../kselftest_harness.h"
-+
-+#define bail(fmt, ...)							\
-+	do {								\
-+		fprintf(stderr, fmt ": %m", __VA_ARGS__);		\
-+		exit(1);						\
-+	} while (0)
-+
-+#define ASSERT_SUCCESS	ASSERT_FALSE
-+#define ASSERT_FAIL	ASSERT_TRUE
-+
-+int touch(char *path)
+ static inline bool vma_thp_disabled(struct vm_area_struct *vma,
+ 		vm_flags_t vm_flags)
+ {
++	/* Are THPs disabled for this VMA? */
++	if (vm_flags & VM_NOHUGEPAGE)
++		return true;
++	/* Are THPs disabled for all VMAs in the whole process? */
++	if (test_bit(MMF_DISABLE_THP_COMPLETELY, &vma->vm_mm->flags))
++		return true;
+ 	/*
+-	 * Explicitly disabled through madvise or prctl, or some
+-	 * architectures may disable THP for some mappings, for
+-	 * example, s390 kvm.
++	 * Are THPs disabled only for VMAs where we didn't get an explicit
++	 * advise to use them?
+ 	 */
+-	return (vm_flags & VM_NOHUGEPAGE) ||
+-	       test_bit(MMF_DISABLE_THP, &vma->vm_mm->flags);
++	if (vm_flags & VM_HUGEPAGE)
++		return false;
++	return test_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, &vma->vm_mm->flags);
+ }
+ 
+ static inline bool thp_disabled_by_hw(void)
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 1ec273b066915..a999f2d352648 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -1743,19 +1743,16 @@ enum {
+ #define MMF_VM_MERGEABLE	16	/* KSM may merge identical pages */
+ #define MMF_VM_HUGEPAGE		17	/* set when mm is available for khugepaged */
+ 
+-/*
+- * This one-shot flag is dropped due to necessity of changing exe once again
+- * on NFS restore
+- */
+-//#define MMF_EXE_FILE_CHANGED	18	/* see prctl_set_mm_exe_file() */
++#define MMF_HUGE_ZERO_PAGE	18      /* mm has ever used the global huge zero page */
+ 
+ #define MMF_HAS_UPROBES		19	/* has uprobes */
+ #define MMF_RECALC_UPROBES	20	/* MMF_HAS_UPROBES can be wrong */
+ #define MMF_OOM_SKIP		21	/* mm is of no interest for the OOM killer */
+ #define MMF_UNSTABLE		22	/* mm is unstable for copy_from_user */
+-#define MMF_HUGE_ZERO_PAGE	23      /* mm has ever used the global huge zero page */
+-#define MMF_DISABLE_THP		24	/* disable THP for all VMAs */
+-#define MMF_DISABLE_THP_MASK	(1 << MMF_DISABLE_THP)
++#define MMF_DISABLE_THP_EXCEPT_ADVISED	23	/* no THP except for VMAs with VM_HUGEPAGE */
++#define MMF_DISABLE_THP_COMPLETELY	24	/* no THP for all VMAs */
++#define MMF_DISABLE_THP_MASK	((1 << MMF_DISABLE_THP_COMPLETELY) |\
++				 (1 << MMF_DISABLE_THP_EXCEPT_ADVISED))
+ #define MMF_OOM_REAP_QUEUED	25	/* mm was queued for oom_reaper */
+ #define MMF_MULTIPROCESS	26	/* mm is shared between processes */
+ /*
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 43dec6eed559a..1949bb9270d48 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -177,7 +177,14 @@ struct prctl_mm_map {
+ 
+ #define PR_GET_TID_ADDRESS	40
+ 
++/*
++ * Flags for PR_SET_THP_DISABLE are only applicable when disabling. Bit 0
++ * is reserved, so PR_GET_THP_DISABLE can return 1 when no other flags were
++ * specified for PR_SET_THP_DISABLE.
++ */
+ #define PR_SET_THP_DISABLE	41
++/* Don't disable THPs when explicitly advised (MADV_HUGEPAGE / VM_HUGEPAGE). */
++# define PR_THP_DISABLE_EXCEPT_ADVISED	(1 << 1)
+ #define PR_GET_THP_DISABLE	42
+ 
+ /*
+diff --git a/kernel/sys.c b/kernel/sys.c
+index b153fb345ada2..2a34b2f708900 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -2423,6 +2423,50 @@ static int prctl_get_auxv(void __user *addr, unsigned long len)
+ 	return sizeof(mm->saved_auxv);
+ }
+ 
++static int prctl_get_thp_disable(unsigned long arg2, unsigned long arg3,
++				 unsigned long arg4, unsigned long arg5)
 +{
-+	int fd = open(path, O_WRONLY|O_CREAT|O_CLOEXEC, 0644);
-+	if (fd < 0 || close(fd) < 0)
-+		return -errno;
++	unsigned long *mm_flags = &current->mm->flags;
++
++	if (arg2 || arg3 || arg4 || arg5)
++		return -EINVAL;
++
++	if (test_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags))
++		return 1;
++	else if (test_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags))
++		return 1 | PR_THP_DISABLE_EXCEPT_ADVISED;
 +	return 0;
 +}
 +
-+FIXTURE(ns)
++static int prctl_set_thp_disable(unsigned long thp_disable, unsigned long flags,
++				 unsigned long arg4, unsigned long arg5)
 +{
-+	int host_mntns, host_pidns;
-+	int dummy_pidns;
-+};
++	unsigned long *mm_flags = &current->mm->flags;
 +
-+FIXTURE_SETUP(ns)
-+{
-+	/* Stash the old mntns. */
-+	self->host_mntns = open("/proc/self/ns/mnt", O_RDONLY|O_CLOEXEC);
-+	ASSERT_GE(self->host_mntns, 0);
++	if (arg4 || arg5)
++		return -EINVAL;
 +
-+	/* Create a new mount namespace and make it private. */
-+	ASSERT_SUCCESS(unshare(CLONE_NEWNS));
-+	ASSERT_SUCCESS(mount(NULL, "/", NULL, MS_PRIVATE|MS_REC, NULL));
-+
-+	/*
-+	 * Create a proper tmpfs that we can use and will disappear once we
-+	 * leave this mntns.
-+	 */
-+	ASSERT_SUCCESS(mount("tmpfs", "/tmp", "tmpfs", 0, NULL));
-+
-+	/*
-+	 * Create a pidns we can use for later tests. We need to fork off a
-+	 * child so that we get a usable nsfd that we can bind-mount and open.
-+	 */
-+	ASSERT_SUCCESS(touch("/tmp/dummy-pidns"));
-+
-+	self->host_pidns = open("/proc/self/ns/pid", O_RDONLY|O_CLOEXEC);
-+	ASSERT_GE(self->host_pidns, 0);
-+	ASSERT_SUCCESS(unshare(CLONE_NEWPID));
-+
-+	pid_t pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (!pid) {
-+		prctl(PR_SET_PDEATHSIG, SIGKILL);
-+		ASSERT_SUCCESS(mount("/proc/self/ns/pid", "/tmp/dummy-pidns", NULL, MS_BIND, 0));
-+		exit(0);
++	/* Flags are only allowed when disabling. */
++	if (!thp_disable || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
++		return -EINVAL;
++	if (mmap_write_lock_killable(current->mm))
++		return -EINTR;
++	if (thp_disable) {
++		if (flags & PR_THP_DISABLE_EXCEPT_ADVISED) {
++			clear_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags);
++			set_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags);
++		} else {
++			set_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags);
++			clear_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags);
++		}
++	} else {
++		clear_bit(MMF_DISABLE_THP_COMPLETELY, mm_flags);
++		clear_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, mm_flags);
 +	}
-+
-+	int wstatus;
-+	ASSERT_EQ(waitpid(pid, &wstatus, 0), pid);
-+	ASSERT_TRUE(WIFEXITED(wstatus));
-+	ASSERT_EQ(WEXITSTATUS(wstatus), 0);
-+
-+	ASSERT_SUCCESS(setns(self->host_pidns, CLONE_NEWPID));
-+
-+	self->dummy_pidns = open("/tmp/dummy-pidns", O_RDONLY|O_CLOEXEC);
-+	ASSERT_GE(self->dummy_pidns, 0);
++	mmap_write_unlock(current->mm);
++	return 0;
 +}
 +
-+FIXTURE_TEARDOWN(ns)
-+{
-+	ASSERT_SUCCESS(setns(self->host_mntns, CLONE_NEWNS));
-+	ASSERT_SUCCESS(close(self->host_mntns));
-+
-+	ASSERT_SUCCESS(close(self->host_pidns));
-+	ASSERT_SUCCESS(close(self->dummy_pidns));
-+}
-+
-+TEST_F(ns, pidns_mount_string_path)
-+{
-+	ASSERT_SUCCESS(mkdir("/tmp/proc-host", 0755));
-+	ASSERT_SUCCESS(mount("proc", "/tmp/proc-host", "proc", 0, "pidns=/proc/self/ns/pid"));
-+	ASSERT_SUCCESS(access("/tmp/proc-host/self/", X_OK));
-+
-+	ASSERT_SUCCESS(mkdir("/tmp/proc-dummy", 0755));
-+	ASSERT_SUCCESS(mount("proc", "/tmp/proc-dummy", "proc", 0, "pidns=/tmp/dummy-pidns"));
-+	ASSERT_FAIL(access("/tmp/proc-dummy/1/", X_OK));
-+	ASSERT_FAIL(access("/tmp/proc-dummy/self/", X_OK));
-+}
-+
-+TEST_F(ns, pidns_fsconfig_string_path)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_STRING, "pidns", "/tmp/dummy-pidns", 0));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	ASSERT_FAIL(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_FAIL(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(mountfd));
-+}
-+
-+TEST_F(ns, pidns_fsconfig_fd)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_FD, "pidns", NULL, self->dummy_pidns));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	ASSERT_FAIL(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_FAIL(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(mountfd));
-+}
-+
-+TEST_F(ns, pidns_reconfigure_remount)
-+{
-+	ASSERT_SUCCESS(mkdir("/tmp/proc", 0755));
-+	ASSERT_SUCCESS(mount("proc", "/tmp/proc", "proc", 0, ""));
-+	ASSERT_SUCCESS(access("/tmp/proc/self/", X_OK));
-+
-+	ASSERT_SUCCESS(mount(NULL, "/tmp/proc", NULL, MS_REMOUNT, "pidns=/tmp/dummy-pidns"));
-+	ASSERT_FAIL(access("/tmp/proc/self/", X_OK));
-+}
-+
-+TEST_F(ns, pidns_reconfigure_fsconfig_string_path)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	ASSERT_SUCCESS(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_SUCCESS(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_STRING, "pidns", "/tmp/dummy-pidns", 0));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0));
-+
-+	ASSERT_FAIL(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_FAIL(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(mountfd));
-+}
-+
-+TEST_F(ns, pidns_reconfigure_fsconfig_fd)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	ASSERT_SUCCESS(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_SUCCESS(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_FD, "pidns", NULL, self->dummy_pidns));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0));
-+
-+	ASSERT_FAIL(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_FAIL(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(mountfd));
-+}
-+
-+int is_same_inode(int fd1, int fd2)
-+{
-+	struct stat stat1, stat2;
-+
-+	assert(fstat(fd1, &stat1) == 0);
-+	assert(fstat(fd2, &stat2) == 0);
-+
-+	return stat1.st_ino == stat2.st_ino && stat1.st_dev == stat2.st_dev;
-+}
-+
-+#define PROCFS_IOCTL_MAGIC 'f'
-+#define PROCFS_GET_PID_NAMESPACE	_IO(PROCFS_IOCTL_MAGIC, 1)
-+
-+TEST_F(ns, get_pidns_ioctl)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_FD, "pidns", NULL, self->dummy_pidns));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	/* fsmount returns an O_PATH, which ioctl(2) doesn't accept. */
-+	int new_mountfd = openat(mountfd, ".", O_RDONLY|O_DIRECTORY|O_CLOEXEC);
-+	ASSERT_GE(new_mountfd, 0);
-+
-+	ASSERT_SUCCESS(close(mountfd));
-+	mountfd = -EBADF;
-+
-+	int procfs_pidns = ioctl(new_mountfd, PROCFS_GET_PID_NAMESPACE);
-+	ASSERT_GE(procfs_pidns, 0);
-+
-+	ASSERT_NE(self->dummy_pidns, procfs_pidns);
-+	ASSERT_FALSE(is_same_inode(self->host_pidns, procfs_pidns));
-+	ASSERT_TRUE(is_same_inode(self->dummy_pidns, procfs_pidns));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(new_mountfd));
-+	ASSERT_SUCCESS(close(procfs_pidns));
-+}
-+
-+TEST_F(ns, reconfigure_get_pidns_ioctl)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	/* fsmount returns an O_PATH, which ioctl(2) doesn't accept. */
-+	int new_mountfd = openat(mountfd, ".", O_RDONLY|O_DIRECTORY|O_CLOEXEC);
-+	ASSERT_GE(new_mountfd, 0);
-+
-+	ASSERT_SUCCESS(close(mountfd));
-+	mountfd = -EBADF;
-+
-+	int procfs_pidns1 = ioctl(new_mountfd, PROCFS_GET_PID_NAMESPACE);
-+	ASSERT_GE(procfs_pidns1, 0);
-+
-+	ASSERT_NE(self->dummy_pidns, procfs_pidns1);
-+	ASSERT_TRUE(is_same_inode(self->host_pidns, procfs_pidns1));
-+	ASSERT_FALSE(is_same_inode(self->dummy_pidns, procfs_pidns1));
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_STRING, "pidns", "/tmp/dummy-pidns", 0));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0));
-+
-+	int procfs_pidns2 = ioctl(new_mountfd, PROCFS_GET_PID_NAMESPACE);
-+	ASSERT_GE(procfs_pidns2, 0);
-+
-+	ASSERT_NE(self->dummy_pidns, procfs_pidns2);
-+	ASSERT_FALSE(is_same_inode(self->host_pidns, procfs_pidns2));
-+	ASSERT_TRUE(is_same_inode(self->dummy_pidns, procfs_pidns2));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(new_mountfd));
-+	ASSERT_SUCCESS(close(procfs_pidns1));
-+	ASSERT_SUCCESS(close(procfs_pidns2));
-+}
-+
-+TEST_HARNESS_MAIN
+ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 		unsigned long, arg4, unsigned long, arg5)
+ {
+@@ -2596,20 +2640,10 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 			return -EINVAL;
+ 		return task_no_new_privs(current) ? 1 : 0;
+ 	case PR_GET_THP_DISABLE:
+-		if (arg2 || arg3 || arg4 || arg5)
+-			return -EINVAL;
+-		error = !!test_bit(MMF_DISABLE_THP, &me->mm->flags);
++		error = prctl_get_thp_disable(arg2, arg3, arg4, arg5);
+ 		break;
+ 	case PR_SET_THP_DISABLE:
+-		if (arg3 || arg4 || arg5)
+-			return -EINVAL;
+-		if (mmap_write_lock_killable(me->mm))
+-			return -EINTR;
+-		if (arg2)
+-			set_bit(MMF_DISABLE_THP, &me->mm->flags);
+-		else
+-			clear_bit(MMF_DISABLE_THP, &me->mm->flags);
+-		mmap_write_unlock(me->mm);
++		error = prctl_set_thp_disable(arg2, arg3, arg4, arg5);
+ 		break;
+ 	case PR_MPX_ENABLE_MANAGEMENT:
+ 	case PR_MPX_DISABLE_MANAGEMENT:
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 8a5873d0a23a7..a685077644b4e 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -427,7 +427,7 @@ static inline int collapse_test_exit(struct mm_struct *mm)
+ static inline int collapse_test_exit_or_disable(struct mm_struct *mm)
+ {
+ 	return collapse_test_exit(mm) ||
+-	       test_bit(MMF_DISABLE_THP, &mm->flags);
++	       test_bit(MMF_DISABLE_THP_COMPLETELY, &mm->flags);
+ }
+ 
+ static bool hugepage_enabled(void)
 
+base-commit: 760b462b3921c5dc8bfa151d2d27a944e4e96081
 -- 
-2.50.0
+2.50.1
 
