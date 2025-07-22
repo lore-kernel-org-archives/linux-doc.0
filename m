@@ -1,261 +1,135 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2075.outbound.protection.outlook.com [40.107.94.75])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B682E36FD;
-	Tue, 22 Jul 2025 18:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753208153; cv=fail; b=bRXmHajSm9zpKb56Yp8MLvkZYmlsJ/q7BuuJ4CfAbhgT66ZTkf8FrivEgcPi3U4y058dy+xHPGWXMU9LTfb+gOpWmo/QnaSwSoT24sBRQXuPGJaxpT3jK47l6SupBjvf/bZJuqEjcnR7L+y94ma+AFndTb6uYWWPDftvtnDaN/A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753208153; c=relaxed/simple;
-	bh=0uAfvEvCzKt+gHrYP17EcT58FUjvlyxK+CQo44Zfqh8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eMozOTZIK1h/hzZawAsDpTZBTHDFCf+jLx4pnrYkDMEprV4QHHpI+U0BSsCj739fXPdvfsP8VkHy5dr/zVzQY1nq3VntFtu4lAGYTUKBWZepW2aHv7ZUi5l2pDDkzaIcz+oMd2xvpFvn1c6mGxxDY6EJ8flTPflmBzcVKQCvASs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Kvivprfj; arc=fail smtp.client-ip=40.107.94.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B63E19D082
+	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 19:05:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753211145; cv=none; b=tDvgTdQ5awIfLHVq5Ojh6NpjOPGu156ciTE6zE00mn1zzoHLbp22O3SDKuYAeKyLLNwBytjH/xuzRc7QW6lBWUr32L2cwd+xz8jvsWh5LbekEXypzS1ND+Uto9qzkvXwloaszJAl7BWa1xRsbZJeihDg4NW0u4PUUGIFNBxyOSI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753211145; c=relaxed/simple;
+	bh=xZlxAmn3kRUUxhK5EyFi4gKntDMk5ctn9fLRRBn2z/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q3BNTrmE19CNJRNk+OLAP1EWIFZqMa5BuLEd/kf4B3xGUeR702E6Rr0SDpeC/NFb2KnuMsABvbvVlnqFIDZKD8wsdhLv3th1YGCmkTh9AUt9DJCta/kX8FcZy+p2Jw5zz8emZCAvIdsewcUgenU4hlWaGRQMH5PC4qWvjv+H80w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MUxoL7Yr; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Kvivprfj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D13Yf0JvTWgFxek6N9pXJ44e0ksPmQBKmjBiT1WsAnjNxrD90BZFudRiZvcpC6z7zknm0HkFYo8c2p9FqJ5l3LJpeQVRCLv6ed0ekOhOiwWPenvh8GXGdUn7v+cDbxgD3UwNC7YoS8KapqxESLcdUhDCa8gySCeyu2KEPpEtLus3dLkMlTv345ZCwp+gNZqsSEGlUD0dGxHdkdqGn9QPsYVwktTOgJE7vZGZAsIQGqOdPdI8sBGLtuesygLptH+hw2r5q1svup7M3bTpy68A8z3bt8aLSrRlDxWgkg6oxMWf74LsPc7ZWeq03IFQ/OPH4UPf6J3PN0ThH1EQDR4i3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SyNnBv2yCEs1jRkotO1UvbUkblIGQkIcwZr9Q9nsOEM=;
- b=UgPXCdWjGtgK3pJfVYdQP6Q17ksSAJ0hskbXYPCVfxWdto8oG5EpWq15qbRPJR37oZ7xp4SJM93S0GS5qWeEqFJsC1VYdfrAd4rviWdt3cpGg3kbqMxJMYgsRiXGKD8fk7AT3UvZWyS4qZotueQSIUs25depP39Gkcru/13A+1M4osG2Yq0xdmiTYmi17m0pNG4ZOu0Xkv39vwtNT9o9cm/jS8ZeWN/iJgnB8/9f86/Ad312DCYiGWtM4v8YSGH08jY53wy1v9Ux+EzD3TcFEhlKrv+OXT1MRfi1yQvil8kowVV/pv/lU/Z9b/UayM+nR16cbMow0cg3x0fAcr8ZNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SyNnBv2yCEs1jRkotO1UvbUkblIGQkIcwZr9Q9nsOEM=;
- b=Kvivprfj0BoNTnNQ25Bf+qnzQCJxFnpChlgCbGzlA7HYtwzX6Z5rrMCgWtkw/vDVj6HAy90aaXhOW2PTpNBNkqjZ9L/J4h/V1TYIe9rAIWqpWrASUPWSzH2KOnC2MkiBbBEYLBtDhHDnFoThQsBsCMyE/3gsyqOLS3fm++3ahlg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH7PR12MB7937.namprd12.prod.outlook.com (2603:10b6:510:270::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Tue, 22 Jul
- 2025 18:15:48 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%3]) with mapi id 15.20.8943.028; Tue, 22 Jul 2025
- 18:15:46 +0000
-Message-ID: <1a7e2a89-4006-4180-88c6-aa7cad76fba1@amd.com>
-Date: Tue, 22 Jul 2025 13:15:42 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v15 24/34] fs/resctrl: Report 'Unassigned' for MBM events
- in mbm_event mode
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, james.morse@arm.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: Dave.Martin@arm.com, x86@kernel.org, hpa@zytor.com,
- akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
- Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, fvdl@google.com,
- seanjc@google.com, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
- xin@zytor.com, manali.shukla@amd.com, tao1.su@linux.intel.com,
- sohil.mehta@intel.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- peterz@infradead.org, xin3.li@intel.com, kan.liang@linux.intel.com,
- mario.limonciello@amd.com, thomas.lendacky@amd.com, perry.yuan@amd.com,
- gautham.shenoy@amd.com, chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
-References: <cover.1752013061.git.babu.moger@amd.com>
- <296c435e9bf63fc5031114cced00fbb4837ad327.1752013061.git.babu.moger@amd.com>
- <4b5eef45-9110-47f7-8e1b-a59028d66c52@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <4b5eef45-9110-47f7-8e1b-a59028d66c52@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN1PR12CA0107.namprd12.prod.outlook.com
- (2603:10b6:802:21::42) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MUxoL7Yr"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56ME38Yo009227
+	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 19:05:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=P2+6l4qAfd3G8OT0Vp0C7LdE
+	m1O9SDlPysbdkSzFPqg=; b=MUxoL7Yr83E+66mLMhAAylNYCqeVBssfMOlrmT4S
+	aAbjRbfxz0+QE7G2I3hT8WVzhyN9cIyCDNOlDGs8qUjrVHsHNB5+SznDuCxI/NmL
+	D8YY8gq4AZtUpYzHJTaGtePF+jv6xZ5d1syLl53KWwgNcji7lUHHw0idozwBbuOX
+	I2SoEvbhgHHIBUnySrmJzzSWEpJPfGR4pgOFRK+PXzvnsfBHHEt01U9VozkdoRe3
+	uF6uGBnVid5pHvfGaUDSgZ3NBB8N801sBD5eyPE67oHK3FL230RT//0e1GJt0tAs
+	GYh4r5vWb5o+UmzGzOC6eRLhVpeXtmYOph5AAFLw4kvXuw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48045w0xv8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 19:05:43 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7e36e20d700so29097585a.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 12:05:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753211142; x=1753815942;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P2+6l4qAfd3G8OT0Vp0C7LdEm1O9SDlPysbdkSzFPqg=;
+        b=FnR80WNdl5bEVQsQaEJ7penSV4tpHjO1aX5JmdZmFdt+fLUVHLbibhYBblXA//cesC
+         /uawpuO86D8XnZkXMZV2JcBIv+ZpW/IGqITMDXNbXWW+NeycfZ9uGclAt2XE84qCGVAH
+         7kmxXXtcPFyyoD3ufJqrnRCZg1O1ZU1rE2PUROzkDfpVorTigU+h+2KNPkpPBMbMAOlI
+         zHUC9U4KdBfslR/Dk7Tz0UtQ10Jk3OxPUfHOma1nzYoqifV7REM0wHachia1RiL/8dqg
+         CtvFMntoQfumdB3pPBbmfviqJDBqqbZm7pe2dXFXOKdDo6iBDG2dKxxlJvnW9rEIlJle
+         8yuA==
+X-Forwarded-Encrypted: i=1; AJvYcCXoaM8QP5CEP3QZBiAx25z4ebGH9S30oxIf5tuIcujVNZYW5kWKid1YmWOzc5MZgUQR//kJmoOwqgU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzG+H9W3cMLB2u00ejWjzqKyGVcxhB1DRYOf1uRouWU8dYJWXdc
+	QlR3sIpE1S+U4dHO7PmERl6skb72ScJ/LeLH3V6c39ZM418C70k82vEGClPOmeJ0JNcDYklEbXQ
+	34GfB0HiafLhMGOisDnBVLmdsPou45J+mjcJAaFLqZs/CrqL1GEgs2XWSE/Cq3ZE=
+X-Gm-Gg: ASbGncsxZTobnXQ6Xavvcbu5rcvrImwz1sbJqBKWrw7GL3EhH6IZ+2j+iKtTfd6d0nn
+	s9DCLuUxYppmDU6n4EHGWLB4tT2kl0dnq1NmyUFU6w0gIM5bUo0C486J4G1vZQKBgFkU/STb1db
+	AbFoRkpMutyavuaNKqyb0wfoTY4RCaRKkJcKPOZt2znqQVP/1wz1ZTQlFIrh5y1FWSmfciPstgf
+	U6aA43/boITtGs6l5ZubYhvRg1mbV39v9U6V5OQVEBGBRVZoTTOPvtFaGL7w3x4cQM5s1iiu5x7
+	KVS4PLP8DNyg5sPbME83B8aVstlQzVzGArqxCeflyhv0IebC81xgUf45SOYxgrRpZuVna81Fath
+	/CF+Rbdid7sQZuaTg89IZltQn5xixwsRcOoi+YNTw4y2E21LbgiHl
+X-Received: by 2002:a05:620a:7004:b0:7e1:aeab:41b6 with SMTP id af79cd13be357-7e62123d2admr639044685a.18.1753211141796;
+        Tue, 22 Jul 2025 12:05:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEnWw82SLv09ir9ZtrixO/tE940fX1DelTTNbNTu76eCwjlOF98H3Zx1i+G/fDCf6mx0HVYLg==
+X-Received: by 2002:a05:620a:7004:b0:7e1:aeab:41b6 with SMTP id af79cd13be357-7e62123d2admr639040285a.18.1753211141325;
+        Tue, 22 Jul 2025 12:05:41 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55a31aba0f7sm2051200e87.83.2025.07.22.12.05.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jul 2025 12:05:40 -0700 (PDT)
+Date: Tue, 22 Jul 2025 22:05:38 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: dianders@chromium.org, tejasvipin76@gmail.com,
+        diogo.ivo@tecnico.ulisboa.pt, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH v6 3/4] drm: Remove unused MIPI write seq and chatty
+ functions
+Message-ID: <46h32rtuyamdvg36wegmi5fonfg6o6gau2ek377mhumscd4k57@3mw47znxnj7p>
+References: <20250722015313.561966-1-me@brighamcampbell.com>
+ <20250722015313.561966-4-me@brighamcampbell.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH7PR12MB7937:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5faa23a9-e71d-4be8-e2b2-08ddc94bc7a2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SjhZc3gwMHJzNnNCT2M3dU01VS9EUGNML1lGall0Y1Q1SDF2S2kySDV1UW9p?=
- =?utf-8?B?OTN3N0ZTdEsrd2F0MURIT0hlVlhhTkNRdUlZTnhoV0hsMUI3YU0wL1hhdjVk?=
- =?utf-8?B?Z0duZXdydDdhWWR2OUFNMEJTTitWWWxSOCs5WjdKc1pVcjZQRHhtVzc2bk1n?=
- =?utf-8?B?TldUTXQrbmJQYnFxWWt5VDNtclVXT3loeWtkU3NGd2RaUW11T1FNdHlOK2FO?=
- =?utf-8?B?dnNXSktEMXFnK0JjSEFZOThHMjcwc2tXM25TVnMxcEJrSVF5bjUwNE02Umds?=
- =?utf-8?B?LzJZckRqUkxVbXNaVUUrTm0zbHBvQUhrWGxYM3pIU2U1b1ZBUjRTT2NHZUJU?=
- =?utf-8?B?TlFtbFliQW1FUWwrbHIyS0RucFdHOEJpdHhRYUlUdEY4a2lEMW1oUG5tZ3pm?=
- =?utf-8?B?d29YcVI2NW5TdllCMytZbzBXYnp0TVV0NVc0R2NWNWJsWHErOUpjd0hqTExn?=
- =?utf-8?B?cFk2L0VCQTg3Si9OczBYWkpYamZPSHBMSTIvb29EOEZBREw5TTh5dnorT1V0?=
- =?utf-8?B?VEd4V3hEU1RQOHZtMWhxS1FyMXg0WU1qN2NVUUhoVndvblRlQ1M5Y25leEcx?=
- =?utf-8?B?T0I5dThTYzFWaFdwcEgxMzFWS0MzeTlDOWtCalVUQ3R4elAybFNrblNVS2li?=
- =?utf-8?B?Uyt2MmRHSlFJdytUb0txK29VYXdIZmt1eXpCZ0lSRzBmVFFqWjhJRlk3WXJw?=
- =?utf-8?B?T1VGdWQzb1RaQ09Vc0piVzBTcUFTcUxXSUZsWGI4MG56NXVDTnBGUlo1ZXVG?=
- =?utf-8?B?THhGZllRaVNsYnZ5SVRodkh6UEcyWXUrRTNjY1BEejU3THgvQW9jMFJrbGZa?=
- =?utf-8?B?ZlZ4Y21VUjdrS0xCZ0dHUmZ5TGZHUTYvazN0dkNmT0F0Q2hvUmdHSUN0c3V4?=
- =?utf-8?B?blE5VnQ3cW1qbk1RVW9MWkV5WEo5UUdyc0xoSE5wWDRkem12ZVNpdXlIS0Ro?=
- =?utf-8?B?OXFEYW52ZkM4bVlNVmx4RGJBdTljaTgxdjVwQWh5cXlkVElpZHhCbEVDK3kv?=
- =?utf-8?B?WHZ1N2QwM3NoeDZCbkFNWHJ0bWhTRWVFYXFIYW1GVlVBc0pPMlA0ZVQzcWMw?=
- =?utf-8?B?K2Z4ZXFWTVZWaUxydnh6QUsrcUNvWWNNdmM4TC9LT2MwM3JmMEpZTU5NR2JF?=
- =?utf-8?B?M09ONE83RWJuODZQYkJEL0hpSHFxLzVkZ2ZydnFJb09UN1Q5bnhhRTIrS2du?=
- =?utf-8?B?dHcvUVVpYlRiWG1aTzE4Si9HYjhoWHhPaUpEOXJxZUVzVzJoV3IzZmNGZml3?=
- =?utf-8?B?UGsxb0s4TnQvNzRRajluU0xuV3FPT1pCQ2tWRW5KalJxN25PTHZGWlVkVFNF?=
- =?utf-8?B?TTJadFFlZzMvY1RmSVNzVlR0NWlmTURiNHpNN1ZGZ0xYMzg2a1daNGJmdkdF?=
- =?utf-8?B?Nzk1cXVjK2MraFZOZE81Qk1taENjTGRrSlpDeVk2NlByMjZtWDhzS2l0ZEtV?=
- =?utf-8?B?aWJGRzRKU1lsWEpmcldXeU5XZ0hJTDR4cjlrWHNpTERrUk5NUXhtWkdFNGNq?=
- =?utf-8?B?TU4vdHNMZjJPQS85akRYdVAzblBWYVR6VE9Lbk1SVlp4bFkrZlBzNlpUNlBn?=
- =?utf-8?B?NVoyby9FdzArRmJGLzhjdkJuZ0VZdjNTa0g4dWxxclhRSmFmTFJuNnBnd0JL?=
- =?utf-8?B?WThVcjQ0Sm51RTRINHMvcGtabDFkc2dLVGlwNy9pSUJCazBreGpFTUppRUp6?=
- =?utf-8?B?dmxHK2ozSnN1b3VDOXFOM1FFQTB2RE5Gd29MOS9tK3I3aExEWkRSMEc2UnQ3?=
- =?utf-8?B?RFpIZGxYQThiNzhUTjJWM1o3bzBaaTUrVVNqcE1ISHU4WVhEbytZdWErK0d3?=
- =?utf-8?B?UjNyN3V5T0RFRlA2bUczcVYrTG9GY3U1N3RLL2d2Q2xDeFd5S21hVW0rdDZy?=
- =?utf-8?B?aS82b0ZLNEs5WXBEQUVFenVVNkF5NjBqUFZEWDdBbXFFRjNwOXY4V3VLMVNh?=
- =?utf-8?Q?6nyOgNabH8U=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UUVQUFViMWM3YnBhcnhtbm5wS3JPU2JuR0ZPclUwMElyZmI2N1dlbm55TE9y?=
- =?utf-8?B?L1lUMk16SCs3dEJtakpyTlk0MGNkQTFqeVVpS0t5WHBHcC9aVGtCMjliVnNC?=
- =?utf-8?B?T1VDSyttUG5peHZwUFJaVll4UWtSWTZZWmQwN2oyWEFZV29JTmV4RTEwZnJW?=
- =?utf-8?B?SXpqU2pycTloU2p3aEJ3N0syWG1jQjdOTlJkMG9CVkpHTDQ2Z0Z3cVh1cFla?=
- =?utf-8?B?YU9vTmJyYmZVVUo2UC8xS3RhSk9MaXAwNER1a2M3VCtmckZ1SkN0RWluODdZ?=
- =?utf-8?B?ejJ6TXZiRy9WZSt0eHhRS1Foa1hDOTdUZGFWVHZzTDlYSk1UZWpWano3NUdP?=
- =?utf-8?B?MHhIYmNwa0U1UU1TVlQ3d2x2ck5uQk54UDVpV0EzZW8rRXdHMGdIZGN5VnNT?=
- =?utf-8?B?cTBpaEhVQ1FnWTI0Y0hOcnQ2RUpYSkZISmx5NkxlR2FaMERrWjZFSXlHVnhl?=
- =?utf-8?B?UkVOMXowQ3Bxc1BGeUZ0c0dJN0VqZThLTnhEMUZJSTdUTzhGSkpLdHphbVZM?=
- =?utf-8?B?N2NFYW1sd1dBUWFpQWtLdCtvTjliZ2craXpFMk9mQVNkZWlRT09iOUgvK3dy?=
- =?utf-8?B?bE1mWmsrQmxlMUpxMWlaZlBVRWVKUE5yM0UyUlA3Nk5kVkxac0pmWW9nS1lx?=
- =?utf-8?B?aFZuTFpCZFAxeW9OVnJLeS9NSmprSmdoOEg4MjFobmN4ZXdHWDZIdVY4eG1h?=
- =?utf-8?B?TVMrRXBybktHZG45QVAyYzdQWlVGY3RrdUJRelVGbWh4eW5Xc0twSVgvL2Jw?=
- =?utf-8?B?K1BhMndKL3l6Y0p1WWR0SFBqb3VzUWNKa3ZudWFwSG1aZUh1YURGdDZQZUtL?=
- =?utf-8?B?VVlxUXJUVjlVWkxKSVRwdnA5bElPMXFENEZjdWpkUGVqV0FRNFd2dXN6N0kz?=
- =?utf-8?B?aSs5U3Y0UWk4VG9YWkVCNlAycTJvU0hUdmREaXMyUXFhc1BISERDYnNBTHlR?=
- =?utf-8?B?eHo2VThqZFA4N20yTnVkcmJHZFhQL0l1RXZ0UTNOanIvQ0JOcG5tUEIybllZ?=
- =?utf-8?B?Uk5aRXhRL0pGc1FnZGJxYlN2OFBPeTE1TGx4cjZkYVdRRmNGZ210cE9QNGlC?=
- =?utf-8?B?VDVVT2JKSHdkS1Y1cTFqZlJNS0o2OXJyUjRzbUZtT1pTcytmWGNYa1hvclE3?=
- =?utf-8?B?VENwYzdKVmkwb2E5U3JYYjNpM2VYS2oyQTMxYmlvOGNudk9TYmZtZW11d0pl?=
- =?utf-8?B?L0haZzg0WTV3MWZPTVJld1ozS3NrZkttNzFxd1ZnWXVBTnh2WEtQZ1ZMb3JB?=
- =?utf-8?B?ZGRqM0NObnRiclpsZDlLWTNjZ0hrMDBVOHhuWGc0Uk0rVjdVL3FMWjRXRFhX?=
- =?utf-8?B?SkIxSWs3b3FzbHRGeUlreUh0c2RpTnlZMjZNdXUxSFNhVlpBc3hac1Avbnkr?=
- =?utf-8?B?UjY2OGFtczN3dURiaFNxSTZSYlVicGlFZ1FVM3hDL2RYL1BudjhOMnhTWnpn?=
- =?utf-8?B?RGxSa2VzT1c0Uzc4Y25NVlZ6MzdDblN4dm1HaXZvQVRyQnBDREhzRytqaE5R?=
- =?utf-8?B?KzNyTDNTTmdCWGgra1RPSWpjWmZNT2NXdGd0NVlLOHNWZU1XcGtqbklEYnAx?=
- =?utf-8?B?VHB3cWpySlRTTGlhcHhXUjNKVzZCdDRRbTVpQS9yaUNSZFZFbHNJRnVNeGMr?=
- =?utf-8?B?RGYvbzF2RHBjT2VxTEJOTzBZWW81Wlc4S2pHejI0UlprcS8wazFqYWgzVndD?=
- =?utf-8?B?c3hlZW9qYUY4N2srK0hHNVd2NllsOWpnSHEwTndLV3djRyt2QXNPMmZaM29v?=
- =?utf-8?B?VDRNSi85cnFWVTk3ZzVWTzdZWW9HcUNzWlB6M1hKazRWVVVHWjFsQ1lsU0pp?=
- =?utf-8?B?bVlWS0Z0WnpBUDUwTU94MUpOMXpCajYvSWFDT2x1K1JWc2gzS1RsZFZ5STJB?=
- =?utf-8?B?LzJPaDFsRTE2ODNlcm85ZU4wTlVrUGtqS1c5NTk5OENrdXVwcFZVd3VWVjM5?=
- =?utf-8?B?R0VHeHc0K01TNmg5K1VnZjErclVxZ09qUURDN0svQUNNa2UwMUt2aTNNZ1NP?=
- =?utf-8?B?RkJKWTlnN3dyM00rQTJtMkw3VlI0TzdRcTZXQ2Vlcmt4NDh5V1l6RXNkSWtM?=
- =?utf-8?B?ZzVVem5aNERwcCt3cTRKTXZpVUpNY0xMSEdBblVXUjdtbXM5cWNkdVlpSVJx?=
- =?utf-8?Q?yXBg=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5faa23a9-e71d-4be8-e2b2-08ddc94bc7a2
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 18:15:46.7871
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nim+jEm7Js20s5m6yhvYV5S86hwH/INL7OwhjS6w4eRTDok6n2VJAMUdDu2z/5R0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7937
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250722015313.561966-4-me@brighamcampbell.com>
+X-Authority-Analysis: v=2.4 cv=LL1mQIW9 c=1 sm=1 tr=0 ts=687fe107 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=cm27Pg_UAAAA:8 a=wukD7SXyAAAA:8 a=EUspDBNiAAAA:8
+ a=BQFrTPDZmi-2fyfDvBEA:9 a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
+ a=n7THaJik3DRP1sDdJiGm:22
+X-Proofpoint-GUID: NeagbkEE6qE6HerxfJTVcZYyYbwyDF7C
+X-Proofpoint-ORIG-GUID: NeagbkEE6qE6HerxfJTVcZYyYbwyDF7C
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDE2MyBTYWx0ZWRfX0zbcN4UjLymk
+ Gu20LnE5+O169+7DrH0OgPsqk3PMU34abi30diAMYWig5qgpdFenrfhQ5KW2dflyj6DmfvOhXSj
+ gwJFp9kh4tfWtio5/6ZqcFJAQMigMpMu/Q2+QTmgikM9PJ7Fy2D5YhJpkpOSLY1S0YlCKRBuzFk
+ 46jwWnLG9hY34ILCV9O5pMlPzhKggXUHwDM5F4NFvUtFna7/GM30D8lvzCrKiOi8lXiKPH59ci5
+ 0yPJpWCBqh1VU6FOAmpwSWLEXj1V+ieHpJWzFzitFLfTp7L4l6mGY853QYZy+vHT8VRK/Q598KB
+ 3jpjcDdII7KYXV8x5TYLGJv33PyGVxlKa5FMCQy9rXB8hGiiligqTQ7gZ+OXB+Gk3QHWm1z9RCl
+ 3Tk622MSCzjzmwvFgRITunGYmAtZ1ZP1TuZu0YO8KwRHQp1K5KTChoNH0aol37CirlSlNiHO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxlogscore=661 clxscore=1015 mlxscore=0 adultscore=0
+ suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507220163
 
-Hi Reinette,
+On Mon, Jul 21, 2025 at 07:53:10PM -0600, Brigham Campbell wrote:
+> Remove the deprecated mipi_dsi_generic_write_seq() and
+> mipi_dsi_generic_write_chatty() functions now that they are no longer
+> used.
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+>  drivers/gpu/drm/drm_mipi_dsi.c | 34 +++-------------------------------
+>  include/drm/drm_mipi_dsi.h     | 23 -----------------------
+>  2 files changed, 3 insertions(+), 54 deletions(-)
+> 
 
-On 7/17/25 22:53, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 7/8/25 3:17 PM, Babu Moger wrote:
->> When the "mbm_event" counter assignment mode is enabled, a hardware counter
->> must be assigned to read the event.
->>
->> Report 'Unassigned' in case the user attempts to read the event without
->> assigning a hardware counter.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> 
-> 
-> 
->> ---
->>  Documentation/filesystems/resctrl.rst | 8 ++++++++
->>  fs/resctrl/ctrlmondata.c              | 6 ++++++
->>  2 files changed, 14 insertions(+)
->>
->> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
->> index 446736dbd97f..4f5eb5bbd4b5 100644
->> --- a/Documentation/filesystems/resctrl.rst
->> +++ b/Documentation/filesystems/resctrl.rst
->> @@ -434,6 +434,14 @@ When monitoring is enabled all MON groups will also contain:
->>  	for the L3 cache they occupy). These are named "mon_sub_L3_YY"
->>  	where "YY" is the node number.
->>  
->> +	The "mbm_event" counter assignment mode offers "num_mbm_cntrs" number of
->> +	counters and allows users to assign counters to mon_hw_id, event pairs
->> +	enabling bandwidth monitoring for as long as the counter remains assigned.
->> +	The hardware will continue tracking the assigned counter until the user
->> +	manually unassigns it, ensuring that event data is not reset during this
->> +	period. An MBM event returns 'Unassigned' when the event does not have
->> +	a hardware counter assigned.
-> 
-> Most of this duplicates the "mbm_event" description added in patch #10. It should just
-> be sufficient to mention that this applies to "mbm_event" counter assignment mode
-> and then user can look up the main description in the doc.
-> 
-> The last sentence is related to this section and need an update to reflect behavior
-> when a CTRL_MON event is read and it or some of the MON groups do not have
-> counters assigned. The paragraph that precedes this does describe how the sum
-> works so this can tie into that.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Just added following text.
-
-When the 'mbm_event' counter assignment mode is enabled, reading
-an MBM event returns 'Unassigned' if no hardware counter is assigned
-to it. For CTRL_MON groups, 'Unassigned' is returned if none of the
-events in the CTRL_MON group or its associated MON groups have assigned
-counters.
-
-
-> 
->> +
->>  "mon_hw_id":
->>  	Available only with debug option. The identifier used by hardware
->>  	for the monitor group. On x86 this is the RMID.
->> diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
->> index ce766b2cdfc1..45351673e4ee 100644
->> --- a/fs/resctrl/ctrlmondata.c
->> +++ b/fs/resctrl/ctrlmondata.c
->> @@ -661,10 +661,16 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
->>  
->>  checkresult:
->>  
->> +	/*
->> +	 * -ENOENT is a special case, set only when "mbm_event" counter assignment
->> +	 * mode is enabled and no counter has been assigned.
->> +	 */
->>  	if (rr.err == -EIO)
->>  		seq_puts(m, "Error\n");
->>  	else if (rr.err == -EINVAL)
->>  		seq_puts(m, "Unavailable\n");
->> +	else if (rr.err == -ENOENT)
->> +		seq_puts(m, "Unassigned\n");
->>  	else
->>  		seq_printf(m, "%llu\n", rr.val);
->>  
-> 
-> As mentioned in previous patch, please squash with previous patch.
-> 
-Sure.
 
 -- 
-Thanks
-Babu Moger
+With best wishes
+Dmitry
