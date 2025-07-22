@@ -1,50 +1,49 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C56239E9E;
-	Tue, 22 Jul 2025 14:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC3018BC3B;
+	Tue, 22 Jul 2025 15:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753196360; cv=none; b=Wxv5sQeImTKOJt+Etse2A0eKZ9iNdvG7fez4pV4Tv7tPDjVGh/US4P/y+Ld5X8wxOE2PJeGN0/czdIuAGcP/GjAOpkzZoSlrJLx15DH97NTaY/L0qe48BOal1i2+KGhL18qu9iBJo8TW6BMql414dcXOwfJvmGshygyn3W2wW/0=
+	t=1753196861; cv=none; b=n+gS/WNgA9HRponDvoZL113QOfaBgkDEm6me3q+C97XC6Z6/oKNEqUdbZN6UdjVjRjFxcpVSkh3Ov/aB/9FAxh7hEN2qyM7kZYNBeqXhdvhX7w5+q6/DDYvS6vHVm+vjOc4riWd03jZEq9KKM3MjR0SnKVdyjioVIuWAAowJaH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753196360; c=relaxed/simple;
-	bh=ou7A8dCtajtd2EqlFdUb122ILRZkFdkN1YbKnDqV3tA=;
+	s=arc-20240116; t=1753196861; c=relaxed/simple;
+	bh=8uletU6LYWGSmx9FfxVTzj17H4trkwN9NHFMg8QNDJs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W6XQ/7alryNKgmauJB0ixB7cZ+0CWxM0KE2El60rO8K5gFGUTcfkpq0kDQEZEHt+cxLFQYAH/o3MhwPZnaIPRAeAld9Ro+TF5IJvn4j/sJXtD48uyNYZox85pwhK4gP0EDf7w7KtBU5XZGxsFjoFq1t4gMAQgXmgQG6+DPzSPR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=1mRleX5Q; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=G1ehbxJoaEJgjkrFZKTbAMaQZjzEfTaGDlAfMfuSKaDrvQGmlWaIaDlua71XyHAPwthdF77uYyT7Lf8sPY1pkPErLb7GxTn6gAX7UNZX4ZQzy4jfY8at5ZwS5HUXcKZqhNYbUl6CCSkUVQ74tDrOFBEPwnrJ8EMLq+TnogQIZm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=QNm8suxf; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="1mRleX5Q"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="QNm8suxf"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=qXqgH+7Pf8+YOQt42JO04/xiRlrY25OPKvo6NdI8jhU=; b=1mRleX5QRWQZbkWvtmnIFJ4XZ/
-	gt9P3d9AJKA4hTjBiS+wkEwXnqHsh0AyuXqXN5pxL//H5Kc/lNw4YAwfa9YRZyM/+xdH/LJ7lW6NA
-	1aZd7S4UKw4KmsczXyW6B9tGPHNu22aqewBOoN5Kv3lRdruVtQ5vYa01a2qn6a5mCAB0=;
+	bh=a30OY54RhDy+eNHYc9k7rXnMBY+w4uQVNrz6JaAp1a0=; b=QNm8suxfQFpbWhHPAsyHbJsjmq
+	yhT0s89L/2DbN7K5tgZ1JWoD+ty4ueQJNNtu3vDe5ziK9TZmS6uI2mwWqpLVZt8zcNnfcvnQKOGCU
+	sCW5uH7S3HrCU4fl6TJ8oerddadJpI09fC5LRpryeA9A8wFn/NdMuHxr7W8JTY9att7M=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1ueERs-002Tkl-HD; Tue, 22 Jul 2025 16:58:32 +0200
-Date: Tue, 22 Jul 2025 16:58:32 +0200
+	id 1ueEaC-002Tpy-CJ; Tue, 22 Jul 2025 17:07:08 +0200
+Date: Tue, 22 Jul 2025 17:07:08 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Yibo Dong <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] net: rnpgbe: Add build support for rnpgbe
-Message-ID: <53710a91-a4b1-4ce9-a9f7-b32a74dec3fc@lunn.ch>
+Cc: MD Danish Anwar <danishanwar@ti.com>, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
+	lee@trager.us, gongfan1@huawei.com, lorenzo@kernel.org,
+	geert+renesas@glider.be, Parthiban.Veerasooran@microchip.com,
+	lukas.bulwahn@redhat.com, alexanderduyck@fb.com,
+	richardcochran@gmail.com, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 00/15] Add driver for 1Gbe network chips from MUCSE
+Message-ID: <b51950c8-ce79-4b0b-af5c-bb788af33620@lunn.ch>
 References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-2-dong100@mucse.com>
- <552cb3f0-bf17-449b-b113-02202127e650@lunn.ch>
- <146B634370ED44A0+20250722033841.GB96891@nic-Precision-5820-Tower>
+ <5bce6424-51f9-4cc1-9289-93a2c15aa0c1@ti.com>
+ <49D59FF93211A147+20250722113541.GA126730@nic-Precision-5820-Tower>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,21 +52,13 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <146B634370ED44A0+20250722033841.GB96891@nic-Precision-5820-Tower>
+In-Reply-To: <49D59FF93211A147+20250722113541.GA126730@nic-Precision-5820-Tower>
 
-> > > +#include <linux/types.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/pci.h>
-> > > +#include <linux/netdevice.h>
-> > > +#include <linux/string.h>
-> > > +#include <linux/etherdevice.h>
-> > 
-> > It is also reasonably normal to sort includes.
-> > 
-> 
-> Got it, I will also check all other files. But what rules should be
-> followed? General to specific?
+> A series patches can be accepted without achieving the basic tx/rx
+> functions for a network card? If so, I can split this.
 
-All global imports first, and then local.
+Think about the very minimum to make it useful. Maybe only support
+PF. Throw out all VF support. You don't need statistics, ethtool,
+devlink etc. They can all be added later.
 
-    Andrew
+	Andrew
