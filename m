@@ -1,69 +1,68 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECDA273D6C
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 21:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAC92868BD
+	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 21:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753221466; cv=none; b=A9jF3BjktR1iQ7UCbbLWnIg8YHV/5Co2gPe/9QZkamfo/7GKL2PWXc1xVqZzsl/CNZXkW4jGhFLpAvjq7DPBPRWolaocb1ImGCgTz3dTRkuNIPG/g1Yv893QpKA1bOEjQm+HfcRs7xbjhYI+Da9exl6nakapy2OiG1MbMOVQedc=
+	t=1753221484; cv=none; b=CGhcIuOKuQiAgNT5CyPOd7EGAisq3hd/Fadl4EMhhDZ20VugsC1cFktwlXsCH079QB8tk/wQJQ1mMr9bm8PJcEPxAfQdissGVScQ4/B69rq8C7gUkNsFAKYqzutWAtJOHhxb5LCa1SjNV/jWcAFK8a3vBvel4RpwW0yooMb3FIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753221466; c=relaxed/simple;
-	bh=hWtdbECSOx65U0/2471YPriOi+gPt8KDy8AE8lUQLhs=;
+	s=arc-20240116; t=1753221484; c=relaxed/simple;
+	bh=lYiKyYXdjjhyUxtYTcfFpjzBCFZEpw5hRFn/BBVvuuw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mh1wy9u4k7eV0nkFQlwITVl656qXTcoyJI+zZxMpEcIzFbqxCzClMvNF0KT8OwQx0K1MvfQIhe6oovBaJ+EivBZCeq4lC0fByJ5x9oCy+yJfu1OytjmbieYFO8JKl4DKzxSMbT8skMunpOhKBNyHFiROry7IIapCLMTazKRuATw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=U4G4LDxz; arc=none smtp.client-ip=209.85.208.45
+	 To:Cc:Content-Type; b=L22vkyrWYP9n5Zp3DDEOLwhwEIkujT2qgJSwuhxmuHEd4kvWNHN8Hzy48TXCb1pGP++hb9OMTeq/to/9NdjRyiCj4rYX0BE5jc1GYbtJjZ9qxLdJ8gn+9IiTkl7kYdSlI4ulOpYbe75NI7xbq7G4xE7WVP1MnnfR6GLXzkDoSdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PgQxFV3x; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="U4G4LDxz"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-60b86fc4b47so1997a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 14:57:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PgQxFV3x"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-609b169834cso4723a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 14:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753221463; x=1753826263; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1753221481; x=1753826281; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cwvuUXqMXjlcbclmWLcZY6jJ7xmd1w9ykxymttXedcE=;
-        b=U4G4LDxzVrpUkJ8xMrld7i3geG0B9tnnVrNUp44IB9vWu9qcCzXYnI/1M4BH9AFpKC
-         vDskffH4E+EIl/t5HPUfktmgVp/5bcHnZAqM5hWSg7tTzG44168wEaM/G9HFpZ+Zihb+
-         o+iVT+i/z7pMgJ8062M6dE/DaLOhVVisab/88=
+        bh=w8hcD+fzN/rLyW2ntnhyBmLcEi4uK+H7gUEsQ2j7Juc=;
+        b=PgQxFV3xVIYVzvqWxGeXB8OHIHNRoHKHmCv76q4RO7nQqdxZQcLB1ty5/mVtzmWnwG
+         CYrnztOoFpxdfzJbLKQ+RtauRKd5aUt8LmxexpNafhIWydzVe1oLnNWOnH7bcJc5Plae
+         Phwml768EXjZoAvaIxiXDoeC4RIPomr8tMQlc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753221463; x=1753826263;
+        d=1e100.net; s=20230601; t=1753221481; x=1753826281;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cwvuUXqMXjlcbclmWLcZY6jJ7xmd1w9ykxymttXedcE=;
-        b=QdXhJYZEARIBxK05Z5ZKgrvt/0Mx3lp0dos9zKrldFpMdmLUKfgwqzZGwHWREe1qoF
-         V+f8nhHkXqful7LFsd10Ubmlboa7HUGtiNJfOKZzQAWZcdSYZ4vdcsQ2dWzNP9cCMK1W
-         EEr6sAH57shI0EFzffGlilwQUtUM38kYkS67lEyBCnxW+ziHBJr7kxyW677w+LESHTDc
-         pmDeMWCHU5SEtYiu/y3+E2sJ++lx+Ehr1nSFVFK1j9YCAaQ172S3vAXOXvCxVV2vIRa+
-         BH9qZk+p0vS4IrtwXJmPA1DF8R8Y2qCE5rMynLS5YRaZ17aqCmkTBFvbhtikMneAnKiY
-         TWnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUHc5KdYvJXPhTkaT8jCckLqzwsQMEkbfh3UUMikqQqGVQ19uc1yB9RcO2GMNzyOM6n1XtYZfsDHF4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzymeklR8R6PJb0hL7UXGDh3TOuVR/xiBV95Nt3v0lMhuI0sVLM
-	9ZRTXssdVrar6YZdcT/RyIY2vGe7rbwB3st4Y54noDPOLaeJ+NWtpJ/6MDa0LkHkG4YG6gGUBx1
-	aIN/zzh4SK9RIsYQ99Jo2IrQli4vCYxabVgfuSLCw
-X-Gm-Gg: ASbGnctpedFnQQz0wLGj3x0Q8DcW+mbMheIkRbvQXLKI8oUZDS1Q/om93gkzZ3DXaZc
-	PXI8KOUJdNcgmNksb14aurx1CtS6DXptvnZxJm4Va0hAGmrvbyCNqLBkjPqG0ijJJNCMLjsB6QD
-	IXbPLWgPmxH1977yIClvwY3UHqXZkkcpv7lP7lTVepL8oMxnOIwmYEjwKXtFb9kmD1P0r0Vh6fO
-	nKVB+dWCp/PDvl2sWGhCifRtp88wIIaM9ASP3EDhGMZ
-X-Google-Smtp-Source: AGHT+IHkklfoV2jGZf2D1jPpYNy6n0EzpENuUlCVLYxgOK9YU79IkYyUGg7ZPnpy5rOLdzOyNuNgg4SRmVW6s9CMDc0=
-X-Received: by 2002:a50:aa87:0:b0:609:99a7:efdb with SMTP id
- 4fb4d7f45d1cf-6149a3beea3mr33693a12.2.1753221462404; Tue, 22 Jul 2025
- 14:57:42 -0700 (PDT)
+        bh=w8hcD+fzN/rLyW2ntnhyBmLcEi4uK+H7gUEsQ2j7Juc=;
+        b=fGPc9yMbgySY+kOoCt0o3klsQ7leAxVkiEoIMQGaNQgu39DosZ+D1CIu77AupIlj/q
+         lUXnmJgwpJoscpwxdQJgNlW5W6huiiEUIMNRsH99JY7CpdHmggC/nYejoUM1RsZYnTLh
+         BjqArMu6RJbTSAqsSORLadcx2dbSdTeSOQNQis6GRMROTRL1cZVWpOLJQIJEGugUoqBW
+         WhpZPZkQcTqqnAB6J3X5JtCAc4ZhIqOszMN7FbciJHmGnEwOpj5oQa4kQpeog2UWPo4c
+         o5mlMC9F0TAd5AQf4LfqRwFzOwgV6e+0CURv+YSkjTFVzDtx54CDxZOXQAqmFRpZz409
+         hhfA==
+X-Forwarded-Encrypted: i=1; AJvYcCX/1p+BfcF1vGbp3oLPG/YRJIhqkNE0ezS1uW+lTQBvjnalaPIviNhUS1YNBvOw7TraGWzKK6KXBJQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtBJNHb8NULBYDKIvWgIeNNJfXyQe9Mai013WSW0n08EvqsXVb
+	csQfB6diwGzIJHC17EINMQHHu3MvmqD7DPV+GmBWnEiQ92cjUox1Tnm6F61bZgtEIo0huBEtfrs
+	r4xAIElWMIWZuxb9XXWQ67NColT+907zA5Z5QIe1y
+X-Gm-Gg: ASbGnctVZ5WRajYnZYxTX60ScmbHiVpL38fHes8t8HUBTxoIvOarJLPa0QPQeFhLn1o
+	Gssf40sF2XihOo+KqvEsX+ZRCPU4vlGSO5GB2yJ06mSsfs3NQGgC2U6HyxPDT9ju0v26KT8/9ga
+	Fr6FdBvivjSfIGhgV2oF8xSrGcTDSu4Ja+C2aMbSAPHKxQfrOzK/IT3a6l2T2x67pzV8ujjy8aL
+	KFXBWuxPCt2g4S9AMRq7V0J3sFdH7gjPQ==
+X-Google-Smtp-Source: AGHT+IFuRyHVLlTc9+mvjyXn9nDzKUxgSkHkWINR1NMMOVHEBiRhg+HBPAtm00VgI63bbY4a+rdh39BgoHymQ+H8ciM=
+X-Received: by 2002:a50:cd42:0:b0:612:ce4f:39c with SMTP id
+ 4fb4d7f45d1cf-6149a332acamr34752a12.0.1753221481275; Tue, 22 Jul 2025
+ 14:58:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250722-ddrperfm-upstream-v3-0-7b7a4f3dc8a0@foss.st.com> <20250722-ddrperfm-upstream-v3-5-7b7a4f3dc8a0@foss.st.com>
-In-Reply-To: <20250722-ddrperfm-upstream-v3-5-7b7a4f3dc8a0@foss.st.com>
+References: <20250722-ddrperfm-upstream-v3-0-7b7a4f3dc8a0@foss.st.com> <20250722-ddrperfm-upstream-v3-6-7b7a4f3dc8a0@foss.st.com>
+In-Reply-To: <20250722-ddrperfm-upstream-v3-6-7b7a4f3dc8a0@foss.st.com>
 From: Julius Werner <jwerner@chromium.org>
-Date: Tue, 22 Jul 2025 14:57:28 -0700
-X-Gm-Features: Ac12FXxqqdXiBOsL8hY8DFhm2tyZoxR-txMizljLW540w1cjvBjPCidmbvKnAZQ
-Message-ID: <CAODwPW_fDPY78bmwvLmLkt1yWpVdG=VC8h2NSdWtoiEknajhNw@mail.gmail.com>
-Subject: Re: [PATCH v3 05/19] dt-bindings: memory: factorise LPDDR props into
- memory props
+Date: Tue, 22 Jul 2025 14:57:48 -0700
+X-Gm-Features: Ac12FXzhD62MTJBHmWXOCNn35YJ884MYdMc4gPYhqJDJjbLE29Cjc-kRxryta0g
+Message-ID: <CAODwPW_7aYdEzdUJ7b2nT4-zS9bu_hbNqjc7+_wSHbedXZXJ=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 06/19] dt-bindings: memory: introduce DDR4
 To: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
 Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -78,35 +77,12 @@ Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rob Herr
 	linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
->        Compatible strings can be either explicit vendor names and part numbers
->        (e.g. elpida,ECB240ABACN), or generated strings of the form
->        lpddrX-YY,ZZZZ where X is the LPDDR version, YY is the manufacturer ID
+> +      - pattern: "^ddr4-[0-9a-f]{2},[0-9a-f]{4}$"
 
-When you say "in case of LPDDR" below, you should also change this
-line to take other cases into account. Maybe the best way to write
-this would be something like:
-
-...or generated strings of a memory type dependent form. For LPDDR
-types, that form is lpddrX-YY,ZZZZ where X is [...same text...]. For
-DDR types, that form is ddrX-YY,ZZZZZ... where X is [...new definition
-for DDR types, based on what's available in SPD...].
-
->    revision-id:
->      $ref: /schemas/types.yaml#/definitions/uint32-array
->      description:
-> -      Revision IDs read from Mode Register 6 and 7. One byte per uint32 cell (i.e. <MR6 MR7>).
-> +      Revision IDs read from Mode Register 6 and 7 in case of LPDDR.
-> +      One byte per uint32 cell (i.e. <MR6 MR7>).
-
-If this doesn't exist for DDR, then rather than "in case of LPDDR"
-this should probably say something like "LPDDR only"?
-
->    density:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description:
-> -      Density in megabits of SDRAM chip. Decoded from Mode Register 8.
-> +      Density in megabits of SDRAM chip. Decoded from Mode Register 8 in case of
-> +      LPDDR.
-
-Can you list here where in SPD density and I/O width are stored for
-the various DDR types?
+This pattern doesn't really make sense when DDR4 doesn't have the same
+manufacturer ID / revision ID format as LPDDR. You could either only
+leave the fallback constant for now, or define a new auto-generated
+format that matches what DDR4 SPD provides (which I believe, if I read
+Wikipedia right, is a two byte manufacturer ID and then an up to 20
+character ASCII part number string -- so it could be
+`^ddr4-[0-9a-f{2},[0-9A-Za-z]{1,20}$`).
