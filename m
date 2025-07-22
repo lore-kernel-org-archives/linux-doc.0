@@ -1,115 +1,124 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AA52D3202;
-	Tue, 22 Jul 2025 08:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1A7228C86;
+	Tue, 22 Jul 2025 08:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753173000; cv=none; b=UclxTxr1kldC9Wcu8W6dTVFPXvNwQ9lco1UAE/RSnFxFFVD7/A/lKX/mfPdhQeGeGuwBXrMZKdz+7CfSN2dZAcrZtVX0YVBPFhm/1LpQhsKSPZZ4nN3NHtjng57H1nrLG0l3OGHeDMMNwIkZrBcnLcD4r8pL7TXvs+bPm2RV50w=
+	t=1753174007; cv=none; b=R79G2QcRpBgln9wqEqPRYHypCIRVtLNj0JDCX1rTw4Uf8Zxwprfmk9MAGq2xy1ZkK0syo+PVfGM0/djLcZwsP9rqXhRsrezvAV91B9UpzgGlI3NrQfMSKvQmEwBOGY1ORju/hbbgqus5ft0ulLNig3WiVqAJkonkdCoj4YaRQUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753173000; c=relaxed/simple;
-	bh=dijSbF5TgUCZOZmfbIuovzO+IaPCj3LNBI05XaAR3jA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IiazdyvJ08xxmPfkE4ZMypsM8wy3mg6xD0bkz4n9CFB8f5UDWMc9o+ZlvRvlRumZGWehc+725Q/QDdH18F/SZg6XFAiJKGalGtqFK866eKw4t/ZbTuYPYXwHS1EwW5jlr7ambvfLamthb2gm4V43MaqArfKgLxzsj4bAzublyE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4bmVnJ0c7XzYQvKb;
-	Tue, 22 Jul 2025 16:29:56 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id C6BB41A092F;
-	Tue, 22 Jul 2025 16:29:54 +0800 (CST)
-Received: from [10.174.179.247] (unknown [10.174.179.247])
-	by APP4 (Coremail) with SMTP id gCh0CgDXUxQATH9oJeFhBA--.54737S3;
-	Tue, 22 Jul 2025 16:29:54 +0800 (CST)
-Message-ID: <2c943ca4-7bd2-4c2e-8b7a-8f7edee4adff@huaweicloud.com>
-Date: Tue, 22 Jul 2025 16:29:52 +0800
+	s=arc-20240116; t=1753174007; c=relaxed/simple;
+	bh=krNhBku5aOG3IQKlQEyqHMSsuj6wOY9UA31yqhLFTQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HRV/3lH61pHg2Bmu+9/cY1i+Ui+9gM/DvseehOux29ZJsctWaZUzV+23LsFm/F73Vjj3MPhX7stUHgotmv8OMX96MAdSzCDJY/MYbFiyZCmWLA90R8pN2p5+gZ7d+DFJ5gDblEzblc/+3gxxJd15ANeirNm4u2Ui4saQfo04t/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NMjsurnV; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NMjsurnV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A7E3C4CEEB;
+	Tue, 22 Jul 2025 08:46:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1753174007;
+	bh=krNhBku5aOG3IQKlQEyqHMSsuj6wOY9UA31yqhLFTQM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NMjsurnVWRCSe47Zs5hnngqPc7f01jQFTGsDQbXfUEto7VYfI1/gzAyFLfoippZFB
+	 4bM03oOFh+TQyc1KfF439Tki1/Pd6fbzOaOF0KLO43a1DX22PbaZJe0wqrJrnnF58y
+	 jU5W2GrHZRAsMmsvkLzCOcFxrzjP8J3s8/RkXLHw=
+Date: Tue, 22 Jul 2025 10:46:44 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Daniel Gomez <da.gomez@kernel.org>
+Cc: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Matthias Maennich <maennich@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@infradead.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	David Hildenbrand <david@redhat.com>,
+	Shivank Garg <shivankg@amd.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
+ EXPORT_SYMBOL_FOR_MODULES
+Message-ID: <2025072219-dollhouse-margarita-de67@gregkh>
+References: <20250715-export_modules-v3-1-11fffc67dff7@suse.cz>
+ <b340eb9f-a336-461c-befe-6b09c68b731e@kernel.org>
+ <24f995fe-df76-4495-b9c6-9339b6afa6be@suse.cz>
+ <49eeff09-993f-42a0-8e3b-b3f95b41dbcf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 00/11] md/llbitmap: md/md-llbitmap: introduce a new
- lockless bitmap
-To: Yu Kuai <yukuai@kernel.org>, corbet@lwn.net, agk@redhat.co,
- snitzer@kernel.org, mpatocka@redhat.com, hch@lst.de, song@kernel.org,
- hare@suse.de
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-raid@vger.kernel.org, yukuai3@huawei.com,
- yangerkun@huawei.com, yi.zhang@huawei.com, johnny.chenyi@huawei.com
-References: <20250721171557.34587-1-yukuai@kernel.org>
-From: Li Nan <linan666@huaweicloud.com>
-In-Reply-To: <20250721171557.34587-1-yukuai@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgDXUxQATH9oJeFhBA--.54737S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7KF48CF1ktF1xGryxCF15Arb_yoW8Xr48pa
-	4kK34ru343Ar17XF13ZryUAFyrJan7JrZrKr1xCw1F9a4DZF98Gr18K3WDtwn3Wr13JF1q
-	qr15K3s3Wr1rXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBSb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487
-	Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aV
-	AFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E
-	8cxan2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82
-	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
-	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMI
-	IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
-	0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
-	Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUwb18UUUUU
-X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <49eeff09-993f-42a0-8e3b-b3f95b41dbcf@kernel.org>
 
-
-
-在 2025/7/22 1:15, Yu Kuai 写道:
-> From: Yu Kuai <yukuai3@huawei.com>
+On Tue, Jul 22, 2025 at 10:26:43AM +0200, Daniel Gomez wrote:
+> On 21/07/2025 12.40, Vlastimil Babka wrote:
+> > On 7/15/25 20:58, Daniel Gomez wrote:
+> >> On 15/07/2025 10.43, Vlastimil Babka wrote:
+> >>> Christoph suggested that the explicit _GPL_ can be dropped from the
+> >>> module namespace export macro, as it's intended for in-tree modules
+> >>> only. It would be possible to restrict it technically, but it was
+> >>> pointed out [2] that some cases of using an out-of-tree build of an
+> >>> in-tree module with the same name are legitimate. But in that case those
+> >>> also have to be GPL anyway so it's unnecessary to spell it out in the
+> >>> macro name.
+> >>>
+> >>> Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
+> >>> Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey5sb_8muzdWTMkA@mail.gmail.com/ [2]
+> >>> Suggested-by: Christoph Hellwig <hch@infradead.org>
+> >>> Reviewed-by: Shivank Garg <shivankg@amd.com>
+> >>> Acked-by: David Hildenbrand <david@redhat.com>
+> >>> Acked-by: Nicolas Schier <n.schier@avm.de>
+> >>> Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
+> >>> Reviewed-by: Christian Brauner <brauner@kernel.org>
+> >>> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> >>> ---
+> >>> Daniel, please clarify if you'll take this via module tree or Christian
+> >>> can take it via vfs tree?
+> >>
+> >> Patch 707f853d7fa3 ("module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper")
+> >> from Peter was merged through Masahiro in v6.16-rc1. Since this is a related
+> >> fix/rename/cleanup, it'd make sense for it to go through his kbuild tree as
+> >> well. Masahiro, please let me know if you'd prefer otherwise. If not, I'll queue
+> >> it up in the modules tree.
+> > 
+> > Maybe with no reply, you can queue it then?
 > 
-> Changes from v3:
->   - fix redundant setting mddev->bitmap_id in patch 6;
->   - add explanation of bitmap attributes in Documentation;
->   - add llbitmap/barrier_idle in patch 11;
->   - add some comments in patch 11;
-
-[...]
-
-Patches 01–10 look good:
-
-Reviewed-by: Li Nan <linan122@huawei.com>
-
+> + Jiri, Stephen and Greg, added to the To: list.
 > 
-> Yu Kuai (11):
->    md: add a new parameter 'offset' to md_super_write()
->    md: factor out a helper raid_is_456()
->    md/md-bitmap: support discard for bitmap ops
->    md: add a new mddev field 'bitmap_id'
->    md/md-bitmap: add a new sysfs api bitmap_type
->    md/md-bitmap: delay registration of bitmap_ops until creating bitmap
->    md/md-bitmap: add a new method skip_sync_blocks() in bitmap_operations
->    md/md-bitmap: add a new method blocks_synced() in bitmap_operations
->    md: add a new recovery_flag MD_RECOVERY_LAZY_RECOVER
->    md/md-bitmap: make method bitmap_ops->daemon_work optional
->    md/md-llbitmap: introduce new lockless bitmap
-> 
->   Documentation/admin-guide/md.rst |   86 +-
->   drivers/md/Kconfig               |   11 +
->   drivers/md/Makefile              |    1 +
->   drivers/md/md-bitmap.c           |   15 +-
->   drivers/md/md-bitmap.h           |   45 +-
->   drivers/md/md-llbitmap.c         | 1598 ++++++++++++++++++++++++++++++
->   drivers/md/md.c                  |  288 ++++--
->   drivers/md/md.h                  |   20 +-
->   drivers/md/raid5.c               |    6 +
->   9 files changed, 1963 insertions(+), 107 deletions(-)
->   create mode 100644 drivers/md/md-llbitmap.c
-> 
+> EXPORT_SYMBOL_GPL_FOR_MODULES macro was merged [1] through Masahiro's
+> pull request in v6.16-rc1. This patch from Vlastimil renames the macro to
+> EXPORT_SYMBOL_FOR_MODULES. This means Jiri's patch b20d6576cdb3 "serial: 8250:
+> export RSA functions" will need to be updated accordingly. I'd like like to
+> know how you prefer to proceed, since it was requested to have this merged as a
+> fix before Linus releases a new kernel with the former name.
 
--- 
-Thanks,
-Nan
+So you want this in 6.16-final?  Ok, do so and then someone needs to fix
+up the build breakage in linux-next and in all of the pull requests to
+Linus for 6.17-rc1 :)
 
+> Link: https://lore.kernel.org/all/CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com/ [1]
+> 
+> 
+> Masahiro, just a heads-up that I plan to merge this through the linux-modules
+> tree unless you advise otherwise.
+
+Why not just do the rename after 6.17-rc1 is out?  That way all new
+users will be able to be caught at that point in time.  There's no issue
+with the name being as it is for 6.16-final that I can determine, right?
+
+thanks,
+
+greg k-h
