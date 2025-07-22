@@ -1,154 +1,225 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF324502F
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 06:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E20128A705;
+	Tue, 22 Jul 2025 06:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753164468; cv=none; b=M5+iqBMs7Ho5d8V+qzSR6A36gYjCCVXxy0A2eUbg0m7SvYTxFn44hSwflf6Np1ekd8+J/2Nntfspk62TZzJABtl9Lg9nlG1v1EkvoVj9BhAIEvPKRTLxTAhaMzipI5uXAjWIkuBCv5TG484oOlJzg0OtFiCawLkr0wmAqAI7pz8=
+	t=1753165356; cv=none; b=WqyemZZagFq1SpzdT/bYQ15ULX2zZntIYzQBONyGAP/DM3hVNHDkPcJkSbSXUfEXF76q1NTic5/5OW9Dq+OUVFXgdibWHczuUQiR29QOKk+JfwrSE5iLCXnPw6993i+1M2Qx1iz6eKCO7DEFL8O95gqwg3sZP2/hhBvu69r+M1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753164468; c=relaxed/simple;
-	bh=Tr2kqRCEZTq9DvV7NhI6t5vE2bmiEkGXEstYtngXK5E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W1dfex03V3IFHrPCmr6BTb6nCQZ+1YMswNNcLPPBWJP8DCAYgRKLWa0+qr6EvFDgpSIcQlkID2E18YbE09tZlI2LYBNPGyrJ/+EwV/OOlHAYjYahTW/naYy/L54ZOYFdMKBX2mX1JsiqXrBOsZ8q0P7MqDI3ZGJSwbgCm4XCmHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Il1xPBu/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HnN5rOco; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Il1xPBu/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HnN5rOco; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Il1xPBu/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HnN5rOco";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Il1xPBu/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HnN5rOco"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 586E81F7BA;
-	Tue, 22 Jul 2025 06:07:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753164464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nFRizxMHyKyH9ttgr7TbSy2CgKiVb6Su/8WmeCnkPU4=;
-	b=Il1xPBu/JSnijwpr5a8ecdUyxfqJ51DMPwNMs2tJNIJWUE7xLQojVUZE8+bFntbhff7eH+
-	yG9tU3eMA4HDRw+WbaRTBKZUfPKF6HyH3oNFHPzxqecgkxH3dJmRUxlRuDwETZgDaY7C34
-	Q7pZKONDAn+HqNv3HyDUG+sxOIVMbmY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753164464;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nFRizxMHyKyH9ttgr7TbSy2CgKiVb6Su/8WmeCnkPU4=;
-	b=HnN5rOcoaWz+WwywCEDY1E2v4swlrWOw+16MEinvO/5RRXjxdA5L8VjZ33Pa6gvYuIqv0/
-	GeoQYgEaqr4cupCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Il1xPBu/";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HnN5rOco
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753164464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nFRizxMHyKyH9ttgr7TbSy2CgKiVb6Su/8WmeCnkPU4=;
-	b=Il1xPBu/JSnijwpr5a8ecdUyxfqJ51DMPwNMs2tJNIJWUE7xLQojVUZE8+bFntbhff7eH+
-	yG9tU3eMA4HDRw+WbaRTBKZUfPKF6HyH3oNFHPzxqecgkxH3dJmRUxlRuDwETZgDaY7C34
-	Q7pZKONDAn+HqNv3HyDUG+sxOIVMbmY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753164464;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nFRizxMHyKyH9ttgr7TbSy2CgKiVb6Su/8WmeCnkPU4=;
-	b=HnN5rOcoaWz+WwywCEDY1E2v4swlrWOw+16MEinvO/5RRXjxdA5L8VjZ33Pa6gvYuIqv0/
-	GeoQYgEaqr4cupCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B4FA6132EA;
-	Tue, 22 Jul 2025 06:07:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id N7VcKq8qf2ivYgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 22 Jul 2025 06:07:43 +0000
-Message-ID: <23cec763-21e6-41d8-898b-55e3a42beeec@suse.de>
-Date: Tue, 22 Jul 2025 08:07:43 +0200
+	s=arc-20240116; t=1753165356; c=relaxed/simple;
+	bh=bm/0DewNWhRUjoUqr0+r7OAExtR9mkSYTE/5p7SKNtI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KTds+5tXvf58OSS6fMvuOG9/EKIQMKm7NpqNcx0NhZxUQn8EmawiB7tPAtxZI0ZDTJEdBVduQEf3y4ySzLnInkDJvTSaiZJel9pPU1+Qs2zkk+1WKXbas+Fn5kNAd/6RzDNqXKsn4YDp9yhFmeHKAdpQ1WzT6T7bTK6Nvp4uhzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpsz17t1753165282t2f934e90
+X-QQ-Originating-IP: Srug0ruEEZGlFgQJ0LPW05zAj9t45SjKes719PTSLlM=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 22 Jul 2025 14:21:20 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 10154226307366438883
+Date: Tue, 22 Jul 2025 14:21:20 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/15] net: rnpgbe: Add n500/n210 chip support
+Message-ID: <8E12C5B26514F60A+20250722062120.GB99399@nic-Precision-5820-Tower>
+References: <20250721113238.18615-1-dong100@mucse.com>
+ <20250721113238.18615-3-dong100@mucse.com>
+ <4dea5acc-dd7d-463c-b099-53713dd3d7ee@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/11] md/md-bitmap: delay registration of bitmap_ops
- until creating bitmap
-To: Yu Kuai <yukuai@kernel.org>, corbet@lwn.net, agk@redhat.co,
- snitzer@kernel.org, mpatocka@redhat.com, hch@lst.de, song@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-raid@vger.kernel.org, yukuai3@huawei.com,
- yangerkun@huawei.com, yi.zhang@huawei.com, johnny.chenyi@huawei.com
-References: <20250721171557.34587-1-yukuai@kernel.org>
- <20250721171557.34587-7-yukuai@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250721171557.34587-7-yukuai@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 586E81F7BA
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MID_RHS_MATCH_FROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4dea5acc-dd7d-463c-b099-53713dd3d7ee@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NoSKVpKsmOWesV+FnIEmHdSWLr2JY8qJuGN9uen2GwisVj8PTh13maXl
+	IJOHnwzhzXr6o+Pqoqtcm8+oTnutUaBPM6tvNW4nOpUDctanYpJx4bdJXMxXrDBzNjqyxK6
+	h52xxqHxJvOqi6/aAhd3tKPVmQQ4PymfepwuwZJ++c5OSSvfTuGF0DKB/pvG9ZaqTh/iqlK
+	YDPRynBXlQuX9LVoGw1qGrLfOq4214wQnG1Zmr7x3n6fu6CBrIabiBhNxiJQHX0xU6Gwf/P
+	6gdr4VyWTx+8zicrWdLCIbnT0xz/qv44atP7kUDuFuQFSVHm6sp/86Ax4iLM2a2KNgU0Nuy
+	iFVmDDdwggvEW4/vsNRrcq2RYJ+/LsWGj2RK6tCYpHHP1kWYmjEuWwBfrXtbddr8eAUKndy
+	EjfHjowGBPuSkWSx31TiswEN1i8fpZrP+hKhms2EXCfyJJEpj99WvdhFKQt4LymwGTVjc+D
+	OY59jOby2JL46AUlO7JaapIrTQJjmrNYcfKTs7O/Fwur3tGKuMrCqo2Ax2Is2cyv2azalGz
+	3Dl8a0Ixmctm58bfljTKszH/SNE9sem28uWiCsq+7QQgUN+H7vDCiNpyVgoJCEGuVilzQ2w
+	NBF/V+Koeb7aNbqamxgkHjnq9bH+GW+soFF9ZHZmnVS40awdr2/FN9VKDlWkZF1rf5o1HQM
+	nwYgZBERB8A5m6eg3FUUCZ3gndBUxPeUJywNubACQmcYfXQkFNrX+WyyoL3GgRBnXjpBjlW
+	EuUTLIqj8GkoLwpY7iTOqtMaKTu+DmSEOqUEMFtCpNVBHCFB7tFZtdBZo5Va1J5VcJQNzeB
+	Uqb4irTCXIL7L80HVVFAxJxC5YBRW5fdeVy2tkS2daihE9iErz+wRAYAvKMzDOpYv+Fn58I
+	IQKSraKUg6l73mWYgnhs6jZDFgCk8C4Bxfz5KKU7Sc+H3/GQqnqkObvNXdaBeSoV5LNvjkL
+	HYN6d6bMT4E/sBlPjFlK1NpXTjjizyrwQGrhBQiGTepc7xBEjI3NGeg2+nuQE4hVWrGmL3B
+	TYaZbOUg==
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 
-On 7/21/25 19:15, Yu Kuai wrote:
-> From: Yu Kuai <yukuai3@huawei.com>
+On Mon, Jul 21, 2025 at 05:25:12PM +0200, Andrew Lunn wrote:
+> > +struct mii_regs {
+> > +	unsigned int addr; /* MII Address */
+> > +	unsigned int data; /* MII Data */
+> > +	unsigned int addr_shift; /* MII address shift */
+> > +	unsigned int reg_shift; /* MII reg shift */
+> > +	unsigned int addr_mask; /* MII address mask */
+> > +	unsigned int reg_mask; /* MII reg mask */
+> > +	unsigned int clk_csr_shift;
+> > +	unsigned int clk_csr_mask;
+> > +};
 > 
-> Currently bitmap_ops is registered while allocating mddev, this is fine
-> when there is only one bitmap_ops.
+> So MII interests me, being the MDIO/PHY maintainer....
 > 
-> Delay setting bitmap_ops until creating bitmap, so that user can choose
-> which bitmap to use before running the array.
+> You have introduced this without any user, which is not good, so i
+> cannot see how it is actually used. It is better to introduce
+> structures in the patch which makes use of them.
 > 
-> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
-> ---
->   Documentation/admin-guide/md.rst |  3 ++
->   drivers/md/md.c                  | 81 ++++++++++++++++++++------------
->   2 files changed, 55 insertions(+), 29 deletions(-)
+> Please add this only when you add the mdiobus driver, so i can see how
+> it is used. Please look at the other structures you have here. Please
+> add them as they are actually used.
 > 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Cheers,
+Yes, you are right, I should add the structures when they are actually
+used. I will improve it.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> > +struct mucse_hw {
+> > +	void *back;
+> > +	u8 pfvfnum;
+> > +	u8 pfvfnum_system;
+> > +	u8 __iomem *hw_addr;
+> > +	u8 __iomem *ring_msix_base;
+> 
+> I spotted this somewhere else. A u8 __iomem * is odd. Why is this not
+> a void *? ioremap() returns a void __iomem *, and all the readb(),
+> readw(), readX() functions expect a void * __iomem. So this looks odd.
+> 
+
+Got it, I will change it. I just consider the wrong cast before. Sorry
+for not check this define error.
+
+> > +#define m_rd_reg(reg) readl(reg)
+> > +#define m_wr_reg(reg, val) writel((val), reg)
+> 
+> Please don't wrap standard functions like this. Everybody knows what
+> readl() does. Nobody has any idea what m_rd_reg() does! You are just
+> making your driver harder to understand and maintain.
+> 
+
+Got it.
+
+> > +	mac->mii.addr = RNPGBE_MII_ADDR;
+> > +	mac->mii.data = RNPGBE_MII_DATA;
+> > +	mac->mii.addr_shift = 11;
+> > +	mac->mii.addr_mask = 0x0000F800;
+> 
+> GENMASK()? If you are using these helpers correctly, you probably
+> don't need the _shift members.
+> 
+> > +	mac->mii.reg_shift = 6;
+> > +	mac->mii.reg_mask = 0x000007C0;
+> > +	mac->mii.clk_csr_shift = 2;
+> > +	mac->mii.clk_csr_mask = GENMASK(5, 2);
+> > +	mac->clk_csr = 0x02; /* csr 25M */
+> > +	/* hw fixed phy_addr */
+> > +	mac->phy_addr = 0x11;
+> 
+> That is suspicious. But until i see the PHY handling code, it is hard
+> to say.
+> 
+
+Those code should move to the patch which really use it.
+
+> > +static void rnpgbe_get_invariants_n210(struct mucse_hw *hw)
+> > +{
+> > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > +	/* get invariants based from n500 */
+> > +	rnpgbe_get_invariants_n500(hw);
+> > +
+> > +	/* update msix base */
+> > +	hw->ring_msix_base = hw->hw_addr + 0x29000;
+> > +	/* update mbx offset */
+> > +	mbx->vf2pf_mbox_vec_base = 0x29200;
+> > +	mbx->fw2pf_mbox_vec = 0x29400;
+> > +	mbx->pf_vf_shm_base = 0x29900;
+> > +	mbx->mbx_mem_size = 64;
+> > +	mbx->pf2vf_mbox_ctrl_base = 0x2aa00;
+> > +	mbx->pf_vf_mbox_mask_lo = 0x2ab00;
+> > +	mbx->pf_vf_mbox_mask_hi = 0;
+> > +	mbx->fw_pf_shm_base = 0x2d900;
+> > +	mbx->pf2fw_mbox_ctrl = 0x2e900;
+> > +	mbx->fw_pf_mbox_mask = 0x2eb00;
+> > +	mbx->fw_vf_share_ram = 0x2b900;
+> > +	mbx->share_size = 512;
+> > +	/* update hw feature */
+> > +	hw->feature_flags |= M_HW_FEATURE_EEE;
+> > +	hw->usecstocount = 62;
+> 
+> This variant does not have an MDIO bus?
+> 
+
+Some hw capabilies, such as queue numbers and hardware module 
+reg-offset(dma_base_addr, eth_base_addr ..) in this function. Don't
+have an MDIO bus now.
+
+> > +#define RNPGBE_RING_BASE (0x1000)
+> > +#define RNPGBE_MAC_BASE (0x20000)
+> > +#define RNPGBE_ETH_BASE (0x10000)
+> 
+> Please drop all the () on plain constants. You only need () when it is
+> an expression.
+> 
+
+Got it, I will fix this.
+
+> > +			      const struct rnpgbe_info *ii)
+> 
+> I don't really see how the variable name ii has anything to do with
+> rnpgbe_info. I know naming is hard, but why not call it info?
+> 
+> 
+
+Got it, ii is unclear, I will use info instead.
+
+> >  {
+> >  	struct mucse *mucse = NULL;
+> > +	struct mucse_hw *hw = NULL;
+> > +	u8 __iomem *hw_addr = NULL;
+> >  	struct net_device *netdev;
+> >  	static int bd_number;
+> > +	u32 dma_version = 0;
+> > +	int err = 0;
+> > +	u32 queues;
+> >  
+> > -	netdev = alloc_etherdev_mq(sizeof(struct mucse), 1);
+> > +	queues = ii->total_queue_pair_cnts;
+> > +	netdev = alloc_etherdev_mq(sizeof(struct mucse), queues);
+> 
+> I pointed out this before. Try to avoid changing code added in
+> previous patches. I just wasted time looking up what the function is
+> called which allocates a single queue, and writing a review comment.
+> 
+> Waiting reviewers time is a good way to get less/slower reviews.
+> 
+> 	Andrew
+> 
+
+Yes, I got it before, and I really tried to improve my code.
+But this is really hard to avoid here. 'queues' is from ii->total_queue_pair_cnts
+which is added in patch2. Maybe I should move the alloc_etherdev_mq to
+patch2, never use it in patch1? And this conditon can improve.
+
+thanks for your feedback.
+
