@@ -1,139 +1,285 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B636C1E22E6;
-	Tue, 22 Jul 2025 02:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E187A28B7CC;
+	Tue, 22 Jul 2025 03:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753151613; cv=none; b=W+kMtMmhT9oqoJa/O8wP4d0aXKk/FHHY0kjDw6UXxwrCRfZTYcnULNhloSzDVbLxFcyP062JQKbrRTdYtjJuurZONM9o3Op0VYf9usxp8EeGmMTcS7HwX0OopXkOR1GwV0NLi17pXZZQBfq8Stb0KINESP4Z7S1RxelGYxPZQ9Y=
+	t=1753153439; cv=none; b=cYeiLsEC2GZlOlyzTFxvYlLl4V4nITXl+IDwglNSuwJZlYtfYWrST0E81RE5TCFyPktGOFEFzXJXDuuKvOCfjK4zVDCiTjEw44qgTqf0hFZGCNnk3TaYDQbwPEA+ABaGpJiPdlUO5DG5b9EHC6ecfq23XS4PnPrD/5PUsa1NyIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753151613; c=relaxed/simple;
-	bh=Gf2EkO7pgANadcMSUUIdmLVnh3pQBfsUfEPhTRKVEi4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ERKzmO9LR49g9Rhppp9DBEZtqryr3awQBZqbYYrHREKllQy6Dh6X2QIHvL9glltRXg97nIfZcFSVhGYQsFFP5tBvDzEn2Z4nUZxh0SLtSnaPS0NoeLuVigw6B0cUfDPBEBrvPAz8tZ/fscMXLDMzhWTYvFH+NJTdLzKrqbyRfM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=HedIRV/j; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="HedIRV/j"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1753151607; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=pWXVyeKGfLMQnpoF8/uk15LxfELGiJXWnze7SP/0X5E=;
-	b=HedIRV/jnQpTthoSwqjT20Y6Yg1SSew3b9YotwZ4vOmKI0xcXSeHQpx7tqEg9DVePJ4suskt8PhJBCDjNIOc5z1JtqmyeeF8/Dc+OVAAdaa63VyJIW0znai1zmU2qHPZwplDccnPBvZcgcnDeDHxc0fLJeiVP34+7SsqlBoPngc=
-Received: from 30.74.144.108(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WjTwAqR_1753151605 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 22 Jul 2025 10:33:26 +0800
-Message-ID: <a7062d0d-804f-4b9a-ba7f-62d67064c584@linux.alibaba.com>
-Date: Tue, 22 Jul 2025 10:33:25 +0800
+	s=arc-20240116; t=1753153439; c=relaxed/simple;
+	bh=/ZT7Fmmg5Mcs5JJJoFuAWdkaveP2C8n5+Dd1XOe2PmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uPE19h7LwSN8NyjHU/5JfKIKt3D6OfcAjoIpI6LgQcs5Gc3K+8U5ZVzQJIjqhPgeT8D4LjArC9KUoLfdgQsa4PT/kVGgn7d1aKwk9D4rlJ7J/iaiSn4HRM26dOxPKYr5UdoXzYTwry3TgWsM+6KF9J0tlE5HiPxR52NM7gMwq60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.169.211.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpsz6t1753153367t556783c9
+X-QQ-Originating-IP: aCLWc0Kp2cNwcfNNNDd42scjXvg1W6631ZIaocLO58U=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 22 Jul 2025 11:02:45 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11057467750546591436
+Date: Tue, 22 Jul 2025 11:02:45 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/15] net: rnpgbe: Add build support for rnpgbe
+Message-ID: <D6DDF24A13236761+20250722030245.GA96891@nic-Precision-5820-Tower>
+References: <20250721113238.18615-1-dong100@mucse.com>
+ <20250721113238.18615-2-dong100@mucse.com>
+ <32fc367c-46a4-4c76-b8a8-494bf79a6409@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: update THP documentation to clarify sysfs "never"
- setting
-To: Barry Song <21cnbao@gmail.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Nico Pache
- <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250721155530.75944-1-lorenzo.stoakes@oracle.com>
- <35df32ae-dc95-48e1-bdb1-90f17bfd4d5c@linux.alibaba.com>
- <CAGsJ_4yMLi_+yxJYebTbEALujcVmeqbfHh=ArkZRxMwE+OBWgQ@mail.gmail.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <CAGsJ_4yMLi_+yxJYebTbEALujcVmeqbfHh=ArkZRxMwE+OBWgQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <32fc367c-46a4-4c76-b8a8-494bf79a6409@linux.dev>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MP9Cvol/R4C0Xz+FjoSeK4HMqzrRb160Pry1rmsIx5EI/NI8a/KBza1N
+	T7MZKBzn4pL3ApxRmY7DnDqYPj93+E63Ez1L/Qq7AXrRAllGyb1ZU3RqJH0PGAKO53kel73
+	7W82e19jmqokudRS7lfKZVsxZctUAynAJU5ARaqtCQuVngZirCB05AcKxKBaTs4a2pQPfuo
+	xiAIK5xvo/K/lYYx7EPh2ruhFbGZb8+qkw1oVH+oEIv5W+gp9iJcOVd2fgZnJvXM9VQxmk0
+	BqI3Cg2cL56ROl8B1NRQHblv9yGkOfyryEYsuUvm7qxlqwxjLoKDdVP7Ct8c8lVReQdrglg
+	G4HV255d+mhVfS3OYTHbYVw/9HFlsQf/Nsl4s9G0N/gkRdr6VEi5PMhxHPLO27gWeDcI/3L
+	qVsMl8VKVv4LE02NxvqM5g4ZNwtTtQI1NdMVTdQHUJXElqJ7s7MO2f026b+K4w7g+KDEZtu
+	rln11wDF+cz9u6liqhi8iq4cMDugqQkZKw8Fk6OISCpcZV+ACI3J86ztQqfzh0oWghCvEGV
+	Qg/UsjAzCOZ54Ttd2k0XAWREV40MGaMPttgDjlD0eLGh2wI7MA57JIBCNAgxtT3kQZhBBzz
+	fS9rypaWuqviqlQZzclILP5Mr7xvyX7FC2E6iFiu2QBhZk/3nFqgsyl/tPt0ene9NKqOlcg
+	CpfZo7zp2q4VSVqiDPDNhDpFoVbv/dfr6PtaEV0TUy0ebS7jimdBrLNvSEfKPiGcD0acefV
+	m3JYNSjKN8wzspFAkvsllZUZfi80F6rCkG6+m09t8zQ3Z6eWmh+de6FGQbgcrho/ei4teVW
+	KrSEap+AfpUt2qTPpAHz2IXJzEjW0TOuSGPERbwCHxa66eUrVTAuab37/nTlnqBFSgPDaQY
+	RsQf0okZgQYLxflhRg4STnED2VL+MJo+WUrT1bgVaBwW3mq/qXOmaAjX+UNiUDOcEGmO5i7
+	ebp7ZDrnumkVrD6z1tqQOS45iokyaKdSJ0oHbAYWYuhEtwpn/hRaMikZQ
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-RECHKSPAM: 0
 
-
-
-On 2025/7/22 10:23, Barry Song wrote:
-> On Tue, Jul 22, 2025 at 9:30 AM Baolin Wang
-> <baolin.wang@linux.alibaba.com> wrote:
->>
->>
->>
->> On 2025/7/21 23:55, Lorenzo Stoakes wrote:
->>> Rather confusingly, setting all Transparent Huge Page sysfs settings to
->>> "never" does not in fact result in THP being globally disabled.
->>>
->>> Rather, it results in khugepaged being disabled, but one can still obtain
->>> THP pages using madvise(..., MADV_COLLAPSE).
->>>
->>> This is something that has remained poorly documented for some time, and it
->>> is likely the received wisdom of most users of THP that never does, in
->>> fact, mean never.
->>>
->>> It is therefore important to highlight, very clearly, that this is not the
->>> ase.
->>>
->>> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>> ---
->>>    Documentation/admin-guide/mm/transhuge.rst | 11 +++++++++--
->>>    1 file changed, 9 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
->>> index dff8d5985f0f..182519197ef7 100644
->>> --- a/Documentation/admin-guide/mm/transhuge.rst
->>> +++ b/Documentation/admin-guide/mm/transhuge.rst
->>> @@ -107,7 +107,7 @@ sysfs
->>>    Global THP controls
->>>    -------------------
->>>
->>> -Transparent Hugepage Support for anonymous memory can be entirely disabled
->>> +Transparent Hugepage Support for anonymous memory can be disabled
->>>    (mostly for debugging purposes) or only enabled inside MADV_HUGEPAGE
->>>    regions (to avoid the risk of consuming more memory resources) or enabled
->>>    system wide. This can be achieved per-supported-THP-size with one of::
->>> @@ -119,6 +119,11 @@ system wide. This can be achieved per-supported-THP-size with one of::
->>>    where <size> is the hugepage size being addressed, the available sizes
->>>    for which vary by system.
->>>
->>> +.. note:: Setting "never" in all sysfs THP controls does **not** disable
->>> +          Transparent Huge Pages globally. This is because ``madvise(...,
->>> +          MADV_COLLAPSE)`` ignores these settings and collapses ranges to
->>> +          PMD-sized huge pages unconditionally.
->>> +
->>>    For example::
->>>
->>>        echo always >/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/enabled
->>> @@ -187,7 +192,9 @@ madvise
->>>        behaviour.
->>>
->>>    never
->>> -     should be self-explanatory.
->>> +     should be self-explanatory. Note that ``madvise(...,
->>> +     MADV_COLLAPSE)`` can still cause transparent huge pages to be
->>> +     obtained even if this mode is specified everywhere.
->>
->> I hope this part of the explanation is also copy-pasted into the
->> 'Hugepages in tmpfs/shmem' section. Otherwise look good to me. Thanks.
+On Mon, Jul 21, 2025 at 02:30:40PM +0100, Vadim Fedorenko wrote:
+> On 21/07/2025 12:32, Dong Yibo wrote:
+> > Add build options and doc for mucse.
+> > Initialize pci device access for MUCSE devices.
+> > 
+> > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> > ---
+> >   .../device_drivers/ethernet/index.rst         |   1 +
+> >   .../device_drivers/ethernet/mucse/rnpgbe.rst  |  21 ++
+> >   MAINTAINERS                                   |   8 +
+> >   drivers/net/ethernet/Kconfig                  |   1 +
+> >   drivers/net/ethernet/Makefile                 |   1 +
+> >   drivers/net/ethernet/mucse/Kconfig            |  34 +++
+> >   drivers/net/ethernet/mucse/Makefile           |   7 +
+> >   drivers/net/ethernet/mucse/rnpgbe/Makefile    |   9 +
+> >   drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  33 +++
+> >   .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 226 ++++++++++++++++++
+> >   10 files changed, 341 insertions(+)
+> >   create mode 100644 Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst
+> >   create mode 100644 drivers/net/ethernet/mucse/Kconfig
+> >   create mode 100644 drivers/net/ethernet/mucse/Makefile
+> >   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/Makefile
+> >   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> >   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> > 
+> > diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
+> > index 40ac552641a3..0e03c5c10d30 100644
+> > --- a/Documentation/networking/device_drivers/ethernet/index.rst
+> > +++ b/Documentation/networking/device_drivers/ethernet/index.rst
+> > @@ -61,6 +61,7 @@ Contents:
+> >      wangxun/txgbevf
+> >      wangxun/ngbe
+> >      wangxun/ngbevf
+> > +   mucse/rnpgbe
+> >   .. only::  subproject and html
+> > diff --git a/Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst b/Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst
+> > new file mode 100644
+> > index 000000000000..7562fb6b8f61
+> > --- /dev/null
+> > +++ b/Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst
+> > @@ -0,0 +1,21 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +===========================================================
+> > +Linux Base Driver for MUCSE(R) Gigabit PCI Express Adapters
+> > +===========================================================
+> > +
+> > +MUCSE Gigabit Linux driver.
+> > +Copyright (c) 2020 - 2025 MUCSE Co.,Ltd.
+> > +
+> > +Identifying Your Adapter
+> > +========================
+> > +The driver is compatible with devices based on the following:
+> > +
+> > + * MUCSE(R) Ethernet Controller N500 series
+> > + * MUCSE(R) Ethernet Controller N210 series
+> > +
+> > +Support
+> > +=======
+> > + If you have problems with the software or hardware, please contact our
+> > + customer support team via email at techsupport@mucse.com or check our
+> > + website at https://www.mucse.com/en/
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 1bc1698bc5ae..da0d12e77ddc 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -17033,6 +17033,14 @@ T:	git git://linuxtv.org/media.git
+> >   F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+> >   F:	drivers/media/i2c/mt9v111.c
+> > +MUCSE ETHERNET DRIVER
+> > +M:	Yibo Dong <dong100@mucse.com>
+> > +L:	netdev@vger.kernel.org
+> > +S:	Maintained
+> > +W:	https://www.mucse.com/en/
+> > +F:	Documentation/networking/device_drivers/ethernet/mucse/*
+> > +F:	drivers/net/ethernet/mucse/*
+> > +
+> >   MULTIFUNCTION DEVICES (MFD)
+> >   M:	Lee Jones <lee@kernel.org>
+> >   S:	Maintained
+> > diff --git a/drivers/net/ethernet/Kconfig b/drivers/net/ethernet/Kconfig
+> > index f86d4557d8d7..77c55fa11942 100644
+> > --- a/drivers/net/ethernet/Kconfig
+> > +++ b/drivers/net/ethernet/Kconfig
+> > @@ -202,5 +202,6 @@ source "drivers/net/ethernet/wangxun/Kconfig"
+> >   source "drivers/net/ethernet/wiznet/Kconfig"
+> >   source "drivers/net/ethernet/xilinx/Kconfig"
+> >   source "drivers/net/ethernet/xircom/Kconfig"
+> > +source "drivers/net/ethernet/mucse/Kconfig"
+> >   endif # ETHERNET
+> > diff --git a/drivers/net/ethernet/Makefile b/drivers/net/ethernet/Makefile
+> > index 67182339469a..696825bd1211 100644
+> > --- a/drivers/net/ethernet/Makefile
+> > +++ b/drivers/net/ethernet/Makefile
+> > @@ -107,3 +107,4 @@ obj-$(CONFIG_NET_VENDOR_XIRCOM) += xircom/
+> >   obj-$(CONFIG_NET_VENDOR_SYNOPSYS) += synopsys/
+> >   obj-$(CONFIG_NET_VENDOR_PENSANDO) += pensando/
+> >   obj-$(CONFIG_OA_TC6) += oa_tc6.o
+> > +obj-$(CONFIG_NET_VENDOR_MUCSE) += mucse/
+> > diff --git a/drivers/net/ethernet/mucse/Kconfig b/drivers/net/ethernet/mucse/Kconfig
+> > new file mode 100644
+> > index 000000000000..be0fdf268484
+> > --- /dev/null
+> > +++ b/drivers/net/ethernet/mucse/Kconfig
+> > @@ -0,0 +1,34 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +# Mucse network device configuration
+> > +#
+> > +
+> > +config NET_VENDOR_MUCSE
+> > +	bool "Mucse devices"
+> > +	default y
+> > +	help
+> > +	  If you have a network (Ethernet) card from Mucse(R), say Y.
+> > +
+> > +	  Note that the answer to this question doesn't directly affect the
+> > +	  kernel: saying N will just cause the configurator to skip all
+> > +	  the questions about Mucse(R) cards. If you say Y, you will
+> > +	  be asked for your specific card in the following questions.
+> > +
+> > +if NET_VENDOR_MUCSE
+> > +
+> > +config MGBE
+> > +	tristate "Mucse(R) 1GbE PCI Express adapters support"
+> > +	depends on PCI
+> > +	select PAGE_POOL
+> > +	help
+> > +	  This driver supports Mucse(R) 1GbE PCI Express family of
+> > +	  adapters.
+> > +
+> > +	  More specific information on configuring the driver is in
+> > +	  <file:Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst>.
+> > +
+> > +	  To compile this driver as a module, choose M here. The module
+> > +	  will be called rnpgbe.
+> > +
+> > +endif # NET_VENDOR_MUCSE
+> > +
+> > diff --git a/drivers/net/ethernet/mucse/Makefile b/drivers/net/ethernet/mucse/Makefile
+> > new file mode 100644
+> > index 000000000000..f0bd79882488
+> > --- /dev/null
+> > +++ b/drivers/net/ethernet/mucse/Makefile
+> > @@ -0,0 +1,7 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +#
+> > +# Makefile for the Mucse(R) network device drivers.
+> > +#
+> > +
+> > +obj-$(CONFIG_MGBE) += rnpgbe/
+> > +
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> > new file mode 100644
+> > index 000000000000..0942e27f5913
+> > --- /dev/null
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> > @@ -0,0 +1,9 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +# Copyright(c) 2020 - 2025 MUCSE Corporation.
+> > +#
+> > +# Makefile for the MUCSE(R) 1GbE PCI Express ethernet driver
+> > +#
+> > +
+> > +obj-$(CONFIG_MGBE) += rnpgbe.o
+> > +
+> > +rnpgbe-objs := rnpgbe_main.o
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > new file mode 100644
+> > index 000000000000..224e395d6be3
+> > --- /dev/null
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > @@ -0,0 +1,33 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
+> > +
+> > +#ifndef _RNPGBE_H
+> > +#define _RNPGBE_H
+> > +
+> > +enum rnpgbe_boards {
+> > +	board_n500,
+> > +	board_n210,
+> > +	board_n210L,
+> > +};
+> > +
+> > +struct mucse {
+> > +	struct net_device *netdev;
+> > +	struct pci_dev *pdev;
+> > +	/* board number */
+> > +	u16 bd_number;
+> > +
+> > +	char name[60];
+> > +};
+> > +
+> > +/* Device IDs */
+> > +#ifndef PCI_VENDOR_ID_MUCSE
+> > +#define PCI_VENDOR_ID_MUCSE 0x8848
+> > +#endif /* PCI_VENDOR_ID_MUCSE */
 > 
-> Apologies if this is a silly question, but regarding this patchset:
-> https://lore.kernel.org/linux-mm/cover.1750815384.git.baolin.wang@linux.alibaba.com/
+> this should go to include/linux/pci_ids.h without any ifdefs
 > 
-> It looks like the intention is to disable hugepages even for
-> `MADV_COLLAPSE` when the user has set the policy to 'never'. However,
-> based on Lorenzo's documentation update, it seems we still want to allow
-> hugepages for `MADV_COLLAPSE` even if 'never' is set?
+
+Got it, I will update this.
+
+> > +
+> > +#define PCI_DEVICE_ID_N500_QUAD_PORT 0x8308
+> > +#define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
+> > +#define PCI_DEVICE_ID_N500_VF 0x8309
+> > +#define PCI_DEVICE_ID_N210 0x8208
+> > +#define PCI_DEVICE_ID_N210L 0x820a
+> > +
+> > +#endif /* _RNPGBE_H */
 > 
-> Could you clarify what the intended behavior is? It seems we've decided
-> to keep the existing behavior unchanged—am I understanding that
-> correctly?
-
-Yes, Hugh has already explicitly opposed the current changes to the 
-MADV_COLLAPSE logic[1], although there are still some disagreements that 
-cannot be resolved.
-
-At least we reached the consensus to update the documentation to reflect 
-the current sysfs THP control logic first, to avoid the misunderstanding 
-that 'sysfs THP controls can disable Transparent Huge Pages globally'.
-
-[1] 
-https://lore.kernel.org/linux-mm/75c02dbf-4189-958d-515e-fa80bb2187fc@google.com/
+> [...]
+> 
