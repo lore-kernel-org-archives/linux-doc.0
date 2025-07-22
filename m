@@ -1,135 +1,166 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B63E19D082
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 19:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B211288D2;
+	Tue, 22 Jul 2025 19:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753211145; cv=none; b=tDvgTdQ5awIfLHVq5Ojh6NpjOPGu156ciTE6zE00mn1zzoHLbp22O3SDKuYAeKyLLNwBytjH/xuzRc7QW6lBWUr32L2cwd+xz8jvsWh5LbekEXypzS1ND+Uto9qzkvXwloaszJAl7BWa1xRsbZJeihDg4NW0u4PUUGIFNBxyOSI=
+	t=1753211549; cv=none; b=JT0LJ5Ql80wiHZrxmz6WCf5QCEDEd3DCf3QUU7g3VpJTpRfj2UZ28M7AEIxja9+2VbRdmRF3L6zmB6C3uQfojLTb1A5f9pWV748A8bsAS6Pz9Xjwhx64acQcOiKc0cj4cGDRMkO7CkUSQVRfo7M1XaKlj2p160TJyTrU+MWOUXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753211145; c=relaxed/simple;
-	bh=xZlxAmn3kRUUxhK5EyFi4gKntDMk5ctn9fLRRBn2z/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q3BNTrmE19CNJRNk+OLAP1EWIFZqMa5BuLEd/kf4B3xGUeR702E6Rr0SDpeC/NFb2KnuMsABvbvVlnqFIDZKD8wsdhLv3th1YGCmkTh9AUt9DJCta/kX8FcZy+p2Jw5zz8emZCAvIdsewcUgenU4hlWaGRQMH5PC4qWvjv+H80w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MUxoL7Yr; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1753211549; c=relaxed/simple;
+	bh=ABAS12ezzYmrtN7v93FKetnFJKa2m94SENd5WjcHKEk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eXnUX6jmgaA6lZ8tnraUmyU2TocJd3HR2tmO4oR5Gth8I74EdtCHZd63MwBsTOiGZreo39dfr1EFC/Nm/kb7ihttskh4A9hdiBu4Rl5TxRD8APvuKg6ZefW8qs0l6M//TvUotdMxhF9AESCrMex778/hTEgfvTR2jGFwtQeFZSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JocEb66P; arc=none smtp.client-ip=209.85.160.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MUxoL7Yr"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56ME38Yo009227
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 19:05:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=P2+6l4qAfd3G8OT0Vp0C7LdE
-	m1O9SDlPysbdkSzFPqg=; b=MUxoL7Yr83E+66mLMhAAylNYCqeVBssfMOlrmT4S
-	aAbjRbfxz0+QE7G2I3hT8WVzhyN9cIyCDNOlDGs8qUjrVHsHNB5+SznDuCxI/NmL
-	D8YY8gq4AZtUpYzHJTaGtePF+jv6xZ5d1syLl53KWwgNcji7lUHHw0idozwBbuOX
-	I2SoEvbhgHHIBUnySrmJzzSWEpJPfGR4pgOFRK+PXzvnsfBHHEt01U9VozkdoRe3
-	uF6uGBnVid5pHvfGaUDSgZ3NBB8N801sBD5eyPE67oHK3FL230RT//0e1GJt0tAs
-	GYh4r5vWb5o+UmzGzOC6eRLhVpeXtmYOph5AAFLw4kvXuw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48045w0xv8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 19:05:43 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7e36e20d700so29097585a.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 12:05:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JocEb66P"
+Received: by mail-qt1-f195.google.com with SMTP id d75a77b69052e-4ab7082b3f7so75264451cf.3;
+        Tue, 22 Jul 2025 12:12:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753211546; x=1753816346; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hAEyQoj8nYVOSEcOTU9c9zY4e/flGPpP2KD6ZZoywm0=;
+        b=JocEb66PQeCwnwQ27cRy75HiDRZcVRbW96FM3+LdjJVBWWZrYc9pZKVS2niYOFc+bt
+         BYJ0KHwhHdxg1wmzm2r6hP9TwEtYEJG1+vnQp5PpcGBu87FT7Y+2JDvmHxrW1TOdsdqq
+         vSJdhFcc6lWzqJTb6yBDih6NPqutn5LwvaheXeo2dtOc95La0bs1q+hlDG8IHsJFFIbR
+         4u536V76gx1TIjVC+h5eDVq7XD0IT7UqEStYuzlmWTtY8N0OmTqA1CV5u74rzX+bLWxo
+         PVGFxO3xTiwOqRnrNCVyAPxtVBaHwMTKL4QgeBU7XfnxDb23t/iHwbdeOOsi6e43YSrf
+         sMkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753211142; x=1753815942;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P2+6l4qAfd3G8OT0Vp0C7LdEm1O9SDlPysbdkSzFPqg=;
-        b=FnR80WNdl5bEVQsQaEJ7penSV4tpHjO1aX5JmdZmFdt+fLUVHLbibhYBblXA//cesC
-         /uawpuO86D8XnZkXMZV2JcBIv+ZpW/IGqITMDXNbXWW+NeycfZ9uGclAt2XE84qCGVAH
-         7kmxXXtcPFyyoD3ufJqrnRCZg1O1ZU1rE2PUROzkDfpVorTigU+h+2KNPkpPBMbMAOlI
-         zHUC9U4KdBfslR/Dk7Tz0UtQ10Jk3OxPUfHOma1nzYoqifV7REM0wHachia1RiL/8dqg
-         CtvFMntoQfumdB3pPBbmfviqJDBqqbZm7pe2dXFXOKdDo6iBDG2dKxxlJvnW9rEIlJle
-         8yuA==
-X-Forwarded-Encrypted: i=1; AJvYcCXoaM8QP5CEP3QZBiAx25z4ebGH9S30oxIf5tuIcujVNZYW5kWKid1YmWOzc5MZgUQR//kJmoOwqgU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzG+H9W3cMLB2u00ejWjzqKyGVcxhB1DRYOf1uRouWU8dYJWXdc
-	QlR3sIpE1S+U4dHO7PmERl6skb72ScJ/LeLH3V6c39ZM418C70k82vEGClPOmeJ0JNcDYklEbXQ
-	34GfB0HiafLhMGOisDnBVLmdsPou45J+mjcJAaFLqZs/CrqL1GEgs2XWSE/Cq3ZE=
-X-Gm-Gg: ASbGncsxZTobnXQ6Xavvcbu5rcvrImwz1sbJqBKWrw7GL3EhH6IZ+2j+iKtTfd6d0nn
-	s9DCLuUxYppmDU6n4EHGWLB4tT2kl0dnq1NmyUFU6w0gIM5bUo0C486J4G1vZQKBgFkU/STb1db
-	AbFoRkpMutyavuaNKqyb0wfoTY4RCaRKkJcKPOZt2znqQVP/1wz1ZTQlFIrh5y1FWSmfciPstgf
-	U6aA43/boITtGs6l5ZubYhvRg1mbV39v9U6V5OQVEBGBRVZoTTOPvtFaGL7w3x4cQM5s1iiu5x7
-	KVS4PLP8DNyg5sPbME83B8aVstlQzVzGArqxCeflyhv0IebC81xgUf45SOYxgrRpZuVna81Fath
-	/CF+Rbdid7sQZuaTg89IZltQn5xixwsRcOoi+YNTw4y2E21LbgiHl
-X-Received: by 2002:a05:620a:7004:b0:7e1:aeab:41b6 with SMTP id af79cd13be357-7e62123d2admr639044685a.18.1753211141796;
-        Tue, 22 Jul 2025 12:05:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnWw82SLv09ir9ZtrixO/tE940fX1DelTTNbNTu76eCwjlOF98H3Zx1i+G/fDCf6mx0HVYLg==
-X-Received: by 2002:a05:620a:7004:b0:7e1:aeab:41b6 with SMTP id af79cd13be357-7e62123d2admr639040285a.18.1753211141325;
-        Tue, 22 Jul 2025 12:05:41 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55a31aba0f7sm2051200e87.83.2025.07.22.12.05.40
+        d=1e100.net; s=20230601; t=1753211546; x=1753816346;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hAEyQoj8nYVOSEcOTU9c9zY4e/flGPpP2KD6ZZoywm0=;
+        b=IaF3TJhrfqvOY5o3cganTQRA2sz2c1e3N1ofXB5JvpGjJwcGmJrOdR/BHq15eBQDL/
+         MaWHAGQD0E/WzPBLNd4xjaF6+qvKkR09Zywsc8Fnn50AtrvRpsZ6amkA7zx5OLOQk9QE
+         B64H/zQNr3UdtMZpO2Gjm0LJNdWr52yloLN/v5s0bAalRYk8ZdGEhwFAw/AVXh5rKGyo
+         WdCuTfByfy6fyaP1rSPLlLkqQsy8OVhRDznTXoIEDD8+c97THpkqSqqYiojEh0wib/m+
+         dy9Vn/guy1EAsNeCDn1WNc1Jv3VKl0K63gZVi22ZP66S77nVb3IeLn3OXQXyyN426yr8
+         sTqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX603ayjA3GvyWRSFryNqFnakwZDOc4DX4AanToiPqiy8NZY34hvlHRNvJe+0nMEveR+OVbpBE7UrY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJW68n7KIZXIEmkE/aGO3f/xnjv2D7sqZfKyUoCAvui4ixx0Sk
+	LSEOS9FWXZ6gGoGOFrT2ihXZO7oACNGFlqIo5pigkrt+s8ugemiAxzy6EU6M4+CoySY=
+X-Gm-Gg: ASbGnctrMXsH0QC9SfsGLFRL3+HrAPjB3PlTsVigytszR+fZaPfhnBpTZkDUOoel4yi
+	jHJ7xJi11XdWfxS84gKXli/oP0EEfiIZSQ12p52V/qbBpWrjEyXWr4fdtCjqXjpdaRLm0LmQJz2
+	noanR3D2pz7wl+0S/oRH8BBsmEZ1YXZ4d6BlpbFQv72seCotEsJIxDtT88VI3Bf1spUGQCmd7Ax
+	NEJbPMW8KSYvtYVW3DuqfDigaCd3Jr9V9IjRDEK3M1lySmZlnALNtHJrOeIODkDcNZV3J00JxHC
+	Xgj/44giY6nWOx33hYp1kIOYXIWYW5WRZleM9qdt96Pr8nsgIclW9g07zn0D2SuJgLP1PKehx56
+	N0sGYUs1r+c9VbsJtQuYAxAMvAYCXSI9ED4jo4w==
+X-Google-Smtp-Source: AGHT+IG9lRL9Ig2rhAmNfXpOd3VJWSypzdminGKOjDZMmMZWVbB2f160g1YnJ/0nnczKwigGD7w0SQ==
+X-Received: by 2002:a05:622a:299b:b0:4aa:d487:594b with SMTP id d75a77b69052e-4ae6df3479fmr2719371cf.35.1753211545749;
+        Tue, 22 Jul 2025 12:12:25 -0700 (PDT)
+Received: from localhost.localdomain ([2605:a601:a619:8500::2])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4abb4b47a31sm58197651cf.65.2025.07.22.12.12.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jul 2025 12:05:40 -0700 (PDT)
-Date: Tue, 22 Jul 2025 22:05:38 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: dianders@chromium.org, tejasvipin76@gmail.com,
-        diogo.ivo@tecnico.ulisboa.pt, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v6 3/4] drm: Remove unused MIPI write seq and chatty
- functions
-Message-ID: <46h32rtuyamdvg36wegmi5fonfg6o6gau2ek377mhumscd4k57@3mw47znxnj7p>
-References: <20250722015313.561966-1-me@brighamcampbell.com>
- <20250722015313.561966-4-me@brighamcampbell.com>
+        Tue, 22 Jul 2025 12:12:25 -0700 (PDT)
+From: Bojanala Hithashri <bojanalahithashri@gmail.com>
+To: 
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Bojanala Hithashri <bojanalahithashri@gmail.com>
+Subject: [PATCH] Minor documentation fixes
+Date: Tue, 22 Jul 2025 15:11:35 -0400
+Message-ID: <20250722191139.7195-1-bojanalahithashri@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250722015313.561966-4-me@brighamcampbell.com>
-X-Authority-Analysis: v=2.4 cv=LL1mQIW9 c=1 sm=1 tr=0 ts=687fe107 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=cm27Pg_UAAAA:8 a=wukD7SXyAAAA:8 a=EUspDBNiAAAA:8
- a=BQFrTPDZmi-2fyfDvBEA:9 a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
- a=n7THaJik3DRP1sDdJiGm:22
-X-Proofpoint-GUID: NeagbkEE6qE6HerxfJTVcZYyYbwyDF7C
-X-Proofpoint-ORIG-GUID: NeagbkEE6qE6HerxfJTVcZYyYbwyDF7C
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDE2MyBTYWx0ZWRfX0zbcN4UjLymk
- Gu20LnE5+O169+7DrH0OgPsqk3PMU34abi30diAMYWig5qgpdFenrfhQ5KW2dflyj6DmfvOhXSj
- gwJFp9kh4tfWtio5/6ZqcFJAQMigMpMu/Q2+QTmgikM9PJ7Fy2D5YhJpkpOSLY1S0YlCKRBuzFk
- 46jwWnLG9hY34ILCV9O5pMlPzhKggXUHwDM5F4NFvUtFna7/GM30D8lvzCrKiOi8lXiKPH59ci5
- 0yPJpWCBqh1VU6FOAmpwSWLEXj1V+ieHpJWzFzitFLfTp7L4l6mGY853QYZy+vHT8VRK/Q598KB
- 3jpjcDdII7KYXV8x5TYLGJv33PyGVxlKa5FMCQy9rXB8hGiiligqTQ7gZ+OXB+Gk3QHWm1z9RCl
- 3Tk622MSCzjzmwvFgRITunGYmAtZ1ZP1TuZu0YO8KwRHQp1K5KTChoNH0aol37CirlSlNiHO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxlogscore=661 clxscore=1015 mlxscore=0 adultscore=0
- suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507220163
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 21, 2025 at 07:53:10PM -0600, Brigham Campbell wrote:
-> Remove the deprecated mipi_dsi_generic_write_seq() and
-> mipi_dsi_generic_write_chatty() functions now that they are no longer
-> used.
-> 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->  drivers/gpu/drm/drm_mipi_dsi.c | 34 +++-------------------------------
->  include/drm/drm_mipi_dsi.h     | 23 -----------------------
->  2 files changed, 3 insertions(+), 54 deletions(-)
-> 
+Signed-off-by: Bojanala Hithashri <bojanalahithashri@gmail.com>
+---
+ Documentation/block/data-integrity.rst                | 2 +-
+ Documentation/bpf/standardization/instruction-set.rst | 2 +-
+ Documentation/cdrom/cdrom-standard.rst                | 2 +-
+ Documentation/trace/boottime-trace.rst                | 2 +-
+ Documentation/trace/events.rst                        | 2 +-
+ Documentation/trace/fprobe.rst                        | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-
+diff --git a/Documentation/block/data-integrity.rst b/Documentation/block/data-integrity.rst
+index 99905e880a0e..b7b10c8abbcc 100644
+--- a/Documentation/block/data-integrity.rst
++++ b/Documentation/block/data-integrity.rst
+@@ -154,7 +154,7 @@ bio_free() will automatically free the bip.
+ ----------------
+ 
+ Block devices can set up the integrity information in the integrity
+-sub-struture of the queue_limits structure.
++sub-structure of the queue_limits structure.
+ 
+ Layered block devices will need to pick a profile that's appropriate
+ for all subdevices.  queue_limits_stack_integrity() can help with that.  DM
+diff --git a/Documentation/bpf/standardization/instruction-set.rst b/Documentation/bpf/standardization/instruction-set.rst
+index fbe975585236..746eb3c421eb 100644
+--- a/Documentation/bpf/standardization/instruction-set.rst
++++ b/Documentation/bpf/standardization/instruction-set.rst
+@@ -350,7 +350,7 @@ Underflow and overflow are allowed during arithmetic operations, meaning
+ the 64-bit or 32-bit value will wrap. If BPF program execution would
+ result in division by zero, the destination register is instead set to zero.
+ Otherwise, for ``ALU64``, if execution would result in ``LLONG_MIN``
+-dividing -1, the desination register is instead set to ``LLONG_MIN``. For
++dividing -1, the destination register is instead set to ``LLONG_MIN``. For
+ ``ALU``, if execution would result in ``INT_MIN`` dividing -1, the
+ desination register is instead set to ``INT_MIN``.
+ 
+diff --git a/Documentation/cdrom/cdrom-standard.rst b/Documentation/cdrom/cdrom-standard.rst
+index 6c1303cff159..22dc6db04a14 100644
+--- a/Documentation/cdrom/cdrom-standard.rst
++++ b/Documentation/cdrom/cdrom-standard.rst
+@@ -89,7 +89,7 @@ CD-ROM devices behave **exactly** the same (insofar as the underlying
+ hardware will allow).
+ 
+ The goal of the Uniform CD-ROM Driver is **not** to alienate driver developers
+-whohave not yet taken steps to support this effort. The goal of Uniform CD-ROM
++who have not yet taken steps to support this effort. The goal of Uniform CD-ROM
+ Driver is simply to give people writing application programs for CD-ROM drives
+ **one** Linux CD-ROM interface with consistent behavior for all
+ CD-ROM devices. In addition, this also provides a consistent interface
+diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
+index d594597201fd..62646130e1a2 100644
+--- a/Documentation/trace/boottime-trace.rst
++++ b/Documentation/trace/boottime-trace.rst
+@@ -198,7 +198,7 @@ Most of the subsystems and architecture dependent drivers will be initialized
+ after that (arch_initcall or subsys_initcall). Thus, you can trace those with
+ boot-time tracing.
+ If you want to trace events before core_initcall, you can use the options
+-starting with ``kernel``. Some of them will be enabled eariler than the initcall
++starting with ``kernel``. Some of them will be enabled earlier than the initcall
+ processing (for example,. ``kernel.ftrace=function`` and ``kernel.trace_event``
+ will start before the initcall.)
+ 
+diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+index 2d88a2acacc0..c35f640e1cdc 100644
+--- a/Documentation/trace/events.rst
++++ b/Documentation/trace/events.rst
+@@ -629,7 +629,7 @@ following:
+   - tracing synthetic events from in-kernel code
+   - the low-level "dynevent_cmd" API
+ 
+-7.1 Dyamically creating synthetic event definitions
++7.1 Dynamically creating synthetic event definitions
+ ---------------------------------------------------
+ 
+ There are a couple ways to create a new synthetic event from a kernel
+diff --git a/Documentation/trace/fprobe.rst b/Documentation/trace/fprobe.rst
+index 71cd40472d36..d632073408d6 100644
+--- a/Documentation/trace/fprobe.rst
++++ b/Documentation/trace/fprobe.rst
+@@ -118,7 +118,7 @@ will be cancelled.
+ @fregs
+         This is the `ftrace_regs` data structure at the entry and exit. This
+         includes the function parameters, or the return values. So user can
+-        access thos values via appropriate `ftrace_regs_*` APIs.
++        access those values via appropriate `ftrace_regs_*` APIs.
+ 
+ @entry_data
+         This is a local storage to share the data between entry and exit handlers.
 -- 
-With best wishes
-Dmitry
+2.47.0
+
