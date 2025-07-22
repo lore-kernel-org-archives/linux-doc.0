@@ -1,28 +1,28 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8881228B3FD;
-	Tue, 22 Jul 2025 06:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACA71922ED;
+	Tue, 22 Jul 2025 06:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753166811; cv=none; b=P4PvhqsJ0977Q98qaNrLE6Qd5RH8oZWpVTC/LwrEd9nbSBUaSkJun2/yY9i5gg0HftuBJnuQnLPYSVg03Uhq0SDCSqMPFtqIEmGWTAq39h7SnyZ13JeQGzhCLWFHhBJxWK/XVbHq5szu1vxyZIMX11kpsVPBYjscjy2Ip1m8o/g=
+	t=1753166999; cv=none; b=fMT1nxp4Pw7lJJ9g5+1j7FU5rX9IIwAYj4ql4JRoYyMwBs0L5L/Ln5LcBRJx/Efut9jrX+YxJVe5OQvCkrrFrQ3aB5jKlD9uNp3yVFC6MMgEN1Clql4kYxiJcMcrwZ02l+kInaDv++y4mlZduGAR4rW0r3Pkf1JnDZ/BG0fW83k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753166811; c=relaxed/simple;
-	bh=1yAfeUM+0aCbU2wqT1X4XnO0FHqgbZfZjdKiu6dmZqw=;
+	s=arc-20240116; t=1753166999; c=relaxed/simple;
+	bh=iSbkyPzqN1Hj0CXey8Fx8nw1cT+ihZBX/aPel5YT3EE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m7VT4c5bDBTSeYBAo5gptnVZgFYlOxg5g4Lvm0T/udnOcDa23FM1fWjiGblubHDco2Axft7cIrBt40ELJGHKD7u+9Vhq8sPjJV6mus80FOgc3HRr9TG4lcpTyxutVQAyiNGk1BFStYhH+5GRQ4L9Rx4Bfc//hqiJh2XqYz8LYyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
+	 Content-Type:Content-Disposition:In-Reply-To; b=CI9JlbFlopYtVayLRmtzrDTfZiyXyWE0MqTdJa+qy3r7K+3qNmehMCh3Z3MJPg57L5ihVsekrPOHCsu1RrOYBmGfXo6g0CbftuuwHBf/uOBGvDwxXAW97OOic8C/fCS58Q4nTwqOUV7fhz6n7BGZTD+5nU7tImw3tjln42uPsQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpgz4t1753166732tb2f2730f
-X-QQ-Originating-IP: lc/T7L03GGO2+MGg/RYgyPv6CVL6lDGTXWv1SAH4VJ0=
+X-QQ-mid: esmtpgz10t1753166917tae364b87
+X-QQ-Originating-IP: mKK12zRgZoLI2Gza1yGjMKaEIk8SuogXIs16fAZRlJs=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 22 Jul 2025 14:45:30 +0800 (CST)
+	id ; Tue, 22 Jul 2025 14:48:35 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 11965248678226407271
-Date: Tue, 22 Jul 2025 14:45:30 +0800
+X-BIZMAIL-ID: 14186350718973111170
+Date: Tue, 22 Jul 2025 14:48:35 +0800
 From: Yibo Dong <dong100@mucse.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
@@ -34,11 +34,11 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/15] net: rnpgbe: Add basic mbx ops support
-Message-ID: <D81C71402E58DF29+20250722064530.GC99399@nic-Precision-5820-Tower>
+Subject: Re: [PATCH v2 12/15] net: rnpgbe: Add link up handler
+Message-ID: <689C469EE0E578FA+20250722064835.GD99399@nic-Precision-5820-Tower>
 References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-4-dong100@mucse.com>
- <e66591a1-0ffa-4135-9347-52dc7745728f@lunn.ch>
+ <20250721113238.18615-13-dong100@mucse.com>
+ <a77ef7df-537b-49f7-a455-c23295fddbd5@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,156 +47,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e66591a1-0ffa-4135-9347-52dc7745728f@lunn.ch>
+In-Reply-To: <a77ef7df-537b-49f7-a455-c23295fddbd5@lunn.ch>
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MiKCDQn4b3+YL9Yc6489WTqqv6rc0eoBk364ZJ1xIiNdTkX3dJjWDei+
-	/W3ktqeneUPFLYGqGgnJ6J7jzl34LO2zCN7RoSmhjKYA+ho1vnf53UM+qk1n3gsWGihTWeX
-	SFfnKeOZjTGX4DPMFFu6EYXp7U/fmb4kSzwepJ6s+33Ws3Dvv1nxdB3jF0Cr8h/i9uWGETn
-	8XSMRgUrzIjW5BNjVKQ35k/R9JbhWw4ECnbYO3aVD/bprLtYBzda1IPooMI8TRjnZk8oD3X
-	18DcDd9uETQtOh7C2Kel2W3C5vbx9c4Fqf2zQxzfZW9BTVOkDH/KOOYW1ubjLphKaRXe8dq
-	vOZ9MDayJNauk47bNVKP/q+Xqgvh48FX4oMqvnJMpU5k4qnVJs/Ayj3jacC1S+dlmmixf9g
-	QZOqFk5vC+h10moqjZQwQdOrHU3t+CJSGcK7xt3V/Vol1FprEat6SaqDDwe/awbtOQGavXI
-	PyIBL2x12SpAyVu6UlCWsbstFmc2BeO/t1TwiAO9JJSPkmL1S/a6ipkSpfZuZ6bsPfTQskZ
-	AgEk2F4fLyvnTvpHOQypnhqeB381BsXLHiwCKBq2LkAnc92lGjPx+hg9KkMdXOqAyxrWO6Q
-	GaTQjLxNM8MdO7HwT2xW6E/cfc41O5RIitFbqJvj7it/ggZpXD0RYs9rR0ysKCWpDq/+RME
-	pcSIVyVeFppVqzh4+dExvpglaULeFsA1wSuXuipqkxGqwKWUlgCJJLIboCAPWlZ4UQQneq8
-	IRSkdp83Z4hNmuk0ZmBqMw765KrjiC6ZBgsUAq7/5mg6yfYmbB/dlvX2lc7ikfoY8kehIZN
-	r+C6iP06Cp2sqeY2esdXjCESe+9aSZd8UYgZivXtMTwaTGA38339HS8PmoVoFVs71p0Ww/j
-	RwUriYgTHZmqQGBmK9QxDcClcgvhhjvq3xIs3gmAcFG1WXFFxkWRFHju2tNZ+SWj8LpB1qH
-	Apzn/AHIRtWBHS8mbv1qpXT0OoF75FQsmHUWz19jAkt32QZFpAFerX1xsr5MwSo/LkC6Yuh
-	2D2NS/aTto9ccallpP
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MhHYuF7Otq+oyd6j8FmAWNOz82ieesuJMrDI4IKIKcRgq+Sxdno/vVkI
+	HMwOyz9hzUl6Wuinscj4WTS2/hbdqHlSokG29vSKHy58eNG2pyf/Mz1VKT1HsEZeBZkqMBT
+	7J7G4z2ALocABzNXn262mg0Zsb7ANBXU2Zuymx4KRtqA2lO/mSgL+WP50ExlEF+wa018AII
+	MaNBtbPEE6QsTITS/Ev4w3cbSj8QtzMbZrvfKcOXBKQPeotR9KSl0TXPr144++DtURFqPUM
+	HXBHCJ/5EhNH97/WS8fHTuyjiev2RdNunAhF2C+styzFBC3QqOwf2v9OZmh+EfPFQsU8569
+	UNGB7Gz/OU38B0dMcYaYtQB5dY8E1TVX73aFmS3SKLWKXKRbdbXob1xiz4W4AMku/U9PVXu
+	TJYZqSrf1tIzS4otK1IjIZZhU9Niij55jbUOkllRyXvfC/Y0cYkHYzUpNIi26P2a6rvNX1F
+	RhRac4NVzt5napIqjTtfygJRvgB2JbkEpCJQe89Ru69glmsOfx05CyoBt6bA8QCtp1AbBNs
+	jWJP3uwxhsjzUtQVHwV9/Gjo9t4jh8G8RV2NqYLCUokcN+zTLIZC9wEu16x33F0mG9KksQu
+	kaPcqLxROHaAH+jGVxTJ2EyPi9cHP8padCUmvHXp32WXR1AHFHHrFlvL46HCNoNdzZwpg/G
+	b+3uLBS0JN9eLrvusBb4+90NxRihV9YT/k1w++hVfHA+l3tYa1uEzET+GQXfvBB0MV1HJmk
+	UsF+Wf4+ka7KX89IhxHIEhl4WCuwGVI9aWEZ+sjNpxbkWWWDIewZHy1QGFuF3GHBuisrSJv
+	eMr0+N7mBvftM9txKZndj8/rCAvx/GxlllSmRupHY/SIELdR43fUlyczB60cBdiOdD0keGq
+	o5NUoK0EAU/AFVkQFvSEr2n8tzr1zLblZglJHZUoJ0tJ6wyGGld7j9BY22sFCoAKAJmTyhT
+	CmKOAHHC23IZA1KEnlMYNIJJV1Cs6LfD18TlVqOzfqQt14aYWCF4mSik5GtJ8RJjHUIc=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
 X-QQ-RECHKSPAM: 0
 
-On Mon, Jul 21, 2025 at 05:43:41PM +0200, Andrew Lunn wrote:
-> >  #define MAX_VF_NUM (8)
-> 
-> > +	hw->max_vfs = 7;
-> 
-> ???
-
-This is mistake, max vfs is 7. 8 is '7 vfs + 1 pf'.
-
-> 
-> 
-> >  }
+On Mon, Jul 21, 2025 at 05:47:09PM +0200, Andrew Lunn wrote:
+> On Mon, Jul 21, 2025 at 07:32:35PM +0800, Dong Yibo wrote:
+> > Initialize link status handler
+> > 
+> > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> > ---
+> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  53 +++++
+> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |  26 +++
+> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_lib.c    |   7 +
+> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 139 +++++++++++++
+> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h    |   1 +
+> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c | 187 ++++++++++++++++++
+> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h |   7 +
+> >  7 files changed, 420 insertions(+)
+> > 
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > index 624e0eec562a..b241740d9cc5 100644
+> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > @@ -26,6 +26,15 @@ enum rnpgbe_hw_type {
+> >  	rnpgbe_hw_unknow
+> >  };
 > >  
-> >  /**
-> > @@ -117,6 +119,7 @@ static void rnpgbe_get_invariants_n210(struct mucse_hw *hw)
-> >  	/* update hw feature */
-> >  	hw->feature_flags |= M_HW_FEATURE_EEE;
-> >  	hw->usecstocount = 62;
-> > +	hw->max_vfs_noari = 7;
+> > +enum speed_enum {
+> > +	speed_10,
+> > +	speed_100,
+> > +	speed_1000,
+> > +	speed_10000,
+> > +	speed_25000,
+> > +	speed_40000,
 > 
-> ???
-
-Bridge with no ari(Alternative Routing - ID Interpretation) function limits
-8 function for one ep. This variable is used to limit vf numbers in no-ari
-condition.
-Of course, those not really used code should be removed in this patch.
-
+> Patch 1/X says:
 > 
-> > +int mucse_read_mbx(struct mucse_hw *hw, u32 *msg, u16 size,
-> > +		   enum MBX_ID mbx_id)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +
-> > +	/* limit read to size of mailbox */
-> > +	if (size > mbx->size)
-> > +		size = mbx->size;
-> > +
-> > +	if (!mbx->ops.read)
-> > +		return -EIO;
+> +config MGBE
+> +       tristate "Mucse(R) 1GbE PCI Express adapters support"
+> +       depends on PCI
+> +       select PAGE_POOL
+> +       help
+> +         This driver supports Mucse(R) 1GbE PCI Express family of
+> +         adapters.
 > 
-> How would that happen?
-> 
-> > +
-> > +	return mbx->ops.read(hw, msg, size, mbx_id);
-> 
-> > +int mucse_write_mbx(struct mucse_hw *hw, u32 *msg, u16 size,
-> > +		    enum MBX_ID mbx_id)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +
-> > +	if (size > mbx->size)
-> > +		return -EINVAL;
-> > +
-> > +	if (!mbx->ops.write)
-> > +		return -EIO;
-> 
-> How would either of these two conditions happen.
-> 
-
-Those are 'defensive code' which you point before. I should
-remove those.
-
-> > +static u16 mucse_mbx_get_req(struct mucse_hw *hw, int reg)
-> > +{
-> > +	/* force memory barrier */
-> > +	mb();
-> > +	return ioread32(hw->hw_addr + reg) & GENMASK(15, 0);
-> 
-> I'm no expert on memory barriers, but what are you trying to achieve
-> here? Probably the most used pattern of an mb() is to flush out writes
-> to hardware before doing a special write which triggers the hardware
-> to do something. That is not what is happening here.
-> 
-
-Got it, I will check and fix it.
-
-> > +static void mucse_mbx_inc_pf_req(struct mucse_hw *hw,
-> > +				 enum MBX_ID mbx_id)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +	u32 reg, v;
-> > +	u16 req;
-> > +
-> > +	reg = (mbx_id == MBX_FW) ? PF2FW_COUNTER(mbx) :
-> > +				   PF2VF_COUNTER(mbx, mbx_id);
-> > +	v = mbx_rd32(hw, reg);
-> > +	req = (v & GENMASK(15, 0));
-> > +	req++;
-> > +	v &= GENMASK(31, 16);
-> > +	v |= req;
-> > +	/* force before write to hw */
-> > +	mb();
-> > +	mbx_wr32(hw, reg, v);
-> > +	/* update stats */
-> > +	hw->mbx.stats.msgs_tx++;
-> 
-> What are you forcing? As i said, i'm no expert on memory barriers, but
-> to me, it looks like whoever wrote this code also does not understand
-> memory barriers.
-> 
-
-Got it, I will check and fix it.
-
-> > +static int mucse_obtain_mbx_lock_pf(struct mucse_hw *hw, enum MBX_ID mbx_id)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +	int try_cnt = 5000, ret;
-> > +	u32 reg;
-> > +
-> > +	reg = (mbx_id == MBX_FW) ? PF2FW_MBOX_CTRL(mbx) :
-> > +				   PF2VF_MBOX_CTRL(mbx, mbx_id);
-> > +	while (try_cnt-- > 0) {
-> > +		/* Take ownership of the buffer */
-> > +		mbx_wr32(hw, reg, MBOX_PF_HOLD);
-> > +		/* force write back before check */
-> > +		wmb();
-> > +		if (mbx_rd32(hw, reg) & MBOX_PF_HOLD)
-> > +			return 0;
-> > +		udelay(100);
-> > +	}
-> > +	return ret;
-> 
-> I've not compiled this, but isn't ret uninitialized here? I would also
-> expect it to return -ETIMEDOUT?
+> This is a 1G NIC, so you can remove 10G, 25G and 40G from there. They
+> are pointless.
 > 
 > 	Andrew
 > 
 
-Yes, ret is uninitialized. I will fix this.
+Got it, I will fix this.
 Thanks for your feedback.
+
 
