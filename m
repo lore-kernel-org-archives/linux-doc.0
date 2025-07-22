@@ -1,28 +1,28 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E20128A705;
-	Tue, 22 Jul 2025 06:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8881228B3FD;
+	Tue, 22 Jul 2025 06:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753165356; cv=none; b=WqyemZZagFq1SpzdT/bYQ15ULX2zZntIYzQBONyGAP/DM3hVNHDkPcJkSbSXUfEXF76q1NTic5/5OW9Dq+OUVFXgdibWHczuUQiR29QOKk+JfwrSE5iLCXnPw6993i+1M2Qx1iz6eKCO7DEFL8O95gqwg3sZP2/hhBvu69r+M1w=
+	t=1753166811; cv=none; b=P4PvhqsJ0977Q98qaNrLE6Qd5RH8oZWpVTC/LwrEd9nbSBUaSkJun2/yY9i5gg0HftuBJnuQnLPYSVg03Uhq0SDCSqMPFtqIEmGWTAq39h7SnyZ13JeQGzhCLWFHhBJxWK/XVbHq5szu1vxyZIMX11kpsVPBYjscjy2Ip1m8o/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753165356; c=relaxed/simple;
-	bh=bm/0DewNWhRUjoUqr0+r7OAExtR9mkSYTE/5p7SKNtI=;
+	s=arc-20240116; t=1753166811; c=relaxed/simple;
+	bh=1yAfeUM+0aCbU2wqT1X4XnO0FHqgbZfZjdKiu6dmZqw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KTds+5tXvf58OSS6fMvuOG9/EKIQMKm7NpqNcx0NhZxUQn8EmawiB7tPAtxZI0ZDTJEdBVduQEf3y4ySzLnInkDJvTSaiZJel9pPU1+Qs2zkk+1WKXbas+Fn5kNAd/6RzDNqXKsn4YDp9yhFmeHKAdpQ1WzT6T7bTK6Nvp4uhzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.19.206
+	 Content-Type:Content-Disposition:In-Reply-To; b=m7VT4c5bDBTSeYBAo5gptnVZgFYlOxg5g4Lvm0T/udnOcDa23FM1fWjiGblubHDco2Axft7cIrBt40ELJGHKD7u+9Vhq8sPjJV6mus80FOgc3HRr9TG4lcpTyxutVQAyiNGk1BFStYhH+5GRQ4L9Rx4Bfc//hqiJh2XqYz8LYyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz17t1753165282t2f934e90
-X-QQ-Originating-IP: Srug0ruEEZGlFgQJ0LPW05zAj9t45SjKes719PTSLlM=
+X-QQ-mid: zesmtpgz4t1753166732tb2f2730f
+X-QQ-Originating-IP: lc/T7L03GGO2+MGg/RYgyPv6CVL6lDGTXWv1SAH4VJ0=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 22 Jul 2025 14:21:20 +0800 (CST)
+	id ; Tue, 22 Jul 2025 14:45:30 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10154226307366438883
-Date: Tue, 22 Jul 2025 14:21:20 +0800
+X-BIZMAIL-ID: 11965248678226407271
+Date: Tue, 22 Jul 2025 14:45:30 +0800
 From: Yibo Dong <dong100@mucse.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
@@ -34,11 +34,11 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/15] net: rnpgbe: Add n500/n210 chip support
-Message-ID: <8E12C5B26514F60A+20250722062120.GB99399@nic-Precision-5820-Tower>
+Subject: Re: [PATCH v2 03/15] net: rnpgbe: Add basic mbx ops support
+Message-ID: <D81C71402E58DF29+20250722064530.GC99399@nic-Precision-5820-Tower>
 References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-3-dong100@mucse.com>
- <4dea5acc-dd7d-463c-b099-53713dd3d7ee@lunn.ch>
+ <20250721113238.18615-4-dong100@mucse.com>
+ <e66591a1-0ffa-4135-9347-52dc7745728f@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,179 +47,156 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4dea5acc-dd7d-463c-b099-53713dd3d7ee@lunn.ch>
+In-Reply-To: <e66591a1-0ffa-4135-9347-52dc7745728f@lunn.ch>
 X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NoSKVpKsmOWesV+FnIEmHdSWLr2JY8qJuGN9uen2GwisVj8PTh13maXl
-	IJOHnwzhzXr6o+Pqoqtcm8+oTnutUaBPM6tvNW4nOpUDctanYpJx4bdJXMxXrDBzNjqyxK6
-	h52xxqHxJvOqi6/aAhd3tKPVmQQ4PymfepwuwZJ++c5OSSvfTuGF0DKB/pvG9ZaqTh/iqlK
-	YDPRynBXlQuX9LVoGw1qGrLfOq4214wQnG1Zmr7x3n6fu6CBrIabiBhNxiJQHX0xU6Gwf/P
-	6gdr4VyWTx+8zicrWdLCIbnT0xz/qv44atP7kUDuFuQFSVHm6sp/86Ax4iLM2a2KNgU0Nuy
-	iFVmDDdwggvEW4/vsNRrcq2RYJ+/LsWGj2RK6tCYpHHP1kWYmjEuWwBfrXtbddr8eAUKndy
-	EjfHjowGBPuSkWSx31TiswEN1i8fpZrP+hKhms2EXCfyJJEpj99WvdhFKQt4LymwGTVjc+D
-	OY59jOby2JL46AUlO7JaapIrTQJjmrNYcfKTs7O/Fwur3tGKuMrCqo2Ax2Is2cyv2azalGz
-	3Dl8a0Ixmctm58bfljTKszH/SNE9sem28uWiCsq+7QQgUN+H7vDCiNpyVgoJCEGuVilzQ2w
-	NBF/V+Koeb7aNbqamxgkHjnq9bH+GW+soFF9ZHZmnVS40awdr2/FN9VKDlWkZF1rf5o1HQM
-	nwYgZBERB8A5m6eg3FUUCZ3gndBUxPeUJywNubACQmcYfXQkFNrX+WyyoL3GgRBnXjpBjlW
-	EuUTLIqj8GkoLwpY7iTOqtMaKTu+DmSEOqUEMFtCpNVBHCFB7tFZtdBZo5Va1J5VcJQNzeB
-	Uqb4irTCXIL7L80HVVFAxJxC5YBRW5fdeVy2tkS2daihE9iErz+wRAYAvKMzDOpYv+Fn58I
-	IQKSraKUg6l73mWYgnhs6jZDFgCk8C4Bxfz5KKU7Sc+H3/GQqnqkObvNXdaBeSoV5LNvjkL
-	HYN6d6bMT4E/sBlPjFlK1NpXTjjizyrwQGrhBQiGTepc7xBEjI3NGeg2+nuQE4hVWrGmL3B
-	TYaZbOUg==
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MiKCDQn4b3+YL9Yc6489WTqqv6rc0eoBk364ZJ1xIiNdTkX3dJjWDei+
+	/W3ktqeneUPFLYGqGgnJ6J7jzl34LO2zCN7RoSmhjKYA+ho1vnf53UM+qk1n3gsWGihTWeX
+	SFfnKeOZjTGX4DPMFFu6EYXp7U/fmb4kSzwepJ6s+33Ws3Dvv1nxdB3jF0Cr8h/i9uWGETn
+	8XSMRgUrzIjW5BNjVKQ35k/R9JbhWw4ECnbYO3aVD/bprLtYBzda1IPooMI8TRjnZk8oD3X
+	18DcDd9uETQtOh7C2Kel2W3C5vbx9c4Fqf2zQxzfZW9BTVOkDH/KOOYW1ubjLphKaRXe8dq
+	vOZ9MDayJNauk47bNVKP/q+Xqgvh48FX4oMqvnJMpU5k4qnVJs/Ayj3jacC1S+dlmmixf9g
+	QZOqFk5vC+h10moqjZQwQdOrHU3t+CJSGcK7xt3V/Vol1FprEat6SaqDDwe/awbtOQGavXI
+	PyIBL2x12SpAyVu6UlCWsbstFmc2BeO/t1TwiAO9JJSPkmL1S/a6ipkSpfZuZ6bsPfTQskZ
+	AgEk2F4fLyvnTvpHOQypnhqeB381BsXLHiwCKBq2LkAnc92lGjPx+hg9KkMdXOqAyxrWO6Q
+	GaTQjLxNM8MdO7HwT2xW6E/cfc41O5RIitFbqJvj7it/ggZpXD0RYs9rR0ysKCWpDq/+RME
+	pcSIVyVeFppVqzh4+dExvpglaULeFsA1wSuXuipqkxGqwKWUlgCJJLIboCAPWlZ4UQQneq8
+	IRSkdp83Z4hNmuk0ZmBqMw765KrjiC6ZBgsUAq7/5mg6yfYmbB/dlvX2lc7ikfoY8kehIZN
+	r+C6iP06Cp2sqeY2esdXjCESe+9aSZd8UYgZivXtMTwaTGA38339HS8PmoVoFVs71p0Ww/j
+	RwUriYgTHZmqQGBmK9QxDcClcgvhhjvq3xIs3gmAcFG1WXFFxkWRFHju2tNZ+SWj8LpB1qH
+	Apzn/AHIRtWBHS8mbv1qpXT0OoF75FQsmHUWz19jAkt32QZFpAFerX1xsr5MwSo/LkC6Yuh
+	2D2NS/aTto9ccallpP
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
 X-QQ-RECHKSPAM: 0
 
-On Mon, Jul 21, 2025 at 05:25:12PM +0200, Andrew Lunn wrote:
-> > +struct mii_regs {
-> > +	unsigned int addr; /* MII Address */
-> > +	unsigned int data; /* MII Data */
-> > +	unsigned int addr_shift; /* MII address shift */
-> > +	unsigned int reg_shift; /* MII reg shift */
-> > +	unsigned int addr_mask; /* MII address mask */
-> > +	unsigned int reg_mask; /* MII reg mask */
-> > +	unsigned int clk_csr_shift;
-> > +	unsigned int clk_csr_mask;
-> > +};
+On Mon, Jul 21, 2025 at 05:43:41PM +0200, Andrew Lunn wrote:
+> >  #define MAX_VF_NUM (8)
 > 
-> So MII interests me, being the MDIO/PHY maintainer....
+> > +	hw->max_vfs = 7;
 > 
-> You have introduced this without any user, which is not good, so i
-> cannot see how it is actually used. It is better to introduce
-> structures in the patch which makes use of them.
-> 
-> Please add this only when you add the mdiobus driver, so i can see how
-> it is used. Please look at the other structures you have here. Please
-> add them as they are actually used.
-> 
+> ???
 
-Yes, you are right, I should add the structures when they are actually
-used. I will improve it.
+This is mistake, max vfs is 7. 8 is '7 vfs + 1 pf'.
 
-> > +struct mucse_hw {
-> > +	void *back;
-> > +	u8 pfvfnum;
-> > +	u8 pfvfnum_system;
-> > +	u8 __iomem *hw_addr;
-> > +	u8 __iomem *ring_msix_base;
 > 
-> I spotted this somewhere else. A u8 __iomem * is odd. Why is this not
-> a void *? ioremap() returns a void __iomem *, and all the readb(),
-> readw(), readX() functions expect a void * __iomem. So this looks odd.
 > 
+> >  }
+> >  
+> >  /**
+> > @@ -117,6 +119,7 @@ static void rnpgbe_get_invariants_n210(struct mucse_hw *hw)
+> >  	/* update hw feature */
+> >  	hw->feature_flags |= M_HW_FEATURE_EEE;
+> >  	hw->usecstocount = 62;
+> > +	hw->max_vfs_noari = 7;
+> 
+> ???
 
-Got it, I will change it. I just consider the wrong cast before. Sorry
-for not check this define error.
+Bridge with no ari(Alternative Routing - ID Interpretation) function limits
+8 function for one ep. This variable is used to limit vf numbers in no-ari
+condition.
+Of course, those not really used code should be removed in this patch.
 
-> > +#define m_rd_reg(reg) readl(reg)
-> > +#define m_wr_reg(reg, val) writel((val), reg)
 > 
-> Please don't wrap standard functions like this. Everybody knows what
-> readl() does. Nobody has any idea what m_rd_reg() does! You are just
-> making your driver harder to understand and maintain.
-> 
-
-Got it.
-
-> > +	mac->mii.addr = RNPGBE_MII_ADDR;
-> > +	mac->mii.data = RNPGBE_MII_DATA;
-> > +	mac->mii.addr_shift = 11;
-> > +	mac->mii.addr_mask = 0x0000F800;
-> 
-> GENMASK()? If you are using these helpers correctly, you probably
-> don't need the _shift members.
-> 
-> > +	mac->mii.reg_shift = 6;
-> > +	mac->mii.reg_mask = 0x000007C0;
-> > +	mac->mii.clk_csr_shift = 2;
-> > +	mac->mii.clk_csr_mask = GENMASK(5, 2);
-> > +	mac->clk_csr = 0x02; /* csr 25M */
-> > +	/* hw fixed phy_addr */
-> > +	mac->phy_addr = 0x11;
-> 
-> That is suspicious. But until i see the PHY handling code, it is hard
-> to say.
-> 
-
-Those code should move to the patch which really use it.
-
-> > +static void rnpgbe_get_invariants_n210(struct mucse_hw *hw)
+> > +int mucse_read_mbx(struct mucse_hw *hw, u32 *msg, u16 size,
+> > +		   enum MBX_ID mbx_id)
 > > +{
 > > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +	/* get invariants based from n500 */
-> > +	rnpgbe_get_invariants_n500(hw);
 > > +
-> > +	/* update msix base */
-> > +	hw->ring_msix_base = hw->hw_addr + 0x29000;
-> > +	/* update mbx offset */
-> > +	mbx->vf2pf_mbox_vec_base = 0x29200;
-> > +	mbx->fw2pf_mbox_vec = 0x29400;
-> > +	mbx->pf_vf_shm_base = 0x29900;
-> > +	mbx->mbx_mem_size = 64;
-> > +	mbx->pf2vf_mbox_ctrl_base = 0x2aa00;
-> > +	mbx->pf_vf_mbox_mask_lo = 0x2ab00;
-> > +	mbx->pf_vf_mbox_mask_hi = 0;
-> > +	mbx->fw_pf_shm_base = 0x2d900;
-> > +	mbx->pf2fw_mbox_ctrl = 0x2e900;
-> > +	mbx->fw_pf_mbox_mask = 0x2eb00;
-> > +	mbx->fw_vf_share_ram = 0x2b900;
-> > +	mbx->share_size = 512;
-> > +	/* update hw feature */
-> > +	hw->feature_flags |= M_HW_FEATURE_EEE;
-> > +	hw->usecstocount = 62;
+> > +	/* limit read to size of mailbox */
+> > +	if (size > mbx->size)
+> > +		size = mbx->size;
+> > +
+> > +	if (!mbx->ops.read)
+> > +		return -EIO;
 > 
-> This variant does not have an MDIO bus?
+> How would that happen?
 > 
-
-Some hw capabilies, such as queue numbers and hardware module 
-reg-offset(dma_base_addr, eth_base_addr ..) in this function. Don't
-have an MDIO bus now.
-
-> > +#define RNPGBE_RING_BASE (0x1000)
-> > +#define RNPGBE_MAC_BASE (0x20000)
-> > +#define RNPGBE_ETH_BASE (0x10000)
+> > +
+> > +	return mbx->ops.read(hw, msg, size, mbx_id);
 > 
-> Please drop all the () on plain constants. You only need () when it is
-> an expression.
+> > +int mucse_write_mbx(struct mucse_hw *hw, u32 *msg, u16 size,
+> > +		    enum MBX_ID mbx_id)
+> > +{
+> > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > +
+> > +	if (size > mbx->size)
+> > +		return -EINVAL;
+> > +
+> > +	if (!mbx->ops.write)
+> > +		return -EIO;
+> 
+> How would either of these two conditions happen.
 > 
 
-Got it, I will fix this.
+Those are 'defensive code' which you point before. I should
+remove those.
 
-> > +			      const struct rnpgbe_info *ii)
+> > +static u16 mucse_mbx_get_req(struct mucse_hw *hw, int reg)
+> > +{
+> > +	/* force memory barrier */
+> > +	mb();
+> > +	return ioread32(hw->hw_addr + reg) & GENMASK(15, 0);
 > 
-> I don't really see how the variable name ii has anything to do with
-> rnpgbe_info. I know naming is hard, but why not call it info?
-> 
+> I'm no expert on memory barriers, but what are you trying to achieve
+> here? Probably the most used pattern of an mb() is to flush out writes
+> to hardware before doing a special write which triggers the hardware
+> to do something. That is not what is happening here.
 > 
 
-Got it, ii is unclear, I will use info instead.
+Got it, I will check and fix it.
 
-> >  {
-> >  	struct mucse *mucse = NULL;
-> > +	struct mucse_hw *hw = NULL;
-> > +	u8 __iomem *hw_addr = NULL;
-> >  	struct net_device *netdev;
-> >  	static int bd_number;
-> > +	u32 dma_version = 0;
-> > +	int err = 0;
-> > +	u32 queues;
-> >  
-> > -	netdev = alloc_etherdev_mq(sizeof(struct mucse), 1);
-> > +	queues = ii->total_queue_pair_cnts;
-> > +	netdev = alloc_etherdev_mq(sizeof(struct mucse), queues);
+> > +static void mucse_mbx_inc_pf_req(struct mucse_hw *hw,
+> > +				 enum MBX_ID mbx_id)
+> > +{
+> > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > +	u32 reg, v;
+> > +	u16 req;
+> > +
+> > +	reg = (mbx_id == MBX_FW) ? PF2FW_COUNTER(mbx) :
+> > +				   PF2VF_COUNTER(mbx, mbx_id);
+> > +	v = mbx_rd32(hw, reg);
+> > +	req = (v & GENMASK(15, 0));
+> > +	req++;
+> > +	v &= GENMASK(31, 16);
+> > +	v |= req;
+> > +	/* force before write to hw */
+> > +	mb();
+> > +	mbx_wr32(hw, reg, v);
+> > +	/* update stats */
+> > +	hw->mbx.stats.msgs_tx++;
 > 
-> I pointed out this before. Try to avoid changing code added in
-> previous patches. I just wasted time looking up what the function is
-> called which allocates a single queue, and writing a review comment.
+> What are you forcing? As i said, i'm no expert on memory barriers, but
+> to me, it looks like whoever wrote this code also does not understand
+> memory barriers.
 > 
-> Waiting reviewers time is a good way to get less/slower reviews.
+
+Got it, I will check and fix it.
+
+> > +static int mucse_obtain_mbx_lock_pf(struct mucse_hw *hw, enum MBX_ID mbx_id)
+> > +{
+> > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > +	int try_cnt = 5000, ret;
+> > +	u32 reg;
+> > +
+> > +	reg = (mbx_id == MBX_FW) ? PF2FW_MBOX_CTRL(mbx) :
+> > +				   PF2VF_MBOX_CTRL(mbx, mbx_id);
+> > +	while (try_cnt-- > 0) {
+> > +		/* Take ownership of the buffer */
+> > +		mbx_wr32(hw, reg, MBOX_PF_HOLD);
+> > +		/* force write back before check */
+> > +		wmb();
+> > +		if (mbx_rd32(hw, reg) & MBOX_PF_HOLD)
+> > +			return 0;
+> > +		udelay(100);
+> > +	}
+> > +	return ret;
+> 
+> I've not compiled this, but isn't ret uninitialized here? I would also
+> expect it to return -ETIMEDOUT?
 > 
 > 	Andrew
 > 
 
-Yes, I got it before, and I really tried to improve my code.
-But this is really hard to avoid here. 'queues' is from ii->total_queue_pair_cnts
-which is added in patch2. Maybe I should move the alloc_etherdev_mq to
-patch2, never use it in patch1? And this conditon can improve.
-
-thanks for your feedback.
+Yes, ret is uninitialized. I will fix this.
+Thanks for your feedback.
 
