@@ -1,395 +1,301 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3127C28B7D3;
-	Tue, 22 Jul 2025 23:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753226390; cv=none; b=ZkvCta/drOzxilm5KdsA5SCTl+yqC7WHPWnM6nGwiNwmtwyScu9sV+IKJLPisJftOqcmGX/Jm2cLOGFR3hBrVTb21VWOEacnrICGXxeIzi1s8yX0HJ8ClU30ZNuXHcQyUzw863FDYsR42iSMp50GYaiy0Coxne6t1Shqb0i45QQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753226390; c=relaxed/simple;
-	bh=iERN6Xzk9sHzsB4pLCPzg+cd0rkOPiJ6NJagUizg4D0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HbY6IudQxf9WN+Upb8aPap46HWU7UgkOXFiPLLE6F/owTRbSH5BQzyotGJa2OEILyhrlAkbx04f/AUEvDvZuVhi5fdOu2z428ZIrI74X7PXKjMQxviPBxHiIoeUXrnmDA42s+bn7B7zRc7+2qyJbNw1iv6R/ZrWEH7u13RfXX6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=pSsmAH0b; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2CC28B7EE;
+	Tue, 22 Jul 2025 23:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753226847; cv=fail; b=knF62SVqcT/YhAa9D1jOMI7jd/88KpHhgUu1R1B1XmbuKVx9Mr6lJQUEBSWXlRsPOYm+6UQGzTGGk0AYm5i60l/7fL9BtzHyK0lZpLK65JnjoKZxm7BXLUiqG07MoYQVAdaCMmWnmpgLptDzoDfIltU+JRqOvARQUPJwyR6b1AQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753226847; c=relaxed/simple;
+	bh=PZSSUz+X2TiT4oXbBMHq4JTdgdVzbeUD3bzKPBerSKY=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Gkw1oslL3pM7jzDiWpjBMh9iqXEUIyDmmRGF9C8ybKcpcKtFy6jOZV+AZJTzV2l92ezYdprehCMo6LSvn0pD0RD5Qvv6jIihNBUpeY57VsdEC6CkXcUgFBLLsoTQwXtlk4qzpUi6s7zRHi8/Ss9jxZzm4HaRwZOyhIqmaTi1YD4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IjT8GuZM; arc=fail smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="pSsmAH0b"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bmtWx40bRz9tKY;
-	Wed, 23 Jul 2025 01:19:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1753226381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ga146VfUnbYMyYkmA+aailWJBUlJlGizk/gmO5Hyyfg=;
-	b=pSsmAH0b+jJYacyGxS8hatPE1X+DUMc0aN6RwPvJHabw0eaoUjNSBE0DgLeLaZLdlYhpZ9
-	rL+lBDcBr3JmrukxwtCLTaQSavAVzi76K6IgN9LC1o3XiWRP9QW6w4wR92jI3o1LGin1k2
-	V7RZz+VE7FZAJd+Rt0Zdc9L0mqVNE94Pg8tiZZyRm+wgG4fEfTP+AlXVq96BNIzkKDSZz7
-	Xj8k/d+8aWFejT+KBgXOsvjmcv5rS87UbIqaLu0z+iSFoIv0K7pqxo2AlzSrdnbJkRcF70
-	BIr1sSzA/8XSa6vyCO+W+Y6xynOifI4nIUZgF2iYJGeyAGZiF0waq+PNIhCP8A==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-From: Aleksa Sarai <cyphar@cyphar.com>
-Date: Wed, 23 Jul 2025 09:18:54 +1000
-Subject: [PATCH RFC v2 4/4] selftests/proc: add tests for new pidns APIs
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjT8GuZM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753226846; x=1784762846;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=PZSSUz+X2TiT4oXbBMHq4JTdgdVzbeUD3bzKPBerSKY=;
+  b=IjT8GuZMPDWZq51kW3Nnd/lKOSf+m+bOFCTvRVg1NiTCOnWYnOGGsuty
+   afnWVT74mTPXkDgRIeeyXHrYvaeqoJMr25kGc0zBQbH0Aa/bFJEJgSj3Z
+   BlMD1uB8aSSisfyAPJGQAlt2Dd51ICTflixxLUgAo/qWEzx+CVoDggp9F
+   Uufle4u3o+dFyGkF2csMLNRdhjffPbcXqGORoek0tMY98/2QiTL7ttFcq
+   L5KutiYTOiwoz+sL4UwBwK7rSF4E0wICdTUKvw1namDWmwEIuWIfPRFcT
+   c8HYIC1X5vs/8S5LwJGLTUwzPUHwfLRAvcjoGugyILgSsfF0NLRWBzZXy
+   Q==;
+X-CSE-ConnectionGUID: 240pkk5URMyrl70o70swWg==
+X-CSE-MsgGUID: Z1CuiHvSSyWckfdtO5x1uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55199453"
+X-IronPort-AV: E=Sophos;i="6.16,332,1744095600"; 
+   d="scan'208";a="55199453"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 16:27:25 -0700
+X-CSE-ConnectionGUID: Gk9vMVuXSK2xjnTTbhJC6A==
+X-CSE-MsgGUID: D7+WEuffTT+59DQO9T8QXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,332,1744095600"; 
+   d="scan'208";a="159831325"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 16:27:24 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Tue, 22 Jul 2025 16:27:22 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Tue, 22 Jul 2025 16:27:22 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.65)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 22 Jul 2025 16:27:22 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jFztOlcYIvOff78DU3ceTeOSzWjBKTCUWFNg0leawLwJVRqHxWvRlteg+NHSa7Xp2N7HNk0BThs34TvNeHZw76EzdZK0bRqWrOoAmnglPO1OonEBfEmVJqHqbwLt9/0Tso3/j6/dSF1S3K+gD75+06XhrhRJzVgvy4+yhD1SeF+ygX1QwdZhDMyacsdmAFR2G09o+Eie6yBj66SNmxV56sRkZ5pNnr7SI6kyphdY8dAgYhcq8cO5nj/GXYS5Yd3jfUreDBwUynaVMETTxbw25Wip0oKJ/7VPyR9PFBgCUpLI2e+Dde0X8DTz/RBBvI3g+31PiDgn4O+CirjqG7sHBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Dzh6xSZkqj8UMDILAzILxMUCeg1PQQrzKJknbOLIfRU=;
+ b=D84itO9cer21XNWb2vMk3p0oeK8kwxcOxV/ekzul3/w4m3PsIcmj/NNfOtoZjC6U4vky9bhN7BX1zCOaiXkBmIVIBkq65onAuyFC1T8VPIsqrdsyP7hl+cJfZus7ZbOPPXSDZjSzkvYC22zeETOw4RT8+ipwMukK+qIgU4k1tD00c3ofjV+mv3CHZgFBU0EM8Xdp+rcGv+hMCnnMcCJIu/rVLAsvgsniFt1VXbEwzYm//Br4LQIX8RWBcK1EXw7QRY1Ir7HqY1SCP4s8t3H/X1EHB/II3zjwHiXTdIZ08pyi0ZOyDEpNpaCo6mHPxPeSrSLb0SykFqsPaSwBin0QOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by MW4PR11MB7103.namprd11.prod.outlook.com (2603:10b6:303:225::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Tue, 22 Jul
+ 2025 23:27:19 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.8943.028; Tue, 22 Jul 2025
+ 23:27:19 +0000
+Message-ID: <bdb5dd0f-e60d-4d79-9543-ed7352414df6@intel.com>
+Date: Tue, 22 Jul 2025 16:27:15 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 22/34] x86/resctrl: Implement
+ resctrl_arch_reset_cntr() and resctrl_arch_cntr_read()
+To: <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
+	<james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <Dave.Martin@arm.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<akpm@linux-foundation.org>, <paulmck@kernel.org>, <rostedt@goodmis.org>,
+	<Neeraj.Upadhyay@amd.com>, <david@redhat.com>, <arnd@arndb.de>,
+	<fvdl@google.com>, <seanjc@google.com>, <jpoimboe@kernel.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <xin@zytor.com>,
+	<manali.shukla@amd.com>, <tao1.su@linux.intel.com>, <sohil.mehta@intel.com>,
+	<kai.huang@intel.com>, <xiaoyao.li@intel.com>, <peterz@infradead.org>,
+	<xin3.li@intel.com>, <kan.liang@linux.intel.com>,
+	<mario.limonciello@amd.com>, <thomas.lendacky@amd.com>, <perry.yuan@amd.com>,
+	<gautham.shenoy@amd.com>, <chang.seok.bae@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <eranian@google.com>
+References: <cover.1752013061.git.babu.moger@amd.com>
+ <d31ab6c51a57591423d3aa7b8e741972cd66eb91.1752013061.git.babu.moger@amd.com>
+ <272dc6d5-eb63-4dde-8201-880acc9a3846@intel.com>
+ <1e8b0a20-d12c-4f1b-9fc5-c4dfafb7c1dd@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <1e8b0a20-d12c-4f1b-9fc5-c4dfafb7c1dd@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0119.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::34) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250723-procfs-pidns-api-v2-4-621e7edd8e40@cyphar.com>
-References: <20250723-procfs-pidns-api-v2-0-621e7edd8e40@cyphar.com>
-In-Reply-To: <20250723-procfs-pidns-api-v2-0-621e7edd8e40@cyphar.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9962; i=cyphar@cyphar.com;
- h=from:subject:message-id; bh=iERN6Xzk9sHzsB4pLCPzg+cd0rkOPiJ6NJagUizg4D0=;
- b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWQ0yBTsauX+3WS7hd/t/3ljl529dbIJNY7NRn85D0oxM
- GssDfndUcrCIMbFICumyLLNzzN00/zFV5I/rWSDmcPKBDKEgYtTACbys43hf+IP/Qqbb129cgJM
- Z47zhQec6EjY/kQxqCbkcOwpTkebLwz/o39nrnshbDFr4wH+o7sdlmuw/o7PfHR5ocFst6d5h0+
- a8QAA
-X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
- fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
-X-Rspamd-Queue-Id: 4bmtWx40bRz9tKY
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|MW4PR11MB7103:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56322660-93e9-459b-3988-08ddc9774d55
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NDliVlNZKytSWnI1T09Scm56Sy8wRHo1dFpMM011Q1J3Q2ZET2pCd3R5ZXBz?=
+ =?utf-8?B?WHFUQVI1RnlxQ2plUVc1U25uZ000c0VoV1A1djRVWnZaVnBQRzdNaGxjdTZx?=
+ =?utf-8?B?Q29zQndPcnhaZEFBU1hXZGtUMXpRcnM0NURwNDRzK2FlOEZmSmdWRitNVW0w?=
+ =?utf-8?B?NHJreVp3Sk9mOHVnbTlIYWN0Zm5hYUp2UEVYbDNrV0dUQks4aEpjT0lrMndJ?=
+ =?utf-8?B?RXFSOVBkZ1BZdG9wT3h5MGk4MUQ0VHFaYlFLay9QUWp0UE9LRmI2emQ2S3Ju?=
+ =?utf-8?B?cTJtakVpVHp2YkpoeFFkY3E5NGJsVVJyM0RoS1FnMW9zNHBTL3YxUVZSYTZK?=
+ =?utf-8?B?bzhLQmxnTmVHN2lhUW9saTRUb254Y1pyVVZJNWswYm5hdXJBeDZUME5oY0hC?=
+ =?utf-8?B?eTNiekt5bzdqT3IvNEtXR0syb0dlK0pVVERhblhBVFlhZjVXVUFUN2c0SjNH?=
+ =?utf-8?B?N01vTEhDZWUveXBTMzJNdmhxUDZza1hiYndsTmRkdFpMd2V0NnR4Z0JKL0pQ?=
+ =?utf-8?B?TWd5dFUzTkIvR3dIUHNVTmlxOU5BQjYyaWdTWW54MU5vUlFoc1BpMEUvdlcx?=
+ =?utf-8?B?dlZYNTRYYU1ha0sra3J1ZlZWREpHd2VoUTlRSitlWVVoME92b2FsbjhmY2ts?=
+ =?utf-8?B?d081WnhpdzlQcUVFSnh1c2FZd0FIZVZ2WCsvN3RyeURoM3JmWHprQjI0Qjgv?=
+ =?utf-8?B?V0s5azkyUDI5YmhDM1ZFcW1tYXNFZWkzaHgzcFd5NWQ1MWF1ZVZkNFZzWDBW?=
+ =?utf-8?B?LytBZ2tpZnFERFlUK3BZL2FyV210ZUVkdHNUYlN3Tm16cDZLU08raHc1Ni9F?=
+ =?utf-8?B?MmQrZEI3UXprS0RIQTNTTFR5b1RyVWgzOFpUdi9zTEFoQ25qZlFFczhRQ3I0?=
+ =?utf-8?B?SjQrTW1hS2l4S3hleGRwVFpPVTZYZ0djb1BPMVdVSXJPYzhlai91WnlJRjRQ?=
+ =?utf-8?B?QVpKNlQyMEdWOE5CU1ZkRDllRFpJL0twZ3BneGpQd24zR1U3cVRXRitBUUtz?=
+ =?utf-8?B?NHRQMGZVeFNrZlhMTTFwaHdiWi9OY0xyYjF4dnljWjdyZzBhZHpvVkxaelNS?=
+ =?utf-8?B?QmtjcHlaaVQxZW1nTElrb2I2ci9zMEFyVVpqdzdBbjA0aVFxOXhhNGJNcGlt?=
+ =?utf-8?B?eWxtNHMxLzVveERUSWhGQUlYRlZOcHBxcXg2bUxDK3R4ak1LcVoyU2RnVkpJ?=
+ =?utf-8?B?bFFMaEJHcFVNUzE4RFpmR1FTRkt4WjlTN2htMUFweUt4anVUMDFobWZyKzI3?=
+ =?utf-8?B?Qm9FYTUvT2FKakZoR20xWlJrSFlrZXQ1dTY5cHlHM2RVYVBVWnFtNXQrUzcx?=
+ =?utf-8?B?SWdvWjJ1L2pvU2VmcnIvZEhPd3pyZm94eFZhdFJiYUNWMGpNWlRlZ3ljWjQ5?=
+ =?utf-8?B?a3A4WXJMYzZDZTFjZ0FzL2JJVTZSajJSTDlZUXlYaGNwSUttL2pJNEp1bDNG?=
+ =?utf-8?B?NHFtQi92NjdNSFRKRTQxNmFtY0hxbEJDOFFMdCtzTzhKMk85ZEg4UGJxUGxT?=
+ =?utf-8?B?UnpOcXNVVC9vY1NxVHpwY2pGRjF3YnpKeHRkcUd2ZHZucFA2Q1MzNnMvTkMw?=
+ =?utf-8?B?SGorNGpJbWFOeFVTSVdkWHE3ajg2YzlUZUVTRWlFYUl5NzlrcTk5ekhyNDZq?=
+ =?utf-8?B?ZDlRTUZrZy9maUZRZHRaak80azFjR2tHZFV6ZmpEZEswV2ViZHIwYVJnUDAw?=
+ =?utf-8?B?eE93NUlYQThWU0ZWQmFHRmlXeWVrZmU5THVNY2ppTUdkcjc2RFRudHhTdDQy?=
+ =?utf-8?B?QWRXRzdEVkRya3pmcTVncldkVjFQeFIzdzNlckxLaE16d3VtYVkrRS9xVDZ0?=
+ =?utf-8?B?UmhpM2pDQUh2cE1Pb2ZRNmRCMUlmc3VqNEVqMDNWZ3dvYTRoVGx0R1J1WnJ6?=
+ =?utf-8?B?bEN2bEVhS0lOL0Vock9oakdoeFpZQ3BGQWxwTWRaMnlSc2hRaUpyVzJZeEtW?=
+ =?utf-8?Q?S55tTlcc3L4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFQvK3RPNFdHY3dJajhiVkJKaW9Eb2YxQWVLZ1hYbTZ4ODBBNHIxUHl0TnZn?=
+ =?utf-8?B?VkVYMlRmV3RuQUgxOFlYQWZhVWNLbHhYZWl4dytjUDFmVXNhVFFMOFVMaWw5?=
+ =?utf-8?B?STRWcExyUk5IQmNkT0VaWHp6d1N0aHU2NElvd2tPZ2ZFdG1nM2NibjZHNWhS?=
+ =?utf-8?B?T1N3T25KRTRYa3JlcFR3emlQTXZwbloveEgxQUMwUEtaL0ZOaXhRckhkUzFM?=
+ =?utf-8?B?NENqMXozbTFpblFxalo0TFJFU1JLYis0SXVqNDdOUEQ0NmRiRUxFVUR2QW5P?=
+ =?utf-8?B?aDNobWt2aC8wSmpDckhJajhwMjUrNjh0bmVEZmZTTTFnMTkrTlZKSUZldDlP?=
+ =?utf-8?B?VXpjK0hTSGF1dE5zbkgrWkJqR0NRU2tqRXFGV2hUTDhxOEtBWFN1QWN1Vmdk?=
+ =?utf-8?B?aHV5S2xyd2NCWDM0dkpvY0YzS3ZML1p4MU0wenZlUytuUTJqWktlQUwwdjU1?=
+ =?utf-8?B?VTZOTHU1V0lWWTFISHltTUE3T3Fka093bzZvNS9GOERyMUl2Z3pyMGdYdVpu?=
+ =?utf-8?B?LzU5WkMvVmt4NXFtL0x2Sm4yY0RsTFJXU29KWmZLUm1sL3E5YTUrOVJrdGts?=
+ =?utf-8?B?MjJ6YTdDaUl6WHRMaXpma3dIejgvTkdwbkxnUFVMcTdyK1BqYzF4Vm40bGJa?=
+ =?utf-8?B?RkIwMU1hdVJ1WkZ3bFp3WUJQSVFzaDVRTGdjeXJ1akZ6WmZ2OVNuY0xnSktS?=
+ =?utf-8?B?a2RzZmZKVFE0NjNua1lCdTY5cGN5ZjlUdHp2OXlMSElDM0ZTcjY4Ulp0Sysw?=
+ =?utf-8?B?YW1UT21lK1JTbGxPWElXYUJHU1lXb1VMTWtpL1B2bElYcVJuc2RLYlJzdXk1?=
+ =?utf-8?B?MEJFcElxa1lkUkdIa29xWU1FeUZhZGZUZVNLNDVodldYL2Q2K0ZCWmprZGpB?=
+ =?utf-8?B?bUNLVTFvTjJPbDJSclZFdHZPQlRCNW51R1k5MWlod2ZDTGJJczVXWnU3dXhh?=
+ =?utf-8?B?RTVDZWdIeXdpQzUxSzF2UzRGQkMzYi90bWV2Z3J4L095eldJUmRFd3krVUJi?=
+ =?utf-8?B?ODFGcWZjTkNYakhGN2diYk1OZm9GV2ZjbVI0R3d5YUxSeElkNi9aUWc1K0NR?=
+ =?utf-8?B?Yy9VdmFnZ0h0U1pXLzZiYVlMTWkrUUpRMmZLK1B3WFp2NE1XRms4bGNiL2Vj?=
+ =?utf-8?B?Qlh1OVJTZTZVVGdFVlBRYUdYMU5WT1UwTm9taDFRaWpRQUN2V3hGZ21ZaSsz?=
+ =?utf-8?B?SnZRZHVNZTd3aldsOWR2UVBBWUFDVlU1eW9mNVZZbjA3dTU2UURvdjlVelRj?=
+ =?utf-8?B?azgwd3pjN2w3ZlpkbmpDbjhaMXRIUUcrZG1XY2tRbFQ4MXZXN1hLd1g1cHBU?=
+ =?utf-8?B?N3JDNUUydlVwWjJDVW8ra2p5bkVxQ0JJYTNod2REY3lnZWlZVXBad2pnRGFi?=
+ =?utf-8?B?V0w0SXdlOGFJQVQ1dW9lekZNWUlMMkZWLzYwTEYyUU1ZTHRMdGk4NDkwc0pU?=
+ =?utf-8?B?akkzRmptbWU0MFB6WGtVN2cxdVBYU01ZeDN5RDlzYTNRZTA1OWc3R1VvVUIw?=
+ =?utf-8?B?cC9XTnNhZXp3K1JIRjhjQ1UzY3g5cE5wYjgxWGVMV2dOdnhsa3Q4VkJGb3F6?=
+ =?utf-8?B?R2ZsdmZuQzFUTDQ1M0llOGFnMEEyT3pCUHNqcHVybG84bG9kOUV5RlplalU0?=
+ =?utf-8?B?Mk4wdTlhWkhNSWs3Q05TcmJEeXNRamphSGxZbTRPeVloM3YweG9BdnNvUllk?=
+ =?utf-8?B?bE9QMUplNWlVYVBZM2ZWVVdDck9TeHQ3R2x0ZGNJL3dTdStaY1JIQXJXeUM2?=
+ =?utf-8?B?ZUVlQTdhcXJ1UTJCSTd6UnpaUmhIUXVHVFlEeTJsOFd0bzA5RXZWT2NGRnJY?=
+ =?utf-8?B?NVd3aWdkRDU0cHdyeGdLNWFncHgzZDRoenFOTXBrc0JpcTM1M0dFODgwNXJw?=
+ =?utf-8?B?WkVnSGtHYkNTUCtsTnFQcVY4c1ZQS1c3WWJFWUNZUldjd010K0l0b20xRXNm?=
+ =?utf-8?B?SHNmbUYvVmI2YXRxNDB0bGppa0V0NzU2YlR3c3J5TllLblNERk1GZWdPVzBj?=
+ =?utf-8?B?QVk1VHdMQkltcnNoRTM1UjNIa2NqY2Z3VWZJMXJDYUlyWVQrbHUxaUJYTy9t?=
+ =?utf-8?B?Y01zUm1EM01wYW1vZXRQTlJ2NnptK095aHUzaTRFaFJWekVVNW01WmxVTEpT?=
+ =?utf-8?B?SVBLc2RZSlJpbFVWNHk5MWFQV1NKcHZSVmtpRlFhNEtja2JhU01TbVBhQ1gy?=
+ =?utf-8?B?TWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56322660-93e9-459b-3988-08ddc9774d55
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 23:27:19.3898
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7KlUbRtwDKeLOXULSxx4mCC7Qw1nYKX/DWHPi9vdu5LIRoF82BImRxBJ+ADfQZ3lNTZINdN/HanU8CZtuTxFt5Un+oMyTsnYBfgGFBnN8Nc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7103
+X-OriginatorOrg: intel.com
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- tools/testing/selftests/proc/.gitignore   |   1 +
- tools/testing/selftests/proc/Makefile     |   1 +
- tools/testing/selftests/proc/proc-pidns.c | 286 ++++++++++++++++++++++++++++++
- 3 files changed, 288 insertions(+)
+Hi Babu,
 
-diff --git a/tools/testing/selftests/proc/.gitignore b/tools/testing/selftests/proc/.gitignore
-index 973968f45bba..2dced03e9e0e 100644
---- a/tools/testing/selftests/proc/.gitignore
-+++ b/tools/testing/selftests/proc/.gitignore
-@@ -17,6 +17,7 @@
- /proc-tid0
- /proc-uptime-001
- /proc-uptime-002
-+/proc-pidns
- /read
- /self
- /setns-dcache
-diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
-index b12921b9794b..c6f7046b9860 100644
---- a/tools/testing/selftests/proc/Makefile
-+++ b/tools/testing/selftests/proc/Makefile
-@@ -27,5 +27,6 @@ TEST_GEN_PROGS += setns-sysvipc
- TEST_GEN_PROGS += thread-self
- TEST_GEN_PROGS += proc-multiple-procfs
- TEST_GEN_PROGS += proc-fsconfig-hidepid
-+TEST_GEN_PROGS += proc-pidns
- 
- include ../lib.mk
-diff --git a/tools/testing/selftests/proc/proc-pidns.c b/tools/testing/selftests/proc/proc-pidns.c
-new file mode 100644
-index 000000000000..e7e34c78d383
---- /dev/null
-+++ b/tools/testing/selftests/proc/proc-pidns.c
-@@ -0,0 +1,286 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Author: Aleksa Sarai <cyphar@cyphar.com>
-+ * Copyright (C) 2025 SUSE LLC.
-+ */
-+
-+#include <assert.h>
-+#include <errno.h>
-+#include <sched.h>
-+#include <stdbool.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <stdio.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/ioctl.h>
-+#include <sys/prctl.h>
-+
-+#include "../kselftest_harness.h"
-+
-+#define bail(fmt, ...)							\
-+	do {								\
-+		fprintf(stderr, fmt ": %m", __VA_ARGS__);		\
-+		exit(1);						\
-+	} while (0)
-+
-+#define ASSERT_SUCCESS	ASSERT_FALSE
-+#define ASSERT_FAIL	ASSERT_TRUE
-+
-+int touch(char *path)
-+{
-+	int fd = open(path, O_WRONLY|O_CREAT|O_CLOEXEC, 0644);
-+	if (fd < 0 || close(fd) < 0)
-+		return -errno;
-+	return 0;
-+}
-+
-+FIXTURE(ns)
-+{
-+	int host_mntns, host_pidns;
-+	int dummy_pidns;
-+};
-+
-+FIXTURE_SETUP(ns)
-+{
-+	/* Stash the old mntns. */
-+	self->host_mntns = open("/proc/self/ns/mnt", O_RDONLY|O_CLOEXEC);
-+	ASSERT_GE(self->host_mntns, 0);
-+
-+	/* Create a new mount namespace and make it private. */
-+	ASSERT_SUCCESS(unshare(CLONE_NEWNS));
-+	ASSERT_SUCCESS(mount(NULL, "/", NULL, MS_PRIVATE|MS_REC, NULL));
-+
-+	/*
-+	 * Create a proper tmpfs that we can use and will disappear once we
-+	 * leave this mntns.
-+	 */
-+	ASSERT_SUCCESS(mount("tmpfs", "/tmp", "tmpfs", 0, NULL));
-+
-+	/*
-+	 * Create a pidns we can use for later tests. We need to fork off a
-+	 * child so that we get a usable nsfd that we can bind-mount and open.
-+	 */
-+	ASSERT_SUCCESS(touch("/tmp/dummy-pidns"));
-+
-+	self->host_pidns = open("/proc/self/ns/pid", O_RDONLY|O_CLOEXEC);
-+	ASSERT_GE(self->host_pidns, 0);
-+	ASSERT_SUCCESS(unshare(CLONE_NEWPID));
-+
-+	pid_t pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (!pid) {
-+		prctl(PR_SET_PDEATHSIG, SIGKILL);
-+		ASSERT_SUCCESS(mount("/proc/self/ns/pid", "/tmp/dummy-pidns", NULL, MS_BIND, 0));
-+		exit(0);
-+	}
-+
-+	int wstatus;
-+	ASSERT_EQ(waitpid(pid, &wstatus, 0), pid);
-+	ASSERT_TRUE(WIFEXITED(wstatus));
-+	ASSERT_EQ(WEXITSTATUS(wstatus), 0);
-+
-+	ASSERT_SUCCESS(setns(self->host_pidns, CLONE_NEWPID));
-+
-+	self->dummy_pidns = open("/tmp/dummy-pidns", O_RDONLY|O_CLOEXEC);
-+	ASSERT_GE(self->dummy_pidns, 0);
-+}
-+
-+FIXTURE_TEARDOWN(ns)
-+{
-+	ASSERT_SUCCESS(setns(self->host_mntns, CLONE_NEWNS));
-+	ASSERT_SUCCESS(close(self->host_mntns));
-+
-+	ASSERT_SUCCESS(close(self->host_pidns));
-+	ASSERT_SUCCESS(close(self->dummy_pidns));
-+}
-+
-+TEST_F(ns, pidns_mount_string_path)
-+{
-+	ASSERT_SUCCESS(mkdir("/tmp/proc-host", 0755));
-+	ASSERT_SUCCESS(mount("proc", "/tmp/proc-host", "proc", 0, "pidns=/proc/self/ns/pid"));
-+	ASSERT_SUCCESS(access("/tmp/proc-host/self/", X_OK));
-+
-+	ASSERT_SUCCESS(mkdir("/tmp/proc-dummy", 0755));
-+	ASSERT_SUCCESS(mount("proc", "/tmp/proc-dummy", "proc", 0, "pidns=/tmp/dummy-pidns"));
-+	ASSERT_FAIL(access("/tmp/proc-dummy/1/", X_OK));
-+	ASSERT_FAIL(access("/tmp/proc-dummy/self/", X_OK));
-+}
-+
-+TEST_F(ns, pidns_fsconfig_string_path)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_STRING, "pidns", "/tmp/dummy-pidns", 0));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	ASSERT_FAIL(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_FAIL(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(mountfd));
-+}
-+
-+TEST_F(ns, pidns_fsconfig_fd)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_FD, "pidns", NULL, self->dummy_pidns));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	ASSERT_FAIL(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_FAIL(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(mountfd));
-+}
-+
-+TEST_F(ns, pidns_reconfigure_remount)
-+{
-+	ASSERT_SUCCESS(mkdir("/tmp/proc", 0755));
-+	ASSERT_SUCCESS(mount("proc", "/tmp/proc", "proc", 0, ""));
-+	ASSERT_SUCCESS(access("/tmp/proc/self/", X_OK));
-+
-+	ASSERT_SUCCESS(mount(NULL, "/tmp/proc", NULL, MS_REMOUNT, "pidns=/tmp/dummy-pidns"));
-+	ASSERT_FAIL(access("/tmp/proc/self/", X_OK));
-+}
-+
-+TEST_F(ns, pidns_reconfigure_fsconfig_string_path)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	ASSERT_SUCCESS(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_SUCCESS(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_STRING, "pidns", "/tmp/dummy-pidns", 0));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0));
-+
-+	ASSERT_FAIL(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_FAIL(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(mountfd));
-+}
-+
-+TEST_F(ns, pidns_reconfigure_fsconfig_fd)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	ASSERT_SUCCESS(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_SUCCESS(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_FD, "pidns", NULL, self->dummy_pidns));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0));
-+
-+	ASSERT_FAIL(faccessat(mountfd, "1/", X_OK, 0));
-+	ASSERT_FAIL(faccessat(mountfd, "self/", X_OK, 0));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(mountfd));
-+}
-+
-+int is_same_inode(int fd1, int fd2)
-+{
-+	struct stat stat1, stat2;
-+
-+	assert(fstat(fd1, &stat1) == 0);
-+	assert(fstat(fd2, &stat2) == 0);
-+
-+	return stat1.st_ino == stat2.st_ino && stat1.st_dev == stat2.st_dev;
-+}
-+
-+#define PROCFS_IOCTL_MAGIC 'f'
-+#define PROCFS_GET_PID_NAMESPACE	_IO(PROCFS_IOCTL_MAGIC, 1)
-+
-+TEST_F(ns, get_pidns_ioctl)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_FD, "pidns", NULL, self->dummy_pidns));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	/* fsmount returns an O_PATH, which ioctl(2) doesn't accept. */
-+	int new_mountfd = openat(mountfd, ".", O_RDONLY|O_DIRECTORY|O_CLOEXEC);
-+	ASSERT_GE(new_mountfd, 0);
-+
-+	ASSERT_SUCCESS(close(mountfd));
-+	mountfd = -EBADF;
-+
-+	int procfs_pidns = ioctl(new_mountfd, PROCFS_GET_PID_NAMESPACE);
-+	ASSERT_GE(procfs_pidns, 0);
-+
-+	ASSERT_NE(self->dummy_pidns, procfs_pidns);
-+	ASSERT_FALSE(is_same_inode(self->host_pidns, procfs_pidns));
-+	ASSERT_TRUE(is_same_inode(self->dummy_pidns, procfs_pidns));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(new_mountfd));
-+	ASSERT_SUCCESS(close(procfs_pidns));
-+}
-+
-+TEST_F(ns, reconfigure_get_pidns_ioctl)
-+{
-+	int fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-+	ASSERT_GE(fsfd, 0);
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0));
-+
-+	int mountfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-+	ASSERT_GE(mountfd, 0);
-+
-+	/* fsmount returns an O_PATH, which ioctl(2) doesn't accept. */
-+	int new_mountfd = openat(mountfd, ".", O_RDONLY|O_DIRECTORY|O_CLOEXEC);
-+	ASSERT_GE(new_mountfd, 0);
-+
-+	ASSERT_SUCCESS(close(mountfd));
-+	mountfd = -EBADF;
-+
-+	int procfs_pidns1 = ioctl(new_mountfd, PROCFS_GET_PID_NAMESPACE);
-+	ASSERT_GE(procfs_pidns1, 0);
-+
-+	ASSERT_NE(self->dummy_pidns, procfs_pidns1);
-+	ASSERT_TRUE(is_same_inode(self->host_pidns, procfs_pidns1));
-+	ASSERT_FALSE(is_same_inode(self->dummy_pidns, procfs_pidns1));
-+
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_SET_STRING, "pidns", "/tmp/dummy-pidns", 0));
-+	ASSERT_SUCCESS(fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0));
-+
-+	int procfs_pidns2 = ioctl(new_mountfd, PROCFS_GET_PID_NAMESPACE);
-+	ASSERT_GE(procfs_pidns2, 0);
-+
-+	ASSERT_NE(self->dummy_pidns, procfs_pidns2);
-+	ASSERT_FALSE(is_same_inode(self->host_pidns, procfs_pidns2));
-+	ASSERT_TRUE(is_same_inode(self->dummy_pidns, procfs_pidns2));
-+
-+	ASSERT_SUCCESS(close(fsfd));
-+	ASSERT_SUCCESS(close(new_mountfd));
-+	ASSERT_SUCCESS(close(procfs_pidns1));
-+	ASSERT_SUCCESS(close(procfs_pidns2));
-+}
-+
-+TEST_HARNESS_MAIN
+On 7/22/25 8:51 AM, Moger, Babu wrote:
+> Hi Reinette,
+> 
+> On 7/17/25 22:51, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 7/8/25 3:17 PM, Babu Moger wrote:
+>>> System software can read resctrl event data for a particular resource by
+>>> writing the RMID and Event Identifier (EvtID) to the QM_EVTSEL register
+>>> and then reading the event data from the QM_CTR register.
+>>>
+>>> In ABMC mode, the event data of a specific counter ID can be read by
+>>> setting the following fields in QM_EVTSEL.ExtendedEvtID = 1,
+>>
+>> Seems easier to parse when "fields in" -> "fields:".
+>>
+> 
+> Sure.
+> 
+> 
+>>> QM_EVTSEL.EvtID = L3CacheABMC (=1) and setting [RMID] to the desired
+>>> counter ID. Reading QM_CTR will then return the contents of the specified
+>>> counter ID. The E bit will be set if the counter configuration was invalid,
+>>
+>> Where is "the E bit" defined?
+> 
+> QM_CTR MSRS bits
+> 
+> Bits        Mnemonic    Description.
+> 63		E       Error on access to counter
+> 62		U       Count for this event is currently unavailable
+> 61-CNT_LEN   	_       Reserved, read as zero
+> CNT_LEN-1:0  	CNT	Count of monitored resource or event
+> 
+> 
+> The bit 63 is "E bit"  -> RMID_VAL_ERROR
+> the bit 62 is "U bit"  -> RMID_VAL_UNAVAIL
+> 
+> How about?
+> 
+> The RMID_VAL_ERROR bit will be set if the counter configuration
+> was invalid, or if an invalid counter ID was set in the QM_EVTSEL[RMID] field
 
--- 
-2.50.0
+It is not clear to me why the comments only mention one of the error bits handled
+in the code.
+The motivation for hardware counters is that reading of RMID may return
+"Unavailable". Does this imply that reading a hardware counter should
+never return "Unavailable"? Why is this error handled as possible when
+reading a counter though?
+
+
+>>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> index a230d98e9d73..026c2e2d19d3 100644
+>>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> @@ -259,6 +259,76 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_mon_domain *d,
+>>>  	return 0;
+>>>  }
+>>>  
+>>> +static int __cntr_id_read(u32 cntr_id, u64 *val)
+>>> +{
+>>> +	u64 msr_val;
+>>> +
+>>> +	/*
+>>> +	 * QM_EVTSEL Register definition:
+>>> +	 * =======================================================
+>>> +	 * Bits    Mnemonic        Description
+>>> +	 * =======================================================
+>>> +	 * 63:44   --              Reserved
+>>> +	 * 43:32   RMID            Resource Monitoring Identifier
+>>> +	 * 31      ExtEvtID        Extended Event Identifier
+>>> +	 * 30:8    --              Reserved
+>>> +	 * 7:0     EvtID           Event Identifier
+>>> +	 * =======================================================
+>>> +	 * The contents of a specific counter can be read by setting the
+>>> +	 * following fields in QM_EVTSEL.ExtendedEvtID(=1) and
+>>> +	 * QM_EVTSEL.EvtID = L3CacheABMC (=1) and setting [RMID] to the
+>>> +	 * desired counter ID. Reading QM_CTR will then return the
+>>> +	 * contents of the specified counter. The E bit will be set if the
+>>> +	 * counter configuration was invalid, or if an invalid counter ID
+>>> +	 * was set in the QM_EVTSEL[RMID] field.
+>>
+>> (same comments as changelog)
+> 
+> "The E bit" -> "The RMID_VAL_ERROR bit"
+
+For comments to be accurate, per the handling that follows, RMID_VAL_UNAVAIL
+is also a possibility, or is it not actually possible and just coded to match
+RMID reading?
+
+Reinette
 
