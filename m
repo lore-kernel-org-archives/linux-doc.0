@@ -1,219 +1,267 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B6C22D785;
-	Tue, 22 Jul 2025 11:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF06723A98E;
+	Tue, 22 Jul 2025 11:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753184223; cv=none; b=XxxPOyjGKw8i2ZWBDGq9S8f0TKgwtvGz3LADW7OE0jwf75QEX7cF/uUm0vndZlHISt8djnUm7T86PfJP9mvCE1BgHYsauZwOKVw+vXc+xd6wAlpLWNf3RlW06X7RPCaoUFiW7J3g8WaLS/8c8hHb0DG/bL6Qzz8uZAdBDScaxS0=
+	t=1753184565; cv=none; b=jCvqXchAG5NRgSfxDen4gZiw6cdpexzZrJiWv+nh7sE8Om9Lquqiqx9OlmF8ywdu8L6ijwcckIxouhLmvtl0XkPNj2wiHgbm3yEK8pgrOEzrOTKAhvgcCI5qmxjlWL7/bFn4aw/NTrC9W+2ILLhEn13Ocz/T2b/gxn/QBUhMQ4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753184223; c=relaxed/simple;
-	bh=TutmRf7PRvoKREEcIUUFk8BWwUfQUx3DrBW6pjmWn2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qfecgbXoV1iRB2ZL0U0noXWXsX32DKHDR/KZrvUnW6HZcQt6veLr83AL7oGS/Q+hhfID+iQjPn+HD4wXWbW/ZfNjqs3jQvJ/dn0h8PKfZQxF3sErytP+hVoxjBEfrSCHcB4HRDI6hSLPsfT/IvcLctHd0NX9jofD6xyxWBA52XI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpgz11t1753184144t1f8fdf7d
-X-QQ-Originating-IP: KVJj6lsYqr7FQs6PH3TtIfw1/RHylvVAcTptgkbtrUs=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 22 Jul 2025 19:35:41 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 18378057600828906183
-Date: Tue, 22 Jul 2025 19:35:41 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: MD Danish Anwar <danishanwar@ti.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/15] Add driver for 1Gbe network chips from MUCSE
-Message-ID: <49D59FF93211A147+20250722113541.GA126730@nic-Precision-5820-Tower>
-References: <20250721113238.18615-1-dong100@mucse.com>
- <5bce6424-51f9-4cc1-9289-93a2c15aa0c1@ti.com>
+	s=arc-20240116; t=1753184565; c=relaxed/simple;
+	bh=GA03q4he4YGapHfFDQKiYxzVzT9drEI8wAp2YAmeEZg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Av0oNwRHFP8gNaZy0cOLXC+m6ajqejQFgofyIrEr4arWxVWWkrKE37Xgs7gaQRukRuVfCUTzDCosQs+sFlv5yziFd/G9TZtJ9RNPMOksb5cvfzJ2ByWcfaUiGoj2Q4DUfRzX2EbWnOpS2IaW+h+EayL5DXDD9uXsW9K7VO/+aRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MWjoNI4R; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MWjoNI4R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753184564; x=1784720564;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=GA03q4he4YGapHfFDQKiYxzVzT9drEI8wAp2YAmeEZg=;
+  b=MWjoNI4RUgKCBHSoKYEQaBqXPcW6bt0WzoNWtgwts2OiEShvvh9X7iTA
+   CwPz8c48yQ4cUPAtL2KRw2GmWgEnHh0whwy+TsU45piktpCccrnr0p/00
+   iL+HXVSaf9dePW9Hhm3XtBHCrLG/pHxFIXS7+miWed+05lmzrnuL2Byc6
+   PvJzIq6Zt2hrRxjygFc/4XbO7mxlz0tS24gzBmlFphfKXzWyh1qgfOIqz
+   3s/VZZK8lxMrdvGuapr7ys+kFSozuSA71zxCYeIS1qlkpPmgN8IfpaULf
+   cuFDUwq1b2Y9z4dUChJGERL/HXA8j01oZqpjRvYUiKwMowDdBaqRHwv/d
+   g==;
+X-CSE-ConnectionGUID: 9+s5KQ3ZTUubzZQX3uowHQ==
+X-CSE-MsgGUID: hSGLPBCzSAeVJ6HQ7Xe/YQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="65998021"
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
+   d="scan'208";a="65998021"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 04:42:43 -0700
+X-CSE-ConnectionGUID: u2Rxq+g+SAWUjwPACPBklw==
+X-CSE-MsgGUID: S4xwkq4MTEO84wz1D5xfOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
+   d="scan'208";a="163674521"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.245.246.65])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 04:42:39 -0700
+From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: Dave Jiang <dave.jiang@intel.com>, linux-cxl@vger.kernel.org,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v3] cxl: docs/driver-api/conventions resolve conflicts btw CFMWS,
+ LMH, ED
+Date: Tue, 22 Jul 2025 13:42:35 +0200
+Message-ID: <8047110.oPnVEEUbh3@fdefranc-mobl3>
+In-Reply-To: <aH2PAju1rLxIbXXk@gourry-fedora-PF4VCD3F>
+References:
+ <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
+ <17128669.tgchFWduMW@fdefranc-mobl3>
+ <aH2PAju1rLxIbXXk@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5bce6424-51f9-4cc1-9289-93a2c15aa0c1@ti.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MbSuBwOrED9vqnGG2pMcqPoQdDSXzvGHY5MtSKudTE9DHEa99Btoqz5v
-	l+1yqYQCaez5yjo1Hn5NYzEQMlS4tfV5JjrloWb8vTz4OFQwn2QJxsBOmcvpgRCLQjZOK3q
-	vi1oC/8PeSz1dK9cmaDZ3eFGK2PO7kuzBSQao6pjV2yYIJLaqoAAxdcj+G8e9LA+HU1WkA9
-	BpeTV2sA8EVj3JqDj+6hEH3AQn7RM630H+YlquJ6/Fkd28KDdSQUraFc63pAlcVUQPIybSo
-	QTIP9v5b5PQkGldJmY5RGqZy1rtx50XTp65VL9tKesH/ldYNaM1Ru4PESM9EQJjOLxMjX5Y
-	+K3iuQmRdYeAFim4FQAc/OjNFm/ZlFaJRZdRKyQ+5e5JojVAbaYzvy0Yyw1zoheo+MJX8dA
-	lCOHRzi92SzbNDGoaZqaDJy6GV3bHGSCX3s7BzAtoGIOdVc9fjWgyqxH0+pQaibpwhECbTm
-	fC4K4vYT/E93ESaeq/EVou5jCfevvfEZZlAHQLJjRLiZvlVmB87zbqQt0Zl2sSb61fA1QpS
-	2ycZn4OAStX2x07YDfZX2R3ufhc0TdRwoY7xrI9W1h309S/g/oRTDbiTkYISwGPFYjm7xW2
-	5xsrf+l+WHKe1r9i+2CTDFFxE0MYjqfM2m7uLNpmc/HSsrjUB/XAS54TP89m+ZHt+8oZ+HS
-	9++1XLg0e985SR+MyQBRCio2saVqtk1zUg6xWNTTE6FI1/o7Y/bBDHVjaoVGs+BqfFyCZxS
-	xjXEmUJHGSqsSpoxHPIlPhmxo9tv52CynqIOJwr+FXAXK6FPDPwgR7yWQ65w0EHONeI4O5C
-	bmN3Mulos9JP7tmUHuzq2xMf1EWLeJ6CTn63m+Qyerbywis53r8mwkm08o1o4hxe/Yi4QR5
-	9Du7eLh2Uq16irbEJ0mxtMsInkmdzAWcpIFvcLKPIrMABZ/h/yb3+GXflSdPl27uS4jVmtO
-	aSDd/8Nx54/XbQQ6OnsGT4bKOoCpUFvj7yXaAoCBzXYyrmq2XC+SP3le8YdO3fJZ5ejsqNc
-	2cw02tEM69AvCXhUAkOvjaSjvdDi2Lbj+3QIyvvZFP/dSU2LA9WXPdQDrZQwUqfYjtEw78V
-	A==
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Jul 22, 2025 at 04:50:48PM +0530, MD Danish Anwar wrote:
-> Hi Dong,
-> 
-> On 21/07/25 5:02 pm, Dong Yibo wrote:
-> > Hi maintainers,
-> > 
-> > This patch series introduces support for MUCSE N500/N210 1Gbps Ethernet
-> > controllers. Only basic tx/rx is included, more features can be added in
-> > the future.
-> > 
-> > The driver has been tested on the following platform:
-> >    - Kernel version: 6.16.0-rc3
-> >    - Intel Xeon Processor
-> > 
-> > Changelog:
-> > v1 -> v2: 
-> >   [patch 01/15]:
-> >   1. Fix changed section in MAINTAINERs file by mistake.
-> >   2. Fix odd indentaition in 'drivers/net/ethernet/mucse/Kconfig'.
-> >   3. Drop pointless driver version.
-> >   4. Remove pr_info prints.
-> >   5. Remove no need 'memset' for priv after alloc_etherdev_mq.
-> >   6. Fix __ function names.
-> >   7. Fix description errors from 'kdoc summry'.
-> >   [patch 02/15]:
-> >   1. Fix define by using the BIT() macro.
-> >   2. Remove wrong 'void *' cast.
-> >   3. Fix 'reverse Christmas tree' format for local variables.
-> >   4. Fix description errors from 'kdoc summry'.
-> >   [patch 03/15]:
-> >   1. Remove inline functions in C files.
-> >   2. Remove use s32, use int.
-> >   3. Use iopoll to instead rolling own.
-> >   4. Fix description errors from 'kdoc summry'.
-> >   [patch 04/15]:
-> >   1. Using __le32/__le16 in little endian define.
-> >   2. Remove all defensive code.
-> >   3. Remove pcie hotplug relative code.
-> >   4. Fix 'replace one error code with another' error.
-> >   5. Turn 'fw error code' to 'linux/POSIX error code'.
-> >   6. Fix description errors from 'kdoc summry'.
-> >   [patch 05/15]:
-> >   1. Use iopoll to instead rolling own.
-> >   2. Use 'linux/POSIX error code'.
-> >   3. Use devlink to download flash.
-> >   4. Fix description errors from 'kdoc summry'.
-> >   [patch 06/15] - [patch 15/15]:
-> >   1. Check errors similar to the patches [1-5].
-> >   2. Fix description errors from 'kdoc summry'.
-> > 
-> > v1: Initial submission
-> >   https://lore.kernel.org/netdev/20250703014859.210110-1-dong100@mucse.com/T/#t
-> > 
-> > 
-> > Dong Yibo (15):
-> >   net: rnpgbe: Add build support for rnpgbe
-> >   net: rnpgbe: Add n500/n210 chip support
-> >   net: rnpgbe: Add basic mbx ops support
-> >   net: rnpgbe: Add get_capability mbx_fw ops support
-> >   net: rnpgbe: Add download firmware for n210 chip
-> >   net: rnpgbe: Add some functions for hw->ops
-> >   net: rnpgbe: Add get mac from hw
-> >   net: rnpgbe: Add irq support
-> >   net: rnpgbe: Add netdev register and init tx/rx memory
-> >   net: rnpgbe: Add netdev irq in open
-> >   net: rnpgbe: Add setup hw ring-vector, true up/down hw
-> >   net: rnpgbe: Add link up handler
-> >   net: rnpgbe: Add base tx functions
-> >   net: rnpgbe: Add base rx function
-> >   net: rnpgbe: Add ITR for rx
-> > 
-> 
-> This series has lots of checkpatch errors / warnings.
-> 
-> Before posting the series please try to run checkpatch on all patches.
-> 
-> 	./scripts/checkpatch.pl --strict --codespell <PATH_TO_PATCHES>
-> 
-> For patches within net subsystem, for declaring variables, please follow
-> https://www.kernel.org/doc/html/v6.3/process/maintainer-netdev.html#local-variable-ordering-reverse-xmas-tree-rcs
-> 
-> You can use https://github.com/ecree-solarflare/xmastree to verify
-> locally before posting.
-> 
-> The series also has kdoc warnings, please run below script on all the
-> files that the series is modifying.
-> 	./scripts/kernel-doc -none -Wall
-> 
+On Monday, July 21, 2025 2:51:14=E2=80=AFAM Central European Summer Time Gr=
+egory Price wrote:
+> On Thu, Jul 17, 2025 at 04:14:13PM +0200, Fabio M. De Francesco wrote:
+> > The table above shows a real configuration copied from an x86 platform=
+=20
+> > where the Low Memory Hole (LMH) starts at 2GB.=20
+> >=20
+> > The"HDM Decoder Base/Size" refers specifically to the CXL Endpoint=20
+> > Decoders HPA range Base/Size. The first row of the table describes the=
+=20
+> > first window (CFMWS[0]), whose HPA rage base/size is 0/2GB, and the=20
+> > Endpoint Decoder that the CXL driver should match with that CFMWS,=20
+> > whose HPA range base/size is 0/3GB.
+>=20
+> The only thing i ask is being more precise with decoder references.
+>=20
+> HDM Decoder can refer to any of: root, switch, hb, or endpoint decoders.
+>=20
+> Below you make this distinct in the explanation, but in the table it's
+> simply general "HDM Decoder".  All I ask is for a bit more clarity on
+> what decoder will contain what values to avoid further ambiguity.
+>=20
+I agree, "HDM Decoder" was ambiguous. I will relabel it to "(intermediate)=
+=20
+Switch and Endpoint Decoders".
+>
+> > The driver expects that the Endpoint Decoders HPA ranges to be containe=
+d=20
+> > into their corresponding Root Decoders. Furthermore, Linux fails to=20
+> > attach Endpoint decoders to already constructed CXL Regions because of=
+=20
+> > the same size discrepancy issue.=20
+> > >=20
+> > > I think you need to describe what the expected behavior is for what l=
+inux
+> > > will produce in terms of the decoder objects given the above.
+> > >
+> > The expected behavior is that Linux should be able to match the Endpoin=
+t=20
+> > Decoder with the Root Decoder range even if the CFMWS size is smaller=20
+> > than the Decoder's, as long as the latter adheres to the 256MB * interl=
+eave=20
+> > ways rule. Furthermore, Linux should be able to match the Endpoint deco=
+ders=20
+> > with already constructed CXL Regions and allow the attachment process t=
+o=20
+> > succeed.=20
+> >=20
+>=20
+> You may also need to describe more than just the contents of the
+> endpoint decoder.  What would the content of any intermediate decoders
+> be (matching the root or matching the endpoint?).
+>
+I think that the output of the simulation of a hole in the cxl_test=20
+mocked CXL topology, with a CFMWS HPA size of 3 * 256MiB, and Switch and=20
+Endpoint Decoders HPA sizes of 4 * 256MiB can help to clarify. The Region
+Interleave ways is 2.=20
 
-Great, I really need this. Thank you!
+In this example the CXL driver is patched and correctly deals with a=20
+simulated LMH that trimmed the CFMWS[0] range size and made it not aligned
+to 256MiB * IW.
 
-> >  .../device_drivers/ethernet/index.rst         |    1 +
-> >  .../device_drivers/ethernet/mucse/rnpgbe.rst  |   21 +
-> >  MAINTAINERS                                   |    8 +
-> >  drivers/net/ethernet/Kconfig                  |    1 +
-> >  drivers/net/ethernet/Makefile                 |    1 +
-> >  drivers/net/ethernet/mucse/Kconfig            |   35 +
-> >  drivers/net/ethernet/mucse/Makefile           |    7 +
-> >  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   13 +
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  733 ++++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |  593 +++++
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |   66 +
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_lib.c    | 2320 +++++++++++++++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_lib.h    |  175 ++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   |  901 +++++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c    |  623 +++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h    |   49 +
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c |  753 ++++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h |  695 +++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_sfc.c    |  476 ++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_sfc.h    |   30 +
-> >  20 files changed, 7501 insertions(+)
-> 
-> 7.5K Lines of change is a too much for a series. It becomes very
-> difficult for maintainers to review a series like this.
-> 
-> Please try to split this into multiple series if possible.
-> 
+[root@fedora ndctl]# cxl list -RDu -r5
+[
+  {
+    "root decoders":[
+      {
+        "decoder":"decoder9.0",
+        "resource":"0x3ff010000000",
+        "size":"768.00 MiB (805.31 MB)",
+        "interleave_ways":1,
+        "max_available_extent":0,
+        "volatile_capable":true,
+        "qos_class":42,
+        "nr_targets":1,
+        "regions:decoder9.0":[
+          {
+            "region":"region5",
+            "resource":"0x3ff010000000",
+            "size":"768.00 MiB (805.31 MB)",
+            "type":"ram",
+            "interleave_ways":2,
+            "interleave_granularity":4096,
+            "decode_state":"commit"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "port decoders":[
+      {
+        "decoder":"decoder10.0",
+        "resource":"0x3ff010000000",
+        "size":"1024.00 MiB (1073.74 MB)",
+        "interleave_ways":1,
+        "region":"region5",
+        "nr_targets":1
+      },
+      {
+        "decoder":"decoder14.0",
+        "resource":"0x3ff010000000",
+        "size":"1024.00 MiB (1073.74 MB)",
+        "interleave_ways":2,
+        "interleave_granularity":4096,
+        "region":"region5",
+        "nr_targets":2
+      }
+    ]
+  },
+  {
+    "endpoint decoders":[
+      {
+        "decoder":"decoder28.0",
+        "resource":"0x3ff010000000",
+        "size":"1024.00 MiB (1073.74 MB)",
+        "interleave_ways":2,
+        "interleave_granularity":4096,
+        "region":"region5",
+        "dpa_resource":"0",
+        "dpa_size":"384.00 MiB (402.65 MB)",
+        "mode":"ram"
+      },
+      {
+        "decoder":"decoder23.0",
+        "resource":"0x3ff010000000",
+        "size":"1024.00 MiB (1073.74 MB)",
+        "interleave_ways":2,
+        "interleave_granularity":4096,
+        "region":"region5",
+        "dpa_resource":"0",
+        "dpa_size":"384.00 MiB (402.65 MB)",
+        "mode":"ram"
+      }
+    ]
+  }
+]
 
-A series patches can be accepted without achieving the basic tx/rx
-functions for a network card? If so, I can split this.
+The construction of Regions and subsequent attachment of Switch and=20
+Endpoint Decoders is based on matching Root Decoders and existing Regions
+with Switch and Endpoint Decoders. If these objects can't be matched=20
+between them, the Regions can't be constructed and/or attached with=20
+the Switch and Endpoint Decoders.    =20
 
-> >  create mode 100644 Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst
-> >  create mode 100644 drivers/net/ethernet/mucse/Kconfig
-> >  create mode 100644 drivers/net/ethernet/mucse/Makefile
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/Makefile
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.h
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_sfc.c
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_sfc.h
-> > 
-> 
-> 
-> -- 
-> Thanks and Regards,
-> Danish
-> 
+The CXL driver can always match Endpoint Decoders with Switch Decoders=20
+because their HPA range sizes are the same regardless of LMH's. =20
 
-Thanks for your feedback.
+But with LMH's that trim the CFMWS HPA range to smaller sizes, a=20
+non-patched CXL driver can't match the Root Decoders and Regions with the=20
+Switch and Endpoint decoders. Therefore, the CXL Region construction and=20
+Decoders attachment can't succeed.
+      }
+    ]
+  }
+]
+
+The construction of Regions and subsequent attachment of Switch and=20
+Endpoint Decoders is based on matching Root Decoders and existing Regions
+with Switch and Endpoint Decoders. If these objects can't be matched=20
+between them, the Regions can't be constructed and/or attached with=20
+the Switch and Endpoint Decoders.    =20
+
+Anyway, the CXL driver can always match Endpoint Decoders with Switch
+Decoders because the HPA range sizes are the same also when LMH's are =20
+
+But with an LMH that trim the CFMWS HPA range size to a smaller size, a=20
+non-patched CXL driver can't match the Root Decoders and Regions with the=20
+Switch and Endpoint decoders. Therefore, the CXL Region construction and=20
+Decoders attachment can't succeed.
+>
+> > If this explanation suffices, I will incorporate it into the next versi=
+on
+> > of this patch and also explain that "HDM Decoder" stands for Endpoint D=
+ecoder=20
+> > and that the CFMWS HPA base/size describes the System Physical Address =
+(SPA)=20
+> > which the CXL driver uses to make Root Decoders HPA range base/size.=20
+> >=20
+>=20
+> This explanation is better, just need a few more bits of data and I
+> think you're good to go.
+>=20
+Thanks,
+
+=46abio
+
+=46abio
+>
+> ~Gregory
+>=20
+
+
+
 
