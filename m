@@ -1,205 +1,361 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D510279337
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 15:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753198809; cv=none; b=eqJM24+eDyl4Gutb4gtj8jEf5bgXMtDcVSwQgNtFKIqAdL/L8Cv8cLHB5uVoiSE1E/WX+QBvFzEN3MnE3uTNGFEpqq+x9mfS1/FxYCPMo4RhTUzLIL/qsdouF/Hgyy34aG4mYzySvP0OodeGb1x3dvyBDNhKH6ZXvh9QftIwyJo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753198809; c=relaxed/simple;
-	bh=epIEIo7FudljAuaXwgcFKA+1ibb56TwGH7ax9CSaLvk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Tq3vw3kNSJ5/FWc8mVK4Bazw/vj1HqUZIPKNnItF+6d8MRX5P+r0GZ0Bykk2SI0oT35chLWPiy8IO5uZnqMV0fLs2lZSTqNJWAK4iFPvhekKPjtuK9CT+coLTgcg584F9zhD9q35JguGTT0eFTbbSk/drNaC2yeOYFUjWFwbsmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eADHf3dd; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A4D156228;
+	Tue, 22 Jul 2025 15:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753199521; cv=fail; b=G/KJ0n6Sb0hk1OSmugwngcerwU5/CUEqkULttNfQc8AHnIqrcveo/WbFgUgolADR+aKXuVWZw5DlH2S04E6m7VCo42CFD52FKbZyVyvUCuoeHfzakpnnOirg6Y+kZG5Jz4Npb1PeNGEuefmAkR2WHsvhfaPTI6bRDshv99p5r3k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753199521; c=relaxed/simple;
+	bh=LvY/FkM172o83R//2wzaho71ThQCYQt9u0WuoQWl88s=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=qg2uOrtr4dvLH1vAelkfMo/hPfqDj4nHm2RMQm5Kq0uzd2QO7uy1cV6mYaheQlFSW4t4dPQ1tudylHnUAEpZRVzqYQihIIG9c9q3xoWExLqvfH26BXxZljcIWJFQc0C78UAI5OXNQkp4HgZyJ7uh/F30stixZF8F6pqvAYpd33M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0I59Zkcf; arc=fail smtp.client-ip=40.107.223.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eADHf3dd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753198806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=P6oftsaw/Y8o1NDs+0pBZv6sXSPAX61Y+1sP2c3kKIk=;
-	b=eADHf3ddb4SliedIphj5gr1Hl0248Qv5KwVli3FT+EqiegQn3J/jt1qDV1rfUJMZT46Tnm
-	T6fXsiI9RkBNQ3EDaBGBgm58uKU5KEzDluogaqXmATHzRBMSyQQqF063mUNUATK94HRV9o
-	H48XGEOUXPW3U0Dav0fSUyCR30DJ8mc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-357-sfcBvoSLNbmGhBQoYzzQrw-1; Tue, 22 Jul 2025 11:39:57 -0400
-X-MC-Unique: sfcBvoSLNbmGhBQoYzzQrw-1
-X-Mimecast-MFC-AGG-ID: sfcBvoSLNbmGhBQoYzzQrw_1753198796
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4562985ac6aso57912145e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 08:39:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753198796; x=1753803596;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=P6oftsaw/Y8o1NDs+0pBZv6sXSPAX61Y+1sP2c3kKIk=;
-        b=OaoUIpgt6Es2WnaX0jE7kXJuMVRs6skfWSLJsKgiy25DKg5Agp0LtMMJzZTWiNMdQ6
-         cREGqt0tFHK5smNrKz/NbYFY8+VVOM4Zh09fyO55yoRqtz/dNYBkcRiuyg1PgQU8Vw0G
-         avPf3nMiaAK3xmgGPqoYR6Ch5bbVGVB/Zta3ZX0Jmc193m5rekR5pBHYAIl2bQamqcS4
-         j9c1GamO/neoxrjoYCNaoWdEmQekKVvi+xsYMPTTqcR+t6iaJNsXOTGSxI7IcIdVOd7H
-         i9DObY6vO83UD8ma+qSeihQ3sgQXCIGc2KPXBroY72M0BGVTKJ1HExRTb4lJj95bJQpa
-         9NWg==
-X-Forwarded-Encrypted: i=1; AJvYcCX1DKts7Y+q6wsYnLyz2+OxCDZUdkulh1sF6H/Cy4Hae5082wYtrL/7dqcGgYnOsIzmo4y/78ZZBYQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyB5HhG6Q7A38dbc3c0uw359gkaG2ZzgV2e9pT6lJYdZ5Gkn+yT
-	VjXWsk/dedVOeXNzmTOpKnu1smGAkN+Q77mxFtNGp2Ut0jm0EMaatoDlTHNMv+c+pT78dykrm1D
-	ajsqY5D537YAi/uJ76lQYVAOdw9tWm6CQUleODqXbzsqwfy40S0xgqZ1O7ARIxg==
-X-Gm-Gg: ASbGncv4lMgT9umXaUHavCbJ/1nqbrULI3N7SmaQjdiPbHBBLKf4bMy3N9EX/6ZogwH
-	EsLol0Hul1DKIShqqr2uH60hW/Kfe2XiEALpNzd3sPlk3Bp98RCzDDMkGi/NniBmMT1hzU31g7B
-	nnRQm2tOC1zWekCJD2QvlYqXWiJB2+GTZvhj5PM4rHQ9685x8clW3VYcByL9aCLw89xJVBZqubG
-	hB5A3AyFD0Co7qhFvWCkwfBACUEHDki8XK17yX0WhsgVNLo+ez8JDvWaWNz2DACMGsDKvgytfy6
-	+RagdJzKT5623ZCNpJWqvBoJ5yOqTxlSLnBamALr8ax0TqVf/+i+EP/y62CsIP3Q7riqnkMj1tI
-	64j0jnwlMkaeanlCQ44faXQ2fNDeG+zpDyj0AUWrwtWhh2eEHdkFdy5H1HPYp7+cL8VU=
-X-Received: by 2002:a05:600c:6097:b0:456:302:6dc3 with SMTP id 5b1f17b1804b1-4562e3c4b98mr196621685e9.26.1753198795545;
-        Tue, 22 Jul 2025 08:39:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHrkg4gxbARCuQj3vafGP/BU7uT0jLAHHDQrZ/pOOEsCiRZnt7P6SzdJq8yMA4UuzgS9LM8bQ==
-X-Received: by 2002:a05:600c:6097:b0:456:302:6dc3 with SMTP id 5b1f17b1804b1-4562e3c4b98mr196621245e9.26.1753198794985;
-        Tue, 22 Jul 2025 08:39:54 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f28:de00:1efe:3ea4:63ba:1713? (p200300d82f28de001efe3ea463ba1713.dip0.t-ipconnect.de. [2003:d8:2f28:de00:1efe:3ea4:63ba:1713])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4563b74f9c0sm135998155e9.28.2025.07.22.08.39.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jul 2025 08:39:54 -0700 (PDT)
-Message-ID: <0ab2aebd-a43d-4ef2-a91e-10eae593de67@redhat.com>
-Date: Tue, 22 Jul 2025 17:39:52 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0I59Zkcf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aDVPDM1hiK2jKLRqTkT/9PkG329BirOVd8WFxcvcWky3QnseywvQqhWXgcSVXE1Xo3BwzL17TgT4T9PoOqNlt7mkDOseIg/hBh6IXj9KM46n2vX1nCsHEvYw15KKvuB7DtnKmz5/6L8cjJCU+SEwjf0/YXk3BK8fQDFJemp625UCFneHIUehq/wlJB5oOVxrzYXvgITK9IPXY87E0bVQsG8j3Ei0fZWQQTRkQrPOmJliUFes2yUID7FPIcKLW2nw0QQ0shMrdFqLwJkUod4sk1Hql6NWhEyr4g2rg3OPdUDhAtaipX5GjIa3wuZc2syIWWR7YrWJaNiyWs97g2fe3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AYzxIbILrDI/KhoiNwYQyx7h0/ZFPyE5VlXurmGWKlY=;
+ b=EUqesA6H0EZP+/IpkgC+AyqjNZ0BnLpIMf7KBNyAUvW/rW3gmjLRPUL/AivL6VDmydi7n9H7Hi9lwt9fAsqW0p7bz8/gH2t2haNXbGFkXsYrMia2M9fx/AHgDBoDAjm7CO3jFahX5pTw9NnoWeUPtYL7KTVASqH3iXHoQCzSQERei7rnZJ2CDuKKuh0j5dZVr5W7/zBSqJijXMhCLwtzMp5+hbFeQUAWki2YBfYcSXYLc62Be4UVqhrcKB30mlidrCPpnDPMw8jzntLgiZ28Cx9wz0jDh2pURHPcA+QviDfQiNDktHr+iDDK5q8915zg7N1Vvc2ZdmYIJKga57bFNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AYzxIbILrDI/KhoiNwYQyx7h0/ZFPyE5VlXurmGWKlY=;
+ b=0I59ZkcfOQkBFReN1EGtwhZsXK7v7hZ38wNXH1UEbNtOkObTBPUlESnOClJ7PjbOtK2v5ulwbEoGjjv0G4DSXj+z+YLZP7OjgKibXOIfi/KdWN4ezQ4+0CTfmScwr2i8hpg5TyMkQkQfK4xbeE8zZaTmY7Hnjj+QjVOmO8cGLOI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM4PR12MB7503.namprd12.prod.outlook.com (2603:10b6:8:111::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Tue, 22 Jul
+ 2025 15:51:57 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%3]) with mapi id 15.20.8943.028; Tue, 22 Jul 2025
+ 15:51:57 +0000
+Message-ID: <1e8b0a20-d12c-4f1b-9fc5-c4dfafb7c1dd@amd.com>
+Date: Tue, 22 Jul 2025 10:51:52 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v15 22/34] x86/resctrl: Implement
+ resctrl_arch_reset_cntr() and resctrl_arch_cntr_read()
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, james.morse@arm.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
+Cc: Dave.Martin@arm.com, x86@kernel.org, hpa@zytor.com,
+ akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
+ Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, fvdl@google.com,
+ seanjc@google.com, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
+ xin@zytor.com, manali.shukla@amd.com, tao1.su@linux.intel.com,
+ sohil.mehta@intel.com, kai.huang@intel.com, xiaoyao.li@intel.com,
+ peterz@infradead.org, xin3.li@intel.com, kan.liang@linux.intel.com,
+ mario.limonciello@amd.com, thomas.lendacky@amd.com, perry.yuan@amd.com,
+ gautham.shenoy@amd.com, chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
+References: <cover.1752013061.git.babu.moger@amd.com>
+ <d31ab6c51a57591423d3aa7b8e741972cd66eb91.1752013061.git.babu.moger@amd.com>
+ <272dc6d5-eb63-4dde-8201-880acc9a3846@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <272dc6d5-eb63-4dde-8201-880acc9a3846@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR13CA0115.namprd13.prod.outlook.com
+ (2603:10b6:806:24::30) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 12/14] khugepaged: improve tracepoints for mTHP orders
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: ziy@nvidia.com, baolin.wang@linux.alibaba.com,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com
-References: <20250714003207.113275-1-npache@redhat.com>
- <20250714003207.113275-13-npache@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <20250714003207.113275-13-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM4PR12MB7503:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2924c301-8509-4821-7f17-08ddc937b03c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?M2NxNllnMW44U01FUEV3cTNvZ2pQZ3E1cHZPdk9FdUxNT1JHZUJVR0M1aUYr?=
+ =?utf-8?B?MzczUHE5U2RxQU5mTXpmK045MGxRU3FGaHdkZCs1Ym8ra0ZpeG5lUnlhYk04?=
+ =?utf-8?B?UFk0eWpmV3QzbE1pVzQrNEpYdmg0Z0hzaTZuRDhOb0lmWmt5bmJuNVRhT2FJ?=
+ =?utf-8?B?bGw0ejRxR3o0eklOanpnVW1kb3A0SmlEcFVJUzhtYkRUa0xocGJ2YTFxQUJF?=
+ =?utf-8?B?cXlaRmN3eXMvRlhRcW5MVUYrZk5KNDdoa2xVOENnQmhMOVB4dUU2L2lmWGhL?=
+ =?utf-8?B?cllxZmxyV1pmVElxSDhIaVIwMG4vWG9LUEI2QTdmdFEzSW9ENmREMURVNHhk?=
+ =?utf-8?B?NG5sUVNPSjVDWFlmWVpCczk5RHQ1UE5HL2pwZWdTckVMK2VVdmVXdHZNMEt2?=
+ =?utf-8?B?Z2J2RGQ4Z0RxYU5XWEtLdFJySlhENzBCTVUrWW9NUXNVNFNvdE52UHpISTZK?=
+ =?utf-8?B?b1F3eWVWREFveG5LbGZadDQ1TjFlaUROeXY2cHowWXhXNW9DV2dtaHY1SGpm?=
+ =?utf-8?B?L0c0eTcvUlVCRktOdE5sbnZNVk9ZMTJEQU5xTThwSEl4M3N6QVBsR2toMHJV?=
+ =?utf-8?B?TTl5YURwaU1UZ2lVRzR3dm5jUEpKWjFuUVRzZjVRQTh4MnZDVjlXVTlDd0xk?=
+ =?utf-8?B?N3c3QkEzQ0dRd3FUQ1o2V05WYVJvTVRHSWVBa3EwMHNPUDExOHhkUUYybVNP?=
+ =?utf-8?B?Y3Z3dWgvWnBwT3JOMVZYWExYT0lBRXpGZHNva2VJbkJuT0lrbUkzQzhHUkcw?=
+ =?utf-8?B?dXlnV0tGTzZvdUpyQ1dVdmgvc3FYajRCVWt5UkduNHVEOTlWL2kxVUxQMkps?=
+ =?utf-8?B?Y28wVVZUWUxYb24yUEI4OSsrOC9OenJIcnpWRDFQRVRUOHF1RGxKZmdycGVY?=
+ =?utf-8?B?UmdyMkhsL3liR09ZZjBEUmpFZklxNVNySG1ISm9maGpmVTl2QTZ4SGx1OC9P?=
+ =?utf-8?B?QnUwQytpU1NJcE5NZnd5emcyTHZldStVSERYaFdVSlpEV2RkdnUzVmxRWVl2?=
+ =?utf-8?B?NTFuVldMRC9CNnMwN1k4aG9PdUViMHphbFN1SXQxcGUwMkxteUFhWnZiU0Rs?=
+ =?utf-8?B?M1VjdHoxelFCU3A2RnZ5MXc1QVI5YVByTEIzTmVZK2hpY1gxNWdaRWk1R1ZN?=
+ =?utf-8?B?ZjFKaksyZ1FUa1ZuNFBnL01ueUNUQ2NpRFBGVzRwWWk5NnhKbjBhNW85YzFR?=
+ =?utf-8?B?SmQwa1NkMnp6R2VOcWgya3NSaU42aFBVMXN2cE1YNkE3RXZVNm5jZkEvenEr?=
+ =?utf-8?B?aG9zU1NnWEVXcFNCaEd6NDFyeE9CazlMRXJpb1EwdWhQWVJlY1FBeEc2Unc4?=
+ =?utf-8?B?NW1ybzZDNGcvelNJQVdGcjNkZjI2RmU0UGFWRHRvOWNmK2NsL3pRUlpKN1px?=
+ =?utf-8?B?RitSUHVOc2duMG9IeFZlUnhidFJRWDNEYjA1d0hteGVGL0ZwbEdDcTR1WnVB?=
+ =?utf-8?B?dThpUzRoT1JVRm9rRG5tdmRPMlFuc3BMcUpaRnpHckg0eGtFbEtvQXpoWEdG?=
+ =?utf-8?B?d0s0dVE1eDZFL0NWd1pzTnMzdnluL1pWZjViOE9lRlhqa2Q2SXd1QkpHdm5T?=
+ =?utf-8?B?Qmg2Zzh0US90SjFCcDFtRVpxeStPbTMxdnFCOWtpZ1dHdVNhY21IK2NoZndT?=
+ =?utf-8?B?VUxkVjF5WmxOZTJxa1Rncld1SGpXZHViSlhiV0RFL3o1Q01RbGxxTTNJMy9u?=
+ =?utf-8?B?N2cyRk1KRDZVMzhBS2lOU2huazkwbkRxNjJndjlFemorS2xEa3J6L1hOVUpZ?=
+ =?utf-8?B?ZkhhWnoza212aEpiVVJBTXl0dVVYdXQ0WXR5MSszN2FJTkUxdUZnVjlMZGZY?=
+ =?utf-8?B?RDlJaWVBOE5GcGlhQlFoWTQxbHZweFdKK09Dd1lKZlpGUTIraTVTL3d6NXFw?=
+ =?utf-8?B?Vk1obHM0dUtic0hOMkJtUTdaNS9SREpKR2tad2kwZHhBaDVncThKTHRSelFH?=
+ =?utf-8?Q?lUzpZK+1heM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UzlsTXdaYzVLUWoxR21HaE4rK0k2cFI0TkMrZEdKMzliV2RlckxWQjJXOVlp?=
+ =?utf-8?B?OHdVbEJLaGpXLzIxMXk4UUliNGN1UWNMOUVvVmFFcG1YNk5HSUU5RWsza0N6?=
+ =?utf-8?B?QmlvY1lFbjUxUTlDL2c4anFoL3gvRy9tWER1TU5DVFZSeWEzRGJqNDdKZEVw?=
+ =?utf-8?B?cUV4OEVqZ0ZxcW9DcHN4ZzZJT1RpSlVoNXZEY3g3YVhrRE1UdUMwU2gzVzdR?=
+ =?utf-8?B?Y3YxaXg5SS9iSkhHQnRNOE1GeG0xb3lVcnYwbFNKS1dLK3YwcWZKNGNxMEUr?=
+ =?utf-8?B?WU01Ry9QYnArbmhIc3pnZTNlcXJMYU9kWW40MGRFOGZYQzZVWVNGMnRNSnhi?=
+ =?utf-8?B?V2ZvR0dKcVh3aW80MCt2Uk0wWEI3dVVkSjdrKzZpL2h5QmMwTHRYZTFBYm5O?=
+ =?utf-8?B?NmpqbFhFK3BGbVJyRlBQYlNYWGNvWStwQkdiZTdYWlZlWWNVdi9LS0tRaVBt?=
+ =?utf-8?B?cnNXOVBpZElTL1VnL3djS255U1l3dWtTRHB5NUE1QUhVRjFDRjZTVTZ5RFZY?=
+ =?utf-8?B?Um14NkdSY0R2eW5SSXJDZjZaMHVwYllxSzJ4cVlKNyt3L0l6TGdvd1g2dko3?=
+ =?utf-8?B?Q2NZUVZuNHN3bjlRejI5bDZjaElIc3FGank0U3dRRUk0bWVZT1U5ZnE0NTQ3?=
+ =?utf-8?B?aERkUnBhM2JkVmQ3dnVsdW8vZ2lGVE1LaXZsYmtCQ3BtREY3TTNXSGxaNmg5?=
+ =?utf-8?B?SklrSURWT3RDOXJTWWNiMjgrS1hyVUp3Nkg5MnJVYTl1UGVMek1WRFhIcFlh?=
+ =?utf-8?B?VFhFeEtGL1Q0T3hqazBNb0xzaDY5OWQ2MExyclFDRDZZNm9HTzJ3ZmNxbFZT?=
+ =?utf-8?B?eXBESUl1cndLalE4M2FqeWpXWWg0K2hZMm1VN0ZRQmhaS1IrZ05EeFhwVFla?=
+ =?utf-8?B?NVN1dHp5cEdmaUt5WnFhRVFPZWlpeUZKdlBFWkhzWWh1RSs5UVBrNjYwdFpz?=
+ =?utf-8?B?ZDUxS0dNWXBjRjQreFRpMmUyaWk3bDFmRUhMV0RwOGd1OVZUKzlVVWh2Wkdu?=
+ =?utf-8?B?S1hHbkhoSlFqVzV1RGZnc00valdxWlg3UDlGZnErb2JmeHVUR0dNMzFIZk03?=
+ =?utf-8?B?dTFtSmxtYUZnU1pFSldkZWxkUTI5T2ordmlQZzQ1VzhRVjdFUlA3eHRxcmRF?=
+ =?utf-8?B?MlFSTHF3R3dtTE4zYW1iRmdPTHZ5M3ZMb3pTcjlBdVlzMTFNbjdGc01zdHo3?=
+ =?utf-8?B?YTc3cWMzQmlSczBveDFicUZWYkIrdGRra3dsMHRBYk1BMG1TYzBka3FKZFRI?=
+ =?utf-8?B?ZU05dUZCWm5MR1lzbXZURU9oc092T3Y5M3dnRnJXWkdNZkVJRDNMSjZoQWFZ?=
+ =?utf-8?B?L1RHUVRxK0x6VWlFcFBhTzFVV1VDbFRRWWxFSzRNT2tSR0x4czZhM2xoYnZ1?=
+ =?utf-8?B?Z2tNSnN2REUzVTBCaks0Wk1iTHA1L2p4aXZhV1hTc0dKdXphSVR4WHNOQS95?=
+ =?utf-8?B?YVlYbWxwaWVibWxvQTdHSzdVSGNoWDg3QnBoT3V2dnM4SVcvQUJ2MTFkMXBl?=
+ =?utf-8?B?bjN4TVovWitzMEloMnNnV3RPVFM1THhaK1JPS0dCdTBVQnVmaWNxRkFwLytp?=
+ =?utf-8?B?aVVuaUtLb3QrK21iMlB5d2E2YWRqMXM0N1lYbXExN3I4Nlc5YXFtaTlkNWRJ?=
+ =?utf-8?B?Ny9pbURTcXZMY1RCMnpQMFBaSituY1czL2owZDF0cU9vK1UvTFlXV1VIc0J6?=
+ =?utf-8?B?VlAvUXJ4RDJjaDYzRWVEd1ZVcisyL3A2T3UvNzhWbUxiWDlIRHEzRzJ5cisy?=
+ =?utf-8?B?Q1RPV2RmU0lhTlVValYwK0xjc1A1QXU2RmoxTFlkbmprcnhwekxMRTVuTjA1?=
+ =?utf-8?B?MGF2QzlCSUNRZFFhZTYrS2hRU2piSVFwa0dWYzdJWjJTaUc5WG04dG83YXlV?=
+ =?utf-8?B?ZjdTeFp6K1ZhVldKMUhTZWVYaituUzEvU1BiRUtGbmt3dzl1VmJhM0ZOL240?=
+ =?utf-8?B?dHRGUG1mdzBaT0RmWFNuV2R0N0VNTktRMG9CRldiTE9GTUM5SDlvSG1XRUVB?=
+ =?utf-8?B?MURkbloxY25DQnRZS2V2enVKWVpDcjVtdEV3MUFkQlMwL1ZIdWpHM0RnUE9T?=
+ =?utf-8?B?VTRuSmg2NTFWalcyTFpSSjJjeTZ1cXBFVVVuRVRVcDhoakRveXlYajJSbUVk?=
+ =?utf-8?Q?hcRA=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2924c301-8509-4821-7f17-08ddc937b03c
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 15:51:57.5189
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ++cZGzGNmI7BrUXx2ExrE9P/teUjYXmYTcwgQ21l1wMbOQ/NzvvkAjzbny0aZt+7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7503
 
-On 14.07.25 02:32, Nico Pache wrote:
-> Add the order to the tracepoints to give better insight into what order
-> is being operated at for khugepaged.
+Hi Reinette,
+
+On 7/17/25 22:51, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
+> On 7/8/25 3:17 PM, Babu Moger wrote:
+>> System software can read resctrl event data for a particular resource by
+>> writing the RMID and Event Identifier (EvtID) to the QM_EVTSEL register
+>> and then reading the event data from the QM_CTR register.
+>>
+>> In ABMC mode, the event data of a specific counter ID can be read by
+>> setting the following fields in QM_EVTSEL.ExtendedEvtID = 1,
+> 
+> Seems easier to parse when "fields in" -> "fields:".
+> 
 
-[...]
-
->   
->   TRACE_EVENT(mm_collapse_huge_page_swapin,
->   
-> -	TP_PROTO(struct mm_struct *mm, int swapped_in, int referenced, int ret),
-> +	TP_PROTO(struct mm_struct *mm, int swapped_in, int referenced, int ret,
-> +			int order),
+Sure.
 
 
-Indentation.
+>> QM_EVTSEL.EvtID = L3CacheABMC (=1) and setting [RMID] to the desired
+>> counter ID. Reading QM_CTR will then return the contents of the specified
+>> counter ID. The E bit will be set if the counter configuration was invalid,
+> 
+> Where is "the E bit" defined?
 
-[...]
+QM_CTR MSRS bits
 
-> +++ b/mm/khugepaged.c
-> @@ -711,13 +711,14 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
->   	} else {
->   		result = SCAN_SUCCEED;
->   		trace_mm_collapse_huge_page_isolate(folio, none_or_zero,
-> -						    referenced, writable, result);
-> +						    referenced, writable, result,
-> +						    order);
->   		return result;
->   	}
->   out:
->   	release_pte_pages(pte, _pte, compound_pagelist);
->   	trace_mm_collapse_huge_page_isolate(folio, none_or_zero,
-> -					    referenced, writable, result);
-> +					    referenced, writable, result, order);
->   	return result;
->   }
->   
-> @@ -1097,7 +1098,8 @@ static int __collapse_huge_page_swapin(struct mm_struct *mm,
->   
->   	result = SCAN_SUCCEED;
->   out:
-> -	trace_mm_collapse_huge_page_swapin(mm, swapped_in, referenced, result);
-> +	trace_mm_collapse_huge_page_swapin(mm, swapped_in, referenced, result,
-> +						order);
+Bits        Mnemonic    Description.
+63		E       Error on access to counter
+62		U       Count for this event is currently unavailable
+61-CNT_LEN   	_       Reserved, read as zero
+CNT_LEN-1:0  	CNT	Count of monitored resource or event
 
-Dito.
 
-Acked-by: David Hildenbrand <david@redhat.com>
+The bit 63 is "E bit"  -> RMID_VAL_ERROR
+the bit 62 is "U bit"  -> RMID_VAL_UNAVAIL
+
+How about?
+
+The RMID_VAL_ERROR bit will be set if the counter configuration
+was invalid, or if an invalid counter ID was set in the QM_EVTSEL[RMID] field
+
+
+
+>> or if an invalid counter ID was set in the QM_EVTSEL[RMID] field.
+>>
+>> Introduce resctrl_arch_reset_cntr() and resctrl_arch_cntr_read() to read
+>> event data for a specific counter.
+> 
+> hmmm ... they cannot both be used to read the event data? 
+> 
+
+Yes. Corrected it.
+
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> ...
+> 
+>> ---
+>>  arch/x86/kernel/cpu/resctrl/internal.h |  6 +++
+>>  arch/x86/kernel/cpu/resctrl/monitor.c  | 70 ++++++++++++++++++++++++++
+>>  2 files changed, 76 insertions(+)
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+>> index 6bf6042f11b6..ae4003d44df4 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+>> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+>> @@ -40,6 +40,12 @@ struct arch_mbm_state {
+>>  /* Setting bit 0 in L3_QOS_EXT_CFG enables the ABMC feature. */
+>>  #define ABMC_ENABLE_BIT			0
+>>  
+>> +/*
+>> + * Qos Event Identifiers.
+>> + */
+>> +#define ABMC_EXTENDED_EVT_ID		BIT(31)
+>> +#define ABMC_EVT_ID			BIT(0)
+>> +
+>>  /**
+>>   * struct rdt_hw_ctrl_domain - Arch private attributes of a set of CPUs that share
+>>   *			       a resource for a control function
+>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> index a230d98e9d73..026c2e2d19d3 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> @@ -259,6 +259,76 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_mon_domain *d,
+>>  	return 0;
+>>  }
+>>  
+>> +static int __cntr_id_read(u32 cntr_id, u64 *val)
+>> +{
+>> +	u64 msr_val;
+>> +
+>> +	/*
+>> +	 * QM_EVTSEL Register definition:
+>> +	 * =======================================================
+>> +	 * Bits    Mnemonic        Description
+>> +	 * =======================================================
+>> +	 * 63:44   --              Reserved
+>> +	 * 43:32   RMID            Resource Monitoring Identifier
+>> +	 * 31      ExtEvtID        Extended Event Identifier
+>> +	 * 30:8    --              Reserved
+>> +	 * 7:0     EvtID           Event Identifier
+>> +	 * =======================================================
+>> +	 * The contents of a specific counter can be read by setting the
+>> +	 * following fields in QM_EVTSEL.ExtendedEvtID(=1) and
+>> +	 * QM_EVTSEL.EvtID = L3CacheABMC (=1) and setting [RMID] to the
+>> +	 * desired counter ID. Reading QM_CTR will then return the
+>> +	 * contents of the specified counter. The E bit will be set if the
+>> +	 * counter configuration was invalid, or if an invalid counter ID
+>> +	 * was set in the QM_EVTSEL[RMID] field.
+> 
+> (same comments as changelog)
+
+"The E bit" -> "The RMID_VAL_ERROR bit"
+
+> 
+>> +	 */
+>> +	wrmsr(MSR_IA32_QM_EVTSEL, ABMC_EXTENDED_EVT_ID | ABMC_EVT_ID, cntr_id);
+>> +	rdmsrl(MSR_IA32_QM_CTR, msr_val);
+>> +
+>> +	if (msr_val & RMID_VAL_ERROR)
+>> +		return -EIO;
+>> +	if (msr_val & RMID_VAL_UNAVAIL)
+>> +		return -EINVAL;
+> 
+> One of these must be the "E bit" (unclear which), leaving other undefined?
+> 
+>> +
+>> +	*val = msr_val;
+>> +	return 0;
+>> +}
+>> +
+>> +void resctrl_arch_reset_cntr(struct rdt_resource *r, struct rdt_mon_domain *d,
+>> +			     u32 unused, u32 rmid, int cntr_id,
+>> +			     enum resctrl_event_id eventid)
+>> +{
+>> +	struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
+>> +	struct arch_mbm_state *am;
+>> +
+>> +	am = get_arch_mbm_state(hw_dom, rmid, eventid);
+>> +	if (am) {
+>> +		memset(am, 0, sizeof(*am));
+>> +
+>> +		/* Record any initial, non-zero count value. */
+>> +		__cntr_id_read(cntr_id, &am->prev_msr);
+>> +	}
+>> +}
+>> +
+>> +int resctrl_arch_cntr_read(struct rdt_resource *r, struct rdt_mon_domain *d,
+>> +			   u32 unused, u32 rmid, int cntr_id,
+>> +			   enum resctrl_event_id eventid,
+>> +			   u64 *val, void *ignored)
+>> +{
+>> +	u64 msr_val;
+>> +	int ret;
+>> +
+>> +	resctrl_arch_rmid_read_context_check();
+> 
+> Is this needed? I see this context check as related to the MPAM cache occupancy
+> counters that need to be allocated when a counter is read (see comments of
+> resctrl_arch_rmid_read() in include/linux/resctrl.h). To me this does not seem
+> relevant to this work since all allocations should already have been done
+> when the counter was allocated, no?
+
+Yes. No required. Removed it.
+
+> 
+>> +
+>> +	ret = __cntr_id_read(cntr_id, &msr_val);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	*val = mbm_corrected_val(r, d, rmid, eventid, msr_val);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  /*
+>>   * The power-on reset value of MSR_RMID_SNC_CONFIG is 0x1
+>>   * which indicates that RMIDs are configured in legacy mode.
+> 
+> Reinette
+> 
+> 
 
 -- 
-Cheers,
-
-David / dhildenb
-
+Thanks
+Babu Moger
