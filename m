@@ -1,127 +1,96 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349BC2797AE
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 16:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51C5BA36;
+	Tue, 22 Jul 2025 17:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753201933; cv=none; b=jxBiTmZj5ROtOUOmF4vrdiSrcZt3WG8Lz2yjQ2Q/w9MmnAN0iVWVd0Cq7PnJIrykRfQLG2LtfZZp3ujYtOMUGnKbZx16kHtbsttpg18mQtWIbokHFT6WstzN7yqkeXb4469ZF3quZ5L+GI4v8pmCDidWfcESVFY3wGk1wZbGyds=
+	t=1753203680; cv=none; b=nQDwgk0cdG9lRBSEOSNl5zEShffj9Qhz5ovdoA1Lno8VfGwmXKVQuuNkUpn4SBf34AELpnzKlm4tTXZyLTT1FjZAru4lYPnRxoCH/MtD/FqdFTGRnelm2uL7rhQ0WuXptvDUp1mCUTG3NPNZipZC4QVdWVAy0iqCpgYYQO2Reg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753201933; c=relaxed/simple;
-	bh=Pqs4E5LUI8mWz/IsLr+Bi09UwKTqd2EriMVrdlnD4Fg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LhzV1HYAkWypydIQ0TgmV+X4c+PVzqCt9wq8Xv7c5Fyl+wS6mFXe0aONrZOqbZNgMbWM7FQOsIT2dDoPIXpDTqeNyB4kyJ/+y+2M8mKxSKkvSnskqPPx9Fbb+IG3dzUzzZ1iUnQbRx4OpPaJIoBVpAj6KkpBPfVp1C15UlqlQkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mW/rTHPG; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1753203680; c=relaxed/simple;
+	bh=4ExxWF210EVKXVfZ8XRUE1perdO4miFY1lWLlDpGXyE=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=Jeg4NF2gNFA7FslF+KBiq1EG581MzfwRU6vkOYK1IWey1EuqUoLvaQAdWvJSvJOvJWuoSMewa7tXdYleyH783nS3Yn6vZY0U4Zbq5g61tvr0m5gLekTA9MoSRa0BijDxMh7F3pgbkkOzp6ld7hB7cIZDtK0d0U/U34s2IYZ0rGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1qzI20y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mW/rTHPG"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-31c38e75dafso4720591a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753201931; x=1753806731; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g5dIDnAxZOX8ng1HhpeNVCkuVrJFpRO5masWNAnQ3RE=;
-        b=mW/rTHPGNeUnOiOWBv0MaBy+sML7w7kb2oYMREJQDhYK3cPQoihcXSZBaDVtVBtFZT
-         z8gMocSw+NQ5XYAmDqFaPoPTPaCovzQil+3a/2MG+hRkdiDVdGvNItxo55KRf8GnslfW
-         PG6GuE66CBQTM9utFnPrOl1VWMC3n7dszWvkc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753201931; x=1753806731;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g5dIDnAxZOX8ng1HhpeNVCkuVrJFpRO5masWNAnQ3RE=;
-        b=WdJnZn2M8IYexA++VOUet9mYFDLVsv0YeA7oAc//Y+8CCQqROhnhX3Ru91bkfeUjvg
-         SC89hHcyn/jWVIqJ+QJkuIIeqmqU/NFvzQYka7ABBkbr8mCZqFPAjQu2mzfmf/cmAs11
-         /fXe5hopUa1JfsEpkcsHlRcXVRPaBKKDNFM/J35breXLmjsKU9R1W3TCvEO2qJNSm1SX
-         qglCuqYelhORnZdIZRWapEPZoIX6Wx/dU9ctKKGDYsB5urMsZxSUXdz/VnhbDlQVGZ6u
-         6dx4/TB5w2hisBkKX56Otmt7eMKqoUbODBaxOajySNOLWbOR0xlhp56vAXRl3/KvSaKh
-         fXnA==
-X-Forwarded-Encrypted: i=1; AJvYcCV34ar1w8E1ndt6WMEPJccaj1u4Rjj/lvAaw+iJyFjRj0smQS6gDhThxVCWUyIa3sI7Y4Vqr5qtwa8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8bTXY/sOCBck2SzJRACdfT7frwZgv1disvO4Kf0wr2C9yU5a2
-	gPHqBNYEOCQnRf+ucdVn4pJAMUl8a8NYomPppdn0JNHgb0ubQSH0hKGqVBRfF3IG94bSrZE0S3S
-	U3YY=
-X-Gm-Gg: ASbGncs0b5jWROQKBs33GDUj0Y/3vsGhRToiU6dCDVsgqdsncw/gc7WF0yXegIBspqj
-	DRF+0OF0d/HiDajKRdhj4km0yG9XttoQp+EJjI/oqfjyqg4GxgXq1zXN94OaY8pq9O6PhUnm6t6
-	wLt2prFwAoyNsprJsnfc/mooTzRw6SAiUxxlPBEOxj8Mu1Yvrcll960P3VY7yREZoFjbVP8ov7E
-	Iu4ls3eew4D9nS9JQABL9geODUk1UtKYjZ/8Ej40THhWr/IEHCGjCYuW60YFSPoDKp74sUC42Hw
-	nsmSvGWguuzJvxAqz8cyepCZoVwrTC6IH7/HQTI5SKEXvtDxksFeqbglxhlqEQUgJiGbSDsiBjb
-	ZJDLbqFi7bslrj84e+yGumjrrTAMSvENhiBMFZIb7AeiyYLIiRbny/J1SRd4pEA==
-X-Google-Smtp-Source: AGHT+IHWfNzXCCJg0myw1luq8dFJtqpvtfEd46aFSx3RB1ATf+tHlw6LDMKR/c5StQzxPcG7q7IphA==
-X-Received: by 2002:a17:90b:518c:b0:312:1ae9:1525 with SMTP id 98e67ed59e1d1-31c9f3deda1mr41586598a91.8.1753201931542;
-        Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com. [209.85.216.49])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f287bcasm12342053a91.32.2025.07.22.09.32.11
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-311d5fdf1f0so4632379a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXYKY2PenpAbcbJUAYUajpp3AkwvWr3ag9IwIt2ZnkxgB128KXiavdbjCdWUfkOi/euu4zlYGe3g6U=@vger.kernel.org
-X-Received: by 2002:a17:90b:2247:b0:313:283e:e881 with SMTP id
- 98e67ed59e1d1-31c9f3ded05mr36938957a91.11.1753201930387; Tue, 22 Jul 2025
- 09:32:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1qzI20y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 034DDC4CEEB;
+	Tue, 22 Jul 2025 17:01:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753203680;
+	bh=4ExxWF210EVKXVfZ8XRUE1perdO4miFY1lWLlDpGXyE=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=o1qzI20yrVdhUnbNKS9chhnWZwfsufwiVXUoOBR5Nzqdw4VuznVLUtui48AqcvckC
+	 dksJVF+i5y4kslxWQZQSbXWGchZw/2Vnydl1hmZ8MCBw3tTb7lKjvZ80/jWQKNNGzF
+	 PxTgOs34OjapDTx9a2Y80Wk4bp7d1/jrUPkELzwhXxJn6f8UrfOIX0PIPqIVfqO2Df
+	 CJHRsHhmxBuI6EjTWH+DSFGpZpqzQ559K9Vt3euNX2h57Hoqhp123HjpkZUmQHGvrl
+	 OaieU6ya2bzCTb4dzFod3SamD0A9iFYEGl0+ELuDNjUWsaLEWupl7EPr1vj26f83VY
+	 MM1BiQ/ZB1Qbg==
+Date: Tue, 22 Jul 2025 12:01:19 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250722015313.561966-1-me@brighamcampbell.com> <20250722015313.561966-3-me@brighamcampbell.com>
-In-Reply-To: <20250722015313.561966-3-me@brighamcampbell.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 22 Jul 2025 09:31:58 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vg6LoPzOHRj=XzCcSb7rPb=vPuCZngrf4hROZNwfj2Pg@mail.gmail.com>
-X-Gm-Features: Ac12FXxeoQ5h83qTRHx6WqFmrhVxXb5TjaxOWmVQAou0S7ba7bXolm4shfJMxPI
-Message-ID: <CAD=FV=Vg6LoPzOHRj=XzCcSb7rPb=vPuCZngrf4hROZNwfj2Pg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Gatien Chevallier <gatien.chevallier@foss.st.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+ Michael Turquette <mturquette@baylibre.com>, devicetree@vger.kernel.org, 
+ Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+ linux-clk@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Gabriel Fernandez <gabriel.fernandez@foss.st.com>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-perf-users@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Julius Werner <jwerner@chromium.org>, 
+ Le Goffic <legoffic.clement@gmail.com>, 
+ linux-stm32@st-md-mailman.stormreply.com, Stephen Boyd <sboyd@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>
+To: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+In-Reply-To: <20250722-ddrperfm-upstream-v3-11-7b7a4f3dc8a0@foss.st.com>
+References: <20250722-ddrperfm-upstream-v3-0-7b7a4f3dc8a0@foss.st.com>
+ <20250722-ddrperfm-upstream-v3-11-7b7a4f3dc8a0@foss.st.com>
+Message-Id: <175320367908.42297.8460265656019241171.robh@kernel.org>
+Subject: Re: [PATCH v3 11/19] dt-bindings: perf: stm32: introduce DDRPERFM
+ dt-bindings
 
-Hi,
 
-On Mon, Jul 21, 2025 at 6:53=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
-l.com> wrote:
->
-> Fix bug in unprepare() which causes the function's return value to be
-> that of the last mipi "enter sleep mode" command.
->
-> Update driver to use the "multi" variant of MIPI functions in order to
-> facilitate improved error handling and remove the panel's dependency on
-> deprecated MIPI functions.
->
-> Use the new mipi_dsi_dual macro to reduce code duplication.
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+On Tue, 22 Jul 2025 16:03:28 +0200, Clément Le Goffic wrote:
+> DDRPERFM is the DDR Performance Monitor embedded in STM32MPU SoC.
+> It allows to monitor DDR events that come from the DDR Controller
+> such as read or write events.
+> 
+> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
 > ---
->  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++++++------------
->  1 file changed, 59 insertions(+), 137 deletions(-)
+>  .../devicetree/bindings/perf/st,stm32-ddr-pmu.yaml | 94 ++++++++++++++++++++++
+>  1 file changed, 94 insertions(+)
+> 
 
-Just for fun, I ran bloat-o-meter to compare before and after.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-add/remove: 0/0 grow/shrink: 0/3 up/down: 0/-217 (-217)
-Function                                     old     new   delta
-jdi_write_dcdc_registers.d                    10       5      -5
-jdi_panel_unprepare                          312     260     -52
-jdi_panel_prepare                           1020     860    -160
-Total: Before=3D4908, After=3D4691, chg -4.42%
+yamllint warnings/errors:
 
-...not as big of a savings, but that's not too surprising in this case
-since we don't have the whole pile of "seq" functions. Still the point
-was making the driver cleaner and the space savings is just an extra
-bonus!
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/perf/st,stm32-ddr-pmu.example.dtb: /example-1/ddr3-channel: failed to match any schema with compatible: ['jedec,ddr3-channel']
 
--Doug
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250722-ddrperfm-upstream-v3-11-7b7a4f3dc8a0@foss.st.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
