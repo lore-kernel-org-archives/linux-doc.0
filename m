@@ -1,169 +1,967 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC29721CFF6
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 07:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0AF2AE6C;
+	Tue, 22 Jul 2025 08:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753171157; cv=none; b=PCeSePVzJWNM7WnC7BhyWimkgNuaNP6uxz3UPpkEsnNGEVCX1BFWmeVJJHztJ5MKwnu0fufZBWGqRFniL9V5NpqPSCfpzC76o/RQqnnxOeZGVpYsqQSWrzxfC+mr0VLESm2MkL/L+cZdExDdw3xpTp1WI0mJ7AaCHSldOd5iX5k=
+	t=1753171538; cv=none; b=FwXeTtwznbDG+2YSNU86UOO7QE/FZFfGEWD69K4kwiczNJ/KSbAEU1epQeNTKfbMvqJ8rfLY385TpmjUt1zGQwULQj0cwUZp96WI0kEwIZSa3qNJyVDuOjaU/UilNWA7Wob1MVfJY2Ea2xIZHGCWvM4bzfnzwAGlk0wxzJfA4fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753171157; c=relaxed/simple;
-	bh=NhyVBJq0RbBHsCj4Hv91n9yYCh//7jqyYCsyfdC4Rg4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PmYL+EfuEm1ghYe325ISkuEkPrqwnpDLcx0b7CE1HSKg6bUxlA7wKPpIihfnrvruKN8ysBZV9b7zvrZ8FaEZG/diEfrllNA48HvsxexkgaSqlKtS9wrITbbSNk+vkMvdY52i9Sjr07HkxSHXkwnM0q1s4jZ/6qmufsHPgf+K0pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YrhmMCbr; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YrhmMCbr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753171154;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=c7tvfKGQUm4YoUJU1QbX5YUPQXMkfmqVEGF88600kKU=;
-	b=YrhmMCbroMxuFAjQcoY4D7IQs/G3Loc1GgZCd0OPfsVTg9HdRZPQmh0+53o0X9vByqnIls
-	jf1gmDioxqEaCwdWYcDdT+g6F3ORSMbAH3R4XrrDsdaZ5HATxN3jkc4JSmm/uPfKfFdTv7
-	swHYRZtw/cVbp+7g4yCdHPXnEt8nEVE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-471-HpnUvu5jO_WQIcVZ7RfRTA-1; Tue, 22 Jul 2025 03:59:13 -0400
-X-MC-Unique: HpnUvu5jO_WQIcVZ7RfRTA-1
-X-Mimecast-MFC-AGG-ID: HpnUvu5jO_WQIcVZ7RfRTA_1753171152
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3a54a8a0122so3001751f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 00:59:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753171152; x=1753775952;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=c7tvfKGQUm4YoUJU1QbX5YUPQXMkfmqVEGF88600kKU=;
-        b=RpDm0D7JmJjXJe09mbxJblQcHYlzKlTBITJxuhyWnwYKbA80EhMBw6tXKMJMPGufiE
-         4HE4GWMNOrTtdSXEcgYgM4zog60KJTbOV14We/R2onqlT4MGbvQW1PmJ+wNU09923j40
-         DzhKa7urbumGyR/auLUIVwnll06+bDXq7J+0rjaOjzWz5VNZQ4BTqO4ni3gbjb/XSh9U
-         sHgE+4v8Y+3umzjxy0OXKZkr/oaLmyt2lRDGxYX1Bwdh5KvB3MMbrjNGCTP2M3LhpcFC
-         v25TMggTS2pFuUTpmDPtIZLJ5RfxOV7am9iDETTq+UxhUmH4qYblwc01WdK+OOKs2Kz3
-         tKGg==
-X-Forwarded-Encrypted: i=1; AJvYcCX/VD73vNH8MdWDMmmCKSJ/gyg/md7WVDWC2+LX+Lfx3OYuEtautbpk8UGSkmj0LyQuXu8vesGSPrc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbKtc4ojQmUZz+QzusmdtwsGO/oWyYpY8brP7+FyP2vxfUdVNM
-	GQv2O6D7o0aXA0316z3TwHS3O1794wlipdCvp2vQ36rh65x74r5ZFK6XDHW0PDSjv86guQmVe9M
-	s+f1rjG9Ii3oVeFFCe3aPOrmC3rJd8Lwr79oYHKCmW2N8AK5uxA1OpcpzKRqjoA==
-X-Gm-Gg: ASbGnctee5VPlviVa0s+nikAzO7+GmNQSy2qzwHpcoRKMpf5q1TOGN+VbLuTpug8B1B
-	O+iMtGhcP93PJa5Qpkz3wAie6VM/IaqvyhWNKhVpD1ZTQZIcq5VK1IU40QYcEK4pJ7KSArB/I+6
-	CDj20w4EHpxhNLI5onvrxI9uDKaQ0DsMRhZVRe8n+ln7Fx0dmmBUDRldsPJOTJ04AOWF2DFpX6J
-	PJ9fRjk8O1Xiz7rMiLURffeGW4fwa+9wRonDsbjf4oGqEma+jSY1k/qnFOnZv5OQUWWfSJ9vDP3
-	kphvC09jd9URWDmyVEC/lU8qvEG3zHUX9ybTjVruDbyf9YMJMPJgEUHCsxIERMgw8vd08xDZQ0H
-	wVs7YTxtS8RjsmyPJBlQpzaRooMEnXonWNu2DG8644gEqIkh9IZ2cFSeOI7nvUGwoIh0=
-X-Received: by 2002:a05:6000:4716:b0:3b4:98f6:dd77 with SMTP id ffacd0b85a97d-3b61b217fd7mr12320350f8f.36.1753171151915;
-        Tue, 22 Jul 2025 00:59:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF2sf5QLlZEJr07ey/1yKpexqTHy8UV5PCpiUokLHs9olPrPrd1PKqO/suIPMqhDpL4yzTVfw==
-X-Received: by 2002:a05:6000:4716:b0:3b4:98f6:dd77 with SMTP id ffacd0b85a97d-3b61b217fd7mr12320321f8f.36.1753171151431;
-        Tue, 22 Jul 2025 00:59:11 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f28:de00:1efe:3ea4:63ba:1713? (p200300d82f28de001efe3ea463ba1713.dip0.t-ipconnect.de. [2003:d8:2f28:de00:1efe:3ea4:63ba:1713])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e803cb3sm181199025e9.14.2025.07.22.00.59.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jul 2025 00:59:11 -0700 (PDT)
-Message-ID: <64b5b420-4c2a-423e-825b-b2c309274d71@redhat.com>
-Date: Tue, 22 Jul 2025 09:59:09 +0200
+	s=arc-20240116; t=1753171538; c=relaxed/simple;
+	bh=H6to3FL9Ff6ob2kDnglLQP1rzBtoBx4hDMuiFF8r3RU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PgumxwTYAlI14vlK9PNN4hFpyBqlW/8m15Orgo3CRoce4oWmOxlo5bLakUssq5/tCI7LkbMuGbrnA9f9WpSODeE2aDsBw1dB12+g3uKyGq+7bXHu6GpzitbxVhhigIiTRuaCQwPuhGBuMh2VXv29+bPa+NiVOesAQKTyusZN6CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpsz6t1753171463t370f633c
+X-QQ-Originating-IP: J38gCE92tjZN+DgYxRcXEF4XxVgmrbU9GcVwjqMOjiI=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 22 Jul 2025 16:04:20 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 2168941637106180486
+Date: Tue, 22 Jul 2025 16:04:20 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Brett Creeley <bcreeley@amd.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 04/15] net: rnpgbe: Add get_capability mbx_fw ops
+ support
+Message-ID: <906F5B328E0763D4+20250722080420.GF99399@nic-Precision-5820-Tower>
+References: <20250721113238.18615-1-dong100@mucse.com>
+ <20250721113238.18615-5-dong100@mucse.com>
+ <c3760a7f-3aea-4ea6-a2f8-f9326d73afc5@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: update THP documentation to clarify sysfs "never"
- setting
-From: David Hildenbrand <david@redhat.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Nico Pache
- <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250721155530.75944-1-lorenzo.stoakes@oracle.com>
- <39a75435-5fea-4816-b484-477d400c3564@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <39a75435-5fea-4816-b484-477d400c3564@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c3760a7f-3aea-4ea6-a2f8-f9326d73afc5@amd.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NeHNFGCg9dIlcFRv42HIdkboTpsKEs002X/mQhNV8Ul7544Edvcfpo9I
+	XsP5pLebzteG919rorfIhx4xcDQi9790LfQ6s3qLPqhg3YD9tWfanCgcxWkwPFALrsi548s
+	7I/8SQvcOhn2pP1E1QkrWINHtNalVWROcYVmJ753b/wNqimP8O14LpdkRqVci4qM6+9fIPL
+	nNDfwKBx3D8t/uENlRR9c/n95o/U2yXto0cDBMrcNsGOeGMj341O8iQv/K/k8/sa7zg3ndN
+	p8BpfOuPVrhmknpG9yfNypK1UkEFKlxtbvVNublQ5bUfnZwNisq+829DWQe+4aNfAYbcvUW
+	omfLZpeRG2VCfR72Ip/6WqmhmuZWDh3fh+3fdhFhT8vYQRfO5nAy1YOaOrxn52SBpCULqPF
+	Sgb/ridHKw2qqSfg6pTHbilxOLKVJE0DEg8fZyenuacDA+CHwiwNKJeovu1JbV/rFNXAO8a
+	LED/ZUkBTfoVOTN9bQIjFRpkxzERZGfrdJvRH3ahQoGHxl4Cc4BFFAtVO54zB9Hu8oHzXPe
+	OK4CIgLnJRoT55axWMtbbMYg/QMX5vRkHsSEy1lRkXTTQk5Mz2ZG4YWHN1MLj4C4iVpCWM7
+	NEcFkfN/xov3Wwxty6u2Us6RikNW0fg4AgHyWOrkl/sCVFd3Ox5/ReS/K5KNUMfjnBn6Lqx
+	HdF7ZmBm9dbnteI+IcF4K9/JUFvvOgeIgyUAxWonc3POb/E349xwz0EHhmznuuJisOwDh6Y
+	Em9bOJE/ekfumpTf/YSFZy3StzWhmKbWcXaULiRP21fAqy0avIZjwavXWooWB/PgOdR4w36
+	c5BAqAwK5yLP/cXYU1PAEF6EzlVhPHgQijvPhjUNfp+F2jzcUN/4YdzGl6AqtIjK5I5UvCH
+	YYFeKIVMgUd4uYg//wTMorGiXH8hQo73uAqYykONpMTUsOj6P5BqGfm31596HYR6kxBgn4L
+	BsAIN8tNAvXMbZ8SGjHVkV1jT7gXaQIdpTt3p2HrHRkPCw1IWcXNeZMk4
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-On 22.07.25 09:20, David Hildenbrand wrote:
-> On 21.07.25 17:55, Lorenzo Stoakes wrote:
->> Rather confusingly, setting all Transparent Huge Page sysfs settings to
->> "never" does not in fact result in THP being globally disabled.
->>
->> Rather, it results in khugepaged being disabled, but one can still obtain
->> THP pages using madvise(..., MADV_COLLAPSE).
->>
->> This is something that has remained poorly documented for some time, and it
->> is likely the received wisdom of most users of THP that never does, in
->> fact, mean never.
->>
->> It is therefore important to highlight, very clearly, that this is not the
->> ase.
->>
->> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->> ---
+On Mon, Jul 21, 2025 at 03:08:22PM -0700, Brett Creeley wrote:
+> On 7/21/2025 4:32 AM, Dong Yibo wrote:
+> > Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+> > 
+> > 
+> > Initialize get hw capability from mbx_fw ops.
+> > 
+> > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> > ---
+> >   drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
+> >   drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |   8 +
+> >   .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   |   8 +
+> >   .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c | 140 +++++
+> >   .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h | 568 ++++++++++++++++++
+> >   5 files changed, 726 insertions(+), 1 deletion(-)
+> >   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
+> >   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h
+> > 
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> > index 41177103b50c..fd455cb111a9 100644
+> > --- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> > @@ -7,4 +7,5 @@
+> >   obj-$(CONFIG_MGBE) += rnpgbe.o
+> >   rnpgbe-objs := rnpgbe_main.o \
+> >                 rnpgbe_chip.o \
+> > -              rnpgbe_mbx.o
+> > +              rnpgbe_mbx.o \
+> > +              rnpgbe_mbx_fw.o
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > index 46e2bb2fe71e..4514bc1223c1 100644
+> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > @@ -154,6 +154,14 @@ struct mucse_hw {
+> >          u16 vendor_id;
+> >          u16 subsystem_device_id;
+> >          u16 subsystem_vendor_id;
+> > +       u32 wol;
+> > +       u32 wol_en;
+> > +       u32 fw_version;
+> > +       u32 axi_mhz;
+> > +       u32 bd_uid;
+> > +       int ncsi_en;
+> > +       int force_en;
+> > +       int force_cap;
+> >          int max_vfs;
+> >          int max_vfs_noari;
+> >          enum rnpgbe_hw_type hw_type;
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> > index 1e8360cae560..aeb560145c47 100644
+> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> > @@ -9,6 +9,7 @@
+> >   #include <linux/etherdevice.h>
+> > 
+> >   #include "rnpgbe.h"
+> > +#include "rnpgbe_mbx_fw.h"
+> > 
+> >   char rnpgbe_driver_name[] = "rnpgbe";
+> >   static const struct rnpgbe_info *rnpgbe_info_tbl[] = {
+> > @@ -116,6 +117,13 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
+> >          ii->get_invariants(hw);
+> >          hw->mbx.ops.init_params(hw);
+> > 
+> > +       err = mucse_mbx_get_capability(hw);
+> > +       if (err) {
+> > +               dev_err(&pdev->dev,
+> > +                       "mucse_mbx_get_capability failed!\n");
+> > +               goto err_free_net;
+> > +       }
 > 
-> Can we also somehow tone down or clarify the "entirely disabled"?
+> Do you want to know what the "err" value was? Should that be included in the
+> error message?
+> 
 
-Ah, missed that you touched that already.
+Yes, i waant it, I should add err in the dev_err. Thank you for your suggestion.
 
-Acked-by: David Hildenbrand <david@redhat.com>
+> > +
+> >          return 0;
+> > 
+> >   err_free_net:
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
+> > new file mode 100644
+> > index 000000000000..1674229fcd43
+> > --- /dev/null
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
+> > @@ -0,0 +1,140 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
+> > +
+> > +#include <linux/pci.h>
+> > +
+> > +#include "rnpgbe_mbx_fw.h"
+> > +
+> > +/**
+> > + * mucse_fw_send_cmd_wait - Send cmd req and wait for response
+> > + * @hw: Pointer to the HW structure
+> > + * @req: Pointer to the cmd req structure
+> > + * @reply: Pointer to the fw reply structure
+> > + *
+> > + * mucse_fw_send_cmd_wait sends req to pf-fw mailbox and wait
+> > + * reply from fw.
+> > + *
+> > + * @return: 0 on success, negative on failure
+> > + **/
+> > +static int mucse_fw_send_cmd_wait(struct mucse_hw *hw,
+> > +                                 struct mbx_fw_cmd_req *req,
+> > +                                 struct mbx_fw_cmd_reply *reply)
+> > +{
+> > +       int len = le32_to_cpu(req->datalen) + MBX_REQ_HDR_LEN;
+> > +       int retry_cnt = 3;
+> > +       int err;
+> > +
+> > +       err = mutex_lock_interruptible(&hw->mbx.lock);
+> > +       if (err)
+> > +               return err;
+> > +
+> > +       err = hw->mbx.ops.write_posted(hw, (u32 *)req,
+> > +                                      L_WD(len),
+> > +                                      MBX_FW);
+> > +       if (err) {
+> > +               mutex_unlock(&hw->mbx.lock);
+> > +               return err;
+> > +       }
+> > +
+> > +retry:
+> > +       retry_cnt--;
+> > +       if (retry_cnt < 0)
+> > +               return -EIO;
+> 
+> You aren't releasing the lock here, was that intentional?  Also, would
+> -ETIMEDOUT make more sense?
+> 
 
--- 
-Cheers,
+Yes, I missed releasing the lock. I will fix it.
+-ETIMEDOUT is more sense, I will improve it.
 
-David / dhildenb
+> > +
+> > +       err = hw->mbx.ops.read_posted(hw, (u32 *)reply,
+> > +                                     L_WD(sizeof(*reply)),
+> > +                                     MBX_FW);
+> > +       if (err) {
+> > +               mutex_unlock(&hw->mbx.lock);
+> > +               return err;
+> > +       }
+> > +
+> > +       if (reply->opcode != req->opcode)
+> > +               goto retry;
+> 
+> It seems like this block could be achieved with some sort of loop condition
+> instead of a goto retry. Something like:
+> 
+> do {
+> } while (--retry_cnt >= 0 && reply->opcode != req->opcode);
+> 
+> mutex_unlock();
+> 
+> if (retry_cnt < 0)
+> 	return -ETIMEDOUT;
+> 
+> if (reply->error_code)
+> 	return -EIO;
+> 
+> return 0;
+
+Got it, I will improve it.
+
+> > +
+> > +       mutex_unlock(&hw->mbx.lock);
+> > +
+> > +       if (reply->error_code)
+> > +               return -EIO;
+> 
+> Do you want to lose the "error_code" here?
+> 
+
+reply->erro_code is not linux error code.
+It is used only between fw and driver:
+0     -- no err
+not 0 -- err
+So, I turn it into a linux/POSIX error here.
+
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +/**
+> > + * mucse_fw_get_capability - Get hw abilities from fw
+> > + * @hw: Pointer to the HW structure
+> > + * @abil: Pointer to the hw_abilities structure
+> > + *
+> > + * mucse_fw_get_capability tries to get hw abilities from
+> > + * hw.
+> > + *
+> > + * @return: 0 on success, negative on failure
+> > + **/
+> > +static int mucse_fw_get_capability(struct mucse_hw *hw,
+> > +                                  struct hw_abilities *abil)
+> > +{
+> > +       struct mbx_fw_cmd_reply reply;
+> > +       struct mbx_fw_cmd_req req;
+> > +       int err = 0;
+> 
+> Nit, you don't need to initialize this because it will always be set when
+> calling mucse_fw_send_cmd_wait().
+> 
+
+Got it, I will improve it.
+
+> > +
+> > +       memset(&req, 0, sizeof(req));
+> > +       memset(&reply, 0, sizeof(reply));
+> > +       build_phy_abalities_req(&req, &req);
+> > +       err = mucse_fw_send_cmd_wait(hw, &req, &reply);
+> > +       if (err == 0)
+> 
+> Nit, but typically just "if (!err)" is used.
+> 
+
+Got it, I will improve it.
+
+> > +               memcpy(abil, &reply.hw_abilities, sizeof(*abil));
+> > +
+> > +       return err;
+> > +}
+> > +
+> > +/**
+> > + * mucse_mbx_get_capability - Get hw abilities from fw
+> > + * @hw: Pointer to the HW structure
+> > + *
+> > + * mucse_mbx_get_capability tries to some capabities from
+> > + * hw. Many retrys will do if it is failed.
+> > + *
+> > + * @return: 0 on success, negative on failure
+> > + **/
+> > +int mucse_mbx_get_capability(struct mucse_hw *hw)
+> > +{
+> > +       struct hw_abilities ability;
+> > +       int try_cnt = 3;
+> > +       int err = 0;
+> 
+> Don't initialize err as it's always set before being used. Please look
+> through all your patches and apply this same comment/thought process before
+> reposting.
+> 
+
+Got it, I will check it for the reset of patches in the next version.
+
+> > +
+> > +       memset(&ability, 0, sizeof(ability));
+> > +
+> > +       while (try_cnt--) {
+> > +               err = mucse_fw_get_capability(hw, &ability);
+> > +               if (err == 0) {
+> 
+> Typically the following is done to reduce indentation.
+> 
+> while (condition) {
+> 	err = func();
+>         if (err)
+> 		continue;
+> 
+> 	/* handle non-err case */
+>         return 0;
+> }
+> 
+> return err;
+
+Got it, I will fix it.
+
+> > +                       u16 nic_mode = le16_to_cpu(ability.nic_mode);
+> > +                       u32 wol = le32_to_cpu(ability.wol_status);
+> > +
+> > +                       hw->ncsi_en = (nic_mode & 0x4) ? 1 : 0;
+> > +                       hw->pfvfnum = le16_to_cpu(ability.pfnum);
+> > +                       hw->fw_version = le32_to_cpu(ability.fw_version);
+> > +                       hw->axi_mhz = le32_to_cpu(ability.axi_mhz);
+> > +                       hw->bd_uid = le32_to_cpu(ability.bd_uid);
+> > +
+> > +                       if (hw->fw_version >= 0x0001012C) {
+> > +                               /* this version can get wol_en from hw */
+> > +                               hw->wol = wol & 0xff;
+> > +                               hw->wol_en = wol & 0x100;
+> > +                       } else {
+> > +                               /* other version only pf0 or ncsi can wol */
+> > +                               hw->wol = wol & 0xff;
+> > +                               if (hw->ncsi_en || !hw->pfvfnum)
+> > +                                       hw->wol_en = 1;
+> > +                       }
+> > +                       /* 0.1.5.0 can get force status from fw */
+> > +                       if (hw->fw_version >= 0x00010500) {
+> > +                               ability_update_host_endian(&ability);
+> > +                               hw->force_en = ability.e_host.force_down_en;
+> > +                               hw->force_cap = 1;
+> > +                       }
+> > +                       return 0;
+> > +               }
+> > +       }
+> > +
+> > +       return err;
+> > +}
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h
+> > new file mode 100644
+> > index 000000000000..a24c5d4e0075
+> > --- /dev/null
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h
+> > @@ -0,0 +1,568 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
+> > +
+> > +#ifndef _RNPGBE_MBX_FW_H
+> > +#define _RNPGBE_MBX_FW_H
+> > +
+> > +#include <linux/types.h>
+> > +#include <linux/errno.h>
+> > +#include <linux/wait.h>
+> > +
+> > +#include "rnpgbe.h"
+> > +
+> > +#define MBX_REQ_HDR_LEN 24
+> > +#define L_WD(x) ((x) / 4)
+> > +
+> > +struct mbx_fw_cmd_reply;
+> > +typedef void (*cookie_cb)(struct mbx_fw_cmd_reply *reply, void *priv);
+> > +
+> > +struct mbx_req_cookie {
+> > +       int magic;
+> > +#define COOKIE_MAGIC 0xCE
+> > +       cookie_cb cb;
+> > +       int timeout_jiffes;
+> > +       int errcode;
+> > +       wait_queue_head_t wait;
+> > +       int done;
+> > +       int priv_len;
+> > +       char priv[];
+> > +};
+> > +
+> > +enum MUCSE_FW_CMD {
+> > +       GET_VERSION = 0x0001,
+> > +       READ_REG = 0xFF03,
+> > +       WRITE_REG = 0xFF04,
+> > +       MODIFY_REG = 0xFF07,
+> > +       IFUP_DOWN = 0x0800,
+> > +       SEND_TO_PF = 0x0801,
+> > +       SEND_TO_VF = 0x0802,
+> > +       DRIVER_INSMOD = 0x0803,
+> > +       SYSTEM_SUSPUSE = 0x0804,
+> > +       SYSTEM_FORCE = 0x0805,
+> > +       GET_PHY_ABALITY = 0x0601,
+> > +       GET_MAC_ADDRES = 0x0602,
+> > +       RESET_PHY = 0x0603,
+> > +       LED_SET = 0x0604,
+> > +       GET_LINK_STATUS = 0x0607,
+> > +       LINK_STATUS_EVENT = 0x0608,
+> > +       SET_LANE_FUN = 0x0609,
+> > +       GET_LANE_STATUS = 0x0610,
+> > +       SFP_SPEED_CHANGED_EVENT = 0x0611,
+> > +       SET_EVENT_MASK = 0x0613,
+> > +       SET_LOOPBACK_MODE = 0x0618,
+> > +       SET_PHY_REG = 0x0628,
+> > +       GET_PHY_REG = 0x0629,
+> > +       PHY_LINK_SET = 0x0630,
+> > +       GET_PHY_STATISTICS = 0x0631,
+> > +       PHY_PAUSE_SET = 0x0632,
+> > +       PHY_PAUSE_GET = 0x0633,
+> > +       PHY_EEE_SET = 0x0636,
+> > +       PHY_EEE_GET = 0x0637,
+> > +       SFP_MODULE_READ = 0x0900,
+> > +       SFP_MODULE_WRITE = 0x0901,
+> > +       FW_UPDATE = 0x0700,
+> > +       FW_MAINTAIN = 0x0701,
+> > +       FW_UPDATE_GBE = 0x0702,
+> > +       WOL_EN = 0x0910,
+> > +       GET_DUMP = 0x0a00,
+> > +       SET_DUMP = 0x0a10,
+> > +       GET_TEMP = 0x0a11,
+> > +       SET_WOL = 0x0a12,
+> > +       SET_TEST_MODE = 0x0a13,
+> > +       SHOW_TX_STAMP = 0x0a14,
+> > +       LLDP_TX_CTRL = 0x0a15,
+> > +};
+> > +
+> > +struct hw_abilities {
+> > +       u8 link_stat;
+> > +       u8 lane_mask;
+> > +       __le32 speed;
+> > +       __le16 phy_type;
+> > +       __le16 nic_mode;
+> > +       __le16 pfnum;
+> > +       __le32 fw_version;
+> > +       __le32 axi_mhz;
+> > +       union {
+> > +               u8 port_id[4];
+> > +               __le32 port_ids;
+> > +       };
+> > +       __le32 bd_uid;
+> > +       __le32 phy_id;
+> > +       __le32 wol_status;
+> > +       union {
+> > +               __le32 ext_ability;
+> > +               struct {
+> > +                       __le32 valid : 1; /* 0 */
+> > +                       __le32 wol_en : 1; /* 1 */
+> > +                       __le32 pci_preset_runtime_en : 1; /* 2 */
+> > +                       __le32 smbus_en : 1; /* 3 */
+> > +                       __le32 ncsi_en : 1; /* 4 */
+> > +                       __le32 rpu_en : 1; /* 5 */
+> > +                       __le32 v2 : 1; /* 6 */
+> > +                       __le32 pxe_en : 1; /* 7 */
+> > +                       __le32 mctp_en : 1; /* 8 */
+> > +                       __le32 yt8614 : 1; /* 9 */
+> > +                       __le32 pci_ext_reset : 1; /* 10 */
+> > +                       __le32 rpu_availble : 1; /* 11 */
+> > +                       __le32 fw_lldp_ability : 1; /* 12 */
+> > +                       __le32 lldp_enabled : 1; /* 13 */
+> > +                       __le32 only_1g : 1; /* 14 */
+> > +                       __le32 force_down_en: 1; /* 15 */
+> > +               } e;
+> > +               struct {
+> > +                       u32 valid : 1; /* 0 */
+> > +                       u32 wol_en : 1; /* 1 */
+> > +                       u32 pci_preset_runtime_en : 1; /* 2 */
+> > +                       u32 smbus_en : 1; /* 3 */
+> > +                       u32 ncsi_en : 1; /* 4 */
+> > +                       u32 rpu_en : 1; /* 5 */
+> > +                       u32 v2 : 1; /* 6 */
+> > +                       u32 pxe_en : 1; /* 7 */
+> > +                       u32 mctp_en : 1; /* 8 */
+> > +                       u32 yt8614 : 1; /* 9 */
+> > +                       u32 pci_ext_reset : 1; /* 10 */
+> > +                       u32 rpu_availble : 1; /* 11 */
+> > +                       u32 fw_lldp_ability : 1; /* 12 */
+> > +                       u32 lldp_enabled : 1; /* 13 */
+> > +                       u32 only_1g : 1; /* 14 */
+> > +                       u32 force_down_en: 1; /* 15 */
+> > +               } e_host;
+> 
+> Do the /* <bit_#> */ comments provide any value here?
+> 
+
+Got it. I should remove no value comments like this.
+
+> > +       };
+> > +} __packed;
+> > +
+> > +static inline void ability_update_host_endian(struct hw_abilities *abi)
+> > +{
+> > +       u32 host_val = le32_to_cpu(abi->ext_ability);
+> > +
+> > +       abi->e_host = *(typeof(abi->e_host) *)&host_val;
+> > +}
+> > +
+> > +struct phy_pause_data {
+> > +       u32 pause_mode;
+> > +};
+> > +
+> > +struct lane_stat_data {
+> > +       u8 nr_lane;
+> > +       u8 pci_gen : 4;
+> > +       u8 pci_lanes : 4;
+> > +       u8 pma_type;
+> > +       u8 phy_type;
+> > +       __le16 linkup : 1;
+> > +       __le16 duplex : 1;
+> > +       __le16 autoneg : 1;
+> > +       __le16 fec : 1;
+> > +       __le16 an : 1;
+> > +       __le16 link_traing : 1;
+> > +       __le16 media_availble : 1;
+> > +       __le16 is_sgmii : 1;
+> > +       __le16 link_fault : 4;
+> > +#define LINK_LINK_FAULT BIT(0)
+> > +#define LINK_TX_FAULT BIT(1)
+> > +#define LINK_RX_FAULT BIT(2)
+> > +#define LINK_REMOTE_FAULT BIT(3)
+> > +       __le16 is_backplane : 1;
+> > +       __le16 tp_mdx : 2;
+> > +       union {
+> > +               u8 phy_addr;
+> > +               struct {
+> > +                       u8 mod_abs : 1;
+> > +                       u8 fault : 1;
+> > +                       u8 tx_dis : 1;
+> > +                       u8 los : 1;
+> > +               } sfp;
+> > +       };
+> > +       u8 sfp_connector;
+> > +       __le32 speed;
+> > +       __le32 si_main;
+> > +       __le32 si_pre;
+> > +       __le32 si_post;
+> > +       __le32 si_tx_boost;
+> > +       __le32 supported_link;
+> > +       __le32 phy_id;
+> > +       __le32 advertised_link;
+> > +} __packed;
+> > +
+> > +struct yt_phy_statistics {
+> > +       __le32 pkg_ib_valid; /* rx crc good and length 64-1518 */
+> > +       __le32 pkg_ib_os_good; /* rx crc good and length >1518 */
+> > +       __le32 pkg_ib_us_good; /* rx crc good and length <64 */
+> > +       __le16 pkg_ib_err; /* rx crc wrong and length 64-1518 */
+> > +       __le16 pkg_ib_os_bad; /* rx crc wrong and length >1518 */
+> > +       __le16 pkg_ib_frag; /* rx crc wrong and length <64 */
+> > +       __le16 pkg_ib_nosfd; /* rx sfd missed */
+> > +       __le32 pkg_ob_valid; /* tx crc good and length 64-1518 */
+> > +       __le32 pkg_ob_os_good; /* tx crc good and length >1518 */
+> > +       __le32 pkg_ob_us_good; /* tx crc good and length <64 */
+> > +       __le16 pkg_ob_err; /* tx crc wrong and length 64-1518 */
+> > +       __le16 pkg_ob_os_bad; /* tx crc wrong and length >1518 */
+> > +       __le16 pkg_ob_frag; /* tx crc wrong and length <64 */
+> > +       __le16 pkg_ob_nosfd; /* tx sfd missed */
+> > +} __packed;
+> > +
+> > +struct phy_statistics {
+> > +       union {
+> > +               struct yt_phy_statistics yt;
+> > +       };
+> > +} __packed;
+> > +
+> > +struct port_stat {
+> > +       u8 phyid;
+> > +       u8 duplex : 1;
+> > +       u8 autoneg : 1;
+> > +       u8 fec : 1;
+> > +       __le16 speed;
+> > +       union {
+> > +               __le16 stat;
+> > +               struct {
+> > +                       __le16 pause : 4;
+> > +                       __le16 local_eee : 3;
+> > +                       __le16 partner_eee : 3;
+> > +                       __le16 tp_mdx : 2;
+> > +                       __le16 lldp_status : 1;
+> > +                       __le16 revs : 3;
+> > +               } v;
+> > +               struct {
+> > +                       u16 pause : 4;
+> > +                       u16 local_eee : 3;
+> > +                       u16 partner_eee : 3;
+> > +                       u16 tp_mdx : 2;
+> > +                       u16 lldp_status : 1;
+> > +                       u16 revs : 3;
+> > +               } v_host;
+> > +       };
+> > +} __packed;
+> > +
+> > +#define FLAGS_DD BIT(0) /* driver clear 0, FW must set 1 */
+> > +/* driver clear 0, FW must set only if it reporting an error */
+> > +#define FLAGS_ERR BIT(2)
+> > +
+> > +/* req is little endian. bigendian should be conserened */
+> 
+> Some typos here. Please fix.
+> 
+
+Got it, I will fix them.
+
+> > +struct mbx_fw_cmd_req {
+> > +       __le16 flags; /* 0-1 */
+> > +       __le16 opcode; /* 2-3 enum GENERIC_CMD */
+> > +       __le16 datalen; /* 4-5 */
+> > +       __le16 ret_value; /* 6-7 */
+> > +       union {
+> > +               struct {
+> > +                       __le32 cookie_lo; /* 8-11 */
+> > +                       __le32 cookie_hi; /* 12-15 */
+> > +               };
+> > +
+> > +               void *cookie;
+> > +       };
+> > +       __le32 reply_lo; /* 16-19 5dw */
+> > +       __le32 reply_hi; /* 20-23 */
+> > +       union {
+> > +               u8 data[32];
+> > +               struct {
+> > +                       __le32 addr;
+> > +                       __le32 bytes;
+> > +               } r_reg;
+> > +
+> > +               struct {
+> > +                       __le32 addr;
+> > +                       __le32 bytes;
+> > +                       __le32 data[4];
+> > +               } w_reg;
+> > +
+> > +               struct {
+> > +                       __le32 lanes;
+> > +               } ptp;
+> > +
+> > +               struct {
+> > +                       __le32 lane;
+> > +                       __le32 up;
+> > +               } ifup;
+> > +
+> > +               struct {
+> > +                       __le32 sec;
+> > +                       __le32 nanosec;
+> > +
+> > +               } tstamps;
+> > +
+> > +               struct {
+> > +                       __le32 lane;
+> > +                       __le32 status;
+> > +               } ifinsmod;
+> > +
+> > +               struct {
+> > +                       __le32 lane;
+> > +                       __le32 status;
+> > +               } ifforce;
+> > +
+> > +               struct {
+> > +                       __le32 lane;
+> > +                       __le32 status;
+> > +               } ifsuspuse;
+> > +
+> > +               struct {
+> > +                       __le32 nr_lane;
+> > +               } get_lane_st;
+> > +
+> > +               struct {
+> > +                       __le32 nr_lane;
+> > +                       __le32 func;
+> > +#define LANE_FUN_AN 0
+> > +#define LANE_FUN_LINK_TRAING 1
+> > +#define LANE_FUN_FEC 2
+> > +#define LANE_FUN_SI 3
+> > +#define LANE_FUN_SFP_TX_DISABLE 4
+> > +#define LANE_FUN_PCI_LANE 5
+> > +#define LANE_FUN_PRBS 6
+> > +#define LANE_FUN_SPEED_CHANGE 7
+> > +                       __le32 value0;
+> > +                       __le32 value1;
+> > +                       __le32 value2;
+> > +                       __le32 value3;
+> > +               } set_lane_fun;
+> > +
+> > +               struct {
+> > +                       __le32 flag;
+> > +                       __le32 nr_lane;
+> > +               } set_dump;
+> > +
+> > +               struct {
+> > +                       __le32 lane;
+> > +                       __le32 enable;
+> > +               } wol;
+> > +
+> > +               struct {
+> > +                       __le32 lane;
+> > +                       __le32 mode;
+> > +               } gephy_test;
+> > +
+> > +               struct {
+> > +                       __le32 lane;
+> > +                       __le32 op;
+> > +                       __le32 enable;
+> > +                       __le32 inteval;
+> > +               } lldp_tx;
+> > +
+> > +               struct {
+> > +                       __le32 bytes;
+> > +                       __le32 nr_lane;
+> > +                       __le32 bin_offset;
+> > +                       __le32 no_use;
+> > +               } get_dump;
+> > +
+> > +               struct {
+> > +                       __le32 nr_lane;
+> > +                       __le32 value;
+> > +#define LED_IDENTIFY_INACTIVE 0
+> > +#define LED_IDENTIFY_ACTIVE 1
+> > +#define LED_IDENTIFY_ON 2
+> > +#define LED_IDENTIFY_OFF 3
+> > +               } led_set;
+> > +
+> > +               struct {
+> > +                       __le32 addr;
+> > +                       __le32 data;
+> > +                       __le32 mask;
+> > +               } modify_reg;
+> > +
+> > +               struct {
+> > +                       __le32 adv_speed_mask;
+> > +                       __le32 autoneg;
+> > +                       __le32 speed;
+> > +                       __le32 duplex;
+> > +                       __le32 nr_lane;
+> > +                       __le32 tp_mdix_ctrl;
+> > +               } phy_link_set;
+> > +
+> > +               struct {
+> > +                       __le32 pause_mode;
+> > +                       __le32 nr_lane;
+> > +               } phy_pause_set;
+> > +
+> > +               struct {
+> > +                       __le32 pause_mode;
+> > +                       __le32 nr_lane;
+> > +               } phy_pause_get;
+> > +
+> > +               struct {
+> > +                       __le32 local_eee;
+> > +                       __le32 tx_lpi_timer;
+> > +                       __le32 nr_lane;
+> > +               } phy_eee_set;
+> > +
+> > +               struct {
+> > +                       __le32 nr_lane;
+> > +                       __le32 sfp_adr; /* 0xa0 or 0xa2 */
+> > +                       __le32 reg;
+> > +                       __le32 cnt;
+> > +               } sfp_read;
+> > +
+> > +               struct {
+> > +                       __le32 nr_lane;
+> > +                       __le32 sfp_adr; /* 0xa0 or 0xa2 */
+> > +                       __le32 reg;
+> > +                       __le32 val;
+> > +               } sfp_write;
+> > +
+> > +               struct {
+> > +                       __le32 nr_lane; /* 0-3 */
+> > +               } get_linkstat;
+> > +
+> > +               struct {
+> > +                       __le16 changed_lanes;
+> > +                       __le16 lane_status;
+> > +                       __le32 port_st_magic;
+> > +#define SPEED_VALID_MAGIC 0xa4a6a8a9
+> > +                       struct port_stat st[4];
+> > +               } link_stat; /* FW->RC */
+> > +
+> > +               struct {
+> > +                       __le16 enable_stat;
+> > +                       __le16 event_mask;
+> > +               } stat_event_mask;
+> > +
+> > +               struct {
+> > +                       __le32 cmd;
+> > +                       __le32 arg0;
+> > +                       __le32 req_bytes;
+> > +                       __le32 reply_bytes;
+> > +                       __le32 ddr_lo;
+> > +                       __le32 ddr_hi;
+> > +               } maintain;
+> > +
+> > +               struct { /* set phy register */
+> > +                       u8 phy_interface;
+> > +                       union {
+> > +                               u8 page_num;
+> > +                               u8 external_phy_addr;
+> > +                       };
+> > +                       __le32 phy_reg_addr;
+> > +                       __le32 phy_w_data;
+> > +                       __le32 reg_addr;
+> > +                       __le32 w_data;
+> > +                       /* 1 = ignore page_num, use last QSFP */
+> > +                       u8 recall_qsfp_page : 1;
+> > +                       /* page value */
+> > +                       /* 0 = use page_num for QSFP */
+> > +                       u8 nr_lane;
+> > +               } set_phy_reg;
+> > +
+> > +               struct {
+> > +                       __le32 lane_mask;
+> > +                       __le32 pfvf_num;
+> > +               } get_mac_addr;
+> > +
+> > +               struct {
+> > +                       u8 phy_interface;
+> > +                       union {
+> > +                               u8 page_num;
+> > +                               u8 external_phy_addr;
+> > +                       };
+> > +                       __le32 phy_reg_addr;
+> > +                       u8 nr_lane;
+> > +               } get_phy_reg;
+> > +
+> > +               struct {
+> > +                       __le32 nr_lane;
+> > +               } phy_statistics;
+> > +
+> > +               struct {
+> > +                       u8 paration;
+> > +                       __le32 bytes;
+> > +                       __le32 bin_phy_lo;
+> > +                       __le32 bin_phy_hi;
+> > +               } fw_update;
+> > +       };
+> > +} __packed;
+> > +
+> > +#define EEE_1000BT BIT(2)
+> > +#define EEE_100BT BIT(1)
+> > +
+> > +struct rnpgbe_eee_cap {
+> > +       __le32 local_capability;
+> > +       __le32 local_eee;
+> > +       __le32 partner_eee;
+> > +};
+> > +
+> > +/* firmware -> driver */
+> > +struct mbx_fw_cmd_reply {
+> > +       /* fw must set: DD, CMP, Error(if error), copy value */
+> > +       __le16 flags;
+> > +       /* from command: LB,RD,VFC,BUF,SI,EI,FE */
+> > +       __le16 opcode; /* 2-3: copy from req */
+> > +       __le16 error_code; /* 4-5: 0 if no error */
+> > +       __le16 datalen; /* 6-7: */
+> > +       union {
+> > +               struct {
+> > +                       __le32 cookie_lo; /* 8-11: */
+> > +                       __le32 cookie_hi; /* 12-15: */
+> > +               };
+> > +               void *cookie;
+> > +       };
+> > +       /* ===== data ==== [16-64] */
+> > +       union {
+> > +               u8 data[40];
+> > +
+> > +               struct version {
+> > +                       __le32 major;
+> > +                       __le32 sub;
+> > +                       __le32 modify;
+> > +               } version;
+> > +
+> > +               struct {
+> > +                       __le32 value[4];
+> > +               } r_reg;
+> > +
+> > +               struct {
+> > +                       __le32 new_value;
+> > +               } modify_reg;
+> > +
+> > +               struct get_temp {
+> > +                       __le32 temp;
+> > +                       __le32 volatage;
+> > +               } get_temp;
+> > +
+> > +               struct {
+> > +#define MBX_SFP_READ_MAX_CNT 32
+> > +                       u8 value[MBX_SFP_READ_MAX_CNT];
+> > +               } sfp_read;
+> > +
+> > +               struct mac_addr {
+> > +                       __le32 lanes;
+> > +                       struct _addr {
+> > +                               /*
+> > +                                * for macaddr:01:02:03:04:05:06
+> > +                                * mac-hi=0x01020304 mac-lo=0x05060000
+> > +                                */
+> > +                               u8 mac[8];
+> > +                       } addrs[4];
+> > +               } mac_addr;
+> > +
+> > +               struct get_dump_reply {
+> > +                       __le32 flags;
+> > +                       __le32 version;
+> > +                       __le32 bytes;
+> > +                       __le32 data[4];
+> > +               } get_dump;
+> > +
+> > +               struct get_lldp_reply {
+> > +                       __le32 value;
+> > +                       __le32 inteval;
+> > +               } get_lldp;
+> > +
+> > +               struct rnpgbe_eee_cap phy_eee_abilities;
+> > +               struct lane_stat_data lanestat;
+> > +               struct hw_abilities hw_abilities;
+> > +               struct phy_statistics phy_statistics;
+> > +       };
+> > +} __packed;
+> > +
+> > +static inline void build_phy_abalities_req(struct mbx_fw_cmd_req *req,
+> > +                                          void *cookie)
+> > +{
+> > +       req->flags = 0;
+> > +       req->opcode = cpu_to_le32(GET_PHY_ABALITY);
+> > +       req->datalen = 0;
+> > +       req->reply_lo = 0;
+> > +       req->reply_hi = 0;
+> > +       req->cookie = cookie;
+> > +}
+> > +
+> > +int mucse_mbx_get_capability(struct mucse_hw *hw);
+> > +
+> > +#endif /* _RNPGBE_MBX_FW_H */
+> > --
+> > 2.25.1
+> > 
+> > 
+> 
+> 
+
+Thanks for your feedback.
 
