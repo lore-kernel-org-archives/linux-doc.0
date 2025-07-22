@@ -1,267 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF06723A98E;
-	Tue, 22 Jul 2025 11:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15A924467B
+	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 11:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753184565; cv=none; b=jCvqXchAG5NRgSfxDen4gZiw6cdpexzZrJiWv+nh7sE8Om9Lquqiqx9OlmF8ywdu8L6ijwcckIxouhLmvtl0XkPNj2wiHgbm3yEK8pgrOEzrOTKAhvgcCI5qmxjlWL7/bFn4aw/NTrC9W+2ILLhEn13Ocz/T2b/gxn/QBUhMQ4s=
+	t=1753185253; cv=none; b=u9pb7o5mOQ0N/iXGa4soAXrPwI7mLzrIMPQeBC8maN245WVhuXKq48c/yW2vDsP6KigvRGYC5qjPOTLzX4cttz99PpTmLH07af/d6vOfRIePC3iUCAlZ2BDkaKNRMGnu7CUYhvuwPpZXhzqZxLMLMkFBRt59Job1LSZVuLeDas4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753184565; c=relaxed/simple;
-	bh=GA03q4he4YGapHfFDQKiYxzVzT9drEI8wAp2YAmeEZg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Av0oNwRHFP8gNaZy0cOLXC+m6ajqejQFgofyIrEr4arWxVWWkrKE37Xgs7gaQRukRuVfCUTzDCosQs+sFlv5yziFd/G9TZtJ9RNPMOksb5cvfzJ2ByWcfaUiGoj2Q4DUfRzX2EbWnOpS2IaW+h+EayL5DXDD9uXsW9K7VO/+aRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MWjoNI4R; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1753185253; c=relaxed/simple;
+	bh=Fla3OlF+/YSMx3UOhbmIQazfbvpT43e/E5z5T5vEJVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cg+xW/GyvtNIXhfHBAWZtO2RPGPxqXkmoR2K8yzV8z6ta+1j7IJ1DiMoHdteHc9Ogq4vEY7KOlvbTXxOQKDo/NJNVjwUOhSOFPsaaCFZMrZFlPqEktDS6xmsknxkm+zmhD2fbi+UtCwjIC57Bzag5XS1vzolJaBmO8es+XltO64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DjtDc0LH; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MWjoNI4R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753184564; x=1784720564;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=GA03q4he4YGapHfFDQKiYxzVzT9drEI8wAp2YAmeEZg=;
-  b=MWjoNI4RUgKCBHSoKYEQaBqXPcW6bt0WzoNWtgwts2OiEShvvh9X7iTA
-   CwPz8c48yQ4cUPAtL2KRw2GmWgEnHh0whwy+TsU45piktpCccrnr0p/00
-   iL+HXVSaf9dePW9Hhm3XtBHCrLG/pHxFIXS7+miWed+05lmzrnuL2Byc6
-   PvJzIq6Zt2hrRxjygFc/4XbO7mxlz0tS24gzBmlFphfKXzWyh1qgfOIqz
-   3s/VZZK8lxMrdvGuapr7ys+kFSozuSA71zxCYeIS1qlkpPmgN8IfpaULf
-   cuFDUwq1b2Y9z4dUChJGERL/HXA8j01oZqpjRvYUiKwMowDdBaqRHwv/d
-   g==;
-X-CSE-ConnectionGUID: 9+s5KQ3ZTUubzZQX3uowHQ==
-X-CSE-MsgGUID: hSGLPBCzSAeVJ6HQ7Xe/YQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="65998021"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="65998021"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 04:42:43 -0700
-X-CSE-ConnectionGUID: u2Rxq+g+SAWUjwPACPBklw==
-X-CSE-MsgGUID: S4xwkq4MTEO84wz1D5xfOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="163674521"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.245.246.65])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 04:42:39 -0700
-From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: Dave Jiang <dave.jiang@intel.com>, linux-cxl@vger.kernel.org,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v3] cxl: docs/driver-api/conventions resolve conflicts btw CFMWS,
- LMH, ED
-Date: Tue, 22 Jul 2025 13:42:35 +0200
-Message-ID: <8047110.oPnVEEUbh3@fdefranc-mobl3>
-In-Reply-To: <aH2PAju1rLxIbXXk@gourry-fedora-PF4VCD3F>
-References:
- <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
- <17128669.tgchFWduMW@fdefranc-mobl3>
- <aH2PAju1rLxIbXXk@gourry-fedora-PF4VCD3F>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DjtDc0LH"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ae0dad3a179so865185466b.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 04:54:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1753185250; x=1753790050; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9kKt2BVvYAWPd9RG6IbzHHUIGJ1xcLJOliFtWnoC7pE=;
+        b=DjtDc0LHqZeKUILy3s2oQKZYOl67ZHw3E6MR8ZsoFMudW1LCstl+1eVWktnLYedAyc
+         QHAZDacJek7qNDVWuqyXRaQr0SahdEmxNND230oHu5FmwnW0nLv4tUMhBUQBLw6eGB79
+         RX/2eypfTwu4wocmsOlkZfQrIPfk98OvbmqZJdAh+YOn4PDQTyQ3kvMocezzh3W7IBWs
+         yfTyz630RbtfHiirLXjmBYuUMoTKwY74jQ55U76ttqlOKqb8HsCqMXo2/r0gsOVbeMZ0
+         CK964OQlGW2Dn4GhoJftIcb33+ypxiWkR2Sy+n4aOO/oaHjtr0giypvSCv9snrk+VJb2
+         nR3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753185250; x=1753790050;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9kKt2BVvYAWPd9RG6IbzHHUIGJ1xcLJOliFtWnoC7pE=;
+        b=GlNfdvvwZ1mBSg6AUghJQPXDkaYdK4ScYr20dMM4+mA/fq/kODkNwgZimeuSj5qR9Q
+         maZ00tURIz6kxJVxKakL4vizGOpqaDIQbki0p5NxvJJlo1oz80vK6FhtrY/D54KimNSj
+         /LgvtyqVdk+FVhOGHABhHuZMnc7FGxfY3tDcIslsQD8b9MYUiuOjk/tA0WFdKEHHSnJI
+         SDLGZkyk5Kn8UNajHQ3iiYSTEUDNokbx8TaSg0mSEKY6DF2qVn8UiyYCB/9SMZuooqY2
+         W8Ady9JNY0Ld5vU0eccsDTkhte1Uv0vF0s2rzyrb8UTRQ00BiMw9SSuvaPIGvY1Lgp1H
+         XrVA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7CPfcvAnmfrGu1it1zHEIxQD2GOtgZH6QSK349s6wpqPZKu1P7UR+UFwhEtCpQcpXMeMixMners4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4aHxWqDBJfUnjwxVJ6UlkcE2w2I0vabsWOpXHkW6rBL6hxRhl
+	MViNbVWbo/40xS0xWkcMWCDUt3v9GviG0pc0hpUrrExMLaC+P19jwpszV61oGdcm3DA4D97xaL4
+	cwn9e
+X-Gm-Gg: ASbGncuDtciqfp/8dIsbs1ubgnsV2WD5m3IUEnc8SowZsLquGS0QATM2i5hi99us7Av
+	464T3GZ/JF7Uq7LijZKuHKYXmetBUU6TaRkpuyKmIQOO8x0+87VSA2O1SKAerdqCHCQAi60eEYG
+	bbFWSjLfa4DrfKeMT8DWWjsYGlDrEbDsj+MGRBlGsll0a5MfQcDzwTBsz1DrZ+u1uqygKzy0IUD
+	Gd6NzkxfJmeXHdwZs6FoIY+dWIAyFna756EkOrTpAEqz6yc/xh/S8eX5nVJoBsTJYsa1ES2Guu5
+	wSGoVQfTpmaoGNMJ71k62OJnddqVhKiFQNbNFO4gxzOKbQ4++GiIx0CAsuiK9fL9pK4DdDyOxKh
+	7LpYTqUuxrRvm14G7I5mq+3dkLtw8GBnQ3DO2xVakbKUzktanSspU
+X-Google-Smtp-Source: AGHT+IEfIxYTONnhe+xRu0jikk0G+zzebdF83eXd074o2mrK0k86lhWSA/IBxcIozC2KvB4QKVdAMQ==
+X-Received: by 2002:a17:906:165a:b0:ae7:ec3:ef41 with SMTP id a640c23a62f3a-aec4fc42368mr1727192666b.45.1753185249984;
+        Tue, 22 Jul 2025 04:54:09 -0700 (PDT)
+Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca2f19csm849926466b.70.2025.07.22.04.54.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jul 2025 04:54:09 -0700 (PDT)
+Date: Tue, 22 Jul 2025 13:54:07 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Chen Ridong <chenridong@huaweicloud.com>
+Cc: Tejun Heo <tj@kernel.org>, Tiffany Yang <ynaffit@google.com>, 
+	linux-kernel@vger.kernel.org, John Stultz <jstultz@google.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Chen Ridong <chenridong@huawei.com>, kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: cpu.stat in core or cpu controller (was Re: [RFC PATCH v2]
+ cgroup: Track time in cgroup v2 freezer)
+Message-ID: <adrjkqsqqwxcsdr5z4wmxcrvgvutkulzgka6pjjv23v6242txr@vv2ysb46nhpk>
+References: <20250714050008.2167786-2-ynaffit@google.com>
+ <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
+ <aHktSgmh-9dyB7bz@slm.duckdns.org>
+ <mknvbcalyaheobnfeeyyldytcoyturmeuq3twcrri5gaxtjojs@bbyqhshtjfab>
+ <180b4c3f-9ea2-4124-b014-226ff8a97877@huaweicloud.com>
+ <jyvlpm6whamo5ge533xdsvqnsjsxdonpvdjbtt5gqvcw5fjp56@q4ej7gy5frj7>
+ <e065b8da-9e7c-4214-9122-83d83700a729@huaweicloud.com>
+ <aHvHb0i6c8A_aCIo@slm.duckdns.org>
+ <2c723007-710f-4592-9fe2-7534eb47e74f@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="euhvc2odhqtm7xfg"
+Content-Disposition: inline
+In-Reply-To: <2c723007-710f-4592-9fe2-7534eb47e74f@huaweicloud.com>
+
+
+--euhvc2odhqtm7xfg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: cpu.stat in core or cpu controller (was Re: [RFC PATCH v2]
+ cgroup: Track time in cgroup v2 freezer)
+MIME-Version: 1.0
 
-On Monday, July 21, 2025 2:51:14=E2=80=AFAM Central European Summer Time Gr=
-egory Price wrote:
-> On Thu, Jul 17, 2025 at 04:14:13PM +0200, Fabio M. De Francesco wrote:
-> > The table above shows a real configuration copied from an x86 platform=
-=20
-> > where the Low Memory Hole (LMH) starts at 2GB.=20
-> >=20
-> > The"HDM Decoder Base/Size" refers specifically to the CXL Endpoint=20
-> > Decoders HPA range Base/Size. The first row of the table describes the=
-=20
-> > first window (CFMWS[0]), whose HPA rage base/size is 0/2GB, and the=20
-> > Endpoint Decoder that the CXL driver should match with that CFMWS,=20
-> > whose HPA range base/size is 0/3GB.
+On Tue, Jul 22, 2025 at 05:01:50PM +0800, Chen Ridong <chenridong@huaweiclo=
+ud.com> wrote:
+> Specifically, this change would allow us to:
 >=20
-> The only thing i ask is being more precise with decoder references.
->=20
-> HDM Decoder can refer to any of: root, switch, hb, or endpoint decoders.
->=20
-> Below you make this distinct in the explanation, but in the table it's
-> simply general "HDM Decoder".  All I ask is for a bit more clarity on
-> what decoder will contain what values to avoid further ambiguity.
->=20
-I agree, "HDM Decoder" was ambiguous. I will relabel it to "(intermediate)=
-=20
-Switch and Endpoint Decoders".
->
-> > The driver expects that the Endpoint Decoders HPA ranges to be containe=
-d=20
-> > into their corresponding Root Decoders. Furthermore, Linux fails to=20
-> > attach Endpoint decoders to already constructed CXL Regions because of=
-=20
-> > the same size discrepancy issue.=20
-> > >=20
-> > > I think you need to describe what the expected behavior is for what l=
-inux
-> > > will produce in terms of the decoder objects given the above.
-> > >
-> > The expected behavior is that Linux should be able to match the Endpoin=
-t=20
-> > Decoder with the Root Decoder range even if the CFMWS size is smaller=20
-> > than the Decoder's, as long as the latter adheres to the 256MB * interl=
-eave=20
-> > ways rule. Furthermore, Linux should be able to match the Endpoint deco=
-ders=20
-> > with already constructed CXL Regions and allow the attachment process t=
-o=20
-> > succeed.=20
-> >=20
->=20
-> You may also need to describe more than just the contents of the
-> endpoint decoder.  What would the content of any intermediate decoders
-> be (matching the root or matching the endpoint?).
->
-I think that the output of the simulation of a hole in the cxl_test=20
-mocked CXL topology, with a CFMWS HPA size of 3 * 256MiB, and Switch and=20
-Endpoint Decoders HPA sizes of 4 * 256MiB can help to clarify. The Region
-Interleave ways is 2.=20
+> 1.Remove these CPU-specific callbacks from the core:
+>   css_extra_stat_show()
+>   css_local_stat_show()
+> 2. Clean up the 'is_self' logic in rstat.c.
 
-In this example the CXL driver is patched and correctly deals with a=20
-simulated LMH that trimmed the CFMWS[0] range size and made it not aligned
-to 256MiB * IW.
-
-[root@fedora ndctl]# cxl list -RDu -r5
-[
-  {
-    "root decoders":[
-      {
-        "decoder":"decoder9.0",
-        "resource":"0x3ff010000000",
-        "size":"768.00 MiB (805.31 MB)",
-        "interleave_ways":1,
-        "max_available_extent":0,
-        "volatile_capable":true,
-        "qos_class":42,
-        "nr_targets":1,
-        "regions:decoder9.0":[
-          {
-            "region":"region5",
-            "resource":"0x3ff010000000",
-            "size":"768.00 MiB (805.31 MB)",
-            "type":"ram",
-            "interleave_ways":2,
-            "interleave_granularity":4096,
-            "decode_state":"commit"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "port decoders":[
-      {
-        "decoder":"decoder10.0",
-        "resource":"0x3ff010000000",
-        "size":"1024.00 MiB (1073.74 MB)",
-        "interleave_ways":1,
-        "region":"region5",
-        "nr_targets":1
-      },
-      {
-        "decoder":"decoder14.0",
-        "resource":"0x3ff010000000",
-        "size":"1024.00 MiB (1073.74 MB)",
-        "interleave_ways":2,
-        "interleave_granularity":4096,
-        "region":"region5",
-        "nr_targets":2
-      }
-    ]
-  },
-  {
-    "endpoint decoders":[
-      {
-        "decoder":"decoder28.0",
-        "resource":"0x3ff010000000",
-        "size":"1024.00 MiB (1073.74 MB)",
-        "interleave_ways":2,
-        "interleave_granularity":4096,
-        "region":"region5",
-        "dpa_resource":"0",
-        "dpa_size":"384.00 MiB (402.65 MB)",
-        "mode":"ram"
-      },
-      {
-        "decoder":"decoder23.0",
-        "resource":"0x3ff010000000",
-        "size":"1024.00 MiB (1073.74 MB)",
-        "interleave_ways":2,
-        "interleave_granularity":4096,
-        "region":"region5",
-        "dpa_resource":"0",
-        "dpa_size":"384.00 MiB (402.65 MB)",
-        "mode":"ram"
-      }
-    ]
-  }
-]
-
-The construction of Regions and subsequent attachment of Switch and=20
-Endpoint Decoders is based on matching Root Decoders and existing Regions
-with Switch and Endpoint Decoders. If these objects can't be matched=20
-between them, the Regions can't be constructed and/or attached with=20
-the Switch and Endpoint Decoders.    =20
-
-The CXL driver can always match Endpoint Decoders with Switch Decoders=20
-because their HPA range sizes are the same regardless of LMH's. =20
-
-But with LMH's that trim the CFMWS HPA range to smaller sizes, a=20
-non-patched CXL driver can't match the Root Decoders and Regions with the=20
-Switch and Endpoint decoders. Therefore, the CXL Region construction and=20
-Decoders attachment can't succeed.
-      }
-    ]
-  }
-]
-
-The construction of Regions and subsequent attachment of Switch and=20
-Endpoint Decoders is based on matching Root Decoders and existing Regions
-with Switch and Endpoint Decoders. If these objects can't be matched=20
-between them, the Regions can't be constructed and/or attached with=20
-the Switch and Endpoint Decoders.    =20
-
-Anyway, the CXL driver can always match Endpoint Decoders with Switch
-Decoders because the HPA range sizes are the same also when LMH's are =20
-
-But with an LMH that trim the CFMWS HPA range size to a smaller size, a=20
-non-patched CXL driver can't match the Root Decoders and Regions with the=20
-Switch and Endpoint decoders. Therefore, the CXL Region construction and=20
-Decoders attachment can't succeed.
->
-> > If this explanation suffices, I will incorporate it into the next versi=
-on
-> > of this patch and also explain that "HDM Decoder" stands for Endpoint D=
-ecoder=20
-> > and that the CFMWS HPA base/size describes the System Physical Address =
-(SPA)=20
-> > which the CXL driver uses to make Root Decoders HPA range base/size.=20
-> >=20
->=20
-> This explanation is better, just need a few more bits of data and I
-> think you're good to go.
->=20
-Thanks,
-
-=46abio
-
-=46abio
->
-> ~Gregory
->=20
+If you see an option to organize the code better, why not. (At the same
+time, I currently also don't see the "why.)
 
 
+> 3. Make the stat handling consistent across subsystems (currently cpu.sta=
+t is the only
+> subsystem-specific stat implemented in the core).
 
+But beware that the possibility of having cpu.stat without enabling the
+cpu controller on v2 is a user visible behavior and I'm quite sure some
+userspace relies on it, so you'd need to preserve that.
 
+Michal
+
+--euhvc2odhqtm7xfg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaH973QAKCRB+PQLnlNv4
+CFq/AQClJUmKOphL5NvNc5AVqGOpLStkEZI+TheupLy0GZFR7gEAnedr53Iw59zU
+//68DI0J9sYoXIgmUXii8bcidi8uwwY=
+=Mri+
+-----END PGP SIGNATURE-----
+
+--euhvc2odhqtm7xfg--
