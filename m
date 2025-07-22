@@ -1,139 +1,168 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637F11C3306
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 01:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5E0E573;
+	Tue, 22 Jul 2025 02:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753149209; cv=none; b=SCfFfP5oF17kYhlyIuDgi0FgZPFu3P46OjND54E4cdfO8WAO96NUcztrkq5v/akBiDOPt46P0dp1zJqhBv3lQKD3+wofAA6OKdKaYncnccTI6PLYYVS2u7ce7mLuuJVKaV9kieIi1e5v93Ta7aasXyIftD2lc1wXFWy8pqHSwB4=
+	t=1753151033; cv=none; b=qOAmrHgaH9xu70OhuQoaGp4GGQZyEcyh54S56ZCA4NwzxPHFJoGRLdFt6fBP1vMl1LDBzw57CDLM9n0PAf1Rzk8HsodwihDXgk7tcHjZ6GZvSuQ1+LJIHoRKYZe60TAHLOY4/U0d+cvdm7M58oKsOFQ+84N68FSE6a9M49Nh5JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753149209; c=relaxed/simple;
-	bh=7Eifg3KSSA5Jt2qx/3hzXf0HaiUdAumge8P2aIN3a9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P7JY1FrwzDGWQdTYAiJQa0TMp25Gx5OU9c+AOX70Eqkn3R6NHrvSj+At4fS2dUUtSJYoAi5VXBy/GP9/ul2Prz+unNnZnXuSyE946Qo5G3YWcjxlLCHsRnfBwsoGRzpaCZ6UGaL3Ye9yH2PhItw1gakRJ3Tyjq6EGeidl40TTpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=d/mxqrVu; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1753151033; c=relaxed/simple;
+	bh=ZyGlTW1yugcoNtyDmm72FT20mFuf855FzNVR7lnl4H4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cPeaZc6fSvwvjUadTLPdWPNV+rEhQ9zxK0Is9rpP3VSQ50nQcCAZaaZnLnAkqaE7gyCc54j/dAfW0sOd3SPhO4gXkZOwbdWQXyyTJRxvLzvF6lY+S/pv08tZYt7tvVn0ebAQEbqLgWnju2mzrhHknn4ohpwAvpVefQbHufXQzPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gmZ9gg4S; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="d/mxqrVu"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-74931666cbcso4044179b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jul 2025 18:53:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gmZ9gg4S"
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-52b2290e290so1391247e0c.1;
+        Mon, 21 Jul 2025 19:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1753149208; x=1753754008; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1753151031; x=1753755831; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4rHylqCjx1w2oDPs7/xM2Riq8NSJ9PhhkdUN4+cutX8=;
-        b=d/mxqrVuV/nJGiDTPI4uKTSBnYtBuGqiWTEBw/GpcyLGTr9ymVkBt0rr+BZcmMvC5w
-         MiwwRwJH150Mq2n7/tX0XePIdYryksrd/NJcspM1iuf/lSQRP2vqozqIhjRl1tyR3pEz
-         gdJ9xefFjurGdpWo1lPzPDUIF4VJTOzjXNr2gUkg+Ok7ubHv9UzIzkqrzQ+B7wpx/h+R
-         R8hsoh4dZg/HjfiBvX28JGz68nq161pz1jCHiFHorhNxEoBKQF9OG4J2LYPPmFsJ0RfW
-         sJJ8WlH+kuXrNtjMbX0WBwCbltsIEa/o2Zt3zoFl1vf10XntK/qW5J9kKp5qzer3QwjN
-         nZKQ==
+        bh=b/C+U2K3/i43umoAQCo3nc2pCSOMDyoCKEEcB2BDhGM=;
+        b=gmZ9gg4St6BIRuLNEnJcXiT9SYfayFiHgPoIfyvOpwP80/hqA14+ueALVH452aeKFY
+         BWBDJ+W5e5Xq3XYurYAuktzLG5lQxK5sEIpjndTNH3Eq1xma2gm99rXpwAkZHaS9o/9M
+         ezixi0MP6bB4+fNVszCggB+nGhw55d/9oUxvdEw9gnrUEfdORmLXIsDitUDZIVOXfUkl
+         VqW/SDKO2g3jv9gM+md/UnuS1hpyab74ZtBDmaA8p5YSPvaekbdqPrjlQEo+Re522P4c
+         /ZFpAyvtQ1mvm+9RW35xMLd2+WbiBfRrkxdzHPej1IP9FrdU8WhA0fNZrPD5wZT5d7PX
+         0Qaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753149208; x=1753754008;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1753151031; x=1753755831;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4rHylqCjx1w2oDPs7/xM2Riq8NSJ9PhhkdUN4+cutX8=;
-        b=PqtZfbkhCAe05YKGzZ5G7NbcU36B+CLasH6c0IZfxA5zKPoSzZmSVCwr3VOAvlRi2N
-         XE7eFwCv8QCsjHmrPv2W5zmv6FnVaCJQak0o75DPZaEOYyZs2Z6xsuBUIfyMNIf3hNMN
-         ILCdQvdoH0U7t0hZkoSAtcwiRHzljONp1aoc7NeenkERiPf0QZ2GbILjlZJko91GRr0V
-         JCnWE64iekEbmItrW0x1YM/6jAjvH/SvzYyt2eSKa5AnWqdNOI+a4fXYqbmNPDcbFJnW
-         wRGH1VtZ5mjoJZ34UaLhf5bbYq9E+N4cMu4q0OuiAE5Gcp5NTCr7j4xWTRxI2xzrcG0r
-         czzg==
-X-Forwarded-Encrypted: i=1; AJvYcCW55o98hoVZKJXPq6zpnYgva14WLLMlS52bornv7MXNrOcc+tkpsEAn4DMWXk7Q7/MYfU7KLi0+s6c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAFSAWvu6zDSQv8oBTxLKwCCE8kOu/I5AbxbXmtI6B1qh7ofnM
-	QSt2ztH2xX3FjslJQBfX4+hJvK67nPcGz5zsySt3MEUWpavyocvlol2VwAUArty21K8=
-X-Gm-Gg: ASbGncuYi1geKR74z/ynKKg/TE15LBz5mqFSpo5EpShY2tO1GXplYybk0zJC/218+Bd
-	97C1Vtjvz+c7DSdqz7ZKyidLf+dxgMq7AQA4zYlSBxXikS+zUg2VDt5bIuumyR5jdJknMMFUBuT
-	45yR6WkzfyiULmhxrGBPfHgX7gdkcpNLr/lnlEbGfozsJCQZwWK6Z+7IOBJPdfBYfJ3XlDum8aK
-	jtW2A8GVwUTdP8Ncbytl08qR6OIsl1tK8uSOHODZwG1n6m0GCJ+zNLHJi05CjtU/zQFnJD6yiu+
-	ItgFcbyI1zf8p+/96F5Tebj3BHJ8SU1Ru1jpJ3H27m+Hlhlz0N6kTBAKh7MgrflLHNssmhzU3qz
-	u4mEwtLG/KlBlSkHm+9oSrDcH14poNQVGC54C1crxzX+ItqlzrA==
-X-Google-Smtp-Source: AGHT+IE6DV4AnVW0+4Gsag1rZoVLI3l8Jq88LM8p0J3ZdDdDROI+eXGNgt3ap9Wn8cOMjGOum41DxA==
-X-Received: by 2002:a05:6a00:2e0d:b0:740:67aa:94ab with SMTP id d2e1a72fcca58-758462d74b4mr25646084b3a.0.1753149207483;
-        Mon, 21 Jul 2025 18:53:27 -0700 (PDT)
-Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f2fe62d9fsm6017441a12.1.2025.07.21.18.53.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jul 2025 18:53:27 -0700 (PDT)
-From: Brigham Campbell <me@brighamcampbell.com>
-To: dianders@chromium.org,
-	tejasvipin76@gmail.com,
-	diogo.ivo@tecnico.ulisboa.pt,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH v6 4/4] drm: docs: Update task from drm TODO list
-Date: Mon, 21 Jul 2025 19:53:11 -0600
-Message-ID: <20250722015313.561966-5-me@brighamcampbell.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250722015313.561966-1-me@brighamcampbell.com>
-References: <20250722015313.561966-1-me@brighamcampbell.com>
+        bh=b/C+U2K3/i43umoAQCo3nc2pCSOMDyoCKEEcB2BDhGM=;
+        b=vWhrYyDR+tsLv0b2DLctPn7I+RvVusYZJ4iBmm4BxyBOsR2MZ2YVLYw+P7pjhkZgG9
+         Znc9mVyLJ0kRaGxTYyyAjct1LQuwdds2BnSmME+JkxvpQEs68TXRgrmemXCuupM+GL7T
+         6nXOvnuK9imVYIfHshaJZ6M5JqGoo3ZqRKn06L714Guy1apPOzMqATRCcvbmgXZtIp8Q
+         4TfOJuhDlLBMG0fqUYLUZnLCElKWtwZDt00It+yIns8EY6BgZq5T71rHcj9wrYMzxMTS
+         v6DCs0O2MSwDsphd4tYfw860VA0SVV0Lvt9Kz0xWIY7KM4kd10jMwW3SzVW2qjTOHmLx
+         XzUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0L9NlPNsGrjxyJ3ZPw3rFVxfD6Pilk7VFqchtULHgpwDIEUI6EjEXk2UEDV7Ly9Sdj/sB1Vz4BJbeDayr@vger.kernel.org, AJvYcCVSIM4i6+/gSsV9p3vRZlpvZHDv5ExVPNY/sZvGziW1yrIgOSjLfzUkwzT/o9sb9Y5Q6RsnRw4lEKo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZpyM0Pyi0Cj1991NuV3n/uvczS9OOzEj+ojxBr2JVZ57rTYVX
+	GdjoYZ3/o0vlncj0gVGxxX92N2aNiwlOWGah31ipeV23TcKSfa/YujpVEHAW1V5iXQOx47qJP1P
+	KVpld+ttWdRTQcSpxIlZpUgCamnkA8Gg=
+X-Gm-Gg: ASbGncv3OcLV55pTzi3bvob1GG//7VKXS4QlIoWg7Udtc2FkOOFt0r9D7FOjZPiE0Ld
+	rf5Zq3TzPlfzm13P4bBphzEq05CZeSfuzA7jKoVCibKMDIOMWI8fEgmJSX3jUNIRWEOvSA/Xide
+	f3LKJIbSYksTg5dUQaXRwpisVe3hLjWLx87sHw6LlpnERXXa3YT/kOPqWo5xsKUH2YBRRoGhA6I
+	bnYR2s=
+X-Google-Smtp-Source: AGHT+IGesNlr5e/sM49NBb9K/B4x7qfIWHZWh698rKyBwCLi7wWon4ZhVCgWQfP34NW6TE1MplcctXDbbJZ71bGMN64=
+X-Received: by 2002:a05:6122:3286:b0:535:e35d:49f4 with SMTP id
+ 71dfb90a1353d-5373fcbc0d3mr10995191e0c.11.1753151030620; Mon, 21 Jul 2025
+ 19:23:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250721155530.75944-1-lorenzo.stoakes@oracle.com> <35df32ae-dc95-48e1-bdb1-90f17bfd4d5c@linux.alibaba.com>
+In-Reply-To: <35df32ae-dc95-48e1-bdb1-90f17bfd4d5c@linux.alibaba.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Tue, 22 Jul 2025 10:23:39 +0800
+X-Gm-Features: Ac12FXx4o5zzStPLAnFL7QFhqYq_Lgoa4m8TQ4nfuZBMUKJ2dVDoDaKYQTkIF2I
+Message-ID: <CAGsJ_4yMLi_+yxJYebTbEALujcVmeqbfHh=ArkZRxMwE+OBWgQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: update THP documentation to clarify sysfs "never" setting
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update TODO item from drm documentation to contain more applicable
-information regarding the removal of deprecated MIPI DSI functions and
-no longer reference functions which have already been removed from the
-kernel.
+On Tue, Jul 22, 2025 at 9:30=E2=80=AFAM Baolin Wang
+<baolin.wang@linux.alibaba.com> wrote:
+>
+>
+>
+> On 2025/7/21 23:55, Lorenzo Stoakes wrote:
+> > Rather confusingly, setting all Transparent Huge Page sysfs settings to
+> > "never" does not in fact result in THP being globally disabled.
+> >
+> > Rather, it results in khugepaged being disabled, but one can still obta=
+in
+> > THP pages using madvise(..., MADV_COLLAPSE).
+> >
+> > This is something that has remained poorly documented for some time, an=
+d it
+> > is likely the received wisdom of most users of THP that never does, in
+> > fact, mean never.
+> >
+> > It is therefore important to highlight, very clearly, that this is not =
+the
+> > ase.
+> >
+> > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> > ---
+> >   Documentation/admin-guide/mm/transhuge.rst | 11 +++++++++--
+> >   1 file changed, 9 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation=
+/admin-guide/mm/transhuge.rst
+> > index dff8d5985f0f..182519197ef7 100644
+> > --- a/Documentation/admin-guide/mm/transhuge.rst
+> > +++ b/Documentation/admin-guide/mm/transhuge.rst
+> > @@ -107,7 +107,7 @@ sysfs
+> >   Global THP controls
+> >   -------------------
+> >
+> > -Transparent Hugepage Support for anonymous memory can be entirely disa=
+bled
+> > +Transparent Hugepage Support for anonymous memory can be disabled
+> >   (mostly for debugging purposes) or only enabled inside MADV_HUGEPAGE
+> >   regions (to avoid the risk of consuming more memory resources) or ena=
+bled
+> >   system wide. This can be achieved per-supported-THP-size with one of:=
+:
+> > @@ -119,6 +119,11 @@ system wide. This can be achieved per-supported-TH=
+P-size with one of::
+> >   where <size> is the hugepage size being addressed, the available size=
+s
+> >   for which vary by system.
+> >
+> > +.. note:: Setting "never" in all sysfs THP controls does **not** disab=
+le
+> > +          Transparent Huge Pages globally. This is because ``madvise(.=
+..,
+> > +          MADV_COLLAPSE)`` ignores these settings and collapses ranges=
+ to
+> > +          PMD-sized huge pages unconditionally.
+> > +
+> >   For example::
+> >
+> >       echo always >/sys/kernel/mm/transparent_hugepage/hugepages-2048kB=
+/enabled
+> > @@ -187,7 +192,9 @@ madvise
+> >       behaviour.
+> >
+> >   never
+> > -     should be self-explanatory.
+> > +     should be self-explanatory. Note that ``madvise(...,
+> > +     MADV_COLLAPSE)`` can still cause transparent huge pages to be
+> > +     obtained even if this mode is specified everywhere.
+>
+> I hope this part of the explanation is also copy-pasted into the
+> 'Hugepages in tmpfs/shmem' section. Otherwise look good to me. Thanks.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
----
- Documentation/gpu/todo.rst | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+Apologies if this is a silly question, but regarding this patchset:
+https://lore.kernel.org/linux-mm/cover.1750815384.git.baolin.wang@linux.ali=
+baba.com/
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index be8637da3fe9..92db80793bba 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -497,19 +497,19 @@ Contact: Douglas Anderson <dianders@chromium.org>
- 
- Level: Intermediate
- 
--Transition away from using mipi_dsi_*_write_seq()
---------------------------------------------------
-+Transition away from using deprecated MIPI DSI functions
-+--------------------------------------------------------
- 
--The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
--non-intuitive because, if there are errors, they return out of the *caller's*
--function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
--and mipi_dsi_dcs_write_seq_multi() macros instead.
-+There are many functions defined in ``drm_mipi_dsi.c`` which have been
-+deprecated. Each deprecated function was deprecated in favor of its `multi`
-+variant (e.g. `mipi_dsi_generic_write()` and `mipi_dsi_generic_write_multi()`).
-+The `multi` variant of a function includes improved error handling and logic
-+which makes it more convenient to make several calls in a row, as most MIPI
-+drivers do.
- 
--Once all callers are transitioned, the macros and the functions that they call,
--mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
--probably be removed. Alternatively, if people feel like the _multi() variants
--are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
--variants but change them not to return out of the caller.
-+Drivers should be updated to use undeprecated functions. Once all usages of the
-+deprecated MIPI DSI functions have been removed, their definitions may be
-+removed from ``drm_mipi_dsi.c``.
- 
- Contact: Douglas Anderson <dianders@chromium.org>
- 
--- 
-2.50.1
+It looks like the intention is to disable hugepages even for
+`MADV_COLLAPSE` when the user has set the policy to 'never'. However,
+based on Lorenzo's documentation update, it seems we still want to allow
+hugepages for `MADV_COLLAPSE` even if 'never' is set?
 
+Could you clarify what the intended behavior is? It seems we've decided
+to keep the existing behavior unchanged=E2=80=94am I understanding that
+correctly?
+
+Thanks
+Barry
