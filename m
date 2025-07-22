@@ -1,306 +1,220 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B7B28C2A2
-	for <linux-doc@vger.kernel.org>; Tue, 22 Jul 2025 10:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753180025; cv=none; b=tHdTOcHyEZRr55BejXFoaP0NfqiMgR6sMxyvjmzSt9scHToC382mYBPIrMWAFamdn4QSLKPrMpyJhvL27yaQqZhFcBkwgTd7d0bFfzKDU5NfTWrHsFAOtb7CCeCOXqOvLmH9fzzx+DGd68IcugtsRxgO27Ow0+NXEp1CBtNFmMo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753180025; c=relaxed/simple;
-	bh=4wmPtlDB1x0y4A/q2tPmMwmk1pBC4oi/6vxid7Hcrs8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DE9J3SUGjyCDCYPUCeRiq7Zz/ScZzagf5daZ/+u7ugZ0ifjd8u65WTrXHhdHPIxl7JClGIa5OZIH/l2+q0iX5LjLzCjScheWLLqDTacfmPPmztBn0XJEX2twOEWowqvah80hZ2S1Z/N3UA1Sr0TEcXQMlV0vySDEzhfnWqkfUOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dZ9mgQgi; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D97288528;
+	Tue, 22 Jul 2025 10:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753180128; cv=fail; b=PeMe/VHQhQoWXO4DxOoorvc8MZGtIiFbRtF257khHBUpnymaEDtltp8NdkOzefLySsPIv5KGKBMblOlB53gFuJzCdJlWUCVo82bXJQdDJi3e5IQlF+o/kne7/L1nPpcXP16teo4fTHf/mhHLk/agFhfBt5HTIPfYpUbt/yZdMdI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753180128; c=relaxed/simple;
+	bh=WkqHpbtH6LDiQPgZrWwznYfQktxPWHgvSxB4rHW3Cho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=DTwHG5RcNVeh7IvihYLh/WjE6H20KDzVf9DDc/1BpbsTBkgMX5CUm0qkIZLwRFuk6CsoeyzMuhFgIeq4TMzGbrjZCv5KgDGOaNtIPS/eZVaAcayLOX6vAhnqWw42T+Zb0RX0PIn2msGv3JFnqB1I54/kzDAxr8pr3r++PCPFoRI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=r2JmMV+l; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=B+PPvT3i; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dZ9mgQgi"
-Message-ID: <fc0d3fa9-67a8-4ac7-a213-283e2971227d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1753180010;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YEQ1wMDSwpcY8zt0lXOU9uKmIaPhkBJvfQX9gZU5V+0=;
-	b=dZ9mgQgi6SVpE3dzsnXQjyChbgECJF0Te0lNtdgP21mnyDKF35TdyKnQabS1ewB+L3cIwN
-	NOktDbpX7WAC+ez99cdYSWHmVuCVUQYEewqXATbrNHuPd5p4z4MeM93otemzIg3FYJYCbw
-	+y0UNec4a/OPT5QxvrmSMWyT0avk9Ec=
-Date: Tue, 22 Jul 2025 11:26:44 +0100
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="r2JmMV+l";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="B+PPvT3i"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56M5TBe9002534;
+	Tue, 22 Jul 2025 10:28:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=4HTVgiXIZUTAY/aayL
+	E1KgJkaaNOoU4iLUHN0NElfwg=; b=r2JmMV+lFu4vzyjgJqcpYZPLO/0YcTYXUF
+	gtseyCDW08rKJ5ZMps0mQvvz3QGumI5CGOa/Lbyk5NLrYE6qM5I8RI75w+aLffGm
+	t0/W2kgOtRE28/V5zLMJRTgffYd19OStfBHJUn9miavyNM83cYLN4LqJht2ayTRm
+	HYqjCuQ/hhPZfmABrvhqQicuXnFj1imHmcOQdZfZClj/BqHpl+JAzBh8JUZEWxK+
+	EpSIpLZNqOkkEt5y2E3sq5lkEHZ2zdAjUK3eKSFHBysstT/R1PkKfkfasO5tvypI
+	CLEG6mFv18wYWcKVJ7AftDN2elBhVxtnNFsa03b3Ekjps1nmqLNA==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4805hpcx82-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 22 Jul 2025 10:28:23 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56M9ANnn011318;
+	Tue, 22 Jul 2025 10:28:22 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11on2075.outbound.protection.outlook.com [40.107.236.75])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4801t94ht6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 22 Jul 2025 10:28:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r39p7tHnavZ1SJbWTMRqTtf+LYyTKDz/SBPCl7KRn4M+DZQMMUH5Yi1RtO6/zSo5A2jb3AYWSxB3aOYLdTRZFpH6TrjBcji4j5/ZtBbMKOBuE8VZflESzvPffDw+/CdPT/cBvPbswgc+3yZHPqxwgAuxj5exNmd4ZkPrOIUk/p9DcbC1yzPwR/3/P9WK1uEyHh1AuAB/im3kQFF/+ei+OvFP4JhJ9r+G0c0RXXggKPNbl75XecjlCiDK09zqdQO2r8Psh7wY4d9U2P/2Muo2F5QiVz0fVkAd8dYyNZEyJF43J1FtSvAmrlUiMCbeQOhHrjqP/31kCua3Fza/nOf2nQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4HTVgiXIZUTAY/aayLE1KgJkaaNOoU4iLUHN0NElfwg=;
+ b=HUNeDwG0gGbHafs+PXzk1wfHIo4f7pF0dmEfRPe7vwPg9HggyvXtXxQ1dDcjU5QHBcPa7dFiGSnT6Yg/1liuwjwS6+Q7B0+TlqWDCduscQ2Fsokrrk3CJYNrbAjdr7pxKTAyFtshZsRQUIbQ2X/9YnOAOhmA8jgTsuzX6N3Qr7N9gDmYoBfAQ9EwBzCMi3raMY29FKuRutyXGzRhxLP9avKnC1MxlwxmV8mkv48ymksrUwpXQM1HOwv4lccc5Z8fw3/qKiaXqp3F2bcURREPI0NZYdSTrMX9s3p3xNbrcq7sJfyUAcL0uXRjzzFERKuFow8GXI7vFhT89EUTbj1BGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4HTVgiXIZUTAY/aayLE1KgJkaaNOoU4iLUHN0NElfwg=;
+ b=B+PPvT3iR+RcMRsI4UtiLJbF0YLzO4VmMz7ja+X+56K00EZg0TjqQssqpK6lgePcyo8GAoQlr3DYx9auC3X9rKSru61+otlzcr4TRtPUXAHCc8bWZThpS+Dt2jMt5JOxsgbKxunzk5ivFe8PqfSE2K5tm0lgyVOl1gT5o7tyHPQ=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by SA2PR10MB4716.namprd10.prod.outlook.com (2603:10b6:806:11b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Tue, 22 Jul
+ 2025 10:27:58 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%4]) with mapi id 15.20.8943.029; Tue, 22 Jul 2025
+ 10:27:58 +0000
+Date: Tue, 22 Jul 2025 11:27:55 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        SeongJae Park <sj@kernel.org>, Jann Horn <jannh@google.com>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH POC] prctl: extend PR_SET_THP_DISABLE to optionally
+ exclude VM_HUGEPAGE
+Message-ID: <4b11f40b-a339-4ffd-8b94-a62ef0524403@lucifer.local>
+References: <20250721090942.274650-1-david@redhat.com>
+ <4a8b70b1-7ba0-4d60-a3a0-04ac896a672d@gmail.com>
+ <5968efc3-50ac-465a-a51b-df91fc1a930a@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5968efc3-50ac-465a-a51b-df91fc1a930a@redhat.com>
+X-ClientProxiedBy: LO2P265CA0497.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:13a::22) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 02/15] net: rnpgbe: Add n500/n210 chip support
-To: Yibo Dong <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
- danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com, lorenzo@kernel.org,
- geert+renesas@glider.be, Parthiban.Veerasooran@microchip.com,
- lukas.bulwahn@redhat.com, alexanderduyck@fb.com, richardcochran@gmail.com,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-3-dong100@mucse.com>
- <b4233af1-7143-402b-a45c-379c39edf274@linux.dev>
- <911D202AA380FB7F+20250722095159.GA120552@nic-Precision-5820-Tower>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <911D202AA380FB7F+20250722095159.GA120552@nic-Precision-5820-Tower>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|SA2PR10MB4716:EE_
+X-MS-Office365-Filtering-Correlation-Id: 908f93b6-5514-42ba-0c75-08ddc90a6dba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?96LlkIXbWQqoCRaPQUprWmnETeKSmFZSSYJq/3Lw3XlmzoQJEj+e7dlHj0KF?=
+ =?us-ascii?Q?Y9Mz0zt9m1Ibe8N7WC1+3NweKfR8mgEVeRSYyBasDHMX8tsrYBLhP0nTk5e9?=
+ =?us-ascii?Q?IwZcCusl7xxME1idA/P7utk4wFlvXGfGHy/eHxpqnMZb/vdnT8nq0ts3kzaQ?=
+ =?us-ascii?Q?VVU3olJbkk4Lt5VoK/SuQVrerlh1X1sdhiPHuoIOtFjaEa6jCfsrF8ZH4K7I?=
+ =?us-ascii?Q?RNHEKktkuQtdyOaclfc8vcfAH82ddWgmHDj3sGCOeHHHCDiugKLHbcYyXAk2?=
+ =?us-ascii?Q?eZH3PSAH9G9iULsywg0vL9sGmad+zTiXgBwxLVj1Oon9bEf8imvTNaJKC6Dz?=
+ =?us-ascii?Q?RGGJu7mlOrODFUyrKF1sMmiINLOQwbH4YEz7rXoySbVOz7IvCRbea1hF640i?=
+ =?us-ascii?Q?s2sEgt58elY3ZCUqZ4brVIogXEjFn9yevw0ol3nbhvcIcb/28QlghxNmc4Rj?=
+ =?us-ascii?Q?HuPHvZbqubysWoqCq+EgQIl4UIdPsKXuDZ6+phdOgqt3cCjIToWU/k6moOqU?=
+ =?us-ascii?Q?20NKcfbRN84t4qNBf4TpiBiH7TCt5HlDMlcQKjENjzvW7XYodFxJiKJpUKRt?=
+ =?us-ascii?Q?tY4wjBjJCtq6A6kYEEennJ0dWbRPKpRhoHrygCQTDQycpgB3ZgiPHLg+cmXe?=
+ =?us-ascii?Q?ReI+XbvqUlVACJz/Y4uYzhhshYJoE1S/Hi9Se5x+koqVi7idhXKonNU0O+oq?=
+ =?us-ascii?Q?AT5Z508tq4NhpcgNXoe5HbnEuB2KU8ivV/l5lXAhbg3HT2YMHyXC8uMV1FrW?=
+ =?us-ascii?Q?x+/YCLvX9ZFw+gGlJR+MMf1EkTd1JyB6hyMESqFVtTO+GVTOqm9SU3MotPde?=
+ =?us-ascii?Q?SrK45fahlwvq2DsFfmrUF1txs/ytU2ExPmCTFv16PUu1LaHHqxI+hUFRAzZU?=
+ =?us-ascii?Q?TQJNyZkt3fbKumDMuj2JfmTUQYIA5KeXylfd1Cr7pHiD+BgeFi8QDKLpmN98?=
+ =?us-ascii?Q?lLuqzNTTwLmpJi70TCAZHtI4H7BUl643mYLH+xQ1jLap8KGAdbvPBilgoFeH?=
+ =?us-ascii?Q?dkmTiDRlIgig8lWczIYTl+5XwKGLc3Kc6vTekrLNK/fXBtmExGzvJVnlkTcX?=
+ =?us-ascii?Q?GjnyNfWCSBRlgDR15bkaZzF4DnxG4b0H5s++1OCAu2npt2H63DAmomrKwWy5?=
+ =?us-ascii?Q?7Hi6082acPMM+O8vBBULMYL8ltOAkp1A90j/LMKUZqq3JSstzzN3XxdYnIHo?=
+ =?us-ascii?Q?VX2+c62HZnuPn9f1+Pkxjh6NJB28DGJB1ORDYjsJ9XlNjfSd4uhqhxlGWKWy?=
+ =?us-ascii?Q?RGWWQMN4nyAkecHueQZ9tjxU2uHbN/Cb7lg/NBZcko9COA+2+TlRizsN0603?=
+ =?us-ascii?Q?mfllHufPmskZXwi6qJR1znSq4tI0l0lo5oBiqWjaRSP88Gw2CIjEYDqF6zkb?=
+ =?us-ascii?Q?j6xOFQ4PW0fhL2Q5e3XLUdJhKHmr96PivnVRmrD+eKq/6tucZfazBp8hcDxm?=
+ =?us-ascii?Q?jh329yllWXk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?mGoirB3DsTOF8MoanI9xyWTO8QUouQQYlLf4/tgSD1mYczdivXPVfN4zUEOY?=
+ =?us-ascii?Q?EoeF4Olz88qrtTi/2Rop7ueJH/+mPVA9aER8VuTLmkrlWvQI9nb4mlYccmSd?=
+ =?us-ascii?Q?IDDhTd7jEI+R1WAte3D3Br7+dgsThTxLOjCc5M/DX1dp47H1y7tja6H5eB1F?=
+ =?us-ascii?Q?4ntyENw5Lw3jVGFfyeAnXHw0RsE0veCWdRzmDlYKAxaAl6XjMCE5z9da6eNE?=
+ =?us-ascii?Q?ccJbTLd6pOGD27+nt9ljsBustIIrkNFert9s9XlU1t9kvKCeUxOcOJb63MFt?=
+ =?us-ascii?Q?GkmLKtZAO8kx2D8p4OlKYCfXOOSDRdjU+FFbhoH4wTJgt7sQHGbKz2MmVN6J?=
+ =?us-ascii?Q?ROASmTR8T4MOdj+9O+mVSJkk2XtVVdj0jwSCBlAoJq82JfIYuzj+YKB777ip?=
+ =?us-ascii?Q?VWRZ8NPQfkvm06TWeDjktt0uPWvmya5xLIspEORR0ztrTCkM0B9At/42Nvg7?=
+ =?us-ascii?Q?+l5zhKNvUqxJxKGbWNxnRB/HzZqg0/9NExDKTJAVUsu5Uy1VAb+XGyoAnggB?=
+ =?us-ascii?Q?TWP5IxLeqbOQHnvA34O9UvHXV4QoujKW1+1CZCFfYG5Z/T7fyBrJTjMgPy3H?=
+ =?us-ascii?Q?qq/k0j7mk/qreziDLxJcLYNd6PgLvPfBCK3Pu8erUb2JmL6WpilkZq3QBYEm?=
+ =?us-ascii?Q?65onbzbHz2yDRGVeKvz3HwBnEP/OQ6+5r2RD5fQ/GtrtSaQeulEeoGSM0zNW?=
+ =?us-ascii?Q?8VfHeFbUGa5piROyOlMLyZKT9Wnm6VLlW/QJLmNCgKUdpMPo43ElIKNXH6Hg?=
+ =?us-ascii?Q?7adjhNcg5Noph4RzW9HIjuDISgtP2sMg8gI2Vc0Ered0QIqoZUe1Y0wg3hkI?=
+ =?us-ascii?Q?Z720Wr/h6uYdS1bujuwtHiGe4W0qQrTXVduXnm/sui9oLIu4HKAwLZP0CRpa?=
+ =?us-ascii?Q?9qavpippqqAuqL+xobF+wW0JbcI9JqOgW96YW6wIdabiwyY1zaouYW3xquxf?=
+ =?us-ascii?Q?BNE0J3Xyk9ZaM9201iYc6/cfGyrY/nRRreaesZZm8vSQ5aQkROH/S8+w/7Bx?=
+ =?us-ascii?Q?JId5+uhbtEs2k1F/2H8YWnmaRCXE13Xa4XCurhgtoMHjmL4xcJo3qFrX/FcW?=
+ =?us-ascii?Q?Y/iqKnz+cwRvmS68WTWBUUPZPfXvwVbG1uW5FHb0x9B1NoRK6yCZcY8tnBBM?=
+ =?us-ascii?Q?aqBGTvf13o6wnHyzT4SP4Lo9IOLgLzKOXL3/20HXbVMKe64hLH7hi5RpyCd2?=
+ =?us-ascii?Q?x/TR8lqwvK+i0uf4D8r7+enC+cRTRijUDWRkHA72h4FD5AqdnMOsuFuks0Zd?=
+ =?us-ascii?Q?1MR/9zSrTVO2nbsTq9JGmuQFA0dH69wUaoIh+e/ynR5sFpGPqi32OgL+47uI?=
+ =?us-ascii?Q?XOwCXJtU+bXMo+if1+lxP9XvM8zo2Pi+S/vYe+ioKJmnyGJe9p0Fsd6E2L0C?=
+ =?us-ascii?Q?vHD+m82BODZCnvR38rANTnA+t10i+UBjG9XfOaWcGN9G1mTIPBxywzJdEzNm?=
+ =?us-ascii?Q?hlkra71u4OySsfjK40wBYocge6wLwMS0vLct/u0YTB8xBCwITsTH8wZZMZTT?=
+ =?us-ascii?Q?yUBeKAUhy10dcSY3gLJW2PuaT1bcero5jaikT+Pss4J3OG/O7vrGT6TTxqSo?=
+ =?us-ascii?Q?25mJH/o3nIbIgBdg4AinpsQxqmXS8D0+RAIGP32L6cwCKy46ENrhBfqxgw66?=
+ =?us-ascii?Q?Mg=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	LNEdx5JfwZ7Hkx4cLmb864rVdfavKUkpjpJUrMmBIwhiNQPPmXvKH0MVDpidrGLVmGWozRpUAu6eB4rdVQGuRVP5FBS0s02nTfOOMbnzSYr79ZwMVhAlyzK1kXV3mrcO795x+wpvIpJbsqKRo+u7UYK5bZXHR3tFt3njccNq0kd3zo+2OdfxMQ17kuWIb/r48hwtmNijnho1zOuXCzI7iBmxLKc4HkLiz1DDJTbjhfZyiXNwUYmGcV/LvO9+6lxKUvSJOIFaID5I/5Sk4qJ7SXp3iXA0GZxYobSrlZjhri23XCBDdG93xAf+nnO4HZl5Veogx8yW+YErVklBgguv8lpkSzJ1YsYIj9UZj3rhREN/b5N+N2K1I4tbM+5beTs4uTZwgbD6ojygSEhRCn1VmfQOCTS2DQLKvKUkBgMf8pLMG52wQX1exdfXiIbrnG+h1xqRorSVD6zPv/lIKe/mUATM00B4PV+n4wG9dRlOQvn+LWIaq4Ggq31P7kZrAo0Kn6GW01Fqa2h2xrnYobZSbyQ4D7JzAHoG9Sz1mB9wYKZFm6wCdvwAGZA3dMyr6cey1omI25yG5rAPx0v0F8WgUN976xlkGKV0ctqFXrZtRrw=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 908f93b6-5514-42ba-0c75-08ddc90a6dba
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 10:27:58.5069
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hz69onUSzrTk5mbtzNVg/R+/Nt14klmXoyMucCO2VB0pQt0jyxgoJgTI2XHRtKSeoWyjCE/MolKk/0fASSIj/mD+5WZ+mV6ncIqTuYxT+A8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4716
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 adultscore=0 suspectscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505160000 definitions=main-2507220087
+X-Proofpoint-ORIG-GUID: wNx754shNs4OGXM8jhySZ4qQD_xfPJkG
+X-Authority-Analysis: v=2.4 cv=YY+95xRf c=1 sm=1 tr=0 ts=687f67c7 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10
+ a=W58IfuzhLd0cSXqbJpwA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: wNx754shNs4OGXM8jhySZ4qQD_xfPJkG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDA4NyBTYWx0ZWRfX7Ku9I6pd5Q+Y
+ fhyTaBGoaj4NGF9UUuvT+5a4dYRizcWI22GnqcQg3UN+1NFO/Phn7tAUmCxdFkg/9oD5lzARWNL
+ 8qktATdT33Nj+glLIRa6uKKwF3ddfVbPxMfTgsDfMPW+baefWCE+SO055DK41oXDkqYDAY4WJcF
+ M82K+HVDrfDXltt4+BXYbLM08KbDyXpQI2fnbPdqrUEX4JW7uz5dxQT0II8x1Ulhix+1RMaul/J
+ vrNLwpGkqPaaMf+TJd7NeNKsJJ7TUzmd49b5T7kYcJ1FTCyPYqsKI8i3dvJWwquc7kpdozkiOtz
+ t7kkM7qkxpnK4MRddIjoTOOPVZT5Nv8so2Mdoucww03JquxxxUi8nh+kDWDECfxMNPNIGyFljc9
+ EFmNyY2aNeIdqImzdLgLLQs70sZDkcZQzBi5X/NbtoPP3dv75Ixt47K32kZaBMZMXvaYMke4
 
-On 22/07/2025 10:51, Yibo Dong wrote:
-> On Mon, Jul 21, 2025 at 03:21:23PM +0100, Vadim Fedorenko wrote:
->> On 21/07/2025 12:32, Dong Yibo wrote:
->>> Initialize n500/n210 chip bar resource map and
->>> dma, eth, mbx ... info for future use.
->>>
->>> Signed-off-by: Dong Yibo <dong100@mucse.com>
->>> ---
->>>    drivers/net/ethernet/mucse/rnpgbe/Makefile    |   4 +-
->>>    drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 138 ++++++++++++++++++
->>>    .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 138 ++++++++++++++++++
->>>    drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  27 ++++
->>>    .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   |  68 ++++++++-
->>>    5 files changed, 370 insertions(+), 5 deletions(-)
->>>    create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
->>>    create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
->>>
+On Tue, Jul 22, 2025 at 12:23:04PM +0200, David Hildenbrand wrote:
+> On 21.07.25 19:27, Usama Arif wrote:
+> >   tools/testing/selftests/prctl/Makefile      |   2 +-
+> >   tools/testing/selftests/prctl/thp_disable.c | 207 ++++++++++++++++++++
+>
+> Like SJ says, this should better live under mm, then we can also make use of
+> check_huge_anon() and vm_utils.c and probably also THP helpers from
+> thp_settings.h. Most of the helpers you use should be available in some form
+> there already.
 
-[...]
+*A wild Lorenzo appears*
 
->>> +/**
->>> + * rnpgbe_get_invariants_n500 - setup for hw info
->>> + * @hw: hw information structure
->>> + *
->>> + * rnpgbe_get_invariants_n500 initializes all private
->>> + * structure, such as dma, eth, mac and mbx base on
->>> + * hw->addr for n500
->>> + **/
->>> +static void rnpgbe_get_invariants_n500(struct mucse_hw *hw)
->>> +{
->>> +	struct mucse_dma_info *dma = &hw->dma;
->>> +	struct mucse_eth_info *eth = &hw->eth;
->>> +	struct mucse_mac_info *mac = &hw->mac;
->>> +	struct mucse_mbx_info *mbx = &hw->mbx;
->>> +
->>> +	/* setup msix base */
->>> +	hw->ring_msix_base = hw->hw_addr + 0x28700;
->>> +	/* setup dma info */
->>> +	dma->dma_base_addr = hw->hw_addr;
->>> +	dma->dma_ring_addr = hw->hw_addr + RNPGBE_RING_BASE;
->>> +	dma->max_tx_queues = RNPGBE_MAX_QUEUES;
->>> +	dma->max_rx_queues = RNPGBE_MAX_QUEUES;
->>> +	dma->back = hw;
->>> +	/* setup eth info */
->>> +	eth->eth_base_addr = hw->hw_addr + RNPGBE_ETH_BASE;
->>> +	eth->back = hw;
->>> +	eth->mc_filter_type = 0;
->>> +	eth->mcft_size = RNPGBE_MC_TBL_SIZE;
->>> +	eth->vft_size = RNPGBE_VFT_TBL_SIZE;
->>> +	eth->num_rar_entries = RNPGBE_RAR_ENTRIES;
->>> +	/* setup mac info */
->>> +	mac->mac_addr = hw->hw_addr + RNPGBE_MAC_BASE;
->>> +	mac->back = hw;
->>> +	/* set mac->mii */
->>> +	mac->mii.addr = RNPGBE_MII_ADDR;
->>> +	mac->mii.data = RNPGBE_MII_DATA;
->>> +	mac->mii.addr_shift = 11;
->>> +	mac->mii.addr_mask = 0x0000F800;
->>> +	mac->mii.reg_shift = 6;
->>> +	mac->mii.reg_mask = 0x000007C0;
->>> +	mac->mii.clk_csr_shift = 2;
->>> +	mac->mii.clk_csr_mask = GENMASK(5, 2);
->>> +	mac->clk_csr = 0x02; /* csr 25M */
->>> +	/* hw fixed phy_addr */
->>> +	mac->phy_addr = 0x11;
->>> +
->>> +	mbx->mbx_feature |= MBX_FEATURE_NO_ZERO;
->>> +	/* mbx offset */
->>> +	mbx->vf2pf_mbox_vec_base = 0x28900;
->>> +	mbx->fw2pf_mbox_vec = 0x28b00;
->>> +	mbx->pf_vf_shm_base = 0x29000;
->>> +	mbx->mbx_mem_size = 64;
->>> +	mbx->pf2vf_mbox_ctrl_base = 0x2a100;
->>> +	mbx->pf_vf_mbox_mask_lo = 0x2a200;
->>> +	mbx->pf_vf_mbox_mask_hi = 0;
->>> +	mbx->fw_pf_shm_base = 0x2d000;
->>> +	mbx->pf2fw_mbox_ctrl = 0x2e000;
->>> +	mbx->fw_pf_mbox_mask = 0x2e200;
->>> +	mbx->fw_vf_share_ram = 0x2b000;
->>> +	mbx->share_size = 512;
->>> +
->>> +	/* setup net feature here */
->>> +	hw->feature_flags |= M_NET_FEATURE_SG |
->>> +			     M_NET_FEATURE_TX_CHECKSUM |
->>> +			     M_NET_FEATURE_RX_CHECKSUM |
->>> +			     M_NET_FEATURE_TSO |
->>> +			     M_NET_FEATURE_VLAN_FILTER |
->>> +			     M_NET_FEATURE_VLAN_OFFLOAD |
->>> +			     M_NET_FEATURE_RX_NTUPLE_FILTER |
->>> +			     M_NET_FEATURE_RX_HASH |
->>> +			     M_NET_FEATURE_USO |
->>> +			     M_NET_FEATURE_RX_FCS |
->>> +			     M_NET_FEATURE_STAG_FILTER |
->>> +			     M_NET_FEATURE_STAG_OFFLOAD;
->>> +	/* start the default ahz, update later */
->>> +	hw->usecstocount = 125;
->>> +}
->>> +
->>> +/**
->>> + * rnpgbe_get_invariants_n210 - setup for hw info
->>> + * @hw: hw information structure
->>> + *
->>> + * rnpgbe_get_invariants_n210 initializes all private
->>> + * structure, such as dma, eth, mac and mbx base on
->>> + * hw->addr for n210
->>> + **/
->>> +static void rnpgbe_get_invariants_n210(struct mucse_hw *hw)
->>> +{
->>> +	struct mucse_mbx_info *mbx = &hw->mbx;
->>> +	/* get invariants based from n500 */
->>> +	rnpgbe_get_invariants_n500(hw);
->>
->> it's not a good pattern. if you have some configuration that is
->> shared amoung devices, it's better to create *base() or *common()
->> helper and call it from each specific initializer. BTW, why do you
->> name these functions get_invariants*()? They don't get anything, but
->> rather init/setup configuration values. It's better to rename it
->> according to the function.
->>
-> 
-> I try to devide hardware to dma, eth, mac, mbx modules. Different
-> chips may use the same mbx module with different reg-offset in bar.
-> So I setup reg-offset in get_invariants for each chip. And common code,
-> such as mbx achieve functions with the reg-offset.
-> Ok, I will rename it.
+I mean everyone's saying the same thing, but you'd almost be disappointed
+if I didn't say here 'pleeeease keep as much of this in mm as possible'
+also :P
 
-I fully understand your intention. My point is that calling
-rnpgbe_get_invariants_n500(hw) in rnpgbe_get_invariants_n210() and
-then replace almost half of the values is not a good pattern.
-It's better to have another function to setup values that are the same
-across models, and keep only specifics in *n500() and *n210().
+Thanks for taking this on and writing the test Usama! :)
 
-> 
->>> +
->>> +	/* update msix base */
->>> +	hw->ring_msix_base = hw->hw_addr + 0x29000;
->>> +	/* update mbx offset */
->>> +	mbx->vf2pf_mbox_vec_base = 0x29200;
->>> +	mbx->fw2pf_mbox_vec = 0x29400;
->>> +	mbx->pf_vf_shm_base = 0x29900;
->>> +	mbx->mbx_mem_size = 64;
->>> +	mbx->pf2vf_mbox_ctrl_base = 0x2aa00;
->>> +	mbx->pf_vf_mbox_mask_lo = 0x2ab00;
->>> +	mbx->pf_vf_mbox_mask_hi = 0;
->>> +	mbx->fw_pf_shm_base = 0x2d900;
->>> +	mbx->pf2fw_mbox_ctrl = 0x2e900;
->>> +	mbx->fw_pf_mbox_mask = 0x2eb00;
->>> +	mbx->fw_vf_share_ram = 0x2b900;
->>> +	mbx->share_size = 512;
->>> +	/* update hw feature */
->>> +	hw->feature_flags |= M_HW_FEATURE_EEE;
->>> +	hw->usecstocount = 62;
->>> +}
-
-[...]
-
->>> @@ -58,7 +72,54 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev)
->>>    		 rnpgbe_driver_name, mucse->bd_number);
->>>    	pci_set_drvdata(pdev, mucse);
->>> +	hw = &mucse->hw;
->>> +	hw->back = mucse;
->>> +	hw->hw_type = ii->hw_type;
->>> +
->>> +	switch (hw->hw_type) {
->>> +	case rnpgbe_hw_n500:
->>> +		/* n500 use bar2 */
->>> +		hw_addr = devm_ioremap(&pdev->dev,
->>> +				       pci_resource_start(pdev, 2),
->>> +				       pci_resource_len(pdev, 2));
->>> +		if (!hw_addr) {
->>> +			dev_err(&pdev->dev, "map bar2 failed!\n");
->>> +			return -EIO;
->>> +		}
->>> +
->>> +		/* get dma version */
->>> +		dma_version = m_rd_reg(hw_addr);
->>> +		break;
->>> +	case rnpgbe_hw_n210:
->>> +	case rnpgbe_hw_n210L:
->>> +		/* check bar0 to load firmware */
->>> +		if (pci_resource_len(pdev, 0) == 0x100000)
->>> +			return -EIO;
->>> +		/* n210 use bar2 */
->>> +		hw_addr = devm_ioremap(&pdev->dev,
->>> +				       pci_resource_start(pdev, 2),
->>> +				       pci_resource_len(pdev, 2));
->>> +		if (!hw_addr) {
->>> +			dev_err(&pdev->dev, "map bar2 failed!\n");
->>> +			return -EIO;
->>> +		}
->>> +
->>> +		/* get dma version */
->>> +		dma_version = m_rd_reg(hw_addr);
->>> +		break;
->>> +	default:
->>> +		err = -EIO;
->>> +		goto err_free_net;
->>> +	}
->>> +	hw->hw_addr = hw_addr;
->>> +	hw->dma.dma_version = dma_version;
->>> +	ii->get_invariants(hw);
->>> +
->>>    	return 0;
->>> +
->>> +err_free_net:
->>> +	free_netdev(netdev);
->>> +	return err;
->>>    }
->>
->> You have err_free_net label, which is used only in really impossible
->> case of unknown device, while other cases can return directly and
->> memleak netdev...>>
-> 
-> Yes, It is really impossible case of unknown device. But maybe switch
-> should always has 'default case'? And if in 'default case', nothing To
-> do but free_netdev and return err.
-> Other cases return directly with return 0, and netdev will be freed in
-> rnpgbe_rm_adapter() when rmmod. Sorry, I may not have got the memleak
-> point?
-
-Both rnpgbe_hw_n500 and rnpgbe_hw_n200 cases have error paths which
-directly return -EIO. In this case netdev is not freed and
-rnpgbe_rm_adapter() will not happen as rnpgbe_add_adapter() didn't
-succeed.
-
-
-> 
->>>    /**
->>> @@ -74,6 +135,7 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev)
->>>     **/
->>>    static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->>>    {
->>> +	const struct rnpgbe_info *ii = rnpgbe_info_tbl[id->driver_data];
->>>    	int err;
->>>    	err = pci_enable_device_mem(pdev);
->>> @@ -97,7 +159,7 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->>>    	pci_set_master(pdev);
->>>    	pci_save_state(pdev);
->>> -	err = rnpgbe_add_adapter(pdev);
->>> +	err = rnpgbe_add_adapter(pdev, ii);
->>>    	if (err)
->>>    		goto err_regions;
->>
->>
-> 
-> Thanks for your feedback.
-> 
-
+Cheers, Lorenzo
