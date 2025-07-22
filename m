@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6404C2EA173;
-	Tue, 22 Jul 2025 13:51:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D962EA46C;
+	Tue, 22 Jul 2025 13:56:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753192269; cv=none; b=gkfeJNh4cSVzZ3RhLjs+QgT1ftt8fC1tyfKBQ4apOf1kiigMZxp713utmwl6HV47V1bcCmK1+06jLGG7qw33wyMxGdRfFP43nS0WC4ed5xAMIQGz9/YQXjegb6tmGWtyeCBDw8ILSsjvU9h8Y2bBm97MRLldtUaE++2nJePw3vI=
+	t=1753192596; cv=none; b=iP53RyksTUtW/zahWG63epSfMeQzFdCGEpcgvJfGmJADPTuL5DL1+DOh7JinciGba29Io+f+2CJ4OwRdOMOj6AhCbrOih+CVJcJlLohMFN1kS1FV4KWb+4B5WtJCwX1Ob22Q0jL286lF50Ae8t/eO8eR8KEiIqxNX3BWysREG7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753192269; c=relaxed/simple;
-	bh=8SKeMCUHYITmh0DCa2M2vePU3JIcnv9oLryaCLOLIcY=;
+	s=arc-20240116; t=1753192596; c=relaxed/simple;
+	bh=3K9T2kyn3bASHMxtwsh2/AzdiKDc1GfcfXy1hitJjZc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b2wzNWfihZNX42xE1ugnQypc8CLsCM4OHWR/x6frXOyIAXCVvcQiCvZBN9yztna8CvDYQAR2LznQZ3/3MR94duOksxW3WFqn3TY2wguhIX53OjylR4cnmHgAN4akmDHqt+ihSlGDyecutjnMAdwsuS/+HiIVcPaQExenOoB8pXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=gAPKCB4y; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=YvuGao9j2d+WYAr7IVEKDXmD9WpkovIY7vmKo9BwmgoeY6TXz20Hwj/vHNvxyStuBO/PmNXPe90rO7E5dYjrAg+cb+R62SG84UTEoQT34BPIDDZyh/CzeheSsRkKJhGFTkvvWqzdzxf4TrN4pJoaD4/JKO6wMtVkHFotTw0kG44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Ag3Qpvua; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="gAPKCB4y"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Ag3Qpvua"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=6oapWZ27mSslcABG6IClxIx3Ur53GIaWKsw6y3o+rjQ=; b=gAPKCB4yV286JvypVEywMm7qnV
-	4Njy0vqxTckWgl0dKmgkIlziDSZ5wkhkLmqglOlpgEd9SQ2xzqpy5M8Alqbgj/rc7GfgQdCMa2/m2
-	Hi1SLYj5K1w8foR/e/YZvRVvxsyTrwJJ6qyaA+Uxo5pRa4qO4e2fwc8888CXNU8+OVgQ=;
+	bh=gUdkJH/TIEzuP3/jJRSgayjomDT2mnDPVBrl1QqSpXA=; b=Ag3QpvuaDgGv1nk9QH+7ud4H2V
+	257T3cymOX6iJl+PpwW0dSxGGDJZ1X+PaGZteJOgkvqCvF8ub3ctWoTb5J9kttt3OUH5Wo6WprYIH
+	uNCdRSWTNYBplTNMV1LbfR+jQwyQ7Kk0mburSYS8ota4VsyKyP+3559PukG2R64N32I0=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1ueDNZ-002TFP-RI; Tue, 22 Jul 2025 15:50:01 +0200
-Date: Tue, 22 Jul 2025 15:50:01 +0200
+	id 1ueDTO-002TJR-Tc; Tue, 22 Jul 2025 15:56:02 +0200
+Date: Tue, 22 Jul 2025 15:56:02 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Yibo Dong <dong100@mucse.com>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
@@ -39,12 +39,12 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/15] net: rnpgbe: Add basic mbx ops support
-Message-ID: <942d3782-16af-4b20-9480-9bdf2d6a1222@lunn.ch>
+Subject: Re: [PATCH v2 02/15] net: rnpgbe: Add n500/n210 chip support
+Message-ID: <21ee0d49-8cfd-4046-a07c-c920a74e549c@lunn.ch>
 References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-4-dong100@mucse.com>
- <e66591a1-0ffa-4135-9347-52dc7745728f@lunn.ch>
- <D81C71402E58DF29+20250722064530.GC99399@nic-Precision-5820-Tower>
+ <20250721113238.18615-3-dong100@mucse.com>
+ <4dea5acc-dd7d-463c-b099-53713dd3d7ee@lunn.ch>
+ <8E12C5B26514F60A+20250722062120.GB99399@nic-Precision-5820-Tower>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,51 +53,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <D81C71402E58DF29+20250722064530.GC99399@nic-Precision-5820-Tower>
+In-Reply-To: <8E12C5B26514F60A+20250722062120.GB99399@nic-Precision-5820-Tower>
 
-On Tue, Jul 22, 2025 at 02:45:30PM +0800, Yibo Dong wrote:
-> On Mon, Jul 21, 2025 at 05:43:41PM +0200, Andrew Lunn wrote:
-> > >  #define MAX_VF_NUM (8)
-> > 
-> > > +	hw->max_vfs = 7;
-> > 
-> > ???
-> 
-> This is mistake, max vfs is 7. 8 is '7 vfs + 1 pf'.
+> Yes, I got it before, and I really tried to improve my code.
+> But this is really hard to avoid here.
 
-So it seems like you need to add a new #define for MAX_FUNCS_NUM, and
-set MAX_VF_NUM to 7. And then actually use MAX_VP_NUM. When reviewing
-your own code, seeing the number 7, not a define, should of been a
-warning, something is wrong....
+Agreed. When writing the driver, you need to write it in such a way it
+can be reviewed. And that is a skill in its own.
 
-> > > +static int mucse_obtain_mbx_lock_pf(struct mucse_hw *hw, enum MBX_ID mbx_id)
-> > > +{
-> > > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > > +	int try_cnt = 5000, ret;
-> > > +	u32 reg;
-> > > +
-> > > +	reg = (mbx_id == MBX_FW) ? PF2FW_MBOX_CTRL(mbx) :
-> > > +				   PF2VF_MBOX_CTRL(mbx, mbx_id);
-> > > +	while (try_cnt-- > 0) {
-> > > +		/* Take ownership of the buffer */
-> > > +		mbx_wr32(hw, reg, MBOX_PF_HOLD);
-> > > +		/* force write back before check */
-> > > +		wmb();
-> > > +		if (mbx_rd32(hw, reg) & MBOX_PF_HOLD)
-> > > +			return 0;
-> > > +		udelay(100);
-> > > +	}
-> > > +	return ret;
-> > 
-> > I've not compiled this, but isn't ret uninitialized here? I would also
-> > expect it to return -ETIMEDOUT?
-> > 
-> > 	Andrew
-> > 
-> 
-> Yes, ret is uninitialized. I will fix this.
-
-Did the compiler give a warning? Code should be warning free. We also
-expect networking code to be W=1 warning free.
+Sometimes, you end up writing the driver twice. First time you just
+concentrate on getting it working. The second time you write the
+driver, you break it up into smaller, self contained chunks, which are
+easy to review.
 
 	Andrew
