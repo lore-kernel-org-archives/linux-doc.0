@@ -1,121 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8C9189F5C;
-	Tue, 22 Jul 2025 09:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9D2270EA5;
+	Tue, 22 Jul 2025 09:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753175318; cv=none; b=YE2UQ+T9OzyRJ+XaAeWJCDNfocQWXwRCmSmMjDGVHhwkxFcnMCuA0b09MpaQ1T29BXrgEUvynTxlplC28Dp0A5AKk+XFYXIuLx2HqlmQu/pgPo1nF0FE7HXYDDZXxrBMSxGe07JTpv3KZnsBxh93PlnMHHAGoApuIVmL6TeineE=
+	t=1753175486; cv=none; b=elPmJtISfaDrVEwjrmWazBsWP4HE9//veNF+BzElNgb1T5jhHFZqGghIVouEXIspguukhhuqX9z4swo4Kj0HixGzlYBpHr8Nffe9I1Cc2HkmoHfXR1S4NvFys95OxDx6VlSIy8iojbqmnH/OgTPT80wDCBUjqwUC+7IH1J43tRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753175318; c=relaxed/simple;
-	bh=bpDft6oO+lFmar4gUVFA5oPCPI7YERjD3nM/ltmpdLg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pjdhlhy3g5pPMwdQjmW5fDGjp7D0umWxYnAZxPx0X/EfcAgdF9fQA/62GZWHV1dKZuC9syKVfupG4j93b/8tZK4cSB2jK4aNgB/bqG3/O47m9Axubr/8vMWrHQithdgqHPXx58TvM9q80EHl5lTsmE93I0/tQhmUaaVOCIZ9bpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fTbuEeH4; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fTbuEeH4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B046C4CEEB;
-	Tue, 22 Jul 2025 09:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753175317;
-	bh=bpDft6oO+lFmar4gUVFA5oPCPI7YERjD3nM/ltmpdLg=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fTbuEeH43Z/f3Fxffb7Z/yQ4rg69ui3KXpFD/Wf9NFdU8u0noTtyC5R6HIZD3cft5
-	 rad884nOOJrLawmfJB0M11oQ9L8zlp8VTJSQUKNOfZU66uPEicDqIZcXkBICKZHCez
-	 vPxAjcVPQwHExWCD0e6SG7vYSFltb6jWdVlqC/QZvVZnFZtzm+GEAF8zupIanlvTgx
-	 1/bH7RomwwB/y5RZTbJlDFY+eiNvW+oSyt6zHd01S0L4ArAFWY2X23CZIWV8wY7L5y
-	 42/WKnssfOlr/MJlCk2PNfAN8HfFWZhwnDCuhaWnyP1ju54GRLENyyuHJTUtnPTBXF
-	 fHsGSr/ggPm7A==
-Message-ID: <946c55cb-4810-4c1f-8f87-4456b6ceb37f@kernel.org>
-Date: Tue, 22 Jul 2025 11:08:31 +0200
+	s=arc-20240116; t=1753175486; c=relaxed/simple;
+	bh=V3XzBkGhsHgFumMqo+6Q5lo1lKhko6FY90AOtBRNUww=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=LQ0mGEPyKgvp01a0w1H6DZ7Slb82ejQ/yU3U3zv4KvrktBfQRKC0Bb7FSwatMN1wpY8Ptdxaw2AGKjZJ88s2DmtTgWOve8AfZTna2+oDIGB57uNG7dCAtf0hZ0Nd2a9sojcF9FN4SFjRMpV+RZcG59vG/cInZC7AursxcWSMspY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bmWj40ZwCz6FyCJ;
+	Tue, 22 Jul 2025 17:11:20 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl2.zte.com.cn with SMTP id 56M9B3LG038560;
+	Tue, 22 Jul 2025 17:11:03 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Tue, 22 Jul 2025 17:11:05 +0800 (CST)
+Date: Tue, 22 Jul 2025 17:11:05 +0800 (CST)
+X-Zmail-TransId: 2afa687f55a9ffffffffab2-230a8
+X-Mailer: Zmail v1.0
+Message-ID: <20250722171105251YZi7zdexFaeEVQIj2iYZq@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [PATCH v3] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Vlastimil Babka <vbabka@suse.cz>, Christian Brauner <brauner@kernel.org>
-Cc: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Gomez
- <da.gomez@samsung.com>, Matthias Maennich <maennich@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>,
- Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Christoph Hellwig <hch@infradead.org>, Peter Zijlstra
- <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Shivank Garg <shivankg@amd.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20250715-export_modules-v3-1-11fffc67dff7@suse.cz>
- <b340eb9f-a336-461c-befe-6b09c68b731e@kernel.org>
- <24f995fe-df76-4495-b9c6-9339b6afa6be@suse.cz>
- <49eeff09-993f-42a0-8e3b-b3f95b41dbcf@kernel.org>
- <2025072219-dollhouse-margarita-de67@gregkh>
- <9d61a747-2655-4f4c-a8fe-5db51ff33ff7@suse.cz>
- <2025072246-unexpired-deletion-a0f8@gregkh>
-Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <2025072246-unexpired-deletion-a0f8@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
+        <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>,
+        <zhang.yunkai@zte.com.cn>, <sun.yuxi@zte.com.cn>,
+        <jiang.kun2@zte.com.cn>
+Subject: =?UTF-8?B?RG9jcy96aF9DTjogVHJhbnNsYXRlCgogbmV0d29ya2luZyBkb2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
+Content-Type: multipart/mixed;
+	boundary="=====_001_next====="
+X-MAIL:mse-fl2.zte.com.cn 56M9B3LG038560
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.133 unknown Tue, 22 Jul 2025 17:11:20 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 687F55B8.000/4bmWj40ZwCz6FyCJ
 
 
 
-On 22/07/2025 10.53, Greg Kroah-Hartman wrote:
-> On Tue, Jul 22, 2025 at 10:49:48AM +0200, Vlastimil Babka wrote:
->> On 7/22/25 10:46, Greg Kroah-Hartman wrote:
->>> On Tue, Jul 22, 2025 at 10:26:43AM +0200, Daniel Gomez wrote:
->>>>>
->>>>> Maybe with no reply, you can queue it then?
->>>>
->>>> + Jiri, Stephen and Greg, added to the To: list.
->>>>
->>>> EXPORT_SYMBOL_GPL_FOR_MODULES macro was merged [1] through Masahiro's
->>>> pull request in v6.16-rc1. This patch from Vlastimil renames the macro to
->>>> EXPORT_SYMBOL_FOR_MODULES. This means Jiri's patch b20d6576cdb3 "serial: 8250:
->>>> export RSA functions" will need to be updated accordingly. I'd like like to
->>>> know how you prefer to proceed, since it was requested to have this merged as a
->>>> fix before Linus releases a new kernel with the former name.
->>>
->>> So you want this in 6.16-final?  Ok, do so and then someone needs to fix
->>> up the build breakage in linux-next and in all of the pull requests to
->>> Linus for 6.17-rc1 :)
->>>
+--=====_001_next=====
+Content-Type: multipart/related;
+	boundary="=====_002_next====="
 
-I see... that doesn't sound like it was the right approach. I didn't expect
-follow-up fixes to be needed for the next merge window. Thanks for the heads-up.
-I'll hold off on merging this for now.
 
->>>> Link: https://lore.kernel.org/all/CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com/ [1]
->>>>
->>>>
->>>> Masahiro, just a heads-up that I plan to merge this through the linux-modules
->>>> tree unless you advise otherwise.
->>>
->>> Why not just do the rename after 6.17-rc1 is out?  That way all new
->>> users will be able to be caught at that point in time.  There's no issue
->>
->> Hm there might be people basing their new exports for 6.18 on 6.17-rc1. They
->> would have to be told to use rc2 then.
-> 
-> Yes, that's normal, nothing wrong with that at all, we make api name
-> changes across the tree quite often (i.e. almost every-other release.)
-> 
->> Maybe the best way would be if Linus
->> did this just before tagging rc1, while fixing up all users merged during
->> the merge window?
-> 
-> Again, what's wrong with -rc2?  Anyone caught using this on only -rc1
-> will get a quick "this broke the build" report in linux-next so it's not
-> like this is going to be unnoticed at all.
+--=====_002_next=====
+Content-Type: multipart/alternative;
+	boundary="=====_003_next====="
 
-I think Christian had some renaming candidates. Christian, does this work for
-you?
+
+--=====_003_next=====
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+RnJvbTogV2FuZyBZYXhpbiA8d2FuZy55YXhpbkB6dGUuY29tLmNuPg0KDQp0cmFuc2xhdGUgbmV0
+d29ya2luZyBkb2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ0KDQpXYW5nIFlheGluICgyKToNCiAg
+RG9jcy96aF9DTjogVHJhbnNsYXRlIHRpbWVzdGFtcGluZy5yc3QgdG8gU2ltcGxpZmllZCAgQ2hp
+bmVzZQ0KICBEb2NzL3poX0NOOiBUcmFuc2xhdGUgc2tidWZmLnJzdCB0byBTaW1wbGlmaWVkICBD
+aGluZXNlDQpTdW4geXV4aSAoMik6DQogIERvY3MvemhfQ046IFRyYW5zbGF0ZSBnZW5lcmljLWhk
+bGMucnN0IHRvIFNpbXBsaWZpZWQgIENoaW5lc2UNCiAgRG9jcy96aF9DTjogVHJhbnNsYXRlIG1w
+dGNwLXN5c2N0bC5yc3QgdG8gU2ltcGxpZmllZCAgQ2hpbmVzZQ0KDQogLi4uL3poX0NOL25ldHdv
+cmtpbmcvZ2VuZXJpYy1oZGxjLnJzdCAgICAgICAgIHwgMTc2ICsrKysrDQogLi4uL3RyYW5zbGF0
+aW9ucy96aF9DTi9uZXR3b3JraW5nL2luZGV4LnJzdCAgIHwgICA4ICstDQogLi4uL3poX0NOL25l
+dHdvcmtpbmcvbXB0Y3Atc3lzY3RsLnJzdCAgICAgICAgIHwgMTM5ICsrKysNCiAuLi4vdHJhbnNs
+YXRpb25zL3poX0NOL25ldHdvcmtpbmcvc2tidWZmLnJzdCAgfCAgNDQgKysNCiAuLi4vemhfQ04v
+bmV0d29ya2luZy90aW1lc3RhbXBpbmcucnN0ICAgICAgICAgfCA2NzQgKysrKysrKysrKysrKysr
+KysrDQogNSBmaWxlcyBjaGFuZ2VkLCAxMDM3IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0p
+DQogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL25l
+dHdvcmtpbmcvZ2VuZXJpYy1oZGxjLnJzdA0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0
+aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9uZXR3b3JraW5nL21wdGNwLXN5c2N0bC5yc3QNCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbmV0d29ya2lu
+Zy9za2J1ZmYucnN0DQogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRp
+b25zL3poX0NOL25ldHdvcmtpbmcvdGltZXN0YW1waW5nLnJzdA0KDQotLSANCjIuMjUuMQ==
+
+
+--=====_003_next=====
+Content-Type: text/html ;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+PGRpdiBjbGFzcz0iemNvbnRlbnRSb3ciPjxwPkZyb206IFdhbmcgWWF4aW4gJmx0O3dhbmcueWF4
+aW5AenRlLmNvbS5jbiZndDs8L3A+PHA+PGJyPjwvcD48cD50cmFuc2xhdGUgbmV0d29ya2luZyBk
+b2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZTwvcD48cD48YnI+PC9wPjxwPldhbmcgWWF4aW4gKDIp
+OjwvcD48cD4mbmJzcDsgRG9jcy96aF9DTjogVHJhbnNsYXRlIHRpbWVzdGFtcGluZy5yc3QgdG8g
+U2ltcGxpZmllZCZuYnNwOyBDaGluZXNlPC9wPjxwPiZuYnNwOyBEb2NzL3poX0NOOiBUcmFuc2xh
+dGUgc2tidWZmLnJzdCB0byBTaW1wbGlmaWVkJm5ic3A7IENoaW5lc2U8L3A+PHA+U3VuIHl1eGkg
+KDIpOjwvcD48cD4mbmJzcDsgRG9jcy96aF9DTjogVHJhbnNsYXRlIGdlbmVyaWMtaGRsYy5yc3Qg
+dG8gU2ltcGxpZmllZCZuYnNwOyBDaGluZXNlPC9wPjxwPiZuYnNwOyBEb2NzL3poX0NOOiBUcmFu
+c2xhdGUgbXB0Y3Atc3lzY3RsLnJzdCB0byBTaW1wbGlmaWVkJm5ic3A7IENoaW5lc2U8L3A+PHA+
+PGJyPjwvcD48cD4mbmJzcDsuLi4vemhfQ04vbmV0d29ya2luZy9nZW5lcmljLWhkbGMucnN0Jm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3wgMTc2ICsrKysrPC9wPjxwPiZuYnNwOy4u
+Li90cmFuc2xhdGlvbnMvemhfQ04vbmV0d29ya2luZy9pbmRleC5yc3QmbmJzcDsgJm5ic3A7fCZu
+YnNwOyAmbmJzcDs4ICstPC9wPjxwPiZuYnNwOy4uLi96aF9DTi9uZXR3b3JraW5nL21wdGNwLXN5
+c2N0bC5yc3QmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7fCAxMzkgKysrKzwvcD48
+cD4mbmJzcDsuLi4vdHJhbnNsYXRpb25zL3poX0NOL25ldHdvcmtpbmcvc2tidWZmLnJzdCZuYnNw
+OyB8Jm5ic3A7IDQ0ICsrPC9wPjxwPiZuYnNwOy4uLi96aF9DTi9uZXR3b3JraW5nL3RpbWVzdGFt
+cGluZy5yc3QmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7fCA2NzQgKysrKysrKysr
+KysrKysrKysrPC9wPjxwPiZuYnNwOzUgZmlsZXMgY2hhbmdlZCwgMTAzNyBpbnNlcnRpb25zKCsp
+LCA0IGRlbGV0aW9ucygtKTwvcD48cD4mbmJzcDtjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRh
+dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbmV0d29ya2luZy9nZW5lcmljLWhkbGMucnN0PC9wPjxw
+PiZuYnNwO2NyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
+Ti9uZXR3b3JraW5nL21wdGNwLXN5c2N0bC5yc3Q8L3A+PHA+Jm5ic3A7Y3JlYXRlIG1vZGUgMTAw
+NjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL25ldHdvcmtpbmcvc2tidWZmLnJz
+dDwvcD48cD4mbmJzcDtjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
+bnMvemhfQ04vbmV0d29ya2luZy90aW1lc3RhbXBpbmcucnN0PC9wPjxwPjxicj48L3A+PHA+LS0m
+bmJzcDs8L3A+PHA+Mi4yNS4xPC9wPjwvZGl2Pg==
+
+
+--=====_003_next=====--
+
+--=====_002_next=====--
+
+--=====_001_next=====--
+
