@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456252D9EFB;
-	Tue, 22 Jul 2025 08:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E09321ABCB;
+	Tue, 22 Jul 2025 08:26:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753172512; cv=none; b=Zb9s9YjhDaHhDWu+r39lvCQzE5aXtn42X0ZTN635C3PxULwt8SlZQNFX2lW7ITITGlsJHImwBABCNuq/7A0zzE7sYmrBLoTNZ6ZM3hFJ/Mh5rW/wvTFSNbxAArgliYpGHrnZK8rLtacaHU9fUQNkAoIolokZUACayPmBnejJays=
+	t=1753172810; cv=none; b=bgs8tz2XCWdFa/ZoNWm6Tifxq5qaVDm6Wtj/rr2n08A9O8uSbGEBaAt0TXjXtOT7qU/0VsIW9weJ7hJ0ZsrpTPuoYMycuCjnEOkCl5DHwzpmo4NcQjDRU2J7VYN7h7lScTVSd6dcZ4uJRXXomzTXX6/cVIC+1tqnSlXoB3yPobA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753172512; c=relaxed/simple;
-	bh=6rXqAvxh2EPPEVHvI3n5db0KmlV6QKdie9y6A+tzPg8=;
+	s=arc-20240116; t=1753172810; c=relaxed/simple;
+	bh=oxO8YKy3feSCjF6Ji2MAcjOuLOpl/GFU0C/wsId+vXc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SbDGzDcbINaESGovBKoXo6JJ5B89OqpSwUy1NXWlvrMBo1hAX9J7LnvzUXRPfLVsqvNLRhxTg0JG71s/hFk3y2nqqBa6W1N8DAAETKWP25aF1Bup4pZFO0laN4e76XH9HMdk56KPdqc9E5wxB9at8WTJswB5949SH13BWlQEB9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eq5/RclN; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=EzIieKcouwPi8gBJYM2ZvN7ZvDewR0XAY1fHoMs47dCX7SQpCrd4MrIidvLvbnNYGmt860HrkLPQ236FGKCqoX6EKB6aowH/j7ytCSmePutU47tOz3Z0DuliQ9JWhjIPrye2H7YhgcWZ8Q/Q+07RZZg2MyY43to6dSaxjpAFDNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZBfk+5Mb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eq5/RclN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0726DC4CEF6;
-	Tue, 22 Jul 2025 08:21:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZBfk+5Mb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0143C4CEEB;
+	Tue, 22 Jul 2025 08:26:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753172511;
-	bh=6rXqAvxh2EPPEVHvI3n5db0KmlV6QKdie9y6A+tzPg8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eq5/RclN5RcyYOzadQ0rpvDx0bumrP7Q5zyig00vct2JtoIvdUGeXpfcrfjDPAN4S
-	 morZz0kkmRKeLXwb/DlLZUVythcX5+U58KwMRUbRTDpcaRd9zmybuPf3ToDIqW7nYX
-	 tkDVew86UQMiZvtIZrgBjIqHlALCPidV5mr2f+Q0TYDx0rT3iq43eg8SJAR9s7gNua
-	 TzlvJyesnub6BlO4GqI75ykonOxIlti81EapBIHXffx4zTU+Eo2hiILZRXi+Uyn35K
-	 Mg42S0oA5J9TT+IrE1QWqO98VhNkvOuWG4ywfgSFfI+LQY+hVUTiRrgSOUZazyE1s7
-	 PDKQD68psKrGw==
-Message-ID: <adbc919f-772b-46f1-99fb-d05cf0989763@kernel.org>
-Date: Tue, 22 Jul 2025 10:21:47 +0200
+	s=k20201202; t=1753172810;
+	bh=oxO8YKy3feSCjF6Ji2MAcjOuLOpl/GFU0C/wsId+vXc=;
+	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZBfk+5MbqoLbrRP4SopLMhNdtx97qwxkEqkYEeUQspreRAPnMhLOyxs4rn+tAXNeY
+	 KCUm3PcXvPK/aXkZI8Y3i6v7ho+cc/MNxLisrFovdV8S/17ib9jnZg61rdtJU+duit
+	 J+xKL0Bhr3LeIklSViSqDgdo/3/rnuU1tlKVBlw9Nrp+PPUyF6NTVyBRnTtLyGIjpW
+	 QpqYsykK0UxLIRqHGu+yAT9Ymi69yNkxeTndXAy8MN2dEErWJX6IYDf+xuw+dS2p/0
+	 jdQeseU8sABFpXH4Sf99Bep2B7JNEH8YS2jfWeqh20hkWhDlWpskCqc6jdRgJhyk3/
+	 W++QGd6OBVbPw==
+Message-ID: <49eeff09-993f-42a0-8e3b-b3f95b41dbcf@kernel.org>
+Date: Tue, 22 Jul 2025 10:26:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,167 +35,78 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] genirq: add support for warning on long-running IRQ
- handlers
-To: Wladislav Wiebe <wladislav.wiebe@nokia.com>, tglx@linutronix.de,
- corbet@lwn.net
-Cc: akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
- Neeraj.Upadhyay@amd.com, david@redhat.com, bp@alien8.de, arnd@arndb.de,
- fvdl@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- peterz@infradead.org
-References: <20250714084209.918-1-wladislav.wiebe@nokia.com>
+Reply-To: Daniel Gomez <da.gomez@kernel.org>
+Subject: Re: [PATCH v3] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
+ EXPORT_SYMBOL_FOR_MODULES
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Vlastimil Babka <vbabka@suse.cz>, Daniel Gomez <da.gomez@samsung.com>,
+ Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: Christoph Hellwig <hch@infradead.org>,
+ Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
+ Shivank Garg <shivankg@amd.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20250715-export_modules-v3-1-11fffc67dff7@suse.cz>
+ <b340eb9f-a336-461c-befe-6b09c68b731e@kernel.org>
+ <24f995fe-df76-4495-b9c6-9339b6afa6be@suse.cz>
 Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20250714084209.918-1-wladislav.wiebe@nokia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Daniel Gomez <da.gomez@kernel.org>
+Organization: kernel.org
+In-Reply-To: <24f995fe-df76-4495-b9c6-9339b6afa6be@suse.cz>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 14. 07. 25, 10:41, Wladislav Wiebe wrote:
-> This patch adds a mechanism to detect and warn about long-running IRQ
-> handlers exceeding a user-defined duration threshold in microseconds.
+On 21/07/2025 12.40, Vlastimil Babka wrote:
+> On 7/15/25 20:58, Daniel Gomez wrote:
+>> On 15/07/2025 10.43, Vlastimil Babka wrote:
+>>> Christoph suggested that the explicit _GPL_ can be dropped from the
+>>> module namespace export macro, as it's intended for in-tree modules
+>>> only. It would be possible to restrict it technically, but it was
+>>> pointed out [2] that some cases of using an out-of-tree build of an
+>>> in-tree module with the same name are legitimate. But in that case those
+>>> also have to be GPL anyway so it's unnecessary to spell it out in the
+>>> macro name.
+>>>
+>>> Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
+>>> Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey5sb_8muzdWTMkA@mail.gmail.com/ [2]
+>>> Suggested-by: Christoph Hellwig <hch@infradead.org>
+>>> Reviewed-by: Shivank Garg <shivankg@amd.com>
+>>> Acked-by: David Hildenbrand <david@redhat.com>
+>>> Acked-by: Nicolas Schier <n.schier@avm.de>
+>>> Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
+>>> Reviewed-by: Christian Brauner <brauner@kernel.org>
+>>> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+>>> ---
+>>> Daniel, please clarify if you'll take this via module tree or Christian
+>>> can take it via vfs tree?
+>>
+>> Patch 707f853d7fa3 ("module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper")
+>> from Peter was merged through Masahiro in v6.16-rc1. Since this is a related
+>> fix/rename/cleanup, it'd make sense for it to go through his kbuild tree as
+>> well. Masahiro, please let me know if you'd prefer otherwise. If not, I'll queue
+>> it up in the modules tree.
 > 
-> The feature is enabled via the kernel boot parameter:
-> "irqhandler.duration_warn_us=<threshold_in_us>"
-> 
-> For example, passing irqhandler.duration_warn_us=1000 will warn if an
-> IRQ handler takes more than 1000 microseconds.
-> 
-> Implementation uses local_clock() to measure the execution duration of
-> IRQ handlers. When the threshold is exceeded, a ratelimited warning is
-> printed:
-> 
-> "[CPU14] long duration on IRQ[159:bad_irq_handler [long_irq]], took: 1330 us"
-> 
-> Signed-off-by: Wladislav Wiebe <wladislav.wiebe@nokia.com>
-> ---
-> V1 -> V2: refactor to use local_clock() instead of jiffies and replace
-> 	  Kconfig knobs by a new command-line parameter.
-> V1 link:  https://lore.kernel.org/lkml/20250630124721.18232-1-wladislav.wiebe@nokia.com/
-> ---
->   .../admin-guide/kernel-parameters.txt         |  5 ++
->   kernel/irq/handle.c                           | 48 ++++++++++++++++++-
->   2 files changed, 52 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index f1f2c0874da9..fa89f21ea1e6 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2543,6 +2543,11 @@
->   			for it. Intended to get systems with badly broken
->   			firmware running.
->   
-> +	irqhandler.duration_warn_us= [KNL,EARLY]
-> +			Warn if an IRQ handler exceeds the specified duration
-> +			threshold in microseconds. Useful for identifying
-> +			long-running IRQs in the system.
-> +
->   	irqpoll		[HW]
->   			When an interrupt is not handled search all handlers
->   			for it. Also check all handlers each timer
-> diff --git a/kernel/irq/handle.c b/kernel/irq/handle.c
-> index 9489f93b3db3..eab8fdfab8d8 100644
-> --- a/kernel/irq/handle.c
-> +++ b/kernel/irq/handle.c
-> @@ -136,6 +136,44 @@ void __irq_wake_thread(struct irq_desc *desc, struct irqaction *action)
->   	wake_up_process(action->thread);
->   }
->   
-> +static DEFINE_STATIC_KEY_FALSE(irqhandler_duration_check_enabled);
-> +static u64 irqhandler_duration_threshold_us __ro_after_init;
-> +
-> +static int __init irqhandler_duration_check_setup(char *arg)
-> +{
-> +	unsigned long val;
-> +	int ret;
-> +
-> +	if (!arg)
-> +		return 0;
-> +
-> +	ret = kstrtoul(arg, 0, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (val > 0) {
-> +		irqhandler_duration_threshold_us = val;
-> +		static_branch_enable(&irqhandler_duration_check_enabled);
-> +	} else {
-> +		pr_err("Invalid irqhandler.duration_warn_us setting (%lu)\n", val);
-> +		return -EINVAL;
+> Maybe with no reply, you can queue it then?
 
-Perhaps invert the condition and drop the "else {}"?
++ Jiri, Stephen and Greg, added to the To: list.
 
-> +	}
-> +
-> +	return 0;
-> +}
-> +early_param("irqhandler.duration_warn_us", irqhandler_duration_check_setup);
-> +
-> +static inline void irqhandler_duration_check(u64 ts_start, unsigned int irq,
-> +					      struct irqaction *action)
+EXPORT_SYMBOL_GPL_FOR_MODULES macro was merged [1] through Masahiro's
+pull request in v6.16-rc1. This patch from Vlastimil renames the macro to
+EXPORT_SYMBOL_FOR_MODULES. This means Jiri's patch b20d6576cdb3 "serial: 8250:
+export RSA functions" will need to be updated accordingly. I'd like like to
+know how you prefer to proceed, since it was requested to have this merged as a
+fix before Linus releases a new kernel with the former name.
 
-Can be const.
+Link: https://lore.kernel.org/all/CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com/ [1]
 
-> +{
-> +	u64 delta_us = (local_clock() - ts_start) >> 10;
-> +
-> +	if (unlikely(delta_us > irqhandler_duration_threshold_us)) {
-> +		pr_warn_ratelimited("[CPU%d] long duration on IRQ[%u:%ps], took: %llu us\n",
 
-s/%d/%u/.
-Do you mean "of IRQ[...]"?
-
-> +			smp_processor_id(), irq, action->handler, delta_us);
-> +	}
-> +}
-> +
->   irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
->   {
->   	irqreturn_t retval = IRQ_NONE;
-
-thanks,
--- 
-js
-suse labs
-
+Masahiro, just a heads-up that I plan to merge this through the linux-modules
+tree unless you advise otherwise.
