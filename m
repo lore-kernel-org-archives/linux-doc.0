@@ -1,151 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBC313B280;
-	Tue, 22 Jul 2025 08:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AA52D3202;
+	Tue, 22 Jul 2025 08:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753172826; cv=none; b=cInUyapxyoy424iHD7qa3rodzBZXYp0CBH06Wb9sWfpnarhYQ7j0rpO+zqaXXT2FlXQpzE7dS9wdhaR4synz0FFRBbnRdMtZcMRX4LUJLbaFtkL6TtRUbjZpOK0m9VCQJ6dKEsR8sr3gi8Rsj0ixlTH7/GccBUi4Do2P7MC4hQg=
+	t=1753173000; cv=none; b=UclxTxr1kldC9Wcu8W6dTVFPXvNwQ9lco1UAE/RSnFxFFVD7/A/lKX/mfPdhQeGeGuwBXrMZKdz+7CfSN2dZAcrZtVX0YVBPFhm/1LpQhsKSPZZ4nN3NHtjng57H1nrLG0l3OGHeDMMNwIkZrBcnLcD4r8pL7TXvs+bPm2RV50w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753172826; c=relaxed/simple;
-	bh=yGkRA/6qnjLPhMkWmaVYag52FJSXvc8HTUW6Y3Xuzs4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KYRKMBd2RL8BmzrTn5ZGMAYqWd8awu2tWJDNN3Zyp+ilwTip8eDxdrw0ywuEelMRszYD6iX4kW3JLPIDoWH1t3wDPa/o7fykgyLCTUM4hXmJuUu4FbI1riiEtZFOjhXJM18gzuzatMjn3J1qCp4i4LaN3FW/b2VNw9xWPgjagz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftIKtFsS; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftIKtFsS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A537C4CEF5;
-	Tue, 22 Jul 2025 08:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753172825;
-	bh=yGkRA/6qnjLPhMkWmaVYag52FJSXvc8HTUW6Y3Xuzs4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ftIKtFsS+75DjkESBKR4C/0fTfhjTO5EAQaosz6bDp0SBtC0xu6jrbFmvS+RKsdrx
-	 f4dMY3bCIrRdjzyHRTqQ2IS3DbC0aaJA20FDQXMOHNRYWFh4FtQSBKE6qcpYZfqwwn
-	 EBlY5p7lMzTdcc4tj5YJJGVzamw8NuZS2DY35/I8OtpLoIXd1OL5/ZeHJymCJvh1YO
-	 fQNqEpJ2tIsXeilrIIv/4unMX0gRI4A5tYLUiPoiE/g7dGzpTCnD1Qfrv0OCm/INtf
-	 +6BTjWwe4qdBcxVcEwQyD1qD72/jVzjC0CRHbF2sbB7CBVIvfoxl37x9XjTdsKkyQI
-	 517UWQRiFJG/g==
-Date: Tue, 22 Jul 2025 11:26:46 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Michal Wilczynski <michal.wilczynski@intel.com>,
-	Juergen Gross <jgross@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Roger Pau Monne <roger.pau@citrix.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Usama Arif <usama.arif@bytedance.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
-	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-mm@kvack.org, Ingo Molnar <mingo@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v3 04/13] x86: Handle KCOV __init vs inline mismatches
-Message-ID: <aH9LRgiiXQdABrd6@kernel.org>
-References: <20250717231756.make.423-kees@kernel.org>
- <20250717232519.2984886-4-kees@kernel.org>
- <aHoHkDvvp4AHIzU1@kernel.org>
- <202507181541.B8CFAC7E@keescook>
+	s=arc-20240116; t=1753173000; c=relaxed/simple;
+	bh=dijSbF5TgUCZOZmfbIuovzO+IaPCj3LNBI05XaAR3jA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IiazdyvJ08xxmPfkE4ZMypsM8wy3mg6xD0bkz4n9CFB8f5UDWMc9o+ZlvRvlRumZGWehc+725Q/QDdH18F/SZg6XFAiJKGalGtqFK866eKw4t/ZbTuYPYXwHS1EwW5jlr7ambvfLamthb2gm4V43MaqArfKgLxzsj4bAzublyE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4bmVnJ0c7XzYQvKb;
+	Tue, 22 Jul 2025 16:29:56 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id C6BB41A092F;
+	Tue, 22 Jul 2025 16:29:54 +0800 (CST)
+Received: from [10.174.179.247] (unknown [10.174.179.247])
+	by APP4 (Coremail) with SMTP id gCh0CgDXUxQATH9oJeFhBA--.54737S3;
+	Tue, 22 Jul 2025 16:29:54 +0800 (CST)
+Message-ID: <2c943ca4-7bd2-4c2e-8b7a-8f7edee4adff@huaweicloud.com>
+Date: Tue, 22 Jul 2025 16:29:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202507181541.B8CFAC7E@keescook>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 00/11] md/llbitmap: md/md-llbitmap: introduce a new
+ lockless bitmap
+To: Yu Kuai <yukuai@kernel.org>, corbet@lwn.net, agk@redhat.co,
+ snitzer@kernel.org, mpatocka@redhat.com, hch@lst.de, song@kernel.org,
+ hare@suse.de
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-raid@vger.kernel.org, yukuai3@huawei.com,
+ yangerkun@huawei.com, yi.zhang@huawei.com, johnny.chenyi@huawei.com
+References: <20250721171557.34587-1-yukuai@kernel.org>
+From: Li Nan <linan666@huaweicloud.com>
+In-Reply-To: <20250721171557.34587-1-yukuai@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgDXUxQATH9oJeFhBA--.54737S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7KF48CF1ktF1xGryxCF15Arb_yoW8Xr48pa
+	4kK34ru343Ar17XF13ZryUAFyrJan7JrZrKr1xCw1F9a4DZF98Gr18K3WDtwn3Wr13JF1q
+	qr15K3s3Wr1rXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBSb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487
+	Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aV
+	AFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E
+	8cxan2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82
+	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMI
+	IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
+	0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+	Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUwb18UUUUU
+X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
 
-On Fri, Jul 18, 2025 at 03:51:28PM -0700, Kees Cook wrote:
-> On Fri, Jul 18, 2025 at 11:36:32AM +0300, Mike Rapoport wrote:
-> > Hi Kees,
-> > 
-> > On Thu, Jul 17, 2025 at 04:25:09PM -0700, Kees Cook wrote:
-> > > When KCOV is enabled all functions get instrumented, unless the
-> > > __no_sanitize_coverage attribute is used. To prepare for
-> > > __no_sanitize_coverage being applied to __init functions, we have to
-> > > handle differences in how GCC's inline optimizations get resolved. For
-> > > x86 this means forcing several functions to be inline with
-> > > __always_inline.
-> > > 
-> > > Signed-off-by: Kees Cook <kees@kernel.org>
-> > 
-> > ...
-> > 
-> > > diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-> > > index bb19a2534224..b96746376e17 100644
-> > > --- a/include/linux/memblock.h
-> > > +++ b/include/linux/memblock.h
-> > > @@ -463,7 +463,7 @@ static inline void *memblock_alloc_raw(phys_addr_t size,
-> > >  					  NUMA_NO_NODE);
-> > >  }
-> > >  
-> > > -static inline void *memblock_alloc_from(phys_addr_t size,
-> > > +static __always_inline void *memblock_alloc_from(phys_addr_t size,
-> > >  						phys_addr_t align,
-> > >  						phys_addr_t min_addr)
-> > 
-> > I'm curious why from all memblock_alloc* wrappers this is the only one that
-> > needs to be __always_inline?
-> 
-> Thread-merge[1], adding Will Deacon, who was kind of asking the same
-> question.
-> 
-> Based on what I can tell, GCC has kind of fragile inlining logic, in the
-> sense that it can change whether or not it inlines something based on
-> optimizations. It looks like the kcov instrumentation being added (or in
-> this case, removed) from a function changes the optimization results,
-> and some functions marked "inline" are _not_ inlined. In that case, we end up
-> with __init code calling a function not marked __init, and we get the
-> build warnings I'm trying to eliminate.
-> 
-> So, to Will's comment, yes, the problem is somewhat fragile (though
-> using either __always_inline or __init will deterministically solve it).
-> We've tripped over this before with GCC and the solution has usually
-> been to just use __always_inline and move on.
-> 
-> For memblock_alloc*, it appears to be that the heuristic GCC uses
-> resulted in only memblock_alloc_from() being a problem in this case. I
-> can certainly mark them all as __always_inline if that is preferred.
 
-We had a few of those already converted to __always_inline, so I'm ok with
-continuing to fix them one at at time. Gives a feeling of job security ;-)
 
-> -- 
-> Kees Cook
+在 2025/7/22 1:15, Yu Kuai 写道:
+> From: Yu Kuai <yukuai3@huawei.com>
+> 
+> Changes from v3:
+>   - fix redundant setting mddev->bitmap_id in patch 6;
+>   - add explanation of bitmap attributes in Documentation;
+>   - add llbitmap/barrier_idle in patch 11;
+>   - add some comments in patch 11;
+
+[...]
+
+Patches 01–10 look good:
+
+Reviewed-by: Li Nan <linan122@huawei.com>
+
+> 
+> Yu Kuai (11):
+>    md: add a new parameter 'offset' to md_super_write()
+>    md: factor out a helper raid_is_456()
+>    md/md-bitmap: support discard for bitmap ops
+>    md: add a new mddev field 'bitmap_id'
+>    md/md-bitmap: add a new sysfs api bitmap_type
+>    md/md-bitmap: delay registration of bitmap_ops until creating bitmap
+>    md/md-bitmap: add a new method skip_sync_blocks() in bitmap_operations
+>    md/md-bitmap: add a new method blocks_synced() in bitmap_operations
+>    md: add a new recovery_flag MD_RECOVERY_LAZY_RECOVER
+>    md/md-bitmap: make method bitmap_ops->daemon_work optional
+>    md/md-llbitmap: introduce new lockless bitmap
+> 
+>   Documentation/admin-guide/md.rst |   86 +-
+>   drivers/md/Kconfig               |   11 +
+>   drivers/md/Makefile              |    1 +
+>   drivers/md/md-bitmap.c           |   15 +-
+>   drivers/md/md-bitmap.h           |   45 +-
+>   drivers/md/md-llbitmap.c         | 1598 ++++++++++++++++++++++++++++++
+>   drivers/md/md.c                  |  288 ++++--
+>   drivers/md/md.h                  |   20 +-
+>   drivers/md/raid5.c               |    6 +
+>   9 files changed, 1963 insertions(+), 107 deletions(-)
+>   create mode 100644 drivers/md/md-llbitmap.c
+> 
 
 -- 
-Sincerely yours,
-Mike.
+Thanks,
+Nan
+
