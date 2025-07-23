@@ -1,97 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3255D8F0;
-	Wed, 23 Jul 2025 20:09:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A786C153BE9;
+	Wed, 23 Jul 2025 20:33:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753301382; cv=none; b=ZOEBGgHxY16Ifiv07sl0HYyIEx3RIdkQLKzRCvypmG73XLUdXxeiqu58yfP63PQC1tYB7+kTmLXysQF90PXaU+r7OCn2mo30PQax710nmq+ioj+OcnBEPQE8IZRbvpTOY5NXLdeEwHcNhp5QYjZPlBjqUk45guzkgVwRgKqIQwE=
+	t=1753302781; cv=none; b=FswuJWFL6M0mR+M6aA+4ZEOH7arbxkDT5tUzirE4Eyjwsq+uADWbwRGO6EkHu+HTBwRcTJlUyCEwRaIX1gEEx1zoaH2Jko21rywitroiPLr4uNJXFisgez85MoP5kHuSrMg8WU/XTcTz/Qe7OeIX5YB2swb3z+EjDwkqKzjDvgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753301382; c=relaxed/simple;
-	bh=elfby2ozlx71mk8E9H9uE/KG/7A43FiIZpOdbtogNNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k3zUIchmnBi/vXUjxPJcJIB7Vq12tIlfjYqJz84U88Y4KWGDP/rNu5PupS8Js7h/Ulw4nHw9SMlwGoudVIjXuyHotrSywdZIZoi/mAOguNIPq//ZKea6jCwGu0je0qmEDqcD+XRpwbBJGumXx4QWnxkpDFWNKfBoOvXxfsVsImk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PSmhp6Wu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753302781; c=relaxed/simple;
+	bh=tzUHKd2DCo514hw2NUxvEWvAf2ZgLiRSU8TKD9p51Hc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hbx+NNQMGi2DwezI8R/knU293l+ZkmD+VDDYBCZ+KHlwsiYtpF+z/WwgZ7mFmWz0SAjoOtIwyZ3Wt+ZNWWE7Nwov+duVIl5IoKICDsX9PARmggym7GL8MTfeq2+u+dzquXlDCiFUT6yHaxrwQgA29kFXoF3znbBvROwOi4fa3/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ejswudIF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PSmhp6Wu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19F10C4CEE7;
-	Wed, 23 Jul 2025 20:09:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ejswudIF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 064ECC4CEE7;
+	Wed, 23 Jul 2025 20:33:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753301381;
-	bh=elfby2ozlx71mk8E9H9uE/KG/7A43FiIZpOdbtogNNQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PSmhp6WulcBfgH+W2lewcXw0bTTXDrLFWeN0MYDyn6OxeH08djlrQHVhZgT5uZFCc
-	 D3w3yaBiqueKTRxjjtv+rMLsEP/MQs40w8gat6EMlZOhSzzsnVNmXDvLTi177DZQb8
-	 AZvnK6q2d88wD3BW7tglJ0RH1X/46RbuPpS6RvLP80TzV0jPVr7vi6g2M2ENr7ST+I
-	 um1wp1Gfw0xVvv+npFYbqnNt8vwDMOwiA84/Hc8eM+fx3GsJLLDhaJGWwsCcVX60EF
-	 KYvziwEbfjF/4ZGNG5vPMcvUYrFYK/7VbLFaOA0eqVm62g/Jqdhjz93CYZjuRzdHpd
-	 rkGBHEAJSLaTA==
-Date: Wed, 23 Jul 2025 21:09:34 +0100
-From: Simon Horman <horms@kernel.org>
-To: Yibo Dong <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] net: rnpgbe: Add build support for rnpgbe
-Message-ID: <20250723200934.GO1036606@horms.kernel.org>
-References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-2-dong100@mucse.com>
- <20250722112909.GF2459@horms.kernel.org>
- <0E9C9DD4FB65EC52+20250723030111.GA169181@nic-Precision-5820-Tower>
+	s=k20201202; t=1753302781;
+	bh=tzUHKd2DCo514hw2NUxvEWvAf2ZgLiRSU8TKD9p51Hc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ejswudIFYgFBlZGyyi7JVCJqUHCuH6cdvcpsU2CgoDs+NYML+q38NaMOQ1kSNVX6B
+	 Iv7Z92vSNULyRhNDLp/zScfTGlje6o9Ho/Q7lYE8E3bVwsbLkaBuLvZrMjafFe9Iuu
+	 +KSAG9NX15OXMQcp48BJBgjspsgHnWfb3CRZHe6M4pxfpXWUx5cLxabtYpcR+KXoaU
+	 wf+4sJNxhGUg5nefPbmzKOijqibBF3OjXt14qH6KTe4vAhKF8XVIGkC9lT+Q6TEsrs
+	 feBDArMg+c/LX96DhESE36bC1IX66jznITYkPb7kyVrxaVqaMQP84X9WNSIa4fdVw9
+	 1H7Ce9Efh2dnw==
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH 0/2] Documentation: Fix typos
+Date: Wed, 23 Jul 2025 15:32:40 -0500
+Message-ID: <20250723203250.2909894-1-helgaas@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0E9C9DD4FB65EC52+20250723030111.GA169181@nic-Precision-5820-Tower>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 23, 2025 at 11:01:11AM +0800, Yibo Dong wrote:
-> On Tue, Jul 22, 2025 at 12:29:09PM +0100, Simon Horman wrote:
-> > On Mon, Jul 21, 2025 at 07:32:24PM +0800, Dong Yibo wrote:
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-...
+Fix typos.  Based on v6.16-rc1, split into ABI and other.
 
-> But I can't get this warning follow steps in my local:
-> ---
-> - make x86_64_defconfig
-> - make menuconfig  (select my driver rnpgbe to *)
-> - make W=1 -j 20
-> ---
-> if I compile it with 'make W=1 C=1 -j 20', some errors like this:
-> ---
-> ./include/linux/skbuff.h:978:1: error: directive in macro's argument list
-> ./include/linux/skbuff.h:981:1: error: directive in macro's argument list
-> ........
-> Segmentation fault
-> ---
-> I also tried to use nipa/tests/patch/build_allmodconfig_warn
-> /build_allmodconfig.sh (not run the bot, just copy this sh to source
-> code). It seems the same with 'make W=1 C=1 -j 20'.
-> Is there something wrong for me? I want to get the warnings locally,
-> then I can check it before sending patches. Any suggestions to me, please?
-> Thanks for your feedback.
+Bjorn Helgaas (2):
+  Documentation: Fix typos
+  Documentation/ABI: Fix typos
 
-I would expect what you are trying to work.
-And I certainly would not expect a segmentation fault.
+ .../ABI/obsolete/sysfs-driver-hid-roccat-isku |  2 +-
+ .../obsolete/sysfs-driver-hid-roccat-koneplus |  4 +--
+ .../ABI/obsolete/sysfs-driver-hid-roccat-savu |  2 +-
+ Documentation/ABI/testing/debugfs-driver-dcc  |  2 +-
+ Documentation/ABI/testing/debugfs-hyperv      |  4 +--
+ Documentation/ABI/testing/rtc-cdev            |  2 +-
+ Documentation/ABI/testing/sysfs-ata           |  4 +--
+ .../sysfs-bus-event_source-devices-hisi_ptt   |  4 +--
+ Documentation/ABI/testing/sysfs-bus-iio       |  2 +-
+ .../ABI/testing/sysfs-bus-iio-dma-buffer      |  8 ++---
+ Documentation/ABI/testing/sysfs-bus-rapidio   |  2 +-
+ Documentation/ABI/testing/sysfs-class-fc      |  2 +-
+ .../ABI/testing/sysfs-class-power-rt9467      |  2 +-
+ .../ABI/testing/sysfs-driver-input-exc3000    |  4 +--
+ Documentation/ABI/testing/sysfs-driver-ufs    |  2 +-
+ Documentation/ABI/testing/sysfs-firmware-acpi |  6 ++--
+ .../ABI/testing/sysfs-memory-page-offline     | 13 ++++---
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |  4 +--
+ Documentation/PCI/endpoint/pci-endpoint.rst   |  6 ++--
+ Documentation/RCU/lockdep.rst                 |  2 +-
+ Documentation/RCU/stallwarn.rst               |  2 +-
+ Documentation/accel/qaic/aic100.rst           |  4 +--
+ Documentation/accounting/taskstats.rst        |  2 +-
+ Documentation/admin-guide/LSM/SafeSetID.rst   |  2 +-
+ Documentation/admin-guide/RAS/main.rst        |  2 +-
+ Documentation/admin-guide/blockdev/paride.rst |  2 +-
+ .../admin-guide/device-mapper/vdo-design.rst  |  2 +-
+ Documentation/admin-guide/hw-vuln/mds.rst     |  2 +-
+ Documentation/admin-guide/kdump/kdump.rst     |  2 +-
+ .../admin-guide/kernel-parameters.txt         | 10 +++---
+ Documentation/admin-guide/laptops/sonypi.rst  |  2 +-
+ Documentation/admin-guide/media/imx.rst       |  2 +-
+ Documentation/admin-guide/media/si4713.rst    |  6 ++--
+ Documentation/admin-guide/mm/damon/usage.rst  |  2 +-
+ Documentation/admin-guide/perf/hisi-pmu.rst   |  4 +--
+ .../quickly-build-trimmed-linux.rst           |  4 +--
+ .../admin-guide/reporting-issues.rst          |  4 +--
+ .../verify-bugs-and-bisect-regressions.rst    |  2 +-
+ Documentation/arch/arm/keystone/knav-qmss.rst |  2 +-
+ Documentation/arch/x86/cpuinfo.rst            |  2 +-
+ Documentation/core-api/irq/irq-affinity.rst   |  6 ++--
+ Documentation/core-api/irq/irq-domain.rst     | 36 +++++++++----------
+ .../bindings/sound/davinci-evm-audio.txt      |  2 +-
+ Documentation/devicetree/usage-model.rst      |  2 +-
+ Documentation/driver-api/vfio.rst             |  2 +-
+ Documentation/filesystems/erofs.rst           |  2 +-
+ Documentation/filesystems/gfs2-glocks.rst     |  2 +-
+ Documentation/filesystems/hpfs.rst            |  2 +-
+ Documentation/filesystems/resctrl.rst         |  2 +-
+ .../xfs/xfs-online-fsck-design.rst            |  4 +--
+ .../firmware-guide/acpi/gpio-properties.rst   |  4 +--
+ Documentation/hwmon/f71805f.rst               |  2 +-
+ Documentation/misc-devices/apds990x.rst       |  2 +-
+ Documentation/mm/hwpoison.rst                 |  2 +-
+ Documentation/networking/can.rst              |  2 +-
+ .../ethernet/ti/am65_nuss_cpsw_switchdev.rst  |  2 +-
+ .../ethernet/ti/cpsw_switchdev.rst            |  2 +-
+ Documentation/networking/rds.rst              |  2 +-
+ Documentation/power/pci.rst                   |  4 +--
+ .../power/suspend-and-cpuhotplug.rst          |  2 +-
+ Documentation/sound/cards/emu-mixer.rst       |  2 +-
+ Documentation/trace/fprobe.rst                |  2 +-
+ Documentation/trace/ftrace-uses.rst           |  2 +-
+ Documentation/trace/ftrace.rst                | 14 ++++----
+ Documentation/trace/histogram.rst             |  2 +-
+ .../translations/zh_TW/process/5.Posting.rst  |  2 +-
+ .../userspace-api/media/rc/rc-protos.rst      | 20 +++++------
+ 67 files changed, 132 insertions(+), 133 deletions(-)
 
-I suspect that the version of Sparse you have is causing this problem
-(although it is just a wild guess). I would suggest installing
-from git. http://git.kernel.org/pub/scm/devel/sparse/sparse.git
-
-The current HEAD is commit 0196afe16a50 ("Merge branch 'riscv'").
-I have exercised it quite a lot.
-
-For reference, I also use:
-GCC 15.1.0 from here: https://mirrors.edge.kernel.org/pub/tools/crosstool/
-Clang 20.1.8 from here: https://mirrors.edge.kernel.org/pub/tools/llvm/
-(Because they are the latest non -rc compilers available there)
+-- 
+2.43.0
 
