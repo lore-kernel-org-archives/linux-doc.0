@@ -1,635 +1,271 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2057.outbound.protection.outlook.com [40.107.101.57])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0935B6F06B;
-	Wed, 23 Jul 2025 16:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753287604; cv=fail; b=fcOAID+8UYnZRYFC7TR+tOCQ3is0y+hMCEtYwETWIYMHmyw9vTueHrWDDoG6Apvu+fvu9NsQrGQVKI1DEKyhnAb30sNcYAVqxkpZDusCqd7ylCjDbAYzbPgtVk3gomT13JqKK49e1/XYPGL1pRcwnlmXbZmGcUusJ8WspPH84j8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753287604; c=relaxed/simple;
-	bh=kuGNRLs7Sye30sxUgtUYmBznmjR4lDsrPTYfFo5h6wY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=PNyQsjJz+ty3BSFI+ULLK5A0U+0d4fcr6OM6qFeQ2wgaL+i3GF3bZB5At7K+tZNYGC0RK1dE16sF6fZHAYKZaqBaayauun41jxHsPjuCoH2ifpGgdxvww4/NyXS5wyka/v5U1YGyQ8PhTgd4gC1LXDZYOzpQsMUy3x1BW9GJ26I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=i4/ELOj3; arc=fail smtp.client-ip=40.107.101.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8F01C1AAA;
+	Wed, 23 Jul 2025 16:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753287901; cv=none; b=QW1UeUG3XbllswzGyEcRQlgBfzn/lRCsKI4gATDcutUxFNrNXt7BEhii3AQ4hkXXV+1phvm244c/xZTrW/tMYEOOO3ULoTH/LfeEeFt3/4FbDJL2e0m7p3+vrF8hosokIxjNi9THnQIaLdd84Wo2esVt5yowWH158S49Pt7rBAE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753287901; c=relaxed/simple;
+	bh=+yH5sdRuy5JtUTts9MfUfZZCJprgFstIzCLKlBAEnhc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IxVHUOt3JNRpi4vCSA6MN4l9SNHqaEQsjZV3TKxsUeCWNL7beIebS2C9DWEl17foFps0dBM9vZL97mLRtttD2d/3BDww0Ekb2w0trfuE6EHpEDL3OBbSYggbaDxnbk7esRlWh7dtV2WuqDgLlbdWhMlENgGts8l7Gzd0g5YPGyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=liLifVWL; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="i4/ELOj3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NpmCMYLVgst1Wi02QrVdMvC/LXuXtMv5YQPNVsT0nyNxP/Qn4C+kzq0XAfs/+OpJNTfTKmpbA2wLlI51Nqyqcm8NUzmER96c+Wbg8lTGhpLEClADoCcqPO9XmeDlJGQd0ArsjWX5NTZ0ChuQEE1esw9Wcx6jT7QHXA9UulPYhmUhraY6/S982m08urfe/pv7IR7uwT5RBLRiPRfs4dKtjppZODzitdIPgBz57U6m8Ve7/kGVgZwpWE+mjkOI/zyzJ678NvAIvNGuogilUTsPjSPibtS46DLhP99hCEg5Rd++CyYxxyjdHYEh7wmC1ghLlblS8rh3ibvR5izotDFqCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a7dWinx4hcnyVe+uybDtYR8SgqqDdpkT4LYvUTPuJzA=;
- b=Ww68IR5+Qwb/JB6m1NK00XZ/B25x81ARQA6xSSDIOHHhFTEl17u8+8Eut5zOnJcxG66zqo4q21moZc7GkiamkOtLdnzj0NQTLls29PyTzU74GZ2LnI35jSY3BJpJcW9IvF3Z+1rI+CmcKWLc14tcwYwgxPJsL/FwLECXJzSfJaEuNI1vYaBzvvHvisxLmkPg0tq8nFrX1+rytF5/ygdZ/G6wBHFC+J1mq5mhR2ByC7IdweNIiP2GCGQpA65L7IPfkP67hsF7Izp6Tto+/AbqlQLGyDJ9nF8YBRerKa7oL9+ZJLYGpMzDQmIkyqQSFXWubp4WKFn8VpbxDOSKDhMaZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a7dWinx4hcnyVe+uybDtYR8SgqqDdpkT4LYvUTPuJzA=;
- b=i4/ELOj3CM1TRUEKQiLnP1zT9V5+HB+Fpscltz9GqJt6GXCNLu33Pp8+s8BWXOKyL77ekhvB/n62ZULI796PbXE9BBoA4+7Ka1uhiUTkf/7o6yoGxwCwzWJyqH5Ch3aLSllXveItBu1/vN/BYVHTRoryGhVXfxb1QkaUIIkl4wU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DS7PR12MB6216.namprd12.prod.outlook.com (2603:10b6:8:94::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8964.21; Wed, 23 Jul 2025 16:20:00 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%3]) with mapi id 15.20.8943.028; Wed, 23 Jul 2025
- 16:20:00 +0000
-Message-ID: <36ad7d6a-827d-4e79-825b-0d3b92e5dae0@amd.com>
-Date: Wed, 23 Jul 2025 11:19:55 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v15 31/34] fs/resctrl: Introduce the interface to modify
- assignments in a group
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, james.morse@arm.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: Dave.Martin@arm.com, x86@kernel.org, hpa@zytor.com,
- akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
- Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, fvdl@google.com,
- seanjc@google.com, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
- xin@zytor.com, manali.shukla@amd.com, tao1.su@linux.intel.com,
- sohil.mehta@intel.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- peterz@infradead.org, xin3.li@intel.com, kan.liang@linux.intel.com,
- mario.limonciello@amd.com, thomas.lendacky@amd.com, perry.yuan@amd.com,
- gautham.shenoy@amd.com, chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
-References: <cover.1752013061.git.babu.moger@amd.com>
- <0a646cf184a9113c54518b14a5c94984b36cee2a.1752013061.git.babu.moger@amd.com>
- <de20ecd6-8cb2-4b3b-ba5f-b38f33fe128b@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <de20ecd6-8cb2-4b3b-ba5f-b38f33fe128b@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR13CA0009.namprd13.prod.outlook.com
- (2603:10b6:806:21::14) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="liLifVWL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=zZNfuBfgB8dRySkDcZcabnnOZgPd4ahYjtj3I0BOkM4=; b=liLifVWLrTxGNp03U4ezUOaAcM
+	kl7wHLDNErluVHrsCzFpLad3A/KqCtnUpyr3eFfWTFeV57VEatuR6kyvyxrGBZ6isu2L2UwzHYOaR
+	Vj24hXdbxfa2gaUtS3K/HWa+DrZ/czeRVIrpr5mNRBnd08VndPL8P6CUVzNAjM3crXcs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uecGS-002fSW-KG; Wed, 23 Jul 2025 18:24:20 +0200
+Date: Wed, 23 Jul 2025 18:24:20 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: MD Danish Anwar <danishanwar@ti.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Mengyuan Lou <mengyuanlou@net-swift.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Fan Gong <gongfan1@huawei.com>, Lee Trager <lee@trager.us>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+	Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 1/5] net: rpmsg-eth: Add Documentation for
+ RPMSG-ETH Driver
+Message-ID: <81273487-a450-4b28-abcc-c97273ca7b32@lunn.ch>
+References: <20250723080322.3047826-1-danishanwar@ti.com>
+ <20250723080322.3047826-2-danishanwar@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB6216:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa5bf09c-65dc-44b0-16ab-08ddca04c598
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WExMY20wWW5BS09VdjEzNlVSMk80cWt5WUhCbFFSUmFDdmZuRkt0RnVyb3F3?=
- =?utf-8?B?UGZDQkZpeE5EVGlTL1YyL3RsZjlrbUd1cW0zRlNDVFplRktkaUVobVdhb2lx?=
- =?utf-8?B?akVHbHhwaFpFbkJ5L1FmaE9ob1BJaHkyODRpNTlvY2lVTXlTdkM0WndJNDlw?=
- =?utf-8?B?eHZ3Y3JUM0Y4a0dibGU3YWZ3RWVOOXpyNTNrUlk2STBQRFFkYzhZNnVFNmxw?=
- =?utf-8?B?V0dheXdPRDY0WXRPWTlSSVhIdmFSY1BZZWlidWRHMXkwbGVvSHMxOG04c1E1?=
- =?utf-8?B?K2NjMnRDdHhDUHVTSGt6UHhTYUk3aG1OV0t2MnVxRzBCamtUcWVDQUtaQm13?=
- =?utf-8?B?ZW5MTFlnZVJlZkpxcmhJQW4wT3Fpb0d6bW9Uc0xMclNoZzVjSGJrVHNZVWJw?=
- =?utf-8?B?Z2hndnVZeCtNRTAxY0lQTzUycklvaFBMWXU4Z3dyMkFzMlg3SlNvRUU2OXJL?=
- =?utf-8?B?eEVUbStOQlBFOUxXYTYyQUlrUGJ3Qnd0VnAwSHFXRHdsdHNVVEo1dGRBL2Fn?=
- =?utf-8?B?Nld2RWcxcDY2QVlhN09pQ2ttNjFLRjNkSkQvcXNVNTFrZ0E5NGNzU2t1RFgz?=
- =?utf-8?B?Z0U3c08zaDNxR1pMVEIvUi9uMzE3bk8zU3k5aFNJUzcvWlk5TkVGSTFzd0ZS?=
- =?utf-8?B?OUpxdTJUZzlHN1Z1Qm1XUk9MMVhVVGREQUg3ano5dS9yYjFta0dMZG1hN3FY?=
- =?utf-8?B?U1I1NVJ4R1BVMktnb1hVeEZqMTN4RXExbENNVDFBeGlxSjdnZGRoaTZPaVJU?=
- =?utf-8?B?eVpxdTNQbnkrQkNMMlVQcnpIdzNHbFhkamprVEd2K2pyMjdZdVNabkVXZ3lO?=
- =?utf-8?B?QlY0aWVZSkUyMjhBNlkzVkRGTHZKMit4eGJYT3YyM1hKRUJRZjBCam9EelJ4?=
- =?utf-8?B?VlI0WDUvS1FHRTdkV2JUNGhyUDk2U0VMVXExN0hFM3p6TkRXbTVFOHJZTWtw?=
- =?utf-8?B?SGdQV2ZDMktTMTVVZHgxQTlkS3lkdmtlUWlrYmFGanAvakRNQlQreU9ZYUd1?=
- =?utf-8?B?aFYzRzd3MmpVdDM2M2Z2aXY4VlhvaFlnL3FFcjJMNkZrNDg3eG5xL0ordXR2?=
- =?utf-8?B?SUZOMENsazBBeHp4ZXhzKzJrNjlSdXdIbitLSHMzQStKS09zV3kweWNTM0lH?=
- =?utf-8?B?NmFoOE50bnNXTzQ2eWlWeEZHUVp6bFlvSEVteVE1YmwyYytCY0xSYlA2akp4?=
- =?utf-8?B?eWZDQ1RXclRmUHRSYmtvcEJMR0NyTzZ3SnFEM09DKy96cjRnOHhOYkdETnJV?=
- =?utf-8?B?YjJCV2NDdnZZY0dQS0JBY0sxWm1Zd0NaQXREc25MajBaU0pZNGpsRnQ3aUZ2?=
- =?utf-8?B?RW9HbWxYQyt4NWc5V2l3L0tOcUxCY1NmRUd6SkRXQksvVndvYjFXSFZnYXhL?=
- =?utf-8?B?M3IrWElUWFRtZGpiQjh4K2NWaWRlSUhVMUVrUzNRRlF6RlhYbVJiTFEwT1hh?=
- =?utf-8?B?bWowU25rbHVmNVVvcUgvL3ZGZ254cU90RlNUZkZsRjVFWVl6OXdRbXlzV0kv?=
- =?utf-8?B?dDV6R1FOT084UmJlQTl3RjQ2dTRLSStmbVRXK1FUaWJLU21mbGw2STBuQ2hM?=
- =?utf-8?B?V2Y5UGEvV3h0bkRRallDbWhMTktFbjRHbHNNczZLVXo5bGlscE5XUjVKSS9D?=
- =?utf-8?B?MWcrQUYvUE9NWUxSZ1l4amNtSXhkMmhpVU13c2FDUXJmSEcxMnd5WDI2bXFE?=
- =?utf-8?B?TTZZYXo4dllXK3dINWpqUDllTGY1SjZKeVRuUFFCOXJHUnh5Q21PM0V0ekxS?=
- =?utf-8?B?OWFzckFZOXd1Ly9XVmxsSjc2d3plZ1gyY3pOZ0Q4V21Qd2I2YkUyVWJiWjZ6?=
- =?utf-8?B?ZllHL2hhYzFKU0xRc2EyNGpOY0FsZXNTMlJubEVBaWVCVUxFcE51V0tCTG5P?=
- =?utf-8?B?bmJycEdhaUV1bWRXNEdyTlMyMkh4MytSelNqRVZ6RzBZR0tzUkV0NVBPZUNO?=
- =?utf-8?Q?P0Ka+iLrAbU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UTM4c0hNLy80ZFF2ckdjdmQ2Slg4aGM3SFFyUGtzSzVkK3Q5Y25xZ2F2cVF6?=
- =?utf-8?B?b0o0cnZqdnRTazRhbURySU5Gei9WZVlLTzkxR2xibG9wR0NBZ3hkZSthMjh5?=
- =?utf-8?B?QngxVlZtSmpkdm1RSzVoR3ZxYjVjSG42VTluRWxGcWxYRXIzWk51a1BOQ3VS?=
- =?utf-8?B?YXJyM2ZFQy9RQlM2SG9WNjl2UlNXVnZFVURoeTc1dkpndGV3UUNrVC80T05q?=
- =?utf-8?B?V3NFeVA5UlZ5NCtGUmFOQllOcUIraUppSWZnMVNlRFozWGhJS2hzY0w3VnFT?=
- =?utf-8?B?OGo3Z3Q0Qm9YTGFFTXdCOGRtWXpaUVY2Vk9MdUhRZ2djVGJXZG52MDFHMjUv?=
- =?utf-8?B?RkZ5TXcxc1FaSmozdCtqeUZ6NThiUHRoaUZ4Q1BZOVUvUkhiSHRBUksrYysw?=
- =?utf-8?B?SzRxTGhlTFhWaW9lTEI5ZUs0cmNHQlNrbWhORW9XaUhYU2dMcDBLb3hZaDVt?=
- =?utf-8?B?QjU4ME1Ibkl2ZXp0S2FUdTJzVW9XbGtsWUpjOWx4VERuZXl4cTJMLzZab2E0?=
- =?utf-8?B?MUc1NXBTdzBDTHdWTUhnNjIzUnBNbXdDejFHUjMxdzArYXQzUlpQcUF3R1E2?=
- =?utf-8?B?SGMyVkRZUVorZ05uSXR5NlNiTnBERGxZU01OMHlFV3ZrYmhzbVo5SXhENnNT?=
- =?utf-8?B?NThhMWN1bDVCUG8weGE5Wk9WQXhGam5yaHZEU09vc0VlT1hxMURIWnVIRUhX?=
- =?utf-8?B?T2huRjExcU5CcW1VY0xjb2ZNd21BdmVSTkgyY3d5NU8vY2xBbmcwdnhFVzd3?=
- =?utf-8?B?RUZKbGhqZmdLcHNRTGJuNFpDdVVoWWpyb0FBaTBzc0pwaTFXTXptZlJKeHJG?=
- =?utf-8?B?bFRsTW0rc3B5SGVRY3VWRzNLWlA4ZWt1S2VTc01Va2RNdC9IcWhqbHYxZlBI?=
- =?utf-8?B?THVkZkJmTittbW9yMmpyU3l4M2tUQkJ5M1N0eXpGOWEyM2V5S0paUFFPeEl2?=
- =?utf-8?B?NVBQOFpPeVV6UnNnQVRoRmNWYWFoYUFxd0lleERCVTZoWjVuQVVCMUtiMDln?=
- =?utf-8?B?aXNIQjBMeDZMWGVPR0MrMjNJWlVYWGc4UUkzR3dFZ1RSUDlBaHRPeDFPMGdz?=
- =?utf-8?B?UjB4c0JSSWFvMDkybjd6VkRvQ25vK3lyYUw4ZXBuNmsvbE53VE5nN2FvMmZC?=
- =?utf-8?B?Y21SUXVDL09sUmhSbkJTYkV4aHlyZHVPWnF0aEg5V1FKRm5JTVV6TG5QWndT?=
- =?utf-8?B?QXVGZVdxTEYyYlZyUDRvY20yOWlmdjV5SXQ2K2tHV1B0UVdWSy9FeXh6R0xk?=
- =?utf-8?B?NVd3YTMzayt4OUpvNGxVQjkycDRBbHFyZUIzODVzbWlUd2twQ2NrZ1dtV2R4?=
- =?utf-8?B?TjVyaElqdG83UkY3ODBDU2g0QUNPV1NyT3VNdEtzU3dhaTBnUnoxZTlBY3dI?=
- =?utf-8?B?RUU0ZHN1RFZNWFVSMjkwS1k5UXNoK2J0V0FqbEZmUHdPVTlrN2t3NnNtTStB?=
- =?utf-8?B?Q2Z0UEdiWWJxampFY1djZHFSUGtNZXB6ejFIK3c3djZTbEs0ZFc0eDhhQWxL?=
- =?utf-8?B?bmZYaFF3T3Y1V1RXWkJwVllsTC9XNzNpdTFtRCtzVXhhUWVBZ0RGOHQvL2ln?=
- =?utf-8?B?Z3R1V0lYaHhzL2VYUmNnb3FYdSsvNkwxVUVFeUlsRjEwallJYVdEZnZ0Q1h5?=
- =?utf-8?B?dFZ6Q1NXdm84Mk9ISVFTYjZDcGxNS0huM3Jrc2xxendxemVIOFVVR3o4SjdZ?=
- =?utf-8?B?ZEgyRUFRTFdTdGIrODlua25rNDc0SlVPWFJUMFZkUC9RVE13L3Z4SWt4eTlB?=
- =?utf-8?B?aDBhV3I5Z08xQVRadDIwdkV1bzJMWHJmN0RQWVpGc2tMZmdUQ3BWZVM5SElW?=
- =?utf-8?B?YUFLOGxPTUJZOVhKSzRxdFZmdWpBU0xpN1pGcUUxeW5LcHh4ZWpZTHNGaXgy?=
- =?utf-8?B?U0I1VS9BYW5NUHZBVHNITzh5Y1hDaU1KbUlNUUREdUxxdXZrSFlsVEgzNWly?=
- =?utf-8?B?TkhtNVI4Uk02ZlBHL1dzdGdjRllPNzllSE8zZlpMeFlaTzBEZTlWMm9BSmpG?=
- =?utf-8?B?YWZoWHBNVHlHNDg4ei9LREFhRmhMaEorMXpVOG8yWnMzQXNuSjdjSUtqOWRE?=
- =?utf-8?B?Y3B4TXhjWWdtcU54QlZJdFBlVDlEZWppMEpWc1dPYklhcmE4WDhYRHhkZ28r?=
- =?utf-8?Q?EYTJA5noZEPi2BLcSD1LKRQ65?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa5bf09c-65dc-44b0-16ab-08ddca04c598
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 16:20:00.1709
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VtQr08WcaHeiUITTEn/ee0NCjexPUikbPJDtUhFsYj3SJYjyyH376xtq7XZQPlG0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6216
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250723080322.3047826-2-danishanwar@ti.com>
 
-Hi Reinette,
+> --- a/Documentation/networking/device_drivers/ethernet/index.rst
+> +++ b/Documentation/networking/device_drivers/ethernet/index.rst
+> @@ -61,6 +61,7 @@ Contents:
+>     wangxun/txgbevf
+>     wangxun/ngbe
+>     wangxun/ngbevf
+> +   rpmsg_eth
 
-On 7/17/25 23:01, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 7/8/25 3:17 PM, Babu Moger wrote:
->> Enable the mbm_l3_assignments resctrl file to be used to modify counter
->> assignments of CTRL_MON and MON groups when the "mbm_event" counter
->> assignment mode is enabled.
->>
->> The assignment modifications are done in the following format:
->> <Event>:<Domain id>=<Assignment state>
->>
->> Event: A valid MBM event in the
->>        /sys/fs/resctrl/info/L3_MON/event_configs directory.
->>
->> Domain ID: A valid domain ID. When writing, '*' applies the changes
->> 	   to all domains.
->>
->> Assignment states:
->>
->>     _ : Unassign the counter.
-> 
-> "the counter" -> "a counter" (user cannot control which counter is assigned)
+This list is sorted. Please insert at the right location. I made the
+same comment to somebody else this week as well....
 
-Sure.
+> +This driver is generic and can be used by any vendor. Vendors can develop their
+> +own firmware for the remote processor to make it compatible with this driver.
+> +The firmware must adhere to the shared memory layout, RPMSG communication
+> +protocol, and data exchange requirements described in this documentation.
 
-> 
->>
->>     e : Assign the counter exclusively.
-> 
-> "the counter" -> "a counter"
+Could you add a link to TIs firmware? It would be a good reference
+implementation. But i guess that needs to wait until the driver is
+merged and the ABI is stable.
 
-Sure.
+> +Implementation Details
+> +----------------------
+> +
+> +- The magic number is defined as a macro in the driver source (e.g.,
+> +  ``#define RPMSG_ETH_SHM_MAGIC_NUM 0xABCDABCD``).
+> +- The firmware must write this value to the ``magic_num`` field of the head and
+> +  tail structures in the shared memory region.
+> +- During the handshake, the Linux driver reads these fields and compares them to
+> +  the expected value. If any mismatch is detected, the driver will log an error
+> +  and refuse to proceed.
 
-> 
->>
->> Examples:
->>
->> $ cd /sys/fs/resctrl
->> $ cat /sys/fs/resctrl/mbm_L3_assignments
->>   mbm_total_bytes:0=e;1=e
->>   mbm_local_bytes:0=e;1=e
->>
->> To unassign the counter associated with the mbm_total_bytes event on
->> domain 0:
->>
->> $ echo "mbm_total_bytes:0=_" > mbm_L3_assignments
->> $ cat /sys/fs/resctrl/mbm_L3_assignments
->>   mbm_total_bytes:0=_;1=e
->>   mbm_local_bytes:0=e;1=e
->>
->> To unassign the counter associated with the mbm_total_bytes event on
->> all the domains:
->>
->> $ echo "mbm_total_bytes:*=_" > mbm_L3_assignments
->> $ cat /sys/fs/resctrl/mbm_L3_assignments
->>   mbm_total_bytes:0=_;1=_
->>   mbm_local_bytes:0=e;1=e
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> 
-> ...
-> 
->> ---
->>  Documentation/filesystems/resctrl.rst | 146 +++++++++++++++++++++++++-
->>  fs/resctrl/internal.h                 |   2 +
->>  fs/resctrl/monitor.c                  |  18 ++++
->>  fs/resctrl/rdtgroup.c                 | 123 +++++++++++++++++++++-
->>  4 files changed, 287 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
->> index 4dd1d605d6ad..2b2acb55d8b1 100644
->> --- a/Documentation/filesystems/resctrl.rst
->> +++ b/Documentation/filesystems/resctrl.rst
->> @@ -527,7 +527,8 @@ When the "mba_MBps" mount option is used all CTRL_MON groups will also contain:
->>  	Event: A valid MBM event in the
->>  	       /sys/fs/resctrl/info/L3_MON/event_configs directory.
->>  
->> -	Domain ID: A valid domain ID.
->> +	Domain ID: A valid domain ID. When writing, '*' applies the changes
->> +		   to all the domains.
->>  
->>  	Assignment states:
->>  
->> @@ -544,6 +545,34 @@ When the "mba_MBps" mount option is used all CTRL_MON groups will also contain:
->>  	   mbm_total_bytes:0=e;1=e
->>  	   mbm_local_bytes:0=e;1=e
->>  
->> +	Assignments can be modified by writing to the interface.
->> +
->> +	Example:
->> +	To unassign the counter associated with the mbm_total_bytes event on domain 0:
->> +	::
->> +
->> +	 # echo "mbm_total_bytes:0=_" > /sys/fs/resctrl/mbm_L3_assignments
->> +	 # cat /sys/fs/resctrl/mbm_L3_assignments
->> +	   mbm_total_bytes:0=_;1=e
->> +	   mbm_local_bytes:0=e;1=e
->> +
->> +	To unassign the counter associated with the mbm_total_bytes event on all the domains:
->> +	::
->> +
->> +	 # echo "mbm_total_bytes:*=_" > /sys/fs/resctrl/mbm_L3_assignments
->> +	 # cat /sys/fs/resctrl/mbm_L3_assignments
->> +	   mbm_total_bytes:0=_;1=_
->> +	   mbm_local_bytes:0=e;1=e
->> +
->> +	To assign the counter associated with the mbm_total_bytes event on all domains in
-> 
-> "the counter" -> "a counter" (motivation: user space cannot control which counter is assigned)
+So the firmware always takes the role of "primary" and Linux is
+"secondary"? With the current implementation, you cannot have Linux on
+both ends?
 
-Sure.
+I don't see this as a problem, but maybe it is worth stating as a
+current limitation.
 
-> 
->> +	exclusive mode:
->> +	::
->> +
->> +	 # echo "mbm_total_bytes:*=e" > /sys/fs/resctrl/mbm_L3_assignments
->> +	 # cat /sys/fs/resctrl/mbm_L3_assignments
->> +	   mbm_total_bytes:0=e;1=e
->> +	   mbm_local_bytes:0=e;1=e
->> +
->>  Resource allocation rules
->>  -------------------------
->>  
->> @@ -1579,6 +1608,121 @@ View the llc occupancy snapshot::
->>    # cat /sys/fs/resctrl/p1/mon_data/mon_L3_00/llc_occupancy
->>    11234000
->>  
->> +
->> +Examples on working with mbm_assign_mode
->> +========================================
->> +
->> +a. Check if MBM counter assignment mode is supported.
->> +::
->> +
->> +  #mount -t resctrl resctrl /sys/fs/resctrl/
-> 
-> "#mount" -> "# mount" (please build htmldocs to confirm everything
-> looks consistent)
+> +Shared Memory Layout
+> +====================
+> +
+> +The RPMSG Based Virtual Ethernet Driver uses a shared memory region to exchange
+> +data between the host and the remote processor. The shared memory is divided
+> +into transmit and receive regions, each with its own `head` and `tail` pointers
+> +to track the buffer state.
+> +
+> +Shared Memory Parameters
+> +------------------------
+> +
+> +The following parameters are exchanged between the host and the firmware to
+> +configure the shared memory layout:
 
-Sure.
+So the host tells the firmware this? Maybe this is explained later,
+but is the flow something like:
 
-> 
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +  [mbm_event]
->> +  default
->> +
->> +The "mbm_event" mode is detected and enabled.
->> +
->> +b. Check how many assignable counters are supported.
->> +::
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
->> +  0=32;1=32
->> +
->> +c. Check how many assignable counters are available for assignment in each domain.
->> +::
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/available_mbm_cntrs
->> +  0=30;1=30
->> +
->> +d. To list the default group's assign states:
-> 
-> Please note that these steps are inconsistent. Some end with "." and some end with ":"
+Linux makes an RPC call to the firmware with the parameters you list
+below. Upon receiving that RPC, the firmware puts the magic numbers in
+place. It then ACKs the RPC call? Linux then checks the magic numbers?
 
-Fixed it.
+> +1. **num_pkt_bufs**:
+> +
+> +   - The total number of packet buffers available in the shared memory.
+> +   - This determines the maximum number of packets that can be stored in the
+> +     shared memory at any given time.
+> +
+> +2. **buff_slot_size**:
+> +
+> +   - The size of each buffer slot in the shared memory.
+> +   - This includes space for the packet length, metadata, and the actual packet
+> +     data.
+> +
+> +3. **base_addr**:
+> +
+> +   - The base address of the shared memory region.
+> +   - This is the starting point for accessing the shared memory.
 
-> 
->> +::
->> +
->> +  # cat /sys/fs/resctrl/mbm_L3_assignments
->> +  mbm_total_bytes:0=e;1=e
->> +  mbm_local_bytes:0=e;1=e
->> +
->> +e.  To unassign the counter associated with the mbm_total_bytes event on domain 0:
->> +::
->> +
->> +  # echo "mbm_total_bytes:0=_" > /sys/fs/resctrl/mbm_L3_assignments
->> +  # cat /sys/fs/resctrl/mbm_L3_assignments
->> +  mbm_total_bytes:0=_;1=e
->> +  mbm_local_bytes:0=e;1=e
->> +
->> +f. To unassign the counter associated with the mbm_total_bytes event on all domains:
->> +::
->> +
->> +  # echo "mbm_total_bytes:*=_" > /sys/fs/resctrl/mbm_L3_assignments
->> +  # cat /sys/fs/resctrl/mbm_L3_assignment
->> +  mbm_total_bytes:0=_;1=_
->> +  mbm_local_bytes:0=e;1=e
->> +
->> +g. To assign a counter associated with the mbm_total_bytes event on all domains in
-> 
-> ah ... here "a counter" is used.
-> 
->> +exclusive mode:
->> +::
->> +
->> +  # echo "mbm_total_bytes:*=e" > /sys/fs/resctrl/mbm_L3_assignments
->> +  # cat /sys/fs/resctrl/mbm_L3_assignments
->> +  mbm_total_bytes:0=e;1=e
->> +  mbm_local_bytes:0=e;1=e
->> +
->> +h. Read the events mbm_total_bytes and mbm_local_bytes of the default group. There is
->> +no change in reading the events with the assignment.  If the event is unassigned when
->> +reading, then the read will come back as "Unassigned".
-> 
-> Since returning "Unassigned" can be complicated, the associated description should
-> probably just be done once in the doc. I expect this will be in the "mon_data" section.
+So this is the base address in the Linux address space? How should the
+firmware convert this into a base address in its address space?
 
-Addressed with
-https://lore.kernel.org/lkml/2c107793-1258-4276-8b29-03359fa605f2@amd.com/
+> +4. **tx_offset**:
+> +
+> +   - The offset from the `base_addr` where the transmit buffers begin.
+> +   - This is used by the host to write packets for transmission.
+> +
+> +5. **rx_offset**:
+> +
+> +   - The offset from the `base_addr` where the receive buffers begin.
+> +   - This is used by the host to read packets received from the remote
+> +     processor.
 
-> 
->> +::
->> +
->> +  # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->> +  779247936
->> +  # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->> +  765207488
->> +
->> +i. Check the default event configurations.
-> 
-> Drop "default" (there are only these event configurations)
-> 
+Maybe change 'host' to 'Linux'? Or some other name, 'primary' and
+'secondary'. The naming should be consistent throughout the
+documentation and driver.
 
-Sure.
+Part of the issue here is that you pass this information from Linux to
+the firmware. When the firmware receives it, it has the complete
+opposite meaning. It uses "tx_offset" to receive packets, and
+"rx_offset" to send packets. This can quickly get confusing. If you
+used names like "linux_tx_offset", the added context with avoid
+confusion.
 
->> +::
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/event_configs/mbm_total_bytes/event_filter
->> +  local_reads,remote_reads,local_non_temporal_writes,remote_non_temporal_writes,
->> +  local_reads_slow_memory,remote_reads_slow_memory,dirty_victim_writes_all
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/event_configs/mbm_local_bytes/event_filter
->> +  local_reads,local_non_temporal_writes,local_reads_slow_memory
->> +
->> +j. Change the event configuration for mbm_local_bytes.
->> +::
->> +
->> +  # echo "local_reads, local_non_temporal_writes, local_reads_slow_memory, remote_reads" >
->> +  /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> 
-> "counter_configs" -> "event_configs" (this was also an issue in previous series, please
-> use grep to ensure all are fixed)
+> +Shared Memory Structure
+> +-----------------------
+> +
+> +The shared memory layout is as follows:
+> +
+> +.. code-block:: text
+> +
+> +      Shared Memory Layout:
+> +      ---------------------------
+> +      |        MAGIC_NUM        |   rpmsg_eth_shm_head
+> +      |          HEAD           |
+> +      ---------------------------
+> +      |        MAGIC_NUM        |
+> +      |        PKT_1_LEN        |
+> +      |          PKT_1          |
+> +      ---------------------------
+> +      |           ...           |
+> +      ---------------------------
+> +      |        MAGIC_NUM        |
+> +      |          TAIL           |   rpmsg_eth_shm_tail
+> +      ---------------------------
+> +
+> +1. **MAGIC_NUM**:
+> +
+> +   - A unique identifier used to validate the shared memory region.
+> +   - Ensures that the memory region is correctly initialized and accessible.
+> +
+> +2. **HEAD Pointer**:
+> +
+> +   - Tracks the start of the buffer for packet transmission or reception.
+> +   - Updated by the producer (host or remote processor) after writing a packet.
 
-Fixed.
+Is this a pointer, or an offset from the base address? Pointers get
+messy when you have multiple address spaces involved. An offset is
+simpler to work with. Given that the buffers are fixed size, it could
+even be an index.
 
-> 
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> 
-> "counter_configs" -> "event_configs"
-> 
-Sure.
+> +Information Exchanged Between RPMSG Channels
+> +--------------------------------------------
+> +
+> +1. **Requests from Host to Remote Processor**:
 
->> +  local_reads,local_non_temporal_writes,local_reads_slow_memory,remote_reads
->> +
->> +This will update all (across all domains of all monitor groups) counter assignments
->> +associated with the mbm_local_bytes event.
->> +
->> +k. Now read the local event again. The first read may come back with "Unavailable"
->> +status. The subsequent read of mbm_local_bytes will display the current value.
->> +::
->> +
->> +  # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->> +  Unavailable
->> +  # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->> +  314101
->> +
->> +l. Users have the option to go back to 'default' mbm_assign_mode if required. This can be
->> +done using the following command. Note that switching the mbm_assign_mode may reset all
->> +the MBM counters (and thus all MBM events) of all the resctrl groups.
->> +::
->> +
->> +  # echo "default" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +  # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +  mbm_event
->> +  [default]
->> +
->> +m. Unmount the resctrl
-> 
-> "Unmount the resctrl" -> "Unmount resctrl" or "Unmount the resctrl filesystem"?
+Another place where consistent naming would be good. Here it is the
+remote processor, not firmware used earlier.
 
-Changed to "Unmount the resctrl filesystem."
-> 
->> +::
->> +
->> +  #umount /sys/fs/resctrl/
-> 
-> "#umount" -> "# umount"
-> 
+> +
+> +   - `RPMSG_ETH_REQ_SHM_INFO`: Request shared memory information, such as
+> +     ``num_pkt_bufs``, ``buff_slot_size``, ``base_addr``, ``tx_offset``, and
+> +     ``rx_offset``.
 
-Sure.
+Is this requested, or telling? I suppose the text above uses "between"
+which is ambiguous.
 
->> +
->>  Intel RDT Errata
->>  ================
->>  
->> diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
->> index b42890fd937a..9881674909f2 100644
->> --- a/fs/resctrl/internal.h
->> +++ b/fs/resctrl/internal.h
->> @@ -403,6 +403,8 @@ bool closid_allocated(unsigned int closid);
->>  
->>  int resctrl_find_cleanest_closid(void);
->>  
->> +struct mon_evt *mbm_get_mon_event_by_name(struct rdt_resource *r, char *name);
->> +
->>  int rdtgroup_assign_cntr_event(struct rdt_mon_domain *d, struct rdtgroup *rdtgrp,
->>  			       struct mon_evt *mevt);
->>  void rdtgroup_unassign_cntr_event(struct rdt_mon_domain *d, struct rdtgroup *rdtgrp,
->> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
->> index e30a867c00bb..61419849b257 100644
->> --- a/fs/resctrl/monitor.c
->> +++ b/fs/resctrl/monitor.c
->> @@ -1220,3 +1220,21 @@ void resctrl_update_cntr_allrdtgrp(struct mon_evt *mevt)
->>  			rdtgroup_update_cntr_event(r, crgrp, mevt->evtid);
->>  	}
->>  }
->> +
->> +/*
->> + * mbm_get_mon_event_by_name() - Return the mon_evt entry for the matching
->> + * event name.
->> + */
->> +struct mon_evt *mbm_get_mon_event_by_name(struct rdt_resource *r, char *name)
->> +{
->> +	struct mon_evt *mevt;
->> +
->> +	for_each_mon_event(mevt) {
->> +		if (mevt->rid == r->rid && mevt->enabled &&
->> +		    resctrl_is_mbm_event(mevt->evtid) &&
->> +		    !strcmp(mevt->name, name))
->> +			return mevt;
->> +	}
->> +
->> +	return NULL;
->> +}
->> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
->> index dc108c5db298..b26baca389bb 100644
->> --- a/fs/resctrl/rdtgroup.c
->> +++ b/fs/resctrl/rdtgroup.c
->> @@ -2071,6 +2071,126 @@ static int mbm_L3_assignments_show(struct kernfs_open_file *of, struct seq_file
->>  	return ret;
->>  }
->>  
->> +static int rdtgroup_modify_assign_state(char *assign, struct rdt_mon_domain *d,
-> 
-> Please move to monitor.c
+> +3. **Notifications from Remote Processor to Host**:
+> +
+> +   - `RPMSG_ETH_NOTIFY_PORT_UP`: Notify that the Ethernet port is up and ready
+> +     for communication.
+> +   - `RPMSG_ETH_NOTIFY_PORT_DOWN`: Notify that the Ethernet port is down.
+> +   - `RPMSG_ETH_NOTIFY_PORT_READY`: Notify that the Ethernet port is ready for
+> +     configuration.
 
-Sure.
+That needs more explanation. Why would it not be ready? 
 
-> 
->> +					struct rdtgroup *rdtgrp, struct mon_evt *mevt)
->> +{
->> +	int ret = 0;
->> +
->> +	if (!assign || strlen(assign) != 1)
->> +		return -EINVAL;
->> +
->> +	switch (*assign) {
->> +	case 'e':
->> +		ret = rdtgroup_assign_cntr_event(d, rdtgrp, mevt);
-> 
-> This patch enables the user to assign counters to multiple events in a
-> single write. Looking at this flow:
-> rdtgroup_assign_cntr_event()->rdtgroup_alloc_config_cntr() may thus
-> be called on the same domain but for different events in a single write from
-> user space.
-> I thus think that the error message in rdtgroup_alloc_config_cntr()
-> should not just contain the domain ID, but also the event *name*
-> (not the ID since user space cannot be expect to understand if).
-> considering this it seems that @mevt can be passed through
-> to rdtgroup_alloc_config_cntr() instead of just the event ID to support
-> this?
+> +   - `RPMSG_ETH_NOTIFY_REMOTE_READY`: Notify that the remote processor is ready
+> +     for communication.
 
-Yes. Taken care.
+How does this differ from PORT_READY?
 
-> 
->> +		break;
->> +	case '_':
->> +		rdtgroup_unassign_cntr_event(d, rdtgrp, mevt);
->> +		break;
->> +	default:
->> +		ret = -EINVAL;
-> 
-> Please add a "break".
-> 
+> +How-To Guide for Vendors
+> +========================
+> +
+> +This section provides a guide for vendors to develop firmware for the remote
+> +processor that is compatible with the RPMSG Based Virtual Ethernet Driver.
+> +
+> +1. **Implement Shared Memory Layout**:
+> +
+> +   - Allocate a shared memory region for packet transmission and reception.
+> +   - Initialize the `MAGIC_NUM`, `num_pkt_bufs`, `buff_slot_size`, `base_addr`,
+> +     `tx_offset`, and `rx_offset`.
+> +
+> +2. **Magic Number Requirements**
+> +
+> +   - The firmware must write a unique magic number (for example, ``0xABCDABCD``)
 
-Sure.
+Why "for example"? Do you have a use case where some other value
+should be used? Or can we just make this magic value part of the
+specification?
 
->> +	}
->> +
->> +	return ret;
->> +}
->> +
->> +static int resctrl_process_assign(struct rdt_resource *r, struct rdtgroup *rdtgrp,
-> 
-> Please move to monitor.c and rename to be more specific. For example, 
-> resctrl_parse_mbm_assignment()? Open to ideas.
+> +- The driver assumes a specific shared memory layout and may not work with other
+> +  configurations.
+> +- Multicast address filtering is limited to the capabilities of the underlying
+> +  RPMSG framework.
 
-Sure. Fine with resctrl_parse_mbm_assignment().
+I don't think there is anything special here. The network stack always
+does perfect address filtering. The driver can help out, by also doing
+perfect address filtering, or imperfect address filtering, and letting
+more through than actually wanted. Or it can go into promiscuous mode.
 
-> 
->> +				  char *event, char *tok)
->> +{
->> +	struct rdt_mon_domain *d;
->> +	unsigned long dom_id = 0;
->> +	char *dom_str, *id_str;
->> +	struct mon_evt *mevt;
->> +	int ret;
->> +
->> +	mevt = mbm_get_mon_event_by_name(r, event);
->> +	if (!mevt) {
->> +		rdt_last_cmd_printf("Invalid event %s\n", event);
->> +		return  -ENOENT;
->> +	}
->> +
->> +next:
->> +	if (!tok || tok[0] == '\0')
->> +		return 0;
->> +
->> +	/* Start processing the strings for each domain */
->> +	dom_str = strim(strsep(&tok, ";"));
->> +
->> +	id_str = strsep(&dom_str, "=");
->> +
->> +	/* Check for domain id '*' which means all domains */
->> +	if (id_str && *id_str == '*') {
->> +		ret = rdtgroup_modify_assign_state(dom_str, NULL, rdtgrp, mevt);
->> +		if (ret)
->> +			rdt_last_cmd_printf("Assign operation '%s:*=%s' failed\n",
->> +					    event, dom_str);
->> +		return ret;
->> +	} else if (!id_str || kstrtoul(id_str, 10, &dom_id)) {
->> +		rdt_last_cmd_puts("Missing domain id\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	/* Verify if the dom_id is valid */
->> +	list_for_each_entry(d, &r->mon_domains, hdr.list) {
->> +		if (d->hdr.id == dom_id) {
->> +			ret = rdtgroup_modify_assign_state(dom_str, d, rdtgrp, mevt);
->> +			if (ret) {
->> +				rdt_last_cmd_printf("Assign operation '%s:%ld=%s' failed\n",
->> +						    event, dom_id, dom_str);
->> +				return ret;
->> +			}
->> +			goto next;
->> +		}
->> +	}
->> +
->> +	rdt_last_cmd_printf("Invalid domain id %ld\n", dom_id);
->> +	return -EINVAL;
->> +}
->> +
-> Reinette
-> 
+> +- The driver currently supports only one transmit and one receive queue.
+> +
+> +References
+> +==========
+> +
+> +- RPMSG Framework Documentation: https://www.kernel.org/doc/html/latest/rpmsg.html
 
--- 
-Thanks
-Babu Moger
+This results in 404 Not Found.
+
+     Andrew
