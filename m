@@ -1,64 +1,64 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D9B302CD0
-	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 14:47:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0EA2F6F9D
+	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 14:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753282086; cv=none; b=r2kCS52Gj++QtytDb2rNSg95UVc7zJJ0rvHGj4vkyhzs8+moLI97XpXs9qTqz66zEGOlnkOoPP3ZFHRvgX8lDtHuZ9oHH2OA1KRHue4WDEcb3RgK6o+RaoHJ0gGDTTskiJlVpGP2kGicKar13JgQZYcA3/pTIPb+Y4qIlU8w/9k=
+	t=1753282090; cv=none; b=kxhMwwENM/63oy2u2RdPmT8DJaOdd3tzxt9xO/wj/k1DYESUgihJ4Sa3ks/xCh/q5t50e8TOHbmJz7Z7g1ghXcud5iI/OdDwMk4oWNtYDPnw25ipLIBlPWGpHq5NWMsZRidHv5B6NRWfbmrIksSCi8WJR5OCvZ+BeLtadxFBWWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753282086; c=relaxed/simple;
-	bh=vepJPtSM4UDtXKviQeBbm1OdHGnp/I7tMn8jrp4ro84=;
+	s=arc-20240116; t=1753282090; c=relaxed/simple;
+	bh=8l0K6QJ4RkWllZcpyZGwgZlU9m1P2gnk5TToNIUeT/Q=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nZk1JOwQnLbIfrObUs8tRBvXiQ2puYYqFHvo9kUTTAr6DXe+wLCZL4mvc+GtrayCBwFolZXYZwZw03zzEuIR3Gp3eDx1PABhvceoQQQuw1yVc7U8UNdGJJ9PkxU8pHehDDxYjCWFtRmifdMR2ZuLUhFLH8h9sdH4IKpfeB4qZjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=JS1n7GEP; arc=none smtp.client-ip=209.85.128.179
+	 MIME-Version; b=J9SuCIArI4XrTU8rv8kNqmNSkHjZCfLb7pqhHk6bSNTaN77Xqna86/E5NaVZUFphUnppWiV/G6OqQkz7wbFaNSxHN7pO1ObW//YM8jI0/3yHLzw6VxKdcES32sHNxxYzZ1rxzLwjEuYW+A05/LVvKeLcA0uCdT4N5Cpmv1kWVxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=lk6oHfL3; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="JS1n7GEP"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-718425f1172so68329167b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 07:47:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="lk6oHfL3"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-718389fb988so65771107b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 07:48:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1753282076; x=1753886876; darn=vger.kernel.org;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1753282080; x=1753886880; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ddb9O3W6dbBtTQBECl2xf4CCJbIM6CMV4Ov5izVmo8E=;
-        b=JS1n7GEPOoSzPkZMFIhYl9lcA1D4fDfEEPK2XKKg5GaVlGZ+HnqrOolqFqvhPpIbLT
-         QPH7Hd4HZFSyKunNkJ1FBNqPQbvvHQK9DNYzfvv+w+BSEuoZeuToev6mqAsxtyuRZpsz
-         r65Qu3Zq3Bs5d2jcKlDhCb8AGrxSRRniEA0RyafxmBixEZH4H8jP0/N41HbpbB+xT99J
-         OvoWRUTGXvDt8kr6AuuFEEZz1aQc8CtPmSwpdhTSwpbsc25stQyMgmxtgQN8jZo6MdCO
-         PVRc01G6WLXlORJInG0ipH5gA+HfGKy0hbWXIC4q8CQXLOKVvBq8JBCXKAXlBbKICTwl
-         0FAQ==
+        bh=60o0+pILn7oYpaQU4GzfpCaIJI/wVLOztDCQbTE/8Fw=;
+        b=lk6oHfL33DRygEmycTqTSPdwXuwH5hy32r3J/F9TQA4/3S2s9v9ceb3ykwDH++yvbv
+         2TVA0atGroGi3hMZgUdmG4tIa2R871AkUfPtVogcmXzdrKzvE/KWbslIkFJ3HFwM29Y+
+         O+k9GMtmqMTKp+R4fTPHCBBIPjwPZTgbReCHHU90wobbPo1y34nZHAGZxwbfpkbcj1Nd
+         RwC/9FLHW7PLtnVT1GGh65D+K5kjemtItUntFClQxU6Cviyv/VkUjkF2VIkIzFv9NSb6
+         zZ+oC4HN7qvvIb2aki9AMGAUx5oDugz/tOQKS3TmdsBKPnG2lfkQXX8R/X4tmFUYi+mW
+         OQew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753282076; x=1753886876;
+        d=1e100.net; s=20230601; t=1753282080; x=1753886880;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ddb9O3W6dbBtTQBECl2xf4CCJbIM6CMV4Ov5izVmo8E=;
-        b=sMs2fQiwrHo/m0y7I3f2LkowJEbqI9ogva/BvrpT/5jfICj4bqWpDBY4n0l+0XDsSM
-         ROGUS0DGyCfbgxjSgs9vHVfySl0Bylc410luvONKVsQXAeOeUCR+kfsXXg4EDbFB5bVC
-         j1KwQKzZbdd+f3yk2THY+6HwGOur5E+e1GNzsmbTgEWlD0F4mAXpO1lylRBxaFo6/wrA
-         RCxfgWjIlP2WyLElyn4IT3HppPB0ml1KIIsMJSrqMh/Y3W8SGP25jgs4Fuuq+ySP5ahH
-         592vLY3Cqi+NRIXk75F+odOwB5DA5sEQJk4+TuNJArpIQAUeNF2WMKyhQVCxPG25pHEs
-         rc3A==
-X-Forwarded-Encrypted: i=1; AJvYcCW//3jSTladlPJ8vn2DtmC7SLYcJL6U1QrSrlEvXKZLPj7bzWOeoe8bQ4TjiUkkhthmyW8hG96xlsE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMo3ICzv9hUx4qmKV3FGdVFt++ZlbM3bf9PkAZYh0FSRbWFSMu
-	eV62v/BVtJ2hmrsAk/OVsrPekoLWB47XWrDmMlwpPgLbDKFZKolFeWGLVwLxtPRT5L8=
-X-Gm-Gg: ASbGncuyys/Xe0y2GsdIlVBn7ktpOUXOWpBNOGpVU2zASDEMP3Sim8alZfm6TGTC0RV
-	+6/shwGSP8eFwisAfhi+IuUOnFBMyHXbCaokYnKq71SogbJxm94cPno3zwDG4AiGNHfbtphyaV7
-	4W1+Gb4JfsJVpKaHWBsAVI0FntkOmaWZhNORS2v9YSp6/XQCh1EKASc3aBvDmNWFhZwvlp5K83J
-	+uFDxSvxViq/oZa7AEwua3ihr5weAG1gZgVXJ+grWZUC6jastgC5eSBFcAwMvAVWg1gXs4qNfER
-	Wc/5O06O6/8atZlt9+/lIRezangl62sU4j3DTyZS560tHZVCky6Aac9vCgY4sgHKq1tiEB8yzEI
-	gR/3SLIhXimgrAk+xoy1sorfXUeQAkpiIETxMZzYcQUdXGXLRAX2Q6dt9NsVu90HNUbcKc7HPOA
-	lX7vj8q9CLAwLrXg==
-X-Google-Smtp-Source: AGHT+IGlOv83r7AFmSXicXojx61jzE5jt0kd4sJetNYOXC3TepTaetdKwNBRcnR6w4mKhuPo017eUg==
-X-Received: by 2002:a05:690c:45c1:b0:70e:2d1a:82b8 with SMTP id 00721157ae682-719b42f4b40mr40484857b3.34.1753282075975;
-        Wed, 23 Jul 2025 07:47:55 -0700 (PDT)
+        bh=60o0+pILn7oYpaQU4GzfpCaIJI/wVLOztDCQbTE/8Fw=;
+        b=eAFmew6sPCHlCUrlGP/ksw+O1oBgvbN7r3hmLXN7tS0wKno3sY1zqQ0CdyxkVI+yp/
+         5+78Y2WjzPmrLckuFknU/1QXj8isQRXlG8KcfOh2ZIj2Df8Qcu2AfvOyxowAOihz5xZD
+         jR0HuEl1QdlrleN19WSCcZb5l4+dq4Dt+OkwdFOQLf/6rw4JTa/zZVANMSvbT7ubkoMW
+         hB6+CkUUc5Yb0Uz8HlshL3TSF486m1hB3EGKRbwnMWc9pC+u9QDq15d3JPj8KRDEZPLA
+         mhzRIk8Nuk08oG3sH7cgThifUkeUn0PN6QKnO67ig40q0yMN8/Q8O2PJVls0gc9lo5XV
+         73Xg==
+X-Forwarded-Encrypted: i=1; AJvYcCW4j7tFCCyhTWylknfX1cmHrLhAxF5GqlvuDZRb4g3shDwhkI1w+hMxLXeAKm1F4Fy1Ws3/D2y+9F0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqgpY9XKqSyfys9nxESZpwqe8l6je4st66MOZ33vLD/LNVAv/3
+	BqMVp7v8mjyB9+l/KNfyCS6p/jx9OQBzBQtrxs8Mc+WzDT7VWElLcNSrimaSwag6gWs=
+X-Gm-Gg: ASbGncvIRcG5BRMaXWXuqQf+DQA6gl1SPufvab1DkXDjs3G0Jd14Rq8zZnzb9mOQPyn
+	tFqZNWvdszuc+3D9h5WBEaXHklaknt23DozJV948a4orqmcebcINJvsh7nO7sQDueSG4kufsowg
+	1Cl1jMBTfLhKTvZix7S8Ed4mFs0XtcSX0g2KZZxZahyDKxkwBbhA7+1YQx3VcitNFVp/IfuN+3P
+	LloZ/22ycyfP+4BQPPCoszKS9TuWjyegTYitrZWRVdYUVo0AfYnXDYAZSTsOny3EGdcH2n4GsPi
+	fQ3fUwnPCJWubwjZfg63bzSz1Up4r8422o+0P8Wuye9R46iNpTlpmbFV5ROKm3SlNfq1qU9Kxdb
+	NdyVF4pI+IRkk18r3btVMAFx7oJGsjjILHWiyoSMvvOyjzaymtC7qJiDAIVtmGnFsiIS0HsKFYC
+	34fmWjcoGFD5ux6g==
+X-Google-Smtp-Source: AGHT+IEHR5YhXNXKqQu5cYnYQfYX3NmO3Uw1youtd2STD6HMFKwDB0cE2+RVBh3uuo0TCOuCIAe/Cw==
+X-Received: by 2002:a05:690c:3391:b0:717:b35b:94d1 with SMTP id 00721157ae682-719b42089f0mr42556337b3.9.1753282080302;
+        Wed, 23 Jul 2025 07:48:00 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (235.247.85.34.bc.googleusercontent.com. [34.85.247.235])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-719532c7e4fsm30482117b3.72.2025.07.23.07.47.54
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-719532c7e4fsm30482117b3.72.2025.07.23.07.47.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 07:47:55 -0700 (PDT)
+        Wed, 23 Jul 2025 07:47:59 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -132,9 +132,9 @@ To: pratyush@kernel.org,
 	parav@nvidia.com,
 	leonro@nvidia.com,
 	witu@nvidia.com
-Subject: [PATCH v2 30/32] tools: introduce libluo
-Date: Wed, 23 Jul 2025 14:46:43 +0000
-Message-ID: <20250723144649.1696299-31-pasha.tatashin@soleen.com>
+Subject: [PATCH v2 32/32] libluo: add tests
+Date: Wed, 23 Jul 2025 14:46:45 +0000
+Message-ID: <20250723144649.1696299-33-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
 In-Reply-To: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
 References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
@@ -148,1041 +148,967 @@ Content-Transfer-Encoding: 8bit
 
 From: Pratyush Yadav <ptyadav@amazon.de>
 
-LibLUO is a C library for interacting with the Live Update
-Orchestrator (LUO) subsystem. It provides a set of APIs for applications
-to interact with LUO, avoiding the need to directly calling the LUO
-ioctls. It provides APIs for controlling the LUO state and preserve and
-restore file descriptors across live updates.
+Add a test suite for libluo itself, and for the kernel LUO interface.
+The below tests are added:
+
+1. init - Tests the initialization and cleanup functions of libluo.
+
+2. state - Tests the luo_get_state() API, which in turn tests the
+LIVEUPDATE_IOCTL_GET_STATE ioctl
+
+3. preserve - Creates a memfd, preserves it, puts LUO in prepared state,
+   cancels liveupdate, and makes sure memfd is functional.
+
+4. prepared - Puts a memfd in LUO enters prepared state. Then it
+   makes sure the memfd stays functional but remains in restricted mode. It
+   makes sure the memfd can't grow or shrink, but can be read from or
+   written to.
+
+5. transitions - Tests transitions from normal to prepared to cancel
+   state work.
+
+6. error - Tests error handling of the library on invalid inputs.
+
+7. kexec - Tests the main functionality of LUO -- preserving a FD over
+   kexec. It creates a memfd with random data, saves the data to a file on
+   disk, and then preserves the FD and goes into prepared state. Now the
+   test runner must perform a kexec. Once rebooted, running the test again
+   resumes the test. It fetches the memfd back, nd compares its content
+   with the saved data on disk.
+
+A specific test can be selected or excluded uring the -t or -e arguments.
+
+Sample run:
+
+    $ ./test
+    LibLUO Test Suite
+    =================
+
+    Testing initialization and cleanup... PASSED
+    Testing get_state... PASSED (current state: normal)
+    Testing state transitions... PASSED
+    Testing fd_preserve with freeze and cancel... PASSED
+    Testing operations on prepared memfd... PASSED
+    Testing error handling... PASSED
+    Testing fd preserve for kexec... READY FOR KEXEC (token: 3)
+    Run kexec now and then run this test again to complete.
+
+    All requested tests completed.
 
 Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- MAINTAINERS                        |   1 +
- tools/lib/luo/LICENSE              | 165 ++++++++++++++++++
- tools/lib/luo/Makefile             |  37 ++++
- tools/lib/luo/README.md            | 166 ++++++++++++++++++
- tools/lib/luo/include/libluo.h     | 128 ++++++++++++++
- tools/lib/luo/include/liveupdate.h | 265 +++++++++++++++++++++++++++++
- tools/lib/luo/libluo.c             | 203 ++++++++++++++++++++++
- 7 files changed, 965 insertions(+)
- create mode 100644 tools/lib/luo/LICENSE
- create mode 100644 tools/lib/luo/Makefile
- create mode 100644 tools/lib/luo/README.md
- create mode 100644 tools/lib/luo/include/libluo.h
- create mode 100644 tools/lib/luo/include/liveupdate.h
- create mode 100644 tools/lib/luo/libluo.c
+ tools/lib/luo/Makefile         |   4 +
+ tools/lib/luo/tests/.gitignore |   1 +
+ tools/lib/luo/tests/Makefile   |  18 +
+ tools/lib/luo/tests/test.c     | 848 +++++++++++++++++++++++++++++++++
+ 4 files changed, 871 insertions(+)
+ create mode 100644 tools/lib/luo/tests/.gitignore
+ create mode 100644 tools/lib/luo/tests/Makefile
+ create mode 100644 tools/lib/luo/tests/test.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b4fde9f62e9b..f833b340fabd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14026,6 +14026,7 @@ F:	include/linux/liveupdate.h
- F:	include/uapi/linux/liveupdate.h
- F:	kernel/liveupdate/
- F:	mm/memfd_luo.c
-+F:	tools/lib/luo/
- F:	tools/testing/selftests/liveupdate/
- 
- LLC (802.2)
-diff --git a/tools/lib/luo/LICENSE b/tools/lib/luo/LICENSE
-new file mode 100644
-index 000000000000..0a041280bd00
---- /dev/null
-+++ b/tools/lib/luo/LICENSE
-@@ -0,0 +1,165 @@
-+                   GNU LESSER GENERAL PUBLIC LICENSE
-+                       Version 3, 29 June 2007
-+
-+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
-+ Everyone is permitted to copy and distribute verbatim copies
-+ of this license document, but changing it is not allowed.
-+
-+
-+  This version of the GNU Lesser General Public License incorporates
-+the terms and conditions of version 3 of the GNU General Public
-+License, supplemented by the additional permissions listed below.
-+
-+  0. Additional Definitions.
-+
-+  As used herein, "this License" refers to version 3 of the GNU Lesser
-+General Public License, and the "GNU GPL" refers to version 3 of the GNU
-+General Public License.
-+
-+  "The Library" refers to a covered work governed by this License,
-+other than an Application or a Combined Work as defined below.
-+
-+  An "Application" is any work that makes use of an interface provided
-+by the Library, but which is not otherwise based on the Library.
-+Defining a subclass of a class defined by the Library is deemed a mode
-+of using an interface provided by the Library.
-+
-+  A "Combined Work" is a work produced by combining or linking an
-+Application with the Library.  The particular version of the Library
-+with which the Combined Work was made is also called the "Linked
-+Version".
-+
-+  The "Minimal Corresponding Source" for a Combined Work means the
-+Corresponding Source for the Combined Work, excluding any source code
-+for portions of the Combined Work that, considered in isolation, are
-+based on the Application, and not on the Linked Version.
-+
-+  The "Corresponding Application Code" for a Combined Work means the
-+object code and/or source code for the Application, including any data
-+and utility programs needed for reproducing the Combined Work from the
-+Application, but excluding the System Libraries of the Combined Work.
-+
-+  1. Exception to Section 3 of the GNU GPL.
-+
-+  You may convey a covered work under sections 3 and 4 of this License
-+without being bound by section 3 of the GNU GPL.
-+
-+  2. Conveying Modified Versions.
-+
-+  If you modify a copy of the Library, and, in your modifications, a
-+facility refers to a function or data to be supplied by an Application
-+that uses the facility (other than as an argument passed when the
-+facility is invoked), then you may convey a copy of the modified
-+version:
-+
-+   a) under this License, provided that you make a good faith effort to
-+   ensure that, in the event an Application does not supply the
-+   function or data, the facility still operates, and performs
-+   whatever part of its purpose remains meaningful, or
-+
-+   b) under the GNU GPL, with none of the additional permissions of
-+   this License applicable to that copy.
-+
-+  3. Object Code Incorporating Material from Library Header Files.
-+
-+  The object code form of an Application may incorporate material from
-+a header file that is part of the Library.  You may convey such object
-+code under terms of your choice, provided that, if the incorporated
-+material is not limited to numerical parameters, data structure
-+layouts and accessors, or small macros, inline functions and templates
-+(ten or fewer lines in length), you do both of the following:
-+
-+   a) Give prominent notice with each copy of the object code that the
-+   Library is used in it and that the Library and its use are
-+   covered by this License.
-+
-+   b) Accompany the object code with a copy of the GNU GPL and this license
-+   document.
-+
-+  4. Combined Works.
-+
-+  You may convey a Combined Work under terms of your choice that,
-+taken together, effectively do not restrict modification of the
-+portions of the Library contained in the Combined Work and reverse
-+engineering for debugging such modifications, if you also do each of
-+the following:
-+
-+   a) Give prominent notice with each copy of the Combined Work that
-+   the Library is used in it and that the Library and its use are
-+   covered by this License.
-+
-+   b) Accompany the Combined Work with a copy of the GNU GPL and this license
-+   document.
-+
-+   c) For a Combined Work that displays copyright notices during
-+   execution, include the copyright notice for the Library among
-+   these notices, as well as a reference directing the user to the
-+   copies of the GNU GPL and this license document.
-+
-+   d) Do one of the following:
-+
-+       0) Convey the Minimal Corresponding Source under the terms of this
-+       License, and the Corresponding Application Code in a form
-+       suitable for, and under terms that permit, the user to
-+       recombine or relink the Application with a modified version of
-+       the Linked Version to produce a modified Combined Work, in the
-+       manner specified by section 6 of the GNU GPL for conveying
-+       Corresponding Source.
-+
-+       1) Use a suitable shared library mechanism for linking with the
-+       Library.  A suitable mechanism is one that (a) uses at run time
-+       a copy of the Library already present on the user's computer
-+       system, and (b) will operate properly with a modified version
-+       of the Library that is interface-compatible with the Linked
-+       Version.
-+
-+   e) Provide Installation Information, but only if you would otherwise
-+   be required to provide such information under section 6 of the
-+   GNU GPL, and only to the extent that such information is
-+   necessary to install and execute a modified version of the
-+   Combined Work produced by recombining or relinking the
-+   Application with a modified version of the Linked Version. (If
-+   you use option 4d0, the Installation Information must accompany
-+   the Minimal Corresponding Source and Corresponding Application
-+   Code. If you use option 4d1, you must provide the Installation
-+   Information in the manner specified by section 6 of the GNU GPL
-+   for conveying Corresponding Source.)
-+
-+  5. Combined Libraries.
-+
-+  You may place library facilities that are a work based on the
-+Library side by side in a single library together with other library
-+facilities that are not Applications and are not covered by this
-+License, and convey such a combined library under terms of your
-+choice, if you do both of the following:
-+
-+   a) Accompany the combined library with a copy of the same work based
-+   on the Library, uncombined with any other library facilities,
-+   conveyed under the terms of this License.
-+
-+   b) Give prominent notice with the combined library that part of it
-+   is a work based on the Library, and explaining where to find the
-+   accompanying uncombined form of the same work.
-+
-+  6. Revised Versions of the GNU Lesser General Public License.
-+
-+  The Free Software Foundation may publish revised and/or new versions
-+of the GNU Lesser General Public License from time to time. Such new
-+versions will be similar in spirit to the present version, but may
-+differ in detail to address new problems or concerns.
-+
-+  Each version is given a distinguishing version number. If the
-+Library as you received it specifies that a certain numbered version
-+of the GNU Lesser General Public License "or any later version"
-+applies to it, you have the option of following the terms and
-+conditions either of that published version or of any later version
-+published by the Free Software Foundation. If the Library as you
-+received it does not specify a version number of the GNU Lesser
-+General Public License, you may choose any version of the GNU Lesser
-+General Public License ever published by the Free Software Foundation.
-+
-+  If the Library as you received it specifies that a proxy can decide
-+whether future versions of the GNU Lesser General Public License shall
-+apply, that proxy's public statement of acceptance of any version is
-+permanent authorization for you to choose that version for the
-+Library.
 diff --git a/tools/lib/luo/Makefile b/tools/lib/luo/Makefile
-new file mode 100644
-index 000000000000..e851c37d3d0a
---- /dev/null
+index e8f6bd3b9e85..ef4c489efcc5 100644
+--- a/tools/lib/luo/Makefile
 +++ b/tools/lib/luo/Makefile
-@@ -0,0 +1,37 @@
+@@ -29,9 +29,13 @@ $(SHARED_LIB): $(OBJS)
+ cli: $(STATIC_LIB)
+ 	$(MAKE) -C cli
+ 
++tests: $(STATIC_LIB)
++	$(MAKE) -C tests
++
+ clean:
+ 	rm -f $(OBJS) $(STATIC_LIB) $(SHARED_LIB)
+ 	$(MAKE) -C cli clean
++	$(MAKE) -C tests clean
+ 
+ install: all
+ 	install -d $(DESTDIR)/usr/local/lib
+diff --git a/tools/lib/luo/tests/.gitignore b/tools/lib/luo/tests/.gitignore
+new file mode 100644
+index 000000000000..ee4c92682341
+--- /dev/null
++++ b/tools/lib/luo/tests/.gitignore
+@@ -0,0 +1 @@
++/test
+diff --git a/tools/lib/luo/tests/Makefile b/tools/lib/luo/tests/Makefile
+new file mode 100644
+index 000000000000..7f4689722ff6
+--- /dev/null
++++ b/tools/lib/luo/tests/Makefile
+@@ -0,0 +1,18 @@
 +# SPDX-License-Identifier: LGPL-3.0-or-later
-+SRCS = libluo.c
-+OBJS = $(SRCS:.c=.o)
-+INCLUDE_DIR = include
++TESTS = test
++INCLUDE_DIR = ../include
 +HEADERS = $(wildcard $(INCLUDE_DIR)/*.h)
 +
 +CC = gcc
-+AR = ar
-+CFLAGS = -Wall -Wextra -fPIC -O2 -g -I$(INCLUDE_DIR)
-+LDFLAGS = -shared
++CFLAGS = -Wall -Wextra -O2 -g -I$(INCLUDE_DIR)
++LDFLAGS = -L.. -l:libluo.a
 +
-+LIB_NAME = libluo
-+STATIC_LIB = $(LIB_NAME).a
-+SHARED_LIB = $(LIB_NAME).so
++.PHONY: all clean
 +
-+.PHONY: all clean install
++all: $(TESTS)
 +
-+all: $(STATIC_LIB) $(SHARED_LIB)
-+
-+$(STATIC_LIB): $(OBJS)
-+	$(AR) rcs $@ $^
-+
-+$(SHARED_LIB): $(OBJS)
-+	$(CC) $(LDFLAGS) -o $@ $^
-+
-+%.o: %.c $(HEADERS)
-+	$(CC) $(CFLAGS) -c $< -o $@
++test: test.c ../libluo.a $(HEADERS)
++	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
 +
 +clean:
-+	rm -f $(OBJS) $(STATIC_LIB) $(SHARED_LIB)
-+
-+install: all
-+	install -d $(DESTDIR)/usr/local/lib
-+	install -d $(DESTDIR)/usr/local/include
-+	install -m 644 $(STATIC_LIB) $(DESTDIR)/usr/local/lib
-+	install -m 755 $(SHARED_LIB) $(DESTDIR)/usr/local/lib
-+	install -m 644 $(HEADERS) $(DESTDIR)/usr/local/include
-diff --git a/tools/lib/luo/README.md b/tools/lib/luo/README.md
++	rm -f $(TESTS)
+diff --git a/tools/lib/luo/tests/test.c b/tools/lib/luo/tests/test.c
 new file mode 100644
-index 000000000000..a716ccb2992c
+index 000000000000..7963ae8ebadf
 --- /dev/null
-+++ b/tools/lib/luo/README.md
-@@ -0,0 +1,166 @@
-+# LibLUO - Live Update Orchestrator Library
-+
-+A C library for interacting with the Linux Live Update Orchestrator (LUO) subsystem.
-+
-+## Overview
-+
-+LibLUO provides a set of APIs for applications to interact with LUO, avoiding
-+the need to directly calling the LUO ioctls. It provides APIs for controlling
-+the LUO state and preserve and restore file descriptors across live updates.
-+
-+## Features
-+
-+- Initialize and manage connection to the LUO device.
-+- Preserve file descriptors before a live update.
-+- Restore file descriptors after a live update.
-+- Control the live update state machine (prepare, cancel, finish).
-+- Query the current state of the LUO subsystem.
-+- The library also includes a test suite for testing both LibLUO and the kernel
-+  LUO interface.
-+
-+## Building
-+
-+```bash
-+make
-+```
-+
-+This will build both static (`libluo.a`) and shared (`libluo.so`) versions of the library.
-+
-+To build the tests, do
-+
-+``` bash
-+make tests
-+```
-+
-+This will build the `tests/test` binary.
-+
-+## Installation
-+
-+```bash
-+sudo make install
-+```
-+
-+This will install the library to `/usr/local/lib` and the header file to `/usr/local/include`.
-+
-+## Usage
-+
-+### Preserving a file descriptor
-+
-+```c
-+#include <libluo.h>
-+#include <stdio.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+
-+int main() {
-+    int ret;
-+    uint64_t token;
-+    int fd, new_fd;
-+    enum luo_state state;
-+
-+    // Initialize the library
-+    ret = luo_init();
-+    if (ret < 0) {
-+        fprintf(stderr, "Failed to initialize LibLUO: %d\n", ret);
-+        return 1;
-+    }
-+
-+    // Check if LUO is available
-+    if (!luo_is_available()) {
-+        fprintf(stderr, "LUO is not available on this system\n");
-+        return 1;
-+    }
-+
-+    // Get the current LUO state
-+    ret = luo_get_state(&state);
-+    if (ret < 0) {
-+        fprintf(stderr, "Failed to get LUO state: %d\n", ret);
-+        luo_cleanup();
-+        return 1;
-+    }
-+
-+    printf("Current LUO state: %s\n", luo_state_to_string(state));
-+
-+    // Open a file descriptor to preserve
-+	fd = memfd_create("luo_memfd", 0);
-+    if (fd < 0) {
-+        perror("Failed to open memfd");
-+        luo_cleanup();
-+        return 1;
-+    }
-+
-+    // Preserve the file descriptor
-+    ret = luo_fd_preserve(fd, &token);
-+    if (ret < 0) {
-+        fprintf(stderr, "Failed to preserve FD: %d\n", ret);
-+        close(fd);
-+        luo_cleanup();
-+        return 1;
-+    }
-+
-+    printf("FD %d preserved with token %lu\n", fd, token);
-+
-+    // After a live update, restore the file descriptor
-+    if (state == LUO_STATE_UPDATED) {
-+        ret = luo_fd_restore(token, &new_fd);
-+        if (ret < 0) {
-+            fprintf(stderr, "Failed to restore FD: %d\n", ret);
-+        } else {
-+            printf("FD restored: %d\n", new_fd);
-+            close(new_fd);
-+        }
-+
-+        // Signal completion of restoration
-+        luo_finish();
-+    }
-+
-+    close(fd);
-+    luo_cleanup();
-+    return 0;
-+}
-+```
-+
-+### Controlling the Live Update Process
-+
-+```c
-+#include <libluo.h>
-+#include <stdio.h>
-+
-+int main() {
-+    int ret;
-+
-+    ret = luo_init();
-+    if (ret < 0) {
-+        return 1;
-+    }
-+
-+    // Initiate the preparation phase
-+    ret = luo_prepare();
-+    if (ret < 0) {
-+        fprintf(stderr, "Failed to prepare for live update: %d\n", ret);
-+        luo_cleanup();
-+        return 1;
-+    }
-+
-+    // At this point, the system is ready for kexec reboot
-+    // The freeze operation is handled internally by the kernel
-+    // during kexec.
-+
-+    // After reboot, in the new kernel
-+    // Signal completion of restoration
-+    ret = luo_finish();
-+    if (ret < 0) {
-+        fprintf(stderr, "Failed to finish live update: %d\n", ret);
-+        luo_cleanup();
-+        return 1;
-+    }
-+
-+    luo_cleanup();
-+    return 0;
-+}
-+```
-+
-+## License
-+
-+This library is provided under the terms of the GNU Lesser General Public
-+License version 3.0, or (at your option) any later version.
-diff --git a/tools/lib/luo/include/libluo.h b/tools/lib/luo/include/libluo.h
-new file mode 100644
-index 000000000000..86b277e8e4f6
---- /dev/null
-+++ b/tools/lib/luo/include/libluo.h
-@@ -0,0 +1,128 @@
++++ b/tools/lib/luo/tests/test.c
+@@ -0,0 +1,848 @@
 +// SPDX-License-Identifier: LGPL-3.0-or-later
++#define _GNU_SOURCE
 +/**
-+ * @file libluo.h
-+ * @brief Library for interacting with the Linux Live Update Orchestrator (LUO)
++ * @file test.c
++ * @brief Test program for the LibLUO library
 + *
-+ * This library provides a simple interface for applications to interact with
-+ * the Linux Live Update Orchestrator (LUO) subsystem, allowing them to preserve
-+ * and restore file descriptors across live kernel updates.
++ * This program tests the basic functionality of the LibLUO library.
 + *
 + * Copyright (C) 2025 Amazon.com Inc. or its affiliates.
 + * Author: Pratyush Yadav <ptyadav@amazon.de>
 + */
 +
-+#ifndef _LIBLUO_H
-+#define _LIBLUO_H
-+
-+#include <stdint.h>
-+#include <stdbool.h>
-+#include <liveupdate.h>
-+
-+/**
-+ * @brief Initialize the LUO library
-+ *
-+ * Opens the LUO device file and prepares the library for use.
-+ *
-+ * @return 0 on success, negative error code on failure
-+ */
-+int luo_init(void);
-+
-+/**
-+ * @brief Clean up and release resources used by the LUO library
-+ *
-+ * Closes the LUO device file and releases any resources allocated by the
-+ * library.
-+ */
-+void luo_cleanup(void);
-+
-+/**
-+ * @brief Get the current state of the LUO subsystem
-+ *
-+ * @param[out] state Pointer to store the current LUO state
-+ * @return 0 on success, negative error code on failure
-+ */
-+int luo_get_state(enum liveupdate_state *state);
-+
-+/**
-+ * @brief Preserve a file descriptor for restoration after a live update
-+ *
-+ * Marks the specified file descriptor for preservation across a live update.
-+ * The kernel validates if the FD type is supported for preservation.
-+ *
-+ * @param[in] fd The file descriptor to preserve
-+ * @param[in] token Token to associate fd with. Must be unique.
-+ * @return 0 on success, negative error code on failure
-+ */
-+int luo_fd_preserve(int fd, uint64_t token);
-+
-+/**
-+ * @brief Cancel preservation of a previously preserved file descriptor
-+ *
-+ * Removes a file descriptor from the preservation list using its token.
-+ *
-+ * @param[in] token The token used to preserve fd previously.
-+ * @return 0 on success, negative error code on failure
-+ */
-+int luo_fd_unpreserve(uint64_t token);
-+
-+/**
-+ * @brief Restore a previously preserved file descriptor
-+ *
-+ * Restores a file descriptor that was preserved before the live update.
-+ * This must be called after the system has rebooted into the new kernel.
-+ *
-+ * @param[in] token The token returned by luo_fd_preserve before the update
-+ * @param[out] fd Pointer to store the new file descriptor
-+ * @return 0 on success, negative error code on failure
-+ */
-+int luo_fd_restore(uint64_t token, int *fd);
-+
-+/**
-+ * @brief Initiate the preparation phase for a live update
-+ *
-+ * Triggers the PREPARE phase in the LUO subsystem, which begins the
-+ * state saving process for items marked for preservation.
-+ *
-+ * @return 0 on success, negative error code on failure
-+ */
-+int luo_prepare(void);
-+
-+/**
-+ * @brief Cancel the live update preparation phase
-+ *
-+ * Aborts the preparation sequence and returns the system to normal state.
-+ *
-+ * @return 0 on success, negative error code on failure
-+ */
-+int luo_cancel(void);
-+
-+/**
-+ * @brief Signal completion of restoration after a live update
-+ *
-+ * Notifies the LUO subsystem that all necessary restoration actions
-+ * have been completed in the new kernel.
-+ *
-+ * @return 0 on success, negative error code on failure
-+ */
-+int luo_finish(void);
-+
-+/**
-+ * @brief Check if the LUO subsystem is available
-+ *
-+ * Tests if the LUO device file exists and can be opened.
-+ *
-+ * @return true if LUO is available, false otherwise
-+ */
-+bool luo_is_available(void);
-+
-+/**
-+ * @brief Convert a liveupdate_state enum value to a string
-+ *
-+ * Returns a string representation of the given LUO state.
-+ *
-+ * @param[in] state The LUO state to convert
-+ * @return A constant string representing the state
-+ */
-+const char *luo_state_to_string(enum liveupdate_state state);
-+
-+#endif /* _LIBLUO_H */
-diff --git a/tools/lib/luo/include/liveupdate.h b/tools/lib/luo/include/liveupdate.h
-new file mode 100644
-index 000000000000..7b12a1073c3c
---- /dev/null
-+++ b/tools/lib/luo/include/liveupdate.h
-@@ -0,0 +1,265 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+
-+/*
-+ * Userspace interface for /dev/liveupdate
-+ * Live Update Orchestrator
-+ *
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ */
-+
-+#ifndef _UAPI_LIVEUPDATE_H
-+#define _UAPI_LIVEUPDATE_H
-+
-+#include <linux/ioctl.h>
-+#include <linux/types.h>
-+
-+/**
-+ * enum liveupdate_state - Defines the possible states of the live update
-+ * orchestrator.
-+ * @LIVEUPDATE_STATE_UNDEFINED:      State has not yet been initialized.
-+ * @LIVEUPDATE_STATE_NORMAL:         Default state, no live update in progress.
-+ * @LIVEUPDATE_STATE_PREPARED:       Live update is prepared for reboot; the
-+ *                                   LIVEUPDATE_PREPARE callbacks have completed
-+ *                                   successfully.
-+ *                                   Devices might operate in a limited state
-+ *                                   for example the participating devices might
-+ *                                   not be allowed to unbind, and also the
-+ *                                   setting up of new DMA mappings might be
-+ *                                   disabled in this state.
-+ * @LIVEUPDATE_STATE_FROZEN:         The final reboot event
-+ *                                   (%LIVEUPDATE_FREEZE) has been sent, and the
-+ *                                   system is performing its final state saving
-+ *                                   within the "blackout window". User
-+ *                                   workloads must be suspended. The actual
-+ *                                   reboot (kexec) into the next kernel is
-+ *                                   imminent.
-+ * @LIVEUPDATE_STATE_UPDATED:        The system has rebooted into the next
-+ *                                   kernel via live update the system is now
-+ *                                   running the next kernel, awaiting the
-+ *                                   finish event.
-+ *
-+ * These states track the progress and outcome of a live update operation.
-+ */
-+enum liveupdate_state  {
-+	LIVEUPDATE_STATE_UNDEFINED = 0,
-+	LIVEUPDATE_STATE_NORMAL = 1,
-+	LIVEUPDATE_STATE_PREPARED = 2,
-+	LIVEUPDATE_STATE_FROZEN = 3,
-+	LIVEUPDATE_STATE_UPDATED = 4,
-+};
-+
-+/**
-+ * struct liveupdate_fd - Holds parameters for preserving and restoring file
-+ * descriptors across live update.
-+ * @fd:    Input for %LIVEUPDATE_IOCTL_FD_PRESERVE: The user-space file
-+ *         descriptor to be preserved.
-+ *         Output for %LIVEUPDATE_IOCTL_FD_RESTORE: The new file descriptor
-+ *         representing the fully restored kernel resource.
-+ * @flags: Unused, reserved for future expansion, must be set to 0.
-+ * @token: Input for %LIVEUPDATE_IOCTL_FD_PRESERVE: An opaque, unique token
-+ *         preserved for preserved resource.
-+ *         Input for %LIVEUPDATE_IOCTL_FD_RESTORE: The token previously
-+ *         provided to the preserve ioctl for the resource to be restored.
-+ *
-+ * This structure is used as the argument for the %LIVEUPDATE_IOCTL_FD_PRESERVE
-+ * and %LIVEUPDATE_IOCTL_FD_RESTORE ioctls. These ioctls allow specific types
-+ * of file descriptors (for example memfd, kvm, iommufd, and VFIO) to have their
-+ * underlying kernel state preserved across a live update cycle.
-+ *
-+ * To preserve an FD, user space passes this struct to
-+ * %LIVEUPDATE_IOCTL_FD_PRESERVE with the @fd field set. On success, the
-+ * kernel uses the @token field to uniquly associate the preserved FD.
-+ *
-+ * After the live update transition, user space passes the struct populated with
-+ * the *same* @token to %LIVEUPDATE_IOCTL_FD_RESTORE. The kernel uses the @token
-+ * to find the preserved state and, on success, populates the @fd field with a
-+ * new file descriptor referring to the restored resource.
-+ */
-+struct liveupdate_fd {
-+	int		fd;
-+	__u32		flags;
-+	__aligned_u64	token;
-+};
-+
-+/* The ioctl type, documented in ioctl-number.rst */
-+#define LIVEUPDATE_IOCTL_TYPE		0xBA
-+
-+/**
-+ * LIVEUPDATE_IOCTL_FD_PRESERVE - Validate and initiate preservation for a file
-+ * descriptor.
-+ *
-+ * Argument: Pointer to &struct liveupdate_fd.
-+ *
-+ * User sets the @fd field identifying the file descriptor to preserve
-+ * (e.g., memfd, kvm, iommufd, VFIO). The kernel validates if this FD type
-+ * and its dependencies are supported for preservation. If validation passes,
-+ * the kernel marks the FD internally and *initiates the process* of preparing
-+ * its state for saving. The actual snapshotting of the state typically occurs
-+ * during the subsequent %LIVEUPDATE_IOCTL_PREPARE execution phase, though
-+ * some finalization might occur during freeze.
-+ * On successful validation and initiation, the kernel uses the @token
-+ * field with an opaque identifier representing the resource being preserved.
-+ * This token confirms the FD is targeted for preservation and is required for
-+ * the subsequent %LIVEUPDATE_IOCTL_FD_RESTORE call after the live update.
-+ *
-+ * Return: 0 on success (validation passed, preservation initiated), negative
-+ * error code on failure (e.g., unsupported FD type, dependency issue,
-+ * validation failed).
-+ */
-+#define LIVEUPDATE_IOCTL_FD_PRESERVE					\
-+	_IOW(LIVEUPDATE_IOCTL_TYPE, 0x00, struct liveupdate_fd)
-+
-+/**
-+ * LIVEUPDATE_IOCTL_FD_UNPRESERVE - Remove a file descriptor from the
-+ * preservation list.
-+ *
-+ * Argument: Pointer to __u64 token.
-+ *
-+ * Allows user space to explicitly remove a file descriptor from the set of
-+ * items marked as potentially preservable. User space provides a pointer to the
-+ * __u64 @token that was previously returned by a successful
-+ * %LIVEUPDATE_IOCTL_FD_PRESERVE call (potentially from a prior, possibly
-+ * cancelled, live update attempt). The kernel reads the token value from the
-+ * provided user-space address.
-+ *
-+ * On success, the kernel removes the corresponding entry (identified by the
-+ * token value read from the user pointer) from its internal preservation list.
-+ * The provided @token (representing the now-removed entry) becomes invalid
-+ * after this call.
-+ *
-+ * Return: 0 on success, negative error code on failure (e.g., -EBUSY or -EINVAL
-+ * if not in %LIVEUPDATE_STATE_NORMAL, bad address provided, invalid token value
-+ * read, token not found).
-+ */
-+#define LIVEUPDATE_IOCTL_FD_UNPRESERVE					\
-+	_IOW(LIVEUPDATE_IOCTL_TYPE, 0x01, __u64)
-+
-+/**
-+ * LIVEUPDATE_IOCTL_FD_RESTORE - Restore a previously preserved file descriptor.
-+ *
-+ * Argument: Pointer to &struct liveupdate_fd.
-+ *
-+ * User sets the @token field to the value obtained from a successful
-+ * %LIVEUPDATE_IOCTL_FD_PRESERVE call before the live update. On success,
-+ * the kernel restores the state (saved during the PREPARE/FREEZE phases)
-+ * associated with the token and populates the @fd field with a new file
-+ * descriptor referencing the restored resource in the current (new) kernel.
-+ * This operation must be performed *before* signaling completion via
-+ * %LIVEUPDATE_IOCTL_FINISH.
-+ *
-+ * Return: 0 on success, negative error code on failure (e.g., invalid token).
-+ */
-+#define LIVEUPDATE_IOCTL_FD_RESTORE					\
-+	_IOWR(LIVEUPDATE_IOCTL_TYPE, 0x02, struct liveupdate_fd)
-+
-+/**
-+ * LIVEUPDATE_IOCTL_GET_STATE - Query the current state of the live update
-+ * orchestrator.
-+ *
-+ * Argument: Pointer to &enum liveupdate_state.
-+ *
-+ * The kernel fills the enum value pointed to by the argument with the current
-+ * state of the live update subsystem. Possible states are:
-+ *
-+ * - %LIVEUPDATE_STATE_NORMAL:   Default state; no live update operation is
-+ *                               currently in progress.
-+ * - %LIVEUPDATE_STATE_PREPARED: The preparation phase (triggered by
-+ *                               %LIVEUPDATE_IOCTL_PREPARE) has completed
-+ *                               successfully. The system is ready for the
-+ *                               reboot transition. Note that some
-+ *                               device operations (e.g., unbinding, new DMA
-+ *                               mappings) might be restricted in this state.
-+ * - %LIVEUPDATE_STATE_UPDATED:  The system has successfully rebooted into the
-+ *                               new kernel via live update. It is now running
-+ *                               the new kernel code and is awaiting the
-+ *                               completion signal from user space via
-+ *                               %LIVEUPDATE_IOCTL_FINISH after
-+ *                               restoration tasks are done.
-+ *
-+ * See the definition of &enum liveupdate_state for more details on each state.
-+ *
-+ * Return: 0 on success, negative error code on failure.
-+ */
-+#define LIVEUPDATE_IOCTL_GET_STATE					\
-+	_IOR(LIVEUPDATE_IOCTL_TYPE, 0x03, enum liveupdate_state)
-+
-+/**
-+ * LIVEUPDATE_IOCTL_PREPARE - Initiate preparation phase and trigger state
-+ * saving.
-+ *
-+ * Argument: None.
-+ *
-+ * Initiates the live update preparation phase. This action corresponds to
-+ * the internal %LIVEUPDATE_PREPARE. This typically triggers the saving process
-+ * for items marked via the PRESERVE ioctls. This typically occurs *before*
-+ * the "blackout window", while user applications (e.g., VMs) may still be
-+ * running. Kernel subsystems receiving the %LIVEUPDATE_PREPARE event should
-+ * serialize necessary state. This command does not transfer data.
-+ *
-+ * Return: 0 on success, negative error code on failure. Transitions state
-+ * towards %LIVEUPDATE_STATE_PREPARED on success.
-+ */
-+#define LIVEUPDATE_IOCTL_PREPARE					\
-+	_IO(LIVEUPDATE_IOCTL_TYPE, 0x04)
-+
-+/**
-+ * LIVEUPDATE_IOCTL_CANCEL - Cancel the live update preparation phase.
-+ *
-+ * Argument: None.
-+ *
-+ * Notifies the live update subsystem to abort the preparation sequence
-+ * potentially initiated by %LIVEUPDATE_IOCTL_PREPARE. This action
-+ * typically corresponds to the internal %LIVEUPDATE_CANCEL kernel event,
-+ * which might also be triggered automatically if the PREPARE stage fails
-+ * internally.
-+ *
-+ * When triggered, subsystems receiving the %LIVEUPDATE_CANCEL event should
-+ * revert any state changes or actions taken specifically for the aborted
-+ * prepare phase (e.g., discard partially serialized state). The kernel
-+ * releases resources allocated specifically for this *aborted preparation
-+ * attempt*.
-+ *
-+ * This operation cancels the current *attempt* to prepare for a live update
-+ * but does **not** remove previously validated items from the internal list
-+ * of potentially preservable resources. Consequently, preservation tokens
-+ * previously generated by successful %LIVEUPDATE_IOCTL_FD_PRESERVE or calls
-+ * generally **remain valid** as identifiers for those potentially preservable
-+ * resources. However, since the system state returns towards
-+ * %LIVEUPDATE_STATE_NORMAL, user space must initiate a new live update sequence
-+ * (starting with %LIVEUPDATE_IOCTL_PREPARE) to proceed with an update
-+ * using these (or other) tokens.
-+ *
-+ * This command does not transfer data. Kernel callbacks for the
-+ * %LIVEUPDATE_CANCEL event must not fail.
-+ *
-+ * Return: 0 on success, negative error code on failure. Transitions state back
-+ * towards %LIVEUPDATE_STATE_NORMAL on success.
-+ */
-+#define LIVEUPDATE_IOCTL_CANCEL						\
-+	_IO(LIVEUPDATE_IOCTL_TYPE, 0x06)
-+
-+/**
-+ * LIVEUPDATE_IOCTL_EVENT_FINISH - Signal restoration completion and trigger
-+ * cleanup.
-+ *
-+ * Argument: None.
-+ *
-+ * Signals that user space has completed all necessary restoration actions in
-+ * the new kernel (after a live update reboot). This action corresponds to the
-+ * internal %LIVEUPDATE_FINISH kernel event. Calling this ioctl triggers the
-+ * cleanup phase: any resources that were successfully preserved but were *not*
-+ * subsequently restored (reclaimed) via the RESTORE ioctls will have their
-+ * preserved state discarded and associated kernel resources released. Involved
-+ * devices may be reset. All desired restorations *must* be completed *before*
-+ * this. Kernel callbacks for the %LIVEUPDATE_FINISH event must not fail.
-+ * Successfully completing this phase transitions the system state from
-+ * %LIVEUPDATE_STATE_UPDATED back to %LIVEUPDATE_STATE_NORMAL. This command does
-+ * not transfer data.
-+ *
-+ * Return: 0 on success, negative error code on failure.
-+ */
-+#define LIVEUPDATE_IOCTL_FINISH						\
-+	_IO(LIVEUPDATE_IOCTL_TYPE, 0x07)
-+
-+#endif /* _UAPI_LIVEUPDATE_H */
-diff --git a/tools/lib/luo/libluo.c b/tools/lib/luo/libluo.c
-new file mode 100644
-index 000000000000..7de4bf01de16
---- /dev/null
-+++ b/tools/lib/luo/libluo.c
-@@ -0,0 +1,203 @@
-+// SPDX-License-Identifier: LGPL-3.0-or-later
-+/*
-+ * Copyright (C) 2025 Amazon.com Inc. or its affiliates.
-+ * Author: Pratyush Yadav <ptyadav@amazon.de>
-+ */
 +#include <libluo.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <sys/ioctl.h>
-+#include <sys/stat.h>
-+#include <errno.h>
 +#include <stdio.h>
++#include <stdlib.h>
 +#include <string.h>
++#include <fcntl.h>
++#include <unistd.h>
++#include <errno.h>
++#include <sys/mman.h>
++#include <getopt.h>
++
++/* Path to store token for kexec test */
++#define TOKEN_FILE		"libluo_test_token"
++#define TEST_DATA_FILE		"libluo_test_data"
++#define MEMFD_NAME		"libluo_test_memfd"
++
++/* Size of the random data buffer (1 MiB) */
++#define RANDOM_BUFFER_SIZE	(1 << 20)
++static char random_buffer[RANDOM_BUFFER_SIZE];
++
++/* Test IDs */
++#define TEST_INIT_CLEANUP	(1 << 0)
++#define TEST_GET_STATE		(1 << 1)
++#define TEST_FD_PRESERVE	(1 << 2)
++#define TEST_ERROR_HANDLING	(1 << 3)
++#define TEST_FD_KEXEC		(1 << 4)
++#define TEST_FD_PREPARED	(1 << 5)
++#define TEST_STATE_TRANSITIONS	(1 << 6)
++#define TEST_ALL		(TEST_INIT_CLEANUP | TEST_GET_STATE | \
++				 TEST_FD_PRESERVE | TEST_ERROR_HANDLING | \
++				 TEST_FD_KEXEC | TEST_FD_PREPARED | \
++				 TEST_STATE_TRANSITIONS)
 +
 +/*
-+ * The liveupdate header is not mainline right now, so it is not available on
-+ * the system include path. It is copied from Linux tree and put in include/.
-+ *
-+ * This can be removed when liveupdate hits mainline.
++ * luo_fd_preserve() needs a unique token. Generate a monotonically increasing
++ * token.
 + */
-+#include <liveupdate.h>
-+
-+#define LUO_DEVICE_PATH	"/dev/liveupdate"
-+
-+/* File descriptor for the LUO device */
-+static int luo_fd = -1;
-+
-+#define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof((arr)[0]))
-+
-+int luo_init(void)
++static uint64_t next_token()
 +{
-+	if (luo_fd >= 0)
-+		/* Already initialized */
-+		return 0;
++	static uint64_t token = 0;
 +
-+	luo_fd = open(LUO_DEVICE_PATH, O_RDWR);
-+	if (luo_fd < 0) {
-+		int err = -errno;
++	return token++;
++}
 +
-+		fprintf(stderr, "Failed to open %s: %s\n",
-+			LUO_DEVICE_PATH, strerror(errno));
-+		return err;
++/* Read exactly specified size from fd. Any less results in error. */
++static int read_size(int fd, char *buffer, size_t size)
++{
++	size_t remain = size;
++	ssize_t bytes_read;
++
++	while (remain) {
++		bytes_read = read(fd, buffer, remain);
++		if (bytes_read == 0)
++			return -ENODATA;
++		if (bytes_read < 0)
++			return -errno;
++
++		remain -= bytes_read;
 +	}
 +
 +	return 0;
 +}
 +
-+void luo_cleanup(void)
++/* Write exactly specified size from fd. Any less results in error. */
++static int write_size(int fd, const char *buffer, size_t size)
 +{
-+	if (luo_fd >= 0) {
-+		close(luo_fd);
-+		luo_fd = -1;
++	size_t remain = size;
++	ssize_t written;
++
++	while (remain) {
++		written = write(fd, buffer, remain);
++		if (written == 0)
++			return -EIO;
++		if (written < 0)
++			return -errno;
++
++		remain -= written;
 +	}
-+}
-+
-+bool luo_is_available(void)
-+{
-+	struct stat st;
-+
-+	/* Use stat() to check if the device file exists and is accessible */
-+	if (stat(LUO_DEVICE_PATH, &st) < 0)
-+		return false;
-+
-+	/* Verify it's a character device file.  */
-+	if (!S_ISCHR(st.st_mode))
-+		return false;
-+
-+	return true;
-+}
-+
-+int luo_get_state(enum liveupdate_state *state)
-+{
-+	int ret;
-+
-+	if (!state)
-+		return -EINVAL;
-+
-+	if (luo_fd < 0)
-+		return -EBADF;
-+
-+	ret = ioctl(luo_fd, LIVEUPDATE_IOCTL_GET_STATE, state);
-+	if (ret < 0)
-+		return -errno;
 +
 +	return 0;
 +}
 +
-+int luo_fd_preserve(int fd, uint64_t token)
++static int generate_random_data(char *buffer, size_t size)
 +{
-+	struct liveupdate_fd fd_data;
-+	int ret;
++	int fd, ret;
 +
++	fd = open("/dev/urandom", O_RDONLY);
 +	if (fd < 0)
++		return -errno;
++
++	ret = read_size(fd, buffer, size);
++	close(fd);
++	return ret;
++}
++
++static int save_test_data(const char *buffer, size_t size)
++{
++	int fd, ret;
++
++	fd = open(TEST_DATA_FILE, O_RDWR);
++	if (fd < 0)
++		return -errno;
++
++	ret = write_size(fd, buffer, size);
++	close(fd);
++	return ret;
++}
++
++static int load_test_data(char *buffer, size_t size)
++{
++	int fd, ret;
++
++	fd = open(TEST_DATA_FILE, O_RDONLY);
++	if (fd < 0)
++		return -errno;
++
++	ret = read_size(fd, buffer, size);
++	close(fd);
++	return ret;
++}
++
++/* Create and initialize a memfd with random data. */
++static int create_test_fd(const char *memfd_name, char *buffer, size_t size)
++{
++	int fd;
++	int ret;
++
++	fd = memfd_create(memfd_name, 0);
++	if (fd < 0)
++		return -errno;
++
++	ret = generate_random_data(buffer, size);
++	if (ret < 0) {
++		close(fd);
++		return ret;
++	}
++
++	if (write_size(fd, buffer, size) < 0) {
++		close(fd);
++		return -errno;
++	}
++
++	/* Reset file position to beginning */
++	if (lseek(fd, 0, SEEK_SET) < 0) {
++		close(fd);
++		return -errno;
++	}
++
++	return fd;
++}
++
++/*
++ * Make sure fd contains expected data up to size. Returns 0 on success, 1 on
++ * data mismatch, -errno on error.
++ */
++static int verify_fd_content(int fd, const char *expected_data, size_t size)
++{
++	char buffer[size];
++	int ret;
++
++	/* Reset file position to beginning */
++	if (lseek(fd, 0, SEEK_SET) < 0)
++		return -errno;
++
++	ret = read_size(fd, buffer, size);
++	if (ret < 0)
++		return ret;
++
++	if (memcmp(buffer, expected_data, size) != 0)
++		return 1;
++
++	return 0;
++}
++
++/* Save token to file for kexec test. */
++static int save_token(uint64_t token)
++{
++	FILE *file = fopen(TOKEN_FILE, "w");
++
++	if (!file)
++		return -errno;
++
++	if (fprintf(file, "%lu", token) < 0) {
++		fclose(file);
++		return -errno;
++	}
++
++	fclose(file);
++	return 0;
++}
++
++/* Load token from file for kexec test. */
++static int load_token(uint64_t *token)
++{
++	FILE *file = fopen(TOKEN_FILE, "r");
++
++	if (!file)
++		return -errno;
++
++	if (fscanf(file, "%lu", token) != 1) {
++		fclose(file);
 +		return -EINVAL;
++	}
 +
-+	if (luo_fd < 0)
-+		return -EBADF;
-+
-+	fd_data.fd = fd;
-+	fd_data.flags = 0;  /* Must be set to 0 as per API documentation */
-+	fd_data.token = token;
-+
-+	ret = ioctl(luo_fd, LIVEUPDATE_IOCTL_FD_PRESERVE, &fd_data);
-+	if (ret < 0)
-+		return -errno;
-+
++	fclose(file);
 +	return 0;
 +}
 +
-+int luo_fd_unpreserve(uint64_t token)
++/* Test initialization and cleanup */
++static void test_init_cleanup(void)
 +{
 +	int ret;
 +
-+	if (luo_fd < 0)
-+		return -EBADF;
++	printf("Testing initialization and cleanup... ");
 +
-+	ret = ioctl(luo_fd, LIVEUPDATE_IOCTL_FD_UNPRESERVE, &token);
-+	if (ret < 0)
-+		return -errno;
++	ret = luo_init();
++	if (ret < 0) {
++		printf("FAILED (init: %s)\n", strerror(-ret));
++		return;
++	}
 +
-+	return 0;
++	luo_cleanup();
++	printf("PASSED\n");
 +}
 +
-+int luo_fd_restore(uint64_t token, int *fd)
++/* Test getting LUO state */
++static void test_get_state(void)
 +{
-+	struct liveupdate_fd fd_data;
++	int ret;
++	enum liveupdate_state state;
++
++	printf("Testing get_state... ");
++
++	ret = luo_init();
++	if (ret < 0) {
++		printf("FAILED (init: %s)\n", strerror(-ret));
++		return;
++	}
++
++	ret = luo_get_state(&state);
++	if (ret < 0) {
++		printf("FAILED (get_state: %s)\n", strerror(-ret));
++		luo_cleanup();
++		return;
++	}
++
++	printf("PASSED (current state: %s)\n", luo_state_to_string(state));
++	luo_cleanup();
++}
++
++/* Test preserving and unpreserving a file descriptor with prepare and cancel */
++static void test_fd_preserve_unpreserve(void)
++{
++	uint64_t token = next_token();
++	int ret, fd = -1;
++
++	printf("Testing fd_preserve with freeze and cancel... ");
++
++	ret = luo_init();
++	if (ret < 0) {
++		printf("FAILED (init: %s)\n", strerror(-ret));
++		return;
++	}
++
++	fd = create_test_fd(MEMFD_NAME, random_buffer, sizeof(random_buffer));
++	if (fd < 0) {
++		ret = fd;
++		printf("FAILED (create_test_fd: %s)\n", strerror(-ret));
++		goto out_cleanup;
++	}
++
++	ret = luo_fd_preserve(fd, token);
++	if (ret < 0) {
++		printf("FAILED (preserve: %s)\n", strerror(-ret));
++		goto out_close_fd;
++	}
++
++	ret = luo_prepare();
++	if (ret < 0) {
++		printf("FAILED (prepare: %s)\n", strerror(-ret));
++		goto out_unpreserve;
++	}
++
++	ret = luo_cancel();
++	if (ret < 0) {
++		printf("FAILED (cancel: %s)\n", strerror(-ret));
++		goto out_unpreserve;
++	}
++
++	ret = luo_fd_unpreserve(token);
++	if (ret < 0) {
++		printf("FAILED (unpreserve: %s)\n", strerror(-ret));
++		goto out_close_fd;
++	}
++
++	ret = verify_fd_content(fd, random_buffer, sizeof(random_buffer));
++	if (ret < 0) {
++		printf("FAILED (verify_fd_content: %s)\n",
++		       ret == 1 ? "data mismatch" : strerror(-ret));
++		goto out_close_fd;
++	}
++
++	printf("PASSED\n");
++	goto out_close_fd;
++
++out_unpreserve:
++	luo_fd_unpreserve(token);
++out_close_fd:
++	close(fd);
++out_cleanup:
++	luo_cleanup();
++}
++
++/* Test error handling with invalid inputs. */
++static void test_error_handling(void)
++{
 +	int ret;
 +
-+	if (!fd)
++	printf("Testing error handling... ");
++
++	ret = luo_init();
++	if (ret < 0) {
++		printf("FAILED (init: %s)\n", strerror(-ret));
++		return;
++	}
++
++	/* Test with invalid file descriptor */
++	ret = luo_fd_preserve(-1, next_token());
++	if (ret != -EINVAL) {
++		printf("FAILED (expected EINVAL for invalid fd, got %d)\n", ret);
++		luo_cleanup();
++		return;
++	}
++
++	/* Test with NULL state pointer */
++	ret = luo_get_state(NULL);
++	if (ret != -EINVAL) {
++		printf("FAILED (expected EINVAL for NULL state, got %d)\n", ret);
++		luo_cleanup();
++		return;
++	}
++
++	luo_cleanup();
++	printf("PASSED\n");
++}
++
++/* Test preserving a file descriptor for kexec reboot */
++static void test_fd_preserve_for_kexec(void)
++{
++	enum liveupdate_state state;
++	int fd = -1, ret;
++	uint64_t token;
++
++	ret = luo_init();
++	if (ret < 0) {
++		printf("FAILED (init: %s)\n", strerror(-ret));
++		return;
++	}
++
++	/* Check if we're in post-kexec state */
++	ret = luo_get_state(&state);
++	if (ret < 0) {
++		printf("FAILED (get_state: %s)\n", strerror(-ret));
++		goto out_cleanup;
++	}
++
++	if (state == LIVEUPDATE_STATE_UPDATED) {
++		/* Post-kexec: restore the file descriptor */
++		printf("Testing memfd restore after kexec... ");
++
++		ret = load_token(&token);
++		if (ret < 0) {
++			printf("FAILED (load_token: %s)\n", strerror(-ret));
++			goto out_cleanup;
++		}
++
++		ret = load_test_data(random_buffer, RANDOM_BUFFER_SIZE);
++		if (ret < 0) {
++			printf("FAILED (load_test_data: %s)\n", strerror(-ret));
++			goto out_cleanup;
++		}
++
++		ret = luo_fd_restore(token, &fd);
++		if (ret < 0) {
++			printf("FAILED (restore: %s)\n", strerror(-ret));
++			goto out_cleanup;
++		}
++
++		/* Verify the file descriptor content with stored data. */
++		ret = verify_fd_content(fd, random_buffer, RANDOM_BUFFER_SIZE);
++		if (ret) {
++			printf("FAILED (verify_fd_content: %s)\n",
++			       ret == 1 ? "data mismatch" : strerror(-ret));
++			goto out_close_fd;
++		}
++
++		ret = luo_finish();
++		if (ret < 0) {
++			printf("FAILED (finish: %s)\n", strerror(-ret));
++			goto out_close_fd;
++		}
++
++		printf("PASSED\n");
++		goto out_close_fd;
++	} else {
++		/* Pre-kexec: preserve the file descriptor */
++		printf("Testing fd preserve for kexec... ");
++
++		fd = create_test_fd(MEMFD_NAME, random_buffer, RANDOM_BUFFER_SIZE);
++		if (fd < 0) {
++			ret = fd;
++			printf("FAILED (create_test_fd: %s)\n", strerror(-ret));
++			goto out_cleanup;
++		}
++
++		/* Save random data to file for post-kexec verification */
++		ret = save_test_data(random_buffer, RANDOM_BUFFER_SIZE);
++		if (ret < 0) {
++			printf("FAILED (save_test_data: %s)\n", strerror(-ret));
++			goto out_close_fd;
++		}
++
++		token = next_token();
++		ret = luo_fd_preserve(fd, token);
++		if (ret < 0) {
++			printf("FAILED (preserve: %s)\n", strerror(-ret));
++			goto out_close_fd;
++		}
++
++		/* Save token to file for post-kexec restoration */
++		ret = save_token(token);
++		if (ret < 0) {
++			printf("FAILED (save_token: %s)\n", strerror(-ret));
++			goto out_unpreserve;
++		}
++
++		ret = luo_prepare();
++		if (ret < 0) {
++			printf("FAILED (prepare: %s)\n", strerror(-ret));
++			goto out_unpreserve;
++		}
++
++		printf("READY FOR KEXEC (token: %lu)\n", token);
++		printf("Run kexec now and then run this test again to complete.\n");
++
++		/* Note: At this point, the system should perform kexec reboot.
++		 * The test will continue in the new kernel with the
++		 * LIVEUPDATE_STATE_UPDATED state.
++		 *
++		 * Since the FD is now preserved, we can close it.
++		 */
++		goto out_close_fd;
++	}
++
++out_unpreserve:
++	luo_fd_unpreserve(token);
++out_close_fd:
++	close(fd);
++out_cleanup:
++	luo_cleanup();
++}
++
++/*
++ * Test that prepared memfd can't grow or shrink, but reads and writes still
++ * work.
++ */
++static void test_fd_prepared_operations(void)
++{
++	char write_buffer[128] = {'A'};
++	size_t initial_size, file_size;
++	int ret, fd = -1;
++	uint64_t token;
++
++	printf("Testing operations on prepared memfd... ");
++
++	ret = luo_init();
++	if (ret < 0) {
++		printf("FAILED (init: %s)\n", strerror(-ret));
++		return;
++	}
++
++	/* Create and initialize test file descriptor */
++	fd = create_test_fd(MEMFD_NAME, random_buffer, sizeof(random_buffer));
++	if (fd < 0) {
++		ret = fd;
++		printf("FAILED (create_test_fd: %s)\n", strerror(-ret));
++		goto out_cleanup;
++	}
++
++	/* Get initial file size */
++	ret = lseek(fd, 0, SEEK_END);
++	if (ret < 0) {
++		printf("FAILED (lseek to end: %s)\n", strerror(errno));
++		goto out_close_fd;
++	}
++	initial_size = (size_t)ret;
++
++	token = next_token();
++	ret = luo_fd_preserve(fd, token);
++	if (ret < 0) {
++		printf("FAILED (preserve: %s)\n", strerror(-ret));
++		goto out_close_fd;
++	}
++
++	ret = luo_prepare();
++	if (ret < 0) {
++		printf("FAILED (prepare: %s)\n", strerror(-ret));
++		goto out_unpreserve;
++	}
++
++	/* Test 1: Write to the prepared file descriptor (within existing size) */
++	if (lseek(fd, 0, SEEK_SET) < 0) {
++		printf("FAILED (lseek before write: %s)\n", strerror(errno));
++		goto out_cancel;
++	}
++
++	/* Write buffer is smaller than total file size. */
++	ret = write_size(fd, write_buffer, sizeof(write_buffer));
++	if (ret < 0) {
++		printf("FAILED (write to prepared fd: %s)\n", strerror(errno));
++		goto out_cancel;
++	}
++
++	ret = verify_fd_content(fd, write_buffer, sizeof(write_buffer));
++	if (ret) {
++		printf("FAILED (verify_fd_content after write: %s)\n",
++		       ret == 1 ? "data mismatch" : strerror(-ret));
++		goto out_cancel;
++	}
++
++	/* Test 2: Try to grow the file using write(). */
++
++	/* First, seek to one byte behind initial size. */
++	ret = lseek(fd, initial_size - 1, SEEK_SET);
++	if (ret < 0) {
++		printf("FAILED: (lseek after write verification: %s)\n",
++		       strerror(errno));
++	}
++
++	/*
++	 * Then, write some data that should increase the file size. This should
++	 * fail.
++	 */
++	ret = write_size(fd, write_buffer, sizeof(write_buffer));
++	if (ret == 0) {
++		printf("FAILED: (write beyond initial size succeeded)\n");
++		goto out_cancel;
++	}
++
++	ret = lseek(fd, 0, SEEK_END);
++	if (ret < 0) {
++		printf("FAILED (lseek after larger write: %s)\n", strerror(errno));
++		goto out_cancel;
++	}
++	file_size = (size_t)ret;
++
++	if (file_size != initial_size) {
++		printf("FAILED (file grew beyond initial size: %zu != %zu)\n",
++		       (size_t)file_size, initial_size);
++		goto out_cancel;
++	}
++
++	/* Test 3: Try to shrink the file using truncate */
++	ret = ftruncate(fd, initial_size / 2);
++	if (ret == 0) {
++		printf("FAILED (file was truncated)\n");
++		goto out_cancel;
++	}
++
++	ret = lseek(fd, 0, SEEK_END);
++	if (ret < 0) {
++		printf("FAILED (lseek after shrink attempt: %s)\n", strerror(errno));
++		goto out_cancel;
++	}
++	file_size = (size_t)ret;
++
++	if (file_size != initial_size) {
++		printf("FAILED (file shrunk from initial size: %zu != %zu)\n",
++		       (size_t)file_size, initial_size);
++		goto out_cancel;
++	}
++
++	ret = luo_cancel();
++	if (ret < 0) {
++		printf("FAILED (cancel: %s)\n", strerror(-ret));
++		goto out_unpreserve;
++	}
++
++	ret = luo_fd_unpreserve(token);
++	if (ret < 0) {
++		printf("FAILED (unpreserve: %s)\n", strerror(-ret));
++		goto out_close_fd;
++	}
++
++	printf("PASSED\n");
++	goto out_close_fd;
++
++out_cancel:
++	luo_cancel();
++out_unpreserve:
++	luo_fd_unpreserve(token);
++out_close_fd:
++	close(fd);
++out_cleanup:
++	luo_cleanup();
++}
++
++static int test_prepare_cancel_sequence(const char *sequence_name)
++{
++	int ret;
++	enum liveupdate_state state;
++
++	/* Initial state should be NORMAL */
++	ret = luo_get_state(&state);
++	if (ret < 0) {
++		printf("FAILED (%s get initial state failed: %s)\n",
++		       sequence_name, strerror(-ret));
++		return ret;
++	}
++
++	if (state != LIVEUPDATE_STATE_NORMAL) {
++		printf("FAILED (%s unexpected initial state: %s)\n",
++		       sequence_name, luo_state_to_string(state));
 +		return -EINVAL;
++	}
 +
-+	if (luo_fd < 0)
-+		return -EBADF;
++	/* Test NORMAL -> PREPARED transition */
++	ret = luo_prepare();
++	if (ret < 0) {
++		printf("FAILED (%s prepare failed: %s)\n",
++		       sequence_name, strerror(-ret));
++		return ret;
++	}
 +
-+	fd_data.fd = -1;    /* Will be filled by the kernel */
-+	fd_data.flags = 0;  /* Must be set to 0 as per API documentation */
-+	fd_data.token = token;
++	ret = luo_get_state(&state);
++	if (ret < 0) {
++		printf("FAILED (%s get state after prepare failed: %s)\n",
++		       sequence_name, strerror(-ret));
++		goto out_cancel;
++	}
 +
-+	ret = ioctl(luo_fd, LIVEUPDATE_IOCTL_FD_RESTORE, &fd_data);
-+	if (ret < 0)
-+		return -errno;
++	if (state != LIVEUPDATE_STATE_PREPARED) {
++		printf("FAILED (%s expected PREPARED state, got %s)\n",
++		       sequence_name, luo_state_to_string(state));
++		ret = -EINVAL;
++		goto out_cancel;
++	}
 +
-+	*fd = fd_data.fd;
++	/* Test PREPARED -> NORMAL transition via cancel */
++	ret = luo_cancel();
++	if (ret < 0) {
++		printf("FAILED (%s cancel failed: %s)\n",
++		       sequence_name, strerror(-ret));
++		return ret;
++	}
++
++	ret = luo_get_state(&state);
++	if (ret < 0) {
++		printf("FAILED (%s get state after cancel failed: %s)\n",
++		       sequence_name, strerror(-ret));
++		return ret;
++	}
++
++	if (state != LIVEUPDATE_STATE_NORMAL) {
++		printf("FAILED (%s expected NORMAL state after cancel, got %s)\n",
++		       sequence_name, luo_state_to_string(state));
++		return -EINVAL;
++	}
++
 +	return 0;
++
++out_cancel:
++	luo_cancel();
++	return ret;
 +}
 +
-+int luo_prepare(void)
++/* Test all state transitions */
++static void test_state_transitions(void)
 +{
 +	int ret;
 +
-+	if (luo_fd < 0)
-+		return -EBADF;
++	printf("Testing state transitions... ");
 +
-+	ret = ioctl(luo_fd, LIVEUPDATE_IOCTL_PREPARE);
++	ret = luo_init();
++	if (ret < 0) {
++		printf("FAILED (init failed: %s)\n", strerror(-ret));
++		return;
++	}
++
++	/* Test first prepare -> cancel sequence */
++	ret = test_prepare_cancel_sequence("first");
 +	if (ret < 0)
-+		return -errno;
++		goto out;
++
++	/*
++	 * Test second prepare -> freeze -> cancel sequence in case the
++	 * previous cancellation left some side effects.
++	 */
++	ret = test_prepare_cancel_sequence("second");
++	if (ret < 0)
++		goto out;
++
++	printf("PASSED\n");
++
++out:
++	luo_cleanup();
++}
++
++/* Test name to flag mapping */
++struct test {
++	const char *name;
++	void (*fn)(void);
++	unsigned int flag;
++};
++
++/* Array of test names and their corresponding flags */
++static struct test tests[] = {
++	{"init", test_init_cleanup, TEST_INIT_CLEANUP},
++	{"state", test_get_state, TEST_GET_STATE},
++	{"transitions", test_state_transitions, TEST_STATE_TRANSITIONS},
++	{"preserve", test_fd_preserve_unpreserve, TEST_FD_PRESERVE},
++	{"prepared", test_fd_prepared_operations, TEST_FD_PREPARED},
++	{"error", test_error_handling, TEST_ERROR_HANDLING},
++	{"kexec", test_fd_preserve_for_kexec, TEST_FD_KEXEC},
++	{NULL, NULL, 0}
++};
++
++static int parse_test_names(char *arg, unsigned int *flags)
++{
++	char *name;
++	struct test *test;
++
++	*flags = 0;
++	name = strtok(arg, ",");
++
++	while (name != NULL) {
++		test = tests;
++		while (test->name) {
++			if (strcmp(name, test->name) == 0) {
++				*flags |= test->flag;
++				break;
++			}
++			test++;
++		}
++
++		/* Check if we found a match */
++		if (!test->name) {
++			printf("Unknown test: %s\n", name);
++			return 1;
++		}
++
++		name = strtok(NULL, ",");
++	}
 +
 +	return 0;
 +}
 +
-+int luo_cancel(void)
++static void usage(const char *program_name)
 +{
-+	int ret;
-+
-+	if (luo_fd < 0)
-+		return -EBADF;
-+
-+	ret = ioctl(luo_fd, LIVEUPDATE_IOCTL_CANCEL);
-+	if (ret < 0)
-+		return -errno;
-+
-+	return 0;
++	printf("Usage: %s [options]\n", program_name);
++	printf("Options:\n");
++	printf("  -h, --help                 Show this help message\n");
++	printf("  -t, --test=TEST_ID         Run specific test(s)\n");
++	printf("  -e, --exclude=TEST_ID      Exclude specific test(s)\n");
++	printf("\n");
++	printf("Test IDs:\n");
++	printf("  init        - Test initialization and cleanup\n");
++	printf("  state       - Test getting LUO state\n");
++	printf("  preserve    - Test memfd preserve/unpreserve with freeze/cancel\n");
++	printf("  prepared    - Test memfd functions can read/write but not grow after prepare\n");
++	printf("  transitions - Test all state transitions (NORMAL->PREPARED->FROZEN->NORMAL)\n");
++	printf("  error       - Test error handling\n");
++	printf("  kexec       - Test memfd preserve for kexec\n");
++	printf("\n");
++	printf("Multiple tests can be specified with comma separation.\n");
++	printf("Example: %s --test=init,state --exclude=kexec\n", program_name);
++	printf("By default, all tests are run.\n");
 +}
 +
-+int luo_finish(void)
++int main(int argc, char *argv[])
 +{
-+	int ret;
-+
-+	if (luo_fd < 0)
-+		return -EBADF;
-+
-+	ret = ioctl(luo_fd, LIVEUPDATE_IOCTL_FINISH);
-+	if (ret < 0)
-+		return -errno;
-+
-+	return 0;
-+}
-+
-+const char *luo_state_to_string(enum liveupdate_state state)
-+{
-+	static const char * const state_strings[] = {
-+		[LIVEUPDATE_STATE_UNDEFINED] = "undefined",
-+		[LIVEUPDATE_STATE_NORMAL] = "normal",
-+		[LIVEUPDATE_STATE_PREPARED] = "prepared",
-+		[LIVEUPDATE_STATE_FROZEN] = "frozen",
-+		[LIVEUPDATE_STATE_UPDATED] = "updated"
++	unsigned int tests_to_run = TEST_ALL;
++	unsigned int tests_to_exclude = 0;
++	struct option long_options[] = {
++		{"help", no_argument, 0, 'h'},
++		{"test", required_argument, 0, 't'},
++		{"exclude", required_argument, 0, 'e'},
++		{0, 0, 0, 0}
 +	};
++	struct test *test;
++	int opt;
 +
-+	if (state >= 0 && state < ARRAY_SIZE(state_strings) && state_strings[state])
-+		return state_strings[state];
++	printf("LibLUO Test Suite\n");
++	printf("=================\n\n");
 +
-+	return "UNKNOWN";
++	if (!luo_is_available()) {
++		printf("LUO is not available on this system. Skipping tests.\n");
++		return 0;
++	}
++
++	while ((opt = getopt_long(argc, argv, "ht:e:", long_options, NULL)) != -1) {
++		switch (opt) {
++		case 'h':
++			usage(argv[0]);
++			return 0;
++		case 't':
++			if (parse_test_names(optarg, &tests_to_run))
++				return 1;
++			break;
++		case 'e':
++			if (parse_test_names(optarg, &tests_to_exclude))
++				return 1;
++			break;
++		default:
++			printf("Try '%s --help' for more information.\n", argv[0]);
++			return 1;
++		}
++	}
++
++	/* Apply exclusions to the tests to run */
++	tests_to_run &= ~tests_to_exclude;
++	if (!tests_to_run) {
++		printf("ERROR: all tests excluded\n");
++		return 1;
++	}
++
++	/* Run selected tests */
++	test = tests;
++	while (test->name) {
++		if (tests_to_run & test->flag)
++			test->fn();
++		test++;
++	}
++
++	printf("\nAll requested tests completed.\n");
++	return 0;
 +}
 -- 
 2.50.0.727.gbf7dc18ff4-goog
