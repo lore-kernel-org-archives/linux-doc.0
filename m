@@ -1,403 +1,217 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E896882C60;
-	Wed, 23 Jul 2025 05:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADB21A0BFD;
+	Wed, 23 Jul 2025 06:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753246880; cv=none; b=VkBCzLKe30Lgd3w7svoJmYFpdBkPWck60EqmSinSGEHYsl+ikuFvgrqg+WcM6GNgqWlFWlm2aS8Ivp9qB2hGMyM69Ody0cYy0ghPjK6AqHiU6qUGipQlSnDdrHMjeWQH7GKTkpfWVnMa8OpQmU1d5S35YaNvYXq8O/7JdHxBaQ8=
+	t=1753251267; cv=none; b=eNPx5sYnMsBxT1QWpM930RHkJincVL/YuSqc/WpBlZroNEe9W/Lt0/OvA1GD6A9NfmPZaOTwht2kPBOiaPqqzqVpkY+KkPJllulfYs9dAKD5D5dVLXMZZZrZMIjVIaiy1aztaDgKOVcBc4NRu+x4/hTCLCGjxatKHGm8HzBnjdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753246880; c=relaxed/simple;
-	bh=P1x5PC39rNuVQmhnD6UTsEnFKuJYGigsdtWXPSkXrew=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ZJ8ulb+a6UhGUbv6NwNWRfxnP4Qt4DDIWdrw2I2BuYuS15RWJxUm3c+9ANQhLw6cYeHbDW+wn7hIm6ylV+ez/zQADkfhCqY+ebFcEJfLcwd+6SuVTBDC+WHZCTfW/sD31s8xbVxxokjiiQLHWe9utUE28XBNHTi1BNRKe63gMVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Gpb7+GTs; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Gpb7+GTs"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56MMNv3X019487;
-	Wed, 23 Jul 2025 05:01:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zp6NOVqNcRv7MKZS6XFS96TzCj/D0AQD+PebpPJS1dE=; b=Gpb7+GTsKLNs6OVE
-	MYMmvv+tfq0hUxhXMgQjP/KdV5AODLphqVncLXXIY10x3LVrdJii/2UrRIrCE8Ic
-	d5EXGHtwmSqkVy08oy1pCS5sRS++Gmfdf5rLNsgHTy5QzmxJbLFQHBK+brJhFBOK
-	/lsQpJMd+qhjWpyhqHWrhVX8tq9zynAJiKTjUWBfl7KVWpIL+751k1qrIYNaW1xZ
-	KU2rdd6BjWSQtTUUEV4mz1Td3eIwwoMmld1sOSxYhkOGChR6uMQCYA2HuVpqrEjF
-	4btW5HraKIFZIWs656gm0EesLfqnf8KohRn0jcFVNmpiJn9y9N9qT3HvB7kycKB6
-	bowyaQ==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 481qh6p2xa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Jul 2025 05:01:01 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56N510Nm008283
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Jul 2025 05:01:00 GMT
-Received: from [10.253.77.44] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 22 Jul
- 2025 22:00:55 -0700
-Message-ID: <cb3e0c01-1ce6-4651-8b3d-e45ebd7b938a@quicinc.com>
-Date: Wed, 23 Jul 2025 13:00:53 +0800
+	s=arc-20240116; t=1753251267; c=relaxed/simple;
+	bh=eOp8B5FEQjPYgaY8oyZNnVe9OVIKUc0sH+uAJU1qXyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ME31lEdUefrBHgsOSViMJ03/9733kOLa3w2i3FhXf/F22swaBqLQbzkfl+r9uUfhf/fqKlscq+ZcjkaZqtrD5LHfBXov8CTNMT0Ed3QiAS7Ra5IdOmlgg85J6gP9vB5vsTLfH3duMLaRGFYredHDI6cpKjO8tNPDPUpvZjM6Kuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpsz3t1753251185t633970d9
+X-QQ-Originating-IP: 7fAbvXkimtFsEETOli6idrq+iTqKCtYaOTIC1dZ/jwM=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 23 Jul 2025 14:13:03 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 7362397933906693450
+Date: Wed, 23 Jul 2025 14:13:03 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Simon Horman <horms@kernel.org>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
+	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
+	lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 10/15] net: rnpgbe: Add netdev irq in open
+Message-ID: <2C80B81E5B7F54CD+20250723061303.GE169181@nic-Precision-5820-Tower>
+References: <20250721113238.18615-1-dong100@mucse.com>
+ <20250721113238.18615-11-dong100@mucse.com>
+ <20250722140326.GJ2459@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v6 01/14] dt-bindings: net: Add PPE for Qualcomm
- IPQ9574 SoC
-To: Rob Herring <robh@kernel.org>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Lei Wei
-	<quic_leiwei@quicinc.com>,
-        Suruchi Agarwal <quic_suruchia@quicinc.com>,
-        Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R.
- Silva" <gustavoars@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>
-References: <20250720-qcom_ipq_ppe-v6-0-4ae91c203a5f@quicinc.com>
- <20250720-qcom_ipq_ppe-v6-1-4ae91c203a5f@quicinc.com>
- <20250721193545.GA1119033-robh@kernel.org>
-Content-Language: en-US
-From: Luo Jie <quic_luoj@quicinc.com>
-In-Reply-To: <20250721193545.GA1119033-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=CZ4I5Krl c=1 sm=1 tr=0 ts=68806c8d cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=gEfo2CItAAAA:8
- a=COk6AnOGAAAA:8 a=LWk5nEbthusw8WdjMxUA:9 a=QEXdDO2ut3YA:10
- a=sptkURWiP4Gy88Gu7hUp:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: DMhAUMIZsln-XEztU4hL_gYEIycieGq-
-X-Proofpoint-GUID: DMhAUMIZsln-XEztU4hL_gYEIycieGq-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDAzOSBTYWx0ZWRfXyx74rlI0ZBf/
- bNT3clwXQvuDB4NcJsAVV/P1Tkj1ITt1SfZ2sjlKW+mrbmakbA2S4nTkbRGXHfuBc7u8LuV6k79
- E5wFbW/azO2XByJsC9GvZ6JZCO5ykMQzgNqmc9OoxXWGsuUf8aO//8X8yVSXEspCO8Y35dWvnSx
- tsMXrMZRM8ZgNdcN41T9flDrVqEfnidkuSL8qVnRtdP6h5T+IWHjzwqpLo6MYePDg7/FYRcweT/
- dyzKmW//GDqJWkwlbphS1HeJ1dLVSWsdn5cPNRjYY8ChSVlwn5jovm7ZUW2qTV6ilJitH2RieYm
- 2s8z0Rs3Bm6qbpw9VPyliUBTP7we4CykuCDPEvH1pngx9f6cF1fxkqk8OdTjrGKzbzTQBPOzWW9
- w1TE5hWQjPeqVOJq/izSi6REErEWuwS3nPXdxTR2ls+/dZ8LpSW1rl/LV5MAcKSRqiCVrTKw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-23_01,2025-07-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 mlxlogscore=999 impostorscore=0
- clxscore=1015 mlxscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- bulkscore=0 spamscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507230039
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250722140326.GJ2459@horms.kernel.org>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NZcrde3zhHkVc4vD6pFJ0MsmdlniyAZ1/GnUJawXfuNgJNYvhe66+B2Q
+	hAjz+caQByEVUdAJLe+AOq7TSO39J5A9v9jhjUCmgLhNvERxR+5rylo6XiQayJZhFPHk+f5
+	kwzMSTFoiZ0OeJPGwOoW6yRA5LN7r9tyuu3fj/OpaPYgTLxlo3JslmpZ6Us30vF6cRNRbrn
+	w4QLBpsvkOz1p4zlbw8BwEVpqy5U1bhqbLdVqeLT+Q+h+yMP8pfDyNk665NP4EmiHtIjklL
+	a7YUJUPyIQkaC3xjjHG5t9U2OBExkmzb3YHZ4ojQzKDg/PEqo8J8I4l64dVcrojO6CMzAN0
+	dmDkub3G303j4Yc0VyMm6Lfwgm2lltrVpbbnlYYfGsgrJyCAUvTMd7XHx+YrkKDvR03Xs/0
+	hwpvFBfg2oWmrMZpr721wogaAX/3pxtzfnDyEMRsSBN7hfJxl921t1lz21LTTPeLDhXfwzh
+	HUYi+SVrkfturNKML1Fa2OWTpvh0KgSGfTKaxiozFWsHzylhm1BPMzXqvUBpf+8A52Nfl8e
+	bTe8uaDy8eW0AJAgKz7GoVl8V6YnnMneCUPQYzBMJLJBkW3lt2sPAQHwlZ4Bjgkekf500u8
+	aX36pok1PF7fimdAptFALf5geA5OOpeCBk+/4dndYX8k1NbcxD/Rh6thqEvSUVmb+3vOqm2
+	xMqslxbC+NHFbJOd5HAoo8VDOSl63U8bGLuJg8PvMEhcDjJ/9sbQQ3+6DPDqx7T+FjfHWk7
+	DfqhFxLgNRz/B6mdubc4jnm6vNq1k86n4oEkvUcNi4OBqTimIngGyQVzxFPxbArbGqD6RM9
+	wGGcsPzVoLuk0SiYvvRGPckweZ9k1uOl3ykNV34iFT5fSP6I0VJ4uxRplk9BG9D2G/gm7Hu
+	B5DCPCnzPlAa3Ce7gDdaOgT0zSPeYD+x/NqFabWfhuozBAo5dj5Du4euZM7Osyu2Fo7F8ju
+	ZCHVBRkSbTTnCYVfiQKTS+AUs39Z6i3Sh2qfayo+2CBYmahfmczrZaCLy
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-
-
-On 7/22/2025 3:35 AM, Rob Herring wrote:
-> On Sun, Jul 20, 2025 at 06:57:08PM +0800, Luo Jie wrote:
->> The PPE (packet process engine) hardware block is available in Qualcomm
->> IPQ chipsets that support PPE architecture, such as IPQ9574. The PPE in
->> the IPQ9574 SoC includes six ethernet ports (6 GMAC and 6 XGMAC), which
->> are used to connect with external PHY devices by PCS. It includes an L2
->> switch function for bridging packets among the 6 ethernet ports and the
->> CPU port. The CPU port enables packet transfer between the ethernet ports
->> and the ARM cores in the SoC, using the ethernet DMA.
->>
->> The PPE also includes packet processing offload capabilities for various
->> networking functions such as route and bridge flows, VLANs, different
->> tunnel protocols and VPN.
->>
->> The PPE switch is modeled according to the ethernet switch schema, with
->> additional properties defined for the switch node for interrupts, clocks,
->> resets, interconnects and Ethernet DMA. The switch port node is extended
->> with additional properties for clocks and resets.
->>
->> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
->> ---
->>   .../devicetree/bindings/net/qcom,ipq9574-ppe.yaml  | 529 +++++++++++++++++++++
->>   1 file changed, 529 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml b/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
->> new file mode 100644
->> index 000000000000..d48169a8ba7c
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
->> @@ -0,0 +1,529 @@
->> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/net/qcom,ipq9574-ppe.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm IPQ packet process engine (PPE)
->> +
->> +maintainers:
->> +  - Luo Jie <quic_luoj@quicinc.com>
->> +  - Lei Wei <quic_leiwei@quicinc.com>
->> +  - Suruchi Agarwal <quic_suruchia@quicinc.com>
->> +  - Pavithra R <quic_pavir@quicinc.com>
->> +
->> +description: |
->> +  The Ethernet functionality in the PPE (Packet Process Engine) is comprised
->> +  of three components, the switch core, port wrapper and Ethernet DMA.
->> +
->> +  The Switch core in the IPQ9574 PPE has maximum of 6 front panel ports and
->> +  two FIFO interfaces. One of the two FIFO interfaces is used for Ethernet
->> +  port to host CPU communication using Ethernet DMA. The other is used
->> +  communicating to the EIP engine which is used for IPsec offload. On the
->> +  IPQ9574, the PPE includes 6 GMAC/XGMACs that can be connected with external
->> +  Ethernet PHY. Switch core also includes BM (Buffer Management), QM (Queue
->> +  Management) and SCH (Scheduler) modules for supporting the packet processing.
->> +
->> +  The port wrapper provides connections from the 6 GMAC/XGMACS to UNIPHY (PCS)
->> +  supporting various modes such as SGMII/QSGMII/PSGMII/USXGMII/10G-BASER. There
->> +  are 3 UNIPHY (PCS) instances supported on the IPQ9574.
->> +
->> +  Ethernet DMA is used to transmit and receive packets between the six Ethernet
->> +  ports and ARM host CPU.
->> +
->> +  The follow diagram shows the PPE hardware block along with its connectivity
->> +  to the external hardware blocks such clock hardware blocks (CMNPLL, GCC,
->> +  NSS clock controller) and ethernet PCS/PHY blocks. For depicting the PHY
->> +  connectivity, one 4x1 Gbps PHY (QCA8075) and two 10 GBps PHYs are used as an
->> +  example.
->> +
->> +           +---------+
->> +           |  48 MHZ |
->> +           +----+----+
->> +                |(clock)
->> +                v
->> +           +----+----+
->> +    +------| CMN PLL |
->> +    |      +----+----+
->> +    |           |(clock)
->> +    |           v
->> +    |      +----+----+           +----+----+  (clock) +----+----+
->> +    |  +---|  NSSCC  |           |   GCC   |--------->|   MDIO  |
->> +    |  |   +----+----+           +----+----+          +----+----+
->> +    |  |        |(clock & reset)      |(clock)
->> +    |  |        v                     v
->> +    |  |   +----+---------------------+--+----------+----------+---------+
->> +    |  |   |       +-----+               |EDMA FIFO |          | EIP FIFO|
->> +    |  |   |       | SCH |               +----------+          +---------+
->> +    |  |   |       +-----+                        |              |       |
->> +    |  |   |  +------+   +------+               +-------------------+    |
->> +    |  |   |  |  BM  |   |  QM  |  IPQ9574-PPE  |    L2/L3 Process  |    |
->> +    |  |   |  +------+   +------+               +-------------------+    |
->> +    |  |   |                                             |               |
->> +    |  |   | +-------+ +-------+ +-------+ +-------+ +-------+ +-------+ |
->> +    |  |   | |  MAC0 | |  MAC1 | |  MAC2 | |  MAC3 | | XGMAC4| |XGMAC5 | |
->> +    |  |   | +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ |
->> +    |  |   |     |         |         |         |         |         |     |
->> +    |  |   +-----+---------+---------+---------+---------+---------+-----+
->> +    |  |         |         |         |         |         |         |
->> +    |  |     +---+---------+---------+---------+---+ +---+---+ +---+---+
->> +    +--+---->|                PCS0                 | |  PCS1 | | PCS2  |
->> +    |(clock) +---+---------+---------+---------+---+ +---+---+ +---+---+
->> +    |            |         |         |         |         |         |
->> +    |        +---+---------+---------+---------+---+ +---+---+ +---+---+
->> +    +------->|             QCA8075 PHY             | | PHY4  | | PHY5  |
->> +     (clock) +-------------------------------------+ +-------+ +-------+
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - qcom,ipq9574-ppe
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    items:
->> +      - description: PPE core clock from NSS clock controller
->> +      - description: PPE APB (Advanced Peripheral Bus) clock from NSS clock controller
->> +      - description: PPE ingress process engine clock from NSS clock controller
->> +      - description: PPE BM, QM and scheduler clock from NSS clock controller
+On Tue, Jul 22, 2025 at 03:03:26PM +0100, Simon Horman wrote:
+> On Mon, Jul 21, 2025 at 07:32:33PM +0800, Dong Yibo wrote:
+> > Initialize irq for tx/rx in open func.
+> > 
+> > Signed-off-by: Dong Yibo <dong100@mucse.com>
 > 
-> Drop 'from NSS clock controller'. That's outside the scope of this
-> binding.
-
-Ok, will update.
-
+> ...
 > 
->> +
->> +  clock-names:
->> +    items:
->> +      - const: ppe
->> +      - const: apb
->> +      - const: ipe
->> +      - const: btq
->> +
->> +  resets:
->> +    maxItems: 1
->> +    description: PPE reset, which is necessary before configuring PPE hardware
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +    description: PPE switch miscellaneous interrupt
->> +
->> +  interconnects:
->> +    items:
->> +      - description: Clock path leading to PPE switch core function
->> +      - description: Clock path leading to PPE register access
->> +      - description: Clock path leading to QoS generation
->> +      - description: Clock path leading to timeout reference
->> +      - description: Clock path leading to NSS NOC from memory NOC
->> +      - description: Clock path leading to memory NOC from NSS NOC
->> +      - description: Clock path leading to enhanced memory NOC from NSS NOC
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
 > 
-> Clock path? This should be bus interconnect paths.
-
-Sure, I will use "bus interconnect path" for clarity.
-
+> ...
 > 
->> +
->> +  interconnect-names:
->> +    items:
->> +      - const: ppe
->> +      - const: ppe_cfg
->> +      - const: qos_gen
->> +      - const: timeout_ref
->> +      - const: nssnoc_memnoc
->> +      - const: memnoc_nssnoc
->> +      - const: memnoc_nssnoc_1
->> +
->> +  ethernet-dma:
->> +    type: object
->> +    additionalProperties: false
->> +    description:
->> +      EDMA (Ethernet DMA) is used to transmit packets between PPE and ARM
->> +      host CPU. There are 32 TX descriptor rings, 32 TX completion rings,
->> +      24 RX descriptor rings and 8 RX fill rings supported.
->> +
->> +    properties:
->> +      clocks:
->> +        items:
->> +          - description: EDMA system clock from NSS Clock Controller
->> +          - description: EDMA APB (Advanced Peripheral Bus) clock from
->> +              NSS Clock Controller
->> +
->> +      clock-names:
->> +        items:
->> +          - const: sys
->> +          - const: apb
->> +
->> +      resets:
->> +        maxItems: 1
->> +        description: EDMA reset from NSS clock controller
->> +
->> +      interrupts:
->> +        minItems: 65
->> +        maxItems: 65
->> +
->> +      interrupt-names:
->> +        minItems: 65
->> +        maxItems: 65
->> +        description:
->> +          Interrupts "txcmpl_[0-31]" are the Ethernet DMA TX completion ring interrupts.
->> +          Interrupts "rxfill_[0-7]" are the Ethernet DMA RX fill ring interrupts.
->> +          Interrupts "rxdesc_[0-23]" are the Ethernet DMA RX Descriptor ring interrupts.
->> +          Interrupt "misc" is the Ethernet DMA miscellaneous error interrupt.
+> > +/**
+> > + * rnpgbe_set_mac_hw_ops_n500 - Setup mac address to hw
+> > + * @hw: pointer to hw structure
+> > + * @mac: pointer to mac addr
+> > + *
+> > + * Setup a mac address to hw.
+> > + **/
+> > +static void rnpgbe_set_mac_hw_ops_n500(struct mucse_hw *hw, u8 *mac)
+> > +{
+> > +	struct mucse_eth_info *eth = &hw->eth;
+> > +	struct mucse_mac_info *mac_info = &hw->mac;
 > 
-> items:
->    oneOf:
->      - pattern: '^txcmpl_([1-2]?[0-9]|3[01])$'
->      - pattern: '^rxfill_[0-7]$'
->      - pattern: '^rxdesc_(1?[0-9]|2[0-3])$'
->      - const: misc
+> Reverse xmas tree here please.
 > 
 
-Thanks for the suggestion, I will add the constraint.
+Got it, I'll fix it.
 
->> +
->> +    required:
->> +      - clocks
->> +      - clock-names
->> +      - resets
->> +      - interrupts
->> +      - interrupt-names
->> +
->> +patternProperties:
->> +  "^(ethernet-)?ports$":
+> > +
+> > +	/* use idx 0 */
+> > +	eth->ops.set_rar(eth, 0, mac);
+> > +	mac_info->ops.set_mac(mac_info, mac, 0);
+> > +}
 > 
-> New binding, does 'ethernet-' part need to be optional? No.
-
-OK, understand. Will update to make 'ethernet-' mandatory.
-
+> ...
 > 
->> +    patternProperties:
->> +      "^ethernet-port@[1-6]+$":
->> +        type: object
->> +        unevaluatedProperties: false
->> +        $ref: ethernet-switch-port.yaml#
->> +
->> +        properties:
->> +          reg:
->> +            minimum: 1
->> +            maximum: 6
->> +            description: PPE Ethernet port ID
->> +
->> +          clocks:
->> +            items:
->> +              - description: Port MAC clock from NSS clock controller
->> +              - description: Port RX clock from NSS clock controller
->> +              - description: Port TX clock from NSS clock controller
->> +
->> +          clock-names:
->> +            items:
->> +              - const: mac
->> +              - const: rx
->> +              - const: tx
->> +
->> +          resets:
->> +            items:
->> +              - description: Port MAC reset from NSS clock controller
->> +              - description: Port RX reset from NSS clock controller
->> +              - description: Port TX reset from NSS clock controller
->> +
->> +          reset-names:
->> +            items:
->> +              - const: mac
->> +              - const: rx
->> +              - const: tx
->> +
->> +        required:
->> +          - reg
->> +          - clocks
->> +          - clock-names
->> +          - resets
->> +          - reset-names
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - clock-names
->> +  - resets
->> +  - interconnects
->> +  - interconnect-names
->> +  - ethernet-dma
->> +
->> +allOf:
->> +  - $ref: ethernet-switch.yaml
->> +
->> +unevaluatedProperties: false
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c
+> 
+> ...
+> 
+> > +/**
+> > + * rnpgbe_msix_clean_rings - msix irq handler for ring irq
+> > + * @irq: irq num
+> > + * @data: private data
+> > + *
+> > + * rnpgbe_msix_clean_rings handle irq from ring, start napi
+> 
+> Please also document the return value of this function.
+> Likewise for rnpgbe_request_msix_irqs(), rnpgbe_intr() and
+> rnpgbe_request_irq().
+> 
+
+Got it, I'll fix it.
+
+> > + **/
+> > +static irqreturn_t rnpgbe_msix_clean_rings(int irq, void *data)
+> > +{
+> > +	return IRQ_HANDLED;
+> > +}
+> 
+> ...
+> 
+> > +/**
+> > + * rnpgbe_request_msix_irqs - Initialize MSI-X interrupts
+> > + * @mucse: pointer to private structure
+> > + *
+> > + * rnpgbe_request_msix_irqs allocates MSI-X vectors and requests
+> > + * interrupts from the kernel.
+> > + **/
+> > +static int rnpgbe_request_msix_irqs(struct mucse *mucse)
+> > +{
+> > +	struct net_device *netdev = mucse->netdev;
+> > +	int q_off = mucse->q_vector_off;
+> > +	struct msix_entry *entry;
+> > +	int i = 0;
+> > +	int err;
+> > +
+> > +	for (i = 0; i < mucse->num_q_vectors; i++) {
+> > +		struct mucse_q_vector *q_vector = mucse->q_vector[i];
+> > +
+> > +		entry = &mucse->msix_entries[i + q_off];
+> > +		if (q_vector->tx.ring && q_vector->rx.ring) {
+> > +			snprintf(q_vector->name, sizeof(q_vector->name) - 1,
+> > +				 "%s-%s-%d", netdev->name, "TxRx", i);
+> 
+> Probably the full range of i is not used, in particular I assume
+> it is never negative, and thus i and mucse->num_q_vectors
+> could be unsigned int rather than int.
+> 
+> But as it stands q_vector->name is once character too short to
+> fit the maximum possible string formatted by snprintf().
+> 
+> I was able to address the warning flagged by GCC 15.0.0 about this by
+> increasing the size of q_vector->name by one byte.
+> 
+>   .../rnpgbe_lib.c: In function 'rnpgbe_request_irq':
+>   .../rnpgbe_lib.c:1015:43: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+>    1015 |                                  "%s-%s-%d", netdev->name, "TxRx", i);
+>         |                                           ^
+>   In function 'rnpgbe_request_msix_irqs',
+>       inlined from 'rnpgbe_request_irq' at drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c:1069:9:
+>   .../rnpgbe_lib.c:1014:25: note: 'snprintf' output between 8 and 33 bytes into a destination of size 32
+>    1014 |                         snprintf(q_vector->name, sizeof(q_vector->name) - 1,
+>         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    1015 |                                  "%s-%s-%d", netdev->name, "TxRx", i);
+>         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+
+Yes, q_vector->name is too short, I'll fix it.
+
+> > +		} else {
+> > +			/* skip this unused q_vector */
+> > +			continue;
+> > +		}
+> > +		err = request_irq(entry->vector, &rnpgbe_msix_clean_rings, 0,
+> > +				  q_vector->name, q_vector);
+> > +		if (err)
+> > +			goto free_queue_irqs;
+> > +		/* register for affinity change notifications */
+> > +		q_vector->affinity_notify.notify = rnpgbe_irq_affinity_notify;
+> > +		q_vector->affinity_notify.release = rnpgbe_irq_affinity_release;
+> > +		irq_set_affinity_notifier(entry->vector,
+> > +					  &q_vector->affinity_notify);
+> > +		irq_set_affinity_hint(entry->vector, &q_vector->affinity_mask);
+> > +	}
+> > +
+> > +	return 0;
+> > +
+> > +free_queue_irqs:
+> > +	while (i) {
+> > +		i--;
+> > +		entry = &mucse->msix_entries[i + q_off];
+> > +		irq_set_affinity_hint(entry->vector, NULL);
+> > +		free_irq(entry->vector, mucse->q_vector[i]);
+> > +		irq_set_affinity_notifier(entry->vector, NULL);
+> > +		irq_set_affinity_hint(entry->vector, NULL);
+> > +	}
+> > +	return err;
+> > +}
+> 
+> ...
+> 
+
+Thanks for your feedback.
 
