@@ -1,271 +1,282 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2044.outbound.protection.outlook.com [40.107.243.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8F01C1AAA;
-	Wed, 23 Jul 2025 16:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753287901; cv=none; b=QW1UeUG3XbllswzGyEcRQlgBfzn/lRCsKI4gATDcutUxFNrNXt7BEhii3AQ4hkXXV+1phvm244c/xZTrW/tMYEOOO3ULoTH/LfeEeFt3/4FbDJL2e0m7p3+vrF8hosokIxjNi9THnQIaLdd84Wo2esVt5yowWH158S49Pt7rBAE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753287901; c=relaxed/simple;
-	bh=+yH5sdRuy5JtUTts9MfUfZZCJprgFstIzCLKlBAEnhc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IxVHUOt3JNRpi4vCSA6MN4l9SNHqaEQsjZV3TKxsUeCWNL7beIebS2C9DWEl17foFps0dBM9vZL97mLRtttD2d/3BDww0Ekb2w0trfuE6EHpEDL3OBbSYggbaDxnbk7esRlWh7dtV2WuqDgLlbdWhMlENgGts8l7Gzd0g5YPGyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=liLifVWL; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798DB1F03DE;
+	Wed, 23 Jul 2025 16:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753289315; cv=fail; b=tHlaBzWeoCPK8DkeUAEflnk/BpZmnDbAToB6Ik7BGsRY4rLEKKONUYAHAqZ3fazH5X5wi47gcpfZxkMIG6RfN0Z1ZZbc8Be7Tmh0Q1gDjXsOJBQlj/gMfWl9vk5JQFgPpB/9nmSQ4KlwfHdu+geUB2zAlEyA+uU7htTlDGr9gvY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753289315; c=relaxed/simple;
+	bh=z15btSmn+wL64fW+peDwBxdvdlNuXleoWUrvSYo6yKA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=i6Tapi2HEK6gAQQcbI9wW8r08tnXZO+oClJEqTmtz3Qr3m5G1Rdsv2tBN8+Bp07MYEX5sL3q7f3GdR+WIg+Dg1UWYJSK/nbKo6AUI3fcuqFdrK2/quYjerO34+NNGEdlb88riODhQVH9HYaVHfibqDC7XZ82KDL1I6NX27VoWNk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Xj/Rg6y/; arc=fail smtp.client-ip=40.107.243.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="liLifVWL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=zZNfuBfgB8dRySkDcZcabnnOZgPd4ahYjtj3I0BOkM4=; b=liLifVWLrTxGNp03U4ezUOaAcM
-	kl7wHLDNErluVHrsCzFpLad3A/KqCtnUpyr3eFfWTFeV57VEatuR6kyvyxrGBZ6isu2L2UwzHYOaR
-	Vj24hXdbxfa2gaUtS3K/HWa+DrZ/czeRVIrpr5mNRBnd08VndPL8P6CUVzNAjM3crXcs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uecGS-002fSW-KG; Wed, 23 Jul 2025 18:24:20 +0200
-Date: Wed, 23 Jul 2025 18:24:20 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: MD Danish Anwar <danishanwar@ti.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Mengyuan Lou <mengyuanlou@net-swift.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Fan Gong <gongfan1@huawei.com>, Lee Trager <lee@trager.us>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>,
-	Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 1/5] net: rpmsg-eth: Add Documentation for
- RPMSG-ETH Driver
-Message-ID: <81273487-a450-4b28-abcc-c97273ca7b32@lunn.ch>
-References: <20250723080322.3047826-1-danishanwar@ti.com>
- <20250723080322.3047826-2-danishanwar@ti.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Xj/Rg6y/"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iJVfaN7yS1oEw/7dBHEEyZ3f2xaMvmnqWQaFvW4z5nSpQgQ9Fc672RtHMvt7tkBeuPy3dC1IJC6MLrqrJuUlSftKI9WpWsajUZwFTkMlooiX5sMZimH0Bcc0hZ+5aCL8HqUiqaWYP1EVQiG+lJ2IzxdmJlQlpxa4ZBWN8kyfWX/Oe+NTgkve2yKHMMh4eJ6wqAuOSBbY1H4vQI9XYfBgFW6gRzRBY5KnLHufG80AumsXzXEyMCMtJmQY6HlpfknhwjokB+3/dSp/T1QxzR9vOXQ2BEyloXCTfe6bWgngDY7QNvwsyqMV4qTbbxWHMQzHKI07nmMrV+JFNHas31hCPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AQBTNnUXSRX4YEQ8kzDw7dJHQ7stP5xoYBw0c3mKNu4=;
+ b=PyBYGzBxjK589jLbr936eEpEQHq2si0tleVyAzTFZaLcpse+i482moySN62EZxxpZrEnTwCKAzeOuTtdogiaAmPYRavbHKKnkl7vreaHvsblFqSp6Bb08TwHtcck7fg0YOj4WNe+3bemivETiJVTlC9z1YrfHSY1JI7abO4Mlet6F926ixdJLM75cUL/FTdqaAVWBlq5F+2lFz3Zs7DNcVIViQSZFWq0DVzuOblHV0/2+lHzfsgZ8t5GhZnFRktr+F7TskXKgabq8sD93wJgAcuKrgX3Ts6Pa20qbF/R1IUYiDl3G7tJUcJL8mgGCPlZH4jKDBjzy4NWIGh1NrupIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AQBTNnUXSRX4YEQ8kzDw7dJHQ7stP5xoYBw0c3mKNu4=;
+ b=Xj/Rg6y/4z38JAtw5+Vp8mCRo2C5SWTU76R9j1cJHuq2bgp8SwcVhCZYLp946XUD8dxYNf6h/qp7KLN+x9wpbF2dx86363ilf5BoHLJXnDzENViYnqZYbnq/ze6N4ohc14Em9NzBKmgP31GNLQC7bXe3kTk2HMhuS1DTyxFheAI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DS2PR12MB9591.namprd12.prod.outlook.com (2603:10b6:8:27c::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Wed, 23 Jul
+ 2025 16:48:29 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%3]) with mapi id 15.20.8943.028; Wed, 23 Jul 2025
+ 16:48:29 +0000
+Message-ID: <cb0201d7-5f88-4f0f-b335-246dc684fae1@amd.com>
+Date: Wed, 23 Jul 2025 11:48:24 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v15 22/34] x86/resctrl: Implement
+ resctrl_arch_reset_cntr() and resctrl_arch_cntr_read()
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, james.morse@arm.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
+Cc: Dave.Martin@arm.com, x86@kernel.org, hpa@zytor.com,
+ akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
+ Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, fvdl@google.com,
+ seanjc@google.com, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
+ xin@zytor.com, manali.shukla@amd.com, tao1.su@linux.intel.com,
+ sohil.mehta@intel.com, kai.huang@intel.com, xiaoyao.li@intel.com,
+ peterz@infradead.org, xin3.li@intel.com, kan.liang@linux.intel.com,
+ mario.limonciello@amd.com, thomas.lendacky@amd.com, perry.yuan@amd.com,
+ gautham.shenoy@amd.com, chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
+References: <cover.1752013061.git.babu.moger@amd.com>
+ <d31ab6c51a57591423d3aa7b8e741972cd66eb91.1752013061.git.babu.moger@amd.com>
+ <272dc6d5-eb63-4dde-8201-880acc9a3846@intel.com>
+ <1e8b0a20-d12c-4f1b-9fc5-c4dfafb7c1dd@amd.com>
+ <bdb5dd0f-e60d-4d79-9543-ed7352414df6@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <bdb5dd0f-e60d-4d79-9543-ed7352414df6@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN7PR04CA0052.namprd04.prod.outlook.com
+ (2603:10b6:806:120::27) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250723080322.3047826-2-danishanwar@ti.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS2PR12MB9591:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f9a9e63-a948-41aa-df64-08ddca08c022
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZjVmeXY2clZYQnVtMjZyWUFEWFdubDhOUnFWTEVQOWNCcVlHeGxDMnJ5UE41?=
+ =?utf-8?B?OU5RREl6ejZOUkMxOTBPMXhSODdWNDF6bW54bldGN3BFendYcnBqbFRibWJR?=
+ =?utf-8?B?cDdpWnVmWlA3T1AydHJPK1pRNFNNUjhKTk03VHNwQW43bHkzaHlpekQxbXcw?=
+ =?utf-8?B?R2FkR3NzYzRKSmNLMHMwYlQvaGNXbjNQVGtTcGNQTm5hODdmMHhTME5FRG9j?=
+ =?utf-8?B?K2VWN1dHcEZEZVFlbzc5TWNZa0xEKzNBR1ExM2hkSEE5YzdrTmFDaTlOcFRl?=
+ =?utf-8?B?VVJrOXZYQVdmNFBFMHM1ZEo2cllFL2xPL2dTWjZMVllwNk5hVkxBZXJQSjZp?=
+ =?utf-8?B?clNSM3ZPUnFraXY4MWxHd0pvOFFzNDBGcC9PbW9XM0x2cVJnTEtOejV3WWJI?=
+ =?utf-8?B?bnpKRmlUa3VxaG1wUUhyUGdCMUZRL0J2M0FLRmZyVXZ2MUltNy9rUkk4MXhz?=
+ =?utf-8?B?VkdJY2lQWm9RZHhRLzFIT3ZjQk1LeWJDOHhoR296QXJqUlJ1MktZbGVzekRJ?=
+ =?utf-8?B?cld2cTJOSnBkQlMvQ1dTMnZtZDdXWlZIVlpNZ0x3RzVsRUdQUzdESmdBdnRa?=
+ =?utf-8?B?NHZZdnh4WFRCQkk3RnFHT3dyQnBRRm5RajZMbzZ5RVIwQ0dzOWhRK3pJVXJI?=
+ =?utf-8?B?TWYweWE3UmlvTzJ6K1B3SS9nUVJtMVdpdHQ4eHMzVk1admpGeDBwQkVEeDdL?=
+ =?utf-8?B?Qm85RjZrckxVRDVZcG4xa0NaZlNQWEFKVTF2bmNvajBGTnNsN2hLYjQwZGpZ?=
+ =?utf-8?B?eE94TVlONVRmOG9zRi9XNm52TE8zNkpya09MazQ5TlhkWENOL2ZvdllkeHJX?=
+ =?utf-8?B?MDhHQnd3SWhUUkQ4cm5ELzZkY1RaMG81ZkJYeCtzbHVmN2tOa1RqWkZEV0dv?=
+ =?utf-8?B?R2pwQ2tveTYweStiZkRKc0N0dkVDYWpKdkNOeThkZGpqODduL1Q1bHROMVl3?=
+ =?utf-8?B?cHNKRWZmcVJpVEc1Zm52NEV2VDRwKy8vOFBmSU4xdkNLR1JDR1JmSzRXZ3F1?=
+ =?utf-8?B?NDJodXBxMi9Remk0Y210SzRXaFByYVdlMVp3Ry96d2U1S2prWjV1N1dUQk56?=
+ =?utf-8?B?UFl2QklYSDZrMS9ENUNmT3NiWEhTRVB4NWZSSEh0TzE1YVRZbFpYRWNvYlJE?=
+ =?utf-8?B?d3kxOG5tMDJ4TnFqd0pBandndTF3Umc3ZHpISkllRWVKVW9GL0U4c3dIYTls?=
+ =?utf-8?B?YW8wRno4MEVVTzY2ZjZ0VmFoS3l6VHhkb3BWekRhdDBEVDVRTEVIcGtOM3Zl?=
+ =?utf-8?B?TVFtNkJ4WExyQkhZN0VBNU1teGZseFU5MGFjR0d0dVQzRkthODdkQmc2SmZZ?=
+ =?utf-8?B?Snp5d0dNQSt3OVVwSm4yQlN1UmdhWDdNUVpSNElVQ00zQjJlbUQ1NVpmLzcw?=
+ =?utf-8?B?a3IxZGNwMC9nbEt4QWRaWGR6NGgwM3JMRWp4NDVSK3JSandtaGpieWRxL1dC?=
+ =?utf-8?B?Z2FIbnJtT1JpaGdCYk1LV09PVmhMZHZUQzRoSWkwRzFrMXdKSTZrcWVXQXJi?=
+ =?utf-8?B?ODhHTVpiUFBIb0NuN2NCQ01qMTBQNXFTRXU2UFVnVUpzeWdjVkhrOGlXYVJ0?=
+ =?utf-8?B?ZXRRZDNiZEhKbGx6NkRvV2t6WWZtT0Nnc3o4bEtxL2xDck1JWkdYZzJPUFhZ?=
+ =?utf-8?B?YXlTUVh1TWU4ZE5mRWc0RjIreGh0Y1RLc1IrcnFEZ3l5VnViTWF6enRwQlJl?=
+ =?utf-8?B?YW10Z1NtY0czT01HMzZMT2xYK0hQYkJmRFRBQzQ3QlNyZlRYSHVCbEdrZ2tk?=
+ =?utf-8?B?cVN0SFJTdVJNbjN0b0JaUmVUSFhuazdodVJwUFdzSzk0Z0dwVHJCQWJJcXY5?=
+ =?utf-8?B?Qlh4NitnMzZLaE55OEI4Rk5QWDBPc0ljeVpiZ2xwSFBqLzJ3UmpuUHFzVnoy?=
+ =?utf-8?B?SlAySEQ2RmhvSmN4c2lKcENvUkp2bnNqM1J0TkYzUzJnVlg3Nk1IMkVST0Zk?=
+ =?utf-8?Q?/ymjVXZApGE=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Y2NuOWhqR0gvUTRaK1RLVHdaa2hnbHBQK3poL3BIaTROUU5TemFaQVc5NkxN?=
+ =?utf-8?B?MFBiYlU5bExtdm1OQS9jRkZDdjVLamZQN2tiRUlCN09YK2UzR0QxcGFGcmha?=
+ =?utf-8?B?QW5SYWNPbHYrc0ZsVlJQUEZJYXZOK1RkZE0xYWk1K0Q1L2VyOHNaWlpoKzYx?=
+ =?utf-8?B?Zm5nNi8vOTNKRjZkc0IvZmZkaTYzdkFvWFZQbnVBUlRXU0VzeVFXZ1VmMGJ6?=
+ =?utf-8?B?d1pGMnhVbzFocXh4eU8vbkUzZmZrMjZRT2FEOFFKMjU4bGJkbEpJYiswaHp5?=
+ =?utf-8?B?cW1veHJqcUpUYWxBaFo3eXJNSXpNWjNrQjBDc2NSN1F3T2svSjBhTFJOVXFY?=
+ =?utf-8?B?T0w3dEEzd2J0bGsxb0FWTXN1d2NYcVQzLzhQdURYdS9CUlE0cDIxdk5QRnN4?=
+ =?utf-8?B?YzIyVGJ2OWJyQkFyclZieHlua2tZK3pwSHVkaSs3cjUzV25lR0tXZmF0NFh0?=
+ =?utf-8?B?eEw5S043dzl0Z0Y3Qk9IMFNwMUVQeWRJakREdUxDRzBvMm1HNGErNnM0eWtV?=
+ =?utf-8?B?OWJHR1BXbUYxTUlZVmpPMm54aG5GTlBuU0lrbHdtQnFDREg1WDlsdXh3eUFB?=
+ =?utf-8?B?OXlUZ2puY3RiR2F2bk5uYkFFeDZxMzMxaHUyaXNXOGMzTTBjN0xPTGt6T1lX?=
+ =?utf-8?B?RGgyZzNLUDkxQmFpNDBxQldKSHBCZ2IxUFBORWFFRnBJMWZCQlRGc05Ca3RE?=
+ =?utf-8?B?VWJEVy9idWRoQUtWcHVMWmZGUm1iRkNiR1hOVThaaENFSHRCWi94WU9BTDJn?=
+ =?utf-8?B?cTFMRFdCNS8wSTRBcXlWMDRzaFZmdmJGa1BVQUtBbk9IT0FwcEo1WVNzNjdM?=
+ =?utf-8?B?SGU4Sklldlp4cm5qYU9sNnh4RzJuSGtveEFiaUkyK3lGMkR1ZVRjK1FHRHZ5?=
+ =?utf-8?B?RVpEVXJYenhKOHNDZW5mWWFodTB4aExCOUNON0k2b2Y1cEQ3UFJIVWVodS9j?=
+ =?utf-8?B?SkFLWVd5emNGVWhoTVd0a0Fic1loZlJpbkIrK3RqT2FyZ2g4VjJtT3VwNW0r?=
+ =?utf-8?B?WEpDdmp5eSsvelI4Z3dkc3dSK3RFM1U0ZUVFK25KOWFhNXhuYnEveWl6NE5G?=
+ =?utf-8?B?cWJ2R2tCN09mVXdNZ1M5ejBGazA0RzZyckRxM1NOa0pLMkJHMFZmbUNmdHlM?=
+ =?utf-8?B?NTI4VWZVbUlMT1pUcTZidUxGb1NlL0ZBL1o0ektQMW5FQ0ZSRHhTamkzbktB?=
+ =?utf-8?B?aEd3TTZuWUFSWDRSbU5BSzlMbitQd2pubjJrU2JFMnlhZGtuc01IRC9XYURC?=
+ =?utf-8?B?dU45bmtDb0FKVk9FWjhJMzBtUG9teGtNTDdQbzc0MFVPa2RuTjBZcS9zTUJW?=
+ =?utf-8?B?VWlKYjJaVWVSczRuZHk4dDBtYXdrWkI4Nkp1U2dSVDVWcXY3MXZaU1l3NGRS?=
+ =?utf-8?B?WTZ0WFdSNG5uaHl0eDVXRDVXMndaOURKZXZNcEUxRXFtZmhaKzE4MExiTlVX?=
+ =?utf-8?B?RUVyblU0bHA2cjhhQ2NESFNUbWNiVks0YjQzc1R4cEhQYzN1MGsxd3M3SXE1?=
+ =?utf-8?B?R0lWcDQ0aFNsQm8wc1B1TXRRd0pORDlVV3lZSkppZ3NSLzcrRGNKY25VR0Yx?=
+ =?utf-8?B?aEV3cVZuN2dyZ0h5YXQ1dW03NmRhUXVDalVjb3MzOThLMGtkUzVlU3loYmYw?=
+ =?utf-8?B?NWdDbURQcmZuNzZVOFdLSEZsSElkeTBOZ2kwN1Jrc0RCRFdJMzkzYkxYUk8v?=
+ =?utf-8?B?WjI5bnZHcGlNWVk2T1RnUEoxWGtjclErUGpVUitpaWVad2orTHdBdkxkOFZ1?=
+ =?utf-8?B?N3l6SE9hMm5Yenh5eldtMkVxeFp6Q0IwdGp4dGJVcWNSM2dFQ1llM0lWYkpr?=
+ =?utf-8?B?SmZoL0ZHK3AwQTRBTmV3V2dnSnpFVHA3NnZYTXBrTU1ZRjNVSDd1MndBRG9y?=
+ =?utf-8?B?SUJUamF0MHhVMm5RdTlwMm95ZGxKKzdsem42T2NYbGswZ2IxdlVQa3huOEVF?=
+ =?utf-8?B?S1NLa1Z6WmRTSHZLVW95N3A5dzA0YzJPMmRmYW5YV08yWnpMRXpyeFR0dVl1?=
+ =?utf-8?B?alRraDBVQW5hQzJUL2hsWkpSMmNLdE5ybEduVFhSUFdMVURSZ2tXTFJ6bExD?=
+ =?utf-8?B?b21pekZ1Q3I3bHRxSlRaU081NFFlYlhlV2pjYmQ1T2VKMnlRclFRYVMxZTdP?=
+ =?utf-8?Q?D2halE2i5nM372RD+IzDQ4lTH?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f9a9e63-a948-41aa-df64-08ddca08c022
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 16:48:29.1088
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rBbrG/yvSlWsu/PM4UibadfAEu5R9fUXRIWQYMDtmHnGenS5jmlNPFcqjKjbZ0uK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9591
 
-> --- a/Documentation/networking/device_drivers/ethernet/index.rst
-> +++ b/Documentation/networking/device_drivers/ethernet/index.rst
-> @@ -61,6 +61,7 @@ Contents:
->     wangxun/txgbevf
->     wangxun/ngbe
->     wangxun/ngbevf
-> +   rpmsg_eth
+Hi Reinette,
 
-This list is sorted. Please insert at the right location. I made the
-same comment to somebody else this week as well....
+On 7/22/25 18:27, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/22/25 8:51 AM, Moger, Babu wrote:
+>> Hi Reinette,
+>>
+>> On 7/17/25 22:51, Reinette Chatre wrote:
+>>> Hi Babu,
+>>>
+>>> On 7/8/25 3:17 PM, Babu Moger wrote:
+>>>> System software can read resctrl event data for a particular resource by
+>>>> writing the RMID and Event Identifier (EvtID) to the QM_EVTSEL register
+>>>> and then reading the event data from the QM_CTR register.
+>>>>
+>>>> In ABMC mode, the event data of a specific counter ID can be read by
+>>>> setting the following fields in QM_EVTSEL.ExtendedEvtID = 1,
+>>>
+>>> Seems easier to parse when "fields in" -> "fields:".
+>>>
+>>
+>> Sure.
+>>
+>>
+>>>> QM_EVTSEL.EvtID = L3CacheABMC (=1) and setting [RMID] to the desired
+>>>> counter ID. Reading QM_CTR will then return the contents of the specified
+>>>> counter ID. The E bit will be set if the counter configuration was invalid,
+>>>
+>>> Where is "the E bit" defined?
+>>
+>> QM_CTR MSRS bits
+>>
+>> Bits        Mnemonic    Description.
+>> 63		E       Error on access to counter
+>> 62		U       Count for this event is currently unavailable
+>> 61-CNT_LEN   	_       Reserved, read as zero
+>> CNT_LEN-1:0  	CNT	Count of monitored resource or event
+>>
+>>
+>> The bit 63 is "E bit"  -> RMID_VAL_ERROR
+>> the bit 62 is "U bit"  -> RMID_VAL_UNAVAIL
+>>
+>> How about?
+>>
+>> The RMID_VAL_ERROR bit will be set if the counter configuration
+>> was invalid, or if an invalid counter ID was set in the QM_EVTSEL[RMID] field
+> 
+> It is not clear to me why the comments only mention one of the error bits handled
+> in the code.
+> The motivation for hardware counters is that reading of RMID may return
+> "Unavailable". Does this imply that reading a hardware counter should
+> never return "Unavailable"? Why is this error handled as possible when
+> reading a counter though?
 
-> +This driver is generic and can be used by any vendor. Vendors can develop their
-> +own firmware for the remote processor to make it compatible with this driver.
-> +The firmware must adhere to the shared memory layout, RPMSG communication
-> +protocol, and data exchange requirements described in this documentation.
+Checked again here. Yes. RMID_VAL_UNAVAIL is also a possibility. I should
+have added the text before.
 
-Could you add a link to TIs firmware? It would be a good reference
-implementation. But i guess that needs to wait until the driver is
-merged and the ABI is stable.
+> 
+> 
+>>>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>>> index a230d98e9d73..026c2e2d19d3 100644
+>>>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>>>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>>> @@ -259,6 +259,76 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_mon_domain *d,
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> +static int __cntr_id_read(u32 cntr_id, u64 *val)
+>>>> +{
+>>>> +	u64 msr_val;
+>>>> +
+>>>> +	/*
+>>>> +	 * QM_EVTSEL Register definition:
+>>>> +	 * =======================================================
+>>>> +	 * Bits    Mnemonic        Description
+>>>> +	 * =======================================================
+>>>> +	 * 63:44   --              Reserved
+>>>> +	 * 43:32   RMID            Resource Monitoring Identifier
+>>>> +	 * 31      ExtEvtID        Extended Event Identifier
+>>>> +	 * 30:8    --              Reserved
+>>>> +	 * 7:0     EvtID           Event Identifier
+>>>> +	 * =======================================================
+>>>> +	 * The contents of a specific counter can be read by setting the
+>>>> +	 * following fields in QM_EVTSEL.ExtendedEvtID(=1) and
+>>>> +	 * QM_EVTSEL.EvtID = L3CacheABMC (=1) and setting [RMID] to the
+>>>> +	 * desired counter ID. Reading QM_CTR will then return the
+>>>> +	 * contents of the specified counter. The E bit will be set if the
+>>>> +	 * counter configuration was invalid, or if an invalid counter ID
+>>>> +	 * was set in the QM_EVTSEL[RMID] field.
+>>>
+>>> (same comments as changelog)
+>>
+>> "The E bit" -> "The RMID_VAL_ERROR bit"
+> 
+> For comments to be accurate, per the handling that follows, RMID_VAL_UNAVAIL
+> is also a possibility, or is it not actually possible and just coded to match
+> RMID reading?
+> 
 
-> +Implementation Details
-> +----------------------
-> +
-> +- The magic number is defined as a macro in the driver source (e.g.,
-> +  ``#define RPMSG_ETH_SHM_MAGIC_NUM 0xABCDABCD``).
-> +- The firmware must write this value to the ``magic_num`` field of the head and
-> +  tail structures in the shared memory region.
-> +- During the handshake, the Linux driver reads these fields and compares them to
-> +  the expected value. If any mismatch is detected, the driver will log an error
-> +  and refuse to proceed.
+Added the text now.
 
-So the firmware always takes the role of "primary" and Linux is
-"secondary"? With the current implementation, you cannot have Linux on
-both ends?
+"The RMID_VAL_UNAVAIL bit will be set if the counter data is not currently
+available."
 
-I don't see this as a problem, but maybe it is worth stating as a
-current limitation.
 
-> +Shared Memory Layout
-> +====================
-> +
-> +The RPMSG Based Virtual Ethernet Driver uses a shared memory region to exchange
-> +data between the host and the remote processor. The shared memory is divided
-> +into transmit and receive regions, each with its own `head` and `tail` pointers
-> +to track the buffer state.
-> +
-> +Shared Memory Parameters
-> +------------------------
-> +
-> +The following parameters are exchanged between the host and the firmware to
-> +configure the shared memory layout:
-
-So the host tells the firmware this? Maybe this is explained later,
-but is the flow something like:
-
-Linux makes an RPC call to the firmware with the parameters you list
-below. Upon receiving that RPC, the firmware puts the magic numbers in
-place. It then ACKs the RPC call? Linux then checks the magic numbers?
-
-> +1. **num_pkt_bufs**:
-> +
-> +   - The total number of packet buffers available in the shared memory.
-> +   - This determines the maximum number of packets that can be stored in the
-> +     shared memory at any given time.
-> +
-> +2. **buff_slot_size**:
-> +
-> +   - The size of each buffer slot in the shared memory.
-> +   - This includes space for the packet length, metadata, and the actual packet
-> +     data.
-> +
-> +3. **base_addr**:
-> +
-> +   - The base address of the shared memory region.
-> +   - This is the starting point for accessing the shared memory.
-
-So this is the base address in the Linux address space? How should the
-firmware convert this into a base address in its address space?
-
-> +4. **tx_offset**:
-> +
-> +   - The offset from the `base_addr` where the transmit buffers begin.
-> +   - This is used by the host to write packets for transmission.
-> +
-> +5. **rx_offset**:
-> +
-> +   - The offset from the `base_addr` where the receive buffers begin.
-> +   - This is used by the host to read packets received from the remote
-> +     processor.
-
-Maybe change 'host' to 'Linux'? Or some other name, 'primary' and
-'secondary'. The naming should be consistent throughout the
-documentation and driver.
-
-Part of the issue here is that you pass this information from Linux to
-the firmware. When the firmware receives it, it has the complete
-opposite meaning. It uses "tx_offset" to receive packets, and
-"rx_offset" to send packets. This can quickly get confusing. If you
-used names like "linux_tx_offset", the added context with avoid
-confusion.
-
-> +Shared Memory Structure
-> +-----------------------
-> +
-> +The shared memory layout is as follows:
-> +
-> +.. code-block:: text
-> +
-> +      Shared Memory Layout:
-> +      ---------------------------
-> +      |        MAGIC_NUM        |   rpmsg_eth_shm_head
-> +      |          HEAD           |
-> +      ---------------------------
-> +      |        MAGIC_NUM        |
-> +      |        PKT_1_LEN        |
-> +      |          PKT_1          |
-> +      ---------------------------
-> +      |           ...           |
-> +      ---------------------------
-> +      |        MAGIC_NUM        |
-> +      |          TAIL           |   rpmsg_eth_shm_tail
-> +      ---------------------------
-> +
-> +1. **MAGIC_NUM**:
-> +
-> +   - A unique identifier used to validate the shared memory region.
-> +   - Ensures that the memory region is correctly initialized and accessible.
-> +
-> +2. **HEAD Pointer**:
-> +
-> +   - Tracks the start of the buffer for packet transmission or reception.
-> +   - Updated by the producer (host or remote processor) after writing a packet.
-
-Is this a pointer, or an offset from the base address? Pointers get
-messy when you have multiple address spaces involved. An offset is
-simpler to work with. Given that the buffers are fixed size, it could
-even be an index.
-
-> +Information Exchanged Between RPMSG Channels
-> +--------------------------------------------
-> +
-> +1. **Requests from Host to Remote Processor**:
-
-Another place where consistent naming would be good. Here it is the
-remote processor, not firmware used earlier.
-
-> +
-> +   - `RPMSG_ETH_REQ_SHM_INFO`: Request shared memory information, such as
-> +     ``num_pkt_bufs``, ``buff_slot_size``, ``base_addr``, ``tx_offset``, and
-> +     ``rx_offset``.
-
-Is this requested, or telling? I suppose the text above uses "between"
-which is ambiguous.
-
-> +3. **Notifications from Remote Processor to Host**:
-> +
-> +   - `RPMSG_ETH_NOTIFY_PORT_UP`: Notify that the Ethernet port is up and ready
-> +     for communication.
-> +   - `RPMSG_ETH_NOTIFY_PORT_DOWN`: Notify that the Ethernet port is down.
-> +   - `RPMSG_ETH_NOTIFY_PORT_READY`: Notify that the Ethernet port is ready for
-> +     configuration.
-
-That needs more explanation. Why would it not be ready? 
-
-> +   - `RPMSG_ETH_NOTIFY_REMOTE_READY`: Notify that the remote processor is ready
-> +     for communication.
-
-How does this differ from PORT_READY?
-
-> +How-To Guide for Vendors
-> +========================
-> +
-> +This section provides a guide for vendors to develop firmware for the remote
-> +processor that is compatible with the RPMSG Based Virtual Ethernet Driver.
-> +
-> +1. **Implement Shared Memory Layout**:
-> +
-> +   - Allocate a shared memory region for packet transmission and reception.
-> +   - Initialize the `MAGIC_NUM`, `num_pkt_bufs`, `buff_slot_size`, `base_addr`,
-> +     `tx_offset`, and `rx_offset`.
-> +
-> +2. **Magic Number Requirements**
-> +
-> +   - The firmware must write a unique magic number (for example, ``0xABCDABCD``)
-
-Why "for example"? Do you have a use case where some other value
-should be used? Or can we just make this magic value part of the
-specification?
-
-> +- The driver assumes a specific shared memory layout and may not work with other
-> +  configurations.
-> +- Multicast address filtering is limited to the capabilities of the underlying
-> +  RPMSG framework.
-
-I don't think there is anything special here. The network stack always
-does perfect address filtering. The driver can help out, by also doing
-perfect address filtering, or imperfect address filtering, and letting
-more through than actually wanted. Or it can go into promiscuous mode.
-
-> +- The driver currently supports only one transmit and one receive queue.
-> +
-> +References
-> +==========
-> +
-> +- RPMSG Framework Documentation: https://www.kernel.org/doc/html/latest/rpmsg.html
-
-This results in 404 Not Found.
-
-     Andrew
+-- 
+Thanks
+Babu Moger
