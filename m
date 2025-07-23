@@ -1,70 +1,65 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011021.outbound.protection.outlook.com [52.101.65.21])
+Received: from AS8PR03CU001.outbound.protection.outlook.com (mail-westeuropeazon11012069.outbound.protection.outlook.com [52.101.71.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A8F1E5B63;
-	Wed, 23 Jul 2025 18:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B840F1FBEB9;
+	Wed, 23 Jul 2025 18:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.71.69
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753295336; cv=fail; b=WN8AJ7kTELlJEHDZtUzsu2D6Z7B7aR2GOVPWM1oOQ6X8Oeq78jWphDAH1byRTh1j42aeJyve5UaT8jA6t/Jm57KwIsEQRJf69YeSSEe6WnIxBgU5QBArSzt6z487w+Z8YTgIL0t8Jz10h/QBWBHyMDqh6aFTWoGe3nlSXD+hhbI=
+	t=1753295684; cv=fail; b=c/6E1pWrVWAHf+Uvx+qXrswm3JmcT2X+VgWbBtYS+PpMdTClfnO+kSquL51ALt1ZU9BTD8vZDT1BbYW1bjwQU56RapbJnD62cSEt2IeI44ESi+ufj6SZe9HoiBkPTNFJjJr4XVRJjxuOVTLXmUjnEaYOMXIE+/IvPm+huf4yAq4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753295336; c=relaxed/simple;
-	bh=LzGGy2ZWilpJRJhuLgUCrnU2uIYN3UuVcyYjY/i4lz0=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=fRCQ0tpYymTShjAtaNj2JqQxtCM/HOQfoUIbIQH5dJKLCMTAhrnunDx6TN1QC2U+C/r0QsrdeCg3Vk1/TZ247rwjQDg+2NhiPPmLNur2iKqTDKtVYkblWDs2AhvwSJ7C927dOSFbXPxYFkYj6pPiyD/ouFlpC6dH25a6Va1hQZE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia.com; spf=fail smtp.mailfrom=nokia.com; dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b=HV0jJcEw; arc=fail smtp.client-ip=52.101.65.21
+	s=arc-20240116; t=1753295684; c=relaxed/simple;
+	bh=BvWGi25UCiguLez2LjSrP31KrU0JSzYRbU6iYn6UMBw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ec9LCYkHw3sAjdvXXozvOuAO1tjKHm+xBVn7Lhkxt4i6qANikx6LjclrwIrl1JCkZyPyX3jBXlN8zesEVk8ztO9KDhrVX5coWDNlU6kDZuG4RRsDSVgWUbvQfDWBJItBhcjImqyeJhq+6zfYUhZAXnJfBLSMUDqIiPr+6i56sOU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia.com; spf=fail smtp.mailfrom=nokia.com; dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b=ir+UtnrG; arc=fail smtp.client-ip=52.101.71.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b="HV0jJcEw"
+	dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b="ir+UtnrG"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r4Bo66Q8rgoq+7IlkYmC3xdoMS5g7OTyne+lX5AmzCMcyIwcyZ1rnmUPdzfboD9C4DW1CIIr4OvwGaMvVBwcZeeyycmqTLPk5yTkYmclYL0h79lWmN4nxy3UHIcaS9CC9AlCd05sQlPzHwE2y124d5J2qG5B1mjWO3LVbzLufnpKemvak4KXaczwe0hxaYzXLKtQ7HaOzus7/NdilNjgs1gD/7uHVQ1sXqMvqogNtxToNsZGDWwSbH+4VrLMPQE/lqDaUEII/+Z4ijuFPeM7Y4mEZh7vWrkCF5mLoEtI5+HaFinWlkMu/5PXqhHaGErHS1qB/riR5bgoWNiMZq7Y8w==
+ b=MmpwsgVJcZHPBKbq4ONWKitxnaujWDLWhrmTTaJVVZsYEVH5c8DBfy6cKEHxCGb6BbdOljhiJOsmy/IvpohJMQ7naBxzhRKoK8lBiLD175GZIO9Y1DVVm1Jf34bm6yk5vlgjiv03LAHesH32l+1QZ8tGSjdh6rmJWhkMfqKXfmcB3r+klN5LWYkYapReCZrRg8ytzfvo16Z20VlLZkHyqZeJvatrtpVrhNMOHq+Ac8Ht1fCGi9v4L/sbA8JJRiWmb6kdIs+WyB5MLd377mtKpN/O6myzOAhUFUiJasFwTp9LwG8GV0+VIzdxBB9vQq7GqQ2Bbfxf0m9FbT3yAMActw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rIB9bnltkvAlrTmadKNTXWIu/5DlGfW02AMhdQVrgD4=;
- b=AGcZTBr8p3gzr/D5P2FzXziKzUYQ+xMX8TOuQUGCat25tkymX8HV04IfVdo54Xio5JtQs6LQi21YCBRuzr2tfgd9yG6xLPPZj0vXIFZJLcN/0iNQYRrQNaog7e+uXTwhYhVPd3gL2gEKZ+OTGZ4ux/BPrmqqrthQ5H58Z7Aa4PH0KvqCFYBjmIVGXvlh2TVKbENBl+7kq8suMsrDNGA41nudy/kiA2PdQLPpgHRtTofxCb28Dvopt90CUj04nbrlCQtUaRrGtM8TrpS/yhwIXSnHqN7hhocngRnycVHDTXfml+O1T4Q/Pg3Li22P+V73G9ErXenxykmryg80H0msng==
+ bh=BvWGi25UCiguLez2LjSrP31KrU0JSzYRbU6iYn6UMBw=;
+ b=otLp6crzic1/1DElrzeOElg2PJ0WAY8nWAi3x89G+3mvdi047U46KJuQlTtDEe0GpNlIdOXcxgF2m0sqlhdZbOKhdVZ+uDz84lqvEgnjotkDhilgsCjQWyaAGrupa6ckh9vIKlqWjY+4ZX7KY3ysSmbmwi9IJ9HgdchfvT6dBmd8D6gsEbhK5SXjhGjaqHdIGuNIZ/NVuXbgFie1pRC9spt2I8+GOMfjDJFKXrBb8fQTULljptRGlAKyTwmThLPv3XSjoYHQ1VJh9NUFAnE5jsEyU0KK2B9I42oOXv94663b9eERTuEjszSz2ydrgENi5lZ3BMyO37w0wAVqNr3yTw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
  dkim=pass header.d=nokia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rIB9bnltkvAlrTmadKNTXWIu/5DlGfW02AMhdQVrgD4=;
- b=HV0jJcEwPlmKf+4ceOUrSr00J3ap9FLmpThLjzxJjxyR5hecqt24P/ok7FlGTJFXxY08NK3jDKtC74wrkIJNjxJT7quUSMZdz5xyMp+OUj0bf6J/Vn2OLmr75+neJChUrRc+TDf1fzF57Ih6cZxNF1Ip/afwJ7xEysOlXH/x3+TALsIixabKvbfL6pPQ+74BmqIBHhvW+5yjXgsC/DIA/rRxo4EsisUf1gpUDe4XMLJMsCxJKTKBRxEBlncE7jBv+8rMBcNWwETaZHoTiUV5KIyruuzyH2W9b8KgLfvPCwPTtTxQuMtevlZ7zHKLi4ESXF0mUqI+U5GO4QHEPBVOAg==
+ bh=BvWGi25UCiguLez2LjSrP31KrU0JSzYRbU6iYn6UMBw=;
+ b=ir+UtnrGUsVcE6PBXBfLqQRgiG9nZ+4k/l040fDWhFBno4AMgxfmNF4aLJ2tla+JoPUjyJzrZOPKDtDhYJ2nMeWrgYY1CdAdX/yQfBLbir754/6rHJb7mbSZJzSkXiukMx/EG1ERgrWaTOIq4onnuwbPwQkPzoZi82SLs8t1XHPdPeraUe8f/pPIlj+5qr2GlmBvvBlFWDnD6lebwEubSVu7DVRHm6v3j0BmuIGIWRY0pSzTb20xYQZn8qosrhXFabtlIVHpZAXELAdMpUiYIpGPVKcR9p5tLednNkk/5X+FX23csNJmkailJbGCRpwMw9C8qP2i/JXkZ++1GhJhWA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nokia.com;
 Received: from PAXPR07MB8771.eurprd07.prod.outlook.com (2603:10a6:102:246::20)
  by PR3PR07MB6794.eurprd07.prod.outlook.com (2603:10a6:102:5d::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Wed, 23 Jul
- 2025 18:28:51 +0000
+ 2025 18:34:39 +0000
 Received: from PAXPR07MB8771.eurprd07.prod.outlook.com
  ([fe80::e125:c4ef:b872:5c60]) by PAXPR07MB8771.eurprd07.prod.outlook.com
  ([fe80::e125:c4ef:b872:5c60%4]) with mapi id 15.20.8943.029; Wed, 23 Jul 2025
- 18:28:51 +0000
+ 18:34:39 +0000
+Message-ID: <b0c3d2e1-9dc5-4baa-ab90-bb8e130c3578@nokia.com>
+Date: Wed, 23 Jul 2025 20:34:36 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] genirq: add support for warning on long-running IRQ
+ handlers
+To: Jiri Slaby <jirislaby@kernel.org>, tglx@linutronix.de, corbet@lwn.net
+Cc: akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
+ Neeraj.Upadhyay@amd.com, david@redhat.com, bp@alien8.de, arnd@arndb.de,
+ fvdl@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ peterz@infradead.org
+References: <20250714084209.918-1-wladislav.wiebe@nokia.com>
+ <adbc919f-772b-46f1-99fb-d05cf0989763@kernel.org>
 From: Wladislav Wiebe <wladislav.wiebe@nokia.com>
-To: tglx@linutronix.de,
-	corbet@lwn.net,
-	jirislaby@kernel.org
-Cc: akpm@linux-foundation.org,
-	paulmck@kernel.org,
-	rostedt@goodmis.org,
-	Neeraj.Upadhyay@amd.com,
-	david@redhat.com,
-	bp@alien8.de,
-	arnd@arndb.de,
-	fvdl@google.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wladislav.wiebe@nokia.com,
-	peterz@infradead.org
-Subject: [PATCH v3] genirq: add support for warning on long-running IRQ handlers
-Date: Wed, 23 Jul 2025 20:28:36 +0200
-Message-ID: <20250723182836.1177-1-wladislav.wiebe@nokia.com>
-X-Mailer: git-send-email 2.43.0
+In-Reply-To: <adbc919f-772b-46f1-99fb-d05cf0989763@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0008.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::18) To PAXPR07MB8771.eurprd07.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0092.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9b::16) To PAXPR07MB8771.eurprd07.prod.outlook.com
  (2603:10a6:102:246::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -74,196 +69,206 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR07MB8771:EE_|PR3PR07MB6794:EE_
-X-MS-Office365-Filtering-Correlation-Id: f42e2c8f-51aa-48a2-5f98-08ddca16c60a
+X-MS-Office365-Filtering-Correlation-Id: 7c60031d-a946-49cf-5863-08ddca1794e4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?/VtvGnsykwA1e4Co3b95DvADVodwz6MueOuqmDlrRCu6lgtcTvFUIJ+GJJNc?=
- =?us-ascii?Q?a6ChxJELqVSaN6SivhCY6l3xiuUSxSvXiCy3rO4IZ0tu2LMEANH9K+UYHWSm?=
- =?us-ascii?Q?whkGI1eQaT5yA+0TbnHza2ysN2CbxalnYlks0WPUpUleY6P+3YMzWZ9pB2g0?=
- =?us-ascii?Q?KlP42GNitU/ioolsOPSpbPqtpWVDAGq4EgTQ3JC4y1QeRicgyKxaeCfyMxBn?=
- =?us-ascii?Q?kt5BYF//qiT6iyv1YNMXy7W2PdnMQFHxvYpGEZv8X8aLGtWntOPzdOEHG8OQ?=
- =?us-ascii?Q?zxhXbnkKNqCwXC9JxO38YF+otgNV883ZY63F/ivrAk0WosUs9irLdu0ZHx82?=
- =?us-ascii?Q?GVbr4irpjY1WSjcRLxCNtZJDSaQ0dqEsqj77teCn4sJhlzgxtMHAVelUBsoQ?=
- =?us-ascii?Q?xHTN147UeBdx80VxWFk/9eWjlxdxHma/XRWnh4y71XvJGVaPTSgcJZivd1Q9?=
- =?us-ascii?Q?yP12ooOhXl+x/YfUXB5t5PGq8WBaeXPESQOLRa3jfq3OaJ+iK/nBUwsJY+Yv?=
- =?us-ascii?Q?sEv5z1AuD3xqaz4EtffAle+wqr8Ho5y50xOAHwiQs9xDDlXeeUjfUmORiL3x?=
- =?us-ascii?Q?EOH3UZrFCOdgJEOEvIknFVxloTeYJMEuqbeICgVCXQvXeZMCu9ICayTyeJKc?=
- =?us-ascii?Q?4noPxAlImnd9AAVWa7llvk4b4Z2PFgxxJMFuK0SWp2Uu+LccKtKMLgQ97Ct9?=
- =?us-ascii?Q?KMhkTvdo5k9Bge8dVR/56Fiucig0+EsVDLg3z0mLBfZwSM64s62OiNuaxM04?=
- =?us-ascii?Q?2qsmJWTUWL1nRRIDJDyzW7ymGI3wUpKUXuUKeFj/0V+2BO4izdf4keQi5Jnn?=
- =?us-ascii?Q?yENSNF8+g4L1S4o8bucYOCn2Qr2xj+wGTXhn2nCJSYAJDYc6WMVz6WCoJucd?=
- =?us-ascii?Q?vZ73x8U0iK6ukJjbLCAuQOKZzm1f15cyCKFGbLIcZD+ud0hMefoxvk2pLBex?=
- =?us-ascii?Q?bju0OtUH6Yn2uamxClqzkOZTtB8loT7do5/GmUAlkcHZhRUZn8k3lt/KEFKa?=
- =?us-ascii?Q?W2q8XDTPvy6lNDtdLSWkPlgVcQXhkW909hS6Qmmb7gYpKyWWE1TeJrmihg1p?=
- =?us-ascii?Q?jA0RcAKmHDXsQCwlNB7szCVVQT1/oQeA1XxPgaIIHNsTkFVPPcsMSjy4iLAe?=
- =?us-ascii?Q?epv8uY3sclHQkm8Xzy2TuTVU7ZdWg9AOivtXX7tSOnOFG6s8PiVIQZBrkqEk?=
- =?us-ascii?Q?livN1t3G17aYmqybCF4gEeJCEznFoUibrcGipqf3ouhR8J1Fn22dFp/PevIw?=
- =?us-ascii?Q?F4CJL/tETJLsXmh6A4jug6Svo76SUCE2cyh3jSyDu6IzW3Y9vejM2Kl1cVFM?=
- =?us-ascii?Q?V5rGuf4V5iRe+2M8dGVcN+nf2RrT63dMvq2GS4DvzpBpQnFI4KaRi0TuIEzV?=
- =?us-ascii?Q?bBG2v6n7aWdvBXFhgLSsgUKtiIELKY6CRZLMW8WaLzjea9xazbggEh8k2S6W?=
- =?us-ascii?Q?V/ebLZL081A=3D?=
+	=?utf-8?B?YjBFODcxSWhCM3BZVW01VDNCcFJ3M3A2UzFqaWxWcnBhQ3J6TnNvU2ZEQ3dl?=
+ =?utf-8?B?RTd0ZW1lQXZwVEw4bzlnTE1WYXJ2Qm9aQkUyS0NzdjIrT1JhZ0RqVGFKLzFL?=
+ =?utf-8?B?SFpldzlHVXRzWDRRMW9RWWZsMlgyeTd1WGtGOHdFeWdsOTZYVTdmRGZoRVFR?=
+ =?utf-8?B?VW1RaVFYbjVMUzA4b05CY2FReEx4eG5zd0VTdzc5MlB6OTBONTd0dkduUXJF?=
+ =?utf-8?B?OEtMcjZBVk1VUjIraU9QemlOSmxwOCtiSlNGOWs4WDE4aFVDYXhYcVdjN3FI?=
+ =?utf-8?B?WmZmNVZpbCtMTTVic1J0bDUzZEk0UzdsUU0vYVJVbEoxVFJseGJhRmdFL05u?=
+ =?utf-8?B?aHhpQXlGa0FLaEJ1YnRWOS9nUHRvZ1lBYTJCTjliQUxkcUhvR3lsMlBxc2FD?=
+ =?utf-8?B?aUhQcC9FVUtCVDFvQXRlZ2psR2xzZTlFM010ZHFGcTVDRnpaWVNsc0pEUS80?=
+ =?utf-8?B?amRPNDFzcjNVWURYNCttUUJUMXpOSmZVUTdUbHhZRTVrS2FzVng1WklrelNo?=
+ =?utf-8?B?WTBmU3BCSVNLdUJJYnJqWHlwVFV5cU1BZ0x3aVh6aldFUVFMUmFwMTlLc1dU?=
+ =?utf-8?B?eXNEVUJlZU5VVG1RdmNyODdFY0pnckdPc08vd1FsakgxakU2cmFqVHdCRWhI?=
+ =?utf-8?B?TnNyWEFtU1ZsUTFFeDcrWFpjVlpRYW5aSmdDRTQyU1ZEMWxmMEl2Y1NUczM4?=
+ =?utf-8?B?dUhwaUdPM3JZY2Z1bWhjSk1ob0Y1TG9oU09paHllZVJ5emhXVzZWSGhLMXpG?=
+ =?utf-8?B?bThpUE9HSXBaT0NYZ0xVMDZaaGZsSCtXelFhcFZlRnR1VmExMkhCRU16Z3pl?=
+ =?utf-8?B?bld1cTBOempyVkU5QmgrY1p2cVVySVFLd0VtM3ZkVXBrV3BSZ3VyZllQMm8r?=
+ =?utf-8?B?dnJCUm9QdVYyRElVTkNET0JRZlFyM2E3THlUcm5oUzJIb09rcDQ0MFRiY1F0?=
+ =?utf-8?B?bWg4VXpMZmtGU3piZ1BtdDRJOWJhMXgrSEk1RWlWZ1Exa2ZRNTc5aEUzZFJ3?=
+ =?utf-8?B?NlJXdjZ0cHVTa0pHT0d0RmpXL3BWT2lzMSt1bGV2TWNXYmk3TFQyK3g5SEh5?=
+ =?utf-8?B?RlBYNFFDQzJUVGV3Uy9EaklWd2tqOHZvd0djbThPM1JkUkNjbE9hOXg1N25r?=
+ =?utf-8?B?OGhNNFV6R1c5Yzk2cGJwTFRIWWI3dWVOS3BhOXV5WWkrUi9CaS9XV0hLK09B?=
+ =?utf-8?B?V09SN0RMUmZYS09TeG02ZlgyUk9IakFMdWNxM3I1ajdaWkg1bDBnclZIZm9r?=
+ =?utf-8?B?Y1RxcCs4L3BHSzhhcFJ5amo3eWtQUVJlZkttMm9ybjNwTlp4UHUxeThtdTlK?=
+ =?utf-8?B?VGdjYWphSVpRaS9wUHRlbVdaaTZteFRVU1VwTkRRaXBFUkVxVm9FU1RFL3Jj?=
+ =?utf-8?B?L2gyWjNBeDRmSjRJTnlURFcwV0tiUVJFdDZybHlRR0poY2I5VlBhcHphM2ZX?=
+ =?utf-8?B?akM0eUIydVJqZnBsSXpQVCsrZWt5WXV4cXcyODEvaEZpQnprZ3VTQmppTDBs?=
+ =?utf-8?B?bm53N0pRbE1rdElNMHRseENRNU9rdzF0RExpOUNxN1N1V3ZMcWtKR1F5ZnVy?=
+ =?utf-8?B?QUQzamJrdGZVSDU3WDVoSXFwbWtJZm9YcWIwbGtZc0o3MUlDaitCOTAvUmVJ?=
+ =?utf-8?B?SW1wWlpNdFN5M0tib3ZkblFhQ1B3TXI4N2w4a01OcXYrZXRYb3pPd0xIdURX?=
+ =?utf-8?B?ZlZIWW9Zc09VMG1qVlRpUW9OVFYwdEJIQXZnbG9PR0ZpckdVSDFLM3NGV096?=
+ =?utf-8?B?dG9pTUNvaWpLckFoUjlOdVB0NmgvQUVTRmhaZmFUN2wxTlF3R3NnMzVHZkdI?=
+ =?utf-8?B?SVZKZStkZmdXWURRL3FZT21WclVHeC93N2wrRkw3TkVJa3BZaWFoeGxLVUYx?=
+ =?utf-8?B?VHU3V09BU253S3llemV0aG9adkkyR3NQYmZEanVtTTh5RHB1VnV0d3kxZ1Fn?=
+ =?utf-8?Q?E8LJ0FxA0/Q=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR07MB8771.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+8ULR+rK5rTvctEuH8gVf/PncaXQI8qyBpR6aJ9nBw2RY2QA+ruKYWuHacQp?=
- =?us-ascii?Q?wQJ78FQBLCnb25vRRgYahJqTUICdquPwSOM/PCwSdojRW0jVLAJEGKA7d4HP?=
- =?us-ascii?Q?L2LkVFS2wFIILaZN1r+ZI/8lMyJnaqF29FdHNKdZiKmYosnR/aOgx/sfCtrX?=
- =?us-ascii?Q?8WecCnQ80cJz+xrOYNanVSY2cLL5c8A2iDQVW5D0xo+2+ErlwS4PV4MMbyA/?=
- =?us-ascii?Q?NikdIexpiyK8TNjJFVgoPuT3Sj3OyPl0VRL5JRCt9caQltHzAxGlRZZ259cJ?=
- =?us-ascii?Q?1xSb/tgJzcNy7XMavVTtHezCE9be6Owudpy9syHNjVxXxw9/0T3McleynPLv?=
- =?us-ascii?Q?KZdtFDryiKhwx9U2W+6cuSoW11ihwVCicoMjXFD0o2y5jHSRcqtS5KBo9ojE?=
- =?us-ascii?Q?usYkwTHjGn8DomHJbvqeLV6fZJLx1OZN8pF+1wyle9hOaDMsqf+omhCS9kAM?=
- =?us-ascii?Q?O21xeETiLuS7uWa3ggI9vNSRqhrFiAIHYG2URKu0JGTVlt1wACItGWQctVyQ?=
- =?us-ascii?Q?nXpMFBtcjjuQUSjFR2AsKEf/P/EqKdTBXjC7okyiv5AL7jy36rl0DhahPB9L?=
- =?us-ascii?Q?igesW78MrLvJ7vQtXHXTsKBPqRFW/sitjb6de4lnNj8hi7BeEaBDF/+fppWN?=
- =?us-ascii?Q?tsZoogKeDXHeTmOqJ1Wd9exFZDk9TQU8xL6oT9i2WU+IgyXMY1lhMG1GtceA?=
- =?us-ascii?Q?PGMZvJrbafAB5D3E+lbc9t/RmlnyZKbz6yLZz8qWYEINH6jU4OfuJMvGjNbQ?=
- =?us-ascii?Q?rjWLL0OiMFksHrWvn6Bq4mil2Ode1X4zdQ2U4jwyrLWL87lAyx6zXpFUmJPy?=
- =?us-ascii?Q?6MwVus/xa3XU8/D1FCNrcPT+i0LaXDId3/sx3Ra+Y9O4rK3HCl4u0Ljr/Umz?=
- =?us-ascii?Q?+rnVMDXJC8Otr9YpR7zV2i9Szz2IZlZ4o3XdQWmogDVEbKuCryM+Q1cciX4F?=
- =?us-ascii?Q?YjyhGHSz4yLlgsHrzeGpDkWQ8dBt5ZqvTEtl04wqqew5y34tJTvgtGhHtwiv?=
- =?us-ascii?Q?eTlE1gSyb5c7lEkyxXAMqZlwGoFXCFR3EoOh0wPTRl315NOHkz7CjekCD16Y?=
- =?us-ascii?Q?cIKA3B0+PmS0TF9BsWNIfr7pGvZioT1Pro7th8bJ3nU2Hzor8XyZfB555d4Z?=
- =?us-ascii?Q?R3qDIK5mmw+6Y79NhgPyO0BXQajeXrH+g/aE6YApqidPXVL7vxXUDuzPAkwB?=
- =?us-ascii?Q?gL7ENaCLnwXi/jok8aYitucknW8FAN0xNB0CwJgVQsRVBXdzNmxbPNVNtW6k?=
- =?us-ascii?Q?5VTTk6A8yF33to1H76rV5YRp2w1QYSzbHqGmQpKSepaFQUhyKaZpEIlbhJWh?=
- =?us-ascii?Q?Efcb46HaLm3e8yQWxebwov2BcwvvPxDkClYDO5BgkDDjnY/C3zTio4o9/ORY?=
- =?us-ascii?Q?enrnglkFUSKKsB2RqEmIj7iUcfiF6J0VUik93JXZWfe8I3WjgN1QH6op07SR?=
- =?us-ascii?Q?mOSYwGZKLdnZy8j/fdhvN82aNY1biBQBxVL06yX6jwE68RloSfWJzNEKzTDn?=
- =?us-ascii?Q?i1RLl2XqBWPenTclF8GW1tX2PO+aKEzIfA8KYsU5ypHv1Fm9zxhqowrzArrV?=
- =?us-ascii?Q?k81DZsAopmbjBm85x78qdtxXV7TrR1yLlqxd7ry1HmeorrvGRZ1vahdoNbl4?=
- =?us-ascii?Q?ig=3D=3D?=
+	=?utf-8?B?MXpzNzJGTEEzU0x4cGZ4dVo2RElGL0hFQlVPN2MvTFBEaEJOZFZRcElmdzlB?=
+ =?utf-8?B?Yk00c3ZONjQxU1lSVXJ0ei80NXRJWHVJMk5sZ3JDRXhKRlByanowYy9yR0wv?=
+ =?utf-8?B?VklCV2Zmbis0L3l4ajZOVUp0bjNITEZQcnBoQ0VvMnIzaFJOR0VIc2tRc2Ju?=
+ =?utf-8?B?djR0Y0lTbWFhd3AyL29rOEdwTTFEU3Z6L21jUE44L0ZPRUM2UHVDeXZaVDgr?=
+ =?utf-8?B?RkhpWEIxbnpjOHArRUlaRXVBVUdOSVhZWkU4ZHkxSndsaEROV2dSbjNuOVho?=
+ =?utf-8?B?TndOeDg4VG0rMU4rQ0ZsRHBkbmpnYnppMjErOWYvampVUmEwSThOYWZ3TjA2?=
+ =?utf-8?B?b3BMbjB3ZlViYXp1TVJwQi8vMmMzVFFIVjBlQjR0eDBEZTJ2Y2lNekFGRXVm?=
+ =?utf-8?B?VWNSZVRkZGFJTUREMmVOWTN1aG9aSGF1WGpTUEUwSk5XWVVIT29oSFBDdm1U?=
+ =?utf-8?B?L3duQks0UGh3cExiYVdDaUNPMlpoakZIcEpCMEdvaGJrNC9aaGlEQjBpUEUv?=
+ =?utf-8?B?cU5Jek5FUmRnRFJDRnFCL2YyTzY1a1g0cXFKTjk3UDBTd3JQQlRPVkx5WUs2?=
+ =?utf-8?B?OWhVNGRIV2g3SFJMRU5vWHpucGFFUWlRN3h4YjRMWk8xQVZ4L08yUVd6R3dv?=
+ =?utf-8?B?QXRQaytjKytYUW13OE1pd0xKenJ3TFdsOVJha1hkVXBFVUdjTU9Nclphazhp?=
+ =?utf-8?B?TUJqaGtaWVk2RWJPbUgzMjR5TTdhR0l2alpUMjViOU91V2R2d1BxMVR0YWN0?=
+ =?utf-8?B?L1dmL1RaN0wzN3ZCcWlLZGlMek1PbmJXbFRxMVY3SDJHcGhoSlY0YVBjbWhv?=
+ =?utf-8?B?ejY5ZVZQNEZMS2tQSUk0WXl5L1VSam43a1h5RGxzM3hyLzR1c1EyU1pET0ZG?=
+ =?utf-8?B?dWkwSHZUeFdTSjlzZ0NRMmJpMThSYktFcE1xbmpwZlRQVm10RTEyYlZlNWRk?=
+ =?utf-8?B?VURxem04T0FwVVc1bEN5bjFjVlJmWG1IR05TY3ZxWjVDeWM2RXVuUGF5ZTVJ?=
+ =?utf-8?B?VmtQRWJWVTdESjBzSlVlUWFKZC85SzN5N0Nxb0EwbGdHc0pRZFM4YWdteTY4?=
+ =?utf-8?B?UzFBd1RLUjFyaERobDBTaE5USWNidnpWcWZ5anlrRENUWFo1WHZZWUd1NG54?=
+ =?utf-8?B?S25EQlVjVzMxbWdxVFc0bVphVm03cktIT1JUVTBnUmEveE9WZmtEZHFvSCtZ?=
+ =?utf-8?B?dDNJQi9JUWdvVjUrYUVtU09xK1AzeW52RytBRTc5ZE15aGZUVWN6VVI0YmNM?=
+ =?utf-8?B?aTUwdHpRb0xHaUxDbWYvd0JNT1VmNUZXRnJsd1BYY3ZMMElIajNKMUNEdGZE?=
+ =?utf-8?B?aFgwT0V3RVVicTJRaE1PZGNzaXUyMC9BT2FYcVVqait4UGpwVnFpK0oxbWJp?=
+ =?utf-8?B?RXBHdmlISUdUZ3hZN2ZzYnNSd2cyMTVQWG5FdmtPcVJiQWZ3T01LZmJEYlhj?=
+ =?utf-8?B?SXR0K2RiUHY0bVlKb0RJQkRxVlRWbzRkNXhxTi9XYWVtMnlONndwSW5Fd01X?=
+ =?utf-8?B?MlZRdE14blhtZEJtbEVOUEpVU3pXWCtsRG0wYk5teEVzcnBkb3l2clFpMmhT?=
+ =?utf-8?B?Z0J6TFlJdFkwRUhQQmFaOW51Wm9mMURvbEhGSk9FS0hHRlRMblJoZVVZTFhv?=
+ =?utf-8?B?NXRJT3VtNDVRUVRDRk84QVgrNFcyS2xsZHl0Umo3TWFwSlJETGpBY1l6NjR1?=
+ =?utf-8?B?MzR5RjdiV04wbWdCZWxxSi94cmJINDdWUWFsWXI0VGNXMFdYQWFMVUpKYnNl?=
+ =?utf-8?B?djJvdVFBL2FmZi8wakVqdXRjUWZJTnpCNEF4UXh6M1pvbjJEeXppWTJ0Y2lE?=
+ =?utf-8?B?VDhtTmFzVXpDN2pyL1ZQOFlLMWFhc0pvN3ByZHFsNFpkQm1OUmdQWWRaSVRx?=
+ =?utf-8?B?M2hNZjh4OUpXYndseEdDbDlBenRhTjJabEtqOHAvVm9nL3RZSFJ4ejFWMWFP?=
+ =?utf-8?B?UWdxdUNtZDdXRkpXd085MXdsRklKUE9CYnVTS0JVVzBaR1FrQThWRlVnZkhp?=
+ =?utf-8?B?N0VOaXAyN0Q3allxT0ZEMjVyOVpaUGVlcFl6RDI5anBlL014ZjlyWE5SMFNS?=
+ =?utf-8?B?eUxBUVAwejNFR21SZjdtYmlxZWovRFFpUTlIRllja2NCTnBQVGNwVDFKd2VQ?=
+ =?utf-8?B?eGFaTzBKeVdka1lieG14NVRJYUhmNTVETW1lTnJQTExqRlYyTjhSZk5MUTBt?=
+ =?utf-8?B?TWc9PQ==?=
 X-OriginatorOrg: nokia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f42e2c8f-51aa-48a2-5f98-08ddca16c60a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c60031d-a946-49cf-5863-08ddca1794e4
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR07MB8771.eurprd07.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 18:28:51.8746
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 18:34:39.0609
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HbEBB9D+BdEEbCENn/Bs7+vUyRV3qvdpA3JD+0NuCjHT99vethVNNHdkSoRDWTU0XFegB+UGQjz8XJxYR2dHxNQT5FTYwYPeq44EAU07m7E=
+X-MS-Exchange-CrossTenant-UserPrincipalName: KJfsKQL6UolicZOmqxNIwKBDxntP6uy83btNoNoSbkRwIXYqcs29M6slasFe9/BC95SyiSpOfQgirFCxZ/cWSeflJ5U81P8COmgymzm4pkg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR07MB6794
 
-Introduce a mechanism to detect and warn about prolonged IRQ handlers.
-With a new command-line parameter (irqhandler.duration_warn_us=),
-users can configure the duration threshold in microseconds when a warning
-in such format should be emitted:
+On 22/07/2025 10:21, Jiri Slaby wrote:
 
-"[CPU14] long duration of IRQ[159:bad_irq_handler [long_irq]], took: 1330 us"
+>
+> On 14. 07. 25, 10:41, Wladislav Wiebe wrote:
+>> This patch adds a mechanism to detect and warn about long-running IRQ
+>> handlers exceeding a user-defined duration threshold in microseconds.
+>>
+>> The feature is enabled via the kernel boot parameter:
+>> "irqhandler.duration_warn_us=<threshold_in_us>"
+>>
+>> For example, passing irqhandler.duration_warn_us=1000 will warn if an
+>> IRQ handler takes more than 1000 microseconds.
+>>
+>> Implementation uses local_clock() to measure the execution duration of
+>> IRQ handlers. When the threshold is exceeded, a ratelimited warning is
+>> printed:
+>>
+>> "[CPU14] long duration on IRQ[159:bad_irq_handler [long_irq]], took: 1330 us"
+>>
+>> Signed-off-by: Wladislav Wiebe <wladislav.wiebe@nokia.com>
+>> ---
+>> V1 -> V2: refactor to use local_clock() instead of jiffies and replace
+>>         Kconfig knobs by a new command-line parameter.
+>> V1 link:  https://lore.kernel.org/lkml/20250630124721.18232-1-wladislav.wiebe@nokia.com/
+>> ---
+>>   .../admin-guide/kernel-parameters.txt         |  5 ++
+>>   kernel/irq/handle.c                           | 48 ++++++++++++++++++-
+>>   2 files changed, 52 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index f1f2c0874da9..fa89f21ea1e6 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -2543,6 +2543,11 @@
+>>                       for it. Intended to get systems with badly broken
+>>                       firmware running.
+>>
+>> +     irqhandler.duration_warn_us= [KNL,EARLY]
+>> +                     Warn if an IRQ handler exceeds the specified duration
+>> +                     threshold in microseconds. Useful for identifying
+>> +                     long-running IRQs in the system.
+>> +
+>>       irqpoll         [HW]
+>>                       When an interrupt is not handled search all handlers
+>>                       for it. Also check all handlers each timer
+>> diff --git a/kernel/irq/handle.c b/kernel/irq/handle.c
+>> index 9489f93b3db3..eab8fdfab8d8 100644
+>> --- a/kernel/irq/handle.c
+>> +++ b/kernel/irq/handle.c
+>> @@ -136,6 +136,44 @@ void __irq_wake_thread(struct irq_desc *desc, struct irqaction *action)
+>>       wake_up_process(action->thread);
+>>   }
+>>
+>> +static DEFINE_STATIC_KEY_FALSE(irqhandler_duration_check_enabled);
+>> +static u64 irqhandler_duration_threshold_us __ro_after_init;
+>> +
+>> +static int __init irqhandler_duration_check_setup(char *arg)
+>> +{
+>> +     unsigned long val;
+>> +     int ret;
+>> +
+>> +     if (!arg)
+>> +             return 0;
+>> +
+>> +     ret = kstrtoul(arg, 0, &val);
+>> +     if (ret)
+>> +             return ret;
+>> +
+>> +     if (val > 0) {
+>> +             irqhandler_duration_threshold_us = val;
+>> +             static_branch_enable(&irqhandler_duration_check_enabled);
+>> +     } else {
+>> +             pr_err("Invalid irqhandler.duration_warn_us setting (%lu)\n", val);
+>> +             return -EINVAL;
+>
+> Perhaps invert the condition and drop the "else {}"?
+>
+>> +     }
+>> +
+>> +     return 0;
+>> +}
+>> +early_param("irqhandler.duration_warn_us", irqhandler_duration_check_setup);
+>> +
+>> +static inline void irqhandler_duration_check(u64 ts_start, unsigned int irq,
+>> +                                           struct irqaction *action)
+>
+> Can be const.
+>
+>> +{
+>> +     u64 delta_us = (local_clock() - ts_start) >> 10;
+>> +
+>> +     if (unlikely(delta_us > irqhandler_duration_threshold_us)) {
+>> +             pr_warn_ratelimited("[CPU%d] long duration on IRQ[%u:%ps], took: %llu us\n",
+>
+> s/%d/%u/.
+> Do you mean "of IRQ[...]"?
+>
+>> +                     smp_processor_id(), irq, action->handler, delta_us);
+>> +     }
+>> +}
+>> +
+>>   irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
+>>   {
+>>       irqreturn_t retval = IRQ_NONE;
 
-The implementation uses local_clock() to measure the execution duration of the
-generic IRQ per-CPU event handler.
+Thanks for the comments, I've addressed them in v3:
+https://lore.kernel.org/lkml/20250723182836.1177-1-wladislav.wiebe@nokia.com/
 
-Signed-off-by: Wladislav Wiebe <wladislav.wiebe@nokia.com>
----
-V2 -> V3: Addressed review comments based on v2:
-	  https://lore.kernel.org/lkml/20250714084209.918-1-wladislav.wiebe@nokia.com/
-	  - refactor commit message
-	  - switch from early_param() to __setup()
-	  - comment on approximation of nano to microseconds conversion
-	  - move ts_start to if() branch
-	  - align pr_warn arguments
-	  - surround else block with brackets as well
-	  - invert the condition and drop the "else {}" in cmdline arg. check
-	  - make struct irqaction *action function param. const
-	    in irqhandler_duration_check()
-	  - print smp_processor_id() return as unsigned int
-	  - fix warning text "on IRQ[...]" -> "of IRQ[...]"
-V1 -> V2: refactor to use local_clock() instead of jiffies and replace
-	  Kconfig knobs by a new command-line parameter.
-V1 link:  https://lore.kernel.org/lkml/20250630124721.18232-1-wladislav.wiebe@nokia.com/
----
- .../admin-guide/kernel-parameters.txt         |  5 ++
- kernel/irq/handle.c                           | 49 ++++++++++++++++++-
- 2 files changed, 53 insertions(+), 1 deletion(-)
+- W.W.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 07e22ba5bfe3..7a2d0338ee91 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2543,6 +2543,11 @@
- 			for it. Intended to get systems with badly broken
- 			firmware running.
- 
-+	irqhandler.duration_warn_us= [KNL]
-+			Warn if an IRQ handler exceeds the specified duration
-+			threshold in microseconds. Useful for identifying
-+			long-running IRQs in the system.
-+
- 	irqpoll		[HW]
- 			When an interrupt is not handled search all handlers
- 			for it. Also check all handlers each timer
-diff --git a/kernel/irq/handle.c b/kernel/irq/handle.c
-index 9489f93b3db3..258f40ad8cb1 100644
---- a/kernel/irq/handle.c
-+++ b/kernel/irq/handle.c
-@@ -136,6 +136,44 @@ void __irq_wake_thread(struct irq_desc *desc, struct irqaction *action)
- 	wake_up_process(action->thread);
- }
- 
-+static DEFINE_STATIC_KEY_FALSE(irqhandler_duration_check_enabled);
-+static u64 irqhandler_duration_threshold_us __ro_after_init;
-+
-+static int __init irqhandler_duration_check_setup(char *arg)
-+{
-+	unsigned long val;
-+	int ret;
-+
-+	ret = kstrtoul(arg, 0, &val);
-+	if (ret) {
-+		pr_err("Unable to parse irqhandler.duration_warn_us setting: ret=%d\n", ret);
-+		return 0;
-+	}
-+
-+	if (!val) {
-+		pr_err("Invalid irqhandler.duration_warn_us setting, must be > 0\n");
-+		return 0;
-+	}
-+
-+	irqhandler_duration_threshold_us = val;
-+	static_branch_enable(&irqhandler_duration_check_enabled);
-+
-+	return 1;
-+}
-+__setup("irqhandler.duration_warn_us=", irqhandler_duration_check_setup);
-+
-+static inline void irqhandler_duration_check(u64 ts_start, unsigned int irq,
-+					     const struct irqaction *action)
-+{
-+	/* Approx. conversion to microseconds */
-+	u64 delta_us = (local_clock() - ts_start) >> 10;
-+
-+	if (unlikely(delta_us > irqhandler_duration_threshold_us)) {
-+		pr_warn_ratelimited("[CPU%u] long duration of IRQ[%u:%ps], took: %llu us\n",
-+				    smp_processor_id(), irq, action->handler, delta_us);
-+	}
-+}
-+
- irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
- {
- 	irqreturn_t retval = IRQ_NONE;
-@@ -155,7 +193,16 @@ irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
- 			lockdep_hardirq_threaded();
- 
- 		trace_irq_handler_entry(irq, action);
--		res = action->handler(irq, action->dev_id);
-+
-+		if (static_branch_unlikely(&irqhandler_duration_check_enabled)) {
-+			u64 ts_start = local_clock();
-+
-+			res = action->handler(irq, action->dev_id);
-+			irqhandler_duration_check(ts_start, irq, action);
-+		} else {
-+			res = action->handler(irq, action->dev_id);
-+		}
-+
- 		trace_irq_handler_exit(irq, action, res);
- 
- 		if (WARN_ONCE(!irqs_disabled(),"irq %u handler %pS enabled interrupts\n",
--- 
-2.39.3.dirty
+
 
