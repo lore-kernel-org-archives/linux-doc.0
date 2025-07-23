@@ -1,123 +1,272 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752C12E6108
-	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 15:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D20D19CC29;
+	Wed, 23 Jul 2025 15:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753283431; cv=none; b=K8fNlu1KXybbUnZKDPNPfVty+n50XOmL/gwewF2BKeyAuuXi/OydxX5742CxqSOdBqAhqmNlie9m3X4NiVoV6Maif6BYcg4GLerxPAkiQhf5BljpLWJVkXa8DYCLQoiz9QeiW/DOM2FPDs6+/bE/SYlaJTpYoVNxI8ODwukOpxA=
+	t=1753284751; cv=none; b=QeIfplHTWjrJFDHCCZcLYAbLmO3bPd9eswhKCHWUwwjJ9zdzV+FgFtPMUkV8odEibG2CmgGbhJgVcMHSu4ohnJ4TMYKE+B0YbjMN4MwiienCuz6fQnCYOX7+jnaDoK/nk03mtkjr/bJcvPJvLZ4G2h43f5/KAmtkJxCVeMb9xok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753283431; c=relaxed/simple;
-	bh=s9X3Rf4iKvd8tihzYDWl7G2SYC11kejhiYfJ2FtSKJ4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=WyC1VY+h4fvIEPZAG0aEvXtANhp8HBy4mL2isjh8PXq6/WRGV2wbSEeWEq0wuK2xShsno+5mNDZxHs4N8bl3WO8WTj9+pR4em8/lO7SDegFGoMcJ8mkYWusaf8kmS6WWLn6lR3YlYLFqt2+/c4gy0JgkURPHplHnVA8Xoc27yYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=IWkwUuPr; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1753284751; c=relaxed/simple;
+	bh=HkcngKq7JR/WRYu7csRYIy3MdLYjoZUIv+jpqjw+ctU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BHZtveXXOiJhX94vYGskrkN7vt10LfWDcUCTBy7/ij+Ps8Xaf76utrZHz+Evp5k9HngJtPgg5LBeKBZfh/cfzuzQpxwhxDFcKIc+MiqA8XOfEqxuj/4kQTWHp/Ol/7sRcIgn9oigBhsAloggW2t6ru1gcjUObrR++J5ZLZqHRSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a9RfqqZR; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="IWkwUuPr"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-748d982e97cso49239b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 08:10:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a9RfqqZR"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-234b9dfb842so58908695ad.1;
+        Wed, 23 Jul 2025 08:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1753283429; x=1753888229; darn=vger.kernel.org;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1753284749; x=1753889549; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UuChy1LULay+ShDL03IJdTFrOKC/jWx8pEhX699NilY=;
-        b=IWkwUuPrIpKXTGqhnVt3lRl+2UlmxYF/OhDKZZRRNJE45l3GBqGD0sS+MNVh1YZwHu
-         ToNbcTx7YZCG0PGJJ4cjLXQol6PKWBQtHgtKLfW59f2SHVDv68B50kJHitqg1Vly+9wa
-         v7i/xQCFE5sM0fNGH6h0jhpgj8DrlV+OMCiwGR4Bfte5SKBj0fihLMQJaUzqpwP9H7Np
-         3IZaAYS7t/pQ/dEqIKi2RHSmXltWmBFqs+YiCYrJuFS6FNtZuiiEzOcGaZwT8DzpkI6p
-         FYP+E+TNQqDFR+Kah0xH+48yypHXcl9owut7qUN1DhOC0kV1+dR4Ehphqdn6kmnFxWJ4
-         JFdA==
+        bh=SAUZEw7Zyr/dH2MhdiUynRcdRRRh3d/M1xLFRoTpl7c=;
+        b=a9RfqqZRF1sptucDzj4hVEV8gKBLGJZqtpl6T7/bq2Mm9Dg2jkKv9xYiXAuOivTag7
+         i0UIa2jW5OA7Z+lfbOFC2byM4b/bq3S/Yt3Zc6h5PvVD2f2WcWIiTIwe9iGcKk0oLVJs
+         07XMvMP2CnNDiGW04LbKQRMjyRNEP+Ebo4xuQmmvjrcvJcLR0dk+JQou38KnNqMdN874
+         7fvctf0RdiDPpXCcgGXiKmnYjvUqhGizF4PIGOAz0G7femsfzEfmCRuFIdZ0hsmd1i4L
+         vyJJGDFWAHQs9vXMqgyet9Boq1koqmrLgYc04KjM9FkbRzZw8NQ04WPvBtDsYOI7FV6j
+         xTZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753283429; x=1753888229;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UuChy1LULay+ShDL03IJdTFrOKC/jWx8pEhX699NilY=;
-        b=owv61gI+N/QxchswDaHBrk9WVBIB1zSz1ZZ3TlOhCHlUgTvIL9Pv8+zDUa/N8/b3K1
-         6xWYY8PLuYspygvJXFLC1No/TxZLCQriWuiCXqm0mslr0JHZpLdiVAhBv+bYktPl24p8
-         AaDaB2Vkwu4pYvFAUO9jUOIkQ2/hWgyXeRMrPi3VHaRLxtUqznj1b871OvgirKPw1AJn
-         DXlGFH/zRRPcPMUgxwP8U2wBLiOsVRklqdpmLjDam+4qmlXVcloHiOe7250ElBpSaoXx
-         j5cMsp82RhuA5P5cFablGOWnZk5WKJy7ppUjNyhsWnUFDnPN47NHgYNJw3+7D2oYAdmC
-         mtJw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwY9HbEFuh2SeYRn5/GYdh9YxxFSjrC4444AhhV96r0V74x+v1fhE79HEU4PJ2CXRQIox70m1LUwc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDdmTsYO2oEbcz8ywuLhZDZqjervn2NaouyMhtg2rvjyuaBfAh
-	MlL83MaKTMMFLVrkpkjzV8KTcHaAV8u+cWVUJf1vrF8l/tsw0MyIBdbbfLfUa1p2nM4=
-X-Gm-Gg: ASbGnctqm8DHOL5g9rKECtmffCjXJTVOVWzhs6foV01+MbKy14GBz9HEifU3cheAdSL
-	qp7c8Xl0nKEb52ZrvlqeVIaxa4oC6j93v1R4IkqwLhbAEvGKXaZrNSlLgLxeLZ+gcZx8923pjo+
-	avV0SlFmmvVo+NMsCc40xRMdtrZfM6xq/ggt07Xo0uglZcOu96E0rfWgwAiZvRg3WyJiW49dqav
-	uPQcbveJdV7uBzRIwjctLXGz1BLjVj26fbKiXL8c1F8M8sY75fDTUy7ht7V/hclJc67YUGQBjjo
-	MgcQBsVDPs0NhWNsnhToOglk6cxlKAWp731KsxYPUkMyAlknRBGA55LsYxOsOLliwMHrKGaL6PQ
-	eqyWWZvoY8FX3GszMIg2zt4Hdh4pfMg==
-X-Google-Smtp-Source: AGHT+IE+co2aDTbuxqywk9VXXdq95Qx32EuhMNzguqNw2C4YBMnkv2fPJd5DUodgNwdXPUs40Wvm1w==
-X-Received: by 2002:a05:6a00:a1c:b0:748:eedb:902a with SMTP id d2e1a72fcca58-760353f328fmr4564271b3a.17.1753283429448;
-        Wed, 23 Jul 2025 08:10:29 -0700 (PDT)
-Received: from localhost ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb1569absm9971551b3a.68.2025.07.23.08.10.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Jul 2025 08:10:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753284749; x=1753889549;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SAUZEw7Zyr/dH2MhdiUynRcdRRRh3d/M1xLFRoTpl7c=;
+        b=f7+A9lT2U9ouZcq/9VTVI8baU0U9zwEiD/lAnw0h5KfMaVPdZCoPFDcWdDPpeSg+GX
+         qzsQgqOBtE9rGV+BdvrjvCbzez44GY1s1bfCyl50vdrVHufFYC5QK//6vAeSbzgYXtsN
+         u9Z8fEnxuGoITKDZIBwcyOdFPmd9sRPf2MW9MwTXGYfHDoDux6u3zU0W+FetltkP4zs9
+         gM3FvQnuaDdp++zJVmQcIcSe7G8seKcZVbtOw9R8+oUZCYUOAfFyMkbLGkJ5PPnY54ov
+         8NOqlL/V8J6r6USMj9JIg5V6QzDmGXznaoKvkVvqH7PHXSgOtxsMaTisZiAIvkVzrhtZ
+         /5jg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmrknXAqpAKpDW4BCZU58XhEM6uYiacsIT8aEnOTKMVMm+gISxJifO0Q3YENmcgzE95jTLsi5f6GfoFMeb@vger.kernel.org, AJvYcCVbOScDzV5BmbJzKrIuOzkEhogqFotyf5oQbxkJDwywCQ+7TkBPI2/wfXF24VS6ClMaJZKhzB6cNMb8@vger.kernel.org, AJvYcCWLvFk5kE2b9Viwjpu5BhmaZ+8PeCvjGBWeAPOg5eKr1foH6uPU/4fY+cQRnmHepbb5ChfXunTOGUBIVA==@vger.kernel.org, AJvYcCXs5GY62DJGMLvITqU3SSau6PhmxYp6swZ2BBrR/u2P+D4Kgi1NDlsBmLCZuY5jJ0I7dJlsRhMRXTnQ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3ORb+9K8FxNEnYDJhiKrcIXnQbN3QNLdKApB2tKG5ykJyk7tY
+	7oxuBrOiDhFJbcTaXpcbu+4lNPQnWRo2O8T9L+1ie70EXBmTwBGds5TjJfXfdw==
+X-Gm-Gg: ASbGnctsJHPwBLT3MND++kewqaotE2ClnAESHRUPbW4O+tPNtYArD2MfxSvObI28RSg
+	xCTYFsWDP5QlS5q5eF4k7FtPXBhgv0j+V6gaj16LY7TJIIA4NHGKfOV9i9EuR4JS9lCGcKVManN
+	6XWjtohIOB+fC/6mPJ7b+tSstGN6mRrxtFA9zipObtMeOKIv94z5UEbO8ymlB1B06wZSw8g6cSz
+	yxqxub0HkuNeBQ2zb4XP4zImrjwTri6ZpJFogEXU/rixTZaP5ZBrSfWGZGAwLYpDVuSTQNmiKhn
+	l2xUIlPrwi108DYh7DOFPSp1RUuIB80n60fkiMkDGnsXSXGdp0f0b35cYpunpLTmVBQ0xtlGXcS
+	yl5V6OSuT8/ECoSBfSueSQyc6oyW4R/aO+JZcZaCwVYTs
+X-Google-Smtp-Source: AGHT+IHzrpP4vCfo3NRU61rWRBd8ZxUejRAEZpPjSFan9to0J9MpkOLFyF9oSRFuO4QjpYtIahwrQg==
+X-Received: by 2002:a17:903:2444:b0:23f:8d6a:8e45 with SMTP id d9443c01a7336-23f98140a01mr53243475ad.4.1753284748542;
+        Wed, 23 Jul 2025 08:32:28 -0700 (PDT)
+Received: from DESKTOP-P76LG1N.lan ([42.118.149.254])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b5e3fcbsm99273685ad.48.2025.07.23.08.32.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jul 2025 08:32:28 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org,
+	krzk+dt@kernel.org
+Cc: pavel@kernel.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v11 2/4] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
+Date: Wed, 23 Jul 2025 22:32:21 +0700
+Message-Id: <20250723153221.96289-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <0c7e171d-056d-4c00-a30b-0fd39e25bf4c@kernel.org>
+References: <0c7e171d-056d-4c00-a30b-0fd39e25bf4c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 23 Jul 2025 09:10:26 -0600
-Message-Id: <DBJJ3QS0PN8E.3VW8UD9HEQAA6@brighamcampbell.com>
-To: "Doug Anderson" <dianders@chromium.org>
-Cc: <tejasvipin76@gmail.com>, <diogo.ivo@tecnico.ulisboa.pt>,
- <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jianhua Lu"
- <lujianhua000@gmail.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Jessica Zhang" <jessica.zhang@oss.qualcomm.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v6 1/4] drm: Create mipi_dsi_dual* macros
-From: "Brigham Campbell" <me@brighamcampbell.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250722015313.561966-1-me@brighamcampbell.com>
- <20250722015313.561966-2-me@brighamcampbell.com>
- <CAD=FV=XGO5y0F40oaOANW-r-q5qZPFYRwO7aQHi3R6Ag-aeMag@mail.gmail.com>
-In-Reply-To: <CAD=FV=XGO5y0F40oaOANW-r-q5qZPFYRwO7aQHi3R6Ag-aeMag@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Jul 22, 2025 at 10:20 AM MDT, Doug Anderson wrote:
-> On Mon, Jul 21, 2025 at 6:53=E2=80=AFPM Brigham Campbell <me@brighamcampb=
-ell.com> wrote:
-> add/remove: 0/0 grow/shrink: 0/4 up/down: 0/-8754 (-8754)
-> Function                                     old     new   delta
-> elish_csot_init_sequence.d                   758     379    -379
-> elish_boe_init_sequence.d                    846     423    -423
-> elish_csot_init_sequence                    9136    5380   -3756
-> elish_boe_init_sequence                    10192    5996   -4196
-> Total: Before=3D33880, After=3D25126, chg -25.84%
->
-> So the new way of defining mipi_dsi_dual_dcs_write_seq_multi() did
-> indeed give a pretty sweet space savings! :-)
+On Fri, 18 Jul 2025, Krzysztof Kozlowski wrote:
 
-Interesting! With as much as I've heard about compiler optimizations,
-I'm kind of surprised that the compiler didn't do a better job before
-redefining mipi_dsi_dual_dcs_write_seq_multi(). It's nice to know what
-to expect when the rubber hits the proverbial road.
+> On 14/07/2025 19:23, Nam Tran wrote:
+> >> +static int lp5812_parse_led(struct device_node *np,
+> > +			    struct lp5812_led_config *cfg,
+> > +			    int led_index)
+> > +{
+> > +	int num_colors = 0, ret;
+> > +
+> > +	of_property_read_string(np, "label", &cfg[led_index].name);
+> > +
+> > +	ret = of_property_read_u32(np, "reg", &cfg[led_index].chan_nr);
+> 
+> You mix code for probe with code for regular operation. This is not
+> expected and confusing. All functions related to probe must be before
+> the probe function is defined.
 
-> This patch looks good to me now. Thanks for putting up with all my
-> requests. I know this is a lot bigger than you thought it would be
-> when you posted your first patch, but I appreciate you sticking with
-> it!
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> My plan would be to give this series another week on the list. If
-> there is no additional feedback then I'll plan to land it.
+I will restructured the code to move all probe-related helpers above the
+lp5812_probe() function.
 
-Thanks, Doug. I appreciate your patient suggestions. Waiting another
-week for any additional comments or suggestions sounds good to me!
-Thanks for letting me know.
+> > +
+> > +static struct lp5812_led *lp5812_dev_to_led(struct device *dev)
+> > +{
+> > +	struct led_classdev *cdev = dev_get_drvdata(dev);
+> > +	const char *name = dev->platform_data;
+> > +
+> > +	if (strcmp(name, LP5812_SC_LED) == 0)
+> > +		return container_of(cdev, struct lp5812_led, cdev);
+> > +
+> > +	return container_of((struct led_classdev_mc *)cdev, struct lp5812_led, mc_cdev);
+> 
+> 
+> No, just pass correct pointer to platform data, no need with strcmp and
+> then different container of...
 
-Brigham
+I will remove the string-based `platform_data` handling and now store a direct
+pointer to `struct lp5812_led` in `dev->platform_data`.
+This allows simplifying `lp5812_dev_to_led()` without the need for `strcmp()`
+or multiple `container_of()` usages.
+
+> > +static int lp5812_init_led(struct lp5812_led *led, struct lp5812_chip *chip, int chan)
+> > +{
+> > +	struct device *dev = &chip->client->dev;
+> > +	struct mc_subled *mc_led_info;
+> > +	struct led_classdev *led_cdev;
+> > +	int i, ret = 0;
+> > +
+> > +	if (chip->led_config[chan].name) {
+> > +		led->cdev.name = chip->led_config[chan].name;
+> > +	} else {
+> > +		led->cdev.name = devm_kasprintf(dev, GFP_KERNEL, "%s:channel%d",
+> > +						chip->label ? : chip->client->name, chan);
+> > +		if (!led->cdev.name)
+> > +			return -ENOMEM;
+> > +	}
+> > +
+> > +	if (!chip->led_config[chan].is_sc_led) {
+> > +		mc_led_info = devm_kcalloc(dev,
+> > +					   chip->led_config[chan].num_colors,
+> > +					   sizeof(*mc_led_info), GFP_KERNEL);
+> > +		if (!mc_led_info)
+> > +			return -ENOMEM;
+> > +
+> > +		led_cdev = &led->mc_cdev.led_cdev;
+> > +		led_cdev->name = led->cdev.name;
+> > +		led_cdev->brightness_set_blocking = lp5812_set_mc_brightness;
+> > +		led->mc_cdev.num_colors = chip->led_config[chan].num_colors;
+> > +		for (i = 0; i < led->mc_cdev.num_colors; i++) {
+> > +			mc_led_info[i].color_index =
+> > +				chip->led_config[chan].color_id[i];
+> > +			mc_led_info[i].channel =
+> > +					chip->led_config[chan].led_id[i];
+> > +		}
+> > +
+> > +		led->mc_cdev.subled_info = mc_led_info;
+> > +	} else {
+> > +		led->cdev.brightness_set_blocking = lp5812_set_brightness;
+> > +	}
+> > +
+> > +	led->cdev.groups = lp5812_led_groups;
+> > +	led->chan_nr = chan;
+> > +
+> > +	if (chip->led_config[chan].is_sc_led) {
+> > +		ret = devm_led_classdev_register(dev, &led->cdev);
+> > +		if (ret == 0) {
+> > +			led->cdev.dev->platform_data = devm_kstrdup(dev, LP5812_SC_LED, GFP_KERNEL);
+> > +			if (!led->cdev.dev->platform_data)
+> > +				return -ENOMEM;
+> > +		}
+> > +	} else {
+> > +		ret = devm_led_classdev_multicolor_register(dev, &led->mc_cdev);
+> > +		if (ret == 0) {
+> > +			led->mc_cdev.led_cdev.dev->platform_data =
+> > +				devm_kstrdup(dev, LP5812_MC_LED, GFP_KERNEL);
+> > +			if (!led->mc_cdev.led_cdev.dev->platform_data)
+> > +				return -ENOMEM;
+> > +
+> > +			ret = sysfs_create_groups(&led->mc_cdev.led_cdev.dev->kobj,
+> > +						  lp5812_led_groups);
+> > +			if (ret)
+> > +				dev_err(dev, "sysfs_create_groups failed\n");
+> > +		}
+> > +	}
+> > +
+> > +	if (ret) {
+> > +		dev_err(dev, "led register err: %d\n", ret);
+> 
+> Why are you printing same error multiple times?
+
+I will remove the redundant error message at the end of `lp5812_init_led()`
+to avoid double-printing.
+Now only the specific failure points log detailed errors.
+
+> > +static int lp5812_probe(struct i2c_client *client)
+> > +{
+> > +	struct lp5812_chip *chip;
+> > +	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+> > +	struct device_node *np = dev_of_node(&client->dev);
+> > +	struct lp5812_led *led;
+> > +	int ret;
+> > +
+> > +	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
+> > +	if (!chip)
+> > +		return -ENOMEM;
+> > +
+> > +	chip->cfg = i2c_get_match_data(client);
+> > +
+> > +	if (np) {
+> > +		ret = lp5812_of_populate_pdata(&client->dev, np, chip);
+> > +		if (ret)
+> > +			goto err_init;
+> > +	} else {
+> > +		return dev_err_probe(&client->dev, -EINVAL, "No platform data\n");
+> 
+> This is confusing syntax. Expected is:
+> if (!missing something)
+> 	return -EINVAL
+
+I will update it.
+
+> The other problem is that you claim this can match and bind without OF,
+> but here you say it is a requirement. So either this code is wrong or
+> your I2C ID table should be removed.
+
+I will update the probe logic for clarity and removed the i2c_device_id table
+and .id_table field.
+
+> > +	led = devm_kcalloc(&client->dev, chip->num_channels, sizeof(*led), GFP_KERNEL);
+> > +	if (!led)
+> > +		return -ENOMEM;
+> > +
+> > +	chip->client = client;
+> > +
+> > +	mutex_init(&chip->lock);
+> > +
+> > +	i2c_set_clientdata(client, led);
+> > +
+> > +	ret = lp5812_init_device(chip);
+> > +	if (ret)
+> > +		goto err_init;
+> > +
+> > +	dev_info(&client->dev, "%s Programmable led chip found\n", id->name);
+> 
+> Drop. You have only one device type (look at your binding), so you
+> cannot "find" devices.
+
+I will drop it.
+
+> > +static void lp5812_remove(struct i2c_client *client)
+> > +{
+> > +	struct lp5812_led *led = i2c_get_clientdata(client);
+> > +
+> > +	lp5812_unregister_sysfs(led, led->chip);
+> > +	lp5812_deinit_device(led->chip);
+> > +
+> > +	dev_info(&client->dev, "Removed driver\n");
+> 
+> No, drop, useless.
+
+I will remove it.
+
+Thank you for your thorough review and helpful suggestions.
+
+Best regards,
+Nam Tran
