@@ -1,110 +1,158 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B172EAD7;
-	Wed, 23 Jul 2025 01:28:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363E92E36F5;
+	Wed, 23 Jul 2025 01:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753234091; cv=none; b=VVFAhRiXYI2UuWE0ZT7KyvGcgQUhpBp8gEbnGna9iM9anMDuTax7hQg2HD9e6GJm76Xep0Y9JOyFfHnW8AfSPlXofDP6+A2RkWYjCNgJKuk6lnIi0xp4Oy20g6oODvbRWHX8kIkc1IHlG46J0HYKfNEhZNLqUVP35Q3KKgcrZ44=
+	t=1753235570; cv=none; b=XSPAt0hUBynaNh3m8/ODg8ROFOhVkyA4WsmSkNxCL3d5dJfRnqscigoAieIRW+ZZF+PPCFhRcNFsAAcpncJNlyQ4rW3oB601g5SWGO4tzYm+xh/KUkntEtyXButlY1NhEdn2Pn3fa/gJOJYEalX0QMDfBWFeYzX0yr6WpzxKg2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753234091; c=relaxed/simple;
-	bh=ZY89KN8ZlaV2FIJ/jBwusYJKFJj0xiuvVJlC8BeM5Qg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UIrE/XuokH2ZBVMz3MH3Arp8OljUFYpBSeRa690VBhU6l0K4lZmnFovGXJgUqXM/kNQZay8wcwzngr0LjXbo+8S4pM9T8RscKtMGlHfC7Kf3b785vMFCnbku9wyh/xyJ4B+VDAl2ulSUkIzRjKuTB1twIiUBAtjioQqGSY1ehU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bmxN62DbyzKHNVq;
-	Wed, 23 Jul 2025 09:28:06 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id 0ABA21A0D2C;
-	Wed, 23 Jul 2025 09:28:05 +0800 (CST)
-Received: from [10.67.109.79] (unknown [10.67.109.79])
-	by APP3 (Coremail) with SMTP id _Ch0CgA3r9mjOoBoh_WaBA--.63440S2;
-	Wed, 23 Jul 2025 09:28:04 +0800 (CST)
-Message-ID: <0064b782-2bed-4375-aba8-3745aa306a6d@huaweicloud.com>
-Date: Wed, 23 Jul 2025 09:28:02 +0800
+	s=arc-20240116; t=1753235570; c=relaxed/simple;
+	bh=2qXmmy+cTdFP6seZe08xkBb+fmz0NjiJaLtfuIQQVAE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BEAirnpO7UpHjJQ61SCdI9TZKmdGznc+3MeIr7KK7AzVw4VrKlQDtY6Dx7YWRljkXny9ODZ7/vvE58gavCFWsrRAoZC9iXwUnI33hbggPv9iXSwdjDPghAZojOWX1L2wMvNFzER8RRQ6TzdAM6o8LbcXMWzokeIArPU5Zy9L/TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iXz8uHzh; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iXz8uHzh"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-23f8bcce78dso18093145ad.3;
+        Tue, 22 Jul 2025 18:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753235568; x=1753840368; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y9U+s2a1F3chleG+uTMkQSX43augvoYTOtLwmtd5xsg=;
+        b=iXz8uHzh/52Kre0LLXxrmSUzSw0XrXtd3wkXocEx0YNaqelCJPqXdRTltJE44XjnHd
+         8ez1GEZsXwXZ2VyG3MFIE22z7HVrWoBI1/KNsa+c9KM6Nzx4Mt8eWiYdmHCcmYSvfELj
+         Y++SNkHY60z+vWcM8YUaqzNghHduXmCKmGt1mmtq5F8u2L0ZhgPkfJnaSZixkxzqkRmk
+         inH4MDjCSQ60Bi8HyxCItanTZjDgwM9fLlZ7VD/TRwv/sEUp/5HvuO2xZSjv7/1/N5J6
+         J4BP4IFehVLH86S2QCajNaAJ7neo9MOa2szzaisiUerXoI/1XzRGYcYM9GYtJ8tO0wVc
+         ktTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753235568; x=1753840368;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y9U+s2a1F3chleG+uTMkQSX43augvoYTOtLwmtd5xsg=;
+        b=usqzZts+tfgzF0Keny+a9IndtzS633EwTXGarLvfKR2tUqHh0+7N2ikglEJ8ss13QA
+         SdASUCHS8lTL9WhHQS12b5DjBDuanpQjbHgufZSrqMmE5yGosw79DSi67pt0WdgGKSm+
+         h7S07Lz/fwjxkOc7aWfYmChxZdcPKFT3Q/wMpGesaK5MJFEgem/Cb0nPvYhs+wq8+ldD
+         dSrMyS9x9eROv0vr2SEDI7FoTjqf9JGMgCI6eSXL4tfmELl0uCgtI54qx5GSCryEpMxD
+         KXxCDC1ggoTNJI0cbb93pSdRSsk1GsmCwHqvtX29qb2Rv0FUpYGvg5sMCJZlt6cy6Aro
+         DDjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUXy0qndSxVefIe6rwr9q4TlWDxa+nfH9KEb45PprOZsVHPJeWUkCrmMgAV5xylagFMmXf6w3oioN0=@vger.kernel.org, AJvYcCXKTSjUMf0ndozTzA9QR7wVozdLeVhvXeSWYyqm8znNGtqT07FTI6GG9EUCvx+1wmRfs8CwQm4K8/eOm0p/@vger.kernel.org, AJvYcCXQWtoMVjgkjb7kMHEvg5mATW9uoXfiJgNRIOIfDaVN4QWnkKGnoHLig2yJcJ7DSG9jmxHZr+3RCaRm7pggU1WFlMI/@vger.kernel.org
+X-Gm-Message-State: AOJu0YzG8Cg7+I49tjhY+uEohjyVAU2fkMnGC0qO2oE4a7OqarJt/hxk
+	Hc42PBujbxY8eO/J1JfJpvLLaCEJbdVMS7GGAniQeP8NX0QgGiNzA8GtFDo4PIb9
+X-Gm-Gg: ASbGncs4NQvyuWgifHlv0eJW1+3TZw3RATXmVJSZOtwEWRT0YyOp9Lf082SHACgmqfK
+	4VA7bjO6HHTBm2aQIY2lyuCtIfZgSN0XD2bn1C36mt17oAk2fPd7xpBWfBxL9r6YVngEJbeT1tb
+	pJ2fwSLyiFw2KToc/VWE9+QFcES5GMfzw7eL1RRqEB3EwHk1uI33y2ojpAOmii9evO7++9PU73k
+	dX8ihqlwXL4llxzfYtjkG91IOQEN3DIK1c+IEqI8e3pazuKuvGFRVuZG3kjU4CpnMnTcV++mB+f
+	n/5DmtMYYa6k6KquSTuG0G3ltpm4cOZgaTqmvATV69L7p5fJgvTkeo13kBgkSgMISKijBuCBjbE
+	tF9aLdUU47SBGJBpDz8hf8xiKSF0pPNDitG0vAkIifsUFjuvvcvtio8Hyhs6Jkvugd3t7T1faNF
+	9gfhpciE2niQ==
+X-Google-Smtp-Source: AGHT+IGtqGnR/DHB65wgefBnCF+0kio0fXUcp9jVe1tqMPc9wUGybr3jLOEt0yzlpErVdv8w0GK5qA==
+X-Received: by 2002:a17:903:2281:b0:236:748f:541f with SMTP id d9443c01a7336-23f98195113mr13332355ad.33.1753235568287;
+        Tue, 22 Jul 2025 18:52:48 -0700 (PDT)
+Received: from ipravd-Nitro-AN515-55.hsd1.ca.comcast.net ([2601:646:a000:5fc0:f2ad:809f:6123:b09c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b5e475bsm84754475ad.29.2025.07.22.18.52.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jul 2025 18:52:47 -0700 (PDT)
+From: Ivan Pravdin <ipravdin.official@gmail.com>
+To: bristot@kernel.org,
+	rostedt@goodmis.org,
+	corbet@lwn.net,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Ivan Pravdin <ipravdin.official@gmail.com>
+Subject: [PATCH] rtla: clarify trace option syntax in documentation and usage help
+Date: Tue, 22 Jul 2025 21:52:33 -0400
+Message-ID: <20250723015233.173630-1-ipravdin.official@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: cpu.stat in core or cpu controller (was Re: [RFC PATCH v2]
- cgroup: Track time in cgroup v2 freezer)
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Tejun Heo <tj@kernel.org>, Tiffany Yang <ynaffit@google.com>,
- linux-kernel@vger.kernel.org, John Stultz <jstultz@google.com>,
- Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
- Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250714050008.2167786-2-ynaffit@google.com>
- <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
- <aHktSgmh-9dyB7bz@slm.duckdns.org>
- <mknvbcalyaheobnfeeyyldytcoyturmeuq3twcrri5gaxtjojs@bbyqhshtjfab>
- <180b4c3f-9ea2-4124-b014-226ff8a97877@huaweicloud.com>
- <jyvlpm6whamo5ge533xdsvqnsjsxdonpvdjbtt5gqvcw5fjp56@q4ej7gy5frj7>
- <e065b8da-9e7c-4214-9122-83d83700a729@huaweicloud.com>
- <aHvHb0i6c8A_aCIo@slm.duckdns.org>
- <2c723007-710f-4592-9fe2-7534eb47e74f@huaweicloud.com>
- <adrjkqsqqwxcsdr5z4wmxcrvgvutkulzgka6pjjv23v6242txr@vv2ysb46nhpk>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <adrjkqsqqwxcsdr5z4wmxcrvgvutkulzgka6pjjv23v6242txr@vv2ysb46nhpk>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgA3r9mjOoBoh_WaBA--.63440S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JrWUJF4ktFW7WF48GrW5GFg_yoWfAFX_Gr
-	n3ZF1xAr1xZF43CF4YkFWDZFy5JayqvFn8t3W7tFW7Ar18XFnrAF97ur95Ar18Ja95tF98
-	CrnIva9FvwnrujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIa
-	0PDUUUU
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
+When using `rtla timerlat {top,hist}`, the `-t/--trace` option is
+optional. However, when providing a filename, the long option requires
+an equal sign (`=`), i.e., `--trace=<file>`. This is because the
+command-line parser treats `--trace` without `=` as a flag with no
+value, leading to unexpected behavior.
 
+Valid usage:
+    - `-t[file]`
+    - `-t=[file]`
+    - `--trace=[file]`
 
-On 2025/7/22 19:54, Michal Koutný wrote:
-> On Tue, Jul 22, 2025 at 05:01:50PM +0800, Chen Ridong <chenridong@huaweicloud.com> wrote:
->> Specifically, this change would allow us to:
->>
->> 1.Remove these CPU-specific callbacks from the core:
->>   css_extra_stat_show()
->>   css_local_stat_show()
->> 2. Clean up the 'is_self' logic in rstat.c.
-> 
-> If you see an option to organize the code better, why not. (At the same
-> time, I currently also don't see the "why.)
-> 
-> 
->> 3. Make the stat handling consistent across subsystems (currently cpu.stat is the only
->> subsystem-specific stat implemented in the core).
-> 
-> But beware that the possibility of having cpu.stat without enabling the
-> cpu controller on v2 is a user visible behavior and I'm quite sure some
-> userspace relies on it, so you'd need to preserve that.
-> 
+Invalid usage:
+    - `-t [file]`
+    - `--trace [file]`
 
-This is what I worry about. Thank you for your confirmation.
+Clarify valid usage in documentation and help message.
 
-Best regards,
-Ridong
+Signed-off-by: Ivan Pravdin <ipravdin.official@gmail.com>
+---
+ Documentation/tools/rtla/common_osnoise_options.rst  | 2 +-
+ Documentation/tools/rtla/common_timerlat_options.rst | 2 +-
+ tools/tracing/rtla/src/timerlat_hist.c               | 2 +-
+ tools/tracing/rtla/src/timerlat_top.c                | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/tools/rtla/common_osnoise_options.rst b/Documentation/tools/rtla/common_osnoise_options.rst
+index d73de2d58f5f..0b73a55f1d1f 100644
+--- a/Documentation/tools/rtla/common_osnoise_options.rst
++++ b/Documentation/tools/rtla/common_osnoise_options.rst
+@@ -26,6 +26,6 @@
+         Specify the minimum delta between two time reads to be considered noise.
+         The default threshold is *5 us*.
+ 
+-**-t**, **--trace** \[*file*]
++**-t**, **--trace**=\[*file*]
+ 
+         Save the stopped trace to [*file|osnoise_trace.txt*].
+diff --git a/Documentation/tools/rtla/common_timerlat_options.rst b/Documentation/tools/rtla/common_timerlat_options.rst
+index 10dc802f8d65..8d55b590c7d0 100644
+--- a/Documentation/tools/rtla/common_timerlat_options.rst
++++ b/Documentation/tools/rtla/common_timerlat_options.rst
+@@ -22,7 +22,7 @@
+         Save the stack trace at the *IRQ* if a *Thread* latency is higher than the
+         argument in us.
+ 
+-**-t**, **--trace** \[*file*]
++**-t**, **--trace**=\[*file*]
+ 
+         Save the stopped trace to [*file|timerlat_trace.txt*].
+ 
+diff --git a/tools/tracing/rtla/src/timerlat_hist.c b/tools/tracing/rtla/src/timerlat_hist.c
+index 36d2294c963d..b6e1275b0e71 100644
+--- a/tools/tracing/rtla/src/timerlat_hist.c
++++ b/tools/tracing/rtla/src/timerlat_hist.c
+@@ -730,7 +730,7 @@ static void timerlat_hist_usage(char *usage)
+ 		"	  -d/--duration time[m|h|d]: duration of the session in seconds",
+ 		"	     --dump-tasks: prints the task running on all CPUs if stop conditions are met (depends on !--no-aa)",
+ 		"	  -D/--debug: print debug info",
+-		"	  -t/--trace[file]: save the stopped trace to [file|timerlat_trace.txt]",
++		"	  -t/--trace=[file]: save the stopped trace to [file|timerlat_trace.txt]",
+ 		"	  -e/--event <sys:event>: enable the <sys:event> in the trace instance, multiple -e are allowed",
+ 		"	     --filter <filter>: enable a trace event filter to the previous -e event",
+ 		"	     --trigger <trigger>: enable a trace event trigger to the previous -e event",
+diff --git a/tools/tracing/rtla/src/timerlat_top.c b/tools/tracing/rtla/src/timerlat_top.c
+index 7365e08fe986..19ee98456e3f 100644
+--- a/tools/tracing/rtla/src/timerlat_top.c
++++ b/tools/tracing/rtla/src/timerlat_top.c
+@@ -496,7 +496,7 @@ static void timerlat_top_usage(char *usage)
+ 		"	  -d/--duration time[s|m|h|d]: duration of the session",
+ 		"	  -D/--debug: print debug info",
+ 		"	     --dump-tasks: prints the task running on all CPUs if stop conditions are met (depends on !--no-aa)",
+-		"	  -t/--trace[file]: save the stopped trace to [file|timerlat_trace.txt]",
++		"	  -t/--trace=[file]: save the stopped trace to [file|timerlat_trace.txt]",
+ 		"	  -e/--event <sys:event>: enable the <sys:event> in the trace instance, multiple -e are allowed",
+ 		"	     --filter <command>: enable a trace event filter to the previous -e event",
+ 		"	     --trigger <command>: enable a trace event trigger to the previous -e event",
+-- 
+2.45.2
 
