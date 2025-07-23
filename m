@@ -1,88 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBE4283FF7;
-	Wed, 23 Jul 2025 10:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9181428C029
+	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 10:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753265040; cv=none; b=BUWw/6GCE1Y6Zg391U7BPjt34uQUnnDiTknLFd8e1LpabZWVdKJ3xoBwMwEdPnXnGttp6zhmICsUF0AKrt8dPt3eWJCdxtJu/RSEKfGZYtZK5wBg6rjjegFxmoJecaRE9Galp1zV1OeVPM+wEJ9eU5Mc48mO/H+tiPXQjfFOfH8=
+	t=1753265708; cv=none; b=cCLc8nd/1cECf5kGGNpWL23sTs3cnBTcVjxgqBQQLU1WOVka89lAdJpl233WZHr5AMEQCCyhvyog+daVAFlrsIlmzct+9sZRseDBLcl3uPBkS/saQRf1PqJfXQeeHam/c1UIzdFen9MrsQifzUCS6eAES9oxoX9yFNFg6s589LA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753265040; c=relaxed/simple;
-	bh=1gm5UbqhAXgE7lNc69Zqc7sMDOmm6TonOtX7iaf8rUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q156tCTAKncQtQdkoba4PfCrpsVf8PSm0GNigfYbkLdSSYFjvwndhmC+i5HkoM/NSSvWlnqcwV3ajWrNUDqF4s55Sqae54E4megnJOIQEt1tDalhZuaDQ/ILq4q3kYjxfaY9rMLIUdYELxqWbJVESolr4WVn2+0zZ2HF2TxiQ50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lunBdKsg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753265708; c=relaxed/simple;
+	bh=UFnIexbweYhJ8DGlFunc6oqpk1216FJxBqz2JcjBUzY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FFnqIK6ad8g4iVi6O3SQfn8QhL5Dv7omFgAS0LvKI0W800y4ShqgA23OCXG91VbXeB+X0qY6XkelcqLCyKImFdh+oC2nKTZIplfleOoURyhndAo++O+R3FyFFVKM4fyWCrrRJ3giuWR7rYZXUdCaOZvcQQkcgemnxqxfmiaR2+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qghlqniQ; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lunBdKsg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD30CC4CEE7;
-	Wed, 23 Jul 2025 10:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753265039;
-	bh=1gm5UbqhAXgE7lNc69Zqc7sMDOmm6TonOtX7iaf8rUo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lunBdKsg25fUuAQ27teQp3vNC6VfZYH2qNGWMGsO8SeohsylvRim73lrFr6Lhl2dj
-	 v5cQgz6labiJy3Xucqr/jPmCNhoPuN9ki5LELFuGERCzBK4g05tlxxFbybwdAS1GDF
-	 w5PDQ+zkCR4RaYTmxY3y6R6v+JvwTzIgVzCIXGD6j3j6O9ha4a0j03ef9K/7/sWmO9
-	 /Ae/fld+ebZFBP6Uj0jiEs822qrt3V8GCfuWEqD8herQOQ24izWeuY5PlngX1bipFY
-	 4AKDOSc+b2E6XNF3sL53CWTkYs1B7hthabIkCh4pGeYHqH7hsLUf+kJvvyXvMATgMx
-	 aCRRi167l2MYA==
-Date: Wed, 23 Jul 2025 11:03:52 +0100
-From: Simon Horman <horms@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
-	Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Fu Guiming <fuguiming@h-partners.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>,
-	Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Suman Ghosh <sumang@marvell.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Joe Damato <jdamato@fastly.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH net-next v10 2/8] hinic3: Complete Event Queue interfaces
-Message-ID: <20250723100352.GX2459@horms.kernel.org>
-References: <cover.1753152592.git.zhuyikai1@h-partners.com>
- <5dc43637cc54d5f3edfa323ef9021cfe095588c7.1753152592.git.zhuyikai1@h-partners.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qghlqniQ"
+Message-ID: <3b9652f9-c8c7-460d-92e7-5e80d85b7b05@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753265702;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cj1z+TeHew0z343fwgs64nhtky1IKSQrxi4AC6k9dLY=;
+	b=qghlqniQnqu6vhdx+WhGyBrS7aJeDd/TW9nNWobgcm197rmntb5Di99IZJR+asnEpt3sVO
+	ainJ/hDzJ7jJZHuT3YYDje9UYrTpGLY6f5ERJgDyYt3zlZvuQbXrTA712/TxsMHI+qhjhU
+	BUfDVnq1ORPC8KfYUpjGyB3NQCYbE0o=
+Date: Wed, 23 Jul 2025 18:14:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5dc43637cc54d5f3edfa323ef9021cfe095588c7.1753152592.git.zhuyikai1@h-partners.com>
+Subject: Re: [PATCH 5/5] Docs/zh_CN: Translate gfs2-glocks.rst to Simplified
+ Chinese
+To: xu.xin16@zte.com.cn, shao.mingyin@zte.com.cn
+Cc: alexs@kernel.org, dzm91@hust.edu.cn, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ yang.yang29@zte.com.cn, yang.tao172@zte.com.cn
+References: <20250721193322167TaEFleLW3vBmZqrNUDEoy@zte.com.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20250721193322167TaEFleLW3vBmZqrNUDEoy@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jul 22, 2025 at 03:18:41PM +0800, Fan Gong wrote:
 
-...
+在 7/21/25 7:33 PM, xu.xin16@zte.com.cn 写道:
+>> From: Shao Mingyin <shao.mingyin@zte.com.cn>
+>>
+>> translate the "gfs2-glocks.rst" into Simplified Chinese.
+>>
+>> Update to commit 713f8834389f("gfs2: Get rid of emote_ok
+>> checks")
+>> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+>> Signed-off-by: yang tao <yang.tao172@zte.com.cn>
 
-> +void hinic3_free_db_addr(struct hinic3_hwdev *hwdev, const u8 __iomem *db_base)
-> +{
-> +	struct hinic3_hwif *hwif;
-> +	uintptr_t distance;
-> +	u32 idx;
-> +
-> +	hwif = hwdev->hwif;
-> +	distance = (const char __iomem *)db_base -
-> +		   (const char __iomem *)hwif->db_base;
+> Your 5 patches of one set are not in the same thread. Please resend them like:
+> patch 0/5
+>      patch 1/5
+>      patch 2/5
+>      ...
 
-nit: These casts seem unnecessary.
+See https://docs.kernel.org/translations/zh_CN/how-to.html
 
-> +	idx = distance / HINIC3_DB_PAGE_SIZE;
-> +
-> +	free_db_idx(hwif, idx);
-> +}
 
-...
+Thanks,
+
+Yanteng
+
