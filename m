@@ -1,64 +1,64 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0D7230268
-	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 14:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EA02F5312
+	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 14:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753282041; cv=none; b=B3Rjtv1GZwhOG7ye/Deu9038+uwPF7Tn06JeP49AnOl3rs/PnKRT15oalo62RslTQ2ujKwG7rEfETkTNYTr0NmIizSk8DWoJeJ197u5LegTSYiok3tHy1hsb6xLqpiYe44M2rz8yGdfkYAisPDjMo8n0wtlvYSlOK6EFQaqXfC8=
+	t=1753282046; cv=none; b=HBtft+dI6/UItAw3ZuXDM9Kv860HG2kd5PaAPzQYtmY4mR4HXZjQviVmBA4mEXvH4vcNkT6DZtRAy4wlBQCgdgpbHxqFwJ8tBJ85MG1tN9UwF6S1hdocInPfCQgQp1qE15Xrux7Z6frrprybmqOHrP3ocVRJbDe32yX3OBkGo4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753282041; c=relaxed/simple;
-	bh=yKPCRlIIOOnca1aFJUxlIUjA569RfuFMGS2JCSWpU14=;
+	s=arc-20240116; t=1753282046; c=relaxed/simple;
+	bh=68fuMsTaKD3Wnucw9AAh9zoVaQeYptH5ixtgvH+HmAU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dG1WHaF1Gxe8PSqsu8Zw7TOLbcwPM9Sx2hDJLvJCScZaGYmJu2hFYHra5jffUe9uvcWWetjdsUDJmbxa5apyx1Ynojg52A9Ne+JHmihFgH0aLtq7LY4RadidErGdTo4c80o+I0xOzsJmtvFmom1gJTODauPyxL8gbnKCfTnhNzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=TDW5FKcM; arc=none smtp.client-ip=209.85.128.171
+	 MIME-Version; b=JipqoRwo3ieTLU00nmBpmKV1cniNdWjM/xIOatDIbD1RxnpdbS/9ssb6sYuju9eZ3uMAr+mzJyN4ECyxn9jimb9/73hwe2huNMpqRG7VsleEEjsHOVmlkPdl0JU2xY+WS/CzpevG/3ruP+qWEa3sQ1JYXgRvKX5GWqrZXgpV8TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=R44ljpeW; arc=none smtp.client-ip=209.85.128.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="TDW5FKcM"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-711d4689084so62405677b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 07:47:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="R44ljpeW"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-70e3e0415a7so260067b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 07:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1753282033; x=1753886833; darn=vger.kernel.org;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1753282037; x=1753886837; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=D29uKJn8/3Rn+J78XMEvNXa1khBLyQZ2td0gZqNttys=;
-        b=TDW5FKcMMZuu+jzk1OJfzCT1wCdyFuNk8ONCAYluOonvEf9rpJ/zDgWl0bplmjXtiT
-         glOAYhUlsSDjfiETUQS9CKtwaTwM4ZUrgALj2W5gOaKEtuc2nYeY8exc9uLMVjV8y4eS
-         3fp+B/L3YUNG3OH3VFdVg32reLLv36flMG6EVnm/HoD380mpG/zlFnQ9EEITbBY1Gfvo
-         GTvqU6vkF5pUKNkyT3hbYDJ84h5giRGCJquMLXSnWpgKHdfwQj+E+GC7pKFAduZ+JU0p
-         SvrXAnHtoRvmCcPnY/ojuX2mcyTgvFb34ewULBm8zwyXhvJh1vJuGKkzP8wifVRclAJQ
-         N1qQ==
+        bh=4F1QX9qtkry2jc2ztpFtzfSo3tcuBncamP+UfSK+M08=;
+        b=R44ljpeW2aiUQPfSpcsXyKfWL0rEO+j985Kvz9qQhp6c9j3CJpFHLVIQXjxjFKQwK7
+         0WmqXf0Jmoikod9rFQgELrjEGYP2GhaOXbZYlwPTRLbXcEi1kn54GLEevMlmoo7BgmXi
+         ATqVRpOE+dUiVkXhAE7MWaGtcpw4E108QvVjQxqfKhUb5COaIdtWBp0QdIA4xBUQD9bU
+         6QkBptdXncY+2Q/lCzhQztkdndKNGkXXJptXGHKIoyicZfMIB3+/+39kf4+gyi+eOpOM
+         1ZJpOdK50YuYw999wktw5RKsIHdsBGbzkmi8mwACPXzNlYs69FGg5Utndu7GQLbosymO
+         NU4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753282033; x=1753886833;
+        d=1e100.net; s=20230601; t=1753282037; x=1753886837;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=D29uKJn8/3Rn+J78XMEvNXa1khBLyQZ2td0gZqNttys=;
-        b=KHZ2YLWnxh3Z3orlP6GRoGrRsfU4GrVz58Xjsnlo6WMvkNXggdkAxE+G1tyvR0rtRz
-         lIum19qr2OcgrgNVcffNnj6a4TQ//VziedqJYoD/PdWtIYQCk6WJfAjQWBqNrSqRMyNL
-         1bG+uZQ8X7dPS7gM2ZuEdcwegh1WyxlozcCLMGCSZKNh7IoEplpIkcfLZYcAr6QAHt1c
-         qGf1rBwKxVEEji9AQZ1MOyZPGxl9UN/jOprg8T/Sm76SVmRdWOM9racAH0vsaQgRXEvz
-         B72GA7V0Gg5V4fwgRrqcAL0jHVAtZKkafqju5Auf3gGOPRkMS7KpFyq3qvAdHVZhs+XC
-         kLRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzC4zpnJu0gaLIyt/cbbaYNsXLQv1U5fA7R1oLo8Rwl1qzUkaUJkd5PiGUS2lfJxq0Bb8wvs/U+Qc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyi3cYVB2gmL4iq7kViYdEtle/rJUaWBYjjO/wHFy2sexuoiO8X
-	roQx/8HM3RP+cZeWgs1WmRN7MaKox3tGa7CeKkru+WIwZhIUCapJPIaaoXKJ9XlVVYk=
-X-Gm-Gg: ASbGncsgo5x4UuBLAEHNchG/BTTcmOqOje6ur12C21qv1bgMeZgcihs3LjW3cMX/tGB
-	/ShbXRofCE5GWs1LFrf2IqPMXN343WFMzJmKoWx1IGQlCOHCgZVD4QTVRHnvRTokNHkLDb6Jkge
-	xDTuZHb9Lo0qA4qFuj08bwnXfnFNoi5joTFvgA8Lcn/UR/gGsDXryNY2kHFWu0YT66XkdTUYfLr
-	vwQ5e5DaC8x+tQ7Tik7UVWdpsuPelcKT1jYiUxY1lPLneO6xlsfl51k8qjzbtpLpBvMvJbMfg+n
-	mbsKB/e0ZRAyQbH8a0rIfIgMOLISqCTmlZD5+FlXRlhsGfzCswsXi/EZohsFXfba6QnCpLXT0yp
-	OJECoqUFjNiNz3U7xRsyT4xBSub+1yirQ1NMRZpm3r89PZl+JOy0jx5dwfFb3jNzaqaz8mpBLJF
-	dfVB800k7LBV7EuFppom206MeY
-X-Google-Smtp-Source: AGHT+IFeWfzg1NbPbQd0TMCJbAp/VOmnf+ZjLhYQ4sLpsf9nKFizjYFZRceoNYpmNyr1XfBgtE4QnA==
-X-Received: by 2002:a05:690c:6c05:b0:70e:2d30:43d6 with SMTP id 00721157ae682-719b4371f86mr39627127b3.38.1753282032758;
-        Wed, 23 Jul 2025 07:47:12 -0700 (PDT)
+        bh=4F1QX9qtkry2jc2ztpFtzfSo3tcuBncamP+UfSK+M08=;
+        b=DnIvvt8Qot2gImSSQdXk8PF/cG/o7V5NwNtaSO2mWBy1UlVqHNCoQJf84c9S5H2obN
+         GHlZpRuNEWvVfRixRelI95fwiWhCns56PfXb69dGa8aGcpNfKZiuALq26C5IGJXd7L4o
+         ezN+kWrUi6VC6Z12U6d1Xz0KBGmX5v2gEuk1MWHOrmhiLsoN9yC8uWtbLqIWmR7QZNYe
+         ahltVym1jP5xQg5LUqruEbAzFhmcL2aMcFdd7nV4Cu6f4Rr2UfDu/wkg+WVWYYr6P2PO
+         gHSvMPc3jLS4AcMalEBsKb8dYazRK8YtGUuqdbkhk7xbFJ6/o2J+HVClA8HgQq9iOoRn
+         vieA==
+X-Forwarded-Encrypted: i=1; AJvYcCVLYPPcLrCTaA4A/3fihyD3SlovrAVXupyAqgMg5PBE+6j/RhMdBAX1f/ZyR/bq7yrFf0WNBaoD6+s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+l0ZZEYuoA0Styd/P9BiUHqWX9bxMBJCxfO3cuNJ0eGAyBLmH
+	AFzC65mCuUQEkVGWOzsPqn0l3zjdKkeFwJ7nM8Zpjppbah/WJTD8YnftlBvrAcEkWz8=
+X-Gm-Gg: ASbGncuzcEV6Rk5E5dGn1ZjYFPU/6dugKWl7b+c7hnB1mWVQVeUouSPsvYGGyWnKGe4
+	C7m1HfQXnz9XzR+q9hJkFK69GjvLKEf0ltw9owDyymWgOYte4qm2bzWbtAq6DW9Sc0W+sbn0FCB
+	gwZf8bWU3gSqDRFHoZaBGEjQz/WlCotCiZI3xsZgOPCoA39FgoUMqMCM13cklB9by6kAhVEyfaC
+	tXcqt773qOeKkx63FyF43ZfH7O1x2z3cwdPJRXrbbtsI8347QRLsKJno4VnTjhRaMqYrVH7x+Yt
+	rKJ8eRV8gymWaiYjJEI0J7iLT/RTDr+4NqFzqP0/CFnxT/2Ix1ZyVgYUjEz6KUy1pjVq7mnPh9V
+	28TNYRjgB0HDylIAixhXQFd6sqWnBWo6vFgkHPFOd7nH90dbkoZGX0DKjdSItplUldHcjq809DL
+	JkwgRYOKmFIIGScw==
+X-Google-Smtp-Source: AGHT+IGIKplQvsQ6oyU5xYVnnj9HKRC7xjC99zYFucpfaGhtR6VBuuTxNds+2TPsqRP8M9w0Avf/qg==
+X-Received: by 2002:a05:690c:60c7:b0:712:cc11:b02 with SMTP id 00721157ae682-719a0a12ea1mr108397577b3.4.1753282036550;
+        Wed, 23 Jul 2025 07:47:16 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (235.247.85.34.bc.googleusercontent.com. [34.85.247.235])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-719532c7e4fsm30482117b3.72.2025.07.23.07.47.10
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-719532c7e4fsm30482117b3.72.2025.07.23.07.47.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 07:47:11 -0700 (PDT)
+        Wed, 23 Jul 2025 07:47:16 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -132,9 +132,9 @@ To: pratyush@kernel.org,
 	parav@nvidia.com,
 	leonro@nvidia.com,
 	witu@nvidia.com
-Subject: [PATCH v2 09/32] liveupdate: kho: move to kernel/liveupdate
-Date: Wed, 23 Jul 2025 14:46:22 +0000
-Message-ID: <20250723144649.1696299-10-pasha.tatashin@soleen.com>
+Subject: [PATCH v2 11/32] liveupdate: luo_core: integrate with KHO
+Date: Wed, 23 Jul 2025 14:46:24 +0000
+Message-ID: <20250723144649.1696299-12-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
 In-Reply-To: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
 References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
@@ -146,206 +146,303 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move KHO to kernel/liveupdate/ in preparation of placing all Live Update
-core kernel related files to the same place.
+Integrate the LUO with the KHO framework to enable passing LUO state
+across a kexec reboot.
+
+When LUO is transitioned to a "prepared" state, it tells KHO to
+finalize, so all memory segments that were added to KHO preservation
+list are getting preserved. After "Prepared" state no new segments
+can be preserved. If LUO is canceled, it also tells KHO to cancel the
+serialization, and therefore, later LUO can go back into the prepared
+state.
+
+This patch introduces the following changes:
+- During the KHO finalization phase allocate FDT blob.
+- Populate this FDT with a LUO compatibility string ("luo-v1").
+- Implement a KHO notifier
+
+LUO now depends on `CONFIG_KEXEC_HANDOVER`. The core state transition
+logic (`luo_do_*_calls`) remains unimplemented in this patch.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- Documentation/core-api/kho/concepts.rst       |  2 +-
- MAINTAINERS                                   |  2 +-
- init/Kconfig                                  |  2 ++
- kernel/Kconfig.kexec                          | 25 ----------------
- kernel/Makefile                               |  3 +-
- kernel/liveupdate/Kconfig                     | 30 +++++++++++++++++++
- kernel/liveupdate/Makefile                    |  7 +++++
- kernel/{ => liveupdate}/kexec_handover.c      |  6 ++--
- .../{ => liveupdate}/kexec_handover_debug.c   |  0
- .../kexec_handover_internal.h                 |  0
- 10 files changed, 45 insertions(+), 32 deletions(-)
- create mode 100644 kernel/liveupdate/Kconfig
- create mode 100644 kernel/liveupdate/Makefile
- rename kernel/{ => liveupdate}/kexec_handover.c (99%)
- rename kernel/{ => liveupdate}/kexec_handover_debug.c (100%)
- rename kernel/{ => liveupdate}/kexec_handover_internal.h (100%)
+ kernel/liveupdate/luo_core.c | 214 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 211 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/core-api/kho/concepts.rst b/Documentation/core-api/kho/concepts.rst
-index 36d5c05cfb30..d626d1dbd678 100644
---- a/Documentation/core-api/kho/concepts.rst
-+++ b/Documentation/core-api/kho/concepts.rst
-@@ -70,5 +70,5 @@ in the FDT. That state is called the KHO finalization phase.
+diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
+index 8cee093807ff..c80a1f188359 100644
+--- a/kernel/liveupdate/luo_core.c
++++ b/kernel/liveupdate/luo_core.c
+@@ -47,9 +47,12 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
- Public API
- ==========
--.. kernel-doc:: kernel/kexec_handover.c
-+.. kernel-doc:: kernel/liveupdate/kexec_handover.c
-    :export:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 00de7c78de86..3b276cfeb038 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13356,7 +13356,7 @@ S:	Maintained
- F:	Documentation/admin-guide/mm/kho.rst
- F:	Documentation/core-api/kho/*
- F:	include/linux/kexec_handover.h
--F:	kernel/kexec_handover*
-+F:	kernel/liveupdate/kexec_handover*
+ #include <linux/err.h>
++#include <linux/kexec_handover.h>
+ #include <linux/kobject.h>
++#include <linux/libfdt.h>
+ #include <linux/liveupdate.h>
+ #include <linux/rwsem.h>
++#include <linux/sizes.h>
+ #include <linux/string.h>
+ #include "luo_internal.h"
  
- KEYS-ENCRYPTED
- M:	Mimi Zohar <zohar@linux.ibm.com>
-diff --git a/init/Kconfig b/init/Kconfig
-index 666783eb50ab..fb7ac0e56a87 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -2083,6 +2083,8 @@ config TRACEPOINTS
+@@ -67,6 +70,21 @@ static const char *const luo_state_str[] = {
  
- source "kernel/Kconfig.kexec"
+ static bool luo_enabled;
  
-+source "kernel/liveupdate/Kconfig"
++static void *luo_fdt_out;
++static void *luo_fdt_in;
 +
- endmenu		# General setup
++/*
++ * The LUO FDT size depends on the number of participating subsystems,
++ *
++ * The current fixed size (4K) is large enough to handle reasonable number of
++ * preserved entities. If this size ever becomes insufficient, it can either be
++ * increased, or a dynamic size calculation mechanism could be implemented in
++ * the future.
++ */
++#define LUO_FDT_SIZE		PAGE_SIZE
++#define LUO_KHO_ENTRY_NAME	"LUO"
++#define LUO_COMPATIBLE		"luo-v1"
++
+ static int __init early_liveupdate_param(char *buf)
+ {
+ 	return kstrtobool(buf, &luo_enabled);
+@@ -91,6 +109,60 @@ static inline void luo_set_state(enum liveupdate_state state)
+ 	__luo_set_state(state);
+ }
  
- source "arch/Kconfig"
-diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
-index 9968d3d4dd17..b05f5018ed98 100644
---- a/kernel/Kconfig.kexec
-+++ b/kernel/Kconfig.kexec
-@@ -94,31 +94,6 @@ config KEXEC_JUMP
- 	  Jump between original kernel and kexeced kernel and invoke
- 	  code in physical address mode via KEXEC
++/* Called during the prepare phase, to create LUO fdt tree */
++static int luo_fdt_setup(void)
++{
++	void *fdt_out;
++	int ret;
++
++	fdt_out = (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
++					   get_order(LUO_FDT_SIZE));
++	if (!fdt_out) {
++		pr_err("failed to allocate FDT memory\n");
++		return -ENOMEM;
++	}
++
++	ret = fdt_create_empty_tree(fdt_out, LUO_FDT_SIZE);
++	if (ret)
++		goto exit_free;
++
++	ret = fdt_setprop_string(fdt_out, 0, "compatible", LUO_COMPATIBLE);
++	if (ret)
++		goto exit_free;
++
++	ret = kho_preserve_phys(__pa(fdt_out), LUO_FDT_SIZE);
++	if (ret)
++		goto exit_free;
++
++	ret = kho_add_subtree(LUO_KHO_ENTRY_NAME, fdt_out);
++	if (ret)
++		goto exit_unpreserve;
++	luo_fdt_out = fdt_out;
++
++	return 0;
++
++exit_unpreserve:
++	WARN_ON_ONCE(kho_unpreserve_phys(__pa(fdt_out), LUO_FDT_SIZE));
++exit_free:
++	free_pages((unsigned long)fdt_out, get_order(LUO_FDT_SIZE));
++	pr_err("failed to prepare LUO FDT: %d\n", ret);
++
++	return ret;
++}
++
++static void luo_fdt_destroy(void)
++{
++	WARN_ON_ONCE(kho_unpreserve_phys(__pa(luo_fdt_out), LUO_FDT_SIZE));
++	kho_remove_subtree(luo_fdt_out);
++	free_pages((unsigned long)luo_fdt_out, get_order(LUO_FDT_SIZE));
++	luo_fdt_out = NULL;
++}
++
++static int luo_do_prepare_calls(void)
++{
++	return 0;
++}
++
+ static int luo_do_freeze_calls(void)
+ {
+ 	return 0;
+@@ -100,6 +172,71 @@ static void luo_do_finish_calls(void)
+ {
+ }
  
--config KEXEC_HANDOVER
--	bool "kexec handover"
--	depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE
--	depends on !DEFERRED_STRUCT_PAGE_INIT
--	select MEMBLOCK_KHO_SCRATCH
--	select KEXEC_FILE
--	select DEBUG_FS
--	select LIBFDT
--	select CMA
--	help
--	  Allow kexec to hand over state across kernels by generating and
--	  passing additional metadata to the target kernel. This is useful
--	  to keep data or state alive across the kexec. For this to work,
--	  both source and target kernels need to have this option enabled.
--
--config KEXEC_HANDOVER_DEBUG
--	bool "kexec handover debug interface"
--	depends on KEXEC_HANDOVER
--	depends on DEBUG_FS
--	help
--	  Allow to control kexec handover device tree via debugfs
--	  interface, i.e. finalize the state or aborting the finalization.
--	  Also, enables inspecting the KHO fdt trees with the debugfs binary
--	  blobs.
--
- config CRASH_DUMP
- 	bool "kernel crash dumps"
- 	default ARCH_DEFAULT_CRASH_DUMP
-diff --git a/kernel/Makefile b/kernel/Makefile
-index e4b4afa86a70..632f692512d7 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -53,6 +53,7 @@ obj-y += printk/
- obj-y += irq/
- obj-y += rcu/
- obj-y += livepatch/
-+obj-y += liveupdate/
- obj-y += dma/
- obj-y += entry/
- obj-$(CONFIG_MODULES) += module/
-@@ -81,8 +82,6 @@ obj-$(CONFIG_CRASH_DM_CRYPT) += crash_dump_dm_crypt.o
- obj-$(CONFIG_KEXEC) += kexec.o
- obj-$(CONFIG_KEXEC_FILE) += kexec_file.o
- obj-$(CONFIG_KEXEC_ELF) += kexec_elf.o
--obj-$(CONFIG_KEXEC_HANDOVER) += kexec_handover.o
--obj-$(CONFIG_KEXEC_HANDOVER_DEBUG) += kexec_handover_debug.o
- obj-$(CONFIG_BACKTRACE_SELF_TEST) += backtracetest.o
- obj-$(CONFIG_COMPAT) += compat.o
- obj-$(CONFIG_CGROUPS) += cgroup/
-diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
-new file mode 100644
-index 000000000000..eebe564b385d
---- /dev/null
-+++ b/kernel/liveupdate/Kconfig
-@@ -0,0 +1,30 @@
-+# SPDX-License-Identifier: GPL-2.0-only
++static void luo_do_cancel_calls(void)
++{
++}
 +
-+menu "Live Update"
++static int __luo_prepare(void)
++{
++	int ret;
 +
-+config KEXEC_HANDOVER
-+	bool "kexec handover"
-+	depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE
-+	depends on !DEFERRED_STRUCT_PAGE_INIT
-+	select MEMBLOCK_KHO_SCRATCH
-+	select KEXEC_FILE
-+	select DEBUG_FS
-+	select LIBFDT
-+	select CMA
-+	help
-+	  Allow kexec to hand over state across kernels by generating and
-+	  passing additional metadata to the target kernel. This is useful
-+	  to keep data or state alive across the kexec. For this to work,
-+	  both source and target kernels need to have this option enabled.
++	if (down_write_killable(&luo_state_rwsem)) {
++		pr_warn("[prepare] event canceled by user\n");
++		return -EAGAIN;
++	}
 +
-+config KEXEC_HANDOVER_DEBUG
-+	bool "kexec handover debug interface"
-+	depends on KEXEC_HANDOVER
-+	depends on DEBUG_FS
-+	help
-+	  Allow to control kexec handover device tree via debugfs
-+	  interface, i.e. finalize the state or aborting the finalization.
-+	  Also, enables inspecting the KHO fdt trees with the debugfs binary
-+	  blobs.
++	if (!is_current_luo_state(LIVEUPDATE_STATE_NORMAL)) {
++		pr_warn("Can't switch to [%s] from [%s] state\n",
++			luo_state_str[LIVEUPDATE_STATE_PREPARED],
++			luo_current_state_str());
++		ret = -EINVAL;
++		goto exit_unlock;
++	}
 +
-+endmenu
-diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
-new file mode 100644
-index 000000000000..72cf7a8e6739
---- /dev/null
-+++ b/kernel/liveupdate/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Makefile for the linux kernel.
-+#
++	ret = luo_fdt_setup();
++	if (ret)
++		goto exit_unlock;
 +
-+obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o
-+obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)	+= kexec_handover_debug.o
-diff --git a/kernel/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
-similarity index 99%
-rename from kernel/kexec_handover.c
-rename to kernel/liveupdate/kexec_handover.c
-index 7908886170f0..72900afbdf04 100644
---- a/kernel/kexec_handover.c
-+++ b/kernel/liveupdate/kexec_handover.c
-@@ -23,8 +23,8 @@
-  * KHO is tightly coupled with mm init and needs access to some of mm
-  * internal APIs.
-  */
--#include "../mm/internal.h"
--#include "kexec_internal.h"
-+#include "../../mm/internal.h"
-+#include "../kexec_internal.h"
- #include "kexec_handover_internal.h"
++	ret = luo_do_prepare_calls();
++	if (ret) {
++		luo_fdt_destroy();
++		goto exit_unlock;
++	}
++
++	luo_set_state(LIVEUPDATE_STATE_PREPARED);
++
++exit_unlock:
++	up_write(&luo_state_rwsem);
++
++	return ret;
++}
++
++static int __luo_cancel(void)
++{
++	if (down_write_killable(&luo_state_rwsem)) {
++		pr_warn("[cancel] event canceled by user\n");
++		return -EAGAIN;
++	}
++
++	if (!is_current_luo_state(LIVEUPDATE_STATE_PREPARED) &&
++	    !is_current_luo_state(LIVEUPDATE_STATE_FROZEN)) {
++		pr_warn("Can't switch to [%s] from [%s] state\n",
++			luo_state_str[LIVEUPDATE_STATE_NORMAL],
++			luo_current_state_str());
++		up_write(&luo_state_rwsem);
++
++		return -EINVAL;
++	}
++
++	luo_do_cancel_calls();
++	luo_fdt_destroy();
++	luo_set_state(LIVEUPDATE_STATE_NORMAL);
++
++	up_write(&luo_state_rwsem);
++
++	return 0;
++}
++
+ /* Get the current state as a string */
+ const char *luo_current_state_str(void)
+ {
+@@ -111,9 +248,28 @@ enum liveupdate_state liveupdate_get_state(void)
+ 	return READ_ONCE(luo_state);
+ }
  
- #define KHO_FDT_COMPATIBLE "kho-v1"
-@@ -825,7 +825,7 @@ static int __kho_finalize(void)
- 	err |= fdt_finish_reservemap(root);
- 	err |= fdt_begin_node(root, "");
- 	err |= fdt_property_string(root, "compatible", KHO_FDT_COMPATIBLE);
--	/**
++/**
++ * luo_prepare - Initiate the live update preparation phase.
++ *
++ * This function is called to begin the live update process. It attempts to
++ * transition the luo to the ``LIVEUPDATE_STATE_PREPARED`` state.
++ *
++ * If the calls complete successfully, the orchestrator state is set
++ * to ``LIVEUPDATE_STATE_PREPARED``. If any  call fails a
++ * ``LIVEUPDATE_CANCEL`` is sent to roll back any actions.
++ *
++ * @return 0 on success, ``-EAGAIN`` if the state change was cancelled by the
++ * user while waiting for the lock, ``-EINVAL`` if the orchestrator is not in
++ * the normal state, or a negative error code returned by the calls.
++ */
+ int luo_prepare(void)
+ {
+-	return 0;
++	int err = __luo_prepare();
++
++	if (err)
++		return err;
++
++	return kho_finalize();
+ }
+ 
+ /**
+@@ -193,9 +349,28 @@ int luo_finish(void)
+ 	return 0;
+ }
+ 
++/**
++ * luo_cancel - Cancel the ongoing live update from prepared or frozen states.
++ *
++ * This function is called to abort a live update that is currently in the
++ * ``LIVEUPDATE_STATE_PREPARED`` state.
++ *
++ * If the state is correct, it triggers the ``LIVEUPDATE_CANCEL`` notifier chain
++ * to allow subsystems to undo any actions performed during the prepare or
++ * freeze events. Finally, the orchestrator state is transitioned back to
++ * ``LIVEUPDATE_STATE_NORMAL``.
++ *
++ * @return 0 on success, or ``-EAGAIN`` if the state change was cancelled by the
++ * user while waiting for the lock.
++ */
+ int luo_cancel(void)
+ {
+-	return 0;
++	int err =  kho_abort();
++
++	if (err)
++		return err;
++
++	return __luo_cancel();
+ }
+ 
+ void luo_state_read_enter(void)
+@@ -210,7 +385,40 @@ void luo_state_read_exit(void)
+ 
+ static int __init luo_startup(void)
+ {
+-	__luo_set_state(LIVEUPDATE_STATE_NORMAL);
++	phys_addr_t fdt_phys;
++	int ret;
++
++	if (!kho_is_enabled()) {
++		if (luo_enabled)
++			pr_warn("Disabling liveupdate because KHO is disabled\n");
++		luo_enabled = false;
++		return 0;
++	}
++
 +	/*
- 	 * Reserve the preserved-memory-map property in the root FDT, so
- 	 * that all property definitions will precede subnodes created by
- 	 * KHO callers.
-diff --git a/kernel/kexec_handover_debug.c b/kernel/liveupdate/kexec_handover_debug.c
-similarity index 100%
-rename from kernel/kexec_handover_debug.c
-rename to kernel/liveupdate/kexec_handover_debug.c
-diff --git a/kernel/kexec_handover_internal.h b/kernel/liveupdate/kexec_handover_internal.h
-similarity index 100%
-rename from kernel/kexec_handover_internal.h
-rename to kernel/liveupdate/kexec_handover_internal.h
++	 * Retrieve LUO subtree, and verify its format.  Panic in case of
++	 * exceptions, since machine devices and memory is in unpredictable
++	 * state.
++	 */
++	ret = kho_retrieve_subtree(LUO_KHO_ENTRY_NAME, &fdt_phys);
++	if (ret) {
++		if (ret != -ENOENT) {
++			panic("failed to retrieve FDT '%s' from KHO: %d\n",
++			      LUO_KHO_ENTRY_NAME, ret);
++		}
++		__luo_set_state(LIVEUPDATE_STATE_NORMAL);
++
++		return 0;
++	}
++
++	luo_fdt_in = __va(fdt_phys);
++	ret = fdt_node_check_compatible(luo_fdt_in, 0, LUO_COMPATIBLE);
++	if (ret) {
++		panic("FDT '%s' is incompatible with '%s' [%d]\n",
++		      LUO_KHO_ENTRY_NAME, LUO_COMPATIBLE, ret);
++	}
++
++	__luo_set_state(LIVEUPDATE_STATE_UPDATED);
+ 
+ 	return 0;
+ }
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 
