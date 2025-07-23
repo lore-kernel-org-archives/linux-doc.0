@@ -1,230 +1,150 @@
-Received: from mta-201a.earthlink-vadesecure.net (mta-201a.earthlink-vadesecure.net [51.81.229.180])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20E4223323;
-	Wed, 23 Jul 2025 18:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.229.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E134224228
+	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 18:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753294430; cv=none; b=mUWngVo/hm0lmGRuPdm8S9Kcxr5QYU0dCwEylLEjNxWXP+OpywzWPay/8vi7WI+xuNRjjEfXzUTXJEdGYeV+TPpUyr9mOuN0+A0yOzzvJBkaEx3zgFq5fHtAZB7V5bewpFHxrPUPjEVQFuLwcMVdzP+pOjwX1/YrmSfy35B1Zfo=
+	t=1753294448; cv=none; b=rc3G45ENvbS8+aH5C71MMjWkwI6GK0mU0JizG1drskDM3BrXcdT4TGI2HnXOmZ+Pv5X4IXpHXKI4HnzX9YilvEkyxgLTTqOxo2sjnFatw+8ad0N46+yGzy95dl0hEVz7U5R2TZ61MTHchiDAL6eS6+ch6DmzaulUy67vo2XXi4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753294430; c=relaxed/simple;
-	bh=tnjpzqd1Mggmvw8Wggg8wzHg0F7ogxOpOkKC+zxbTJQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dqcwao1iLrrtmxYsNwoo/vr6nQVbrXLWKaPSfzpAXfnjSaF66D7pD37DJdmO5wllO/zQNqMQNbaQQhv5TZbKv3eUTryrTFlargZqRJfFVkuNlBIfPSA+ESUVuIMXRhM9rlo5VZsyZszNj2UfiVZlnk/6pcRhcOSpUX4qHJYh53w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=onemain.com; spf=pass smtp.mailfrom=onemain.com; dkim=pass (2048-bit key) header.d=earthlink.net header.i=@earthlink.net header.b=jnsO6VBB; arc=none smtp.client-ip=51.81.229.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=onemain.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onemain.com
+	s=arc-20240116; t=1753294448; c=relaxed/simple;
+	bh=JG4uReWgGvK254YxhuRwhsavbNKr7T50ZMO/oooWqyU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=LhDcQthrEqDcbppPI/YovavGCGZZGa/UkYyxbpB/jbvC9ogGCzEzPLXSpSCOhIf2ePLyV7oKYMt+CDFMQc+kXI8Q2plzyz9E5Ez/XZcxA2ZBCAWAxr1FSUl/DDvsu8cvTmTAPNJ1bTH9BrlQmglpM01KJudIh/SfnVqTacSraqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KHqzV1T9; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=earthlink.net header.i=@earthlink.net header.b="jnsO6VBB"
-Authentication-Results: earthlink-vadesecure.net;
- auth=pass smtp.auth=svnelson@teleport.com smtp.mailfrom=sln@onemain.com;
-DKIM-Signature: v=1; a=rsa-sha256; bh=TopWGv7yYEm89cmEi+jB4nxn++rXyLPZlZQ0Hz
- pYEDk=; c=relaxed/relaxed; d=earthlink.net; h=from:reply-to:subject:
- date:to:cc:resent-date:resent-from:resent-to:resent-cc:in-reply-to:
- references:list-id:list-help:list-unsubscribe:list-unsubscribe-post:
- list-subscribe:list-post:list-owner:list-archive; q=dns/txt;
- s=dk12062016; t=1753294419; x=1753899219; b=jnsO6VBBkNdZLB/t1bpISWlnOU/
- LVjFlWvHzwuo6RH9EWc3AkvhAhHbykqf9cxMulgGygCsFTRRoj7e961oJHIvRFXRwldeOZc
- A9nav7otEHwNwV+AGaO26d9/Ol4gRPOztsen3v4MOMgKEMH4J7qhRbPlYJJ/a5AhYIbpWId
- oh/phJjBszMhxdHnA3/MsKF7KulF60fvogiKUO7yqS26bfj4xGWl8c6hj5L29zosONGOX1X
- WhCmFoU0tWPk8j1nscL3Mequ2WvHODaR3SXOW/KI4VDNa/S4fvDbcAc6+gyl5XGl4TrWB9v
- KgRe94c9ELmnsmK/AqigTQfEy3Ozqzg==
-Received: from [192.168.0.23] ([50.47.159.51])
- by vsel2nmtao01p.internal.vadesecure.com with ngmta
- id 1f341533-1854f3fbedb751fd; Wed, 23 Jul 2025 18:13:39 +0000
-Message-ID: <086f34bd-12d9-40a4-919d-9c36a4089e8b@onemain.com>
-Date: Wed, 23 Jul 2025 11:13:37 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KHqzV1T9"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-237f8d64263so863035ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 11:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753294446; x=1753899246; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eO5dqZ0DhB/OAkXgsZy07YNUuWXJnLDBIhzJwZGa0YE=;
+        b=KHqzV1T9+eNjT6tZ6XRjfLa8Um3r3wjiOynyi6iGJQA2kJ39I7Wo5kPShVTEIeaQtt
+         EiBKWiRyaCVjwko2G9THc0I8yIRpR1Qe6hexGzAg8T8d9F7q76Nx5h2ZBlx6xLe3Mtes
+         Ppn0t6SaLADPOELK+woAps78UbsycYB5KeC6sgJW8qHXiw0AfI4L1ZEKTOUgBo15XtAY
+         nakRyLRD6icMuwFXyW8NAiZhEYuO4sG+m+VvGdXhCxJemaTQkVqwJBji3OamUH4EX0rt
+         9JY5BM0j+ZZQWojFCNZyEcFnb3+DHCMNVRpIACVjXgptSglI3ypPQo9HpLG5/512XvQt
+         3OrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753294446; x=1753899246;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eO5dqZ0DhB/OAkXgsZy07YNUuWXJnLDBIhzJwZGa0YE=;
+        b=jeJezSrsG4boaY4vLvFp/KXxH4k4J6xCE3xhXPYcwqORlRpvOnEEGNYDTmVGyTNEdI
+         t1A9DpnySaT+T3vfZkpf4ZLumzm6/NIaX1h+OiiDqSQJkzKnuUVtfAzEhOPUC9WqIl8A
+         Uy8MWfI3pToaVBodEr0re+d1jJajVw9IWvq6yF8w6XBNCreJ9ZTeKBI96oPZe3jjexba
+         96JrwyWWPhF6SKSJ+QlzOOp4Q9bVuSJsXwmSzDrgI+fuXxbrMdxJHnHsPlEYS2bLYe8t
+         eT36JhvbUswyODmCpnDwfauEqKb2b/JjSUWWcCoLgtiFpj6Ak5r7XhrzogHpkioGxMJp
+         G1/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX17hehnnRwlTPASqVoWlSS3/6MBwu5TsG+vzlv271hwsRCg8DlyX4F2Y9ZL14FK6Zom21q35ZFkm0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4lpr/f2J72Ni1fl1lxZmaGc6k3e2IGleZ4swWTZggxtfTpPA9
+	iyByP2sNcBBCFgeE9EiJHK+jygiNVNLfpVYFUCf93sA8HBihcK9sdI8Vq4WUWJBRIniVgtavpAL
+	L44QrYA==
+X-Google-Smtp-Source: AGHT+IEjAqLPa5W7Efdn/up6DoBz+19wIi12MSCKj7MrbSVpgqTQz1XXEAR5E+PKwmAfbifDD/Fz4Imnksk=
+X-Received: from pji5.prod.google.com ([2002:a17:90b:3fc5:b0:312:3b05:5f44])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f152:b0:235:e309:7dec
+ with SMTP id d9443c01a7336-23f98204604mr31445345ad.26.1753294445204; Wed, 23
+ Jul 2025 11:14:05 -0700 (PDT)
+Date: Wed, 23 Jul 2025 11:14:03 -0700
+In-Reply-To: <20250422161304.579394-4-zack.rusin@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 14/14] RDMA/ionic: Add Makefile/Kconfig to kernel build
- environment
-To: Abhijit Gangurde <abhijit.gangurde@amd.com>, shannon.nelson@amd.com,
- brett.creeley@amd.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, jgg@ziepe.ca,
- leon@kernel.org, andrew+netdev@lunn.ch
-Cc: allen.hubbe@amd.com, nikhil.agarwal@amd.com, linux-rdma@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250723173149.2568776-1-abhijit.gangurde@amd.com>
- <20250723173149.2568776-15-abhijit.gangurde@amd.com>
-Content-Language: en-US
-From: Shannon Nelson <sln@onemain.com>
-In-Reply-To: <20250723173149.2568776-15-abhijit.gangurde@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20250422161304.579394-1-zack.rusin@broadcom.com> <20250422161304.579394-4-zack.rusin@broadcom.com>
+Message-ID: <aIEmawm9gLflg8zt@google.com>
+Subject: Re: [PATCH v2 3/5] KVM: x86: Add support for VMware guest specific hypercalls
+From: Sean Christopherson <seanjc@google.com>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, Doug Covelli <doug.covelli@broadcom.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On 7/23/25 10:31 AM, Abhijit Gangurde wrote:
-> Add ionic to the kernel build environment.
->
-> Co-developed-by: Allen Hubbe <allen.hubbe@amd.com>
-> Signed-off-by: Allen Hubbe <allen.hubbe@amd.com>
-> Signed-off-by: Abhijit Gangurde <abhijit.gangurde@amd.com>
-> ---
-> v2->v3
->    - Removed select of ethernet driver
->    - Fixed make htmldocs error
->
->   .../device_drivers/ethernet/index.rst         |  1 +
->   .../ethernet/pensando/ionic_rdma.rst          | 43 +++++++++++++++++++
->   MAINTAINERS                                   |  9 ++++
->   drivers/infiniband/Kconfig                    |  1 +
->   drivers/infiniband/hw/Makefile                |  1 +
->   drivers/infiniband/hw/ionic/Kconfig           | 15 +++++++
->   drivers/infiniband/hw/ionic/Makefile          |  9 ++++
->   7 files changed, 79 insertions(+)
->   create mode 100644 Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
->   create mode 100644 drivers/infiniband/hw/ionic/Kconfig
->   create mode 100644 drivers/infiniband/hw/ionic/Makefile
->
-> diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
-> index 139b4c75a191..4b16ecd289da 100644
-> --- a/Documentation/networking/device_drivers/ethernet/index.rst
-> +++ b/Documentation/networking/device_drivers/ethernet/index.rst
-> @@ -50,6 +50,7 @@ Contents:
->      neterion/s2io
->      netronome/nfp
->      pensando/ionic
-> +   pensando/ionic_rdma
->      smsc/smc9
->      stmicro/stmmac
->      ti/cpsw
-> diff --git a/Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst b/Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
-> new file mode 100644
-> index 000000000000..80c4d9876d3e
-> --- /dev/null
-> +++ b/Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
-> @@ -0,0 +1,43 @@
-> +.. SPDX-License-Identifier: GPL-2.0+
-> +
-> +============================================================
-> +Linux Driver for the AMD Pensando(R) Ethernet adapter family
-> +============================================================
-> +
-> +AMD Pensando RDMA driver.
-> +Copyright (C) 2018-2025, Advanced Micro Devices, Inc.
-> +
-> +Contents
-> +========
-> +
-> +- Identifying the Adapter
-> +- Enabling the driver
-> +- Support
-> +
-> +Identifying the Adapter
-> +=======================
-> +
-> +See Documentation/networking/device_drivers/ethernet/pensando/ionic.rst
-> +for more information on identifying the adapter.
-> +
-> +Enabling the driver
-> +===================
-> +
-> +The driver is enabled via the standard kernel configuration system,
-> +using the make command::
-> +
-> +  make oldconfig/menuconfig/etc.
-> +
-> +The driver is located in the menu structure at:
-> +
-> +  -> Device Drivers
-> +    -> InfiniBand support
-> +      -> AMD Pensando DSC RDMA/RoCE Support
+On Tue, Apr 22, 2025, Zack Rusin wrote:
+> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+> index 9e3be87fc82b..f817601924bd 100644
+> --- a/arch/x86/kvm/Kconfig
+> +++ b/arch/x86/kvm/Kconfig
+> @@ -183,11 +183,13 @@ config KVM_VMWARE
+>  	depends on KVM
+>  	default y
+>  	help
+> -	  Provides KVM support for hosting VMware guests. Adds support for
+> -	  VMware legacy backdoor interface: VMware tools and various userspace
+> +	  Provides KVM support for hosting VMware guests. KVM features that can
+> +	  be turned on when this option is enabled include:
+> +	  - VMware legacy backdoor interface: VMware tools and various userspace
+>  	  utilities running in VMware guests sometimes utilize specially
+>  	  formatted IN, OUT and RDPMC instructions which need to be
+>  	  intercepted.
+> +	  - VMware hypercall interface: VMware hypercalls exit to userspace
 
-Please add some verbage about this being an auxiliary_device dependent 
-on the ionic driver, and that it can be disabled/enab led with a devlink 
-command.
+Eh, I wouldn't bother enumerating the full set of features in the Kconfig.  Just
+state that it guards VMware emulation, and let the documentation do the heavy
+lifting.
 
-sln
+> +static inline bool kvm_vmware_hypercall_enabled(struct kvm *kvm)
+> +{
+> +	return false;
+> +}
+> +
+> +static inline int kvm_vmware_hypercall(struct kvm_vcpu *vcpu)
+> +{
+> +	return 0;
+> +}
 
+If we do this right, we shouldn't need a stub for kvm_vmware_hypercall(), and
+can instead uncondtionally _declare_ kvm_vmware_hypercall(), but only fully
+define/implement it CONFIG_KVM_VMWARE=y.  The kvm_is_vmware_xxx() stubs will
+probably need to be __always_inline, but otherwise things should Just Work.
 
-> +
-> +Support
-> +=======
-> +
-> +For general Linux rdma support, please use the rdma mailing
-> +list, which is monitored by AMD Pensando personnel::
-> +
-> +  linux-rdma@vger.kernel.org
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b4f3fa14ddca..f52409bde673 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1165,6 +1165,15 @@ F:	Documentation/networking/device_drivers/ethernet/amd/pds_core.rst
->   F:	drivers/net/ethernet/amd/pds_core/
->   F:	include/linux/pds/
->   
-> +AMD PENSANDO RDMA DRIVER
-> +M:	Abhijit Gangurde <abhijit.gangurde@amd.com>
-> +M:	Allen Hubbe <allen.hubbe@amd.com>
-> +L:	linux-rdma@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
-> +F:	drivers/infiniband/hw/ionic/
-> +F:	include/uapi/rdma/ionic-abi.h
-> +
->   AMD PMC DRIVER
->   M:	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->   L:	platform-driver-x86@vger.kernel.org
-> diff --git a/drivers/infiniband/Kconfig b/drivers/infiniband/Kconfig
-> index 3a394cd772f6..f0323f1d6f01 100644
-> --- a/drivers/infiniband/Kconfig
-> +++ b/drivers/infiniband/Kconfig
-> @@ -85,6 +85,7 @@ source "drivers/infiniband/hw/efa/Kconfig"
->   source "drivers/infiniband/hw/erdma/Kconfig"
->   source "drivers/infiniband/hw/hfi1/Kconfig"
->   source "drivers/infiniband/hw/hns/Kconfig"
-> +source "drivers/infiniband/hw/ionic/Kconfig"
->   source "drivers/infiniband/hw/irdma/Kconfig"
->   source "drivers/infiniband/hw/mana/Kconfig"
->   source "drivers/infiniband/hw/mlx4/Kconfig"
-> diff --git a/drivers/infiniband/hw/Makefile b/drivers/infiniband/hw/Makefile
-> index df61b2299ec0..b706dc0d0263 100644
-> --- a/drivers/infiniband/hw/Makefile
-> +++ b/drivers/infiniband/hw/Makefile
-> @@ -14,3 +14,4 @@ obj-$(CONFIG_INFINIBAND_HNS_HIP08)	+= hns/
->   obj-$(CONFIG_INFINIBAND_QEDR)		+= qedr/
->   obj-$(CONFIG_INFINIBAND_BNXT_RE)	+= bnxt_re/
->   obj-$(CONFIG_INFINIBAND_ERDMA)		+= erdma/
-> +obj-$(CONFIG_INFINIBAND_IONIC)		+= ionic/
-> diff --git a/drivers/infiniband/hw/ionic/Kconfig b/drivers/infiniband/hw/ionic/Kconfig
-> new file mode 100644
-> index 000000000000..de6f10e9b6e9
-> --- /dev/null
-> +++ b/drivers/infiniband/hw/ionic/Kconfig
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (C) 2018-2025, Advanced Micro Devices, Inc.
-> +
-> +config INFINIBAND_IONIC
-> +	tristate "AMD Pensando DSC RDMA/RoCE Support"
-> +	depends on NETDEVICES && ETHERNET && PCI && INET && IONIC
-> +	help
-> +	  This enables RDMA/RoCE support for the AMD Pensando family of
-> +	  Distributed Services Cards (DSCs).
-> +
-> +	  To learn more, visit our website at
-> +	  <https://www.amd.com/en/products/accelerators/pensando.html>.
-> +
-> +	  To compile this driver as a module, choose M here. The module
-> +	  will be called ionic_rdma.
-> diff --git a/drivers/infiniband/hw/ionic/Makefile b/drivers/infiniband/hw/ionic/Makefile
-> new file mode 100644
-> index 000000000000..957973742820
-> --- /dev/null
-> +++ b/drivers/infiniband/hw/ionic/Makefile
-> @@ -0,0 +1,9 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +ccflags-y :=  -I $(srctree)/drivers/net/ethernet/pensando/ionic
-> +
-> +obj-$(CONFIG_INFINIBAND_IONIC)	+= ionic_rdma.o
-> +
-> +ionic_rdma-y :=	\
-> +	ionic_ibdev.o ionic_lif_cfg.o ionic_queue.o ionic_pgtbl.o ionic_admin.o \
-> +	ionic_controlpath.o ionic_datapath.o ionic_hw_stats.o
+So long as kvm_is_vmware_hypercall_enabled() can be resolved to a compile-time
+constant (of %false), the compiler's dead-code optimization will drop the call
+to kvm_vmware_hypercall() before linking.  KVM (and the kernel at-large) already
+heavily relies on dead-code optimization, e.g. we use this trick for sev.c APIs.
 
+In addition to avoiding a stub, if we screw up, e.g. add an unguarded function
+call, the bug will manifest as a link-time error, not a run-time error.
+
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 793d0cf7ae3c..adf1a1449c06 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -135,6 +135,27 @@ struct kvm_xen_exit {
+>  	} u;
+>  };
+>  
+> +struct kvm_vmware_exit {
+> +#define KVM_EXIT_VMWARE_HCALL          1
+> +	__u32 type;
+> +	__u32 pad1;
+> +	union {
+> +		struct {
+> +			__u32 longmode;
+> +			__u32 cpl;
+> +			__u64 rax, rbx, rcx, rdx, rsi, rdi, rbp;
+> +			__u64 result;
+> +			struct {
+> +				__u32 inject;
+> +				__u32 pad2;
+> +				__u32 vector;
+> +				__u32 error_code;
+> +				__u64 address;
+> +			} exception;
+> +		} hcall;
+> +	};
+> +};
+
+Put this in the x86 header, arch/x86/include/uapi/asm/kvm.h.  The capability
+itself goes in the arch-neutral header so that KVM doesn't have to worry about
+collisions between capability numbers, but any arch specific payloads should go
+in the arch header(s).
