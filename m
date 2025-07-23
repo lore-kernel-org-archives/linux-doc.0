@@ -1,28 +1,28 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB1D1DE3CA;
-	Wed, 23 Jul 2025 03:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4201F2382;
+	Wed, 23 Jul 2025 03:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753239749; cv=none; b=u6w774CCcFE9pykblIMzs1/kh8hfQSWTnGXMXQPmxqEFHi1f1pTwm1MpVoLFEPZJ50izSYGUx3ajbf5BJksIWsLleq+UC/0EIr+pnH+36bPP1KznPRxPeSyMdIy2n5T8mwx+sOqlj9d8+SaLKi6W1ZBinM2Iv+N531iY/+Q+IaA=
+	t=1753240123; cv=none; b=dP6+r+6mDJUSBVHfb+YeuU9AniCwfakdDklUsFAAS++ACJlkp/M3KsZVTYPKKgNTG0JGuQkwdsyBs8DlMwMERlflH29HLHStuKEk9MhnRwTI9fo0kspetZBjmf0V3wSMviKfI34n2u3Fvx2eIsblwNlxMSZPChCcZfZaAja9a7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753239749; c=relaxed/simple;
-	bh=M/evPR0svUbE7leAMZM+BaBttls2euCF4BVwatvjvI0=;
+	s=arc-20240116; t=1753240123; c=relaxed/simple;
+	bh=2yg9SG0vvIlVvlZR8JpUpVQxNLZGjH6tRGJV9TpFhS0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TcUrI7JyZ8dGQespaLrZnxEByeR1MVazoW0XCkIMiy8SWTIULYVnhViqF/vZwUMVSqsW/k2z7oe9nbe8P0VJq57T7pj31s91MWlXGLWOdrTFQQHBOPFOF3mitZxcFmjjVhsp1jY8Q+PJRrzgFMNoDJukikloB88OIi7pKJkliiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
+	 Content-Type:Content-Disposition:In-Reply-To; b=SmfbenEgT9djIEuUfWjy//LIzYzxu9SalOH3uTLIS06REvhf655Kiy4VFvSy3CdI9nWBKENJROpBtfaA8V85GKBfqutlIziUFhXcu4G77kUyZGPO0fXYi7aAK/YSMiengk25XGV2pNJGR+Zao2t8pEq0KknXAY8LcRtWxxXp6po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.169.211.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz19t1753239673t6fcb271e
-X-QQ-Originating-IP: h6+YcNk6wtGkCE8eMFp3AqG3T77X+yNwoyDRkGfMTO8=
+X-QQ-mid: zesmtpsz5t1753240028t6b29edfa
+X-QQ-Originating-IP: NT9ZibIvYk5fNjjauD+gBPoL+YaRUZQrmD9vxnv86+c=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 23 Jul 2025 11:01:11 +0800 (CST)
+	id ; Wed, 23 Jul 2025 11:07:06 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12358391869417309562
-Date: Wed, 23 Jul 2025 11:01:11 +0800
+X-BIZMAIL-ID: 1109793005909151533
+Date: Wed, 23 Jul 2025 11:07:05 +0800
 From: Yibo Dong <dong100@mucse.com>
 To: Simon Horman <horms@kernel.org>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
@@ -34,11 +34,11 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] net: rnpgbe: Add build support for rnpgbe
-Message-ID: <0E9C9DD4FB65EC52+20250723030111.GA169181@nic-Precision-5820-Tower>
+Subject: Re: [PATCH v2 03/15] net: rnpgbe: Add basic mbx ops support
+Message-ID: <78BE2D403125AFDD+20250723030705.GB169181@nic-Precision-5820-Tower>
 References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-2-dong100@mucse.com>
- <20250722112909.GF2459@horms.kernel.org>
+ <20250721113238.18615-4-dong100@mucse.com>
+ <20250722113542.GG2459@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,87 +47,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250722112909.GF2459@horms.kernel.org>
+In-Reply-To: <20250722113542.GG2459@horms.kernel.org>
 X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MvyKdZyVtFx3iDqIOOqiI+R6sLCE+t2jMOk4OK539kaJ9/u1j6/h2grf
-	Rgy2tNSMffv4T/gAAzgDq+EYY/P2yiHpa+ldqcvDiUe09M60SYtTATEYMPKNZU3PMIDvkZH
-	6qJcuARg4Xzau/nH7DJiP4ySkEdza6WYuDkTaT40FrT+aQ6mrJqesP+RCcnBrZMHBb2kt5F
-	XuSYG95Iinpq2h9cniaMQbuMClyhs6DXaApc14kAEe2SVp9vwc5nmg24Zlf+sGVJ/YgNV/M
-	n8oV71faRgN9YE+PdW+lrZ2/bkfpLv2kWwt9xRasuuhPEMPPo8dHP0XDE7iiRyWkrZqwzOK
-	KCXCsL+ROaF9i1W8yhz6JHemCkyPMdUt/nTf+4kGb2YGWH6Vr4XQsYrDeT83Xwd9n3yGcbY
-	DSsi7pmCAsR9L4bHuecKj2mX7/IaLXB2jPfkigBu0hzz++pXf5AxrC+q0j+cxWwiPQO9E/m
-	f/APh/Y8Oa+h/KpXmsAjn4Pdu7cBADCAWMsZZx8eGq886yMLbKA4A+WnLrxesc6QsRQmvlZ
-	afgFNei527OUjBGnM4QZbXdTmv7kvPwePL1Jwo/h0gK3lU7zFIgj7CKmSR7sS10le+eGl5X
-	IzqFq4MKwNSz1ae68lUF077mJjUyrsM/9uiA9D+C08XD39TQxjtXt0ra2BEjSQBiB/41SZF
-	JhABcX885n2JElZ4lJvwPjX9LrmeSqt/w1dy+7qEmv7pagGJizYyUQCu0qOOEWbJkcCwBdh
-	IFmi0uIw6A02t42LB0JqQWrbwYtJUqJWymFAl3PvkrJbzNFbghclRSvQEktTND8432Wi7Ai
-	EDFuThRqqAsu3XJLRlQHB1B4g/Jxl8+bEdoP4KaQf8Et5xmn09MZ1Umd6iQgIekaolCOZ/m
-	+m6Xmq+gMc16cnzZXm0Eph8U9y7r0RtXvXU3oXcRPn2Mzdc4SbIrOO//yvURoXJ64nPq8wx
-	IP4FSJX3cCvGPmh2jV5cXkWMqN2LzUfMOa4xuGEZN8qOU1bUZPX7Q/WWdxv2pwVkhRaZlvk
-	9xFPjF3Q==
+Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NfRA73Gayti6CGR3D1JlkQ2+KrsmWAYUkl9H1DK2aWmQSQG72lYm2EAN
+	c74TwYi0o7kfSFslwYgeoZ1xr59cgDC6dPMbyFHs6TRLmCwdQL92FKAV86JFgzXpOEGQPG3
+	hYORMAZoQ5i1Ry7crHDGuJ+7hMyK695lpI3EERR6k8SEahkTO7/SvyWj6nk0mayMYnPnRnB
+	kXod5ud4dV/EHkHz4prcgLPsVrSl29qjZiWj+vt57o2Q1O/PCbPw6c5KOufwWbvDbEjeJjb
+	JAiky/PNwJDTJmhnltdFwuUsVYukv2p009jT/jFobZzu62wg7c2KwNJ2jX5fFafGPpqa0KU
+	EDgpwHv+7cVtExEh4OWe72jTVP6pUatXNyfEX5DFDqQYBjveDo7oDRGEokrucC+p3/VvtZD
+	ap+us0yG9zjn82ojSkpCX8PrSWOM1+Tj/hy1YnwvQ9mhd1U6iiFGVUfrB6GTk4xGLZ6B1wn
+	HM+HzoKXKJtsy7SRCHy4yi3Nwbln1cw4668c2y4lI0CsdmHVQmyrQDxnBV2/2kigLO6BKUk
+	07RA93rerTcZ0GaxzOdX9lxZorS6uuI7JGL2sI5sTKhuQkMGdkPVebDXN5lqaHDrWIIrolq
+	suUv0E1e7D+ViTpYbanopYYzanDGxkech3MEDVJdePoEL9mFTYby9Z3oidcrfhTovzR+uRX
+	q/Q119vfIQpzB8LSw60w9XrZj5zDYUp38RjPwxe4teSR85Ry+vB+kwOPoFSlVwvySfCe5XG
+	alQd+eS10ESGwtAKgWKTHR8Q6235E0Yty7DgP2rJknKhEudDq59BfJ0mp9RNnDFmCf2r1/4
+	UHbc/PGv+tGACOFqWMvZpjdCLZDut/O7Z5YmZnSc4b+pPS+86zcc3VjDpeMJXC3TywpGsP1
+	EsUlROYSyTsKwOk2JJ2QQSCjy6oBbRd/GBvZ/W0CmgZ6TNSrd1DbMnXByxeudFkCL0/JNXq
+	Z1S2NLLmnAKt/8w9perumQmHPghxw0rOqnqREbhCRyu/FnbvYdno7QdaPJ0txR3X6CvJxtE
+	VyIKhk8Q==
 X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
 X-QQ-RECHKSPAM: 0
 
-On Tue, Jul 22, 2025 at 12:29:09PM +0100, Simon Horman wrote:
-> On Mon, Jul 21, 2025 at 07:32:24PM +0800, Dong Yibo wrote:
-> > Add build options and doc for mucse.
-> > Initialize pci device access for MUCSE devices.
+On Tue, Jul 22, 2025 at 12:35:42PM +0100, Simon Horman wrote:
+> On Mon, Jul 21, 2025 at 07:32:26PM +0800, Dong Yibo wrote:
+> > Initialize basic mbx function.
 > > 
 > > Signed-off-by: Dong Yibo <dong100@mucse.com>
 > 
 > ...
 > 
-> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-> > new file mode 100644
-> > index 000000000000..13b49875006b
-> > --- /dev/null
-> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-> > @@ -0,0 +1,226 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
-> > +
-> > +#include <linux/types.h>
-> > +#include <linux/module.h>
-> > +#include <linux/pci.h>
-> > +#include <linux/netdevice.h>
-> > +#include <linux/string.h>
-> > +#include <linux/etherdevice.h>
-> > +
-> > +#include "rnpgbe.h"
-> > +
-> > +char rnpgbe_driver_name[] = "rnpgbe";
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
 > 
-> At least with (only) this patch applied, rnpgbe_driver_name
-> appears to only be used in this file. So it should be static.
+> ...
 > 
-> Flagged by Sparse.
+> > +/**
+> > + * mucse_obtain_mbx_lock_pf - obtain mailbox lock
+> > + * @hw: pointer to the HW structure
+> > + * @mbx_id: Id of vf/fw to obtain
+> > + *
+> > + * This function maybe used in an irq handler.
+> > + *
+> > + * @return: 0 if we obtained the mailbox lock
+> > + **/
+> > +static int mucse_obtain_mbx_lock_pf(struct mucse_hw *hw, enum MBX_ID mbx_id)
+> > +{
+> > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > +	int try_cnt = 5000, ret;
+> > +	u32 reg;
+> > +
+> > +	reg = (mbx_id == MBX_FW) ? PF2FW_MBOX_CTRL(mbx) :
+> > +				   PF2VF_MBOX_CTRL(mbx, mbx_id);
+> > +	while (try_cnt-- > 0) {
+> > +		/* Take ownership of the buffer */
+> > +		mbx_wr32(hw, reg, MBOX_PF_HOLD);
+> > +		/* force write back before check */
+> > +		wmb();
+> > +		if (mbx_rd32(hw, reg) & MBOX_PF_HOLD)
+> > +			return 0;
+> > +		udelay(100);
+> > +	}
+> > +	return ret;
 > 
-> Please make sure that when each patch in the series is applied in turn,
-> no new Sparse warnings are introduced. Likewise for build errors.
-> And ideally warnings for W=1 builds.
+> ret is declared, and returned here.
+> But it is never initialised.
+> 
+> Perhaps it is appropriate to return an error value here,
+> and update the kernel doc for this function accordingly.
+> 
+> Flagged by W=1 builds with Clang 20.1.8, and Smatch.
+> 
+> > +}
 > 
 > ...
 > 
 
 Got it, I will fix this.
-But I can't get this warning follow steps in my local:
----
-- make x86_64_defconfig
-- make menuconfig  (select my driver rnpgbe to *)
-- make W=1 -j 20
----
-if I compile it with 'make W=1 C=1 -j 20', some errors like this:
----
-./include/linux/skbuff.h:978:1: error: directive in macro's argument list
-./include/linux/skbuff.h:981:1: error: directive in macro's argument list
-........
-Segmentation fault
----
-I also tried to use nipa/tests/patch/build_allmodconfig_warn
-/build_allmodconfig.sh (not run the bot, just copy this sh to source
-code). It seems the same with 'make W=1 C=1 -j 20'.
-Is there something wrong for me? I want to get the warnings locally,
-then I can check it before sending patches. Any suggestions to me, please?
+Maybe my clang (10.0.0) is too old, I will update it and 
+try W=1 again.
 Thanks for your feedback.
 
