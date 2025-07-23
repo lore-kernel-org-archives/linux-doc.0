@@ -1,176 +1,114 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8989E2E6118
-	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 13:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FBB8F58;
+	Wed, 23 Jul 2025 13:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753276936; cv=none; b=g7Mbnzba6AXbIOvN+Ylz1YDa62O/HbNsZBTp9Pf3xKJIcAvu7nKLHUWlwvp08jqnFQosQ+HmpZwcMccgKAd+v157iPXOs74SQWGqo7qm2MpAAAxaAfom0WQNlyAjp4ialfKEB69fjcrzNlJntTk14Sf7WOJtsjcq1JFfyGtEPfw=
+	t=1753278110; cv=none; b=HpYv5UkPUkYYvsZmzS+ivwf5zKK1iSryVEdfe4B78wTXI11ofH3qPC2x/71Vq9iIklG0G+ZKsWzQ70t10nKSb00QzSyh34qiLgkqaMiY7iLRRi1LlNWj8Eq340FPgq/BUyRnc0CDHgEd2xq8ZT8jOcT7wtKMmUTVIzjYVA+OwKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753276936; c=relaxed/simple;
-	bh=5zU8ZAr3SMvfuaM+8iY14N48D84esM2zsmKZnYPnEqQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pXbeJki57lpTSobrBPAdZluGvSCT5rZzgk1lReiHQcFy97iEv0FNBEO4sBq3EpzhWawpKuT2Fbuz5XHNRKtvLAwta1/yQhvD8JZ2EWZK6yb2ByH9JuLSTyk2gNGY6jDcZJAQToCiNHDH0Pk7jtv76Y81Yq0tXZ8LvWfgiPJn/eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0o600WTr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ICV017V2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0o600WTr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ICV017V2; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1753278110; c=relaxed/simple;
+	bh=zxxC/wQlJmLxLa47Q7NNudHjnXvG/vCvKPONP/39QCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O9XLCCby8Zb0AdDah6bPznl6pd84WwpjTwHlf2AM6/YDb8zoS8j9FsKeFS+iTIj7wMR/luRDVlKklgFGKYIEPy72/09HpGdN8LUWL84nNA06sGTOhC03j32YPAybqlX1XePnrbJvn8k9dGrRlCLLV0wik4yhtfNuE4GFI50lf9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PmuG7qTl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0o600WTr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ICV017V2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0o600WTr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ICV017V2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9216E218F2;
-	Wed, 23 Jul 2025 13:22:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753276922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sHb1UmULRkWstV5P4nMj+VxLK8zD/76FhrbXgXNQRUo=;
-	b=0o600WTrhF7mqytOXsBYYI4hbogQkBaLYNkZh6yOhsRu0dzDfoThI2SzfeB1U184ufHj8G
-	7GbA+URz2VZXrHtSTbT36riHJWUSWhwFuAmShP1d5xNX71G6iq7hOCDBFGO9KRvcSbAe6q
-	9ZGwqoxN2M84b5EyhaTDeV/EBfiNu3E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753276922;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sHb1UmULRkWstV5P4nMj+VxLK8zD/76FhrbXgXNQRUo=;
-	b=ICV017V2+baXLLVaiY3mCil8ZmvkRtv3ETatf8BEsf8sZlpYy3ZZ3dz1BSSQSvJ5PPNrGf
-	4TzUZ+D2SO5FhHBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753276922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sHb1UmULRkWstV5P4nMj+VxLK8zD/76FhrbXgXNQRUo=;
-	b=0o600WTrhF7mqytOXsBYYI4hbogQkBaLYNkZh6yOhsRu0dzDfoThI2SzfeB1U184ufHj8G
-	7GbA+URz2VZXrHtSTbT36riHJWUSWhwFuAmShP1d5xNX71G6iq7hOCDBFGO9KRvcSbAe6q
-	9ZGwqoxN2M84b5EyhaTDeV/EBfiNu3E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753276922;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sHb1UmULRkWstV5P4nMj+VxLK8zD/76FhrbXgXNQRUo=;
-	b=ICV017V2+baXLLVaiY3mCil8ZmvkRtv3ETatf8BEsf8sZlpYy3ZZ3dz1BSSQSvJ5PPNrGf
-	4TzUZ+D2SO5FhHBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC85813302;
-	Wed, 23 Jul 2025 13:22:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CJ1lNvnhgGhnHwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 23 Jul 2025 13:22:01 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Pedro Falcato <pfalcato@suse.de>
-Subject: [PATCH 3/3] docs/vfs: Remove mentions to the old mount API helpers
-Date: Wed, 23 Jul 2025 14:21:56 +0100
-Message-ID: <20250723132156.225410-4-pfalcato@suse.de>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250723132156.225410-1-pfalcato@suse.de>
-References: <20250723132156.225410-1-pfalcato@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PmuG7qTl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83DD9C4CEE7;
+	Wed, 23 Jul 2025 13:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753278109;
+	bh=zxxC/wQlJmLxLa47Q7NNudHjnXvG/vCvKPONP/39QCg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PmuG7qTl4sg7/QMBKgyBmArSjY7MW6zMzETCIkWyLdi81B49I4VHdhuWfDtD85keA
+	 s1bLp3unFlREP9Un4fUUX5JziSZMKwf4Hw/KgMn4VmYohw3DYwp/XXVUfyBh5wkyD3
+	 R09TNEfWqkjGMY/LeDVi0f9DYMrxS2enzACUqqbvhnTzVcHNryjALifb57fyVeXAHb
+	 L1ILoKBkyV+Sg2NQ8JbJ+iBlFG6RrkLTutCNyS6FMTUcZyOmERe66AVfkM7t7YxQvS
+	 J5Dx9ktAMD/94OEX5E4E6anz65xzMbxXPuCU2irBMH4pS5JuXICjJt5QYIrsV2r6ZK
+	 GQzPzDIu1LfKg==
+Date: Wed, 23 Jul 2025 08:41:48 -0500
+From: Rob Herring <robh@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Le Goffic <legoffic.clement@gmail.com>,
+	Julius Werner <jwerner@chromium.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v4 02/20] dt-bindings: stm32: stm32mp25: add
+ `access-controller-cell` property
+Message-ID: <20250723134148.GA2136293-robh@kernel.org>
+References: <20250723-ddrperfm-upstream-v4-0-1aa53ca319f4@foss.st.com>
+ <20250723-ddrperfm-upstream-v4-2-1aa53ca319f4@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLw5gink3swc9hgcaooqib9oj6)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -6.80
+In-Reply-To: <20250723-ddrperfm-upstream-v4-2-1aa53ca319f4@foss.st.com>
 
-Now that mount_bdev(), mount_nodev() and mount_single() have all been
-removed, remove mentions to them in vfs.rst.
+On Wed, Jul 23, 2025 at 03:05:46PM +0200, Clément Le Goffic wrote:
+> RCC is able to check the availability of a clock.
+> Allow to query the RCC with a firewall ID.
 
-While we're at it, redirect people looking for mount API docs to
-mount_api.rst (which documents the newer API).
-
-Signed-off-by: Pedro Falcato <pfalcato@suse.de>
----
- Documentation/filesystems/vfs.rst | 27 ++-------------------------
- 1 file changed, 2 insertions(+), 25 deletions(-)
-
-diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-index 94eba21265a1..af06144cf0fe 100644
---- a/Documentation/filesystems/vfs.rst
-+++ b/Documentation/filesystems/vfs.rst
-@@ -209,31 +209,8 @@ method fills in is the "s_op" field.  This is a pointer to a "struct
- super_operations" which describes the next level of the filesystem
- implementation.
- 
--Usually, a filesystem uses one of the generic mount() implementations
--and provides a fill_super() callback instead.  The generic variants are:
--
--``mount_bdev``
--	mount a filesystem residing on a block device
--
--``mount_nodev``
--	mount a filesystem that is not backed by a device
--
--``mount_single``
--	mount a filesystem which shares the instance between all mounts
--
--A fill_super() callback implementation has the following arguments:
--
--``struct super_block *sb``
--	the superblock structure.  The callback must initialize this
--	properly.
--
--``void *data``
--	arbitrary mount options, usually comes as an ASCII string (see
--	"Mount Options" section)
--
--``int silent``
--	whether or not to be silent on error
--
-+For more information on mounting (and the new mount API), see
-+Documentation/filesystems/mount_api.rst.
- 
- The Superblock Object
- =====================
--- 
-2.50.1
-
+The subject is wrong. There is no such "access-controller-cell" 
+property.
+> 
+> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+> ---
+>  Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml b/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml
+> index 88e52f10d1ec..4d471e3d89bc 100644
+> --- a/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml
+> +++ b/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml
+> @@ -31,6 +31,11 @@ properties:
+>    '#reset-cells':
+>      const: 1
+>  
+> +  '#access-controller-cells':
+> +    const: 1
+> +    description:
+> +      Contains the firewall ID associated to the peripheral.
+> +
+>    clocks:
+>      items:
+>        - description: CK_SCMI_HSE High Speed External oscillator (8 to 48 MHz)
+> @@ -123,6 +128,7 @@ required:
+>    - reg
+>    - '#clock-cells'
+>    - '#reset-cells'
+> +  - '#access-controller-cells'
+>    - clocks
+>  
+>  additionalProperties: false
+> @@ -136,6 +142,7 @@ examples:
+>          reg = <0x44200000 0x10000>;
+>          #clock-cells = <1>;
+>          #reset-cells = <1>;
+> +        #access-controller-cells = <1>;
+>          clocks =  <&scmi_clk CK_SCMI_HSE>,
+>                    <&scmi_clk CK_SCMI_HSI>,
+>                    <&scmi_clk CK_SCMI_MSI>,
+> 
+> -- 
+> 2.43.0
+> 
