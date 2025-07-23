@@ -1,108 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFB1189BB0
-	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 17:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FC51EE03B;
+	Wed, 23 Jul 2025 17:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753292736; cv=none; b=HWl9r4MUAY2m2jJx1LkZhWjMQ75sZMsdNJfuPTDj0B9SoLf1wdovqxoHIpYb2fz7HvogjwrgTe2gRW1KQA/2kGRJCGkAPIKPuj12vk0h5MnKqz6j7W2OyapWR+nP/1OoZMvJc/MR4PyCKwz0bjSwsbfMJPR0kvZZ3sSgB7Ol/8U=
+	t=1753293257; cv=none; b=aRJzz6XdghH1oHoSVlJJX1yA1jFYDy/mcg5el+S/qReHW+xVS9tAMDbXj9UNk5O4IQ35Z5pH80OQPtaq0jrrmQVnl90i4Rzt6vlNS0xtjkwzP/TouJ1WvK+rCFYDbbBE1Vof5UsktsOH7CkY3LjJtdTD9xkXbnBaUSKi0igASm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753292736; c=relaxed/simple;
-	bh=QCqmqy3i2BSNKF8d6To0zZGVl/TeP5zYFRjQtgacaV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TLKjpZ/8eu+4i3nelE5tRAT47e4Z0131ujxUZdlXEtdTCzZkE/2BUhA3xY1U0UYpIojYkCaHXiR3xyCn2uz4fRk84wzXM51Q2mwl/e8pELYuYwYk89zD23Lr/kpUeMEC80tuCxVrdvD3/EPSKP0nQ1MKDCU5iFaW1Phblfcy39o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFBH2Pyk; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753293257; c=relaxed/simple;
+	bh=aWYOhMVY+0LqjUojDgZy7kPOvnM+/mxfdv2uRv5JdiE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jMMLBFOTGoeQ5oQ5QfumqhRaEfwgEn9RnKX0KU+oRcUGq+pzBTUp+owgxqW+46dJK/rgLtdaU2yA/9NYYD7oh8WFme5gDDgmeB1lek6Yrh0bQ2OGJakpPhG7vEOAhMVEl6o7lqCUwMWC4jZmqZ7XTijLyqOcuigN1kDpknDrMyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=LKmUdSBg; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFBH2Pyk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753292735; x=1784828735;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QCqmqy3i2BSNKF8d6To0zZGVl/TeP5zYFRjQtgacaV8=;
-  b=oFBH2PykSeiZ9m50egOsTvCuWumMBD+rkuh10BjfEw+xQuiz/8Su8MfK
-   VcpGKmnNDEN29H59fFt49m9Z8pMzTmksNsIavmdMqZnzArQ3pVFsPG0v+
-   fXTz4jcSxN1+Idx8pzbVzXm5vqDWwivSG3nWvLOLIBaFPnFljisU648J1
-   6edJDl54rE5HFg5hezVP8vlrTdIdV/xAPpw68Fj8d7rdoANVknElXWuNf
-   WlqXXrsTwCQitGFCb8yAIR3UGs2n1mZRd+nupZTBbJerPnfeEVJkqteLy
-   eQH1xdb9nAoI0P0isdQhdsQNBULjn4v1A5pKOlTPTFeLvThEkVHwxGLkV
-   Q==;
-X-CSE-ConnectionGUID: auC+idBpTSKJD2d071GH/g==
-X-CSE-MsgGUID: 2OmtqoiqTWqFlE1IXE3SqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="73043037"
-X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
-   d="scan'208";a="73043037"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 10:45:34 -0700
-X-CSE-ConnectionGUID: jL4sMX3eQ6KfR6Hp0sh2jQ==
-X-CSE-MsgGUID: +b2Zl9UAQVGPDVQP5Tw0/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
-   d="scan'208";a="159417975"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 23 Jul 2025 10:45:33 -0700
-Received: from kbuild by 8b57277650df with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uedX0-00001B-22;
-	Wed, 23 Jul 2025 17:45:30 +0000
-Date: Wed, 23 Jul 2025 15:24:37 +0200
-From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
-	linux-doc@vger.kernel.org
-Subject: [asahilinux:bits/090-spi-hid 13/26]
- drivers/hid/hid-magicmouse.c:590: warning: This comment starts with '/**',
- but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202507231521.uTu070PQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="LKmUdSBg"
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 56NHrfxt1284522
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Wed, 23 Jul 2025 10:53:50 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 56NHrfxt1284522
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025072201; t=1753293230;
+	bh=/EBeMK7ZSqzkS+JM5rRpzF6dDvDDWpq+RlSEiWex4Mo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LKmUdSBgHid/JUsdhkXnKlxY9oQLaj9h3hn7cRe9NzmCk1H2vroNbzA5vW16MofiT
+	 0qzcLpnWXrPlQNGcUrlaP8+fBl6TdOfd/CiOtYvxIxAFs5DQxu2GwHd4cRXb0aupGR
+	 24xYiQwHufIXK+gJU8Ue8DqFUk+OSOPOE7iWuM2amhrokutC3aeHFd0ksOPyZN+FDt
+	 GuLkmNG5G6lqRJPHO5uJtM5X/3Yw4WURdJTLFuQLecuFURtZWjWCknRI5aPHONvAHd
+	 FNOpc3yBPlgmKjCS5/dA4oGmQ2SPNIPoDOIcCmTBePrIFZT1Lk8ZXJwHz2W02Zgpzc
+	 BFsGWBKGDFttg==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, xin@zytor.com, luto@kernel.org,
+        peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
+        hch@infradead.org
+Subject: [PATCH v5 05/23] KVM: VMX: Fix an indentation
+Date: Wed, 23 Jul 2025 10:53:23 -0700
+Message-ID: <20250723175341.1284463-6-xin@zytor.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250723175341.1284463-1-xin@zytor.com>
+References: <20250723175341.1284463-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
-head:   9da5f109e42a00118fe6327d7774c46116780937
-commit: 6c777754fd9890693a267f3829e3aa6f142e6645 [13/26] hid: magicmouse: Add MTP multi-touch device support
-config: alpha-randconfig-2002-20250723 (https://download.01.org/0day-ci/archive/20250723/202507231521.uTu070PQ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231521.uTu070PQ-lkp@intel.com/reproduce)
+Fix an indentation by replacing 8 spaces with a tab.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507231521.uTu070PQ-lkp@intel.com/
+While at it, add empty lines before and after for better readability.
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+---
+ arch/x86/kvm/vmx/vmx.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-   drivers/hid/hid-magicmouse.c:587: warning: Excess struct member 'crc16' description in 'tp_finger'
->> drivers/hid/hid-magicmouse.c:590: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * vendor trackpad report
-   drivers/hid/hid-magicmouse.c:604: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * standard HID mouse report
-
-
-vim +590 drivers/hid/hid-magicmouse.c
-
-   588	
-   589	/**
- > 590	 * vendor trackpad report
-   591	 *
-   592	 * @num_fingers:	the number of fingers being reported in @fingers
-   593	 * @buttons:		same as HID buttons
-   594	 */
-   595	struct tp_header {
-   596		// HID vendor part, up to 1751 bytes
-   597		u8 unknown[22];
-   598		u8 num_fingers;
-   599		u8 buttons;
-   600		u8 unknown3[14];
-   601	};
-   602	
-
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index c893ea2db9de..6e9799a80d25 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -8555,7 +8555,9 @@ __init int vmx_hardware_setup(void)
+ 	 */
+ 	if (!static_cpu_has(X86_FEATURE_SELFSNOOP))
+ 		kvm_caps.supported_quirks &= ~KVM_X86_QUIRK_IGNORE_GUEST_PAT;
+-       kvm_caps.inapplicable_quirks &= ~KVM_X86_QUIRK_IGNORE_GUEST_PAT;
++
++	kvm_caps.inapplicable_quirks &= ~KVM_X86_QUIRK_IGNORE_GUEST_PAT;
++
+ 	return r;
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.50.1
+
