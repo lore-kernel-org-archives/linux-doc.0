@@ -1,259 +1,254 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D59824678A;
-	Wed, 23 Jul 2025 17:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370D41EE03B
+	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 18:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753293286; cv=none; b=LKVv3yaPcmy5uqvBJoyhZkyn9OoT8q8IEroUtSi8YewrDwsM/RGjnFxrP0o59G99NJ7fFjHort42JRBGCVtO8KZIxXoLk/OkG+wCtt0X00qrGdJIkkIcnnNgMRpgICCq9m5GWPrvSG8wuDcZ9KF9DImTXDXGSe0WUoDhhbsYWCk=
+	t=1753293781; cv=none; b=ZTHQv64+FGLkM7drOaC/RxuE9hxOSRYdUX2gd/fkKMdXLuzr66D3aPQr0DPP2Qbe6eaJ82alsz7M/UFSiyX3fB26cciAxytvSm+6IDEXiYl8PUju8hj91Wf3TQ3Rn+5L8mdmp049TlPmchqH1VycvMZFG97QdRAiY2QkmSP0lrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753293286; c=relaxed/simple;
-	bh=uMyIVw+5368zTKeJRFejCWyZyyjVWbPoVGfe3KqQ1a0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MV2SYivi65h5kUaegLymoHSAn+QnKgvztQ0xDkBdVHF6YpkHvUqvSKmqPoaXfrks3k708ePK8zL1+ScNhCg+gggk+iUrHCIbj4u3bD48QRjVCrrYi+8Kuju80It2peL4XzorZRNBuLuGQYoQXjrY7v+eFh7ED3Lv58UlsXmO3s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=uAQwAjz+; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1753293781; c=relaxed/simple;
+	bh=2iebzDMl31aYqICEJCQtJeRntCkcwu/khnNK/tJyxxo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f3zMJNNGUA078GE3PTxJQB2j3EdvWYSkDebFkjj0dwP18gl9lDWRK8IrNCq3/2Zne/eCIjldz4MzAXeT636yvH5+4WzvJWTI20pVc55yWRu6BXB16sGTISmWc94AlgR0lXdSEjnh2wFGOqXoLnlZKCUgPpxevnrnvTtUb8xyW1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PI4uJKob; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="uAQwAjz+"
-Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 56NHrf031284522
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Wed, 23 Jul 2025 10:53:57 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 56NHrf031284522
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025072201; t=1753293238;
-	bh=SMEiDwsRemHvExam1VO7iukkYCbw+RANEnDjg4dYLI0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uAQwAjz+wge4/BWnySbeKxZgmkGxYhO4snB+sTNyW4qteobWTvuI9/o2rSGNq85kU
-	 X+apihuLJmJHVukwXaLP9a2z/wuhQoiVvzj8MqiBdywSLgm9I2Ltz06QqX+dG8xFUi
-	 q+oFCh0ztdmXFqiMUdefNZRZ9MOKen+bRdgw7NGRHRiGrUbWNTdAgdk5aSNsnOMlpH
-	 oS/wdTw2PbWkStyDp/txiVTmeCznrPBtdZGopBBuxhnAU4Rk4J/mlo4jha5MF3MlOz
-	 yHMM9VOEIo47HoCfH/w6Dp9JIrzF/PYBQwV42PGdJfz0hEVHeCpKqaEe8XiSTMcAF1
-	 gIPBQ0Gs4/uyA==
-From: "Xin Li (Intel)" <xin@zytor.com>
-To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, xin@zytor.com, luto@kernel.org,
-        peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
-        hch@infradead.org
-Subject: [PATCH v5 13/23] KVM: VMX: Virtualize FRED nested exception tracking
-Date: Wed, 23 Jul 2025 10:53:31 -0700
-Message-ID: <20250723175341.1284463-14-xin@zytor.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250723175341.1284463-1-xin@zytor.com>
-References: <20250723175341.1284463-1-xin@zytor.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PI4uJKob"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1753293779;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=G3whOxkstbMxt2nhGLk1bQZXFsEZXlxQlt2XWZxhuog=;
+	b=PI4uJKobDM8mGXiDPr+5RqREWz7fXvaXA1eYPH+DO+N5v2DEnjAsYOuS3AWiWS1L+SYpyc
+	0PEa9cHFUgRazPkGw3mps+9TKHVflMWWpVBylQv5HX7ds1VDuXlHZXlRTxC2tFS+2DnuBw
+	EyuXAtq+wmACbOtWqn5ggweecnCCUdg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-668-Z9cJQ8XAPRqSRt8XucdKJg-1; Wed, 23 Jul 2025 14:02:56 -0400
+X-MC-Unique: Z9cJQ8XAPRqSRt8XucdKJg-1
+X-Mimecast-MFC-AGG-ID: Z9cJQ8XAPRqSRt8XucdKJg_1753293776
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4561611dc2aso820325e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 11:02:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753293776; x=1753898576;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=G3whOxkstbMxt2nhGLk1bQZXFsEZXlxQlt2XWZxhuog=;
+        b=r6a4Pj2KLQO0wOHGHK/sDu+ALq3No0BF0TBdJWKb2Xxg7OFZ9dJ0ilN49bS4cItwVF
+         L5OJ+Hz8Mr/slIru1Do8PCCqa9bf3CWg6pKtguAflCwF/56TJzrNb6PSvxx0WmbGDbQ+
+         FhEeGLRQ2FYOapNOgwBkX4CfVCOlsVBwFcxkgqHL/ntFh/HR37cYa0b1Y3ZbI+uoWhZF
+         5xmXxKlLUgGOGMfE6o+iFNsxn/m/D1d3KZWOLxGPIkGANSA0TfTP/c4BqsP8kwibLESN
+         Hla7/pcTj68EAniDmZJM3MxxhRapkjgBP1jbVCjuSDIFJK7Nq1exqx5YjjgkD2sVFb8M
+         nVkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXdP7EBV3dTrwUeyoydgNXNznacldCL9oiafsuLuVWOYAJ5rlLuYPutCinaZKQIpJcqGuEkmb4hl4Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwqbfabjN6DRlc7LkoTViYvU5AYQIYFloUNneoJpXgkXIpk4WZ
+	Wv6bxKyVxPkbrpqyRa3w9aHYyByt+IEJSrLg/QHagTdxXmsZyy8WsbUwxpFx/KTJaeYsCsrPbxO
+	5S9D7+aEJC/rNuZWgzoJt3HysQ3HzCI+MspCDNt4N2e+HfWYGJ8l6/Ufs3wDgGQ==
+X-Gm-Gg: ASbGncvUnaTvCZUWjlRt0AuxnAguSPKryVKXUHsBltQ8u+G72L9tEVVBr2MFeoNL3QO
+	uQ7PFMeaMRH4bDmJzFIkpl68BdAPd73fRwfmp+v8EBZGvDbiRYSqAxNhQP1kOr7+hywsEprkXU3
+	uNEV7lGqU0XXub4U6uCVGX6FEiZ7XfHqejz0wVBsLG9YCn6/wcQ2EfQZydEQHh5R85wjFg5Jx/i
+	avA57jVRt7kUKerm3i8sJQorCYKGdBmMOviVjwtoCr1NOx0FUWykGZKHISHN6E20n1gRt4J/NAF
+	3qCgf4Ju7e46H5wEi0A0wbh4NQDtlMwLw8+NQfAL0AhnTCkwqby/OVu3Xa/howdF5mSMqA==
+X-Received: by 2002:a05:6000:2013:b0:3b6:936:976c with SMTP id ffacd0b85a97d-3b768ea011bmr3550355f8f.17.1753293775528;
+        Wed, 23 Jul 2025 11:02:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGEZg16J4+gnyGIzNr4yWSx/6st9lfF2anNLh6lxP/xRh+IjVjl07vljj/vUaQGCZ849yfF1A==
+X-Received: by 2002:a05:6000:2013:b0:3b6:936:976c with SMTP id ffacd0b85a97d-3b768ea011bmr3550304f8f.17.1753293774863;
+        Wed, 23 Jul 2025 11:02:54 -0700 (PDT)
+Received: from [192.168.3.141] (p57a1af43.dip0.t-ipconnect.de. [87.161.175.67])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458691b2adesm29652445e9.32.2025.07.23.11.02.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jul 2025 11:02:54 -0700 (PDT)
+Message-ID: <383a957e-badb-49fc-9913-30bea3a1c5a8@redhat.com>
+Date: Wed, 23 Jul 2025 20:02:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH POC] prctl: extend PR_SET_THP_DISABLE to optionally
+ exclude VM_HUGEPAGE
+To: Usama Arif <usamaarif642@gmail.com>, linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, SeongJae Park <sj@kernel.org>,
+ Jann Horn <jannh@google.com>, Yafang Shao <laoar.shao@gmail.com>,
+ Matthew Wilcox <willy@infradead.org>
+References: <20250721090942.274650-1-david@redhat.com>
+ <4a8b70b1-7ba0-4d60-a3a0-04ac896a672d@gmail.com>
+ <5968efc3-50ac-465a-a51b-df91fc1a930a@redhat.com>
+ <003c12a7-cb3b-4bbd-86ac-4caaddcabf26@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ g3eXuA==
+Organization: Red Hat
+In-Reply-To: <003c12a7-cb3b-4bbd-86ac-4caaddcabf26@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Xin Li <xin3.li@intel.com>
+On 23.07.25 19:07, Usama Arif wrote:
+>>> Thanks for the patch David!
+>>>
+>>> As discussed in the other thread, with the below diff
+>>>
+>>> diff --git a/kernel/sys.c b/kernel/sys.c
+>>> index 2a34b2f70890..3912f5b6a02d 100644
+>>> --- a/kernel/sys.c
+>>> +++ b/kernel/sys.c
+>>> @@ -2447,7 +2447,7 @@ static int prctl_set_thp_disable(unsigned long thp_disable, unsigned long flags,
+>>>                   return -EINVAL;
+>>>             /* Flags are only allowed when disabling. */
+>>> -       if (!thp_disable || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
+>>> +       if ((!thp_disable && flags) || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
+>>>                   return -EINVAL;
+>>>           if (mmap_write_lock_killable(current->mm))
+>>>                   return -EINTR;
+>>>
+>>>
+>>> I tested with the below selftest, and it works. It hopefully covers
+>>> majority of the cases including fork and re-enabling THPs.
+>>> Let me know if it looks ok and please feel free to add this in the
+>>> next revision you send.
+>>>
+>>>
+>>> Once the above diff is included, please feel free to add
+>>>
+>>> Acked-by: Usama Arif <usamaarif642@gmail.com>
+>>> Tested-by: Usama Arif <usamaarif642@gmail.com>
+>>
+>> Thanks!
+>>
+>> The latest version lives at
+>>
+>>    https://github.com/davidhildenbrand/linux/tree/PR_SET_THP_DISABLE
+>>
+>> With all current review feedback addressed (primarily around description+comments) + that one fix.
+>>
+>>
+> 
+> Hi David,
+> 
+> Just wanted to check if the above branch is up to date?
+> 
 
-Set the VMX nested exception bit in VM-entry interruption information
-field when injecting a nested exception using FRED event delivery to
-ensure:
-  1) A nested exception is injected on a correct stack level.
-  2) The nested bit defined in FRED stack frame is set.
+No, I forgot to push. Now pushed.
 
-The event stack level used by FRED event delivery depends on whether
-the event was a nested exception encountered during delivery of an
-earlier event, because a nested exception is "regarded" as happening
-on ring 0.  E.g., when #PF is configured to use stack level 1 in
-IA32_FRED_STKLVLS MSR:
-  - nested #PF will be delivered on the stack pointed by IA32_FRED_RSP1
-    MSR when encountered in ring 3 and ring 0.
-  - normal #PF will be delivered on the stack pointed by IA32_FRED_RSP0
-    MSR when encountered in ring 3.
+This is the diff (excluding description changes):
 
-The VMX nested-exception support ensures a correct event stack level is
-chosen when a VM entry injects a nested exception.
+diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+index c4127104d9bc3..527aa4c9645fd 100644
+--- a/include/linux/huge_mm.h
++++ b/include/linux/huge_mm.h
+@@ -324,8 +324,8 @@ struct thpsize {
+          (1<<TRANSPARENT_HUGEPAGE_USE_ZERO_PAGE_FLAG))
+  
+  /*
+- * Check whether THPs are explicitly disabled through madvise or prctl, or some
+- * architectures may disable THP for some mappings, for example, s390 kvm.
++ * Check whether THPs are explicitly disabled for this VMA, for example,
++ * through madvise or prctl.
+   */
+  static inline bool vma_thp_disabled(struct vm_area_struct *vma,
+                 vm_flags_t vm_flags)
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 1949bb9270d48..60e496ecabe04 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -179,8 +179,8 @@ struct prctl_mm_map {
+  
+  /*
+   * Flags for PR_SET_THP_DISABLE are only applicable when disabling. Bit 0
+- * is reserved, so PR_GET_THP_DISABLE can return 1 when no other flags were
+- * specified for PR_SET_THP_DISABLE.
++ * is reserved, so PR_GET_THP_DISABLE can return "1 | flags", to effectively
++ * return "1" when no flags were specified for PR_SET_THP_DISABLE.
+   */
+  #define PR_SET_THP_DISABLE     41
+  /* Don't disable THPs when explicitly advised (MADV_HUGEPAGE / VM_HUGEPAGE). */
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 2a34b2f708900..b87d0acaab0be 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -2438,7 +2438,7 @@ static int prctl_get_thp_disable(unsigned long arg2, unsigned long arg3,
+         return 0;
+  }
+  
+-static int prctl_set_thp_disable(unsigned long thp_disable, unsigned long flags,
++static int prctl_set_thp_disable(bool thp_disable, unsigned long flags,
+                                  unsigned long arg4, unsigned long arg5)
+  {
+         unsigned long *mm_flags = &current->mm->flags;
+@@ -2447,7 +2447,7 @@ static int prctl_set_thp_disable(unsigned long thp_disable, unsigned long flags,
+                 return -EINVAL;
+  
+         /* Flags are only allowed when disabling. */
+-       if (!thp_disable || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
++       if ((!thp_disable && flags) || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
+                 return -EINVAL;
+         if (mmap_write_lock_killable(current->mm))
+                 return -EINTR;
 
-Signed-off-by: Xin Li <xin3.li@intel.com>
-[ Sean: reworked kvm_requeue_exception() to simply the code changes ]
-Signed-off-by: Sean Christopherson <seanjc@google.com>
-Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-Tested-by: Shan Kang <shan.kang@intel.com>
-Tested-by: Xuelian Guo <xuelian.guo@intel.com>
----
 
-Change in v5:
-* Add TB from Xuelian Guo.
-
-Change in v4:
-* Move the check is_fred_enable() from kvm_multiple_exception() to
-  vmx_inject_exception() thus avoid bleeding FRED details into
-  kvm_multiple_exception() (Chao Gao).
-
-Change in v3:
-* Rework kvm_requeue_exception() to simply the code changes (Sean
-  Christopherson).
-
-Change in v2:
-* Set the nested flag when there is an original interrupt (Chao Gao).
----
- arch/x86/include/asm/kvm_host.h |  4 +++-
- arch/x86/include/asm/vmx.h      |  5 ++++-
- arch/x86/kvm/svm/svm.c          |  2 +-
- arch/x86/kvm/vmx/vmx.c          |  6 +++++-
- arch/x86/kvm/x86.c              | 13 ++++++++++++-
- arch/x86/kvm/x86.h              |  1 +
- 6 files changed, 26 insertions(+), 5 deletions(-)
-
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 0509b015513c..04fa24ed1594 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -756,6 +756,7 @@ struct kvm_queued_exception {
- 	u32 error_code;
- 	unsigned long payload;
- 	bool has_payload;
-+	bool nested;
- 	u64 event_data;
- };
- 
-@@ -2201,7 +2202,8 @@ void kvm_queue_exception(struct kvm_vcpu *vcpu, unsigned nr);
- void kvm_queue_exception_e(struct kvm_vcpu *vcpu, unsigned nr, u32 error_code);
- void kvm_queue_exception_p(struct kvm_vcpu *vcpu, unsigned nr, unsigned long payload);
- void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned int nr,
--			   bool has_error_code, u32 error_code, u64 event_data);
-+			   bool has_error_code, u32 error_code, bool nested,
-+			   u64 event_data);
- void kvm_inject_page_fault(struct kvm_vcpu *vcpu, struct x86_exception *fault);
- void kvm_inject_emulated_page_fault(struct kvm_vcpu *vcpu,
- 				    struct x86_exception *fault);
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index cf697b7c5d34..15e04a486dd8 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -137,6 +137,7 @@
- #define VMX_BASIC_DUAL_MONITOR_TREATMENT	BIT_ULL(49)
- #define VMX_BASIC_INOUT				BIT_ULL(54)
- #define VMX_BASIC_TRUE_CTLS			BIT_ULL(55)
-+#define VMX_BASIC_NESTED_EXCEPTION		BIT_ULL(58)
- 
- static inline u32 vmx_basic_vmcs_revision_id(u64 vmx_basic)
- {
-@@ -433,13 +434,15 @@ enum vmcs_field {
- #define INTR_INFO_INTR_TYPE_MASK        0x700           /* 10:8 */
- #define INTR_INFO_DELIVER_CODE_MASK     0x800           /* 11 */
- #define INTR_INFO_UNBLOCK_NMI		0x1000		/* 12 */
-+#define INTR_INFO_NESTED_EXCEPTION_MASK	0x2000		/* 13 */
- #define INTR_INFO_VALID_MASK            0x80000000      /* 31 */
--#define INTR_INFO_RESVD_BITS_MASK       0x7ffff000
-+#define INTR_INFO_RESVD_BITS_MASK       0x7fffd000
- 
- #define VECTORING_INFO_VECTOR_MASK           	INTR_INFO_VECTOR_MASK
- #define VECTORING_INFO_TYPE_MASK        	INTR_INFO_INTR_TYPE_MASK
- #define VECTORING_INFO_DELIVER_CODE_MASK    	INTR_INFO_DELIVER_CODE_MASK
- #define VECTORING_INFO_VALID_MASK       	INTR_INFO_VALID_MASK
-+#define VECTORING_INFO_NESTED_EXCEPTION_MASK	INTR_INFO_NESTED_EXCEPTION_MASK
- 
- #define INTR_TYPE_EXT_INTR		(EVENT_TYPE_EXTINT << 8)	/* external interrupt */
- #define INTR_TYPE_RESERVED		(EVENT_TYPE_RESERVED << 8)	/* reserved */
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 932a6525c014..4490be40a7ee 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -4144,7 +4144,7 @@ static void svm_complete_interrupts(struct kvm_vcpu *vcpu)
- 
- 		kvm_requeue_exception(vcpu, vector,
- 				      exitintinfo & SVM_EXITINTINFO_VALID_ERR,
--				      error_code, 0);
-+				      error_code, false, 0);
- 		break;
- 	}
- 	case SVM_EXITINTINFO_TYPE_INTR:
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 15fb205f2e73..0ca01980295e 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -1857,8 +1857,11 @@ void vmx_inject_exception(struct kvm_vcpu *vcpu)
- 		vmcs_write32(VM_ENTRY_INSTRUCTION_LEN,
- 			     vmx->vcpu.arch.event_exit_inst_len);
- 		intr_info |= INTR_TYPE_SOFT_EXCEPTION;
--	} else
-+	} else {
- 		intr_info |= INTR_TYPE_HARD_EXCEPTION;
-+		if (ex->nested && is_fred_enabled(vcpu))
-+			intr_info |= INTR_INFO_NESTED_EXCEPTION_MASK;
-+	}
- 
- 	vmcs_write32(VM_ENTRY_INTR_INFO_FIELD, intr_info);
- 
-@@ -7215,6 +7218,7 @@ static void __vmx_complete_interrupts(struct kvm_vcpu *vcpu,
- 		kvm_requeue_exception(vcpu, vector,
- 				      idt_vectoring_info & VECTORING_INFO_DELIVER_CODE_MASK,
- 				      error_code,
-+				      idt_vectoring_info & VECTORING_INFO_NESTED_EXCEPTION_MASK,
- 				      event_data);
- 		break;
- 	}
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 0ba907d8071b..1632ece82a85 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -860,6 +860,10 @@ static void kvm_multiple_exception(struct kvm_vcpu *vcpu, unsigned int nr,
- 		vcpu->arch.exception.pending = true;
- 		vcpu->arch.exception.injected = false;
- 
-+		vcpu->arch.exception.nested = vcpu->arch.exception.nested ||
-+					      vcpu->arch.nmi_injected ||
-+					      vcpu->arch.interrupt.injected;
-+
- 		vcpu->arch.exception.has_error_code = has_error;
- 		vcpu->arch.exception.vector = nr;
- 		vcpu->arch.exception.error_code = error_code;
-@@ -889,8 +893,13 @@ static void kvm_multiple_exception(struct kvm_vcpu *vcpu, unsigned int nr,
- 		vcpu->arch.exception.injected = false;
- 		vcpu->arch.exception.pending = false;
- 
-+		/* #DF is NOT a nested event, per its definition. */
-+		vcpu->arch.exception.nested = false;
-+
- 		kvm_queue_exception_e(vcpu, DF_VECTOR, 0);
- 	} else {
-+		vcpu->arch.exception.nested = true;
-+
- 		/* replace previous exception with a new one in a hope
- 		   that instruction re-execution will regenerate lost
- 		   exception */
-@@ -919,7 +928,8 @@ static void kvm_queue_exception_e_p(struct kvm_vcpu *vcpu, unsigned nr,
- }
- 
- void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned int nr,
--			   bool has_error_code, u32 error_code, u64 event_data)
-+			   bool has_error_code, u32 error_code, bool nested,
-+			   u64 event_data)
- {
- 
- 	/*
-@@ -944,6 +954,7 @@ void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned int nr,
- 	vcpu->arch.exception.error_code = error_code;
- 	vcpu->arch.exception.has_payload = false;
- 	vcpu->arch.exception.payload = 0;
-+	vcpu->arch.exception.nested = nested;
- 	vcpu->arch.exception.event_data = event_data;
- }
- EXPORT_SYMBOL_GPL(kvm_requeue_exception);
-diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
-index b0017a0f75fa..a573f6079ba7 100644
---- a/arch/x86/kvm/x86.h
-+++ b/arch/x86/kvm/x86.h
-@@ -187,6 +187,7 @@ static inline void kvm_clear_exception_queue(struct kvm_vcpu *vcpu)
- {
- 	vcpu->arch.exception.pending = false;
- 	vcpu->arch.exception.injected = false;
-+	vcpu->arch.exception.nested = false;
- 	vcpu->arch.exception_vmexit.pending = false;
- }
- 
 -- 
-2.50.1
+Cheers,
+
+David / dhildenb
 
