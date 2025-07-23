@@ -1,34 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A6726C3BD;
-	Wed, 23 Jul 2025 12:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EDF2E62B2;
+	Wed, 23 Jul 2025 13:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753274324; cv=none; b=Obnm97g/iohfRe3FxRJPb1L/07l5hKGV1Zwa80ejxshfgF/+wdbcwxLF2a2VCmBdl7Fo6BEIiiPoHkuSZQAmBlsWjsswqkMQfU1xCpwz4TdGpbZppg/pOBY1GmlvvIkBucikl2u6orUWjuJOkgqAB+pqBAMQPJf/RaeLFcLQL/c=
+	t=1753276148; cv=none; b=EBGSWn1QQoXlQBQ++I43bZ88iXFrqUB6zQysUGF+qZAHFIZaiFvREDB3uqqvsor/BTfoCD8vLGgb3eAcjw2gMyWM+ChcJzoYfugfHNxFpvf02v5lcv9sWnKRu6ozYB4v3sumEhMa0gv55u1pA+7fUiBfc8y5HTDrcw8QCn6+eq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753274324; c=relaxed/simple;
-	bh=OrTb+KcHqT4ajdsH1ypK8FaKVkgJa8ksvVRgB8HRm9Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fQ91SoOF2r1pSRvvvAtLAL/P62/WNObPc9h0ZAqAJiYLo59ioqaf3EOl6Fm4gWP6iIq9rIJcmX75yZ1DCCz2c81fC/P7GDgDOubJA/9M8BvzXpSTSnuOLZrc79xm393s3QLQbEBSMy16cZSwih6kDUl4pIpz2K8TcXgS/Ar9qlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDhmv4d0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753276148; c=relaxed/simple;
+	bh=zHL0/JrntZk6f9z9OaKUCRl5Ve/+xb8bifr4gesVLAc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=b3390LaKlP+uONuX+AlOIPzXLLAVyeuEHMOPsHP1jOQYbRINUrOHp0rHx6831sDFXvACLoQEbBNZeK7O1zZ2ppMGvtv9+92J4bGR+O+OHkSHY6plG0IFKmygZot32whjOi6FguKXRhrGL1Tc+JE4w9XToHDgYmJGZ6OJDNTD1lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=RH6qh2wH; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDhmv4d0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D940C4CEE7;
-	Wed, 23 Jul 2025 12:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753274322;
-	bh=OrTb+KcHqT4ajdsH1ypK8FaKVkgJa8ksvVRgB8HRm9Q=;
-	h=From:Date:Subject:To:Cc:From;
-	b=RDhmv4d0mUWTFu/k6l+UgHLvejZEHBBcCvuOIo8nKodYeCvy+R8vxIiOVsm1q5JOQ
-	 UsrRTEdNNtnDr9n1eqkSUf95LHjki0r7NChsEJc37EiZPy3FZaXpOp1USxa78ZVWv0
-	 tuyMocSaFBl7WcHl3c/07K9XCpnUq66Esftj/19hyYg68nLgz5Xp9QwZMsSCjS1E0N
-	 5x0RUI3Igu7319Us20lfGHASKXT91o9pSK2yUANHXbKAU3KGRHreHXiuXbYKbbU2WU
-	 ErW0ksZ+wacNF9oO4SiESQeC7UcafWUVHrfIo/8BWzh4d9dAcYVlXHWEwqxu05EHoB
-	 QBF5TpoFQ+Wog==
-From: Mark Brown <broonie@kernel.org>
-Date: Wed, 23 Jul 2025 13:27:45 +0100
-Subject: [PATCH] arm64/sme: Drop inaccurate documentation of streaming mode
- switches
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="RH6qh2wH"
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56NCZlrm001242;
+	Wed, 23 Jul 2025 15:08:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	c84xGmzk0WDtYO8pxiXJLl1Oz2OVFtl3JU/pJXFAfdc=; b=RH6qh2wHcTQYNBC8
+	CAycCaMn2NUvSRfSnkiB2ortckzk3VhwRZw9n01Tll8fh7adNrQKUAEywm5mA4Zd
+	1y7IXxbrMwXq0IeHjlAQmyG/rP/eVLcsUaGiW7ep2J5zIveSGKX5qfMZZVIJuE7Y
+	JYrw7R5vj+3sxx9I3JGGlm5X2MnvBe9cUOxkatD7CtgAO80oC3/zsZDpLHB1cDYD
+	N8ZusBFym0S/t09GpROOK4aSKykKGW6q5OTEfsPNVXSiuK/M3zrnmZRlLVJ7TMEp
+	JleNHc6aoz5BJN3na+8KvnFMndi9G+xTkFuYd3bZbv50dg1kHcTgj6qkqLPfurav
+	oU1Gog==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4800sm4jtw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Jul 2025 15:08:46 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4312340044;
+	Wed, 23 Jul 2025 15:07:26 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 394CA799877;
+	Wed, 23 Jul 2025 15:06:05 +0200 (CEST)
+Received: from localhost (10.48.86.185) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 23 Jul
+ 2025 15:06:04 +0200
+From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+Date: Wed, 23 Jul 2025 15:05:47 +0200
+Subject: [PATCH v4 03/20] clk: stm32mp25: add firewall grant_access ops
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -36,81 +53,135 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250723-arm64-sme-mode-switch-doc-v1-1-702bb484b4f4@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAEDVgGgC/x3MQQ6CMBBG4auQWTMJTIsar0JcYPsjsyg1HaMmh
- LvTsPwW721kKAqje7NRwVdN81rRtw2FZVpfYI3VJJ0M3VWEp5Iuni2BU45g++knLBxz4Bt6J97
- 5p0ek2r8LZv2f7/Gx7wfH5ah4awAAAA==
-X-Change-ID: 20250722-arm64-sme-mode-switch-doc-8e132434b4ed
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Mark Rutland <mark.rutland@arm.com>, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-cff91
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1936; i=broonie@kernel.org;
- h=from:subject:message-id; bh=OrTb+KcHqT4ajdsH1ypK8FaKVkgJa8ksvVRgB8HRm9Q=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBogNfQPuSRx5nolzVnWzO3f5C+iSWPt1ou4zVoV
- QuR7n/k3ZGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaIDX0AAKCRAk1otyXVSH
- 0MvbB/oDMKFjJJgkmKz5aDIP9D9olw3VGOkisOZtq2L19yAa9LIBaPWqfS+u9NiffrlmpSi2adO
- Ome5zhPsryc5XH/0b+eDJIcu/BaqhePrwNg2u0IlIwjm4Wn3YrtR3cN+HjuobeHawVeLM48T5jS
- J2GPCXLn2yG81L7/hWfPqXfIqyEqUTYq6EmojjpfL9OKelTZi9MDwI2Bil9NC1I/WwQ+3vOXXho
- wajoW9rC37ZFRdXv0bzPkeZ01YcPaqUH1gaJAt9yMwhHkeHnil5+omwXdskK809wqSe2SypOlzh
- YyUqU4VVrdPAXYbic0RXO4NhuMJ7tIPmfvqvq3NNQtAhZnT7
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
+Message-ID: <20250723-ddrperfm-upstream-v4-3-1aa53ca319f4@foss.st.com>
+References: <20250723-ddrperfm-upstream-v4-0-1aa53ca319f4@foss.st.com>
+In-Reply-To: <20250723-ddrperfm-upstream-v4-0-1aa53ca319f4@foss.st.com>
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Gabriel Fernandez
+	<gabriel.fernandez@foss.st.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Le
+ Goffic <legoffic.clement@gmail.com>,
+        Julius Werner <jwerner@chromium.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-perf-users@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>,
+        =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+X-Mailer: b4 0.15-dev-8018a
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-23_02,2025-07-22_01,2025-03-28_01
 
-The SME ABI documentation contains an inaccurate description of the
-architectural streaming mode entry/exit behaviour, just remove it since
-this is better documented by the architecture or with the rest of the
-documentation for the specific software interfaces concerned.
+On STM32MP25, the RCC peripheral manages the secure level of resources
+that are used by other devices such as clocks.
+Declare this peripheral as a firewall controller.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
 ---
-The rest of the documentation needs more thorough review, but it seems
-wise to remove the incorrect statement to avoid confusion.
----
- Documentation/arch/arm64/sme.rst | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ drivers/clk/stm32/clk-stm32mp25.c | 40 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/arch/arm64/sme.rst b/Documentation/arch/arm64/sme.rst
-index 4cb38330e704..583f2ee9cb97 100644
---- a/Documentation/arch/arm64/sme.rst
-+++ b/Documentation/arch/arm64/sme.rst
-@@ -81,17 +81,7 @@ The ZA matrix is square with each side having as many bytes as a streaming
- mode SVE vector.
+diff --git a/drivers/clk/stm32/clk-stm32mp25.c b/drivers/clk/stm32/clk-stm32mp25.c
+index 52f0e8a12926..af4bc06d703a 100644
+--- a/drivers/clk/stm32/clk-stm32mp25.c
++++ b/drivers/clk/stm32/clk-stm32mp25.c
+@@ -4,8 +4,10 @@
+  * Author: Gabriel Fernandez <gabriel.fernandez@foss.st.com> for STMicroelectronics.
+  */
  
++#include <linux/bus/stm32_firewall.h>
+ #include <linux/bus/stm32_firewall_device.h>
+ #include <linux/clk-provider.h>
++#include <linux/device.h>
+ #include <linux/io.h>
+ #include <linux/platform_device.h>
  
--3.  Sharing of streaming and non-streaming mode SVE state
-----------------------------------------------------------
--
--It is implementation defined which if any parts of the SVE state are shared
--between streaming and non-streaming modes.  When switching between modes
--via software interfaces such as ptrace if no register content is provided as
--part of switching no state will be assumed to be shared and everything will
--be zeroed.
--
--
--4.  System call behaviour
-+3.  System call behaviour
- -------------------------
+@@ -1602,6 +1604,11 @@ static int stm32_rcc_get_access(void __iomem *base, u32 index)
+ 	return 0;
+ }
  
- * On syscall PSTATE.ZA is preserved, if PSTATE.ZA==1 then the contents of the
-@@ -112,7 +102,7 @@ be zeroed.
-   exceptions for execve() described in section 6.
++static int stm32mp25_rcc_grant_access(struct stm32_firewall_controller *ctrl, u32 firewall_id)
++{
++	return stm32_rcc_get_access(ctrl->mmio, firewall_id);
++}
++
+ static int stm32mp25_check_security(struct device_node *np, void __iomem *base,
+ 				    const struct clock_config *cfg)
+ {
+@@ -1970,6 +1977,7 @@ MODULE_DEVICE_TABLE(of, stm32mp25_match_data);
  
+ static int stm32mp25_rcc_clocks_probe(struct platform_device *pdev)
+ {
++	struct stm32_firewall_controller *rcc_controller;
+ 	struct device *dev = &pdev->dev;
+ 	void __iomem *base;
+ 	int ret;
+@@ -1982,7 +1990,36 @@ static int stm32mp25_rcc_clocks_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
  
--5.  Signal handling
-+4.  Signal handling
- -------------------
+-	return stm32_rcc_init(dev, stm32mp25_match_data, base);
++	ret = stm32_rcc_init(dev, stm32mp25_match_data, base);
++	if (ret)
++		return ret;
++
++	rcc_controller = devm_kzalloc(&pdev->dev, sizeof(*rcc_controller), GFP_KERNEL);
++	if (!rcc_controller)
++		return -ENOMEM;
++
++	rcc_controller->dev = dev;
++	rcc_controller->mmio = base;
++	rcc_controller->name = dev_driver_string(dev);
++	rcc_controller->type = STM32_PERIPHERAL_FIREWALL;
++	rcc_controller->grant_access = stm32mp25_rcc_grant_access;
++
++	platform_set_drvdata(pdev, rcc_controller);
++
++	ret = stm32_firewall_controller_register(rcc_controller);
++	if (ret) {
++		dev_err(dev, "Couldn't register as a firewall controller: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void stm32mp25_rcc_clocks_remove(struct platform_device *pdev)
++{
++	struct stm32_firewall_controller *rcc_controller = platform_get_drvdata(pdev);
++
++	stm32_firewall_controller_unregister(rcc_controller);
+ }
  
- * Signal handlers are invoked with PSTATE.SM=0, PSTATE.ZA=0, and TPIDR2_EL0=0.
+ static struct platform_driver stm32mp25_rcc_clocks_driver = {
+@@ -1991,6 +2028,7 @@ static struct platform_driver stm32mp25_rcc_clocks_driver = {
+ 		.of_match_table = stm32mp25_match_data,
+ 	},
+ 	.probe = stm32mp25_rcc_clocks_probe,
++	.remove = stm32mp25_rcc_clocks_remove,
+ };
+ 
+ static int __init stm32mp25_clocks_init(void)
 
----
-base-commit: 86731a2a651e58953fc949573895f2fa6d456841
-change-id: 20250722-arm64-sme-mode-switch-doc-8e132434b4ed
-
-Best regards,
---  
-Mark Brown <broonie@kernel.org>
+-- 
+2.43.0
 
