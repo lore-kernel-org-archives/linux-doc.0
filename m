@@ -1,79 +1,129 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333F3290D81;
-	Wed, 23 Jul 2025 10:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD69290D81;
+	Wed, 23 Jul 2025 10:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753266538; cv=none; b=ArvAoLAD8kb4ECbWugef8ig4XSpwvudDfL2KOnrEimHdhXXxDYNK+ZBi0N+sjYzCgm4s6/QISmCM3JiSPTq74u8sx8/fx2V0zhA664auHRn9VluEYsVAEK/RUuUqURiZvQtm59H//5VczOyHJ1FrLQ0TtoTfNlwwsdyM+7mKfzs=
+	t=1753266549; cv=none; b=BgiCdFNWR6HRqGTeB88K/V3nnhNk9Hgp39mCk8tij79mNIGkrnESfFaos81ObPOdcov6vSX9DJmoT1yUlMHDyhyry6WC9WphACTmH9V/atEWNMebKVx+bH8RlicMpgDyOr59RZW5ZziFO41vLWDiO0TQe6ecuz75kFRxmdFn8PE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753266538; c=relaxed/simple;
-	bh=bFxpcfU5uznN6hBkGOvTdOd9t5GcXUXbQ0Fq8JKd3rw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RZexs9S4ENpUtfjEeoTM127Vivdz+erXdqZ8PxwhvOR8Z7KMFtnDm3BMiJhxcumvQ0OmC+kjSiEM+gzXmmxncXc/OfWGwsl3+lKvQ/QXoB0K/ri0o31R6MZPPC+e54B8BCAySau+Ixji3HkHMZEAjUgLGL9pGVRs+tpWXs5ncQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=F2syURHU; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="F2syURHU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1753266534;
-	bh=bFxpcfU5uznN6hBkGOvTdOd9t5GcXUXbQ0Fq8JKd3rw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=F2syURHUji8VIMGZ4fUb0zflEGa0I+pH88nIJmlmqdApawKY1+e/e09Nwl91oJM4B
-	 SYDAWVsLFEWOm7MdDIi2zMelcVnOTFXhwJLxIXmYvbb37ZCd3sc9EtZi5wjGfGtxHt
-	 HP0Ext5nb6X/gkAcvVxqjc0d0e/vfyVcORy6l6gQZxsuuZgWBHBlXyLxOq+E0vBS92
-	 1oXFXR3O1Cb4hpT2MDva4+TIYAOZyGtImOy7Sf1UsELQlaLjVGw3ceiCQOUa12YYgl
-	 s2UmW8ay6n9JrID1VeLAyujB7LXABnnoWFWxaJG1bdDQswJg6Bpigpcz5appDDJOLt
-	 /gko7pHX8H0Nw==
-Received: from debian.. (unknown [171.76.86.144])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: vignesh)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9C6B917E0C96;
-	Wed, 23 Jul 2025 12:28:52 +0200 (CEST)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: linux-doc@vger.kernel.org
-Cc: akinobu.mita@gmail.com,
-	corbet@lwn.net,
-	laura.nao@collabora.com,
-	arnaud.ferraris@collabora.com,
-	vignesh.raman@collabora.com,
+	s=arc-20240116; t=1753266549; c=relaxed/simple;
+	bh=Y2hBbsRsSjb0//xxcUnnqm+dx2pboI7dZeXSdkFfqjE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WtNlPBMuUszlWn62n34jaevC9OvQYwqcaVF6K2y76vPk9s2XhVd7UDoWEx9/uwCNsfK21L96brNmhnfsDhz179WTM4PAg5c0rP0ydujIIuhHCVATJzwd310FLBIgUSuk5kDcop9ejHcWpx9hX91/i8eGncM7FggqANrC+kGx8cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=52.59.177.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpgz11t1753266484t705774a7
+X-QQ-Originating-IP: 5vaOYJs96fmAx4dCayhfdSYZKhupt7js6Gtv9Q2cBvI=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 23 Jul 2025 18:28:02 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 14126020564848538954
+Date: Wed, 23 Jul 2025 18:27:57 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] docs: fault-injection: drop reference to md-faulty
-Date: Wed, 23 Jul 2025 15:58:32 +0530
-Message-ID: <20250723102835.232740-1-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.47.2
+Subject: Re: [PATCH v2 03/15] net: rnpgbe: Add basic mbx ops support
+Message-ID: <C01D5678EB05D185+20250723102757.GA672677@nic-Precision-5820-Tower>
+References: <20250721113238.18615-1-dong100@mucse.com>
+ <20250721113238.18615-4-dong100@mucse.com>
+ <e66591a1-0ffa-4135-9347-52dc7745728f@lunn.ch>
+ <D81C71402E58DF29+20250722064530.GC99399@nic-Precision-5820-Tower>
+ <942d3782-16af-4b20-9480-9bdf2d6a1222@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <942d3782-16af-4b20-9480-9bdf2d6a1222@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MmIUUz9KGMMd/33id8JVeJojtjHisL9G7pRUASH/ZnOkNy5XonOVuYTu
+	vN1WMgQYqiwzlbfbn6fpUPNMHo4MnGAFQIFCnxhMjzNTer+f5zW6Xvg+0CYriaOHXZyP1+6
+	IkM+z6bZXOAIHVwxZ2Yi/c+gcmPdkFl1JXMrnr9xkARxN2a8tSnDBulLgqxBIiC4QX5rT2Z
+	FH/fS09kK2rc36Ug+bIYOWVNPpc6GjpHJcaapGxbGAGz3v3AJICs2zjxSmBYMR2neBxu8xR
+	7d8ps87N5Xqqs7O8iZ3lwX9NuhnLdE5GxDiq3he7QMuOD88J98CtrWMSmIQB+jwpfBRE4iJ
+	7SvHeL5H92zbQokeGBEj9F6LsMAnIMrkJAk4svOuMXqtg6tPpRf8pVYL/wYPqbxLHPsR4rR
+	QA6v2RTOhsT9w2DK/e7oU1dvzCNmatP2dr8f1+/pLV5hwF2rAVJGVcPgfJpgITPXQOT4NGD
+	C/ie0/LVXtIM5zU/NBT3BbxEIbx2tQlfpY78ptKWxreBGe3apLopDAdX29HxU8Rzkrs0fPK
+	NMo9Dn4797FVgj8m9JnOLaVkmEu5US/6zK2nwk2yakYtcJciw20VsUGYKMv2cUy5/x1EIxg
+	BDwpmXiGpmO3R9bKWbzcNYgHGtMM6d4IHECjn+Yt3A5kGdSfDgSUYmxagp7YLSIsMNaNN6I
+	2cKwArVpx7dhVrbFv5cKNrFWzTba8xc/qvkzE653P0kN3PLLieOwg70WCU6UVItP4m7Xvjf
+	QWo5bxHmclpQ2g3oyMmn8RZFeMjRmMHFd/HrHceYXpY/+HWHYl3WROp22RHBf/70exdVShq
+	ap8V2WYwDPIpvm8DoaWDT6VzwCalpc2YoQdjgtCojLwc/PZsBn1Ifhdqg/Z+yhT/4wbeWFf
+	Pg7Xu53lQsjrY0DGjS4aYqU7p2Z2gXButFyUtT4734CseAgxUlSeGPSGK694+DkzWaH4qF+
+	UXIfBDxBbmkYcF2VilTGzWqAbqzT93+r4VCx/S2b3+rw095KEKkYFQgF8qUPrFx+cxGs=
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+X-QQ-RECHKSPAM: 0
 
-Commit 415c7451872b ("md: Remove deprecated CONFIG_MD_FAULTY") removed
-the md-faulty driver, so drop the outdated reference from the
-fault-injection documentation.
+On Tue, Jul 22, 2025 at 03:50:01PM +0200, Andrew Lunn wrote:
+> On Tue, Jul 22, 2025 at 02:45:30PM +0800, Yibo Dong wrote:
+> > On Mon, Jul 21, 2025 at 05:43:41PM +0200, Andrew Lunn wrote:
+> > > >  #define MAX_VF_NUM (8)
+> > > 
+> > > > +	hw->max_vfs = 7;
+> > > 
+> > > ???
+> > 
+> > This is mistake, max vfs is 7. 8 is '7 vfs + 1 pf'.
+> 
+> So it seems like you need to add a new #define for MAX_FUNCS_NUM, and
+> set MAX_VF_NUM to 7. And then actually use MAX_VP_NUM. When reviewing
+> your own code, seeing the number 7, not a define, should of been a
+> warning, something is wrong....
+> 
 
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
- Documentation/fault-injection/fault-injection.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Got it, I'll update this.
 
-diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
-index 1c14ba08fbfc..c2d3996b5b40 100644
---- a/Documentation/fault-injection/fault-injection.rst
-+++ b/Documentation/fault-injection/fault-injection.rst
-@@ -2,7 +2,7 @@
- Fault injection capabilities infrastructure
- ===========================================
- 
--See also drivers/md/md-faulty.c and "every_nth" module option for scsi_debug.
-+See also "every_nth" module option for scsi_debug.
- 
- 
- Available fault injection capabilities
--- 
-2.47.2
+> > > > +static int mucse_obtain_mbx_lock_pf(struct mucse_hw *hw, enum MBX_ID mbx_id)
+> > > > +{
+> > > > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > > > +	int try_cnt = 5000, ret;
+> > > > +	u32 reg;
+> > > > +
+> > > > +	reg = (mbx_id == MBX_FW) ? PF2FW_MBOX_CTRL(mbx) :
+> > > > +				   PF2VF_MBOX_CTRL(mbx, mbx_id);
+> > > > +	while (try_cnt-- > 0) {
+> > > > +		/* Take ownership of the buffer */
+> > > > +		mbx_wr32(hw, reg, MBOX_PF_HOLD);
+> > > > +		/* force write back before check */
+> > > > +		wmb();
+> > > > +		if (mbx_rd32(hw, reg) & MBOX_PF_HOLD)
+> > > > +			return 0;
+> > > > +		udelay(100);
+> > > > +	}
+> > > > +	return ret;
+> > > 
+> > > I've not compiled this, but isn't ret uninitialized here? I would also
+> > > expect it to return -ETIMEDOUT?
+> > > 
+> > > 	Andrew
+> > > 
+> > 
+> > Yes, ret is uninitialized. I will fix this.
+> 
+> Did the compiler give a warning? Code should be warning free. We also
+> expect networking code to be W=1 warning free.
+> 
+> 	Andrew
+> 
+
+I can get this warning with 'make CC=clang-16 W=1' now.
+I did't make with clang before, I'll add this step for future patches.
+
+Thanks for your feedback.
 
