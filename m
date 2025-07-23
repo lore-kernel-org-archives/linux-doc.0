@@ -1,114 +1,148 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55188272E5A;
-	Wed, 23 Jul 2025 13:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353308F58
+	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 13:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753278668; cv=none; b=ofkmYbHwsKASv13tpVAjJImWT+ZjS6jpQxm1MOTILGgxGI0AN2TjGdfUXif7e2EuzvorBSOinZ+A2Q9+vmRtAL2KNMnlJsmJ50Z855tiPoIJ3EdBprIYWT3Z/8At4Fw67PbsgX6uKJy7zI4ppZIskCRSmHsA4iInQnfVQlPbX30=
+	t=1753278832; cv=none; b=Fp4fSVeib67GBct9rIeKsTvukA8sDlCsECCUSB/h7MaAU4JkhNE6ZgVUUeGBoG3kRTaRAIvCfF6BncnbtPm8prMOkMhihm5OCOPDqHOnABEiAWfLRh/RspDIrrPsLvXAEZ3HusrnlqikDkRAjb2KdI8DlI0UBsogDMXbNMHlUjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753278668; c=relaxed/simple;
-	bh=dIiv0aLQ0QlrHF0awO/NYiUWxmeSgiy7474StiPrxrQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=XDCI6GITHRMutOhbSsMEHtXaC1W1qv/hNT8aqySmCSRd7aY36PM8son/JuQzpkBMrbf0DlhgDnfl+ZE14etyj1wJE5GpucgOy4+ReVic5O8DYMM0nprET0NkUY/aervvEcA1S5plyYtd2rDuX7M4waLbnjMO9x43ZBIhhtx04ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=uvEohgRV; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1753278832; c=relaxed/simple;
+	bh=hByHGrth5zdeb5TgCiwXXXAzfAWK6MDyTN/grdnGXO8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Nmxoz87chQvs5nGllHzH/4JTcj9d0mBnRkZlPlPmXAEWzqM96d0YHiD6hNOyYQs5P88WJAWxGkXLDryf+FlbUl21zBtXfLW2TrDDxwDU2LRGNn0d/dGZI8KIpFi+765l5c4G4fORKXxZTKvJkr3frlcD3S1gP8opq7vQb08Xby4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=dM9JXVnv; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="uvEohgRV"
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56NDEqHF005546;
-	Wed, 23 Jul 2025 15:50:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	XdmtswUaNr7oJjimezjiXJoD/ZylkFXiGJCOd1EELY0=; b=uvEohgRVKt/NpkRA
-	2i/LYLEavOHikPFmlWpRLubh47aTWuYUcAsWdGcrUlsIggOJk3nTEnTfSXiQ6Daq
-	B397w3Fh+nhhWLrDXVVdDFbt458tDWAUTHZ58FMU+8tXuK4pSOpfQBtJqEgJCw6r
-	513Jw9+03JgYy+PYBtQo1wGTKt68un91GsKESvT5TG0nYIw1d02PmjbMqrNvrS0x
-	Ypa2hmlpQcecePuRJZIJcWv1afeUgNqHW2zrIfArB4cr+xbrUXqBBbkiJ2n56iQV
-	Zy+D7YHaP3JFEzm4WfXxPTpOnFKUFmpjtC+6uIvZppe2H+Ti6lIA5vivoAgn0hVA
-	vcadow==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 480mx4saep-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Jul 2025 15:50:45 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 594BC4006F;
-	Wed, 23 Jul 2025 15:49:23 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E9763778896;
-	Wed, 23 Jul 2025 15:49:08 +0200 (CEST)
-Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 23 Jul
- 2025 15:49:07 +0200
-Message-ID: <a9505893-c762-4cc9-b20e-4fccda7c1ac1@foss.st.com>
-Date: Wed, 23 Jul 2025 15:49:07 +0200
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="dM9JXVnv"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ab3802455eso86192011cf.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 06:53:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1753278828; x=1753883628; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9nYQ1nxWVgdB6FCVcfOrCHIYHLuEY3Xl4xttYXGmsTA=;
+        b=dM9JXVnvI/nED2XsNyy7A/f4HrA0tPyaQWK54CCTUytezJATSD6jxh2KlV6Erdcdf6
+         TJLt2q1PQTwIjLBM5FjszQVQfWVLLk5I4kuZfb0NGqo0iMJAXDUu698AP9/7qTyXc+He
+         RYAOPoTtLIS8gtEYVbkuUqMod4uQ9Mlt6THbDftUBGg+Dy9W6jV71ffVYS0893Pitou7
+         QG6dk3K49tNEelJAPHlJBl52bF1/YdlU+FUHqX6tPoaV1PbU6RLnR71alJHyzsX70qM5
+         Jz10MNP6qWIl6ZPL1WMdExBJjvoMk5kdnRu/iFgh/zSJgfUv3YEUuD295CXtOAlEAPPP
+         D2Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753278828; x=1753883628;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9nYQ1nxWVgdB6FCVcfOrCHIYHLuEY3Xl4xttYXGmsTA=;
+        b=j5yRTh4cOaUa24W/nRdqtmzStFSnaKRdlYygPZUloUADbbubGVO2kmN9xjtdJkoX/p
+         G0YhEPB+Ii9wtihD5BKKbwamjHcSfwpp0R+Dy5cBwOIWeF/9taRUwKeqKJ9KrIUT1XZY
+         oDltFdIZUXACiZ2NYLaqZw8U6Os5ywaye6wPNqqM4D3Zqy1c1P1sPA/0IL02J0QH9mLC
+         28XAKM9sj7x/W3Zb8bDj7x3A6IGbuPsdCEy5Vo9zQEW8bPTCoVzG2OcjOp/hHJpMx3Nf
+         T/2jHAEHLUmmERKi547sVsws2sEIUdbLSCy7VjFxJrpSTu12+lE69muubibeQM2dMim4
+         PM/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVz6V2iX3UsCyENp+mgOlL4TpPWsfXDQ8I7KsHzxfwrzfkmiMnrdcD6VdQiRVhKqNUqLse8YUxvkf0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw32lbfGqKQW3gZ8ue+D53PLrxQL+Zuka28WVyEGsM/6aSsoilM
+	PPjqYcQOpxgmbNNqLjODeOzmLnRgfN7Y0nQy9PLI17cvRPKUyF4Unz+8+lgSUOwS79IGoTqcvxB
+	t64JqfXaqATa6ZAHrG07I1G/PVHQvd0xbOu0jznpSug==
+X-Gm-Gg: ASbGncsN5ekJdeytxwpXqA7Fg3ffhx+UK5ZDXZ7fKqaC8JOXr0rNPOuYQtKjC90ucC4
+	/cZOGaASU+sYrfxLOyEWavV0+Ec4Gjo4DpNrowsk6DR6ABFWQr+wxVisrUquy4D3Jy561CAN4P4
+	McRoCccju67g6DKFiChNTD20LzWm+cxPKgWSea4q54iz2T4GaLnfbGiec+bHRWFvIAPV0DahgkH
+	sja
+X-Google-Smtp-Source: AGHT+IHnUuhdrD9l7/UqXUCaUGkjpnut9RPkUhkRsYy8dMo95ULrH9zUrOnS3/mgiyGB2gnOI0df5GH4vloe3EzyqoM=
+X-Received: by 2002:a05:622a:13:b0:4ab:65c3:37d5 with SMTP id
+ d75a77b69052e-4ae6e009e59mr39018621cf.27.1753278827759; Wed, 23 Jul 2025
+ 06:53:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/20] dt-bindings: stm32: stm32mp25: add
- `access-controller-cell` property
-To: Rob Herring <robh@kernel.org>
-CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gatien Chevallier
-	<gatien.chevallier@foss.st.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Gabriel Fernandez
-	<gabriel.fernandez@foss.st.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Le
- Goffic <legoffic.clement@gmail.com>,
-        Julius Werner <jwerner@chromium.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-perf-users@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>
-References: <20250723-ddrperfm-upstream-v4-0-1aa53ca319f4@foss.st.com>
- <20250723-ddrperfm-upstream-v4-2-1aa53ca319f4@foss.st.com>
- <20250723134148.GA2136293-robh@kernel.org>
-Content-Language: en-US
-From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
-In-Reply-To: <20250723134148.GA2136293-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-23_02,2025-07-23_01,2025-03-28_01
+References: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
+ <20250625231838.1897085-18-pasha.tatashin@soleen.com> <d6e44430-ec9c-4d77-a00b-15e97ab9beab@infradead.org>
+In-Reply-To: <d6e44430-ec9c-4d77-a00b-15e97ab9beab@infradead.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 23 Jul 2025 13:53:11 +0000
+X-Gm-Features: Ac12FXycG_A7VpBGI0ZPxdi4OoC_3NChOWXSX3JfSNxhPZyJt2s_1oWRajx-S3I
+Message-ID: <CA+CK2bCpY3xnPeEyWCRYVpRcs3maKMqZnApQtm5upkwmM80a3g@mail.gmail.com>
+Subject: Re: [PATCH v1 17/32] liveupdate: luo_sysfs: add sysfs state monitoring
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, ilpo.jarvinen@linux.intel.com, 
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
+	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
+	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
+	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
+On Thu, Jun 26, 2025 at 12:29=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
+g> wrote:
+>
+> Hi,
+>
+>
+> On 6/25/25 4:18 PM, Pasha Tatashin wrote:
+> > diff --git a/Documentation/ABI/testing/sysfs-kernel-liveupdate b/Docume=
+ntation/ABI/testing/sysfs-kernel-liveupdate
+> > new file mode 100644
+> > index 000000000000..4cd4a4fe2f93
+> > --- /dev/null
+> > +++ b/Documentation/ABI/testing/sysfs-kernel-liveupdate
+> > @@ -0,0 +1,51 @@
+> > +What:                /sys/kernel/liveupdate/
+> > +Date:                May 2025
+> > +KernelVersion:       6.16.0
+> > +Contact:     pasha.tatashin@soleen.com
+> > +Description: Directory containing interfaces to query the live
+> > +             update orchestrator. Live update is the ability to reboot=
+ the
+> > +             host kernel (e.g., via kexec, without a full power cycle)=
+ while
+> > +             keeping specifically designated devices operational ("ali=
+ve")
+> > +             across the transition. After the new kernel boots, these =
+devices
+> > +             can be re-attached to their original workloads (e.g., vir=
+tual
+> > +             machines) with their state preserved. This is particularl=
+y
+> > +             useful, for example, for quick hypervisor updates without
+> > +             terminating running virtual machines.
+> > +
+> > +
+> > +What:                /sys/kernel/liveupdate/state
+> > +Date:                May 2025
+> > +KernelVersion:       6.16.0
+> > +Contact:     pasha.tatashin@soleen.com
+> > +Description: Read-only file that displays the current state of the liv=
+e
+> > +             update orchestrator as a string. Possible values are:
+> > +
+> > +             "normal":       No live update operation is in progress. =
+This is
+> > +                             the default operational state.
+>
+> Just an opinion, but the ':'s after each possible value aren't needed
+> and just add noise.
 
-On 7/23/25 15:41, Rob Herring wrote:
-> On Wed, Jul 23, 2025 at 03:05:46PM +0200, Clément Le Goffic wrote:
->> RCC is able to check the availability of a clock.
->> Allow to query the RCC with a firewall ID.
-> 
-> The subject is wrong. There is no such "access-controller-cell"
-> property.
+Removed columns, thanks.
 
-I found it here though:
-Documentation/devicetree/bindings/access-controllers/access-controllers.yaml
-
-And want to use it like here:
-Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml:41
-
-Oh I see I might need to add the #.
-
-Best regards,
-Clément
+Pasha
