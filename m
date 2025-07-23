@@ -1,28 +1,28 @@
-Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADB21A0BFD;
-	Wed, 23 Jul 2025 06:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B43226FA60;
+	Wed, 23 Jul 2025 06:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753251267; cv=none; b=eNPx5sYnMsBxT1QWpM930RHkJincVL/YuSqc/WpBlZroNEe9W/Lt0/OvA1GD6A9NfmPZaOTwht2kPBOiaPqqzqVpkY+KkPJllulfYs9dAKD5D5dVLXMZZZrZMIjVIaiy1aztaDgKOVcBc4NRu+x4/hTCLCGjxatKHGm8HzBnjdg=
+	t=1753253459; cv=none; b=SJBbs/QJ+H9IKGwAUUnpiuxS16Rg5Dg0v4MDZsQnGDMuBpgGFipXnQ68u1yb15LZB0tZetDGGyo/F7W4OrZuHVOoXZcsrjEKzIDS0gyJgm7pzE9kjlwJCVSs0b7sysQvJbEFM3NXeK7eT5q46734WDub/iLCMgpPb0nqQbSgdcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753251267; c=relaxed/simple;
-	bh=eOp8B5FEQjPYgaY8oyZNnVe9OVIKUc0sH+uAJU1qXyY=;
+	s=arc-20240116; t=1753253459; c=relaxed/simple;
+	bh=G58YKvUujIBWrJkI0NYR1sVGNRm9J8ICp7P9MOotfgo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ME31lEdUefrBHgsOSViMJ03/9733kOLa3w2i3FhXf/F22swaBqLQbzkfl+r9uUfhf/fqKlscq+ZcjkaZqtrD5LHfBXov8CTNMT0Ed3QiAS7Ra5IdOmlgg85J6gP9vB5vsTLfH3duMLaRGFYredHDI6cpKjO8tNPDPUpvZjM6Kuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=AhvVgPjs1Ln8bqP2JWHvyuWOum6p6iYEKCwgM2k3bNwZLRp4qQH6Sv3YghE5Kys4PgG4TExuliboOECJjwdO9dXBuwK1pn3SZ68iXwk++IVfJnceFsyyE7MyTpFmrZcrZF565VBbuuwVdLQbaTMrWFLCnmayeDpCaVfWUH2sZ1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz3t1753251185t633970d9
-X-QQ-Originating-IP: 7fAbvXkimtFsEETOli6idrq+iTqKCtYaOTIC1dZ/jwM=
+X-QQ-mid: esmtpsz16t1753253380t0ab00ecb
+X-QQ-Originating-IP: lRLKBcb1n0wzw/+enrJkpgcKfTXRxD93bs4sAWYliJs=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 23 Jul 2025 14:13:03 +0800 (CST)
+	id ; Wed, 23 Jul 2025 14:49:38 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7362397933906693450
-Date: Wed, 23 Jul 2025 14:13:03 +0800
+X-BIZMAIL-ID: 11276420674999546687
+Date: Wed, 23 Jul 2025 14:49:38 +0800
 From: Yibo Dong <dong100@mucse.com>
 To: Simon Horman <horms@kernel.org>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
@@ -34,11 +34,11 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 10/15] net: rnpgbe: Add netdev irq in open
-Message-ID: <2C80B81E5B7F54CD+20250723061303.GE169181@nic-Precision-5820-Tower>
+Subject: Re: [PATCH v2 14/15] net: rnpgbe: Add base rx function
+Message-ID: <92D9F4A7FDB27183+20250723064938.GF169181@nic-Precision-5820-Tower>
 References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-11-dong100@mucse.com>
- <20250722140326.GJ2459@horms.kernel.org>
+ <20250721113238.18615-15-dong100@mucse.com>
+ <20250722141426.GK2459@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,61 +47,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250722140326.GJ2459@horms.kernel.org>
+In-Reply-To: <20250722141426.GK2459@horms.kernel.org>
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NZcrde3zhHkVc4vD6pFJ0MsmdlniyAZ1/GnUJawXfuNgJNYvhe66+B2Q
-	hAjz+caQByEVUdAJLe+AOq7TSO39J5A9v9jhjUCmgLhNvERxR+5rylo6XiQayJZhFPHk+f5
-	kwzMSTFoiZ0OeJPGwOoW6yRA5LN7r9tyuu3fj/OpaPYgTLxlo3JslmpZ6Us30vF6cRNRbrn
-	w4QLBpsvkOz1p4zlbw8BwEVpqy5U1bhqbLdVqeLT+Q+h+yMP8pfDyNk665NP4EmiHtIjklL
-	a7YUJUPyIQkaC3xjjHG5t9U2OBExkmzb3YHZ4ojQzKDg/PEqo8J8I4l64dVcrojO6CMzAN0
-	dmDkub3G303j4Yc0VyMm6Lfwgm2lltrVpbbnlYYfGsgrJyCAUvTMd7XHx+YrkKDvR03Xs/0
-	hwpvFBfg2oWmrMZpr721wogaAX/3pxtzfnDyEMRsSBN7hfJxl921t1lz21LTTPeLDhXfwzh
-	HUYi+SVrkfturNKML1Fa2OWTpvh0KgSGfTKaxiozFWsHzylhm1BPMzXqvUBpf+8A52Nfl8e
-	bTe8uaDy8eW0AJAgKz7GoVl8V6YnnMneCUPQYzBMJLJBkW3lt2sPAQHwlZ4Bjgkekf500u8
-	aX36pok1PF7fimdAptFALf5geA5OOpeCBk+/4dndYX8k1NbcxD/Rh6thqEvSUVmb+3vOqm2
-	xMqslxbC+NHFbJOd5HAoo8VDOSl63U8bGLuJg8PvMEhcDjJ/9sbQQ3+6DPDqx7T+FjfHWk7
-	DfqhFxLgNRz/B6mdubc4jnm6vNq1k86n4oEkvUcNi4OBqTimIngGyQVzxFPxbArbGqD6RM9
-	wGGcsPzVoLuk0SiYvvRGPckweZ9k1uOl3ykNV34iFT5fSP6I0VJ4uxRplk9BG9D2G/gm7Hu
-	B5DCPCnzPlAa3Ce7gDdaOgT0zSPeYD+x/NqFabWfhuozBAo5dj5Du4euZM7Osyu2Fo7F8ju
-	ZCHVBRkSbTTnCYVfiQKTS+AUs39Z6i3Sh2qfayo+2CBYmahfmczrZaCLy
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MAN6sKHDZ5xSaGWXfe+7Bn96Kxr/zIytK58NzLYVZD5K0bPm9SWLPbmp
+	ZgP5VO8dAJUVM+dyW4qci2FTMyNsyaDopEOFvcFylknYFjPI2icsAIuQ7htzKqySkeYbB4v
+	80X2dVzQf9cDDwyf4as/thLg7Y9hetmU+egvMiQ9lX04fUutKQafB24sesfDbaaS0C0iwTv
+	c26tEwOelqqDPi60HO3xcHZe33cL36M7aamUekb8HtIMC1IBE7y5inGAqKH2R6lXsPr0PjL
+	hyC3B+C9nsmfFAAHbfo8/9KJ/WRkADl+e8yH12MYIClv/HfQ0kfA7e7ovpaVzoliNxaqqfg
+	8nSX7XgXsWZu1eFJKCnEEeA/9VXt/TYLIw3Uw5BJx5C7bgGvc4srixU/OI2Pt5X6mmZpV4K
+	JQVlxad565UWGVbF8ijYiwkqIEcZl+W8DYJlYWkEbD168Cf56fnCgLPawwBwCx0mXJ4xMiw
+	MFAh1PgFvSGx0ohVWawEL3TYm9WE7HioReNbwkDQlRVdBDNJRD+x/ztW7MPPeKY4xjtHL0y
+	/NCjWADs5k5cDJRrylRy7j9PqlZ7ZndzzmCRJF1uxYiaGRMxQIiYfDqJ79vpsPD9dFp6y6X
+	CjUf9Kqv74/ZSjSMu7knuGrgYrEUNjIIIFPlGiep+tXGQkx7pbdISekLHwArJzl59Lf2d/k
+	eFBU/yAWmsW+0+0ZnZ+RMHAg/rprf39gpGL5nqtEdUiMXZu8cuFGXnJUODc+A89fUO2Izyb
+	ENCHJmbFCKhrIdOoaSkRRE4aodwG1ZUnoPo7Ye4dkcahV5a8F36JyRHuXDVvDrp9Xxswk7f
+	DywhhTiLgzw3PjxRzGbUcx77wIVLrZ8lNAS7XDwBfxSj2GhhhqXZQEkAhah6A9cm41xl5i3
+	Lm3mMdDOelrR8Xi0qMYI6dAbWy+0JjZMuBX9OeaDOtHI6FcCRaMUyOfkg4MgCroV1gmjDSZ
+	O+E2hGym61TNSdeTSnaBSDRAoDgKhGbKEr3a5OJJXidy6qcxQenyFmZVcpskSvhRS080=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
 X-QQ-RECHKSPAM: 0
 
-On Tue, Jul 22, 2025 at 03:03:26PM +0100, Simon Horman wrote:
-> On Mon, Jul 21, 2025 at 07:32:33PM +0800, Dong Yibo wrote:
-> > Initialize irq for tx/rx in open func.
+On Tue, Jul 22, 2025 at 03:14:26PM +0100, Simon Horman wrote:
+> On Mon, Jul 21, 2025 at 07:32:37PM +0800, Dong Yibo wrote:
+> > Initialize rx clean function.
 > > 
 > > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> 
-> ...
-> 
-> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> 
-> ...
-> 
-> > +/**
-> > + * rnpgbe_set_mac_hw_ops_n500 - Setup mac address to hw
-> > + * @hw: pointer to hw structure
-> > + * @mac: pointer to mac addr
-> > + *
-> > + * Setup a mac address to hw.
-> > + **/
-> > +static void rnpgbe_set_mac_hw_ops_n500(struct mucse_hw *hw, u8 *mac)
-> > +{
-> > +	struct mucse_eth_info *eth = &hw->eth;
-> > +	struct mucse_mac_info *mac_info = &hw->mac;
-> 
-> Reverse xmas tree here please.
-> 
-
-Got it, I'll fix it.
-
-> > +
-> > +	/* use idx 0 */
-> > +	eth->ops.set_rar(eth, 0, mac);
-> > +	mac_info->ops.set_mac(mac_info, mac, 0);
-> > +}
 > 
 > ...
 > 
@@ -109,106 +80,62 @@ Got it, I'll fix it.
 > 
 > ...
 > 
-> > +/**
-> > + * rnpgbe_msix_clean_rings - msix irq handler for ring irq
-> > + * @irq: irq num
-> > + * @data: private data
-> > + *
-> > + * rnpgbe_msix_clean_rings handle irq from ring, start napi
+> > @@ -299,12 +707,27 @@ static int rnpgbe_poll(struct napi_struct *napi, int budget)
+> >  	struct mucse_q_vector *q_vector =
+> >  		container_of(napi, struct mucse_q_vector, napi);
+> >  	struct mucse *mucse = q_vector->mucse;
+> > +	int per_ring_budget, work_done = 0;
+> >  	bool clean_complete = true;
+> >  	struct mucse_ring *ring;
+> > -	int work_done = 0;
+> > +	int cleaned_total = 0;
 > 
-> Please also document the return value of this function.
-> Likewise for rnpgbe_request_msix_irqs(), rnpgbe_intr() and
-> rnpgbe_request_irq().
+> cleaned_total is set but otherwise unused in this function.
+> 
+> Flagged by Clang 20.1.8 builds with KCFLAGS=-Wunused-but-set-variable.
 > 
 
-Got it, I'll fix it.
+Got it, I can get this warning with KCFLAGS=-Wunused-but-set-variable
+locally, I'll fix it.
 
-> > + **/
-> > +static irqreturn_t rnpgbe_msix_clean_rings(int irq, void *data)
-> > +{
-> > +	return IRQ_HANDLED;
-> > +}
+> >  
+> >  	mucse_for_each_ring(ring, q_vector->tx)
+> >  		clean_complete = rnpgbe_clean_tx_irq(q_vector, ring, budget);
+> > +	if (q_vector->rx.count > 1)
+> > +		per_ring_budget = max(budget / q_vector->rx.count, 1);
+> > +	else
+> > +		per_ring_budget = budget;
+> > +
+> > +	mucse_for_each_ring(ring, q_vector->rx) {
+> > +		int cleaned = 0;
+> > +
+> > +		cleaned = rnpgbe_clean_rx_irq(q_vector, ring, per_ring_budget);
+> > +		work_done += cleaned;
+> > +		cleaned_total += cleaned;
+> > +		if (cleaned >= per_ring_budget)
+> > +			clean_complete = false;
+> > +	}
+> >  
+> >  	if (!netif_running(mucse->netdev))
+> >  		clean_complete = true;
 > 
 > ...
 > 
-> > +/**
-> > + * rnpgbe_request_msix_irqs - Initialize MSI-X interrupts
-> > + * @mucse: pointer to private structure
-> > + *
-> > + * rnpgbe_request_msix_irqs allocates MSI-X vectors and requests
-> > + * interrupts from the kernel.
-> > + **/
-> > +static int rnpgbe_request_msix_irqs(struct mucse *mucse)
-> > +{
-> > +	struct net_device *netdev = mucse->netdev;
-> > +	int q_off = mucse->q_vector_off;
-> > +	struct msix_entry *entry;
-> > +	int i = 0;
-> > +	int err;
-> > +
-> > +	for (i = 0; i < mucse->num_q_vectors; i++) {
-> > +		struct mucse_q_vector *q_vector = mucse->q_vector[i];
-> > +
-> > +		entry = &mucse->msix_entries[i + q_off];
-> > +		if (q_vector->tx.ring && q_vector->rx.ring) {
-> > +			snprintf(q_vector->name, sizeof(q_vector->name) - 1,
-> > +				 "%s-%s-%d", netdev->name, "TxRx", i);
+> > @@ -871,6 +1323,8 @@ static int rnpgbe_setup_rx_resources(struct mucse_ring *rx_ring,
+> >  	memset(rx_ring->desc, 0, rx_ring->size);
+> >  	rx_ring->next_to_clean = 0;
+> >  	rx_ring->next_to_use = 0;
+> > +	if (mucse_alloc_page_pool(rx_ring)
 > 
-> Probably the full range of i is not used, in particular I assume
-> it is never negative, and thus i and mucse->num_q_vectors
-> could be unsigned int rather than int.
-> 
-> But as it stands q_vector->name is once character too short to
-> fit the maximum possible string formatted by snprintf().
-> 
-> I was able to address the warning flagged by GCC 15.0.0 about this by
-> increasing the size of q_vector->name by one byte.
-> 
->   .../rnpgbe_lib.c: In function 'rnpgbe_request_irq':
->   .../rnpgbe_lib.c:1015:43: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
->    1015 |                                  "%s-%s-%d", netdev->name, "TxRx", i);
->         |                                           ^
->   In function 'rnpgbe_request_msix_irqs',
->       inlined from 'rnpgbe_request_irq' at drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c:1069:9:
->   .../rnpgbe_lib.c:1014:25: note: 'snprintf' output between 8 and 33 bytes into a destination of size 32
->    1014 |                         snprintf(q_vector->name, sizeof(q_vector->name) - 1,
->         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    1015 |                                  "%s-%s-%d", netdev->name, "TxRx", i);
->         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
+> There is a trailing ')' missing from the line above.
 > 
 
-Yes, q_vector->name is too short, I'll fix it.
+Yes, compile error here. I'll fix it.
 
-> > +		} else {
-> > +			/* skip this unused q_vector */
-> > +			continue;
-> > +		}
-> > +		err = request_irq(entry->vector, &rnpgbe_msix_clean_rings, 0,
-> > +				  q_vector->name, q_vector);
-> > +		if (err)
-> > +			goto free_queue_irqs;
-> > +		/* register for affinity change notifications */
-> > +		q_vector->affinity_notify.notify = rnpgbe_irq_affinity_notify;
-> > +		q_vector->affinity_notify.release = rnpgbe_irq_affinity_release;
-> > +		irq_set_affinity_notifier(entry->vector,
-> > +					  &q_vector->affinity_notify);
-> > +		irq_set_affinity_hint(entry->vector, &q_vector->affinity_mask);
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +free_queue_irqs:
-> > +	while (i) {
-> > +		i--;
-> > +		entry = &mucse->msix_entries[i + q_off];
-> > +		irq_set_affinity_hint(entry->vector, NULL);
-> > +		free_irq(entry->vector, mucse->q_vector[i]);
-> > +		irq_set_affinity_notifier(entry->vector, NULL);
-> > +		irq_set_affinity_hint(entry->vector, NULL);
-> > +	}
-> > +	return err;
-> > +}
+> > +		goto err;
+> >  
+> >  	return 0;
+> >  err:
 > 
 > ...
 > 
