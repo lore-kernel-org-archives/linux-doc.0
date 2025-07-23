@@ -1,33 +1,59 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 003F42900A8;
-	Wed, 23 Jul 2025 09:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBE4283FF7;
+	Wed, 23 Jul 2025 10:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753264494; cv=none; b=KvryFqHNq2N7ElXrM0WHDjLXpgnR1smxitR4211Oo46z3sOV4r/1JlbitcIc3DzJZLIL0cB3HUCsNSHJzdnPVPZTxIeWcgH63mIqG3FyS5Z8kF7l6le05n2UlygVYFFwRcrQhJfo0fuztLYp79q4b7ENc9f4yQnNbsDPXzOSsAc=
+	t=1753265040; cv=none; b=BUWw/6GCE1Y6Zg391U7BPjt34uQUnnDiTknLFd8e1LpabZWVdKJ3xoBwMwEdPnXnGttp6zhmICsUF0AKrt8dPt3eWJCdxtJu/RSEKfGZYtZK5wBg6rjjegFxmoJecaRE9Galp1zV1OeVPM+wEJ9eU5Mc48mO/H+tiPXQjfFOfH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753264494; c=relaxed/simple;
-	bh=1+q0bU0NGzD6v0spHkawyd8QAHbSPrTMZC4GiHhVfYM=;
+	s=arc-20240116; t=1753265040; c=relaxed/simple;
+	bh=1gm5UbqhAXgE7lNc69Zqc7sMDOmm6TonOtX7iaf8rUo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iISIVcKH0c1bQqr3Fc1O4UWPh4kpRYBm3oDr6Ln6UqSEM/gTLeG++CTSmtN21On5AGSOurc/RgOHrY42l8r2sXOs6j3m08yz1y+06nMQZcMVHxN4x23YHmP4a3+sHdk0ub+pXL7t4rGE+XgAS3y9gvueBduE4i0i+Ov/dzeTUNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E246122C7;
-	Wed, 23 Jul 2025 02:54:44 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C2A4E3F5A1;
-	Wed, 23 Jul 2025 02:54:49 -0700 (PDT)
-Date: Wed, 23 Jul 2025 10:54:47 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Andrew Donnellan <ajd@linux.ibm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-	Nicolas Saenz Julienne <nsaenz@amazon.com>
-Subject: Re: [PATCH] Documentation: core-api: entry: Replace deprecated KVM
- entry/exit functions
-Message-ID: <aICxZxJ4P9YjJJS2@J2N7QTR9R3>
-References: <20250723075134.105132-1-ajd@linux.ibm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q156tCTAKncQtQdkoba4PfCrpsVf8PSm0GNigfYbkLdSSYFjvwndhmC+i5HkoM/NSSvWlnqcwV3ajWrNUDqF4s55Sqae54E4megnJOIQEt1tDalhZuaDQ/ILq4q3kYjxfaY9rMLIUdYELxqWbJVESolr4WVn2+0zZ2HF2TxiQ50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lunBdKsg; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lunBdKsg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD30CC4CEE7;
+	Wed, 23 Jul 2025 10:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753265039;
+	bh=1gm5UbqhAXgE7lNc69Zqc7sMDOmm6TonOtX7iaf8rUo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lunBdKsg25fUuAQ27teQp3vNC6VfZYH2qNGWMGsO8SeohsylvRim73lrFr6Lhl2dj
+	 v5cQgz6labiJy3Xucqr/jPmCNhoPuN9ki5LELFuGERCzBK4g05tlxxFbybwdAS1GDF
+	 w5PDQ+zkCR4RaYTmxY3y6R6v+JvwTzIgVzCIXGD6j3j6O9ha4a0j03ef9K/7/sWmO9
+	 /Ae/fld+ebZFBP6Uj0jiEs822qrt3V8GCfuWEqD8herQOQ24izWeuY5PlngX1bipFY
+	 4AKDOSc+b2E6XNF3sL53CWTkYs1B7hthabIkCh4pGeYHqH7hsLUf+kJvvyXvMATgMx
+	 aCRRi167l2MYA==
+Date: Wed, 23 Jul 2025 11:03:52 +0100
+From: Simon Horman <horms@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Fu Guiming <fuguiming@h-partners.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>,
+	Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Suman Ghosh <sumang@marvell.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Joe Damato <jdamato@fastly.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH net-next v10 2/8] hinic3: Complete Event Queue interfaces
+Message-ID: <20250723100352.GX2459@horms.kernel.org>
+References: <cover.1753152592.git.zhuyikai1@h-partners.com>
+ <5dc43637cc54d5f3edfa323ef9021cfe095588c7.1753152592.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -36,47 +62,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250723075134.105132-1-ajd@linux.ibm.com>
+In-Reply-To: <5dc43637cc54d5f3edfa323ef9021cfe095588c7.1753152592.git.zhuyikai1@h-partners.com>
 
-On Wed, Jul 23, 2025 at 05:51:34PM +1000, Andrew Donnellan wrote:
-> The x86-specific functions kvm_guest_{enter,exit}_irqoff() were removed
-> and replaced by the generic guest_state_{enter,exit}_irqoff() in commit
-> ef9989afda73 ("kvm: add guest_state_{enter,exit}_irqoff()") and commit
-> b2d2af7e5df3 ("kvm/x86: rework guest entry logic").
-> 
-> Update the references in the entry/exit handling documentation.
+On Tue, Jul 22, 2025 at 03:18:41PM +0800, Fan Gong wrote:
 
-Sorry for missing this when I updated the code; thanks for cleaning this
-up!
+...
 
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Nicolas Saenz Julienne <nsaenz@amazon.com>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Signed-off-by: Andrew Donnellan <ajd@linux.ibm.com>
+> +void hinic3_free_db_addr(struct hinic3_hwdev *hwdev, const u8 __iomem *db_base)
+> +{
+> +	struct hinic3_hwif *hwif;
+> +	uintptr_t distance;
+> +	u32 idx;
+> +
+> +	hwif = hwdev->hwif;
+> +	distance = (const char __iomem *)db_base -
+> +		   (const char __iomem *)hwif->db_base;
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+nit: These casts seem unnecessary.
 
-Mark.
+> +	idx = distance / HINIC3_DB_PAGE_SIZE;
+> +
+> +	free_db_idx(hwif, idx);
+> +}
 
-> ---
->  Documentation/core-api/entry.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
-> index a15f9b1767a2..286a5ecf7cae 100644
-> --- a/Documentation/core-api/entry.rst
-> +++ b/Documentation/core-api/entry.rst
-> @@ -115,8 +115,8 @@ Entering or exiting guest mode is very similar to syscalls. From the host
->  kernel point of view the CPU goes off into user space when entering the
->  guest and returns to the kernel on exit.
->  
-> -kvm_guest_enter_irqoff() is a KVM-specific variant of exit_to_user_mode()
-> -and kvm_guest_exit_irqoff() is the KVM variant of enter_from_user_mode().
-> +guest_state_enter_irqoff() is a KVM-specific variant of exit_to_user_mode()
-> +and guest_state_exit_irqoff() is the KVM variant of enter_from_user_mode().
->  The state operations have the same ordering.
->  
->  Task work handling is done separately for guest at the boundary of the
-> -- 
-> 2.50.1
-> 
+...
