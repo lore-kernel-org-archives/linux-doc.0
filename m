@@ -1,64 +1,64 @@
 Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669972EA173
-	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 14:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A0C2FCFC3
+	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 14:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753282082; cv=none; b=hJ25skeJeQTroxE6or7UlbPajXXizhTGNc2dEZ6XtLXIsAb15w+z9Jh9Mg5guZsKTiWm84k7JPGwUYt7pYzMmPBeI/DEpQ6HR6omvcq/O8YH9FuvD+v2+2vksiabIOxDsb2CrdPotTlsp6IGPUU1Ny4ykpll7bPyfxJDDMmyQMY=
+	t=1753282085; cv=none; b=WcG2SDPqct0YTL4rLK0Azm2pWBMhbIT0gAIQdaQbphySXbmScDn6FbeAy59Nf732Cux2qULgZhkHGDPa+AnHqly/THOcjCcTvRGz05//zQMSec2TiQkwuN9nUX0UCWJ0MKaEPmeuzH8L/9khuY1L2ruHPwlouIhHWzNltTG5Gos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753282082; c=relaxed/simple;
-	bh=zC6u2biwGcXL2iC3P/2IdgSx0g0kQc0JVTiEcMEVtJ0=;
+	s=arc-20240116; t=1753282085; c=relaxed/simple;
+	bh=kV/i7WzK++AoKinYUIyGUJOx4XSzNlPUkIXf9Vx78zI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HBzP6UUHu1YD2zu6xLDvtHq+tddcitfw+a7bidcNy359QBRgYIIXmtuHZVdu42Br/Jat5ud0F2Sn2aBeR8SLsklp36iU0xRnYeg8oVH24omS7AYhSSSlfQS5axhBN7ZYNwYmF3+K3sj0nS0dbG8N/7mrBTDbHiwT7v6Gr+Oe5n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=GWv9AWc6; arc=none smtp.client-ip=209.85.128.173
+	 MIME-Version; b=RpGkNeiK8dff11w7vn/97kmrlo7vHHfxJ4wsmyPIUusNJIjzi3cPaCj1xCmXDmoJCvnJ+4CwnjlMGinQJstZ0AXCHB6LsH05XV1/pWi5tA4sYpw9FoXaIwecR4XyoyZVTygcKDuFLIlZtp2m1LccLRCCZwdfd4Prb7a9nuMVbM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=lrXB55ZD; arc=none smtp.client-ip=209.85.128.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="GWv9AWc6"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-719728a1811so45004837b3.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 07:47:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="lrXB55ZD"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-718425f1172so68329647b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 07:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1753282074; x=1753886874; darn=vger.kernel.org;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1753282078; x=1753886878; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JgvqzDIiRiBX+3t66TRkd0Ymp5/wa/ERt/pQr69clFU=;
-        b=GWv9AWc6wLaC4emA0ALPX+CyHF9Lnl2b/UeBHZvMpBb9i3OphFQYQchconaWIW6H8y
-         bDa0amkJDboEBvga1Rg9hGIuq+aQP44YWBnRBKYo0s1o+mHLH0TUgcBi9h5ZVr9ggcwt
-         Nw8bKVv9mof6LT5oXMy4axHpQ+Q1qGlKQ9dFkXAe1FceaW95IzfEYzVF+/p7i6HvHpTg
-         j5ihmIBTN3+2JpZINiUIUdT5AjwlGs4YfFC01qN2YQA6ZDg2jvyl2QKS8e1xQmBX5ImN
-         SvrL5GLnmXmvRX5cgw4jYE0XxolX23Lf/x7TNSWJFfQh/6mAjmNcyz233tXpW8LQPwok
-         3+Vw==
+        bh=hShlI4m6hw+YtxzJd2p960yByHj9Zxa7UX6hlMU7/TY=;
+        b=lrXB55ZDcWdmbgG4MC/uUtOOj23D/nwbN1bgbdaJ0FJM8aYReCA5/70ND1uAr9qL/Q
+         RQeK+ugEIV8FAYYs5pxyQFwuw875rEJSS12BHFk6NIFmfARA5d0zLA0ZH22VmwzHkgiN
+         k5nd0ka6Gj9B+rg1VBRw27AmhzmN6mBm9+9jUMx0rA5GmK5kSeo9dOKVYHamj8DrGtM/
+         IfgYSkwOxBhj4g6Fl2Yq+FrdbTk35yv4fKAwjrCMkus/3mnaqV4ML33zLQbMGa/92AdI
+         4Ot4KzPlHoyGLHjDzEozF44xbMtNl98/iZbhN9YApqq9nMY8UFBdp3oVHiPqIdGxE8Ji
+         395g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753282074; x=1753886874;
+        d=1e100.net; s=20230601; t=1753282078; x=1753886878;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JgvqzDIiRiBX+3t66TRkd0Ymp5/wa/ERt/pQr69clFU=;
-        b=Dt9EHMHPW5Z1N6X3sZAu5sUNZP1BpUoMo0LJXV1OXdywF+5ht2P+viIaExk3Vwh3Xp
-         8Vgm0gl89zFCYwL45waatl194HL6ZnrNUaTWigqbmInQL2POtQajlk4/SD/YWNz3hen+
-         UTbXI5dzYu6K0oqomuIWhhRwUDO8ey1/OZjUk0cTEdmil2I/xsEe6bXjzDfZt0oRB3+l
-         qTwOSdsPJfXs4gnJywjAMZG2hd44H1YQ2Hccpq0Fnw2vACNKqIllGnRL/oNV4aKfolug
-         eeBebgUUX/odUWqOvpmsiPq/aIFDKJzOfeCxSeyT79XpOIn4ljD2pK8lsobqvq0Rji1b
-         0g1w==
-X-Forwarded-Encrypted: i=1; AJvYcCWBeFPD32drLWWcYf0F2COL8pcSu4iVHRDJ2iCx1chJS5Nl5iT+WEggpEl33RvhySmhaFSbANc41eE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu8JkJic0Qg6uYPJ/TSpCyt7uMSRPHqBoUGVlxoU/PwYdEemLW
-	qcgrwVAjfluTWkt2u7QeGcT+jF7Ww+tMupjoIiyvZtNX/I2GvaLnvvMz2t23/J1BIzY=
-X-Gm-Gg: ASbGncuxfwz+7sKd9tJgTGVKTaRctL5ZjcQ/Z6HBYDvm3WSLtA1Gu5S2KdfqQooegCg
-	ZnCFnAv8gn46iP8ImBF1VltqostcDVVs4o8xPTv9nTJijRXxd2GvqHVXUsVbUQ4ydpcZz1i8wEq
-	+0uNee6nIcM8S+icNti6rF23amrjcoLV0YQfxNO5ESJCVkhf022SgSFfkWu8MF/8kKuJVxO3haD
-	BfNTF3bs+sNSQshh6zHi3srGQV/rNZ9IceDYiZHQKpbApEhS1wyJv6oIBmVvMyQqg0R4BFLBrbo
-	YJaVMegoD4lCKwt7T0K8yTET5uJ2HAZhx+ynDKHUNMtYKKvw1bqk5OO5F/42lEmZfdbEv7pEA61
-	1ltdZe8k4GLkXQq5uYX1nbT6udoUyiivJlYv6M9MFXJG38EZXVUsckzEo8ijUK2L30WR9DD8Koz
-	AsYAuIRVm12yOFaQ==
-X-Google-Smtp-Source: AGHT+IGGfx7z148fU3GfejgZgpbPyTfIvTW82LKz4E+3FHtFbrw8wPq+9rOHj4lG5MqVILJufgSXww==
-X-Received: by 2002:a05:690c:358a:b0:70c:a57c:94ba with SMTP id 00721157ae682-719b4166f53mr47129757b3.17.1753282073888;
-        Wed, 23 Jul 2025 07:47:53 -0700 (PDT)
+        bh=hShlI4m6hw+YtxzJd2p960yByHj9Zxa7UX6hlMU7/TY=;
+        b=u4my+WNhsgyX87Aojgx5OhPDRQsFHXjfg96qAgFjNzvyVPfJtgWWO9uPVhA/EFYVW5
+         HV/20y/ZB2EVFJVEA3jqgDOaTzAXxMES8H2tCLueRZOBS4dVdQ5QsDSY9L6WhgolFWnv
+         +AK1bCqcNaB5XVBdu+GVzOiO0YDV9ceCI/COBsMi2fc6+Bva1esHjiIvdIPIp48ouFWR
+         xi2Q3QVlxZy5FF4awbcMAZ+qqrBrNJFCGeK9I8HEpgZg2wEicW4XW8YndYnoFauIi9ug
+         t9QJu+9pn5/OmETcvnHoYZUh1M0sWXk6wcf66ysTEFs9AdzPMIxdMX1jLbpd3SDITq0D
+         7RvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUHzlAkX6SKFgEbQI+Schi4k5nOxFINmgAMIwdTbeozgAqec0njAGyCxYX4rjQ+hd2gjVLXjlP9Mc8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyc0ZJEWGp1Ycy85ocGJFl5bJK0hBESYRwch/KO6yWwvSHGeepI
+	IfL479IpGlqjUCy94k+Nk4cDnbHWNnkLQt71ac1w3DygJ8e+3ydIWABOkh0NnUMVHF4=
+X-Gm-Gg: ASbGncvKr4PG1M63N6MBXd+in/Z1P7RLrljUA/ON8b8mmBlLQv0yRBkwSyozDgjcISN
+	wtoRoimKpWg7tEM7LUy6OIxTinZlkuGl7wNzX93RZ7rk1jdWPSItVOVdpYiCcIfo5bW+T9NOX1Y
+	9ylxYV9aQcwkaE3FtQoPziKlEEYNSuqV4D/roHhjp4BEO7gbu2YogNYCKVm/B2jLmab2B6LrZlp
+	X1SpZ93jD9ZiikgZxPE0CeFBqVl9uavwA6i50cDT/WYM16RAAXydlQUQ0QUNsRjiC/TpGAyyBVZ
+	tR/G7MGnW563CNpthVQBE35YuHeyU8gj78aWKujp8uIpuJIhR9quMMl7Gg9JdBeBMFXNYHW5E0d
+	F9SVgfh5RXthn+CFxvkygZg/msDTPWsQjTM+Umehou/z92+/4tHgxng3xT9PR0fLREY8Oto1ZTN
+	z3C7TavhU8nV1rew==
+X-Google-Smtp-Source: AGHT+IH675RnRNbWShRM8kSWIrUMBTag3AVm1BnglGtYW6J1tHoiU+7BSxfTq41Ub2U0xE0WezZ+cg==
+X-Received: by 2002:a05:690c:9a0d:b0:719:671d:255 with SMTP id 00721157ae682-719b41e6aeamr42227787b3.3.1753282078060;
+        Wed, 23 Jul 2025 07:47:58 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (235.247.85.34.bc.googleusercontent.com. [34.85.247.235])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-719532c7e4fsm30482117b3.72.2025.07.23.07.47.52
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-719532c7e4fsm30482117b3.72.2025.07.23.07.47.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 07:47:53 -0700 (PDT)
+        Wed, 23 Jul 2025 07:47:57 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -132,9 +132,9 @@ To: pratyush@kernel.org,
 	parav@nvidia.com,
 	leonro@nvidia.com,
 	witu@nvidia.com
-Subject: [PATCH v2 29/32] docs: add documentation for memfd preservation via LUO
-Date: Wed, 23 Jul 2025 14:46:42 +0000
-Message-ID: <20250723144649.1696299-30-pasha.tatashin@soleen.com>
+Subject: [PATCH v2 31/32] libluo: introduce luoctl
+Date: Wed, 23 Jul 2025 14:46:44 +0000
+Message-ID: <20250723144649.1696299-32-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
 In-Reply-To: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
 References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
@@ -148,207 +148,275 @@ Content-Transfer-Encoding: 8bit
 
 From: Pratyush Yadav <ptyadav@amazon.de>
 
-Add the documentation under the "Preserving file descriptors" section of
-LUO's documentation. The doc describes the properties preserved,
-behaviour of the file under different LUO states, serialization format,
-and current limitations.
+luoctl is a utility to interact with the LUO state machine. It currently
+supports viewing and change the current state of LUO. This can be used
+by scripts, tools, or developers to control LUO state during the live
+update process.
+
+Example usage:
+
+    $ luoctl state
+    normal
+    $ luoctl prepare
+    $ luoctl state
+    prepared
+    $ luoctl cancel
+    $ luoctl state
+    normal
 
 Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- Documentation/core-api/liveupdate.rst   |   7 ++
- Documentation/mm/index.rst              |   1 +
- Documentation/mm/memfd_preservation.rst | 138 ++++++++++++++++++++++++
- MAINTAINERS                             |   1 +
- 4 files changed, 147 insertions(+)
- create mode 100644 Documentation/mm/memfd_preservation.rst
+ tools/lib/luo/Makefile       |   6 +-
+ tools/lib/luo/cli/.gitignore |   1 +
+ tools/lib/luo/cli/Makefile   |  18 ++++
+ tools/lib/luo/cli/luoctl.c   | 178 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 202 insertions(+), 1 deletion(-)
+ create mode 100644 tools/lib/luo/cli/.gitignore
+ create mode 100644 tools/lib/luo/cli/Makefile
+ create mode 100644 tools/lib/luo/cli/luoctl.c
 
-diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
-index 41c4b76cd3ec..232d5f623992 100644
---- a/Documentation/core-api/liveupdate.rst
-+++ b/Documentation/core-api/liveupdate.rst
-@@ -18,6 +18,13 @@ LUO Preserving File Descriptors
- .. kernel-doc:: kernel/liveupdate/luo_files.c
-    :doc: LUO file descriptors
+diff --git a/tools/lib/luo/Makefile b/tools/lib/luo/Makefile
+index e851c37d3d0a..e8f6bd3b9e85 100644
+--- a/tools/lib/luo/Makefile
++++ b/tools/lib/luo/Makefile
+@@ -13,7 +13,7 @@ LIB_NAME = libluo
+ STATIC_LIB = $(LIB_NAME).a
+ SHARED_LIB = $(LIB_NAME).so
  
-+The following types of file descriptors can be preserved
+-.PHONY: all clean install
++.PHONY: all clean install cli
+ 
+ all: $(STATIC_LIB) $(SHARED_LIB)
+ 
+@@ -26,8 +26,12 @@ $(SHARED_LIB): $(OBJS)
+ %.o: %.c $(HEADERS)
+ 	$(CC) $(CFLAGS) -c $< -o $@
+ 
++cli: $(STATIC_LIB)
++	$(MAKE) -C cli
 +
-+.. toctree::
-+   :maxdepth: 1
-+
-+   ../mm/memfd_preservation
-+
- Public API
- ==========
- .. kernel-doc:: include/linux/liveupdate.h
-diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
-index d3ada3e45e10..97267567ef80 100644
---- a/Documentation/mm/index.rst
-+++ b/Documentation/mm/index.rst
-@@ -47,6 +47,7 @@ documentation, or deleted if it has served its purpose.
-    hugetlbfs_reserv
-    ksm
-    memory-model
-+   memfd_preservation
-    mmu_notifier
-    multigen_lru
-    numa
-diff --git a/Documentation/mm/memfd_preservation.rst b/Documentation/mm/memfd_preservation.rst
+ clean:
+ 	rm -f $(OBJS) $(STATIC_LIB) $(SHARED_LIB)
++	$(MAKE) -C cli clean
+ 
+ install: all
+ 	install -d $(DESTDIR)/usr/local/lib
+diff --git a/tools/lib/luo/cli/.gitignore b/tools/lib/luo/cli/.gitignore
 new file mode 100644
-index 000000000000..416cd1dafc97
+index 000000000000..3a5e2d287f60
 --- /dev/null
-+++ b/Documentation/mm/memfd_preservation.rst
-@@ -0,0 +1,138 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
++++ b/tools/lib/luo/cli/.gitignore
+@@ -0,0 +1 @@
++/luoctl
+diff --git a/tools/lib/luo/cli/Makefile b/tools/lib/luo/cli/Makefile
+new file mode 100644
+index 000000000000..6c0cbf92a420
+--- /dev/null
++++ b/tools/lib/luo/cli/Makefile
+@@ -0,0 +1,18 @@
++# SPDX-License-Identifier: LGPL-3.0-or-later
++LUOCTL = luoctl
++INCLUDE_DIR = ../include
++HEADERS = $(wildcard $(INCLUDE_DIR)/*.h)
 +
-+==========================
-+Memfd Preservation via LUO
-+==========================
++CC = gcc
++CFLAGS = -Wall -Wextra -O2 -g -I$(INCLUDE_DIR)
++LDFLAGS = -L.. -l:libluo.a
 +
-+Overview
-+========
++.PHONY: all clean
 +
-+Memory file descriptors (memfd) can be preserved over a kexec using the Live
-+Update Orchestrator (LUO) file preservation. This allows userspace to transfer
-+its memory contents to the next kernel after a kexec.
++all: $(LUOCTL)
 +
-+The preservation is not intended to be transparent. Only select properties of
-+the file are preserved. All others are reset to default. The preserved
-+properties are described below.
++luoctl: luoctl.c ../libluo.a $(HEADERS)
++	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
 +
-+.. note::
-+   The LUO API is not stabilized yet, so the preserved properties of a memfd are
-+   also not stable and are subject to backwards incompatible changes.
++clean:
++	rm -f $(LUOCTL)
+diff --git a/tools/lib/luo/cli/luoctl.c b/tools/lib/luo/cli/luoctl.c
+new file mode 100644
+index 000000000000..39ba0bdd44f0
+--- /dev/null
++++ b/tools/lib/luo/cli/luoctl.c
+@@ -0,0 +1,178 @@
++// SPDX-License-Identifier: LGPL-3.0-or-later
++/**
++ * @file luoctl.c
++ * @brief Simple utility to interact with LUO
++ *
++ * This utility allows viewing and controlling LUO state.
++ *
++ * Copyright (C) 2025 Amazon.com Inc. or its affiliates.
++ * Author: Pratyush Yadav <ptyadav@amazon.de>
++ */
 +
-+.. note::
-+   Currently a memfd backed by Hugetlb is not supported. Memfds created
-+   with ``MFD_HUGETLB`` will be rejected.
++#include <libluo.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <fcntl.h>
++#include <unistd.h>
++#include <string.h>
++#include <errno.h>
++#include <getopt.h>
 +
-+Preserved Properties
-+====================
++#define fatal(fmt, ...)					\
++	do {						\
++		fprintf(stderr, "Error: " fmt, ##__VA_ARGS__);	\
++		exit(1);				\
++	} while (0)
 +
-+The following properties of the memfd are preserved across kexec:
++struct command {
++	char *name;
++	int (*handler)(void);
++};
 +
-+File Contents
-+  All data stored in the file is preserved.
++static void usage(const char *prog_name)
++{
++	printf("Usage: %s [command]\n\n", prog_name);
++	printf("Commands:\n");
++	printf("  state         - Show current LUO state\n");
++	printf("  prepare       - Prepare for live update\n");
++	printf("  cancel        - Cancel live update preparation\n");
++	printf("  finish        - Signal completion of restoration\n");
++}
 +
-+File Size
-+  The size of the file is preserved. Holes in the file are filled by allocating
-+  pages for them during preservation.
++static enum liveupdate_state get_state(void)
++{
++	enum liveupdate_state state;
++	int ret;
 +
-+File Position
-+  The current file position is preserved, allowing applications to continue
-+  reading/writing from their last position.
++	ret = luo_get_state(&state);
++	if (ret)
++		fatal("failed to get LUO state: %s\n", strerror(-ret));
 +
-+File Status Flags
-+  memfds are always opened with ``O_RDWR`` and ``O_LARGEFILE``. This property is
-+  maintained.
++	return state;
++}
 +
-+Non-Preserved Properties
-+========================
++static int show_state(void)
++{
++	enum liveupdate_state state;
 +
-+All properties which are not preserved must be assumed to be reset to default.
-+This section describes some of those properties which may be more of note.
++	state = get_state();
++	printf("%s\n", luo_state_to_string(state));
++	return 0;
++}
 +
-+``FD_CLOEXEC`` flag
-+  A memfd can be created with the ``MFD_CLOEXEC`` flag that sets the
-+  ``FD_CLOEXEC`` on the file. This flag is not preserved and must be set again
-+  after restore via ``fcntl()``.
++static int do_prepare(void)
++{
++	enum liveupdate_state state;
++	int ret;
 +
-+Seals
-+  File seals are not preserved. The file is unsealed on restore and if needed,
-+  must be sealed again via ``fcntl()``.
++	state = get_state();
++	if (state != LIVEUPDATE_STATE_NORMAL)
++		fatal("can only switch to prepared state from normal state. Current state: %s\n",
++		      luo_state_to_string(state));
 +
-+Behavior with LUO states
-+========================
++	ret = luo_prepare();
++	if (ret)
++		fatal("failed to prepare for live update: %s\n", strerror(-ret));
 +
-+This section described the behavior of the memfd in the different LUO states.
++	return 0;
++}
 +
-+Normal Phase
-+  During the normal phase, the memfd can be marked for preservation using the
-+  ``LIVEUPDATE_IOCTL_FD_PRESERVE`` ioctl. The memfd acts as a regular memfd
-+  during this phase with no additional restrictions.
++static int do_cancel(void)
++{
++	enum liveupdate_state state;
++	int ret;
 +
-+Prepared Phase
-+  After LUO enters ``LIVEUPDATE_STATE_PREPARED``, the memfd is serialized and
-+  prepared for the next kernel. During this phase, the below things happen:
++	state = get_state();
++	if (state != LIVEUPDATE_STATE_PREPARED)
++		fatal("can only cancel from normal state. Current state: %s\n",
++		      luo_state_to_string(state));
 +
-+  - All the folios are pinned. If some folios reside in ``ZONE_MIGRATE``, they
-+    are migrated out. This ensures none of the preserved folios land in KHO
-+    scratch area.
-+  - Pages in swap are swapped in. Currently, there is no way to pass pages in
-+    swap over KHO, so all swapped out pages are swapped back in and pinned.
-+  - The memfd goes into "frozen mapping" mode. The file can no longer grow or
-+    shrink, or punch holes. This ensures the serialized mappings stay in sync.
-+    The file can still be read from or written to or mmap-ed.
++	ret = luo_cancel();
++	if (ret)
++		fatal("failed to cancel live update: %s\n", strerror(-ret));
 +
-+Freeze Phase
-+  Updates the current file position in the serialized data to capture any
-+  changes that occurred between prepare and freeze phases. After this, the FD is
-+  not allowed to be accessed.
++	return 0;
++}
 +
-+Restoration Phase
-+  After being restored, the memfd is functional as normal with the properties
-+  listed above restored.
++static int do_finish(void)
++{
++	enum liveupdate_state state;
++	int ret;
 +
-+Cancellation
-+  If the liveupdate is canceled after going into prepared phase, the memfd
-+  functions like in normal phase.
++	state = get_state();
++	if (state != LIVEUPDATE_STATE_UPDATED)
++		fatal("can only finish from updated state. Current state: %s\n",
++		      luo_state_to_string(state));
 +
-+Serialization format
-+====================
++	ret = luo_finish();
++	if (ret)
++		fatal("failed to finish live update: %s\n", strerror(-ret));
 +
-+The state is serialized in an FDT with the following structure::
++	return 0;
++}
 +
-+  /dts-v1/;
++static struct command commands[] = {
++	{"state", show_state},
++	{"prepare", do_prepare},
++	{"cancel", do_cancel},
++	{"finish", do_finish},
++	{NULL, NULL},
++};
 +
-+  / {
-+      compatible = "memfd-v1";
-+      pos = <current_file_position>;
-+      size = <file_size_in_bytes>;
-+      folios = <array_of_preserved_folio_descriptors>;
-+  };
++int main(int argc, char *argv[])
++{
++	struct option long_options[] = {
++		{"help", no_argument, 0, 'h'},
++		{0, 0, 0, 0}
++	};
++	struct command *command;
++	int ret = -EINVAL, opt;
++	char *cmd;
 +
-+Each folio descriptor contains:
++	if (!luo_is_available()) {
++		fprintf(stderr, "LUO is not available on this system\n");
++		return 1;
++	}
 +
-+- PFN + flags (8 bytes)
++	while ((opt = getopt_long(argc, argv, "ht:e:", long_options, NULL)) != -1) {
++		switch (opt) {
++		case 'h':
++			usage(argv[0]);
++			return 0;
++		default:
++			fprintf(stderr, "Try '%s --help' for more information.\n", argv[0]);
++			return 1;
++		}
++	}
 +
-+  - Physical frame number (PFN) of the preserved folio (bits 63:12).
-+  - Folio flags (bits 11:0):
++	if (argc - optind != 1) {
++		usage(argv[0]);
++		return 1;
++	}
 +
-+    - ``PRESERVED_FLAG_DIRTY`` (bit 0)
-+    - ``PRESERVED_FLAG_UPTODATE`` (bit 1)
++	cmd = argv[optind];
 +
-+- Folio index within the file (8 bytes).
++	ret = luo_init();
++	if (ret < 0) {
++		fprintf(stderr, "Failed to initialize LibLUO: %s\n", strerror(-ret));
++		return 1;
++	}
 +
-+Limitations
-+===========
++	command = &commands[0];
++	while (command->name) {
++		if (!strcmp(cmd, command->name)) {
++			ret = command->handler();
++			break;
++		}
++		command++;
++	}
 +
-+The current implementation has the following limitations:
++	if (!command->name) {
++		fprintf(stderr, "Unknown command %s. Try '%s --help' for more information\n",
++			cmd, argv[0]);
++		ret = -EINVAL;
++	}
 +
-+Size
-+  Currently the size of the file is limited by the size of the FDT. The FDT can
-+  be at of most ``MAX_PAGE_ORDER`` order. By default this is 4 MiB with 4K
-+  pages. Each page in the file is tracked using 16 bytes. This limits the
-+  maximum size of the file to 1 GiB.
-+
-+See Also
-+========
-+
-+- :doc:`Live Update Orchestrator </admin-guide/liveupdate>`
-+- :doc:`/core-api/kho/concepts`
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 361032f23876..b4fde9f62e9b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14020,6 +14020,7 @@ S:	Maintained
- F:	Documentation/ABI/testing/sysfs-kernel-liveupdate
- F:	Documentation/admin-guide/liveupdate.rst
- F:	Documentation/core-api/liveupdate.rst
-+F:	Documentation/mm/memfd_preservation.rst
- F:	Documentation/userspace-api/liveupdate.rst
- F:	include/linux/liveupdate.h
- F:	include/uapi/linux/liveupdate.h
++	luo_cleanup();
++	return (ret < 0) ? 1 : 0;
++}
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 
