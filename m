@@ -1,282 +1,405 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2042.outbound.protection.outlook.com [40.107.243.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701E321FF5B;
-	Wed, 23 Jul 2025 18:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753296613; cv=fail; b=fU8j427PrF6fcK8LIz/7Lv+/TvwOjrPBIU7yA07PdawV1Zw81lS+gBVqZX4bHhpYLOcroYJkTA6h24n87wxhkKf/dZdzAmVtvU+DpTWYJ/5qGPBOoyS85cvgJUM0jBPyhaD8tAPhYm8bWKSJPjOASrEYkR68oE/c2GRWNUmgYz4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753296613; c=relaxed/simple;
-	bh=jBawuChAOYstfuXsFNSjQNMzMQXEjemyp1PBCPzZDI8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=UOkDW0k9i7GRwi7SW2zdM4qGzb9d9z6MdfOrClmkAqq92rBqN2kH4vCKZ3fHpdcWIWmOgKxv97qsMCB96ZsjXYvOGnO0z+WQagKu6x0WgjIL2WDwPRt11RwYO6+Y/whKDcY4ZdHSPzy3u+gU4hosCpW9MfZAIpSkc0tF1RvgAhQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SRjswjuy; arc=fail smtp.client-ip=40.107.243.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5D020F087
+	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 19:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753300777; cv=none; b=dmpZJn3NXOQWi33UBJt8Pu0wJqgoqb7nU9AzxZ+HPwkFnMWQfS/35XrdG49dZBRxUM9nXxSiCcAM+2RuEe9Bo98ItI1TtOYFwopAPb3QOUooRnVb10vZAcv8mrwXQXrSnjWhz93/kBAy/wXHvrrK6mN7lPS5+HopeECjJ2fMhm0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753300777; c=relaxed/simple;
+	bh=gBLkfcRAvIG1KDHAtBupzCcVujGjn8H6CXANsWTM11s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WPSWZ+uJFfdrZ9QeMyLnOxDRdFBEjqlLwWn/I0M910Ge4AWm14b5wRAlPYGxfAuQMZ1n4yFnkQee1H/O98MKcE3OOhoui/4EqNeOhYVVpS3QFZXIiAjOhLgqvws8rOYvE/MGDp7IqDNjcyNQXSzy4O6fd/Gg5hgbvrkMrnS9EnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D3qYEFQG; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SRjswjuy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZUb5TLM+5QtQg4EclmO+YDAy9DKFAwSyfu3MSLJW6nJt3iKLBGLceYTe3BmbcD/5XohcQpenrDLfhTyOMvqHRfXHYUf22SEDFNVzobM4fSh6iMEu9LhVEZpkPWhL4nLouXHNs31vAe2Ci6Ca1wiYYqwa3CEi5kAzglmQsy8g+PWtfWh4wjA6mnbU4qGv2c1CJ9wZxFhkbLZIDTIxGLT0UIb0utsvJIzTgXB006FYZv/IlqRmV5j2y5KXxqtWIgB/wc6yQ2lZa3hY9uLw8Vn/HjWtiC779GLysFSi8yU0qcoybVn5DVZAojAL8eE3jQAruR8evWOsrXpfIjuVy2yX2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LvmuK56kqOYMMFAzHpauGe5SluzLyeJfOF9Btbvezro=;
- b=N719gMDAx+L5RdreHy25F5HKhY2Kacgddss5rwhgr5IcHVx/1g5IBS4SStr6UswE0nBvwCLJPPy8YL8xpYn8ZbVDpxwnRcz/56nqQnMxgc3gUkEVarqT0ufTyvl6OksRl84DJc4VBRW/VHcUkCSKdgSzdXZ2sGmdyQq8zgamaET4jviHUVHuvuoCFqIIlsOZ9tc+cSggI4I8Bv100WKuAlb++9pOGgK/4gSrNf/+zj5lMF6ak2hu7gJ1dTfHCaYJzXmM85n8xFnfJEkJSHwcU/JYxQFWZ+AHG08Npvpe7YCN1rofHQTejTOUiXtzKx4I95zRVKWVUjTPybmrIr2hSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LvmuK56kqOYMMFAzHpauGe5SluzLyeJfOF9Btbvezro=;
- b=SRjswjuywpqJWz/WrbKYnZFv/JAMQ532aKcx5j/4Ll3fT8PFet4K642YS3BJQz3aOv6gWsKFFPZ0e9Yvao3++caH2TorasbxHvzr9HV8M/LtOu8RfpurVZqwUV9FcCMVIYJ8H5VTdr1H74aKxPy14agW/W1jyybV41IPmer6hCw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH8PR12MB6913.namprd12.prod.outlook.com (2603:10b6:510:1ca::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Wed, 23 Jul
- 2025 18:50:08 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%3]) with mapi id 15.20.8943.028; Wed, 23 Jul 2025
- 18:50:08 +0000
-Message-ID: <82b8e6fb-8663-42b7-b67c-43e4ea6f8aa8@amd.com>
-Date: Wed, 23 Jul 2025 13:50:03 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v15 33/34] fs/resctrl: Introduce the interface to switch
- between monitor modes
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, james.morse@arm.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: Dave.Martin@arm.com, x86@kernel.org, hpa@zytor.com,
- akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
- Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, fvdl@google.com,
- seanjc@google.com, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
- xin@zytor.com, manali.shukla@amd.com, tao1.su@linux.intel.com,
- sohil.mehta@intel.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- peterz@infradead.org, xin3.li@intel.com, kan.liang@linux.intel.com,
- mario.limonciello@amd.com, thomas.lendacky@amd.com, perry.yuan@amd.com,
- gautham.shenoy@amd.com, chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
-References: <cover.1752013061.git.babu.moger@amd.com>
- <7869219493bb4cc5626da704c4f8f107fe7c8f69.1752013061.git.babu.moger@amd.com>
- <af0a7a35-2f6d-4c8c-990d-af809d9547bf@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <af0a7a35-2f6d-4c8c-990d-af809d9547bf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1P222CA0135.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c2::13) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D3qYEFQG"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4ab6416496dso4298961cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 12:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753300774; x=1753905574; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/toxwIlKXVShIgP1D0kJ62j1WLKAOpfUcajfX3gN8ts=;
+        b=D3qYEFQGO7rofovyAsCBztqQAhYTxWTOpGKxBD7WMcDellTqDvt41DN6pdZTZd96GU
+         OlOaH2NvO6bS7urOr2xkA+lZQVm1Wt8KpKm8k5itBPnhbwav3NFAbHH+cYGLfPSazxAH
+         EwEwYbfOiLfZ4KtvLaY8OteTqIwT0xN+i1Gr28iCeRQKnDAmK6xCEMUa3nE0giLLpsfQ
+         9HczvuxbnQFTZqDYuiK7/dv0SiOd14JV4f8+cP9IuM4olpdoKzncyK1nf51kSPXXS+lz
+         +9wwPTMBRpBBdE1K5H4+9nuEbIuH9MbvpODmJzXjG0t3sZYMGySjZofQGhpD10PKWrNZ
+         /1Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753300774; x=1753905574;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/toxwIlKXVShIgP1D0kJ62j1WLKAOpfUcajfX3gN8ts=;
+        b=JjQwlTlxr8kW7zz+wzLUVLB/+159MDKsqF2euvD8TXeDZGkzLpdcjBse652yHJASrD
+         hjsL8zpaYQowDO67XvWl2O2agBbfbNv1+9GPIIos6WVE30JhkUi1P5u5Crhij4dO+P1G
+         q7mWtduJF64HuGTcacxZk6YEtbx5eWTD5raNMdRJ2fQ1EMkDB7t8azusCI8TEJ40YgY+
+         5fVWfN0NHtvTgBUWBWXCeKn0WESiJkQDOD1IxHE+EJQUM+yg0pr+Cqba5eLbgkmF14lx
+         JG5L8+YoQZNoBEBn1+zBmydvpmK3I9SvXUgHBt/276og8iL0O1FX5D7hAssSRfhpxHnH
+         EQvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVIG3Rfno3VVRk++K3B1V87NGo1DFkWByZzQhbLGCIfht4h+aD+dTsYByeW6EnSBXnX0LM6mkZUFig=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzA7HZRIJckc6U/oFspTmqrIZlZYb+QlWx0ffou7zRstAOgkkWb
+	8JMAa4vudld7S1QcVRA51+yhZt9kRY18HKkxe2t7pdEhxhI+dVQZOox0AZHOmGrQhADj5dhiXhr
+	or3jaEn/MdYKD03qjS645ydENKmHejkzI8+RmRatg
+X-Gm-Gg: ASbGncv/+3lLL1rOSsC8KP/rGdBvP+Fovjq+77nMohyRkTxWlaZ//4Z16Yal0g6Wa0n
+	/RqO6/4rATxY69VhXhD68DmATz1eCjNVgi7KzuuSK1bNoAI8dK/mn3QduiYZO/NLf25MPzYvzF1
+	tXUlm1Omct37Y0pGrEsoOYds9bOCCg1qfNrtCwvbXvBqry7slhLCK5TsIrS1IQANsm3gBZymKPl
+	Csv/koyXR+DBmVFSrt1UOYRJggFOlSUb7g3qKY4Eb3tzPlYYXY=
+X-Google-Smtp-Source: AGHT+IFFYAKVl1OSb0YyToC2GKUhn4nsK/EB3+URfvbG0nw/U/7Qml4x+L2DfnO/8rCHr6pwhxufWfIsQlA6JN6Nt+4=
+X-Received: by 2002:ac8:5891:0:b0:4ab:599d:d112 with SMTP id
+ d75a77b69052e-4ae6dfb8bf1mr61916301cf.47.1753300773415; Wed, 23 Jul 2025
+ 12:59:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH8PR12MB6913:EE_
-X-MS-Office365-Filtering-Correlation-Id: 477cb277-3199-46a6-c17e-08ddca19befa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cytzVWpld0VqK28rS09pOUlqMmxFQXVHam5EWWMxTGlhNStCWjdrZzI0NUpx?=
- =?utf-8?B?eVgwNTN3L0QrOU9uM2hhSCtiOGU4Qm51b2NLdjJuNHJrTkhyYmdIaUZLL3dN?=
- =?utf-8?B?SjBFbkQ2bTlqOWJmaC9jV25DWStxQmtDYlk4TlZXMWMzRUsxYnNsVkdiYmcw?=
- =?utf-8?B?SzduWGNBcVRYNHdhUVpQdWx1QUd2RDdpV2ZZWW9mK0RDUCtKRFlQWFMrM3R2?=
- =?utf-8?B?UWYrU21GaTl3Q2RDZTJXQXFiZStSM3JmRm9kMkI0eVhNT3FhU09xRHhmOVJC?=
- =?utf-8?B?TE9ucmFaZVlxOXMxUmN1VHdUTUZ4QWUwZVp3b3MrME1tQmpTUTdkWTRtUG1v?=
- =?utf-8?B?ajA5S3hER20zVkUxY05kQThiams1eFVGT1U1djBoK0JKY1FSeHlQdGZ2TXpD?=
- =?utf-8?B?a1BKMXFkLzVwTjZZVWxPYVdHcVdabVJ5bzE3MWxDS0k5MGUyQWdFaGFZcWEw?=
- =?utf-8?B?c3I5M201YkNIcXJMeXhQY1BOYXN1R0d4OTliMDRNb0txaFNKdEFvdnNoMmtT?=
- =?utf-8?B?YnozNmlsMVEwRlNGa3RFRVlYR2FpdG5MNDZrYXo0L2puSHgzR2g3MEd4eXJX?=
- =?utf-8?B?YklrOEdQSHZNNnh6WVBaSDd4NHk5TG9SL0MvK2VDbTVNdXZjS0d0ZENLUmlU?=
- =?utf-8?B?WTF0MlQ4eXlYeCtWcU1kWjMzcFJzZm9qNmdKUHRzTTUwRFYvT3lseEZaQ05y?=
- =?utf-8?B?UUtUdkZucUFxOHNBNDlBQk96ZlA2TlgzMU93WW1VclVJM1hISFFJWk5JOVBR?=
- =?utf-8?B?eHZxNHJjNW5VTGtHVzhZRUpZRmd6encvcGVSYTNBL2lVT3hvekxlRVdpYXhF?=
- =?utf-8?B?WjU1UmRweVBzN3djbFBnd2E1SnRWVlpaaEJacXcrM1BIRjFTRkpNelE0TXBM?=
- =?utf-8?B?K1hEZWdSYWdLNGpKa3VRSURXTVNhZWFTRXQvMHJtZjZqMThkWTVqMHc5Y3lo?=
- =?utf-8?B?UWdpTHBMdWIwSnZHMFhWSE83bnkybjZwTWJzQ3dOTiswU2hEenYyUnl3eklq?=
- =?utf-8?B?VGtsNDNIUkx6eFFrUmNRQkJURjFGNlJRVi9ORWpSelpieXhhQXhZS3h3emQr?=
- =?utf-8?B?amlCemxwQm8vNjN5djVxZUJBaGNSYUdCNCtkTzBUTGVtaDdYVVY0WHJWb0J4?=
- =?utf-8?B?YnpNc0daUnRkV0ZoLzA2UW44blNBWU41NjZVWm1sTVI4dm1PTnllU1hpWmtp?=
- =?utf-8?B?eVR6MGhVTk0xczZwV05HUmJSMGN1STBMcVl6VXdDajJoNXhpM2cwakdtVjFh?=
- =?utf-8?B?aGdpNlcwMVVhM0F3cFBJRUJIYXFuM3hKekRMRmJQRWdXUkxnRk1ocWNURkJC?=
- =?utf-8?B?RWxoYytjOUQ4RzN2RllpQVk5TmI3WWxsSkNabDE0Z0IwdWpqby83bVRrVlQ0?=
- =?utf-8?B?cmxFeGtBdmpXdU45eG1naVBpblpDVFNsVU9XRVpJUEN4NGFwVktxUGMrWW1V?=
- =?utf-8?B?aWNuYnRIcDZIT0dkK2NTdm1EbmJwSEJNY0dnaytQakZlUTlpUEpObEJoMS9Q?=
- =?utf-8?B?WlZDalkzWEh1N3N1RGc3cVErSEl1Q3h0NGVyWDh4UWF0WkZXN2d1c21EcWJm?=
- =?utf-8?B?S0wwUnkyWHA0b3JGUGFuazhjU2xNazFGTXlPS2E4dWh6MUl4dVdaV0V6UlJw?=
- =?utf-8?B?RTRidDJ5aFFtVStsM050ais5TENRU0NSTHRoOXV4L21CbzI3VSt6dUV0VE80?=
- =?utf-8?B?anRUQTZwV00yZDRQcGQyUVJVaTE4NSt0Vy9IOVM4eXYvRFNNbDNQNkZhUzRS?=
- =?utf-8?B?UzFLRW1YWmcwZUoraWszZ3FsVWNwV0wwUUVPREU3amVPbHZCQ3p0NzV0REZY?=
- =?utf-8?B?KytrQkhPeDczVC9Cak43N2ZnbGc5c0RLbE5vQUNaT2F2L00zS2UyNjdpa0Yr?=
- =?utf-8?B?SkkyN2tFeGozWEZnRWFWUDZQUjU5ZnBaTWdHWjBrbDJKZG45T0xWZFNEdEc4?=
- =?utf-8?Q?J3HF4t/1IAY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?anZZL0NtK0dZcFhNZzRIOVRxQ2xyanJrZXpnVUVOVWVrQ3ZPdGxFN0Vhck13?=
- =?utf-8?B?UE4vZEgzMklDOHkyL2cyNUR4T2VUcTN5ZXc2Y3BKeW4rU2JWaTIxaGswMWRx?=
- =?utf-8?B?MzZhSEJTZjRjK0wxL3VOMVV6YytUNGpZb3lGemhhZmZwWmNCbGNvVnFEc1dz?=
- =?utf-8?B?Y0J6dTh5ZkhlaUlja0xzaGdac1IyWlhjOVROeE0xTFkyM3VZbmhYT1JCUXk2?=
- =?utf-8?B?L3hkY0RUQ1lLbGhuajIvTUQvWUVQSjFaQ2VleXF3MStpdXhOV2JnazhEVzNX?=
- =?utf-8?B?V0tPallSV1FSUWlsZ3l4YVQyQ08reG9ucXRFYVJmS3BYU1ZkakJtN0dEaWFI?=
- =?utf-8?B?MW94Y3Z5SGxQT0s4Wjg4NktUbi8vRFVQakpUSDFNN3pwL0g3dktrQTZna1hZ?=
- =?utf-8?B?ZzRwMVdYTkFxNVdDUndncmc4dXpPMUhVMFlmcER6bnpNejcyR0tOU0p3UDVz?=
- =?utf-8?B?eTNmYUR5bWFBb0xZWGxQV08wNzFjMEdZQmZIYVhHdWFUUStlTEg0VDlmSyto?=
- =?utf-8?B?eU1nMVJJK1E3SzJ5b3F3OXlDRStyUzhZYUcrQ1hCamdraFpqRnJHOGJtUGI4?=
- =?utf-8?B?Q0lXTjhISnEwY2VLbHMwdGd2RkNKN1hDVWdZd01jZ2FrRGNiN1ZlSTdYcjhq?=
- =?utf-8?B?U2ZTb2dFUXd0QVJ2dXZhWEFuZ3FDek1YcHVmR0VxcHBrMTFXSDVyMStmVEtX?=
- =?utf-8?B?dmtxUUlIRit6S0l3L0w5cjd0REQvemp6N3MyZ0RoUWVxbXZOYjFGMVlZQzdI?=
- =?utf-8?B?THlqZkVoVkRxTVdvdWRsb2JQMy96Sm56bWRsdytjZ09wNzZ1T2puY0Y3VnhI?=
- =?utf-8?B?RXN5N0hNNnZoajhHRHpOWnFDNmtTOElFNElKSW05eGc3UEdsQmVENTFuUHhG?=
- =?utf-8?B?SVRDSzJKSFlIcEM5ZjFoVi9DUTJjbnhIcnlnRFJadVR0QkNEUmhXVktuUFdD?=
- =?utf-8?B?NHhHbVRGLzJXd2lwZ2RCQ0RjUEJZaDZYWmtodWV2WmdUaFBydldOTllxRExG?=
- =?utf-8?B?ZFlHVWRvUUYzcVpLd1ZzZ2JIckRWWk9UdFMzL2RNMzlTUGpSNWhKaGFueS9s?=
- =?utf-8?B?U1lJOG5Ba1pRSW4vN2lLOEhpOUl0alF0TGN2VVJZaG55T3BPdWpqclVwckVF?=
- =?utf-8?B?UlhPWXBERVZ5V2U5ajJFaUd3K09ibThtcWMza0tXcGtUVkdURDdmQ0JKRG5N?=
- =?utf-8?B?VFd1TVEwMG1TdG9Zcm1LM0JQb3NxQjY3Y09RQzVGaHNaeVlGRGYyWUdEZmhq?=
- =?utf-8?B?RkVsODBTOUpHWnJyNHd6Wk5jNERzY1BzSk16blpuUDA5SWNQZ3NkTEhPeW5M?=
- =?utf-8?B?UEMrWllBWnVCb1JaNVo4L0t6NjdXdllVVXU1UTd5ZnJsV0o2bW5aTHRpcXNM?=
- =?utf-8?B?MVVWbXQ2dlVOb0VvbzU3MG44dFVtcG9FT1lNSHlDZFhwQjlORnhDUmZFMTV0?=
- =?utf-8?B?dFZBcWsxekRYQmFwVDVJS0RmT2wxMkpIVHUva0NFb0ttTU5TWXZBMyttUC9w?=
- =?utf-8?B?WHZJckR0bHJlMEhmYWxzMnEzWjR3aHRYNWhxdVVBN1dQWkRqK2xEaHptb3ov?=
- =?utf-8?B?UzRpQmJweVN6Q2JtbEFFamRhNTFPNkUrRXhncXBKbGU4WUZrRUxSNWxpVGxV?=
- =?utf-8?B?aEt3THZHYnpPOEcwaWExeHNoYmNBVnI0eFhXUkREd1hsWVdsUEdRVDRKV084?=
- =?utf-8?B?VzhFc2Jnd0ZjOEhDdXJ0eUd6c0tjVE41ZjQxc3dxQjBjWmprekIwMGZuQUQ5?=
- =?utf-8?B?Y3pzcDNuWGVCZlNxSGZadFVRcXVkSW1NSzBqV1lYNFZBSDRPdThtcm9BR3hH?=
- =?utf-8?B?aWhkZlZ6dmhzdW94ZWlWdjdKZ3Q2MjE4S1RhMTRzejMvT0c0VFBYbE9ZbTg0?=
- =?utf-8?B?ZlU4dU5rd2l1RDVMZTQrOWxTSzdXQzRSRmlRU3N1MmRHSlFNTGJ1TWZBM3lu?=
- =?utf-8?B?RXp3VXR6YTFyOG5pNENaR0V3QlVHeCt2Sm5UVW1CTHcyZExuZ05qTE9SR05a?=
- =?utf-8?B?a1BLSGtsbjVkdFZTcFl6dm41MTlYMkhvTlNYeVRyRlNPcVMxQS93QlZEclVR?=
- =?utf-8?B?RldUMHdoSFVQQm9MNTVMckY1dlk3aVZNSjlSSmZ1bmFkaWFEL0NydUNMcDVr?=
- =?utf-8?Q?9ycdm5sZzllkuYMSG/HHsO7Lr?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 477cb277-3199-46a6-c17e-08ddca19befa
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 18:50:08.5900
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JmOpnII2k7pIO/25ngIYmG3+6A2NICGOMuQkc29JZ99QE+QAYBYwTZRiKDZlkxYr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6913
+References: <20250714-support-forcepads-v1-0-71c7c05748c9@google.com>
+In-Reply-To: <20250714-support-forcepads-v1-0-71c7c05748c9@google.com>
+From: Jonathan Denose <jdenose@google.com>
+Date: Wed, 23 Jul 2025 14:59:22 -0500
+X-Gm-Features: Ac12FXzB0r0SStkn-MqKlUl-iyd1eQR8XX2htV6p9FZpt78YS2r2JkXa1JY2KYU
+Message-ID: <CAMCVhVN+5aigp7WMkTpfdUgNrzRSsQbNeF7dw0z=s7Zj2uythQ@mail.gmail.com>
+Subject: Re: [PATCH 00/11] HID: Implement haptic forcepad support
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
+	"Sean O'Brien" <seobrien@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On Mon, Jul 14, 2025 at 10:09=E2=80=AFAM Jonathan Denose <jdenose@google.co=
+m> wrote:
+>
+> Hello,
+>
+> This is an updated implementation of the interface for controlling haptic
+> touchpads.
+>
+> Below is an updated design proposal for the userspace and HID interfaces,
+> modified from what one of my colleagues submitted in 2019 [0].
+>
+> We would appreciate any feedback you might have.
+>
+> Thank you,
+>
+> Jonathan Denose
+> Chromium OS Team
+>
+> Background
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> There are multiple independent projects to develop a touchpad with force =
+sensors
+> and haptic actuators, instead of a traditional button.  These haptic touc=
+hpads
+> have several advantages and potential uses; they allow clicking across th=
+e
+> entire touchpad surface, adjusting the force requirement for clicks, hapt=
+ic
+> feedback initiated by UI, etc. Supporting these features will potentially
+> require two new communication channels at the kernel level:
+> * Control of haptic motor by the host
+> * Force sensor data from device to host
+>
+> This document includes two related proposals:
+> 1. HID design proposal, that hardware makers would need to implement
+> 2. Kernel design proposal
+>
+> Objective
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Develop a standard protocol to allow userspace applications to communicat=
+e with
+> haptic touchpads, and minimize duplicated code and effort.
+>
+> Requirements:
+> 1. Support UI-initiated haptic feedback.
+> 2. Allow userspace to control when button press and button release haptic
+>    effects are triggered. (Useful when detecting a false click, changing =
+force
+>    thresholds, or sending context-dependent effects).
+> 3. Reveal force sensor readings to userspace applications.
+> 4. Only allow OS-controlled haptic feedback for those systems which suppo=
+rt it.
+>
+> Proposal
+> =3D=3D=3D=3D=3D=3D=3D=3D
+>
+> In order to minimize duplicated effort, we propose standardized haptic to=
+uchpad
+> support in the linux kernel.
+>
+> HID API
+> -------
+>
+> Modes
+> .....
+>
+> The haptic touchpad should be able to operate under two different modes.
+>
+> 1. Device-controlled mode
+>
+> The haptic touchpad should start up in "device-controlled mode"
+> (HID_HAPTIC_MODE_DEVICE), meaning it acts as a normal touchpad. This mean=
+s it
+> should perform the press and release haptic feedback autonomously at pred=
+efined
+> force thresholds, and send the appropriate BTN_* events.
+>
+> 2. Host-controlled mode
+>
+> Once the touchpad has been confirmed as supporting haptics (described in =
+more
+> detail in the the "Click and release control" section below), the device =
+should
+> enter "host-controlled mode" (HID_HAPTIC_MODE_HOST). In this mode userspa=
+ce
+> should take control. From here, userspace will take control over
+> press/release haptic feedback, relying on the effects sent by the kernel.
+>
+> Multitouch
+> ..........
+>
+> The HID API for multitouch reports should follow the Microsoft precision
+> touchpad spec [1], with the following changes:
+> * A tip pressure field [2] should be used to report the force. The physic=
+al unit
+>   Type (Newtons or grams), exponent, and limits should be reported in the
+>   report descriptor for the force field.
+> * The device will always report the button state according to its predefi=
+ned
+>   force thresholds, even when not in device-controlled mode.
+> * The device must expose a "simple haptic controller" logical collection
+>   alongside the touchpad collection.
+>
+> Haptic control
+> ..............
+>
+> The HID protocol described in HUTRR63[3] must be used.
+>
+> The following waveforms should be supported:
+>
+> | WAVEFORMNONE             | Implicit waveforms required by protocol     =
+      |
+> | WAVEFORMSTOP             |                                             =
+      |
+> | ------------------------ | --------------------------------------------=
+----- |
+> | WAVEFORMPRESS            | To be used to simulate button press. In devi=
+ce-   |
+> |                          | controlled mode, it will also be used to sim=
+ulate |
+> |                          | button release.                             =
+      |
+> | ------------------------ | --------------------------------------------=
+----- |
+> | WAVEFORMRELEASE          | To be used to simulate button release.      =
+      |
+>
+> All waveforms will have an associated duration; continuous waveforms will=
+ be
+> ignored by the kernel.
+>
+> Triggers & Mode switching
+> .........................
+>
+> The =E2=80=9Cauto trigger waveform=E2=80=9D should be set to WAVEFORM_PRE=
+SS by default, and the
+> button from the touchpad collection should be set as the =E2=80=9Cauto tr=
+igger
+> associated control=E2=80=9D.
+>
+> The kernel can trigger the different modes in the following ways:
+> * Device-controlled mode can be enabled by setting the =E2=80=9Cauto trig=
+ger waveform=E2=80=9D to
+>   WAVEFORM_PRESS.
+> * Host-controlled mode can be enabled by setting the "auto trigger wavefo=
+rm" to
+>   WAVEFORM_STOP.
+>
+> The device must also support manual triggering. If intensity modification=
+ for
+> waveforms is supported by the device, the intensity control should be inc=
+luded
+> in the manual trigger output report. This allows modification of the inte=
+nsity
+> on a per-waveform basis. Retriggering does not need to be supported by th=
+e
+> device.
+>
+> Userspace API
+> -------------
+>
+> Multitouch protocol
+> ...................
+>
+> ABS_MT_PRESSURE will be used to report force. The resolution of ABS_MT_PR=
+ESSURE
+> should also be defined and reported in force units of grams or Newtons.
+> ABS_PRESSURE should be reported as the total force applied to the touchpa=
+d.
+> When the kernel is in host-controlled mode, it should always forward the =
+button
+> press and release events to userspace.
+>
+> Use Force Feedback protocol to request pre-defined effects
+> ..........................................................
+>
+> The force feedback protocol [4] should be used to control predefined effe=
+cts.
+>
+> Typical use of the force feedback protocol requires loading effects to th=
+e
+> driver by describing the output waveform, and then requesting those effec=
+ts
+> using an ID provided by the driver. However, for haptic touchpads we do n=
+ot want
+> to describe the output waveform explicitly, but use a set of predefined e=
+ffects,
+> which are identified by HID usage.
+>
+> The force feedback protocol will need to be extended to allow requests fo=
+r HID
+> haptic effects. This requires a new feedback effect type:
+>
+> /**
+>  * struct ff_hid_effect
+>  * @hid_usage: hid_usage according to Haptics page (WAVEFORM_CLICK, etc.)
+>  * @vendor_id: the waveform vendor ID if hid_usage is in the vendor-defin=
+ed
+>  * range
+>  * @vendor_id: the vendor waveform page if hid_usage is in the vendor-def=
+ined
+>  * range
+>  * @intensity: strength of the effect
+>  * @repeat_count: number of times to retrigger effect
+>  * @retrigger_period: time before effect is retriggered (in ms)
+>  */
+> struct ff_hid_effect {
+>         __u16 hid_usage;
+>         __u16 vendor_id;
+>         __u8  vendor_waveform_page;
+>         __s16 intensity;
+>         __u16 repeat_count;
+>         __u16 retrigger_period;
+> }
+>
+> Since the standard waveform id namespace does not overlap with the vendor
+> waveform id namespace, the vendor id and page can be ignored for standard
+> waveforms.
+>
+> Click and release control
+> .........................
+>
+> Haptic functionality shall be gated behind the HID_MULTITOUCH_HAPTIC kern=
+el
+> configuration option, and this kernel configuration option should only be
+> enabled if userspace will support haptic capabilities. Haptic functionali=
+ty will
+> only be initialized and used if HID_MULTITOUCH_HAPTIC is enabled, and if =
+the
+> following conditions have been met:
+> * ABS_MT_PRESSURE is defined and reporting force units of Newtons or gram=
+s.
+> * The device supports haptic effects according to the hid protocol define=
+d in
+>   HUTRR63 [3].
+> These checks will happen when the driver probes and initializes the multi=
+touch
+> device.
+>
+> In the case when the kernel configuration option has been set and the dev=
+ice
+> reports pressure and haptic effects as defined above, the kernel will ini=
+tialize
+> the haptic device and configure the haptic driver to signal that the touc=
+hpad is
+> haptic-compatible. To signal to userspace that the touchpad is haptic-com=
+patible
+> the kernel will mark INPUT_PROP_HAPTIC_TOUCHPAD.
+>
+> With userspace willing and able to take control, the kernel will signal t=
+o the
+> device to exit device-controlled mode once a WAVEFORMPRESS or WAVEFORMREL=
+EASE
+> event is uploaded. From here, userspace will take control over press/rele=
+ase
+> haptic feedback, relying on the effects sent by the kernel.
+>
+> In all other cases, the driver will take no action to enable haptic
+> functionality.
+>
+> Summary of normal use-case
+> 1. The kernel waits for userspace to upload WAVEFORMPRESS or
+>    WAVEFORMRELEASE.
+> 2. Userspace determines when a click has been performed based on its own
+>    criteria and tells the touchpad to perform a haptic effect.
+> 3. When userspace erases the WAVEFORMPRESS or WAVEFORMRELEASE effect, sig=
+nal the
+>    device to return to device-controlled mode.
+>
+> [0]: https://www.spinics.net/lists/linux-input/msg60938.html
+> [1]: https://learn.microsoft.com/en-us/windows-hardware/design/component-=
+guidelines/touchpad-devices
+> [2]: Usage ID 0x30 of HID usage table 0x0D. See chapter 16:
+>      https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf
+> [3]: https://www.usb.org/sites/default/files/hutrr63b_-_haptics_page_redl=
+ine_0.pdf
+> [4]: https://www.kernel.org/doc/html/v4.20/input/ff.html
+>
+> Signed-off-by: Jonathan Denose <jdenose@google.com>
+> ---
+> Angela Czubak (11):
+>       HID: add haptics page defines
+>       Input: add FF_HID effect type
+>       Input: add INPUT_PROP_HAPTIC_TOUCHPAD
+>       HID: haptic: introduce hid_haptic_device
+>       HID: input: allow mapping of haptic output
+>       HID: haptic: initialize haptic device
+>       HID: input: calculate resolution for pressure
+>       HID: haptic: add functions handling events
+>       Input: MT - add INPUT_MT_TOTAL_FORCE flags
+>       HID: haptic: add hid_haptic_switch_mode
+>       HID: multitouch: add haptic multitouch support
+>
+>  Documentation/input/event-codes.rst    |  14 +
+>  drivers/hid/Kconfig                    |  20 ++
+>  drivers/hid/Makefile                   |   1 +
+>  drivers/hid/hid-haptic.c               | 580 +++++++++++++++++++++++++++=
+++++++
+>  drivers/hid/hid-haptic.h               | 131 ++++++++
+>  drivers/hid/hid-input.c                |  18 +-
+>  drivers/hid/hid-multitouch.c           | 136 +++++++-
+>  drivers/input/input-mt.c               |  14 +-
+>  include/linux/hid.h                    |  29 ++
+>  include/linux/input/mt.h               |   1 +
+>  include/uapi/linux/input-event-codes.h |   1 +
+>  include/uapi/linux/input.h             |  22 +-
+>  12 files changed, 959 insertions(+), 8 deletions(-)
+> ---
+> base-commit: 86731a2a651e58953fc949573895f2fa6d456841
+> change-id: 20250625-support-forcepads-0b4f74fd3d0a
+>
+> Best regards,
+> --
+> Jonathan Denose <jdenose@google.com>
+>
+Hello,
 
-On 7/17/25 23:03, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 7/8/25 3:17 PM, Babu Moger wrote:
->> Resctrl subsystem can support two monitoring modes, "mbm_event" or
->> "default". In mbm_event mode, monitoring event can only accumulate data
->> while it is backed by a hardware counter. In "default" mode, resctrl
->> assumes there is a hardware counter for each event within every CTRL_MON
->> and MON group.
->>
->> Introduce mbm_assign_mode resctrl file to switch between mbm_event and
->> default modes.
->>
->> Example:
->> To list the MBM monitor modes supported:
->> $ cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> [mbm_event]
->> default
->>
->> To enable the "mbm_event" monitoring mode:
-> 
-> "monitoring mode" -> "counter assignment mode"?
+Gently bumping this patch series for initial review if anyone has some
+bandwidth to give it a look.
 
-Sure.
+Please feel free to let me know if you have any questions!
 
-> 
->> $ echo "mbm_event" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->>
->> To enable the "default" monitoring mode:
->> $ echo "default" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->>
->> MBM event counters are automatically reset as part of changing the mode.
->> Clear both architectural and non-architectural event states to prevent
->> overflow conditions during the next event read. Also clear assignable
->> counter configuration on all the domains.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> 
-> ...
-> 
->> ---
->>  Documentation/filesystems/resctrl.rst | 22 +++++++-
->>  fs/resctrl/internal.h                 |  2 +
->>  fs/resctrl/monitor.c                  | 27 ++++++++++
->>  fs/resctrl/rdtgroup.c                 | 72 ++++++++++++++++++++++++++-
->>  4 files changed, 121 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
->> index 2b2acb55d8b1..b8a4dbe061ea 100644
->> --- a/Documentation/filesystems/resctrl.rst
->> +++ b/Documentation/filesystems/resctrl.rst
->> @@ -259,7 +259,8 @@ with the following files:
->>  
->>  "mbm_assign_mode":
->>  	The supported counter assignment modes. The enclosed brackets indicate which mode
->> -	is enabled.
->> +	is enabled. The MBM events associated with counters may reset when "mbm_assign_mode"
->> +	is changed.
->>  	::
->>  
->>  	  # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> @@ -279,6 +280,15 @@ with the following files:
->>  	of counters available is described in the "num_mbm_cntrs" file. Changing the
->>  	mode may cause all counters on the resource to reset.
->>  
->> +	Moving to mbm_event counter assignment mode requires users to assign the counters
->> +	to the events. Otherwise, the MBM event counters will return 'Unassigned' when read.
->> +
->> +	The mode is beneficial for AMD platforms that support more CTRL_MON
->> +	and MON groups than available hardware counters. By default, this
->> +	feature is enabled on AMD platforms with the ABMC (Assignable Bandwidth
->> +	Monitoring Counters) capability, ensuring counters remain assigned even
->> +	when the corresponding RMID is not actively used by any processor.
->> +
->>  	"default":
->>  
->>  	In default mode, resctrl assumes there is a hardware counter for each
->> @@ -288,6 +298,16 @@ with the following files:
->>  	result in misleading values or display "Unavailable" if no counter is assigned
->>  	to the event.
->>  
->> +	* To enable "mbm_event" monitoring mode:
-> 
-> "monitoring mode" -> "counter assignment mode"?
-> 
-
-Sure.
-
->> +	  ::
->> +
->> +	    # echo "mbm_event" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +
->> +	* To enable "default" monitoring mode:
->> +	  ::
->> +
->> +	    # echo "default" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +
->>  "num_mbm_cntrs":
->>  	The maximum number of counters (total of available and assigned counters) in
->>  	each domain when the system supports mbm_event mode.
-> 
-> Reinette
-> 
-> 
-
--- 
-Thanks
-Babu Moger
+Thanks,
+--
+Jonathan
