@@ -1,127 +1,128 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FEB42A8C;
-	Wed, 23 Jul 2025 08:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE402797A4;
+	Wed, 23 Jul 2025 08:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753258701; cv=none; b=qQ+5WrCMRj+Hb/KOF6dj5rnOOkKoCz3Q2SR2zuNNxRAjwEuQxg+yyH4ohTbVsGJQL1rDpIMU+OvD3TMYACG335ln6rrCsWxFSKvOoNGLNReH6YJhtElWJFhSTKQ4JwvnrU3L2DlwMFxeEjuvZkqGQ5hdhkmAJewSX7gcc7wbekI=
+	t=1753258755; cv=none; b=Dn2BLRjNknkXNk3EXowJr7hPJEDv46IrCnEam44lJwFh+pXmvxqdpF7UEd3d694TvegmjvO+e042zoWeYT+V6avA4pCZUFqPVzfPo7NZ77nKRwosuwByrTJitU814ibjdC96fCXFoqxWQAJk08P932uFt3b0adXoT4JiJecgqxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753258701; c=relaxed/simple;
-	bh=dHylhm/pqm6wYGNi8fXJQ6QLjgTcpxqj1PGxAzSd3Po=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IibsijeXN0onfMiXLXym9qF8F/bsJm3FjKUZK+TUORNxuNafZ3lEinJgMN8cTiga5TvBWOtQ17VXiTVhOLZ4BHf4TBzXzrIIpsndj14JwSMQvBuiM5etoIplpOdcwIQ1Jrjt56yvLA022BvhXeKXso7eDAqdboljRTWUMrlqk3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jkhh1Xdq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753258755; c=relaxed/simple;
+	bh=zt9Qo87c6GQ+qZFQ/rW4OVrNszsm3KfmfrOniuhUpHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AxO7yjLU9lmvXx/qKXnY7qXQz1CDT4PV2P8iNbCXH/uBd9O/6JEGF1b8kBPiAg91MRUig+AHggFt0fD1xa12mU6VbNh6I+af5PRwcUp5/V3ntiglgeyNomei6jKKLVJVYP5bVMmDj0E7gRUR/RD2Uk5lPFuzn+UO7pkw/ey4298=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YgB17DSE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jkhh1Xdq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDD05C4CEE7;
-	Wed, 23 Jul 2025 08:18:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YgB17DSE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC7ADC4CEE7;
+	Wed, 23 Jul 2025 08:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753258698;
-	bh=dHylhm/pqm6wYGNi8fXJQ6QLjgTcpxqj1PGxAzSd3Po=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Jkhh1XdqkDlR2Hu8iK4h1ypUimAqjQJ70vcYl8f1jH6M2pB6pNvj4+pvznLADJ+CI
-	 FIrMqwnRDDQRhgRdh9qGlkeoI7E/1L/t3+pETDkJgs1Pa+ybWq5eDh0wdQNUV+ZUSR
-	 +noOecUen1Ao18K5E3wd+8V8FjkghiqLyrCBi2hyiNh6xeADjxq7q3F/g9FYjBQgy3
-	 /BND2Rlmop491f7VPJJ8tpBqybVVbLa1UFWvTnNCl1dZ72DEQOyz5ohhGaJ6Vykgt3
-	 z5pFb/octyktBknfLqBa4rX/Gp0oUF9YlZpgR17cnuFeuNuwy9vbpjPB55CgM9Dq3H
-	 ZX74NXTj2WQIA==
-Message-ID: <221cbc67-6b23-4e68-b870-114742e6fa61@kernel.org>
-Date: Wed, 23 Jul 2025 10:18:11 +0200
+	s=k20201202; t=1753258755;
+	bh=zt9Qo87c6GQ+qZFQ/rW4OVrNszsm3KfmfrOniuhUpHs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YgB17DSEvogPZOReGL8TNRDU1xw6PrnH9uHRmRPImf7NSbpfgJXJW/Vj8yoEwjVfJ
+	 fm/JF+XfTuVcZOBi5aS1irPJPaNkD3XuliFF6qK7SYv/ZtezZwx0m0fbs7HDYCc5a7
+	 kHxY1CtI+oWdGQ7WwjYHG3abjssoLgUrPkkt6bHQvb2FavcTuu2VTnfEcqQDUpyDDA
+	 IYI9lY0ZXmSVRRdrLYb5BUCZfrtsHBhsnzMH5grDhMRyhS/N/u3fWdPaAeGnChwFid
+	 hCLV5J1WKW6O5Zg8aW98ZXk0Wds5MZx+mRiRzppDkAheTwG33vYhff8j29cARYdJzf
+	 cif31QqbIK1Kw==
+Date: Wed, 23 Jul 2025 09:19:08 +0100
+From: Simon Horman <horms@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Fu Guiming <fuguiming@h-partners.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>,
+	Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Suman Ghosh <sumang@marvell.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Joe Damato <jdamato@fastly.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH net-next v10 1/8] hinic3: Async Event Queue interfaces
+Message-ID: <20250723081908.GW2459@horms.kernel.org>
+References: <cover.1753152592.git.zhuyikai1@h-partners.com>
+ <bea50c6c329c5ffb77cfe059e07eeed187619346.1753152592.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/19] dt-bindings: memory: factorise LPDDR channel
- binding into memory channel
-To: Clement LE GOFFIC <clement.legoffic@foss.st.com>,
- Julius Werner <jwerner@chromium.org>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
- Gatien Chevallier <gatien.chevallier@foss.st.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
- Le Goffic <legoffic.clement@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
- devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20250722-ddrperfm-upstream-v3-0-7b7a4f3dc8a0@foss.st.com>
- <20250722-ddrperfm-upstream-v3-7-7b7a4f3dc8a0@foss.st.com>
- <20250723-zealous-turtle-of-perfection-e67aee@kuoka>
- <e9e33fc7-4705-4e6d-bd33-ce9dc1a9b94e@foss.st.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <e9e33fc7-4705-4e6d-bd33-ce9dc1a9b94e@foss.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bea50c6c329c5ffb77cfe059e07eeed187619346.1753152592.git.zhuyikai1@h-partners.com>
 
-On 23/07/2025 10:10, Clement LE GOFFIC wrote:
-> Hi Krzysztof,
+On Tue, Jul 22, 2025 at 03:18:40PM +0800, Fan Gong wrote:
+> Add async event queue interfaces initialization.
+> It allows driver to handle async events reported by HW.
 > 
-> On 7/23/25 08:57, Krzysztof Kozlowski wrote:
->> On Tue, Jul 22, 2025 at 04:03:24PM +0200, Clément Le Goffic wrote:
->>> LPDDR and DDR channels exist and share the same properties, they have a
->>> compatible, ranks, and an io-width.
->>
->> Maybe it is true for all types of SDRAM, like RDRAM and eDRAM, but I
->> don't think all memory types do.
->>
->> I think this should be renamed to sdram-channel.
-> 
-> Ok, do you want me to also the memory-props patch into sdram-props ?
+> Co-developed-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: Xin Guo <guoxin09@huawei.com>
+> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
 
-Yes.
+...
 
-Best regards,
-Krzysztof
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_common.c b/drivers/net/ethernet/huawei/hinic3/hinic3_common.c
+> index 0aa42068728c..a5aaf6febba9 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_common.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_common.c
+> @@ -51,3 +51,16 @@ void hinic3_dma_free_coherent_align(struct device *dev,
+>  	dma_free_coherent(dev, mem_align->real_size,
+>  			  mem_align->ori_vaddr, mem_align->ori_paddr);
+>  }
+> +
+> +/* Data provided to/by cmdq is arranged in structs with little endian fields but
+> + * every dword (32bits) should be swapped since HW swaps it again when it
+> + * copies it from/to host memory.
+> + */
+
+This scheme may work on little endian hosts.
+But if so it seems unlikely to work on big endian hosts.
+
+I expect you want be32_to_cpu_array() for data coming from hw,
+with a source buffer as an array of __be32 while
+the destination buffer is an array of u32.
+
+And cpu_to_be32_array() for data going to the hw,
+with the types of the source and destination buffers reversed.
+
+If those types don't match your data, then we have
+a framework to have that discussion.
+
+
+That said, it is more usual for drivers to keep structures in the byte
+order they are received. Stored in structures with members with types, in
+this case it seems that would be __be32, and accessed using a combination
+of BIT/GENMASK, FIELD_PREP/FIELD_GET, and cpu_to_be*/be*_to_cpu (in this
+case cpu_to_be32/be32_to_cpu).
+
+An advantage of this approach is that the byte order of
+data is only changed when needed. Another is that it is clear
+what the byte order of data is.
+
+> +void hinic3_cmdq_buf_swab32(void *data, int len)
+> +{
+> +	u32 *mem = data;
+> +	u32 i;
+> +
+> +	for (i = 0; i < len / sizeof(u32); i++)
+> +		mem[i] = swab32(mem[i]);
+> +}
+
+This seems to open code swab32_array().
+
+...
