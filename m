@@ -1,114 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FBB8F58;
-	Wed, 23 Jul 2025 13:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0F12E6114;
+	Wed, 23 Jul 2025 13:49:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753278110; cv=none; b=HpYv5UkPUkYYvsZmzS+ivwf5zKK1iSryVEdfe4B78wTXI11ofH3qPC2x/71Vq9iIklG0G+ZKsWzQ70t10nKSb00QzSyh34qiLgkqaMiY7iLRRi1LlNWj8Eq340FPgq/BUyRnc0CDHgEd2xq8ZT8jOcT7wtKMmUTVIzjYVA+OwKY=
+	t=1753278543; cv=none; b=fl9tvnX7NHNWMHcsLb7KtVXI3a6hf3GjbuDNk/bAAj9uECarCbzVEHV2bluUFLlhb0s6HXSYsRCIp32S+JG43H9Gsd68T0rSnvuBbm1VZEq3GMKinZA/XoWi2nWRXcNa9lq0ml3q+6c5EjXa86b0yAlCJkBir6ULXp1vD9w1qVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753278110; c=relaxed/simple;
-	bh=zxxC/wQlJmLxLa47Q7NNudHjnXvG/vCvKPONP/39QCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O9XLCCby8Zb0AdDah6bPznl6pd84WwpjTwHlf2AM6/YDb8zoS8j9FsKeFS+iTIj7wMR/luRDVlKklgFGKYIEPy72/09HpGdN8LUWL84nNA06sGTOhC03j32YPAybqlX1XePnrbJvn8k9dGrRlCLLV0wik4yhtfNuE4GFI50lf9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PmuG7qTl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753278543; c=relaxed/simple;
+	bh=gpofvUdCvafEi9/Yz7WQuqJNoF8dDZ2uzd6/+Lg4OuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tF0gTbrf8lbr41Ps6Zw4+lRRYkns+V8fMXdiaZVUXIroVS+kRCevXKIAFS/tNXLHFwuSuUkS2CoZUuO8wXGymxDXTXTgkuw0DoxBIJUJicU+3ICauZseMmsvfZ5zkQmxPx8ZFHc4fqsvjLU2uZEzJi58UlAhbXrC4AxO11G5Hks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eqG+yF9v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PmuG7qTl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83DD9C4CEE7;
-	Wed, 23 Jul 2025 13:41:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eqG+yF9v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F177C4CEE7;
+	Wed, 23 Jul 2025 13:49:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753278109;
-	bh=zxxC/wQlJmLxLa47Q7NNudHjnXvG/vCvKPONP/39QCg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PmuG7qTl4sg7/QMBKgyBmArSjY7MW6zMzETCIkWyLdi81B49I4VHdhuWfDtD85keA
-	 s1bLp3unFlREP9Un4fUUX5JziSZMKwf4Hw/KgMn4VmYohw3DYwp/XXVUfyBh5wkyD3
-	 R09TNEfWqkjGMY/LeDVi0f9DYMrxS2enzACUqqbvhnTzVcHNryjALifb57fyVeXAHb
-	 L1ILoKBkyV+Sg2NQ8JbJ+iBlFG6RrkLTutCNyS6FMTUcZyOmERe66AVfkM7t7YxQvS
-	 J5Dx9ktAMD/94OEX5E4E6anz65xzMbxXPuCU2irBMH4pS5JuXICjJt5QYIrsV2r6ZK
-	 GQzPzDIu1LfKg==
-Date: Wed, 23 Jul 2025 08:41:48 -0500
-From: Rob Herring <robh@kernel.org>
-To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Le Goffic <legoffic.clement@gmail.com>,
-	Julius Werner <jwerner@chromium.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH v4 02/20] dt-bindings: stm32: stm32mp25: add
- `access-controller-cell` property
-Message-ID: <20250723134148.GA2136293-robh@kernel.org>
-References: <20250723-ddrperfm-upstream-v4-0-1aa53ca319f4@foss.st.com>
- <20250723-ddrperfm-upstream-v4-2-1aa53ca319f4@foss.st.com>
+	s=k20201202; t=1753278543;
+	bh=gpofvUdCvafEi9/Yz7WQuqJNoF8dDZ2uzd6/+Lg4OuY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eqG+yF9vGnyPwsKROpDhc4vfaUIwMNG9rE6vCOfRZVVpYeEE2bUgWTYDUlJOi99MA
+	 +EBJt3gVHRkRBksLk+Lje0BQC5Ua1wtHXeKtWLK8LtqCvl55M9bBHXtu3TiYReajNa
+	 f6RaOgTW6k3KEGmidaDlRwc7biL2cF94l/CbwSfQMo2dl7fbfEDIf/JzO41V3zHTg8
+	 CCjmuzrn4jhTgA/QpGfQWCyjsJHo464cpB4tGF15NDc4b+K3kXcYDHDdshUfiUNWhw
+	 dmBimZQ8TDdYTJH3h0DUzHOIem1prD3+ipds1isrmNp2ngbxhRaZe8bzdn60Gt7R2x
+	 uxlaHyrY2zwlw==
+Date: Wed, 23 Jul 2025 06:49:01 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: MD Danish Anwar <danishanwar@ti.com>, Julia Lawall
+ <Julia.Lawall@inria.fr>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Mengyuan Lou <mengyuanlou@net-swift.com>, Michael
+ Ellerman <mpe@ellerman.id.au>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Fan Gong <gongfan1@huawei.com>, Lee Trager <lee@trager.us>, Lorenzo
+ Bianconi <lorenzo@kernel.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+ Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+ <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, cocci@inria.fr, Nicolas Palix
+ <nicolas.palix@imag.fr>
+Subject: Re: [PATCH net-next 1/5] net: rpmsg-eth: Add Documentation for
+ RPMSG-ETH Driver
+Message-ID: <20250723064901.0b7ec997@kernel.org>
+In-Reply-To: <20250723080322.3047826-2-danishanwar@ti.com>
+References: <20250723080322.3047826-1-danishanwar@ti.com>
+	<20250723080322.3047826-2-danishanwar@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250723-ddrperfm-upstream-v4-2-1aa53ca319f4@foss.st.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 23, 2025 at 03:05:46PM +0200, Clément Le Goffic wrote:
-> RCC is able to check the availability of a clock.
-> Allow to query the RCC with a firewall ID.
+On Wed, 23 Jul 2025 13:33:18 +0530 MD Danish Anwar wrote:
+> +   - Vendors must ensure the magic number matches the value expected by the
+> +     Linux driver (see the `RPMSG_ETH_SHM_MAGIC_NUM` macro in the driver
+> +     source).
 
-The subject is wrong. There is no such "access-controller-cell" 
-property.
-> 
-> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
-> ---
->  Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml b/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml
-> index 88e52f10d1ec..4d471e3d89bc 100644
-> --- a/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml
-> +++ b/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml
-> @@ -31,6 +31,11 @@ properties:
->    '#reset-cells':
->      const: 1
->  
-> +  '#access-controller-cells':
-> +    const: 1
-> +    description:
-> +      Contains the firewall ID associated to the peripheral.
-> +
->    clocks:
->      items:
->        - description: CK_SCMI_HSE High Speed External oscillator (8 to 48 MHz)
-> @@ -123,6 +128,7 @@ required:
->    - reg
->    - '#clock-cells'
->    - '#reset-cells'
-> +  - '#access-controller-cells'
->    - clocks
->  
->  additionalProperties: false
-> @@ -136,6 +142,7 @@ examples:
->          reg = <0x44200000 0x10000>;
->          #clock-cells = <1>;
->          #reset-cells = <1>;
-> +        #access-controller-cells = <1>;
->          clocks =  <&scmi_clk CK_SCMI_HSE>,
->                    <&scmi_clk CK_SCMI_HSI>,
->                    <&scmi_clk CK_SCMI_MSI>,
-> 
-> -- 
-> 2.43.0
-> 
+For some reason this trips up make coccicheck:
+
+EXN: Failure("unexpected paren order") in /home/cocci/testing/Documentation/networking/device_drivers/ethernet/rpmsg_eth.rst
+
+If I replace the brackets with a comma it works:
+
+   - Vendors must ensure the magic number matches the value expected by the
+     Linux driver, see the `RPMSG_ETH_SHM_MAGIC_NUM` macro in the driver
+     source.
+
+Could you make that change in the next revision to avoid the problem?
+
+Julia, is there an easy way to make coccinelle ignore files which
+don't end with .c or .h when using --use-patch-diff ?
+-- 
+pw-bot: cr
