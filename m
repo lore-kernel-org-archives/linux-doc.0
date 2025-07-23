@@ -1,66 +1,76 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013049.outbound.protection.outlook.com [40.107.159.49])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2042.outbound.protection.outlook.com [40.107.243.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16EC155C97;
-	Wed, 23 Jul 2025 18:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701E321FF5B;
+	Wed, 23 Jul 2025 18:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753295960; cv=fail; b=m+X2wdWqloQV0d0UFArJVWAngv+qFKD8ALs23xlIHahBHuRPpqZMEMMbwu+FqgL+plg4SxQW0rqCVzLCjtxsqQ16//mF5aapfmjmL+2mYgDxtKAhfyqIdGbwb7odtRugMpYnsMuzFM3B9vh8EaJWxypiCsnjncq4SZHSYe2gm9A=
+	t=1753296613; cv=fail; b=fU8j427PrF6fcK8LIz/7Lv+/TvwOjrPBIU7yA07PdawV1Zw81lS+gBVqZX4bHhpYLOcroYJkTA6h24n87wxhkKf/dZdzAmVtvU+DpTWYJ/5qGPBOoyS85cvgJUM0jBPyhaD8tAPhYm8bWKSJPjOASrEYkR68oE/c2GRWNUmgYz4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753295960; c=relaxed/simple;
-	bh=BtJdZo0FN8jbD4yUazhI9v53ztPUAKuxY3wZBUHAu8Q=;
+	s=arc-20240116; t=1753296613; c=relaxed/simple;
+	bh=jBawuChAOYstfuXsFNSjQNMzMQXEjemyp1PBCPzZDI8=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qAgDd0/wiUaM4lPQnsr+wmNF8iaynqDAaayRQbzmHhNyEg9Ctq/zs305obpEEKfBdgx/yiFyR+jCb+S74IZyvenjRGQ7EjdsEd/bU9tkx7nKUnff7e99K4vjl6gSn8yA1gnHh3Xo4TytIdyROYdNbY0gg4triQh2DWUS9X6A3Zk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia.com; spf=fail smtp.mailfrom=nokia.com; dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b=VF4vyFrw; arc=fail smtp.client-ip=40.107.159.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia.com
+	 Content-Type:MIME-Version; b=UOkDW0k9i7GRwi7SW2zdM4qGzb9d9z6MdfOrClmkAqq92rBqN2kH4vCKZ3fHpdcWIWmOgKxv97qsMCB96ZsjXYvOGnO0z+WQagKu6x0WgjIL2WDwPRt11RwYO6+Y/whKDcY4ZdHSPzy3u+gU4hosCpW9MfZAIpSkc0tF1RvgAhQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SRjswjuy; arc=fail smtp.client-ip=40.107.243.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b="VF4vyFrw"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SRjswjuy"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MFIu3/AA6lX8pQ/1cZiVW+oJx76kZU/x/TaGPdTrqNeCh5HlQ2xJB//8fWDSmXdR5wj2I9QvjVEt4/OcMVSvz0H/heU/eWjXGmw5nDWmtxPgMG0kNZtaV1QO/wOpYO/St00p9bjPeOh6tTg6FTytCOTRgHuRiDURtaqsYk1TmLUDnWBWADfUpp8XQ+osV69rEvuaWcSmbWr3epv9CFb6r5YRCKxr6SFLO50o7xInL2PinNoJukXxIh6v4xLyWOeRKB1WWSUEvBnIbXFoasWDQRj7B2KDa+OLgOHiQea7y0dge3YSgjdTqVcY90wNV+4yOmJ9pzAMqub+0PfHa2xDPw==
+ b=ZUb5TLM+5QtQg4EclmO+YDAy9DKFAwSyfu3MSLJW6nJt3iKLBGLceYTe3BmbcD/5XohcQpenrDLfhTyOMvqHRfXHYUf22SEDFNVzobM4fSh6iMEu9LhVEZpkPWhL4nLouXHNs31vAe2Ci6Ca1wiYYqwa3CEi5kAzglmQsy8g+PWtfWh4wjA6mnbU4qGv2c1CJ9wZxFhkbLZIDTIxGLT0UIb0utsvJIzTgXB006FYZv/IlqRmV5j2y5KXxqtWIgB/wc6yQ2lZa3hY9uLw8Vn/HjWtiC779GLysFSi8yU0qcoybVn5DVZAojAL8eE3jQAruR8evWOsrXpfIjuVy2yX2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FIbJdMh+Bdcz2EcWjJ+uu4Uk99LZXIVOSioInxepx+4=;
- b=mqqedM8lMMLaPmYNCh9AZTOdTpzZfJDms8oHnKccIl483gECUJTW5OFzz3WT9sb1bfesh8cFUTbw/rZ180AW5lnayTF4ecB+lFhiTbc30Hi7eFqhj1sLl5WxbwTPFq3HaxAL5TEvQWg/qDu5NebmminNXo2sX0V5F2JveV7YtjqPq0p5XOsnJ5bZ1JZlhFqWv+XOQaWISIzzL9w6E31tv3gD6P5RWunpAiLXYOn8SEExZsEzFyzkbI+OBMxpr71w+r2ze8er4KUOevdQo67aFA2tmwYn7qMpdgZUGnQx1nPm5rp9WTfuxtWRKmy3zZqTJNqoZKKneRqlgMVyzI9GRg==
+ bh=LvmuK56kqOYMMFAzHpauGe5SluzLyeJfOF9Btbvezro=;
+ b=N719gMDAx+L5RdreHy25F5HKhY2Kacgddss5rwhgr5IcHVx/1g5IBS4SStr6UswE0nBvwCLJPPy8YL8xpYn8ZbVDpxwnRcz/56nqQnMxgc3gUkEVarqT0ufTyvl6OksRl84DJc4VBRW/VHcUkCSKdgSzdXZ2sGmdyQq8zgamaET4jviHUVHuvuoCFqIIlsOZ9tc+cSggI4I8Bv100WKuAlb++9pOGgK/4gSrNf/+zj5lMF6ak2hu7gJ1dTfHCaYJzXmM85n8xFnfJEkJSHwcU/JYxQFWZ+AHG08Npvpe7YCN1rofHQTejTOUiXtzKx4I95zRVKWVUjTPybmrIr2hSw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
- dkim=pass header.d=nokia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FIbJdMh+Bdcz2EcWjJ+uu4Uk99LZXIVOSioInxepx+4=;
- b=VF4vyFrwwIMjBhO6ShGKXA86KzUUqZHbHNHbyZb8z8h/c2R1FFhZKHrzzg/rG7iJ1/FIsmoy1Hb11vzmkvo3ECh3MPLISoQHH6ObY4kwjZsdrMvhxU04he0JylIE41B64KMyejqIQd/S2DTe3NPZv7ivKFRRlTCKd9Adr/qNcONDUdlWtBmtS7b/hlfVVz4l4DAMfSaq1+/WtlZNJQbCW1Ezp4o8NVeWAeWAW3e8OgIwLnP+/690RRs0sHzzkdIXXZRdz4RqNjiLee83x3iKKS0V9bNycOKcRf0ah7neLJOgsN+bujrHR3uYqwuan3tIaiW9FMuhEjwmMsvFIrsIdA==
+ bh=LvmuK56kqOYMMFAzHpauGe5SluzLyeJfOF9Btbvezro=;
+ b=SRjswjuywpqJWz/WrbKYnZFv/JAMQ532aKcx5j/4Ll3fT8PFet4K642YS3BJQz3aOv6gWsKFFPZ0e9Yvao3++caH2TorasbxHvzr9HV8M/LtOu8RfpurVZqwUV9FcCMVIYJ8H5VTdr1H74aKxPy14agW/W1jyybV41IPmer6hCw=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nokia.com;
-Received: from PAXPR07MB8771.eurprd07.prod.outlook.com (2603:10a6:102:246::20)
- by AS5PR07MB9865.eurprd07.prod.outlook.com (2603:10a6:20b:67d::7) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by PH8PR12MB6913.namprd12.prod.outlook.com (2603:10b6:510:1ca::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Wed, 23 Jul
- 2025 18:39:16 +0000
-Received: from PAXPR07MB8771.eurprd07.prod.outlook.com
- ([fe80::e125:c4ef:b872:5c60]) by PAXPR07MB8771.eurprd07.prod.outlook.com
- ([fe80::e125:c4ef:b872:5c60%4]) with mapi id 15.20.8943.029; Wed, 23 Jul 2025
- 18:39:15 +0000
-Message-ID: <44675637-8783-4731-b29b-02dd3e504d98@nokia.com>
-Date: Wed, 23 Jul 2025 20:39:14 +0200
+ 2025 18:50:08 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%3]) with mapi id 15.20.8943.028; Wed, 23 Jul 2025
+ 18:50:08 +0000
+Message-ID: <82b8e6fb-8663-42b7-b67c-43e4ea6f8aa8@amd.com>
+Date: Wed, 23 Jul 2025 13:50:03 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] genirq: add support for warning on long-running IRQ
- handlers
-To: Thomas Gleixner <tglx@linutronix.de>, corbet@lwn.net
-Cc: akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
- Neeraj.Upadhyay@amd.com, david@redhat.com, bp@alien8.de, arnd@arndb.de,
- fvdl@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- peterz@infradead.org
-References: <20250714084209.918-1-wladislav.wiebe@nokia.com>
- <877c05w798.ffs@tglx>
-From: Wladislav Wiebe <wladislav.wiebe@nokia.com>
-In-Reply-To: <877c05w798.ffs@tglx>
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v15 33/34] fs/resctrl: Introduce the interface to switch
+ between monitor modes
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, james.morse@arm.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
+Cc: Dave.Martin@arm.com, x86@kernel.org, hpa@zytor.com,
+ akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
+ Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, fvdl@google.com,
+ seanjc@google.com, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
+ xin@zytor.com, manali.shukla@amd.com, tao1.su@linux.intel.com,
+ sohil.mehta@intel.com, kai.huang@intel.com, xiaoyao.li@intel.com,
+ peterz@infradead.org, xin3.li@intel.com, kan.liang@linux.intel.com,
+ mario.limonciello@amd.com, thomas.lendacky@amd.com, perry.yuan@amd.com,
+ gautham.shenoy@amd.com, chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
+References: <cover.1752013061.git.babu.moger@amd.com>
+ <7869219493bb4cc5626da704c4f8f107fe7c8f69.1752013061.git.babu.moger@amd.com>
+ <af0a7a35-2f6d-4c8c-990d-af809d9547bf@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <af0a7a35-2f6d-4c8c-990d-af809d9547bf@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0119.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::15) To PAXPR07MB8771.eurprd07.prod.outlook.com
- (2603:10a6:102:246::20)
+X-ClientProxiedBy: SA1P222CA0135.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c2::13) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,207 +78,205 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR07MB8771:EE_|AS5PR07MB9865:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb1a70d7-40de-4341-e3c9-08ddca1839b2
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH8PR12MB6913:EE_
+X-MS-Office365-Filtering-Correlation-Id: 477cb277-3199-46a6-c17e-08ddca19befa
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bXdDQlo2WE95RFlnU2VxVjBWcVZxVVlyL2pMK2drTFB2dlA5blRTR28wNlkw?=
- =?utf-8?B?OW4vRVdkSmZqdkFvN2ovSGMxVFVVT3RPZUZ0NWM1TWliWGRjbGZ5dE5FMGZy?=
- =?utf-8?B?dmc4Sld6Nm1FSzAxeXQ1OXVsYytOdWZzb044aXArNXUwMFB3QUJHTmFwS2JX?=
- =?utf-8?B?cEtNK3VKK2d0N0s5YjNBM2lQcmQwWlpGMlpaS1BsVTA3QUpiWHZpMjFjL0Jj?=
- =?utf-8?B?RWtiL2t2RjFyMnY3MFd1WmhyRlZsMlg2UzNHYWRqMkpMeHJ4Z0VhMHI1ZFJn?=
- =?utf-8?B?WWhWbzBXd1V0TXlaRHdCaGR1WkJ5WlZLSHRJQzd5ZUxWV1lyWnk3Qmx4R1lO?=
- =?utf-8?B?d25STFl5SUdIUjkrQ0Q0dWNpcExXbEYvRWhaajRxYnNpZDh2Z1NSMitud0RX?=
- =?utf-8?B?dnB5Q2VEMnBiS3NxTTFDdmdHanhKTlRESHEvK3RkUEs0ZlZBblRMcFFTWHNi?=
- =?utf-8?B?NnBlSWptdnh2M0FuNEpOU2x5cVgxL1ArdnNjOGJ2NVgzRjJVUjVaRVlkMzl1?=
- =?utf-8?B?bEVtVFZvcmhVaXZua0V0OGpndnlLc2hFZ0xoZGhka3pnWU9iT1NTeG5BOHJC?=
- =?utf-8?B?Y0V1RDFJMUJBV292bXE3bUhqRFBmT1d5QkNlRDVKQmRnTXBMNGM2aUlFWlF2?=
- =?utf-8?B?SStjcUZNb2xBcFBPd2VEU2xpQndJamZGRjRWQURUZWY1L2xNNnFvVHBXVXQ0?=
- =?utf-8?B?Z2Z4ZGJPTE5rUGoxU0dTZ2pqUE5OemJMbFBpMHZycUpZdVIyaHp1WWlOSmU3?=
- =?utf-8?B?ZzI4NkNiQ2o3L0xiei9ZRmNteXVYNUVZOFNrcjg1c1ZLZWhzUjh6Z1h2akkw?=
- =?utf-8?B?cWVuakNKUVJtVGRGMnRXMWkxNXNCai9NNG1weEtvbmhCaU54VkZwMGV6d0ZY?=
- =?utf-8?B?T0NJL2Exd1h5K0tSU0UwQTFpRGNzT2RrTjBEdXhLcVlWbkFWdE9kamRMNkNm?=
- =?utf-8?B?ZUxnMHNoUzJKMFBOTUJLYm5WL01IaVVORmt5Rnk5YWgvZTBDOWFGZDRYSit2?=
- =?utf-8?B?eEpCNTJwckdGVmNsQzU0OVIrNVZvbWtxMitydXY1RHAxNjBMc25heVN6WXUw?=
- =?utf-8?B?WFhjc1l3dG1PQ28rSWt0V1lWSlBlWTBDRFg2N1JyMmY3VTB1aFdlRHAydFQ0?=
- =?utf-8?B?dGxZSjJtODhvOTBVRW1RNkt2clVUdTg4YTBrVGs2L3pTMzNQdE9vRzdWMTNG?=
- =?utf-8?B?bFBOSXJVOVFLckIvRWtNYXVDcHhzWlVLNHBtMm9WN1A1Mjdiakd4K1pxeVJh?=
- =?utf-8?B?TTdTZzMzelAzbnl6dVE0eGVVWTZIV25uYW1xREE2NC9pKy8vVE5DamJuK3JD?=
- =?utf-8?B?SkpkZkQzblo3M2l1YTVaY25GdmFrak1yWEw5cXRFUHZ6eGtXTFA1SzIyQ21J?=
- =?utf-8?B?ZmlGTmlSRUlUVDdGams2ZDhHZFhEWVhtaFpUNWkxZ3Facm9uV3dYbEJmMjBJ?=
- =?utf-8?B?dWdKQkM2bFlLWFQ3UTdnS01EaEZtZUY2K2R1UURRTTVYcE5wZWh5cU1ySWFk?=
- =?utf-8?B?NkRWbk9nN1ZrcEVuSlUxaE1ybVdKZW9aTEl6RFhYMkhORDVmdlFpQ0h0a3Nx?=
- =?utf-8?B?bnBLK1ltRGUvU1ZBaTVXbVZraTkyZ29WZFBtSk0rOVY3WnBtVEFISlY5bDlQ?=
- =?utf-8?B?aHJ0aysvQytWdFBGZDZyRkRKWWZyc1AzU2Z1ZHUwR1ZJWWQ4Syt2WWFmMlNC?=
- =?utf-8?B?bzN3NElocXZxVDY0c2hibnZ6MXFQU202cXJOQ0VJcU14QTYrRHF0NUNabE9H?=
- =?utf-8?B?NHhxTE9KMWZ3bzhpWDRnU2pHYSs5eHRYYVhUdUgrQmtBVVhmVzFqajI2RDYy?=
- =?utf-8?B?YjlVTnRpckIwNEFWUEVEbEtUdktPdEpBSUpUWHhNSUpDQllpMDRIQlB6ZnVk?=
- =?utf-8?B?REIxZGdOMGlCdEJYNWNQTUxHeXJvZDdvYnVZRi93eFJnQnU1NVRVeExzK0p1?=
- =?utf-8?Q?RBLkOi6uqLs=3D?=
+	=?utf-8?B?cytzVWpld0VqK28rS09pOUlqMmxFQXVHam5EWWMxTGlhNStCWjdrZzI0NUpx?=
+ =?utf-8?B?eVgwNTN3L0QrOU9uM2hhSCtiOGU4Qm51b2NLdjJuNHJrTkhyYmdIaUZLL3dN?=
+ =?utf-8?B?SjBFbkQ2bTlqOWJmaC9jV25DWStxQmtDYlk4TlZXMWMzRUsxYnNsVkdiYmcw?=
+ =?utf-8?B?SzduWGNBcVRYNHdhUVpQdWx1QUd2RDdpV2ZZWW9mK0RDUCtKRFlQWFMrM3R2?=
+ =?utf-8?B?UWYrU21GaTl3Q2RDZTJXQXFiZStSM3JmRm9kMkI0eVhNT3FhU09xRHhmOVJC?=
+ =?utf-8?B?TE9ucmFaZVlxOXMxUmN1VHdUTUZ4QWUwZVp3b3MrME1tQmpTUTdkWTRtUG1v?=
+ =?utf-8?B?ajA5S3hER20zVkUxY05kQThiams1eFVGT1U1djBoK0JKY1FSeHlQdGZ2TXpD?=
+ =?utf-8?B?a1BKMXFkLzVwTjZZVWxPYVdHcVdabVJ5bzE3MWxDS0k5MGUyQWdFaGFZcWEw?=
+ =?utf-8?B?c3I5M201YkNIcXJMeXhQY1BOYXN1R0d4OTliMDRNb0txaFNKdEFvdnNoMmtT?=
+ =?utf-8?B?YnozNmlsMVEwRlNGa3RFRVlYR2FpdG5MNDZrYXo0L2puSHgzR2g3MEd4eXJX?=
+ =?utf-8?B?YklrOEdQSHZNNnh6WVBaSDd4NHk5TG9SL0MvK2VDbTVNdXZjS0d0ZENLUmlU?=
+ =?utf-8?B?WTF0MlQ4eXlYeCtWcU1kWjMzcFJzZm9qNmdKUHRzTTUwRFYvT3lseEZaQ05y?=
+ =?utf-8?B?UUtUdkZucUFxOHNBNDlBQk96ZlA2TlgzMU93WW1VclVJM1hISFFJWk5JOVBR?=
+ =?utf-8?B?eHZxNHJjNW5VTGtHVzhZRUpZRmd6encvcGVSYTNBL2lVT3hvekxlRVdpYXhF?=
+ =?utf-8?B?WjU1UmRweVBzN3djbFBnd2E1SnRWVlpaaEJacXcrM1BIRjFTRkpNelE0TXBM?=
+ =?utf-8?B?K1hEZWdSYWdLNGpKa3VRSURXTVNhZWFTRXQvMHJtZjZqMThkWTVqMHc5Y3lo?=
+ =?utf-8?B?UWdpTHBMdWIwSnZHMFhWSE83bnkybjZwTWJzQ3dOTiswU2hEenYyUnl3eklq?=
+ =?utf-8?B?VGtsNDNIUkx6eFFrUmNRQkJURjFGNlJRVi9ORWpSelpieXhhQXhZS3h3emQr?=
+ =?utf-8?B?amlCemxwQm8vNjN5djVxZUJBaGNSYUdCNCtkTzBUTGVtaDdYVVY0WHJWb0J4?=
+ =?utf-8?B?YnpNc0daUnRkV0ZoLzA2UW44blNBWU41NjZVWm1sTVI4dm1PTnllU1hpWmtp?=
+ =?utf-8?B?eVR6MGhVTk0xczZwV05HUmJSMGN1STBMcVl6VXdDajJoNXhpM2cwakdtVjFh?=
+ =?utf-8?B?aGdpNlcwMVVhM0F3cFBJRUJIYXFuM3hKekRMRmJQRWdXUkxnRk1ocWNURkJC?=
+ =?utf-8?B?RWxoYytjOUQ4RzN2RllpQVk5TmI3WWxsSkNabDE0Z0IwdWpqby83bVRrVlQ0?=
+ =?utf-8?B?cmxFeGtBdmpXdU45eG1naVBpblpDVFNsVU9XRVpJUEN4NGFwVktxUGMrWW1V?=
+ =?utf-8?B?aWNuYnRIcDZIT0dkK2NTdm1EbmJwSEJNY0dnaytQakZlUTlpUEpObEJoMS9Q?=
+ =?utf-8?B?WlZDalkzWEh1N3N1RGc3cVErSEl1Q3h0NGVyWDh4UWF0WkZXN2d1c21EcWJm?=
+ =?utf-8?B?S0wwUnkyWHA0b3JGUGFuazhjU2xNazFGTXlPS2E4dWh6MUl4dVdaV0V6UlJw?=
+ =?utf-8?B?RTRidDJ5aFFtVStsM050ais5TENRU0NSTHRoOXV4L21CbzI3VSt6dUV0VE80?=
+ =?utf-8?B?anRUQTZwV00yZDRQcGQyUVJVaTE4NSt0Vy9IOVM4eXYvRFNNbDNQNkZhUzRS?=
+ =?utf-8?B?UzFLRW1YWmcwZUoraWszZ3FsVWNwV0wwUUVPREU3amVPbHZCQ3p0NzV0REZY?=
+ =?utf-8?B?KytrQkhPeDczVC9Cak43N2ZnbGc5c0RLbE5vQUNaT2F2L00zS2UyNjdpa0Yr?=
+ =?utf-8?B?SkkyN2tFeGozWEZnRWFWUDZQUjU5ZnBaTWdHWjBrbDJKZG45T0xWZFNEdEc4?=
+ =?utf-8?Q?J3HF4t/1IAY=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR07MB8771.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TzRqT2RTeEhwRUEzWWxVVWlGOFZPdlFuUFdvbWwvTGUxOEo2dUM3T2hTdjJH?=
- =?utf-8?B?MGZLK3VFLzhXbGkrUm1WSWhWcTZ1MUZLRFNGQm1QdFR3Ryt6T2xQd0NKWUVj?=
- =?utf-8?B?OWFSZGJzZ1pueGhTN3dVVHMwTFg3ZXhzS21RZkp6Ky9XdzJzQ0srTkhpT3h2?=
- =?utf-8?B?aGg1TnBuZnhUbFVxaWJvNVBqa2tjVlFtRTNrOGVxSEhlbjRpR0hUMnR4QlpE?=
- =?utf-8?B?VCsrR2VtZ1NLejNudjh1Yk1YdXMzLzBZaDM3b2pIQmZXSkFLWlp1RnhSbFpF?=
- =?utf-8?B?NTBwQ1BsQWRPTHBZcXNyMFNiWVQyS3B5TUVqaDBqQURSZm1FMFBCemtqRlhE?=
- =?utf-8?B?bVYrajNvR1pwUEZ1WmtRcGVuS3NsR2RDTEtjSnlCQlpady9NNXFKenoyTEhI?=
- =?utf-8?B?NTlxbHFTSGJ5NXZlTjNTK1RJNDVQQ0ZCSUR4eCs0NmtEckJaVUVrdVJPdXRE?=
- =?utf-8?B?L2dYY0hndDRNMURCQmMwMFBmS2N6ays2enpJL2ttUDFJT2hXNHIvWlN4Rktj?=
- =?utf-8?B?MDFrMTJYUGRWVFVvTTNnb1BVMXNiSnlLS3pUQ2xXVkM5MHVSY1YwMlpIN1o5?=
- =?utf-8?B?QnVkOGJPaDAxcjVTTlZkd3RZeU02Yk91eTB6c3R4a1I3cmd4RWFVVFo5cnc3?=
- =?utf-8?B?SUMxRU5ZM2RvVW9mcjlCMHZUWkJGSVFvQTlvdmdxUjNvQ0l5QWkvWEFPMnFk?=
- =?utf-8?B?Qlo4QS9HWUtOamN4dStnUERNRzRxazNBejh4WEo1VkhGRHA3SHVzQTB0L2tZ?=
- =?utf-8?B?YjlYbGlFbFp2NWRKdkUrWVlXWVlLaWJIZkJIYkFQMGZUTzdRVnJ6ZVdabmpm?=
- =?utf-8?B?aVhrdHAvc1ptTGFnUVFKZUlRN05qV1dRRFY1ajVUTjZEbU94VWFLcDNrVjFS?=
- =?utf-8?B?NkRyMGZGRytNZCtiNUFNeGhjamxIckM4SmxXSXp2cTdIcmEySGNFVnZxVXdt?=
- =?utf-8?B?RVNzUkJLci9QckhwMHZGTm0vSVBLMTN3VWxKQkxmMW11VXFsWUpmbm1DTUZU?=
- =?utf-8?B?dmtQQUFaS2E1MWlYTnZwTjF0V3ZQeXpRUjJlRUlrb3lxblo0N2NEZ2VVeCs5?=
- =?utf-8?B?b1EzdXdvMXoxait4SmFIU2hHTVUwSi9kaTc5TVF6NThCUERla0RmclEzaDdw?=
- =?utf-8?B?U0FmMEhkVm5JZWJLQnpIeStJNmFKY2xpNS9jNmY1QkVYeE96S1lGTVQ5dUMr?=
- =?utf-8?B?SlBiWFNxRFhSU21MZUdZQ1JxRFpPYVBTMll1RnRpd3A4cmpLbHdlcVJJTktT?=
- =?utf-8?B?TzVhcGVlSm1ObEMvMnozN2F0ampIdHNScWhwMjdkdEJ3dEdXOE5JV2RCcjE0?=
- =?utf-8?B?SG04YlBnWVdhUHdKb2pIZUxMbmdpcHZ6dHNFVU5PUXBDRHB2U01reXByWXBt?=
- =?utf-8?B?TU9qNTl5T3NwcEpjMTNZS1B5RDk1RXNEMWFONFB2a01WZTZUNVZSc0VvajYw?=
- =?utf-8?B?czZCeDg1ZkJSRHlNa1h1NVBWdDZuVXhMbTBHa1IrZHBxb2tRYkp6bWh6ZkQ3?=
- =?utf-8?B?QmZyZytpTlBWeUxEN0dwQy9OakxVTXZUR1hMam04ZDFDR3lRRUtpNkp1bTVv?=
- =?utf-8?B?N1hKcmpEcTU0U08zdW0vcEFjbDNJQysvaGRoVWx6bWlJRldSSmZUZVUxajVr?=
- =?utf-8?B?TjJoZ0Rvak13ajFiZ0tCYkRENDVmVm1YQVhwcUtMM0FKRzUzTjM1NFdQanVO?=
- =?utf-8?B?cEZxckN0Z2k4RnJmQ3hHTWx5bFNDckt5Rkx3THpuaGVucVV3TWRzbjBrT1ZM?=
- =?utf-8?B?VXBseTlLaFhPTDQ3cEY0cG1ncTZRdkFqd2QxaytwNHVPWUpYZlVwUXZBbExO?=
- =?utf-8?B?Z01TM3FhbVMrSG9Uck85aThoV1RvMDZwc0VjdUpKV2t5cXBQUWJoV1c5U0pL?=
- =?utf-8?B?akEyaVV3T0d5MjFvYW53TTFGVEVNRnFvd1k5dlRsVjAyeGRoUWVENEJKQlBz?=
- =?utf-8?B?ajZxUE03YlM1UlIzL1EzczZScmRDemJCQlA4SW15c21EOUJiMUJidVlPVGg0?=
- =?utf-8?B?ckhaWHA5K2hLbTFaTjN4cncydkZEbXVQRkQ5QlViMStCVHhKNUVhbnZMemtW?=
- =?utf-8?B?czUyaWwrdmpMOGdkbHJsYmFtb2VjUXY1THhQMkpOUXk4dUFsMDZPaGEyVXBu?=
- =?utf-8?B?WEo0YW5LOUFybGlLZFREelR6Z1ZVL05yVnAvSWlJUi92NVFWRDZYSkhpVGdM?=
- =?utf-8?B?TGc9PQ==?=
-X-OriginatorOrg: nokia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb1a70d7-40de-4341-e3c9-08ddca1839b2
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR07MB8771.eurprd07.prod.outlook.com
+	=?utf-8?B?anZZL0NtK0dZcFhNZzRIOVRxQ2xyanJrZXpnVUVOVWVrQ3ZPdGxFN0Vhck13?=
+ =?utf-8?B?UE4vZEgzMklDOHkyL2cyNUR4T2VUcTN5ZXc2Y3BKeW4rU2JWaTIxaGswMWRx?=
+ =?utf-8?B?MzZhSEJTZjRjK0wxL3VOMVV6YytUNGpZb3lGemhhZmZwWmNCbGNvVnFEc1dz?=
+ =?utf-8?B?Y0J6dTh5ZkhlaUlja0xzaGdac1IyWlhjOVROeE0xTFkyM3VZbmhYT1JCUXk2?=
+ =?utf-8?B?L3hkY0RUQ1lLbGhuajIvTUQvWUVQSjFaQ2VleXF3MStpdXhOV2JnazhEVzNX?=
+ =?utf-8?B?V0tPallSV1FSUWlsZ3l4YVQyQ08reG9ucXRFYVJmS3BYU1ZkakJtN0dEaWFI?=
+ =?utf-8?B?MW94Y3Z5SGxQT0s4Wjg4NktUbi8vRFVQakpUSDFNN3pwL0g3dktrQTZna1hZ?=
+ =?utf-8?B?ZzRwMVdYTkFxNVdDUndncmc4dXpPMUhVMFlmcER6bnpNejcyR0tOU0p3UDVz?=
+ =?utf-8?B?eTNmYUR5bWFBb0xZWGxQV08wNzFjMEdZQmZIYVhHdWFUUStlTEg0VDlmSyto?=
+ =?utf-8?B?eU1nMVJJK1E3SzJ5b3F3OXlDRStyUzhZYUcrQ1hCamdraFpqRnJHOGJtUGI4?=
+ =?utf-8?B?Q0lXTjhISnEwY2VLbHMwdGd2RkNKN1hDVWdZd01jZ2FrRGNiN1ZlSTdYcjhq?=
+ =?utf-8?B?U2ZTb2dFUXd0QVJ2dXZhWEFuZ3FDek1YcHVmR0VxcHBrMTFXSDVyMStmVEtX?=
+ =?utf-8?B?dmtxUUlIRit6S0l3L0w5cjd0REQvemp6N3MyZ0RoUWVxbXZOYjFGMVlZQzdI?=
+ =?utf-8?B?THlqZkVoVkRxTVdvdWRsb2JQMy96Sm56bWRsdytjZ09wNzZ1T2puY0Y3VnhI?=
+ =?utf-8?B?RXN5N0hNNnZoajhHRHpOWnFDNmtTOElFNElKSW05eGc3UEdsQmVENTFuUHhG?=
+ =?utf-8?B?SVRDSzJKSFlIcEM5ZjFoVi9DUTJjbnhIcnlnRFJadVR0QkNEUmhXVktuUFdD?=
+ =?utf-8?B?NHhHbVRGLzJXd2lwZ2RCQ0RjUEJZaDZYWmtodWV2WmdUaFBydldOTllxRExG?=
+ =?utf-8?B?ZFlHVWRvUUYzcVpLd1ZzZ2JIckRWWk9UdFMzL2RNMzlTUGpSNWhKaGFueS9s?=
+ =?utf-8?B?U1lJOG5Ba1pRSW4vN2lLOEhpOUl0alF0TGN2VVJZaG55T3BPdWpqclVwckVF?=
+ =?utf-8?B?UlhPWXBERVZ5V2U5ajJFaUd3K09ibThtcWMza0tXcGtUVkdURDdmQ0JKRG5N?=
+ =?utf-8?B?VFd1TVEwMG1TdG9Zcm1LM0JQb3NxQjY3Y09RQzVGaHNaeVlGRGYyWUdEZmhq?=
+ =?utf-8?B?RkVsODBTOUpHWnJyNHd6Wk5jNERzY1BzSk16blpuUDA5SWNQZ3NkTEhPeW5M?=
+ =?utf-8?B?UEMrWllBWnVCb1JaNVo4L0t6NjdXdllVVXU1UTd5ZnJsV0o2bW5aTHRpcXNM?=
+ =?utf-8?B?MVVWbXQ2dlVOb0VvbzU3MG44dFVtcG9FT1lNSHlDZFhwQjlORnhDUmZFMTV0?=
+ =?utf-8?B?dFZBcWsxekRYQmFwVDVJS0RmT2wxMkpIVHUva0NFb0ttTU5TWXZBMyttUC9w?=
+ =?utf-8?B?WHZJckR0bHJlMEhmYWxzMnEzWjR3aHRYNWhxdVVBN1dQWkRqK2xEaHptb3ov?=
+ =?utf-8?B?UzRpQmJweVN6Q2JtbEFFamRhNTFPNkUrRXhncXBKbGU4WUZrRUxSNWxpVGxV?=
+ =?utf-8?B?aEt3THZHYnpPOEcwaWExeHNoYmNBVnI0eFhXUkREd1hsWVdsUEdRVDRKV084?=
+ =?utf-8?B?VzhFc2Jnd0ZjOEhDdXJ0eUd6c0tjVE41ZjQxc3dxQjBjWmprekIwMGZuQUQ5?=
+ =?utf-8?B?Y3pzcDNuWGVCZlNxSGZadFVRcXVkSW1NSzBqV1lYNFZBSDRPdThtcm9BR3hH?=
+ =?utf-8?B?aWhkZlZ6dmhzdW94ZWlWdjdKZ3Q2MjE4S1RhMTRzejMvT0c0VFBYbE9ZbTg0?=
+ =?utf-8?B?ZlU4dU5rd2l1RDVMZTQrOWxTSzdXQzRSRmlRU3N1MmRHSlFNTGJ1TWZBM3lu?=
+ =?utf-8?B?RXp3VXR6YTFyOG5pNENaR0V3QlVHeCt2Sm5UVW1CTHcyZExuZ05qTE9SR05a?=
+ =?utf-8?B?a1BLSGtsbjVkdFZTcFl6dm41MTlYMkhvTlNYeVRyRlNPcVMxQS93QlZEclVR?=
+ =?utf-8?B?RldUMHdoSFVQQm9MNTVMckY1dlk3aVZNSjlSSmZ1bmFkaWFEL0NydUNMcDVr?=
+ =?utf-8?Q?9ycdm5sZzllkuYMSG/HHsO7Lr?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 477cb277-3199-46a6-c17e-08ddca19befa
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 18:39:15.5045
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 18:50:08.5900
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YouhN7s2+9a5jr5s9Ap1HLsfQlANo9VhVgd7KotpFe+MZGD2e0RZiQHvWckrffKT2AOxwGRpYUB+KMJmjdNmBsDvnZhUwtZhdnNt5rwLVDQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR07MB9865
+X-MS-Exchange-CrossTenant-UserPrincipalName: JmOpnII2k7pIO/25ngIYmG3+6A2NICGOMuQkc29JZ99QE+QAYBYwTZRiKDZlkxYr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6913
 
+Hi Reinette,
 
-On 18/07/2025 22:53, Thomas Gleixner wrote:
-> On Mon, Jul 14 2025 at 10:41, Wladislav Wiebe wrote:
->> This patch adds a mechanism to detect and warn about long-running IRQ
-> # git grep 'This patch' Documentation/process/
->
-> Also please read:
->
->   https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#changelog
->
->> +static int __init irqhandler_duration_check_setup(char *arg)
->> +{
->> +     unsigned long val;
->> +     int ret;
->> +
->> +     if (!arg)
->> +             return 0;
->> +
->> +     ret = kstrtoul(arg, 0, &val);
->> +     if (ret)
->> +             return ret;
->> +
->> +     if (val > 0) {
->> +             irqhandler_duration_threshold_us = val;
->> +             static_branch_enable(&irqhandler_duration_check_enabled);
->> +     } else {
->> +             pr_err("Invalid irqhandler.duration_warn_us setting (%lu)\n", val);
->> +             return -EINVAL;
->> +     }
->> +
->> +     return 0;
->> +}
->> +early_param("irqhandler.duration_warn_us", irqhandler_duration_check_setup);
-> Why early_param? Nothing cares about this during early boot.
->
->> +static inline void irqhandler_duration_check(u64 ts_start, unsigned int irq,
->> +                                           struct irqaction *action)
->> +{
->> +     u64 delta_us = (local_clock() - ts_start) >> 10;
-> Lacks a comment that this is an intentional approximation.
->
->> +     if (unlikely(delta_us > irqhandler_duration_threshold_us)) {
->> +             pr_warn_ratelimited("[CPU%d] long duration on IRQ[%u:%ps], took: %llu us\n",
->> +                     smp_processor_id(), irq, action->handler, delta_us);
-> Please align the arguments in the second line properly.
->
->   https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#line-breaks
->
->> +     }
->> +}
->> +
->>  irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
->>  {
->>       irqreturn_t retval = IRQ_NONE;
->> @@ -146,6 +184,7 @@ irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
+On 7/17/25 23:03, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/8/25 3:17 PM, Babu Moger wrote:
+>> Resctrl subsystem can support two monitoring modes, "mbm_event" or
+>> "default". In mbm_event mode, monitoring event can only accumulate data
+>> while it is backed by a hardware counter. In "default" mode, resctrl
+>> assumes there is a hardware counter for each event within every CTRL_MON
+>> and MON group.
 >>
->>       for_each_action_of_desc(desc, action) {
->>               irqreturn_t res;
->> +             u64 ts_start;
-> This wants to be in the if() branch where it is actually used.
->
->>               /*
->>                * If this IRQ would be threaded under force_irqthreads, mark it so.
->> @@ -155,7 +194,14 @@ irqreturn_t __handle_irq_event_percpu(struct irq_desc *desc)
->>                       lockdep_hardirq_threaded();
+>> Introduce mbm_assign_mode resctrl file to switch between mbm_event and
+>> default modes.
 >>
->>               trace_irq_handler_entry(irq, action);
->> -             res = action->handler(irq, action->dev_id);
->> +
->> +             if (static_branch_unlikely(&irqhandler_duration_check_enabled)) {
->> +                     ts_start = local_clock();
->> +                     res = action->handler(irq, action->dev_id);
->> +                     irqhandler_duration_check(ts_start, irq, action);
->> +             } else
->> +                     res = action->handler(irq, action->dev_id);
->> +
-> Even if not required by C, the else clause wants brackets too for
-> symmetry.
->
->         if (foo)
->                 bar();
->         else
->                 baz();
->
-> parses perfectly fine.
->
->         if (foo) {
->                 do_stuff();
->                 bar();
->         } else
->                 baz();
->
-> is asymmetrical and disturbs the reading flow, which is pattern
-> based. The extra brackets just make it easier to parse:
->
->         if (foo) {
->                 do_stuff();
->                 bar();
->         } else {
->                 baz();
->         }
->
-> See?
->
-> Thanks,
->
->         tglx
+>> Example:
+>> To list the MBM monitor modes supported:
+>> $ cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>> [mbm_event]
+>> default
+>>
+>> To enable the "mbm_event" monitoring mode:
+> 
+> "monitoring mode" -> "counter assignment mode"?
 
-Thanks for further comments, I've addressed them in v3:
-https://lore.kernel.org/lkml/20250723182836.1177-1-wladislav.wiebe@nokia.com/
-- W.W.
+Sure.
 
+> 
+>> $ echo "mbm_event" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>>
+>> To enable the "default" monitoring mode:
+>> $ echo "default" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>>
+>> MBM event counters are automatically reset as part of changing the mode.
+>> Clear both architectural and non-architectural event states to prevent
+>> overflow conditions during the next event read. Also clear assignable
+>> counter configuration on all the domains.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> ...
+> 
+>> ---
+>>  Documentation/filesystems/resctrl.rst | 22 +++++++-
+>>  fs/resctrl/internal.h                 |  2 +
+>>  fs/resctrl/monitor.c                  | 27 ++++++++++
+>>  fs/resctrl/rdtgroup.c                 | 72 ++++++++++++++++++++++++++-
+>>  4 files changed, 121 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+>> index 2b2acb55d8b1..b8a4dbe061ea 100644
+>> --- a/Documentation/filesystems/resctrl.rst
+>> +++ b/Documentation/filesystems/resctrl.rst
+>> @@ -259,7 +259,8 @@ with the following files:
+>>  
+>>  "mbm_assign_mode":
+>>  	The supported counter assignment modes. The enclosed brackets indicate which mode
+>> -	is enabled.
+>> +	is enabled. The MBM events associated with counters may reset when "mbm_assign_mode"
+>> +	is changed.
+>>  	::
+>>  
+>>  	  # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>> @@ -279,6 +280,15 @@ with the following files:
+>>  	of counters available is described in the "num_mbm_cntrs" file. Changing the
+>>  	mode may cause all counters on the resource to reset.
+>>  
+>> +	Moving to mbm_event counter assignment mode requires users to assign the counters
+>> +	to the events. Otherwise, the MBM event counters will return 'Unassigned' when read.
+>> +
+>> +	The mode is beneficial for AMD platforms that support more CTRL_MON
+>> +	and MON groups than available hardware counters. By default, this
+>> +	feature is enabled on AMD platforms with the ABMC (Assignable Bandwidth
+>> +	Monitoring Counters) capability, ensuring counters remain assigned even
+>> +	when the corresponding RMID is not actively used by any processor.
+>> +
+>>  	"default":
+>>  
+>>  	In default mode, resctrl assumes there is a hardware counter for each
+>> @@ -288,6 +298,16 @@ with the following files:
+>>  	result in misleading values or display "Unavailable" if no counter is assigned
+>>  	to the event.
+>>  
+>> +	* To enable "mbm_event" monitoring mode:
+> 
+> "monitoring mode" -> "counter assignment mode"?
+> 
+
+Sure.
+
+>> +	  ::
+>> +
+>> +	    # echo "mbm_event" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>> +
+>> +	* To enable "default" monitoring mode:
+>> +	  ::
+>> +
+>> +	    # echo "default" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>> +
+>>  "num_mbm_cntrs":
+>>  	The maximum number of counters (total of available and assigned counters) in
+>>  	each domain when the system supports mbm_event mode.
+> 
+> Reinette
+> 
+> 
+
+-- 
+Thanks
+Babu Moger
