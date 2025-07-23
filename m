@@ -1,148 +1,222 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AC31D54D8;
-	Wed, 23 Jul 2025 22:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD0E215055;
+	Wed, 23 Jul 2025 23:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753310328; cv=none; b=GTZ8l2qRkH6tJjZvKkD3opy1ZveQWYhOJFZDlrVjcaS+cWb9ZQk5Qu8LZ2f5E1crb/cnBRGR/4qVzRFQtIKmQVEgExlnLb4o1R+Y0y8iGYfT3OMmiA5MykIVmHOgJiSh3psE2laA+gLGkQdlSQWDaE2Fay/MfnHn57PNCmUstJY=
+	t=1753314932; cv=none; b=XX8+a/WXI/dm/Waj+FS0Bw6Zzs8y0YMUlLqiHRfr95Xqu7Taaqes9QnNqhEd8Pfrngbma+gUqdfdELwXzJsA2OVwEWYnG73wTG0QcONJZNlRP7GVyJzdtPasrSo2d/OhVbYJ/wKS9v2dDdgeP7+HgpQEPuRBKhZV1+PtLBZkmdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753310328; c=relaxed/simple;
-	bh=rllKm6oEcsaGEQDno4+nOwkZcdrVP5eCwS1QXpejhk4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MPmmIwmFdOJUV1s+KGs3M/1nf8wr6rRB+OBfOM3KSfssMNWusXDRF9tnsUm0kjJJ4i0FS/tuHDfoSZkJQgkb6B9uIi2lIYZhHWeuRsEJNTtWRg+xpwUlCTCQBkZDDU85tqfJl195lAku1qIg2bPLugBKA15F1gv2nhz0a4RWXzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d0WB83ER; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753314932; c=relaxed/simple;
+	bh=5Rkl6QkujiSWyv84mlJ0xwNtng60dAwf1DJAIOq9JbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A4kuGg0cqSm3bmR5xYI+coSvNd8ENj7ClrLuegZTO6F+r4Bq1/vWwwwTpvqklRtGigspjVLV3ctj4DZm6N6hiM4DWAIRJtsI8MO41XhiXOL5emwbyeVhzUikK+ycGealUnDIFhMuayL9noJrEn2H/O7XTeiZTDdiI7dayPsGmKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=xs3esqA+; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d0WB83ER"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b34ab678931so376771a12.0;
-        Wed, 23 Jul 2025 15:38:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753310326; x=1753915126; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=httEGtEqD2JKhBONVOlAdsuEcxaTZjP6OdJ8FhoZGUc=;
-        b=d0WB83ER+trZWLbQAbCMJ73d3AIWjRklUJLD9IyBQTiBKo1hoh4gOqk7AGar6LjuKe
-         Im6QJUj7obENSmH7IuJoodEd0YyG7FDyt0Dfx5qudlbzoXBRVm/Wu07eNQ7fkcmnBjCa
-         yzOssOvWUQeKfc3ypn6dzp/5yfW0jiULW6zaL1neo1WuIibs64E69IYqxAl0xLg2QnLs
-         kJPRhHnOkg+UdxR+EmrsR6gfPFnSPUuQDv4vzP+8WO2By6p/CxE0LvKgaYhT7lO/91KF
-         UD9tgq/iY/06m7DEVsMuneT1sNeymcxUcG4Rd/VFc0wTBxoE0VixdkiTn7BcISOVJpAD
-         tu5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753310326; x=1753915126;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=httEGtEqD2JKhBONVOlAdsuEcxaTZjP6OdJ8FhoZGUc=;
-        b=XsO6LM5TdN5y0HvuVpIPrJmogjqxtpOY2t6s0VkpaoiT5oVj7hsYMypWeuIj6gn8Yr
-         KE5uIm/2QcZoptFBriNi6rEdhJY5/lait0ZZNbrpYiH5BHDr0bRSLQcdD6GUAhMNUXpd
-         +dKhfAimBTQ1dbp70ih15B31WmLl2Q+oblH3kehQSb8CHgAxbxvG95oOlJv8P8QB1rQ1
-         AKvDIklNCGDlM13iVevYz7ES9t6hQoBb63WY5FlhMFSEWd5i/cfLLCXZqq7MI4LDDPBv
-         dnyOw1p/z9wKybrdwlgVZheJT0IvA5YU5O2BYmuzS6zysCA4AVJP38UZC4zElGGJe+Y4
-         +s0g==
-X-Forwarded-Encrypted: i=1; AJvYcCUM5AG0MG04+88PssDIGl/+yiJfnIS5QMMt05PybJch0mvJOBvG0waamdXh0pEOqGtOSSuGMsl/z3r6mSM=@vger.kernel.org, AJvYcCUog1EZFO3osS5iOWHS5lAw9SwrxnTHikvjxju9qAOfEbWxHLocjh5faZezJbGrtbpZ7xaMAoPO+b3Ivrz/@vger.kernel.org, AJvYcCXOwHWEkgScHbIj3NxsO6+6yiuJP/dU3SBXMN4K/W5dcck0hRxXGNI4E+zV/6x2+L4JdiOU2lK67fo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlT/NAy2IDPCZm+6yx27sxatBrp0+6PBwPeSRu/VUIIzW7S1dv
-	T2MtRq+vWmdbCuS3Qj9JVKgs7FfQXjXRIBc2IH8KCg3aMIxynqVPgBf2cfJ8Gw==
-X-Gm-Gg: ASbGncssx/jSN++Em8U07erLJ9l4vZTr5DL3D2N8mWZTh2OqnwI+FI5hraWpx68BdZV
-	58xffDLnb8vlRi6UV0TZIjQLIJV3Zlm60sTpDn84dtQQ6dOuIF3huTxQEzIXo4QayM/YiRY2t4J
-	rbQU1y97VSVv3yHJmX1rpRgiRpDYAEqXdR+tInEoKM2D0xb8KwfB5SMsYJwaKhdbkzXGCE9Y6MW
-	RPvTBUzS22EcYYb5uiCH5cyX0etc3maq6kXYOCkVsM4o+mu6E355F6SeK3PW1nd875DbB+SW1Ak
-	mDziACWbeSWIpwnqnXL50RtGTLHYOAi44FHH+US+Onr23l78mJx8/YiEHU5gGJQcGAJrpkRir1I
-	mCKEWn65mtCZ1lApFN8NEYe2pM4yAfpBPzevHY2GiMiuGCjxm9guvLcGYZbn3Ku+G25dl3kAIng
-	aOWoy2lw==
-X-Google-Smtp-Source: AGHT+IHakvZZ3TUObRGKro7UVd2Yr8Ej1rtAPvox7bw0ZmXr5fCcKBn4M0OqVIvJGwFyJ7+j8EsOoQ==
-X-Received: by 2002:a05:6a20:430f:b0:225:7617:66ff with SMTP id adf61e73a8af0-23d4905c6fdmr6898282637.20.1753310325853;
-        Wed, 23 Jul 2025 15:38:45 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f6c09baecsm73443a12.24.2025.07.23.15.38.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Jul 2025 15:38:45 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <039cc421-eac2-4fc3-ac51-b1e5d5faa54b@roeck-us.net>
-Date: Wed, 23 Jul 2025 15:38:44 -0700
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="xs3esqA+"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bnWGc3P5sz9ssw;
+	Thu, 24 Jul 2025 01:55:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1753314920;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=adkKVU2xcTSCol5IeKbXbR2OHCXr05cLR6HT03bl1E8=;
+	b=xs3esqA+LbZikdpw0S1ONQQsAJpNNRItL+NhgVpCCBvSmDJvo/Cghe6Ldn7FVrH4QfegqY
+	WVs4QBukb5HrYTE+wN+kxmukZtaZZ/2sW8qkJ3WdRZdNYrfev7vK0U++E/MBdqhihbm6Im
+	+MVV2PH24WP0dXnROYRAEKP3BZh9kyrNSLHr0bxovByxKvi6VQhEvLT9SY2/n3ZmSwP0ga
+	g4D1mwDAJmqPPsseQTW0y4HRbBOPAib55PK33Vlhti+otkyCg+AIKt5McnHdSKYYYybwQ8
+	uAStCNBzUXyziMmWl4KfxBv3Ca6PEsdz6zEfjMZt41XtaG/B+gs4QJpzQvU6FQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Thu, 24 Jul 2025 09:55:05 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 0/4] procfs: make reference pidns more user-visible
+Message-ID: <2025-07-23.1753314869-silly-creamer-crushed-cabana-proper-jury-FaB28g@cyphar.com>
+References: <20250721-procfs-pidns-api-v1-0-5cd9007e512d@cyphar.com>
+ <CALCETrVo+Mdj7as2R0R+FqTBbjqwTkXu5Zkj=dg8EVM9xRhBPw@mail.gmail.com>
+ <20250721.150803-lavish.ninja.rigid.racism-OCjeOw80sO9@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] hwmon: add support for MC33XS2410 hardware
- monitoring
-To: dimitri.fedrau@liebherr.com, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- Dimitri Fedrau <dima.fedrau@gmail.com>
-References: <20250723-mc33xs2410-hwmon-v5-0-f62aab71cd59@liebherr.com>
- <20250723-mc33xs2410-hwmon-v5-2-f62aab71cd59@liebherr.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20250723-mc33xs2410-hwmon-v5-2-f62aab71cd59@liebherr.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="i6lgalhwjitwn6se"
+Content-Disposition: inline
+In-Reply-To: <20250721.150803-lavish.ninja.rigid.racism-OCjeOw80sO9@cyphar.com>
+X-Rspamd-Queue-Id: 4bnWGc3P5sz9ssw
 
-On 7/23/25 10:34, Dimitri Fedrau via B4 Relay wrote:
-> From: Dimitri Fedrau <dimitri.fedrau@liebherr.com>
-> 
-> The device is able to monitor temperature, voltage and current of each of
-> the four outputs. Add basic support for monitoring the temperature of the
-> four outputs and the die temperature.
-> 
-> Signed-off-by: Dimitri Fedrau <dimitri.fedrau@liebherr.com>
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+--i6lgalhwjitwn6se
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC 0/4] procfs: make reference pidns more user-visible
+MIME-Version: 1.0
 
-I am not sure what the plan is, but for now I'll assume that
-the series will be applied through the pwm subsystem.
+On 2025-07-22, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> On 2025-07-21, Andy Lutomirski <luto@amacapital.net> wrote:
+> > On Mon, Jul 21, 2025 at 1:44=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com=
+> wrote:
+> > >
+> > > Ever since the introduction of pid namespaces, procfs has had very
+> > > implicit behaviour surrounding them (the pidns used by a procfs mount=
+ is
+> > > auto-selected based on the mounting process's active pidns, and the
+> > > pidns itself is basically hidden once the mount has been constructed).
+> > > This has historically meant that userspace was required to do some
+> > > special dances in order to configure the pidns of a procfs mount as
+> > > desired. Examples include:
+> > >
+> > >  * In order to bypass the mnt_too_revealing() check, Kubernetes creat=
+es
+> > >    a procfs mount from an empty pidns so that user namespaced contain=
+ers
+> > >    can be nested (without this, the nested containers would fail to
+> > >    mount procfs). But this requires forking off a helper process beca=
+use
+> > >    you cannot just one-shot this using mount(2).
+> > >
+> > >  * Container runtimes in general need to fork into a container before
+> > >    configuring its mounts, which can lead to security issues in the c=
+ase
+> > >    of shared-pidns containers (a privileged process in the pidns can
+> > >    interact with your container runtime process). While
+> > >    SUID_DUMP_DISABLE and user namespaces make this less of an issue, =
+the
+> > >    strict need for this due to a minor uAPI wart is kind of unfortuna=
+te.
+> > >
+> > > Things would be much easier if there was a way for userspace to just
+> > > specify the pidns they want. Patch 1 implements a new "pidns" argument
+> > > which can be set using fsconfig(2):
+> > >
+> > >     fsconfig(procfd, FSCONFIG_SET_FD, "pidns", NULL, nsfd);
+> > >     fsconfig(procfd, FSCONFIG_SET_STRING, "pidns", "/proc/self/ns/pid=
+", 0);
+> > >
+> > > or classic mount(2) / mount(8):
+> > >
+> > >     // mount -t proc -o pidns=3D/proc/self/ns/pid proc /tmp/proc
+> > >     mount("proc", "/tmp/proc", "proc", MS_..., "pidns=3D/proc/self/ns=
+/pid");
+> > >
+> > > The initial security model I have in this RFC is to be as conservative
+> > > as possible and just mirror the security model for setns(2) -- which
+> > > means that you can only set pidns=3D... to pid namespaces that your
+> > > current pid namespace is a direct ancestor of. This fulfils the
+> > > requirements of container runtimes, but I suspect that this may be too
+> > > strict for some usecases.
+> > >
+> > > The pidns argument is not displayed in mountinfo -- it's not clear to=
+ me
+> > > what value it would make sense to show (maybe we could just use ns_dn=
+ame
+> > > to provide an identifier for the namespace, but this number would be
+> > > fairly useless to userspace). I'm open to suggestions.
+> > >
+> > > In addition, being able to figure out what pid namespace is being used
+> > > by a procfs mount is quite useful when you have an administrative
+> > > process (such as a container runtime) which wants to figure out the
+> > > correct way of mapping PIDs between its own namespace and the namespa=
+ce
+> > > for procfs (using NS_GET_{PID,TGID}_{IN,FROM}_PIDNS). There are
+> > > alternative ways to do this, but they all rely on ancillary informati=
+on
+> > > that third-party libraries and tools do not necessarily have access t=
+o.
+> > >
+> > > To make this easier, add a new ioctl (PROCFS_GET_PID_NAMESPACE) which
+> > > can be used to get a reference to the pidns that a procfs is using.
+> > >
+> > > It's not quite clear what is the correct security model for this API,
+> > > but the current approach I've taken is to:
+> > >
+> > >  * Make the ioctl only valid on the root (meaning that a process with=
+out
+> > >    access to the procfs root -- such as only having an fd to a procfs
+> > >    file or some open_tree(2)-like subset -- cannot use this API).
+> > >
+> > >  * Require that the process requesting either has access to
+> > >    /proc/1/ns/pid anyway (i.e. has ptrace-read access to the pidns
+> > >    pid1), has CAP_SYS_ADMIN access to the pidns (i.e. has administrat=
+ive
+> > >    access to it and can join it if they had a handle), or is in a pid=
+ns
+> > >    that is a direct ancestor of the target pidns (i.e. all of the pids
+> > >    are already visible in the procfs for the current process's pidns).
+> >=20
+> > What's the motivation for the ptrace-read option?  While I don't see
+> > an attack off the top of my head, it seems like creating a procfs
+> > mount may give write-ish access to things in the pidns (because the
+> > creator is likely to have CAP_DAC_OVERRIDE, etc) and possibly even
+> > access to namespace-wide things that aren't inherently visible to
+> > PID1.
+>=20
+> This latter section is about the privilege model for
+> ioctl(PROCFS_GET_PID_NAMESPACE), not the pidns=3D mount flag. pidns=3D
+> requires CAP_SYS_ADMIN for pidns->user_ns, in addition to the same
+> restrictions as pidns_install() (must be a direct ancestor). Maybe I
+> should add some headers in this cover letter for v2...
+>=20
+> For the ioctl -- if the user can ptrace-read pid1 in the pidns, they can
+> open a handle to /proc/1/ns/pid which is exactly the same thing they'd
+> get from PROCFS_GET_PID_NAMESPACE.
+>=20
+> > Even the ancestor check seems dicey.  Imagine that uid 1000 makes an
+> > unprivileged container complete with a userns.  Then uid 1001 (outside
+> > the container) makes its own userns and mountns but stays in the init
+> > pidns and then mounts (and owns, with all filesystem-related
+> > capabilities) that mount.  Is this really safe?
+>=20
+> As for the ancestor check (for the ioctl), the logic I had was that
+> being in an ancestor pidns means that you already can see all of the
+> subprocesses in your own pidns, so it seems strange to not be able to
+> get a handle to their pidns. Maybe this isn't quite right, idk.
+>=20
+> Ultimately there isn't too much you can do with a pidns fd if you don't
+> have privileges to join it (the only thing I can think of is that you
+> could bind-mount it, which could maybe be used to trick an
+> administrative process if they trusted your mountns for some reason).
+>=20
+> > CAP_SYS_ADMIN seems about right.
+>=20
+> For pidns=3D, sure. For the ioctl, I think this is overkill.
 
-Thanks,
-Guenter
+My bad, I forgot to add you to Cc for v2 Andy. PTAL:
 
+ <https://lore.kernel.org/all/20250723-procfs-pidns-api-v2-0-621e7edd8e40@c=
+yphar.com/>
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+https://www.cyphar.com/
+
+--i6lgalhwjitwn6se
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaIF2WQAKCRAol/rSt+lE
+byrQAQDSb5GrHSNEL0F882yj0V9aT+2idljnDmsMGNvtV4Yb8QD+PnGyDg9rgG4f
+NMqT6s5tlpun08MU8faoFumIO4Nhrw4=
+=ZeKP
+-----END PGP SIGNATURE-----
+
+--i6lgalhwjitwn6se--
