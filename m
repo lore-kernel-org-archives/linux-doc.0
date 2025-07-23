@@ -1,59 +1,59 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353308F58
-	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 13:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F072EE97A
+	for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 13:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753278832; cv=none; b=Fp4fSVeib67GBct9rIeKsTvukA8sDlCsECCUSB/h7MaAU4JkhNE6ZgVUUeGBoG3kRTaRAIvCfF6BncnbtPm8prMOkMhihm5OCOPDqHOnABEiAWfLRh/RspDIrrPsLvXAEZ3HusrnlqikDkRAjb2KdI8DlI0UBsogDMXbNMHlUjI=
+	t=1753278996; cv=none; b=ZHJO6efdw+RXuLPh9B9gqe1M6dawxNvTE3k/YcDpbnHSiIyNgNdd1dh7RTppEq0cLkypm8V+LIHpKcnCE2FbXpgKLzl+3gr10xrQsflj9ND8loiMW59/OhaC71PGnyWFD8UzZGU+abkbvnm69Mx7rEb5VaJnwxrmcKoDB726BBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753278832; c=relaxed/simple;
-	bh=hByHGrth5zdeb5TgCiwXXXAzfAWK6MDyTN/grdnGXO8=;
+	s=arc-20240116; t=1753278996; c=relaxed/simple;
+	bh=fU/APBcfC/XfQLmB1N+H1jx5bb6LCvVVTvhPnEoXAWU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nmxoz87chQvs5nGllHzH/4JTcj9d0mBnRkZlPlPmXAEWzqM96d0YHiD6hNOyYQs5P88WJAWxGkXLDryf+FlbUl21zBtXfLW2TrDDxwDU2LRGNn0d/dGZI8KIpFi+765l5c4G4fORKXxZTKvJkr3frlcD3S1gP8opq7vQb08Xby4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=dM9JXVnv; arc=none smtp.client-ip=209.85.160.169
+	 To:Cc:Content-Type; b=UnvtJaH/q0MxpLwZ1porPDpSUmHwJtWyk0aNDp/dop8bKMmqp7MDkJpzKVt3091kmxe5LBVp1bMH7agh2/f5F4zLdy7hb+dVLjQe61TzbEEX0D5jY+dachDxNEO+qnzS2iJaxYFyqdzbINFTqJ13bhazCxmwE/E9ZQg0we5IJSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=0GRqWnHh; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="dM9JXVnv"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ab3802455eso86192011cf.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 06:53:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="0GRqWnHh"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4ab644b8dc1so72485171cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Jul 2025 06:56:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1753278828; x=1753883628; darn=vger.kernel.org;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1753278993; x=1753883793; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9nYQ1nxWVgdB6FCVcfOrCHIYHLuEY3Xl4xttYXGmsTA=;
-        b=dM9JXVnvI/nED2XsNyy7A/f4HrA0tPyaQWK54CCTUytezJATSD6jxh2KlV6Erdcdf6
-         TJLt2q1PQTwIjLBM5FjszQVQfWVLLk5I4kuZfb0NGqo0iMJAXDUu698AP9/7qTyXc+He
-         RYAOPoTtLIS8gtEYVbkuUqMod4uQ9Mlt6THbDftUBGg+Dy9W6jV71ffVYS0893Pitou7
-         QG6dk3K49tNEelJAPHlJBl52bF1/YdlU+FUHqX6tPoaV1PbU6RLnR71alJHyzsX70qM5
-         Jz10MNP6qWIl6ZPL1WMdExBJjvoMk5kdnRu/iFgh/zSJgfUv3YEUuD295CXtOAlEAPPP
-         D2Fw==
+        bh=Neb4DMdHL9YN2qZdu5HnMhnwFlw4q4ExiBgUXTApsC8=;
+        b=0GRqWnHhO3ay88oPAUoxJl8XZDjHPi8BzJvlkjTgq5HQJ3x4LiqP8ACuWAYQ9UpwTn
+         +AitDW5EJImW5H5KsQVufvpuj8nzfKLDbUR+2fGbUrRHGclFYKue/+fC6PXYf5q5yWh9
+         DlKcUZGBbmVknvLBUqpqVM7/8qMvDMWhIXT5CNBY1D4WvR8HvbG45OApWOKJSgOzGW4f
+         BAw5tmCRNzoWfb0ulY/HqwOZahDbLR++1wTFu/gaSLOYG9xeRlUNTiB/30igi/HjyIbp
+         Ewmx/T7k/kW90uCv5RXoTVOvD4jZLr2XqszPZ6XxaUzfseyeeQGrJ1kynh8E+rI5S7tr
+         iZwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753278828; x=1753883628;
+        d=1e100.net; s=20230601; t=1753278993; x=1753883793;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9nYQ1nxWVgdB6FCVcfOrCHIYHLuEY3Xl4xttYXGmsTA=;
-        b=j5yRTh4cOaUa24W/nRdqtmzStFSnaKRdlYygPZUloUADbbubGVO2kmN9xjtdJkoX/p
-         G0YhEPB+Ii9wtihD5BKKbwamjHcSfwpp0R+Dy5cBwOIWeF/9taRUwKeqKJ9KrIUT1XZY
-         oDltFdIZUXACiZ2NYLaqZw8U6Os5ywaye6wPNqqM4D3Zqy1c1P1sPA/0IL02J0QH9mLC
-         28XAKM9sj7x/W3Zb8bDj7x3A6IGbuPsdCEy5Vo9zQEW8bPTCoVzG2OcjOp/hHJpMx3Nf
-         T/2jHAEHLUmmERKi547sVsws2sEIUdbLSCy7VjFxJrpSTu12+lE69muubibeQM2dMim4
-         PM/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVz6V2iX3UsCyENp+mgOlL4TpPWsfXDQ8I7KsHzxfwrzfkmiMnrdcD6VdQiRVhKqNUqLse8YUxvkf0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw32lbfGqKQW3gZ8ue+D53PLrxQL+Zuka28WVyEGsM/6aSsoilM
-	PPjqYcQOpxgmbNNqLjODeOzmLnRgfN7Y0nQy9PLI17cvRPKUyF4Unz+8+lgSUOwS79IGoTqcvxB
-	t64JqfXaqATa6ZAHrG07I1G/PVHQvd0xbOu0jznpSug==
-X-Gm-Gg: ASbGncsN5ekJdeytxwpXqA7Fg3ffhx+UK5ZDXZ7fKqaC8JOXr0rNPOuYQtKjC90ucC4
-	/cZOGaASU+sYrfxLOyEWavV0+Ec4Gjo4DpNrowsk6DR6ABFWQr+wxVisrUquy4D3Jy561CAN4P4
-	McRoCccju67g6DKFiChNTD20LzWm+cxPKgWSea4q54iz2T4GaLnfbGiec+bHRWFvIAPV0DahgkH
-	sja
-X-Google-Smtp-Source: AGHT+IHnUuhdrD9l7/UqXUCaUGkjpnut9RPkUhkRsYy8dMo95ULrH9zUrOnS3/mgiyGB2gnOI0df5GH4vloe3EzyqoM=
-X-Received: by 2002:a05:622a:13:b0:4ab:65c3:37d5 with SMTP id
- d75a77b69052e-4ae6e009e59mr39018621cf.27.1753278827759; Wed, 23 Jul 2025
- 06:53:47 -0700 (PDT)
+        bh=Neb4DMdHL9YN2qZdu5HnMhnwFlw4q4ExiBgUXTApsC8=;
+        b=tnEaH4ymiPEujkSqPhgSaif+bxcDjrNlUq5u0KDOAuGhpsVcMFMLKTd9Y4vyCzXFRh
+         EdLWj56kHuWY3yTMCobdOQxgTjB9Rka/3QFUS4NmIvOZWORsa7gWd0RwDRDkJ47EYXP0
+         WnvpycKQzTi5cXl4R/nETwGlJ39QZiqPV+oPVJ4SWQDF8NfWXbWLMpLxYm0BeaGSCkkv
+         0C4t9f6jKbSx+Zjd6rJubvfjTV21cIWjWpN1A0rkSj5wJfA9lMweREPaM9axnwOxdM41
+         u1EYMbZh539sDb4HSls+l8oeGsJkQFDnJ5Ln4VFo7IR1aypyVSMh/ypHNEDz8ysbFfa5
+         A1CA==
+X-Forwarded-Encrypted: i=1; AJvYcCWwd5f8/bTmBdMwZvS9YMd6g+Us7rITiWcYehJnUgnFIlY4ym+ebadNwFSvSYyi4R4uaPuzow2dOpg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLtTlPKQlM4CBmFj6wjuCaVVY5sTECLEmjlp0nj6f4eKnItBst
+	XDIzyjUYMDX0mmNOAn91R/EInojSGlK9XRQ2jUUdldRts7W1mYHObIGwU99GYS3SFlHjLy8uSLD
+	3yn29n9vkkcwr+NT6ignWS/2bfNC6oll77SNjRji5rg==
+X-Gm-Gg: ASbGncup5ucX5poNHarlIRS/0B+8cMMXdSDMNKb9efxj0vA6aEgKgEh+woferTRcNU1
+	CFWeT4icWi3jLPvxitLMU1BztpzfwdVcjmlrtA6ktfXC4TQ10k9qCV/24OThL0NOIUgNFL+pofQ
+	OwZFZMc99Tc8Vrphm79/G1if/An1OsGu2+pWc6CAh2cIr6oee8NLOiAKrJk3wH9gu6dHsAQowBZ
+	6mY
+X-Google-Smtp-Source: AGHT+IGrYMZ5lZ4waeYztYzZWeus2W5lvUIGBJomoilBWhgY/xZwdg1u51Z0y6Byizn2RRUk43nSuTfOAFLec5SGqvE=
+X-Received: by 2002:ac8:7fd3:0:b0:4ab:6c5a:1fe7 with SMTP id
+ d75a77b69052e-4ae6dfc4f62mr48555621cf.52.1753278993220; Wed, 23 Jul 2025
+ 06:56:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,13 +61,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
- <20250625231838.1897085-18-pasha.tatashin@soleen.com> <d6e44430-ec9c-4d77-a00b-15e97ab9beab@infradead.org>
-In-Reply-To: <d6e44430-ec9c-4d77-a00b-15e97ab9beab@infradead.org>
+ <20250625231838.1897085-22-pasha.tatashin@soleen.com> <829fa3b2-58be-493f-b26c-8d68063b96ed@infradead.org>
+In-Reply-To: <829fa3b2-58be-493f-b26c-8d68063b96ed@infradead.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 23 Jul 2025 13:53:11 +0000
-X-Gm-Features: Ac12FXycG_A7VpBGI0ZPxdi4OoC_3NChOWXSX3JfSNxhPZyJt2s_1oWRajx-S3I
-Message-ID: <CA+CK2bCpY3xnPeEyWCRYVpRcs3maKMqZnApQtm5upkwmM80a3g@mail.gmail.com>
-Subject: Re: [PATCH v1 17/32] liveupdate: luo_sysfs: add sysfs state monitoring
+Date: Wed, 23 Jul 2025 13:55:56 +0000
+X-Gm-Features: Ac12FXwxkGX-ZyVenfoKJwxXGBSrng0apcRfW2jRFbfKFQccJBpZH-g5RuQibpg
+Message-ID: <CA+CK2bDi+urd9FRftrDn3bwp2VCvb1f3rFsD+dhegLrMRPC4Zw@mail.gmail.com>
+Subject: Re: [PATCH v1 21/32] liveupdate: add selftests for subsystems un/registration
 To: Randy Dunlap <rdunlap@infradead.org>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
@@ -93,56 +93,25 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 26, 2025 at 12:29=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
+On Thu, Jun 26, 2025 at 12:06=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
 g> wrote:
 >
-> Hi,
 >
 >
 > On 6/25/25 4:18 PM, Pasha Tatashin wrote:
-> > diff --git a/Documentation/ABI/testing/sysfs-kernel-liveupdate b/Docume=
-ntation/ABI/testing/sysfs-kernel-liveupdate
-> > new file mode 100644
-> > index 000000000000..4cd4a4fe2f93
-> > --- /dev/null
-> > +++ b/Documentation/ABI/testing/sysfs-kernel-liveupdate
-> > @@ -0,0 +1,51 @@
-> > +What:                /sys/kernel/liveupdate/
-> > +Date:                May 2025
-> > +KernelVersion:       6.16.0
-> > +Contact:     pasha.tatashin@soleen.com
-> > +Description: Directory containing interfaces to query the live
-> > +             update orchestrator. Live update is the ability to reboot=
- the
-> > +             host kernel (e.g., via kexec, without a full power cycle)=
- while
-> > +             keeping specifically designated devices operational ("ali=
-ve")
-> > +             across the transition. After the new kernel boots, these =
-devices
-> > +             can be re-attached to their original workloads (e.g., vir=
-tual
-> > +             machines) with their state preserved. This is particularl=
-y
-> > +             useful, for example, for quick hypervisor updates without
-> > +             terminating running virtual machines.
-> > +
-> > +
-> > +What:                /sys/kernel/liveupdate/state
-> > +Date:                May 2025
-> > +KernelVersion:       6.16.0
-> > +Contact:     pasha.tatashin@soleen.com
-> > +Description: Read-only file that displays the current state of the liv=
-e
-> > +             update orchestrator as a string. Possible values are:
-> > +
-> > +             "normal":       No live update operation is in progress. =
-This is
-> > +                             the default operational state.
+> > diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
+> > index 75a17ca8a592..db7bbff3edec 100644
+> > --- a/kernel/liveupdate/Kconfig
+> > +++ b/kernel/liveupdate/Kconfig
+> > @@ -47,6 +47,21 @@ config LIVEUPDATE_SYSFS_API
+> >
+> >         If unsure, say N.
+> >
+> > +config LIVEUPDATE_SELFTESTS
+> > +     bool "Live Update Orchestrator - self tests"
 >
-> Just an opinion, but the ':'s after each possible value aren't needed
-> and just add noise.
+>                                          self-tests"
+>
+> as below...
 
-Removed columns, thanks.
-
-Pasha
+Done.
