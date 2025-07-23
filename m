@@ -1,59 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545F027FB16;
-	Wed, 23 Jul 2025 10:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A9C23A9B0;
+	Wed, 23 Jul 2025 10:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753266957; cv=none; b=QAm3yowDBL78q8Ps3xCf+4UcpLo6Y23wJ4QYgO5a6rnaKrtnYnNHM4aoPgg0O4jRmNNAMcgh2rXoM1TuKTQFkLc+xqoC7HgwCOJunlKRXPnH8JWPyGrXlaePnU76IZu5plWvslk3ob4CVQm4VZbzoYjToIBfKqOlz3w6joL0pRU=
+	t=1753267429; cv=none; b=UL4gzYaKQ/sQvRvCXY6836vOHHSBl7oiuJeOEdK1Y/gT1hgo/xk7wCC2+xN11JoVvZNmvHAl1UJTthCJt7CQgsoagICinievr/JjGheMqOm3Igkop/qqhGlmzz3g0P/1h+kbgbYByJitYq/ISl/zsIDDJTgd+oRRIftIPj8C3nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753266957; c=relaxed/simple;
-	bh=cJeftLriWrLbVNEaXDZWfCkVPaVSCfDT05EzFNVqUKc=;
+	s=arc-20240116; t=1753267429; c=relaxed/simple;
+	bh=CeNRvuvwYWoVJB5M5UHDRPJgLHidL2E1QaHeWDWNRNQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dwtLits7vhdLeL14YekiHyxsG8udqwBYky1oBPDb+nwil3qs3+jp8YLDl3Vd9ZfwYG0P5Aw41McgEVBEakcH2te5CqjxtA7pYeerj11n+DmrbPnFcgbO4cwodSvVjGcFdzn7H4VgIW2EA6wajIxyqIHdh7+ilGkdLlAg78/r/1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FY6pKQq8; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FY6pKQq8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FEC9C4CEE7;
-	Wed, 23 Jul 2025 10:35:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753266956;
-	bh=cJeftLriWrLbVNEaXDZWfCkVPaVSCfDT05EzFNVqUKc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FY6pKQq8oN0l6sVsEmuTeRmNQqpswc2aywTudkIVIcFBcHQsaqjbvfDVAQ33Ubw/F
-	 gMS0SmR81MtFn+ZCiA7XhMVUpXrY+fAVytHk4k9qj0f8EPkZ3kdeoa6we3p/vQz4G6
-	 7RaaYqStg+1PL2lS9SJJ6touGJUAWuZNSWbJNnxQc0LnaRGIkjEiti0yRo7V21uxjJ
-	 F/qm6OahJ6xeIjZqp4tz7jjuUKAo2H6vOjlIB/OmNKBnKjEBYVeOxE+kxxIuw7u0Du
-	 L3/uuquHeN0BsL3YIaSun2Iq22dedSMvg3yyg8ntgYadL29gsNFJ0jrkPjcWKgsTXu
-	 SlgcpfPtfiPYg==
-Date: Wed, 23 Jul 2025 11:35:49 +0100
-From: Simon Horman <horms@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
-	Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Fu Guiming <fuguiming@h-partners.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>,
-	Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Suman Ghosh <sumang@marvell.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Joe Damato <jdamato@fastly.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH net-next v10 6/8] hinic3: Mailbox framework
-Message-ID: <20250723103549.GY2459@horms.kernel.org>
-References: <cover.1753152592.git.zhuyikai1@h-partners.com>
- <6233841053851b93390df642f65b2bc4c4646abe.1753152592.git.zhuyikai1@h-partners.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OnUYrnvXh46847FZ09E8hCwOP1IoaHM02QQr2Ighvp/iHwpRUuNi1CIFTDHvOyUOu3PgiDoxzWUw79KAMhjIt+0M6jdtVZMddN5LfhTbTKTBnLO3dzBCmQEElRwXdBlWkQF+aM2eEmkrGl0U0EZs74dKkyE179cvpRV8V6ykhxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz7t1753267343tbb65405f
+X-QQ-Originating-IP: AMID40wbO4UnU89sYl62AWFs9G0YVjfeRYNVQgQgS8o=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 23 Jul 2025 18:42:20 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 3337543533688690038
+Date: Wed, 23 Jul 2025 18:42:20 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: MD Danish Anwar <danishanwar@ti.com>, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
+	lee@trager.us, gongfan1@huawei.com, lorenzo@kernel.org,
+	geert+renesas@glider.be, Parthiban.Veerasooran@microchip.com,
+	lukas.bulwahn@redhat.com, alexanderduyck@fb.com,
+	richardcochran@gmail.com, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 00/15] Add driver for 1Gbe network chips from MUCSE
+Message-ID: <A7AE3E9B4297A2FA+20250723104220.GA981103@nic-Precision-5820-Tower>
+References: <20250721113238.18615-1-dong100@mucse.com>
+ <5bce6424-51f9-4cc1-9289-93a2c15aa0c1@ti.com>
+ <49D59FF93211A147+20250722113541.GA126730@nic-Precision-5820-Tower>
+ <b51950c8-ce79-4b0b-af5c-bb788af33620@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,69 +48,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6233841053851b93390df642f65b2bc4c4646abe.1753152592.git.zhuyikai1@h-partners.com>
+In-Reply-To: <b51950c8-ce79-4b0b-af5c-bb788af33620@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MUtpDbzatTjwCtUQqgK5n1YzfGhnrSFgUELS1GUnZHOYYPiNWmhcFrce
+	dXiYxx7swpHE6ep5yjxlO9emlwisg7N9iXKLBOupwtDm0en8ZjZSHqzKEcdgvoivXvwm5vK
+	9549va6cb/OUc5nDobebt7PS5ERVaj/yzOkuYCzzaK5MiJX57Jf/rlkW1K8+LOWcU37Wzxh
+	FOdSiwbmCNi5EbAkDPQ4GNduxAWbZyup1GqLJMkhnVyZHdy+Cggfxve12kNTEGffwJU8RAm
+	TUpvHW0qs2cDnmhZI922mG0OSVlXVbzWeFcN1UjELVx7GPSTRYPfGu6iWb016yEkjconyxm
+	nTGmcdPXIhD7o4+hXQzjC3jvJbDmVbTOZtpkpUAeRsKgZPttygKs0ZzBGtKOdUr6K2E5TCe
+	sBvkPkGjJMCIFwruo3hDXpcZjQCt8R1MBHL1+VYisGFJGZbTqZGnK4Xx0eJoqIkMth7bXDf
+	Bdz37SS+Tr/IW19ZsjY4l/VKlK26be8HNaxfNnnWSat/N3x7To0NCKPfyPUV25SBY0iUZKM
+	jarCK3s711oMsYfC6AbywfiHtSZA0GFvyH+jGMvIbYNoivy5kbC3NwEqqDOvqoAvP4n8NId
+	CtgY/uPW5uu1Cl/BgjvxgAqCTKWZNUxskOCFyI7pxltuWGtGA7pD3m82P+eu362/cDE8IHW
+	hF325DOYSgw9JFlEpQTGBOzlPQEahjOBXxQzNDS/6LCLYRb6wLMohcJS2zofJiAR8mlAdRF
+	Tl2SOWXDZv+UPZP/16DugYxYLDap1kdjbQZN3irxu0JXqFMM4+pn1wSJ4B0w4fCGQ25sMyn
+	Z6cNS/I49lWZF10yg/gNSe12J4rVooA+Gp8ZtK9n1p9E5kKWq6c0kyhrGi1Oky43fKd1De1
+	a+HvLg4iabtncSadAz6jm9pd4OK9lSWx1qD056aI1hOeibly5BrBhgtG8a/o5XiN/W+gmK1
+	Zelh2Sgc1h6aykGkwjUpPZjsAmtnnWfy6lb8WIPIP9QTVk1F93EmMN5E5oLxo9bzkp/ujzA
+	fd9s6zxiqFPMClXrevHiSpJanq0aRtnf29c4JHMevxw5I3wyPf
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-On Tue, Jul 22, 2025 at 03:18:45PM +0800, Fan Gong wrote:
+On Tue, Jul 22, 2025 at 05:07:08PM +0200, Andrew Lunn wrote:
+> > A series patches can be accepted without achieving the basic tx/rx
+> > functions for a network card? If so, I can split this.
+> 
+> Think about the very minimum to make it useful. Maybe only support
+> PF. Throw out all VF support. You don't need statistics, ethtool,
+> devlink etc. They can all be added later.
+> 
+> 	Andrew
+> 
 
-...
+Ok, I'll try to minmum it.
 
-> +static void recv_mbox_handler(struct hinic3_mbox *mbox,
-> +			      u64 *header, struct hinic3_msg_desc *msg_desc)
-> +{
-> +	void *mbox_body = MBOX_BODY_FROM_HDR(((void *)header));
-> +	u64 mbox_header = *header;
-> +	u8 seq_id, seg_len;
-> +	int pos;
-> +
-> +	if (!mbox_segment_valid(mbox, msg_desc, mbox_header)) {
-> +		msg_desc->seq_id = MBOX_SEQ_ID_MAX_VAL;
-> +		return;
-> +	}
-> +
-> +	seq_id = MBOX_MSG_HEADER_GET(mbox_header, SEQID);
-> +	seg_len = MBOX_MSG_HEADER_GET(mbox_header, SEG_LEN);
-> +
-> +	pos = seq_id * MBOX_SEG_LEN;
-> +	memcpy((u8 *)msg_desc->msg + pos, mbox_body, seg_len);
-
-It would be nice if msg_desc->msg and mbox_body had more meaningful types
-than void *. If they are being treated as an array of bytes, then
-maybe u8 *?
-
-> +
-> +	if (!MBOX_MSG_HEADER_GET(mbox_header, LAST))
-> +		return;
-> +
-> +	msg_desc->msg_len = MBOX_MSG_HEADER_GET(mbox_header, MSG_LEN);
-> +	msg_desc->msg_info.status = MBOX_MSG_HEADER_GET(mbox_header, STATUS);
-> +
-> +	if (MBOX_MSG_HEADER_GET(mbox_header, DIRECTION) == MBOX_MSG_RESP)
-> +		resp_mbox_handler(mbox, msg_desc);
-> +}
-> +
-> +void hinic3_mbox_func_aeqe_handler(struct hinic3_hwdev *hwdev, u8 *header,
-> +				   u8 size)
-> +{
-> +	u64 mbox_header = *((u64 *)header);
-> +	enum mbox_msg_direction_type dir;
-> +	struct hinic3_msg_desc *msg_desc;
-> +	struct hinic3_mbox *mbox;
-> +	u16 src_func_id;
-> +
-> +	mbox = hwdev->mbox;
-> +	dir = MBOX_MSG_HEADER_GET(mbox_header, DIRECTION);
-> +	src_func_id = MBOX_MSG_HEADER_GET(mbox_header, SRC_GLB_FUNC_IDX);
-> +	msg_desc = get_mbox_msg_desc(mbox, dir, src_func_id);
-> +	recv_mbox_handler(mbox, (u64 *)header, msg_desc);
-
-I would suggest dropping the cast and changing recv_mbox_handler()
-to expect header to be a u8 *. I think you can then drop the cast above,
-the one at of the argument passed to MBOX_BODY_FROM_HDR()
-and the one inside MBOX_BODY_FROM_HDR().
-
-I'd also suggest that MBOX_BODY_FROM_HDR be changed to a
-static function so there is some type checking of the argument.
-
-> +}
-
-...
+Thanks for your feedback.
