@@ -1,273 +1,78 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C45A937;
-	Thu, 24 Jul 2025 14:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB6A26E70E;
+	Thu, 24 Jul 2025 14:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753367514; cv=none; b=VB4543j8zXwPUm5qjTMemRpZ1g4IQ4I9ME60QMx26yA2RFRWIqwbXngpysjrTj3bFK1LhU1XLLSR1ZPh+BqBmSqpWip9Ow6i8vkDfBwd8b7eTdEZ7xTEzU2/v5RP9nfeC1L+n9IjHVQkXg7IBHM4Sl+q8Yujfa173QoJoRNftIQ=
+	t=1753367548; cv=none; b=ixo9YIX0Cx+S9dG9UMpVhnxE+Z2gUR3drwMFOd4Jgz9tVr6K4fZmxNH6JjbpVrAKr9T4K1/b6smCUstXYF3iCKyvHvt94ubvY8YXfJFMFPrxsUaMPwTvln+WTPugKBYw7nZDtCTg7s3olan4hoEKhjUIPy7xqqZme8LThPGnlIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753367514; c=relaxed/simple;
-	bh=YNBaN3j4mUbkAKTE3TC0ZA98z+X2KPUvinEexHZ9C8w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m3ZyDVohDQ4NWDswCSKNJzIeUvAdJsJCnCeDYvUKfryzS9+SsIGXXRbkMbuzwEeu8ImJuT3Lt/cKGEMyI0z9tQvrpV5KRfzASQJYoPToGGgih8LO69PAdcDg06TOAvOP0Zn12LeRpR0Q9+0NGoky5Mh2+c9WxvrA7R3EQwTtmSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mYqGAjnE; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753367548; c=relaxed/simple;
+	bh=vq3529Gq1stJ5Qtx3t+N7u+0xtbCfHj+fQmkWLu8B5Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cksZalZoUKQAohQ+4lYSPk4SVPQ7Jn0SroKcDZXD0tviiEalTDJRtwER53TrWWTxfixD0/Uu2LQ16NJgUWGqEcqI0N9ciJwnPPQ1DDNSgor5vjOkP0E7OJqW9VII13yf1fbQ9+oRRycOvRN7swFro/eMeG5ky1PZwbosHqNJP0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CEmzFdEo; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mYqGAjnE"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-237311f5a54so8185045ad.2;
-        Thu, 24 Jul 2025 07:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753367512; x=1753972312; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+iwAeIA2+xfwqfXMdMLqDVi+dKWzWoeBjyMMY0H8dWg=;
-        b=mYqGAjnEt/iMaYqopYADC1s3heVyA70tQwAJHNO2Po9OUbWfZCGt1WDAaivHp41KSc
-         qz4nHlDFP5NucwWcYmsbl8yC/FzF6Cgdk63d8w3PSuReFMeBwsgaBDXSD84am5RICXHu
-         UT83SKdN1w5jJ/4J038grzVq6Ips5bD5fbaRzDyKme3tTE3hupd2YlqtxLNkKWxC9Wbk
-         leCmx8idcrJw0/FsVvKaQ5AQmYRuUDh9dTHRU4UFLSF06NBgPzM+8zuDl17Xs4VHpMIj
-         UCHzUyVIT4trfCxVoORy3OR6GXjFb9pB5igQzQj3yrO023vBoG2jWrUBq4/Tt6MY+azr
-         gnJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753367512; x=1753972312;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+iwAeIA2+xfwqfXMdMLqDVi+dKWzWoeBjyMMY0H8dWg=;
-        b=AO6N0BWQqe75TjG/izDB4ewjPTiIKf7Eft9NjSPZgKRvApHYmIW40YT1ZXSAWLqkPV
-         e6nfl1lppC+a2ACBwzAPMsv0LlICbao4R60PeM9lfpJvXGVTODIUR769YTQOd5SaJJFg
-         Bol80Oegt+MKxIRUB01tL+iYvD07Oftq33M/pGzn12Tm8xpW8BDS/mwsCnCaMrFF9e3z
-         qCOn9O4yUu2xXh/0ZCHmFhpwEinXmrQCQlNChqP/8nW6nivO/ISx57IcEzVfkKlaA0lf
-         PXaC1sw6TpDdGBqSxvQRK/52Gy9mcufIUTAv5mfigIzlpNv+4HvBUUpdy4BzV8txaTVR
-         SkmA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwDP2rKdkVOiMXSRuzOq/GKS67I/s/eEUi+aCejA4aShM1MHhJn4pnNdHh79+DO/DMWNju4lpyo+EaRLOk@vger.kernel.org, AJvYcCWXVZtW6Z1/ErRtiulJKtOIr+i4FAb3fChZER++ARZ21pvj07rYZmtcd3jB9zEJMw7Yj0X19Eoa1WqLE26paCQs@vger.kernel.org, AJvYcCWiwOZQwpnxyoX/f9fLjm9s4/JLbWFlh9r2/NUS5fxi0pQM18Gz0PqRDP2Jd+ylf+xK92B/DEH1T3s=@vger.kernel.org, AJvYcCXi4ySk/A+wIg6Gy5qayc8rstdPYO6MwL+ehsdsrG5rwolprnNyGl/bb6DpQJWu8uT0eWYS/kEQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyX9Pr+1aXzseerMuh5CD8ABGONFbfLM3KkXR2/3OgJSJH0NEQT
-	rNKcXLRlXXKMZTwh5pMHIvU+lwGngRRjA2cAuuuvLQ2dchaNznaswm7N
-X-Gm-Gg: ASbGnctBY8abPoIqabPLOHecSKKF76X9Xjv+rE2HfD4UV0FpcCHEmN6k2jMmrBpYyN9
-	C2d62z2zctBBfU7zEHjLIywYJ2yydfaG1wG2qkkNySGncxNyZd4XlPItu2xMBB80g02ZNGRQLBm
-	yqdA0rNuzrcsJKqpgAaw2t2GZV9rptAEFlJmOYXAOM/YIvHOmYyr5dGB4F3KUdhguGvamI/f/EZ
-	0ajghjvkZYFrArSu19WsX2wJbyrUsIMbWf+A5eZbvgrS3vYcqTCbtMSb6nnfuf0Dn/AtibqtQNX
-	yOwoHhcrRyuH4m5vOs1ZALms7WXxMwMPaSxD8wFhPCWHiAne/QnqRjhaPxkRj+AehukIIpqA4gZ
-	h48x0ZEYhKSAmlIpLhVdrE07vptY5R/bWbnc8Pg==
-X-Google-Smtp-Source: AGHT+IHLcuOpaFWgNJ0bOxXfH7GE7j0MIPGb9iJ4Lc9UbhKtiKFpDukLVJPuav7X8+8Dg+wiDyWhEw==
-X-Received: by 2002:a17:902:e213:b0:23f:ac71:ef0 with SMTP id d9443c01a7336-23fac71127fmr283445ad.43.1753367512273;
-        Thu, 24 Jul 2025 07:31:52 -0700 (PDT)
-Received: from fedora ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bbeaesm17439635ad.112.2025.07.24.07.31.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 07:31:51 -0700 (PDT)
-Date: Thu, 24 Jul 2025 14:31:43 +0000
-From: Hangbin Liu <liuhangbin@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Nikolay Aleksandrov <razor@blackwall.org>,
-	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
-	Amit Cohen <amcohen@nvidia.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Alessandro Zanni <alessandro.zanni87@gmail.com>,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 3/3] selftests: bonding: add test for LACP actor
- port priority
-Message-ID: <aIJDz3AgQtnzSR59@fedora>
-References: <20250724081632.12921-1-liuhangbin@gmail.com>
- <20250724081632.12921-4-liuhangbin@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CEmzFdEo"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 75EDB40AA9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1753367546; bh=y4g4K3HUugCtJiNkQIV6PNh+UWelUKrKzJC68v8XopE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=CEmzFdEoodHJXOcSdun8vUZ+0Lx3olAdFNLF030efYvE2SYL+J9JQnfh3dnPhQrQc
+	 R58GDdpjFSPGPd212vrzApXDmRGDMSlR79OmCUzXkHIU9T3DYfk0sKhuSPl3Cmkvlv
+	 TPDV+ZKNT3uS6iGIGISUfY2f6xJOEUg/WolQRwd85UqASsuBDTIjdXIAKSwJ5IBisV
+	 m88rxdtoSkimNk7g4HCXsJDQj5D5Q2pxYZmxeWv2wAco2XBlJdwkzM+awYnZUen2o7
+	 Chw7Or+yaWHdkUGn69TpTgkeD3qPNZqJlrgzx+th2bPgPZZkxBln6M0O+d25uMzVSr
+	 3SL+m1Y0ibw3Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 75EDB40AA9;
+	Thu, 24 Jul 2025 14:32:26 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Vignesh Raman <vignesh.raman@collabora.com>, linux-doc@vger.kernel.org
+Cc: akinobu.mita@gmail.com, laura.nao@collabora.com,
+ arnaud.ferraris@collabora.com, vignesh.raman@collabora.com,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] docs: fault-injection: drop reference to md-faulty
+In-Reply-To: <20250723102835.232740-1-vignesh.raman@collabora.com>
+References: <20250723102835.232740-1-vignesh.raman@collabora.com>
+Date: Thu, 24 Jul 2025 08:32:25 -0600
+Message-ID: <87ms8taccm.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250724081632.12921-4-liuhangbin@gmail.com>
+Content-Type: text/plain
 
-Hi Jakub,
+Vignesh Raman <vignesh.raman@collabora.com> writes:
 
-Should I drop this selftest as it needs the new iproute2 feature that has
-not applied yet?
-
-Thanks
-Hangbin
-On Thu, Jul 24, 2025 at 08:16:32AM +0000, Hangbin Liu wrote:
-> Add a selftest to verify that per-port actor priority (ad_actor_port_prio)
-> is correctly applied and affects aggregator selection as expected.
-> 
-> Move cmd_jq from forwarding/lib.sh to net/lib.sh.
-> 
-> Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+> Commit 415c7451872b ("md: Remove deprecated CONFIG_MD_FAULTY") removed
+> the md-faulty driver, so drop the outdated reference from the
+> fault-injection documentation.
+>
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 > ---
->  .../selftests/drivers/net/bonding/Makefile    |  3 +-
->  .../drivers/net/bonding/bond_lacp_prio.sh     | 73 +++++++++++++++++++
->  tools/testing/selftests/net/forwarding/lib.sh | 24 ------
->  tools/testing/selftests/net/lib.sh            | 24 ++++++
->  4 files changed, 99 insertions(+), 25 deletions(-)
->  create mode 100755 tools/testing/selftests/drivers/net/bonding/bond_lacp_prio.sh
-> 
-> diff --git a/tools/testing/selftests/drivers/net/bonding/Makefile b/tools/testing/selftests/drivers/net/bonding/Makefile
-> index 2b10854e4b1e..32617a834a6b 100644
-> --- a/tools/testing/selftests/drivers/net/bonding/Makefile
-> +++ b/tools/testing/selftests/drivers/net/bonding/Makefile
-> @@ -10,7 +10,8 @@ TEST_PROGS := \
->  	mode-2-recovery-updelay.sh \
->  	bond_options.sh \
->  	bond-eth-type-change.sh \
-> -	bond_macvlan_ipvlan.sh
-> +	bond_macvlan_ipvlan.sh \
-> +	bond_lacp_prio.sh
+>  Documentation/fault-injection/fault-injection.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
+> index 1c14ba08fbfc..c2d3996b5b40 100644
+> --- a/Documentation/fault-injection/fault-injection.rst
+> +++ b/Documentation/fault-injection/fault-injection.rst
+> @@ -2,7 +2,7 @@
+>  Fault injection capabilities infrastructure
+>  ===========================================
 >  
->  TEST_FILES := \
->  	lag_lib.sh \
-> diff --git a/tools/testing/selftests/drivers/net/bonding/bond_lacp_prio.sh b/tools/testing/selftests/drivers/net/bonding/bond_lacp_prio.sh
-> new file mode 100755
-> index 000000000000..a3f939d12143
-> --- /dev/null
-> +++ b/tools/testing/selftests/drivers/net/bonding/bond_lacp_prio.sh
-> @@ -0,0 +1,73 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Testing if bond lacp per port priority works
-> +
-> +lib_dir=$(dirname "$0")
-> +# shellcheck disable=SC1091
-> +source "$lib_dir"/../../../net/lib.sh
-> +
-> +# create client, switch, backup switch netns
-> +setup_ns c_ns s_ns b_ns
-> +defer cleanup_all_ns
-> +
-> +# setup links
-> +# shellcheck disable=SC2154
-> +ip -n "${c_ns}" link add eth0 type veth peer name eth0 netns "${s_ns}"
-> +ip -n "${c_ns}" link add eth1 type veth peer name eth1 netns "${s_ns}"
-> +# shellcheck disable=SC2154
-> +ip -n "${c_ns}" link add eth2 type veth peer name eth0 netns "${b_ns}"
-> +ip -n "${c_ns}" link add eth3 type veth peer name eth1 netns "${b_ns}"
-> +
-> +ip -n "${c_ns}" link add bond0 type bond mode 802.3ad miimon 100 lacp_rate fast ad_select prio
-> +ip -n "${s_ns}" link add bond0 type bond mode 802.3ad miimon 100 lacp_rate fast
-> +ip -n "${b_ns}" link add bond0 type bond mode 802.3ad miimon 100 lacp_rate fast
-> +
-> +ip -n "${c_ns}" link set eth0 master bond0
-> +ip -n "${c_ns}" link set eth1 master bond0
-> +ip -n "${c_ns}" link set eth2 master bond0
-> +ip -n "${c_ns}" link set eth3 master bond0
-> +ip -n "${s_ns}" link set eth0 master bond0
-> +ip -n "${s_ns}" link set eth1 master bond0
-> +ip -n "${b_ns}" link set eth0 master bond0
-> +ip -n "${b_ns}" link set eth1 master bond0
-> +
-> +ip -n "${c_ns}" link set bond0 up
-> +ip -n "${s_ns}" link set bond0 up
-> +ip -n "${b_ns}" link set bond0 up
-> +
-> +# set ad actor port priority, default 255
-> +ip -n "${c_ns}" link set eth0 type bond_slave ad_actor_port_prio 1000
-> +prio=$(cmd_jq "ip -n ${c_ns} -d -j link show eth0" ".[].linkinfo.info_slave_data.ad_actor_port_prio")
-> +[ "$prio" -ne 1000 ] && RET=1
-> +ip -n "${c_ns}" link set eth2 type bond_slave ad_actor_port_prio 10
-> +prio=$(cmd_jq "ip -n ${c_ns} -d -j link show eth2" ".[].linkinfo.info_slave_data.ad_actor_port_prio")
-> +[ "$prio" -ne 10 ] && RET=1
-> +log_test "bond 802.3ad" "ad_actor_port_prio setting"
-> +
-> +# Trigger link state change to reselect the aggregator
-> +ip -n "${c_ns}" link set eth1 down
-> +ip -n "${c_ns}" link set eth1 up
-> +# the active agg should be connect to switch
-> +bond_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show bond0" ".[].linkinfo.info_data.ad_info.aggregator")
-> +eth0_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show eth0" ".[].linkinfo.info_slave_data.ad_aggregator_id")
-> +if [ "${bond_agg_id}" -ne "${eth0_agg_id}" ]; then
-> +	RET=1
-> +fi
-> +
-> +# Change the actor port prio and re-test
-> +ip -n "${c_ns}" link set eth0 type bond_slave ad_actor_port_prio 10
-> +ip -n "${c_ns}" link set eth2 type bond_slave ad_actor_port_prio 1000
-> +# Trigger link state change to reselect the aggregator
-> +ip -n "${c_ns}" link set eth1 down
-> +ip -n "${c_ns}" link set eth1 up
-> +# now the active agg should be connect to backup switch
-> +bond_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show bond0" ".[].linkinfo.info_data.ad_info.aggregator")
-> +eth2_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show eth2" ".[].linkinfo.info_slave_data.ad_aggregator_id")
-> +# shellcheck disable=SC2034
-> +if [ "${bond_agg_id}" -ne "${eth2_agg_id}" ]; then
-> +	RET=1
-> +fi
-> +log_test "bond 802.3ad" "ad_actor_port_prio switch"
-> +
-> +exit "${EXIT_STATUS}"
-> diff --git a/tools/testing/selftests/net/forwarding/lib.sh b/tools/testing/selftests/net/forwarding/lib.sh
-> index 508f3c700d71..09b63c6f3dbd 100644
-> --- a/tools/testing/selftests/net/forwarding/lib.sh
-> +++ b/tools/testing/selftests/net/forwarding/lib.sh
-> @@ -551,30 +551,6 @@ wait_for_dev()
->          fi
->  }
+> -See also drivers/md/md-faulty.c and "every_nth" module option for scsi_debug.
+> +See also "every_nth" module option for scsi_debug.
 >  
-> -cmd_jq()
-> -{
-> -	local cmd=$1
-> -	local jq_exp=$2
-> -	local jq_opts=$3
-> -	local ret
-> -	local output
-> -
-> -	output="$($cmd)"
-> -	# it the command fails, return error right away
-> -	ret=$?
-> -	if [[ $ret -ne 0 ]]; then
-> -		return $ret
-> -	fi
-> -	output=$(echo $output | jq -r $jq_opts "$jq_exp")
-> -	ret=$?
-> -	if [[ $ret -ne 0 ]]; then
-> -		return $ret
-> -	fi
-> -	echo $output
-> -	# return success only in case of non-empty output
-> -	[ ! -z "$output" ]
-> -}
-> -
->  pre_cleanup()
->  {
->  	if [ "${PAUSE_ON_CLEANUP}" = "yes" ]; then
-> diff --git a/tools/testing/selftests/net/lib.sh b/tools/testing/selftests/net/lib.sh
-> index 006fdadcc4b9..4c278829e04c 100644
-> --- a/tools/testing/selftests/net/lib.sh
-> +++ b/tools/testing/selftests/net/lib.sh
-> @@ -616,3 +616,27 @@ wait_local_port_listen()
->  		sleep 0.1
->  	done
->  }
-> +
-> +cmd_jq()
-> +{
-> +	local cmd=$1
-> +	local jq_exp=$2
-> +	local jq_opts=$3
-> +	local ret
-> +	local output
-> +
-> +	output="$($cmd)"
-> +	# it the command fails, return error right away
-> +	ret=$?
-> +	if [[ $ret -ne 0 ]]; then
-> +		return $ret
-> +	fi
-> +	output=$(echo $output | jq -r $jq_opts "$jq_exp")
-> +	ret=$?
-> +	if [[ $ret -ne 0 ]]; then
-> +		return $ret
-> +	fi
-> +	echo $output
-> +	# return success only in case of non-empty output
-> +	[ ! -z "$output" ]
-> +}
-> -- 
-> 2.46.0
-> 
+
+Applied, thanks.
+
+jon
