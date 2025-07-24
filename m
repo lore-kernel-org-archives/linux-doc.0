@@ -1,50 +1,48 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9CE2727F8;
-	Thu, 24 Jul 2025 08:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E318C2741D6;
+	Thu, 24 Jul 2025 08:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753345059; cv=none; b=N/y8fTzNd8SoJ1gV7C5a0nhsMuMrXgEQ5RZfAJLISdKahVkO05IYSXojySnw+zpPdZsE03CP3uMskUTuQppiLApdpfG4e0SNZ3V2NAmvlu5tK8DDYaktwPPmo+k418URopzNQQWnVv4cKR6RrwFWkVw2t7uYhRuyuTvsuW8uZnE=
+	t=1753345525; cv=none; b=Bv4Bk5V5+hyXrkt6og4W1XXfm9yDHpMzpzZnDiMtP85+e3eF1qSXqefvWAkroBNEAAjXU65ChS6zOSW2uBZTeAIupBRmQjV8kUYw2Ks4GS/qzuUmFrA7j0phe5a//Ahd3xfQNwVkueri6hYOA5FXvAgYCBbSYD2ewwiU/y5aLSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753345059; c=relaxed/simple;
-	bh=we1YYbfJeCX1MPflf2l+IOI1BZGajSbOOSun4mUg1RU=;
+	s=arc-20240116; t=1753345525; c=relaxed/simple;
+	bh=W5hUaxHLghSt7VbmvFIK6rwuVf0/IbHnLRuXq7ywMUM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hsBKMB+kj+iekkDeAHEPA3yJZl7rcPC/bE65snBzWKQFTMsoJkR5PlN4+hacLxUakn+NCW7THHRyitoULoQs4aA9lO1BKBlIMiNJIY89O0MtuFvnexx0bBGVW8eMXfdbuHYsg2CWq1x2QJgJQjfHIWOkwMzuFEsowkPd+/T/OY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=3xJHwG0+; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	 In-Reply-To:Content-Type; b=msb7oRs1N2RVS4+vxhg1CyRdkJG7nYhX6Cdoy6I2iJj9Stqxf/0V5whFSkd2tEpxP/8dXQKJ/JPXnu/clXPSIbBIL+ncMVuFwjfhfH03Qp031yiCAaUf2tSBCNiaMTTyPevqWXWNlfhqZeHSYB2f6nLzmy4pSAM/GiM0Q4ISoOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=JHlkfcus; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="3xJHwG0+"
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56O7xYXJ019443;
-	Thu, 24 Jul 2025 10:17:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	7kzT0Hpl/NFWqdqEQ0wKSVcFU9pNYe2twdBPGJnr/8o=; b=3xJHwG0+iD9m/4QN
-	rbFCod58Hm2lUpPt6E8AILpoUlGTdQX14xlcdHd0rAdE1Qdfn8FbSay3IhXbCyzC
-	Ea9Kfe3UIySUfRXHvSgtpRFa5RSue6d+0t9SiMuTqc75O3nINnaSFUAwPihCBHwG
-	AkRBgHAFolujHveqkRgwzzee0cIxOEtlkMMBFnsmn9W7tIUB6m4IF+gwJ8i28fhi
-	TcjRlFZX6i8zMOgLJ66dh2U4opER27vPA7m3LpejdCOr3Dc12wer/PfyC1UEKw7u
-	D/6RbrmfrVgRaVv0bh7c8ur44zDZK+/rgjCvAECMHwG6Ed3kc/GE9x7d3OHgUxif
-	rTaqPw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 480mx4w9y6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 24 Jul 2025 10:17:02 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E75BB40049;
-	Thu, 24 Jul 2025 10:15:32 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 560CB781E01;
-	Thu, 24 Jul 2025 10:14:13 +0200 (CEST)
-Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 24 Jul
- 2025 10:14:12 +0200
-Message-ID: <204401b4-b483-47e2-ae73-0994b39bd30c@foss.st.com>
-Date: Thu, 24 Jul 2025 10:14:11 +0200
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="JHlkfcus"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56O8OH4Y1928854;
+	Thu, 24 Jul 2025 03:24:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1753345457;
+	bh=qW4fz+XHWFBsB4JNZq7miTAJkiAxbmbsgHtV6xdIw5I=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=JHlkfcuspGxCNC4QhSHgyqIbJz5pMR54PFqu9qaY+4fK+nbSxqpztVlacGZOv/QrZ
+	 zdB1/yvD0Hrhn+j+mjMjD+9VEW6FNpvx3uar6YIPlf8wzWYzhfI82EwY01PRnSr+cs
+	 DQFbEr/jpUB3VMN+f8SsnoX5WKZx7R7VLL4wHTCI=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56O8OGFt2362940
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 24 Jul 2025 03:24:16 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 24
+ Jul 2025 03:24:16 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Thu, 24 Jul 2025 03:24:16 -0500
+Received: from [10.24.69.25] (danish-tpc.dhcp.ti.com [10.24.69.25])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56O8OArL4050149;
+	Thu, 24 Jul 2025 03:24:10 -0500
+Message-ID: <b61181e5-0872-402c-b91b-3626302deaeb@ti.com>
+Date: Thu, 24 Jul 2025 13:54:09 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,122 +50,390 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/20] dt-bindings: memory: factorise LPDDR props into
- SDRAM props
-To: Julius Werner <jwerner@chromium.org>
-CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor
- Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gatien Chevallier
-	<gatien.chevallier@foss.st.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Gabriel Fernandez
-	<gabriel.fernandez@foss.st.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Le
- Goffic <legoffic.clement@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-perf-users@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>
-References: <20250723-ddrperfm-upstream-v4-0-1aa53ca319f4@foss.st.com>
- <20250723-ddrperfm-upstream-v4-5-1aa53ca319f4@foss.st.com>
- <CAODwPW_kex5Agqxg_i-XC308scEpUJU0me55G7iZ8nB9LC0acg@mail.gmail.com>
+Subject: Re: [PATCH net-next 1/5] net: rpmsg-eth: Add Documentation for
+ RPMSG-ETH Driver
+To: Andrew Lunn <andrew@lunn.ch>
+CC: "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet
+	<corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+        Mengyuan Lou
+	<mengyuanlou@net-swift.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Madhavan
+ Srinivasan <maddy@linux.ibm.com>,
+        Fan Gong <gongfan1@huawei.com>, Lee Trager
+	<lee@trager.us>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Geert Uytterhoeven
+	<geert+renesas@glider.be>,
+        Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+        Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250723080322.3047826-1-danishanwar@ti.com>
+ <20250723080322.3047826-2-danishanwar@ti.com>
+ <81273487-a450-4b28-abcc-c97273ca7b32@lunn.ch>
 Content-Language: en-US
-From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
-In-Reply-To: <CAODwPW_kex5Agqxg_i-XC308scEpUJU0me55G7iZ8nB9LC0acg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-24_01,2025-07-23_01,2025-03-28_01
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <81273487-a450-4b28-abcc-c97273ca7b32@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Julius,
+Hi Andrew,
 
-On 7/23/25 23:48, Julius Werner wrote:
->> +      Compatible strings can be either explicit vendor names and part numbers
->> +      (e.g. elpida,ECB240ABACN), or generated strings of the form
->> +      (lp)?ddrX-Y,Z where X, Y and Z are in lower case hexadecimal with leading
->> +      zeroes and :
->> +        - X is the SDRAM version (2, 3, 4, etc.)
->> +        - for LPDDR :
->> +          - Y is the manufacturer ID (from MR5), 2 bytes
->> +          - Z is the revision ID (from MR6 and MR7), 4 bytes
+On 23/07/25 9:54 pm, Andrew Lunn wrote:
+>> --- a/Documentation/networking/device_drivers/ethernet/index.rst
+>> +++ b/Documentation/networking/device_drivers/ethernet/index.rst
+>> @@ -61,6 +61,7 @@ Contents:
+>>     wangxun/txgbevf
+>>     wangxun/ngbe
+>>     wangxun/ngbevf
+>> +   rpmsg_eth
 > 
-> It's actually one byte manufacturer, two bytes revision. The YY,ZZZZ
-> is supposed to represent the amount of hex digits needed.
+> This list is sorted. Please insert at the right location. I made the
+> same comment to somebody else this week as well....
+> 
 
-Oh yes I see my error..
+Sure. I will re-order this.
+
+>> +This driver is generic and can be used by any vendor. Vendors can develop their
+>> +own firmware for the remote processor to make it compatible with this driver.
+>> +The firmware must adhere to the shared memory layout, RPMSG communication
+>> +protocol, and data exchange requirements described in this documentation.
+> 
+> Could you add a link to TIs firmware? It would be a good reference
+> implementation. But i guess that needs to wait until the driver is
+> merged and the ABI is stable.
+> 
+
+Currently TIs firmware is not open source. Once the firmware is
+available in open source I can update the documentation to have a link
+to that.
+
+>> +Implementation Details
+>> +----------------------
+>> +
+>> +- The magic number is defined as a macro in the driver source (e.g.,
+>> +  ``#define RPMSG_ETH_SHM_MAGIC_NUM 0xABCDABCD``).
+>> +- The firmware must write this value to the ``magic_num`` field of the head and
+>> +  tail structures in the shared memory region.
+>> +- During the handshake, the Linux driver reads these fields and compares them to
+>> +  the expected value. If any mismatch is detected, the driver will log an error
+>> +  and refuse to proceed.
+> 
+> So the firmware always takes the role of "primary" and Linux is
+> "secondary"? With the current implementation, you cannot have Linux on
+> both ends?
+> 
+
+Yes the firmware is primary and Linux is secondary. Linux can not be at
+both ends.
+
+> I don't see this as a problem, but maybe it is worth stating as a
+> current limitation.
+> 
+
+Sure, I will mention that in the documentation in v2.
+
+>> +Shared Memory Layout
+>> +====================
+>> +
+>> +The RPMSG Based Virtual Ethernet Driver uses a shared memory region to exchange
+>> +data between the host and the remote processor. The shared memory is divided
+>> +into transmit and receive regions, each with its own `head` and `tail` pointers
+>> +to track the buffer state.
+>> +
+>> +Shared Memory Parameters
+>> +------------------------
+>> +
+>> +The following parameters are exchanged between the host and the firmware to
+>> +configure the shared memory layout:
+> 
+> So the host tells the firmware this? Maybe this is explained later,
+> but is the flow something like:
+> 
+> Linux makes an RPC call to the firmware with the parameters you list
+> below. Upon receiving that RPC, the firmware puts the magic numbers in
+> place. It then ACKs the RPC call? Linux then checks the magic numbers?
+> 
+
+Let me explain the flow,
+
+Linux first send a rpmsg request with msg type = RPMSG_ETH_REQ_SHM_INFO
+i.e. requesting for the shared memory info.
+
+Once firmware recieves this request it sends response with below fields,
+
+	num_pkt_bufs, buff_slot_size, base_addr, tx_offset, rx_offset
+
+In the device tree, while reserving the shared memory for rpmsg_eth
+driver, the base address and the size of the shared memory block is
+mentioned. I have mentioned that in the documentation as well
+
++Configuration
++=============
++
++The driver relies on the device tree for configuration. The shared
+memory region
++is specified using the `virtual-eth-shm` node in the device tree.
++
++Example Device Tree Node
++------------------------
++
++.. code-block:: dts
++
++   virtual-eth-shm {
++           compatible = "rpmsg,virtual-eth-shm";
++           reg = <0x80000000 0x10000>; /* Base address and size of
+shared memory */
++   };
+
+Now once Linux recieves (num_pkt_bufs, buff_slot_size, base_addr,
+tx_offset, rx_offset) from firmware, the driver does a handshake
+validation rpmsg_eth_validate_handshake() where the driver checks if the
+base address recieved from firmware matches the base address resevred in
+DT, if the tx and rx offsets are within the range, if the magic number
+in tx and rx buffers are same as the magic number defined in driver etc.
+
+Based on this validation the callback function returns success / failure.
+
+If needed, I can add this detail also in the documentation.
+
+>> +1. **num_pkt_bufs**:
+>> +
+>> +   - The total number of packet buffers available in the shared memory.
+>> +   - This determines the maximum number of packets that can be stored in the
+>> +     shared memory at any given time.
+>> +
+>> +2. **buff_slot_size**:
+>> +
+>> +   - The size of each buffer slot in the shared memory.
+>> +   - This includes space for the packet length, metadata, and the actual packet
+>> +     data.
+>> +
+>> +3. **base_addr**:
+>> +
+>> +   - The base address of the shared memory region.
+>> +   - This is the starting point for accessing the shared memory.
+> 
+> So this is the base address in the Linux address space? How should the
+> firmware convert this into a base address in its address space?
+> 
+
+The `base_addr` is the physical address of the shared memory. This is
+reserved in the Linux DT. I haven't added the DT patch in this series,
+but if you want I can add in v2 for your reference.
+
+The same `base_addr` is used by firmware for the shared memory. During
+the rpmsg callback, firmware shares this `base_addr` and during
+rpmsg_eth_validate_handshake() driver checks if the base_addr shared by
+firmware is same as the one described in DT or not. Driver only proceeds
+if it's same.
+
+After that the driver maps this base_addr and the tx / rx offsets in the
+Linux virtual address space and use the same virtual address for writing
+/ reading.
+
+The firmware also maps this base_addr into it's vitual address space.
+How firmware maps it is upto the firmware. The only requiremnt is that
+the physical base_addr used by firmware and driver should be the same.
+
+>> +4. **tx_offset**:
+>> +
+>> +   - The offset from the `base_addr` where the transmit buffers begin.
+>> +   - This is used by the host to write packets for transmission.
+>> +
+>> +5. **rx_offset**:
+>> +
+>> +   - The offset from the `base_addr` where the receive buffers begin.
+>> +   - This is used by the host to read packets received from the remote
+>> +     processor.
+> 
+> Maybe change 'host' to 'Linux'? Or some other name, 'primary' and
+> 'secondary'. The naming should be consistent throughout the
+> documentation and driver.
+> 
+
+Sure I will change 'host' to 'Linux' and keep it consistent throughout
+driver and firmware.
+
+> Part of the issue here is that you pass this information from Linux to
+> the firmware. When the firmware receives it, it has the complete
+> opposite meaning. It uses "tx_offset" to receive packets, and
+> "rx_offset" to send packets. This can quickly get confusing. If you
+> used names like "linux_tx_offset", the added context with avoid
+> confusion.
+> 
+
+Sure. Will do this.
+
+>> +Shared Memory Structure
+>> +-----------------------
+>> +
+>> +The shared memory layout is as follows:
+>> +
+>> +.. code-block:: text
+>> +
+>> +      Shared Memory Layout:
+>> +      ---------------------------
+>> +      |        MAGIC_NUM        |   rpmsg_eth_shm_head
+>> +      |          HEAD           |
+>> +      ---------------------------
+>> +      |        MAGIC_NUM        |
+>> +      |        PKT_1_LEN        |
+>> +      |          PKT_1          |
+>> +      ---------------------------
+>> +      |           ...           |
+>> +      ---------------------------
+>> +      |        MAGIC_NUM        |
+>> +      |          TAIL           |   rpmsg_eth_shm_tail
+>> +      ---------------------------
+>> +
+>> +1. **MAGIC_NUM**:
+>> +
+>> +   - A unique identifier used to validate the shared memory region.
+>> +   - Ensures that the memory region is correctly initialized and accessible.
+>> +
+>> +2. **HEAD Pointer**:
+>> +
+>> +   - Tracks the start of the buffer for packet transmission or reception.
+>> +   - Updated by the producer (host or remote processor) after writing a packet.
+> 
+> Is this a pointer, or an offset from the base address? Pointers get
+> messy when you have multiple address spaces involved. An offset is
+> simpler to work with. Given that the buffers are fixed size, it could
+> even be an index.
+> 
+
+Below are the structure definitions.
+
+struct rpmsg_eth_shared_mem {
+	struct rpmsg_eth_shm_index *head;
+	struct rpmsg_eth_shm_buf *buf;
+	struct rpmsg_eth_shm_index *tail;
+} __packed;
+
+struct rpmsg_eth_shm_index {
+	u32 magic_num;
+	u32 index;
+}  __packed;
+
+Head is pointer and it is mapped as below based on the information
+shared by firmware
+
+	port->tx_buffer->head =
+		(struct rpmsg_eth_shm_index __force *)
+		 (ioremap(msg->resp_msg.shm_info.base_addr +
+			  msg->resp_msg.shm_info.tx_offset,
+			  sizeof(*port->tx_buffer->head)));
+
+>> +Information Exchanged Between RPMSG Channels
+>> +--------------------------------------------
+>> +
+>> +1. **Requests from Host to Remote Processor**:
+> 
+> Another place where consistent naming would be good. Here it is the
+> remote processor, not firmware used earlier.
+> 
+
+Sure I will rename it.
+
+>> +
+>> +   - `RPMSG_ETH_REQ_SHM_INFO`: Request shared memory information, such as
+>> +     ``num_pkt_bufs``, ``buff_slot_size``, ``base_addr``, ``tx_offset``, and
+>> +     ``rx_offset``.
+> 
+> Is this requested, or telling? I suppose the text above uses "between"
+> which is ambiguous.
+
+It's requested. The Linux driver requests firmware for these info.
 
 > 
->> +        - for DDR4 with SPD, according to JEDEC SPD4.1.2.L-6 :
->> +          - Y is the manufacturer ID, 2 bytes, from bytes 320 and 321
->> +          - Z is the revision ID, 1 byte, from byte 349
+>> +3. **Notifications from Remote Processor to Host**:
+>> +
+>> +   - `RPMSG_ETH_NOTIFY_PORT_UP`: Notify that the Ethernet port is up and ready
+>> +     for communication.
+>> +   - `RPMSG_ETH_NOTIFY_PORT_DOWN`: Notify that the Ethernet port is down.
+>> +   - `RPMSG_ETH_NOTIFY_PORT_READY`: Notify that the Ethernet port is ready for
+>> +     configuration.
 > 
-> I don't think this will identify a part unambiguously, I would expect
-> the DDR revision ID to be specific to the part number. (In fact, we're
-> also not sure whether manufacturer+revision identifies LPDDR parts
-> unambiguously for every vendor, we just didn't have anything more to
-> work with there.) I would suggest to use either `ddrX-YYYY,AAA...,ZZ`
-> or `ddrX-YYYY,ZZ,AAA...` (where AAA... is the part number string from
-> SPD 329-348 without the trailing spaces). The first version looks a
-> bit more natural but it might get confusing on the off chance that
-> someone uses a comma in a part number string.
-
-The first one seems better indeed.
-If the manufacturer put a comma in the part number we should handle it 
-at a software level to me and if it is a devicetree error it is up to 
-the devicetree writer to fix it.
-What do you think ?
-
+> That needs more explanation. Why would it not be ready? 
 > 
->> +      The latter form can be useful when SDRAM nodes are created at runtime by
->> +      boot firmware that doesn't have access to static part number information.
-> 
-> nit: This text slightly doesn't make sense anymore when in the DDR
-> case we do actually have the part number. I guess the real thing the
-> bootloader wouldn't have access to is the JEDEC manufacturer ID to
-> name mapping.
 
-Yes I will update it.
+This actually not needed RPMSG_ETH_NOTIFY_PORT_UP and
+RPMSG_ETH_NOTIFY_PORT_DOWN are enough. I will drop
+RPMSG_ETH_NOTIFY_PORT_READY
+
+>> +   - `RPMSG_ETH_NOTIFY_REMOTE_READY`: Notify that the remote processor is ready
+>> +     for communication.
+> 
+> How does this differ from PORT_READY?
+
+RPMSG_ETH_NOTIFY_REMOTE_READY implies that the remote processor i.e. the
+firmware is ready where as RPMSG_ETH_NOTIFY_PORT_UP implies that the
+ethernet port (Linux driver) is ready.
+
+PORT_READY is not needed and can be dropped.
+
 
 > 
->> +      SDRAM revision ID:
->> +        - LPDDR SDRAM, decoded from Mode Register 6 and 7.
->> +        - DDR4 SDRAM, decoded from the SPD from bytes 349 according to
->> +          JEDEC SPD4.1.2.L-6.
+>> +How-To Guide for Vendors
+>> +========================
+>> +
+>> +This section provides a guide for vendors to develop firmware for the remote
+>> +processor that is compatible with the RPMSG Based Virtual Ethernet Driver.
+>> +
+>> +1. **Implement Shared Memory Layout**:
+>> +
+>> +   - Allocate a shared memory region for packet transmission and reception.
+>> +   - Initialize the `MAGIC_NUM`, `num_pkt_bufs`, `buff_slot_size`, `base_addr`,
+>> +     `tx_offset`, and `rx_offset`.
+>> +
+>> +2. **Magic Number Requirements**
+>> +
+>> +   - The firmware must write a unique magic number (for example, ``0xABCDABCD``)
 > 
-> nit: Clarify that this is always two bytes for LPDDR and always one
-> byte for DDR.
+> Why "for example"? Do you have a use case where some other value
+> should be used? Or can we just make this magic value part of the
+> specification?
 
-Ok
-
+No the magic number is always the same. I will update the doucmentation
+to state the same.
 > 
->> +      Density of SDRAM chip in megabits:
->> +        - LPDDR SDRAM, decoded from Mode Register 8.
->> +        - DDR4 SDRAM, decoded from the SPD from bytes 322 to 325 according to
->> +          JEDEC SPD4.1.2.L-6.
+>> +- The driver assumes a specific shared memory layout and may not work with other
+>> +  configurations.
+>> +- Multicast address filtering is limited to the capabilities of the underlying
+>> +  RPMSG framework.
 > 
-> Are these numbers correct? I downloaded SPD4.1.2.L-6 now and it looks
-> like 322 is manufacturing location and 323-324 are manufacturing date.
-> (Also, I think all of these are specific to DDR4 (and possibly 5?),
-> but not to earlier versions. I don't think we need to list it for
-> every version, but we should at least be specific what it applies to.)
+> I don't think there is anything special here. The network stack always
+> does perfect address filtering. The driver can help out, by also doing
+> perfect address filtering, or imperfect address filtering, and letting
+> more through than actually wanted. Or it can go into promiscuous mode.
+> 
 
-I just reopen the doc and you are right, didn't have my glasses on I guess.
-Accordingly to SPD4.1.2.L-6 it the info seems in the byte 4 on bits 3~0.
+Sure. I will drop this.
 
-Best regards,
-Clément
+>> +- The driver currently supports only one transmit and one receive queue.
+>> +
+>> +References
+>> +==========
+>> +
+>> +- RPMSG Framework Documentation: https://www.kernel.org/doc/html/latest/rpmsg.html
+> 
+> This results in 404 Not Found.
+> 
+
+I see the url is wrong. I will update the correct url
+https://docs.kernel.org/staging/rpmsg.html
+
+>      Andrew
+
+-- 
+Thanks and Regards,
+Danish
+
