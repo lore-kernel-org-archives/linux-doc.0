@@ -1,315 +1,155 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96842DCF6D;
-	Thu, 24 Jul 2025 13:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674512D641C;
+	Thu, 24 Jul 2025 13:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753363966; cv=none; b=ZZ/GsXj+4OYid4eRHBfqGG29MKUI8hmmi8N0GfT69fH5tbINq0bjYRZCEPpfkMDjrJutjgw5w/FG7weXtWTuWwBK1PJZDrH6IwaAD1JKjVgJZPLHqtpNA6or0T+bBvRre4Rtv4UlWdB0iAz+fgjV4l2/vp8gaxjLNiMY2uQCUm0=
+	t=1753364619; cv=none; b=uIt6NFFsSmLzAwv8kV1+c+lhgn/km4Mt8W0GcNvJC1uxw64evQXfpUvGw8/Q1s4skOPGzBWJ0AKBFgKPsFkqjSC4aXJtuns2LE7y637zn5zy1Kwp20xj6xS1880ACMlb2ABhOY29yarHVy2v+dnSwycvdwdO3z6VDXZ0F39TsyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753363966; c=relaxed/simple;
-	bh=hNULJ87ZxtX6Iu4BqQ00wfoBZmqcZio6prsPuynj+08=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cLJqih7xhWvWy+XYpH0c8NSjADusYOOEby3zRGG/+WAseV9CjWEltHwROVAbxTb79GWDEq5shgDSEXK06pD2KjDks5SYXotkyuwb+nGfTqr9csMnKY1LVJpo+pLaDfWyFbdwT72R4MDra4xREH89eCncPAI/UQUbtmU7ILlxzBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4bnsM7063Bz2FbQF;
-	Thu, 24 Jul 2025 21:30:27 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 558C518001B;
-	Thu, 24 Jul 2025 21:32:41 +0800 (CST)
-Received: from DESKTOP-F6Q6J7K.china.huawei.com (10.174.175.220) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 24 Jul 2025 21:32:39 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
-	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
-	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Fu Guiming <fuguiming@h-partners.com>, Meny Yossefi
-	<meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>, Lee Trager
-	<lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>, Vadim Fedorenko
-	<vadim.fedorenko@linux.dev>, Suman Ghosh <sumang@marvell.com>, Przemek
- Kitszel <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH net-next v11 8/8] hinic3: Interrupt request configuration
-Date: Thu, 24 Jul 2025 21:32:11 +0800
-Message-ID: <70888d73b07c0a2e1d345807d519742ece6ff219.1753240706.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <cover.1753240706.git.zhuyikai1@h-partners.com>
-References: <cover.1753240706.git.zhuyikai1@h-partners.com>
+	s=arc-20240116; t=1753364619; c=relaxed/simple;
+	bh=jvwuOcs0F4iieHp4m7+/mC0b/s00ATTuLTWGg5HsYyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=obkxERNCbKX06Lms2/LCOCEF24GKrLDnOZ1sgpuyZjPcPQRXh8TwBpH03N5RgHxGkGMh+buGIrO/YrEGW5IRxjWH7nDiZVFlF6qXFGNKrRnk8yjtdH2bUK6zvHFu1ix4pQf1Xhy1szH4izjsU7XvXKPW4HPFTzeorYHExjv7D0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjDZiVKc; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VjDZiVKc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E438C4CEF5;
+	Thu, 24 Jul 2025 13:43:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753364618;
+	bh=jvwuOcs0F4iieHp4m7+/mC0b/s00ATTuLTWGg5HsYyU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VjDZiVKcNXereyNCOWtIsCA1qtfpstNZdwT8mA7NJTD1eWJPWCHrxDUSltUdv7oH7
+	 FDTgLPZWoc+540maw3vaZ4qmz70BAnbidsMxAxz/Vf1uQZnARsGnU1qeCt94U7NZ2e
+	 VZxdK1dA/DSmgLtbZdLYuHtKVX1T9tv/jNr7a+diYBe7hJjELauxR4Jr0MTGbl8D9t
+	 ja5zmCmbLTmWqkBnvACyJZ9GZpXnBVmJhPGcVdbKGjHcsEdOOrEwgXroxpJWgDGM1m
+	 MPS3faerY/sT2fcflz1ogBntJFYL5Cz/UbpGy71Z8a23ASndFV0zenu7cwsd4loghj
+	 PJJToqgdJAYNg==
+Date: Thu, 24 Jul 2025 14:43:31 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, lars@metafoo.de,
+ Michael.Hennerich@analog.com, dlechner@baylibre.com, nuno.sa@analog.com,
+ andy@kernel.org, corbet@lwn.net, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ eraretuya@gmail.com
+Subject: Re: [PATCH v11 3/8] iio: accel: adxl345: add activity event feature
+Message-ID: <20250724144331.25f64e47@jic23-huawei>
+In-Reply-To: <CAFXKEHY61+OqwpOUJau+9afn3C6dya6AkAjfmrf+F=2bnFE-vQ@mail.gmail.com>
+References: <20250702230315.19297-1-l.rubusch@gmail.com>
+	<20250702230315.19297-4-l.rubusch@gmail.com>
+	<aGaSkQHQKCqfrVXF@smile.fi.intel.com>
+	<20250706170916.17417514@jic23-huawei>
+	<CAFXKEHY61+OqwpOUJau+9afn3C6dya6AkAjfmrf+F=2bnFE-vQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Configure interrupt request initialization.
-It allows driver to receive packets and management information
-from HW.
+On Sun, 20 Jul 2025 20:36:09 +0200
+Lothar Rubusch <l.rubusch@gmail.com> wrote:
 
-Co-developed-by: Xin Guo <guoxin09@huawei.com>
-Signed-off-by: Xin Guo <guoxin09@huawei.com>
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../ethernet/huawei/hinic3/hinic3_hw_comm.c   |  31 ++++
- .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  13 ++
- .../net/ethernet/huawei/hinic3/hinic3_irq.c   | 136 +++++++++++++++++-
- .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |   4 -
- 4 files changed, 178 insertions(+), 6 deletions(-)
+> Hi, I appologize for late replying on this topic.
+>=20
+> On Sun, Jul 6, 2025 at 6:09=E2=80=AFPM Jonathan Cameron <jic23@kernel.org=
+> wrote:
+> >
+> > On Thu, 3 Jul 2025 17:24:17 +0300
+> > Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+> > =20
+> > > On Wed, Jul 02, 2025 at 11:03:10PM +0000, Lothar Rubusch wrote: =20
+> > > > Enable the sensor to detect activity and trigger interrupts accordi=
+ngly.
+> > > > Activity events are determined based on a threshold, which is initi=
+alized
+> > > > to a sensible default during probe. This default value is adopted f=
+rom the
+> > > > legacy ADXL345 input driver to maintain consistent behavior.
+> > > >
+> > > > The combination of activity detection, ODR configuration, and range
+> > > > settings lays the groundwork for the activity/inactivity hysteresis
+> > > > mechanism, which will be implemented in a subsequent patch. As such,
+> > > > portions of this patch prepare switch-case structures to support th=
+ose
+> > > > upcoming changes. =20
+> > > =20
+> > > >  #define ADXL345_REG_TAP_AXIS_MSK   GENMASK(2, 0)
+> > > >  #define ADXL345_REG_TAP_SUPPRESS_MSK       BIT(3)
+> > > >  #define ADXL345_REG_TAP_SUPPRESS   BIT(3)
+> > > > +#define ADXL345_REG_ACT_AXIS_MSK   GENMASK(6, 4)
+> > > >
+> > > >  #define ADXL345_TAP_Z_EN           BIT(0)
+> > > >  #define ADXL345_TAP_Y_EN           BIT(1)
+> > > >  #define ADXL345_TAP_X_EN           BIT(2)
+> > > >
+> > > > +#define ADXL345_ACT_Z_EN           BIT(4)
+> > > > +#define ADXL345_ACT_Y_EN           BIT(5)
+> > > > +#define ADXL345_ACT_X_EN           BIT(6)
+> > > > +#define ADXL345_ACT_XYZ_EN         (ADXL345_ACT_Z_EN | ADXL345_ACT=
+_Y_EN | ADXL345_ACT_X_EN) =20
+> > >
+> > > I'm trying to understand the logic behind the placement of the masks =
+and bits.
+> > > To me it sounds that the above should be rather
+> > >
+> > > #define ADXL345_REG_TAP_AXIS_MSK      GENMASK(2, 0)
+> > > #define ADXL345_TAP_Z_EN              BIT(0)
+> > > #define ADXL345_TAP_Y_EN              BIT(1)
+> > > #define ADXL345_TAP_X_EN              BIT(2)
+> > > #define ADXL345_REG_TAP_SUPPRESS_MSK  BIT(3) // Do we need this at al=
+l?
+> > > #define ADXL345_REG_TAP_SUPPRESS      BIT(3) // or actually this? One=
+ is enough, no?
+> > > #define ADXL345_REG_ACT_AXIS_MSK      GENMASK(6, 4)
+> > > #define ADXL345_ACT_Z_EN              BIT(4)
+> > > #define ADXL345_ACT_Y_EN              BIT(5)
+> > > #define ADXL345_ACT_X_EN              BIT(6)
+> > > #define ADXL345_ACT_XYZ_EN            (ADXL345_ACT_Z_EN | ADXL345_ACT=
+_Y_EN | ADXL345_ACT_X_EN)
+> > >
+> > > (Yes, I know that the mess is preexisted, but try to keep some order =
+in the
+> > >  pieces you add here.) =20
+> >
+> > FWIW I fully agree on keeping field definitions and field break up toge=
+ther.
+> >
+> > The ACT_MSK is a little odd as thing as then we'd expect there to be bi=
+ts
+> > within that. So that FIELD_GET(a, ADXL345_REG_ACT_AXIS_MSK) would return
+> > a value from a list of things like
+> > ADXL345_REG_ACT_AXIS_VALUE_A and similar.
+> >
+> > So I'd not define that as a mask a tall but just use the
+> > ACT_XYZ_EN for it as then it's clear you are checking for any of the
+> > 3 bits being set.
+> > =20
+>=20
+> The reason is that ADXL345_REG_ACT_AXIS_MSK is used in the evaluation
+> of the incoming interrupt status register for "activity" events, and
+> ADXL345_ACT_XYZ_EN is supposed to group the enabled axis, when
+> enabling the sensor feature "activity" in the enable register. At the
+> end of the day, using only one of them would work for both, but
+> there's a semantic difference.
+>=20
+> Given this explanation, would you prefer to see a separate
+> ADXL345_REG_ACT_AXIS_MSK and ADXL345_ACT_XYZ_EN as presented here, or
+> just one ADXL345_ACT_XYZ_EN covering both cases, i.e. the evaluation
+> of the interrupt status, and enabling activity axis?
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
-index 434696ce7dc2..7adcdd569c7b 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
-@@ -8,6 +8,37 @@
- #include "hinic3_hwif.h"
- #include "hinic3_mbox.h"
- 
-+int hinic3_set_interrupt_cfg_direct(struct hinic3_hwdev *hwdev,
-+				    const struct hinic3_interrupt_info *info)
-+{
-+	struct comm_cmd_cfg_msix_ctrl_reg msix_cfg = {};
-+	struct mgmt_msg_params msg_params = {};
-+	int err;
-+
-+	msix_cfg.func_id = hinic3_global_func_id(hwdev);
-+	msix_cfg.msix_index = info->msix_index;
-+	msix_cfg.opcode = MGMT_MSG_CMD_OP_SET;
-+
-+	msix_cfg.lli_credit_cnt = info->lli_credit_limit;
-+	msix_cfg.lli_timer_cnt = info->lli_timer_cfg;
-+	msix_cfg.pending_cnt = info->pending_limit;
-+	msix_cfg.coalesce_timer_cnt = info->coalesc_timer_cfg;
-+	msix_cfg.resend_timer_cnt = info->resend_timer_cfg;
-+
-+	mgmt_msg_params_init_default(&msg_params, &msix_cfg, sizeof(msix_cfg));
-+
-+	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_COMM,
-+				       COMM_CMD_CFG_MSIX_CTRL_REG, &msg_params);
-+	if (err || msix_cfg.head.status) {
-+		dev_err(hwdev->dev,
-+			"Failed to set interrupt config, err: %d, status: 0x%x\n",
-+			err, msix_cfg.head.status);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- int hinic3_func_reset(struct hinic3_hwdev *hwdev, u16 func_id, u64 reset_flag)
- {
- 	struct comm_cmd_func_reset func_reset = {};
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.h b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.h
-index c33a1c77da9c..2270987b126f 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.h
-@@ -8,6 +8,19 @@
- 
- struct hinic3_hwdev;
- 
-+struct hinic3_interrupt_info {
-+	u32 lli_set;
-+	u32 interrupt_coalesc_set;
-+	u16 msix_index;
-+	u8  lli_credit_limit;
-+	u8  lli_timer_cfg;
-+	u8  pending_limit;
-+	u8  coalesc_timer_cfg;
-+	u8  resend_timer_cfg;
-+};
-+
-+int hinic3_set_interrupt_cfg_direct(struct hinic3_hwdev *hwdev,
-+				    const struct hinic3_interrupt_info *info);
- int hinic3_func_reset(struct hinic3_hwdev *hwdev, u16 func_id, u64 reset_flag);
- 
- #endif
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-index 8b92eed25edf..33eb9080739d 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-@@ -38,7 +38,7 @@ static int hinic3_poll(struct napi_struct *napi, int budget)
- 	return work_done;
- }
- 
--void qp_add_napi(struct hinic3_irq_cfg *irq_cfg)
-+static void qp_add_napi(struct hinic3_irq_cfg *irq_cfg)
- {
- 	struct hinic3_nic_dev *nic_dev = netdev_priv(irq_cfg->netdev);
- 
-@@ -50,7 +50,7 @@ void qp_add_napi(struct hinic3_irq_cfg *irq_cfg)
- 	napi_enable(&irq_cfg->napi);
- }
- 
--void qp_del_napi(struct hinic3_irq_cfg *irq_cfg)
-+static void qp_del_napi(struct hinic3_irq_cfg *irq_cfg)
- {
- 	napi_disable(&irq_cfg->napi);
- 	netif_queue_set_napi(irq_cfg->netdev, irq_cfg->irq_id,
-@@ -60,3 +60,135 @@ void qp_del_napi(struct hinic3_irq_cfg *irq_cfg)
- 	netif_stop_subqueue(irq_cfg->netdev, irq_cfg->irq_id);
- 	netif_napi_del(&irq_cfg->napi);
- }
-+
-+static irqreturn_t qp_irq(int irq, void *data)
-+{
-+	struct hinic3_irq_cfg *irq_cfg = data;
-+	struct hinic3_nic_dev *nic_dev;
-+
-+	nic_dev = netdev_priv(irq_cfg->netdev);
-+	hinic3_msix_intr_clear_resend_bit(nic_dev->hwdev,
-+					  irq_cfg->msix_entry_idx, 1);
-+
-+	napi_schedule(&irq_cfg->napi);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int hinic3_request_irq(struct hinic3_irq_cfg *irq_cfg, u16 q_id)
-+{
-+	struct hinic3_interrupt_info info = {};
-+	struct hinic3_nic_dev *nic_dev;
-+	struct net_device *netdev;
-+	int err;
-+
-+	netdev = irq_cfg->netdev;
-+	nic_dev = netdev_priv(netdev);
-+	qp_add_napi(irq_cfg);
-+
-+	info.msix_index = irq_cfg->msix_entry_idx;
-+	info.interrupt_coalesc_set = 1;
-+	info.pending_limit = nic_dev->intr_coalesce[q_id].pending_limit;
-+	info.coalesc_timer_cfg =
-+		nic_dev->intr_coalesce[q_id].coalesce_timer_cfg;
-+	info.resend_timer_cfg = nic_dev->intr_coalesce[q_id].resend_timer_cfg;
-+	err = hinic3_set_interrupt_cfg_direct(nic_dev->hwdev, &info);
-+	if (err) {
-+		netdev_err(netdev, "Failed to set RX interrupt coalescing attribute.\n");
-+		qp_del_napi(irq_cfg);
-+		return err;
-+	}
-+
-+	err = request_irq(irq_cfg->irq_id, qp_irq, 0, irq_cfg->irq_name,
-+			  irq_cfg);
-+	if (err) {
-+		qp_del_napi(irq_cfg);
-+		return err;
-+	}
-+
-+	irq_set_affinity_hint(irq_cfg->irq_id, &irq_cfg->affinity_mask);
-+
-+	return 0;
-+}
-+
-+static void hinic3_release_irq(struct hinic3_irq_cfg *irq_cfg)
-+{
-+	irq_set_affinity_hint(irq_cfg->irq_id, NULL);
-+	free_irq(irq_cfg->irq_id, irq_cfg);
-+}
-+
-+int hinic3_qps_irq_init(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct pci_dev *pdev = nic_dev->pdev;
-+	struct hinic3_irq_cfg *irq_cfg;
-+	struct msix_entry *msix_entry;
-+	u32 local_cpu;
-+	u16 q_id;
-+	int err;
-+
-+	for (q_id = 0; q_id < nic_dev->q_params.num_qps; q_id++) {
-+		msix_entry = &nic_dev->qps_msix_entries[q_id];
-+		irq_cfg = &nic_dev->q_params.irq_cfg[q_id];
-+
-+		irq_cfg->irq_id = msix_entry->vector;
-+		irq_cfg->msix_entry_idx = msix_entry->entry;
-+		irq_cfg->netdev = netdev;
-+		irq_cfg->txq = &nic_dev->txqs[q_id];
-+		irq_cfg->rxq = &nic_dev->rxqs[q_id];
-+		nic_dev->rxqs[q_id].irq_cfg = irq_cfg;
-+
-+		local_cpu = cpumask_local_spread(q_id, dev_to_node(&pdev->dev));
-+		cpumask_set_cpu(local_cpu, &irq_cfg->affinity_mask);
-+
-+		snprintf(irq_cfg->irq_name, sizeof(irq_cfg->irq_name),
-+			 "%s_qp%u", netdev->name, q_id);
-+
-+		err = hinic3_request_irq(irq_cfg, q_id);
-+		if (err) {
-+			netdev_err(netdev, "Failed to request Rx irq\n");
-+			goto err_release_irqs;
-+		}
-+
-+		hinic3_set_msix_auto_mask_state(nic_dev->hwdev,
-+						irq_cfg->msix_entry_idx,
-+						HINIC3_SET_MSIX_AUTO_MASK);
-+		hinic3_set_msix_state(nic_dev->hwdev, irq_cfg->msix_entry_idx,
-+				      HINIC3_MSIX_ENABLE);
-+	}
-+
-+	return 0;
-+
-+err_release_irqs:
-+	while (q_id > 0) {
-+		q_id--;
-+		irq_cfg = &nic_dev->q_params.irq_cfg[q_id];
-+		qp_del_napi(irq_cfg);
-+		hinic3_set_msix_state(nic_dev->hwdev, irq_cfg->msix_entry_idx,
-+				      HINIC3_MSIX_DISABLE);
-+		hinic3_set_msix_auto_mask_state(nic_dev->hwdev,
-+						irq_cfg->msix_entry_idx,
-+						HINIC3_CLR_MSIX_AUTO_MASK);
-+		hinic3_release_irq(irq_cfg);
-+	}
-+
-+	return err;
-+}
-+
-+void hinic3_qps_irq_uninit(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct hinic3_irq_cfg *irq_cfg;
-+	u16 q_id;
-+
-+	for (q_id = 0; q_id < nic_dev->q_params.num_qps; q_id++) {
-+		irq_cfg = &nic_dev->q_params.irq_cfg[q_id];
-+		qp_del_napi(irq_cfg);
-+		hinic3_set_msix_state(nic_dev->hwdev, irq_cfg->msix_entry_idx,
-+				      HINIC3_MSIX_DISABLE);
-+		hinic3_set_msix_auto_mask_state(nic_dev->hwdev,
-+						irq_cfg->msix_entry_idx,
-+						HINIC3_CLR_MSIX_AUTO_MASK);
-+		hinic3_release_irq(irq_cfg);
-+	}
-+}
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-index 9577cc673257..9fad834f9e92 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-@@ -85,8 +85,4 @@ void hinic3_set_netdev_ops(struct net_device *netdev);
- int hinic3_qps_irq_init(struct net_device *netdev);
- void hinic3_qps_irq_uninit(struct net_device *netdev);
- 
--/* Temporary prototypes. Functions become static in later submission. */
--void qp_add_napi(struct hinic3_irq_cfg *irq_cfg);
--void qp_del_napi(struct hinic3_irq_cfg *irq_cfg);
--
- #endif
--- 
-2.43.0
+I think just using the XYZ_EN is clear enough as we are checking for
+'any of' those.
+
+>=20
+> > Jonathan
+> > =20
+> ...
+> Best,
+> L
 
