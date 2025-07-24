@@ -1,123 +1,103 @@
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A78B148830;
-	Thu, 24 Jul 2025 06:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FC8218599;
+	Thu, 24 Jul 2025 06:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753337566; cv=none; b=m/uEbw0gJcJHtmcdDwasM9zoFeBBN/azHbADjfw3rIhmQBlKy4MqslRJi/J+yqvugdv819D+VZ2c/oc+unu1r+Apmi/U4OoTMe9/fee5gyvMtcYIkwyVfn7zqQWle1JTLer0OzgLnRbxj2sbKkjouN4S7eQCspwETkbQ+Kio4eE=
+	t=1753338621; cv=none; b=Qe1e6m1V+JL2l8Wtv5igcOEPklJPRNJJVWOmRDZsfVg3gy0IXIO/FN6EyNTpggnd1UXlZsFsoJlPE8QM+WWmM41PZhc23ldcF7PR4EtvMmQGcbwI7a7feRlyj2uPAliRBz3QvWdv0AyScvcHiXuEwu2FRZIC5kHljelHXOB7/nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753337566; c=relaxed/simple;
-	bh=CByW3Y3+zXKsW1KVgHar09KXfov0Pnop6z7uMFXJ9wI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TQCHiDRcdWOrYOYtNYbwVL+Gw6/uMuXIRiOfyHV1dRWw0hEDje9lVo+MFnJvVav2B0lOeQ/ZVfBvXAE+hBnrZw8tqvKBIQRavjn6DKSzOWM0uhmK7BzWQTghMBG8wHnJj29Urqppni5nzRvxXyE6PP10DnIhecRy9KvSFB/ij8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpgz10t1753337450t4ba43d06
-X-QQ-Originating-IP: IbpEF2adBK0K3OR0Dr975OKXmkffwF0i3hlqe5FSep0=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 24 Jul 2025 14:10:48 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12413902011030237247
-Date: Thu, 24 Jul 2025 14:10:47 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Simon Horman <horms@kernel.org>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] net: rnpgbe: Add build support for rnpgbe
-Message-ID: <173AE84ACE4EE2AE+20250724061047.GA153004@nic-Precision-5820-Tower>
-References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-2-dong100@mucse.com>
- <20250722112909.GF2459@horms.kernel.org>
- <0E9C9DD4FB65EC52+20250723030111.GA169181@nic-Precision-5820-Tower>
- <20250723200934.GO1036606@horms.kernel.org>
+	s=arc-20240116; t=1753338621; c=relaxed/simple;
+	bh=zXkpuiggPpV/0ZooOIdHA4JWILB3jJ1cnn113O0RZkM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=grbjwDrQMeTT5vviqto3HT9WprkJGkDZuGB2C5U2sGfwOWp3SMIVLcCdkEocgEnrrekHT7dn2t3oZ/YgiiYawbIt1bAEGFpgDe6PnvuIdXtOz5CarBMBIou10moqES44Bkul74xAa1pkxsJNqeVyi+gII4ocQOL68e6IE1pCWpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: a17ca5c6685711f0b29709d653e92f7d-20250724
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:21978154-6b28-4c8e-9784-9cb9348e9ab4,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:6493067,CLOUDID:66787c1e2ea4020286e7709089bdb7b2,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:1,IP:nil,URL
+	:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SP
+	R:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: a17ca5c6685711f0b29709d653e92f7d-20250724
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <jiangyunshui@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1355048946; Thu, 24 Jul 2025 14:30:02 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id B431AE008FAA;
+	Thu, 24 Jul 2025 14:30:02 +0800 (CST)
+X-ns-mid: postfix-6881D2EA-511152175
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by mail.kylinos.cn (NSMail) with ESMTPA id B95EAE008FA2;
+	Thu, 24 Jul 2025 14:30:01 +0800 (CST)
+From: Yunshui Jiang <jiangyunshui@kylinos.cn>
+To: linux-kernel@vger.kernel.org
+Cc: alexander.deucher@amd.com,
+	chriistian.koenig@amd.com,
+	linux-doc@vger.kernel.org,
+	willy@infradead.org,
+	Yunshui Jiang <jiangyunshui@kylinos.cn>
+Subject: [PATCH v2] drm/amdgpu: use kmalloc_array() instead of kmalloc()
+Date: Thu, 24 Jul 2025 14:29:51 +0800
+Message-ID: <20250724062951.328081-1-jiangyunshui@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250723200934.GO1036606@horms.kernel.org>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: Ndw/mc8X39ObfM92LSarzqTQNNyDZ5M4hnRkSi+toTBH0w6nDlyd00An
-	6YZpGvoM9enhMoZwUbhQ2RW1f8mzuWwcpnZa+hOQKbzA6+Y5awep0hyV1dUa7fB50yc0P74
-	wdsPRneR2DITPfSXDo1oKWb7fqtvRunUGh1euW0oCoJydB6HTEmDglXN1F0TQPU0pAGxUnF
-	dFvbe9ZNS3kIZNd8jacCgAxuz/E9Jhif1wrCfxA31TTKcT+ZixWSuAwnHGZKXujM7qEwHvT
-	/okngwUuDZf30Om6/p0O/ojgvLLzfmJxIcTI/i9a5edyczIkrzgiQRCoGjJcmXFU/7+cX1y
-	CDTaqqtlOKEpD/mG97hN+bAeYcwX6Y3VshCdKnmnAdGxJTp5X2b1k0MXCdNSS93uHm85Jty
-	N4iSxJveSGIouOECoygHbagOknTn9R268bBLyYIqJYmWdlu0yxafCR52yTdMOWvu35jUJ/Q
-	xBmDGl9BYgf0lLHk7Og6MSg2zhXzT3JkJnRcxvTNdhNwWVAwy0njRvXJUP/Wcb4c46fmSas
-	ZOfa/7hQCWvajRyTaO9oXMbMUuzb50eGGTZlilGEK6MwgwX+gUefaNlIdGVHXtOosYLvAB6
-	DMXbiafg0GbHEGNRNourZC1sbbc8iuFu5/ebCvF/O9N9KX3HDxRW3ME2Ks14toImO+2xhV9
-	nUydx+U4wn3IGkTB5CLw1d+PLtjCxIndJiZlI2JHYFSYdtHK+vXhQy9oXaXnbqUnQ6rB6HN
-	WHjjKpTfSMa2AbJtIXOpSCRdXE1pHKSeZWiwYoUJFx1j1Uq2exj7TQ/9MtcjdVJFt4SuCoU
-	/Hazyx09CEdnas/rv/lD0ujHoF0UvW7QShtNVzoyDSl6biXax6tvXGvtPFznHytK2LTbPN2
-	SQzW8yOYLMB1m6sMWYtuv86VwS6uSuHYZSo2K0nz0ipr7byg0EozWXQM/i374zfyuULNTTJ
-	tm4V9GEnrGTM1t5AsM8vAn+FmcEeEKV/qckkdE6NLj9y7w4QkZjM8LBV8BUmA7isCwPw=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 23, 2025 at 09:09:34PM +0100, Simon Horman wrote:
-> On Wed, Jul 23, 2025 at 11:01:11AM +0800, Yibo Dong wrote:
-> > On Tue, Jul 22, 2025 at 12:29:09PM +0100, Simon Horman wrote:
-> > > On Mon, Jul 21, 2025 at 07:32:24PM +0800, Dong Yibo wrote:
-> 
-> ...
-> 
-> > But I can't get this warning follow steps in my local:
-> > ---
-> > - make x86_64_defconfig
-> > - make menuconfig  (select my driver rnpgbe to *)
-> > - make W=1 -j 20
-> > ---
-> > if I compile it with 'make W=1 C=1 -j 20', some errors like this:
-> > ---
-> > ./include/linux/skbuff.h:978:1: error: directive in macro's argument list
-> > ./include/linux/skbuff.h:981:1: error: directive in macro's argument list
-> > ........
-> > Segmentation fault
-> > ---
-> > I also tried to use nipa/tests/patch/build_allmodconfig_warn
-> > /build_allmodconfig.sh (not run the bot, just copy this sh to source
-> > code). It seems the same with 'make W=1 C=1 -j 20'.
-> > Is there something wrong for me? I want to get the warnings locally,
-> > then I can check it before sending patches. Any suggestions to me, please?
-> > Thanks for your feedback.
-> 
-> I would expect what you are trying to work.
+Use kmalloc_array() instead of kmalloc() with multiplication.
+kmalloc_array() is a safer way because of its multiply overflow check.
 
-I want to reproduce the warning locally, like this: 
-'warning: symbol 'rnpgbe_driver_name' was not declared. Should it be static'
-Then, I can check codes before sending patches.
+---
+Changes in v2:
+Fixed incorrect kmalloc usage in v1:
+-	*bps =3D kmalloc(data->count, sizeof(struct ras_badpage), GFP_KERNEL);
++	*bps =3D kmalloc_array(data->count, sizeof(struct ras_badpage), GFP_KER=
+NEL);
 
-> And I certainly would not expect a segmentation fault.
-> 
-> I suspect that the version of Sparse you have is causing this problem
-> (although it is just a wild guess). I would suggest installing
-> from git. http://git.kernel.org/pub/scm/devel/sparse/sparse.git
-> 
-> The current HEAD is commit 0196afe16a50 ("Merge branch 'riscv'").
-> I have exercised it quite a lot.
-> 
+Signed-off-by: Yunshui Jiang <jiangyunshui@kylinos.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-nice, after installation, it works. I reproduced the warning, thanks.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_ras.c
+index de0944947eaf..12f5a1b9ff8b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -2563,7 +2563,7 @@ static int amdgpu_ras_badpages_read(struct amdgpu_d=
+evice *adev,
+ 		goto out;
+ 	}
+=20
+-	*bps =3D kmalloc(sizeof(struct ras_badpage) * data->count, GFP_KERNEL);
++	*bps =3D kmalloc_array(data->count, sizeof(struct ras_badpage), GFP_KER=
+NEL);
+ 	if (!*bps) {
+ 		ret =3D -ENOMEM;
+ 		goto out;
+@@ -2719,7 +2719,7 @@ static int amdgpu_ras_realloc_eh_data_space(struct =
+amdgpu_device *adev,
+ 	unsigned int old_space =3D data->count + data->space_left;
+ 	unsigned int new_space =3D old_space + pages;
+ 	unsigned int align_space =3D ALIGN(new_space, 512);
+-	void *bps =3D kmalloc(align_space * sizeof(*data->bps), GFP_KERNEL);
++	void *bps =3D kmalloc_array(align_space, sizeof(*data->bps), GFP_KERNEL=
+);
+=20
+ 	if (!bps) {
+ 		return -ENOMEM;
+--=20
+2.47.1
 
-> For reference, I also use:
-> GCC 15.1.0 from here: https://mirrors.edge.kernel.org/pub/tools/crosstool/
-> Clang 20.1.8 from here: https://mirrors.edge.kernel.org/pub/tools/llvm/
-> (Because they are the latest non -rc compilers available there)
-> 
-> 
