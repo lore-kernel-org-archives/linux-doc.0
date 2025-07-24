@@ -1,87 +1,61 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E3C29A322;
-	Thu, 24 Jul 2025 14:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9FA291C16;
+	Thu, 24 Jul 2025 14:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753367613; cv=none; b=Luivb/2rwXKrNEu2npZ3kwq3SHR67/grD9qplkkW2tl8G4M1zKfOkgwZKYkI1RQ9rNhNuQ8evwECjUcTO7VbgnLYsoSrA0aDvQZE4+nIv6gTCVlpNKo9G8SKwgjUAFaq0UfNNvkGo9jjdQhmiraEdezi1r3JyJiYO9a9XSgjTRQ=
+	t=1753367705; cv=none; b=G9ZINkimI7Umvy/QzQY+OmzKYf0aCgzpN7s98BZg8sRgA0kJjrPtzW+Nt/jB0xADZt9k3tH+T7nd5dAwOl6Zh7YXKnXAlZ3TpSORlZiuW+bFLjmv5kaMq4031Pgd3pDk8SnIKwYPDSzTwFsWqSwZuRHKR8eFEU68z6NCZhOad4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753367613; c=relaxed/simple;
-	bh=rUJwBBAUQEEqyKlpjVDavNcXrFv5Cy+99Y9n2/LQFf0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PF+WhrrvHxW8XeyTM2Uf0zsfVN4kt9Osy7UDMgOAqbVf/YBBCvuth9vlyuco2f6izDNGBIjvlC1sh8jl9BMQEFkt8e5MVB6Cg142UecKPae6aomJJxHzeUSZEk3hRwfHLxIoZIz3BEAEemGaVzbWtMhbPqQKVtTXxGONRriMWJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BUINWzMQ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1753367705; c=relaxed/simple;
+	bh=5psh7yEe3Xi6LRR7E6HhzRkflXNDxhFntpQpk6AAwdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dxwStlMzo87tik6hkhOdpgViahmht2pJxB/y7DCypgvKbizc6Sed31lYhd1eXiW7b7WpnC+iSo2Vzp6WpHHCGNShODvvKZwvTsbOyzpwp/Gg0q9m9R1zaqeYIpim15gfnBwHSkvWjeCWmtT05UI3PSzgsyAOKrPOf2VaoGglwzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iZ+OyHSB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BUINWzMQ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5E4F640AA9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1753367611; bh=nPoIBJN1Ou0uygaKOU2F3YgTZVT9cVGYPIf/TbVDYH8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BUINWzMQg1pJvWvVmOK8vVclG2xk6Kgp1uAMbs4bzxV+mlrJoG1BJH+XzGYb+pKx9
-	 HTi6C2tzngRL1w7YJPgybRdtIHT4Eejw4jf5vo7h0hAyOQgoSoKoyLIE/qUX5ULZaX
-	 KGgYygmE050hxzfdz7nyo6dyBrXfS8kYViID62/RbTzE2EgMJS7mIKvG6oYWVQMB6S
-	 M9k0H7OsIucHWUPO+OvFrVbawQeTywB8WPJolov+oLR67og0/Qj0SjJudWw7s46Vvy
-	 s87wP8O/KxO0HUdwCmWOkOMdJUo4KxF++GF614Ti3rlq941DlhCi0HK7wTOQ5OolCz
-	 Zh/4bGoSVAfjQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5E4F640AA9;
-	Thu, 24 Jul 2025 14:33:31 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Andrew Donnellan <ajd@linux.ibm.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>, Nicolas Saenz Julienne
- <nsaenz@amazon.com>, Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH] Documentation: core-api: entry: Replace deprecated KVM
- entry/exit functions
-In-Reply-To: <20250723075134.105132-1-ajd@linux.ibm.com>
-References: <20250723075134.105132-1-ajd@linux.ibm.com>
-Date: Thu, 24 Jul 2025 08:33:30 -0600
-Message-ID: <87ikjhacat.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iZ+OyHSB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81BDCC4CEED;
+	Thu, 24 Jul 2025 14:35:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753367703;
+	bh=5psh7yEe3Xi6LRR7E6HhzRkflXNDxhFntpQpk6AAwdQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=iZ+OyHSB/aTgsSKk4Vjwoz7QzsfA04RxX0KPmLW5a3BR4j6N7aiaF8wO3mNFYM1h9
+	 uMes4Nr3pK3P0P7sWQOB/KM97Jc6krkxWhbe65Zv9Zd78Z/9tR5aXUcRILHVneOKqo
+	 c5fEBNXqFVcZT/7w1ZMEABMYgf0R8t6whS9ccKs8CndP1fSFXNm/IRDp5HHMJUinYL
+	 O2POlvnMhT7aepTdc16aohCf2Tv06SbPZA+KU9IYbCQAY2CFgDtcnwfNWgtLiaxVMg
+	 +6FMSg5GKeiLLFDxi9KdJgbuUWM3BYTApit2XWt1tkeOwwn4bs+WYxBAN4xI5rvHR6
+	 6Eb6pmQNjrDMA==
+Date: Thu, 24 Jul 2025 07:35:01 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Hangbin Liu <liuhangbin@gmail.com>
+Cc: Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, Nikolay Aleksandrov <razor@blackwall.org>, Simon
+ Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>, Amit Cohen
+ <amcohen@nvidia.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, Alessandro
+ Zanni <alessandro.zanni87@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 3/3] selftests: bonding: add test for LACP
+ actor port priority
+Message-ID: <20250724073501.1c0357c6@kernel.org>
+In-Reply-To: <aIJDz3AgQtnzSR59@fedora>
+References: <20250724081632.12921-1-liuhangbin@gmail.com>
+	<20250724081632.12921-4-liuhangbin@gmail.com>
+	<aIJDz3AgQtnzSR59@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Andrew Donnellan <ajd@linux.ibm.com> writes:
+On Thu, 24 Jul 2025 14:31:43 +0000 Hangbin Liu wrote:
+> Should I drop this selftest as it needs the new iproute2 feature that has
+> not applied yet?
 
-> The x86-specific functions kvm_guest_{enter,exit}_irqoff() were removed
-> and replaced by the generic guest_state_{enter,exit}_irqoff() in commit
-> ef9989afda73 ("kvm: add guest_state_{enter,exit}_irqoff()") and commit
-> b2d2af7e5df3 ("kvm/x86: rework guest entry logic").
->
-> Update the references in the entry/exit handling documentation.
->
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Nicolas Saenz Julienne <nsaenz@amazon.com>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Signed-off-by: Andrew Donnellan <ajd@linux.ibm.com>
-> ---
->  Documentation/core-api/entry.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
-> index a15f9b1767a2..286a5ecf7cae 100644
-> --- a/Documentation/core-api/entry.rst
-> +++ b/Documentation/core-api/entry.rst
-> @@ -115,8 +115,8 @@ Entering or exiting guest mode is very similar to syscalls. From the host
->  kernel point of view the CPU goes off into user space when entering the
->  guest and returns to the kernel on exit.
->  
-> -kvm_guest_enter_irqoff() is a KVM-specific variant of exit_to_user_mode()
-> -and kvm_guest_exit_irqoff() is the KVM variant of enter_from_user_mode().
-> +guest_state_enter_irqoff() is a KVM-specific variant of exit_to_user_mode()
-> +and guest_state_exit_irqoff() is the KVM variant of enter_from_user_mode().
->  The state operations have the same ordering.
-
-Applied, thanks.
-
-jon
+No need, I'll add the iproute2 patch in the CI.
