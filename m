@@ -1,61 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9FA291C16;
-	Thu, 24 Jul 2025 14:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47A92E5407;
+	Thu, 24 Jul 2025 14:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753367705; cv=none; b=G9ZINkimI7Umvy/QzQY+OmzKYf0aCgzpN7s98BZg8sRgA0kJjrPtzW+Nt/jB0xADZt9k3tH+T7nd5dAwOl6Zh7YXKnXAlZ3TpSORlZiuW+bFLjmv5kaMq4031Pgd3pDk8SnIKwYPDSzTwFsWqSwZuRHKR8eFEU68z6NCZhOad4Q=
+	t=1753368026; cv=none; b=A/xRDYWj96inTXQpHisOsIJ5pL1JyVDV0+q9FD6lMviWOLOSPWuDR7a3JnwVu4eaCkIQnsA9WBZ0M6A2ZHENkLjZ2g+yW3bdmV6NcpaxZf0jodhSw6z8ijRopiYe06GDct1Z9lwDVjcUm06Pd02aJLEZeFx1NoDIsVMdynfkaUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753367705; c=relaxed/simple;
-	bh=5psh7yEe3Xi6LRR7E6HhzRkflXNDxhFntpQpk6AAwdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dxwStlMzo87tik6hkhOdpgViahmht2pJxB/y7DCypgvKbizc6Sed31lYhd1eXiW7b7WpnC+iSo2Vzp6WpHHCGNShODvvKZwvTsbOyzpwp/Gg0q9m9R1zaqeYIpim15gfnBwHSkvWjeCWmtT05UI3PSzgsyAOKrPOf2VaoGglwzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iZ+OyHSB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753368026; c=relaxed/simple;
+	bh=ZrIDXZN4Ude9qm+64/fqR7Czwe9P160iQT2jxQem3H0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=LLW1/fFilL/iWBKBZegnpNofKRjODLaNMydtCDrDbLNrkU+8M8pH/DJ3YWAoJNckRf8LMU5XdIQB/LMqCinGA7LKiYq4ViegnDK5vj+a50aE3nl1mtaGXslqxZoCJ6y3RLTWfBo/rL2LVnt/qQnWm9zYC27Hb46BYlEyYHjNjMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=m+jt14ln; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iZ+OyHSB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81BDCC4CEED;
-	Thu, 24 Jul 2025 14:35:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753367703;
-	bh=5psh7yEe3Xi6LRR7E6HhzRkflXNDxhFntpQpk6AAwdQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=iZ+OyHSB/aTgsSKk4Vjwoz7QzsfA04RxX0KPmLW5a3BR4j6N7aiaF8wO3mNFYM1h9
-	 uMes4Nr3pK3P0P7sWQOB/KM97Jc6krkxWhbe65Zv9Zd78Z/9tR5aXUcRILHVneOKqo
-	 c5fEBNXqFVcZT/7w1ZMEABMYgf0R8t6whS9ccKs8CndP1fSFXNm/IRDp5HHMJUinYL
-	 O2POlvnMhT7aepTdc16aohCf2Tv06SbPZA+KU9IYbCQAY2CFgDtcnwfNWgtLiaxVMg
-	 +6FMSg5GKeiLLFDxi9KdJgbuUWM3BYTApit2XWt1tkeOwwn4bs+WYxBAN4xI5rvHR6
-	 6Eb6pmQNjrDMA==
-Date: Thu, 24 Jul 2025 07:35:01 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Hangbin Liu <liuhangbin@gmail.com>
-Cc: Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, Nikolay Aleksandrov <razor@blackwall.org>, Simon
- Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>, Amit Cohen
- <amcohen@nvidia.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, Alessandro
- Zanni <alessandro.zanni87@gmail.com>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 3/3] selftests: bonding: add test for LACP
- actor port priority
-Message-ID: <20250724073501.1c0357c6@kernel.org>
-In-Reply-To: <aIJDz3AgQtnzSR59@fedora>
-References: <20250724081632.12921-1-liuhangbin@gmail.com>
-	<20250724081632.12921-4-liuhangbin@gmail.com>
-	<aIJDz3AgQtnzSR59@fedora>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="m+jt14ln"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E12ED40AA9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1753368024; bh=lWnVtqjyg7h+NvEXwPQ7inlN3CEUVmi4sKfntgVUcAE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=m+jt14lnAbL1u0tismNpXDPhBzxJept4Z3jkMipaQCxP7PWxoL+ligiXqAKafW60w
+	 mAffkKSrYYXxDGU8LoB/96BDAzRENq0uo5mWOOo18UsF4voNTadVRtgpXQdQbB6eLg
+	 xDg/U9GmCNhkXiZgtlpndtHAgbXQDXlPwHBgvnNakyGAZ7O2MqXYweGaVONv/NtwDJ
+	 BViY1qrkf2P1XQPPhcqhgy056wP3xl+9UPMGZSZIVAJqCNs7RQQ5wcwqLTYlYXArLB
+	 mivMU7lF0fA4PvOMqbSRa2J9LtCLvu3kWA/QuJyzwi3eqcr83G2Hfkp2fX3F0uIjZc
+	 5HDYv3b10+9Cw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id E12ED40AA9;
+	Thu, 24 Jul 2025 14:40:23 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Kees Cook <mchehab+huawei@kernel.org>,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v2] sphinx: kernel_abi: fix performance regression with
+ O=<dir>
+In-Reply-To: <e25673d87357457bc54ee863e97ff8f75956580d.1752752211.git.mchehab+huawei@kernel.org>
+References: <e25673d87357457bc54ee863e97ff8f75956580d.1752752211.git.mchehab+huawei@kernel.org>
+Date: Thu, 24 Jul 2025 08:40:23 -0600
+Message-ID: <87ecu5abzc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Thu, 24 Jul 2025 14:31:43 +0000 Hangbin Liu wrote:
-> Should I drop this selftest as it needs the new iproute2 feature that has
-> not applied yet?
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-No need, I'll add the iproute2 patch in the CI.
+> The logic there which adds a dependency note to Sphinx cache
+> is not taking into account that the build dir may not be
+> the source dir. This causes a performance regression:
+>
+> $ time make O=/tmp/foo SPHINXDIRS=admin-guide htmldocs
+>
+> 	[OUTDATED]
+> 	Added: set()
+> 	Changed: {'abi-obsolete', 'abi-removed', 'abi-stable-files', 'abi-obsolete-files', 'abi-stable', 'abi', 'abi-removed-files', 'abi-testing-files', 'abi-testing', 'gpio/index', 'gpio/obsolete'}
+> 	Removed: set()
+> 	All docs count: 385
+> 	Found docs count: 385
+>
+> 	real    0m11,324s
+> 	user    0m15,783s
+> 	sys     0m1,164s
+>
+> To get the root cause of the problem (ABI files reported as changed),
+> I used this changeset:
+>
+> 	diff --git a/Documentation/conf.py b/Documentation/conf.py
+> 	index e8766e689c1b..ab486623bd8b 100644
+> 	--- a/Documentation/conf.py
+> 	+++ b/Documentation/conf.py
+> 	@@ -571,3 +571,16 @@ def setup(app):
+> 	     """Patterns need to be updated at init time on older Sphinx versions"""
+>
+> 	     app.connect('config-inited', update_patterns)
+> 	+    app.connect('env-get-outdated', on_outdated)
+> 	+
+> 	+def on_outdated(app, env, added, changed, removed):
+> 	+    """Track cache outdated due to added/changed/removed files"""
+> 	+    print("\n[OUTDATED]")
+> 	+    print(f"Added: {added}")
+> 	+    print(f"Changed: {changed}")
+> 	+    print(f"Removed: {removed}")
+> 	+    print(f"All docs count: {len(env.all_docs)}")
+> 	+    print(f"Found docs count: {len(env.found_docs)}")
+> 	+
+> 	+    # Just return what we have
+> 	+    return added | changed | removed
+>
+> Reported-by: Akira Yokosawa <akiyks@gmail.com>
+> Closes: https://lore.kernel.org/linux-doc/c174f7c5-ec21-4eae-b1c3-f643cca90d9d@gmail.com/
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+> v2: updated description. No changes at the diff itself
+>
+>  Documentation/sphinx/kernel_abi.py | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+> index db6f0380de94..4c4375201b9e 100644
+> --- a/Documentation/sphinx/kernel_abi.py
+> +++ b/Documentation/sphinx/kernel_abi.py
+> @@ -146,8 +146,10 @@ class KernelCmd(Directive):
+>                  n += 1
+>  
+>              if f != old_f:
+> -                # Add the file to Sphinx build dependencies
+> -                env.note_dependency(os.path.abspath(f))
+> +                # Add the file to Sphinx build dependencies if the file exists
+> +                fname = os.path.join(srctree, f)
+> +                if os.path.isfile(fname):
+> +                    env.note_dependency(fname)
+>  
+
+Applied, thanks.
+
+jon
