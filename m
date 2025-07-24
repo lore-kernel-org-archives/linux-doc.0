@@ -1,118 +1,110 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D69186E2E;
-	Thu, 24 Jul 2025 06:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855482AF1D;
+	Thu, 24 Jul 2025 07:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753340175; cv=none; b=e7+HDrtfML2uQDSsLJT59Tgw6iZnmkHI+V9DrPSczcH3J8MetjtJ/Jhu8gRCDRfAZUsaD0M327Y7TAcXQ21ZikWhX5pSp26CwevnJTbHYj/QOxK5+Q/IPDb8WwNurQHLRZFwuhzqfTj7GwPj+pG7K17U3rQank9EFizznjaoFLc=
+	t=1753340803; cv=none; b=UyiPMvjwqPmR+e+q21O6MpA1Xx+aatNHY91giJJw/FGX4+kB7aJoAdlLVYapszadXjbdeGQwKfG2o7X5FMp5gwd+3QCu1I3BJz8sGrQESUUx4L4CUMmYx5XUp69iqoAd04aeONgo8BYPWeEpEkTl0IX1pGOkbtjgKPIrQyGgOI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753340175; c=relaxed/simple;
-	bh=8Xnyn6F3J+6N3ZoAWpn47q9S4V+9YNTWSvrZ3zY3jpM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=iWz60i71dCYLi0pPfGVoFaCF8NfhDW5A5Z1u8iuVQOVXIW2EA3ZZ4tF+EfVEhL6LOCRLbuPUPdLWxV3GShmcb4bEcnhGI2AlKQp9xpCsJH6i8DfHxh/rO0CKWz/2Zv/6q7L1MzxkD9Ef/LOOEhiBvSB8qxDb4mEHzPZb/gDNu+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=N2kX8jwu; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1753340803; c=relaxed/simple;
+	bh=sej0X/um4Puq/WT7bts08CgrzXQnU4yySgZNzrUUUDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lVsyjlqoI8eTPqo/mc4imlcJS7pGK+u3Qoll3Si5jCA4RMYE0p7A6fNujBwfRZ1RNSzi7QMjbwTaSyyvLyeDJkh3CL+InJ676lZtFtyZ7q18AiHDi2JxIZ1eHv81Id+K1D2wpaTyLcQU4Ks61eZwcyfTjJQHjlKit5Fz+YkYkC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QWXWPmcK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="N2kX8jwu"
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56O6sRss1439614;
-	Thu, 24 Jul 2025 01:54:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1753340067;
-	bh=hOc1q4h2DdgZveLq/ie+ow6+3RIYzRAV3p05yW0fvLU=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=N2kX8jwuYkhgzG6LEy5g1tNb05z48U8jpcmbH2yHHGPpXqOVJHPaxvqF/BIOdCJLe
-	 yWvdC/2jho+huPaN3rCxyQjMPcOyaMi9dZgnT3IZCCq75cR+ehkRL6lsjpKpxPJEio
-	 npQVk7/rRn79EG1drE+bfpWDIVimcyA/yckGsECU=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56O6sRpN3359445
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 24 Jul 2025 01:54:27 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 24
- Jul 2025 01:54:26 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Thu, 24 Jul 2025 01:54:26 -0500
-Received: from [10.24.69.25] (danish-tpc.dhcp.ti.com [10.24.69.25])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56O6sK9K033297;
-	Thu, 24 Jul 2025 01:54:20 -0500
-Message-ID: <db4e65a7-bdb6-4e96-b9d0-eda4b30e4e71@ti.com>
-Date: Thu, 24 Jul 2025 12:24:19 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QWXWPmcK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A78BEC4CEED;
+	Thu, 24 Jul 2025 07:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753340801;
+	bh=sej0X/um4Puq/WT7bts08CgrzXQnU4yySgZNzrUUUDA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QWXWPmcKv+XyHJFQ/3Jd/Q9cpFVbmd9t89Q00C12XeUC+pXJ4/8PntaU/MJAXbR6Z
+	 PVWf2sGRdCDLEsq0l8pKRxJOlRwbbAlXWRNi031SK7Yh1cPX4VDRm14E0w04LcRO5G
+	 Fw4kBbW9TFfiRx4Q6AqT/CHat/IfmEqsueWnGV+GJT5cihxwjpFfvwdE4nKJD2T0/S
+	 0ezFEfrAr6rOM1QEjDD1j1LlhM+7C9dS2MTpmkYw2Dj7eG79j8u1kpkv4MwZ7cZoJo
+	 AhL60YGEFNx9EWzas0DbYRYOQzoRiotqzXzk5An1sNX/+YR3ne/wnkn86X1iWL7aMN
+	 Q+Ws4mSXin1fg==
+Date: Thu, 24 Jul 2025 09:06:36 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v2 1/4] pidns: move is-ancestor logic to helper
+Message-ID: <20250724-lakai-zombie-2676e99b9a7a@brauner>
+References: <20250723-procfs-pidns-api-v2-0-621e7edd8e40@cyphar.com>
+ <20250723-procfs-pidns-api-v2-1-621e7edd8e40@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 1/5] net: rpmsg-eth: Add Documentation for
- RPMSG-ETH Driver
-To: Jakub Kicinski <kuba@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>
-CC: "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet
-	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-        Simon Horman
-	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        Mengyuan Lou <mengyuanlou@net-swift.com>,
-        Michael
- Ellerman <mpe@ellerman.id.au>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Fan
- Gong <gongfan1@huawei.com>, Lee Trager <lee@trager.us>,
-        Lorenzo Bianconi
-	<lorenzo@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lukas
- Bulwahn <lukas.bulwahn@redhat.com>,
-        Parthiban Veerasooran
-	<Parthiban.Veerasooran@microchip.com>,
-        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <cocci@inria.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>
-References: <20250723080322.3047826-1-danishanwar@ti.com>
- <20250723080322.3047826-2-danishanwar@ti.com>
- <20250723064901.0b7ec997@kernel.org>
-Content-Language: en-US
-From: MD Danish Anwar <danishanwar@ti.com>
-In-Reply-To: <20250723064901.0b7ec997@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250723-procfs-pidns-api-v2-1-621e7edd8e40@cyphar.com>
 
-Hi Jakub,
+On Wed, Jul 23, 2025 at 09:18:51AM +1000, Aleksa Sarai wrote:
+> This check will be needed in later patches, and there's no point
+> open-coding it each time.
+> 
+> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> ---
+>  include/linux/pid_namespace.h |  9 +++++++++
+>  kernel/pid_namespace.c        | 23 +++++++++++++++--------
+>  2 files changed, 24 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/linux/pid_namespace.h b/include/linux/pid_namespace.h
+> index 7c67a5811199..17fdc059f8da 100644
+> --- a/include/linux/pid_namespace.h
+> +++ b/include/linux/pid_namespace.h
+> @@ -84,6 +84,9 @@ extern void zap_pid_ns_processes(struct pid_namespace *pid_ns);
+>  extern int reboot_pid_ns(struct pid_namespace *pid_ns, int cmd);
+>  extern void put_pid_ns(struct pid_namespace *ns);
+>  
+> +extern bool pidns_is_ancestor(struct pid_namespace *child,
+> +			      struct pid_namespace *ancestor);
+> +
+>  #else /* !CONFIG_PID_NS */
+>  #include <linux/err.h>
+>  
+> @@ -118,6 +121,12 @@ static inline int reboot_pid_ns(struct pid_namespace *pid_ns, int cmd)
+>  {
+>  	return 0;
+>  }
+> +
+> +static inline bool pidns_is_ancestor(struct pid_namespace *child,
+> +				     struct pid_namespace *ancestor)
+> +{
+> +	return false;
+> +}
+>  #endif /* CONFIG_PID_NS */
+>  
+>  extern struct pid_namespace *task_active_pid_ns(struct task_struct *tsk);
+> diff --git a/kernel/pid_namespace.c b/kernel/pid_namespace.c
+> index 7098ed44e717..c2783c5fa90b 100644
+> --- a/kernel/pid_namespace.c
+> +++ b/kernel/pid_namespace.c
+> @@ -390,11 +390,24 @@ static void pidns_put(struct ns_common *ns)
+>  	put_pid_ns(to_pid_ns(ns));
+>  }
+>  
+> +bool pidns_is_ancestor(struct pid_namespace *child,
+> +		       struct pid_namespace *ancestor)
+> +{
+> +	struct pid_namespace *ns;
+> +
+> +	if (child->level < ancestor->level)
+> +		return false;
+> +	for (ns = child; ns->level > ancestor->level; ns = ns->parent)
+> +		;
+> +	return ns == ancestor;
+> +}
+> +EXPORT_SYMBOL_GPL(pidns_is_ancestor);
 
-On 23/07/25 7:19 pm, Jakub Kicinski wrote:
-> On Wed, 23 Jul 2025 13:33:18 +0530 MD Danish Anwar wrote:
->> +   - Vendors must ensure the magic number matches the value expected by the
->> +     Linux driver (see the `RPMSG_ETH_SHM_MAGIC_NUM` macro in the driver
->> +     source).
-> 
-> For some reason this trips up make coccicheck:
-> 
-> EXN: Failure("unexpected paren order") in /home/cocci/testing/Documentation/networking/device_drivers/ethernet/rpmsg_eth.rst
-> 
-> If I replace the brackets with a comma it works:
-> 
->    - Vendors must ensure the magic number matches the value expected by the
->      Linux driver, see the `RPMSG_ETH_SHM_MAGIC_NUM` macro in the driver
->      source.
-> 
-> Could you make that change in the next revision to avoid the problem?
-> 
-
-Sure. I'll do this change in v2.
-
-> Julia, is there an easy way to make coccinelle ignore files which
-> don't end with .c or .h when using --use-patch-diff ?
-
--- 
-Thanks and Regards,
-Danish
-
+Why do you need to export this? Afaict, this is only used from procfs
+and iirc procfs cannot be a module. This could also be a static inline
+completely in the header? Otherwise this looks good.
