@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561CF2A1BB;
-	Thu, 24 Jul 2025 05:18:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943661FC3;
+	Thu, 24 Jul 2025 05:31:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753334295; cv=none; b=oJ31h0ZL8om6imCeydBgcdffLutdugN1FzXjHJbipGODA8vevdk7uoZmbhXtWZbNo3t8sKbXsuABWqJU9znr1/dgr36CrnZep4rhA9owxducBmwx8p+vufdX8baeUGFQzxt0mnEIZlI0Xxew0Z2z3Ys6mKeM9NsbFqWcBltEUSc=
+	t=1753335062; cv=none; b=DNZULkMLNU/eAL2fB6ylDyyEeAg5qeijuOzJvgwtsrsldY8BUFLtG+90SEyYcEgiIkp2bxnxQbBRDBPtQ0udvZ3RBEBUzReB3KUVtteElzdGhZbYBJXohcf96/1rvdZm941eUXvwRNQgJWH/etGYjXjlpReyqz19fm9fuZPvSss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753334295; c=relaxed/simple;
-	bh=GbrUnm5CwA+Iub1SElDV2vDitfy2uO0GIXx02fQSgLo=;
+	s=arc-20240116; t=1753335062; c=relaxed/simple;
+	bh=Ibk2qzQoxKWdDn9Ul5l5A4RYbVwHkJe/LQQ5SUv28oo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rzjP23xYvCIeG3m2cESkclq2oZr316moj2L8Wfg3LoPzN7/crndm8cSu6A/ehWyRbLMnXSV7+QXUGIJdXtDfn18UAQMvPyytFO0FMT8dL2kt27BXVeirTC9kZXxamqrL8gSWcmk1ylXCHpX6WX0oQUSHRf+fz1gSIcJQTE+ESg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q9FOX7LB; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=Y3bXBw7UMFzoNxERPVbym3Ro3QsjUOnaLVk4cavQb3vhyFS+Z6TkroY4pwoB1i2syWh985+5/RX6e0l71ga1ipThRtzNs5oWU/eJ/ADeS9qvcTcGZ1g/X3q2WhG9ozgeT+ropfP+x3kfqTA1sVn8KOX7gf6L2zyEwrgUA8xnCVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqiaoEUF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q9FOX7LB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3738DC4CEED;
-	Thu, 24 Jul 2025 05:18:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqiaoEUF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF5FC4CEED;
+	Thu, 24 Jul 2025 05:30:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753334295;
-	bh=GbrUnm5CwA+Iub1SElDV2vDitfy2uO0GIXx02fQSgLo=;
+	s=k20201202; t=1753335062;
+	bh=Ibk2qzQoxKWdDn9Ul5l5A4RYbVwHkJe/LQQ5SUv28oo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=q9FOX7LBQRReG/YAp1CozHoffOFUbgQ2usok82trvfgot4I9n2YHJEPR3AGQXIaHN
-	 McsvU+DdcKDwmWJpYiSB+mTweaqw4XCjGB6/SrbQRobArkB05wbpyRZegFFvNd1AoO
-	 EpYxGgIqoTVvRuRJaFqgdvLHx1TOhmcxhDYydbeHX7AiTnSD+b1mexJtZUNiSR1Lm0
-	 ohMvHZXd62SQ1Mo7vAs3x+qylJaXovujBO6P5rGLbHZ+M+WVkQh15VbDUk8zLkifxo
-	 N85MDlXS37Cp+YmowXyFH44Re/vweksLYPvsW9xrutpjiMxDhwT77tigXZ+PorJMN+
-	 TCDCbCagdPgCQ==
-Message-ID: <aeeb783d-d921-450c-885d-c8e8b328f81b@kernel.org>
-Date: Thu, 24 Jul 2025 07:18:10 +0200
+	b=OqiaoEUF/cqAb3LHoNSvU1pG0B4FUddn1UrGl7nEhGovP4r6rzsChYdS/geS2HsLQ
+	 4EAV6yYfm+hzScH5UCgAe8GYyvOx1zWVYpv1LmA9ns/nPT7wjr9rGpRIWw67MT7wZb
+	 rvxqvjpg7O1c6hckK3Q7R9UO1Iill8Djk9sJ8ViTkA0yfsjT4pUcaEDn/NDEre1x3l
+	 TuQxToJ5reDVfW7Kc6MhdqIU4zW2QM8ITxjOqEe1CnRDmcG92CLhKZ0ET5uz6oMNfK
+	 Z6Ug67TeZYQ77IJHZcMF6E/l7mXec440yLap5OtlfPO1Ggoc9teOc9j7BuIawGMl0z
+	 /YYU6K7V7/oEQ==
+Message-ID: <cd9f9c65-4416-4a9e-91e7-572bc25266f9@kernel.org>
+Date: Thu, 24 Jul 2025 07:30:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,12 +38,13 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3] genirq: add support for warning on long-running IRQ
  handlers
 To: Wladislav Wiebe <wladislav.wiebe@nokia.com>, tglx@linutronix.de,
- corbet@lwn.net, jirislaby@kernel.org
+ corbet@lwn.net
 Cc: akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
  Neeraj.Upadhyay@amd.com, david@redhat.com, bp@alien8.de, arnd@arndb.de,
  fvdl@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  peterz@infradead.org
 References: <20250723182836.1177-1-wladislav.wiebe@nokia.com>
+ <aeeb783d-d921-450c-885d-c8e8b328f81b@kernel.org>
 Content-Language: en-US
 From: Jiri Slaby <jirislaby@kernel.org>
 Autocrypt: addr=jirislaby@kernel.org; keydata=
@@ -88,37 +89,46 @@ Autocrypt: addr=jirislaby@kernel.org; keydata=
  f/bIWIr0cqQmqQ33FgRhrG1+Xml6UXyJ2jExmlO8JljuOGeXYh6ZkIEyzqzffzBLXZCujlYQ
  DFXpyMNVJ2ZwPmX2mWEoYuaBU0JN7wM+/zWgOf2zRwhEuD3A2cO2PxoiIfyUEfB9SSmffaK/
  S4xXoB6wvGENZ85Hg37C7WDNdaAt6Xh2uQIly5grkgvWppkNy4ZHxE+jeNsU7tg=
-In-Reply-To: <20250723182836.1177-1-wladislav.wiebe@nokia.com>
+In-Reply-To: <aeeb783d-d921-450c-885d-c8e8b328f81b@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 23. 07. 25, 20:28, Wladislav Wiebe wrote:
-> Introduce a mechanism to detect and warn about prolonged IRQ handlers.
-> With a new command-line parameter (irqhandler.duration_warn_us=),
-> users can configure the duration threshold in microseconds when a warning
-> in such format should be emitted:
+On 24. 07. 25, 7:18, Jiri Slaby wrote:
+> On 23. 07. 25, 20:28, Wladislav Wiebe wrote:
+>> Introduce a mechanism to detect and warn about prolonged IRQ handlers.
+>> With a new command-line parameter (irqhandler.duration_warn_us=),
+>> users can configure the duration threshold in microseconds when a warning
+>> in such format should be emitted:
+>>
+>> "[CPU14] long duration of IRQ[159:bad_irq_handler [long_irq]], took: 
+>> 1330 us"
+>>
+>> The implementation uses local_clock() to measure the execution 
+>> duration of the
+>> generic IRQ per-CPU event handler.
+> ...> +static inline void irqhandler_duration_check(u64 ts_start, 
+> unsigned int irq,
+>> +                         const struct irqaction *action)
+>> +{
+>> +    /* Approx. conversion to microseconds */
+>> +    u64 delta_us = (local_clock() - ts_start) >> 10;
 > 
-> "[CPU14] long duration of IRQ[159:bad_irq_handler [long_irq]], took: 1330 us"
+> Is this a microoptimization -- have you measured what speedup does it 
+> bring? IOW is it worth it instead of cleaner "/ NSEC_PER_USEC"?
 > 
-> The implementation uses local_clock() to measure the execution duration of the
-> generic IRQ per-CPU event handler.
-...> +static inline void irqhandler_duration_check(u64 ts_start, 
-unsigned int irq,
-> +					     const struct irqaction *action)
-> +{
-> +	/* Approx. conversion to microseconds */
-> +	u64 delta_us = (local_clock() - ts_start) >> 10;
+> Or instead, you could store the diff in irqhandler_duration_threshold_ns 
+> (mind that "_ns") and avoid the shift and div completely.
+> 
+> And what about the wrap? Don't you need abs_diff()?
 
-Is this a microoptimization -- have you measured what speedup does it 
-bring? IOW is it worth it instead of cleaner "/ NSEC_PER_USEC"?
+Not that ^^^, it won't work, but something else. But if I am counting 
+correctly, the wrap is in 584 years if counted from 0. Well, for 
+native/tsc, "Intel guarantees that the time-stamp counter will not 
+wraparound within 10 years after being reset". I have no idea what 
+virtualizations return to local_clock(). This is not my call to decide, 
+though.
 
-Or instead, you could store the diff in irqhandler_duration_threshold_ns 
-(mind that "_ns") and avoid the shift and div completely.
-
-And what about the wrap? Don't you need abs_diff()?
-
-thanks,
+> thanks,
 -- 
 js
 suse labs
-
