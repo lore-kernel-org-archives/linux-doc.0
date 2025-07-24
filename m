@@ -1,414 +1,273 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933C026A1AC;
-	Thu, 24 Jul 2025 14:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C45A937;
+	Thu, 24 Jul 2025 14:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753365701; cv=none; b=jx0PqUSBuhy2BpG3AVYvpgGHEmkczdFfzoYlGwLkca7WQhWdM+vCsdKtzn/I+0xUN8o7BD1lc58ZTt2VbaZR/sdfgKGGgYw7zho1NjGOaHVxVeyP+b2pipD8mgm0uxaUDN/BaorYY3lx5/hSNuIHFg3meFp+r46muLE+Wyg+9zs=
+	t=1753367514; cv=none; b=VB4543j8zXwPUm5qjTMemRpZ1g4IQ4I9ME60QMx26yA2RFRWIqwbXngpysjrTj3bFK1LhU1XLLSR1ZPh+BqBmSqpWip9Ow6i8vkDfBwd8b7eTdEZ7xTEzU2/v5RP9nfeC1L+n9IjHVQkXg7IBHM4Sl+q8Yujfa173QoJoRNftIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753365701; c=relaxed/simple;
-	bh=Bl2z6UzBE2b4Fs8m5F+n8N6Lz4INOiTKISDcUCJVU6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y8Og/ZJKwTpsnwTVAAS90REJp9k0b2M9NcEIUTWah+MuR75RPTMK+Jl8appiJNr5bI+xHF8vtGaPcAM8vz+ARSYzH0NSbqFj+gI9tDiBRMo3nKtHOqt5Ih103tKqmd30jDcmJUArlx6l5M7eAAAiHWUE1/rPsNA8VMC7tItMLgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T5cXUpYw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753367514; c=relaxed/simple;
+	bh=YNBaN3j4mUbkAKTE3TC0ZA98z+X2KPUvinEexHZ9C8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m3ZyDVohDQ4NWDswCSKNJzIeUvAdJsJCnCeDYvUKfryzS9+SsIGXXRbkMbuzwEeu8ImJuT3Lt/cKGEMyI0z9tQvrpV5KRfzASQJYoPToGGgih8LO69PAdcDg06TOAvOP0Zn12LeRpR0Q9+0NGoky5Mh2+c9WxvrA7R3EQwTtmSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mYqGAjnE; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T5cXUpYw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF647C4CEF5;
-	Thu, 24 Jul 2025 14:01:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753365701;
-	bh=Bl2z6UzBE2b4Fs8m5F+n8N6Lz4INOiTKISDcUCJVU6Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=T5cXUpYwzxh8ggJkSRCDhW/e0NBtjNCthqiOkZzLZudAyo18SbV43HJa1hT4pwMtH
-	 EKDTk80HOFN3U2Qvjo1UJANcDC6j4zLpmH1up7UHBEV/8+3jv91R6UcIqDFn4jno5j
-	 vd9zUbCpijiXDIUUfAapbS1nc7zJTC9lXKbg46KBP96YOgri48IjQXPQccW1MyRaLV
-	 pgqooFlkRaC9wwDiFLBoiPv9TNscMy9/T25K+hDUIHfDVYRwsjSzi65XAtYCYkVkrD
-	 /pM8+uheplEaLjRbzwuR/0BYb0c3+Ns62BJADtRFQnyeKg1r1wC3hLcOrrlbsS8Pcx
-	 GQGF5M2z5Mvuw==
-From: Philipp Stanner <phasta@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Philipp Stanner <pstanner@redhat.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/sched: Extend and update documentation
-Date: Thu, 24 Jul 2025 16:01:22 +0200
-Message-ID: <20250724140121.70873-2-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mYqGAjnE"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-237311f5a54so8185045ad.2;
+        Thu, 24 Jul 2025 07:31:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753367512; x=1753972312; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+iwAeIA2+xfwqfXMdMLqDVi+dKWzWoeBjyMMY0H8dWg=;
+        b=mYqGAjnEt/iMaYqopYADC1s3heVyA70tQwAJHNO2Po9OUbWfZCGt1WDAaivHp41KSc
+         qz4nHlDFP5NucwWcYmsbl8yC/FzF6Cgdk63d8w3PSuReFMeBwsgaBDXSD84am5RICXHu
+         UT83SKdN1w5jJ/4J038grzVq6Ips5bD5fbaRzDyKme3tTE3hupd2YlqtxLNkKWxC9Wbk
+         leCmx8idcrJw0/FsVvKaQ5AQmYRuUDh9dTHRU4UFLSF06NBgPzM+8zuDl17Xs4VHpMIj
+         UCHzUyVIT4trfCxVoORy3OR6GXjFb9pB5igQzQj3yrO023vBoG2jWrUBq4/Tt6MY+azr
+         gnJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753367512; x=1753972312;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+iwAeIA2+xfwqfXMdMLqDVi+dKWzWoeBjyMMY0H8dWg=;
+        b=AO6N0BWQqe75TjG/izDB4ewjPTiIKf7Eft9NjSPZgKRvApHYmIW40YT1ZXSAWLqkPV
+         e6nfl1lppC+a2ACBwzAPMsv0LlICbao4R60PeM9lfpJvXGVTODIUR769YTQOd5SaJJFg
+         Bol80Oegt+MKxIRUB01tL+iYvD07Oftq33M/pGzn12Tm8xpW8BDS/mwsCnCaMrFF9e3z
+         qCOn9O4yUu2xXh/0ZCHmFhpwEinXmrQCQlNChqP/8nW6nivO/ISx57IcEzVfkKlaA0lf
+         PXaC1sw6TpDdGBqSxvQRK/52Gy9mcufIUTAv5mfigIzlpNv+4HvBUUpdy4BzV8txaTVR
+         SkmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUwDP2rKdkVOiMXSRuzOq/GKS67I/s/eEUi+aCejA4aShM1MHhJn4pnNdHh79+DO/DMWNju4lpyo+EaRLOk@vger.kernel.org, AJvYcCWXVZtW6Z1/ErRtiulJKtOIr+i4FAb3fChZER++ARZ21pvj07rYZmtcd3jB9zEJMw7Yj0X19Eoa1WqLE26paCQs@vger.kernel.org, AJvYcCWiwOZQwpnxyoX/f9fLjm9s4/JLbWFlh9r2/NUS5fxi0pQM18Gz0PqRDP2Jd+ylf+xK92B/DEH1T3s=@vger.kernel.org, AJvYcCXi4ySk/A+wIg6Gy5qayc8rstdPYO6MwL+ehsdsrG5rwolprnNyGl/bb6DpQJWu8uT0eWYS/kEQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyX9Pr+1aXzseerMuh5CD8ABGONFbfLM3KkXR2/3OgJSJH0NEQT
+	rNKcXLRlXXKMZTwh5pMHIvU+lwGngRRjA2cAuuuvLQ2dchaNznaswm7N
+X-Gm-Gg: ASbGnctBY8abPoIqabPLOHecSKKF76X9Xjv+rE2HfD4UV0FpcCHEmN6k2jMmrBpYyN9
+	C2d62z2zctBBfU7zEHjLIywYJ2yydfaG1wG2qkkNySGncxNyZd4XlPItu2xMBB80g02ZNGRQLBm
+	yqdA0rNuzrcsJKqpgAaw2t2GZV9rptAEFlJmOYXAOM/YIvHOmYyr5dGB4F3KUdhguGvamI/f/EZ
+	0ajghjvkZYFrArSu19WsX2wJbyrUsIMbWf+A5eZbvgrS3vYcqTCbtMSb6nnfuf0Dn/AtibqtQNX
+	yOwoHhcrRyuH4m5vOs1ZALms7WXxMwMPaSxD8wFhPCWHiAne/QnqRjhaPxkRj+AehukIIpqA4gZ
+	h48x0ZEYhKSAmlIpLhVdrE07vptY5R/bWbnc8Pg==
+X-Google-Smtp-Source: AGHT+IHLcuOpaFWgNJ0bOxXfH7GE7j0MIPGb9iJ4Lc9UbhKtiKFpDukLVJPuav7X8+8Dg+wiDyWhEw==
+X-Received: by 2002:a17:902:e213:b0:23f:ac71:ef0 with SMTP id d9443c01a7336-23fac71127fmr283445ad.43.1753367512273;
+        Thu, 24 Jul 2025 07:31:52 -0700 (PDT)
+Received: from fedora ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bbeaesm17439635ad.112.2025.07.24.07.31.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jul 2025 07:31:51 -0700 (PDT)
+Date: Thu, 24 Jul 2025 14:31:43 +0000
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, Nikolay Aleksandrov <razor@blackwall.org>,
+	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
+	Amit Cohen <amcohen@nvidia.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Alessandro Zanni <alessandro.zanni87@gmail.com>,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 3/3] selftests: bonding: add test for LACP actor
+ port priority
+Message-ID: <aIJDz3AgQtnzSR59@fedora>
+References: <20250724081632.12921-1-liuhangbin@gmail.com>
+ <20250724081632.12921-4-liuhangbin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250724081632.12921-4-liuhangbin@gmail.com>
 
-From: Philipp Stanner <pstanner@redhat.com>
+Hi Jakub,
 
-The various objects and their memory lifetime used by the GPU scheduler
-are currently not fully documented.
+Should I drop this selftest as it needs the new iproute2 feature that has
+not applied yet?
 
-Add documentation describing the scheduler's objects. Improve the
-general documentation at a few other places.
-
-Co-developed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
-The first draft for this docu was posted by Christian in late 2023 IIRC.
-
-This is an updated version. Please review.
-
-@Christian: As we agreed on months (a year?) ago I kept your Signed-off
-by. Just tell me if there's any issue or sth.
----
- Documentation/gpu/drm-mm.rst           |  36 ++++
- drivers/gpu/drm/scheduler/sched_main.c | 228 ++++++++++++++++++++++---
- include/drm/gpu_scheduler.h            |   5 +-
- 3 files changed, 238 insertions(+), 31 deletions(-)
-
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d55751cad67c..95ee95fd987a 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -556,12 +556,48 @@ Overview
- .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-    :doc: Overview
- 
-+Job Object
-+----------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Job Object
-+
-+Entity Object
-+-------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Entity Object
-+
-+Hardware Fence Object
-+---------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Hardware Fence Object
-+
-+Scheduler Fence Object
-+----------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Scheduler Fence Object
-+
-+Scheduler and Run Queue Objects
-+-------------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Scheduler and Run Queue Objects
-+
- Flow Control
- ------------
- 
- .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-    :doc: Flow Control
- 
-+Error and Timeout handling
-+--------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Error and Timeout handling
-+
- Scheduler Function References
- -----------------------------
- 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 5a550fd76bf0..2e7bc1e74186 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -24,48 +24,220 @@
- /**
-  * DOC: Overview
-  *
-- * The GPU scheduler provides entities which allow userspace to push jobs
-- * into software queues which are then scheduled on a hardware run queue.
-- * The software queues have a priority among them. The scheduler selects the entities
-- * from the run queue using a FIFO. The scheduler provides dependency handling
-- * features among jobs. The driver is supposed to provide callback functions for
-- * backend operations to the scheduler like submitting a job to hardware run queue,
-- * returning the dependencies of a job etc.
-+ * The GPU scheduler is shared infrastructure intended to help drivers managing
-+ * command submission to their hardware.
-  *
-- * The organisation of the scheduler is the following:
-+ * To do so, it offers a set of scheduling facilities that interact with the
-+ * driver through callbacks which the latter can register.
-  *
-- * 1. Each hw run queue has one scheduler
-- * 2. Each scheduler has multiple run queues with different priorities
-- *    (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
-- * 3. Each scheduler run queue has a queue of entities to schedule
-- * 4. Entities themselves maintain a queue of jobs that will be scheduled on
-- *    the hardware.
-+ * In particular, the scheduler takes care of:
-+ *   - Ordering command submissions
-+ *   - Signalling dma_fences, e.g., for finished commands
-+ *   - Taking dependencies between command submissions into account
-+ *   - Handling timeouts for command submissions
-  *
-- * The jobs in an entity are always scheduled in the order in which they were pushed.
-+ * All callbacks the driver needs to implement are restricted by dma_fence
-+ * signaling rules to guarantee deadlock free forward progress. This especially
-+ * means that for normal operation no memory can be allocated in a callback.
-+ * All memory which is needed for pushing the job to the hardware must be
-+ * allocated before arming a job. It also means that no locks can be taken
-+ * under which memory might be allocated.
-  *
-- * Note that once a job was taken from the entities queue and pushed to the
-- * hardware, i.e. the pending queue, the entity must not be referenced anymore
-- * through the jobs entity pointer.
-+ * Optional memory, for example for device core dumping or debugging, *must* be
-+ * allocated with GFP_NOWAIT and appropriate error handling if that allocation
-+ * fails. GFP_ATOMIC should only be used if absolutely necessary since dipping
-+ * into the special atomic reserves is usually not justified for a GPU driver.
-+ *
-+ * Note especially the following about the scheduler's historic background that
-+ * lead to sort of a double role it plays today:
-+ *
-+ * In classic setups N ("hardware scheduling") entities share one scheduler,
-+ * and the scheduler decides which job to pick from which entity and move it to
-+ * the hardware ring next (that is: "scheduling").
-+ *
-+ * Many (especially newer) GPUs, however, can have an almost arbitrary number
-+ * of hardware rings and it's a firmware scheduler which actually decides which
-+ * job will run next. In such setups, the GPU scheduler is still used (e.g., in
-+ * Nouveau) but does not "schedule" jobs in the classical sense anymore. It
-+ * merely serves to queue and dequeue jobs and resolve dependencies. In such a
-+ * scenario, it is recommended to have one scheduler per entity.
-+ */
-+
-+/**
-+ * DOC: Job Object
-+ *
-+ * The base job object (&struct drm_sched_job) contains submission dependencies
-+ * in the form of &struct dma_fence objects. Drivers can also implement an
-+ * optional prepare_job callback which returns additional dependencies as
-+ * dma_fence objects. It's important to note that this callback can't allocate
-+ * memory or grab locks under which memory is allocated.
-+ *
-+ * Drivers should use this as base class for an object which contains the
-+ * necessary state to push the command submission to the hardware.
-+ *
-+ * The lifetime of the job object needs to last at least from submitting it to
-+ * the scheduler (through drm_sched_job_arm()) until the scheduler has invoked
-+ * &struct drm_sched_backend_ops.free_job and, thereby, has indicated that it
-+ * does not need the job anymore. Drivers can of course keep their job object
-+ * alive for longer than that, but that's outside of the scope of the scheduler
-+ * component.
-+ *
-+ * Job initialization is split into two stages:
-+ *   1. drm_sched_job_init() which serves for basic preparation of a job.
-+ *      Drivers don't have to be mindful of this function's consequences and
-+ *      its effects can be reverted through drm_sched_job_cleanup().
-+ *   2. drm_sched_job_arm() which irrevokably arms a job for execution. This
-+ *      initializes the job's fences and the job has to be submitted with
-+ *      drm_sched_entity_push_job(). Once drm_sched_job_arm() has been called,
-+ *      the job structure has to be valid until the scheduler invoked
-+ *      drm_sched_backend_ops.free_job().
-+ *
-+ * It's important to note that after arming a job drivers must follow the
-+ * dma_fence rules and can't easily allocate memory or takes locks under which
-+ * memory is allocated.
-+ */
-+
-+/**
-+ * DOC: Entity Object
-+ *
-+ * The entity object (&struct drm_sched_entity) is a container for jobs which
-+ * should execute sequentially. Drivers should create an entity for each
-+ * individual context they maintain for command submissions which can run in
-+ * parallel.
-+ *
-+ * The lifetime of the entity *should not* exceed the lifetime of the
-+ * userspace process it was created for and drivers should call the
-+ * drm_sched_entity_flush() function from their file_operations.flush()
-+ * callback. It is possible that an entity object is not alive anymore
-+ * while jobs previously fetched from it are still running on the hardware.
-+ *
-+ * This is done because all results of a command submission should become
-+ * visible externally even after a process exits. This is normal POSIX
-+ * behavior for I/O operations.
-+ *
-+ * The problem with this approach is that GPU submissions contain executable
-+ * shaders enabling processes to evade their termination by offloading work to
-+ * the GPU. So when a process is terminated with a SIGKILL the entity object
-+ * makes sure that jobs are freed without running them while still maintaining
-+ * correct sequential order for signaling fences.
-+ *
-+ * All entities associated with a scheduler have to be torn down before that
-+ * scheduler.
-+ */
-+
-+/**
-+ * DOC: Hardware Fence Object
-+ *
-+ * The hardware fence object is a dma_fence provided by the driver through
-+ * &struct drm_sched_backend_ops.run_job. The driver signals this fence once the
-+ * hardware has completed the associated job.
-+ *
-+ * Drivers need to make sure that the normal dma_fence semantics are followed
-+ * for this object. It's important to note that the memory for this object can
-+ * *not* be allocated in &struct drm_sched_backend_ops.run_job since that would
-+ * violate the requirements for the dma_fence implementation. The scheduler
-+ * maintains a timeout handler which triggers if this fence doesn't signal
-+ * within a configurable amount of time.
-+ *
-+ * The lifetime of this object follows dma_fence refcounting rules. The
-+ * scheduler takes ownership of the reference returned by the driver and
-+ * drops it when it's not needed any more.
-+ *
-+ * See &struct drm_sched_backend_ops.run_job for precise refcounting rules.
-+ */
-+
-+/**
-+ * DOC: Scheduler Fence Object
-+ *
-+ * The scheduler fence object (&struct drm_sched_fence) encapsulates the whole
-+ * time from pushing the job into the scheduler until the hardware has finished
-+ * processing it. It is managed by the scheduler. The implementation provides
-+ * dma_fence interfaces for signaling both scheduling of a command submission
-+ * as well as finishing of processing.
-+ *
-+ * The lifetime of this object also follows normal dma_fence refcounting rules.
-+ */
-+
-+/**
-+ * DOC: Scheduler and Run Queue Objects
-+ *
-+ * The scheduler object itself (&struct drm_gpu_scheduler) does the actual
-+ * scheduling: it picks the next entity to run a job from and pushes that job
-+ * onto the hardware. Both FIFO and RR selection algorithms are supported, with
-+ * FIFO being the default and the recommended one.
-+ *
-+ * The lifetime of the scheduler is managed by the driver using it. Before
-+ * destroying the scheduler the driver must ensure that all hardware processing
-+ * involving this scheduler object has finished by calling for example
-+ * disable_irq(). It is *not* sufficient to wait for the hardware fence here
-+ * since this doesn't guarantee that all callback processing has finished.
-+ *
-+ * The run queue object (&struct drm_sched_rq) is a container for entities of a
-+ * certain priority level. This object is internally managed by the scheduler
-+ * and drivers must not touch it directly. The lifetime of a run queue is bound
-+ * to the scheduler's lifetime.
-+ *
-+ * All entities associated with a scheduler must be torn down before it. Drivers
-+ * should implement &struct drm_sched_backend_ops.cancel_job to avoid pending
-+ * jobs (those that were pulled from an entity into the scheduler, but have not
-+ * been completed by the hardware yet) from leaking.
-  */
- 
- /**
-  * DOC: Flow Control
-  *
-  * The DRM GPU scheduler provides a flow control mechanism to regulate the rate
-- * in which the jobs fetched from scheduler entities are executed.
-+ * at which jobs fetched from scheduler entities are executed.
-  *
-- * In this context the &drm_gpu_scheduler keeps track of a driver specified
-- * credit limit representing the capacity of this scheduler and a credit count;
-- * every &drm_sched_job carries a driver specified number of credits.
-+ * In this context the &struct drm_gpu_scheduler keeps track of a driver
-+ * specified credit limit representing the capacity of this scheduler and a
-+ * credit count; every &struct drm_sched_job carries a driver-specified number
-+ * of credits.
-  *
-- * Once a job is executed (but not yet finished), the job's credits contribute
-- * to the scheduler's credit count until the job is finished. If by executing
-- * one more job the scheduler's credit count would exceed the scheduler's
-- * credit limit, the job won't be executed. Instead, the scheduler will wait
-- * until the credit count has decreased enough to not overflow its credit limit.
-- * This implies waiting for previously executed jobs.
-+ * Once a job is being executed, the job's credits contribute to the
-+ * scheduler's credit count until the job is finished. If by executing one more
-+ * job the scheduler's credit count would exceed the scheduler's credit limit,
-+ * the job won't be executed. Instead, the scheduler will wait until the credit
-+ * count has decreased enough to not overflow its credit limit. This implies
-+ * waiting for previously executed jobs.
-  */
- 
-+/**
-+ * DOC: Error and Timeout handling
-+ *
-+ * Errors are signaled by using dma_fence_set_error() on the hardware fence
-+ * object before signaling it with dma_fence_signal(). Errors are then bubbled
-+ * up from the hardware fence to the scheduler fence.
-+ *
-+ * The entity allows querying errors on the last run submission using the
-+ * drm_sched_entity_error() function which can be used to cancel queued
-+ * submissions in &struct drm_sched_backend_ops.run_job as well as preventing
-+ * pushing further ones into the entity in the driver's submission function.
-+ *
-+ * When the hardware fence doesn't signal within a configurable amount of time
-+ * &struct drm_sched_backend_ops.timedout_job gets invoked. The driver should
-+ * then follow the procedure described in that callback's documentation.
-+ *
-+ * (TODO: The timeout handler should probably switch to using the hardware
-+ * fence as parameter instead of the job. Otherwise the handling will always
-+ * race between timing out and signaling the fence).
-+ *
-+ * The scheduler also used to provided functionality for re-submitting jobs
-+ * and, thereby, replaced the hardware fence during reset handling. This
-+ * functionality is now deprecated. This has proven to be fundamentally racy
-+ * and not compatible with dma_fence rules and shouldn't be used in new code.
-+ *
-+ * Additionally, there is the function drm_sched_increase_karma() which tries
-+ * to find the entity which submitted a job and increases its 'karma' atomic
-+ * variable to prevent resubmitting jobs from this entity. This has quite some
-+ * overhead and resubmitting jobs is now marked as deprecated. Thus, using this
-+ * function is discouraged.
-+ *
-+ * Drivers can still recreate the GPU state in case it should be lost during
-+ * timeout handling *if* they can guarantee that forward progress will be made
-+ * and this doesn't cause another timeout. But this is strongly hardware
-+ * specific and out of the scope of the general GPU scheduler.
-+ */
- #include <linux/export.h>
- #include <linux/wait.h>
- #include <linux/sched.h>
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 323a505e6e6a..0f0687b7ae9c 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -458,8 +458,8 @@ struct drm_sched_backend_ops {
- 	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
- 
- 	/**
--	 * @timedout_job: Called when a job has taken too long to execute,
--	 * to trigger GPU recovery.
-+	 * @timedout_job: Called when a hardware fence didn't signal within a
-+	 * configurable amount of time. Triggers GPU recovery.
- 	 *
- 	 * @sched_job: The job that has timed out
- 	 *
-@@ -506,7 +506,6 @@ struct drm_sched_backend_ops {
- 	 * that timeout handlers are executed sequentially.
- 	 *
- 	 * Return: The scheduler's status, defined by &enum drm_gpu_sched_stat
--	 *
- 	 */
- 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
- 
--- 
-2.49.0
-
+Thanks
+Hangbin
+On Thu, Jul 24, 2025 at 08:16:32AM +0000, Hangbin Liu wrote:
+> Add a selftest to verify that per-port actor priority (ad_actor_port_prio)
+> is correctly applied and affects aggregator selection as expected.
+> 
+> Move cmd_jq from forwarding/lib.sh to net/lib.sh.
+> 
+> Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+> ---
+>  .../selftests/drivers/net/bonding/Makefile    |  3 +-
+>  .../drivers/net/bonding/bond_lacp_prio.sh     | 73 +++++++++++++++++++
+>  tools/testing/selftests/net/forwarding/lib.sh | 24 ------
+>  tools/testing/selftests/net/lib.sh            | 24 ++++++
+>  4 files changed, 99 insertions(+), 25 deletions(-)
+>  create mode 100755 tools/testing/selftests/drivers/net/bonding/bond_lacp_prio.sh
+> 
+> diff --git a/tools/testing/selftests/drivers/net/bonding/Makefile b/tools/testing/selftests/drivers/net/bonding/Makefile
+> index 2b10854e4b1e..32617a834a6b 100644
+> --- a/tools/testing/selftests/drivers/net/bonding/Makefile
+> +++ b/tools/testing/selftests/drivers/net/bonding/Makefile
+> @@ -10,7 +10,8 @@ TEST_PROGS := \
+>  	mode-2-recovery-updelay.sh \
+>  	bond_options.sh \
+>  	bond-eth-type-change.sh \
+> -	bond_macvlan_ipvlan.sh
+> +	bond_macvlan_ipvlan.sh \
+> +	bond_lacp_prio.sh
+>  
+>  TEST_FILES := \
+>  	lag_lib.sh \
+> diff --git a/tools/testing/selftests/drivers/net/bonding/bond_lacp_prio.sh b/tools/testing/selftests/drivers/net/bonding/bond_lacp_prio.sh
+> new file mode 100755
+> index 000000000000..a3f939d12143
+> --- /dev/null
+> +++ b/tools/testing/selftests/drivers/net/bonding/bond_lacp_prio.sh
+> @@ -0,0 +1,73 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Testing if bond lacp per port priority works
+> +
+> +lib_dir=$(dirname "$0")
+> +# shellcheck disable=SC1091
+> +source "$lib_dir"/../../../net/lib.sh
+> +
+> +# create client, switch, backup switch netns
+> +setup_ns c_ns s_ns b_ns
+> +defer cleanup_all_ns
+> +
+> +# setup links
+> +# shellcheck disable=SC2154
+> +ip -n "${c_ns}" link add eth0 type veth peer name eth0 netns "${s_ns}"
+> +ip -n "${c_ns}" link add eth1 type veth peer name eth1 netns "${s_ns}"
+> +# shellcheck disable=SC2154
+> +ip -n "${c_ns}" link add eth2 type veth peer name eth0 netns "${b_ns}"
+> +ip -n "${c_ns}" link add eth3 type veth peer name eth1 netns "${b_ns}"
+> +
+> +ip -n "${c_ns}" link add bond0 type bond mode 802.3ad miimon 100 lacp_rate fast ad_select prio
+> +ip -n "${s_ns}" link add bond0 type bond mode 802.3ad miimon 100 lacp_rate fast
+> +ip -n "${b_ns}" link add bond0 type bond mode 802.3ad miimon 100 lacp_rate fast
+> +
+> +ip -n "${c_ns}" link set eth0 master bond0
+> +ip -n "${c_ns}" link set eth1 master bond0
+> +ip -n "${c_ns}" link set eth2 master bond0
+> +ip -n "${c_ns}" link set eth3 master bond0
+> +ip -n "${s_ns}" link set eth0 master bond0
+> +ip -n "${s_ns}" link set eth1 master bond0
+> +ip -n "${b_ns}" link set eth0 master bond0
+> +ip -n "${b_ns}" link set eth1 master bond0
+> +
+> +ip -n "${c_ns}" link set bond0 up
+> +ip -n "${s_ns}" link set bond0 up
+> +ip -n "${b_ns}" link set bond0 up
+> +
+> +# set ad actor port priority, default 255
+> +ip -n "${c_ns}" link set eth0 type bond_slave ad_actor_port_prio 1000
+> +prio=$(cmd_jq "ip -n ${c_ns} -d -j link show eth0" ".[].linkinfo.info_slave_data.ad_actor_port_prio")
+> +[ "$prio" -ne 1000 ] && RET=1
+> +ip -n "${c_ns}" link set eth2 type bond_slave ad_actor_port_prio 10
+> +prio=$(cmd_jq "ip -n ${c_ns} -d -j link show eth2" ".[].linkinfo.info_slave_data.ad_actor_port_prio")
+> +[ "$prio" -ne 10 ] && RET=1
+> +log_test "bond 802.3ad" "ad_actor_port_prio setting"
+> +
+> +# Trigger link state change to reselect the aggregator
+> +ip -n "${c_ns}" link set eth1 down
+> +ip -n "${c_ns}" link set eth1 up
+> +# the active agg should be connect to switch
+> +bond_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show bond0" ".[].linkinfo.info_data.ad_info.aggregator")
+> +eth0_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show eth0" ".[].linkinfo.info_slave_data.ad_aggregator_id")
+> +if [ "${bond_agg_id}" -ne "${eth0_agg_id}" ]; then
+> +	RET=1
+> +fi
+> +
+> +# Change the actor port prio and re-test
+> +ip -n "${c_ns}" link set eth0 type bond_slave ad_actor_port_prio 10
+> +ip -n "${c_ns}" link set eth2 type bond_slave ad_actor_port_prio 1000
+> +# Trigger link state change to reselect the aggregator
+> +ip -n "${c_ns}" link set eth1 down
+> +ip -n "${c_ns}" link set eth1 up
+> +# now the active agg should be connect to backup switch
+> +bond_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show bond0" ".[].linkinfo.info_data.ad_info.aggregator")
+> +eth2_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show eth2" ".[].linkinfo.info_slave_data.ad_aggregator_id")
+> +# shellcheck disable=SC2034
+> +if [ "${bond_agg_id}" -ne "${eth2_agg_id}" ]; then
+> +	RET=1
+> +fi
+> +log_test "bond 802.3ad" "ad_actor_port_prio switch"
+> +
+> +exit "${EXIT_STATUS}"
+> diff --git a/tools/testing/selftests/net/forwarding/lib.sh b/tools/testing/selftests/net/forwarding/lib.sh
+> index 508f3c700d71..09b63c6f3dbd 100644
+> --- a/tools/testing/selftests/net/forwarding/lib.sh
+> +++ b/tools/testing/selftests/net/forwarding/lib.sh
+> @@ -551,30 +551,6 @@ wait_for_dev()
+>          fi
+>  }
+>  
+> -cmd_jq()
+> -{
+> -	local cmd=$1
+> -	local jq_exp=$2
+> -	local jq_opts=$3
+> -	local ret
+> -	local output
+> -
+> -	output="$($cmd)"
+> -	# it the command fails, return error right away
+> -	ret=$?
+> -	if [[ $ret -ne 0 ]]; then
+> -		return $ret
+> -	fi
+> -	output=$(echo $output | jq -r $jq_opts "$jq_exp")
+> -	ret=$?
+> -	if [[ $ret -ne 0 ]]; then
+> -		return $ret
+> -	fi
+> -	echo $output
+> -	# return success only in case of non-empty output
+> -	[ ! -z "$output" ]
+> -}
+> -
+>  pre_cleanup()
+>  {
+>  	if [ "${PAUSE_ON_CLEANUP}" = "yes" ]; then
+> diff --git a/tools/testing/selftests/net/lib.sh b/tools/testing/selftests/net/lib.sh
+> index 006fdadcc4b9..4c278829e04c 100644
+> --- a/tools/testing/selftests/net/lib.sh
+> +++ b/tools/testing/selftests/net/lib.sh
+> @@ -616,3 +616,27 @@ wait_local_port_listen()
+>  		sleep 0.1
+>  	done
+>  }
+> +
+> +cmd_jq()
+> +{
+> +	local cmd=$1
+> +	local jq_exp=$2
+> +	local jq_opts=$3
+> +	local ret
+> +	local output
+> +
+> +	output="$($cmd)"
+> +	# it the command fails, return error right away
+> +	ret=$?
+> +	if [[ $ret -ne 0 ]]; then
+> +		return $ret
+> +	fi
+> +	output=$(echo $output | jq -r $jq_opts "$jq_exp")
+> +	ret=$?
+> +	if [[ $ret -ne 0 ]]; then
+> +		return $ret
+> +	fi
+> +	echo $output
+> +	# return success only in case of non-empty output
+> +	[ ! -z "$output" ]
+> +}
+> -- 
+> 2.46.0
+> 
