@@ -1,182 +1,193 @@
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011035.outbound.protection.outlook.com [52.103.68.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C97E26981C;
-	Thu, 24 Jul 2025 10:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753353726; cv=fail; b=geKc4EEOc4cZRGLOGnE6wQyTC62i62nvzEA3LClDwBzPSU/nGDBfJ63s8ri8Xx0bY4XwPtaKwH+86OZ9j0W4lwQMH3kvqWPgxCp3x8paHdNjmB1nICuEoFfb7aTCiJt778BnIe2hGDJ5HrFBT1W+iS/dLXRO9oBaRaiHO0iwBXU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753353726; c=relaxed/simple;
-	bh=MdYcJbOV9e2idYGCYs4nNzOrp02NQfVs2OfhuOrCshM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=JMDi7jvSr8tJiWlni9INxPkUALvR1+SVIUvtSuRAcToIBBXS1OEo4G9m8FJNH+/2UxcqrrKluDUveYe1Qjco3ELdtAzFNRia6Gmid6Qj9NKBsaW0VQZ76zVYa9mA5kR8JppVF/qxH9bWSGiT/011z2K+gDe4+MDgriwA7mxZJw4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=uX/IWNrb; arc=fail smtp.client-ip=52.103.68.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA86E26A08A;
+	Thu, 24 Jul 2025 10:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753353975; cv=none; b=B3xHZJGgH7sSL7x4FyGGYPuiQASBsP7frydoKN+DEeuCc+Yj1nKUb5CNfuZT4iGwGZL5PgwBYyNsQIWJXz2LZhau34R40AmHRflWBurRQLMbcVUJ6HprzpBrRtTRmdrJO7G8OpdnJV1kDv5O8WghahlIs5xkKJixuFzUrzquFqw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753353975; c=relaxed/simple;
+	bh=xmBaVTQvnV6kaGGqhu7GbZCc1bl8sDliNYMy72sS7/Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PzoCXIuLiVzUfiQU+90MT5oFFmLDXd6fChjJEMbjDPytwuE7Rx0YhjMBErD28kz7EYZ0ectTRFcGwy85cINFl8dO2Ct+jhhiny2TYM+/DSR0PIs22hKSKHR94IkTMSOn0sZoz4bPMTCM9BzH19oOMdbNSQrIuCFnGirN/xzYaSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eIYbS6ke; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="uX/IWNrb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vPp1rDdgWgSDW+8p7YxgjaoiWPbmvnBieVDuMGmSfLjHFqe86e3Gxr33Yg1ZNLfkZ5DF1gYbG9qrSDRMvLdSamSJEQZQJGk8f+GI0y/rKvWxqBSruLc1SxrC81yPMPR/bOukOwmzfftnvpN89Sek/2dJmMOkG/HL44CCTPzTRVNlASJFCxDJ+e3pqido27/ZMp+/u/Iz2lTOtYVrWZFw7AQ7kQol7OLlRK1BF7RH+eqFhPTiNZGVDg+1L4+9t6DIjx+Smrq8996+yokDd8ljLmV98tb7DtqMRzLZCa4GhTA4d7f4vMuAUPQp+BINXGvIUmffS5BBtXWDD5beD8qooA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UWFHGfTVIReQhrsA+7zoWDbwMC/rVLU2MQ6NT3LOg2g=;
- b=dWUk2cuoztLMbdWNu0Q+z0Ja22ZA3ljnQTBFRjB34kLCU0d7U4gv5Vf8oWHB7tRDQM2zSvuiK6AbeU8zfhYYOeqMAS8sOkdwyMgbRtP2KIVA970RA57CDgviDFcffYGs7A4/gtvRgu+18tAGmkX1E0LJNTCA5yVNt9NYkxK+n57yDJc1jLSdpfHUG1WYoPtr0BS3wcV8/j3bQLuSDwDTHSM9uxPVfs7iQwTOmlKpkWHSeZg8CVKNRZIeh9Tv+7HnVRkBQA+Qk/nC+mJN0HEaqUxw4BisUZIB0BoA622oBd12MfcoCivLlgtCKOGEffRuEZVTaI41Q9lt7e42w56SYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UWFHGfTVIReQhrsA+7zoWDbwMC/rVLU2MQ6NT3LOg2g=;
- b=uX/IWNrbT8JL8PEYfhX8mvc3j9DRMLfCsVwpSsuhx304qkH8PEtNFFjjHfKxZgCs3URzvIMF5m1/lYFj5BfLqZOo7VXKm3Z93px6/CQHQ/bIlN0b6bb0zkobnangxhR+nCsY/RxfRa6vA/Kv/CcgmMx4pKCNuLNUtUzvCye4gPfr1f47aPe8M/3WJS8MW9OsucnqWa83t2juJNFsd5yt+p8JE1cnPE+6L3ghFkJwpfHFaRjMPsD5Xo8VsVNUllnKp17v9O1YGklKXwvGCjALytukN0aMvhtfGMQa0WbjgL0ZbVd0hqWQ8rv+v+7payYdGPUwybMhv7iMQ8CAMzI8mQ==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN0PR01MB7607.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:b7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.22; Thu, 24 Jul
- 2025 10:42:00 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8964.021; Thu, 24 Jul 2025
- 10:42:00 +0000
-Message-ID:
- <PN3PR01MB95978770C2DC8D5CDB28426FB85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Thu, 24 Jul 2025 16:11:57 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: mention MIT license as a compatible license with
- GPLv2
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <PN3PR01MB95977C87764A556FFD49FB72B85EA@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <2025072459-tweezers-dingbat-b748@gregkh>
-Content-Language: en-US
-From: Aditya Garg <gargaditya08@live.com>
-In-Reply-To: <2025072459-tweezers-dingbat-b748@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0024.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:179::14) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <6af1eb1e-8b9d-4402-a67d-0fd5a2834664@live.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eIYbS6ke"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4560add6cd2so7145365e9.0;
+        Thu, 24 Jul 2025 03:46:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753353972; x=1753958772; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YEUPeEfAoqVDN5AzS+Zi6ECP6+DLN/BEyFRoJmYLtxk=;
+        b=eIYbS6ke9+Ne07xsRwGNXSjwnmxvlbS4Dvu6GQeICRGSNdY326fKODTho5Qm+PlJVV
+         sn6hXXl0qRfhD1/on4/0AvoVO0MCVpRgy2fXO92BQ10ZVBe9umhDoTfzVe8PEIqNazy7
+         Anid5U4Qvok2cA3bLVcksmotnwqg7q2LkORETH1sTMNeZfj+yLtc98brNTFZvvlK9mbQ
+         TIU7Kboh67iWlegoqHnJYIvwoRF9QdxcyRoKR1O87voZf7qJGHv821WFT2cIQ1djanDr
+         9dZ8rEk7mwZO6+L6T7YzJ3j3NjGlhW+v/uJFpWoTk9ZCQojYy5LJDzDx4solviOMnEWe
+         Oytg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753353972; x=1753958772;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YEUPeEfAoqVDN5AzS+Zi6ECP6+DLN/BEyFRoJmYLtxk=;
+        b=Vl7BRqCKwyE8/pX2v1HLmOtF3HjY42H7rtCSLdKYeGQv1fphk+Qm2ofFZ51BrpjHY6
+         xbq9CNiWppIkIaGPU+7/wh0pjryWBbTF9xUVMDPFWGc0ZZExOeRtFn5hCBcwhH5dGoaM
+         4wQ6MkTMmIhJiccIRtZxdVOjkFMPyU7izY1XmYFjzQlFiLU/pcmCk9lYxlzAuuBxPGFi
+         U4mKOPIt7DapyJGihG5W0BdGEaV/eJ665XrndTY4VDIC93Jt7HbOEMAieT1aHNdG3PAW
+         ke5lZH0jxGGBXNXCzlduijkkdNdozwlQXGx0sE5KH+HeiNsdVdDLMpAJo//Wj1OTcJ7A
+         usWA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8PBMBg62KCw1OBJQRswVrar+q45o1x5FL3MD+2IRpJ6GKZq3+3rqOLSZ5/Y7EQYS+7YPQkM2g6ck=@vger.kernel.org, AJvYcCX0F454YosScXQUOKJJc2RWmPhkkWlgjr1MS3hAn1bUBUtr/q1hiRCUppC7N32F2LjSclKdiQZz@vger.kernel.org, AJvYcCX4sVpOADnmhJZwNxJAkcpeLFH/CuesLmKDjwljudoqBUsaZxFCmcp4HeVctolgmH/Y7YCNIAIlyWBURlb3@vger.kernel.org, AJvYcCXhbHtUQDniIa3tuYxGtqkt1NxyO/wEVLdKiaUxryHA2dG4jAhZjYzDUbGGhQ9LkcPV1TPsVTwIRs2khg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeQp6dbZ7RlOETJoIMm3L3+3Vxd6aH43sbiPGopdiYOutnAtJB
+	GxcKxMHPb7GoBsFb105DNaRr4eWK3Vkt0Nkayc19XgLCkEsn521iKMkw
+X-Gm-Gg: ASbGncs5ceVeLePsXEjC5D0Ri8JKGpsQ5QfkwfrG7LeJi0bEq5qVrLBicFJbM8G1vev
+	tTPZRT63FO/fosS38Y+gbRCIegnw0WvbCWVw4euL8nQdoOT/L28yBtPDPHYFBgUP9zlHQ+TkM+f
+	INS+L+HVC47VEcPh76P3AdQvcz89rOP2wkjzhm/iMbMU0928LWWV/thWv2EKIbBc0R/NJoDeUJg
+	WbPSwMqJuRKlwvGrkB/CBjBOSzNV1sEOrAYRK22iTKw9FwZ+OOwdsoUsi6W4SV5jtY++StOKTiB
+	zIhYQSo4TEjcTYZU/HSEySk+xonRrpvNpDuPkFXDQka7MXXr2Lg30cKE7AB6nDF0JUXdxJJyYwg
+	Ztz+pYlI1tVol8L7kmSqWh4XBl/W703DtUNkfmHLld95ap/w=
+X-Google-Smtp-Source: AGHT+IGtbri2LyVwVV5y2rXjxBpJkNTC31WMYq6VcMg7L3LFbeb1UNBKa0ttb0d56fjHKoQjRi9rpw==
+X-Received: by 2002:a05:600c:4f06:b0:450:c9e3:91fe with SMTP id 5b1f17b1804b1-45870973ccbmr11393355e9.0.1753353971581;
+        Thu, 24 Jul 2025 03:46:11 -0700 (PDT)
+Received: from [10.221.199.138] ([165.85.126.46])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b76fcb8205sm1773660f8f.55.2025.07.24.03.46.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Jul 2025 03:46:11 -0700 (PDT)
+Message-ID: <6892bb46-e2eb-4373-9ac0-6c43eca78b8e@gmail.com>
+Date: Thu, 24 Jul 2025 13:46:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN0PR01MB7607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74a04172-dede-4adb-00b8-08ddca9eb876
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|6090799003|19110799012|15080799012|8060799015|461199028|5072599009|440099028|51005399003|40105399003|3412199025|12091999003;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?b3hNemxWT0RtZFRESGlncktQQ3B2YU9GNzVMcXJDeFphTnU0ZkZkN09QQ1RI?=
- =?utf-8?B?WjlRU2NlMnJ5ZGNEZDREZFB5SDdsTzRIajFxWExpZnFjeVRLZVkyR1FYeFFu?=
- =?utf-8?B?R2lzUklOd3c5ZUZ5cXhUNGk3eVhlRFNBMXdRcUJWQnV0cHJRWW5tNzJGSStZ?=
- =?utf-8?B?Y1FuK3FSVjdPZmg1UTUxRk5SeVpDUXNlcThQUmlRU1hTWUhkaFlRQWp2Q1po?=
- =?utf-8?B?MUhBUTd5dnRIMW0rRHcxV0ZFSWRyYVBOM0hiK2FEUzZpOXNGVUxBV2NEY3Bm?=
- =?utf-8?B?TVlncDk3VHlIamR1QS9TMFpqd2E3V3RmUC8zTkNuZ1RsMGpaN1c1bDAyRyty?=
- =?utf-8?B?RTVZd29GK0ZuWmdPb0g4ZUMxSEp4RXBSSzBOWmVJKzFyRFI0N1R2SlVlODVI?=
- =?utf-8?B?ZENOd2dlbXFZbzErMURWMFczWm9QejBKUG5QajVtSjlmTWtERGJnelRQenFp?=
- =?utf-8?B?QjIza3VxS3NyUG5ocTIwL0g4NHR3UWdpdUNPMllSOFpkR29RZ0I2OFRBV0tS?=
- =?utf-8?B?cERKN3ZtbEE0YkdPYzN3MmxJUSs4QTk4WFE4RU8yVGsrMU8wWTlydmRML1Vr?=
- =?utf-8?B?dmE5TmlBS2JWR29kVnRIOU5PVGtYZ2h0ZEpOdnp0bEhWOXVNUmRMb2cyMGJk?=
- =?utf-8?B?MThvWnhCUlE0cUZEZkZXYVRBTVJOTDVmT0ZLRExzaFIyOHZQWnNvK0N4M1JE?=
- =?utf-8?B?UUR6Y20rdlY4YVEvTmpBckdDL2JsYnd6QWRUSGhpRXF1V0N3a2dMWXNTc1Rm?=
- =?utf-8?B?TDBKREViZVE1UG1nRExjZko5MXdLTGYrdWllRytJaEVQNXEvS2pjd3g1cmR5?=
- =?utf-8?B?QVVVdXM2TWJLMGVQRkpmT05ubkRITUR1dVV4N0pNY0ppcG9US0VYRTZYb2Ix?=
- =?utf-8?B?dVpwYmdpUiszQUNCOHBRamV4ZFpabnhHNlk2U3U1RSsrei8wSG45K201RVor?=
- =?utf-8?B?T2hReGMzcktxcGhseEpXdnQxclZsNHRGdzBUOWd5SFZxOFkyZC84UW85M3pE?=
- =?utf-8?B?V1FYb3BLVUVLaER6eEpYa0k4VVQxbERxQVlDM0pHdjNONG9QVjBES3I1OXVx?=
- =?utf-8?B?Uk9GeFg2aTc1VnlwTS9sQkhyVmcyQnpsMUNKYVRaNElaUEIyRkpDdGtzT3Mz?=
- =?utf-8?B?TzdNcVF5U0tock02VDdjdWRjY1FFZ2J5Z2N5TGQyUlFERnBPUjhFUnFIRzJt?=
- =?utf-8?B?M2I3YUlnblRLbDVCaWxaYmI5NHV2YjgyZ1NEcjY1QzJGSTlYUWJhbTF1TXZH?=
- =?utf-8?B?WkJlbUZkSlp4SXEwNzYrZ1BpMVpzbU5qa0NmV0JTNUtrWUVHcTlleEt4WXk5?=
- =?utf-8?B?WjlMcm5RVmtOa2NIa1Nma3VXNFdkcnlYYXpkQ1Bia2p2alNyUW9XTHBNdVBI?=
- =?utf-8?B?WFRBWjVZUisvM0s2L3Nmazdmc1cydmZtSnRtcGJHVVBZUms3dGtzVElvaFN4?=
- =?utf-8?B?bSs3bG1TTWU5Q0dQVVQvMHNuNTk0NGlrVzJ6Q1Q1YysrbVZpTDFHNnZFMU5W?=
- =?utf-8?B?aXVycHpZNzBHbHptd2x4Rzl0YUpDeFZJRnBCY0RMVUxEZ0RFeHQxODhXQ1lv?=
- =?utf-8?B?VmFLM3U5VVVwdVNGSVA2bVIrTjM5aDFhWkRBcHBXOUd0REY1VFIvS2NpQkNT?=
- =?utf-8?B?ZE5BbXpOQ3Z3YzhTM3ZXM1dLYXNXMFE9PQ==?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RDVlN3FWYU1xSUNiWlU1Uk1lbUFFalNHOTlkRnIreE9mWGpqclJJVkpCTFVY?=
- =?utf-8?B?b05HSUFYT1NxWWkxVWxZL2x6VisyZjBwS3hxbStPME5SVm5ydUQxL3M4K2Qv?=
- =?utf-8?B?VFlCeTF5MEt0MURHa1pJbVBERHMrNit6YnB0YU1aYThDUW9BbGVtY3RDM3Nv?=
- =?utf-8?B?cmVHRUJ1K3NHVFZYcmZMY2tYRVBLZWdRZGxUU2JzL0s3WGZ6ak5JaGNGYm8v?=
- =?utf-8?B?VXpKa0hoSUVySVFiVTdQUFZhUWNXMmd5UUxVRGVKWnRCTG5ZMndyZnM4NWkz?=
- =?utf-8?B?cS8xYXlXR3hvM1pVQm04cHd4MjY4dDJ4OWQyQ01pN2NodHhiTDdSR1cxTlFI?=
- =?utf-8?B?UDVKZTNrY1ByaWNDL3BQY2hXVHlMR25ERHpOMmlGL1pyb1VhS2thb2paOVEr?=
- =?utf-8?B?cVNjeE5NY25WcDhSZ0VwS3RsL2d6RmZNVklxTXFIREQ5QW5MbVVIOG5RVFVi?=
- =?utf-8?B?RjgzSTZwbkFsd2NIbHoxckRraUtxWFhXd0RZOSthWC8yQ20vb0ZUQXpvbTZR?=
- =?utf-8?B?RnRZbk5hMVUxZkhoclI4UWpWbnE3VUtISEVEL3BxUTN5QnBZRm5TVGEzRlVK?=
- =?utf-8?B?TFV0d2ZVanFGR3Q1Rm5oWHZlc09zcm1TbGwySHYyVllZREU2UW0rMTNPY1VJ?=
- =?utf-8?B?R1ZpNmswdXF2VGVicENnNkFjelFnZHlMSlU3RXhqZlRkNkt0S0h3ZkM5dUE5?=
- =?utf-8?B?aWFGODJscHRIdGpXc29TSUIvOXh4L0paU01qUThHSCt2TlNlQ29DZTA5d040?=
- =?utf-8?B?SjdtbitFVVZ1bzVLMTl3U3BPeVRqYVpweVBnQWUrWDUwdktVVWNiZ0RXVHBY?=
- =?utf-8?B?aDRPTDA3a2lTdkkybHZVbEczQ2N0QytYaklEYWRBOFUvdG5aRmVyTkJUUTFF?=
- =?utf-8?B?SmFjZUx3VGx3WElPQmxBSkwyZXhNMHJoNGFVcjdTN0NPTHk5MjU0SWhjRzJo?=
- =?utf-8?B?UU1iWGpIYVIxbjFzTDc0OEJ4QkcxWlNBN0hPaHhPQXV4R1FDU3U1WjNWSm5Z?=
- =?utf-8?B?bnRWN2FYUTM0VjhPUy9QNFRQUmVsM09lRDlZSnF1SFJuRGM3STRSVFRVVU5n?=
- =?utf-8?B?Y3VwVVFxVHE1NkpLQzBndnJhVDVVNjhyY2g2c0VxR1h3WmNLa09OZFR3QUE2?=
- =?utf-8?B?UE9wRTlnb3F3emhQUVRMZlQweFlWMnNzdnVkdVhvVGViOGVEaE4vQmxmL3Vy?=
- =?utf-8?B?c2lKWXNtazU5OFJLdll0Ym93Mk9DRFdBS0lmT2hHZDFacVZyeDRub2xvVXVO?=
- =?utf-8?B?Sm1Jdk1RM2swZ0dsZkowSURJcHkzU2ZlQ3VMOXFzREF2Q1FlOGhVTDZaeXdn?=
- =?utf-8?B?Y1VZUXloY2Vjdkk5TnNCdzZKUDkzRWFtaXViTVpmdGppYmt3Q1ZmdjVJVnlu?=
- =?utf-8?B?QXdRRmlTRGtOcGlpMDJlbjNoV3pYa1BTWFNnSTVQSTNLelIzMmtZcWY4Y0Rt?=
- =?utf-8?B?Rk1zeTU1VHhFVmNXekc2UEFWczZqZ0xEMkdqS2R4NmxmM0NoeHY4Z3pHZDNH?=
- =?utf-8?B?aERHeC9pelhjcHlTTXlnK3IrSWZuUEhCM29XMDllbjRmWlhrek5aYXJCTnNx?=
- =?utf-8?B?amhCM3NMNFNQZUFWcnJIQUJoOVpqbGY4NHFjTkRyWURLRUtPQnJNUGlidnlx?=
- =?utf-8?B?RGpjYU5kSjZOUWFDWXVBbVNpZVRMdkRnaGJNZFA1elRGZHFwMkp2RmRKdFU2?=
- =?utf-8?B?TjRHd25WNHk3eHZsOU5KUUV3eEt3U3JlVllJTFhDUXJnY2gycDdPRXZpdTNp?=
- =?utf-8?Q?O2iPpdiFzDqbZH/57Lpeerr85jQQPbwHkfQtj/u?=
-X-OriginatorOrg: sct-15-20-8880-26-msonline-outlook-ce67c.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74a04172-dede-4adb-00b8-08ddca9eb876
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2025 10:42:00.7542
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB7607
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 0/5] Expose grace period delay for devlink health
+ reporter
+To: Jakub Kicinski <kuba@kernel.org>, Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Jiri Pirko <jiri@resnulli.us>,
+ Jiri Pirko <jiri@nvidia.com>, Saeed Mahameed <saeed@kernel.org>,
+ Gal Pressman <gal@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Shahar Shitrit <shshitrit@nvidia.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Brett Creeley <brett.creeley@amd.com>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>, Cai Huoqing
+ <cai.huoqing@linux.dev>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>,
+ Geetha sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>,
+ hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+ Manish Chopra <manishc@marvell.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org
+References: <1752768442-264413-1-git-send-email-tariqt@nvidia.com>
+ <20250718174737.1d1177cd@kernel.org>
+Content-Language: en-US
+From: Tariq Toukan <ttoukan.linux@gmail.com>
+In-Reply-To: <20250718174737.1d1177cd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
 
-On 24/07/25 4:08 pm, Greg KH wrote:
-> On Thu, Jul 24, 2025 at 10:03:41AM +0000, Aditya Garg wrote:
->> MIT is a widely used permissive free software license that is compatible
->> with the GPLv2 license. This change adds it to the list of compatible
->> licenses with GPLv2 in the kernel documentation.
-> 
-> No, please don't.  This isn't a proper place for talking about the
-> different license interactions.
-
-Ohk
-
-> 
+On 19/07/2025 3:47, Jakub Kicinski wrote:
+> On Thu, 17 Jul 2025 19:07:17 +0300 Tariq Toukan wrote:
+>> Currently, the devlink health reporter initiates the grace period
+>> immediately after recovering an error, which blocks further recovery
+>> attempts until the grace period concludes. Since additional errors
+>> are not generally expected during this short interval, any new error
+>> reported during the grace period is not only rejected but also causes
+>> the reporter to enter an error state that requires manual intervention.
 >>
->> Signed-off-by: Aditya Garg <gargaditya08@live.com>
->> ---
->>  Documentation/process/1.Intro.rst | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
+>> This approach poses a problem in scenarios where a single root cause
+>> triggers multiple related errors in quick succession - for example,
+>> a PCI issue affecting multiple hardware queues. Because these errors
+>> are closely related and occur rapidly, it is more effective to handle
+>> them together rather than handling only the first one reported and
+>> blocking any subsequent recovery attempts. Furthermore, setting the
+>> reporter to an error state in this context can be misleading, as these
+>> multiple errors are manifestations of a single underlying issue, making
+>> it unlike the general case where additional errors are not expected
+>> during the grace period.
 >>
->> diff --git a/Documentation/process/1.Intro.rst b/Documentation/process/1.Intro.rst
->> index 25ca49f7a..c3465e3aa 100644
->> --- a/Documentation/process/1.Intro.rst
->> +++ b/Documentation/process/1.Intro.rst
->> @@ -235,9 +235,9 @@ code must be compatible with version 2 of the GNU General Public License
->>  (GPLv2), which is the license covering the kernel distribution as a whole.
->>  In practice, that means that all code contributions are covered either by
->>  GPLv2 (with, optionally, language allowing distribution under later
->> -versions of the GPL) or the three-clause BSD license.  Any contributions
->> -which are not covered by a compatible license will not be accepted into the
->> -kernel.
->> +versions of the GPL), the three-clause BSD license or the MIT license.
+>> To resolve this, introduce a configurable grace period delay attribute
+>> to the devlink health reporter. This delay starts when the first error
+>> is recovered and lasts for a user-defined duration. Once this grace
+>> period delay expires, the actual grace period begins. After the grace
+>> period ends, a new reported error will start the same flow again.
+>>
+>> Timeline summary:
+>>
+>> ----|--------|------------------------------/----------------------/--
+>> error is  error is    grace period delay          grace period
+>> reported  recovered  (recoveries allowed)     (recoveries blocked)
+>>
+>> With grace period delay, create a time window during which recovery
+>> attempts are permitted, allowing all reported errors to be handled
+>> sequentially before the grace period starts. Once the grace period
+>> begins, it prevents any further error recoveries until it ends.
 > 
-> You forgot a ',' anyway :(
+> We are rate limiting recoveries, the "networking solution" to the
+> problem you're describing would be to introduce a burst size.
+> Some kind of poor man's token bucket filter.
+> 
+> Could you say more about what designs were considered and why this
+> one was chosen?
+> 
 
-While it is no longer relevant, I wonder where you wanted the comma. Maybe you meant "the three-clause BSD license, or the MIT license"?
+Please see below.
+If no more comments, I'll add the below to the cover letter and re-spin.
+
+Regards,
+Tariq
+
+Design alternatives considered:
+
+1. Recover all queues upon any error:
+    A brute-force approach that recovers all queues on any error.
+    While simple, it is overly aggressive and disrupts unaffected queues
+    unnecessarily. Also, because this is handled entirely within the
+    driver, it leads to a driver-specific implementation rather than a
+    generic one.
+
+2. Per-queue reporter:
+    This design would isolate recovery handling per SQ or RQ, effectively
+    removing interdependencies between queues. While conceptually clean,
+    it introduces significant scalability challenges as the number of
+    queues grows, as well as synchronization challenges across multiple
+    reporters.
+
+3. Error aggregation with delayed handling:
+    Errors arriving during the grace period are saved and processed after
+    it ends. While addressing the issue of related errors whose recovery
+    is aborted as grace period started, this adds complexity due to
+    synchronization needs and contradicts the assumption that no errors
+    should occur during a healthy system’s grace period. Also, this
+    breaks the important role of grace period in preventing an infinite
+    loop of immediate error detection following recovery. In such cases
+    we want to stop.
+
+4. Allowing a fixed burst of errors before starting grace period:
+    Allows a set number of recoveries before the grace period begins.
+    However, it also requires limiting the error reporting window.
+    To keep the design simple, the burst threshold becomes redundant.
+
+The grace period delay design was chosen for its simplicity and
+precision in addressing the problem at hand. It effectively captures
+the temporal correlation of related errors and aligns with the original
+intent of the grace period as a stabilization window where further
+errors are unexpected, and if they do occur, they indicate an abnormal
+system state.
+
+
+
