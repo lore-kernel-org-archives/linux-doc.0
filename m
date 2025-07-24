@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67532E9EB9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19B82E9EBA;
 	Thu, 24 Jul 2025 15:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753370614; cv=none; b=LEzlFbYWuEmXRlFOa5sMiWNOHvVDTHoQ+TXUcdYl0hAnyQk96YzTQ+K4rbop/X4GpZNmbsmQT+WBPuKIXTPr2VqasTnYGSvOwS4k6SntgobuBDX6xT0dIBlUkqlIkh1jx9URvCBe5mhOyq+cWRU2Zt4d1M5lfuTH7+gdRgLqn8c=
+	t=1753370614; cv=none; b=Qq+N60sb9IcGGVkm+DiPkoa/RFXZIj4k15k/ZYjSdkT1CLrHpXorQZw9cYA199jXZA+w33snhHvorYJJp+NQ/Fj24r9z8fWh/Rgdxcslbs4LNUV/EA1yT6czHeHDv/07jT5W1eatZa+qls4Do0Qm37kl0lA7NV9IGzlnL6fiCOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1753370614; c=relaxed/simple;
-	bh=Zi6IDDpoS9Ju4hosKorQswwX55xC7wpT4z9/JYXU1E0=;
+	bh=lAX1g5gop0MIerHUXBGrgL0yJFgFvnxoPSCMB7zGP24=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UuSXy7ashf8dYNScWg5gWWLXB8IiEcWP96SXSIqXRFR8/wUYVzcBJ28w+6rxtWeR0sjY9Rz8ugj/WL6+P5l3S1tJzbBA/5OFYObf9gon8PFxPXHcLMWVQFysXfgdOS+Bo61LsNaoRwsVH0KwYY+FOPuaeRSVTuGw9ngZI9okrqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AX2TNCo/; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=GMA8o0KdBesSoJF43t9IIDUZjGGZNyjCmXvQOXf6WUECxMPiEGqeTafaJF4XbB3WcLN26ksd7hSwDzYqZaevbPycED6V6KGcJRit3w2sSP9JE0mzCPLtvq6B3vbjpuBG6AcVt1wzvv7QtGuWk044pD83OH4M8Hl2JElDj1zGzlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZePNR7yK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AX2TNCo/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 47FCEC4CEF1;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZePNR7yK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5EB48C4CEF9;
 	Thu, 24 Jul 2025 15:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1753370614;
-	bh=Zi6IDDpoS9Ju4hosKorQswwX55xC7wpT4z9/JYXU1E0=;
+	bh=lAX1g5gop0MIerHUXBGrgL0yJFgFvnxoPSCMB7zGP24=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=AX2TNCo/jocHN41yMdZ2XQpEKXtcdWlaKfHt3yIoTMe6ezJI/+yUi58bvVmHakFrn
-	 0katFrZdEvLf85Fj1p3L16P6Q/Oj9pHsVGfeKAq5PJoV6hlKdL9VBwvrHs/sVSHmxf
-	 EhD4k6bkPiz1MWLqD0P7gxXRUooqbxKNMnuj8v+eYhh5PCuAwldugR4mM2dFVsCXj3
-	 JkIbfjzfqGLvPPHb3spruBzKEpvmu83uwqBZFQKzzwBQFAZ3ZzEdCpsNiP3MxqcB8O
-	 vKQjZRQdRbrhT/bdN5WkyHgXlPJq5hrOwWRh/2Xjy9jdlMaeYONjnTLNRdLe9L6ZKK
-	 1j6x50ZmieYLg==
+	b=ZePNR7yK580sLeSuLGIkVx1swhrbANednGD3UdzZCfEqeXsQwclGioY4JIwuJJaoq
+	 xxIAwYBF177nmMyYT5gMZv0Mha9qXzFX/32ji/uevoCRNb4Cc0Ki8uzRzPFwexR+On
+	 oNzU/0XZhCcc5TzRMKkB7aHQLpry4ufP50qx3Jncbd3L63x/6jfnQn4Og4P4eqmU82
+	 95eGlu0qpIBJp7ArXR1YofYLCF0NTlICMZrbTlH1hU1WH2oryLup1+GGrWlVuSq1P1
+	 NkAPLKhDAwweYZsKygl0HdBxeSGgnVbZjELOD39mz7bt4QGyCUb5NV2lm87yEwxlLs
+	 DZCy5UwLWE1Ug==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D92C83F1A;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 544C5C83F26;
 	Thu, 24 Jul 2025 15:23:34 +0000 (UTC)
 From: Aleksa Paunovic via B4 Relay <devnull+aleksa.paunovic.htecgroup.com@kernel.org>
-Date: Thu, 24 Jul 2025 17:23:25 +0200
-Subject: [PATCH v5 1/7] dt-bindings: riscv: Add xmipsexectl ISA extension
- description
+Date: Thu, 24 Jul 2025 17:23:27 +0200
+Subject: [PATCH v5 3/7] riscv: Add xmipsexectl instructions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250724-p8700-pause-v5-1-a6cbbe1c3412@htecgroup.com>
+Message-Id: <20250724-p8700-pause-v5-3-a6cbbe1c3412@htecgroup.com>
 References: <20250724-p8700-pause-v5-0-a6cbbe1c3412@htecgroup.com>
 In-Reply-To: <20250724-p8700-pause-v5-0-a6cbbe1c3412@htecgroup.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -54,13 +53,13 @@ Cc: Palmer Dabbelt <palmer@sifive.com>, Conor Dooley <conor@kernel.org>,
  devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Aleksa Paunovic <aleksa.paunovic@htecgroup.com>, 
- Conor Dooley <conor.dooley@microchip.com>
+ Alexandre Ghiti <alexghiti@rivosinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1753370612; l=1355;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753370612; l=1601;
  i=aleksa.paunovic@htecgroup.com; s=20250514; h=from:subject:message-id;
- bh=YgG7inSQQ5V7j0uCLEwS/5ucVThfyy6CA6ktsQ9XHnU=;
- b=ptCHQ1B2h5iN8micPgjKEGy82G2w1BNtSjEs+wuE3VlzFKIEvR3Y3DbQuOOLl9ErWfKz1DQSY
- HJL14K0HuXkCCySBJYtAauAKjFzt6A5oln0zXi1phgvbD4cOfZV2tay
+ bh=UiyuNpcwz9mf/w7Z4EE+JWW7TpbY11AARRS/HoJAhyY=;
+ b=kXnwDRLnXwjTZ4lr4Rsy/L+SAr13tjMAbNWyOnuvvm6e4zSvz3YLRNrh0IR7dMh+8xMX09US2
+ Wwjwe0PaWVDBXThnyVKeFAMlGqY3bEoiyc6llpvBoqixkCM53+F0yMu
 X-Developer-Key: i=aleksa.paunovic@htecgroup.com; a=ed25519;
  pk=gFVSVYLKAgJiS5qCnDyUMGOFuczv8C6o0UmRs+fgisA=
 X-Endpoint-Received: by B4 Relay for aleksa.paunovic@htecgroup.com/20250514
@@ -70,34 +69,43 @@ Reply-To: aleksa.paunovic@htecgroup.com
 
 From: Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
 
-The xmipsexectl extension is described in the MIPS RV64 P8700/P8700-F
-Multiprocessing System Programmer’s Guide linked at [1].
-
-Link: https://mips.com/wp-content/uploads/2025/06/P8700_Programmers_Reference_Manual_Rev1.84_5-31-2025.pdf
+Add xmipsexectl instruction opcodes. This includes the MIPS.PAUSE,
+MIPS.EHB, and MIPS.IHB instructions.
 
 Signed-off-by: Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
- Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/riscv/include/asm/vendor_extensions/mips.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
-index ede6a58ccf5347d92785dc085a011052c1aade14..de41a6f074d3af2ceaf5293dfe75d16f43d416d6 100644
---- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-+++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-@@ -662,6 +662,12 @@ properties:
-             Registers in the AX45MP datasheet.
-             https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
+diff --git a/arch/riscv/include/asm/vendor_extensions/mips.h b/arch/riscv/include/asm/vendor_extensions/mips.h
+index 133e55985d827ce7d6057004b590bdcbbdb1ec8c..ea8ca747d691df2e9ee7e5360f800fbdccfe3945 100644
+--- a/arch/riscv/include/asm/vendor_extensions/mips.h
++++ b/arch/riscv/include/asm/vendor_extensions/mips.h
+@@ -15,4 +15,23 @@ struct riscv_isa_vendor_ext_data_list;
+ extern struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_list_mips;
+ #endif
  
-+        # MIPS
-+        - const: xmipsexectl
-+          description:
-+            The MIPS extension for execution control as documented in
-+            https://mips.com/wp-content/uploads/2025/06/P8700_Programmers_Reference_Manual_Rev1.84_5-31-2025.pdf
++/* Extension specific instructions */
 +
-         # SiFive
-         - const: xsfvqmaccdod
-           description:
++/*
++ * All of the xmipsexectl extension instructions are
++ * ‘hint’ encodings of the SLLI instruction,
++ * with rd = 0, rs1 = 0 and imm = 1 for IHB, imm = 3 for EHB,
++ * and imm = 5 for PAUSE.
++ * MIPS.PAUSE is an alternative opcode which is implemented to have the
++ * same behavior as PAUSE on some MIPS RISCV cores.
++ * MIPS.EHB clears all execution hazards before allowing
++ * any subsequent instructions to execute.
++ * MIPS.IHB clears all instruction hazards before
++ * allowing any subsequent instructions to fetch.
++ */
++
++#define MIPS_PAUSE	".4byte 0x00501013\n\t"
++#define MIPS_EHB	".4byte 0x00301013\n\t"
++#define MIPS_IHB	".4byte 0x00101013\n\t"
++
+ #endif // _ASM_RISCV_VENDOR_EXTENSIONS_MIPS_H
 
 -- 
 2.34.1
