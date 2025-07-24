@@ -1,48 +1,48 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA3B158535;
-	Thu, 24 Jul 2025 03:29:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84ED88F58;
+	Thu, 24 Jul 2025 03:58:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753327780; cv=none; b=jhKvX/IH5UtuMMs5053lqIQo75rmx61nEKhdVAlsXsnxnKq9BercKSzyOEW8x61ooJ5gb0NXppRsdOkbJAoOfY+cplE0hWEizuUhoMK3Jn07CnHTaPI/8XSzy2ROQx0EhCCd2M3LijlBkMUHNzedah+Flkw8w5VN2yeOa/+ATaI=
+	t=1753329482; cv=none; b=dNdkyf136FTUiwEpuQb41v17DvXNev0UxGjrYnaSlDEYI4l7PTXJk+lTb2ygtV9uj/PQDa5ksH2/NLEmLN/c4SX14+ylMRniYsWT/+pJp5YBUezBK+Hh22huHHny26q5/r/yQFvHlCF5XCyD/6hnUtwWL+AjV+42+/X+eeENNsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753327780; c=relaxed/simple;
-	bh=mMhy7lBHvKNT/Otl8Zn3g9UW060LUNpNcF/L4SYZxyY=;
+	s=arc-20240116; t=1753329482; c=relaxed/simple;
+	bh=2KP5HWqRgP5XPryEpjOZRF23TArJSMv/gQ98xpHLyV8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lcgzM1N83ovpz60QizQHUk9/oJbR3OnfAuDcxSWabTT2mlnhBt6F8geGcgg+9o8PPGDIRVBopwNhKPgURul2JeuQkC3mMOasDqa1dD6657l/lnu3pXQDyaracO/Yohcy2lohPqGWvqVD+N+Alt9xygFJGgVd1oETX0QK9ZzOZWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=DTJ+MLBW; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=sJyU2AfjJ+GA9ZGsc6MVQIxfFf4Y0i9tiJso2epSRFCsvjDCpZM5S1Vtq+RED1EBC5DdjICSi4XeKZJjzqRFMuIabiD7Hiennmcdy4ryL0iw2dW3jENuvMfdEqArTlFTLUs0xCIa3Y7yelxv0MS13ug65J29kXN4kdRX/x+NrsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=nMnycV4+; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="DTJ+MLBW"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56NMXZWx016006;
-	Thu, 24 Jul 2025 03:29:24 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nMnycV4+"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56NMXHNC023401;
+	Thu, 24 Jul 2025 03:57:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	mnJDM/0zfvI8HbrY8ldAg1aTC2VsVALZRc/Q4DEWBBw=; b=DTJ+MLBWzzXAUvyr
-	2FEJk5JEfdLWDbCDfO0Ys4xhZ2VXlPGf0cO0ndK2tBmW5a7C2w0ArXabWvbLpgpH
-	yrSyrM4yvMOlPouY8pKsSn1Sa6AMGC52W3TUjA8gxPH4m4QiW07xoYz+Cmp6VFol
-	IZr3TfmG62xU4hXtd9hb/KhCkGitWwy8lO53o7YHm1ZXo8uNrgNgU/+0r+alo5RV
-	d6AsAYPOtFPuWj74y7XBgBXvqqa6u7ScHsP+131mK5/3aaoBauHof7tVmREwoPUd
-	vNRWpDsy1TEKp8xAbXp2Kr4w90gYt4xZIWf944qi9xWmSDZlZGIsuvghaEyyMpNK
-	pzyS2g==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 483379sdau-1
+	qsLQ1Xw+NK/R4axx21pMYKpruTy3n65vh1zbPLYMc4A=; b=nMnycV4+VYvcVd7x
+	B3HY8Fe7c5Vo2heYWTCdBdH0qA8AX30VvV0+l2tuc8q9K7VM+kW7BVrmCBfjGZvv
+	YqKNwlFY51gaCVSkthKwFJ7eFRYMiOkYrll0x+LrDu4K3VpVvJLU/tGaubcOj6e4
+	HbsrJRl7SYxn/gAsXsxTUYi1iSGrIyKPnGfwdMhOc68DamU0//ypOCpFgoxxBNr1
+	kyAtANE3y2FECAXKMyv2xXVl7vDl8SF3FaBAps1WIWia164aJufaKhNzYxpCQbY9
+	2SAvTSN04EalkwMry0PHC1pahBdEms5n6XMjoa+ok+DZMG6dvgj0R6UuVs/qt3PK
+	2wYvog==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4804na5sjp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 24 Jul 2025 03:29:23 +0000 (GMT)
+	Thu, 24 Jul 2025 03:57:46 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56O3TN7Z011817
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56O3vjUX025125
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 24 Jul 2025 03:29:23 GMT
+	Thu, 24 Jul 2025 03:57:45 GMT
 Received: from [10.239.132.245] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 23 Jul
- 2025 20:29:18 -0700
-Message-ID: <91e59f27-27a8-4504-bacb-3e96ef1e6bbd@quicinc.com>
-Date: Thu, 24 Jul 2025 11:29:16 +0800
+ 2025 20:57:41 -0700
+Message-ID: <95f2a23d-5ef0-473b-b3f0-c6d828cf8636@quicinc.com>
+Date: Thu, 24 Jul 2025 11:57:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,91 +52,104 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/1] mm: slub: Introduce one knob to control the track of
  slub object
-To: Kent Overstreet <kent.overstreet@linux.dev>,
-        Harry Yoo
-	<harry.yoo@oracle.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
 CC: <rientjes@google.com>, <vbabka@suse.cz>, <cl@gentwo.org>,
-        <roman.gushchin@linux.dev>, <surenb@google.com>,
-        <pasha.tatashin@soleen.com>, <akpm@linux-foundation.org>,
-        <corbet@lwn.net>, <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_tingweiz@quicinc.com>
+        <roman.gushchin@linux.dev>, <harry.yoo@oracle.com>,
+        <surenb@google.com>, <pasha.tatashin@soleen.com>,
+        <akpm@linux-foundation.org>, <corbet@lwn.net>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_tingweiz@quicinc.com>
 References: <20250723080328.4012263-1-quic_zhenhuah@quicinc.com>
- <aICpMWKNvhveAzth@hyeyoo>
- <aqscos5ivap537qljhqa2pntrxfimfkfuflji62rl2picpvaiv@sams7xovbtn6>
+ <mw52yqm7wfe5afb5ybvfkpdgo4pm4wobmzv3um2cov3amekzmi@ye5drijf7njj>
 Content-Language: en-US
 From: Zhenhua Huang <quic_zhenhuah@quicinc.com>
-In-Reply-To: <aqscos5ivap537qljhqa2pntrxfimfkfuflji62rl2picpvaiv@sams7xovbtn6>
+In-Reply-To: <mw52yqm7wfe5afb5ybvfkpdgo4pm4wobmzv3um2cov3amekzmi@ye5drijf7njj>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 4xXG-fDMPLxWGgB-1UeLjz1aPROUE_yA
-X-Authority-Analysis: v=2.4 cv=btxMBFai c=1 sm=1 tr=0 ts=6881a893 cx=c_pps
+X-Proofpoint-GUID: ibrhzoPwiDxgwEc-hjYGwQ0bQQYAhE_F
+X-Proofpoint-ORIG-GUID: ibrhzoPwiDxgwEc-hjYGwQ0bQQYAhE_F
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI0MDAyMSBTYWx0ZWRfXxSLH4MHihbTY
+ 6nxONS2JvJDaPQTVC/aS3NPXAmjMeB05zphsyVwpJjdaeIf0OtsuMebfhj8Z64RxoRCuKtmQLc0
+ YrUEnVkP5loaTI76B1kO9EprU8fW1/JggaWAfGX7phKujUj3joo4aoaFgu5mpmA2X/6hVgfFtS7
+ xgPzlUfJCN8BRRdXK+UdsqRtgDfF1iNWrxjIqZ1URlHwYhFiA3lvyg2ZVVTlGwsnTpx3OIoJs0J
+ mdVrxLvYeTG5NBKw9WfWXl6PybbAtQGc8e3x0bvjj5czMiunHweeixNAyfgjOOBM22YwODE9xot
+ GHsCBQ4ovDpiuGBGjEAfEgHRypi5mCSrSX8ERx0jAoszKiPtANmSO7EryzsU7JPDxF39Cr9x0Is
+ SxgYh26mcNP+lunzXsoQbvY6RYN3PYp3WRxZiDtoU7XMofAB1FRZZdgum6q3qFB9LhRC+Hcc
+X-Authority-Analysis: v=2.4 cv=DoFW+H/+ c=1 sm=1 tr=0 ts=6881af3a cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=_DfhJVbmsquJgjLii_kA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI0MDAxOCBTYWx0ZWRfXx6hatoW5yu3x
- cbraOFVYkOvIPC49/IczoTvBlz3W9LNcClvgfKaDv5Ymos2TB4Ct0MDqSAFhfNF5ZaQc6xh2NyU
- 3bIjmd7jzdNhMoapwuXBf/FbvGmMGmrxyHIER0HLottvsbBledePbp3Wzc9UK7Pm3VccMU8NZjE
- dTRfmCSM2svUUeMsP25eqRNl5jenxht+8O8VcwIAYsbB++RHTTf35H6b+It9OMrMIXjvM5HxVvv
- Cq2fKWGk7ugEZNHjx3B4MU+1z4OZ54dJ07Atr3uoU9IBWx3ifTwJY5FQupqTspQcj4rTk5JqeSS
- hDnGmrDhg1JHFiiE1s045LWGCzTUjma2FtWZzSHNxV3mahmIbcl0Ppb2jTSS9G47tVJ7x/RfEiY
- zpv4oCiDHGTSswtffzs8R+Z+CcmWCuXPvzFZpHjMIH6LYPo1DHHpyaaDIfi8VEGNey4GqEvm
-X-Proofpoint-ORIG-GUID: 4xXG-fDMPLxWGgB-1UeLjz1aPROUE_yA
+ a=EcI5w910fGlJdbpBZL0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-23_03,2025-07-23_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 clxscore=1015
- adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- lowpriorityscore=0 spamscore=0 bulkscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507240018
+ suspectscore=0 phishscore=0 clxscore=1015 mlxscore=0 mlxlogscore=999
+ bulkscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507240021
 
 
 
-On 2025/7/23 19:38, Kent Overstreet wrote:
-> On Wed, Jul 23, 2025 at 06:19:45PM +0900, Harry Yoo wrote:
->> The subject is a bit misleading. I think it should be something like
->> "alloc_tag: add an option to disable slab object accounting".
->>
->> On Wed, Jul 23, 2025 at 04:03:28PM +0800, Zhenhua Huang wrote:
->>> Mem profiling feature tracks both "alloc_slab_page"(page level) and slub
->>> object level allocations. To track object level allocations,
->>> slabobj_ext consumes 16 bytes per object for profiling slub object if
->>> CONFIG_MEMCG is set.
->>> Based on the data I've collected, this overhead accounts for approximately
->>> 5.7% of slub memory usage — a considerable cost.
->>> w/ noslub  slub_debug=-
->>> Slab:              87520 kB
->>> w/o noslub slub_debug=-
->>> Slab:              92812 kB
->>
->> Yes, the cost is not small and I hate that we have to pay 16 bytes of
->> memory overhead for each slab object when both memcg and memory profiling
->> are enabled.
+On 2025/7/23 19:31, Kent Overstreet wrote:
+>> While In some scenarios, we may choose not to delve into SLUB allocation
+>> details if initial triage indicates that SLUB memory usage is within
+>> acceptable limits. To support this, a control knob is introduced to enable
+>> or disable SLUB object tracking.
+>> The "noslub" knob disables SLUB tracking, preventing further allocation of
+>> slabobj_ext structures.
+> ...Have there been actual scenarios where this would be useful?
 > 
-> I believe we did something about this for page_obj_ext; the exact
-> pointer compression scheme we went with escapes me at the moment.
-> 
+> We've already got a knob for memory allocation profiling as a whole;
+> most allocations are slub allocations, so if you're looking at memory
+> allocation profiling you probably want slub.
 
 Hi Kent,
 
-I recall that it used page flags for compression — not actual pointers, 
-but rather *idx*. Since every page has a corresponding struct page, that 
-makes this approach feasible. However, it seems this assumption doesn't 
-hold for slab objects.
+Let me elaborate a bit on the work we're doing. Some OEMs are interested 
+in enabling this lightweight debug feature to help identify potential 
+memory leaks on their devices. In the past, we depended on mechanisms 
+such as page owner for tracking, but due to their overhead, they were 
+not suitable for deployment on production devices. In response, our team 
+is developing a post-processing script(may need to parse source code as 
+well)—to classify memory usage accordingly.
 
-> We did it for page and not slab because page_obj_ext is a large fixed
-> size overhead and the page allocator is slower anyways, but it's
-> conceivable we could do the same for slub if the memory overhead vs. cpu
-> overhead tradeoff is worth it.
-> 
-> And - pointer compression is a valuable technique in general; coming up
-> with some fast general purpose code (perhaps involving virtual mappings,
-> we're not so limited on virtual address space as we used to be) might be
-> worth someone's time exploring.
-> 
+One output example FYI:
+version: 1.0
+MemInfo                        :    Size_KB    Size_MB
+slab                           :     440088     429.77
+vmalloc                        :      71416      69.74
+pgd                            :        888       0.87
+pte                            :     104492     102.04
+pmd                            :      12732      12.43
+pageowner                      :     437760     427.50
+module                         :          0       0.00
+kernelStack                    :      54346      53.07
+shmem                          :      18284      17.86
+KDA                            :     188516     184.10
+anon                           :     867120     846.80
+ion                            :     420576     410.72
+kgsl                           :      70328      68.68
+CMA                            :     130992     127.92
+file                           :    2037140    1989.39
+zram                           :     156532     152.86
+binder                         :          0       0.00
+migrate                        :          0       0.00
+Couldn't Parse                 :         17       0.02
+slab_alone                     :     478939     467.71
+
+In this case, we may not need to dive into slab-level details. Instead, 
+our initial focus should be on checking KDA(that is, pages that are 
+allocated but not tracked by any statistics). In other words, for a 
+quick snapshot, it's unnecessary to analyze slab internals. If we need 
+to debug specific slab leaks, we can even afford to enable slab_debug=U.
+
+The key requirement is to make this feature suitable for deployment in 
+production devices, as requested by OEMs. The 16-byte per-object 
+overhead represents the highest cost in its current form, and we are 
+exploring options to optimize it.
 
