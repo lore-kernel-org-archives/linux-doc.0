@@ -1,33 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DE817D2;
-	Fri, 25 Jul 2025 08:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1A71EDA1A
+	for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 08:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753432945; cv=none; b=WGN4QdePHJ8m6cZUKv3DjxIb6+VsAw6fnpshShUaNjskgKYfPAo27N+2RoyoTANiPKl1nanf5oN6zCjdR5NFdnH/UiVc7aMRDb7skOeScIDWtdYtqf1fhBPJuioDtAsaCK6K2jwp9H9zujMtGeqLJjY8aAFfUCFJkj6+CDyw3R8=
+	t=1753433346; cv=none; b=vFGVzJA/KHrJlpbL7d/27pzcnGvpMQXHZY06h5awTGiVr5axPjnNfP+rYwn/WcsybPAQiY4oDB7ulowsJF1kIdZ04IEr5+YvEAoZtysr5bRBCL4TFriPLX99d4RvtBcVFdoJuwe/EUe7yY5Ay0Cd4MSrgqEuHwELEW81Eyw9hN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753432945; c=relaxed/simple;
-	bh=eyrIiE9CMNQgpmmPci4DyCrXvE2aIgHWutKBsm8t7fM=;
+	s=arc-20240116; t=1753433346; c=relaxed/simple;
+	bh=mLb2N9Sk52gxfDFaR98oVbkimyev4kEyhPLHisBUWOk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ggWF4aRNX+I9UhRIIUrPIZUbr+uUcbPXdgdxNa1LXk4WhpjleqVn7x8+tAVKEp1F/PXSqjXxWvC+aOskScTnRBNR1q1O2u6+A6uMWLiQFJpi6+ZhPiP6pT9euo4N5qrtMjFi1UcXpsbDUXE0s15Yu+JwBQcA+ujtjWpEyp1UL9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NdRZ1KKd; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=hcjg4QbEF3eMfCI489lK1jITDzYOdBKOKrg0FPoXa8ytjv3pfs0NWfYI7GkKPpIeuk8yi69Uuxo5z6/z/NoJmC5yKnnpj0h3UmkrvvPFcfQEZ1mb9Sf1PQA84uEqVGlsz5OsqAosjQaQ3dfmnPocddV0ZQpN2/KARUQoCbDCXdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b=IfN/1RrF; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NdRZ1KKd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F637C4CEE7;
-	Fri, 25 Jul 2025 08:42:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753432945;
-	bh=eyrIiE9CMNQgpmmPci4DyCrXvE2aIgHWutKBsm8t7fM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NdRZ1KKdFwV6Pr4LYIaSZZFb50NnngdCFaLctSd24rgVAnqHqL0HLjJlR1tqXP0VN
-	 JrILcXYom1eIe70O818unv/B4WYz207Skcb0NYQRtEc1HkmquAWQMiJsgXBFfB9Koq
-	 E+ti6mMZeyeQXz7MEg51FgpvDJgHwo3zCODryavxNJZVNJzkQEi0j0m+BfEz6ctZFi
-	 HR5sK0TmKk2j5SRzINk+P4MkpRT76+ZePJqHx0sT8CNcgl1OCm3eYsfpRWaB7IMPOD
-	 p9sLPk8gEJABbh15H8+F2XF063z/2JRcwxT91Y0zkhbrV1jnjk12fmIu43nFsV2yeE
-	 17XDcAYHgcp7g==
-Message-ID: <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
-Date: Fri, 25 Jul 2025 10:42:20 +0200
+	dkim=pass (2048-bit key) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b="IfN/1RrF"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-60c01b983b6so4176444a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 01:49:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blackwall-org.20230601.gappssmtp.com; s=20230601; t=1753433343; x=1754038143; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wbgBxVqvuAaSCTHnKyGAvWS3c7FK3JV6irIi80dt/AA=;
+        b=IfN/1RrFygL+ZxwARMQ11mpRaZn4LauNY1cGiOE5F55rnCEbD3nsumjGn3dWlocqXO
+         9qmco4aZkXo0tcAqEKNc5ClmKQbLBNRMJXNy7MFwB9v1U+84WCz94nGqaln5Rs+OPnEv
+         nMySxJomILi2wJ92QbSwEja4a0LHsT+USdTa9EqGgn0TBxLvS9uRZD4IMVA8dFVnc0Wn
+         y+0Gho9j986qI5NuTNYeIXKihMbLurHQPodqF+fjOy/CcYXjyD46S0DRJJjV9DNpdBIR
+         gxe9lf496P2+ygJi+AOL3yLWyXwIs/DML8DyDXarWhv4NOXvpNPyZNNToTbXI6tfAkDz
+         5G4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753433343; x=1754038143;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wbgBxVqvuAaSCTHnKyGAvWS3c7FK3JV6irIi80dt/AA=;
+        b=hykUsUnFEdPI7rBmCuqAm6fO8ueEJicEf6o27zYtmu5IGNoTOLEDYAIG817YTN3w7C
+         f3Au3CXvRaHzYyg8gMsqc2fAhkWaqUTGucdBpIKl1cjfX86Rp3cErYf3epoyDgiUJlLw
+         BaL+q9T5qCs5nUB8zOAKinWZZLSlbxDdJwJW3eGJscbRq0pZfyJliL9pDZHFuMTNmJt3
+         VM2r6cgPAP6qTXPg+B41YCdM5WLNqgHYUHZJcQJIwSDsTBoV3NrsRrSgr9guidusdO6B
+         qzKifIVjQtjyyp5jIfiaiVckVVRlBNh+HEF2dZljKrw4Y/tyNDq7DLzGStIOU4/tJoZz
+         QVbw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8gCOpTmqbYBIlqOaWwTfw1/rGM7FQv5GppCV+VmrAOllfDCLs+l+WwwFHiqQDGpULLCpQfE4yMAc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPbNEWrEzmo8oXG8L4m6SDq0hNntiYXRQuwN8n4fvJaJ+ZQp0l
+	rIGkA0Qh/dQyK1yQvUV5dQ529rbLbN4YDG23/HcCBH5wBOJ+zpl1JUGebi8uaRRfVZA=
+X-Gm-Gg: ASbGnctiWnw7RN9z/rWnBjURCBP4kPRA1Jam/IQRZM/nGhNJGI3C9KC3SpA5V7Y4cJD
+	qbEr5fyNwIfa+vyHh3i2gCju6BaKx41xcFlerIvrTWKMjL4wgCLdmDVZwhvEfaCqlE03vrG4jQ4
+	2WcBfLscLfiBQHvTutXgRpZkvyAJ4WVTlNWD+kItmLt4B2v0fxYLHSqmZLARVbbXIZ8D4SamDP7
+	s87h6kzWCqnKmn4T0wEFCIbwQxyyTA6sEsyDvIB/T/VOoUri+VBXpidwzOVQDvZNIbQ/fMhcGjy
+	YseiYqnjsHv4m+KBXSu8F/eDucx/GJCdsrYKJNwpnhmAYgr3H1wlougsCx9rLBvkPWjr4rJGEGy
+	qZOVpe3tWbz3MUGRNhOTwzO+ialWcGR1EPLfgNNBf11XsW7SxRZxS1MzVOyDd6OyM
+X-Google-Smtp-Source: AGHT+IGp/h33UX4VuxGPj+pY0fYttSnIKhYoSPyGHW4EMhc9+8Q1n1iPPrKA8O8mMIX/IrOuoIiu3w==
+X-Received: by 2002:a05:6402:50cb:b0:607:2e08:f3e6 with SMTP id 4fb4d7f45d1cf-614f05f6207mr1099160a12.17.1753433342161;
+        Fri, 25 Jul 2025 01:49:02 -0700 (PDT)
+Received: from [192.168.0.205] (78-154-15-142.ip.btc-net.bg. [78.154.15.142])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-614cd336253sm1883539a12.65.2025.07.25.01.49.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Jul 2025 01:49:01 -0700 (PDT)
+Message-ID: <367f9bbb-537b-4828-b8c8-cfc9d8ca8c2c@blackwall.org>
+Date: Fri, 25 Jul 2025 11:49:00 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,77 +67,257 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
-To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>,
- dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
- corbet@lwn.net, apw@canonical.com
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH net 1/2] bonding: send LACPDUs periodically in passive
+ mode after receiving partner's LACPDU
+To: Hangbin Liu <liuhangbin@gmail.com>, netdev@vger.kernel.org
+Cc: Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
+ Amit Cohen <amcohen@nvidia.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Alessandro Zanni <alessandro.zanni87@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250725062848.18889-1-liuhangbin@gmail.com>
+ <20250725062848.18889-2-liuhangbin@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+From: Nikolay Aleksandrov <razor@blackwall.org>
+In-Reply-To: <20250725062848.18889-2-liuhangbin@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 24/07/2025 09:20, Hendrik Hamerlinck wrote:
-> Modified the checkpatch script to ensure that commit tags (e.g.,
-> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
-> correct order according to kernel conventions [1].
+On 7/25/25 09:28, Hangbin Liu wrote:
+> When `lacp_active` is set to `off`, the bond operates in passive mode, meaning
+> it only "speaks when spoken to." However, the current kernel implementation
+> only sends an LACPDU in response when the partner's state changes.
+> 
+> As a result, once LACP negotiation succeeds, the actor stops sending LACPDUs
+> until the partner times out and sends an "expired" LACPDU. This causes
+> continuous LACP state flapping.
+> 
+> According to IEEE 802.1AX-2014, 6.4.13 Periodic Transmission machine. The
+> values of Partner_Oper_Port_State.LACP_Activity and
+> Actor_Oper_Port_State.LACP_Activity determine whether periodic transmissions
+> take place. If either or both parameters are set to Active LACP, then periodic
+> transmissions occur; if both are set to Passive LACP, then periodic
+> transmissions do not occur.
+> 
+> To comply with this, we remove the `!bond->params.lacp_active` check in
+> `ad_periodic_machine()`. Instead, we initialize the actor's port's
+> `LACP_STATE_LACP_ACTIVITY` state based on `lacp_active` setting.
+> 
+> Additionally, we avoid setting the partner's state to
+> `LACP_STATE_LACP_ACTIVITY` in the EXPIRED state, since we should not assume
+> the partner is active by default.
+> 
+> This ensures that in passive mode, the bond starts sending periodic LACPDUs
+> after receiving one from the partner, and avoids flapping due to inactivity.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 
+Shouldn't the fixes tag be lacp_active commit id?
+E.g. 3a755cd8b7c6 ("bonding: add new option lacp_active")
 
-These are not the conventions I use for my subsystems and ask others to
-follow, so imposing TIP rules to all maintainers needs broad consensus,
-not (yet) checkpatch.
+> Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+> ---
+>  drivers/net/bonding/bond_3ad.c     | 72 ++++++++++++++++++++++--------
+>  drivers/net/bonding/bond_options.c |  1 +
+>  include/net/bond_3ad.h             |  1 +
+>  3 files changed, 56 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/net/bonding/bond_3ad.c b/drivers/net/bonding/bond_3ad.c
+> index 2fca8e84ab10..aa64b397bb19 100644
+> --- a/drivers/net/bonding/bond_3ad.c
+> +++ b/drivers/net/bonding/bond_3ad.c
+> @@ -95,13 +95,13 @@ static int ad_marker_send(struct port *port, struct bond_marker *marker);
+>  static void ad_mux_machine(struct port *port, bool *update_slave_arr);
+>  static void ad_rx_machine(struct lacpdu *lacpdu, struct port *port);
+>  static void ad_tx_machine(struct port *port);
+> -static void ad_periodic_machine(struct port *port, struct bond_params *bond_params);
+> +static void ad_periodic_machine(struct port *port);
+>  static void ad_port_selection_logic(struct port *port, bool *update_slave_arr);
+>  static void ad_agg_selection_logic(struct aggregator *aggregator,
+>  				   bool *update_slave_arr);
+>  static void ad_clear_agg(struct aggregator *aggregator);
+>  static void ad_initialize_agg(struct aggregator *aggregator);
+> -static void ad_initialize_port(struct port *port, int lacp_fast);
+> +static void ad_initialize_port(struct port *port, struct bond_params *bond_params);
+>  static void ad_enable_collecting(struct port *port);
+>  static void ad_disable_distributing(struct port *port,
+>  				    bool *update_slave_arr);
+> @@ -1307,10 +1307,16 @@ static void ad_rx_machine(struct lacpdu *lacpdu, struct port *port)
+>  			 * case of EXPIRED even if LINK_DOWN didn't arrive for
+>  			 * the port.
+>  			 */
+> -			port->partner_oper.port_state &= ~LACP_STATE_SYNCHRONIZATION;
+>  			port->sm_vars &= ~AD_PORT_MATCHED;
+> +			/* Based on IEEE 8021AX-2014, Figure 6-18 - Receive
+> +			 * machine state diagram, the statue should be
+> +			 * Partner_Oper_Port_State.Synchronization = FALSE;
+> +			 * Partner_Oper_Port_State.LACP_Timeout = Short Timeout;
+> +			 * start current_while_timer(Short Timeout);
+> +			 * Actor_Oper_Port_State.Expired = TRUE;
+> +			 */
+> +			port->partner_oper.port_state &= ~LACP_STATE_SYNCHRONIZATION;
+>  			port->partner_oper.port_state |= LACP_STATE_LACP_TIMEOUT;
+> -			port->partner_oper.port_state |= LACP_STATE_LACP_ACTIVITY;
+>  			port->sm_rx_timer_counter = __ad_timer_to_ticks(AD_CURRENT_WHILE_TIMER, (u16)(AD_SHORT_TIMEOUT));
+>  			port->actor_oper_port_state |= LACP_STATE_EXPIRED;
+>  			port->sm_vars |= AD_PORT_CHURNED;
+> @@ -1417,11 +1423,10 @@ static void ad_tx_machine(struct port *port)
+>  /**
+>   * ad_periodic_machine - handle a port's periodic state machine
+>   * @port: the port we're looking at
+> - * @bond_params: bond parameters we will use
+>   *
+>   * Turn ntt flag on priodically to perform periodic transmission of lacpdu's.
+>   */
+> -static void ad_periodic_machine(struct port *port, struct bond_params *bond_params)
+> +static void ad_periodic_machine(struct port *port)
+>  {
+>  	periodic_states_t last_state;
+>  
+> @@ -1430,8 +1435,7 @@ static void ad_periodic_machine(struct port *port, struct bond_params *bond_para
+>  
+>  	/* check if port was reinitialized */
+>  	if (((port->sm_vars & AD_PORT_BEGIN) || !(port->sm_vars & AD_PORT_LACP_ENABLED) || !port->is_enabled) ||
+> -	    (!(port->actor_oper_port_state & LACP_STATE_LACP_ACTIVITY) && !(port->partner_oper.port_state & LACP_STATE_LACP_ACTIVITY)) ||
+> -	    !bond_params->lacp_active) {
+> +	    (!(port->actor_oper_port_state & LACP_STATE_LACP_ACTIVITY) && !(port->partner_oper.port_state & LACP_STATE_LACP_ACTIVITY))) {
+>  		port->sm_periodic_state = AD_NO_PERIODIC;
+>  	}
+>  	/* check if state machine should change state */
+> @@ -1955,16 +1959,16 @@ static void ad_initialize_agg(struct aggregator *aggregator)
+>  /**
+>   * ad_initialize_port - initialize a given port's parameters
+>   * @port: the port we're looking at
+> - * @lacp_fast: boolean. whether fast periodic should be used
+> + * @bond_params: bond parameters we will use
+>   */
+> -static void ad_initialize_port(struct port *port, int lacp_fast)
+> +static void ad_initialize_port(struct port *port, struct bond_params *bond_params)
+>  {
+>  	static const struct port_params tmpl = {
+>  		.system_priority = 0xffff,
+>  		.key             = 1,
+>  		.port_number     = 1,
+>  		.port_priority   = 0xff,
+> -		.port_state      = 1,
+> +		.port_state      = 0,
 
-What's more, I think above TIP rules are contradicting with existing,
-widely used and approved toolset - b4. So no, if you want universal
-tool, please use b4 or whatever b4 defines.
+1 == LACP_STATE_ACTIVITY :)
+Just noting that this lets LACP_STATE_ACTIVITY to be set based on lacp_active.
 
-Best regards,
-Krzysztof
+>  	};
+>  	static const struct lacpdu lacpdu = {
+>  		.subtype		= 0x01,
+> @@ -1982,12 +1986,14 @@ static void ad_initialize_port(struct port *port, int lacp_fast)
+>  		port->actor_port_priority = 0xff;
+>  		port->actor_port_aggregator_identifier = 0;
+>  		port->ntt = false;
+> -		port->actor_admin_port_state = LACP_STATE_AGGREGATION |
+> -					       LACP_STATE_LACP_ACTIVITY;
+> -		port->actor_oper_port_state  = LACP_STATE_AGGREGATION |
+> -					       LACP_STATE_LACP_ACTIVITY;
+> +		port->actor_admin_port_state = LACP_STATE_AGGREGATION;
+> +		port->actor_oper_port_state  = LACP_STATE_AGGREGATION;
+> +		if (bond_params->lacp_active) {
+> +			port->actor_admin_port_state |= LACP_STATE_LACP_ACTIVITY;
+> +			port->actor_oper_port_state  |= LACP_STATE_LACP_ACTIVITY;
+> +		}
+>  
+> -		if (lacp_fast)
+> +		if (bond_params->lacp_fast)
+>  			port->actor_oper_port_state |= LACP_STATE_LACP_TIMEOUT;
+>  
+>  		memcpy(&port->partner_admin, &tmpl, sizeof(tmpl));
+> @@ -2201,7 +2207,7 @@ void bond_3ad_bind_slave(struct slave *slave)
+>  		/* port initialization */
+>  		port = &(SLAVE_AD_INFO(slave)->port);
+>  
+> -		ad_initialize_port(port, bond->params.lacp_fast);
+> +		ad_initialize_port(port, &bond->params);
+>  
+>  		port->slave = slave;
+>  		port->actor_port_number = SLAVE_AD_INFO(slave)->id;
+> @@ -2513,7 +2519,7 @@ void bond_3ad_state_machine_handler(struct work_struct *work)
+>  		}
+>  
+>  		ad_rx_machine(NULL, port);
+> -		ad_periodic_machine(port, &bond->params);
+> +		ad_periodic_machine(port);
+>  		ad_port_selection_logic(port, &update_slave_arr);
+>  		ad_mux_machine(port, &update_slave_arr);
+>  		ad_tx_machine(port);
+> @@ -2883,6 +2889,36 @@ void bond_3ad_update_lacp_rate(struct bonding *bond)
+>  	spin_unlock_bh(&bond->mode_lock);
+>  }
+>  
+> +/**
+> + * bond_3ad_update_lacp_active - change the lacp active
+> + * @bond: bonding struct
+> + *
+> + * When modify lacp_active parameter via sysfs,
+> + * update actor_oper_port_state of each port.
+
+It could also be netlink, right? I'd just say something like:
+Update actor_oper_port_state when lacp_active is modified.
+
+> + *
+> + * Hold bond->mode_lock,
+> + * so we can modify port->actor_oper_port_state,
+> + * no matter bond is up or down.
+
+nit: this last part about bond up/down is unnecessary
+
+> + */
+> +void bond_3ad_update_lacp_active(struct bonding *bond)
+> +{
+> +	struct port *port = NULL;
+> +	struct list_head *iter;
+> +	struct slave *slave;
+> +	int lacp_active;
+> +
+> +	lacp_active = bond->params.lacp_active;
+> +	spin_lock_bh(&bond->mode_lock);
+> +	bond_for_each_slave(bond, slave, iter) {
+> +		port = &(SLAVE_AD_INFO(slave)->port);
+> +		if (lacp_active)
+> +			port->actor_oper_port_state |= LACP_STATE_LACP_ACTIVITY;
+> +		else
+> +			port->actor_oper_port_state &= ~LACP_STATE_LACP_ACTIVITY;
+> +	}
+> +	spin_unlock_bh(&bond->mode_lock);
+> +}
+> +
+>  size_t bond_3ad_stats_size(void)
+>  {
+>  	return nla_total_size_64bit(sizeof(u64)) + /* BOND_3AD_STAT_LACPDU_RX */
+> diff --git a/drivers/net/bonding/bond_options.c b/drivers/net/bonding/bond_options.c
+> index 1d639a3be6ba..3b6f815c55ff 100644
+> --- a/drivers/net/bonding/bond_options.c
+> +++ b/drivers/net/bonding/bond_options.c
+> @@ -1660,6 +1660,7 @@ static int bond_option_lacp_active_set(struct bonding *bond,
+>  	netdev_dbg(bond->dev, "Setting LACP active to %s (%llu)\n",
+>  		   newval->string, newval->value);
+>  	bond->params.lacp_active = newval->value;
+> +	bond_3ad_update_lacp_active(bond);
+
+To me it looks like this fix needs to be in a separate patch.
+
+>  
+>  	return 0;
+>  }
+> diff --git a/include/net/bond_3ad.h b/include/net/bond_3ad.h
+> index 2053cd8e788a..dba369a2cf27 100644
+> --- a/include/net/bond_3ad.h
+> +++ b/include/net/bond_3ad.h
+> @@ -307,6 +307,7 @@ int bond_3ad_lacpdu_recv(const struct sk_buff *skb, struct bonding *bond,
+>  			 struct slave *slave);
+>  int bond_3ad_set_carrier(struct bonding *bond);
+>  void bond_3ad_update_lacp_rate(struct bonding *bond);
+> +void bond_3ad_update_lacp_active(struct bonding *bond);
+>  void bond_3ad_update_ad_actor_settings(struct bonding *bond);
+>  int bond_3ad_stats_fill(struct sk_buff *skb, struct bond_3ad_stats *stats);
+>  size_t bond_3ad_stats_size(void);
 
