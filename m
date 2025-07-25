@@ -1,76 +1,157 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89621DE3AC;
-	Fri, 25 Jul 2025 17:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC712EFDA3;
+	Fri, 25 Jul 2025 17:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753465543; cv=none; b=rBVHLkmomI1upgnyV5rTwFqDb2+GLohYzmMOoyiHy1i8YbQqV0JP6NRwb1W/gxTdXK0W5LMh59lEiBnC13UX2prJw97M06Vz6KuWuRsMFjrKHsMrzCXj8Ck36vTst1Bu+kz2V6EW3CmcYWBBWmo66MP/wkxl0kQGOqhPlDGxp+c=
+	t=1753465801; cv=none; b=LKVBCARU0UxI3764Hc+Ti8+badYIG1jSO6+PxqvPuGhd8/N5HAawUiJpoBxM3I6mTO8KgGIrsWE5BaGBMPnAZIKDPF/zwSyon1J7Vzbu9xHZqXS+rEtp74ej8PFkQxLJtSwcmwtYklbJn5uo7wIAe9wYDE6rPqHcPHE6TUy7gyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753465543; c=relaxed/simple;
-	bh=RsPRgmZCOqun/rYWmkkcvg3T55MIka5uyEZQyaWsRkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VJL0yWbraX+wJO96sYDIIzsIipY6xzcILBzrwQ+DFqPKx7F9ZZtyAiSVidm3Z8+XBoTAEzGAPGfBCWWPA/2YPDodVD4QxIjRpJGtlosyEKTt9p5GLKi2RfasncxOhRqZrRDiNSP5Ai3O5Z8i7UnWdk+k6JA/c/Slxc+MlgWkWFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Z8Dmf4cu; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1753465801; c=relaxed/simple;
+	bh=B8h1iG2EgVjLNoI1RMhXF367XsgIqzMlmdAWYCPbjrQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=uG+7ZC+RJSZSqOoz2QOP1BOFubbEFvHSNX5ePG+qkRm2+mVebGj2JTD5qDs9YPJQT119qqElujQ+Qxi86nrhLV8+7YsMvbn0F1CDGMIJGl+UWMfv6ihaW5OQV/tMHwIOLt0/79a8wcikW8WBVECx1+uuVou20//Hl76JZUhhGUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=rRk/10Ix; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Z8Dmf4cu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=aFcxMrKl/6T2lCcVEBxTm5V2wzGAihXJCOqriV8fm94=; b=Z8Dmf4cumnntEeo5nL2SBVupqO
-	uuRfw4qxLnTOyYnHa1kYFr2LA36AL0Fz4+xjJHgISL3o1xGfykd3Thk+bADxSaQ4A0Lm9W16rmzjY
-	11klNXhNQAu1s5Ir/3RXTclatNHM2HBO7nSoc09m3AebUtoY3MWIBuuCBgXWyy4xrCoEFV0SIodCi
-	lwMghsM9ry8itRwqKg8xQUUGMCbiwr2N+/KBuJBvacGzjNHwLZjlhkDT3pgt8N+sEPwqpKn2+04ke
-	+I+ThogCsyXD5jyvX2wnWqc0/JvSr9pAJ8RrI3Orb2KGFqj/lvxcHgxnfRn9V5BkKbmeku0MlqB4S
-	xUrLwYJg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ufMUA-00000000Ebq-0OON;
-	Fri, 25 Jul 2025 17:45:34 +0000
-Date: Fri, 25 Jul 2025 18:45:34 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sasha Levin <sashal@kernel.org>, Kees Cook <kees@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <20250725174534.GY2580412@ZenIV>
-References: <aIKhvubVqgeXIlrj@gallifrey>
- <202507241418.34AFD28C@keescook>
- <20250724194556.105803db@gandalf.local.home>
- <202507241651.5E9C803C70@keescook>
- <aILYj62tF_1mDjDO@lappy>
- <aILb-zDiDr4b9u9S@gallifrey>
- <aILjTKk_v8NPxlVJ@lappy>
- <aINqjTAwbQ_xnAw6@gallifrey>
- <20250725113702.GD11202@pendragon.ideasonboard.com>
- <aINvLgwaKZsKOibE@gallifrey>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rRk/10Ix"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56PHnc3d2251811;
+	Fri, 25 Jul 2025 12:49:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1753465778;
+	bh=+eBwJup3Yjm99HHyJ3Azuh5yfqVuAmBeRvTWq8BjN1Y=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=rRk/10Ix0X2smb4WE4ZUcNvU3FwYJWosRBjhlZORYEwD18orQCFeJEdiljeIaqR2w
+	 LrKV6RqWOaeGA3QvBh7Tpbysec16MIv+DxoJJ//NkeyX2g0NNRO/MWpev6OMWEuDFP
+	 Ly0mLMGHwG2FObKZhFIO7QgJTH5CMw7bfwAe02ds=
+Received: from DFLE20.ent.ti.com (dfle20.ent.ti.com [10.64.6.57])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56PHncUf2468477
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 25 Jul 2025 12:49:38 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE20.ent.ti.com
+ (10.64.6.57) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.1748.24; Fri, 25 Jul
+ 2025 12:49:38 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Fri, 25 Jul 2025 12:49:38 -0500
+Received: from [10.249.42.149] ([10.249.42.149])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56PHnb9c2388126;
+	Fri, 25 Jul 2025 12:49:37 -0500
+Message-ID: <30d4bf10-274d-485c-84dd-7cbb8157efab@ti.com>
+Date: Fri, 25 Jul 2025 12:49:37 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aINvLgwaKZsKOibE@gallifrey>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Documentation: dma-buf: heaps: Add naming guidelines
+To: Maxime Ripard <mripard@kernel.org>,
+        Sumit Semwal
+	<sumit.semwal@linaro.org>,
+        Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        Jonathan Corbet <corbet@lwn.net>
+CC: Jared Kangas <jkangas@redhat.com>,
+        Mattijs Korpershoek
+	<mkorpershoek@kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Bagas Sanjaya
+	<bagasdotme@gmail.com>
+References: <20250717-dma-buf-heap-names-doc-v3-1-d2dbb4b95ef6@kernel.org>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20250717-dma-buf-heap-names-doc-v3-1-d2dbb4b95ef6@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Fri, Jul 25, 2025 at 11:49:02AM +0000, Dr. David Alan Gilbert wrote:
-
-> > Except from a copyright point of view. The situation is quite clear for
-> > deterministic code generation, it's less so for LLMs.
+On 7/17/25 3:10 AM, Maxime Ripard wrote:
+> We've discussed a number of times of how some heap names are bad, but
+> not really what makes a good heap name.
 > 
-> As long as you'd acknowledged the use of the LLM in all cases, it seems to
-> me right to say to what degree you use it (i.e. the 1..3) above.
-> I think even most people worried about copright issues would worry
-> less if an LLM had just told you about a problem (1) and you fixed it.
-> (Although obviously IANAL)
+> Let's document what we expect the heap names to look like.
+> 
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+> Changes in v3:
+> - Grammar, spelling fixes
+> - Remove the cacheable / uncacheable name suggestion
+> - Link to v2: https://lore.kernel.org/r/20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org
+> 
+> Changes in v2:
+> - Added justifications for each requirement / suggestions
+> - Added a mention and example of buffer attributes
+> - Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org
+> ---
+>   Documentation/userspace-api/dma-buf-heaps.rst | 35 +++++++++++++++++++++++++++
+>   1 file changed, 35 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+> index 535f49047ce6450796bf4380c989e109355efc05..3ee4e7961fe390ba356a2125d53b060546c3e4a6 100644
+> --- a/Documentation/userspace-api/dma-buf-heaps.rst
+> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
+> @@ -21,5 +21,40 @@ following heaps:
+>      usually created either through the kernel commandline through the
+>      `cma` parameter, a memory region Device-Tree node with the
+>      `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
+>      `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
+>      might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+> +
+> +Naming Convention
+> +=================
+> +
+> +``dma-buf`` heaps name should meet a number of constraints:
+> +
+> +- The name must be stable, and must not change from one version to the other.
+> +  Userspace identifies heaps by their name, so if the names ever change, we
+> +  would be likely to introduce regressions.
+> +
+> +- The name must describe the memory region the heap will allocate from, and
+> +  must uniquely identify it in a given platform. Since userspace applications
+> +  use the heap name as the discriminant, it must be able to tell which heap it
+> +  wants to use reliably if there's multiple heaps.
+> +
+> +- The name must not mention implementation details, such as the allocator. The
+> +  heap driver will change over time, and implementation details when it was
+> +  introduced might not be relevant in the future.
+> +
+> +- The name should describe properties of the buffers that would be allocated.
+> +  Doing so will make heap identification easier for userspace. Such properties
+> +  are:
+> +
+> +  - ``contiguous`` for physically contiguous buffers;
+> +
+> +  - ``protected`` for encrypted buffers not accessible the OS;
+> +
+> +- The name may describe intended usage. Doing so will make heap identification
+> +  easier for userspace applications and users.
+> +
+> +For example, assuming a platform with a reserved memory region located at the
+> +RAM address 0x42000000, intended to allocate video framebuffers, physically
+> +contiguous, and backed by the CMA kernel allocator, good names would be
+> +``memory@42000000-cacheable-contiguous`` or ``video@42000000``, but
 
-s/told you about a problem/told you that <location> has triggered some
-heuristics and might or might not be worth looking into/, really...
+You dropped "cacheable" but left it here in the suggested names, maybe
+replace with "protected" here. Otherwise, LGTM,
+
+Reviewed-by: Andrew Davis <afd@ti.com>
+
+> +``cma-video`` wouldn't.
+> 
+> ---
+> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+> change-id: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
+> 
+> Best regards,
+
