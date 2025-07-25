@@ -1,133 +1,64 @@
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE74F1F1311;
-	Fri, 25 Jul 2025 07:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89479291C0C;
+	Fri, 25 Jul 2025 07:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753427401; cv=none; b=ECdUs7knAHm7spQhDcGBcc+sShbhTD+zxPRMiMArW5KHazdQ2w3GxMv8Cm0dQx2KSi/Ddym8S6p4+bHEC8v2zIuZXhtAVrjCeOJuiJr8rVWOPLLIoXOFu2NvaFhUo0vS3lFobTrN+pkKyRAbLvAQGala3uXvj0BkCK6aXRrh334=
+	t=1753427995; cv=none; b=KV5/WFvQ0KCJiZkdSBLx1+vPz/3aPLstAXe6IdymeIrJppu+i4C94xvbcJO/k9+nW3/v476sDGF00TU4LVDhSpZ8hRVKpY2Uk2WAWp2a0G3pWi8tBkliDeqeFOtiGscQFcpRL5qy9JYAMInIxN3+IURpZ2svpBdDG/ozgxmqp20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753427401; c=relaxed/simple;
-	bh=JL30bk1jn1jV9pISqgo+bWdb/5RDGbJ7aIr53ikjD6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=PAkZSrYxsD+3hLDT9Jwz6D0ULPbNJkscx9VakEkk/BQHphQOeGFJm56lDthZ4SCzgGewLz5hc3nDbm6PYPj28yYWOGXpGB0+2LNVjzN7upfz+DZP987mNBhq5Xq8lLUMV6dw53zA8zU1Wm9gCWEvJiEZCRCX43xP7BskAC/isG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=vEY7oeG+; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1753427995; c=relaxed/simple;
+	bh=VR8JYjBGk/xk0gXQFHMEDYZh1TZoXARwpLjk2gA9b7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A6K/yIqRQlz1sUsR1iPzwCd4RmoyawEY4EEHiMouR0A7hYdlPZaaukb5Vz8Cur9c3UwUhkdtzj6RHeMVyMFZka9LuoD9c58qs55WNXd1RwQCjcs0p4zHdIOURCXfKCsuCMk5DeSQ6KN+SAmb/Np3gGHvWMRVzSrGy9TBwZnh8ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9eZq1nR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="vEY7oeG+"
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56P61XZi009176;
-	Fri, 25 Jul 2025 09:09:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	LzqH02+hJ/0E8n+RTM+yEwFitfKa/gSQdkGVRRTXJhc=; b=vEY7oeG+pNnop6/X
-	Y9urlffHn9wPzkQ2Is/FDs6FmFPNXT3zTb3jyMz3lmY7QPMwpHHlMXBmXHaer/PU
-	0K0P0ulWgakiEqWGw1l11dPWR/0Is+mSEQnefGwkZ3l/7cXUl6SA3HJ2CRdoyG1I
-	FdmL8tUHYqCtB98XPDPWNBGYyLXEwDmWXM7P+PtbfkAkPayNHbYAgdZ3XfNJ2Zbc
-	CmgC/QaDxklOmCvKhJ7nMI4NpBlPKOB2X2y39VEgc7AEaz1kO+m3wWAhQP0OsPLr
-	FY38beWUv0pV94PWCAt8crCejpNCdBfw4cLvaHFaeaNLHLfxgTQP0XVsBJXJZTO6
-	L/feBQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 483w5rsn0e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Jul 2025 09:09:24 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4812F40044;
-	Fri, 25 Jul 2025 09:07:57 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8B10578175F;
-	Fri, 25 Jul 2025 09:06:35 +0200 (CEST)
-Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 25 Jul
- 2025 09:06:34 +0200
-Message-ID: <ce0cb3ba-2373-479f-a8f3-3a89ffb0a1b1@foss.st.com>
-Date: Fri, 25 Jul 2025 09:06:33 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9eZq1nR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F25C4CEE7;
+	Fri, 25 Jul 2025 07:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753427995;
+	bh=VR8JYjBGk/xk0gXQFHMEDYZh1TZoXARwpLjk2gA9b7Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A9eZq1nRLUaHP48slXu4Ckx0MAYnF8Zl/ga2C09ygsytDJwAl5/t0QSMiquwaJl1c
+	 xb6D8QnY1yxzIwrslr8M2/A3H/77UpNN3iP/Gjh9iDn7MKc+Z+9lJiVztPYp0nKUbR
+	 cJEjgLNqYI5DuU/qVIjb6tKxsA6LHkuns3x/tJsG3L2KtpkxVUNlpYDcEGNrW+hDsk
+	 tXugQY1xPgLbw0xaPtZSx32zg/nKQIdGHWYgeFahhRQWvju2evkC2UwULYeWdgaxCY
+	 gcD0qr43YynkPJ7AJoGQenGO+eiCwJDDBp3IrpS6K3d6u3RjbrpgJOTOxFsT+puCzM
+	 QJW4gKRUd7+aA==
+Date: Fri, 25 Jul 2025 09:19:52 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: wenswang@yeah.net
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] dt-bindings: hwmon: Add MPS mp29502
+Message-ID: <20250725-cuddly-peacock-of-advertising-2ffcde@kuoka>
+References: <20250724091011.550761-1-wenswang@yeah.net>
+ <20250724091306.551131-1-wenswang@yeah.net>
+ <20250724091306.551131-3-wenswang@yeah.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/20] dt-bindings: memory: factorise LPDDR props into
- SDRAM props
-To: Julius Werner <jwerner@chromium.org>
-CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor
- Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gatien Chevallier
-	<gatien.chevallier@foss.st.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Gabriel Fernandez
-	<gabriel.fernandez@foss.st.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Le
- Goffic <legoffic.clement@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-perf-users@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>
-References: <20250723-ddrperfm-upstream-v4-0-1aa53ca319f4@foss.st.com>
- <20250723-ddrperfm-upstream-v4-5-1aa53ca319f4@foss.st.com>
- <CAODwPW_kex5Agqxg_i-XC308scEpUJU0me55G7iZ8nB9LC0acg@mail.gmail.com>
- <204401b4-b483-47e2-ae73-0994b39bd30c@foss.st.com>
- <CAODwPW9drKEAMfQvQHV8eMTyf5KCHB4SN400JiUs0pgjoXy=sw@mail.gmail.com>
-Content-Language: en-US
-From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
-In-Reply-To: <CAODwPW9drKEAMfQvQHV8eMTyf5KCHB4SN400JiUs0pgjoXy=sw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-25_02,2025-07-24_01,2025-03-28_01
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250724091306.551131-3-wenswang@yeah.net>
 
-Hi Julius,
-
-On 7/25/25 00:33, Julius Werner wrote:
->>> I don't think this will identify a part unambiguously, I would expect
->>> the DDR revision ID to be specific to the part number. (In fact, we're
->>> also not sure whether manufacturer+revision identifies LPDDR parts
->>> unambiguously for every vendor, we just didn't have anything more to
->>> work with there.) I would suggest to use either `ddrX-YYYY,AAA...,ZZ`
->>> or `ddrX-YYYY,ZZ,AAA...` (where AAA... is the part number string from
->>> SPD 329-348 without the trailing spaces). The first version looks a
->>> bit more natural but it might get confusing on the off chance that
->>> someone uses a comma in a part number string.
->>
->> The first one seems better indeed.
->> If the manufacturer put a comma in the part number we should handle it
->> at a software level to me and if it is a devicetree error it is up to
->> the devicetree writer to fix it.
->> What do you think ?
-
-I meant exactly what you are stating below :-)
-
+On Thu, Jul 24, 2025 at 05:13:05PM +0800, wenswang@yeah.net wrote:
+> From: Wensheng Wang <wenswang@yeah.net>
 > 
-> Not sure what you mean by "handle it at a software level"? Using comma
-> characters in the part number is not illegal according to the SPD
-> spec, as far as I can tell.
+> Add support for MPS mp29502 controller
 > 
-> That said, it is still possible to disambiguate this as long as the
-> revision number is always there, you just have to look for the last
-> comma from the end (so e.g. the string `ddr4-1234,some,part,567,89`
-> could be unambiguously parsed as manufacturer ID 0x1234, part number
-> `some,part,567` and revision ID 0x89, the parsing code just needs to
-> be a bit careful). So maybe this is not actually a problem.
+> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
+> ---
+>  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+
+How did you implement previous comments?
 
 Best regards,
-Clément
+Krzysztof
+
