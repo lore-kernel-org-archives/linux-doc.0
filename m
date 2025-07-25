@@ -1,48 +1,50 @@
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D883626B2D2;
-	Fri, 25 Jul 2025 07:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE74F1F1311;
+	Fri, 25 Jul 2025 07:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753427159; cv=none; b=ThsRR9+hnybr7jAMpxx8JGNVXCn+c3rYqjGM4H8x7f+tB+SNsr9Ou55lyf0/SKPAT5Ha+qN4gNzwxw9LVFzEuv3PF1lZN2hNI6POI00p4BteQbrZWOhq80n/ZhoPNQ7YM0dE8NSi5HQdLtMuxhgQJ6ZzuQ6ijuqb8OoUe8gu/pM=
+	t=1753427401; cv=none; b=ECdUs7knAHm7spQhDcGBcc+sShbhTD+zxPRMiMArW5KHazdQ2w3GxMv8Cm0dQx2KSi/Ddym8S6p4+bHEC8v2zIuZXhtAVrjCeOJuiJr8rVWOPLLIoXOFu2NvaFhUo0vS3lFobTrN+pkKyRAbLvAQGala3uXvj0BkCK6aXRrh334=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753427159; c=relaxed/simple;
-	bh=8hIMs3ZEOP3Z6QueK3O5hCjpoXAv8CcTKFQN2eyxiA4=;
+	s=arc-20240116; t=1753427401; c=relaxed/simple;
+	bh=JL30bk1jn1jV9pISqgo+bWdb/5RDGbJ7aIr53ikjD6E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=dwqo1DFsBVDnl5FxW8EPns0HTlVliltZclLmMrQIe2+naM49Dh/YjoA1PLZfegJoeeLkSrR2NOG1/4LZn3Q8pU5PBlgb2mOtOiE4FDGID3OewMYIMnA406olcZn0Vi34HkRto7WB/aD5aElAt4ZDYL1S7rkTKjtdV5B1S66lw0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=CtlUW4ab; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	 In-Reply-To:Content-Type; b=PAkZSrYxsD+3hLDT9Jwz6D0ULPbNJkscx9VakEkk/BQHphQOeGFJm56lDthZ4SCzgGewLz5hc3nDbm6PYPj28yYWOGXpGB0+2LNVjzN7upfz+DZP987mNBhq5Xq8lLUMV6dw53zA8zU1Wm9gCWEvJiEZCRCX43xP7BskAC/isG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=vEY7oeG+; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="CtlUW4ab"
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56P751ta2148376;
-	Fri, 25 Jul 2025 02:05:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1753427101;
-	bh=5umDMOElVV8cL1bR0QgVIsqKX3kPBo5aB7b5JD6dzss=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=CtlUW4abTvXwyfN9d75WseHjhD57Nq+m3x57auv7IM1Aj9SJHXIaD2nWajLw8Fccs
-	 j8U/T0ohPlrJWUT4XcQ1pY3PsLMqwoJlwNAHIwA/cyfQG8LJECPU2R7KEJZm263Blq
-	 RDJdSB+ujm8/Oko9lDsKQp/B2zOgYqJHiVJWKmH4=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56P750WX3669322
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Fri, 25 Jul 2025 02:05:01 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 25
- Jul 2025 02:05:00 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 25 Jul 2025 02:05:00 -0500
-Received: from [172.24.21.105] (lt5cd151g4ty.dhcp.ti.com [172.24.21.105])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56P74sYO1371214;
-	Fri, 25 Jul 2025 02:04:54 -0500
-Message-ID: <d856807f-dead-4e93-bef6-0d25744cc041@ti.com>
-Date: Fri, 25 Jul 2025 12:34:53 +0530
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="vEY7oeG+"
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56P61XZi009176;
+	Fri, 25 Jul 2025 09:09:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	LzqH02+hJ/0E8n+RTM+yEwFitfKa/gSQdkGVRRTXJhc=; b=vEY7oeG+pNnop6/X
+	Y9urlffHn9wPzkQ2Is/FDs6FmFPNXT3zTb3jyMz3lmY7QPMwpHHlMXBmXHaer/PU
+	0K0P0ulWgakiEqWGw1l11dPWR/0Is+mSEQnefGwkZ3l/7cXUl6SA3HJ2CRdoyG1I
+	FdmL8tUHYqCtB98XPDPWNBGYyLXEwDmWXM7P+PtbfkAkPayNHbYAgdZ3XfNJ2Zbc
+	CmgC/QaDxklOmCvKhJ7nMI4NpBlPKOB2X2y39VEgc7AEaz1kO+m3wWAhQP0OsPLr
+	FY38beWUv0pV94PWCAt8crCejpNCdBfw4cLvaHFaeaNLHLfxgTQP0XVsBJXJZTO6
+	L/feBQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 483w5rsn0e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Jul 2025 09:09:24 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4812F40044;
+	Fri, 25 Jul 2025 09:07:57 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8B10578175F;
+	Fri, 25 Jul 2025 09:06:35 +0200 (CEST)
+Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 25 Jul
+ 2025 09:06:34 +0200
+Message-ID: <ce0cb3ba-2373-479f-a8f3-3a89ffb0a1b1@foss.st.com>
+Date: Fri, 25 Jul 2025 09:06:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,123 +52,82 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 1/5] net: rpmsg-eth: Add Documentation for
- RPMSG-ETH Driver
-To: Andrew Lunn <andrew@lunn.ch>, MD Danish Anwar <danishanwar@ti.com>
-CC: "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
-        Mengyuan Lou
-	<mengyuanlou@net-swift.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Madhavan
- Srinivasan <maddy@linux.ibm.com>,
-        Fan Gong <gongfan1@huawei.com>, Lee Trager
-	<lee@trager.us>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Geert Uytterhoeven
-	<geert+renesas@glider.be>,
-        Lukas Bulwahn <lukas.bulwahn@redhat.com>,
-        Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250723080322.3047826-1-danishanwar@ti.com>
- <20250723080322.3047826-2-danishanwar@ti.com>
- <81273487-a450-4b28-abcc-c97273ca7b32@lunn.ch>
- <b61181e5-0872-402c-b91b-3626302deaeb@ti.com>
- <0a002a5b-9f1a-4972-8e1c-fa9244cec180@lunn.ch>
+Subject: Re: [PATCH v4 05/20] dt-bindings: memory: factorise LPDDR props into
+ SDRAM props
+To: Julius Werner <jwerner@chromium.org>
+CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Gabriel Fernandez
+	<gabriel.fernandez@foss.st.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Le
+ Goffic <legoffic.clement@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-perf-users@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>
+References: <20250723-ddrperfm-upstream-v4-0-1aa53ca319f4@foss.st.com>
+ <20250723-ddrperfm-upstream-v4-5-1aa53ca319f4@foss.st.com>
+ <CAODwPW_kex5Agqxg_i-XC308scEpUJU0me55G7iZ8nB9LC0acg@mail.gmail.com>
+ <204401b4-b483-47e2-ae73-0994b39bd30c@foss.st.com>
+ <CAODwPW9drKEAMfQvQHV8eMTyf5KCHB4SN400JiUs0pgjoXy=sw@mail.gmail.com>
 Content-Language: en-US
-From: "Anwar, Md Danish" <a0501179@ti.com>
-In-Reply-To: <0a002a5b-9f1a-4972-8e1c-fa9244cec180@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
+In-Reply-To: <CAODwPW9drKEAMfQvQHV8eMTyf5KCHB4SN400JiUs0pgjoXy=sw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-25_02,2025-07-24_01,2025-03-28_01
 
-Hi Andrew,
+Hi Julius,
 
-On 7/24/2025 10:07 PM, Andrew Lunn wrote:
->> Linux first send a rpmsg request with msg type = RPMSG_ETH_REQ_SHM_INFO
->> i.e. requesting for the shared memory info.
+On 7/25/25 00:33, Julius Werner wrote:
+>>> I don't think this will identify a part unambiguously, I would expect
+>>> the DDR revision ID to be specific to the part number. (In fact, we're
+>>> also not sure whether manufacturer+revision identifies LPDDR parts
+>>> unambiguously for every vendor, we just didn't have anything more to
+>>> work with there.) I would suggest to use either `ddrX-YYYY,AAA...,ZZ`
+>>> or `ddrX-YYYY,ZZ,AAA...` (where AAA... is the part number string from
+>>> SPD 329-348 without the trailing spaces). The first version looks a
+>>> bit more natural but it might get confusing on the off chance that
+>>> someone uses a comma in a part number string.
 >>
->> Once firmware recieves this request it sends response with below fields,
->>
->> 	num_pkt_bufs, buff_slot_size, base_addr, tx_offset, rx_offset
->>
->> In the device tree, while reserving the shared memory for rpmsg_eth
->> driver, the base address and the size of the shared memory block is
->> mentioned. I have mentioned that in the documentation as well
+>> The first one seems better indeed.
+>> If the manufacturer put a comma in the part number we should handle it
+>> at a software level to me and if it is a devicetree error it is up to
+>> the devicetree writer to fix it.
+>> What do you think ?
+
+I meant exactly what you are stating below :-)
+
 > 
-> If it is in device tree, why should Linux ask for the base address and
-> length? That just seems like a source of errors, and added complexity.
+> Not sure what you mean by "handle it at a software level"? Using comma
+> characters in the part number is not illegal according to the SPD
+> spec, as far as I can tell.
 > 
-> In general, we just trust DT. It is a source of truth. So i would
-> delete all this backwards and forwards and just use the values from
-> DT. Just check the magic numbers are in place.
-> 
+> That said, it is still possible to disambiguate this as long as the
+> revision number is always there, you just have to look for the last
+> comma from the end (so e.g. the string `ddr4-1234,some,part,567,89`
+> could be unambiguously parsed as manufacturer ID 0x1234, part number
+> `some,part,567` and revision ID 0x89, the parsing code just needs to
+> be a bit careful). So maybe this is not actually a problem.
 
-Sure, I will not check the base_addr and trust the info we get from
-device tree. Just check the offsets we are getting from firmware is
-within the shared memory block or not (using base_addr + size)
-
->> The same `base_addr` is used by firmware for the shared memory. During
->> the rpmsg callback, firmware shares this `base_addr` and during
->> rpmsg_eth_validate_handshake() driver checks if the base_addr shared by
->> firmware is same as the one described in DT or not. Driver only proceeds
->> if it's same.
-> 
-> So there is a big assumption here. That both are sharing the same MMU,
-> or maybe IOMMU. Or both CPUs have configured their MMU/IOMMU so that
-> the pages appear at the same physical address. I think this is a
-> problem, and the design should avoid anything which makes this
-> assumptions. The data structures within the share memory should only
-> refer to offsets from the base of the shared memory, not absolute
-> values. Or an index into the table of buffers, 0..N.
-> 
-
-Sure I will try to do the same.
-
->>>> +2. **HEAD Pointer**:
->>>> +
->>>> +   - Tracks the start of the buffer for packet transmission or reception.
->>>> +   - Updated by the producer (host or remote processor) after writing a packet.
->>>
->>> Is this a pointer, or an offset from the base address? Pointers get
->>> messy when you have multiple address spaces involved. An offset is
->>> simpler to work with. Given that the buffers are fixed size, it could
->>> even be an index.
->>>
->>
->> Below are the structure definitions.
->>
->> struct rpmsg_eth_shared_mem {
->> 	struct rpmsg_eth_shm_index *head;
->> 	struct rpmsg_eth_shm_buf *buf;
->> 	struct rpmsg_eth_shm_index *tail;
->> } __packed;
->>
->> struct rpmsg_eth_shm_index {
->> 	u32 magic_num;
->> 	u32 index;
->> }  __packed;
-> 
-> So index is the index into the array of fixed size buffers. That is
-> fine, it is not a pointer, so you don't need to worry about address
-> spaces. However, head and tail are pointers, so for those you do need
-> to worry about address spaces. But why do you even need them? Just put
-> the indexes directly into rpmsg_eth_shared_mem. The four index values
-> can be in the first few words of the shared memory, fixed offset from
-> the beginning, KISS.
-> 
-
-Sure I will try to move everything to offsets and not use pointers.
-
-> 	Andrew
-
--- 
-Thanks and Regards,
-Md Danish Anwar
-
+Best regards,
+Clément
