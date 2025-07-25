@@ -1,52 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DCD1FC8;
-	Fri, 25 Jul 2025 17:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583BB2EF9D6;
+	Fri, 25 Jul 2025 17:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753464039; cv=none; b=dZ9zaDtgaBm3Er/28pSXN7kTWbtd9XIjsds3Ze4jDQ/WUwzY5+1DpF9yALZwL+Xe4QQXQqZLS2d7AWHzfnDYeKD0MLMXNDqw+LoEv/gZ73YrlmZhAAaDP0nizvm2QzktZ0DJUpUeNRzipoAzua2TdueED0rb1itcGr7AfuSyMHc=
+	t=1753464507; cv=none; b=D9Yk6nj6+I0NUDE+qrG7dYPHQINi6UbxQiEHoxxgWsx4NsMzPUUun99Yv4LpYa6R9p3s447j64QTfEjucsXgnfp1Lb+Lta7SyuyFuvakcrNEcP0MxgSNOZaCduX6pcg5qvJNGTKmkvg0RhtDHj3LSuecdxoG7DWCWZZL7hbIxNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753464039; c=relaxed/simple;
-	bh=HIKxRtuEADT61vpZ22r6SOsprmqG8Jn7ATscClrH5YY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hsRrbhIJ98YuCMRy9vaPdXxZMGjSQyk1eEoLILdx7JhBaokTvMj5aDd9uJNslD0TWsdDhuq4C2xg2e7a7CPegh79kt+ME72jm18Dngf5serVjWem5J63ZeTmlXGVdmO8h/5ltX3A8vSGSUvFm7IBYX5C9qmH7oBudw4yn6G0fa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cl1ze9IA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753464507; c=relaxed/simple;
+	bh=feXgilG/ggjMCLsfTaEvMyNkjo00TFhT9KPuFkC+9U0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JpgkBML+8f9UIkyfhKjqzNlSzWp62acOJXlbhlOxIiWY69b7SmkqLsgAiC/Wr1bnWOr6E6P/IYAubgog2AFPWz0r3aeNjvrX6UMADuLwKB4EebAxBVS8ckb6zkZUy+H51iYEIIAWv0tI9UJCEoFUN+REuY8AdM9y3PzP+0k81nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCjS9YpJ; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cl1ze9IA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011EFC4CEE7;
-	Fri, 25 Jul 2025 17:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753464039;
-	bh=HIKxRtuEADT61vpZ22r6SOsprmqG8Jn7ATscClrH5YY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Cl1ze9IAETlkY7AdHFID+G1hK6MykPOqlXzTCQ2KxQDuVMkdt279jLdzT4udN9NAp
-	 Yj79RuEQCoEOQSd1D0bP2bpOQyynDOLfIikqgZ6nE7eeCIZy0U6wHUbKTiRn4HfCZX
-	 HVPfvE19VQ4f7OPU1xcVVnoxw9zqTo9haxl1oGnGCIssAO155vVvClcag4WMx7Aaj/
-	 pN+TTjA31bS2rBJ4JgRuXy0kvo8LqipVQMKhGhiTdNtzcuyzUJOMWFao6TqPnbk8Xy
-	 vjwkke6HZEBQF5n0QNgjolhXqyYUc7LMouOnp/OZlBJmD0BoFtZ7aiHQaVvmNnufAB
-	 kIwbnQlqA8Bnw==
-Date: Fri, 25 Jul 2025 10:20:38 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: <dan.j.williams@intel.com>
-Cc: <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Subject: Re: Crediting test authors
-Message-ID: <20250725102038.403c4338@kernel.org>
-In-Reply-To: <20250725102019.7add0be0@kernel.org>
-References: <20250725080023.6425488c@kernel.org>
-	<6883b3046b640_134cc7100ad@dwillia2-xfh.jf.intel.com.notmuch>
-	<20250725102019.7add0be0@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCjS9YpJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753464507; x=1785000507;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=feXgilG/ggjMCLsfTaEvMyNkjo00TFhT9KPuFkC+9U0=;
+  b=DCjS9YpJBjAIbPUeXP+elFBCz0SscQTMrt3yBL5K+vHPDID7FELXtQSB
+   9moRR3/Avh8m9Zc/aY1zLbVIknXn9W+wWdcYE0PMX87swleN3+RBJ6eZ1
+   ScfploDRAPgqoLbvvJysb6Dt9oXCTSRfoZdio60xb2EpWoGzOw7wzTQzy
+   uSEhCYCclN+EJGxKoW1Lf0cjYpgYYFUeQuI5ZoCBWelV9ABD7wsfziufr
+   09cpWbmptyTOBlW57SnqOarCj9BIu2Q2t9T373FXkIf3ua0g9HWeh00s+
+   fLtQN3eoApU8A2fzYVA8TmZX+2uZj9r3cC70YCIbxFZVKdCT1p6cLTuC7
+   A==;
+X-CSE-ConnectionGUID: XAFZ/OYcT3+/o49pqNMXuw==
+X-CSE-MsgGUID: cUIpGMJ6TRaQhlkDc3x8qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55955243"
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="55955243"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 10:28:26 -0700
+X-CSE-ConnectionGUID: wAocdJGmSECSJh+e6z8X4A==
+X-CSE-MsgGUID: EsFNZlTJS2uoOYRzRUhAeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="161354188"
+Received: from bvivekan-mobl1.gar.corp.intel.com (HELO [10.247.118.216]) ([10.247.118.216])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 10:28:23 -0700
+Message-ID: <da9b15a5-ca1d-468d-9460-bb64b3b39c42@intel.com>
+Date: Fri, 25 Jul 2025 10:28:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/ABI/testing/debugfs-cxl: Add 'cxl' to
+ clear_poison path
+To: alison.schofield@intel.com, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Cc: linux-cxl@vger.kernel.org
+References: <20250724224308.2101255-1-alison.schofield@intel.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20250724224308.2101255-1-alison.schofield@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 25 Jul 2025 10:20:19 -0700 Jakub Kicinski wrote:
-> Reproducer: test.case.path # 001122aabb (optimal) commit of the test case
 
-s/optimal/optional/
+
+On 7/24/25 3:43 PM, alison.schofield@intel.com wrote:
+> From: Alison Schofield <alison.schofield@intel.com>
+> 
+> 'cxl' is missing from the path to the clear_poison attribute. Add it.
+> 
+> Signed-off-by: Alison Schofield <alison.schofield@intel.com>
+
+Applied to cxl/next
+
+> ---
+>  Documentation/ABI/testing/debugfs-cxl | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/ABI/testing/debugfs-cxl b/Documentation/ABI/testing/debugfs-cxl
+> index 12488c14be64..e95e21f131e9 100644
+> --- a/Documentation/ABI/testing/debugfs-cxl
+> +++ b/Documentation/ABI/testing/debugfs-cxl
+> @@ -20,7 +20,7 @@ Description:
+>  		visible for devices supporting the capability.
+>  
+>  
+> -What:		/sys/kernel/debug/memX/clear_poison
+> +What:		/sys/kernel/debug/cxl/memX/clear_poison
+>  Date:		April, 2023
+>  KernelVersion:	v6.4
+>  Contact:	linux-cxl@vger.kernel.org
+> 
+> base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
+
