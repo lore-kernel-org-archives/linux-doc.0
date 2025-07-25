@@ -1,219 +1,176 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C938E2114;
-	Fri, 25 Jul 2025 11:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F562E62A4;
+	Fri, 25 Jul 2025 11:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753442540; cv=none; b=W7/bC1wUB1O3vK8WtXziosiqzTkMfetAZeTGLWCrIpjQnqYxk/Nlc2oj4cPgOh3FEMqrK/46bHeWjg3D4hxQFRinGpIIneQJ6HF7dClD+lot4hputBegRW6b7/H5te4hbv/39JjvmhGX0Syi+MYK7KzdbScNQzeZ6dvyXhX1MzI=
+	t=1753442970; cv=none; b=oyOdVINspXPuPy8MsFa5NM/4wp6KUNXGL/WUP/QhtE5sEudK2rQGoJyiEPe4sWiGnJXYWVDrFAAk2G+dWCVL7QrP0nz/s66deZH/aSXbRjt4iOaN9ARPWurhpfniZFzKNa6t5HxyXauv1NCnZO9ibKBPuiDt1SFEOT4gpsV6TzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753442540; c=relaxed/simple;
-	bh=fZuK3vdmjJWaBTc7PamARiPpTkZpxcdOqQIZTB73QlM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ohoYG5rEjNoeVjOb+fX70c6JwW5p140lnnxArtyQD240o4vOGfwnHBDAxAl2IlAIz7M0BDk5oVpg0vYRLVKLKcRIyy44Vnv4+oykfISMF6xdXRsPxlvYRO2QeqH2QagJ2hFYBvD1z3IsHsJ1HqvsRzh96p7V7mifI+suWgJ7SDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jx1lljtM; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753442970; c=relaxed/simple;
+	bh=XsvFg+p1govI8EGlJSNomJM5E16g0UqO9BOn7JiuKXQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=htJJG0YhJYbycWlu1ErG2fXZcHzffXKT/xyvhosi2iCQNk+5idhD5bnU67MUDsKkigzG9T+WkUq1DyZ41NbRUCmt3xSBIZTKbY+f+d/3ixC6urB2PPiTqjbh0sVkiTrSfUkPD40GLX41p0U0sMsHqr/Ycs+OMfhT9WNQxTGRJzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=kz6QuSW9; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jx1lljtM"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-23dc5bcf49eso26044465ad.2;
-        Fri, 25 Jul 2025 04:22:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753442538; x=1754047338; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ADeETAaHqfwPNv47VY+2a6NqZqg/PEaiSFoloJQbRjk=;
-        b=Jx1lljtMzuT0m5VpNoGhEp4micnltFkmKTk/VTuLNa/8WgLVgEPBhPL9hVNJnUzzAh
-         HySa4ktHNfJKEAxqX+z7Fk8MxnpcbKh9wi0KDAOtMMxc80e0ZkHXrh6I5dDCwcKxCDIj
-         /Fvp0pvEr9BFAPVJrzamgXfwyYlwPQgsH1RaLsGuJUToLNOrHu6LlDltGbAkEOQItBnA
-         LP4Kxrk9WdPnh2LKNgmZeYdlSu2xYo5o4+0oKSTxVU6Pi36fSjPuLEcAzjL019yceEY2
-         nb5Yio0DqJs7lwGhJ4t6IR0PmJ2FmcRcdaf4EKHd1BIQCGJIJL4yKSZaeSrvYVI8sI2i
-         slNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753442538; x=1754047338;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ADeETAaHqfwPNv47VY+2a6NqZqg/PEaiSFoloJQbRjk=;
-        b=orrKmC1eJOwCMyN2MZVyTBrSFmfLJR9SQc+D1NG/dYGLilHdwgdZhwVcMU7D/Go8YC
-         oxoR+9rmHgOKxPeNe4ge6+mR9erSaSEAPS6Mum3I2CVBRG+B6oqMGSHTuLzvTuXYJRZn
-         8DC6vlVqlZxCOFPWtNnk5mACWMF1msHqcw/RAKIYt/bcl1wJede3s1TNDzuTuZ66C58x
-         epiySbPj92YMazpCeQR7CQ0NWhCRzxxsat0TcBXaXLS5bLvLZXTbLPz3GHns1jb0etLi
-         iyoYvyJgv5oK7kAUgn0/2LxdE9A3Kq9lwB+KqN3Zk3k+irHYGa2JOSkzGCRkTuNa1jMp
-         wh/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUh0LGni5EGKN83Fe2qUJdfC/2VFr12IEzXccdhcgK63hV4gF/NsN/5FvTSMWgf00Fdf+0+Lo4XNhlN@vger.kernel.org, AJvYcCVuScbPNv7XFA2y8FfQYFcafj86GGcK+TNP72ZvdNQp06ziZmed/jPb+OBsOpsQkCwdONOLVSxZnT2a+TbA@vger.kernel.org, AJvYcCVwDJy7nuDXeuk/eX4YaSxBC9afu0uTsefJldMa6tCSwuuLzDlS154SQB+D0EgVFeDoTnRy542HjUyG@vger.kernel.org, AJvYcCWjiaV1L5hczHVpSvdr3GnxBuQBzgHYqof87VEgyX8NKoyusd/xpV6L2M/9iPgqa/iKNI+5AwqtYIPS5rwP@vger.kernel.org
-X-Gm-Message-State: AOJu0YwC7tR1mB6vJ349B22C3/hM610lt01pxO3DO9Fn0P2f3sy4zStz
-	QMzEoAyeIpJ4F5suLGuy9kTUSiXvQfkGf2wW2Nuop09I1dSvY+AzEdeeNZJ8nd1qpihqnZ3V26z
-	8+unT8O+m/5M8j3dmz9jWpYHPhHRE2ec=
-X-Gm-Gg: ASbGnctD+TqCDLolje63K70nMPhoBh0qZvMNhRBLffgh9mTNDRraoJIQIAgeejASr9d
-	ISgcXcL0dP0zhMVtr9Vo0GATmx9hB2on0fTvbbAE5MSG3/KNx0Ws0zPxYI/RnVkBJCFkbDhlU1d
-	KoJhzvtWiOap3v+Tl3oKFln5mYUHaOFtcaJggrJc3DW22Yh4ddw+IcR1QufVFvuI238jNaPztwr
-	odw
-X-Google-Smtp-Source: AGHT+IFm+YK+Y2hJQQ1hmtCwNSUBVL0UvD5jayHigUFo6GG8rs5V2CGFs8VME+5GxbAPEVs93coICnPBamAwKQyY/yk=
-X-Received: by 2002:a17:902:ccc4:b0:234:e8db:432d with SMTP id
- d9443c01a7336-23fb3166c33mr22847705ad.39.1753442538032; Fri, 25 Jul 2025
- 04:22:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="kz6QuSW9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=xT5SwSHBPnUnzFBFRHBE405vwzAuExHfJuonebrRTcw=; b=kz6QuSW9/iL3m+Hk
+	Refcbz21mhlmpQQxYoILIzd6VWem6Mpn4eU5j9C9X4wRDXlMdwQ3TIrfayCIqXzojMqbc1ioovBY0
+	o6Gl4Ms4liz/zQh6GAM5PQ4p6J3SOwULPEkJt7UMdRMmezRfrouMMXv5taUrkUcxRVHjirY3ej+9F
+	RV5tbMuCtZZb3e5d1hXKWzvi9nT0TnJy7Ax9gmuvTsXuqYzYX/xhPaZBLBFnV3T63BJ9aZsPVb3GR
+	MRlC2mDQtUqeSHPZOlzDOjv4AqL/jeHI04ytWD1Rph2aSqj5Xc0n1f83cLGdAYJbO1T3Fpn00RWe+
+	W0y+Xhb6Yt7Mpb4E0Q==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1ufGc1-000bNz-2x;
+	Fri, 25 Jul 2025 11:29:17 +0000
+Date: Fri, 25 Jul 2025 11:29:17 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
+Message-ID: <aINqjTAwbQ_xnAw6@gallifrey>
+References: <20250724175439.76962-1-linux@treblig.org>
+ <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
+ <202507241337.F9595E1D@keescook>
+ <aIKhvubVqgeXIlrj@gallifrey>
+ <202507241418.34AFD28C@keescook>
+ <20250724194556.105803db@gandalf.local.home>
+ <202507241651.5E9C803C70@keescook>
+ <aILYj62tF_1mDjDO@lappy>
+ <aILb-zDiDr4b9u9S@gallifrey>
+ <aILjTKk_v8NPxlVJ@lappy>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250714221545.5615-1-romank@linux.microsoft.com> <20250714221545.5615-11-romank@linux.microsoft.com>
-In-Reply-To: <20250714221545.5615-11-romank@linux.microsoft.com>
-From: Tianyu Lan <ltykernel@gmail.com>
-Date: Fri, 25 Jul 2025 19:21:42 +0800
-X-Gm-Features: Ac12FXyz3bssr1OLL9BFtYmc0Edy0F9YKk5P-0fTYGoeZUcLahAw8xTcKbOlq4Q
-Message-ID: <CAMvTesADrxV4vwU_mqYygm1bE39PKLZaaL-wLPT8snATRVkwNg@mail.gmail.com>
-Subject: Re: [PATCH hyperv-next v4 10/16] Drivers: hv: Rename the SynIC enable
- and disable routines
-To: Roman Kisel <romank@linux.microsoft.com>
-Cc: alok.a.tiwari@oracle.com, arnd@arndb.de, bp@alien8.de, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, decui@microsoft.com, haiyangz@microsoft.com, 
-	hpa@zytor.com, kys@microsoft.com, mhklinux@outlook.com, mingo@redhat.com, 
-	rdunlap@infradead.org, tglx@linutronix.de, Tianyu.Lan@microsoft.com, 
-	wei.liu@kernel.org, linux-arch@vger.kernel.org, linux-coco@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, apais@microsoft.com, 
-	benhill@microsoft.com, bperkins@microsoft.com, sunilmut@microsoft.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <aILjTKk_v8NPxlVJ@lappy>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
+X-Uptime: 11:22:25 up 88 days, 19:35,  1 user,  load average: 0.00, 0.01, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Tue, Jul 15, 2025 at 6:16=E2=80=AFAM Roman Kisel <romank@linux.microsoft=
-.com> wrote:
->
-> The confidential VMBus requires support for the both hypervisor
-> facing SynIC and the paravisor one.
->
-> Rename the functions that enable and disable SynIC with the
-> hypervisor. No functional changes.
->
-> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-> ---
->  drivers/hv/channel_mgmt.c |  2 +-
->  drivers/hv/hv.c           | 11 ++++++-----
->  drivers/hv/hyperv_vmbus.h |  4 ++--
->  drivers/hv/vmbus_drv.c    |  6 +++---
->  4 files changed, 12 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-> index 6f87220e2ca3..ca2fe10c110a 100644
-> --- a/drivers/hv/channel_mgmt.c
-> +++ b/drivers/hv/channel_mgmt.c
-> @@ -845,7 +845,7 @@ static void vmbus_wait_for_unload(void)
->                         /*
->                          * In a CoCo VM the hyp_synic_message_page is not=
- allocated
->                          * in hv_synic_alloc(). Instead it is set/cleared=
- in
-> -                        * hv_synic_enable_regs() and hv_synic_disable_re=
-gs()
-> +                        * hv_hyp_synic_enable_regs() and hv_hyp_synic_di=
-sable_regs()
->                          * such that it is set only when the CPU is onlin=
-e. If
->                          * not all present CPUs are online, the message p=
-age
->                          * might be NULL, so skip such CPUs.
-> diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-> index a8669843c56e..94a81bb3c8c7 100644
-> --- a/drivers/hv/hv.c
-> +++ b/drivers/hv/hv.c
-> @@ -266,9 +266,10 @@ void hv_synic_free(void)
->  }
->
->  /*
-> - * hv_synic_enable_regs - Initialize the Synthetic Interrupt Controller.
-> + * hv_hyp_synic_enable_regs - Initialize the Synthetic Interrupt Control=
-ler
-> + * with the hypervisor.
->   */
-> -void hv_synic_enable_regs(unsigned int cpu)
-> +void hv_hyp_synic_enable_regs(unsigned int cpu)
->  {
->         struct hv_per_cpu_context *hv_cpu =3D
->                 per_cpu_ptr(hv_context.cpu_context, cpu);
-> @@ -334,14 +335,14 @@ void hv_synic_enable_regs(unsigned int cpu)
->
->  int hv_synic_init(unsigned int cpu)
->  {
-> -       hv_synic_enable_regs(cpu);
-> +       hv_hyp_synic_enable_regs(cpu);
->
->         hv_stimer_legacy_init(cpu, VMBUS_MESSAGE_SINT);
->
->         return 0;
->  }
->
-> -void hv_synic_disable_regs(unsigned int cpu)
-> +void hv_hyp_synic_disable_regs(unsigned int cpu)
->  {
->         struct hv_per_cpu_context *hv_cpu =3D
->                 per_cpu_ptr(hv_context.cpu_context, cpu);
-> @@ -528,7 +529,7 @@ int hv_synic_cleanup(unsigned int cpu)
->  always_cleanup:
->         hv_stimer_legacy_cleanup(cpu);
->
-> -       hv_synic_disable_regs(cpu);
-> +       hv_hyp_synic_disable_regs(cpu);
->
->         return ret;
->  }
-> diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-> index 16b5cf1bca19..2873703d08a9 100644
-> --- a/drivers/hv/hyperv_vmbus.h
-> +++ b/drivers/hv/hyperv_vmbus.h
-> @@ -189,10 +189,10 @@ extern int hv_synic_alloc(void);
->
->  extern void hv_synic_free(void);
->
-> -extern void hv_synic_enable_regs(unsigned int cpu);
-> +extern void hv_hyp_synic_enable_regs(unsigned int cpu);
->  extern int hv_synic_init(unsigned int cpu);
->
-> -extern void hv_synic_disable_regs(unsigned int cpu);
-> +extern void hv_hyp_synic_disable_regs(unsigned int cpu);
->  extern int hv_synic_cleanup(unsigned int cpu);
->
->  /* Interface */
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 72940a64b0b6..13aca5abc7d8 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -2809,7 +2809,7 @@ static void hv_crash_handler(struct pt_regs *regs)
->          */
->         cpu =3D smp_processor_id();
->         hv_stimer_cleanup(cpu);
-> -       hv_synic_disable_regs(cpu);
-> +       hv_hyp_synic_disable_regs(cpu);
->  };
->
->  static int hv_synic_suspend(void)
-> @@ -2834,14 +2834,14 @@ static int hv_synic_suspend(void)
->          * interrupts-disabled context.
->          */
->
-> -       hv_synic_disable_regs(0);
-> +       hv_hyp_synic_disable_regs(0);
->
->         return 0;
->  }
->
->  static void hv_synic_resume(void)
->  {
-> -       hv_synic_enable_regs(0);
-> +       hv_hyp_synic_enable_regs(0);
->
->         /*
->          * Note: we don't need to call hv_stimer_init(0), because the tim=
-er
-> --
-> 2.43.0
->
->
+* Sasha Levin (sashal@kernel.org) wrote:
+> On Fri, Jul 25, 2025 at 01:20:59AM +0000, Dr. David Alan Gilbert wrote:
+> > * Sasha Levin (sashal@kernel.org) wrote:
+> > > On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
+> > > > On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
+> > > > > My thought is to treat AI as another developer. If a developer helps you
+> > > > > like the AI is helping you, would you give that developer credit for that
+> > > > > work? If so, then you should also give credit to the tooling that's helping
+> > > > > you.
+> > > > >
+> > > > > I suggested adding a new tag to note any tool that has done non-trivial
+> > > > > work to produce the patch where you give it credit if it has helped you as
+> > > > > much as another developer that you would give credit to.
+> > > >
+> > > > We've got tags to choose from already in that case:
+> > > >
+> > > > Suggested-by: LLM
+> > > >
+> > > > or
+> > > >
+> > > > Co-developed-by: LLM <not@human.with.legal.standing>
+> > > > Signed-off-by: LLM <not@human.with.legal.standing>
+> > > >
+> > > > The latter seems ... not good, as it implies DCO SoB from a thing that
+> > > > can't and hasn't acknowledged the DCO.
+> > > 
+> > > In my mind, "any tool" would also be something like gcc giving you a
+> > > "non-trivial" error (think something like a buffer overflow warning that
+> > > could have been a security issue).
+> > > 
+> > > In that case, should we encode the entire toolchain used for developing
+> > > a patch?
+> > > 
+> > > Maybe...
+> > > 
+> > > Some sort of semi-standardized shorthand notation of the tooling used to
+> > > develop a patch could be interesting not just for plain disclosure, but
+> > > also to be able to trace back issues with patches ("oh! the author
+> > > didn't see a warning because they use gcc 13 while the warning was added
+> > > in gcc 14!").
+> > > 
+> > > Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
+> > > 
+> > > This way some of it could be automated via git hooks and we can recommend
+> > > a relevant string to add with checkpatch.
+> > 
+> > For me there are two separate things:
+> >  a) A tool that found a problem
+> >  b) A tool that wrote a piece of code.
+> > 
+> > I think the cases you're referring to are all (a), where as I'm mostly
+> > thinking here about (b).
+> > In the case of (a) it's normally _one_ of those tools that found it,
+> > e.g. I see some:
+> >   Found by gcc -fanalyzer
+> 
+> I think that the line between (a) and (b) gets very blurry very fast, so
+> I'd rather stay out of trying to define it.
+> 
+> Running "cargo clippy" on some code might generate a warning as follows:
+> 
+> warning: variables can be used directly in the `format!` string
+>   --> dyad/src/kernel/sha_processing.rs:20:13
+>    |
+> 20 |             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
+>    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>    |
+>    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
+>    = note: `#[warn(clippy::uninlined_format_args)]` on by default
+> help: change this to
+>    |
+> 20 -             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
+> 20 +             debug!("git sha {git_sha} could not be validated, attempting a second way...");
+> 
+> As you see, it proposes a fix at the bottom. Should I attribute "cargo
+> clippy" in my commit message as it wrote some code?
+> 
+> Would your answer change if I run "cargo clippy --fix" which would
+> automatically apply the fix on it's own?
+> 
+> We'll be hitting these issues all over the place if we try and draw a
+> line... For example, with more advances autocompletion: where would you
+> draw the line between completing variable names and writing an entire
+> function based on a comment I've made?
 
-Reviewed-by: Tianyu Lan <tiala@microsoft.com>
---=20
-Thanks
-Tianyu Lan
+Fuzzy isn't it!
+
+There's at least 3 levels as I see it:
+  1) Reported-by:
+    That's a lot of tools, that generate an error or warning.
+  2) Suggested-by:
+    That covers your example above (hmm including --fix ????)
+  3) Co-authored-by:
+    Where a tool wrote code based on your more abstract instructions
+
+(1) & (2) are taking some existing code and finding errors or light
+improvements;  I don't think it matters whether the tool is a good
+old chunk of C or an LLM that's doing it, but how much it's originating.
+
+(Now I'm leaning more towards Kees's style of using existing tags
+if we could define a way to do it cleanly).
+
+Dave
+
+> -- 
+> Thanks,
+> Sasha
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
