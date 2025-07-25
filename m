@@ -1,96 +1,111 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAA6192D97;
-	Fri, 25 Jul 2025 08:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DE817D2;
+	Fri, 25 Jul 2025 08:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753431838; cv=none; b=PmsGwoN7p4gNtlKjDZHCg4JVrKE+kcO+mqN/tVKmDgsYUFB8u07qG6uW+q7Jb882z5w066+tDb8lyDBzdxyhCd+D74ocTMMgf3z/KUA/9gylFBS0mWgY8oEkJ9CF4nQcazvLEOyZypFJVTGgEXi/j39v7oNmBE19Pj/pYea/sGk=
+	t=1753432945; cv=none; b=WGN4QdePHJ8m6cZUKv3DjxIb6+VsAw6fnpshShUaNjskgKYfPAo27N+2RoyoTANiPKl1nanf5oN6zCjdR5NFdnH/UiVc7aMRDb7skOeScIDWtdYtqf1fhBPJuioDtAsaCK6K2jwp9H9zujMtGeqLJjY8aAFfUCFJkj6+CDyw3R8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753431838; c=relaxed/simple;
-	bh=skfHYZImCEPR8PWUsCYUavnSxBKsiLEfsDiV0RFHlDg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mceGFhGEN0+nnI+Hi3lJ3EFLTT3AAKzl40ipP9x3ukkYCwln7+Stp7i8Gwt8yqKent3S1K5/5AL3t9fA/RDNIuILf2atubTvRbjXDKvPZ4VWgmD5IfucOajgxNS77eiGBhMRkq6oqtii9UFA7I5JiXI8alBTfSKOvCaOIQ63NDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DQqM6M1V; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753432945; c=relaxed/simple;
+	bh=eyrIiE9CMNQgpmmPci4DyCrXvE2aIgHWutKBsm8t7fM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ggWF4aRNX+I9UhRIIUrPIZUbr+uUcbPXdgdxNa1LXk4WhpjleqVn7x8+tAVKEp1F/PXSqjXxWvC+aOskScTnRBNR1q1O2u6+A6uMWLiQFJpi6+ZhPiP6pT9euo4N5qrtMjFi1UcXpsbDUXE0s15Yu+JwBQcA+ujtjWpEyp1UL9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NdRZ1KKd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DQqM6M1V"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b3bad2f99f5so1678477a12.1;
-        Fri, 25 Jul 2025 01:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753431837; x=1754036637; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=skfHYZImCEPR8PWUsCYUavnSxBKsiLEfsDiV0RFHlDg=;
-        b=DQqM6M1VcaexTSad1urXL4BZ4qTjFpw/Lmz8EfipJg9eStshpHltLDARKUIDPeGnkt
-         3KMRXUGddGO3U9Tm6vWnTlQV/iPaoWc0SO+Gfgo0bM0SsiwYrNff4ya+LBtcf0GNDc7r
-         STr10fyUXZG8qigQmHpWPOA05HcFqqCZbz58cJkrZTBH2tQ4WfSpHM7KNugf0uGNOdT/
-         1ulU9LFcgcciQmd1zLNyg6tz6fsH6yDUBnCQbJqccLKjzXjB+RVTUNg4Fm0hjsj4SOBu
-         /vIlcRfUJOkx1RsJCYgRWKFinqAZFzac6jDtp+rRAyVJlSbb0GmRk67tcerjbzuMUyuw
-         t73w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753431837; x=1754036637;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=skfHYZImCEPR8PWUsCYUavnSxBKsiLEfsDiV0RFHlDg=;
-        b=eP3kVeJMZx+qMBxOXNSPcJfqZQ4h2Xoe+vTEMaj8EwM/Twsjkx9I1L5HrowMWnxBfN
-         0hklDiU+vuClZ3Zu63y26EU/smWSEYDOf52thyxYXdedbiFJU9yEMH1xPHAgPYrJxIOV
-         7orC07MMNOTfCvc7ONNmpw0G+MTgXreo1q30Bvn98Vn+RjStq5eVJC+kygW+Ao72PdkH
-         HbJHaJcXhu4xxUt3OyGJUQcHwz/K65ESW4h5whzUbLQBVlZbg5ucfq072D2jKsQpW0iX
-         1467IEZIiuS81QbV9vOSpiK8PNRYdO3KLPA+/C58U1bs5oRu9mhQz9fBw5PutygZyaJe
-         R5Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCU7i0zzqpHlRiWjpevoi7uvDyAz1Id1plJ1lSOVcDFBDc/Afx8nr05tCWV2+FNL6XLJY8eAf2a7c30Jo6IY@vger.kernel.org, AJvYcCUNhhmTccaJwNRuCZoszl1henq+xOCUEZjcbhbq/NOCqN2REBVHWdveaSxzQBsC5hYgNo9CFBZeVOZS@vger.kernel.org, AJvYcCVgfnIYh5NlGe09f15M2xnyfeei1I+wrRqwR9BaFyY5Yp4lxaSnYAN1QNawbhd9MFXP1s3uckFKq89H1kiW@vger.kernel.org, AJvYcCXsGiCceqIX5689M+VDHLc2+/hJgUrXQVFAhVk+ANzxnBmLGphLkriKScEEp6hUfOUBp8SP9RIZP4Ky@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQbBqRz02LPYSudm46VNlasj3g+JqPV3Wr49WMihjbKEyOqAyT
-	VWaEwhmdkznMoZw8fRa9mx67kc3QUe5eJ6Lita+HNdhPdu6zoD9NxJvzFbTO9+jgG18FPhyy873
-	o2ttFEdvoN6/BZcLzLWjXe8ITMPfZ5Z46X4cn
-X-Gm-Gg: ASbGncvwom2mImxYRQ1vmRLbv77dyhbGAYKonOeKXFpm5f9G2U/MgF6Dio0CKDgAtPr
-	DpBuajB+XdAbDkA0fSlUP0RN9h4ebX+3ImnQk7V8FS4vk4DKxPds7Fd1uHKbMN9x+Ks42tMBgD8
-	YC/aqoWJhCScw9nQcCm4Hhqs+swb9tmmgBN6WfXh8I1gpGfqMiaOnGods59N3HWVyB5Aje2KF2C
-	gxi
-X-Google-Smtp-Source: AGHT+IF0DLuHKttF43YAHz7O6tHgoNvhE3+8geOKGjB8lYzDiT+qyeGy5nWc+F46EyDWofuUnDxfhsVhLCEV1F6KMlM=
-X-Received: by 2002:a17:90b:2751:b0:31c:39c2:b027 with SMTP id
- 98e67ed59e1d1-31e765d03efmr1975273a91.7.1753431836653; Fri, 25 Jul 2025
- 01:23:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NdRZ1KKd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F637C4CEE7;
+	Fri, 25 Jul 2025 08:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753432945;
+	bh=eyrIiE9CMNQgpmmPci4DyCrXvE2aIgHWutKBsm8t7fM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NdRZ1KKdFwV6Pr4LYIaSZZFb50NnngdCFaLctSd24rgVAnqHqL0HLjJlR1tqXP0VN
+	 JrILcXYom1eIe70O818unv/B4WYz207Skcb0NYQRtEc1HkmquAWQMiJsgXBFfB9Koq
+	 E+ti6mMZeyeQXz7MEg51FgpvDJgHwo3zCODryavxNJZVNJzkQEi0j0m+BfEz6ctZFi
+	 HR5sK0TmKk2j5SRzINk+P4MkpRT76+ZePJqHx0sT8CNcgl1OCm3eYsfpRWaB7IMPOD
+	 p9sLPk8gEJABbh15H8+F2XF063z/2JRcwxT91Y0zkhbrV1jnjk12fmIu43nFsV2yeE
+	 17XDcAYHgcp7g==
+Message-ID: <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
+Date: Fri, 25 Jul 2025 10:42:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250714221545.5615-1-romank@linux.microsoft.com> <20250714221545.5615-7-romank@linux.microsoft.com>
-In-Reply-To: <20250714221545.5615-7-romank@linux.microsoft.com>
-From: Tianyu Lan <ltykernel@gmail.com>
-Date: Fri, 25 Jul 2025 16:23:20 +0800
-X-Gm-Features: Ac12FXxL4ULjVNsTL2CjM89TDvywnTWNYgT1ZW-E5i-5hFeFE92-4wgkSmYxtro
-Message-ID: <CAMvTesBMgo_u50C5_FwfdqhGy-1k1GhrMP27BL87DTuZ-ZuV+A@mail.gmail.com>
-Subject: Re: [PATCH hyperv-next v4 06/16] Drivers: hv: Allocate the paravisor
- SynIC pages when required
-To: Roman Kisel <romank@linux.microsoft.com>
-Cc: alok.a.tiwari@oracle.com, arnd@arndb.de, bp@alien8.de, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, decui@microsoft.com, haiyangz@microsoft.com, 
-	hpa@zytor.com, kys@microsoft.com, mhklinux@outlook.com, mingo@redhat.com, 
-	rdunlap@infradead.org, tglx@linutronix.de, Tianyu.Lan@microsoft.com, 
-	wei.liu@kernel.org, linux-arch@vger.kernel.org, linux-coco@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, apais@microsoft.com, 
-	benhill@microsoft.com, bperkins@microsoft.com, sunilmut@microsoft.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] checkpatch: validate commit tag ordering
+To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>,
+ dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
+ corbet@lwn.net, apw@canonical.com
+Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 15, 2025 at 6:16=E2=80=AFAM Roman Kisel <romank@linux.microsoft=
-.com> wrote:
->
-> Confidential VMBus requires interacting with two SynICs -- one
-> provided by the host hypervisor, and one provided by the paravisor.
-> Each SynIC requires its own message and event pages.
->
-> Refactor and extend the existing code to add allocating and freeing
-> the message and event pages for the paravisor SynIC when it is
-> present.
->
-> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
+On 24/07/2025 09:20, Hendrik Hamerlinck wrote:
+> Modified the checkpatch script to ensure that commit tags (e.g.,
+> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
+> correct order according to kernel conventions [1].
 
-Reviewed-by: Tianyu Lan <tiala@microsoft.com>
+
+These are not the conventions I use for my subsystems and ask others to
+follow, so imposing TIP rules to all maintainers needs broad consensus,
+not (yet) checkpatch.
+
+What's more, I think above TIP rules are contradicting with existing,
+widely used and approved toolset - b4. So no, if you want universal
+tool, please use b4 or whatever b4 defines.
+
+Best regards,
+Krzysztof
+
