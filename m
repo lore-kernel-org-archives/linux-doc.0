@@ -1,226 +1,172 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D403B2882CA;
-	Fri, 25 Jul 2025 06:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D883626B2D2;
+	Fri, 25 Jul 2025 07:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753424957; cv=none; b=Ho5xXiSslTsU+X3jBqFfDBwoddglyaVfZHvfviiZ9jLhAUC9t02SXMobGtj+URpXLvA302bsrG/CjoR1TLmkZTbTGumI5GNK0T9expXh7TQ1Q8HvPNjn3EQa4lRWY+JV1jU57AugaNYIpp6iCg3RlxuK0Pw2ImrkjBWLYiNTk0E=
+	t=1753427159; cv=none; b=ThsRR9+hnybr7jAMpxx8JGNVXCn+c3rYqjGM4H8x7f+tB+SNsr9Ou55lyf0/SKPAT5Ha+qN4gNzwxw9LVFzEuv3PF1lZN2hNI6POI00p4BteQbrZWOhq80n/ZhoPNQ7YM0dE8NSi5HQdLtMuxhgQJ6ZzuQ6ijuqb8OoUe8gu/pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753424957; c=relaxed/simple;
-	bh=UoJ0MLyQYkeXIw8hsmrGf0Zx+0T+ufTiZpIxgruMik8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oInYkjtyf7KD79+XIGnCEDXpA2WWJ94E+xoWCRgvQAbB9cYfhtKLb0Rup7fVlUBGntwe7if+io1sP+szcb3yyun4a4QCWIxT+w8QwjXG5SvYSWr9dQMVt+tN13FHePU7SJJnXjKAbVMZqeUTi16DMJmNWT3qV0l4cPxuayxAzJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RYVv7DBy; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753427159; c=relaxed/simple;
+	bh=8hIMs3ZEOP3Z6QueK3O5hCjpoXAv8CcTKFQN2eyxiA4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=dwqo1DFsBVDnl5FxW8EPns0HTlVliltZclLmMrQIe2+naM49Dh/YjoA1PLZfegJoeeLkSrR2NOG1/4LZn3Q8pU5PBlgb2mOtOiE4FDGID3OewMYIMnA406olcZn0Vi34HkRto7WB/aD5aElAt4ZDYL1S7rkTKjtdV5B1S66lw0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=CtlUW4ab; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RYVv7DBy"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b3226307787so1548338a12.1;
-        Thu, 24 Jul 2025 23:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753424955; x=1754029755; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tp+n7vwcyjj/ZiGkoHkKkkxW2SBrgsntY3ZqFgrCTyE=;
-        b=RYVv7DByVT2ldE7p+q1t9WRWyPgvLfsX527H7EeQxyT2e7q0bNhnBHj9w+W+qbCFEt
-         duR8oy/9rSNwVLRDIeARYWeNs9MYtkS4WL9jfb6x6qVdlLh5anC5Dlqo4ntUZqXkm09t
-         tqAnrQtmwHZXpQdGQKoYicWSBzHrFMw49jucdTR/1WTqhAfcMReqAciavN/MqIt9UsJ8
-         7KURD/DTZW+1QTaipmNaeVNsaWUZqUF+DSKYLxXqh6S8IE1xVMvZiSZzhXJQTFCoLhO2
-         NmZNyr9auRGCU9csFI7TNnx9VXn75DX0SibBEGK64Z5d9dDp2rE84KLB795LcNQKuEm+
-         dKUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753424955; x=1754029755;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tp+n7vwcyjj/ZiGkoHkKkkxW2SBrgsntY3ZqFgrCTyE=;
-        b=pUGm7FtGOhewAjDEL/sclcZEUYiEgAYw0sF3MGyC9kmXUZcSt5a82h7/8TwJF7tVGG
-         7DeSEnvGbj7zvpBG/hTPNq3e7sNs7WzMQ+LNgacepQWPYJtpTUtWIk/17ofxtlVUNF+y
-         uFNtMKoRyims+/AVL+A/Ws4W9wDVWkl1IBDqt5xLEXTQHfr16TMScjl0XWoQ18Tv1Iy2
-         Ipkdn7Yr+Yxif4IjK34YaCspwe/kYyDYoS20m05Ro2Zq53kF6dBl8XrLX+AG7KpbryuY
-         ktnjoIIp4klsShZ0NjXsLG7WSWWonvD7LcvbSY3meaN9LFVqNy9uvBkyQyj1FcgsHKn4
-         zNiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUS1wx8NWS5CmxV2p3VL+BgOW0h6cpzgxytYMu9LueB2gIkKfDEylt4+NMyu7UoAAYETO3uoflhtkU=@vger.kernel.org, AJvYcCUzWaSPNDDsZ0ip7GqzAetQs5JhQ4K7R+l2GnENQFjg2eNcPzMVxgBNhxtEnuyc9Jp4Y0YjoChMPiE++aqbsFee@vger.kernel.org, AJvYcCVI4pKRXG/pg04GP0ap+zXrxsPPOqdXszV9ASwDMoU93EkJYyzx0tINJyqY+dpET1lIGYlq8rpRiC/zmw//@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvBQ7u2/HPr1zi2T1UEntusln9dhRvpWErc8fDluMui6E7OODO
-	c6re/LNy45YIZsS5TBkJL/i+BpB/ZphCVEczNQnpQT+owJ87P8dnyqmbZa8baXRu
-X-Gm-Gg: ASbGnctPT5kfwoSSEUcBmLxWxwvT/Clt9KyE5o1REftYfEwERDuybs2UQI/JGft3SmI
-	Be30FCRYHP5y1nug7If2o31nsobTDxNpjNg4gNmjgvZ4cfEN/JCUGeVy9QejDMsrFxje98jlIdo
-	+CWlwlW7FlegQqFXHNwfY0nvm7Z0MFgITpeaSd5CWqE4s4uEHs+z+yG1kNpG2pRjBjyHjFTlhLS
-	zroa4kwsjITZOuAt1P+HmwXpgqYSWKUO//mjvNkRvdRYkR54Q3c6ORTs3C9r8tIfbhG9b92wpOI
-	M8vlXRydUwG4soptSWfUKEDRfB3gEVUM4tcHuq2MzphweqQNoP60NnwY4PA2Hfv7RHxukka+unM
-	sY0hvHb9jKNrpUhmFbGTnRYLnZ6KwPXAZ4jWDJr9u6udIrMw=
-X-Google-Smtp-Source: AGHT+IEe9RTKqbc6PNoN0QvqDtlJz9XyB0yFHMLudxA71L7ky76POavm6tuXekDEpp9fIZYWhsYIeg==
-X-Received: by 2002:a05:6a20:918e:b0:222:d817:2f4a with SMTP id adf61e73a8af0-23d70052992mr1039617637.17.1753424954746;
-        Thu, 24 Jul 2025 23:29:14 -0700 (PDT)
-Received: from localhost.localdomain ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f6c09b532sm2667917a12.25.2025.07.24.23.29.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 23:29:14 -0700 (PDT)
-From: Hangbin Liu <liuhangbin@gmail.com>
-To: netdev@vger.kernel.org
-Cc: Jay Vosburgh <jv@jvosburgh.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Simon Horman <horms@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Petr Machata <petrm@nvidia.com>,
-	Amit Cohen <amcohen@nvidia.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Alessandro Zanni <alessandro.zanni87@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hangbin Liu <liuhangbin@gmail.com>
-Subject: [PATCH net 2/2] selftests: bonding: add test for passive LACP mode
-Date: Fri, 25 Jul 2025 06:28:48 +0000
-Message-ID: <20250725062848.18889-3-liuhangbin@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250725062848.18889-1-liuhangbin@gmail.com>
-References: <20250725062848.18889-1-liuhangbin@gmail.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="CtlUW4ab"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56P751ta2148376;
+	Fri, 25 Jul 2025 02:05:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1753427101;
+	bh=5umDMOElVV8cL1bR0QgVIsqKX3kPBo5aB7b5JD6dzss=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=CtlUW4abTvXwyfN9d75WseHjhD57Nq+m3x57auv7IM1Aj9SJHXIaD2nWajLw8Fccs
+	 j8U/T0ohPlrJWUT4XcQ1pY3PsLMqwoJlwNAHIwA/cyfQG8LJECPU2R7KEJZm263Blq
+	 RDJdSB+ujm8/Oko9lDsKQp/B2zOgYqJHiVJWKmH4=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56P750WX3669322
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Fri, 25 Jul 2025 02:05:01 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 25
+ Jul 2025 02:05:00 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Fri, 25 Jul 2025 02:05:00 -0500
+Received: from [172.24.21.105] (lt5cd151g4ty.dhcp.ti.com [172.24.21.105])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56P74sYO1371214;
+	Fri, 25 Jul 2025 02:04:54 -0500
+Message-ID: <d856807f-dead-4e93-bef6-0d25744cc041@ti.com>
+Date: Fri, 25 Jul 2025 12:34:53 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/5] net: rpmsg-eth: Add Documentation for
+ RPMSG-ETH Driver
+To: Andrew Lunn <andrew@lunn.ch>, MD Danish Anwar <danishanwar@ti.com>
+CC: "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet
+	<corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+        Mengyuan Lou
+	<mengyuanlou@net-swift.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Madhavan
+ Srinivasan <maddy@linux.ibm.com>,
+        Fan Gong <gongfan1@huawei.com>, Lee Trager
+	<lee@trager.us>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Geert Uytterhoeven
+	<geert+renesas@glider.be>,
+        Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+        Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250723080322.3047826-1-danishanwar@ti.com>
+ <20250723080322.3047826-2-danishanwar@ti.com>
+ <81273487-a450-4b28-abcc-c97273ca7b32@lunn.ch>
+ <b61181e5-0872-402c-b91b-3626302deaeb@ti.com>
+ <0a002a5b-9f1a-4972-8e1c-fa9244cec180@lunn.ch>
+Content-Language: en-US
+From: "Anwar, Md Danish" <a0501179@ti.com>
+In-Reply-To: <0a002a5b-9f1a-4972-8e1c-fa9244cec180@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Add a selftest to verify bonding behavior when `lacp_active` is set to `off`.
+Hi Andrew,
 
-The test checks the following:
-- The passive LACP bond should not send LACPDUs before receiving a partner's
-  LACPDU.
-- The transmitted LACPDUs must not include the active flag.
-- After transitioning to EXPIRED and DEFAULTED states, the passive side should
-  still not initiate LACPDUs.
+On 7/24/2025 10:07 PM, Andrew Lunn wrote:
+>> Linux first send a rpmsg request with msg type = RPMSG_ETH_REQ_SHM_INFO
+>> i.e. requesting for the shared memory info.
+>>
+>> Once firmware recieves this request it sends response with below fields,
+>>
+>> 	num_pkt_bufs, buff_slot_size, base_addr, tx_offset, rx_offset
+>>
+>> In the device tree, while reserving the shared memory for rpmsg_eth
+>> driver, the base address and the size of the shared memory block is
+>> mentioned. I have mentioned that in the documentation as well
+> 
+> If it is in device tree, why should Linux ask for the base address and
+> length? That just seems like a source of errors, and added complexity.
+> 
+> In general, we just trust DT. It is a source of truth. So i would
+> delete all this backwards and forwards and just use the values from
+> DT. Just check the magic numbers are in place.
+> 
 
-Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
----
- .../selftests/drivers/net/bonding/Makefile    |  3 +-
- .../drivers/net/bonding/bond_passive_lacp.sh  | 93 +++++++++++++++++++
- 2 files changed, 95 insertions(+), 1 deletion(-)
- create mode 100755 tools/testing/selftests/drivers/net/bonding/bond_passive_lacp.sh
+Sure, I will not check the base_addr and trust the info we get from
+device tree. Just check the offsets we are getting from firmware is
+within the shared memory block or not (using base_addr + size)
 
-diff --git a/tools/testing/selftests/drivers/net/bonding/Makefile b/tools/testing/selftests/drivers/net/bonding/Makefile
-index 2b10854e4b1e..44b98f17f8ff 100644
---- a/tools/testing/selftests/drivers/net/bonding/Makefile
-+++ b/tools/testing/selftests/drivers/net/bonding/Makefile
-@@ -10,7 +10,8 @@ TEST_PROGS := \
- 	mode-2-recovery-updelay.sh \
- 	bond_options.sh \
- 	bond-eth-type-change.sh \
--	bond_macvlan_ipvlan.sh
-+	bond_macvlan_ipvlan.sh \
-+	bond_passive_lacp.sh
- 
- TEST_FILES := \
- 	lag_lib.sh \
-diff --git a/tools/testing/selftests/drivers/net/bonding/bond_passive_lacp.sh b/tools/testing/selftests/drivers/net/bonding/bond_passive_lacp.sh
-new file mode 100755
-index 000000000000..017d96a319a3
---- /dev/null
-+++ b/tools/testing/selftests/drivers/net/bonding/bond_passive_lacp.sh
-@@ -0,0 +1,93 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Test if a bond interface works with lacp_active=off.
-+
-+# shellcheck disable=SC2034
-+REQUIRE_MZ=no
-+NUM_NETIFS=0
-+lib_dir=$(dirname "$0")
-+# shellcheck disable=SC1091
-+source "$lib_dir"/../../../net/forwarding/lib.sh
-+
-+check_port_state()
-+{
-+	local netns=$1
-+	local port=$2
-+	local state=$3
-+
-+	ip -n "${netns}" -d -j link show "$port" | \
-+		jq -e ".[].linkinfo.info_slave_data.ad_actor_oper_port_state_str | index(\"${state}\") != null" > /dev/null
-+}
-+
-+trap cleanup EXIT
-+setup_ns c_ns s_ns
-+defer cleanup_all_ns
-+
-+# shellcheck disable=SC2154
-+ip -n "${c_ns}" link add eth0 type veth peer name eth0 netns "${s_ns}"
-+ip -n "${c_ns}" link add eth1 type veth peer name eth1 netns "${s_ns}"
-+ip -n "${s_ns}" link set eth0 up
-+ip -n "${s_ns}" link set eth1 up
-+ip -n "${c_ns}" link add bond0 type bond mode 802.3ad lacp_active off lacp_rate fast
-+ip -n "${c_ns}" link set eth0 master bond0
-+ip -n "${c_ns}" link set eth1 master bond0
-+ip -n "${c_ns}" link set bond0 up
-+
-+# 1. The passive side shouldn't send LACPDU.
-+RET=0
-+client_mac=$(cmd_jq "ip -j -n ${c_ns} link show bond0" ".[].address")
-+# Wait for the first LACPDU due to state change.
-+sleep 2
-+timeout 62 ip netns exec "${c_ns}" tcpdump --immediate-mode -c 1 -i eth0 \
-+	-nn -l -vvv ether proto 0x8809 2> /dev/null > /tmp/client_init.out
-+grep -q "System $client_mac" /tmp/client_init.out && RET=1
-+log_test "802.3ad" "init port pkt lacp_active off"
-+
-+# 2. The passive side should not have the 'active' flag.
-+RET=0
-+check_port_state "${c_ns}" "eth0" "active" && RET=1
-+log_test "802.3ad" "port state lacp_active off"
-+
-+# Set up the switch side with active mode.
-+ip -n "${s_ns}" link set eth0 down
-+ip -n "${s_ns}" link set eth1 down
-+ip -n "${s_ns}" link add bond0 type bond mode 802.3ad lacp_active on lacp_rate fast
-+ip -n "${s_ns}" link set eth0 master bond0
-+ip -n "${s_ns}" link set eth1 master bond0
-+ip -n "${s_ns}" link set bond0 up
-+
-+# 3. The active side should have the 'active' flag.
-+RET=0
-+check_port_state "${s_ns}" "eth0" "active" || RET=1
-+log_test "802.3ad" "port state lacp_active on"
-+
-+# 4. Make sure the connection has not expired.
-+RET=0
-+slowwait 15 check_port_state "${s_ns}" "eth0" "expired" && RET=1
-+slowwait 15 check_port_state "${s_ns}" "eth1" "expired" && RET=1
-+log_test "bond 802.3ad" "port connect lacp_active off"
-+
-+# After testing, disconnect one port on each side to check the state.
-+ip -n "${s_ns}" link set eth0 nomaster
-+ip -n "${s_ns}" link set eth0 up
-+ip -n "${c_ns}" link set eth1 nomaster
-+ip -n "${c_ns}" link set eth1 up
-+# 5. The passive side shouldn't send LACPDU anymore.
-+RET=0
-+# Wait for LACPDU due to state change.
-+sleep 5
-+timeout 62 ip netns exec "${c_ns}" tcpdump --immediate-mode -c 1 -i eth0 \
-+	-nn -l -vvv ether proto 0x8809 2> /dev/null > /tmp/client_dis.out
-+grep -q "System $client_mac" /tmp/client_dis.out && RET=1
-+log_test "bond 802.3ad" "disconnect port pkt lacp_active off"
-+
-+# 6. The active side keeps sending LACPDU.
-+RET=0
-+switch_mac=$(cmd_jq "ip -j -n ${s_ns} link show bond0" ".[].address")
-+timeout 62 ip netns exec "${s_ns}" tcpdump --immediate-mode -c 1 -i eth1 \
-+	-nn -l -vvv ether proto 0x8809 2> /dev/null > /tmp/switch.out
-+grep -q "System $switch_mac" /tmp/switch.out || RET=1
-+log_test "bond 802.3ad" "disconnect port pkt lacp_active on"
-+
-+exit "$EXIT_STATUS"
+>> The same `base_addr` is used by firmware for the shared memory. During
+>> the rpmsg callback, firmware shares this `base_addr` and during
+>> rpmsg_eth_validate_handshake() driver checks if the base_addr shared by
+>> firmware is same as the one described in DT or not. Driver only proceeds
+>> if it's same.
+> 
+> So there is a big assumption here. That both are sharing the same MMU,
+> or maybe IOMMU. Or both CPUs have configured their MMU/IOMMU so that
+> the pages appear at the same physical address. I think this is a
+> problem, and the design should avoid anything which makes this
+> assumptions. The data structures within the share memory should only
+> refer to offsets from the base of the shared memory, not absolute
+> values. Or an index into the table of buffers, 0..N.
+> 
+
+Sure I will try to do the same.
+
+>>>> +2. **HEAD Pointer**:
+>>>> +
+>>>> +   - Tracks the start of the buffer for packet transmission or reception.
+>>>> +   - Updated by the producer (host or remote processor) after writing a packet.
+>>>
+>>> Is this a pointer, or an offset from the base address? Pointers get
+>>> messy when you have multiple address spaces involved. An offset is
+>>> simpler to work with. Given that the buffers are fixed size, it could
+>>> even be an index.
+>>>
+>>
+>> Below are the structure definitions.
+>>
+>> struct rpmsg_eth_shared_mem {
+>> 	struct rpmsg_eth_shm_index *head;
+>> 	struct rpmsg_eth_shm_buf *buf;
+>> 	struct rpmsg_eth_shm_index *tail;
+>> } __packed;
+>>
+>> struct rpmsg_eth_shm_index {
+>> 	u32 magic_num;
+>> 	u32 index;
+>> }  __packed;
+> 
+> So index is the index into the array of fixed size buffers. That is
+> fine, it is not a pointer, so you don't need to worry about address
+> spaces. However, head and tail are pointers, so for those you do need
+> to worry about address spaces. But why do you even need them? Just put
+> the indexes directly into rpmsg_eth_shared_mem. The four index values
+> can be in the first few words of the shared memory, fixed offset from
+> the beginning, KISS.
+> 
+
+Sure I will try to move everything to offsets and not use pointers.
+
+> 	Andrew
+
 -- 
-2.46.0
+Thanks and Regards,
+Md Danish Anwar
 
