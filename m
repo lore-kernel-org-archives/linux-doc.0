@@ -1,157 +1,148 @@
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC712EFDA3;
-	Fri, 25 Jul 2025 17:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D102EFDA7;
+	Fri, 25 Jul 2025 17:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753465801; cv=none; b=LKVBCARU0UxI3764Hc+Ti8+badYIG1jSO6+PxqvPuGhd8/N5HAawUiJpoBxM3I6mTO8KgGIrsWE5BaGBMPnAZIKDPF/zwSyon1J7Vzbu9xHZqXS+rEtp74ej8PFkQxLJtSwcmwtYklbJn5uo7wIAe9wYDE6rPqHcPHE6TUy7gyA=
+	t=1753466042; cv=none; b=nkXYZrYzbpe1AfRLkj9vNDdI/PNcdeNhKusmtzS0Jl4Slzdi0/jF39TPM+gVQRRe7eHLUHckgXURV1amhXCPmd2RcJyFu7n8n5LipdYQQSIB2w46lbfs44XFtypjxe+kCtALHiIHyBJ/ee0IVtHuMs9whdJR5iHNxb0DEPHocL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753465801; c=relaxed/simple;
-	bh=B8h1iG2EgVjLNoI1RMhXF367XsgIqzMlmdAWYCPbjrQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=uG+7ZC+RJSZSqOoz2QOP1BOFubbEFvHSNX5ePG+qkRm2+mVebGj2JTD5qDs9YPJQT119qqElujQ+Qxi86nrhLV8+7YsMvbn0F1CDGMIJGl+UWMfv6ihaW5OQV/tMHwIOLt0/79a8wcikW8WBVECx1+uuVou20//Hl76JZUhhGUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=rRk/10Ix; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1753466042; c=relaxed/simple;
+	bh=aNHTPcPmJgTe6jlcMuYedphKpF139DO8jV3SXEgqtRE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rGymVvVELHO9KbthwuXQxxS8Z6UVnvniIBfSDgZERbvHa5PsaTWYwPV5hFZO+tqizSRDnnhG6/ALTduRjhP+7siDGC1811t3SKMiVnxgZopguWXkmRRH32qugKv5eym8MObEsJqro869yOQaQuK17kIxGs4sTFKtq9bYw9pJ5E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ITpUD1xS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rRk/10Ix"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56PHnc3d2251811;
-	Fri, 25 Jul 2025 12:49:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1753465778;
-	bh=+eBwJup3Yjm99HHyJ3Azuh5yfqVuAmBeRvTWq8BjN1Y=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=rRk/10Ix0X2smb4WE4ZUcNvU3FwYJWosRBjhlZORYEwD18orQCFeJEdiljeIaqR2w
-	 LrKV6RqWOaeGA3QvBh7Tpbysec16MIv+DxoJJ//NkeyX2g0NNRO/MWpev6OMWEuDFP
-	 Ly0mLMGHwG2FObKZhFIO7QgJTH5CMw7bfwAe02ds=
-Received: from DFLE20.ent.ti.com (dfle20.ent.ti.com [10.64.6.57])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56PHncUf2468477
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 25 Jul 2025 12:49:38 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE20.ent.ti.com
- (10.64.6.57) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.1748.24; Fri, 25 Jul
- 2025 12:49:38 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 25 Jul 2025 12:49:38 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56PHnb9c2388126;
-	Fri, 25 Jul 2025 12:49:37 -0500
-Message-ID: <30d4bf10-274d-485c-84dd-7cbb8157efab@ti.com>
-Date: Fri, 25 Jul 2025 12:49:37 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ITpUD1xS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B204FC4CEE7;
+	Fri, 25 Jul 2025 17:54:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753466042;
+	bh=aNHTPcPmJgTe6jlcMuYedphKpF139DO8jV3SXEgqtRE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ITpUD1xS7m9scpB3DouFV8OZPwR+tZfpNHAwRIbkzdpyShaUrC5ilLE52zT5SEO/S
+	 Nc+Vzc1Q56IGmqeXofIifnHmS8+TNfM8j3+aWDgHHE/pfkSAZR9NlTLK7BSf9UqQE8
+	 G90LKTfo96V5iwpJ5v7AMzE13/1a9HsGVa/VUW6At4v+sGdU3BHU8tKV+H9YWQrEp5
+	 X1s19oU8mgWZP2lAwG+IaYwR4R5TFeQ/7G+kenhg+rZUWP9PA26okPBmZS/cCY3S/v
+	 TDPdP/8YnssarUFdO0g6DgYHwjiOzHw8pq0XM9d/ghq1xURbBIhx+PVfmDMVMOJP2e
+	 sRt0B5kLKMlpQ==
+From: Sasha Levin <sashal@kernel.org>
+To: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: rostedt@goodmis.org,
+	kees@kernel.org,
+	konstantin@linuxfoundation.org,
+	corbet@lwn.net,
+	josh@joshtriplett.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
+Date: Fri, 25 Jul 2025 13:53:56 -0400
+Message-Id: <20250725175358.1989323-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: dma-buf: heaps: Add naming guidelines
-To: Maxime Ripard <mripard@kernel.org>,
-        Sumit Semwal
-	<sumit.semwal@linaro.org>,
-        Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Jonathan Corbet <corbet@lwn.net>
-CC: Jared Kangas <jkangas@redhat.com>,
-        Mattijs Korpershoek
-	<mkorpershoek@kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Bagas Sanjaya
-	<bagasdotme@gmail.com>
-References: <20250717-dma-buf-heap-names-doc-v3-1-d2dbb4b95ef6@kernel.org>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250717-dma-buf-heap-names-doc-v3-1-d2dbb4b95ef6@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
 
-On 7/17/25 3:10 AM, Maxime Ripard wrote:
-> We've discussed a number of times of how some heap names are bad, but
-> not really what makes a good heap name.
-> 
-> Let's document what we expect the heap names to look like.
-> 
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
-> Changes in v3:
-> - Grammar, spelling fixes
-> - Remove the cacheable / uncacheable name suggestion
-> - Link to v2: https://lore.kernel.org/r/20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org
-> 
-> Changes in v2:
-> - Added justifications for each requirement / suggestions
-> - Added a mention and example of buffer attributes
-> - Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org
-> ---
->   Documentation/userspace-api/dma-buf-heaps.rst | 35 +++++++++++++++++++++++++++
->   1 file changed, 35 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-> index 535f49047ce6450796bf4380c989e109355efc05..3ee4e7961fe390ba356a2125d53b060546c3e4a6 100644
-> --- a/Documentation/userspace-api/dma-buf-heaps.rst
-> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> @@ -21,5 +21,40 @@ following heaps:
->      usually created either through the kernel commandline through the
->      `cma` parameter, a memory region Device-Tree node with the
->      `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
->      `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
->      might be called ``reserved``, ``linux,cma``, or ``default-pool``.
-> +
-> +Naming Convention
-> +=================
-> +
-> +``dma-buf`` heaps name should meet a number of constraints:
-> +
-> +- The name must be stable, and must not change from one version to the other.
-> +  Userspace identifies heaps by their name, so if the names ever change, we
-> +  would be likely to introduce regressions.
-> +
-> +- The name must describe the memory region the heap will allocate from, and
-> +  must uniquely identify it in a given platform. Since userspace applications
-> +  use the heap name as the discriminant, it must be able to tell which heap it
-> +  wants to use reliably if there's multiple heaps.
-> +
-> +- The name must not mention implementation details, such as the allocator. The
-> +  heap driver will change over time, and implementation details when it was
-> +  introduced might not be relevant in the future.
-> +
-> +- The name should describe properties of the buffers that would be allocated.
-> +  Doing so will make heap identification easier for userspace. Such properties
-> +  are:
-> +
-> +  - ``contiguous`` for physically contiguous buffers;
-> +
-> +  - ``protected`` for encrypted buffers not accessible the OS;
-> +
-> +- The name may describe intended usage. Doing so will make heap identification
-> +  easier for userspace applications and users.
-> +
-> +For example, assuming a platform with a reserved memory region located at the
-> +RAM address 0x42000000, intended to allocate video framebuffers, physically
-> +contiguous, and backed by the CMA kernel allocator, good names would be
-> +``memory@42000000-cacheable-contiguous`` or ``video@42000000``, but
+This patch series adds unified configuration and documentation for AI
+coding assistants working with the Linux kernel codebase. As AI tools
+become increasingly common in software development, it's important to
+establish clear guidelines for their use in kernel development.
 
-You dropped "cacheable" but left it here in the suggested names, maybe
-replace with "protected" here. Otherwise, LGTM,
+The series consists of two patches:
 
-Reviewed-by: Andrew Davis <afd@ti.com>
+1. The first patch adds unified configuration files for various AI
+coding assistants (Claude, GitHub Copilot, Cursor, Codeium, Continue,
+Windsurf, and Aider). These are all symlinked to a central documentation
+file to ensure consistency across tools.
 
-> +``cma-video`` wouldn't.
-> 
-> ---
-> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-> change-id: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
-> 
-> Best regards,
+2. The second patch adds the actual rules and documentation that guide
+AI assistants on Linux kernel development practices, including:
+   - Following kernel coding standards
+   - Respecting the development process
+   - Properly attributing AI-generated contributions
+   - Understanding licensing requirements
+
+The examples below demonstrate how these guidelines work in practice, showing
+proper AI attribution in commits and the assistant's understanding of kernel
+documentation requirements.
+
+All AI assistants are required to identify themselves in commits using
+Co-developed-by tags, ensuring full transparency about AI involvement in
+code development.
+
+"Hello world" test:
+
+	$ claude -p "do you need to attribute your commits?"
+	Yes, according to the CLAUDE.md file in this Linux kernel repository, I must identify myself as an AI assistant in commits by including:
+
+	```
+	Co-developed-by: Claude claude-opus-4-20250514
+	```
+
+	I should NOT add a Signed-off-by tag - only you (the human developer) should add that, as it represents a legal certification.
+
+
+Example patch creation with Claude Code:
+
+	$ claude -p "Fix the dont -> don't typo in @Documentation/power/opp.rst. Commit the result"
+	Done! The typo has been fixed and committed.
+
+
+And the resulting patch (no manual edits):
+
+	From 7613561f430920803d945b3cd53aa81440d4f6f0 Mon Sep 17 00:00:00 2001
+	From: Sasha Levin <sashal@kernel.org>
+	Date: Fri, 25 Jul 2025 13:38:43 -0400
+	Subject: [PATCH] Documentation: power: opp: Fix typo dont -> don't
+
+	Fix a typo in the OPP documentation where "dont" was missing an apostrophe.
+
+	Co-developed-by: Claude claude-opus-4-20250514
+	---
+	 Documentation/power/opp.rst | 2 +-
+	 1 file changed, 1 insertion(+), 1 deletion(-)
+
+	diff --git a/Documentation/power/opp.rst b/Documentation/power/opp.rst
+	index 1b7f1d854f14a..3eae4b955a63b 100644
+	--- a/Documentation/power/opp.rst
+	+++ b/Documentation/power/opp.rst
+	@@ -149,7 +149,7 @@ dev_pm_opp_find_freq_exact
+
+	         opp = dev_pm_opp_find_freq_exact(dev, 1000000000, false);
+	         dev_pm_opp_put(opp);
+	-        /* dont operate on the pointer.. just do a sanity check.. */
+	+        /* don't operate on the pointer.. just do a sanity check.. */
+	         if (IS_ERR(opp)) {
+	                pr_err("frequency not disabled!\n");
+	                /* trigger appropriate actions.. */
+
+
+Sasha Levin (2):
+  AI: Add unified AI coding assistant configuration
+  AI: Add initial set of rules and docs
+
+ .aider.conf.yml                 |  1 +
+ .codeium/instructions.md        |  1 +
+ .continue/context.md            |  1 +
+ .cursorrules                    |  1 +
+ .github/copilot-instructions.md |  1 +
+ .windsurfrules                  |  1 +
+ CLAUDE.md                       |  1 +
+ Documentation/AI/main.md        | 71 +++++++++++++++++++++++++++++++++
+ 8 files changed, 78 insertions(+)
+ create mode 120000 .aider.conf.yml
+ create mode 120000 .codeium/instructions.md
+ create mode 120000 .continue/context.md
+ create mode 120000 .cursorrules
+ create mode 120000 .github/copilot-instructions.md
+ create mode 120000 .windsurfrules
+ create mode 120000 CLAUDE.md
+ create mode 100644 Documentation/AI/main.md
+
+-- 
+2.39.5
 
