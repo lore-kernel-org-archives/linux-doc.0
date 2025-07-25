@@ -1,97 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8BE1FDA61;
-	Fri, 25 Jul 2025 17:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89621DE3AC;
+	Fri, 25 Jul 2025 17:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753465353; cv=none; b=aRm5mRIyjThrzn6wd0BW8ucm++fbVB1BdkT8Fz/XmZANjeYZTIcceZ6EA4k2tSh+jaOVdhUWezEf8WObcFbsX8Sc6R0J5Okj2Yki6dHuRW15AoKNFHTD+fGuURde3vPTsI0MRlyoLF877E2Z4fh/W8WQvjIGivqCaYteLWgpklw=
+	t=1753465543; cv=none; b=rBVHLkmomI1upgnyV5rTwFqDb2+GLohYzmMOoyiHy1i8YbQqV0JP6NRwb1W/gxTdXK0W5LMh59lEiBnC13UX2prJw97M06Vz6KuWuRsMFjrKHsMrzCXj8Ck36vTst1Bu+kz2V6EW3CmcYWBBWmo66MP/wkxl0kQGOqhPlDGxp+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753465353; c=relaxed/simple;
-	bh=DLNukM6xeX8mDdNfXUUkU55B99plFgyDwDCwtBLI/ws=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PXhwx9LC+cDwEXw4ZkmN5SNGnmjISCUBbSnSTzm2+svdHdrBNVWfH4jAJu7k1pdOo6ZVgypFufblYAEsQ1GBvWgUvlgzrThYBWVCwp5sqrWUt6Eiog1KlAg2yqeewp1zF3bm2Niqsljrz7j4XnQXRDynbd6RR5Ju450+SiPMzMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UBPmXkuS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753465543; c=relaxed/simple;
+	bh=RsPRgmZCOqun/rYWmkkcvg3T55MIka5uyEZQyaWsRkE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VJL0yWbraX+wJO96sYDIIzsIipY6xzcILBzrwQ+DFqPKx7F9ZZtyAiSVidm3Z8+XBoTAEzGAPGfBCWWPA/2YPDodVD4QxIjRpJGtlosyEKTt9p5GLKi2RfasncxOhRqZrRDiNSP5Ai3O5Z8i7UnWdk+k6JA/c/Slxc+MlgWkWFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Z8Dmf4cu; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UBPmXkuS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47DA7C4CEE7;
-	Fri, 25 Jul 2025 17:42:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753465352;
-	bh=DLNukM6xeX8mDdNfXUUkU55B99plFgyDwDCwtBLI/ws=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UBPmXkuSK6/BZ2AR5onqsfiXkdCUDG0Ni/ipuHLrFMeoe1kLMAlyeI0JkIuZ0BXFA
-	 vaxrcJ36vqfmg+pCoOPU7GyqHAHT9NZ/AUkc51p7ARC40cj2hPnvDWwG2OeE+CFDGu
-	 4llc13MuAbA9IiAVfDcPhd5q4/Ptu3UN2tf4XRwCDoUhvvJUkqQufg49xmJnnAuXlN
-	 M5sJFtMCG8qLebZWIlJsaYCn6evKoLVrclOXBJ859C9KbQqA3MjP8VI3jfZtt6CS4n
-	 txnXfJfKdlFQYUN+RTPJ2yMRxdBP9jEFoDLWoOE/ZVc39Ny/G3VCXczcGru5zQP3Ea
-	 1aOQZP1lfeS0g==
-Date: Fri, 25 Jul 2025 10:42:31 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Prathosh Satish <Prathosh.Satish@microchip.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Michal Schmidt
- <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
-Subject: Re: [PATCH net-next 0/5] dpll: zl3073x: Add support for devlink
- flash
-Message-ID: <20250725104231.0307b4d1@kernel.org>
-In-Reply-To: <ea9f9931-95d9-4f7d-abba-eb7fae408977@redhat.com>
-References: <20250725154136.1008132-1-ivecera@redhat.com>
-	<ea9f9931-95d9-4f7d-abba-eb7fae408977@redhat.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Z8Dmf4cu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=aFcxMrKl/6T2lCcVEBxTm5V2wzGAihXJCOqriV8fm94=; b=Z8Dmf4cumnntEeo5nL2SBVupqO
+	uuRfw4qxLnTOyYnHa1kYFr2LA36AL0Fz4+xjJHgISL3o1xGfykd3Thk+bADxSaQ4A0Lm9W16rmzjY
+	11klNXhNQAu1s5Ir/3RXTclatNHM2HBO7nSoc09m3AebUtoY3MWIBuuCBgXWyy4xrCoEFV0SIodCi
+	lwMghsM9ry8itRwqKg8xQUUGMCbiwr2N+/KBuJBvacGzjNHwLZjlhkDT3pgt8N+sEPwqpKn2+04ke
+	+I+ThogCsyXD5jyvX2wnWqc0/JvSr9pAJ8RrI3Orb2KGFqj/lvxcHgxnfRn9V5BkKbmeku0MlqB4S
+	xUrLwYJg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ufMUA-00000000Ebq-0OON;
+	Fri, 25 Jul 2025 17:45:34 +0000
+Date: Fri, 25 Jul 2025 18:45:34 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sasha Levin <sashal@kernel.org>, Kees Cook <kees@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
+Message-ID: <20250725174534.GY2580412@ZenIV>
+References: <aIKhvubVqgeXIlrj@gallifrey>
+ <202507241418.34AFD28C@keescook>
+ <20250724194556.105803db@gandalf.local.home>
+ <202507241651.5E9C803C70@keescook>
+ <aILYj62tF_1mDjDO@lappy>
+ <aILb-zDiDr4b9u9S@gallifrey>
+ <aILjTKk_v8NPxlVJ@lappy>
+ <aINqjTAwbQ_xnAw6@gallifrey>
+ <20250725113702.GD11202@pendragon.ideasonboard.com>
+ <aINvLgwaKZsKOibE@gallifrey>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aINvLgwaKZsKOibE@gallifrey>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri, 25 Jul 2025 19:18:55 +0200 Ivan Vecera wrote:
-> Self nacked, need to fix warnings found by clang (not identified by
-> gcc).
+On Fri, Jul 25, 2025 at 11:49:02AM +0000, Dr. David Alan Gilbert wrote:
 
-Thanks for the note, I suppose you updated the patchwork state
-yourself? Please prefer using pw-bot commands in networking and bpf.
+> > Except from a copyright point of view. The situation is quite clear for
+> > deterministic code generation, it's less so for LLMs.
+> 
+> As long as you'd acknowledged the use of the LLM in all cases, it seems to
+> me right to say to what degree you use it (i.e. the 1..3) above.
+> I think even most people worried about copright issues would worry
+> less if an LLM had just told you about a problem (1) and you fixed it.
+> (Although obviously IANAL)
 
-(BTW net-next is closed already)
-
-Quoting documentation:
-
-  Updating patch status
-  ~~~~~~~~~~~~~~~~~~~~~
-  
-  Contributors and reviewers do not have the permissions to update patch
-  state directly in patchwork. Patchwork doesn't expose much information
-  about the history of the state of patches, therefore having multiple
-  people update the state leads to confusion.
-  
-  Instead of delegating patchwork permissions netdev uses a simple mail
-  bot which looks for special commands/lines within the emails sent to
-  the mailing list. For example to mark a series as Changes Requested
-  one needs to send the following line anywhere in the email thread::
-  
-    pw-bot: changes-requested
-  
-  As a result the bot will set the entire series to Changes Requested.
-  This may be useful when author discovers a bug in their own series
-  and wants to prevent it from getting applied.
-  
-  The use of the bot is entirely optional, if in doubt ignore its existence
-  completely. Maintainers will classify and update the state of the patches
-  themselves. No email should ever be sent to the list with the main purpose
-  of communicating with the bot, the bot commands should be seen as metadata.
-  
-  The use of the bot is restricted to authors of the patches (the ``From:``
-  header on patch submission and command must match!), maintainers of
-  the modified code according to the MAINTAINERS file (again, ``From:``
-  must match the MAINTAINERS entry) and a handful of senior reviewers.
-  
-  Bot records its activity here:
-  
-    https://netdev.bots.linux.dev/pw-bot.html
-  
-See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#updating-patch-status
+s/told you about a problem/told you that <location> has triggered some
+heuristics and might or might not be worth looking into/, really...
