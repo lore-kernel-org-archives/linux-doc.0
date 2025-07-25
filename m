@@ -1,65 +1,101 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2CA1373;
-	Fri, 25 Jul 2025 01:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631A318BBAE;
+	Fri, 25 Jul 2025 01:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753405293; cv=none; b=t89Fx4e44jsKwNDnjvw16UHQBQpQm8XQkOuS/HXjkbzFlXl5fE2bf8038ob84ZUjKE/H7h6F8t0QCoTi+BcrfkPY0eHsB3O3jF7PC/8RBfBAEgHmqWhdXt7bMq1rfv5Dbx1to9Nrv39T4BweIC+y8pwDZJinsAa1KBlnI0qEXDs=
+	t=1753405586; cv=none; b=jmvUzVmjpumVDgdM/6TEYBfHG05OmDZqrMTFbzTvYQoqmUC5nYDmd8/fuwByCx+81mW4o6mQnwhZQgPIPg+TM44PqQ8uovGdTZHm1cJJfuP2FPiglwOZptFjfGT43LZw5Hly1XIsERY4foxtD+ZYmD2ZIur9XaWz1WfzUqxLvs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753405293; c=relaxed/simple;
-	bh=S68IOHF/e0NaShcmphW9LK69DgrIZLy9G7r8GH8JSf0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fvnptmtn7tgzqtP7z/1SqqEsZPDuVOsmpdqUZauhv4m2y21bJTY+BS4IQsVCmuZuAwWPBcR7j1BV2l0GXLGo/MQ7+UYuaKEEzK8THMk45RnlNzFEf9h1vjrFBvH1jF7VGEwJfGs5nVqt2485yK4dEfyJwTBdj6oxhDNEiWbthas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4bp8bc148hzGq30;
-	Fri, 25 Jul 2025 08:57:16 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4280B180B6A;
-	Fri, 25 Jul 2025 09:01:27 +0800 (CST)
-Received: from DESKTOP-F6Q6J7K.china.huawei.com (10.174.175.220) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 25 Jul 2025 09:01:25 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: <gongfan1@huawei.com>
-CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
-	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
-	<fuguiming@h-partners.com>, <guoxin09@huawei.com>, <gur.stavi@huawei.com>,
-	<helgaas@kernel.org>, <horms@kernel.org>, <jdamato@fastly.com>,
-	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
-	<meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
-	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
-	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
-	<vadim.fedorenko@linux.dev>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>,
-	<zhuyikai1@h-partners.com>
-Subject: [PATCH net-next v11 0/8] net: hinic3: Add a driver for Huawei 3rd gen NIC - management interfaces
-Date: Fri, 25 Jul 2025 09:01:18 +0800
-Message-ID: <20250725010119.4976-1-gongfan1@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <cover.1753240706.git.zhuyikai1@h-partners.com>
-References: <cover.1753240706.git.zhuyikai1@h-partners.com>
+	s=arc-20240116; t=1753405586; c=relaxed/simple;
+	bh=XRod0fl1x5YkTgo5sRuAN3KnxoLUBTn38asgNRfFLg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cEAU4oOj/kFf5iOHWBGj8vBlt7lVFGNyt6a/bva+owPad1xiU4VFs7ZJNkAb/OYHRtfaxRv+hNiZyAeE+NTm6bubmvVUxcIEFZdvf5t+ydHwsFum8qi8QbhoP+cuXRy0FzzAYEVw1P6WuQ7UTzXcX8cmogWm1GTtBd663kTm+G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l9PMn74V; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l9PMn74V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B63AC4CEED;
+	Fri, 25 Jul 2025 01:06:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753405585;
+	bh=XRod0fl1x5YkTgo5sRuAN3KnxoLUBTn38asgNRfFLg8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l9PMn74VGXda+ufmUKF1tASCMGoOASBy2/J9Wbj2ntkUHcAjkwFIfmC7NxjSo5fcB
+	 Vhe2yZJvVczzXpiU86tyq8s7R1McsbeBeo7MBQwGtBwrHtsWA/85obea/sgqMqVv73
+	 VUxpGDWULHfpMiN2Mhs/pdGc8bt2Cit/y+jSIycpACkJ1JmUl+6c268SA2ILUS6z52
+	 NG+HC0i0O+U8L1ZTge0gqR9W34ENfsKk61SRDUwxhSu0cm/5XqjA32D2f3mBT94+iM
+	 HZJP2QgOaL48OGjM7VWo/D2NzuaB68Si4ECuSalFxivhgXUxg3jMPFt9XxQe6NUVva
+	 EfpMzgIO2pRPQ==
+Date: Thu, 24 Jul 2025 21:06:23 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
+Message-ID: <aILYj62tF_1mDjDO@lappy>
+References: <20250724175439.76962-1-linux@treblig.org>
+ <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
+ <202507241337.F9595E1D@keescook>
+ <aIKhvubVqgeXIlrj@gallifrey>
+ <202507241418.34AFD28C@keescook>
+ <20250724194556.105803db@gandalf.local.home>
+ <202507241651.5E9C803C70@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <202507241651.5E9C803C70@keescook>
 
-> PATCH 02 V10: https://lore.kernel.org/netdev/cover.1753152592.git.zhuyikai1@h-partners.com
-> * Use spin_lock in aeq & ceq events instead of bits ops (Jakub Kicinski)
-> * Modify memory barriers comments to explain more clearly (Jakub Kicinski)
+On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
+>On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
+>> My thought is to treat AI as another developer. If a developer helps you
+>> like the AI is helping you, would you give that developer credit for that
+>> work? If so, then you should also give credit to the tooling that's helping
+>> you.
+>>
+>> I suggested adding a new tag to note any tool that has done non-trivial
+>> work to produce the patch where you give it credit if it has helped you as
+>> much as another developer that you would give credit to.
 >
-> PATCH 02 V11:
-> * Remove unused cb_state variable (Simon Horman)
+>We've got tags to choose from already in that case:
+>
+>Suggested-by: LLM
+>
+>or
+>
+>Co-developed-by: LLM <not@human.with.legal.standing>
+>Signed-off-by: LLM <not@human.with.legal.standing>
+>
+>The latter seems ... not good, as it implies DCO SoB from a thing that
+>can't and hasn't acknowledged the DCO.
 
-Oops. This patch was mistakenly sent and the V10 review comments have not been
-fully revised. We will send a new patch after 24 hours.
+In my mind, "any tool" would also be something like gcc giving you a
+"non-trivial" error (think something like a buffer overflow warning that
+could have been a security issue).
+
+In that case, should we encode the entire toolchain used for developing
+a patch?
+
+Maybe...
+
+Some sort of semi-standardized shorthand notation of the tooling used to
+develop a patch could be interesting not just for plain disclosure, but
+also to be able to trace back issues with patches ("oh! the author
+didn't see a warning because they use gcc 13 while the warning was added
+in gcc 14!").
+
+Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
+
+This way some of it could be automated via git hooks and we can recommend
+a relevant string to add with checkpatch.
+
+-- 
+Thanks,
+Sasha
