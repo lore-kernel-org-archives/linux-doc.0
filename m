@@ -1,101 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631A318BBAE;
-	Fri, 25 Jul 2025 01:06:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E0E43ABC;
+	Fri, 25 Jul 2025 01:08:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753405586; cv=none; b=jmvUzVmjpumVDgdM/6TEYBfHG05OmDZqrMTFbzTvYQoqmUC5nYDmd8/fuwByCx+81mW4o6mQnwhZQgPIPg+TM44PqQ8uovGdTZHm1cJJfuP2FPiglwOZptFjfGT43LZw5Hly1XIsERY4foxtD+ZYmD2ZIur9XaWz1WfzUqxLvs0=
+	t=1753405713; cv=none; b=hBz9IK7Bsg7xpb2qfyishrUet3a6aRP/45K9NTjp75n2B53pf19cjJabXoKZftG/8DoDxKujdvcWrFdqbkVmcmguEM+3sCpe9n1S6gBmL+xqqZhZdDoaFIcanUMXFvUnuEF05j95s+dk4ZAXLAuI2M2zJdEm9igoDHjkAJFVaLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753405586; c=relaxed/simple;
-	bh=XRod0fl1x5YkTgo5sRuAN3KnxoLUBTn38asgNRfFLg8=;
+	s=arc-20240116; t=1753405713; c=relaxed/simple;
+	bh=H/BgPUQANvlTWqgIAXAGOhv0SbRMbQQECIU5nmflkSA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cEAU4oOj/kFf5iOHWBGj8vBlt7lVFGNyt6a/bva+owPad1xiU4VFs7ZJNkAb/OYHRtfaxRv+hNiZyAeE+NTm6bubmvVUxcIEFZdvf5t+ydHwsFum8qi8QbhoP+cuXRy0FzzAYEVw1P6WuQ7UTzXcX8cmogWm1GTtBd663kTm+G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l9PMn74V; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rn3jVJBHIDLtAhEATOsCT3/Nn6ivceV0HLxXEZHytIazU16ny+YIyXWsd9JPIgTOk74bNnv1zNQ21vkZmx3zailNoGWc5oiFwakF4gmDj9wkuHDFWHkotCiznbhwQOFT81uIp9rdFVsD0a354ty0UM7qZzcHHphEmpaCkpDReCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AH7sQmUG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l9PMn74V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B63AC4CEED;
-	Fri, 25 Jul 2025 01:06:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AH7sQmUG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1781DC4CEED;
+	Fri, 25 Jul 2025 01:08:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753405585;
-	bh=XRod0fl1x5YkTgo5sRuAN3KnxoLUBTn38asgNRfFLg8=;
+	s=k20201202; t=1753405713;
+	bh=H/BgPUQANvlTWqgIAXAGOhv0SbRMbQQECIU5nmflkSA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l9PMn74VGXda+ufmUKF1tASCMGoOASBy2/J9Wbj2ntkUHcAjkwFIfmC7NxjSo5fcB
-	 Vhe2yZJvVczzXpiU86tyq8s7R1McsbeBeo7MBQwGtBwrHtsWA/85obea/sgqMqVv73
-	 VUxpGDWULHfpMiN2Mhs/pdGc8bt2Cit/y+jSIycpACkJ1JmUl+6c268SA2ILUS6z52
-	 NG+HC0i0O+U8L1ZTge0gqR9W34ENfsKk61SRDUwxhSu0cm/5XqjA32D2f3mBT94+iM
-	 HZJP2QgOaL48OGjM7VWo/D2NzuaB68Si4ECuSalFxivhgXUxg3jMPFt9XxQe6NUVva
-	 EfpMzgIO2pRPQ==
-Date: Thu, 24 Jul 2025 21:06:23 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <aILYj62tF_1mDjDO@lappy>
-References: <20250724175439.76962-1-linux@treblig.org>
- <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
- <202507241337.F9595E1D@keescook>
- <aIKhvubVqgeXIlrj@gallifrey>
- <202507241418.34AFD28C@keescook>
- <20250724194556.105803db@gandalf.local.home>
- <202507241651.5E9C803C70@keescook>
+	b=AH7sQmUG2sSuxb1SOBDDq2VjnWKmpmZCRlQaE1DVpLIGOA5VLkq9OCOR/9B5UnNij
+	 ox2+1eAwnsh4dloVlpDJqgcwh95zX/N7R4hWQQR3YZ6KI8G+h+Q9INm7+hlOFdRMLs
+	 E8sHys+2KyGPznmixAhtyWLHh3o/45sxZndm1SGZqmaTqOg4lior8XKHmzO6KV2Gwk
+	 8zoepBvNaiKt3QNQLiWMP8scg1Jz0LtqTWliz213wIIKhft4954CSlcZ5UsOD74REf
+	 0367UyVK/CCxvDtez1pE+Edp45xgNnfWh9OUtTyMMKKi7Jv31zDq7mYDdm76V6U4RV
+	 AANi/ENVe+uPA==
+Date: Thu, 24 Jul 2025 15:08:31 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Chen Ridong <chenridong@huaweicloud.com>
+Cc: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Tiffany Yang <ynaffit@google.com>, linux-kernel@vger.kernel.org,
+	John Stultz <jstultz@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: cpu.stat in core or cpu controller (was Re: [RFC PATCH v2]
+ cgroup: Track time in cgroup v2 freezer)
+Message-ID: <aILZDyD4mPkiMrfd@slm.duckdns.org>
+References: <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
+ <aHktSgmh-9dyB7bz@slm.duckdns.org>
+ <mknvbcalyaheobnfeeyyldytcoyturmeuq3twcrri5gaxtjojs@bbyqhshtjfab>
+ <180b4c3f-9ea2-4124-b014-226ff8a97877@huaweicloud.com>
+ <jyvlpm6whamo5ge533xdsvqnsjsxdonpvdjbtt5gqvcw5fjp56@q4ej7gy5frj7>
+ <e065b8da-9e7c-4214-9122-83d83700a729@huaweicloud.com>
+ <aHvHb0i6c8A_aCIo@slm.duckdns.org>
+ <2c723007-710f-4592-9fe2-7534eb47e74f@huaweicloud.com>
+ <adrjkqsqqwxcsdr5z4wmxcrvgvutkulzgka6pjjv23v6242txr@vv2ysb46nhpk>
+ <0064b782-2bed-4375-aba8-3745aa306a6d@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202507241651.5E9C803C70@keescook>
+In-Reply-To: <0064b782-2bed-4375-aba8-3745aa306a6d@huaweicloud.com>
 
-On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
->On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
->> My thought is to treat AI as another developer. If a developer helps you
->> like the AI is helping you, would you give that developer credit for that
->> work? If so, then you should also give credit to the tooling that's helping
->> you.
->>
->> I suggested adding a new tag to note any tool that has done non-trivial
->> work to produce the patch where you give it credit if it has helped you as
->> much as another developer that you would give credit to.
->
->We've got tags to choose from already in that case:
->
->Suggested-by: LLM
->
->or
->
->Co-developed-by: LLM <not@human.with.legal.standing>
->Signed-off-by: LLM <not@human.with.legal.standing>
->
->The latter seems ... not good, as it implies DCO SoB from a thing that
->can't and hasn't acknowledged the DCO.
+On Wed, Jul 23, 2025 at 09:28:02AM +0800, Chen Ridong wrote:
+> > But beware that the possibility of having cpu.stat without enabling the
+> > cpu controller on v2 is a user visible behavior and I'm quite sure some
+> > userspace relies on it, so you'd need to preserve that.
+> 
+> This is what I worry about. Thank you for your confirmation.
 
-In my mind, "any tool" would also be something like gcc giving you a
-"non-trivial" error (think something like a buffer overflow warning that
-could have been a security issue).
+Yeah, this was an intentional decision - sacrificing a bit of code org
+cleanliness for everyday usefulness. Enabling CPU controller can have
+substantial overhead and having cpu stats available by default doesn't cost
+much while improving usefulness.
 
-In that case, should we encode the entire toolchain used for developing
-a patch?
-
-Maybe...
-
-Some sort of semi-standardized shorthand notation of the tooling used to
-develop a patch could be interesting not just for plain disclosure, but
-also to be able to trace back issues with patches ("oh! the author
-didn't see a warning because they use gcc 13 while the warning was added
-in gcc 14!").
-
-Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
-
-This way some of it could be automated via git hooks and we can recommend
-a relevant string to add with checkpatch.
+Thanks.
 
 -- 
-Thanks,
-Sasha
+tejun
