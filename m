@@ -1,143 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25636632;
-	Fri, 25 Jul 2025 01:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852D8DDA9;
+	Fri, 25 Jul 2025 01:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753408335; cv=none; b=UMnv8WCENOBAp54+u3Yj5JXQEWQbs97nYBOHDb7iNtG8l9PsCZxSBxreuOs4j660NMVdHb4dIQkb323YAI5pgoydxwFHXFpZ3lfrBCkEZSxpfyfv5pDVfpp7mjmCZzpcNfpWx8kMdzSE2oHatLOCfHtPGriOQ3YcR9Qv3PV5bDA=
+	t=1753408480; cv=none; b=uXAKC2A6EUPSwiVotkM7W58b/wRdB6APRBiVHwDHw+PSdyl8frn3/xa9SOGXzkq1EA7FOmRQC6ySTpkOeXVtWwz+bceOkDtCue83Ox2VDbpZqQUbf1AEc+PR7n2d0Gp+RpDzeCRNTexRbRT98BUuO1J0LFrLFNUD+6AZl9gfxcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753408335; c=relaxed/simple;
-	bh=/NI2ha6nY6GkI8LsYbs7JqwG+hZm8ryAYwsWBGiCVZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rrdjx3vq38waDcnIL90szR/JtDUiFCQ2C851/gF86y7FWMnizFIzXk1Tjz/b7vNMWLSKDiab7FQMabzAhx6rrT7A3R+M15fgVy6nBaDsFbFAba8rC6PeLRCQpQ5zarosxoGlf7e10yCys1isPkftJW1Gh++TfeSxr/dV/QN35j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZdntdGb; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZdntdGb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65EEEC4CEED;
-	Fri, 25 Jul 2025 01:52:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753408334;
-	bh=/NI2ha6nY6GkI8LsYbs7JqwG+hZm8ryAYwsWBGiCVZY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EZdntdGbql0vAlnOPcmXUnTPMwgWL/BoLDgx1wmsVsypNcM+d+mX/wZKnNgGf/e5d
-	 wo8VK4rLuKCuDEqV8g2t2cNgeAy2TVe4PvdpyY/kmj1gA6sAiCoNqu7iNLlz2w1IIg
-	 vU9p52m0FLe5AKCXMnjaDCqQZCZ9q9u8CuTwqy+FcMrHHNVLJtgsua1OlQ8tjSNMvE
-	 4O6Hexz45U048wWiBPyusFQyn2nFChezo+jJ6IFHV66tIBV1dYFIBmRihg7u+Uk01+
-	 EZxrN+mXuLoX/f+UZWwW/NLs803noTSI50CwwiQ/+yd0SJ5r8rmaZqCxbO+XkgoZMG
-	 geBdyDfP8CAoA==
-Date: Thu, 24 Jul 2025 21:52:12 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: Kees Cook <kees@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <aILjTKk_v8NPxlVJ@lappy>
-References: <20250724175439.76962-1-linux@treblig.org>
- <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
- <202507241337.F9595E1D@keescook>
- <aIKhvubVqgeXIlrj@gallifrey>
- <202507241418.34AFD28C@keescook>
- <20250724194556.105803db@gandalf.local.home>
- <202507241651.5E9C803C70@keescook>
- <aILYj62tF_1mDjDO@lappy>
- <aILb-zDiDr4b9u9S@gallifrey>
+	s=arc-20240116; t=1753408480; c=relaxed/simple;
+	bh=7QA2XhirCdErGq0E2Mu2eOtTEn5CbyuoLwtcxlC4eQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QW9klAWJZqBDI3ZU3E+XUAoShOX+JNqmTqwBlLyfbVwjoG40EuAq8N71FqkjAIyu4Y1GQ6uoFa2EZv2jNleplTU2H14/yqvkVv4KWWkVLWHEaUyJbjqL4UUEmsFPipApu06FcDi8uZG9fdRPEhK3SAbOzAaoKtd9ao/wd6ey8XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4bp9sm6GMNzYQvJG;
+	Fri, 25 Jul 2025 09:54:36 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.75])
+	by mail.maildlp.com (Postfix) with ESMTP id 922491A0B69;
+	Fri, 25 Jul 2025 09:54:35 +0800 (CST)
+Received: from [10.67.109.79] (unknown [10.67.109.79])
+	by APP2 (Coremail) with SMTP id Syh0CgDH07Xa44JoabeCBQ--.41840S2;
+	Fri, 25 Jul 2025 09:54:35 +0800 (CST)
+Message-ID: <7746e963-1c2d-402b-9a28-1554a34e096a@huaweicloud.com>
+Date: Fri, 25 Jul 2025 09:54:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <aILb-zDiDr4b9u9S@gallifrey>
+User-Agent: Mozilla Thunderbird
+Subject: Re: cpu.stat in core or cpu controller (was Re: [RFC PATCH v2]
+ cgroup: Track time in cgroup v2 freezer)
+To: Tejun Heo <tj@kernel.org>
+Cc: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Tiffany Yang <ynaffit@google.com>, linux-kernel@vger.kernel.org,
+ John Stultz <jstultz@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
+ Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <5rm53pnhpdeqljxqywh26gffh6vlyb5j5s6pzxhv52odhkl4fm@o6p7daoponsn>
+ <aHktSgmh-9dyB7bz@slm.duckdns.org>
+ <mknvbcalyaheobnfeeyyldytcoyturmeuq3twcrri5gaxtjojs@bbyqhshtjfab>
+ <180b4c3f-9ea2-4124-b014-226ff8a97877@huaweicloud.com>
+ <jyvlpm6whamo5ge533xdsvqnsjsxdonpvdjbtt5gqvcw5fjp56@q4ej7gy5frj7>
+ <e065b8da-9e7c-4214-9122-83d83700a729@huaweicloud.com>
+ <aHvHb0i6c8A_aCIo@slm.duckdns.org>
+ <2c723007-710f-4592-9fe2-7534eb47e74f@huaweicloud.com>
+ <adrjkqsqqwxcsdr5z4wmxcrvgvutkulzgka6pjjv23v6242txr@vv2ysb46nhpk>
+ <0064b782-2bed-4375-aba8-3745aa306a6d@huaweicloud.com>
+ <aILZDyD4mPkiMrfd@slm.duckdns.org>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <aILZDyD4mPkiMrfd@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:Syh0CgDH07Xa44JoabeCBQ--.41840S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw18GFy3KF15uF45JrWxtFb_yoWxtrc_ur
+	9F9F17WF18WF48Ar4avFyDCF95Gay0vF90q3yjqw47X3WxAFn2qrnrWrZIvw45KF92krnr
+	GF1vvanIyw17ZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x02
+	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIb
+	yZUUUUU
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-On Fri, Jul 25, 2025 at 01:20:59AM +0000, Dr. David Alan Gilbert wrote:
->* Sasha Levin (sashal@kernel.org) wrote:
->> On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
->> > On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
->> > > My thought is to treat AI as another developer. If a developer helps you
->> > > like the AI is helping you, would you give that developer credit for that
->> > > work? If so, then you should also give credit to the tooling that's helping
->> > > you.
->> > >
->> > > I suggested adding a new tag to note any tool that has done non-trivial
->> > > work to produce the patch where you give it credit if it has helped you as
->> > > much as another developer that you would give credit to.
->> >
->> > We've got tags to choose from already in that case:
->> >
->> > Suggested-by: LLM
->> >
->> > or
->> >
->> > Co-developed-by: LLM <not@human.with.legal.standing>
->> > Signed-off-by: LLM <not@human.with.legal.standing>
->> >
->> > The latter seems ... not good, as it implies DCO SoB from a thing that
->> > can't and hasn't acknowledged the DCO.
+
+
+On 2025/7/25 9:08, Tejun Heo wrote:
+> On Wed, Jul 23, 2025 at 09:28:02AM +0800, Chen Ridong wrote:
+>>> But beware that the possibility of having cpu.stat without enabling the
+>>> cpu controller on v2 is a user visible behavior and I'm quite sure some
+>>> userspace relies on it, so you'd need to preserve that.
 >>
->> In my mind, "any tool" would also be something like gcc giving you a
->> "non-trivial" error (think something like a buffer overflow warning that
->> could have been a security issue).
->>
->> In that case, should we encode the entire toolchain used for developing
->> a patch?
->>
->> Maybe...
->>
->> Some sort of semi-standardized shorthand notation of the tooling used to
->> develop a patch could be interesting not just for plain disclosure, but
->> also to be able to trace back issues with patches ("oh! the author
->> didn't see a warning because they use gcc 13 while the warning was added
->> in gcc 14!").
->>
->> Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
->>
->> This way some of it could be automated via git hooks and we can recommend
->> a relevant string to add with checkpatch.
->
->For me there are two separate things:
->  a) A tool that found a problem
->  b) A tool that wrote a piece of code.
->
->I think the cases you're referring to are all (a), where as I'm mostly
->thinking here about (b).
->In the case of (a) it's normally _one_ of those tools that found it,
->e.g. I see some:
->   Found by gcc -fanalyzer
+>> This is what I worry about. Thank you for your confirmation.
+> 
+> Yeah, this was an intentional decision - sacrificing a bit of code org
+> cleanliness for everyday usefulness. Enabling CPU controller can have
+> substantial overhead and having cpu stats available by default doesn't cost
+> much while improving usefulness.
+> 
+> Thanks.
+> 
 
-I think that the line between (a) and (b) gets very blurry very fast, so
-I'd rather stay out of trying to define it.
+Thank you Tj, This is clear now.
 
-Running "cargo clippy" on some code might generate a warning as follows:
+Best regards,
+Ridong
 
-warning: variables can be used directly in the `format!` string
-   --> dyad/src/kernel/sha_processing.rs:20:13
-    |
-20 |             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    |
-    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
-    = note: `#[warn(clippy::uninlined_format_args)]` on by default
-help: change this to
-    |
-20 -             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-20 +             debug!("git sha {git_sha} could not be validated, attempting a second way...");
-
-As you see, it proposes a fix at the bottom. Should I attribute "cargo
-clippy" in my commit message as it wrote some code?
-
-Would your answer change if I run "cargo clippy --fix" which would
-automatically apply the fix on it's own?
-
-We'll be hitting these issues all over the place if we try and draw a
-line... For example, with more advances autocompletion: where would you
-draw the line between completing variable names and writing an entire
-function based on a comment I've made?
-
--- 
-Thanks,
-Sasha
