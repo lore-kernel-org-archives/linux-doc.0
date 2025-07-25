@@ -1,122 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D54634;
-	Fri, 25 Jul 2025 00:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD99BA3D;
+	Fri, 25 Jul 2025 00:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753402214; cv=none; b=PXT0EucRYQoCX6SXoi+a2fHvom9VZvSc5EqQLzdsgkBRyT9U07M0SvttT/dChhnGu8W2o1s+iRWfmc9E/Qsmno/MYmGBCiDZN0tXH2gvSCxGNj01UhBZ/c3202VsOTtxwKb83oVdRw8jfpBrJK+gXrbcOdn5JRlEFBp7jL6jgtc=
+	t=1753404941; cv=none; b=FZAbRtChTuN36Nyht6ZFbC9Vr1PDQN1zoRG12QWM5qTP1WSNhHfMHDarRzW55s+hBzNp8/iCPSxOal+ZVrNnAu8Pqw9GrqMDnAZpAIG9tk2YbIoB4VIKJfdJbaLF8AEqw3E1zj6cNR7sGy0myFA8XD9uFaoRSk7AvDBnrbuYP5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753402214; c=relaxed/simple;
-	bh=Efr02ucghVvgSDn8C24njX+4voOe5UznirPQXWvnDzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EkYbVvyCUmbgt1UcVgEzuaUn/j1qJiZA84gxf2xLge8iWdZxsUWovcvvriTalG+gibDctrlcfoUD+b7i0qsy88AZecK4NCuF4jgrRz9WsH0Tw8ghT40w4LYrvG5JOxyCi5i58dwUqD/74MXLY9TdkQN8T4wwboOsWwj9amaHLXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yubfi/yx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753404941; c=relaxed/simple;
+	bh=KvxN5DHjZGSXEwli5Su3Qm7vJiM8XvRrYqw6i3BZUkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YDJiPLaAfHLD6/K0OTjawtb3wYw6cO8jnvzCB2uX9iQuIY5QE+G9c2M+cbnUZM22Mp5LsJ8NGyoQPORyxpgNrgjaCqjBDrwEhEA2Mp4pqr747mjIhWBYH+g10AuCvd/e9nLga6Mp6YKlyRRYtCeW4TRcz4+Tq2T/P0vjd5wv0Pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=T9iFiWIa; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yubfi/yx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C794C4CEED;
-	Fri, 25 Jul 2025 00:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753402213;
-	bh=Efr02ucghVvgSDn8C24njX+4voOe5UznirPQXWvnDzk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Yubfi/yxAM3CCWJCHIwvB4ZciDHFX+FvkC+gpWLrp0y7BMH/0tT5k++48ChpPTqJ/
-	 4iN8qXIyppWRWsOrgDLLRISLbDrH4rwbgeHMMp1OFsQn2OkgMsGylgayJN+0Y/N4Bw
-	 jBWU49qtKLt2bZTr5gn7Lwf61N8UE8J373uX9cEq2aJPDwe8aE09P9tNXb0UVT/zYZ
-	 13sm94F8Qip51ieaK7g8Amupe9wXYKFUE47ONq6/2AOitnsMsHhjjLp0bjaOiy+5kM
-	 A4vejS5beOwQIx32BiEDFYqtF1qSl5pA3exUk6nNxCh5RTbazzASBLu0g9ZHNISD2y
-	 XjrmJtxf3recQ==
-Date: Thu, 24 Jul 2025 17:10:11 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Tariq Toukan <ttoukan.linux@gmail.com>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Jiri Pirko <jiri@resnulli.us>,
- Jiri Pirko <jiri@nvidia.com>, Saeed Mahameed <saeed@kernel.org>, Gal
- Pressman <gal@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Shahar
- Shitrit <shshitrit@nvidia.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Brett Creeley <brett.creeley@amd.com>,
- Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi
- <pavan.chebbi@broadcom.com>, Cai Huoqing <cai.huoqing@linux.dev>, Tony
- Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>, Linu
- Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Jerin
- Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya
- Sundeep <sbhatta@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>, Mark
- Bloch <mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, Petr Machata
- <petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-rdma@vger.kernel.org
-Subject: Re: [PATCH net-next 0/5] Expose grace period delay for devlink
- health reporter
-Message-ID: <20250724171011.2e8ebca4@kernel.org>
-In-Reply-To: <6892bb46-e2eb-4373-9ac0-6c43eca78b8e@gmail.com>
-References: <1752768442-264413-1-git-send-email-tariqt@nvidia.com>
-	<20250718174737.1d1177cd@kernel.org>
-	<6892bb46-e2eb-4373-9ac0-6c43eca78b8e@gmail.com>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="T9iFiWIa"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=StlREuo1scS0BfmCy3StaAeIUyCF5tPTsycVVaKcV94=; b=T9iFiWIagMi1C/Et
+	gM5OuOyS+mMLiTMpLXVy/Qq4acvvgpRuwIiZCX6tEUSHgEeW2JA7f9gIJhOXXYgct4xOPzOhG9d7r
+	FIfobPC6NrE5FHXJLlY4YbnKbQrO94NmDu+HqdjC3oTiOtJNgjuLmsvWczVoY62ziePsTOWjxVOOH
+	UWNUsdlAJDg1Gt0clsjjx/Fpav8+UWOTRQI43YD4Zc76/CmG2mY0jKYc3ALgNCPgkff60OktqBMfH
+	OeSYxHIkpAjRV+DlouvgOtU2CN9CW6soAJ0yaXjGBI8STCqTP5DSXLrXZGkVayFf+jlYPjltBhBxQ
+	NeOQ9dgdYkzISq5rLw==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1uf6ie-000WVV-0z;
+	Fri, 25 Jul 2025 00:55:28 +0000
+Date: Fri, 25 Jul 2025 00:55:28 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
+Message-ID: <aILWAELwozskfIgj@gallifrey>
+References: <20250724175439.76962-1-linux@treblig.org>
+ <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
+ <202507241337.F9595E1D@keescook>
+ <aIKhvubVqgeXIlrj@gallifrey>
+ <202507241418.34AFD28C@keescook>
+ <20250724194556.105803db@gandalf.local.home>
+ <202507241651.5E9C803C70@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <202507241651.5E9C803C70@keescook>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
+X-Uptime: 00:53:00 up 88 days,  9:06,  1 user,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Thu, 24 Jul 2025 13:46:08 +0300 Tariq Toukan wrote:
-> Design alternatives considered:
->=20
-> 1. Recover all queues upon any error:
->     A brute-force approach that recovers all queues on any error.
->     While simple, it is overly aggressive and disrupts unaffected queues
->     unnecessarily. Also, because this is handled entirely within the
->     driver, it leads to a driver-specific implementation rather than a
->     generic one.
->=20
-> 2. Per-queue reporter:
->     This design would isolate recovery handling per SQ or RQ, effectively
->     removing interdependencies between queues. While conceptually clean,
->     it introduces significant scalability challenges as the number of
->     queues grows, as well as synchronization challenges across multiple
->     reporters.
->=20
-> 3. Error aggregation with delayed handling:
->     Errors arriving during the grace period are saved and processed after
->     it ends. While addressing the issue of related errors whose recovery
->     is aborted as grace period started, this adds complexity due to
->     synchronization needs and contradicts the assumption that no errors
->     should occur during a healthy system=E2=80=99s grace period. Also, th=
-is
->     breaks the important role of grace period in preventing an infinite
->     loop of immediate error detection following recovery. In such cases
->     we want to stop.
->=20
-> 4. Allowing a fixed burst of errors before starting grace period:
->     Allows a set number of recoveries before the grace period begins.
->     However, it also requires limiting the error reporting window.
->     To keep the design simple, the burst threshold becomes redundant.
+* Kees Cook (kees@kernel.org) wrote:
+> On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
+> > My thought is to treat AI as another developer. If a developer helps you
+> > like the AI is helping you, would you give that developer credit for that
+> > work? If so, then you should also give credit to the tooling that's helping
+> > you.
+> > 
+> > I suggested adding a new tag to note any tool that has done non-trivial
+> > work to produce the patch where you give it credit if it has helped you as
+> > much as another developer that you would give credit to.
+> 
+> We've got tags to choose from already in that case:
+> 
+> Suggested-by: LLM
 
-We're talking about burst on order of 100s, right? The implementation
-is quite simple, store an array the size of burst in which you can
-save recovery timestamps (in a circular fashion). On error, count
-how many entries are in the past N msecs.
+For me, 'Suggested-by:' seems fine for where an LLM has
+responded to a 'suggest improvements to this function'.
 
-It's a clear generalization of current scheme which can be thought of
-as having an array of size 1 (only one most recent recovery time is
-saved).
+> or
+> 
+> Co-developed-by: LLM <not@human.with.legal.standing>
+> Signed-off-by: LLM <not@human.with.legal.standing>
+> 
+> The latter seems ... not good, as it implies DCO SoB from a thing that
+> can't and hasn't acknowledged the DCO.
 
-> The grace period delay design was chosen for its simplicity and
-> precision in addressing the problem at hand. It effectively captures
-> the temporal correlation of related errors and aligns with the original
-> intent of the grace period as a stabilization window where further
-> errors are unexpected, and if they do occur, they indicate an abnormal
-> system state.
+Yeh, the Co-developed-by:  isn't terrible,  but in both that and the
+Suggested-by: is there a standard for how you would refer to the tool?
+IMHO it should not have an email address there otherwise it'll confuse tools 
+into cc'ing them.
 
-Admittedly part of what I find extremely confusing when thinking about
-this API is that the period when recovery is **not** allowed is called
-"grace period". Now we add something called "grace period delay" in
-some places in the code referred to as "reporter_delay"..
+Dave
 
-It may be more palatable if we named the first period "error burst
-period" and, well, the later I suppose it's too late to rename..
+> 
+> -- 
+> Kees Cook
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
