@@ -1,97 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583BB2EF9D6;
-	Fri, 25 Jul 2025 17:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8BE1FDA61;
+	Fri, 25 Jul 2025 17:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753464507; cv=none; b=D9Yk6nj6+I0NUDE+qrG7dYPHQINi6UbxQiEHoxxgWsx4NsMzPUUun99Yv4LpYa6R9p3s447j64QTfEjucsXgnfp1Lb+Lta7SyuyFuvakcrNEcP0MxgSNOZaCduX6pcg5qvJNGTKmkvg0RhtDHj3LSuecdxoG7DWCWZZL7hbIxNM=
+	t=1753465353; cv=none; b=aRm5mRIyjThrzn6wd0BW8ucm++fbVB1BdkT8Fz/XmZANjeYZTIcceZ6EA4k2tSh+jaOVdhUWezEf8WObcFbsX8Sc6R0J5Okj2Yki6dHuRW15AoKNFHTD+fGuURde3vPTsI0MRlyoLF877E2Z4fh/W8WQvjIGivqCaYteLWgpklw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753464507; c=relaxed/simple;
-	bh=feXgilG/ggjMCLsfTaEvMyNkjo00TFhT9KPuFkC+9U0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JpgkBML+8f9UIkyfhKjqzNlSzWp62acOJXlbhlOxIiWY69b7SmkqLsgAiC/Wr1bnWOr6E6P/IYAubgog2AFPWz0r3aeNjvrX6UMADuLwKB4EebAxBVS8ckb6zkZUy+H51iYEIIAWv0tI9UJCEoFUN+REuY8AdM9y3PzP+0k81nQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCjS9YpJ; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753465353; c=relaxed/simple;
+	bh=DLNukM6xeX8mDdNfXUUkU55B99plFgyDwDCwtBLI/ws=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PXhwx9LC+cDwEXw4ZkmN5SNGnmjISCUBbSnSTzm2+svdHdrBNVWfH4jAJu7k1pdOo6ZVgypFufblYAEsQ1GBvWgUvlgzrThYBWVCwp5sqrWUt6Eiog1KlAg2yqeewp1zF3bm2Niqsljrz7j4XnQXRDynbd6RR5Ju450+SiPMzMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UBPmXkuS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCjS9YpJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753464507; x=1785000507;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=feXgilG/ggjMCLsfTaEvMyNkjo00TFhT9KPuFkC+9U0=;
-  b=DCjS9YpJBjAIbPUeXP+elFBCz0SscQTMrt3yBL5K+vHPDID7FELXtQSB
-   9moRR3/Avh8m9Zc/aY1zLbVIknXn9W+wWdcYE0PMX87swleN3+RBJ6eZ1
-   ScfploDRAPgqoLbvvJysb6Dt9oXCTSRfoZdio60xb2EpWoGzOw7wzTQzy
-   uSEhCYCclN+EJGxKoW1Lf0cjYpgYYFUeQuI5ZoCBWelV9ABD7wsfziufr
-   09cpWbmptyTOBlW57SnqOarCj9BIu2Q2t9T373FXkIf3ua0g9HWeh00s+
-   fLtQN3eoApU8A2fzYVA8TmZX+2uZj9r3cC70YCIbxFZVKdCT1p6cLTuC7
-   A==;
-X-CSE-ConnectionGUID: XAFZ/OYcT3+/o49pqNMXuw==
-X-CSE-MsgGUID: cUIpGMJ6TRaQhlkDc3x8qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55955243"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55955243"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 10:28:26 -0700
-X-CSE-ConnectionGUID: wAocdJGmSECSJh+e6z8X4A==
-X-CSE-MsgGUID: EsFNZlTJS2uoOYRzRUhAeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="161354188"
-Received: from bvivekan-mobl1.gar.corp.intel.com (HELO [10.247.118.216]) ([10.247.118.216])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 10:28:23 -0700
-Message-ID: <da9b15a5-ca1d-468d-9460-bb64b3b39c42@intel.com>
-Date: Fri, 25 Jul 2025 10:28:18 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UBPmXkuS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47DA7C4CEE7;
+	Fri, 25 Jul 2025 17:42:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753465352;
+	bh=DLNukM6xeX8mDdNfXUUkU55B99plFgyDwDCwtBLI/ws=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UBPmXkuSK6/BZ2AR5onqsfiXkdCUDG0Ni/ipuHLrFMeoe1kLMAlyeI0JkIuZ0BXFA
+	 vaxrcJ36vqfmg+pCoOPU7GyqHAHT9NZ/AUkc51p7ARC40cj2hPnvDWwG2OeE+CFDGu
+	 4llc13MuAbA9IiAVfDcPhd5q4/Ptu3UN2tf4XRwCDoUhvvJUkqQufg49xmJnnAuXlN
+	 M5sJFtMCG8qLebZWIlJsaYCn6evKoLVrclOXBJ859C9KbQqA3MjP8VI3jfZtt6CS4n
+	 txnXfJfKdlFQYUN+RTPJ2yMRxdBP9jEFoDLWoOE/ZVc39Ny/G3VCXczcGru5zQP3Ea
+	 1aOQZP1lfeS0g==
+Date: Fri, 25 Jul 2025 10:42:31 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Prathosh Satish <Prathosh.Satish@microchip.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Michal Schmidt
+ <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
+Subject: Re: [PATCH net-next 0/5] dpll: zl3073x: Add support for devlink
+ flash
+Message-ID: <20250725104231.0307b4d1@kernel.org>
+In-Reply-To: <ea9f9931-95d9-4f7d-abba-eb7fae408977@redhat.com>
+References: <20250725154136.1008132-1-ivecera@redhat.com>
+	<ea9f9931-95d9-4f7d-abba-eb7fae408977@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/ABI/testing/debugfs-cxl: Add 'cxl' to
- clear_poison path
-To: alison.schofield@intel.com, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-Cc: linux-cxl@vger.kernel.org
-References: <20250724224308.2101255-1-alison.schofield@intel.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20250724224308.2101255-1-alison.schofield@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Fri, 25 Jul 2025 19:18:55 +0200 Ivan Vecera wrote:
+> Self nacked, need to fix warnings found by clang (not identified by
+> gcc).
 
+Thanks for the note, I suppose you updated the patchwork state
+yourself? Please prefer using pw-bot commands in networking and bpf.
 
-On 7/24/25 3:43 PM, alison.schofield@intel.com wrote:
-> From: Alison Schofield <alison.schofield@intel.com>
-> 
-> 'cxl' is missing from the path to the clear_poison attribute. Add it.
-> 
-> Signed-off-by: Alison Schofield <alison.schofield@intel.com>
+(BTW net-next is closed already)
 
-Applied to cxl/next
+Quoting documentation:
 
-> ---
->  Documentation/ABI/testing/debugfs-cxl | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/ABI/testing/debugfs-cxl b/Documentation/ABI/testing/debugfs-cxl
-> index 12488c14be64..e95e21f131e9 100644
-> --- a/Documentation/ABI/testing/debugfs-cxl
-> +++ b/Documentation/ABI/testing/debugfs-cxl
-> @@ -20,7 +20,7 @@ Description:
->  		visible for devices supporting the capability.
->  
->  
-> -What:		/sys/kernel/debug/memX/clear_poison
-> +What:		/sys/kernel/debug/cxl/memX/clear_poison
->  Date:		April, 2023
->  KernelVersion:	v6.4
->  Contact:	linux-cxl@vger.kernel.org
-> 
-> base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
-
+  Updating patch status
+  ~~~~~~~~~~~~~~~~~~~~~
+  
+  Contributors and reviewers do not have the permissions to update patch
+  state directly in patchwork. Patchwork doesn't expose much information
+  about the history of the state of patches, therefore having multiple
+  people update the state leads to confusion.
+  
+  Instead of delegating patchwork permissions netdev uses a simple mail
+  bot which looks for special commands/lines within the emails sent to
+  the mailing list. For example to mark a series as Changes Requested
+  one needs to send the following line anywhere in the email thread::
+  
+    pw-bot: changes-requested
+  
+  As a result the bot will set the entire series to Changes Requested.
+  This may be useful when author discovers a bug in their own series
+  and wants to prevent it from getting applied.
+  
+  The use of the bot is entirely optional, if in doubt ignore its existence
+  completely. Maintainers will classify and update the state of the patches
+  themselves. No email should ever be sent to the list with the main purpose
+  of communicating with the bot, the bot commands should be seen as metadata.
+  
+  The use of the bot is restricted to authors of the patches (the ``From:``
+  header on patch submission and command must match!), maintainers of
+  the modified code according to the MAINTAINERS file (again, ``From:``
+  must match the MAINTAINERS entry) and a handful of senior reviewers.
+  
+  Bot records its activity here:
+  
+    https://netdev.bots.linux.dev/pw-bot.html
+  
+See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#updating-patch-status
