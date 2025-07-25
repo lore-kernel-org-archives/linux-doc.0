@@ -1,374 +1,196 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9BF2580CB
-	for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 22:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D35F257AF9;
+	Fri, 25 Jul 2025 23:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753484065; cv=none; b=hGk491DGJnIAufUgN8UXJkJsRlKgYZkidMnzKEFzwW2ZsLSE8oBKI7RbVpCjI2pvxKDzEmBRf0AULTakWmSkKRc7G6C6BeSJCGP02Ak2LVD/BlFJU2r8HBNmFKnOVO6JqsUPUJaepqa0E4fAAL5+y6u12vmfMDoFqbyYXnh8Ta4=
+	t=1753486169; cv=none; b=sdFn/5PuK9IYgrfDkW1JJaGARVeyvDoWnoSHKK/f5IeY6prk04Jk1tyeVoUi6X8lUngTlrEHscUBtBHhF6WEh6q43YrRCJW5tY8gQcY+90GwMwrOOu60ffQEAKnUox/KgjXm0RW054DdNVRQSFqyLr6HjorOaR2vYVuyT7k+NKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753484065; c=relaxed/simple;
-	bh=DS26vaBRgwahRFAlqRPBAoUd6fSy9hPCYTaFg82VRkI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ak9sSaaEVbRUZjj12RVfcktdPEYd+Nt/2+ysxNexZcohLwM/L3Mk4Yx2QGo/1Y479rPf8C4uMtH25oKkGepiw+1mcsAWtn+SQq/oNuoK2Fi1PcmQgANsW+Hu0wDg0qUcuQi6nA9VJzSeq69D9elRQXk1Fkm8WgWhUt5cmaRD6ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U6dggCBP; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1753486169; c=relaxed/simple;
+	bh=R5l3oFGTLukSK9sw1k0scbzU39GzzcxcQt3mDJLyyV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ASBlYF40ry6Dz4dYhM7ZKwZqEFOkjzTBHDXhtUddv8PIBzatCXcDfwsXF7tAsmtRtW3cJR891Y0drMwE0P+x1ANezniHKdyXwoYJ+ku7qp0JP0+s8MTUAURHbkVZ+IzZ3Fq1xYj88lEhdm6xz9/zYOiT665Tv0V6dQsTige8yOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=avQz/70D; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U6dggCBP"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4562b2d98bcso7875e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 15:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1753484062; x=1754088862; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SrH0YNsJJUyH6a6DVSuV6GhoCitszYqU7WFGsnyX9bU=;
-        b=U6dggCBPdulh/HofHVPo+icdB2cKbUxlzRvbv3kO9FH3ydM9l8yZDPbIHTZ0LZzeK+
-         7IR6bGUfaMFa9WqrNJIoP0P0sSdFG8P0XeG004/BA69Ijhku1+Rx/1S0Fl7/Q7tNKFhN
-         wioz2bhTmWV1IyWOYjTJDBv13UcB7rJhgogZ2zhqFXioQNAsPRwgpt1BQeLsmsBa7R/J
-         FIy477or7U5GOhzogvaj3P6yNjvZ6p0Iaww6kUI+wyZq0kE2CAr3HJWc8TwGkiAFF4Zc
-         R+GUfWwRu7Iy5ctM/0aNSRag5KwLwcFSkhl1RtLgiKB+SHzv7UPMgiy0MV6jJIScT6Lh
-         5r/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753484062; x=1754088862;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SrH0YNsJJUyH6a6DVSuV6GhoCitszYqU7WFGsnyX9bU=;
-        b=jC2JCz9JxkXeKzFbV2wZX8x4sy1+I/pr+8s8F+8gQPd+ofdr5HZrNG02xuJiGQH2YZ
-         rgPvfmuqCGtp0li40BQBtYVpkPSlL5+kcXBb8LaQUxr9ZaXlQStupluAliBUMciPmUkG
-         h1u0DBht3A4PGw9Gpq9dsF/1VTK4COVzNptHIIE93mEQDYU41S7aSqY5TFTC42x8Zmxh
-         CzRkZhWASXRct7e5bz7+q24KAa4I6yOeBohQRuBWrwBF6YGJYTEdSR1R1hU4Sr2zb75d
-         YU+Lb9Zf++XiEp9CbGq3uPSwbZoYTX46S6n61xU1bwHmo9VpwHxwp9z35p3k4a4/fRJ0
-         U9bw==
-X-Forwarded-Encrypted: i=1; AJvYcCXLjkC+c8xq8EPwgyhUU4g+EqVQZ260V+TzjHzThmkJ3SK/pOKksvhcbCoNHo1MXQu9FSsO8IRChw0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymuI9PPci7rEOb6FQAk+g2fk6Zw/Oj6t+w9Zvswa8Q7+W5C1H4
-	36d5Pl4MRy/jXePtz/eD8Rcjb6kCVCZ5wyopBZ5vCkaBHRLcG/uFpc/SnpZplUSMmupETWU1K/X
-	dINaYY2vyCFyICMn3803a3U+22CGXfWDQU8pJWzBZ
-X-Gm-Gg: ASbGncvtKiNtN1bRzuthO/PHoFzJEGZ+oV7PS+y6I/vz6Dr7ya08Iinj6TdF1Kufu01
-	7LuCX/noBtj0gQBNNe3eUxqjztYkX7hdLJ8FsAq0GESoCTK7wt4C6tY0wvojPlyumJKA27OCcul
-	GAAFJcAJgBNIae4xSaiVXStuP7MSk5qeQ5eeToQOk5yxoT9XR23sRZVp/NlNt4oSOIvFvYCLrh0
-	msHa2aN9NzRvIgsYFOFHIli2tKTmD9zIvzBSQ==
-X-Google-Smtp-Source: AGHT+IEXVboywdhHKbB21FrYI19SVE/5eWAE9USxvMw9lAL1b7BTPdyv52TpToqz3CvoLCcmj+yjtDmKNzHRxga+43I=
-X-Received: by 2002:a05:600c:3ba3:b0:450:cb25:ead with SMTP id
- 5b1f17b1804b1-4587c99bf66mr125825e9.7.1753484061777; Fri, 25 Jul 2025
- 15:54:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="avQz/70D"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=7/6Mvp/HmKwTR0veXV11IQkg7Afl723Mtblk3lghe6k=; b=avQz/70DpiVW9trH
+	uABTdYfxwBkb/GrXfruN1zoWHOwIydZIZ+34tP8SsUCYarCTAxaTKfcuWkebZQoHyhGhpy04SB229
+	VNUw/LI3bWVEFOYNl0rap4fytrbwEqY6pipIStcPnbYQ+orJPFUqpx5iPx9hqCNRXLXiR8GF9dpqX
+	es0zizv6jd9vCMyoSW6ay/fB1xRrevIpvZXiDBvqx9z8fVWOM98egkSwEc38B5J3Sa/j9utJTK3rz
+	3J8NDKxMc0OGQ0JkVl9ShCqaEA1t4Qm8sPus7dqkDp8HuDbmyeoBvN/Sj6o/MKIUEgik1DHZQUjRW
+	YDeebWfsbvAZ5atcdQ==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1ufRqp-000iOj-2y;
+	Fri, 25 Jul 2025 23:29:19 +0000
+Date: Fri, 25 Jul 2025 23:29:19 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
+Message-ID: <aIQTT6Gaf1WhxRX7@gallifrey>
+References: <202507241337.F9595E1D@keescook>
+ <aIKhvubVqgeXIlrj@gallifrey>
+ <202507241418.34AFD28C@keescook>
+ <20250724194556.105803db@gandalf.local.home>
+ <202507241651.5E9C803C70@keescook>
+ <aILYj62tF_1mDjDO@lappy>
+ <aILb-zDiDr4b9u9S@gallifrey>
+ <aILjTKk_v8NPxlVJ@lappy>
+ <aINqjTAwbQ_xnAw6@gallifrey>
+ <aIQHzWOkWYCGX4Xg@lappy>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250604050902.3944054-1-jiaqiyan@google.com> <20250604050902.3944054-2-jiaqiyan@google.com>
- <aHFohmTb9qR_JG1E@linux.dev> <CACw3F509B=AHhpaTcuH9O851rrDdHh1baC8uRYy7bDa7BSMhgg@mail.gmail.com>
- <aHK-DPufhLy5Dtuk@linux.dev> <CACw3F53TYZ1KFv0Yc-GCyOxn7TF3iYjTNSE8bd3nte=KaCN0UQ@mail.gmail.com>
-In-Reply-To: <CACw3F53TYZ1KFv0Yc-GCyOxn7TF3iYjTNSE8bd3nte=KaCN0UQ@mail.gmail.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Fri, 25 Jul 2025 15:54:10 -0700
-X-Gm-Features: Ac12FXyZ0np7ePqY2RtGzxlS12fDizdwLAcMXNFO9IJOKnf3jD-9veylvlP7J20
-Message-ID: <CACw3F50Q_G75wf2rBm-P-NkyyO72i1NKqR9se99QrgipfD62yg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] KVM: arm64: VM exit to userspace to handle SEA
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, 
-	yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, 
-	pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, kvm@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, duenwen@google.com, rananta@google.com, 
-	jthoughton@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <aIQHzWOkWYCGX4Xg@lappy>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
+X-Uptime: 23:20:11 up 89 days,  7:33,  1 user,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Sat, Jul 19, 2025 at 2:24=E2=80=AFPM Jiaqi Yan <jiaqiyan@google.com> wro=
-te:
->
-> On Sat, Jul 12, 2025 at 12:57=E2=80=AFPM Oliver Upton <oliver.upton@linux=
-.dev> wrote:
-> >
-> > On Fri, Jul 11, 2025 at 04:59:11PM -0700, Jiaqi Yan wrote:
-> > > >  - Add some detail about FEAT_RAS where we may still exit to usersp=
-ace
-> > > >    for host-controlled memory, as we cannot differentiate between a
-> > > >    stage-1 or stage-2 TTW SEA when taken on the descriptor PA
-> > >
-> > > Ah, IIUC, you are saying even if the FSC code tells fault is on TTW
-> > > (esr_fsc_is_secc_ttw or esr_fsc_is_sea_ttw), it can either be guest
-> > > stage-1's or stage-2's descriptor PA, and we can tell which from
-> > > which.
-> > >
-> > > However, if ESR_ELx_S1PTW is set, we can tell this is a sub-case of
-> > > stage-2 descriptor PA, their usage is for stage-1 PTW but they are
-> > > stage-2 memory.
-> > >
-> > > Is my current understanding right?
-> >
-> > Yep, that's exactly what I'm getting at. As you note, stage-2 aborts
-> > during a stage-1 walk are sufficiently described, but not much else.
->
-> Got it, thanks!
->
-> >
-> > > > +/*
-> > > > + * Returns true if the SEA should be handled locally within KVM if=
- the abort is
-> > > > + * caused by a kernel memory allocation (e.g. stage-2 table memory=
-).
-> > > > + */
-> > > > +static bool host_owns_sea(struct kvm_vcpu *vcpu, u64 esr)
-> > > > +{
-> > > > +       /*
-> > > > +        * Without FEAT_RAS HCR_EL2.TEA is RES0, meaning any extern=
-al abort
-> > > > +        * taken from a guest EL to EL2 is due to a host-imposed ac=
-cess (e.g.
-> > > > +        * stage-2 PTW).
-> > > > +        */
-> > > > +       if (!cpus_have_final_cap(ARM64_HAS_RAS_EXTN))
-> > > > +               return true;
-> > > > +
-> > > > +       /* KVM owns the VNCR when the vCPU isn't in a nested contex=
-t. */
-> > > > +       if (is_hyp_ctxt(vcpu) && (esr & ESR_ELx_VNCR))
-> > > > +               return true;
-> > > > +
-> > > > +       /*
-> > > > +        * Determining if an external abort during a table walk hap=
-pened at
-> > > > +        * stage-2 is only possible with S1PTW is set. Otherwise, s=
-ince KVM
-> > > > +        * sets HCR_EL2.TEA, SEAs due to a stage-1 walk (i.e. acces=
-sing the PA
-> > > > +        * of the stage-1 descriptor) can reach here and are report=
-ed with a
-> > > > +        * TTW ESR value.
-> > > > +        */
-> > > > +       return esr_fsc_is_sea_ttw(esr) && (esr & ESR_ELx_S1PTW);
-> > >
-> > > Should we include esr_fsc_is_secc_ttw? like
-> > >   (esr_fsc_is_sea_ttw(esr) || esr_fsc_is_secc_ttw(esr)) && (esr & ESR=
-_ELx_S1PTW)
-> >
-> > Parity / ECC errors are not permitted if FEAT_RAS is implemented (which
-> > is tested for up front).
->
-> Ah, thanks for pointing this out.
->
-> >
-> > > > +}
-> > > > +
-> > > >  int kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
-> > > >  {
-> > > > +       u64 esr =3D kvm_vcpu_get_esr(vcpu);
-> > > > +       struct kvm_run *run =3D vcpu->run;
-> > > > +       struct kvm *kvm =3D vcpu->kvm;
-> > > > +       u64 esr_mask =3D ESR_ELx_EC_MASK  |
-> > > > +                      ESR_ELx_FnV      |
-> > > > +                      ESR_ELx_EA       |
-> > > > +                      ESR_ELx_CM       |
-> > > > +                      ESR_ELx_WNR      |
-> > > > +                      ESR_ELx_FSC;
-> > >
-> > > Do you (and why) exclude ESR_ELx_IL on purpose?
-> >
-> > Unintended :)
->
-> Will add into my patch.
->
-> >
-> > > BTW, if my previous statement about TTW SEA is correct, then I also
-> > > understand why we need to explicitly exclude ESR_ELx_S1PTW.
-> >
-> > Right, we shouldn't be exposing genuine stage-2 external aborts to user=
-space.
-> >
-> > > > +       u64 ipa;
-> > > > +
-> > > > +
-> > > >         /*
-> > > >          * Give APEI the opportunity to claim the abort before hand=
-ling it
-> > > >          * within KVM. apei_claim_sea() expects to be called with I=
-RQs
-> > > > @@ -1824,7 +1864,32 @@ int kvm_handle_guest_sea(struct kvm_vcpu *vc=
-pu)
-> > > >         if (apei_claim_sea(NULL) =3D=3D 0)
-> > >
-> > > I assume kvm should still lockdep_assert_irqs_enabled(), right? That
-> > > is, a WARN_ON_ONCE is still useful in case?
-> >
-> > Ah, this is diffed against my VNCR prefix which has this context. Yes, =
-I
-> > want to preserve the lockdep assertion.
->
-> Thanks for sharing the patch! Should I wait for you to send and queue
-> to kvmarm/next and rebase my v3 to it? Or should I insert it into my
-> v3 patch series with you as the commit author, and Signed-off-by you?
+* Sasha Levin (sashal@kernel.org) wrote:
+> On Fri, Jul 25, 2025 at 11:29:17AM +0000, Dr. David Alan Gilbert wrote:
+> > * Sasha Levin (sashal@kernel.org) wrote:
+> > > On Fri, Jul 25, 2025 at 01:20:59AM +0000, Dr. David Alan Gilbert wrote:
+> > > > * Sasha Levin (sashal@kernel.org) wrote:
+> > > > > On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
+> > > > > > On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
+> > > > > > > My thought is to treat AI as another developer. If a developer helps you
+> > > > > > > like the AI is helping you, would you give that developer credit for that
+> > > > > > > work? If so, then you should also give credit to the tooling that's helping
+> > > > > > > you.
+> > > > > > >
+> > > > > > > I suggested adding a new tag to note any tool that has done non-trivial
+> > > > > > > work to produce the patch where you give it credit if it has helped you as
+> > > > > > > much as another developer that you would give credit to.
+> > > > > >
+> > > > > > We've got tags to choose from already in that case:
+> > > > > >
+> > > > > > Suggested-by: LLM
+> > > > > >
+> > > > > > or
+> > > > > >
+> > > > > > Co-developed-by: LLM <not@human.with.legal.standing>
+> > > > > > Signed-off-by: LLM <not@human.with.legal.standing>
+> > > > > >
+> > > > > > The latter seems ... not good, as it implies DCO SoB from a thing that
+> > > > > > can't and hasn't acknowledged the DCO.
+> > > > >
+> > > > > In my mind, "any tool" would also be something like gcc giving you a
+> > > > > "non-trivial" error (think something like a buffer overflow warning that
+> > > > > could have been a security issue).
+> > > > >
+> > > > > In that case, should we encode the entire toolchain used for developing
+> > > > > a patch?
+> > > > >
+> > > > > Maybe...
+> > > > >
+> > > > > Some sort of semi-standardized shorthand notation of the tooling used to
+> > > > > develop a patch could be interesting not just for plain disclosure, but
+> > > > > also to be able to trace back issues with patches ("oh! the author
+> > > > > didn't see a warning because they use gcc 13 while the warning was added
+> > > > > in gcc 14!").
+> > > > >
+> > > > > Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
+> > > > >
+> > > > > This way some of it could be automated via git hooks and we can recommend
+> > > > > a relevant string to add with checkpatch.
+> > > >
+> > > > For me there are two separate things:
+> > > >  a) A tool that found a problem
+> > > >  b) A tool that wrote a piece of code.
+> > > >
+> > > > I think the cases you're referring to are all (a), where as I'm mostly
+> > > > thinking here about (b).
+> > > > In the case of (a) it's normally _one_ of those tools that found it,
+> > > > e.g. I see some:
+> > > >   Found by gcc -fanalyzer
+> > > 
+> > > I think that the line between (a) and (b) gets very blurry very fast, so
+> > > I'd rather stay out of trying to define it.
+> > > 
+> > > Running "cargo clippy" on some code might generate a warning as follows:
+> > > 
+> > > warning: variables can be used directly in the `format!` string
+> > >   --> dyad/src/kernel/sha_processing.rs:20:13
+> > >    |
+> > > 20 |             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
+> > >    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > >    |
+> > >    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
+> > >    = note: `#[warn(clippy::uninlined_format_args)]` on by default
+> > > help: change this to
+> > >    |
+> > > 20 -             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
+> > > 20 +             debug!("git sha {git_sha} could not be validated, attempting a second way...");
+> > > 
+> > > As you see, it proposes a fix at the bottom. Should I attribute "cargo
+> > > clippy" in my commit message as it wrote some code?
+> > > 
+> > > Would your answer change if I run "cargo clippy --fix" which would
+> > > automatically apply the fix on it's own?
+> > > 
+> > > We'll be hitting these issues all over the place if we try and draw a
+> > > line... For example, with more advances autocompletion: where would you
+> > > draw the line between completing variable names and writing an entire
+> > > function based on a comment I've made?
+> > 
+> > Fuzzy isn't it!
+> > 
+> > There's at least 3 levels as I see it:
+> >  1) Reported-by:
+> >    That's a lot of tools, that generate an error or warning.
+> >  2) Suggested-by:
+> >    That covers your example above (hmm including --fix ????)
+> >  3) Co-authored-by:
+> >    Where a tool wrote code based on your more abstract instructions
+> > 
+> > (1) & (2) are taking some existing code and finding errors or light
+> > improvements;  I don't think it matters whether the tool is a good
+> > old chunk of C or an LLM that's doing it, but how much it's originating.
+> 
+> So let's say I'm using github copilot, and I go:
+> 
+> 	/* Iterate over pointers in KEY_TYPE_extent: */
+> 	#define extent_ptr_next(_e, _ptr) <tab> <tab>
+> 
+> and copilot completes the code with "__bkey_ptr_next(_ptr, extent_entry_last(_e))".
+> 
+> Was my instruction abstract? Was it within the realm of something we
+> consider a trivial change, or should we attribute the agent? :)
 
-Friendly ping for this question, my v3 is ready but want to confirm
-the best option here.
+Heck, I don't know either!   I mean there are places & projects that ban even
+that level of use, but I'd agree that the 'more abstract' doesn't fit there.
 
-Recently we found even the newer ARM64 platforms used by our org has
-to rely on KVM to more gracefully handle SEA (lacking support from
-APEI), so we would really want to work with upstream to lock down the
-proposed approach/UAPI asap.
+> Why tackle any of this to begin with?
 
-Thanks!
+It seemed to me appropriate to identify use of AI which some might
+object to, or which wouldn't be allowed in their project, or which
+might indicate the need to look for different type of errors than
+humans normally make.  At the same time it seemed appropriate to
+acknowledge things that worked.
 
->
-> BTW, while I am working on v3, I think it is probably better to
-> decouple the current patchset into two. The first one for
-> KVM_EXIT_ARM_SEA, and the second one for injecting (D|I)ABT with
-> user-supplemented esr. This way may help KVM_EXIT_ARM_SEA, the more
-> important feature, get reviewed and accepted sooner. I will send out a
-> separate patchset for enhancing the guest SEA injection.
->
-> >
-> >
-> > From eb63dbf07b3d1f42b059f5c94abd147d195299c8 Mon Sep 17 00:00:00 2001
-> > From: Oliver Upton <oliver.upton@linux.dev>
-> > Date: Thu, 10 Jul 2025 17:14:51 -0700
-> > Subject: [PATCH] KVM: arm64: nv: Handle SEAs due to VNCR redirection
-> >
-> > Signed-off-by: Oliver Upton <oliver.upton@linux.dev>
-> > ---
-> >  arch/arm64/include/asm/kvm_mmu.h |  1 +
-> >  arch/arm64/include/asm/kvm_ras.h | 25 -------------------------
-> >  arch/arm64/kvm/mmu.c             | 30 ++++++++++++++++++------------
-> >  arch/arm64/kvm/nested.c          |  3 +++
-> >  4 files changed, 22 insertions(+), 37 deletions(-)
-> >  delete mode 100644 arch/arm64/include/asm/kvm_ras.h
-> >
-> > diff --git a/arch/arm64/include/asm/kvm_mmu.h b/arch/arm64/include/asm/=
-kvm_mmu.h
-> > index ae563ebd6aee..e4069f2ce642 100644
-> > --- a/arch/arm64/include/asm/kvm_mmu.h
-> > +++ b/arch/arm64/include/asm/kvm_mmu.h
-> > @@ -180,6 +180,7 @@ void kvm_free_stage2_pgd(struct kvm_s2_mmu *mmu);
-> >  int kvm_phys_addr_ioremap(struct kvm *kvm, phys_addr_t guest_ipa,
-> >                           phys_addr_t pa, unsigned long size, bool writ=
-able);
-> >
-> > +int kvm_handle_guest_sea(struct kvm_vcpu *vcpu);
-> >  int kvm_handle_guest_abort(struct kvm_vcpu *vcpu);
-> >
-> >  phys_addr_t kvm_mmu_get_httbr(void);
-> > diff --git a/arch/arm64/include/asm/kvm_ras.h b/arch/arm64/include/asm/=
-kvm_ras.h
-> > deleted file mode 100644
-> > index 9398ade632aa..000000000000
-> > --- a/arch/arm64/include/asm/kvm_ras.h
-> > +++ /dev/null
-> > @@ -1,25 +0,0 @@
-> > -/* SPDX-License-Identifier: GPL-2.0 */
-> > -/* Copyright (C) 2018 - Arm Ltd */
-> > -
-> > -#ifndef __ARM64_KVM_RAS_H__
-> > -#define __ARM64_KVM_RAS_H__
-> > -
-> > -#include <linux/acpi.h>
-> > -#include <linux/errno.h>
-> > -#include <linux/types.h>
-> > -
-> > -#include <asm/acpi.h>
-> > -
-> > -/*
-> > - * Was this synchronous external abort a RAS notification?
-> > - * Returns '0' for errors handled by some RAS subsystem, or -ENOENT.
-> > - */
-> > -static inline int kvm_handle_guest_sea(void)
-> > -{
-> > -       /* apei_claim_sea(NULL) expects to mask interrupts itself */
-> > -       lockdep_assert_irqs_enabled();
-> > -
-> > -       return apei_claim_sea(NULL);
-> > -}
-> > -
-> > -#endif /* __ARM64_KVM_RAS_H__ */
-> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> > index 1c78864767c5..6934f4acdc45 100644
-> > --- a/arch/arm64/kvm/mmu.c
-> > +++ b/arch/arm64/kvm/mmu.c
-> > @@ -4,19 +4,20 @@
-> >   * Author: Christoffer Dall <c.dall@virtualopensystems.com>
-> >   */
-> >
-> > +#include <linux/acpi.h>
-> >  #include <linux/mman.h>
-> >  #include <linux/kvm_host.h>
-> >  #include <linux/io.h>
-> >  #include <linux/hugetlb.h>
-> >  #include <linux/sched/signal.h>
-> >  #include <trace/events/kvm.h>
-> > +#include <asm/acpi.h>
-> >  #include <asm/pgalloc.h>
-> >  #include <asm/cacheflush.h>
-> >  #include <asm/kvm_arm.h>
-> >  #include <asm/kvm_mmu.h>
-> >  #include <asm/kvm_pgtable.h>
-> >  #include <asm/kvm_pkvm.h>
-> > -#include <asm/kvm_ras.h>
-> >  #include <asm/kvm_asm.h>
-> >  #include <asm/kvm_emulate.h>
-> >  #include <asm/virt.h>
-> > @@ -1811,6 +1812,20 @@ static void handle_access_fault(struct kvm_vcpu =
-*vcpu, phys_addr_t fault_ipa)
-> >         read_unlock(&vcpu->kvm->mmu_lock);
-> >  }
-> >
-> > +int kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
-> > +{
-> > +       /*
-> > +        * Give APEI the opportunity to claim the abort before handling=
- it
-> > +        * within KVM. apei_claim_sea() expects to be called with IRQs
-> > +        * enabled.
-> > +        */
-> > +       lockdep_assert_irqs_enabled();
-> > +       if (apei_claim_sea(NULL) =3D=3D 0)
-> > +               return 1;
-> > +
-> > +       return kvm_inject_serror(vcpu);
-> > +}
-> > +
-> >  /**
-> >   * kvm_handle_guest_abort - handles all 2nd stage aborts
-> >   * @vcpu:      the VCPU pointer
-> > @@ -1834,17 +1849,8 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu=
-)
-> >         gfn_t gfn;
-> >         int ret, idx;
-> >
-> > -       /* Synchronous External Abort? */
-> > -       if (kvm_vcpu_abt_issea(vcpu)) {
-> > -               /*
-> > -                * For RAS the host kernel may handle this abort.
-> > -                * There is no need to pass the error into the guest.
-> > -                */
-> > -               if (kvm_handle_guest_sea())
-> > -                       return kvm_inject_serror(vcpu);
-> > -
-> > -               return 1;
-> > -       }
-> > +       if (kvm_vcpu_abt_issea(vcpu))
-> > +               return kvm_handle_guest_sea(vcpu);
-> >
-> >         esr =3D kvm_vcpu_get_esr(vcpu);
-> >
-> > diff --git a/arch/arm64/kvm/nested.c b/arch/arm64/kvm/nested.c
-> > index 096747a61bf6..38b0e3a9a6db 100644
-> > --- a/arch/arm64/kvm/nested.c
-> > +++ b/arch/arm64/kvm/nested.c
-> > @@ -1289,6 +1289,9 @@ int kvm_handle_vncr_abort(struct kvm_vcpu *vcpu)
-> >
-> >         BUG_ON(!(esr & ESR_ELx_VNCR_SHIFT));
-> >
-> > +       if (kvm_vcpu_abt_issea(vcpu))
-> > +               return kvm_handle_guest_sea(vcpu);
-> > +
-> >         if (esr_fsc_is_permission_fault(esr)) {
-> >                 inject_vncr_perm(vcpu);
-> >         } else if (esr_fsc_is_translation_fault(esr)) {
-> > --
-> > 2.39.5
-> >
+Dave
+
+> -- 
+> Thanks,
+> Sasha
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
