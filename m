@@ -1,421 +1,146 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840382EF9B4
-	for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 15:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397F92BB17
+	for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 16:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753458131; cv=none; b=Cl2guS2Lxe44+Js+Zm31gMjZnrj0FXMlUIPU2x8+BCyaXDFABLw6oAjKee8GGpkacgTSTsOFDgkfabS7BMLh+l6Es2yEYyqoG4/JW9B3VrfGEcuAMd5kzTxWmq1IsnKFjhjun9j8yWSeMHVvwQkV4/NOD+oMF0/y06nyGq/hHeU=
+	t=1753460068; cv=none; b=ETfk3Uza6zxNwQX5mxFKKBNfq97C20XbFSiGb1zWQoGy/lWjYw5yHdXZ2FRDKB20zXFY9/IZPGMbkZdBHkPIxYc+wWmm3AM4A8q2xnCdvki/9OR+YC6UGo1YG8BYpesp2sIH52uBttPQgMS1RLk3Wmcr/gtDahos3pJbh2KEvc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753458131; c=relaxed/simple;
-	bh=AMtecukD+c7HRnKNJMkxLchm4exdtOVKEDOuiQe340Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NnIOeFQyvrbOxj+sAk8B8xu6ReqNJ8WF4jyk4O2sSvHZbqzUh8h8iulF5/JMZds8mivs1l9ZaGWNLHs42C7OHJY0aZhTVADu4emHnuxHQtyGfDYcDUKGSDao4xADKM3XXWRwcTcKivCSF2sPV2g1P5hFSt/Kwz9/Oz62KHdg8lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PHq/EcYq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1753460068; c=relaxed/simple;
+	bh=zy4+5I7aIssi/rmMSBtYygJxN6pNtn3MaFBiLibPOAA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FR6sJAO3ULJYIZFq5+Lrhs9gU9k8OpvxOXo3Xg5ZHYDafR79edZtx4fi/noMJAGNG7jm6dqkoBgny7zo3TX3gREqxg2eYoRY44yI8aAkAWKd2zEYGy78Qp8tfBMwq/gflWHx25eUPeLzLyiKDzFZ3MYyQyNVtQRQP7gxAlV1Gi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VFdm9juM; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PHq/EcYq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753458126;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wtCbzuYWLe0Jy2fUsoiE0Q0JrQHtuM5Ho73ZqD3AqIo=;
-	b=PHq/EcYqrOvI3ftLR8KFvF3Eq0LQiI37FMZWaFJyQnAMrJ9//gUkqc4czgWJJTsDmFb2e7
-	4Ew54GVItzq8RVfAVH4nTIruF6kU+q7okFKOKoRAIVq1CztdqO5zg1unu2N0A6fNQHMmrg
-	nUZuZ9cpTBQn2EN/Ux8831TtEXxXSL0=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-282-iVvjoTV1MlWgbWQsvxgDaQ-1; Fri,
- 25 Jul 2025 11:42:02 -0400
-X-MC-Unique: iVvjoTV1MlWgbWQsvxgDaQ-1
-X-Mimecast-MFC-AGG-ID: iVvjoTV1MlWgbWQsvxgDaQ_1753458119
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C7E2E19560A3;
-	Fri, 25 Jul 2025 15:41:58 +0000 (UTC)
-Received: from p16v.luc.cera.cz (unknown [10.45.224.176])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 24B5119560AA;
-	Fri, 25 Jul 2025 15:41:54 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Petr Oros <poros@redhat.com>
-Subject: [PATCH net-next 4/5] dpll: zl3073x: Refactor DPLL initialization
-Date: Fri, 25 Jul 2025 17:41:35 +0200
-Message-ID: <20250725154136.1008132-5-ivecera@redhat.com>
-In-Reply-To: <20250725154136.1008132-1-ivecera@redhat.com>
-References: <20250725154136.1008132-1-ivecera@redhat.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VFdm9juM"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56P8m5fq017965
+	for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 16:14:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	pTRAzXltnnQkXzy/4MfHD1BpN0UeO0JYTlGtIooVxhY=; b=VFdm9juMycnYZSHZ
+	zUXA92nIOBcEnWTYEaYZVS7emlqydaCowoY21CWFScsHSDVVExvYnMTn3+dlby5s
+	4hFLISQiz6TZG5bi9tOohYCb2gCWD9ar+XlLTzhbijgIX5E+1GuC37zcPa/MIpya
+	Oo+QWB/wZTSCWzJFBHyT5vIqi3kLN//g/8yaVMd6jODWQHGtad5rkobIVYMVlpGi
+	QLhQbu1VTEgSBYOY3iL0IqqWARLFc6G4r96pz9jb5jkIpBrByhITf5ekJy3yUGmo
+	cGXUD/bTv2Rbch1TAYQSSp7JiozaHKVfDPiHii4f0OPK+8rFfOAqjLYfe6b2gPOs
+	XMi8ug==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 483w2wjpr2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 16:14:26 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-b3f33295703so2961209a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 09:14:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753460065; x=1754064865;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pTRAzXltnnQkXzy/4MfHD1BpN0UeO0JYTlGtIooVxhY=;
+        b=UuTmy0Q5oA0uliOdAl3HESGrwj3aN6mx6YPpABNHj/ZlkoklGeBgNkB0NncOKongTE
+         1QdVQhwRrvHOENqWZA1dop4K8hZn5895MauX71T2KSQ2qGK4B7m/yguFHKjUifufB7ZS
+         xSSMNHv5p63IZt4r9/nfM97vJ733YKc6+K+GAWRoeaOI0jR6s40leEObd5W0+YLHR3cE
+         BvAuQmiOWrUu+2d0zxSrTMAM5VNpqr4hTPf5ebuwyDXh+CCaEEIVC3IH8fQfzPZ2BqdL
+         a/i4VlLy1pI2RF7Y9S+01q1KhbRx0xWwaWFh8HF/kBbN9E1i2Y7TVjWxC6lq2yHLfFWL
+         Y1rw==
+X-Forwarded-Encrypted: i=1; AJvYcCUYsfQQm+mQT5BpLsfHEURNN87cR0v9Gn1ab/Zjp+fu/rNXO1Ixo3ZiJ2i6EOJaLyAb+r0gyQ44wCA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYIll6mHJgBETQoqgRxTJfXd+zMbfyfc9x4jbdlc9e2i+e5dXY
+	aVMxGdQja9n0oZK2Wm8x7teilGSWQUxOHC6AzIAGQMw8oWgpSsqQg3ChtV0RPH8bCCxMRkiL1ee
+	0WWkbcMlymUG7889IZEgZtIEd1Fj9ORb2b4bv+mtm02WIctvHrx796yVy6emLwmI=
+X-Gm-Gg: ASbGncvEaABnzHVVG96AnZr+zB84LG0Tz/9O3Kyvuw1L3VTLM4nZREd36c+9gNcVl2l
+	O0AEr/eyuKGEizQlqOSrx7cGkjwm4W2RFxYdSkYxg0ajq3RiqAMzNTmfk+YQ5lNwl5QTY+tCjon
+	wRpzUuy39MgqUePtzgnp0QPeqi7Proe94uGYn9W6Ylq0Jo6fdBWlPyGjAP3Gggf1SyEgqFCJRud
+	9tjUgLLSQkwp/AMyuEkkprk+YK90CYVfAH7qmWkcQxtKEvvLhd5HhinA47FltiRcVpEDA7+u0BJ
+	cEcjP6wEQJZLoIe3lqV813SYgGREPLAScwV5w4QnSvw8KrgPdntuO4Dx7OGsZJ5HD8dTqo6gkZr
+	hY9reOExu8uNAqA==
+X-Received: by 2002:a05:6a20:7288:b0:239:1c1e:3edf with SMTP id adf61e73a8af0-23d701eaf4cmr4483535637.40.1753460065432;
+        Fri, 25 Jul 2025 09:14:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEH45mowQM24zNVVrDWA1OAKen9/Rncat1udl96ywd3HTaGlMrzSKhS42XbAwTPbo2lmkT86g==
+X-Received: by 2002:a05:6a20:7288:b0:239:1c1e:3edf with SMTP id adf61e73a8af0-23d701eaf4cmr4483464637.40.1753460064981;
+        Fri, 25 Jul 2025 09:14:24 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7640b8b0c60sm71215b3a.126.2025.07.25.09.14.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Jul 2025 09:14:24 -0700 (PDT)
+Message-ID: <12223a91-82f0-4889-8f07-bfa5833c8ffb@oss.qualcomm.com>
+Date: Fri, 25 Jul 2025 10:14:21 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/10] New DRM accel driver for Rockchip's RKNN NPU
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+        Kever Yang <kever.yang@rock-chips.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Robert Foss <rfoss@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 2P-VbVEVOgWisY6N0WeyzxTQtfJqfA-L
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI1MDEzOSBTYWx0ZWRfX5fPLNSL+9OWV
+ E5YYzdVegNF9NW9cN+CRtjA96/9SCcwut12EPXsPYhT+l9y38YZTK/oI3tbCgoavaPVkhbZ9ITh
+ W3iw6Esd01+uyjXiHxPqTJANpmpWUDBaSZlw9Kw2JeWuqZ8YGAmoBrxLzYfyBUhiqqO6bcU5kZL
+ l5e6FnxVgMz6bjdtpexjY3CEhBqlz1eBaVmtOqS9x/xtu2HBp5SLLubi9jPOI6bJFfWQjo7QTwB
+ YIHLobDswixf+2ugeycqU2Dq6lOUaMy7Wpim385pefR20e/0VFlPjWxaItE8iR4hJHJCzZ6t38k
+ sy0wG26o/+9CxXdE/Qw0nx68NUTBq2gCYbMfqFaxmn8Vabuyf68o1wnXS1XHDCp+VRSK3jbk/yf
+ hkgdB+U85f1COc5zCJlCl8IfS1P7jy+gN0zYN1BlW1ZywEX6a7Ms9UkBvcDybEcx+Sh+Kpab
+X-Authority-Analysis: v=2.4 cv=d8b1yQjE c=1 sm=1 tr=0 ts=6883ad62 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=e5mUnYsNAAAA:8 a=DISFzqtZAAAA:8
+ a=XWXL-kdBtCKZFopiRrIA:9 a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=aug85vrO5LANNmmtkfAW:22
+X-Proofpoint-ORIG-GUID: 2P-VbVEVOgWisY6N0WeyzxTQtfJqfA-L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-25_04,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0 priorityscore=1501 phishscore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 spamscore=0 mlxlogscore=818 impostorscore=0
+ mlxscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507250139
 
-Refactor DPLL initialization and move DPLL (de)registration, monitoring
-control, fetching device invariant parameters and phase offset
-measurement block setup to separate functions.
+On 7/21/2025 3:17 AM, Tomeu Vizoso wrote:
+> This series adds a new driver for the NPU that Rockchip includes in its
+> newer SoCs, developed by them on the NVDLA base.
+> 
+> In its current form, it supports the specific NPU in the RK3588 SoC.
+> 
+> The userspace driver is part of Mesa and an initial draft can be found at:
+> 
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-Use these new functions during device probe and teardown functions and
-during changes to the clock_id devlink parameter.
+Patches 1-6 pushed to drm-misc-next.
 
-These functions will also be used in the next patch implementing devlink
-flash, where this functionality is likewise required.
-
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- drivers/dpll/zl3073x/core.c    | 207 +++++++++++++++++++++------------
- drivers/dpll/zl3073x/core.h    |   3 +
- drivers/dpll/zl3073x/devlink.c |  18 +--
- 3 files changed, 142 insertions(+), 86 deletions(-)
-
-diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
-index 86c26edc90462..b3015173d9f63 100644
---- a/drivers/dpll/zl3073x/core.c
-+++ b/drivers/dpll/zl3073x/core.c
-@@ -956,21 +956,142 @@ zl3073x_dev_periodic_work(struct kthread_work *work)
- 				   msecs_to_jiffies(500));
- }
- 
-+/**
-+ * zl3073x_dev_phase_meas_setup - setup phase offset measurement
-+ * @zldev: pointer to zl3073x_dev structure
-+ *
-+ * Enable phase offset measurement block, set measurement averaging factor
-+ * and enable DPLL-to-its-ref phase measurement for all DPLLs.
-+ *
-+ * Returns: 0 on success, <0 on error
-+ */
-+static int
-+zl3073x_dev_phase_meas_setup(struct zl3073x_dev *zldev)
-+{
-+	struct zl3073x_dpll *zldpll;
-+	u8 dpll_meas_ctrl, mask;
-+	int rc;
-+
-+	/* Read DPLL phase measurement control register */
-+	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, &dpll_meas_ctrl);
-+	if (rc)
-+		return rc;
-+
-+	/* Setup phase measurement averaging factor */
-+	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
-+	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, 3);
-+
-+	/* Enable DPLL measurement block */
-+	dpll_meas_ctrl |= ZL_DPLL_MEAS_CTRL_EN;
-+
-+	/* Update phase measurement control register */
-+	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, dpll_meas_ctrl);
-+	if (rc)
-+		return rc;
-+
-+	/* Enable DPLL-to-connected-ref measurement for each channel */
-+	list_for_each_entry(zldpll, &zldev->dplls, list)
-+		mask |= BIT(zldpll->id);
-+
-+	return zl3073x_write_u8(zldev, ZL_REG_DPLL_PHASE_ERR_READ_MASK, mask);
-+}
-+
-+/**
-+ * zl3073x_dev_start - Start normal operation
-+ * @zldev: zl3073x device pointer
-+ * @full: perform full initialization
-+ *
-+ * The function starts normal operation, which means registering all DPLLs and
-+ * their pins, and starting monitoring. If full initialization is requested,
-+ * the function additionally initializes the phase offset measurement block and
-+ * fetches hardware-invariant parameters.
-+ *
-+ * Return: 0 on success, <0 on error
-+ */
-+int zl3073x_dev_start(struct zl3073x_dev *zldev, bool full)
-+{
-+	struct zl3073x_dpll *zldpll;
-+	int rc;
-+
-+	if (full) {
-+		/* Fetch device state */
-+		rc = zl3073x_dev_state_fetch(zldev);
-+		if (rc)
-+			return rc;
-+
-+		/* Setup phase offset measurement block */
-+		rc = zl3073x_dev_phase_meas_setup(zldev);
-+		if (rc) {
-+			dev_err(zldev->dev,
-+				"Failed to setup phase measurement\n");
-+			return rc;
-+		}
-+	}
-+
-+	/* Register all DPLLs */
-+	list_for_each_entry(zldpll, &zldev->dplls, list) {
-+		rc = zl3073x_dpll_register(zldpll);
-+		if (rc) {
-+			dev_err_probe(zldev->dev, rc,
-+				      "Failed to register DPLL%u\n",
-+				      zldpll->id);
-+			return rc;
-+		}
-+	}
-+
-+	/* Perform initial firmware fine phase correction */
-+	rc = zl3073x_dpll_init_fine_phase_adjust(zldev);
-+	if (rc) {
-+		dev_err_probe(zldev->dev, rc,
-+			      "Failed to init fine phase correction\n");
-+		return rc;
-+	}
-+
-+	/* Start monitoring */
-+	kthread_queue_delayed_work(zldev->kworker, &zldev->work, 0);
-+
-+	return 0;
-+}
-+
-+/**
-+ * zl3073x_dev_stop - Stop normal operation
-+ * @zldev: zl3073x device pointer
-+ *
-+ * The function stops the normal operation that mean deregistration of all
-+ * DPLLs and their pins and stop monitoring.
-+ *
-+ * Return: 0 on success, <0 on error
-+ */
-+void zl3073x_dev_stop(struct zl3073x_dev *zldev)
-+{
-+	struct zl3073x_dpll *zldpll;
-+
-+	/* Stop monitoring */
-+	kthread_cancel_delayed_work_sync(&zldev->work);
-+
-+	/* Unregister all DPLLs */
-+	list_for_each_entry(zldpll, &zldev->dplls, list) {
-+		if (zldpll->dpll_dev)
-+			zl3073x_dpll_unregister(zldpll);
-+	}
-+}
-+
- static void zl3073x_dev_dpll_fini(void *ptr)
- {
- 	struct zl3073x_dpll *zldpll, *next;
- 	struct zl3073x_dev *zldev = ptr;
- 
--	/* Stop monitoring thread */
-+	/* Stop monitoring and unregister DPLLs */
-+	zl3073x_dev_stop(zldev);
-+
-+	/* Destroy monitoring thread */
- 	if (zldev->kworker) {
--		kthread_cancel_delayed_work_sync(&zldev->work);
- 		kthread_destroy_worker(zldev->kworker);
- 		zldev->kworker = NULL;
- 	}
- 
--	/* Release DPLLs */
-+	/* Free all DPLLs */
- 	list_for_each_entry_safe(zldpll, next, &zldev->dplls, list) {
--		zl3073x_dpll_unregister(zldpll);
- 		list_del(&zldpll->list);
- 		zl3073x_dpll_free(zldpll);
- 	}
-@@ -986,7 +1107,7 @@ zl3073x_devm_dpll_init(struct zl3073x_dev *zldev, u8 num_dplls)
- 
- 	INIT_LIST_HEAD(&zldev->dplls);
- 
--	/* Initialize all DPLLs */
-+	/* Allocate all DPLLs */
- 	for (i = 0; i < num_dplls; i++) {
- 		zldpll = zl3073x_dpll_alloc(zldev, i);
- 		if (IS_ERR(zldpll)) {
-@@ -996,25 +1117,9 @@ zl3073x_devm_dpll_init(struct zl3073x_dev *zldev, u8 num_dplls)
- 			goto error;
- 		}
- 
--		rc = zl3073x_dpll_register(zldpll);
--		if (rc) {
--			dev_err_probe(zldev->dev, rc,
--				      "Failed to register DPLL%u\n", i);
--			zl3073x_dpll_free(zldpll);
--			goto error;
--		}
--
- 		list_add_tail(&zldpll->list, &zldev->dplls);
- 	}
- 
--	/* Perform initial firmware fine phase correction */
--	rc = zl3073x_dpll_init_fine_phase_adjust(zldev);
--	if (rc) {
--		dev_err_probe(zldev->dev, rc,
--			      "Failed to init fine phase correction\n");
--		goto error;
--	}
--
- 	/* Initialize monitoring thread */
- 	kthread_init_delayed_work(&zldev->work, zl3073x_dev_periodic_work);
- 	kworker = kthread_run_worker(0, "zl3073x-%s", dev_name(zldev->dev));
-@@ -1022,9 +1127,14 @@ zl3073x_devm_dpll_init(struct zl3073x_dev *zldev, u8 num_dplls)
- 		rc = PTR_ERR(kworker);
- 		goto error;
- 	}
--
- 	zldev->kworker = kworker;
--	kthread_queue_delayed_work(zldev->kworker, &zldev->work, 0);
-+
-+	/* Start normal operation */
-+	rc = zl3073x_dev_start(zldev, true);
-+	if (rc) {
-+		dev_err_probe(zldev->dev, rc, "Failed to start device\n");
-+		goto error;
-+	}
- 
- 	/* Add devres action to release DPLL related resources */
- 	rc = devm_add_action_or_reset(zldev->dev, zl3073x_dev_dpll_fini, zldev);
-@@ -1039,46 +1149,6 @@ zl3073x_devm_dpll_init(struct zl3073x_dev *zldev, u8 num_dplls)
- 	return rc;
- }
- 
--/**
-- * zl3073x_dev_phase_meas_setup - setup phase offset measurement
-- * @zldev: pointer to zl3073x_dev structure
-- * @num_channels: number of DPLL channels
-- *
-- * Enable phase offset measurement block, set measurement averaging factor
-- * and enable DPLL-to-its-ref phase measurement for all DPLLs.
-- *
-- * Returns: 0 on success, <0 on error
-- */
--static int
--zl3073x_dev_phase_meas_setup(struct zl3073x_dev *zldev, int num_channels)
--{
--	u8 dpll_meas_ctrl, mask;
--	int i, rc;
--
--	/* Read DPLL phase measurement control register */
--	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, &dpll_meas_ctrl);
--	if (rc)
--		return rc;
--
--	/* Setup phase measurement averaging factor */
--	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
--	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, 3);
--
--	/* Enable DPLL measurement block */
--	dpll_meas_ctrl |= ZL_DPLL_MEAS_CTRL_EN;
--
--	/* Update phase measurement control register */
--	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, dpll_meas_ctrl);
--	if (rc)
--		return rc;
--
--	/* Enable DPLL-to-connected-ref measurement for each channel */
--	for (i = 0, mask = 0; i < num_channels; i++)
--		mask |= BIT(i);
--
--	return zl3073x_write_u8(zldev, ZL_REG_DPLL_PHASE_ERR_READ_MASK, mask);
--}
--
- /**
-  * zl3073x_dev_probe - initialize zl3073x device
-  * @zldev: pointer to zl3073x device
-@@ -1146,17 +1216,6 @@ int zl3073x_dev_probe(struct zl3073x_dev *zldev,
- 		return dev_err_probe(zldev->dev, rc,
- 				     "Failed to initialize mutex\n");
- 
--	/* Fetch device state */
--	rc = zl3073x_dev_state_fetch(zldev);
--	if (rc)
--		return rc;
--
--	/* Setup phase offset measurement block */
--	rc = zl3073x_dev_phase_meas_setup(zldev, chip_info->num_channels);
--	if (rc)
--		return dev_err_probe(zldev->dev, rc,
--				     "Failed to setup phase measurement\n");
--
- 	/* Register DPLL channels */
- 	rc = zl3073x_devm_dpll_init(zldev, chip_info->num_channels);
- 	if (rc)
-diff --git a/drivers/dpll/zl3073x/core.h b/drivers/dpll/zl3073x/core.h
-index a9c098dd6d5a2..f4a6cecbbba7e 100644
---- a/drivers/dpll/zl3073x/core.h
-+++ b/drivers/dpll/zl3073x/core.h
-@@ -111,6 +111,9 @@ struct zl3073x_dev *zl3073x_devm_alloc(struct device *dev);
- int zl3073x_dev_probe(struct zl3073x_dev *zldev,
- 		      const struct zl3073x_chip_info *chip_info);
- 
-+int zl3073x_dev_start(struct zl3073x_dev *zldev, bool full);
-+void zl3073x_dev_stop(struct zl3073x_dev *zldev);
-+
- /**********************
-  * Registers operations
-  **********************/
-diff --git a/drivers/dpll/zl3073x/devlink.c b/drivers/dpll/zl3073x/devlink.c
-index f3ca973a4d416..d0f6d9cd4a68e 100644
---- a/drivers/dpll/zl3073x/devlink.c
-+++ b/drivers/dpll/zl3073x/devlink.c
-@@ -86,14 +86,12 @@ zl3073x_devlink_reload_down(struct devlink *devlink, bool netns_change,
- 			    struct netlink_ext_ack *extack)
- {
- 	struct zl3073x_dev *zldev = devlink_priv(devlink);
--	struct zl3073x_dpll *zldpll;
- 
- 	if (action != DEVLINK_RELOAD_ACTION_DRIVER_REINIT)
- 		return -EOPNOTSUPP;
- 
--	/* Unregister all DPLLs */
--	list_for_each_entry(zldpll, &zldev->dplls, list)
--		zl3073x_dpll_unregister(zldpll);
-+	/* Stop normal operation */
-+	zl3073x_dev_stop(zldev);
- 
- 	return 0;
- }
-@@ -107,7 +105,6 @@ zl3073x_devlink_reload_up(struct devlink *devlink,
- {
- 	struct zl3073x_dev *zldev = devlink_priv(devlink);
- 	union devlink_param_value val;
--	struct zl3073x_dpll *zldpll;
- 	int rc;
- 
- 	if (action != DEVLINK_RELOAD_ACTION_DRIVER_REINIT)
-@@ -125,13 +122,10 @@ zl3073x_devlink_reload_up(struct devlink *devlink,
- 		zldev->clock_id = val.vu64;
- 	}
- 
--	/* Re-register all DPLLs */
--	list_for_each_entry(zldpll, &zldev->dplls, list) {
--		rc = zl3073x_dpll_register(zldpll);
--		if (rc)
--			dev_warn(zldev->dev,
--				 "Failed to re-register DPLL%u\n", zldpll->id);
--	}
-+	/* Restart normal operation */
-+	rc = zl3073x_dev_start(zldev, false);
-+	if (rc)
-+		dev_warn(zldev->dev, "Failed to re-start normal operation\n");
- 
- 	*actions_performed = BIT(DEVLINK_RELOAD_ACTION_DRIVER_REINIT);
- 
--- 
-2.49.1
-
+-Jeff
