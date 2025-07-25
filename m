@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5092EF2B6
-	for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 15:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F6E2EF293
+	for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 15:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753458124; cv=none; b=JzgZ0+AT1uK4IBesBz9ITtNlBb2CsfcCCu1fO94FqeqXJx6reUZMCBdC+P2+aguVJADCOruHOyLqV6CHWPC+284Bifk4zia7g1hhxq4JEEtENkRWbN4tbn+Eksue850Xl+OXpQn7otFdB9sKRFUyZXb6EJ4xl6db5oLUNnO1hp0=
+	t=1753458130; cv=none; b=LwcKVhp+3fKYErDY6fpiJIRbuYgQQ/8W2T+acbc2gt9GY4gJnGTc22/9Lmtu+pFvXAnaiYx3KbJIlzM0UADeTn1tdPuKOSZDeH6OKSa6T1zjyQUMwzDEExvmD6a0yd35KIATbh/28ywci66/8sVX7p7eqTlH7tIXxAP3we8P5z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753458124; c=relaxed/simple;
-	bh=jSeH8k+keQstFiEiE7VDznfhlhjmiRSkizafF+yEtCI=;
+	s=arc-20240116; t=1753458130; c=relaxed/simple;
+	bh=JcrZQg4NSQPxjI3ARjKhCDXAM0AmuH0YqWdBQlP7btI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z4oBknMoiaepxwq2tU2aiFhkzMwtqO7HO43aCKQjEnhbLcWH+Up51s+oJj56zwYfn0ILomW3SuKDetz+eZHzXt+NforK/OkilRCtUFhkQVmrPTEimgrmXYYlyQXgdxqC8mmV0z59ZJfIhKutAICKx+xs/9A6IbDjzQs+faOE8sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UQsYqsPS; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=dY56hcUqKrc4qhrQsGUlhqWp8VBu8BvXNvSZtCjrbS55p1AREw2gcLmGbqheITx2XbKupB19Q5BRhV6aVebAJU7gan6houV9SymBA0ClP48PkCqDfHtsesvagSSFVNn51rZeqsUZlmRpiZGjujwF5s/MX2XBMk0mGuNymTrJOZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AxQAc9Y1; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UQsYqsPS"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AxQAc9Y1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753458120;
+	s=mimecast20190719; t=1753458127;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2EF3Z+UpfXGoK+8w4dqCLM/Zj0OogZ4ewh7FIsIyWJM=;
-	b=UQsYqsPSdQZBD03s5SG5jVVe866Os+4buKEBWQDC+h1LmkAs2kXER/dZDk+ayPgcHdmpe6
-	wE5aU2VuMEYV/twTJiiXdxqKLF428SZ+0fzV+81KBqgo7qGuzn7JIah2VR0FzVLpRZU2/C
-	ACZAtgFkkcUvg94Fg+w8AAShTqH9FXM=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=UiZnBTHWpWVPXm9lDPLsbMep0xLgG8NJHfff/JNQO4g=;
+	b=AxQAc9Y1ua4DXaN00paeGm91WYW/FJOj19f3TX6I4anwy18M9WKhc++K7IETY6vGD3HBfh
+	63e+0Bvq2jWM8HIu7UmceS+bV5rzrKlnT1tyVha307XiHKDWRCCkcdiHRCh2TvgRvZdgJ3
+	w7xqZEpRAU0Vf+FbGnotiPe6Qzfa6Kw=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-299-YQ4A41aqMYmyQnVo-mUOuA-1; Fri,
- 25 Jul 2025 11:41:56 -0400
-X-MC-Unique: YQ4A41aqMYmyQnVo-mUOuA-1
-X-Mimecast-MFC-AGG-ID: YQ4A41aqMYmyQnVo-mUOuA_1753458115
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-584-v1wkj6HCPBu2zQNyZsLyyA-1; Fri,
+ 25 Jul 2025 11:42:04 -0400
+X-MC-Unique: v1wkj6HCPBu2zQNyZsLyyA-1
+X-Mimecast-MFC-AGG-ID: v1wkj6HCPBu2zQNyZsLyyA_1753458122
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B72161977307;
-	Fri, 25 Jul 2025 15:41:54 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B2CAE180009F;
+	Fri, 25 Jul 2025 15:42:02 +0000 (UTC)
 Received: from p16v.luc.cera.cz (unknown [10.45.224.176])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 45BE319560AA;
-	Fri, 25 Jul 2025 15:41:51 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 37B081966665;
+	Fri, 25 Jul 2025 15:41:59 +0000 (UTC)
 From: Ivan Vecera <ivecera@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Jiri Pirko <jiri@resnulli.us>,
@@ -56,9 +56,9 @@ Cc: Jiri Pirko <jiri@resnulli.us>,
 	linux-kernel@vger.kernel.org,
 	Michal Schmidt <mschmidt@redhat.com>,
 	Petr Oros <poros@redhat.com>
-Subject: [PATCH net-next 3/5] dpll: zl3073x: Add firmware loading functionality
-Date: Fri, 25 Jul 2025 17:41:34 +0200
-Message-ID: <20250725154136.1008132-4-ivecera@redhat.com>
+Subject: [PATCH net-next 5/5] dpll: zl3073x: Implement devlink flash callback
+Date: Fri, 25 Jul 2025 17:41:36 +0200
+Message-ID: <20250725154136.1008132-6-ivecera@redhat.com>
 In-Reply-To: <20250725154136.1008132-1-ivecera@redhat.com>
 References: <20250725154136.1008132-1-ivecera@redhat.com>
 Precedence: bulk
@@ -70,598 +70,150 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Add functionality for loading firmware files provided by the vendor
-to be flashed into the device's internal flash memory. The firmware
-consists of several components, such as the firmware executable itself,
-chip-specific customizations, and configuration files.
+Use the introduced functionality to read firmware files and flash their
+contents into the device's internal flash memory to implement the devlink
+flash update callback.
 
-The firmware file contains at least a flash utility, which is executed
-on the device side, and one or more flashable components. Each component
-has its own specific properties, such as the address where it should be
-loaded during flashing, one or more destination flash pages, and
-the flashing method that should be used.
+Sample output on EDS2 development board:
+ # devlink -j dev info i2c/1-0070 | jq '.[][]["versions"]["running"]'
+ {
+   "fw": "6026"
+ }
+ # devlink dev flash i2c/1-0070 file firmware_fw2.hex
+ [utility] Prepare flash mode
+ [utility] Downloading image 100%
+ [utility] Flash mode enabled
+ [firmware1-part1] Downloading image 100%
+ [firmware1-part1] Flashing image
+ [firmware1-part2] Downloading image 100%
+ [firmware1-part2] Flashing image
+ [firmware1] Flashing done
+ [firmware2] Downloading image 100%
+ [firmware2] Flashing image 100%
+ [firmware2] Flashing done
+ [utility] Leaving flash mode
+ Flashing done
+ # devlink -j dev info i2c/1-0070 | jq '.[][]["versions"]["running"]'
+ {
+   "fw": "7006"
+ }
 
 Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 ---
- drivers/dpll/zl3073x/Makefile |   2 +-
- drivers/dpll/zl3073x/fw.c     | 495 ++++++++++++++++++++++++++++++++++
- drivers/dpll/zl3073x/fw.h     |  52 ++++
- 3 files changed, 548 insertions(+), 1 deletion(-)
- create mode 100644 drivers/dpll/zl3073x/fw.c
- create mode 100644 drivers/dpll/zl3073x/fw.h
+ Documentation/networking/devlink/zl3073x.rst | 14 +++++
+ drivers/dpll/zl3073x/devlink.c               | 65 ++++++++++++++++++++
+ 2 files changed, 79 insertions(+)
 
-diff --git a/drivers/dpll/zl3073x/Makefile b/drivers/dpll/zl3073x/Makefile
-index 9894513f67dd3..84e22aae57e5f 100644
---- a/drivers/dpll/zl3073x/Makefile
-+++ b/drivers/dpll/zl3073x/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- obj-$(CONFIG_ZL3073X)		+= zl3073x.o
--zl3073x-objs			:= core.o devlink.o dpll.o flash.o prop.o
-+zl3073x-objs			:= core.o devlink.o dpll.o flash.o fw.o prop.o
- 
- obj-$(CONFIG_ZL3073X_I2C)	+= zl3073x_i2c.o
- zl3073x_i2c-objs		:= i2c.o
-diff --git a/drivers/dpll/zl3073x/fw.c b/drivers/dpll/zl3073x/fw.c
-new file mode 100644
-index 0000000000000..c7f4eb99d6028
---- /dev/null
-+++ b/drivers/dpll/zl3073x/fw.c
-@@ -0,0 +1,495 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
+diff --git a/Documentation/networking/devlink/zl3073x.rst b/Documentation/networking/devlink/zl3073x.rst
+index 4b6cfaf386433..fc5a8dc272a77 100644
+--- a/Documentation/networking/devlink/zl3073x.rst
++++ b/Documentation/networking/devlink/zl3073x.rst
+@@ -49,3 +49,17 @@ The ``zl3073x`` driver reports the following versions
+       - running
+       - 1.3.0.1
+       - Device configuration version customized by OEM
 +
-+#include <linux/errno.h>
-+#include <linux/netlink.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
++Flash Update
++============
 +
-+#include "core.h"
++The ``zl3073x`` driver implements support for flash update using the
++``devlink-flash`` interface. It supports updating the device flash using a
++combined flash image ("bundle") that contains multiple components (firmware
++parts and configurations).
++
++During the flash procedure, the standard firmware interface is not available,
++so the driver unregisters all DPLLs and associated pins, and re-registers them
++once the flash procedure is complete.
++
++The driver does not support any overwrite mask flags.
+diff --git a/drivers/dpll/zl3073x/devlink.c b/drivers/dpll/zl3073x/devlink.c
+index d0f6d9cd4a68e..06962643c9363 100644
+--- a/drivers/dpll/zl3073x/devlink.c
++++ b/drivers/dpll/zl3073x/devlink.c
+@@ -9,6 +9,8 @@
+ #include "core.h"
+ #include "devlink.h"
+ #include "dpll.h"
 +#include "flash.h"
 +#include "fw.h"
-+
-+#define ZL3073X_FW_ERR_PFX "FW load failed: "
-+#define ZL3073X_FW_ERR_MSG(_zldev, _extack, _msg, ...)			\
-+	do {								\
-+		dev_err((_zldev)->dev, ZL3073X_FW_ERR_PFX _msg "\n",	\
-+			## __VA_ARGS__);				\
-+		NL_SET_ERR_MSG_FMT_MOD((_extack),			\
-+				       ZL3073X_FW_ERR_PFX _msg,		\
-+				       ## __VA_ARGS__);			\
-+	} while (0)
-+
-+enum zl3073x_flash_type {
-+	ZL3073X_FLASH_TYPE_NONE = 0,
-+	ZL3073X_FLASH_TYPE_SECTORS,
-+	ZL3073X_FLASH_TYPE_PAGE,
-+	ZL3073X_FLASH_TYPE_PAGE_AND_COPY,
-+};
-+
-+struct zl3073x_fw_component_info {
-+	const char		*name;
-+	size_t			max_size;
-+	enum zl3073x_flash_type	flash_type;
-+	u32			load_addr;
-+	u32			dest_page;
-+	u32			copy_page;
-+};
-+
-+static const struct zl3073x_fw_component_info component_info[] = {
-+	[ZL_FW_COMPONENT_UTIL] = {
-+		.name		= "utility",
-+		.max_size	= 0x2300,
-+		.load_addr	= 0x20000000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_NONE,
-+	},
-+	[ZL_FW_COMPONENT_FW1] = {
-+		.name		= "firmware1",
-+		.max_size	= 0x35000,
-+		.load_addr	= 0x20002000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_SECTORS,
-+		.dest_page	= 0x020,
-+	},
-+	[ZL_FW_COMPONENT_FW2] = {
-+		.name		= "firmware2",
-+		.max_size	= 0x0040,
-+		.load_addr	= 0x20000000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_PAGE_AND_COPY,
-+		.dest_page	= 0x3e0,
-+		.copy_page	= 0x000,
-+	},
-+	[ZL_FW_COMPONENT_FW3] = {
-+		.name		= "firmware3",
-+		.max_size	= 0x0248,
-+		.load_addr	= 0x20000400,
-+		.flash_type	= ZL3073X_FLASH_TYPE_PAGE_AND_COPY,
-+		.dest_page	= 0x3e4,
-+		.copy_page	= 0x004,
-+	},
-+	[ZL_FW_COMPONENT_CFG0] = {
-+		.name		= "config0",
-+		.max_size	= 0x1000,
-+		.load_addr	= 0x20000000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_PAGE,
-+		.dest_page	= 0x3d0,
-+	},
-+	[ZL_FW_COMPONENT_CFG1] = {
-+		.name		= "config1",
-+		.max_size	= 0x1000,
-+		.load_addr	= 0x20000000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_PAGE,
-+		.dest_page	= 0x3c0,
-+	},
-+	[ZL_FW_COMPONENT_CFG2] = {
-+		.name		= "config2",
-+		.max_size	= 0x1000,
-+		.load_addr	= 0x20000000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_PAGE,
-+		.dest_page	= 0x3b0,
-+	},
-+	[ZL_FW_COMPONENT_CFG3] = {
-+		.name		= "config3",
-+		.max_size	= 0x1000,
-+		.load_addr	= 0x20000000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_PAGE,
-+		.dest_page	= 0x3a0,
-+	},
-+	[ZL_FW_COMPONENT_CFG4] = {
-+		.name		= "config4",
-+		.max_size	= 0x1000,
-+		.load_addr	= 0x20000000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_PAGE,
-+		.dest_page	= 0x390,
-+	},
-+	[ZL_FW_COMPONENT_CFG5] = {
-+		.name		= "config5",
-+		.max_size	= 0x1000,
-+		.load_addr	= 0x20000000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_PAGE,
-+		.dest_page	= 0x380,
-+	},
-+	[ZL_FW_COMPONENT_CFG6] = {
-+		.name		= "config6",
-+		.max_size	= 0x1000,
-+		.load_addr	= 0x20000000,
-+		.flash_type	= ZL3073X_FLASH_TYPE_PAGE,
-+		.dest_page	= 0x370,
-+	},
-+};
-+
-+/* Santity check */
-+static_assert(ARRAY_SIZE(component_info) == ZL_FW_NUM_COMPONENTS);
-+
+ #include "regs.h"
+ 
+ /**
+@@ -141,11 +143,74 @@ void zl3073x_devlink_flash_notify(struct zl3073x_dev *zldev, const char *msg,
+ 					   total);
+ }
+ 
 +/**
-+ * zl3073x_fw_readline - Read next line from firmware
-+ * @dst: destination buffer
-+ * @dst_sz: destination buffer size
-+ * @psrc: source buffer
-+ * @psrc_sz: source buffer size
-+ *
-+ * The function read next line from the firmware buffer specified by @psrc
-+ * and @psrc_sz and stores it into buffer specified by @dst and @dst_sz.
-+ * The pointer @psrc and remaining bytes in @psrc_sz are updated accordingly.
-+ *
-+ * Return: number of characters read on success, -EINVAL on error
-+ */
-+static ssize_t
-+zl3073x_fw_readline(char *dst, size_t dst_sz, const char **psrc,
-+		    size_t *psrc_sz)
-+{
-+	const char *ptr = *psrc;
-+	size_t len;
-+
-+	/* Skip any existing new-lines at the beginning */
-+	ptr = memchr_inv(*psrc, '\n', *psrc_sz);
-+	if (ptr) {
-+		*psrc_sz -= ptr - *psrc;
-+		*psrc = ptr;
-+	}
-+
-+	/* Now look for the next new-line in the source */
-+	ptr = memscan((void *)*psrc, '\n', *psrc_sz);
-+	len = ptr - *psrc;
-+
-+	/* Return error if the source line is too long for destination */
-+	if (len >= dst_sz)
-+		return -EINVAL;
-+
-+	/* Copy the line from source and append NUL char  */
-+	memcpy(dst, *psrc, len);
-+	*(dst+len) = '\0';
-+
-+	*psrc = ptr;
-+	*psrc_sz -= len;
-+
-+	/* Return number of read chars */
-+	return len;
-+}
-+
-+/**
-+ * zl3073x_fw_component_alloc - Alloc structure to hold firmware component
-+ * @size: size of buffer to store data
-+ *
-+ * Return: pointer to allocated component structure or NULL on error.
-+ */
-+static struct zl3073x_fw_component *
-+zl3073x_fw_component_alloc(size_t size)
-+{
-+	struct zl3073x_fw_component *comp;
-+
-+	comp = kzalloc(sizeof(*comp), GFP_KERNEL);
-+	if (!comp)
-+		return NULL;
-+
-+	comp->size = size;
-+	comp->data = kzalloc(size, GFP_KERNEL);
-+	if (!comp->data) {
-+		kfree(comp);
-+		return NULL;
-+	}
-+
-+	return comp;
-+}
-+
-+/**
-+ * zl3073x_fw_component_free - Free allocated component structure
-+ * @comp: pointer to allocated component
-+ */
-+static void
-+zl3073x_fw_component_free(struct zl3073x_fw_component *comp)
-+{
-+	if (comp)
-+		kfree(comp->data);
-+
-+	kfree(comp);
-+}
-+
-+
-+/**
-+ * zl3073x_fw_component_id_get - Get ID for firmware component name
-+ * @name: input firmware component name
-+ *
-+ * Return:
-+ * - ZL3073X_FW_COMPONENT_* ID for known component name
-+ * - ZL3073X_FW_COMPONENT_INVALID if the given name is unknown
-+ */
-+static enum zl3073x_fw_component_id
-+zl3073x_fw_component_id_get(const char *name)
-+{
-+	enum zl3073x_fw_component_id id;
-+
-+	for (id = ZL_FW_COMPONENT_UTIL; id < ZL_FW_NUM_COMPONENTS; id++)
-+		if (!strcasecmp(name, component_info[id].name))
-+			return id;
-+
-+	return ZL_FW_COMPONENT_INVALID;
-+}
-+
-+/**
-+ * zl3073x_fw_component_load - Load component from firmware source
-+ * @zldev: zl3073x device structure
-+ * @pcomp: pointer to loaded component
-+ * @psrc: data pointer to load component from
-+ * @psize: remaining bytes in buffer
++ * zl3073x_flash_update - Devlink flash update callback
++ * @devlink: devlink structure pointer
++ * @params: flashing parameters pointer
 + * @extack: netlink extack pointer to report errors
 + *
-+ * The function allocates single firmware component and loads the data from
-+ * the buffer specified by @psrc and @psize. Pointer to allocated component
-+ * is stored in output @pcomp. Source data pointer @psrc and remaining bytes
-+ * @psize are updated accordingly.
-+ *
-+ * Return: 0 on success, <0 on error
-+ */
-+static ssize_t
-+zl3073x_fw_component_load(struct zl3073x_dev *zldev,
-+			  struct zl3073x_fw_component **pcomp,
-+			  const char **psrc, size_t *psize,
-+			  struct netlink_ext_ack *extack)
-+{
-+	const struct zl3073x_fw_component_info *info;
-+	struct zl3073x_fw_component *comp = NULL;
-+	struct device *dev = zldev->dev;
-+	enum zl3073x_fw_component_id id;
-+	ssize_t len, count;
-+	u32 comp_size;
-+	char line[32];
-+	int rc;
-+
-+	/* Fetch image name from input */
-+	len = zl3073x_fw_readline(line, sizeof(line), psrc, psize);
-+	if (len < 0) {
-+		rc = len;
-+		goto err_unexpected;
-+	} else if (!len) {
-+		/* No more data */
-+		return 0;
-+	}
-+
-+	dev_dbg(dev, "Firmware component '%s' found\n", line);
-+
-+	id = zl3073x_fw_component_id_get(line);
-+	if (id == ZL_FW_COMPONENT_INVALID) {
-+		ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] unknown component type",
-+				   line);
-+		return -EINVAL;
-+	}
-+
-+	info = &component_info[id];
-+
-+	/* Fetch image size from input */
-+	len = zl3073x_fw_readline(line, sizeof(line), psrc, psize);
-+	if (len < 0) {
-+		rc = len;
-+		goto err_unexpected;
-+	} else if (!len) {
-+		ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] missing size",
-+				   info->name);
-+		return -ENODATA;
-+	}
-+
-+	rc = kstrtou32(line, 10, &comp_size);
-+	if (rc) {
-+		ZL3073X_FW_ERR_MSG(zldev, extack,
-+				   "[%s] invalid size value '%s'", info->name,
-+				   line);
-+		return rc;
-+	}
-+
-+	comp_size *= sizeof(u32); /* convert num of dwords to bytes */
-+
-+	/* Check image size validity */
-+	if (comp_size > component_info[id].max_size) {
-+		ZL3073X_FW_ERR_MSG(zldev, extack,
-+				   "[%s] component is too big (%u bytes)\n",
-+				   info->name, comp_size);
-+		return -EINVAL;
-+	}
-+
-+	dev_dbg(dev, "Indicated component image size: %u bytes\n", comp_size);
-+
-+	/* Alloc component */
-+	comp = zl3073x_fw_component_alloc(comp_size);
-+	if (!comp) {
-+		ZL3073X_FW_ERR_MSG(zldev, extack, "failed to alloc memory");
-+		return -ENOMEM;
-+	}
-+	comp->id = id;
-+
-+	/* Load component data from firmware source */
-+	for (count = 0; count < comp_size; count += 4) {
-+		len = zl3073x_fw_readline(line, sizeof(line), psrc, psize);
-+		if (len < 0) {
-+			rc = len;
-+			goto err_unexpected;
-+		} else if (!len) {
-+			ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] missing data",
-+					   info->name);
-+			rc = -ENODATA;
-+			goto err;
-+		}
-+
-+		rc = kstrtou32(line, 16, comp->data + count);
-+		if (rc) {
-+			ZL3073X_FW_ERR_MSG(zldev, extack,
-+					   "[%s] invalid data: '%s'",
-+					   info->name, line);
-+			goto err;
-+		}
-+	}
-+
-+	*pcomp = comp;
-+
-+	return 1;
-+
-+err_unexpected:
-+	ZL3073X_FW_ERR_MSG(zldev, extack, "unexpected input");
-+err:
-+	zl3073x_fw_component_free(comp);
-+
-+	return rc;
-+}
-+
-+/**
-+ * zl3073x_fw_free - Free allocated firmware
-+ * @fw: firmware pointer
-+ *
-+ * The function frees existing firmware allocated by @zl3073x_fw_load.
-+ */
-+void zl3073x_fw_free(struct zl3073x_fw *fw)
-+{
-+	size_t i;
-+
-+	if (!fw)
-+		return;
-+
-+	for (i = 0; i < ZL_FW_NUM_COMPONENTS; i++)
-+		zl3073x_fw_component_free(fw->component[i]);
-+
-+	kfree(fw);
-+}
-+
-+/**
-+ * zl3073x_fw_load - Load all components from source
-+ * @zldev: zl3073x device structure
-+ * @data: source buffer pointer
-+ * @size: size of source buffer
-+ * @extack: netlink extack pointer to report errors
-+ *
-+ * The functions allocate firmware structure and loads all components from
-+ * the given buffer specified by @data and @size.
-+ *
-+ * Return: pointer to firmware on success, error pointer on error
-+ */
-+struct zl3073x_fw *zl3073x_fw_load(struct zl3073x_dev *zldev, const char *data,
-+				   size_t size, struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_fw_component *comp;
-+	enum zl3073x_fw_component_id id;
-+	struct zl3073x_fw *fw;
-+	ssize_t rc;
-+
-+	/* Allocate firmware structure */
-+	fw = kzalloc(sizeof(*fw), GFP_KERNEL);
-+	if (!fw)
-+		return ERR_PTR(-ENOMEM);
-+
-+	do {
-+		/* Load single component */
-+		rc = zl3073x_fw_component_load(zldev, &comp, &data, &size,
-+					       extack);
-+		if (rc <= 0)
-+			/* Everything was read or error occurred */
-+			break;
-+
-+		id = comp->id;
-+
-+		/* Report error if the given component is present twice
-+		 * or more.
-+		 */
-+		if (fw->component[id]) {
-+			ZL3073X_FW_ERR_MSG(zldev, extack,
-+					   "duplicate component '%s' detected",
-+					   component_info[id].name);
-+			zl3073x_fw_component_free(comp);
-+			rc = -EINVAL;
-+			break;
-+		}
-+
-+		fw->component[id] = comp;
-+	} while (1);
-+
-+	if (rc) {
-+		/* Free allocated firmware in case of error */
-+		zl3073x_fw_free(fw);
-+		return ERR_PTR(rc);
-+	}
-+
-+	return fw;
-+}
-+
-+/**
-+ * zl3073x_flash_bundle_flash - Flash all components
-+ * @zldev: zl3073x device structure
-+ * @components: pointer to components array
-+ * @extack: netlink extack pointer to report errors
-+ *
-+ * Returns 0 in case of success or negative number otherwise.
++ * Returns 0 in case of success or negative value otherwise
 + */
 +static int
-+zl3073x_fw_component_flash(struct zl3073x_dev *zldev,
-+			   struct zl3073x_fw_component *comp,
-+			   struct netlink_ext_ack *extack)
++zl3073x_devlink_flash_update(struct devlink *devlink,
++			     struct devlink_flash_update_params *params,
++			     struct netlink_ext_ack *extack)
 +{
-+	const struct zl3073x_fw_component_info *info;
-+	int rc;
++	struct zl3073x_dev *zldev = devlink_priv(devlink);
++	struct zl3073x_fw_component *util;
++	struct zl3073x_fw *zlfw;
++	int rc = 0;
 +
-+	info = &component_info[comp->id];
++	/* Load firmware */
++	zlfw = zl3073x_fw_load(zldev, params->fw->data, params->fw->size,
++			       extack);
++	if (IS_ERR(zlfw))
++		return PTR_ERR(zlfw);
 +
-+	switch (info->flash_type) {
-+	case ZL3073X_FLASH_TYPE_NONE:
-+		/* Non-flashable component - used for utility */
-+		return 0;
-+	case ZL3073X_FLASH_TYPE_SECTORS:
-+		rc = zl3073x_flash_sectors(zldev, info->name, info->dest_page,
-+					   info->load_addr, comp->data,
-+					   comp->size, extack);
-+		break;
-+	case ZL3073X_FLASH_TYPE_PAGE:
-+		rc = zl3073x_flash_page(zldev, info->name, info->dest_page,
-+					info->load_addr, comp->data, comp->size,
-+					extack);
-+		break;
-+	case ZL3073X_FLASH_TYPE_PAGE_AND_COPY:
-+		rc = zl3073x_flash_page(zldev, info->name, info->dest_page,
-+					info->load_addr, comp->data, comp->size,
-+					extack);
-+		if (!rc)
-+			rc = zl3073x_flash_page_copy(zldev, info->name,
-+						     info->dest_page,
-+						     info->copy_page, extack);
-+		break;
++	util = zlfw->component[ZL_FW_COMPONENT_UTIL];
++	if (!util) {
++		zl3073x_devlink_flash_notify(zldev,
++					     "Utility is missing in firmware",
++					     NULL, 0, 0);
++		rc = -EOPNOTSUPP;
++		goto error;
 +	}
++
++	/* Stop normal operation during flash */
++	zl3073x_dev_stop(zldev);
++
++	/* Enter flashing mode */
++	rc = zl3073x_flash_mode_enter(zldev, util->data, util->size, extack);
++	if (!rc) {
++		/* Flash the firmware */
++		rc = zl3073x_fw_flash(zldev, zlfw, extack);
++
++		/* Leave flashing mode */
++		zl3073x_flash_mode_leave(zldev, extack);
++	}
++
++	/* Restart normal operation */
++	rc = zl3073x_dev_start(zldev, true);
 +	if (rc)
-+		ZL3073X_FW_ERR_MSG(zldev, extack,
-+				   "Failed to flash component '%s'",
-+				   info->name);
++		dev_warn(zldev->dev, "Failed to re-start normal operation\n");
++
++error:
++	/* Free flash context */
++	zl3073x_fw_free(zlfw);
++
++	zl3073x_devlink_flash_notify(zldev,
++				     rc ? "Flashing failed" : "Flashing done",
++				     NULL, 0, 0);
 +
 +	return rc;
 +}
 +
-+int zl3073x_fw_flash(struct zl3073x_dev *zldev, struct zl3073x_fw *zlfw,
-+		     struct netlink_ext_ack *extack)
-+{
-+	int i, rc;
-+
-+	for (i = 0; i < ZL_FW_NUM_COMPONENTS; i++) {
-+		if (!zlfw->component[i])
-+			continue; /* Component is not present */
-+
-+		rc = zl3073x_fw_component_flash(zldev, zlfw->component[i],
-+						extack);
-+		if (rc)
-+			break;
-+	}
-+
-+	return rc;
-+}
-diff --git a/drivers/dpll/zl3073x/fw.h b/drivers/dpll/zl3073x/fw.h
-new file mode 100644
-index 0000000000000..242d3f9433a18
---- /dev/null
-+++ b/drivers/dpll/zl3073x/fw.h
-@@ -0,0 +1,52 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef _ZL3073X_FW_H
-+#define _ZL3073X_FW_H
-+
-+/*
-+ * enum zl3073x_fw_component_id - Identifiers for possible flash components
-+ */
-+enum zl3073x_fw_component_id {
-+	ZL_FW_COMPONENT_INVALID = -1,
-+	ZL_FW_COMPONENT_UTIL = 0,
-+	ZL_FW_COMPONENT_FW1,
-+	ZL_FW_COMPONENT_FW2,
-+	ZL_FW_COMPONENT_FW3,
-+	ZL_FW_COMPONENT_CFG0,
-+	ZL_FW_COMPONENT_CFG1,
-+	ZL_FW_COMPONENT_CFG2,
-+	ZL_FW_COMPONENT_CFG3,
-+	ZL_FW_COMPONENT_CFG4,
-+	ZL_FW_COMPONENT_CFG5,
-+	ZL_FW_COMPONENT_CFG6,
-+	ZL_FW_NUM_COMPONENTS,
-+};
-+
-+/**
-+ * struct zl3073x_fw_component - Firmware component
-+ * @id: Flash component ID
-+ * @size: Size of the buffer
-+ * @data: Pointer to buffer with component data
-+ */
-+struct zl3073x_fw_component {
-+	enum zl3073x_fw_component_id	id;
-+	size_t				size;
-+	void				*data;
-+};
-+
-+/**
-+ * struct zl3073x_fw - Firmware bundle
-+ * @component: firmware components array
-+ */
-+struct zl3073x_fw {
-+	struct zl3073x_fw_component	*component[ZL_FW_NUM_COMPONENTS];
-+};
-+
-+struct zl3073x_fw *zl3073x_fw_load(struct zl3073x_dev *zldev, const char *data,
-+				   size_t size, struct netlink_ext_ack *extack);
-+void zl3073x_fw_free(struct zl3073x_fw *fw);
-+
-+int zl3073x_fw_flash(struct zl3073x_dev *zldev, struct zl3073x_fw *zlfw,
-+		     struct netlink_ext_ack *extack);
-+
-+#endif /* _ZL3073X_FW_H */
+ static const struct devlink_ops zl3073x_devlink_ops = {
+ 	.info_get = zl3073x_devlink_info_get,
+ 	.reload_actions = BIT(DEVLINK_RELOAD_ACTION_DRIVER_REINIT),
+ 	.reload_down = zl3073x_devlink_reload_down,
+ 	.reload_up = zl3073x_devlink_reload_up,
++	.flash_update = zl3073x_devlink_flash_update,
+ };
+ 
+ static void
 -- 
 2.49.1
 
