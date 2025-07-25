@@ -1,96 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4BB3A8F7;
-	Fri, 25 Jul 2025 02:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB552882D8;
+	Fri, 25 Jul 2025 06:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753411185; cv=none; b=NdX+OoqBrRhfg5LBOafPyT2cDW0R6+qr4KOk6KPCJ6ZyEjnaO/sQ0oQq7CytE/MN6jN3CodPgM7c7irsjB1+Njy7FmM5nOrJWHaE5uxqYbphasTWpsXIW2LlJn2KhDmflWgan9Sfx3S3GN7MPJBQJq+hzUa6+t3xnEHLZbLd1Bo=
+	t=1753424942; cv=none; b=F6vtPg8bCsFUgfS6YxqfcnIlusqDp9H0XUem0u8tdoFd/uz8gB/F3Jzi4FMqtWV8phnLDs6hmZuDloKeBRHGSqvooP75SRrhZR3DiSF2hzYEjy5g1mK0oGDEL/hQ9wI8M2j60JgEhSEa0iAEDVGQpozyuUqT7g64clhdjUc12cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753411185; c=relaxed/simple;
-	bh=Ow3KMkXlS1cfsNBNVW27FA6tZxf1vHi8wn/vQ24Yy2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UAUxYxZDYbLANXZPKwFnHnmagIbuU5z1dEy2aviDbpnB2Qfd8inwimbmlADrvFvKXjeuosDXCYGRoCByPj5oXovTIRVEeZZrgDH7RlTiSGf88k+cOVLFyf/P6O0QHQ5ZFM0e6tm/B7CyPqowstQbY7RjuvTACNXENQ42rz8tnQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UGB7kjpM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753424942; c=relaxed/simple;
+	bh=hWoJ1Cb3MWAVkZyfdvMARj2P4IFP6UvTJ/qsKN+HRr4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KFP+FqADAvhRi35+FwUSsVoCdGOEy407dHgXk21Kzji7RpmIWXIt2pswHM80vH+thRkq36JqKTcvpNLBmIlUdMg6Y7+nNXD4dDXDHPRHHAhBJzCkptQ/B8UmrAEFCzqDAhCo/wRjef/dDt4BG2d3LxyNtHzWY+La5HmRFlGYuI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DRMgsNut; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UGB7kjpM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E778C4CEED;
-	Fri, 25 Jul 2025 02:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753411183;
-	bh=Ow3KMkXlS1cfsNBNVW27FA6tZxf1vHi8wn/vQ24Yy2Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UGB7kjpMtTrnJmR1Gy7RDi4tAvvYOh9XZt9Q7lLsa1ziTie/R7yUrIhdNPJ9+01zA
-	 GQBb3ATO4KASaCiivQdXKXK5HPwre9Um3r2GEO+4Dc41KXboaq0o7cfahTLAhG46C9
-	 +n+/K5QCOHkE/vvJkh/juLqe0QXKQLxxjsbiiDrj6W9neh7EmKuR42v0EVarCNeNIW
-	 7pMzDDq3BKhOojce8qD7AeHtpdg3i61RuZwS0nizjwjARDfgXfQgMrPZE6PFF5JmQe
-	 gyRYgdYdhiVDCUqxvaS/OyGP8rRTAk87YLC6boN32KTQWFCXjgoE37NYcGaAvGo3S3
-	 i5x3nomtYMZJA==
-Date: Thu, 24 Jul 2025 22:39:41 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: "Dr. David Alan Gilbert" <linux@treblig.org>,
-	Kees Cook <kees@kernel.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <aILubaRfgKCHBzPH@lappy>
-References: <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
- <202507241337.F9595E1D@keescook>
- <aIKhvubVqgeXIlrj@gallifrey>
- <202507241418.34AFD28C@keescook>
- <20250724194556.105803db@gandalf.local.home>
- <202507241651.5E9C803C70@keescook>
- <aILYj62tF_1mDjDO@lappy>
- <aILb-zDiDr4b9u9S@gallifrey>
- <aILjTKk_v8NPxlVJ@lappy>
- <20250724220241.21b5d5f8@gandalf.local.home>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DRMgsNut"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7600271f3e9so1580214b3a.0;
+        Thu, 24 Jul 2025 23:29:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753424940; x=1754029740; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lL6i8tXeG4f0zJistqsLTcdxD22zTgA0nGo4IZjHcp8=;
+        b=DRMgsNutvrzfb/vFmI4vIL6n9RdhCXPgusScbCFtw1u50Of2GqBw9h7kp/R7RFz68q
+         /cIfYJkDQTDWVlGUXswKY/d6nJPF8fknu6D3NCXUXvdvn8HIxQWLMDRbMHz6tG4Z37hU
+         NBfF65FgI5SDGSUirsZxlVsUQqObFj7F+XObS5230Cm9lxIo1qBMRD0BSNtZh7VZJBcV
+         QfUTxdzPCra4AlBzJEqJN/YdKjVcRqjC0wPo2m0pzu4Sh2GXMPGZpVnEWSo1L8xzNRUh
+         m9F3NAb6H7E3/cN8YZTJHdfItBg0lSz5AtY28AUN7+M8Tqxq/RYSHKXqrQog18Ojv3nB
+         18Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753424940; x=1754029740;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lL6i8tXeG4f0zJistqsLTcdxD22zTgA0nGo4IZjHcp8=;
+        b=ecvgzfBAk48PDdN6/SfMXkiTQP6mCw+xpNZQ8h3iwzHt3gURjhfjZ+NXyoX3eZxqfy
+         apLPYxvqYUFSgjf1mDNZX/vApY3keMDLiRFnLDnM88BQ4sPEJUMTG6A41RAnWLpfEuSC
+         qzPxbXsYfkt8MOGqo8rshwYIFonIcf6JArTNvkty8mguE777gG5nnEL26WM+mMGbF4r2
+         AW4ACtZJvlGmdglrNW4xM9rQwCby+2z1RvQ9q47zy1n1/K//ilfnYSQZFBTqXAYfrpbt
+         uu3xsF5+k6T9biq8AaB048EJuCgkCRXO4uoT40dTCVNS1IxAVkgbJJ2wvmP7fav6UIdF
+         uZFg==
+X-Forwarded-Encrypted: i=1; AJvYcCUg+3zl5H6uf6KLtXvN1tG+QRoI8MP8o5ZNqy84FrwkuMsTPw+rzU7ia0NKSDyiIr163IbR4NKmiks=@vger.kernel.org, AJvYcCUhPJIZU8B2l3uDdwMO2bl/T5AYVz2ydZmzzi8XrBc7tzCWRFyHajbb721BW9uG0m1kfHD32WqRHekoo3H5zCbD@vger.kernel.org, AJvYcCXJPZ+CWtpQx21a8VA5BSPln9f+625W1Gl4QUl3Xmj+Hk6TVmMZ7q0KPW+QfKidvaG73yUWmhY+gZfz1GBJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKHuHL0vVi0HBQNMg5RNwn+JcNYz4XPXdhtWj0pvHCMCSK0m03
+	RE4UPGEvr60TUIMTSi3egy6BsVrwApHa6PY++WGKXIUmPJLBjqidJUpuuHxBHCLY
+X-Gm-Gg: ASbGnctsdvk7xAezN8ZFKLOYTpqXSJ7Q2fgtqzcjyQe6wf/JKHTUD93rV9cmTSSL9OY
+	j/3PjoPG/Yze6fDSJv5whHc/RjOgL/Jv0wkcbsEFfE3R90ToNjgus2IeDEkS8wyRSjWsCPfReQo
+	rx+qR8NO/kgqpqfUeRZuAFwYmm/FZTTsb9WPfeYq2oZmUtuvf4QmYqbOPK/SR8x9m+zbAOjOr3Q
+	Qtuy0m/I6PLD+cnS0gf5NJETyfZOqukcyxMO72A8igiYE5H75OgGAXi8iwK/KARxKnQtgnCxLBc
+	dDjfi2B7weC0tq7xHmBAzEu/fMqEbYB5TUk/lFg/iLgMQqaeBHNpnbqobDQQ9B2UJ4zAUp9ftRK
+	Wm1RGxLN0YY+XcWwmaj++8Dtzp7Um7odGQ8SkeqbwDjpTnms=
+X-Google-Smtp-Source: AGHT+IGAUkLGUU7XldjYa1tyK2d1FaF5Xk+jL1aOmKHA9A01tdLyzhwAEeM/IgmulMPfqKq8fqeO9g==
+X-Received: by 2002:a05:6a20:158f:b0:23d:3504:38ea with SMTP id adf61e73a8af0-23d5b5ba3bdmr8476567637.8.1753424940012;
+        Thu, 24 Jul 2025 23:29:00 -0700 (PDT)
+Received: from localhost.localdomain ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f6c09b532sm2667917a12.25.2025.07.24.23.28.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jul 2025 23:28:59 -0700 (PDT)
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: netdev@vger.kernel.org
+Cc: Jay Vosburgh <jv@jvosburgh.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Simon Horman <horms@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Petr Machata <petrm@nvidia.com>,
+	Amit Cohen <amcohen@nvidia.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Alessandro Zanni <alessandro.zanni87@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hangbin Liu <liuhangbin@gmail.com>
+Subject: [PATCH net 0/2] bonding: fix negotiation flapping in 802.3ad passive mode
+Date: Fri, 25 Jul 2025 06:28:46 +0000
+Message-ID: <20250725062848.18889-1-liuhangbin@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20250724220241.21b5d5f8@gandalf.local.home>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 24, 2025 at 10:02:41PM -0400, Steven Rostedt wrote:
->On Thu, 24 Jul 2025 21:52:12 -0400
->Sasha Levin <sashal@kernel.org> wrote:
->
->> We'll be hitting these issues all over the place if we try and draw a
->> line... For example, with more advances autocompletion: where would you
->> draw the line between completing variable names and writing an entire
->> function based on a comment I've made?
->
->It's not much different than the "copyright" issue. How much code do I have
->to copy before I start infringing on someone's copyright?
->
->But if you start using tooling to come up with algorithms that you would
->not think of on your own, then you definitely should document it.
->
->Heck, I do it now even for algorithms I get from a book. I'll credit Knuth
->on stuff all the time. Same should happen if you get something from AI.
->
->It's one thing if it finds a bug or formatting issue, it's something
->completely different if it starts coming up with the algorithms for you.
->
->And even if it is trivial, if you had it do most of the work, you most
->definitely should disclose it.
+This patch fixes unstable LACP negotiation when bonding is configured in
+passive mode (`lacp_active=off`).
 
-Steve, I'm advocating for disclosing more, not less :)
+Previously, the actor would stop sending LACPDUs after initial negotiation
+succeeded, leading to the partner timing out and restarting the negotiation
+cycle. This resulted in continuous LACP state flapping.
 
-I think that if we try to draw a line, we have no way of doing it
-without it being vague and blurry (and quickly become outdated as tech
-around us keeps moving).
+The fix ensures the passive actor starts sending periodic LACPDUs after
+receiving the first LACPDU from the partner, in accordance with IEEE
+802.1AX-2020 section 6.4.1.
 
-Adding metadata for the relevant toolchain bits (let them be the
-compiler I use, the kernel-specific tooling I ran on the patch, or the
-LLM that was used to generate code) has benefits beyond just LLM
-disclosure.
+Out of topic:
+Although this patch addresses a functional bug and could be considered for
+`net`, I'm slightly concerned about potential regressions, as it changes
+the current bonding LACP protocol behavior.
+
+It might be safer to merge this through `net-next` first to allow broader
+testing. Thoughts?
+
+Hangbin Liu (2):
+  bonding: send LACPDUs periodically in passive mode after receiving
+    partner's LACPDU
+  selftests: bonding: add test for passive LACP mode
+
+ drivers/net/bonding/bond_3ad.c                | 72 ++++++++++----
+ drivers/net/bonding/bond_options.c            |  1 +
+ include/net/bond_3ad.h                        |  1 +
+ .../selftests/drivers/net/bonding/Makefile    |  3 +-
+ .../drivers/net/bonding/bond_passive_lacp.sh  | 93 +++++++++++++++++++
+ 5 files changed, 151 insertions(+), 19 deletions(-)
+ create mode 100755 tools/testing/selftests/drivers/net/bonding/bond_passive_lacp.sh
 
 -- 
-Thanks,
-Sasha
+2.46.0
+
