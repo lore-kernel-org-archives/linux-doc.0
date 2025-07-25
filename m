@@ -1,46 +1,49 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20662EE617
-	for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 15:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07C2218592;
+	Fri, 25 Jul 2025 15:27:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753457234; cv=none; b=QC/Y1ABINl96dqpiYUFjhp3HD6TXScNcXmVuhtegWnAGIo3gKgC4Pg3b5OumbdorES4vDsPytt6iBwxRp9mPOAW31S/ZqTf1Xiqvx7J8amhGzBGZru6e84ys45wi2u7fxwB3LCArPjAgL+CnLz1k95a9CMLvpsan0Fp/N56NK4s=
+	t=1753457238; cv=none; b=VTGdK0E1UpeL1kEYyA7SJd+E2InXRQw6AObyHbkow4Ry7SEXcekLL+rDYhIJdK4dNQU7KrHGCuYZjLV2S4/xKQnkvvIkELI18VHVvD3HIox8Qt3nn0vqBsKGP35boxTyC6rUlKZ8a1GYcmvBg5G4r1h1nQBQWs2DQFQZKnycbDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753457234; c=relaxed/simple;
-	bh=4XUbrRL0YD1KlBsBsyBzOc11nCYHw2nNmqKf2Kh7fTs=;
+	s=arc-20240116; t=1753457238; c=relaxed/simple;
+	bh=qM7/+BGGB9SCqAKipIZlD4cUu7CfIL7Ub9snrawtBfg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mgAGdQZYX5SOzIZYNZgcm8Ruaa9dpHqH8L0TPO9eqRjTO2SjZv/cXByTefB9dBS35k6BihAvvEfySS8Uf9WIaqurH4AvivzQcOaF0M7Czt75Wukb37Sh+NEF7wl6pFUbJl3EB0zSSDIrml7n+Mt2Cu9e3xsCQ5Ggnd1vE1r5cUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=nQqHSjAr; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=c4Od85LEOCOw/7I74XvbpRvHCl2Sj+o6Kyz57+BOcTOLuVyY1DhYEi9j98Rx+M6EOrVzPc3vQadXAPzCl6nBLBc8D/aWdNpyY/jTZbkYDAtlesxkqCnZg2Mrk8ePYI6XH0DH113SCsqPdZgzaM9MDqKF7iuStjY1LNi4imqu/S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sF0ie5wu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="nQqHSjAr"
-Received: from trampoline.thunk.org (pool-173-48-116-187.bstnma.fios.verizon.net [173.48.116.187])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 56PFQwjk026198
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Jul 2025 11:26:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1753457220; bh=By+urOWaG/ajZlSNQ/vduTd8yEF1RnUec8nS30xxTnI=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=nQqHSjArwp98eVqDtB8jcbcV1+yiikon7Pd/RCZZz3hSzRmLvfrHwqpF0B65kvAJi
-	 HMGuQj/XSH0eHLqheuzFe60fXjjmU/G7ASWatXSU344vj5vJ8GoxKelsQcuYmci78X
-	 CgPrBUFWnExL3RUJYezEd+qfk4rZygCH1r5bWPci7zpLLr2YhJa23E/hbGJOSQXPNH
-	 wZIZG/8pUk7m8fdU/ySy+nA1YLLxqd8O1D+rwchethvhgYrZ+FJx035R5bHZDp54ok
-	 z61244xgVKkWfMNKVyzgYBRH4AeXdbOcHNKEs+z/utp3FY7z5TuuLe1J7tVhuiDRFG
-	 UMxCvFbmOXEYg==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 58DAB2E00D6; Fri, 25 Jul 2025 11:26:58 -0400 (EDT)
-Date: Fri, 25 Jul 2025 11:26:58 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>
-Subject: Re: Crediting test authors
-Message-ID: <20250725152658.GA236659@mit.edu>
-References: <20250725080023.6425488c@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sF0ie5wu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6734CC4CEE7;
+	Fri, 25 Jul 2025 15:27:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753457236;
+	bh=qM7/+BGGB9SCqAKipIZlD4cUu7CfIL7Ub9snrawtBfg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sF0ie5wu+jQQHM1BRQJY+y6wOsUrpIAQe1zpmGv40Rvuw45bNgRpcgEE9MiGoxjnt
+	 Ngr4VQhJZu6xOj2djqOZlGMkAamkmSv28Ztl4qCRbodlMP+73yXTtkYJNLcIKrdiDQ
+	 jHpmFyG3wFBxrMN5AhG1epRTu0pTL32MDj0guejboQj5zS8fF/TZxhst50w1PA/M+Z
+	 pncNGoY2NlVr47YcnvxutyQcc7pRPBO3tZpf9Bj8zusKLtrBJkQIlPwclj2kFULBv3
+	 QkSbna/Em5RttySBz/QBmTcBaCVlVhG7CTipRdTV3/qr/XxEaXBTxylMY+jSPRGALb
+	 4EBs+MoZjDJBw==
+Date: Fri, 25 Jul 2025 16:27:09 +0100
+From: Simon Horman <horms@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: andrew+netdev@lunn.ch, christophe.jaillet@wanadoo.fr, corbet@lwn.net,
+	davem@davemloft.net, edumazet@google.com, fuguiming@h-partners.com,
+	guoxin09@huawei.com, gur.stavi@huawei.com, helgaas@kernel.org,
+	jdamato@fastly.com, kuba@kernel.org, lee@trager.us,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	luosifu@huawei.com, meny.yossefi@huawei.com, mpe@ellerman.id.au,
+	netdev@vger.kernel.org, pabeni@redhat.com,
+	przemyslaw.kitszel@intel.com, shenchenyang1@hisilicon.com,
+	shijing34@huawei.com, sumang@marvell.com, vadim.fedorenko@linux.dev,
+	wulike1@huawei.com, zhoushuai28@huawei.com,
+	zhuyikai1@h-partners.com
+Subject: Re: [PATCH net-next v10 1/8] hinic3: Async Event Queue interfaces
+Message-ID: <20250725152709.GE1367887@horms.kernel.org>
+References: <20250723081908.GW2459@horms.kernel.org>
+ <20250724134551.30168-1-gongfan1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,26 +52,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725080023.6425488c@kernel.org>
+In-Reply-To: <20250724134551.30168-1-gongfan1@huawei.com>
 
-On Fri, Jul 25, 2025 at 08:00:23AM -0700, Jakub Kicinski wrote:
+On Thu, Jul 24, 2025 at 09:45:51PM +0800, Fan Gong wrote:
+> > > +
+> > > +/* Data provided to/by cmdq is arranged in structs with little endian fields but
+> > > + * every dword (32bits) should be swapped since HW swaps it again when it
+> > > + * copies it from/to host memory.
+> > > + */
+> >
+> > This scheme may work on little endian hosts.
+> > But if so it seems unlikely to work on big endian hosts.
+> >
+> > I expect you want be32_to_cpu_array() for data coming from hw,
+> > with a source buffer as an array of __be32 while
+> > the destination buffer is an array of u32.
+> >
+> > And cpu_to_be32_array() for data going to the hw,
+> > with the types of the source and destination buffers reversed.
+> >
+> > If those types don't match your data, then we have
+> > a framework to have that discussion.
+> >
+> >
+> > That said, it is more usual for drivers to keep structures in the byte
+> > order they are received. Stored in structures with members with types, in
+> > this case it seems that would be __be32, and accessed using a combination
+> > of BIT/GENMASK, FIELD_PREP/FIELD_GET, and cpu_to_be*/be*_to_cpu (in this
+> > case cpu_to_be32/be32_to_cpu).
+> > 
+> > An advantage of this approach is that the byte order of
+> > data is only changed when needed. Another is that it is clear
+> > what the byte order of data is.
 > 
-> Does anyone have ideas about crediting test authors or tests for bugs
-> discovered?  We increasingly see situations where someone adds a test
-> then our subsystem CI uncovers a (1 in a 100 runs) bug using that test.
+> There is a simplified example:
+> 
+> Here is a 64 bit little endian that may appear in cmdq:
+> __le64 x
+> After the swap it will become:
+> __be32 x_lo
+> __be32 x_hi
+> This is NOT __be64.
+> __be64 looks like this:
+> __be32 x_hi
+> __be32 x_lo
 
-I just list the test that discovered the bug and which was cleared by
-the commit, and assume that the test author will get credited in the
-upstream test repository (e.g., such as generic/750 from fstests or
-inotify02 from ltp).  So it's not something that I've worried about.
+Sure, byte swapping 64 bit entities is different to byte swapping two
+consecutive 32 bit entities. I completely agree.
 
-I suppose if the test repository isn't as well known, or if the test
-hasn't been checked anywhere at all, your concern that the test author
-should be credited is something I can understand.  But it hasn't come
-up for me.
+> 
+> So the swapped data by HW is neither BE or LE. In this case, we should use
+> swab32 to obtain the correct LE data because our driver currently supports LE.
+> This is for compensating for bad HW decisions.
 
-In other cases, if the commit hasn't been stable yet (say for kunit or
-kselftests coming from some other tree), I'll just throw in a Link:
-tag pointing at lore.kernel.org.
+Let us assume that the host is reading data provided by HW.
 
-						- Ted
+If the swab32 approach works on a little endian host
+to allow the host to access 32-bit values in host byte order.
+Then this is because it outputs a 32-bit little endian values.
+
+But, given the same input, it will not work on a big endian host.
+This is because the same little endian output will be produced,
+while the host byte order is big endian.
+
+I think you need something based on be32_to_cpu()/cpu_to_be32().
+This will effectively be swab32 on little endian hosts (no change!).
+And a no-op on big endian hosts (addressing my point above).
+
+More specifically, I think you should use be32_to_cpu_array() and
+cpu_to_be32_array() instead of swab32_array().
+
+> 
+> > > +void hinic3_cmdq_buf_swab32(void *data, int len)
+> > > +{
+> > > +	u32 *mem = data;
+> > > +	u32 i;
+> > > +
+> > > +	for (i = 0; i < len / sizeof(u32); i++)
+> > > +		mem[i] = swab32(mem[i]);
+> > > +}
+> >
+> > This seems to open code swab32_array().
+> 
+> We will use swab32_array in next patch.
+> Besides, we will use LE for cmdq structs to avoid confusion and enhance
+> readability.
+
+Thanks.
