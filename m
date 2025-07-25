@@ -1,82 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124811FC3;
-	Fri, 25 Jul 2025 19:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 649E32517A5;
+	Fri, 25 Jul 2025 20:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753473548; cv=none; b=F2U+TBP4XA+rcPXejnezZirsCm3QQZIBEJ11jo7EPQOtqVvhHoA3Js6NPxwbaS97WfxWKz3ec6/SH3bamQiVYUZHq0Ymu6jYXUbDkAx3oAeiAHo9/y0Ex8XNxqTWn3OnClRKvIcuBSf4gQSwepyWwWFD7OCRo7R3PYvmPo/kCdM=
+	t=1753473902; cv=none; b=fAnStYIsQotAQDZay/rQUO+LMYfitS8NJBye+ebnGlpHP4fazLxfwMFF6Y9G/DgXhyr8QZKGUvqtP6GS3agi6SVblOuSJ8StpNtjPu2wdneJ1EvFBhJNnuAG/gsAX7GMyI0miRdfuIv9iZ7YspWyDh6ilmyyy4h9Cery0rWfCjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753473548; c=relaxed/simple;
-	bh=SEHfoYAYS7TSO9WYmdMXMA3PCP9Gw9vwFqw8aUosFRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VaO5AZaU0tmgmhuqfur8CNgeSYLJgIpOVWGoWWqKqBVs0RIT+yt+2oOk8N7TtlOUvl9Cf8t+s5UG057D23hZBeOyQe8rmxDnayMED8DgUMx69uKpleYM88I9Vt+IolzGuTH1Ws2MGO4o4Lt0riRb0jDa6LQrPfuO7+O38nB30Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUdaBZGm; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUdaBZGm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420E2C4CEE7;
-	Fri, 25 Jul 2025 19:59:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753473547;
-	bh=SEHfoYAYS7TSO9WYmdMXMA3PCP9Gw9vwFqw8aUosFRw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GUdaBZGmRaQHDllmOrirRXuWqOyfCz/2DWMMe/nSFRXD/dGWp8Z9nIL/h1RCxceXU
-	 C+gfJm0R1XnPkjEvNws9QbvGerXuJGD9Aw2u3SgQD1JLSN/UhxPF1KErNNcd/LjUz3
-	 UTf4QA6u/TNxJfIAJbnOD4dqRwxHO9ic1Gf2/qJFF6ueLTTXtBi/n+zHB6OTKp9GND
-	 72hbkHSKrevMsW1g7mrap+86EXj4QTx5mwUQT0ModfFcEMXEnw58Ou50tOeKTVnKOn
-	 HxUh81GKkzPJVeVUlSwFN50Uytkuqu+mavTsXRVBb1LM+qB6nT9k6sGkCP5GRX46oI
-	 +/QFu5+MlwmTg==
-Date: Fri, 25 Jul 2025 12:59:06 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kees@kernel.org,
- konstantin@linuxfoundation.org, corbet@lwn.net, josh@joshtriplett.org
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-Message-ID: <20250725125906.1db40a7f@kernel.org>
-In-Reply-To: <20250725150046.3adb556c@gandalf.local.home>
-References: <20250725175358.1989323-1-sashal@kernel.org>
-	<20250725114114.3b13e7b1@kernel.org>
-	<20250725150046.3adb556c@gandalf.local.home>
+	s=arc-20240116; t=1753473902; c=relaxed/simple;
+	bh=8+OH0jpnYCxLHJivUXbltpTlvIRJChdCd+Jh3a0RZJA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sHOUCpOo9WPF/HbKlJCxU6O58ubw1bo6u/eVbbc68JLiqCX6bBBtyPntLRGzmuJDir8unMFdvboKe34nSW1eCl3jGTKgbf4becPY8rfMY5RVdBPmcXXdm+cHi6MWE+FBri+dnkpybeFCY+gWmMLMzz6L28DUEfANnO+ljmHn6o4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E344176C;
+	Fri, 25 Jul 2025 13:04:51 -0700 (PDT)
+Received: from [10.57.4.83] (unknown [10.57.4.83])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 167FB3F6A8;
+	Fri, 25 Jul 2025 13:04:52 -0700 (PDT)
+Message-ID: <02240cf7-c4d4-4296-9b1e-87b4231874a1@arm.com>
+Date: Fri, 25 Jul 2025 21:04:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8] dma-mapping: fail early if physical address is mapped
+ through platform callback
+To: Leon Romanovsky <leon@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ iommu@lists.linux.dev, virtualization@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ linux-mm@kvack.org
+References: <cover.1750854543.git.leon@kernel.org>
+ <5fc1f0ca52a85834b3e978c5d6a3171d7dd3c194.1750854543.git.leon@kernel.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <5fc1f0ca52a85834b3e978c5d6a3171d7dd3c194.1750854543.git.leon@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 25 Jul 2025 15:00:46 -0400 Steven Rostedt wrote:
-> On Fri, 25 Jul 2025 11:41:14 -0700
-> Jakub Kicinski <kuba@kernel.org> wrote:
-> > On Fri, 25 Jul 2025 13:53:56 -0400 Sasha Levin wrote:  
-> > > 	Co-developed-by: Claude claude-opus-4-20250514
-> > > 	---
-> > > 	 Documentation/power/opp.rst | 2 +-
-> > > 	 1 file changed, 1 insertion(+), 1 deletion(-)    
-> > 
-> > I think we should suggest that the tag is under --- ?
-> > It's only relevant during the review. Once the patch is committed 
-> > whether the code was organic or generated by Corp XYZ's Banana AI
-> > is just free advertising..  
+On 2025-06-25 2:19 pm, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> What's the difference between that and others using their corporate email?
-> I even add (Google) to my SoB to denote who is paying me to do the work.
+> All platforms which implement map_page interface don't support physical
+> addresses without real struct page. Add condition to check it.
 
-To be clear, it's not my main point, my main point is that 
-the information is of no proven use right now. As long as
-committer follows the BKP of adding Link: https://patch.msgid.link/...
-we can find the metadata later.
+As-is, the condition also needs to cover iommu-dma, because that also 
+still doesn't support non-page-backed addresses. You can't just do a 
+simple s/page/phys/ rename and hope it's OK because you happen to get 
+away with it for coherent, 64-bit, trusted devices.
 
-We never found the need to attach the exact version of smatch / sparse
-/ cocci that found the bug or "wrote" a patch. Let us not overreact to
-the AI tools.
+Thanks,
+Robin.
 
-> Also, I would argue that it would be useful in the change log as if there's
-> a bug in the generated code, you know who or *what* to blame. Especially if
-> there is a pattern to be found.
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>   kernel/dma/mapping.c | 15 ++++++++++++++-
+>   1 file changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> index 709405d46b2b..74efb6909103 100644
+> --- a/kernel/dma/mapping.c
+> +++ b/kernel/dma/mapping.c
+> @@ -158,6 +158,7 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+>   {
+>   	const struct dma_map_ops *ops = get_dma_ops(dev);
+>   	phys_addr_t phys = page_to_phys(page) + offset;
+> +	bool is_pfn_valid = true;
+>   	dma_addr_t addr;
+>   
+>   	BUG_ON(!valid_dma_direction(dir));
+> @@ -170,8 +171,20 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+>   		addr = dma_direct_map_phys(dev, phys, size, dir, attrs);
+>   	else if (use_dma_iommu(dev))
+>   		addr = iommu_dma_map_phys(dev, phys, size, dir, attrs);
+> -	else
+> +	else {
+> +		if (IS_ENABLED(CONFIG_DMA_API_DEBUG))
+> +			is_pfn_valid = pfn_valid(PHYS_PFN(phys));
+> +
+> +		if (unlikely(!is_pfn_valid))
+> +			return DMA_MAPPING_ERROR;
+> +
+> +		/*
+> +		 * All platforms which implement .map_page() don't support
+> +		 * non-struct page backed addresses.
+> +		 */
+>   		addr = ops->map_page(dev, page, offset, size, dir, attrs);
+> +	}
+> +
+>   	kmsan_handle_dma(phys, size, dir);
+>   	trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
+>   	debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
 
-This touches on explainability of AI. Perhaps the metadata would be
-interesting for XAI research... not sure that's enough to be lugging
-those tags in git history.
