@@ -1,95 +1,270 @@
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D922E9721;
-	Fri, 25 Jul 2025 10:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A3C1A4F3C;
+	Fri, 25 Jul 2025 10:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753438419; cv=none; b=I/2a+5uMtPYQmfkA1Bo92YQrtijI0zUZaEsKONVyzS2htBW8NG94TclcuPIopkk/UZVNuqRrpOy0g19n1X6PXoWCD++tFveeK4vEVGJCGjlQFXcWrn9e+VXwaa3txwT7ZtkOgZEcgbbHN/2vgUY+gkII/DXnYYqeCK3qAL2eRHU=
+	t=1753441023; cv=none; b=dHQh+B5oodNNcGQmHRZza4Mb9nDlC36TGoQFL8O0/oTA0GNAa5DY+rnp2m0FCJD/V5qTasf9QlX36aJYlLiit8efTZVvKcTfuz1t9G/+tdJk+IZG1Nwd73wY/y7mHqmO7Unajxk5VJaPmOK+HF8gJYqyZwcB9gwcT+v3zyv/8bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753438419; c=relaxed/simple;
-	bh=kRroiVwN8VC5mjdK3a+UEFHGD7+4HV0iLUxuCRe43nY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ShXaIQm0evKGiMy4pGDCvCRO1OF+pFrCH4EufE3MnOzO/LwwHQx6jMiEXdNkh5cR74DMwYOexLYLpGgQXTBUyIzfU7uUzHBPCjLT1Nc/P6hFWDa800qttWrytsm6BaVRaqDzND8MANmeR70F1/3h9wNGgKR2neypvg9xdl1LQaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.169.211.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpgz1t1753438310t6f10c101
-X-QQ-Originating-IP: hrXMJrjX1v5SmrXvU/RFaoTkBlV+D++VqopZO1o9Pdc=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 25 Jul 2025 18:11:48 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 17354701733030372774
-Date: Fri, 25 Jul 2025 18:11:47 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Simon Horman <horms@kernel.org>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, corbet@lwn.net, gur.stavi@huawei.com,
-	maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com,
-	lee@trager.us, gongfan1@huawei.com, lorenzo@kernel.org,
-	geert+renesas@glider.be, Parthiban.Veerasooran@microchip.com,
-	lukas.bulwahn@redhat.com, alexanderduyck@fb.com,
-	richardcochran@gmail.com, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/15] net: rnpgbe: Add basic mbx ops support
-Message-ID: <B257A91F74F6FCCD+20250725101147.GA365950@nic-Precision-5820-Tower>
-References: <20250721113238.18615-1-dong100@mucse.com>
- <20250721113238.18615-4-dong100@mucse.com>
- <20250722113542.GG2459@horms.kernel.org>
- <78BE2D403125AFDD+20250723030705.GB169181@nic-Precision-5820-Tower>
- <7d191bc9-98cf-4122-8343-7aa5f741d16c@lunn.ch>
+	s=arc-20240116; t=1753441023; c=relaxed/simple;
+	bh=MszVLV3l7szP0DsCNUSlI6uuZgiTHWwNYaXVQghmqB0=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bWgDkUYh+mijT23jAqScWF36BBHRSRzN4QZXj2DISfIlX7akJ8yp1gFHTS6MTZhrLPLs73S4za2YSL7OWllZyMzHm2TVCHF0d0f8zRTMXUjA5xcOs60ZYBO9yRyBlJfiAvFt6+Fqu0IWaoKm/KHl7FtsanZBR7Xrt0UInQM1G8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bpPpz1MQQz6HJRn;
+	Fri, 25 Jul 2025 18:52:59 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id A06C61400DC;
+	Fri, 25 Jul 2025 18:56:57 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 25 Jul
+ 2025 12:56:56 +0200
+Date: Fri, 25 Jul 2025 11:56:55 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: =?ISO-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, "Gatien
+ Chevallier" <gatien.chevallier@foss.st.com>, Michael Turquette
+	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Gabriel
+ Fernandez" <gabriel.fernandez@foss.st.com>, Krzysztof Kozlowski
+	<krzk@kernel.org>, Le Goffic <legoffic.clement@gmail.com>, Julius Werner
+	<jwerner@chromium.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-perf-users@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v3 12/19] perf: stm32: introduce DDRPERFM driver
+Message-ID: <20250725115655.00002304@huawei.com>
+In-Reply-To: <20250722-ddrperfm-upstream-v3-12-7b7a4f3dc8a0@foss.st.com>
+References: <20250722-ddrperfm-upstream-v3-0-7b7a4f3dc8a0@foss.st.com>
+	<20250722-ddrperfm-upstream-v3-12-7b7a4f3dc8a0@foss.st.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d191bc9-98cf-4122-8343-7aa5f741d16c@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: Mdc3TkmnJyI/+YOumia0fMkiIQ3IF+TcSl1ZjGBSlfohOREivgBA9soq
-	BT55KohU0cCwMVq1Hn5qrRJr+4DgKhv1P1LOGDV8HZJAOMk5RNOtp2vM8yFo5gLUBsqJrsW
-	58UoWXTEHFkHA6lalgrxmtpyY0WnzGy2YUGxTnfqNE+QFCGTBk4Vez7sobeA3J/IYYs4VlG
-	hy+87ZyXv/gRALtHjJ90WIXhyXBWReu9WXUdHZbasITtNjp7ytjlrjdcF7EEGqfd87sx4iT
-	cumEjRi0QaWDKcl5HzVQmDiiAPCmpvPGM9+0DNWzryeRwqYiWzhvR86txTBlnZHdVmtknro
-	Xp7aUfQZlVqo/T6rbhg514LZ2AnMa/iCPWhPsnMnz6oQdQJw3RTJnSzFdIx7IHu4FuoP0Pd
-	Y1GF+13lG4rGXY9tuZ0IfdHw5QNCVLzWKzWYSyFoub3op3ziVdG+It/dNAZiR64dMS3MBCK
-	n1Ctljuurrs9jGuOTp2NyM8R2hCHOwIJMIDMeVRodbil9BtZ1+8z7hsKP6L7VGWRJTgqmde
-	lmUCjMSyqIHyii/7yIzD5zHWKPVs0MLIPhWLqOS/JS/3x9MV6AYk3MxucOzqGOoB9SI429C
-	PxksrIQ4EMTbsmjcBNSAGFnHYFet0elNnQy58iqZeAkRE4MRgPQ6hVjwXAW4S2pSjmsdHq/
-	XQnKM1eXDh3H6PZy91kJpooj27sGQam6bSrfAtFco2yLCvrr0i1Jntfr0zspiiJMMTLfkFq
-	nVedLPPkVq3DuWvCS6P5p+MRwm9sFr1O4BiXfabf/INxDTIT91cCaf13sa+WtHIYTGV7ym3
-	7TPQCjDUBc4DeI2DtEmijT+xC6q0fJtm1waYRrPTDOtBkZmCTp4pz21NzHoUupf8+pEKGsy
-	uCZx77NoHBZHGRihV3bIgekKFW1vTdBurhG5Nd4QkGrJPB2U8tdPv+yD2CQoBMa33GbI8mB
-	u3dsQRan5oJSUof4AyuQS02eveW+vrXk0KLeJveJuQdYwyHJcXqzyDVv2SfMqGH1aQxW755
-	x8VRkfE5ZRB2B6O+BSRMTuu7NI3y7kboGq32KRGg==
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Wed, Jul 23, 2025 at 04:38:00PM +0200, Andrew Lunn wrote:
-> > > Flagged by W=1 builds with Clang 20.1.8, and Smatch.
-> > > 
-> > > > +}
-> > > 
-> > > ...
-> > > 
-> > 
-> > Got it, I will fix this.
-> > Maybe my clang (10.0.0) is too old, I will update it and 
-> > try W=1 again.
-> 
-> 10.0.0 was released 24 Mar 2020. That is a five year old compiler!
-> 
-> Try something a bit more modern.
-> 
-> 	Andrew
-> 
+On Tue, 22 Jul 2025 16:03:29 +0200
+Cl=E9ment Le Goffic <clement.legoffic@foss.st.com> wrote:
 
-Ok, I have update it, and got the warning.
+> Introduce the driver for the DDR Performance Monitor available on
+> STM32MPU SoC.
+>=20
+> On STM32MP2 platforms, the DDRPERFM allows to monitor up to 8 DDR events
+> that come from the DDR Controller such as read or write events.
+>=20
+> On STM32MP1 platforms, the DDRPERFM cannot monitor any event on any
+> counter, there is a notion of set of events.
+> Events from different sets cannot be monitored at the same time.
+> The first chosen event selects the set.
+> The set is coded in the first two bytes of the config value which is on 4
+> bytes.
+>=20
+> On STM32MP25x series, the DDRPERFM clock is shared with the DDR controller
+> and may be secured by bootloaders.
+> Access controllers allow to check access to a resource. Use the access
+> controller defined in the devicetree to know about the access to the
+> DDRPERFM clock.
+>=20
+> Signed-off-by: Cl=E9ment Le Goffic <clement.legoffic@foss.st.com>
+Hi Cl=E9ment,
 
-Thanks for your feedback.
+Minor comments inline.,
+
+Thanks,
+
+Jonathan
+
+> --- /dev/null
+> +++ b/drivers/perf/stm32_ddr_pmu.c
+> @@ -0,0 +1,896 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+> + * Author: Cl=E9ment Le Goffic <clement.legoffic@foss.st.com> for STMicr=
+oelectronics.
+> + */
+> +
+> +#include <linux/bus/stm32_firewall_device.h>
+> +#include <linux/clk.h>
+> +#include <linux/hrtimer.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of_platform.h>
+Why? =20
+Looks like of.h is needed so you should include that directly.
+
+Check all your headers.  mod_devicetable.h should be here
+for instance.
+
+> +#include <linux/perf_event.h>
+> +#include <linux/reset.h>
+
+> +
+> +static void stm32_ddr_pmu_event_del(struct perf_event *event, int flags)
+> +{
+> +	struct stm32_ddr_pmu *pmu =3D to_stm32_ddr_pmu(event->pmu);
+> +	struct stm32_ddr_cnt *counter =3D event->pmu_private;
+> +	bool events =3D true;
+> +
+> +	stm32_ddr_pmu_event_stop(event, PERF_EF_UPDATE);
+> +
+> +	stm32_ddr_pmu_free_counter(pmu, counter);
+> +
+> +	for (int i =3D 0; i < pmu->cfg->counters_nb; i++)
+> +		events =3D !list_empty(&pmu->counters[i]);
+What is this trying to do?  It seems to be only setting
+	events =3D !list_empty(&pmu->counters[pmu->cfg_counters_nb - 1]);
+
+If so just check that but my guess it you care if there is anything
+in any of them lists.
+
+> +
+> +	/* If there is activity nothing to do */
+> +	if (events)
+> +		return;
+> +
+> +	hrtimer_cancel(&pmu->hrtimer);
+> +	stm32_ddr_stop_counters(pmu);
+> +
+> +	pmu->selected_set =3D -1;
+> +
+> +	clk_disable(pmu->clk);
+> +}
+
+
+> +static int stm32_ddr_pmu_get_memory_type(struct stm32_ddr_pmu *pmu)
+> +{
+> +	struct platform_device *pdev =3D to_platform_device(pmu->dev);
+> +	struct device_node *memchan;
+> +
+> +	memchan =3D of_parse_phandle(pdev->dev.of_node, "memory-channel", 0);
+> +	if (!memchan)
+> +		return dev_err_probe(&pdev->dev, -EINVAL,
+> +				     "Missing device-tree property 'memory-channel'\n");
+> +
+> +	if (of_device_is_compatible(memchan, "jedec,lpddr4-channel"))
+
+Random thought, feel free to ignore.
+I wonder if it's worth using an of_device_id match table here?
+
+
+> +		pmu->dram_type =3D STM32_DDR_PMU_LPDDR4;
+> +	else if (of_device_is_compatible(memchan, "jedec,lpddr3-channel"))
+> +		pmu->dram_type =3D STM32_DDR_PMU_LPDDR3;
+> +	else if (of_device_is_compatible(memchan, "jedec,ddr4-channel"))
+> +		pmu->dram_type =3D STM32_DDR_PMU_DDR4;
+> +	else if (of_device_is_compatible(memchan, "jedec,ddr3-channel"))
+> +		pmu->dram_type =3D STM32_DDR_PMU_DDR3;
+> +	else
+> +		return dev_err_probe(&pdev->dev, -EINVAL, "Unsupported memory channel =
+type\n");
+> +
+> +	if (pmu->dram_type =3D=3D STM32_DDR_PMU_LPDDR3)
+> +		dev_warn(&pdev->dev,
+> +			 "LPDDR3 supported by DDRPERFM but not supported by DDRCTRL/DDRPHY\n"=
+);
+> +
+> +	return 0;
+> +}
+
+> +static struct attribute *stm32_ddr_pmu_events_attrs_mp[] =3D {
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_rd, PERF_OP_IS_RD),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_wr, PERF_OP_IS_WR),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_activate, PERF_OP_IS_ACTIVATE),
+> +	STM32_DDR_PMU_EVENT_ATTR(ctl_idle, CTL_IDLE),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_hpr_req_with_no_credit, PERF_HPR_REQ_WITH=
+_NO_CREDIT),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_lpr_req_with_no_credit, PERF_LPR_REQ_WITH=
+_NO_CREDIT),
+> +	STM32_DDR_PMU_EVENT_ATTR(cactive_ddrc, CACTIVE_DDRC),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_enter_powerdown, PERF_OP_IS_ENTER_P=
+OWERDOWN),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_refresh, PERF_OP_IS_REFRESH),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_selfresh_mode, PERF_SELFRESH_MODE),
+> +	STM32_DDR_PMU_EVENT_ATTR(dfi_lp_req, DFI_LP_REQ),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_hpr_xact_when_critical, PERF_HPR_XACT_WHE=
+N_CRITICAL),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_lpr_xact_when_critical, PERF_LPR_XACT_WHE=
+N_CRITICAL),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_wr_xact_when_critical, PERF_WR_XACT_WHEN_=
+CRITICAL),
+> +	STM32_DDR_PMU_EVENT_ATTR(dfi_lp_req_cpy, DFI_LP_REQ),  /* Suffixed '_cp=
+y' to allow the
+> +								* choice between sets 2 and 3
+> +								*/
+> +	STM32_DDR_PMU_EVENT_ATTR(time_cnt, TIME_CNT),
+> +	NULL,
+
+No trailing comma for a terminating entry like this.  You got the other cas=
+es
+so I guess this one just got missed.
+
+> +};
+
+> +static int stm32_ddr_pmu_device_probe(struct platform_device *pdev)
+> +{
+> +	struct stm32_firewall firewall;
+> +	struct stm32_ddr_pmu *pmu;
+> +	struct reset_control *rst;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	pmu =3D devm_kzalloc(&pdev->dev, struct_size(pmu, counters, MP2_CNT_NB)=
+, GFP_KERNEL);
+> +	if (!pmu)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, pmu);
+> +	pmu->dev =3D &pdev->dev;
+> +
+> +	pmu->cfg =3D device_get_match_data(pmu->dev);
+> +
+> +	pmu->membase =3D devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(pmu->membase))
+> +		return PTR_ERR(pmu->membase);
+> +
+> +	if (of_property_present(pmu->dev->of_node, "access-controllers")) {
+> +		ret =3D stm32_firewall_get_firewall(pmu->dev->of_node, &firewall, 1);
+
+Jiri is busy driving dev_fwnode() thorugh to get rid of all the directly re=
+ferences
+to of_node.  Probably better to use that here from the start.
+
+
+> +		if (ret)
+> +			return dev_err_probe(pmu->dev, ret, "Failed to get firewall\n");
+> +		ret =3D stm32_firewall_grant_access_by_id(&firewall, firewall.firewall=
+_id);
+> +		if (ret)
+> +			return dev_err_probe(pmu->dev, ret, "Failed to grant access\n");
+> +	}
+> +
+> +	pmu->clk =3D devm_clk_get_optional_enabled(pmu->dev, NULL);
+> +	if (IS_ERR(pmu->clk))
+> +		return dev_err_probe(pmu->dev, PTR_ERR(pmu->clk), "Failed to get prepa=
+re clock\n");
+
+Comment doesn't match code. This is going to enabled, not just prepared.
+
+> +
+> +	rst =3D devm_reset_control_get_optional_exclusive(pmu->dev, NULL);
+> +	if (IS_ERR(rst))
+> +		return dev_err_probe(pmu->dev, PTR_ERR(rst), "Failed to get reset\n");
+
+> +}
+
+
