@@ -1,102 +1,71 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD99BA3D;
-	Fri, 25 Jul 2025 00:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5259FC0A;
+	Fri, 25 Jul 2025 01:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753404941; cv=none; b=FZAbRtChTuN36Nyht6ZFbC9Vr1PDQN1zoRG12QWM5qTP1WSNhHfMHDarRzW55s+hBzNp8/iCPSxOal+ZVrNnAu8Pqw9GrqMDnAZpAIG9tk2YbIoB4VIKJfdJbaLF8AEqw3E1zj6cNR7sGy0myFA8XD9uFaoRSk7AvDBnrbuYP5M=
+	t=1753405292; cv=none; b=mpUaS6F+LmqU6lHSVbXbJnXCRSRGwR8Zt/E4sTTwnSiey1pUYdFDXXuHxNQureRq6VvbhEfd75IWxYVy3Z6GkoCrPmp/RXbumhgVZO+wHqFNDdBrVYs5AZVnczFUHb8TxgUPt3k+tbKiRq6qcRMFmWmw1tZ19ixsVxAF/IkYIAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753404941; c=relaxed/simple;
-	bh=KvxN5DHjZGSXEwli5Su3Qm7vJiM8XvRrYqw6i3BZUkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YDJiPLaAfHLD6/K0OTjawtb3wYw6cO8jnvzCB2uX9iQuIY5QE+G9c2M+cbnUZM22Mp5LsJ8NGyoQPORyxpgNrgjaCqjBDrwEhEA2Mp4pqr747mjIhWBYH+g10AuCvd/e9nLga6Mp6YKlyRRYtCeW4TRcz4+Tq2T/P0vjd5wv0Pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=T9iFiWIa; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1753405292; c=relaxed/simple;
+	bh=2xm7u3ygcZYBzCZXGoS/pCUYoBjZBFKnG8HwfR0nmZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MtO3rch5zSk7+104GLb2IAb8QAcdXBQPfH9h21ByzZFzKmOg6uDDArzkF7gr6u2cq+x8IcRlxWvg51ovRVdgznxY0adMjMrphpqDG1EPHnOYH+o2pgS7fOAhBgmK/MeiqxP4Xp6s4kJkJoZ2PJPgSxLVx1zAt/dqts/XD0S2vHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S//hzPtk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="T9iFiWIa"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=StlREuo1scS0BfmCy3StaAeIUyCF5tPTsycVVaKcV94=; b=T9iFiWIagMi1C/Et
-	gM5OuOyS+mMLiTMpLXVy/Qq4acvvgpRuwIiZCX6tEUSHgEeW2JA7f9gIJhOXXYgct4xOPzOhG9d7r
-	FIfobPC6NrE5FHXJLlY4YbnKbQrO94NmDu+HqdjC3oTiOtJNgjuLmsvWczVoY62ziePsTOWjxVOOH
-	UWNUsdlAJDg1Gt0clsjjx/Fpav8+UWOTRQI43YD4Zc76/CmG2mY0jKYc3ALgNCPgkff60OktqBMfH
-	OeSYxHIkpAjRV+DlouvgOtU2CN9CW6soAJ0yaXjGBI8STCqTP5DSXLrXZGkVayFf+jlYPjltBhBxQ
-	NeOQ9dgdYkzISq5rLw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1uf6ie-000WVV-0z;
-	Fri, 25 Jul 2025 00:55:28 +0000
-Date: Fri, 25 Jul 2025 00:55:28 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <aILWAELwozskfIgj@gallifrey>
-References: <20250724175439.76962-1-linux@treblig.org>
- <20250724-alluring-fuzzy-tanuki-6e8282@lemur>
- <202507241337.F9595E1D@keescook>
- <aIKhvubVqgeXIlrj@gallifrey>
- <202507241418.34AFD28C@keescook>
- <20250724194556.105803db@gandalf.local.home>
- <202507241651.5E9C803C70@keescook>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S//hzPtk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E0ECC4CEED;
+	Fri, 25 Jul 2025 01:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753405291;
+	bh=2xm7u3ygcZYBzCZXGoS/pCUYoBjZBFKnG8HwfR0nmZA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=S//hzPtkrEJWtjCpMVveiikuo8YGKwG6HXKQsFWNzKhUo1FqN3Qha5XSwann5Qfh0
+	 8qgq16uXtPh7baKfgU3rbq6tF4hAGNaNnQHvApWdE2oqiRU/Rl2yRN7OTZgRC+LXxn
+	 95gkYGtHVCApuf2h0QczyVlYs3RTMESoE1yX5KIsoEK67EeJoHbMmVPZbujbf+67Ma
+	 6pffUAXSOuY4fZWPPtXjlFUUir8R4XmbVwy2pJtTWzTWPWjBRaPHvAY8PNNw9KFuJC
+	 Y7KQ6PuuG/byFbltcIqK/g9BJnpqLoyUYm2flutmNIcZ6+ldBIsg0Y2tKUUqeS9BkW
+	 8WWl+mvi9bumg==
+Date: Thu, 24 Jul 2025 18:01:28 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Jiri Pirko <jiri@nvidia.com>, Jiri Pirko
+ <jiri@resnulli.us>, Donald Hunter <donald.hunter@gmail.com>, Jonathan
+ Corbet <corbet@lwn.net>, Brett Creeley <brett.creeley@amd.com>, Michael
+ Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>,
+ "Cai Huoqing" <cai.huoqing@linux.dev>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>, Linu
+ Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Jerin
+ Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya
+ Sundeep <sbhatta@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>, Leon
+ Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Ido Schimmel
+ <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, Manish Chopra
+ <manishc@marvell.com>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <intel-wired-lan@lists.osuosl.org>, <linux-rdma@vger.kernel.org>, "Shahar
+ Shitrit" <shshitrit@nvidia.com>, Gal Pressman <gal@nvidia.com>
+Subject: Re: [PATCH net-next V2 0/5] Expose grace period delay for devlink
+ health reporter
+Message-ID: <20250724180128.338977e3@kernel.org>
+In-Reply-To: <1753390134-345154-1-git-send-email-tariqt@nvidia.com>
+References: <1753390134-345154-1-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <202507241651.5E9C803C70@keescook>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 00:53:00 up 88 days,  9:06,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-* Kees Cook (kees@kernel.org) wrote:
-> On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
-> > My thought is to treat AI as another developer. If a developer helps you
-> > like the AI is helping you, would you give that developer credit for that
-> > work? If so, then you should also give credit to the tooling that's helping
-> > you.
-> > 
-> > I suggested adding a new tag to note any tool that has done non-trivial
-> > work to produce the patch where you give it credit if it has helped you as
-> > much as another developer that you would give credit to.
-> 
-> We've got tags to choose from already in that case:
-> 
-> Suggested-by: LLM
+On Thu, 24 Jul 2025 23:48:49 +0300 Tariq Toukan wrote:
+> This series by Shahar implements graceful period delay in devlink health
+> reporter, and use it in mlx5e driver.
 
-For me, 'Suggested-by:' seems fine for where an LLM has
-responded to a 'suggest improvements to this function'.
-
-> or
-> 
-> Co-developed-by: LLM <not@human.with.legal.standing>
-> Signed-off-by: LLM <not@human.with.legal.standing>
-> 
-> The latter seems ... not good, as it implies DCO SoB from a thing that
-> can't and hasn't acknowledged the DCO.
-
-Yeh, the Co-developed-by:  isn't terrible,  but in both that and the
-Suggested-by: is there a standard for how you would refer to the tool?
-IMHO it should not have an email address there otherwise it'll confuse tools 
-into cc'ing them.
-
-Dave
-
-> 
-> -- 
-> Kees Cook
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+You waited a week to get back to me with the reply to my comments on v1:
+https://lore.kernel.org/all/6892bb46-e2eb-4373-9ac0-6c43eca78b8e@gmail.com/
+and 10h later, before I had a chance to reply - you submit a v2. 
+Not very demure.
