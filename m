@@ -1,189 +1,127 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40684238C3A;
-	Fri, 25 Jul 2025 11:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417B02D8784;
+	Fri, 25 Jul 2025 12:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753444154; cv=none; b=V0G5Ag+vFHmD3wGgOoHl4tGNJpST/Y6BRR73NODas91ZrqucKiCUsYH5yCno6QGkuZATSuk6nJ6T2J18HkSHRje1og+jhRfutQzcKZ+Ejgz4tj4B3/n5vERYfyAyLkS9nZxpRelXLH2b05wUhP+xc+n9dPAU/w5lwIaYvVu/SO8=
+	t=1753448146; cv=none; b=klsAmmhIvPqPAJtzuD2TsvgFpaXarsFQJ6qgiM/CPGNOVRu2E3jikhULx7g02HzI4VcgeNwXe+c3vLr8FmvPawyAtgWoO2NiXWOW4S2FEtQefaG947Y76Aln1gKq9ebQtX9bHc5g0jtTIfmNmX2Z96U0NcHzt0FAurxkFBStkRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753444154; c=relaxed/simple;
-	bh=D2ivzNJuaDVX9C5eOi3hZ8Kr8x1lFAqdeFEb9V6jXtY=;
+	s=arc-20240116; t=1753448146; c=relaxed/simple;
+	bh=+96td86pl6RYvdjPgEXEaY4yH4Llt3TUn3hBrBZc3sA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fWGojjQ7Q/esCltwXVW3XZbhaxYKJLG6FW5jF3tvi+flXHwxIvyz7OHUApP93XI+w8rANL2pNvt0qeoOYNul+JGcJ2Pb1bgqPzKhOmD25xOaCp8Cg2+7xnU/uk5Kmme/m3quP75QqM71A9BmRBOHNZ6Oj1D9ac1bO7y9RSOFSes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=C1fRJ6sf; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=jWzxfcmFh0n87UElgWu6n9oHP+ho0wuWmjqmS5JFwk0fkBv5Lkh9a7r7Wh74DRDguhhc0OYGHmRXj3uwVA23nwhIB+VFilfS2Zf4IKxtAHZa5aKBhg1OZI9XU/cjp9/n3B0Vi4N7DtksZwB9ccDxRijrbahvWN3iBOgKmekTAN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IfciSWEb; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="C1fRJ6sf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=k0dqcf75EGGfL16WYYDaJ5XQjo4w6DRgcCALzNEwqmA=; b=C1fRJ6sfMTLwadKH
-	G2f1zfqX776s+ng43cehav+bn/Ahf7/TDy+X/6yUI9qDyo+tlfficejHX+Zry9RX4/jgTHuasBdya
-	A1ALDi7d77B9cq6NZs8PcAzHOnNg8CLxcxBZCIwqw6QmK6tFkYZv+mbvHaC0D5mK16+KKcvrkR+Q8
-	MQoHqNRuiuvVfN9WBP6GrN8QhAT8Wlh1qUjsO6wv1F+ItgzisoL6wicSclpKLYfo2JdJlnzx523L8
-	FY7fzfNf+0yNk3dAGrrX827Epb7p7urWEERkQ5s2m+9aEXI1nsmi+uVNDNJxuUx1CXde68xI1VVIc
-	JgpVThDzOStKvArTlA==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1ufGv8-000baf-2h;
-	Fri, 25 Jul 2025 11:49:02 +0000
-Date: Fri, 25 Jul 2025 11:49:02 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sasha Levin <sashal@kernel.org>, Kees Cook <kees@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <aINvLgwaKZsKOibE@gallifrey>
-References: <202507241337.F9595E1D@keescook>
- <aIKhvubVqgeXIlrj@gallifrey>
- <202507241418.34AFD28C@keescook>
- <20250724194556.105803db@gandalf.local.home>
- <202507241651.5E9C803C70@keescook>
- <aILYj62tF_1mDjDO@lappy>
- <aILb-zDiDr4b9u9S@gallifrey>
- <aILjTKk_v8NPxlVJ@lappy>
- <aINqjTAwbQ_xnAw6@gallifrey>
- <20250725113702.GD11202@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IfciSWEb"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-31e7e3dc5d2so219767a91.1;
+        Fri, 25 Jul 2025 05:55:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753448144; x=1754052944; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qGEpXVAlxD3K+ugg3yuPPR4elZ+lMYltBWlc9KeJ+S0=;
+        b=IfciSWEbzFc9tbXLQI9i5nAA5ALGIIv0NzFeuneN1p0h2ysyF0FQF5U3MoZYkeu9Yj
+         EiLnds/iCjv3Va6NXCzqVB3J1PsvKBNdg1PaG9jZjTwyJBKAnFEtwpl27tdYsashv6HY
+         wdarg8QNOScFyIBp+Xu10qX8glep0OvM6EqcgUS5Go2ATLL+3lZ14vjCyNM09lzQLmAD
+         N9XSfiYNwoufvdaQpyUg3V9bljnbTm8gGTEYtEbGgVe4XT2zLqb/+2Urnt7BTi0sjfBR
+         3XeE2ORTHXta/Sd3umWk3X6yLEJAbxmy0Kg34wI0Eyg5N4RU38I70exZSCA88hB0ur03
+         ciJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753448144; x=1754052944;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qGEpXVAlxD3K+ugg3yuPPR4elZ+lMYltBWlc9KeJ+S0=;
+        b=XSBO2Y1uE6HXYbm4OSGL5WZr31+TElSRQAI8CTyjj96YbJx8isTyXf2ar8g9ggWGUR
+         ZnrUgZWfZKYfSaaA2dYWB3hgwVWUD0pCFcR3qjJUMbYpiQk/anFTqFvNz37amR8sFaWD
+         TEd5rrdrftwnPIdBIy46lRWMt0QFutY4LixNn6pY8+8cYrEx+FNGI9gCgyX2C55VGjwA
+         yhMMoSUi3k5VI+dtEB+ZsrXx3s6dOBXAsozoX0Rk2b4eU6xAfIWVKV7bclSIPLdISP0H
+         hnWP/FxFehzYd8e405zziVEuD+xb6FNjDzKkeuV+rleEUuIp3/dGoZH4bnm4v0O1V+Nl
+         m7kQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQXQGEkM97W7TqatlfMPfqG3QT6xoEzmzpgBH/XdLkmojbVxT3X1D2LdFAMM3UHsIxzf3CuY4TyiE=@vger.kernel.org, AJvYcCVpNYPTNXBeTw7T173MhUKseqLKhX0tERP6xfEIzbCAPYBDFqi+ovkx6f8WfMtODvzUweGLQDDzulWKwlf2@vger.kernel.org, AJvYcCW82nyw5qnCO9UZXvxOTUJzDBO6O9UFkOZrr5ljNTG2USfb11OepIZKaUwZ+F6ZjroKTMjIiC2Lh5SyhYPoIRI9@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIhuCDXXMzJDKMDJP+0YPQphXxNy7TaoAqyPtV+n1KiL2nzV1J
+	sgwkYAw/uSLvridxSuL8A4WQRzvBMdtOtfmyvPpAOPUy/fIFmoG4bYz/
+X-Gm-Gg: ASbGncuLcahbDDZ1TzRKOjYixirTwBgNOb9WIeJBJLiYI4CXCvc0aTDR17BMgKxKH89
+	FhW43uaSMbSxPBT6zRU050nyZ3/9JoqXqmF88RH/Az9og16bl+QUu+fklXVy4d9pvirrg56GEVk
+	W4Ve7fF0slmvdtuHmKZXUBlrmP6tu22BRzYYE70N4IQR7znSUe0NNjDlktSTimTWpTyJ1ML8OjB
+	srTLUIyV3aZdI6twk1ysDen12zJWJk/0R4vKVJd3J4hPiXidXtCxmSUjFBKBXIDokEQjDWae7ej
+	/Xgs7G4kKA4ZbdlA1kz7MYj+qqU8g7fLxzE/BKI0jG9XXzYestl9S0p+enj66BPgbb05plJYOn5
+	MNH/NAzuu37Wa8FzsjcfeauFzch8=
+X-Google-Smtp-Source: AGHT+IERyHyW3IcBP+fSmwCMOKFhQWtZFxxc56mB48/vivDFg9NwEVPKFDWWB5I+SUZCA98cM3tnPg==
+X-Received: by 2002:a17:90b:1b45:b0:311:f30b:c18 with SMTP id 98e67ed59e1d1-31e7785ee72mr2444832a91.4.1753448144231;
+        Fri, 25 Jul 2025 05:55:44 -0700 (PDT)
+Received: from fedora ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31e662f6ebdsm3461314a91.37.2025.07.25.05.55.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Jul 2025 05:55:43 -0700 (PDT)
+Date: Fri, 25 Jul 2025 12:46:00 +0000
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: Nikolay Aleksandrov <razor@blackwall.org>
+Cc: netdev@vger.kernel.org, Jay Vosburgh <jv@jvosburgh.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
+	Amit Cohen <amcohen@nvidia.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Alessandro Zanni <alessandro.zanni87@gmail.com>,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net 1/2] bonding: send LACPDUs periodically in passive
+ mode after receiving partner's LACPDU
+Message-ID: <aIN8Rpc8YELX2QD6@fedora>
+References: <20250725062848.18889-1-liuhangbin@gmail.com>
+ <20250725062848.18889-2-liuhangbin@gmail.com>
+ <367f9bbb-537b-4828-b8c8-cfc9d8ca8c2c@blackwall.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725113702.GD11202@pendragon.ideasonboard.com>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 11:42:35 up 88 days, 19:56,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <367f9bbb-537b-4828-b8c8-cfc9d8ca8c2c@blackwall.org>
 
-* Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
-> On Fri, Jul 25, 2025 at 11:29:17AM +0000, Dr. David Alan Gilbert wrote:
-> > * Sasha Levin (sashal@kernel.org) wrote:
-> > > On Fri, Jul 25, 2025 at 01:20:59AM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Sasha Levin (sashal@kernel.org) wrote:
-> > > > > On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
-> > > > > > On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
-> > > > > > > My thought is to treat AI as another developer. If a developer helps you
-> > > > > > > like the AI is helping you, would you give that developer credit for that
-> > > > > > > work? If so, then you should also give credit to the tooling that's helping
-> > > > > > > you.
-> > > > > > >
-> > > > > > > I suggested adding a new tag to note any tool that has done non-trivial
-> > > > > > > work to produce the patch where you give it credit if it has helped you as
-> > > > > > > much as another developer that you would give credit to.
-> > > > > >
-> > > > > > We've got tags to choose from already in that case:
-> > > > > >
-> > > > > > Suggested-by: LLM
-> > > > > >
-> > > > > > or
-> > > > > >
-> > > > > > Co-developed-by: LLM <not@human.with.legal.standing>
-> > > > > > Signed-off-by: LLM <not@human.with.legal.standing>
-> > > > > >
-> > > > > > The latter seems ... not good, as it implies DCO SoB from a thing that
-> > > > > > can't and hasn't acknowledged the DCO.
-> > > > > 
-> > > > > In my mind, "any tool" would also be something like gcc giving you a
-> > > > > "non-trivial" error (think something like a buffer overflow warning that
-> > > > > could have been a security issue).
-> > > > > 
-> > > > > In that case, should we encode the entire toolchain used for developing
-> > > > > a patch?
-> > > > > 
-> > > > > Maybe...
-> > > > > 
-> > > > > Some sort of semi-standardized shorthand notation of the tooling used to
-> > > > > develop a patch could be interesting not just for plain disclosure, but
-> > > > > also to be able to trace back issues with patches ("oh! the author
-> > > > > didn't see a warning because they use gcc 13 while the warning was added
-> > > > > in gcc 14!").
-> > > > > 
-> > > > > Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
-> > > > > 
-> > > > > This way some of it could be automated via git hooks and we can recommend
-> > > > > a relevant string to add with checkpatch.
-> > > > 
-> > > > For me there are two separate things:
-> > > >  a) A tool that found a problem
-> > > >  b) A tool that wrote a piece of code.
-> > > > 
-> > > > I think the cases you're referring to are all (a), where as I'm mostly
-> > > > thinking here about (b).
-> > > > In the case of (a) it's normally _one_ of those tools that found it,
-> > > > e.g. I see some:
-> > > >   Found by gcc -fanalyzer
-> > > 
-> > > I think that the line between (a) and (b) gets very blurry very fast, so
-> > > I'd rather stay out of trying to define it.
-> > > 
-> > > Running "cargo clippy" on some code might generate a warning as follows:
-> > > 
-> > > warning: variables can be used directly in the `format!` string
-> > >   --> dyad/src/kernel/sha_processing.rs:20:13
-> > >    |
-> > > 20 |             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-> > >    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > >    |
-> > >    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
-> > >    = note: `#[warn(clippy::uninlined_format_args)]` on by default
-> > > help: change this to
-> > >    |
-> > > 20 -             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-> > > 20 +             debug!("git sha {git_sha} could not be validated, attempting a second way...");
-> > > 
-> > > As you see, it proposes a fix at the bottom. Should I attribute "cargo
-> > > clippy" in my commit message as it wrote some code?
-> > > 
-> > > Would your answer change if I run "cargo clippy --fix" which would
-> > > automatically apply the fix on it's own?
-> > > 
-> > > We'll be hitting these issues all over the place if we try and draw a
-> > > line... For example, with more advances autocompletion: where would you
-> > > draw the line between completing variable names and writing an entire
-> > > function based on a comment I've made?
+On Fri, Jul 25, 2025 at 11:49:00AM +0300, Nikolay Aleksandrov wrote:
+> On 7/25/25 09:28, Hangbin Liu wrote:
+> > When `lacp_active` is set to `off`, the bond operates in passive mode, meaning
+> > it only "speaks when spoken to." However, the current kernel implementation
+> > only sends an LACPDU in response when the partner's state changes.
 > > 
-> > Fuzzy isn't it!
+> > As a result, once LACP negotiation succeeds, the actor stops sending LACPDUs
+> > until the partner times out and sends an "expired" LACPDU. This causes
+> > continuous LACP state flapping.
 > > 
-> > There's at least 3 levels as I see it:
-> >   1) Reported-by:
-> >     That's a lot of tools, that generate an error or warning.
-> >   2) Suggested-by:
-> >     That covers your example above (hmm including --fix ????)
-> >   3) Co-authored-by:
-> >     Where a tool wrote code based on your more abstract instructions
+> > According to IEEE 802.1AX-2014, 6.4.13 Periodic Transmission machine. The
+> > values of Partner_Oper_Port_State.LACP_Activity and
+> > Actor_Oper_Port_State.LACP_Activity determine whether periodic transmissions
+> > take place. If either or both parameters are set to Active LACP, then periodic
+> > transmissions occur; if both are set to Passive LACP, then periodic
+> > transmissions do not occur.
 > > 
-> > (1) & (2) are taking some existing code and finding errors or light
-> > improvements;  I don't think it matters whether the tool is a good
-> > old chunk of C or an LLM that's doing it, but how much it's originating.
+> > To comply with this, we remove the `!bond->params.lacp_active` check in
+> > `ad_periodic_machine()`. Instead, we initialize the actor's port's
+> > `LACP_STATE_LACP_ACTIVITY` state based on `lacp_active` setting.
+> > 
+> > Additionally, we avoid setting the partner's state to
+> > `LACP_STATE_LACP_ACTIVITY` in the EXPIRED state, since we should not assume
+> > the partner is active by default.
+> > 
+> > This ensures that in passive mode, the bond starts sending periodic LACPDUs
+> > after receiving one from the partner, and avoids flapping due to inactivity.
+> > 
+> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > 
-> Except from a copyright point of view. The situation is quite clear for
-> deterministic code generation, it's less so for LLMs.
+> Shouldn't the fixes tag be lacp_active commit id?
+> E.g. 3a755cd8b7c6 ("bonding: add new option lacp_active")
 
-As long as you'd acknowledged the use of the LLM in all cases, it seems to
-me right to say to what degree you use it (i.e. the 1..3) above.
-I think even most people worried about copright issues would worry
-less if an LLM had just told you about a problem (1) and you fixed it.
-(Although obviously IANAL)
+Totally forgot that I added this option -_-!!
 
-Dave
-
-> > (Now I'm leaning more towards Kees's style of using existing tags
-> > if we could define a way to do it cleanly).
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Thanks
+Hangbin
