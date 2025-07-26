@@ -1,112 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8494820B800;
-	Sat, 26 Jul 2025 09:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A3A1D63CD
+	for <linux-doc@vger.kernel.org>; Sat, 26 Jul 2025 09:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753520866; cv=none; b=ULj6Oys7J3l9qYYLZJGujG0LT1x6R/+3dXhah507oYXtppFH27AIYP2coj5QeB8iWb4mu4bg4JuCW4FLK1eIcdxWJqqmei1ofCm3kFOZE38aYphCiApMaMB8Wn79xWklSt4akyCA9rW5TgURQ4yYo3DdFrLEb+wsLwQFDJ4DKmk=
+	t=1753521326; cv=none; b=JHsrP1OgIT2IPmJ+eSv3bNgBFwQQea8MWS2oIyRlkf4lAZruKcPuHSJvH0rRB1C4x5BhMYfPTi9Km2FYHJXPC597CI9ABGefQeW3a352TrhIyHKHZ5FuZTCc1mrexl9cmSsASTXL8Ap0b2E4LD1zaxqOKvgUctbl0ll+d8Tz1l4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753520866; c=relaxed/simple;
-	bh=nUm5f+HIfQ5kJzv0Fhs6FqpF4LCLcs6h304oDTKklmU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NVbEsOYUaCYnq6oiv4vd6uzV225FvxLwx0YbGMIt2jRPJsbAQ4gSjzzrjip5pdvdzehX2uOgf5NO2Mgza92zghxVUZ02eCVOuRkwlpJFdCIV59ddcHOcho5jbc4LtIe9yxfu8JTJPKONlzcRZnP2b3DzgUgTA2N/BuCNWiEWqzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1YSyJXh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753521326; c=relaxed/simple;
+	bh=cRWlYCFkKroxSXlQOuOPzYSTQr/3t/NB9wG/x9kRJzg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=i4MzVCFsdtB/pQmQoyx1xv2Xh8VM87Y8JcBEXfL0CZCAqlwjcOOpxsQ3/8RcEjHOGh+DiYNJkcNcyZap/pWUisdpS6Go0FKqm5FMIeYU0wDHyqOwzOIo5qaFZZNa0o4AWFNe5HBhnrscSD78pJdR57/kEZ2+hjmfJeDC0tFCV8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PbFQnSvI; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1YSyJXh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC5FDC4CEED;
-	Sat, 26 Jul 2025 09:07:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753520865;
-	bh=nUm5f+HIfQ5kJzv0Fhs6FqpF4LCLcs6h304oDTKklmU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=I1YSyJXhQiLSHym5NWf45j0U/U4sIcT+/LhUdHmYSGY4ezidiXOHPTldN7mT6q+tp
-	 RQbhSgSu/dUSQAVKAaOD5dIaUCiHKK/VnUvkLFAHqkhnatOBaY25MJZEZ6qr7llqmD
-	 cSk24ODDrStU/4pN6gYLTP/1gbDgiH0errulwyF1VmDA3zzTSgeSxTKW3yYvsdPB//
-	 GqQOcQpGsB9obDtdqpT49Ki2gFMZsNL8MDipe5ezAu+6AIAccEeqLtyRXix30ppzxN
-	 Qkerm0yiur5RZQ8aaLw18e5lnpNvHCuUn+h4basnkYDv5z7u7ApFP/Fyf9x2LzEJPU
-	 tfhYkK7IWFTDQ==
-Message-ID: <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
-Date: Sat, 26 Jul 2025 04:07:40 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbFQnSvI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753521325; x=1785057325;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cRWlYCFkKroxSXlQOuOPzYSTQr/3t/NB9wG/x9kRJzg=;
+  b=PbFQnSvIKQp5aVU1rOAC827hJv9YZcgN9FOeIiyiIIiuBQ8nnjaamqxf
+   oF+q/u5F9uxkI7APc62GmNd7/5TCa1tsO/9LxA2hRn09txTsSvYUzJGnZ
+   oG5VRvwJ6cn1Pyvq8gXS7lrWbC2bYCIBNHSg4Cyfe1S9j5j2lKFsGnE6V
+   H1Kbw5RkvO63gLiFerc2ZlBS+VJkbshjJYG+cdcrizaFKprip20AQ3mQx
+   OwSNEn7c1KOjKxLAtKFh598EVKZjrLKtI1QKGZJ+rDKlWWwvbDnz5y6SL
+   S70Y7uAy8wgLWOK77DTSHzaRPN2ljBVc2NTB/R/2H7dtp7BWlBjKe6j/o
+   w==;
+X-CSE-ConnectionGUID: mUIEfkLkRQmP8lRw2/O42A==
+X-CSE-MsgGUID: sCIg4L5sTO6rzwVOFs0Kqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55927358"
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="55927358"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 02:15:24 -0700
+X-CSE-ConnectionGUID: 5tS3dQoSRC2HhX/yTj8tAA==
+X-CSE-MsgGUID: Vt1qQmdsTWOeMd39sw0l5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="165680936"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa005.fm.intel.com with ESMTP; 26 Jul 2025 02:15:23 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ufazw-0000GB-39;
+	Sat, 26 Jul 2025 09:15:20 +0000
+Date: Sat, 26 Jul 2025 11:15:20 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-doc@vger.kernel.org
+Subject: [linux-next:master 9877/12319] htmldocs: Warning:
+ Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/gpio/gpio-dsp-keystone.txt
+Message-ID: <202507261101.QSZzq6zo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-To: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: rostedt@goodmis.org, kees@kernel.org, konstantin@linuxfoundation.org,
- corbet@lwn.net, josh@joshtriplett.org
-References: <20250725175358.1989323-1-sashal@kernel.org>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-Autocrypt: addr=superm1@gmail.com; keydata=
- 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
-In-Reply-To: <20250725175358.1989323-1-sashal@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Example patch creation with Claude Code:
-> 
-> 	$ claude -p "Fix the dont -> don't typo in @Documentation/power/opp.rst. Commit the result"
-> 	Done! The typo has been fixed and committed.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d7af19298454ed155f5cf67201a70f5cf836c842
+commit: aff0a1701b020c8e6b172f28828fd4f3e6eed41a [9877/12319] dt-bindings: gpio: Convert ti,keystone-dsp-gpio to DT schema
+reproduce: (https://download.01.org/0day-ci/archive/20250726/202507261101.QSZzq6zo-lkp@intel.com/reproduce)
 
-Is this actually how people use AI agents?  I've never thought of asking 
-an agent to write a whole patch and commit the result.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507261101.QSZzq6zo-lkp@intel.com/
 
-The way that I've seen it is things like Github Copilot within VScode 
-where there are inline suggestions.  It's kinda like clangd except it 
-suggests corrections to your mistakes instead of just underlining them 
-with red squiggles.
+All warnings (new ones prefixed by >>):
 
-Like if you messed up the argument and passed a pointer when it was 
-supposed to be a pointer to a pointer it will give you a little tooltip 
-correction.  But this is long before you would be ready to actually 
-commit a patch, heck it's before even testing it (obviously).
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+>> Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/gpio/gpio-dsp-keystone.txt
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
 
-The actual committing action would be by running 'git commit'.  So I 
-don't see how these tags could end up in there.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
