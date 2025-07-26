@@ -1,107 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117511F1527;
-	Sat, 26 Jul 2025 16:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31247DA9C;
+	Sat, 26 Jul 2025 20:33:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753547773; cv=none; b=nAY9BlbCf+GST7yNUBeWSow1NBn5xhT/8Sv9g7/LxRQ1x8/2s+N+wzEm9kGayS8PSsi0b6QYoM210J8rE+kK/evpUgoo7rNBQtILbEJhe0s7ru2+yMlQUolUYJSgfxFc51BSkaTipn+HGlERQ+gTYZvlD1Q2iBYNFUzBObEeR+A=
+	t=1753562036; cv=none; b=r86GEHA7b3XYkNR85JavVb9dc/eaVi9H5+jDCSVH19ZkDsN9M0xgXZQTHz+FeUf7Dv3xrsuZtKh1VvZdwYmBDnpSOAjko1h6/sxuFQt8j2c5Prj/zbASu68pV5O1q2zd+pVD+ZEix9mj2+mEFzJLyQs32EsQcNGBv4GiS9WU9r8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753547773; c=relaxed/simple;
-	bh=SZcp93tNtxNW4dMkEKDGLpDI0WwjltYtCcdV+PyeY6o=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=VFiB2lfSFJeHNaNPvmzazgbPiFiwRdSQxLOWYJbO+DhbosqyM7KrHI7iRQf68nIP8bmJDt5GwpGr7COtI+ptzmjVCOIzkWcy4Q8vvEZn/OiftUhTxOnXG/puPXvnQpFD0uf5s17w3Ol0HB/xQJp6Qyc2MQKH5podNiNqOtpprwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b6ItUpFQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753562036; c=relaxed/simple;
+	bh=x6bDSChl3CH9hrcSrTX/awDg0AMaJqU9jJXWKacrETo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BHQM8rzRTKvIpgvbjYCyLaG1l9N+NLyOuUxHH47eyUc+Pf00sEX9rKXGvAjLWQsxAmTEYW3AG7WMHy/1SYLrFiAU5Z4rMzI/ZL+iwsoD/yve6VgdcGEBuZNNhi2X+Y0/Tgc3iON7YBSTEpQf+qgoVE7jin7BU6ZybsetgjJXClY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tjzuBg2E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6ItUpFQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94D71C4CEED;
-	Sat, 26 Jul 2025 16:36:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tjzuBg2E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA57C4CEED;
+	Sat, 26 Jul 2025 20:33:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753547772;
-	bh=SZcp93tNtxNW4dMkEKDGLpDI0WwjltYtCcdV+PyeY6o=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=b6ItUpFQdF5kpPAD4ayJR/SDIlh436iFEHsDWcg0b2yNBcIYluzyJRhVIqYFFHxCZ
-	 GePCiSZsG8JWgvyhZ/5CiWZqr8QkrQ7vS9M5MJ6JcctHlal00HduqGZSaL9U6DpMNy
-	 H0w4aG5Bx7/jHmURfmmhiU3Ort18ohwA9Qn4vTrSHCtBOMUldIBw3qdjz7y7RFHdJs
-	 lFJZpvI8TWpXFxuNuoUehCBvZe+AG/Q/Y5UHfm5zgTnoqMatROJQuPvX9F3EGN9Bm+
-	 BM+Jd1mqRpQ/MevrQAplsp+YNWR0Hgo5Mq10/8Wp6J7w9h4K/YJUrjo4CT8DMqxCta
-	 tLWwbetsIirXw==
-Date: Sat, 26 Jul 2025 09:36:08 -0700
-From: Kees Cook <kees@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>, Sasha Levin <sashal@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-CC: rostedt@goodmis.org, konstantin@linuxfoundation.org, corbet@lwn.net,
- josh@joshtriplett.org
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-User-Agent: K-9 Mail for Android
-In-Reply-To: <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
-References: <20250725175358.1989323-1-sashal@kernel.org> <77782f57-6131-4968-95dc-088329cc50f7@kernel.org>
-Message-ID: <48E7949A-F137-4412-8F96-B4BC2F915206@kernel.org>
+	s=k20201202; t=1753562036;
+	bh=x6bDSChl3CH9hrcSrTX/awDg0AMaJqU9jJXWKacrETo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tjzuBg2ExuJ8y8G0XxFBW9EpA34a7+hWV6Zs6qZSd0nWrDZvCITodzmB14jF9WZuz
+	 4zusLA06zbFGIAFi5xbTlosTRYoYb1/gbaoDAYaC1gnyUDbHL+vPrJaAS95pWe3VAL
+	 UAv57NP1o3DKPmkVNe0Bw71JqWXu33aQTuBpncb1Me1hAnz3uyiemoVn6ClTt+j09g
+	 IV6Micr5rai8b1IPnVR78pbxlnYPLs30vdObVdcjo9zrrZFcoiuSp5/jOLpF7nb04j
+	 vpdyqTSUNG8YBIWaDpIa9Ng8fDMcaw8FppsjzmI8jxRX+7UwCJbsPVDIXCFrmzyc4D
+	 b+2SYEl/4/M1A==
+Date: Sat, 26 Jul 2025 21:33:51 +0100
+From: Simon Horman <horms@kernel.org>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
+Subject: Re: [PATCH net-next 3/5] dpll: zl3073x: Add firmware loading
+ functionality
+Message-ID: <20250726203351.GP1367887@horms.kernel.org>
+References: <20250725154136.1008132-1-ivecera@redhat.com>
+ <20250725154136.1008132-4-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250725154136.1008132-4-ivecera@redhat.com>
 
+On Fri, Jul 25, 2025 at 05:41:34PM +0200, Ivan Vecera wrote:
+> Add functionality for loading firmware files provided by the vendor
+> to be flashed into the device's internal flash memory. The firmware
+> consists of several components, such as the firmware executable itself,
+> chip-specific customizations, and configuration files.
+> 
+> The firmware file contains at least a flash utility, which is executed
+> on the device side, and one or more flashable components. Each component
+> has its own specific properties, such as the address where it should be
+> loaded during flashing, one or more destination flash pages, and
+> the flashing method that should be used.
+> 
+> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 
+Hi Ivan,
 
-On July 26, 2025 2:07:40 AM PDT, Mario Limonciello <superm1@kernel=2Eorg> =
-wrote:
->> Example patch creation with Claude Code:
->>=20
->> 	$ claude -p "Fix the dont -> don't typo in @Documentation/power/opp=2E=
-rst=2E Commit the result"
->> 	Done! The typo has been fixed and committed=2E
->
->Is this actually how people use AI agents?  I've never thought of asking =
-an agent to write a whole patch and commit the result=2E
+Some minor feedback from my side.
 
-Yeah! I've been using the interactive modes (e=2Eg=2E just the "claude" co=
-mmand)=2E The insight by a friend of mine is to have the agent update its o=
-wn knowledge base regularly=2E For example, for a first time session, using=
- Claude I would run "claude" in the root of the kernel tree, and then write=
-:
+...
 
+> diff --git a/drivers/dpll/zl3073x/fw.c b/drivers/dpll/zl3073x/fw.c
 
-/init
-Find and read the coding style and submitting patches documentation in the=
- Documentation/ directory
-Always use a build output directory, like "claude-build"=2E This must alwa=
-ys be specified with the O=3D option for make
-This is a big build machine, so also always use the -j128 option for make
-Perform a build of the kernel
-Save anything new you've learned in your CLAUDE=2Emd file
-Keep all new =2Emd files and temp files in the agentic/ directory
-Examine git history of commits by Kees Cook over the last 5 years and writ=
-e out a new =2Emd file that describes his commit log writing style
-Use this for any commit messages we write
-Figure out how to run KUnit tests, the docs are in Documentation/
-Run the fortify KUnit tests
-Update your CLAUDE=2Emd with anything new you've learned
+...
 
+> +/* Santity check */
 
-(Note that I run the agent as an entirely separate user in a Docker contai=
-ner=2E)
+Sanity
 
-The agent acts like an intern who reads VERY quickly, but forgets things r=
-egularly=2E So it has to be both reminded to save new stuff it learns (I br=
-eak things into separate =2Emd files), and then read them back again after =
-it starts forgetting=2E
+> +static_assert(ARRAY_SIZE(component_info) == ZL_FW_NUM_COMPONENTS);
 
-It still needs extensive hand-holding, and it's rare that I'm happy with i=
-ts commit logs, but it is pretty helpful so far=2E That said I've been focu=
-sing on some smaller refactoring work just to feel out how to use it=2E I h=
-ave some hints that it would struggle with doing very large scale refactori=
-ng on its own, but it's nice to toss it at a huge patch I generated via Coc=
-cinelle and say "build this across all our configured archs and fix any com=
-pilation failures you encounter" and then go have lunch=2E ;)
+...
 
--Kees
+> +int zl3073x_fw_flash(struct zl3073x_dev *zldev, struct zl3073x_fw *zlfw,
+> +		     struct netlink_ext_ack *extack)
+> +{
+> +	int i, rc;
+> +
+> +	for (i = 0; i < ZL_FW_NUM_COMPONENTS; i++) {
+> +		if (!zlfw->component[i])
+> +			continue; /* Component is not present */
+> +
+> +		rc = zl3073x_fw_component_flash(zldev, zlfw->component[i],
+> +						extack);
+> +		if (rc)
+> +			break;
+> +	}
 
---=20
-Kees Cook
+Perhaps it cannot happen in practice.
+But Smatch warns that rc may be used uninitialised below.
+And that does seem theoretically possible if all
+iterations of the loop above hit the "continue" path.
+
+> +
+> +	return rc;
+> +}
+
+...
