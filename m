@@ -1,118 +1,120 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3775F63CF;
-	Sat, 26 Jul 2025 04:02:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19AE4A11
+	for <linux-doc@vger.kernel.org>; Sat, 26 Jul 2025 06:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753502528; cv=none; b=XoFxMHtcpp67ta+NcEw2UL/atJZdiqr4HZEa6HnOpFcrem6BJJ/JXKQ60pAi8I9NFbfGimID8oNkuYHTVei2CYVLJdTi0WuQIgvn9iP7Syoi2M7fzd//isgNNBmSYkTj1KdEAMUyTBKPmqDy9KQvizstXc2HtrvJqlU8YFz41mA=
+	t=1753511818; cv=none; b=F96+6ZAIgtQazBibIl/E9gbC5MzqJck7Ztzml40Xb8IKxinUkehK6gfilEicLJy+jQ7r8J6XDFwQ6AH41iJDqIm8HdYrCvfYGAsOWhd2cyei04RqSY3VSxZ50S7gERL9WxvIxgbLMYV9JEn/LiP0EIPZG2TpUXOnRT5a+x2aP+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753502528; c=relaxed/simple;
-	bh=vWdAYFH+9+HudBhqOI4uVPMOFshO0UkS3lTM/Ehr4So=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SpSwrI9jeadTc5t+pfySYQMhZbIGsjHrz6DRj0Llv8+fbQS51o+F/hlpPswP+DYmiaFTFwzDz9FUrNVzTBJVVWHuGRpfL5TQFgKYphwJHHy2EjEqGWe62rafg3vXCTBXZzvbMMKlVLtt6VLGBAA195yv69cXOwmsbn2SOu8y40c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zcmQ40e9; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1753511818; c=relaxed/simple;
+	bh=/LszcDrP1C23dk/gdKMINzLeRUj1fuBqZVrzXFvNoxQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZDoc5aX4eCYObSNwBfzk1n7EnctRkim9IRfyIudb4UeiC+PEIPo5XOAVDvUn2sb43WAcrmHg6fmI6WfkLHu2PNOakudrmuw9N5QgDQxJY725h0X9yVHGRZmyKZ4BpXsfuBJ2Mvd6Vu3WgR/opxa+lfCv2cwZZN6wNIWGeBNtWQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kj+fjFji; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zcmQ40e9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=VhFLFN08/7pTue+UlCH23caiQjbrbJ++9vSN0PiESJE=; b=zcmQ40e9USeqwGaDnF3UZ71DY2
-	/uz+9mvCh42uIlWzxLkUAClD0SAz3lT1oJNZcPRwcfBwwzWwNvwQ8+WrczKq3ztF05OtX8jJozsP1
-	PlyoX/uikXSZRIyB0B+/UZb2qtaAJz3s1+kN+84BNbz7eGBzCZXiWOBzIls8Dt6GgSs3Ib7b5Czl+
-	iegus0/DvEsT4xTmVnJ93ivZyT33+xRTO4uSY4mihkWnMKo7aosPf+8giys0SStyizmf6SlERVMDM
-	uaTTHIf1fyrnn1iHpgYd7L5XKPDv/gq70EqK1AFGzAo2UUDua1eTWXms317sMvcHoV2vLJ5Wnpy/0
-	kwT4DTVw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ufW6n-0000000B6ex-2sdd;
-	Sat, 26 Jul 2025 04:02:05 +0000
-Message-ID: <776b195d-713b-4899-b621-4a69ba2b160a@infradead.org>
-Date: Fri, 25 Jul 2025 21:02:05 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kj+fjFji"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-313bcf6e565so435530a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 25 Jul 2025 23:36:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753511815; x=1754116615; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DBwufOwSzVc6j86YKOG8FvZI6qHXIFrKdaLJJRQeREo=;
+        b=Kj+fjFji8/Tf3u0aAOwZGD06jgG3S8uC7WotHMaMNyQsFcxTJchRmg+yzf4w7NO10z
+         6AB+K06EP/sla0ttJ470ENZTl6UuNVq3F51TImXXAZu6Z2HTjtNDku9RmcV6isjRlUr7
+         UFc+jhwDMh6w5HGW/gELorR+wgpQNpfdQRcCFQN3NQsSx6SrGiVzgBq89LzOcvfPQL6h
+         VL3ei5DwVepN8ilVPLBWuxTgMs3BCKkGUSLECsUtYb0xLnHZ6dAeYzBH9wBUl3LtYV9r
+         dcmig1CsI5kQKcPvvOZWo9AY31jqsKuP1L2O6KVRU5OKxM2crt8MBuku9Kis/fWXFz4e
+         Ryug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753511815; x=1754116615;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DBwufOwSzVc6j86YKOG8FvZI6qHXIFrKdaLJJRQeREo=;
+        b=NGVygf82Mbf9T/n+LsYHeBgSyN1FjYd0b0CiIfxJNum3QF9gmwCw/+tKIPo+QCeZG7
+         +DIeA7++F17cKcnB5e5M5rVbLsEIYlnftPfJ/fl5CPWnGDspF2qIQcdaoqgawuqWydbW
+         CZCQSDsaYA/+ono1+Co9GxE9vmPgjQ22Vit+gn1mDibAzBnQ9RQ60BHPas+cqAEBUBCQ
+         LjH+zwBkOXETK5vmbGsX6ZXr4xc52sgHh6Zb0JXpHPGoNtb5+TwJNdXMb5X0vQtWxfFN
+         ngmfm1DLAE8Gi/XgUW4QdtvTVLGz0JnFAIA1xVwMzi9yo5vxCNFnAvVqbIOoBjXR/6XT
+         1jIw==
+X-Gm-Message-State: AOJu0YyCMwZG7dLZt9tWuq7SqNkfbYzAsCveQ9tDGOsgqbgTm5Hmae98
+	5wU15r/ncXnf4UT+/jFaTxUhHxnroHXdF24oUpHnLBsnzZW3BosVNg5fozqcMlGM
+X-Gm-Gg: ASbGnctnzFxEgIQQ9g5aPzMImfidOzgeAyj31zsnZBtdT93kqM1NBTfohjJnmumD6gp
+	Qa6KOYMcclZ5tJkrxLql4ly3T+tTOVsF1V7UOTnC/IkJmOtJGCl7BRzdXFpY9dk+uRkmuU2ByBg
+	sHfqfKOaZWIbHtn+deK5k40xp6OlFLLiQpeHaNwRCtcmsNQF4CkcyO2f4sRzebJQKUbNao34MMD
+	QbROWGntsFwFEgOTbftR0Wa2471k+caGRyEjkl5fMO56HemMMViYVe2rQbJmCPJRIamM90BXULq
+	PPf9T7VwlHlQXCyusCVuzpxwiSVw2ryiEa+Co65iwGY00dQjNSspUvjRpL429SZo2B6hIDdkTI5
+	oGf8aBWyxouWhmjKdG5mzlLQJ+puqOQ==
+X-Google-Smtp-Source: AGHT+IFdNBNGOV2ypaJHUchIVpmvcYgzlboJ7img6WTOvidLNitIRBMusleZCwVMTKmjCyWa/N1R+Q==
+X-Received: by 2002:a17:90b:38d2:b0:2ff:7970:d2b6 with SMTP id 98e67ed59e1d1-31e77ad2a48mr2651577a91.5.1753511814768;
+        Fri, 25 Jul 2025 23:36:54 -0700 (PDT)
+Received: from ranganath.. ([2406:7400:98:d071:cefe:47ea:c7a0:b3ee])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31e60969c5fsm3398769a91.0.2025.07.25.23.36.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Jul 2025 23:36:54 -0700 (PDT)
+From: Ranganath V N <vnranganath.20@gmail.com>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	Ranganath V N <vnranganath.20@gmail.com>
+Subject: [PATCH v2] Documentation: Fix minor typos
+Date: Sat, 26 Jul 2025 12:06:44 +0530
+Message-ID: <20250726063645.4156-1-vnranganath.20@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation/ABI: Fix typos
-To: Bjorn Helgaas <helgaas@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>
-References: <20250723203250.2909894-1-helgaas@kernel.org>
- <20250723203250.2909894-3-helgaas@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250723203250.2909894-3-helgaas@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Corrected a few spelling errors and improved the phrasing
+changes since v1:
+--corrected as per review
 
+Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+---
+ Documentation/arch/loongarch/irq-chip-model.rst | 4 ++--
+ Documentation/arch/x86/cpuinfo.rst              | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-On 7/23/25 1:32 PM, Bjorn Helgaas wrote:
-> From: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> Fix typos.
-> 
-> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> ---
->  .../ABI/obsolete/sysfs-driver-hid-roccat-isku       |  2 +-
->  .../ABI/obsolete/sysfs-driver-hid-roccat-koneplus   |  4 ++--
->  .../ABI/obsolete/sysfs-driver-hid-roccat-savu       |  2 +-
->  Documentation/ABI/testing/debugfs-driver-dcc        |  2 +-
->  Documentation/ABI/testing/debugfs-hyperv            |  4 ++--
->  Documentation/ABI/testing/rtc-cdev                  |  2 +-
->  Documentation/ABI/testing/sysfs-ata                 |  4 ++--
->  .../testing/sysfs-bus-event_source-devices-hisi_ptt |  4 ++--
->  Documentation/ABI/testing/sysfs-bus-iio             |  2 +-
->  Documentation/ABI/testing/sysfs-bus-iio-dma-buffer  |  8 ++++----
->  Documentation/ABI/testing/sysfs-bus-rapidio         |  2 +-
->  Documentation/ABI/testing/sysfs-class-fc            |  2 +-
->  Documentation/ABI/testing/sysfs-class-power-rt9467  |  2 +-
->  .../ABI/testing/sysfs-driver-input-exc3000          |  4 ++--
->  Documentation/ABI/testing/sysfs-driver-ufs          |  2 +-
->  Documentation/ABI/testing/sysfs-firmware-acpi       |  6 +++---
->  Documentation/ABI/testing/sysfs-memory-page-offline | 13 ++++++-------
->  17 files changed, 32 insertions(+), 33 deletions(-)
-> 
-
-
-> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-dma-buffer b/Documentation/ABI/testing/sysfs-bus-iio-dma-buffer
-> index d526e6571001..06313befdfaa 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-iio-dma-buffer
-> +++ b/Documentation/ABI/testing/sysfs-bus-iio-dma-buffer
-> @@ -2,15 +2,15 @@ What:		/sys/bus/iio/devices/iio:deviceX/buffer/length_align_bytes
->  KernelVersion:	5.4
->  Contact:	linux-iio@vger.kernel.org
->  Description:
-> -		DMA buffers tend to have a alignment requirement for the
-> +		DMA buffers tend to have an alignment requirement for the
->  		buffers. If this alignment requirement is not met samples might
->  		be dropped from the buffer.
->  
-> -		This property reports the alignment requirements in bytes.
-> -		This means that the buffer size in bytes needs to be a integer
-> +		This property reports the alignment requirement in bytes.
-> +		This means that the buffer size in bytes needs to be an integer
->  		multiple of the number reported by this file.
->  
-> -		The alignment requirements in number of sample sets will depend
-> +		The alignment requirement in number of sample sets will depend
->  		on the enabled channels and the bytes per channel. This means
->  		that the alignment requirement in samples sets might change
-
-"samples sets" ?
-
->  		depending on which and how many channels are enabled. Whereas
-
-
-Otherwise LGTM. Thanks.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
+diff --git a/Documentation/arch/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+index a7ecce11e445..8f5c3345109e 100644
+--- a/Documentation/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/arch/loongarch/irq-chip-model.rst
+@@ -139,13 +139,13 @@ Feature EXTIOI_HAS_INT_ENCODE is part of standard EIOINTC. If it is 1, it
+ indicates that CPU Interrupt Pin selection can be normal method rather than
+ bitmap method, so interrupt can be routed to IP0 - IP15.
+ 
+-Feature EXTIOI_HAS_CPU_ENCODE is entension of V-EIOINTC. If it is 1, it
++Feature EXTIOI_HAS_CPU_ENCODE is extension of V-EIOINTC. If it is 1, it
+ indicates that CPU selection can be normal method rather than bitmap method,
+ so interrupt can be routed to CPU0 - CPU255.
+ 
+ EXTIOI_VIRT_CONFIG
+ ------------------
+-This register is read-write register, for compatibility intterupt routed uses
++This register is read-write register, for compatibility interrupt routed uses
+ the default method which is the same with standard EIOINTC. If the bit is set
+ with 1, it indicated HW to use normal method rather than bitmap method.
+ 
+diff --git a/Documentation/arch/x86/cpuinfo.rst b/Documentation/arch/x86/cpuinfo.rst
+index dd8b7806944e..9f2e47c4b1c8 100644
+--- a/Documentation/arch/x86/cpuinfo.rst
++++ b/Documentation/arch/x86/cpuinfo.rst
+@@ -11,7 +11,7 @@ The list of feature flags in /proc/cpuinfo is not complete and
+ represents an ill-fated attempt from long time ago to put feature flags
+ in an easy to find place for userspace.
+ 
+-However, the amount of feature flags is growing by the CPU generation,
++However, the number of feature flags is growing with each CPU generation,
+ leading to unparseable and unwieldy /proc/cpuinfo.
+ 
+ What is more, those feature flags do not even need to be in that file
 -- 
-~Randy
+2.43.0
+
