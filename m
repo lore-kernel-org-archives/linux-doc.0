@@ -1,196 +1,123 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D35F257AF9;
-	Fri, 25 Jul 2025 23:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B734FBF6;
+	Sat, 26 Jul 2025 03:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753486169; cv=none; b=sdFn/5PuK9IYgrfDkW1JJaGARVeyvDoWnoSHKK/f5IeY6prk04Jk1tyeVoUi6X8lUngTlrEHscUBtBHhF6WEh6q43YrRCJW5tY8gQcY+90GwMwrOOu60ffQEAKnUox/KgjXm0RW054DdNVRQSFqyLr6HjorOaR2vYVuyT7k+NKE=
+	t=1753501127; cv=none; b=FCIaSivBMlwTlfodnh3d4gy0G8uSUbvZg0GV23wtRPdbXee6MAjpSx1cH121YFexarBbsy07/CMyrxzyYrSnAEdAnRn6XdBJYMWXmxniX9nLs5Y8E+5tPEa/t5WYUKfXQ/C/JNTtVvtlwV3YVpMl9nLbeFZa/NW1SjUSE+hSyag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753486169; c=relaxed/simple;
-	bh=R5l3oFGTLukSK9sw1k0scbzU39GzzcxcQt3mDJLyyV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ASBlYF40ry6Dz4dYhM7ZKwZqEFOkjzTBHDXhtUddv8PIBzatCXcDfwsXF7tAsmtRtW3cJR891Y0drMwE0P+x1ANezniHKdyXwoYJ+ku7qp0JP0+s8MTUAURHbkVZ+IzZ3Fq1xYj88lEhdm6xz9/zYOiT665Tv0V6dQsTige8yOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=avQz/70D; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1753501127; c=relaxed/simple;
+	bh=qRvtZwNhP4p+SR4y5WxEk/ywS7gGmoQP8IK//Q2npro=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IYrsIlH0E74WZ5TnkYY3bP3kfndPSJso4H5l2PCvlWO9VkJgRB1brIILg59avP8h90BBmuYQhlhXhLid0qMkQv65zTcIp31aYC94ktZx7iWw2KO043VbdSZ1zS6DrJn6rkvHfC4B4yLjZJy5JFBpD6trdOPftcxZCXMHVIVXuQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fA3lbjSp; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="avQz/70D"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=7/6Mvp/HmKwTR0veXV11IQkg7Afl723Mtblk3lghe6k=; b=avQz/70DpiVW9trH
-	uABTdYfxwBkb/GrXfruN1zoWHOwIydZIZ+34tP8SsUCYarCTAxaTKfcuWkebZQoHyhGhpy04SB229
-	VNUw/LI3bWVEFOYNl0rap4fytrbwEqY6pipIStcPnbYQ+orJPFUqpx5iPx9hqCNRXLXiR8GF9dpqX
-	es0zizv6jd9vCMyoSW6ay/fB1xRrevIpvZXiDBvqx9z8fVWOM98egkSwEc38B5J3Sa/j9utJTK3rz
-	3J8NDKxMc0OGQ0JkVl9ShCqaEA1t4Qm8sPus7dqkDp8HuDbmyeoBvN/Sj6o/MKIUEgik1DHZQUjRW
-	YDeebWfsbvAZ5atcdQ==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1ufRqp-000iOj-2y;
-	Fri, 25 Jul 2025 23:29:19 +0000
-Date: Fri, 25 Jul 2025 23:29:19 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	corbet@lwn.net, workflows@vger.kernel.org, josh@joshtriplett.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] docs: submitting-patches: (AI?) Tool disclosure tag
-Message-ID: <aIQTT6Gaf1WhxRX7@gallifrey>
-References: <202507241337.F9595E1D@keescook>
- <aIKhvubVqgeXIlrj@gallifrey>
- <202507241418.34AFD28C@keescook>
- <20250724194556.105803db@gandalf.local.home>
- <202507241651.5E9C803C70@keescook>
- <aILYj62tF_1mDjDO@lappy>
- <aILb-zDiDr4b9u9S@gallifrey>
- <aILjTKk_v8NPxlVJ@lappy>
- <aINqjTAwbQ_xnAw6@gallifrey>
- <aIQHzWOkWYCGX4Xg@lappy>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fA3lbjSp"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-31c38e75dafso2227055a91.2;
+        Fri, 25 Jul 2025 20:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753501125; x=1754105925; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Il5e9mDlMCv0IQUFSJTULOpS+fbb3WCVY2Xz/KLOLC8=;
+        b=fA3lbjSpGAkFGZjAnwvDzhPydV/EX1DZHJUwVCIh5alnPHQI1Tv1M323cUe7SydJ2Q
+         cqXV4LZdmW5OaDpNRzLAIYAEnEL3EPcAmLZGA9F4L0vIcvfWb5N3e/wG5mJGrWd2yE0R
+         rZqgs525lS9Ip1BUJg/f5L7JHQgTDXV2IViAdteaHg9k6O+/fy/g8BPQBsY09+zcWejX
+         zxDV4sR6VYtXpTYLWddsdu3H4LIhOLj88g0RyvvXNEt7VyiB5eYFb2La133RlUwho003
+         SCORtQMoJ9qcj+mUXCBPQ000epZfXiqRE1MyhlFKMuQU7xTVAs0v2B7phvwp8CSndAhR
+         Rqmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753501125; x=1754105925;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Il5e9mDlMCv0IQUFSJTULOpS+fbb3WCVY2Xz/KLOLC8=;
+        b=smXhWFatqE/upUtbhAIa/PBftE7ugM+z+BMA2cO6DAHfs/Dr7wdNAKnxPv0XAjcrHd
+         WJ1vUy245f0aHIQ4Fyjav1oKMDDU6rROFsIB8fQe4o8kxsJ2vfo9mM2Q0gwwaLc0SYtI
+         2oeROdTB5J5NNfYryI3AuQf2HXjqksdEXOPUoOk4G7yXHu2KAnKZklPcWq7j0qE+6BGe
+         A6a3PuU6eqhioLlLSSeLPrLLZaP/+7hSfxT1RUws8U/4axxnEY8Ll2pyo4IlLUXNEch7
+         YOYK5haAq5rRh9cFZ8+/bPhGhPAinuMPhnU/sZm/GmLkDxu+DAdw0sJ/rMgWZekz5df/
+         jbKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUOhGVhUIyd4e5kmDC4N9oKAUFFEPpfbd8eyYdgVPcEcGNnqpT/pjr2TZuQr9JSF73fwRzMb0i3tn4=@vger.kernel.org, AJvYcCVRQJm43Gf4C4yvSNmp+FCC4ao+ko8HqEWnPzmcU82oOYXnDYip3OOKvPG/fGWXCM9MK/AsmaFSzS0qX8Kq@vger.kernel.org, AJvYcCVhIvenXvrSjp/UmSRIK73bf6AN+bJWueCi7SLzr2eHfuiifOihG7TB8cAvoSSNNyV/kUoJHP9g9YlVP7I=@vger.kernel.org, AJvYcCWp2OSVmfcBuHtXBCS4i2VPkkCJKwTWFOXtHtkN+0FqckVIvMEVa+kSQWNUnPLN2xjJLgbeM+WXQHnhJ9LUI5SdkwbtfQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAAmsW9GuvdXUv8pL2AUmqrj8xbITUzW77hPZpm14Swn/VX1FQ
+	Zy7VJwIZnmYrj3iJX5/u4viCnroEkKOr1Oh85mlrJKwMWk9S6HBAWS8A
+X-Gm-Gg: ASbGnctKV1B57Z9JjHbQ2z1ZaND92Nfg29adVOfUxlYmwb2ytEPo2BQU7CbSNq539zq
+	Cw+RnaUZR17RD+Okry48i2y12x+zn+94B2PHzyYGu7EI+rWOyDIzi2UCiEli6M/OzSbVh3OQ9lh
+	VmUpTyUq0w3/cQiKIXBMSaJPytDrgZMLaTUvB+qVUy86MjR5M5KwR6VO5EA0p5XlLwhngFFDoDT
+	xcVBkxH9EyzIzSerFhYLnelQnAnt/uk5S6aS9sjt9/SnwV6OrdRMFj6XeU375m2urvvv1Vc7xy0
+	aUUVabYRJzZRt4usLHYmvAlfWKAPFCd640uHGyf7/q3N4heyLCG5rv/JryZe9NVQdAPW0vF1xWD
+	IfB/pdsy9XwJnETdffIwvWSJL57ZDSRgNaqvJ4jhvW5D33PSwMicFuAqIEYDzXF0uyjPEtl85vx
+	DE+0k0VSQIs3s4
+X-Google-Smtp-Source: AGHT+IEQlCYkQpDnNocDdpQGVddZquxM201R9JZA11JoqSKgBNHCuD4uHLDtOlIZBPV5hvgdU00b4A==
+X-Received: by 2002:a17:90b:5848:b0:311:9c9a:58d7 with SMTP id 98e67ed59e1d1-31e778f1a6fmr6816376a91.19.1753501125298;
+        Fri, 25 Jul 2025 20:38:45 -0700 (PDT)
+Received: from bliptop (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31e832f8942sm779204a91.4.2025.07.25.20.38.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Jul 2025 20:38:44 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>
+Cc: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alok Tiwari <alok.a.tiwari@oracle.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/4] Add Ayn EC Platform Driver
+Date: Fri, 25 Jul 2025 20:38:37 -0700
+Message-ID: <20250726033841.7474-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <aIQHzWOkWYCGX4Xg@lappy>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 23:20:11 up 89 days,  7:33,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* Sasha Levin (sashal@kernel.org) wrote:
-> On Fri, Jul 25, 2025 at 11:29:17AM +0000, Dr. David Alan Gilbert wrote:
-> > * Sasha Levin (sashal@kernel.org) wrote:
-> > > On Fri, Jul 25, 2025 at 01:20:59AM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Sasha Levin (sashal@kernel.org) wrote:
-> > > > > On Thu, Jul 24, 2025 at 04:54:11PM -0700, Kees Cook wrote:
-> > > > > > On Thu, Jul 24, 2025 at 07:45:56PM -0400, Steven Rostedt wrote:
-> > > > > > > My thought is to treat AI as another developer. If a developer helps you
-> > > > > > > like the AI is helping you, would you give that developer credit for that
-> > > > > > > work? If so, then you should also give credit to the tooling that's helping
-> > > > > > > you.
-> > > > > > >
-> > > > > > > I suggested adding a new tag to note any tool that has done non-trivial
-> > > > > > > work to produce the patch where you give it credit if it has helped you as
-> > > > > > > much as another developer that you would give credit to.
-> > > > > >
-> > > > > > We've got tags to choose from already in that case:
-> > > > > >
-> > > > > > Suggested-by: LLM
-> > > > > >
-> > > > > > or
-> > > > > >
-> > > > > > Co-developed-by: LLM <not@human.with.legal.standing>
-> > > > > > Signed-off-by: LLM <not@human.with.legal.standing>
-> > > > > >
-> > > > > > The latter seems ... not good, as it implies DCO SoB from a thing that
-> > > > > > can't and hasn't acknowledged the DCO.
-> > > > >
-> > > > > In my mind, "any tool" would also be something like gcc giving you a
-> > > > > "non-trivial" error (think something like a buffer overflow warning that
-> > > > > could have been a security issue).
-> > > > >
-> > > > > In that case, should we encode the entire toolchain used for developing
-> > > > > a patch?
-> > > > >
-> > > > > Maybe...
-> > > > >
-> > > > > Some sort of semi-standardized shorthand notation of the tooling used to
-> > > > > develop a patch could be interesting not just for plain disclosure, but
-> > > > > also to be able to trace back issues with patches ("oh! the author
-> > > > > didn't see a warning because they use gcc 13 while the warning was added
-> > > > > in gcc 14!").
-> > > > >
-> > > > > Signed-off-by: John Doe <jd@example.com> # gcc:14.1;ccache:1.2;sparse:4.7;claude-code:0.5
-> > > > >
-> > > > > This way some of it could be automated via git hooks and we can recommend
-> > > > > a relevant string to add with checkpatch.
-> > > >
-> > > > For me there are two separate things:
-> > > >  a) A tool that found a problem
-> > > >  b) A tool that wrote a piece of code.
-> > > >
-> > > > I think the cases you're referring to are all (a), where as I'm mostly
-> > > > thinking here about (b).
-> > > > In the case of (a) it's normally _one_ of those tools that found it,
-> > > > e.g. I see some:
-> > > >   Found by gcc -fanalyzer
-> > > 
-> > > I think that the line between (a) and (b) gets very blurry very fast, so
-> > > I'd rather stay out of trying to define it.
-> > > 
-> > > Running "cargo clippy" on some code might generate a warning as follows:
-> > > 
-> > > warning: variables can be used directly in the `format!` string
-> > >   --> dyad/src/kernel/sha_processing.rs:20:13
-> > >    |
-> > > 20 |             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-> > >    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > >    |
-> > >    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
-> > >    = note: `#[warn(clippy::uninlined_format_args)]` on by default
-> > > help: change this to
-> > >    |
-> > > 20 -             debug!("git sha {} could not be validated, attempting a second way...", git_sha);
-> > > 20 +             debug!("git sha {git_sha} could not be validated, attempting a second way...");
-> > > 
-> > > As you see, it proposes a fix at the bottom. Should I attribute "cargo
-> > > clippy" in my commit message as it wrote some code?
-> > > 
-> > > Would your answer change if I run "cargo clippy --fix" which would
-> > > automatically apply the fix on it's own?
-> > > 
-> > > We'll be hitting these issues all over the place if we try and draw a
-> > > line... For example, with more advances autocompletion: where would you
-> > > draw the line between completing variable names and writing an entire
-> > > function based on a comment I've made?
-> > 
-> > Fuzzy isn't it!
-> > 
-> > There's at least 3 levels as I see it:
-> >  1) Reported-by:
-> >    That's a lot of tools, that generate an error or warning.
-> >  2) Suggested-by:
-> >    That covers your example above (hmm including --fix ????)
-> >  3) Co-authored-by:
-> >    Where a tool wrote code based on your more abstract instructions
-> > 
-> > (1) & (2) are taking some existing code and finding errors or light
-> > improvements;  I don't think it matters whether the tool is a good
-> > old chunk of C or an LLM that's doing it, but how much it's originating.
-> 
-> So let's say I'm using github copilot, and I go:
-> 
-> 	/* Iterate over pointers in KEY_TYPE_extent: */
-> 	#define extent_ptr_next(_e, _ptr) <tab> <tab>
-> 
-> and copilot completes the code with "__bkey_ptr_next(_ptr, extent_entry_last(_e))".
-> 
-> Was my instruction abstract? Was it within the realm of something we
-> consider a trivial change, or should we attribute the agent? :)
+Adds platform driver for Ayn Loki and Tactoy Zeenix handheld devices.
+Tactoy devices are rebranded Ayn devices with minor modifications to the
+DMI. The device EC has multiple features implemented by this driver,
+including a PWN fan with manual and EC controlled automatic modes as
+well as a user deviced fan curve mode, temperature sensors, and chassis
+RGB control.
 
-Heck, I don't know either!   I mean there are places & projects that ban even
-that level of use, but I'd agree that the 'more abstract' doesn't fit there.
+This driver implements PWN fan and temperature control via a hwmon
+interface, and an RGB chassis interface via a multicolor LED class
+device. I attempted to break the driver up into four logical patches.
+Patch 1 adds PWM fan control via a hwmon interface. Patch 2 expands the
+hwmon interface by adding the temperature sensors. Patch 3 adds the
+chassis RGB interface through the leds subsystem. Patch 4 adds ABI
+documentation for the sysfs entries that aren't provided by the standard
+interfaces, but are needed to fully control the device.
 
-> Why tackle any of this to begin with?
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
+v2:
+- Fix nits from Alok Tiwari.
+v1:
+https://lore.kernel.org/platform-driver-x86/C7073C0E-3D58-41C3-99B7-A0A5EE448700@gmail.com/T/#mb795b8f5e5ff3c5b88fdd62bd6c97eab404fbc4e
+Derek J. Clark (4):
+  platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
+  platform/x86: (ayn-ec) Add Temperature Sensors
+  platform/x86: (ayn-ec) Add RGB Interface
+  platform/x86: (ayn-ec) Add Ayn EC Platform Documentation
 
-It seemed to me appropriate to identify use of AI which some might
-object to, or which wouldn't be allowed in their project, or which
-might indicate the need to look for different type of errors than
-humans normally make.  At the same time it seemed appropriate to
-acknowledge things that worked.
+ .../ABI/testing/sysfs-platform-ayn-ec         |  59 ++
+ MAINTAINERS                                   |   7 +
+ drivers/platform/x86/Kconfig                  |  14 +
+ drivers/platform/x86/Makefile                 |   3 +
+ drivers/platform/x86/ayn-ec.c                 | 965 ++++++++++++++++++
+ 5 files changed, 1048 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-ayn-ec
+ create mode 100644 drivers/platform/x86/ayn-ec.c
 
-Dave
-
-> -- 
-> Thanks,
-> Sasha
-> 
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+2.50.1
+
