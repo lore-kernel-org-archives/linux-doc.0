@@ -1,91 +1,121 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCB5194A65;
-	Sun, 27 Jul 2025 19:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C301B1A2643;
+	Sun, 27 Jul 2025 19:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753644795; cv=none; b=kHWkax1jTItFQCS3ZpKxN1jdHzh9ELcXkYGLo8D+Hu367Z9vRqtGRkucVXsrygeKiiNSjio5gv0aSVi7nlLLgLey5F/qDG57ZHArXdSJqRBmd8mWj+UXY5QaR/zWBnWAy0sf6/H4z+04pdp4bHXCvdq1shjsuwQZogY7JkqTcAY=
+	t=1753646298; cv=none; b=BXtQqgsud8ReYfgbKtAcvc8CiDSPnuYc3vH9T3wNtccRC2+pq643Omqw/2UgxThk7BlkPasY8ZJcNOgnN5DWmMgAwVJXyE8e7owPEd7vsA6Qm+5Gw3FUk4RWOC5riCYSbZiHKISqLLNoN9Q2h6KRzLF8jtmi//MqwzWeDowgcpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753644795; c=relaxed/simple;
-	bh=6KdbDjlU7MNLdd6vRI7BRsrwL6xqrrZa1ld4+GRsLhQ=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=oKsgxaUmWFh7ybrQ3EtjwV9N14DVYvIOFSDl4XiflAxR6O34tsfa145pAHUEfBJZsowctU99H1GCl4Nu26GM8f5S27rQUif5FLUgQoQQgw5Idh9sTLzKE62Xqzb5+r5I9+Vv8YOFTWaoUqBj4bxQzs21F41/nwZb/aau0fgNn0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHzIN8ob; arc=none smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753646298; c=relaxed/simple;
+	bh=WaGOigLlcybWzA2W2kYUu0sGcXX4U2ZEgX+oVOLjV9U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=O4jhvCYly9fHADnz3XK4JXaiBWdT/ZoPSrAWYuhjZww3NMZP4Vo1ulSOa7GDxNBudboaXC+/NcWArnwrIXropxSl6v6QYCHh1+ooH+PU1wb9EkHxKNHDptc1kyg8D46+IQ8FP/7EqP7tkkb4Ol/ADnaCy+mFrAM6zSFNpnzGhD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qzRupWNK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHzIN8ob"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-707453b0306so5087756d6.2;
-        Sun, 27 Jul 2025 12:33:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753644793; x=1754249593; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6KdbDjlU7MNLdd6vRI7BRsrwL6xqrrZa1ld4+GRsLhQ=;
-        b=RHzIN8obtTUuIhCNR/l/ymg5JtN7RJBFXPHi0Bgm/NbQkXbH9nkpUvKLlnorcu2/jO
-         96tG1UMh7lR67CLERCTRYAA6GYNa99YVa42AequCnHoFRbixn381mQ8vPP4YmLbaEqlW
-         2Q1BKKYq1A0LXXSd9/tBi/IJ5XavsHcpjrFpobAAeXH9cyUU8jNgjPF6AODyF+43Ojak
-         HEpWjXdfF7/3/fHqWvtAl4vJjO3j/3LcYD9++1l8ruxcpI6MU+zsEwSbELNDRvXnB/OP
-         +QQvSwDceEI4zKuRZo6df9KVxgPDFuYbXcEKx3Om8Rmsz1SNOtndkw8O8esXIRBFBDry
-         pZmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753644793; x=1754249593;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6KdbDjlU7MNLdd6vRI7BRsrwL6xqrrZa1ld4+GRsLhQ=;
-        b=OHIxFs00MgSEa+NE2JIpnPUI44Xtlm6ARbOSgSmxX6FhrJkZrWemFVzeuqAyFPpBSx
-         5itjsTQAu1mPP5A7j3Vq3G3o38H+n3VhHej1zUq6bRVQqbRpuXilu/0DB4doj0ordkZs
-         TjjlGCqHACefRWudvXaQRqL3laFAbF2ZO/4foMN4q67pL5TRbn0Gp3n2V0CTvcbsjmud
-         UR3ftS9BtIKU2OgDX1ZL/0PhyMqKpOQ0ij4wxrLBdhLrSh1zSkE3peArM6Piymw9dVzc
-         EjDyAFkWboAb+n3iszSxr/DgvyuyDbU/pwbGfXW9Uv9Ka4NybfbZdETgp96guDHWNJBk
-         iuDw==
-X-Gm-Message-State: AOJu0YxtWqRScioOPm/EPMicpJeaNGZKNoacs6nkRfA4VFgzXJvp+7qq
-	C0sNwBYOxBvMliX66OXPv5jkaVlrDxXWxIo+clTVVnIIeMfcSMr8DdzUsXbIe36NzY6esUlqkRA
-	aUkALmzpx7FAZjB/3iWE+L64wGF1AlEnM+xqm
-X-Gm-Gg: ASbGncvcEFo/uZTlHwnrY4BBNAYHUc3EFx8v5pa6Psl4NMgKIx1+UoAKyQkg+9bS0fQ
-	3s4ms0fCMtoph3BEI5x2zmRKf+vsmcczHOgW4t5Vq2bNJ5CWNGSoeRf8YasJfBJoiyEmoo0UYJO
-	6DSZ9h5Hm8QOmIZ9283QIq/A/UlI1JjZqa7XKubM/f1KPApOoDLAqHsayW6PdKVOv/GR8WH4TpF
-	3wlzngiBtCyp56EMmOe+AaFHNv0iL56nf7CGi4JbA==
-X-Google-Smtp-Source: AGHT+IFK5tEPWCumGhnFE2IwR7NP1qZVxV1XN/ZXaGRFoKiTvVk2rPmY7RiFxZZzTyRWv4Nt7/oPzNJWU9gek7lFK00=
-X-Received: by 2002:ad4:5d62:0:b0:706:f3f9:8a52 with SMTP id
- 6a1803df08f44-707205aa5e8mr115361966d6.29.1753644793056; Sun, 27 Jul 2025
- 12:33:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qzRupWNK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F20C4CEEB;
+	Sun, 27 Jul 2025 19:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753646297;
+	bh=WaGOigLlcybWzA2W2kYUu0sGcXX4U2ZEgX+oVOLjV9U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qzRupWNKceaqQVDurrnLl7lY/Xz+a9oT4Zx2QLLNN1Gat06XvfoYEnSCyzwvgETCN
+	 v5z5jbYvPdf+6ZIsLlbIKL48aJWNhScZRUI5yqCmdRp6VJWqWgwtq6PlWW3tODYB7r
+	 vxjyD2N2s0DZyo6nVkXBsMs01pWRlsZqRNDPXcultstBY86/pftKlhDWNrYVwtV3cF
+	 Y1tQzUNULuQRexd6GM94eHuwGqKO1J7FJJDqVolhOuMOrFptpQ3dVKnnQZGkdQGYku
+	 vo7IoIe1KoCQV/uJIoBB3A2//ZQ72B43ZigVPCiUcYv0bW9nLcoHmx3sTdpcQ9hWIp
+	 h/g+3JS4nKOpg==
+From: Sasha Levin <sashal@kernel.org>
+To: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org
+Cc: sashal@kernel.org,
+	josh@joshtriplett.org,
+	kees@kernel.org,
+	konstantin@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org
+Subject: [PATCH 0/4] Add agent coding assistant configuration to Linux kernel
+Date: Sun, 27 Jul 2025 15:57:58 -0400
+Message-Id: <20250727195802.2222764-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Vedang Kandalkar <vedangkandalkar@gmail.com>
-Date: Mon, 28 Jul 2025 01:03:02 +0530
-X-Gm-Features: Ac12FXzVbkZ1vZQB9x-4PwDODBFKwAXJV5vLsf35dCKl6ekhvsw7-l2URHvb3xg
-Message-ID: <CAJSSbgCRT-EcQTdTKof_gG5eBD1eYZKEFC_9pdQsaCiXx9yQHA@mail.gmail.com>
-Subject: [PATCH] docs: remove broken overline from sysctl/vm.rst
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From 098513ca1d41c0c69f3956a6d22f34aee452afdd Mon Sep 17 00:00:00 2001
-From: Vedang Kandalkar <vedangkandalkar@gmail.com>
-Date: Sun, 27 Jul 2025 23:38:12 +0530
-Subject: [PATCH] docs: remove broken overline from sysctl/vm.rst
+This patch series adds unified configuration and documentation for coding
+agents working with the Linux kernel codebase. As coding agents
+become increasingly common in software development, it's important to
+establish clear guidelines for their use in kernel development.
 
-The overline above the /proc/sys/vm/ section was broken and not
-following standard reStructuredText conventions. Removed to improve
-readability.
+The series consists of four patches:
 
-Signed-off-by: Vedang Kandalkar <vedangkandalkar@gmail.com>
+1. The first patch adds unified configuration files for various coding
+agents (Claude, GitHub Copilot, Cursor, Codeium, Continue,
+Windsurf, and Aider). These are all symlinked to a central documentation
+file to ensure consistency across tools.
 
----
- Documentation/admin-guide/sysctl/vm.rst | 1 -
- 1 file changed, 1 deletion(-)
+2. The second patch adds core development references that guide
+agents to essential kernel development documentation including how
+to do kernel development, submitting patches, and the submission
+checklist.
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst
-b/Documentation/admin-guide/sysctl/vm.rst
-index 9bef46151d53cd..8f3875d68ac8ea 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -1,4 +1,3 @@
--===============================
- Documentation for /proc/sys/vm/
- ===============================
+3. The third patch adds coding style documentation and explicit rules
+that agents must follow, including the 80 character line limit
+and no trailing whitespace requirements.
+
+4. The fourth patch adds legal requirements and agent attribution
+guidelines. All agents are required to identify themselves in
+commits using Co-developed-by tags, ensuring full transparency about
+agent involvement in code development.
+
+Example agent attribution in commits:
+
+    Co-developed-by: Claude claude-opus-4-20250514
+
+
+Changes since RFC:
+- Switch from markdown to RST
+- Break up into multiple files
+- Simplify instructions (we can always bikeshed those later)
+- AI => Agents
+
+Sasha Levin (4):
+  agents: add unified agent coding assistant configuration
+  agents: add core development references
+  agents: add coding style documentation and rules
+  agents: add legal requirements and agent attribution guidelines
+
+ .aider.conf.yml                       |  1 +
+ .codeium/instructions.md              |  1 +
+ .continue/context.md                  |  1 +
+ .cursorrules                          |  1 +
+ .github/copilot-instructions.md       |  1 +
+ .windsurfrules                        |  1 +
+ CLAUDE.md                             |  1 +
+ Documentation/agents/coding-style.rst | 35 ++++++++++++++++++++++
+ Documentation/agents/core.rst         | 28 ++++++++++++++++++
+ Documentation/agents/index.rst        | 13 +++++++++
+ Documentation/agents/legal.rst        | 42 +++++++++++++++++++++++++++
+ Documentation/agents/main.rst         | 22 ++++++++++++++
+ 12 files changed, 147 insertions(+)
+ create mode 120000 .aider.conf.yml
+ create mode 120000 .codeium/instructions.md
+ create mode 120000 .continue/context.md
+ create mode 120000 .cursorrules
+ create mode 120000 .github/copilot-instructions.md
+ create mode 120000 .windsurfrules
+ create mode 120000 CLAUDE.md
+ create mode 100644 Documentation/agents/coding-style.rst
+ create mode 100644 Documentation/agents/core.rst
+ create mode 100644 Documentation/agents/index.rst
+ create mode 100644 Documentation/agents/legal.rst
+ create mode 100644 Documentation/agents/main.rst
+
+-- 
+2.39.5
+
