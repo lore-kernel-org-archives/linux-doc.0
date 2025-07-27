@@ -1,282 +1,212 @@
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C5B33F3;
-	Sun, 27 Jul 2025 09:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47A418A6CF;
+	Sun, 27 Jul 2025 11:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753609064; cv=none; b=YBDzHLtzZ6lRMAHAHKnmzCBW+X37pIHbfnGeNxxA/RPqrtH2l/qULo9hM6y6//HiObtSNKjl/FHWDIywjNBwxG37cTtmMTfaF2ypVAf7WIJ2qvKOE/hswahJlVgGTRDja7cv7eyGhcqcm731M6x5QDei0FhYCcEJYUivZW324+U=
+	t=1753614018; cv=none; b=oKf/3n45li21iTjxMtYExbtns4L4kqkEkYRc5D8WBx+Kyuc2pnddiZzNi99ix1LwkMSAcNXXWW4DjbQ27hUGlMgIC60xiQYnrKhrzJVMZbb5Xzc0aqe1+kdvoFS0pSG2Ik91z+fmQc4NlK+s6y7WJgJC5/z1knaf56unSUtouEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753609064; c=relaxed/simple;
-	bh=r1WUJTuYaXc6Gg3ue+6sjWGHwrgY6KnugGpFvW2bxBo=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=A7N81jc0BCE3RMnEDElyPbii3biSNjMTkt4oU3ZTXc71HB0KwmwMdPpqqqD4woBnLuOouc9ZgnOH3o2Da4cDUefbgZ5WWC8Nz1gldJyraNFBSYQE982P50+NyDIlVeqW//pXR721yHMzG4zHjQuo5WP/1L3lx6hJ3IyPjyZAMbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TIU477FM; arc=none smtp.client-ip=209.85.167.68
+	s=arc-20240116; t=1753614018; c=relaxed/simple;
+	bh=6ypzSIXI2Y/q/zZlhmGNnNXHSMY20Q1NQBDm/5WD02g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lbB+XxmP39Wk3x4rsII1fTT5yaGFodPjcjFKRhsQLX8EOQHHVU1UeLYUjRX/KDSLfvnvaJQXPgXggi6r+hAa9HV90yuYoVi25vesReIyhdoRiDQSbOQTZDLRWbdf8EsMNu8CcQdljoVc+U39wnSR20h38nh0G5yrrxCZjPfbHRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SBaa1YlC; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TIU477FM"
-Received: by mail-lf1-f68.google.com with SMTP id 2adb3069b0e04-553d771435fso3611008e87.3;
-        Sun, 27 Jul 2025 02:37:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SBaa1YlC"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-455fdfb5d04so19271795e9.2;
+        Sun, 27 Jul 2025 04:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753609060; x=1754213860; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vDEbh++iSuge5z5TnrZi30Y6NAK/TEXvCRb5ta8Z3dY=;
-        b=TIU477FMxPhUadWT70p0G3Hoy+wjD+MDhGRKtLi+k/uUfvrteL5pw9vP9A/a587Lvb
-         17DXR+OqcAlhc+IRzePnoKjq7bJdzrWZv+9/i5C8eyGKRaiH1sy9laH92nXP9EkYO+1p
-         HZMLiU9281gii8JZ1onCpo52ZCXdxLi+Fo+DL4sRpFn8r+gNau5/3/kKXqAUVZNjKZVt
-         6UNzzYi5HiW0sJjiaxMmLO45hCQjKNH7OLJzBjsPzPiWXCt7D24ky23VFoGFXR2ra2Pp
-         PqxMY7Ff66eyOlfOK/I3cJOCpJ+x2uFwqHSqMiR9+9hu7TjEfn54KZFGtiusvrHugCBS
-         ELlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753609060; x=1754213860;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+        d=gmail.com; s=20230601; t=1753614015; x=1754218815; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=vDEbh++iSuge5z5TnrZi30Y6NAK/TEXvCRb5ta8Z3dY=;
-        b=Xugb6TiE7zf25d8NAw0MJQfjKn8atPbNLiLw5ZUlvY0W9FtgVDwI+RKeywvbh0tS5O
-         qa3vh8NJTaVPd8ceuM75I5n6iAhbC4kx4G0w41JPiMMZ58Nypw1em6X67QjAFPfLP9BU
-         r7baVVejSydIxV50oPZKi/6GoRjdgcXeL9uMIGUVyuwYGAY0ZBYJ48ROxCODjOdCE0H2
-         21BiKMjDYi8TE/Q6oSgl6RP/ZzBItvpOyXcpdWlceEiFcSkOoUarHPcAM5XRtLYeBYzl
-         WYN7mYiD4lFdh6YDQ0P6jL2cYPCOEJidHrt8YJKoFk4INfhLEh/pd7ohZ9GYq/FsByjG
-         efIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRh1XCJEm2w9SBtH+Avagjxyvdr7hrSWWXJoyR/cL0Xm5BegUdsI7NrZ8QHbqjrI32y0slfRhKfZef8vcI@vger.kernel.org, AJvYcCWf0rntBoas8qsqZOeyLF2W+H8luZg0FzHGwsLFV525FTEQsMb6WLI6s2dxJ9S1OsWEQDHSaklb1H4=@vger.kernel.org, AJvYcCXiuV6HHGznuHOkHHl6PFHWG4x6CGAfz7BDEeXM2GtZZZhMufS3yaEIci2YTVSXMMPTH+mKhwZTpm2W@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyyEkEu1LG9iyNxZz8dP0XHDEcFZeLHa3tFRymoP1i/DBFgrxE
-	se8p7o5CPVpTDfkRg2qGkXo/1lMScCh8hSNxLNfSUrDvCnWdArjoRBz/EiemoSZYh7SQCBL+3Ng
-	tY5cT751ywL8j1fzonPfsrXmnvFKf8/U=
-X-Gm-Gg: ASbGnctn8mmIhZYnIsfIpaVwgFbH2PGwbqNaNEoYePx8XPBVGQr4X68gUspBIVyZmEt
-	gidxiBi2XPvKNIRgbLtgsyCLv1GfF5kE5pGtEKTZjZN7LEO7rrR7tuWTNI3ap/f0Hx8+6mFenCV
-	zxcjNRUqaBtPYY/3OZ0UoRrZl9kkcl1VDcKY7Vo+LBZ/iPiDy+eKVil5ano6VxsaNyUFxqXZy3x
-	/SSPP0=
-X-Google-Smtp-Source: AGHT+IFx2Zb6DNpjfWCZqV5auDlsQGPpd/qr44bZuQG/DVvNr59t+emtF+I+c9L1/PhAsrWppHXxHxZ43OuYMVqO2eI=
-X-Received: by 2002:a05:6512:2207:b0:553:2480:2308 with SMTP id
- 2adb3069b0e04-55b5f44c926mr1824136e87.21.1753609059868; Sun, 27 Jul 2025
- 02:37:39 -0700 (PDT)
+        bh=oHeZkftYAbkyHtBV0wRRYYi4zatoiTrB+Y/dcAdYXbc=;
+        b=SBaa1YlCYJ89h2u1uuySHTl+kfouKu7Z0AWInCckJaOVIqUHO9Itu45pyzR5l2vEaD
+         pzLD+kRr4QUVWAC2nwlgmU+ypmsS+VwNlcc238Lwz40fOzajkPRHHSXZ1J142YZrerbt
+         /RTR6Ook97XCup3SvpyViL5dp8mmjAPT1mmtM+KeWx1oGhNr8WSPkqgHciOMrjY3kG2E
+         BN+iFV4uaH5BjYe2WkBeY/aTLR8CzSwyRl94CsapJcJwOusfLF88IMrX2yqc/54Yo0eO
+         PK8F0+ZwC+gqrf8uorfhlzOdgb2O3L7IQIxb4wjj+GrAicv+E8k+1LsIPP/tp6jr3fQZ
+         bkcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753614015; x=1754218815;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oHeZkftYAbkyHtBV0wRRYYi4zatoiTrB+Y/dcAdYXbc=;
+        b=XuFBqPUXJAl1srvPGMdBZsrvwIyogtt9Pr5fsBXNzEPRsynFCKMPnr9S1fzPm6MXXU
+         ZyTcM3VieAVPOtd0GBgv4Nl4Mtjn2aRMGO6VMfbhrcqW+ISpFo2ylPyWT3Mi9QH1VGAR
+         h+9VKhWqlgvDDgz/0jP26InM828P3/OTAF9ptlV9tkdnaTXNj7nw8EOcuuhaXHS2W9l0
+         ha44qhn4+C3bkHjEB9BoOYAbvPivFFFhYCbcQXVPCM5Qiu88/J59R+XkOwQ0W+8LhJkO
+         +lrza7aI1GQKhwN9LaK9wXgDE38q2XY9m1UW35jz5mg/M9j41wfGPkQOSKHSxSQuiAPm
+         iEqA==
+X-Forwarded-Encrypted: i=1; AJvYcCUB4n/AZL4pxVY7eYGrQh9YxyDDvMKYo7gC+2TiDg/BiS0iSSLcV6zAkfZUSdqiE8qMtFiSf77T/LrgXg==@vger.kernel.org, AJvYcCVVkDAfpwOMU9tgaLdWdkOnJt7TUbHHrykHEQhW/oxcOJ+nVbOEjFGwnwfzt8T1cAQ2sE1J6kZX@vger.kernel.org, AJvYcCWR8ARNd8wmaYSEowSeat2HOscexKHtWEVGG/Rs9xlEktS1cyeNX9Re1BPhIfdXdrDd/4kqyI3/O3c=@vger.kernel.org, AJvYcCXCnzBXjb47h1RIBCaEJeIDdKZcAxq8if1fpYOX2CNRCGLb8VVOLqYygGailYAARNJTR6ixIzyHtMYl+vkp@vger.kernel.org
+X-Gm-Message-State: AOJu0YwibuXaCDftwhZhmYnUTv/p0GUN4A6MKoEu3jCWpoWXG1mBxikv
+	cY3yFy3ewD14Uo1yn3NNuUqzwohs+WtL5mdIF9fX4pvSP4D93f8NoZax
+X-Gm-Gg: ASbGncvnKES6j3JiF359B106LFMsNMahAeJvS1I2kjug/nPh2ZgCzPHuQpH/6cGMjKL
+	AjJnQSycSum1Lrxd8SWjzt4WmYbH5f0JQWt/5BzrQHKndt2AxNeXmAUmFGJBcJ9VDs0CPe+EIFr
+	m0NXUt3M8N+wQkF4TjK7l+R/OxoF5EK3jyQ4HJaWL7HVe/inaSYonhLQ+r/ON+pKGmxvdfMB2qE
+	LWtyylNoCCfEQnjh55S8v3DwiFlCCFyzhF/PSG9PrhabYQKEorZ4G+fQGQZLwHFPjWCivYAoFdv
+	NfeQLcNnW7MfuRHjzJzWtn2SdWkfqpRj4fGQ9M+N4F+UYIgsp0yAVgiO0dp8FWkBWyQ9udPIq7n
+	bsty2ocPhHyMFVENAsxKqTb41KUuEDWhO58EG2x2Rosge3x0=
+X-Google-Smtp-Source: AGHT+IEIAyE3PFazotUctyFhyDFZ5GBR5lJrudlJw2ZEAV7vCREIqwBAgJq24E3OBY15cTJoMkuygw==
+X-Received: by 2002:a05:600c:1992:b0:441:d4e8:76c6 with SMTP id 5b1f17b1804b1-45876554b45mr78597285e9.30.1753614014454;
+        Sun, 27 Jul 2025 04:00:14 -0700 (PDT)
+Received: from [10.221.199.138] ([165.85.126.96])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4587272b405sm93829525e9.19.2025.07.27.04.00.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Jul 2025 04:00:14 -0700 (PDT)
+Message-ID: <3bf6714b-46d7-45ad-9d15-f5ce9d4b74e4@gmail.com>
+Date: Sun, 27 Jul 2025 14:00:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Date: Sun, 27 Jul 2025 14:37:22 +0500
-X-Gm-Features: Ac12FXwMFqDvpaVLlUMYgDZA8RrAeq-B-Vv1dI2Sz-pocvCE4yZpymVjKBZ8lNk
-Message-ID: <CACzwLxg=vQeQKA1mPiYV9biu=swo7QDmjB3i=UhYmv+fGRBA4Q@mail.gmail.com>
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-To: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: rostedt@goodmis.org, kees@kernel.org, konstantin@linuxfoundation.org, 
-	corbet@lwn.net, josh@joshtriplett.org, 
-	Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 0/5] Expose grace period delay for devlink health
+ reporter
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Jiri Pirko <jiri@resnulli.us>,
+ Jiri Pirko <jiri@nvidia.com>, Saeed Mahameed <saeed@kernel.org>,
+ Gal Pressman <gal@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Shahar Shitrit <shshitrit@nvidia.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Brett Creeley <brett.creeley@amd.com>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>, Cai Huoqing
+ <cai.huoqing@linux.dev>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>,
+ Geetha sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>,
+ hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+ Manish Chopra <manishc@marvell.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org
+References: <1752768442-264413-1-git-send-email-tariqt@nvidia.com>
+ <20250718174737.1d1177cd@kernel.org>
+ <6892bb46-e2eb-4373-9ac0-6c43eca78b8e@gmail.com>
+ <20250724171011.2e8ebca4@kernel.org>
+Content-Language: en-US
+From: Tariq Toukan <ttoukan.linux@gmail.com>
+In-Reply-To: <20250724171011.2e8ebca4@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 7/25/25 22:53, Sasha Levin wrote:
-> This patch series adds unified configuration and documentation for AI
-> coding assistants working with the Linux kernel codebase. As AI tools
-> become increasingly common in software development, it's important to
-> establish clear guidelines for their use in kernel development.
->
 
-Hello,
 
-Thanks for bringing up this topic.
+On 25/07/2025 3:10, Jakub Kicinski wrote:
+> On Thu, 24 Jul 2025 13:46:08 +0300 Tariq Toukan wrote:
+>> Design alternatives considered:
+>>
+>> 1. Recover all queues upon any error:
+>>      A brute-force approach that recovers all queues on any error.
+>>      While simple, it is overly aggressive and disrupts unaffected queues
+>>      unnecessarily. Also, because this is handled entirely within the
+>>      driver, it leads to a driver-specific implementation rather than a
+>>      generic one.
+>>
+>> 2. Per-queue reporter:
+>>      This design would isolate recovery handling per SQ or RQ, effectively
+>>      removing interdependencies between queues. While conceptually clean,
+>>      it introduces significant scalability challenges as the number of
+>>      queues grows, as well as synchronization challenges across multiple
+>>      reporters.
+>>
+>> 3. Error aggregation with delayed handling:
+>>      Errors arriving during the grace period are saved and processed after
+>>      it ends. While addressing the issue of related errors whose recovery
+>>      is aborted as grace period started, this adds complexity due to
+>>      synchronization needs and contradicts the assumption that no errors
+>>      should occur during a healthy system’s grace period. Also, this
+>>      breaks the important role of grace period in preventing an infinite
+>>      loop of immediate error detection following recovery. In such cases
+>>      we want to stop.
+>>
+>> 4. Allowing a fixed burst of errors before starting grace period:
+>>      Allows a set number of recoveries before the grace period begins.
+>>      However, it also requires limiting the error reporting window.
+>>      To keep the design simple, the burst threshold becomes redundant.
+> 
+> We're talking about burst on order of 100s, right?
 
-I want to share my experience as I've recently made a primitive experiment
-working on various Linux kernel development tasks along with LLM help.
+It can be, typically up to O(num_cpus).
 
-Slides are available at my Telegram channel [1], which I presented at
-the local 2600
-conference in June, '25.
-[1] https://t.me/novitoll_ch/366
+> The implementation
+> is quite simple, store an array the size of burst in which you can
+> save recovery timestamps (in a circular fashion). On error, count
+> how many entries are in the past N msecs.
+> 
 
-My tasks were:
-- Analyze syzkaller crash report (w/ and w/o human patch exists)
-- De-obfuscate syzkaller C reproducer
-- Generate syscall descriptions for syzkaller
-- PATCH review (feeding entire PATCH series)
-- Generate mm/kasan code snippets
-- Generate git commit message for the given git diff, and also generate the
-  cover letter
+I get your suggestion. I agree that it's also pretty simple to 
+implement, and that it tolerates bursts.
 
-The "results" of experiment gave me following understandings of the current 2025
-state of LLMs:
+However, I think it softens the grace period role too much. It has an 
+important disadvantage, as it tolerates non-bursts as well. It lacks the 
+"burstness" distinguishability.
 
-- Code generation
+IMO current grace_period has multiple goals, among them:
 
-LLMs (Claude 4 Sonnet, OpenAI o3, Gemini 2.5 Pro) are trained to give code
-samples for not-latest git tree. You can configure your own MCP client, e.g.
-Claude Desktop, Trae.ai etc. with external MCP servers. I was advised to try
-context7 MCP server [2] which should hint LLM to give code xrefs, documentations
-within "the latest" kernel version. I've just checked that the latest version
-on context7 MCP was 2 weeks ago, which means that at the current moment
-the pace of PATCH submissions to various linux-* trees exceeds the
-synchorization of context7 MCP server so LLM can give you "the actual code".
+a. let the auto-recovery mechanism handle errors as long as they are 
+followed by some long-enough "healthy" intervals.
 
-So without human/scripted assistance `git apply PATCH` is error prone.
+b. break infinite loop of auto-recoveries, when the "healthy" interval 
+is not long enough. Raise a flag to mark the need for admin intervention.
 
-[2] https://context7.com/torvalds/linux
+In your proposal, the above doesn't hold.
+It won't prevent the infinite auto-recovery loop for a buggy system that 
+has a constant rate of up to X failures in N msecs.
 
-- Generated code limits in the LLM context window
+One can argue that this can be addressed by increasing the grace_period. 
+i.e. a current system with grace_period=N is intuitively moved to 
+burst_size=X and grace_period=X*N.
 
-During my experiment with mm/kasan code generation, the context window of
-LLM was the problem. OpenAI o3 does not limit you with the long dialogue,
-however I guess, it might forget the code you mentioned in the beginning.
+But increasing the grace_period by such a large factor has 
+over-enforcement and hurts legitimate auto-recoveries.
 
-Claude 4 Sonnet (chat bot version, not API) has a limited context window -
-you send it the PATCH series, it replies back, you correct the LLM with such and
-such, LLM apologies, corrects back etc. This dialogue might end up with many
-chat interactions, that eventually Claude 4 Sonnet tell you "Start a new chat,
-the context window exceeded the limit". This was on my $20/month subscription.
+Again, the main point is, it lacks the ability to properly distinguish 
+between 1. a "burst" followed by a healthy interval, and 2. a buggy 
+system with a rate of repeated errors.
 
-I know that there's a memory bank for Cursor [3], but my point is that during
-PATCH series and human interaction as the verifier, I've faced the issue with
-it.
+> It's a clear generalization of current scheme which can be thought of
+> as having an array of size 1 (only one most recent recovery time is
+> saved).
+> 
 
-[3] https://github.com/vanzan01/cursor-memory-bank
+It is a simple generalization indeed.
+But I don't agree it's a better filter.
 
-- Code verification
+>> The grace period delay design was chosen for its simplicity and
+>> precision in addressing the problem at hand. It effectively captures
+>> the temporal correlation of related errors and aligns with the original
+>> intent of the grace period as a stabilization window where further
+>> errors are unexpected, and if they do occur, they indicate an abnormal
+>> system state.
+> 
+> Admittedly part of what I find extremely confusing when thinking about
+> this API is that the period when recovery is **not** allowed is called
+> "grace period".
 
-LLM does not do any kind of verification of proposed code. So the human still
-needs to compile, run, test it.
+Absolutely.
+We discussed this exact same insight internally. The existing name is 
+confusing, but we won't propose modifying it at this point.
 
-- LLM API tokens cost for MCP agents
+> Now we add something called "grace period delay" in
+> some places in the code referred to as "reporter_delay"..
+> 
+> It may be more palatable if we named the first period "error burst
+> period" and, well, the later I suppose it's too late to rename..
+It can be named after what it achieves (allows handling of more errors) 
+or what it is (a shift of the grace_period). I'm fine with both, don't 
+have strong preference.
 
-At the end of my experiment, I've tried to have a MCP agent, where I've
-explained to the agent its role. I've set the temperature coef (LLM creativity)
-to 0.7:
-- 0.0       = most deterministic
-- 0.3 - 0.5 = summary, tech writing
-- 0.7       = balanced, default in most LLMs
-- 1.0+      = more creative, randomness
+I'd call it grace_period in case we didn't have one already :)
 
-Max tokens per 1 chat = 10240, max iterations = 10 (MCP agent can produce up to
-10 chats). Result is 100K tokens. Which in OpenAI o3 was less than $1 per my
-billing.
-
-== Summary
-
-While LLMs are **really** good in composing git messages, cover letters (in
-fact, LLM was initially designed to predict the next word, AFAIU), and composing
-you error-free grammatically, with all Oxford English dictionary,
-yet my current $20/month in Claude, $20/month in OpenAI subscriptions and
-$20 for the API usage, does not allow me to "vibe coding" with the Linux kernel.
-
-> The series consists of two patches:
->
-> 1. The first patch adds unified configuration files for various AI
-> coding assistants (Claude, GitHub Copilot, Cursor, Codeium, Continue,
-> Windsurf, and Aider). These are all symlinked to a central documentation
-> file to ensure consistency across tools.
->
-
-I don't think that we want to have a separate instruction per vendor.
-Like you missed trae.ai, for example. So perhaps, _if_ the Linux kernel has the
-documentation for LLM setup, then I'll be happy to see following:
-
-- MCP server setup. MCP JSON is applicable for all aforementioned vendors,
-so we won't have to support vendor specific instructions. A custom MCP server
-with tools like "@code_review", "@code_gen" etc. that does everything we accept
-in the Linux kernel process.
-
-- MCP agent(s) role instructions. Since LLMs are trained publicly, e.g. they are
-  not specifically trained to understand the Linux kernel code, we need to
-always explain LLM jobs. What we expect from it, what it should and should not
-do. So some instruction templates (with CAPITAL letters, I've heard LLM
-understands it better in such a form) will be canonical. Here was my LLM
-instruction [4]:
-
-https://github.com/novitoll/mcp-linux-kernel/blob/d763e85f5ba8ab21ea73ecdeaea35a6ffab6b4f2/demo/finder_agent.py#L17-L29
-
-_AI_ agent per sub-system and driver can be even better. Like if PATCH is within
-linux-mm subsystem, then the appropriate linux-mm MCP agent should be involved
-as it has the role to assess the code from different perspectives: w/, w/o KASAN
-compilation etc.
-
-P.S.: Personally, I've decided to pause on the vibe coding, since I
-spent too much time on
-explaining to LLM the context and copy-pasting errors, and reading the notorious
-answer from LLM **You're absolutely right! Let me change my code ...**.
-
-> 2. The second patch adds the actual rules and documentation that guide
-> AI assistants on Linux kernel development practices, including:
->     - Following kernel coding standards
->     - Respecting the development process
->     - Properly attributing AI-generated contributions
->     - Understanding licensing requirements
->
-> The examples below demonstrate how these guidelines work in practice, showing
-> proper AI attribution in commits and the assistant's understanding of kernel
-> documentation requirements.
->
-> All AI assistants are required to identify themselves in commits using
-> Co-developed-by tags, ensuring full transparency about AI involvement in
-> code development.
->
-> "Hello world" test:
->
->       $ claude -p "do you need to attribute your commits?"
->       Yes, according to the CLAUDE.md file in this Linux kernel repository, I must identify myself as an AI assistant in commits by including:
->
->       ```
->       Co-developed-by: Claude claude-opus-4-20250514
->       ```
->
->       I should NOT add a Signed-off-by tag - only you (the human developer) should add that, as it represents a legal certification.
->
->
-> Example patch creation with Claude Code:
->
->       $ claude -p "Fix the dont -> don't typo in @Documentation/power/opp.rst. Commit the result"
->       Done! The typo has been fixed and committed.
->
->
-> And the resulting patch (no manual edits):
->
->       From 7613561f430920803d945b3cd53aa81440d4f6f0 Mon Sep 17 00:00:00 2001
->       From: Sasha Levin <sashal@kernel.org>
->       Date: Fri, 25 Jul 2025 13:38:43 -0400
->       Subject: [PATCH] Documentation: power: opp: Fix typo dont -> don't
->
->       Fix a typo in the OPP documentation where "dont" was missing an apostrophe.
->
->       Co-developed-by: Claude claude-opus-4-20250514
->       ---
->        Documentation/power/opp.rst | 2 +-
->        1 file changed, 1 insertion(+), 1 deletion(-)
->
->       diff --git a/Documentation/power/opp.rst b/Documentation/power/opp.rst
->       index 1b7f1d854f14a..3eae4b955a63b 100644
->       --- a/Documentation/power/opp.rst
->       +++ b/Documentation/power/opp.rst
->       @@ -149,7 +149,7 @@ dev_pm_opp_find_freq_exact
->
->                opp = dev_pm_opp_find_freq_exact(dev, 1000000000, false);
->                dev_pm_opp_put(opp);
->       -        /* dont operate on the pointer.. just do a sanity check.. */
->       +        /* don't operate on the pointer.. just do a sanity check.. */
->                if (IS_ERR(opp)) {
->                       pr_err("frequency not disabled!\n");
->                       /* trigger appropriate actions.. */
->
->
-> Sasha Levin (2):
->    AI: Add unified AI coding assistant configuration
->    AI: Add initial set of rules and docs
->
->   .aider.conf.yml                 |  1 +
->   .codeium/instructions.md        |  1 +
->   .continue/context.md            |  1 +
->   .cursorrules                    |  1 +
->   .github/copilot-instructions.md |  1 +
->   .windsurfrules                  |  1 +
->   CLAUDE.md                       |  1 +
->   Documentation/AI/main.md        | 71 +++++++++++++++++++++++++++++++++
->   8 files changed, 78 insertions(+)
->   create mode 120000 .aider.conf.yml
->   create mode 120000 .codeium/instructions.md
->   create mode 120000 .continue/context.md
->   create mode 120000 .cursorrules
->   create mode 120000 .github/copilot-instructions.md
->   create mode 120000 .windsurfrules
->   create mode 120000 CLAUDE.md
->   create mode 100644 Documentation/AI/main.md
->
+Please let me know what name you prefer.
