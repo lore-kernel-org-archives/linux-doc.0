@@ -1,103 +1,91 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987844A33;
-	Sun, 27 Jul 2025 15:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCB5194A65;
+	Sun, 27 Jul 2025 19:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753631153; cv=none; b=tJradgoOqc7c5H9TURbDAyoTBbBtbQ3ZSwvUW3IaDuCfVVVUqsiEFwuSff0ldtKKpRga/o5BduVtb4bU/K1ZNbEYExeOi0xGifUBpXdzCb0jPXsT01fxE6SwY6fmIdfDOTfBadX0UPUR3a5aRhc06F3Ily0DFAMi+bJIqBcz0NA=
+	t=1753644795; cv=none; b=kHWkax1jTItFQCS3ZpKxN1jdHzh9ELcXkYGLo8D+Hu367Z9vRqtGRkucVXsrygeKiiNSjio5gv0aSVi7nlLLgLey5F/qDG57ZHArXdSJqRBmd8mWj+UXY5QaR/zWBnWAy0sf6/H4z+04pdp4bHXCvdq1shjsuwQZogY7JkqTcAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753631153; c=relaxed/simple;
-	bh=Nx21Y2DmhvfADZ/RHwGwoASysh8U+aJewA5Rlqxh83A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jJh/dvbjn/xfGD8Mo4GkQi+kdXwLHV5qhDLgziEfh3TAxxubnUIJ1L7y2Xil/ZKmRSI7K8xn42tZ0yagQiAeNvUJdDuyX3Es84paNbt0l8S23d/5R1EZ8IP0kJ1YUlk38PW0UgRnTQD6jdVBzvlUK2PXxKCj7926RErjVpuaGho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=qcIWYj2X; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1753644795; c=relaxed/simple;
+	bh=6KdbDjlU7MNLdd6vRI7BRsrwL6xqrrZa1ld4+GRsLhQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=oKsgxaUmWFh7ybrQ3EtjwV9N14DVYvIOFSDl4XiflAxR6O34tsfa145pAHUEfBJZsowctU99H1GCl4Nu26GM8f5S27rQUif5FLUgQoQQgw5Idh9sTLzKE62Xqzb5+r5I9+Vv8YOFTWaoUqBj4bxQzs21F41/nwZb/aau0fgNn0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHzIN8ob; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="qcIWYj2X"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=3fxOLzWgOAR/+T3F8n9Mjej5S8eRwkPAUZo9dLFoDEw=; b=qcIWYj2XBgTEAk9R
-	L1UsQGa+/Mc5XBkgRtzArY7VkXGj25i/aTPimjDCAZ3zIamSBdR1G2KohDBcol3nNuJ31Yq3xwCqQ
-	CUYk3R+FApZvOOor8In1KXxoiyMZu+MMFQMB1PuWHf2Az6BMcqjf3XAyeqTPtJiFdFJOKBo7JJF2/
-	L1+p16uZ2WVBbdwQRLV5U+D6kVeQtAgsoBzLmzKJveUFFGzzzGx0h1ZHP9C5oJnIhIdXvbdQKNTuB
-	no3iyZz/T4Tr9jo6yaiVScw+aYtEijcDGlcBxRs5fhr6MhZCYBvj4tsNvYWu9W64al+sTkECP+SuI
-	f85Ij9MoRSL4NzRAQw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1ug3ZG-000pTt-0C;
-	Sun, 27 Jul 2025 15:45:42 +0000
-Date: Sun, 27 Jul 2025 15:45:42 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Sabyrzhan Tasbolatov <snovitoll@gmail.com>,
-	Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	rostedt@goodmis.org, konstantin@linuxfoundation.org, corbet@lwn.net,
-	josh@joshtriplett.org
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-Message-ID: <aIZJppabYBCDBhYJ@gallifrey>
-References: <CACzwLxg=vQeQKA1mPiYV9biu=swo7QDmjB3i=UhYmv+fGRBA4Q@mail.gmail.com>
- <053939E0-5BAB-483A-9FE4-92BF35201A4C@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHzIN8ob"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-707453b0306so5087756d6.2;
+        Sun, 27 Jul 2025 12:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753644793; x=1754249593; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6KdbDjlU7MNLdd6vRI7BRsrwL6xqrrZa1ld4+GRsLhQ=;
+        b=RHzIN8obtTUuIhCNR/l/ymg5JtN7RJBFXPHi0Bgm/NbQkXbH9nkpUvKLlnorcu2/jO
+         96tG1UMh7lR67CLERCTRYAA6GYNa99YVa42AequCnHoFRbixn381mQ8vPP4YmLbaEqlW
+         2Q1BKKYq1A0LXXSd9/tBi/IJ5XavsHcpjrFpobAAeXH9cyUU8jNgjPF6AODyF+43Ojak
+         HEpWjXdfF7/3/fHqWvtAl4vJjO3j/3LcYD9++1l8ruxcpI6MU+zsEwSbELNDRvXnB/OP
+         +QQvSwDceEI4zKuRZo6df9KVxgPDFuYbXcEKx3Om8Rmsz1SNOtndkw8O8esXIRBFBDry
+         pZmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753644793; x=1754249593;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6KdbDjlU7MNLdd6vRI7BRsrwL6xqrrZa1ld4+GRsLhQ=;
+        b=OHIxFs00MgSEa+NE2JIpnPUI44Xtlm6ARbOSgSmxX6FhrJkZrWemFVzeuqAyFPpBSx
+         5itjsTQAu1mPP5A7j3Vq3G3o38H+n3VhHej1zUq6bRVQqbRpuXilu/0DB4doj0ordkZs
+         TjjlGCqHACefRWudvXaQRqL3laFAbF2ZO/4foMN4q67pL5TRbn0Gp3n2V0CTvcbsjmud
+         UR3ftS9BtIKU2OgDX1ZL/0PhyMqKpOQ0ij4wxrLBdhLrSh1zSkE3peArM6Piymw9dVzc
+         EjDyAFkWboAb+n3iszSxr/DgvyuyDbU/pwbGfXW9Uv9Ka4NybfbZdETgp96guDHWNJBk
+         iuDw==
+X-Gm-Message-State: AOJu0YxtWqRScioOPm/EPMicpJeaNGZKNoacs6nkRfA4VFgzXJvp+7qq
+	C0sNwBYOxBvMliX66OXPv5jkaVlrDxXWxIo+clTVVnIIeMfcSMr8DdzUsXbIe36NzY6esUlqkRA
+	aUkALmzpx7FAZjB/3iWE+L64wGF1AlEnM+xqm
+X-Gm-Gg: ASbGncvcEFo/uZTlHwnrY4BBNAYHUc3EFx8v5pa6Psl4NMgKIx1+UoAKyQkg+9bS0fQ
+	3s4ms0fCMtoph3BEI5x2zmRKf+vsmcczHOgW4t5Vq2bNJ5CWNGSoeRf8YasJfBJoiyEmoo0UYJO
+	6DSZ9h5Hm8QOmIZ9283QIq/A/UlI1JjZqa7XKubM/f1KPApOoDLAqHsayW6PdKVOv/GR8WH4TpF
+	3wlzngiBtCyp56EMmOe+AaFHNv0iL56nf7CGi4JbA==
+X-Google-Smtp-Source: AGHT+IFK5tEPWCumGhnFE2IwR7NP1qZVxV1XN/ZXaGRFoKiTvVk2rPmY7RiFxZZzTyRWv4Nt7/oPzNJWU9gek7lFK00=
+X-Received: by 2002:ad4:5d62:0:b0:706:f3f9:8a52 with SMTP id
+ 6a1803df08f44-707205aa5e8mr115361966d6.29.1753644793056; Sun, 27 Jul 2025
+ 12:33:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <053939E0-5BAB-483A-9FE4-92BF35201A4C@kernel.org>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 15:37:30 up 90 days, 23:51,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+From: Vedang Kandalkar <vedangkandalkar@gmail.com>
+Date: Mon, 28 Jul 2025 01:03:02 +0530
+X-Gm-Features: Ac12FXzVbkZ1vZQB9x-4PwDODBFKwAXJV5vLsf35dCKl6ekhvsw7-l2URHvb3xg
+Message-ID: <CAJSSbgCRT-EcQTdTKof_gG5eBD1eYZKEFC_9pdQsaCiXx9yQHA@mail.gmail.com>
+Subject: [PATCH] docs: remove broken overline from sysctl/vm.rst
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-* Kees Cook (kees@kernel.org) wrote:
-> 
-> 
-...
+From 098513ca1d41c0c69f3956a6d22f34aee452afdd Mon Sep 17 00:00:00 2001
+From: Vedang Kandalkar <vedangkandalkar@gmail.com>
+Date: Sun, 27 Jul 2025 23:38:12 +0530
+Subject: [PATCH] docs: remove broken overline from sysctl/vm.rst
 
-> I'm hoping to add runtime testing, but the hurdles for getting it to sanely interact with a qemu instance is tricky.
+The overline above the /proc/sys/vm/ section was broken and not
+following standard reStructuredText conventions. Removed to improve
+readability.
 
-When doing qemu dev, I frequently run it in a tmux, and start it with
-'-nographic' which gets you a single stream with both serial and monitor in it;
-alternatively you can get one pane with the serial output and one with the
-monitor, that takes a little more setup;
+Signed-off-by: Vedang Kandalkar <vedangkandalkar@gmail.com>
 
-anyway, then I can do :
+---
+ Documentation/admin-guide/sysctl/vm.rst | 1 -
+ 1 file changed, 1 deletion(-)
 
-tmux -L $SESS send-keys -t srcqemu "cd /mnt" enter
-
-and have a wait function that waits until a string is displayed:
-# pane string command
-function waitstr {
-  PANE=$1
-  STR=$2
-  CMD="$3"
-  until [ -n "$(tmux -L $SESS capture-pane -p -t $PANE | grep "$STR" )" ]; do
-    $CMD
-    sleep 1
-  done;
-}
-
-so do:
-waitstr srcqemu "root@localhost" "sleep 1"
-
-it feels like it should be fairly easy to wrap some of those for tests.
-(Beware the 'send-keys' command is a bit touchy about what strings it takes,
-but it has some flags to help).
-
-Dave
-
-
-> -- 
-> Kees Cook
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+diff --git a/Documentation/admin-guide/sysctl/vm.rst
+b/Documentation/admin-guide/sysctl/vm.rst
+index 9bef46151d53cd..8f3875d68ac8ea 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -1,4 +1,3 @@
+-===============================
+ Documentation for /proc/sys/vm/
+ ===============================
