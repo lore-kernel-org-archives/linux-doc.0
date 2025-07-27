@@ -1,89 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BC2405F7;
-	Sun, 27 Jul 2025 15:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF8D1E0DE3;
+	Sun, 27 Jul 2025 15:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753629826; cv=none; b=gdzDZ9ePSbgwQRAhJGvsBgGNSd3A6FMnwm1Hd9/DHN7kNOh/GwMZY1cuetQmtmgwj9nuox7BF6Sl/WrtUh1cB6dCU02Rrc8tMaWvqL0lGJ9JsfIdWiLCGIUjmxbua+y/dBc+R6d0ygJ1kH8+8brykWq6JL9XzsIvkxmDeGltLps=
+	t=1753630897; cv=none; b=eS8vRk2uHvvJ/EW9PfUQquum9vhw9vbaZCIrndUmS9V6WgJwzjGmkU+U6Mivm6/XlhBf/Dao1xKAxwGoWdmKuBJU4a0g8bgtMCnkXr3WpiIUMBvjh2a0v02anxs+N4FcOZgl+hW9Hjp6CyBRza5ljq3eQqfRYvZw9gJMVD1c2Cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753629826; c=relaxed/simple;
-	bh=keR1k/wmb1jqq69WkXpHLaWHRoXcuakEANVW2FAl7fU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=BbQwnVjvSpiUDJypTVvV4Vct5dx2NW2pXuEN4eBjzdrYBjf7U0Arorpxf7Bas/y/qdP/h/0rxJ8VE78S6yprwF+1iD/yYeD8yaOTr4DFtTRZrCVwscZuCTFZXjiP2b4YzBxF3VOdD4zk3rIXzH5UKWT1jxeNRi8XqHLIvRcFn6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kffYuAXN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753630897; c=relaxed/simple;
+	bh=fdWsRr76VPxCb1sl1z2gOTjS+byCJ1yMoFJqtEpWYgk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=e1NdTeiroWIn4F2xseu7UnEsmIzOvcrU/FtmJ9K7/m8Ad/er882eUAjjRtj0npGDgr9jQz5ngiMnLJ3287ig9wnnXeaEZEqoTWMSqUfmT+CQT2XkNA7VJOpAcy2mPlo3EwaJFz8q6RjSVuXyaJB/I08/mSorUaSU4S78D7uXY+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yWSXGF17; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kffYuAXN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D82F2C4CEEB;
-	Sun, 27 Jul 2025 15:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753629826;
-	bh=keR1k/wmb1jqq69WkXpHLaWHRoXcuakEANVW2FAl7fU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=kffYuAXN7QgocZfvvjJfi2Rm0/zYgpGVkFXXjKOGMpDsebAnsKCFt8tAd0PW6wIww
-	 yX5oUYzbDapvmaWurTw2uSLxKjywBqcoQDWJA89gb7zgskktprPkOLcMRNINszddTW
-	 61ec06/ggDX8CtLyRjri1hUUajMGbWzusVVy1U0d6kJTKTOyR6wr3ZP4/FpWCv30cY
-	 JuNbeb9A/EMzp8T8Bf9G9wYDg5Xt1NPhfkH3/7t92qejqEQbBX6WwfVcpCIBJWJQKn
-	 JD0hWGZeGTDpq1njeOLzneGDsik9CaHfJBYa8PLbUqghuV5osgsWQFYVrO9iJdvDQB
-	 es806wwkpj/Pw==
-Date: Sun, 27 Jul 2025 08:23:44 -0700
-From: Kees Cook <kees@kernel.org>
-To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>, Sasha Levin <sashal@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-CC: rostedt@goodmis.org, konstantin@linuxfoundation.org, corbet@lwn.net,
- josh@joshtriplett.org
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CACzwLxg=vQeQKA1mPiYV9biu=swo7QDmjB3i=UhYmv+fGRBA4Q@mail.gmail.com>
-References: <CACzwLxg=vQeQKA1mPiYV9biu=swo7QDmjB3i=UhYmv+fGRBA4Q@mail.gmail.com>
-Message-ID: <053939E0-5BAB-483A-9FE4-92BF35201A4C@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yWSXGF17"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=d5ryRhpyND7wEhukHccAa9IlpSds5iUzN84/Vv2SGcQ=; b=yWSXGF17nfhsTwPzfkXMnKng+G
+	Ca7TNYvp8is2UUWbCdHkcOpGPCEYAJalh+xSrYC2DFYAYxC6l+r//97CaobWk+/G4zd3ss1z1qx7m
+	X/O5q8q/R7qiH3xZFDA3+SlcG+DAvP9ben3LkEr7vZg7We60/DVI2IJds2Gm6TQwlIzKvYKh4fiLg
+	QPw5+pt5Flj1os1isgRv+OBsehHfJOYiIM2cCLsPNaI4EUfpOzOT3QIAC2QVdzRJkqY4IUe4MluQx
+	TiRmnzXeR7UNoZBHTf78499PVy6DX5p7QM3Dv+5TD41WSKr4DJ6DtJkkVESeOG6q9xlNFNlGfCxDT
+	kHNqC0Rg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ug3V7-0000000Cs3W-1fxZ;
+	Sun, 27 Jul 2025 15:41:25 +0000
+Message-ID: <5ac25ceb-023d-409d-8e7e-014d010c5028@infradead.org>
+Date: Sun, 27 Jul 2025 08:41:24 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: powerpc: add htm.rst to toctree
+To: Vishal Parmar <vishistriker@gmail.com>, maddy@linux.ibm.com
+Cc: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+ corbet@lwn.net, linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Madhavan Srinivasan <maddy@linux.ibm.com>
+References: <20250727110145.839906-1-vishistriker@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250727110145.839906-1-vishistriker@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi,
+
+On 7/27/25 4:01 AM, Vishal Parmar wrote:
+> The file Documentation/arch/powerpc/htm.rst is not included in the
+> index.rst toctree. This results in a warning when building the docs:
+> 
+>   WARNING: document isn't included in any toctree: htm.rst
+> 
+> Add it to the index.rst file so that it is properly included in the
+> PowerPC documentation TOC.
+> 
+> Signed-off-by: Vishal Parmar <vishistriker@gmail.com>
+
+There is a fix is available and scheduled to be merged (when?).
+
+See
+https://lore.kernel.org/all/98a8a5ef-45fd-4b1e-a775-d1e1306ad682@linux.ibm.com/
 
 
+| Yes. I am planning to send it as a fix patch in earliest rc for 6.16.
 
-On July 27, 2025 2:37:22 AM PDT, Sabyrzhan Tasbolatov <snovitoll@gmail=2Ec=
-om> wrote:
-> [=2E=2E=2E]
->- Code verification
->
->LLM does not do any kind of verification of proposed code=2E So the human=
- still
->needs to compile, run, test it=2E
+@Maddy, does that mean during the merge window after 6.16 or as a
+merge into 6.16-rcX (which is now)?
 
-This hasn't been my experience=2E With the MCP cli tools I've had quite a =
-bit of success with it doing build testing and unit testing=2E I'm hoping t=
-o add runtime testing, but the hurdles for getting it to sanely interact wi=
-th a qemu instance is tricky=2E
+Thanks.
 
-That it will do basic build error analysis and fixing has been nice: it ty=
-pes faster than me, so if it's simple stuff, it's faster than me to find an=
-d fix typos or other missed refactoring work=2E
+> ---
+>  Documentation/arch/powerpc/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
+> index 0560cbae5fa1..173a787b6cc3 100644
+> --- a/Documentation/arch/powerpc/index.rst
+> +++ b/Documentation/arch/powerpc/index.rst
+> @@ -36,6 +36,7 @@ powerpc
+>      vas-api
+>      vcpudispatch_stats
+>      vmemmap_dedup
+> +    htm
+>  
+>      features
+>  
 
-I've not used it for anything large for exactly the reason you mentioned: =
-the context window is very small compared to the size of the Linux code bas=
-e=2E But if it is given narrow goals, it does well=2E
+-- 
+~Randy
 
->P=2ES=2E: Personally, I've decided to pause on the vibe coding, since I
->spent too much time on
->explaining to LLM the context and copy-pasting errors, and reading the no=
-torious
->answer from LLM **You're absolutely right! Let me change my code =2E=2E=
-=2E**=2E
-
-Oh yes; this can be so annoying=2E And the "mission accomplished"ism! "Thi=
-s is the most comprehensive set of tests ever added with 100% architecture =
-coverage!" Sheesh, calm down=2E 100% build coverage is table stakes for Lin=
-ux=2E ;)
-
-
---=20
-Kees Cook
