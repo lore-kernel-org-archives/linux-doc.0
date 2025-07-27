@@ -1,140 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C71221737;
-	Sun, 27 Jul 2025 19:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818789463;
+	Sun, 27 Jul 2025 20:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753646305; cv=none; b=XT/h3SEs7ovNBBAE60ZA25+OLjLbj6qd6Yww675kdZMIm0w/dl3OCNNVRioH/e8YRBUHbZg0xXoO+py+rn8wm9Hby2kInUfZlAcmL+LiSbcWPrvC8g5W/xaNPtbk0CHQ2mlMq7pSHDqYopDbUklMZt1LKBtm6SK84r72JN4AknY=
+	t=1753647654; cv=none; b=rGdcahKgEjyXIKjoDMHX/ng7VzW0obmLfWHEkKoJ0vRIv9UAAgSmCm6wLb2lEk/z2rIJRTtmYxUSl5ndHpSvFOX3+efwc3Dtpxk2s1IuEQN0B4qgPexUBlepvHCxh7/kIOzMg1WFJLY1LljKkMCXDdizVSB22oraJ+5zw471a2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753646305; c=relaxed/simple;
-	bh=bjWayEAh716FQw0T22n60tZUcfpnlVvoEVEBTenLoFk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BcGwECp2FhshqlvX6UvOm9KtsVpVqCIOxwcWD0Iss7ql6j73kVOSorGmgUbvi53IMBpRFiZ9K625wLSMC4QNfQloGlUs2ecKw/0rBr4fbGxEd2MCUQlJC8CdRgiHW1pC14/W4E+ROodYXRhyg0MGv7BT+ev2EEaCvFdFxH1y6OY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k6IaTgi+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753647654; c=relaxed/simple;
+	bh=eNZKbzS0c/J7IuDwfdRf57KFwamQJ5ukxeyZwRhspXM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R/Zv1J7F0HmvRRz3ZRtSaRob9/gbSYd9Gb/xjCAq19Zm0/TTYCRoPRW07tYgDis7yEHorZoP3Nv8DW/JnPnVTtyOAnABFBnYzGjeZ86krenSC8yMkIMErRRyRY8L1LTAfc0tv6yNkyFvTViHlEAbCPsLIU9yOIgoCqz50VNo3vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=i/FPxmWm; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k6IaTgi+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59DEBC4CEEB;
-	Sun, 27 Jul 2025 19:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753646304;
-	bh=bjWayEAh716FQw0T22n60tZUcfpnlVvoEVEBTenLoFk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k6IaTgi++JzLAgZk6lhLqW2G2KKCOKmToowTLMUW4B/tD5JVhvgYU534FyMBgz4aQ
-	 nDMsT5+z0ydR5IAvXUSOC0WqYqFBggfpgzMKguw0JtJ3XEgifnbJnOMWtYRiEAcrCP
-	 vUarHCzm12kqx64+QrrKFIDGVfn46Rl+xVY2UOXTBeeIjrgsfm91ika52A40Rv38YU
-	 iiMmFGC5cSou/aHcy71M8M1AY77gYowYzz3qovPwItgZMstTTMziyiQTA2SoBoJ+xO
-	 sjmYWLMBUj2KCtsqdLxMd9i72vyflamLlMtdz6VG61a+pJgFdg59CHTCy65Ug/sI+8
-	 CcSOUleEaJqtw==
-From: Sasha Levin <sashal@kernel.org>
-To: corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org
-Cc: sashal@kernel.org,
-	josh@joshtriplett.org,
-	kees@kernel.org,
-	konstantin@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org
-Subject: [PATCH 4/4] agents: add legal requirements and agent attribution guidelines
-Date: Sun, 27 Jul 2025 15:58:02 -0400
-Message-Id: <20250727195802.2222764-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250727195802.2222764-1-sashal@kernel.org>
-References: <20250727195802.2222764-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="i/FPxmWm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ux2Y7r0903v5alApOSxRvTGNLT3OOv1EML/ncMGUUmw=; b=i/FPxmWmYSnbdgJ6/p6CQLvhkI
+	ZkzwgE/7UqMwchtTqoSrgdytJI1eslzju1nv2njS5bE52PfFcO6/qIs6H9aY6WepORhrCtZriY92T
+	7y1J8YZchMeNFjfWgKh9JTfXit1v/8vQLtoZQYJayHvx0fxuLGOcoI7xxtxtOrli+FgQN1GoHhOBq
+	soqSmp6NkM7vp8ES3Fustc/OGuZL+yntj07Nvc9xK97cXV6rSqid5bWNacUM4Bv+P6ou79CQZlnE9
+	uzNk0681fqz5tEagcyZGZX2psMFxqAJU+UfJX6DjGsYgfz8tPv8Mbp6xGzI0W9FGaj4zsvoSnwF1d
+	BnQtocJA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ug7rX-0000000DC3C-45Sd;
+	Sun, 27 Jul 2025 20:20:52 +0000
+Message-ID: <54aca5de-2f42-4bbf-ac58-2ee6ddf3f8ca@infradead.org>
+Date: Sun, 27 Jul 2025 13:20:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: remove broken overline from sysctl/vm.rst
+To: Vedang Kandalkar <vedangkandalkar@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <CAJSSbgCRT-EcQTdTKof_gG5eBD1eYZKEFC_9pdQsaCiXx9yQHA@mail.gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAJSSbgCRT-EcQTdTKof_gG5eBD1eYZKEFC_9pdQsaCiXx9yQHA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-And below is the first test of this scheme:
+Hi,
 
-Co-developed-by: Claude claude-opus-4-20250514
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/agents/index.rst |  3 ++-
- Documentation/agents/legal.rst | 42 ++++++++++++++++++++++++++++++++++
- Documentation/agents/main.rst  |  5 ++++
- 3 files changed, 49 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/agents/legal.rst
+On 7/27/25 12:33 PM, Vedang Kandalkar wrote:
+> From 098513ca1d41c0c69f3956a6d22f34aee452afdd Mon Sep 17 00:00:00 2001
+> From: Vedang Kandalkar <vedangkandalkar@gmail.com>
+> Date: Sun, 27 Jul 2025 23:38:12 +0530
+> Subject: [PATCH] docs: remove broken overline from sysctl/vm.rst
+> 
+> The overline above the /proc/sys/vm/ section was broken and not
+> following standard reStructuredText conventions. Removed to improve
+> readability.
+> 
+> Signed-off-by: Vedang Kandalkar <vedangkandalkar@gmail.com>
+> 
 
-diff --git a/Documentation/agents/index.rst b/Documentation/agents/index.rst
-index 354af3f025e5..982602db3349 100644
---- a/Documentation/agents/index.rst
-+++ b/Documentation/agents/index.rst
-@@ -9,4 +9,5 @@ Agents
- 
-    main
-    core
--   coding-style
-\ No newline at end of file
-+   coding-style
-+   legal
-\ No newline at end of file
-diff --git a/Documentation/agents/legal.rst b/Documentation/agents/legal.rst
-new file mode 100644
-index 000000000000..67e6b2cdff9d
---- /dev/null
-+++ b/Documentation/agents/legal.rst
-@@ -0,0 +1,42 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============================
-+Legal Requirements for Agents
-+===============================
-+
-+This document outlines critical legal requirements that coding agents must follow when working with the Linux kernel codebase.
-+
-+Licensing Requirements
-+----------------------
-+
-+**GPL-2.0 License**
-+  The Linux kernel is licensed under GPL-2.0 only with a syscall exception. Coding agents MUST follow this licensing rule with no exceptions. Any code contributed must be compatible with this license.
-+
-+**SPDX License Identifiers**
-+  All files must have proper SPDX license identifiers. For most kernel source files, this should be the first line of the file in the appropriate comment format:
-+
-+  - For C source/header files: ``// SPDX-License-Identifier: GPL-2.0``
-+  - For scripts: ``# SPDX-License-Identifier: GPL-2.0``
-+  - For documentation: ``.. SPDX-License-Identifier: GPL-2.0``
-+
-+Signed-off-by Restriction
-+-------------------------
-+
-+Coding assistants **MUST NOT** add a ``Signed-off-by`` tag pointing to themselves. The ``Signed-off-by`` tag represents a legal certification by a human developer that they have the right to submit the code under the open source license.
-+
-+Only the human user running the coding assistant should add their ``Signed-off-by`` tag to commits. The agent's contribution is acknowledged through the ``Co-developed-by`` tag as described below.
-+
-+Agent Attribution Requirement
-+-----------------------------
-+
-+When creating commits, coding agents **MUST** identify themselves by including the following tag in the commit message::
-+
-+    Co-developed-by: $AGENT_NAME $AGENT_MODEL $AGENT_VERSION
-+
-+Examples:
-+
-+- ``Co-developed-by: Claude claude-3-opus-20240229``
-+- ``Co-developed-by: GitHub-Copilot GPT-4 v1.0.0``
-+- ``Co-developed-by: Cursor gpt-4-turbo-2024-04-09``
-+
-+This transparency helps maintainers and reviewers understand that a coding agent was involved in the development process.
-diff --git a/Documentation/agents/main.rst b/Documentation/agents/main.rst
-index 8e0463794b76..9ef75978a2e6 100644
---- a/Documentation/agents/main.rst
-+++ b/Documentation/agents/main.rst
-@@ -15,3 +15,8 @@ Coding Style
- ------------
- 
- For coding style guidelines and rules, see :doc:`coding-style`
-+
-+Legal Requirements
-+------------------
-+
-+For licensing, attribution, and legal requirements, see :doc:`legal`
+All of the .rst files in that sub-directory are like this.
+Should they all be patched?
+
+OTOH, there are many files in Documentation/admin-guide/ that use this
+pattern. Are they all incorrect?
+
+Exactly how is it "broken?"
+Did you read Documentation/doc-guide/sphinx.rst, where it says:
+
+* Please stick to this order of heading adornments:
+
+  1. ``=`` with overline for document title::
+
+       ==============
+       Document title
+       ==============
+
+  2. ``=`` for chapters::
+
+       Chapters
+       ========
+
+> ---
+>  Documentation/admin-guide/sysctl/vm.rst | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/vm.rst
+> b/Documentation/admin-guide/sysctl/vm.rst
+> index 9bef46151d53cd..8f3875d68ac8ea 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> @@ -1,4 +1,3 @@
+> -===============================
+>  Documentation for /proc/sys/vm/
+>  ===============================
+> 
+
+thanks.
 -- 
-2.39.5
+~Randy
 
