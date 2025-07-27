@@ -1,61 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0F23B7A8;
-	Sun, 27 Jul 2025 06:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CCD3214;
+	Sun, 27 Jul 2025 08:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753597833; cv=none; b=WqqIaKGlzOzmyBdQ5WncXXvCuLKWpjTwmUuKgxNV2XKE8tT9ChcJ8MdDrebpzjSUIs+zYDSwXjlyqwdyaYL+fRDs1TCGU+Fpr+ASh9TGFT4BypY42ukqOXgj4FXG+ffnTiy2OWCTh+RENggxoUZKT2t7q5PHgoH3OviAw4zDf7g=
+	t=1753604532; cv=none; b=T3HuYyht0iP5utrx3EtkLCVtsZlwcVGT7Jh3cSInS/hJL4VojmE9jE2xgchmHRvndnxgRxPUyJM0A3/tJg52UwsvTUAyTIXJWwk9cbxyDWVBdJsoMnxT3AGwG1kW80cvn23UpC/HIHaCjNw0LaYpijd4RZTv9OTRBihve+XktyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753597833; c=relaxed/simple;
-	bh=JJ+HLI2Xg1lbocAOdaQhvUAP42x5alyGCI2q27jF8yc=;
+	s=arc-20240116; t=1753604532; c=relaxed/simple;
+	bh=ydjtJsvOiZXoQZTnFrL6IFQmD1HLfDxemeu+MrUXYJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZtD894M6iphk/CirXRnQX5nOnxBxvGMczlTNakgGluWbWqZ3OaUgfx/GDppdILV2yDwF77sNMg/1LcsAQnQsAy4gn5rUYBispVMv9wj9sQXZOrfOPOq67IjLtiXyVFWkgokDwrDS/HIfFERssE9Q4l1Av5KkzLwCRkjzfSFXqkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O08zmCcV; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=aBKpL64Noq0vRqPrXMgwNTxMWKLIu6QCnXVj6aGqD/Z9wFDAhoTJmISl4f1afcaRKzuF7YlD+WnmzyVUibBYkVU1Hnqw64diIwnH5UyHpwkh09FcSg14QzbujQtX1448kFRiaSx6oV7k0B9xgqqG9vwwAxw0WArkHvW+j4zeqdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/g0uEYv; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O08zmCcV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D8F2C4CEEB;
-	Sun, 27 Jul 2025 06:30:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753597832;
-	bh=JJ+HLI2Xg1lbocAOdaQhvUAP42x5alyGCI2q27jF8yc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O08zmCcVnVLnA+ZHOWb+eSajAvE6pm7DaQ8NMn+fNKRDLa2pRo5BX8aW+a83tPDqU
-	 GgXaGRHEjqMTQaTSEwiTq+LZsr8fgXvxAZupxxQHihlRCEGeKRTYN9ZBvXGeZH5v6l
-	 cNbEkyR0f0fisjYOpU+PgL5jY4ZNEON7FnZKH71NVsw/KoC5dN6YmBpvTPLR3GvZbC
-	 q9K5qaRFyq+a0yKXV5afTeXYdwYrJheYw2Wafv+rq71uOtdWWY/B2IP14x5XV0q/f0
-	 7brS93dUX/SVOI+l3RFg45/NhN//8bCTqZoEMGjszephsi3GB/4IZrVBAlBjvQt1f+
-	 qDDzVvsJtuDAA==
-Date: Sun, 27 Jul 2025 09:30:28 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
-	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 6/8] dma-mapping: fail early if physical address is
- mapped through platform callback
-Message-ID: <20250727063028.GX402218@unreal>
-References: <cover.1750854543.git.leon@kernel.org>
- <5fc1f0ca52a85834b3e978c5d6a3171d7dd3c194.1750854543.git.leon@kernel.org>
- <02240cf7-c4d4-4296-9b1e-87b4231874a1@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/g0uEYv"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2400f746440so1261965ad.2;
+        Sun, 27 Jul 2025 01:22:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753604529; x=1754209329; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XqcNKA/gbxxiW0lgpESTVfa8VL6JShBfAqjMDP/7/OI=;
+        b=F/g0uEYvp27EIPnGNqmzKXS1Zxgsr+0DXGTDzHbUPrWXPDz6Zn6LbV2yrp/hrsBI+h
+         HyV1P66dETs6G63JEvZ4zVM5ax6W5JVQL5PtYRKOZlLnlwqgZI6k1DcQrZHXb2UDvXij
+         UKhmwK9esGkxwld+v7X9w4RPFU4FraEC+L2b6zCyCWTLNEVeqlCAbt/aOv9Ik7ZSNz9t
+         H/GrwrPNE/dIQuGD5SfTcikwVRySfKCblukiLAjz3DsfoL4ch1Y9+j4ASHb4t/kjtLEG
+         PAtvL3VyZHqG2Fv1+IbMTCoWLQnyuxeF4f280qXOsF4JIdPqMZxEIIpCIWwStsS0U0o+
+         j0QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753604529; x=1754209329;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XqcNKA/gbxxiW0lgpESTVfa8VL6JShBfAqjMDP/7/OI=;
+        b=cvYG+jk6jPbMRhn+xqYcd1rJZHNYKZGEReYK5TuzaBh+9DLDzBFE4Rmn1acEOntFFn
+         BpP/6U1y85ft3VyMrgKU6R06j4g8xtR7PI10jrGJm+b7lACuKottX7ikcivVeh+gzhsj
+         AgzH7OWIwcila9m+yzqFAdGHdBFM8j2W30IReADNkkjGpwvb+7D+itkkST9h+xyeCcZH
+         FxZYFc1QcGfTvqZAgjDy1BEw1pGPnpdgZ0XYIZUhvkQgLnHeBmQSKAYZpBLSdvH/uv/l
+         BRJLYEqP2zPc092hHtgGnPnDbtmUeaWhV/BrFj894skXJr201R5eEOy9QaBfXsIPQMnI
+         fWhw==
+X-Forwarded-Encrypted: i=1; AJvYcCU0qZg5HiCiTXG2+9zwaMQcqxEuTFYXiX1g91V9cynI5xn+Z7IWUDFTq+6PV/US4hHAofHyWOpdPS7w/R8=@vger.kernel.org, AJvYcCUh0wKzy6qYOdIJIYZ12igaDAD8Ytk0yt4HKnn9v+nph2aNGIls1LcSdArsr33VK49JXefBd1xFG9E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDYCdcq1LSzrKe+gVBIyy+7DLc1hmvD4iDnWbAFFYFYVAWQXYO
+	LhjsK/K87Rvk1gqcD9j+r5jCW52mlRHiDjhqwhOdiuf1LgEHAZ/MOmXa
+X-Gm-Gg: ASbGnctILwnauzmmYc8d9bDQnrAAvzvrFhxj5D9GIROoh1+b45dvAFiqNJEcZRldgdz
+	D2CS60PsIdswtfR6ihGOrSTPYuVcpZUjjjT8zci4K8PMKZhRE0BZAH842ZSrzNBNm0dX1PLtNRX
+	6fQjdlekBnZGS0MofM/1LQ855FNmOUq3jtZttHxCEFaJG7vgUxGiHjKoKzeCuuqF2p+8tvcYzwl
+	J2btz1hhP5o6+WpYplwjcTNmp7IgijtQ8gZIqE7XaVWt2aJzKKsexEcKhGTdif8JtfK6K2aD1+d
+	CKMepTroLE9gAGeOcwh5JHezliXEmpb9BJHd45irhj1WGMfIlMW7hOeiAcCAHGZ1HfGLNI+yWLR
+	K2yCGWF7i4PbXRWjboOXvNpY=
+X-Google-Smtp-Source: AGHT+IGTJWbWswrU2jdGzYsRJE9pTNAizS4aLsHe60vdB4HWxa0H7LiPAsbhEnsKI8qqjoZXOYV6Ww==
+X-Received: by 2002:a17:902:e5cc:b0:234:eb6:a35d with SMTP id d9443c01a7336-23fb30acdedmr129631885ad.27.1753604528868;
+        Sun, 27 Jul 2025 01:22:08 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:152b:d3db:2a19:4eb0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fe648707asm18587435ad.135.2025.07.27.01.22.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Jul 2025 01:22:08 -0700 (PDT)
+Date: Sun, 27 Jul 2025 01:22:05 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Vicki Pfau <vi@endrift.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-input@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Fix capitalization of XBox -> Xbox
+Message-ID: <juqrd6zovledbgasfxgzwdhrgipslp3danfaxztbh4p5mhrkp5@bbwp2uhhphaj>
+References: <20250702034500.124741-1-vi@endrift.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,41 +73,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <02240cf7-c4d4-4296-9b1e-87b4231874a1@arm.com>
+In-Reply-To: <20250702034500.124741-1-vi@endrift.com>
 
-On Fri, Jul 25, 2025 at 09:04:50PM +0100, Robin Murphy wrote:
-> On 2025-06-25 2:19 pm, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > All platforms which implement map_page interface don't support physical
-> > addresses without real struct page. Add condition to check it.
+On Tue, Jul 01, 2025 at 08:45:00PM -0700, Vicki Pfau wrote:
+> This also improves the phrasing of "an example" listing two examples.
 > 
-> As-is, the condition also needs to cover iommu-dma, because that also still
-> doesn't support non-page-backed addresses. You can't just do a simple
-> s/page/phys/ rename and hope it's OK because you happen to get away with it
-> for coherent, 64-bit, trusted devices.
+> Signed-off-by: Vicki Pfau <vi@endrift.com>
 
-It needs to be follow up patch. Is this what you envision? 
+Applied, thank you.
 
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index e1586eb52ab34..31214fde88124 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -167,6 +167,12 @@ dma_addr_t dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
-            arch_dma_map_phys_direct(dev, phys + size))
-                addr = dma_direct_map_phys(dev, phys, size, dir, attrs);
-        else if (use_dma_iommu(dev))
-+               if (IS_ENABLED(CONFIG_DMA_API_DEBUG) &&
-+                   !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-+                       is_pfn_valid = pfn_valid(PHYS_PFN(phys));
-+
-+               if (unlikely(!is_pfn_valid))
-+                       return DMA_MAPPING_ERROR;
-                addr = iommu_dma_map_phys(dev, phys, size, dir, attrs);
-        else {
-                struct page *page = phys_to_page(phys);
-~
-~
-~
-
-Thanks
+-- 
+Dmitry
