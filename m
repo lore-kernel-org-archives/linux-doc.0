@@ -1,151 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7F21A76DE;
-	Mon, 28 Jul 2025 22:12:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3EF2E3708;
+	Mon, 28 Jul 2025 22:23:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753740760; cv=none; b=M7q0Sw2+ENzDX4wRjFZ0zrIwLrwXMQgzscSvIhz+bANakJJKyGfLP9W/YFJrBeZjQb45uWSdowiflDk8IRYpN+mybzb4xVCbFWgt4+TAjbytVE8gTjA06XPWEhh+mVFrKOzZrFwp6IOGCNYnCnc6nuhuyl2B408pOzRmyu60upg=
+	t=1753741429; cv=none; b=ZrczB51Yq+z9J8VxK9LhdPTc5QmpfNQOhRMQ0J+8mDgcb//oD1kvkUaMd4xLon2df3a+R5mWROJBJ0SeALTcskY81CvVDjgkDTFIV1RN1Yjbfc0/kmBFSfSS/FUEEF+yTDJNQqUBp4ncaioZOnAOsJPcM+GEbpbcTeby2ssLS2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753740760; c=relaxed/simple;
-	bh=AdAjJPs6NCL8ZHORNqzrGJ2cY/mycdHeCM4d04pIoCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HRISaAXBLj8yb0muxpXTWrXG1i0NjDnCTIrZo0TRW5rcI787W42MTs62gwxilSp/o1tck54Y8xqns685Hq2aNGKIwQdtLYRPjKo246n6UTypnhCs/m7ivjS8KGQXwM5MpLoxvqlNJtmRmFJMQkvIN/ro2FIIio9k68jAurAsNJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=abKyXIQ7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753741429; c=relaxed/simple;
+	bh=KMtkQu2rz5iOJBWNj+p6BRoehFhMFWjEn3otfiSYkHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=T4J4LbE4h2NMt5kLljAe/0R5k+/Wyiv7X+lXLhaVWD5vuU9Aa6jVuPJRIInk/qL5LZ/xC+VOUCnIPGq4mOCRpusbwGpDBzC+AwHtm/ckohxl8KXyRowMPFGEprZgC8UtSCbHihGduClTLqp/mEp+UisbKSZkoFwhrvNjgsmzhyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNdFHtgo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="abKyXIQ7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86805C4CEE7;
-	Mon, 28 Jul 2025 22:12:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNdFHtgo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3545BC4CEE7;
+	Mon, 28 Jul 2025 22:23:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753740758;
-	bh=AdAjJPs6NCL8ZHORNqzrGJ2cY/mycdHeCM4d04pIoCU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=abKyXIQ7561JAenZNkxQ2CuBpw+9SxUN9wq9fMPBgNH6vElWn0wPPSUOZ9VEcX0fo
-	 JIQvxJ7zZdgMI8XgqKmGaSXDltCDfFb+uIXE69I4GlOjXe0owWUI9zckh6XETM7j1D
-	 gD+4jPZk1Tn9ruGB4SWvf8eY4NfKcs3tB19Fn+XeYh+PLMuPQoju/qOqdPI83pZOnn
-	 cNTBYZLik/KsrMlkmZKkvxiKYbGkeY3IxB088pBLY9bPrBkUCDjPMmEZ+LLAbns5Ps
-	 DNTS5ABt/oucvVgD4pXwmxJxynIVZFZs3cqjmz1x+/wkklFZtcoC6mInjyv7J42riT
-	 xgxbu+hyOW5IQ==
-Date: Tue, 29 Jul 2025 00:12:33 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: <dan.j.williams@intel.com>, Jakub Kicinski <kuba@kernel.org>, Sasha
- Levin <sashal@kernel.org>, <workflows@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <kees@kernel.org>, <konstantin@linuxfoundation.org>, <corbet@lwn.net>,
- <josh@joshtriplett.org>
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-Message-ID: <20250729001233.4dead173@foz.lan>
-In-Reply-To: <20250728134653.635a9dc5@batman.local.home>
-References: <20250725175358.1989323-1-sashal@kernel.org>
-	<20250725114114.3b13e7b1@kernel.org>
-	<20250725150046.3adb556c@gandalf.local.home>
-	<20250725125906.1db40a7f@kernel.org>
-	<6883ea58b5685_134cc71006e@dwillia2-xfh.jf.intel.com.notmuch>
-	<20250728134653.635a9dc5@batman.local.home>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1753741429;
+	bh=KMtkQu2rz5iOJBWNj+p6BRoehFhMFWjEn3otfiSYkHw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=eNdFHtgoQkvF5XK25Uy2V78Gy4AKI1yVQYHpxCBSfYUgogjpyNCLCLX5vbq82ZqTI
+	 8Oo4TA7X7YocTO/7G1laC1zVBvYy3w+2c4uUIN01ycv5CSggs/9KrOOgYNWIRQfLb3
+	 pDAQp5QCuMA0gwzYqjRRGZ8seY27HXwh+SIh2vdSPzyidLI1qBaE7nBQkGtaWrSdb9
+	 aYEGSk6LwM80igdVEGI6NXA4VkIVuywN6NZC7b0ycCfa9COGvohpONX9DahQBlD4UZ
+	 HMRtrnTK9MEYSmIn6v8+vMwAFlX4VrPKUbZ4rVmXA+N2KwSufcEJSABiu/6tUyjEQm
+	 bmNUifL+q6Y3g==
+Date: Mon, 28 Jul 2025 17:23:47 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH 1/2] Documentation: Fix typos
+Message-ID: <20250728222347.GA3253635@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1412ff8c-50ff-4e51-b1c5-a4a404aafb86@infradead.org>
 
-Em Mon, 28 Jul 2025 13:46:53 -0400
-Steven Rostedt <rostedt@goodmis.org> escreveu:
+On Sat, Jul 26, 2025 at 08:16:26PM -0700, Randy Dunlap wrote:
+> On 7/23/25 1:32 PM, Bjorn Helgaas wrote:
+> > From: Bjorn Helgaas <bhelgaas@google.com>
+> > 
+> > Fix typos.
 
-> On Fri, 25 Jul 2025 13:34:32 -0700
-> <dan.j.williams@intel.com> wrote:
->=20
-> > > This touches on explainability of AI. Perhaps the metadata would be
-> > > interesting for XAI research... not sure that's enough to be lugging
-> > > those tags in git history.   =20
-> >=20
-> > Agree. The "who to blame" is "Author:". They signed DCO they are
-> > responsible for debugging what went wrong in any stage of the
-> > development of a patch per usual. We have a long history of debugging
-> > tool problems without tracking tool versions in git history. =20
->=20
-> My point of the "who to blame" was not about the author of said code,
-> but if two or more developers are using the same AI agent and then some
-> patter of bugs appears that is only with that AI agent, then we know
-> that the AI agent is likely the culprit and to look for code by other
-> developers that used that same AI agent.
->=20
-> It's a way to track down a bug in a tool that is creating code, not
-> about moving blame from a developer to the agent itself.
+> >  			Where more than one trigger may be specified that are comma deliminated.
+> 			                                                            delimited.
 
-I don't think you shall blame the tool, as much as you you cannot=20
-blame gcc for a badly written code. Also, the same way a kernel
-maintainer needs to know how to produce a good code, someone using
-AI also must learn how to properly use the tool.
+Oof, thanks.  Added to my local branch in case I repost.
 
-After all, at least at the current stage, AI is not intelligent.=20
-Artificial "neurons" just sums up values from its neighbors,
-trying to mimic what we know so far about neurons, which is not
-perfect. On several aspects, it is not much different than doing
-an stochastic analysis that would try to converge into a result.=20
+> > -Note that irq domain lookups must happen in contexts that are
+> > +Note that irq_domain lookups must happen in contexts that are
+> >  compatible with a RCU read-side critical section.
+> 
+>                    an RCU
 
-The entire process resembles the kind of systems that you could
-be analyzed using control theory[1], like root locus analysis. Anyone
-that ever played with that knows that sometimes the system is stable
-enough to converge to the best results, but the convergence is
-affected by poles and zeros: sometimes it might converge to a local
-minimum; sometimes it can end into a zero and diverge, producing
-completely bogus results.
+Thanks.  'git grep -i "\<a rcu"' says there are approximately a
+zillion instances.  I fixed this since it's next to another typo, but
+not sure I have the energy to advocate for all the others :)
 
-On other words, the one that posted a bad patch is the one to
-blame, together with the ones that reviewed it. AI is not a
-replacement for real intelligence.
-
--
-
-Btw, if you want to play with that, I suggest using deepseek.
-Ensure that the DeepThink (R1) is enabled, as it shows how that
-particular model tries to find a convergence.
-
--
-
-Out of curiosity, I asked two AIs for articles relating control theory
-with LLM:
-
-Bhargava, A., Witkowski, C., Looi, S.-Z., & Thomson, M. (2023). What=E2=80=
-=99s the Magic Word? A Control Theory of LLM Prompting. arXiv preprint arXi=
-v:2310.04444.
-URL: https://arxiv.org/abs/2310.04444
-
-Kevian, D., Syed, U., Guo, X., Havens, A., Dullerud, G., Seiler, P., Qin, L=
-., & Hu, B. (2024). Capabilities of Large Language Models in Control Engine=
-ering: A Benchmark Study. arXiv preprint arXiv:2404.03647.
-URL: https://arxiv.org/abs/2404.03647
-
-Maher, G. (2025). LLMPC: Large Language Model Predictive Control. arXiv pre=
-print arXiv:2501.02486.
-URL: https://arxiv.org/abs/2501.02486
-
-Zahedifar, R. et al. "LLM-Agent-Controller: A Universal Multi-Agent Large L=
-anguage Model System as a Control Engineer"
-URL: https://arxiv.org/abs/2505.19567
-
-Zhang, Y. et al. "Unveiling LLM Mechanisms Through Neural ODEs and Control =
-Theory"
-URL: https://arxiv.org/abs/2406.16985
-
-Barfield, Woodrow (2021) "A Systems and Control Theory Approach for Law and=
- Artificial Intelligence: Demystifying the 'Black-Box'"
-URL: https://www.mdpi.com/2571-8800/4/4/41
-
-Zahedifar, R. et al. "LLM-controller: Dynamic robot control adaptation usin=
-g large language models"
-URL: https://www.sciencedirect.com/science/article/abs/pii/S0921889024002975
-
-Bhargava, A. "Toward a Control Theory of LLMs" (Blog Post)
-URL: https://aman-bhargava.com/ai/2023/12/17/towards-a-control-theory-of-LL=
-Ms.html
-
-I didn't read them (yet).
-
-Thanks,
-Mauro
+Bjorn
