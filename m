@@ -1,181 +1,350 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56502235057;
-	Mon, 28 Jul 2025 20:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF3E2E3708;
+	Mon, 28 Jul 2025 21:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753735909; cv=none; b=DVXYuDpTISHtDef54yOidMZkajw7nJ8H30PoIdIXP8YjF0pQPFRq9rXArr1iZ0QO3X6NNqf/+pAbbnX3JpoXqcpYLD4xWyNtQ52qyeV+JiCVhQcIGZG3QNk5lJMgVZgnBGWstfVZWL/w+WQxZoMDeoCeYOmzoABIWs2q/ZueTRw=
+	t=1753737392; cv=none; b=j6hjZC/MA3LCSAPY4M8HXPnw6CjtSpvLDpFkjJcu3g7OLBGCGiqapDbQlphkguSg1MsbEJ2PhFPelyU/39ovdMiTJ3DnqxsWM23g+47Mq//719IXSP1OF1Qaj03gt2Rc5S8e6SkktEl8YK33KovDt1bd+isIiQSTKSvbLofZNUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753735909; c=relaxed/simple;
-	bh=LbU9QNjIJ9o/RrOlnemX+xU1Ff0wX8+W+xvJQ3POAq0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q3pRWQfYgvdqLVILr7wfhMMo5+wP0HfmiD0SrsD/x8qyb8NUvQtKK+kA0a+bwK3rW3dCxj1igzLAIeoatpW3OykTuH0Vh+6UTFxUfXb9xMCnO5WCDb2ZAwuam4tfNSxARPCv6U+x7Mno77KfcmWCaMUmev5YlCScQQeHferrWYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AmuBAeIM; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmuBAeIM"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-60c9d8a169bso7759244a12.1;
-        Mon, 28 Jul 2025 13:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753735905; x=1754340705; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=08lRxFVNZckhlMJF1tDmvh9bauDWalm4tpzq6lHddRU=;
-        b=AmuBAeIMLDUx9eq02HQWDl58LV1z8TJBDQGDDpxgyxJ8h0BnZ5UbhGx0R+uEmcI3JB
-         qxVgeaXd4Djiwy1ginDbGkOVT0BGiclX8IW4PUbZDV1BiC+/tMRGji51sbj6En3mv9qq
-         jrza2cV7CHZ7Ens7oKPD22reHGnsdBe9inIS1Zt6rgv2FtsF6z/iloPEMh2C6ltYNndD
-         oWS92U3GoxawS3zAN2oS4drCxpKQep4Td8GppTUwf8fPVzsdODp7KqjHH685J2m/lVLA
-         SwFulHWeHh2EjADPCZV0oBl2Iux8eeOJnGuwZ+Xsvk3X4vho6b4xFCCMpopOJV7I3jbZ
-         Kmiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753735905; x=1754340705;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=08lRxFVNZckhlMJF1tDmvh9bauDWalm4tpzq6lHddRU=;
-        b=ukF3qQLZfLnk00DSgDk/TdtbYbNdfa8iLA8290OmO019XUSC6nhgJ/MfRa63Bkg/Vn
-         aGRfF6X567Tuc3zwtY/lmMYE70wsp0PSH2NfnPBk/imnYoWl2rThZmZv/RbnNYOROTlv
-         mRYXSfB+HfsVijykEPDlUjoDsjRiMdn2RsgnvpUijED0HlgEHKKS5g5JcFS8UK94H0au
-         h3BoyYU0pZf6Dl2MHKZ7OVXNZCHIQAQ2kcfiP6UnwoF+3PDEuWv6GxJeSWGC0WV5uY4i
-         HG5s5gQr0y0tN0mj1q0HFrLB+z9BsphtPU/2QWo0q0Lbp3uQKHdrhLQb7Xk99BP54SXi
-         S9uA==
-X-Forwarded-Encrypted: i=1; AJvYcCUSObcEwysDhrU1CnFEauwt0JoT19+Y1XaHuk3TgYcD3MQsJncZMR8Qbn8iL5mKPxfgHO8j8E0sHIc=@vger.kernel.org, AJvYcCX+pFF3OAkimakjrFDoxV3bYcpEPi6Cj8TOmPITkJwP04tV9iY/wlnmgVSVLscsQd/Q1bzk42u+H4MgmFw=@vger.kernel.org, AJvYcCX0Od46Q03QJ2Zq8I9dp6C7swKiinVqASkWP93h+4i2f7S63lo7VlKFr+C5CjfqQ+E4IJ4+JpvdrNdrP8yn@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLVo+p1xRZq/N60ZYwuWvGQ8uFvulTPlK9v2IPLyNENRRp17DP
-	pvzXvPbBM6uIS9/NsFbK2/lien6aAB1h932xYGQM1kxNE1833fRCSCz0
-X-Gm-Gg: ASbGnct38jJIzFdRCKnIVIZ9LhAECcdiJKrpCPaPOb5GgePCO48rJ8S1p4y+RQuH978
-	eG1WA5OphkiRYAlLhGN/PePEZ6elAAMrcRn4tGMVqf977IYRoUJ18fSnjGb7/HT890mPNo4in5L
-	q9v6HGzyyXxt1qEYfRVcI282ikBozgPvSJz8hDT8pwlo+mPymfGXZ3tgv/OGXdX9mgB91KKPmX4
-	a2CKSKZxO42oZooy3NJ04weOBJfqQyvuMIhKHUieY18sBtHJehdIRut1Y9NA345ILYQdVwyVsdk
-	1Nx0SasQ9vYCAeuwhei5YFBPz9U6KuR33TIdiZMR7ZlLgbkYH03v6JBQXKfwPp1vWFjqYViAh8q
-	VNYIporKbGKC8ay8qdUQ9G9CzRn90DXeAj1JVnDX4clXnClny/MIPUumi6C806aK/+IwHQw6E//
-	ptaroEgmO9bVIWEAwQNbUpvTk=
-X-Google-Smtp-Source: AGHT+IHQ3CHb4jb+VIygIExljfM3JmMajc+rt5xDIR0ZNFFyFiSDaKq+XZKeWIc95ztLMnrVrUJ7WA==
-X-Received: by 2002:a17:907:a0d1:b0:af6:36d0:d28d with SMTP id a640c23a62f3a-af636d0d31fmr1090744566b.22.1753735905358;
-        Mon, 28 Jul 2025 13:51:45 -0700 (PDT)
-Received: from puma.museclub.art (p200300cf9f013400cc194b80e1760d4a.dip0.t-ipconnect.de. [2003:cf:9f01:3400:cc19:4b80:e176:d4a])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af635ad589csm469943066b.118.2025.07.28.13.51.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jul 2025 13:51:44 -0700 (PDT)
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-To: eugene.shalygin@gmail.com
-Cc: Nicholas Flintham <nick@flinny.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] hwmon: (asus-ec-sensors) add ROG STRIX Z790E GAMING WIFI II
-Date: Mon, 28 Jul 2025 22:49:10 +0200
-Message-ID: <20250728205133.15487-4-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250728205133.15487-1-eugene.shalygin@gmail.com>
-References: <20250728205133.15487-1-eugene.shalygin@gmail.com>
+	s=arc-20240116; t=1753737392; c=relaxed/simple;
+	bh=HFTiZX4uOYzagrAujflQdzvNOpIe9PDy5otb3/CV2pQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=JvwnZftU4JJnfMwoZd6AQ+eZclT761XysWz2Di5OS5HmUrHfDkxuuau7tHwPhTyYosqgCn2JH8r/hCwXwggkM4XMwZTsomFG3UfmrOoYKwgtsrhS4/2eZAstuEjM1PWDer2e+IYC4t/ol30D/DeY+ZSvybc5s9hySkHiFxPnmIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id 64A8D133BE9;
+	Mon, 28 Jul 2025 21:16:22 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id 10D943D;
+	Mon, 28 Jul 2025 21:16:19 +0000 (UTC)
+Date: Mon, 28 Jul 2025 17:15:22 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: LKML <linux-kernel@vger.kernel.org>, Linux trace kernel
+ <linux-trace-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Mark Rutland <mark.rutland@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Namhyung Kim
+ <namhyung@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] Documentation: tracing: Add documentation about eprobes
+Message-ID: <20250728171522.7d54e116@batman.local.home>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 10D943D
+X-Stat-Signature: dcijht1rfbptnqhqc46txghp1upbddg7
+X-Rspamd-Server: rspamout06
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18moGIKDlH+ttBoBSMHyG23VNuu/EKAoZI=
+X-HE-Tag: 1753737379-61758
+X-HE-Meta: U2FsdGVkX19M4g31eFgM8oeMHXUdaUHokp4HhWGHwlUuzKbcoi2ynoY0z48T1xrOcBlbR+3wbSdyns28XpAesaKpVacYfIaZ62gO3HWJE58mDBlgSQtpRgHHtIWGgRuX6JhsFhu0j7T/FvO8jznoEjdAcfxaDQRDYtKuhX5UnTnVvQDQzT7LiTydvecMvisB4QJcwL0EQNaasSwGE3eD8h71jOSEl1Tw2euDhQ78KzQMnAREzpxGhGyzNeH9dB7Stj9RlC5dRefTbmJj08QzbLRlltkTscHsikeeyQzX0sFt2t9OhkBzSY3c45ID+/zlf2IQt0bx7aXp1cMArzebfvyk+RiVMllPdxrccyOI5mOpa5PSWh4y6qZc9fgeyZnq
 
-From: Nicholas Flintham <nick@flinny.org>
+From: Steven Rostedt <rostedt@goodmis.org>
 
-Adds support for the ROG STRIX Z790E GAMING WIFI II board
+Eprobes was added back in 5.15, but was never documented. It became a
+"secret" interface even though it has been a topic of several
+presentations. For some reason, when eprobes was added, documenting it
+never became a priority, until now.
 
-Signed-off-by: Nicholas Flintham <nick@flinny.org>
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 ---
- Documentation/hwmon/asus_ec_sensors.rst |  1 +
- drivers/hwmon/asus-ec-sensors.c         | 25 ++++++++++++++++++++++++-
- 2 files changed, 25 insertions(+), 1 deletion(-)
+ Documentation/trace/eprobes.rst | 268 ++++++++++++++++++++++++++++++++
+ Documentation/trace/index.rst   |   1 +
+ 2 files changed, 269 insertions(+)
+ create mode 100644 Documentation/trace/eprobes.rst
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 1e8274dba35f..da9a00111d1c 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -34,6 +34,7 @@ Supported boards:
-  * ROG STRIX Z390-F GAMING
-  * ROG STRIX Z490-F GAMING
-  * ROG STRIX Z690-A GAMING WIFI D4
-+ * ROG STRIX Z790-E GAMING WIFI II
-  * ROG ZENITH II EXTREME
-  * ROG ZENITH II EXTREME ALPHA
-  * TUF GAMING X670E PLUS
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index 0b19d148f65d..b9543eda2522 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -56,6 +56,8 @@ static char *mutex_path_override;
- 
- #define ASUS_HW_ACCESS_MUTEX_RMTW_ASMX	"\\RMTW.ASMX"
- 
-+#define ASUS_HW_ACCESS_MUTEX_SB_PC00_LPCB_SIO1_MUT0 "\\_SB.PC00.LPCB.SIO1.MUT0"
+diff --git a/Documentation/trace/eprobes.rst b/Documentation/trace/eprobes.rst
+new file mode 100644
+index 000000000000..c7aa7c867e9e
+--- /dev/null
++++ b/Documentation/trace/eprobes.rst
+@@ -0,0 +1,268 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- #define ASUS_HW_ACCESS_MUTEX_SB_PCI0_SBRG_SIO1_MUT0 "\\_SB_.PCI0.SBRG.SIO1.MUT0"
- 
- #define MAX_IDENTICAL_BOARD_VARIATIONS	3
-@@ -168,7 +170,8 @@ enum board_family {
- 	family_amd_800_series,
- 	family_intel_300_series,
- 	family_intel_400_series,
--	family_intel_600_series
-+	family_intel_600_series,
-+	family_intel_700_series
- };
- 
- /*
-@@ -323,6 +326,14 @@ static const struct ec_sensor_info sensors_family_intel_600[] = {
- 		EC_SENSOR("Water_Block_In", hwmon_temp, 1, 0x01, 0x02),
- };
- 
-+static const struct ec_sensor_info sensors_family_intel_700[] = {
-+	[ec_sensor_temp_t_sensor] =
-+		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x01, 0x09),
-+	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x33),
-+	[ec_sensor_fan_cpu_opt] =
-+		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
-+};
++=====================
++Eprobe - Event probes
++=====================
 +
- /* Shortcuts for common combinations */
- #define SENSOR_SET_TEMP_CHIPSET_CPU_MB                                         \
- 	(SENSOR_TEMP_CHIPSET | SENSOR_TEMP_CPU | SENSOR_TEMP_MB)
-@@ -568,6 +579,13 @@ static const struct ec_board_info board_info_strix_z690_a_gaming_wifi_d4 = {
- 	.family = family_intel_600_series,
- };
- 
-+static const struct ec_board_info board_info_strix_z790_e_gaming_wifi_ii = {
-+	.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
-+		SENSOR_FAN_CPU_OPT,
-+	.mutex_path = ASUS_HW_ACCESS_MUTEX_SB_PC00_LPCB_SIO1_MUT0,
-+	.family = family_intel_700_series,
-+};
++:Author: Steven Rostedt <rostedt@goodmis.org>
 +
- static const struct ec_board_info board_info_zenith_ii_extreme = {
- 	.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
- 		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
-@@ -660,6 +678,8 @@ static const struct dmi_system_id dmi_table[] = {
- 					&board_info_strix_z490_f_gaming),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z690-A GAMING WIFI D4",
- 					&board_info_strix_z690_a_gaming_wifi_d4),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z790-E GAMING WIFI II",
-+					&board_info_strix_z790_e_gaming_wifi_ii),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG ZENITH II EXTREME",
- 					&board_info_zenith_ii_extreme),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG ZENITH II EXTREME ALPHA",
-@@ -1142,6 +1162,9 @@ static int asus_ec_probe(struct platform_device *pdev)
- 	case family_intel_600_series:
- 		ec_data->sensors_info = sensors_family_intel_600;
- 		break;
-+	case family_intel_700_series:
-+		ec_data->sensors_info = sensors_family_intel_700;
-+		break;
- 	default:
- 		dev_err(dev, "Unknown board family: %d",
- 			ec_data->board_info->family);
++- Written for v6.17
++
++Overview
++========
++
++Eprobes are dynamic events that are placed on existing events to eiter
++dereference a field that is a pointer, or simply to limit what fields get
++recorded in the trace event.
++
++Eprobes depend on kprobe events so to enable this feature, build your kernel
++with CONFIG_KPROBE_EVENTS=y.
++
++Eprobes are created via the /sys/kernel/tracing/dynamic_events file.
++
++Synopsis of eprobe_events
++-------------------------
++::
++
++  e[:[EGRP/][EEVENT]] GRP.EVENT [FETCHARGS]	: Set a probe
++  -:[EGRP/][EEVENT]				: Clear a probe
++
++ EGRP		: Group name of the new event. If omitted, use "eprobes" for it.
++ EEVENT		: Event name. If omitted, the event name is generated and will
++		  be the same event name as the event it attached to.
++ GRP		: Group name of the event to attach to.
++ EVENT		: Event name of the event to attach to.
++
++ FETCHARGS	: Arguments. Each probe can have up to 128 args.
++  $FIELD	: Fetch the value of the event field called FIELD.
++  @ADDR		: Fetch memory at ADDR (ADDR should be in kernel)
++  @SYM[+|-offs]	: Fetch memory at SYM +|- offs (SYM should be a data symbol)
++  $comm		: Fetch current task comm.
++  +|-[u]OFFS(FETCHARG) : Fetch memory at FETCHARG +|- OFFS address.(\*3)(\*4)
++  \IMM		: Store an immediate value to the argument.
++  NAME=FETCHARG : Set NAME as the argument name of FETCHARG.
++  FETCHARG:TYPE : Set TYPE as the type of FETCHARG. Currently, basic types
++		  (u8/u16/u32/u64/s8/s16/s32/s64), hexadecimal types
++		  (x8/x16/x32/x64), VFS layer common type(%pd/%pD), "char",
++                  "string", "ustring", "symbol", "symstr" and bitfield are
++                  supported.
++
++Types
++-----
++The FETCHARGS above is very similar to the kprobe events as described in 
++Documentation/trace/kprobetrace.rst.
++
++The difference between eprobes and kprobes FETCHARGS is that eprobes has a
++$FIELD command that returns the content of the event field of the event
++that is attached. Eprobes do not have access to registers, stacks and function
++arguments that kprobes has.
++
++If a field argument is a pointer, it may be dereferenced just like a memory
++address using the FETCHARGS syntax.
++
++
++Attaching to dynamic events
++---------------------------
++
++Note that eprobes may attach to dynamic events as well as to normal events. It
++may attach to a kprobe event, a synthetic event or a fprobe event. This is
++useful if the type of a field needs to be changed. See Example 2 below.
++
++Usage examples
++==============
++
++Example 1
++---------
++
++The basic usage of eprobes is to limit the data that is being recorded into
++the tracing buffer. For example, a common event to trace is the sched_switch
++trace event. That has a format of::
++
++	field:unsigned short common_type;	offset:0;	size:2;	signed:0;
++	field:unsigned char common_flags;	offset:2;	size:1;	signed:0;
++	field:unsigned char common_preempt_count;	offset:3;	size:1;	signed:0;
++	field:int common_pid;	offset:4;	size:4;	signed:1;
++
++	field:char prev_comm[16];	offset:8;	size:16;	signed:0;
++	field:pid_t prev_pid;	offset:24;	size:4;	signed:1;
++	field:int prev_prio;	offset:28;	size:4;	signed:1;
++	field:long prev_state;	offset:32;	size:8;	signed:1;
++	field:char next_comm[16];	offset:40;	size:16;	signed:0;
++	field:pid_t next_pid;	offset:56;	size:4;	signed:1;
++	field:int next_prio;	offset:60;	size:4;	signed:1;
++
++The first four fields are common to all events and can not be limited. But the
++rest of the event has 60 bytes of information. It records the names of the
++previous and next tasks being scheduled out and in, as well as their pids and
++priorities. It also records the state of the previous task. If only the pids
++of the tasks are of interest, why waste the ring buffer with all the other
++fields?
++
++An eprobe can limit what gets recorded. Note, it does not help in performance,
++as all the fields are recorded in a temporary buffer to process the eprobe.
++::
++
++ # echo 'e:sched/switch sched.sched_switch prev=$prev_pid:u32 next=$next_pid:u32' >> /sys/kernel/tracing/dynamic_events
++ # echo 1 > /sys/kernel/tracing/events/sched/switch/enable
++ # cat /sys/kernel/tracing/trace
++
++ # tracer: nop
++ #
++ # entries-in-buffer/entries-written: 2721/2721   #P:8
++ #
++ #                                _-----=> irqs-off/BH-disabled
++ #                               / _----=> need-resched
++ #                              | / _---=> hardirq/softirq
++ #                              || / _--=> preempt-depth
++ #                              ||| / _-=> migrate-disable
++ #                              |||| /     delay
++ #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
++ #              | |         |   |||||     |         |
++     sshd-session-1082    [004] d..4.  5041.239906: switch: (sched.sched_switch) prev=1082 next=0
++             bash-1085    [001] d..4.  5041.240198: switch: (sched.sched_switch) prev=1085 next=141
++    kworker/u34:5-141     [001] d..4.  5041.240259: switch: (sched.sched_switch) prev=141 next=1085
++           <idle>-0       [004] d..4.  5041.240354: switch: (sched.sched_switch) prev=0 next=1082
++             bash-1085    [001] d..4.  5041.240385: switch: (sched.sched_switch) prev=1085 next=141
++    kworker/u34:5-141     [001] d..4.  5041.240410: switch: (sched.sched_switch) prev=141 next=1085
++             bash-1085    [001] d..4.  5041.240478: switch: (sched.sched_switch) prev=1085 next=0
++     sshd-session-1082    [004] d..4.  5041.240526: switch: (sched.sched_switch) prev=1082 next=0
++           <idle>-0       [001] d..4.  5041.247524: switch: (sched.sched_switch) prev=0 next=90
++           <idle>-0       [002] d..4.  5041.247545: switch: (sched.sched_switch) prev=0 next=16
++      kworker/1:1-90      [001] d..4.  5041.247580: switch: (sched.sched_switch) prev=90 next=0
++        rcu_sched-16      [002] d..4.  5041.247591: switch: (sched.sched_switch) prev=16 next=0
++           <idle>-0       [002] d..4.  5041.257536: switch: (sched.sched_switch) prev=0 next=16
++        rcu_sched-16      [002] d..4.  5041.257573: switch: (sched.sched_switch) prev=16 next=0
++ 
++Note, without adding the "u32" after the prev_pid and next_pid, the values
++would default showing in hexadecimal.
++
++Example 2
++---------
++
++If syscall events are not enabled but the raw syscall are (systemcall
++events are not normal events, but are created from the raw_syscall events
++within the kernel). In order to trace the openat system call, one can create
++an event probe on top of the raw_syscall event:
++::
++
++ # cd /sys/kernel/tracing
++ # cat events/raw_syscalls/sys_enter/format
++ name: sys_enter
++ ID: 395
++ format:
++	field:unsigned short common_type;	offset:0;	size:2;	signed:0;
++	field:unsigned char common_flags;	offset:2;	size:1;	signed:0;
++	field:unsigned char common_preempt_count;	offset:3;	size:1;	signed:0;
++	field:int common_pid;	offset:4;	size:4;	signed:1;
++
++	field:long id;	offset:8;	size:8;	signed:1;
++	field:unsigned long args[6];	offset:16;	size:48;	signed:0;
++
++ print fmt: "NR %ld (%lx, %lx, %lx, %lx, %lx, %lx)", REC->id, REC->args[0], REC->args[1], REC->args[2], REC->args[3], REC->args[4], REC->args[5]
++
++From the source code, the sys_openat() has:
++::
++
++ int sys_openat(int dirfd, const char *path, int flags, mode_t mode)
++ {
++	return my_syscall4(__NR_openat, dirfd, path, flags, mode);
++ }
++
++The path is the second parameter, and that is what is wanted.
++::
++
++ # echo 'e:openat raw_syscalls.sys_enter nr=$id filename=+8($args):ustring' >> dynamic_events
++
++This is being run on x86_64 where the word size is 8 bytes and the openat
++systemcall __NR_openat is set at 257.
++::
++
++ # echo 'nr == 257' > events/eprobes/openat/filter
++
++Now enable the event and look at the trace.
++::
++
++ # echo 1 > events/eprobes/openat/enable
++ # cat trace
++
++ # tracer: nop
++ #
++ # entries-in-buffer/entries-written: 4/4   #P:8
++ #
++ #                                _-----=> irqs-off/BH-disabled
++ #                               / _----=> need-resched
++ #                              | / _---=> hardirq/softirq
++ #                              || / _--=> preempt-depth
++ #                              ||| / _-=> migrate-disable
++ #                              |||| /     delay
++ #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
++ #              | |         |   |||||     |         |
++              cat-1298    [003] ...2.  2060.875970: openat: (raw_syscalls.sys_enter) nr=0x101 filename=(fault)
++              cat-1298    [003] ...2.  2060.876197: openat: (raw_syscalls.sys_enter) nr=0x101 filename=(fault)
++              cat-1298    [003] ...2.  2060.879126: openat: (raw_syscalls.sys_enter) nr=0x101 filename=(fault)
++              cat-1298    [003] ...2.  2060.879639: openat: (raw_syscalls.sys_enter) nr=0x101 filename=(fault)
++
++The filename shows "(fault)". This is likely because the filename has not been
++pulled into memory yet and currently trace events cannot fault in memory that
++is not present. When a eprobe tries to read memory that has not been faulted
++in yet, it will show the "(fault)" text.
++
++To get around this, as the kernel will likely pull in this filename and make
++it present, attaching it to a synthetic event that can pass the address of the
++filename from the entry of the event to the end of the event, this can be used
++to show the filename when the system call returns.
++
++Remove the old eprobe::
++
++ # echo 1 > events/eprobes/openat/enable
++ # echo '-:openat' >> dynamic_events
++
++This time make an eprobe where the address of the filename is saved::
++
++ # echo 'e:openat_start raw_syscalls.sys_enter nr=$id filename=+8($args):x64' >> dynamic_events
++
++Create a synthetic event that passes the address of the filename to the
++end of the event::
++
++ # echo 's:filename u64 file' >> dynamic_events
++ # echo 'hist:keys=common_pid:f=filename if nr == 257' > events/eprobes/openat_start/trigger
++ # echo 'hist:keys=common_pid:file=$f:onmatch(eprobes.openat_start).trace(filename,$file) if id == 257' > events/raw_syscalls/sys_exit/trigger
++
++Now that the address of the filename has been passed to the end of the
++systemcall, create another eprobe to attach to the exit event to show the
++string::
++
++ # echo 'e:openat synthetic.filename filename=+0($file):ustring' >> dynamic_events
++ # echo 1 > events/eprobes/openat/enable
++ # cat trace
++
++ # tracer: nop
++ #
++ # entries-in-buffer/entries-written: 4/4   #P:8
++ #
++ #                                _-----=> irqs-off/BH-disabled
++ #                               / _----=> need-resched
++ #                              | / _---=> hardirq/softirq
++ #                              || / _--=> preempt-depth
++ #                              ||| / _-=> migrate-disable
++ #                              |||| /     delay
++ #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
++ #              | |         |   |||||     |         |
++              cat-1331    [001] ...5.  2944.787977: openat: (synthetic.filename) filename="/etc/ld.so.cache"
++              cat-1331    [001] ...5.  2944.788480: openat: (synthetic.filename) filename="/lib/x86_64-linux-gnu/libc.so.6"
++              cat-1331    [001] ...5.  2944.793426: openat: (synthetic.filename) filename="/usr/lib/locale/locale-archive"
++              cat-1331    [001] ...5.  2944.831362: openat: (synthetic.filename) filename="trace"
++
++Example 3
++---------
++
++If syscall trace events are available, the above would not need the first
++eprobe, but it would still need the last one::
++
++ # echo 's:filename u64 file' >> dynamic_events
++ # echo 'hist:keys=common_pid:f=filename' > events/syscalls/sys_enter_openat/trigger
++ # echo 'hist:keys=common_pid:file=$f:onmatch(syscalls.sys_enter_openat).trace(filename,$file)' > events/syscalls/sys_exit_openat/trigger
++ # echo 'e:openat synthetic.filename filename=+0($file):ustring' >> dynamic_events
++ # echo 1 > events/eprobes/openat/enable
++
++And this would produce the same result as Example 2.
+diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+index cc1dc5a087e8..812d9a46dd94 100644
+--- a/Documentation/trace/index.rst
++++ b/Documentation/trace/index.rst
+@@ -37,6 +37,7 @@ the Linux kernel.
+    kprobetrace
+    fprobetrace
+    fprobe
++   eprobes
+    ring-buffer-design
+ 
+ Event Tracing and Analysis
 -- 
-2.50.1
+2.47.2
 
