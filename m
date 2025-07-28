@@ -1,124 +1,178 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E4F28373;
-	Mon, 28 Jul 2025 14:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A2826772C;
+	Mon, 28 Jul 2025 14:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753711776; cv=none; b=spQH53B9XfDFcgZ2YZZmxz+KIGNVghIIbx+b7V87hRNbgEQVhkG/KxP++mlguAm+Tk6v857vV8EEbY45E0zt4ZZ24aPcg33R/0KZ46RjTU8GQiWZR39XNLNpLbiHMESO0/p+n4UtLAuY8CkEQ3gPW2W+AOG8bnv3NxouL48qiEU=
+	t=1753714477; cv=none; b=hKz6HirDB1sG5JahJj/ho1a6/B3Ot6AO0cAbS45uIzvbV5uXRVErKRynZdOTj1MLZyCK+oifuAjI0IwaVL3DN6K4ukKOS8GEAArRHfJPuSgZKPzuOhx6XqzIg/nU8B44oKT/bhaaeZ9rtKW0SpXOMw5agU3s7vqQ56rSyZsK3VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753711776; c=relaxed/simple;
-	bh=1YV4mogc85D1EGuTrpnSP5GZuy9mVT2Bq4ILiO9Pzes=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j2DaQCj/ydmrOQMLHpo34jG7f8znkCbO9mCqKQBIKQaNtPp5B3RaWm10cfwVTfopnO0TdwPZ7qLbwoCZd+wzlxxG7veb0PnJuDtj2BFWpfD0KD54E4BeSiDNvFd6LD02xvNlLt4wvC30XLAWUmrElPfluou2kJJCF95kJfEWPk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4QBF1X4; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753714477; c=relaxed/simple;
+	bh=LcqYflMiuNR1BpY/hEp2KEpN+DgVGr4KsB6ZUt4m8+s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Vn7YQPDwrBz6ASgZyb0/euBtKLIB9Wsqc1wSVLKoIjqVjA5zgjO+NLFk7zfvgn+QCE8ZWkW8qYVjlt0ZErWONfjcQCc92/xN8GkDPH+9EdnzVwWgyjB72extsqsITr4ma0E1Cj4poANIvjTUmE23d/B8NGm8ZkoySqZM/ykQXPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eq24yJpo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4QBF1X4"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4563cfac2d2so47562295e9.3;
-        Mon, 28 Jul 2025 07:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753711773; x=1754316573; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AoVJp+PzlmK65Fu6OBPPC9Y7UqzBBQP2JVcFxv3Q7YM=;
-        b=J4QBF1X4EQw8Z9S3968GiTSxR1tPcYuXMhCQQ0ihVle0//Zcg478/Le66xSnVpFtom
-         kJ/Mpqk/a+x8W9Xl36j0snQ6bow9UgjnP8V1aq/XawFfVADFp541EwINXwBIp7ncGT+w
-         wuF3H+e8ebvp9fKZvBlWtGDlcc3Ja1CoTCkm9L9S0Qgj0GnSEmuOT7xo0tWX1G4TZUxk
-         VMzfCChZPLG08qZW4kda7lM7f0CFhaX5YuJhun2Fz8C6Kd4oLbditJ2MqXqC95tFRKeN
-         9pxJ8dIapvhMxnHpANmXjpj+Y2KF2wa08KWS45gu8ohXBjmIPoTifVGfKEjA8SoIfzdR
-         U+Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753711773; x=1754316573;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AoVJp+PzlmK65Fu6OBPPC9Y7UqzBBQP2JVcFxv3Q7YM=;
-        b=DvY1x6EQ2tqKi6BwEAUSkxCCQHmP2MVgE2oiMYo/DPJtOoHu2WoDgNlkaebhZeBNhO
-         OCOLiYeNPMq8Sa9nbyxMtZ9BeKUGtHtAvd6oH2RhV0bUN9H70XNVeR831JvoLEfYkgOx
-         8qHhAqrzXlC/BlImYgQp/IrCEzaF1pC0KiPFDyDzN1a2fcU+3b50G4y20IloqWETyJCc
-         X5M9aCTwAcyWvQLes/GqqyQvgKTU/VbnrTxz3+43x8Zz8jMfgi4u5OfFfhCvrDmGcrZ6
-         mPKI73XoEev8uB/ZkH4K8asSCmsTusYplbNTzVZmcYzjWrxZ/4Dt2Uk0vZgp2ETvB7cl
-         Y+kg==
-X-Forwarded-Encrypted: i=1; AJvYcCVeyzSpB6Nhlfu91uwUeWvLDtcq83TP5HQ5h3cMm/S86r+6J+7aU1hz4LJr+nUN/6sEAF+JsVbg2Ps=@vger.kernel.org, AJvYcCVrlmEXODrYbdU26o1F0Bb6unswfefokh45/00dwkF495H1wcsNecbZwTQ48N/yQ4DAbG/ckr+Y3cfUcoNJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhDDNShqTFLnzKMqemZdkHZw9NPfz4lRprzttXKu/ch/hMIz5T
-	Qc8w8NYuMgjbndH51Q/Kq2peumM5/HKPWqABwN2v+y/+7fPHoB5cMcdN
-X-Gm-Gg: ASbGncthFKttq0lVNduY0mtuw/1ta67YZ5ayF1WS29wWojo2GHCUDOLekDB77qhmU7E
-	RpAmYCr2MYYYYxEZvyFC6zlDQP3lMAR7WRlu4EtTcHEU4Of9KDpGfkT3WoZJEItSNqB5BFM+5kq
-	hwV+Q8SwG8F/clqrdiY6Za10AbJPgkubfu3TYEQcbl7NUFoSdYW6oGRIgTn4oJNZwSeAgFwiufl
-	WfsZ3K/9brs6opbQfPHhT3nTiEY8STtZ4FHnjZtmOO5gsWZ1PZC+KWXjiC4eclpWsClaKPWMQ0V
-	3uZd16vw2PTRYFbwtIFEE+ZbcwxLJz6nGmjwcDArqXBrEGT41f+BrEEkvLQDjzBMY7yhPWgLMWs
-	5rGMXX9iuLg69YWsPd3p+3nack/z6I0qXoWCLsF5SHVHoy1muwSc94+vy3vpK2BDcMxPZ4h5k5P
-	VsEWyhOvIwdg==
-X-Google-Smtp-Source: AGHT+IG1VpKctfAXo/Ciiy+9lJwSYCznXMT+Foj1yo/y2TScu5H84EeoflD48I1yPNL3rv/8mp6TFA==
-X-Received: by 2002:a05:600c:8218:b0:456:1f09:6846 with SMTP id 5b1f17b1804b1-4587655b244mr96594925e9.25.1753711772828;
-        Mon, 28 Jul 2025 07:09:32 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:14f1:c189:9748:5e5a? ([2620:10d:c092:500::7:c75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4587054f338sm153778935e9.13.2025.07.28.07.09.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Jul 2025 07:09:32 -0700 (PDT)
-Message-ID: <e91c3b2c-b3b1-4271-860b-89c8e0d2e2e9@gmail.com>
-Date: Mon, 28 Jul 2025 15:09:28 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eq24yJpo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FDB1C4CEE7;
+	Mon, 28 Jul 2025 14:54:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753714477;
+	bh=LcqYflMiuNR1BpY/hEp2KEpN+DgVGr4KsB6ZUt4m8+s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=eq24yJpoEdA4ZgGZrIOuuyPJI9VpBHVGOGzHavDQxrWEyJtse04fO2UGWBqA5pJnR
+	 3w08tkoTYqtuX5L3WFJZErHXjzFvwbz9u2mYvAVikpDNoF80vyYC/+sRl0FbmrVxf3
+	 TN6MDodlxUVOknhgxmMXJ8UAst2vonqtam7bMGiY40OhZN1mKG6t/tefHE5fnhyULE
+	 kiTKpKzH8Aj4Z0b8CrxqBxJtuNkLtbTsW+i20LWMgfgSNKl41bRk6uv3pD2ICutOsl
+	 Wz3WbDLpTH3cYUBcnGFdWFaEr0O9dzrFF0yzQEviQGwKLP8GS5s8sSsK0GrHAfclUw
+	 Qk5t2DSsAtAfA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1ugPFK-00000000G5Q-2Z8y;
+	Mon, 28 Jul 2025 16:54:34 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] docs: kernel-doc: avoid script crash on ancient Python
+Date: Mon, 28 Jul 2025 16:54:28 +0200
+Message-ID: <dc75423e817f92cc6b8369892ee79166c2fb5ecc.1753713955.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1753713955.git.mchehab+huawei@kernel.org>
+References: <cover.1753713955.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] mm/huge_memory: convert "tva_flags" to "enum
- tva_type" for thp_vma_allowable_order*()
-To: David Hildenbrand <david@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
- shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
- Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20250725162258.1043176-1-usamaarif642@gmail.com>
- <20250725162258.1043176-3-usamaarif642@gmail.com>
- <e83ac8e3-06fa-4ccb-95e5-4f95ba5aba7b@redhat.com>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <e83ac8e3-06fa-4ccb-95e5-4f95ba5aba7b@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
+While we do need at least 3.6 for kernel-doc to work, and at least
+3.7 for it to output functions and structs with parameters at the
+right order, let the python binary be compatible with legacy
+versions.
 
+The rationale is that the Kernel build nowadays calls kernel-doc
+with -none on some places. Better not to bail out when older
+versions are found.
 
-On 28/07/2025 14:28, David Hildenbrand wrote:
-> On 25.07.25 18:22, Usama Arif wrote:
->> From: David Hildenbrand <david@redhat.com>
->>
->> Describing the context through a type is much clearer, and good enough
->> for our case.
->>
->> We have:
->> * smaps handling for showing "THPeligible"
->> * Pagefault handling
->> * khugepaged handling
->> * Forced collapse handling: primarily MADV_COLLAPSE, but one other odd case
->>
->> Really, we want to ignore sysfs only when we are forcing a collapse
->> through MADV_COLLAPSE, otherwise we want to enforce.
->>
->> With this change, we immediately know if we are in the forced collapse
->> case, which will be valuable next.
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> Acked-by: Usama Arif <usamaarif642@gmail.com>
-> 
-> Nit: if you forward patches untouched, make sure to add your SOB as well.
-> 
+With that, potentially this will run with python 2.7 and 3.2+,
+according with vermin:
 
-Thanks!
+	$ vermin --no-tips -v ./scripts/kernel-doc
+	Detecting python files..
+	Analyzing using 24 processes..
+	2.7, 3.2     /new_devel/v4l/docs/scripts/kernel-doc
+	Minimum required versions: 2.7, 3.2
 
-Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+I actually tested it with versions 2.7 and 3.4 using anaconda
+(version 3 < 3.4 was not available there). For both, the
+script didn't crash and emitted the right warning:
 
-Just adding above incase (hopefully) this revision gets into mm-new.
-If it doesn't, I will add the sign off in the next revision.
+	$ conda create -n py27 python=2.7
+	$ conda activate py27
+	$ python ./scripts/kernel-doc --none include/media
+	Error: Python 3.6 or later is required by kernel-doc
+	$ conda deactivate
+
+	$ conda create -n py34 python=3.4
+	$ conda activate py34
+	python --version
+        Python 3.4.5
+        $ python ./scripts/kernel-doc --none include/media
+	Error: Python 3.6 or later is required by kernel-doc
+	$ conda deactivate
+
+	$ python --version
+	Python 3.13.5
+        $ python ./scripts/kernel-doc --none include/media
+	(no warnings and script ran properly)
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/kernel-doc.py | 37 ++++++++++++++++++++++++++-----------
+ 1 file changed, 26 insertions(+), 11 deletions(-)
+
+diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
+index fc3d46ef519f..d4f9188d6a19 100755
+--- a/scripts/kernel-doc.py
++++ b/scripts/kernel-doc.py
+@@ -1,9 +1,19 @@
+-#!/usr/bin/env python3
++#!/usr/bin/env python
++# -*- coding: utf-8 -*-
+ # SPDX-License-Identifier: GPL-2.0
+ # Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
+ #
+-# pylint: disable=C0103,R0915
+-#
++# pylint: disable=C0103,R0912,R0914,R0915
++
++# NOTE: While kernel-doc requires at least version 3.6 to run, the
++#       command line explicitly supports Python 2,7 and 3.4+.
++#       The rationale is that it shall fail gracefully during Kernel
++#       compilation with older Kernel versions. Due to that:
++#       - encoding line is needed here;
++#       - no f-strings can be used on this file.
++#       - the libraries that require newer versions can only be included
++#         after Python version is checked.
++
+ # Converted from the kernel-doc script originally written in Perl
+ # under GPLv2, copyrighted since 1998 by the following authors:
+ #
+@@ -107,9 +117,6 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
+ 
+ sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
+ 
+-from kdoc_files import KernelFiles                      # pylint: disable=C0413
+-from kdoc_output import RestFormat, ManFormat           # pylint: disable=C0413
+-
+ DESC = """
+ Read C language source or header FILEs, extract embedded documentation comments,
+ and print formatted documentation to standard output.
+@@ -273,14 +280,22 @@ def main():
+ 
+     python_ver = sys.version_info[:2]
+     if python_ver < (3,6):
+-        logger.warning("Python 3.6 or later is required by kernel-doc")
++        # Depending on Kernel configuration, kernel-doc --none is called at
++        # build time. As we don't want to break compilation due to the
++        # usage of an old Python version, return 0 here.
++        if args.none:
++            logger.error("Python 3.6 or later is required by kernel-doc. skipping checks")
++            sys.exit(0)
+ 
+-        # Return 0 here to avoid breaking compilation
+-        sys.exit(0)
++        sys.exit("Python 3.6 or later is required by kernel-doc. Aborting.")
+ 
+     if python_ver < (3,7):
+         logger.warning("Python 3.7 or later is required for correct results")
+ 
++    # Import kernel-doc libraries only after checking Python version
++    from kdoc_files import KernelFiles                  # pylint: disable=C0415
++    from kdoc_output import RestFormat, ManFormat       # pylint: disable=C0415
++
+     if args.man:
+         out_style = ManFormat(modulename=args.modulename)
+     elif args.none:
+@@ -308,11 +323,11 @@ def main():
+         sys.exit(0)
+ 
+     if args.werror:
+-        print(f"{error_count} warnings as errors")
++        print("%s warnings as errors" % error_count)    # pylint: disable=C0209
+         sys.exit(error_count)
+ 
+     if args.verbose:
+-        print(f"{error_count} errors")
++        print("%s errors" % error_count)                # pylint: disable=C0209
+ 
+     if args.none:
+         sys.exit(0)
+-- 
+2.49.0
+
