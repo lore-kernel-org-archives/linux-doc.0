@@ -1,249 +1,408 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F26524DD01;
-	Mon, 28 Jul 2025 13:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753709336; cv=fail; b=DsYQx7clxVsFv4I5N1BL5WJ8+poUsSNpNm5yQevRo3J/DsqRGiONxw1uMA5FEqO3oxngtFpaqlbMic/k/MvsrBLt1mOuQUS1xZTIu5u75JUAmXS4QrdKnynG0OtBU499j9g9EhrkZNUpFfg5aJ+Hc6tDOG2AYnlf/RjzUpgUlEk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753709336; c=relaxed/simple;
-	bh=ygQ6gyRBzjDQkxUCU638gnqTyQ9/29e0Y/SKpc6SBzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=oaFz58Z5nOeeLFsSEH2aJFUFvgYIl3wFRVeP8QSkbPBHlOnUuMhFHxyFNL83i0Ys/zozh2RwWwtRePkghZT4NrRgifw1OdZODs7ZTZ73mBuRNdlf/O0q9H17sIIyWAOXq0ma51jChIi90rnY6mwmgA3OVeiwr8fiHhQ6TNBHR1k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qD4bnXt6; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=CfMzBf8l; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAD71E379B;
+	Mon, 28 Jul 2025 13:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753709766; cv=none; b=GedvXz7qtJQjLKnUrarNenwf6izaLerRffv4XJ74lPKX84IsoA2eeB6fFiRkTdGZWeSyhJDQu1pyAwFGsOSG6tkp/q35Y3s99Hg1PckW7omV9L6jHsR4fHnkIRv+u5BdQR8sylcxHu6ySNmDHtC5xclqLtKGS+qN4EMjLZTMk/0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753709766; c=relaxed/simple;
+	bh=cKMH/l5NO1e8a5z2Dh9mCC8wzf97yxMzULdkOpRx5tM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pwBEuXARutDDUsB1sCsB0UQxghkBA6gBojCitSbVBXLlUNpuneS0VcnxFzh7cxkBNH+UnyeTZuaKU2bIuURTqOpKstGgESl7BEf90i/3mgunEIa1ov5JWvcSyiHY2kODBu54cjixJC2BO31vOXFdQLagWviQM9BpGr3GWFN0TRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lWi3zelG; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qD4bnXt6";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="CfMzBf8l"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56SDCUGj014199;
-	Mon, 28 Jul 2025 13:28:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=ygQ6gyRBzjDQkxUCU6
-	38gnqTyQ9/29e0Y/SKpc6SBzw=; b=qD4bnXt6QXJoqmNAh5WyUPN0zimyOib2QP
-	rgMUF5Hqs4d7+7qEt65p5R7wlVQUeWBtbjh9+pfAvu4DiRwkrdF0P6kfUy8VDoNt
-	pbM4MnjjNUtooBBARX8Pch6epS1fMMARchoMez47y6WdUH3RwvjqtSgehSeBrNh+
-	MMRF7Lk2LFIVsupSHE3C3osI640OLGyG4egZhw5nduxloTT+hebMA0YgyVgZiWx6
-	ElYeO43wFXiWEukL+9cEDpJppVARdWK4/2BjbWmL1wKMSrrK3g3l+nTCYZcBIMXG
-	foN3yvHu8asA/8zTaMY//76fTsXTpid8o8oZh2YKz0exkmmEn6JA==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 484q4e3tda-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Jul 2025 13:28:40 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56SDObO0011238;
-	Mon, 28 Jul 2025 13:28:38 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 484nf8b2yq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Jul 2025 13:28:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SdnVvUUDxKpQL2w3+ywZDF5t98g6FAldA83fcMQmxSmDtOwdWJP1YutL8M7NT0s+rqk8tuXsWBMZhnvMWpCzbJCxR8pQMbj0VgwLZBH9q+9zLVPCJFDXwNK1Zt9Xan/7va1BNmOz5CRBRn1r/NMtwAQV/9s59eeZafbQ4noPbDMrkg7RbbTvTNwu0uWrNAbZnEeGS6nmPQ+G5VOqhWDP+zXJovzOPkpndzSNyFzjCwmnVwOr8cFrYyKgSeM1W6Y/htINBZDsNOByggXpUR26C/mpkBonqBdJaTH1eFCzSceheLAhmvxlXEmHqUEzwYfHfvwmI9rzNMq4W0hjPbXocA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ygQ6gyRBzjDQkxUCU638gnqTyQ9/29e0Y/SKpc6SBzw=;
- b=ZlAeTzEHqyUqtRNI6/SBVou+gDPSfCCPZQnRr8H2pdntNZ0WBp+/mUKtB2PvLPruQFu4ULb/sdoJdFoIZWSMPtyfUwApmuuZ4DB4J3G+Zz/k/lwP25PrmTnxgxGWJfbYdjfsNsyyx6hJR8pjnOBsqDJxDbAZ/4NV04s7PyZ/sf2qJjShx8FidBk5ICApilLsavrosjbHs2GcR/QfkSv9NzfPrW9EBtctDWwb1Y7ERB7jmodvqEe+HYtn2noR54dQswn59+Jbo0mplIZjLD0TF2Ceg/bL7BtlIZp63VDj8cwguQOf7ILizUvFnf64nbz6vkxIf6i3ASWHX8fxWL3Tyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ygQ6gyRBzjDQkxUCU638gnqTyQ9/29e0Y/SKpc6SBzw=;
- b=CfMzBf8lwv1VISH62knzo3p3yLh4zuIt2mpuAvc9TSm7xqE0ma80EujDnOxBuj1fyHmu7WHE6W4TSSufprd5gLUnxZssfJJDA66GhZuJwD/d0xRrjOKY+IXxB+4DWOgJU4VljK/TUpakgZZLt8/awKUMMxFsG+FBXW81ZN1SXRE=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by DS7PR10MB4848.namprd10.prod.outlook.com (2603:10b6:5:3a2::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Mon, 28 Jul
- 2025 13:28:23 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.8964.025; Mon, 28 Jul 2025
- 13:28:23 +0000
-Date: Mon, 28 Jul 2025 14:28:20 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Greg KH <greg@kroah.com>, corbet@lwn.net, linux-doc@vger.kernel.org,
-        workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
-        konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        rostedt@goodmis.org, Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
- kernel
-Message-ID: <90b0ba66-8d09-433c-a6a8-f46893db1ef7@lucifer.local>
-References: <20250727195802.2222764-1-sashal@kernel.org>
- <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
- <2025072854-earthen-velcro-8b32@gregkh>
- <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
- <aIdw3-G04QQPvJtU@lappy>
- <c4974be6-6076-4833-bada-3012d3660a8c@lucifer.local>
- <aId5x_ocOiWICyZa@lappy>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aId5x_ocOiWICyZa@lappy>
-X-ClientProxiedBy: MM0P280CA0098.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:190:9::30) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lWi3zelG"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 84B7240AA9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1753709754; bh=TGOGL4+9w8rjwWq76PI2mRNxZVObIaWVG55BoXnctDU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lWi3zelGDPKhiG0SVH0CFrBBmqcYrw0Eq7vvmiImvXYQrnrAteGMil1LRqt65PASQ
+	 J241LFWM4n3RD6xOtcSfFmVL1DYFyQ7XAUvKoBTNXQI4egx2Tot8joVgC6wpcx+kAN
+	 i17DHIbhrA496XNvC8IhxSwfEzESjsQin+z/cUX5IGkyMQUNXkfOjtSL3AqLKOu4OT
+	 Wm2we2jdNWqPdPfMFORpln1zNjChhg0bouleOqI2zVZV1rYVgN7cjqR3y3uCf8my3X
+	 A7KlYLBnWQSQdRu6+jd2lEwrvv1YfIH5QqAd+kEeErGmtdsyDlE40FqS4AeoOf6QKD
+	 +vSgC/6miaOLg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 84B7240AA9;
+	Mon, 28 Jul 2025 13:35:54 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Documentation for 6.17
+Date: Mon, 28 Jul 2025 07:35:53 -0600
+Message-ID: <87y0s81lqe.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|DS7PR10MB4848:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ed9b4d3-cf0d-4f06-383c-08ddcddaa06c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?g04TQtm9Tm/nqOHJNi0MXGafk2uFs/soMAQjjN6iUkmAJ/TF2yTQNTDdYsLc?=
- =?us-ascii?Q?7MnCa4oZOLwYhzn+owBVsXyi/vR1K4YXVwfvq14grNCFO2jWQaO7JeR0t/w/?=
- =?us-ascii?Q?8OYKnpotRCXIWa4wpnjxAqEzsdqGmoQheNwoCpQIl9opzdfTvCBdIuCyj7ER?=
- =?us-ascii?Q?+8GM++7elbpYvZIXDx7wfeY6qfXPTzsQdseEf4glWBFxEt9NHDB8pdikRBWN?=
- =?us-ascii?Q?NVOr/yulKELmR8Ci8b4CHYrhzd2ljtm9DloFCxX1Tc+U35E8QfCb9u9zpoMf?=
- =?us-ascii?Q?CO6ZdNFKQTLTGx9Fi43l0VYHiFPOi/wZbJ9IMpjmGtGso8qbixIE1BqUiied?=
- =?us-ascii?Q?anazIjQrABYEnh9eeHKyj6rvT51RJnwMrUWiddLG4MYxcEIvYvzqtwV3huvP?=
- =?us-ascii?Q?19LcyMIorUaNYCYKXHvLx+KuE2ZxqM1arSWo+23u5vcegJXJtLftJTmAuEIk?=
- =?us-ascii?Q?WAg2D3GLys0G6EzingWbbg0TxaXxrqYYVEtxdzgLsqzWcWkz8H9QXklaA09y?=
- =?us-ascii?Q?3Q0kzYF3HReiyJCDa7NMH00OxWXGdXg3CWPkeQshzFz55Zes2KMLtvHFph/C?=
- =?us-ascii?Q?ca+Wm/D3J/bsxYkrmeL9ijYlKndbtL+VZsf9f3DA5iK6hsfRwKQEPxzQV8Z1?=
- =?us-ascii?Q?boJQIzdb963N727M59vqJ83hnxKVxoBqrc812QJiDrVDY5ppDcGccDR11S7C?=
- =?us-ascii?Q?dgAwBQNaOvlJ5qSvXxMcPYKyJ2VG7pZW7yxumBE7NMKGOz8zJD/7S0YCloo8?=
- =?us-ascii?Q?UwkCOfuRszalOQJWk46vtShsekXjOLdAa6cG2o2/WNIrfwoGOLJFNwge4g07?=
- =?us-ascii?Q?0/gjjl+eXRC9BHyL8/4OepjwCJLWLvCFUMMHOo/dVMFkMk7JmzM17KMtbfXe?=
- =?us-ascii?Q?pT6+4A54gyJ58Gx111wvaLOUIZW0kLHDr6KhGG2AKMaE3mCyNtlGoJGF6+Fc?=
- =?us-ascii?Q?tTCnrfMiSOoUYAAndiXKAw/7R829mvo9zVcyWpAuG2Xn4XF+XiRjDYjtaF36?=
- =?us-ascii?Q?0OCmJh8jANw0sYTNUCFrdhuKfeLSpEH0KE9SFn/nK4tOsyddhTq7kdEbn5qg?=
- =?us-ascii?Q?BqP2wJDo15RpEyfJj6Msz/PVSvJG/jo1Ld1CoXvprrwiTClHcIn+BDJBb6My?=
- =?us-ascii?Q?f52n8AvElLVDCPZDqtWT0ijg8Uq6mAPn3y/ru3UPyySpRKP+SZRZlES0AYgC?=
- =?us-ascii?Q?87OGZAOipIV/X9mMfXI41sYY7HTVJtBpBuiHas+00lMwa74PQAJQ37X7Qm9+?=
- =?us-ascii?Q?1C+18mrUiHmgQZmZ8Cxnu69bCc/4mTLw04BRqy4aVWBMr4Q+uN/YKC1Wk8cx?=
- =?us-ascii?Q?kcUr4FMoBx8jwQpcRdhDtLwE+jcWPwN945UDy+WMx49BGHY+BFi63521Mn4A?=
- =?us-ascii?Q?tahSAqiswczOT3M4XrKak2/qpKVtmXiYk3rwdhf2KD8NinsbnkMiKfKBRH2H?=
- =?us-ascii?Q?XApgveH6xpE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?fT7KnfqxSPKQVdMpxAEi/7My9QrZzB75g6wZwAL0wrMKW3YQh2PjPtxO9p3S?=
- =?us-ascii?Q?44kLq7UDGFJIiDZZoqhhiTAu+aSjhe6KTc1vbghc+HBbbGgLP9RcDA82fKKT?=
- =?us-ascii?Q?jp/6eDJWJEt33wUptoCqwN+zZtuj+86ASS4V7ZMjNT8PbQez8aiNfGXzyrPj?=
- =?us-ascii?Q?bCL8QzEuwbtG6kY4c1ay9hE0klttj47IFyFKRF8ZdJmZnqIDuilRMTvlF2wU?=
- =?us-ascii?Q?H5kwK/f6m1hp5feQ9Q83b558mZ8Vtp4Es/O3BrM/ThrChWSGG2xr8hikmIaI?=
- =?us-ascii?Q?QLBXLVZwFusfekQufs7kXkdtXHAJYXptt7blUUJLtZF2NLl5xx/cy+f53fzh?=
- =?us-ascii?Q?Lt5MNWfia8pua+STDR/VX4/AzQP1W8BX6OVlTI6x61eC+KC3gSL7+imGIm3N?=
- =?us-ascii?Q?nvsTT3Bh99YuNn9qe79yqeWgQ6Cx8sf+ZjCP7hm+Xs4jWaNF54xpVmbFbkBD?=
- =?us-ascii?Q?cJ61/vWhSkUC1HX/J5sR/LwMqeS/ozS9G1uhuOpszAQjhuOQ3DO7PBrJOUrv?=
- =?us-ascii?Q?P/d/mWduukG+tTuDWCSFPFjMscjTceKM2+AlK2LV++YG2YlpGhZNUsHI8uqG?=
- =?us-ascii?Q?y8/2ewobgvUM5Z54qXRZT7uv76ybJDPXCG3BipcrV7/PCNFbdLLLg/g3pzCn?=
- =?us-ascii?Q?H3Rn5JgxlYB6sfedHP358Y6z9fHAFxy9tSOtsdIs7VtqETxwUdOwWIOZV2bF?=
- =?us-ascii?Q?1+A4h01QyN/pddWEWCQINP8rTPgxm7cBCwXACiZUOY/ty4eokx9vHJSGevaY?=
- =?us-ascii?Q?v6gCEMHTKKVfBefAP91F+/Mt8v3Sn6msynSP5jMbBEvxMlCK0qfwzRjomfMm?=
- =?us-ascii?Q?ymIaoBijqgVPgShrufap548wUfpGfY2ZBPZwSmYjL3cMhv/dQX5sTtaDJAUt?=
- =?us-ascii?Q?yv1Kzge2qJm28z/zEMzheDo97myl0H6RE5u+REHwtbYxEjdDzy0mg2NXAOvj?=
- =?us-ascii?Q?D7o65WtgyiiExiDIYD41eyF5ETLRJ6p2Sth/0F5vKDgbOW6WzKLHnLbJtUhG?=
- =?us-ascii?Q?b4cNcrqNYTK35WuaFyMdeozPgK33djxmz5tY/5Ccu+nhcWws45oU48zKhAj3?=
- =?us-ascii?Q?LOKXVoWUrBCdbrE7+eOCF5qmYaZjtSSQxXuhfLEmlPik8caDw2wirhExgVc2?=
- =?us-ascii?Q?plmwRwFpH3h3WrS8n6IaK6wEu8kAXSqE2+g4M65C4Ap1qF8z3kTPICNB8/X4?=
- =?us-ascii?Q?ovdCx/eLM1iE9gbIGTrnMHY9R6kfNH+LeMI760QOUxHExEpeqQC56uZdcpte?=
- =?us-ascii?Q?wi8IhoWcAzKknSeGXh4dZlmLDMvW13Kc90yx0sV/+u8ajfFj1cA65WD+sEzQ?=
- =?us-ascii?Q?LJ1eUu5o7kMore3jqsvuJ+lOpNyJQbqTT8n6HIE0mZdwQ66TnFLBjEJKebzV?=
- =?us-ascii?Q?LUW8lEwZb+NJXnlFp9ZOV5XNUwJTXwrqVWM8XLwJWhSlZyzckw3h/GmxJg8H?=
- =?us-ascii?Q?hS8zc8IaBidl3j1cE1bJ3JuavRr4/438V2ORWI6HAxVgCKOrsKc7oQHMYJ+k?=
- =?us-ascii?Q?YbfBKZ0DBZuIEgA/nJChfiBsoWoLXzvleMM5g2AxI9E3W9EAtmOj3bx/pmeK?=
- =?us-ascii?Q?qHHdCsRya6P0OEGaN9qvT28COp42E0sciYboDDApeVSXHunUhg4w/Ts4b+3V?=
- =?us-ascii?Q?iA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	9uNOT1DbCAXWtHDbEd5uST84RRiqJK2+A9bZmc+YnaVIhuurOdZaAFYH/X7lr/VXIDxD4TxeQ0FKkBrjxkFSivqSTer2hm8zK9Qg6OC05xWq1SSxapK1IAPGSWDaiylSTj076mkF8NwZ6cPPGJgm9+QJBeVBecBuNTE7wL/JQjRvC3t5hknLqPjC87jFDUQrIswKUseaCXvF5wnETrokpSIZECvE/gT1uuQQELWzOIF71d4TlV0rWpq1t1axtCX2vxkPUaEUkZ9f4gLnOtZb0wsp1TsvrSYcV0h5kU3pqWogbJcVFALl1UKs82g3eYwQiA81S9RZpNiVXrDazgaW5sp3vuWYXDHs3T9T0aN7se49BtatnHeX79+5iemYg89I+F9v3if1G7nl0n9pkUuWvqSzTUFBQqHhwGgm2MuNVJ36ypVpJC+w7eankn07gTlHCnD6ABIN31XNMUi3JLiQorujgxnVClC4IgvlPDTezGvlhyvH+NcI0q5DqT3OCJMFLQlzjRxBXgSPFaKAKZ4NtSeIBXOxmqsxw8MXxAqSe/jM6TqA74+egdS5PAsQMhgfpbraD04QSQRtkAkiZOoMvJu9G8M8KJFyZgF9SDMeYas=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ed9b4d3-cf0d-4f06-383c-08ddcddaa06c
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2025 13:28:23.5330
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LbF4Hf44MUnYdYF1UJBsLJf6kLka85KZJ8m+WPUwAwL7lmcLJUGBI6Idizm5BGmOU78PzAFUtZmHo8g2oatLH3YuE5UgItizjvLxaWdjFEg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4848
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-28_03,2025-07-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=890
- suspectscore=0 malwarescore=0 bulkscore=0 spamscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2507280099
-X-Proofpoint-ORIG-GUID: x5sOg58xWYHhTcLoIfl0nrCkutYZRzSq
-X-Proofpoint-GUID: x5sOg58xWYHhTcLoIfl0nrCkutYZRzSq
-X-Authority-Analysis: v=2.4 cv=QZtmvtbv c=1 sm=1 tr=0 ts=68877b08 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10 a=7xYEiJbnenL_VmwJDk8A:9
- a=CjuIK1q_8ugA:10 cc=ntf awl=host:13600
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI4MDA5OSBTYWx0ZWRfX9BbQwccgtSn6
- 1VSqIgjMS7TzAa62erpEcnjVhNWFyrRNWIzp4ltaP0LFx8N9tunk2ZMDs2DWCyrBrrxvDybQ4KL
- qE+ePEb8CHQvJR43iuTq1yh+1ksbcu3b0fXZybPYPsZ3Lz6+VNsr3ZdLz86Op8DGs5+KNNT/vlA
- HQmIADr9hkHflKzZtb55kCsLnqCsOfpIJTpPRn75VCS/Xb1KBnAGSLjenJdmyerBjVtx091IiDv
- 3OZUuLjPv7ME7zNqRX4l/ONtCMO3leOrPUDDLQ3lmvWLjob+s0OGwOkbHyPnutuq+6Zbu7qQbEq
- Tc/VDFnMTsB+iQZ8Ui23lY8VynYmZ49mGDYt8zmr5yLwfHvLNYWwbGsK40xmq6E/knuZGOCgUun
- eizTJHoh2ED+vIEGdkO92Z6G+IJ03izqCYtO9MYGX9ne8Lp8uOyy5B4nijwFWFpwrUPzWVld
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 28, 2025 at 09:23:19AM -0400, Sasha Levin wrote:
-> On Mon, Jul 28, 2025 at 02:13:01PM +0100, Lorenzo Stoakes wrote:
-> > On Mon, Jul 28, 2025 at 08:45:19AM -0400, Sasha Levin wrote:
-> > > > So at all times I think ensuring the human element is aware that they need
-> > > > to do some kind of checking/filtering is key.
-> > > >
-> > > > But that can be handled by a carefully worded policy document.
-> > >
-> > > Right. The prupose of this series is not to create a new LLM policy but
-> > > rather try and enforce our existing set of policies on LLMs.
-> >
-> > I get that, but as you can see from my original reply, my concern is more
-> > as to the non-technical consequences of this series.
-> >
-> > I retain my view that we need an explicit AI policy doc first, and ideally
-> > this would be tempered by input at the maintainer's summit before any of
-> > this proceeds.
-> >
-> > I think adding anything like this before that would have unfortunate
-> > unintended consequences.
-> >
-> > And as a maintainer who does a fair bit of review, I'm likely to be on the
-> > front lines to that :)
->
-> Oh, appologies, I'm not trying to push for this to be included urgently:
-> if there's interest in waiting with this until after maintainer's
-> summit/LPC I don't have any objection with that.
+The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
 
-Awesome, thanks; yeah I think this is the best approach to ensure we have
-our ducks in a row.
+  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
 
->
-> My point was more that I want to get this series in a "happy" state so
-> we have it available whenever we come up with a policy.
+are available in the Git repository at:
 
-Ack!
+  git://git.lwn.net/linux.git tags/docs-6.17
 
->
-> I'm thinking that no matter what we land on at the end, we'll need
-> something like this patch series to try and enforce that on the LLM side
-> of things.
+for you to fetch changes up to 35293ebbb65e0295d3b9357f786004ae1026d00f:
 
-Sure, practically speaking it's unlikely that the decision will be
-'absolutely not', in which case we ought to be prepared as to how to
-implement what's required.
+  scripts: add origin commit identification based on specific patterns (202=
+5-07-24 08:41:15 -0600)
 
->
-> --
-> Thanks,
-> Sasha
+----------------------------------------------------------------
+It has been a relatively busy cycle for docs, especially the build system:
 
-Cheers, Lorenzo
+- The Perl kernel-doc script was added to 2.3.52pre1 just after the turn of
+  the millennium.  Over the following 25 years, it accumulated a vast
+  amount of cruft, all in a language few people want to deal with anymore.
+  Mauro's Python replacement in 6.16 faithfully reproduced all of the cruft
+  in the hope of avoiding regressions.  Now that we have a more reasonable
+  code base, though, we can work on cleaning it up; many of the changes
+  this time around are toward that end.
+
+- A reorganization of the ext4 docs into the usual TOC format.
+
+- Various Chinese translations and updates.
+
+- A new script from Mauro to help with docs-build testing.
+
+- A new document for linked lists
+
+- A sweep through MAINTAINERS fixing broken GitHub git:// repository links.
+
+...and lots of fixes and updates.
+
+Expect trivial conflicts with the GPIO and block trees.
+
+----------------------------------------------------------------
+Ahelenia Ziemia=C5=84ska (1):
+      tracing: doc: fix "for a while" typo
+
+Alison Schofield (1):
+      docs: ABI: make the KernelVersion field optional
+
+Andrew Donnellan (2):
+      Documentation: core-api: entry: Fix typo "systcalls" -> "syscalls"
+      Documentation: core-api: entry: Replace deprecated KVM entry/exit fun=
+ctions
+
+Bagas Sanjaya (11):
+      Documentation: treewide: Replace remaining spinics links with lore
+      Documentation: ext4: Convert includes into toctrees
+      Documentation: ext4: Reduce toctree depth
+      Documentation: ext4: atomic_writes: Demote last three sections
+      Documentation: ext4: blockgroup: Add explicit title heading
+      Documentation: ext4: Move inode table short docs into its own file
+      Documentation: ioctl-number: Fix linuxppc-dev mailto link
+      Documentation: ioctl-number: Extend "Include File" column width
+      Documentation: ioctl-number: Correct full path to papr-physical-attes=
+tation.h
+      Documentation: ioctl-number: Shorten macros table
+      Documentation: ioctl-number: Don't repeat macro names
+
+Breno Leitao (1):
+      docs: kernel: Clarify printk_ratelimit_burst reset behavior
+
+Brigham Campbell (1):
+      docs: powerpc: Add htm.rst to table of contents
+
+Collin Funk (3):
+      docs: packing: Fix a typo in example code.
+      ver_linux: Remove checks for reiserfsprogs.
+      docs: Remove reiserfsprogs from dependencies.
+
+Costa Shulyupin (2):
+      Documentation/rtla: Add include common_appendix.rst
+      Documentation/rtla: Describe exit status
+
+Cui Wei (1):
+      Docs/zh_CN: Translate speculation.rst to Simplified Chinese
+
+Daniel Palmer (1):
+      doc: Remove misleading reference to brd in dax.rst
+
+Dongliang Mu (7):
+      docs/zh_CN: update the translation of process/1.Intro.rst
+      docs/zh_CN: update the translation of process/6.Followthrough.rst
+      docs/zh_CN: update the translation of process/7.AdvancedTopics.rst
+      docs/zh_CN: update the translation of process/2.Process.rst
+      docs/zh_CN: update the translation of process/5.Posting.rst
+      docs/zh_CN: improve formatting and content clarity
+      docs/zh_CN: update git command examples in how-to.rst
+
+Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 (2):
+      docs: Improve grammar in Userspace API/fwctl
+      docs: Fix typos, improve grammar in Userspace API
+
+Jakub Kicinski (1):
+      docs: process: discourage pointless boilerplate kdoc
+
+Jonathan Corbet (66):
+      docs: kdoc: simplify the PROTO continuation logic
+      docs: kdoc: move the core dispatch into a state table
+      docs: kdoc: remove the section_intro variable
+      docs: kdoc: simplify the kerneldoc recognition code
+      docs: kdoc: remove the KernelEntry::is_kernel_comment member
+      docs: kdoc: remove the KernelEntry::descr pseudo member
+      docs: kdoc: remove some ineffective code
+      docs: kdoc: move the declaration regexes out of process_name()
+      docs: kdoc: some final touches for process_name()
+      docs: automarkup: Remove some Sphinx 2 holdovers
+      docs: automarkup: Mark up undocumented entities too
+      docs: CSS: make cross-reference links more evident
+      docs: sphinx: avoid using the deprecated node.set_class()
+      docs: kdoc: Make body_with_blank_line parsing more flexible
+      docs: kdoc: consolidate the "begin section" logic
+      docs: kdoc: separate out the handling of the declaration phase
+      docs: kdoc: split out the special-section state
+      docs: kdoc: coalesce the new-section handling
+      docs: kdoc: rework the handling of SPECIAL_SECTION
+      docs: kdoc: coalesce the end-of-comment processing
+      docs: kdoc: Add some comments to process_decl()
+      docs: kdoc: finish disentangling the BODY and SPECIAL_SECTION states
+      docs: kdoc: remove KernelEntry::in_doc_sect
+      docs: kdoc: Move content handling into KernelEntry
+      docs: kdoc: remove a bit of dead code
+      docs: kdoc: remove KernelEntry::function
+      docs: kdoc: rework process_export() slightly
+      docs: kdoc: remove the INLINE_END state
+      docs: kdoc: remove the inline states-within-a-state
+      docs: kdoc: split the processing of the two remaining inline states
+      docs: kdoc: don't reinvent string.strip()
+      docs: kdoc: micro-optimize KernRe
+      docs: kdoc: remove the brcount floor in process_proto_type()
+      docs: kdoc: remove KernelEntry::in_doc_sect
+      docs: kdoc: Move content handling into KernelEntry
+      docs: kdoc: remove a bit of dead code
+      docs: kdoc: remove KernelEntry::function
+      docs: kdoc: rework process_export() slightly
+      docs: kdoc: remove the INLINE_END state
+      docs: kdoc: remove the inline states-within-a-state
+      docs: kdoc: split the processing of the two remaining inline states
+      docs: kdoc: rework type prototype parsing
+      docs: kdoc: some tweaks to process_proto_function()
+      docs: kdoc: Remove a Python 2 comment
+      docs: kdoc: pretty up dump_enum()
+      docs: kdoc; Add a rudimentary class to represent output items
+      docs: kdoc: simplify the output-item passing
+      docs: kdoc: don't reinvent string.strip()
+      docs: kdoc: micro-optimize KernRe
+      docs: kdoc: remove the brcount floor in process_proto_type()
+      docs: kdoc: rework type prototype parsing
+      docs: kdoc: some tweaks to process_proto_function()
+      docs: kdoc: Remove a Python 2 comment
+      docs: kdoc: pretty up dump_enum()
+      Merge tag 'chinese-doc-6.16-rc1' of gitolite.kernel.org:pub/scm/linux=
+/kernel/git/alexs/linux into docs-mw
+      docs: kdoc: drop "sectionlist"
+      docs: kdoc: Centralize handling of the item section list
+      docs: kdoc: remove the "struct_actual" machinery
+      docs: kdoc: use self.entry.parameterlist directly in check_sections()
+      docs: kdoc: Coalesce parameter-list handling
+      docs: kdoc: Regularize the use of the declaration name
+      docs: kdoc: straighten up dump_declaration()
+      docs: kdoc: directly access the always-there KdocItem fields
+      docs: kdoc: clean up check_sections()
+      docs: kdoc: emit a warning for ancient versions of Python
+      Merge branch 'kdoc-item2' into docs-mw
+
+Matthew Wilcox (Oracle) (2):
+      kernel-doc: Fix symbol matching for dropped suffixes
+      doc: Include scatterlist APIs in htmldocs
+
+Matthias Frank (1):
+      overlayfs.rst: fix typos
+
+Mauro Carvalho Chehab (18):
+      docs: conf.py: properly handle include and exclude patterns
+      docs: Makefile: disable check rules on make cleandocs
+      scripts: scripts/test_doc_build.py: add script to test doc build
+      scripts: test_doc_build.py: make capture assynchronous
+      scripts: test_doc_build.py: better control its output
+      scripts: test_doc_build.py: better adjust to python version
+      scripts: test_doc_build.py: improve dependency list
+      scripts: test_doc_build.py: improve cmd.log logic
+      scripts: test_doc_build.py: make the script smarter
+      scripts: sphinx-pre-install: properly handle SPHINXBUILD
+      scripts: sphinx-pre-install: fix release detection for Fedora
+      scripts: test_doc_build.py: regroup and rename arguments
+      docs: sphinx: add a file with the requirements for lowest version
+      docs: conf.py: several coding style fixes
+      docs: sphinx: add missing SPDX tags
+      docs: kernel-doc: emit warnings for ancient versions of Python
+      scripts: kdoc: make it backward-compatible with Python 3.7
+      sphinx: kernel_abi: fix performance regression with O=3D<dir>
+
+Nicolas Frattaroli (1):
+      docs: document linked lists
+
+Petr Tesarik (8):
+      docs: dma-api: use "DMA API" consistently throughout the document
+      docs: dma-api: replace consistent with coherent
+      docs: dma-api: remove remnants of PCI DMA API
+      docs: dma-api: add a kernel-doc comment for dma_pool_zalloc()
+      docs: dma-api: remove duplicate description of the DMA pool API
+      docs: dma-api: clarify DMA addressing limitations
+      docs: dma-api: update streaming DMA physical address constraints
+      docs: dma-api: clean up documentation of dma_map_sg()
+
+Qiu Yutan (2):
+      Docs/zh_CN: Translate vxlan.rst to Simplified Chinese
+      Docs/zh_CN: Translate alias.rst to Simplified Chinese
+
+Richard Weinberger (1):
+      overlayfs.rst: Fix inode table
+
+Runji Liu (1):
+      docs: trace: boottime-trace.rst: fix typo
+
+Salvatore Bonaccorso (1):
+      Documentation/sysctl: coredump: add %F for pidfd number
+
+Shashank Balaji (2):
+      sched_deadline, docs: replace rt-app examples with chrt or use config=
+.json
+      sched_deadline, docs: add affinity setting with cgroup2 cpuset contro=
+ller
+
+Shouye Liu (1):
+      Documentation: amd-pstate:fix minimum performance state label error
+
+Sumeet Pawnikar (1):
+      Documentation: Remove duplicate word size in bootconfig
+
+Swapnil Sapkal (1):
+      docs/sched: Make the sched-stats documentation consistent
+
+Vignesh Raman (1):
+      docs: fault-injection: drop reference to md-faulty
+
+Wang Yaxin (4):
+      Docs/zh_CN: Translate napi.rst to Simplified Chinese
+      Docs/zh_CN: Translate netif-msg.rst to Simplified Chinese
+      Docs/zh_CN: Translate xfrm_proc.rst to Simplified Chinese
+      Docs/zh_CN: Translate netmem.rst to Simplified Chinese
+
+WangYuli (1):
+      gitignore: allow .pylintrc to be tracked
+
+Xose Vazquez Perez (1):
+      MAINTAINERS: replace git protocol for github
+
+Yuanye Ma (1):
+      docs: f2fs: fix typos in f2fs.rst
+
+Zhiyu Zhang (1):
+      scripts: add origin commit identification based on specific patterns
+
+ .gitignore                                         |   1 +
+ Documentation/ABI/README                           |   4 +-
+ Documentation/Makefile                             |   2 +
+ Documentation/admin-guide/bootconfig.rst           |   2 +-
+ Documentation/admin-guide/pm/amd-pstate.rst        |   2 +-
+ Documentation/admin-guide/sysctl/kernel.rst        |   4 +-
+ Documentation/arch/powerpc/index.rst               |   1 +
+ Documentation/conf.py                              | 398 +++++-----
+ Documentation/core-api/dma-api-howto.rst           |  36 +-
+ Documentation/core-api/dma-api.rst                 | 197 ++---
+ Documentation/core-api/entry.rst                   |   6 +-
+ Documentation/core-api/index.rst                   |   1 +
+ Documentation/core-api/kernel-api.rst              |   6 -
+ Documentation/core-api/list.rst                    | 776 +++++++++++++++++=
+++
+ Documentation/core-api/mm-api.rst                  |   6 -
+ Documentation/core-api/packing.rst                 |   2 +-
+ Documentation/doc-guide/sphinx.rst                 |  23 +
+ Documentation/driver-api/gpio/driver.rst           |   2 +-
+ Documentation/fault-injection/fault-injection.rst  |   2 +-
+ Documentation/filesystems/dax.rst                  |   1 -
+ Documentation/filesystems/ext4/atomic_writes.rst   |  10 +-
+ Documentation/filesystems/ext4/bitmaps.rst         |   7 -
+ Documentation/filesystems/ext4/blockgroup.rst      |  11 +-
+ Documentation/filesystems/ext4/dynamic.rst         |  10 +-
+ Documentation/filesystems/ext4/globals.rst         |  15 +-
+ Documentation/filesystems/ext4/index.rst           |   2 +-
+ Documentation/filesystems/ext4/inode_table.rst     |   9 +
+ Documentation/filesystems/ext4/overview.rst        |  22 +-
+ Documentation/filesystems/f2fs.rst                 |   4 +-
+ Documentation/filesystems/overlayfs.rst            |  26 +-
+ Documentation/filesystems/ubifs-authentication.rst |   2 +-
+ .../networking/device_drivers/ethernet/ti/cpsw.rst |   6 +-
+ Documentation/process/changes.rst                  |  14 -
+ Documentation/process/coding-style.rst             |   5 +-
+ Documentation/scheduler/sched-deadline.rst         |  85 +-
+ Documentation/scheduler/sched-stats.rst            |  53 +-
+ Documentation/sphinx-static/custom.css             |  15 +
+ Documentation/sphinx/automarkup.py                 |  27 +-
+ Documentation/sphinx/cdomain.py                    |   1 +
+ Documentation/sphinx/kernel_abi.py                 |   6 +-
+ Documentation/sphinx/kernel_include.py             |   1 +
+ Documentation/sphinx/kerneldoc.py                  |   3 +-
+ Documentation/sphinx/kfigure.py                    |   1 +
+ Documentation/sphinx/load_config.py                |   1 +
+ Documentation/sphinx/min_requirements.txt          |  11 +
+ Documentation/sphinx/parse-headers.pl              |   5 +-
+ Documentation/sphinx/requirements.txt              |   1 +
+ Documentation/sphinx/rstFlatTable.py               |   1 +
+ Documentation/tools/rtla/common_appendix.rst       |  11 +
+ Documentation/tools/rtla/rtla-timerlat-hist.rst    |   2 +
+ Documentation/trace/boottime-trace.rst             |   4 +-
+ Documentation/trace/histogram.rst                  |   2 +-
+ Documentation/translations/zh_CN/how-to.rst        | 108 +--
+ .../translations/zh_CN/networking/alias.rst        |  56 ++
+ .../translations/zh_CN/networking/index.rst        |  12 +-
+ .../translations/zh_CN/networking/napi.rst         | 362 +++++++++
+ .../translations/zh_CN/networking/netif-msg.rst    |  92 +++
+ .../translations/zh_CN/networking/netmem.rst       |  92 +++
+ .../translations/zh_CN/networking/vxlan.rst        |  85 ++
+ .../translations/zh_CN/networking/xfrm_proc.rst    | 126 +++
+ .../translations/zh_CN/process/1.Intro.rst         |  10 +-
+ .../translations/zh_CN/process/2.Process.rst       |   7 +-
+ .../translations/zh_CN/process/5.Posting.rst       |  11 +
+ .../translations/zh_CN/process/6.Followthrough.rst |   5 +
+ .../zh_CN/process/7.AdvancedTopics.rst             |  14 +
+ Documentation/translations/zh_CN/staging/index.rst |   2 +-
+ .../translations/zh_CN/staging/speculation.rst     |  85 ++
+ Documentation/usb/gadget-testing.rst               |   2 +-
+ Documentation/userspace-api/fwctl/fwctl.rst        |  30 +-
+ Documentation/userspace-api/ioctl/ioctl-number.rst | 552 ++++++-------
+ .../userspace-api/sysfs-platform_profile.rst       |   6 +-
+ MAINTAINERS                                        |  24 +-
+ include/linux/dmapool.h                            |   8 +
+ mm/dmapool.c                                       |   6 +-
+ scripts/checktransupdate.py                        |  38 +-
+ scripts/kernel-doc.py                              |  10 +
+ scripts/lib/kdoc/kdoc_files.py                     |   4 +-
+ scripts/lib/kdoc/kdoc_item.py                      |  42 +
+ scripts/lib/kdoc/kdoc_output.py                    | 172 ++---
+ scripts/lib/kdoc/kdoc_parser.py                    | 857 ++++++++++-------=
+----
+ scripts/lib/kdoc/kdoc_re.py                        |   7 +-
+ scripts/sphinx-pre-install                         |   6 +-
+ scripts/test_doc_build.py                          | 513 ++++++++++++
+ scripts/ver_linux                                  |   2 -
+ 84 files changed, 3750 insertions(+), 1441 deletions(-)
+ create mode 100644 Documentation/core-api/list.rst
+ create mode 100644 Documentation/filesystems/ext4/inode_table.rst
+ create mode 100644 Documentation/sphinx/min_requirements.txt
+ create mode 100644 Documentation/translations/zh_CN/networking/alias.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/napi.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/netif-msg.r=
+st
+ create mode 100644 Documentation/translations/zh_CN/networking/netmem.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/vxlan.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/xfrm_proc.r=
+st
+ create mode 100644 Documentation/translations/zh_CN/staging/speculation.rst
+ create mode 100644 scripts/lib/kdoc/kdoc_item.py
+ create mode 100755 scripts/test_doc_build.py
