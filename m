@@ -1,150 +1,201 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D548E6EB79;
-	Mon, 28 Jul 2025 12:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A5A8BEC;
+	Mon, 28 Jul 2025 12:40:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753706144; cv=none; b=rU0SU5gkI4KBNdxDV3ONP2N64XauEQGJ4FO3sGR/erlv7yttCe4VXdsFMHgGh3IsFK0lZ+Stsoi7NlmexWZ/6IjgI3VyaHV3dzYkWbOI+m6gmDgVRQ50qV4qT8PIz/mlXcfqqawBc5Zk3pRPwyQPJ27hO9rADsoA5SRPM7iv4N4=
+	t=1753706429; cv=none; b=ZW8sc/szafK36HP3tomSsWSGVSn90tmpH8HTqic1N5HDqjNIMlWjx/zv/KO+Yz8Kyu9xoTpAnGdZWXuPjKlkjSHIG5nx8Rk/wj8E3t4EvNVB89rYpahkkgyEsXqxe6ukhmZfFr9HzLopSU5W5hXIb9DhYP8f+6kJBAwu+cESUk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753706144; c=relaxed/simple;
-	bh=o8eZs36uMwbLt2BUAEIAM068UV589WXxCIFQXsvIgxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JgXs6vgtyFR9ZPSFbRATaeXxOejRUcMKZEuhlReJ4i4gqaZbud3O+AJhjAnXJKfp96szdGHRHXWPyxwoYHW0/UOBGrP+KPUSxl0+veiN6+uqvPC6BsSfBZAviuK5+NS3vlkDrAK/SZC/7fFsmzNZOgU2BdlTRDfYd43JwLRrylU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pKNsmfXf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753706429; c=relaxed/simple;
+	bh=dTg4wWkdKPCRfym32aJgAHjXglH8povDWDAynj04Cbc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lJ2G3a/dvHI8nYezZSU44GBgmeZoOimuNJGTdCNaoM4CdncS7s1zhNvvj7eN+NPD/Pu3Wf86w9J8AstciAP0rAdGev+/bIl4ny2VvvhG5Yv5OpAtCkYXUgxdOIk3t6+G6sDSwUx2b1x5QHoGcfQSLXYg8tvNxzG67ml4AXOU9Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzJ4uFKv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pKNsmfXf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28DE5C4CEE7;
-	Mon, 28 Jul 2025 12:35:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzJ4uFKv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AF8EC4CEE7;
+	Mon, 28 Jul 2025 12:40:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753706142;
-	bh=o8eZs36uMwbLt2BUAEIAM068UV589WXxCIFQXsvIgxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pKNsmfXfJSpatoHENS6oF9FumDsyEvw49ea6rZNlrCqSP0f0OfuZcFLLGB1zsxDN6
-	 vsaWG9Lk8DHlTJAPfF8H1HwcEE8wyCvy3oG1YwR08fMXZa++n8slKCdQaxjermbZsG
-	 ONP/Mdx0sKMLFio8Mtx4RGGrtK9uVXzi7Oa8moc3d/87skOMYdHqVOANLr/p8Q+Rrh
-	 HBqy2waiYMO+ZnDZYpjv6lipZHUpr3DnsKyYUyKOeQFobuhXivscTMRviwYp2KMmxY
-	 5YpQvE+LDJNsLEqA4Hsc4qNytKOGhq9P/0+u517RLbvDidF4Pz2KcuDQcICVHP/mBo
-	 slojZ160G9P6g==
-Date: Mon, 28 Jul 2025 08:35:40 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, konstantin@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 2/4] agents: add core development references
-Message-ID: <aIdunK1e4I_jq_lI@lappy>
-References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-3-sashal@kernel.org>
- <202507271937.EC44B39@keescook>
- <aIcD9f_52tlLgE-e@lappy>
- <202507272203.BECE244@keescook>
- <aIcRzndNUdh-9R18@lappy>
- <202507272310.FCB96F5E93@keescook>
+	s=k20201202; t=1753706428;
+	bh=dTg4wWkdKPCRfym32aJgAHjXglH8povDWDAynj04Cbc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bzJ4uFKvWPrxZswu2/WOHXEn0za6GOHr7iul3iSHpKipGrDHOCdqWFqSlQR2LLv1J
+	 LZ0EmFq6NJSMZkqib/7JgYGPy0LEpdgWKHMDfydtDzwaLaFBcXL8lBTW4wNegSSqxG
+	 sEBa2h1DI7wuXLGNw0PVEBG+mbmqZSaHUjuFvIx8R5n9MWYzBrB4CduNdtSkNgww1g
+	 jE/Oj2VFFC4eOvbr8g5RQFOR1d4H9icwcwWLwzX8tbxruhZpIHmHR2ruxIApWLOvw4
+	 /ONLxRYv6ywGhkkBR4RfSUNWHlOrwHius9M1+wefaij+u3ooAshCyrEMEO0T/DIa1D
+	 o/EAswh8UWkXQ==
+Message-ID: <cabacd59-7cbf-403a-938f-371026980cc7@kernel.org>
+Date: Mon, 28 Jul 2025 14:40:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202507272310.FCB96F5E93@keescook>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 2/5] net: rpmsg-eth: Add basic rpmsg skeleton
+To: MD Danish Anwar <danishanwar@ti.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Mengyuan Lou
+ <mengyuanlou@net-swift.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Fan Gong <gongfan1@huawei.com>,
+ Lee Trager <lee@trager.us>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+ Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250723080322.3047826-1-danishanwar@ti.com>
+ <20250723080322.3047826-3-danishanwar@ti.com>
+ <296d6846-6a28-4e53-9e62-3439ac57d9c1@kernel.org>
+ <5f4e1f99-ff71-443f-ba34-39396946e5b4@ti.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <5f4e1f99-ff71-443f-ba34-39396946e5b4@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jul 27, 2025 at 11:18:14PM -0700, Kees Cook wrote:
->On Mon, Jul 28, 2025 at 01:59:42AM -0400, Sasha Levin wrote:
->> Thing is, agents won't read the README on their own: they need to be
->> prompted to do it.
->
->Claude does:
->
-> > /init
->
->● I'll analyze the codebase and create a CLAUDE.md file to help future
->  instances of Claude Code work effectively in this repository.
->
->● Update Todos
->  ⎿  ☐ Analyze codebase structure and files
->     ☐ Check for existing CLAUDE.md file
->     ☐ Look for build/test/lint configuration files
->     ☐ Create CLAUDE.md file
->     ☐ Examine README and other documentation
->     ☐ Check for Cursor/Copilot rules
->...
->● Read(Makefile)
->  ⎿  Read 50 lines (ctrl+r to expand)
->...
->
->Even before having read any file at all, Claude calls out README as a
->place to look.
->
->And in the resulting CLAUDE.md:
->
->## Documentation
->
->Primary documentation is in Documentation/ directory:
->- **Documentation/admin-guide/**: System administration
->- **Documentation/driver-api/**: Device driver APIs
->- **Documentation/core-api/**: Core kernel APIs
->- **Documentation/process/**: Development process guidelines
->
->
->> I'm assuming we both agree that we need to give the agent some entry
->> point which they will automatically process without any user prompts,
->> even if it's just saying "Please read the README file!"?
->
->I'm saying any agent that can be expected to work on Linux should already
->be trying to read the README. But regardless, both Makefile comments and
->"make help" output say to read the README, so we should fix it for
->humans too.
-
-But my point is that calling /init is a prompt (just one hidden behide
-the scenes).
-
-Without an explicit /init call and no CLAUDE.md (or the copilot/cursor
-equivalents which I've tested), nothing reads README.
-
->> I think it'll be hard to find a common path that works here. README is
->> pretty generic because there are different humans that might read it:
+On 28/07/2025 10:10, MD Danish Anwar wrote:
+> Hi Krzysztof,
+> 
+> On 25/07/25 12:48 am, Krzysztof Kozlowski wrote:
+>> On 23/07/2025 10:03, MD Danish Anwar wrote:
+>>> This patch introduces a basic RPMSG Ethernet driver skeleton. It adds
 >>
->>  - A university researcher who should be pointed to researcher-guidelines.rst
->>  - A security researcher who should be pointed to security-bugs.rst or embargoed-hardware-issues.rst
->>  - A newbie trying to set up his mail client and needs to be pointed to email-clients.rst
->>  - A coding agent that doesn't care about none of the above.
+>> Please do not use "This commit/patch/change", but imperative mood. See
+>> longer explanation here:
+>> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 >>
->> So we can clean up README and try to make it an entry point that will
->> fit most of it's potential readers, but I worry that at the end it will
->> end fitting none of them.
->
->I think the above list is perfect contents for the README. Yes, please
->make that an entry point, or point to some other .rst entry point that
->will have a list of roles like that, with some common starting points.
->And yes, a line for agents in there seems fine. Maybe "If you are a
->coding agent, also see ... for agent-specific details."
->
->> Without crafting something more specific for agents, I also worry that
->> we'll be stuffing the limited context they already have with information
->> that will only hurt their performance (just like humans: there's only so
->> much we can remember at a time).
->
->Sure, but these things will only get better, and I'd rather spend the
->time making the docs better for humans. Each agent will latch on to
->different things it assumes is important -- the developer will need to
->correct them no matter what. An agent isn't going to be acting alone
->(yet).
+> 
+> Sure. I will fix this in v2.
+> 
+>>> support for creating virtual Ethernet devices over RPMSG channels,
+>>> allowing user-space programs to send and receive messages using a
+>>> standard Ethernet protocol. The driver includes message handling,
+>>> probe, and remove functions, along with necessary data structures.
+>>>
+>>
+>>
+>> ...
+>>
+>>> +
+>>> +/**
+>>> + * rpmsg_eth_get_shm_info - Get shared memory info from device tree
+>>> + * @common: Pointer to rpmsg_eth_common structure
+>>> + *
+>>> + * Return: 0 on success, negative error code on failure
+>>> + */
+>>> +static int rpmsg_eth_get_shm_info(struct rpmsg_eth_common *common)
+>>> +{
+>>> +	struct device_node *peer;
+>>> +	const __be32 *reg;
+>>> +	u64 start_address;
+>>> +	int prop_size;
+>>> +	int reg_len;
+>>> +	u64 size;
+>>> +
+>>> +	peer = of_find_node_by_name(NULL, "virtual-eth-shm");
+>>
+>>
+>> This is new ABI and I do not see earlier patch documenting it.
+>>
+>> You cannot add undocumented ABI... but even if you documented it, I am
+>> sorry, but I am pretty sure it is wrong. Why are you choosing random
+>> nodes just because their name by pure coincidence is "virtual-eth-shm"?
+>> I cannot name my ethernet like that?
+>>
+> 
+> This series adds a new virtual ethernet driver. The tx / rx happens in a
+> shared memory block. I need to have a way for the driver to know what is
+> the address / size of this block. This driver can be used by any
+> vendors. The vendors can create a new node in their dt and specify the
+> base address / size of the shared memory block.
+> 
+> I wanted to keep the name of the node constant so that the driver can
+> just look for this name and then grab the address and size.
 
-Oh, this is interesting!
+You should not.
 
-Do you see it being as something like "Common kernel usage usecases" and
-then some sort of a tree of docs/blurb related to those uses?
+> 
+> I can create a new binding file for this but I didn't create thinking
+> it's a virtual device not a physical and I wasn't sure if bindings can
+> be created for virtual devices.
 
-Sort of like a meta-index that indexes the docs by purpose rather than
-their location in the directory?
+So you added undocumented ABI intentionally, sorry, that's a no go.
 
-Do you see it as being just links to existing docs or should it have
-some blurb in addition to the links?
+> 
+> In my use case, I am reserving this shared memory and during reserving I
+> named the node "virtual-eth-shm". The memory is reserved by the
+> ti_k3_r5_remoteproc.c driver. The DT change is not part of this series
+> but can be found
+> https://gist.github.com/danish-ti/cdd10525ad834fdb20871ab411ff94fb
+> 
+> The idea is any vendor who want to use this driver, should name their dt
+> node as "virtual-eth-shm" (if they also need to reserve the memory) so
+> that the driver can take the address from DT and use it for tx / rx.
+> 
+> If this is not the correct way, can you please let me know of some other
+> way to handle this.
+> 
+> One idea I had was to create a new binding for this node, and use
+> compatible string to access the node in driver. But the device is
+> virtual and not physical so I thought that might not be the way to go so
+> I went with the current approach.
 
--- 
-Thanks,
-Sasha
+virtual devices do not go to DTS anyway. How do you imagine this works?
+You add it to DTS but you do not add bindings and you expect checks to
+succeed?
+
+Provide details how you checked your DTS compliance.
+
+
+
+Best regards,
+Krzysztof
