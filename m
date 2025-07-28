@@ -1,108 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DC31DF73C;
-	Mon, 28 Jul 2025 09:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF632E36E2;
+	Mon, 28 Jul 2025 10:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753694934; cv=none; b=edTcOiT5P5xUmzty9tWiNE3WmBz3B2EuvCbnjP2WY99oYX3kovyv3zzZp2SV3z8DM1ehLKJ9oACbsBLFnql3x+lauDQO1LnAOCkw7jowBPFIR5CIl4VTrhMU9OcXaIlwbvkfAUklwbfeSSvg6HrC7Rv8/WztikxvwOBIXVHVmlY=
+	t=1753697637; cv=none; b=ua64LXAyxjG++7brrSMDcpD2HiIzO/27tsyrQ3o7orNXFjNKWy1FUQ+sPQwzJXrZURfwZUMCtsGxxWLqgRsou0DUPfHGw4c0N0NXqgCgt7Y/hYaFdF9iZOvIP16W2MMVl+z5pRmmtMVI3Hkl3nrg0bBU3e6TchCyFmnyPPzLmkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753694934; c=relaxed/simple;
-	bh=pD/CntcXIRk9jjzKrGwbeKx5t7fkyTPoChELwMFLoK0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FTGxMyBUB3HvS/0bDIio9ZQVMJ9boHuBOWt5nA0SoJth4fDckguTdQd9liTNZ5mhDQL1e5XHDXdlnC/JldXXL2sWqivs0GfXHGQZQQT14QJF8KmPikaRiYdttCidG+rhyN7pM+GB8eOrFaWPWin//6N9q/lWfYfNZ6detpW0cEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDLh3FgZ; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753697637; c=relaxed/simple;
+	bh=daNJNlAwuAlAmQ7p/YMaL/6tdKQoOCGv84U1fRIrrag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A6nUt6t+C2sIbb/10eYuIe028nm4E25SBW/apXxR2cnNpfnrQlOVVoS1X3B0OkOxUB0WKbwPuIs0g/XQ9Bp+PSbr4fW4ZQRisk2m3oNeFFi93ZYUT04O2IS+6tBZ3Xzocl+8TlMMrk1BbwYViTXA3MxrXAIVvSpTyL7o5wNRNIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HergTxt5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDLh3FgZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753694933; x=1785230933;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=pD/CntcXIRk9jjzKrGwbeKx5t7fkyTPoChELwMFLoK0=;
-  b=oDLh3FgZPb2le7TgtZF9wP5B5Lgmc/GqFFKnp5FuPjDiuDZFK79Voop8
-   K+Iqa1+ZefqoLV7rGiQ7n2V5DdWNYVnoj1i0QVaquq9US2o2a4obbrpjt
-   T8G9RrVRfq5n2hc2DByxGnZR+INN0QWCEMyHxdLWyvPteXcj01gMRglHU
-   NJv7iLnU0UGlxg4DYisrCp+hMCLvFcrVkU5trRWqDiGSmhudfZUCAhRSR
-   Z3yA1bO6qVX4+9ZxVjezgXJfBLWzOtMhLHsMg3hcxNMtxcrWFqteXoXdP
-   f0HXCWXecgY/1ZyJR+EI65pAeO5pNlXOXl3oO6Muu6jvSDnWefmhb5vkm
-   A==;
-X-CSE-ConnectionGUID: W9WKtHSBSuqTtE91dee3Fw==
-X-CSE-MsgGUID: 9zylrluRTB+M4RTXuOtxUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="66640936"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="66640936"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 02:28:52 -0700
-X-CSE-ConnectionGUID: rOf7qErTT26cfmmC4yR9mA==
-X-CSE-MsgGUID: OjycoPtBShWDCsst43NHGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="161955044"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.246.225])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 02:28:49 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
-In-Reply-To: <20250724194306.27b98194@foz.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1752307866.git.mchehab+huawei@kernel.org>
- <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
- <20250712163155.GA22640@pendragon.ideasonboard.com>
- <20250713002517.7f52b0e9@foz.lan> <875xfhabv0.fsf@trenco.lwn.net>
- <20250724194306.27b98194@foz.lan>
-Date: Mon, 28 Jul 2025 12:28:45 +0300
-Message-ID: <83d12d5293e23c622ae390204fed8fd4453014b1@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HergTxt5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE1BC4CEE7;
+	Mon, 28 Jul 2025 10:13:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753697637;
+	bh=daNJNlAwuAlAmQ7p/YMaL/6tdKQoOCGv84U1fRIrrag=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HergTxt5kk4TR3TSd1NLJ1RsWKClShrSfD+8qw6wWjTmWoGROlYKuFOej/vLB4FQ4
+	 kBRBH9motJGn7ADDkbzqwuXEzssSs4HSm0g6QrRwxL5ESr7Gq0sgeXo1ZWEkcFxA5c
+	 38uGB+I6b3eutvofz1hgrZKjHL3yln6PLYAfi1YdtEdmUZQsbY2TYBPgSDAhDWOQe0
+	 E3olCvXGndz1IVvIh5zg193asbIOrIhcnErpIdIC0UnddIgd5y8jEbLizZ3A7VUBRx
+	 f5Aq4u9AoD8s/z97FIlq8gE1GGghk4A8DXRN+mj7vokix4E+z67ExqlxbdFqPuKVtZ
+	 kq57cj7+KekTw==
+Date: Mon, 28 Jul 2025 13:13:32 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	changyuanl@google.com, dmatlack@google.com, rientjes@google.com,
+	corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com
+Subject: Re: [PATCH v2 01/32] kho: init new_physxa->phys_bits to fix lockdep
+Message-ID: <aIdNTN1qd0dTvsQm@kernel.org>
+References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
+ <20250723144649.1696299-2-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250723144649.1696299-2-pasha.tatashin@soleen.com>
 
-On Thu, 24 Jul 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> Em Thu, 24 Jul 2025 08:42:59 -0600
-> Jonathan Corbet <corbet@lwn.net> escreveu:
->
->> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->> 
->> > Maybe I can place instead CONFIG_DRM_I915_WERROR.
->> 
->> I've held off on this series on the expectation that a new version would
->> come.  I guess, at this point, it will be a post-merge-window thing?
->
-> Feel free to postpone. I have already a new version of it here somewhere on
-> my branches, but I had to take some days off. So, I ended not sending you
-> the (probably) final version.
->
-> I intend to send what I have here during the merge window for you to
-> review and apply post-merge-window.
+On Wed, Jul 23, 2025 at 02:46:14PM +0000, Pasha Tatashin wrote:
+> Lockdep shows the following warning:
+> 
+> INFO: trying to register non-static key.
+> The code is fine but needs lockdep annotation, or maybe
+> you didn't initialize this object before use?
+> turning off the locking correctness validator.
+> 
+> [<ffffffff810133a6>] dump_stack_lvl+0x66/0xa0
+> [<ffffffff8136012c>] assign_lock_key+0x10c/0x120
+> [<ffffffff81358bb4>] register_lock_class+0xf4/0x2f0
+> [<ffffffff813597ff>] __lock_acquire+0x7f/0x2c40
+> [<ffffffff81360cb0>] ? __pfx_hlock_conflict+0x10/0x10
+> [<ffffffff811707be>] ? native_flush_tlb_global+0x8e/0xa0
+> [<ffffffff8117096e>] ? __flush_tlb_all+0x4e/0xa0
+> [<ffffffff81172fc2>] ? __kernel_map_pages+0x112/0x140
+> [<ffffffff813ec327>] ? xa_load_or_alloc+0x67/0xe0
+> [<ffffffff81359556>] lock_acquire+0xe6/0x280
+> [<ffffffff813ec327>] ? xa_load_or_alloc+0x67/0xe0
+> [<ffffffff8100b9e0>] _raw_spin_lock+0x30/0x40
+> [<ffffffff813ec327>] ? xa_load_or_alloc+0x67/0xe0
+> [<ffffffff813ec327>] xa_load_or_alloc+0x67/0xe0
+> [<ffffffff813eb4c0>] kho_preserve_folio+0x90/0x100
+> [<ffffffff813ebb7f>] __kho_finalize+0xcf/0x400
+> [<ffffffff813ebef4>] kho_finalize+0x34/0x70
+> 
+> This is becase xa has its own lock, that is not initialized in
+> xa_load_or_alloc.
+> 
+> Modifiy __kho_preserve_order(), to properly call
+> xa_init(&new_physxa->phys_bits);
+> 
+> Fixes: fc33e4b44b27 ("kexec: enable KHO support for memory preservation")
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  kernel/kexec_handover.c | 29 +++++++++++++++++++++++++----
+>  1 file changed, 25 insertions(+), 4 deletions(-)
+> 
+> diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
+> index 5a21dbe17950..1ff6b242f98c 100644
+> --- a/kernel/kexec_handover.c
+> +++ b/kernel/kexec_handover.c
+> @@ -144,14 +144,35 @@ static int __kho_preserve_order(struct kho_mem_track *track, unsigned long pfn,
+>  				unsigned int order)
+>  {
+>  	struct kho_mem_phys_bits *bits;
+> -	struct kho_mem_phys *physxa;
+> +	struct kho_mem_phys *physxa, *new_physxa;
+>  	const unsigned long pfn_high = pfn >> order;
+>  
+>  	might_sleep();
+>  
+> -	physxa = xa_load_or_alloc(&track->orders, order, sizeof(*physxa));
+> -	if (IS_ERR(physxa))
+> -		return PTR_ERR(physxa);
+> +	physxa = xa_load(&track->orders, order);
+> +	if (!physxa) {
+> +		new_physxa = kzalloc(sizeof(*physxa), GFP_KERNEL);
+> +		if (!new_physxa)
+> +			return -ENOMEM;
+> +
+> +		xa_init(&new_physxa->phys_bits);
+> +		physxa = xa_cmpxchg(&track->orders, order, NULL, new_physxa,
+> +				    GFP_KERNEL);
+> +		if (xa_is_err(physxa)) {
+> +			int err_ret = xa_err(physxa);
 
-I think the main questions here are 1) how to handle optional build tool
-dependencies, and 2) whether Python is an optional or required
-dependency.
+Just int err should be fine here, otherwise
 
-It might be nice to be able to have an actual Kconfig and dependency for
-optional tools. "depends on TOOL_PYTHON" or something. Enable the
-option, and you should have Python.
+Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-This in turn raises the question for allyesconfig. It's cumbersome
-(though not impossible) to add config options that you actually have to
-enable manually.
-
-The header test stuff really isn't required to actually build the kernel
-or drm, however DRM_MSM does depend on Python for building the driver.
-
-
-BR,
-Jani.
+> +
+> +			xa_destroy(&new_physxa->phys_bits);
+> +			kfree(new_physxa);
+> +
+> +			return err_ret;
+> +		}
+> +		if (physxa) {
+> +			xa_destroy(&new_physxa->phys_bits);
+> +			kfree(new_physxa);
+> +		} else {
+> +			physxa = new_physxa;
+> +		}
+> +	}
+>  
+>  	bits = xa_load_or_alloc(&physxa->phys_bits, pfn_high / PRESERVE_BITS,
+>  				sizeof(*bits));
+> -- 
+> 2.50.0.727.gbf7dc18ff4-goog
+> 
 
 -- 
-Jani Nikula, Intel
+Sincerely yours,
+Mike.
