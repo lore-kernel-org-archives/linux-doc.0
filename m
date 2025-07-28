@@ -1,123 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E8272621;
-	Mon, 28 Jul 2025 15:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF77A8F6E;
+	Mon, 28 Jul 2025 15:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753715871; cv=none; b=HNWVoRY2tg73zW99lcSG2JKWrBxBIlB+zxSm7AhwZXrKU/k6F80vG0mdt7btcHx/YXAMZ420JNjqpsSpwwnjgxe4/wO3xytoE1TkL5rLDrqQb7I2Nu7/wyngOA4pzJ5xayQ6gFmtYaAqdjNwDEOSiOy87mu/Kqnzubvfb6pPfF8=
+	t=1753716782; cv=none; b=CzCL9KVwMWS01WfJRrmTSSE5RNqxeSmn98yVPiR/KOz1EE+xM2PXbAChmN1g7Ly3YJxbRBAbptm3vs2pNr4VWtZbJ6hD7tqiLWVgs9RmTuGQXTMK1OCSkt0y4je9v35n9uhyyiFPLkrhOD08DhqH0USPAKnHOjooYvX6LIyFEtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753715871; c=relaxed/simple;
-	bh=jV727T99qgnh1S0rwWU0da1unCUJvT2tB6hFm2F1/Mo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aAC0SN+PEKGMFzq/P5EFjNlxB3opBixPIcA8nx4ac7904EwJz1ESbprGSQSBHAO3t3u3KMYqSjx2awITL7KAPb6cNaR1mYIXALfY/Eo49JAD75YHG2mipjpHpIp0jJXGdMaN3lBNk8PznVVl+OzggJFCcHDx5VfBZtrGwPPY6Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K16BHBpR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753716782; c=relaxed/simple;
+	bh=2PIpfN3dZvXiQ9iIBgbBu5gRJSTkbuCQSySSFGDtB9c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=grAFQ7WCnh9B7YaVSOZxOwi4FezTcYsOTp3iyhZa0RNOSLnWsasKNMIWhDuwxCkLSQANwJ8wbv7KyMZR1pC9YbKQMMYpvdeWoCYarEmzjcIZQSLxRfqVT8xsfQ/QzKV1EqruRsknFidAffh0VNEa11i2VQyd3Ek9gLKCOyEGRko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=BKjbs/xs; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K16BHBpR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE4BC4CEE7;
-	Mon, 28 Jul 2025 15:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753715870;
-	bh=jV727T99qgnh1S0rwWU0da1unCUJvT2tB6hFm2F1/Mo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=K16BHBpRBWnNWZUczzVwEQX3lZbsX0KV0ELZ5BY2IxJt2tyDWbAVHAuddklKMUNL/
-	 6rM5XsxGlU5XsvyfafnXLhXviqefHfmIhdkVa4KhSUuVBu5LLvJyWlrmzBbYzTNf7r
-	 XaagVrZ+xz1j5nWqqz0Dq6TMa69amqwuKHy2tBc7XGfjMAtYeDFAjmIWDDjO9mhs8f
-	 emOQG6011CW96Df3b3hpWWoGRNGVqcnLgxD0Zt/1bhC41PEILL3uJxhYqQAlwqsplD
-	 h9vYZa57WBkTku3SZbAIM2C6rGXODXfrcZYVUdsjKWFLj1j2csHBKRuMMWkvR4cgjY
-	 0VQLmrxuroWWQ==
-Date: Mon, 28 Jul 2025 08:17:48 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Tariq Toukan <ttoukan.linux@gmail.com>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Jiri Pirko <jiri@resnulli.us>,
- Jiri Pirko <jiri@nvidia.com>, Saeed Mahameed <saeed@kernel.org>, Gal
- Pressman <gal@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Shahar
- Shitrit <shshitrit@nvidia.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Brett Creeley <brett.creeley@amd.com>,
- Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi
- <pavan.chebbi@broadcom.com>, Cai Huoqing <cai.huoqing@linux.dev>, Tony
- Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>, Linu
- Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Jerin
- Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya
- Sundeep <sbhatta@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>, Mark
- Bloch <mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, Petr Machata
- <petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-rdma@vger.kernel.org
-Subject: Re: [PATCH net-next 0/5] Expose grace period delay for devlink
- health reporter
-Message-ID: <20250728081748.700ad46a@kernel.org>
-In-Reply-To: <3bf6714b-46d7-45ad-9d15-f5ce9d4b74e4@gmail.com>
-References: <1752768442-264413-1-git-send-email-tariqt@nvidia.com>
-	<20250718174737.1d1177cd@kernel.org>
-	<6892bb46-e2eb-4373-9ac0-6c43eca78b8e@gmail.com>
-	<20250724171011.2e8ebca4@kernel.org>
-	<3bf6714b-46d7-45ad-9d15-f5ce9d4b74e4@gmail.com>
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="BKjbs/xs"
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56SDmqUL025850;
+	Mon, 28 Jul 2025 17:32:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	L5U4iOIMzTLQcNGAWLcYUHl7amMuMgZWgZO8MaFVrQk=; b=BKjbs/xs31c7FSK6
+	R7Hw18HQ/9sqBmYKB0lJ24Om3mySIoCQUhNKsOM9eaxfgWKe1vxufD07ZCSE7a6b
+	VI4iAG0DRoeerDPWNPUUAi2++vS0oGTT4mUMNZAfmehmY1mc+7Tpj5T4zT/lDW0A
+	Wy5v6lI01wD/63+TaMivxAbpjZ1OhYmWdJKZMODqtgFu/hyPWd4IUQRQRIPfSO6g
+	UQGOmuWcLg1r4nJ6QmCdriRfKje71aZ5yhK7foBX+WP0P1rhiDvF+W6FPRdYF1Oc
+	N8/5Tak5VIaC4pC8FAAbc2rCxOee3BauQ4G1SvwemaxM0OgZpU+V6sruODTUrMeo
+	6M4rPA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 484pc28w27-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Jul 2025 17:32:40 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4637940045;
+	Mon, 28 Jul 2025 17:31:10 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5F84776DC2C;
+	Mon, 28 Jul 2025 17:29:51 +0200 (CEST)
+Received: from localhost (10.252.23.100) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 28 Jul
+ 2025 17:29:51 +0200
+From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+Date: Mon, 28 Jul 2025 17:29:33 +0200
+Subject: [PATCH v5 02/20] dt-bindings: stm32: stm32mp25: add
+ `#access-controller-cells` property
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-ID: <20250728-ddrperfm-upstream-v5-2-03f1be8ad396@foss.st.com>
+References: <20250728-ddrperfm-upstream-v5-0-03f1be8ad396@foss.st.com>
+In-Reply-To: <20250728-ddrperfm-upstream-v5-0-03f1be8ad396@foss.st.com>
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Gabriel Fernandez
+	<gabriel.fernandez@foss.st.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Le
+ Goffic <legoffic.clement@gmail.com>,
+        Julius Werner <jwerner@chromium.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-perf-users@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>,
+        =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+X-Mailer: b4 0.15-dev-8018a
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-28_03,2025-07-28_01,2025-03-28_01
 
-On Sun, 27 Jul 2025 14:00:11 +0300 Tariq Toukan wrote:
-> I get your suggestion. I agree that it's also pretty simple to 
-> implement, and that it tolerates bursts.
-> 
-> However, I think it softens the grace period role too much. It has an 
-> important disadvantage, as it tolerates non-bursts as well. It lacks the 
-> "burstness" distinguishability.
-> 
-> IMO current grace_period has multiple goals, among them:
-> 
-> a. let the auto-recovery mechanism handle errors as long as they are 
-> followed by some long-enough "healthy" intervals.
-> 
-> b. break infinite loop of auto-recoveries, when the "healthy" interval 
-> is not long enough. Raise a flag to mark the need for admin intervention.
-> 
-> In your proposal, the above doesn't hold.
-> It won't prevent the infinite auto-recovery loop for a buggy system that 
-> has a constant rate of up to X failures in N msecs.
-> 
-> One can argue that this can be addressed by increasing the grace_period. 
-> i.e. a current system with grace_period=N is intuitively moved to 
-> burst_size=X and grace_period=X*N.
-> 
-> But increasing the grace_period by such a large factor has 
-> over-enforcement and hurts legitimate auto-recoveries.
-> 
-> Again, the main point is, it lacks the ability to properly distinguish 
-> between 1. a "burst" followed by a healthy interval, and 2. a buggy 
-> system with a rate of repeated errors.
+RCC is able to check the availability of a clock.
+Allow to query the RCC with a firewall ID.
 
-I suspect this is catching some very mlx5-specific recovery loop,
-so I defer to your judgment on what's better.
+Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+---
+ Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-As a user I do not know how to configure this health recovery stuff.
-My intuition would be that we just needs to lower the recovery rate
-to prevent filling up logs etc. and the action of taking the machine
-out is really the responsibility of some fleet health monitoring daemon.
-I can't think of any other error reporting facility in the kernel where
-we'd shut down the recovery completely if the rate is high..
+diff --git a/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml b/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml
+index 88e52f10d1ec..4d471e3d89bc 100644
+--- a/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml
++++ b/Documentation/devicetree/bindings/clock/st,stm32mp25-rcc.yaml
+@@ -31,6 +31,11 @@ properties:
+   '#reset-cells':
+     const: 1
+ 
++  '#access-controller-cells':
++    const: 1
++    description:
++      Contains the firewall ID associated to the peripheral.
++
+   clocks:
+     items:
+       - description: CK_SCMI_HSE High Speed External oscillator (8 to 48 MHz)
+@@ -123,6 +128,7 @@ required:
+   - reg
+   - '#clock-cells'
+   - '#reset-cells'
++  - '#access-controller-cells'
+   - clocks
+ 
+ additionalProperties: false
+@@ -136,6 +142,7 @@ examples:
+         reg = <0x44200000 0x10000>;
+         #clock-cells = <1>;
+         #reset-cells = <1>;
++        #access-controller-cells = <1>;
+         clocks =  <&scmi_clk CK_SCMI_HSE>,
+                   <&scmi_clk CK_SCMI_HSI>,
+                   <&scmi_clk CK_SCMI_MSI>,
 
-> > Now we add something called "grace period delay" in
-> > some places in the code referred to as "reporter_delay"..
-> > 
-> > It may be more palatable if we named the first period "error burst
-> > period" and, well, the later I suppose it's too late to rename..  
-> It can be named after what it achieves (allows handling of more errors) 
-> or what it is (a shift of the grace_period). I'm fine with both, don't 
-> have strong preference.
+-- 
+2.43.0
 
-Let's rename to "error burst period", reporter_in_error_burst etc.
-
-> I'd call it grace_period in case we didn't have one already :)
-
-Exactly :)
