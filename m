@@ -1,444 +1,296 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AB62528FC;
-	Mon, 28 Jul 2025 08:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753691337; cv=none; b=IBH2alMk/jNor9aQU5fSJBs4IGegNxw9mb1vte4uV5QyvmnrBpNRAxP+oVLUvvRlSD3ifZ9C+hBosyy643YV7I7Ev6nTrmf6tha5CXmn95GoEXZbBi23eJxGYSJEHeIvBKa6KeTvEp5ZdwzqphKDZ8TrZQ3cCmL87FIJhfDH+XE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753691337; c=relaxed/simple;
-	bh=6oKLGNKIrcqlkqQGPwMkQB0wal9c5xuEzoh0atfTu3w=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=qeom5b8GhWGvq9/ezuGxNWpxUMMCfNK0C5wDXbpjS8BLEyMbfeoRz2SOnvA2AEAKBrcJS6ecu8Ci0OaSn76jukyrev64OJqTIPVgia8FqDtXkf4TDIsZziue7vPt4m/NB/U/j4o3zDkRXqIhnIHNXLhJBr/KkbtBxfROgCIJ+Vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4brBTG6vnPz6FyBy;
-	Mon, 28 Jul 2025 16:28:50 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl1.zte.com.cn with SMTP id 56S8SVY5063787;
-	Mon, 28 Jul 2025 16:28:31 +0800 (+08)
-	(envelope-from fan.yu9@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Mon, 28 Jul 2025 16:28:34 +0800 (CST)
-Date: Mon, 28 Jul 2025 16:28:34 +0800 (CST)
-X-Zmail-TransId: 2afc688734b2191-ba8de
-X-Mailer: Zmail v1.0
-Message-ID: <202507281628341752gMXCMN7S-Vz_LHYHum9r@zte.com.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3781C8611;
+	Mon, 28 Jul 2025 08:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753692166; cv=fail; b=E+fdl2Jt9TIH7iVe2SXWb3sN/5Z3pQcXbK1FysixbuDu0FTpkZKGOxcu3d1am8FELSsp0PfPDot/RU9hvvoN0YxqXN+qTTeA0V2IwftOoPIYZcmYPi/FMxfM6124a/bJWOISlx8Yggap7+j9wwXfyP0yt6i7506Vd5X/nTXkGro=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753692166; c=relaxed/simple;
+	bh=bzIhDxZtLwd1VQFkR8mPE1rYFtJHXk41LAfPd8MdE8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Mz0xl5pIvS0CyUAESmEGsP2X7kWdMURVdBFWplMFA859YrjTnKzKxZcax7P4Kj20PL74pqj7A67wOVJqOqk5Irm2iysFnKH7xEM2lnaXqwc2LOjFo6HuMi6Df+XLEk8iS7vfSrIGNM27xhOoGNrMfE/5R8uWfgscJcBySkHAdgI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=J7G6RpXn; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=OHSUbOd2; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="J7G6RpXn";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="OHSUbOd2"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56S7g41Y020408;
+	Mon, 28 Jul 2025 08:42:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=cNjMjSMSie9Y8ofPaF
+	paLD1VwyBi7sBueNPyFGu6g74=; b=J7G6RpXnNMTqhhmyEMoZwVpPHtNh72l9cr
+	cYfhWwJIrHCKol9ueFJPVojj3Vi+G7ebkA4/2hlNT4BKKtFraBMbuTMl69lkms4z
+	W4oSznjVQQel2h0oT7jySEXjlvTriEnLQTbou2ni3EzU6qykvRCgCNLENB6XIfKb
+	Pnqsek+R+YIgCauJfc5Fa5rxOsIAcxZabkK+UNmkzgaycX5hbHmh42ka68MB9ETG
+	YQ8b4MqH7iAxHZ8t8/loy5gksizYgYEM0s+Yk28OaJskj1HfRK8OAat8ttbpko2b
+	TOjVyab6rFPlJGolpCfvizR1+gEyKQ4qnBb4viwUkkXmpnI6uMBg==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 484q29jrjv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Jul 2025 08:42:35 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56S6xkVQ035233;
+	Mon, 28 Jul 2025 08:42:34 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 484nf8g2n4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Jul 2025 08:42:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uuw5xuGvLWpZU9qGIJJYk4kuIFajYmjzUW/am/+FD3nQlh85ZorpGlb0sySJuylkBYcFkpbxYtc8M4COtJPsoO0BkPXrRa649HrEK2WjG9CHR3Do3OCyNGKvDHUni8l0W7ra0BdlXjHHLSLjuU88YL66+sHS7XBpThiCpnps2C2FrVQYotxk+rf3zqSzoGXr34XOraAogJqAKM5d8HX75hg0Tkr4dNTZH7vyy3zC0Mo23JorKLi/abWE2H/v47Qb8w9JrI+Wo3LQuX9N0MXIeVw7QLmktZzyl25mzH8nWFSaPgC2qO7xz2f9+InSkzrI8ozaQPRP4H2sFLqckSdFZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cNjMjSMSie9Y8ofPaFpaLD1VwyBi7sBueNPyFGu6g74=;
+ b=fG6lpASGQja+R/8wI5X2By1LKH65XqLEWtqqoVIMFQwlrbQ5M/oWDNMvUOifHwII9z2rzybZK0wLlYGTYL9ZeT9o6xjzgr8YHA7fqwlBV5kN72czec8TKJi+41UJFLWyDBNgJN4T7rfkbcrTBHDAy0wQVjw63Oba99foCgLoY6HJEcJNtaduiRMVjgO4UjUY/GPO6KSZTWj6bV6Gam92Qp/Tf/UKtH12fdG3DmM3vpM8bzoL8xbghwk+AbNn1sXC8/GmmDMl35e4woLjyGXK+/srFNXgD47NeLpjbP6jzx7qvV+iIsHrgykpU5M/+zGBd1iS0jvkU3phxW8BkVWrAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cNjMjSMSie9Y8ofPaFpaLD1VwyBi7sBueNPyFGu6g74=;
+ b=OHSUbOd2YtIFEqpVLfi50x1dP38EP6IN7277ZzDhOnjOpI98TCwaxFHvalVgeNVTCNzWxn8L1edfx63TFedKQKTwod3DPj+pr/U4qfZA5cEx0JasiLuc+1fb2KfvPgXlCoXnQ8sHHHTh4khF4QrXCoBw5QYTr86G5Go6FgFRl6s=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by PH0PR10MB4584.namprd10.prod.outlook.com (2603:10b6:510:37::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.27; Mon, 28 Jul
+ 2025 08:42:31 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.8964.025; Mon, 28 Jul 2025
+ 08:42:31 +0000
+Date: Mon, 28 Jul 2025 09:42:27 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+        josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
+ kernel
+Message-ID: <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250727195802.2222764-1-sashal@kernel.org>
+X-ClientProxiedBy: MM0P280CA0001.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:a::10) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <fan.yu9@zte.com.cn>
-To: <akpm@linux-foundation.org>, <wang.yaxin@zte.com.cn>, <corbet@lwn.net>,
-        <yang.yang29@zte.com.cn>
-Cc: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdIGRlbGF5dG9wOiBFbmhhbmNlIGVycm9yIGxvZ2dpbmcgYW5kIGFkZCBQU0kgZmVhdHVyZSBkZXNjcmlwdGlvbg==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 56S8SVY5063787
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: fan.yu9@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.132 unknown Mon, 28 Jul 2025 16:28:50 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 688734C2.003/4brBTG6vnPz6FyBy
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|PH0PR10MB4584:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6a309e1-2ebf-4741-7c51-08ddcdb2b103
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?VXUO/gREEAyLlF3mrWZo80RSWphcCgDFdzxexxI+UVJMNrNWDeJYzOvK8JDO?=
+ =?us-ascii?Q?FqlEt0r4udIXqEY6mDmz2mWZLE1EF+649aFFV8jTqWcgI/qre3N+PbFXp3RD?=
+ =?us-ascii?Q?ceDAooCAheiWsbapaovXngGMm+/My/nXeiKi2Ny7f34kmHwpCtePJepqt91O?=
+ =?us-ascii?Q?4BcogIajrg7xXVIzW9MAKTtjnDocrppTjInXI2SCSBMO/fxQ0Fnu0ra7eVnv?=
+ =?us-ascii?Q?61ILhuxnVuvlRfuZkMpQO+jtMyLhPBcWfAe20aiV+X29u8O/ulhvbxx9uvGS?=
+ =?us-ascii?Q?NA+LmTwaUr2H1tU5dRhXnpivc96TiNiNn3Xw+2sC7D+wGz0sZk/EHVDjQRL/?=
+ =?us-ascii?Q?SIOeIEehqz4UVMEO0JB1S+x7u0cLDKLDEsHgR6V2zCmzKFb38etlCnVBcv6u?=
+ =?us-ascii?Q?izMiOkCvALSdWxyGp/OWWzY1YPAJSjw+UNK0/nFv3rdm77FOiqZU/iy2TvkQ?=
+ =?us-ascii?Q?J4bTY5aaGp4C4EpmDfyh6qgvMVRs388jM5PZtbOvAjUUDcuV9JYd/aywOx+s?=
+ =?us-ascii?Q?yOn6dSs4EtAkjyvtzKFz7UVdiFKrFpw1441bnBePh1yJTceXAAU9AYbCWw3+?=
+ =?us-ascii?Q?kDpgNNmkmT9qFoABhSc2dJ3Ab+6rdRyQF7oE7bAtEpquYYvwiHXJhHjcvxgN?=
+ =?us-ascii?Q?qrHrP1YRPVDwyFbRO6z9gKDT9CXWg41wDJxUUX34j0XRKU4OK/oe4/iUtk+3?=
+ =?us-ascii?Q?nmeLvIaIqwtz1uZFOO0IFwDPp9Jmi9I4mejOlu1nbvw+xlTcAMLVmOwnDCqp?=
+ =?us-ascii?Q?upSJs7vpxRS41JzMyy1d8ishM4auazX1zPkO4wtp+vYUnLyix0ebYRMzJ6Ea?=
+ =?us-ascii?Q?MorJjaIo18NYnSRLC1CK65Kt9VLFwmyJ6RDVK956QPvlcSmSUEqw//do3e/T?=
+ =?us-ascii?Q?+6JIyjBg2RL+kp5/ikOkuQCeo2KffwUc32daZ33ueA3NGLeBtlud/+lig7z6?=
+ =?us-ascii?Q?oNcySQPcRg1JxXq+idG4ddDDW2wR2/hgqVdiJOu+Uuyzu/XhwfXkpKUcpNZt?=
+ =?us-ascii?Q?GBSUDl8G1sYo6gAxojpmS1Px1PhEN9B/t9GCEyEx20Z7gIHOmWSOXQEVrMjh?=
+ =?us-ascii?Q?7SAfY3WHoGfawgviatBDfCaAhH2yWSq8xAnuq9Oa/ON5+UedaQEQ0hTOsxwu?=
+ =?us-ascii?Q?RL2ElldDVof/uP9nWuyvqfJ/og9qzD0/C3wQDQhWNos37sRuq5TGHM5dfmP9?=
+ =?us-ascii?Q?R9r86X2+3RJVBq2/k9STJR0b7enLHi+csTitb3Od4jSW3W99xsQFm56KZ2GE?=
+ =?us-ascii?Q?mmJ6NkWBl9TOZ2rrVmF/P2IWSJa49p0gAZer703X+Xy+LA+GwZuV5n8pgy0D?=
+ =?us-ascii?Q?13Mje5tksD7Vuq4glUZGOr7WTcQXUGj0qfqTEumIMuYxyQ5zs5i0YGjZFSRz?=
+ =?us-ascii?Q?5EQzepEEtYGQZZisfIp1D3PkBq9OwdRZ/LxSB2unX4GGMgxjMJT6MtO5gMUa?=
+ =?us-ascii?Q?Wq0+zNBL4hQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?rECe8g3LuS6cP26RDFJijE/iSH9ghbJ1efERLCrdaKQehU01VQCUrzs2zuXT?=
+ =?us-ascii?Q?cORBm/30i2VqH6DvqGIrN+0ZAeqB4wFrNcau63RGDCDZ38j7D64rzT8WTZzU?=
+ =?us-ascii?Q?Wv5RAIgBHZCtqUXNaHuTkL9myk0rEl62nUhU6l9u82rJicqblTF8ZyEBHalA?=
+ =?us-ascii?Q?OwT9Bgp+BoOhZuelN+rsYhv6UHVtSurKteVccbv4/Pe0/RgKIbwFbsTiHNQN?=
+ =?us-ascii?Q?pjRwqqtu69fUC3jFkYX8JwgTD2Kt0nxR8wZTu4uy94P4h/9E9kmBIC3M/gTJ?=
+ =?us-ascii?Q?+rUR73Mz4LIkDj1SHoRQRC1kUXPPf1j6wPrk+SIiCL/ugj6oVi3jMnYW0ErN?=
+ =?us-ascii?Q?D+Y0Gv+R2hXlcrDDpKH7MmLce4dZfhtzm1Y/Hejdz7WiksUgqI0Gc5KRIzhK?=
+ =?us-ascii?Q?wKFafd/+tawbAyJaSGIqLF+MG9315lqUaX3jpNzFHcL9UsxQDq4HoxRfPsmO?=
+ =?us-ascii?Q?6ROWmYKZf8VoBp2u19HteTkcdYC1Wu+cO49+vOO1ZiR3dRJIxu1Y4e4BIf73?=
+ =?us-ascii?Q?4rmYQhB78KKqbaJ/1zlgyRrciuydy3kPNU/vKxas8zAXQmS/8K6P/LfNK4jl?=
+ =?us-ascii?Q?1Sg3p0lc2kVDkwj2yn975ztvAysIUjIEmjkINQk1aYgdaIcyuGCLij2ILFW2?=
+ =?us-ascii?Q?4XSkiMKk+9riz9E0q6h9NLnHY5nbA9n5gF2V94bXPMJ+hTkBGt0yZglpRFqS?=
+ =?us-ascii?Q?CgC6u/DU1HYKVNNL9W4B6uAHM09E7mj/3tyZBPpOrZ0nGg2wuFtgdfkmtMXg?=
+ =?us-ascii?Q?aPzxvA2qV0H87vXmgRmYOp6IXdMs+mvL30BroyStbPoNIbxoxRKpTc9X97Ty?=
+ =?us-ascii?Q?fOlycNIWMbsSF+HmXF0fRo1DFqKL7dH7uUtb3hU/LlrYPQYTU0FdUI8GFE38?=
+ =?us-ascii?Q?LkO8whJmSimnN+2QxGks+TIN7j9Ly5AMSTHljxgPr44eaa+PIUXJKhkIa9R0?=
+ =?us-ascii?Q?kxitenxNSf8POIfl/4TWDy4mXy6RNIhholE0AclBHsWlEgqVpHEb3js2ZxZ2?=
+ =?us-ascii?Q?DcZowSDskI7ddCBvtb7pNvws0hKrMtcgx23qUwQhzQqhQLK95KexYB6G6MxQ?=
+ =?us-ascii?Q?Kn4341YLRvximUSb5LE2kHdnpCL/u0Mc4jTtOlGv+EpaF6qNcwNL335sU2H2?=
+ =?us-ascii?Q?6+m3A1IQum0RhvHCQBAVRx0ds354JznauHdCCYMzD5VXBL76DKizYac3yTIW?=
+ =?us-ascii?Q?Gg4j1nj6/67T2XEWC2Wayy87NFo8EcWaVn6Nk2oeNiQHA0SlF0wO9fY5pZtU?=
+ =?us-ascii?Q?A5Onrl2d4z7q+nLDEphtwnpn3q/BpVxqMBVb/9BUejCehbeV5YNIw4VIVp34?=
+ =?us-ascii?Q?ZffuIvUHSdyD6o6eOcEoJtNLIYvD5hY18Hzr7fg0esdA0/wwonxt+/W5fI17?=
+ =?us-ascii?Q?vfImIfB6nRC+So1rzCAQISovYPBn8YlBFezJnAgbGIGq9sFA/FJtKrzMY5tX?=
+ =?us-ascii?Q?+ze12nnQ0RKMfDZIBEjiwdH52BOWjUUCqadv/zNnLtB8CHLAsW+lTjxF6YJD?=
+ =?us-ascii?Q?X4Ktl4hfVUm7/sY6Rl32JBPvBrgntnLU4UwO8QYWtywUrfFNxPRegmo48pXq?=
+ =?us-ascii?Q?OtZHaghF6m/cvmTxRee5nR6ERuWVQzhJ1RV7svZv4WE4zc1usYpKlW1a3+RR?=
+ =?us-ascii?Q?KQ=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	m71F7/MoBpWzARllxY1fd74chEjC3e/pu+iqEL1dzOZ3tvToE1m0WeiAUgZlFhGh6ToGkXDENHpBv0f39x6WcI3GzS1lZGrzZvbkWmDMulKLl81deAt35HQeGdYPkvMhSNNBTYjI+dh8gIaRjgqureNo5M2u4w6vZakPmU8p4oa40TK60y1/XBVlJWVoRGIbRbOrythe6fMuXJklbS85vHRzfnJPY8HkaOXBT/X3fcy9eRc+DB43eILYZyNwEy8coxBVOoI5d2cdS5Gid1gjrFdNziPhQvJYX7CoOQjd0Ai98Uw+P1jFOZPH2mQuisRnxw6UMJ4MrGQUEjP6Bfsq59ChkEjkFTnTHiPEFtbOCr9FlzMZF5JJPu/td9JRAeIqT1Ka69oe2sKycq50PLmSNrm4+h/4VvBBQAby5pamphaM2iFe6oq3zgUSs/dxQFbBWdI7EpawkjL1wD1bVATPyuJd1aKGKb5Ri9/Av/YfnaYOQmLWzHrgs39bGt81rCke8ZLNBrasuZYPkJkRy+SlcRQzj3fyj3D1NEtLgSl1WtJe/wJIyOg5PQCpBMABDH44onXfQoeAS0qsksFtH7x0TeBNITK7Ij0aQkL97S4POO0=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6a309e1-2ebf-4741-7c51-08ddcdb2b103
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2025 08:42:31.8756
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F3pgip1hAhKY01QRyKz+hoFL+EaZ4gcBasI1XqRoeaYYd95T1kzVT9X7dMEtmNHJVahoKV6NRTxVxqXv7PlcR109cXU7aBA8NWozHSERXjw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4584
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-28_03,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 spamscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505160000 definitions=main-2507280063
+X-Proofpoint-ORIG-GUID: Atcin3D9TBo9hQzVtr0Vi5_oOt1Az05M
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI4MDA2NCBTYWx0ZWRfX4hXRetAbzcmu
+ yodUzLceQQj0n1Q51js819Wo4ae6OHeeXw2bu9wJD4PiytOae9WRojCM7cLuXIN/Bk2sdf/Sb22
+ Qm9l7M19c9h3S+8dMBkfh+vfpgRjJ+FxQ85NZI2zYCnvqhgFb4o5/BffpvuDjaW4/UjjiYyMl1L
+ zrqr9nVvxsxEFD0tOE5OYGctcmWqnhOeWTmcu5X0yC95zNrMA4uTlBs8Ie/lxIVJzQr6Blt0u9V
+ 8ghQVhDRwv658jgoRDWosL9HSEkSJ5oT0DrQoeQRdneualYo+IRs+8JR66mWZWZHV2yMUa21fYt
+ iZWP6QGlStMbYJQDYJLxdHLJrMgcJlNmVhCCdEzUXkALF7m3SKOxHjU/i+ntOBqimVQSaLXxGSo
+ 2+WuxTmwAMBtKzcPX1KCGK74naYZeCxfOpU4rfpdFMcChFWnr4Rsy/LvOdzmheOwrDjdrI26
+X-Authority-Analysis: v=2.4 cv=FvIF/3rq c=1 sm=1 tr=0 ts=688737fb b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10
+ a=4A_fLyBlz-x4Rwru9cYA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: Atcin3D9TBo9hQzVtr0Vi5_oOt1Az05M
 
-This patch improves error diagnostics and documentation for delaytop:
-1) Enhanced error logging:
-   - Added explicit error messages in critical failure paths
-   - Implemented BOOL_FPRINT macro for robust output handling
++cc Linus
 
-2) PSI feature documentation:
-   - Updated header comment to reflect PSI monitoring capability
-   - Improved output formatting for PSI information
+On Sun, Jul 27, 2025 at 03:57:58PM -0400, Sasha Levin wrote:
+> This patch series adds unified configuration and documentation for coding
+> agents working with the Linux kernel codebase. As coding agents
+> become increasingly common in software development, it's important to
+> establish clear guidelines for their use in kernel development.
 
-System Pressure Information: (avg10/avg60/avg300/total)
-CPU some:       0.0%/   0.0%/   0.0%/     345(ms)
-CPU full:       0.0%/   0.0%/   0.0%/       0(ms)
-Memory full:    0.0%/   0.0%/   0.0%/       0(ms)
-Memory some:    0.0%/   0.0%/   0.0%/       0(ms)
-IO full:        0.0%/   0.0%/   0.0%/      65(ms)
-IO some:        0.0%/   0.0%/   0.0%/      79(ms)
-IRQ full:       0.0%/   0.0%/   0.0%/       0(ms)
+Hi Sasha,
 
-Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
----
- Documentation/accounting/delay-accounting.rst |  61 ++++---
- tools/accounting/delaytop.c                   | 162 ++++++++++++------
- 2 files changed, 143 insertions(+), 80 deletions(-)
+I feel like we need to take a step back here and consider some of the
+non-technical consqeuences of this change.
 
-diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
-index 664950328fb7..8ccc5af5ea1e 100644
---- a/Documentation/accounting/delay-accounting.rst
-+++ b/Documentation/accounting/delay-accounting.rst
-@@ -132,38 +132,47 @@ Get IO accounting for pid 1, it works only with -p::
+Firstly, there is no doubt whatsoever that, were this series to land, there
+would be significant press which would amount to (whether you like it or
+not) 'Linux kernel welcomes AI patches'.
 
- The above command can be used with -v to get more debug information.
+I don't feel that a change of this magnitude which is likely to have this
+kind of impact should be RFC'd quietly and then, after a weekend, submitted
+ready to merge.
 
--After the system starts, use `delaytop` to get the Top-N high-latency tasks.
--this tool supports sorting by CPU latency in descending order by default,
-+After the system starts, use `delaytop` to get the system-wide delay information,
-+which includes system-wide PSI information and Top-N high-latency tasks.
-+
-+`delaytop` supports sorting by CPU latency in descending order by default,
- displays the top 20 high-latency tasks by default, and refreshes the latency
- data every 2 seconds by default.
+This change, whether you like it or not - amounts to (or at the very least,
+certainly will be perceived to be) kernel policy. And, AFAIK, we don't have
+an AI kernel policy doc yet.
 
--Get Top-N tasks delay, since system boot::
-+Get PSI information and Top-N tasks delay, since system boot::
+So to me:
 
- 	bash# ./delaytop
-+	System Pressure Information: (avg10/avg60/avg300/total)
-+	CPU some:       0.0%/   0.0%/   0.0%/     345(ms)
-+	CPU full:       0.0%/   0.0%/   0.0%/       0(ms)
-+	Memory full:    0.0%/   0.0%/   0.0%/       0(ms)
-+	Memory some:    0.0%/   0.0%/   0.0%/       0(ms)
-+	IO full:        0.0%/   0.0%/   0.0%/      65(ms)
-+	IO some:        0.0%/   0.0%/   0.0%/      79(ms)
-+	IRQ full:       0.0%/   0.0%/   0.0%/       0(ms)
- 	Top 20 processes (sorted by CPU delay):
--
--	  PID   TGID  COMMAND            CPU(ms)  IO(ms)        SWAP(ms) RCL(ms) THR(ms)  CMP(ms)  WP(ms)  IRQ(ms)
--	---------------------------------------------------------------------------------------------
--	   32     32  kworker/2:0H-sy   23.65     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	  497    497  kworker/R-scsi_    1.20     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	  495    495  kworker/R-scsi_    1.13     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	  494    494  scsi_eh_0          1.12     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	  485    485  kworker/R-ata_s    0.90     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	  574    574  kworker/R-kdmfl    0.36     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	   34     34  idle_inject/3      0.33     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	 1123   1123  nde-netfilter      0.28     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	   60     60  ksoftirqd/7        0.25     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	  114    114  kworker/0:2-cgr    0.25     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	  496    496  scsi_eh_1          0.24     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	   51     51  cpuhp/6            0.24     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	 1667   1667  atd                0.24     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	   45     45  cpuhp/5            0.23     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	 1102   1102  nde-backupservi    0.22     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	 1098   1098  systemsettings     0.21     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	 1100   1100  audit-monitor      0.20     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	   53     53  migration/6        0.20     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	 1482   1482  sshd               0.19     0.00     0.00     0.00    0.00     0.00     0.00     0.00
--	   39     39  cpuhp/4            0.19     0.00     0.00     0.00    0.00     0.00     0.00     0.00
-+	  PID   TGID  COMMAND          CPU(ms)  IO(ms) SWAP(ms) RCL(ms) THR(ms) CMP(ms)  WP(ms) IRQ(ms)
-+	----------------------------------------------------------------------------------------------
-+	  161    161  zombie_memcg_re   1.40    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	  130    130  blkcg_punt_bio    1.37    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	  444    444  scsi_tmf_0        0.73    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	 1280   1280  rsyslogd          0.53    0.04    0.00    0.00    0.00    0.00    0.00    0.00
-+	   12     12  ksoftirqd/0       0.47    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	 1277   1277  nbd-server        0.44    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	  308    308  kworker/2:2-sys   0.41    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	   55     55  netns             0.36    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	 1187   1187  acpid             0.31    0.03    0.00    0.00    0.00    0.00    0.00    0.00
-+	 6184   6184  kworker/1:2-sys   0.24    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	  186    186  kaluad            0.24    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	   18     18  ksoftirqd/1       0.24    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	  185    185  kmpath_rdacd      0.23    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	  190    190  kstrp             0.23    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	 2759   2759  agetty            0.20    0.03    0.00    0.00    0.00    0.00    0.00    0.00
-+	 1190   1190  kworker/0:3-sys   0.19    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	 1272   1272  sshd              0.15    0.04    0.00    0.00    0.00    0.00    0.00    0.00
-+	 1156   1156  license           0.15    0.11    0.00    0.00    0.00    0.00    0.00    0.00
-+	  134    134  md                0.13    0.00    0.00    0.00    0.00    0.00    0.00    0.00
-+	 6142   6142  kworker/3:2-xfs   0.13    0.00    0.00    0.00    0.00    0.00    0.00    0.00
+- We should establish an official kernel AI policy document.
 
- Dynamic interactive interface of delaytop::
+- This should be discussed at the maintainers summit before proceeding.
 
-diff --git a/tools/accounting/delaytop.c b/tools/accounting/delaytop.c
-index cd848af9a856..9afb1ffc00ba 100644
---- a/tools/accounting/delaytop.c
-+++ b/tools/accounting/delaytop.c
-@@ -1,16 +1,16 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * delaytop.c - task delay monitoring tool.
-+ * delaytop.c - system-wide delay monitoring tool.
-  *
-  * This tool provides real-time monitoring and statistics of
-  * system, container, and task-level delays, including CPU,
-- * memory, IO, and IRQ and delay accounting. It supports both
-- * interactive (top-like), and can output delay information
-- * for the whole system, specific containers (cgroups), or
-- * individual tasks (PIDs).
-+ * memory, IO, and IRQ. It supports both interactive (top-like),
-+ * and can output delay information for the whole system, specific
-+ * containers (cgroups), or individual tasks (PIDs).
-  *
-  * Key features:
-  *	- Collects per-task delay accounting statistics via taskstats.
-+ *	- Collects system-wide PSI information.
-  *	- Supports sorting, filtering.
-  *	- Supports both interactive (screen refresh).
-  *
-@@ -32,6 +32,7 @@
- #include <time.h>
- #include <dirent.h>
- #include <ctype.h>
-+#include <stdbool.h>
- #include <sys/types.h>
- #include <sys/stat.h>
- #include <sys/socket.h>
-@@ -41,7 +42,6 @@
- #include <linux/genetlink.h>
- #include <linux/taskstats.h>
- #include <linux/cgroupstats.h>
--#include <ncurses.h>
+In addition, it's concerning that we're explicitly adding configs for
+specific, commercial, products. This might be seen as an endorsement
+whether intended or not.
 
- #define PSI_CPU_SOME "/proc/pressure/cpu"
- #define PSI_CPU_FULL	"/proc/pressure/cpu"
-@@ -62,6 +62,12 @@
- #define MAX_MSG_SIZE	1024
- #define MAX_TASKS		1000
- #define SET_TASK_STAT(task_count, field) tasks[task_count].field = stats.field
-+#define BOOL_FPRINT(stream, fmt, ...) \
-+({ \
-+	int ret = fprintf(stream, fmt, ##__VA_ARGS__); \
-+	ret >= 0; \
-+})
-+#define PSI_LINE_FORMAT "%-12s %6.1f%%/%6.1f%%/%6.1f%%/%8llu(ms)\n"
+Thanks, Lorenzo
 
- /* Program settings structure */
- struct config {
-@@ -262,6 +268,7 @@ static int create_nl_socket(void)
- 	local.nl_family = AF_NETLINK;
-
- 	if (bind(fd, (struct sockaddr *) &local, sizeof(local)) < 0) {
-+		fprintf(stderr, "Failed to bind socket when create nl_socket\n");
- 		close(fd);
- 		return -1;
- 	}
-@@ -332,13 +339,17 @@ static int get_family_id(int sd)
- 	rc = send_cmd(sd, GENL_ID_CTRL, getpid(), CTRL_CMD_GETFAMILY,
- 			CTRL_ATTR_FAMILY_NAME, (void *)name,
- 			strlen(TASKSTATS_GENL_NAME)+1);
--	if (rc < 0)
-+	if (rc < 0) {
-+		fprintf(stderr, "Failed to send cmd for family id\n");
- 		return 0;
-+	}
-
- 	rep_len = recv(sd, &ans, sizeof(ans), 0);
- 	if (ans.n.nlmsg_type == NLMSG_ERROR ||
--		(rep_len < 0) || !NLMSG_OK((&ans.n), rep_len))
-+		(rep_len < 0) || !NLMSG_OK((&ans.n), rep_len)) {
-+		fprintf(stderr, "Failed to receive response for family id\n");
- 		return 0;
-+	}
-
- 	na = (struct nlattr *) GENLMSG_DATA(&ans);
- 	na = (struct nlattr *) ((char *) na + NLA_ALIGN(na->nla_len));
-@@ -433,26 +444,30 @@ static void read_psi_stats(void)
- static int read_comm(int pid, char *comm_buf, size_t buf_size)
- {
- 	char path[64];
-+	int ret = -1;
- 	size_t len;
- 	FILE *fp;
-
- 	snprintf(path, sizeof(path), "/proc/%d/comm", pid);
- 	fp = fopen(path, "r");
--	if (!fp)
--		return -1;
-+	if (!fp) {
-+		fprintf(stderr, "Failed to open comm file /proc/%d/comm\n", pid);
-+		return ret;
-+	}
-+
- 	if (fgets(comm_buf, buf_size, fp)) {
- 		len = strlen(comm_buf);
- 		if (len > 0 && comm_buf[len - 1] == '\n')
- 			comm_buf[len - 1] = '\0';
--	} else {
--		fclose(fp);
--		return -1;
-+		ret = 0;
- 	}
-+
- 	fclose(fp);
--	return 0;
-+
-+	return ret;
- }
-
--static int fetch_and_fill_task_info(int pid, const char *comm)
-+static void fetch_and_fill_task_info(int pid, const char *comm)
- {
- 	struct {
- 		struct nlmsghdr n;
-@@ -466,13 +481,21 @@ static int fetch_and_fill_task_info(int pid, const char *comm)
- 	int nl_len;
- 	int rc;
-
-+	/* Send request for task stats */
- 	if (send_cmd(nl_sd, family_id, getpid(), TASKSTATS_CMD_GET,
- 				 TASKSTATS_CMD_ATTR_PID, &pid, sizeof(pid)) < 0) {
--		return -1;
-+		fprintf(stderr, "Failed to send request for task stats\n");
-+		return;
- 	}
-+
-+	/* Receive response */
- 	rc = recv(nl_sd, &resp, sizeof(resp), 0);
--	if (rc < 0 || resp.n.nlmsg_type == NLMSG_ERROR)
--		return -1;
-+	if (rc < 0 || resp.n.nlmsg_type == NLMSG_ERROR) {
-+		fprintf(stderr, "Failed to receive response for task stats\n");
-+		return;
-+	}
-+
-+	/* Parse response */
- 	nl_len = GENLMSG_PAYLOAD(&resp.n);
- 	na = (struct nlattr *) GENLMSG_DATA(&resp);
- 	while (nl_len > 0) {
-@@ -515,7 +538,7 @@ static int fetch_and_fill_task_info(int pid, const char *comm)
- 		nl_len -= NLA_ALIGN(na->nla_len);
- 		na = NLA_NEXT(na);
- 	}
--	return 0;
-+	return;
- }
-
- static void get_task_delays(void)
-@@ -654,54 +677,82 @@ static void display_results(void)
- {
- 	time_t now = time(NULL);
- 	struct tm *tm_now = localtime(&now);
-+	FILE *out = stdout;
- 	char timestamp[32];
-+	bool suc = true;
- 	int i, count;
--	FILE *out = stdout;
-
--	fprintf(out, "\033[H\033[J");
-+	/* Clear terminal screen */
-+	suc &= BOOL_FPRINT(out, "\033[H\033[J");
-+
- 	/* PSI output (one-line, no cat style) */
--	fprintf(out, "System Pressure Information: ");
--	fprintf(out, "(avg10/avg60/avg300/total)\n");
--	fprintf(out, "CPU:");
--	fprintf(out, "	full: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu", psi.cpu_full_avg10,
--			psi.cpu_full_avg60, psi.cpu_full_avg300, psi.cpu_full_total);
--	fprintf(out, "  some: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu\n", psi.cpu_some_avg10,
--			psi.cpu_some_avg60, psi.cpu_some_avg300, psi.cpu_some_total);
--
--	fprintf(out, "Memory:");
--	fprintf(out, " full: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu", psi.memory_full_avg10,
--			psi.memory_full_avg60, psi.memory_full_avg300, psi.memory_full_total);
--	fprintf(out, "  some: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu\n", psi.memory_some_avg10,
--			psi.memory_some_avg60, psi.memory_some_avg300, psi.memory_some_total);
--
--	fprintf(out, "IO:");
--	fprintf(out, "	full: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu", psi.io_full_avg10,
--			psi.io_full_avg60, psi.io_full_avg300, psi.io_full_total);
--	fprintf(out, "  some: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu\n", psi.io_some_avg10,
--			psi.io_some_avg60, psi.io_some_avg300, psi.io_some_total);
--	fprintf(out, "IRQ:");
--	fprintf(out, "	full: %6.1f%%/%6.1f%%/%6.1f%%/%-10llu\n\n", psi.irq_full_avg10,
--			psi.irq_full_avg60, psi.irq_full_avg300, psi.irq_full_total);
-+	suc &= BOOL_FPRINT(out, "System Pressure Information: (avg10/avg60/avg300/total)\n");
-+	suc &= BOOL_FPRINT(out, PSI_LINE_FORMAT,
-+		"CPU some:",
-+		psi.cpu_some_avg10,
-+		psi.cpu_some_avg60,
-+		psi.cpu_some_avg300,
-+		psi.cpu_some_total / 1000);
-+	suc &= BOOL_FPRINT(out, PSI_LINE_FORMAT,
-+		"CPU full:",
-+		psi.cpu_full_avg10,
-+		psi.cpu_full_avg60,
-+		psi.cpu_full_avg300,
-+		psi.cpu_full_total / 1000);
-+	suc &= BOOL_FPRINT(out, PSI_LINE_FORMAT,
-+		"Memory full:",
-+		psi.memory_full_avg10,
-+		psi.memory_full_avg60,
-+		psi.memory_full_avg300,
-+		psi.memory_full_total / 1000);
-+	suc &= BOOL_FPRINT(out, PSI_LINE_FORMAT,
-+		"Memory some:",
-+		psi.memory_some_avg10,
-+		psi.memory_some_avg60,
-+		psi.memory_some_avg300,
-+		psi.memory_some_total / 1000);
-+	suc &= BOOL_FPRINT(out, PSI_LINE_FORMAT,
-+		"IO full:",
-+		psi.io_full_avg10,
-+		psi.io_full_avg60,
-+		psi.io_full_avg300,
-+		psi.io_full_total / 1000);
-+	suc &= BOOL_FPRINT(out, PSI_LINE_FORMAT,
-+		"IO some:",
-+		psi.io_some_avg10,
-+		psi.io_some_avg60,
-+		psi.io_some_avg300,
-+		psi.io_some_total / 1000);
-+	suc &= BOOL_FPRINT(out, PSI_LINE_FORMAT,
-+		"IRQ full:",
-+		psi.irq_full_avg10,
-+		psi.irq_full_avg60,
-+		psi.irq_full_avg300,
-+		psi.irq_full_total / 1000);
-+
- 	if (cfg.container_path) {
--		fprintf(out, "Container Information (%s):\n", cfg.container_path);
--		fprintf(out, "Processes: running=%d, sleeping=%d, ",
-+		suc &= BOOL_FPRINT(out, "Container Information (%s):\n", cfg.container_path);
-+		suc &= BOOL_FPRINT(out, "Processes: running=%d, sleeping=%d, ",
- 			container_stats.nr_running, container_stats.nr_sleeping);
--		fprintf(out, "stopped=%d, uninterruptible=%d, io_wait=%d\n\n",
-+		suc &= BOOL_FPRINT(out, "stopped=%d, uninterruptible=%d, io_wait=%d\n\n",
- 			container_stats.nr_stopped, container_stats.nr_uninterruptible,
- 			container_stats.nr_io_wait);
- 	}
--	fprintf(out, "Top %d processes (sorted by CPU delay):\n\n",
-+	suc &= BOOL_FPRINT(out, "Top %d processes (sorted by CPU delay):\n",
- 			cfg.max_processes);
--	fprintf(out, "  PID	TGID  COMMAND		 CPU(ms)  IO(ms)	");
--	fprintf(out, "SWAP(ms) RCL(ms) THR(ms)  CMP(ms)  WP(ms)  IRQ(ms)\n");
--	fprintf(out, "-----------------------------------------------");
--	fprintf(out, "----------------------------------------------\n");
-+	suc &= BOOL_FPRINT(out, "%5s  %5s  %-17s", "PID", "TGID", "COMMAND");
-+	suc &= BOOL_FPRINT(out, "%7s %7s %7s %7s %7s %7s %7s %7s\n",
-+		"CPU(ms)", "IO(ms)", "SWAP(ms)", "RCL(ms)",
-+		"THR(ms)", "CMP(ms)", "WP(ms)", "IRQ(ms)");
-+
-+	suc &= BOOL_FPRINT(out, "-----------------------------------------------");
-+	suc &= BOOL_FPRINT(out, "----------------------------------------------\n");
- 	count = task_count < cfg.max_processes ? task_count : cfg.max_processes;
-
- 	for (i = 0; i < count; i++) {
--		fprintf(out, "%5d  %5d  %-15s ",
-+		suc &= BOOL_FPRINT(out, "%5d  %5d  %-15s",
- 			tasks[i].pid, tasks[i].tgid, tasks[i].command);
--		fprintf(out, "%7.2f  %7.2f  %7.2f  %7.2f %7.2f  %7.2f  %7.2f  %7.2f\n",
-+		suc &= BOOL_FPRINT(out, "%7.2f %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f\n",
- 			average_ms(tasks[i].cpu_delay_total, tasks[i].cpu_count),
- 			average_ms(tasks[i].blkio_delay_total, tasks[i].blkio_count),
- 			average_ms(tasks[i].swapin_delay_total, tasks[i].swapin_count),
-@@ -712,7 +763,10 @@ static void display_results(void)
- 			average_ms(tasks[i].irq_delay_total, tasks[i].irq_count));
- 	}
-
--	fprintf(out, "\n");
-+	suc &= BOOL_FPRINT(out, "\n");
-+
-+	if (!suc)
-+		perror("Error writing to output");
- }
-
- /* Main function */
--- 
-2.25.1
+>
+> The series consists of four patches:
+>
+> 1. The first patch adds unified configuration files for various coding
+> agents (Claude, GitHub Copilot, Cursor, Codeium, Continue,
+> Windsurf, and Aider). These are all symlinked to a central documentation
+> file to ensure consistency across tools.
+>
+> 2. The second patch adds core development references that guide
+> agents to essential kernel development documentation including how
+> to do kernel development, submitting patches, and the submission
+> checklist.
+>
+> 3. The third patch adds coding style documentation and explicit rules
+> that agents must follow, including the 80 character line limit
+> and no trailing whitespace requirements.
+>
+> 4. The fourth patch adds legal requirements and agent attribution
+> guidelines. All agents are required to identify themselves in
+> commits using Co-developed-by tags, ensuring full transparency about
+> agent involvement in code development.
+>
+> Example agent attribution in commits:
+>
+>     Co-developed-by: Claude claude-opus-4-20250514
+>
+>
+> Changes since RFC:
+> - Switch from markdown to RST
+> - Break up into multiple files
+> - Simplify instructions (we can always bikeshed those later)
+> - AI => Agents
+>
+> Sasha Levin (4):
+>   agents: add unified agent coding assistant configuration
+>   agents: add core development references
+>   agents: add coding style documentation and rules
+>   agents: add legal requirements and agent attribution guidelines
+>
+>  .aider.conf.yml                       |  1 +
+>  .codeium/instructions.md              |  1 +
+>  .continue/context.md                  |  1 +
+>  .cursorrules                          |  1 +
+>  .github/copilot-instructions.md       |  1 +
+>  .windsurfrules                        |  1 +
+>  CLAUDE.md                             |  1 +
+>  Documentation/agents/coding-style.rst | 35 ++++++++++++++++++++++
+>  Documentation/agents/core.rst         | 28 ++++++++++++++++++
+>  Documentation/agents/index.rst        | 13 +++++++++
+>  Documentation/agents/legal.rst        | 42 +++++++++++++++++++++++++++
+>  Documentation/agents/main.rst         | 22 ++++++++++++++
+>  12 files changed, 147 insertions(+)
+>  create mode 120000 .aider.conf.yml
+>  create mode 120000 .codeium/instructions.md
+>  create mode 120000 .continue/context.md
+>  create mode 120000 .cursorrules
+>  create mode 120000 .github/copilot-instructions.md
+>  create mode 120000 .windsurfrules
+>  create mode 120000 CLAUDE.md
+>  create mode 100644 Documentation/agents/coding-style.rst
+>  create mode 100644 Documentation/agents/core.rst
+>  create mode 100644 Documentation/agents/index.rst
+>  create mode 100644 Documentation/agents/legal.rst
+>  create mode 100644 Documentation/agents/main.rst
+>
+> --
+> 2.39.5
+>
+>
