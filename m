@@ -1,138 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA8A15278E;
-	Mon, 28 Jul 2025 04:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E417B78F3A;
+	Mon, 28 Jul 2025 04:54:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753678344; cv=none; b=fsgVwmk65YYMyWP2M+iOzk1wSBr63Q/GksQxMKn33nsR6TCO/4AUpKD8Z1UJquYlaO3k7ypvy81/ta7uPf2nnSUYVthc3OnwlD/ACM0618BnEowOqwkHzbd63I7QxedWF9aBR/rtT40gXBAerzw5cT/tlYnKn83CWtEucXt1nOc=
+	t=1753678478; cv=none; b=mAsX4R10Nero7ILgvmkJEQd3wrRPFESjrEK3Qk58bf3dGDfP/KAqFhvnP+JLm/RYU1jRn56nTmUfbMws/RS5mvdDUY5u498mN2/I0MQK5oueMmPJhzV9RupGA0sXmo0oSY204y3TLFQ/2HBFYmu+RxAJHXLFdyJYRXPhMMzRHO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753678344; c=relaxed/simple;
-	bh=UZ80z72GQf4cj2RTuXmwMqdQ+4jeFFJA3CmfekBJiZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UctTlDrtBbXXcwEOjflv9uIna0ZBOXv2+LtiKs6goEI99Xn2avSoyiRuG6jT2Ke8utEDIkQkT5fjY6a5Yzzdbawn5jrBIrTMSPlj8aT6BcnAbwvrmRdQ/ggqyvLIHShzK+1sMlW9eeOyG7aP46RobQ9X48zLiVUgfdY7ej5g4hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ii/kK01n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753678478; c=relaxed/simple;
+	bh=Wh7upnKZdulod8UOOydJPwZLWQtp2GXJyslkrYNgT2Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DTL31CBzjLsfLS5ZRXcbo4v4wRD67LocEPmAKIcoAwBQGTuSflHBpTF0XDJfxvZZpl8XE0k02Q8wfUR/y+bPLir65Frx2PRdYIYoUZ5eEwSU0YbHbxL+uO2m6bH+FZtd4WiOyh+HO9tvwjonsz23fUvYhL7GN+B0OsJY/TJcP/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nTAWZUyv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ii/kK01n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7920CC4CEE7;
-	Mon, 28 Jul 2025 04:52:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nTAWZUyv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D974C4CEE7;
+	Mon, 28 Jul 2025 04:54:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753678343;
-	bh=UZ80z72GQf4cj2RTuXmwMqdQ+4jeFFJA3CmfekBJiZc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ii/kK01nq/kHB9J70gz5QS+ohNQNAMffjP+bNmkPnqzfdu5oUQInpxT3OPJJ6Hbp8
-	 QEuVsR0ZILOkkqK5k5Mh1/2yCEFMERlXt6joSmpIrTdU65dDSOs2nWZuSz7ioicL2g
-	 2LQKlp9MtURFCmW9ME1GL22OF7JCmcvpU1NGVl4dQFLFFX53Qb+AVSk4VQ6tEwRA87
-	 pcQyIKCSl2oErpbOh6qToV7x2sphsUtwnE1RfDHaor5gbsZrfuyoYKlQQ2U2NYSvFQ
-	 Hm6yZ3yMC/ftFe5l6xGosU1/ZsPtmWhnNFlgaLSpcY89K1IxgQWRkTMrc82AzTVqkh
-	 wz2Hr/Pcr5chg==
-Date: Mon, 28 Jul 2025 00:52:21 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org
-Subject: Re: [PATCH 2/4] agents: add core development references
-Message-ID: <aIcCBZ6MVX1OHKpw@lappy>
-References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-3-sashal@kernel.org>
- <2025072825-gotten-cupbearer-449a@gregkh>
+	s=k20201202; t=1753678475;
+	bh=Wh7upnKZdulod8UOOydJPwZLWQtp2GXJyslkrYNgT2Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=nTAWZUyvb2HuBIwhHenp27cXtX0Qlj1Nkihe2X9wYasYh62OsmoPzUFHLDhyCKS4W
+	 E5kv/wSlSQk69mB9Cq0YNgup01OJwz6hswZdfxeSzo/jG8ZgPVTErWYcVtIOd2nU4K
+	 6RN47fVtjTvaZfWlRXtIGN3vyWXn1SQlCw+0e43FnxlOGnujloN0YryUlAwuFrXg9T
+	 EUu4q6Wn3MOOcPni56PH/vUsklXATy0Gxb74T9Ow8zyHm7LBAh7aXEqmCG0IEqNxDn
+	 k0htr4Di2YF0by6KDs+tOMgqi8bdpAYSx0C4tAxSWGTw0hLw+BxqvCrsciHljQr+fG
+	 vx4WgPKAni0lA==
+Message-ID: <9771df86-daad-4178-a461-bba5b7d6be6b@kernel.org>
+Date: Mon, 28 Jul 2025 06:54:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2025072825-gotten-cupbearer-449a@gregkh>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: (lm75) Add binding for NXP
+ P3T1750
+To: Lakshay Piplani <lakshay.piplani@nxp.com>, linux-kernel@vger.kernel.org,
+ jdelvare@suse.com, linux@roeck-us.net, linux-hwmon@vger.kernel.org,
+ corbet@lwn.net, linux-doc@vger.kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
+Cc: vikash.bansal@nxp.com, priyanka.jain@nxp.com,
+ shashank.rebbapragada@nxp.com
+References: <20250728041913.3754236-1-lakshay.piplani@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250728041913.3754236-1-lakshay.piplani@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 28, 2025 at 06:24:44AM +0200, Greg KH wrote:
->On Sun, Jul 27, 2025 at 03:58:00PM -0400, Sasha Levin wrote:
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> ---
->>  Documentation/agents/core.rst  | 28 ++++++++++++++++++++++++++++
->>  Documentation/agents/index.rst |  3 ++-
->>  Documentation/agents/main.rst  |  5 +++++
->>  3 files changed, 35 insertions(+), 1 deletion(-)
->>  create mode 100644 Documentation/agents/core.rst
->
->I know I can't take patches without any changelog text, maybe the
->documentation maintainer is more lenient?  :)
->
->>
->> diff --git a/Documentation/agents/core.rst b/Documentation/agents/core.rst
->> new file mode 100644
->> index 000000000000..da171dde1f9d
->> --- /dev/null
->> +++ b/Documentation/agents/core.rst
->> @@ -0,0 +1,28 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +========================================
->> +Core Linux Kernel Development References
->> +========================================
->> +
->> +Essential documentation for Linux kernel development:
->> +
->> +How to do Linux kernel development
->> +----------------------------------
->> +
->> +The comprehensive guide for becoming a Linux kernel developer and learning to work with the kernel development community.
->> +
->> +See :ref:`Documentation/process/howto.rst <process_howto>`
->> +
->> +Submitting patches
->> +------------------
->> +
->> +The essential guide to getting your code into the kernel, covering everything from patch formatting to the submission process.
->> +
->> +See :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
->> +
->> +Submission checklist
->> +--------------------
->> +
->> +A checklist of items to review before submitting code to ensure patches are accepted more quickly.
->> +
->> +See :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
->
->Why isn't the agent already reading all of this in the documentation
->tree?  Why must it be told to read it again?  Do we not properly index
->this well enough in our documentation tree already?
+On 28/07/2025 06:19, Lakshay Piplani wrote:
+> Add "nxp,p3t1750" to the lm75 compatible list.
+> 
+> Signed-off-by: Lakshay Piplani <lakshay.piplani@nxp.com>
+> ---
+> Changes in v2:
+> - Sorted compatible strings alphabetically
+> 
 
-So by default the agent doesn't read anything into it's context unless
-it thinks it's relevant to the task at hand.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Imagine a junior engineer you ask to fix a spelling mistake and commit
-the result: would it think on it's own that it needs to read the rules
-about which tags to add to commit messages?
-
-Probably not.
-
-Just as with humans, we need to tell them to read the goddamn docs :)
-
-An an example, look at the wiki page for LF's kernel mentorship
-program[1]. The first step it lists is:
-
-	Complete the project prerequisite tasks assigned to you when you apply for the project:
-	Step 1: You should have completed the A Beginner’s Guide to
-	Linux Kernel Development e-course during the planning phase.
-	Upload the certificate of completion.
-
-Where the course is basically going over all the processes and rules
-around kernel development ("This course is intended for developers who
-need to know about the Linux kernel development process and the explicit
-and implicit “rules of the road”.").
-
-This patchset is effectively the equivalent of the course for agents :)
-
-
-
-[1] https://wiki.linuxfoundation.org/lkmp
-[2] https://training.linuxfoundation.org/training/a-beginners-guide-to-linux-kernel-development-lfd103/
-
--- 
-Thanks,
-Sasha
+Best regards,
+Krzysztof
