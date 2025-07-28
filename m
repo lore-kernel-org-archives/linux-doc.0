@@ -1,100 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFC328F1;
-	Mon, 28 Jul 2025 02:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA872D052;
+	Mon, 28 Jul 2025 02:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753670613; cv=none; b=stNwvWxrjkavE3mzIFi3/ES3yV1bqD79z0vcGeQQc96VmHvbQwAGkW6rBOLZGFpVkGtMs8MelAEz9CJsZmIzAUlWEv41o3KQPKgt1ZFdrsplx0L0dsCrmngxiNl7+NKZkKfaRApMTUkUXvb6nuLJ4wT1YTvF17VVMoECvoCbbps=
+	t=1753671398; cv=none; b=JZsHYn9Rzja2FEbm//IBAEsY11W5ZHZ9T/KiXPjOilWj04n84qJSu8a+9NaMK3cZEiJkWRDJBf4YNLB2iM7wJuoa80FpJEqXcQdW/Dfw1T9rm3+OvEzQbVfwtFh0OsL3JFHv2l0AxVCg0+PZD0eUE9RLh6cdKc7ykJ9MIoBsE4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753670613; c=relaxed/simple;
-	bh=wPCRh84URnm5Khcxtue6Vk8f5gPlQczxtLDvFPHTc/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i/ZCcL3eUAdlWemBhXFYmUP1/Fvi+cFwm5E158fOR73wy0k9FMhpM57iBGZZjemtPcRxnyhAFCaw8DwmAwcZrZ1MKMFTurSQaZSBoLqzAQ450V8LuK43Z7c5Srvk15QykZrgYAUTtPm0eKJCiPIEAbYArdoRg7/XWGv/n6enAL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AeWcY8GD; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AeWcY8GD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB648C4CEEB;
-	Mon, 28 Jul 2025 02:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753670612;
-	bh=wPCRh84URnm5Khcxtue6Vk8f5gPlQczxtLDvFPHTc/Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AeWcY8GDtJTZhYHHIrXEkxdKxxEsoBtzTlm7rtyjwLQNMGcTzxI3pd0dN29AEEb/k
-	 9JX5YXI5GESib8miDB+hDeQ9gst/sqg29/0FmCZGeL/VnM/SiAl+LzDMnqKTZY4Tks
-	 0uKGQU45GlHOeXSNJQDTDfPjDgKQDWY76XTejc976pPjza9V2l+Ponn+PUyMoCXUbp
-	 wQzEG6mrtHh2PMEQJmzita/Z24Q4sBiNkkl6aCyvhPSeAZf9Q78L4DXQov/waQHVIT
-	 7L8BmJkdmI/2kZj2If8XZbv04UzjBufVQ2ZdhiE6a4EaJtSU94vVOGZnFZrOJJkMn4
-	 3RfjJmaiOUEmQ==
-Date: Sun, 27 Jul 2025 19:43:32 -0700
-From: Kees Cook <kees@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, konstantin@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 4/4] agents: add legal requirements and agent attribution
- guidelines
-Message-ID: <202507271940.F70685B2A9@keescook>
-References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-5-sashal@kernel.org>
+	s=arc-20240116; t=1753671398; c=relaxed/simple;
+	bh=HgJB8izPuVhSegElgab0W3wZMm4A3SjvxjQMZ6vn/XU=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=C5uUuT4wVDv9MjFSjvosgkg5GZ5EIv55wiN8PwMH7lVZoTggf3hoTRiVlhgXNP45ne6qOxJfC903y5MzmOsjNX7Qbt84YFSt4PgcO2JC+00Xj+Ab9hOAuO6oikzV2s5kq3tFO8H58Qk06Ih+eC970KhRTdWNeTBM8TWr3ix3Mpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4br35j5PP9z6FyBx;
+	Mon, 28 Jul 2025 10:56:25 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl1.zte.com.cn with SMTP id 56S2uAVU080671;
+	Mon, 28 Jul 2025 10:56:10 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp04[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Mon, 28 Jul 2025 10:56:11 +0800 (CST)
+Date: Mon, 28 Jul 2025 10:56:11 +0800 (CST)
+X-Zmail-TransId: 2afb6886e6cb3a8-c0ced
+X-Mailer: Zmail v1.0
+Message-ID: <20250728105611902ENzYOxJcTdsXoAd-8dSZi@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250727195802.2222764-5-sashal@kernel.org>
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <alexs@kernel.org>
+Cc: <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <yang.tao172@zte.com.cn>, <shao.mingyin@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHYyIDAvNV3CoMKgRG9jcy96aF9DTjogVHJhbnNsYXRlIHViaWZzLnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2U=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 56S2uAVU080671
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Mon, 28 Jul 2025 10:56:25 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6886E6D9.000/4br35j5PP9z6FyBx
 
-On Sun, Jul 27, 2025 at 03:58:02PM -0400, Sasha Levin wrote:
-> +Licensing Requirements
-> +----------------------
-> +
-> +**GPL-2.0 License**
-> +  The Linux kernel is licensed under GPL-2.0 only with a syscall exception. Coding agents MUST follow this licensing rule with no exceptions. Any code contributed must be compatible with this license.
-> +
-> +**SPDX License Identifiers**
-> +  All files must have proper SPDX license identifiers. For most kernel source files, this should be the first line of the file in the appropriate comment format:
-> +
-> +  - For C source/header files: ``// SPDX-License-Identifier: GPL-2.0``
-> +  - For scripts: ``# SPDX-License-Identifier: GPL-2.0``
-> +  - For documentation: ``.. SPDX-License-Identifier: GPL-2.0``
+From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-Again, all of this is redundant. And if the SPDX stuff *isn't*
-redundant, it needs to be listed somewhere else for humans.
+translate the "ubifs.rst" into Simplified Chinese.
+v1->v2
+send patches of one patchset in the same thread.
 
-> +Signed-off-by Restriction
-> +-------------------------
-> +
-> +Coding assistants **MUST NOT** add a ``Signed-off-by`` tag pointing to themselves. The ``Signed-off-by`` tag represents a legal certification by a human developer that they have the right to submit the code under the open source license.
-> +
-> +Only the human user running the coding assistant should add their ``Signed-off-by`` tag to commits. The agent's contribution is acknowledged through the ``Co-developed-by`` tag as described below.
+Shao Mingyin (5):
+  Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
+  Docs/zh_CN: Translate ubifs-authentication.rst to Simplified Chinese
+  Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
+  Docs/zh_CN: Translate gfs2-uevents.rst to Simplified Chinese
+  Docs/zh_CN: Translate gfs2-glocks.rst to Simplified Chinese
 
-This is unique to Agents. Yes, this is fine.
+ .../zh_CN/filesystems/gfs2-glocks.rst         | 199 ++++++++++
+ .../zh_CN/filesystems/gfs2-uevents.rst        |  97 +++++
+ .../translations/zh_CN/filesystems/gfs2.rst   |  57 +++
+ .../translations/zh_CN/filesystems/index.rst  |   5 +
+ .../filesystems/ubifs-authentication.rst      | 354 ++++++++++++++++++
+ .../translations/zh_CN/filesystems/ubifs.rst  | 114 ++++++
+ 6 files changed, 826 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+ create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
+ create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2.rst
+ create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
+ create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs.rst
 
-> +Agent Attribution Requirement
-> +-----------------------------
-> +
-> +When creating commits, coding agents **MUST** identify themselves by including the following tag in the commit message::
-> +
-> +    Co-developed-by: $AGENT_NAME $AGENT_MODEL $AGENT_VERSION
-> +
-> +Examples:
-> +
-> +- ``Co-developed-by: Claude claude-3-opus-20240229``
-> +- ``Co-developed-by: GitHub-Copilot GPT-4 v1.0.0``
-> +- ``Co-developed-by: Cursor gpt-4-turbo-2024-04-09``
-> +
-> +This transparency helps maintainers and reviewers understand that a coding agent was involved in the development process.
-
-This is fine too.
-
-But like I said before, you must update checkpatch.pl to not complain
-about Co-developed-by missing S-o-b when C-d-b lacks email address,
-and it should be part of this series.
-
--Kees
-
--- 
-Kees Cook
+--
+2.25.1
