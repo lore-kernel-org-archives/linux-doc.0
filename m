@@ -1,38 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3EF2E3708;
-	Mon, 28 Jul 2025 22:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C18225784;
+	Mon, 28 Jul 2025 23:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753741429; cv=none; b=ZrczB51Yq+z9J8VxK9LhdPTc5QmpfNQOhRMQ0J+8mDgcb//oD1kvkUaMd4xLon2df3a+R5mWROJBJ0SeALTcskY81CvVDjgkDTFIV1RN1Yjbfc0/kmBFSfSS/FUEEF+yTDJNQqUBp4ncaioZOnAOsJPcM+GEbpbcTeby2ssLS2Y=
+	t=1753745878; cv=none; b=rWeC58dhlOhkbHltz16usQP0IlYLKuvWLR4+X+ydQ3LTdr+3mktnypx3rQQEQcAcR2spp9lQoydXSrY1nwlms3je/UrbErl3WAyHYcX3yeoJ2oTOtgxxISAsQItDOQrXq+2K4khwp/60ABCkqRGUIY9RT3tL1sEaoGtDZJHEppU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753741429; c=relaxed/simple;
-	bh=KMtkQu2rz5iOJBWNj+p6BRoehFhMFWjEn3otfiSYkHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=T4J4LbE4h2NMt5kLljAe/0R5k+/Wyiv7X+lXLhaVWD5vuU9Aa6jVuPJRIInk/qL5LZ/xC+VOUCnIPGq4mOCRpusbwGpDBzC+AwHtm/ckohxl8KXyRowMPFGEprZgC8UtSCbHihGduClTLqp/mEp+UisbKSZkoFwhrvNjgsmzhyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNdFHtgo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753745878; c=relaxed/simple;
+	bh=M9KO/2aYIoLlJKYj0B6g/Dtc60iGI3XL4WVkIVReWRc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bKZOqa47KoyYShK0FswXp02f+s6fF828V7P++WuLI5NaaCnW5m0ClQUKK03A/9DC8aLRbhGZSw22b1pohyizqajI3GWdRIYIgq2Z9UQgRuq694lwCIPBciF2t1VUAu+RSau5MBzvVU234y1/DE1zQ8Z1+AJFgZUhuPJMGn5oKDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aKdmePZb; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNdFHtgo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3545BC4CEE7;
-	Mon, 28 Jul 2025 22:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753741429;
-	bh=KMtkQu2rz5iOJBWNj+p6BRoehFhMFWjEn3otfiSYkHw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=eNdFHtgoQkvF5XK25Uy2V78Gy4AKI1yVQYHpxCBSfYUgogjpyNCLCLX5vbq82ZqTI
-	 8Oo4TA7X7YocTO/7G1laC1zVBvYy3w+2c4uUIN01ycv5CSggs/9KrOOgYNWIRQfLb3
-	 pDAQp5QCuMA0gwzYqjRRGZ8seY27HXwh+SIh2vdSPzyidLI1qBaE7nBQkGtaWrSdb9
-	 aYEGSk6LwM80igdVEGI6NXA4VkIVuywN6NZC7b0ycCfa9COGvohpONX9DahQBlD4UZ
-	 HMRtrnTK9MEYSmIn6v8+vMwAFlX4VrPKUbZ4rVmXA+N2KwSufcEJSABiu/6tUyjEQm
-	 bmNUifL+q6Y3g==
-Date: Mon, 28 Jul 2025 17:23:47 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH 1/2] Documentation: Fix typos
-Message-ID: <20250728222347.GA3253635@bhelgaas>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKdmePZb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753745876; x=1785281876;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M9KO/2aYIoLlJKYj0B6g/Dtc60iGI3XL4WVkIVReWRc=;
+  b=aKdmePZb0W5MwKHrylLZtxm/Q8mJ94vRDX33eOrDCUxemybeDM1h8UT4
+   W/EG84AURDyelAASaygFBMnEGtwIsPEk/J3dVwdfMAJdlrKUrpHqAQ+wN
+   KDNtIClKaqdB81l1ZsvaN14TLvFO1xD3a81gc91GSkBzLkkDuF3zKy2P0
+   WUj43nN2kRcGeycLHUAKJPtPjTFgzvvPw638WGHS9d/xoiK9Qwlc0nDhA
+   ZILfPBJgV8iO0CnIYgaH07ApZPlWv9t6FX1ctMs+snVzDtQwMoQp6XBZ2
+   APLo5NpR//m7ZkOVHJgkjV34f3Y5SLVTIFq1yiQQYOqsaBWuG/62ZcS8x
+   A==;
+X-CSE-ConnectionGUID: 4M+yrrc2RFyunh6SmNEXJw==
+X-CSE-MsgGUID: omhOuLmLSYq37lgeHMGOJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="78557780"
+X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
+   d="scan'208";a="78557780"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 16:37:56 -0700
+X-CSE-ConnectionGUID: PC1Oj44zRXy0Y4pJHQBufw==
+X-CSE-MsgGUID: +hKsHsYQR5qcGaeo+xhvlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
+   d="scan'208";a="162113821"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 28 Jul 2025 16:37:52 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ugXPi-0000pJ-0o;
+	Mon, 28 Jul 2025 23:37:50 +0000
+Date: Tue, 29 Jul 2025 07:36:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alok Tiwari <alok.a.tiwari@oracle.com>,
+	David Box <david.e.box@linux.intel.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] platform/x86: (ayn-ec) Add RGB Interface
+Message-ID: <202507290730.7XZMyOM7-lkp@intel.com>
+References: <20250726204041.516440-4-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,27 +70,74 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1412ff8c-50ff-4e51-b1c5-a4a404aafb86@infradead.org>
+In-Reply-To: <20250726204041.516440-4-derekjohn.clark@gmail.com>
 
-On Sat, Jul 26, 2025 at 08:16:26PM -0700, Randy Dunlap wrote:
-> On 7/23/25 1:32 PM, Bjorn Helgaas wrote:
-> > From: Bjorn Helgaas <bhelgaas@google.com>
-> > 
-> > Fix typos.
+Hi Derek,
 
-> >  			Where more than one trigger may be specified that are comma deliminated.
-> 			                                                            delimited.
+kernel test robot noticed the following build warnings:
 
-Oof, thanks.  Added to my local branch in case I repost.
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.16 next-20250728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> > -Note that irq domain lookups must happen in contexts that are
-> > +Note that irq_domain lookups must happen in contexts that are
-> >  compatible with a RCU read-side critical section.
-> 
->                    an RCU
+url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-ayn-ec-Add-PWM-Fan-HWMON-Interface/20250727-044332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250726204041.516440-4-derekjohn.clark%40gmail.com
+patch subject: [PATCH v3 3/4] platform/x86: (ayn-ec) Add RGB Interface
+config: i386-randconfig-061-20250728 (https://download.01.org/0day-ci/archive/20250729/202507290730.7XZMyOM7-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507290730.7XZMyOM7-lkp@intel.com/reproduce)
 
-Thanks.  'git grep -i "\<a rcu"' says there are approximately a
-zillion instances.  I fixed this since it's next to another typo, but
-not sure I have the energy to advocate for all the others :)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507290730.7XZMyOM7-lkp@intel.com/
 
-Bjorn
+sparse warnings: (new ones prefixed by >>)
+   drivers/platform/x86/ayn-ec.c:87:5: sparse: sparse: symbol 'ayn_pwm_curve_registers' was not declared. Should it be static?
+>> drivers/platform/x86/ayn-ec.c:753:18: sparse: sparse: symbol 'ayn_led_mc_subled_info' was not declared. Should it be static?
+>> drivers/platform/x86/ayn-ec.c:774:24: sparse: sparse: symbol 'ayn_led_mc' was not declared. Should it be static?
+
+vim +/ayn_led_mc_subled_info +753 drivers/platform/x86/ayn-ec.c
+
+   752	
+ > 753	struct mc_subled ayn_led_mc_subled_info[] = {
+   754		{
+   755			.color_index = LED_COLOR_ID_RED,
+   756			.brightness = 0,
+   757			.intensity = 0,
+   758			.channel = AYN_LED_MC_RED_REG,
+   759		},
+   760		{
+   761			.color_index = LED_COLOR_ID_GREEN,
+   762			.brightness = 0,
+   763			.intensity = 0,
+   764			.channel = AYN_LED_MC_GREEN_REG,
+   765		},
+   766		{
+   767			.color_index = LED_COLOR_ID_BLUE,
+   768			.brightness = 0,
+   769			.intensity = 0,
+   770			.channel = AYN_LED_MC_BLUE_REG,
+   771		},
+   772	};
+   773	
+ > 774	struct led_classdev_mc ayn_led_mc = {
+   775		.led_cdev = {
+   776			.name = "ayn:rgb:joystick_rings",
+   777			.brightness = 0,
+   778			.max_brightness = 255,
+   779			.brightness_set = ayn_led_mc_brightness_set,
+   780			.brightness_get = ayn_led_mc_brightness_get,
+   781			.color = LED_COLOR_ID_RGB,
+   782		},
+   783		.num_colors = ARRAY_SIZE(ayn_led_mc_subled_info),
+   784		.subled_info = ayn_led_mc_subled_info,
+   785	};
+   786	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
