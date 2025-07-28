@@ -1,201 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A5A8BEC;
-	Mon, 28 Jul 2025 12:40:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7702B13D51E;
+	Mon, 28 Jul 2025 12:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753706429; cv=none; b=ZW8sc/szafK36HP3tomSsWSGVSn90tmpH8HTqic1N5HDqjNIMlWjx/zv/KO+Yz8Kyu9xoTpAnGdZWXuPjKlkjSHIG5nx8Rk/wj8E3t4EvNVB89rYpahkkgyEsXqxe6ukhmZfFr9HzLopSU5W5hXIb9DhYP8f+6kJBAwu+cESUk0=
+	t=1753706722; cv=none; b=gdSzBy2y2wSq6QfFOOdQ4DXukQGTayV1UJUgtdfpJVRMKAIjbXgDPmHkO61ws++sXhCZdbxt/KgU8VERjOch4UegwCfimCETPJk0YyLXKWW2c8TvFlsApSn1t94FcVY5q46k5yP5PA+1VTldyUltV8NON0mSOcbjfNSBOFb1ZaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753706429; c=relaxed/simple;
-	bh=dTg4wWkdKPCRfym32aJgAHjXglH8povDWDAynj04Cbc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lJ2G3a/dvHI8nYezZSU44GBgmeZoOimuNJGTdCNaoM4CdncS7s1zhNvvj7eN+NPD/Pu3Wf86w9J8AstciAP0rAdGev+/bIl4ny2VvvhG5Yv5OpAtCkYXUgxdOIk3t6+G6sDSwUx2b1x5QHoGcfQSLXYg8tvNxzG67ml4AXOU9Ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzJ4uFKv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753706722; c=relaxed/simple;
+	bh=GugSHvy+IJFFREl/nAn10zyTSudtGXDdHs192vJUo3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cA32a2/k/Z8Bv02Erkv5u8qCrRWkWhFHFnbDtBEOMUWaW1rvIc1RY5+tlFxNOmIzX+EzkM5OTjIcVFYpxcF22HjT+PdYt9d49b3siK9Djuuc7ypI5LTzcnv6SLIqhXz09XsEY+aLztKeyGMtfRng6q3/TnYB2V0CNw0ZQfSa3Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/FcKi+h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzJ4uFKv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AF8EC4CEE7;
-	Mon, 28 Jul 2025 12:40:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/FcKi+h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4175CC4CEE7;
+	Mon, 28 Jul 2025 12:45:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753706428;
-	bh=dTg4wWkdKPCRfym32aJgAHjXglH8povDWDAynj04Cbc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bzJ4uFKvWPrxZswu2/WOHXEn0za6GOHr7iul3iSHpKipGrDHOCdqWFqSlQR2LLv1J
-	 LZ0EmFq6NJSMZkqib/7JgYGPy0LEpdgWKHMDfydtDzwaLaFBcXL8lBTW4wNegSSqxG
-	 sEBa2h1DI7wuXLGNw0PVEBG+mbmqZSaHUjuFvIx8R5n9MWYzBrB4CduNdtSkNgww1g
-	 jE/Oj2VFFC4eOvbr8g5RQFOR1d4H9icwcwWLwzX8tbxruhZpIHmHR2ruxIApWLOvw4
-	 /ONLxRYv6ywGhkkBR4RfSUNWHlOrwHius9M1+wefaij+u3ooAshCyrEMEO0T/DIa1D
-	 o/EAswh8UWkXQ==
-Message-ID: <cabacd59-7cbf-403a-938f-371026980cc7@kernel.org>
-Date: Mon, 28 Jul 2025 14:40:22 +0200
+	s=k20201202; t=1753706721;
+	bh=GugSHvy+IJFFREl/nAn10zyTSudtGXDdHs192vJUo3M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J/FcKi+hjv9Iqn2RYaI04kXyLfzYaJ0EgCdEefTIVQYhMRE4SG64xA2v937xYdk2/
+	 A6bibL8mGIajh5Hmaoket1pqclZACy7UljY7IhoFvs9MsYHJD50c9F4PJPHJ066ghF
+	 1iT+HlVnom4L8fCYSKvY1JicpPLt3rToYizVt/mla6cTyXiwrlZQnsXLJEIKkU7AAh
+	 RzJx3e/IiE0H6dexSi+y3Syq9vgMdhf6drHB/jrhntmHY2OydFJTUrFxDKsuAnAl2I
+	 /9IeKbTDPjfYIFAEOO5g1dwCzor1jFw1+DjiXEnJp1LWpSsDJ60jdPyJ1sMASF06Po
+	 crjPWKqWJIh3g==
+Date: Mon, 28 Jul 2025 08:45:19 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Greg KH <greg@kroah.com>, corbet@lwn.net, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org, Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
+ kernel
+Message-ID: <aIdw3-G04QQPvJtU@lappy>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+ <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
+ <2025072854-earthen-velcro-8b32@gregkh>
+ <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 2/5] net: rpmsg-eth: Add basic rpmsg skeleton
-To: MD Danish Anwar <danishanwar@ti.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Mengyuan Lou
- <mengyuanlou@net-swift.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Fan Gong <gongfan1@huawei.com>,
- Lee Trager <lee@trager.us>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Lukas Bulwahn <lukas.bulwahn@redhat.com>,
- Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250723080322.3047826-1-danishanwar@ti.com>
- <20250723080322.3047826-3-danishanwar@ti.com>
- <296d6846-6a28-4e53-9e62-3439ac57d9c1@kernel.org>
- <5f4e1f99-ff71-443f-ba34-39396946e5b4@ti.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <5f4e1f99-ff71-443f-ba34-39396946e5b4@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
 
-On 28/07/2025 10:10, MD Danish Anwar wrote:
-> Hi Krzysztof,
-> 
-> On 25/07/25 12:48 am, Krzysztof Kozlowski wrote:
->> On 23/07/2025 10:03, MD Danish Anwar wrote:
->>> This patch introduces a basic RPMSG Ethernet driver skeleton. It adds
+On Mon, Jul 28, 2025 at 11:52:47AM +0100, Lorenzo Stoakes wrote:
+>One thing to note is that I struggled to get an LLM to read MAINTAINERS
+>properly recently (it assured me, with absolute confidence, that the SLAB
+>ALLOCATOR section was in fact 'SLAB ALLOCATORS' + provided me with
+>completely incorrect contents, and told me that if I didn't believe it I
+>should go check :)
+
+Heh, I wouldn't trust LLM with anything more than mechanical
+transformations or test writing at this point :)
+
+>So at all times I think ensuring the human element is aware that they need
+>to do some kind of checking/filtering is key.
+>
+>But that can be handled by a carefully worded policy document.
+
+Right. The prupose of this series is not to create a new LLM policy but
+rather try and enforce our existing set of policies on LLMs.
+
+Right now the "official" policy of our project is that we accept agent
+generated contributions without any requirements beyond what applies to
+regular humans, which most LLMs promptly skip reading and go do their
+own thing...
+
+So I wanted to at least force LLMs to go RTFM before writing code.
+
 >>
->> Please do not use "This commit/patch/change", but imperative mood. See
->> longer explanation here:
->> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+>> > In addition, it's concerning that we're explicitly adding configs for
+>> > specific, commercial, products. This might be seen as an endorsement
+>> > whether intended or not.
 >>
-> 
-> Sure. I will fix this in v2.
-> 
->>> support for creating virtual Ethernet devices over RPMSG channels,
->>> allowing user-space programs to send and receive messages using a
->>> standard Ethernet protocol. The driver includes message handling,
->>> probe, and remove functions, along with necessary data structures.
->>>
->>
->>
->> ...
->>
->>> +
->>> +/**
->>> + * rpmsg_eth_get_shm_info - Get shared memory info from device tree
->>> + * @common: Pointer to rpmsg_eth_common structure
->>> + *
->>> + * Return: 0 on success, negative error code on failure
->>> + */
->>> +static int rpmsg_eth_get_shm_info(struct rpmsg_eth_common *common)
->>> +{
->>> +	struct device_node *peer;
->>> +	const __be32 *reg;
->>> +	u64 start_address;
->>> +	int prop_size;
->>> +	int reg_len;
->>> +	u64 size;
->>> +
->>> +	peer = of_find_node_by_name(NULL, "virtual-eth-shm");
->>
->>
->> This is new ABI and I do not see earlier patch documenting it.
->>
->> You cannot add undocumented ABI... but even if you documented it, I am
->> sorry, but I am pretty sure it is wrong. Why are you choosing random
->> nodes just because their name by pure coincidence is "virtual-eth-shm"?
->> I cannot name my ethernet like that?
->>
-> 
-> This series adds a new virtual ethernet driver. The tx / rx happens in a
-> shared memory block. I need to have a way for the driver to know what is
-> the address / size of this block. This driver can be used by any
-> vendors. The vendors can create a new node in their dt and specify the
-> base address / size of the shared memory block.
-> 
-> I wanted to keep the name of the node constant so that the driver can
-> just look for this name and then grab the address and size.
+>> Don't we already have that for a few things already, like .editorconfig?
+>
+>Right, but I think it's a whole other level when it's a subscription
+>service. I realise we have to be practical, but it's just something to be
+>aware of.
+>
+>Perhaps an entry in the AI doc along the lines of 'provision of
+>configuration for a service is not advocating for that service, it is
+>simply provided for convenience' or similar might help.
 
-You should not.
+It also gives us the option of dropping some of these if we find them to
+be either horrible at their job or just being abused.
 
-> 
-> I can create a new binding file for this but I didn't create thinking
-> it's a virtual device not a physical and I wasn't sure if bindings can
-> be created for virtual devices.
-
-So you added undocumented ABI intentionally, sorry, that's a no go.
-
-> 
-> In my use case, I am reserving this shared memory and during reserving I
-> named the node "virtual-eth-shm". The memory is reserved by the
-> ti_k3_r5_remoteproc.c driver. The DT change is not part of this series
-> but can be found
-> https://gist.github.com/danish-ti/cdd10525ad834fdb20871ab411ff94fb
-> 
-> The idea is any vendor who want to use this driver, should name their dt
-> node as "virtual-eth-shm" (if they also need to reserve the memory) so
-> that the driver can take the address from DT and use it for tx / rx.
-> 
-> If this is not the correct way, can you please let me know of some other
-> way to handle this.
-> 
-> One idea I had was to create a new binding for this node, and use
-> compatible string to access the node in driver. But the device is
-> virtual and not physical so I thought that might not be the way to go so
-> I went with the current approach.
-
-virtual devices do not go to DTS anyway. How do you imagine this works?
-You add it to DTS but you do not add bindings and you expect checks to
-succeed?
-
-Provide details how you checked your DTS compliance.
-
-
-
-Best regards,
-Krzysztof
+-- 
+Thanks,
+Sasha
