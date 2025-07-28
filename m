@@ -1,140 +1,101 @@
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3821C36;
-	Mon, 28 Jul 2025 04:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288F21C36;
+	Mon, 28 Jul 2025 04:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753676383; cv=none; b=iR5SKwspVtB5Lmy8xfchFaNrnpNytMRsiTK7R1Al2eo6aXvWpR/NNUUBD5lHcBZW9ksPtZ5SNpgdg/9FFQyaAhXWXBuxRutfr7J8l+ig5nVfVIH8CsDT1MpnUxcCl8y9gNxf3/v8tSE/GMvS45dck/egtOsYrB6/sJd3isSz+Y8=
+	t=1753676693; cv=none; b=oEuwLBL+Ncfanl/AM1LbYk3OE0szYtKI9ubhuuKiOh+EdDTTRCqBCcT3+GJFu+l+ws2NCNR9j/FQJFnHBlJkSy5a44wNvvtiT5UHH5PJiXsUAPbu/M2KrxbQmuW7AYvMYzC5QE7pJ+lIg+X/Qr/OSJWI8R7hm3CLMyQ+Xz9JzwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753676383; c=relaxed/simple;
-	bh=+21c/5kfzRyWQ9mGcHPND0dXCpuIpbvrRxN47140bqg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gYlzPuTdIB8kR5o9OyCheBBPfanJctNZaWI4lXCE9WoDiFjT9K7BlxeuCDCnO2nPcG4fITklF7aUu9AZOhmOt8A8r+MqH/4hBy4d18J8tvm99sSqa/JEsfRj4BOVkHNM+rdYKDi1xv4yIa8p9UlWzKbMrUBejHaV5VL9B/dDAN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 8D2461A147C;
-	Mon, 28 Jul 2025 06:19:34 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 4F79A1A1480;
-	Mon, 28 Jul 2025 06:19:34 +0200 (CEST)
-Received: from lsv03900.swis.in-blr01.nxp.com (lsv03900.swis.in-blr01.nxp.com [10.12.177.15])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id D78B01800079;
-	Mon, 28 Jul 2025 12:19:32 +0800 (+08)
-From: Lakshay Piplani <lakshay.piplani@nxp.com>
-To: linux-kernel@vger.kernel.org,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	linux-hwmon@vger.kernel.org,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org
-Cc: vikash.bansal@nxp.com,
-	priyanka.jain@nxp.com,
-	shashank.rebbapragada@nxp.com,
-	Lakshay Piplani <lakshay.piplani@nxp.com>
-Subject: [PATCH v2 2/2] hwmon: (lm75) Add NXP P3T1750 support
-Date: Mon, 28 Jul 2025 09:49:13 +0530
-Message-Id: <20250728041913.3754236-2-lakshay.piplani@nxp.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250728041913.3754236-1-lakshay.piplani@nxp.com>
-References: <20250728041913.3754236-1-lakshay.piplani@nxp.com>
+	s=arc-20240116; t=1753676693; c=relaxed/simple;
+	bh=wIs6UTtylqnFTXYKYzkqoiC66IXr0qN9GkHXwam0AYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bqk7FL5/pkSuXXvyfejMnLPCr4RtT2Pfg2vk3UBFmA73tEn9jr1KHEbRhva4m4Vd+VWfkYUxb6vtkkfsXgWXQrvLaCEEj02wxsD7KR5u1eBm73bjeUG5vxrOt7gcaro0akU4gdtv3PaA2hRYhUiLypvoYfP52y15YTlSAdPFbLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ezpkl/hn; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ezpkl/hn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05964C4CEE7;
+	Mon, 28 Jul 2025 04:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1753676692;
+	bh=wIs6UTtylqnFTXYKYzkqoiC66IXr0qN9GkHXwam0AYY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ezpkl/hnOzuPh7IyQANeZuw+AO2fKWmwTwzqBfQA8TTP7C1QSkbA7CVvIjN47xrrQ
+	 xbCiWdu6PJNtwYAVua6KLg1zQsRE0ad+WDxOKGwbZtKeQoO36LEJ7EBLGNWcLswBfT
+	 01TEbSPMKtCSZAn7D9Royift0LBhzSu/uVeU3GuU=
+Date: Mon, 28 Jul 2025 06:24:44 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org
+Subject: Re: [PATCH 2/4] agents: add core development references
+Message-ID: <2025072825-gotten-cupbearer-449a@gregkh>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+ <20250727195802.2222764-3-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250727195802.2222764-3-sashal@kernel.org>
 
-Add support for lm75 compatible NXP P3T1750
-temperature sensor.
+On Sun, Jul 27, 2025 at 03:58:00PM -0400, Sasha Levin wrote:
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  Documentation/agents/core.rst  | 28 ++++++++++++++++++++++++++++
+>  Documentation/agents/index.rst |  3 ++-
+>  Documentation/agents/main.rst  |  5 +++++
+>  3 files changed, 35 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/agents/core.rst
 
-Signed-off-by: Lakshay Piplani <lakshay.piplani@nxp.com>
----
-Changes in v2:
-- None. Patch unchanged.
+I know I can't take patches without any changelog text, maybe the
+documentation maintainer is more lenient?  :)
 
- Documentation/hwmon/lm75.rst |  6 ++++--
- drivers/hwmon/lm75.c         | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/agents/core.rst b/Documentation/agents/core.rst
+> new file mode 100644
+> index 000000000000..da171dde1f9d
+> --- /dev/null
+> +++ b/Documentation/agents/core.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +========================================
+> +Core Linux Kernel Development References
+> +========================================
+> +
+> +Essential documentation for Linux kernel development:
+> +
+> +How to do Linux kernel development
+> +----------------------------------
+> +
+> +The comprehensive guide for becoming a Linux kernel developer and learning to work with the kernel development community.
+> +
+> +See :ref:`Documentation/process/howto.rst <process_howto>`
+> +
+> +Submitting patches
+> +------------------
+> +
+> +The essential guide to getting your code into the kernel, covering everything from patch formatting to the submission process.
+> +
+> +See :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+> +
+> +Submission checklist
+> +--------------------
+> +
+> +A checklist of items to review before submitting code to ensure patches are accepted more quickly.
+> +
+> +See :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
 
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index c6a54bbca3c5..84e690824fee 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -121,9 +121,9 @@ Supported chips:
- 
-          https://www.ti.com/product/TMP1075
- 
--  * NXP LM75B, P3T1755, PCT2075
-+  * NXP LM75B, P3T1755, PCT2075, 'P3T1750'
- 
--    Prefix: 'lm75b', 'p3t1755', 'pct2075'
-+    Prefix: 'lm75b', 'p3t1755', 'pct2075', 'p3t1750'
- 
-     Addresses scanned: none
- 
-@@ -135,6 +135,8 @@ Supported chips:
- 
-                https://www.nxp.com/docs/en/data-sheet/PCT2075.pdf
- 
-+               https://www.nxp.com/docs/en/data-sheet/P3T1750DP.pdf
-+
-   * AMS OSRAM AS6200
- 
-     Prefix: 'as6200'
-diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
-index 9b4875e2fd8d..979057f02748 100644
---- a/drivers/hwmon/lm75.c
-+++ b/drivers/hwmon/lm75.c
-@@ -40,6 +40,7 @@ enum lm75_type {		/* keep sorted in alphabetical order */
- 	max31725,
- 	mcp980x,
- 	p3t1755,
-+	p3t1750,
- 	pct2075,
- 	stds75,
- 	stlm75,
-@@ -229,6 +230,13 @@ static const struct lm75_params device_params[] = {
- 		.num_sample_times = 4,
- 		.sample_times = (unsigned int []){ 28, 55, 110, 220 },
- 	},
-+	[p3t1750] = {
-+		.clr_mask = 1 << 1 | 1 << 7,	/* disable SMBAlert and one-shot */
-+		.default_resolution = 12,
-+		.default_sample_time = 55,
-+		.num_sample_times = 4,
-+		.sample_times = (unsigned int []){ 28, 55, 110, 220 },
-+	},
- 	[pct2075] = {
- 		.default_resolution = 11,
- 		.default_sample_time = MSEC_PER_SEC / 10,
-@@ -806,6 +814,7 @@ static const struct i2c_device_id lm75_i2c_ids[] = {
- 	{ "max31726", max31725, },
- 	{ "mcp980x", mcp980x, },
- 	{ "p3t1755", p3t1755, },
-+	{ "p3t1750", p3t1750, },
- 	{ "pct2075", pct2075, },
- 	{ "stds75", stds75, },
- 	{ "stlm75", stlm75, },
-@@ -920,6 +929,10 @@ static const struct of_device_id __maybe_unused lm75_of_match[] = {
- 		.compatible = "nxp,p3t1755",
- 		.data = (void *)p3t1755
- 	},
-+	{
-+		.compatible = "nxp,p3t1750",
-+		.data = (void *)p3t1750
-+	},
- 	{
- 		.compatible = "nxp,pct2075",
- 		.data = (void *)pct2075
--- 
-2.25.1
+Why isn't the agent already reading all of this in the documentation
+tree?  Why must it be told to read it again?  Do we not properly index
+this well enough in our documentation tree already?
 
+thanks,
+
+greg k-h
