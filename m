@@ -1,174 +1,121 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2055.outbound.protection.outlook.com [40.107.236.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B192625DAE7;
-	Mon, 28 Jul 2025 11:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753703081; cv=fail; b=DPKJJy//p03O/lI5OdW2h1lrk3PCe35izm5qOoEE9Qq/QDip6NzeDYI26CZZCbHX1XDom8LfZCfCt/X3UYyq5ychWKDyZwdCBid73DHbSQB3F3BGgCzB44yvpbIMK2QR1lMPRq1CGipneed7UjDBEFy0F7wSfq95bHp6Rq1gB5M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753703081; c=relaxed/simple;
-	bh=30oiIyw6IQJizwKGBlZriEPMIvbrkzOqekDskq45n4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Sy7e6bzI/SAbUPaetOCHLu0BgBfa6ZK18d0KwBAtHKHbwl8mqq6M4rLxCiewPuY3ew1DeaHyiChy0jV7VNQF70Voxm73QVG+0A4T5UIwNfPGNHrinFQpAPerZT9gcS/NBuEtrmVFSBSebYEbOIICiR+siDdx15tggBn6R5USBj4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MkYfL3fx; arc=fail smtp.client-ip=40.107.236.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFC0218858;
+	Mon, 28 Jul 2025 11:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753703842; cv=none; b=RMHeEu46aFf5iVo4r3TwJ1XMcNN3siYsIlKBK7wHOaDAxeCovRFSOnj5OUijQVQ5BzVkfrryWW3uud8NbxTUrES0Y9io3+3KFR4UYHJj3JIxOChu5sBDYwP846EPDwI8DiKqOUaHqq0KLBUa9iS9F8SRSJ98Uk+UK+ti6oNwfuQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753703842; c=relaxed/simple;
+	bh=KwknBtm3rG8DZ9E+8sUrsu3OOrib3fyBjqPLFr4ycAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iNGHeH2t9hG1N0/KT2dCW3xi8n7OTIoToO+JSnRk2jQKmx5GyIpVsnRuiOrmhvejga+VtLccbsRGDqHbJWgsm2NacWPb2E6rNgqwyE2CgGlhvsXXR97qJ4bRuYz/naLSgDFrdCsvy0fzURYcgXbkAxoSnsIn4ep6aEGNam0eHiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RqfwJbyi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MkYfL3fx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Dc8B0JXotyx0xIVVvZfdU0zwne/rs2HIz1qBTVOhe+fgQ4RupKy1HfWjqswUnyU3pF8TJVEp8L1jO9ub/WFLBLqcjYwVwhMH5dmI9ktBdpn8T/NoMTyM7RA7a0OiZRckuzj0wPBpPi1eivNloNcLQvg3tD2NeSYBKM3EcybOetcZMsQkYiSbZBlBGQCAgxXU13P1gC0bxTQ3x+zdtApkeeayfVg1QPviZ4ofezv3wSwD/pk1w+PLddPYqhgAOE+TxAOdBKvxbGSlNv1wDv72+jingT1Uzbfm8h6t3Ra+LNNg6p+J7i+sdgHBqQch0avlss6Fb60tfX2DWg5AuWxP7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=64O5ruImSg/d6nUJPSuP/LhpECzJ4Cty47+2wI5u1Uo=;
- b=uVVDvkqOywOQHYlJ/qJ9keUMxrZ1lYaFSt22gb8VPPDh+jKds8+27eujhTb9SMYfcR/G/6PspSzk0paJ0pdNOvm0Oaq5g2ekOMkbMQDVAdY3JcWcNgiWBvg1Xhg2ywCgE5GKNeXbPyO4T18Gl5thT4rqcrG9JEsvSnMjSEKc6758hoi7VH9HEk01ts+pKg4jBDLjxCzrKIKAhFQZAiOqN0pkNX8DPfVZ14xZ9/1YyfJaBcPwcAjVPPcf3YBbKkqGenLJ+kB8TQZqj2AANTfpo65Uy83+TGP4YObI8L46JWf9thGQttkkbJaM6pHzX+aIBWSdC951sghVgVck0VZVgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=64O5ruImSg/d6nUJPSuP/LhpECzJ4Cty47+2wI5u1Uo=;
- b=MkYfL3fx/wptV2aYgQzhNrU9UXiOgjAq25iC1N3tRxQyxFvEpeG1RuAwQ2ydi/zTNLUQKRqqxa1pJSlHVQVJjuUSgmjKNfHKgOAWaTPgXCSm8vuHtYUx3aqzzcyf9pBLtn0eZHIIAE8/mt3Ck6GcYYTAVMCU67mq47RT7aK/hZKZ35OabdxCIKK3f4SKCjs73+fmZ8JRSG3BtfwhIB3sJbVc0ezrns1mOAZhlEquBgfggbC0BU+abwDSUYIVKFnstUoS5NCbdgGBUC5i1OvSHYbSBrM/YSImYL+yae34nZH+DhcN25gHVJL97TKjvbuNQldzdON8EChVQ3KYEU1wGA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by PH7PR12MB6394.namprd12.prod.outlook.com (2603:10b6:510:1fe::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Mon, 28 Jul
- 2025 11:44:35 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8964.024; Mon, 28 Jul 2025
- 11:44:35 +0000
-Date: Mon, 28 Jul 2025 08:44:34 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Ankit Soni <Ankit.Soni@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
-	Joerg Roedel <joro@8bytes.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-	Bill Wendling <morbo@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
-	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
-	James Gowans <jgowans@amazon.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
-Subject: Re: [PATCH v3 01/15] genpt: Generic Page Table base API
-Message-ID: <20250728114434.GA26451@nvidia.com>
-References: <0-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
- <1-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
- <vbbvejcofng2jpgozzgbh5ifnmdqrtfjs6ix2jvuw4rfwdek5n@3cldml5ry57t>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <vbbvejcofng2jpgozzgbh5ifnmdqrtfjs6ix2jvuw4rfwdek5n@3cldml5ry57t>
-X-ClientProxiedBy: YT4PR01CA0350.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:fc::20) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RqfwJbyi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A28FC4CEE7;
+	Mon, 28 Jul 2025 11:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753703838;
+	bh=KwknBtm3rG8DZ9E+8sUrsu3OOrib3fyBjqPLFr4ycAs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RqfwJbyixeU0CGFFCnQZPxoYw0lIQjtYHTfeCRbeKA4fVeubMfZRtZOMK5vibGMIi
+	 ZAhwSX2tIHBJlEebJNoQONALCqV4XQXU4EhG1TmAyee9dGXtbIflgBrVE1tUG7aIK+
+	 YltsV8lPTR5rKPj1EGlsoYzgIegsz0/kAlCC9yNIAw2/0LtibcC71eDLVF/8hK7YzM
+	 E4xsh27AI2ipBu12xiyMTmdvpuQf0VMOta3+t5kAxZPd1tKONDtMDHq4WVcrvBBc9U
+	 FUczJ2bVLW8egOnL6VpKUvhB6od74ihSwOv+Xwoif3T2umZMdU05z10s+X6MVbzTRP
+	 sjoA9F7Jyxgmw==
+Date: Mon, 28 Jul 2025 07:57:16 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org
+Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
+ kernel
+Message-ID: <aIdlnHcNHvOxVxGF@lappy>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+ <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB6394:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64cde5f1-d515-474d-4547-08ddcdcc1fe6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?W5znpgZgNgar8PfSLiqvlK/QhDn1OK93XhFyHsOIfjITFIh4/6YGrBByPorp?=
- =?us-ascii?Q?pU4rqwa63K90Wi1ybdGOGCNMoBmX64DjTc1jOWBGl3eK4l05dPmpOxrOubUt?=
- =?us-ascii?Q?WTKFIEfO3CAu43/mxS1P5Co3venUrMe1ZY0FUmJPd6Es7IHnq0MI7I1L+YEo?=
- =?us-ascii?Q?vK0mWPjb0TKHc4hqpievw3xZx2bTkq81q8mb4g3BOStR+gVV/IfUGvoymYN5?=
- =?us-ascii?Q?zJUCG/IdYu1i52/9CPHXoE92EH6ViHGE2xZk3+bwNeCuxJa2pWer5Q36O2N3?=
- =?us-ascii?Q?XrhdlJLLiLZHJzXYYCLeLSDzmLaQX/hthSQUV/tRb4+ttt7jZPjV+wwf2vuq?=
- =?us-ascii?Q?VsagXrouhrSZ5GK8HK39Vqgun6EHLiJj/4rjVllhGLZKlO813qro/BY7yNNg?=
- =?us-ascii?Q?YqMeERhzrrdWWR5ywkwZ1PmmQXKEdaXX1qc5Nv8s2SLimyTHJ8JaRh9n18rx?=
- =?us-ascii?Q?xVd0nsIOTX7Bhctm8TIrQhZDI4gZfncuCb9IRDZroBjV+TQk2t0p4LQPa5XW?=
- =?us-ascii?Q?w8VU8qZdherLBp9zaXsqMAc1/RvK/R0phdupeuxqxkDYFNMi1uKgavkw1PU3?=
- =?us-ascii?Q?o2obHpl2bK5wDK2J/Kp2+mHw/HXNLaS9RZ5oilfBXsh2cOobvV8zO9SCx+CU?=
- =?us-ascii?Q?HpV8u/632nidk/UmDMJMZs+Nb6YmrB8lgD8Y0RDJGi/sPr7CZuYZJvEQ+Cup?=
- =?us-ascii?Q?MOXFF9NFWitu8Gj+JRRKKs6ZeEs13+9TCVO80lPfaCGSLnHl7HyP1ILVnQwd?=
- =?us-ascii?Q?aT1tXFjSfZycT2Kj+MxPKpn+4DzYImsSA7K8aFM/5bxJhzx+2BrF3BlOICzU?=
- =?us-ascii?Q?6/ElY1rG1flvsZ25QjLAnlwGkvQY2pI44rfpwkxAylsn1hJMe2V6xybZvotw?=
- =?us-ascii?Q?UJSPM8H+JjH0wmSkt3FMJjiIE/7rN55gDYr8L/yaJJbWgjfW6MDXONrEWOS1?=
- =?us-ascii?Q?bB+4yZU2zJMwWThVMgHVsbiVSF1MGh8/5tFW8MCWF9f+C3fG1r0hMOuRzqJR?=
- =?us-ascii?Q?6hdzNxb/9zJIcl1q2wrrjyBEFZZjNf/Ie8PNadm5F8zqVV6lLhad3jS6e2eq?=
- =?us-ascii?Q?P2liVq6gPPaKr1H+ZoYbqRforCThw0mfl0Zxeg8HVspZnPwNA3Pgvx63MQTV?=
- =?us-ascii?Q?9ZICmGRxt6MdFik3Tj+G7mnaOPb+7qGGANzy07g2U3/ylvHCYdlxlQvEAQoR?=
- =?us-ascii?Q?TCjqmvPOpTlvzx1ogciCFIo7VLqQklCIn+M5MYf/I/zVRC2rpknXO0/vFJ1P?=
- =?us-ascii?Q?7Icf4gLwcwRELQxq4zZ7xxhr+9igx8CaAsrVnYhcTMbfmRYoT8Ct7zGctw11?=
- =?us-ascii?Q?NSZoIdg2cx2uYS7DpvaI37ZIpA154ZndFun8bSpeSC9UM0rNB30RYiDfWbqM?=
- =?us-ascii?Q?KfOkp8tgzn4slR6n4llMeah6GqAsSRdLUTLaON3S+Fpgx/TjADyRpFkrJ9On?=
- =?us-ascii?Q?2N1h6SvCU4Y=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?vra7KWCvZrMEmwj8RqfZDQ209ZB7QZSoetXkbNCQ//PTD6lN5S/zjrTnHRAG?=
- =?us-ascii?Q?/qiKBYYvul//xkQfbN/ZWvJrKEzsof8IZA5Lh31eBaKGWGtx3a0Hrtk3+5wN?=
- =?us-ascii?Q?M29VqAZegYtyhFy2UxnmkLxYQ3JGs04w2cn/dTUWJF5HLLYaF5WuSu97ISMk?=
- =?us-ascii?Q?U6tKkmEXa75xqueFq21GR1niCgbepBcMUrZiD7n/g00oqSXZcafuNBhSMnE9?=
- =?us-ascii?Q?4kMXZdaeEgFGXbk6Jci9dvvE7BbkYHEa10se3R2l7izBL992/1dpTansNcqk?=
- =?us-ascii?Q?7WuyJeoULYBeQbfmV7ITSw9vER1Wva5Yvyf9pPChyGYv04Zw6C3+UJQ92nE4?=
- =?us-ascii?Q?2N/PHrhA4sT+GVGuqIyMSWaplWLX8gvkuy+352BNjC31og5Kv1OWlwFVhsbo?=
- =?us-ascii?Q?HCugnshodwm0z8zW+cshNFPaOF7mNSF+OzbLnqhGCPqGBMinQJVXA/gS5Kks?=
- =?us-ascii?Q?lKmzX+nYGPLtw7UrdnQGI2TzIqCtZNClVp3vjSKRyqjvhuYwMQC4y+nyfnE8?=
- =?us-ascii?Q?LKRgd8F+NFEa6vz8x5y19VCBZZa8p7GZAtPgKQTyLaKE1p5oCN0Cv2LuzAZo?=
- =?us-ascii?Q?GwBfQawyX/TqpfyTTVY7gwWgJ4yXMCbJymXB/z8dz5Xet7YScxTcJlVpwr2P?=
- =?us-ascii?Q?juUi7incW5/cCnEkVCT4N+htkytmSt+FansYaTNGPpfv+R+Js2zieuNbsUTF?=
- =?us-ascii?Q?dayI+/cx86ZKBrwB8LEJ4yGHjL5f4RendR6b0oOZLblMqqioqLcyPYCRJSuN?=
- =?us-ascii?Q?Z5Jg96QX/rOSW0Vd+NbdD3RYA5FvswDc3ZMJd71W6STvuQBuZFLYj+1HxAs6?=
- =?us-ascii?Q?ViT0yuDMdxC1Uk9A+KVCfimPXBKEgoGm/+mKOJJ3G2W6IMhB7lKlBGvQyOGX?=
- =?us-ascii?Q?vdGChVqaDHX7qSW6Ur7Q949X03NuDVwlVccn/b6lGtyJzTbHkQeKpYE719PA?=
- =?us-ascii?Q?IrKhy3sW4sgsSIcYxAdJzHnXI6VSFBY1Cu0sUYZFjKCulL0x9h4BUjGeZgWQ?=
- =?us-ascii?Q?zE3J/41mBykGihsZNVr+9yVQO0YPuHqJm+oZmfNLiC4ZuVOS2nxjmpQrWuQ4?=
- =?us-ascii?Q?armeM8JQgzkv0BbaTV9iEtCNftNJhx/wF+BrvZAkg/cAcuEgmC7bhtZS8kWr?=
- =?us-ascii?Q?1kjeOHrUlqbGzldGAkn/ArgUrVLs/SgVbHssi8zot3Yf0i81fxLOqlcC3Ahn?=
- =?us-ascii?Q?kRk6XfjpH6d31oWjGoMoy0SBsVZ1Xioq/O0qtIvlGfylIHCxgRqWP/El8hVM?=
- =?us-ascii?Q?Vfdp3j9VDNylE6WOPYMCbhfOXex5HZTv2kXsZERzxkhSnwxmb2Em/57R3/Ca?=
- =?us-ascii?Q?oxgBWIr8sAd8Sc2dsFT5Z2Nasw9LzQezh6nABbshRXeL5jzq9oauypn6Tg5B?=
- =?us-ascii?Q?KrEMnWvYEMxMoL19OxiKR7VZdKdmZqA7GO+iBROFfbu/6dSfsxuhB54aPgly?=
- =?us-ascii?Q?fKSroPTNIMnuMfELa9vYU8XZf8SB6aFe7sVPKfVFELDnQwJ3aQT4fONGjlWJ?=
- =?us-ascii?Q?mghKoqM4ETj4uycjUiTW3XIjejE5pvB9sRWaXz3G+9Phz+qkvwOZwAcrs5nX?=
- =?us-ascii?Q?8K6jb/wse1LCf3KOoMI=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64cde5f1-d515-474d-4547-08ddcdcc1fe6
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2025 11:44:35.0454
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UiU+IkjdbUD50RQvYTGrCMyv5z+RHzEBR2rcFoVdH8yrcuszQKP7JOUS1mONRqx+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6394
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
 
-On Mon, Jul 28, 2025 at 11:23:42AM +0000, Ankit Soni wrote:
-> > +static __always_inline struct pt_range _pt_top_range(struct pt_common *common,
-> > +						     uintptr_t top_of_table)
-> > +{
-> > +	struct pt_range range = {
-> > +		.common = common,
-> > +		.top_table =
-> > +			(struct pt_table_p *)(top_of_table &
-> > +					      ~(uintptr_t)PT_TOP_LEVEL_MASK),
-> > +#ifdef PT_FIXED_TOP_LEVEL
-> 
-> I am not able to find definition for above macro.
-> Was it intentional to leave the macro 'PT_FIXED_TOP_LEVEL' undefined?
+On Mon, Jul 28, 2025 at 09:58:44AM +0200, Vlastimil Babka wrote:
+>On 7/27/25 21:57, Sasha Levin wrote:
+>> This patch series adds unified configuration and documentation for coding
+>> agents working with the Linux kernel codebase. As coding agents
+>> become increasingly common in software development, it's important to
+>> establish clear guidelines for their use in kernel development.
+>
+>Hi,
+>
+>this series seems to me somewhat premature. I think we first need a clear
+>policy wrt LLM usage for the *humans* to follow. It seemed this thread [1]
+>was going into that direction wrt usage disclosure. BTW I was quite shocked
+>by Steven's reply there [2] that he learned from the LWN coverage of a
+>conference talk that he had received a patch fully written by LLM without
+>any such indication. Now I'm not naive to believe that it's not been
+>happening already from e.g. first-time contributors, but if that coverage
+>was accurate, the patch came from a very seasoned kernel contributor and I
+>really wouldn't expect that to happen.
 
-It is defined per-format. Right now the only format that used it was
-armv7s which isn't likely to progress. So I can drop this out.
+You mean that you had a concern that the same person who wrote
+hashtable.h was using tooling to convert open coded implementations of a
+hashtable to the API provided by hashtable.h?
 
+I've been doing this since 2012 (see 42f8570f437b ("workqueue: use new
+hashtable implementation")) with the various tools that the we have for
+mechanical transmormations of code.
+
+I understand Steve's point of view on this, and this series is here to
+tackle the concerns raised both by him and the rest of the community.
+
+>Also I don't know e.g. the copyright and licensing implications of LLM usage
+>beyond, say, a smarter automplete are clear? (again, such as writing the
+>full patch?) The thread [1] touched on it somewhat but not completely. If
+>that's clear already (IANAL), I'd hope that to be also part of such policy.
+
+The LF already has guidance
+(https://www.linuxfoundation.org/legal/generative-ai) for this type of
+contributions that was created by LF's lawyers.
+
+Clearly we can override, expand, or affirm it if we want to, but just
+like you, IANAL.
+
+>I know that your series has patch 4, but that seems to be part of what the
+>LLM is supposed to include for its prompt (does it make sense to call it
+>"legal requirements" then?). If it fails to e.g. add the "Co-developed-by:"
+>there seems to be nothing saying the human should check these things in the
+>output.
+
+Right - as pointed to later in the thread, that part is already in
+progress.
+
+The approach in this series would be to cover the technical aspects of
+supporting whatever policy we end up with.
+
+>So without such policy first, I fear just merging this alone would send the
+>message that the kernel is now officially accepting contributions done with
+>coding assistants, and those assistants will do the right things based on
+>these configuration files, and the developers using the assistants don't
+>need to concern themselves with anything more, as it's all covered by the
+>configuration.
+
+Note that at the current state of our policies and documentation, if you
+were to pretend to be a developer completely unfamiliar with the Linux
+Kernel project, the conclusion you'd reach is that the project
+"officially" accepts contributions that are in line with LF's policies.
+
+If anything, this series clamps down on that.
+
+-- 
 Thanks,
-Jason
+Sasha
