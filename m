@@ -1,408 +1,1078 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAD71E379B;
-	Mon, 28 Jul 2025 13:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F2126B2AE
+	for <linux-doc@vger.kernel.org>; Mon, 28 Jul 2025 13:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753709766; cv=none; b=GedvXz7qtJQjLKnUrarNenwf6izaLerRffv4XJ74lPKX84IsoA2eeB6fFiRkTdGZWeSyhJDQu1pyAwFGsOSG6tkp/q35Y3s99Hg1PckW7omV9L6jHsR4fHnkIRv+u5BdQR8sylcxHu6ySNmDHtC5xclqLtKGS+qN4EMjLZTMk/0=
+	t=1753710696; cv=none; b=ZI11Ej4AT7SEeyWvSoKcCWsEBoAHo5V8gTIo8jJR9BBWFfwrYnSH2zjpgjiYV/E/ZcJK/9O4fSPg6t9pkZqokZIAH7dMTEpMGMspMoO4wTqhdnNizFWzjy51tiYqeLEE7ybsN32kj/oGMstGLVfPOAc/ofarvWneUngrpCEV+aU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753709766; c=relaxed/simple;
-	bh=cKMH/l5NO1e8a5z2Dh9mCC8wzf97yxMzULdkOpRx5tM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pwBEuXARutDDUsB1sCsB0UQxghkBA6gBojCitSbVBXLlUNpuneS0VcnxFzh7cxkBNH+UnyeTZuaKU2bIuURTqOpKstGgESl7BEf90i/3mgunEIa1ov5JWvcSyiHY2kODBu54cjixJC2BO31vOXFdQLagWviQM9BpGr3GWFN0TRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lWi3zelG; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1753710696; c=relaxed/simple;
+	bh=DE4jddKIN4Xca7CaHmdV7YQ3697Lounx3MIpaazSdhc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WKYgZ0Zpj7oiUk4jsRl6YzaQCalCPzduhuG+rg1d8c07z6ZmMgkRH9K+UmaxVB8kd0seCrk3DGD0ZEFki75cZWMOT0w6uqkU13ME/jq+OvMMk8GhXZMv//Ej6+x5PFQAKKBQwKoCvwSRZd04qcqitIpff7ynm8Vr+9n4Bbrlt2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C+5kwv9T; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lWi3zelG"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 84B7240AA9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1753709754; bh=TGOGL4+9w8rjwWq76PI2mRNxZVObIaWVG55BoXnctDU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=lWi3zelGDPKhiG0SVH0CFrBBmqcYrw0Eq7vvmiImvXYQrnrAteGMil1LRqt65PASQ
-	 J241LFWM4n3RD6xOtcSfFmVL1DYFyQ7XAUvKoBTNXQI4egx2Tot8joVgC6wpcx+kAN
-	 i17DHIbhrA496XNvC8IhxSwfEzESjsQin+z/cUX5IGkyMQUNXkfOjtSL3AqLKOu4OT
-	 Wm2we2jdNWqPdPfMFORpln1zNjChhg0bouleOqI2zVZV1rYVgN7cjqR3y3uCf8my3X
-	 A7KlYLBnWQSQdRu6+jd2lEwrvv1YfIH5QqAd+kEeErGmtdsyDlE40FqS4AeoOf6QKD
-	 +vSgC/6miaOLg==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C+5kwv9T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1753710692;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eykFtS23JmiQf0QNeyQL1Hu4jhTTeBLlnvHDOP88K7M=;
+	b=C+5kwv9Tx7Bs0cU5YZ+PV2Y8mnDun/3JmL4/SxDiZA+bnjEDuMpdCdXVZwnU1TlGpJkjtH
+	g5TTisAOArhw6wlYTyKO3/pNnxdPoJT4RkQVfOYCy/xw/32jaW5s/xjvHn6Dl94r6QQXIA
+	n1dc+UEt2/3Q2cnTZytMqL8cp0eR8Oo=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-590-P1q_P0_yOmGx62qsS2g21w-1; Mon,
+ 28 Jul 2025 09:51:29 -0400
+X-MC-Unique: P1q_P0_yOmGx62qsS2g21w-1
+X-Mimecast-MFC-AGG-ID: P1q_P0_yOmGx62qsS2g21w_1753710688
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 84B7240AA9;
-	Mon, 28 Jul 2025 13:35:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] Documentation for 6.17
-Date: Mon, 28 Jul 2025 07:35:53 -0600
-Message-ID: <87y0s81lqe.fsf@trenco.lwn.net>
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 258F11800263;
+	Mon, 28 Jul 2025 13:51:28 +0000 (UTC)
+Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.45.224.215])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E2FA118003FC;
+	Mon, 28 Jul 2025 13:51:21 +0000 (UTC)
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Gabriele Monaco <gmonaco@redhat.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nam Cao <namcao@linutronix.de>,
+	Tomas Glozar <tglozar@redhat.com>,
+	Juri Lelli <jlelli@redhat.com>,
+	Clark Williams <williams@redhat.com>,
+	John Kacur <jkacur@redhat.com>
+Subject: [PATCH v5 7/9] rv: Replace tss and sncid monitors with more complete sts
+Date: Mon, 28 Jul 2025 15:50:19 +0200
+Message-ID: <20250728135022.255578-8-gmonaco@redhat.com>
+In-Reply-To: <20250728135022.255578-1-gmonaco@redhat.com>
+References: <20250728135022.255578-1-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
+The tss monitor currently guarantees task switches can happen only while
+scheduling, whereas the sncid monitor enforces scheduling occurs with
+interrupt disabled.
 
-  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
+Replace the monitors with a more comprehensive specification which
+implies both but also ensures that:
+* each scheduler call disable interrupts to switch
+* each task switch happens with interrupts disabled
 
-are available in the Git repository at:
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+---
+ Documentation/trace/rv/monitor_sched.rst      |  87 +++++-----
+ kernel/trace/rv/Kconfig                       |   3 +-
+ kernel/trace/rv/Makefile                      |   3 +-
+ kernel/trace/rv/monitors/sncid/Kconfig        |  15 --
+ kernel/trace/rv/monitors/sncid/sncid.c        |  95 -----------
+ kernel/trace/rv/monitors/sncid/sncid.h        |  49 ------
+ kernel/trace/rv/monitors/sncid/sncid_trace.h  |  15 --
+ kernel/trace/rv/monitors/sts/Kconfig          |  19 +++
+ kernel/trace/rv/monitors/sts/sts.c            | 156 ++++++++++++++++++
+ kernel/trace/rv/monitors/sts/sts.h            | 117 +++++++++++++
+ .../{tss/tss_trace.h => sts/sts_trace.h}      |   8 +-
+ kernel/trace/rv/monitors/tss/Kconfig          |  14 --
+ kernel/trace/rv/monitors/tss/tss.c            |  90 ----------
+ kernel/trace/rv/monitors/tss/tss.h            |  47 ------
+ kernel/trace/rv/rv_trace.h                    |   3 +-
+ tools/verification/models/sched/sncid.dot     |  18 --
+ tools/verification/models/sched/sts.dot       |  38 +++++
+ tools/verification/models/sched/tss.dot       |  18 --
+ 18 files changed, 385 insertions(+), 410 deletions(-)
+ delete mode 100644 kernel/trace/rv/monitors/sncid/Kconfig
+ delete mode 100644 kernel/trace/rv/monitors/sncid/sncid.c
+ delete mode 100644 kernel/trace/rv/monitors/sncid/sncid.h
+ delete mode 100644 kernel/trace/rv/monitors/sncid/sncid_trace.h
+ create mode 100644 kernel/trace/rv/monitors/sts/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/sts/sts.c
+ create mode 100644 kernel/trace/rv/monitors/sts/sts.h
+ rename kernel/trace/rv/monitors/{tss/tss_trace.h => sts/sts_trace.h} (67%)
+ delete mode 100644 kernel/trace/rv/monitors/tss/Kconfig
+ delete mode 100644 kernel/trace/rv/monitors/tss/tss.c
+ delete mode 100644 kernel/trace/rv/monitors/tss/tss.h
+ delete mode 100644 tools/verification/models/sched/sncid.dot
+ create mode 100644 tools/verification/models/sched/sts.dot
+ delete mode 100644 tools/verification/models/sched/tss.dot
 
-  git://git.lwn.net/linux.git tags/docs-6.17
+diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
+index 24b2c62a3bc2..6c4c00216c07 100644
+--- a/Documentation/trace/rv/monitor_sched.rst
++++ b/Documentation/trace/rv/monitor_sched.rst
+@@ -40,26 +40,6 @@ defined in by Daniel Bristot in [1].
+ 
+ Currently we included the following:
+ 
+-Monitor tss
+-~~~~~~~~~~~
+-
+-The task switch while scheduling (tss) monitor ensures a task switch happens
+-only in scheduling context, that is inside a call to `__schedule`::
+-
+-                     |
+-                     |
+-                     v
+-                   +-----------------+
+-                   |     thread      | <+
+-                   +-----------------+  |
+-                     |                  |
+-                     | schedule_entry   | schedule_exit
+-                     v                  |
+-    sched_switch                        |
+-  +---------------                      |
+-  |                       sched         |
+-  +-------------->                     -+
+-
+ Monitor sco
+ ~~~~~~~~~~~
+ 
+@@ -144,26 +124,55 @@ does not enable preemption::
+                                                   |
+                           scheduling_contex      -+
+ 
+-Monitor sncid
+-~~~~~~~~~~~~~
+-
+-The schedule not called with interrupt disabled (sncid) monitor ensures
+-schedule is not called with interrupt disabled::
++Monitor sts
++~~~~~~~~~~~
+ 
+-                       |
+-                       |
+-                       v
+-    schedule_entry   +--------------+
+-    schedule_exit    |              |
+-  +----------------- |  can_sched   |
+-  |                  |              |
+-  +----------------> |              | <+
+-                     +--------------+  |
+-                       |               |
+-                       | irq_disable   | irq_enable
+-                       v               |
+-                                       |
+-                        cant_sched    -+
++The schedule implies task switch (sts) monitor ensures a task switch happens
++only in scheduling context and up to once, as well as scheduling occurs with
++interrupts enabled but no task switch can happen before interrupts are
++disabled. When the next task picked for execution is the same as the previously
++running one, no real task switch occurs but interrupts are disabled nonetheless::
++
++    irq_entry                      |
++     +----+                        |
++     v    |                        v
++ +------------+ irq_enable    #===================#   irq_disable
++ |            | ------------> H                   H   irq_entry
++ | cant_sched | <------------ H                   H   irq_enable
++ |            | irq_disable   H     can_sched     H --------------+
++ +------------+               H                   H               |
++                              H                   H               |
++            +---------------> H                   H <-------------+
++            |                 #===================#
++            |                   |
++      schedule_exit             | schedule_entry
++            |                   v
++            |   +-------------------+     irq_enable
++            |   |    scheduling     | <---------------+
++            |   +-------------------+                 |
++            |     |                                   |
++            |     | irq_disable                    +--------+  irq_entry
++            |     v                                |        | --------+
++            |   +-------------------+  irq_entry   | in_irq |         |
++            |   |                   | -----------> |        | <-------+
++            |   | disable_to_switch |              +--------+
++            |   |                   | --+
++            |   +-------------------+   |
++            |     |                     |
++            |     | sched_switch        |
++            |     v                     |
++            |   +-------------------+   |
++            |   |     switching     |   | irq_enable
++            |   +-------------------+   |
++            |     |                     |
++            |     | irq_enable          |
++            |     v                     |
++            |   +-------------------+   |
++            +-- |  enable_to_exit   | <-+
++                +-------------------+
++                  ^               | irq_disable
++                  |               | irq_entry
++                  +---------------+ irq_enable
+ 
+ References
+ ----------
+diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+index 34164eb4ec91..b688b24081c8 100644
+--- a/kernel/trace/rv/Kconfig
++++ b/kernel/trace/rv/Kconfig
+@@ -50,12 +50,11 @@ source "kernel/trace/rv/monitors/wip/Kconfig"
+ source "kernel/trace/rv/monitors/wwnr/Kconfig"
+ 
+ source "kernel/trace/rv/monitors/sched/Kconfig"
+-source "kernel/trace/rv/monitors/tss/Kconfig"
+ source "kernel/trace/rv/monitors/sco/Kconfig"
+ source "kernel/trace/rv/monitors/snroc/Kconfig"
+ source "kernel/trace/rv/monitors/scpd/Kconfig"
+ source "kernel/trace/rv/monitors/snep/Kconfig"
+-source "kernel/trace/rv/monitors/sncid/Kconfig"
++source "kernel/trace/rv/monitors/sts/Kconfig"
+ # Add new sched monitors here
+ 
+ source "kernel/trace/rv/monitors/rtapp/Kconfig"
+diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
+index 13ec2944c665..1939d3d7621c 100644
+--- a/kernel/trace/rv/Makefile
++++ b/kernel/trace/rv/Makefile
+@@ -6,15 +6,14 @@ obj-$(CONFIG_RV) += rv.o
+ obj-$(CONFIG_RV_MON_WIP) += monitors/wip/wip.o
+ obj-$(CONFIG_RV_MON_WWNR) += monitors/wwnr/wwnr.o
+ obj-$(CONFIG_RV_MON_SCHED) += monitors/sched/sched.o
+-obj-$(CONFIG_RV_MON_TSS) += monitors/tss/tss.o
+ obj-$(CONFIG_RV_MON_SCO) += monitors/sco/sco.o
+ obj-$(CONFIG_RV_MON_SNROC) += monitors/snroc/snroc.o
+ obj-$(CONFIG_RV_MON_SCPD) += monitors/scpd/scpd.o
+ obj-$(CONFIG_RV_MON_SNEP) += monitors/snep/snep.o
+-obj-$(CONFIG_RV_MON_SNCID) += monitors/sncid/sncid.o
+ obj-$(CONFIG_RV_MON_RTAPP) += monitors/rtapp/rtapp.o
+ obj-$(CONFIG_RV_MON_PAGEFAULT) += monitors/pagefault/pagefault.o
+ obj-$(CONFIG_RV_MON_SLEEP) += monitors/sleep/sleep.o
++obj-$(CONFIG_RV_MON_STS) += monitors/sts/sts.o
+ # Add new monitors here
+ obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
+ obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
+diff --git a/kernel/trace/rv/monitors/sncid/Kconfig b/kernel/trace/rv/monitors/sncid/Kconfig
+deleted file mode 100644
+index 3a5639feaaaf..000000000000
+--- a/kernel/trace/rv/monitors/sncid/Kconfig
++++ /dev/null
+@@ -1,15 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-config RV_MON_SNCID
+-	depends on RV
+-	depends on TRACE_IRQFLAGS
+-	depends on RV_MON_SCHED
+-	default y
+-	select DA_MON_EVENTS_IMPLICIT
+-	bool "sncid monitor"
+-	help
+-	  Monitor to ensure schedule is not called with interrupt disabled.
+-	  This monitor is part of the sched monitors collection.
+-
+-	  For further information, see:
+-	    Documentation/trace/rv/monitor_sched.rst
+diff --git a/kernel/trace/rv/monitors/sncid/sncid.c b/kernel/trace/rv/monitors/sncid/sncid.c
+deleted file mode 100644
+index c8491f426365..000000000000
+--- a/kernel/trace/rv/monitors/sncid/sncid.c
++++ /dev/null
+@@ -1,95 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-#include <linux/ftrace.h>
+-#include <linux/tracepoint.h>
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-#include <linux/init.h>
+-#include <linux/rv.h>
+-#include <rv/instrumentation.h>
+-#include <rv/da_monitor.h>
+-
+-#define MODULE_NAME "sncid"
+-
+-#include <trace/events/sched.h>
+-#include <trace/events/preemptirq.h>
+-#include <rv_trace.h>
+-#include <monitors/sched/sched.h>
+-
+-#include "sncid.h"
+-
+-static struct rv_monitor rv_sncid;
+-DECLARE_DA_MON_PER_CPU(sncid, unsigned char);
+-
+-static void handle_irq_disable(void *data, unsigned long ip, unsigned long parent_ip)
+-{
+-	da_handle_event_sncid(irq_disable_sncid);
+-}
+-
+-static void handle_irq_enable(void *data, unsigned long ip, unsigned long parent_ip)
+-{
+-	da_handle_start_event_sncid(irq_enable_sncid);
+-}
+-
+-static void handle_schedule_entry(void *data, bool preempt)
+-{
+-	da_handle_start_event_sncid(schedule_entry_sncid);
+-}
+-
+-static void handle_schedule_exit(void *data, bool is_switch)
+-{
+-	da_handle_start_event_sncid(schedule_exit_sncid);
+-}
+-
+-static int enable_sncid(void)
+-{
+-	int retval;
+-
+-	retval = da_monitor_init_sncid();
+-	if (retval)
+-		return retval;
+-
+-	rv_attach_trace_probe("sncid", irq_disable, handle_irq_disable);
+-	rv_attach_trace_probe("sncid", irq_enable, handle_irq_enable);
+-	rv_attach_trace_probe("sncid", sched_entry_tp, handle_schedule_entry);
+-	rv_attach_trace_probe("sncid", sched_exit_tp, handle_schedule_exit);
+-
+-	return 0;
+-}
+-
+-static void disable_sncid(void)
+-{
+-	rv_sncid.enabled = 0;
+-
+-	rv_detach_trace_probe("sncid", irq_disable, handle_irq_disable);
+-	rv_detach_trace_probe("sncid", irq_enable, handle_irq_enable);
+-	rv_detach_trace_probe("sncid", sched_entry_tp, handle_schedule_entry);
+-	rv_detach_trace_probe("sncid", sched_exit_tp, handle_schedule_exit);
+-
+-	da_monitor_destroy_sncid();
+-}
+-
+-static struct rv_monitor rv_sncid = {
+-	.name = "sncid",
+-	.description = "schedule not called with interrupt disabled.",
+-	.enable = enable_sncid,
+-	.disable = disable_sncid,
+-	.reset = da_monitor_reset_all_sncid,
+-	.enabled = 0,
+-};
+-
+-static int __init register_sncid(void)
+-{
+-	return rv_register_monitor(&rv_sncid, &rv_sched);
+-}
+-
+-static void __exit unregister_sncid(void)
+-{
+-	rv_unregister_monitor(&rv_sncid);
+-}
+-
+-module_init(register_sncid);
+-module_exit(unregister_sncid);
+-
+-MODULE_LICENSE("GPL");
+-MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
+-MODULE_DESCRIPTION("sncid: schedule not called with interrupt disabled.");
+diff --git a/kernel/trace/rv/monitors/sncid/sncid.h b/kernel/trace/rv/monitors/sncid/sncid.h
+deleted file mode 100644
+index 21304725142b..000000000000
+--- a/kernel/trace/rv/monitors/sncid/sncid.h
++++ /dev/null
+@@ -1,49 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Automatically generated C representation of sncid automaton
+- * For further information about this format, see kernel documentation:
+- *   Documentation/trace/rv/deterministic_automata.rst
+- */
+-
+-enum states_sncid {
+-	can_sched_sncid = 0,
+-	cant_sched_sncid,
+-	state_max_sncid
+-};
+-
+-#define INVALID_STATE state_max_sncid
+-
+-enum events_sncid {
+-	irq_disable_sncid = 0,
+-	irq_enable_sncid,
+-	schedule_entry_sncid,
+-	schedule_exit_sncid,
+-	event_max_sncid
+-};
+-
+-struct automaton_sncid {
+-	char *state_names[state_max_sncid];
+-	char *event_names[event_max_sncid];
+-	unsigned char function[state_max_sncid][event_max_sncid];
+-	unsigned char initial_state;
+-	bool final_states[state_max_sncid];
+-};
+-
+-static const struct automaton_sncid automaton_sncid = {
+-	.state_names = {
+-		"can_sched",
+-		"cant_sched"
+-	},
+-	.event_names = {
+-		"irq_disable",
+-		"irq_enable",
+-		"schedule_entry",
+-		"schedule_exit"
+-	},
+-	.function = {
+-		{ cant_sched_sncid,   INVALID_STATE, can_sched_sncid, can_sched_sncid },
+-		{    INVALID_STATE, can_sched_sncid,   INVALID_STATE,   INVALID_STATE },
+-	},
+-	.initial_state = can_sched_sncid,
+-	.final_states = { 1, 0 },
+-};
+diff --git a/kernel/trace/rv/monitors/sncid/sncid_trace.h b/kernel/trace/rv/monitors/sncid/sncid_trace.h
+deleted file mode 100644
+index 3ce42a57671d..000000000000
+--- a/kernel/trace/rv/monitors/sncid/sncid_trace.h
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-
+-/*
+- * Snippet to be included in rv_trace.h
+- */
+-
+-#ifdef CONFIG_RV_MON_SNCID
+-DEFINE_EVENT(event_da_monitor, event_sncid,
+-	     TP_PROTO(char *state, char *event, char *next_state, bool final_state),
+-	     TP_ARGS(state, event, next_state, final_state));
+-
+-DEFINE_EVENT(error_da_monitor, error_sncid,
+-	     TP_PROTO(char *state, char *event),
+-	     TP_ARGS(state, event));
+-#endif /* CONFIG_RV_MON_SNCID */
+diff --git a/kernel/trace/rv/monitors/sts/Kconfig b/kernel/trace/rv/monitors/sts/Kconfig
+new file mode 100644
+index 000000000000..7d1ff0f6fc91
+--- /dev/null
++++ b/kernel/trace/rv/monitors/sts/Kconfig
+@@ -0,0 +1,19 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++config RV_MON_STS
++	depends on RV
++	depends on TRACE_IRQFLAGS
++	depends on RV_MON_SCHED
++	default y
++	select DA_MON_EVENTS_IMPLICIT
++	bool "sts monitor"
++	help
++	  Monitor to ensure relationships between scheduler and task switches
++	   * the scheduler is called and returns with interrupts disabled
++	   * each call to the scheduler has up to one switch
++	   * switches only happen inside the scheduler
++	   * each call to the scheduler disables interrupts to switch
++	  This monitor is part of the sched monitors collection.
++
++	  For further information, see:
++	    Documentation/trace/rv/monitor_sched.rst
+diff --git a/kernel/trace/rv/monitors/sts/sts.c b/kernel/trace/rv/monitors/sts/sts.c
+new file mode 100644
+index 000000000000..c4a9cd67c1d2
+--- /dev/null
++++ b/kernel/trace/rv/monitors/sts/sts.c
+@@ -0,0 +1,156 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/ftrace.h>
++#include <linux/tracepoint.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/rv.h>
++#include <rv/instrumentation.h>
++#include <rv/da_monitor.h>
++
++#define MODULE_NAME "sts"
++
++#include <trace/events/sched.h>
++#include <trace/events/irq.h>
++#include <trace/events/preemptirq.h>
++#include <rv_trace.h>
++#include <monitors/sched/sched.h>
++
++#include "sts.h"
++
++static struct rv_monitor rv_sts;
++DECLARE_DA_MON_PER_CPU(sts, unsigned char);
++
++#ifdef CONFIG_X86_LOCAL_APIC
++#include <asm/trace/irq_vectors.h>
++
++static void handle_vector_irq_entry(void *data, int vector)
++{
++	da_handle_event_sts(irq_entry_sts);
++}
++
++static void attach_vector_irq(void)
++{
++	rv_attach_trace_probe("sts", local_timer_entry, handle_vector_irq_entry);
++	if (IS_ENABLED(CONFIG_IRQ_WORK))
++		rv_attach_trace_probe("sts", irq_work_entry, handle_vector_irq_entry);
++	if (IS_ENABLED(CONFIG_SMP)) {
++		rv_attach_trace_probe("sts", reschedule_entry, handle_vector_irq_entry);
++		rv_attach_trace_probe("sts", call_function_entry, handle_vector_irq_entry);
++		rv_attach_trace_probe("sts", call_function_single_entry, handle_vector_irq_entry);
++	}
++}
++
++static void detach_vector_irq(void)
++{
++	rv_detach_trace_probe("sts", local_timer_entry, handle_vector_irq_entry);
++	if (IS_ENABLED(CONFIG_IRQ_WORK))
++		rv_detach_trace_probe("sts", irq_work_entry, handle_vector_irq_entry);
++	if (IS_ENABLED(CONFIG_SMP)) {
++		rv_detach_trace_probe("sts", reschedule_entry, handle_vector_irq_entry);
++		rv_detach_trace_probe("sts", call_function_entry, handle_vector_irq_entry);
++		rv_detach_trace_probe("sts", call_function_single_entry, handle_vector_irq_entry);
++	}
++}
++
++#else
++/* We assume irq_entry tracepoints are sufficient on other architectures */
++static void attach_vector_irq(void) { }
++static void detach_vector_irq(void) { }
++#endif
++
++static void handle_irq_disable(void *data, unsigned long ip, unsigned long parent_ip)
++{
++	da_handle_event_sts(irq_disable_sts);
++}
++
++static void handle_irq_enable(void *data, unsigned long ip, unsigned long parent_ip)
++{
++	da_handle_event_sts(irq_enable_sts);
++}
++
++static void handle_irq_entry(void *data, int irq, struct irqaction *action)
++{
++	da_handle_event_sts(irq_entry_sts);
++}
++
++static void handle_sched_switch(void *data, bool preempt,
++				struct task_struct *prev,
++				struct task_struct *next,
++				unsigned int prev_state)
++{
++	da_handle_event_sts(sched_switch_sts);
++}
++
++static void handle_schedule_entry(void *data, bool preempt)
++{
++	da_handle_event_sts(schedule_entry_sts);
++}
++
++static void handle_schedule_exit(void *data, bool is_switch)
++{
++	da_handle_start_event_sts(schedule_exit_sts);
++}
++
++static int enable_sts(void)
++{
++	int retval;
++
++	retval = da_monitor_init_sts();
++	if (retval)
++		return retval;
++
++	rv_attach_trace_probe("sts", irq_disable, handle_irq_disable);
++	rv_attach_trace_probe("sts", irq_enable, handle_irq_enable);
++	rv_attach_trace_probe("sts", irq_handler_entry, handle_irq_entry);
++	rv_attach_trace_probe("sts", sched_switch, handle_sched_switch);
++	rv_attach_trace_probe("sts", sched_entry_tp, handle_schedule_entry);
++	rv_attach_trace_probe("sts", sched_exit_tp, handle_schedule_exit);
++	attach_vector_irq();
++
++	return 0;
++}
++
++static void disable_sts(void)
++{
++	rv_sts.enabled = 0;
++
++	rv_detach_trace_probe("sts", irq_disable, handle_irq_disable);
++	rv_detach_trace_probe("sts", irq_enable, handle_irq_enable);
++	rv_detach_trace_probe("sts", irq_handler_entry, handle_irq_entry);
++	rv_detach_trace_probe("sts", sched_switch, handle_sched_switch);
++	rv_detach_trace_probe("sts", sched_entry_tp, handle_schedule_entry);
++	rv_detach_trace_probe("sts", sched_exit_tp, handle_schedule_exit);
++	detach_vector_irq();
++
++	da_monitor_destroy_sts();
++}
++
++/*
++ * This is the monitor register section.
++ */
++static struct rv_monitor rv_sts = {
++	.name = "sts",
++	.description = "schedule implies task switch.",
++	.enable = enable_sts,
++	.disable = disable_sts,
++	.reset = da_monitor_reset_all_sts,
++	.enabled = 0,
++};
++
++static int __init register_sts(void)
++{
++	return rv_register_monitor(&rv_sts, &rv_sched);
++}
++
++static void __exit unregister_sts(void)
++{
++	rv_unregister_monitor(&rv_sts);
++}
++
++module_init(register_sts);
++module_exit(unregister_sts);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
++MODULE_DESCRIPTION("sts: schedule implies task switch.");
+diff --git a/kernel/trace/rv/monitors/sts/sts.h b/kernel/trace/rv/monitors/sts/sts.h
+new file mode 100644
+index 000000000000..3368b6599a00
+--- /dev/null
++++ b/kernel/trace/rv/monitors/sts/sts.h
+@@ -0,0 +1,117 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Automatically generated C representation of sts automaton
++ * For further information about this format, see kernel documentation:
++ *   Documentation/trace/rv/deterministic_automata.rst
++ */
++
++enum states_sts {
++	can_sched_sts = 0,
++	cant_sched_sts,
++	disable_to_switch_sts,
++	enable_to_exit_sts,
++	in_irq_sts,
++	scheduling_sts,
++	switching_sts,
++	state_max_sts
++};
++
++#define INVALID_STATE state_max_sts
++
++enum events_sts {
++	irq_disable_sts = 0,
++	irq_enable_sts,
++	irq_entry_sts,
++	sched_switch_sts,
++	schedule_entry_sts,
++	schedule_exit_sts,
++	event_max_sts
++};
++
++struct automaton_sts {
++	char *state_names[state_max_sts];
++	char *event_names[event_max_sts];
++	unsigned char function[state_max_sts][event_max_sts];
++	unsigned char initial_state;
++	bool final_states[state_max_sts];
++};
++
++static const struct automaton_sts automaton_sts = {
++	.state_names = {
++		"can_sched",
++		"cant_sched",
++		"disable_to_switch",
++		"enable_to_exit",
++		"in_irq",
++		"scheduling",
++		"switching"
++	},
++	.event_names = {
++		"irq_disable",
++		"irq_enable",
++		"irq_entry",
++		"sched_switch",
++		"schedule_entry",
++		"schedule_exit"
++	},
++	.function = {
++		{
++			cant_sched_sts,
++			INVALID_STATE,
++			INVALID_STATE,
++			INVALID_STATE,
++			scheduling_sts,
++			INVALID_STATE
++		},
++		{
++			INVALID_STATE,
++			can_sched_sts,
++			cant_sched_sts,
++			INVALID_STATE,
++			INVALID_STATE,
++			INVALID_STATE
++		},
++		{
++			INVALID_STATE,
++			enable_to_exit_sts,
++			in_irq_sts,
++			switching_sts,
++			INVALID_STATE,
++			INVALID_STATE
++		},
++		{
++			enable_to_exit_sts,
++			enable_to_exit_sts,
++			enable_to_exit_sts,
++			INVALID_STATE,
++			INVALID_STATE,
++			can_sched_sts
++		},
++		{
++			INVALID_STATE,
++			scheduling_sts,
++			in_irq_sts,
++			INVALID_STATE,
++			INVALID_STATE,
++			INVALID_STATE
++		},
++		{
++			disable_to_switch_sts,
++			INVALID_STATE,
++			INVALID_STATE,
++			INVALID_STATE,
++			INVALID_STATE,
++			INVALID_STATE
++		},
++		{
++			INVALID_STATE,
++			enable_to_exit_sts,
++			INVALID_STATE,
++			INVALID_STATE,
++			INVALID_STATE,
++			INVALID_STATE
++		},
++	},
++	.initial_state = can_sched_sts,
++	.final_states = { 1, 0, 0, 0, 0, 0, 0 },
++};
+diff --git a/kernel/trace/rv/monitors/tss/tss_trace.h b/kernel/trace/rv/monitors/sts/sts_trace.h
+similarity index 67%
+rename from kernel/trace/rv/monitors/tss/tss_trace.h
+rename to kernel/trace/rv/monitors/sts/sts_trace.h
+index 4619dbb50cc0..d78beb58d5b3 100644
+--- a/kernel/trace/rv/monitors/tss/tss_trace.h
++++ b/kernel/trace/rv/monitors/sts/sts_trace.h
+@@ -4,12 +4,12 @@
+  * Snippet to be included in rv_trace.h
+  */
+ 
+-#ifdef CONFIG_RV_MON_TSS
+-DEFINE_EVENT(event_da_monitor, event_tss,
++#ifdef CONFIG_RV_MON_STS
++DEFINE_EVENT(event_da_monitor, event_sts,
+ 	     TP_PROTO(char *state, char *event, char *next_state, bool final_state),
+ 	     TP_ARGS(state, event, next_state, final_state));
+ 
+-DEFINE_EVENT(error_da_monitor, error_tss,
++DEFINE_EVENT(error_da_monitor, error_sts,
+ 	     TP_PROTO(char *state, char *event),
+ 	     TP_ARGS(state, event));
+-#endif /* CONFIG_RV_MON_TSS */
++#endif /* CONFIG_RV_MON_STS */
+diff --git a/kernel/trace/rv/monitors/tss/Kconfig b/kernel/trace/rv/monitors/tss/Kconfig
+deleted file mode 100644
+index 479f86f52e60..000000000000
+--- a/kernel/trace/rv/monitors/tss/Kconfig
++++ /dev/null
+@@ -1,14 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-config RV_MON_TSS
+-	depends on RV
+-	depends on RV_MON_SCHED
+-	default y
+-	select DA_MON_EVENTS_IMPLICIT
+-	bool "tss monitor"
+-	help
+-	  Monitor to ensure sched_switch happens only in scheduling context.
+-	  This monitor is part of the sched monitors collection.
+-
+-	  For further information, see:
+-	    Documentation/trace/rv/monitor_sched.rst
+diff --git a/kernel/trace/rv/monitors/tss/tss.c b/kernel/trace/rv/monitors/tss/tss.c
+deleted file mode 100644
+index 95ebd15131f5..000000000000
+--- a/kernel/trace/rv/monitors/tss/tss.c
++++ /dev/null
+@@ -1,90 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-#include <linux/ftrace.h>
+-#include <linux/tracepoint.h>
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-#include <linux/init.h>
+-#include <linux/rv.h>
+-#include <rv/instrumentation.h>
+-#include <rv/da_monitor.h>
+-
+-#define MODULE_NAME "tss"
+-
+-#include <trace/events/sched.h>
+-#include <rv_trace.h>
+-#include <monitors/sched/sched.h>
+-
+-#include "tss.h"
+-
+-static struct rv_monitor rv_tss;
+-DECLARE_DA_MON_PER_CPU(tss, unsigned char);
+-
+-static void handle_sched_switch(void *data, bool preempt,
+-				struct task_struct *prev,
+-				struct task_struct *next,
+-				unsigned int prev_state)
+-{
+-	da_handle_event_tss(sched_switch_tss);
+-}
+-
+-static void handle_schedule_entry(void *data, bool preempt)
+-{
+-	da_handle_event_tss(schedule_entry_tss);
+-}
+-
+-static void handle_schedule_exit(void *data, bool is_switch)
+-{
+-	da_handle_start_event_tss(schedule_exit_tss);
+-}
+-
+-static int enable_tss(void)
+-{
+-	int retval;
+-
+-	retval = da_monitor_init_tss();
+-	if (retval)
+-		return retval;
+-
+-	rv_attach_trace_probe("tss", sched_switch, handle_sched_switch);
+-	rv_attach_trace_probe("tss", sched_entry_tp, handle_schedule_entry);
+-	rv_attach_trace_probe("tss", sched_exit_tp, handle_schedule_exit);
+-
+-	return 0;
+-}
+-
+-static void disable_tss(void)
+-{
+-	rv_tss.enabled = 0;
+-
+-	rv_detach_trace_probe("tss", sched_switch, handle_sched_switch);
+-	rv_detach_trace_probe("tss", sched_entry_tp, handle_schedule_entry);
+-	rv_detach_trace_probe("tss", sched_exit_tp, handle_schedule_exit);
+-
+-	da_monitor_destroy_tss();
+-}
+-
+-static struct rv_monitor rv_tss = {
+-	.name = "tss",
+-	.description = "task switch while scheduling.",
+-	.enable = enable_tss,
+-	.disable = disable_tss,
+-	.reset = da_monitor_reset_all_tss,
+-	.enabled = 0,
+-};
+-
+-static int __init register_tss(void)
+-{
+-	return rv_register_monitor(&rv_tss, &rv_sched);
+-}
+-
+-static void __exit unregister_tss(void)
+-{
+-	rv_unregister_monitor(&rv_tss);
+-}
+-
+-module_init(register_tss);
+-module_exit(unregister_tss);
+-
+-MODULE_LICENSE("GPL");
+-MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
+-MODULE_DESCRIPTION("tss: task switch while scheduling.");
+diff --git a/kernel/trace/rv/monitors/tss/tss.h b/kernel/trace/rv/monitors/tss/tss.h
+deleted file mode 100644
+index f0a36fda1b87..000000000000
+--- a/kernel/trace/rv/monitors/tss/tss.h
++++ /dev/null
+@@ -1,47 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Automatically generated C representation of tss automaton
+- * For further information about this format, see kernel documentation:
+- *   Documentation/trace/rv/deterministic_automata.rst
+- */
+-
+-enum states_tss {
+-	thread_tss = 0,
+-	sched_tss,
+-	state_max_tss
+-};
+-
+-#define INVALID_STATE state_max_tss
+-
+-enum events_tss {
+-	sched_switch_tss = 0,
+-	schedule_entry_tss,
+-	schedule_exit_tss,
+-	event_max_tss
+-};
+-
+-struct automaton_tss {
+-	char *state_names[state_max_tss];
+-	char *event_names[event_max_tss];
+-	unsigned char function[state_max_tss][event_max_tss];
+-	unsigned char initial_state;
+-	bool final_states[state_max_tss];
+-};
+-
+-static const struct automaton_tss automaton_tss = {
+-	.state_names = {
+-		"thread",
+-		"sched"
+-	},
+-	.event_names = {
+-		"sched_switch",
+-		"schedule_entry",
+-		"schedule_exit"
+-	},
+-	.function = {
+-		{     INVALID_STATE,         sched_tss,     INVALID_STATE },
+-		{         sched_tss,     INVALID_STATE,        thread_tss },
+-	},
+-	.initial_state = thread_tss,
+-	.final_states = { 1, 0 },
+-};
+diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
+index 3af46cd185b3..97b2f7e07f27 100644
+--- a/kernel/trace/rv/rv_trace.h
++++ b/kernel/trace/rv/rv_trace.h
+@@ -58,11 +58,10 @@ DECLARE_EVENT_CLASS(error_da_monitor,
+ );
+ 
+ #include <monitors/wip/wip_trace.h>
+-#include <monitors/tss/tss_trace.h>
+ #include <monitors/sco/sco_trace.h>
+ #include <monitors/scpd/scpd_trace.h>
+ #include <monitors/snep/snep_trace.h>
+-#include <monitors/sncid/sncid_trace.h>
++#include <monitors/sts/sts_trace.h>
+ // Add new monitors based on CONFIG_DA_MON_EVENTS_IMPLICIT here
+ 
+ #endif /* CONFIG_DA_MON_EVENTS_IMPLICIT */
+diff --git a/tools/verification/models/sched/sncid.dot b/tools/verification/models/sched/sncid.dot
+deleted file mode 100644
+index 072851721b50..000000000000
+--- a/tools/verification/models/sched/sncid.dot
++++ /dev/null
+@@ -1,18 +0,0 @@
+-digraph state_automaton {
+-	center = true;
+-	size = "7,11";
+-	{node [shape = plaintext, style=invis, label=""] "__init_can_sched"};
+-	{node [shape = ellipse] "can_sched"};
+-	{node [shape = plaintext] "can_sched"};
+-	{node [shape = plaintext] "cant_sched"};
+-	"__init_can_sched" -> "can_sched";
+-	"can_sched" [label = "can_sched", color = green3];
+-	"can_sched" -> "can_sched" [ label = "schedule_entry\nschedule_exit" ];
+-	"can_sched" -> "cant_sched" [ label = "irq_disable" ];
+-	"cant_sched" [label = "cant_sched"];
+-	"cant_sched" -> "can_sched" [ label = "irq_enable" ];
+-	{ rank = min ;
+-		"__init_can_sched";
+-		"can_sched";
+-	}
+-}
+diff --git a/tools/verification/models/sched/sts.dot b/tools/verification/models/sched/sts.dot
+new file mode 100644
+index 000000000000..8f5f38be04d5
+--- /dev/null
++++ b/tools/verification/models/sched/sts.dot
+@@ -0,0 +1,38 @@
++digraph state_automaton {
++	center = true;
++	size = "7,11";
++	{node [shape = plaintext, style=invis, label=""] "__init_can_sched"};
++	{node [shape = doublecircle] "can_sched"};
++	{node [shape = circle] "can_sched"};
++	{node [shape = circle] "cant_sched"};
++	{node [shape = circle] "disable_to_switch"};
++	{node [shape = circle] "enable_to_exit"};
++	{node [shape = circle] "in_irq"};
++	{node [shape = circle] "scheduling"};
++	{node [shape = circle] "switching"};
++	"__init_can_sched" -> "can_sched";
++	"can_sched" [label = "can_sched", color = green3];
++	"can_sched" -> "cant_sched" [ label = "irq_disable" ];
++	"can_sched" -> "scheduling" [ label = "schedule_entry" ];
++	"cant_sched" [label = "cant_sched"];
++	"cant_sched" -> "can_sched" [ label = "irq_enable" ];
++	"cant_sched" -> "cant_sched" [ label = "irq_entry" ];
++	"disable_to_switch" [label = "disable_to_switch"];
++	"disable_to_switch" -> "enable_to_exit" [ label = "irq_enable" ];
++	"disable_to_switch" -> "in_irq" [ label = "irq_entry" ];
++	"disable_to_switch" -> "switching" [ label = "sched_switch" ];
++	"enable_to_exit" [label = "enable_to_exit"];
++	"enable_to_exit" -> "can_sched" [ label = "schedule_exit" ];
++	"enable_to_exit" -> "enable_to_exit" [ label = "irq_disable\nirq_entry\nirq_enable" ];
++	"in_irq" [label = "in_irq"];
++	"in_irq" -> "in_irq" [ label = "irq_entry" ];
++	"in_irq" -> "scheduling" [ label = "irq_enable" ];
++	"scheduling" [label = "scheduling"];
++	"scheduling" -> "disable_to_switch" [ label = "irq_disable" ];
++	"switching" [label = "switching"];
++	"switching" -> "enable_to_exit" [ label = "irq_enable" ];
++	{ rank = min ;
++		"__init_can_sched";
++		"can_sched";
++	}
++}
+diff --git a/tools/verification/models/sched/tss.dot b/tools/verification/models/sched/tss.dot
+deleted file mode 100644
+index 7dfa1d9121bb..000000000000
+--- a/tools/verification/models/sched/tss.dot
++++ /dev/null
+@@ -1,18 +0,0 @@
+-digraph state_automaton {
+-	center = true;
+-	size = "7,11";
+-	{node [shape = plaintext] "sched"};
+-	{node [shape = plaintext, style=invis, label=""] "__init_thread"};
+-	{node [shape = ellipse] "thread"};
+-	{node [shape = plaintext] "thread"};
+-	"__init_thread" -> "thread";
+-	"sched" [label = "sched"];
+-	"sched" -> "sched" [ label = "sched_switch" ];
+-	"sched" -> "thread" [ label = "schedule_exit" ];
+-	"thread" [label = "thread", color = green3];
+-	"thread" -> "sched" [ label = "schedule_entry" ];
+-	{ rank = min ;
+-		"__init_thread";
+-		"thread";
+-	}
+-}
+-- 
+2.50.1
 
-for you to fetch changes up to 35293ebbb65e0295d3b9357f786004ae1026d00f:
-
-  scripts: add origin commit identification based on specific patterns (202=
-5-07-24 08:41:15 -0600)
-
-----------------------------------------------------------------
-It has been a relatively busy cycle for docs, especially the build system:
-
-- The Perl kernel-doc script was added to 2.3.52pre1 just after the turn of
-  the millennium.  Over the following 25 years, it accumulated a vast
-  amount of cruft, all in a language few people want to deal with anymore.
-  Mauro's Python replacement in 6.16 faithfully reproduced all of the cruft
-  in the hope of avoiding regressions.  Now that we have a more reasonable
-  code base, though, we can work on cleaning it up; many of the changes
-  this time around are toward that end.
-
-- A reorganization of the ext4 docs into the usual TOC format.
-
-- Various Chinese translations and updates.
-
-- A new script from Mauro to help with docs-build testing.
-
-- A new document for linked lists
-
-- A sweep through MAINTAINERS fixing broken GitHub git:// repository links.
-
-...and lots of fixes and updates.
-
-Expect trivial conflicts with the GPIO and block trees.
-
-----------------------------------------------------------------
-Ahelenia Ziemia=C5=84ska (1):
-      tracing: doc: fix "for a while" typo
-
-Alison Schofield (1):
-      docs: ABI: make the KernelVersion field optional
-
-Andrew Donnellan (2):
-      Documentation: core-api: entry: Fix typo "systcalls" -> "syscalls"
-      Documentation: core-api: entry: Replace deprecated KVM entry/exit fun=
-ctions
-
-Bagas Sanjaya (11):
-      Documentation: treewide: Replace remaining spinics links with lore
-      Documentation: ext4: Convert includes into toctrees
-      Documentation: ext4: Reduce toctree depth
-      Documentation: ext4: atomic_writes: Demote last three sections
-      Documentation: ext4: blockgroup: Add explicit title heading
-      Documentation: ext4: Move inode table short docs into its own file
-      Documentation: ioctl-number: Fix linuxppc-dev mailto link
-      Documentation: ioctl-number: Extend "Include File" column width
-      Documentation: ioctl-number: Correct full path to papr-physical-attes=
-tation.h
-      Documentation: ioctl-number: Shorten macros table
-      Documentation: ioctl-number: Don't repeat macro names
-
-Breno Leitao (1):
-      docs: kernel: Clarify printk_ratelimit_burst reset behavior
-
-Brigham Campbell (1):
-      docs: powerpc: Add htm.rst to table of contents
-
-Collin Funk (3):
-      docs: packing: Fix a typo in example code.
-      ver_linux: Remove checks for reiserfsprogs.
-      docs: Remove reiserfsprogs from dependencies.
-
-Costa Shulyupin (2):
-      Documentation/rtla: Add include common_appendix.rst
-      Documentation/rtla: Describe exit status
-
-Cui Wei (1):
-      Docs/zh_CN: Translate speculation.rst to Simplified Chinese
-
-Daniel Palmer (1):
-      doc: Remove misleading reference to brd in dax.rst
-
-Dongliang Mu (7):
-      docs/zh_CN: update the translation of process/1.Intro.rst
-      docs/zh_CN: update the translation of process/6.Followthrough.rst
-      docs/zh_CN: update the translation of process/7.AdvancedTopics.rst
-      docs/zh_CN: update the translation of process/2.Process.rst
-      docs/zh_CN: update the translation of process/5.Posting.rst
-      docs/zh_CN: improve formatting and content clarity
-      docs/zh_CN: update git command examples in how-to.rst
-
-Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 (2):
-      docs: Improve grammar in Userspace API/fwctl
-      docs: Fix typos, improve grammar in Userspace API
-
-Jakub Kicinski (1):
-      docs: process: discourage pointless boilerplate kdoc
-
-Jonathan Corbet (66):
-      docs: kdoc: simplify the PROTO continuation logic
-      docs: kdoc: move the core dispatch into a state table
-      docs: kdoc: remove the section_intro variable
-      docs: kdoc: simplify the kerneldoc recognition code
-      docs: kdoc: remove the KernelEntry::is_kernel_comment member
-      docs: kdoc: remove the KernelEntry::descr pseudo member
-      docs: kdoc: remove some ineffective code
-      docs: kdoc: move the declaration regexes out of process_name()
-      docs: kdoc: some final touches for process_name()
-      docs: automarkup: Remove some Sphinx 2 holdovers
-      docs: automarkup: Mark up undocumented entities too
-      docs: CSS: make cross-reference links more evident
-      docs: sphinx: avoid using the deprecated node.set_class()
-      docs: kdoc: Make body_with_blank_line parsing more flexible
-      docs: kdoc: consolidate the "begin section" logic
-      docs: kdoc: separate out the handling of the declaration phase
-      docs: kdoc: split out the special-section state
-      docs: kdoc: coalesce the new-section handling
-      docs: kdoc: rework the handling of SPECIAL_SECTION
-      docs: kdoc: coalesce the end-of-comment processing
-      docs: kdoc: Add some comments to process_decl()
-      docs: kdoc: finish disentangling the BODY and SPECIAL_SECTION states
-      docs: kdoc: remove KernelEntry::in_doc_sect
-      docs: kdoc: Move content handling into KernelEntry
-      docs: kdoc: remove a bit of dead code
-      docs: kdoc: remove KernelEntry::function
-      docs: kdoc: rework process_export() slightly
-      docs: kdoc: remove the INLINE_END state
-      docs: kdoc: remove the inline states-within-a-state
-      docs: kdoc: split the processing of the two remaining inline states
-      docs: kdoc: don't reinvent string.strip()
-      docs: kdoc: micro-optimize KernRe
-      docs: kdoc: remove the brcount floor in process_proto_type()
-      docs: kdoc: remove KernelEntry::in_doc_sect
-      docs: kdoc: Move content handling into KernelEntry
-      docs: kdoc: remove a bit of dead code
-      docs: kdoc: remove KernelEntry::function
-      docs: kdoc: rework process_export() slightly
-      docs: kdoc: remove the INLINE_END state
-      docs: kdoc: remove the inline states-within-a-state
-      docs: kdoc: split the processing of the two remaining inline states
-      docs: kdoc: rework type prototype parsing
-      docs: kdoc: some tweaks to process_proto_function()
-      docs: kdoc: Remove a Python 2 comment
-      docs: kdoc: pretty up dump_enum()
-      docs: kdoc; Add a rudimentary class to represent output items
-      docs: kdoc: simplify the output-item passing
-      docs: kdoc: don't reinvent string.strip()
-      docs: kdoc: micro-optimize KernRe
-      docs: kdoc: remove the brcount floor in process_proto_type()
-      docs: kdoc: rework type prototype parsing
-      docs: kdoc: some tweaks to process_proto_function()
-      docs: kdoc: Remove a Python 2 comment
-      docs: kdoc: pretty up dump_enum()
-      Merge tag 'chinese-doc-6.16-rc1' of gitolite.kernel.org:pub/scm/linux=
-/kernel/git/alexs/linux into docs-mw
-      docs: kdoc: drop "sectionlist"
-      docs: kdoc: Centralize handling of the item section list
-      docs: kdoc: remove the "struct_actual" machinery
-      docs: kdoc: use self.entry.parameterlist directly in check_sections()
-      docs: kdoc: Coalesce parameter-list handling
-      docs: kdoc: Regularize the use of the declaration name
-      docs: kdoc: straighten up dump_declaration()
-      docs: kdoc: directly access the always-there KdocItem fields
-      docs: kdoc: clean up check_sections()
-      docs: kdoc: emit a warning for ancient versions of Python
-      Merge branch 'kdoc-item2' into docs-mw
-
-Matthew Wilcox (Oracle) (2):
-      kernel-doc: Fix symbol matching for dropped suffixes
-      doc: Include scatterlist APIs in htmldocs
-
-Matthias Frank (1):
-      overlayfs.rst: fix typos
-
-Mauro Carvalho Chehab (18):
-      docs: conf.py: properly handle include and exclude patterns
-      docs: Makefile: disable check rules on make cleandocs
-      scripts: scripts/test_doc_build.py: add script to test doc build
-      scripts: test_doc_build.py: make capture assynchronous
-      scripts: test_doc_build.py: better control its output
-      scripts: test_doc_build.py: better adjust to python version
-      scripts: test_doc_build.py: improve dependency list
-      scripts: test_doc_build.py: improve cmd.log logic
-      scripts: test_doc_build.py: make the script smarter
-      scripts: sphinx-pre-install: properly handle SPHINXBUILD
-      scripts: sphinx-pre-install: fix release detection for Fedora
-      scripts: test_doc_build.py: regroup and rename arguments
-      docs: sphinx: add a file with the requirements for lowest version
-      docs: conf.py: several coding style fixes
-      docs: sphinx: add missing SPDX tags
-      docs: kernel-doc: emit warnings for ancient versions of Python
-      scripts: kdoc: make it backward-compatible with Python 3.7
-      sphinx: kernel_abi: fix performance regression with O=3D<dir>
-
-Nicolas Frattaroli (1):
-      docs: document linked lists
-
-Petr Tesarik (8):
-      docs: dma-api: use "DMA API" consistently throughout the document
-      docs: dma-api: replace consistent with coherent
-      docs: dma-api: remove remnants of PCI DMA API
-      docs: dma-api: add a kernel-doc comment for dma_pool_zalloc()
-      docs: dma-api: remove duplicate description of the DMA pool API
-      docs: dma-api: clarify DMA addressing limitations
-      docs: dma-api: update streaming DMA physical address constraints
-      docs: dma-api: clean up documentation of dma_map_sg()
-
-Qiu Yutan (2):
-      Docs/zh_CN: Translate vxlan.rst to Simplified Chinese
-      Docs/zh_CN: Translate alias.rst to Simplified Chinese
-
-Richard Weinberger (1):
-      overlayfs.rst: Fix inode table
-
-Runji Liu (1):
-      docs: trace: boottime-trace.rst: fix typo
-
-Salvatore Bonaccorso (1):
-      Documentation/sysctl: coredump: add %F for pidfd number
-
-Shashank Balaji (2):
-      sched_deadline, docs: replace rt-app examples with chrt or use config=
-.json
-      sched_deadline, docs: add affinity setting with cgroup2 cpuset contro=
-ller
-
-Shouye Liu (1):
-      Documentation: amd-pstate:fix minimum performance state label error
-
-Sumeet Pawnikar (1):
-      Documentation: Remove duplicate word size in bootconfig
-
-Swapnil Sapkal (1):
-      docs/sched: Make the sched-stats documentation consistent
-
-Vignesh Raman (1):
-      docs: fault-injection: drop reference to md-faulty
-
-Wang Yaxin (4):
-      Docs/zh_CN: Translate napi.rst to Simplified Chinese
-      Docs/zh_CN: Translate netif-msg.rst to Simplified Chinese
-      Docs/zh_CN: Translate xfrm_proc.rst to Simplified Chinese
-      Docs/zh_CN: Translate netmem.rst to Simplified Chinese
-
-WangYuli (1):
-      gitignore: allow .pylintrc to be tracked
-
-Xose Vazquez Perez (1):
-      MAINTAINERS: replace git protocol for github
-
-Yuanye Ma (1):
-      docs: f2fs: fix typos in f2fs.rst
-
-Zhiyu Zhang (1):
-      scripts: add origin commit identification based on specific patterns
-
- .gitignore                                         |   1 +
- Documentation/ABI/README                           |   4 +-
- Documentation/Makefile                             |   2 +
- Documentation/admin-guide/bootconfig.rst           |   2 +-
- Documentation/admin-guide/pm/amd-pstate.rst        |   2 +-
- Documentation/admin-guide/sysctl/kernel.rst        |   4 +-
- Documentation/arch/powerpc/index.rst               |   1 +
- Documentation/conf.py                              | 398 +++++-----
- Documentation/core-api/dma-api-howto.rst           |  36 +-
- Documentation/core-api/dma-api.rst                 | 197 ++---
- Documentation/core-api/entry.rst                   |   6 +-
- Documentation/core-api/index.rst                   |   1 +
- Documentation/core-api/kernel-api.rst              |   6 -
- Documentation/core-api/list.rst                    | 776 +++++++++++++++++=
-++
- Documentation/core-api/mm-api.rst                  |   6 -
- Documentation/core-api/packing.rst                 |   2 +-
- Documentation/doc-guide/sphinx.rst                 |  23 +
- Documentation/driver-api/gpio/driver.rst           |   2 +-
- Documentation/fault-injection/fault-injection.rst  |   2 +-
- Documentation/filesystems/dax.rst                  |   1 -
- Documentation/filesystems/ext4/atomic_writes.rst   |  10 +-
- Documentation/filesystems/ext4/bitmaps.rst         |   7 -
- Documentation/filesystems/ext4/blockgroup.rst      |  11 +-
- Documentation/filesystems/ext4/dynamic.rst         |  10 +-
- Documentation/filesystems/ext4/globals.rst         |  15 +-
- Documentation/filesystems/ext4/index.rst           |   2 +-
- Documentation/filesystems/ext4/inode_table.rst     |   9 +
- Documentation/filesystems/ext4/overview.rst        |  22 +-
- Documentation/filesystems/f2fs.rst                 |   4 +-
- Documentation/filesystems/overlayfs.rst            |  26 +-
- Documentation/filesystems/ubifs-authentication.rst |   2 +-
- .../networking/device_drivers/ethernet/ti/cpsw.rst |   6 +-
- Documentation/process/changes.rst                  |  14 -
- Documentation/process/coding-style.rst             |   5 +-
- Documentation/scheduler/sched-deadline.rst         |  85 +-
- Documentation/scheduler/sched-stats.rst            |  53 +-
- Documentation/sphinx-static/custom.css             |  15 +
- Documentation/sphinx/automarkup.py                 |  27 +-
- Documentation/sphinx/cdomain.py                    |   1 +
- Documentation/sphinx/kernel_abi.py                 |   6 +-
- Documentation/sphinx/kernel_include.py             |   1 +
- Documentation/sphinx/kerneldoc.py                  |   3 +-
- Documentation/sphinx/kfigure.py                    |   1 +
- Documentation/sphinx/load_config.py                |   1 +
- Documentation/sphinx/min_requirements.txt          |  11 +
- Documentation/sphinx/parse-headers.pl              |   5 +-
- Documentation/sphinx/requirements.txt              |   1 +
- Documentation/sphinx/rstFlatTable.py               |   1 +
- Documentation/tools/rtla/common_appendix.rst       |  11 +
- Documentation/tools/rtla/rtla-timerlat-hist.rst    |   2 +
- Documentation/trace/boottime-trace.rst             |   4 +-
- Documentation/trace/histogram.rst                  |   2 +-
- Documentation/translations/zh_CN/how-to.rst        | 108 +--
- .../translations/zh_CN/networking/alias.rst        |  56 ++
- .../translations/zh_CN/networking/index.rst        |  12 +-
- .../translations/zh_CN/networking/napi.rst         | 362 +++++++++
- .../translations/zh_CN/networking/netif-msg.rst    |  92 +++
- .../translations/zh_CN/networking/netmem.rst       |  92 +++
- .../translations/zh_CN/networking/vxlan.rst        |  85 ++
- .../translations/zh_CN/networking/xfrm_proc.rst    | 126 +++
- .../translations/zh_CN/process/1.Intro.rst         |  10 +-
- .../translations/zh_CN/process/2.Process.rst       |   7 +-
- .../translations/zh_CN/process/5.Posting.rst       |  11 +
- .../translations/zh_CN/process/6.Followthrough.rst |   5 +
- .../zh_CN/process/7.AdvancedTopics.rst             |  14 +
- Documentation/translations/zh_CN/staging/index.rst |   2 +-
- .../translations/zh_CN/staging/speculation.rst     |  85 ++
- Documentation/usb/gadget-testing.rst               |   2 +-
- Documentation/userspace-api/fwctl/fwctl.rst        |  30 +-
- Documentation/userspace-api/ioctl/ioctl-number.rst | 552 ++++++-------
- .../userspace-api/sysfs-platform_profile.rst       |   6 +-
- MAINTAINERS                                        |  24 +-
- include/linux/dmapool.h                            |   8 +
- mm/dmapool.c                                       |   6 +-
- scripts/checktransupdate.py                        |  38 +-
- scripts/kernel-doc.py                              |  10 +
- scripts/lib/kdoc/kdoc_files.py                     |   4 +-
- scripts/lib/kdoc/kdoc_item.py                      |  42 +
- scripts/lib/kdoc/kdoc_output.py                    | 172 ++---
- scripts/lib/kdoc/kdoc_parser.py                    | 857 ++++++++++-------=
-----
- scripts/lib/kdoc/kdoc_re.py                        |   7 +-
- scripts/sphinx-pre-install                         |   6 +-
- scripts/test_doc_build.py                          | 513 ++++++++++++
- scripts/ver_linux                                  |   2 -
- 84 files changed, 3750 insertions(+), 1441 deletions(-)
- create mode 100644 Documentation/core-api/list.rst
- create mode 100644 Documentation/filesystems/ext4/inode_table.rst
- create mode 100644 Documentation/sphinx/min_requirements.txt
- create mode 100644 Documentation/translations/zh_CN/networking/alias.rst
- create mode 100644 Documentation/translations/zh_CN/networking/napi.rst
- create mode 100644 Documentation/translations/zh_CN/networking/netif-msg.r=
-st
- create mode 100644 Documentation/translations/zh_CN/networking/netmem.rst
- create mode 100644 Documentation/translations/zh_CN/networking/vxlan.rst
- create mode 100644 Documentation/translations/zh_CN/networking/xfrm_proc.r=
-st
- create mode 100644 Documentation/translations/zh_CN/staging/speculation.rst
- create mode 100644 scripts/lib/kdoc/kdoc_item.py
- create mode 100755 scripts/test_doc_build.py
