@@ -1,223 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74D019AD70;
-	Mon, 28 Jul 2025 16:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEDB19AD70;
+	Mon, 28 Jul 2025 16:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753721753; cv=none; b=Hju0SdnPuC3eAw34ndczOw7oX1XXoe0oSlE6VZbeLcopJH0r7oifFfjc/x3bzhgbc4CjfnQNuytJrHYFqcBPCEkffbOgTiN4euvuDRW7BCmrigWdyKPIzZSQS2zzHDZJY8IxqPq/i9OgL89jbUxvpU+Luxc0g0QY6459YniUvRE=
+	t=1753721813; cv=none; b=VabVDE7cGT5/yoAyFm8t0+GIJptksMTrTLmAlZ/p2vLDsnNjpomdVVZ4sxub32uBnATcVpxBAS+p93y7roy7HNImBlEXeGsse4hM3h7rX5DdOYBscUZwFIU6+f43+2gfRxnWDLJSWeQXrUxApzmauT52z+JB127GuYNmoJkeb+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753721753; c=relaxed/simple;
-	bh=NQFaFtTN7N6BCj6w0IBTYBXcpqLFYEKBc4izu1Pcojo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VHFIPRODj1PC+8lZ/FRlKV2xTFJb2S2TdmjJ1iZ9CtBP8pDudwzjhD/LtjEs6yg1zpfhCDBYQUf8XzZf4S9xxwgcYc8e4G8bIvIRxiIqHuw6JHC5QuI5K+eawQuu8z6yjWmb63K3Vrtj3JHme/U+L4U2y+UFuXAK9J9CQFPmEeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKTrzBoG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753721813; c=relaxed/simple;
+	bh=odlcYQW5Wn6AyKNjInxSo5JDWz7ZVfbs1sZAKYTg8ek=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YicE6ZkUsYXRFkZVRpQLWrp5Yka8PfGOKQNlEECnBQVNAL6WSg626MUWGdXjdztnJLKEg5OpZIc7PRquodnv2tD4FEOGIMc11UyVgoO98D2YvbAXxo6XMKs3bL7+Jdei7WXDpFy1WoLjVEgVyJLxx8lA8HANTxglDB+ZHw1vbM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PeIKsv1S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKTrzBoG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8146DC4CEE7;
-	Mon, 28 Jul 2025 16:55:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PeIKsv1S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23120C4CEE7;
+	Mon, 28 Jul 2025 16:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753721752;
-	bh=NQFaFtTN7N6BCj6w0IBTYBXcpqLFYEKBc4izu1Pcojo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YKTrzBoG5SYEOWdZuwKRnsIaC3w6XuxfTZaFJLGqJ35KqvCGFbFKbP/Zw6QrXTMjh
-	 pGlx/nuMebKFFIX+3EJxaX5FTM5wRXtSIwYxipv9GK53Vc4oIfF18F3kEqOM6mBb7K
-	 8IaBXa/vJx5IhcWufXsj2TINNTL3q0dC244iiZS8li6hGUgs4ZPN5jinPNlEcDVhvd
-	 EuMLqKdNgIr5tUtL9RVJbaQIohQmDM9A3lSECcFV6At8+rRoRfFYLiZdqm1qGyuzHF
-	 NxTWzk4f4VY94O4I1a72SpeVP5Gx8lgWFAUoze8SO1S+rS/loRr6bfmMVwXgmjU6fr
-	 VoQrdZZkIR8Tg==
-From: SeongJae Park <sj@kernel.org>
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	david@redhat.com,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	corbet@lwn.net,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	hannes@cmpxchg.org,
-	baohua@kernel.org,
-	shakeel.butt@linux.dev,
-	riel@surriel.com,
-	ziy@nvidia.com,
-	laoar.shao@gmail.com,
-	dev.jain@arm.com,
-	baolin.wang@linux.alibaba.com,
-	npache@redhat.com,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	ryan.roberts@arm.com,
-	vbabka@suse.cz,
-	jannh@google.com,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH 5/5] selftests: prctl: introduce tests for disabling THPs except for madvise
-Date: Mon, 28 Jul 2025 09:55:49 -0700
-Message-Id: <20250728165549.62546-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250725162258.1043176-6-usamaarif642@gmail.com>
-References: 
+	s=k20201202; t=1753721813;
+	bh=odlcYQW5Wn6AyKNjInxSo5JDWz7ZVfbs1sZAKYTg8ek=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PeIKsv1S26oO8OiHqBNiQf69n3csMuh0hZOK88J1aZSDRwZN+3TACHdEPVajUfi29
+	 X1pfEKSk7I0ABTGMvbU48RdG0vCK6Z3BtfgDqaozok58LoOLpaHZoFxXl/4r/662Lw
+	 hYCR35TeEmURByY1B13YzKQEUbbFseCzYpN6Fz7izJzyj6qRD48MUOjxcHLmFsQBVP
+	 025iTLTmUzjOArwoXigPS+Y1qHiW8KYNEWc8wTWgONxISRe3HI+ho8hWLE+XxfTP0q
+	 3DEgGRi5KTDNU7i76Rbs+Fc7mHvv38DA80UMGkIxvsZjRhaVwZVjAmgNuMMpQMtYBg
+	 1bw8bf1AH/KaQ==
+Date: Mon, 28 Jul 2025 18:56:48 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rostedt@goodmis.org, kees@kernel.org, konstantin@linuxfoundation.org,
+ josh@joshtriplett.org
+Subject: Re: [RFC 1/2] AI: Add unified AI coding assistant configuration
+Message-ID: <20250728185611.36f5865b@foz.lan>
+In-Reply-To: <aIWNyPMYHXSmJ5qT@lappy>
+References: <20250725175358.1989323-1-sashal@kernel.org>
+	<20250725175358.1989323-2-sashal@kernel.org>
+	<87wm7w5dnd.fsf@trenco.lwn.net>
+	<aIQCBQgh0XiDf2dv@lappy>
+	<aIWNyPMYHXSmJ5qT@lappy>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, 25 Jul 2025 17:22:44 +0100 Usama Arif <usamaarif642@gmail.com> wrote:
+Em Sat, 26 Jul 2025 22:24:08 -0400
+Sasha Levin <sashal@kernel.org> escreveu:
 
-> The test will set the global system THP setting to always and
-> the 2M setting to inherit before it starts (and reset to original
-> at teardown)
+> On Fri, Jul 25, 2025 at 06:15:33PM -0400, Sasha Levin wrote:
+> >On Fri, Jul 25, 2025 at 12:27:50PM -0600, Jonathan Corbet wrote:  
+> >>Sasha Levin <sashal@kernel.org> writes:
+> >>  
+> >>>Create a single source of truth for AI instructions in
+> >>>Documentation/AI/main.md with symlinks for all major AI coding
+> >>>assistants:
+> >>>- CLAUDE.md (Claude Code)
+> >>>- .github/copilot-instructions.md (GitHub Copilot)
+> >>>- .cursorrules (Cursor)
+> >>>- .codeium/instructions.md (Codeium)
+> >>>- .continue/context.md (Continue)
+> >>>- .windsurfrules (Windsurf)
+> >>>- Documentation/AIder.conf.yml (Aider)
+> >>>
+> >>>Signed-off-by: Sasha Levin <sashal@kernel.org>
+> >>>---
+> >>> .aider.conf.yml                 | 1 +
+> >>> .codeium/instructions.md        | 1 +
+> >>> .continue/context.md            | 1 +
+> >>> .cursorrules                    | 1 +
+> >>> .github/copilot-instructions.md | 1 +
+> >>> .windsurfrules                  | 1 +
+> >>> CLAUDE.md                       | 1 +
+> >>> Documentation/AI/main.md        | 5 +++++  
+> >>
+> >>So I'm gonna ignore (for now) the substantive issues here to ask: do we
+> >>*really* need to introduce Markdown into Documentation/?  Are these
+> >>things really unable to understand RST?  Why not add a file that can be
+> >>part of the docs build so people can see the instructions that are being
+> >>provided?  
+> >
+> >From my understanding, most of the agents out there expect a markdown
+> >file ("CLAUDE.md", ".github/copilot-instructions.md", etc).
+> >
+> >All the documentation and examples I can find online insist on
+> >markdown... I suspect that they will also understand RST, but then we'll
+> >be doing something "unsupported".
+> >
+> >Though in this scenario, maybe even just plain text will be enough?  
 > 
-> This tests if the process can:
-> - successfully set and get the policy to disable THPs expect for madvise.
-
-s/expect/except/
-
-> - get hugepages only on MADV_HUGE and MADV_COLLAPSE after policy is set.
-> - successfully reset the policy of the process.
-> - get hugepages always after reset.
-> - repeat the above tests in a forked process to make sure  the policy is
->   carried across forks.
+> I've tested providing a RST file instead of markdown to Claude, Copilot,
+> and Cursor. All 3 seemed to be okay with it and followed the
+> instructions in it.
 > 
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> ---
->  .../testing/selftests/mm/prctl_thp_disable.c  | 95 +++++++++++++++++++
->  1 file changed, 95 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/mm/prctl_thp_disable.c b/tools/testing/selftests/mm/prctl_thp_disable.c
-> index 52f7e6659b1f..288d5ad6ffbb 100644
-> --- a/tools/testing/selftests/mm/prctl_thp_disable.c
-> +++ b/tools/testing/selftests/mm/prctl_thp_disable.c
-> @@ -65,6 +65,101 @@ static int test_mmap_thp(enum madvise_buffer madvise_buf, size_t pmdsize)
->  	munmap(buffer, buf_size);
->  	return ret;
->  }
-> +
-> +FIXTURE(prctl_thp_disable_except_madvise)
-> +{
-> +	struct thp_settings settings;
-> +	size_t pmdsize;
-> +};
-> +
-> +FIXTURE_SETUP(prctl_thp_disable_except_madvise)
-> +{
-> +	if (!thp_is_enabled())
-> +		SKIP(return, "Transparent Hugepages not available\n");
+> I'll switch to RST.
 
-As David also pointed out on the other patch, the message and the function name
-would better to be consistent.
+Maybe you can also check if aren't there one "unified" file where
+others would read, or if are there any efforts to unify them.
 
-> +
-> +	self->pmdsize = read_pmd_pagesize();
-> +	if (!self->pmdsize)
-> +		SKIP(return, "Unable to read PMD size\n");
-> +
-> +	thp_read_settings(&self->settings);
-> +	self->settings.thp_enabled = THP_ALWAYS;
-> +	self->settings.hugepages[sz2ord(self->pmdsize, getpagesize())].enabled = THP_INHERIT;
-> +	thp_save_settings();
-> +	thp_push_settings(&self->settings);
-> +
-
-Unnecessary empty line?
-
-> +}
-> +
-> +FIXTURE_TEARDOWN(prctl_thp_disable_except_madvise)
-> +{
-> +	thp_restore_settings();
-> +}
-> +
-> +/* prctl_thp_disable_except_madvise fixture sets system THP setting to always */
-> +static void prctl_thp_disable_except_madvise(struct __test_metadata *const _metadata,
-> +					     size_t pmdsize)
-> +{
-> +	int res = 0;
-> +
-> +	res = prctl(PR_GET_THP_DISABLE, NULL, NULL, NULL, NULL);
-> +	ASSERT_EQ(res, 3);
-> +
-> +	/* global = always, process = madvise, we shouldn't get HPs without madvise */
-> +	res = test_mmap_thp(NONE, pmdsize);
-> +	ASSERT_EQ(res, 0);
-> +
-> +	res = test_mmap_thp(HUGE, pmdsize);
-> +	ASSERT_EQ(res, 1);
-> +
-> +	res = test_mmap_thp(COLLAPSE, pmdsize);
-> +	ASSERT_EQ(res, 1);
-> +
-> +	/* Reset to system policy */
-> +	res =  prctl(PR_SET_THP_DISABLE, 0, NULL, NULL, NULL);
-> +	ASSERT_EQ(res, 0);
-> +
-> +	/* global = always, hence we should get HPs without madvise */
-> +	res = test_mmap_thp(NONE, pmdsize);
-> +	ASSERT_EQ(res, 1);
-> +
-> +	res = test_mmap_thp(HUGE, pmdsize);
-> +	ASSERT_EQ(res, 1);
-> +
-> +	res = test_mmap_thp(COLLAPSE, pmdsize);
-> +	ASSERT_EQ(res, 1);
-
-Seems res is not being used other than saving the return value for assertions.
-Why don't you do the assertion at once, e.g., ASSERT_EQ(test_mmap_thp(...), 1)?
-No strong opinion, but I think that could make code shorter and easier to read.
-
-> +}
-> +
-> +TEST_F(prctl_thp_disable_except_madvise, nofork)
-> +{
-> +	int res = 0;
-> +
-> +	res = prctl(PR_SET_THP_DISABLE, 1, PR_THP_DISABLE_EXCEPT_ADVISED, NULL, NULL);
-> +	ASSERT_EQ(res, 0);
-
-Again, I think 'res' can be removed.
-
-> +	prctl_thp_disable_except_madvise(_metadata, self->pmdsize);
-> +}
-> +
-> +TEST_F(prctl_thp_disable_except_madvise, fork)
-> +{
-> +	int res = 0, ret = 0;
-> +	pid_t pid;
-> +
-> +	res = prctl(PR_SET_THP_DISABLE, 1, PR_THP_DISABLE_EXCEPT_ADVISED, NULL, NULL);
-> +	ASSERT_EQ(res, 0);
-
-Ditto.
-
-> +
-> +	/* Make sure prctl changes are carried across fork */
-> +	pid = fork();
-> +	ASSERT_GE(pid, 0);
-> +
-> +	if (!pid)
-> +		prctl_thp_disable_except_madvise(_metadata, self->pmdsize);
-> +
-> +	wait(&ret);
-> +	if (WIFEXITED(ret))
-> +		ret = WEXITSTATUS(ret);
-> +	else
-> +		ret = -EINVAL;
-> +	ASSERT_EQ(ret, 0);
-> +}
-> +
->  FIXTURE(prctl_thp_disable_completely)
->  {
->  	struct thp_settings settings;
-> -- 
-> 2.47.3
-
+I strongly suspect that, if not now, with time, they'll all end 
+supporting "alien" files for the most popular tools, if they don't
+find their own special file name.
 
 Thanks,
-SJ
+Mauro
