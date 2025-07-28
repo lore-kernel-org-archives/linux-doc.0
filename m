@@ -1,120 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014EA21D3DC;
-	Mon, 28 Jul 2025 21:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7F21A76DE;
+	Mon, 28 Jul 2025 22:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753738486; cv=none; b=EybjF2JHZqbypixEGBTWHnTzBZQrzDs2psLDCRW5M54EsOgN/fEk22D4sK/XMtKYmHvMkv2H3uJU0L0AvzlxJeFWdxp01uWFIOrXKLqWjF7XGQpIy9c6meoMaQVvFzX8dXlI3Ux6OPpdvd/YAAEoDaDFi0pOW5FTq6xVNCWyglY=
+	t=1753740760; cv=none; b=M7q0Sw2+ENzDX4wRjFZ0zrIwLrwXMQgzscSvIhz+bANakJJKyGfLP9W/YFJrBeZjQb45uWSdowiflDk8IRYpN+mybzb4xVCbFWgt4+TAjbytVE8gTjA06XPWEhh+mVFrKOzZrFwp6IOGCNYnCnc6nuhuyl2B408pOzRmyu60upg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753738486; c=relaxed/simple;
-	bh=09+3cj/H9xhQx1h5p2k3oDYMaYndL8xtT5K4eP4BUYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TzuR5a1p0GNwOk1WBU9UOlnMwpk38Xa6DCVD89o3/NmQo7LWS3MjdD1cOp9VeHS1L4SFDiKuGtHPHx7QkYGiuC9nmGm8MW/+aRzTJHgcmHO4FmDaQv+yAYOWXARGhzx8NkcWJpLvlPWr1Wavj02BBov/EFXAX+lvsn76GSiy0Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SYkmGxe7; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753740760; c=relaxed/simple;
+	bh=AdAjJPs6NCL8ZHORNqzrGJ2cY/mycdHeCM4d04pIoCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HRISaAXBLj8yb0muxpXTWrXG1i0NjDnCTIrZo0TRW5rcI787W42MTs62gwxilSp/o1tck54Y8xqns685Hq2aNGKIwQdtLYRPjKo246n6UTypnhCs/m7ivjS8KGQXwM5MpLoxvqlNJtmRmFJMQkvIN/ro2FIIio9k68jAurAsNJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=abKyXIQ7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SYkmGxe7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753738485; x=1785274485;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=09+3cj/H9xhQx1h5p2k3oDYMaYndL8xtT5K4eP4BUYk=;
-  b=SYkmGxe7N6i3OYlO0qGjCQnmagIqeIbPEtcESHNNF/QiNhbdMnKd5VJA
-   uFYiPA96MKlRZMl1C8zwn1+28jPY+W2wWkg8xLphvrFN4sdVrHAjhKopQ
-   +cKNzv8ptYSTkzlFPtrU663l5HygA/GVH0UbiHNhsFQLPC/BeLWugBabU
-   ayK/b3YYke2emCOyw2oltcTvSnR8Vj21XJf53wWGv6dzzQZbp6uowdgfd
-   HvaFSHOkD3QpBEAwu2bWkMQp1fxKu3YgP2O2pxS072wxyanx0R7EAE4UA
-   7F1WtrXIYGaEIP1fp6jruXsCPddbvWXcKO+Ru9vr4QLF9ZbIYLEggDULg
-   g==;
-X-CSE-ConnectionGUID: 9beFoTmuTeyYjDyk5v229Q==
-X-CSE-MsgGUID: L2ZQwI+bTdOpNMj3UFr9ig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="56148105"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="56148105"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 14:34:45 -0700
-X-CSE-ConnectionGUID: UYXoobVVS/GdHlEUFIp9Jw==
-X-CSE-MsgGUID: 5gsvI4JQRSq1dyoN3+FwYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="162391619"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Jul 2025 14:34:42 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ugVUV-0000m7-1i;
-	Mon, 28 Jul 2025 21:34:39 +0000
-Date: Tue, 29 Jul 2025 05:34:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Alok Tiwari <alok.a.tiwari@oracle.com>,
-	David Box <david.e.box@linux.intel.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-Message-ID: <202507290516.RaQHv1WD-lkp@intel.com>
-References: <20250726204041.516440-2-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="abKyXIQ7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86805C4CEE7;
+	Mon, 28 Jul 2025 22:12:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753740758;
+	bh=AdAjJPs6NCL8ZHORNqzrGJ2cY/mycdHeCM4d04pIoCU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=abKyXIQ7561JAenZNkxQ2CuBpw+9SxUN9wq9fMPBgNH6vElWn0wPPSUOZ9VEcX0fo
+	 JIQvxJ7zZdgMI8XgqKmGaSXDltCDfFb+uIXE69I4GlOjXe0owWUI9zckh6XETM7j1D
+	 gD+4jPZk1Tn9ruGB4SWvf8eY4NfKcs3tB19Fn+XeYh+PLMuPQoju/qOqdPI83pZOnn
+	 cNTBYZLik/KsrMlkmZKkvxiKYbGkeY3IxB088pBLY9bPrBkUCDjPMmEZ+LLAbns5Ps
+	 DNTS5ABt/oucvVgD4pXwmxJxynIVZFZs3cqjmz1x+/wkklFZtcoC6mInjyv7J42riT
+	 xgxbu+hyOW5IQ==
+Date: Tue, 29 Jul 2025 00:12:33 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: <dan.j.williams@intel.com>, Jakub Kicinski <kuba@kernel.org>, Sasha
+ Levin <sashal@kernel.org>, <workflows@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <kees@kernel.org>, <konstantin@linuxfoundation.org>, <corbet@lwn.net>,
+ <josh@joshtriplett.org>
+Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
+Message-ID: <20250729001233.4dead173@foz.lan>
+In-Reply-To: <20250728134653.635a9dc5@batman.local.home>
+References: <20250725175358.1989323-1-sashal@kernel.org>
+	<20250725114114.3b13e7b1@kernel.org>
+	<20250725150046.3adb556c@gandalf.local.home>
+	<20250725125906.1db40a7f@kernel.org>
+	<6883ea58b5685_134cc71006e@dwillia2-xfh.jf.intel.com.notmuch>
+	<20250728134653.635a9dc5@batman.local.home>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250726204041.516440-2-derekjohn.clark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Derek,
+Em Mon, 28 Jul 2025 13:46:53 -0400
+Steven Rostedt <rostedt@goodmis.org> escreveu:
 
-kernel test robot noticed the following build warnings:
+> On Fri, 25 Jul 2025 13:34:32 -0700
+> <dan.j.williams@intel.com> wrote:
+>=20
+> > > This touches on explainability of AI. Perhaps the metadata would be
+> > > interesting for XAI research... not sure that's enough to be lugging
+> > > those tags in git history.   =20
+> >=20
+> > Agree. The "who to blame" is "Author:". They signed DCO they are
+> > responsible for debugging what went wrong in any stage of the
+> > development of a patch per usual. We have a long history of debugging
+> > tool problems without tracking tool versions in git history. =20
+>=20
+> My point of the "who to blame" was not about the author of said code,
+> but if two or more developers are using the same AI agent and then some
+> patter of bugs appears that is only with that AI agent, then we know
+> that the AI agent is likely the culprit and to look for code by other
+> developers that used that same AI agent.
+>=20
+> It's a way to track down a bug in a tool that is creating code, not
+> about moving blame from a developer to the agent itself.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.16 next-20250728]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I don't think you shall blame the tool, as much as you you cannot=20
+blame gcc for a badly written code. Also, the same way a kernel
+maintainer needs to know how to produce a good code, someone using
+AI also must learn how to properly use the tool.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-ayn-ec-Add-PWM-Fan-HWMON-Interface/20250727-044332
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250726204041.516440-2-derekjohn.clark%40gmail.com
-patch subject: [PATCH v3 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-config: i386-randconfig-061-20250728 (https://download.01.org/0day-ci/archive/20250729/202507290516.RaQHv1WD-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507290516.RaQHv1WD-lkp@intel.com/reproduce)
+After all, at least at the current stage, AI is not intelligent.=20
+Artificial "neurons" just sums up values from its neighbors,
+trying to mimic what we know so far about neurons, which is not
+perfect. On several aspects, it is not much different than doing
+an stochastic analysis that would try to converge into a result.=20
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507290516.RaQHv1WD-lkp@intel.com/
+The entire process resembles the kind of systems that you could
+be analyzed using control theory[1], like root locus analysis. Anyone
+that ever played with that knows that sometimes the system is stable
+enough to converge to the best results, but the convergence is
+affected by poles and zeros: sometimes it might converge to a local
+minimum; sometimes it can end into a zero and diverge, producing
+completely bogus results.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/platform/x86/ayn-ec.c:67:5: sparse: sparse: symbol 'ayn_pwm_curve_registers' was not declared. Should it be static?
+On other words, the one that posted a bad patch is the one to
+blame, together with the ones that reviewed it. AI is not a
+replacement for real intelligence.
 
-vim +/ayn_pwm_curve_registers +67 drivers/platform/x86/ayn-ec.c
+-
 
-    66	
-  > 67	int ayn_pwm_curve_registers[10] = {
-    68		AYN_SENSOR_PWM_FAN_SPEED_1_REG,
-    69		AYN_SENSOR_PWM_FAN_SPEED_2_REG,
-    70		AYN_SENSOR_PWM_FAN_SPEED_3_REG,
-    71		AYN_SENSOR_PWM_FAN_SPEED_4_REG,
-    72		AYN_SENSOR_PWM_FAN_SPEED_5_REG,
-    73		AYN_SENSOR_PWM_FAN_TEMP_1_REG,
-    74		AYN_SENSOR_PWM_FAN_TEMP_2_REG,
-    75		AYN_SENSOR_PWM_FAN_TEMP_3_REG,
-    76		AYN_SENSOR_PWM_FAN_TEMP_4_REG,
-    77		AYN_SENSOR_PWM_FAN_TEMP_5_REG,
-    78	};
-    79	
+Btw, if you want to play with that, I suggest using deepseek.
+Ensure that the DeepThink (R1) is enabled, as it shows how that
+particular model tries to find a convergence.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-
+
+Out of curiosity, I asked two AIs for articles relating control theory
+with LLM:
+
+Bhargava, A., Witkowski, C., Looi, S.-Z., & Thomson, M. (2023). What=E2=80=
+=99s the Magic Word? A Control Theory of LLM Prompting. arXiv preprint arXi=
+v:2310.04444.
+URL: https://arxiv.org/abs/2310.04444
+
+Kevian, D., Syed, U., Guo, X., Havens, A., Dullerud, G., Seiler, P., Qin, L=
+., & Hu, B. (2024). Capabilities of Large Language Models in Control Engine=
+ering: A Benchmark Study. arXiv preprint arXiv:2404.03647.
+URL: https://arxiv.org/abs/2404.03647
+
+Maher, G. (2025). LLMPC: Large Language Model Predictive Control. arXiv pre=
+print arXiv:2501.02486.
+URL: https://arxiv.org/abs/2501.02486
+
+Zahedifar, R. et al. "LLM-Agent-Controller: A Universal Multi-Agent Large L=
+anguage Model System as a Control Engineer"
+URL: https://arxiv.org/abs/2505.19567
+
+Zhang, Y. et al. "Unveiling LLM Mechanisms Through Neural ODEs and Control =
+Theory"
+URL: https://arxiv.org/abs/2406.16985
+
+Barfield, Woodrow (2021) "A Systems and Control Theory Approach for Law and=
+ Artificial Intelligence: Demystifying the 'Black-Box'"
+URL: https://www.mdpi.com/2571-8800/4/4/41
+
+Zahedifar, R. et al. "LLM-controller: Dynamic robot control adaptation usin=
+g large language models"
+URL: https://www.sciencedirect.com/science/article/abs/pii/S0921889024002975
+
+Bhargava, A. "Toward a Control Theory of LLMs" (Blog Post)
+URL: https://aman-bhargava.com/ai/2023/12/17/towards-a-control-theory-of-LL=
+Ms.html
+
+I didn't read them (yet).
+
+Thanks,
+Mauro
