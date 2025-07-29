@@ -1,174 +1,106 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4AB290F;
-	Tue, 29 Jul 2025 19:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347581F956;
+	Tue, 29 Jul 2025 19:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753817493; cv=none; b=sHH6fFL2EVvOnIVwF4ccF6ToMknK8Ad8y7ECB0Tba5XVWHlGUBRWDYbz/vGVYoXpSHyW82ubRwvt2HMagt/QcXu8pzGE2oci2fEYCSVLkpSnF5vGKM5q1GUnMTPpDEPKvUU/fQ8OHm2Z5hVzFgAkfvRPinJ9AOKQl56EuXYjVP0=
+	t=1753818831; cv=none; b=Ax0vJoX91S9JVHyh+eC49Ym6hvHpAr+tAb+2v+Mhnsi6kYI0of6rKXg+5P9jyhSbFBIlXUcFp16+M1PQe0w/3jUJ8gxk/EORgBFL4GlZ8pBg33BrJPP5PiR/P8M9Qizc8wxwoZF/IJYv6g2Y/Ck4VxRAv/n1VWgPPtPI581rZTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753817493; c=relaxed/simple;
-	bh=lf6ecvMS5lLzD0DRcpsuhPk873JChd5ltyBTyFxKsro=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XoTZhM0v6Riv45tXyOncDN1gohE5LTHouP83Cy8gOZaJ54KpxcHhSWHBfVR/J5VaBrm73K1BLuk6aw42mgaDFVhyTMNEfJ2ZfeEPkDiW5l4aGepiPdxrb1QmIWpeF3WcRFNpBhD0QblmLkNiks5i+BGyWGCjrQid5ziDeKjbRFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Bxn7XCOv; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1753818831; c=relaxed/simple;
+	bh=bs5ZmR9gdo5u9zpoZMe1nXXpT82NUDIPQwiGKz+lOv0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Y9a+LwTaur8S4Gqf5akNFgIrZFEfnFY+cpeegcGq2GXN0R4K/bGsdonQdcGdgqClVoJW29kKBhzw4KC5F+2sYrexMTiXQdBHim45iPgz8//Bt3eqkGYpC3WbstTIOduEERMAOwPC/XeWIbdNqXXuLsyRbeBJmjX3DwxrnhAqzmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=D8IHiYMq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=84VB96h0; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bxn7XCOv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8UtUbjq+gsXVwNRHEqmPskVJ8RBN/bsJxXpAuzkbI2o=; b=Bxn7XCOv7anPwOISWDwXK9AZvk
-	s6PmHPur67emnifPf5wGCBw80V8TwAiukXaw42qwHm9n+s4S024vJjgLCnTII2Y9ALe7KO4UGyVCD
-	6784V+tKf5Yv9n8el10fAX6wLvDgS9e6D5Z/j3dGuQuRbDIPHz4NRv03psVOzgU/ADwMW5lDqNGiQ
-	99WFvuYIb1N9Z5nGpSYbJHq+En/1suw3Dd4jOwMPUo0Lh8ZwNdkjzaAGkAGQq/4TbYrpQbKyzNh8S
-	pZI1a3l4Z/m7ANpVfUJLAgro22SQT1VuzH6L9lziSAnS0iqQWT34gbDyW57I0xcx5qk8N9Q+RHpue
-	AOLqM3pA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugq2t-0000000HYfs-0e84;
-	Tue, 29 Jul 2025 19:31:31 +0000
-Message-ID: <3b0a2731-6072-467f-937b-4135f53b9031@infradead.org>
-Date: Tue, 29 Jul 2025 12:31:30 -0700
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="D8IHiYMq";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="84VB96h0"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1753818828;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=murAsIGdQ6vlzwol4uFiktJ1U9ZUZDAn3df7ASsCmD8=;
+	b=D8IHiYMqln69olqi/6g6npXcLQVV9NhOPq9simOGPAORx1WCUp6Y9LvMbouMOkAxzIGru5
+	fzYmP78u1FWNs+tGfnQ5hVdCKKPy0IPZZDgIaQmQOhclLThxjS/nD7K2CRHRKoVs4t3viY
+	Q3hAdwKxD55M6PZgz8UY9xequNcgThPVkshUggBZwEq+omEWc/UjPuE3BOVgDhqoncku3A
+	Swf2RktBL3Y1jCSYd3heJ8dSP3bMTCYP4ijlJ5wiRKsusEYa/Qb8NSnMnfIefKUhjY1GFT
+	clXl/VuN7sODouU3zY35RaW02sJK3BMssK0iJMoHu4f272V8b8fzG5IflB/zNw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1753818828;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=murAsIGdQ6vlzwol4uFiktJ1U9ZUZDAn3df7ASsCmD8=;
+	b=84VB96h0nopNOInx6f3954BclIbhdj2VAKaaaPvyAxSCFL2P4Z8AoTongAesBct1K6fmYv
+	UacHzAa4keOqZWBw==
+To: Jason Gunthorpe <jgg@nvidia.com>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+ changyuanl@google.com, rppt@kernel.org, dmatlack@google.com,
+ rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
+ ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org,
+ aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org,
+ tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com,
+ roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk,
+ mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org,
+ hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com,
+ joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com,
+ song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, gregkh@linuxfoundation.org, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org,
+ cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+ Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+ aleksander.lobakin@intel.com, ira.weiny@intel.com,
+ andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+ bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+ stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+ brauner@kernel.org, linux-api@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, ajayachandra@nvidia.com,
+ parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
+Subject: Re: [PATCH v2 31/32] libluo: introduce luoctl
+In-Reply-To: <20250729161450.GM36037@nvidia.com>
+References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
+ <20250723144649.1696299-32-pasha.tatashin@soleen.com>
+ <20250729161450.GM36037@nvidia.com>
+Date: Tue, 29 Jul 2025 21:53:47 +0200
+Message-ID: <877bzqkc38.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] Documentation: tracing: Add documentation about
- eprobes
-To: Steven Rostedt <rostedt@kernel.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Masami Hiramatsu <mhiramat@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>, Namhyung Kim
- <namhyung@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-References: <20250729161816.678462962@kernel.org>
- <20250729161912.226505358@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250729161912.226505358@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi Steven,
+On Tue, Jul 29 2025 at 13:14, Jason Gunthorpe wrote:
+> On Wed, Jul 23, 2025 at 02:46:44PM +0000, Pasha Tatashin wrote:
+>> From: Pratyush Yadav <ptyadav@amazon.de>
+>>  tools/lib/luo/Makefile       |   6 +-
+>>  tools/lib/luo/cli/.gitignore |   1 +
+>>  tools/lib/luo/cli/Makefile   |  18 ++++
+>>  tools/lib/luo/cli/luoctl.c   | 178 +++++++++++++++++++++++++++++++++++
+>>  4 files changed, 202 insertions(+), 1 deletion(-)
+>>  create mode 100644 tools/lib/luo/cli/.gitignore
+>>  create mode 100644 tools/lib/luo/cli/Makefile
+>>  create mode 100644 tools/lib/luo/cli/luoctl.c
+>
+> In the calls I thought the plan had changed to put libluo in its own
+> repository?
+>
+> There is nothing tightly linked to the kernel here, I think it would
+> be easier on everyone to not add ordinary libraries to the kernel
+> tree.
 
+As this is an evolving mechanism, having the corresponding library in
+the kernel similar to what we do with perf and other things makes a lot
+of sense.
 
-On 7/29/25 9:18 AM, Steven Rostedt wrote:
-> From: Steven Rostedt <rostedt@goodmis.org>
-> 
-> Eprobes was added back in 5.15, but was never documented. It became a
-> "secret" interface even though it has been a topic of several
-> presentations. For some reason, when eprobes was added, documenting it
-> never became a priority, until now.
-> 
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> ---
-> Changes since v1: https://lore.kernel.org/20250728171522.7d54e116@batman.local.home
-> 
-> - Renamed to eprobetrace.rst (Masami Hiramatsu)
-> 
-> - Fixed title of document (Masami Hiramatsu)
-> 
-> - Fixed grammar and spellings (Randy Dunlap)
-> 
->  Documentation/trace/eprobetrace.rst | 269 ++++++++++++++++++++++++++++
->  Documentation/trace/index.rst       |   1 +
->  2 files changed, 270 insertions(+)
->  create mode 100644 Documentation/trace/eprobetrace.rst
-> 
-> diff --git a/Documentation/trace/eprobetrace.rst b/Documentation/trace/eprobetrace.rst
-> new file mode 100644
-> index 000000000000..6d8946983466
-> --- /dev/null
-> +++ b/Documentation/trace/eprobetrace.rst
-> @@ -0,0 +1,269 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==================================
-> +Eprobe - Event-based Probe Tracing
-> +==================================
-> +
-> +:Author: Steven Rostedt <rostedt@goodmis.org>
-> +
-> +- Written for v6.17
-> +
-> +Overview
-> +========
-> +
-> +Eprobes are dynamic events that are placed on existing events to either
-> +dereference a field that is a pointer, or simply to limit what fields are
-> +recorded in the trace event.
-> +
-> +Eprobes depend on kprobe events so to enable this feature; build your kernel
+Thanks,
 
-I mucked that one up also. :(
-Please s/;/,/ above. Sorry.
-
-
-> +with CONFIG_EPROBE_EVENTS=y.
-> +
-> +Eprobes are created via the /sys/kernel/tracing/dynamic_events file.
-> +
-> +Synopsis of eprobe_events
-> +-------------------------
-> +::
-> +
-> +  e[:[EGRP/][EEVENT]] GRP.EVENT [FETCHARGS]	: Set a probe
-> +  -:[EGRP/][EEVENT]				: Clear a probe
-> +
-> + EGRP		: Group name of the new event. If omitted, use "eprobes" for it.
-> + EEVENT		: Event name. If omitted, the event name is generated and will
-> +		  be the same event name as the event it attached to.
-> + GRP		: Group name of the event to attach to.
-> + EVENT		: Event name of the event to attach to.
-> +
-> + FETCHARGS	: Arguments. Each probe can have up to 128 args.
-> +  $FIELD	: Fetch the value of the event field called FIELD.
-> +  @ADDR		: Fetch memory at ADDR (ADDR should be in kernel)
-> +  @SYM[+|-offs]	: Fetch memory at SYM +|- offs (SYM should be a data symbol)
-> +  $comm		: Fetch current task comm.
-> +  +|-[u]OFFS(FETCHARG) : Fetch memory at FETCHARG +|- OFFS address.(\*3)(\*4)
-> +  \IMM		: Store an immediate value to the argument.
-> +  NAME=FETCHARG : Set NAME as the argument name of FETCHARG.
-> +  FETCHARG:TYPE : Set TYPE as the type of FETCHARG. Currently, basic types
-> +		  (u8/u16/u32/u64/s8/s16/s32/s64), hexadecimal types
-> +		  (x8/x16/x32/x64), VFS layer common type(%pd/%pD), "char",
-> +                  "string", "ustring", "symbol", "symstr" and "bitfield" are
-> +                  supported.
-> +
-> +Types
-> +-----
-> +The FETCHARGS above is very similar to the kprobe events as described in
-> +Documentation/trace/kprobetrace.rst.
-> +
-> +The difference between eprobes and kprobes FETCHARGS is that eprobes has a
-> +$FIELD command that returns the content of the event field of the event
-> +that is attached. Eprobes do not have access to registers, stacks and function
-> +arguments that kprobes has.
-> +
-> +If a field argument is a pointer, it may be dereferenced just like a memory
-> +address using the FETCHARGS syntax.
-> +
-> +
-> +Attaching to dynamic events
-> +---------------------------
-> +
-> +Eprobes may attach to dynamic events as well as to normal events. It may
-> +attach to a kprobe event, a synthetic event or a fprobe event. This is useful
-
-                                                  an fprobe event.
-
-> +if the type of a field needs to be changed. See Example 2 below.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
--- 
-~Randy
+        tglx
