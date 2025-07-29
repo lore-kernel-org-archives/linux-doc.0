@@ -1,113 +1,143 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E711C861F;
-	Tue, 29 Jul 2025 01:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDEB79EA;
+	Tue, 29 Jul 2025 02:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753753254; cv=none; b=rZ7ME0iz0WEPGTAzRJiXwzGcifu9h9719+9KpubWHGLvIv+scs7hO/4GcJ6mIwA9lVI776mql/KG2OW4k767bResN/SFTFdnZBIddwEY01fI+yvVvj0PoVmgP6rTZr5rvxThgYFQ496poxQPGvZj3YnFDx4wV5WMVNkwE9mEKKc=
+	t=1753756982; cv=none; b=Fui0/+6qT/vgN2n/bnxWsiqt/oLCspTQpZzPlexiDuivcWYIVYnRgczbJGnngRcE5KEcL+tjdbHkd8wwD+7ndVViSNu1i4lkeRsWi8qON/ESG2EYIDF7sVcnq0mCPRA9fNBa0jZ31RTc1rSwsHoB7TZWdhDcYL2OpknSCkN9Lco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753753254; c=relaxed/simple;
-	bh=jo3ijy+JTGr03KTDI0usXnbpLcxXkxyM0nshqrU9Le0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jt1WyjJWmU6EIMfmmfgCK0i8dJvndTPPTd0Aqc7GXKHR/3GBT+80OG2Ah1sWZ056isAHq/OIVlpZ6yD9JY+sfJhn1XJqgrmNAzLzNQhjJ3VDR1VHboyOUWnjZJXYALBBcfMZ/FWw0ZgzV6qperf1Zvhg7BEl55ut7Zf1P0P/1WM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MMwIAU8P; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1753756982; c=relaxed/simple;
+	bh=FUBW7btLaXRKRkjIgHELqFpqMhpUxePyi5+xQPOOMu8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iTuLaYB2134o7xsmXZN04e4RaUqHCWJaP96qhNPytRRgPNm5CBn4BLtlwtmKH4+fgBoNkpm4tD2smSKQ2O2Yw/hvZieW6azTmnI2AmSuSbSO2c0xvPEjpkMIYzpAhfINInR0sOEul29rbrJoKWo8/jN0DSvBKhsWesX0QuBkLak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hGiqIgtc; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MMwIAU8P"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=YD3CmDSfJU1ULhXx89mEK0BRfVdB034fXGaNnPcOSpc=; b=MMwIAU8PAolD/byoGQvhYyiHJS
-	FRj6Gix9yJyCSk53z4uZ1ezhbLsqhdD2SF3EqsxEUWo3wiNWfaESOuLT3T6huRV2E1Mi03w1Kadoy
-	d5Vbia8FoXJqlEToMOB5/iPCUqVn2YntG3W01h9XDMJey99DXQTOeSoStQmO0ER8R6Hr/KD7xh5k5
-	tg50ZXdPuD8xDANeR5CxyybE2MGY3GiYhHa1mvdYMlWpjA5fryVKv9vzJfiRlQPj/zhm3bfgK5tcG
-	S5Qdv3JDCzIK/9aOMo1ai3Vjtze+KbA/wohCho4bQ+B8fMRJRNVm0C8O0Wvgjb2Zq1Y66qzuGiBtX
-	kR7enR6w==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugZKl-0000000FiMq-2NMk;
-	Tue, 29 Jul 2025 01:40:51 +0000
-Message-ID: <742afa67-600e-4a9e-ae7d-f67de31eb603@infradead.org>
-Date: Mon, 28 Jul 2025 18:40:50 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGiqIgtc"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23ffa7b3b30so20765635ad.1;
+        Mon, 28 Jul 2025 19:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753756981; x=1754361781; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ltNpeYsaYiriqRttnjOxFTsDxOzsiWp+Zzreeo3S004=;
+        b=hGiqIgtcmf5H9MaN/GvK4zM4PYulDit+e1/SrigkIT5LkguA1HFLCuFZ6QRgpa+50x
+         VvGfFhfW2bCYqv4EWCX32piu5EpqbmdTNsoc8NddhPsXyUd0IV2/GIvzMDChzf4ReCdW
+         GuFW1Hz69wmGIOQDoJ18BYtp/ctEF300dJoTCuZDxkJmPALOElmEOGE3wcNfUWCt0wG6
+         AxX+gR4nf+eAvLCgb2dBIHBFfMcurkkgXKL5Mkb918SwECVPnBzFgFhcswXuXGnMp4X9
+         8W93mE2n8F1Blrde0HPUkf2TPOMO+23QNqNGglhPqOkSG1UY3QXGhXf6k0a4lQkGdjh7
+         KoOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753756981; x=1754361781;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ltNpeYsaYiriqRttnjOxFTsDxOzsiWp+Zzreeo3S004=;
+        b=Ln1crLz06Dd0SMUx43lXSkf4RZ680Se0m+0vjF6I6gMbDdkn4/lu6HARxUaFqxxpNH
+         lOLBBr64Q7u3zWxUpmxkBPy9RhZglLgxW17/t8KsL7nP/fed8GKvuBFhVdb9lFYdOFO8
+         zib6VTFKKni8xOr47PVPLZ8PDa4UVLpoqfSjCq0mkYxFoTL9f15Kqc85OSwKIasDPxf8
+         XPWhxOfz3WlNNTTLfu7ixX5PzvDgM/KIvGlkjh1Cb3dTtq8ozJ4nhjMzYomNZSwVyN8P
+         t1rEukEP8ZxNZzFMWj0ybVxDTJ+fdbi+URe/W5epuK+8ft8ZhK8hepWuYU2Yd/GCdgnP
+         6SnA==
+X-Forwarded-Encrypted: i=1; AJvYcCVZJUsP8QfuFrWiSjv4jZPJH09SvQnfxU2bvGIC5qwjkiqq9WxXmjSlyXxd3IYXtnTNnIGJLmWZHV2j@vger.kernel.org, AJvYcCVciUi74/Ma25JDdBFfPgoUJIPcMrXFP97/qFJ5QXV5+l9e9L7KQ5HdRbFxZtzUEfSps2ViaqGW@vger.kernel.org, AJvYcCXprEP3Wk5LnaWF1V2+q7jMZ86j1LY12TC8WaK6jxmw+cAl+FP2JBQbdqBX2pSmPlUHEkjqH0vMTe4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7SHQV9JWZ75Cyc2pHcfzYwPA7j4cqNFi0jGH/dyqkSMb1czeH
+	bHA4jBTm1uLhH15uDGWQRILNRqHpTgYnINLZEFREFSncQlMZwCwiK+yy
+X-Gm-Gg: ASbGncsFdT86Eng6D7pr+fPx0OdWWaTpvciKLGh7Y/d4yMRpzVBHXqmgWSihZlROmKK
+	r+ZBKh+jy12l5BIH8U4nwgt/jtAMRUe8dKSPNQczyG/AHpGgO+4rz1V6mGWWspCqAR9H7Z55seg
+	UX7/n5m1bKmQ1UpY+0U9zUWk3joo6CZzVgmKEdyz5FZw0ApuoBnKV0ptGUqvbXveiTgO/XCoCL1
+	Y96aLZk5uL+LfczoW5j/ErlL9UFGAVgaB9rPer+5ZBHO9NKVCFUQsjSEDAKrAQxD+0g8lTVe8hE
+	gVALqheY87VbZA30+tHr+c35/xaKaHfApjhYvsFzFuYmZMU5Z5pSDA7oL9NYMyz6uCvFedGhy/C
+	8IwZqgGAIC1Xz3MeV1iGnUIs+kw==
+X-Google-Smtp-Source: AGHT+IFokfUWEoK1BlXtNlneBLUYXrht2yshaZ90k+I2IvTHjwBEMdVrmYfxeQvJuKnXo6G4WVr5+w==
+X-Received: by 2002:a17:903:234c:b0:234:d399:f948 with SMTP id d9443c01a7336-23fb3126f99mr175232585ad.33.1753756980621;
+        Mon, 28 Jul 2025 19:43:00 -0700 (PDT)
+Received: from fedora ([159.196.5.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fecd9ed12sm51327855ad.8.2025.07.28.19.42.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jul 2025 19:43:00 -0700 (PDT)
+From: Wilfred Mallawa <wilfred.opensource@gmail.com>
+To: alistair.francis@wdc.com,
+	dlemoal@kernel.org,
+	chuck.lever@oracle.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	donald.hunter@gmail.com,
+	corbet@lwn.net,
+	kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	borisp@nvidia.com,
+	john.fastabend@gmail.com,
+	jlayton@kernel.org,
+	neil@brown.name,
+	okorniev@redhat.com,
+	Dai.Ngo@oracle.com,
+	tom@talpey.com,
+	trondmy@kernel.org,
+	anna@kernel.org,
+	kernel-tls-handshake@lists.linux.dev,
+	netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-nfs@vger.kernel.org,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [RFC 0/4] net/tls: add support for the record size limit extension
+Date: Tue, 29 Jul 2025 12:41:47 +1000
+Message-ID: <20250729024150.222513-2-wilfred.opensource@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Fixed commit: Fixes Sphinx warnings about duplicate
- reference labels in Documentation/filesystems/ext4/atomic_writes.rst.
-To: Andre Luiz da Nobrega <andreluizrodriguescastro@gmail.com>, tytso@mit.edu
-Cc: adilger.kernel@dilger.ca, corbet@lwn.net, linux-ext4@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org
-References: <20250729013200.84919-1-andreluizrodriguescastro@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250729013200.84919-1-andreluizrodriguescastro@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Andre,
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-The warnings should be part of the patch description, not in the patch itself.
+During a tls handshake, an endpoint may specify a maximum record size limit. As
+specified by [1]. which allows peers to negotiate a maximum plaintext record
+size during the TLS handshake. If a TLS endpoint receives a record larger
+than its advertised limit, it must send a fatal "record_overflow" alert [1].
+Currently, this limit is not visble to the kernel, particularly in the case
+where userspace handles the handshake (tlshd/gnutls).
 
-Still missing the actual ext4 change.
+This series in conjunction with the respective userspace changes for tlshd [2]
+and gnutls [3], adds support for the kernel the receive the negotiated record
+size limit through the existing netlink communication layer, and use this
+value to limit outgoing records to the size specified.
 
-More below.
+[1] https://www.rfc-editor.org/rfc/rfc8449
+[2] https://github.com/oracle/ktls-utils/pull/112
+[3] https://gitlab.com/gnutls/gnutls/-/merge_requests/1989
 
+Wilfred Mallawa (4):
+  net/handshake: get negotiated tls record size limit
+  net/tls/tls_sw: use the record size limit specified
+  nvme/host/tcp: set max record size in the tls context
+  nvme/target/tcp: set max record size in the tls context
 
-On 7/28/25 6:32 PM, Andre Luiz da Nobrega wrote:
-> Specifically, the label '.. _atomic_write_bdev_support:' was renamed to
-> '.. _atomic_write_bdev_support_section:' to ensure label uniqueness
-> within the document.
-> 
-> Signed-off-by: Andre Luiz da Nobrega <andreluizrodriguescastro@gmail.com>
-> ---
->  Documentation/filesystems/ext4/atomic_writes.rst |  2 +-
->  warn_output.txt                                  | 12 ++++++++++++
->  2 files changed, 13 insertions(+), 1 deletion(-)
->  create mode 100644 warn_output.txt
-> 
-> diff --git a/Documentation/filesystems/ext4/atomic_writes.rst b/Documentation/filesystems/ext4/atomic_writes.rst
-> index 80f83112d24d..e8cf983049b4 100644
-> --- a/Documentation/filesystems/ext4/atomic_writes.rst
-> +++ b/Documentation/filesystems/ext4/atomic_writes.rst
-> @@ -204,7 +204,7 @@ writes are supported.
->  .. _atomic_write_bdev_support_section:
->  
->  Hardware Support
-> -----------------
-> +-----------------
-
-Unneeded change?
-
->  
->  The underlying storage device must support atomic write operations.
->  Modern NVMe and SCSI devices often provide this capability.
-> diff --git a/warn_output.txt b/warn_output.txt
-> new file mode 100644
-> index 000000000000..593c6fa5b65d
-> --- /dev/null
-> +++ b/warn_output.txt
-> @@ -0,0 +1,12 @@
-> +Using alabaster theme
-> +[91m/home/alkaleus/Documentos/PESSOAL/LFX_dev/linus_tree/Documentation/filesystems/ext4/atomic_writes.rst:5: WARNING: duplicate label atomic_writes, other instance in /home/alkaleus/Documentos/PESSOAL/LFX_dev/linus_tree/Documentation/filesystems/ext4/atomic_writes.rst[39;49;00m
-> +[91m/home/alkaleus/Documentos/PESSOAL/LFX_dev/linus_tree/Documentation/filesystems/ext4/atomic_writes.rst:207: WARNING: duplicate label atomic_write_bdev_support, other instance in /home/alkaleus/Documentos/PESSOAL/LFX_dev/linus_tree/Documentation/filesystems/ext4/atomic_writes.rst[39;49;00m
-> +[91mWARNING: ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:1068 struct member 'mcm' not described in 'mpc_funcs'[39;49;00m
-> +[91mWARNING: ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:1068 struct member 'rmcm' not described in 'mpc_funcs'[39;49;00m
-> +[91m/home/alkaleus/Documentos/PESSOAL/LFX_dev/linus_tree/Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:362: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35.
-> +Declaration is '.. c:function:: const struct drm_format_info * drm_format_info (u32 format)'.[39;49;00m
-> +[91m/home/alkaleus/Documentos/PESSOAL/LFX_dev/linus_tree/Documentation/gpu/drm-kms:476: ./drivers/gpu/drm/drm_modeset_lock.c:375: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:49.
-> +Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'.[39;49;00m
-> +[91m/home/alkaleus/Documentos/PESSOAL/LFX_dev/linus_tree/Documentation/gpu/drm-uapi:557: ./drivers/gpu/drm/drm_ioctl.c:915: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:70.
-> +Declaration is '.. c:function:: bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'.[39;49;00m
-> +[91m/home/alkaleus/Documentos/PESSOAL/LFX_dev/linus_tree/Documentation/arch/powerpc/htm.rst: WARNING: document isn't included in any toctree[39;49;00m
+ Documentation/netlink/specs/handshake.yaml |  3 +++
+ Documentation/networking/tls-handshake.rst |  8 +++++++-
+ drivers/nvme/host/tcp.c                    | 18 +++++++++++++++++-
+ drivers/nvme/target/tcp.c                  | 16 +++++++++++++++-
+ include/net/handshake.h                    |  4 +++-
+ include/net/tls.h                          |  1 +
+ include/uapi/linux/handshake.h             |  1 +
+ net/handshake/genl.c                       |  5 +++--
+ net/handshake/tlshd.c                      | 15 +++++++++++++--
+ net/sunrpc/svcsock.c                       |  4 +++-
+ net/sunrpc/xprtsock.c                      |  4 +++-
+ net/tls/tls_sw.c                           | 10 +++++++++-
+ 12 files changed, 78 insertions(+), 11 deletions(-)
 
 -- 
-~Randy
+2.50.1
 
