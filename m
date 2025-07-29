@@ -1,183 +1,199 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9C6218E99
-	for <linux-doc@vger.kernel.org>; Tue, 29 Jul 2025 21:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609E943AA4;
+	Tue, 29 Jul 2025 22:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753824523; cv=none; b=YKfWgI4iXGxd27BDk73t7gaxzChT7Fa8lfY4J+CoEi62Nw6aaBquRJLQ2JF7/BUah9YfFP3T8ijijcrmOQE54I2c0XpPmsnvWsObVTHPWXyhIMQfkIgbM7nXCHp/WFKhnhNIi4OnT1SDRNbk8f98t6YGOyeybJBVpYzBly0rv/o=
+	t=1753827237; cv=none; b=EdEE2I2rn+7h/uzhMt/NM1rJD7EtedI6w97K3tDEbUGZLIU0gi+xBRwuiGWo2PnJoXx9m/uusMiemEuQvcR7jitrLYpv+0bL+wObVb1hm39BumhECKz1M6LVIQ6ktxUcdwVtRlbki9xQN4Z2SgtBexBeI+OWi3wcFsHZgraiO3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753824523; c=relaxed/simple;
-	bh=wWr0PMMX8zXIq+UZH9Hw6e+QTKOqH5uI2PfCLe/lLZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=luKlDVVT6roSMRLCzOgYDzUY7lbsLTIts5EqpnZRvTpkAyoixkDanlxK0qBWI5dHRgVHH1xAoF05MYQnGNhGH92NimHLGfZaaek0ZUM9l9jRHcfv5OuYigc3jhyL7hrxiTFy9X6UZuX4pDxiT3iAWCD/5AfNEOY4H+/DBUKwpQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lhsW2pTc; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1753827237; c=relaxed/simple;
+	bh=KBbRGtPvztUsLVDX9J8vosq8mYvwYMawegdfU9NhLaY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F4kjayClBJbF1PjgtBQOSlTzOPeVGYqNJAeilJW9HFpVJzniogqD/4qeuqYxUnfzBuHXuBqMV/U108fRCDy7TJIQ0nS6Znl7RhpY+uHcfdU2KfdUrNjAA/98cOH5DSK76zwQJmiVHo5N9cb9mbh1g1uT11vRNryWMLFxcVQ5G00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bouHgjYu; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lhsW2pTc"
-Date: Tue, 29 Jul 2025 14:28:18 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1753824508;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NR9slzoUcFOnPOoSMrOV4yposz1NlG4bkgRYfak492c=;
-	b=lhsW2pTcB10VQHQ789IqoXJswxckQki4VJ3/2loOEW2BzG6PgAfa2kj9NJPn524jv0WgfP
-	MjYAlqeTx1ZzRP990X7EM/qgcaHk5t/9IMRbFKRswJP+taDNsnL+hGCJ99RzwPHiQQ/vVN
-	YBCJ0Z4l9hzEspcc7A/hA8yTNEKhxYc=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: Jiaqi Yan <jiaqiyan@google.com>
-Cc: maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com,
-	yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-	pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org,
-	kvm@vger.kernel.org, kvmarm@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	duenwen@google.com, rananta@google.com, jthoughton@google.com
-Subject: Re: [PATCH v2 1/6] KVM: arm64: VM exit to userspace to handle SEA
-Message-ID: <aIk88sBA2eIEF7w-@linux.dev>
-References: <20250604050902.3944054-1-jiaqiyan@google.com>
- <20250604050902.3944054-2-jiaqiyan@google.com>
- <aHFohmTb9qR_JG1E@linux.dev>
- <CACw3F509B=AHhpaTcuH9O851rrDdHh1baC8uRYy7bDa7BSMhgg@mail.gmail.com>
- <aHK-DPufhLy5Dtuk@linux.dev>
- <CACw3F53TYZ1KFv0Yc-GCyOxn7TF3iYjTNSE8bd3nte=KaCN0UQ@mail.gmail.com>
- <CACw3F50Q_G75wf2rBm-P-NkyyO72i1NKqR9se99QrgipfD62yg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bouHgjYu"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45610582d07so39406845e9.0;
+        Tue, 29 Jul 2025 15:13:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753827233; x=1754432033; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=k4TdMm0dqbyPQgLDNL4WQ//dsNOz2sMfofhnU8OFQgg=;
+        b=bouHgjYusjuU2nqbWe3jzfq73PHAS18tRZSAkczRUEZD/rX/6mNbnCSqC7NwBYod8U
+         HMzYiwCdLYIw+MsfNbgv6NgJyzwO2DurxoecYHArf4byJJ+yF7ptvWLV4tvsdVC2LI+f
+         m+GGwiX+9wlCi3/5EXttwCxJWMlbOmXrqRQftvj3LtecCkcYNHVU114qmZjeOEhRpVhJ
+         0ROTl41Fy4BPwGpf+O8BWBv+Usp4y+J40+XaPTAq8VZLqfOfbx1Ok2/jfGwTmK0YKGjg
+         rSYatYo7qGVuhxivshv5kWJOeFhaBjZ5E3zjVijojuVudqWQDuRP+9EjXEd/wcF5ZjrD
+         DwbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753827233; x=1754432033;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k4TdMm0dqbyPQgLDNL4WQ//dsNOz2sMfofhnU8OFQgg=;
+        b=EMurT+49UKjyxWFsqMDD34VCC2aFXz5GTq2ExQsx6gCv9KbldJmWELcmTRMAsG1kh8
+         ohcsMNI8Vx7wtl4soakKtOIgzQ0zApHlvOl/L+KzVRkhtNSlYA3LuTnUSOzp+bH513ZM
+         dXHNYtrRhtmHSUWGXUV14wOU2LIUdk8JDaDkzQVPP6U+rGfKL6pe2oIwisboNgvICd0/
+         BTR5X0Vfn46AMYX8HWUEWg9HZnUxJGXZkv1m0wbzKT5IjqdtTbKYg9J29P2ZZU31O8AD
+         Qgjy1oiUez9eQeMESwWfokQs4Cw6wV6ilN+uFp09/jkqpOD9rZJIZVnaAKHReOZeFJ4q
+         TFlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWL3koKmRMQVnCi3zXmZZgZd6zeqw2kz5CwHzxEGjWBn9bhTd6LRsSAz+mlqVdpykoxjhe4exRhY60=@vger.kernel.org, AJvYcCXBtDQv2OPhnSV4T6QCTv+YrkIZwQM05urErSy3Ebsvoj8zm40nApVa8OKyEBHkBu0rb/kcUac03jfcWHTH@vger.kernel.org
+X-Gm-Message-State: AOJu0YxW0SmH+S1fG1okF2A67fMAlBLDNjs3BwiW9Il/m4WcUD9bnuKV
+	cjml5RF4pBdF0e2J/gNl73M6l5XcgMrw1pr43OrvLFqWsRi8Tfas0ssm
+X-Gm-Gg: ASbGncvoQkeoJIjsoLSVV9l7vKxwFsSsyXgMFOkQy5UppFRikzQo2gbfGk7qLVflf1/
+	lLp4yCLm1vMfz5tuuKW05uMOyYnWXwr5x9jgCXzGxR5NfXXWP7HEMt16z1lBHw+hvuxsn9+dYlj
+	BDPuPZy3eSXkt+tY/4YK6bYHD4uT/s78JRHoYjeS0ASxQT6BEeRsWvhMSwRpNjYiuBjqLiScDUW
+	V6KKKzZebtyNPr8qj0EuGwHEe8Mb+HcjSj8stflWLpkk/d0opCu1xLm/Jy8Mv3ZBBMGGSQFPu8X
+	/kXozSmULGaRcoNY+UzTEwA1Z/IvCt8OuZy3suObzKCv/vtnoMUBp+gC3Bi0PiJ1lf1A8EJw7HW
+	I11uFypbwi2K6WtGoe07Vlo5eu4r6b0ZaWaGPCY8NXfkj9PFuNXpuk/SHLabUf2zP8MBQsWHbkA
+	T28zVS1hLr55SIEDynM/0d
+X-Google-Smtp-Source: AGHT+IEeWIQxoNPjyhb0qgajHm83bwS2o4UYVKQz54yvj8B5BNWBgnOWxAGCs5O9lSHAl/LE7QHulA==
+X-Received: by 2002:a05:600c:1d22:b0:453:23fe:ca86 with SMTP id 5b1f17b1804b1-45892b95320mr11780725e9.4.1753827232385;
+        Tue, 29 Jul 2025 15:13:52 -0700 (PDT)
+Received: from ?IPV6:2a02:6b6f:e759:7e00:8b4:7c1f:c64:2a4? ([2a02:6b6f:e759:7e00:8b4:7c1f:c64:2a4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458953778c9sm2629375e9.14.2025.07.29.15.13.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Jul 2025 15:13:51 -0700 (PDT)
+Message-ID: <4dc95e54-e0ef-4919-973a-748845897ef9@gmail.com>
+Date: Tue, 29 Jul 2025 23:13:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] selftests: prctl: introduce tests for disabling THPs
+ completely
+To: David Hildenbrand <david@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
+ shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
+ laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
+ Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20250725162258.1043176-1-usamaarif642@gmail.com>
+ <20250725162258.1043176-5-usamaarif642@gmail.com>
+ <b9c72ab9-9687-4953-adfe-0a588a6dd0f7@redhat.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <b9c72ab9-9687-4953-adfe-0a588a6dd0f7@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACw3F50Q_G75wf2rBm-P-NkyyO72i1NKqR9se99QrgipfD62yg@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jul 25, 2025 at 03:54:10PM -0700, Jiaqi Yan wrote:
-> On Sat, Jul 19, 2025 at 2:24 PM Jiaqi Yan <jiaqiyan@google.com> wrote:
-> >
-> > On Sat, Jul 12, 2025 at 12:57 PM Oliver Upton <oliver.upton@linux.dev> wrote:
-> > >
-> > > On Fri, Jul 11, 2025 at 04:59:11PM -0700, Jiaqi Yan wrote:
-> > > > >  - Add some detail about FEAT_RAS where we may still exit to userspace
-> > > > >    for host-controlled memory, as we cannot differentiate between a
-> > > > >    stage-1 or stage-2 TTW SEA when taken on the descriptor PA
-> > > >
-> > > > Ah, IIUC, you are saying even if the FSC code tells fault is on TTW
-> > > > (esr_fsc_is_secc_ttw or esr_fsc_is_sea_ttw), it can either be guest
-> > > > stage-1's or stage-2's descriptor PA, and we can tell which from
-> > > > which.
-> > > >
-> > > > However, if ESR_ELx_S1PTW is set, we can tell this is a sub-case of
-> > > > stage-2 descriptor PA, their usage is for stage-1 PTW but they are
-> > > > stage-2 memory.
-> > > >
-> > > > Is my current understanding right?
-> > >
-> > > Yep, that's exactly what I'm getting at. As you note, stage-2 aborts
-> > > during a stage-1 walk are sufficiently described, but not much else.
-> >
-> > Got it, thanks!
-> >
-> > >
-> > > > > +/*
-> > > > > + * Returns true if the SEA should be handled locally within KVM if the abort is
-> > > > > + * caused by a kernel memory allocation (e.g. stage-2 table memory).
-> > > > > + */
-> > > > > +static bool host_owns_sea(struct kvm_vcpu *vcpu, u64 esr)
-> > > > > +{
-> > > > > +       /*
-> > > > > +        * Without FEAT_RAS HCR_EL2.TEA is RES0, meaning any external abort
-> > > > > +        * taken from a guest EL to EL2 is due to a host-imposed access (e.g.
-> > > > > +        * stage-2 PTW).
-> > > > > +        */
-> > > > > +       if (!cpus_have_final_cap(ARM64_HAS_RAS_EXTN))
-> > > > > +               return true;
-> > > > > +
-> > > > > +       /* KVM owns the VNCR when the vCPU isn't in a nested context. */
-> > > > > +       if (is_hyp_ctxt(vcpu) && (esr & ESR_ELx_VNCR))
-> > > > > +               return true;
-> > > > > +
-> > > > > +       /*
-> > > > > +        * Determining if an external abort during a table walk happened at
-> > > > > +        * stage-2 is only possible with S1PTW is set. Otherwise, since KVM
-> > > > > +        * sets HCR_EL2.TEA, SEAs due to a stage-1 walk (i.e. accessing the PA
-> > > > > +        * of the stage-1 descriptor) can reach here and are reported with a
-> > > > > +        * TTW ESR value.
-> > > > > +        */
-> > > > > +       return esr_fsc_is_sea_ttw(esr) && (esr & ESR_ELx_S1PTW);
-> > > >
-> > > > Should we include esr_fsc_is_secc_ttw? like
-> > > >   (esr_fsc_is_sea_ttw(esr) || esr_fsc_is_secc_ttw(esr)) && (esr & ESR_ELx_S1PTW)
-> > >
-> > > Parity / ECC errors are not permitted if FEAT_RAS is implemented (which
-> > > is tested for up front).
-> >
-> > Ah, thanks for pointing this out.
-> >
-> > >
-> > > > > +}
-> > > > > +
-> > > > >  int kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
-> > > > >  {
-> > > > > +       u64 esr = kvm_vcpu_get_esr(vcpu);
-> > > > > +       struct kvm_run *run = vcpu->run;
-> > > > > +       struct kvm *kvm = vcpu->kvm;
-> > > > > +       u64 esr_mask = ESR_ELx_EC_MASK  |
-> > > > > +                      ESR_ELx_FnV      |
-> > > > > +                      ESR_ELx_EA       |
-> > > > > +                      ESR_ELx_CM       |
-> > > > > +                      ESR_ELx_WNR      |
-> > > > > +                      ESR_ELx_FSC;
-> > > >
-> > > > Do you (and why) exclude ESR_ELx_IL on purpose?
-> > >
-> > > Unintended :)
-> >
-> > Will add into my patch.
-> >
-> > >
-> > > > BTW, if my previous statement about TTW SEA is correct, then I also
-> > > > understand why we need to explicitly exclude ESR_ELx_S1PTW.
-> > >
-> > > Right, we shouldn't be exposing genuine stage-2 external aborts to userspace.
-> > >
-> > > > > +       u64 ipa;
-> > > > > +
-> > > > > +
-> > > > >         /*
-> > > > >          * Give APEI the opportunity to claim the abort before handling it
-> > > > >          * within KVM. apei_claim_sea() expects to be called with IRQs
-> > > > > @@ -1824,7 +1864,32 @@ int kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
-> > > > >         if (apei_claim_sea(NULL) == 0)
-> > > >
-> > > > I assume kvm should still lockdep_assert_irqs_enabled(), right? That
-> > > > is, a WARN_ON_ONCE is still useful in case?
-> > >
-> > > Ah, this is diffed against my VNCR prefix which has this context. Yes, I
-> > > want to preserve the lockdep assertion.
-> >
-> > Thanks for sharing the patch! Should I wait for you to send and queue
-> > to kvmarm/next and rebase my v3 to it? Or should I insert it into my
-> > v3 patch series with you as the commit author, and Signed-off-by you?
+>> +
+>> +    self->pmdsize = read_pmd_pagesize();
+>> +    if (!self->pmdsize)
+>> +        SKIP(return, "Unable to read PMD size\n");
+>> +
+>> +    thp_read_settings(&self->settings);
+>> +    self->settings.thp_enabled = THP_MADVISE;
+>> +    self->settings.hugepages[sz2ord(self->pmdsize, getpagesize())].enabled = THP_INHERIT;
+>> +    thp_save_settings();
+>> +    thp_push_settings(&self->settings);
 > 
-> Friendly ping for this question, my v3 is ready but want to confirm
-> the best option here.
+> push without pop, should that be alarming? :)
 > 
-> Recently we found even the newer ARM64 platforms used by our org has
-> to rely on KVM to more gracefully handle SEA (lacking support from
-> APEI), so we would really want to work with upstream to lock down the
-> proposed approach/UAPI asap.
+> Can we just use thp_write_settings()? (not sure why that push/pop is required ... is it?)
+> 
 
-Posted the VNCR fix which I plan on taking in 6.17. Feel free to rebase
-your work on top of kvmarm-6.17 or -rc1 when it comes out.
+Thanks for the reviews!
+Ack on the previous comments, I have fixed them and will include in next revision.
+Yes, I think we can replace thp_push_settings with thp_write_settings.
 
-https://lore.kernel.org/kvmarm/20250729182342.3281742-1-oliver.upton@linux.dev/
+For this, I actually just copied what cow.c and uffd-wp-mremap.c are doing :)
 
-Thanks,
-Oliver
+You can see in these 2 files that we do [1]
+- thp_read_settings / thp_save_settings
+- thp_push_settings
+
+Than we run the experiment
+
+and at the end we do [2]
+- thp_restore_settings
+
+i.e. there is no pop.
+
+I think we can change the thp_push_settings to thp_write_settings in [3] and [4] as well?
+I can fix and test it if it makes sense. It should prevent people like me from making a
+similar mistake when they just copy from it :)
+
+[1] https://elixir.bootlin.com/linux/v6.16/source/tools/testing/selftests/mm/cow.c#L1884
+[2] https://elixir.bootlin.com/linux/v6.16/source/tools/testing/selftests/mm/cow.c#L1911 
+[3] https://elixir.bootlin.com/linux/v6.16/source/tools/testing/selftests/mm/cow.c#L1886
+[4] https://elixir.bootlin.com/linux/v6.16/source/tools/testing/selftests/mm/uffd-wp-mremap.c#L355
+
+
+>> +}
+>> +
+>> +FIXTURE_TEARDOWN(prctl_thp_disable_completely)
+>> +{> +    thp_restore_settings();
+>> +}
+>> +
+>> +/* prctl_thp_disable_except_madvise fixture sets system THP setting to madvise */
+>> +static void prctl_thp_disable_completely(struct __test_metadata *const _metadata,
+>> +                     size_t pmdsize)
+>> +{
+>> +    int res = 0;
+>> +
+>> +    res = prctl(PR_GET_THP_DISABLE, NULL, NULL, NULL, NULL);
+>> +    ASSERT_EQ(res, 1);
+>> +
+>> +    /* global = madvise, process = never, we shouldn't get HPs even with madvise */
+> 
+> s/HPs/THPs/
+> 
+>> +    res = test_mmap_thp(NONE, pmdsize);
+>> +    ASSERT_EQ(res, 0);
+>> +
+>> +    res = test_mmap_thp(HUGE, pmdsize);
+>> +    ASSERT_EQ(res, 0);
+>> +
+>> +    res = test_mmap_thp(COLLAPSE, pmdsize);
+>> +    ASSERT_EQ(res, 0);
+>> +
+>> +    /* Reset to system policy */
+>> +    res =  prctl(PR_SET_THP_DISABLE, 0, NULL, NULL, NULL);
+>> +    ASSERT_EQ(res, 0);
+>> +
+>> +    /* global = madvise */
+>> +    res = test_mmap_thp(NONE, pmdsize);
+>> +    ASSERT_EQ(res, 0);
+>> +
+>> +    res = test_mmap_thp(HUGE, pmdsize);
+>> +    ASSERT_EQ(res, 1);
+>> +
+>> +    res = test_mmap_thp(COLLAPSE, pmdsize);
+>> +    ASSERT_EQ(res, 1);
+> 
+> 
+> Makes me wonder: should we test for global=always and global=always?
+
+Do you mean global=madvise and global=always?> 
+> (or simply for all possible values, including global=never if easily possible?)
+> 
+> At least testing with global=always should exercise more possible paths
+> than global=always (esp., test_mmap_thp(NONE, pmdsize) which would
+> never apply in madvise mode).
+> 
+
+lol I think over here as well you meant madvise in the 2nd instance.
+
+I was just looking at other selftests and I saw FIXTURE_VARIANT_ADD, I think we can
+use that to do it without replicating too much code. Let me see if I
+can use that and do it for never, madvise and always. If it doesnt help
+there might be some code replication, but that should be ok.
+
+Thanks!
+
+
+
+
