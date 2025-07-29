@@ -1,112 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB814611E;
-	Tue, 29 Jul 2025 00:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D58740855;
+	Tue, 29 Jul 2025 00:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753748329; cv=none; b=J8jNoG1R7lyU0uz4Dx17xz8ropLTh5egq8V4sbwdwqVU877UB6Ftyjoa+pR43/0iVFelk1atpVuc96PcdcDvmZmsBPFFxZBaH4ipxvUnwHIgQ7TGiwmIwD2M+AXd6GGPIwda+ow3O/DLVa8QoWU2BkkvlFJQ/qL+SZtSDFN0IL4=
+	t=1753748724; cv=none; b=RNnwPHf1Ipf76TTf/GuMDYJMaPVPvhlo1g82MG3+8Vu2RaBX5Evvyk4YvFHLv5vVlo3MlE4gMdFVl7VLt0RfvV5hhUtzdazDc2zPYbtk8Cs3oHFFN/T7KKwOSjZcYGEZo0hhQM5FP0mAsSujXVcOOD0gEnKB22UmvXtgAF6XPVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753748329; c=relaxed/simple;
-	bh=x8tvYZmVKuAqtiJu5GxhyqKrIDYiII9xZx6ML2eDwMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p2AhnnQGLXj0OhoEznDs2EG4MUriDyurVol+QRW9WLxX4R+vmbVHgR2F5F3hXxdvtPzlewKi35E7X+rcZBhiizvsj5DF5AomEjGCujVRDmZTGcj2vKRqX0EVUF/0qGe8HYcSCa2eQUSpd/LmWazVH2RmapicTlywTRvsaqoKgnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dn9MkEoV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753748724; c=relaxed/simple;
+	bh=yf10sURyfTttx7QqEa0p3PVES3s4FDChcH3hqcbsL50=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rYpohScbUSvyLu6AfuCxlNDHEbrttJcrcZOK2ZzLNvNkPV5emQ8vHBP7Y4E4E7GxpgvIK9TCp9UByFrfR/CoMwVDuFZxQvdCkARJsyEEp63t2jJW6yZzZA67WCUTHy7HovS4D6ESBxDjy+uRRIhFvq7gFO/6+wO8H6mkwddrzQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=etwz6gvw; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dn9MkEoV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AB72C4CEE7;
-	Tue, 29 Jul 2025 00:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753748328;
-	bh=x8tvYZmVKuAqtiJu5GxhyqKrIDYiII9xZx6ML2eDwMc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dn9MkEoVLb/pxXOYjFx3bYRpBjPYE39I1kyUPxf8iy3LlDMZ77CzGOYRUYBW31jqz
-	 /GKurD/wOivcwcwAZQtZxc+Gz38xX3nC7jl3+PlZcO/UNH3eGJZYITPVAgYKelFSPi
-	 dG4EECGYBgntcIo1TIExojC5t7stumHoqrBTr/W2yC+JBebQwwSbJNhG7l3lOoUzWl
-	 da+mtyfZfif8c5SQ/OHnmZLHXbPjFt1LgQZoZNT6ovTvmPZJthWBqJNR6flms3B5Yw
-	 1BZd/ecCuQbMTGRrpT5OxjQUEKIrmLMYKfrIQfExbeQD/ICoZ+BCFhxBK6CYKyrI/0
-	 wMMQEn61J5ciQ==
-Date: Tue, 29 Jul 2025 02:18:42 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: <dan.j.williams@intel.com>, Jakub Kicinski <kuba@kernel.org>, Sasha
- Levin <sashal@kernel.org>, <workflows@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <kees@kernel.org>, <konstantin@linuxfoundation.org>, <corbet@lwn.net>,
- <josh@joshtriplett.org>
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-Message-ID: <20250729021842.521c757f@foz.lan>
-In-Reply-To: <20250729001233.4dead173@foz.lan>
-References: <20250725175358.1989323-1-sashal@kernel.org>
-	<20250725114114.3b13e7b1@kernel.org>
-	<20250725150046.3adb556c@gandalf.local.home>
-	<20250725125906.1db40a7f@kernel.org>
-	<6883ea58b5685_134cc71006e@dwillia2-xfh.jf.intel.com.notmuch>
-	<20250728134653.635a9dc5@batman.local.home>
-	<20250729001233.4dead173@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="etwz6gvw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=0OdFvPhp8aEGqtXLUwB1d8tbFIud1VW+9Y7LoModa4c=; b=etwz6gvwu64D22aZtSj4MFptWM
+	Rhp4//N15YSRwVtpHf4+gFukURFxNLHXr3czBsU4OqwWm6T5TZBij+48X4hhPAwjkCBG+w/ub9s/q
+	8eUPkkurwt2vHMgOJZyIO9uZhTs6t+u89roW2VcKhi0wYZYZBcndsXbuZGM1Ivqwg4PHchs0CQxaE
+	d+2OMqy/zVJhrYwEP2yF/JIk2sgrfvdCm8rC+DSgNqWBg+8XJvV7E1LGv6ZfRQO1G61G6BXxBm8ww
+	1LY4xC8KSUwd/0rCcwkunp/pB46TY18hm4Ko23TibXvRcGDCxdEm+/BX5uN8K4U1ARG6QKu9FKqgv
+	dEggKDdw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ugY9a-0000000Fduq-01qw;
+	Tue, 29 Jul 2025 00:25:14 +0000
+Message-ID: <d55e56d2-65bc-48d8-a80e-b1dbc9ea6396@infradead.org>
+Date: Mon, 28 Jul 2025 17:25:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] Documentation: Fix typos
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
+References: <20250728222347.GA3253635@bhelgaas>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250728222347.GA3253635@bhelgaas>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Tue, 29 Jul 2025 00:12:33 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-> Em Mon, 28 Jul 2025 13:46:53 -0400
-> Steven Rostedt <rostedt@goodmis.org> escreveu:
+
+On 7/28/25 3:23 PM, Bjorn Helgaas wrote:
+> On Sat, Jul 26, 2025 at 08:16:26PM -0700, Randy Dunlap wrote:
+>> On 7/23/25 1:32 PM, Bjorn Helgaas wrote:
+>>> From: Bjorn Helgaas <bhelgaas@google.com>
+>>>
+>>> Fix typos.
 > 
-> > On Fri, 25 Jul 2025 13:34:32 -0700
-> > <dan.j.williams@intel.com> wrote:
-> >   
-> > > > This touches on explainability of AI. Perhaps the metadata would be
-> > > > interesting for XAI research... not sure that's enough to be lugging
-> > > > those tags in git history.      
-> > > 
-> > > Agree. The "who to blame" is "Author:". They signed DCO they are
-> > > responsible for debugging what went wrong in any stage of the
-> > > development of a patch per usual. We have a long history of debugging
-> > > tool problems without tracking tool versions in git history.    
-> > 
-> > My point of the "who to blame" was not about the author of said code,
-> > but if two or more developers are using the same AI agent and then some
-> > patter of bugs appears that is only with that AI agent, then we know
-> > that the AI agent is likely the culprit and to look for code by other
-> > developers that used that same AI agent.
-> > 
-> > It's a way to track down a bug in a tool that is creating code, not
-> > about moving blame from a developer to the agent itself.  
+>>>  			Where more than one trigger may be specified that are comma deliminated.
+>> 			                                                            delimited.
 > 
-> I don't think you shall blame the tool, as much as you you cannot 
-> blame gcc for a badly written code. Also, the same way a kernel
-> maintainer needs to know how to produce a good code, someone using
-> AI also must learn how to properly use the tool.
+> Oof, thanks.  Added to my local branch in case I repost.
 > 
-> After all, at least at the current stage, AI is not intelligent. 
+>>> -Note that irq domain lookups must happen in contexts that are
+>>> +Note that irq_domain lookups must happen in contexts that are
+>>>  compatible with a RCU read-side critical section.
+>>
+>>                    an RCU
+> 
+> Thanks.  'git grep -i "\<a rcu"' says there are approximately a
+> zillion instances.  I fixed this since it's next to another typo, but
+> not sure I have the energy to advocate for all the others :)
 
-Heh, after re-reading my post, I realized that I could have been too
-technical, specially for people not familiar with electrical engineering
-and systems control theory(*).
+Yeah, I get it. This patch was a ton of work (well, time).
 
-What I'm trying to say is that, while AI is a great tool, it is just
-another tool that tries to guess something. If you get enough luck,
-you'll get decent results, but one should never trust on its result,
-as it is based on statistics: it will guess an answer that will likely
-be the right one, but could also be completely off.
+and like the s/cpu/CPU/, s/pci/PCI/, s/irq/IRQ/ etc.
 
-(*) systems control theory is a field that studies a system stability.
-    It can be used, for instance, to ensure that an electrical motor
-    can be properly controlled and provide precise movements. It is
-    not limited to mechanics, though. It can used to explain other
-    systems that have any sort of feedbacks. at the light of the 
-    control theory, an AI training would be mapped as a feedback.
+-- 
+~Randy
 
-Regards,
-Mauro
-
-Thanks,
-Mauro
