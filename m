@@ -1,96 +1,119 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F3E26AC3;
-	Tue, 29 Jul 2025 01:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9AD116A94A;
+	Tue, 29 Jul 2025 01:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753751041; cv=none; b=ERfxZL8/58YPx/pD4J9tu8Ssi427mbob6N7bzVZn/SD0jZiU7rmhgi6K6U8HUj7FWopy38RVBZLOCVws/ez8jvR2drQW5PMB9hZmKKk/N6ztTTEYPUV1sRjdzkUSi+mDz/Ia3ovKADAhPpgDFq+G/NCF85McMQ+RFCTArXYA/BY=
+	t=1753752401; cv=none; b=tfT9+NwtD92nZz7toEn29lknQ58/qEOYNx1943RYHL3weOxij1V9AW2aIyklkHGBcyy2fQ1Lo8s7Ep1SaAIATwWJNO9qdum/xGs0skAPWBc4lmI0lRfcV6Qrvh2WkaHe/KSdIiIqzambekq42DcD+miMnxPqo5DxOIr0I/Tvqlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753751041; c=relaxed/simple;
-	bh=xvL5Snk9AkC2TzpByv0i3/kjTLO4XcHtgHVQhzVmSfo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qHLvJAXJ3Fop6YQ4zz9n6ywqtmKyU+v4010pqiSFu9rd8QpwUqK2m4GdviIfZ2CMEQQuAWd2wEC9PVUESe5fNnphyQ56xBmsAPhpYG7RIlDJFzCyv8Rf7Kj5fnIczCcnLYsw3jpo2dcaAtFYoYEggiYJV05qCpyd0g9XFkYyH6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NS3UWwS3; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1753752401; c=relaxed/simple;
+	bh=AlK0rmaizb0Qu3szybRB7RrQ8xRaclMecsdPl07+WSM=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=nkdbASTleWdLfwQE+GH892cUHqOAn6nRxoQvx6s0mPr2SFuLUolZGBtp6KO0rkEncn2qdeKzmdNTbXoUOqPozREKnZRiwKEtWSYTJnM1nNISWnx1qlfhgcPWar/F8VHTNQAEL+fl91zh2V5UNbtju6GOHmqCk0xSUhQuJUCklaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aijiz0tH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NS3UWwS3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=45IU08JIJqJgViVt6DYreAvaMpc8wW/LjPAgfw8p8cw=; b=NS3UWwS3L1wkNp4hrrqpO0/pX8
-	6DcSm7CVRywsT8mNyns+lY4OvTqH2j8OBlUaSaNBco5Q4i2QYbVbBF920B8WQBcThhVuxCZ2fpvHe
-	eNN7uHxNOfBxXetPdVAQNyh/vmFiFwZGYleoIMmlWm7XFgaTyGjRhh4TFjY7/xndySdk2pI+AR781
-	8Sg0jh6ibvOqzIR2vAN1bzX/ssEJK8rsCYSGm+spaOsfvMmFakVdyG8WZmTx6E4m2+ZVP2nmuDmPi
-	/r2cICOCSDUkzcZywNGw/zQFei9QsyiWyzBnCrtKq23AOYLhU3IJYWhXULWk7tCKUkmE7Vgvu+HhJ
-	J7kmm3Qg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugYl5-0000000Ffs2-1IUK;
-	Tue, 29 Jul 2025 01:03:59 +0000
-Message-ID: <0b5d7ca5-cc85-4f6b-b417-0d237d9d45a4@infradead.org>
-Date: Mon, 28 Jul 2025 18:03:58 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aijiz0tH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBC28C4CEE7;
+	Tue, 29 Jul 2025 01:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753752401;
+	bh=AlK0rmaizb0Qu3szybRB7RrQ8xRaclMecsdPl07+WSM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aijiz0tH51LfkyJZWt6f2kO9J+42hoEan2sbTOooXTkRP56EsMwVmT+pKvvYa9XIs
+	 gHg3EwjOHzVvUp9teh8Ap1T1RI22WCiSOarBXrUZeiB3PyD8lYS2prZVLjbcN8+hBc
+	 RPmRp5SK7cG5QP87X0tdVtP5X0O6A7rF+Mi7R1sW4PWVPnh3KfgfWWd2TZ5yCQUtd2
+	 PhEex/reRr7GMEL1KbCYQWqmJlriiHWGmvJA9uu+HPXaUN0CFmzCIWhP60ft2sQdAd
+	 Q9xYWFAmNSJ9x+ouQ0siF0MDhO4ve4yzTN6cDLGkECae0gjJXBXtwYyGVf5jtLDJyN
+	 TJ9T3whDK/0tw==
+Date: Tue, 29 Jul 2025 10:26:36 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Linux trace kernel
+ <linux-trace-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Mark Rutland <mark.rutland@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Namhyung Kim
+ <namhyung@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] Documentation: tracing: Add documentation about eprobes
+Message-Id: <20250729102636.b7cce553e7cc263722b12365@kernel.org>
+In-Reply-To: <20250728171522.7d54e116@batman.local.home>
+References: <20250728171522.7d54e116@batman.local.home>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: ext4: fix duplicate Sphinx labels in
- atomic_writes.rst
-To: Andre Luiz da Nobrega <andreluizrodriguescastro@gmail.com>, tytso@mit.edu
-Cc: adilger.kernel@dilger.ca, corbet@lwn.net, linux-ext4@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250729005628.68795-1-andreluizrodriguescastro@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250729005628.68795-1-andreluizrodriguescastro@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 28 Jul 2025 17:15:22 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-It seems that the patch and the $Subject do not agree.
-
-
-On 7/28/25 5:56 PM, Andre Luiz da Nobrega wrote:
-> Fixes Sphinx warnings about duplicate reference labels in
-> Documentation/filesystems/ext4/atomic_writes.rst.
+> From: Steven Rostedt <rostedt@goodmis.org>
 > 
-> Specifically, the label '.. _atomic_write_bdev_support:' was renamed to
-> '.. _atomic_write_bdev_support_section:' to ensure label uniqueness
-> within the document.
+> Eprobes was added back in 5.15, but was never documented. It became a
+> "secret" interface even though it has been a topic of several
+> presentations. For some reason, when eprobes was added, documenting it
+> never became a priority, until now.
 > 
-> Signed-off-by: Andre Luiz da Nobrega <andreluizrodriguescastro@gmail.com>
+
+Thanks for the document!
+
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 > ---
->  Documentation/arch/powerpc/index.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  Documentation/trace/eprobes.rst | 268 ++++++++++++++++++++++++++++++++
+>  Documentation/trace/index.rst   |   1 +
+>  2 files changed, 269 insertions(+)
+>  create mode 100644 Documentation/trace/eprobes.rst
 > 
-> diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
-> index 0560cbae5fa1..ce39b54b5a7d 100644
-> --- a/Documentation/arch/powerpc/index.rst
-> +++ b/Documentation/arch/powerpc/index.rst
-> @@ -6,7 +6,7 @@ powerpc
->  
->  .. toctree::
->      :maxdepth: 1
-> -
-> +    
->      associativity
->      booting
->      bootwrapper
-> @@ -20,6 +20,7 @@ powerpc
->      elfnote
->      firmware-assisted-dump
->      hvcs
-> +    htm 
->      imc
->      isa-versions
->      kaslr-booke32
+> diff --git a/Documentation/trace/eprobes.rst b/Documentation/trace/eprobes.rst
+> new file mode 100644
+> index 000000000000..c7aa7c867e9e
+> --- /dev/null
+> +++ b/Documentation/trace/eprobes.rst
+
+BTW, can't you rename it as 'eprobetrace.rst' as same as others?
+I usually name the doc of "a probe feature which provides only in-kernel
+APIs" as '*probe.rst' and the doc of "a probe *event* feature which can
+controlled via tracefs interface" as '*probetrace.rst'.
+
+> @@ -0,0 +1,268 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=====================
+> +Eprobe - Event probes
+
+What about below title?
+
+ Eprobe - Event-based Probe Tracing
+
+> +=====================
+> +
+> +:Author: Steven Rostedt <rostedt@goodmis.org>
+> +
+> +- Written for v6.17
+> +
+> +Overview
+> +========
+> +
+> +Eprobes are dynamic events that are placed on existing events to eiter
+> +dereference a field that is a pointer, or simply to limit what fields get
+> +recorded in the trace event.
+> +
+> +Eprobes depend on kprobe events so to enable this feature, build your kernel
+> +with CONFIG_KPROBE_EVENTS=y.
+
+Is this correct? It seems that eprobe event only depends on event trigger
+(by implementation. Actually we should fix the kernel/trace/Kconfig.)
+
+https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git/tree/kernel/trace/trace_eprobe.c?h=trace-v6.16-rc5#n576
+
+
+Thank you,
+
 
 -- 
-~Randy
-
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
