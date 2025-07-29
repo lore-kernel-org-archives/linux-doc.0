@@ -1,65 +1,66 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F355419F135;
-	Tue, 29 Jul 2025 10:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3992882CF;
+	Tue, 29 Jul 2025 10:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753783699; cv=none; b=GY0N6/m1PofdrLKiwafgc9V5bkY8+66Re0BTWDde9oWTNKNEBf4Kw2RzxazjGpjlmWgT7TliRPgpsfRT8QpiCpIxJSlJ+MeyKX9MtAa2CxNJajUxp0z8DuUwflVfQliXremjmlsUhOrfs7sBwcf956bFzVbsYdSVwlfA+EI0qVc=
+	t=1753785362; cv=none; b=r+hRMEqRVeGnjOJF28yjf8RbL4HSYkVbElYuZKgAXcaroIKBeEIhDV+BfAv2QCNqlNEfz7pXkeV5AM1G0Wc8iS0V0YxQ1h2PnYvIQltsr/Dsrtaee8yaUZXqmvLrZ3RocBiYtetMnqzzCpQGJjUBgaYGfg21MXbhSpj1XkFqTHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753783699; c=relaxed/simple;
-	bh=OGosdO2KeVDO8t3U7SonJQRnp74/Xp8fe3CRi+fdJ6E=;
+	s=arc-20240116; t=1753785362; c=relaxed/simple;
+	bh=Z9HumShDiufliIB4ciIlQDeCgYnIAnXWWEVH3x23bQQ=;
 	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=PoV6kE3OUbukU/XOViPv/nJzNx/mx/IF9DXfw3jEA2SUD1U7xmZHr0qQXzp/1qcBCbetSXWDPUQ6xX4hHTIIRbmiCrdjOWYWg+7AVynuK+udbFd3aC65eyOws6qHAw7QpFHxf763Ry8pH3uPplO85u6qU7ZInbyIbovCBhIDHhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mh3H6eua; arc=none smtp.client-ip=209.85.214.181
+	 In-Reply-To:Content-Type; b=qUeCosjMHFnIRdYl0jlY6/gdmEkc7mb+qkZByyF7T1tILZcsgSmO3RK2IZuAWDxdCazVUL8UnFQDFIfQr1jcVa3tr7/dSOc7rVizkm9EIYV156Zj1G8zV5YLI3KIjAbRAlZ7wZcoaIwrka66INTzKhuLaSDeMpO7jxSWH3c7ar0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gClfGBMC; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mh3H6eua"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23fe9a5e5e8so20328635ad.0;
-        Tue, 29 Jul 2025 03:08:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gClfGBMC"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b3220c39cffso5542381a12.0;
+        Tue, 29 Jul 2025 03:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753783697; x=1754388497; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1753785360; x=1754390160; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language:subject
          :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uJ+KwSfiflEOad1vnlwG4cDUQJNqhilVwYeVCUL1vss=;
-        b=Mh3H6euaJJhlCvVFeqF5RMmlXsY3+3Tfah4QMVC3tsZsvOWE9H4nQ8eCE4SUaG2LTN
-         1dhOmSNlI+nmGxQD8C1Kh6qHFitibM3QGJ4CrTJnNrGsAKirovvZCFra5562MmTqkuN/
-         7LdOB35FTwRgTtkTekXW0ku+u2+8f6dvVJ4v3xL29uHj+1i+D8v9hyEz4bkpI7WnSYBF
-         KMkIMXCz0cj2n980D5kM6YP70lLeXjautZQceIvmZxp+KN2qfU67TbcUBBme4EvwvVjN
-         oE/CgKtwt1hNedDqvcD56Tj7LcQ0yZD0OdtgHJ7HRMYUYGDm+Z/6So9dJsaC6iuUJD7+
-         YnUA==
+        bh=8087Ww2Ief01KPpqD9WgawznOlI5BWfEluXJ5Qfhq24=;
+        b=gClfGBMCIp0vzpKyr+JCDNCCwCdzRHDFUA0hFjoV/aZ2/NR4cyYRBacp797wLVDlQ7
+         nuywfU4lAkqpv1jG9mLsC73lNqJESol/tjHxbCA5GqA62ZaCll7uu1JENKy63rCtB80A
+         v1sYZSQPz7yq4gUrk/C9IDKxZUdMoJN2VnJV1o+lEsK9SclE7PauPXd9KQw80YZCzX9l
+         5OxXCiI9K5aKf5dx3iVhATftmn4jkEhzTQZ++5Jj4g77mLUVxbE8/vAZBYiJ42RC69hA
+         tJlUTrjy24SAa8LB0/7Kd7pSo1wPhxbYZNoLUBZ8fDH7TyNrSZlGUfMP5nEduouYTXQK
+         XnZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753783697; x=1754388497;
+        d=1e100.net; s=20230601; t=1753785360; x=1754390160;
         h=content-transfer-encoding:in-reply-to:from:content-language:subject
          :references:cc:to:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uJ+KwSfiflEOad1vnlwG4cDUQJNqhilVwYeVCUL1vss=;
-        b=qA0gZSU5fGTgGYXE2IAUCiSg+VDZ4dmp9wvyx3HLSDc0rvwFcp6CjgG5tmJqQxxKeC
-         nla0SlEJ93rXblW+xJHTUr+zwZ1PuWRLAXPbEtDy2fONFlgpswf4ioV+akN2hlfeL+Po
-         B0nU7oLEWYM8QUUHW8RpTBNfIgaE/JdY87BjlLeKSeKxf7QokVr9nMBKfQFDt5XW7H0e
-         DZBMbxqb9BrneaM4CMaWl3iSMBtw5g24GV74VW3xKvJg78tmvMqhFeQg9pTOJ7mTub2k
-         Aswyh5fnmzpb/EP3O9l/HGXyy3idEmStQDXlfk1CrmDxX9ODOqrT/zcOeYKCwPM0paj/
-         2zOw==
-X-Forwarded-Encrypted: i=1; AJvYcCUsyQxetRQ/6JSXAMlEFGVlSdXvEdS5Gl79LEPlev5PLeQyMFAFqFV3atj9ig5rZ0y00N0Q4XjF+j4=@vger.kernel.org, AJvYcCVVn6kAg6MBKJzt2pItLMw9RG5ckY2Xl3HNfaXFPbV8hRedrSv42VLyX/mhAQgCnq0FIn0ZkQ7JjsKn8eRX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz49IRXrA8VduJ6//ucpGL4X2EXC2jHm3fGewtRVZSS4rBucdSh
-	6GHYkrXDy31/GsJgeyWxw0Zr0JjCcBg2U9/3QscE/pOXJJUfnvn+Wv8U
-X-Gm-Gg: ASbGncuYkBbeTm9mWc7EE6LpFY7qAM9Y7resJ+N8y5+BFKlyP+f9m/xMVKPFvBz+J6J
-	cSGV9xIIGunUZafbEVcw5MkS8DKQWFAoxnLBEVRFHztaenYte8TwutjWr3zvlVf8C2RNamb/NyQ
-	VXcW4Rigu3CBzKnPdO6ARYTnVxByVDzXA2ie0rhtlHufQn8xSsiJxx2tDwCyFZXppwPjXCSUBAJ
-	6Hw968tv9W1Jw/B80QPdpRkQdyQ7T2yb00N/uj2PLJsSZ5SjvhjbAbGko+8KqakuuTK4MjfCedW
-	nTF/nRkRHS0JsiLS0yJMMBD4dPdXHc5g9MA01FX4TyYpccEgYji5tgbzwXPpWz48VzGamV0Fk3J
-	7WH/Arp1AvV1pmYpdId1rAWtSIx2iX7kMHtZkv+Y+mu6ChNdV7WSxP/34gMhqMfj62xF6
-X-Google-Smtp-Source: AGHT+IGD75CC4tkEH447PxUXbBuvlpYj6gZ6jUZjQPyhXGP0P50+0HwAYseIf7w9h+dIqJeK75JaVw==
-X-Received: by 2002:a17:902:ef48:b0:240:1bdc:afc3 with SMTP id d9443c01a7336-2401bdcb260mr107392805ad.44.1753783697119;
-        Tue, 29 Jul 2025 03:08:17 -0700 (PDT)
+        bh=8087Ww2Ief01KPpqD9WgawznOlI5BWfEluXJ5Qfhq24=;
+        b=EkTyhjtfrZypwy6lEIfFtDwkOWP8ybT5V8bbZUR0PQ5fj/UH2hD/9+QFucOsZ4le3i
+         F8063KQwLOtx4zIQKOq0AkiRdH7fFbfSllStiHF4BBwcXxJMkK5MEPhnwj06ecg+N/Wy
+         Q7H6eNkqVWGSJd12qCL+vcpdUaBX2RinKUosQiDbFk7gTduiSzXzutol/Qiust0fdKD0
+         sY+M7lcvXH9aHBjeCRQ6eZXjkXjCdyeLKVkNsvHuMkMUnvjrbTyX6llnzYks19Fp1aWq
+         GmlpUX0DXhKiK0O1H+xIEmEr1n0vWBk7L0vTwCNJwL74tvY6fRSezfb53H2yETu3719O
+         uJ8w==
+X-Forwarded-Encrypted: i=1; AJvYcCUSgLrBykEZtvbMLG+ssdBhWo11RttYcZQbn+f4zdeERbbKJx713H8xZTqCNgyT4dwSucq6zJ9waSqI@vger.kernel.org, AJvYcCUUBc/ZH/63dIrVAwdHCYcI3AnOW5q12oWZAG+SNZy1aNJiYlYXzlYaMZnZaBX1EQcsp3pHhUCzmhw=@vger.kernel.org, AJvYcCWao1XFC4JCsA1Y+049iC3wRiSdQflG+BKHKqgCcxbmCylZXA/ygbE86dggMdxduL3O3fZ9aw2YcyXjiIU9@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWIuMEIsnEp7XXHk2Fy45RgrD4pzR9X0DDimgfjDYh2IK1rqv9
+	hkAIjxIr79K//X65KBBWmsxoXngHZculbssEtp3p1/UyQqEfSUxYffoL
+X-Gm-Gg: ASbGncv9/ANztohCESrtnmsRW6qzEUYbDUJR/zfrMcGtov6Dl0fn4sBYnw4aEvCXORN
+	Emd3MmjPO0noNA310XWlwXif4yTXCsbKKefJPbgTvva/trfXETFBsroEG1i9gQ3Fh9gPCbTluc3
+	XH+rPzuoU3A6DlH0pIfFQct/TR/QoxIczOpKLvMFqrXCRKm6ml4FkMkzBm2NevgPNVxjOzrpyBW
+	JHFIySMDBlAHVhRCChs2PvgN6Sz8S5H/rB3jOU1T/4DdDEtBqwge/bEX+LuPlwRy2evrItBS9Wx
+	nsZ0E+/41Mxu7joIgx+8a6sYoANkn49KKV+IsUadBD0/UCrjcPMqZ6zN2m3KJKjf52rBtw8mHH1
+	wCT4CTTPtB5CSnDj6u6YtkJOnHnPSit4LUOzOCJCUFM+S/vXrnunR74vr0MUerc61Oxepbv+FXh
+	2ngtQ=
+X-Google-Smtp-Source: AGHT+IEPkdK0ONC3SbVXWmFef8tZYCI8+3/GregdA3OnPSHja3+EYzzHnGB9qcHUGjypRrp1HWca6Q==
+X-Received: by 2002:a17:903:8cd:b0:240:3f4d:b9b1 with SMTP id d9443c01a7336-2403f4dbbdcmr94228405ad.29.1753785360151;
+        Tue, 29 Jul 2025 03:36:00 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-240723c84c5sm11332425ad.109.2025.07.29.03.08.15
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31f328cda53sm1301448a91.19.2025.07.29.03.35.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Jul 2025 03:08:16 -0700 (PDT)
-Message-ID: <8251d567-5218-4fa1-aed2-f38ec089989d@gmail.com>
-Date: Tue, 29 Jul 2025 19:08:14 +0900
+        Tue, 29 Jul 2025 03:35:59 -0700 (PDT)
+Message-ID: <3170902c-4a3a-4f85-8703-0e2cfc04201b@gmail.com>
+Date: Tue, 29 Jul 2025 19:35:57 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,45 +70,83 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 To: mchehab+huawei@kernel.org
 Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <dc75423e817f92cc6b8369892ee79166c2fb5ecc.1753713955.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 1/2] docs: kernel-doc: avoid script crash on ancient
- Python
+ workflows@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jani Nikula <jani.nikula@intel.com>, Akira Yokosawa <akiyks@gmail.com>
+References: <adb2d431b60228a772ec4423457a08e9af4b1d2d.1753713955.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 2/2] docs: changes: better document Python needs
 Content-Language: en-US
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <dc75423e817f92cc6b8369892ee79166c2fb5ecc.1753713955.git.mchehab+huawei@kernel.org>
+In-Reply-To: <adb2d431b60228a772ec4423457a08e9af4b1d2d.1753713955.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+[+CC Laurent and Jani]
+
 Hi,
 
-On Mon, 28 Jul 2025 16:54:28 +0200, Mauro Carvalho Chehab wrote:
-> While we do need at least 3.6 for kernel-doc to work, and at least
-> 3.7 for it to output functions and structs with parameters at the
-> right order, let the python binary be compatible with legacy
-                              code?
-
-> versions.
+On Mon, 28 Jul 2025 16:54:29 +0200, Mauro Carvalho Chehab wrote:
+> Python is listed as an optional dependency, but this is not
+> true, as:
 > 
-[...]
+> 1) CONFIG_LTO_CLANG runs a python script at scripts/Makefile.vmlinux_o;
+> 
+> 2) kernel-doc is called during compilation when some DRM options
+>    like CONFIG_DRM_I915_WERROR are enabled;
+> 
+> 3) allyesconfig/allmodconfig will enable both.
+
+Well, these conditions still sound to me optional.
+
+> 
+> So, better document that.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  scripts/kernel-doc.py | 37 ++++++++++++++++++++++++++-----------
->  1 file changed, 26 insertions(+), 11 deletions(-)
+>  Documentation/process/changes.rst | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
 > 
-> diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-> index fc3d46ef519f..d4f9188d6a19 100755
-> --- a/scripts/kernel-doc.py
-> +++ b/scripts/kernel-doc.py
-> @@ -1,9 +1,19 @@
-> -#!/usr/bin/env python3
-> +#!/usr/bin/env python
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index bccfa19b45df..f6abecf6da86 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -61,7 +61,7 @@ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+>  GNU tar                1.28             tar --version
+>  gtags (optional)       6.6.5            gtags --version
+>  mkimage (optional)     2017.01          mkimage --version
+> -Python (optional)      3.9.x            python3 --version
+> +Python                 3.9.x            python3 --version
+>  GNU AWK (optional)     5.1.0            gawk --version
+>  ====================== ===============  ========================================
+>  
+> @@ -154,6 +154,17 @@ Perl
+>  You will need perl 5 and the following modules: ``Getopt::Long``,
+>  ``Getopt::Std``, ``File::Basename``, and ``File::Find`` to build the kernel.
+>  
+> +Python
+> +------
+> +
+> +CONFIG_LTO_CLANG requires python 2.7 or 3.0+; some DRM config options like
+> +CONFIG_DRM_I915_WERROR require at least Python 2.7 or 3.4+.
+> +
+> +The kernel-doc tool and docs build require at least 3.6, but they depend on
+> +dict changes that happened on 3.7 to produce valid results.
+> +
+> +Other tools within the Kernel tree require newer versions.
+> +
 
-This would conflict with my existing setup which has
-/usr/bin/python3 only.
+These details look confusing in changes.rst.  The table above says
+python >=3.9.x.  All you need to say here would just something lile:
 
-Please don't do this!
++Python
++------
++
++Required with CONFIG_LTO_CLANG, some DRM config options like
++CONFIG_DRM_I915_WERROR, the kernel-doc tool, and docs build (Sphinx),
++among others.
+
+Other details can go to comments in each script or other docs if
+necessary.
 
         Thanks, Akira
 
