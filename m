@@ -1,94 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B5029D0D;
-	Tue, 29 Jul 2025 13:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5337259C;
+	Tue, 29 Jul 2025 13:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753796684; cv=none; b=FAA/Lg1P6SW3KQNdYDahcLL0ooANlmg1Gp0TJT9Biya0+1zDRn9YyDWmEnDzuJYLCy8BBKcPdfTikDd/HhvakFslK2lITgvtbp9+Ogjg30ga5B+17yxskeCJt5luH0kmhT4MoPq2TLHKKP+fCgzmJ+1pJB+sg3LhvnfYxyQcB+w=
+	t=1753797475; cv=none; b=dnbgi4yRPlcy8MdGqFR/NRTZmCy70NPLI5OKeCz6TSb8/AAcoFBKmIqq3pEvzlvU252d7X8RO0G90h31oH3tzHFnzmkiVO8cva4boS/YsblU2sHarM8ALlANtHkqRiRnuS7ssQ93NhMYypzM7TOz0QSUuqRx7I3LY+YfiiBI3/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753796684; c=relaxed/simple;
-	bh=VZdbrG5fpMlMUtdUV+2Oi1rJl1JV2TJ0vNDU+akmrKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mXs1LAOkwxJL/AlnrYolIbGGlk7x87114WjAoFgK3ugYR6kYGA45P1MV4VZn6lDiQHkvp8dUXqtfKOEY0Yn632sstZRdwyW151t0dKgu13EOoEBQo+cGaIjEJL8LIA4PiBoIoZpWGBabNx8HaIlro+ogM2lq5bNhM2QEWwDkIZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gzQTY4MM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753797475; c=relaxed/simple;
+	bh=ks1nAjoBz1pTfGiqLmJwm3OBBNFYD0LExEEmMDMcA7I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ssFekKoXOER2NY22lFMobN7FuZb9ZFse0w3MZfLBlYLKguE97jqdw+JWmb5heFM+21+ZF3tZF1FCernQPA9fD/r1UXAbAIWDhlptuEX02qIKuTHjXtg01wOBVhLE/vTfz3oYzS1T/Db3QXgFftiXYGY8i1aiSVwQlayKlJIK+wU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=agzKqtps; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gzQTY4MM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1398C4CEEF;
-	Tue, 29 Jul 2025 13:44:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753796683;
-	bh=VZdbrG5fpMlMUtdUV+2Oi1rJl1JV2TJ0vNDU+akmrKk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gzQTY4MMZQO6OJdtoyM5Ldojem3RmzZgNFua4t8TLdnbHQT8aPlHUF2VGENZ9TUgJ
-	 2jo0PLjI7p+owHc1lQRbP0hsWf7bIMDi8sFpCCu96mcGH8TZMZqkhJNe+O4LNWFQR7
-	 NsGYUfNILYMKzj4kZeI9KJxc//W11nU4+xTtIzl9sVoP2omaMWQ3j3zxsecsDIRQvi
-	 5pNzInUcpbJXicpn7/ZAwerEW85RTXsAkeg0+8fPkRuyNRaS2Yle6JGYaapC0O+iwn
-	 sZ7Ew8yKnvR53KbsV4OS9yqepzpSze9oJToqK4UYuvCxfi19N71b72A5JsREyK5PGY
-	 fV3v08U8+kaEQ==
-Date: Tue, 29 Jul 2025 15:44:37 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
-Message-ID: <20250729154437.6cbd2788@sal.lan>
-In-Reply-To: <fd1372a9fb57a1372db5b3c0992a929f90183f83@intel.com>
-References: <cover.1752307866.git.mchehab+huawei@kernel.org>
-	<58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
-	<20250712163155.GA22640@pendragon.ideasonboard.com>
-	<20250713002517.7f52b0e9@foz.lan>
-	<875xfhabv0.fsf@trenco.lwn.net>
-	<20250724194306.27b98194@foz.lan>
-	<83d12d5293e23c622ae390204fed8fd4453014b1@intel.com>
-	<20250728173306.2ab1409a@sal.lan>
-	<fd1372a9fb57a1372db5b3c0992a929f90183f83@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="agzKqtps"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7324C40AD3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1753797467; bh=P8wsXs03gozA4VY3hwxn1i6SkHAYJMbpQyS0M+mlC30=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=agzKqtps3DPQ2rq1fSHQAiAjOVVjyS4HzWaWEj2qW/e553VKCB8QNut3ieR3VjHhj
+	 35BA2VIqNEJgHCQO4D/agsAb34Ekdl/m+73N0obZjtTBn6cfvwYisGcBa0SXMXq4ap
+	 nW0oi3yAj8Ma3tSyZCSP17CaGDGXE2M4H523MdnaHgUDHhuXU2pvKgBj61n9qkCqhV
+	 UxCKKtZT8Ed/TaxXB1Ivt6wfEkqmAP9CZlr4M62wJ+NmppuFffipQWImCHCeN6I3X2
+	 h/q+LwiOAThJNWXQFbCycSwPxMTy9Yg4PNtrvrm4kBq18fkLwi/LMSIxPuRoytAD8/
+	 Un2T1jJKCml3w==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7324C40AD3;
+	Tue, 29 Jul 2025 13:57:47 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Akira Yokosawa
+ <akiyks@gmail.com>, mchehab+huawei@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 1/2] docs: kernel-doc: avoid script crash on ancient Python
+In-Reply-To: <e9cf21e5332616f2fb58a90fe8ba6f91359915b8@intel.com>
+References: <dc75423e817f92cc6b8369892ee79166c2fb5ecc.1753713955.git.mchehab+huawei@kernel.org>
+ <8251d567-5218-4fa1-aed2-f38ec089989d@gmail.com>
+ <e9cf21e5332616f2fb58a90fe8ba6f91359915b8@intel.com>
+Date: Tue, 29 Jul 2025 07:57:46 -0600
+Message-ID: <877bzrxfol.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Em Tue, 29 Jul 2025 13:45:26 +0300
-Jani Nikula <jani.nikula@intel.com> escreveu:
+Jani Nikula <jani.nikula@linux.intel.com> writes:
 
-> On Mon, 28 Jul 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > Considering the above, for me it seems that the bus already departed:
-> > there are several cases where Python is required during build time.  
-> 
-> FWIW, if it was up to me, I'd make Python 3+ a non-optional build
-> dependency. I'd also forget about any Python 2 backward compat stuff.
+> Agreed, this breaks more than it fixes.
+>
+> Python 2.7 reached end-of-life over five years ago. Do we really have to
+> cater for ancient stuff? Which actual real world cases do not have
+> Python 3+ available? Please just let it go, and see if anyone ever
+> notices?
 
-I don't think we should do much effort to support Python 2, but it comes
-almost for free: only shebang needs to be different, and, if the comments
-inside the doc contains non-utf8 chars, an encoding line.
+I kind of have to agree.  The only real Python 2 user I know about is
+OpenOffice.org, which promises to get off any year now.  Meanwhile, as I
+recall, the advice from the Python project is to say "python3" and not
+count on bare "python" being available.
 
-The current tools during Kernel build currently supports it (again,
-except for shebang).
-
-Anyway, from my side I'm happy either way.
-
-> I would find it very useful for code/header generation during build
-> time, instead of having to resort to C hostprogs. Similar to what MSM is
-> doing.
-> 
-> That said, I know there's going to be people vehemently opposed.
-
-Fine from my side ;-) There are some precedents here, so I guess it
-should be up to each subsystem to decide using it or not.
-
-> > So, adding a "depends on TOOL_PYTHON" doesn't seem to be trivial.  
-> 
-> Agreed. Forget about that idea.
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
+jon
