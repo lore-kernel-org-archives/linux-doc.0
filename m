@@ -1,88 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36E1746E;
-	Tue, 29 Jul 2025 15:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC85021E091
+	for <linux-doc@vger.kernel.org>; Tue, 29 Jul 2025 15:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753801493; cv=none; b=ApMf/HNMwwik4CnPYDHb4ocIwjHIrAnEJpBClbBMN+wClNvgoA5125r7reG8NAZa+CKE5Pt2NmWlD9ZEm2cbpewOoY0HXzMtQmGTdn2PIgSirhdjgwfTr15mdjvWiDqIBbJQwDJJTFHNkv3soq/OJ3PPPnIVOurkJi5l9s8gpcU=
+	t=1753802424; cv=none; b=GwGNhuZ+YuoCmFC+bdOL0AL5bSJn5ujj+2dAWEg3mxgCZMunOiJEmi+stuYu8xlqp9uGjRd3QGFCdjNHYVZ7qFvQ5eYKFaX2dacOW1Sa6qw5qAeVprBQSHr6RyWDaqamz8BZ2NKMgAhsfyvYJigr86Ccf7AL7wDZxYLjDtma3jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753801493; c=relaxed/simple;
-	bh=aQ+43kvtdWDOizoWPKmefgnCVdEt6FTWqKjZuLuJgJE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pvFUh+WsctIbk5IeQZXgXDXvpSC68hr+I8yRxI8N1j8Hu1OMy9IKmUUYBITyXli+Ukk64P2/0g7iOxYqVezgxC9+VIOXKDmPxET4uhIktTNbCYJOxMDlWxFm+AAEhOM49GBmjdLwVeD2kLVaTEECF+nh4g1rT148pjKqiZlOAU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYO6xcbl; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753802424; c=relaxed/simple;
+	bh=WvGZqKnX9XxPdLw/AbNtfIFikRg12kKOYJZxboaUNJY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ewu6x+DU1J2ghMDMV7N/kk9gSVaRN2T9ljCG0BgJvYXS+qanQ9aoib6w0d1bRLiWOverEFcIcsnzuDVHHhB6+nefDRvNmQWWfm8qhJ7imCOqo6xLZuBUhHuwMmpn1zY6eFRW5m2Wk3s+8mS2NgYCsRoRqh2yDiTfmHbHgRHbOg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XmlKKCVs; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYO6xcbl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753801492; x=1785337492;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=aQ+43kvtdWDOizoWPKmefgnCVdEt6FTWqKjZuLuJgJE=;
-  b=JYO6xcblofdX7BBxR8qZmn314BRp+n6E7bRNSP7z2f50lMkiF2d6Ns8V
-   Ec0hn+sI7PrSsb3FLy9zB1uMg37HOnvuzrI7U1AWS4l8DJbHyTsIpu34m
-   /seqY2ZiqBsgQkHf2RoguB9O1BzaJSa0hkRCN8rT4Gb9+j/4xeCN7w/l4
-   xv0PRXvesMZ5L4ihHYz73Vy6tcS1USdIY2HpFp46t9gb3B9BfMATjEQ6+
-   uI22+vl01iMzjeL4PX/YN1r9BIsqQgF45K+KlSI6UUpmf0/ef71nQI09V
-   EHcIORLOPDGsUU0KtNzS9dDk/Rgq/X+3OyONGaCSkXvrxoBMPihMEvPTB
-   w==;
-X-CSE-ConnectionGUID: FNXFaidbSb6hLAcJJ9S8+w==
-X-CSE-MsgGUID: VQDKQ9w1TNWaIuZaDT1xlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="67512504"
-X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="67512504"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 08:04:52 -0700
-X-CSE-ConnectionGUID: n0T4/5DqR+SRBpjQDi3s5A==
-X-CSE-MsgGUID: zq7TZndwTJeEH5eSED3chA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="167215188"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.22])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 08:04:48 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 3/2] docs: changes: better document Python needs
-In-Reply-To: <20250729154437.6cbd2788@sal.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1752307866.git.mchehab+huawei@kernel.org>
- <58c0cfb40e600af697b1665ffbc8e5bb3d859bb5.1752309145.git.mchehab+huawei@kernel.org>
- <20250712163155.GA22640@pendragon.ideasonboard.com>
- <20250713002517.7f52b0e9@foz.lan> <875xfhabv0.fsf@trenco.lwn.net>
- <20250724194306.27b98194@foz.lan>
- <83d12d5293e23c622ae390204fed8fd4453014b1@intel.com>
- <20250728173306.2ab1409a@sal.lan>
- <fd1372a9fb57a1372db5b3c0992a929f90183f83@intel.com>
- <20250729154437.6cbd2788@sal.lan>
-Date: Tue, 29 Jul 2025 18:04:45 +0300
-Message-ID: <9dc14f4a5adda5a8a40220404648457d56212cca@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XmlKKCVs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1753802421;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FO/1vKVqO9RBP4Rk0YFJ1qonOTPK/AJG6R01vpmqPYY=;
+	b=XmlKKCVsX2UUz7B6QcP732TX+Ikcoh7yNU9lj1t8xLyGgH9lE3rRhUbddUgnZBBJ5HMvlw
+	oEE9q7fLyYGsMkU2j9U23HOWygNEjd0KGWPzF4lZWF/2jZwndOwKQP0si2UoxhObzL63GS
+	gPUfpq33NQwPW2SMzDLp5z8awmnVSuI=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-643-4uMyyuLxOOqg1ELrBMf1Hw-1; Tue,
+ 29 Jul 2025 11:20:18 -0400
+X-MC-Unique: 4uMyyuLxOOqg1ELrBMf1Hw-1
+X-Mimecast-MFC-AGG-ID: 4uMyyuLxOOqg1ELrBMf1Hw_1753802416
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 996D21956094;
+	Tue, 29 Jul 2025 15:20:15 +0000 (UTC)
+Received: from [10.45.225.137] (unknown [10.45.225.137])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 46A6C18003FC;
+	Tue, 29 Jul 2025 15:20:11 +0000 (UTC)
+Message-ID: <5f2aaa88-d3fb-46ae-b325-603fda5e8851@redhat.com>
+Date: Tue, 29 Jul 2025 17:20:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 3/5] dpll: zl3073x: Add firmware loading
+ functionality
+To: Simon Horman <horms@kernel.org>
+Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+ Petr Oros <poros@redhat.com>
+References: <20250725154136.1008132-1-ivecera@redhat.com>
+ <20250725154136.1008132-4-ivecera@redhat.com>
+ <20250726203351.GP1367887@horms.kernel.org>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <20250726203351.GP1367887@horms.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Tue, 29 Jul 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> I don't think we should do much effort to support Python 2, but it comes
-> almost for free: only shebang needs to be different, and, if the comments
-> inside the doc contains non-utf8 chars, an encoding line.
+On 26. 07. 25 10:33 odp., Simon Horman wrote:
+> On Fri, Jul 25, 2025 at 05:41:34PM +0200, Ivan Vecera wrote:
+>> Add functionality for loading firmware files provided by the vendor
+>> to be flashed into the device's internal flash memory. The firmware
+>> consists of several components, such as the firmware executable itself,
+>> chip-specific customizations, and configuration files.
+>>
+>> The firmware file contains at least a flash utility, which is executed
+>> on the device side, and one or more flashable components. Each component
+>> has its own specific properties, such as the address where it should be
+>> loaded during flashing, one or more destination flash pages, and
+>> the flashing method that should be used.
+>>
+>> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+> 
+> Hi Ivan,
+> 
+> Some minor feedback from my side.
+> 
+> ...
+> 
+>> diff --git a/drivers/dpll/zl3073x/fw.c b/drivers/dpll/zl3073x/fw.c
+> 
+> ...
 
-As said in the other thread, changing the shebang is not a trivial
-thing. I don't have 'python' installed, haven't had for years, just
-'python3'.
+Hi Simon,
 
-BR,
-Jani.
+> 
+>> +/* Santity check */
+> 
+> Sanity
 
+Will fix in v2.
 
--- 
-Jani Nikula, Intel
+>> +static_assert(ARRAY_SIZE(component_info) == ZL_FW_NUM_COMPONENTS);
+> 
+> ...
+> 
+>> +int zl3073x_fw_flash(struct zl3073x_dev *zldev, struct zl3073x_fw *zlfw,
+>> +		     struct netlink_ext_ack *extack)
+>> +{
+>> +	int i, rc;
+>> +
+>> +	for (i = 0; i < ZL_FW_NUM_COMPONENTS; i++) {
+>> +		if (!zlfw->component[i])
+>> +			continue; /* Component is not present */
+>> +
+>> +		rc = zl3073x_fw_component_flash(zldev, zlfw->component[i],
+>> +						extack);
+>> +		if (rc)
+>> +			break;
+>> +	}
+> 
+> Perhaps it cannot happen in practice.
+> But Smatch warns that rc may be used uninitialised below.
+> And that does seem theoretically possible if all
+> iterations of the loop above hit the "continue" path.
+
+Yes, it should not happen as at least one component has to be present
+but for sure I will init rc in the next iteration.
+
+Thanks for review,
+Ivan
+
+> 
+>> +
+>> +	return rc;
+>> +}
+> 
+> ...
+> 
+
