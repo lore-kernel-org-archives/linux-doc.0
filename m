@@ -1,170 +1,195 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7592951CA
-	for <linux-doc@vger.kernel.org>; Tue, 29 Jul 2025 15:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A4B2951AC;
+	Tue, 29 Jul 2025 15:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753803798; cv=none; b=oEBLS1BjH08b4R6yOG4OifGlswKqs0O1byoTSRwKJAWSfLrJqsECgZ9E1WNqRH4hGSTAWmgi4W3wfqes/ip6jpL5nv6d9d0Pl8pUq0k11h0KN1meRLyCBGP6Nz4tUHuR6GZAXShMJLXMP003qI5SBaRdYh3Q6O803mV0Q5JzJHw=
+	t=1753804229; cv=none; b=lP56x6Ud5yIimX1QdYmGr6jVYoBHuF9L1P2VKmxTIaGYSWmiXUwswoebYtkqk9ncAmKOtANSDhRTmj8x/Dt476Ykg1veylC3dWkfdS9DPgdZ7NZu5xln0TwbEl/ArmB1tbb4EDsf5CwgjdZ6x19dJcFfOFrfZG1078ZVzcgFHXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753803798; c=relaxed/simple;
-	bh=yyzHQv1Wv65hNemtjtxzhBXFqLoOaBEA9TmxWX2IOg0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AmZMx2EhCI1Zo+q8ql+W/K/ziEQbkUbnqc+NIxYGajBC7OomCU6XUIROOKjA52uepEpRjG2d9RMEcl4eQUpoPOvnXckYbJqlissbIEQj4c5HHYPYQ0GdrgkNCZpaNmEag1bo0jci4Lum347V32W5JBdOKG88e8OHG3jhOX6tDPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Zo28KwRp; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Zo28KwRp"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-31ece02ad92so2155914a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Jul 2025 08:43:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753803792; x=1754408592; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vSpJIgrdIeIOJjhVwTw0EcGlPuzf6kCVL4Vd0HFeqjc=;
-        b=Zo28KwRpuyR2RkCvSziQ3MWriqRZpo2YR39NbaFSvBwC+FLa8bGyldowJQaO9fQe7w
-         djlHxc5J9JPZBqryn4cBfp8eu+CJ1s2Yng8vWwxZGx7JQtUw92Hfv1PtVfXJt4VpUqJI
-         BIPBL6oEGDNBrw0Px/vQTTE6DadVlVtIMx6GA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753803792; x=1754408592;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vSpJIgrdIeIOJjhVwTw0EcGlPuzf6kCVL4Vd0HFeqjc=;
-        b=cDMb7zRDGN2nTyvzL8BKtbxbqVD77w6qJ1mlQS0vPSE6FHLBPvFMkcfJO3Z30+WZ+p
-         0FdrHm55DeDs6+eokKGkJtuzBIWE1aiJX7x5LuWBLZyDHZ/EZeDH9GBIq0U8H2lkwvh1
-         r9ok+luk96c+2CxuIES84Qls/XBbHtYp4YG8iKkgSF2WUygUHPl1ZORRdokhjMu1RB4X
-         Zo1vkZBs+zhU6NGlJhHaYGoPwfxtlR/Yz8I44dGLZf4TrRZDAOBudf8kLvTiXa6FoqdK
-         c+yqPmj4oSeUpo86s0HDgJjoe6f/zcEk4OmjLu5t8zfaK40kKH+UH0de7dqM+Z7b2lUd
-         VjTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJdOs+OFaldVpebD53U+2EDdGwsoQjOMYb8xa6i1cVztOle8nz5UJVID11cw1av+VMRtDzVnjfjMM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwM6N5Bn2JAaKjcuH79JiuE8Fl0/u0YBz17Xcgmd7/Ww4fiXtGh
-	W9b9ZGFZBV5DpfPg/qe2RaoDYaDlikV+5PMNXppI0dgmJAZv1criDbe8geTwn3re/CXhMDKc61H
-	EzT8=
-X-Gm-Gg: ASbGncut8JXmdbnEX8DydSaLIonBwp41eHrv6MbuKJcrzPfT0+gXeSI93KWZ8uwdkOf
-	7PBdvmtO8fRZS3goVlFU5+oCe/9qpvEOrnIQ8l/0z6fW+lrPICqAtcvFCCJlNtj/NMu1Gjkn9gv
-	VF7x85Nako4CO4JsDgonzP24o7x0+87BDB6F9Y3OJ03P9Qxk4kVUl3DqjiFG5WsrO2IFnzkNaVG
-	l3KxW4dQdfbYMpQB7yoF1KLJY24JICayMfrZRYZKeEgMrsE891FRfecn8pJD+z5QdfSfSK9u0k8
-	Ncrev63tu1/MtPFcrBGFvXs6a66y0NPvtHmlXTUSJT8rMi9ivdAAZ780jMLkq2xYgWHkz53ql6E
-	yGx0pQ78bqtcX8Udcf+32/NMZgnohjRQ5FKd3p3d+mIMt9x/tqjdLTv1Qg6AgSpmM0w==
-X-Google-Smtp-Source: AGHT+IGgoFly3DKBL8x++Z4YsxT143J3+Zqw4IzeXsbDK5Th82vcYyrJxnRzL24i7t7PlwG7hYNCKw==
-X-Received: by 2002:a17:90b:2683:b0:31f:42cd:6900 with SMTP id 98e67ed59e1d1-31f42cd6c5emr2571487a91.12.1753803792089;
-        Tue, 29 Jul 2025 08:43:12 -0700 (PDT)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com. [209.85.215.169])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31f07fcb58fsm4185109a91.3.2025.07.29.08.43.10
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Jul 2025 08:43:10 -0700 (PDT)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b170c99aa49so4219787a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Jul 2025 08:43:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXS1cO/Ihhaw+8wjS+/pxi+A65zYliugh/vDYzL5GLlzdWfeculUIB43CiHkVZlitt4it4B81TYfa0=@vger.kernel.org
-X-Received: by 2002:a17:90b:4e8d:b0:31f:2558:46cb with SMTP id
- 98e67ed59e1d1-31f25584712mr6855560a91.16.1753803789967; Tue, 29 Jul 2025
- 08:43:09 -0700 (PDT)
+	s=arc-20240116; t=1753804229; c=relaxed/simple;
+	bh=wHypNep/AelK9Q9u/VXzH9QeoHr0mcMmzF8OY7GSz6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xy9zvsodI/ubb3sgwnu7paQ/tHV2H8vQguwb+fWbtcJEz8fjTatcWDeU2XQMOuQATSryZ0d1XNavaJi3xwIidpey0V3vhkJaUkppaDZJ3xWN+kb9g2qqCrIDf6V6gX76HeaeYUqNbjYiJgYIUl6WkNVXVQwU69hdXScJ/hS4iAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id BF15A80196;
+	Tue, 29 Jul 2025 15:50:24 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 7EC8432;
+	Tue, 29 Jul 2025 15:50:22 +0000 (UTC)
+Date: Tue, 29 Jul 2025 11:50:21 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Linux trace kernel
+ <linux-trace-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Mark Rutland <mark.rutland@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Namhyung Kim
+ <namhyung@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] Documentation: tracing: Add documentation about eprobes
+Message-ID: <20250729115021.135bca64@batman.local.home>
+In-Reply-To: <f6cd51e6-c025-4182-8df8-a621379af6bf@infradead.org>
+References: <20250728171522.7d54e116@batman.local.home>
+	<f6cd51e6-c025-4182-8df8-a621379af6bf@infradead.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250722015313.561966-1-me@brighamcampbell.com>
-In-Reply-To: <20250722015313.561966-1-me@brighamcampbell.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 29 Jul 2025 08:42:58 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vpk+sWt6n5+OFrOSa9bUf=5xbcGH6TA2D58HnDcrzArw@mail.gmail.com>
-X-Gm-Features: Ac12FXy2DrlKwozrm4Lh8eKlO3PrClRoMybwweQhMtq-dXfeG8sVqMiOcJ65aGQ
-Message-ID: <CAD=FV=Vpk+sWt6n5+OFrOSa9bUf=5xbcGH6TA2D58HnDcrzArw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/4] drm: Fix bug in panel driver, update MIPI support macros
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: i37xcmmif8zwc1f88xqrpiffppysfi6t
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 7EC8432
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/qmwqhQLsniCEAGDaMLNIiDcNTspjaYIA=
+X-HE-Tag: 1753804222-608836
+X-HE-Meta: U2FsdGVkX185POT3YrZC8hmBCVLW2j99FeE2Z6DOM0fqvQjjwnJMZBbHpXvb7JYlLyx5Bqb8GfV3yLwRjdhyj0wvT/LXdiapu7c3fbsII2Rf8N6ZedXlxwFDuDZSiHZ16LeZNctFz7aHVhukYl9Kd1X9M9bn4GBvXu7wpjC2JCGO48i1qvjkN1Dr7xt5q7PfFCnHwWdKn13pRjv5dfWpcfdc3yJN52g/7sImhRl3Lht0n/KFKhEBwIyv/nmjTsEW6z9EO8MB1GQ9vmD4N/MtUWP2isHFFtibDRHV5olBoMJnvmApQCyBXDM+uG+5GmhyU+6v5wJ+Ir5fVTn/G7vPNUrmyQPBGkSHboBZVQfspQYWBgYKv8Pd+yQeMTgm1O+/
 
-Hi,
+On Mon, 28 Jul 2025 18:02:37 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
+> > +Overview
+> > +========
+> > +
+> > +Eprobes are dynamic events that are placed on existing events to eiter  
+> 
+>                                                                     either
+> 
+> > +dereference a field that is a pointer, or simply to limit what fields get  
+> 
+>                                                        (preference:)     are
+> 
+> > +recorded in the trace event.
+> > +
+> > +Eprobes depend on kprobe events so to enable this feature, build your kernel  
+> 
+>                                                          s/,/;/
 
-On Mon, Jul 21, 2025 at 6:53=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
-l.com> wrote:
->
-> This series removes the unintuitive mipi_dsi_generic_write_seq() macro
-> and related mipi_dsi_generic_write_chatty() method from the drm
-> subsystem. This is in accordance with a TODO item from Douglas Anderson
-> in the drm subsystem documentation. Tejas Vipin (among others) has
-> largely spearheaded this effort up until now, converting MIPI panel
-> drivers one at a time.
->
-> The second patch of the series removes the last remaining references to
-> mipi_dsi_generic_write_seq() in the jdi-lpm102a188a driver and updates
-> the driver to use the undeprecated _multi variants of MIPI functions. It
-> fixes a bug in the driver's unprepare function and cleans up duplicated
-> code using the new mipi_dsi_dual* macros introduced in the first patch.
->
-> changes to v6:
->  - Fix various style and kerneldoc issues in patch 1/4
->  - Fix typo mpi_dsi_dual... -> mipi_dsi_dual...
->  - Fix incorrectly named "data" and "len" variables
->  - Make _seq argument of mipi_dsi_dual_dcs_write_seq_multi macro
->    variadic
->  - Remove duplicate definition of mipi_dsi_dual_dcs_write_seq_multi
->    macro from novatek display driver
->
-> changes to v5:
->  - Rework mipi_dsi_dual to explicitly not support passing macros into
->    _func and add "dual" variants of the generic and dcs write macros.
->  - Make jdi-lpm102a188a use the new
->    mipi_dsi_dual_generic_write_seq_multi macro.
->  - Make local struct variable in jdi-lpm102a188a conform to reverse
->    christmas tree order.
->
-> changes to v4:
->  - Fix whitespace (I forgot to run checkpatch. Thanks for your patience
->    as I familiarize myself with the kernel development process)
->  - Initialize mipi_dsi_multi_context struct
->
-> changes to v3:
->  - Define new mipi_dsi_dual macro in drm_mipi_dsi.h to reduce code
->    duplication.
->  - Fix bug in lpm102a188a panel driver's unprepare function which causes
->    it to return a nonsensical value.
->  - Make lpm102a188a panel driver's unprepare function send "display off"
->    and "enter sleep mode" commands to both serial interfaces regardless
->    of whether an error occurred when sending the last command.
->
-> changes to v2:
->  - Remove all usages of deprecated MIPI functions from jdi-lpm102a188a
->    driver instead of just mipi_dsi_generic_write_seq().
->  - Update TODO item in drm documentation instead of removing it
->    entirely.
->
-> Brigham Campbell (4):
->   drm: Create mipi_dsi_dual* macros
->   drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
->   drm: Remove unused MIPI write seq and chatty functions
->   drm: docs: Update task from drm TODO list
->
->  Documentation/gpu/todo.rst                    |  22 +-
->  drivers/gpu/drm/drm_mipi_dsi.c                |  82 +-
->  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++---
->  drivers/gpu/drm/panel/panel-novatek-nt36523.c | 804 +++++++++---------
->  include/drm/drm_mipi_dsi.h                    | 118 ++-
->  5 files changed, 614 insertions(+), 608 deletions(-)
+OK.
 
-Pushed all 4 to drm-misc-next. Technically one of them has a minor
-bugfix as mentioned in the commit message, but it's VERY minor (I
-didn't even think it needed a Fixes tag) so I didn't worry about
-trying to get it into drm-misc-fixes...
 
-[1/4] drm: Create mipi_dsi_dual* macros
-      commit: d94a2a00d2b8878678607c2969fee3b4e59126cb
-[2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
-      commit: a6adf47d30cccaf3c1936ac9de94948c140e17dd
-[3/4] drm: Remove unused MIPI write seq and chatty functions
-      commit: 79b6bb18f849818140dd351f6e76a097efe99e9f
-[4/4] drm: docs: Update task from drm TODO list
-      commit: 85c23f28905cf20a86ceec3cfd7a0a5572c9eb13
+> > +  FETCHARG:TYPE : Set TYPE as the type of FETCHARG. Currently, basic types
+> > +		  (u8/u16/u32/u64/s8/s16/s32/s64), hexadecimal types
+> > +		  (x8/x16/x32/x64), VFS layer common type(%pd/%pD), "char",
+> > +                  "string", "ustring", "symbol", "symstr" and bitfield are  
+> 
+> 		Should bitfield be quoted?
 
--Doug
+Hmm, probably. And we should fix kprobetrace.rst as that's where I copied it from.
+
+> > +
+> > +Attaching to dynamic events
+> > +---------------------------
+> > +
+> > +Note that eprobes may attach to dynamic events as well as to normal events. It  
+> 
+> Don't need "Note that".
+
+OK.
+
+> 
+> > +may attach to a kprobe event, a synthetic event or a fprobe event. This is  
+> 
+>                                       I would say:    an fprobe event.
+> 
+
+OK.
+
+
+> > +
+> > +Example 2
+> > +---------
+> > +
+> > +If syscall events are not enabled but the raw syscall are (systemcall  
+> 
+>                                                  syscalls are (system call
+> 
+> > +events are not normal events, but are created from the raw_syscall events
+> > +within the kernel). In order to trace the openat system call, one can create  
+> 
+>                     ^^ not a complete sentence.
+
+Ah, I'm thinking that "This example is for the case that syscall events
+are not enabled..."
+
+But it came out as the above. Will fix.
+
+> 
+> 
+> > +an event probe on top of the raw_syscall event:
+> > +::
+> > +
+> > + # cd /sys/kernel/tracing
+> > + # cat events/raw_syscalls/sys_enter/format
+> > + name: sys_enter
+> > + ID: 395
+> > + format:
+> > +	field:unsigned short common_type;	offset:0;	size:2;	signed:0;
+> > +	field:unsigned char common_flags;	offset:2;	size:1;	signed:0;
+> > +	field:unsigned char common_preempt_count;	offset:3;	size:1;	signed:0;
+> > +	field:int common_pid;	offset:4;	size:4;	signed:1;
+> > +
+> > +	field:long id;	offset:8;	size:8;	signed:1;
+> > +	field:unsigned long args[6];	offset:16;	size:48;	signed:0;
+> > +
+> > + print fmt: "NR %ld (%lx, %lx, %lx, %lx, %lx, %lx)", REC->id, REC->args[0], REC->args[1], REC->args[2], REC->args[3], REC->args[4], REC->args[5]
+> > +
+> > +From the source code, the sys_openat() has:
+> > +::
+> > +
+> > + int sys_openat(int dirfd, const char *path, int flags, mode_t mode)
+> > + {
+> > +	return my_syscall4(__NR_openat, dirfd, path, flags, mode);
+> > + }
+> > +
+> > +The path is the second parameter, and that is what is wanted.  
+> 
+> s/wanted/want/
+
+Really? That sounds funny to me:
+
+   The path is the second parameter and that is what is want.
+
+??
+
+
+> 
+> > +::
+> > +
+> > + # echo 'e:openat raw_syscalls.sys_enter nr=$id filename=+8($args):ustring' >> dynamic_events
+> > +
+> > +This is being run on x86_64 where the word size is 8 bytes and the openat
+> > +systemcall __NR_openat is set at 257.  
+> 
+>    system call
+
+OK.
+
+
+> > +The filename shows "(fault)". This is likely because the filename has not been
+> > +pulled into memory yet and currently trace events cannot fault in memory that
+> > +is not present. When a eprobe tries to read memory that has not been faulted  
+> 
+>                         an eprobe
+
+OK.
+
+
+> > +Now that the address of the filename has been passed to the end of the
+> > +systemcall, create another eprobe to attach to the exit event to show the  
+> 
+>    system call,
+
+OK.
+
+> 
+> Thanks for the new documentation.
+> 
+
+It was a long time coming :-p
+
+-- Steve
