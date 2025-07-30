@@ -1,93 +1,131 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1490926F461;
-	Wed, 30 Jul 2025 19:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD941624EA;
+	Wed, 30 Jul 2025 19:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753903035; cv=none; b=KGzq85/Jdqcg2WRSRa5D94LVnRwWr9M2IQcL9gF1DAHUzjIFKvEy79pFIhlfT3i7tv2liw2CjgA19GVgsAOg+pqcDlj/47RG4q73KArbTR50jDQsUDbn0gS2M4H1jP/Hj5O0slJE90hvpB7sw8hcB9+kpNEw2QiOd6Na/oEjB/A=
+	t=1753903628; cv=none; b=iclQbtAGPSU3Sr1xRRjUs9Sn/5R/0zFxwTuu/NjifcVw3uw5f0WywT0ag5B1LRAh4+3G7q6T+xFbmkA/JjpvwUGKXyJPahrO0mi1wueQz/ai8YO/HkAMD9YNmCqEZPAPiCW4E5ySbdE0n6hf8+4AEENXkEBgZOmkZm/xnRBGvM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753903035; c=relaxed/simple;
-	bh=ne05AV+6Qp/salB4UYY04vV0PlkPA1GwjChoJ8vl2mo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=svgChggWe10E95u9ObWKWE4EVfOYcD/zF+/ZeAKJD6M+FnLFjowiqWceSxLCgp8tyb4skBHfScj0LU5wPX/vW1l2xU3A2yzUG6cfM3kAiZZv0Os17umQFH0uIfeUYGfmVze8nlVdlrJVbr3EPAm+R+jgI3qlLcdTNTX4MNuwJ68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VwCbtILZ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VwCbtILZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=7DRM6GejOWAzE0PBtYi22750l7Fywcc4++ng0WeIuAM=; b=VwCbtILZLjjUA/VbjWZx1qhig4
-	sSRKcCPHuydMY6gy6t9eIPv2kCuta1q1iQesLx9vnYT+AwFX8hcjzFocoQViV3UXpCwGvEDEdEvkj
-	ixgYcIRin2FTe9HTbtW6drYanhfA5pjBfTxgcOVomIOTZ+oeFSUOKs677bDiFP30ZFsa95c6DTzXT
-	9yR24cxEjSL/ifMCJd2wRyqLmjWOqVP9eOBV93TGWSwUsBtHV2LmnOri3eg7Alh+yu7+NzoGjXGE2
-	cKXO3eT9LTS1PpYbuOYDv5c5lRVt9bB49mcrxgpb7+oqZ5xKga5ZIISFFtDuMoMDT2LZyXQy+NOhy
-	V2EqkKYg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhCIb-00000002Gk1-2jKo;
-	Wed, 30 Jul 2025 19:17:13 +0000
-Message-ID: <c0416cd1-0055-4ca9-9780-e885ead4939b@infradead.org>
-Date: Wed, 30 Jul 2025 12:17:13 -0700
+	s=arc-20240116; t=1753903628; c=relaxed/simple;
+	bh=BInQqAuFuhv6ShllU1BMRFpqWjLupYaHWHnVG6WDYJE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PqZzi3MwH9lHtWLNP5sQS3GBFkMNEj4mGWIDBuv3hnc/w/JR8yBDbxhBnCKwPWGxeOWlhBFcf2vn8z1tLoZPW0Nt0hmPyYzWAA1K2pATf4MCzhy4rKJ96jNarrB9Jjyv91K9p4kPAWV+zSq338WCb+QfKOS1g12vltHJrFjZI3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 52A0F56064;
+	Wed, 30 Jul 2025 19:27:04 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 0008D2F;
+	Wed, 30 Jul 2025 19:27:01 +0000 (UTC)
+Date: Wed, 30 Jul 2025 15:27:18 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Greg KH <greg@kroah.com>,
+ corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+ josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Linus Torvalds
+ <torvalds@linux-foundation.org>, "Dr. David Alan Gilbert"
+ <linux@treblig.org>
+Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
+ kernel
+Message-ID: <20250730152718.2f12b927@gandalf.local.home>
+In-Reply-To: <aIpah6DTRd99mMqb@lappy>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+	<7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
+	<2025072854-earthen-velcro-8b32@gregkh>
+	<df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
+	<20250730112753.17f5af13@gandalf.local.home>
+	<158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
+	<20250730121829.0c89228d@gandalf.local.home>
+	<aIpKCXrc-k2Dx43x@lappy>
+	<20250730130531.4855a38b@gandalf.local.home>
+	<aIpah6DTRd99mMqb@lappy>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: gpu: nouveau.rst: fix a wrong path
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org
-References: <20250730102010.2976882-1-mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250730102010.2976882-1-mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Stat-Signature: k1smr8y1wqmgzhjda147db5kejzepe75
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 0008D2F
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18TekhUR2waaUF2I5r3QQ0y1GVRV1RYguU=
+X-HE-Tag: 1753903621-547155
+X-HE-Meta: U2FsdGVkX18v5lCV3uzaXGX+DgCCN6qk0Bs2jpUbn85hhBs/mdlHulN/ESdIGHvF5JIPQOmzShCkNxrrw4msiexwIH2UySSOxq+6sGGChW4DzwTwLOBH+MzCRmwUO2ikEbPdZA1nX/PQZUtMOvIZk2pacjIDI5DkDbBd86DwZTu7uKkqbYK89zHhdymFe59i2FBKhtL4X+VpJ5Gmwq7d8IyIXfYd/zRE2v7IHRsW5KupK6Z6MGLeMvKlxCLlE6PYbfmn/j6/xKDtED4iZfzTLQt48LyirFVyob8BtfbrtOBq5IFPKAOHfgdAMK5plCCWhB7r3enfVZ2DPxK6RVuxDA3zLCLuQ4lqiP1c+9bzFisSVFNed2cReqxcwoFCEElf
 
+On Wed, 30 Jul 2025 13:46:47 -0400
+Sasha Levin <sashal@kernel.org> wrote:
 
-
-On 7/30/25 3:20 AM, Mauro Carvalho Chehab wrote:
-> The nouveau.rst file is pointing to a file at the wrong path,
-> causing doctree cache expires and forcing kernel-doc to run every
-> time.
+> >My point here is that AI can now add questions that maintainers can't
+> >answer. Is it really legal? Can the maintainer trust it? Yes, these too can
+> >fall under the "technical reasons" but having a clear policy that states
+> >that a maintainer may not want to even bother with AI generated code can
+> >perhaps give the maintainer something to point to if push comes to shove.  
 > 
-> Fix it.
+> I don't think that those are technical aspects.
+
+I didn't either, but I was just saying one could possibly argue that they
+are. But that also states why it should be called out explicitly. As
+refusing AI patches may not be a technical issue where all other refusals
+should be.
+
+
+> >I wouldn't think so. This is about submitting patches and a statement there
+> >may be easier found by those about to submit an AI patch. Just because they
+> >are using AI doesn't mean they'll think it's an academic research.  
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Not in the sense that AI is research, but more that this is code coming
+> from someone who is unable to reliably verify the patch that is being
+> sent in.
 
-Hi Mauro,
+The issue I have is that the person sending in the patch may not know that
+they don't understand the patch. We've had those in the past. I could
+imagine AI creating more of these kinds of submissions.
 
-Bagas sent a patch for this on June 10 and it's already fixed in linux-next.
-It's probably sitting in a DRM tree waiting for a PR.
-
-Thanks.
-
-> ---
->  Documentation/gpu/nouveau.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/gpu/nouveau.rst b/Documentation/gpu/nouveau.rst
-> index b8c801e0068c..cab2e81013bc 100644
-> --- a/Documentation/gpu/nouveau.rst
-> +++ b/Documentation/gpu/nouveau.rst
-> @@ -25,7 +25,7 @@ providing a consistent API to upper layers of the driver stack.
->  GSP Support
->  ------------------------
->  
-> -.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> +.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c
->     :doc: GSP message queue element
->  
->  .. kernel-doc:: drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
+> The source can be academic research, AI, or whatever else comes along.
+> 
+> It'll just be nice to have a unified set of rules around it. Otherwise
+> the amount of combinations will explode (in which category do we put in
+> academic researchers sending in AI generated code?).
 
--- 
-~Randy
+Research folks know they are doing research. Those using AI may likely will
+not, even if they are. Hence why I would like this outside of the academic
+research document.
+
+> 
+> >> Some sort of a "traffic light" system:
+> >>
+> >>   1. Green: the subsystem is happy to receive patches from any source.
+> >>
+> >>   2. Yellow: "If you're unfamiliar with the subsystem and using any
+> >>   tooling to generate your patches, please have a reviewed-by from a
+> >>   trusted developer before sending your patch".
+> >>
+> >>   3. No tool-generated patches without prior maintainer approval.  
+> >
+> >Perhaps. Of course there's the Coccinelle scripts that fix a bunch of code
+> >around the kernel that will like be ignored in this. But this may still be
+> >a good start.  
+> 
+> It'll be hard to draw a line here, so I suggest we don't try.
+
+Agreed. But perhaps we could have a note that some subsystems expect all
+submissions done by a human. Although treewide patches that change
+interfaces that are fixed up by coccinelle may not have a choice.
+
+> 
+> Are AI generated .cocci semantic patches that are then transformed into
+> C patches and sent in by a human ok?
+> 
+
+Up to the maintainer.
+
+-- Steve
 
