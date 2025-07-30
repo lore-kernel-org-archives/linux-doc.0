@@ -1,286 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1981EF09B;
-	Wed, 30 Jul 2025 06:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C1510E3;
+	Wed, 30 Jul 2025 09:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753856845; cv=none; b=hSeujtpE9KnVJMK+zcBVHOr4UawNtBfrwUY053scZtJVNcp9kec4XDAr2FTOmBeHAr5VAmO1a8K4q59cHyCx8SUbqd4RoClulhLaVNghtyzREIQsycKJUZzbG0+k29J4UgScevMGqeCG5IESWO85GEuFvQBNHfy/Qm+Lc5oRVR0=
+	t=1753867524; cv=none; b=ULkkx64ScNnJ+cpWiCrhHrGFtNhTZxJhTfHcQTkmV4TuGXwScobZtCQaxICUq7+G8qqWZGbuD83Xop7k2ZIpqSWcYEOav+r1mw6Q63dKhpC2wStYCSqszM2JPeXbCI4RG/POUle0dNoUxdYaYhT1IT6jwj+URqwLjWIH+lMoFp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753856845; c=relaxed/simple;
-	bh=t6lKU18geCu0Nksnwnjhpo7QzjaPW74xkwpo0dYYKJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m32DIgmfoEQNpx6gQor4TUsIaK4G0FatF9zZHL55tt6fX24HGe0SKhA7VErbEMmHOrot+cD0lGAfON7ofXlwKNs521cHmy1z3UdaZl72rXe9wStHmvKaDRI7QiUu39RkjfTaMl0qAc5XkliZ0pCIGhogjz4TIh6Je8Pa7KHDPA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgcqt0VY; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753867524; c=relaxed/simple;
+	bh=1MHRdEhKZxS+HzmEBYk4+Y9wIW2b2Cp3Qo/0aeWItA8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=a8A0Lko+zEe2zHK3Y2k4+1Rg9eR1zq6J2BOfsvQr42AfcNE9A4y2X9/h0tVGYvhOGUsKRf52Kf5NiRMzMt2bTWyDVS3OZjE6w7p7IoSzjBJxUZ0u06oyVEo/+XCFRNNOXgQotL+FY5wATzRRrUEDsTon+QvcGeTM5Nxb8tI9rhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=e4sxHj22; arc=none smtp.client-ip=18.169.211.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgcqt0VY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753856843; x=1785392843;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t6lKU18geCu0Nksnwnjhpo7QzjaPW74xkwpo0dYYKJQ=;
-  b=jgcqt0VYqVQXMiy731Yk3khgnvBogxloRGiYgsCof2lXgneJLBE7CJBc
-   pQKsA+Hrbp0MIjyFy5TcYPsUYSq40misBV3cCKAmPJWLebO0ivkeTbWYP
-   BIXFYF5IhdoHSwfRpivxWKLJ/9q7opPU30Ngswshklg1JQuxsVRhj2Ya9
-   z6VBNhDRZ9bGBV84h7qEhxG22blaY9moOh725pp3Gn6gstU8vEtt/rSZJ
-   846nOuu0Bg8iW2DTDPgqgk5dUyO4aHTnm19Nv+y5dsgD62wMq0FYMVfxO
-   eNm5fjpzOlbpx1A9DOkagoR5JGCq9X9UTJQ8FJDYLtP6cfqJv0j9sopHN
-   Q==;
-X-CSE-ConnectionGUID: 1+v09RGPQtusLbAMEpkxyw==
-X-CSE-MsgGUID: ZoBAMZRhTciNKvrwfIeDwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="81590258"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="81590258"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 23:27:22 -0700
-X-CSE-ConnectionGUID: bR1T/FHFQoSIlTb6WTDKbA==
-X-CSE-MsgGUID: I9S+ys2JSAqiZKwz0H/ZtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="162487497"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Jul 2025 23:27:18 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uh0HT-00026s-2R;
-	Wed, 30 Jul 2025 06:27:15 +0000
-Date: Wed, 30 Jul 2025 14:27:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 1/2] tracing: Have eprobes have their own config option
-Message-ID: <202507301452.JPAcMvT0-lkp@intel.com>
-References: <20250729161912.056641407@kernel.org>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="e4sxHj22"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1753867493;
+	bh=5TbeNkB8ldYnEXcb1m/XCnlkvWahX+znrHwbJGCTAgI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To;
+	b=e4sxHj22ssG9WshGpEQw4/82BvBQlHPX2H7STjxx3r1jrON8BKSgiafI3Hmj0/Yv5
+	 hmQgFhbcGVV0PqHM1Uk/JFbaBbVheew75ICke1xkiBsfAFCl2iMNVgpvuC8Jk12bmL
+	 BodaX7yPyeqk4zXHeX0w9Bg4zBxQksdEvUnbhFD4=
+X-QQ-mid: esmtpgz10t1753867490t9a6472fa
+X-QQ-Originating-IP: lQl0MESZLYhgwmh4DSr716DxfUxHtn7Ebgq7yyCQOZc=
+Received: from [198.18.0.1] ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 30 Jul 2025 17:24:31 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 1206265350598173633
+Message-ID: <B751D49737DD10DC+00a0ff95-476a-4d0a-9bc6-40e77012a554@uniontech.com>
+Date: Wed, 30 Jul 2025 17:24:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250729161912.056641407@kernel.org>
+User-Agent: Mozilla Thunderbird
+From: Cryolitia <liziyao@uniontech.com>
+Subject: Re: [PATCH v6 1/2] hwmon: add GPD devices sensor driver
+To: Antheas Kapenekakis <lkml@antheas.dev>, Guenter Roeck <linux@roeck-us.net>
+Cc: Cryolitia@gmail.com, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ Celeste Liu <CoelacanthusHex@gmail.com>, Yao Zi <ziyao@disroot.org>,
+ Derek John Clark <derekjohn.clark@gmail.com>,
+ =?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>,
+ someone5678 <someone5678.dev@gmail.com>,
+ Justin Weiss <justin@justinweiss.com>, command_block <mtf@ik.me>
+References: <20250314-gpd_fan-v6-0-1dc992050e42@gmail.com>
+ <20250314-gpd_fan-v6-1-1dc992050e42@gmail.com>
+ <CAGwozwENLOOS5q1Bs5SEh3FFJAY-=kcVimf5U+tWzy6HaiGd=g@mail.gmail.com>
+ <bb57fe1d-fde9-45f8-9f5c-0836a6e557ff@roeck-us.net>
+ <CAGwozwGdZ5tzHg7_TF5d_AWVDmypP987XS-x_GWqrSF81PiG2Q@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAGwozwGdZ5tzHg7_TF5d_AWVDmypP987XS-x_GWqrSF81PiG2Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: M8e5kblytUZR2/NuQijMYYgSbRTX+/osZL2apFBDKqF1qD11KeQzMDJZ
+	MKJ6iEbl3t5lYh5lHhA3fy8ZcXlQrYg/QLkEYarE6spLY5Xx4L9ZyIH6sfRPGohUX/W3YDK
+	TkIAawT2jwST69e/zbz3lg3no8Ir0MJsqzoYYLV+BxqVzVd5nvNy3+nRY5RrgU6qg8rsYNd
+	ypjw68yzysNWWMIRVVc9vudmL5JtFWAeJ6gs3WLi0UbcplVmQBprKeZcWI+CYIE9sGFQlQc
+	QCcd9di0kFcYJjrTuwi2vOQMS+JfpCeaLni4Djg0StCp+kmfmty+94SaG5D2NMaEZWpa4Hm
+	x4WFL6pqe3o89iqmi4xdvx9Hm25jhtCeCWLICfUDEJE1BFvQDd18bEFGTVTuUpo203oUPft
+	VU4Inu/85MvhYh1cPVsiBCS+aAdTSvq/eRvWicdXf3E7MVCGSGNmHnSed8qmzjLC3+Z3egn
+	aNzcXayNIMLKEbsxVVRlHSBnlMrvutNiAZekTbQlgpWQkCq5rV1k6ET61IFNNlxbrqJ5mLo
+	ai74BR1hSvc3NHUNhYkFwkIlGDc5TEX1FzaAFL25NY2o2GNBJO98etCeOBpIzuQWqQ/wNSs
+	yy8z/Wq5iH2eF6ZIDsi+6qYIco7sSdu3znqpRKcmPkU3UKXvsDdBFOaVRfWxx1HicQ58+Je
+	3kfUVGQ86EEMT5usnNz2+azdWg8J6Rai+Q9TyKPr+EJjPV31HOZ4Xb7KZA2lgmAzE8u5eWq
+	hlK6+4/WtooIeDw2DviXmnu8kZUCIkPoj/rsq1BXW7IiTpKf6XwZ7QbIQEqNsELpGh2GPOh
+	n6BFkvrOP2bjn0uXPqdKiCe2iiIwSPwkQ3ELme16A+9hKTTloEzIPvE44fkHlNepZxGuJ8H
+	GRJ7X6RYRjdJ7kigaqCFzFpAgEU3nNW2ChWcHlTvuda+g02jJSlo04gCWzR87AaHYn6ocND
+	8a4FgaWGto/n7u+jVmNKn4NO4GkdWkvyG8xtNE+6h2fJcj+XedaO+uQebaJG09UTyOD9Jwm
+	gp/XU0JAsR4RIcVaEFz11uMBOIPt0Db+Q8P3xp3Q==
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-RECHKSPAM: 0
 
-Hi Steven,
+Thank you for raising this valid concern. We've closely monitored GPD's
+development plans and currently see no indication of EC functionality
+expansion beyond thermal sensors in the foreseeable future. Given this
+observation, we believe placing the driver in hwmon remains appropriate
+for now.
 
-kernel test robot noticed the following build errors:
+That said, we fully respect your maintainer perspective on
+future-proofing. If you feel strongly that platform/x86 would be a safer
+long-term home despite the current scope, we're happy to move the driver
+there immediately. We're committed to finding the most sustainable
+solution for upstream.
 
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on lwn/docs-next akpm-mm/mm-everything linus/master v6.16 next-20250729]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+------
+Apologies for mistakenly replying to Antheas Kapenekakis instead of the 
+mailing list.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Have-eprobes-have-their-own-config-option/20250730-001958
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250729161912.056641407%40kernel.org
-patch subject: [PATCH v2 1/2] tracing: Have eprobes have their own config option
-config: xtensa-randconfig-002-20250730 (https://download.01.org/0day-ci/archive/20250730/202507301452.JPAcMvT0-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507301452.JPAcMvT0-lkp@intel.com/reproduce)
+I am Cryolitia <cryolitia@gmail.com> that previously sending the patch. 
+Due to work, I changed my email address. GPG can verify it's the same 
+person: 
+https://keyserver.ubuntu.com/pks/lookup?op=vindex&search=0x84dd0c0130a54df7
+------
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507301452.JPAcMvT0-lkp@intel.com/
+在 2025/7/19 00:38, Antheas Kapenekakis 写道:
+> On Thu, 17 Jul 2025 at 04:32, Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> On 3/13/25 13:58, Antheas Kapenekakis wrote:
+>>> On Thu, 13 Mar 2025 at 21:10, Cryolitia PukNgae via B4 Relay
+>>> <devnull+Cryolitia.gmail.com@kernel.org> wrote:
+>>>>
+>>>> From: Cryolitia PukNgae <Cryolitia@gmail.com>
+>>>>
+>>>> Sensors driver for GPD Handhelds that expose fan reading and control via
+>>>> hwmon sysfs.
+>>>>
+>>>> Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
+>>>> devices. This driver implements these functions through x86 port-mapped IO.
+>>>>
+>>>> Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
+>>>> ---
+>>>>    MAINTAINERS             |   6 +
+>>>>    drivers/hwmon/Kconfig   |  10 +
+>>>>    drivers/hwmon/Makefile  |   1 +
+>>>>    drivers/hwmon/gpd-fan.c | 681 ++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>    4 files changed, 698 insertions(+)
+>>>>
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index 0fa7c5728f1e64d031f4a47b6fce1db484ce0fc2..777ba74ccb07ccc0840c3cd34e7b4d98d726f964 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -9762,6 +9762,12 @@ F:       drivers/phy/samsung/phy-gs101-ufs.c
+>>>>    F:     include/dt-bindings/clock/google,gs101.h
+>>>>    K:     [gG]oogle.?[tT]ensor
+>>>>
+>>>> +GPD FAN DRIVER
+>>>> +M:     Cryolitia PukNgae <Cryolitia@gmail.com>
+>>>> +L:     linux-hwmon@vger.kernel.org
+>>>> +S:     Maintained
+>>>> +F:     drivers/hwmon/gpd-fan.c
+>>>
+>>> A problem we had with oxp sensors is that once OneXPlayer expanded
+>>> their EC to include e.g., battery capacity limits, it was no longer
+>>> appropriate for it to reside in hwmon. I expect GPD to do the same
+>>> sometime in the near future. If that is the case, should we
+>>> futureproof the driver by moving it to platform-x86 right away?
+>>>
+>>
+>> My problem with platform drivers, especially with x86 platform drivers,
+>> including the OneXPlayer driver, is that the developers responsible for
+>> those drivers refrain from implementing the client drivers as auxiliary
+>> drivers but instead like to bundle everything into a non-subsystem
+>> directory. I have always wondered why that is the case. My best guess
+>> is that it is to limit and/or avoid subsystem maintainer oversight.
+>> Does that work out for you ?
+> 
+> Particularly for simple ECs such as OneXPlayer and GPD boards I think
+> keeping all the addresses in the same file makes sense. E.g., I just
+> sent a Fixes for the OneXPlayer G1 AMD variant and it was one commit
+> instead of 2 or 3. At least for me it was practical, I did not
+> consider having a lesser oversight as a benefit when making that
+> choice.
+> 
+> But I do understand the concern.
+> 
+> Antheas
+> 
+>> Not objecting, I am just curious.
+>>
+>> Guenter
+>>
+>>
+> 
 
-All errors (new ones prefixed by >>):
-
-   kernel/trace/trace_probe.c: In function 'parse_probe_arg':
->> kernel/trace/trace_probe.c:1105:23: error: implicit declaration of function 'regs_query_register_offset'; did you mean 'ftrace_regs_query_register_offset'? [-Werror=implicit-function-declaration]
-    1105 |                 ret = regs_query_register_offset(arg + 1);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                       ftrace_regs_query_register_offset
-   cc1: some warnings being treated as errors
-
-
-vim +1105 kernel/trace/trace_probe.c
-
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1080  
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1081  /* Recursive argument parser */
-533059281ee594 Masami Hiramatsu          2018-04-25  1082  static int
-533059281ee594 Masami Hiramatsu          2018-04-25  1083  parse_probe_arg(char *arg, const struct fetch_type *type,
-533059281ee594 Masami Hiramatsu          2018-04-25  1084  		struct fetch_insn **pcode, struct fetch_insn *end,
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1085) 		struct traceprobe_parse_context *ctx)
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1086  {
-533059281ee594 Masami Hiramatsu          2018-04-25  1087  	struct fetch_insn *code = *pcode;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1088  	unsigned long param;
-e65f7ae7f4da56 Masami Hiramatsu          2019-05-15  1089  	int deref = FETCH_OP_DEREF;
-bf173ca92da978 Steven Rostedt (VMware    2018-10-12  1090) 	long offset = 0;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1091  	char *tmp;
-34fee3a104cea1 Namhyung Kim              2013-11-26  1092  	int ret = 0;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1093  
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1094  	switch (arg[0]) {
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1095  	case '$':
-d157d7694460b9 Masami Hiramatsu (Google  2023-08-23  1096) 		ret = parse_probe_vars(arg, type, pcode, end, ctx);
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1097  		break;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1098  
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1099  	case '%':	/* named register */
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1100) 		if (ctx->flags & (TPARG_FL_TEVENT | TPARG_FL_FPROBE)) {
-334e5519c37570 Masami Hiramatsu (Google  2023-06-06  1101) 			/* eprobe and fprobe do not handle registers */
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1102) 			trace_probe_log_err(ctx->offset, BAD_VAR);
-2673c60ee67e71 Steven Rostedt (Google    2022-08-20  1103) 			break;
-2673c60ee67e71 Steven Rostedt (Google    2022-08-20  1104) 		}
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09 @1105  		ret = regs_query_register_offset(arg + 1);
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1106  		if (ret >= 0) {
-533059281ee594 Masami Hiramatsu          2018-04-25  1107  			code->op = FETCH_OP_REG;
-533059281ee594 Masami Hiramatsu          2018-04-25  1108  			code->param = (unsigned int)ret;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1109  			ret = 0;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1110  		} else
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1111) 			trace_probe_log_err(ctx->offset, BAD_REG_NAME);
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1112  		break;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1113  
-b7e0bf341f6cfa Namhyung Kim              2013-11-25  1114  	case '@':	/* memory, file-offset or symbol */
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1115  		if (isdigit(arg[1])) {
-bcd83ea6cbfee5 Daniel Walter             2012-09-26  1116  			ret = kstrtoul(arg + 1, 0, &param);
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1117  			if (ret) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1118) 				trace_probe_log_err(ctx->offset, BAD_MEM_ADDR);
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1119  				break;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1120  			}
-533059281ee594 Masami Hiramatsu          2018-04-25  1121  			/* load address */
-533059281ee594 Masami Hiramatsu          2018-04-25  1122  			code->op = FETCH_OP_IMM;
-533059281ee594 Masami Hiramatsu          2018-04-25  1123  			code->immediate = param;
-b7e0bf341f6cfa Namhyung Kim              2013-11-25  1124  		} else if (arg[1] == '+') {
-b7e0bf341f6cfa Namhyung Kim              2013-11-25  1125  			/* kprobes don't support file offsets */
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1126) 			if (ctx->flags & TPARG_FL_KERNEL) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1127) 				trace_probe_log_err(ctx->offset, FILE_ON_KPROBE);
-b7e0bf341f6cfa Namhyung Kim              2013-11-25  1128  				return -EINVAL;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1129  			}
-b7e0bf341f6cfa Namhyung Kim              2013-11-25  1130  			ret = kstrtol(arg + 2, 0, &offset);
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1131  			if (ret) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1132) 				trace_probe_log_err(ctx->offset, BAD_FILE_OFFS);
-b7e0bf341f6cfa Namhyung Kim              2013-11-25  1133  				break;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1134  			}
-b7e0bf341f6cfa Namhyung Kim              2013-11-25  1135  
-533059281ee594 Masami Hiramatsu          2018-04-25  1136  			code->op = FETCH_OP_FOFFS;
-533059281ee594 Masami Hiramatsu          2018-04-25  1137  			code->immediate = (unsigned long)offset;  // imm64?
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1138  		} else {
-b079d374fd8463 Namhyung Kim              2013-07-03  1139  			/* uprobes don't support symbols */
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1140) 			if (!(ctx->flags & TPARG_FL_KERNEL)) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1141) 				trace_probe_log_err(ctx->offset, SYM_ON_UPROBE);
-b079d374fd8463 Namhyung Kim              2013-07-03  1142  				return -EINVAL;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1143  			}
-a6682814f37124 Masami Hiramatsu          2018-08-29  1144  			/* Preserve symbol for updating */
-a6682814f37124 Masami Hiramatsu          2018-08-29  1145  			code->op = FETCH_NOP_SYMBOL;
-a6682814f37124 Masami Hiramatsu          2018-08-29  1146  			code->data = kstrdup(arg + 1, GFP_KERNEL);
-a6682814f37124 Masami Hiramatsu          2018-08-29  1147  			if (!code->data)
-a6682814f37124 Masami Hiramatsu          2018-08-29  1148  				return -ENOMEM;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1149  			if (++code == end) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1150) 				trace_probe_log_err(ctx->offset, TOO_MANY_OPS);
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1151  				return -EINVAL;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1152  			}
-533059281ee594 Masami Hiramatsu          2018-04-25  1153  			code->op = FETCH_OP_IMM;
-a6682814f37124 Masami Hiramatsu          2018-08-29  1154  			code->immediate = 0;
-533059281ee594 Masami Hiramatsu          2018-04-25  1155  		}
-533059281ee594 Masami Hiramatsu          2018-04-25  1156  		/* These are fetching from memory */
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1157  		if (++code == end) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1158) 			trace_probe_log_err(ctx->offset, TOO_MANY_OPS);
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1159  			return -EINVAL;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1160  		}
-533059281ee594 Masami Hiramatsu          2018-04-25  1161  		*pcode = code;
-533059281ee594 Masami Hiramatsu          2018-04-25  1162  		code->op = FETCH_OP_DEREF;
-533059281ee594 Masami Hiramatsu          2018-04-25  1163  		code->offset = offset;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1164  		break;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1165  
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1166  	case '+':	/* deref memory */
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1167  	case '-':
-e65f7ae7f4da56 Masami Hiramatsu          2019-05-15  1168  		if (arg[1] == 'u') {
-e65f7ae7f4da56 Masami Hiramatsu          2019-05-15  1169  			deref = FETCH_OP_UDEREF;
-e65f7ae7f4da56 Masami Hiramatsu          2019-05-15  1170  			arg[1] = arg[0];
-e65f7ae7f4da56 Masami Hiramatsu          2019-05-15  1171  			arg++;
-e65f7ae7f4da56 Masami Hiramatsu          2019-05-15  1172  		}
-e65f7ae7f4da56 Masami Hiramatsu          2019-05-15  1173  		if (arg[0] == '+')
-e65f7ae7f4da56 Masami Hiramatsu          2019-05-15  1174  			arg++;	/* Skip '+', because kstrtol() rejects it. */
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1175  		tmp = strchr(arg, '(');
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1176  		if (!tmp) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1177) 			trace_probe_log_err(ctx->offset, DEREF_NEED_BRACE);
-533059281ee594 Masami Hiramatsu          2018-04-25  1178  			return -EINVAL;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1179  		}
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1180  		*tmp = '\0';
-bcd83ea6cbfee5 Daniel Walter             2012-09-26  1181  		ret = kstrtol(arg, 0, &offset);
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1182  		if (ret) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1183) 			trace_probe_log_err(ctx->offset, BAD_DEREF_OFFS);
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1184  			break;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1185  		}
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1186) 		ctx->offset += (tmp + 1 - arg) + (arg[0] != '-' ? 1 : 0);
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1187  		arg = tmp + 1;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1188  		tmp = strrchr(arg, ')');
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1189  		if (!tmp) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1190) 			trace_probe_log_err(ctx->offset + strlen(arg),
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1191  					    DEREF_OPEN_BRACE);
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1192  			return -EINVAL;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1193  		} else {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1194) 			const struct fetch_type *t2 = find_fetch_type(NULL, ctx->flags);
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1195) 			int cur_offs = ctx->offset;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1196  
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1197  			*tmp = '\0';
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1198) 			ret = parse_probe_arg(arg, t2, &code, end, ctx);
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1199  			if (ret)
-533059281ee594 Masami Hiramatsu          2018-04-25  1200  				break;
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1201) 			ctx->offset = cur_offs;
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1202  			if (code->op == FETCH_OP_COMM ||
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1203  			    code->op == FETCH_OP_DATA) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1204) 				trace_probe_log_err(ctx->offset, COMM_CANT_DEREF);
-533059281ee594 Masami Hiramatsu          2018-04-25  1205  				return -EINVAL;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1206  			}
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1207  			if (++code == end) {
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1208) 				trace_probe_log_err(ctx->offset, TOO_MANY_OPS);
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1209  				return -EINVAL;
-ab105a4fb89496 Masami Hiramatsu          2019-03-31  1210  			}
-533059281ee594 Masami Hiramatsu          2018-04-25  1211  			*pcode = code;
-533059281ee594 Masami Hiramatsu          2018-04-25  1212  
-e65f7ae7f4da56 Masami Hiramatsu          2019-05-15  1213  			code->op = deref;
-533059281ee594 Masami Hiramatsu          2018-04-25  1214  			code->offset = offset;
-c440adfbe30257 Masami Hiramatsu (Google  2023-08-23  1215) 			/* Reset the last type if used */
-c440adfbe30257 Masami Hiramatsu (Google  2023-08-23  1216) 			ctx->last_type = NULL;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1217  		}
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1218  		break;
-6218bf9f4d2942 Masami Hiramatsu          2019-06-20  1219  	case '\\':	/* Immediate value */
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1220  		if (arg[1] == '"') {	/* Immediate string */
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1221) 			ret = __parse_imm_string(arg + 2, &tmp, ctx->offset + 2);
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1222  			if (ret)
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1223  				break;
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1224  			code->op = FETCH_OP_DATA;
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1225  			code->data = tmp;
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1226  		} else {
-6218bf9f4d2942 Masami Hiramatsu          2019-06-20  1227  			ret = str_to_immediate(arg + 1, &code->immediate);
-6218bf9f4d2942 Masami Hiramatsu          2019-06-20  1228  			if (ret)
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1229) 				trace_probe_log_err(ctx->offset + 1, BAD_IMM);
-6218bf9f4d2942 Masami Hiramatsu          2019-06-20  1230  			else
-6218bf9f4d2942 Masami Hiramatsu          2019-06-20  1231  				code->op = FETCH_OP_IMM;
-a42e3c4de9642d Masami Hiramatsu          2019-06-20  1232  		}
-6218bf9f4d2942 Masami Hiramatsu          2019-06-20  1233  		break;
-b576e09701c7d0 Masami Hiramatsu (Google  2023-06-06  1234) 	default:
-b576e09701c7d0 Masami Hiramatsu (Google  2023-06-06  1235) 		if (isalpha(arg[0]) || arg[0] == '_') {	/* BTF variable */
-25f00e40ce7953 Masami Hiramatsu (Google  2024-03-04  1236) 			if (!tparg_is_function_entry(ctx->flags) &&
-25f00e40ce7953 Masami Hiramatsu (Google  2024-03-04  1237) 			    !tparg_is_function_return(ctx->flags)) {
-b576e09701c7d0 Masami Hiramatsu (Google  2023-06-06  1238) 				trace_probe_log_err(ctx->offset, NOSUP_BTFARG);
-b576e09701c7d0 Masami Hiramatsu (Google  2023-06-06  1239) 				return -EINVAL;
-b576e09701c7d0 Masami Hiramatsu (Google  2023-06-06  1240) 			}
-c440adfbe30257 Masami Hiramatsu (Google  2023-08-23  1241) 			ret = parse_btf_arg(arg, pcode, end, ctx);
-b576e09701c7d0 Masami Hiramatsu (Google  2023-06-06  1242) 			break;
-b576e09701c7d0 Masami Hiramatsu (Google  2023-06-06  1243) 		}
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1244  	}
-533059281ee594 Masami Hiramatsu          2018-04-25  1245  	if (!ret && code->op == FETCH_OP_NOP) {
-533059281ee594 Masami Hiramatsu          2018-04-25  1246  		/* Parsed, but do not find fetch method */
-1b8b0cd754cdbb Masami Hiramatsu (Google  2023-06-06  1247) 		trace_probe_log_err(ctx->offset, BAD_FETCH_ARG);
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1248  		ret = -EINVAL;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1249  	}
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1250  	return ret;
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1251  }
-8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1252  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
