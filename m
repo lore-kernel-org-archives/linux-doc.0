@@ -1,72 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA23C266B66
-	for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 11:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F2829008F
+	for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 11:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753875586; cv=none; b=GvKqQxur/CeeSG2XCP7pbhHCZLnE1YG1iirhcE6a9+k9dO+ViAcqaLlcZ7ROo0Ntth3GggxKkMM54NEFY0SSzA2UA7cG2HYUgOx8K9LRITLVsZ0tL140dz/MTdpHCfuI0KVqnMnTs9X4+KrCa7mMRPtP97y/C0P/FExcU2MMm18=
+	t=1753876633; cv=none; b=btqHXVpNJZ51WbLqXeFL3cYU/EQ34PblApMpDPweCZK4bjyoBObz2nTq/cGYVNO9KrE0yKy1pW44g9l5cZ8M81zJMf+YD70rLHpGvWIznAnmFk/OwrMnQPdzHA+ocKq2mDZ72PTISa3ODGCvD8G9C3nIP3UreOrjnsvHf45wcHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753875586; c=relaxed/simple;
-	bh=HweBPrxgj3m+91urC2NffNsscYCrWCm59D2DpEhbYZA=;
+	s=arc-20240116; t=1753876633; c=relaxed/simple;
+	bh=+eRDzekTqZXJk8PBWToJk0rTOuC+gK36unHXlpT7R3E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rfuTVW6XeOZ07+61blYT0e3kcafpgsvtPhcG9/n2qACLq6dTv30P+Y93fRJjHmWqmqtcvZ1rnE5Poef5fUHMy2XY5BLmYUxCVtIN5AKZKsbkot8YJpNk6k7/iJLrcMdn3r922j60Ay0A4pz5VvILNzQKPEhrc8rkVeIgy5Vv3cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SXmuzX+x; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=jDEE3V0ob3A5dLi78BezwGqf/yKf188qy9nAEiqUmoi4V/x9bq1shw8sxW+5n4gPV7cQdMzT8xcwT0c+3OQvqp1tTt03SXsC9WiSn5J6KaD1iJXq1IYF2b4jptFzn+pBpr9+1xcZ+OlrKmfEHXtylCml4nA3PsGWPMvrBO/NsPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mx2is+/0; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SXmuzX+x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753875584;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DgmT/4MxmdvSfKxUoKQscuXLpLll1+wxv5DeTi8iqhY=;
-	b=SXmuzX+xEbp/9bnrJCfasobHnXjQ6cOpPVfd3Xi1f/WwPEcImUcrEyrubzubjPwpKF1HlZ
-	w7jIr/OScUUt7Cwvzhgu+BpXh5fU+69l31gsxvmt0JUor6quf7m+J35uJ7JWpmsyXPXnCY
-	8e11CGaEoN0qGZKVde8dL58iDAUkrz8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-329-t9OJIJ-GNICVpyxVAJKOjg-1; Wed, 30 Jul 2025 07:39:42 -0400
-X-MC-Unique: t9OJIJ-GNICVpyxVAJKOjg-1
-X-Mimecast-MFC-AGG-ID: t9OJIJ-GNICVpyxVAJKOjg_1753875581
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4561c67daebso3393135e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 04:39:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mx2is+/0"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56U66V6t004997
+	for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 11:57:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	mIcjeDS7h8ogUXxvg4ORZjBG3hxtqpSdWr0+tiwbntc=; b=mx2is+/0fcYAIXjS
+	K6AjbVbXpF6WdJTnlXVg0K1oy6kkvtcj869yStnAx3zvac/0hyyPFlQgrq346N5U
+	JRkVtHpyrS8xU4HXYEWrv9qJxutLAjQpGJZi/qLiP3sFF9VmvXXgYHe5PgEtNHBs
+	dws3DB49dUks3+pH2uAc/ssZxy+hdxKDV+MjPb84BgB2FoXjXeKrLzc5uiu21qDL
+	cAwulemQGW7FQl5txt667736cbyWU5QNiKpUWq3hJvYfi3SBQDidee8YHINbis/q
+	WKrlyGog8ZA00f2T+1ruOcORKbSfupyl0vx+LtH7pnCX/Xv3ijooEl/kf1z0dgHy
+	ZNH9kw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484nyu3yfr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 11:57:09 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7e48325048aso50614485a.3
+        for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 04:57:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753875581; x=1754480381;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=DgmT/4MxmdvSfKxUoKQscuXLpLll1+wxv5DeTi8iqhY=;
-        b=ckPfXaUVO4IDV5N0oXuEA0iSkVhkOCzIahTV3AgI3YJHRFC5mT7NfL7UsioOmrloM9
-         +TsZXCRV29YAU7xOwg6tqM4OkRSu+hKKE8LNdZ3jJtMzauvJvWyggMtMNvPIw7duqPO+
-         /SF6nxbBM7cahPeJZWQQHO+v+gRil1DL8ZYW13f+6MmsfC9rgrRDDUrvLrMjDb78OjZ0
-         4sbyURV7hCWkV+eWOLMwMowXKnjaUxs/HIbtXeOrV2KPwF2lq8KWRrDMNECYrakh1m7F
-         +tis3o8fvPdX66ddjGMEwJbR6zVYSlo1ZTELbjAnRSrH902ieytzkGhTiXCWFphPFyyI
-         goEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX/uwtwdrpLq4ln8imwETDiKCTcjb6aOmoe9EMI224CK//HDVpfW4C6doVHM51um0e5YxEUiMWhwgk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJOPdLl4UiC9d2YOjNJm98U4jiOi6Jo+OTZu35IrgwyAGpLJxw
-	do3Q+G8pq72K6aMIGVYQDvDYR9YboNLqqtCEKMW5fajU6bj0PQS70i00187BiCBHQWAEDjTxa1E
-	yoWuC1KUkO1e3lnNxN1wrNyg+KL6fs9sp5aFWbNEBjpnAE8FsrKiKiOXeeoSPyA==
-X-Gm-Gg: ASbGncvyYlcyjONgSSDXXFGalf5LCsuux6+OZoo/l1hZpmAc/sKTz0N9wJzyFC90/8u
-	SNoLiONo0Im0VqnBqsHuugTQcT7r2h4Oimq0aNmIFTYcQlp6Xzcd7C5NUWhwlin0HAynmAybAu/
-	lHgOqdhyeI55bDKRuVw83hmt7nFO2owOiEG91eh26X0jz7Agi5GB8YBgyDTDtjMF6/1M9FhzUZG
-	h5EcKX7fAwmN/vsxifxCVgId7yW9gjK0mti+J8SGyaV4qH1QWusgBbeW2bQJeA2COxGHzOfX+9/
-	mUcmwchSxonP+9BPok/no7fbta+1T6VUsdq3azvIvdVk/zNbjxSowJaV2j/RQw==
-X-Received: by 2002:a05:600c:8b52:b0:450:c9e3:91fe with SMTP id 5b1f17b1804b1-4589303fe49mr26931985e9.0.1753875581211;
-        Wed, 30 Jul 2025 04:39:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFDob6ua++AEhRi3Gfd/2+HGGi2uT+wVMMUC/mjnay5/mOVTl3fCjXOJlvvVcYCQBEH1aDGg==
-X-Received: by 2002:a05:600c:8b52:b0:450:c9e3:91fe with SMTP id 5b1f17b1804b1-4589303fe49mr26931565e9.0.1753875580676;
-        Wed, 30 Jul 2025 04:39:40 -0700 (PDT)
-Received: from [10.32.64.156] (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4589539e491sm24168925e9.26.2025.07.30.04.39.39
+        d=1e100.net; s=20230601; t=1753876628; x=1754481428;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mIcjeDS7h8ogUXxvg4ORZjBG3hxtqpSdWr0+tiwbntc=;
+        b=pogSJNSOOy682mubqIFKjsx+cieCWJERRRPobCIIiEZiCjjHMkQDlPL/Lx8wrKydlx
+         ehoSMlPreb5ihc0iOhJRQ2onVrmW8SKgme8mJ43zjBmetBsq8nyGX+K1lBATO5/XJId+
+         TczrueuIJmMeuMlFt3xIO6uDrojPRb2beNfIxS7GBpoZbb+mP6z9fiPLJaJsMHBMgmJT
+         t/qYn3Nyc1avENXAGfm9TJ07CNhW31Ig1rAkH2lC/CCFPGtDjHwMqOKjfdxKcW/zr7zr
+         rI5+jNFa4PbU+K6RSctlM1eZ56ifnoMXnbDoPH5UhT6uWQT3roJrYwT5nonGaGkfd+tz
+         EwYg==
+X-Forwarded-Encrypted: i=1; AJvYcCVykpAGeLu9amTr45cxUNUsfzrHzj2XCnNP5LQMvBolRg7JaJn4bOhzn/EJtAh+TxG4hCC5i04bH6g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0tz42NSlq+XQwAVhggsP3X02t19hYboka0p/yrUiNqWg4D4uK
+	huq+XeI+xNlARBJfqJXBk9fPzF40J87ps85rzwPToqRy9ZUXvRq1s1Z87CziaXfYQXDwpIwg9CP
+	AUb8LWvXot+YJV0cGMyoRPlD989e86Rmp83Z7iBXnAJaIB7RG5u55kjynvG/TcPE=
+X-Gm-Gg: ASbGnctMHr4PKdFEFaf0U2thh9UXxc/U7DJOOvM5tvxDKvX18RAaihrlfSihTgtWjoZ
+	48q/ZdASrepl9nEjPaJ16HfJuDmOg6zFDWSmCuem41bXFAvMGL83TOnJy3f71jfIDmzBXDLBbVL
+	eoPrNcklPfrkA7RL9NYLC9Vut2zkA0Dz02RYCQLqp4wHu8proLXLw+gdS94G3FcLl9L3tTjBA44
+	gir6nywtYSj2OiMO4ZlrCvC35qWs0v4EaZYbrhe9iu7CgWWfboVS1OZQK+UHz8ksabVD3wdNDsZ
+	IQf/26TdiW+Dpehd1jVbpm6jB3uVmObK94CNmYpA/PzVcAYSFiAugrcFbdCe5AdR8df8mMQG6BF
+	EAYPHlv7v+xOjLlh/PQ==
+X-Received: by 2002:a05:620a:424a:b0:7e6:28a9:db0d with SMTP id af79cd13be357-7e66ef809d0mr222333585a.1.1753876628432;
+        Wed, 30 Jul 2025 04:57:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEZwDA7UZeel7Rz4M2kn1nFFS9iWCkYbP4GPLBRHIUG1gQp3Hpc/hlmL7J3fAcf+IqUnB0SfA==
+X-Received: by 2002:a05:620a:424a:b0:7e6:28a9:db0d with SMTP id af79cd13be357-7e66ef809d0mr222330685a.1.1753876627944;
+        Wed, 30 Jul 2025 04:57:07 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af63589cab0sm728955766b.38.2025.07.30.04.57.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Jul 2025 04:39:40 -0700 (PDT)
-Message-ID: <aed4c988-7389-44b6-bbdd-eca64304ee10@redhat.com>
-Date: Wed, 30 Jul 2025 13:39:38 +0200
+        Wed, 30 Jul 2025 04:57:07 -0700 (PDT)
+Message-ID: <4e9ec735-1278-4475-8898-1e12ccb94909@oss.qualcomm.com>
+Date: Wed, 30 Jul 2025 13:57:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,201 +75,115 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] selftests: prctl: introduce tests for disabling THPs
- completely
-To: Usama Arif <usamaarif642@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- ryan.roberts@arm.com
-Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
- shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
- sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com
-References: <20250725162258.1043176-1-usamaarif642@gmail.com>
- <20250725162258.1043176-5-usamaarif642@gmail.com>
- <b9c72ab9-9687-4953-adfe-0a588a6dd0f7@redhat.com>
- <4dc95e54-e0ef-4919-973a-748845897ef9@gmail.com>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH net-next v5 03/14] net: ethernet: qualcomm: Add PPE driver
+ for IPQ9574 SoC
+To: Luo Jie <quic_luoj@quicinc.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
+        Suruchi Agarwal <quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+        quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com
+References: <20250626-qcom_ipq_ppe-v5-0-95bdc6b8f6ff@quicinc.com>
+ <20250626-qcom_ipq_ppe-v5-3-95bdc6b8f6ff@quicinc.com>
+ <4556893f-982b-435d-aed1-d661ee31f862@oss.qualcomm.com>
+ <e768d295-843c-431d-b439-e2ed07de638e@quicinc.com>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <4dc95e54-e0ef-4919-973a-748845897ef9@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <e768d295-843c-431d-b439-e2ed07de638e@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: Rr2SRz6vXdj_DzUcw1wvNgs_BQmDOKcO
+X-Proofpoint-ORIG-GUID: Rr2SRz6vXdj_DzUcw1wvNgs_BQmDOKcO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMwMDA4NSBTYWx0ZWRfX3VqbsPcvopZX
+ ZsVH/sq7kTVgM/8+845tBzcdEAbifByCbokMVdtqm6BQYdP3viq2kB9evAAfFCTVlorKVFuGS00
+ 6AUbsp+/SXElTiarRN6glTL2aou7FDvTmljfEvSRzLkOOE/U4OsilcszO1fAJspP064WKbHZPOo
+ naY+iHJcQLsTmqAzaNieN1zxQRZ8uDpyVcA/EhxRF0pEMv+clUQ/ujqRRE5Lg3+CX6/7UZNHqAz
+ ou81Y/C/8kGOzGDwo/3/5OTn/o+T2kDhcK0dqMnLsj9n2uTKdMPWetvFCn+yq4CKlt5RVJ97H8+
+ 7mPIbqpNY7dTAYV+Og8SMCW7juMIwIFxO5IewBCtOb2liMjiet1XETN1CsxLFulGuNP7md6f5bY
+ lgimUHa+Aw8AE3v2Y2hwiJ7U1VBt9EhdKhpgiTcprjpaGuq87JLoJaj2Qhk3aEMEooUTOsIv
+X-Authority-Analysis: v=2.4 cv=CLoqXQrD c=1 sm=1 tr=0 ts=688a0895 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=hn1M32U-3FIS6ASJhmIA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-30_04,2025-07-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ clxscore=1015 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507300085
 
-On 30.07.25 00:13, Usama Arif wrote:
->>> +
->>> +    self->pmdsize = read_pmd_pagesize();
->>> +    if (!self->pmdsize)
->>> +        SKIP(return, "Unable to read PMD size\n");
->>> +
->>> +    thp_read_settings(&self->settings);
->>> +    self->settings.thp_enabled = THP_MADVISE;
->>> +    self->settings.hugepages[sz2ord(self->pmdsize, getpagesize())].enabled = THP_INHERIT;
->>> +    thp_save_settings();
->>> +    thp_push_settings(&self->settings);
+On 7/1/25 2:24 PM, Luo Jie wrote:
+> 
+> 
+> On 6/28/2025 12:21 AM, Konrad Dybcio wrote:
+>> On 6/26/25 4:31 PM, Luo Jie wrote:
+>>> The PPE (Packet Process Engine) hardware block is available on Qualcomm
+>>> IPQ SoC that support PPE architecture, such as IPQ9574.
+>>>
+>>> The PPE in IPQ9574 includes six integrated ethernet MAC for 6 PPE ports,
+>>> buffer management, queue management and scheduler functions. The MACs
+>>> can connect with the external PHY or switch devices using the UNIPHY PCS
+>>> block available in the SoC.
+>>>
+>>> The PPE also includes various packet processing offload capabilities
+>>> such as L3 routing and L2 bridging, VLAN and tunnel processing offload.
+>>> It also includes Ethernet DMA function for transferring packets between
+>>> ARM cores and PPE ethernet ports.
+>>>
+>>> This patch adds the base source files and Makefiles for the PPE driver
+>>> such as platform driver registration, clock initialization, and PPE
+>>> reset routines.
+>>>
+>>> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+>>> ---
 >>
->> push without pop, should that be alarming? :)
+>> [...]
 >>
->> Can we just use thp_write_settings()? (not sure why that push/pop is required ... is it?)
->>
-> 
-> Thanks for the reviews!
-> Ack on the previous comments, I have fixed them and will include in next revision.
-> Yes, I think we can replace thp_push_settings with thp_write_settings.
-> 
-> For this, I actually just copied what cow.c and uffd-wp-mremap.c are doing :)
-
-Right, I see push vs. pop in run_anon_test_case(), but push vs. restore 
-from main(). At least cow.c applies a configuration on top of another 
-one, so it needs the push+pop semantics.
-
-In your case, we really only perform a single configuration. So 
-write+restore should be good enough I guess.
-
-> 
-> You can see in these 2 files that we do [1]
-> - thp_read_settings / thp_save_settings
-> - thp_push_settings
-> 
-> Than we run the experiment
-> 
-> and at the end we do [2]
-> - thp_restore_settings
-> 
-> i.e. there is no pop.
-> 
-> I think we can change the thp_push_settings to thp_write_settings in [3] and [4] as well?
-
-I think we have to push there, so the following push+pop will do the 
-right thing (I think that was the whole idea of push+pop).
-
-An alternative would have been to just have write+restore, whereby write 
-always returns the old state you save in a local variable.
-
-I wonder if a final pop could be used instead of the restore somehow.
-
-Anyhow, probably best to leave the other test cases alone for now, 
-unless you want to clean it up properly :)
-
-[...]
-
->>> +}
->>> +
->>> +FIXTURE_TEARDOWN(prctl_thp_disable_completely)
->>> +{> +    thp_restore_settings();
->>> +}
->>> +
->>> +/* prctl_thp_disable_except_madvise fixture sets system THP setting to madvise */
->>> +static void prctl_thp_disable_completely(struct __test_metadata *const _metadata,
->>> +                     size_t pmdsize)
+>>> +static int ppe_clock_init_and_reset(struct ppe_device *ppe_dev)
 >>> +{
->>> +    int res = 0;
+>>> +    unsigned long ppe_rate = ppe_dev->clk_rate;
+>>> +    struct device *dev = ppe_dev->dev;
+>>> +    struct reset_control *rstc;
+>>> +    struct clk_bulk_data *clks;
+>>> +    struct clk *clk;
+>>> +    int ret, i;
 >>> +
->>> +    res = prctl(PR_GET_THP_DISABLE, NULL, NULL, NULL, NULL);
->>> +    ASSERT_EQ(res, 1);
->>> +
->>> +    /* global = madvise, process = never, we shouldn't get HPs even with madvise */
+>>> +    for (i = 0; i < ppe_dev->num_icc_paths; i++) {
+>>> +        ppe_dev->icc_paths[i].name = ppe_icc_data[i].name;
+>>> +        ppe_dev->icc_paths[i].avg_bw = ppe_icc_data[i].avg_bw ? :
+>>> +                           Bps_to_icc(ppe_rate);
+>>> +        ppe_dev->icc_paths[i].peak_bw = ppe_icc_data[i].peak_bw ? :
+>>> +                        Bps_to_icc(ppe_rate);
+>>> +    }
 >>
->> s/HPs/THPs/
+>> Can you not just set ppe_dev->icc_paths to ppe_icc_data?
 >>
->>> +    res = test_mmap_thp(NONE, pmdsize);
->>> +    ASSERT_EQ(res, 0);
->>> +
->>> +    res = test_mmap_thp(HUGE, pmdsize);
->>> +    ASSERT_EQ(res, 0);
->>> +
->>> +    res = test_mmap_thp(COLLAPSE, pmdsize);
->>> +    ASSERT_EQ(res, 0);
->>> +
->>> +    /* Reset to system policy */
->>> +    res =  prctl(PR_SET_THP_DISABLE, 0, NULL, NULL, NULL);
->>> +    ASSERT_EQ(res, 0);
->>> +
->>> +    /* global = madvise */
->>> +    res = test_mmap_thp(NONE, pmdsize);
->>> +    ASSERT_EQ(res, 0);
->>> +
->>> +    res = test_mmap_thp(HUGE, pmdsize);
->>> +    ASSERT_EQ(res, 1);
->>> +
->>> +    res = test_mmap_thp(COLLAPSE, pmdsize);
->>> +    ASSERT_EQ(res, 1);
->>
->>
->> Makes me wonder: should we test for global=always and global=always?
+>> Konrad
 > 
-> Do you mean global=madvise and global=always?>
+> The `avg_bw` and `peak_bw` for two of the PPE ICC clocks ('ppe' and
+> 'ppe_cfg') vary across different SoCs and they need to be read from
+> platform data. They are not pre-defined in `ppe_icc_data` array.
+> Therefore, we use this format to assign `icc_paths`, allowing us to
+> accommodate cases where `avg_bw` and `peak_bw` are not predefined.
+> Hope this is fine. Thanks.
 
-Yeah, rewrote it 3 times and then messed it up.
+You're currently hardcoding the clock rate, which one of the comments
+suggests is where the bw values come from. Is there a formula that we
+could calculate the necessary bandwidth based on?
 
->> (or simply for all possible values, including global=never if easily possible?)
->>
->> At least testing with global=always should exercise more possible paths
->> than global=always (esp., test_mmap_thp(NONE, pmdsize) which would
->> never apply in madvise mode).
->>
-> 
-> lol I think over here as well you meant madvise in the 2nd instance.
+We could then clk_get_rate() and do it dynamically
 
-Yeah :)
-
-> 
-> I was just looking at other selftests and I saw FIXTURE_VARIANT_ADD, I think we can
-> use that to do it without replicating too much code. Let me see if I
-> can use that and do it for never, madvise and always. If it doesnt help
-> there might be some code replication, but that should be ok.
-
-Yeah, some easy way without replicating would be very nice.
-
--- 
-Cheers,
-
-David / dhildenb
-
+Konrad
