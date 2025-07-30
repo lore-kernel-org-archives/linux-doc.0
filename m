@@ -1,62 +1,102 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8DD19DF9A;
-	Wed, 30 Jul 2025 14:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C161F2D77E4
+	for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 14:28:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753885010; cv=none; b=tsahtaoI/KWLNFfLwjYyFsG/0Rez3R2mN3XfyFA2HqeJk/0x87XDzPS82P55nJBZhmZrlFkITp8zeK2JgTGxII+sPZ05Agm8edkfEP797ouOcoimyxRGMtfZnLVsX4mvCdHU5AyyQH44RgG5R5oTwYmZq1vxh1qfmePChlzBdc0=
+	t=1753885704; cv=none; b=KhqgLX1rptTfjmdmhf0P626kI0ngSn/hsxRk85PLHCYsQ9lLUI3ct1qrJeposWk8atGDl7gBumW0T3UvWqfXFqMVWb3Lk/cYdGNFhreexh6Onx9tfKWGnvd/+WgkLO8oIgqNHzMmPRs+CRid/YLvlLidxlP2vACWRXsxymJlRmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753885010; c=relaxed/simple;
-	bh=g/RQHOQBrSJi+ZvhaeL892W4Flfu2qwUEGRnSNLGsys=;
+	s=arc-20240116; t=1753885704; c=relaxed/simple;
+	bh=TDW5x6DvBZ7lvIDcVVcAKcADPgkzeitjKa0U8rd1OM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K5azCGqszK+H5ntg4sosY6+3tv4mGBBaEZ2ASAiJuRSWdofvynCb/ibs0Ezx5H8L4u4oVXQvdrnklT4E3/khm9dF7fzdkS9cDo8fYSKmBLQ3Mhj4nGjShdGvkFOfOMtbrjTHqLZjTDFosXxEzyya/6sVxsTrKBQR47YW/DGMsyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wp9mRDcc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LuoPzYk4; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=T9G8FylD5Bi9JgHKT87/PJbYELDnkxrUSE/mOsI7YzQcXfWqX6N99Klzieop89y4FnpphjdRNcDnl6VdEYYAsWOwBS+tGQ3WwBlzpo94sc7G9YxkpJHsDu+onK391d7OgsGQNU5hOxayjY7E2WZwjCpPbZw06dCKgespwTf1FWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=PG57ZssR; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wp9mRDcc";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LuoPzYk4"
-Date: Wed, 30 Jul 2025 16:16:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1753885005;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MC8rMIu7AyAkV4Xy6OW3/FsyWIw/fJOi46AIjLqjPYA=;
-	b=wp9mRDccVJpDI65MUmwiSBPpVjNzjUgZ1HPKvBiZb9aG7cDdpmTRpkrZ+O2zUG8kkDzQiJ
-	Ps92cXHgdAkkxAA/fGXP6mKmZQdkjqLdMKxSilqPBKJESYwbBrJ48nD5Pkr2i6fNkek1rD
-	8dmuNraCdONuZ9UBDcACjbQYxcohzKhhG/NQhzHdxB0B8bU6MBqYh/JGgt5ZFmtVzp4R9H
-	lhBNJ6lV7vHgGEctzNJ2OJj+44yfNdHCH1flakISvmnoIHBSs/ljowGKkfBWfhSPufVW2o
-	xUHaOZ+p9afmeiLm68dOpNT5FvpgpyvuzopWMcPAzh6YoiJ/m5y8ePBxoOSDsw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1753885005;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MC8rMIu7AyAkV4Xy6OW3/FsyWIw/fJOi46AIjLqjPYA=;
-	b=LuoPzYk4JOX4E05vT3sl8/cbXc2oKAhAA5Hw6WhPBNAQAvRgC7/D9DFBBRyW5gkH2Mwgsv
-	76grWZ19+XXd3QBQ==
-From: Nam Cao <namcao@linutronix.de>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,
-	Clark Williams <williams@redhat.com>,
-	John Kacur <jkacur@redhat.com>
-Subject: Re: [PATCH v5 7/9] rv: Replace tss and sncid monitors with more
- complete sts
-Message-ID: <20250730141643.RD-uucXa@linutronix.de>
-References: <20250728135022.255578-1-gmonaco@redhat.com>
- <20250728135022.255578-8-gmonaco@redhat.com>
- <20250728155332.sbkepHj7@linutronix.de>
- <76d7e572aae2ccd1699a461aded7a6146f6d8215.camel@redhat.com>
- <20250729092510._Hq3RWF_@linutronix.de>
- <20250729093717.3AqIu_f0@linutronix.de>
- <5803d2623278c7516406534b035a641abfdecee6.camel@redhat.com>
- <20250730125224.ScWqm03r@linutronix.de>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="PG57ZssR"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4ab63f8fb91so50492071cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 07:28:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1753885701; x=1754490501; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yXicpotvi3lyQ9AOXQWfwG3KeaAtrSGGP0WC4PeRJ0I=;
+        b=PG57ZssR8cQUccAuRytaUgKSAEssylQd59XzzV+sbjSosfPEHBBIphfgg4DDmUSzwE
+         cDmBxMCwHXpxtbQv0v1Bb8VZkWFtNsJ6JGZLN1ICU6sGIB7QT9LJ9w36BzEYIdf9pwkT
+         o6yRnqFRNEHszBOT+xrqmrhp9nGd9MhLgfwHruD011EZ1ET4yCG96SUfdO9+sv22+vep
+         j1UksT9oW+qK1zTtYXgmqybKRAtncfx5QyGwdi63fFGXSCV/QO2aY8e99M32XUDlQjxE
+         PwD3cXkAnkkE79Re9LXHLn0dkXZ50LxSZRjpXriQMSKCIGbgN205FfGtcihMg02Osw4J
+         19og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753885701; x=1754490501;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yXicpotvi3lyQ9AOXQWfwG3KeaAtrSGGP0WC4PeRJ0I=;
+        b=sE0B4xzntStLcKBKyfvgqQ838w5n0DvNvXW1Wo6zfTk2ksM1pDdNLeUUPY9x0Flyx/
+         cef67+5RFl1rYC1+z0NXUH5xxWH1cMM346tS/ZzDA3uvSi2siu2Mx2fptG6/+TorklEm
+         TAfHVhPrWaExAJRt7TqzsEyQYASXu9qCzx9RYJEQyG/IMAVOJzYEGuPX11p/z+JeZNoi
+         IAImy7uP/OLF6UvCtaMWbW2I3Gtsir8QJ6bvC2DQszp74GY0ydSYHpo2mqHysLEJLvxq
+         UNQU4vdvruEw+6t/bzpUB2kvwfrsA56nixNU2oZMuD8tavyAdt0HPjQr/308YGM6fViC
+         7fgA==
+X-Forwarded-Encrypted: i=1; AJvYcCWByj/NaFSdIGKN5z/SQwG4EqvQEM86dw3HfWT+K94qHNZP4SN3rJ1mbMaiW7jpbPX0rGScH4wQ9Gs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzfh07Mxbj0UjhfuMb20T7vajI1AXfLT+3ErjnWZsisU3r0B5+/
+	OVwBvQObabJD1UuPcgjZKqDAVa38qezjxWDl4+LU8mQXeT52SJA/euGD9rKY4LB9uR8=
+X-Gm-Gg: ASbGncs+BRL5pAitHSWf88w4QxeD9BVpOtP3a/hS4U/A0YShWy9H6yok9F6oC3Aos9F
+	UBeXjBaR2gXOxxAFBqu6pzlkxpyASOokIsH9R7B20Vu4QAFFAhayEk9N4t+vR5Q+V94r1FSwrLi
+	PydbO77tJQiug4TxiIVxqUNZRR19OEvA1ctowwE3bvNCADc7tz4BeVLvpsqYOHN43/il8EIDUh4
+	IX5Tw4B8XIdTY+QOINUUC4Lt9Iqd6ex1Sf1vItA1xZLliq4zTYDg8drmA/nRuUTxuCna33WIqul
+	XnSH5j/FtfokJbol0rBX7cwk8cF1uH7xjW+Ahj1X8a+IOIQ321HgKJ5LTnECYOVAFDWfAnqaBp7
+	QzR8SJzV4Q4XQvGnjxw0QvZ4KYSTWWRv9yBBJgZitIfOC+kz9bCyTTLrz9wG+LMgLGVT0
+X-Google-Smtp-Source: AGHT+IHCzPfwaMM+aIDs6tu6c39/KdwhCla3PbAO01xs1vOnpsn8EpRRsdfpw4N6uvD5MCuSC49wxQ==
+X-Received: by 2002:a05:622a:48:b0:4a9:cff3:68a2 with SMTP id d75a77b69052e-4aedbc3c0dbmr55369321cf.37.1753885700213;
+        Wed, 30 Jul 2025 07:28:20 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ae9963b6f9sm67178931cf.35.2025.07.30.07.28.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Jul 2025 07:28:19 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1uh7n0-00000000RbZ-432A;
+	Wed, 30 Jul 2025 11:28:18 -0300
+Date: Wed, 30 Jul 2025 11:28:18 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+	David Hildenbrand <david@redhat.com>
+Cc: Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
+	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
+Message-ID: <20250730142818.GL26511@ziepe.ca>
+References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
+ <cover.1750854543.git.leon@kernel.org>
+ <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+ <20250627170213.GL17401@unreal>
+ <20250630133839.GA26981@lst.de>
+ <69b177dc-c149-40d3-bbde-3f6bad0efd0e@samsung.com>
+ <f912c446-1ae9-4390-9c11-00dce7bf0fd3@arm.com>
+ <20250730134026.GQ402218@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,73 +105,115 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250730125224.ScWqm03r@linutronix.de>
+In-Reply-To: <20250730134026.GQ402218@unreal>
 
-On Wed, Jul 30, 2025 at 02:52:25PM +0200, Nam Cao wrote:
-> I do not have trace-cmd in the riscv image, but I do have perf. I will give
-> it a try.
+On Wed, Jul 30, 2025 at 04:40:26PM +0300, Leon Romanovsky wrote:
 
-Instead, I replaced with tracepoints with trace_printk() and managed to
-captured the log moments before disaster below.
+> > The natural working unit for whatever replaces dma_map_page() will be
+> > whatever the replacement for alloc_pages() returns, and the replacement for
+> > kmap_atomic() operates on. Until that exists (and I simply cannot believe it
+> > would be an unadorned physical address) there cannot be any
+> > *meaningful*
 
-I'm not sure what I'm seeing, just dumping this here, maybe you have an
-idea.
+alloc_pages becomes legacy.
 
-Quite interesting that the last "normal" line for cpu1 is:
+There will be some new API 'memdesc alloc'. If I understand Matthew's
+plan properly - here is a sketch of changing iommu-pages:
 
-            test-762     [001] dn...   112.407548: da_event_sts: cant_sched x irq_enable -> can_sched (final)
+--- a/drivers/iommu/iommu-pages.c
++++ b/drivers/iommu/iommu-pages.c
+@@ -36,9 +36,10 @@ static_assert(sizeof(struct ioptdesc) <= sizeof(struct page));
+  */
+ void *iommu_alloc_pages_node_sz(int nid, gfp_t gfp, size_t size)
+ {
++       struct ioptdesc *desc;
+        unsigned long pgcnt;
+-       struct folio *folio;
+        unsigned int order;
++       void *addr;
+ 
+        /* This uses page_address() on the memory. */
+        if (WARN_ON(gfp & __GFP_HIGHMEM))
+@@ -56,8 +57,8 @@ void *iommu_alloc_pages_node_sz(int nid, gfp_t gfp, size_t size)
+        if (nid == NUMA_NO_NODE)
+                nid = numa_mem_id();
+ 
+-       folio = __folio_alloc_node(gfp | __GFP_ZERO, order, nid);
+-       if (unlikely(!folio))
++       addr = memdesc_alloc_pages(&desc, gfp | __GFP_ZERO, order, nid);
++       if (unlikely(!addr))
+                return NULL;
+ 
+        /*
+@@ -73,7 +74,7 @@ void *iommu_alloc_pages_node_sz(int nid, gfp_t gfp, size_t size)
+        mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, pgcnt);
+        lruvec_stat_mod_folio(folio, NR_SECONDARY_PAGETABLE, pgcnt);
+ 
+-       return folio_address(folio);
++       return addr;
+ }
 
-But in the next error line, it mentions the "enable_to_exit". Where did
-this state come from??
+Where the memdesc_alloc_pages() will kmalloc a 'struct ioptdesc' and
+some other change so that virt_to_ioptdesc() indirects through a new
+memdesc. See here:
 
-           <...>-1621    [001] d....   119.919846: da_event_sts: rv: monitor sts does not allow event sched_switch on state enable_to_exit
+https://kernelnewbies.org/MatthewWilcox/Memdescs
 
-Something very strange is going on here..
+We don't end up with some kind of catch-all struct to mean 'cachable
+CPU memory' anymore because every user gets their own unique "struct
+XXXdesc". So the thinking has been that the phys_addr_t is the best
+option. I guess the alternative would be the memdesc as a handle, but
+I'm not sure that is such a good idea. 
 
-Nam
+People still express a desire to be able to do IO to cachable memory
+that has a KVA through phys_to_virt but no memdesc/page allocation. I
+don't know if this will happen but it doesn't seem like a good idea to
+make it impossible by forcing memdesc types into low level APIs that
+don't use them.
 
-            test-1198    [000] d....   112.407332: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-762     [001] d....   112.407338: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-762     [001] d....   112.407347: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-1198    [000] d....   112.407351: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-762     [001] d....   112.407363: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-1198    [000] d.h..   112.407370: da_event_sts: cant_sched x irq_entry -> cant_sched
-            test-762     [001] d.h..   112.407383: da_event_sts: cant_sched x irq_entry -> cant_sched
-            test-637     [002] dn...   112.407413: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-         illegal-1091    [003] dns..   112.407418: da_event_sts: in_irq x irq_enable -> scheduling
-            test-637     [002] .n...   112.407424: da_event_sts: can_sched x schedule_entry -> scheduling
-         illegal-1091    [003] dns..   112.407431: da_event_sts: scheduling x irq_disable -> disable_to_switch
-            test-637     [002] dn...   112.407433: da_event_sts: scheduling x irq_disable -> disable_to_switch
-         illegal-1091    [003] dns..   112.407438: da_event_sts: disable_to_switch x irq_enable -> enable_to_exit
-         illegal-1091    [003] dns..   112.407448: da_event_sts: enable_to_exit x irq_disable -> enable_to_exit
-            test-1198    [000] dns..   112.407459: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-         illegal-1091    [003] dns..   112.407460: da_event_sts: enable_to_exit x irq_enable -> enable_to_exit
-            test-637     [002] d....   112.407468: da_event_sts: disable_to_switch x sched_switch -> switching
-            test-1198    [000] dns..   112.407472: da_event_sts: can_sched x irq_disable -> cant_sched
-         illegal-1091    [003] dns..   112.407472: da_event_sts: enable_to_exit x irq_disable -> enable_to_exit
-         illegal-1091    [003] dn...   112.407481: da_event_sts: enable_to_exit x irq_enable -> enable_to_exit
-            test-1198    [000] dns..   112.407483: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-762     [001] dns..   112.407488: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-         illegal-1091    [003] dn...   112.407492: da_event_sts: enable_to_exit x irq_disable -> enable_to_exit
-            test-1198    [000] dns..   112.407493: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-762     [001] dns..   112.407501: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-1198    [000] dns..   112.407501: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-762     [001] dns..   112.407508: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-1198    [000] dns..   112.407513: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-649     [002] d....   112.407517: da_event_sts: switching x irq_enable -> enable_to_exit
-            test-762     [001] dns..   112.407518: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-1198    [000] dns..   112.407521: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-762     [001] dns..   112.407529: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-649     [002] .....   112.407530: da_event_sts: enable_to_exit x schedule_exit -> can_sched (final)
-            test-1198    [000] dns..   112.407541: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-762     [001] dns..   112.407541: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-1198    [000] dns..   112.407548: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-762     [001] dn...   112.407548: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-1198    [000] dns..   112.407560: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-1198    [000] dns..   112.407567: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-1198    [000] dns..   112.407578: da_event_sts: can_sched x irq_disable -> cant_sched
-            test-1198    [000] dns..   112.407585: da_event_sts: cant_sched x irq_enable -> can_sched (final)
-            test-649     [002] d....   112.407596: da_event_sts: can_sched x irq_disable -> cant_sched
-         illegal-1091    [003] d....   112.410126: da_event_sts: rv: monitor sts does not allow event sched_switch on state enable_to_exit
-           <...>-1621    [001] d....   119.919846: da_event_sts: rv: monitor sts does not allow event sched_switch on state enable_to_exit
-            test-642     [001] d....   121.459650: da_event_sts: rv: monitor sts does not allow event sched_switch on state enable_to_exit
+Also, the bio/scatterlist code between pin_user_pages() and DMA
+mapping is consolidating physical contiguity. This runs faster if you
+don't have to to page_to_phys() because everything is already
+phys_addr_t.
+
+> > progress made towards removing the struct page dependency from the DMA API.
+> > If there is also a goal to kill off highmem before then, then logically we
+> > should just wait for that to land, then revert back to dma_map_single()
+> > being the first-class interface, and dma_map_page() can turn into a trivial
+> > page_to_virt() wrapper for the long tail of caller conversions.
+
+As I said there are many many projects related here and we can
+meaningfully make progress in parts. It is not functionally harmful to
+do the phys to page conversion before calling the legacy
+dma_ops/SWIOTLB etc. This avoids creating patch dependencies with
+highmem removal and other projects.
+
+So long as the legacy things (highmem, dma_ops, etc) continue to work
+I think it is OK to accept some obfuscation to allow the modern things
+to work better. The majority flow - no highmem, no dma ops, no
+swiotlb, does not require struct page. Having to do
+
+  PTE -> phys -> page -> phys -> DMA
+
+Does have a cost.
+
+> The most reasonable way to prevent DMA_ATTR_SKIP_CPU_SYNC leakage is to
+> introduce new DMA attribute (let's call it DMA_ATTR_MMIO for now) and
+> pass it to both dma_map_phys() and dma_iova_link(). This flag will
+> indicate that p2p type is PCI_P2PDMA_MAP_THRU_HOST_BRIDGE and call to
+> right callbacks which will set IOMMU_MMIO flag and skip CPU sync,
+
+So the idea is if the memory is non-cachable, no-KVA you'd call
+dma_iova_link(phys_addr, DMA_ATTR_MMIO) and dma_map_phys(phys_addr,
+DMA_ATTR_MMIO) ?
+
+And then internally the dma_ops and dma_iommu would use the existing
+map_page/map_resource variations based on the flag, thus ensuring that
+MMIO is never kmap'd or cache flushed?
+
+dma_map_resource is really then just
+dma_map_phys(phys_addr, DMA_ATTR_MMIO)?
+
+I like this, I think it well addresses the concerns.
+
+Jason
