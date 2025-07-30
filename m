@@ -1,157 +1,115 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13ECBA2D;
-	Wed, 30 Jul 2025 17:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0092E090C;
+	Wed, 30 Jul 2025 17:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753896387; cv=none; b=u8gbYMRptgBux6r4Y6QIBq5d3Mmb7NJVwwveO7cdSrWTxLBCVqvZgM0EIBDJS9EiAhR1K1YSZjinkYtoZtEiG/Ep9PW13+Kn5MRqi68IVfxe0YPs0Mk+ArCduv1FyTVNnGur3B0LX8WIXXQjmSt82eIyASPPJcZe4759PUFmSxU=
+	t=1753896736; cv=none; b=ljGR8I8JEDS9ltsutl1tNujMqAwpquvN2iyQQCViMN/4j0zG3qECW1r0mASisYxB9DkBbJHyV93R1wv7r3W/6NRZ9k1+hNaU7iNI8+G+kX1qHgxVbhWxTrWTteozk6ifvvhGWSitceNOkBSNCIdJwTHH9l/O/VZv0/zI7AjQR/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753896387; c=relaxed/simple;
-	bh=SlIdkKe6gfAEdWlgEkQodryuRjTZ3yr1OCuE073ILuk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lu+8fkxdu8sgXcN/HPwpg7CAACvU1lrb16hNBLWVu5SDWiBmZCEH3Auvs6CHBq+M3Mmhe0odbx8QgoPnpSUR815LdZ7dRwm6VogXq5bBdGa/bv8LiUGHlGTAu/BdloFJfGPqzaqOzdKHkS9Ht+WprwNcf321pATd+T2sfpRRcQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXRrcZEF; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXRrcZEF"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-31f255eb191so128586a91.0;
-        Wed, 30 Jul 2025 10:26:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753896385; x=1754501185; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=NrcJ1iSCtN5jVbcm5N0Ai/T3sFFFCqnycMZm8fgafCg=;
-        b=mXRrcZEFJfo+N3IWknP++/tVOClnCmRihwZczL3QilhIlyEneUWvzA7F9elv9fTPRz
-         GkcS6to3U0YrUPDiqXQ/4AvPVhogHaflZ0349cvHhBcUaULAvY6XaXDtYkDFYcQyVuFF
-         YIIpARf6va7p5SRScZDZOHvLvF+uF2OwSlQ/5hlFv6ou8BxUtLw2serSHvSqx96a85Uv
-         WHRwXzOxMdJtcaL73vG9AfMZBtxFKFb2+lwA2+Hgb8KFcJPaJ4Woqep+ZHaEKtRYoSgw
-         OrE6QijqmVZwmV7E1dXJ3+LFDQeIIhC8+BEPsW8Qgbhft0lJ0gFGPNYG7PQ9Jz19+SWG
-         VgeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753896385; x=1754501185;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NrcJ1iSCtN5jVbcm5N0Ai/T3sFFFCqnycMZm8fgafCg=;
-        b=Xr1l5qZDHzs5lrDnBCc04zN4wu/cSyQsunKxXc9S8yHdvWAhvn90AKbMncNx8hXDNc
-         h/Pnv5QljW1XwxPGOwiVt/Zr0rT7JSeyiuVfkrVp/CQPtQ0lYNDLSSfDqjgBCoj5Dx5l
-         rXeLziQqlTLrlhE64377NnxYcnMishRkekh1imItZ8/d19MrKCALJHVwoYi2rVTzI7S8
-         XBhvHB0f7/MDsv1FkRHRssttX5NeOB0tPZd6d+KdgFtrsICFQhL4DawAy1tNTvEy7WH1
-         FUWDxAz9Q9XaewZlfTINjWcJZUOuY1w6j+8LOpt4FHblDX0t8cUbraDlkYWdViLt9SXR
-         oa9g==
-X-Forwarded-Encrypted: i=1; AJvYcCUdjChYYI72+7QniU5e0+aPFWCRdYiL0RPNc8hQrmTOCr5sS1YmZEPIKL00NzGqG6R7LsczKrBhtqA=@vger.kernel.org, AJvYcCVJFKJWvzvuyFCh5c+QflIgPlIfIDWbeIgnLCXziHYXCVeqfQt0CkNdRARYK3vRPQdRO05qp8ypLIkxiZFE@vger.kernel.org, AJvYcCXQL/euMzYvIQHg1lxo/sF29RRY0IePZ7gq8L1x712oRQc+UzyrjCSRTq5juSW2jmdlgINOVRHcWjOWrfw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyx4/4/WCWyTrB6h+kxnJxfXx6k1hvT8EO8IpTF/53kueI0JwK3
-	0rG8T17/xs0aofWSPLLnURc2VuQ7vUC40w3WfujDZX06HGoGh7sBRmi8
-X-Gm-Gg: ASbGncvoIF6ICw/KvFVXmVxtRw0WCNjrmADjYyeEsW98xsO02y9LnQ/pc6mKnbOVLWg
-	ED+rPWE6Fd151pajkPYjJozTrczfA+IKJHBEdRMz0f2CFFvz6ilUoXDUOsPFKxrLq4xeku1T1Cw
-	WR+1T+t0GmNOntBPgweZ85aJkxD95PVZ/Di2D+mUZFkEwQLq0crjxbQolcmNAV8QseEfC7nGeYd
-	0Nuot1N26acWYo/bOe+Kyn5cKwCPwnUbZO9YxCTmUDfUkIV3kQDuAdsZdW7NNEWSK41xx1t4k9Q
-	HrEfUavtQ9H8geSwFdeDZduH3EqyBzcbdrjaq0SCz1tMDBKAzLnrSYenaSyhIOqdnLsQgvyTtgP
-	LYyugEP3+SEW+J3ZHgpT2c/uX3dcU+bNOxjEOKjjCGjGx2eHkdcN03Bai5aKInzPXSWGaRwg=
-X-Google-Smtp-Source: AGHT+IEmdrJox+yHP2NWcyP1szaq4jQ/NssfT+LBg27ZIUZGAmZbYTGRkvuIXsiDZnu8PAyJ88K98g==
-X-Received: by 2002:a17:90b:28c4:b0:2ee:d371:3227 with SMTP id 98e67ed59e1d1-31f5de4b9d3mr6551743a91.17.1753896385005;
-        Wed, 30 Jul 2025 10:26:25 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31f63dda997sm2518311a91.20.2025.07.30.10.26.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Jul 2025 10:26:24 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d4b6932f-fe95-4502-b7c9-650a61ab565d@roeck-us.net>
-Date: Wed, 30 Jul 2025 10:26:22 -0700
+	s=arc-20240116; t=1753896736; c=relaxed/simple;
+	bh=NinQQys2498qyiNBRGcS8/lpTf8W0uQhxhbbIBHawyI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uxQgFCtIFu6XM+myjVEaSt+WC2/Tm5fakl8qS64+v6QkRPBPz9VdgO75h/7CLmtvSBjeBDIqezqwJeaVLUpS4u9kfewe8Y30XEirLgU4/JGPBs82V081XQi6mb5vT1nNFt1jvkrd8E9VcOFB831yBgvy6ZFtSb6QfpTHdieD6DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 748831DB81A;
+	Wed, 30 Jul 2025 17:32:06 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id E77F32000D;
+	Wed, 30 Jul 2025 17:32:03 +0000 (UTC)
+Date: Wed, 30 Jul 2025 13:32:20 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Sasha Levin <sashal@kernel.org>, Greg KH <greg@kroah.com>,
+ corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+ josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Linus Torvalds
+ <torvalds@linux-foundation.org>, "Dr. David Alan Gilbert"
+ <linux@treblig.org>
+Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
+ kernel
+Message-ID: <20250730133220.6e7e9370@gandalf.local.home>
+In-Reply-To: <eaf1366f-4b28-4312-a820-1cd04796ff1d@lucifer.local>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+	<7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local>
+	<2025072854-earthen-velcro-8b32@gregkh>
+	<df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local>
+	<20250730112753.17f5af13@gandalf.local.home>
+	<158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local>
+	<20250730121829.0c89228d@gandalf.local.home>
+	<aIpKCXrc-k2Dx43x@lappy>
+	<a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
+	<aIpSlhPTC9G1AqvO@lappy>
+	<eaf1366f-4b28-4312-a820-1cd04796ff1d@lucifer.local>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] hwmon: add GPD devices sensor driver
-To: Cryolitia <liziyao@uniontech.com>, Antheas Kapenekakis <lkml@antheas.dev>
-Cc: Cryolitia@gmail.com, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- Celeste Liu <CoelacanthusHex@gmail.com>, Yao Zi <ziyao@disroot.org>,
- Derek John Clark <derekjohn.clark@gmail.com>,
- =?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>,
- someone5678 <someone5678.dev@gmail.com>,
- Justin Weiss <justin@justinweiss.com>, command_block <mtf@ik.me>
-References: <20250314-gpd_fan-v6-0-1dc992050e42@gmail.com>
- <20250314-gpd_fan-v6-1-1dc992050e42@gmail.com>
- <CAGwozwENLOOS5q1Bs5SEh3FFJAY-=kcVimf5U+tWzy6HaiGd=g@mail.gmail.com>
- <bb57fe1d-fde9-45f8-9f5c-0836a6e557ff@roeck-us.net>
- <CAGwozwGdZ5tzHg7_TF5d_AWVDmypP987XS-x_GWqrSF81PiG2Q@mail.gmail.com>
- <B751D49737DD10DC+00a0ff95-476a-4d0a-9bc6-40e77012a554@uniontech.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <B751D49737DD10DC+00a0ff95-476a-4d0a-9bc6-40e77012a554@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: E77F32000D
+X-Stat-Signature: 6b5x577wte8ozgpt6i5917esadg8nq8t
+X-Rspamd-Server: rspamout06
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19LcGNo0LjgW2Ekbt8lrE84SyalwtrTsMY=
+X-HE-Tag: 1753896723-530352
+X-HE-Meta: U2FsdGVkX19fG+MKAppCGtg6IG+I+Tb+G4lC6YsQJXtiTB7Xuv+xearwLeAEfIzNXYTaWMc3S1wyBmF6w7Sfd6otwJjRxk5bR8ujSpW0J5rFd2VP/Lwr5L7rJ5iExHFogjRI2prpmTTICcDVY0fvU6jTKoYYWfFyBMAmMTD31gTENq4wtN8HcOwDzgv9/nA0I14rjDNuKigFwi11iWcQYrFl0taFAG8fvGWMapZkjd79XdSgDjIyIPTL5o5x9gUsM/S2n35JFBWnlhw34VLYVkG/bfPIK03WwMrYrnN7l3jTSv0Awj8hjyGCMKnK1lEIMOy2BD2l9Pxf3apZywURFv+o9os3PA6W
 
-On 7/30/25 02:24, Cryolitia wrote:
-> Thank you for raising this valid concern. We've closely monitored GPD's
-> development plans and currently see no indication of EC functionality
-> expansion beyond thermal sensors in the foreseeable future. Given this
-> observation, we believe placing the driver in hwmon remains appropriate
-> for now.
+On Wed, 30 Jul 2025 18:23:14 +0100
+Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+
+> > I don't think we should (or can) set a policy here for other
+> > maintainers. Right now we allow tool-assisted contributions - flipping
+> > this would mean we need to get an ack from at least a majority of the
+> > MAINTAINERS folks.  
 > 
-> That said, we fully respect your maintainer perspective on
-> future-proofing. If you feel strongly that platform/x86 would be a safer
-> long-term home despite the current scope, we're happy to move the driver
-> there immediately. We're committed to finding the most sustainable
-> solution for upstream.
+> Sasha, with respect this is totally crazy.
+
+I'll somewhat defend Sasha on this.
+
 > 
+> Assuming every maintainer accepts AI patches unless explicitly opted out is
+> very clearly not something that will be acceptable to people.
 
-As hwmon maintainer, I feel strongly (since you used the word) that moving
-the driver (or any hwmon driver, for that matter) out of hwmon space would
-be a bad idea, but I won't prevent you from doing it either. It means less
-work for me, after all.
+You can opt out when you receive your first AI patch ;-)
 
-Guenter
+> 
+> Assuming an LF policy most maintainers won't be aware of applies with the
+> kind of ramifications this will inevitably have seems very unreasonable to
+> me.
 
+This is why the policy should just be "It's up to the maintainer to decide
+if they will take the patch or not".
+
+If the maintainer starts getting too many submissions, then they can update
+the MAINTAINERS file to say "stop all AI patches to me!". Just like we have
+an opt-in for to not be part of the get_maintainer.pl "touched this file"
+with the .get_maintainer.ignore script.
+
+
+> 
+> You might suggest presuming a policy for maintainers is inappropriate, but
+> you are doing so wrt the LF policy on the assumption everybody is aware and
+> agrees with it.
+> 
+> That same document says individual projects can _override_ this as they
+> please. So the introduction of this document can very well override that.
+> 
+> We at the very least need this to be raised at the maintainers summit with
+> a very clear decision on opt-in vs. opt-out, with the decision being
+> communicated clearly.
+
+Agreed.
+
+> 
+> It's maintainers like me that'll have to deal with the consequences of
+> this.
+
+And you may be the first to opt-in ;-)
+
+-- Steve
