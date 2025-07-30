@@ -1,68 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A9A1A5B92;
-	Wed, 30 Jul 2025 14:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF80481A3;
+	Wed, 30 Jul 2025 15:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753886892; cv=none; b=bXmoarP+o6eKmo1K/PoCx2W03fLij9POTr0kjn6He0HMZeQ5JKJVS9L+JLXOMImagbX0o95q3hpSiS0OLdXCeWCAxTeJLo6AGGvt+lY83dvU6zik0hKPfl6B2hmxubB1FnIoOQVIX95ro1zyvkqXQyX9DM72aM57W+Kep2bdCvo=
+	t=1753888191; cv=none; b=Tkwl19cdeTF488CrbxlL8McDMhv+u8Srdwzeisq5q8Wt5nz65RiqVypkJaCE2XkFWp5I/ucy2qngVLAnTEPG3b9jYBy1QFQQzALlQYbWWXod2cXSyBTjyGmhixGWUNcbee+dRlDnucrVI9nMZxEPJ9PBeUrYuXcV0OwMnHhWFWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753886892; c=relaxed/simple;
-	bh=/SjoFkfipdmgynoG35oex7cC6gjWWw2A9RkPHcYCH+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kus2Ed0tqDAW5F6fOeKjpk8SJ7bqPIFZ5WV9XMiQ1ET0Km14/55rpUpOr+OShpLUUcUdxrnWKt0CRpqg46iwtBdOmdOmPfmozFXF3687MhfMw3QNOzzPR4NnnIJHz5aFZsbTqLIXSj2CxCzZlBHJIgmvyEEA4yAGJNp3t3YZGdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjxGXWJM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753888191; c=relaxed/simple;
+	bh=P+71rJwivA7LrqeziBuJ+xJ1lA6/s7LcVIshHpqtCD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lsfanVB+kHe+7w+OGyEyngw2MOIcdT2tKOs2FHq+xtuq7ySADtBqVrrcrAEcm7uoPLrWPUpT65gzt+y6f5E1jqUMp8d5ZCMaFFPwdh7C5fm1I7LuRxvOh70ffgkCNqoRaz90IG5DK+AeNtdwE1ykhELV3KklCKFu2cow3dPDqps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vF1S2nDQ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LMpadHSt; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjxGXWJM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9282C4CEE3;
-	Wed, 30 Jul 2025 14:48:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753886892;
-	bh=/SjoFkfipdmgynoG35oex7cC6gjWWw2A9RkPHcYCH+M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QjxGXWJM9NN5QcBd8jOToTN/R6LqYbAkmYRKhQF2cgKcPaqLVn5M0+VwVCGKbGtHD
-	 bakM7Y1FcwmQe2IpbAGQ9gM2Y3yp7HaEJR+jyOkA0orizUT1otpLtYtq2xZ6wrY6lc
-	 uiNQjiEAOijCAB1EgTruk0alAk+aRm6gklfk+SFwh8NIIPEfeEN7F50QbPzMY2c/ir
-	 azu98xWuX2IkKWcQH1SAucDx5gQU03lkxepwXMB6THaXIE9TmENnza3Gh7UibqUBhr
-	 hfbUBJjIw0kqlmXqpA+34BdKHlowpD3bAnbLNHCO4J35Q8xFjaqVtSQCmTls5dbvUf
-	 PqXAk25EZgNtw==
-Date: Wed, 30 Jul 2025 07:48:10 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>, Kees Cook <kees@kernel.org>,
- corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- josh@joshtriplett.org, konstantin@linuxfoundation.org,
- linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 3/4] agents: add coding style documentation and rules
-Message-ID: <20250730074810.01903973@kernel.org>
-In-Reply-To: <6a2312d3-286e-49f2-aedf-b0e41b48ba14@kernel.org>
-References: <20250727195802.2222764-1-sashal@kernel.org>
-	<20250727195802.2222764-4-sashal@kernel.org>
-	<202507271939.D78EC559@keescook>
-	<aIcGQR8tjmjr8dlb@lappy>
-	<202507272219.4BF02B6@keescook>
-	<aIcSu3LidOqoaVOS@lappy>
-	<6a2312d3-286e-49f2-aedf-b0e41b48ba14@kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vF1S2nDQ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LMpadHSt"
+Date: Wed, 30 Jul 2025 17:09:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1753888187;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xlnXIP/OxpkTTqF3JlbMGyhxUu+zw1hkC/BN7ioKaNY=;
+	b=vF1S2nDQVjCDgG8BzAQM73DNzwhfzRftd163VYneDuXUobff4d5bf6LZX8qQcL9PG+lp+d
+	ky4Py1kxonpB64p6rQDhymrFDUcAw4TE6JwfMjrbk6ufyS/1A+nQpNebXLTAszC53q1FdT
+	J5KfAuIqaXELB7DhCmeLFksEY12Rhq2JteOz0Xv0L1EDxWvMIqhpmk55TLgJ4l+klrVQJC
+	OBJ6QG2lXC32Lxf1rOODEDvZ93bFHaiDFQ3xMiap0pgxvwK62yIfFFrHpy2Wit8K7CyH6v
+	wuVSuHjO1p6M4PNCWFOk5pFBMwDufuWkFqIkk1UIgujC8tJ6pWZkDrHfPcVl8w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1753888187;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xlnXIP/OxpkTTqF3JlbMGyhxUu+zw1hkC/BN7ioKaNY=;
+	b=LMpadHSthgJz7YXJk4TT3TnPV80EgWvjBN15MIIV8+k0o6Lk7RA7Ybw4TWzJIsivUBEAIt
+	JKirGe2nORfWDKAQ==
+From: Nam Cao <namcao@linutronix.de>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,
+	Clark Williams <williams@redhat.com>,
+	John Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH v5 7/9] rv: Replace tss and sncid monitors with more
+ complete sts
+Message-ID: <20250730150946.HdhW6QPa@linutronix.de>
+References: <20250728135022.255578-1-gmonaco@redhat.com>
+ <20250728135022.255578-8-gmonaco@redhat.com>
+ <20250728155332.sbkepHj7@linutronix.de>
+ <76d7e572aae2ccd1699a461aded7a6146f6d8215.camel@redhat.com>
+ <20250729092510._Hq3RWF_@linutronix.de>
+ <20250729093717.3AqIu_f0@linutronix.de>
+ <5803d2623278c7516406534b035a641abfdecee6.camel@redhat.com>
+ <20250730125224.ScWqm03r@linutronix.de>
+ <20250730141643.RD-uucXa@linutronix.de>
+ <20250730144450.rpfei2in@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250730144450.rpfei2in@linutronix.de>
 
-On Wed, 30 Jul 2025 11:31:35 +0200 Krzysztof Kozlowski wrote:
-> I pop up there a lot, but there is no confusion. I am (and maybe we are
-> all?) well aware that checkpatch hard limit is 100 as explained also here:
-> https://lore.kernel.org/all/df2e466a-cdaa-4263-ae16-7bf56c0edf21@kernel.org/
-> 
-> But the coding style still says that preferred length limit is 80.
-> Checkpatch is not a coding style. Coding style document is describing
-> the coding style...
-> 
-> People trust checkpatch way too much, thus its hard limit was raised.
-> Some maintainers also agree with that, yet it does not invalidate what
-> coding style document says.
+Here is a deeper log, CPU3 only:
 
-Hear, hear!
+ illegal-1091    [003] d....   112.407127: da_event_sts: can_sched x irq_disable -> cant_sched
+ illegal-1091    [003] d....   112.407163: da_event_sts: cant_sched x irq_enable -> can_sched (final)
+ illegal-1091    [003] d....   112.407177: da_event_sts: can_sched x irq_disable -> cant_sched
+ illegal-1091    [003] d....   112.407186: da_event_sts: cant_sched x irq_enable -> can_sched (final)
+ illegal-1091    [003] d....   112.407196: da_event_sts: can_sched x irq_disable -> cant_sched
+ illegal-1091    [003] d....   112.407203: da_event_sts: cant_sched x irq_enable -> can_sched (final)
+ illegal-1091    [003] d....   112.407212: da_event_sts: can_sched x irq_disable -> cant_sched
+ illegal-1091    [003] d....   112.407218: da_event_sts: cant_sched x irq_enable -> can_sched (final)
+ illegal-1091    [003] d....   112.407227: da_event_sts: can_sched x irq_disable -> cant_sched
+ illegal-1091    [003] d....   112.407234: da_event_sts: cant_sched x irq_enable -> can_sched (final)
+ illegal-1091    [003] d....   112.407254: da_event_sts: can_sched x irq_disable -> cant_sched
+ illegal-1091    [003] d....   112.407261: da_event_sts: cant_sched x irq_enable -> can_sched (final)
+ illegal-1091    [003] .....   112.407271: da_event_sts: can_sched x schedule_entry -> scheduling
+ illegal-1091    [003] d....   112.407312: da_event_sts: scheduling x irq_disable -> disable_to_switch
+ illegal-1091    [003] d.h..   112.407332: da_event_sts: disable_to_switch x irq_entry -> in_irq
+ illegal-1091    [003] dns..   112.407418: da_event_sts: in_irq x irq_enable -> scheduling
+ illegal-1091    [003] dns..   112.407431: da_event_sts: scheduling x irq_disable -> disable_to_switch
+ illegal-1091    [003] dns..   112.407438: da_event_sts: disable_to_switch x irq_enable -> enable_to_exit
+ illegal-1091    [003] dns..   112.407448: da_event_sts: enable_to_exit x irq_disable -> enable_to_exit
+ illegal-1091    [003] dns..   112.407460: da_event_sts: enable_to_exit x irq_enable -> enable_to_exit
+ illegal-1091    [003] dns..   112.407472: da_event_sts: enable_to_exit x irq_disable -> enable_to_exit
+ illegal-1091    [003] dn...   112.407481: da_event_sts: enable_to_exit x irq_enable -> enable_to_exit
+ illegal-1091    [003] dn...   112.407492: da_event_sts: enable_to_exit x irq_disable -> enable_to_exit
+ illegal-1091    [003] d....   112.410126: da_event_sts: rv: monitor sts does not allow event sched_switch on state enable_to_exit
