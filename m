@@ -1,96 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0231DE4E7;
-	Wed, 30 Jul 2025 18:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A542E173F
+	for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 18:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753900162; cv=none; b=D5wTK3silASK8ivRBTljAqfWRscgteyXE1NRz8uMFK9OGoyJTWnDNFV81ZCsoIMVxv7qK/S7hC3lx0ox0wn/2xW0S0sKcnjRQzG20yAkJJB2OcOt4XCtUajKax8aYbz4hiUDjD7p5HmZclmuJasAIZjQtC++/LKj5alJe5llGfo=
+	t=1753900205; cv=none; b=mjuNkQoZ0YJudaQFujDknQxz8KbcdZbclFzDMEsqNqRmmNZHjwczm339W9QY4JX6k9WAxhl5kFVj2gAf9cqALW1SD2Pf3hBR4S7VNcVhJuxFSWVLSo1uzRbwe3wNmq5in1DDbLSdraqATkO16tgCvz+QYt6o1IQJWyKdgmMvJr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753900162; c=relaxed/simple;
-	bh=VBXH58C+eg63hc0NJ0PJEvas9hinpXcnOplDom8r77g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mjtQ2LZgNkMtAmsMsdh5PVtQoGLzxMzTtztRTn3Ymen2Q5I2DdV1AippNe3wAeHpXy5YrWluicYZ2BRcRN2l7RuLifQsNSXCH2N3AesYDNlRFf4FKYeMgXRGvGvxWPqXTwAYN6d2uZkipFOb0aKRmSECl19QZZ+aUVClVceUa0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gYtAi/8s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753900205; c=relaxed/simple;
+	bh=+IlnsvCqZpWI1irANdU7vC/52xTZuuB1B7d87Am81c4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OOgjclZauDJwdbvAyIT5OnxWjBo3gYEupC+VdK5oonOjuPiggh++HvYspVXxShqXfDRf+bfmClscnfZTwP8uKKqqLDcpGbOc3OlHnrhR1NVb/1HIflSe066bp1BTL5gcW8RnjejrHnfeG5SMuYBLXA3JoU1n9TlmPx0t9eWRmNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OUHEnhZN; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gYtAi/8s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63EF6C4CEE3;
-	Wed, 30 Jul 2025 18:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753900161;
-	bh=VBXH58C+eg63hc0NJ0PJEvas9hinpXcnOplDom8r77g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gYtAi/8sIE6PzS9dLRwxTZm2Cq8D+cIxHo1nPyfNX5+h6gZwvuJiPgM7bDHTfCQyo
-	 7kPWtCN4iMzXS5b0TQ/WZLkgvi4J6h3KepmH+MUpIZZij8+pmRa7gwx6kv6//oAAXq
-	 4oqeaiGnqPzJQURNU5yLK/qX3Bjx3sGN86OPFKR8+Re5PGwtvdFhRYlIbyD8MNaekB
-	 NoIf2UaZ+WQWp2VNUHasq0XjDKqk6mwH8fCxWlQfEv4KqVbHagPNbo9c5DhafyYwr/
-	 TxUgvzwV7Sd1ifWFKvk7xzg+ohyCQFvMI9XsJ8QO3rlTbkc8k0Grq0Q+3GOVSZBsV/
-	 dvEUgMi8aj9hg==
-Date: Wed, 30 Jul 2025 14:29:19 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Kees Cook <kees@kernel.org>, corbet@lwn.net, linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org, josh@joshtriplett.org,
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org
-Subject: Re: [PATCH 2/4] agents: add core development references
-Message-ID: <aIpkfxjMJ9IGEo_K@lappy>
-References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-3-sashal@kernel.org>
- <202507271937.EC44B39@keescook>
- <aIcD9f_52tlLgE-e@lappy>
- <202507272203.BECE244@keescook>
- <aIcRzndNUdh-9R18@lappy>
- <202507272310.FCB96F5E93@keescook>
- <aIpHhR8AhPJZE2Rp@lappy>
- <20250730173528.GN222315@ZenIV>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OUHEnhZN"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5f438523d6fso1791a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Jul 2025 11:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753900202; x=1754505002; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7NIbM6q1x218b7Li1UvxruEIMKkwKF1Zyv43mPS1uqY=;
+        b=OUHEnhZN94w5azEkzVDqwNxQbrmR0zEibAM/XasVXnXVjGL0j7E7BmSRNc+bAz7S4Q
+         53OPHMTJ8fiBPfeF/8akZnLWWqMP0oSwW/rPr6lwyix61oSq2QbHVphJihJovHmqTBDy
+         SLaEN/tShBtJW/9eexd+z/Ov+KVtC7ty5Btf0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753900202; x=1754505002;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7NIbM6q1x218b7Li1UvxruEIMKkwKF1Zyv43mPS1uqY=;
+        b=dkrOQB0YzjPYW8UOFjq6aB4S9/vDTEHikxvVX3aW9psrgnLz/6Iw4HxBNUya9ROVDW
+         cMp0XDz6Y55OxX2ktXLQfhnrx+MiZneF5uXA3kb6X37zB6etyzl9A37xg5dIVUY8xa4i
+         wSzq0E67ve5GUivwYr52biCS/nPgrFohg6mC4OKIWz0IuyE74Y3PEJpXMBByQErQ9JbZ
+         tLjtfkWS+d/0/iG8FzpDsz4ENxz/cSIQ6G6+YPyFwdmt92YH7ockcq2eqDErPUpFhRy8
+         mCmjkBuR/Km0bATZi+kzBfaaoPwqiOS2OJ4kpPJCjmgBCf8KCNaaRZMGk6pelevdfWby
+         upkg==
+X-Forwarded-Encrypted: i=1; AJvYcCUaLlqFc7zLL+3l5FnPyGP7082jCDVNyqAsI4maZXzP6ncEfo8jjPWOLh8SmXuI+o5k/uJSH6CPvvY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNOU1/Mct3Haw7ENdEyAzK5Eabkysqtrt7u+JXehQkuiDnjU2q
+	ZuQdMCdxG2mg4owGHVUls/YnQkFXqZAYdaq7GFoZsR2vvmwTrFS4fkDGMqarcWC0Lu5mRwYz8QV
+	jmPjzoHO3CqoYGlcLDL5U5eQbIHmwyQi6r77khLeu
+X-Gm-Gg: ASbGnctGs/dvda/R7HLhLMAG/y7oWitxNVy3CPrK9Tr0HjbWeP1plX1lz+yqXichVpq
+	wfSKEVPNsiNUQQ8cyFZ3ipBFC/9n2RRNM/4Vz6+cmpD3jKRLeVDwK64jwYghZixRRq5R852eBtp
+	eT+dzvZae1/xvQZ42qc+TAbRkwvQtXe4rgdZe46UOorJn13Vsd4WKY+zgFC0w1vvfwVGpLcIUg2
+	oMm7yQ=
+X-Google-Smtp-Source: AGHT+IFbbK/ul5EAl+qpurW8QCD6MUFcOByL7/YGvDuMq5A8bS06QIOt2f3QRAN6xuePrLmBIsEPhHn7xYqFra8YQrM=
+X-Received: by 2002:a05:6402:d50:b0:607:d206:7657 with SMTP id
+ 4fb4d7f45d1cf-615a5f03c3amr15582a12.2.1753900202156; Wed, 30 Jul 2025
+ 11:30:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20250730173528.GN222315@ZenIV>
+References: <20250728-ddrperfm-upstream-v5-0-03f1be8ad396@foss.st.com> <20250728-ddrperfm-upstream-v5-6-03f1be8ad396@foss.st.com>
+In-Reply-To: <20250728-ddrperfm-upstream-v5-6-03f1be8ad396@foss.st.com>
+From: Julius Werner <jwerner@chromium.org>
+Date: Wed, 30 Jul 2025 11:29:49 -0700
+X-Gm-Features: Ac12FXzJRbNK4O4rQzoS61E9llbPlM-a0El1zXFqw746Wesi6zAN_YlMACvZJkI
+Message-ID: <CAODwPW8ZXfMdFL2=6ht+BvQq5_LQkwHhQJT5j9DcseEx9naXxg@mail.gmail.com>
+Subject: Re: [PATCH v5 06/20] dt-bindings: memory: introduce DDR4
+To: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Gatien Chevallier <gatien.chevallier@foss.st.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Le Goffic <legoffic.clement@gmail.com>, 
+	Julius Werner <jwerner@chromium.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jul 30, 2025 at 06:35:28PM +0100, Al Viro wrote:
->On Wed, Jul 30, 2025 at 12:25:41PM -0400, Sasha Levin wrote:
->
->> Critical Requirements:
->>
->> * License: ALL code MUST be GPL-2.0 only (see COPYING)
->> * Signed-off-by: Agents MUST NOT add Signed-off-by tags
->>   (Only humans can legally certify code submission rights)
->> * Attribution: Agents MUST add Co-developed-by tag:
->>   Co-developed-by: $AGENT_NAME $AGENT_MODEL $AGENT_VERSION
->>   Examples:
->>   - Co-developed-by: Claude claude-3-opus-20240229
->>   - Co-developed-by: GitHub-Copilot GPT-4 v1.0.0
->
->  * for any patch there must be some entity capable of usefully
->    answering questions about that patch.  Legal certification
->    be damned, there must be somebody able to handle active
->    questioning.
->
->And no, it's not the same as with human submitters.  If entity
->A sends a patch to maintainer B, who passes it along and gets
->questions/feedback regarding that patch, B might have to resort
->to passing the questions to A, to confirm their understanding
->of the situation.  And from what I've seen, LLM tend to do
->very badly in such cases.
->
->IOW, defending any agent-originated patch falls entirely upon
->the human "co-developer".  IMO that is a critical requirement.
+> +title: DDR3 SDRAM compliant to JEDEC JESD79-4D
 
-I agree. Elsewhere in the thread I suggested that a maintainer should be
-able to require having tool generated patches come with a Reviewed-by
-tag from a "trusted reviewer" (similar to the guidelines we have for
-academic researches).
+Should this say DDR4?
 
-This way you could at least have a human you trust be part of the loop
-until you trust the author of those tool generated patches.
+> +examples:
+> +  - |
+> +    ddr {
+> +        compatible = "ddr4-ff,f", "jedec,ddr4";
 
--- 
-Thanks,
-Sasha
+This is not a valid example for the way you're defining it now anymore.
