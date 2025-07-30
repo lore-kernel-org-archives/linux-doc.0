@@ -1,65 +1,48 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7F93FE4;
-	Wed, 30 Jul 2025 05:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576FE3FE5;
+	Wed, 30 Jul 2025 06:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753854358; cv=none; b=sCBuZQuOnMQefmVbdCcI1UeIWO5vVM/eIpA+5uEhGMi0pYcKLcpOxhGGTJ9Pf73jWQcdLcK/ZRBnSKLROLpabr3GIA+85W1IdbA1qala1bDWpW6fuR7NG8OEGsoFidl1nMT6J6Uy3uD0d+plikk2AXWQqdWDGILAYsfDsB1yKWE=
+	t=1753855372; cv=none; b=IC9IzLPjaWf0N9kbZ98lHpmAm5Wy3X1NGpfoCQX0NfcJSuAfkmQMjQO5e4BGOm+91b1BzxHgAm4G/CE38QTj/raSpP1g69IlcQNswGbD10Fqqpj2p3CyxrZ6JWblFUWls2XOhWDqWMm+V6xiCYvrlT5zbqDfEyuVRUzzzueG3k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753854358; c=relaxed/simple;
-	bh=KZoZK1rcYkkxyHx5ObLMMN4blyc7hLLmxQ5+q0sGkso=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DNNT6Vf4K+QgXJTHhx4p3UsYYAYbtVjn5ydYS3xTdIB8Uxh5FUc6ys5TtW7OlwZ6USwXAv0Uml0U7dBLuC2pCH/9Zybial0pFccufrf52vL1NdyB3N4ycBiFwl/Tm+8dcd96ALXR+o7K5yT7Kpw0dw6JEgM34EzDv4dgPFqR8DI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GuypJD6l; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753855372; c=relaxed/simple;
+	bh=DxepambSAOX+kPs8ImIDzuWYncFHnfiMA2R2VSN9CFQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=QDAG2vCEjXs6rEIvSRbRyEQpMGCUdF2TqnJyU8tcr+QNfu4tFBCprWoUWYYj3YYMqKERbttvYAbn6YMD2wme8VusmYybEBb869jl9YgvIca5xXP+/1IsIUFOCx90vX+qfu7U9BFBKw2Edc0O5O1AkGusrFTDToEuDCqztPxU2KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=fn8j7j9U; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GuypJD6l"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b34a71d9208so4870521a12.3;
-        Tue, 29 Jul 2025 22:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753854357; x=1754459157; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NYJ5UsLhukcdLpdN5YPrMM3j0pbYHwc96itkt9ufV9U=;
-        b=GuypJD6lUhDn2/856miZmYjEUJEVA+jCkWd8cx6N1ihfLHPKeg52xhrDt1YixwmzSN
-         ziOo8ERHoiOvDrTX6Tw5h4Yf7+nkMTC4vboZG4qsXboahv5ehuwNSQElPVFJXIlDN4fU
-         x4Rmlnu5GkIdTQSdPdkeA5fCX/80p1bO4/+f+vofc69zceJwPa7cFspjjhDWJAlbmrid
-         a5gO18M6GxiII0J/b8BAXlL3PptJfi7/MAWGUbfjf+8f5qzT5hfVH+mVEx6w9xJ4Jfuz
-         GUXSEmyq8ZhiaRv6EOEFHeEHXuo34Ga2pELsIvEq7NpAQBtMxNVDjc9JZW56pi0lcqab
-         sNjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753854357; x=1754459157;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NYJ5UsLhukcdLpdN5YPrMM3j0pbYHwc96itkt9ufV9U=;
-        b=UXW1kFDIlHOSqrsjy6p8W4rf2Hgh3KyxNtX4sE1k6UWnfGXhvFOCf5IduFJOp9nTxg
-         dg2HqQxNtveuT0nIfYXMi+B9UdjWcN43ko8VyyRHZTJBCIKtGSDOyKoISqsCzoShMmCH
-         sRVp32ToiuvO71ft/6E+Bcrpd3K98poJ3KQjmcvOzfuwWb0m3KEbplbWalM42wHFx7X7
-         WDNGh3T4a2AzBIKoJJvIxGi1pcm+IBeFo4LZD47HcuXosStjLGiKc8SdRjpfPZwE2fBC
-         nIVx0cC+fSriNz2hNROpQgL2xJQMfZHtdnOhEG7qCAY/lweg7HjP0negLkd/EghjmE7e
-         r2KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKufiXOuVJkIq3gp/4G5aphp1Kd0ezDep/Oqs77vFBnzwVAwlcYHiBv3eXE+G8p+PqK5yJzCnpS8Zpjvv8@vger.kernel.org, AJvYcCXi05yUNVq4ZUlJFyEH8iae8drovxggARjHtpb6kDevRdBjCw+gt6LgkUyoAXC3DiNnBXxNSLP054M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVFUdz3Qix2AzIRvynbBNYxzOd1MZVp1N9RjUVf8SA+dxFqDki
-	WFbYC9qeYDtxLnRUqcL8QMeRSo56FQtxHRmdj5sZ7KJKWAfCpct5KpPYcaTEggQo
-X-Gm-Gg: ASbGncsxcaq5A0A7jWHog+QsWzGrOyOzM7NI/CfXhijU4x0UOA6+5IYUuyL6rmGEBUa
-	g2ZYw5F4Gc0bPKGCmYrLQvoe3SWyBScfdxgJjR4j6Jv0rThKSF4DWw19nHg5djkoyIJnuYeZcmz
-	fCqZZGC60/dj+R1wxUSe+iC/uhUI1P7gehm+RqO8kJfjSx6BFmXtdMkimZo2IiSu6P+3VS6HySx
-	euRerTXCCV1Jfxx4jRCjPCGi8lQpPBzsr6gPIzGKTQ2+k6kMgqItaM3iPCf56e9y1KwFFbq5dr6
-	MobFT8OzB/54RtrXGfTcnuThBaCUo+t5qKPZBSoMMQtu1TKZL1Lr+t4tcNGlddVG0HBkeAxRWQc
-	eSwE/+D48wgQ60wR5wbPPtVQneztOfA==
-X-Google-Smtp-Source: AGHT+IF9yBjkayx2wuj6T6s+spuO+R1Oc6LEEfBfGn7Z6tb1KtGUScNknnweSaF7hUDHVQVtYL24Ug==
-X-Received: by 2002:a17:90b:4c49:b0:31e:eff1:71a5 with SMTP id 98e67ed59e1d1-31f5de4a9ddmr2744703a91.29.1753854356563;
-        Tue, 29 Jul 2025 22:45:56 -0700 (PDT)
-Received: from [192.168.0.150] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31f63da6141sm902027a91.1.2025.07.29.22.45.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Jul 2025 22:45:55 -0700 (PDT)
-Message-ID: <48bdb92f-799b-4f93-acde-fb68f4345edf@gmail.com>
-Date: Wed, 30 Jul 2025 12:45:47 +0700
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="fn8j7j9U"
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56U61ATI2722417;
+	Wed, 30 Jul 2025 01:01:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1753855270;
+	bh=vr8DybXmLcAu87vsb97/V8r9IlfiHzpkQmRfXo3i8/Y=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=fn8j7j9U5Z3LeGhv7Wv1Ol2KSpCsHBMZDdaYwvqYioKSbAvMBLkk0QQ/hHJmmsOub
+	 XJ/2Mp3T1MO9CRwNl08wMhl3h6xu+hWDe27YZ/Yx1QLZJhYAjrmKErfeFSoqHoDNYB
+	 oEJMDySCVGY0fuVP3c3+xpYuCz3pVVn8MAH5YO5Y=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56U61AwF3281038
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Wed, 30 Jul 2025 01:01:10 -0500
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 30
+ Jul 2025 01:01:09 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 30 Jul 2025 01:01:09 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56U613Jv759858;
+	Wed, 30 Jul 2025 01:01:04 -0500
+Message-ID: <4bb1339a-ead6-4a33-b2bf-c55874bab352@ti.com>
+Date: Wed, 30 Jul 2025 11:31:03 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,40 +50,128 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] Documentation for 6.17
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Linus Torvalds <torvalds@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <87y0s81lqe.fsf@trenco.lwn.net> <aIl3j8klCw6xWyH3@archie.me>
- <aIl7DKlKcy7vauos@casper.infradead.org>
+Subject: Re: [PATCH net-next 2/5] net: rpmsg-eth: Add basic rpmsg skeleton
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
+	<andrew+netdev@lunn.ch>,
+        Mengyuan Lou <mengyuanlou@net-swift.com>,
+        Michael
+ Ellerman <mpe@ellerman.id.au>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Fan
+ Gong <gongfan1@huawei.com>, Lee Trager <lee@trager.us>,
+        Lorenzo Bianconi
+	<lorenzo@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lukas
+ Bulwahn <lukas.bulwahn@redhat.com>,
+        Parthiban Veerasooran
+	<Parthiban.Veerasooran@microchip.com>
+CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250723080322.3047826-1-danishanwar@ti.com>
+ <20250723080322.3047826-3-danishanwar@ti.com>
+ <296d6846-6a28-4e53-9e62-3439ac57d9c1@kernel.org>
+ <5f4e1f99-ff71-443f-ba34-39396946e5b4@ti.com>
+ <cabacd59-7cbf-403a-938f-371026980cc7@kernel.org>
+ <66377d5d-b967-451f-99d9-8aea5f8875d3@ti.com>
+ <bc30805a-d785-432f-be0f-97cea35abd51@kernel.org>
 Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <aIl7DKlKcy7vauos@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <bc30805a-d785-432f-be0f-97cea35abd51@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 7/30/25 08:53, Matthew Wilcox wrote:
-> On Wed, Jul 30, 2025 at 08:38:23AM +0700, Bagas Sanjaya wrote:
->> On Mon, Jul 28, 2025 at 07:35:53AM -0600, Jonathan Corbet wrote:
->>> The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
+
+
+On 29/07/25 6:02 pm, Krzysztof Kozlowski wrote:
+> On 29/07/2025 11:46, MD Danish Anwar wrote:
+>>>>
+>>>> One idea I had was to create a new binding for this node, and use
+>>>> compatible string to access the node in driver. But the device is
+>>>> virtual and not physical so I thought that might not be the way to go so
+>>>> I went with the current approach.
 >>>
->>>    Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
+>>> virtual devices do not go to DTS anyway. How do you imagine this works?
+>>> You add it to DTS but you do not add bindings and you expect checks to
+>>> succeed?
 >>>
->>> are available in the Git repository at:
+>>> Provide details how you checked your DTS compliance.
 >>>
->>>    git://git.lwn.net/linux.git tags/docs-6.17
+>>>
 >>
->> Hi,
+>> This is my device tree patch [1]. I ran these two commands before and
+>> after applying the patch and checked the diff.
 >>
->> It looks like this PR slips through the cracks (not merged yet?).
+>> 	make dt_binding_check
+>> 	make dtbs_check
+>>
+>> I didn't see any new error / warning getting introduced due to the patch
+>>
+>> After applying the patch I also ran,
+>>
+>> 	make CHECK_DTBS=y ti/k3-am642-evm.dtb
+>>
+>> I still don't see any warnings / error.
+>>
+>>
+>> If you look at the DT patch, you'll see I am adding a new node in the
 > 
-> Patience.  Linus will pull this at some time during the merge window.
-> Probably by the end of the first week.
-> 
+> I see. This is so odd syntax... You have the phandle there, so you do
+> not need to do any node name checking. I did not really expect you will
+> be checking node name for reserved memory!!!
 > 
 
-OK, thanks!
+I don't have access to the phandle in my function. The reserved memory
+is reserved by ti_k3_r5_remoteproc driver. That driver has the phandle.
+
+I am writing a new driver rpmsg_eth, this driver only has the rpdev
+structure. This driver doesn't have any dt node or phandle and because
+of this I am doing `peer = of_find_node_by_name(NULL,
+"virtual-eth-shm");` to get the access to this node here.
+
+I couldn't find any way to access the dt node of reserved memory from
+this (rpmsg_eth) driver. Please let me know if there is any way I can
+access that.
+
+> Obviously this will be fine with dt bindings, because such ABI should
+> never be constructed.
+> 
+> 
+>> `reserved-memory`. I am not creating a completely new undocumented node.
+>> Instead I am creating a new node under reserved-memory as the shared
+>> memory used by rpmsg-eth driver needs to be reserved first. This memory
+>> is reserved by the ti_k3_r5_remoteproc driver by k3_reserved_mem_init().
+>>
+>> It's just that I am naming this node as "virtual-eth-shm@a0400000" and
+>> then using the same name in driver to get the base_address and size
+>> mentioned in this node.
+> 
+> And how your driver will work with:
+> 
+> s/virtual-eth-shm@a0400000/whatever@a0400000/
+> 
+
+
+It won't. The driver imposes a restriction with the node name. The node
+name should always be "virtual-eth-shm"
+
+For other vendors who want to use this driver, they need to reserve
+memory for their shared block and name the node `virtual-eth-shm@XXXXXXXX`
+
+> ? It will not.
+> 
+> Best regards,
+> Krzysztof
 
 -- 
-An old man doll... just what I always wanted! - Clara
+Thanks and Regards,
+Danish
+
