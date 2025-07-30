@@ -1,38 +1,33 @@
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C1510E3;
-	Wed, 30 Jul 2025 09:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841AF26C3A6;
+	Wed, 30 Jul 2025 09:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753867524; cv=none; b=ULkkx64ScNnJ+cpWiCrhHrGFtNhTZxJhTfHcQTkmV4TuGXwScobZtCQaxICUq7+G8qqWZGbuD83Xop7k2ZIpqSWcYEOav+r1mw6Q63dKhpC2wStYCSqszM2JPeXbCI4RG/POUle0dNoUxdYaYhT1IT6jwj+URqwLjWIH+lMoFp4=
+	t=1753867900; cv=none; b=MSLlE+RFw1ecxHoQOw/xdmVBDYuJP7O0XjeGZ7cQMbKV7KW1U8m2KpPCHAGFCmTvS7rkyOTnLkMHL3Q7NeYMtyPveVDImJrU0Xe2Ckfzd7CF/pydBfVvjUXHuq9uQmXo0DBWB92ZH0SHnK2fhxK+1GuE90A0kprnnJ7PBV13OxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753867524; c=relaxed/simple;
-	bh=1MHRdEhKZxS+HzmEBYk4+Y9wIW2b2Cp3Qo/0aeWItA8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=a8A0Lko+zEe2zHK3Y2k4+1Rg9eR1zq6J2BOfsvQr42AfcNE9A4y2X9/h0tVGYvhOGUsKRf52Kf5NiRMzMt2bTWyDVS3OZjE6w7p7IoSzjBJxUZ0u06oyVEo/+XCFRNNOXgQotL+FY5wATzRRrUEDsTon+QvcGeTM5Nxb8tI9rhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=e4sxHj22; arc=none smtp.client-ip=18.169.211.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1753867900; c=relaxed/simple;
+	bh=ndxvtT6w+4cZYUO2h+r4M5ZVlFiVi4ilHT6fLFKKQ/U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tOKD81vNIbYBBjbhVztUVWcoxcUMFAGhdvlQo6r7/QDn/Kp4pgU3yac9XxLjsEShkBsdBsBIM7705w3fIhaHvrTEWZ0XsIGge6u35X/NDLAW+kutpAsYJeIwlgNj5eZAjGb/JKeX6qk5QtV/lpQzL6THcLsUPzGcf2q04NBzqIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7VoNoUR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="e4sxHj22"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1753867493;
-	bh=5TbeNkB8ldYnEXcb1m/XCnlkvWahX+znrHwbJGCTAgI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To;
-	b=e4sxHj22ssG9WshGpEQw4/82BvBQlHPX2H7STjxx3r1jrON8BKSgiafI3Hmj0/Yv5
-	 hmQgFhbcGVV0PqHM1Uk/JFbaBbVheew75ICke1xkiBsfAFCl2iMNVgpvuC8Jk12bmL
-	 BodaX7yPyeqk4zXHeX0w9Bg4zBxQksdEvUnbhFD4=
-X-QQ-mid: esmtpgz10t1753867490t9a6472fa
-X-QQ-Originating-IP: lQl0MESZLYhgwmh4DSr716DxfUxHtn7Ebgq7yyCQOZc=
-Received: from [198.18.0.1] ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 30 Jul 2025 17:24:31 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 1206265350598173633
-Message-ID: <B751D49737DD10DC+00a0ff95-476a-4d0a-9bc6-40e77012a554@uniontech.com>
-Date: Wed, 30 Jul 2025 17:24:29 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7VoNoUR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFA2FC4CEE7;
+	Wed, 30 Jul 2025 09:31:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753867899;
+	bh=ndxvtT6w+4cZYUO2h+r4M5ZVlFiVi4ilHT6fLFKKQ/U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O7VoNoURbgdVtYn/gXeBTM/qoes5hgCxuRSMku0v09WDW6bE679h2uQoOYMHW4CcP
+	 xq/qcZafk6metP+WIZOUr6f5co8O7iCr4RNknLpVCOJRskyxaiw8lC7tpUujrhsj8S
+	 nU6TXclzRnx00mBIqI6Yfi4DZrTp7aS8H95U2G5kn7Irg+UJo45vVjuk4nh/gIkHu7
+	 0AwB9YpKOFtL5tz+zFDkQUrH/jZ+0aN2i8RUfhffd3+xC3AUsyoTYtHlRHjgyRvYQs
+	 4+NZSOo+8d8uYwNvNN97Lwd+6XS+Wp13OMYafrcw0RTfgwjwGUabUunGCBBNP2YVj2
+	 SzdFY9txCpAbA==
+Message-ID: <6a2312d3-286e-49f2-aedf-b0e41b48ba14@kernel.org>
+Date: Wed, 30 Jul 2025 11:31:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,136 +35,103 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Cryolitia <liziyao@uniontech.com>
-Subject: Re: [PATCH v6 1/2] hwmon: add GPD devices sensor driver
-To: Antheas Kapenekakis <lkml@antheas.dev>, Guenter Roeck <linux@roeck-us.net>
-Cc: Cryolitia@gmail.com, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- Celeste Liu <CoelacanthusHex@gmail.com>, Yao Zi <ziyao@disroot.org>,
- Derek John Clark <derekjohn.clark@gmail.com>,
- =?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>,
- someone5678 <someone5678.dev@gmail.com>,
- Justin Weiss <justin@justinweiss.com>, command_block <mtf@ik.me>
-References: <20250314-gpd_fan-v6-0-1dc992050e42@gmail.com>
- <20250314-gpd_fan-v6-1-1dc992050e42@gmail.com>
- <CAGwozwENLOOS5q1Bs5SEh3FFJAY-=kcVimf5U+tWzy6HaiGd=g@mail.gmail.com>
- <bb57fe1d-fde9-45f8-9f5c-0836a6e557ff@roeck-us.net>
- <CAGwozwGdZ5tzHg7_TF5d_AWVDmypP987XS-x_GWqrSF81PiG2Q@mail.gmail.com>
+Subject: Re: [PATCH 3/4] agents: add coding style documentation and rules
+To: Sasha Levin <sashal@kernel.org>, Kees Cook <kees@kernel.org>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+ josh@joshtriplett.org, konstantin@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, rostedt@goodmis.org
+References: <20250727195802.2222764-1-sashal@kernel.org>
+ <20250727195802.2222764-4-sashal@kernel.org> <202507271939.D78EC559@keescook>
+ <aIcGQR8tjmjr8dlb@lappy> <202507272219.4BF02B6@keescook>
+ <aIcSu3LidOqoaVOS@lappy>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-In-Reply-To: <CAGwozwGdZ5tzHg7_TF5d_AWVDmypP987XS-x_GWqrSF81PiG2Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: M8e5kblytUZR2/NuQijMYYgSbRTX+/osZL2apFBDKqF1qD11KeQzMDJZ
-	MKJ6iEbl3t5lYh5lHhA3fy8ZcXlQrYg/QLkEYarE6spLY5Xx4L9ZyIH6sfRPGohUX/W3YDK
-	TkIAawT2jwST69e/zbz3lg3no8Ir0MJsqzoYYLV+BxqVzVd5nvNy3+nRY5RrgU6qg8rsYNd
-	ypjw68yzysNWWMIRVVc9vudmL5JtFWAeJ6gs3WLi0UbcplVmQBprKeZcWI+CYIE9sGFQlQc
-	QCcd9di0kFcYJjrTuwi2vOQMS+JfpCeaLni4Djg0StCp+kmfmty+94SaG5D2NMaEZWpa4Hm
-	x4WFL6pqe3o89iqmi4xdvx9Hm25jhtCeCWLICfUDEJE1BFvQDd18bEFGTVTuUpo203oUPft
-	VU4Inu/85MvhYh1cPVsiBCS+aAdTSvq/eRvWicdXf3E7MVCGSGNmHnSed8qmzjLC3+Z3egn
-	aNzcXayNIMLKEbsxVVRlHSBnlMrvutNiAZekTbQlgpWQkCq5rV1k6ET61IFNNlxbrqJ5mLo
-	ai74BR1hSvc3NHUNhYkFwkIlGDc5TEX1FzaAFL25NY2o2GNBJO98etCeOBpIzuQWqQ/wNSs
-	yy8z/Wq5iH2eF6ZIDsi+6qYIco7sSdu3znqpRKcmPkU3UKXvsDdBFOaVRfWxx1HicQ58+Je
-	3kfUVGQ86EEMT5usnNz2+azdWg8J6Rai+Q9TyKPr+EJjPV31HOZ4Xb7KZA2lgmAzE8u5eWq
-	hlK6+4/WtooIeDw2DviXmnu8kZUCIkPoj/rsq1BXW7IiTpKf6XwZ7QbIQEqNsELpGh2GPOh
-	n6BFkvrOP2bjn0uXPqdKiCe2iiIwSPwkQ3ELme16A+9hKTTloEzIPvE44fkHlNepZxGuJ8H
-	GRJ7X6RYRjdJ7kigaqCFzFpAgEU3nNW2ChWcHlTvuda+g02jJSlo04gCWzR87AaHYn6ocND
-	8a4FgaWGto/n7u+jVmNKn4NO4GkdWkvyG8xtNE+6h2fJcj+XedaO+uQebaJG09UTyOD9Jwm
-	gp/XU0JAsR4RIcVaEFz11uMBOIPt0Db+Q8P3xp3Q==
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-X-QQ-RECHKSPAM: 0
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <aIcSu3LidOqoaVOS@lappy>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for raising this valid concern. We've closely monitored GPD's
-development plans and currently see no indication of EC functionality
-expansion beyond thermal sensors in the foreseeable future. Given this
-observation, we believe placing the driver in hwmon remains appropriate
-for now.
-
-That said, we fully respect your maintainer perspective on
-future-proofing. If you feel strongly that platform/x86 would be a safer
-long-term home despite the current scope, we're happy to move the driver
-there immediately. We're committed to finding the most sustainable
-solution for upstream.
-
-------
-Apologies for mistakenly replying to Antheas Kapenekakis instead of the 
-mailing list.
-
-I am Cryolitia <cryolitia@gmail.com> that previously sending the patch. 
-Due to work, I changed my email address. GPG can verify it's the same 
-person: 
-https://keyserver.ubuntu.com/pks/lookup?op=vindex&search=0x84dd0c0130a54df7
-------
-
-在 2025/7/19 00:38, Antheas Kapenekakis 写道:
-> On Thu, 17 Jul 2025 at 04:32, Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> On 3/13/25 13:58, Antheas Kapenekakis wrote:
->>> On Thu, 13 Mar 2025 at 21:10, Cryolitia PukNgae via B4 Relay
->>> <devnull+Cryolitia.gmail.com@kernel.org> wrote:
->>>>
->>>> From: Cryolitia PukNgae <Cryolitia@gmail.com>
->>>>
->>>> Sensors driver for GPD Handhelds that expose fan reading and control via
->>>> hwmon sysfs.
->>>>
->>>> Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
->>>> devices. This driver implements these functions through x86 port-mapped IO.
->>>>
->>>> Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
->>>> ---
->>>>    MAINTAINERS             |   6 +
->>>>    drivers/hwmon/Kconfig   |  10 +
->>>>    drivers/hwmon/Makefile  |   1 +
->>>>    drivers/hwmon/gpd-fan.c | 681 ++++++++++++++++++++++++++++++++++++++++++++++++
->>>>    4 files changed, 698 insertions(+)
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index 0fa7c5728f1e64d031f4a47b6fce1db484ce0fc2..777ba74ccb07ccc0840c3cd34e7b4d98d726f964 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -9762,6 +9762,12 @@ F:       drivers/phy/samsung/phy-gs101-ufs.c
->>>>    F:     include/dt-bindings/clock/google,gs101.h
->>>>    K:     [gG]oogle.?[tT]ensor
->>>>
->>>> +GPD FAN DRIVER
->>>> +M:     Cryolitia PukNgae <Cryolitia@gmail.com>
->>>> +L:     linux-hwmon@vger.kernel.org
->>>> +S:     Maintained
->>>> +F:     drivers/hwmon/gpd-fan.c
+On 28/07/2025 08:03, Sasha Levin wrote:
+> On Sun, Jul 27, 2025 at 10:21:40PM -0700, Kees Cook wrote:
+>> On Mon, Jul 28, 2025 at 01:10:25AM -0400, Sasha Levin wrote:
+>>> On Sun, Jul 27, 2025 at 07:40:36PM -0700, Kees Cook wrote:
+>>>> On Sun, Jul 27, 2025 at 03:58:01PM -0400, Sasha Levin wrote:
+>>>>> +**80 character line limit**
+>>>>> +  The preferred limit on the length of a single line is 80 columns.
 >>>
->>> A problem we had with oxp sensors is that once OneXPlayer expanded
->>> their EC to include e.g., battery capacity limits, it was no longer
->>> appropriate for it to reside in hwmon. I expect GPD to do the same
->>> sometime in the near future. If that is the case, should we
->>> futureproof the driver by moving it to platform-x86 right away?
+>>> Hrm, it is?
 >>>
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst#n104
+>>> claims:
+>>>
+>>> 	The preferred limit on the length of a single line is 80 columns.
+>>>
+>>> 	Statements longer than 80 columns should be broken into sensible chunks,
+>>> 	unless exceeding 80 columns significantly increases readability and does
+>>> 	not hide information.
 >>
->> My problem with platform drivers, especially with x86 platform drivers,
->> including the OneXPlayer driver, is that the developers responsible for
->> those drivers refrain from implementing the client drivers as auxiliary
->> drivers but instead like to bundle everything into a non-subsystem
->> directory. I have always wondered why that is the case. My best guess
->> is that it is to limit and/or avoid subsystem maintainer oversight.
->> Does that work out for you ?
+>> That's true, it's not called out well enough. 80 is "preferred
+>> limit" but not the hard limit, which is 100. See commit bdc48fa11e46
+>> ("checkpatch/coding-style: deprecate 80-column warning")
 > 
-> Particularly for simple ECs such as OneXPlayer and GPD boards I think
-> keeping all the addresses in the same file makes sense. E.g., I just
-> sent a Fixes for the OneXPlayer G1 AMD variant and it was one commit
-> instead of 2 or 3. At least for me it was practical, I did not
-> consider having a lesser oversight as a benefit when making that
-> choice.
-> 
-> But I do understand the concern.
-> 
-> Antheas
-> 
->> Not objecting, I am just curious.
->>
->> Guenter
->>
->>
+> Sadly it doesn't look like I'm the only one who's confused here:
+> https://lore.kernel.org/all/?q=%22checkpatch%2Fcoding-style%3A+deprecate+80-column+warning%22
 > 
 
+
+I pop up there a lot, but there is no confusion. I am (and maybe we are
+all?) well aware that checkpatch hard limit is 100 as explained also here:
+https://lore.kernel.org/all/df2e466a-cdaa-4263-ae16-7bf56c0edf21@kernel.org/
+
+But the coding style still says that preferred length limit is 80.
+Checkpatch is not a coding style. Coding style document is describing
+the coding style...
+
+People trust checkpatch way too much, thus its hard limit was raised.
+Some maintainers also agree with that, yet it does not invalidate what
+coding style document says.
+
+Best regards,
+Krzysztof
