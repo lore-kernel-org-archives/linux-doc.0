@@ -1,242 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D1F1DFD96;
-	Wed, 30 Jul 2025 16:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECEB1DFD96;
+	Wed, 30 Jul 2025 16:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753892744; cv=none; b=hJnGilyLlk2/UOA87ljJV/G4H5YlK8vWui09lpgC2va3V/1xyA0HGi3tYQNAYXDZGpJgy1/VidArA1GFbD4a1BGliOqeR+qzHfot9ZxOAG7a0oGMb9G4Jm9EPzjX+7moLLTMOlyt5Fft0kNzNRRUVNrFiNQ88X6QZpCONUGkazA=
+	t=1753892946; cv=none; b=Qy8gnid6d7bLu1m9MSyOnQwJeHrXBuBSD1IWAFo8Pr2I0dJIxQ5GKBUTmjIc4+6q3DNR6a4DQ44r6xw4SM+ip+JasasRxqEqZAKCsu4cT3l6fkaPxQnElNTq1kwTbwv8qgu9kKGLxCAhmUkKGuQLY+jUFJybpGyDfx/yQDaBe6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753892744; c=relaxed/simple;
-	bh=UQeE2zjdzbOt9gppZh3hry9Bml97lFABzH2PwcilJz8=;
+	s=arc-20240116; t=1753892946; c=relaxed/simple;
+	bh=jggiZaTVYbB4OEBA1i4DVSHo1/3uiB/LG8J/K0w9JWg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eLAn07KaqISYOoDLfQcJ4p9OFxqS3MYuUkz2Yno7OVSJxA78hnTQUgLIrsDIisbcidBem4SdScQGWighA5YiBMIbwC7Hn2LA1PPKnczjjCLvaSyrR4eWJge0lmvt+GY8FpdV+uEWV6QNtIIPTGxVEj48MG3+XrtSCtGIkRpTntw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzlZCk7/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jLRNlIZHem8bQkN10YnPwptmHH+APv/U7DZ+jOipOwyUoF92cnGd7BWPdIvnjLnGyBFQUACel10zFRXKtUDcWyJEw5ndkiPkPSc9pzFmLNhjNeqVEKvx9FuXAclJnG0WBYvE7L2zdVmLUOIwzr5I3xa39M2r+OKDKi2CdESyJPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ww34yMAY; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=giTTeePb; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzlZCk7/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC4AC4CEE3;
-	Wed, 30 Jul 2025 16:25:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753892743;
-	bh=UQeE2zjdzbOt9gppZh3hry9Bml97lFABzH2PwcilJz8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HzlZCk7/ajeF9qnGBxfUh13bAUQxcbI2lb2iUQQFQUDnyQS+MDyBeYMrwHoYr6Q1+
-	 emx3+V90rFwNiNg67cllBF1grTIPiLieyTVm6nWzgJql4xKPiuuBKG5yp2sF1QHoZc
-	 uChTbKQ78gMELP8KH4Q1AkT6nR4Gl72TQJp7z45X7n2Zv7wKBciPVq99OoQKXaTX+w
-	 HRWITUYVIhIHs0qgf+UawXErGoavGrbFdrtKqafm5rUqY9ipqBix0Tj0tiGRF+8Gif
-	 jc8yr7IQpZlOR4/VH4NFyKjZp7wkbfI+xqrzNG7sJ93uKPVcMZ41lPxNrJ+l/vps6j
-	 BtVco7Igkb74A==
-Date: Wed, 30 Jul 2025 12:25:41 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, konstantin@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 2/4] agents: add core development references
-Message-ID: <aIpHhR8AhPJZE2Rp@lappy>
-References: <20250727195802.2222764-1-sashal@kernel.org>
- <20250727195802.2222764-3-sashal@kernel.org>
- <202507271937.EC44B39@keescook>
- <aIcD9f_52tlLgE-e@lappy>
- <202507272203.BECE244@keescook>
- <aIcRzndNUdh-9R18@lappy>
- <202507272310.FCB96F5E93@keescook>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ww34yMAY";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="giTTeePb"
+Date: Wed, 30 Jul 2025 18:28:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1753892937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oMls9zKlB4XZnAdVDASSbYnpYBlk93kj5Bflf/duEjk=;
+	b=ww34yMAY9CrRdppEj76TRYVcQUqYM/SnWvDs91XUhROZ9U4KZQeHBLd7vwIQFim9TDreYb
+	jtsFzeCO8xdpZpHeeWOZVg1BMac05XmAh7Bdd8QUotF/c1c1KxxlelmWLwFJSm5zRKPin4
+	tErSO0QeBw+Ut/NES9KkTi/WL74xWJRY2kmQmSDCnt5P+KRmiQLr6tmZQgFJIfhhD4d41U
+	HlwCbMFg/fFrwxlESl/smaIfbe6mTbLTH8KbGnDWUR2Ey98aPyJTJNqN6GlA0XnWuSMRXd
+	/ooH3CqBmt126/opmZSmpvZmhIzti7DuMUmkgBpiusjH6haPk80cBsUU0LzcdQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1753892937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oMls9zKlB4XZnAdVDASSbYnpYBlk93kj5Bflf/duEjk=;
+	b=giTTeePbCK3CFiqn6eneIPQ0Ma5dgnBSvYmpyWYR+YPHhLstrUWjCiSJ5HhL9adIttldll
+	wLMXhWmGyEKEjRDQ==
+From: Nam Cao <namcao@linutronix.de>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,
+	Clark Williams <williams@redhat.com>,
+	John Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH v5 7/9] rv: Replace tss and sncid monitors with more
+ complete sts
+Message-ID: <20250730162855.U6IwNmsc@linutronix.de>
+References: <20250728135022.255578-1-gmonaco@redhat.com>
+ <20250728135022.255578-8-gmonaco@redhat.com>
+ <20250728155332.sbkepHj7@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202507272310.FCB96F5E93@keescook>
+In-Reply-To: <20250728155332.sbkepHj7@linutronix.de>
 
-On Sun, Jul 27, 2025 at 11:18:14PM -0700, Kees Cook wrote:
->I think the above list is perfect contents for the README. Yes, please
->make that an entry point, or point to some other .rst entry point that
->will have a list of roles like that, with some common starting points.
->And yes, a line for agents in there seems fine. Maybe "If you are a
->coding agent, also see ... for agent-specific details."
+On Mon, Jul 28, 2025 at 05:53:34PM +0200, Nam Cao wrote:
+> On Mon, Jul 28, 2025 at 03:50:19PM +0200, Gabriele Monaco wrote:
+> > The tss monitor currently guarantees task switches can happen only while
+> > scheduling, whereas the sncid monitor enforces scheduling occurs with
+> > interrupt disabled.
+> > 
+> > Replace the monitors with a more comprehensive specification which
+> > implies both but also ensures that:
+> > * each scheduler call disable interrupts to switch
+> > * each task switch happens with interrupts disabled
+> > 
+> > Cc: Ingo Molnar <mingo@redhat.com>
+> > Cc: Peter Zijlstra <peterz@infradead.org>
+> > Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+> 
+> I gave this a try on riscv64 and observed some errors:
+> 
+> [  620.696055] rv: monitor sts does not allow event sched_switch on state enable_to_exit
+> [  621.047705] rv: monitor sts does not allow event sched_switch on state enable_to_exit
+> [  642.440209] rv: monitor sts does not allow event sched_switch on state enable_to_exit
+> 
+> I tested with two user programs:
+> 
+>     int main() { asm ("unimp"); }
+>     int main() { asm ("ebreak"); }
+> 
+> The two programs are repeatedly executed:
+> 
+>     #!/bin/bash
+>     ./test1 &
+>     ./test2 &
+>     # ... repeat lots of time
 
-What about something like below for README:
+Okay, I think I know why..
 
-Linux kernel
-============
+It seems the monitor is in scheduling state. Then it sees a pair of
+irq_disable and irq_enable, and it mistakenly thinks that this is the
+is_switch==false case in __schedule. So it thinks it is at the end of
+__schedule(), and does not expect a switch_switch.
 
-The Linux kernel is the core of any Linux operating system. It manages hardware,
-system resources, and provides the fundamental services for all other software.
+However, this is wrong. The irq_disable and irq_enable pair is not from
+__schedule(), it is from softirq (see below).
 
-Quick Start
------------
+In short, the monitor thinks it is at the end of __schedule(), but actually
+it is still at the beginning.
 
-* Report a bug: See Documentation/admin-guide/reporting-issues.rst
-* Get the latest kernel: https://kernel.org
-* Build the kernel: make defconfig && make -j$(nproc)
-* Join the community: https://lore.kernel.org/
+That's just from my limited understanding of the model, so I may be wrong.
+What do you think?
 
-Essential Documentation
------------------------
+Nam
 
-All users should be familiar with:
-
-* Code of Conduct: Documentation/process/code-of-conduct.rst
-* License: COPYING (GPLv2)
-
-Documentation can be built with make htmldocs or viewed online at:
-https://www.kernel.org/doc/html/latest/
-
-
-Who Are You?
-============
-
-Find your role below:
-
-* New Kernel Developer - Getting started with kernel development
-* Academic Researcher - Studying kernel internals and architecture
-* Security Expert - Hardening and vulnerability analysis
-* Backport/Maintenance Engineer - Maintaining stable kernels
-* System Administrator - Configuring and troubleshooting
-* Maintainer - Leading subsystems and reviewing patches
-* Hardware Vendor - Writing drivers for new hardware
-* Distribution Maintainer - Packaging kernels for distros
-* Agentic Coding - AI assistants working with kernel code
-
-
-For Specific Users
-==================
-
-New Kernel Developer
---------------------
-
-Welcome! Start your kernel development journey here:
-
-* Getting Started: Documentation/process/development-process.rst
-* Your First Patch: Documentation/process/submitting-patches.rst
-* Coding Style: Documentation/process/coding-style.rst
-* Build System: Documentation/kbuild/index.rst
-* Development Tools: Documentation/dev-tools/index.rst
-* Kernel Hacking Guide: Documentation/kernel-hacking/hacking.rst
-* Core APIs: Documentation/core-api/index.rst
-
-Academic Researcher
--------------------
-
-Explore the kernel's architecture and internals:
-
-* Researcher Guidelines: Documentation/process/researcher-guidelines.rst
-* Memory Management: Documentation/mm/index.rst
-* Scheduler: Documentation/scheduler/index.rst
-* Networking Stack: Documentation/networking/index.rst
-* Filesystems: Documentation/filesystems/index.rst
-* RCU (Read-Copy Update): Documentation/RCU/index.rst
-* Locking Primitives: Documentation/locking/index.rst
-* Power Management: Documentation/power/index.rst
-
-Security Expert
----------------
-
-Security documentation and hardening guides:
-
-* Security Documentation: Documentation/security/index.rst
-* LSM Development: Documentation/security/lsm-development.rst
-* Self Protection: Documentation/security/self-protection.rst
-* Reporting Vulnerabilities: Documentation/process/security-bugs.rst
-* CVE Procedures: Documentation/process/cve.rst
-* Embargoed Hardware Issues: Documentation/process/embargoed-hardware-issues.rst
-* Security Features: Documentation/features/seccomp/index.rst
-
-Backport/Maintenance Engineer
------------------------------
-
-Maintain and stabilize kernel versions:
-
-* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
-* Backporting Guide: Documentation/process/backporting.rst
-* Applying Patches: Documentation/process/applying-patches.rst
-* Subsystem Profile: Documentation/maintainer/maintainer-entry-profile.rst
-* Git for Maintainers: Documentation/maintainer/configure-git.rst
-
-System Administrator
---------------------
-
-Configure, tune, and troubleshoot Linux systems:
-
-* Admin Guide: Documentation/admin-guide/index.rst
-* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
-* Sysctl Tuning: Documentation/admin-guide/sysctl/index.rst
-* Tracing/Debugging: Documentation/trace/index.rst
-* Performance Security: Documentation/admin-guide/perf-security.rst
-* Hardware Monitoring: Documentation/hwmon/index.rst
-
-Maintainer
-----------
-
-Lead kernel subsystems and manage contributions:
-
-* Maintainer Handbook: Documentation/maintainer/index.rst
-* Pull Requests: Documentation/maintainer/pull-requests.rst
-* Managing Patches: Documentation/maintainer/modifying-patches.rst
-* Rebasing and Merging: Documentation/maintainer/rebasing-and-merging.rst
-* Development Process: Documentation/process/maintainer-handbooks.rst
-* Maintainer Entry Profile: Documentation/maintainer/maintainer-entry-profile.rst
-* Git Configuration: Documentation/maintainer/configure-git.rst
-
-Hardware Vendor
----------------
-
-Write drivers and support new hardware:
-
-* Driver API Guide: Documentation/driver-api/index.rst
-* Driver Model: Documentation/driver-api/driver-model/driver.rst
-* Device Drivers: Documentation/driver-api/infrastructure.rst
-* Bus Types: Documentation/driver-api/buses.rst
-* Device Tree Bindings: Documentation/devicetree/bindings/
-* Power Management: Documentation/driver-api/pm/index.rst
-* DMA API: Documentation/core-api/dma-api.rst
-
-Distribution Maintainer
------------------------
-
-Package and distribute the kernel:
-
-* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
-* ABI Documentation: Documentation/ABI/README
-* Kernel Configuration: Documentation/kbuild/kconfig.rst
-* Module Signing: Documentation/admin-guide/module-signing.rst
-* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
-* Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
-
-Agentic Coding
---------------
-
-Essential guidelines for AI coding assistants:
-
-* How to Do Kernel Development: Documentation/process/howto.rst
-* Coding Style: Documentation/process/coding-style.rst
-* Submitting Patches: Documentation/process/submitting-patches.rst
-* Submit Checklist: Documentation/process/submit-checklist.rst
-* Programming Language: Documentation/process/programming-language.rst
-
-Critical Requirements:
-
-* License: ALL code MUST be GPL-2.0 only (see COPYING)
-* Signed-off-by: Agents MUST NOT add Signed-off-by tags
-   (Only humans can legally certify code submission rights)
-* Attribution: Agents MUST add Co-developed-by tag:
-   Co-developed-by: $AGENT_NAME $AGENT_MODEL $AGENT_VERSION
-   Examples:
-   - Co-developed-by: Claude claude-3-opus-20240229
-   - Co-developed-by: GitHub-Copilot GPT-4 v1.0.0
-
-
-Communication and Support
-=========================
-
-* Mailing Lists: https://lore.kernel.org/
-* IRC: #kernelnewbies on irc.oftc.net
-* Bugzilla: https://bugzilla.kernel.org/
-* MAINTAINERS file: Lists subsystem maintainers and mailing lists
-
--- 
-Thanks,
-Sasha
+             test-256     [002] dns..    63.070743: da_event_sts: scheduling x irq_disable -> disable_to_switch
+             test-256     [002] dns..    63.070748: <stack trace>
+  => trace_dump_stack
+  => da_event_sts
+  => handle_irq_disable
+  => trace_hardirqs_off.part.0
+  => trace_hardirqs_off
+  => note_gp_changes
+  => rcu_core
+  => rcu_core_si
+  => handle_softirqs
+  => __irq_exit_rcu
+  => irq_exit_rcu
+  => handle_riscv_irq
+  => call_on_irq_stack
+             test-256     [002] dns..    63.070755: da_event_sts: disable_to_switch x irq_enable -> enable_to_exit
+             test-256     [002] dns..    63.070760: <stack trace>
+  => trace_dump_stack
+  => da_event_sts
+  => handle_irq_enable
+  => trace_hardirqs_on
+  => note_gp_changes
+  => rcu_core
+  => rcu_core_si
+  => handle_softirqs
+  => __irq_exit_rcu
+  => irq_exit_rcu
+  => handle_riscv_irq
+  => call_on_irq_stack
+  => call_on_irq_stack
