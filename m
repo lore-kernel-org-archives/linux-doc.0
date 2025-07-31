@@ -1,144 +1,358 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829251E0DB0;
-	Thu, 31 Jul 2025 18:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753985815; cv=none; b=ngnUc7uQfizxorl9AxM89AlgJ4JXWqUFz59x8qlXfl6N6bwwh8GCxeSGJRQUVIAbsQ4SVQ/5894R+RuLDnd5m6cP9LBeaH9/GIim8pHtTMP+C9bDcKdTV2D9SYCImmmUVYd/6cKkpjGD00B7kkidy0WzrmMK2A1syT79LccqVw0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753985815; c=relaxed/simple;
-	bh=S+eAHkUQmIxOmh9BhUcuLHRn/WSy/97Ut9MbCGS8kfs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=amFc/s9TrMc1A8YU7LmA9Pd5EeBEEiVyNx67KT0ILsS+expiJkK77oPqtMoBoWJlZ/fsWP7fBHQwMGseVC9AmnbzOIquPOv9u+SoMnk1Q9l0rlYZReKL/mkfngss5XT7Cs0Y+2fcEA/pUbb5RymcULDGle1IDWKMu7Mw3UThnHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4btHHN2xzjz6L4t7;
-	Fri,  1 Aug 2025 02:12:32 +0800 (CST)
-Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
-	by mail.maildlp.com (Postfix) with ESMTPS id CB0D51404C6;
-	Fri,  1 Aug 2025 02:16:48 +0800 (CST)
-Received: from china (10.220.118.114) by frapeml500005.china.huawei.com
- (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 31 Jul
- 2025 20:16:34 +0200
-From: Gur Stavi <gur.stavi@huawei.com>
-To: <horms@kernel.org>
-CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
-	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
-	<fuguiming@h-partners.com>, <gongfan1@huawei.com>, <guoxin09@huawei.com>,
-	<gur.stavi@huawei.com>, <helgaas@kernel.org>, <jdamato@fastly.com>,
-	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
-	<meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
-	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
-	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
-	<vadim.fedorenko@linux.dev>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>,
-	<zhuyikai1@h-partners.com>
-Subject: Re: [PATCH net-next v10 1/8] hinic3: Async Event Queue interfaces
-Date: Thu, 31 Jul 2025 21:34:20 +0300
-Message-ID: <20250731183420.1138336-1-gur.stavi@huawei.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250731140404.GD8494@horms.kernel.org>
-References: <20250731140404.GD8494@horms.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D668195B1A;
+	Thu, 31 Jul 2025 18:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753987932; cv=fail; b=XjAMUUMV8PSb4Qj6yfsnoF/Hth4QdyqCyIF6j2o2+AmNP0YllI5+YDyeuW6Rj3F+MT6tJU3IucjiYZwhFdBvLZU4Ys4sY7ioHyFbRdGflavDXGODSLR5i0GURnaZ3PEcHoTcvGEHBm4fissNIaY0YCYQfWhTDpeFude3EsmtBZw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753987932; c=relaxed/simple;
+	bh=XUzuEyouMYsObLa+C92e3RVrm3tFsOQH/X1yB3e5DHc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YNk5etQxrjSLxQWJ6GH7Ryh5E5ZKkfAFAtzmcnaOI00iHNNBWx5l1Hnv79dI3R4dBwJeTGi/aRb9H7qntzmvMcnFUG/zvI1XJxDYxUa9HvWSAO7mFLOqNVeASrePERGCpgmVZdypGtkRGzjW9y/t1FxmwB+uzQMKlzvQ4d9GESo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3royqnNX; arc=fail smtp.client-ip=40.107.92.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3royqnNX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Yy2cTNhquzfBvs2ZRTTHmxknmqyYRKXqPoWMEFeCqMwbJ9pRzY/3srKG1YqBTlDpFVW0GS3vvpvnQtVhs8BvEsn3PXk1Zt04iKkYMyCQwMHcQLy/38+oNfwwlJE6p86bUYSZi3CIk3vj2M1Uc6GTUJ3HMrXeK8N+ee0A9+UwBJSpRqk2CUVkRCjBuXlrqJl4kTJJGO+SiF+xErRAVtS2Opc5fh7yRkHw0YYJBL7GJEBKW+8lLJ+fcwfRIVcVDiN6zK0VCJ+UdviRVlOVbRYTzWIgTtW5KTc+CZ2q8V57H1TwPIyhdDOi22GCe58x9WBcKYYyD9vPsOAnUR5z2/SVJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=72tMYUeebeb7o3dEaEsZSfOLviLOzBPtHCGDHakArBA=;
+ b=Oh0nJIbzse6qqsALmr9U6ZP784SO07Ysvz8Ii9ZsCYfXwp1vtECzxA54XzycQdHnTfd3nJYjjON5LOagFPr07gcWHN4DtTeoelG9tTiEdQoypiX055afwNoYW67DbujGPLdNCZC+jJL7mUeepC9tvdFOGkSEIJMwFlq/qu0qCMS+THYexdsmbW/jtELE5law7p/ie53FLXVTT7kfaF9skEgfL4XNAtv/K8cxZMZA962FrMsDR8bzIxI8l3Qs903uHKuJ5sT80mrQnFooOpInOaU40hJPyHoc8fwj7fdru4VjyatKfnegPSXX9K7Emwy0abA6cReFURW3YCy3Ss4/3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=72tMYUeebeb7o3dEaEsZSfOLviLOzBPtHCGDHakArBA=;
+ b=3royqnNX7zuUPPGORDp+KMPwiTRWbUn0d7QRE0Lli2OgQ9OUq6eKbGHkK4XgHkc9BvLzc4ehvyGswp08XRrch1cm7H+VTUfAEj4zRz7uUogu1IfvkcMw7vJvweQRIOtUAm5CEZk8iBd0HWpQW5dnnbHADukTei3ibDAKosjjjcQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by SJ5PPF5D591B24D.namprd12.prod.outlook.com
+ (2603:10b6:a0f:fc02::994) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.27; Thu, 31 Jul
+ 2025 18:52:04 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.8989.011; Thu, 31 Jul 2025
+ 18:51:57 +0000
+Message-ID: <e2cf2e42-8a0f-47a4-8c05-8876272275fd@amd.com>
+Date: Thu, 31 Jul 2025 13:51:52 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v7 06/10] fs/resctrl: Introduce interface to display
+ "io_alloc" support
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
+ david@redhat.com, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
+ thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
+ yosry.ahmed@linux.dev, sohil.mehta@intel.com, xin@zytor.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
+ me@mixaill.net, mario.limonciello@amd.com, xin3.li@intel.com,
+ ebiggers@google.com, ak@linux.intel.com, chang.seok.bae@intel.com,
+ andrew.cooper3@citrix.com, perry.yuan@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1752167718.git.babu.moger@amd.com>
+ <4e275fadf59e36e38ac60406a19cdf67d640f7d2.1752167718.git.babu.moger@amd.com>
+ <ccff50fc-c802-4352-9859-107138f103c8@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <ccff50fc-c802-4352-9859-107138f103c8@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR13CA0018.namprd13.prod.outlook.com
+ (2603:10b6:806:130::23) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- frapeml500005.china.huawei.com (7.182.85.13)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|SJ5PPF5D591B24D:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2464c10-881a-41e2-0074-08ddd0635309
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MnVza3dYMThtRnVTS3kvVXZCUDdobkxnMTdMdHNJdFNMY1BLNDhiYWE1ZHJQ?=
+ =?utf-8?B?cXZNQVkvNWVKb3JtcGRLRTNlRlJBQ0ZoTVVUa2tNUytPNWN2c3ErWjU2RGVn?=
+ =?utf-8?B?ZkVIWUVmTGU1UzZMajZGdFc4SGQ3T1ZvTy81K2dKYVNlTzdQdFB3ZVVXMkZG?=
+ =?utf-8?B?cnRPOWxMK2E4bTgxVURndXFJbzZ5WlYreDBISFRJeEg2dGpDekF2d0V6Wk5a?=
+ =?utf-8?B?WGRDUVRuVUEweUkraWRQSU0zcWNIMFdvdjEvb0tINmxkcTA3SVBWMXdtNjJq?=
+ =?utf-8?B?aTF2ZmFDakdjQ1c1UVRRTHZYSUZ4bFhQQTV5c01Kc2Fmd3BDOGg3cDJkYXNY?=
+ =?utf-8?B?dzI5azhQVnBrL1NWZDNDc3JCYlNwVHJGMGlyc01wZ2Q4ekFLalRRbGQwejdh?=
+ =?utf-8?B?d2F6QUpJRmlxOXh6ZDBHUm1CNy93OXBucTdaWDBWdWN2M1B1QnBzWlBaZnI3?=
+ =?utf-8?B?dDY0M1d5Y0NPMXhhNnBFalk2NW9mdUo1TjVZYVYzV3RMVEx3dElMbitEVzVV?=
+ =?utf-8?B?eWtpclp2UlpjM01maUFRSjNETHdFUzdZZ3pkWVUxQ3hHTVpWeUxKYjVxSzhs?=
+ =?utf-8?B?eHdpME9QMStjUzVMWlp6RTNoR3lOVnNyTnNYK2ZsSWhjbEUxRVdCVS9HZG1W?=
+ =?utf-8?B?Vy9FTE9kSndQdVh2Q2w0Uis0S1FUY0s4OHB4VGNZbjF0bzF5UlBTaGtMa2pU?=
+ =?utf-8?B?ZkFKM2ZzSGwvS1M3ekhuR2N0YnJaSmJtWEdLVXliU2liWEcwK2ttK05pS3dS?=
+ =?utf-8?B?UVNIblNBVURGRmdiTHo5SE9Sb1NZZExJMTFwYXpGQTk2eFcvZmpnWVdIbDBz?=
+ =?utf-8?B?cFhOMHNyQTlDTjNCaTB3YitLeWtMcGFDeXc5ajF4NUtOdkc4TVAzVkRka28w?=
+ =?utf-8?B?Zm0vMkdWMWpFRmRrcytQL3dnY3JLWEcvYWNjRnh5VlJnMEtFZmZ6KzczcVFu?=
+ =?utf-8?B?NDducUdDcGR5UlVjaTBwM2FDa3BJQ3NaOXEwb1VIT01SNWJQcy9CT1VnRE9h?=
+ =?utf-8?B?Wk9UT3hiaVFnOUdiTUJvckZLQStGaklDM0FNeUtaTUl2TFFhWDc4QzNpa0tT?=
+ =?utf-8?B?d2k5cnI5dW15ZGxEd0tDbTZlU3Y5SHNDRWhMWGpCTHZBb25uYU9tVzBlSDBz?=
+ =?utf-8?B?emtocFJGTFR6dzNiNi9YckZOK2lXMktHZ29TaWVmeU1wWWpjc3dURjc3STBR?=
+ =?utf-8?B?Wm1HOEsvNjhVQmNoMG12dHVIaWcwRUlENzRMYmlTWCtRYzJxM1VMK0gzLzJt?=
+ =?utf-8?B?VS81Qkx1VVNGNThpeEtPUkZmS09LVVJjcjcvQUoyLzlXa0VkQUlnREFuVzFz?=
+ =?utf-8?B?eEdCdmhzU2F5U1ExcGszMXJ1Tm4rOWZ2cTZPaUtmMjl3TU51Z280YnBoR0VD?=
+ =?utf-8?B?ZG55ZjRlQnc1dkkwNTR4dk1BWitVV2hrN2k0cEl5dzVCRmF3Ti9La1IyQVJL?=
+ =?utf-8?B?SlBBczN2M0NSMitDTjZXVUgyNG5IUGk4Ykw3bm1LN2U3NmZUSjdoc1JsbC9I?=
+ =?utf-8?B?Q1FiZWhqVHIvMDc0MHljc1BTL3ZBRkNPOUtHSHBSeWR4WGNtd0s2ZzVtcXdq?=
+ =?utf-8?B?NGZvTFJOSlloTEExZE9RZHhqSTNKRFMzbGRobmhMb2E1WmxQc09CWXg5dzFk?=
+ =?utf-8?B?T1FicWZheUsvR2RmOUFTK0hmREgrdmZIZTRRdndyQTdNWDUyWHZEN1VUTTg2?=
+ =?utf-8?B?eFkrdGM0Mmw1K0FQN0xMbkZTakZrdU1NbHlGeG10ZGlRUmlaVzBRengzN0NL?=
+ =?utf-8?B?SzcrcHF6MWd4TTZTeUEwS0p2eXEwWmRTWWp0Yk96MEo5c0hKU1UyQktqaE5v?=
+ =?utf-8?B?bHF2ak1vK3R3Tmg5dlRuYzl2QUNQY2x2TTdWUW1QN1FUR0lvM2NlL0p5MVpU?=
+ =?utf-8?B?bTBPb1FVdDc0ZVlvU3U2VEMyU2wzcXFtUllKenRyTUFXbTZhODJlTnEyYzhu?=
+ =?utf-8?Q?ko+lC7z/fnM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dGNwd25LcC9ERnpsUjlaenZzUzRNUGZjOUljOFJRNXhBa0VmcUxTa3NQN3gr?=
+ =?utf-8?B?dVFNU01QRDB2VHhPS3d0SXdNdUoyN3J4bzVnRzFJNU00TFlZRXEybzBrUUdV?=
+ =?utf-8?B?Rkt3SjVrNzArQUFvUFZ0Zm1NUlhPR0FNL3VrZjJVWVJPWkhCcFdVVjNaZHRW?=
+ =?utf-8?B?M3h6MDMvMUc3WFR2bUpiWHFTOHhhTEJ3ckhSTTV2eXZGeXl1TUIxcW1tdEZq?=
+ =?utf-8?B?QWI2SWJtMHUwQk1rVVo0YU80bUxDK2lCN3VGaUtuakhtY0xsV01CUWRwakFp?=
+ =?utf-8?B?N3JpL1FLd0g3Mjh0UkR4M3ExbjNqeXFwODd5M2pDSlkrMy81S25mUUtVTEhO?=
+ =?utf-8?B?eHN0LzljaGhYcHJUYnh5SFBOZVhjYUNaWFR6cTZFOWJmTDdOUjBXZFVjaE9Z?=
+ =?utf-8?B?VXcxbXBxdFo4RzNaTnVMcDZ3WSt2T0dIVmJKbUZiYW41R1BxalBERkNyM2U1?=
+ =?utf-8?B?UVQzNnpLajBSQlZ5aDg3RWNyd21FRWhld2J5VzYxK1o2OVRZT3ArTGlIY1Rv?=
+ =?utf-8?B?ays3TW5OSk9xWERCaGxwRWJuaXVxSXl5MFR4VThBVUFraFIxZzRYeHdBZWlw?=
+ =?utf-8?B?YTNoZUx3NWZ3VHljaE9oRHFLMDRVdkVoZ2EvU2JRQ1QzV0FwSHY0T25zd2pU?=
+ =?utf-8?B?dzhqbmtLenFaTmVSMHpmTFFHdnBnUzdMQW4yNkErMldDOE1WeUQ4Tlo2eDJL?=
+ =?utf-8?B?Kzg2SWEvbjJpVzVjV2lVRGNicjd2SHN3bzBEK3hWZGxXbjRnZkpTcWwzQ1pL?=
+ =?utf-8?B?SUhxWUg2ZDArTEJrY2NzamdOMExNcjZzbkFvVE90ZkpJZkV3WVc4OGJTTkZt?=
+ =?utf-8?B?NXF2bWhnbUVPS2RKYW5WWUhQK3VrMTErYTdZdGJhY21GSHBlU3R0L2pMUkwy?=
+ =?utf-8?B?SFRqZmRWSnBHYW9ESGV2TFZvSkF3TjQzWDRaN2g5RGZuZGNLOTR6VjNjZWJ6?=
+ =?utf-8?B?M0pucisxWStrUUZLK3ZJVjlMUW52MzhGSUlTdE9aTzUwRDZXNDJHQllyQXJ0?=
+ =?utf-8?B?UUtPcVhwNWg1djV6eTNqanNZU2tvQ2NlekxpNk9BaWZLTDU2aXN4d3FVS3Vz?=
+ =?utf-8?B?b295enF4Z05NQzlXVWpPMGVBSDhZRDE1S0RnOWxZMnUxcFg3aGlLUGtPd2Ni?=
+ =?utf-8?B?ZEFMcjVPUmNtTUhDWUhBdHk2a3JLT3NDNHNMT1p2M2NsN0FkUGV3REFyblpG?=
+ =?utf-8?B?R0ZFaGRVdVJMdkx0YXZIeFpNbUJrWXRlRFpEYk8xUEIwcFRpMEJza25OZVh0?=
+ =?utf-8?B?T0ZSTkNSS1dsRXk3aFJST1FhWVJTTjFGQzY0NGYvK2hFREdMMkV2aS9LMGF2?=
+ =?utf-8?B?TzR5Rm9pcDhHc1d2Vzh6WTFYQXhHYkJnbk1NVVNFUTFiMVRVVXh2NXgzK1R5?=
+ =?utf-8?B?TUhZNVRYTVh1QktBN0hCcDlURmsxczd0cCtaM2FCVU92Y2F1L1ZYZmVaS3B0?=
+ =?utf-8?B?bTlWMzhjZ0FlT0V2aUVNYVlmbTEzL3VSNWZBTmVZcDcxdDdZMzArU2NFdzVk?=
+ =?utf-8?B?SnBIZUZZcEhVRkRVb0FDRWNCbjMxbTZtbVQ5Qm1pQ0IvTTN6b1FVUzJrSnRE?=
+ =?utf-8?B?dXYxTmhWMUViZEpma3Bxa3QzZWFZQ280b0JIL0tKNVVSek56TmRWdWQ1SDJp?=
+ =?utf-8?B?NTAxVW93SlFsUUZUMFdMQytPT1RnaHphRzZFVEJlcFVtZG0vYzQ4Q2ZENFlZ?=
+ =?utf-8?B?QlNVaExQY251ajVGaTJZVlpvTGMrV2FXdmJSUHZHVFZnaVVnUUhWKytiTHpu?=
+ =?utf-8?B?OURVb2FTbVVTa1RvcTdSQUR3dGZnMXcrNFRFbmM2RnVaNzdJZ3NoWkYzaFdt?=
+ =?utf-8?B?VnN5cFFmZGpnRXJLUDBVeGg0WWxtVW1YbHFjN3AxdkdCK2J5SXFYdThDWm1r?=
+ =?utf-8?B?Q1A1NUxJYVdpOVFJTjBjZTVxMVdpS2xOWXYvcUpsbVVjZHVEVW9IaHhqY282?=
+ =?utf-8?B?bWpaMklTTDg2ZlhIOTl1Mzc0dXB2RGZnR2pxVjRyM21raStyYXcvYnl5dnpu?=
+ =?utf-8?B?Q2habU1EeVBCcEpvMVdzek5LdVFSdmZ0MlJaMzhpT0EyeFA5T0NVTDcwcEtz?=
+ =?utf-8?B?aDJZZTE1RVQyZ1h5bHVMZ3UxTUVGMklQTDhYeHVFWG9PWVkzMkl1dStUOUZW?=
+ =?utf-8?Q?CfeDH2ExggzdkpNgniAvUt0Wo?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2464c10-881a-41e2-0074-08ddd0635309
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 18:51:57.2067
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WhhXXE0rNbsN7sTmQZ/Qp/t+NTQIPgHe/TYMBmADGmlV2yUcIe46vs2+VUh8tSrP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF5D591B24D
 
-> On Thu, Jul 31, 2025 at 03:58:39PM +0300, Gur Stavi wrote:
-> >
-> > Lets define a "coherent struct" as a structure made of fields that makes sense
-> > to human beings. Every field endianity is defined and fields are arranged in
-> > order that "makes sense". Fields can be of any integer size 8,16,32,64 and not
-> > necessarily naturally aligned.
-> >
-> > swab32_array transforms a coherent struct into "byte jumble". Small fields are
-> > reordered and larger (misaligned) fields may be split into 2 (or even 3) parts.
-> > swab32_array is reversible so a 2nd call with byte jumble as input will produce
-> > the original coherent struct.
-> >
-> > hinic3 dma has "swab32_array" built in.
-> > On send-to-device it expects a byte jubmle so the DMA engine will transform it
-> > into a coherent struct.
-> > On receive-from-device it provides a byte jumble so the driver needs
-> > to call swab32_array to transform it into a coherent struct.
-> >
-> > The hinic3_cmdq_buf_swab32 function will work correctly, producing byte jumble,
-> > on little endian and big endian hosts.
-> >
-> > The code that runs prior to hinic3_cmdq_buf_swab32 that initializes a coherent
-> > struct is endianity sensitive. It needs to initialize fields based on their
-> > coherent endianity with or without byte swap. Practically use cpu_to_le or
-> > cpu_to_be based on the coherent definition.
-> >
-> > Specifically, cmdq "coherent structs" in hinic3 use little endian and since
-> > Kconfig currently declares that big endian hosts are not supported then
-> > coherent structs are initialized without explicit cpu_to_le macros.
-> >
-> > And this is what the comment says:
-> >
-> > /* Data provided to/by cmdq is arranged in structs with little endian fields but
-> >  * every dword (32bits) should be swapped since HW swaps it again when it
-> >  * copies it from/to host memory.
-> >  */
-> >
->
-> Thanks, I think I am closer to understanding things now.
->
-> Let me try and express things in my own words:
->
-> 1. On the hardware side, things are stored in a way that may be represented
->    as structures with little-endian values. The members of the structures may
->    have different sizes: 8-bit, 16-bit, 32-bit, ...
->
-> 2. The hardware runs the equivalent of swab32_array() over this data
->    when writing it to (or reading it from) the host. So we get a
->    "byte jumble".
->
-> 3. In this patch, the hinic3_cmdq_buf_swab32 reverses this jumbling
->    by running he equivalent of swab32_array() over this data again.
->
->    As 3 exactly reverses 2, what is left are structures exactly as in 1.
->
+Hi Reinette,
 
-Yes. Your understanding matches mine.
+On 7/21/25 18:36, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/10/25 10:16 AM, Babu Moger wrote:
+>> "io_alloc" feature in resctrl allows direct insertion of data from I/O
+>> devices into the cache.
+>>
+>> Introduce the 'io_alloc' resctrl file to indicate the support for the
+>> feature.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> ...
+> 
+>> ---
+>>  Documentation/filesystems/resctrl.rst | 25 +++++++++++++++++
+>>  fs/resctrl/rdtgroup.c                 | 39 +++++++++++++++++++++++++++
+>>  2 files changed, 64 insertions(+)
+>>
+>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+>> index c3c412733632..354e6a00fa45 100644
+>> --- a/Documentation/filesystems/resctrl.rst
+>> +++ b/Documentation/filesystems/resctrl.rst
+>> @@ -143,6 +143,31 @@ related to allocation:
+>>  			"1":
+>>  			      Non-contiguous 1s value in CBM is supported.
+>>  
+>> +"io_alloc":
+>> +		"io_alloc" enables system software to configure the portion of
+>> +		the cache allocated for I/O traffic. File may only exist if the
+>> +		system supports this feature on some of its cache resources.
+>> +
+>> +			"disabled":
+>> +			      Portions of cache used for allocation of I/O traffic
+>> +			      cannot be configured.
+>> +			"enabled":
+>> +			      Portions of cache used for allocation of I/O traffic
+>> +			      can be configured using "io_alloc_cbm".
+>> +			"not supported":
+>> +			      Support not available on the system.
+> 
+> "Support not available on the system." -> "Support not available for this resource."?
 
-> If so, I agree this makes sense and I am sorry for missing this before.
->
-> And if so, is the intention for the cmdq "coherent structs" in the driver
-> to look something like this.
->
->    struct {
-> 	u8 a;
-> 	u8 b;
-> 	__le16 c;
-> 	__le32 d;
->    };
->
-> If so, this seems sensible to me.
->
-> But I think it would be best so include some code in this patchset
-> that makes use of such structures - sorry if it is there, I couldn't find
-> it just now.
->
-> And, although there is no intention for the driver to run on big endian
-> systems, the __le* fields should be accessed using cpu_to_le*/le*_to_cpu
-> helpers.
+Sure.
 
-There was a long and somewhat heated debate about this issue.
-https://lore.kernel.org/netdev/20241230192326.384fd21d@kernel.org/
-I agree that having __le in the code is better coding practice.
-But flooding the code with cpu_to_le and le_to_cpu does hurt readability.
-And there are precedences of drivers that avoid it.
+> 
+>> +
+>> +		The underlying implementation may reduce resources available to
+>> +		general (CPU) cache allocation. See architecture specific notes
+>> +		below. Depending on usage requirements the feature can be enabled
+>> +		or disabled:
+> 
+> "disabled:" -> "disabled."?
 
-However, our dev team (I am mostly an advisor) decided to give it a try anyway.
-I hope they manage to survive it.
+Sure.
+
+> 
+>> +
+>> +		On AMD systems, the io_alloc feature is supported by the L3 Smart
+>> +		Data Cache Injection Allocation Enforcement (SDCIAE). The CLOSID for
+>> +		io_alloc is determined by the highest CLOSID supported by the resource.
+> 
+> "is determined by the" -> "is the"?
+> 
+
+Sure.
+
+> To make clear connection with previous paragraph you can append something like:
+> 	When io_alloc is enabled on an AMD system the highest CLOSID is dedicated to
+> 	io_alloc and no longer available for general (CPU) cache allocation.
+
+Sure.
+
+> 
+>> +		When CDP is enabled, io_alloc routes I/O traffic using the highest
+>> +		CLOSID allocated for the instruction cache (L3CODE).
+> 
+> To clear up what happens with L3DATA, what do you think of appending something like:
+> 		, making this CLOSID no longer available for general (CPU) cache
+> 		allocation for both the L3CODE and L3DATA resources.
+> 
+
+Sure.
+
+>> +
+>>  Memory bandwidth(MB) subdirectory contains the following files
+>>  with respect to allocation:
+>>  
+>> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+>> index a2eea85aecc8..d7c4417b4516 100644
+>> --- a/fs/resctrl/rdtgroup.c
+>> +++ b/fs/resctrl/rdtgroup.c
+>> @@ -1836,6 +1836,28 @@ static ssize_t mbm_local_bytes_config_write(struct kernfs_open_file *of,
+>>  	return ret ?: nbytes;
+>>  }
+>>  
+>> +static int resctrl_io_alloc_show(struct kernfs_open_file *of,
+> 
+> Please move to ctrlmondata.c
+
+Yes.
+
+> 
+> 
+>> +				 struct seq_file *seq, void *v)
+>> +{
+>> +	struct resctrl_schema *s = rdt_kn_parent_priv(of->kn);
+>> +	struct rdt_resource *r = s->res;
+>> +
+>> +	mutex_lock(&rdtgroup_mutex);
+>> +
+>> +	if (r->cache.io_alloc_capable) {
+>> +		if (resctrl_arch_get_io_alloc_enabled(r))
+>> +			seq_puts(seq, "enabled\n");
+>> +		else
+>> +			seq_puts(seq, "disabled\n");
+>> +	} else {
+>> +		seq_puts(seq, "not supported\n");
+>> +	}
+>> +
+>> +	mutex_unlock(&rdtgroup_mutex);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  /* rdtgroup information files for one cache resource. */
+>>  static struct rftype res_common_files[] = {
+>>  	{
+>> @@ -1926,6 +1948,12 @@ static struct rftype res_common_files[] = {
+>>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>>  		.seq_show	= rdt_thread_throttle_mode_show,
+>>  	},
+>> +	{
+>> +		.name		= "io_alloc",
+>> +		.mode		= 0444,
+>> +		.kf_ops		= &rdtgroup_kf_single_ops,
+>> +		.seq_show	= resctrl_io_alloc_show,
+>> +	},
+>>  	{
+>>  		.name		= "max_threshold_occupancy",
+>>  		.mode		= 0644,
+>> @@ -2095,6 +2123,15 @@ static void thread_throttle_mode_init(void)
+>>  				 RFTYPE_CTRL_INFO | RFTYPE_RES_MB);
+>>  }
+>>  
+>> +static void io_alloc_init(void)
+> 
+> This function's comment can benefit from a snippet that highlights that
+> even though this operates on hardcoded L3 resource it results in this file
+> being visible for *all* cache resources (eg. L2 cache also), whether they
+> support io_alloc or not.
+
+Added the comment.
+
+> 
+>> +{
+>> +	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
+>> +
+>> +	if (r->cache.io_alloc_capable)
+>> +		resctrl_file_fflags_init("io_alloc", RFTYPE_CTRL_INFO |
+>> +					 RFTYPE_RES_CACHE);
+>> +}
+>> +
+>>  void resctrl_file_fflags_init(const char *config, unsigned long fflags)
+>>  {
+>>  	struct rftype *rft;
+>> @@ -4282,6 +4319,8 @@ int resctrl_init(void)
+>>  
+>>  	thread_throttle_mode_init();
+>>  
+>> +	io_alloc_init();
+>> +
+>>  	ret = resctrl_mon_resource_init();
+>>  	if (ret)
+>>  		return ret;
+> 
+> Reinette
+> 
+
+-- 
+Thanks
+Babu Moger
+
