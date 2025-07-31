@@ -1,289 +1,193 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1361F2557C;
-	Thu, 31 Jul 2025 09:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753953015; cv=fail; b=eGa9T/qFY1V9J6RCAt1zpGqeFWBAIYS21wvPnZX1hhXQIvzwyu55XLQJ2dZUUBO95u7VouiOga9u+/tJhsm8Z+hi4S8XxJBmzI0zm5CeSNF6BToxTw6fSL4lKHcWl/9QWa5Iwuw64W9Ml6yYKB97pCTalGBNDQK2V0rrRa0FHqU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753953015; c=relaxed/simple;
-	bh=mjDdIPNu4FnMT8JTdkTEaAm16phrG10CNsrzRHJZmqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=N2U5GN8qxhqWy9UH3pH28Jl0fQ+AgSj94X9LHtKF4UQ5MwLCJe1RY+EUBDaF+yxTQECkIG+HQguzamFaQoAUFba/jl7aFFz7i2bP/kG/dIPT1VdxD1+nD8VNPiHatriGuls0WqCVLejW8rC1Wh5P6AK+G7gETvaiXFiR4YbvOz4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=KWaiYc7Z; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=xl6a/5X9; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D681118B47E;
+	Thu, 31 Jul 2025 10:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753957906; cv=none; b=oYDRp3vvnvE0jTaZj+1sXx/9k9CFYhBProNMoTpn8Pev1VQYtfcmDi5GCO4+gyQgUe3q57+RG8XJ4+fkJrcPs/UJQlvT7qlNvRotL6hQ25twafngxB50tTEV7nBCHxFqwvAP/uAxUmjIK1Ylfuq3SpT0c0Pt0ui2UMXThkHLySo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753957906; c=relaxed/simple;
+	bh=7xI6SJc8l9/QF0tfKjYTzIOTaOS8WPagl3vTWmYZeWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bvr/QcAlsEyekKN4qD81YLiNZSvy6ruw23vPz1A0TiKBvWtxRjNMtGOd1sdjQ/gJe+ceFw7ljk+eYlnRcEia7+zPrZ/Kb0teqVD3m6zbBiSBNcFyDi9gQOy0PvAFn19U3E+lpBS41Gc2fwFg2QT89awaKDbi6YNhkukdb8EmI9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sr61EaQQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="KWaiYc7Z";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="xl6a/5X9"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56V7C4M8009946;
-	Thu, 31 Jul 2025 09:09:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=j0RN3BGnmdscb0sGo1
-	scDHW3hj8c8X2j+etuhxnOOyk=; b=KWaiYc7Z+C3NNafN82RV4RbivlU9KvEs5o
-	SBt2IoIle19K9hHwDocw/hdkOjQpkWCPcdBpl1tlz4uvFGPs8Y3SxtQC2YETpeo7
-	c6ZBNixJFFhhVtRaQMklRvC1jMymqDqjbu1n42ptBeARHNC6p9N381/nTX4A1BqH
-	EdRhMODEdMEh8Wvi3nUSHzB7GJMvz1OLdjBcvoDXe8uk7cCtd0Unmde+JhDV/Is2
-	/dL9WNbdC+tKcXooF1sfPofj8LjPSzAEEsRc4JWZQ4vA7BMTuI3S+UPktKilflnw
-	9m6L1MfbD9QsRB7bWKeF39ZvHFY4xEKDDWolVlRT8zsgz0Ffdggw==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 487y2p0jfk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 31 Jul 2025 09:09:17 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56V78Ort020333;
-	Thu, 31 Jul 2025 09:09:16 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 484nfjje2k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 31 Jul 2025 09:09:16 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LLXjl3AGpjMyfswRCDhKQr5Qi3rmiXqHxO32rMATsjo2I2qhwV2AdkpSJOQo6q58tmoIRiJy1FoeatDSrLzch0JcnWoGKBvawzl7N+PhF5orLL1k3EjqyRWmEwFiupRo9F0hRbwiSJ0HsSRtTHcYJURVE1gMo9OcDCn0mcuY9xt6ffYN428EY4QR/Zy3fYzB9tdSjTnVBrJxmuwBoa/5NzvhtWLLcYfoqfWt0TLOHAHNvq1sxvtXdKW9e7WyRL/GQPcc/wG0F2fIQJOpZ/GXcweY1kB3qwKyl00pGWjeGyxovNoJIlqcF3BMIKuhQT7KWS9Gd//3Zuahxc8j+247Qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j0RN3BGnmdscb0sGo1scDHW3hj8c8X2j+etuhxnOOyk=;
- b=HmhFT8BwfxQhE5n9KeV/dNDPdB0BH7RqY5uypeN3lH2jyhDGEyk2MVaYvH1/XFQaN2BVSmEbGIxXVPLOdkft7RoBp+J288r5NY1cToAiHXGoDEJjs8WUgEB1WsR41kiY5yD8EmQGSGCeWONTeJmj7W95zxUgq3M0H7EIxu0ZeB07dSUARf4oq0DYn97DMInoyyJMaW+O5bakXJbiZ2f5YDZYALdIUSoTheN5kXeVBvmXvRT9HDJBuy4tQbOMWhmMpQXNSa+F6V8Xp1LEylU4LiRZJ/2Fil4awZk80dIi0mNk3D8sqqkxI8oGSH7M6NIiLIw8i9z+WrZ4uQDLQTdWjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j0RN3BGnmdscb0sGo1scDHW3hj8c8X2j+etuhxnOOyk=;
- b=xl6a/5X964qUP1SBITWSmhMcdJeBsh29YxyqiTN4GQ+UrgYPsbhmflJ1InAZ9hpIhi21XvPGpvJQY+ZM/nMA4O0lMauwvXmds8xbcoh2myobxtoZiYYG684EGlOUajll6TiatdY306r+1nwFyyV18OvB8xG/wLfe6c+XxYrqUbc=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by MN2PR10MB4302.namprd10.prod.outlook.com (2603:10b6:208:199::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.13; Thu, 31 Jul
- 2025 09:09:13 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%3]) with mapi id 15.20.8989.011; Thu, 31 Jul 2025
- 09:09:13 +0000
-Date: Thu, 31 Jul 2025 10:09:08 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Usama Arif <usamaarif642@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
-        surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
-        baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
-        ziy@nvidia.com, laoar.shao@gmail.com, dev.jain@arm.com,
-        baolin.wang@linux.alibaba.com, npache@redhat.com,
-        Liam.Howlett@oracle.com, ryan.roberts@arm.com, vbabka@suse.cz,
-        jannh@google.com, Arnd Bergmann <arnd@arndb.de>, sj@kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@meta.com, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH 1/5] prctl: extend PR_SET_THP_DISABLE to optionally
- exclude VM_HUGEPAGE
-Message-ID: <82f41b2f-fbf1-419c-9ce8-6875929de814@lucifer.local>
-References: <20250725162258.1043176-1-usamaarif642@gmail.com>
- <20250725162258.1043176-2-usamaarif642@gmail.com>
- <8c5d607d-498e-4a34-a781-faafb3a5fdef@lucifer.local>
- <6eab6447-d9cb-4bad-aecc-cc5a5cd192bb@gmail.com>
- <41d8154f-7646-4cca-8b65-218827c1e7e4@lucifer.local>
- <36cae7e8-97d0-4d53-968b-7f39b34fa5c0@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <36cae7e8-97d0-4d53-968b-7f39b34fa5c0@redhat.com>
-X-ClientProxiedBy: PR3P193CA0050.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:102:51::25) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sr61EaQQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA4FEC4CEEF;
+	Thu, 31 Jul 2025 10:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753957905;
+	bh=7xI6SJc8l9/QF0tfKjYTzIOTaOS8WPagl3vTWmYZeWA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Sr61EaQQUfTWnAlFOaOhqudSv8vSNwOB3AO0uRxg2KrfomncIJWsicQ3eznZ8ujBC
+	 Wy9EYW/n+BRFAiCIfY1NzAQgrXaaqe36mnxo10s39ybtrDqHkUf3c6feXBSTNLcbbF
+	 GyAxcZ8QwI3/UOgtyc/pJJfxHhXW/pSzG9wgN+T1K0yATiuQxnxupO6ulrMs2IQR1+
+	 pXaRohdhO6cGaoip+XbzFc4pv/7bBqYB+MU37WPF1T/IsjDJxKfN2XXCQfRJ76jd7T
+	 uYMMfnK1XzjAFhwJ6KQNeD59Uulstz46YvETr6i0sV/NS4Nr0T30uVfHLd5/HQZKDr
+	 jo5+7zo7O9wnQ==
+Date: Thu, 31 Jul 2025 12:31:40 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v2 3/4] procfs: add PROCFS_GET_PID_NAMESPACE ioctl
+Message-ID: <20250731-angliederung-mahlt-9e5811969817@brauner>
+References: <20250723-procfs-pidns-api-v2-0-621e7edd8e40@cyphar.com>
+ <20250723-procfs-pidns-api-v2-3-621e7edd8e40@cyphar.com>
+ <20250724-beobachten-verfassen-9a39c0318341@brauner>
+ <2025-07-25.1753409614-vile-track-icky-epidemic-frail-antidote-d7NYuu@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|MN2PR10MB4302:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7e96557-a2fb-4181-b07e-08ddd011ea54
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?M8raP2yJI1ho3ws6iQn0igGxMMAemAN1KpYJ831fYmrVaQGkNy47Vo31aTXv?=
- =?us-ascii?Q?rbHwBqZD3n1ISaCJTKelQ54Utfmf93nbaiQlYyGymRFOHHnni0kdYdAleZq+?=
- =?us-ascii?Q?QEUanSdZ8xbf2rmhh5wbOBQTwdBoK2U3EDR9PKeqiOehiQ+ZIA+y1rJkhu15?=
- =?us-ascii?Q?OcJw3OXVo0YnIjriX4/OVqIrrqOUmhr3q1uAcHPMXOPat7ePeCopPdwK1Pba?=
- =?us-ascii?Q?1GZq8t9a68LweRSLbMqPoQE2qp+vAhfPceRqRo1Sk38zAH7o7XRm86Tas7lV?=
- =?us-ascii?Q?85MW3lDOdGS+hpHP/yXmPaU7MCvwzqYNDl7GJnpHKNIMu1HUY9Xhke7LBfBk?=
- =?us-ascii?Q?2Wnt5brzXGWDzW17k5IBY9VOlPtaeGiWpRbs25mQbn0K1RSmUL22/GvHbPGP?=
- =?us-ascii?Q?MFpPA66UZAUFJFQx5gvy9WAt4StIvBg28vGuhn2KDavARLbi5IXl+5TB50Sx?=
- =?us-ascii?Q?Z9nhvOhG5WTcRQ+mhCgzO1kBGtO6FJuJ7/VIaUU1uubrMHKYlRsu8wim0myD?=
- =?us-ascii?Q?iEMnXZogpqzCQgQhBaymUNQ/vzJ6io44CApYCrzRWOWBEJM4WWqmo6WDQd2r?=
- =?us-ascii?Q?AUBSa9zT6ltsG/BCFvF/qGnr0heEar0n/Y0yEKj5tZ1jPfGNZ8kybz0taVpR?=
- =?us-ascii?Q?gxCivCq9feti51FpmzKBKIBAIuk1FB6+tbZChUQS17AYDj2augWnv8Y1SWdT?=
- =?us-ascii?Q?ap6X9y5Do+QX7ZULt0Fwi+49/u5GizJKwqXdYDoIw/hdMH1HHYQnY016f+la?=
- =?us-ascii?Q?L4CLy7JmZAOXRNg1QdK7rQsA/6hFfqO+iupkWOU+A1zaOLLqLeinm3zUyd8y?=
- =?us-ascii?Q?w9cpubGWcYNo7zd09A457KC9bWYHIsZUwYbtrkWJSb8wpAjtc/mc0dIFPQuH?=
- =?us-ascii?Q?S7w7Q73HtYqjes4RdhjzH+RRf5UwGuBs9WQpsOuXwqPPRWhp3fbrWiKNlmvO?=
- =?us-ascii?Q?/K4pzpocjrJGa6gZGgd/3YhHR4qMTnwItUZGr2IwKhdBD0Vi8+cuvndorB/a?=
- =?us-ascii?Q?gS0sGBF191w77JKupb7u9R4V2WZd0nBVnXYBeI1856I7CvaKolXfz/Z9Yefu?=
- =?us-ascii?Q?a/Dz8IqX4jA7RhrGZcDN5ETR/9uJP16yxsyeMQER3B3aruB0i+2Sw3in1Ey1?=
- =?us-ascii?Q?EqRGROttXpVd31Bd6pe2XBV4sZplf4v6mIPAvB6uaPy+g4FJVDRYVG7pAj//?=
- =?us-ascii?Q?o6oIJL7gel4VadMofLPb9dmBTosOGhQWDMr77Zwn9A6zWwpq757awMNeYizn?=
- =?us-ascii?Q?hjfIdxXcLkcXJw766qqntvZpoAnnurwHc6ddvD3vPhwYHk++qDTdCVpgnHTT?=
- =?us-ascii?Q?uo5X+5KEwBuBZ+u2UDxJijBFCN1COLCQxUMf6MnqhNrECrXVQguudatKZaDd?=
- =?us-ascii?Q?gXm6oHrnwlBC+RF+x8gQ6gMCU+P/gQODb/NjvVeYGWc+ZxvlniCXuGlwBok+?=
- =?us-ascii?Q?y7E9PIRdZvQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?B5PtBxPJK3qER5WKhIQm/6bnqobP9i2ezFUE2S4JpWTUbRiCQubbbqdsbFkl?=
- =?us-ascii?Q?k0NxRAWiUV54gFG3XtshNfg5cfgyIKh3BYi7xfNs3xzF4QsRL7JONLClDuJq?=
- =?us-ascii?Q?nVFicgHF3L0zlMcGrAEn+AqkpmJ36nRSU6LdNQbdhxxJ/71r8HmfPZsSSMRk?=
- =?us-ascii?Q?gNkRUTP8HoJPP2yPpUNGJ3tkN/0zH1h7g2M38Ofru2aSmpRPKx0ip31Ci960?=
- =?us-ascii?Q?PNbFdPAOy8DI0hlT1q1tmK/B6eJD4IpOaDW2RmzEEEi/DmF0e0qPyGy3KZnT?=
- =?us-ascii?Q?kFQpb6Z/YZL6Z9bHVOuNBS0+Ar5i8fA5apBtx67K2eM6EKzpH3UInfQ8huPp?=
- =?us-ascii?Q?ui9bkB0EL/ZxozYZbhsau2RA13MPe8p1KzkJLkhKoXGPMziMZXs7vNPCZgZO?=
- =?us-ascii?Q?vCSWOtcxnlM/HQKlMFXLUEVPuQtUOl9MYlJi4ZZf4+lwcltYXuq7Z7f+eTty?=
- =?us-ascii?Q?ILnMVO9Y8njrNX4KCsMpkvRq3XntQgklu2NPmgPhx/3mcCkcxtDIxNu5bHB7?=
- =?us-ascii?Q?LxVnfF3MJMpZLsn7YS7KpRuq3CMHrg+lWRIO59Z0NPDMd98Fj6KOafKpfZXJ?=
- =?us-ascii?Q?Z0RfBVg9cuBbSCyI/yPmEG7bm/5L9foK5ABnTbzmjHdej5wG9TK4nS+edx/m?=
- =?us-ascii?Q?4E7uRATo3CdepR7O3H7i5jJ6hlhKoZKr6wHNyVZ3H6ONmcaPIeKwNlqA5/nS?=
- =?us-ascii?Q?SnIjCv3LQhNOJwi3JgNFGplUymJn9PTg/OMo18WFfw8F4JkEWkOZ4qiakMcE?=
- =?us-ascii?Q?jmssaZBmqKQRRxoGWb/tfn+5OPx6besMUOV34knkV64msdAwIi0CbYLYiJNl?=
- =?us-ascii?Q?ApSbIp2aXcsPT6F9oWHeqZ+B9FEOxJufyWVUQF2dz+spNZjkxr9ahZ8WSEGe?=
- =?us-ascii?Q?uXTiYPW87Stp5RMFsiZBJ3OUf01aSpAHyzk3mOU7ieT7knZ6A4lHe+5A7xqg?=
- =?us-ascii?Q?R5a+7KA7Tr1Vt1HTlpeNNyWrz8R3G+cOoaC4rtGNBWuOSVpwmUs3VVffAQ80?=
- =?us-ascii?Q?es2C84I90BQG+rRZ1AtEhAnGr5FOWF+lpu9puiiYNsiT5xyOnQVpgQA0Ai9Z?=
- =?us-ascii?Q?ZNqRUzB1D7xppGWG8YnFLAzDY8lZeFOjKvW1gPWnx2IkrM7u9rM9ZBvsWOQi?=
- =?us-ascii?Q?QeQh7JkfdVrfVEZD8KI6orhmJnX67EKIN8snqk6efFtsGpsOEsJPfiPMxX06?=
- =?us-ascii?Q?ZjQrnFGkgyRp5njMEi6aaCE9KkvlL0iKXNbdjv13uAm0spK5bGigsMH+2qy8?=
- =?us-ascii?Q?o79UWnckNE9mPUNZavsyWH/2cHGVe1k52Wvj4tVORY0GxVkMVYTazVRysmH0?=
- =?us-ascii?Q?kgFZ7B8lVmA8+vUVHYsNmPJs+bfmLvnLcv/GbYRzS9oZ+mxmLQ0l5rukT15P?=
- =?us-ascii?Q?2pmow4mQNncWpFk/MP3+lUQiD7Awrgi87N8RGlsAqwIN2O1VAaXJbAkUVJan?=
- =?us-ascii?Q?gcOad3S0QSYb4BgnA4w5nDPA/Lb9lNXH+jbvpFI6spGoEJmjkucb/rrHnhFI?=
- =?us-ascii?Q?NjIPkzAEWSJfbs+0Q1DEai6Re18QEftRCdsvFxBROBpew9G7OhCP1XAkfPTr?=
- =?us-ascii?Q?dDdYOjKiEOk+37IFrWpiraNVJPopqwdOnCb6F8gYOuAKGOddKJ/aWxxCZXI3?=
- =?us-ascii?Q?YA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	ERGVZwqDsvlgB/MIw26acUhtYSRBkI3e83CAEL8zrOa0xQIoWbFRl5Q/drkNhZpvuRHCZ3+HphTEGb5Uhc7swhKA5ySDi7pBwcQrGlJnDEf9vtidO8ld/+s4E02h19E37pKHYeBqjobMPq9ZgROT3HwW1OAPOdWAdJBN0qtB+MEPlCggruS0O+24zx6T45kKJjN0L3Ha2XeCBIxrry0w2yCdFccsEWzlOHibctJmN+kLyIrn/uqxqgt9pgCE9QITahN1YnbL5fZTFpCioNf0bAxqfz9oYJSEj4ZRNKD1iTPZrtshhD+BBeu+xUaTBaznKa+7Asfvod9TdagAzgMO4FJ+BBYHfkDRjpMt2MvIsrItXoGAftjCt+u+IVCV4Zf9Om6U6ictnmuGNudVvN+R/CCUXDPqEMBZq0it3p8NkLMOmS8gF1WcT4r9fPm0I7rxjQjoc0ZfUhhTpI86SbhCRWSoyxSdVjVTUtaSEt5S7GR3TbcDuHJoBdudf6P6bABG/BjhNK0OcPrw5Xl9eZCPvBpWxjQkCRwTdA1tp/NIdIV6DNe2dg+Tf/2Bd6orhssSJN/qhMwFNKwKUw/BZT2ffb94tpTq1cjeJXsXvYMzKVc=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7e96557-a2fb-4181-b07e-08ddd011ea54
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 09:09:13.1221
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5OUGlTFAfw7qZj6/CF0aVtaRGVCONogTdNvPnTB+Lp+0wRpgxWVhnZ4S/F2g0qce1eq8BVh/9wUXbuXI1R546BHDaGQZreTPmidKUhT9qGE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4302
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-31_01,2025-07-31_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0 bulkscore=0
- malwarescore=0 mlxscore=0 adultscore=0 mlxlogscore=999 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2507310063
-X-Authority-Analysis: v=2.4 cv=COwqXQrD c=1 sm=1 tr=0 ts=688b32bd b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10 a=IrAq7DpOE0TcJ6naTEAA:9
- a=CjuIK1q_8ugA:10 cc=ntf awl=host:12071
-X-Proofpoint-ORIG-GUID: QiexHVy_RtD7mvCGubKdY-4bowuYuzkp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMxMDA2MiBTYWx0ZWRfX39O+7+JrcZ9N
- R17Kr9xwFj48jQ2ABrkTI2Dx72sb6GdWX0le4iwEndwV6J4NjZxMG9D1KsZmMW9T++iDcmgNBer
- 97WJnv4M4JBq0dcprQRzkrx5POo60D5YJTeW8AMnhLVQnvtpDjjmQ0KIMYwD0qs1Tzg781YGYeH
- Nlz53cSrQ520k/z8miQHEsyVXPDyNoP3vxVnI/tnB5/kctKps+JaehBHuUfEawQARDUZ9jFl/h1
- 68vT4YdOmLEWRIOrqGScaEAPKLZJbb8xgCY9r4lNZ2BQRCjGBIzgOEDlZjK99VCHApJdaGLlQBo
- qXRX40rjJfMWEGpbxQ0VzPv24nqbXg2w6V5HwekgF/SJdEud5izhXckPNZz2/EltjZWR+5tZrY/
- X/MGub5Cp0WBxKogmsrXXaVhQAlsubkz2+V+enoAlqU4G8mCTog7AVcAhcm4PnO+Y9tIyjwm
-X-Proofpoint-GUID: QiexHVy_RtD7mvCGubKdY-4bowuYuzkp
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2025-07-25.1753409614-vile-track-icky-epidemic-frail-antidote-d7NYuu@cyphar.com>
 
-On Thu, Jul 31, 2025 at 10:38:49AM +0200, David Hildenbrand wrote:
-> Thanks Lorenzo for the review, I'll leave handling all that to Usama from
-> this point :)
->
-> On 31.07.25 10:29, Lorenzo Stoakes wrote:
-> > Just a ping on the man page stuff - you will do that right? :>)
-> >
->
-> I'm hoping that Usama can take over that part. If not, I'll handle it (had
-> planned it for once it's in mm-stable / going upstream).
->
-> [ ... ]
+On Fri, Jul 25, 2025 at 12:24:28PM +1000, Aleksa Sarai wrote:
+> On 2025-07-24, Christian Brauner <brauner@kernel.org> wrote:
+> > On Wed, Jul 23, 2025 at 09:18:53AM +1000, Aleksa Sarai wrote:
+> > > /proc has historically had very opaque semantics about PID namespaces,
+> > > which is a little unfortunate for container runtimes and other programs
+> > > that deal with switching namespaces very often. One common issue is that
+> > > of converting between PIDs in the process's namespace and PIDs in the
+> > > namespace of /proc.
+> > > 
+> > > In principle, it is possible to do this today by opening a pidfd with
+> > > pidfd_open(2) and then looking at /proc/self/fdinfo/$n (which will
+> > > contain a PID value translated to the pid namespace associated with that
+> > > procfs superblock). However, allocating a new file for each PID to be
+> > > converted is less than ideal for programs that may need to scan procfs,
+> > > and it is generally useful for userspace to be able to finally get this
+> > > information from procfs.
+> > > 
+> > > So, add a new API for this in the form of an ioctl(2) you can call on
+> > > the root directory of procfs. The returned file descriptor will have
+> > > O_CLOEXEC set. This acts as a sister feature to the new "pidns" mount
+> > > option, finally allowing userspace full control of the pid namespaces
+> > > associated with procfs instances.
+> > > 
+> > > The permission model for this is a bit looser than that of the "pidns"
+> > > mount option, but this is mainly because /proc/1/ns/pid provides the
+> > > same information, so as long as you have access to that magic-link (or
+> > > something equivalently reasonable such as privileges with CAP_SYS_ADMIN
+> > > or being in an ancestor pid namespace) it makes sense to allow userspace
+> > > to grab a handle. setns(2) will still have their own permission checks,
+> > > so being able to open a pidns handle doesn't really provide too many
+> > > other capabilities.
+> > > 
+> > > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> > > ---
+> > >  Documentation/filesystems/proc.rst |  4 +++
+> > >  fs/proc/root.c                     | 54 ++++++++++++++++++++++++++++++++++++--
+> > >  include/uapi/linux/fs.h            |  3 +++
+> > >  3 files changed, 59 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> > > index c520b9f8a3fd..506383273c9d 100644
+> > > --- a/Documentation/filesystems/proc.rst
+> > > +++ b/Documentation/filesystems/proc.rst
+> > > @@ -2398,6 +2398,10 @@ pidns= specifies a pid namespace (either as a string path to something like
+> > >  will be used by the procfs instance when translating pids. By default, procfs
+> > >  will use the calling process's active pid namespace.
+> > >  
+> > > +Processes can check which pid namespace is used by a procfs instance by using
+> > > +the `PROCFS_GET_PID_NAMESPACE` ioctl() on the root directory of the procfs
+> > > +instance.
+> > > +
+> > >  Chapter 5: Filesystem behavior
+> > >  ==============================
+> > >  
+> > > diff --git a/fs/proc/root.c b/fs/proc/root.c
+> > > index 057c8a125c6e..548a57ec2152 100644
+> > > --- a/fs/proc/root.c
+> > > +++ b/fs/proc/root.c
+> > > @@ -23,8 +23,10 @@
+> > >  #include <linux/cred.h>
+> > >  #include <linux/magic.h>
+> > >  #include <linux/slab.h>
+> > > +#include <linux/ptrace.h>
+> > >  
+> > >  #include "internal.h"
+> > > +#include "../internal.h"
+> > >  
+> > >  struct proc_fs_context {
+> > >  	struct pid_namespace	*pid_ns;
+> > > @@ -418,15 +420,63 @@ static int proc_root_readdir(struct file *file, struct dir_context *ctx)
+> > >  	return proc_pid_readdir(file, ctx);
+> > >  }
+> > >  
+> > > +static long int proc_root_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+> > > +{
+> > > +	switch (cmd) {
+> > > +#ifdef CONFIG_PID_NS
+> > > +	case PROCFS_GET_PID_NAMESPACE: {
+> > > +		struct pid_namespace *active = task_active_pid_ns(current);
+> > > +		struct pid_namespace *ns = proc_pid_ns(file_inode(filp)->i_sb);
+> > > +		bool can_access_pidns = false;
+> > > +
+> > > +		/*
+> > > +		 * If we are in an ancestors of the pidns, or have join
+> > > +		 * privileges (CAP_SYS_ADMIN), then it makes sense that we
+> > > +		 * would be able to grab a handle to the pidns.
+> > > +		 *
+> > > +		 * Otherwise, if there is a root process, then being able to
+> > > +		 * access /proc/$pid/ns/pid is equivalent to this ioctl and so
+> > > +		 * we should probably match the permission model. For empty
+> > > +		 * namespaces it seems unlikely for there to be a downside to
+> > > +		 * allowing unprivileged users to open a handle to it (setns
+> > > +		 * will fail for unprivileged users anyway).
+> > > +		 */
+> > > +		can_access_pidns = pidns_is_ancestor(ns, active) ||
+> > > +				   ns_capable(ns->user_ns, CAP_SYS_ADMIN);
+> > 
+> > This seems to imply that if @ns is a descendant of @active that the
+> > caller holds privileges over it. Is that actually always true?
+> > 
+> > IOW, why is the check different from the previous pidns= mount option
+> > check. I would've expected:
+> > 
+> > ns_capable(_no_audit)(ns->user_ns) && pidns_is_ancestor(ns, active)
+> > 
+> > and then the ptrace check as a fallback.
+> 
+> That would mirror pidns_install(), and I did think about it. The primary
+> (mostly handwave-y) reasoning I had for making it less strict was that:
+> 
+>  * If you are in an ancestor pidns, then you can already see those
+>    processes in your own /proc. In theory that means that you will be
+>    able to access /proc/$pid/ns/pid for at least some subprocess there
+>    (even if some subprocesses have SUID_DUMP_DISABLE, that flag is
+>    cleared on ).
+> 
+>    Though hypothetically if they are all running as a different user,
+>    this does not apply (and you could create scenarios where a child
+>    pidns is owned by a userns that you do not have privileges over -- if
+>    you deal with setuid binaries). Maybe that risk means we should just
+>    combine them, I'm not sure.
+> 
+>  * If you have CAP_SYS_ADMIN permissions over the pidns, it seems
+>    strange to disallow access even if it is not in an ancestor
+>    namespace. This is distinct to pidns_install(), where you want to
+>    ensure you cannot escape to a parent pid namespace, this is about
+>    getting a handle to do other operations (i.e. NS_GET_{P,TG}ID_*_PIDNS).
+> 
+> Maybe they should be combined to match pidns_install(), but then I would
+> expect the ptrace_may_access() check to apply to all processes in the
+> pidns to make it less restrictive, which is not something you can
+> practically do (and there is a higher chance that pid1 will have
+> SUID_DUMP_DISABLE than some random subprocess, which almost certainly
+> will not be SUID_DUMP_DISABLE).
+> 
+> Fundamentally, I guess I'm still trying to see what the risk is of
+> allowing a process to get a handle to a pidns that they have some kind
+> of privilege over (whether it's CAP_SYS_ADMIN, or by the virtue of being
 
-Thanks
-
->
-> > > > > +/*
-> > > > > + * Don't disable THPs when explicitly advised (e.g., MADV_HUGEPAGE /
-> > > > > + * VM_HUGEPAGE).
-> > > > > + */
-> > > > > +# define PR_THP_DISABLE_EXCEPT_ADVISED	(1 << 1)
-> > > >
-> > > > NO space after # please.
-> > > >
-> > >
-> > > I think this is following the file convention, the space is there in other flags
-> > > all over this file. I dont like the space as well.
-> >
-> > Yeah yuck. It's not a big deal, but ideally I'd prefer us to be sane even
-> > if the rest of the header is less so here.
->
-> I'm afraid us doing something different here will not make prctl() any
-> better as a whole, so let's keep it consistent in this questionable file.
-
-Sure not a big deal.
-
->
-> >
-> > >
-> > > > >   #define PR_GET_THP_DISABLE	42
-> > > > >
-> > > > >   /*
-> > > > > diff --git a/kernel/sys.c b/kernel/sys.c
-> > > > > index b153fb345ada..b87d0acaab0b 100644
-> > > > > --- a/kernel/sys.c
-> > > > > +++ b/kernel/sys.c
-> > > > > @@ -2423,6 +2423,50 @@ static int prctl_get_auxv(void __user *addr, unsigned long len)
-> > > > >   	return sizeof(mm->saved_auxv);
-> > > > >   }
-> > > > >
-> > > > > +static int prctl_get_thp_disable(unsigned long arg2, unsigned long arg3,
-> > > > > +				 unsigned long arg4, unsigned long arg5)
-> > > > > +{
-> > > > > +	unsigned long *mm_flags = &current->mm->flags;
-> > > > > +
-> > > > > +	if (arg2 || arg3 || arg4 || arg5)
-> > > > > +		return -EINVAL;
-> > > > > +
-> > > >
-> > > > Can we have a comment here about what we're doing below re: the return
-> > > > value?
-> > > >
-> > >
-> > > Do you mean add returning 1 for MMF_DISABLE_THP_COMPLETELY and 3 for MMF_DISABLE_THP_EXCEPT_ADVISED?
-> >
-> > Well more so something about we return essentially flags indicating what is
-> > enabled or not, if bit 0 is set then it's disabled, if bit 1 is set then
-> > it's that with the exception of VM_HUGEPAGE VMAs.
->
-> We have that documented above the defines for flags etc. Maybe simply here:
->
-> /* If disabled, we return "1 | flags", otherwise 0. */
-
-Yup I know it was documented, but nice to have here as I'd definitely read this
-code and think 'huh?'.
-
-What you suggest is fine!
-
->
-> --
-> Cheers,
->
-> David / dhildenb
->
-
-Thanks, Lorenzo
+There shouldn't be. For example, you kinda implicitly do that with a
+pidfd, no? Because you can pass the pidfd to setns() instead of a
+namespace fd itself. Maybe that's the argument you're lookin for?
