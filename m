@@ -1,316 +1,411 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2059.outbound.protection.outlook.com [40.107.92.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1881C1C1AB4
-	for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 14:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753973688; cv=none; b=BpHXfIRRCjRVx7s0zAZPnCbtUxAhUitapCZ4mJkAKIHdLs+DV6Tn84QJVYzoDjJMdVPBv9jRep/JZQeByhXFBMnWCoJ0j9Q/FVAZVkTpcERTnrsOfsLFCZGLDCOpAjwZJfV1A09jEaLMfPSdypDQBpby87+Cdz9iLDRjvW4H5CY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753973688; c=relaxed/simple;
-	bh=UJaDoUN8az5yBcxGprRm1+zJ4BUxFszBTB0G2xgRuvk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dpa08Yi5+V86hgOP0pEaDBT1hsGbTczi7c2d9hk7euoNcdZ2ct2SG8gBIFguLJ0KhhzN88nez6SaXzPFLwdy1KIXp26NOZrO8jn3pmmmKTOR3RjjlwvzALv9Pb1r6nrk4ercrC1wPzvOoqOK0DsqWLtWAYo6T1drm3bOCjw/tE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RTZXeG+x; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B15D1ACED9;
+	Thu, 31 Jul 2025 15:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753974812; cv=fail; b=QITKfkLLDBL8YFHu+sKeV3rpLZtCqHAKwXGANBTp/kHgzt074abfI+qWbqUhq2qzDwAizMK3vRGG9GQx7ud4OQzq5lmUTM1vtSiXwNq+CVMAZtKcbt9s/hdCdpDT31mDTxg52ouzaWgPk+p7sUyKVTdZnGxbpWOf9e/t6clucgM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753974812; c=relaxed/simple;
+	bh=G5sdGOvbC52HoBecaViYloaXDaJlr9J1GX9ghIYzRic=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=N+MzjFuvo32UGY6b4d9vVC8SU3hpvYWWhSZ2Vbe5hJeS94R40sd8LGlUCWUW2yEaY7WgFeo8ckDy1fsPVcZXG2OgSIccYO4k/dS/BFJFdr6ZM503TUawYVJluIig/v4y6DSmXqRvnYZtjDuk3sHkKOBJJyv2JMleQTA79yuuskU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TuTn6ohX; arc=fail smtp.client-ip=40.107.92.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RTZXeG+x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753973684;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pcdAMsNdTAq+2YkeVqnBXkNfuDQDM55vEhbjhHl9CYA=;
-	b=RTZXeG+xfinbhit8Sv1Ob6pBuNWRDb5db+uAgQ3zAPz9pd3vqo/eOyCMILUoPk7TDOQT/e
-	Fx89MsiOVSfK4MhhD1IL2PlEzZQR23tpBvYdbAOUaOgC42jjOIixWapptnrqA/0TjUCYhS
-	2gBVTrlJxll8JUKe4uZcLZ8pGPVIRHY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-417-pOKmVraVMoSfJr1ai3Dj8Q-1; Thu, 31 Jul 2025 10:54:42 -0400
-X-MC-Unique: pOKmVraVMoSfJr1ai3Dj8Q-1
-X-Mimecast-MFC-AGG-ID: pOKmVraVMoSfJr1ai3Dj8Q_1753973681
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3b20f50da27so876098f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 07:54:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753973681; x=1754578481;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pcdAMsNdTAq+2YkeVqnBXkNfuDQDM55vEhbjhHl9CYA=;
-        b=lMFm5D6gIghswToN+qP0UyKV3CJ2sOge5urzIzcbyAWO+wD4d7ElQw22mZVn+EMoVw
-         Q2m+6DLXZ1oWA7PAenD5i/MZMnBNL7Tyog4L9n7s4wPhnScdAP0fKMEGI00Oucwwmjky
-         df1dmo0DN/8wb3qULiVGcGYYj1Fl0nNXU9QJhaTWKEMH68s1DLtQL4oGDIVPQfdnQwgM
-         KlseHlVSglhr1aEtB6OvAnYdrlsPhlH/20K7mClNJYmA7kDl1vPRXjBpRh+PE6G9nRZ8
-         Io9BesCzMdy6bHq5Wk3P09lohVrI5VbutRQ5rT7+NRaylrifZLceVFvoLIQUojC4PrfJ
-         yXFg==
-X-Forwarded-Encrypted: i=1; AJvYcCX+X11nsJA99jQ5Moe/duwH8iPkd33bBk31CACMeSH+44xDSeHrESpf2BC5caqKVtVd1wRH4YprL4s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzY2cOvnxGzCWqw8TeylBSkAW8zxDMzKPYvVU6+k05IUWdPqnSV
-	KcLTI1/uCYnx2vzP6QD4M2JUi8IzmVneIvyYpSLk9C1dMJPEVw+tJGLHHAYGKtaTEkwhgTdtoTC
-	KszrRvaDW2XMo8TKtYZALPwLBcqrwXPMpMn7gtmXpAxyN5b9pOZRUD6K8NFQJsA==
-X-Gm-Gg: ASbGncuDDNVu7awAp+8NRiatKIanrp5XRNfVjqAvvtjL0upFpoyz4dLMonjICOhk2A+
-	pcmBrxbr+SDRv4QyW99f/Ob5Pyd9m+lklqeC7A8bkkUwEU71aHWneJvl/nwheMjTSsthFRvscMO
-	YQZwfdVDs1esmfwzc0S8xLE4cz0FZ+f17EYv3B8h9kT2YKRYTi1lrKKAAh0u4qT/iHf3/ofJ+W0
-	vmmUH1VZeYHsjArl4kCeOXIqVXIsM/GEvl2b688hGodZ5AMDcfarGnJknn2bCtKttkysluyplJS
-	XipF+yoo5/br4RBTBAWrS80cybdHVAE03253elYDlhTY3F0lIR/JYlIdSlekwN246iWL/lR83mr
-	HKGdBBe8Rh7Euxz1ay/NxKIyQ+kyYK7rFwMox7eZKbbaDThFI7jEW53VXgOb7SDpgzK0=
-X-Received: by 2002:a05:6000:40db:b0:3b6:d0d:79c1 with SMTP id ffacd0b85a97d-3b79d4511a7mr2179891f8f.10.1753973681106;
-        Thu, 31 Jul 2025 07:54:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGGrPbQGx33zdyJHrEf2Jq33PS0AoKLgTX83/f0Zaxy9JX7aFfl5pg+H/UR1tcX8OOa7Lu1kA==
-X-Received: by 2002:a05:6000:40db:b0:3b6:d0d:79c1 with SMTP id ffacd0b85a97d-3b79d4511a7mr2179833f8f.10.1753973680340;
-        Thu, 31 Jul 2025 07:54:40 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f44:3700:be07:9a67:67f7:24e6? (p200300d82f443700be079a6767f724e6.dip0.t-ipconnect.de. [2003:d8:2f44:3700:be07:9a67:67f7:24e6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458953cfe56sm72071135e9.20.2025.07.31.07.54.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Jul 2025 07:54:39 -0700 (PDT)
-Message-ID: <747509a6-8493-46c3-99d4-38b53a8a7504@redhat.com>
-Date: Thu, 31 Jul 2025 16:54:38 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TuTn6ohX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RF36mPxoa0Hjg1mJmY4CqDYvl+zG8qTS2eeQGlfp6NChWqeG4FTbsW94fOglMnwwGU3OFU37PbtykS3+CQS+bP1DpOBk7HXNtzKRchcCkKEs46vhcTE7t+SZz9MOb4cM4FTswq20ZRp5SkIGa9RsxE4CeBaq88MVVvNghIrs/DhsdLFkOsVKJ5jIFiva5pq8RSoCSn3Jb1KvuHcmONSjaRlWt6C4uGn5x4FUxLjBn2Jos1b3mHLNfvsxG36NhCX64xlxyceBo6WgqgD+km4ogqh3OtwtCHwtp12WxmkCmOZsLk44e9cO/rX2GgpzhJMDa01BcS/hUC0tq0xZQt+MUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wcza+JNF+hy5WaiW+B7EB++1RZoUIVbmDY+FEuYBNIs=;
+ b=wFOarpEEjg5E4VlWOPvbfJz4oOAVAk5FLmOtKzIm40cPcBA6BVjysIDskTpP2sO2rMebDo+ydYtL5A3QFAJC79ruYAxs5QbYja3lUjRIZAjwJBqLfgiNrTTkRXa1rdYHdEQS1zDGsg7TaSI1DV7rMOU8KBy4ypFO5l3bdTT+iOFXDg5/d0ml2+Cy1e6iDUIC5Wo/2CHJglNoG2LqJSCj8Y2t2z4OXgOuR01YN8ttVXELBvXIPMq6zrFN+R1pvoic1uXvnPiPwAOz3qa2lTfRTuQUSmks6GCIRINn74QytkFhAO4cak+m58WYYHkTutDjTYBI1CPp1KajG9EYNicpPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wcza+JNF+hy5WaiW+B7EB++1RZoUIVbmDY+FEuYBNIs=;
+ b=TuTn6ohX4M9+J/HzOrHS7V4nNl62t2cQkwFSh10ERTH7paubfd5yWXnzMmPW0JiexDL9PriE0QdK2WuCAYQDm0/n+2wbILNR+CQILCEGuDEtsjRnymcgGbdvf9QjFA28/4LTPSYRbnivKe6uudPdKGkegxUb0VVk3vGVV2jYtKYduy/gwHYD1tnYqPoUPHqpdhvigjMav0ZFyVEemWdigX/3CyU1LySU9WTWnVqeA2xW7OSMok8GmEd80TtbAe8cAyheqNkJ7fq10CkAFd1/lyMZ9c0DuBBwTI5o0JjxvkpjxRzIyqmUnckxTy3Hyxdt069/2YnCW/SN7HmiJBUg7Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ MW3PR12MB4346.namprd12.prod.outlook.com (2603:10b6:303:58::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8989.14; Thu, 31 Jul 2025 15:13:24 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a%6]) with mapi id 15.20.8989.010; Thu, 31 Jul 2025
+ 15:13:24 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, corbet@lwn.net,
+ rppt@kernel.org, surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
+ baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
+ laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
+ Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com,
+ Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2 1/5] prctl: extend PR_SET_THP_DISABLE to optionally
+ exclude VM_HUGEPAGE
+Date: Thu, 31 Jul 2025 11:13:15 -0400
+X-Mailer: MailMate (2.0r6272)
+Message-ID: <0ADCB72F-9D63-4202-89C7-D55734804E41@nvidia.com>
+In-Reply-To: <20250731122825.2102184-2-usamaarif642@gmail.com>
+References: <20250731122825.2102184-1-usamaarif642@gmail.com>
+ <20250731122825.2102184-2-usamaarif642@gmail.com>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: SJ0PR05CA0139.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::24) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] mm/huge_memory: treat MADV_COLLAPSE as an advise
- with PR_THP_DISABLE_EXCEPT_ADVISED
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Usama Arif <usamaarif642@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
- shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
- sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com
-References: <20250731122825.2102184-1-usamaarif642@gmail.com>
- <20250731122825.2102184-4-usamaarif642@gmail.com>
- <aca74036-f37f-4247-b3b8-112059f53659@lucifer.local>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <aca74036-f37f-4247-b3b8-112059f53659@lucifer.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|MW3PR12MB4346:EE_
+X-MS-Office365-Filtering-Correlation-Id: da5483bc-e9d2-4547-c5bf-08ddd044cb4a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?kDsZaovEyR+RTs4ba2Uoh35DLt10JGKVUBFFvIEGAcoxxa0wzKn97fzVW7AX?=
+ =?us-ascii?Q?9TQpZAxbB3mLKW5Rlg32moDDLt9sVaMHl4jgxaCWOC9TKwXYuhEo1wvFviW+?=
+ =?us-ascii?Q?kEUMI7xqG8d83MEuonwHX7DqVEmHvSfE6nb73MhXJ6iMzEeUgyrEpg1IDuJh?=
+ =?us-ascii?Q?X9ZWws6NX3MXPkE5kqb8blE9wNVHxGCyEApeuWSlDZwFIzW/mWiUqvFH3r/m?=
+ =?us-ascii?Q?bMFEA7zuI8E9kUgAWqyRcxg6IUxMq9EAd44nAKlGrj/8/TAGwXg3XF2r2jmR?=
+ =?us-ascii?Q?MhiGMgzB+LnzoMf1dUOLn5fHChySyOJsbD8gypSS17CSnYGXvf8PwyakTcgw?=
+ =?us-ascii?Q?71NqeDNKL0cN/XVcF576XoJ1YUa2cwz76XR0vC7IFAQGO8g2bzW4ME308M0t?=
+ =?us-ascii?Q?dyIQsBomM/ddDiDm7S0ngjR00Nt60JNq0/IE1bS4zOeFA8SYJhNlh6ggtTur?=
+ =?us-ascii?Q?tiaGtedLv++FD0jo85LaaspjlT+05OMBUCV1Wby8l2EwZVx5bRu7x5WZAq5K?=
+ =?us-ascii?Q?y395OhMECVcHm6nnoxWlXaAuPTnGDzL90FC4fwrpx+Chx1kUap3jqempD/qB?=
+ =?us-ascii?Q?/QKHgHOq8Y02X12DxDAIWjYnuGMKDIgX788JMGyItBGiZEhP9aoaaydEUF3a?=
+ =?us-ascii?Q?XiRrqhDGhRyCnmguhglUcTfbGpb41jWmEtfO3/7mhUf2mV8clH3Jgn8gByLn?=
+ =?us-ascii?Q?Kpmnjo5E3EnQ8VoqGd8b466EdSADnzzcw3vsQhWmkavwQFHFA0IJE5/01zuX?=
+ =?us-ascii?Q?4hahX8zfD+hrYdSAeipi01WpNK1QkrAtfylrFNGxBX3pvwDNecD3LdOcXdio?=
+ =?us-ascii?Q?+WZ7zAOp4NQDLBIQFACwKTvOms4w1zhCpBK1BL6XIqLTp5iqri6VPrK9Vl9e?=
+ =?us-ascii?Q?G/vInn57mPD7awrVrcgXJjRlEMtYCJdO4Yn1dcfswnhC0f3filAf1O0DdtPI?=
+ =?us-ascii?Q?i+qHhwc0alhk2HBiri5jv+ZFadxX2KzfBKixdFtG4KPgR+2jxWGRzgR0hsJD?=
+ =?us-ascii?Q?V7YKQx1ev41hMUeVwe6ouq5G8VGOUaN6O01EJGX4Ha92OGpBynY0aUEtzmz/?=
+ =?us-ascii?Q?FoJMgOeJpeLaZAUTuv8UXgZWgYjezrR/tHWsgBvsyhqLNZ34gHIvvEK4LW+4?=
+ =?us-ascii?Q?3bfdMydePQjNlFyIr4SUIjwfaD23GzbmbaYtZCiv/U+mxX4Ciy8nSbuD8grM?=
+ =?us-ascii?Q?GA3OIrYZ7aOoTW3hBxhkAKA0VP4MNIN4WW9DcX8Xwcd+tnzRtj6Z8NQaZqnf?=
+ =?us-ascii?Q?kxaCdBm0MXQPV/FE7RfA3n3SeR7DT/jZN3Zt4kY1iBMRkjxCK42FQ5sF+Rls?=
+ =?us-ascii?Q?27W+4jogMBB2X1+jnZKSeDYSG8D1VjMNOxFDA+LFj92v9WexC09KmZP67CgA?=
+ =?us-ascii?Q?6gnn7HfgO6KQpDl14eyzwHi6+IYwQqoIRDuydr07I4rGP9RgcdUUd8UvRiab?=
+ =?us-ascii?Q?f0ig4Un8k58=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NPaXzW1SRzwiTLjC6jjJ3OCwbk4DeXa4wwD9I/mFq2uSkhqivDfw0fNaYG/w?=
+ =?us-ascii?Q?nZovJAaK9a/BHDdOI7SL1uCC/DWPIH8qLvLjeekgf8beo3E1kDR4WJzo3M9O?=
+ =?us-ascii?Q?rWjs+piPpYIdGAtCURvyWpIqx+xEMqqWokpYlhGlNLVPrUH0I+wE+Pq7phtI?=
+ =?us-ascii?Q?nfQb3IZmYnf3F6Sk9MkQ5YXq8iHjqrKBy6+AU+3GcjVdetrRoghiLVLoKpDl?=
+ =?us-ascii?Q?UrVLuS8owo3/90/WLpqPaW24ix7gQYZJAUOvy9pPpb/87O+NLBYbYo/BM+7s?=
+ =?us-ascii?Q?ll0ofVIIAxrIv7ITRdPeYzxmz4bXYnXD0j51HJplxW+sEqlqCqaFpqEafvD0?=
+ =?us-ascii?Q?bOhfXi1kJPiTDRTMXjAvWnIPAfB3R3tZ0HP4OnHW4tZQkxVcxtY+as4/EFcL?=
+ =?us-ascii?Q?5LfF5rlSbEBH0y2knRGvextEDxK/4Qe43wBb5UP0Hhhii8Lt6bRxyjhyIEw9?=
+ =?us-ascii?Q?waEAcKAVX22iYTVS6ePQP1Q1lfMcp1c8z0fGA7WSi1csAXxEVJIlGN+5bA4M?=
+ =?us-ascii?Q?vPuJkRkelIXqlsF8ec8JG2N/cuNSQYu05301Mw9J5ZU6vqexfHqCv2Vthlqu?=
+ =?us-ascii?Q?29Px03rUY0KZN+WHLDJC7NFj+N//ok68g9GT5eLkXUhDELTz+A+I3INPwGsw?=
+ =?us-ascii?Q?X7Jm9TQ468WDyxAGL2Pt+7bez3JnlqIzP8O2FnsiPLV91EEMjwp3kySIqoZ/?=
+ =?us-ascii?Q?Y3WC4k9hczg8AHNg0jh/Oo5AruZB2swi7yhfPyB0luNKEcVWnKfnhNAUVfyQ?=
+ =?us-ascii?Q?OWQRw2mTbJeLyPtHifoOgG+MMFVLAfM6MUuLMthHqVS3enSWXNjSrPm1VT6A?=
+ =?us-ascii?Q?ClxDMD4fCxXIkOThGvOaG/v2RYiFAUvSmO9tPwECs4JS/QJW1kVCnlpnoyik?=
+ =?us-ascii?Q?URalPRZwnFWHMmSCQsXNMr2RKVeW/m8x5+3aH1soeyjWzqv/kDwb6mtzLlr2?=
+ =?us-ascii?Q?GMcCAYpUD3gKw51mu9W0sBNyYkvFWX7FQwRc4kWPG176Cp2wEY0NZSX4qdTk?=
+ =?us-ascii?Q?u5xZRAa0xZqNJs9XXWsOR18/q+WUa0xv0jyuAxG1puX/b1PmGVFKQKUizlX5?=
+ =?us-ascii?Q?sJCT/vpK04EECaEsztQBQBzbgw/5PM/mxdyuhgaWVP5vSn2zb+s0ZIuAnQDC?=
+ =?us-ascii?Q?rzHL9lwOm+dgKpHuaOzO/qrAkZOiKYU6QiVlzmfzD60kscoipbTDhRhBBCsd?=
+ =?us-ascii?Q?wmerZVKg6HOWl30JRTMkVtRppjc4CdEnUy55+xtqB7yo8TZG43nF6ww6FL/c?=
+ =?us-ascii?Q?a3NN46aEukVG23E+73HFxezYRaI7YbM3Nn8aF78nQPx9MUll8D8wduAiYCKh?=
+ =?us-ascii?Q?oEBO7aXuN6qbVnQfV6tkQzVEEyTr7kFjOWwHmFbZKy6jLhXwWGy04/xssPm3?=
+ =?us-ascii?Q?1V0K4yTsmeKEPXwMh57HK13cBbGHL1TzUDy+dVT85FaY2BesSqc9nFDpqfRm?=
+ =?us-ascii?Q?zhinaDJ3at2yMCm3dCZ9Ci8rDq8DxeOXlOgU/loyL72V0Q4sQh00coUCTyoD?=
+ =?us-ascii?Q?IEDRswepo0lS9PmGd96Y6LoPK08GgvJut2mYN8+x7XW7mGILRHCSisoV6Tm5?=
+ =?us-ascii?Q?ayD6hXIcdZ4gDgDmdQI=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da5483bc-e9d2-4547-c5bf-08ddd044cb4a
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 15:13:24.4642
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 75oTQWr6M1bDwW2GmlNQANzdjFEuRDjwED1DFGesCHrgaoJeShc5D//XOaPIicnK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4346
 
-On 31.07.25 16:38, Lorenzo Stoakes wrote:
-> Nits on subject:
-> 
-> - It's >75 chars
+On 31 Jul 2025, at 8:27, Usama Arif wrote:
 
-No big deal. If we cna come up with something shorter, good.
+> From: David Hildenbrand <david@redhat.com>
+>
+> People want to make use of more THPs, for example, moving from
+> the "never" system policy to "madvise", or from "madvise" to "always".
+>
+> While this is great news for every THP desperately waiting to get
+> allocated out there, apparently there are some workloads that require a=
 
-> - advise is the verb, advice is the noun.
+> bit of care during that transition: individual processes may need to
+> opt-out from this behavior for various reasons, and this should be
+> permitted without needing to make all other workloads on the system
+> similarly opt-out.
+>
+> The following scenarios are imaginable:
+>
+> (1) Switch from "none" system policy to "madvise"/"always", but keep TH=
+Ps
+>     disabled for selected workloads.
+>
+> (2) Stay at "none" system policy, but enable THPs for selected
+>     workloads, making only these workloads use the "madvise" or "always=
+"
+>     policy.
+>
+> (3) Switch from "madvise" system policy to "always", but keep the
+>     "madvise" policy for selected workloads: allocate THPs only when
+>     advised.
+>
+> (4) Stay at "madvise" system policy, but enable THPs even when not advi=
+sed
+>     for selected workloads -- "always" policy.
+>
+> Once can emulate (2) through (1), by setting the system policy to
+> "madvise"/"always" while disabling THPs for all processes that don't wa=
+nt
+> THPs. It requires configuring all workloads, but that is a user-space
+> problem to sort out.
+>
+> (4) can be emulated through (3) in a similar way.
+>
+> Back when (1) was relevant in the past, as people started enabling THPs=
+,
+> we added PR_SET_THP_DISABLE, so relevant workloads that were not ready
+> yet (i.e., used by Redis) were able to just disable THPs completely. Re=
+dis
+> still implements the option to use this interface to disable THPs
+> completely.
+>
+> With PR_SET_THP_DISABLE, we added a way to force-disable THPs for a
+> workload -- a process, including fork+exec'ed process hierarchy.
+> That essentially made us support (1): simply disable THPs for all workl=
+oads
+> that are not ready for THPs yet, while still enabling THPs system-wide.=
 
-Yeah.
+>
+> The quest for handling (3) and (4) started, but current approaches
+> (completely new prctl, options to set other policies per process,
+> alternatives to prctl -- mctrl, cgroup handling) don't look particularl=
+y
+> promising. Likely, the future will use bpf or something similar to
+> implement better policies, in particular to also make better decisions
+> about THP sizes to use, but this will certainly take a while as that wo=
+rk
+> just started.
+>
+> Long story short: a simple enable/disable is not really suitable for th=
+e
+> future, so we're not willing to add completely new toggles.
+>
+> While we could emulate (3)+(4) through (1)+(2) by simply disabling THPs=
 
-> 
-> On Thu, Jul 31, 2025 at 01:27:20PM +0100, Usama Arif wrote:
->> From: David Hildenbrand <david@redhat.com>
->>
->> Let's allow for making MADV_COLLAPSE succeed on areas that neither have
->> VM_HUGEPAGE nor VM_NOHUGEPAGE when we have THP disabled
->> unless explicitly advised (PR_THP_DISABLE_EXCEPT_ADVISED).
-> 
-> Hmm, I'm not sure about this.
-> 
-> So far this prctl() has been the only way to override MADV_COLLAPSE
-> behaviour, but now we're allowing for this one case to not.
+> completely for these processes, this is a step backwards, because these=
 
-This is not an override really. prctl() disallowed MADV_COLLAPSE, but in 
-the new mode we don't want that anymore.
+> processes can no longer allocate THPs in regions where THPs were
+> explicitly advised: regions flagged as VM_HUGEPAGE. Apparently, that
+> imposes a problem for relevant workloads, because "not THPs" is certain=
+ly
+> worse than "THPs only when advised".
+>
+> Could we simply relax PR_SET_THP_DISABLE, to "disable THPs unless not
+> explicitly advised by the app through MAD_HUGEPAGE"? *maybe*, but this
+> would change the documented semantics quite a bit, and the versatility
+> to use it for debugging purposes, so I am not 100% sure that is what we=
 
- > > I suppose the precedent is that MADV_COLLAPSE overrides 'madvise' sysfs
-> behaviour.
- > > I suppose what saves us here is 'advised' can be read to mean either
-> MADV_HUGEPAGE or MADV_COLLAPSE.
- > > And yes, MADV_COLLAPSE is clearly the user requesting this behaviour.
+> want -- although it would certainly be much easier.
+>
+> So instead, as an easy way forward for (3) and (4), add an option to
+> make PR_SET_THP_DISABLE disable *less* THPs for a process.
+>
+> In essence, this patch:
+>
+> (A) Adds PR_THP_DISABLE_EXCEPT_ADVISED, to be used as a flag in arg3
+>     of prctl(PR_SET_THP_DISABLE) when disabling THPs (arg2 !=3D 0).
+>
+>     prctl(PR_SET_THP_DISABLE, 1, PR_THP_DISABLE_EXCEPT_ADVISED).
+>
+> (B) Makes prctl(PR_GET_THP_DISABLE) return 3 if
+>     PR_THP_DISABLE_EXCEPT_ADVISED was set while disabling.
+>
+>     Previously, it would return 1 if THPs were disabled completely. Now=
 
-Exactly.
+>     it returns the set flags as well: 3 if PR_THP_DISABLE_EXCEPT_ADVISE=
+D
+>     was set.
+>
+> (C) Renames MMF_DISABLE_THP to MMF_DISABLE_THP_COMPLETELY, to express
+>     the semantics clearly.
+>
+>     Fortunately, there are only two instances outside of prctl() code.
+>
+> (D) Adds MMF_DISABLE_THP_EXCEPT_ADVISED to express "no THP except for V=
+MAs
+>     with VM_HUGEPAGE" -- essentially "thp=3Dmadvise" behavior
+>
+>     Fortunately, we only have to extend vma_thp_disabled().
+>
+> (E) Indicates "THP_enabled: 0" in /proc/pid/status only if THPs are
+>     disabled completely
+>
+>     Only indicating that THPs are disabled when they are really disable=
+d
+>     completely, not only partially.
+>
+>     For now, we don't add another interface to obtained whether THPs
+>     are disabled partially (PR_THP_DISABLE_EXCEPT_ADVISED was set). If
+>     ever required, we could add a new entry.
+>
+> The documented semantics in the man page for PR_SET_THP_DISABLE
+> "is inherited by a child created via fork(2) and is preserved across
+> execve(2)" is maintained. This behavior, for example, allows for
+> disabling THPs for a workload through the launching process (e.g.,
+> systemd where we fork() a helper process to then exec()).
+>
+> For now, MADV_COLLAPSE will *fail* in regions without VM_HUGEPAGE and
+> VM_NOHUGEPAGE. As MADV_COLLAPSE is a clear advise that user space
+> thinks a THP is a good idea, we'll enable that separately next
+> (requiring a bit of cleanup first).
+>
+> There is currently not way to prevent that a process will not issue
+> PR_SET_THP_DISABLE itself to re-enable THP. There are not really known
+> users for re-enabling it, and it's against the purpose of the original
+> interface. So if ever required, we could investigate just forbidding to=
 
-> 
-> I think the vagueness here is one that already existed, because one could
-> perfectly one have expected MADV_COLLAPSE to obey sysfs and require
-> MADV_HUGEPAGE to have been applied, but of course this is not the case.
+> re-enable them, or make this somehow configurable.
+>
+> Acked-by: Usama Arif <usamaarif642@gmail.com>
+> Tested-by: Usama Arif <usamaarif642@gmail.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+> Cc: Nico Pache <npache@redhat.com>
+> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> Cc: Dev Jain <dev.jain@arm.com>
+> Cc: Barry Song <baohua@kernel.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Usama Arif <usamaarif642@gmail.com>
+> Cc: SeongJae Park <sj@kernel.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+> Cc: Yafang Shao <laoar.shao@gmail.com>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>
+> ---
+>
+> At first, I thought of "why not simply relax PR_SET_THP_DISABLE", but I=
 
-Yes.
+> think there might be real use cases where we want to disable any THPs -=
+-
+> in particular also around debugging THP-related problems, and
+> "never" not meaning ... "never" anymore ever since we add MADV_COLLAPSE=
+=2E
+> PR_SET_THP_DISABLE will also block MADV_COLLAPSE, which can be very
+> helpful for debugging purposes. Of course, I thought of having a
+> system-wide config option to modify PR_SET_THP_DISABLE behavior, but
+> I just don't like the semantics.
+>
+> "prctl: allow overriding system THP policy to always"[1] proposed
+> "overriding policies to always", which is just the wrong way around: we=
 
-> 
-> OK so fine.
-> 
-> BUT.
-> 
-> I think the MADV_COLLAPSE man page will need to be updated to mention this.
-> 
+> should not add mechanisms to "enable more" when we already have an
+> interface/mechanism to "disable" them (PR_SET_THP_DISABLE). It all gets=
 
-Yes.
+> weird otherwise.
+>
+> "[PATCH 0/6] prctl: introduce PR_SET/GET_THP_POLICY"[2] proposed
+> setting the default of the VM_HUGEPAGE, which is similarly the wrong wa=
+y
+> around I think now.
+>
+> The ideas explored by Lorenzo to extend process_madvise()[3] and mctrl(=
+)[4]
+> similarly were around the "default for VM_HUGEPAGE" idea, but after the=
 
-> And I REALLY think we should update the THP doc too to mention all these
-> prctl() modes.
-> 
-> I'm not sure we cover that right now _at all_ and obviously we should
-> describe the new flags.
-> 
-> Usama - can you add a patch to this series to do that?
+> discussion, I think we should better leave VM_HUGEPAGE untouched.
+>
+> Happy to hear naming suggestions for "PR_THP_DISABLE_EXCEPT_ADVISED" wh=
+ere
+> we essentially want to say "leave advised regions alone" -- "keep THP
+> enabled for advised regions",
+>
+> The only thing I really dislike about this is using another MMF_* flag,=
 
-Good point, let's document the interaction with prctl().
+> but well, no way around it -- and seems like we could easily support
+> more than 32 if we want to (most users already treat it like a proper
+> bitmap).
+>
+> I think this here (modifying an existing toggle) is the only prctl()
+> extension that we might be willing to accept. In general, I agree like
+> most others, that prctl() is a very bad interface for that -- but
+> PR_SET_THP_DISABLE is already there and is getting used.
+>
+> Long-term, I think the answer will be something based on bpf[5]. Maybe
+> in that context, I there could still be value in easily disabling THPs =
+for
+> selected workloads (esp. debugging purposes).
+>
+> Jann raised valid concerns[6] about new flags that are persistent acros=
+s
+> exec[6]. As this here is a relaxation to existing PR_SET_THP_DISABLE I
+> consider it having a similar security risk as our existing
+> PR_SET_THP_DISABLE, but devil is in the detail.
+>
+> [1] https://lore.kernel.org/r/20250507141132.2773275-1-usamaarif642@gma=
+il.com
+> [2] https://lkml.kernel.org/r/20250515133519.2779639-2-usamaarif642@gma=
+il.com
+> [3] https://lore.kernel.org/r/cover.1747686021.git.lorenzo.stoakes@orac=
+le.com
+> [4] https://lkml.kernel.org/r/85778a76-7dc8-4ea8-8827-acb45f74ee05@luci=
+fer.local
+> [5] https://lkml.kernel.org/r/20250608073516.22415-1-laoar.shao@gmail.c=
+om
+> [6] https://lore.kernel.org/r/CAG48ez3-7EnBVEjpdoW7z5K0hX41nLQN5Wb65Vg-=
+1p8DdXRnjg@mail.gmail.com
+>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  Documentation/filesystems/proc.rst |  5 ++-
+>  fs/proc/array.c                    |  2 +-
+>  include/linux/huge_mm.h            | 20 +++++++---
+>  include/linux/mm_types.h           | 13 +++----
+>  include/uapi/linux/prctl.h         | 10 +++++
+>  kernel/sys.c                       | 59 ++++++++++++++++++++++++------=
 
-> 
->>
->> MADV_COLLAPSE is a clear advise that we want to collapse.
-> 
-> advise -> advice.
-> 
->>
->> Note that we still respect the VM_NOHUGEPAGE flag, just like
->> MADV_COLLAPSE always does. So consequently, MADV_COLLAPSE is now only
->> refused on VM_NOHUGEPAGE with PR_THP_DISABLE_EXCEPT_ADVISED.
-> 
-> You also need to mention the shmem change you've made I think.
+>  mm/khugepaged.c                    |  2 +-
+>  7 files changed, 82 insertions(+), 29 deletions(-)
+>
 
-Yes.
+The changes look good to me. Acked-by: Zi Yan <ziy@nvidia.com>
 
- > >>
->> Co-developed-by: Usama Arif <usamaarif642@gmail.com>
->> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   include/linux/huge_mm.h    | 8 +++++++-
->>   include/uapi/linux/prctl.h | 2 +-
->>   mm/huge_memory.c           | 5 +++--
->>   mm/memory.c                | 6 ++++--
->>   mm/shmem.c                 | 2 +-
->>   5 files changed, 16 insertions(+), 7 deletions(-)
->>
->> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
->> index b0ff54eee81c..aeaf93f8ac2e 100644
->> --- a/include/linux/huge_mm.h
->> +++ b/include/linux/huge_mm.h
->> @@ -329,7 +329,7 @@ struct thpsize {
->>    * through madvise or prctl.
->>    */
->>   static inline bool vma_thp_disabled(struct vm_area_struct *vma,
->> -		vm_flags_t vm_flags)
->> +		vm_flags_t vm_flags, bool forced_collapse)
->>   {
->>   	/* Are THPs disabled for this VMA? */
->>   	if (vm_flags & VM_NOHUGEPAGE)
->> @@ -343,6 +343,12 @@ static inline bool vma_thp_disabled(struct vm_area_struct *vma,
->>   	 */
->>   	if (vm_flags & VM_HUGEPAGE)
->>   		return false;
->> +	/*
->> +	 * Forcing a collapse (e.g., madv_collapse), is a clear advise to
-> 
-> advise -> advice.
-> 
->> +	 * use THPs.
->> +	 */
->> +	if (forced_collapse)
->> +		return false;
->>   	return test_bit(MMF_DISABLE_THP_EXCEPT_ADVISED, &vma->vm_mm->flags);
->>   }
->>
->> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
->> index 9c1d6e49b8a9..ee4165738779 100644
->> --- a/include/uapi/linux/prctl.h
->> +++ b/include/uapi/linux/prctl.h
->> @@ -185,7 +185,7 @@ struct prctl_mm_map {
->>   #define PR_SET_THP_DISABLE	41
->>   /*
->>    * Don't disable THPs when explicitly advised (e.g., MADV_HUGEPAGE /
->> - * VM_HUGEPAGE).
->> + * VM_HUGEPAGE / MADV_COLLAPSE).
-> 
-> This is confusing you're mixing VMA flags with MADV ones... maybe just
-> stick to madvise ones, or add extra context around VM_HUGEPAGE bit?
-
-I don't see anything confusing here, really.
-
-But if it helps you, we can do
-	(e.g., MADV_HUGEPAGE / VM_HUGEPAGE, MADV_COLLAPSE).
-
-(reason VM_HUGEPAGE is spelled out is that there might be code where we 
-set VM_HUGEPAGE implicitly in the kernel)
-
-> 
-> Would need to be fixed up in a prior commit obviously.
-> 
->>    */
->>   # define PR_THP_DISABLE_EXCEPT_ADVISED	(1 << 1)
->>   #define PR_GET_THP_DISABLE	42
->> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->> index 85252b468f80..ef5ccb0ec5d5 100644
->> --- a/mm/huge_memory.c
->> +++ b/mm/huge_memory.c
->> @@ -104,7 +104,8 @@ unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
->>   {
->>   	const bool smaps = type == TVA_SMAPS;
->>   	const bool in_pf = type == TVA_PAGEFAULT;
->> -	const bool enforce_sysfs = type != TVA_FORCED_COLLAPSE;
->> +	const bool forced_collapse = type == TVA_FORCED_COLLAPSE;
->> +	const bool enforce_sysfs = !forced_collapse;
-> 
-> Can we just get rid of this enforce_sysfs altogether in patch 2/5 and use
-> forced_collapse?
-
-Let's do that as a separate cleanup on top. I want least churn in that 
-patch.
-
-(had the same idea while writing that patch, but I have other things to 
-focus on than cleaning up all this mess)
-
--- 
-Cheers,
-
-David / dhildenb
-
+Best Regards,
+Yan, Zi
