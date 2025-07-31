@@ -1,79 +1,74 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7624513B284;
-	Thu, 31 Jul 2025 10:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6C82BFC8F;
+	Thu, 31 Jul 2025 11:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753958988; cv=none; b=pkG3lRCCYNKqcdV2ZebHgNHoUBccFhFFZrtnXnIxPyXVGb5N6QOUPLAGG6+fOEgIAhXRuWjaWnnooBlG4Sox79MCrQlgst5HMl22MblnbJrOj7Gin0RPHkb7EfOf/vqr0H2SyGajqhjdW3xepB++RNaDZEDr3Z0lxPzOmeIzxTY=
+	t=1753962190; cv=none; b=rdrz3RLnTW5QUoG3ODYOQZaov+1k0YGaxUg9ktwYTkVSmRVKyuQ9zktIxq6XV95G3mPf74C0IOZjFDlzr5hpFTVPuowCeYyUikGq3pVlXl5v+puTP6w8d+D8JqnFnW70hFf1dhqGX4S/mnH2tXk0zR9X2uXqBBoRC9ok5RZKFPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753958988; c=relaxed/simple;
-	bh=XsWeIZ4nlc46t0dOdEaLqA6y04g6JbRMu9f1BFsIRRE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YPLHLWMxEZ8YqdqCPbAGsDBx5Yz0KLBXzvUxUqkVsf5rXd3CmtAffgx6NWwGNqvUyjvXFvOaPGTPHzGutvRkuTgXlZuU9VMSq88pol+Tcke/S9rOhZwSmzyPlWw0bRC/j5VRmtjoFqWSjaLKs/lq/8CPbJMv1+aNE96pyHGiQKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.112])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4bt5Pd6KhCz23jf2;
-	Thu, 31 Jul 2025 18:47:17 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 10CB91400D6;
-	Thu, 31 Jul 2025 18:49:41 +0800 (CST)
-Received: from DESKTOP-F6Q6J7K.china.huawei.com (10.174.175.220) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 31 Jul 2025 18:49:39 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: <horms@kernel.org>
-CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
-	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
-	<fuguiming@h-partners.com>, <gongfan1@huawei.com>, <guoxin09@huawei.com>,
-	<gur.stavi@huawei.com>, <helgaas@kernel.org>, <jdamato@fastly.com>,
-	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
-	<meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
-	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
-	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
-	<vadim.fedorenko@linux.dev>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>,
-	<zhuyikai1@h-partners.com>
-Subject: Re: [PATCH net-next v10 1/8] hinic3: Async Event Queue interfaces
-Date: Thu, 31 Jul 2025 18:49:34 +0800
-Message-ID: <20250731104934.26300-1-gongfan1@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20250725152709.GE1367887@horms.kernel.org>
-References: <20250725152709.GE1367887@horms.kernel.org>
+	s=arc-20240116; t=1753962190; c=relaxed/simple;
+	bh=qWrWOnrFxmvlk/gulM72oTIARntU2LerRXBDnEsmhz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pqy8nZWhC9NDxHWtQ+APVS8jJtDib/2uz30ztO0HP90T52Pkj903P7pKvIXqjKV3jKnRmmFYSPe8cTg9bbOwwBfZgTdSEeC22kIWJ2XrXHda3xZ/TGezawa6FFZeO4POjghaqfOQRGVQl1h5ZtssK7g/EKyRCr9b2VRGBEyf57k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 25FCE5AE12;
+	Thu, 31 Jul 2025 11:43:01 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf05.hostedemail.com (Postfix) with ESMTPA id 649A22000E;
+	Thu, 31 Jul 2025 11:42:58 +0000 (UTC)
+Date: Thu, 31 Jul 2025 07:43:16 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Memory Management List
+ <linux-mm@kvack.org>, Namhyung Kim <namhyung@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/2] tracing: Have eprobes have their own config
+ option
+Message-ID: <20250731074316.01372681@gandalf.local.home>
+In-Reply-To: <20250731070836.69c43401858db35dd3b43ff0@kernel.org>
+References: <20250729161912.056641407@kernel.org>
+	<202507301452.JPAcMvT0-lkp@intel.com>
+	<20250730191101.7e6203f21b94c3f932fa8348@kernel.org>
+	<20250730091727.7b3a8b96@gandalf.local.home>
+	<20250730225722.c88d2dbd3dfa07310de7edd4@kernel.org>
+	<20250730100155.268d2442@gandalf.local.home>
+	<20250731070836.69c43401858db35dd3b43ff0@kernel.org>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: eamgt8m16dyjxneimeu1i7pdo8cbqd71
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 649A22000E
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/2QzxW4XVvfLrsFIwKaHhcoGCASP1Aksc=
+X-HE-Tag: 1753962178-872116
+X-HE-Meta: U2FsdGVkX1947nv5PoTy5NutxctdkU/H9qclbFNhMbDa/Emfi9eh29SVV8qUTTOxJKouHXZcQ88Un7HHerBhmr8IAWIVbZmv/S6GXXI33owq+ZPkog30CDT5GZ77aBlObKXzxgmYSrd2eXytOamIOH1Hn7IFJMW3eD3yA/yHdKJXPMVgTQWXlegT6B+rdsdcshalXqiheuARp273GsvDUOiL0CNcXZ+y+IQySTMO4Dq+rHIM7ZolMg7ADr1GC8oocpktjM65YslXXNm428dyjDgkt7CAwItuTH9SESGIyQoeWvhqGeAz+CpPnPMcEidmFxHcQmZBQSMwZc9jeLErgM7XFSQefTMe
 
-> >
-> > So the swapped data by HW is neither BE or LE. In this case, we should use
-> > swab32 to obtain the correct LE data because our driver currently supports LE.
-> > This is for compensating for bad HW decisions.
->
-> Let us assume that the host is reading data provided by HW.
->
-> If the swab32 approach works on a little endian host
-> to allow the host to access 32-bit values in host byte order.
-> Then this is because it outputs a 32-bit little endian values.
->
-> But, given the same input, it will not work on a big endian host.
-> This is because the same little endian output will be produced,
-> while the host byte order is big endian.
->
-> I think you need something based on be32_to_cpu()/cpu_to_be32().
-> This will effectively be swab32 on little endian hosts (no change!).
-> And a no-op on big endian hosts (addressing my point above).
->
-> More specifically, I think you should use be32_to_cpu_array() and
-> cpu_to_be32_array() instead of swab32_array().
+On Thu, 31 Jul 2025 07:08:36 +0900
+Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 
-Thanks. We'll take your suggestion.
+> > I still have the trace/for-next to push (I've finished testing your last
+> > "attribute" patch and now I'm just letting it simmer in linux-next before
+> > doing the pull request). I can still add this to that one if you want.
+> >   
+> 
+> OK, could you push this to Linus?
+
+Will do later today.
+
+Thanks,
+
+-- Steve
