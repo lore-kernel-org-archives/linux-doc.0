@@ -1,98 +1,48 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7015A2C3276;
-	Thu, 31 Jul 2025 12:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00591C84C5;
+	Thu, 31 Jul 2025 12:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753964920; cv=none; b=nBUucWWf4652CqscDg6Pv2qaCpF4evRbL6zAd0g8Gt0oC7KfsULGUnOiTzBm2v5UMF9qPofQWe3/D0gWZt3q/qprhMHdo2ewoOpV6+K/P2ESsHKaHfzN7/Csm4BQN+BhdaZgG/cFf9AbMZr4GmZntbyuJKvOfTwdGrCmlqovTKg=
+	t=1753965676; cv=none; b=EkoX1SpLDJSNPgFuMg6wL4UqPEk8NOdh8XP66YF2fchpNPipkzM7ZmJJlHrBml6AXXBur3kXWm7TuzGNKtDROnfp30fIfhuafreR0vv+jlryC5zcBC7f6Rjk87Oc8XPGCxRj6ITOE4AiqXrIpRWiWQYgwkcT8yUhjQpYxKMiGvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753964920; c=relaxed/simple;
-	bh=Xo2axdleKQKFm0NOSldkhQ8qF+6YtByFGwnagPvP6uA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OcDhp5gtMcabH+JvsqOPVISGEjQlkR9eskGBXRhzx05yGpkNRq3oJhrL4L3tiDnC1ntyyyWNVbOByIcA89rR/8lls+Y3AQX1ZRHTTffDQlV+i1P2QiSCRWhm/R7/70OE722k5O2DuXNJdHdxp27xlLKEgnMt8thZC59X7vkgYWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mYVt4S29; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mYVt4S29"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7e6817653d0so55747585a.2;
-        Thu, 31 Jul 2025 05:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753964917; x=1754569717; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ayWZPS7L38ZOhjcOnH9WSUS7UcJth2Mxw9Vr7h3Jt6g=;
-        b=mYVt4S29VjTPQMr0r+iPvsPY5huy4h+5oBFoH2F7H1Sx6ynx20MAJZVNeH4ZO0tfBJ
-         Ro6BmVrzC+LMz9rOCvvXGkuGmn1/ENiXhXYGM6xlODFKpnmhuaZA1Wo7b2rWUDxy8ISd
-         TY4bMNdaXeWXw5fujZUfDC8wOs2XVvTH3M/ppKfPpVmaMj5pPpK7+8ZgSxdM6X/cOX3O
-         EBXSBkbPw1uoYQGobWk6mzmxMtbu9wAeJYXsKDlLLm6vI8wpaaI+dDzxeLbjbyuAewb5
-         Wlt+q93ZrhYfefwGU+2YPzrmgLp8RTxLn/mcIe6YzGN5564QFO/iWAY7s1yyC4FCFMf9
-         MQng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753964917; x=1754569717;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ayWZPS7L38ZOhjcOnH9WSUS7UcJth2Mxw9Vr7h3Jt6g=;
-        b=wk6k5skPWayReXzylZxdIujC/Zw0OI6eUlDn0Jhd0xd6vdH6xVDcMMYp7fIjpuK+bV
-         vch0h7m8X++mGtNotMQkzYdhyjsY47HYYTdakEB6sbgV8UZyL4DpPHfUNZ/vsvkC4iCx
-         KJ/E9cAF+Zi1yVfG808GcJX68PSEd5tl0ySLUxve0uplBAG+Gyn3Quy/rdag5M76R4SR
-         6rCsr0Fx1qb1DdwcLdGn1UgSPdYahHgWKGsYr9l1GPZLrJpm18WG9K+lz9qyRsYgA2Fe
-         D4bp9YzBMDFAvLZ01MxegwZUQCzBJqnTOc3tsOLDNnSfqRuyaSngtAKkCXfPkJ3esWmb
-         //Iw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqzwtUUV5zCgVUi9LaVwTJyrwJfGyRu4Pzsez6KYzaS/1HQEvF2B17b60/Dv/kWj+IRpFYwaFfRxA=@vger.kernel.org, AJvYcCWnRaEn6zZcruNeA21yjYkITs3LZtJV/6ihlwFdcC8n9nC5SAmdKciyRTUYdnNwDpb6BeLK6WyCVupE6nI6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyw4fr7bEjK3SNp2kte1HcTI2agSzNMzt4a/D94hMQnLC6mvD5a
-	L4TN1+i1IhCNF8JtJK0fjAShrHxaJ0VifmDVowApoOVDLU33JVRrwJRq
-X-Gm-Gg: ASbGncstGUYy2r6+i1//7LoHaVFuxu7qsL+OPQW/Z5Svd41vWIukjSEgpBzC0AImpED
-	VZUZP1gK6BP1gJ27ppXzcQiyuxlQ6UkMuQY58NbQrcGWaeGA4ZgU5Bnm96X8tHee+/PEV+5w91Y
-	7lt8U9nF3hPfyQ/lVYSC2NT0iqqNM/kDPmpDX15yBlHj+3ad08MB8U1gLvJj7BQJbGRp6ntczs1
-	c+RjHxBnTi4C1O34IIlLG8W2skWq1T2hxVD5vKx1iMRZBM0kw6WNo8xuT5qoomtMgrSuCMJndLW
-	LyO76Q7yqY1wS4FyQ/ZYx1GgXZbySw0XkHxFiogw7qMTxDlKEY+oekknlk0eFQCdt+2Z4kYzzHb
-	VkNhDxp/x1VksmJ0M5zM=
-X-Google-Smtp-Source: AGHT+IE6BW4SDa30IuP4QhZLFrJkcl9wTyzJR0mdkv6O4rHte+RpwPOH5khsoAqI/rBgCbRpwrMO0w==
-X-Received: by 2002:a05:6214:5010:b0:707:5319:d3cd with SMTP id 6a1803df08f44-70767456d88mr92125636d6.26.1753964917125;
-        Thu, 31 Jul 2025 05:28:37 -0700 (PDT)
-Received: from localhost ([2a03:2880:20ff:7::])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077cea87b7sm6577436d6.87.2025.07.31.05.28.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 05:28:36 -0700 (PDT)
-From: Usama Arif <usamaarif642@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	david@redhat.com,
-	linux-mm@kvack.org
-Cc: linux-fsdevel@vger.kernel.org,
-	corbet@lwn.net,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	hannes@cmpxchg.org,
-	baohua@kernel.org,
-	shakeel.butt@linux.dev,
-	riel@surriel.com,
-	ziy@nvidia.com,
-	laoar.shao@gmail.com,
-	dev.jain@arm.com,
-	baolin.wang@linux.alibaba.com,
-	npache@redhat.com,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	ryan.roberts@arm.com,
-	vbabka@suse.cz,
-	jannh@google.com,
-	Arnd Bergmann <arnd@arndb.de>,
-	sj@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kernel-team@meta.com,
-	Usama Arif <usamaarif642@gmail.com>
-Subject: [PATCH v2 5/5] selftests: prctl: introduce tests for disabling THPs except for madvise
-Date: Thu, 31 Jul 2025 13:27:22 +0100
-Message-ID: <20250731122825.2102184-6-usamaarif642@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250731122825.2102184-1-usamaarif642@gmail.com>
-References: <20250731122825.2102184-1-usamaarif642@gmail.com>
+	s=arc-20240116; t=1753965676; c=relaxed/simple;
+	bh=A8SPR7x7U/Pf/eDeqxWiI48HRFqavciMy1UGMfaZW60=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FUxh2P56hiAHu8OjD8p4sDfmJaKcb5qW1N0YlMkgcmSHY8GkQ4K58p88nvi6k1PxheUtw50bpKb+v19PGIsoEkKTHUSolDUJDM7sPaR7qI3h/ZkxPLPCHXFu+oTsXW+GPIO9p9KAKHk+L2VZbChzAWiSpaJhypkHpbsCobHQy+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bt7v64Rk8z6D9Th;
+	Thu, 31 Jul 2025 20:39:30 +0800 (CST)
+Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1A8A91402F4;
+	Thu, 31 Jul 2025 20:41:08 +0800 (CST)
+Received: from china (10.220.118.114) by frapeml500005.china.huawei.com
+ (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 31 Jul
+ 2025 14:40:53 +0200
+From: Gur Stavi <gur.stavi@huawei.com>
+To: <horms@kernel.org>
+CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
+	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
+	<fuguiming@h-partners.com>, <gongfan1@huawei.com>, <guoxin09@huawei.com>,
+	<gur.stavi@huawei.com>, <helgaas@kernel.org>, <jdamato@fastly.com>,
+	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
+	<meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
+	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
+	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
+	<vadim.fedorenko@linux.dev>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>,
+	<zhuyikai1@h-partners.com>
+Subject: Re: [PATCH net-next v10 1/8] hinic3: Async Event Queue interfaces
+Date: Thu, 31 Jul 2025 15:58:39 +0300
+Message-ID: <20250731125839.1137083-1-gur.stavi@huawei.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250725152709.GE1367887@horms.kernel.org>
+References: <20250725152709.GE1367887@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -100,162 +50,113 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ frapeml500005.china.huawei.com (7.182.85.13)
 
-The test will set the global system THP setting to never, madvise
-or always depending on the fixture variant and the 2M setting to
-inherit before it starts (and reset to original at teardown)
+> On Thu, Jul 24, 2025 at 09:45:51PM +0800, Fan Gong wrote:
+> > > > +
+> > > > +/* Data provided to/by cmdq is arranged in structs with little endian fields but
+> > > > + * every dword (32bits) should be swapped since HW swaps it again when it
+> > > > + * copies it from/to host memory.
+> > > > + */
+> > >
+> > > This scheme may work on little endian hosts.
+> > > But if so it seems unlikely to work on big endian hosts.
+> > >
+> > > I expect you want be32_to_cpu_array() for data coming from hw,
+> > > with a source buffer as an array of __be32 while
+> > > the destination buffer is an array of u32.
+> > >
+> > > And cpu_to_be32_array() for data going to the hw,
+> > > with the types of the source and destination buffers reversed.
+> > >
+> > > If those types don't match your data, then we have
+> > > a framework to have that discussion.
+> > >
+> > >
+> > > That said, it is more usual for drivers to keep structures in the byte
+> > > order they are received. Stored in structures with members with types, in
+> > > this case it seems that would be __be32, and accessed using a combination
+> > > of BIT/GENMASK, FIELD_PREP/FIELD_GET, and cpu_to_be*/be*_to_cpu (in this
+> > > case cpu_to_be32/be32_to_cpu).
+> > >
+> > > An advantage of this approach is that the byte order of
+> > > data is only changed when needed. Another is that it is clear
+> > > what the byte order of data is.
+> >
+> > There is a simplified example:
+> >
+> > Here is a 64 bit little endian that may appear in cmdq:
+> > __le64 x
+> > After the swap it will become:
+> > __be32 x_lo
+> > __be32 x_hi
+> > This is NOT __be64.
+> > __be64 looks like this:
+> > __be32 x_hi
+> > __be32 x_lo
+>
+> Sure, byte swapping 64 bit entities is different to byte swapping two
+> consecutive 32 bit entities. I completely agree.
+>
+> >
+> > So the swapped data by HW is neither BE or LE. In this case, we should use
+> > swab32 to obtain the correct LE data because our driver currently supports LE.
+> > This is for compensating for bad HW decisions.
+>
+> Let us assume that the host is reading data provided by HW.
+>
+> If the swab32 approach works on a little endian host
+> to allow the host to access 32-bit values in host byte order.
+> Then this is because it outputs a 32-bit little endian values
 
-This tests if the process can:
-- successfully set and get the policy to disable THPs expect for madvise.
-- get hugepages only on MADV_HUGE and MADV_COLLAPSE if the global policy
-  is madvise/always and only with MADV_COLLAPSE if the global policy is
-  never.
-- successfully reset the policy of the process.
-- after reset, only get hugepages with:
-  - MADV_COLLAPSE when policy is set to never.
-  - MADV_HUGE and MADV_COLLAPSE when policy is set to madvise.
-  - always when policy is set to "always".
-- repeat the above tests in a forked process to make sure  the policy is
-  carried across forks.
+Values can be any size. 32 bit is arbitrary.
+.
+>
+> But, given the same input, it will not work on a big endian host.
+> This is because the same little endian output will be produced,
+> while the host byte order is big endian.
+>
+> I think you need something based on be32_to_cpu()/cpu_to_be32().
+> This will effectively be swab32 on little endian hosts (no change!).
+> And a no-op on big endian hosts (addressing my point above).
+>
+> More specifically, I think you should use be32_to_cpu_array() and
+> cpu_to_be32_array() instead of swab32_array().
+>
 
-Signed-off-by: Usama Arif <usamaarif642@gmail.com>
----
- .../testing/selftests/mm/prctl_thp_disable.c  | 117 ++++++++++++++++++
- 1 file changed, 117 insertions(+)
+Lets define a "coherent struct" as a structure made of fields that makes sense
+to human beings. Every field endianity is defined and fields are arranged in
+order that "makes sense". Fields can be of any integer size 8,16,32,64 and not
+necessarily naturally aligned.
 
-diff --git a/tools/testing/selftests/mm/prctl_thp_disable.c b/tools/testing/selftests/mm/prctl_thp_disable.c
-index 2f54e5e52274..3c34ac7e11f1 100644
---- a/tools/testing/selftests/mm/prctl_thp_disable.c
-+++ b/tools/testing/selftests/mm/prctl_thp_disable.c
-@@ -16,6 +16,10 @@
- #include "thp_settings.h"
- #include "vm_util.h"
- 
-+#ifndef PR_THP_DISABLE_EXCEPT_ADVISED
-+#define PR_THP_DISABLE_EXCEPT_ADVISED (1 << 1)
-+#endif
-+
- static int sz2ord(size_t size, size_t pagesize)
- {
- 	return __builtin_ctzll(size / pagesize);
-@@ -238,4 +242,117 @@ TEST_F(prctl_thp_disable_completely, fork)
- 	ASSERT_EQ(ret, 0);
- }
- 
-+FIXTURE(prctl_thp_disable_except_madvise)
-+{
-+	struct thp_settings settings;
-+	struct test_results results;
-+	size_t pmdsize;
-+};
-+
-+FIXTURE_VARIANT(prctl_thp_disable_except_madvise)
-+{
-+	enum thp_policy thp_global_policy;
-+};
-+
-+FIXTURE_VARIANT_ADD(prctl_thp_disable_except_madvise, never)
-+{
-+	.thp_global_policy = THP_POLICY_NEVER,
-+};
-+
-+FIXTURE_VARIANT_ADD(prctl_thp_disable_except_madvise, madvise)
-+{
-+	.thp_global_policy = THP_POLICY_MADVISE,
-+};
-+
-+FIXTURE_VARIANT_ADD(prctl_thp_disable_except_madvise, always)
-+{
-+	.thp_global_policy = THP_POLICY_ALWAYS,
-+};
-+
-+FIXTURE_SETUP(prctl_thp_disable_except_madvise)
-+{
-+	if (!thp_available())
-+		SKIP(return, "Transparent Hugepages not available\n");
-+
-+	self->pmdsize = read_pmd_pagesize();
-+	if (!self->pmdsize)
-+		SKIP(return, "Unable to read PMD size\n");
-+
-+	thp_save_settings();
-+	thp_read_settings(&self->settings);
-+	switch (variant->thp_global_policy) {
-+	case THP_POLICY_NEVER:
-+		self->settings.thp_enabled = THP_NEVER;
-+		self->results = (struct test_results) {
-+			.prctl_get_thp_disable = 3,
-+			.prctl_applied_collapse_none = 0,
-+			.prctl_applied_collapse_madv_huge = 0,
-+			.prctl_applied_collapse_madv_collapse = 1,
-+			.prctl_removed_collapse_none = 0,
-+			.prctl_removed_collapse_madv_huge = 0,
-+			.prctl_removed_collapse_madv_collapse = 1,
-+		};
-+		break;
-+	case THP_POLICY_MADVISE:
-+		self->settings.thp_enabled = THP_MADVISE;
-+		self->results = (struct test_results) {
-+			.prctl_get_thp_disable = 3,
-+			.prctl_applied_collapse_none = 0,
-+			.prctl_applied_collapse_madv_huge = 1,
-+			.prctl_applied_collapse_madv_collapse = 1,
-+			.prctl_removed_collapse_none = 0,
-+			.prctl_removed_collapse_madv_huge = 1,
-+			.prctl_removed_collapse_madv_collapse = 1,
-+		};
-+		break;
-+	case THP_POLICY_ALWAYS:
-+		self->settings.thp_enabled = THP_ALWAYS;
-+		self->results = (struct test_results) {
-+			.prctl_get_thp_disable = 3,
-+			.prctl_applied_collapse_none = 0,
-+			.prctl_applied_collapse_madv_huge = 1,
-+			.prctl_applied_collapse_madv_collapse = 1,
-+			.prctl_removed_collapse_none = 1,
-+			.prctl_removed_collapse_madv_huge = 1,
-+			.prctl_removed_collapse_madv_collapse = 1,
-+		};
-+		break;
-+	}
-+	self->settings.hugepages[sz2ord(self->pmdsize, getpagesize())].enabled = THP_INHERIT;
-+	thp_write_settings(&self->settings);
-+}
-+
-+FIXTURE_TEARDOWN(prctl_thp_disable_except_madvise)
-+{
-+	thp_restore_settings();
-+}
-+
-+TEST_F(prctl_thp_disable_except_madvise, nofork)
-+{
-+	ASSERT_EQ(prctl(PR_SET_THP_DISABLE, 1, PR_THP_DISABLE_EXCEPT_ADVISED, NULL, NULL), 0);
-+	prctl_thp_disable_test(_metadata, self->pmdsize, &self->results);
-+}
-+
-+TEST_F(prctl_thp_disable_except_madvise, fork)
-+{
-+	int ret = 0;
-+	pid_t pid;
-+
-+	ASSERT_EQ(prctl(PR_SET_THP_DISABLE, 1, PR_THP_DISABLE_EXCEPT_ADVISED, NULL, NULL), 0);
-+
-+	/* Make sure prctl changes are carried across fork */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+
-+	if (!pid)
-+		prctl_thp_disable_test(_metadata, self->pmdsize, &self->results);
-+
-+	wait(&ret);
-+	if (WIFEXITED(ret))
-+		ret = WEXITSTATUS(ret);
-+	else
-+		ret = -EINVAL;
-+	ASSERT_EQ(ret, 0);
-+}
-+
- TEST_HARNESS_MAIN
--- 
-2.47.3
+swab32_array transforms a coherent struct into "byte jumble". Small fields are
+reordered and larger (misaligned) fields may be split into 2 (or even 3) parts.
+swab32_array is reversible so a 2nd call with byte jumble as input will produce
+the original coherent struct.
 
+hinic3 dma has "swab32_array" built in.
+On send-to-device it expects a byte jubmle so the DMA engine will transform it
+into a coherent struct.
+On receive-from-device it provides a byte jumble so the driver needs
+to call swab32_array to transform it into a coherent struct.
+
+The hinic3_cmdq_buf_swab32 function will work correctly, producing byte jumble,
+on little endian and big endian hosts.
+
+The code that runs prior to hinic3_cmdq_buf_swab32 that initializes a coherent
+struct is endianity sensitive. It needs to initialize fields based on their
+coherent endianity with or without byte swap. Practically use cpu_to_le or
+cpu_to_be based on the coherent definition.
+
+Specifically, cmdq "coherent structs" in hinic3 use little endian and since
+Kconfig currently declares that big endian hosts are not supported then
+coherent structs are initialized without explicit cpu_to_le macros.
+
+And this is what the comment says:
+
+/* Data provided to/by cmdq is arranged in structs with little endian fields but
+ * every dword (32bits) should be swapped since HW swaps it again when it
+ * copies it from/to host memory.
+ */
