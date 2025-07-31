@@ -1,63 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A48101EE;
-	Thu, 31 Jul 2025 17:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403C313D51E;
+	Thu, 31 Jul 2025 17:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753984453; cv=none; b=VivKbFFlt1nu2dbIWzQtw/EFw5jQYvIF8jv7fiOwDNQ0Bh5hzw5MDUsk4s2Cl18hWtrj6BH1E6P+n9N5ahtqIFK5hvL/i0xvEVZuPGlg58EeLXSeMDrAhLFZO3OCs6WqHQOOTwUfJc5k5BU8Zo74gMSF71hT5gmOEEKlKqoISMY=
+	t=1753984542; cv=none; b=D7EtETPVJxDqV0xAV0u9OvJrNs399qF3deJlhpi/kEj4xyQZu6Z286lpnU6pgrjPXmMUR5gPxKBS71oWx2cak77uDFVIA4XKJG2xaaOYKgSYGGdEi2NCxUVncOXoOT49CEhH+iORPH8kl7dXfKnQZ9yWjh2uV/8DIyuv8fpI5RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753984453; c=relaxed/simple;
-	bh=UZKcBAnLaeHD25NAhy96vn6yI+qVa5vhM4w9y//tGVE=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=PALUohsZQeBWWdZESooe0jrLlgsc4RDscbVqB2ZhtBn/+0ZxSN3EotbY686gFB8YTKnhjwqM9vY7MniBZbvS/jxjDmAq66IMK56cWfnPlpZytMXfm8GYUTPVl5WioA8jnQCu0QcTDCQjDEzg2d3pZfCmSdYAIc3mtZXOwNYW3hU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lf2kAZvl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753984542; c=relaxed/simple;
+	bh=hvb9Z7U61i0WAoBKCawzhOgRTTsbdjytLuv86CZZdZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=T5EOS/R9S6ngy6581pse8J6X7ClmkxwSB/sfKZP9bbGwR7RcWA6HFG5NYl8xRIffDCASIpQs/J9cHPn50BL1Q+J4Pa3c2QBj6T3KfgrB+PQxatmgV1PvjHtTGTfRNqA2GrpsmZzT89DSI3dDCDlJ6SPMOhmNq2IQ6GQf6m94emU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ihJWYAKH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lf2kAZvl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C14C4CEEF;
-	Thu, 31 Jul 2025 17:54:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ihJWYAKH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B1E2C4CEEF;
+	Thu, 31 Jul 2025 17:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753984453;
-	bh=UZKcBAnLaeHD25NAhy96vn6yI+qVa5vhM4w9y//tGVE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=Lf2kAZvlDpXEWNqz0O06DMPqQoqfp1b0G4gWuJiKZA0AwS5ehgGC8SAp3lXhn4H9u
-	 gUfzqgyWEgpg3KWxQ82GDdKTj9Wkb9G6F+yvfJO5+OFCexRpKrKVKC9L+FNaCs7a/Y
-	 HO0K3i4lpjgDsd+sclc8RMOg/Jv87t38JkLrGIjwzI9k/3HOwbagFIgCYE2eDO/rGY
-	 ko/cmpEdJFOQVkgHdMzHRE2Lyu6cnwT0Jvm8H/55BZTn0ab0Ks3rSzxgn6iwc9d1XX
-	 v6g3T6sFnnFcFJVrqFtw0WVUHEB0+oh1N7mkO47tLwgAnbh1oF7Jpbdu0bwfhEizUi
-	 +18rb4NJXH8+g==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70F10383BF51;
-	Thu, 31 Jul 2025 17:54:30 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation for 6.17
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87y0s81lqe.fsf@trenco.lwn.net>
-References: <87y0s81lqe.fsf@trenco.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87y0s81lqe.fsf@trenco.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.17
-X-PR-Tracked-Commit-Id: 35293ebbb65e0295d3b9357f786004ae1026d00f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b1cce98493a095925fb51be045ccf6e08edb4aa0
-Message-Id: <175398446905.3232013.15385006637476439920.pr-tracker-bot@kernel.org>
-Date: Thu, 31 Jul 2025 17:54:29 +0000
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+	s=k20201202; t=1753984541;
+	bh=hvb9Z7U61i0WAoBKCawzhOgRTTsbdjytLuv86CZZdZ4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ihJWYAKHyN/LkjwFFtzyJGwcXcM+vx532WAz8YUX885QbQbDyKMLGjY726KiETxnj
+	 tVKP++z/TAIcrVvgviEiVYUL3iJCDqVWKd6lqGCnZuhXgFJSvbH3dHJGig16WW/i7Z
+	 3IHiNI8Zlr9gpijdEs0x+fyjl+T888cDaou8OaSwTKIbNloNNvpnn1hZWhJ4TQCXdx
+	 6o6Updz4ATLZ1Ct2m9YIaS0YluFFPp9Cil01Mz/TnU5DUWbw5bhUb0v2mNV9JaO6i7
+	 ipecFIBWDYzAkVaHFEWKkr6sJ0WeMaE2nQVkkEoqruhprtcK138jHP7rRU32XK6tWV
+	 KiJ+/F+F6ZK1w==
+Date: Thu, 31 Jul 2025 19:55:36 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, Sai Vishnu M
+ <saivishnu725@gmail.com>
+Subject: Re: [PATCH 00/15] Translate sphinx-pre-install to Python
+Message-ID: <20250731195536.6075afe2@foz.lan>
+In-Reply-To: <20250731135107.6c2b32c2@foz.lan>
+References: <cover.1751318230.git.mchehab+huawei@kernel.org>
+	<d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
+	<87bjpu69q3.fsf@trenco.lwn.net>
+	<9148ae7f-7954-421e-b5dc-366651f0bc48@gmail.com>
+	<20250731135107.6c2b32c2@foz.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Mon, 28 Jul 2025 07:35:53 -0600:
+Em Thu, 31 Jul 2025 13:51:07 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-> git://git.lwn.net/linux.git tags/docs-6.17
+> Em Tue, 8 Jul 2025 23:56:01 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> 
+> > > My question would be: are the results somehow worse than those provided
+> > > by the existing, Perl script?  
+> > 
+> > Not at all.  Mauro made some improvements WRT opensuse/leap over the perl
+> > one, but there remain a lot of rooms for improvements here and there. 
+> > 
+> > I've been ignoring sphinx-pre-install all these years, but the impressive
+> > test results presented in this cover-letter made me test it.
+> 
+> I'm now working to fix PDF generation, assuming that all packages from
+> sphinx-pre-install are installed.
+> 
+> I'm placing the patches on my scratch tree at:
+> 	https://github.com/mchehab/linux/tree/my-docs-next
+> 
+> It contains several branches merged there in sequence:
+> 	- elder_python_v1: makes kernel-doc run with elder kernels (2 patches);
+> 	- netlink_v10: patches adding an yaml parser for netlink (14 patches);
+> 	- sphinx-pre-install-v4: current version of this series (39 patches);
+> 	- pdfdocs: specific fixes for PDF doc generation (11 patches);
+> 	- sphinx-build-wrapper: a new script with a large cleanup at docs Makefile
+> 	  (7 patches)
+> 
+> On my testbanch, this is the current summary, where:
+> - PASSED: means both HTML and PDF were generated:
+> 
+>   PASSED - AlmaLinux release 9.6 (Sage Margay) (7 tests)
+>   PASSED - Amazon Linux release 2023 (Amazon Linux) (7 tests)
+>   PASSED - Arch Linux (7 tests)
+>   PASSED - CentOS Stream release 9 (7 tests)
+>   PASSED - Fedora release 42 (Adams) (7 tests)
+>   PASSED - Kali GNU/Linux 2025.2 (7 tests)
+>   PASSED - Mageia 9 (7 tests)
+>   PASSED - openSUSE Leap 15.6 (7 tests)
+>   PASSED - openSUSE Tumbleweed (7 tests)
+>   PASSED - Oracle Linux Server release 9.6 (7 tests)
+>   PASSED - Rocky Linux release 9.6 (Blue Onyx) (7 tests)
+>   PASSED - Ubuntu 24.04.2 LTS (7 tests)
+>   PASSED - Ubuntu 25.04 (7 tests)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b1cce98493a095925fb51be045ccf6e08edb4aa0
+Forgot to mention, but for Debian-based distros, my setup does this at
+the distro setup phase:
 
-Thank you!
+    if [ -f /etc/ImageMagick-6/policy.xml ]; then
+      # Remove any existing restrictive policies for PDF/PS/EPS/XPS
+      sed -i '/<policy.*domain="coder".*pattern=".*\(PDF\|PS\|EPS\|XPS\).*"/d' /etc/ImageMagick-6/policy.xml
+      # Allow PDF patterns at the end </policymap>
+      sed -i '/<\/policymap>/i \ \ <policy domain="coder" rights="read|write" pattern="{PS,PS2,PS3,EPS,PDF,XPS}" />'etc/ImageMagick-6/policy.xml
+    fi
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+    if [ -f /etc/ImageMagick-7/policy.xml ]; then
+      # Remove any existing restrictive policies for PDF/PS/EPS/XPS
+      sed -i '/<policy.*domain="coder".*pattern=".*\(PDF\|PS\|EPS\|XPS\).*"/d' /etc/ImageMagick-7/policy.xml
+      # Allow PDF patterns at the end </policymap>
+      sed -i '/<\/policymap>/i \ \ <policy domain="coder" rights="read|write" pattern="{PS,PS2,PS3,EPS,PDF,XPS}" />' /etc/ImageMagick-7/policy.xml
+    fi
+
+to fix a debian-specific packaging issue that makes ImageMagick 
+to fail when it is used with PS/PDF files.
+
+Regards,Mauro
