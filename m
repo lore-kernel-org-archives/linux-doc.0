@@ -1,106 +1,156 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071292367C5;
-	Thu, 31 Jul 2025 11:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFB321FF4E;
+	Thu, 31 Jul 2025 12:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753962950; cv=none; b=Zb3z65xVvPgZHV48sd+jiqI2xn673xBXeby4SZWzhHSEONwodoHSKqSSKMee7A8aBUnQX2t0ce2kxrW0wNvmQfbeDms0LouCQBJIPN7iiZU1m6/1NZ5nbYHmDjXwjY9bs/eSphJ/gw+t1uYb/0AKj0T+6I6eYtPMENp3UlZiK74=
+	t=1753964516; cv=none; b=MHd7gGLHeh+45VvldFx0/4FQYkM8+qjvggdYRfSpJlV69wltcmcMAC9f9qP5ivoWBqgluj6+KllFxrGejobQNP+egs0UEHJNdu5K5umwqQMp4PIxtwCDA4ou7VsZMIW9/lxZvEQPXN+KuwIxzCPBew35CPkU91r+O1+19NHwIII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753962950; c=relaxed/simple;
-	bh=TMRgIfVaPaMmqSgwxb2UXWi+J4AjACdcEmoH57tphH4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SIvE3DQesn0YaZumTs8yf3MvXTV6GB7Ek4gJzw95sWHFsvAd6bfKaXu4QuDWIwgs2FTBMR3ycUinmpWn/rmy99ig/hEYleWq82umv/6Lj9wJQJ8ff+f0vJc6A4Me+qrum2z2GZVubD70qfPiNKa8pLfgyRDUsVJ57TAL2gWXIKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1753964516; c=relaxed/simple;
+	bh=+Z8iMUTpzYDGgsj3rGeChufp+xrNaWS2OH30xTfmXP8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uLp2g7371s/tCLSgS9nQ+8gbFADOzwK+SL3ONyyGrT4KZtQPMUyQC/O83M669i8RmxzSA3FUq/GqQCdTceZJLStB6YBGoXoHxFrAQUq6q9zlMMjIwpGmHsp/AU4tsCDr9jqPQQXhz8xHw4J3TVX9muyAoFJaT4iseL8oDi70Ee0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6PlslPI; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-539329de448so592947e0c.1;
-        Thu, 31 Jul 2025 04:55:48 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6PlslPI"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7e33d36491dso29811985a.3;
+        Thu, 31 Jul 2025 05:21:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753964513; x=1754569313; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WyB2bd0Y5ziwt0wpZ4L6oPfSKZCsBSGJvL4ApO6LdH0=;
+        b=e6PlslPIX8+6HiSbiqyENx94xuss16yIV8odmBlndkUP+Vm1DGG01x00G4EG4cczWv
+         Xh9Vp1dN7gEJGBw1xiJMB6k/iDJOwN0CYH0DQk/TkWmUFktLCS9Y4Yiqh5/4az1jH2sR
+         83jpEoBGbCZo/iIGvSb4KJEHTO/kh74iox5CIMV5W9ePEY6D6k3bEojSprZRgxG4Nlak
+         MrK3NarRaC9C0OUmUGKKbDIIlvAoONgmhmoZ3xe5JkUqKyKltX9NtfN9EM/se9gOJDVM
+         zO9qJp+FGvSsnUTUMsGQFqTrRZZNz/Obr25INxKCHXfH97iwlzYAm3py2dmnuzJewHoI
+         LRFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753962948; x=1754567748;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1753964513; x=1754569313;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZgBCsFkQyJsREYZM7w6ELsHHNFNHMwhO0bNKPMndJnk=;
-        b=QAXYlftHOkYiUpZ4LuH8GuamIohnOTeDD4A6gwZ3Q37GS3Ze3Wdc9R6hgSNuSFiyj4
-         tw7AZwlGt7kL7pa+/WVWwW3oWlwgDTfviXhn5+zvmY08xRRWrw8G53seddIZFHCP/hoL
-         tWfefW+2gH7c1hl1gcmqT/x55oPWpmO7L5bLe7WFm29DGlmWyrsV560gabx5GWK2yt6Z
-         G0bKJ3Nj1rjY5cqndhp00wzoqWHBkLj/YGWoxfSqdsTkbSMe4DkZGqFpdp84sBijPmC3
-         ZdjEgAm/eZ18SphArShN8k9rhvH6oMzKm1N0UrylwQoMdD7ABg0rgubkhk4etyh9OiwV
-         as9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUBxls41QNgKt4m3SAZ8+KgeNQg0VYrHrks7rIeQ329UzrkGfCvxllW1xDofMKr5ofGxOV9jF2dqRYv@vger.kernel.org, AJvYcCWtFXjdIJPgOLF2o1cUDLo7QOMeLKlW3CCCkVCreE11DONWLXXMM/PSQAaewAw1sAb1a7TKetxs1pe5av8j@vger.kernel.org, AJvYcCXQjfIi939J4PMl1NBrEdcFRLgdU93x6EauDomfefdQJKC34rw6laKmhlmA2TblbWTiM6/RWz+XNMA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZFpfLNjwljfa1mHOpDo/CLpwRM+szHXtdx//fBXavBUrq4IXc
-	Jxmv7YsWEmfD+TSA8PdGtJnLL0aT2J/PGiVcbZMnHNQXnFN7FKcYU1JjP0oogcS+
-X-Gm-Gg: ASbGncvKmcmuEEi5Uba4nRorHw+iirpoW6Al6n9RJMxt/P4ba9hqtzd6WFYWrrwf+yO
-	rOVKd8KrbXdSd8vUGXkqvaTijq1R1br5YDov1s0RvK8VQTeYpO7V5O1O1PIF2J6SDJUzi9Fpxt1
-	/s/TuP9M3B519u20C87qSoFolNqzxDotRi3cLk2iwef+CD2BrvB1bvm3MJOJu3j+GklnSfZdfn4
-	z0xGjK5ImdzG+OFLXYbdFNkuKGl1zmFtpnfagr/zx9PTx14iVRTnGS/bwRyFHd1hQMo4+MY3RT5
-	xhhENYV/06O+qTZcySNPEjY5yIZwwWrY+OBWJ3cjcFzaJuKNcRQPgC/tNbU+NKgBTakR2G8YDP0
-	WCUy/rV/ntHm4iJp7ZA32VJ93B7izu28lzFKNFJy+qxsVZoZovqnI/ah1CWOZ
-X-Google-Smtp-Source: AGHT+IF3QuQc9NWk2cBpOxbjIwUN6+K8HVDbh/wpqudeVaxTDDEc+CJt+0DlGjPVyFaocGAriP3fCw==
-X-Received: by 2002:a05:6122:611f:b0:537:c8d2:eca0 with SMTP id 71dfb90a1353d-5393889a4edmr482339e0c.4.1753962947378;
-        Thu, 31 Jul 2025 04:55:47 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53936b5909asm330191e0c.8.2025.07.31.04.55.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Jul 2025 04:55:46 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4efbfe9c7a5so1292163137.0;
-        Thu, 31 Jul 2025 04:55:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUd6H/L96Qkt44Rcmf1x5Khh9R3u6DeROAmJywPZCOkT+lBg0Ic5htre3Ps9NUMh+e8161YpIUb4Kr4UOVs@vger.kernel.org, AJvYcCWT4bMeUgwGPLVoJAONjY39oF1PHgvmCK+569fwPh2x7+sqgbI5Fyrp4E6XauotdrpbmrqbPqMCpcQ=@vger.kernel.org, AJvYcCXcDCCYLC9M1/8pfVKaVHBNqULwc6jieyVJ+bYJMnSV63/jDNzZ3HP5+kQ6exgl27MLHbLOIaQrmfuM@vger.kernel.org
-X-Received: by 2002:a05:6102:6213:20b0:4fa:3f49:a3b4 with SMTP id
- ada2fe7eead31-4fc0fe5912dmr411782137.3.1753962945954; Thu, 31 Jul 2025
- 04:55:45 -0700 (PDT)
+        bh=WyB2bd0Y5ziwt0wpZ4L6oPfSKZCsBSGJvL4ApO6LdH0=;
+        b=M1Zm9Dc16ojjU1cNNuotLRgAiAPikUXjyIyy5KXnH46mozYWKSZcsHBNE3/VAk5cdS
+         L1+o/ujHIYnewu06IG9lKteGaP7PBjRXWorgtBNEA5gnDt1FrQXHtZTGKIorTY2ZROOq
+         Ux55X7pgL5WxU1348eP2Qrke2O69XNRhILasd0ixNyAUuAqEC0z0vpZ8pAL1kI6NxNYL
+         STQVhHJWQGlBlmpr/54l/AkTIt5o2qomXvJR7WsaCGJNCIjn7GcTNWfUwbX1QUnv5/uk
+         Gc2ydXNpRYV4QQuXgumRTsRXLnJocWUF/XbajOqGNIDoQ4cAS+S0qtDXcrO70q0kzb4b
+         gH/w==
+X-Forwarded-Encrypted: i=1; AJvYcCU+dL9HzfiVsVKajxoq82mit2Vw7x2cpvU7CVQLw6jYcXuYl1bdwBdkxqz4qW76D5ET4OvyIk1+M09vQS3M@vger.kernel.org, AJvYcCXU8mkKTk4K8/ceLgGk6/dNAgIbaEBieh3m/eKBwPitjE6TYXppvyo1MkC85omyk5/+sH2XjBd3Xew=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnC5QFk7z3qxVEFXL4HlBxw1VkNBdVCuq7hoHdYL14UQTDKUKU
+	bLpUP5drVnn3Q11Bg94rH9+pt7VlonN0pAYiIVJmK0eEiiDcF68WgGRH
+X-Gm-Gg: ASbGncvgVoelqxMjWD1uPZJsMkhmwenugKIE3V2NUqAhmz2klmm7ZYadD1BZLpd0ze9
+	Ng6Z4yyj7vz013Gd3R/qLccaoXuPjNfDK32RK3V/Ynpth0wBcimshXcMbXFq3yGFVoqo7ycu4uA
+	d/uJuHnP74asmZ0aIVeKkmLAEgighvnig55HmvWUno956nuwtaUVSyGK6JirJJg2BhwTkxwjVmz
+	g3jj9fjtkxurtW5FHThrHL1JzTBNVFq79vGbfvVdTVJNPkxxASYapF7987Sf9gb3xeiLIPLyNGz
+	nxF1U8wi90YYbbfpUiEAINiBNwdcQQLLOeTBdd/PPmI+X1Pcs8ycNgPaJQgvCYL3m3E1irj4luk
+	qBsdC00qKO7igqr3m
+X-Google-Smtp-Source: AGHT+IFaNwzD9Uxs/RKFYt5m6qnDGOphlQ2Tpe9T1NHIPTPwwihehfIu5ETWtSsTwS33LypgOJOgGQ==
+X-Received: by 2002:a05:620a:d87:b0:7e6:6d78:979 with SMTP id af79cd13be357-7e66ef8a93emr982153985a.15.1753964513428;
+        Thu, 31 Jul 2025 05:21:53 -0700 (PDT)
+Received: from localhost ([2a03:2880:20ff::])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e67f5947e9sm78587585a.1.2025.07.31.05.21.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Jul 2025 05:21:52 -0700 (PDT)
+From: Usama Arif <usamaarif642@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	david@redhat.com,
+	linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org,
+	corbet@lwn.net,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	hannes@cmpxchg.org,
+	baohua@kernel.org,
+	shakeel.butt@linux.dev,
+	riel@surriel.com,
+	ziy@nvidia.com,
+	laoar.shao@gmail.com,
+	dev.jain@arm.com,
+	baolin.wang@linux.alibaba.com,
+	npache@redhat.com,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	ryan.roberts@arm.com,
+	vbabka@suse.cz,
+	jannh@google.com,
+	Arnd Bergmann <arnd@arndb.de>,
+	sj@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kernel-team@meta.com,
+	Usama Arif <usamaarif642@gmail.com>
+Subject: [PATCH 0/5] prctl: extend PR_SET_THP_DISABLE to only provide THPs when advised
+Date: Thu, 31 Jul 2025 13:18:11 +0100
+Message-ID: <20250731122150.2039342-1-usamaarif642@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be> <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
-In-Reply-To: <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 31 Jul 2025 13:55:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
-X-Gm-Features: Ac12FXxnc_9pSxwppilSjmsQmBU1O_sD4A7Qq9U2sutpyBkl_2v6bCquVSRwEoU
-Message-ID: <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>, dwaipayanray1@gmail.com, 
-	lukas.bulwahn@gmail.com, joe@perches.com, corbet@lwn.net, apw@canonical.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Krzysztof,
+This will allow individual processes to opt-out of THP = "always"
+into THP = "madvise", without affecting other workloads on the system.
+This has been extensively discussed on the mailing list and has been
+summarized very well by David in the first patch which also includes
+the links to alternatives, please refer to the first patch commit message
+for the motivation for this series.
 
-On Fri, 25 Jul 2025 at 10:42, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On 24/07/2025 09:20, Hendrik Hamerlinck wrote:
-> > Modified the checkpatch script to ensure that commit tags (e.g.,
-> > Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
-> > correct order according to kernel conventions [1].
->
-> These are not the conventions I use for my subsystems and ask others to
-> follow, so imposing TIP rules to all maintainers needs broad consensus,
-> not (yet) checkpatch.
->
-> What's more, I think above TIP rules are contradicting with existing,
-> widely used and approved toolset - b4. So no, if you want universal
-> tool, please use b4 or whatever b4 defines.
+Patch 1 adds the PR_THP_DISABLE_EXCEPT_ADVISED flag to implement this, along
+with the MMF changes.
+Patch 2 is a cleanup patch for tva_flags that will allow the forced collapse
+case to be transmitted to vma_thp_disabled (which is done in patch 3).
+Patches 4-5 implement the selftests for PR_SET_THP_DISABLE for completely
+disabling THPs (old behaviour) and only enabling it at advise
+(PR_THP_DISABLE_EXCEPT_ADVISED).
 
-B4 does not follow the proper order:
-  1. Multiple Reviewed-by tags may be added in a different order
-      than given,
-  2. When applying my own patches, b4 adds the given tags before
-     instead of after my own SoB.
+The patches are tested on top of 4ad831303eca6ae518c3b3d86838a2a04b90ec41
+from mm-new.
 
-Gr{oetje,eeting}s,
+v1 -> v2: https://lore.kernel.org/all/20250725162258.1043176-1-usamaarif642@gmail.com/
+- Change thp_push_settings to thp_write_settings (David)
+- Add tests for all the system policies for the prctl call (David)
+- Small fixes and cleanups
+ 
+David Hildenbrand (3):
+  prctl: extend PR_SET_THP_DISABLE to optionally exclude VM_HUGEPAGE
+  mm/huge_memory: convert "tva_flags" to "enum tva_type" for
+    thp_vma_allowable_order*()
+  mm/huge_memory: treat MADV_COLLAPSE as an advise with
+    PR_THP_DISABLE_EXCEPT_ADVISED
 
-                        Geert
+Usama Arif (2):
+  selftests: prctl: introduce tests for disabling THPs completely
+  selftests: prctl: introduce tests for disabling THPs except for
+    madvise
+
+ Documentation/filesystems/proc.rst            |   5 +-
+ fs/proc/array.c                               |   2 +-
+ fs/proc/task_mmu.c                            |   4 +-
+ include/linux/huge_mm.h                       |  60 ++-
+ include/linux/mm_types.h                      |  13 +-
+ include/uapi/linux/prctl.h                    |  10 +
+ kernel/sys.c                                  |  59 ++-
+ mm/huge_memory.c                              |  11 +-
+ mm/khugepaged.c                               |  20 +-
+ mm/memory.c                                   |  20 +-
+ mm/shmem.c                                    |   2 +-
+ tools/testing/selftests/mm/.gitignore         |   1 +
+ tools/testing/selftests/mm/Makefile           |   1 +
+ .../testing/selftests/mm/prctl_thp_disable.c  | 358 ++++++++++++++++++
+ tools/testing/selftests/mm/thp_settings.c     |   9 +-
+ tools/testing/selftests/mm/thp_settings.h     |   1 +
+ 16 files changed, 505 insertions(+), 71 deletions(-)
+ create mode 100644 tools/testing/selftests/mm/prctl_thp_disable.c
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.47.3
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
