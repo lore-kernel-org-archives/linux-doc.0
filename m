@@ -1,119 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403C313D51E;
-	Thu, 31 Jul 2025 17:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829251E0DB0;
+	Thu, 31 Jul 2025 18:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753984542; cv=none; b=D7EtETPVJxDqV0xAV0u9OvJrNs399qF3deJlhpi/kEj4xyQZu6Z286lpnU6pgrjPXmMUR5gPxKBS71oWx2cak77uDFVIA4XKJG2xaaOYKgSYGGdEi2NCxUVncOXoOT49CEhH+iORPH8kl7dXfKnQZ9yWjh2uV/8DIyuv8fpI5RM=
+	t=1753985815; cv=none; b=ngnUc7uQfizxorl9AxM89AlgJ4JXWqUFz59x8qlXfl6N6bwwh8GCxeSGJRQUVIAbsQ4SVQ/5894R+RuLDnd5m6cP9LBeaH9/GIim8pHtTMP+C9bDcKdTV2D9SYCImmmUVYd/6cKkpjGD00B7kkidy0WzrmMK2A1syT79LccqVw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753984542; c=relaxed/simple;
-	bh=hvb9Z7U61i0WAoBKCawzhOgRTTsbdjytLuv86CZZdZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T5EOS/R9S6ngy6581pse8J6X7ClmkxwSB/sfKZP9bbGwR7RcWA6HFG5NYl8xRIffDCASIpQs/J9cHPn50BL1Q+J4Pa3c2QBj6T3KfgrB+PQxatmgV1PvjHtTGTfRNqA2GrpsmZzT89DSI3dDCDlJ6SPMOhmNq2IQ6GQf6m94emU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ihJWYAKH; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ihJWYAKH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B1E2C4CEEF;
-	Thu, 31 Jul 2025 17:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753984541;
-	bh=hvb9Z7U61i0WAoBKCawzhOgRTTsbdjytLuv86CZZdZ4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ihJWYAKHyN/LkjwFFtzyJGwcXcM+vx532WAz8YUX885QbQbDyKMLGjY726KiETxnj
-	 tVKP++z/TAIcrVvgviEiVYUL3iJCDqVWKd6lqGCnZuhXgFJSvbH3dHJGig16WW/i7Z
-	 3IHiNI8Zlr9gpijdEs0x+fyjl+T888cDaou8OaSwTKIbNloNNvpnn1hZWhJ4TQCXdx
-	 6o6Updz4ATLZ1Ct2m9YIaS0YluFFPp9Cil01Mz/TnU5DUWbw5bhUb0v2mNV9JaO6i7
-	 ipecFIBWDYzAkVaHFEWKkr6sJ0WeMaE2nQVkkEoqruhprtcK138jHP7rRU32XK6tWV
-	 KiJ+/F+F6ZK1w==
-Date: Thu, 31 Jul 2025 19:55:36 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, Sai Vishnu M
- <saivishnu725@gmail.com>
-Subject: Re: [PATCH 00/15] Translate sphinx-pre-install to Python
-Message-ID: <20250731195536.6075afe2@foz.lan>
-In-Reply-To: <20250731135107.6c2b32c2@foz.lan>
-References: <cover.1751318230.git.mchehab+huawei@kernel.org>
-	<d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
-	<87bjpu69q3.fsf@trenco.lwn.net>
-	<9148ae7f-7954-421e-b5dc-366651f0bc48@gmail.com>
-	<20250731135107.6c2b32c2@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1753985815; c=relaxed/simple;
+	bh=S+eAHkUQmIxOmh9BhUcuLHRn/WSy/97Ut9MbCGS8kfs=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=amFc/s9TrMc1A8YU7LmA9Pd5EeBEEiVyNx67KT0ILsS+expiJkK77oPqtMoBoWJlZ/fsWP7fBHQwMGseVC9AmnbzOIquPOv9u+SoMnk1Q9l0rlYZReKL/mkfngss5XT7Cs0Y+2fcEA/pUbb5RymcULDGle1IDWKMu7Mw3UThnHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4btHHN2xzjz6L4t7;
+	Fri,  1 Aug 2025 02:12:32 +0800 (CST)
+Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
+	by mail.maildlp.com (Postfix) with ESMTPS id CB0D51404C6;
+	Fri,  1 Aug 2025 02:16:48 +0800 (CST)
+Received: from china (10.220.118.114) by frapeml500005.china.huawei.com
+ (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 31 Jul
+ 2025 20:16:34 +0200
+From: Gur Stavi <gur.stavi@huawei.com>
+To: <horms@kernel.org>
+CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
+	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
+	<fuguiming@h-partners.com>, <gongfan1@huawei.com>, <guoxin09@huawei.com>,
+	<gur.stavi@huawei.com>, <helgaas@kernel.org>, <jdamato@fastly.com>,
+	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
+	<meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
+	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
+	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
+	<vadim.fedorenko@linux.dev>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>,
+	<zhuyikai1@h-partners.com>
+Subject: Re: [PATCH net-next v10 1/8] hinic3: Async Event Queue interfaces
+Date: Thu, 31 Jul 2025 21:34:20 +0300
+Message-ID: <20250731183420.1138336-1-gur.stavi@huawei.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250731140404.GD8494@horms.kernel.org>
+References: <20250731140404.GD8494@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ frapeml500005.china.huawei.com (7.182.85.13)
 
-Em Thu, 31 Jul 2025 13:51:07 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> On Thu, Jul 31, 2025 at 03:58:39PM +0300, Gur Stavi wrote:
+> >
+> > Lets define a "coherent struct" as a structure made of fields that makes sense
+> > to human beings. Every field endianity is defined and fields are arranged in
+> > order that "makes sense". Fields can be of any integer size 8,16,32,64 and not
+> > necessarily naturally aligned.
+> >
+> > swab32_array transforms a coherent struct into "byte jumble". Small fields are
+> > reordered and larger (misaligned) fields may be split into 2 (or even 3) parts.
+> > swab32_array is reversible so a 2nd call with byte jumble as input will produce
+> > the original coherent struct.
+> >
+> > hinic3 dma has "swab32_array" built in.
+> > On send-to-device it expects a byte jubmle so the DMA engine will transform it
+> > into a coherent struct.
+> > On receive-from-device it provides a byte jumble so the driver needs
+> > to call swab32_array to transform it into a coherent struct.
+> >
+> > The hinic3_cmdq_buf_swab32 function will work correctly, producing byte jumble,
+> > on little endian and big endian hosts.
+> >
+> > The code that runs prior to hinic3_cmdq_buf_swab32 that initializes a coherent
+> > struct is endianity sensitive. It needs to initialize fields based on their
+> > coherent endianity with or without byte swap. Practically use cpu_to_le or
+> > cpu_to_be based on the coherent definition.
+> >
+> > Specifically, cmdq "coherent structs" in hinic3 use little endian and since
+> > Kconfig currently declares that big endian hosts are not supported then
+> > coherent structs are initialized without explicit cpu_to_le macros.
+> >
+> > And this is what the comment says:
+> >
+> > /* Data provided to/by cmdq is arranged in structs with little endian fields but
+> >  * every dword (32bits) should be swapped since HW swaps it again when it
+> >  * copies it from/to host memory.
+> >  */
+> >
+>
+> Thanks, I think I am closer to understanding things now.
+>
+> Let me try and express things in my own words:
+>
+> 1. On the hardware side, things are stored in a way that may be represented
+>    as structures with little-endian values. The members of the structures may
+>    have different sizes: 8-bit, 16-bit, 32-bit, ...
+>
+> 2. The hardware runs the equivalent of swab32_array() over this data
+>    when writing it to (or reading it from) the host. So we get a
+>    "byte jumble".
+>
+> 3. In this patch, the hinic3_cmdq_buf_swab32 reverses this jumbling
+>    by running he equivalent of swab32_array() over this data again.
+>
+>    As 3 exactly reverses 2, what is left are structures exactly as in 1.
+>
 
-> Em Tue, 8 Jul 2025 23:56:01 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
-> > > My question would be: are the results somehow worse than those provided
-> > > by the existing, Perl script?  
-> > 
-> > Not at all.  Mauro made some improvements WRT opensuse/leap over the perl
-> > one, but there remain a lot of rooms for improvements here and there. 
-> > 
-> > I've been ignoring sphinx-pre-install all these years, but the impressive
-> > test results presented in this cover-letter made me test it.
-> 
-> I'm now working to fix PDF generation, assuming that all packages from
-> sphinx-pre-install are installed.
-> 
-> I'm placing the patches on my scratch tree at:
-> 	https://github.com/mchehab/linux/tree/my-docs-next
-> 
-> It contains several branches merged there in sequence:
-> 	- elder_python_v1: makes kernel-doc run with elder kernels (2 patches);
-> 	- netlink_v10: patches adding an yaml parser for netlink (14 patches);
-> 	- sphinx-pre-install-v4: current version of this series (39 patches);
-> 	- pdfdocs: specific fixes for PDF doc generation (11 patches);
-> 	- sphinx-build-wrapper: a new script with a large cleanup at docs Makefile
-> 	  (7 patches)
-> 
-> On my testbanch, this is the current summary, where:
-> - PASSED: means both HTML and PDF were generated:
-> 
->   PASSED - AlmaLinux release 9.6 (Sage Margay) (7 tests)
->   PASSED - Amazon Linux release 2023 (Amazon Linux) (7 tests)
->   PASSED - Arch Linux (7 tests)
->   PASSED - CentOS Stream release 9 (7 tests)
->   PASSED - Fedora release 42 (Adams) (7 tests)
->   PASSED - Kali GNU/Linux 2025.2 (7 tests)
->   PASSED - Mageia 9 (7 tests)
->   PASSED - openSUSE Leap 15.6 (7 tests)
->   PASSED - openSUSE Tumbleweed (7 tests)
->   PASSED - Oracle Linux Server release 9.6 (7 tests)
->   PASSED - Rocky Linux release 9.6 (Blue Onyx) (7 tests)
->   PASSED - Ubuntu 24.04.2 LTS (7 tests)
->   PASSED - Ubuntu 25.04 (7 tests)
+Yes. Your understanding matches mine.
 
-Forgot to mention, but for Debian-based distros, my setup does this at
-the distro setup phase:
+> If so, I agree this makes sense and I am sorry for missing this before.
+>
+> And if so, is the intention for the cmdq "coherent structs" in the driver
+> to look something like this.
+>
+>    struct {
+> 	u8 a;
+> 	u8 b;
+> 	__le16 c;
+> 	__le32 d;
+>    };
+>
+> If so, this seems sensible to me.
+>
+> But I think it would be best so include some code in this patchset
+> that makes use of such structures - sorry if it is there, I couldn't find
+> it just now.
+>
+> And, although there is no intention for the driver to run on big endian
+> systems, the __le* fields should be accessed using cpu_to_le*/le*_to_cpu
+> helpers.
 
-    if [ -f /etc/ImageMagick-6/policy.xml ]; then
-      # Remove any existing restrictive policies for PDF/PS/EPS/XPS
-      sed -i '/<policy.*domain="coder".*pattern=".*\(PDF\|PS\|EPS\|XPS\).*"/d' /etc/ImageMagick-6/policy.xml
-      # Allow PDF patterns at the end </policymap>
-      sed -i '/<\/policymap>/i \ \ <policy domain="coder" rights="read|write" pattern="{PS,PS2,PS3,EPS,PDF,XPS}" />'etc/ImageMagick-6/policy.xml
-    fi
+There was a long and somewhat heated debate about this issue.
+https://lore.kernel.org/netdev/20241230192326.384fd21d@kernel.org/
+I agree that having __le in the code is better coding practice.
+But flooding the code with cpu_to_le and le_to_cpu does hurt readability.
+And there are precedences of drivers that avoid it.
 
-    if [ -f /etc/ImageMagick-7/policy.xml ]; then
-      # Remove any existing restrictive policies for PDF/PS/EPS/XPS
-      sed -i '/<policy.*domain="coder".*pattern=".*\(PDF\|PS\|EPS\|XPS\).*"/d' /etc/ImageMagick-7/policy.xml
-      # Allow PDF patterns at the end </policymap>
-      sed -i '/<\/policymap>/i \ \ <policy domain="coder" rights="read|write" pattern="{PS,PS2,PS3,EPS,PDF,XPS}" />' /etc/ImageMagick-7/policy.xml
-    fi
-
-to fix a debian-specific packaging issue that makes ImageMagick 
-to fail when it is used with PS/PDF files.
-
-Regards,Mauro
+However, our dev team (I am mostly an advisor) decided to give it a try anyway.
+I hope they manage to survive it.
