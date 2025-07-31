@@ -1,116 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F4B23C4E6;
-	Thu, 31 Jul 2025 20:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FB022F76F
+	for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 20:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753993892; cv=none; b=IrawvuOWqscC7l8Y7UJ6nN3EOywP+oEAU4ooURd1JWj/Bt+kS/Fd+mpur3J3YcJlzMzBF08TSBc1RAYA/uzuTTtQt7smSVUkhh7AWnHDJHmdNXMz229lC2myLqUp/ES6EITk5qpQw2CzNAUjiIvlBm9KpLKF/3uN1k72d/RmxLA=
+	t=1753995537; cv=none; b=AIYoVascbEoAiYvsv+MYxNvpchYpm23ttOIwdhzrBSYULRarne9bgBSavS/iFJlLy/ps9nDTtET3/fqZ2KBEPf8RSjlDrycM59NV/xiBH0PRjkr25EftIq+HsxaOJFvuScFEQoAu1w8irFPV+KdfGLRH5wyyI9t2QdvuV8KJS/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753993892; c=relaxed/simple;
-	bh=Lf39aKIK+Wi8Gtf922wlnQNbCXTgqYiV4+0YQZJFf3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=apbWYK/z1uLm2JP+NhVRZQv3cbJKXdusM+hUybYKvCwLi7G+BbvUr9uUb9Ai/NG+3FpavH3Eq+PDSjUoMRHf58JzA5gTeSRVA8ZWSYXiMqycICx/LslUocrKc4d+7q6HpvXPc+Uj4FflnjOg9O2BhCtFBIpXqW+PtxxD1+YyLsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kokyeCcp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753995537; c=relaxed/simple;
+	bh=+2ElDXYkKRhhehnqaiJ6+gPxxtcT+CNuHtOfsAgMro4=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=SHgW8RQSb9/hfsB+njya98z1ojpQDak8gnzWE/QgG13hHv/ImnHbii19XQ+xllocj1u9U/h8xy+f4p/ZSExA8a0ngVKCySyZMilDv+t6h+rRXSIYgLyogu6squHG2a3MVRqs7+pEr37jO2DGwXNv7cp1Fi/Wp2j10BgM6LsCumo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IH0mWrbO; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kokyeCcp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11137C4CEEF;
-	Thu, 31 Jul 2025 20:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753993891;
-	bh=Lf39aKIK+Wi8Gtf922wlnQNbCXTgqYiV4+0YQZJFf3g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kokyeCcpna9aZUCilkj4+R2eDTrhga0wIlwIcLnsZeITMhyJUj/7uTWNmFUTFHMvt
-	 vDpiXZSwUk1voxowgvC8U99LMZhDIWLb9rCZ0gPBvSaSTlC9/PiF1ZkvfBUWRTXoV4
-	 geGjVfX0r0Mn1a/kBPCUN2PppB/o/Inx7MR+nc2IF9zk4Uz4N24Hggha7iqk1csUpd
-	 6Ef6tss7kWpSzSOZQH3wQU6TdUTlWragCOmCnqL1IDMXdPNxH9wUoI8tgXMtFHH+2y
-	 +ZReiMKR5PteVyTJwEwl4z2jPWje9d/K6wdslpCydHIxGZ3tQ7TZj60qHsrUqNB+/X
-	 YUNtf5hZWJlYw==
-Date: Thu, 31 Jul 2025 21:31:24 +0100
-From: Simon Horman <horms@kernel.org>
-To: Gur Stavi <gur.stavi@huawei.com>
-Cc: andrew+netdev@lunn.ch, christophe.jaillet@wanadoo.fr, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, fuguiming@h-partners.com,
-	gongfan1@huawei.com, guoxin09@huawei.com, helgaas@kernel.org,
-	jdamato@fastly.com, kuba@kernel.org, lee@trager.us,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	luosifu@huawei.com, meny.yossefi@huawei.com, mpe@ellerman.id.au,
-	netdev@vger.kernel.org, pabeni@redhat.com,
-	przemyslaw.kitszel@intel.com, shenchenyang1@hisilicon.com,
-	shijing34@huawei.com, sumang@marvell.com, vadim.fedorenko@linux.dev,
-	wulike1@huawei.com, zhoushuai28@huawei.com,
-	zhuyikai1@h-partners.com
-Subject: Re: [PATCH net-next v10 1/8] hinic3: Async Event Queue interfaces
-Message-ID: <20250731203124.GI8494@horms.kernel.org>
-References: <20250731140404.GD8494@horms.kernel.org>
- <20250731183420.1138336-1-gur.stavi@huawei.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IH0mWrbO"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-b38fc4d8dbaso222786a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 13:58:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753995534; x=1754600334; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1DNL4ZqkcIvug0P6zNDToFEaRqlmYm3XRLwrpfrR4hk=;
+        b=IH0mWrbOwkkE8kDASE42V5WQnQoFRaeWWiYFK6aicAKKxmhyvTosPsfJtXLbp1Uz6y
+         x0qNUm+kJ2OLSzYIFGjdEUyaMHeACLo5cDELd+eFdDrc5yTrah28WC8if8j7yYzdqjem
+         2/ZR6k03/3wQa8KvZRlCp7AfO3cCzmLZTJUaRhp2ANGqpMpX7liEtA0mFcvRlo2HmBB4
+         QSIjeSUQMYk1nBsuee8LsuDlQsTNDYZonkt8/jYsmTnUYckhVia8xi/5M4O/JCr0sIeS
+         7xjra7/7gNxMOx7+VbfOD1EmFPHW1FU6RrP3kt7zVuBOwkOxRbAs+eJ7Gt4NXenXCg4T
+         ykDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753995534; x=1754600334;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1DNL4ZqkcIvug0P6zNDToFEaRqlmYm3XRLwrpfrR4hk=;
+        b=jwmnE9+U3ilu28rRvAlajU5m5thd+m/HE8j9t61VWF+LRB12GNSkgDhQCVw2JPyq+j
+         ZANH0f1fIAfsQBnUNWc6cZo7KcOV2ABtA6eQ6cuRtLq5FuzAz16CSVgEdk2bKS4CtZbT
+         RAZaQhX1iwLwevvPk84L7VWsvDgCIGD2EOi/q7h61D2/VSzFyBrRk5gbIVd9puqkKi24
+         twXUvetp8wDe+OhXSGDWsZy/N2ne5h+wcZZ8HZgESDZEs/o3YXNUcaS75xGQf1iWFgDf
+         TE8NhcVGEQBkyLacwqSXZDROHl7kJ4VR6yz62WlVyoBpedelUNsIljkmml2mHAOfPZPR
+         bxZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVfCJqXG/EU+kQpECoa5/JJ6aSyD9UAeLfbNdqTDkexkVFM/PM+mUmvAwabpNpab7A7iiqJNqAlQeM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqaX7VzxygzeMX2ToBmmUB1Ls3fJ8vaPRDXhWsENeW7B+5Uohf
+	TtOWoU9mn0yjVWVes+e7csSHiTDrHiSQ36pe3U63SPRQgFhXeO5j79H4euv8nB+3qRvrvBoZ1IK
+	quowOJz3XLyfjzQ==
+X-Google-Smtp-Source: AGHT+IFtBee05Y+0YcwYG+qw66EBKTnwyLUw2Zd87HU0sy3vcGl9Liy/DQSHpFber1pJeKsCOjefFdN8peNhiQ==
+X-Received: from pji5.prod.google.com ([2002:a17:90b:3fc5:b0:31c:2fe4:33b6])
+ (user=jiaqiyan job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:39c5:b0:311:ea13:2e70 with SMTP id 98e67ed59e1d1-31f5de3ceb7mr12431905a91.14.1753995533793;
+ Thu, 31 Jul 2025 13:58:53 -0700 (PDT)
+Date: Thu, 31 Jul 2025 20:58:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250731183420.1138336-1-gur.stavi@huawei.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.50.1.565.gc32cd1483b-goog
+Message-ID: <20250731205844.1346839-1-jiaqiyan@google.com>
+Subject: [PATCH v3 0/3] VMM can handle guest SEA via KVM_EXIT_ARM_SEA
+From: Jiaqi Yan <jiaqiyan@google.com>
+To: maz@kernel.org, oliver.upton@linux.dev
+Cc: joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	duenwen@google.com, rananta@google.com, jthoughton@google.com, 
+	Jiaqi Yan <jiaqiyan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 31, 2025 at 09:34:20PM +0300, Gur Stavi wrote:
-> > On Thu, Jul 31, 2025 at 03:58:39PM +0300, Gur Stavi wrote:
+Problem
+=======
 
-...
+When host APEI is unable to claim a synchronous external abort (SEA)
+during guest abort, today KVM directly injects an asynchronous SError
+into the VCPU then resumes it. The injected SError usually results in
+unpleasant guest kernel panic.
 
-> > Thanks, I think I am closer to understanding things now.
-> >
-> > Let me try and express things in my own words:
-> >
-> > 1. On the hardware side, things are stored in a way that may be represented
-> >    as structures with little-endian values. The members of the structures may
-> >    have different sizes: 8-bit, 16-bit, 32-bit, ...
-> >
-> > 2. The hardware runs the equivalent of swab32_array() over this data
-> >    when writing it to (or reading it from) the host. So we get a
-> >    "byte jumble".
-> >
-> > 3. In this patch, the hinic3_cmdq_buf_swab32 reverses this jumbling
-> >    by running he equivalent of swab32_array() over this data again.
-> >
-> >    As 3 exactly reverses 2, what is left are structures exactly as in 1.
-> >
-> 
-> Yes. Your understanding matches mine.
+One of the major situation of guest SEA is when VCPU consumes recoverable
+uncorrected memory error (UER), which is not uncommon at all in modern
+datacenter servers with large amounts of physical memory. Although SError
+and guest panic is sufficient to stop the propagation of corrupted memory,
+there is room to recover from an UER in a more graceful manner.
 
-Great. Sorry for taking a while to get there.
+Proposed Solution
+=================
 
-> > If so, I agree this makes sense and I am sorry for missing this before.
-> >
-> > And if so, is the intention for the cmdq "coherent structs" in the driver
-> > to look something like this.
-> >
-> >    struct {
-> > 	u8 a;
-> > 	u8 b;
-> > 	__le16 c;
-> > 	__le32 d;
-> >    };
-> >
-> > If so, this seems sensible to me.
-> >
-> > But I think it would be best so include some code in this patchset
-> > that makes use of such structures - sorry if it is there, I couldn't find
-> > it just now.
-> >
-> > And, although there is no intention for the driver to run on big endian
-> > systems, the __le* fields should be accessed using cpu_to_le*/le*_to_cpu
-> > helpers.
-> 
-> There was a long and somewhat heated debate about this issue.
-> https://lore.kernel.org/netdev/20241230192326.384fd21d@kernel.org/
-> I agree that having __le in the code is better coding practice.
-> But flooding the code with cpu_to_le and le_to_cpu does hurt readability.
-> And there are precedences of drivers that avoid it.
-> 
-> However, our dev team (I am mostly an advisor) decided to give it a try anyway.
-> I hope they manage to survive it.
+The idea is, we can replay the SEA to the faulting VCPU. If the memory
+error consumption or the fault that cause SEA is not from guest kernel,
+the blast radius can be limited to the poison-consuming guest process,
+while the VM can keep running.
 
-Thanks, I appreciate it.
-I look forward to reviewing what they come up with.
+In addition, instead of doing under the hood without involving userspace,
+there are benefits to redirect the SEA to VMM:
+
+- VM customers care about the disruptions caused by memory errors, and
+  VMM usually has the responsibility to start the process of notifying
+  the customers of memory error events in their VMs. For example some
+  cloud provider emits a critical log in their observability UI [1], and
+  provides a playbook for customers on how to mitigate disruptions to
+  their workloads.
+
+- VMM can protect future memory error consumption by unmapping the poisoned
+  pages from stage-2 page table with KVM userfault [2], or by splitting the
+  memslot that contains the poisoned pages.
+
+- VMM can keep track of SEA events in the VM. When VMM thinks the status
+  on the host or the VM is bad enough, e.g. number of distinct SEAs
+  exceeds a threshold, it can restart the VM on another healthy host.
+
+- Behavior parity with x86 architecture. When machine check exception
+  (MCE) is caused by VCPU, kernel or KVM signals userspace SIGBUS to
+  let VMM either recover from the MCE, or terminate itself with VM.
+  The prior RFC proposes to implement SIGBUS on arm64 as well, but
+  Marc preferred KVM exit over signal [3]. However, implementation
+  aside, returning SEA to VMM is on par with returning MCE to VMM.
+
+Once SEA is redirected to VMM, among other actions, VMM is encouraged
+to inject external aborts into the faulting VCPU.
+
+New UAPIs
+=========
+
+This patchset introduces following userspace-visible changes to empower
+VMM to control what happens for SEA on guest memory:
+
+- KVM_CAP_ARM_SEA_TO_USER. While taking SEA, if userspace has enabled
+  this new capability at VM creation, and the SEA is not owned by kernel
+  allocated memory, instead of injecting SError, return KVM_EXIT_ARM_SEA
+  to userspace.
+
+- KVM_EXIT_ARM_SEA. This is the VM exit reason VMM gets. The details
+  about the SEA is provided in arm_sea as much as possible, including
+  sanitized ESR value at EL2, faulting guest virtual and physical
+  addresses if available.
+
+* From v2 [4]:
+  - Rebased on "[PATCH] KVM: arm64: nv: Handle SEAs due to VNCR redirection" [5]
+    and kvmarm/next commit 7b8346bd9fce ("KVM: arm64: Don't attempt vLPI
+    mappings when vPE allocation is disabled")
+  - Took the host_owns_sea implementation from Oliver [6, 7].
+  - Excluded the guest SEA injection patches.
+  - Updated selftest.
+
+* From v1 [8]:
+  - Rebased on commit 4d62121ce9b5 ("KVM: arm64: vgic-debug: Avoid
+    dereferencing NULL ITE pointer").
+  - Sanitize ESR_EL2 before reporting it to userspace.
+  - Do not do KVM_EXIT_ARM_SEA when SEA is caused by memory allocated to
+    stage-2 translation table.
+
+[1] https://cloud.google.com/solutions/sap/docs/manage-host-errors
+[2] https://lore.kernel.org/kvm/20250109204929.1106563-1-jthoughton@google.com
+[3] https://lore.kernel.org/kvm/86pljbqqh0.wl-maz@kernel.org
+[4] https://lore.kernel.org/kvm/20250604050902.3944054-1-jiaqiyan@google.com/
+[5] https://lore.kernel.org/kvmarm/20250729182342.3281742-1-oliver.upton@linux.dev/
+[6] https://lore.kernel.org/kvm/aHFohmTb9qR_JG1E@linux.dev/#t
+[7] https://lore.kernel.org/kvm/aHK-DPufhLy5Dtuk@linux.dev/
+[8] https://lore.kernel.org/kvm/20250505161412.1926643-1-jiaqiyan@google.com
+
+Jiaqi Yan (3):
+  KVM: arm64: VM exit to userspace to handle SEA
+  KVM: selftests: Test for KVM_EXIT_ARM_SEA
+  Documentation: kvm: new UAPI for handling SEA
+
+ Documentation/virt/kvm/api.rst                |  61 ++++
+ arch/arm64/include/asm/kvm_host.h             |   2 +
+ arch/arm64/kvm/arm.c                          |   5 +
+ arch/arm64/kvm/mmu.c                          |  68 +++-
+ include/uapi/linux/kvm.h                      |  10 +
+ tools/arch/arm64/include/asm/esr.h            |   2 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../testing/selftests/kvm/arm64/sea_to_user.c | 327 ++++++++++++++++++
+ tools/testing/selftests/kvm/lib/kvm_util.c    |   1 +
+ 9 files changed, 476 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/kvm/arm64/sea_to_user.c
+
+-- 
+2.50.1.565.gc32cd1483b-goog
+
