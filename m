@@ -1,154 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C133621A433;
-	Thu, 31 Jul 2025 21:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4709017DFE7
+	for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 21:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753996623; cv=none; b=DzYx5JSEVg0i/xsvDog2Kjt47QOJnX7rfPpPLuGddLp2nZyR2/P3MOPYJzgJY4B75CNMEpyEkpzTyMJSk/6ls7ITfbmFZvDAeAvZQZeVG2KbYOg0WHJ3kf4Vd6nz1//KYzPdfmqbqAL9ikFtCnLDvlo1Zfwv546Y/c+/IAT27do=
+	t=1753996809; cv=none; b=SAZSdXLt26m1/HuJ7pEZqvxqLzsxFjj4CY3elJb6zcvF0n/p3B5CwkXmqv/5uMKxcD0IMsyZvhyjkU/hTY9BQjF2mVVfp3sAHzZourj7gbVUntl/7eWDx6yhh+d75EUzyyT3r33PeUpnmN//vE2YaTqGEV5OtgF5eNDUUmXX1LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753996623; c=relaxed/simple;
-	bh=wk89EBN1Ds5i2122SjoVhN6tOFx4aYnZHN8Utb5yZ28=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=M3/AZfFRXSJDGMrnhp1LBSHpnVsF7TIsNB3zaB2WVkRgsvbjkE+rQcdjF/F45iRIocLr0stlMvkpMUdSSCziblCVjPMv0rJ3+CSeRSa0HZNeHKVNyDMyiWDSTHwcjB9Oz10U5lLNwJVzM1Oy5xUHwq9mXn9GodetyeI5myFGAyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KsyezfGr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753996809; c=relaxed/simple;
+	bh=ap4Iq3A10A/U7xF+iUIaP24oQmDfl5UInmU7sGDN7Y4=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Ds5MbRI5YiR4n9lyaQbYAQ5kFIeg6a8SGAhYfepjtxM1L0h5YV0nyNfdCemAQPlX2n5dFhSmi6I58B8RCto9d8kyaeW+c0IPI1ye6zl7ULXkz4lYyRBz4wmYXq4F9Zh6dx+fjib0aGt2QlE32CZQn7qvJ3r8aBtOZpG0TN2OTxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1SdQupD7; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KsyezfGr"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 49ADFC4CEF7;
-	Thu, 31 Jul 2025 21:17:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753996623;
-	bh=wk89EBN1Ds5i2122SjoVhN6tOFx4aYnZHN8Utb5yZ28=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=KsyezfGrlgN5yBCkdZ8WoXucU5T9nYl1sXYlXJdHXkKzXRomLqDzsVOGwIZFndC0/
-	 W710G7bR4pKTc34jo84O+J6bkhwAvJVjn8eKCvfORuXhTs8Sse4pKFvbwORx9rLShq
-	 cpRGV0cWcXKdoKMoTsl83Y5+pfDTf05EAbJ1N/M5MAzfPcQYxFz7y2NNZWxj2mtXjY
-	 GOCZhdmw455QBu0UfbXdFumiqLu7gKannjiQ8tVsZVaG9N54hKbWDRX8Eoa7LOqfZZ
-	 CxuhFamO+HrYDq7FD4l4SUo3f48Jn0YY8ISQDt5G7CGTGz109wAiwEF4hpswkHmRl5
-	 25XnsfJAMVHTg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D67AC87FD3;
-	Thu, 31 Jul 2025 21:17:03 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 31 Jul 2025 23:17:01 +0200
-Subject: [PATCH v6 1/2] Input: add ABS_SND_PROFILE
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1SdQupD7"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-748e1e474f8so1673573b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 14:20:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753996808; x=1754601608; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3LhBmNVj47n+/Xo2CBpWpkvNL4bzPFglARthS3E980E=;
+        b=1SdQupD7Tg8GEmKfvBdy95SLcSzqhAL6nFHgeI5duLcSTxHo1eqZwywJKOwLXSmVxS
+         IVnasdMXQaaohihhLSWyCgeqdAX9qEiTjIhksSEMi89YQcg6E8/mj7qZeS9MSUlMg+58
+         5zFlN3StczjqcaoML/iCAxBTf0VOz3DGvZo7G+A8nEYBEBVeHBPQCISF2GyRQs3FgJm0
+         iNQmVNhAkaxxC5aQw4sjERnT7AjVYXfFyGpGi7GFc/OgZSNW54oxRPrtHYbrAlE6CS3g
+         wAg4lUlcsCpzWf6rUHZiRUgP3Xg0mCfV8Nq7bPI8gfscpEvQn0YqaJIYjF7b8+Qv2syl
+         A8Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753996808; x=1754601608;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3LhBmNVj47n+/Xo2CBpWpkvNL4bzPFglARthS3E980E=;
+        b=XdVGBhCTPauwPVfOwa7e31Of29vSm51w8t1g8spbo+3jSdt24yiGO7wj7xHp4grYnu
+         NKrWBScBbL9mOfH/fOGCuqT6C7bNZKhgHk9aU+kgaQxgHpDS8v4es3L6GIZ4j9MR1qbo
+         50AaNV+KaelS3Do6Q1YI7xv+0RVh0CohbzPpE7IMYQ+yyZgFjGGZE9sxMrrmyIvjGHh8
+         wPfbrbOJ1DEkRS2yOkIkeHz0OCufh2bAXupfGkw2YxvFbYfvK4HkSBP4QhK4hiEaUJnV
+         nX/VnaVMTTnJGiAvjLTo+Bm+BpkU67RRAg54j3cEWAUukKpC3KWtSdBwyfWLvNPjigBs
+         w2Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCVBuNSL2lPhog53m+3CBT0O1idjBbBF/ed79C4fDB43gA79OykI1P0fLM63bN/8ag5wfFSwkZzmYbY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMtrQFBIdbqt7sSrm0RZIL8OD7y8cfB3fv5VfB3uPC+uKbpJ7H
+	QJKvhw6FK0nE2yFgzoXgg/F86hzy+si+Xz5MRXA2mO7VoQtP9UN/hrBxVc+5yf5QOZL/TEGB6+s
+	6jLiLSdx6qyZJ2g==
+X-Google-Smtp-Source: AGHT+IHVlDuY+fYNSvzWaCl78j3JqbZZEEmbQtyEYvAT3m66mv+lhaRSlgO6MH1HydCWLvX+Ha9fBEBU/p76uA==
+X-Received: from pfhx36.prod.google.com ([2002:a05:6a00:18a4:b0:75f:8367:a75a])
+ (user=jiaqiyan job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a20:7f93:b0:215:d611:5d9b with SMTP id adf61e73a8af0-23de80e503cmr119146637.12.1753996807524;
+ Thu, 31 Jul 2025 14:20:07 -0700 (PDT)
+Date: Thu, 31 Jul 2025 21:20:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250731-op6-tri-state-v6-1-569c25cbc8c2@ixit.cz>
-References: <20250731-op6-tri-state-v6-0-569c25cbc8c2@ixit.cz>
-In-Reply-To: <20250731-op6-tri-state-v6-0-569c25cbc8c2@ixit.cz>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <bentiss@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, Gergo Koteles <soyer@irl.hu>, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2583; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=mqKhMCON4ESTbCRdEw8RVTqsYW4WqX/QCr9kEq/TUv0=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBoi91NIext4b6VEbyCmO/FVK/H64FFc4sY50g8X
- KhNosoj9J+JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaIvdTQAKCRBgAj/E00kg
- cmf4D/4/6zEjojuc913sf+yQiwbWL6b0VoQkXD4cIaVlmkI9zPNq0D0FGQinLcMkoCDL5Bp0JzG
- LZTFP76WHuujYNOJG4/bm6hnTcYStdr+stWzrwjyGfVQJZ87Kpp7ym0KOwvLKseuDFmAAb6P26U
- UBPzvHCLwQbZi2qubakfQl41/GhYggaCdOg83cILXbkpC7o5JJXoV2mVr2QyLtILuGS1Nr1yM+w
- 6mxnSZF0jmArhbQ12aCbjoxbt55K46gRixVgIUSFB5ZftUAjbPqH7NB8BlWCTh+2h5SJPGpBM5o
- hYF3vP5Ftb+rI6XDlU5dXPHsN65/38W0G0SERHYhlt6JwWeo7P983JsWF6gGCQi0yG8oGlAz7yo
- G2GT7Fm3o60RSRTs27gLvcg/g2E4DnBnCkAoLN0wB7Il3p/p9neL/JHOI8PKD2gO1oY/7tKF6wd
- lzWnbAdRP2kkNwgxiMpSgV+hF5np1Zc51h2cJ4qSHHM5ASPWKc4ycb3OFUXrHsfIqo5cmdL/yv2
- GJvsPvWSWeQtSNNEugsubE6fi1RqffRa1/7alTdYi6Cw6dNHjJZZVG6M6tWVbRRvBWHaAXpXM4w
- +3glrf6SleZoMa68+9TansJoH2nZ1CnxYf0TFbXC3KZZ/ua/XPMaO8TZk1cY1/yJxsU03J5ruH7
- MVxWyF1mmHfLK6g==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.50.1.565.gc32cd1483b-goog
+Message-ID: <20250731212004.1437336-1-jiaqiyan@google.com>
+Subject: [PATCH v1 0/4] A couple of improvements for VMM to inject external
+ abort to guest
+From: Jiaqi Yan <jiaqiyan@google.com>
+To: maz@kernel.org, oliver.upton@linux.dev
+Cc: joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	rananta@google.com, Jiaqi Yan <jiaqiyan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Gergo Koteles <soyer@irl.hu>
+There are several situations where VMM is involved when handling
+synchronous external instruction or data aborts, and often VMM
+needs to inject external aborts to guest. In addition to manipulating
+individual registers with KVM_SET_ONE_REG API, an easier way is to
+use the KVM_SET_VCPU_EVENTS API.
 
-ABS_SND_PROFILE used to describe the state of a multi-value sound profile
-switch. This will be used for the alert-slider on OnePlus phones or other
-phones.
+This patchset adds two new features to the KVM_SET_VCPU_EVENTS API.
+1. Extend KVM_SET_VCPU_EVENTS to support external instruction abort.
+2. Allow userspace to emulate ESR_ELx.ISS by supplying ESR_ELx.
+   In this way, we can also allow userspace to emulate ESR_ELx.ISS2
+   in future.
 
-Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
-to input-event-codes.h so they can be used from DTS.
+The UAPI change for #1 is straightforward. However, I would appreciate
+some feedback on the ABI change for #2:
 
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- Documentation/input/event-codes.rst    | 6 ++++++
- drivers/hid/hid-debug.c                | 1 +
- include/uapi/linux/input-event-codes.h | 9 +++++++++
- 3 files changed, 16 insertions(+)
+  struct kvm_vcpu_events {
+    struct {
+        __u8 serror_pending;
+        __u8 serror_has_esr;
+        __u8 ext_dabt_pending;
+        __u8 ext_iabt_pending;
+        __u8 ext_abt_has_esr;
+        __u8 pad[3];
+        __u64 serror_esr;
+        __u64 ext_abt_esr;  // <= +8 bytes
+      } exception;
+    __u32 reserved[10];     // <= -8 bytes
+  };
 
-diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-index b4557462edd7b3fef9e9cd6c2c3cb2d05bb531ab..d43336e64d6aa4fe8a41b7e9947f4f214df6e1ab 100644
---- a/Documentation/input/event-codes.rst
-+++ b/Documentation/input/event-codes.rst
-@@ -241,6 +241,12 @@ A few EV_ABS codes have special meanings:
-     emitted only when the selected profile changes, indicating the newly
-     selected profile value.
- 
-+* ABS_SND_PROFILE:
-+
-+  - Used to describe the state of a multi-value sound profile switch.
-+    An event is emitted only when the selected profile changes,
-+    indicating the newly selected profile value.
-+
- * ABS_MT_<name>:
- 
-   - Used to describe multitouch input events. Please see
-diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index 7107071c7c516af48c0c5fc1206c1e01bae3889f..c58500d8b94b581e41ae098d6ce99db7783986b7 100644
---- a/drivers/hid/hid-debug.c
-+++ b/drivers/hid/hid-debug.c
-@@ -3513,6 +3513,7 @@ static const char *absolutes[ABS_CNT] = {
- 	[ABS_DISTANCE] = "Distance",	[ABS_TILT_X] = "XTilt",
- 	[ABS_TILT_Y] = "YTilt",		[ABS_TOOL_WIDTH] = "ToolWidth",
- 	[ABS_VOLUME] = "Volume",	[ABS_PROFILE] = "Profile",
-+	[ABS_SND_PROFILE] = "SoundProfile",
- 	[ABS_MISC] = "Misc",
- 	[ABS_MT_SLOT] = "MTSlot",
- 	[ABS_MT_TOUCH_MAJOR] = "MTMajor",
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 08cb157ab59364a41ac425fc9a4ea8eb2fae0e86..f443f61f9bb8e3c212da522d9b99a386a13c4475 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -875,6 +875,7 @@
- 
- #define ABS_VOLUME		0x20
- #define ABS_PROFILE		0x21
-+#define ABS_SND_PROFILE		0x22
- 
- #define ABS_MISC		0x28
- 
-@@ -984,4 +985,12 @@
- #define SND_MAX			0x07
- #define SND_CNT			(SND_MAX+1)
- 
-+/*
-+ * ABS_SND_PROFILE values
-+ */
-+
-+#define SND_PROFILE_SILENT	0x00
-+#define SND_PROFILE_VIBRATE	0x01
-+#define SND_PROFILE_RING	0x02
-+
- #endif
+The offset to kvm_vcpu_events.reserved changes, and the size of
+exception changes. I think we can't say userspace will never access
+reserved, or they will never use sizeof(exception). Theoretically this
+is an ABI break and I want to call it out and ask if a new ABI is needed
+for feature #2. For example, is it worthy to introduce exception_v2
+or kvm_vcpu_events_v2.
+
+Based on commit 7b8346bd9fce6 ("KVM: arm64: Don't attempt vLPI mappings
+when vPE allocation is disabled")
+
+Jiaqi Yan (3):
+  KVM: arm64: Allow userspace to supply ESR when injecting SEA
+  KVM: selftests: Test injecting external abort with ISS
+  Documentation: kvm: update UAPI for injecting SEA
+
+Raghavendra Rao Ananta (1):
+  KVM: arm64: Allow userspace to inject external instruction abort
+
+ Documentation/virt/kvm/api.rst                |  48 +++--
+ arch/arm64/include/asm/kvm_emulate.h          |   9 +-
+ arch/arm64/include/uapi/asm/kvm.h             |   7 +-
+ arch/arm64/kvm/arm.c                          |   1 +
+ arch/arm64/kvm/emulate-nested.c               |   6 +-
+ arch/arm64/kvm/guest.c                        |  42 ++--
+ arch/arm64/kvm/inject_fault.c                 |  16 +-
+ include/uapi/linux/kvm.h                      |   1 +
+ tools/arch/arm64/include/uapi/asm/kvm.h       |   7 +-
+ .../selftests/kvm/arm64/external_aborts.c     | 191 +++++++++++++++---
+ .../testing/selftests/kvm/arm64/inject_iabt.c |  98 +++++++++
+ 11 files changed, 352 insertions(+), 74 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/arm64/inject_iabt.c
 
 -- 
-2.50.1
-
+2.50.1.565.gc32cd1483b-goog
 
