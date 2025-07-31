@@ -1,73 +1,23 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7874F2BE65B
-	for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 13:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CBB2C15AB;
+	Thu, 31 Jul 2025 13:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753968031; cv=none; b=M1QIHwRAmq+H/Z4mUbIqMQzg9w4pEwOa0wGVXfR14HOQYEyk2PyQXb2fkKjST6vyEdskPhZKxIlkZyZfMzPgTIsgdt/13dXFjt6Rf2xorrFTeU3J6jp3nTg9emdo5P7+5GUxK7H2IFEr9s1u5SC93vevgfF2eMYNx96EPdRJR8k=
+	t=1753969015; cv=none; b=LIkO4huA72gn5gC4D1KhAB+/+nRHwWpPG+AeAbCUcKjglF7EvLd9RFIpmp1aTHlSwetAOIFK+pSO+HagIfnKlpTSbPnAb2MHRa/fkjlWj6xLKvr8NGQl6vREnC6sLCg0NuMzIXoK4ivxJ1lF3ENH5kBdBxKf0DahgLO7nYvigtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753968031; c=relaxed/simple;
-	bh=3KLuyMr0bSxLI5U8RI1yZL2Yv96hPijFT8J7biGE2dk=;
+	s=arc-20240116; t=1753969015; c=relaxed/simple;
+	bh=pUddgFY3bTyLpnjqVwtW0u0LS8Fi/74YNvkxstPYw6k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gf60n+uGy+HmvYZL+vcIVkn1u+MXRrTSypKEB7ILkz4kAZV8rGNMJtSXplzlgZkUn7qMFvE1lU0QeDZ/CKALAf8SEvO1vrdTPXisrB0ex7dROurkm3fLcRfPhJx/3gn79+h2zK0G50VXS/F7wwbCV6BGokRyIfTVfgFTlE370fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DgREQ4c0; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DgREQ4c0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753968027;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=H8cVWOuIO40JfoYuCXD6TQrtJBGKCxwzWML3Rk1WtL4=;
-	b=DgREQ4c0xYGTbts5i1jErOhsfflQx8iQK4CSYnFWNfGqp61ZOCgWH2i0b7klTP6xQ5lga7
-	/peE+QYhS9UoMkRhqMh4RvZPPPIpxbdegaQ0mlN2qUgZXkHrpCj1cTIiae1lrY864/Ggj9
-	DoznQeeqviwtoJz3YrytmFosV3MhyWc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-562-HKXZm1PqOrWjIUe6M37BAA-1; Thu, 31 Jul 2025 09:20:26 -0400
-X-MC-Unique: HKXZm1PqOrWjIUe6M37BAA-1
-X-Mimecast-MFC-AGG-ID: HKXZm1PqOrWjIUe6M37BAA_1753968025
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-451d30992bcso6174065e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 06:20:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753968025; x=1754572825;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=H8cVWOuIO40JfoYuCXD6TQrtJBGKCxwzWML3Rk1WtL4=;
-        b=PYGOwNahhp15MDXnk6sQE8To87plBAoUcorasA/8joguAGGBxDwtB/h+gkrlSARX87
-         WOTH1RGKwxZ7rhLe8eVl2eKDuvqTqX2beFx6CAXP6HwX9wE5pJysLnkrqzvzpzM27jRD
-         +kBUWIvH3acX+4LWaITxmc7NAx8plH1Zko85RfDhSln470Ge3egQyzAaVh5tzzhHPVPH
-         7iK9GaXpFq++/LDan962p0upWji6yJx+qCQbDYVoEUfE0ReEniHjeRnzadU45HNsNGFn
-         cGzoegWtFnoDNZEVIM6zx5pOXAqb/mGNJ9HXJlKvKDao++V98IElval1yJt2aymgqRgC
-         ms4A==
-X-Forwarded-Encrypted: i=1; AJvYcCV4VuQVTF4VtgJ6QEVbt71j9BIyblPcqOW05XuBGZW+tVZ2aRMlh3gkAXnkAVA344zQGw5jKsY/Q5k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw75yY7QOEF4Y4+lMUTdpv7mBImlHj9k4/D2XuIoJZjjh3DYYyD
-	XQ/wVEseWkyJt5YcI0KPRgBJFbPDAOQyObJYGUVc56SRuQx5qYs9Q/g4pN4hNwyMP3F0VqZa/TO
-	066R+G0wHNWQJz7jLvmsIlgjdSRMnLrmFP+7V8ZDlEePduWpYh6h3cGYVDjabIA==
-X-Gm-Gg: ASbGncv3jR25H9qmX/RxGKAlcBIdZi0c37qbwG3b6okGeeV7dWCTpB1JLhpqz67OEJ7
-	xUrXQJW3Ot1d9IY7BLSp0Cirf0UDukNgRKlyq1SJ0sURqDSEKepvB7giK/HpWORyPhirOWew09H
-	7uVUlwWAw1gJLYp9ioTWDdGufmL7wbHUaN4ODE4Xs7ryvEVykOR52U4gQAQtVmqLwqX7hwLS9Ak
-	0x4811QITc+IIFKjngIBYo/z7s3OAEMkQ6PJBqS0ZVEmmdpEy7WtywimcWFgp9TBbhOnOyo1m/0
-	DK/HLHsMHDiIqPkfrTpqBuy/qrr8jjrSwxzWfdLH5TsG6+797AobpAK3LlQGM3hFsSWTtMUBcVQ
-	6136LmmAycd/2sEh/KjwgH89SyrOMzAq3Rtsic/90o6G8C07T17ddoNmDq8A692np+5Y=
-X-Received: by 2002:a05:600c:35d4:b0:439:643a:c8d5 with SMTP id 5b1f17b1804b1-45892a38f57mr77121245e9.0.1753968024916;
-        Thu, 31 Jul 2025 06:20:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFw7izoet6gCRjloh7faX2I/dT1hRt2aBMnfvHniM+pSH974YB03S1kXDORrNyqMh7/oaxdrw==
-X-Received: by 2002:a05:600c:35d4:b0:439:643a:c8d5 with SMTP id 5b1f17b1804b1-45892a38f57mr77120805e9.0.1753968024404;
-        Thu, 31 Jul 2025 06:20:24 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f44:3700:be07:9a67:67f7:24e6? (p200300d82f443700be079a6767f724e6.dip0.t-ipconnect.de. [2003:d8:2f44:3700:be07:9a67:67f7:24e6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458a22365c0sm23257955e9.3.2025.07.31.06.20.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Jul 2025 06:20:23 -0700 (PDT)
-Message-ID: <e496bf28-ed56-4935-8ac4-994e297506ee@redhat.com>
-Date: Thu, 31 Jul 2025 15:20:21 +0200
+	 In-Reply-To:Content-Type; b=GBFW+/zRvKgiEQ5n+bWkX0m+1cjDkLULI3hIgfmpJSZRF55jlABbB/exIP8E+kW/eZ1Tqg6ESoAPzHW6aedM+xVtpQj+XYwRF48iwadRmSEX8er9jrG2Grqnfu3UdxGAWiuM48XjbodS6JL4Onp2IUtSOvJ001uxIfTn4MI1IV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 73E3542D7F;
+	Thu, 31 Jul 2025 13:36:48 +0000 (UTC)
+Message-ID: <cf49b59f-d39c-4757-a453-6d3c8a09d1ce@ghiti.fr>
+Date: Thu, 31 Jul 2025 15:36:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,163 +25,109 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] prctl: extend PR_SET_THP_DISABLE to optionally
- exclude VM_HUGEPAGE
-To: Usama Arif <usamaarif642@gmail.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
- shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
- sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com, Matthew Wilcox <willy@infradead.org>
-References: <20250731122825.2102184-1-usamaarif642@gmail.com>
- <20250731122825.2102184-2-usamaarif642@gmail.com>
- <dda2e42f-7c20-4530-93f9-d3a73bb1368b@lucifer.local>
- <c9896875-fb86-4b6c-8091-27c8152ba6d0@gmail.com>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v5 0/7] riscv: Add support for xmipsexectl
+To: aleksa.paunovic@htecgroup.com, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Palmer Dabbelt <palmer@sifive.com>, Conor Dooley <conor@kernel.org>,
+ Djordje Todorovic <djordje.todorovic@htecgroup.com>,
+ devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Alexandre Ghiti <alexghiti@rivosinc.com>,
+ Aleksandar Rikalo <arikalo@gmail.com>,
+ Raj Vishwanathan4 <rvishwanathan@mips.com>
+References: <20250724-p8700-pause-v5-0-a6cbbe1c3412@htecgroup.com>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <c9896875-fb86-4b6c-8091-27c8152ba6d0@gmail.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250724-p8700-pause-v5-0-a6cbbe1c3412@htecgroup.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutddtleehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpefhhfdutdevgeelgeegfeeltdduhfduledvteduhfegffffiefggfektefhjedujeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvrgdtgeemtggvtgdtmedutdejfeemsgelsgegmeejvggtkeemheehugdtmeegfhdvvdemieegvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtdegmegtvggttdemuddtjeefmegslegsgeemjegvtgekmeehhegutdemgehfvddvmeeigedvkedphhgvlhhopeglkffrggeimedvrgdtgeemtggvtgdtmedutdejfeemsgelsgegmeejvggtkeemheehugdtmeegfhdvvdemieegvdekngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeduledprhgtphhtthhopegrlhgvkhhsrgdrphgruhhnohhvihgtsehhthgvtghgrhhouhhprdgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtp
+ hhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheprghouhesvggvtghsrdgsvghrkhgvlhgvhidrvgguuhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvth
+X-GND-Sasl: alex@ghiti.fr
 
-On 31.07.25 15:12, Usama Arif wrote:
-> 
-> 
-> On 31/07/2025 13:40, Lorenzo Stoakes wrote:
->> On Thu, Jul 31, 2025 at 01:27:18PM +0100, Usama Arif wrote:
->> [snip]
->>> Acked-by: Usama Arif <usamaarif642@gmail.com>
->>> Tested-by: Usama Arif <usamaarif642@gmail.com>
->>> Cc: Jonathan Corbet <corbet@lwn.net>
->>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>> Cc: Zi Yan <ziy@nvidia.com>
->>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->>> Cc: Nico Pache <npache@redhat.com>
->>> Cc: Ryan Roberts <ryan.roberts@arm.com>
->>> Cc: Dev Jain <dev.jain@arm.com>
->>> Cc: Barry Song <baohua@kernel.org>
->>> Cc: Vlastimil Babka <vbabka@suse.cz>
->>> Cc: Mike Rapoport <rppt@kernel.org>
->>> Cc: Suren Baghdasaryan <surenb@google.com>
->>> Cc: Michal Hocko <mhocko@suse.com>
->>> Cc: Usama Arif <usamaarif642@gmail.com>
->>> Cc: SeongJae Park <sj@kernel.org>
->>> Cc: Jann Horn <jannh@google.com>
->>> Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
->>> Cc: Yafang Shao <laoar.shao@gmail.com>
->>> Cc: Matthew Wilcox <willy@infradead.org>
->>
->> You don't need to include these Cc's, Andrew will add them for you.
->>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>
->> Shouldn't this also be signed off by you? 2/5 and 3/5 has S-o-b for both
->> David and yourself?
->>
->> This is inconsistent at the very least.
->>
-> 
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> 
-> The Ccs were added by David, and I didn't want to remove them.
+Hi Aleksa,
 
-They were still part of the first submission without cover letter, so 
-you should drop them from here now that you are sending it as part of a 
-series.
-
-> 
->>>
->>> ---
->>>
->>
->> Nothing below the --- will be included in the patch, so we can drop the
->> below, it's just noise that people can find easily if needed.
->>
->>> At first, I thought of "why not simply relax PR_SET_THP_DISABLE", but I
->>> think there might be real use cases where we want to disable any THPs --
->>> in particular also around debugging THP-related problems, and
->>> "never" not meaning ... "never" anymore ever since we add MADV_COLLAPSE.
->>> PR_SET_THP_DISABLE will also block MADV_COLLAPSE, which can be very
->>> helpful for debugging purposes. Of course, I thought of having a
->>> system-wide config option to modify PR_SET_THP_DISABLE behavior, but
->>> I just don't like the semantics.
->>
->> [snip]
->>
->>>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>
->> This S-o-b is weird, it's in a comment essentially. Let's drop that too
->> please.
-
-That just got added automatically while modifying the patch.
-
-> 
-> 
-> Everything below --- was added by David I believe to provide further explanation that
-> doesn't need to be included in the commit message, and I didn't want to remove it
-> or his 2nd sign-off, as its discarded anyways. Its useful info that can just be
-> ignored.
+On 7/24/25 17:23, Aleksa Paunovic via B4 Relay wrote:
+> This patch series adds support for the xmipsexectl vendor extension.
+> A new hardware probe key has also been added to allow userspace to probe for MIPS vendor extensions.
+>
+> Additionally, since the standard Zihintpause PAUSE instruction encoding is not supported on some MIPS CPUs,
+> an errata was implemented for replacing this instruction with the xmipsexectl MIPS.PAUSE alternative encoding.
+>
+> Signed-off-by: Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
+> ---
+> Changes in v5:
+> - Add MIPS.IHB and MIPS.EHB instructions
+> - Rebase on alex-for-next
+> - Address other smaller comments pointed out by Alexandre
+> - Link to v4: https://lore.kernel.org/r/20250625-p8700-pause-v4-0-6c7dd7f85756@htecgroup.com
+>
+> This is a continuation of a previous series, which did not implement the full
+> xmipsexectl vendor extension. The title was updated accordingly.
+>
+> Changes in v4:
+> - Add support for the xmipsexectl vendor extension
+> - Remove the ifdef/else from errata_list.h
+> - Replace the ifdef/else with a hwprobe call in the userspace code.
+>
+> Link to v3:
+> https://lore.kernel.org/linux-riscv/20250129131703.733098-1-arikalo@gmail.com/
+>
+> ---
+> Aleksa Paunovic (6):
+>        dt-bindings: riscv: Add xmipsexectl ISA extension description
+>        riscv: Add xmipsexectl as a vendor extension
+>        riscv: Add xmipsexectl instructions
+>        riscv: hwprobe: Add MIPS vendor extension probing
+>        riscv: hwprobe: Document MIPS xmipsexectl vendor extension
+>        riscv: Add tools support for xmipsexectl
+>
+> Djordje Todorovic (1):
+>        riscv: errata: Fix the PAUSE Opcode for MIPS P8700
+>
+>   Documentation/arch/riscv/hwprobe.rst               |  9 +++
+>   .../devicetree/bindings/riscv/extensions.yaml      |  6 ++
+>   arch/riscv/Kconfig.errata                          | 23 ++++++++
+>   arch/riscv/Kconfig.vendor                          | 13 +++++
+>   arch/riscv/errata/Makefile                         |  1 +
+>   arch/riscv/errata/mips/Makefile                    |  5 ++
+>   arch/riscv/errata/mips/errata.c                    | 67 ++++++++++++++++++++++
+>   arch/riscv/include/asm/alternative.h               |  3 +
+>   arch/riscv/include/asm/cmpxchg.h                   |  3 +-
+>   arch/riscv/include/asm/errata_list.h               | 13 ++++-
+>   arch/riscv/include/asm/errata_list_vendors.h       |  5 ++
+>   arch/riscv/include/asm/hwprobe.h                   |  3 +-
+>   arch/riscv/include/asm/vdso/processor.h            |  3 +-
+>   arch/riscv/include/asm/vendor_extensions/mips.h    | 37 ++++++++++++
+>   .../include/asm/vendor_extensions/mips_hwprobe.h   | 22 +++++++
+>   arch/riscv/include/asm/vendorid_list.h             |  1 +
+>   arch/riscv/include/uapi/asm/hwprobe.h              |  1 +
+>   arch/riscv/include/uapi/asm/vendor/mips.h          |  3 +
+>   arch/riscv/kernel/alternative.c                    |  5 ++
+>   arch/riscv/kernel/sys_hwprobe.c                    |  4 ++
+>   arch/riscv/kernel/vendor_extensions.c              | 10 ++++
+>   arch/riscv/kernel/vendor_extensions/Makefile       |  2 +
+>   arch/riscv/kernel/vendor_extensions/mips.c         | 22 +++++++
+>   arch/riscv/kernel/vendor_extensions/mips_hwprobe.c | 23 ++++++++
+>   arch/riscv/mm/init.c                               |  1 +
+>   tools/arch/riscv/include/asm/vdso/processor.h      | 27 +++++----
+>   26 files changed, 298 insertions(+), 14 deletions(-)
+> ---
+> base-commit: b6a4bae2f16162876842127d7507dad84e404f8f
+> change-id: 20250424-p8700-pause-dcb649968e24
+>
+> Best regards,
 
 
-Best to drop under the "---" I think it was most important for the PoC 
-to give more context.
+Thanks for the v5, I'll take that for 6.17.
 
+Thanks,
 
--- 
-Cheers,
-
-David / dhildenb
+Alex
 
