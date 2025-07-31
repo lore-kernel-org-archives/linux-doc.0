@@ -1,119 +1,108 @@
-Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB97238C21;
-	Thu, 31 Jul 2025 03:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1848E1876;
+	Thu, 31 Jul 2025 06:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753932650; cv=none; b=C9vXZQ4v96Zh6BGQJd1N/TP+eWJq4laUiXCfQ+76xvup5ATzO1unjC+PPsJXO59QZMMTSmDJaVkFwK5buKRagORFTJ0uCTQhmOrh5HJM3qoQgzpPIWl1fxBDmuRANVzuaYqQZST+83sQQKY6+LwoPSzODGLZwA34/b+tYc2CJxk=
+	t=1753941683; cv=none; b=nNK/eq3dxS6OeieXtZp3boBqeNFAthrCKLKMDTg5oIKuT++I75veOE43Qrc+K1cW8oert4DS/9ZS4ILO/dFTR9/pa0dTEtgAgtZJvayQgUulwhwbRhBQkDDo06By4s9QLE+ARichyGBEohB3KNtK76qsXn6LtLskhABsHFumka8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753932650; c=relaxed/simple;
-	bh=JZMVXMf82uviq6TtXOW88rD7Gr+Ns5t9/CLyloMEeqU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XUXMDtlDz9FBjjT4z17kbsOnlsgup07YsQYj0Ua7yrOJS9+C+1GIi7iiSXXDOypdTBq0Bi23Gy9M3DAGyGbGIFB3edMr1l1yVBW8pK6sLXDOqQ11ZE4TFKFADKZaDUK026E/hikLwSKHBT4tTOlA/N/3aiQXFloiRL83trxqtiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=GW/gfG4U; arc=none smtp.client-ip=18.132.163.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1753941683; c=relaxed/simple;
+	bh=I82Ku1sBUzvQwy4NqAe/XyR//viXY99kTa/2l5/jmhM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zm8UFiBZljZaBkeYvr0gPHO2gL3rTdm26w2ts24RZArdeEsxtuP1dZvCE8maDhSH4Ke65BxsZj6ZimUwN0ZNUdBF4Z47e+irs+rmVlQPTeyUIOoYuWT8ZbKvofv5nMgQ3ZwoDMwWpjNx8s9VNd6UzrvAfUVqpD6+9oUVcmO4VgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKKF3Cek; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="GW/gfG4U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1753932620;
-	bh=mEwlU3VUgiRNqVDg9d2vtujLxFiYx8c2bI5jEzzZcek=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=GW/gfG4UAXlUMiqlTV+UROzkU+/EmoE2wJOF19mas8ll9xDW+cFkE2Wio+p7CtLDN
-	 AebTayxIT/HoeYb0g/4u9uNBcL7l7Ze2/2ZxGya//Efu4vdinl4DM8IXKecfhJ8oaj
-	 7Dt6FvFw7iFwEVTJnxfdgg9LVtMCKpAU7jbd1pzs=
-X-QQ-mid: zesmtpsz6t1753932617t5e8e9fa5
-X-QQ-Originating-IP: zCqGh6Ww3Ju24DY3fOlLq93/NY5GKrDIm/co/uH03lY=
-Received: from [198.18.0.1] ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 31 Jul 2025 11:30:15 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10897133381214685842
-Message-ID: <4CFDED845BBB7FFB+10019dea-8229-4681-9beb-5f351eb8faf4@uniontech.com>
-Date: Thu, 31 Jul 2025 11:30:15 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKKF3Cek"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8ED7C4CEEF;
+	Thu, 31 Jul 2025 06:01:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753941682;
+	bh=I82Ku1sBUzvQwy4NqAe/XyR//viXY99kTa/2l5/jmhM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DKKF3Cekf++SZHUOWA04jjlZuOEM8jGgJfAc0aVSPmvXHb//UmelF3TSqVbMPTbIj
+	 MP6ZY5kK/EHxFqzZkhJ00XfylribvAhaYrLfaOpKcfokV5B/m/YCRirZ6t18pB4ZsQ
+	 bsaI+/poV49jhLpK/ZRr0Q26G8cpUoxT/F6a+V9gIC9BqoNiSkyVuYGzpHG8jsb4gD
+	 kIHsaNE1F48jrFXtV51opjZqdV2cVTpPGIvzjcT2MgCfaAhoBQdDME7Z3UNkBRnB9F
+	 9X1Zop5ceYd7F2qaq0bvgxU4gZ8+qznN5tM1C/ZQL7YhzeOUqryCvMmIs0/hr+BEoT
+	 BFZZ8xU/xu5mA==
+Date: Thu, 31 Jul 2025 09:01:17 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Matthew Wilcox <willy@infradead.org>,
+	David Hildenbrand <david@redhat.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
+	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
+Message-ID: <20250731060117.GR402218@unreal>
+References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
+ <cover.1750854543.git.leon@kernel.org>
+ <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+ <20250627170213.GL17401@unreal>
+ <20250630133839.GA26981@lst.de>
+ <69b177dc-c149-40d3-bbde-3f6bad0efd0e@samsung.com>
+ <f912c446-1ae9-4390-9c11-00dce7bf0fd3@arm.com>
+ <20250730134026.GQ402218@unreal>
+ <20250730142818.GL26511@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] hwmon: add GPD devices sensor driver
-To: Guenter Roeck <linux@roeck-us.net>, Antheas Kapenekakis <lkml@antheas.dev>
-Cc: Cryolitia@gmail.com, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- Celeste Liu <CoelacanthusHex@gmail.com>, Yao Zi <ziyao@disroot.org>,
- Derek John Clark <derekjohn.clark@gmail.com>,
- =?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>,
- someone5678 <someone5678.dev@gmail.com>,
- Justin Weiss <justin@justinweiss.com>, command_block <mtf@ik.me>
-References: <20250314-gpd_fan-v6-0-1dc992050e42@gmail.com>
- <20250314-gpd_fan-v6-1-1dc992050e42@gmail.com>
- <CAGwozwENLOOS5q1Bs5SEh3FFJAY-=kcVimf5U+tWzy6HaiGd=g@mail.gmail.com>
- <bb57fe1d-fde9-45f8-9f5c-0836a6e557ff@roeck-us.net>
- <CAGwozwGdZ5tzHg7_TF5d_AWVDmypP987XS-x_GWqrSF81PiG2Q@mail.gmail.com>
- <B751D49737DD10DC+00a0ff95-476a-4d0a-9bc6-40e77012a554@uniontech.com>
- <d4b6932f-fe95-4502-b7c9-650a61ab565d@roeck-us.net>
-Content-Language: en-US
-From: Cryolitia PukNgae <liziyao@uniontech.com>
-In-Reply-To: <d4b6932f-fe95-4502-b7c9-650a61ab565d@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: OUuMuW/cX/8cPXIe4DXFHoWVC5J784kdU/dqt516+32L7DEUUHu6yv77
-	4HE16/8mdfffWtOhnuwNnD6EBmajgtJieQtXQsdi9hoooi8oWZtFkx8bEOwpU2USNUwiv5c
-	6XISXYJqz5kAHC3Fhmb6zjAbWyelDzPFfSA+Te8MyCHQj+bGsPAsavq5Nt4IgYJX1KGYKnZ
-	JjdVt4cQsj4q4jP3B660OfyJ/Grm7Wn/YeNFnwdZysbzc4OHZbQMyIY8zaLPqyx0yNygdCy
-	9lS/fU1hfaTO+X+htTMqIZnIBWrOL/86CjjQ9oRIPrC8afDj/EW1dK8erKwGAFB2oo6UoY5
-	IaLQaG8fcRM8RcNvssBPWfeDcFJuTf10cumX4hCTtTWNP5FlkggeT9keDp43h7YXoUgK72x
-	kO/nzPbH0r8tKGUm5uHUvalv2uWTqkPzff4ZWFM7P7Y4VlkL5C1Lh0rTfURvf2AKQ+VkehU
-	mzWGaeSEwsqSWbO6aJP+8dyE3QGCrs8eadLzrpLNVc6UnoxEblGEIBtn2Zf8QejWUcecnAd
-	ZBh431N8xojCQnMi3QwSr6Co64a9IW4IYsNcxtHlnI+ViQJlw+JsJMaqrg1esFNmXXKEokE
-	TlHja/9vGj6sly6n/DSpssoEdldpOTb1aCtJh/EtJYSrUL1M0VQfyNzYJRN/JPfgdLFMRTG
-	NvuKd6uKYBGTy8VS2bV3p34hV7vXL65PDa1z3cqUU8p5yY86ZWVTT6ulgqvR4jt38iTAJGb
-	YJpOSrs5BD6V5derk8H/qEyH7gE/JJbjdtIwME5uH7kR3O+lqJUON3qlFN3N5pvXZ45dqQy
-	/0a7SBC5n+zKOae9k0hiI50ztMDTISIpEwUBFaeVl6vpSvlwuhO5/oQMvN0uJ1KLuYGuUrW
-	83pjKz18p8LaBfeExtVpn9x9CSZXIv6t4FDwV5zvceQ3f5Vk5aLrRORJMixdhKAs2ZPk1C8
-	PTxMwzuKUmxeOCOGBWrpgSHZlNY1mq/wpmIW2hj2ry30bkPBTc1R7C/CwUYucueU/x0HFA6
-	x7G2KLBQHRcHcnb4K0LIP59EmQc8YzdG6QJpDxWmgpJSyaFciLrWGXntLb0O+JYyTeqOvs0
-	5GtS7XG4Thqd6f34luPel2ry5cXxW1qnznK4YmCapZx6O5DHEBZ7TuLNX/YrHGRbA==
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250730142818.GL26511@ziepe.ca>
 
-Personally, I'd prefer to maintain this small driver in the hwmon
-subsystem until we need to write drivers for the same EC with more
-diverse subsystem functionality. We can then discuss and learn how to
-evolve it. I personally don't think that's going to happen in the near
-future.
+On Wed, Jul 30, 2025 at 11:28:18AM -0300, Jason Gunthorpe wrote:
+> On Wed, Jul 30, 2025 at 04:40:26PM +0300, Leon Romanovsky wrote:
 
-So, could we continue reviewing the current patch series? Where are we 
-stuck?
+<...>
 
-在 2025/7/31 01:26, Guenter Roeck 写道:
-> On 7/30/25 02:24, Cryolitia wrote:
->> Thank you for raising this valid concern. We've closely monitored GPD's
->> development plans and currently see no indication of EC functionality
->> expansion beyond thermal sensors in the foreseeable future. Given this
->> observation, we believe placing the driver in hwmon remains appropriate
->> for now.
->>
->> That said, we fully respect your maintainer perspective on
->> future-proofing. If you feel strongly that platform/x86 would be a safer
->> long-term home despite the current scope, we're happy to move the driver
->> there immediately. We're committed to finding the most sustainable
->> solution for upstream.
->>
+> > The most reasonable way to prevent DMA_ATTR_SKIP_CPU_SYNC leakage is to
+> > introduce new DMA attribute (let's call it DMA_ATTR_MMIO for now) and
+> > pass it to both dma_map_phys() and dma_iova_link(). This flag will
+> > indicate that p2p type is PCI_P2PDMA_MAP_THRU_HOST_BRIDGE and call to
+> > right callbacks which will set IOMMU_MMIO flag and skip CPU sync,
 > 
-> As hwmon maintainer, I feel strongly (since you used the word) that moving
-> the driver (or any hwmon driver, for that matter) out of hwmon space would
-> be a bad idea, but I won't prevent you from doing it either. It means less
-> work for me, after all.
-> 
-> Guenter
-> 
-> 
+> So the idea is if the memory is non-cachable, no-KVA you'd call
+> dma_iova_link(phys_addr, DMA_ATTR_MMIO) and dma_map_phys(phys_addr,
+> DMA_ATTR_MMIO) ?
 
+Yes
+
+> 
+> And then internally the dma_ops and dma_iommu would use the existing
+> map_page/map_resource variations based on the flag, thus ensuring that
+> MMIO is never kmap'd or cache flushed?
+> 
+> dma_map_resource is really then just
+> dma_map_phys(phys_addr, DMA_ATTR_MMIO)?
+> 
+> I like this, I think it well addresses the concerns.
+
+Yes, I had this idea and implementation before. :(
+
+> 
+> Jason
+> 
