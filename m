@@ -1,358 +1,445 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D668195B1A;
-	Thu, 31 Jul 2025 18:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753987932; cv=fail; b=XjAMUUMV8PSb4Qj6yfsnoF/Hth4QdyqCyIF6j2o2+AmNP0YllI5+YDyeuW6Rj3F+MT6tJU3IucjiYZwhFdBvLZU4Ys4sY7ioHyFbRdGflavDXGODSLR5i0GURnaZ3PEcHoTcvGEHBm4fissNIaY0YCYQfWhTDpeFude3EsmtBZw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753987932; c=relaxed/simple;
-	bh=XUzuEyouMYsObLa+C92e3RVrm3tFsOQH/X1yB3e5DHc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=YNk5etQxrjSLxQWJ6GH7Ryh5E5ZKkfAFAtzmcnaOI00iHNNBWx5l1Hnv79dI3R4dBwJeTGi/aRb9H7qntzmvMcnFUG/zvI1XJxDYxUa9HvWSAO7mFLOqNVeASrePERGCpgmVZdypGtkRGzjW9y/t1FxmwB+uzQMKlzvQ4d9GESo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3royqnNX; arc=fail smtp.client-ip=40.107.92.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF50EA29;
+	Thu, 31 Jul 2025 19:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753989624; cv=none; b=R5FD4kZomD/xV0axZDgzJhpg4/TNUBFf7y1SnMjSDbuhxq5wX1QWYkETYrHc/g7zbR+5zUp/HdqlcQFwxQpQbydVi4/gXUi3F8SkcFe72zI43/+BaJliieuxufKtBLpLJm57cg4DaoJhFk/PRghHu5++4fzketzI2qVzHkn2IVk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753989624; c=relaxed/simple;
+	bh=KYO8Jxc9JNMb08crEdLysjtpUwPE3bGbSRQ0+xUTpVY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kBmzWaFGDJ36AdF7B3ClYdDGGRyMt/t9vDKH9WefsSNMidVsmXYfuHWva/lWgLXRTLCRCj9Ef9ukpV9DjomO6UKCj8d5l92Ay5MgoDzvuYBD0cxwWbjpLOLTbEAlMFQ3KRs8XzicupO155WHOLI8KJwl4C4MjnyRZhW18l873Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a1/UIVNQ; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3royqnNX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Yy2cTNhquzfBvs2ZRTTHmxknmqyYRKXqPoWMEFeCqMwbJ9pRzY/3srKG1YqBTlDpFVW0GS3vvpvnQtVhs8BvEsn3PXk1Zt04iKkYMyCQwMHcQLy/38+oNfwwlJE6p86bUYSZi3CIk3vj2M1Uc6GTUJ3HMrXeK8N+ee0A9+UwBJSpRqk2CUVkRCjBuXlrqJl4kTJJGO+SiF+xErRAVtS2Opc5fh7yRkHw0YYJBL7GJEBKW+8lLJ+fcwfRIVcVDiN6zK0VCJ+UdviRVlOVbRYTzWIgTtW5KTc+CZ2q8V57H1TwPIyhdDOi22GCe58x9WBcKYYyD9vPsOAnUR5z2/SVJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=72tMYUeebeb7o3dEaEsZSfOLviLOzBPtHCGDHakArBA=;
- b=Oh0nJIbzse6qqsALmr9U6ZP784SO07Ysvz8Ii9ZsCYfXwp1vtECzxA54XzycQdHnTfd3nJYjjON5LOagFPr07gcWHN4DtTeoelG9tTiEdQoypiX055afwNoYW67DbujGPLdNCZC+jJL7mUeepC9tvdFOGkSEIJMwFlq/qu0qCMS+THYexdsmbW/jtELE5law7p/ie53FLXVTT7kfaF9skEgfL4XNAtv/K8cxZMZA962FrMsDR8bzIxI8l3Qs903uHKuJ5sT80mrQnFooOpInOaU40hJPyHoc8fwj7fdru4VjyatKfnegPSXX9K7Emwy0abA6cReFURW3YCy3Ss4/3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=72tMYUeebeb7o3dEaEsZSfOLviLOzBPtHCGDHakArBA=;
- b=3royqnNX7zuUPPGORDp+KMPwiTRWbUn0d7QRE0Lli2OgQ9OUq6eKbGHkK4XgHkc9BvLzc4ehvyGswp08XRrch1cm7H+VTUfAEj4zRz7uUogu1IfvkcMw7vJvweQRIOtUAm5CEZk8iBd0HWpQW5dnnbHADukTei3ibDAKosjjjcQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by SJ5PPF5D591B24D.namprd12.prod.outlook.com
- (2603:10b6:a0f:fc02::994) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.27; Thu, 31 Jul
- 2025 18:52:04 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.8989.011; Thu, 31 Jul 2025
- 18:51:57 +0000
-Message-ID: <e2cf2e42-8a0f-47a4-8c05-8876272275fd@amd.com>
-Date: Thu, 31 Jul 2025 13:51:52 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v7 06/10] fs/resctrl: Introduce interface to display
- "io_alloc" support
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
- paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
- david@redhat.com, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
- thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
- yosry.ahmed@linux.dev, sohil.mehta@intel.com, xin@zytor.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
- me@mixaill.net, mario.limonciello@amd.com, xin3.li@intel.com,
- ebiggers@google.com, ak@linux.intel.com, chang.seok.bae@intel.com,
- andrew.cooper3@citrix.com, perry.yuan@amd.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1752167718.git.babu.moger@amd.com>
- <4e275fadf59e36e38ac60406a19cdf67d640f7d2.1752167718.git.babu.moger@amd.com>
- <ccff50fc-c802-4352-9859-107138f103c8@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <ccff50fc-c802-4352-9859-107138f103c8@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR13CA0018.namprd13.prod.outlook.com
- (2603:10b6:806:130::23) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a1/UIVNQ"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3b78a034f17so51236f8f.2;
+        Thu, 31 Jul 2025 12:20:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753989620; x=1754594420; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xRLUrxlBQp402/1+RqPQa0gOaP9InJ6DfzqqzSrs2is=;
+        b=a1/UIVNQ5m57BnHRSEFwJ5sfvYCmTf3s0U4lXZw3ZN3RtVLRU/WaxZbN21Hjr2a6D2
+         D4cecTXChO7rwFMWOtsaTMxJ1tKc7bbs33J+dtYIWb825i+DSQFqmjLDUwQV87b/KvgR
+         lyJPCYnbcW+Xc9aw1gLN7nYic9qsnBKfChDMowJ066iPBe6SNtf5149wJHkL78THiMkT
+         KnRRBaFaX1w8ADPALMAX9yxq35yk7X47vFoHPCZU/ipdwwViaQ0pmYfHAOe+5dHspGqa
+         7whwG4ud9X247uRiBA4BQRSNm6LUKYOY+Gmb/N2RF6tqjv1e0+iK1jp/a8ZTZe6r26iD
+         d04g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753989620; x=1754594420;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xRLUrxlBQp402/1+RqPQa0gOaP9InJ6DfzqqzSrs2is=;
+        b=YQH277ARefht3GLB2gqlWD8N/5sKsD9+ippAixIxAdhHA2ZGWSaOOtoK4aFEaTLxbC
+         ChfpegP8nMU5EORMvWvdUo5e80bvskLF8PVCe5cptMk0OhPlv1Q/gsAbl9hNN5sFYUS7
+         zjQ8EJcywTwtJzQ3UmzgAmwPyF4yQqrlZM0TMoBnHrcBKemBdwnWQTDryn6SQuH4M04o
+         pimyH/etnA6eZKjKrOj1fW+e1ySWNxQlu2/wqOkvAjSDLb8g78ZXjzYLm75lZj2NzXdX
+         /EUD0sMFDwU16eSCrB5/RBgxS/5ILcjM/c9j7VH2mnF78oc9z7RsNOt4fcDMo9vvjbfU
+         tIwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUr0fwmOhKe2jZbYePhmHomK7ENskgIkO4YbHZUYp3dW92tQrsNfInBiIkTO6YMDQgeEbT8igaoAWyel9rSYA==@vger.kernel.org, AJvYcCV/aaUT8GxRrC+rsAgU/aLh8fEEULkyFvH68dZbkUm8Zh4uNWAIi6tiDqxCD8JfsknZoxghLHJQqwqfLS9+@vger.kernel.org, AJvYcCXpVZkdLu2eueYKUSX1yvIf5uL888/6uEacDRHUzrbaeUALDb41O0WyoV19fGy2UzfCMbY/nJW8Yuk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySgM85tswg8Mw9zlA4O8UF/2y1Drjn8zphFZQ0K8eUQSNXuJGv
+	8NRjZeNr61ewBUb+6W9fjkdNjX5rWB0+0jeDw2dC6EU11PB0gYK6ffdr
+X-Gm-Gg: ASbGncuwEkj0/+thDkaW3067IFO8tHRERUYRePU58SyJJdTxaENYkpo0FA9H9EXjced
+	ylxASv/p1mnr7lBqeUjvi45TIEvkPnGJ3KOL0XmbIAtaB4B3S2EGQ7Mdfz6DFUO8N8GrhNLN5+Q
+	oJ9wiUGljZ+3zxBZi1sbRh4xb0CEb6AHu9eQ6KdWzLPZcAcmBmR0xu217soog3bxpXpN6oQCdCt
+	MCJ+idMApPTklVx/lkHETocx+rNOKhb2Yu4Kpyx7PHKsjbivHLD4Nsvf5gxuFsE4cm4KFJx9vvd
+	bEZjSZ/5uzh51NCGXczW6PTMlQDGk0dNb3Sy0zD1EyZbYHzNFqQYyma2HBnLi40O4f4IiYFrDI3
+	4pzZ+97ZwO61npBUALv36ecTMmhZwe2+y2+S7dCtMoH6DlL2wM/R3U71v0GaquO4oxHhj8eE+Di
+	hx7R9iKNLkwA==
+X-Google-Smtp-Source: AGHT+IEx20gxDUvHP+1hO/8jGFnF9jdKE+U4NP7atpCHfRFhwcjxuJhbA9fC6HlRmlt/4jCJ9Rz40Q==
+X-Received: by 2002:a05:6000:25c8:b0:3b7:9c35:bb7 with SMTP id ffacd0b85a97d-3b79c351143mr3125976f8f.46.1753989619761;
+        Thu, 31 Jul 2025 12:20:19 -0700 (PDT)
+Received: from ?IPV6:2a02:6b6f:e759:7e00:8b4:7c1f:c64:2a4? ([2a02:6b6f:e759:7e00:8b4:7c1f:c64:2a4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3bf956sm3394382f8f.24.2025.07.31.12.20.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Jul 2025 12:20:19 -0700 (PDT)
+Message-ID: <6143b8ea-24c0-4446-a0cd-821837f6e74d@gmail.com>
+Date: Thu, 31 Jul 2025 20:20:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|SJ5PPF5D591B24D:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2464c10-881a-41e2-0074-08ddd0635309
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MnVza3dYMThtRnVTS3kvVXZCUDdobkxnMTdMdHNJdFNMY1BLNDhiYWE1ZHJQ?=
- =?utf-8?B?cXZNQVkvNWVKb3JtcGRLRTNlRlJBQ0ZoTVVUa2tNUytPNWN2c3ErWjU2RGVn?=
- =?utf-8?B?ZkVIWUVmTGU1UzZMajZGdFc4SGQ3T1ZvTy81K2dKYVNlTzdQdFB3ZVVXMkZG?=
- =?utf-8?B?cnRPOWxMK2E4bTgxVURndXFJbzZ5WlYreDBISFRJeEg2dGpDekF2d0V6Wk5a?=
- =?utf-8?B?WGRDUVRuVUEweUkraWRQSU0zcWNIMFdvdjEvb0tINmxkcTA3SVBWMXdtNjJq?=
- =?utf-8?B?aTF2ZmFDakdjQ1c1UVRRTHZYSUZ4bFhQQTV5c01Kc2Fmd3BDOGg3cDJkYXNY?=
- =?utf-8?B?dzI5azhQVnBrL1NWZDNDc3JCYlNwVHJGMGlyc01wZ2Q4ekFLalRRbGQwejdh?=
- =?utf-8?B?d2F6QUpJRmlxOXh6ZDBHUm1CNy93OXBucTdaWDBWdWN2M1B1QnBzWlBaZnI3?=
- =?utf-8?B?dDY0M1d5Y0NPMXhhNnBFalk2NW9mdUo1TjVZYVYzV3RMVEx3dElMbitEVzVV?=
- =?utf-8?B?eWtpclp2UlpjM01maUFRSjNETHdFUzdZZ3pkWVUxQ3hHTVpWeUxKYjVxSzhs?=
- =?utf-8?B?eHdpME9QMStjUzVMWlp6RTNoR3lOVnNyTnNYK2ZsSWhjbEUxRVdCVS9HZG1W?=
- =?utf-8?B?Vy9FTE9kSndQdVh2Q2w0Uis0S1FUY0s4OHB4VGNZbjF0bzF5UlBTaGtMa2pU?=
- =?utf-8?B?ZkFKM2ZzSGwvS1M3ekhuR2N0YnJaSmJtWEdLVXliU2liWEcwK2ttK05pS3dS?=
- =?utf-8?B?UVNIblNBVURGRmdiTHo5SE9Sb1NZZExJMTFwYXpGQTk2eFcvZmpnWVdIbDBz?=
- =?utf-8?B?cFhOMHNyQTlDTjNCaTB3YitLeWtMcGFDeXc5ajF4NUtOdkc4TVAzVkRka28w?=
- =?utf-8?B?Zm0vMkdWMWpFRmRrcytQL3dnY3JLWEcvYWNjRnh5VlJnMEtFZmZ6KzczcVFu?=
- =?utf-8?B?NDducUdDcGR5UlVjaTBwM2FDa3BJQ3NaOXEwb1VIT01SNWJQcy9CT1VnRE9h?=
- =?utf-8?B?Wk9UT3hiaVFnOUdiTUJvckZLQStGaklDM0FNeUtaTUl2TFFhWDc4QzNpa0tT?=
- =?utf-8?B?d2k5cnI5dW15ZGxEd0tDbTZlU3Y5SHNDRWhMWGpCTHZBb25uYU9tVzBlSDBz?=
- =?utf-8?B?emtocFJGTFR6dzNiNi9YckZOK2lXMktHZ29TaWVmeU1wWWpjc3dURjc3STBR?=
- =?utf-8?B?Wm1HOEsvNjhVQmNoMG12dHVIaWcwRUlENzRMYmlTWCtRYzJxM1VMK0gzLzJt?=
- =?utf-8?B?VS81Qkx1VVNGNThpeEtPUkZmS09LVVJjcjcvQUoyLzlXa0VkQUlnREFuVzFz?=
- =?utf-8?B?eEdCdmhzU2F5U1ExcGszMXJ1Tm4rOWZ2cTZPaUtmMjl3TU51Z280YnBoR0VD?=
- =?utf-8?B?ZG55ZjRlQnc1dkkwNTR4dk1BWitVV2hrN2k0cEl5dzVCRmF3Ti9La1IyQVJL?=
- =?utf-8?B?SlBBczN2M0NSMitDTjZXVUgyNG5IUGk4Ykw3bm1LN2U3NmZUSjdoc1JsbC9I?=
- =?utf-8?B?Q1FiZWhqVHIvMDc0MHljc1BTL3ZBRkNPOUtHSHBSeWR4WGNtd0s2ZzVtcXdq?=
- =?utf-8?B?NGZvTFJOSlloTEExZE9RZHhqSTNKRFMzbGRobmhMb2E1WmxQc09CWXg5dzFk?=
- =?utf-8?B?T1FicWZheUsvR2RmOUFTK0hmREgrdmZIZTRRdndyQTdNWDUyWHZEN1VUTTg2?=
- =?utf-8?B?eFkrdGM0Mmw1K0FQN0xMbkZTakZrdU1NbHlGeG10ZGlRUmlaVzBRengzN0NL?=
- =?utf-8?B?SzcrcHF6MWd4TTZTeUEwS0p2eXEwWmRTWWp0Yk96MEo5c0hKU1UyQktqaE5v?=
- =?utf-8?B?bHF2ak1vK3R3Tmg5dlRuYzl2QUNQY2x2TTdWUW1QN1FUR0lvM2NlL0p5MVpU?=
- =?utf-8?B?bTBPb1FVdDc0ZVlvU3U2VEMyU2wzcXFtUllKenRyTUFXbTZhODJlTnEyYzhu?=
- =?utf-8?Q?ko+lC7z/fnM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dGNwd25LcC9ERnpsUjlaenZzUzRNUGZjOUljOFJRNXhBa0VmcUxTa3NQN3gr?=
- =?utf-8?B?dVFNU01QRDB2VHhPS3d0SXdNdUoyN3J4bzVnRzFJNU00TFlZRXEybzBrUUdV?=
- =?utf-8?B?Rkt3SjVrNzArQUFvUFZ0Zm1NUlhPR0FNL3VrZjJVWVJPWkhCcFdVVjNaZHRW?=
- =?utf-8?B?M3h6MDMvMUc3WFR2bUpiWHFTOHhhTEJ3ckhSTTV2eXZGeXl1TUIxcW1tdEZq?=
- =?utf-8?B?QWI2SWJtMHUwQk1rVVo0YU80bUxDK2lCN3VGaUtuakhtY0xsV01CUWRwakFp?=
- =?utf-8?B?N3JpL1FLd0g3Mjh0UkR4M3ExbjNqeXFwODd5M2pDSlkrMy81S25mUUtVTEhO?=
- =?utf-8?B?eHN0LzljaGhYcHJUYnh5SFBOZVhjYUNaWFR6cTZFOWJmTDdOUjBXZFVjaE9Z?=
- =?utf-8?B?VXcxbXBxdFo4RzNaTnVMcDZ3WSt2T0dIVmJKbUZiYW41R1BxalBERkNyM2U1?=
- =?utf-8?B?UVQzNnpLajBSQlZ5aDg3RWNyd21FRWhld2J5VzYxK1o2OVRZT3ArTGlIY1Rv?=
- =?utf-8?B?ays3TW5OSk9xWERCaGxwRWJuaXVxSXl5MFR4VThBVUFraFIxZzRYeHdBZWlw?=
- =?utf-8?B?YTNoZUx3NWZ3VHljaE9oRHFLMDRVdkVoZ2EvU2JRQ1QzV0FwSHY0T25zd2pU?=
- =?utf-8?B?dzhqbmtLenFaTmVSMHpmTFFHdnBnUzdMQW4yNkErMldDOE1WeUQ4Tlo2eDJL?=
- =?utf-8?B?Kzg2SWEvbjJpVzVjV2lVRGNicjd2SHN3bzBEK3hWZGxXbjRnZkpTcWwzQ1pL?=
- =?utf-8?B?SUhxWUg2ZDArTEJrY2NzamdOMExNcjZzbkFvVE90ZkpJZkV3WVc4OGJTTkZt?=
- =?utf-8?B?NXF2bWhnbUVPS2RKYW5WWUhQK3VrMTErYTdZdGJhY21GSHBlU3R0L2pMUkwy?=
- =?utf-8?B?SFRqZmRWSnBHYW9ESGV2TFZvSkF3TjQzWDRaN2g5RGZuZGNLOTR6VjNjZWJ6?=
- =?utf-8?B?M0pucisxWStrUUZLK3ZJVjlMUW52MzhGSUlTdE9aTzUwRDZXNDJHQllyQXJ0?=
- =?utf-8?B?UUtPcVhwNWg1djV6eTNqanNZU2tvQ2NlekxpNk9BaWZLTDU2aXN4d3FVS3Vz?=
- =?utf-8?B?b295enF4Z05NQzlXVWpPMGVBSDhZRDE1S0RnOWxZMnUxcFg3aGlLUGtPd2Ni?=
- =?utf-8?B?ZEFMcjVPUmNtTUhDWUhBdHk2a3JLT3NDNHNMT1p2M2NsN0FkUGV3REFyblpG?=
- =?utf-8?B?R0ZFaGRVdVJMdkx0YXZIeFpNbUJrWXRlRFpEYk8xUEIwcFRpMEJza25OZVh0?=
- =?utf-8?B?T0ZSTkNSS1dsRXk3aFJST1FhWVJTTjFGQzY0NGYvK2hFREdMMkV2aS9LMGF2?=
- =?utf-8?B?TzR5Rm9pcDhHc1d2Vzh6WTFYQXhHYkJnbk1NVVNFUTFiMVRVVXh2NXgzK1R5?=
- =?utf-8?B?TUhZNVRYTVh1QktBN0hCcDlURmsxczd0cCtaM2FCVU92Y2F1L1ZYZmVaS3B0?=
- =?utf-8?B?bTlWMzhjZ0FlT0V2aUVNYVlmbTEzL3VSNWZBTmVZcDcxdDdZMzArU2NFdzVk?=
- =?utf-8?B?SnBIZUZZcEhVRkRVb0FDRWNCbjMxbTZtbVQ5Qm1pQ0IvTTN6b1FVUzJrSnRE?=
- =?utf-8?B?dXYxTmhWMUViZEpma3Bxa3QzZWFZQ280b0JIL0tKNVVSek56TmRWdWQ1SDJp?=
- =?utf-8?B?NTAxVW93SlFsUUZUMFdMQytPT1RnaHphRzZFVEJlcFVtZG0vYzQ4Q2ZENFlZ?=
- =?utf-8?B?QlNVaExQY251ajVGaTJZVlpvTGMrV2FXdmJSUHZHVFZnaVVnUUhWKytiTHpu?=
- =?utf-8?B?OURVb2FTbVVTa1RvcTdSQUR3dGZnMXcrNFRFbmM2RnVaNzdJZ3NoWkYzaFdt?=
- =?utf-8?B?VnN5cFFmZGpnRXJLUDBVeGg0WWxtVW1YbHFjN3AxdkdCK2J5SXFYdThDWm1r?=
- =?utf-8?B?Q1A1NUxJYVdpOVFJTjBjZTVxMVdpS2xOWXYvcUpsbVVjZHVEVW9IaHhqY282?=
- =?utf-8?B?bWpaMklTTDg2ZlhIOTl1Mzc0dXB2RGZnR2pxVjRyM21raStyYXcvYnl5dnpu?=
- =?utf-8?B?Q2habU1EeVBCcEpvMVdzek5LdVFSdmZ0MlJaMzhpT0EyeFA5T0NVTDcwcEtz?=
- =?utf-8?B?aDJZZTE1RVQyZ1h5bHVMZ3UxTUVGMklQTDhYeHVFWG9PWVkzMkl1dStUOUZW?=
- =?utf-8?Q?CfeDH2ExggzdkpNgniAvUt0Wo?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2464c10-881a-41e2-0074-08ddd0635309
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 18:51:57.2067
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WhhXXE0rNbsN7sTmQZ/Qp/t+NTQIPgHe/TYMBmADGmlV2yUcIe46vs2+VUh8tSrP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF5D591B24D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] mm/huge_memory: convert "tva_flags" to "enum
+ tva_type" for thp_vma_allowable_order*()
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, corbet@lwn.net,
+ rppt@kernel.org, surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
+ baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
+ laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
+ sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com
+References: <20250731122825.2102184-1-usamaarif642@gmail.com>
+ <20250731122825.2102184-3-usamaarif642@gmail.com>
+ <c44cb864-3b36-4aa2-8040-60c97bfdc28e@lucifer.local>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <c44cb864-3b36-4aa2-8040-60c97bfdc28e@lucifer.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
 
-On 7/21/25 18:36, Reinette Chatre wrote:
-> Hi Babu,
+
+On 31/07/2025 15:00, Lorenzo Stoakes wrote:
+> On Thu, Jul 31, 2025 at 01:27:19PM +0100, Usama Arif wrote:
+>> From: David Hildenbrand <david@redhat.com>
+>>
+>> Describing the context through a type is much clearer, and good enough
+>> for our case.
 > 
-> On 7/10/25 10:16 AM, Babu Moger wrote:
->> "io_alloc" feature in resctrl allows direct insertion of data from I/O
->> devices into the cache.
+> This is pretty bare bones. What context, what type? Under what
+> circumstances?
+> 
+> This also is missing detail on the key difference here - that actually it
+> turns out we _don't_ need these to be flags, rather we can have _distinct_
+> modes which are clearer.
+> 
+> I'd say something like:
+> 
+> 	when determining which THP orders are eligiible for a VMA mapping,
+> 	we have previously specified tva_flags, however it turns out it is
+> 	really not necessary to treat these as flags.
+> 
+> 	Rather, we distinguish between distinct modes.
+> 
+> 	The only case where we previously combined flags was with
+> 	TVA_ENFORCE_SYSFS, but we can avoid this by observing that this is
+> 	the default, except for MADV_COLLAPSE or an edge cases in
+> 	collapse_pte_mapped_thp() and hugepage_vma_revalidate(), and adding
+> 	a mode specifically for this case - TVA_FORCED_COLLAPSE.
+> 
+> 	... stuff about the different modes...
+> 
 >>
->> Introduce the 'io_alloc' resctrl file to indicate the support for the
->> feature.
+>> We have:
+>> * smaps handling for showing "THPeligible"
+>> * Pagefault handling
+>> * khugepaged handling
+>> * Forced collapse handling: primarily MADV_COLLAPSE, but one other odd case
+> 
+> Can we actually state what this case is? I mean I guess a handwave in the
+> form of 'an edge case in collapse_pte_mapped_thp()' will do also.
+> 
+> Hmm actually we do weird stuff with this so maybe just handwave.
+> 
+> Like uprobes calls collapse_pte_mapped_thp()... :/ I'm not sure this 'If we
+> are here, we've succeeded in replacing all the native pages in the page
+> cache with a single hugepage.' comment is even correct.
+> 
+> Anyway yeah, hand wave I guess...
+> 
 >>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> Really, we want to ignore sysfs only when we are forcing a collapse
+>> through MADV_COLLAPSE, otherwise we want to enforce.
+> 
+> I'd say 'ignoring this edge case, ...'
+> 
+> I think the clearest thing might be to literally list the before/after
+> like:
+> 
+> * TVA_SMAPS | TVA_ENFORCE_SYSFS -> TVA_SMAPS
+> * TVA_IN_PF | TVA_ENFORCE_SYSFS -> TVA_PAGEFAULT
+> * TVA_ENFORCE_SYSFS             -> TVA_KHUGEPAGED
+> * 0                             -> TVA_FORCED_COLLAPSE
+> 
+>>
+>> With this change, we immediately know if we are in the forced collapse
+>> case, which will be valuable next.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> Acked-by: Usama Arif <usamaarif642@gmail.com>
+>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> 
+> Overall this is a great cleanup, some various nits however.
+> 
+
+Thanks for the feedback Lorenzo!
+
+I have modified the commit message to be:
+
+    mm/huge_memory: convert "tva_flags" to "enum tva_type"
+    
+    When determining which THP orders are eligible for a VMA mapping,
+    we have previously specified tva_flags, however it turns out it is
+    really not necessary to treat these as flags.
+    
+    Rather, we distinguish between distinct modes.
+    
+    The only case where we previously combined flags was with
+    TVA_ENFORCE_SYSFS, but we can avoid this by observing that this
+    is the default, except for MADV_COLLAPSE or an edge cases in
+    collapse_pte_mapped_thp() and hugepage_vma_revalidate(), and
+    adding a mode specifically for this case - TVA_FORCED_COLLAPSE.
+    
+    We have:
+    * smaps handling for showing "THPeligible"
+    * Pagefault handling
+    * khugepaged handling
+    * Forced collapse handling: primarily MADV_COLLAPSE, but also for
+      an edge case in collapse_pte_mapped_thp()
+    
+    Ignoring the collapse_pte_mapped_thp edgecase, we only want to
+    ignore sysfs only when we are forcing a collapse through
+    MADV_COLLAPSE, otherwise we want to enforce it, hence this patch
+    does the following flag to enum conversions:
+    
+    * TVA_SMAPS | TVA_ENFORCE_SYSFS -> TVA_SMAPS
+    * TVA_IN_PF | TVA_ENFORCE_SYSFS -> TVA_PAGEFAULT
+    * TVA_ENFORCE_SYSFS             -> TVA_KHUGEPAGED
+    * 0                             -> TVA_FORCED_COLLAPSE
+    
+    With this change, we immediately know if we are in the forced collapse
+    case, which will be valuable next.
+
 >> ---
-> 
-> ...
-> 
->> ---
->>  Documentation/filesystems/resctrl.rst | 25 +++++++++++++++++
->>  fs/resctrl/rdtgroup.c                 | 39 +++++++++++++++++++++++++++
->>  2 files changed, 64 insertions(+)
+>>  fs/proc/task_mmu.c      |  4 ++--
+>>  include/linux/huge_mm.h | 30 ++++++++++++++++++------------
+>>  mm/huge_memory.c        |  8 ++++----
+>>  mm/khugepaged.c         | 18 +++++++++---------
+>>  mm/memory.c             | 14 ++++++--------
+>>  5 files changed, 39 insertions(+), 35 deletions(-)
 >>
->> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
->> index c3c412733632..354e6a00fa45 100644
->> --- a/Documentation/filesystems/resctrl.rst
->> +++ b/Documentation/filesystems/resctrl.rst
->> @@ -143,6 +143,31 @@ related to allocation:
->>  			"1":
->>  			      Non-contiguous 1s value in CBM is supported.
->>  
->> +"io_alloc":
->> +		"io_alloc" enables system software to configure the portion of
->> +		the cache allocated for I/O traffic. File may only exist if the
->> +		system supports this feature on some of its cache resources.
->> +
->> +			"disabled":
->> +			      Portions of cache used for allocation of I/O traffic
->> +			      cannot be configured.
->> +			"enabled":
->> +			      Portions of cache used for allocation of I/O traffic
->> +			      can be configured using "io_alloc_cbm".
->> +			"not supported":
->> +			      Support not available on the system.
+>> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+>> index 3d6d8a9f13fc..d440df7b3d59 100644
+>> --- a/fs/proc/task_mmu.c
+>> +++ b/fs/proc/task_mmu.c
+>> @@ -1293,8 +1293,8 @@ static int show_smap(struct seq_file *m, void *v)
+>>  	__show_smap(m, &mss, false);
+>>
+>>  	seq_printf(m, "THPeligible:    %8u\n",
+>> -		   !!thp_vma_allowable_orders(vma, vma->vm_flags,
+>> -			   TVA_SMAPS | TVA_ENFORCE_SYSFS, THP_ORDERS_ALL));
+>> +		   !!thp_vma_allowable_orders(vma, vma->vm_flags, TVA_SMAPS,
+>> +					      THP_ORDERS_ALL));
 > 
-> "Support not available on the system." -> "Support not available for this resource."?
-
-Sure.
-
+> This !! is so gross, wonder if we could have a bool wrapper. But not a big
+> deal.
 > 
->> +
->> +		The underlying implementation may reduce resources available to
->> +		general (CPU) cache allocation. See architecture specific notes
->> +		below. Depending on usage requirements the feature can be enabled
->> +		or disabled:
+> I also sort of _hate_ the smaps flag anyway, invoking this 'allowable
+> orders' thing just for smaps reporting with maybe some minor delta is just
+> odd.
 > 
-> "disabled:" -> "disabled."?
-
-Sure.
-
+> Something like `bool vma_has_thp_allowed_orders(struct vm_area_struct
+> *vma);` would be nicer.
 > 
->> +
->> +		On AMD systems, the io_alloc feature is supported by the L3 Smart
->> +		Data Cache Injection Allocation Enforcement (SDCIAE). The CLOSID for
->> +		io_alloc is determined by the highest CLOSID supported by the resource.
+> Anyway thoughts for another time... :)
 > 
-> "is determined by the" -> "is the"?
+>>
+>>  	if (arch_pkeys_enabled())
+>>  		seq_printf(m, "ProtectionKey:  %8u\n", vma_pkey(vma));
+>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+>> index 71db243a002e..b0ff54eee81c 100644
+>> --- a/include/linux/huge_mm.h
+>> +++ b/include/linux/huge_mm.h
+>> @@ -94,12 +94,15 @@ extern struct kobj_attribute thpsize_shmem_enabled_attr;
+>>  #define THP_ORDERS_ALL	\
+>>  	(THP_ORDERS_ALL_ANON | THP_ORDERS_ALL_SPECIAL | THP_ORDERS_ALL_FILE_DEFAULT)
+>>
+>> -#define TVA_SMAPS		(1 << 0)	/* Will be used for procfs */
 > 
-
-Sure.
-
-> To make clear connection with previous paragraph you can append something like:
-> 	When io_alloc is enabled on an AMD system the highest CLOSID is dedicated to
-> 	io_alloc and no longer available for general (CPU) cache allocation.
-
-Sure.
-
+> Dumb question, but what does 'TVA' stand for? :P
 > 
->> +		When CDP is enabled, io_alloc routes I/O traffic using the highest
->> +		CLOSID allocated for the instruction cache (L3CODE).
+>> -#define TVA_IN_PF		(1 << 1)	/* Page fault handler */
+>> -#define TVA_ENFORCE_SYSFS	(1 << 2)	/* Obey sysfs configuration */
+>> +enum tva_type {
+>> +	TVA_SMAPS,		/* Exposing "THPeligible:" in smaps. */
 > 
-> To clear up what happens with L3DATA, what do you think of appending something like:
-> 		, making this CLOSID no longer available for general (CPU) cache
-> 		allocation for both the L3CODE and L3DATA resources.
+> How I hate this flag (just an observation...)
 > 
-
-Sure.
-
->> +
->>  Memory bandwidth(MB) subdirectory contains the following files
->>  with respect to allocation:
->>  
->> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
->> index a2eea85aecc8..d7c4417b4516 100644
->> --- a/fs/resctrl/rdtgroup.c
->> +++ b/fs/resctrl/rdtgroup.c
->> @@ -1836,6 +1836,28 @@ static ssize_t mbm_local_bytes_config_write(struct kernfs_open_file *of,
->>  	return ret ?: nbytes;
->>  }
->>  
->> +static int resctrl_io_alloc_show(struct kernfs_open_file *of,
+>> +	TVA_PAGEFAULT,		/* Serving a page fault. */
+>> +	TVA_KHUGEPAGED,		/* Khugepaged collapse. */
 > 
-> Please move to ctrlmondata.c
-
-Yes.
-
+> This is equivalent to the TVA_ENFORCE_SYSFS case before, sort of a default
+> I guess, but actually quite nice to add the context that it's sourced from
+> khugepaged - I assume this will always be the case when specified?
 > 
+>> +	TVA_FORCED_COLLAPSE,	/* Forced collapse (i.e., MADV_COLLAPSE). */
 > 
->> +				 struct seq_file *seq, void *v)
->> +{
->> +	struct resctrl_schema *s = rdt_kn_parent_priv(of->kn);
->> +	struct rdt_resource *r = s->res;
->> +
->> +	mutex_lock(&rdtgroup_mutex);
->> +
->> +	if (r->cache.io_alloc_capable) {
->> +		if (resctrl_arch_get_io_alloc_enabled(r))
->> +			seq_puts(seq, "enabled\n");
->> +		else
->> +			seq_puts(seq, "disabled\n");
->> +	} else {
->> +		seq_puts(seq, "not supported\n");
->> +	}
->> +
->> +	mutex_unlock(&rdtgroup_mutex);
->> +
->> +	return 0;
->> +}
->> +
->>  /* rdtgroup information files for one cache resource. */
->>  static struct rftype res_common_files[] = {
->>  	{
->> @@ -1926,6 +1948,12 @@ static struct rftype res_common_files[] = {
->>  		.kf_ops		= &rdtgroup_kf_single_ops,
->>  		.seq_show	= rdt_thread_throttle_mode_show,
->>  	},
->> +	{
->> +		.name		= "io_alloc",
->> +		.mode		= 0444,
->> +		.kf_ops		= &rdtgroup_kf_single_ops,
->> +		.seq_show	= resctrl_io_alloc_show,
->> +	},
->>  	{
->>  		.name		= "max_threshold_occupancy",
->>  		.mode		= 0644,
->> @@ -2095,6 +2123,15 @@ static void thread_throttle_mode_init(void)
->>  				 RFTYPE_CTRL_INFO | RFTYPE_RES_MB);
->>  }
->>  
->> +static void io_alloc_init(void)
+> Would put 'e.g.' here, then that allows 'space' for the edge case...
 > 
-> This function's comment can benefit from a snippet that highlights that
-> even though this operates on hardcoded L3 resource it results in this file
-> being visible for *all* cache resources (eg. L2 cache also), whether they
-> support io_alloc or not.
-
-Added the comment.
-
+>> +};
+>>
+>> -#define thp_vma_allowable_order(vma, vm_flags, tva_flags, order) \
+>> -	(!!thp_vma_allowable_orders(vma, vm_flags, tva_flags, BIT(order)))
+>> +#define thp_vma_allowable_order(vma, vm_flags, type, order) \
+>> +	(!!thp_vma_allowable_orders(vma, vm_flags, type, BIT(order)))
 > 
->> +{
->> +	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
->> +
->> +	if (r->cache.io_alloc_capable)
->> +		resctrl_file_fflags_init("io_alloc", RFTYPE_CTRL_INFO |
->> +					 RFTYPE_RES_CACHE);
->> +}
->> +
->>  void resctrl_file_fflags_init(const char *config, unsigned long fflags)
+> Nit, but maybe worth keeping tva_ prefix - tva_type - here just so it's
+> clear what type it refers to.
+> 
+> But not end of the world.
+> 
+> Same comment goes for param names below etc.
+> 
+>>
+>>  #define split_folio(f) split_folio_to_list(f, NULL)
+>>
+>> @@ -264,14 +267,14 @@ static inline unsigned long thp_vma_suitable_orders(struct vm_area_struct *vma,
+>>
+>>  unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
+>>  					 vm_flags_t vm_flags,
+>> -					 unsigned long tva_flags,
+>> +					 enum tva_type type,
+>>  					 unsigned long orders);
+>>
+>>  /**
+>>   * thp_vma_allowable_orders - determine hugepage orders that are allowed for vma
+>>   * @vma:  the vm area to check
+>>   * @vm_flags: use these vm_flags instead of vma->vm_flags
+>> - * @tva_flags: Which TVA flags to honour
+>> + * @type: TVA type
+>>   * @orders: bitfield of all orders to consider
+>>   *
+>>   * Calculates the intersection of the requested hugepage orders and the allowed
+>> @@ -285,11 +288,14 @@ unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
+>>  static inline
+>>  unsigned long thp_vma_allowable_orders(struct vm_area_struct *vma,
+>>  				       vm_flags_t vm_flags,
+>> -				       unsigned long tva_flags,
+>> +				       enum tva_type type,
+>>  				       unsigned long orders)
 >>  {
->>  	struct rftype *rft;
->> @@ -4282,6 +4319,8 @@ int resctrl_init(void)
->>  
->>  	thread_throttle_mode_init();
->>  
->> +	io_alloc_init();
->> +
->>  	ret = resctrl_mon_resource_init();
->>  	if (ret)
->>  		return ret;
+>> -	/* Optimization to check if required orders are enabled early. */
+>> -	if ((tva_flags & TVA_ENFORCE_SYSFS) && vma_is_anonymous(vma)) {
+>> +	/*
+>> +	 * Optimization to check if required orders are enabled early. Only
+>> +	 * forced collapse ignores sysfs configs.
+>> +	 */
+>> +	if (type != TVA_FORCED_COLLAPSE && vma_is_anonymous(vma)) {
+>>  		unsigned long mask = READ_ONCE(huge_anon_orders_always);
+>>
+>>  		if (vm_flags & VM_HUGEPAGE)
+>> @@ -303,7 +309,7 @@ unsigned long thp_vma_allowable_orders(struct vm_area_struct *vma,
+>>  			return 0;
+>>  	}
+>>
+>> -	return __thp_vma_allowable_orders(vma, vm_flags, tva_flags, orders);
+>> +	return __thp_vma_allowable_orders(vma, vm_flags, type, orders);
+>>  }
+>>
+>>  struct thpsize {
+>> @@ -536,7 +542,7 @@ static inline unsigned long thp_vma_suitable_orders(struct vm_area_struct *vma,
+>>
+>>  static inline unsigned long thp_vma_allowable_orders(struct vm_area_struct *vma,
+>>  					vm_flags_t vm_flags,
+>> -					unsigned long tva_flags,
+>> +					enum tva_type type,
+>>  					unsigned long orders)
+>>  {
+>>  	return 0;
+>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>> index 2b4ea5a2ce7d..85252b468f80 100644
+>> --- a/mm/huge_memory.c
+>> +++ b/mm/huge_memory.c
+>> @@ -99,12 +99,12 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
+>>
+>>  unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
+>>  					 vm_flags_t vm_flags,
+>> -					 unsigned long tva_flags,
+>> +					 enum tva_type type,
+>>  					 unsigned long orders)
+>>  {
+>> -	bool smaps = tva_flags & TVA_SMAPS;
+>> -	bool in_pf = tva_flags & TVA_IN_PF;
+>> -	bool enforce_sysfs = tva_flags & TVA_ENFORCE_SYSFS;
+>> +	const bool smaps = type == TVA_SMAPS;
+>> +	const bool in_pf = type == TVA_PAGEFAULT;
+>> +	const bool enforce_sysfs = type != TVA_FORCED_COLLAPSE;
 > 
-> Reinette
+> Some cheeky const-ifying, I like it :)
+> 
+>>  	unsigned long supported_orders;
+>>
+>>  	/* Check the intersection of requested and supported orders. */
+>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> index 2c9008246785..7a54b6f2a346 100644
+>> --- a/mm/khugepaged.c
+>> +++ b/mm/khugepaged.c
+>> @@ -474,8 +474,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
+>>  {
+>>  	if (!test_bit(MMF_VM_HUGEPAGE, &vma->vm_mm->flags) &&
+>>  	    hugepage_pmd_enabled()) {
+>> -		if (thp_vma_allowable_order(vma, vm_flags, TVA_ENFORCE_SYSFS,
+>> -					    PMD_ORDER))
+>> +		if (thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED, PMD_ORDER))
+>>  			__khugepaged_enter(vma->vm_mm);
+>>  	}
+>>  }
+>> @@ -921,7 +920,8 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+>>  				   struct collapse_control *cc)
+>>  {
+>>  	struct vm_area_struct *vma;
+>> -	unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
+>> +	enum tva_type tva_type = cc->is_khugepaged ? TVA_KHUGEPAGED :
+>> +				 TVA_FORCED_COLLAPSE;
+> 
+> This is great, this is so much clearer.
+> 
+> A nit though, I mean I come back to my 'type' vs 'tva_type' nit above, this
+> is inconsistent, so we should choose one approach and stick with it.
 > 
 
--- 
-Thanks
-Babu Moger
+I dont exactly like the name "tva" (It has nothing to do with the fact it took
+me more time than I would like to figure out that it meant THP VMA allowable :)),
+so what I will do is use "type" everywhere if that is ok?
+But no strong opinion and can change the variable/macro args to tva_type if that
+is preferred.
 
+The diff over v2 after taking the review comments into account looks quite trivial:
+
+diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+index b0ff54eee81c..bd4f9e6327e0 100644
+--- a/include/linux/huge_mm.h
++++ b/include/linux/huge_mm.h
+@@ -98,7 +98,7 @@ enum tva_type {
+        TVA_SMAPS,              /* Exposing "THPeligible:" in smaps. */
+        TVA_PAGEFAULT,          /* Serving a page fault. */
+        TVA_KHUGEPAGED,         /* Khugepaged collapse. */
+-       TVA_FORCED_COLLAPSE,    /* Forced collapse (i.e., MADV_COLLAPSE). */
++       TVA_FORCED_COLLAPSE,    /* Forced collapse (e.g. MADV_COLLAPSE). */
+ };
+ 
+ #define thp_vma_allowable_order(vma, vm_flags, type, order) \
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 7a54b6f2a346..88cb6339e910 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -920,7 +920,7 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+                                   struct collapse_control *cc)
+ {
+        struct vm_area_struct *vma;
+-       enum tva_type tva_type = cc->is_khugepaged ? TVA_KHUGEPAGED :
++       enum tva_type type = cc->is_khugepaged ? TVA_KHUGEPAGED :
+                                 TVA_FORCED_COLLAPSE;
+ 
+        if (unlikely(hpage_collapse_test_exit_or_disable(mm)))
+@@ -932,7 +932,7 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+ 
+        if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
+                return SCAN_ADDRESS_RANGE;
+-       if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_type, PMD_ORDER))
++       if (!thp_vma_allowable_order(vma, vma->vm_flags, type, PMD_ORDER))
+                return SCAN_VMA_CHECK;
+        /*
+         * Anon VMA expected, the address may be unmapped then
+@@ -1532,8 +1532,7 @@ int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
+         * in the page cache with a single hugepage. If a mm were to fault-in
+         * this memory (mapped by a suitably aligned VMA), we'd get the hugepage
+         * and map it by a PMD, regardless of sysfs THP settings. As such, let's
+-        * analogously elide sysfs THP settings here and pretend we are
+-        * collapsing.
++        * analogously elide sysfs THP settings here and force collapse.
+         */
+        if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_FORCED_COLLAPSE, PMD_ORDER))
+                return SCAN_VMA_CHECK;
