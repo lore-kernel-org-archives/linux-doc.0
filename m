@@ -1,275 +1,511 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2056.outbound.protection.outlook.com [40.107.220.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873CE26A1B8
-	for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 21:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753997889; cv=none; b=CjcygtQvdUVogShtJ/yh/59hiMMkTXI62zO3MsCmC/5MiuorARMa2XZeyJwr2LdTL73DRXDLP8CAS0KNKUeuYrpcBe+K551QcHcUGNgVFfIVdAPy1Wlo0krLwwCUf4T7NDTNC6gRqqa+Zj5nwlrtRu4HW0VOszxoTZE6o1K4Ltg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753997889; c=relaxed/simple;
-	bh=hfhdyPgNPmI59nT/uW5MmPjomrGBwFDKj1cx3ofW7kI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E7oE/CQafEXGqDRDTJW9pt78+Co3sjfG3n9qCb9PO/UrEnhVIFtSvaFxleiHV3hFYR3/lQUSnwOsZELUSKyNH2YLeawp7DQiCZMCUkBWnkiEy147BdE81I7oi0cW04kt8bKX5AZl2y5aD3Qimble/9j9X2is4zxEmYw0bOICcHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IqAW0GJY; arc=none smtp.client-ip=209.85.166.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836361E2858;
+	Thu, 31 Jul 2025 22:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754002370; cv=fail; b=ux5xAUp4Gw593vgYOpjmcg2yLYLWEDHKvjBIXS1M3f5nvOeFqiYqwA4frwzmbCLWOcjjFvS6AHyK5NptsgQHWp0x4a3E5WV41zFW0A8QT/dusniDhdNpjDaVJzy1ws/85LJeDEfzFhuXWaSFCySN3f+IND4njfvz+ztf8Y4NP/E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754002370; c=relaxed/simple;
+	bh=MX9uUIY7iwa+KVqg2gacPzxWnbvUZV+khAf5gtJJtDc=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=QnM2ZwJcdGJXe9aTgzAXNHJ0//dk3EcY/gHLWR4BvsBlU+/Z3mqJWoEtiDtHTrAyE+O2wuqnlsW5TqncZf0So6SnfmjElYze4FxUJQHyTeixlBp37peEuRJxuJc//VunhkcROwexHRMByxYvSmhSvAlujwlfGv467avvy945SNQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ERROlv9Z; arc=fail smtp.client-ip=40.107.220.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IqAW0GJY"
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3e40050551bso5830215ab.2
-        for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 14:38:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753997886; x=1754602686; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HeJcBthhmF2i0ZuBLswvHjerHxMSPDvK/fXonxnOFN8=;
-        b=IqAW0GJYYlFBY7np+yIMaGUX27aeZLmzLNaLcqdI6/CjQYp+Jq3OfE2uqV4b9+Q6GK
-         3uqlLHzZPKHRKBoOBDiY4yT9i6CR/u9yWOQajn9j0dYb8v7izhOMgjHPXKGem4r+ZeiD
-         ojBZonXGFHMJI6lGwOAk46C2en/PL2fhQatyjBzJRyWuKncmKKsmkSis/IjegYbZNkFS
-         WGKzajS2R7XjQGW1FgVbPmweNP/vuAySQSxs5JE30nQlJucEpEsJSj2RWmJRXN6d1TXk
-         QRviZdo73OYkYrqC5tR/pC3bW8xdP0kWA0/slq79/tZ4Df8wbzh0c/FQI+/rwOXI2IeX
-         L2OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753997886; x=1754602686;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HeJcBthhmF2i0ZuBLswvHjerHxMSPDvK/fXonxnOFN8=;
-        b=Itas7DVJzz2L7aVHxOjr8lPaxvphz29r0c/DEBOZgIWgLCvfj8UiegvFaWsFuCVZQn
-         oFB7pmpRd4dL8Jjnff/PipT4slSQzjNo2XsndDSavEjBmdGO/n5mK8kYJEV2eUiDaRKB
-         SYZ9nSVWNs8gfNKuAzUekJ82V4omogucst279uCOP84WZS0PmYIxQBjswH8nwN3Ljud/
-         kfddPYw+kveeWhHmSW2qqWnQ1FN6sjCryXcmCzJmmDDMZyX05AccQVF8IW/E7g1UDe+S
-         JPFlSJy2St13+1EIgU3GklpedxtQCGIhxwmQBEW5n6C806YVEpr8hvXbHK1hLNS9R+uR
-         H5eA==
-X-Forwarded-Encrypted: i=1; AJvYcCW9PrSj4j2wUzgwdOFxv84GT92re7VZwYfsofvcVPpx6ZAbdz8L0VSCGoQZY0uDoIaLHZw9qnJH+RE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyxYrzHKiP7Uv95dQO+3TfCY5WVXIdVZz5b+hgkTN0SIpwzDOg
-	7T3dbIvYnjWEKJUf54CU/Q9bTi5Li3Kycb3e3MnfrvVH5NhlX9qHOFc9tvsetQ==
-X-Gm-Gg: ASbGnctfhKadX+tNYb8qI1LmjbUbhvp8IKJxGaqCA9xpAyAg8zo4dq+tOP5dhAHiKF+
-	sjNfnFJ2dN1f7ZhC3tsaZx0ZB6hLPSbsXLnmGrNJLnHOZBO2i9sf5HiSJQ9LepHbBsdrxro7a/p
-	7uDTjiDi4E4yHSC3le5j9EMteKWLE5xejx5RW+e4f5BUDhJqypqy5gGJdQ3Yq51ZGpRMeTPNfU5
-	HsMPleK1KDCenRRsmAKQSdlIE7DXAoS3lyAU8oiCFBQpMzGrqLK/xIWPhFSn+QzX5LXp0RvC7yM
-	BTzI3ebrb/tlHEVTCA8RvygAGfWiStUngswFA+cwCYsEt2Qr3NU/KqwP2TRjrLqXCAjv0AWNhnY
-	9sWoCKo2pzwzg2aoUUVO6Wn9P6PRAzYhoJs4RRMckG/1rzDAD3t91kmNsmJvzj1MvTI50k1Ayy4
-	+CFQ==
-X-Google-Smtp-Source: AGHT+IHa9nvRB22pIZfE9a1+wN+d1AtTmRGpSCI7ijMuUFAGvx2afVtCp4NDD47+wFObNJYLSZjWug==
-X-Received: by 2002:a05:6e02:b2c:b0:3e4:b85:3cd4 with SMTP id e9e14a558f8ab-3e40d737027mr6383505ab.14.1753997885531;
-        Thu, 31 Jul 2025 14:38:05 -0700 (PDT)
-Received: from frodo.raven-morpho.ts.net (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
-        by smtp.googlemail.com with ESMTPSA id e9e14a558f8ab-3e402b148f3sm9904835ab.50.2025.07.31.14.38.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 14:38:05 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: 
-Cc: Jim Cromie <jim.cromie@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v4 29/56] docs/dyndbg: add classmap info to howto
-Date: Thu, 31 Jul 2025 15:36:54 -0600
-Message-ID: <20250731213721.26548-30-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250731213721.26548-1-jim.cromie@gmail.com>
-References: <20250731213721.26548-1-jim.cromie@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ERROlv9Z"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aLtuvcMTLuJJGRMwxM4qwRkIUxxK3KubBAJ1eyu6BD5vUdgTBH6hgcRrBJBWqxscc0PIqpnJv1n8Z9PD1gToETE/Gqu4PN4xkdECzVuEsRJ490cQF77cQbSECCuQe7OIMJo+L9nJSafsXq8JxqI7W4aeckVylAeVYMKCcs+MDbwrRreEhYUwbSu/UFxx1D7O+BovzDtrqU/Ese96l/oumrp2V5JwGhNGsNm2Uly40oTOEbXUI9RXluXfvzh4NGk3fAiQWClvHarN7zgo3ua5/C/SPUhkeLuTjZyhskQcGH4hSaMbXJU3bVlJyeEkbkbW0xfxjhBSkH1ZCEgUqTdQ6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5OaKg3mT1xYeqzTpSrUajJbnzWNe6jDqYuj1fQ9QENQ=;
+ b=NP03KZkjjt2bIzGx2LOjPZftkyfrJFG0IgTX4X5pMP71/4Ir+LajVUXS7qQR/65XaAp/ENpX4rTidEHUq/FD1fP2lLhOhCZ0J+QAmFrkPsE+kHBwXkeKM5VJ6ch4sbNHSrHVVGbZ699gmB18MGO35xkl9EvuFRKMX3GW/28uWmwUchqdQz5S8yZILtzE9IY30CNzllhEto+s7/ierq5xVeb47770eQA9Y71hLRvOKEZ2wxD3ju4V+sSYEmQ6kap0kwwP6oT6e90TXHlg/0Y7hMCsYQI5H5CqGKVS3l5+SEd9g0MmTQSCxXu9GiUmq/fYjb6iypdGwpDVUWGNGgCxkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5OaKg3mT1xYeqzTpSrUajJbnzWNe6jDqYuj1fQ9QENQ=;
+ b=ERROlv9ZvED2oJNz7ck/kRYdbs7dgIMw5AeTqOQv1ZDAxW37LCKgNgo0oG64963aBrnDfeQzMiQ7nilLKVrYXSvVeG/gGZq7H4h28MctpvjsA/47Kt4l2uL38ZAiu4tfNOX9bjNRPwSk9EjSPeFKeDXL+SoxH2G1fVQho3oVIMg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by MN0PR12MB6341.namprd12.prod.outlook.com
+ (2603:10b6:208:3c2::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.12; Thu, 31 Jul
+ 2025 22:52:44 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.8989.011; Thu, 31 Jul 2025
+ 22:52:44 +0000
+Message-ID: <5c784fb8-fafc-4529-afd4-d1acb71aded0@amd.com>
+Date: Thu, 31 Jul 2025 17:52:40 -0500
+User-Agent: Mozilla Thunderbird
+From: "Moger, Babu" <bmoger@amd.com>
+Subject: Re: [PATCH v7 07/10] fs/resctrl: Add user interface to enable/disable
+ io_alloc feature
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
+ Dave.Martin@arm.com, james.morse@arm.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
+ david@redhat.com, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
+ thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
+ yosry.ahmed@linux.dev, sohil.mehta@intel.com, xin@zytor.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
+ me@mixaill.net, mario.limonciello@amd.com, xin3.li@intel.com,
+ ebiggers@google.com, ak@linux.intel.com, chang.seok.bae@intel.com,
+ andrew.cooper3@citrix.com, perry.yuan@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1752167718.git.babu.moger@amd.com>
+ <e311fd8f4ddfd33c29febdc71d5d41f8a06680cc.1752167718.git.babu.moger@amd.com>
+ <ebd0a6bf-cb55-47ba-b9dc-65f56b065ab0@intel.com>
+Content-Language: en-US
+In-Reply-To: <ebd0a6bf-cb55-47ba-b9dc-65f56b065ab0@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0169.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c3::12) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|MN0PR12MB6341:EE_
+X-MS-Office365-Filtering-Correlation-Id: bda33dfd-a156-4ebd-a47e-08ddd084f62f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|7416014|366016|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?V2hRblppdkU5K2wyOGJZRlREN253TUZzNmZvMzlDcndsKzhIbkdPUkJGbnBv?=
+ =?utf-8?B?cGQ5dlpqSC8vWWVEQWozcmVqOFZCRDIvQkdHL0JHMTUvcjg2cmZSR3RyUGFy?=
+ =?utf-8?B?SHlvYTYybnlpZlQxcHhEN1RPejEvSW10SmFrMU1XL1RpOVlWTm5zMkdCT1dT?=
+ =?utf-8?B?dEQ4amxrajdiSzVVYWhpTFQ4OUNQRnJIVnBsUGtEYmVPbjFYUmtBMXdPczM3?=
+ =?utf-8?B?YzNFaHpiZzVGeUFDclA1YlRlbnh6QWovdG9NL3J3c0x4V2d0bGhzNlZkaVRP?=
+ =?utf-8?B?djRhd3VWUTdFNXI0YnAzYnAzUUo2VWV2cUw5WmJDZi9mZlhvZzM4b0JYVDlU?=
+ =?utf-8?B?MzZiR3kwbVAzK0pvYmxWOTd2OTltKy8zZVJ5a2hGQ0VXWXpNRW0wR3hRNWdx?=
+ =?utf-8?B?WTVJNUorK3R4NVZVREZDb1ZESFFpdzV6TXcyNmJUbUtBR3JXQ0tsWXVua1k5?=
+ =?utf-8?B?S2wyWUdjbDhhbjlieDl6Qi9WL0dkNVZVT1J1Q3llMFhZYVhhYXBQRlRxdkRI?=
+ =?utf-8?B?RUZZSVVVdWk1MnpsajI4S3lSNjJlVWFDZUZ3dk1LQnFMc0xQYWZoVGdqcWJQ?=
+ =?utf-8?B?cTY2U2FRTnJadWc1R2JidE5VTG9LTDZaSzNYdU1PWWk2ZkJwZS80VWpKQm1P?=
+ =?utf-8?B?WXlBKzhtQ2M1MUZwN2hqQlN6LzZURityc2dzdU9TZGM5T1Y5Z2hxQ3BWNitm?=
+ =?utf-8?B?eGtFRTI3dnd2cXZNNGp1ejRwUk5nY1VuKys4V1JGNk9ZTUprY3l1L3dLa0xu?=
+ =?utf-8?B?L2ZhZk5Ldy9pMWNtMkNIUExQeE0xanN3ZTFGQllqeFExTWxPZzlsYUdLVGNV?=
+ =?utf-8?B?UHk3bW1HK0ZxYXVKc2NiNDhnekZnMHAxWHRtaXQ0K1JmTGRpMjlOMXFoZWxP?=
+ =?utf-8?B?NGYzZ2QzcjVtbHM1VVBvVTRXck9PTURha1pUNmpXSU9IeGthNnJLNWRIcWFo?=
+ =?utf-8?B?b3AwQ1gxMFdqcTlzcTcwUjFJcUx0YzkwNlhGVUQrL1g4Wk4xQUtETHVmWk9H?=
+ =?utf-8?B?LzIrZUdtYkhBTmJ1RXkvWDkxSkw5K0l4YUpuUmFGTENEWUJZZEIvN212bERK?=
+ =?utf-8?B?T1NXSy9sRVN3WXZvSHE2VU1qT3BCSURSVTVOUnFjb3pMWTJQcWxQQVQ1ZjN1?=
+ =?utf-8?B?VUlQWFQ2NXNCV1d3bjM4RXh0WE9vc3FXenBMZXBsYXU5cDRUOGtTYzVKaUsr?=
+ =?utf-8?B?dUxNUG13alIycXA2bXJEaTlxU25LNWJvS2FiZlE5L0N3YldtNW5wUUgrck1L?=
+ =?utf-8?B?OWRqOWgrbUwvdTY0Y0RQQWJ5QXRoUHZvcnhmZVdVb2owckJJUDdVVjZ4SWM0?=
+ =?utf-8?B?c0k2MTZkODZDSXRNREZ3U3l3K0o4Ukk0QTR0RitwalZmaE8rLzBkY1JZby9k?=
+ =?utf-8?B?dTBUUWg4VzVhWDFiRTJKdGQvTnI1MjR0Q2JFQjhlS0Q5bzJLZWN3SEdadnk0?=
+ =?utf-8?B?NmVEVHlFTXVVUlNYcVZuRUhNc1BoVm1MMUVBVHVkYWZGTktrUVU5ZDFNVXlC?=
+ =?utf-8?B?YklNT1dtZzZQanR3UEVvbFBQMkFNWmRhd1JmalZ2QXBRTW5LT252d2xrNmhl?=
+ =?utf-8?B?b2JrTitWZHN1aVRpTldwN1dvblA3UUV3TStJVTUwL2NRR0EzbWhyZDdoZVI3?=
+ =?utf-8?B?bzZwR0RYMGdkL0QyZHlraFhFaVpWd3l5NmpqVHo3dlhLWUJIT1N6YldFNHJ0?=
+ =?utf-8?B?b3Y1enBQaFNoUDNDakhBNzUvQyszLzlUZWxVYnVjeHdyQ2RCc1Jpek4reWEx?=
+ =?utf-8?B?Q3A3eStma21wbFVpczZOck1pcVBDQjJyakVGVjdSQUFucXlZVUI4WEhsUEpr?=
+ =?utf-8?B?MGRMOEF1c2Z3RWh5VGZSL3kvT0ZHZnBjRjFJdEtGYW41YUtGVTN2bFNocUtD?=
+ =?utf-8?B?ekNvay9jNDVIT3I5bTFIeTJHWEdhTjh0L0FXQ25JRWxMZHdZcmxMSmtuVkV6?=
+ =?utf-8?B?LzhIdnVUMDVJMGZUcUd2dzIrVWNKYUdoMmZFOW5BVUI4emxYLy9TRmJ5SklL?=
+ =?utf-8?B?SXhFd2d0dThRPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dUFWWGhiblFEVmVwYkJoZ01xb0wzTWowcDBYY1k0WWxQNno2SmhVdmxCOW9J?=
+ =?utf-8?B?RzBIeEtkb2pMNnU1T3RFZVpLaTVabzM3NmtuOXNFdmFOMTdWcjdjOFp4SUpq?=
+ =?utf-8?B?TE96dllOOUVFZlpGTnZtczNSZFVuWDNxVkFaMllpN0Z3aDFFSGVqN050MnNt?=
+ =?utf-8?B?eEhxYi9VbmF3cmxGVHZHVWhWeGFHb1haME5QOTVsU1R1R0ZwcXp5SE54NVlq?=
+ =?utf-8?B?SEJXNGUzc2xGMHB1N2JCQTBlaE0zQnBzUXhaTlVnWVFyKzRBdC9tSEYwL1pn?=
+ =?utf-8?B?c3dtTWFTRDFIUGlIRVI3clVMRGdYdjVObXFjcE9tVWpTQXE1aC9PZy9takFw?=
+ =?utf-8?B?Y2Rmb0pWZnpIejNlVDhQOU9IT3RmejV0ejIxcllCbUVtUWtRWlhQMHdIVjJR?=
+ =?utf-8?B?T0tzTEVlWVFXOEQ2b3VlbC8zSE8rTHZLMGw2ZTZ2SUNJRUZrSklsak5Zek9Z?=
+ =?utf-8?B?Nm5XSXdGQ250enZ0dlowMjRJY1hjck00cmRPOVRDK3E4b2hWeUtsd1FGNTQ2?=
+ =?utf-8?B?TkI2c0E2TWFrbVV4VHYwUkZsVmFsbjhjZjlmQ2Urc2lFcjZXZWVNd1VFQTBr?=
+ =?utf-8?B?TmJyOXc0bmhjTTNDQlhmY3hPNndtdFRJV3F1QVhTa2pGU0Z5bVN3alhLeXQr?=
+ =?utf-8?B?eSs3SStodERhZVhvN2ZnN2JWQUxBenJnbExERVZ4aVA5RmhHOFJ3MDRmbDJT?=
+ =?utf-8?B?T0gzdzFMSkFoMDBTd050Tis2aDh1MW51d0pPeitXL0R5VENyTEZEdi92Vnc5?=
+ =?utf-8?B?N01Bd1pUTzE1cTFmWWxRZitGc2RBV29KQ3dwY0hHK0VJRXJjVWczZXB2bHdl?=
+ =?utf-8?B?YUdialYxTzhCSEE1K1FZdWozaUdzTWVxVXI3ckx1Rk5wRDkzZ1BFWXYvR2Jq?=
+ =?utf-8?B?VEtNSHBkUk83VldiU3FaOEpOanQ3UURUVlhvM3NBaFpFbmRjNXFVYnQ3ZXMw?=
+ =?utf-8?B?TnI2cWVITllDWm15d3psQUZnNlFUc1U4azBoaTJVcVlmU3o4UEwzamc5cmZF?=
+ =?utf-8?B?ejZjbzQzTFpBYmVTc282SmxWVXM4Q2NmZi82ZEM5VzhxT0tqb0ZDcFp6b1U1?=
+ =?utf-8?B?Ri9VMklHZnUxSXgrSGRVTHR4dUFjb2lOaFJwK1E1bFlhR0Z1endTSTJBN3Fp?=
+ =?utf-8?B?cjhXSVpBMSs0ejdWdDZIRm5QQ0Uvejl5UFpKcnluRktJUEM4MEhHTWdBd0hJ?=
+ =?utf-8?B?UUZKeUlEUVdCc2JTODhKSFJzdC9KeXV4cG42ZTVSUTZ4VjdQY3NFUGR2RzY0?=
+ =?utf-8?B?ZGh2SkM3c0hQRFJLdjZuY0huTnJSWUJDdDByQjNHQmpnb09Ba21YU2ZCZ2w1?=
+ =?utf-8?B?K01GUGtkZHFVMVhXc3BhYzRvTGZpWHFJZmdEaFR1UnhFU1gxL2NVK2NUbHl5?=
+ =?utf-8?B?aEIzZjI0VW53QXM4QnNvYVRyR0ZlNmxKR25GME9lYUd1TTlMaEY0NncyQU5h?=
+ =?utf-8?B?TThjcVdSeG03bDZEK3RNLzlYeS96NFdLQlIzMU5zZ1hQVjllamZOZ3BnR1gz?=
+ =?utf-8?B?Y1MvVW5wRWpOdU9TK2dtajVhYTdXaVpCRmM5MmJHVlIrb1N4a29UK2QrRzVh?=
+ =?utf-8?B?L0tjdXVLZTF0cUFraytsSjM3UVZUdUZGR0VIVHVrZjhxNkI4RHpEbHZ3VG5B?=
+ =?utf-8?B?YVZKbXNveWhBdVBvUUYyQThHNjMrNURZMXRTbnZDeTlmWldrdWtMOCtEUVRC?=
+ =?utf-8?B?eFRTV2ppdnJZR0d2b051RXl0Zm9UVGV5Y08zbG1vL2NPV0Z0U1QrWlJRcUNy?=
+ =?utf-8?B?aXlRemFndkMycWxMTWJNWmFEbmhYRXltZmFUR2Z5bitaRzBaTFlXZjdmRWtw?=
+ =?utf-8?B?eDRzNzQ2L2NYZlR6RzNCVXBKb2NOVVE5Z04ya3BJTWFqMkZFU05TZDRkb3Nx?=
+ =?utf-8?B?bFNJOVVteFVCenYvZFhBRlZIZWZycEZyRU9IVVR3QmZxTmxaN1A0ejJGZ013?=
+ =?utf-8?B?ZkxIZEE3dEhaSVl3ZU82eDU2T1NZbCszeDB2bldERWVXZ0dza0NRaVRzZTkv?=
+ =?utf-8?B?RU90Qm5FUEFxcm9Vd1dVWDIzUXo0TDB6STFGRVVicFB0dFM4SUJlcHRvRHBx?=
+ =?utf-8?B?ZUt2M2lxemwwbWtKa2hrQnVlQ0NtR2hmZGdmRWZTS1J6Vk9MYldIOFhEb1FG?=
+ =?utf-8?Q?DuW0=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bda33dfd-a156-4ebd-a47e-08ddd084f62f
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 22:52:44.2713
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UNknPQKthY+ALyApMh/dnjrrCC6TlEEljjZv3jhQCx2+7Gnr7RIXiifwWq51ch3o
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6341
 
-Describe the 3 API macros providing dynamic_debug's classmaps
+Hi Reinette,
 
-DYNDBG_CLASSMAP_DEFINE - create & export a classmap
-DYNDBG_CLASSMAP_USE    - refer to exported map
-DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+On 7/21/2025 6:40 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/10/25 10:16 AM, Babu Moger wrote:
+>> "io_alloc" feature in resctrl enables direct insertion of data from I/O
+>> devices into the cache.
+>>
+>> Introduce user interface to enable/disable io_alloc feature.
+> 
+> I think it is worth a mention *why* a user may want to disable this feature and
+> why is not just always enabled. Here it can be highlighted that this feature
+> may take resources (CLOSID) away from general (CPU) cache allocation and since
+> this may be scarce enabling user to disable this feature supports different use cases.
+> 
 
-TBD: some of this might be over-specification, or just over-talked.
+Sure.
 
-NB: The _DEFINE & _USE model makes the user dependent on the definer,
-just like EXPORT_SYMBOL(__drm_debug) already does.
+>>
+>> On AMD systems, io_alloc feature is backed by SDCIAE (L3 Smart Data Cache
+>> Injection Allocation Enforcement). When enabled, SDCIAE directs all SDCI
+>> lines to be placed into the L3 cache partitions specified by the register
+>> corresponding to the highest CLOSID supported by the resource. With CDP
+>> enabled, io_alloc routes I/O traffic using the highest CLOSID assigned to
+>> the instruction cache (L3CODE).
+> 
+> This is a lot of architecture specific text for a resctrl fs patch  ... I think
+> you are trying to motivate the resctrl fs implementation. Similar motivation
+> as proposed for cover letter can be used here to help explain the implementation
+> choices.
 
-cc: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
-v3- rework protection around PARAM
+Updated the whole changelog.
 
-v0.5 adjustments per Randy Dunlap
-v0.7 checkpatch fixes
-v0.8 more
-v0.9 rewords
+fs/resctrl: Add user interface to enable/disable io_alloc feature
 
-fixup-howto
----
- .../admin-guide/dynamic-debug-howto.rst       | 137 ++++++++++++++++--
- 1 file changed, 126 insertions(+), 11 deletions(-)
+"io_alloc" feature in resctrl enables direct insertion of data from I/O
+devices into the cache.
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 1ceadf4f28f9f..556e00299ed35 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -146,7 +146,9 @@ keywords are:::
-   "1-30" is valid range but "1 - 30" is not.
- 
- 
--The meanings of each keyword are:
-+Keywords:::
-+
-+The meanings of each keyword are::
- 
- func
-     The given string is compared against the function name
-@@ -194,16 +196,6 @@ format
- 	format "nfsd: SETATTR"  // a neater way to match a format with whitespace
- 	format 'nfsd: SETATTR'  // yet another way to match a format with whitespace
- 
--class
--    The given class_name is validated against each module, which may
--    have declared a list of known class_names.  If the class_name is
--    found for a module, callsite & class matching and adjustment
--    proceeds.  Examples::
--
--	class DRM_UT_KMS	# a DRM.debug category
--	class JUNK		# silent non-match
--	// class TLD_*		# NOTICE: no wildcard in class names
--
- line
-     The given line number or range of line numbers is compared
-     against the line number of each ``pr_debug()`` callsite.  A single
-@@ -218,6 +210,24 @@ line
- 	line -1605          // the 1605 lines from line 1 to line 1605
- 	line 1600-          // all lines from line 1600 to the end of the file
- 
-+class
-+
-+    The given class_name is validated against each module, which may
-+    have declared a list of class_names it accepts.  If the class_name
-+    accepted by a module, callsite & class matching and adjustment
-+    proceeds.  Examples::
-+
-+	class DRM_UT_KMS	# a DRM.debug category
-+	class JUNK		# silent non-match
-+	// class TLD_*		# NOTICE: no wildcard in class names
-+
-+.. note ::
-+
-+    Unlike other keywords, classes are "name-to-change", not
-+    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
-+
-+Flags:::
-+
- The flags specification comprises a change operation followed
- by one or more flag characters.  The change operation is one
- of the characters::
-@@ -394,3 +404,108 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+Dynamic Debug Classmaps
-+=======================
-+
-+The "class" keyword selects prdbgs based on author supplied,
-+domain-oriented names.  This complements the nested-scope keywords:
-+module, file, function, line.
-+
-+The main difference from the others: classes must be named to be
-+changed.  This protects them from generic overwrite:
-+
-+  # IOW this cannot undo any DRM.debug settings
-+  :#> ddcmd -p
-+
-+This protection is needed; /sys/module/drm/parameters/debug is ABI.
-+DRM.debug is authoritative when dyndbg is not used, dyndbg's PARAM
-+cannot undermine that guarantee just because its optional for DRM to
-+use it.
-+
-+  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-+
-+So each class must be enabled individually (no wildcards):
-+
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+That makes direct >control wordy and annoying, but it is a secondary
-+interface; it is not intended to replace the ABI, just slide in
-+underneath and reimplement it.
-+
-+However, since the sysfs/kparam is the ABI, if a classmap DEFINEr
-+doesn't also add a _CLASSMAP_PARAM, there is no ABI, and no protection
-+is needed.  In that case, class'd prdbgs would be enabled/disabled by
-+legacy (class-less) queries, as a convenience, and because there's no
-+need to enforce irrelevant rules.
-+
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DRM.debug is built upon:
-+
-+- enum drm_debug_category: DRM_UT_<*> - <T> for short
-+- 23 categorized api macros: drm_dbg_<T>(), DRM_DEBUG_<T>()
-+- 5000 calls to them
-+- all calling to __pr_debug_cls(<T>, ...)
-+
-+Those compile-time const short ints are good for optimizing compilers;
-+a primary classmaps design goal was to keep that property.
-+So basically .class_id === category.
-+
-+Then we use the drm_categories DRM_UT_* enum for both the classnames
-+(stringified enum symbols) and their numeric values.
-+
-+Its expected that future users will also use categorized macros and an
-+enum-defined categorization scheme like DRM's, with dyndbg inserted in
-+similarly.
-+
-+DYNAMIC_DEBUG_CLASSMAP_DEFINE(var,type,_base,classnames) - this maps
-+classnames (a list of strings) onto class-ids consecutively, starting
-+at _base, it also maps the names onto CLASSMAP_PARAM bits 0..N.
-+
-+DYNAMIC_DEBUG_CLASSMAP_USE(var) - modules call this to refer to the
-+var _DEFINEd elsewhere (and exported).
-+
-+Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-+dyndbg to update those classes.  "class FOO" queries are validated
-+against the classes, this finds the classid to alter; classes are not
-+directly selectable by their classid.
-+
-+NB: It is an inherent API limitation that the following are possible:
-+
-+  // these would be caught in review
-+  __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
-+  __pr_debug_cls(62, "un-known classid msg"); // this compiles, does nothing
-+
-+There are 2 types of classmaps:
-+
-+ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-+ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-+refers to a DEFINEd classmap, and associates it to the param's
-+data-store.  This state is then applied to DEFINEr and USEr modules
-+when they're modprobed.
-+
-+The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself; there is no implied meaning in names like "V4".
-+
-+Modules or module-groups (drm & drivers) can define multiple
-+classmaps, as long as they (all the classmaps) share the limited 0..62
-+per-module-group _class_id range, without overlap.
-+
-+If a module encounters a conflict between 2 classmaps its USEing, we
-+can extend the _USE macro with an offset to allow de-conflicting the
-+respective ranges.  Or they use the DEFINErs macro-api, but with new
-+enum symbols.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.50.1
+Introduce user interface to enable/disable io_alloc feature.
 
+On AMD systems, when io_alloc is enabled, the highest CLOSID is reserved
+exclusively for I/O allocation traffic and is no longer available for
+general CPU cache allocation. This feature is disabled by default. Users
+are encouraged to enable it only when running workloads that can benefit
+from this functionality.
+
+Since CLOSIDs are managed by resctrl fs, it is least invasive to make the
+"io_alloc is supported by maximum supported CLOSID" part of the initial
+resctrl fs support for io_alloc. Take care not to expose this use of
+CLOSID for io_alloc to user space so that this is not required from other
+architectures that may support io_alloc differently in the future.
+
+Signed-off-by: Babu Moger <babu.moger@amd.com>
+
+> 
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> ...
+> 
+>> ---
+>>   Documentation/filesystems/resctrl.rst |   8 ++
+>>   fs/resctrl/rdtgroup.c                 | 149 +++++++++++++++++++++++++-
+>>   2 files changed, 156 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+>> index 354e6a00fa45..189c1ccb92d6 100644
+>> --- a/Documentation/filesystems/resctrl.rst
+>> +++ b/Documentation/filesystems/resctrl.rst
+>> @@ -157,6 +157,14 @@ related to allocation:
+>>   			"not supported":
+>>   			      Support not available on the system.
+>>   
+>> +		The feature can be modified by writing to the interface, for example:
+>> +
+>> +		To enable:
+>> +			# echo 1 > /sys/fs/resctrl/info/L3/io_alloc
+>> +
+>> +		To disable:
+>> +			# echo 0 > /sys/fs/resctrl/info/L3/io_alloc
+>> +
+>>   		The underlying implementation may reduce resources available to
+>>   		general (CPU) cache allocation. See architecture specific notes
+>>   		below. Depending on usage requirements the feature can be enabled
+>> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+>> index d7c4417b4516..06c854caa55c 100644
+>> --- a/fs/resctrl/rdtgroup.c
+>> +++ b/fs/resctrl/rdtgroup.c
+>> @@ -70,6 +70,7 @@ static struct seq_buf last_cmd_status;
+>>   static char last_cmd_status_buf[512];
+>>   
+>>   static int rdtgroup_setup_root(struct rdt_fs_context *ctx);
+>> +static int rdtgroup_init_cat(struct resctrl_schema *s, u32 closid);
+>>   
+>>   static void rdtgroup_destroy_root(void);
+>>   
+>> @@ -232,6 +233,16 @@ bool closid_allocated(unsigned int closid)
+>>   	return !test_bit(closid, closid_free_map);
+>>   }
+>>   
+>> +static bool resctrl_io_alloc_closid_alloc(u32 io_alloc_closid)
+>> +{
+>> +	return __test_and_clear_bit(io_alloc_closid, closid_free_map);
+>> +}
+>> +
+>> +static void resctrl_io_alloc_closid_free(u32 io_alloc_closid)
+>> +{
+>> +	closid_free(io_alloc_closid);
+>> +}
+> 
+> I do not think these should be helpers/wrappers with a separate
+> namespace. It will make the code easier to understand if it is clear that
+> the "io_alloc" CLOSID is allocated from the same "pool" as the CLOSID for
+> control groups.
+> 
+> I would thus propose a specific, for example closid_alloc_fixed(u32 closid)
+> helper, and just call closid_free() directly.
+> 
+
+Sure.
+
+>> +
+>>   /**
+>>    * rdtgroup_mode_by_closid - Return mode of resource group with closid
+>>    * @closid: closid if the resource group
+>> @@ -1030,6 +1041,16 @@ static int rdt_shareable_bits_show(struct kernfs_open_file *of,
+>>   	return 0;
+>>   }
+>>   
+>> +/*
+>> + * resctrl_io_alloc_closid_supported() - io_alloc feature utilizes the
+>> + * highest CLOSID value to direct I/O traffic. Ensure that io_alloc_closid
+>> + * is in the supported range.
+>> + */
+>> +static bool resctrl_io_alloc_closid_supported(u32 io_alloc_closid)
+> 
+> Please move to ctrlmondata.c
+> 
+
+Sure.
+
+>> +{
+>> +	return io_alloc_closid < closids_supported();
+>> +}
+>> +
+>>   /*
+>>    * resctrl_io_alloc_closid() - io_alloc feature routes I/O traffic using
+>>    * the highest available CLOSID. Retrieve the maximum CLOSID supported by the
+>> @@ -1858,6 +1879,131 @@ static int resctrl_io_alloc_show(struct kernfs_open_file *of,
+>>   	return 0;
+>>   }
+>>   
+>> +/*
+>> + * Initialize io_alloc CLOSID cache resource CBM with all usable (shared
+>> + * and unused) cache portions.
+>> + */
+>> +static int resctrl_io_alloc_init_cat(struct rdt_resource *r,
+> 
+> Mixing two features (io_alloc and CAT) in the function name is confusing.
+> How about resctrl_io_alloc_init_cbm() and move to ctrlmondata.c?
+
+Yes.
+
+> 
+>> +				     struct resctrl_schema *s, u32 closid)
+> 
+> No need to provide resource as parameter, it can be determined from schema.
+
+Sure.
+
+> 
+>> +{
+>> +	int ret;
+>> +
+>> +	rdt_staged_configs_clear();
+>> +
+>> +	ret = rdtgroup_init_cat(s, closid);
+>> +	if (ret < 0)
+>> +		goto out;
+> 
+> More below, but I think this flow can be simplified by moving the logic
+> handling CDP here. If CDP is enabled for the resource then a successful
+> rdtgroup_init_cat() can just be followed by a snippet that copies the
+> staged config of the CDP type to the staged config of its peer type.
+> Their CBMs are supposed to be identical so there is no reason for all the
+> rdtgroup_init_cat() processing to be repeated. resctrl_arch_update_domains()
+> can handle updating both in a single call.
+
+Yes.
+
+> 
+>> +
+>> +	ret = resctrl_arch_update_domains(r, closid);
+>> +
+>> +out:
+>> +	rdt_staged_configs_clear();
+>> +	return ret;
+>> +}
+>> +
+>> +static const char *rdtgroup_name_by_closid(int closid)
+> 
+> This seems generic enough and appropriate for rdtgroup.c
+> 
+>> +{
+>> +	struct rdtgroup *rdtgrp;
+>> +
+>> +	list_for_each_entry(rdtgrp, &rdt_all_groups, rdtgroup_list) {
+>> +		if (rdtgrp->closid == closid)
+>> +			return rdt_kn_name(rdtgrp->kn);
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>> +
+>> +static struct resctrl_schema *resctrl_get_schema(enum resctrl_conf_type type)
+> 
+> This also seems generic enough and appropriate for rdtgroup.c
+> 
+>> +{
+>> +	struct resctrl_schema *schema;
+>> +
+>> +	list_for_each_entry(schema, &resctrl_schema_all, list) {
+>> +		if (schema->conf_type == type)
+>> +			return schema;
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>> +
+>> +static ssize_t resctrl_io_alloc_write(struct kernfs_open_file *of, char *buf,
+>> +				      size_t nbytes, loff_t off)
+>> +{
+>> +	struct resctrl_schema *s = rdt_kn_parent_priv(of->kn);
+>> +	enum resctrl_conf_type peer_type;
+>> +	struct rdt_resource *r = s->res;
+>> +	struct resctrl_schema *peer_s;
+>> +	char const *grp_name;
+>> +	u32 io_alloc_closid;
+>> +	bool enable;
+>> +	int ret;
+>> +
+>> +	ret = kstrtobool(buf, &enable);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	cpus_read_lock();
+>> +	mutex_lock(&rdtgroup_mutex);
+>> +
+>> +	rdt_last_cmd_clear();
+>> +
+>> +	if (!r->cache.io_alloc_capable) {
+>> +		rdt_last_cmd_printf("io_alloc is not supported on %s\n", s->name);
+>> +		ret = -ENODEV;
+>> +		goto out_unlock;
+>> +	}
+>> +
+>> +	io_alloc_closid = resctrl_io_alloc_closid(r);
+>> +	if (!resctrl_io_alloc_closid_supported(io_alloc_closid)) {
+>> +		rdt_last_cmd_printf("io_alloc CLOSID (ctrl_hw_id) %d is not available\n",
+>> +				    io_alloc_closid);
+>> +		ret = -EINVAL;
+>> +		goto out_unlock;
+>> +	}
+>> +
+>> +	/* If the feature is already up to date, no action is needed. */
+>> +	if (resctrl_arch_get_io_alloc_enabled(r) == enable)
+>> +		goto out_unlock;
+>> +
+>> +	if (enable) {
+>> +		if (!resctrl_io_alloc_closid_alloc(io_alloc_closid)) {
+>> +			grp_name = rdtgroup_name_by_closid(io_alloc_closid);
+>> +			WARN_ON_ONCE(!grp_name);
+>> +			rdt_last_cmd_printf("CLOSID (ctrl_hw_id) %d for io_alloc is used by %s group\n",
+>> +					    io_alloc_closid, grp_name ? grp_name : "another");
+>> +			ret = -ENOSPC;
+>> +			goto out_unlock;
+>> +		}
+>> +
+>> +		/* Initialize schema for both CDP_DATA and CDP_CODE when CDP is enabled */
+>> +		if (resctrl_arch_get_cdp_enabled(r->rid)) {
+> 
+> I think this block can be removed to simplify the flow by moving the CDP handling to
+> resctrl_io_alloc_init_cat().
+
+Sure. Also moved the whole function to fs/resctrl/ctrlmondata.c.
+
+> 
+>> +			peer_type = resctrl_peer_type(s->conf_type);
+>> +			peer_s = resctrl_get_schema(peer_type);
+>> +			if (peer_s)
+>> +				ret = resctrl_io_alloc_init_cat(r, peer_s, io_alloc_closid);
+>> +		}
+>> +
+>> +		if (!ret)
+>> +			ret = resctrl_io_alloc_init_cat(r, s, io_alloc_closid);
+>> +
+>> +		if (ret) {
+>> +			rdt_last_cmd_puts("Failed to initialize io_alloc allocations\n");
+>> +			resctrl_io_alloc_closid_free(io_alloc_closid);
+>> +			goto out_unlock;
+>> +		}
+>> +
+>> +	} else {
+>> +		resctrl_io_alloc_closid_free(io_alloc_closid);
+>> +	}
+>> +
+>> +	ret = resctrl_arch_io_alloc_enable(r, enable);
+>> +
+>> +out_unlock:
+>> +	mutex_unlock(&rdtgroup_mutex);
+>> +	cpus_read_unlock();
+>> +
+>> +	return ret ?: nbytes;
+>> +}
+>> +
+>>   /* rdtgroup information files for one cache resource. */
+>>   static struct rftype res_common_files[] = {
+>>   	{
+>> @@ -1950,9 +2096,10 @@ static struct rftype res_common_files[] = {
+>>   	},
+>>   	{
+>>   		.name		= "io_alloc",
+>> -		.mode		= 0444,
+>> +		.mode		= 0644,
+>>   		.kf_ops		= &rdtgroup_kf_single_ops,
+>>   		.seq_show	= resctrl_io_alloc_show,
+>> +		.write          = resctrl_io_alloc_write,
+>>   	},
+>>   	{
+>>   		.name		= "max_threshold_occupancy",
+> 
+> Reinette
+> 
+
+Thanks
+Babu
