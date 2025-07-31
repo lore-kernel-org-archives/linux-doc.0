@@ -1,215 +1,225 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2063.outbound.protection.outlook.com [40.107.95.63])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4510E1C245C;
-	Thu, 31 Jul 2025 15:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753975182; cv=fail; b=qIgOb7BGR+btw0uFZTJC/sJztqIWkZW5V4Kj0dQ5SZztGlRxt+4dEZX8wktVC9GuujN2bIoxgt2iwCWu9iegZVOVb+NmUitqwEkixqJLIUIImSvcpxabR9HC1VJlgmzhh4rADTu6N98MWt9qaAU7ToP4E9HVPYVMUzmCPeIlCi8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753975182; c=relaxed/simple;
-	bh=E0uOxcxALXmMwDCTMKvsA1DghvUy9O0iIBVx7VVEm7Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eWpMy+G40w2vIHTs1FOwq00JRtLu9Q7gss5Bd4fbv7If/Ev+uUubZHBzGy0T5HY0Ijw6vQYGLfbx2qw2vl/PQReKl/TyZ/ZQnoTcF8ARHJMBfqxQJMG4AVEYvOjs28Js270Lg8QTZSV3v6e/M7rmmMO+N1SQHC2XiiD6v0lTpDA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DlYQcw22; arc=fail smtp.client-ip=40.107.95.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFCE1BEF8C
+	for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 16:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753978557; cv=none; b=s5zdxr8upn9rBGJZrZoZZvWtKY6Sgs3Xw8tDtIfPw6i22OvuljQv/6U6F3r5eorh650kv1Mw6G1DkS5yisCSS27pAz+S3LJnbz/O+enjunnf/aHqMRLhflOrQcYXv8sgFTNVtWOodKHBG0VZqFZfRcteqKziW4FvkBAW2PgCmQ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753978557; c=relaxed/simple;
+	bh=NmK9mpCX/2zw5F1BJI2dwZwnnUGC/SRcSDSLx0fItOM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QJUWKabTyVIkIpNO2GxE5q66GSuzgY6vEg8lDboVYjGdjp6L8t8GoFFEcHHqbXK9ZfO4c4lcoSFpfjf5oPcSt82bzecT2KQoevZLch93mtJeSs7jqlOIUK0DDreVptOYFoajb+/LtIqR32Jp6tcUPJ39DpSzbmjcSqhdmWG03j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LneAwPwI; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DlYQcw22"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ICvA7wkMIwEEPzpfAv1grhbQSuxbkZ2MRD3hKPo2GAHrtfxdQSyDBYrLDN9mQXH362btXQnthVP52zIryiADMMD+42/nOJ/EFYWFM638XgdZadq9PSZ4sKvzeHSqPtMafnuiDCTMRJV9NmQHM2bFlkoCiBQ5LDZsEzbNaJvUj/QTP7QZ88Y6EgQ+LZqJjpMA2d4rKn6rZOsa2kEuou2VGB4w18v0MtdS/lx2pHLABHlo+4cWgMEShGBRlodM6z+1O6FWhoT99m2hT5x8EM9u4YONtyuIyjFFUgdULO8KW+Hm1ph71p7BeuIyjSWhkQY/DFp0/bPH+3nb4igQO5QPlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r6VSDeqQFkSrjoGL24Aoq+0HObUBwF+67C3Ft3kLlk8=;
- b=PtngTfBizMUUj6/2tq+w+R2XoR1reezazT/46PDBm5NicsvJY1EcAUU0RSUErSvZVcZruwlhCch2voM2GUqL4SLTWLuGMKZUl35DxFkOZYyl0r8oxcVNcy5LWL8LfPYNGr5nQeRHlu5xM86/FqiDNR0Vmt4ktP3F6juugTF6NowZQbZ7rnu0vxCDBySI9RaBe0qEkSQGzQpDbAqDo3YDF3ErAF2/lCtm0+nR3o6pt2YH51CN5NU0feMvhUuLAlBbFdPGEkWi7Yk1aq4jyJ90kCp8REMEW33IS4rWYYpaLTBrjg0h82S7m7IUfG7ntfsWbSDeyspFaW/PheucioRS0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r6VSDeqQFkSrjoGL24Aoq+0HObUBwF+67C3Ft3kLlk8=;
- b=DlYQcw22qFslv4XoRRZraj+H3CRe5hMb5xL5IPro2yl4zH10OE7435fr6TI5cAqcVXVwlRC/nD17qqXaJWvI9QLn/NbQhNKC+SQBSrUlLyEESDSTSlWscGZ6n9xtC6aPRwQ1mZ7G5qkT6ONP/jqdslyyanl0sjU5tK3jF4PrErqMkre0zyhaNrFC8CTcvG0uDnWUoMoJmvPxcvVEdRPgKvgknSGPq8Mpkle5cVxLchMPqs3AcpJYigzzEYN7loHPKAW4K+LbII+9sbfCtwgDDfb8qc73w9K4xhJWIK+w8OXFIDN9uECBGPwtGx5WhNxb848Xqyp/TUSCXuKO+zDqQg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- CH2PR12MB4102.namprd12.prod.outlook.com (2603:10b6:610:a9::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8989.13; Thu, 31 Jul 2025 15:19:37 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%6]) with mapi id 15.20.8989.010; Thu, 31 Jul 2025
- 15:19:37 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Usama Arif <usamaarif642@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, corbet@lwn.net,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
- baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
- sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com
-Subject: Re: [PATCH v2 2/5] mm/huge_memory: convert "tva_flags" to
- "enum tva_type" for thp_vma_allowable_order*()
-Date: Thu, 31 Jul 2025 11:19:30 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <F14C919F-A9AC-4C0E-8AE1-FF292682F1B1@nvidia.com>
-In-Reply-To: <c44cb864-3b36-4aa2-8040-60c97bfdc28e@lucifer.local>
-References: <20250731122825.2102184-1-usamaarif642@gmail.com>
- <20250731122825.2102184-3-usamaarif642@gmail.com>
- <c44cb864-3b36-4aa2-8040-60c97bfdc28e@lucifer.local>
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR02CA0058.namprd02.prod.outlook.com
- (2603:10b6:a03:54::35) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LneAwPwI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1753978554;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=hCFMEvUPyBLrGC/oYDfyk4mKEAk9olU5xdsqV7nWMUs=;
+	b=LneAwPwISKHlP6XJAWgFp+eWDM1nPzKdcFwAahaBGb57ef74fsEyKimiZjS5qQUDAXGDSJ
+	uE745rtun9Xs5uQr4Av+MKJdz5LgBTmLd/U+xb93YoEpuFWzKAwVSN1m8WYQC0S6NOLPu6
+	pUbPUbF6MM5bXwaFljylIQ/XdkQxVHs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-317-acNwzezIN8mbtg3rLkVnnA-1; Thu, 31 Jul 2025 12:15:40 -0400
+X-MC-Unique: acNwzezIN8mbtg3rLkVnnA-1
+X-Mimecast-MFC-AGG-ID: acNwzezIN8mbtg3rLkVnnA_1753978539
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3b79629bd88so328545f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 09:15:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753978539; x=1754583339;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hCFMEvUPyBLrGC/oYDfyk4mKEAk9olU5xdsqV7nWMUs=;
+        b=KQYnH1FtPjeyQVl3xIwxpkeJCbE/telpC9CuBR34EkGcJzJAMZ9/bs7ueLmp4xaWLV
+         bfjrTw6ywOV4wCTToCUHPKGonMNjYTTL5ALyQU4fLGmhgzQNJYUoieZNV84KT3Os81YZ
+         PIlp7Ql6t6pgTB3Vzy5J4TEnMSJsfIojD2Xed/+RLY6JMxhNCg6RGY1h3Ti8g+VvAKxb
+         XbWgS9gJONh9uYO0aQtW0R84fto/Nr5HtZhpNd/Js3xDr+yF7G7BODYWHVmEMUuaYO0M
+         XYPEGyG+MNwUhypHoVvfRtC4Gy3fke35e9HrWMxoMtqquWV/bdcxskpZBNnH/CWtavWL
+         c00g==
+X-Forwarded-Encrypted: i=1; AJvYcCXjIQjxlNW4yoAY8TlgFVHhKhmYbMLk8I48tlvQ5vwHJ00Vkx2mwJPIx3uv+/KDlN+ZpTTYrdFDCzQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXwiBrvrC5mVvOrNOK/6ItZPOMC5srCySklmUzakaOTJ7fzoeW
+	f/XRhWO3FQvNb6tSKLDiSwzqnow4N334r/73wfMv+yXfkPwW7DiEvqCCS4XCeOBPSF4AEDlZXCv
+	pfok8/lcummajM0QbCXsmAVXW+j7AfjMi8v5s9d3PVWoiFQEZbg7UnnUzFtthhQ==
+X-Gm-Gg: ASbGncvXOVY4pOCNERlAeZLl8MjVowop6nfkdZf/9Ep9MvZOXwRWUg2NWRirowoZhol
+	izw+un/zHc6v4RObq8nR6doRBrD+5cVgKkeVdM27GxuRB5ssoE6EQgjJv/J6ZNlOCUQHz8PPAnJ
+	yAAClae/fSfg9ubK7I6xf5t3Pz6pXQdiiySHo5hq3v+BITIGWwu2HxdMoguiBV7H4U2QkojHIwv
+	bSkbIQ3ryMGedAtufBoEbBx/2PTCT3lIrEHk0xqlvyR60cPTaXKE/ZVnjf2QE0eUQTL4B/6M+ff
+	oKszaywG8Ti4E23Pj7eOdRAmBVNEPjmMCPuCojUm5islWmElKb6Xkn402N8NmogXaDnEDQ6gWHI
+	MJimoJ6IGfbH46dnQd3yrvvE+AuY/3+7xoDlwLriBmSRiaF4AY2a/StjFi4iSIL0GPuA=
+X-Received: by 2002:a5d:5f90:0:b0:3a4:fbaf:749e with SMTP id ffacd0b85a97d-3b7950065fdmr6170028f8f.49.1753978538685;
+        Thu, 31 Jul 2025 09:15:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGytZULQmZ/hDajIkM/Htt7MthdICmHyxaaQPthRUhPkwjUZgExKSH13cnPbk4HyFbkpq+P8Q==
+X-Received: by 2002:a5d:5f90:0:b0:3a4:fbaf:749e with SMTP id ffacd0b85a97d-3b7950065fdmr6169988f8f.49.1753978538121;
+        Thu, 31 Jul 2025 09:15:38 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f44:3700:be07:9a67:67f7:24e6? (p200300d82f443700be079a6767f724e6.dip0.t-ipconnect.de. [2003:d8:2f44:3700:be07:9a67:67f7:24e6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c4a6f62sm2778077f8f.73.2025.07.31.09.15.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Jul 2025 09:15:37 -0700 (PDT)
+Message-ID: <09acd558-19b9-4964-823b-502b9044f954@redhat.com>
+Date: Thu, 31 Jul 2025 18:15:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|CH2PR12MB4102:EE_
-X-MS-Office365-Filtering-Correlation-Id: d6ccbbb7-2a1e-43d5-379d-08ddd045a996
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?C71f1ptZnOf2h6afyg1yMeTYx8wxpgfhTWmNTfH7kPp9jH0F8paWyowLKi6S?=
- =?us-ascii?Q?Y8U9q0Yq0YhwFqjngXDbmgXagtryLZxIVUxmVYOSw18yuP7lGUqDMyoVyRNg?=
- =?us-ascii?Q?A7SEIEVXBVrPavHry8Ru8F3nZT+MHtZyE/uDep1NfBbx23w1EBF15N9o9MWx?=
- =?us-ascii?Q?T6uOcfxf1qHLaPoJHwhGkbdEr4z06kik2qfR+m14BVNfJeXUUe657MTXgi2w?=
- =?us-ascii?Q?se5B5hbNy2rN3Mgy5aGskeGN0YHJduG86n5Srn/DWkZK/DRsklwjvapCRF6x?=
- =?us-ascii?Q?TASdQDZz9YfyfbLxc6BDMtR9aFB9UEHZGh08IILcJcH7bHY0dbyslWgHczqH?=
- =?us-ascii?Q?gWdq164659CXNpFNR5Mv5fZ2EqxXXMugu6FXCCsDWlTFfR3beGPkH2Ae76Xr?=
- =?us-ascii?Q?cFI4tQwQvl69+hVXcOfdtNH/a0izC5GmMmkDPV0nCKsuCogssyxghHMjt+H4?=
- =?us-ascii?Q?KI9lGA8bkvwwOk2vGJBtg/dDhq7C0GB3noWHrSVgCzcedpnQqOWe/wSzJZvt?=
- =?us-ascii?Q?yVZK/DHfPZKG1wrcxOGwclSULA70IUXJ/pBzmEHJaQMaPod+WTpc2UkKeg8j?=
- =?us-ascii?Q?bCou6Qc90kQiD5lri8Wm3PWSsRbpd7L8GSOQ3hFSVh+SgFi2JNgKFxdvFUXX?=
- =?us-ascii?Q?IFIVsxW2J3ia62KoEhqTsUwrn3SLlfArkZpKi9hbMuNoGz2WV0/dxRiRsl2r?=
- =?us-ascii?Q?20dEbEu5uSlnoivVFOiflVnzdVmIpH91QiXsRF+IQ/6rhLBT6e4Yf9kgm5Qv?=
- =?us-ascii?Q?kUheTGV4CGbxVl//9FMZ3Sm7zf08v/Muk8mhEwPiLfDLpEuC6NEzeE3ODUHQ?=
- =?us-ascii?Q?bZkkP9bi7JJD3uFmNYwOYJX5lKpaZX9ajEmzXyBDdd+/G0ZGrDI7c4KSnfE/?=
- =?us-ascii?Q?KdkW45YBce1xQYdvt5CaW0lWSU0C7x/lwVY+Xp4QA1j7IClB8SjViiL6c2Co?=
- =?us-ascii?Q?sppKQYzRjg/XVbv7toFWM3cX/Yf33Fa0YK10X8HPpMRk9ncWoMO1ryqqM3n6?=
- =?us-ascii?Q?Ze9XeqVEZGEpUEgctN5kvVHnXHyGT6hX9zb6TcC/TvbnLIn6pnFff0CW5dQp?=
- =?us-ascii?Q?kE8oUdVCFZC+R6M3g5uQCvXUu8E175Uqp5ndlG3oQp4+gKij4n4eqHuzadEv?=
- =?us-ascii?Q?+Xe7d46GTSRNkchK72cGAxDwOWI0Z8rbPASeZu95DPMY8ESoT0PRJpnGqfhE?=
- =?us-ascii?Q?PaXF0/QuosJjTpAENRxARbGX3+ae8mhWEUo0d6jFLwToBIJEL4TfVWhxt1I8?=
- =?us-ascii?Q?vLwM+GHhv2keO5sxYV9FE5ThpnYquUrb9OIgByby2benRMjCsob0gyGQSQ6V?=
- =?us-ascii?Q?Lj6/Xat5MpgnMH+5dveGpfUH7uAuJZ31bjwEMgZSk8Sx8m46cgN0UYLg9ETD?=
- =?us-ascii?Q?KZ4dKHa1nLJVe9Ag6xYZteVPJWqAF99QWpmehhx84f/hfZPzOET0F7NBmpcI?=
- =?us-ascii?Q?wKMRAu5qLCw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?GE2LcIkMwwSwSICC4vp9jL7LxCTJF0Oxb4J1VqmcSQMv7PrMvexLPxQMgnRm?=
- =?us-ascii?Q?L8jIdl+YZvb2hYexFKcEN3ujDAYedJdbbgHuG8k8JP/+8CfC95oW7QIbeKBr?=
- =?us-ascii?Q?WlQeOzfgkokX9zyL+Yef6D+BWsOhuy/TwM/Lj70JBCpV+SuhsHHitn0CXj4c?=
- =?us-ascii?Q?xJZSJvNAznpVqpxmLFb6IRs6rmx94O1b6rkm+sWI38AtaFuX9xEOjPRSV5AS?=
- =?us-ascii?Q?2kz/DIDLp1frp4s4fWYjhG4V07iLmfUcDEhxSzkX8xSRcSeyPIETdCJNF2Z5?=
- =?us-ascii?Q?kNHzgwGVjEhCagMjNSRF8hPeSGX2fr6/b+rffafS+sDUhS4dJuUcBjZWKlbK?=
- =?us-ascii?Q?nDYbc/JNByXbaAbXr5EdIaaZLGarCqT4kyNNpCR6KppawVkDoDsp0f9om1b0?=
- =?us-ascii?Q?5TEyPpwb8Ba2fsOAAJd7RAA5EwonBp81FF23Cs0wquQ1VL2Z3brUSigr1SVP?=
- =?us-ascii?Q?IE6OYLnQSeZW3kuC8OhB775I2UdFjudbDEX5VzhDv8gqj2UBfTLYhm5/RX8k?=
- =?us-ascii?Q?gDbMmTJmclSG9+udrD+ElLX1fwjI2ygAJfjffiwyGwS0TWT1ka1JBGE/LjmC?=
- =?us-ascii?Q?qEFkAbx5/+uYn0KRNMKZjotrcRHInC7OMd+oHl+7a3PtdhQMvcnYAJNs2jfk?=
- =?us-ascii?Q?7xHY1YN4KRwwntiw3j8mvBZ0e0XmOVo0eHtYUNaOend1NhylxKoD5pC6IM8E?=
- =?us-ascii?Q?Ojumg4EWwyHEbILHPqo7dY0d7WX4ZvYbh22XqCYOidPPlJ0LVk7CPr+7MJRB?=
- =?us-ascii?Q?gbtLbHYwKrEy2wlZuSqJPmoRlpK0qqnumZG2KEvQcV4RVw8Y98rgeySjJcpy?=
- =?us-ascii?Q?2ApHUJnFEN7900EguFQTnNTp1JCuju+mqFWgG731IwHpvilV8Zi7P8MP7FdK?=
- =?us-ascii?Q?liXDZWI+NPaCwMkU5OWZCROcogYpDpUoILDCwGGUlk8PWjGHtuK+S0DJUI95?=
- =?us-ascii?Q?e+o8fKBhdKSRj3BX7AcsibHBTuzVd5jU/pKRwoRc9xV2w8RNUgtPs0ZB+8BW?=
- =?us-ascii?Q?+yJWsli5t0n/bYgD2cGwKajbAkFoGAYrxcVKlLZ7tbBtnKrfGs2TyhGBnt7m?=
- =?us-ascii?Q?q4wt2WKMXRTjFdTsvpSaYQjqfresoxfUqtlQhcfpNDaibKBacWN2uKtyiQfC?=
- =?us-ascii?Q?cZ2a+Sm05vAC+tsRZhUo27Ljz+zeQg9u0ooxSX+zqINirShjRfuX5dc7sxnN?=
- =?us-ascii?Q?8CtDHu3GmQSSuv81LYURcdr+yekLhLC1gnDJNHsVKBNj6xgl7ulCnnGWI5xv?=
- =?us-ascii?Q?GKvqIANxo7Vcsb7VJoxeIH223SX/1FcoOpXm+Cdux5TQba8o2EJWfRDJaGbM?=
- =?us-ascii?Q?XtCzEKE3JqzNju18kUuiOo/D6ZXKCS28G9LMeA+u9jMa8aj5ygugf/WoNEkE?=
- =?us-ascii?Q?V7iIxqAEUTcoZ1fQhAeF5dOa/08KJiVYExGVgtdDJy4YzO6hNydXJcsBjM/p?=
- =?us-ascii?Q?17fcUuF/SnvhB+aBDRnCbEB3CkdB9d0pFpb/Fo3kINgI/uWQXO6jjx4XF1MZ?=
- =?us-ascii?Q?16Y3YICNQAnERE85mQuV7a6ZwFaH+4eIgnWEs9Ez8yeOkHTFTkhLbYxYxWPx?=
- =?us-ascii?Q?CwXdfawR5O6gBCwqT1Q=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6ccbbb7-2a1e-43d5-379d-08ddd045a996
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 15:19:37.4970
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jlyKTb++tsSvEVABUe9lO4cOI2HoeSwFqAEeLeInfO40luST8/sqMkb8cobH5Zkv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4102
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] mm/huge_memory: convert "tva_flags" to "enum
+ tva_type" for thp_vma_allowable_order*()
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Usama Arif <usamaarif642@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
+ shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
+ laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
+ sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com
+References: <20250731122825.2102184-1-usamaarif642@gmail.com>
+ <20250731122825.2102184-3-usamaarif642@gmail.com>
+ <c44cb864-3b36-4aa2-8040-60c97bfdc28e@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ g3eXuA==
+Organization: Red Hat
+In-Reply-To: <c44cb864-3b36-4aa2-8040-60c97bfdc28e@lucifer.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 31 Jul 2025, at 10:00, Lorenzo Stoakes wrote:
-
+On 31.07.25 16:00, Lorenzo Stoakes wrote:
 > On Thu, Jul 31, 2025 at 01:27:19PM +0100, Usama Arif wrote:
 >> From: David Hildenbrand <david@redhat.com>
 >>
 >> Describing the context through a type is much clearer, and good enough
 >> for our case.
->
+
+Just for the other patch, I'll let Usama take it from here, just a bunch 
+of comments.
+
+> 
 > This is pretty bare bones. What context, what type? Under what
 > circumstances?
->
+> 
 > This also is missing detail on the key difference here - that actually it
 > turns out we _don't_ need these to be flags, rather we can have _distinct_
 > modes which are clearer.
->
+> 
 > I'd say something like:
->
+> 
 > 	when determining which THP orders are eligiible for a VMA mapping,
 > 	we have previously specified tva_flags, however it turns out it is
 > 	really not necessary to treat these as flags.
->
+> 
 > 	Rather, we distinguish between distinct modes.
->
+> 
 > 	The only case where we previously combined flags was with
 > 	TVA_ENFORCE_SYSFS, but we can avoid this by observing that this is
 > 	the default, except for MADV_COLLAPSE or an edge cases in
 > 	collapse_pte_mapped_thp() and hugepage_vma_revalidate(), and adding
 > 	a mode specifically for this case - TVA_FORCED_COLLAPSE.
->
+> 
 > 	... stuff about the different modes...
->
+> 
 >>
 >> We have:
 >> * smaps handling for showing "THPeligible"
 >> * Pagefault handling
 >> * khugepaged handling
 >> * Forced collapse handling: primarily MADV_COLLAPSE, but one other odd case
->
+> 
 > Can we actually state what this case is? I mean I guess a handwave in the
 > form of 'an edge case in collapse_pte_mapped_thp()' will do also.
->
+
+Yeah, something like that. I think we also call it when we previously 
+checked that there is a THP and that we might be allowed to collapse. 
+E.g., collapse_pte_mapped_thp() is also called from khugepaged code 
+where we already checked the allowed order.
+
+> 
 > Hmm actually we do weird stuff with this so maybe just handwave.
->
+> 
 > Like uprobes calls collapse_pte_mapped_thp()... :/ I'm not sure this 'If we
 > are here, we've succeeded in replacing all the native pages in the page
 > cache with a single hugepage.' comment is even correct.
->
-> Anyway yeah, hand wave I guess...
->
+
+I think in all these cases we already have a THP and want to force that 
+collapse in the page table.
+
+[...]
+
 >>
 >> Really, we want to ignore sysfs only when we are forcing a collapse
 >> through MADV_COLLAPSE, otherwise we want to enforce.
->
+> 
 > I'd say 'ignoring this edge case, ...'
->
+> 
 > I think the clearest thing might be to literally list the before/after
 > like:
->
+> 
 > * TVA_SMAPS | TVA_ENFORCE_SYSFS -> TVA_SMAPS
 > * TVA_IN_PF | TVA_ENFORCE_SYSFS -> TVA_PAGEFAULT
 > * TVA_ENFORCE_SYSFS             -> TVA_KHUGEPAGED
 > * 0                             -> TVA_FORCED_COLLAPSE
->
+> 
+
+That makes sense.
+
 >>
 >> With this change, we immediately know if we are in the forced collapse
 >> case, which will be valuable next.
@@ -217,48 +227,166 @@ On 31 Jul 2025, at 10:00, Lorenzo Stoakes wrote:
 >> Signed-off-by: David Hildenbrand <david@redhat.com>
 >> Acked-by: Usama Arif <usamaarif642@gmail.com>
 >> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
->
+> 
 > Overall this is a great cleanup, some various nits however.
->
+> 
 >> ---
->>  fs/proc/task_mmu.c      |  4 ++--
->>  include/linux/huge_mm.h | 30 ++++++++++++++++++------------
->>  mm/huge_memory.c        |  8 ++++----
->>  mm/khugepaged.c         | 18 +++++++++---------
->>  mm/memory.c             | 14 ++++++--------
->>  5 files changed, 39 insertions(+), 35 deletions(-)
+>>   fs/proc/task_mmu.c      |  4 ++--
+>>   include/linux/huge_mm.h | 30 ++++++++++++++++++------------
+>>   mm/huge_memory.c        |  8 ++++----
+>>   mm/khugepaged.c         | 18 +++++++++---------
+>>   mm/memory.c             | 14 ++++++--------
+>>   5 files changed, 39 insertions(+), 35 deletions(-)
 >>
 >> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
 >> index 3d6d8a9f13fc..d440df7b3d59 100644
 >> --- a/fs/proc/task_mmu.c
 >> +++ b/fs/proc/task_mmu.c
 >> @@ -1293,8 +1293,8 @@ static int show_smap(struct seq_file *m, void *v)
->>  	__show_smap(m, &mss, false);
+>>   	__show_smap(m, &mss, false);
 >>
->>  	seq_printf(m, "THPeligible:    %8u\n",
+>>   	seq_printf(m, "THPeligible:    %8u\n",
 >> -		   !!thp_vma_allowable_orders(vma, vma->vm_flags,
 >> -			   TVA_SMAPS | TVA_ENFORCE_SYSFS, THP_ORDERS_ALL));
 >> +		   !!thp_vma_allowable_orders(vma, vma->vm_flags, TVA_SMAPS,
 >> +					      THP_ORDERS_ALL));
->
+> 
 > This !! is so gross, wonder if we could have a bool wrapper. But not a big
 > deal.
->
+> 
 > I also sort of _hate_ the smaps flag anyway, invoking this 'allowable
 > orders' thing just for smaps reporting with maybe some minor delta is just
 > odd.
->
+> 
 > Something like `bool vma_has_thp_allowed_orders(struct vm_area_struct
 > *vma);` would be nicer.
->
+> 
 > Anyway thoughts for another time... :)
 
-Or just
+Yeah, that's not the only nasty bit here ... :)
 
-bool thp_eligible = thp_vma_allowable_orders(...);
-seq_printf(m, "THPeligible:    %8u\n", thp_eligible);
+> 
+>>
+>>   	if (arch_pkeys_enabled())
+>>   		seq_printf(m, "ProtectionKey:  %8u\n", vma_pkey(vma));
+>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+>> index 71db243a002e..b0ff54eee81c 100644
+>> --- a/include/linux/huge_mm.h
+>> +++ b/include/linux/huge_mm.h
+>> @@ -94,12 +94,15 @@ extern struct kobj_attribute thpsize_shmem_enabled_attr;
+>>   #define THP_ORDERS_ALL	\
+>>   	(THP_ORDERS_ALL_ANON | THP_ORDERS_ALL_SPECIAL | THP_ORDERS_ALL_FILE_DEFAULT)
+>>
+>> -#define TVA_SMAPS		(1 << 0)	/* Will be used for procfs */
+> 
+> Dumb question, but what does 'TVA' stand for? :P
 
+Whoever came up with that probably used the function name where this is 
+passed in
 
+thp_vma_allowable_orders()
 
-Best Regards,
-Yan, Zi
+> 
+>> -#define TVA_IN_PF		(1 << 1)	/* Page fault handler */
+>> -#define TVA_ENFORCE_SYSFS	(1 << 2)	/* Obey sysfs configuration */
+>> +enum tva_type {
+>> +	TVA_SMAPS,		/* Exposing "THPeligible:" in smaps. */
+> 
+> How I hate this flag (just an observation...)
+> 
+>> +	TVA_PAGEFAULT,		/* Serving a page fault. */
+>> +	TVA_KHUGEPAGED,		/* Khugepaged collapse. */
+> 
+> This is equivalent to the TVA_ENFORCE_SYSFS case before, sort of a default
+> I guess, but actually quite nice to add the context that it's sourced from
+> khugepaged - I assume this will always be the case when specified?
+> 
+>> +	TVA_FORCED_COLLAPSE,	/* Forced collapse (i.e., MADV_COLLAPSE). */
+> 
+> Would put 'e.g.' here, then that allows 'space' for the edge case...
+
+Makes sense.
+
+> 
+>> +};
+>>
+>> -#define thp_vma_allowable_order(vma, vm_flags, tva_flags, order) \
+>> -	(!!thp_vma_allowable_orders(vma, vm_flags, tva_flags, BIT(order)))
+>> +#define thp_vma_allowable_order(vma, vm_flags, type, order) \
+>> +	(!!thp_vma_allowable_orders(vma, vm_flags, type, BIT(order)))
+> 
+> Nit, but maybe worth keeping tva_ prefix - tva_type - here just so it's
+> clear what type it refers to.
+> 
+> But not end of the world.
+> 
+> Same comment goes for param names below etc.
+
+No strong opinion, but I prefer to drop the prefix when it can be 
+deduced from the type and we are inside of the very function that 
+essentially defines these types (tva prefix is implicit, no other type 
+applies).
+
+These should probably just be inline functions at some point with proper 
+types and doc (separate patch uin the future, of course).
+
+[...]
+
+>> +++ b/mm/khugepaged.c
+>> @@ -474,8 +474,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
+>>   {
+>>   	if (!test_bit(MMF_VM_HUGEPAGE, &vma->vm_mm->flags) &&
+>>   	    hugepage_pmd_enabled()) {
+>> -		if (thp_vma_allowable_order(vma, vm_flags, TVA_ENFORCE_SYSFS,
+>> -					    PMD_ORDER))
+>> +		if (thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED, PMD_ORDER))
+>>   			__khugepaged_enter(vma->vm_mm);
+>>   	}
+>>   }
+>> @@ -921,7 +920,8 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+>>   				   struct collapse_control *cc)
+>>   {
+>>   	struct vm_area_struct *vma;
+>> -	unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
+>> +	enum tva_type tva_type = cc->is_khugepaged ? TVA_KHUGEPAGED :
+>> +				 TVA_FORCED_COLLAPSE;
+> 
+> This is great, this is so much clearer.
+> 
+> A nit though, I mean I come back to my 'type' vs 'tva_type' nit above, this
+> is inconsistent, so we should choose one approach and stick with it.
+
+This is outside of the function, so I would prefer to keep it here, but 
+no stong opinion.
+
+> 
+>>
+>>   	if (unlikely(hpage_collapse_test_exit_or_disable(mm)))
+>>   		return SCAN_ANY_PROCESS;
+>> @@ -932,7 +932,7 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+>>
+>>   	if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
+>>   		return SCAN_ADDRESS_RANGE;
+>> -	if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_flags, PMD_ORDER))
+>> +	if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_type, PMD_ORDER))
+>>   		return SCAN_VMA_CHECK;
+>>   	/*
+>>   	 * Anon VMA expected, the address may be unmapped then
+>> @@ -1532,9 +1532,10 @@ int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
+>>   	 * in the page cache with a single hugepage. If a mm were to fault-in
+>>   	 * this memory (mapped by a suitably aligned VMA), we'd get the hugepage
+>>   	 * and map it by a PMD, regardless of sysfs THP settings. As such, let's
+>> -	 * analogously elide sysfs THP settings here.
+>> +	 * analogously elide sysfs THP settings here and pretend we are
+>> +	 * collapsing.
+> 
+> I think saying pretending here is potentially confusing, maybe worth saying
+> 'force collapse'?
+
+Makes sense.
+
+-- 
+Cheers,
+
+David / dhildenb
+
