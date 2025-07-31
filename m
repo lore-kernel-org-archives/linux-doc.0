@@ -1,392 +1,200 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2082.outbound.protection.outlook.com [40.107.212.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFCE1BEF8C
-	for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 16:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753978557; cv=none; b=s5zdxr8upn9rBGJZrZoZZvWtKY6Sgs3Xw8tDtIfPw6i22OvuljQv/6U6F3r5eorh650kv1Mw6G1DkS5yisCSS27pAz+S3LJnbz/O+enjunnf/aHqMRLhflOrQcYXv8sgFTNVtWOodKHBG0VZqFZfRcteqKziW4FvkBAW2PgCmQ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753978557; c=relaxed/simple;
-	bh=NmK9mpCX/2zw5F1BJI2dwZwnnUGC/SRcSDSLx0fItOM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QJUWKabTyVIkIpNO2GxE5q66GSuzgY6vEg8lDboVYjGdjp6L8t8GoFFEcHHqbXK9ZfO4c4lcoSFpfjf5oPcSt82bzecT2KQoevZLch93mtJeSs7jqlOIUK0DDreVptOYFoajb+/LtIqR32Jp6tcUPJ39DpSzbmjcSqhdmWG03j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LneAwPwI; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECE41DD88F;
+	Thu, 31 Jul 2025 16:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.82
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753979323; cv=fail; b=tWcgjw5/YftN+jmNnEbZaROXaJrINCjUU/nx94El80sDrbh5XCdYCQstsbG0mvQcAWNnVaxcEkeKtLtk2taAjU2XmHcssRlMF9uX2ZIm+jd+nBHID5vFOQ55GHzG46RmBRmk1u4dF08UYavP/+6M0AcDFFaLZgwq6u+/lOnOcMU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753979323; c=relaxed/simple;
+	bh=3YdyOSIX0Z1uob7MHKQd+qTAAA294GPlTUHDwknIHsU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RHAtGIfOZwMazGKPu3ZrFba4rnUu5i10KrBbdGOPv2/ReutT0ruu91pipLNBy407Zw3YiqQ5BVXNFA/JRLT4+O5Gy1Ub75+LOalP9DJiqw55T3F9vt96FE6lCH3Dpc1FHPY8u0CpmZ7k6eBuki4MujDmTQm96tNxOu0Vxl8GUP0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vJhX1scN; arc=fail smtp.client-ip=40.107.212.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LneAwPwI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753978554;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=hCFMEvUPyBLrGC/oYDfyk4mKEAk9olU5xdsqV7nWMUs=;
-	b=LneAwPwISKHlP6XJAWgFp+eWDM1nPzKdcFwAahaBGb57ef74fsEyKimiZjS5qQUDAXGDSJ
-	uE745rtun9Xs5uQr4Av+MKJdz5LgBTmLd/U+xb93YoEpuFWzKAwVSN1m8WYQC0S6NOLPu6
-	pUbPUbF6MM5bXwaFljylIQ/XdkQxVHs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-317-acNwzezIN8mbtg3rLkVnnA-1; Thu, 31 Jul 2025 12:15:40 -0400
-X-MC-Unique: acNwzezIN8mbtg3rLkVnnA-1
-X-Mimecast-MFC-AGG-ID: acNwzezIN8mbtg3rLkVnnA_1753978539
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3b79629bd88so328545f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 31 Jul 2025 09:15:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753978539; x=1754583339;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hCFMEvUPyBLrGC/oYDfyk4mKEAk9olU5xdsqV7nWMUs=;
-        b=KQYnH1FtPjeyQVl3xIwxpkeJCbE/telpC9CuBR34EkGcJzJAMZ9/bs7ueLmp4xaWLV
-         bfjrTw6ywOV4wCTToCUHPKGonMNjYTTL5ALyQU4fLGmhgzQNJYUoieZNV84KT3Os81YZ
-         PIlp7Ql6t6pgTB3Vzy5J4TEnMSJsfIojD2Xed/+RLY6JMxhNCg6RGY1h3Ti8g+VvAKxb
-         XbWgS9gJONh9uYO0aQtW0R84fto/Nr5HtZhpNd/Js3xDr+yF7G7BODYWHVmEMUuaYO0M
-         XYPEGyG+MNwUhypHoVvfRtC4Gy3fke35e9HrWMxoMtqquWV/bdcxskpZBNnH/CWtavWL
-         c00g==
-X-Forwarded-Encrypted: i=1; AJvYcCXjIQjxlNW4yoAY8TlgFVHhKhmYbMLk8I48tlvQ5vwHJ00Vkx2mwJPIx3uv+/KDlN+ZpTTYrdFDCzQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXwiBrvrC5mVvOrNOK/6ItZPOMC5srCySklmUzakaOTJ7fzoeW
-	f/XRhWO3FQvNb6tSKLDiSwzqnow4N334r/73wfMv+yXfkPwW7DiEvqCCS4XCeOBPSF4AEDlZXCv
-	pfok8/lcummajM0QbCXsmAVXW+j7AfjMi8v5s9d3PVWoiFQEZbg7UnnUzFtthhQ==
-X-Gm-Gg: ASbGncvXOVY4pOCNERlAeZLl8MjVowop6nfkdZf/9Ep9MvZOXwRWUg2NWRirowoZhol
-	izw+un/zHc6v4RObq8nR6doRBrD+5cVgKkeVdM27GxuRB5ssoE6EQgjJv/J6ZNlOCUQHz8PPAnJ
-	yAAClae/fSfg9ubK7I6xf5t3Pz6pXQdiiySHo5hq3v+BITIGWwu2HxdMoguiBV7H4U2QkojHIwv
-	bSkbIQ3ryMGedAtufBoEbBx/2PTCT3lIrEHk0xqlvyR60cPTaXKE/ZVnjf2QE0eUQTL4B/6M+ff
-	oKszaywG8Ti4E23Pj7eOdRAmBVNEPjmMCPuCojUm5islWmElKb6Xkn402N8NmogXaDnEDQ6gWHI
-	MJimoJ6IGfbH46dnQd3yrvvE+AuY/3+7xoDlwLriBmSRiaF4AY2a/StjFi4iSIL0GPuA=
-X-Received: by 2002:a5d:5f90:0:b0:3a4:fbaf:749e with SMTP id ffacd0b85a97d-3b7950065fdmr6170028f8f.49.1753978538685;
-        Thu, 31 Jul 2025 09:15:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGytZULQmZ/hDajIkM/Htt7MthdICmHyxaaQPthRUhPkwjUZgExKSH13cnPbk4HyFbkpq+P8Q==
-X-Received: by 2002:a5d:5f90:0:b0:3a4:fbaf:749e with SMTP id ffacd0b85a97d-3b7950065fdmr6169988f8f.49.1753978538121;
-        Thu, 31 Jul 2025 09:15:38 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f44:3700:be07:9a67:67f7:24e6? (p200300d82f443700be079a6767f724e6.dip0.t-ipconnect.de. [2003:d8:2f44:3700:be07:9a67:67f7:24e6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c4a6f62sm2778077f8f.73.2025.07.31.09.15.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Jul 2025 09:15:37 -0700 (PDT)
-Message-ID: <09acd558-19b9-4964-823b-502b9044f954@redhat.com>
-Date: Thu, 31 Jul 2025 18:15:35 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vJhX1scN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZgwIPMgDil0LJR2x5zKLEiu1eMFzeYUpM1J6sMWEgTbUmwFaBeqRLfmzDqADOklzhh4dJuVHshpGU53ePiv3jAoUzVMWtnhjiZ57BFCEpV0ybLYKh8Nq+wm12KibmJpwHO559FOv9KCAZYyVSUks7YdTpnNrf61qgU4zwLiwdCQkeGPG/a//TQQo3JSqI96fHxL270apkZAqq3TTOvfomrbHRwB+ap/n2IJ0TPzCyCPFR2pilvb4xx6WDkDlMiACJPMO+uJHep5ij3znChVlFSrbOPZUSc5OGTTPvT9JOCpzUEpQWPZ2FK5rj50sf+swDH5OhKqfOedmrlchQbkf1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GLXxuyPHQSaAQO1/HSEKu0VXd4srJPmBeLFZmgEdIA4=;
+ b=lrx3CIKqyGQu2Z6wSE7hcL1ADJDyN8pAKP0IpUGzXUgiYw0aNUFTNmDOF30U5bAaAaZChMoZRwojKLB7D7uBKTmCF0gpf3AWA9O8ZI9r+SsjaJJDIIg7ljrmiEGH8XYRdekIEy+CHct4XD/POl6KFo5fc01V7kRUFKTJSv5e1yomlmu00TP37YDLFrzWpZwQeL2AkPLL/hMIq9W4YnxDRh3l8gG6fzR/1UoBxwmtu95NbOhgJcW/So3QacHoOR3amZkU3DJ909HT/GVBc4A14x+UaKPj+zi4ZwvIDSHpbWQLCtqtUrpQXyH9xUF8C7aeMPhy0Pedcp1IDTQWR5LdHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GLXxuyPHQSaAQO1/HSEKu0VXd4srJPmBeLFZmgEdIA4=;
+ b=vJhX1scNNuwsPUzUXpRIMSOMf5cqNvvl7/uDIUqdlFp+DtYz0cyEcGhB4h94+hCzFyGHpBknikFz/OaVNBhJg4VT/RWe904BoD6huVbF+iu1ZTUpsSuP/1eoJZ/UqjmJ36nP90ipJTfemmqh2pGXfKPd9DsAet6gRvLdJWUF7kg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by DS0PR12MB9324.namprd12.prod.outlook.com
+ (2603:10b6:8:1b6::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.12; Thu, 31 Jul
+ 2025 16:28:35 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.8989.011; Thu, 31 Jul 2025
+ 16:28:35 +0000
+Message-ID: <c4bfc16e-1afe-4547-a234-3d7e7487cf67@amd.com>
+Date: Thu, 31 Jul 2025 11:28:30 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v7 02/10] x86/resctrl: Add SDCIAE feature in the command
+ line options
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
+ david@redhat.com, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
+ thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
+ yosry.ahmed@linux.dev, sohil.mehta@intel.com, xin@zytor.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
+ me@mixaill.net, mario.limonciello@amd.com, xin3.li@intel.com,
+ ebiggers@google.com, ak@linux.intel.com, chang.seok.bae@intel.com,
+ andrew.cooper3@citrix.com, perry.yuan@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1752167718.git.babu.moger@amd.com>
+ <f3b1e748c13086a7183ffd159e667d07a4ff6cab.1752167718.git.babu.moger@amd.com>
+ <cb7c6520-e774-44cf-8328-08fc19e8815b@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <cb7c6520-e774-44cf-8328-08fc19e8815b@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0129.namprd11.prod.outlook.com
+ (2603:10b6:806:131::14) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] mm/huge_memory: convert "tva_flags" to "enum
- tva_type" for thp_vma_allowable_order*()
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Usama Arif <usamaarif642@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
- shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
- sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com
-References: <20250731122825.2102184-1-usamaarif642@gmail.com>
- <20250731122825.2102184-3-usamaarif642@gmail.com>
- <c44cb864-3b36-4aa2-8040-60c97bfdc28e@lucifer.local>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <c44cb864-3b36-4aa2-8040-60c97bfdc28e@lucifer.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|DS0PR12MB9324:EE_
+X-MS-Office365-Filtering-Correlation-Id: 46ee65c8-6f27-4cb4-ba2b-08ddd04f4bfe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OEJ0T2hiR3BXRUN6aE1jNkFXckZMVXU5L1pJWjF6Rm5NS3Izd3p3Rm03NUY5?=
+ =?utf-8?B?c3dsZEQyak5kMjEyajF0bmsvMnRmM0s4cGZDMXcxNjBDMmlyUHQ2NHE0Wm80?=
+ =?utf-8?B?aHM5elMwZzV0bVU0SjVqOXY1TGNyNHNBcGsxL2dyL1FpbCtrU0JISVQ2QVND?=
+ =?utf-8?B?Y0FpTDE4NWhTQjZhVnk4dkJPRnNjWS9ZdTV0VCs0RzJnb09wQTE2Z0NqdVZW?=
+ =?utf-8?B?YmJ2SHo4Y0M2cU51UXNLRGd6NlZrTG9reURTUFNkamZIeDlXRDN0U3grQ05Y?=
+ =?utf-8?B?KytORjhJNXJjZlZnQjBnN0pCZ0F2MFljbDk3N2JZWWRTZmdaWVlmMUxqRmVU?=
+ =?utf-8?B?N09hZ2ZRTkpvcGpoaldNQlRtWFZQUlpqSkpLL3loMkVGdFJ1T21jM21RdXFC?=
+ =?utf-8?B?UU1rSW5vdTFBQXZqOVlJM1I1b0pQWGwrNmk5UDFzV0F2WFJ5M0wrTm0veDhw?=
+ =?utf-8?B?eTV3ZDRQUFNROUczYlRyaW5DQmJJTjAxMEorSkoxbTBBMnVNd0puMWFtWVY3?=
+ =?utf-8?B?NGVZVWlrTTA1cFZ0TEVpREhDS0lEcUNPMXlrRWR0YXE2dWJ1TElDKzhITmg0?=
+ =?utf-8?B?SHl4MWdlbGR0WUVDaGFyK0ZueUN6Wm1wcGVIZU11cXBwemFnd2cwYzllSVUw?=
+ =?utf-8?B?NXdVKzF0MjF6VlRaZmhTblJFTnd3QUNqWkY4V09GRlV5cVowdFloMkhDd1Jj?=
+ =?utf-8?B?Vkllc1IzcDc2RjN5K0l3bnZTQWhqUXhGTjhNSmhUWFFzVU5PTmgzYU5ac0FJ?=
+ =?utf-8?B?RUlpOWw1Q1NyR3FRUFl4cTUrdE4zWHU3dmRNL3BNNUdWbitxaDlIYzMwWHJz?=
+ =?utf-8?B?dzhBYklubllDS2JURU1EQ280ZllrQk5VcTVSZlQ2MCtmNkZoN2tqeWFxR1Av?=
+ =?utf-8?B?MHB4d1BGZkhxRzRLcFo2S3pUWXV6dG9XeFAwUXBHbjZSQ2lFWDVOTXZxWDgr?=
+ =?utf-8?B?OG9RODBCbnpXOEpIRGM3T1d4WG96UWNYWUJFRGtPZ0NwNnBzSjIzbGVYWVdm?=
+ =?utf-8?B?YmdiR3R3bTJ1Z3VwSDQ5NkNsejlHRUR6QWxtTUkwZUpzWXpwSE1SdVk5Q1U3?=
+ =?utf-8?B?dGFHSWI0ZWpMUFhhcWJSYkhHYnJwdkhtYmNESFlwVkFwVU9zcU9mMEJtUVg5?=
+ =?utf-8?B?YldzeE9wbndhL2MwWElDV2ZPK1daOCszdVFCN2RJYURtdHFlN203Nmt5ZW5D?=
+ =?utf-8?B?VVh4Mm1HcmphdVd2QndjN05jTk53RWRUQ1ZwUFliQU9oSDk0aXZxVmc5cVh4?=
+ =?utf-8?B?cDZnS0NTdmp3R1JhLzM2MTFQY3BRV2p1QUZyS1FQODUzSE5sbDcreXczMWxR?=
+ =?utf-8?B?T0pJZllxcTZVc05KejdtZ2hMMjBsSktvVTZPMlNsMjJud2x1SUJGL2o4eHJS?=
+ =?utf-8?B?ZWpzZVBpbjZGZlllV2tlZ2lmTHJBeVFpOTQ1U3BobnIwVEVKVlRhVHRBdUNZ?=
+ =?utf-8?B?UGVJNWRuZ0hOWnBWS0V1MklpcGtydk80emtNLzFoVTVGaG1ucHlHUVZkaU9E?=
+ =?utf-8?B?S0tWK0NkVCs1RTFDQlBpc092Rm4wVFA1eWR0dzlYeUdyQWpuUEV2WkN6bUE0?=
+ =?utf-8?B?aWJpMXgwRHJxeW1LZkdxaVRaVC9jWUcwS2Qrd3VDM3VuVml5bC95M25KbmpP?=
+ =?utf-8?B?MGFzSytjTE1jcmQ1WW9WWUlkZ2U4MWFHTDdUV25ORW51YnJ4c2hERHU0dGIv?=
+ =?utf-8?B?NUJhdUF6WFlXSGZ6WlRqcXhRNFJrRHZDYmZyUjdjQi9TdnJ2emw3WU1NQ3Yr?=
+ =?utf-8?B?TGxRQk1HazJ4Skh6UDI1dlpodXFmSGtWQUdTY21Od3FoOGxJbDVRVWU5TVFu?=
+ =?utf-8?B?Zm1DV1Y1aGhCaGRCdHZOSXBsUUpmcW0yOXpiZzBsL0Q3amEwVjVkQkJOcHFZ?=
+ =?utf-8?B?cWhTeFFxRWszbUYzUUVpb29VR0J4dHV5REY3Z1BlRlcycjZHcmJsZE1Rc1Ri?=
+ =?utf-8?Q?HPwjMJbIEmM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?STU1a09KN3pveWJUWjRYckl0VTRCalROU2E1cmxRMjM0N095R1crWmo1U1lq?=
+ =?utf-8?B?L0p6bnp6cGlDMnlSY3BLNnpWazN0T0xhTGpHVGlpWGhVeEExUGVua3FhS1FW?=
+ =?utf-8?B?Y3pEdFc5eEliV0RpWjBuK3BFRkJYVDRnMXBvdytVTFhyOTdoNi9XNU5YSFdC?=
+ =?utf-8?B?QjhzVlRwY2FNUjc1bGZJY0YreXY3YTZvMkFhM1BTN2Z0cGFlL0p0QlQ5dlZ2?=
+ =?utf-8?B?a011dzQvNXlHM0g3dngrUHNXZW5Jbld4dnFXNDNjd2hpUHlYMHJKS2hnZmw2?=
+ =?utf-8?B?NlVyZjZtYk9kbnNGVGRMQkdGS0dQVnB1NFZjRmZmY25QRTFxRjN5NExyVHlj?=
+ =?utf-8?B?N0wyQzlmVnpwRGRueng1QWhONXlKeHo3SERreEJFRUZ4Y04xNUdpcmgvSHdJ?=
+ =?utf-8?B?aGhjOTRNQ0RkL28yaVYzNVphOWdsV2RqQ1dnMlNOcjNQMmJYWUpCbGRsWGZI?=
+ =?utf-8?B?YjE3d1RSNUNnWHhUR3hydU9hWjhlQVFxK0RKeFdhWmUwZFdRd0VXSmxtSzEw?=
+ =?utf-8?B?TzhsKzl3OFNpWkZ4STRIRU8wQjVRc09vREVyZTd0Z3dadkEyQVV5YllVczRt?=
+ =?utf-8?B?aEVraVgreklVWFU2bU4vcHlDeHV3bTB5OFBXZi9hajZBUVVYdmVJYVVvemg3?=
+ =?utf-8?B?L0QrTm14ZElSNjNQUlJJK3NnSTdaNEgrcFc5SERCeWRYU0t1TERNcmlGeWsz?=
+ =?utf-8?B?VEFBYXJVcWhhUHFPYUZOZ2MxQTRBeERBNkV1eW5KSVNnejhxK05VSUNPdGdL?=
+ =?utf-8?B?SEpmeWVIek5KU3JUZHdaYmlvRUI4Rm9nRzJKc2thTUUwL0xncGlKZnZGeU1v?=
+ =?utf-8?B?bGJWRGNmdWErUENXbDRSMnBKNVVOTDVNRHc1TTdnV2JzVC9vbjJML2I3azRk?=
+ =?utf-8?B?SFEwYm5OWm1xNjFXUnkySDdFdFl5OHpWV3N6RUlWdmsrNllxRkNuYUVNT0o4?=
+ =?utf-8?B?QlNwOWxUZVpoYXdkeUs3ZWhiTG1FaVNyTmo5TFloa1FwczZxTWkwdllyZTl2?=
+ =?utf-8?B?V21UTXhmNEQxR0J2c1Byc0hZRFBMc0Rydm01aWtNQmZsN0lSR0pmSnBCNitU?=
+ =?utf-8?B?eERQbVJSVERpSldGcGtabjZDN3lEajgxUjRhMnlzQmxHVFRqZWxtc0hrZjBh?=
+ =?utf-8?B?STlPZXRQaVZlSElObk5IY2lJaE9mUUtCeEpFWmU5RTM0UlhQSm1hTTVWLzhK?=
+ =?utf-8?B?UzY1NmdWU2FLTlR6MDMxUEdwWGlpRW95Wm5LSUp4WG91Y2lMOFh3WitBa0Nj?=
+ =?utf-8?B?Ny9GSmtQOG5YVUI1UlpQZGdWZ09aT0NNWGh0QllPTEs4Y1dUUUh5bmd4bm1N?=
+ =?utf-8?B?dzhNNTZudFArT0VESmU0YnlMUG5kZTlmekNKeHhIbVUzMmlYNDFIa1V4dVFt?=
+ =?utf-8?B?bFY2Z2ZZbytjdmZCRzVCcHlWUysyWjg1a0dDSGhDcGpoNlFibjJDQ05EV3JB?=
+ =?utf-8?B?RFNkMGdoaVo2ODRRTGdmUDZzTWJndUhDYitsVjh5N0huclVEZlJ0aXBHYVNk?=
+ =?utf-8?B?UDZEbVNwWnR4M3oxRnVmWDBnc1MrandqZ2lBb1ZoVUVzTnFYVVFEYnZJNzJq?=
+ =?utf-8?B?bVhRVFF6VGJlMnpwWEdDUmwzY25SZGxLdzlnMmxkSlhZcC93Ky9PbldKVzFP?=
+ =?utf-8?B?UUFhZHJHamlFUkpHVHdoT3VYZjI4T3ZpSld3bmgwQkxoa01pYnFCREx0ck9W?=
+ =?utf-8?B?VlE5U29hYUFDTzl2ZXArWGNJK2QyVUt3eHFXT0wvclhqSXFPSmx4UkFSZEl1?=
+ =?utf-8?B?RVZnRXZVNDNWbDFHekJhMElPem5QMUs2blgyNTFSOG9YV0NKWjNnWTMzbms0?=
+ =?utf-8?B?bVZjcEdTQ2FPa0UwRGV5andyYTNKNWNqREN4a09TYWg0SDdEeHJVcVpXc05S?=
+ =?utf-8?B?dWlncmdqY0psTlNPV1k5enFNMTkrbVdFanU3OHNzc0l0TkllRGVqekt1TEZ2?=
+ =?utf-8?B?R1RFWGVEajRPOEtTTjBXc3Q5Q0F0QkFNOFdwTDdwaE1qRU52Wjd4aklGd25k?=
+ =?utf-8?B?NVNkOHJTVFNTcXltSVJoZ2pLTDVUVDlmcldDbkp0REJ2YmhkYTJQeEJ3MEFp?=
+ =?utf-8?B?WHJURlkvTmtpOTl4cEFaYWM2VHFTUHVXRC90dnA0SFdyY09ZS2tEWmZJcGE1?=
+ =?utf-8?Q?/hrSUoxloWBcvvaHp3yx2UPMC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46ee65c8-6f27-4cb4-ba2b-08ddd04f4bfe
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 16:28:35.4001
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JTdRcBzI45E8zWvnskTserrXbc3/GPM3RlZADqDTMZmKj+lIVRIOgfKDdqBgFaaj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9324
 
-On 31.07.25 16:00, Lorenzo Stoakes wrote:
-> On Thu, Jul 31, 2025 at 01:27:19PM +0100, Usama Arif wrote:
->> From: David Hildenbrand <david@redhat.com>
+Hi Reinette,
+
+On 7/21/25 18:29, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/10/25 10:16 AM, Babu Moger wrote:
+>> Add the command line options to enable or disable the new resctrl feature
+>> L3 Smart Data Cache Injection Allocation Enforcement (SDCIAE).
 >>
->> Describing the context through a type is much clearer, and good enough
->> for our case.
-
-Just for the other patch, I'll let Usama take it from here, just a bunch 
-of comments.
-
-> 
-> This is pretty bare bones. What context, what type? Under what
-> circumstances?
-> 
-> This also is missing detail on the key difference here - that actually it
-> turns out we _don't_ need these to be flags, rather we can have _distinct_
-> modes which are clearer.
-> 
-> I'd say something like:
-> 
-> 	when determining which THP orders are eligiible for a VMA mapping,
-> 	we have previously specified tva_flags, however it turns out it is
-> 	really not necessary to treat these as flags.
-> 
-> 	Rather, we distinguish between distinct modes.
-> 
-> 	The only case where we previously combined flags was with
-> 	TVA_ENFORCE_SYSFS, but we can avoid this by observing that this is
-> 	the default, except for MADV_COLLAPSE or an edge cases in
-> 	collapse_pte_mapped_thp() and hugepage_vma_revalidate(), and adding
-> 	a mode specifically for this case - TVA_FORCED_COLLAPSE.
-> 
-> 	... stuff about the different modes...
-> 
->>
->> We have:
->> * smaps handling for showing "THPeligible"
->> * Pagefault handling
->> * khugepaged handling
->> * Forced collapse handling: primarily MADV_COLLAPSE, but one other odd case
-> 
-> Can we actually state what this case is? I mean I guess a handwave in the
-> form of 'an edge case in collapse_pte_mapped_thp()' will do also.
-
-Yeah, something like that. I think we also call it when we previously 
-checked that there is a THP and that we might be allowed to collapse. 
-E.g., collapse_pte_mapped_thp() is also called from khugepaged code 
-where we already checked the allowed order.
-
-> 
-> Hmm actually we do weird stuff with this so maybe just handwave.
-> 
-> Like uprobes calls collapse_pte_mapped_thp()... :/ I'm not sure this 'If we
-> are here, we've succeeded in replacing all the native pages in the page
-> cache with a single hugepage.' comment is even correct.
-
-I think in all these cases we already have a THP and want to force that 
-collapse in the page table.
-
-[...]
-
->>
->> Really, we want to ignore sysfs only when we are forcing a collapse
->> through MADV_COLLAPSE, otherwise we want to enforce.
-> 
-> I'd say 'ignoring this edge case, ...'
-> 
-> I think the clearest thing might be to literally list the before/after
-> like:
-> 
-> * TVA_SMAPS | TVA_ENFORCE_SYSFS -> TVA_SMAPS
-> * TVA_IN_PF | TVA_ENFORCE_SYSFS -> TVA_PAGEFAULT
-> * TVA_ENFORCE_SYSFS             -> TVA_KHUGEPAGED
-> * 0                             -> TVA_FORCED_COLLAPSE
-> 
-
-That makes sense.
-
->>
->> With this change, we immediately know if we are in the forced collapse
->> case, which will be valuable next.
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> Acked-by: Usama Arif <usamaarif642@gmail.com>
->> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> 
-> Overall this is a great cleanup, some various nits however.
-> 
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
 >> ---
->>   fs/proc/task_mmu.c      |  4 ++--
->>   include/linux/huge_mm.h | 30 ++++++++++++++++++------------
->>   mm/huge_memory.c        |  8 ++++----
->>   mm/khugepaged.c         | 18 +++++++++---------
->>   mm/memory.c             | 14 ++++++--------
->>   5 files changed, 39 insertions(+), 35 deletions(-)
->>
->> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
->> index 3d6d8a9f13fc..d440df7b3d59 100644
->> --- a/fs/proc/task_mmu.c
->> +++ b/fs/proc/task_mmu.c
->> @@ -1293,8 +1293,8 @@ static int show_smap(struct seq_file *m, void *v)
->>   	__show_smap(m, &mss, false);
->>
->>   	seq_printf(m, "THPeligible:    %8u\n",
->> -		   !!thp_vma_allowable_orders(vma, vma->vm_flags,
->> -			   TVA_SMAPS | TVA_ENFORCE_SYSFS, THP_ORDERS_ALL));
->> +		   !!thp_vma_allowable_orders(vma, vma->vm_flags, TVA_SMAPS,
->> +					      THP_ORDERS_ALL));
+> ...
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>>  arch/x86/kernel/cpu/resctrl/core.c              | 2 ++
+>>  2 files changed, 3 insertions(+), 1 deletion(-)
 > 
-> This !! is so gross, wonder if we could have a bool wrapper. But not a big
-> deal.
+> Could you please also add associated update to
+> Documentation/filesystems/resctrl.rst ? For reference, the similar
+> ABMC change:
+> https://lore.kernel.org/lkml/00cd603997e3ee6a389f83aef066fe7313b1abaf.1752013061.git.babu.moger@amd.com/
 > 
-> I also sort of _hate_ the smaps flag anyway, invoking this 'allowable
-> orders' thing just for smaps reporting with maybe some minor delta is just
-> odd.
-> 
-> Something like `bool vma_has_thp_allowed_orders(struct vm_area_struct
-> *vma);` would be nicer.
-> 
-> Anyway thoughts for another time... :)
 
-Yeah, that's not the only nasty bit here ... :)
-
-> 
->>
->>   	if (arch_pkeys_enabled())
->>   		seq_printf(m, "ProtectionKey:  %8u\n", vma_pkey(vma));
->> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
->> index 71db243a002e..b0ff54eee81c 100644
->> --- a/include/linux/huge_mm.h
->> +++ b/include/linux/huge_mm.h
->> @@ -94,12 +94,15 @@ extern struct kobj_attribute thpsize_shmem_enabled_attr;
->>   #define THP_ORDERS_ALL	\
->>   	(THP_ORDERS_ALL_ANON | THP_ORDERS_ALL_SPECIAL | THP_ORDERS_ALL_FILE_DEFAULT)
->>
->> -#define TVA_SMAPS		(1 << 0)	/* Will be used for procfs */
-> 
-> Dumb question, but what does 'TVA' stand for? :P
-
-Whoever came up with that probably used the function name where this is 
-passed in
-
-thp_vma_allowable_orders()
-
-> 
->> -#define TVA_IN_PF		(1 << 1)	/* Page fault handler */
->> -#define TVA_ENFORCE_SYSFS	(1 << 2)	/* Obey sysfs configuration */
->> +enum tva_type {
->> +	TVA_SMAPS,		/* Exposing "THPeligible:" in smaps. */
-> 
-> How I hate this flag (just an observation...)
-> 
->> +	TVA_PAGEFAULT,		/* Serving a page fault. */
->> +	TVA_KHUGEPAGED,		/* Khugepaged collapse. */
-> 
-> This is equivalent to the TVA_ENFORCE_SYSFS case before, sort of a default
-> I guess, but actually quite nice to add the context that it's sourced from
-> khugepaged - I assume this will always be the case when specified?
-> 
->> +	TVA_FORCED_COLLAPSE,	/* Forced collapse (i.e., MADV_COLLAPSE). */
-> 
-> Would put 'e.g.' here, then that allows 'space' for the edge case...
-
-Makes sense.
-
-> 
->> +};
->>
->> -#define thp_vma_allowable_order(vma, vm_flags, tva_flags, order) \
->> -	(!!thp_vma_allowable_orders(vma, vm_flags, tva_flags, BIT(order)))
->> +#define thp_vma_allowable_order(vma, vm_flags, type, order) \
->> +	(!!thp_vma_allowable_orders(vma, vm_flags, type, BIT(order)))
-> 
-> Nit, but maybe worth keeping tva_ prefix - tva_type - here just so it's
-> clear what type it refers to.
-> 
-> But not end of the world.
-> 
-> Same comment goes for param names below etc.
-
-No strong opinion, but I prefer to drop the prefix when it can be 
-deduced from the type and we are inside of the very function that 
-essentially defines these types (tva prefix is implicit, no other type 
-applies).
-
-These should probably just be inline functions at some point with proper 
-types and doc (separate patch uin the future, of course).
-
-[...]
-
->> +++ b/mm/khugepaged.c
->> @@ -474,8 +474,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
->>   {
->>   	if (!test_bit(MMF_VM_HUGEPAGE, &vma->vm_mm->flags) &&
->>   	    hugepage_pmd_enabled()) {
->> -		if (thp_vma_allowable_order(vma, vm_flags, TVA_ENFORCE_SYSFS,
->> -					    PMD_ORDER))
->> +		if (thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED, PMD_ORDER))
->>   			__khugepaged_enter(vma->vm_mm);
->>   	}
->>   }
->> @@ -921,7 +920,8 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
->>   				   struct collapse_control *cc)
->>   {
->>   	struct vm_area_struct *vma;
->> -	unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
->> +	enum tva_type tva_type = cc->is_khugepaged ? TVA_KHUGEPAGED :
->> +				 TVA_FORCED_COLLAPSE;
-> 
-> This is great, this is so much clearer.
-> 
-> A nit though, I mean I come back to my 'type' vs 'tva_type' nit above, this
-> is inconsistent, so we should choose one approach and stick with it.
-
-This is outside of the function, so I would prefer to keep it here, but 
-no stong opinion.
-
-> 
->>
->>   	if (unlikely(hpage_collapse_test_exit_or_disable(mm)))
->>   		return SCAN_ANY_PROCESS;
->> @@ -932,7 +932,7 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
->>
->>   	if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
->>   		return SCAN_ADDRESS_RANGE;
->> -	if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_flags, PMD_ORDER))
->> +	if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_type, PMD_ORDER))
->>   		return SCAN_VMA_CHECK;
->>   	/*
->>   	 * Anon VMA expected, the address may be unmapped then
->> @@ -1532,9 +1532,10 @@ int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
->>   	 * in the page cache with a single hugepage. If a mm were to fault-in
->>   	 * this memory (mapped by a suitably aligned VMA), we'd get the hugepage
->>   	 * and map it by a PMD, regardless of sysfs THP settings. As such, let's
->> -	 * analogously elide sysfs THP settings here.
->> +	 * analogously elide sysfs THP settings here and pretend we are
->> +	 * collapsing.
-> 
-> I think saying pretending here is potentially confusing, maybe worth saying
-> 'force collapse'?
-
-Makes sense.
-
+Sure. Will take care of it.
 -- 
-Cheers,
-
-David / dhildenb
+Thanks
+Babu Moger
 
