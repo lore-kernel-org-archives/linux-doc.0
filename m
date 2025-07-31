@@ -1,39 +1,33 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BCE1E2858;
-	Thu, 31 Jul 2025 07:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC83E55B;
+	Thu, 31 Jul 2025 07:46:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753946713; cv=none; b=VL0Ytez2JgSRrSKXWi1uRa0FoSaU6I0ykSFfu0mOn8h0eVru5t+FNiGIClpz9LZL8wC/5JuekZ2GMjmMfCx3a+NegvBRkvH/od/py3EcmngYxUcThp4mAC4a0mOrRbjzdaYpK+aGylM2qcDNEUh+autYZe+PSHirEJbYeIVTqsw=
+	t=1753948019; cv=none; b=s3wuechnjDcz9eDFOIhJp0ekr3JPJHG5kSEX4IYm7JjhITV9dsB3AAdEhloM1R+r3g6nSSyliL1UGMs+yMKF7UlXkcA6IC4io3b4wLJOdUp5WgXqdYcHJbBymqgwd7uPTs935oAgv3/ac6rHmPdkfttpkArE81jx3FpsSwIAeBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753946713; c=relaxed/simple;
-	bh=8jno7Rg4LhVIQ8XPz6SNpeK8zUr7TSzJdwTHldVM/kQ=;
+	s=arc-20240116; t=1753948019; c=relaxed/simple;
+	bh=Ql25YnCrkZxwSLauuRcRa1WRRLL3DVN6sHtXZ59/1Sg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tGy4tkFn+b1bSVlEXYxOS1KACrq7xxPvK0OvigRHlLOPDVgSlsvyT6vQ6EGPOIafJxo47TZyQEDQ21IFS416jpcX3jKImo4RsOuSz+OjeJEKg9rFvzUmQV1ITQL/TnEepcAqcXpk7iIlLkzNG9x8PcwnexqtZETjnLwGum7xTuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=tMJgSQz6; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	 In-Reply-To:Content-Type; b=NehU2Pk0LdPIYUlfx5bivU4HcFcLmGde5EqAMTowC9DikKuV6gzHVzmkIrsuoHYD+jw+Ke1onIe5X72qgWXWA7ivvsegJkmYi3j8e5ul1tEFjClD4H2YVJzg/wuxVepMdILFntqZDytUBS1BG5yB23sjTnN5KcI420+m62LWfdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j5U3NRm3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="tMJgSQz6"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 56V7O3ba1921494
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Thu, 31 Jul 2025 00:24:04 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 56V7O3ba1921494
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025072201; t=1753946647;
-	bh=wqwFttJKi9edg+KFiB4qicRtbXZYL/32jt1SdeugrNs=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j5U3NRm3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE17DC4CEEF;
+	Thu, 31 Jul 2025 07:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753948018;
+	bh=Ql25YnCrkZxwSLauuRcRa1WRRLL3DVN6sHtXZ59/1Sg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tMJgSQz6cb1Jh+cTlqcBs3bSbRIm+WuRkjzU0hqdZGGXIJIDo+Xs5H8iet6010Ba2
-	 a70aLTHgGZxMOOIFMDUNTi8Qp8fUXIxE0E4jtB/frzhOI6IQE6TXuSrPIy02Jy2HGm
-	 xhDhS9b/dYUvLinh4CG4dLdS6jnTjNAcF70hVC6zLNjoWFQCjoN0rABtjmWpRbT39Q
-	 hALuCsznNKawjihCcZ+vmkFwa/f+bBzBtCse29dTtg0cL9xDAR0bAXCl1vBXHAQCDH
-	 YbeTdXvwlsITGqA8qdrHXdgbXiOOFaZ6jCWLmgaxFgtHWS4w9exxkG7mMQtS99DGZW
-	 wNMr1ndXNP2EA==
-Message-ID: <8a1953a5-8486-4dd3-9d3d-1b7f142f1cab@zytor.com>
-Date: Thu, 31 Jul 2025 00:24:02 -0700
+	b=j5U3NRm38I6rj6+nebHWvfQUazm2J8Xz16pgnH1GCwxJlZ0+w3AT38KWx3Ji9cdIu
+	 qHy6Ff7zVhsDL8HHan7WjGdGxpfZvCx0CWaIXTXadLLW4tP8miGXnuymL4AUoStEDm
+	 6ZEp7vHEPEQQUh5HvsFvX9Qlx586BaivCNBCp0NONWirX3IWIeWFcxByzb4cr2h6Ic
+	 GDiSVjl00BqCE1X6ptxLzSlXjhFo38T4Z4eIsXHiDI+VTYUqEJ4pWxbJaCyMsKzrWD
+	 hkVtBhfxnUuTGp4WAWhYUM1RIyQ6ag+W4IgrVnMBY8XQYchqf8jFTdzClH0eg69nqN
+	 XEm9MUUmg//2w==
+Message-ID: <8de10920-f777-4419-9933-1d005828a9f7@kernel.org>
+Date: Thu, 31 Jul 2025 09:46:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,84 +35,96 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 20/23] KVM: nVMX: Add FRED VMCS fields to nested VMX
- context handling
-To: Chao Gao <chao.gao@intel.com>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        hch@infradead.org
-References: <20250723175341.1284463-1-xin@zytor.com>
- <20250723175341.1284463-21-xin@zytor.com> <aIHXngnkcJIY0TUw@intel.com>
+Subject: Re: [PATCH v4] genirq: add support for warning on long-running IRQ
+ handlers
+To: Wladislav Wiebe <wladislav.wiebe@nokia.com>, tglx@linutronix.de,
+ corbet@lwn.net
+Cc: akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
+ Neeraj.Upadhyay@amd.com, david@redhat.com, bp@alien8.de, arnd@arndb.de,
+ fvdl@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ peterz@infradead.org
+References: <20250724155059.2992-1-wladislav.wiebe@nokia.com>
 Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <aIHXngnkcJIY0TUw@intel.com>
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20250724155059.2992-1-wladislav.wiebe@nokia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/23/2025 11:50 PM, Chao Gao wrote:
->> @@ -2578,6 +2588,17 @@ static void prepare_vmcs02_rare(struct vcpu_vmx *vmx, struct vmcs12 *vmcs12)
->> 		vmcs_writel(GUEST_IDTR_BASE, vmcs12->guest_idtr_base);
->>
->> 		vmx_segment_cache_clear(vmx);
->> +
->> +		if (nested_cpu_load_guest_fred_states(vmcs12)) {
->> +			vmcs_write64(GUEST_IA32_FRED_CONFIG, vmcs12->guest_ia32_fred_config);
->> +			vmcs_write64(GUEST_IA32_FRED_RSP1, vmcs12->guest_ia32_fred_rsp1);
->> +			vmcs_write64(GUEST_IA32_FRED_RSP2, vmcs12->guest_ia32_fred_rsp2);
->> +			vmcs_write64(GUEST_IA32_FRED_RSP3, vmcs12->guest_ia32_fred_rsp3);
->> +			vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmcs12->guest_ia32_fred_stklvls);
->> +			vmcs_write64(GUEST_IA32_FRED_SSP1, vmcs12->guest_ia32_fred_ssp1);
->> +			vmcs_write64(GUEST_IA32_FRED_SSP2, vmcs12->guest_ia32_fred_ssp2);
->> +			vmcs_write64(GUEST_IA32_FRED_SSP3, vmcs12->guest_ia32_fred_ssp3);
->> +		}
+On 24. 07. 25, 17:50, Wladislav Wiebe wrote:
+> Introduce a mechanism to detect and warn about prolonged IRQ handlers.
+> With a new command-line parameter (irqhandler.duration_warn_us=),
+> users can configure the duration threshold in microseconds when a warning
+> in such format should be emitted:
 > 
-> I think we need to snapshot L1's FRED MSR values before nested VM entry and
-> propagate them to GUEST_IA32_FRED* of VMCS02 for
-> !nested_cpu_load_guest_fred_states(vmcs12) case. i.e., from guest's view,
-> FRED MSRs shouldn't change across VM-entry if "Load guest FRED states" isn't
-> set.
+> "[CPU14] long duration of IRQ[159:bad_irq_handler [long_irq]], took: 1330 us"
 > 
-> Refer to the comment above 'pre_vmenter_debugctl' definition and also the
-> CET implmenetation*.
-> 
-> [*]: https://lore.kernel.org/kvm/20250704085027.182163-22-chao.gao@intel.com/
-> 
+> The implementation uses local_clock() to measure the execution duration of the
+> generic IRQ per-CPU event handler.
 
-Nice catch, it really took me a while to understand the issue.
+
+This version LGTM
+
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+
+> --- a/kernel/irq/handle.c
+> +++ b/kernel/irq/handle.c
+...
+> +static inline void irqhandler_duration_check(u64 ts_start, unsigned int irq,
+> +					     const struct irqaction *action)
+> +{
+> +	u64 delta_ns = local_clock() - ts_start;
+> +
+> +	if (unlikely(delta_ns > irqhandler_duration_threshold_ns)) {
+> +		pr_warn_ratelimited("[CPU%u] long duration of IRQ[%u:%ps], took: %llu us\n",
+> +				    smp_processor_id(), irq, action->handler,
+> +				    delta_ns >> 10);
+
+Only that: would the division matter in here? Or print ns? But feel free 
+to ignore this.
+
+thanks,
+-- 
+js
+suse labs
