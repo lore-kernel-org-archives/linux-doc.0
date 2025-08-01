@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD41347DD;
-	Fri,  1 Aug 2025 05:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6C933987;
+	Fri,  1 Aug 2025 06:07:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754027416; cv=none; b=Q1jrMavMlrmhRUYlIXKxI2UUBnToAvePNuYEbVHLQywEmaGUaV0s5h5B8SzcjXDRRcRTNB01LEIwwPLNrlsSbTiC6e8xq+6AFvZ00sJIFPyTLV+A8bA2fg4mJ7IJ1cSpCxBZB952kWV0mmy0SoazIKkhh2a5naQGICVNUUhDR8Q=
+	t=1754028468; cv=none; b=PI8PxhiBpJtyj3Yg0H3emAGWS1Z0F20PNIUc66XMnN7gCDef9QJoF9te01w4LvGEQ72XiuK9oE/uHNE9+C+0Nsmxezb7WOl4iU5BfPRy8qY2F8F/VIKgTBgzFAgHss7or5H72KQ6OyWjlfjL67sCVpWnFZdeBi+bUl+VYobYizo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754027416; c=relaxed/simple;
-	bh=NU0fx3/xNBKwdmPMNh+Xy+m2WgMnwTddLcWr/Hqfpts=;
+	s=arc-20240116; t=1754028468; c=relaxed/simple;
+	bh=SKcAG9s36AttOiFoT61hu0hmfOOD1shJUfG5+sw3YVo=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d4b3KHQD/rxpTmRFhpKVfnD6LgSTaIVm213XAd8XH9WMDmJ2UfuhlRPN1cGSQZbiBRzIbGjySxVwNKwltXH6srpZPJriwF71tRqI8nokhF/TzIIrNlEWa6rl7IfSbm2rqGK3gG6P2VGqzru59hqQRaL5W+yNi6fLnyffvIQowPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ieAq1MX2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Od31e+M2cNyzd8VsTJpvLo5UydhWBPxMiU4qh6MlNqNZnNyeUadzmiJJ79p9I/5njqOVX2+ayNi2xSZl6XAxrLPTgBgQft1WQBNgv/yJvpWAx+Gb+xLWBM2drjNeHaTF264xbaWfM7AMBujWB0uZ8x6gSTdunSkWnUnk4+HIeWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOZ1PnGs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ieAq1MX2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 645F1C4CEE7;
-	Fri,  1 Aug 2025 05:50:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOZ1PnGs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E55EFC4CEE7;
+	Fri,  1 Aug 2025 06:07:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754027415;
-	bh=NU0fx3/xNBKwdmPMNh+Xy+m2WgMnwTddLcWr/Hqfpts=;
+	s=k20201202; t=1754028468;
+	bh=SKcAG9s36AttOiFoT61hu0hmfOOD1shJUfG5+sw3YVo=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ieAq1MX2kjbK3zRLP9bG1zkEpyeuCdDZgmH80oIF2MS84Q4q2PTv321gthfuWehGB
-	 ciA+8TaXCVsT0ds+aqmrHCCzlypWeCPO5mOTsHAQyUBFwFzYWoUmnNEfLg5CxK44WI
-	 s3tWc6KaxJTJN+NB2shKv/mCZcGBWbhBQ1FNhd613b72XdJruDlhEAvqnEV+Lp/6zi
-	 GAoFVP0ylZmnFcG+RyAwqEs04CsJdi4pNaedn5IWGVWcExyoml3vnZr893wYUiRr5S
-	 rL9v9E5cCB5sxT7bA46e6OjO98yPpOxLsC32dqxUxwM2Wv7U9nMnutGuXWenJ6mxCx
-	 cOKx+JLENDkAA==
-Date: Fri, 1 Aug 2025 07:50:11 +0200
+	b=GOZ1PnGscHObXscgPGu0bdqUUJUBV7Rge0EK4TnxJDCTLK1UCnj+BBQcswHa61uLC
+	 2WoMvqKUIwX32T6mx5exdPT6319MdUuB4/C5Qhsa+mVBDeHzA5Y2xH53wn3ftrE2zy
+	 icy+0tXG3aLEBgZrcL423sV6YY3s1K8KL+bCdJT5C67yOcfYxBZGFQf+Ml0ajHgcwe
+	 tly4ppmBphD0/SNGZka81RaTGWaNp+jIoZFEMhuaDs/50emKB6ZtR9fCjkamCAapCv
+	 A0TxtIHbZy0Fxn7gISCu9cXuQ3y3V5HGvm44612a9Qbuxb4eTvoEDQVj08vRB+FN6v
+	 1oolfRFOJY5MA==
+Date: Fri, 1 Aug 2025 08:07:44 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>
-Subject: Re: [PATCH 09/12] docs: kdoc: Some rewrite_struct_members()
- commenting
-Message-ID: <20250801075011.04645db6@foz.lan>
-In-Reply-To: <20250801001326.924276-10-corbet@lwn.net>
+Subject: Re: [PATCH 10/12] docs: kdoc: further rewrite_struct_members()
+ cleanup
+Message-ID: <20250801080744.14f83626@foz.lan>
+In-Reply-To: <20250801001326.924276-11-corbet@lwn.net>
 References: <20250801001326.924276-1-corbet@lwn.net>
-	<20250801001326.924276-10-corbet@lwn.net>
+	<20250801001326.924276-11-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -47,67 +47,175 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 31 Jul 2025 18:13:23 -0600
+Em Thu, 31 Jul 2025 18:13:24 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Add comments to rewrite_struct_members() describing what it is actually
-> doing, and reformat/comment the main struct_members regex so that it is
-> (more) comprehensible to humans.
+> Get rid of some single-use variables and redundant checks, and generally
+> tighten up the code; no logical change.
 > 
 > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 > ---
->  scripts/lib/kdoc/kdoc_parser.py | 32 +++++++++++++++++++-------------
->  1 file changed, 19 insertions(+), 13 deletions(-)
+>  scripts/lib/kdoc/kdoc_parser.py | 89 ++++++++++++++++-----------------
+>  1 file changed, 42 insertions(+), 47 deletions(-)
 > 
 > diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index b751fa8edde7..20e0a2abe13b 100644
+> index 20e0a2abe13b..2b7d7e646367 100644
 > --- a/scripts/lib/kdoc/kdoc_parser.py
 > +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -647,22 +647,28 @@ class KernelDoc:
->                  return (r.group(1), r.group(3), r.group(2))
->          return None
->  
-> +    #
-> +    # Rewrite the members of a structure or union for easier formatting later on.
-> +    # Among other things, this function will turn a member like:
-> +    #
-> +    #  struct { inner_members; } foo;
-> +    #
-> +    # into:
-> +    #
-> +    #  struct foo; inner_members;
-> +    #
->      def rewrite_struct_members(self, members):
-> -        # Split nested struct/union elements
-> -        #
-> -        # This loop was simpler at the original kernel-doc perl version, as
-> -        #   while ($members =~ m/$struct_members/) { ... }
-> -        # reads 'members' string on each interaction.
->          #
-> -        # Python behavior is different: it parses 'members' only once,
-> -        # creating a list of tuples from the first interaction.
-> +        # Process struct/union members from the most deeply nested outward.  The
-> +        # trick is in the ^{ below - it prevents a match of an outer struct/union
-> +        # until the inner one has been munged (removing the "{" in the process).
->          #
-> -        # On other words, this won't get nested structs.
-> -        #
-> -        # So, we need to have an extra loop on Python to override such
-> -        # re limitation.
+> @@ -673,73 +673,68 @@ class KernelDoc:
+>          while tuples:
+>              for t in tuples:
+>                  newmember = ""
+> -                maintype = t[0]
+> -                s_ids = t[5]
+> -                content = t[3]
+
+The reason I opted for this particular approach...
 > -
-> -        struct_members = KernRe(r'(struct|union)([^{};]+)(\{)([^{}]*)(\})([^{};]*)(;)')
-> +        struct_members = KernRe(r'(struct|union)' # 0: declaration type
-> +                                r'([^{};]+)' 	  # 1: possible name
-> +                                r'(\{)'
-> +                                r'([^{}]*)'       # 3: Contents of declaration
-> +                                r'(\})'
-> +                                r'([^{};]*)(;)')  # 5: Remaining stuff after declaration
+> -                oldmember = "".join(t)
+> -
+> -                for s_id in s_ids.split(','):
+> +                oldmember = "".join(t) # Reconstruct the original formatting
+> +                #
+> +                # Pass through each field name, normalizing the form and formatting.
+> +                #
+> +                for s_id in t[5].split(','):
 
-I liked breaking it like these, but I do miss backslashes before some
-'{' and '}' to make this actually more readable on my eyes.
+... is that it is easier to understand and to maintain:
 
-Re-adding that, you can add:
-	Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+	for s_id in s_ids.split(','):
+
+than when magic numbers like this are used:
+
+	for s_id in t[5].split(','):
+
+
+>                      s_id = s_id.strip()
+>  
+> -                    newmember += f"{maintype} {s_id}; "
+> +                    newmember += f"{t[0]} {s_id}; "
+> +                    #
+> +                    # Remove bitfield/array/pointer info, getting the bare name.
+> +                    #
+>                      s_id = KernRe(r'[:[].*').sub('', s_id)
+>                      s_id = KernRe(r'^\s*\**(\S+)\s*').sub(r'\1', s_id)
+> -
+> -                    for arg in content.split(';'):
+> +                    #
+> +                    # Pass through the members of this inner structure/union.
+> +                    #
+> +                    for arg in t[3].split(';'):
+
+Here, for example, we're far away from the tuple definition... I can't
+recall anymore what "3" magic number means ;-)
+
+>                          arg = arg.strip()
+> -
+> -                        if not arg:
+> -                            continue
+> -
+> +                        #
+> +                        # Look for (type)(*name)(args) - pointer to function
+> +                        #
+>                          r = KernRe(r'^([^(]+\(\*?\s*)([\w.]*)(\s*\).*)')
+>                          if r.match(arg):
+>                              # Pointer-to-function
+> -                            dtype = r.group(1)
+> -                            name = r.group(2)
+> -                            extra = r.group(3)
+
+Same applies here. Having a named var makes easier to understand/maintain
+rest of the code. If you're willing to do something like that, better to
+use named capture groups, like:
+
+	r = KernRe(r'^(?P<dtype>[^(]+\(\*?\s*)'
+		   r'(?P<name>[\w.]*)'
+		   r'(?P<extra>\s*\).*)')
+
+together with a syntax using match.group(group_name)
+
+I'm not a particular fan of named groups, as it adds a lot more stuff
+at regexes. They're already hard enough to understand without ?P<name>,
+but at least match.group('dtype'), match.group('name'), match.group('extra')
+inside the next calls would be easier to maintain than when using magic
+numbers.
+
+Same comments apply to other changes below.
+
+
+> -
+> -                            if not name:
+> -                                continue
+> -
+>                              if not s_id:
+>                                  # Anonymous struct/union
+> -                                newmember += f"{dtype}{name}{extra}; "
+> +                                newmember += f"{r.group(1)}{r.group(2)}{r.group(3)}; "
+>                              else:
+> -                                newmember += f"{dtype}{s_id}.{name}{extra}; "
+> -
+> +                                newmember += f"{r.group(1)}{s_id}.{r.group(2)}{r.group(3)}; "
+> +                        #
+> +                        # Otherwise a non-function member.
+> +                        #
+>                          else:
+> -                            # Handle bitmaps
+> +                            #
+> +                            # Remove bitmap and array portions and spaces around commas
+> +                            #
+>                              arg = KernRe(r':\s*\d+\s*').sub('', arg)
+> -
+> -                            # Handle arrays
+>                              arg = KernRe(r'\[.*\]').sub('', arg)
+> -
+> -                            # Handle multiple IDs
+>                              arg = KernRe(r'\s*,\s*').sub(',', arg)
+> -
+> +                            #
+> +                            # Look for a normal decl - "type name[,name...]"
+> +                            #
+>                              r = KernRe(r'(.*)\s+([\S+,]+)')
+> -
+>                              if r.search(arg):
+> -                                dtype = r.group(1)
+> -                                names = r.group(2)
+> +                                for name in r.group(2).split(','):
+> +                                    name = KernRe(r'^\s*\**(\S+)\s*').sub(r'\1', name)
+> +                                    if not s_id:
+> +                                        # Anonymous struct/union
+> +                                        newmember += f"{r.group(1)} {name}; "
+> +                                    else:
+> +                                        newmember += f"{r.group(1)} {s_id}.{name}; "
+>                              else:
+>                                  newmember += f"{arg}; "
+> -                                continue
+> -
+> -                            for name in names.split(','):
+> -                                name = KernRe(r'^\s*\**(\S+)\s*').sub(r'\1', name).strip()
+> -
+> -                                if not name:
+> -                                    continue
+> -
+> -                                if not s_id:
+> -                                    # Anonymous struct/union
+> -                                    newmember += f"{dtype} {name}; "
+> -                                else:
+> -                                    newmember += f"{dtype} {s_id}.{name}; "
+> -
+> +                #
+> +                # At the end of the s_id loop, replace the original declaration with
+> +                # the munged version.
+> +                #
+>                  members = members.replace(oldmember, newmember)
+> +            #
+> +            # End of the tuple loop - search again and see if there are outer members
+> +            # that now turn up.
+> +            #
+>              tuples = struct_members.findall(members)
+>          return members
+>  
+
+
 
 Thanks,
 Mauro
