@@ -1,106 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E4D1DE4DC;
-	Fri,  1 Aug 2025 20:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49781A01C6;
+	Fri,  1 Aug 2025 21:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754081593; cv=none; b=Bdvgp7ZePaS9t+vZF8wQn0Zmz6sd2D5YMzztpmDzuTnkGcH+GGr180APKXcJi242oN7ehpHmcKUia2iUoHIT07d8kVwRis55DaQTO0wJs+gmDOWE5mun6ccWOkrwIjaDzZfK9o1nMXrbmIxNFQGUNbMCMrt04UechkO6LWQZlKI=
+	t=1754082300; cv=none; b=f6jyVEm553HAERUFcALHWyRNg1sj+G/drLqDrYoVrWwBoYGaZ+UdQotoT9vwwXc/yJm+igO3/VD2NfexhtIWbcGJpgvY7U/8LVm5IY12QKBFgqJU6mvDqA2oJzSTRbjl2fDgjUiv7a/9CFJoeRWNkW+JzIqwMBMAhcvTO4IAMhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754081593; c=relaxed/simple;
-	bh=oihJCDhiMYArha1HuDM+3dprH0F7BEj3HiUnLGSllR8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JBnWmRHDWTqd0hShMdB9+GFD9ml4lmhR6ML03OzLh2zXuix1s37RlCV3GB8tGsN6rBBAHbgCbeB2I4HQtHCFkSIwNmmDf15G3bjppF9fyCJ8ZHAgbyLMAfROAgD0MgfaekKemqas1uZGJydbSnOc0K0r+dIMBeRNFVHQgqt4yXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sN5ebZH8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754082300; c=relaxed/simple;
+	bh=TRUqs6xlhglbCyWGVZLqMEQiUXQwndHXQ6HDJSNkuRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tm2dksUT/UDgwVLCVv2NGlvp+LDidhFRVGf37cjI+3iSLXtpJ04C9ZTSsjBlDe16uSGwf5+19WTIJ66VPCvUfhNp1LCFuj0Vng/jyFnBd43wnVqnxlV+mIptdA0UxnEx7FFeQa1WxQucE0G7dcdYLcY2MLHh0jL/fq9STVsrNPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IBt/GmGu; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sN5ebZH8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D942AC4CEE7;
-	Fri,  1 Aug 2025 20:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754081592;
-	bh=oihJCDhiMYArha1HuDM+3dprH0F7BEj3HiUnLGSllR8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sN5ebZH8pOGJJJZDFzkeLgh/zFwMUMgeoBmNK55SP3mZPXrftNpneYtABU0G7nNx7
-	 Y6n5u4F/9p8JLwQZZY3yC7zRksne8Mmp8IrivBSdhnxaMjD3PZSNSyeUSxTjAxYzMY
-	 8NilJjpZ8fGsJi+xsQnz+tcLn/xSuOqGtqo/Aawe+p3uvFAB/JLD7EIBwP+ho4HPLe
-	 GLjikDO+WjB6NvUjsZ9HlkYggbhvXTUaaBJro6OR+5JHBUxGFPYnSOvQzFvQq64MYH
-	 q1AnKIyITC7NKzcLcuhheu8Y1Sus/KSEeWH+fHFF/DkPYBhKfpfbRLAnlhdZo0mGVV
-	 Hxo+6qvkvaPfg==
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-af90fd52147so262855066b.3;
-        Fri, 01 Aug 2025 13:53:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUH9OXJJUDMnSfLzt+NbOEGcQJtf/ngB/gYyjCLxjQ4PvArfavQ6WYde11GAnAKBQLzBRt0opTLAq8=@vger.kernel.org, AJvYcCVIMAhL7Ok441+z4Rguf+LUd+avHlWP3bplIUAN3dtqBTMYBYecv7KevTs4+CsOHqM/G3gv2wdCgArl@vger.kernel.org, AJvYcCVngf3qmb/5Y+86fsFeEmOHiIQHV0kDzpISmMlk6GQnTSiieaXt7v0M+tWKv+T4i4A/q9jYk4q+AHvd1D1v@vger.kernel.org
-X-Gm-Message-State: AOJu0YxG+x1dYjdjHBIEFFR1scglh1tFzaPcD39kP8KRallp6wRlHkDz
-	augDptdc/mvj9gnPunbv2J2W9G2iaF1iNM60tJ5KHdkl4GogM+SOuys1x9M9O1gMdnwRLXQOee2
-	ESEs/81J6ocLibcX3vb588C0i57FMww==
-X-Google-Smtp-Source: AGHT+IFoHdZJnI812DHI3wywjHxToLcKIXhzuWimx/pqRfZbXCU+XcVwtk86KcJs6Y1R0LMocw8Dd82evjzlOVxLU0s=
-X-Received: by 2002:a17:907:9721:b0:af8:fb0a:45b7 with SMTP id
- a640c23a62f3a-af94001e703mr123565866b.21.1754081591472; Fri, 01 Aug 2025
- 13:53:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IBt/GmGu"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-240b3335c20so14923675ad.3;
+        Fri, 01 Aug 2025 14:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754082298; x=1754687098; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8e2o2DOmm2yAsxtpRoWoG1Ii2DzD6+fXPkOVUpk/X+U=;
+        b=IBt/GmGuflh75WJdHvmxmII3eJ6apV/KIzOecAPuPy7NCwHgy5jek4gfhClrLrW9Oi
+         2QyKRkr5TmYor/iGFw9Qh51JGArGNr5mc8btyRTWYWaU4tHNeETwmwT8vx3tRDjwzNHw
+         fLJhyZrCXRPp09qPjz+G/LafkWCkCn80HeWXxeGMjpEop/a3MmiTT61juazS3AA6c8Ft
+         TqNGLDX2P7H9M4khUABKz42gyoWGCderMRwIhTF/uKaVv1NEPaK6zGloYNiEyuyY1ASH
+         Sf0+QkFEeVrLDzVnaHemIROK7c4/J6RwpP448pbXHer9OZiPZNRKJM8TEOCBMWVCQJuR
+         thww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754082298; x=1754687098;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8e2o2DOmm2yAsxtpRoWoG1Ii2DzD6+fXPkOVUpk/X+U=;
+        b=SfYmayrNtGlQutgs5u2e7fHvLfNSmNA0/0owGhk5kXmWbhAVGpHTRg9Cd8cGSseaeZ
+         vFnonmnD8C9XXjQ4xYGkhdHhOEXZ+BakYfyd6nIIzk6rt71iyGk7eWWN37S70+1q8KKi
+         h9pax76tR1BL53Itd1/5YlUAh07eqUtZYMjsWEKSGvftgJGnHyLQeyP4INO29dwkmE73
+         qrEvMG+qcce95RfMP813mrZGw5xTXkHKokEcA13+Ouv9lVR9TvdJlhy8cVzlWXykVd26
+         /4QFH0Mq/eZBc0uJ15XTy6D0JAg/SLMQHFjOkVfSYvUAr9+enUpwfTfJmUCXO4VHzVOl
+         +yaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUvzcxvGOZM+wCAkL2nuXdmtprQiW2xTf8cpWFMMRoYYQtyN2ofpXBLFQYCXE+j0syQwshEIWESrMedvaI=@vger.kernel.org, AJvYcCVjmzTqz2A625Pan4yFhzClvI3mVOJePREfv3ox4eu8TPunCQVKrCDiNoGnhh/RjsoooYpdyUwxGTU=@vger.kernel.org, AJvYcCXJVicd6ltIoNkQjJnMkd6z5BiG56TqCiOFFz/jEbiAKdcZ65jf3iA50GTeKPxx1+ngUQOg7tl+frOi1Mlj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxri2yMj0g7hdHUwMjHBIu+SmePINLLTkSLTmuqeOLjpmuJbIz4
+	O0YTrdf+qmiHlHwyw8QVQNcQpWwRCKvhAyQIJ1nKnorAGjzA+B8iuw96
+X-Gm-Gg: ASbGnctcEhuNB2cyUEJKPG4N2pI0IzTXBR2jFIwy5uMpMY6uMTN846FZUAeHpOzpi1r
+	iCOHVaEz/jV08QTPhmhWdWDwR8ZIN3KMafRYueJk8T/7qqFwLVmMfwTNqQp7FW7sYBPlHND2hDM
+	mKfDmVNFCELN9ApME55QszSDsPMWf1xbTOwZmhDvv4gv3Z0Zgx2Q1Ja7IHQQ71cHkFjk/5vmWVq
+	TzE+nhc53uvEhzgqRc4ZeO5Rlb7Gu/POdASIyQcIRdwVjb0L3ct3Rk888d8PXmssP2ujm213XW0
+	cYq6SIxZXHuJJVp0NowLHNfHPZzlZQyAYjrw0MMv2eW/cyfuajy8C7IGoxhJDUOgDhnb8EuulPk
+	rQNzNcBO2h0ljUdZa2xSGMqXaMmCmhPFstAs=
+X-Google-Smtp-Source: AGHT+IEcmQguvA4OSb6zM+Ox4Lwc+OtLle2Il5C+7tUf33JxrxfEuMHkNj0e/uf56oBX/EbPogiZ9w==
+X-Received: by 2002:a17:902:db04:b0:240:99fa:dd1c with SMTP id d9443c01a7336-24246f1fc4fmr14571295ad.10.1754082297773;
+        Fri, 01 Aug 2025 14:04:57 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e89a3a6fsm50893175ad.147.2025.08.01.14.04.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 14:04:57 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 1 Aug 2025 14:04:56 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc: Runar =?iso-8859-1?B?R3L4buVz?= <noizez@me.com>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add X670E-I GAMING WIFI
+Message-ID: <2ed06671-fe2d-4008-b185-a1398a515925@roeck-us.net>
+References: <20250801195020.11106-1-eugene.shalygin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250727195802.2222764-1-sashal@kernel.org> <20250727195802.2222764-2-sashal@kernel.org>
- <7h1ppxcp0d.fsf@baylibre.com>
-In-Reply-To: <7h1ppxcp0d.fsf@baylibre.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 1 Aug 2025 15:53:00 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJW206w1OiOZ+4nMg7XyHQq7QnOyTWM0W+DyMmu-gpAjw@mail.gmail.com>
-X-Gm-Features: Ac12FXz7Tmb3jZO7n5uJAYVaOhcu2_MFeSgTQMaSw2vCzvgO1R8xoIekd-sPcac
-Message-ID: <CAL_JsqJW206w1OiOZ+4nMg7XyHQq7QnOyTWM0W+DyMmu-gpAjw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] agents: add unified agent coding assistant configuration
-To: Kevin Hilman <khilman@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org, 
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	rostedt@goodmis.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250801195020.11106-1-eugene.shalygin@gmail.com>
 
-On Wed, Jul 30, 2025 at 5:06=E2=80=AFPM Kevin Hilman <khilman@kernel.org> w=
-rote:
->
-> Sasha Levin <sashal@kernel.org> writes:
->
-> > Create a single source of truth for agent instructions in
-> > Documentation/AI/main.md with symlinks for all major coding
-> > agents:
-> > - CLAUDE.md (Claude Code)
-> > - .github/copilot-instructions.md (GitHub Copilot)
-> > - .cursorrules (Cursor)
-> > - .codeium/instructions.md (Codeium)
-> > - .continue/context.md (Continue)
-> > - .windsurfrules (Windsurf)
-> > - .aider.conf.yml (Aider)
->
-> This doesn't work for aider, probably because the .md it links to is not
-> YAML.  When I start aider with this, I get:
->
->   aider: error: Couldn't parse config file: while scanning a simple key
->     in "/work/kernel/linux/.aider.conf.yml", line 3, column 1
->   could not find expected ':'
->     in "/work/kernel/linux/.aider.conf.yml", line 4, column 1
->
-> Not related to this series, but related to aider... I'm curious if
-> anyone has got aider to work with the kernel repo.  It seems to have
-> problems with large repos.  When starting in the kernel, I get:
->
->   Unable to list files in git repo: cannot close exported pointers exist
->   Is your git repo corrupted?
->   Unable to read git repository, it may be corrupt?
->   cannot close exported pointers exist
->
-> but neither claude nor gemini-cli have any problems with the same repo.
->
-> The aider FAQ[1] mentions using .aiderignore to ignore parts of the
-> repo, but even with an "ignore everything" rule, I get the same error,
-> so something seems wrong with aider and large repos.
+On Fri, Aug 01, 2025 at 09:50:08PM +0200, Eugene Shalygin wrote:
+> From: Runar Grønås <noizez@me.com>
+> 
+> Add support for ROG STRIX X670E-I GAMING WIFI
+> 
+> Signed-off-by: Runar Grønås <noizez@me.com>
+> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 
-It worked for a bit for me, but then aider fell over after a while and
-refused to run with errors accessing git. Some suggestions to repack
-the repo didn't help. In the end, I just ran it without any git
-awareness.
+Applied.
 
-Rob
+Thanks,
+Guenter
