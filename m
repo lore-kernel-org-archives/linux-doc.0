@@ -1,50 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2260B26B770;
-	Fri,  1 Aug 2025 14:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA5D1E50E;
+	Fri,  1 Aug 2025 14:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754058169; cv=none; b=Zf7Do7Rl7LarhYPPzV5sqqLV5ZneOuX0N5UBNVaU+dlRfZ7QZO2QLckcDZZl3/20rMBjisOCM2A7n534K/DtDlGjnN04DRM07UMDZDc1m2SL6aU++FWvOe4h8+c/+UTPpVd5VQ6YwNhwfjU+S1QwkCeqEitU48MxkNusO0FAFY0=
+	t=1754059391; cv=none; b=Gl3lqfVnrosNXok/9nyjXuH/K0C4uyVLUnc9/gwbKrUCFVWYh12xgAyOWMnhJEGpNy99Ww599fdqjFDIqD7czU1Qv4g7kvHqIgdXahssk4D6GJcbm3yS39tmh8oq33PtH/RRd46RA+/qMtCyJaP1fFE3YAkL9Yx985z8ToAgs6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754058169; c=relaxed/simple;
-	bh=R8gdx/rlUEZmt+RtRpsjUtcCGgtiXFr2+h4yEpIqmpA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ReHvvzWmbYqJiwnTVdubxN/xgK/7K7mDlzjC4q8Evsu1/mTwf3M6qpJm0Hea98cMZZ0dEOaHA+sEhOT1fh8lHHhjjPhhwioHBPctgJ2kr7lmSaRb5nt7lVPJr3Dv+8Ac3YRbnGCKjyzT6HnN/WHLpZm0neFHMChPlzLkVlKaFpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F74/a2Go; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1754059391; c=relaxed/simple;
+	bh=P59PDauXyQZZVlhWY7Olp+/m1ZhJdqsVEVd6bMzkP6A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=C7TgMjdrlRAwU/DD1MZrnLKrEjkxFZ/ZcbJkRu9fyY3W8rPKrsgXTYC9hKbTvBRYdPml4gJq5FTRCdYyb+vHdIvhYL2Ee9pXQaOY2OVIrji3fzfO6TKqg5NK1FHuLJGzFT10OJzvllPXxZ4/MXShMnBH596c0j37ME9gNALsHpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=DSeiHk8a; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F74/a2Go"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754058168; x=1785594168;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=R8gdx/rlUEZmt+RtRpsjUtcCGgtiXFr2+h4yEpIqmpA=;
-  b=F74/a2GogSaAksiewwbi8/IIHb1gf3zoVIYbhVG5YyYQYEXQ0BdklRRG
-   hsmYf9x78m1hQpJVOHmj8tgsqO3XX6OpXPWxFitkIDfu2ChvjoaoTNaWf
-   MVxhGvOeqtV5tBc3++GQqaEl0OCcUPwarM3DCkA2Nc1e/Dt4VLgtu3OPs
-   eLE2RQvLjrYiJ4VAbQYU16eWQO8NP1G+NCkVgGhaKLqlU02pSN6KKllhH
-   IZorr8G7N2iY+Qp3uYaQW0kc+iH5ufG7t1VDkQxxUJ33QKS16+mFjwOdn
-   rv7CceIy8Y/vkH05seT4t+D1RBHUDyhh4HNqrdNl8yFWK2MXSb57t6rPy
-   w==;
-X-CSE-ConnectionGUID: 8WrEiAQDQJ+VSBpOmGFHHQ==
-X-CSE-MsgGUID: Ci5H9QQ8QtyZI1CBqW/gnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="60223918"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="60223918"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 07:22:47 -0700
-X-CSE-ConnectionGUID: 6hznr9LGQhKITDFl+xzaWg==
-X-CSE-MsgGUID: rkSxHCIaQDaZGP+fdThzoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="163949374"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.109.249]) ([10.125.109.249])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 07:22:45 -0700
-Message-ID: <c59aa7ac-62a6-45ec-b626-de518b25f7d9@intel.com>
-Date: Fri, 1 Aug 2025 07:22:44 -0700
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="DSeiHk8a"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5719FFEr018924;
+	Fri, 1 Aug 2025 14:42:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ALxPGgKidPSmIf4cSVZf4X2GjMEnzslA7qYraJQOtPc=; b=DSeiHk8ak3I7T1bc
+	Ffcyndw4VjWOCZRZffA7WSUu/qDgU5JlT5n+twm2/SizFqvBwc7Z+jL5N7y4GgzU
+	uKKDajwawndOtVGFW23RpPLqxrdTZ8/djDNYxz3SC0F+741td8DNT40JSNspSN+g
+	MV4ZBfJGbOf8jheOURJfT+fWvHTjII1gjd7N3meuaeqw6sI8d0LoIkCBEjHSXCKx
+	u+WdX8hwgMb/3MK2ssKFce7SMa9KW1nVNN/XLNj693nPVFK+Qr8Sp7+59MeaKJNy
+	effQkRxmspxSzGJT+Yl2Hm3fZXUUPW4hJV2TXsrbmRZgMG0LWriHWt23F9/7UjVS
+	NI4VBQ==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 487jwggq7t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 01 Aug 2025 14:42:51 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 571EgpeU003262
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 1 Aug 2025 14:42:51 GMT
+Received: from [10.253.75.189] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 1 Aug
+ 2025 07:42:45 -0700
+Message-ID: <dc9eb276-3b61-484b-96e6-d2ac746492e5@quicinc.com>
+Date: Fri, 1 Aug 2025 22:42:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,132 +50,144 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv9 04/16] x86/cpu: Defer CR pinning setup until core
- initcall
-To: Sohil Mehta <sohil.mehta@intel.com>, Thomas Gleixner
- <tglx@linutronix.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Kees Cook <kees@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Daniel Sneddon <daniel.sneddon@linux.intel.com>,
- Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>,
- Breno Leitao <leitao@debian.org>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>,
- Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>,
- Vegard Nossum <vegard.nossum@oracle.com>, Eric Biggers
- <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>,
- Changbin Du <changbin.du@huawei.com>,
- Huang Shijie <shijie@os.amperecomputing.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Namhyung Kim <namhyung@kernel.org>,
- Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, linux-mm@kvack.org,
- "Kirill A. Shutemov" <kas@kernel.org>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
- Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
- "Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf
- <jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>,
- Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
- Brijesh Singh <brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>,
- Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- X86-kernel <x86@kernel.org>
-References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
- <20250707080317.3791624-5-kirill.shutemov@linux.intel.com>
- <6075af69-299f-43d2-a3c8-353a2a3b7ee7@intel.com>
- <98a7a91b-3b46-4407-82a7-5f80443b7e00@intel.com>
- <6e768f25-3a1c-48b9-bc53-56877a556a83@intel.com>
- <1c42680f-c962-4a75-998f-031008dd8343@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH net-next v5 03/14] net: ethernet: qualcomm: Add PPE driver
+ for IPQ9574 SoC
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Andrew Lunn
+	<andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric
+ Dumazet" <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Lei Wei
+	<quic_leiwei@quicinc.com>,
+        Suruchi Agarwal <quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>
+References: <20250626-qcom_ipq_ppe-v5-0-95bdc6b8f6ff@quicinc.com>
+ <20250626-qcom_ipq_ppe-v5-3-95bdc6b8f6ff@quicinc.com>
+ <4556893f-982b-435d-aed1-d661ee31f862@oss.qualcomm.com>
+ <e768d295-843c-431d-b439-e2ed07de638e@quicinc.com>
+ <4e9ec735-1278-4475-8898-1e12ccb94909@oss.qualcomm.com>
 Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <1c42680f-c962-4a75-998f-031008dd8343@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Luo Jie <quic_luoj@quicinc.com>
+In-Reply-To: <4e9ec735-1278-4475-8898-1e12ccb94909@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=WvgrMcfv c=1 sm=1 tr=0 ts=688cd26b cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
+ a=l_Bg8mdrKVO_I6rHHoEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: MVbtq9Esvvq80K9dgXGHXWjENV6tNzpp
+X-Proofpoint-GUID: MVbtq9Esvvq80K9dgXGHXWjENV6tNzpp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAxMDExMSBTYWx0ZWRfX1GB8hDZLzbdz
+ k0xIuxwi2kF7HKNCs7JEH50/eXKPFcf7epiU1gQi4+AWpsSWojAz01u2zlWzlCvQJleqVIoZJSE
+ /stBp7y7yoSXx8HC7En+68xgW4IsdIpugrlvJQoLakTmOyZLCcSTFFMse1L1psoRRTmIIGQJwi5
+ e55BKqx9beovEFFvJF21A+nJZzZC+OVw1r+8YR7CDvkb5VLCaga51ejurJ3+B5PJIXhrLJYg2b4
+ 4S1eR2+qfqn//pNNgG6p3lGJHiwZsAR+B0R1XmvXzGKvawO9KR2SpL71x7BzhZztbNWTmdfZpXC
+ Fo189PejoDl0bDqG1nV6ZH6N6/xasqoVFEe/NXZoojaqTLJCz8j70hy0GcYZHOb428WGt2y7VOP
+ dQadEclY53c3yNWI/qqv18w28akjNaT6VGUX6QchTNSZ0JvQr3kxOL0eyN8YM9msN4lHG7a+
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-01_04,2025-08-01_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ spamscore=0 mlxscore=0 impostorscore=0 adultscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2508010111
 
-On 7/31/25 21:43, Sohil Mehta wrote:
-...
-> Could deferring enforcement lead to a scenario where we end up with
-> different CR4 values on different CPUs? Maybe I am misinterpreting this
-> and protecting against in-kernel errors is not a goal.
 
-Sure, theoretically.
 
-But if that's a concern, it can be checked at the time that enforcement
-starts:
-
-	for_each_online_cpu(cpu) {
-		unsigned long cr4 = per_cpu(cpu_tlbstate.cr4, cpu);
-		if ((cr4 & cr4_pinned_mask) == cr4_pinned_bits))
-			continue;
-		WARN("blah blah");
-	}
-
-Or use smp_call_function() to check each CPU's CR4 directly.
-
-Or, the next time that CPU does a TLB flush that toggles X86_CR4_PGE,
-it'll get the warning from the regular pinning path.
-
-So, sure, this does widen the window during boot where a secondary CPU
-might get a bad CR4 value, and it would make it harder to track down
-where it happened. We _could_ print a pr_debug() message when the bit
-gets cleared but not enforce things if anyone is super worried about this.
-
-> In general, you want to delay the CR pinning enforcement until
-> absolutely needed. I am curious about the motivation. I understand we
-> should avoid doing it at arbitrary points in the boot. But,
-> arch_cpu_finalize_init() and early_initcall() seem to be decent
-> mileposts to me.
+On 7/30/2025 7:57 PM, Konrad Dybcio wrote:
+> On 7/1/25 2:24 PM, Luo Jie wrote:
+>>
+>>
+>> On 6/28/2025 12:21 AM, Konrad Dybcio wrote:
+>>> On 6/26/25 4:31 PM, Luo Jie wrote:
+>>>> The PPE (Packet Process Engine) hardware block is available on Qualcomm
+>>>> IPQ SoC that support PPE architecture, such as IPQ9574.
+>>>>
+>>>> The PPE in IPQ9574 includes six integrated ethernet MAC for 6 PPE ports,
+>>>> buffer management, queue management and scheduler functions. The MACs
+>>>> can connect with the external PHY or switch devices using the UNIPHY PCS
+>>>> block available in the SoC.
+>>>>
+>>>> The PPE also includes various packet processing offload capabilities
+>>>> such as L3 routing and L2 bridging, VLAN and tunnel processing offload.
+>>>> It also includes Ethernet DMA function for transferring packets between
+>>>> ARM cores and PPE ethernet ports.
+>>>>
+>>>> This patch adds the base source files and Makefiles for the PPE driver
+>>>> such as platform driver registration, clock initialization, and PPE
+>>>> reset routines.
+>>>>
+>>>> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+>>>> ---
+>>>
+>>> [...]
+>>>
+>>>> +static int ppe_clock_init_and_reset(struct ppe_device *ppe_dev)
+>>>> +{
+>>>> +    unsigned long ppe_rate = ppe_dev->clk_rate;
+>>>> +    struct device *dev = ppe_dev->dev;
+>>>> +    struct reset_control *rstc;
+>>>> +    struct clk_bulk_data *clks;
+>>>> +    struct clk *clk;
+>>>> +    int ret, i;
+>>>> +
+>>>> +    for (i = 0; i < ppe_dev->num_icc_paths; i++) {
+>>>> +        ppe_dev->icc_paths[i].name = ppe_icc_data[i].name;
+>>>> +        ppe_dev->icc_paths[i].avg_bw = ppe_icc_data[i].avg_bw ? :
+>>>> +                           Bps_to_icc(ppe_rate);
+>>>> +        ppe_dev->icc_paths[i].peak_bw = ppe_icc_data[i].peak_bw ? :
+>>>> +                        Bps_to_icc(ppe_rate);
+>>>> +    }
+>>>
+>>> Can you not just set ppe_dev->icc_paths to ppe_icc_data?
+>>>
+>>> Konrad
+>>
+>> The `avg_bw` and `peak_bw` for two of the PPE ICC clocks ('ppe' and
+>> 'ppe_cfg') vary across different SoCs and they need to be read from
+>> platform data. They are not pre-defined in `ppe_icc_data` array.
+>> Therefore, we use this format to assign `icc_paths`, allowing us to
+>> accommodate cases where `avg_bw` and `peak_bw` are not predefined.
+>> Hope this is fine. Thanks.
 > 
-> Are you anticipating that we would need to move setup_cr_pinning() again
-> when another user similar to EFI shows up?
-Yep.
+> You're currently hardcoding the clock rate, which one of the comments
+> suggests is where the bw values come from. Is there a formula that we
+> could calculate the necessary bandwidth based on?
+
+The clock rate for the PPE-related NoC (ICC) is fixed at 353 MHz on the
+IPQ9574 platform, as confirmed by the hardware team. There is no formula
+required to derive the rate.
+
+> 
+> We could then clk_get_rate() and do it dynamically
+
+Thank you for the suggestion. Yes, we can use the PPE clock rate as the
+configuration value for the PPE NoC clocks, since both operate on the
+same clock tree and share the same clock rate. With this, we could use
+the clk_get_rate() as you suggested to get the PPE clock rate, which
+will be configured to the same rate as the PPE NoC (ICC) clocks.
+
+> 
+> Konrad
+
