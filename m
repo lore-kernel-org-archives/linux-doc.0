@@ -1,110 +1,197 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EABC19E81F
-	for <linux-doc@vger.kernel.org>; Fri,  1 Aug 2025 17:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87281D63E6;
+	Fri,  1 Aug 2025 17:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754067618; cv=none; b=OaeIWFs1JIDZbOYwnfmBxHf22MbzWzpobR1IwdDIO853dWQ3XZV2ayEDAybEbDYgiJ0Gb7TvAeAUIcYxOu+hAKD1MgtfJKRIxEURsWQ9aJSUgDVaFc4Dz0sugOAoC4FW2+oxFj9EiKvm9pi/IolA0/CBoHl89QGjuHZ7MqtpHPQ=
+	t=1754068867; cv=none; b=Yu/9OyeKMxim5Q+054PphP1ujhZHe399PoEbnwVXGrRCMHBxVkwDlpm34Y4tM+hEBL4j+eMvldgIBEe5S3apH0aDacaW3+0tpJG7L1z09H1AHe+jc1BjHLnJTFod2o5WAgle9vsMyfSDXektni+PW1qcbJ7GqqmhwBkU+VkpgkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754067618; c=relaxed/simple;
-	bh=ixzhB2IWkCoD0F1aKbqXUptaL4fTvucgYZy4AJNb4ck=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KU2LGDPjW+ThQh7nHxYezBrQEOMt9WznYyKY15GzyTG2LbQGhllUMTDH3ER6oFokKf9Rx7NuhKsijuubaItwjpb4M5ldU0AU4/TZVI5cn9oNqao3nU5SFsvOXjyBWW4vIJWO2kg6q5rmdU34fItpd71fg8X9FPKUt2wMa/bhdRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=BdKQwNse; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="BdKQwNse"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7dfdcded923so227955785a.1
-        for <linux-doc@vger.kernel.org>; Fri, 01 Aug 2025 10:00:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1754067616; x=1754672416; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QwE+9sTgjNRdMVVYO7khCffe4vKwvJxjH8fF2V6zz5I=;
-        b=BdKQwNse6pRrj/tOebPDpz5/au+yyTJVkZhAEihoTdxL5JLbjUtin2tHbPSdTwKDZS
-         k+nbnR1YyNnEWE8XAyHqo/lk5tgdlq97oe48JGWIFhhLeW/O/XOGnF2T7ItGvxs7mKpc
-         Hm2g2aS06SNiMrrCVcq9jnvLV0FryY1hWIcL9ksE516v2sOnS7IirX5sA9n7oWY4PFMV
-         97zLmaElZJ+G4Its4Z6Lol3SZJAjPJ3WM5DHoLxE+N4HD9/9nMTTqhml9kpWsJV5C/u1
-         GOQy3m1WTTy+cUzJqdHSZO7bNxEXRa/olGZufNJvzFSbbTHt9DWg9/K4vUiBF5NUxitL
-         J71g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754067616; x=1754672416;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QwE+9sTgjNRdMVVYO7khCffe4vKwvJxjH8fF2V6zz5I=;
-        b=MAQMVQwS8kjIwAdb5PqDgk2lTcoPTkgvxYcC8jVxhcaSIzk2BPJ3YP5IjnPls51HX8
-         Djz/v0mHgu0YN+JKAJ9q2EFun/ncM19DKvDCwNt5pJR+k0MFU5AT51n07fnd4ayWwB+o
-         TQGmfW7u9m0L+rDnzRbnWS4ox3CMnMCzrMhGHyiTGxPuSayOI83sDXOM0Kah7OH90ajV
-         5+bqYpXsjoz6t/OfiMzFeM354MMyuK2lh1TXoWcDR9X0lR4tZZ15nq7TSPgbumc1IcGV
-         k9ShUuDVj0kuPb+ls+f+soe9uyMNarleDfqciI5cNnj2th3SML6rqSrUT1SL3Jhz2Pid
-         uCIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUSxOGSUeNhy2kchLWAMsK7LvwlaHGfG0/8C6e7mRc0lNf8VgBxr5MH3DBgkzIdRfDDNhYyfYCd1YU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywu7P6clMtGwEXUVOsWY5UXGXt025a5MeuLdDF6GaUi8xWxrpRb
-	WjZGQS0s4Z0WFJecokZ1EwQ5gW9hbWwUxxVOEGuSp54dX/13rhheddNWm/dAEjy+iVE=
-X-Gm-Gg: ASbGncvelh/riAuigwHHCLmlyS6r1RAxRg0JzzjjM0emMFeRkcRIUdjY9eHT3b/RDpz
-	oUI1ub5jsxVJyV2RUAKkT3VgSf+cYsjrLN69KjCzQCnWyo6vn6JyzN38md1GU8l3B0IEXkJH3x5
-	Xs47hM5ia15DXs+DRvYf7SPnd8ADa0UdPuZ2ayBrYwC/ttNCDxXm1yG3KBlXye/gbOIc2fIDyV1
-	Fd8Iqdsbwkw0aj2gvo5QHLafkM71r17HKuU9whVuQG/O6MOB+UbKiZoe5WrvBRWsr3hqglqHpqg
-	uSgzOsP9of1yV82fvrLu66/dQ85upMCOZnoH9Tyh1/5qdcFuX3tuC2SykKL1AYcmEc1LjoCKcld
-	c03fAfacqyTzZeKgpLTdE/fkJT3OFc7avg0NpJo7hCkIPZ7tpITrRZBjrWrq6DI/9jLd2GtrTGX
-	Yctr8=
-X-Google-Smtp-Source: AGHT+IGeo72sFurahqpXhqOszMWIFx1nBofLsBki44tDG5x4fiYUv0PBxN8jfJdDWgnL5yoXO3nTZg==
-X-Received: by 2002:ae9:f10d:0:b0:7e6:5f1c:4d78 with SMTP id af79cd13be357-7e696650ea8mr57651285a.33.1754067616031;
-        Fri, 01 Aug 2025 10:00:16 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e67f75c053sm235155785a.81.2025.08.01.10.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Aug 2025 10:00:15 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1uht78-000000013Jb-2qVs;
-	Fri, 01 Aug 2025 14:00:14 -0300
-Date: Fri, 1 Aug 2025 14:00:14 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Simon Horman <horms@kernel.org>
-Cc: Abhijit Gangurde <abhijit.gangurde@amd.com>, shannon.nelson@amd.com,
-	brett.creeley@amd.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, leon@kernel.org,
-	andrew+netdev@lunn.ch, allen.hubbe@amd.com, nikhil.agarwal@amd.com,
-	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 03/14] net: ionic: Export the APIs from net driver to
- support device commands
-Message-ID: <20250801170014.GG26511@ziepe.ca>
-References: <20250723173149.2568776-1-abhijit.gangurde@amd.com>
- <20250723173149.2568776-4-abhijit.gangurde@amd.com>
- <20250725164106.GI1367887@horms.kernel.org>
+	s=arc-20240116; t=1754068867; c=relaxed/simple;
+	bh=BYoxU2iEiU/cjSbw+PHIwybDoaaGFByv5x2kW04JfXo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FEbvxyVe9V6upKwuukeO56SRcynqNOnoBYQnn+okgGOpCIxboqoQE4kVtYkSXYl7xvbRdXceDWR/fEJhFe4BFrMxin1Vfy9WupPvmPbGkkbFWSQqWcDnFB0vwMZFT2N3S3/hE0w3GPFC/egerfI+bAPC+SKvcvhQ/lTURm4qarU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4btt372pgDz6L56C;
+	Sat,  2 Aug 2025 01:18:59 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1B2DD1400D4;
+	Sat,  2 Aug 2025 01:21:02 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.195.32.206) by
+ frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 1 Aug 2025 19:20:59 +0200
+From: <shiju.jose@huawei.com>
+To: <rafael@kernel.org>, <bp@alien8.de>, <akpm@linux-foundation.org>,
+	<rppt@kernel.org>, <dferguson@amperecomputing.com>,
+	<linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+	<rientjes@google.com>, <jiaqiyan@google.com>, <Jon.Grimm@amd.com>,
+	<dave.hansen@linux.intel.com>, <naoya.horiguchi@nec.com>,
+	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
+	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
+	<gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
+	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
+	<shiju.jose@huawei.com>
+Subject: [PATCH v10 0/3] ACPI: Add support for ACPI RAS2 feature table
+Date: Fri, 1 Aug 2025 18:20:26 +0100
+Message-ID: <20250801172040.2175-1-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250725164106.GI1367887@horms.kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
+ frapeml500007.china.huawei.com (7.182.85.172)
 
-On Fri, Jul 25, 2025 at 05:41:06PM +0100, Simon Horman wrote:
-> On Wed, Jul 23, 2025 at 11:01:38PM +0530, Abhijit Gangurde wrote:
-> > RDMA driver needs to establish admin queues to support admin operations.
-> > Export the APIs to send device commands for the RDMA driver.
-> > 
-> > Reviewed-by: Shannon Nelson <shannon.nelson@amd.com>
-> > Signed-off-by: Abhijit Gangurde <abhijit.gangurde@amd.com>
-> 
-> Hi Abhijit,
-> 
-> Perhaps I misunderstand things, or otherwise am on the wrong track here.
-> But this seems to open the possibility of users of ionic_adminq_post_wait(),
-> outside the Ethernet driver, executing a wide range or admin commands.
-> It seems to me that it would be nice to narrow that surface.
+From: Shiju Jose <shiju.jose@huawei.com>
 
-The kernel is monolithic, it is not normal to spend performance
-aggressively policing APIs.
+1. Add node_to_range lookup facility to numa_memblks, which is
+   required for the ACPI RAS2 memory features.
+   
+2. Add support for ACPI RAS2 feature table (RAS2) defined in the
+   ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+   scrubbing feature.
 
-mlx5 and other drivers already have interfaces almost exactly like this.
+ACPI RAS2 patches were part of the EDAC series [1].
 
-Jason
+The code is based on linux.git v6.16-rc7 [2].
+
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://github.com/torvalds/linux.git
+
+Changes
+=======
+v9 -> v10:
+1. Use pcc_chan->shmem instead of 
+   acpi_os_ioremap(pcc_chan->shmem_base_addr,...) as it was
+   acpi_os_ioremap internally by the PCC driver to pcc_chan->shmem.
+   
+2. Changes required for the Ampere Computing system where uses a single
+   PCC channel for RAS2 memory features across all NUMA domains. Based on the
+   requirements from by Daniel on V9
+   https://lore.kernel.org/all/547ed8fb-d6b7-4b6b-a38b-bf13223971b1@os.amperecomputing.com/
+   and discussion with Jonathan.
+2.1 Add node_to_range lookup facility to numa_memblks. This is to retrieve the lowest
+    physical continuous memory range of the memory associated with a NUMA domain.
+2.2. Set requested addr range to the memory region's base addr and size
+   while send RAS2 cmd GET_PATROL_PARAMETER 
+   in functions ras2_update_patrol_scrub_params_cache() &
+   ras2_get_patrol_scrub_running().
+2.3. Split struct ras2_mem_ctx into struct ras2_mem_ctx_hdr and struct ras2_pxm_domain
+   to support cases, uses a single PCC channel for RAS2 scrubbers across all NUMA
+   domains and PCC channel per RAS2 scrub instance. Provided ACPI spec define single
+   memory scrub per NUMA domain.
+2.4. EDAC feature sysfs folder for RAS2 changed from "acpi_ras_memX" to  "acpi_ras_mem_idX"
+   because memory scrub instances across all NUMA domains would present under
+   "acpi_ras_mem_id0" when a system uses a single PCC channel for RAS2 scrubbers across
+   all NUMA domains etc.
+2.5. Removed Acked-by: Rafael from patch [2], because of the several above changes from v9.
+
+v8 -> v9:
+1. Added following changes for feedback from Yazen.
+ 1.1 In ras2_check_pcc_chan(..) function
+    - u32 variables moved to the same line.
+    - Updated error log for readw_relaxed_poll_timeout()
+    - Added error log for if (status & PCC_STATUS_ERROR), error condition.
+    - Removed an impossible condition check.
+  1.2. Added guard for ras2_pc_list_lock in ras2_get_pcc_subspace().
+        
+2. Rebased to linux.git v6.16-rc2 [2].
+
+v7 -> v8:
+1. Rebased to linux.git v6.16-rc1 [2].
+
+v6 -> v7:
+1. Fix for the issue reported by Daniel,
+   In ras2_check_pcc_chan(), add read, clear and check RAS2 set_cap_status outside
+   if (status & PCC_STATUS_ERROR) check. 
+   https://lore.kernel.org/all/51bcb52c-4132-4daf-8903-29b121c485a1@os.amperecomputing.com/
+
+v5 -> v6:
+1. Fix for the issue reported by Daniel, in start scrubbing with correct addr and size
+   after firmware return INVALID DATA error for scrub request with invalid addr or size.
+   https://lore.kernel.org/all/8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com/
+   
+v4 -> v5:
+1. Fix for the build warnings reported by kernel test robot.
+   https://patchwork.kernel.org/project/linux-edac/patch/20250423163511.1412-3-shiju.jose@huawei.com/
+2. Removed patch "ACPI: ACPI 6.5: RAS2: Rename RAS2 table structure and field names"
+   from the series as the patch was merged to linux-pm.git : branch linux-next
+3. Rebased to ras.git: edac-for-next branch merged with linux-pm.git : linux-next branch.
+      
+v3 -> v4:
+1.  Changes for feedbacks from Yazen on v3.
+    https://lore.kernel.org/all/20250415210504.GA854098@yaz-khff2.amd.com/
+
+v2 -> v3:
+1. Rename RAS2 table structure and field names in 
+   include/acpi/actbl2.h limited to only necessary
+   for RAS2 scrub feature.
+2. Changes for feedbacks from Jonathan on v2.
+3. Daniel reported a known behaviour: when readback 'size' attribute after
+   setting in, returns 0 before starting scrubbing via 'addr' attribute.
+   Changes added to fix this.
+4. Daniel reported that firmware cannot update status of demand scrubbing
+   via the 'Actual Address Range (OUTPUT)', thus add workaround in the
+   kernel to update sysfs 'addr' attribute with the status of demand
+   scrubbing.
+5. Optimized logic in ras2_check_pcc_chan() function
+   (patch - ACPI:RAS2: Add ACPI RAS2 driver).
+6. Add PCC channel lock to struct ras2_pcc_subspace and change
+   lock in ras2_mem_ctx as a pointer to pcc channel lock to make sure
+   writing to PCC subspace shared memory is protected from race conditions.
+   
+v1 -> v2:
+1.  Changes for feedbacks from Borislav.
+    - Shorten ACPI RAS2 structures and variables names.
+    - Shorten some of the other variables in the RAS2 drivers.
+    - Fixed few CamelCases.
+
+2.  Changes for feedbacks from Yazen.
+    - Added newline after number of '}' and return statements.
+    - Changed return type for "ras2_add_aux_device() to 'int'.
+    - Deleted a duplication of acpi_get_table("RAS2",...) in the ras2_acpi_parse_table().
+    - Add "FW_WARN" to few error logs in the ras2_acpi_parse_table().
+    - Rename ras2_acpi_init() to acpi_ras2_init() and modified to call acpi_ras2_init()
+      function from the acpi_init().
+    - Moved scrub related variables from the struct ras2_mem_ctx from  patch
+      "ACPI:RAS2: Add ACPI RAS2 driver" to "ras: mem: Add memory ACPI RAS2 driver".
+
+Shiju Jose (3):
+  mm: Add node_to_range lookup facility to numa_memblks
+  ACPI:RAS2: Add ACPI RAS2 driver
+  ras: mem: Add memory ACPI RAS2 driver
+
+ Documentation/edac/scrub.rst |  79 ++++++
+ drivers/acpi/Kconfig         |  12 +
+ drivers/acpi/Makefile        |   1 +
+ drivers/acpi/bus.c           |   3 +
+ drivers/acpi/ras2.c          | 493 +++++++++++++++++++++++++++++++++++
+ drivers/ras/Kconfig          |  11 +
+ drivers/ras/Makefile         |   1 +
+ drivers/ras/acpi_ras2.c      | 464 +++++++++++++++++++++++++++++++++
+ include/acpi/ras2.h          |  99 +++++++
+ include/linux/numa.h         |  10 +
+ include/linux/numa_memblks.h |   2 +
+ mm/numa.c                    |  10 +
+ mm/numa_memblks.c            |  23 ++
+ 13 files changed, 1208 insertions(+)
+ create mode 100644 drivers/acpi/ras2.c
+ create mode 100644 drivers/ras/acpi_ras2.c
+ create mode 100644 include/acpi/ras2.h
+
+-- 
+2.43.0
+
