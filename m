@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC7B2E36EA;
-	Fri,  1 Aug 2025 06:10:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BAF1F03F3;
+	Fri,  1 Aug 2025 06:23:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754028615; cv=none; b=QuM18g0ofdIcbK0Algu5KxqD0bnz0FebARA4zBF5h1douFfWqvMjhHkL82M0krsJN/tvlCkIGRZFjimX1iIA/tT4kB2FSd4t0/y0kJ4VcQjbDmpGDqYUVHL/gSbFqp7QVZjOOXqJdtsg46UPSxZf5axekpRWYbr8moK0xM4xLJU=
+	t=1754029436; cv=none; b=RKgnkQw9MH69gVNU+ghl6CMWapO302LudnRQs8PYXi1n+g7gpBMgV2OT92/J1Z28vM+xZQB0SKTwZ0uKLkzugionDR7bRCNjAAIXTT7sNDmIw6o505d4S6n5E0DmVfMU2jGbjZMAEYes47Zg3qtpINllb5AVp0VtgfaHieACGIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754028615; c=relaxed/simple;
-	bh=CHhA//WK4DHzPYG5OpmIghiaCWDye+1yuEo1jGi9+dw=;
+	s=arc-20240116; t=1754029436; c=relaxed/simple;
+	bh=3wxPWqrrqcVDibSqQSNPtF2uJL4oSonN9fZvqC9K1WU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QLLWcrDjmv9MWB0vsleAvShdrSgiv73I9ar+FDaXrZwKcJYVNwO2q6B/yOzYbrv8m+nrZ1/7Q0/Z/9L48mS7yax9oQ1p+oMtfprt5FKVboYRjzQRVEDeUBvUcYHRzsmVmuB5ifhBbuJMOhn+7y83hbYuGFQtg249N9oFgpxcz2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZIYQ78y8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LG+yQQU1XWzvdbT2Y3j0DdvsUtngL0p/zIrn97volwJk9ktMptPLG3nXKXeTkOcs0mLOWQUjIiWQVmYSJKeNSnXuebXAWBqsFi0lzQWVGSPTPfZD7avygXCBoLoalA7QaeYyZf8Idu0jVeZ2ScKsXrMO/cpY0G2qpTtfkS6Ls+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tR25YRrs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZIYQ78y8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2CBC4CEE7;
-	Fri,  1 Aug 2025 06:10:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tR25YRrs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38434C4CEEB;
+	Fri,  1 Aug 2025 06:23:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754028615;
-	bh=CHhA//WK4DHzPYG5OpmIghiaCWDye+1yuEo1jGi9+dw=;
+	s=k20201202; t=1754029436;
+	bh=3wxPWqrrqcVDibSqQSNPtF2uJL4oSonN9fZvqC9K1WU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZIYQ78y8Hn8rWSoHDUmBF2kfQ/qzWyQ8hAvpEG131FzbC/6HGwsmw52q8PvrCPsDi
-	 2HbUDv2hxE8juu/wFOZ6Or3kLS37n8bb2ntMZB2BA55fTZg/X3P62hKGYKPCH2ZrvM
-	 FJP2ndAkQpfgno1BPD44rnCtvgtVRNYnuoCgmAESfKrBoY3/rvvFzITvvDJ2UaRMRI
-	 osZrAckJdAfAAQWHNnA63u3iIcLTi2y/b9s4dcPk52XpuSQzwuJshB6TrxIB/A+kDK
-	 QclFf3yYh/TokC8vKC4UaEUsqKecnZEfaZ8E8mboW6+nLcksA0lPv0JDE9GiTDHdAP
-	 z3qRXnwfzj1aw==
-Date: Fri, 1 Aug 2025 08:10:11 +0200
+	b=tR25YRrsPiWQy39F9FL8x09pwT1K40Wd6d6SUNk+hfTGHDhglNs6MfgTemJAmdGtr
+	 xKWJW8DZ94gMBI0ex5w3h1v3UTg8qD6v6HcQh7gvxALUT0zFKM5+oRUKIr6fV5Mc0r
+	 lZ0rcjVvZ+2HSZruhTuFgHlVKqas7gFYss+6qf/pZGOZpCKxFfxUDFgB5Gxe9fFcxO
+	 CmOGY+K3fTXL7sVewtSIo3FAUCkpRfkkQ/vM6EVMUV8slYGLSLO5CPdY/WF6GFHddm
+	 rqrRXlJsK37Rt3P2UaHMUmd2NDRScNi+7OJQd+BewjFC4YM8pyfNzM9c26s1xzmREn
+	 9ElUTtoKUNYGw==
+Date: Fri, 1 Aug 2025 08:23:52 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>
-Subject: Re: [PATCH 12/12] docs: kdoc: a few final dump_struct() touches
-Message-ID: <20250801081011.41975240@foz.lan>
-In-Reply-To: <20250801001326.924276-13-corbet@lwn.net>
+Subject: Re: [PATCH 00/12] docs: kdoc: thrash up dump_struct()
+Message-ID: <20250801082352.4ef1fb12@foz.lan>
+In-Reply-To: <20250801001326.924276-1-corbet@lwn.net>
 References: <20250801001326.924276-1-corbet@lwn.net>
-	<20250801001326.924276-13-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,47 +45,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 31 Jul 2025 18:13:26 -0600
+Em Thu, 31 Jul 2025 18:13:14 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Add a couple more comments so that each phase of the process is
-> now clearly marked.
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
+> In my ongoing effort to truly understand our new kernel-doc, I continue to
+> make changes to improve the code, and to try to make the understanding task
+> easier for the next person.  These patches focus on dump_struct() in
+> particular, which starts out at nearly 300 lines long - to much to fit into
+> my little brain anyway.  Hopefully the result is easier to manage.
 > 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  scripts/lib/kdoc/kdoc_parser.py | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
+> There are no changes in the rendered docs.
 > 
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 131956d89f84..fa2041276f8c 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -801,14 +801,15 @@ class KernelDoc:
->          nested = NestedMatch()
->          for search, sub in struct_nested_prefixes:
->              members = nested.sub(search, sub, members)
-> -
-> -        # Keeps the original declaration as-is
-> +        #
-> +        # Deal with embedded struct and union members, and drop enums entirely.
-> +        #
->          declaration = members
->          members = self.rewrite_struct_members(members)
-> -
-> -        # Ignore other nested elements, like enums
->          members = re.sub(r'(\{[^\{\}]*\})', '', members)
-> -
-> +        #
-> +        # Output the result and we are done.
-> +        #
->          self.create_parameter_list(ln, decl_type, members, ';',
->                                     declaration_name)
->          self.check_sections(ln, declaration_name, decl_type)
+> (At some point I think this code could benefit from a deeper rework.  We
+> are essentially making three parsing passes over these declarations -
+> dump_struct(), create_parameter_list(), and push_parameter() for structs -
+> and it seems like we ought to be able to do better.  But that's for another
+> day.)
 
+True. I tried not to do too much optimizations during conversion, as it
+would make harder to compare with kernel_doc.pl, but yeah, the entire
+logic around parsing structs and functions has always been a nightmare.
 
+My understanding is that the original Perl code was written this way to
+make easier to handle typedefs and structs the same way. So, common
+code was placed at create_parameter_list(). The push_parameter() is
+there to have some common code used on several parts of
+create_parameter_list() on a single place.
+
+If I were designing it from scratch with no strings attached to Perl, 
+I would probably create a separate class just to manage struct
+parameters - or alternatively, to deal with structs as a hole.
 
 Thanks,
 Mauro
