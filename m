@@ -1,181 +1,271 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B09224D6;
-	Fri,  1 Aug 2025 02:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E939B80B;
+	Fri,  1 Aug 2025 04:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754013649; cv=none; b=lfL63NMX/MVdH8hh7lU8K48DZ3lLDCXZDPhby9WEQFxwY/AgpCublkQnBmojxbUEQsrsin3rV5Uv7lJ7yBm96XjXrLYp1VqQKJ+MWScL2iW6+PvFl8WDmi9pC/DG1ySl0DuzqydL20C0bDG4X6Lh3647hQNtDsltWeYyjfjKiG0=
+	t=1754022435; cv=none; b=pYBrh+iMoiEynCDX7nlV6tG0E/9Gd29TVDYj4ZRSz6ygVbddYIQFumIL99MOgTBBgPikhSPtkBSwFO8yeJuYfv9s6Tstbyl8uyPQAyfco27XV8khPgALfbujeRUGA41BsawYJtuCfA3NwnpyQLemIULYQIfO2o+bSnfD87JQZxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754013649; c=relaxed/simple;
-	bh=uUgBHxk1XWPT9uqTiGzegsSuOWtCEXVRytWcBEnLKxo=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=DxEfhcPfZe05uOpAbroz7kgogpFqNkMZWsmlfXOTrCj6FdAQgCHPU8xUJg/Rgma5HO1+3Jvxdsi55aXrExgSsDInj2gl9KhQO98A+cfXBdXjERDhwcarKf1HnIcUMQWZYg/CqZUjodlEdtEVSTUuDcwlfOBy+iveAtuKROFgr4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4btTgd1j1MzYQvgt;
-	Fri,  1 Aug 2025 10:00:45 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id DFFB71A10E9;
-	Fri,  1 Aug 2025 10:00:43 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgC3MxTJH4xo6bCnCA--.58432S3;
-	Fri, 01 Aug 2025 10:00:43 +0800 (CST)
-Subject: Re: [PATCH v4 11/11] md/md-llbitmap: introduce new lockless bitmap
-To: Yu Kuai <yukuai@kernel.org>, corbet@lwn.net, agk@redhat.co,
- snitzer@kernel.org, mpatocka@redhat.com, hch@lst.de, song@kernel.org,
- hare@suse.de
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-raid@vger.kernel.org, yangerkun@huawei.com,
- yi.zhang@huawei.com, johnny.chenyi@huawei.com,
- "yukuai (C)" <yukuai3@huawei.com>
-References: <20250721171557.34587-1-yukuai@kernel.org>
- <20250721171557.34587-12-yukuai@kernel.org>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <f282237e-be12-b178-0e25-3a73bd20d77c@huaweicloud.com>
-Date: Fri, 1 Aug 2025 10:00:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	s=arc-20240116; t=1754022435; c=relaxed/simple;
+	bh=uq+kpMSFanUZqXprllI7t2UiWSiMj8A4yFiG4lcfQaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HWV4rlDaCVebGE838MLNe3WZKcMPBZPTM7BscgWoxkxZSY+O2qfXynydBLwOfeGPAip0mM+NCwE5ytXODA1KTc6xhWvDSJtzctnsfY9pJaA6lG3MAvFj6y84qTDLmjxAX+WDtGpFn1YS2QjWtLKmJWRoqwT7G1m9TGC4qFVY/Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GY2oBLBp; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GY2oBLBp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71A31C4CEE7;
+	Fri,  1 Aug 2025 04:27:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754022434;
+	bh=uq+kpMSFanUZqXprllI7t2UiWSiMj8A4yFiG4lcfQaM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GY2oBLBpQcT1AD8Lawicv4Gwe8/iOjkFp0Yk556aCc0e/v3wFxCgipGTEH1TThYqO
+	 R4dOoX8U9dEMtQtft9FacSXJ6C9OKgfnUfMUEQ0qIhPHWHeiQnZxu9rvYZCn/kuYLp
+	 qrHW028OtYChbwNdm8fB2S7ssXDF+bxfdJ4qm42tBs4RtSrMJ1PjM4lbIXhLFBN/rc
+	 n7Ee3Qt+Qtquku61d5qr5jRXQ7lAUao33qQRe/83EcdfWWzv7vZ5BUGukdSgF7A5Rq
+	 hFN53MwdRlkh400JVEZBx0O/FXW5AkUAZxzPOFZNEOuL4/VW7kyiVmMGuqdc3u6NXs
+	 XdcNHTBJZMzsw==
+Date: Fri, 1 Aug 2025 06:27:10 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 03/12] docs: kdoc: backslashectomy in kdoc_parser
+Message-ID: <20250801062710.552dac5a@foz.lan>
+In-Reply-To: <20250801001326.924276-4-corbet@lwn.net>
+References: <20250801001326.924276-1-corbet@lwn.net>
+	<20250801001326.924276-4-corbet@lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20250721171557.34587-12-yukuai@kernel.org>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgC3MxTJH4xo6bCnCA--.58432S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxJF43uw4UGF1UGFWrurW3KFg_yoW5Zw47pF
-	WIvF9xKayfJr1rXw17Xrn5ZFZ5XrWkKwsIqFn7A345WrnF9rnIkrWrGFWUJw4rZwn8JFs5
-	ta15Krs8KF1DuFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Ib4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
-	e2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4I
-	kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
-	WwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
-	0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWU
-	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
-	IYCTnIWIevJa73UjIFyTuYvjxUFku4UUUUU
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Em Thu, 31 Jul 2025 18:13:17 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-ÔÚ 2025/07/22 1:15, Yu Kuai Ð´µÀ:
-> +static int llbitmap_read_sb(struct llbitmap *llbitmap)
-> +{
-> +	struct mddev *mddev = llbitmap->mddev;
-> +	unsigned long daemon_sleep;
-> +	unsigned long chunksize;
-> +	unsigned long events;
-> +	struct page *sb_page;
-> +	bitmap_super_t *sb;
-> +	int ret = -EINVAL;
-> +
-> +	if (!mddev->bitmap_info.offset) {
-> +		pr_err("md/llbitmap: %s: no super block found", mdname(mddev));
-> +		return -EINVAL;
-> +	}
-> +
-> +	sb_page = llbitmap_read_page(llbitmap, 0);
-> +	if (IS_ERR(sb_page)) {
-> +		pr_err("md/llbitmap: %s: read super block failed",
-> +		       mdname(mddev));
+> A lot of the regular expressions in this file have extraneous backslashes
 
-There should return -EIO directly here.
-> +		ret = -EIO;
-> +		goto out;
+This one is a bit scary... It could actually cause issues somewhere.
+Also, IMHO, some expressions look worse on my eyes ;-)
 
-And the out tag can be removed.
+> that may have been needed in Perl, but aren't helpful here.  Take them out
+> to reduce slightly the visual noise.
+
+No idea if Perl actually requires, but, at least for me, I do prefer to
+see all special characters properly escaped with a backslash. This way,
+it is a lot clearer that what it is expecting is a string, instead of
+using something that may affect regex processing.
+
+This is specially important for my eyes when expecting for dots,
+parenthesis and brackets.
+
+
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  scripts/lib/kdoc/kdoc_parser.py | 40 ++++++++++++++++-----------------
+>  1 file changed, 20 insertions(+), 20 deletions(-)
+> 
+> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> index 9948ede739a5..e1efa65a3480 100644
+> --- a/scripts/lib/kdoc/kdoc_parser.py
+> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> @@ -46,7 +46,7 @@ doc_decl = doc_com + KernRe(r'(\w+)', cache=False)
+>  known_section_names = 'description|context|returns?|notes?|examples?'
+>  known_sections = KernRe(known_section_names, flags = re.I)
+>  doc_sect = doc_com + \
+> -    KernRe(r'\s*(\@[.\w]+|\@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
+> +    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
+>             flags=re.I, cache=False)
+>  
+>  doc_content = doc_com_body + KernRe(r'(.*)', cache=False)
+> @@ -60,7 +60,7 @@ attribute = KernRe(r"__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)",
+>  export_symbol = KernRe(r'^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*', cache=False)
+>  export_symbol_ns = KernRe(r'^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*"\S+"\)\s*', cache=False)
+>  
+> -type_param = KernRe(r"\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
+> +type_param = KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
+>  
+>  #
+>  # Tests for the beginning of a kerneldoc block in its various forms.
+> @@ -331,7 +331,7 @@ class KernelDoc:
+>  
+>          self.entry.anon_struct_union = False
+>  
+> -        param = KernRe(r'[\[\)].*').sub('', param, count=1)
+> +        param = KernRe(r'[)[].*').sub('', param, count=1)
+
+This one, for instance, IMHO looks a lot worse for my eyes to understand
+that there is a "[" that it is not an operator, but instead a string.
+The open close parenthesis also looks weird. My regex-trained eyes think
+that this would be part of a capture group.
+
+>  
+>          if dtype == "" and param.endswith("..."):
+>              if KernRe(r'\w\.\.\.$').search(param):
+> @@ -405,7 +405,7 @@ class KernelDoc:
+>  
+>          for arg in args.split(splitter):
+>              # Strip comments
+> -            arg = KernRe(r'\/\*.*\*\/').sub('', arg)
+> +            arg = KernRe(r'/\*.*\*/').sub('', arg)
+
+A pattern like /..../ is a standard way to pass search group with Regex
+on many languages and utils that accept regular expressions like the
+sed command. Dropping the backslash here IMHO makes it confusing ;-)
+
+>  
+>              # Ignore argument attributes
+>              arg = KernRe(r'\sPOS0?\s').sub(' ', arg)
+> @@ -428,14 +428,14 @@ class KernelDoc:
+>  
+>                  arg = arg.replace('#', ',')
+>  
+> -                r = KernRe(r'[^\(]+\(\*?\s*([\w\[\]\.]*)\s*\)')
+> +                r = KernRe(r'[^(]+\(\*?\s*([\w[\].]*)\s*\)')
+
+Here, [.] is also a lot more confusing for me than [\.]
+
+Ok, both works the same way on all implementations I know, but, as a doc
+means any character, I need to re-read this two or three times to understand
+that here it is waiting for a dot character instead of any character.
+
+
+----
+
+Here, I became too tired of reading regular expressions... better
+stop to avoid headaches ;-)
+
+Seriously, IMHO this patch makes a lot worse to understand what brackets,
+parenthesis and dots are strings, and which ones are part of the regex
+syntax. 
+
+
+>                  if r.match(arg):
+>                      param = r.group(1)
+>                  else:
+>                      self.emit_msg(ln, f"Invalid param: {arg}")
+>                      param = arg
+>  
+> -                dtype = KernRe(r'([^\(]+\(\*?)\s*' + re.escape(param)).sub(r'\1', arg)
+> +                dtype = KernRe(r'([^(]+\(\*?)\s*' + re.escape(param)).sub(r'\1', arg)
+>                  self.push_parameter(ln, decl_type, param, dtype,
+>                                      arg, declaration_name)
+>  
+> @@ -443,14 +443,14 @@ class KernelDoc:
+>                  # Array-of-pointers
+>  
+>                  arg = arg.replace('#', ',')
+> -                r = KernRe(r'[^\(]+\(\s*\*\s*([\w\[\]\.]*?)\s*(\s*\[\s*[\w]+\s*\]\s*)*\)')
+> +                r = KernRe(r'[^(]+\(\s*\*\s*([\w[\].]*?)\s*(\s*\[\s*[\w]+\s*\]\s*)*\)')
+>                  if r.match(arg):
+>                      param = r.group(1)
+>                  else:
+>                      self.emit_msg(ln, f"Invalid param: {arg}")
+>                      param = arg
+>  
+> -                dtype = KernRe(r'([^\(]+\(\*?)\s*' + re.escape(param)).sub(r'\1', arg)
+> +                dtype = KernRe(r'([^(]+\(\*?)\s*' + re.escape(param)).sub(r'\1', arg)
+>  
+>                  self.push_parameter(ln, decl_type, param, dtype,
+>                                      arg, declaration_name)
+> @@ -637,8 +637,8 @@ class KernelDoc:
+>              # it is better to also move those to the NestedMatch logic,
+>              # to ensure that parenthesis will be properly matched.
+>  
+> -            (KernRe(r'__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)', re.S), r'DECLARE_BITMAP(\1, __ETHTOOL_LINK_MODE_MASK_NBITS)'),
+> -            (KernRe(r'DECLARE_PHY_INTERFACE_MASK\s*\(([^\)]+)\)', re.S), r'DECLARE_BITMAP(\1, PHY_INTERFACE_MODE_MAX)'),
+> +            (KernRe(r'__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^)]+)\)', re.S), r'DECLARE_BITMAP(\1, __ETHTOOL_LINK_MODE_MASK_NBITS)'),
+> +            (KernRe(r'DECLARE_PHY_INTERFACE_MASK\s*\(([^)]+)\)', re.S), r'DECLARE_BITMAP(\1, PHY_INTERFACE_MODE_MAX)'),
+>              (KernRe(r'DECLARE_BITMAP\s*\(' + args_pattern + r',\s*' + args_pattern + r'\)', re.S), r'unsigned long \1[BITS_TO_LONGS(\2)]'),
+>              (KernRe(r'DECLARE_HASHTABLE\s*\(' + args_pattern + r',\s*' + args_pattern + r'\)', re.S), r'unsigned long \1[1 << ((\2) - 1)]'),
+>              (KernRe(r'DECLARE_KFIFO\s*\(' + args_pattern + r',\s*' + args_pattern + r',\s*' + args_pattern + r'\)', re.S), r'\2 *\1'),
+> @@ -700,7 +700,7 @@ class KernelDoc:
+>                      s_id = s_id.strip()
+>  
+>                      newmember += f"{maintype} {s_id}; "
+> -                    s_id = KernRe(r'[:\[].*').sub('', s_id)
+> +                    s_id = KernRe(r'[:[].*').sub('', s_id)
+>                      s_id = KernRe(r'^\s*\**(\S+)\s*').sub(r'\1', s_id)
+>  
+>                      for arg in content.split(';'):
+> @@ -709,7 +709,7 @@ class KernelDoc:
+>                          if not arg:
+>                              continue
+>  
+> -                        r = KernRe(r'^([^\(]+\(\*?\s*)([\w\.]*)(\s*\).*)')
+> +                        r = KernRe(r'^([^(]+\(\*?\s*)([\w.]*)(\s*\).*)')
+>                          if r.match(arg):
+>                              # Pointer-to-function
+>                              dtype = r.group(1)
+> @@ -767,12 +767,12 @@ class KernelDoc:
+>          self.check_sections(ln, declaration_name, decl_type)
+>  
+>          # Adjust declaration for better display
+> -        declaration = KernRe(r'([\{;])').sub(r'\1\n', declaration)
+> +        declaration = KernRe(r'([{;])').sub(r'\1\n', declaration)
+>          declaration = KernRe(r'\}\s+;').sub('};', declaration)
+>  
+>          # Better handle inlined enums
+>          while True:
+> -            r = KernRe(r'(enum\s+\{[^\}]+),([^\n])')
+> +            r = KernRe(r'(enum\s+\{[^}]+),([^\n])')
+>              if not r.search(declaration):
+>                  break
+>  
+> @@ -969,8 +969,8 @@ class KernelDoc:
+>          # - pci_match_device, __copy_to_user (long return type)
+>  
+>          name = r'[a-zA-Z0-9_~:]+'
+> -        prototype_end1 = r'[^\(]*'
+> -        prototype_end2 = r'[^\{]*'
+> +        prototype_end1 = r'[^(]*'
+> +        prototype_end2 = r'[^{]*'
+>          prototype_end = fr'\(({prototype_end1}|{prototype_end2})\)'
+>  
+>          # Besides compiling, Perl qr{[\w\s]+} works as a non-capturing group.
+> @@ -1044,7 +1044,7 @@ class KernelDoc:
+>          Stores a typedef inside self.entries array.
+>          """
+>  
+> -        typedef_type = r'((?:\s+[\w\*]+\b){0,7}\s+(?:\w+\b|\*+))\s*'
+> +        typedef_type = r'((?:\s+[\w*]+\b){0,7}\s+(?:\w+\b|\*+))\s*'
+>          typedef_ident = r'\*?\s*(\w\S+)\s*'
+>          typedef_args = r'\s*\((.*)\);'
+>  
+> @@ -1265,7 +1265,7 @@ class KernelDoc:
+>              self.dump_section()
+>  
+>              # Look for doc_com + <text> + doc_end:
+> -            r = KernRe(r'\s*\*\s*[a-zA-Z_0-9:\.]+\*/')
+> +            r = KernRe(r'\s*\*\s*[a-zA-Z_0-9:.]+\*/')
+>              if r.match(line):
+>                  self.emit_msg(ln, f"suspicious ending line: {line}")
+>  
+> @@ -1476,14 +1476,14 @@ class KernelDoc:
+>          """Ancillary routine to process a function prototype"""
+>  
+>          # strip C99-style comments to end of line
+> -        line = KernRe(r"\/\/.*$", re.S).sub('', line)
+> +        line = KernRe(r"//.*$", re.S).sub('', line)
+>          #
+>          # Soak up the line's worth of prototype text, stopping at { or ; if present.
+>          #
+>          if KernRe(r'\s*#\s*define').match(line):
+>              self.entry.prototype = line
+>          elif not line.startswith('#'):   # skip other preprocessor stuff
+> -            r = KernRe(r'([^\{]*)')
+> +            r = KernRe(r'([^{]*)')
+>              if r.match(line):
+>                  self.entry.prototype += r.group(1) + " "
+>          #
+
+
 
 Thanks,
-Kuai
-
-> +	}
-> +
-> +	sb = kmap_local_page(sb_page);
-> +	if (sb->magic != cpu_to_le32(BITMAP_MAGIC)) {
-> +		pr_err("md/llbitmap: %s: invalid super block magic number",
-> +		       mdname(mddev));
-> +		goto out_put_page;
-> +	}
-> +
-> +	if (sb->version != cpu_to_le32(BITMAP_MAJOR_LOCKLESS)) {
-> +		pr_err("md/llbitmap: %s: invalid super block version",
-> +		       mdname(mddev));
-> +		goto out_put_page;
-> +	}
-> +
-> +	if (memcmp(sb->uuid, mddev->uuid, 16)) {
-> +		pr_err("md/llbitmap: %s: bitmap superblock UUID mismatch\n",
-> +		       mdname(mddev));
-> +		goto out_put_page;
-> +	}
-> +
-> +	if (mddev->bitmap_info.space == 0) {
-> +		int room = le32_to_cpu(sb->sectors_reserved);
-> +
-> +		if (room)
-> +			mddev->bitmap_info.space = room;
-> +		else
-> +			mddev->bitmap_info.space = mddev->bitmap_info.default_space;
-> +	}
-> +	llbitmap->flags = le32_to_cpu(sb->state);
-> +	if (test_and_clear_bit(BITMAP_FIRST_USE, &llbitmap->flags)) {
-> +		ret = llbitmap_init(llbitmap);
-> +		goto out_put_page;
-> +	}
-> +
-> +	chunksize = le32_to_cpu(sb->chunksize);
-> +	if (!is_power_of_2(chunksize)) {
-> +		pr_err("md/llbitmap: %s: chunksize not a power of 2",
-> +		       mdname(mddev));
-> +		goto out_put_page;
-> +	}
-> +
-> +	if (chunksize < DIV_ROUND_UP(mddev->resync_max_sectors,
-> +				     mddev->bitmap_info.space << SECTOR_SHIFT)) {
-> +		pr_err("md/llbitmap: %s: chunksize too small %lu < %llu / %lu",
-> +		       mdname(mddev), chunksize, mddev->resync_max_sectors,
-> +		       mddev->bitmap_info.space);
-> +		goto out_put_page;
-> +	}
-> +
-> +	daemon_sleep = le32_to_cpu(sb->daemon_sleep);
-> +	if (daemon_sleep < 1 || daemon_sleep > MAX_SCHEDULE_TIMEOUT / HZ) {
-> +		pr_err("md/llbitmap: %s: daemon sleep %lu period out of range",
-> +		       mdname(mddev), daemon_sleep);
-> +		goto out_put_page;
-> +	}
-> +
-> +	events = le64_to_cpu(sb->events);
-> +	if (events < mddev->events) {
-> +		pr_warn("md/llbitmap :%s: bitmap file is out of date (%lu < %llu) -- forcing full recovery",
-> +			mdname(mddev), events, mddev->events);
-> +		set_bit(BITMAP_STALE, &llbitmap->flags);
-> +	}
-> +
-> +	sb->sync_size = cpu_to_le64(mddev->resync_max_sectors);
-> +	mddev->bitmap_info.chunksize = chunksize;
-> +	mddev->bitmap_info.daemon_sleep = daemon_sleep;
-> +
-> +	llbitmap->barrier_idle = DEFAULT_BARRIER_IDLE;
-> +	llbitmap->chunksize = chunksize;
-> +	llbitmap->chunks = DIV_ROUND_UP(mddev->resync_max_sectors, chunksize);
-> +	llbitmap->chunkshift = ffz(~chunksize);
-> +	ret = llbitmap_cache_pages(llbitmap);
-> +
-> +out_put_page:
-> +	__free_page(sb_page);
-> +out:
-> +	kunmap_local(sb);
-> +	return ret;
-> +}
-
+Mauro
