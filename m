@@ -1,271 +1,269 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E939B80B;
-	Fri,  1 Aug 2025 04:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754022435; cv=none; b=pYBrh+iMoiEynCDX7nlV6tG0E/9Gd29TVDYj4ZRSz6ygVbddYIQFumIL99MOgTBBgPikhSPtkBSwFO8yeJuYfv9s6Tstbyl8uyPQAyfco27XV8khPgALfbujeRUGA41BsawYJtuCfA3NwnpyQLemIULYQIfO2o+bSnfD87JQZxc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754022435; c=relaxed/simple;
-	bh=uq+kpMSFanUZqXprllI7t2UiWSiMj8A4yFiG4lcfQaM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HWV4rlDaCVebGE838MLNe3WZKcMPBZPTM7BscgWoxkxZSY+O2qfXynydBLwOfeGPAip0mM+NCwE5ytXODA1KTc6xhWvDSJtzctnsfY9pJaA6lG3MAvFj6y84qTDLmjxAX+WDtGpFn1YS2QjWtLKmJWRoqwT7G1m9TGC4qFVY/Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GY2oBLBp; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DB81F03F3;
+	Fri,  1 Aug 2025 04:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754023431; cv=fail; b=iG+vrZvbQv8EesdJAwDfoulBgaLo78VrxkVoFccE/Ieklj0e8ibEfO4SzRonQBZfj62CSS4CdnYsG2/0yhUwoDPEBlMGbMIIy/XCnNqZqzBWVe/ynlj1TFeSugZXm11vMn4mxljCiHI2zlLmTB5dE1Th3Fuwt10MT2536vf3000=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754023431; c=relaxed/simple;
+	bh=xiiOJsSd3alnjgnBDPTKh0YDwwJcaaDDIvBS9dEhUiY=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=r1i9WKVdZhXoN3hrXb8qi4+83apIRXWUMEOuuIS3lysW/81hupAkQSFZahHjgfRya3IsaMoeGjksDjXXwacy/DkHRmEjaet0oTX3dMAWZCsog9LgzFbhFRGIVz67trZtha7dLPuvl0rT3Bq2a0LHx9TyUmbznSv2MsQqg6yL2+U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRe3pL8r; arc=fail smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GY2oBLBp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71A31C4CEE7;
-	Fri,  1 Aug 2025 04:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754022434;
-	bh=uq+kpMSFanUZqXprllI7t2UiWSiMj8A4yFiG4lcfQaM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GY2oBLBpQcT1AD8Lawicv4Gwe8/iOjkFp0Yk556aCc0e/v3wFxCgipGTEH1TThYqO
-	 R4dOoX8U9dEMtQtft9FacSXJ6C9OKgfnUfMUEQ0qIhPHWHeiQnZxu9rvYZCn/kuYLp
-	 qrHW028OtYChbwNdm8fB2S7ssXDF+bxfdJ4qm42tBs4RtSrMJ1PjM4lbIXhLFBN/rc
-	 n7Ee3Qt+Qtquku61d5qr5jRXQ7lAUao33qQRe/83EcdfWWzv7vZ5BUGukdSgF7A5Rq
-	 hFN53MwdRlkh400JVEZBx0O/FXW5AkUAZxzPOFZNEOuL4/VW7kyiVmMGuqdc3u6NXs
-	 XdcNHTBJZMzsw==
-Date: Fri, 1 Aug 2025 06:27:10 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 03/12] docs: kdoc: backslashectomy in kdoc_parser
-Message-ID: <20250801062710.552dac5a@foz.lan>
-In-Reply-To: <20250801001326.924276-4-corbet@lwn.net>
-References: <20250801001326.924276-1-corbet@lwn.net>
-	<20250801001326.924276-4-corbet@lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRe3pL8r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754023430; x=1785559430;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=xiiOJsSd3alnjgnBDPTKh0YDwwJcaaDDIvBS9dEhUiY=;
+  b=FRe3pL8rt0/PczK2dRhrVGB1dKWOzp0GZYLvHEvvhN5fXa81OFd7HBRl
+   DoDqmfIwNMQiP6xzwORYrtanaHpYK03Qa5R/xdhRLP1QRdPMlAX8uXAPP
+   m+Sze+6l6Tn5Co9z/LIm1j2eXBOJOKABg6HLt0xQ9dJ+zx77yQL7/k7aA
+   qeMMRlksd/SBCzGq6Mk7i+4lr9rS5JusUQNfwxYPdQTHKvPBDAHgtseYQ
+   0N/dC+yRol/NomXNu7w7UUEXk5WUArx04vzE2QE7RbEkLKTmwtiFSai70
+   6aVVtv87kMjQqNp2rVAGmytsJghY/HT4Un7WafmQDBF2nbi7i27iovK5w
+   g==;
+X-CSE-ConnectionGUID: U+6Z9EuTS1KKEGvI8NC8OQ==
+X-CSE-MsgGUID: kb6MQIZrRPmeIl8Q9FOryw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="55423933"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="55423933"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 21:43:49 -0700
+X-CSE-ConnectionGUID: w8IpBgGjROmT7weD5p3+dA==
+X-CSE-MsgGUID: oGdbMAC4RaKwuAMdYGL2Pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="168846073"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 21:43:48 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 31 Jul 2025 21:43:47 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Thu, 31 Jul 2025 21:43:47 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.86) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 31 Jul 2025 21:43:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J43TQikQOjm1iNy2FCvctLiuOg2dwpcMBvOyg/1gpWjVO7+hMQa4N09ISlr8u76M01P/fiWL/WN0AQsBSYHuutrM+zg/aWu0DW/aV5FJD4KqMCC8j39+1qb76LXnqHejMBAHyfg/+Se7cBl5iNoJm5zCNl7BoYCBm903dyJ5j3TKVoKNtVlAl9WpaSR8NpDToONfrOebqPw1PPlkTCW1vRCjgeQXeKqDyM2QgA6kGHDwVfUStvsMnJa2oF1nU/dsDn2VfasSUlmJcTkBbutDVfmh6Iu2lW+HwVv0OLAVBqjeK0u/gGGmQoTOFrrDdeGAek6A8hl8oTeAoGPqPZf+EA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=19YNpEghXdQb/1VA//ZJ+kT9yFrIWTCVdYnEaVmZ2CU=;
+ b=M4Tn092q1mP+K2X+Fvckf7Hawr8qehSb8qsDbYPcMoe/k5QoRA5UUF+fmZ0Z84z3OmyNpcrufbheIDVLHVtcXOlPCXAXlQYj/RWkovJ5o/PtN0yxyN47IEEw0Oj62XqdNSQBiQ7LcQueS1ac/ffUMGNbOIYZ7QH0DTI8P4mIU7LwgvhN8jm9ntSTKPDGcEPQV6PE4qfbmP3Gv0RaBH0LjrnlvqwdxT3byUrPCQbVUZSBNCCs36kHJfzNsBK9oDDtmjK5TQi4mzSkcRv5jsUolhxyMnzQCa9hSSWCnuYHsifupNhgETcSIGdpL/EBua+3lQ3ztbeu0TG/D/3eOyFPVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
+ by CH2PR11MB8868.namprd11.prod.outlook.com (2603:10b6:610:284::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.11; Fri, 1 Aug
+ 2025 04:43:13 +0000
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::e8c4:59e3:f1d5:af3b]) by BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::e8c4:59e3:f1d5:af3b%7]) with mapi id 15.20.8964.026; Fri, 1 Aug 2025
+ 04:43:12 +0000
+Message-ID: <1c42680f-c962-4a75-998f-031008dd8343@intel.com>
+Date: Thu, 31 Jul 2025 21:43:10 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv9 04/16] x86/cpu: Defer CR pinning setup until core
+ initcall
+Content-Language: en-US
+To: Dave Hansen <dave.hansen@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, Kees Cook <kees@kernel.org>
+CC: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, "Pawan
+ Gupta" <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
+	<daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, "Sandipan
+ Das" <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, Rick Edgecombe
+	<rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, Hou Tao
+	<houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, Vegard Nossum
+	<vegard.nossum@oracle.com>, Eric Biggers <ebiggers@google.com>, "Jason
+ Gunthorpe" <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain
+	<mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, Huang Shijie
+	<shijie@os.amperecomputing.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Namhyung Kim <namhyung@kernel.org>, "Arnaldo
+ Carvalho de Melo" <acme@redhat.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-efi@vger.kernel.org>,
+	<linux-mm@kvack.org>, "Kirill A. Shutemov" <kas@kernel.org>, "Kirill A.
+ Shutemov" <kirill.shutemov@linux.intel.com>, Andy Lutomirski
+	<luto@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra
+	<peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, "Paul E. McKenney"
+	<paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Xiongwei Song
+	<xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, "Mike Rapoport
+ (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, Michael Roth
+	<michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy
+	<aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	X86-kernel <x86@kernel.org>
+References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
+ <20250707080317.3791624-5-kirill.shutemov@linux.intel.com>
+ <6075af69-299f-43d2-a3c8-353a2a3b7ee7@intel.com>
+ <98a7a91b-3b46-4407-82a7-5f80443b7e00@intel.com>
+ <6e768f25-3a1c-48b9-bc53-56877a556a83@intel.com>
+From: Sohil Mehta <sohil.mehta@intel.com>
+In-Reply-To: <6e768f25-3a1c-48b9-bc53-56877a556a83@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR02CA0044.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::21) To BYAPR11MB3320.namprd11.prod.outlook.com
+ (2603:10b6:a03:18::25)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3320:EE_|CH2PR11MB8868:EE_
+X-MS-Office365-Filtering-Correlation-Id: 761ae324-91b8-451b-b667-08ddd0b5ec2e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SUlFSWhlYXhqanJBK2d2L3BnR0d4SmRWSkhsRzdpajN1aWpkK3NyS3ZweVl2?=
+ =?utf-8?B?b2xoZmNILzhjdGV4cDJvUUhCbkVwYjQxSWYwaUpqck9DS3ZOeGlOaUdTbHNC?=
+ =?utf-8?B?Mmt6NEV2VXA5QVVvMWRPaERzQmh2RHNXTGpFTTJzY3F5VkVmem5XL3JDRHdv?=
+ =?utf-8?B?RXl3S0JHMG5Cbml1U3A0b2tqZjBXV3pqLzlrbUxnN0pRaGhmU0xTQTkyUlN6?=
+ =?utf-8?B?RGVJSDVIWU0rQTNJR3R0cXpvUUpOVUtzOXBBbE9XaFVVRkx0YTBPTXhROGtK?=
+ =?utf-8?B?QzNhV1BWdWNvZ3doU0ZmN2xDRVBDWVpPMHlOejZwQ1pLUDJxSk1lVDd0VndR?=
+ =?utf-8?B?SUw1WUllOEwyWXo4VXQ3N1dmN0MreVVWYjRVcFBjM2pHcWZucytHLzJ3Umwy?=
+ =?utf-8?B?RzFCN3JBMXBTcmlCaXlzdWYxdEFxMkRVUUZRb2tHVEtrTXlyVzhRellaU1Z6?=
+ =?utf-8?B?RklPVHdKdTBvSlNvQWQvZnJrUnRaN0daVFJ1MDhxVlAxeVQ1MzQ1aW51NjFi?=
+ =?utf-8?B?NEJUVWk1MzU2dENRS2djank5QVVUUE5oOVdJTlYwZ3ZLZlNlTjZJOEJ3S3h1?=
+ =?utf-8?B?dE0zN3dQa1JvVHlqbzJLQjNncnVuSTUva3dsYTI0cG83Y2RYOSszZWl1Qm9p?=
+ =?utf-8?B?MzI1QzdsczZldGxnaEVvQVJWMXlZZWZIc1BiTUZiRVFST0xDd2JlREltZ3JC?=
+ =?utf-8?B?T2h4RkhpQXhERFNoOTdUdXpKRnVDcjh5STVJc3E5NWJlZDJMUmszTUxpL0p3?=
+ =?utf-8?B?WFJnaUxRTFZaVHdObFdOdWxaRGNISVRXNFFuRVY3bnQ3d1lzbWRKNUF3cXdR?=
+ =?utf-8?B?a1hjdHhEcTU4WXJJQzF4NjYvcUI2QURoWWIwVkc4L0JFeC9neHBDSDBuSytS?=
+ =?utf-8?B?QkcrUmlyZ0NNVk5ieWJLUjIrU0czRldEbUsxN21pRDBwaXJTQXQweHF0aEZp?=
+ =?utf-8?B?OHFNVUZDbmdjMElCR20zMG94VEUvWnQvK2V2bWxzd2dUYWdvaHR6cEkyTDBk?=
+ =?utf-8?B?S1JFL0lkWGVyb2dCak1PU1hOVEVaOFZocEp2L2c2bnhrUkx4Z29HK1VqdENZ?=
+ =?utf-8?B?N0FRZGl0ZWNCd1YySDhkSURZQVZXckI5TWhNK3hTQ2NRYVBkRXBBYWdscWts?=
+ =?utf-8?B?VHA3NldlWDgyVzVmQ2pubVMrRHJLRjJCMXFXNzUvSG9QUFBpYVNzY1hjc3pw?=
+ =?utf-8?B?dWxMMWE5TVdOTmhvTVZjQnhkdS96UnRlZGt2TGZiUEVJb21HdzJoZGx4d2lE?=
+ =?utf-8?B?OWFvUFVkemkrT2FraWlnUDNPa1I5UDFRcXNXOVE3Rmp2eU1jenMyUU5pLzFi?=
+ =?utf-8?B?bFRBdGFEN0ZPSldueEM4RERuRU83QjAramRPRjc5eVZPYkJlNzBGQTRxWHkr?=
+ =?utf-8?B?N3F3OGdvb0Zwc3hTTU0vV2dkRkliT3pjemJrek5XeE55U1FFVUc3Zzg5a0lG?=
+ =?utf-8?B?VUFmWkZNdENJOHE2bHExZGVEUll2bTRNaGc4UWZEZ1NUZlN6UWk3TlZMNktp?=
+ =?utf-8?B?MUNXKzdpVS9YSzBraWxpczlHNTkxTzdOVElUS1V2blR4NWNjNDZlZXhKMVJI?=
+ =?utf-8?B?ZjlPdmw0N2QyMHFEenRFdHU1UVBOcVN4M1JKT0tWay85KzFmNERKTnFNZHlN?=
+ =?utf-8?B?SWVpSmxIV2NUeXpxMHBubGI4NTFSektJSUpVQ1Y5U0RxQ2tqajAxZTljMmli?=
+ =?utf-8?B?a00wUDNzTEMycHp4RGZJaXY5UFBlT3doN2lOZUlpRmZWeDJURmVyTE9jbG0r?=
+ =?utf-8?B?QjJqV1h3M2ZGVHovcG1hdEk2OWJSSEp3QzJISytTMWs1dEszOHRoYUxlNHZV?=
+ =?utf-8?B?VXRNWit1R0haQjlPRnFTeEpTUG9HZ1JhWWpkWWd5U3RhMXU5bmpDT1Y4KzFy?=
+ =?utf-8?B?U2M5Y1FPWnFjOGV5Q3dkRkMrTFhVWU5nSEwrc1dKL1NSeXNjaFZlUjZRN1dR?=
+ =?utf-8?Q?bEODAwwY9ls=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NnJkVGJEOHZ4aHQ3TFdXSHpHZUJMbDArR09TTXBqckRaR3VhU0NoTnAwSHE0?=
+ =?utf-8?B?MTNnSWpWZEpISHo2ejRvVG1zRzVPS1ZmQnNMb1JSZEx2SlZsaVJGZlllUEtY?=
+ =?utf-8?B?aUF1eWZhZ1FNTDVYZ1BsR21pYW1hU0YycmRZTnQ4anNFQlpKMmFGN1ZacC9D?=
+ =?utf-8?B?VHE3L1pieVJMM1FIQXRXYXNCS1R2alUxR1BhWnNQZ2pLdjJFcTA0blU0UGNh?=
+ =?utf-8?B?ZnErcTJzenBJRTZydlJGcllxOTRLWmhUM0F1OVdGdzlGTlNBaG9NVnBFUGM2?=
+ =?utf-8?B?L09oOTdLeFhHUHFLRStEYlVXU2hqOThEaXA2ZVJyVVo5SHNJdzU1YWtkN3VV?=
+ =?utf-8?B?TnJxRU5QRUtheFVPbDJ2UGExazdkY1pBU01IVllKZmtvdVNOajYzeWxVT1hr?=
+ =?utf-8?B?WVBGN3JhVjh4RFZOSmlkZEFXbXhEejFYUjM4clVzWWIzNXZBVnlEQjFwbmJ6?=
+ =?utf-8?B?ekZ5SUovS3Z0dXFNWjd6OEdYMnRLdVNZWHlDSFc4eEp2d0JEMWZzTmlQa2E5?=
+ =?utf-8?B?L0hVeXhPWGwyR09SNHJ5VCtGQjZ1Vkh5cmdnMHNxcHVzc3NlbVFRZDQxajFi?=
+ =?utf-8?B?cVYwdU9PTUxHZXlibS9vdFpjTitLdjEyQ1hLM2Z1YTRwbEZFckJ1aitUZEZI?=
+ =?utf-8?B?U3lCNHJ3ZTVuejlkZVlhYjdROXBPbzJnd1M5MlpRd0R0SnozNTB5R3FrTWpx?=
+ =?utf-8?B?bmNWR2h6aldNaTlGekdmbnJOVkR5UzR5MTVWNThEVGdoOWVLVHdKTnY2SklF?=
+ =?utf-8?B?OWJSNlptWGRoVzh1ZlFpOVVmbTIwQmgyRjZlR1hsS2lGcGZncDdFVWkrWDRQ?=
+ =?utf-8?B?b1BldjQ1UWc3RGVWOHdHMkhlWWc2dEYxaWJzMGlmd1NIWWp6SDJqNm9UNm1q?=
+ =?utf-8?B?Tk1Ed2VhVHBHUnY5NFRtU0xOT3lXaWowbzFDa1h1OTMzQlg5clJDTFFMN0dN?=
+ =?utf-8?B?cXUycUJnMVp3dFNTajJCb2EwOFlPT0FrSWNjYS9vTDlOb2VhZ0RabmJzL05k?=
+ =?utf-8?B?alJpbEFrdmUwVXFFMHNFVkMrUVA5ZkpSS0d6N2c3a0hWS0lBTkIvY1hMWGoy?=
+ =?utf-8?B?U2JtOFBPSkZjU0RRZHRNSGp4TDBiSVlpZGt3aHNoS3h5ekZsQTB3ZU1mczBJ?=
+ =?utf-8?B?TGl1dnJ5cG44TWdNalpUeEhZRmFSdzg3OWlNYU1QRWNuZitNYXlXTHdvd0pj?=
+ =?utf-8?B?Z3RNbDVFejd1OXBFL1pzTy81VTdnQWpkUUhWL2s5U09jcmcwVXdJOENYamVX?=
+ =?utf-8?B?VmlMOEd4YzV1SXIvVGtXUDVLY2ZmQVNCUlZCSC9XenhwbisvajJtRWRSS3VL?=
+ =?utf-8?B?STRNZE9EazZoZFZTL3dBTGVwMFdVakpCS1hJR1dmZVRsL1BCWFdOWk1ZUUl3?=
+ =?utf-8?B?dGcwR1ExU0hGVTZDUlpMNFpEUHk0eks4eFBKcllMOXBKM3oxMEFEdTRJRkxU?=
+ =?utf-8?B?S2orTGdqZ0dQT3RhaWVJU3Q0N2o3b2thaEpvOEpQYlk2L1dJZGdmcE5rMkJD?=
+ =?utf-8?B?K0xXTVZhMThEZGljL3lVaE5uSDJJV2tLcTkyeG9DUVpndDE3a25KQ0VpdWhl?=
+ =?utf-8?B?T1UzbGVqbkFLMDFsM05EWDNTWEo2WGMyNHVKdXU3WVhxeFNMOUJUWCsyUWsr?=
+ =?utf-8?B?SHFwWEl6bmlHQmpqN1JwSFY0SUkyL21RYXBkNzN2WXd6RXNwREI4SVdGUkJN?=
+ =?utf-8?B?US9qd21Dck12ZkN5bWtJK2loTVBMTXZudlN2OHdzZ0FSVjNWMFovN3hXUkRW?=
+ =?utf-8?B?TWFiNE5RaVlPcW5Fck02KzRIU0tqQUM5cVFUcy9UK0t4UExaVS9BVVA2SjNY?=
+ =?utf-8?B?L2xveUNzZDRrNEVMOGJLazF6R3oyWmxoUXBoYjJSRmNWQnBUeC8reENzVEdV?=
+ =?utf-8?B?Y0drQ1pPOWFWSTRnLzhSaFBGWGRUY3FNTFpMVFg5WkI1N3d3QVJrSk5NcjRV?=
+ =?utf-8?B?OUZDY0dIdzl5Z2hQY29MYTBzZXJ2c3d5TDluSWFFMlVEVTJUQjRHa01GL0VT?=
+ =?utf-8?B?aXRUejdmcXFCaEtUY2FvL1ByRzBCM3VheExQUFFHcitILzRaRjI1UmNHdk9W?=
+ =?utf-8?B?T1E4RlFMZFdoNW5ycTFLaFh2bHpiU05kSFUxMXphTjAyRllVc2d0ZFprRFVu?=
+ =?utf-8?Q?d/ry3TdkUu0YVQe6nmWyI43R1?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 761ae324-91b8-451b-b667-08ddd0b5ec2e
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2025 04:43:12.8716
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ojDtIZA/fVUl9dSkKB1QUucGDb/aYRAmL7gcz39xI3EoUxvoHUTKgJq/BAkgqY3FSx3cW7C+mwc4XxyK6TDUhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB8868
+X-OriginatorOrg: intel.com
 
-Em Thu, 31 Jul 2025 18:13:17 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> A lot of the regular expressions in this file have extraneous backslashes
-
-This one is a bit scary... It could actually cause issues somewhere.
-Also, IMHO, some expressions look worse on my eyes ;-)
-
-> that may have been needed in Perl, but aren't helpful here.  Take them out
-> to reduce slightly the visual noise.
-
-No idea if Perl actually requires, but, at least for me, I do prefer to
-see all special characters properly escaped with a backslash. This way,
-it is a lot clearer that what it is expecting is a string, instead of
-using something that may affect regex processing.
-
-This is specially important for my eyes when expecting for dots,
-parenthesis and brackets.
-
-
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  scripts/lib/kdoc/kdoc_parser.py | 40 ++++++++++++++++-----------------
->  1 file changed, 20 insertions(+), 20 deletions(-)
+On 7/31/2025 5:01 PM, Dave Hansen wrote:
 > 
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 9948ede739a5..e1efa65a3480 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -46,7 +46,7 @@ doc_decl = doc_com + KernRe(r'(\w+)', cache=False)
->  known_section_names = 'description|context|returns?|notes?|examples?'
->  known_sections = KernRe(known_section_names, flags = re.I)
->  doc_sect = doc_com + \
-> -    KernRe(r'\s*(\@[.\w]+|\@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
-> +    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
->             flags=re.I, cache=False)
->  
->  doc_content = doc_com_body + KernRe(r'(.*)', cache=False)
-> @@ -60,7 +60,7 @@ attribute = KernRe(r"__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)",
->  export_symbol = KernRe(r'^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*', cache=False)
->  export_symbol_ns = KernRe(r'^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*"\S+"\)\s*', cache=False)
->  
-> -type_param = KernRe(r"\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
-> +type_param = KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
->  
->  #
->  # Tests for the beginning of a kerneldoc block in its various forms.
-> @@ -331,7 +331,7 @@ class KernelDoc:
->  
->          self.entry.anon_struct_union = False
->  
-> -        param = KernRe(r'[\[\)].*').sub('', param, count=1)
-> +        param = KernRe(r'[)[].*').sub('', param, count=1)
+> 'cr4_pinned_bits' should be set by the boot CPU. Secondary CPUs should
+> also read 'cr4_pinned_bits' when setting up their own cr4's,
+> unconditionally, independent of 'cr_pinning'.
+> 
+> The thing I think we should change is the pinning _enforcement_. The
+> easiest way to do that is to remove the static_branch_likely() in
+> cr4_init() and then delay flipping the static branch until just before
+> userspace starts.
+> 
 
-This one, for instance, IMHO looks a lot worse for my eyes to understand
-that there is a "[" that it is not an operator, but instead a string.
-The open close parenthesis also looks weird. My regex-trained eyes think
-that this would be part of a capture group.
+Based on the current implementation and some git history [1], it seems
+that cr_pinning is expected to catch 2 types of issues.
 
->  
->          if dtype == "" and param.endswith("..."):
->              if KernRe(r'\w\.\.\.$').search(param):
-> @@ -405,7 +405,7 @@ class KernelDoc:
->  
->          for arg in args.split(splitter):
->              # Strip comments
-> -            arg = KernRe(r'\/\*.*\*\/').sub('', arg)
-> +            arg = KernRe(r'/\*.*\*/').sub('', arg)
+One is a malicious user trying to change the CR registers from
+userspace. But, another scenario is a regular caller to
+native_write_cr4() *mistakenly* clearing a pinned bit.
 
-A pattern like /..../ is a standard way to pass search group with Regex
-on many languages and utils that accept regular expressions like the
-sed command. Dropping the backslash here IMHO makes it confusing ;-)
+[1]:
+https://lore.kernel.org/all/alpine.DEB.2.21.1906141646320.1722@nanos.tec.linutronix.de/
 
->  
->              # Ignore argument attributes
->              arg = KernRe(r'\sPOS0?\s').sub(' ', arg)
-> @@ -428,14 +428,14 @@ class KernelDoc:
->  
->                  arg = arg.replace('#', ',')
->  
-> -                r = KernRe(r'[^\(]+\(\*?\s*([\w\[\]\.]*)\s*\)')
-> +                r = KernRe(r'[^(]+\(\*?\s*([\w[\].]*)\s*\)')
+Could deferring enforcement lead to a scenario where we end up with
+different CR4 values on different CPUs? Maybe I am misinterpreting this
+and protecting against in-kernel errors is not a goal.
 
-Here, [.] is also a lot more confusing for me than [\.]
+In general, you want to delay the CR pinning enforcement until
+absolutely needed. I am curious about the motivation. I understand we
+should avoid doing it at arbitrary points in the boot. But,
+arch_cpu_finalize_init() and early_initcall() seem to be decent
+mileposts to me.
 
-Ok, both works the same way on all implementations I know, but, as a doc
-means any character, I need to re-read this two or three times to understand
-that here it is waiting for a dot character instead of any character.
+Are you anticipating that we would need to move setup_cr_pinning() again
+when another user similar to EFI shows up?
+> Basically, split up the:
+> 
+> static void __init setup_cr_pinning(void)
+> {
+>     cr4_pinned_bits = this_cpu_read(cpu_tlbstate.cr4) & cr4_pinned_mask;
+>     static_key_enable(&cr_pinning.key);
+> }
+> 
+> code into its two logical pieces:
+> 
+>  1. Populate 'cr4_pinned_bits' from the boot CPU so the secondaries can
+>     use it
+>  2. Enable the static key so pinning enforcement is enabled
 
 
-----
-
-Here, I became too tired of reading regular expressions... better
-stop to avoid headaches ;-)
-
-Seriously, IMHO this patch makes a lot worse to understand what brackets,
-parenthesis and dots are strings, and which ones are part of the regex
-syntax. 
-
-
->                  if r.match(arg):
->                      param = r.group(1)
->                  else:
->                      self.emit_msg(ln, f"Invalid param: {arg}")
->                      param = arg
->  
-> -                dtype = KernRe(r'([^\(]+\(\*?)\s*' + re.escape(param)).sub(r'\1', arg)
-> +                dtype = KernRe(r'([^(]+\(\*?)\s*' + re.escape(param)).sub(r'\1', arg)
->                  self.push_parameter(ln, decl_type, param, dtype,
->                                      arg, declaration_name)
->  
-> @@ -443,14 +443,14 @@ class KernelDoc:
->                  # Array-of-pointers
->  
->                  arg = arg.replace('#', ',')
-> -                r = KernRe(r'[^\(]+\(\s*\*\s*([\w\[\]\.]*?)\s*(\s*\[\s*[\w]+\s*\]\s*)*\)')
-> +                r = KernRe(r'[^(]+\(\s*\*\s*([\w[\].]*?)\s*(\s*\[\s*[\w]+\s*\]\s*)*\)')
->                  if r.match(arg):
->                      param = r.group(1)
->                  else:
->                      self.emit_msg(ln, f"Invalid param: {arg}")
->                      param = arg
->  
-> -                dtype = KernRe(r'([^\(]+\(\*?)\s*' + re.escape(param)).sub(r'\1', arg)
-> +                dtype = KernRe(r'([^(]+\(\*?)\s*' + re.escape(param)).sub(r'\1', arg)
->  
->                  self.push_parameter(ln, decl_type, param, dtype,
->                                      arg, declaration_name)
-> @@ -637,8 +637,8 @@ class KernelDoc:
->              # it is better to also move those to the NestedMatch logic,
->              # to ensure that parenthesis will be properly matched.
->  
-> -            (KernRe(r'__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)', re.S), r'DECLARE_BITMAP(\1, __ETHTOOL_LINK_MODE_MASK_NBITS)'),
-> -            (KernRe(r'DECLARE_PHY_INTERFACE_MASK\s*\(([^\)]+)\)', re.S), r'DECLARE_BITMAP(\1, PHY_INTERFACE_MODE_MAX)'),
-> +            (KernRe(r'__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^)]+)\)', re.S), r'DECLARE_BITMAP(\1, __ETHTOOL_LINK_MODE_MASK_NBITS)'),
-> +            (KernRe(r'DECLARE_PHY_INTERFACE_MASK\s*\(([^)]+)\)', re.S), r'DECLARE_BITMAP(\1, PHY_INTERFACE_MODE_MAX)'),
->              (KernRe(r'DECLARE_BITMAP\s*\(' + args_pattern + r',\s*' + args_pattern + r'\)', re.S), r'unsigned long \1[BITS_TO_LONGS(\2)]'),
->              (KernRe(r'DECLARE_HASHTABLE\s*\(' + args_pattern + r',\s*' + args_pattern + r'\)', re.S), r'unsigned long \1[1 << ((\2) - 1)]'),
->              (KernRe(r'DECLARE_KFIFO\s*\(' + args_pattern + r',\s*' + args_pattern + r',\s*' + args_pattern + r'\)', re.S), r'\2 *\1'),
-> @@ -700,7 +700,7 @@ class KernelDoc:
->                      s_id = s_id.strip()
->  
->                      newmember += f"{maintype} {s_id}; "
-> -                    s_id = KernRe(r'[:\[].*').sub('', s_id)
-> +                    s_id = KernRe(r'[:[].*').sub('', s_id)
->                      s_id = KernRe(r'^\s*\**(\S+)\s*').sub(r'\1', s_id)
->  
->                      for arg in content.split(';'):
-> @@ -709,7 +709,7 @@ class KernelDoc:
->                          if not arg:
->                              continue
->  
-> -                        r = KernRe(r'^([^\(]+\(\*?\s*)([\w\.]*)(\s*\).*)')
-> +                        r = KernRe(r'^([^(]+\(\*?\s*)([\w.]*)(\s*\).*)')
->                          if r.match(arg):
->                              # Pointer-to-function
->                              dtype = r.group(1)
-> @@ -767,12 +767,12 @@ class KernelDoc:
->          self.check_sections(ln, declaration_name, decl_type)
->  
->          # Adjust declaration for better display
-> -        declaration = KernRe(r'([\{;])').sub(r'\1\n', declaration)
-> +        declaration = KernRe(r'([{;])').sub(r'\1\n', declaration)
->          declaration = KernRe(r'\}\s+;').sub('};', declaration)
->  
->          # Better handle inlined enums
->          while True:
-> -            r = KernRe(r'(enum\s+\{[^\}]+),([^\n])')
-> +            r = KernRe(r'(enum\s+\{[^}]+),([^\n])')
->              if not r.search(declaration):
->                  break
->  
-> @@ -969,8 +969,8 @@ class KernelDoc:
->          # - pci_match_device, __copy_to_user (long return type)
->  
->          name = r'[a-zA-Z0-9_~:]+'
-> -        prototype_end1 = r'[^\(]*'
-> -        prototype_end2 = r'[^\{]*'
-> +        prototype_end1 = r'[^(]*'
-> +        prototype_end2 = r'[^{]*'
->          prototype_end = fr'\(({prototype_end1}|{prototype_end2})\)'
->  
->          # Besides compiling, Perl qr{[\w\s]+} works as a non-capturing group.
-> @@ -1044,7 +1044,7 @@ class KernelDoc:
->          Stores a typedef inside self.entries array.
->          """
->  
-> -        typedef_type = r'((?:\s+[\w\*]+\b){0,7}\s+(?:\w+\b|\*+))\s*'
-> +        typedef_type = r'((?:\s+[\w*]+\b){0,7}\s+(?:\w+\b|\*+))\s*'
->          typedef_ident = r'\*?\s*(\w\S+)\s*'
->          typedef_args = r'\s*\((.*)\);'
->  
-> @@ -1265,7 +1265,7 @@ class KernelDoc:
->              self.dump_section()
->  
->              # Look for doc_com + <text> + doc_end:
-> -            r = KernRe(r'\s*\*\s*[a-zA-Z_0-9:\.]+\*/')
-> +            r = KernRe(r'\s*\*\s*[a-zA-Z_0-9:.]+\*/')
->              if r.match(line):
->                  self.emit_msg(ln, f"suspicious ending line: {line}")
->  
-> @@ -1476,14 +1476,14 @@ class KernelDoc:
->          """Ancillary routine to process a function prototype"""
->  
->          # strip C99-style comments to end of line
-> -        line = KernRe(r"\/\/.*$", re.S).sub('', line)
-> +        line = KernRe(r"//.*$", re.S).sub('', line)
->          #
->          # Soak up the line's worth of prototype text, stopping at { or ; if present.
->          #
->          if KernRe(r'\s*#\s*define').match(line):
->              self.entry.prototype = line
->          elif not line.startswith('#'):   # skip other preprocessor stuff
-> -            r = KernRe(r'([^\{]*)')
-> +            r = KernRe(r'([^{]*)')
->              if r.match(line):
->                  self.entry.prototype += r.group(1) + " "
->          #
-
-
-
-Thanks,
-Mauro
