@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CC0D2FF;
-	Fri,  1 Aug 2025 05:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD41347DD;
+	Fri,  1 Aug 2025 05:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754027117; cv=none; b=NJLXz5ffLTgCQleAiiGHeWQno0I1wd/H89MXPAPRnvcxlmNu7rpo4aLoNHGXzH4WFBIpXpOU/ugWkGxLZ/ZkEroU7WXVjqS3qcLiwNVzI4GobU+FwAdCselJRWeyYfSPjfmeGd8gM5b9zrahAeI0VqNs1aHMIvGdquue/tpqB1I=
+	t=1754027416; cv=none; b=Q1jrMavMlrmhRUYlIXKxI2UUBnToAvePNuYEbVHLQywEmaGUaV0s5h5B8SzcjXDRRcRTNB01LEIwwPLNrlsSbTiC6e8xq+6AFvZ00sJIFPyTLV+A8bA2fg4mJ7IJ1cSpCxBZB952kWV0mmy0SoazIKkhh2a5naQGICVNUUhDR8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754027117; c=relaxed/simple;
-	bh=rENd7JnJ1EZcdheKbpVBN8F6veTrN+SHAAfm5FsJATU=;
+	s=arc-20240116; t=1754027416; c=relaxed/simple;
+	bh=NU0fx3/xNBKwdmPMNh+Xy+m2WgMnwTddLcWr/Hqfpts=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ogrnilfOk2++zDPTnaAVJCzzOJRYcaePWQEKoKaeB0cBVtd3G4DPTIk+31f+Fq7ie5to35bBfltYp54ovgKssmpZeScuuSeQz5iGxTpnw2q7oWItMnsqGvlNE7hfvCoieDerl/x+6gxQDn9vqVPFw58Rmqg9zchLE0iMdn/NTZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GkFSdYB0; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=d4b3KHQD/rxpTmRFhpKVfnD6LgSTaIVm213XAd8XH9WMDmJ2UfuhlRPN1cGSQZbiBRzIbGjySxVwNKwltXH6srpZPJriwF71tRqI8nokhF/TzIIrNlEWa6rl7IfSbm2rqGK3gG6P2VGqzru59hqQRaL5W+yNi6fLnyffvIQowPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ieAq1MX2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GkFSdYB0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0764C4CEE7;
-	Fri,  1 Aug 2025 05:45:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ieAq1MX2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 645F1C4CEE7;
+	Fri,  1 Aug 2025 05:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754027116;
-	bh=rENd7JnJ1EZcdheKbpVBN8F6veTrN+SHAAfm5FsJATU=;
+	s=k20201202; t=1754027415;
+	bh=NU0fx3/xNBKwdmPMNh+Xy+m2WgMnwTddLcWr/Hqfpts=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GkFSdYB09nSIp96PxGJjuI5p9cN/kBXkf7qBGcVzdzjTW2ohbqLH+OAsZdwsMMPct
-	 DJvZQyJF6EW7/kOSQB+Od1bQH3VfHmLtV3uJq1YXstdPOuK4wVZABQmEl9MaF0DovE
-	 1wGI6Z8BE4M7qYkBmmKqRr2XaU5NaK2b+lG7w0OIJlq8NL94+5O0H7Y5QmY3kZoYds
-	 oRxUcwctYeSAyu0o9fJybuRDxpTfA8/wWanR5U/kdF4F5fuROiMG9mLmItaKwtqTFY
-	 2d8zyhebZGWcUEIbIctm7wS0BtgGDRPaS3DMcTrh1x22HtpFkPTCL9ReY9GFTqcBjm
-	 FLhKyR4Jsb52w==
-Date: Fri, 1 Aug 2025 07:45:13 +0200
+	b=ieAq1MX2kjbK3zRLP9bG1zkEpyeuCdDZgmH80oIF2MS84Q4q2PTv321gthfuWehGB
+	 ciA+8TaXCVsT0ds+aqmrHCCzlypWeCPO5mOTsHAQyUBFwFzYWoUmnNEfLg5CxK44WI
+	 s3tWc6KaxJTJN+NB2shKv/mCZcGBWbhBQ1FNhd613b72XdJruDlhEAvqnEV+Lp/6zi
+	 GAoFVP0ylZmnFcG+RyAwqEs04CsJdi4pNaedn5IWGVWcExyoml3vnZr893wYUiRr5S
+	 rL9v9E5cCB5sxT7bA46e6OjO98yPpOxLsC32dqxUxwM2Wv7U9nMnutGuXWenJ6mxCx
+	 cOKx+JLENDkAA==
+Date: Fri, 1 Aug 2025 07:50:11 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>
-Subject: Re: [PATCH 08/12] docs: kdoc: remove an extraneous strip() call
-Message-ID: <20250801074513.5b10671d@foz.lan>
-In-Reply-To: <20250801001326.924276-9-corbet@lwn.net>
+Subject: Re: [PATCH 09/12] docs: kdoc: Some rewrite_struct_members()
+ commenting
+Message-ID: <20250801075011.04645db6@foz.lan>
+In-Reply-To: <20250801001326.924276-10-corbet@lwn.net>
 References: <20250801001326.924276-1-corbet@lwn.net>
-	<20250801001326.924276-9-corbet@lwn.net>
+	<20250801001326.924276-10-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,34 +47,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 31 Jul 2025 18:13:22 -0600
+Em Thu, 31 Jul 2025 18:13:23 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> ...the variable in question was already strip()ed at the top of the loop.
-
-Good catch. This was probably a left-over from some code changes.
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
+> Add comments to rewrite_struct_members() describing what it is actually
+> doing, and reformat/comment the main struct_members regex so that it is
+> (more) comprehensible to humans.
+> 
 > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 > ---
->  scripts/lib/kdoc/kdoc_parser.py | 1 -
->  1 file changed, 1 deletion(-)
+>  scripts/lib/kdoc/kdoc_parser.py | 32 +++++++++++++++++++-------------
+>  1 file changed, 19 insertions(+), 13 deletions(-)
 > 
 > diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index efc5888fcc74..b751fa8edde7 100644
+> index b751fa8edde7..20e0a2abe13b 100644
 > --- a/scripts/lib/kdoc/kdoc_parser.py
 > +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -703,7 +703,6 @@ class KernelDoc:
->                                  newmember += f"{dtype}{s_id}.{name}{extra}; "
+> @@ -647,22 +647,28 @@ class KernelDoc:
+>                  return (r.group(1), r.group(3), r.group(2))
+>          return None
 >  
->                          else:
-> -                            arg = arg.strip()
->                              # Handle bitmaps
->                              arg = KernRe(r':\s*\d+\s*').sub('', arg)
->  
+> +    #
+> +    # Rewrite the members of a structure or union for easier formatting later on.
+> +    # Among other things, this function will turn a member like:
+> +    #
+> +    #  struct { inner_members; } foo;
+> +    #
+> +    # into:
+> +    #
+> +    #  struct foo; inner_members;
+> +    #
+>      def rewrite_struct_members(self, members):
+> -        # Split nested struct/union elements
+> -        #
+> -        # This loop was simpler at the original kernel-doc perl version, as
+> -        #   while ($members =~ m/$struct_members/) { ... }
+> -        # reads 'members' string on each interaction.
+>          #
+> -        # Python behavior is different: it parses 'members' only once,
+> -        # creating a list of tuples from the first interaction.
+> +        # Process struct/union members from the most deeply nested outward.  The
+> +        # trick is in the ^{ below - it prevents a match of an outer struct/union
+> +        # until the inner one has been munged (removing the "{" in the process).
+>          #
+> -        # On other words, this won't get nested structs.
+> -        #
+> -        # So, we need to have an extra loop on Python to override such
+> -        # re limitation.
+> -
+> -        struct_members = KernRe(r'(struct|union)([^{};]+)(\{)([^{}]*)(\})([^{};]*)(;)')
+> +        struct_members = KernRe(r'(struct|union)' # 0: declaration type
+> +                                r'([^{};]+)' 	  # 1: possible name
+> +                                r'(\{)'
+> +                                r'([^{}]*)'       # 3: Contents of declaration
+> +                                r'(\})'
+> +                                r'([^{};]*)(;)')  # 5: Remaining stuff after declaration
 
+I liked breaking it like these, but I do miss backslashes before some
+'{' and '}' to make this actually more readable on my eyes.
 
+Re-adding that, you can add:
+	Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 Thanks,
 Mauro
