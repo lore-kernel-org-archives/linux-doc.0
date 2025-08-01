@@ -1,60 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AB125743E;
-	Fri,  1 Aug 2025 13:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25F922D78F;
+	Fri,  1 Aug 2025 14:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754056422; cv=none; b=Wcl+l8wEdUksTH8I4ru+SMhnR6wq2iqPbCK+zsO4OFf6NfCb5rAGys0KPKBJS6iM2nDaFRF3zUKOkNMmhgD2712Kust5EBUJgl/xIYzsOlO2CZb+t3JsyGSIa8Kgla0m0vAXn1TInxIvVl4R+jduXQ7+Q6dihiNg5MsRVGVkUBM=
+	t=1754057409; cv=none; b=UKDP1FzhltSQzr7rCXzAh2+/BnrFnJeRyrASUphGuklALF3zhEEaDBoaHu82f/pmCVQHu+kHufyAGuqb21CrPtSzZzHzPjuK/0R7lvwKLHUWd6R1oWjdJeBsdynziYT0PHVLZA9hlL3ghl8hMVIFL+xx+zOqmcWc/HCKVTwU+nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754056422; c=relaxed/simple;
-	bh=b7ygX6fWwlwQdIKjpdQKH7R9GKsbUErT1h3IkhEGH4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m1U7+cdmdsDTTosltUgxULPmvf/zw4nIgXJ/GDQMsOwOtotW6IrtKxBrz385CUJdrJMLzOWHvd4L+z20g9zQczDyfWOgT/pynDUXpdR9OaECwIGnRDuhd0AEhvDkzmowtqYDr2BV/nOABOO8rNJDIyy/6dlbiBmFx59/B5XBDUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RxD1unUZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754057409; c=relaxed/simple;
+	bh=gXVB3JgvcsjhNsqRuiqUSIKj5/B+YcRUloogjLKHC9o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Yjue1q6eTsHzwqk7Pyw688bGC6QLdH3KUnQbuoJTh2KjNyg1ExRyjmu4Rkjo1yLVltGBD5yZJX/2m0o6f0nimKIYuXCq2j+pIW1NZJeHxYkppXUNA9KD7C3fWK7gSlIr1V9mPtOzOaD/TiDwKrEzwUQu06Bmj7NoDbCmRXxM6hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=GhnWjxPA; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RxD1unUZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6719FC4CEE7;
-	Fri,  1 Aug 2025 13:53:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754056421;
-	bh=b7ygX6fWwlwQdIKjpdQKH7R9GKsbUErT1h3IkhEGH4g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RxD1unUZAB8LYpWdEQisRXcII9uw2jI35fEvNsBhKs9M4PQ4VOyWS3Z+1ZWXdFvkN
-	 tjdKtYXjM/P/rKwwyW1sU+3kGZlcT6oIvKi+IE+jH5L4Sv354OwBDOATYU+KnPmPuc
-	 zaWTvf0AM9E+t1Kh6STn7bXeAaHkxQEJOWtMQSuW2brUOhGOCzqpQU4mZoUhDBXWvn
-	 S34V+pKiAPQamq+adn20HlFFGBd9FSyMsB2nkCdqiuyd0B0QLjZbeyFzeaosT56zz5
-	 sijeZwsjrCpY1E+yWowv0xXWauUi6ekgHQ9CUmdslXjWrxcoQQ+rypbKS5kiWx+L+8
-	 pEw2GxUcuj38A==
-Date: Fri, 1 Aug 2025 09:53:39 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tools@kernel.org
-Subject: Re: [RFC v3 1/4] kernel/api: introduce kernel API specification
- framework
-Message-ID: <aIzG427WYt0_wonN@lappy>
-References: <20250711114248.2288591-2-sashal@kernel.org>
- <20250716072141.12-1-safinaskar@zohomail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="GhnWjxPA"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D70AF40AD2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1754057407; bh=SicK+6ONz+x3jilrdJ4NRec8oYN9uCe2XP2ecenR050=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=GhnWjxPA1XJyPvFFAPoxVR5+jpmNqTW7nqryO/WZsx7vMGoWUaTumcrHDMqXrO1KR
+	 9fzaGTdHMONWfDDMAdg6KmPErRDhCJxSz4xnLTb7TmaqJRKAzDHsYhxW3Hgopkond5
+	 llTmsGqi3kwgKPyROkrwnVyosVX5CCyF1j1eYwbVOiX8j1bYfbvtkycbWTu1mZG36h
+	 4pTBxlol47nBi6B9sOvW7aRI+UQm+gnVDFBRMVHsBsCwbmlbgwM+jOFU2TQlPhDQNT
+	 OQOHdxWcdnCsCWJDSZyU+JMvRNl9LrP0ZJQU0PynQUD9hRLQ9k462henzsMC9Hdo6i
+	 NzhPa7CVj/ibQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D70AF40AD2;
+	Fri,  1 Aug 2025 14:10:06 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 05/12] docs: kdoc: split top-level prototype parsing out
+ of dump_struct()
+In-Reply-To: <20250801073411.06cb530e@foz.lan>
+References: <20250801001326.924276-1-corbet@lwn.net>
+ <20250801001326.924276-6-corbet@lwn.net> <20250801073411.06cb530e@foz.lan>
+Date: Fri, 01 Aug 2025 08:10:05 -0600
+Message-ID: <87ldo3rv42.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20250716072141.12-1-safinaskar@zohomail.com>
+Content-Type: text/plain
 
-On Wed, Jul 16, 2025 at 10:21:41AM +0300, Askar Safin wrote:
->> +   KAPI_PARAM_IN       = (1 << 0),
->> +   KAPI_PARAM_OUT      = (1 << 1),
->> +   KAPI_PARAM_INOUT    = (1 << 2),
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+
+> Em Thu, 31 Jul 2025 18:13:19 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+>>  
+>> -        struct_members = KernRe(type_pattern + r'([^{};]+)(\{)([^{}]*)(\})([^{};]*)(;)')
+>> +        struct_members = KernRe(r'(struct|union)([^{};]+)(\{)([^{}]*)(\})([^{};]*)(;)')
 >
->There is no need for KAPI_PARAM_INOUT. It could be replaced by KAPI_PARAM_IN | KAPI_PARAM_OUT
+> I would prefer keeping type_pattern here. 
 
-It could, but it's easier to write _INOUT :)
+The problem is that type_pattern no longer exists in that function.  I'd
+have to redefine it, or make it global.  It seems like a rather trivial
+thing to make global (and, as a result, make people go to the top of the
+file to figure out what it really is).
 
--- 
-Thanks,
-Sasha
+jon
