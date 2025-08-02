@@ -1,125 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDF415853B;
-	Sat,  2 Aug 2025 18:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDCF17736
+	for <linux-doc@vger.kernel.org>; Sat,  2 Aug 2025 23:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754160689; cv=none; b=WhjTs18lmN05cfBpEXqIMdJv3R1bkfNo9WnwxYbntNPn7Uc4wfTbykZ34SJ2HQifOok0vXJ4FuE5pD2HlbNf/ww6c0DGaqDmoiYn8zPm4h/Jt8IXhvwRMe8DIF+4m+gpqlE55ibKWuNjqmbCUC9i/tQnhSAffI6VdGHn01hl0b0=
+	t=1754177628; cv=none; b=qYYgv+ALh39juT996WaUkidM5iCPBlLJJs9O/neInoqfyQoUiF7OVPV/ZTPG/v0zpAloeyX8Mdg9y2RfHfpRx4VP6uXgOY/q+zzLwpNPbgeToqYBx+R/ydD09+q+A5+BULswZMBcNGYJ0Qdv0d5BbXZ7Wh+NJ+UucD7R88dfwBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754160689; c=relaxed/simple;
-	bh=RiGNiHqduvbyMJazTqCXPOWEO6VyqZFkOlYS73wNtV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XxANFU1HyGv79ps74ebKGarfnGxGG2NkRebmv7usFRV+4yMIyzn8M0ELq0B+RiezD9YBkymWfxD6z0bFwaSnAx7AIGJmK58LiFhp50q3cdRSuLr6hPCFav5MAv2r3Zuxb1IVJaQ9Nou/CfbaLJzZY5f4x6v3GGvK19SmISPlGus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oyi1tKQE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754177628; c=relaxed/simple;
+	bh=kJsgdU92CHKcumA558FjE09dL3p6PDIATBJc8UDK+q4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AV0vkuRvxK9RpG4vAxrfP3kqycprXC/g9HtcKsaZykRjhGcYNglaT+uIVS6xo9yhHQyITEpTt3HeVsHAayqC2tc72zJjnqgftNvgnPwSaHUym2eN/aYi5B599yDuu3/88wAjRyyUSULTq+iwysTXZx21n8tfeiifesOr32rPnRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=IzAEYSMQ; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oyi1tKQE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF55C4CEEF;
-	Sat,  2 Aug 2025 18:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754160689;
-	bh=RiGNiHqduvbyMJazTqCXPOWEO6VyqZFkOlYS73wNtV8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Oyi1tKQEVLy7nKAugvnwDQJY873SOMOmCWXgj1+OMxC1ktxOj29Txp12eod6mIKhJ
-	 hGjvqBszSSmM8HSOSCBRxpptYW8hquo6CbEHFq4KKfZBP9WCsPbIqhNYVD1i1W1HWM
-	 uf5zMixtyBlO+bB8qDrrzvZpbD5R9P9Wckkqoazai3TI3/tgwfhBW1nSriXqvEA2C6
-	 W0XR0PTQzwQN/VZN2SFu+W3qHihc1UqIy4z+KKy+F7lDLY4qx/MB4QeYVaVFgT1rlc
-	 bxRM/LYyUg5su5Uq1E7EToDT93T1PrS90jkf/jksSASUybVE3fXimvpCLXXNcPkMiP
-	 bUJmMtQ48VNaA==
-Date: Sat, 2 Aug 2025 11:51:28 -0700
-From: Kees Cook <kees@kernel.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Sohil Mehta <sohil.mehta@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Breno Leitao <leitao@debian.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-	Juergen Gross <jgross@suse.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Yuntao Wang <ytcoode@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-	Huang Shijie <shijie@os.amperecomputing.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-mm@kvack.org,
-	"Kirill A. Shutemov" <kas@kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	X86-kernel <x86@kernel.org>
-Subject: Re: [PATCHv9 04/16] x86/cpu: Defer CR pinning setup until core
- initcall
-Message-ID: <202508021149.B4BFF8D1@keescook>
-References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
- <20250707080317.3791624-5-kirill.shutemov@linux.intel.com>
- <6075af69-299f-43d2-a3c8-353a2a3b7ee7@intel.com>
- <98a7a91b-3b46-4407-82a7-5f80443b7e00@intel.com>
- <6e768f25-3a1c-48b9-bc53-56877a556a83@intel.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="IzAEYSMQ"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ab71ac933eso17452881cf.2
+        for <linux-doc@vger.kernel.org>; Sat, 02 Aug 2025 16:33:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1754177624; x=1754782424; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kJsgdU92CHKcumA558FjE09dL3p6PDIATBJc8UDK+q4=;
+        b=IzAEYSMQQxBOsikic/wv4S2Ak1IkZWDRqiFN9WKskOPCYCKnFySUQlasVHApND+PMR
+         OCjjIv3KDQDhiLV7iCbKECJEl0TiLe3LVTmuy6gNIAPlrHpPMvaWeAUew+pYDqxDAdq4
+         cRYIk3Pk40uuINjMm25FNjXxHw1561DmTbJKWM4u2DSj995QfnrH1KmOwQGD9nFg6Tzy
+         eSGc8sOAfVf6chgTuWPeRCwVLIPcObgRenylCwTmVbeWGXJ7/Ql9GaIrxyl7KD0kBpwd
+         JYCDYQADCKMCdpfH8waqilxH0gttD+Wvvd/08ZapWIo6fXD3VG1lnW9cGur68EAGto5p
+         gp9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754177624; x=1754782424;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kJsgdU92CHKcumA558FjE09dL3p6PDIATBJc8UDK+q4=;
+        b=HCHinzVOT3Fp869dvmHacxe5nRnmLq28hlBqBuFzvShPaw//WXOoY3mMRH1/KUHVaE
+         sTTy/S2b3bVsTK6hKrQFDwxVjt8wXYE/3kq05rDiwNYBwgRDfLXrMwPruZ35WrMbOiUe
+         0HkT+dCalpVMAZZ6+QNL0uBzRs5rlQydHmHrzU2J2vLBgTkdwR0A6Kn94fYHmOBVhGFg
+         180SAkH1Eqb9UNu2sDQ0KRIAH5UQ18iaWVVd7pVOOZzITiJS03LOn/QiauVuZD856i+2
+         EpEj3zN9Gbnn7rHHtWyLvB0ds3XgkxJ96cgpjSSphTVSDXx+dCEce8u/5uqV/zqg16u1
+         tIqg==
+X-Forwarded-Encrypted: i=1; AJvYcCUzRo32vs4lbrQ/GXk3f0/czYDNkGQXl9vVBB61w28oU6D29bB+u4xYhi4Ciq71oAw7rKuLlPt8QC0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLBBAlwrff0hcpfv5cCb6n6u8pIAMEhfjoJ11R+kV7r13iWWCy
+	gBNGIx4l7667zCdMrJSGA9+rhofDH+ISznWS4T/ZGRMyF/W5lSqoGs8wSMdIo+0Yl4bGKVmwauc
+	xyAFnggbCXllC7ejlsG9ozZU047mVbZSXimAckHUSjQ==
+X-Gm-Gg: ASbGncvrVhEakqCqgFaYuqtLomnUNlUaglvwczEcmzEjaet0M+oajThttxyBuqNHPQc
+	5Qll9cJqaTqQVBj95Zvz0f1/MT9fJHcS7AFUspGw2Yt7xpfTNmPuIEq/Z+OzLfbN/yA3yheYD/o
+	e6hX88PIusFpG4k8ad4D5DhQqOyDdJGQMhF6YxQwgPi0ycwu972ld4giwtci+tmXTK99Mr0XMGK
+	9vgUj12ii6O7qw=
+X-Google-Smtp-Source: AGHT+IHK7fLZil0+YTWDez+wvKBQ8V6Jt/OxjDZMFuEzIGCH7fVFxrWmUeAnr0aeRkYb+cC5kQOxq3dgtd4ni01q4II=
+X-Received: by 2002:a05:622a:8cd:b0:4ab:3ffe:409d with SMTP id
+ d75a77b69052e-4af107905acmr85155491cf.0.1754177624500; Sat, 02 Aug 2025
+ 16:33:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6e768f25-3a1c-48b9-bc53-56877a556a83@intel.com>
+References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
+ <20250723144649.1696299-2-pasha.tatashin@soleen.com> <aIdNTN1qd0dTvsQm@kernel.org>
+In-Reply-To: <aIdNTN1qd0dTvsQm@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sat, 2 Aug 2025 19:33:08 -0400
+X-Gm-Features: Ac12FXzhu6LQ65rG6yLekEcwlc9H74rWaGowwnkVgbEc9_PttPli4Tw81uem1BM
+Message-ID: <CA+CK2bD2pyWmnzDyRA54nXQwB1ABPKqWP2yH6bVnnE09ogCHXg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/32] kho: init new_physxa->phys_bits to fix lockdep
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, dmatlack@google.com, rientjes@google.com, 
+	corbet@lwn.net, rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, 
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
+	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
+	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
+	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 31, 2025 at 05:01:37PM -0700, Dave Hansen wrote:
-> On 7/31/25 16:45, Sohil Mehta wrote:
-> > On 7/9/2025 10:00 AM, Dave Hansen wrote:
-> >> On 7/7/25 01:03, Kirill A. Shutemov wrote:
-> >>> Instead of moving setup_cr_pinning() below efi_enter_virtual_mode() in
-> >>> arch_cpu_finalize_init(), defer it until core initcall.
-> >> What are the side effects of this move? Are there other benefits? What
-> >> are the risks?
-> >>
-> > Picking this up from Kirill.. Reevaluating this, core_initcall() seems
-> > too late for setup_cr_pinning().
-> > 
-> > We need to have CR pinning completed, and the associated static key
-> > enabled before AP bring up. start_secondary()->cr4_init() depends on the
-> > cr_pinning static key to initialize CR4 for APs.
-> 
-> Sure, if you leave cr4_init() completely as-is.
-> 
-> 'cr4_pinned_bits' should be set by the boot CPU. Secondary CPUs should
-> also read 'cr4_pinned_bits' when setting up their own cr4's,
-> unconditionally, independent of 'cr_pinning'.
-> 
-> The thing I think we should change is the pinning _enforcement_. The
-> easiest way to do that is to remove the static_branch_likely() in
-> cr4_init() and then delay flipping the static branch until just before
-> userspace starts.
+> Just int err should be fine here, otherwise
 
-Yeah, this is fine from my perspective. The goal with the pinning was
-about keeping things safe in the face of an attack from userspace that
-managed to get at MSR values and keeping them from being trivially
-changed.
+Done
 
--- 
-Kees Cook
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+
+Thanks.
+
+Pasha
