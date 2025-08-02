@@ -1,208 +1,125 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DDF2E36EA;
-	Sat,  2 Aug 2025 17:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDF415853B;
+	Sat,  2 Aug 2025 18:51:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754156047; cv=none; b=jjDmaCy79WtaQDYmwylFAEwTebZZx7vpivGD40qTHRlK6oq2LLx2SdJ2ugXrmoH1Ra/ZygoiIzlUY2yOGbDe3xesS8P2tC8a+8NbLgvsXubv6PETzDDodtOfWW2UYk0sx04LYCevGjWxh8XorfgdvQobaC9wbpVO425fI3269EY=
+	t=1754160689; cv=none; b=WhjTs18lmN05cfBpEXqIMdJv3R1bkfNo9WnwxYbntNPn7Uc4wfTbykZ34SJ2HQifOok0vXJ4FuE5pD2HlbNf/ww6c0DGaqDmoiYn8zPm4h/Jt8IXhvwRMe8DIF+4m+gpqlE55ibKWuNjqmbCUC9i/tQnhSAffI6VdGHn01hl0b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754156047; c=relaxed/simple;
-	bh=riIvVqDAcGY8QU+w6sjTBKD12HK5GR1jib3u5T3XB1Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fAdVzRz03ZD/ap9AvZW0r61/2Onny5P4XAKWeJh/daopB13ZNFoo+dn2FD3W77UH9hbJG9eYTKD2kSdeMA8Lajl5wryivmJdYsv1td3tw8Ob7A4gVATRGaQ6j9g0jZ+f81j6CFpDkCtj9hTvkLxPoUU0C1rVw8h33SeycA4auzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=fGu2IbbO; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1754160689; c=relaxed/simple;
+	bh=RiGNiHqduvbyMJazTqCXPOWEO6VyqZFkOlYS73wNtV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XxANFU1HyGv79ps74ebKGarfnGxGG2NkRebmv7usFRV+4yMIyzn8M0ELq0B+RiezD9YBkymWfxD6z0bFwaSnAx7AIGJmK58LiFhp50q3cdRSuLr6hPCFav5MAv2r3Zuxb1IVJaQ9Nou/CfbaLJzZY5f4x6v3GGvK19SmISPlGus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oyi1tKQE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="fGu2IbbO"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 572HXbfG3686634
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sat, 2 Aug 2025 10:33:38 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 572HXbfG3686634
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025072201; t=1754156020;
-	bh=+R4wObZkaFNXG30xKTEX89eM7VdUzI2d5uFve1iFUQM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fGu2IbbOKXSqlb9vhNCVdqH1bavp3EIyJysRiWi4iVZPtFPWFqAmgdux/zSagijuZ
-	 jYusFA0jjkeyUyQk6L9BUsWuuym7/zv/mVyWh2czGhcz5riCWLsRebxapV9tKpYaYo
-	 50f4PkM2XQ3NwZlLnQZ7Mg5dgmlfpvtOZg0VNUqfqekNgTGjwV+pGhjR5/ChgmqQbA
-	 P2+jsJZ0srO/UAyTlK+lU+l/9myWp9UP9Y3/JtX5fPIuF8NLyQ7j5WejtnyGetXw0W
-	 6rVwXbtgkUgWxY0qHuvveToSx38IZVlaXlQmZjEv2BrQ7abtyINQXQmaFz0Sxokp+M
-	 mVmZD58uil+0Q==
-Message-ID: <aad3d385-5743-4f81-992a-22d1701c3611@zytor.com>
-Date: Sat, 2 Aug 2025 10:33:37 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oyi1tKQE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF55C4CEEF;
+	Sat,  2 Aug 2025 18:51:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754160689;
+	bh=RiGNiHqduvbyMJazTqCXPOWEO6VyqZFkOlYS73wNtV8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Oyi1tKQEVLy7nKAugvnwDQJY873SOMOmCWXgj1+OMxC1ktxOj29Txp12eod6mIKhJ
+	 hGjvqBszSSmM8HSOSCBRxpptYW8hquo6CbEHFq4KKfZBP9WCsPbIqhNYVD1i1W1HWM
+	 uf5zMixtyBlO+bB8qDrrzvZpbD5R9P9Wckkqoazai3TI3/tgwfhBW1nSriXqvEA2C6
+	 W0XR0PTQzwQN/VZN2SFu+W3qHihc1UqIy4z+KKy+F7lDLY4qx/MB4QeYVaVFgT1rlc
+	 bxRM/LYyUg5su5Uq1E7EToDT93T1PrS90jkf/jksSASUybVE3fXimvpCLXXNcPkMiP
+	 bUJmMtQ48VNaA==
+Date: Sat, 2 Aug 2025 11:51:28 -0700
+From: Kees Cook <kees@kernel.org>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Sohil Mehta <sohil.mehta@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	Kai Huang <kai.huang@intel.com>,
+	Sandipan Das <sandipan.das@amd.com>,
+	Breno Leitao <leitao@debian.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
+	Juergen Gross <jgross@suse.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Yuntao Wang <ytcoode@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
+	Huang Shijie <shijie@os.amperecomputing.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-mm@kvack.org,
+	"Kirill A. Shutemov" <kas@kernel.org>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Xiongwei Song <xiongwei.song@windriver.com>,
+	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	X86-kernel <x86@kernel.org>
+Subject: Re: [PATCHv9 04/16] x86/cpu: Defer CR pinning setup until core
+ initcall
+Message-ID: <202508021149.B4BFF8D1@keescook>
+References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
+ <20250707080317.3791624-5-kirill.shutemov@linux.intel.com>
+ <6075af69-299f-43d2-a3c8-353a2a3b7ee7@intel.com>
+ <98a7a91b-3b46-4407-82a7-5f80443b7e00@intel.com>
+ <6e768f25-3a1c-48b9-bc53-56877a556a83@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5A 20/23] KVM: nVMX: Add FRED VMCS fields to nested VMX
- context handling
-To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
-        andrew.cooper3@citrix.com, chao.gao@intel.com, hch@infradead.org
-References: <aIHXngnkcJIY0TUw@intel.com>
- <20250802171740.3677712-1-xin@zytor.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <20250802171740.3677712-1-xin@zytor.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6e768f25-3a1c-48b9-bc53-56877a556a83@intel.com>
 
-> @@ -4531,6 +4593,27 @@ static void sync_vmcs02_to_vmcs12_rare(struct kvm_vcpu *vcpu,
->   	vmcs12->guest_tr_base = vmcs_readl(GUEST_TR_BASE);
->   	vmcs12->guest_gdtr_base = vmcs_readl(GUEST_GDTR_BASE);
->   	vmcs12->guest_idtr_base = vmcs_readl(GUEST_IDTR_BASE);
-> +
-> +	vmx->nested.pre_vmexit_fred_config = vmcs_read64(GUEST_IA32_FRED_CONFIG);
-> +	vmx->nested.pre_vmexit_fred_rsp1 = vmcs_read64(GUEST_IA32_FRED_RSP1);
-> +	vmx->nested.pre_vmexit_fred_rsp2 = vmcs_read64(GUEST_IA32_FRED_RSP2);
-> +	vmx->nested.pre_vmexit_fred_rsp3 = vmcs_read64(GUEST_IA32_FRED_RSP3);
-> +	vmx->nested.pre_vmexit_fred_stklvls = vmcs_read64(GUEST_IA32_FRED_STKLVLS);
-> +	vmx->nested.pre_vmexit_fred_ssp1 = vmcs_read64(GUEST_IA32_FRED_SSP1);
-> +	vmx->nested.pre_vmexit_fred_ssp2 = vmcs_read64(GUEST_IA32_FRED_SSP2);
-> +	vmx->nested.pre_vmexit_fred_ssp3 = vmcs_read64(GUEST_IA32_FRED_SSP3);
+On Thu, Jul 31, 2025 at 05:01:37PM -0700, Dave Hansen wrote:
+> On 7/31/25 16:45, Sohil Mehta wrote:
+> > On 7/9/2025 10:00 AM, Dave Hansen wrote:
+> >> On 7/7/25 01:03, Kirill A. Shutemov wrote:
+> >>> Instead of moving setup_cr_pinning() below efi_enter_virtual_mode() in
+> >>> arch_cpu_finalize_init(), defer it until core initcall.
+> >> What are the side effects of this move? Are there other benefits? What
+> >> are the risks?
+> >>
+> > Picking this up from Kirill.. Reevaluating this, core_initcall() seems
+> > too late for setup_cr_pinning().
+> > 
+> > We need to have CR pinning completed, and the associated static key
+> > enabled before AP bring up. start_secondary()->cr4_init() depends on the
+> > cr_pinning static key to initialize CR4 for APs.
+> 
+> Sure, if you leave cr4_init() completely as-is.
+> 
+> 'cr4_pinned_bits' should be set by the boot CPU. Secondary CPUs should
+> also read 'cr4_pinned_bits' when setting up their own cr4's,
+> unconditionally, independent of 'cr_pinning'.
+> 
+> The thing I think we should change is the pinning _enforcement_. The
+> easiest way to do that is to remove the static_branch_likely() in
+> cr4_init() and then delay flipping the static branch until just before
+> userspace starts.
 
-This ...
+Yeah, this is fine from my perspective. The goal with the pinning was
+about keeping things safe in the face of an attack from userspace that
+managed to get at MSR values and keeping them from being trivially
+changed.
 
-> +
-> +	if (nested_cpu_save_guest_fred_state(vmcs12)) {
-> +		vmcs12->guest_ia32_fred_config = vmx->nested.pre_vmexit_fred_config;
-> +		vmcs12->guest_ia32_fred_rsp1 = vmx->nested.pre_vmexit_fred_rsp1;
-> +		vmcs12->guest_ia32_fred_rsp2 = vmx->nested.pre_vmexit_fred_rsp2;
-> +		vmcs12->guest_ia32_fred_rsp3 = vmx->nested.pre_vmexit_fred_rsp3;
-> +		vmcs12->guest_ia32_fred_stklvls = vmx->nested.pre_vmexit_fred_stklvls;
-> +		vmcs12->guest_ia32_fred_ssp1 = vmx->nested.pre_vmexit_fred_ssp1;
-> +		vmcs12->guest_ia32_fred_ssp2 = vmx->nested.pre_vmexit_fred_ssp2;
-> +		vmcs12->guest_ia32_fred_ssp3 = vmx->nested.pre_vmexit_fred_ssp3;
-> +	}
-> +
->   	vmcs12->guest_pending_dbg_exceptions =
->   		vmcs_readl(GUEST_PENDING_DBG_EXCEPTIONS);
->   
-> @@ -4761,6 +4860,26 @@ static void load_vmcs12_host_state(struct kvm_vcpu *vcpu,
->   	vmcs_write32(GUEST_IDTR_LIMIT, 0xFFFF);
->   	vmcs_write32(GUEST_GDTR_LIMIT, 0xFFFF);
->   
-> +	if (nested_cpu_load_host_fred_state(vmcs12)) {
-> +		vmcs_write64(GUEST_IA32_FRED_CONFIG, vmcs12->host_ia32_fred_config);
-> +		vmcs_write64(GUEST_IA32_FRED_RSP1, vmcs12->host_ia32_fred_rsp1);
-> +		vmcs_write64(GUEST_IA32_FRED_RSP2, vmcs12->host_ia32_fred_rsp2);
-> +		vmcs_write64(GUEST_IA32_FRED_RSP3, vmcs12->host_ia32_fred_rsp3);
-> +		vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmcs12->host_ia32_fred_stklvls);
-> +		vmcs_write64(GUEST_IA32_FRED_SSP1, vmcs12->host_ia32_fred_ssp1);
-> +		vmcs_write64(GUEST_IA32_FRED_SSP2, vmcs12->host_ia32_fred_ssp2);
-> +		vmcs_write64(GUEST_IA32_FRED_SSP3, vmcs12->host_ia32_fred_ssp3);
-> +	} else {
-> +		vmcs_write64(GUEST_IA32_FRED_CONFIG, vmx->nested.pre_vmexit_fred_config);
-> +		vmcs_write64(GUEST_IA32_FRED_RSP1, vmx->nested.pre_vmexit_fred_rsp1);
-> +		vmcs_write64(GUEST_IA32_FRED_RSP2, vmx->nested.pre_vmexit_fred_rsp2);
-> +		vmcs_write64(GUEST_IA32_FRED_RSP3, vmx->nested.pre_vmexit_fred_rsp3);
-> +		vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmx->nested.pre_vmexit_fred_stklvls);
-> +		vmcs_write64(GUEST_IA32_FRED_SSP1, vmx->nested.pre_vmexit_fred_ssp1);
-> +		vmcs_write64(GUEST_IA32_FRED_SSP2, vmx->nested.pre_vmexit_fred_ssp2);
-> +		vmcs_write64(GUEST_IA32_FRED_SSP3, vmx->nested.pre_vmexit_fred_ssp3);
-
-And this are actually nops. IOW, if I don't add this snippet of code,
-the CPU still retains the guest FRED MSRs, i.e., using guest FRED state 
-from vmcs02 as that of vmcs01.
-
-> +	}
-> +
->   	/* If not VM_EXIT_CLEAR_BNDCFGS, the L2 value propagates to L1.  */
->   	if (vmcs12->vm_exit_controls & VM_EXIT_CLEAR_BNDCFGS)
->   		vmcs_write64(GUEST_BNDCFGS, 0);
-> diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-> index 617cbec5c9b3..885e48fe33c4 100644
-> --- a/arch/x86/kvm/vmx/vmx.h
-> +++ b/arch/x86/kvm/vmx/vmx.h
-> @@ -181,6 +181,39 @@ struct nested_vmx {
->   	 */
->   	u64 pre_vmenter_debugctl;
->   	u64 pre_vmenter_bndcfgs;
-> +	u64 pre_vmenter_fred_config;
-> +	u64 pre_vmenter_fred_rsp1;
-> +	u64 pre_vmenter_fred_rsp2;
-> +	u64 pre_vmenter_fred_rsp3;
-> +	u64 pre_vmenter_fred_stklvls;
-> +	u64 pre_vmenter_fred_ssp1;
-> +	u64 pre_vmenter_fred_ssp2;
-> +	u64 pre_vmenter_fred_ssp3;
-> +
-> +	/*
-> +	 * Used to snapshot MSRs that are conditionally saved on VM-Exit in
-> +	 * order to propagate the guest's pre-VM-Exit value into vmcs12.
-> +	 *
-> +	 * FRED MSRs are *always* saved to vmcs02 since KVM always sets
-> +	 * SECONDARY_VM_EXIT_SAVE_IA32_FRED.  However an L1 VMM, although
-> +	 * unlikely, might choose not to set this bit, resulting in FRED MSRs
-> +	 * not being saved to vmcs12.
-> +	 *
-> +	 * It's not a problem when SECONDARY_VM_EXIT_LOAD_IA32_FRED is set,
-> +	 * as the CPU immediately loads the host FRED state from vmcs12 into
-> +	 * the FRED MSRs.
-> +	 *
-> +	 * But an L1 VMM may clear SECONDARY_VM_EXIT_LOAD_IA32_FRED, causing
-> +	 * the CPU to retain the pre VM-Exit FRED MSRs.
-> +	 */
-
-However I want to make this logic explicit. So we might end up with
-adding the comment somewhere and removing all the pre_vmexit_fred_*
-changes?
-
-> +	u64 pre_vmexit_fred_config;
-> +	u64 pre_vmexit_fred_rsp1;
-> +	u64 pre_vmexit_fred_rsp2;
-> +	u64 pre_vmexit_fred_rsp3;
-> +	u64 pre_vmexit_fred_stklvls;
-> +	u64 pre_vmexit_fred_ssp1;
-> +	u64 pre_vmexit_fred_ssp2;
-> +	u64 pre_vmexit_fred_ssp3;
->   
->   	/* to migrate it to L1 if L2 writes to L1's CR8 directly */
->   	int l1_tpr_threshold;
-
-Thanks!
-     Xin
+-- 
+Kees Cook
