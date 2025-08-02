@@ -1,142 +1,223 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C038022128B;
-	Sat,  2 Aug 2025 13:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA31239562;
+	Sat,  2 Aug 2025 13:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754140159; cv=none; b=PjagQIqVCX8ZmAhGGii9DVoQd1KQh8+iHoqkqv7RwlUfMO7KExX19skdrfdfAk6MhSKoJ8vXAi/E/sOGFUhkWkrqsZzLhVQn7N4a1GbFiGhftRu+vD/PArwzSHvdFVR87aY8T5l0UHyBR3ZwWpr4bEBI2xsl7Xv8lkaK95PoYeg=
+	t=1754141217; cv=none; b=IG0vgVIyuoW40jat9TEhLXVW51lb5uRGKPjDkU2zjfa69cAeQU58WNnn6xuHrBrRfAyVto901jZ05gA1rSPHlAIhUfh7BqwCpNP/qvNzVXtOKPbPsroP/VF7ZiZjYKcsWqz5QKTeqh4bSdnO8XuTivGIuY9WqKTb34HC7/EdWxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754140159; c=relaxed/simple;
-	bh=bCB9IfmBe3GszsiUxXN5U8QTeY3yJiR+n3Dm+i6S8r4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QwIe8ZUIsW7WQM+e9wFtQjk0ToQlLgV03/N8COk6cfNWECvhyhnf6w5VNeaSJ76coiOe4YxJ2bJc62NTJlg6YhMiOcNGu3bHcXLC4h0Os2vKJWAU/EMHwI+LM1ZZfrqwPRufS9YjciVO7c6CYBaTG8GrUR9PAjbJJwqZ0XDRXFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZE/v2/Tc; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754141217; c=relaxed/simple;
+	bh=RQcvlDgE9AaqghHzjivBTwci6wnSL8fk15KJ90oMijI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ecBA5JpXZKFsKSto4Wd7cZc9hg+ufJs+QXZp/+45TVRt1SxBSjdL5zRa7J3r1XsqAuRsWkcOGiooOxb4LX6lTMu15l6cGAG9ealaotRlvot2QvlsQf3alEjlzLc4B2pSmHQG4ZeCzwcSqdTHWULmqwwXntiK/KirVsiiRJM2s4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=qqNUWLHW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CLzPCjtS; arc=none smtp.client-ip=103.168.172.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZE/v2/Tc"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-615460d9897so3247825a12.0;
-        Sat, 02 Aug 2025 06:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754140155; x=1754744955; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LR6RtVeNg3Q+svUWV406Ui0fVcP9z9XbzX2f5A+PR1E=;
-        b=ZE/v2/TcP801EBrQJjmxaZrotkxZlnmwuAko4k9zYzlnffOLeFI1Un5D4Z6UrIqkMC
-         RFEPS+26QTFDefb9+wxbcHIIDpJdfpoohy3jfU/FuNrZ+MoBAVIXj77p2h7qV1DJIDMZ
-         tneAQ6C1Bsu0PuLdOpaVJOMl8+FsUKojNBoVHgFepYx8TFr8361OAa+Uj1R7bF9xiHv8
-         3HVATBQ62z+lA2ylE+TE+tqPubnIYK+moDUm0kFfB0CC25HVXpCuN+hCzlvYXn3PB8C+
-         fC33O2jUIlVsxQrg8GNND5AZy9Idq/FrJ/2T/1wWRQ2+oJHMkiLIIx7kNofRi4zXA3YT
-         65kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754140155; x=1754744955;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LR6RtVeNg3Q+svUWV406Ui0fVcP9z9XbzX2f5A+PR1E=;
-        b=m42ZY0t8jqnCNSBQpzBB8EpzI4i8+E5Sbek7HQyCqGRrvruPJ0rC4TnjbprcfwmTd3
-         B4nNYl7/jw1ewRhRgkq3RGaVhqhwgKgZ3CnXmCCeZpZzxJluYgBZBC0osisbe+pTs3hD
-         llkDCiNTk2DksTQZiUWXPKijaQXMew7z1u218T2TfJnuZhyJBqzZx+AUW3ok1LkG6D1c
-         SjoMD8JmyH/NfyD75a/XK65BxhjJHH8Q/8hC5FucxFGJSWX3lZy4GwHR5v1qSuizO+Gq
-         yTEZGrfrqTTVrE5ESYksqZYgvK23iQCyVo89DnuxV2AS01PPtiSak55a44gjSa3iNeog
-         DYpA==
-X-Forwarded-Encrypted: i=1; AJvYcCX1R6Y+ju0nM3C0iATa+ekPQ0a5fy9RuFiOhqKp3YkDZIv+IdhndzhJBJe3oIz3IBOlCHSg2yWbsxgsk2vl@vger.kernel.org, AJvYcCXJqDEzYY/RFoOIimLLBbBUTWQxxLA0NeoMtgT/WILU+3vPasPzUDIJiFu0vMcjSvSu4H8nUTY1/YAnqd0=@vger.kernel.org, AJvYcCXz1nCRb/oL4CcCs3v0WT2sD/4RCLRXrDtJu1Rld9EmIbAT9lWJ/XUufkHwcLgZzjibLcyhalDQJTs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWYwLNWcYoCqZxLuGRSlK0iNrckVz9NDgzpU1Fgl4WWtkr0JQy
-	ctenQ3/lr3ys+5zxetXspVGBhSzrN9p5FWuhOYO7hDsYIZin5pvJ7pxw
-X-Gm-Gg: ASbGncsvEXj5ZhdRkM0JYPCcRx6bD39KDLcNToD5cJifPuc7q+F0mV8XQvGOrgHxY5O
-	Fqaslgtmch4wFfT8jAfmchT3FuIZryy/LLEOGkNgkgDeqMJiCOABMROWCIJTa1TxRf3RqLN0VTc
-	ObgS2y81kgV8ye5e6uVlXpK/gi7D7vvWeVf/k//zstnnoAB6lqorEJl8iAmpuERbhbxqaVF6QGH
-	RWvI6zCPvWUUVwCuEk8+k0Sdx6Z5LOvII/8OAMgFYwFk1U/S+Gp735CM4L/ueh7Gj1+BlgOnIQZ
-	46lf2gWEzs6k0MKDRNoa2l/GZe5q/kZgubJqLDCumUxGqxG5XQNVhWlVr7RjXaWvtJUDXAVinXK
-	0Lw8cc5K6apiQO1m81omOuydaD3GLCjGexPoqVIiRaMkrdhBerXzYUBWJ0AaDI7UDgZ8z7s7QC+
-	mLrahUjU9nVRy0BfGUguCYuwbeYdgsw6s7Tww=
-X-Google-Smtp-Source: AGHT+IHSvulafVSZd46r7ifmQJL70hl/shPH7lVJn2yxde5U7XOVJ2haaLc5eeVbVy5VcRiwE9xbSQ==
-X-Received: by 2002:a05:6402:35c9:b0:615:4728:f14 with SMTP id 4fb4d7f45d1cf-615e6f57dcdmr2467966a12.16.1754140154718;
-        Sat, 02 Aug 2025 06:09:14 -0700 (PDT)
-Received: from puma.museclub.art (p200300cf9f013400cc194b80e1760d4a.dip0.t-ipconnect.de. [2003:cf:9f01:3400:cc19:4b80:e176:d4a])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8fe7a32sm4191858a12.37.2025.08.02.06.09.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Aug 2025 06:09:14 -0700 (PDT)
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-To: eugene.shalygin@gmail.com
-Cc: Jamie Vickery <j.a.d.mcmillan@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (asus-ec-sensors) add Z790-I GAMING WIFI
-Date: Sat,  2 Aug 2025 15:09:02 +0200
-Message-ID: <20250802130912.175543-1-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="qqNUWLHW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CLzPCjtS"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailflow.phl.internal (Postfix) with ESMTP id A87BC1380608;
+	Sat,  2 Aug 2025 09:26:52 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Sat, 02 Aug 2025 09:26:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1754141212;
+	 x=1754148412; bh=bmI1hYqjksR+DRa8JSQk6MVH64W5+sLipA6UwCtocJY=; b=
+	qqNUWLHW5NkgMWC7l9Ppuzcw0TRZVKBalVrpuNL2tWkSX16V+CaL/WD3GPRevH/3
+	cOaqYuZWVehBMlqwkuJTQ3+7ee7mvoCmm57l/9y3kSLOhYi/j9UZL0baYRp5JOQM
+	j4yp2XwkBPHkkHrQr9G2kPmFqob1bo+ge9yICVt/dsRrLU+xuJA6h9g8SW4qJPa0
+	AHQH8Vz64gEdgI7kQ+1DTmePAvNbJQJxnWkGkDSZF/paCkDAzfIwxTUg+JfaHIca
+	2uCTiijQTVgzLiuE6qwTC/es2iaY0ak3Q1yInsTplxnRcKjgCrvxpj+WvGFL/Gkm
+	HIx11r/lg4cei6lIenYP+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1754141212; x=
+	1754148412; bh=bmI1hYqjksR+DRa8JSQk6MVH64W5+sLipA6UwCtocJY=; b=C
+	LzPCjtSlWjEpgC9nck7IIN+a6VWM2T9KzMBiWo4CFmbf/c8EsbwRuyBR6zo43jFD
+	hvyIbMP0zgOcLL+h4kub0bXZEqehHtgFY6sV9cwlFjffv+lGsEsKcJttU2+8fn3b
+	kRALXojkwbX6H2IOxV2soFJHVIcKk6LuRbHAbjPhMXvWGeT7KA2Mau0LJLy4HAji
+	lfgiUMmK9spCDs/oe1YGLozfqCHtXvx0XyirO7dloL77Fyd05IG6lp0ZwH1pUgeh
+	FNabC3mgBC+9qZ25Drxy58dz8xR3lKKGectSGWS0hTtARs2FRFJmAX2nfNB3fKxO
+	c360wFl1nKo7iNibIdOnQ==
+X-ME-Sender: <xms:FhKOaIqzIVCCzZqyPT8S-Kuyp75Ghz90bD-sNWC1Ynb1xWuDhB2fgA>
+    <xme:FhKOaAAM51hB_nYlCo1hgXLgPrXfAQsJTzEzSK29ONCez_BVzRWEnZ7YYfmVPVSd4
+    mYWvtLYdmS8g_-J1io>
+X-ME-Received: <xmr:FhKOaKNy3dovqvqjcZlMlmNulu_odOhDUh_OuI4TialffSqjpk1dXSXjcgxfsuv77hx6_icSG8wxq9Qphv3aDtPfT18v805RrQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdeiieelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopedutdehpdhmohguvgepshhmthhpohhuth
+    dprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurdgt
+    ohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    epuggvvhgrrhhshhhtsehtihdrtghomhdprhgtphhtthhopegsphgrrhhrohhtsehtihdr
+    tghomhdprhgtphhtthhopehhvhgvrhhkuhhilheskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htohepihhsvghlhiesphhosghogidrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhp
+    ihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohephhgrnh
+    hsgheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrrhhthhhisggrnhdrvhgvvghr
+    rghsohhorhgrnhesmhhitghrohgthhhiphdrtghomh
+X-ME-Proxy: <xmx:FhKOaHAoXiF7NV692VGvUlBtEKV8Ppc7HpktTEwZStXxvUIyFnrhjw>
+    <xmx:FhKOaIXbJEGFB6MyMI6SEvkY_tAqtZmQdwpF1CyYAg0cU-whIhajXA>
+    <xmx:FhKOaOXdPk75wbqe7BRIpcNiWjQWCtbKZe7Hw0Dw9yRuHK1wn0wJ9A>
+    <xmx:FhKOaA4w1OKh4y5m73fZ4TocrIIXqTtdAsWzkrmS8EjZZidpBDEFUw>
+    <xmx:HBKOaGfprgDP-C4pCZ_BqeXWMGw4oENfGJWvHSy-BbRaGSp473jMOr6M>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 2 Aug 2025 09:26:45 -0400 (EDT)
+Date: Sat, 2 Aug 2025 15:26:43 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,	Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,	Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,	linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org,	imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org,	linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org,	linux-sunxi@lists.linux.dev,
+ linux-usb@vger.kernel.org,	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 17/65] media: rcar-vin: Do not set file->private_data
+Message-ID: <20250802132643.GA1848717@ragnatech.se>
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-17-eb140ddd6a9d@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250802-media-private-data-v1-17-eb140ddd6a9d@ideasonboard.com>
 
-From: Jamie Vickery <j.a.d.mcmillan@gmail.com>
+Hi Jacopo,
 
-Add support for the ROG STRIX Z790-I GAMING WIFI board
+Thanks for your effort tidying things up!
 
-Signed-off-by: Jamie Vickery <j.a.d.mcmillan@gmail.com>
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst |  1 +
- drivers/hwmon/asus-ec-sensors.c         | 11 +++++++++++
- 2 files changed, 12 insertions(+)
+On 2025-08-02 11:22:39 +0200, Jacopo Mondi wrote:
+> The R-Car VIN driver sets file->private_data to the driver-specific
+> structure, but the following call to v4l2_fh_open() overwrites it
+> with a pointer to the just allocated v4l2_fh.
+> 
+> Remove the mis-leading assignment in the driver.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 49f6cac63d19..bedddb6bf9e1 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -36,6 +36,7 @@ Supported boards:
-  * ROG STRIX Z490-F GAMING
-  * ROG STRIX Z690-A GAMING WIFI D4
-  * ROG STRIX Z790-E GAMING WIFI II
-+ * ROG STRIX Z790-I GAMING WIFI
-  * ROG ZENITH II EXTREME
-  * ROG ZENITH II EXTREME ALPHA
-  * TUF GAMING X670E PLUS
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index 33c5fcb0a09e..e2f7b8705cb1 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -329,6 +329,8 @@ static const struct ec_sensor_info sensors_family_intel_600[] = {
- static const struct ec_sensor_info sensors_family_intel_700[] = {
- 	[ec_sensor_temp_t_sensor] =
- 		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x01, 0x09),
-+	[ec_sensor_temp_t_sensor_2] =
-+		EC_SENSOR("T_Sensor 2", hwmon_temp, 1, 0x01, 0x05),
- 	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x33),
- 	[ec_sensor_fan_cpu_opt] =
- 		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
-@@ -593,6 +595,13 @@ static const struct ec_board_info board_info_strix_z790_e_gaming_wifi_ii = {
- 	.family = family_intel_700_series,
- };
- 
-+static const struct ec_board_info board_info_strix_z790_i_gaming_wifi = {
-+	.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_T_SENSOR_2 |
-+		SENSOR_TEMP_VRM,
-+	.mutex_path = ASUS_HW_ACCESS_MUTEX_SB_PC00_LPCB_SIO1_MUT0,
-+	.family = family_intel_700_series,
-+};
-+
- static const struct ec_board_info board_info_zenith_ii_extreme = {
- 	.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
- 		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
-@@ -689,6 +698,8 @@ static const struct dmi_system_id dmi_table[] = {
- 					&board_info_strix_z690_a_gaming_wifi_d4),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z790-E GAMING WIFI II",
- 					&board_info_strix_z790_e_gaming_wifi_ii),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z790-I GAMING WIFI",
-+					&board_info_strix_z790_i_gaming_wifi),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG ZENITH II EXTREME",
- 					&board_info_zenith_ii_extreme),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG ZENITH II EXTREME ALPHA",
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> index 62eddf3a35fc91434cb2e584a01819380a7a6dd8..079dbaf016c25139e2ac82be63d8fce0d11fd208 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> @@ -588,8 +588,6 @@ static int rvin_open(struct file *file)
+>  	if (ret)
+>  		goto err_pm;
+>  
+> -	file->private_data = vin;
+> -
+>  	ret = v4l2_fh_open(file);
+>  	if (ret)
+>  		goto err_unlock;
+> 
+> -- 
+> 2.49.0
+> 
+
 -- 
-2.50.1
-
+Kind Regards,
+Niklas Söderlund
