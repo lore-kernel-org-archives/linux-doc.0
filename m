@@ -1,58 +1,58 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDCF17736
-	for <linux-doc@vger.kernel.org>; Sat,  2 Aug 2025 23:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934CC223DD5
+	for <linux-doc@vger.kernel.org>; Sat,  2 Aug 2025 23:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754177628; cv=none; b=qYYgv+ALh39juT996WaUkidM5iCPBlLJJs9O/neInoqfyQoUiF7OVPV/ZTPG/v0zpAloeyX8Mdg9y2RfHfpRx4VP6uXgOY/q+zzLwpNPbgeToqYBx+R/ydD09+q+A5+BULswZMBcNGYJ0Qdv0d5BbXZ7Wh+NJ+UucD7R88dfwBo=
+	t=1754178051; cv=none; b=d+HwJfXEE3BAhUv3QEhixkZyey4AUUdDh/hxWtWCm2Ndt5nnzkAr1VTV/FwishXcEMUim4BGdpSg/CW1yBt42H0CmYoBDiuqmzP7a3bEVnxmvYOn7RegiX7Miyn5tnBb7hNkkRynQSMOf/RomT5Cb6F+2xRbpJTajVxGBCr6T9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754177628; c=relaxed/simple;
-	bh=kJsgdU92CHKcumA558FjE09dL3p6PDIATBJc8UDK+q4=;
+	s=arc-20240116; t=1754178051; c=relaxed/simple;
+	bh=JuDgEE+wyALjlXEPLq5/uDToxeWVIRpzyYUtDB1K3fg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AV0vkuRvxK9RpG4vAxrfP3kqycprXC/g9HtcKsaZykRjhGcYNglaT+uIVS6xo9yhHQyITEpTt3HeVsHAayqC2tc72zJjnqgftNvgnPwSaHUym2eN/aYi5B599yDuu3/88wAjRyyUSULTq+iwysTXZx21n8tfeiifesOr32rPnRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=IzAEYSMQ; arc=none smtp.client-ip=209.85.160.173
+	 To:Cc:Content-Type; b=AuYe9+d8HW/ZR8sKd8VK1fSY0iYixXUZuzZTPAv3fBoQW5g5/2XVgbzx7phH8Q+noup7i24YSxWa/LW4k7weCXSEkT8ifQxt2e1Cr1aDOeksg/xpWgfTFFbRVUAwcKLSnETIebo+4OInJ2fPIMouSKFeHy5f4ctfBpgnsH03I9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=L5GwLM9P; arc=none smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="IzAEYSMQ"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ab71ac933eso17452881cf.2
-        for <linux-doc@vger.kernel.org>; Sat, 02 Aug 2025 16:33:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="L5GwLM9P"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4aeb2e06b82so8445791cf.2
+        for <linux-doc@vger.kernel.org>; Sat, 02 Aug 2025 16:40:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754177624; x=1754782424; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1754178048; x=1754782848; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kJsgdU92CHKcumA558FjE09dL3p6PDIATBJc8UDK+q4=;
-        b=IzAEYSMQQxBOsikic/wv4S2Ak1IkZWDRqiFN9WKskOPCYCKnFySUQlasVHApND+PMR
-         OCjjIv3KDQDhiLV7iCbKECJEl0TiLe3LVTmuy6gNIAPlrHpPMvaWeAUew+pYDqxDAdq4
-         cRYIk3Pk40uuINjMm25FNjXxHw1561DmTbJKWM4u2DSj995QfnrH1KmOwQGD9nFg6Tzy
-         eSGc8sOAfVf6chgTuWPeRCwVLIPcObgRenylCwTmVbeWGXJ7/Ql9GaIrxyl7KD0kBpwd
-         JYCDYQADCKMCdpfH8waqilxH0gttD+Wvvd/08ZapWIo6fXD3VG1lnW9cGur68EAGto5p
-         gp9g==
+        bh=1Kwf5emshHgumx5UQOn1IaM+oO2QbnhutbCNNGQmoso=;
+        b=L5GwLM9PsG2Nt29xfWCfezz5rV7uMZu7C8ALXsk/0vBvupwhmKLmG3p/8NMJaxHChX
+         eotAtl4o6/zWLcdWa1gIq2gwXuygxIIxAz/3r1gXN8hE+xTjEqNzbKtoeMyRhXBGhWsV
+         /W55c7d6XlZER4YGMxxFxtxQlznuDMq4tX5Q5D/Uke6ZkRBuXMSEQhy9QKOUhqD8lPyN
+         LSCxfFbwGRZJN6EKBBV4QR3RQ+f0amnDPK+53NIaR4vqpdFZELHxkf2G1uLzd9yCPNyJ
+         s6lr7hBkXkdFNlK+mtdx1zOsMVtQ8MjZw+XPAkHm9uldWKmoN+ZRoK9LLzJLZaKiOc0m
+         ORKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754177624; x=1754782424;
+        d=1e100.net; s=20230601; t=1754178048; x=1754782848;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kJsgdU92CHKcumA558FjE09dL3p6PDIATBJc8UDK+q4=;
-        b=HCHinzVOT3Fp869dvmHacxe5nRnmLq28hlBqBuFzvShPaw//WXOoY3mMRH1/KUHVaE
-         sTTy/S2b3bVsTK6hKrQFDwxVjt8wXYE/3kq05rDiwNYBwgRDfLXrMwPruZ35WrMbOiUe
-         0HkT+dCalpVMAZZ6+QNL0uBzRs5rlQydHmHrzU2J2vLBgTkdwR0A6Kn94fYHmOBVhGFg
-         180SAkH1Eqb9UNu2sDQ0KRIAH5UQ18iaWVVd7pVOOZzITiJS03LOn/QiauVuZD856i+2
-         EpEj3zN9Gbnn7rHHtWyLvB0ds3XgkxJ96cgpjSSphTVSDXx+dCEce8u/5uqV/zqg16u1
-         tIqg==
-X-Forwarded-Encrypted: i=1; AJvYcCUzRo32vs4lbrQ/GXk3f0/czYDNkGQXl9vVBB61w28oU6D29bB+u4xYhi4Ciq71oAw7rKuLlPt8QC0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLBBAlwrff0hcpfv5cCb6n6u8pIAMEhfjoJ11R+kV7r13iWWCy
-	gBNGIx4l7667zCdMrJSGA9+rhofDH+ISznWS4T/ZGRMyF/W5lSqoGs8wSMdIo+0Yl4bGKVmwauc
-	xyAFnggbCXllC7ejlsG9ozZU047mVbZSXimAckHUSjQ==
-X-Gm-Gg: ASbGncvrVhEakqCqgFaYuqtLomnUNlUaglvwczEcmzEjaet0M+oajThttxyBuqNHPQc
-	5Qll9cJqaTqQVBj95Zvz0f1/MT9fJHcS7AFUspGw2Yt7xpfTNmPuIEq/Z+OzLfbN/yA3yheYD/o
-	e6hX88PIusFpG4k8ad4D5DhQqOyDdJGQMhF6YxQwgPi0ycwu972ld4giwtci+tmXTK99Mr0XMGK
-	9vgUj12ii6O7qw=
-X-Google-Smtp-Source: AGHT+IHK7fLZil0+YTWDez+wvKBQ8V6Jt/OxjDZMFuEzIGCH7fVFxrWmUeAnr0aeRkYb+cC5kQOxq3dgtd4ni01q4II=
-X-Received: by 2002:a05:622a:8cd:b0:4ab:3ffe:409d with SMTP id
- d75a77b69052e-4af107905acmr85155491cf.0.1754177624500; Sat, 02 Aug 2025
- 16:33:44 -0700 (PDT)
+        bh=1Kwf5emshHgumx5UQOn1IaM+oO2QbnhutbCNNGQmoso=;
+        b=YSuxG10RJFHYOYnKLhDLNFGueG/18wAhfiXzaIWTROojhb09hpOOMUZw0YkUB0AB3F
+         NhADHTyeApsCj7AZpPx8y56mGEf6Wf/WnZK//IAqjYwNppKvzfZZ54GF+q7nB9hgcuma
+         A4V41OefomQR1pHgHXC8e7YN8hPIuJr4fyVx1thojdbLRTyxQIWzZWcdlFvYJCfBn9/4
+         YVV+o2NbVsgmpyu/QpMpuLCqhnPRA72pQdQAmj4IkqY/Tx5cgsBk0Bl9tE1a5gmQ9icH
+         IXrTg9P90aRA9LIZ+pwCmgv5kaQ2V4GEVvFQw8oHYgJjWTmUgYnkXh2mmrOLaVuJ0bUK
+         xJbA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUIU29nqhIfKkzrwTbsfCDJD5FM03/O6YrVcOfgHxvayqgvk8/vj/G89uSQeOiQNffI0e1a1d0P+I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoQD7TWGZkal8mHgkfYoiGkLeRPegSr/u7S6v8sNSgOZZC7A81
+	uxwyTvpPqj5Np+GHi0bDZ1eNATEwU1X4jEPD2ysiQK1WbGFCkssy+1M7faW8GeHE1hXTK/YIpEm
+	7uTZsZL5mvxBNE6Hz4optLEiB4hXBXtiIF/925Sve1Q==
+X-Gm-Gg: ASbGnctfHjE2aAhZ1SntGzlBXeeoAlHUMFVQt0CNIXAelmt6EJVHKO/CYQQ6pK4CAYD
+	EsCxGyD4XKshdKQl8ilWaQQ/xMis8ebhE8zoZ/++31C1ny+46LGvHY/eZQbyzy5a/u6VWAsymNW
+	gXkviyt9fZXxubEAf0nbk5Du5kpRiO8+DLZ7ou7hXSWfHPPzN3fNYneis/uNTJjSfRzLeaNdK3w
+	RNp
+X-Google-Smtp-Source: AGHT+IFpEg+BtKr96Wd9jX6hc7J1lAyOtlKRV5n6zcMT8sF5wnH7KyD9LNxhPu7rDIt4u7A627QHbMmxIWZ6L1slTdA=
+X-Received: by 2002:a05:622a:5591:b0:4ae:6a54:b989 with SMTP id
+ d75a77b69052e-4af109e000cmr81212541cf.15.1754178048447; Sat, 02 Aug 2025
+ 16:40:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,13 +60,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
- <20250723144649.1696299-2-pasha.tatashin@soleen.com> <aIdNTN1qd0dTvsQm@kernel.org>
-In-Reply-To: <aIdNTN1qd0dTvsQm@kernel.org>
+ <20250723144649.1696299-5-pasha.tatashin@soleen.com> <aIdOcmTl-zrxXKAB@kernel.org>
+In-Reply-To: <aIdOcmTl-zrxXKAB@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sat, 2 Aug 2025 19:33:08 -0400
-X-Gm-Features: Ac12FXzhu6LQ65rG6yLekEcwlc9H74rWaGowwnkVgbEc9_PttPli4Tw81uem1BM
-Message-ID: <CA+CK2bD2pyWmnzDyRA54nXQwB1ABPKqWP2yH6bVnnE09ogCHXg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/32] kho: init new_physxa->phys_bits to fix lockdep
+Date: Sat, 2 Aug 2025 19:40:11 -0400
+X-Gm-Features: Ac12FXz8HYSIPcbtEM3vy-98nOIq6tA9NVRJ7b2LiTxllNWUeuS6IULQVPJlPpg
+Message-ID: <CA+CK2bBiEUqMotOZJa-DuAfZVXYn97F1byvjg-ezXYexHrgLOA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/32] kho: allow to drive kho from within kernel
 To: Mike Rapoport <rppt@kernel.org>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	changyuanl@google.com, dmatlack@google.com, rientjes@google.com, 
@@ -93,12 +93,18 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	leonro@nvidia.com, witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
 
-> Just int err should be fine here, otherwise
+Hi Mike,
 
-Done
+Thank you for your review comments.
 
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > +     mutex_unlock(&kho_out.lock);
+> > +     return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(kho_abort);
+>
+> I don't think a module should be able to drive KHO. Please drop
+> EXPORT_SYMBOL_GPL here and for kho_finalize().
 
-Thanks.
+Agreed, removed these exports.
 
 Pasha
