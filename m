@@ -1,68 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA05A8836;
-	Sat,  2 Aug 2025 11:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA221E5729;
+	Sat,  2 Aug 2025 12:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754135262; cv=none; b=cxhHVVmUZWqZovez2+dmKbe1zA+T8t6LsSShqBPH+G/oV8fVFVGcOPYPlxUoEynETybYVBRw/9P+/WJu4FrkN2Y+UYiXIjAcgiL98kkyEmXT+9PAbQqDHenbjnVx+H13x+zx+RH5vDRldWdQ2/rdmBpL6TsM7jlJk/LbnBMWTTw=
+	t=1754139507; cv=none; b=rf4+Vb+3Jmdoi9sxVJJvMBQGn08B/3ja4cCZnP8dqCo9qNzadhmxHh5rVAK2/NBEU6AzqY4/Fz8iyee53KOSOZtgzZbVpR7ggbKqX+UpX/2l8/bpu5fu3us9DNz7I/RsknvkWn4JKF21yMORcZ33MrYSDJ7Ef1oIRP8p4qmVPCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754135262; c=relaxed/simple;
-	bh=zzzAQPMwO9BR1TtOxPqsjQ7wprn272j86+HwfenD4Bk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XBxee+aoux85rDeFD88QxwH4sgKTctd3KoOAsFQ9KvY57gnp+B+urD1HuQuEsLAERYNq7Cv+44PHTqDb6NE2fE+EYd3aZtj2nKgaNFYcST092SJmUuiz6+gtiMIZyNE+9YLstcyLWPaJ4mt5nbP7ATEeyIwUi2jNfG4o4I7qtA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fMX+YtaY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754139507; c=relaxed/simple;
+	bh=dzixnqijSaSmKm6FoEQyku7dfX6/WAiEOVQqa89Tx08=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iS3w5XAlCYFXlt/pB//2DFWX3OCkRJpHThr3rAc4iBdQ4lHczgNxtRFbFx63H+ZyDWemktRwD9uh76Pso4Ej1inpW//8+kBtCRA1o7qQ9jnvIpIdFXz60IESYb9ZHMbjr1/eyDjp1PI+2tTwYY99EBWtjrupVoC/lYlzZVgjpDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TnT+qXIh; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fMX+YtaY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D7B2C4CEEF;
-	Sat,  2 Aug 2025 11:47:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754135262;
-	bh=zzzAQPMwO9BR1TtOxPqsjQ7wprn272j86+HwfenD4Bk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fMX+YtaYfj6FbNCorVBF/oaqrAvDOa5UT+ebBqOMSOdn5wsG06sFUfOgDZB6qWnbW
-	 BpyODTesLOUmYzjyuMp4ng+gj02AIbk22llZEj9ewZU7F+341oU7jnJZZIvEmewqJm
-	 eKMvlHO1LbUjF3kW5tJneL7A857vFf+aOL4GppNgWFbCZT3SxPEpScbKK3uxqmMj19
-	 eMKrTjyi7WRz16qlFi+uRaGSwl6mnhPw/mF73vYgvzlbQNJ46bY/3ujArh50FqdOVI
-	 c0H4f3EXob3rdIgBdve+h5ohQ6WE05ZWQ1xgROkj+51G7RufyeLFMVFBkmOWTqhTXl
-	 gApAVtzSYd/tQ==
-Date: Sat, 2 Aug 2025 12:47:32 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, dlechner@baylibre.com,
- nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, eraretuya@gmail.com
-Subject: Re: [PATCH v12 0/7] iio: accel: adxl345: add interrupt based sensor
- events
-Message-ID: <20250802124732.1cd4c5ce@jic23-huawei>
-In-Reply-To: <20250727210014.27766-1-l.rubusch@gmail.com>
-References: <20250727210014.27766-1-l.rubusch@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TnT+qXIh"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-23fc5aedaf0so20031935ad.2;
+        Sat, 02 Aug 2025 05:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754139505; x=1754744305; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JeF05721YVJ5pBBmgxwBbsjT0X7NTUhpkjiEAnY+Z00=;
+        b=TnT+qXIhHv3nwEAqusBiB2ycPVFU3dVOX06xDzb85lSS+47eGKfWFLcCow58BOKY2q
+         gmUhu7fuz70vH9hk0v+idM6k4jn4bTWbFAqyj9J3BVeM9UzAEz0mQ4Um7BZQC4lFLiyf
+         32eLWY5RduiWxcwnhFYbIBnBx5XsSgU/ZNBqJNgkRqYV3pAYb6NCkvUbK5z8wPYpYSWn
+         LotSGH8oxqChVrckkKuKkgxvZsKPtT1wkN1hMF7cClMaFP3ernesNgbH7toBjZGTwdws
+         8/FxLSMP/4ePAjMidknL8goSLlkTyPa8W9uJN651sWMFviDL8LJj1kRcb6E+S28mQpy6
+         OeLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754139505; x=1754744305;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JeF05721YVJ5pBBmgxwBbsjT0X7NTUhpkjiEAnY+Z00=;
+        b=Pr2o/jUJMrv0da/fLPFWrbce5Zd8MVH+FR5YhE6DDipdLIMKsEach+cUYOI2plT+wQ
+         R94++IgBebSwt1pNbhjaHjC0w6YgrWnOENnRUgFIxIEnAdmKCpOFyuNuppr17Mjl98u4
+         5bzhU06MVHBHnkUotKSTiOKMqbWB8y8Tcoj49WDoKUqPQeS42gN7apc4YILIwQ6ya0Xk
+         jZED0DCSTVDee8WjCw63iCFSDb6d4Ab1Exzu3ZjsGOaaTduSPH/rYeCEv6j12EznS7yo
+         NsQAerRWhtYuuuyz2XU3nAwsLlp3XL6SFbJXH5BjvDdC9d8slFJ8KRmhbv7RNxhG+HOV
+         fkrg==
+X-Forwarded-Encrypted: i=1; AJvYcCVeWPLxsMx19mRl3ah+xs27ySF2qS/502cg35G8ApwS9R20Ix5So4v846iPQwm1ptc1Y/HN0MS9whEN5kq3@vger.kernel.org, AJvYcCXqlSkMEOxOmWGO7YgYaIsnXQNzUusgZj1JP/4ZSjnPkOMUB0M0B9JyJF8fURQncoO6ohUMD4I3g2g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9owjmL+LYlwDOF1Wi2k0B7pLjXSuu/Vh8e5WuLhgX7As2u39+
+	e9jnt3rUZr4PsjkY1HBpUBH0ompdy9E/9scjTXp4vQoJ/QbHkM0akP42
+X-Gm-Gg: ASbGncvO58Md3divTNcApd1wU5hryBmtTEThST9VbP4wd/WAseHs0uD5+qD/z5VhobJ
+	lQL66Cn7jf525tag6rO5qTBmLzY9M2k/R3ATeP35abSUwOF/HN9wYdZWLui02VbyOtBhf9ASuDU
+	lHctuPChl3FE3OVR7hpWmnr+rKkNNQR3aOjDFE4EQA8DX15t0nQdsdvbT4o7azYJ14oCeu68USm
+	FZ7JDLD0G+Ab9rwyr1SPXgmK3rq66f459iQt0Y3thrO09mLVTumys59tgYJsfUfC53hsVWSamuI
+	4kVxDMEIIUyEyzprcMVXIS/yVstB8aMIE5kj4Ivn7oRU0XDCOmOiDwHpahLUWNZi1jM4c9kp54X
+	g0BXkoOdvwQVsS4bgB9UpWXAQuCvr0ciSmoHWy37ke0CFH8cDFA==
+X-Google-Smtp-Source: AGHT+IGui/tjwdKbWTwckNP2ApRA1WN/cOeq/iRXpzfKqpbgHt6m+WPc0tkdQsIm8M16mN6hmnfWcA==
+X-Received: by 2002:a17:902:dac3:b0:240:6ae4:3695 with SMTP id d9443c01a7336-24246f461e1mr44675175ad.4.1754139505405;
+        Sat, 02 Aug 2025 05:58:25 -0700 (PDT)
+Received: from localhost.localdomain ([220.88.57.158])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e89a077csm66788345ad.138.2025.08.02.05.58.20
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 02 Aug 2025 05:58:24 -0700 (PDT)
+From: Kim Tae Hyun <kimth0312@gmail.com>
+To: akpm@linux-foundation.org,
+	david@redhat.com,
+	corbet@lwn.net
+Cc: lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	vbabka@suse.cz,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kim Tae Hyun <kimth0312@gmail.com>
+Subject: [PATCH] [PATCH] docs: update physical memory documentation by adding N_GENERIC_INITIATOR to enum node_states
+Date: Sat,  2 Aug 2025 21:58:01 +0900
+Message-ID: <20250802125801.10068-1-kimth0312@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 27 Jul 2025 21:00:07 +0000
-Lothar Rubusch <l.rubusch@gmail.com> wrote:
+While reading physical_memory.rst, I noticed that N_GENERIC_INITIATOR has not been update
+from the node_states list, even though it's already added in commit 894c26a1c274b8eafbb4b1dad67e70e51a106061.
 
-> Add several interrupt based sensor detection events:
-> - refactoring and fixes
-> - activity/inactivity linked and auto-sleep
-> - AC-coupled activity/inactivity
-> - Extend inactivity for inactivity under 1s (using free-fall register)
-> - documentation
-> 
-> Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+Signed-off-by: Kim Tae Hyun <kimth0312@gmail.com>
+---
+ Documentation/mm/physical_memory.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Applied to the testing branch of iio.git.  I'll rebase on rc1 once
-available.
+diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+index 9af11b5bd145..b76183545e5b 100644
+--- a/Documentation/mm/physical_memory.rst
++++ b/Documentation/mm/physical_memory.rst
+@@ -171,6 +171,8 @@ nodes with particular properties as defined by ``enum node_states``:
+   The node has memory(regular, high, movable)
+ ``N_CPU``
+   The node has one or more CPUs
++``N_GENERIC_INITIATOR``
++  The node has one or more Generic Initiators
+ 
+ For each node that has a property described above, the bit corresponding to the
+ node ID in the ``node_states[<property>]`` bitmask is set.
+-- 
+2.49.0
 
-Thanks,
-
-Jonathan
