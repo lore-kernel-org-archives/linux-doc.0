@@ -1,129 +1,147 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E048B38DF9
-	for <linux-doc@vger.kernel.org>; Sat,  2 Aug 2025 23:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243CF23FC49;
+	Sun,  3 Aug 2025 03:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754178411; cv=none; b=mOwp+JjzNpix1qrQ/xpwt1HFR12cPlgpRC/wUocWIou1OMZrRgZ6SDLU7pdUwfMdiuzPNQ4DcWg5VL4Y+MLcAQvkERC9ZEDotnApbAEC4Y0GUFzKIQGsD3C2mHkBBnLfsHjcI9OeB6AQRZ9Rpp+YBVnhC7jWIcNv7a3IiNAWI1A=
+	t=1754193518; cv=none; b=ODMLw6n4gNfsPNu7bWlp2Wc7JQZ8nfyXCXO1hbZgOnEAZ6YDUe4FquS/nxStvLjcBbEd8bWRSQX2g0dPZ+XHKXANsRB0cHuzHhbBh1ry/eGyE9YXKctFvYW5DkFfimvKbfGeISW+OrEJla0ITrZk02ssAocELnoOg4fCRGXzWsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754178411; c=relaxed/simple;
-	bh=vAc/4KiHAcjlsBQPHI3wMhShkkf1hfeQY3lbP94F0mY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dnEMSSAr2EJWrQh0dHzBgYCd20rTwqzEVvy0QOWj8RMKZXvFez+DRbU7Sa4vNldBwPpcwswPYbJdIFnfQAM0H5aowZh0/6XbpKQnjCfpcgy/6esJchLIWPgRt0L8BA2Z1WamUK9j6TH/aEzX2o4ewSR6IPCPoaERsJdk9uaSQpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=cgPACfat; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1754193518; c=relaxed/simple;
+	bh=qwSDFAjQHW/7wU1Icp8alV4PMk1kI3X0i/CQrdqYV4Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MUAsUs+cYqADjudr3oUlJ8z/OUpV91VT9sndSgTDIK3SBO8y8MkbsuryttdNJ3GFU3fRFcxrevgticvFpaEleVooxrxMno6h2YeIsQ1UZf51DNXecXoJivmZsfxdRBcbVk9+XjyhjMOTC/CAQ/0rbzS7QyV1802oAsTMeuX6mcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VMHGORvS; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="cgPACfat"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4af156685e2so10320841cf.1
-        for <linux-doc@vger.kernel.org>; Sat, 02 Aug 2025 16:46:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VMHGORvS"
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3e3f01612daso11598985ab.2;
+        Sat, 02 Aug 2025 20:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754178408; x=1754783208; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1754193516; x=1754798316; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=omSxCOyrH+cAC0v6maS2PTOyG9YcJYfYvPlLW3DY1LU=;
-        b=cgPACfat0WhI8UuC2n8WP0kbRDCjkhg0j6kz0R6iMWhaa83EHI+pZc8A9rse91mHpG
-         URd5Pm5YArkSOGxuO9aq/aSLMYEqFjojqI/lfgVjkqc+djODqw0ow28sKDEkzjmwvvSM
-         HeKUFh7gMBei1E4OxNZwqzql40QU7t/IJtPTvWjTdMdbAhlYoIqrGahPzOm4zRPD2gZF
-         blFBD4UxSdcl8NhLw3ebkw4SfL8NACRQ6ZvntGH7p0RLidog89esDacio51ADmAHbVe8
-         vvo8rFXGFojfzfswxTN+pfspK5Y2FDQh/2jktHBQbaf4vASEjmgG3KR40W1FSK3U4wni
-         mIUQ==
+        bh=VfwMXVBLo5LDCQiepRGuFL3bGQZQgq3Btw/uQ5I/5wQ=;
+        b=VMHGORvSNZO7shDF6RI4zye+Wcn/uy9DzqjDODycM+fJjtQv0uA64OPjLvJFVsADJe
+         kkStFSs5+ZIP2p+ebXgLjMk49PNsMBsPdQ9r8DzI6WMt0Hy2wGTk8lIRg2SxaHNFrE4L
+         lesS98gikjmM5AZprWbtFwVQUJYKbYuNQQKNT6QIbUUK4ceX13LdFqKm8MYw5F3mYmcW
+         d9VKfr4IzM4uw+CKyos3bNhTVsFySu0Tkp3Ly9+qdK7TU+ZX88IoAy1WiDT7Qmh2xvvJ
+         z4pqfp+2nApFjh5Br4R61Nvj0u6CdQ8DplVluixHXx4XadG2KsR4xYFRNmTsmqBUlv+T
+         16Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754178408; x=1754783208;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1754193516; x=1754798316;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=omSxCOyrH+cAC0v6maS2PTOyG9YcJYfYvPlLW3DY1LU=;
-        b=GFULwcXHeoQ3wLU8UD6OU3JN0KU3aAuYD2aEBw2fKDqAPWsyz+oJ5ZYrPqIxaSxizl
-         yv3prcLcKmwivPP3XtQavSpIbe6x5srBzpvJxEBs5Cm9eP5R6LTqOA2obGppuduFzQDk
-         sSJr1PRaGonp8vFqFBpe1rPRGXqi69Li6FQ1LsoL4PD58hQQgaPGFyoxi/dBrMabDTC4
-         HzkEBOawS1DBunlpQ1nT5ABO8tOyaN+R3rz3VPFgfNGsmOaD/tejgdyV39+gvQ4cds7o
-         Sjj4Mb1Sl4qS6Uj1PpdEpsK42+0wXNhoADnZrDbKhEpCL7/BPIMqchv/0q5S/CrMFeS/
-         zUDg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpMm9/ODQr0gO+teZyit0hQpa/v88CGbHngOVAalkIAEqXUu5L5Kuf7BvSVs99NR9a+FOVrJ5UIVA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQEaHJU8mpsrUBun8Ya7apDHMI5RhWwX2T7lV6PoIcUTuO5Hru
-	t6JH/Vi4sDsv0RRNsQXUUX9jhC3klNpX6/3i5w09HUgjbXILIJwd4cRirmOAher+siMCs3wjdgQ
-	RAJB1+djy4352f7LlEz7aEuo7v8zPlCiFwQEgk5gzTg==
-X-Gm-Gg: ASbGnctG0IBpxNN3Onm46v/JEEAZgGJBZArrjIeXsb2zMry/Iio4TS2smTNgVwTeuaG
-	jLvdGXCccBY51va3t2yVHbCGmz85QbpZzSe5ExZ+vPAfP5GOX1jKnpad0p2pdUN05lV5zyDr9Ah
-	y+WR46nY4C/Zlq6t+EeU761qukFTI+zJ+GEWKgA50STJZkWAJdgPLW7NftXmJgolL+4v/DMHUbU
-	XXh
-X-Google-Smtp-Source: AGHT+IHdEITyYGYGGvkUJ/FLXWfXeXO8iQNocqY+DuXZ+nO0UMVJgqKLU07m6mpEY1xZc8NU3/+RPBwpxH4hgExqjBU=
-X-Received: by 2002:ac8:5e4e:0:b0:4ab:3963:c650 with SMTP id
- d75a77b69052e-4aef16dc96cmr147684491cf.10.1754178407719; Sat, 02 Aug 2025
- 16:46:47 -0700 (PDT)
+        bh=VfwMXVBLo5LDCQiepRGuFL3bGQZQgq3Btw/uQ5I/5wQ=;
+        b=TfqHIT48jTOYX/NN51WCiJgba+NVXzgDdsxUmBn4OYIrvLNflq4GIR121GnozgUTJT
+         5kn6EXoF9is8mR0kRAomG0i5E02V82olkEHywApiN8+6csRRijxX/o2ah5JtYsvNFP3b
+         cT/m6qxYDEyB4aE3rpH3Ep3el+j8ZV2Dj/PtrFcaC4RdKp8W4aOM4UvlR41a5vaPy255
+         /FgDhtXYYkdywvxpkbBtmtno3HU1kmMYtsbXrt/sPMTUcWgYect6RNPmiZwam84crfzW
+         F4EfEmdsZalwl2s+IdVeyrD01u7aFaEzHnQctebTVK+idsx78Qtq/DRDL9TboiHtddm5
+         /fWg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCxdDmGwvWpWZ3hNrePgDGgQC4dXwKNqPGimXClq2tDkv9kjiLqxYBvTte8lhcGbCGaPPqM0Wkgh/ux5pt@vger.kernel.org, AJvYcCWFlOCiGQrh+1qUsnzdVTtipdFhpaJOQDYxsbTGfPT3/w7bWGEt26xhtvyRc9h34sbRzL1PA2197c5V@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKINBs3S6Ejgq5zQiBCHrImXQcmnjGfrmkz6XEOA8zglhrOtQ6
+	Rfyv26bonkAFv4SUrvLze6PYr41bGkxNLxdJMfkCmuEROb5h9QhpDelnLo/jpBgcI+8=
+X-Gm-Gg: ASbGncusnCkBBW/BfZgp5fcfnYlTx2XX+n5OOMQ5x2Q5ZQkeY2SJKNjJwDyTRKKfeJW
+	dQGNJWHf+Xko2avQtaesa9wO6LUqHxYUyais8BniZunmpAjoOtCAOX+GzG1W6lummxj+GJS/iKP
+	2aLe7GD3vvOJaCnWaFUN5r4GryhJbbvLPwhIAudePe7hUOLHaDy08v52uuv3K8OTT18Qi2eHhpd
+	Zg7+Ske3YhNm6wmmDEcOAOt9N+H0XUjoEB8ERukKB4kzMdc08K37lTmKjPFEeKL+wYgAxp9ywUU
+	av7bFfylKTeeKBatPnZI1BKGP1MT1nGY1We0t2AV9iKWW2jLv1/lIkjeXfYrZrvHL9hDnyGJjHf
+	h9yWQf9KtytIAJY8jzhN9651EuqTjtXEa+cBz/9UEuyIDtUSSPVs6aGorUBThaO+3ppWqOVKcqF
+	vMgw==
+X-Google-Smtp-Source: AGHT+IEFfqhK3Yu96GZwkzn3H2xfn17hF1ni9VF+BRmo2ZqR7bTqyB9jhLRitAgzMOgRv2m2JMXKjg==
+X-Received: by 2002:a05:6e02:2612:b0:3e3:d8af:3847 with SMTP id e9e14a558f8ab-3e416181770mr93924425ab.16.1754193515916;
+        Sat, 02 Aug 2025 20:58:35 -0700 (PDT)
+Received: from frodo.raven-morpho.ts.net (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
+        by smtp.googlemail.com with ESMTPSA id 8926c6da1cb9f-50a55df0940sm2268319173.106.2025.08.02.20.58.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Aug 2025 20:58:35 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	jbaron@akamai.com,
+	gregkh@linuxfoundation.org,
+	ukaszb@chromium.org,
+	louis.chauvet@bootlin.com
+Cc: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gvt-dev@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	daniel.vetter@ffwll.ch,
+	tvrtko.ursulin@linux.intel.com,
+	jani.nikula@intel.com,
+	ville.syrjala@linux.intel.com,
+	seanpaul@chromium.org,
+	robdclark@gmail.com,
+	groeck@google.com,
+	yanivt@google.com,
+	bleung@google.com,
+	quic_saipraka@quicinc.com,
+	will@kernel.org,
+	catalin.marinas@arm.com,
+	quic_psodagud@quicinc.com,
+	maz@kernel.org,
+	arnd@arndb.de,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	mingo@redhat.com,
+	jim.cromie@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v4 02/58] docs/dyndbg: explain flags parse 1st
+Date: Sat,  2 Aug 2025 21:57:20 -0600
+Message-ID: <20250803035816.603405-3-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250803035816.603405-1-jim.cromie@gmail.com>
+References: <20250803035816.603405-1-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
- <20250723144649.1696299-10-pasha.tatashin@soleen.com> <20250729171454.GO36037@nvidia.com>
-In-Reply-To: <20250729171454.GO36037@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sat, 2 Aug 2025 19:46:11 -0400
-X-Gm-Features: Ac12FXzVHD70UwSnRqGNkZr2cSuqC2q4gMi23eZp3qK6a2xJfpUPm-pdMLJYecM
-Message-ID: <CA+CK2bDz0t4+r9Yw+rpf_8K_GFDygXQ_b6wvPFtNYkssfX7wew@mail.gmail.com>
-Subject: Re: [PATCH v2 09/32] liveupdate: kho: move to kernel/liveupdate
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 29, 2025 at 1:14=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Wed, Jul 23, 2025 at 02:46:22PM +0000, Pasha Tatashin wrote:
-> > Move KHO to kernel/liveupdate/ in preparation of placing all Live Updat=
-e
-> > core kernel related files to the same place.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  Documentation/core-api/kho/concepts.rst       |  2 +-
-> >  MAINTAINERS                                   |  2 +-
-> >  init/Kconfig                                  |  2 ++
-> >  kernel/Kconfig.kexec                          | 25 ----------------
-> >  kernel/Makefile                               |  3 +-
-> >  kernel/liveupdate/Kconfig                     | 30 +++++++++++++++++++
-> >  kernel/liveupdate/Makefile                    |  7 +++++
-> >  kernel/{ =3D> liveupdate}/kexec_handover.c      |  6 ++--
-> >  .../{ =3D> liveupdate}/kexec_handover_debug.c   |  0
-> >  .../kexec_handover_internal.h                 |  0
-> >  10 files changed, 45 insertions(+), 32 deletions(-)
-> >  create mode 100644 kernel/liveupdate/Kconfig
-> >  create mode 100644 kernel/liveupdate/Makefile
-> >  rename kernel/{ =3D> liveupdate}/kexec_handover.c (99%)
-> >  rename kernel/{ =3D> liveupdate}/kexec_handover_debug.c (100%)
-> >  rename kernel/{ =3D> liveupdate}/kexec_handover_internal.h (100%)
->
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+When writing queries to >control, flags are parsed 1st, since they are
+the only required field, and they require specific compositions.  So
+if the flags draw an error (on those specifics), then keyword errors
+aren't reported.  This can be mildly confusing/annoying, so explain it
+instead.
 
-Thank you,
-Pasha
+cc: linux-doc@vger.kernel.org
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+ Documentation/admin-guide/dynamic-debug-howto.rst | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 4ac18c0a1d953..63a511f2337bc 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -109,9 +109,18 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
+ the flags-spec, all constraints are ANDed together.  An absent keyword
+ is the same as keyword "*".
+ 
+-
+-A match specification is a keyword, which selects the attribute of
+-the callsite to be compared, and a value to compare against.  Possible
++Note: because the match-spec can be empty, the flags are checked 1st,
++then the pairs of keyword values.  Flag errs will hide keyword errs:
++
++  bash-5.2# ddcmd mod bar +foo
++  dyndbg: read 13 bytes from userspace
++  dyndbg: query 0: "mod bar +foo" mod:*
++  dyndbg: unknown flag 'o'
++  dyndbg: flags parse failed
++  dyndbg: processed 1 queries, with 0 matches, 1 errs
++
++So a match-spec is a keyword, which selects the attribute of the
++callsite to be compared, and a value to compare against.  Possible
+ keywords are:::
+ 
+   match-spec ::= 'func' string |
+-- 
+2.50.1
+
