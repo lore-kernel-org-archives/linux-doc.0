@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DEB1B4F2C;
-	Mon,  4 Aug 2025 12:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDBA2441AA;
+	Mon,  4 Aug 2025 13:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754312304; cv=none; b=hGisyMsyUA8A59lZfjcDLjZqtF6Ax6p2j/KmJ57C6d/+sQFKlh1YSbmzOMarbfXWJJRTPgFgnlCY0vXPXrRLLYaB1SXNwrTApySLOmTucsOgVJYi2ERIWBOzohBgr3wS3cMI3p7JMWv4RM8v+xh8Mlat2MfPx/XriQxqYa9DEM8=
+	t=1754313316; cv=none; b=nQSNHStN/G1FpaQxFX7gDcAvesDspjIBxWUZdLpiBJNmE5HVgAMTdVjO4lrnvPv69ccT9HCZa3pEhFWA9uiOr/7JfoctdpHPeCG8vHOi8tpO6+kqU7HzXMg7bMBjXZ/BvjIoG5jeLuSP+1SlsVrQIKtRFklrlSJbB96pmXb3P1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754312304; c=relaxed/simple;
-	bh=2W68ZxzxwmCvFJTFLMvFHvXt1mr9ikcmL/BnDPMrVfU=;
+	s=arc-20240116; t=1754313316; c=relaxed/simple;
+	bh=QQXJ4NR1uMu1IgN3dl3PuSK8BLu/j4cxH3A+dzF6q9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bn4JJbuALryZIdCzqh13LT8fQGfSHUqflhogc++Xj5mvHJsvaihyHa1d4JQqNuwBTkikMgrRP42IXjFUrZ0pI03NfXHJemFT3LCRAq78Sy5N9/qy4StJzEInYdmdzQwkHGoRS9UEyjeQ38zQISzEymNdPI3zSzFYmd1Q3ldZlcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WeHU/SnZ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=drXEeFz/ZzVHQAf7btkX/1k7xjs1HJFBGhQxfw7wcb6y8RoY9ClcSrzQGrdmo/cJQYHVNcavgsfyip22wQEwSEKCERvsHjp0mHCJTLa+pbChKuI1K8xHjRMm/iAoPSw5yV3SCERZFgilc365nuj9Lb6WBcjsZ3Vb65X3MzzhitE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AsMQKEGF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WeHU/SnZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8093EC4CEE7;
-	Mon,  4 Aug 2025 12:58:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AsMQKEGF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E7BFC4CEE7;
+	Mon,  4 Aug 2025 13:15:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754312303;
-	bh=2W68ZxzxwmCvFJTFLMvFHvXt1mr9ikcmL/BnDPMrVfU=;
+	s=k20201202; t=1754313315;
+	bh=QQXJ4NR1uMu1IgN3dl3PuSK8BLu/j4cxH3A+dzF6q9Y=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WeHU/SnZ3/5HQC+zk1mcc+LcR/R5fePSziWknJaBQ1efLA0028ho6tniZDft09X8V
-	 KJnDGr6vO21tiNMWyvbtHXtaI1AmuICJw1It5BhEKPK9ITvY0V8X8PPtVeD8kmOYd7
-	 /CkoUc8U93m9PnQ4Wc227SDtfAtSpciJ5hd08fkiXyfXgpQ5Jqvqya3gE7NzzTohsy
-	 fXm6R/b41BFx0GSa9yXvkXGahqmWeYU2fQiARTc4jI62GwldaPNu1OkFIhXvlZXviU
-	 V/ygsgjfml7TevO3lF6XDOjZTt4hysCTK1daBsca8P5dg4FgGyt6d205AdVFr9XE1N
-	 U75gWS/eSAu4g==
-Date: Mon, 4 Aug 2025 14:58:18 +0200
+	b=AsMQKEGFwZNq2l5woPe55/esgSkEYeIaPOIMktIPP6W7AHtIWuXM8PDvAPwtYIDTD
+	 Kp3MA6oCztFzWcDXqFSJzXS0P+izV5aHaDnxSD70IIJW8iLfklMreXe8IqnqXI6iYW
+	 6C+jFKI2ChiBLzdGQ8CCLtrSP3HTtFRR4Y4Gfhk6bH6SgnvfPirhtCDyNFehg57tqX
+	 fC03I7uEVJ3mjsjGSH8zqwmGD/dCmV6MdQqSEtg3RhzN93YB+tcbzbt8dK4r4Y8DQH
+	 fLotzguyw2IAxOfvvqOV5COCs3b8CRQ+/i1/0aFIsMDSlsVHtg7kUk62ZyXA4oZVOC
+	 O0vaaGP3zdkLQ==
+Date: Mon, 4 Aug 2025 15:15:11 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>
-Subject: Re: [PATCH 03/12] docs: kdoc: backslashectomy in kdoc_parser
-Message-ID: <20250804145818.3cc73ca2@foz.lan>
-In-Reply-To: <87h5yrruki.fsf@trenco.lwn.net>
+Subject: Re: [PATCH 10/12] docs: kdoc: further rewrite_struct_members()
+ cleanup
+Message-ID: <20250804151511.73ffb949@foz.lan>
+In-Reply-To: <87v7n6pscu.fsf@trenco.lwn.net>
 References: <20250801001326.924276-1-corbet@lwn.net>
-	<20250801001326.924276-4-corbet@lwn.net>
-	<20250801062710.552dac5a@foz.lan>
-	<87h5yrruki.fsf@trenco.lwn.net>
+	<20250801001326.924276-11-corbet@lwn.net>
+	<20250801080744.14f83626@foz.lan>
+	<87v7n6pscu.fsf@trenco.lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -48,129 +49,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Fri, 01 Aug 2025 08:21:49 -0600
+Em Fri, 01 Aug 2025 16:52:33 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
 > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> > Em Thu, 31 Jul 2025 18:13:17 -0600
+> > Em Thu, 31 Jul 2025 18:13:24 -0600
 > > Jonathan Corbet <corbet@lwn.net> escreveu:
 > >  
-> >> A lot of the regular expressions in this file have extraneous backslashes  
+> >> Get rid of some single-use variables and redundant checks, and generally
+> >> tighten up the code; no logical change.
+> >> 
+> >> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> >> ---
+> >>  scripts/lib/kdoc/kdoc_parser.py | 89 ++++++++++++++++-----------------
+> >>  1 file changed, 42 insertions(+), 47 deletions(-)
+> >> 
+> >> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> >> index 20e0a2abe13b..2b7d7e646367 100644
+> >> --- a/scripts/lib/kdoc/kdoc_parser.py
+> >> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> >> @@ -673,73 +673,68 @@ class KernelDoc:
+> >>          while tuples:
+> >>              for t in tuples:
+> >>                  newmember = ""
+> >> -                maintype = t[0]
+> >> -                _ids = t[5]s
+> >> -                content = t[3]  
 > >
-> > This one is a bit scary... It could actually cause issues somewhere.  
-> 
-> What kind of issues?
-
-I caught several issues in the past due to the lack of it. Don't
-recall the specific cases, but using reserved symbols without
-backslashes have giving me enough headaches.
-
-Yet, see POSIX rules for some cases:
-
-	https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_03
-
-like this one:
-
-	"The character sequences "[.", "[=", and "[:" shall be special
-	 inside a bracket expression"
-
-Basically, if you don't know exactly what you're doing, and just
-place special characters there without extra case, you may be
-in serious troubles. And see, this is just for BRE (basic regular
-expressions). There are also other weirdness with ERE (extended
-regular expressions):
-
-	"The <period>, <left-square-bracket>, <backslash>, and 
-	 <left-parenthesis> shall be special except when used 
-	 in a bracket expression"
-
-> > Also, IMHO, some expressions look worse on my eyes ;-)  
-> 
-> Here I think we're going to disagree.  The extra backslashes are really
-> just visual noise as far as I'm concerned.
-> 
-> >> that may have been needed in Perl, but aren't helpful here.  Take them out
-> >> to reduce slightly the visual noise.  
+> > The reason I opted for this particular approach...  
+> >> -
+> >> -                oldmember = "".join(t)
+> >> -
+> >> -                for s_id in s_ids.split(','):
+> >> +                oldmember = "".join(t) # Reconstruct the original formatting
+> >> +                #
+> >> +                # Pass through each field name, normalizing the form and formatting.
+> >> +                #
+> >> +                for s_id in t[5].split(','):  
 > >
-> > No idea if Perl actually requires, but, at least for me, I do prefer to
-> > see all special characters properly escaped with a backslash. This way,
-> > it is a lot clearer that what it is expecting is a string, instead of
-> > using something that may affect regex processing.  
-> 
-> I guess my point is that, in the given cases, the characters in question
-> *aren't* special.
-
-They are special in the sense that we're using characters that
-have meanings in regular expressions and even placing them on
-a random order may cause POSIX violations (and eventually cause
-troubles if, for instance, we need to use "regex" instead of "re",
-or if someone fixes python native "re" to be more POSIX compliant.
-
-> >> -        param = KernRe(r'[\[\)].*').sub('', param, count=1)
-> >> +        param = KernRe(r'[)[].*').sub('', param, count=1)  
+> > ... is that it is easier to understand and to maintain:
 > >
-> > This one, for instance, IMHO looks a lot worse for my eyes to understand
-> > that there is a "[" that it is not an operator, but instead a string.
-> > The open close parenthesis also looks weird. My regex-trained eyes think
-> > that this would be part of a capture group.  
-> 
-> ...and mine say "that's in [brackets] why are you escaping it?" :)
-
-Heh, all those years writing and reviewing kernel code, for me
-seeing unmatched parenthesis/brackets really bugs me... perhaps
-it starts some sort of TOC syndrome ;-)
-
-Perhaps one alternative would be to have a separate var, like:
-
-	# Before touching this, see:
-	# https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_04
-	# As some char sequences inside brackets have special meanings
-	escape_chars = ")["
-
-	param = KernRe(rf'[{escape_chars}].*').sub('', param, count=1)  
-
-or to use re_escape().
-
-> >>          if dtype == "" and param.endswith("..."):
-> >>              if KernRe(r'\w\.\.\.$').search(param):
-> >> @@ -405,7 +405,7 @@ class KernelDoc:
-> >>  
-> >>          for arg in args.split(splitter):
-> >>              # Strip comments
-> >> -            arg = KernRe(r'\/\*.*\*\/').sub('', arg)
-> >> +            arg = KernRe(r'/\*.*\*/').sub('', arg)  
+> > 	for s_id in s_ids.split(','):
 > >
-> > A pattern like /..../ is a standard way to pass search group with Regex
-> > on many languages and utils that accept regular expressions like the
-> > sed command. Dropping the backslash here IMHO makes it confusing ;-)  
+> > than when magic numbers like this are used:
+> >
+> > 	for s_id in t[5].split(','):  
 > 
-> ...but it is definitely not any such in Python and never has been, so
-> escaping slashes looks weird and makes the reader wonder what they are
-> missing.
-
-After re-reading, this specific change is actually ok, but yeah, I
-still need to read it twice or three times, as on sed, perl and other
-languages that are more POSIX compliant, /re/ means a regex delimiter:
-
-	https://en.wikipedia.org/wiki/Regular_expression
-
-> > Seriously, IMHO this patch makes a lot worse to understand what brackets,
-> > parenthesis and dots are strings, and which ones are part of the regex
-> > syntax.   
+> Coming into this code, I had a different experience, and found the
+> variables to just be a layer of indirection I had to pass through to get
+> to the capture groups and see what was really going on.  That was part
+> of why I put the group numbers in the comments next to that gnarly
+> regex, to make that mapping more direct and easier to understand.
 > 
-> So I guess I won't fight this one to the death, but I really do
-> disagree.  Writing regexes in a non-canonical style just makes it harder
-> for anybody else who comes along to figure out what is going on; it
-> certainly made it harder for me.
+> I will not insist on this change either - at least not indefinitely :)
+> I do feel, though, that adding a step between the regex and its use just
+> serves to obscure things.
+> 
+> (And yes, I don't really think that named groups make things better.
+> I've found those useful in situations where multiple regexes are in use
+> and the ordering of the groups may vary, but otherwise have generally
+> avoided them).
 
-Heh, for me, my main concerns are:
-- unmatched brackets/parenthesis
-- POSIX violations - it may work today, but future Python versions
-  that fix "re" module will cause regressions. It is also annoying
-  to write/understand regex that only works on Python.
+I'd say that, when the magic number is within up to 3-lines hunk
+distance - e.g. if all of them will appear at the same hunk, it is 
+probably safe to use, but when it gets far away, it makes more harm 
+than good.
 
-I can live with the other ones.
+Perhaps one alternative would do something like:
+
+	tuples = struct_members.findall(members)
+        if not tuples:
+            break
+
+	maintype, -, -, content, -, s_ids = tuples
+
+(assuming that we don't need t[1], t[2] and t[4] here)
+
+Btw, on this specific case, better to use non-capture group matches
+to avoid those "empty" spaces, e.g. (if I got it right):
+
+	# Curly Brackets are not captured
+        struct_members = KernRe(type_pattern +	        # Capture main type
+				r'([^\{\};]+)' +
+				r'(?:\{)' +
+				r'(?:[^\{\}]*)' +	# Capture content
+				r'(?:\})' +
+				r'([^\{\}\;]*)(\;)')	# Capture IDs
+	...
+	tuples = struct_members.findall(members)
+        if not tuples:
+            break
+
+	maintype, content, s_ids = tuples
+
+Btw, a cleanup like the above is, IMHO, another good reason why not using
+magic numbers: people may end fixing match groups to use non-capture
+matches, but end forgetting to fix some hidden magic numbers. It is hard
+for a reviewer to see it if the affected magic numbers aren't within the
+3 lines range of a default unified diff, and may introduce hidden bugs.
 
 Thanks,
 Mauro
