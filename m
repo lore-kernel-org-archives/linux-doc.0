@@ -1,83 +1,78 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDE82248A3;
-	Mon,  4 Aug 2025 18:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5D01B043A
+	for <linux-doc@vger.kernel.org>; Mon,  4 Aug 2025 19:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754332206; cv=none; b=r5mEgfWZsxp7Pp6uV5vsL7IAvw7pgPE23GFHVztJPwUqycc11KGJPUbyD4VW1blQeIztlv4DZnB0vgbhbaWKO1s8jM/HXqbfrEOvp5KmygDTxbCZGXpWTyuLYV03WUNSTJymYPF2X4fLC4Wnpvl7lXQoiDbLKmtDDu1MmeUGVa8=
+	t=1754334591; cv=none; b=NPzZQHZik2mOx8lmZb3iudEsQ9D4lQ3eKX9rpl/udE+y/D6OxLEc5UkagxQegTLWoskBAhA+x2w+5GUB8QV25bm35CrNV6Szz9658uf1rpglbNF5/wihXCF47d+zW5B3tbP6EXIcyN+C08/3LoYfrURWT+uypF5mEsXZA9IomeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754332206; c=relaxed/simple;
-	bh=uJ/oOV5Bf1tX4cFJNMtJsUew/SY8AbI/2NnYXzLpDgg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=R0qtgOk+gXLHrlxc6HyDjL2ZqI0u3cXv35JvHzbBgzfvTvv3YHA/XicVZUVgGxOZepE5FHCMA38kIYemNgrISsn1fOe/292j5m21zNlYm8BateIu+WF5ySAK8milsf2OdhdyQ/BbH8FbW9wZ2NlgR3NZqYvYA+a2cz9XZvjCwkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=s+HuYPD1; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1754334591; c=relaxed/simple;
+	bh=EoqfN+RU6ie7d3cK9su2M9aANqfgOvgis4RwAsxwdIM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JJXWE0TZbb6h3utKNStrN10qx21orQp6t/uARY56spr2v3IM7rn+8m2ghSuerwgmqi0KnjLFj41qbqbFDLOC0RO13k/hdjAGJ6nvr+ldURWhGr9IU72G0LKusnGhJSeI2C21nFKsM5UtqI53qPdIApWzZzHdrrq8bXZVuxDq6B4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=I2SBtPqC; arc=none smtp.client-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="s+HuYPD1"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3F56C40AD7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1754332194; bh=HSp20fpXz0BSrhqJCgCQtB3PUB1/kgFx4skx2uINIgY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=s+HuYPD12YdNeaEApq21R4UvoWmAKZst50BTI+b0wym/Ve7yy4sxHMkU9xBu+vXQs
-	 Uwy6QQFMZQ87Ys/LukWN0APBeLi3R4cnjUp0JGeSkkUSnZANHGsnTayqRyGl7mAx2j
-	 erHiUPvWm/2QR0lC0PvrZ04unvR54cTBTwa+HWxtJ8pKIikgGzL4MB6fp8V9BCbuON
-	 hns8HHcGb1EQsk2lJ4mPjtNQJh5WfpuCv+czoguKAy/dMmuoJ9crDmQbM3elMfiZu0
-	 767w4QLaYceIcLc4A326yLmy+gCsVGARBguw6SPxBDH8Ntrmtqw1RWq+vKGnaFY+a0
-	 87D7swpDZwJgw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3F56C40AD7;
-	Mon,  4 Aug 2025 18:29:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 03/12] docs: kdoc: backslashectomy in kdoc_parser
-In-Reply-To: <20250804180029.11b8c310@sal.lan>
-References: <20250801001326.924276-1-corbet@lwn.net>
- <20250801001326.924276-4-corbet@lwn.net> <20250801062710.552dac5a@foz.lan>
- <87h5yrruki.fsf@trenco.lwn.net> <20250804145818.3cc73ca2@foz.lan>
- <20250804180029.11b8c310@sal.lan>
-Date: Mon, 04 Aug 2025 12:29:53 -0600
-Message-ID: <8734a7ndni.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="I2SBtPqC"
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 574J4F7o014745
+	for <linux-doc@vger.kernel.org>; Mon, 4 Aug 2025 12:09:48 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=s2048-2025-q2; bh=CVr4dJoT4GG1Eomf8VBL
+	A90t/VLrfXOEcI7JaT4XHqY=; b=I2SBtPqCUgL0pwVPlPkWHU0H827lpFozbzti
+	SOYdRsT9nxB5OYHVTDAze1tWxuKLL9R2PkqDr6JwMgpcmqe7n7W2pnxIVAX4Y8HB
+	nylx8C96ZRUx0NCGXn3zuu37Szz6lfZSkV/RptDf0YioVBnmvGHBfp83xo8ghQPk
+	7yf1pn1Hf573fOWcWS32gnXcq8NYRjTkXwedSoLIbAd5mTGtT0kfHsrgM826jbD1
+	U+v0ITxOOIHi4jIKoB2ZppFCcyckG9MPpHXMs0j787+XxVDNAkKW0Wx52J5Yjf8y
+	vKKaMbJFbpCAF4C9p83zGAgiSTNg2vlxIJCugD+wY9QdpDL7Ag==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48ar4gcc5w-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 04 Aug 2025 12:09:48 -0700 (PDT)
+Received: from twshared21625.15.frc2.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.17; Mon, 4 Aug 2025 19:09:46 +0000
+Received: by devgpu013.nha3.facebook.com (Postfix, from userid 199522)
+	id B3564654B2F; Mon,  4 Aug 2025 12:09:33 -0700 (PDT)
+Date: Mon, 4 Aug 2025 12:09:33 -0700
+From: Alex Mastro <amastro@fb.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Keith
+ Busch <kbusch@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>
+Subject: Re: [PATCH v3] vfio/pci: print vfio-device syspath to fdinfo
+Message-ID: <aJEFbQgzfY6nf5Lc@devgpu013.nha3.facebook.com>
+References: <20250801-show-fdinfo-v3-1-165dfcab89b9@fb.com>
+ <20250804102559.5f1e8bcf.alex.williamson@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250804102559.5f1e8bcf.alex.williamson@redhat.com>
+X-FB-Internal: Safe
+X-Proofpoint-ORIG-GUID: D5Fb9eDEorA_8SFWyv8Vuy5P4AB_l0Kb
+X-Proofpoint-GUID: D5Fb9eDEorA_8SFWyv8Vuy5P4AB_l0Kb
+X-Authority-Analysis: v=2.4 cv=bM0WIO+Z c=1 sm=1 tr=0 ts=6891057c cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=j2pstE2d10wfqDpL5AwA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDExMSBTYWx0ZWRfX1vtefu8fTjIw hMapDIIig9sw71JTC0E1i9tzeC93aoTHRenG6rCqqTqSBeTNKG56HaYtPOowqhwqLOhXRDi+BBE G6/EpJpTRAa1y6/wKLE6VPJrzWQgdCZVPZLbwqgChF+srVfGS43980llAG/FSQmThVd0oxYJBvg
+ PAS5d0inpZwEAG+UIVEhcYqq/G5LS2R/tPjt3Yj4mKiQr1cxudjjiXil6DYTwPZInr5R1DJjcGX i16k7u+r4uJ4O5/9ty/JOj6Jf9I15laW4t/YbEC50ZiZz77X8pqqeftdfCkeWA+tQEudjckG6gC UVUkoco37sBp6sP4OJTTjnt+KMvh1wjLfbMe8QnCZhlPxtk7XrOooXaeUNkfqnrilvGXaSieTWR
+ HC+H64zC/QPles/KDxrZ9XSmSxIesSwqqg8m4WmjO8wnea+wdgO8h+hzK+jnsbLUNMWB/mDf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-04_08,2025-08-04_01,2025-03-28_01
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Mon, Aug 04, 2025 at 10:25:59AM -0600, Alex Williamson wrote:
+> Changes in this file look spurious, vfio_device_ops vs
+> vfio_device_fops?  Nothing implements or consumes the vfio_device_ops
+> callback here.
 
-> In time: I mean *possible* POSIX violations. 
->
-> I very much prefer more backslashs than needed or use re.escape()
-> than to read thoughtfully POSIX and Python-specific specific rules.
->
-> Python, in particular, is not very reliable between versions - each
-> new version comes with a set of incompatible changes.
-
-People like to complain about that ... but the LWN site code has been in
-Python since 2002, and with the notable exception of the Python 3
-transition, it has been really painless.
-
-FWIW, the 3.13 re module will warn if it sees a construction like "[[]"
-- evidently there is a possible future change that might make "[[" mean
-something special and new.  So I avoided that combination.
-
-> In summary, if you agree with always escape brackets, curly brackets and
-> parenthesis inside brackets on kernel-doc, we should be free of not
-> opened/not closed "symbols" with is an annoyance at least for me, and
-> we should be freed of possible POSIX issues and undefined behavior(*).
-
-It shall be a mighty struggle, but I think I can find a way to live with
-that... :)
-
-Thanks,
-
-jon
+Agh. Yes. I missed removing this. Fixing in v4.
