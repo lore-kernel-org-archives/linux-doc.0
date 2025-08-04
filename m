@@ -1,300 +1,335 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68ABF1F416B;
-	Mon,  4 Aug 2025 21:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754343253; cv=fail; b=AmNkV7UBda3CsouzUEIqOTHG6UMwhu1K4tqh3MgLVIpQ0lvu+PYI/k2LTZQPaDbIpaKDQSB2eF6idqCd+VVuLWr2LePkQJtmqBz4Q9IqQ0+a6zJHEguz+ill8XkXe+9jd1ZCXQC4WopgrcU9i1lmEdLm2n7JwrbEFeJaRXis+Ak=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754343253; c=relaxed/simple;
-	bh=xasz3HusYlitNAQOqH8HYTrcpOnED8wYzOimbVq38Zs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=V/fjXAJK49ViltZK2un3laiNmEGpMNOZXoSfZc6+yPJMi8qYaQfZK2ThLzaKZ2PT50CmGp6lGJZkBkaguWKJCiQb9C8bm3oSIaqsFEIunLQdeP7E8yJmaJ/9Npmny7JzwFbPP4Eo1fyZ4dAJtzTK+F/xa5+wa8AX33jTBWUjFB0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=R8L7oIXX; arc=fail smtp.client-ip=40.107.93.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="R8L7oIXX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G1uX909ylBwybXgpKdmXZWWUixRpAhz+WJ9jawVWc830W2w/vZBAuf7XZzMQuMs1hIs8c0BM4puQM+aZsvRq1cHFRARCFly/69XsR9voMSpi1wxPsjLh4XdRmblrJz5nm97COMQALOoxTzzp2qadxEtMeIRqOyZf6EeigjoSzjT04m+jyKGGftdw70kydAGsQ2kZxNunP+VGauFGqzxyY5hI8+lS/Fv3gN7/cSNxSG8ugOXWAExS+Rnz2N6QRQKcvNnUdHEJVoeiwc7TQDJubKSV/gFk1ZR4UXjcOSrhU3Pw672wp4+0VHNptlTaoQNQJz3XuobXCEyF4XTZNt3rZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e8FsIA4W53e95Gqea1Jt7urfW6hpVRpHo8iLiZNLWtE=;
- b=ZSafjsdY81F+GSLv/8jgre+b16T5gpv9fsu6lJ4owlNAL/hSnzBFm97pkR4zLCXZ2sFEVTPYJvKuOmC3K54SSsQEGD6BUfuFvH/r6MtCcI2FO5m7TVwHy3Cn3IQVclU0gDTPgQ00EUTDISSFiygJqniw1ue2w56LUrZysjyffh18cWK1YXqXdnIOPRzkyFyor9CfNY6HPjhwqPL9vWf5iX4DGTEmFCDGxAREquh/bZDtcLhmpbU8Drs9QgGOHRUKixf1pUl0S5sdSLEutWdo586ETjEh8M9kaMgXgXAFoHmp4WTruur4QzrlOuMwmHTIgDUwwtfObB1BZNakbTkPAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e8FsIA4W53e95Gqea1Jt7urfW6hpVRpHo8iLiZNLWtE=;
- b=R8L7oIXXvBNoxbFfgxwEIs1pnRevoQmbCnwRyPYOuf35yOFOmxpJNE7RBUanajjSmZHOyJX3NXGzo2nFHNH8m6DVCsvLBu6714KTEtpintlBxHK/Nb6k3DgUfkpP1kvc1c9C2Dk03CDDa+ZMJKHvPT0wDMK4EbU/2t7rvC0DHTU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by BL3PR12MB6644.namprd12.prod.outlook.com
- (2603:10b6:208:3b1::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.20; Mon, 4 Aug
- 2025 21:34:08 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.8989.011; Mon, 4 Aug 2025
- 21:34:07 +0000
-Message-ID: <67f1cc75-f678-4112-bd2d-f4f3abcdd845@amd.com>
-Date: Mon, 4 Aug 2025 16:34:04 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v7 00/10] x86,fs/resctrl: Support L3 Smart Data Cache
- Injection Allocation Enforcement (SDCIAE)
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
- paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
- david@redhat.com, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
- thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
- yosry.ahmed@linux.dev, sohil.mehta@intel.com, xin@zytor.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
- me@mixaill.net, mario.limonciello@amd.com, xin3.li@intel.com,
- ebiggers@google.com, ak@linux.intel.com, chang.seok.bae@intel.com,
- andrew.cooper3@citrix.com, perry.yuan@amd.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1752167718.git.babu.moger@amd.com>
- <e6866fad-1d8f-4fca-baf7-6685e57370b0@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <e6866fad-1d8f-4fca-baf7-6685e57370b0@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM6PR12CA0012.namprd12.prod.outlook.com
- (2603:10b6:5:1c0::25) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B54C1552FA;
+	Mon,  4 Aug 2025 22:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754344836; cv=none; b=uykE8BQPN8aephsshyXxgCuhbsToJextdpx/7tP5nSZdNmGoQQVtUTU0NQtQQacwxz1bne6LCbQO+tgKL0JlrtTnstRz05KunJmLSln2uIeYKyGy2awTI6611fwYCFv4BzIXQGauwzfSeB44PHLXp8/FLN1xAu3txvXatW2XBlg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754344836; c=relaxed/simple;
+	bh=OkqY7SFjrArg66oQlEL4f7x/72BougKos8SuncqmGO0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eMvDuUviYz8tB2i6hOasdGobIdIkoaQuLygNV8lrP1qI69GGHGpXHQFcyu3H/n/8z1lTYn2nE3Y1GS1wuIN3tiaK9XaD7rriRtxYN+frEYItve2l1+y/UenY0oz0oiqZDFdHNHUKDe+tPQzoFCu6Dk9thGoyd6w85woDuKo+vEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 496D91F00078;
+	Mon,  4 Aug 2025 21:59:48 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id ACAE6B0118D; Mon,  4 Aug 2025 21:59:39 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 02B54B01170;
+	Mon,  4 Aug 2025 21:59:27 +0000 (UTC)
+Date: Mon, 4 Aug 2025 23:59:25 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 54/65] media: hantro: Access v4l2_fh from
+ file->private_data
+Message-ID: <aJEtPd_-IzQZVBfl@shepard>
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-54-eb140ddd6a9d@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|BL3PR12MB6644:EE_
-X-MS-Office365-Filtering-Correlation-Id: 326000b3-c534-49e7-cbea-08ddd39ea49b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?K05LM3ZsdDRDb3FGVWtYb1ZxVHZCcTdnYytzVDhqY1hPcFJjd2QydXRBZkQy?=
- =?utf-8?B?MjNHaDZtWk5pakxFYnA5ZVFzdjV0cVhHOVkzanY0ajlmblZoTm9oaWJBSjlX?=
- =?utf-8?B?MG9QbDN0M1R5VFZTV3lUWUw2cENQTytuSmdjWEZCYjhyV3hVYTY4ZnkwVlM4?=
- =?utf-8?B?eE9TQUZvbzZYVjFpSExRem5UZHJqZlpaeDdidGFoZFMvWUhnTndkb0JmUHEx?=
- =?utf-8?B?UkVLTXowTEFpM1hld1cwdVJTckQ2cVRVS25abzBSeHFXWDJSdms2Z3diUkR4?=
- =?utf-8?B?ckF0cVlhOElvYUVIbmVscmVGNHBHaklPN24rSkgwS0lkMDQzSFVIQVZ1S1c4?=
- =?utf-8?B?dkRBRnV2WTAzNmpMd0VZSEVnaXFYK0NpNHk4ODRHYzV6ZWdaWlNyUzFmbm1C?=
- =?utf-8?B?WTZuL2JmVUM2NjNJMjVtSUlqTHd1QW5UR25RcythMmQ1K05zbjl5ZVdrSFVL?=
- =?utf-8?B?VnBaOUZGdEduSys0ZkZZNXlncDE3QTY5NVVydjB4dFhsSmI4dHMrSEZyeEFR?=
- =?utf-8?B?NzFlakptNnFoRnFmQkc2aVJNY2VSSnJid29TM1BnUERVZ3ExTjFVd29aNFc3?=
- =?utf-8?B?b25pdUp2REJhc2Q2YmIwL3FNWk9PWEVqa0l0L3hTVGtlSUMwbi9STU1CdnVS?=
- =?utf-8?B?bXhYMzhaUEMxSDAyc2RpUTVLNXBYYjJqOHhLajFrRjdKRmlVeCs5QzRlWGd5?=
- =?utf-8?B?eGwxN1AvYzZha1JhVHl1NncrM0JLbldSc1BRNlprVzlGbGIydFNabUIwRHRD?=
- =?utf-8?B?MmlkdGJlSzRJWlZERE9iTG44NThhcDZYK1ROZHhZazFRV05xQlIvTmNOQ0I0?=
- =?utf-8?B?b2k2eXdxZnZKdE93ZDRzVGxiL1NSWHBabjRIbXBvZVIvbEo3ZUJiNlVIYnJQ?=
- =?utf-8?B?L1hYYTVUYWp2MlYxKzlmb0JWVTFsQ2ZFVEYwN1QxcWRuMnZ5a1FZaUFiYUZm?=
- =?utf-8?B?b1p4STNuczY0NDRrMmxZZlJCZnN4VW1VcUw4OC9lbUYyWjZXa1hDUmFOeVBM?=
- =?utf-8?B?MXN6ak13Sjd4bW04WmlFSG1ZYWhXTE5sMk90ZDd6OGdUdEZDekRMOFJRcHVT?=
- =?utf-8?B?U204N3p5dFh3UXFmMEUwbC9pdDB4Q0JGeUN4aEl3c0ZZd3g5endGRmdNejVl?=
- =?utf-8?B?cTVFV0FyVlZQZGVLNEVkVFVQd2NMUzMyYXVQaFNtZkh5NFJlTUE0UFIvWlRn?=
- =?utf-8?B?akI5amdIc24wd3pXTTZuSGJGUXFaNnlsdDczYTdoc3BEZzIvSzNIK2VJNFhJ?=
- =?utf-8?B?KzQyUlhjQVprWDcyaHloOTVXQlBMUkthSUFYY0RBQlZaMlZpZ1pkZjV4bEpj?=
- =?utf-8?B?eC9hVW0xcUgxK1BnbUZlYWVseDloNVNvTW8xQ1VXbFhXSHN1YUxaNE9XWnRJ?=
- =?utf-8?B?QUx0Y3F2TGdBSkxMUkRCczVlOUJ5c05yN0diSEtDSnhNWUxzYzhsNllkdDhR?=
- =?utf-8?B?eFJDV1VKa0tSbHYrT1UrUjd5Zkw5ZXFWRmJzMlYxL3pHektHNjErcnpvMHBJ?=
- =?utf-8?B?Z0hVZjBXcHhUWnBsUXR5dlgycEx6TGplOXpOUFpGWk5adXpTY3FtQndFM0lD?=
- =?utf-8?B?bWVLRjZUMkNSTG9YMEViZVFVQnBmeDVGZVJadGdOalFLSCtLYndNUklWUkJO?=
- =?utf-8?B?NTFCUjQzN1FwbzFEUkFJbGM0OHRFdUd6bUlxb2I0NUNUQlpmL1NvRmZmcUdr?=
- =?utf-8?B?QUtTVG1qU1JsRElHN0ZFSStjcEFYTENzNmNsYnBFdmlocEhHZUl6QldCcjkv?=
- =?utf-8?B?Sk9pWG4wVHp0V2xvQWt3TlBLcFdMN24rSy8rKzlHRWxBV1FXeWZpZUUzRlly?=
- =?utf-8?B?OEtVQUVYNkVuM0tmRCtFL3FxRm83V0FsTEF1TCtFTy9MUWIyVG4xRGduL041?=
- =?utf-8?B?ajBPdmIwTkdVT2JFWElHMVkwU3VMZFkwWDF3NUpYT05RR1VqQWRvYVV4MzRX?=
- =?utf-8?Q?GLarE7pfJR8=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MXM0S2pKNDMzaGpnUnp1WnJEOTVIWEFhbWJwb1BuZG1CWUNNZ1AwZzRDdGc4?=
- =?utf-8?B?eUpEYlB3cjVrWlBPd3BGaVZNK3dPVU9sb2JoWTVYTUJCaWY3SmJiRElXbjB2?=
- =?utf-8?B?NGhOTTRhRWhrelFzTWZhcmljaWoyRXkvV1ZkUUowNGVyOTN1TU1YSHNEMDhD?=
- =?utf-8?B?TWFLc3NOb1JnekU5RVljaTNwS0RwR3gzaHRTMXV3QmxoS3Z2aEh2YmpySXNY?=
- =?utf-8?B?RXFMRmx1dnp2YzdkemkzWGxVU1hYOWtNajJnWTNyTUlEemZHWEpmVkpxTzEv?=
- =?utf-8?B?ai9FT0ZkbmQ4UkhrSzNrMVJ4cHErZEt0UG1CUkJuVEtWTGl2K0E0SmZuK3Ns?=
- =?utf-8?B?dWMzVGMwcHVoV295QURBOFY2b2ZxcGYwd2dsVzJZUEpKemxMK2VMQnU1ZTVR?=
- =?utf-8?B?UjgwWFZPZ255MnRXWWVoT0VDVy82RzA4akQrb0JDOE1kNURnd3UwelpjVHBr?=
- =?utf-8?B?NFlRK25qZmlJcEJ3NzdnMUk2VzIvcVBaaWJhNGQ1RHdpM0FBaXhzbE5CNmJu?=
- =?utf-8?B?OVB5UjJlYlZKaU01RC80RTdUYlNUSFJLTUZ4eE4wOUMwQTZBcFljRzAxRGNN?=
- =?utf-8?B?aTM0a0xNa2c4SC9XcWlvUXJsd2dZck8rdmVCb0RiaVFCd3pJakVJYjVJOTJF?=
- =?utf-8?B?UXZSWHArY3RTcXpCOWx0RHdpL292dGZLMmNaYW9hc2xoamI4UG9aaUpPeHJz?=
- =?utf-8?B?aCszRkUxc3FDL051TFhScjA4b1hiVCs5SWxIb0poN0lNbXhTU2x0V3laclA4?=
- =?utf-8?B?VlVzQzhvb3o2eTRxR0phRW12ZU5SY1VkSjVQN3FtZ1lVSXZ5aTUzUVY4VGhH?=
- =?utf-8?B?dWNRdTM3YXNsZnpyUENDeWkyclUySjVEYkkycE94UGo2R1hPV25ZQm5PMlo2?=
- =?utf-8?B?WGJFZEhzRmhNd2ZvdE5wZXV6WURSaVo1c3BaRUNHUXNlTDh6K3lzTkhuRVNt?=
- =?utf-8?B?UUZDaHdMYlpNUlBFcXBVOFNDdGxhUml2NkpiSWcxSFJRcFN2Q1FERXlpRlNQ?=
- =?utf-8?B?cERMZXQzRVovUTV5TEJsbEdHYlREM3FZRmQ5L0RhRmsrUEt6Mk40YzYrQ3lP?=
- =?utf-8?B?QnlUZG04clNYeE5qTnZoaWhwbUo4aUI2T1dwTW90bDhpWmZVMW1VRHd0SUxK?=
- =?utf-8?B?bm0xT2Z4TXREOTg4TUJmRUR6THI0eUdEK1VxTzVNZHlvbGRmWWhFSFZiUWs3?=
- =?utf-8?B?MDNnNWtsYlpUR0k3czFaMTFpdU9BRTVROFZ6NGVGQkhNblREQXRVYyt4NTRj?=
- =?utf-8?B?WkpGUWJwUGlTUGFtVFRJd2ZlNHZLQU8wVlV0VXhic3FjWXNydXBkOVRrT1NK?=
- =?utf-8?B?NUE2cU9oNGJIQ0NxSjgrU1VQQWZwNnQzVVFTRVJIQ3FQaTNTZHYwajRrVSts?=
- =?utf-8?B?NkYxcUdqZVZsRjdlQnROU0xIcDZoeVRJdkUzWEcySDBhZHo3SGZjT3BpSFFm?=
- =?utf-8?B?Rmh4Q0wzR0NmajAxZkFCWnpva0MxMEVCSE92T0N3Y0Y2aFhXUVVZYXRmMkd6?=
- =?utf-8?B?S201WVBoL1RCcDErUThWdW15M0RsdW9mYklhNXJGQU5XZmt1UXFHV1RTNzdy?=
- =?utf-8?B?eVJsYnBnMHRVNDBrUmUzVnJEdStweElXbnRNM0IveDZIREg2SE8yMnJuQU9V?=
- =?utf-8?B?Ni9FVWtNelZGWktHdkpUTE4yVFl1d0ZZSG5QM2h4emN1MXJGaDh6djFpRTVV?=
- =?utf-8?B?Um40N2tXYkg5RXMxeVdyS2dvd2xyZ2dlYlJwNStWSlYzTTZETnNkaWRvMW1Z?=
- =?utf-8?B?MjZicXp6MStxZ3RKQm5yS3ZDcnNEMUI3ZnFBcFBZK1BneWtQSGRUR1Nva1gy?=
- =?utf-8?B?a05aLzZ6WTYwc2VXajRmNEEyUFhsTFE5WlYzYnkybDFVa0kyWEdSdllDU3Bz?=
- =?utf-8?B?czA4a2k5U1BEc29qTzU1TWFXR2twNzUzWXBnL2sveVhNTkJDUGliZkRhQmIr?=
- =?utf-8?B?aDE5aDNqUjljOVdrbFNaREUxVGZpUnAwR1ZwNXc3TmhqSzQ2QXgrVVIvOThV?=
- =?utf-8?B?aGRrRE1xa2I4OTlaTjkxZE1CT1dQbCt5TFJKVTdybWszaEVlV2k1WDRYUTR1?=
- =?utf-8?B?V1dNUGRzYURaRS9mSWE2U3Z3b2JsR2VtcG5YQW40UVhSdnN6Z2N5QUJScWNs?=
- =?utf-8?Q?PMlY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 326000b3-c534-49e7-cbea-08ddd39ea49b
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2025 21:34:07.8357
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OjzXYR8w3xaRoNL7derT+VgsKXSW4/tHSbMFgRAd4zwCkhCZ5xzQCNTvVI7VF5XL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6644
-
-Hi Reinette,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/6X2y1A/1uo421sv"
+Content-Disposition: inline
+In-Reply-To: <20250802-media-private-data-v1-54-eb140ddd6a9d@ideasonboard.com>
 
 
-On 7/21/25 18:28, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 7/10/25 10:16 AM, Babu Moger wrote:
->>
->> This series adds the support for L3 Smart Data Cache Injection Allocation
->> Enforcement (SDCIAE) to resctrl infrastructure. It is referred to as
->> "io_alloc" in resctrl subsystem.
->>
->> Upcoming AMD hardware implements Smart Data Cache Injection (SDCI).
->> Smart Data Cache Injection (SDCI) is a mechanism that enables direct
->> insertion of data from I/O devices into the L3 cache. By directly caching
->> data from I/O devices rather than first storing the I/O data in DRAM, SDCI
->> reduces demands on DRAM bandwidth and reduces latency to the processor
->> consuming the I/O data.
->>
->> The SDCIAE (SDCI Allocation Enforcement) PQE feature allows system software
->> to control the portion of the L3 cache used for SDCI devices.
->>
->> When enabled, SDCIAE forces all SDCI lines to be placed into the L3 cache
->> partitions identified by the highest-supported L3_MASK_n register, where n
->> is the maximum supported CLOSID.
-> 
-> Even though this CLOSID use is unique to AMD this implementation makes it part
-> of resctrl fs's support of io_alloc. It is confusing to have architectural
-> specific features be handled by resctrl fs so I think it will be useful to
-> add a snippet here to help folks trying to decipher this work. Consider
-> for example a snippet like:
-> 
->   Since CLOSIDs are managed by resctrl fs it is least invasive to make
->   the "io_alloc is supported by maximum supported CLOSID" part of the
->   initial resctrl fs support for io_alloc. Take care not to expose this
->   use of CLOSID for io_alloc to user space so that this is not required from
->   other architectures that may support io_alloc differently in the future.
-> 
+--/6X2y1A/1uo421sv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sure.
+Hi,
 
->>
->> The feature details are documented in the APM listed below [1].
->> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
->> Publication # 24593 Revision 3.41 section 19.4.7 L3 Smart Data Cache
->> Injection Allocation Enforcement (SDCIAE)
->> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
->>
->> The feature requires linux support of TPH (TLP Processing Hints).
->> The support is available in linux kernel after the commit
->> 48d0fd2b903e3 ("PCI/TPH: Add TPH documentation")
->>
->> The patches are based on top of commit (6.16.0-rc5)
->> commit b4ec95e3bc3f ("Merge x86/microcode into tip/master")
->>
->> # Linux Implementation
->>
->> Feature adds following interface files when the resctrl "io_alloc" feature
->> is supported on the resource:
->>
->> /sys/fs/resctrl/info/L3/io_alloc: Report the feature status. Enable/disable the
->> 				  feature by writing to the interface.
->>
->> /sys/fs/resctrl/info/L3/io_alloc_cbm:  List the Capacity Bit Masks (CBMs) available
->> 				       for I/O devices when io_alloc feature is enabled.
->> 				       Configure the CBM by writing to the interface.
->>
->> When CDP is enabled, these files will be created both in L3CODE and L3DATA.
-> 
-> "will be" -> "are"
-> 
+Very nice cleanup, glad to see this abstracted away from drivers!
 
-Sure.
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
 
->>
->> # Examples:
->>
->> a. Check if io_alloc feature is available
->> 	# mount -t resctrl resctrl /sys/fs/resctrl/
->>
->> 	# cat /sys/fs/resctrl/info/L3/io_alloc
->> 	disabled
->>
->> b. Enable the io_alloc feature. 
->>
->> 	# echo 1 > /sys/fs/resctrl/info/L3/io_alloc 
->> 	# cat /sys/fs/resctrl/info/L3/io_alloc
->> 	enabled
->>
->> c. Check the CBM values for the io_alloc feature.
->>
->> 	# cat /sys/fs/resctrl/info/L3/io_alloc_cbm 
->> 	0=ffff;1=ffff
->>
->> d. Change the CBM value for the domain 1:
-> 
-> "for the domain 1" -> "of domain 1"?
+All the best,
 
-Sure.
+Paul
 
-> 
-> (nit: inconsistent use of "." vs. ":" in items)
+On Sat 02 Aug 25, 11:23, Jacopo Mondi wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>=20
+> To prepare for the introduction of video_device_state as second argument
+> of the v4l2_ioctl_ops handler, access the v4l2_fh from
+> file->private_data instead of using void *priv.
+>=20
+> The file->private_data is initialized to point to the v4l2_fh
+> by the usage of v4l2_fh_init() in the v4l2_file_operations.open()
+> handler.
+>=20
+> While at it remove the only left user of fh_to_ctx() and remove
+> the macro completely.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  drivers/media/platform/verisilicon/hantro.h      |  5 -----
+>  drivers/media/platform/verisilicon/hantro_v4l2.c | 22 +++++++++++-------=
+----
+>  2 files changed, 11 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/=
+platform/verisilicon/hantro.h
+> index 0f10714f1953945472e11d8c8ad87f8ec009b39f..e0fdc4535b2d73c5260057b0a=
+89aee67a4732dd2 100644
+> --- a/drivers/media/platform/verisilicon/hantro.h
+> +++ b/drivers/media/platform/verisilicon/hantro.h
+> @@ -382,11 +382,6 @@ extern int hantro_debug;
+>  	pr_err("%s:%d: " fmt, __func__, __LINE__, ##args)
+> =20
+>  /* Structure access helpers. */
+> -static __always_inline struct hantro_ctx *fh_to_ctx(struct v4l2_fh *fh)
+> -{
+> -	return container_of(fh, struct hantro_ctx, fh);
+> -}
+> -
+>  static __always_inline struct hantro_ctx *file_to_ctx(struct file *filp)
+>  {
+>  	return container_of(file_to_v4l2_fh(filp), struct hantro_ctx, fh);
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
+edia/platform/verisilicon/hantro_v4l2.c
+> index 7c3515cf7d64a090adfb8d8aff368f9a617f8c8a..6bcd892e7bb49c654aae58416=
+64d68c1692064bd 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -185,7 +185,7 @@ static int vidioc_querycap(struct file *file, void *p=
+riv,
+>  static int vidioc_enum_framesizes(struct file *file, void *priv,
+>  				  struct v4l2_frmsizeenum *fsize)
+>  {
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+>  	const struct hantro_fmt *fmt;
+> =20
+>  	fmt =3D hantro_find_format(ctx, fsize->pixel_format);
+> @@ -217,7 +217,7 @@ static int vidioc_enum_fmt(struct file *file, void *p=
+riv,
+>  			   struct v4l2_fmtdesc *f, bool capture)
+> =20
+>  {
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+>  	const struct hantro_fmt *fmt, *formats;
+>  	unsigned int num_fmts, i, j =3D 0;
+>  	bool skip_mode_none, enum_all_formats;
+> @@ -297,7 +297,7 @@ static int vidioc_g_fmt_out_mplane(struct file *file,=
+ void *priv,
+>  				   struct v4l2_format *f)
+>  {
+>  	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =20
+>  	vpu_debug(4, "f->type =3D %d\n", f->type);
+> =20
+> @@ -310,7 +310,7 @@ static int vidioc_g_fmt_cap_mplane(struct file *file,=
+ void *priv,
+>  				   struct v4l2_format *f)
+>  {
+>  	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =20
+>  	vpu_debug(4, "f->type =3D %d\n", f->type);
+> =20
+> @@ -398,13 +398,13 @@ static int hantro_try_fmt(const struct hantro_ctx *=
+ctx,
+>  static int vidioc_try_fmt_cap_mplane(struct file *file, void *priv,
+>  				     struct v4l2_format *f)
+>  {
+> -	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
+> +	return hantro_try_fmt(file_to_ctx(file), &f->fmt.pix_mp, f->type);
+>  }
+> =20
+>  static int vidioc_try_fmt_out_mplane(struct file *file, void *priv,
+>  				     struct v4l2_format *f)
+>  {
+> -	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
+> +	return hantro_try_fmt(file_to_ctx(file), &f->fmt.pix_mp, f->type);
+>  }
+> =20
+>  static void
+> @@ -648,19 +648,19 @@ static int hantro_set_fmt_cap(struct hantro_ctx *ct=
+x,
+>  static int
+>  vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_forma=
+t *f)
+>  {
+> -	return hantro_set_fmt_out(fh_to_ctx(priv), &f->fmt.pix_mp, HANTRO_AUTO_=
+POSTPROC);
+> +	return hantro_set_fmt_out(file_to_ctx(file), &f->fmt.pix_mp, HANTRO_AUT=
+O_POSTPROC);
+>  }
+> =20
+>  static int
+>  vidioc_s_fmt_cap_mplane(struct file *file, void *priv, struct v4l2_forma=
+t *f)
+>  {
+> -	return hantro_set_fmt_cap(fh_to_ctx(priv), &f->fmt.pix_mp);
+> +	return hantro_set_fmt_cap(file_to_ctx(file), &f->fmt.pix_mp);
+>  }
+> =20
+>  static int vidioc_g_selection(struct file *file, void *priv,
+>  			      struct v4l2_selection *sel)
+>  {
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =20
+>  	/* Crop only supported on source. */
+>  	if (!ctx->is_encoder ||
+> @@ -691,7 +691,7 @@ static int vidioc_g_selection(struct file *file, void=
+ *priv,
+>  static int vidioc_s_selection(struct file *file, void *priv,
+>  			      struct v4l2_selection *sel)
+>  {
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+>  	struct v4l2_rect *rect =3D &sel->r;
+>  	struct vb2_queue *vq;
+> =20
+> @@ -738,7 +738,7 @@ static const struct v4l2_event hantro_eos_event =3D {
+>  static int vidioc_encoder_cmd(struct file *file, void *priv,
+>  			      struct v4l2_encoder_cmd *ec)
+>  {
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+>  	int ret;
+> =20
+>  	ret =3D v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
+>=20
+> --=20
+> 2.49.0
+>=20
 
-Fixed it.
+--=20
+Paul Kocialkowski,
 
-> 
->> 	# echo 1=FF > /sys/fs/resctrl/info/L3/io_alloc_cbm
->>
->> 	# cat /sys/fs/resctrl/info/L3/io_alloc_cbm 
->> 	0=ffff;1=00ff
->>
->> d. Disable io_alloc feature and exit.
->>
->> 	# echo 0 > /sys/fs/resctrl/info/L3/io_alloc 
->> 	# cat /sys/fs/resctrl/info/L3/io_alloc
->> 	disabled
->>
->> 	# umount /sys/fs/resctrl/
->>
->> ---
-> 
-> Reinette
-> 
-> 
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
 
--- 
-Thanks
-Babu Moger
+Expert in multimedia, graphics and embedded hardware support with Linux.
 
+--/6X2y1A/1uo421sv
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmiRLT0ACgkQhP3B6o/u
+lQzrNQ//exzkeWe4akWNjtSBn1Bl653EfO7v/aMS3Y3CCAKwErQrOulake7C7uWp
+FWmge5iMC9U/bJjnJn6lW9WfRnVUXmp5akqOeWHMSQNTJOKjpKKu2vbmpqvYuw8/
+EZ2UXBGtg72QjRVuzMJ+SE6pK4JPFM8d4TgJxzk49W5ABja+ipgEbdccHOOiSC6+
+uFVnPmJI1kOcxLhh4CLeJsq2rbT56LiAWFj/BcsoRnz0+2o3/E8FL3f2KG5T4/Hj
+6hZjsZySX3X+bwDVFBhMXv1d/ecgXPjUrdhj2kM+v50DMAu1jbz9aNM1kFzxA01q
+9uh4AeSC65gQ8YnjC8mUo9BH/9JWzvf8SsGLTqLfDxkaHZcs5dIfqvNkmTs+sAM9
+syJ2hplhAYUk20Pn/AAda2drxoqYYnUjt6R+UOaVcaJMLIr2z8CS60rWr2+Uwhpd
+njA1mv/Zih/rq8uNN8l+j4DAQabNh8g/LPeroTO0/eF5WsPTvZM/BKtKrJgoy3Rv
+E+C0EwaEiCNxZH9vUSmqw/DkWRX2CBe6NoDzUGwjWGJeSAjSCgbklwdyUuhKaJq0
+MTDz/VZ2xLIMFm8RRFfYBjKohUK+RXA2OHHst4bQGq0rvjqtJo9yd3UzIFz+ww+L
+VpD0vh+lndjqAQHcpftyzMcgB6AVADDZydaRUFdLGm9OHaeZA5k=
+=4/Uq
+-----END PGP SIGNATURE-----
+
+--/6X2y1A/1uo421sv--
