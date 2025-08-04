@@ -1,200 +1,522 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0085C2040BF;
-	Mon,  4 Aug 2025 15:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3394C1D5CED;
+	Mon,  4 Aug 2025 16:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754323154; cv=none; b=r2ziU3K2+CxY1BBA4ldTJXfFcJCOqzdvZkD3gO1uss7+Tq2Z23ecEFhsIy8cucFHItvgRTSSxe4MCBPVB20Ukfv5y/TqHTxTFSIhMg70U8nf2a8vkbodGN1jbMyCCKJeCShIxjcOep9gVzhur8t+zyGZ/FohlmHg+3S3tNOZEcw=
+	t=1754323235; cv=none; b=eTV7Wz8mOu+tS+A6Pg70CovMqDEYLHGUDB99dNItPOPj3HttTtkTKvD0Df5xMSG1+E5kUb9HBVR4AylCpNkOa5n8AWhmXOAAT0fKqZSzjDCby44twbawqxrms4mLCRNb7Kl6jx0HxWYcut59JWc2AEjLKq084wy41wm2kyMS9t0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754323154; c=relaxed/simple;
-	bh=sd1DyY6a3415VkW6baLPe78I+RH8CXZI1Y8mTPQ+22M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qurcWxcjAZTTU0MCoO0rcQ0ia3ndH5unRL0qntsktohfUEmOhLdCSiJ5GdhdwhHmQBgqzTGzA1j5H6Sb0R9jYGG2uH1uR77aAtlGOr/qqezR/hqP/iBvvBsA5ZiKkpF16lS6y5P/jKdPTCGRWa+6MYOVpLC4PuHhktNR86uZcQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZeOAckk; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754323235; c=relaxed/simple;
+	bh=1w/aU9y4PeDCSnK+5gPtQHjjxVpMkSUDD6zLoXvEwGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BUM8l+geeG7jMZGTTwDkF3f36ewuMej18QuVHXRx/BmnZUXofAzaM7e4rBEyFTegfuf2IfzsMFsf0YT1/zv60h56soMRe8di/1D/yQGGXJQigMwRZlBjN5r98ng5svLAh1DF4ur6p3IKVTaPEm0JJnVgirX5V3CHlRynLWQDxqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XIZzxXiU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZeOAckk"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76bd6e84eddso4396863b3a.0;
-        Mon, 04 Aug 2025 08:59:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754323152; x=1754927952; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=3D7R9Rrhve+hM9PUIlOpvhIjLJ/daYnHplpqSry3RH0=;
-        b=DZeOAckkqx54sPj2QecnVdkeWOoNT/uf9s0J+j1cL8zdYtRlu4wtvMCT+sjZdM4pBK
-         lENSR1XkY9xXLku3eyAVjva5jgUoyPButjzfhDJ64Ek4uqNcmYE18Jk2nvYXZRlgXlAs
-         /GB729PNT48IgIk7hT6xqQzS9UQGkVfjJW9nz5sYu7Us98HKSCFStu4nnmEnikdcAsiQ
-         nvihj0fxLGYOJfBoq3BMApiuWFqx/Q7fBMJgo+CIqYzfFXdydf93cGr5pGRd4Fsg0tLj
-         B+hEEOQLxf12z+sbtTQ803PVPMtBdKZOk/BcHlZVHUGLqmlGIHAUr/EAs51AsVM0ySFP
-         Enpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754323152; x=1754927952;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3D7R9Rrhve+hM9PUIlOpvhIjLJ/daYnHplpqSry3RH0=;
-        b=o1wlqCpCmZ8oYOZDfJ1E47Po6svZdpgVQM9uu8fvjwdKx3DPQRnYOsWezk5VqJXrEL
-         nAyFXKQEw6a81AehbArHTPeMMHUZoe6imFwOiIeR6E2G3JySLOZ8704kyKhmLyTKrnt8
-         wahMmjQZwOsjwNL/8qlCkyAISiWq4xSrW9HkicousGMZeIGbwrOABjPXK+4+hBc2C5bO
-         c9AKprZezYwrz5UTWNl7An0ipCediO2lwPikIcisJGtE1iZMesOqtzJ9B0q3j2LekGH5
-         vXmY3n7n7V+eVC7tmWXAF+/ZEYlDEBBz+c0ywkcDzkf+IdKZILLbjTLmNIw8dSSN62Y2
-         OB8A==
-X-Forwarded-Encrypted: i=1; AJvYcCV2bF1qEyxvfS9rZwdO3y5rlGXQeyHf9LtnPryU57PfnderUv+Pqsm19wWIPXKj9qETQ8Yy0yASDzYQ@vger.kernel.org, AJvYcCWU61isSw0g+mnUKWoGVUQKNAG/kZZ2VIzOAMN6VJ6DJmDvnw/KPy/kjQn01RT8z9NcJSK61VDg+WFkuE57@vger.kernel.org, AJvYcCX8283uotJHtbl2rwHiZuCi1y/iFCvHFk7/q3pwnYEB+LVUezHbgG3QuX0wTNExXBOOtXV8M/O6Pj9XitM=@vger.kernel.org, AJvYcCXp0uoCaVa4O+Zgn5G0hwuL9COGqUjJ9f/HrD4bdkUVgf52s1QihodAaCx25tz2dl3hGSHgmt98qZey@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbOPbX5omS4VptUGJurtTtXDC+dIxgRk2FC8TIVWy2u2OBkKKa
-	LjGFpb1MbdmWlyWCs01apq46WTKUALRMERXPU/luODevGbeMC2iCII5Q
-X-Gm-Gg: ASbGncufoMiLhfi4dKvIEqJhCezPJnMwlLV3XhOz3ejzYJ4dW9WSC7JvlwJCSVBv64T
-	IPIybvOZlq5PPVjrPE7PI0hhB2ctne4eRgmSJrPgYOZfkhI9YeESwHvpzhpXyfDY2fe4FygUsaO
-	2MA2l4ICbiUMA6HH+RYEaX2qJHI7OX/qefS1IGfnOl+txB0ZCQ1myu36dML9sgGta5kBQbER4dI
-	mM8S/Qx/QMkZWAoFwYUNK5xcJALdMIKNaDxSWzFrK9tr2LBKsiyjHVnkBjAHYsk0OFbmRht8xJ/
-	kP0GrPFlqAfQg+cQvoaF7uZiPMEcGzRSkPYJuWOf9EvD5T+mngfCxeHb3u20Cy+4uCsqAKlEf9Z
-	qj+yyGRuCByIg2rqklabpgtjYg6q2w8ydZ6KHlIpWVgN/qErXvkq8N+Xw3SDHLU+sKUPNZ8Y=
-X-Google-Smtp-Source: AGHT+IFIjfh7+B5gIa+W7wBeAos+g9NcG4vkouxm4nYWg0auWlvWAzh5TCtv529Y+kQX/Tuai8CTqw==
-X-Received: by 2002:a05:6a20:b598:b0:23f:fd87:427c with SMTP id adf61e73a8af0-23ffd875051mr8683696637.18.1754323152281;
-        Mon, 04 Aug 2025 08:59:12 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b422b7ceb3fsm9293138a12.22.2025.08.04.08.59.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Aug 2025 08:59:11 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <48996ed0-8d5f-4bb0-ab66-8be71c0a59e4@roeck-us.net>
-Date: Mon, 4 Aug 2025 08:59:09 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XIZzxXiU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57CCFC4CEE7;
+	Mon,  4 Aug 2025 16:00:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754323234;
+	bh=1w/aU9y4PeDCSnK+5gPtQHjjxVpMkSUDD6zLoXvEwGs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XIZzxXiU3vOTugZBQ6DYOwWBHoF3/90PjJgWfnnU1VYIyklZ+fXwGUEG1wc5OU/tv
+	 we6/FpZ6QFRMeXthJjYSBUEQhEfXzchhI2+qavAZVFy0MhGFIfr5ty7EEqYJxpF2k3
+	 qd3V9JOYyod/ujxSKl+qFk2umyOxM6+/irye5uQ3EoRVSzjYpLaDxoQSWgWX5JUU/6
+	 rCKD1XHaFOfKt0ZlfWKxFRZcm2GuT9acO88ekkrJ4sOjBHMplhMcR85STzNr3HUgCX
+	 bx6aVO22kT0zXh1xviTDlhiidlW9wYE38OS489Rn1NfTXiWysRS7kOlv+R5+YoOiJu
+	 XPeO3kq/2RlnQ==
+Date: Mon, 4 Aug 2025 18:00:29 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 03/12] docs: kdoc: backslashectomy in kdoc_parser
+Message-ID: <20250804180029.11b8c310@sal.lan>
+In-Reply-To: <20250804145818.3cc73ca2@foz.lan>
+References: <20250801001326.924276-1-corbet@lwn.net>
+	<20250801001326.924276-4-corbet@lwn.net>
+	<20250801062710.552dac5a@foz.lan>
+	<87h5yrruki.fsf@trenco.lwn.net>
+	<20250804145818.3cc73ca2@foz.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: adm1275: add sq24905c support
-To: ChiShih Tsai <tomtsai764@gmail.com>, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: jdelvare@suse.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, corbet@lwn.net, t630619@gmail.com
-References: <20250804124806.540-1-tomtsai764@gmail.com>
- <20250804124806.540-2-tomtsai764@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20250804124806.540-2-tomtsai764@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 8/4/25 05:48, ChiShih Tsai wrote:
-> Add support for sq24905c Hot-Swap Controller and Digital Power Monitor.
-> 
-> Signed-off-by: ChiShih Tsai <tomtsai764@gmail.com>
-> ---
->   .../bindings/hwmon/adi,adm1275.yaml           | 20 +++++++++++++++++++
->   1 file changed, 20 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml b/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-> index ddb72857c846..6aa300086c84 100644
-> --- a/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-> @@ -30,6 +30,7 @@ properties:
->         - adi,adm1281
->         - adi,adm1293
->         - adi,adm1294
-> +      - silergy,sq24905c
->   
->     reg:
->       maxItems: 1
-> @@ -46,6 +47,18 @@ properties:
->       $ref: /schemas/types.yaml#/definitions/uint32
->       enum: [1, 2, 4, 8, 16, 32, 64, 128]
->   
-> +  silergy,volt-curr-sample-average:
-> +    description: |
-> +      Number of samples to be used to report voltage and current values.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [1, 2, 4, 8, 16, 32, 64, 128]
-> +
-> +  silergy,power-sample-average:
-> +    description: |
-> +      Number of samples to be used to report power values.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [1, 2, 4, 8, 16, 32, 64, 128]
-> +
->   allOf:
->     - $ref: hwmon-common.yaml#
->     - if:
-> @@ -96,12 +109,17 @@ allOf:
->                 - adi,adm1281
->                 - adi,adm1293
->                 - adi,adm1294
-> +              - silergy,sq24905c
->       then:
->         properties:
->           adi,volt-curr-sample-average:
->             default: 128
->           adi,power-sample-average:
->             default: 1
-> +        silergy,volt-curr-sample-average:
-> +          default: 128
-> +        silergy,power-sample-average:
-> +          default: 1
->   
+Em Mon, 4 Aug 2025 14:58:18 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-I personally don't think this warrants new properties. However, if warranted,
-this needs to be qualified to only apply for the Silergy parts.
+> Em Fri, 01 Aug 2025 08:21:49 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+>=20
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> >  =20
+> > > Em Thu, 31 Jul 2025 18:13:17 -0600
+> > > Jonathan Corbet <corbet@lwn.net> escreveu:
+> > >   =20
+> > >> A lot of the regular expressions in this file have extraneous backsl=
+ashes   =20
+> > >
+> > > This one is a bit scary... It could actually cause issues somewhere. =
+  =20
+> >=20
+> > What kind of issues? =20
+>=20
+> I caught several issues in the past due to the lack of it. Don't
+> recall the specific cases, but using reserved symbols without
+> backslashes have giving me enough headaches.
+>=20
+> Yet, see POSIX rules for some cases:
+>=20
+> 	https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html=
+#tag_09_03
+>=20
+> like this one:
+>=20
+> 	"The character sequences "[.", "[=3D", and "[:" shall be special
+> 	 inside a bracket expression"
+>=20
+> Basically, if you don't know exactly what you're doing, and just
+> place special characters there without extra case, you may be
+> in serious troubles. And see, this is just for BRE (basic regular
+> expressions). There are also other weirdness with ERE (extended
+> regular expressions):
+>=20
+> 	"The <period>, <left-square-bracket>, <backslash>, and=20
+> 	 <left-parenthesis> shall be special except when used=20
+> 	 in a bracket expression"
+>=20
+> > > Also, IMHO, some expressions look worse on my eyes ;-)   =20
+> >=20
+> > Here I think we're going to disagree.  The extra backslashes are really
+> > just visual noise as far as I'm concerned.
+> >  =20
+> > >> that may have been needed in Perl, but aren't helpful here.  Take th=
+em out
+> > >> to reduce slightly the visual noise.   =20
+> > >
+> > > No idea if Perl actually requires, but, at least for me, I do prefer =
+to
+> > > see all special characters properly escaped with a backslash. This wa=
+y,
+> > > it is a lot clearer that what it is expecting is a string, instead of
+> > > using something that may affect regex processing.   =20
+> >=20
+> > I guess my point is that, in the given cases, the characters in question
+> > *aren't* special. =20
+>=20
+> They are special in the sense that we're using characters that
+> have meanings in regular expressions and even placing them on
+> a random order may cause POSIX violations (and eventually cause
+> troubles if, for instance, we need to use "regex" instead of "re",
+> or if someone fixes python native "re" to be more POSIX compliant.
+>=20
+> > >> -        param =3D KernRe(r'[\[\)].*').sub('', param, count=3D1)
+> > >> +        param =3D KernRe(r'[)[].*').sub('', param, count=3D1)   =20
+> > >
+> > > This one, for instance, IMHO looks a lot worse for my eyes to underst=
+and
+> > > that there is a "[" that it is not an operator, but instead a string.
+> > > The open close parenthesis also looks weird. My regex-trained eyes th=
+ink
+> > > that this would be part of a capture group.   =20
+> >=20
+> > ...and mine say "that's in [brackets] why are you escaping it?" :) =20
+>=20
+> Heh, all those years writing and reviewing kernel code, for me
+> seeing unmatched parenthesis/brackets really bugs me... perhaps
+> it starts some sort of TOC syndrome ;-)
+>=20
+> Perhaps one alternative would be to have a separate var, like:
+>=20
+> 	# Before touching this, see:
+> 	# https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.ht=
+ml#tag_09_04
+> 	# As some char sequences inside brackets have special meanings
+> 	escape_chars =3D ")["
+>=20
+> 	param =3D KernRe(rf'[{escape_chars}].*').sub('', param, count=3D1) =20
+>=20
+> or to use re_escape().
+>=20
+> > >>          if dtype =3D=3D "" and param.endswith("..."):
+> > >>              if KernRe(r'\w\.\.\.$').search(param):
+> > >> @@ -405,7 +405,7 @@ class KernelDoc:
+> > >> =20
+> > >>          for arg in args.split(splitter):
+> > >>              # Strip comments
+> > >> -            arg =3D KernRe(r'\/\*.*\*\/').sub('', arg)
+> > >> +            arg =3D KernRe(r'/\*.*\*/').sub('', arg)   =20
+> > >
+> > > A pattern like /..../ is a standard way to pass search group with Reg=
+ex
+> > > on many languages and utils that accept regular expressions like the
+> > > sed command. Dropping the backslash here IMHO makes it confusing ;-) =
+  =20
+> >=20
+> > ...but it is definitely not any such in Python and never has been, so
+> > escaping slashes looks weird and makes the reader wonder what they are
+> > missing. =20
+>=20
+> After re-reading, this specific change is actually ok, but yeah, I
+> still need to read it twice or three times, as on sed, perl and other
+> languages that are more POSIX compliant, /re/ means a regex delimiter:
+>=20
+> 	https://en.wikipedia.org/wiki/Regular_expression
+>=20
+> > > Seriously, IMHO this patch makes a lot worse to understand what brack=
+ets,
+> > > parenthesis and dots are strings, and which ones are part of the regex
+> > > syntax.    =20
+> >=20
+> > So I guess I won't fight this one to the death, but I really do
+> > disagree.  Writing regexes in a non-canonical style just makes it harder
+> > for anybody else who comes along to figure out what is going on; it
+> > certainly made it harder for me. =20
+>=20
+> Heh, for me, my main concerns are:
+> - unmatched brackets/parenthesis
+> - POSIX violations - it may work today, but future Python versions
+>   that fix "re" module will cause regressions. It is also annoying
+>   to write/understand regex that only works on Python.
 
-Guenter
+In time: I mean *possible* POSIX violations.=20
 
->   required:
->     - compatible
-> @@ -121,5 +139,7 @@ examples:
->               shunt-resistor-micro-ohms = <500>;
->               adi,volt-curr-sample-average = <128>;
->               adi,power-sample-average = <128>;
-> +            silergy,volt-curr-sample-average = <128>;
-> +            silergy,power-sample-average = <1>;
->           };
->       };
+I very much prefer more backslashs than needed or use re.escape()
+than to read thoughtfully POSIX and Python-specific specific rules.
 
+Python, in particular, is not very reliable between versions - each
+new version comes with a set of incompatible changes.
+
+Regex in Python for instance had incompatible changes in 3.6, 3.7, 3.11
+and 3.13 (according with a LLM query I did). None relevant for our cases,
+but there were incompatible changes on 3.6, 3.7 and 3.13 on common=20
+patterns like \b (affecting re.split) and \w (affecting utf). The number
+of escaped chars on re.escape() also increased on 3.7.
+
+In summary, if you agree with always escape brackets, curly brackets and
+parenthesis inside brackets on kernel-doc, we should be free of not
+opened/not closed "symbols" with is an annoyance at least for me, and
+we should be freed of possible POSIX issues and undefined behavior(*).
+
+On such case, feel free to add my Reviewed-by.
+
+Regards,
+Mauro
+
+(*) Python spec:
+
+	https://docs.python.org/3/library/re.html#regular-expression-syntax
+
+    Says:
+
+	"Backslash either escapes characters which have special meaning in=20
+	 a set such as '-', ']', '^' and '\\' itself..."
+
+   Here, "such as" is vague: it doesn't say anything about "[[]" or "[\[]".=
+=20
+   As not escaping "[" is a POSIX violation, I'd say that this is undefined
+   behavior that could change with time specially if they want to stick
+   with POSIX and/or implement POSIX ERE in the future.
+
+---
+
+Btw, I asked a LLM (*) to generate a list of special chars inside brackets,
+listing how such characters are handled. Neither Deepseek nor Chatgpt
+considered brackets without escape as valid or good practice.
+
+That's the Deepseek version:
+
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+|                  | Python re | Perl      | POSIX ERE | POSIX BRE | grep -=
+E   | sed (BRE) |
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+| ] (not first)    | \]        | \]        | \]        | \]        | \]    =
+    | \]        |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| ] (first)        | ]         | ]         | ]         | ]         | ]     =
+    | ]         |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| [                | \[        | \[        | \[        | \[        | \[    =
+    | \[        |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| - (middle)       | \-, a-z   | \-, a-z   | \-, a-z   | \-, a-z   | \-, a-=
+z   | \-        |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| - (first/last)   | -         | -         | -         | -         | -     =
+    | -         |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| ^ (first)        | ^         | ^         | ^         | ^         | ^     =
+    | \^        |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| ^ (not first)    | ^         | ^         | \^        | \^        | \^    =
+    | \^        |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| \                | \\        | \\        | \\        | \\        | \\    =
+    | \\        |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| POSIX classes    | [:alpha:] | [:alpha:] | [:alpha:] | [:alpha:] | [:alph=
+a:] | [:alpha:] |
+| (e.g. [:alpha:]) |           |           |           |           |       =
+    |           |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| Special POSIX    | -         | -         | [.ch.]    | [.ch.]    | -     =
+    | [.ch.]    |
+| collating [.ch.] |           |           | [=3Da=3D]     | [=3Da=3D]     =
+|           | [=3Da=3D]     |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| *                | *         | *         | *         | \*        | *     =
+    | \*        |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| $                | $         | $         | $         | \$        | $     =
+    | \$        |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+| .                | .         | .         | .         | \.        | .     =
+    | \.        |
++------------------+-----------+-----------+-----------+-----------+-------=
+----+-----------+
+
+And using the LLM query produced by Deepseek, (see below), that's Chatgpt r=
+esults:
+
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| Feature                            | Python re  | Perl   | POSIX ERE   | =
+POSIX BRE   | grep -E   | sed (BRE)   |
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
+=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+| `]` (first position)               | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `]` (non-first position)           | \]         | \]     | \]          | =
+\]          | \]        | \]          |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `[`                                | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `-` (between literals)             | range `a-z`| range  | range       | =
+range       | range     | range       |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `-` (start or end)                 | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `^` (first position)               | negation   | negation| negation   | =
+negation    | negation  | negation    |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `^` (non-first position)           | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `\`                                | \\         | \\     | \\          | =
+\\          | \\        | \\          |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| POSIX class `[:alpha:]`            | literal    | literal| supported   | =
+supported   | supported | supported   |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| POSIX special `[.ch.]`             | -          | -      | supported   | =
+supported   | supported | supported   |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| POSIX equivalence `[=3Da=3D]`          | -          | -      | supported =
+  | supported   | supported | supported   |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `*`                                | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `$`                                | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `.`                                | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+
+Yet, Chatgpt original result was wrong. I had to do an extra query
+there:
+
+- Please check again for [ inside brackets. POSIX spec mentions some sequen=
+ces starting with it that aren't literal. Re-check it and update the table.
+
+Chatgpt now gave a better answer:
+
+You're correct to call this out =E2=80=94 in **POSIX**, an unescaped `[` in=
+side a character class can indeed initiate **special bracket expressions** =
+(`[:class:]`, `[=3Dequiv=3D]`, `[.collate.]`). This makes it **not always t=
+reated as literal**, depending on **context and position**.
+
+Here is the **updated full table** in **strict ReST ASCII format**, reflect=
+ing that correction:
+
+```
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| Feature                            | Python re  | Perl   | POSIX ERE   | =
+POSIX BRE   | grep -E   | sed (BRE)   |
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
+=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+| `]` (first position)               | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `]` (non-first position)           | \]         | \]     | \]          | =
+\]          | \]        | \]          |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `[`                                | literal    | literal| special*    | =
+special*    | special*  | special*    |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `-` (between literals)             | range `a-z`| range  | range       | =
+range       | range     | range       |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `-` (start or end)                 | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `^` (first position)               | negation   | negation| negation   | =
+negation    | negation  | negation    |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `^` (non-first position)           | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `\`                                | \\         | \\     | \\          | =
+\\          | \\        | \\          |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| POSIX class `[:alpha:]`            | literal    | literal| supported   | =
+supported   | supported | supported   |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| POSIX special `[.ch.]`             | -          | -      | supported   | =
+supported   | supported | supported   |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| POSIX equivalence `[=3Da=3D]`          | -          | -      | supported =
+  | supported   | supported | supported   |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `*`                                | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `$`                                | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+| `.`                                | literal    | literal| literal     | =
+literal     | literal   | literal     |
++------------------------------------+------------+--------+-------------+-=
+------------+-----------+-------------+
+```
+
+### Footnote:
+
+* \* In **POSIX ERE**, **POSIX BRE**, **`grep -E`**, and **`sed`**, an unes=
+caped `[` **immediately followed by `:`, `=3D`, or `.`** at the start of a =
+character class (e.g., `[[:`, `[.=3D`, `[=3D=3D`) initiates a **special POS=
+IX expression** and is **not a literal**. To match a literal `[`, avoid pla=
+cing it in this position or use placement later in the class. Escaping `[` =
+(`\[`), while common in practice, is not guaranteed portable in POSIX.
+
+Let me know if you'd like to add more edge cases (e.g., `[[:[:alpha:]:]]` o=
+r nested misuse).
+
+
+
+
+
+-
+
+LLM queries to produce the above result with Deepseek:
+
+- list on an ascii table python changes to re and regex modules that caused=
+ backward-compatibility issues.
+
+- for internal "re" module, compare changes for "[]" brakets that contain c=
+haracters on it. what chars/sequences of special characters can cause troub=
+les on Python? What's the difference in terms of needing backslashes when c=
+ompared with POSIX, Perl, sed and grep (with -E)? Ignore unicode. We're int=
+erested just in ascii special chars.
+
+- get the table (3) and transpose it. check if different versions do differ=
+ent cases. Include both POSIX ERE and BRE. Add special sequences. for insta=
+nce, POSIX have special meanings for having "[" followed by some other spec=
+ial characters. Show only the table
+
+To allow you to reproduce, I also asked:
+
+- I want to pass to someone else the LLM requests for him to produce exactl=
+y the same table.
+
+It produced the following LLM query:
+
+
+<snip>
+Create a comparison table in ReST format showing escaping rules for special=
+ ASCII characters inside regex character classes `[]`. Follow these specifi=
+cations:
+
+1. **Tools**: Compare Python `re`, Perl, POSIX ERE, POSIX BRE, `grep -E`, a=
+nd `sed` (BRE)
+2. **Structure**: Transposed layout (features as rows, tools as columns)
+3. **Content**: Include all these cases:
+   - `]` (first vs. non-first position)
+   - `[`, `-`, `^`, `\`=20
+   - POSIX classes (`[:alpha:]`)
+   - POSIX specials (`[.ch.]`, `[=3Da=3D]`)
+   - `*`, `$`, `.`=20
+4. **Rules**:
+   - Mark required escapes with `\`
+   - Show range syntax (`a-z`) where applicable
+   - Indicate "literal" when no escape needed
+5. **Format**: Strict ReST ASCII table with grid lines
+6. **Notes**:
+   - Exclude Unicode
+   - Highlight version differences in footnotes
+   - Keep all tool columns even if identical
+   - Use `-` for unsupported features
+
+Provide only the final table with no commentary.
+</snip>
