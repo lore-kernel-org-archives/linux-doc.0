@@ -1,208 +1,134 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D750218ACA;
-	Mon,  4 Aug 2025 06:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0C21E9B2A;
+	Mon,  4 Aug 2025 06:56:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754287477; cv=none; b=HEV20WTm6GBvANfwqqsgFIZd4prlOgTpcnnm0h4qXhxgVsOqaWaZX7F2VIyhI/v3z+uD+6A4THO6sHry4rKYUDqvUlkF2aGfNMvHIG0ZPhjJmukHKvk6jo++yoIvM0U1lePUxmTao/VLJ8f5zKwuryGRwZoSj6ZtISFkuHu/fwY=
+	t=1754290601; cv=none; b=mlDU128bsZpWu8kYQ+R61rJyiYV3co9qnhqm48FNfze3/yJeAJUzguVAgEU+HKDq3j/JH06+yvQ6+tKhQ9MxpbKhEjlsw8NYrJZt4P8piJoTFFjAROG4UWS0mh4AQyPej/cWFTAtjP3Lzzx5LUrs/KgqbzT+r01keXDudTrWBVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754287477; c=relaxed/simple;
-	bh=6Vrhh4CTXewypPsMkw99R7S67HxgozZhczdmjvE6+sA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=WbxCzmyPfjaxCIwxdfuT9opZF/d8KqdZ7sfv4Axuu58Yr9FUuALKSs8Ulfq1u2QXvDWlzCn2BH8xlKMSFLYnJe8zYA50jRL1krjN6Mj9jTacP6HRARDVQm3WLnwl53sF0XmePgYnLgcG+YwCT2DmxTXgtodIPnmV/GXFw4+nag4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=rFfZBdH1; arc=none smtp.client-ip=198.137.202.136
+	s=arc-20240116; t=1754290601; c=relaxed/simple;
+	bh=6Uxfo/n+FmHLvR+WWWhh+s7r7X3EBAjRA421qiR6QUs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=gHa4ewb3tfnYBJvcpe3uTHtko2+n4VKu4NJ6EX7dCodvTccejv2Q1OiBuRZih/BMhhtM8O14HO4vPym0+Inh9cyslw+HfyyfL7GL+AhuT3r8JZ2OLPhjWcF0muJ5jByu0zLIOfoNv8LZZusb9Xh8SHJ9/YstgCdbJIn2Znisd4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hFmN5bIr; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="rFfZBdH1"
-Received: from [192.168.7.202] ([71.202.166.45])
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hFmN5bIr"
+Received: from [127.0.0.1] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 57463Gf1685727
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5746tNXj718207
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sun, 3 Aug 2025 23:03:17 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 57463Gf1685727
+	Sun, 3 Aug 2025 23:55:23 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5746tNXj718207
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025072201; t=1754287400;
-	bh=1UvSEgLS9kHk3uMzku7DKxRmuJ3xE+/qZAFiYECcR3c=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=rFfZBdH1011mTnLueI/EDslLu0GpRaP2Tf/VuxRLEa/LR3j2uQkmtB94yYKQiTIe3
-	 lLnxhbqiK01Pzki3pIoKzKhddPoP8rMnSsX3nfnbuL57st5BBapBV6Lr3hJbBCZ/Ft
-	 vkM9vm6+wMGu3f0/nN8yzKlN2iNieRT6iLObqQD4dR5Vg+xyWLxrTdWp6rvBe1Jrq4
-	 zNmEoaGQx3rEYto24d4FxywDIU9lcSW1W1UCRyLIsjAksWRAJPcvlUtIIsuAyPBVL/
-	 jUz75YkoTxJ9TlmeHXMeJzeDsmK+pFTlVvU9OAZi5eVpCwLKkooioOMmu3HAZnd6/A
-	 AvadKtJCljKgQ==
-Message-ID: <5ca5d98e-6a3c-48fc-8aa2-7db0980543e6@zytor.com>
-Date: Sun, 3 Aug 2025 23:03:16 -0700
+	s=2025072201; t=1754290530;
+	bh=6Uxfo/n+FmHLvR+WWWhh+s7r7X3EBAjRA421qiR6QUs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=hFmN5bIrGhwAqRzowBAQP+K7JKfkTZmxrPVOSbJS31LX45O5bseelsScA7k2yDAPP
+	 mUWGJ9cRkp3wnCfLfOCOdLrCRaSejeDQvKQhqYD0KFFqPhWPi9VD5ehD5kwjJBQj2t
+	 EglMcvwE5YmBnva0NyndOecbfVvrxckhlbHsKMMsbeWG/mVa+QaqaWu1UUe5ZAxFnL
+	 1mZ5QW73IgNc+sHyKKBk2/Gt9h16K/EL0SMXj0hZdrOO0sLOUeqwekZA4MobIa0aa3
+	 oUKY2QoT7lwUsXmsn2UM5m5MzP1sYfQoYlcAvGmOUImszdjO9LWUNNL4GiLRQ7btCZ
+	 G/wBKmENMoORA==
+Date: Sun, 03 Aug 2025 23:55:21 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Kees Cook <kees@kernel.org>, Dave Hansen <dave.hansen@intel.com>
+CC: Sohil Mehta <sohil.mehta@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>,
+        Breno Leitao <leitao@debian.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
+        Juergen Gross <jgross@suse.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
+        Huang Shijie <shijie@os.amperecomputing.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-mm@kvack.org, "Kirill A. Shutemov" <kas@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Xiongwei Song <xiongwei.song@windriver.com>,
+        Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>,
+        Alexey Kardashevskiy <aik@amd.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        X86-kernel <x86@kernel.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCHv9_04/16=5D_x86/cpu=3A_Defer_?=
+ =?US-ASCII?Q?CR_pinning_setup_until_core_initcall?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <202508021149.B4BFF8D1@keescook>
+References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com> <20250707080317.3791624-5-kirill.shutemov@linux.intel.com> <6075af69-299f-43d2-a3c8-353a2a3b7ee7@intel.com> <98a7a91b-3b46-4407-82a7-5f80443b7e00@intel.com> <6e768f25-3a1c-48b9-bc53-56877a556a83@intel.com> <202508021149.B4BFF8D1@keescook>
+Message-ID: <5BC99441-D69E-4B23-9485-6802F8ED8A42@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5A 20/23] KVM: nVMX: Add FRED VMCS fields to nested VMX
- context handling
-From: Xin Li <xin@zytor.com>
-To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
-        andrew.cooper3@citrix.com, chao.gao@intel.com, hch@infradead.org
-References: <aIHXngnkcJIY0TUw@intel.com>
- <20250802171740.3677712-1-xin@zytor.com>
- <aad3d385-5743-4f81-992a-22d1701c3611@zytor.com>
-Content-Language: en-US
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <aad3d385-5743-4f81-992a-22d1701c3611@zytor.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 8/2/2025 10:33 AM, Xin Li wrote:
->> @@ -4531,6 +4593,27 @@ static void sync_vmcs02_to_vmcs12_rare(struct 
->> kvm_vcpu *vcpu,
->>       vmcs12->guest_tr_base = vmcs_readl(GUEST_TR_BASE);
->>       vmcs12->guest_gdtr_base = vmcs_readl(GUEST_GDTR_BASE);
->>       vmcs12->guest_idtr_base = vmcs_readl(GUEST_IDTR_BASE);
->> +
->> +    vmx->nested.pre_vmexit_fred_config = 
->> vmcs_read64(GUEST_IA32_FRED_CONFIG);
->> +    vmx->nested.pre_vmexit_fred_rsp1 = 
->> vmcs_read64(GUEST_IA32_FRED_RSP1);
->> +    vmx->nested.pre_vmexit_fred_rsp2 = 
->> vmcs_read64(GUEST_IA32_FRED_RSP2);
->> +    vmx->nested.pre_vmexit_fred_rsp3 = 
->> vmcs_read64(GUEST_IA32_FRED_RSP3);
->> +    vmx->nested.pre_vmexit_fred_stklvls = 
->> vmcs_read64(GUEST_IA32_FRED_STKLVLS);
->> +    vmx->nested.pre_vmexit_fred_ssp1 = 
->> vmcs_read64(GUEST_IA32_FRED_SSP1);
->> +    vmx->nested.pre_vmexit_fred_ssp2 = 
->> vmcs_read64(GUEST_IA32_FRED_SSP2);
->> +    vmx->nested.pre_vmexit_fred_ssp3 = 
->> vmcs_read64(GUEST_IA32_FRED_SSP3);
-> 
-> This ...
-> 
->> +
->> +    if (nested_cpu_save_guest_fred_state(vmcs12)) {
->> +        vmcs12->guest_ia32_fred_config = vmx- 
->> >nested.pre_vmexit_fred_config;
->> +        vmcs12->guest_ia32_fred_rsp1 = vmx->nested.pre_vmexit_fred_rsp1;
->> +        vmcs12->guest_ia32_fred_rsp2 = vmx->nested.pre_vmexit_fred_rsp2;
->> +        vmcs12->guest_ia32_fred_rsp3 = vmx->nested.pre_vmexit_fred_rsp3;
->> +        vmcs12->guest_ia32_fred_stklvls = vmx- 
->> >nested.pre_vmexit_fred_stklvls;
->> +        vmcs12->guest_ia32_fred_ssp1 = vmx->nested.pre_vmexit_fred_ssp1;
->> +        vmcs12->guest_ia32_fred_ssp2 = vmx->nested.pre_vmexit_fred_ssp2;
->> +        vmcs12->guest_ia32_fred_ssp3 = vmx->nested.pre_vmexit_fred_ssp3;
->> +    }
->> +
->>       vmcs12->guest_pending_dbg_exceptions =
->>           vmcs_readl(GUEST_PENDING_DBG_EXCEPTIONS);
->> @@ -4761,6 +4860,26 @@ static void load_vmcs12_host_state(struct 
->> kvm_vcpu *vcpu,
->>       vmcs_write32(GUEST_IDTR_LIMIT, 0xFFFF);
->>       vmcs_write32(GUEST_GDTR_LIMIT, 0xFFFF);
->> +    if (nested_cpu_load_host_fred_state(vmcs12)) {
->> +        vmcs_write64(GUEST_IA32_FRED_CONFIG, vmcs12- 
->> >host_ia32_fred_config);
->> +        vmcs_write64(GUEST_IA32_FRED_RSP1, vmcs12->host_ia32_fred_rsp1);
->> +        vmcs_write64(GUEST_IA32_FRED_RSP2, vmcs12->host_ia32_fred_rsp2);
->> +        vmcs_write64(GUEST_IA32_FRED_RSP3, vmcs12->host_ia32_fred_rsp3);
->> +        vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmcs12- 
->> >host_ia32_fred_stklvls);
->> +        vmcs_write64(GUEST_IA32_FRED_SSP1, vmcs12->host_ia32_fred_ssp1);
->> +        vmcs_write64(GUEST_IA32_FRED_SSP2, vmcs12->host_ia32_fred_ssp2);
->> +        vmcs_write64(GUEST_IA32_FRED_SSP3, vmcs12->host_ia32_fred_ssp3);
->> +    } else {
->> +        vmcs_write64(GUEST_IA32_FRED_CONFIG, vmx- 
->> >nested.pre_vmexit_fred_config);
->> +        vmcs_write64(GUEST_IA32_FRED_RSP1, vmx- 
->> >nested.pre_vmexit_fred_rsp1);
->> +        vmcs_write64(GUEST_IA32_FRED_RSP2, vmx- 
->> >nested.pre_vmexit_fred_rsp2);
->> +        vmcs_write64(GUEST_IA32_FRED_RSP3, vmx- 
->> >nested.pre_vmexit_fred_rsp3);
->> +        vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmx- 
->> >nested.pre_vmexit_fred_stklvls);
->> +        vmcs_write64(GUEST_IA32_FRED_SSP1, vmx- 
->> >nested.pre_vmexit_fred_ssp1);
->> +        vmcs_write64(GUEST_IA32_FRED_SSP2, vmx- 
->> >nested.pre_vmexit_fred_ssp2);
->> +        vmcs_write64(GUEST_IA32_FRED_SSP3, vmx- 
->> >nested.pre_vmexit_fred_ssp3);
-> 
-> And this are actually nops. IOW, if I don't add this snippet of code,
-> the CPU still retains the guest FRED MSRs, i.e., using guest FRED state 
-> from vmcs02 as that of vmcs01.
+On August 2, 2025 11:51:28 AM PDT, Kees Cook <kees@kernel=2Eorg> wrote:
+>On Thu, Jul 31, 2025 at 05:01:37PM -0700, Dave Hansen wrote:
+>> On 7/31/25 16:45, Sohil Mehta wrote:
+>> > On 7/9/2025 10:00 AM, Dave Hansen wrote:
+>> >> On 7/7/25 01:03, Kirill A=2E Shutemov wrote:
+>> >>> Instead of moving setup_cr_pinning() below efi_enter_virtual_mode()=
+ in
+>> >>> arch_cpu_finalize_init(), defer it until core initcall=2E
+>> >> What are the side effects of this move? Are there other benefits? Wh=
+at
+>> >> are the risks?
+>> >>
+>> > Picking this up from Kirill=2E=2E Reevaluating this, core_initcall() =
+seems
+>> > too late for setup_cr_pinning()=2E
+>> >=20
+>> > We need to have CR pinning completed, and the associated static key
+>> > enabled before AP bring up=2E start_secondary()->cr4_init() depends o=
+n the
+>> > cr_pinning static key to initialize CR4 for APs=2E
+>>=20
+>> Sure, if you leave cr4_init() completely as-is=2E
+>>=20
+>> 'cr4_pinned_bits' should be set by the boot CPU=2E Secondary CPUs shoul=
+d
+>> also read 'cr4_pinned_bits' when setting up their own cr4's,
+>> unconditionally, independent of 'cr_pinning'=2E
+>>=20
+>> The thing I think we should change is the pinning _enforcement_=2E The
+>> easiest way to do that is to remove the static_branch_likely() in
+>> cr4_init() and then delay flipping the static branch until just before
+>> userspace starts=2E
+>
+>Yeah, this is fine from my perspective=2E The goal with the pinning was
+>about keeping things safe in the face of an attack from userspace that
+>managed to get at MSR values and keeping them from being trivially
+>changed=2E
+>
 
-I confused myself.  They are NOT nops, because __nested_vmx_vmexit()
-switches from vmcs02 to vmcs01.  The code should be (as the patch does):
-
-__nested_vmx_vmexit()
-{
-	...
-
-	/*
-	 * Save guest FRED state of vmcs02 to nested.pre_vmexit_fred
-	 * no matter if SECONDARY_VM_EXIT_SAVE_IA32_FRED is set.
-	 */
-	sync_vmcs02_to_vmcs12();
-
-	...
-	vmx_switch_vmcs();
-	...
-
-	/*
-	 * Load nested.pre_vmexit_fred to guest FRED state of vmcs01
-	 * if SECONDARY_VM_EXIT_LOAD_IA32_FRED is NOT set.
-	 */
-	load_vmcs12_host_state();
-
-	...
-   }
-
-
-As not setting any of the two FRED VM-Exit controls are rare cases, we
-need to add KVM tests with L1 that:
-1) doesn't set SECONDARY_VM_EXIT_SAVE_IA32_FRED in VM-Exit controls.
-2) doesn't set SECONDARY_VM_EXIT_LOAD_IA32_FRED in VM-Exit controls.
-3) doesn't set both of the FRED VM-Exit controls.
-
-Looks we need a framework for all VM-Exit controls which control whether
-to save/load specific MSRs related to CPU features during VM-Exit?
+I have mentioned this before: I would like to see CR4-pinning use a patcha=
+ble immediate to make it harder to manipulate=2E If the mask is final when =
+alternatives are run, that would be a good time to install it; the code can=
+ just contain a zero immediate (no pinning) or a very limited set of bits t=
+hat must never be changed at all up to that point=2E
