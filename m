@@ -1,111 +1,110 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEA122097;
-	Mon,  4 Aug 2025 10:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255B31A5BA0;
+	Mon,  4 Aug 2025 11:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754302818; cv=none; b=p5P8fPtj/vQYODkfXj3w3CaW1PZPrjWhW3Fk2vK+sfwnQO8j8/haSQhnRIxf5bd04ThB3CLEiRmxUmE3lkSDjPKDtp59NyLR/YdppmNGExbqzx4AKzTOyXj/9NBySnEI3yZdsV31I1OsuZMFVKQWhrkimEFtLieyO1iD8T5JwWg=
+	t=1754305228; cv=none; b=tp4+1MqWRLvarEt5B8RXp9NHCPRQnG6+0nJI1EmSHO2lptygopgiQAEKE8uNJEeUXUvDTfO9UAWf2SAAAhqKjiQtePDtJh3CWyopmcdbhj4JVsMYsKFPRXZ/CfG/ZIUsXOk071ZOXVZ7CXzfkhSh0fYJFi5WI3FNBm8iQ3uHvJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754302818; c=relaxed/simple;
-	bh=zt15Xzme5yX3vbYfjn4cy3mxjGr5KzEP5dV0ertZ+YY=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=O7Mwacgd+HC1W+0kKEDFnKWIDQQFEqdn3C9am/sS/m3U2ioHgRAz/tOzRXzGahRSzf8pyp+HuIBMgfWql7PFYzXU9Tg+HANsg2fU/I9DK0ZqG4T7LJNpdSKHf4Jwq2RE5FqCPaoT0QYpE8E8RTFQJgXIfre61q4YL+JeNE/5ymo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GinAAvOf; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754305228; c=relaxed/simple;
+	bh=3H2sMPjyHVMcQ2JCrtybSld9zzsH446LmW1UBTHqG+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=icbSRF3NuVYPH8YjQu94weUfvAEAvPOsRRaqRkT37aTP4Oxws+vxfjOK6tilROpb1TkmFiHTYXU52Nna1aCuAOzIb4ZrN4Jo9822TLsLbRZD4aVyvxTbereER0u6PPMcc+U1jsixzjxNvH+YT+qk05UaBtBCeieIiIbymoDJsqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sCmvCc8D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GinAAvOf"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6156a162537so6354110a12.2;
-        Mon, 04 Aug 2025 03:20:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754302814; x=1754907614; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7eZUHFrYxgQ0qDhUY5kKCZADajcB96cOqkgb1jMTj8E=;
-        b=GinAAvOfqKjufjm3o5T1XgdzkY0ki6auPxUrfyS3boSucSjuYJJUU38mh/IUzcq6nV
-         JzkD5Hf+LMjLoCjhllROnLJeq4IDbXSbCy5iLhbaSitKkbLoKn7YZhpXm4Mcoy2G5d3S
-         4vHNFV1cmaaYDF7sqUrzbNwOEEmDd9XPGUq/QUuNIU0QuU9vc7zwABHveyVSZm8XHMuh
-         8TeqVc+sWb2PkQtXpyq28nmZqf8r3JKYVY5BKD0PS2lujo79ijox02yyvEEQuVmN9d7p
-         nztm+2F7vV8VVBy+17XJg92eTWz3gLzxDawlVc0wA6ICzV3djLBeaZprarbWgR9ZdOLz
-         Np5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754302814; x=1754907614;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7eZUHFrYxgQ0qDhUY5kKCZADajcB96cOqkgb1jMTj8E=;
-        b=JwwSPtV+5k5XA2JGQ0fpdFyZsj548y1oFwElQOsce+MbUduxCOdPE1Wkpehc5R2RHI
-         2L5vT9TkbSi1saCHv2TC8533dFpc42zqgGZcietlAAQoywPWZZ7ed+2kTWtaJqrYEhxq
-         Om2YHoysFGa6b+hYecYfPvG/dKDbE0NNo3eRgXrQeVYJEetcVhEowsOnuGYcJrzuo1bk
-         pP8Xx1R+8GJhni7rj52Srj+QzHSUAVBr3zRQVIk+m3cBlHyPyf1fcffVvBpZc2Y+SUOs
-         Pewc5UUnwTzi6ZYFjCF53K7QRQTySxr2k6KlGue1bLALhHYJySrPP2YvmagViRvXe21O
-         aq0g==
-X-Forwarded-Encrypted: i=1; AJvYcCUXsZBT752JizFFlNuqbQxCUARz7lWYLxTRbs2u3wy4NgmFoFMX0RKseklGQMDLzMpZvWMaA7cMLKaX@vger.kernel.org, AJvYcCVPji64PgRBoZmQZRAcN3ZHW720Cwo3Ts1foK8AbVeuuqB05UmNJVIi5V8dVqUS29WqFRforzKqlqj+Ii20@vger.kernel.org, AJvYcCX5qGNltruc9NCLrzK/MpGbPKp6Lw1uF9tAUcZLKh/3B+9dlW89ZY1IRDUU3xrYNq8PHE22sRa4yqM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7GQE8s9OmI52L2HcsM6YfmwNS4YBeRItfENLqkrBSJSKKr651
-	62GWVag3lhlrr22ugWcxSZvC63wopE+oYpRIU31epRo+yt3rcKRdnPAj
-X-Gm-Gg: ASbGncvrvXvgReL7pmU71QqlbghI/onifWFFIivLOZDLMPQmUTUZiInf/kfGg53SuhI
-	Vj6MrRCIMLJRA2lVg/8lsOB+kWvm55q/kjustv9YT67KExit3a9cqSHfcHGfuAZUiUew/fDLe9a
-	jg92aCOROyZm34qMJEioG9NFQpLRCKiODrUpHoqNphZdWKcoi8IcFgl+kFGc/DM2kIX1TjT2WW/
-	0yyrW+vtqRGXvrwRZ20L4uvsCoIfmHCkH6H4XOVo6YUbTzFIexn+Ail04wkNrpiA5feA6QihxnR
-	IlMaj0lhe60f5/A3H7y44iFXkZJx6K9ShILlmmND+8q1OqvLVT+oXErU0eQq/mETxIPUKhYrDN4
-	gJ3LDo0yWMIXehj/N
-X-Google-Smtp-Source: AGHT+IFta7Ntkqfvi3HuONMfCPmHJQg2TPNp6F+bRBsfU0kdVF8GqogtcbzAjOt0sfxx+o8g+632HA==
-X-Received: by 2002:a17:906:f59f:b0:af9:38ed:935c with SMTP id a640c23a62f3a-af93ffc5908mr934225466b.3.1754302814126;
-        Mon, 04 Aug 2025 03:20:14 -0700 (PDT)
-Received: from localhost (twin.jikos.cz. [91.219.245.39])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a241bdfsm712239366b.131.2025.08.04.03.20.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 04 Aug 2025 03:20:13 -0700 (PDT)
-From: Jiri Kosina <kosina@gmail.com>
-X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
-Date: Mon, 4 Aug 2025 12:20:12 +0200 (CEST)
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-cc: Sasha Levin <sashal@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-    Greg KH <greg@kroah.com>, corbet@lwn.net, linux-doc@vger.kernel.org, 
-    workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org, 
-    konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-    Linus Torvalds <torvalds@linux-foundation.org>, 
-    "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
- kernel
-In-Reply-To: <a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
-Message-ID: <alpine.LRH.2.00.2508041219130.22517@gjva.wvxbf.pm>
-References: <20250727195802.2222764-1-sashal@kernel.org> <7e7f485e-93ad-4bc4-9323-f154ce477c39@lucifer.local> <2025072854-earthen-velcro-8b32@gregkh> <df188552-c2dd-4cb7-9f6a-74e05e677dfc@lucifer.local> <20250730112753.17f5af13@gandalf.local.home>
- <158707d7-6729-4bb6-bc72-7556d11bfaef@lucifer.local> <20250730121829.0c89228d@gandalf.local.home> <aIpKCXrc-k2Dx43x@lappy> <a1022055-52bd-4948-9399-908b29ca140a@lucifer.local>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sCmvCc8D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE045C4CEE7;
+	Mon,  4 Aug 2025 11:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754305227;
+	bh=3H2sMPjyHVMcQ2JCrtybSld9zzsH446LmW1UBTHqG+c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sCmvCc8DY3XLXOLDdQZsebkYJ9t+vgGLX1d3Mes5prass9M2yyFwdzp6Yk46fOgpS
+	 8G1kdbFxIeZijD7tpmy4+FqL6Yi+6Pbv/TZIHmUhSDuFPNZ9twLrpx/Lbev7iIZszd
+	 tCDELx63FMUi7Q9VfT+8Z20x63XA2lKluPDPrdoYeXzZ7gUnM3qIxLIUSnVFh5cAjJ
+	 hfEshOHqEbqX/jzCg5AWfaZntVW4dv37m83XXv27gIT0q/MLIgGmDCd+0stAn7Imuc
+	 /sRC5bli1Bo3J/yTHRpM3JZN3u9rCEvlqRflzF12kD9oFG3hVod6xzvfXkxMB0RRX8
+	 JQw8+QdKf4Kyg==
+Message-ID: <e27238fc-259d-4537-9513-52d10006c321@kernel.org>
+Date: Mon, 4 Aug 2025 13:00:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] genirq: add support for warning on long-running IRQ
+ handlers
+To: Wladislav Wiebe <wladislav.wiebe@nokia.com>, tglx@linutronix.de,
+ corbet@lwn.net, jirislaby@kernel.org
+Cc: akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
+ Neeraj.Upadhyay@amd.com, david@redhat.com, bp@alien8.de, arnd@arndb.de,
+ fvdl@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ peterz@infradead.org
+References: <20250804093525.851-1-wladislav.wiebe@nokia.com>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20250804093525.851-1-wladislav.wiebe@nokia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 30 Jul 2025, Lorenzo Stoakes wrote:
-
-> > This way we can extend MAINTAINERS to indicate which subsystems are
-> > more open to research work (drivers/staging/ comes to mind) vs ones that
-> > aren't.
-> >
-> > Some sort of a "traffic light" system:
-> >
-> >  1. Green: the subsystem is happy to receive patches from any source.
-> >
-> >  2. Yellow: "If you're unfamiliar with the subsystem and using any
-> >  tooling to generate your patches, please have a reviewed-by from a
-> >  trusted developer before sending your patch".
-> >
-> >  3. No tool-generated patches without prior maintainer approval.
+On 04. 08. 25, 11:35, Wladislav Wiebe wrote:
+> Introduce a mechanism to detect and warn about prolonged IRQ handlers.
+> With a new command-line parameter (irqhandler.duration_warn_us=),
+> users can configure the duration threshold in microseconds when a warning
+> in such format should be emitted:
 > 
-> This sounds good, with a default on red. Which would enforce the opt-in
-> part.
+> "[CPU14] long duration of IRQ[159:bad_irq_handler [long_irq]], took: 1330 us"
+> 
+> The implementation uses local_clock() to measure the execution duration of the
+> generic IRQ per-CPU event handler.
 
-I strongly believe that at least a distinction between 'static tools' and 
-'LLM-based tools' needs to be introduced here.
-
-Thanks,
-
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
 -- 
-Jiri Kosina
-SUSE Labs
+js
+suse labs
+
