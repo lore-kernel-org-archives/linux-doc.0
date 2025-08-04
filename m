@@ -1,246 +1,176 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BFC25EFB6;
-	Mon,  4 Aug 2025 12:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DEB1B4F2C;
+	Mon,  4 Aug 2025 12:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754311727; cv=none; b=sENJAOOXQo9uUJcXF8H1jI5B8xOf0QewlxN1+68Y5QQ1rnVLcHoCauuxVN+Lp46Nyf52J5DVLJDAqBzBTv7UkZhOvuCzkJIkCo8EIAnmLOku+Bc9/PNy+jAiyTnlwGlRBpMc1zPIh2IDgRQk2TK8A40vSkavwFGmmcwOMoYUIDY=
+	t=1754312304; cv=none; b=hGisyMsyUA8A59lZfjcDLjZqtF6Ax6p2j/KmJ57C6d/+sQFKlh1YSbmzOMarbfXWJJRTPgFgnlCY0vXPXrRLLYaB1SXNwrTApySLOmTucsOgVJYi2ERIWBOzohBgr3wS3cMI3p7JMWv4RM8v+xh8Mlat2MfPx/XriQxqYa9DEM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754311727; c=relaxed/simple;
-	bh=HQST0UcmeoSbLX09rdBtA7BoTardCxQNoeKS11z/UO0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=smFONSE70hyx19+hYAxUN2MxV3XPdJiQaI5JcDKvW2wkHxxYcNG8uCOrMhJ3QjpEVr3j/g30MSyKEO/0Nc7HPhZYfURTSwsWcpnWrtO1fQfnv+LFkvtV1Gz93JgRkLSGKGRz+Cm3SAlyhRMe56hBCtc0Xuo4LVvyaW7bSFysVR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bIy8G44m; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754312304; c=relaxed/simple;
+	bh=2W68ZxzxwmCvFJTFLMvFHvXt1mr9ikcmL/BnDPMrVfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bn4JJbuALryZIdCzqh13LT8fQGfSHUqflhogc++Xj5mvHJsvaihyHa1d4JQqNuwBTkikMgrRP42IXjFUrZ0pI03NfXHJemFT3LCRAq78Sy5N9/qy4StJzEInYdmdzQwkHGoRS9UEyjeQ38zQISzEymNdPI3zSzFYmd1Q3ldZlcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WeHU/SnZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bIy8G44m"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76bed310fa1so1388155b3a.2;
-        Mon, 04 Aug 2025 05:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754311724; x=1754916524; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WIBGM5j540pkjTnXoxn5StmD3XtzjfbLiBm0ToBFC5Y=;
-        b=bIy8G44m9P2bekGT9L/WbdkiwJmCrmhzmCac0xBkYwDrWbljCHMfoKLdr5/zLNKmsT
-         o7v+tjkqka/ngLHPYHxLAjQTvjM3jnkbbq1tX+4mEF5IpVU0+OSxBuwCzzkxNcxsQEoj
-         lvJBACyWp5efnUt6Pbb4AO/9m2ZWhJaJr9jKXq5TN1Lz0ZevY1yMeq39e5OOgsEbm1N8
-         IkXA7M35zgv4KTVtpKA3JP7IaJTj2U/gibaDBGHgWPDmP38jE5bCXx4lmQbuLuhlRhbK
-         eaH6kUYGypMI6Lcj74yZVGsyVlXSouVhjE04FEqs/J4m5ELRWvfvTcK9rgsOpfWksGZv
-         I3BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754311724; x=1754916524;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WIBGM5j540pkjTnXoxn5StmD3XtzjfbLiBm0ToBFC5Y=;
-        b=OixdEAMaqjKB70GtmjnIYY62r5OSetVVuQ3sOpKtmyOiNutTP0GXBFnhlZ9UQrfXCp
-         XwOY5EtStwKFmrn1nSpG7U5qPLYHajgdMLn0+DzpstXBotX3IQEv3aE8Ma4KvZGMfSej
-         J2bmxsj0SpX9EH1ZAncB1t/YvsgTBkP6507x8jLO0AikHcpD+KbxXcFe3LJnyJfnIBYn
-         SR2lwiD1GmwmJgixZXu27Ka0GJBwLtVB7hqwR7/W0spBMOK0EU/COmcHA+LCNkCV9Fk5
-         uJj/Q/s2DaCg2DGrEDRXEL6s7mBkeJCT/xmC+rnm7hXj3RWwvLK6jZINgpMd9JweEePC
-         jc8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUe6gGJYtNiaPftaa0cH63seEn6pvQlcEnPRrqEi40aNYO4YV74rD2l4qFd+1gCHXJKoaXjVknPOvsWD18X@vger.kernel.org, AJvYcCW7fkKr/TszFAuNo38BjQ8Hz4i81thDVOQ7qzkv6aBsnJfw1SffqVnebZ1YDDxjEthHOSkvCDrgjsGE@vger.kernel.org, AJvYcCXhV+kdqlOn5gzbeG/GtZu+3aC4N77OQ7/iED7C5LaTqckK8FBoBpYMc1LuEuhq6IJHwa9N+45F6ZdZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxhJ29MLTE2BkIGXZ3JFXZhF7us7oDbcKBuHFaCW9piaxgHbHk
-	BxPfsVLITOJccbqQSaggGo3i7iDJGLgCLfJfvT4C1DGV1hf+cJ3rusDApnDnRw==
-X-Gm-Gg: ASbGncv9PxDdxzSKEcI6Nx7/RvdLKOGyq7TQKY8dHZAFWKni/ofIwcjkM7y8ZJiWwcu
-	tGeTKJnfBcUuSY4XThJXNMWxWVBICHFyjfzOtaRlJWiqthuZfneWCFxela8FVULF0W0VId80n67
-	6TZaaRRThhPezMBub/cio+tBW26dUSmhDI/jJEggoBkKx5BW5SH0/0Vunwpd4PbEKfxsQCzL7PP
-	JAgJA1Kgek9fa2AOwR9uU9e/T+bNyKaroRCFI1M2eQ9+dzE17jQx2tUzP/ZLdEP3cX8kNMBqN3V
-	f2JrbG/S57jHQXxiFOCAClOEdOoIP7ywHMc4ueiVzn3LUWk3bkPO+PJyVZs1ummTP7PpM47HQFH
-	gpnZp97cYb9vsK0mtNBIqoNrgi0LUnWbKe0C00sN9ZqGjBtii4Qp1dOEmbJNToHz5sToEFmZjrC
-	QnaUUJOsImrYEIrZ8Uqw==
-X-Google-Smtp-Source: AGHT+IFEEPKGBvrtG+KbJqpUmOCnHYA9fNNJXPGv1hSZUYIIJNQr30urUixDdW1ihbT/cJfGduOx9A==
-X-Received: by 2002:a05:6a00:a95:b0:76b:a439:be4a with SMTP id d2e1a72fcca58-76bec48b2b6mr12438355b3a.12.1754311723828;
-        Mon, 04 Aug 2025 05:48:43 -0700 (PDT)
-Received: from CNTWS00427A.itotolink.net (111-242-101-165.dynamic-ip.hinet.net. [111.242.101.165])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfbd656sm10566612b3a.72.2025.08.04.05.48.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 05:48:43 -0700 (PDT)
-From: ChiShih Tsai <tomtsai764@gmail.com>
-To: linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: jdelvare@suse.com,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	t630619@gmail.com,
-	ChiShih Tsai <tomtsai764@gmail.com>
-Subject: [PATCH 2/2] hwmon: (pmbus/adm1275) add sq24905c support
-Date: Mon,  4 Aug 2025 20:48:05 +0800
-Message-ID: <20250804124806.540-3-tomtsai764@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250804124806.540-1-tomtsai764@gmail.com>
-References: <20250804124806.540-1-tomtsai764@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WeHU/SnZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8093EC4CEE7;
+	Mon,  4 Aug 2025 12:58:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754312303;
+	bh=2W68ZxzxwmCvFJTFLMvFHvXt1mr9ikcmL/BnDPMrVfU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WeHU/SnZ3/5HQC+zk1mcc+LcR/R5fePSziWknJaBQ1efLA0028ho6tniZDft09X8V
+	 KJnDGr6vO21tiNMWyvbtHXtaI1AmuICJw1It5BhEKPK9ITvY0V8X8PPtVeD8kmOYd7
+	 /CkoUc8U93m9PnQ4Wc227SDtfAtSpciJ5hd08fkiXyfXgpQ5Jqvqya3gE7NzzTohsy
+	 fXm6R/b41BFx0GSa9yXvkXGahqmWeYU2fQiARTc4jI62GwldaPNu1OkFIhXvlZXviU
+	 V/ygsgjfml7TevO3lF6XDOjZTt4hysCTK1daBsca8P5dg4FgGyt6d205AdVFr9XE1N
+	 U75gWS/eSAu4g==
+Date: Mon, 4 Aug 2025 14:58:18 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 03/12] docs: kdoc: backslashectomy in kdoc_parser
+Message-ID: <20250804145818.3cc73ca2@foz.lan>
+In-Reply-To: <87h5yrruki.fsf@trenco.lwn.net>
+References: <20250801001326.924276-1-corbet@lwn.net>
+	<20250801001326.924276-4-corbet@lwn.net>
+	<20250801062710.552dac5a@foz.lan>
+	<87h5yrruki.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add support for sq24905c which is similar to adm1275 and other chips
-of the series.
+Em Fri, 01 Aug 2025 08:21:49 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Signed-off-by: ChiShih Tsai <tomtsai764@gmail.com>
----
- Documentation/hwmon/adm1275.rst | 24 ++++++++++++++++--------
- drivers/hwmon/pmbus/Kconfig     |  5 +++--
- drivers/hwmon/pmbus/adm1275.c   | 27 +++++++++++++++++++--------
- 3 files changed, 38 insertions(+), 18 deletions(-)
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > Em Thu, 31 Jul 2025 18:13:17 -0600
+> > Jonathan Corbet <corbet@lwn.net> escreveu:
+> >  
+> >> A lot of the regular expressions in this file have extraneous backslashes  
+> >
+> > This one is a bit scary... It could actually cause issues somewhere.  
+> 
+> What kind of issues?
 
-diff --git a/Documentation/hwmon/adm1275.rst b/Documentation/hwmon/adm1275.rst
-index 57bd7a850558..914f009f34e0 100644
---- a/Documentation/hwmon/adm1275.rst
-+++ b/Documentation/hwmon/adm1275.rst
-@@ -67,6 +67,14 @@ Supported chips:
- 
-     Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ADM1293_1294.pdf
- 
-+  * Silergy SQ24905C
-+
-+    Prefix: 'sq24905c'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://www.silergy.com/download/downloadFile?id=5669&type=product&ftype=note
-+
- Author: Guenter Roeck <linux@roeck-us.net>
- 
- 
-@@ -74,14 +82,14 @@ Description
- -----------
- 
- This driver supports hardware monitoring for Analog Devices ADM1075, ADM1272,
--ADM1273, ADM1275, ADM1276, ADM1278, ADM1281, ADM1293, and ADM1294 Hot-Swap
--Controller and Digital Power Monitors.
-+ADM1273, ADM1275, ADM1276, ADM1278, ADM1281, ADM1293, ADM1294, and SQ24905C
-+Hot-Swap Controller and Digital Power Monitors.
- 
--ADM1075, ADM1272, ADM1273, ADM1275, ADM1276, ADM1278, ADM1281, ADM1293, and
--ADM1294 are hot-swap controllers that allow a circuit board to be removed from
--or inserted into a live backplane. They also feature current and voltage
--readback via an integrated 12 bit analog-to-digital converter (ADC), accessed
--using a PMBus interface.
-+ADM1075, ADM1272, ADM1273, ADM1275, ADM1276, ADM1278, ADM1281, ADM1293,
-+ADM1294 and SQ24905C are hot-swap controllers that allow a circuit board to be
-+removed from or inserted into a live backplane. They also feature current and
-+voltage readback via an integrated 12 bit analog-to-digital converter (ADC),
-+accessed using a PMBus interface.
- 
- The driver is a client driver to the core PMBus driver. Please see
- Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-@@ -160,5 +168,5 @@ temp1_highest		Highest observed temperature.
- temp1_reset_history	Write any value to reset history.
- 
- 			Temperature attributes are supported on ADM1272,
--			ADM1273, ADM1278, and ADM1281.
-+			ADM1273, ADM1278, ADM1281 and SQ24905C.
- ======================= =======================================================
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 55e492452ce8..7485bc6b2e8a 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -51,8 +51,9 @@ config SENSORS_ADM1275
- 	tristate "Analog Devices ADM1275 and compatibles"
- 	help
- 	  If you say yes here you get hardware monitoring support for Analog
--	  Devices ADM1075, ADM1272, ADM1273, ADM1275, ADM1276, ADM1278, ADM1281,
--	  ADM1293, and ADM1294 Hot-Swap Controller and Digital Power Monitors.
-+	  Devices ADM1075, ADM1272, ADM1273, ADM1275, ADM1276, ADM1278,
-+	  ADM1281, ADM1293, ADM1294 and SQ24905C Hot-Swap Controller and
-+	  Digital Power Monitors.
- 
- 	  This driver can also be built as a module. If so, the module will
- 	  be called adm1275.
-diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
-index 7d175baa5de2..1c032aaac379 100644
---- a/drivers/hwmon/pmbus/adm1275.c
-+++ b/drivers/hwmon/pmbus/adm1275.c
-@@ -18,7 +18,8 @@
- #include <linux/log2.h>
- #include "pmbus.h"
- 
--enum chips { adm1075, adm1272, adm1273, adm1275, adm1276, adm1278, adm1281, adm1293, adm1294 };
-+enum chips { adm1075, adm1272, adm1273, adm1275, adm1276, adm1278, adm1281,
-+	 adm1293, adm1294, sq24905c };
- 
- #define ADM1275_MFR_STATUS_IOUT_WARN2	BIT(0)
- #define ADM1293_MFR_STATUS_VAUX_UV_WARN	BIT(5)
-@@ -486,6 +487,7 @@ static const struct i2c_device_id adm1275_id[] = {
- 	{ "adm1281", adm1281 },
- 	{ "adm1293", adm1293 },
- 	{ "adm1294", adm1294 },
-+	{ "MC09C", sq24905c },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, adm1275_id);
-@@ -533,8 +535,10 @@ static int adm1275_probe(struct i2c_client *client)
- 		return ret;
- 	}
- 	if (ret != 3 || strncmp(block_buffer, "ADI", 3)) {
--		dev_err(&client->dev, "Unsupported Manufacturer ID\n");
--		return -ENODEV;
-+		if (ret != 2 || strncmp(block_buffer, "SY", 2)) {
-+			dev_err(&client->dev, "Unsupported Manufacturer ID\n");
-+			return -ENODEV;
-+		}
- 	}
- 
- 	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, block_buffer);
-@@ -558,7 +562,8 @@ static int adm1275_probe(struct i2c_client *client)
- 
- 	if (mid->driver_data == adm1272 || mid->driver_data == adm1273 ||
- 	    mid->driver_data == adm1278 || mid->driver_data == adm1281 ||
--	    mid->driver_data == adm1293 || mid->driver_data == adm1294)
-+	    mid->driver_data == adm1293 || mid->driver_data == adm1294 ||
-+	    mid->driver_data == sq24905c)
- 		config_read_fn = i2c_smbus_read_word_data;
- 	else
- 		config_read_fn = i2c_smbus_read_byte_data;
-@@ -708,6 +713,7 @@ static int adm1275_probe(struct i2c_client *client)
- 		break;
- 	case adm1278:
- 	case adm1281:
-+	case sq24905c:
- 		data->have_vout = true;
- 		data->have_pin_max = true;
- 		data->have_temp_max = true;
-@@ -786,9 +792,12 @@ static int adm1275_probe(struct i2c_client *client)
- 		return -ENODEV;
- 	}
- 
--	if (data->have_power_sampling &&
-+	if ((data->have_power_sampling &&
- 	    of_property_read_u32(client->dev.of_node,
--				 "adi,power-sample-average", &avg) == 0) {
-+				 "adi,power-sample-average", &avg) == 0) ||
-+	    (data->have_power_sampling &&
-+	    of_property_read_u32(client->dev.of_node,
-+				 "silergy,power-sample-average", &avg) == 0)) {
- 		if (!avg || avg > ADM1275_SAMPLES_AVG_MAX ||
- 		    BIT(__fls(avg)) != avg) {
- 			dev_err(&client->dev,
-@@ -804,8 +813,10 @@ static int adm1275_probe(struct i2c_client *client)
- 		}
- 	}
- 
--	if (of_property_read_u32(client->dev.of_node,
--				"adi,volt-curr-sample-average", &avg) == 0) {
-+	if ((of_property_read_u32(client->dev.of_node,
-+				"adi,volt-curr-sample-average", &avg) == 0) ||
-+	    (of_property_read_u32(client->dev.of_node,
-+				"silergy,volt-curr-sample-average", &avg) == 0)) {
- 		if (!avg || avg > ADM1275_SAMPLES_AVG_MAX ||
- 		    BIT(__fls(avg)) != avg) {
- 			dev_err(&client->dev,
--- 
-2.43.0
+I caught several issues in the past due to the lack of it. Don't
+recall the specific cases, but using reserved symbols without
+backslashes have giving me enough headaches.
 
+Yet, see POSIX rules for some cases:
+
+	https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_03
+
+like this one:
+
+	"The character sequences "[.", "[=", and "[:" shall be special
+	 inside a bracket expression"
+
+Basically, if you don't know exactly what you're doing, and just
+place special characters there without extra case, you may be
+in serious troubles. And see, this is just for BRE (basic regular
+expressions). There are also other weirdness with ERE (extended
+regular expressions):
+
+	"The <period>, <left-square-bracket>, <backslash>, and 
+	 <left-parenthesis> shall be special except when used 
+	 in a bracket expression"
+
+> > Also, IMHO, some expressions look worse on my eyes ;-)  
+> 
+> Here I think we're going to disagree.  The extra backslashes are really
+> just visual noise as far as I'm concerned.
+> 
+> >> that may have been needed in Perl, but aren't helpful here.  Take them out
+> >> to reduce slightly the visual noise.  
+> >
+> > No idea if Perl actually requires, but, at least for me, I do prefer to
+> > see all special characters properly escaped with a backslash. This way,
+> > it is a lot clearer that what it is expecting is a string, instead of
+> > using something that may affect regex processing.  
+> 
+> I guess my point is that, in the given cases, the characters in question
+> *aren't* special.
+
+They are special in the sense that we're using characters that
+have meanings in regular expressions and even placing them on
+a random order may cause POSIX violations (and eventually cause
+troubles if, for instance, we need to use "regex" instead of "re",
+or if someone fixes python native "re" to be more POSIX compliant.
+
+> >> -        param = KernRe(r'[\[\)].*').sub('', param, count=1)
+> >> +        param = KernRe(r'[)[].*').sub('', param, count=1)  
+> >
+> > This one, for instance, IMHO looks a lot worse for my eyes to understand
+> > that there is a "[" that it is not an operator, but instead a string.
+> > The open close parenthesis also looks weird. My regex-trained eyes think
+> > that this would be part of a capture group.  
+> 
+> ...and mine say "that's in [brackets] why are you escaping it?" :)
+
+Heh, all those years writing and reviewing kernel code, for me
+seeing unmatched parenthesis/brackets really bugs me... perhaps
+it starts some sort of TOC syndrome ;-)
+
+Perhaps one alternative would be to have a separate var, like:
+
+	# Before touching this, see:
+	# https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_04
+	# As some char sequences inside brackets have special meanings
+	escape_chars = ")["
+
+	param = KernRe(rf'[{escape_chars}].*').sub('', param, count=1)  
+
+or to use re_escape().
+
+> >>          if dtype == "" and param.endswith("..."):
+> >>              if KernRe(r'\w\.\.\.$').search(param):
+> >> @@ -405,7 +405,7 @@ class KernelDoc:
+> >>  
+> >>          for arg in args.split(splitter):
+> >>              # Strip comments
+> >> -            arg = KernRe(r'\/\*.*\*\/').sub('', arg)
+> >> +            arg = KernRe(r'/\*.*\*/').sub('', arg)  
+> >
+> > A pattern like /..../ is a standard way to pass search group with Regex
+> > on many languages and utils that accept regular expressions like the
+> > sed command. Dropping the backslash here IMHO makes it confusing ;-)  
+> 
+> ...but it is definitely not any such in Python and never has been, so
+> escaping slashes looks weird and makes the reader wonder what they are
+> missing.
+
+After re-reading, this specific change is actually ok, but yeah, I
+still need to read it twice or three times, as on sed, perl and other
+languages that are more POSIX compliant, /re/ means a regex delimiter:
+
+	https://en.wikipedia.org/wiki/Regular_expression
+
+> > Seriously, IMHO this patch makes a lot worse to understand what brackets,
+> > parenthesis and dots are strings, and which ones are part of the regex
+> > syntax.   
+> 
+> So I guess I won't fight this one to the death, but I really do
+> disagree.  Writing regexes in a non-canonical style just makes it harder
+> for anybody else who comes along to figure out what is going on; it
+> certainly made it harder for me.
+
+Heh, for me, my main concerns are:
+- unmatched brackets/parenthesis
+- POSIX violations - it may work today, but future Python versions
+  that fix "re" module will cause regressions. It is also annoying
+  to write/understand regex that only works on Python.
+
+I can live with the other ones.
+
+Thanks,
+Mauro
