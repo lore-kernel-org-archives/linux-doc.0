@@ -1,75 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D216925CC58;
-	Mon,  4 Aug 2025 12:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834472620F5;
+	Mon,  4 Aug 2025 12:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754311473; cv=none; b=A4FcNvSXiqS3zPIaSOaRchkNJVWlOSj+FGdWcCx9AvBP7U+zJm0ZaOcymg4pQIa+RvxzNy1XvVDnfWxcJ0wShOw3mxMJLGyk1sn+5iV9k4aXQrC/wQwp/NxMpa7Kdmkn58FxbmsEe7yVNRT2XBNbOw10s/EQfVxhKhsZ6Ki4t6M=
+	t=1754311717; cv=none; b=IRyBqLzdboeBH9IBaC0hxBgNxJgjI3vLgc+5eZvnUbLywQB8R7WDjPYG3oGu6tdMrgMYGNz04fXLzyCsbI2t+0zjQ0zMxIzaPYMQyyxdr8Rn1eaNNNOwqYosZ/FASkW3RVjCnEefvtcbT4W8UFgjr11Aw6B7wyb+Z8GyYP6B7qI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754311473; c=relaxed/simple;
-	bh=Aje2MY5jLtJJ+XC6L21HodqK1MreNzlcX3KM+Qptt24=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jZ7FgbWb/jBl5cBigfrNN5DB66Jna5hzxtW4tCDMIIfv7Jfl1QfRDksP1UBJzhBDYekKGA1MskTDINatba5gutgzhAO17bMf19jlVJqRt5J7Bl85K7YGWYCK4oVYeNz90E5sQSUfPksJYAdgjuP0jY8/JpBN9357EEL3rsrGVmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+O9BFW9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754311717; c=relaxed/simple;
+	bh=+rWNS6EpC+ok6OGEmxvyNLCgYYM2WkjSK3CbsK5Csv4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B0ZhXcxgSkpvZHGAC/VDyUQl1CLUz5c0/q2E8FFjPEPU+bWWPY9nQMb3P7W4n3JWNDaS+BWjsf0NNYMTBrSARc5VyV3YLZPu/SIWMvG/rfJQrVB4NMepH5GHd2O3gGAjB0cTeKSMtWbe6Cvd5MG4jYEutM4UCXH3xSGWdvPoHUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OiLMrUdb; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+O9BFW9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBBA4C4CEE7;
-	Mon,  4 Aug 2025 12:44:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754311472;
-	bh=Aje2MY5jLtJJ+XC6L21HodqK1MreNzlcX3KM+Qptt24=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D+O9BFW9G3EUN02UNr+9W1wRCdRDfRkf0x3nKVoSKF3qgFSYQkjSJdutDyO+/GaXc
-	 LGLcj33SDyJqVULCEM37MXdFVYsGALxSAZY0nHbzSQZTnFerxjcv8C6TboBXWH4naX
-	 6ZVZnkDzbfO3eKo22J8zcBZLzmo4T9kxSkmi7f07Z+UGaRwrQIMopajJOg4vYfLx6+
-	 jnSQUAfHfWhVCjNaPp3bPAtogKMoVHj2Hvn4dfigZthAzfffhOXJp1Yoe3nvVjUnC/
-	 ShnNJR9ewOfC+QlOtWiwtM5Xx2GVbLWurX258r+SmOzIeAJTmd4uYs98RHNcdlwqdj
-	 Y4q80UzvzmD6g==
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com,
-	Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OiLMrUdb"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-76b6422756fso4938705b3a.2;
+        Mon, 04 Aug 2025 05:48:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754311716; x=1754916516; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gzjx2DVpYPGgsfQ6eov+FVw7jZ0lNmf8LVqNGKlL7nk=;
+        b=OiLMrUdb5w+hfj8u3L+3flAnFxF9F66B6vEi7ZuJ+rTGw5NFBkqQRJfGFnTGqQKk/n
+         H7GdP2V3Jxy7TJXcmDn0M6borH9sX1Gw1HoOGZh/zmBNkdpKJJzOt4r4e+xk9HwlfDpe
+         P14thvJLRJ4zjeDrr9OtlghWaKhy9Es+sR6mbBmFeY1G9SUnisqoOIguiTdVTA/LkzuZ
+         +w/KGc7GDcoaxNjohMR6C9rpGzsOEM6Z8WssnBr1G4uxEmUJYWb/b/VXUHY3AISIE0WF
+         uBAvfR6GGHkkv3/6RkiLVFblw94PmFaPzCN3EiFFW1UpizAA6GGUZ2EMOVcjbfxN+bTH
+         ljoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754311716; x=1754916516;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gzjx2DVpYPGgsfQ6eov+FVw7jZ0lNmf8LVqNGKlL7nk=;
+        b=PTF+wO3CxM1nvGcX/9ZiTwAdDoo+yUh3bL9uBfgnqwOiiwXdRyDyvHtQgsADTepS9k
+         d/T3IUz4k4uV6aL4Nzjv2S46tmYWxGs9GUJ/RZ6ryff+/ED4tRfX/CcXJV9bCzud9lbL
+         R426tS7yC83AS8JS/pEX/K/sBgVTW7TclJX0NUpzaAqEl7BeGnXhlCmQ+OJxS3yo4Nyg
+         64Hd4Nr1i7ZYHoAMuKlSe9ek2bnH+iVBxZ6YpL+U94Ki7cQMV2bX6aOsG/YxrnrMQnHG
+         ZUwbScjMWBdWZBrbadrHrm/TcrDLQHsmwhQ5vKLlzxbXV5bObDAg5bMITh+SoMkwa1aL
+         AQIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDhOSmNFPLKW/QDUehGJils7L+pGH/DSs7ED86p6PqHesDRrXUYuZn9WBE6Q6l8UT3KxUQt5V+/U1Z@vger.kernel.org, AJvYcCX6sSt8kF+zizWFZ0xSnvLL1RaJ2DhlOMgyKmWDf55j+ZO8jKLekjtab5kxNVOKtqE1uXpr1JpyJOAjqlmT@vger.kernel.org, AJvYcCXI8QQQO/9YGvVxOtyjkCS0ncRr/buI1aGETf7o2wB/dpw66GOrYKfpMqD+Jl95C5HmOhlVIxVC4PxH@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxr4tQMeqxZlklECkBJKbG78JOGsLqQWPIoBuJV7wuIOgEjtVbO
+	jYM6ns1YuRXxNDM4AUqgitesTeRCeXvng4lzD7wb7pepJVdeHPSTZI3vrd9uqQ==
+X-Gm-Gg: ASbGnctv7h+zuiTu5+gYZoJw6xr5YsYQtAlD41ucqbkiAk3xus9AbmpGCBbOqYHFmu2
+	sFaV0U7wJ39/yO1S+m/pTH4w0+78sZJt/4DcpF3bhMdZ/pULXbuLYzmeOo7OujvQyicZ6yDr218
+	xleR7Tu6VY1RlhNoxg2FimLpPH4kZKZiJfe/ylQ+yBraJhj8PNvX5zu7I8y1LVSWuE07DLlJjXi
+	TpP0f5yyuvSQ7+UMOa0ANoMPYy0Y7UJs5QsBcMojYS4LP40/oqP7bL1RJIy9PLShRNaP6k7nNXt
+	ODVGR691QOKfV+6FLHqkHHX/ZpWxmxCVF4yzGGXy363/6qY6JypCH2FHebHfF53Jq9KpP10g1j3
+	NrvX8zTqBb+WDb7XiJq513kCfaZoqsx02HD7zZhDnMDacMm2oQPGNe90QG7j8HERL0GF2ecFiQP
+	rxkWbbu6I=
+X-Google-Smtp-Source: AGHT+IELLgfCkFQJQ5IDbpK6I+JXBZTSYNzNEe7rgTPBPnl8nosGlREgdQgF972TIfm4uUY0QalItQ==
+X-Received: by 2002:a05:6a00:4644:b0:748:e1e4:71d9 with SMTP id d2e1a72fcca58-76bec4f6a57mr10718674b3a.22.1754311715527;
+        Mon, 04 Aug 2025 05:48:35 -0700 (PDT)
+Received: from CNTWS00427A.itotolink.net (111-242-101-165.dynamic-ip.hinet.net. [111.242.101.165])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfbd656sm10566612b3a.72.2025.08.04.05.48.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Aug 2025 05:48:35 -0700 (PDT)
+From: ChiShih Tsai <tomtsai764@gmail.com>
+To: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev,
-	Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: [PATCH v1 15/16] block-dma: properly take MMIO path
-Date: Mon,  4 Aug 2025 15:42:49 +0300
-Message-ID: <d9b092cde0f42bc6a8a1cb36ffee3478c46a3599.1754292567.git.leon@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1754292567.git.leon@kernel.org>
-References: <cover.1754292567.git.leon@kernel.org>
+	linux-doc@vger.kernel.org
+Cc: jdelvare@suse.com,
+	linux@roeck-us.net,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	t630619@gmail.com,
+	ChiShih Tsai <tomtsai764@gmail.com>
+Subject: [PATCH 0/2] Add sq24905c support
+Date: Mon,  4 Aug 2025 20:48:03 +0800
+Message-ID: <20250804124806.540-1-tomtsai764@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,106 +82,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Leon Romanovsky <leonro@nvidia.com>
+The SQ24905C is also a Hot-swap controller similar to the ADM1278, with the
+following differences:
+        * The MFR_ID register data is different.
+        * The MFR_MODEL register data is different.
 
-Make sure that CPU is not synced and IOMMU is configured to take
-MMIO path by providing newly introduced DMA_ATTR_MMIO attribute.
+It also introduces two parameters "silergy,power-sample-average" and
+"silergy,volt-curr-sample-average" for Digital Power Monitor. Device tree
+bindings are updated accordingly.
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- block/blk-mq-dma.c         | 13 +++++++++++--
- include/linux/blk-mq-dma.h |  6 +++++-
- include/linux/blk_types.h  |  2 ++
- 3 files changed, 18 insertions(+), 3 deletions(-)
+The currently available ADM1275 driver supports the ADM1278 and this patch
+adds support for the SQ24905C. The datasheet see link for reference.
+https://www.silergy.com/download/downloadFile?id=5669&type=product&ftype=note
 
-diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
-index 37e2142be4f7d..d415088ed9fd2 100644
---- a/block/blk-mq-dma.c
-+++ b/block/blk-mq-dma.c
-@@ -87,8 +87,13 @@ static bool blk_dma_map_bus(struct blk_dma_iter *iter, struct phys_vec *vec)
- static bool blk_dma_map_direct(struct request *req, struct device *dma_dev,
- 		struct blk_dma_iter *iter, struct phys_vec *vec)
- {
-+	unsigned int attrs = 0;
-+
-+	if (req->cmd_flags & REQ_MMIO)
-+		attrs = DMA_ATTR_MMIO;
-+
- 	iter->addr = dma_map_phys(dma_dev, vec->paddr, vec->len,
--			rq_dma_dir(req), 0);
-+			rq_dma_dir(req), attrs);
- 	if (dma_mapping_error(dma_dev, iter->addr)) {
- 		iter->status = BLK_STS_RESOURCE;
- 		return false;
-@@ -103,14 +108,17 @@ static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
- {
- 	enum dma_data_direction dir = rq_dma_dir(req);
- 	unsigned int mapped = 0;
-+	unsigned int attrs = 0;
- 	int error;
- 
- 	iter->addr = state->addr;
- 	iter->len = dma_iova_size(state);
-+	if (req->cmd_flags & REQ_MMIO)
-+		attrs = DMA_ATTR_MMIO;
- 
- 	do {
- 		error = dma_iova_link(dma_dev, state, vec->paddr, mapped,
--				vec->len, dir, 0);
-+				vec->len, dir, attrs);
- 		if (error)
- 			break;
- 		mapped += vec->len;
-@@ -176,6 +184,7 @@ bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_dev,
- 			 * same as non-P2P transfers below and during unmap.
- 			 */
- 			req->cmd_flags &= ~REQ_P2PDMA;
-+			req->cmd_flags |= REQ_MMIO;
- 			break;
- 		default:
- 			iter->status = BLK_STS_INVAL;
-diff --git a/include/linux/blk-mq-dma.h b/include/linux/blk-mq-dma.h
-index c26a01aeae006..6c55f5e585116 100644
---- a/include/linux/blk-mq-dma.h
-+++ b/include/linux/blk-mq-dma.h
-@@ -48,12 +48,16 @@ static inline bool blk_rq_dma_map_coalesce(struct dma_iova_state *state)
- static inline bool blk_rq_dma_unmap(struct request *req, struct device *dma_dev,
- 		struct dma_iova_state *state, size_t mapped_len)
- {
-+	unsigned int attrs = 0;
-+
- 	if (req->cmd_flags & REQ_P2PDMA)
- 		return true;
- 
- 	if (dma_use_iova(state)) {
-+		if (req->cmd_flags & REQ_MMIO)
-+			attrs = DMA_ATTR_MMIO;
- 		dma_iova_destroy(dma_dev, state, mapped_len, rq_dma_dir(req),
--				 0);
-+				 attrs);
- 		return true;
- 	}
- 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 09b99d52fd365..283058bcb5b14 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -387,6 +387,7 @@ enum req_flag_bits {
- 	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
- 	__REQ_ATOMIC,		/* for atomic write operations */
- 	__REQ_P2PDMA,		/* contains P2P DMA pages */
-+	__REQ_MMIO,		/* contains MMIO memory */
- 	/*
- 	 * Command specific flags, keep last:
- 	 */
-@@ -420,6 +421,7 @@ enum req_flag_bits {
- #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
- #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
- #define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
-+#define REQ_MMIO	(__force blk_opf_t)(1ULL << __REQ_MMIO)
- 
- #define REQ_NOUNMAP	(__force blk_opf_t)(1ULL << __REQ_NOUNMAP)
- 
+ChiShih Tsai (2):
+  dt-bindings: hwmon: adm1275: add sq24905c support
+  hwmon: (pmbus/adm1275) add sq24905c support
+
+ .../bindings/hwmon/adi,adm1275.yaml           | 20 ++++++++++++++
+ Documentation/hwmon/adm1275.rst               | 24 +++++++++++------
+ drivers/hwmon/pmbus/Kconfig                   |  5 ++--
+ drivers/hwmon/pmbus/adm1275.c                 | 27 +++++++++++++------
+ 4 files changed, 58 insertions(+), 18 deletions(-)
+
 -- 
-2.50.1
+2.43.0
 
