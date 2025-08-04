@@ -1,120 +1,163 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1117B4430;
-	Mon,  4 Aug 2025 22:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16533B1AB
+	for <linux-doc@vger.kernel.org>; Mon,  4 Aug 2025 22:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754345014; cv=none; b=k4C6M3XOoetVN+eXJ0KtySPD8sd/5hdTrA0SdYDKgHloTpHxerojHdSFy5g+9JI1jmXyCJpJzWEmt4JxZl2hwPsQW9AQY2ya1yFzjXg8xsCOkFmy8otyNSJ3l6a1v2zLaKxOC5uMSv85SCZ+LQoeoE8V2hI70RPlHfjpCjirxvk=
+	t=1754345134; cv=none; b=jSOp1JbRrU0E941Bcr2iCXZ5hlny2M+2vqjDFpI/F2UMMdxEm6qmG9A9vOmFBuMqQkud014gQi23U7XOw5+9EcOu0ZyXsfWvGiIsUfNjPfbO3BDHQ2DwIcFaab3W8tg+G07RzMz0BMpm7pj1HzPdmKEl1+DsKjhOZKfrGTUQ9Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754345014; c=relaxed/simple;
-	bh=p2nBXXxlTFA2GEEJ3s1EKIPnbNXOdk9tfoQuodXc/HQ=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=b8IvXv3mryLkH1Gog5GnJPuHC2OrMw4b9M94ZYQhXJtezcluP+aHXMrJcokuQbK5nEjb2+M+0mjBz3Y32Q5KhQp2UmzMGA8OGM2OmFvvqtVqt8MP/X9LHB8RQpeS0TJgt9yWPThX0iZyVQ+9UafM5Bzn/NOLgcZGOG8yAZmYcTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UJKfCdKI; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754345134; c=relaxed/simple;
+	bh=FastEB7OgXECdO9hgZYE22NM+7kbCnkmTDsfLodWQSI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jg/8V07bwGPQonjXJ9V7biK5Z5T1jNd/gsjGrW0hXuuajEZvuu63l5jRNiQ/QS8LELAFv0/1hMXdekXhVQLn92BsuPZEUZGlTBXPGDl4le+icJb2qm9UcUV4R24ZMqp5rTwV/eJND/vveWCDFZ9EhYfYtLZHcuUPBEAnM+LPJeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vt.edu; spf=pass smtp.mailfrom=vt.edu; dkim=pass (2048-bit key) header.d=vt-edu.20230601.gappssmtp.com header.i=@vt-edu.20230601.gappssmtp.com header.b=vVd4Fxom; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vt.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vt.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UJKfCdKI"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6157b5d0cc2so4999910a12.1;
-        Mon, 04 Aug 2025 15:03:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=vt-edu.20230601.gappssmtp.com header.i=@vt-edu.20230601.gappssmtp.com header.b="vVd4Fxom"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-741b1fe0e00so722957a34.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 Aug 2025 15:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754345011; x=1754949811; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vV+l/AoIQmjTiJkoSmnJ7PZO37+auBZ0CAATYzrLrwo=;
-        b=UJKfCdKIVFPUeCwSVe/uYgYBGrQD0PScj+yFM2FmhOoY57881+0nbLl/SKZFML2pN6
-         murPMOBoLkZqvmN5FRRfff1TspW9ZK4RPfD2gVHt/+u4LrR0RBgqR+xlyFUAOnj7ulF6
-         3leb5vyDb7MeTEipJVHqHwlSZ0bgfV8uIDEwL60RRNr3GGWna0vaXqx8t4JP3cI+mJEI
-         wRikSAM90fKABDvgxUtam/6ACICTgDq/2GhBVkpHsIJqDbV8V+tAZbVtIGLkv/UjuusK
-         kU0LB6A2Ess4VJAew6wy6I57whvH0Aoi/SXGne0d1bO+EzcPKECrdIc8GB/PKWD0dWaG
-         ob2A==
+        d=vt-edu.20230601.gappssmtp.com; s=20230601; t=1754345132; x=1754949932; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NY95RIchD8SIo3qd+Q4QMJiYcd/t7uGELHIiLvj0ZuI=;
+        b=vVd4FxomPtTPrAkp1tUaoLWOlTE2FUW4q6bEf6oejCMzSSJzMHZqVBDeJsF0Ui2VEt
+         KqDjEvNv6Q8azY8NwgeQWiPqAE3skF0VXIDIoA/bNAbWIiR/yxN7Ng0zCDgW2p072MTj
+         TOEiBz1bZiHZSB83Pgkr37m5IR7Y4aHSfR5RFWaMx75YhU75JxJdNeV2oYi4DxipUJfd
+         einiQBU7t2pAUkluvBzwlcMPdECXyxwuNoL8aCKjlkeefTxoPH4HuRw44pYfmxxcPe65
+         EnY/YiAo51C216Rr7uZfytnT2OgkpysHJhfsEd9F5HrfwKVMjXaQ0HcWSWl0a6aqTEln
+         wGPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754345011; x=1754949811;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vV+l/AoIQmjTiJkoSmnJ7PZO37+auBZ0CAATYzrLrwo=;
-        b=oR1COCsqkxEpWrYSulbCB8Erb+leWh7LypHSV2gfaexijfwDSL6tfnquvx6k6d2Fw5
-         FiWkrnZkDz2gCph83C/j+LDIgTMIs7kpkPm7bDU3seTBgYSmYBEP3TzvsGikjr0sbbiZ
-         sHwRFGf9y1msTJ1LnfLmqZo9XClWPgcWum37R2Px2tKafJoxYoh8RCYR0e8XSB7OXUbH
-         k/O2UnDjgQUNERrwk/A+g0OgshkIh6uWl7GztM8WVze/dwSICl4eE475upYcD7YGCEcA
-         DmDmw46aECljscf64q58vuj3UJXh56s8WEjcSwijx9iRzNNi+/1l+dqScrxA0Y/0ahHY
-         DtfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUcn6QJGSrPC+70a8XT/0fh7vV1QiMsuYwkDAkPIgNKf9ubbisgxJUO+gbCM/OVsg1HxxoMwsv1CGEf@vger.kernel.org, AJvYcCV86pIgRX2wf5lpNdvc3AthQTHr7dQdcY2Pl+de0fKLAxatkWxBYtZtH9ApskwG+cWocn7w4179Vck=@vger.kernel.org, AJvYcCXVSvDb15SISCgEGRvlM2oViQMKIr+Zr54vN39vyVZS5i0J4MvICYURftkJaLbVgZIzXeSjPxnu6UF51PbH@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZv3WI8LvflgG8SMlpkxi6crCgLJ4AKA4WVifu+gk344j+9YhY
-	ECqdGsaOr3ssuBMVte6C/DX/zM5ui8BrFsHrNPsxKN21RuNlF1Z4mUzP
-X-Gm-Gg: ASbGncsf5rebdzHEpPsT0a0SQzi0MYEndwMbcRxYxKtxvlCE0VAhrNHiW7euMzElHuS
-	0Lbkr05SDpd6M4kRq3GL2h7tUa+3plqX6XWxjMTHzVirI1nWihgnuTl+FhlpsRIJS/etTTgfDoK
-	mTagXqzNnYNcgge61TabQwh4UXF+9AD5zOEiAUP//jW5thbo9LW2q/uQ2tx27hWHxz9FyqjQciD
-	5Wo6IIqSnJDEA55n/7U8+SSct8pfq9tx/D/1HkLH1Y3GaLv6qWWZlfmOBsv29ow82IozLcMDJu9
-	b+4gPD41mJtL0ONdOGhdy/UXFFPOPgr05e0rKfAYdc8uJW86Re4tMp/J9yfZGutvGvzEgvb8oN/
-	0eI/aog==
-X-Google-Smtp-Source: AGHT+IFNnPbgloatd/bauAsrBdwIztzDNxa/G9LyVYPHGTRJkfeh0ibtHkV1YCGfc/jdUx5xC6oJJQ==
-X-Received: by 2002:a05:6402:51cb:b0:612:dd26:9fab with SMTP id 4fb4d7f45d1cf-615e6ebc44fmr9414129a12.7.1754345011002;
-        Mon, 04 Aug 2025 15:03:31 -0700 (PDT)
-Received: from localhost (twin.jikos.cz. [91.219.245.39])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a9113e40sm7368688a12.57.2025.08.04.15.03.30
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 04 Aug 2025 15:03:30 -0700 (PDT)
-From: Jiri Kosina <kosina@gmail.com>
-X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
-Date: Tue, 5 Aug 2025 00:03:29 +0200 (CEST)
-To: Sasha Levin <sashal@kernel.org>
-cc: Michal Hocko <mhocko@suse.com>, David Hildenbrand <david@redhat.com>, 
-    Greg KH <gregkh@linuxfoundation.org>, Vlastimil Babka <vbabka@suse.cz>, 
-    corbet@lwn.net, linux-doc@vger.kernel.org, workflows@vger.kernel.org, 
-    josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org, 
-    linux-kernel@vger.kernel.org, rostedt@goodmis.org
-Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
- kernel
-In-Reply-To: <aJC0ssMzX0KWnTkG@lappy>
-Message-ID: <alpine.LRH.2.00.2508050000580.22517@gjva.wvxbf.pm>
-References: <20250727195802.2222764-1-sashal@kernel.org> <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz> <9afd157a-296d-4f4d-9d65-07b89ab3906f@redhat.com> <2025072832-enrich-pampers-54b9@gregkh> <1bd04ce1-87c0-4e23-b155-84f7235f6072@redhat.com> <aId1oZn_KFaa0R_Q@lappy>
- <aJB8CdXqCEuitnQj@tiehlicka> <aJC0ssMzX0KWnTkG@lappy>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+        d=1e100.net; s=20230601; t=1754345132; x=1754949932;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NY95RIchD8SIo3qd+Q4QMJiYcd/t7uGELHIiLvj0ZuI=;
+        b=sm3s8fI6q5g6ATeD2YmTaB/B+XXTovZPQnewWTwLGzS28NSWvW0ELG/HPPJ+Qi2kx4
+         ODKKuaFcEDoKk5e7Afd/cAz5ti+X44FDDZX9oF+/F8+zmm6jTU4nTbSUGH3qtjke/Sj/
+         kLuUxFqsF5Uu1Qo6d6Tuxgp8LsllFqlvgyn01eosOvRcBTLntbQoHqEeY1S6TYqpV437
+         LmrRLLoH3zGHta5FzbO5+GCPTlQLXRSnSD0zmSkiWNQbWfV0VFumC43LrBIYpTqp6mpb
+         rNUmo6b5FsrYXHf75GVF6XBZrj/2LGen80Sc9GPpJ+Eov5uBTRugnvqiubFfLZ+huk6f
+         /lMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWuafgs7SVmlJesP5Y1CeXUt184Pw0X9ohANo8ZpIrVOyzwl6WPMsOJP22nh3ztk6buZ0DJCAX+x6Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxD+wVjZRRvJ5YQ4qX084/cGtx810G8Brp21e4rxXjgga06nw8c
+	mczcMxnv6g4M565pXJi4LJc41nlSmm1XFF18lIX59RIc+emZQYeMZarU1P88CgA7aa4=
+X-Gm-Gg: ASbGncu99M0xrdGeEY+cc94oUYzPrWPpG1O/fxdCnEyu6QVNzIgxJnoi93a2yOUX4Ai
+	n9IESmJaenDJlaAPHjjrr60UWjjH++EYljGd1wbnWPjKcS2ez2gH+RQdSOm9Z25/SP6efTgph2c
+	8UtBwAhspc2/e6/2n4m37qPdIMGlNME3PDL06wqFKzfTH4HNTsB+aNXu/NSZipfpE0Wou4CYzUl
+	rL/YVgt9PxiRTzWPZjBtzTiJEpfGxQl98F1tOTgGcF6fxgsmzy04lJ4Wn7aoEQi5HLo5E0jqYby
+	2iAbFQRosXKqnMOAC7vMj7Co9UbgjfLBdoMIcp58zgfSL03f/7Odk2JTWaXFK6RnHQrZYEmSycc
+	726x9wErGCU2ZK3k90rORiL+89ghnh9l940/3+/QuIKRKltOdbQmJ0hYSz91C+Oeq
+X-Google-Smtp-Source: AGHT+IFb15fKkmoC9SPgLm/k/c4CHRaUaa9kPFmtSl+959gz0smfjwanQ5OD7XAAx5dCBqHcm7ev5A==
+X-Received: by 2002:a05:6830:3745:b0:73e:9bf2:92a8 with SMTP id 46e09a7af769-742f8aab4aamr760623a34.3.1754345131794;
+        Mon, 04 Aug 2025 15:05:31 -0700 (PDT)
+Received: from ?IPV6:2603:8080:7400:36da:3059:9aaf:e68e:7cb6? ([2603:8080:7400:36da:3059:9aaf:e68e:7cb6])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-74186dd26a9sm2446776a34.57.2025.08.04.15.05.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Aug 2025 15:05:31 -0700 (PDT)
+Message-ID: <9dcd185f-184e-4c1b-95c8-9f649a9d05f8@vt.edu>
+Date: Mon, 4 Aug 2025 17:05:30 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/core-api: Fix circular buffer examples
+To: paulmck@kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: carlos.bilbao@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, David Howells <dhowells@redhat.com>
+References: <20250720160243.149595-1-carlos.bilbao@kernel.org>
+ <1e3c4ee3-f66e-4ce0-819e-e0bed6a744e8@gmail.com>
+ <8723a37f-0a04-4e46-80a1-7bb817ecae03@paulmck-laptop>
+Content-Language: en-US
+From: Carlos Bilbao <bilbao@vt.edu>
+In-Reply-To: <8723a37f-0a04-4e46-80a1-7bb817ecae03@paulmck-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 4 Aug 2025, Sasha Levin wrote:
+Hello,
 
-> > The above guidance is quite vague. How me as a maintainer should know
-> > that whatever AI tool has been used is meeting those two conditions
-> 
-> In exactly the same way you know that a human contributor didn't copy
-> code with an incompatible license.
-> 
-> Quoting from Documentation/process/5.Posting.rst :
-> 
-> 	 - Signed-off-by: this is a developer's certification that he or
-> 	   she has the right to submit the patch for inclusion into the
-> 	   kernel.  It is an agreement to the Developer's Certificate of
-> 	   Origin, the full text of which can be found in
-> 	   :ref:`Documentation/process/submitting-patches.rst
-> 	   <submittingpatches>` Code without a proper signoff cannot be
-> 	   merged into the mainline.
-> 
-> The Signed-off-by tag doesn't mean that a commit was reviewed, it
-> doesn't mean that someone tested it, nor does it indicate that the
-> person who signed off belives it is correct.
-> 
-> It only means that the person has legally certified to you what is
-> stated in the DCO.
+On 7/23/25 15:47, Paul E. McKenney wrote:
+> On Mon, Jul 21, 2025 at 11:47:25AM +0900, Akira Yokosawa wrote:
+>> +CC David and Paul, who are the authors of this doc.
+>>
+>> On Sun, 20 Jul 2025 11:02:43 -0500, Carlos Bilbao wrote:
+>>> From: Carlos Bilbao <carlos.bilbao@kernel.org>
+>>>
+>>> Fix circular buffer usage in producer/consumer examples in
+>>> circular-buffers.rst. They incorrectly access items using buffer[head] and
+>>> buffer[tail], as if buffer was a flat array; but the examples also use
+>>> buffer->head and buffer->tail, so it's a struct. Use buffer->vals[head] and
+>>> buffer->vals[tail] instead to match the intended layout.>
+>>>
+>>> Signed-off-by: Carlos Bilbao <carlos.bilbao@kernel.org>
+> Hello, Carlos, and thank you for your attention to detail!
+>
+> This one could likely use more help, as the last substantive change was
+> more than ten years ago.
+>
+> But are you referring to a particular use of CIRC_SPACE() and CIRC_CNT()
+> for this change?  If so, could you please identify it in the commit log?
 
-Al made a very important point somewhere earlier in this thread.
 
-The most important (from the code quality POV) thing is -- is there a 
-person that understands the patch enough to be able to answer questions 
-(coming from some other human -- most likely reviewer/maintainer)?
+No, it's just the uses of the structure. Take a look at the patch, you'll
+see. The mistake was introduced in this commit:
 
-That's not something that'd be reflected in DCO, but it's very important 
-fact for the maintainer's decision process.
+commit 90fddabf5818367c6bd1fe1b256a10e01827862f
+Author: David Howells <dhowells@redhat.com>
+Date:   Wed Mar 24 09:43:00 2010 +0000
 
--- 
-Jiri Kosina
-SUSE Labs
+     Document Linux's circular buffering capabilities
+
+     Document the circular buffering capabilities available in Linux.
+
+     Signed-off-by: David Howells <dhowells@redhat.com>
+     Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+     Reviewed-by: Randy Dunlap <rdunlap@xenotime.net>
+     Reviewed-by: Stefan Richter <stefanr@s5r6.in-berlin.de>
+     Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+
+
+>
+> 							Thanx, Paul
+>
+>>> ---
+>>>   Documentation/core-api/circular-buffers.rst | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/core-api/circular-buffers.rst b/Documentation/core-api/circular-buffers.rst
+>>> index 50966f66e398..b697915a2bd0 100644
+>>> --- a/Documentation/core-api/circular-buffers.rst
+>>> +++ b/Documentation/core-api/circular-buffers.rst
+>>> @@ -161,7 +161,7 @@ The producer will look something like this::
+>>>   
+>>>   	if (CIRC_SPACE(head, tail, buffer->size) >= 1) {
+>>>   		/* insert one item into the buffer */
+>>> -		struct item *item = buffer[head];
+>>> +		struct item *item = buffer->vals[head];
+>>>   
+>>>   		produce_item(item);
+>>>   
+>>> @@ -203,7 +203,7 @@ The consumer will look something like this::
+>>>   	if (CIRC_CNT(head, tail, buffer->size) >= 1) {
+>>>   
+>>>   		/* extract one item from the buffer */
+>>> -		struct item *item = buffer[tail];
+>>> +		struct item *item = buffer->vals[tail];
+>>>   
+>>>   		consume_item(item);
+>>>   
+>>> -- 
+>>> 2.43.0
+>>          Thanks, Akira
+>>
+
+Thanks,
+
+Carlos
+
