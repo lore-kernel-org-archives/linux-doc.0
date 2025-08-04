@@ -1,134 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f201.google.com (mail-il1-f201.google.com [209.85.166.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D428217B418;
-	Mon,  4 Aug 2025 13:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0619D26FA70
+	for <linux-doc@vger.kernel.org>; Mon,  4 Aug 2025 14:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754313908; cv=none; b=hBNaK2/DIlN4tGH8Hks005vbcSA0YPDwMxaZO/l+JVdsnVh4UIPWntGxyPRs8ytpQrsF4m6f8fN2SCJn2TN7BJuAq2UeuzP1b7/M4tTJRr4HawTTSrTiSe0TqrzXcY+PwrgR+ZlThTK740l0pMirB8zBZpqXyXE8Bm1w62W2QlM=
+	t=1754316683; cv=none; b=quBmTZgXNt0DgddgwEWxIUjmgbZHNcVbddSQTRMblOo6B5ntUMiwFdb33xBwW0fcdvxgvkG9Sxwst0YTZxdoeB4YcY024XLaqsIFQxsVdILCY84EO9rjAFgASJ7s5oFqdLgxnpKSEE9QAhmj9SuU+Yr594bcx/hEEcH4xV2ZHgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754313908; c=relaxed/simple;
-	bh=NTs4IL1Kwd8g0bmY4dYuUQcArWu0IxUvlGbhxSQ476E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFZOXJJ3PrhsKeRat4DUyjruMi4DYDzZb5h/EEDDV2Rj/vhFnNKbiGZZoEUNo8rOR9vxW/H9R2CjX4/+ZATQXK5PLocwSBedKicRFLinD5J5fHGClNtTlE7Md/tGYPPn3JNNu9qIS0jjQ3HOb7vBf69zSxW6XyM3N+AvAXKkjN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lIDoqjle; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754316683; c=relaxed/simple;
+	bh=F+PXi5nM5lhXJgRf7ORFGFHyO6OD7uAo4HwtKB8OfpY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ACFgBFYAJKGqmeirFCCjWr+A938Ix6Y5SRPzl9Iehw47eJzmUZE577N5V37l+NLw6OkHjrYAw7otAyWOH+kK3MBaFLAUI8iq8OilDfcZeRuCs4SOjcJ7ZZlt+mcYZsEXeXN2L4TOCKCAoVFJ3keOVoeqQlkIjgfnf95TtAZZb2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sPfhHnOp; arc=none smtp.client-ip=209.85.166.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lIDoqjle"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30718C4CEE7;
-	Mon,  4 Aug 2025 13:25:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754313908;
-	bh=NTs4IL1Kwd8g0bmY4dYuUQcArWu0IxUvlGbhxSQ476E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lIDoqjleeck4npbrxv3OkmfBzGnFEjjIdKjHNcZb58LOnO/ITcpfW7JabRH8VSXmk
-	 6O5ESCqUuHsvRDdAzsyfaWjuEYEwvRpBKCvuVKz66CbPRny/vz3UV9E6fKEtVBagEt
-	 EXDK/p1KbfN9kCRCsArU4NhVfL8AykP8dShRfCzihfvVfcFDKrEcxDX93tMmqaPFVD
-	 BvKqYmZ9/t6sZn84vLsvP9D3ZZY7SAgyfKagsMYj38xMZLcgLuWZFlF9xF8KwXYLRq
-	 0ukcZNdxqRFMBgSD53CFS1BRNWmPNlkXpBQiJNdefQYdNsYlUNKLVMR3SbUS9k7w4Y
-	 GpfbrLlb26mNQ==
-Date: Mon, 4 Aug 2025 09:25:06 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Michal Hocko <mhocko@suse.com>
-Cc: David Hildenbrand <david@redhat.com>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>, corbet@lwn.net,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	josh@joshtriplett.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	rostedt@goodmis.org
-Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
- kernel
-Message-ID: <aJC0ssMzX0KWnTkG@lappy>
-References: <20250727195802.2222764-1-sashal@kernel.org>
- <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
- <9afd157a-296d-4f4d-9d65-07b89ab3906f@redhat.com>
- <2025072832-enrich-pampers-54b9@gregkh>
- <1bd04ce1-87c0-4e23-b155-84f7235f6072@redhat.com>
- <aId1oZn_KFaa0R_Q@lappy>
- <aJB8CdXqCEuitnQj@tiehlicka>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sPfhHnOp"
+Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3e3ef793a6aso85679365ab.2
+        for <linux-doc@vger.kernel.org>; Mon, 04 Aug 2025 07:11:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1754316681; x=1754921481; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ubZ4Umicq2gw4MKto41GXn4WlYxaCA6Z7+4qXt7C5zs=;
+        b=sPfhHnOpgceGdnwJCChO6j0GkCtX1eBB2RU1sj8BV/dI7QwjH4mG/xYc3tcrCHUEAU
+         Q/W4X6CDzHmA1gpbqOV/3RHDVN48JgG9fe0I5pWNrz85hv+vZofhiKfVwz9uvdbifsLc
+         wa63z+ZobkDCuoW4ocdwAiLFtJTaVIwY0itlofbrCfCWmPLlEFHi7EwGVeJoWqzf+97w
+         VNeuShfB5QTCeOV5MPo85OtFERB/63z981/b2TXhfotIXcGAXKidQKmUhtMoVBxhkrTA
+         fZKsKD5gS54N5o9rBK+kLf1b4/lpEePStTfztkhIyYT8t2L2kfA0HlzHFvZW2VtkdKla
+         rgfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754316681; x=1754921481;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ubZ4Umicq2gw4MKto41GXn4WlYxaCA6Z7+4qXt7C5zs=;
+        b=Xa6g+EbmgeCYFi8iCcqdKeWwHJXZi6iJMaqkBHqLq+cQwivExWeuxLsIxxdUqqYLyO
+         Ou9XFqb6wUBJfjKZ7M7fy0e8AzCIXA5ZlMvLLwp6/zKoFlKDySK0tOX++GwFdpV6+SY1
+         YC0yhxZagwxnyp1mSu1K/Y/HyBeQDJHf6G4hRcUhFHbELoNNC5xWqMhO56a7q8B7z8Gt
+         b1NKIXmFZQ3gK9BJgn/AipJ8PjIEjDF3JgVCgSGozoLDEUgGigpzeQc4sL2yljgGP2rc
+         NUfz/ABey+YXbuxGWoMFl8SonBszmtmkLBfbdks+hBt0vcqq6KJCycxZFAlFrFz0UPI2
+         tkNw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4lmQd82GzPASM+bBEa4Qz2hxYrV7HIO9z521jlrW24SHL2xGX3kVCfq+P+5OI+/AxYxKkzdc/iR8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiAE8D0/GRFr3Kt/eIO9rmwQ9Wb/FVmL5cZub48/C0C1QMx7kg
+	l9AUKZKJxiai3ZSR9eGCglfpcm4NVtBBUc+hcD9xxaEWl14g4KwGhmAwKntLIWUqbdoITa7r3lI
+	VQFkjh41eBA==
+X-Google-Smtp-Source: AGHT+IF2q3PwFU6Q37KO4T7Vtt47/cfdjWmrjamRPYqbNsjjM1NxjObawUg+Xrc/aeyAnjn1qvapjP+kXXxu
+X-Received: from ilbec19.prod.google.com ([2002:a05:6e02:4713:b0:3e4:90c:613a])
+ (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6e02:160b:b0:3e3:d50c:d657
+ with SMTP id e9e14a558f8ab-3e41610a4ccmr163038395ab.3.1754316680974; Mon, 04
+ Aug 2025 07:11:20 -0700 (PDT)
+Date: Mon, 04 Aug 2025 14:11:17 +0000
+In-Reply-To: <20250804-support-forcepads-v2-0-138ca980261d@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aJB8CdXqCEuitnQj@tiehlicka>
+Mime-Version: 1.0
+References: <20250804-support-forcepads-v2-0-138ca980261d@google.com>
+X-Mailer: b4 0.14.2
+Message-ID: <20250804-support-forcepads-v2-2-138ca980261d@google.com>
+Subject: [PATCH v2 02/11] Input: add FF_HID effect type
+From: Jonathan Denose <jdenose@google.com>
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
+	"Sean O'Brien" <seobrien@google.com>, Jonathan Denose <jdenose@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, Aug 04, 2025 at 11:23:21AM +0200, Michal Hocko wrote:
->On Mon 28-07-25 09:05:37, Sasha Levin wrote:
->> On Mon, Jul 28, 2025 at 12:47:55PM +0200, David Hildenbrand wrote:
->> > We cannot keep complaining about maintainer overload and, at the same
->> > time, encourage people to bombard us with even more of that stuff.
->> >
->> > Clearly flagging stuff as AI-generated can maybe help. But really, what
->> > we need is a proper AI policy. I think QEMU did a good job (again, maybe
->> > too strict, not sure).
->>
->> So I've sent this series because I thought it's a parallel effort to the
->> effort of creating an "AI Policy".
->>
->> Right now we already (implicitly) have a policy as far as these
->> contributions go, based on
->> https://www.linuxfoundation.org/legal/generative-ai and the lack of
->> other guidelines in our codebase, we effectively welcome AI generated
->> contributions without any other requirements beyond the ones that affect
->> a regular human.
->>
->> This series of patches attempts to clarify that point to AI: it has to
->> follow the same requirements and rules that humans do.
->
->The above guidance is quite vague. How me as a maintainer should know
->that whatever AI tool has been used is meeting those two conditions
+From: Angela Czubak <aczubak@google.com>
 
-In exactly the same way you know that a human contributor didn't copy
-code with an incompatible license.
+FF_HID effect type can be used to trigger haptic feedback with HID simple
+haptic usages.
 
-Quoting from Documentation/process/5.Posting.rst :
+Signed-off-by: Angela Czubak <aczubak@google.com>
+Co-developed-by: Jonathan Denose <jdenose@google.com>
+Signed-off-by: Jonathan Denose <jdenose@google.com>
+---
+ include/uapi/linux/input.h | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-	 - Signed-off-by: this is a developer's certification that he or
-	   she has the right to submit the patch for inclusion into the
-	   kernel.  It is an agreement to the Developer's Certificate of
-	   Origin, the full text of which can be found in
-	   :ref:`Documentation/process/submitting-patches.rst
-	   <submittingpatches>` Code without a proper signoff cannot be
-	   merged into the mainline.
-
-The Signed-off-by tag doesn't mean that a commit was reviewed, it
-doesn't mean that someone tested it, nor does it indicate that the
-person who signed off belives it is correct.
-
-It only means that the person has legally certified to you what is
-stated in the DCO.
-
->: 1. Contributors should ensure that the terms and conditions of the
->: generative AI tool do not place any contractual restrictions on how the
->: tool’s output can be used that are inconsistent with the project’s open
->: source software license, the project’s intellectual property policies,
->: or the Open Source Definition.
->:
->: 2. If any pre-existing copyrighted materials (including pre-existing
->: open source code) authored or owned by third parties are included in the
->: AI tool’s output, prior to contributing such output to the project, the
->: Contributor should confirm that they have have permission from the third
->: party owners–such as the form of an open source license or public domain
->: declaration that complies with the project’s licensing policies–to use
->: and modify such pre-existing materials and contribute them to the
->: project. Additionally, the contributor should provide notice and
->: attribution of such third party rights, along with information about the
->: applicable license terms, with their contribution.
->
->Is that my responsibility?
-
-As far as making sure that all patches you take come with a
-Signed-off-by tag, yes, it's your responsibility to make sure that such
-tag exists.
-
-Otherwise, this series doesn't add any new requirements on you as a
-maintainer.
+diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
+index 2557eb7b056178b2b8be98d9cea855eba1bd5aaf..3ea7c826c6fb2034e46f95cb95b84ef6f5b866df 100644
+--- a/include/uapi/linux/input.h
++++ b/include/uapi/linux/input.h
+@@ -428,6 +428,24 @@ struct ff_rumble_effect {
+ 	__u16 weak_magnitude;
+ };
+ 
++/**
++ * struct ff_hid_effect
++ * @hid_usage: hid_usage according to Haptics page (WAVEFORM_CLICK, etc.)
++ * @vendor_id: the waveform vendor ID if hid_usage is in the vendor-defined range
++ * @vendor_waveform_page: the vendor waveform page if hid_usage is in the vendor-defined range
++ * @intensity: strength of the effect as percentage
++ * @repeat_count: number of times to retrigger effect
++ * @retrigger_period: time before effect is retriggered (in ms)
++ */
++struct ff_hid_effect {
++	__u16 hid_usage;
++	__u16 vendor_id;
++	__u8  vendor_waveform_page;
++	__u16 intensity;
++	__u16 repeat_count;
++	__u16 retrigger_period;
++};
++
+ /**
+  * struct ff_effect - defines force feedback effect
+  * @type: type of the effect (FF_CONSTANT, FF_PERIODIC, FF_RAMP, FF_SPRING,
+@@ -464,6 +482,7 @@ struct ff_effect {
+ 		struct ff_periodic_effect periodic;
+ 		struct ff_condition_effect condition[2]; /* One for each axis */
+ 		struct ff_rumble_effect rumble;
++		struct ff_hid_effect hid;
+ 	} u;
+ };
+ 
+@@ -471,6 +490,7 @@ struct ff_effect {
+  * Force feedback effect types
+  */
+ 
++#define FF_HID		0x4f
+ #define FF_RUMBLE	0x50
+ #define FF_PERIODIC	0x51
+ #define FF_CONSTANT	0x52
+@@ -480,7 +500,7 @@ struct ff_effect {
+ #define FF_INERTIA	0x56
+ #define FF_RAMP		0x57
+ 
+-#define FF_EFFECT_MIN	FF_RUMBLE
++#define FF_EFFECT_MIN	FF_HID
+ #define FF_EFFECT_MAX	FF_RAMP
+ 
+ /*
 
 -- 
-Thanks,
-Sasha
+2.50.1.565.gc32cd1483b-goog
+
