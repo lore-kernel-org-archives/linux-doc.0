@@ -1,153 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDBA2441AA;
-	Mon,  4 Aug 2025 13:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D428217B418;
+	Mon,  4 Aug 2025 13:25:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754313316; cv=none; b=nQSNHStN/G1FpaQxFX7gDcAvesDspjIBxWUZdLpiBJNmE5HVgAMTdVjO4lrnvPv69ccT9HCZa3pEhFWA9uiOr/7JfoctdpHPeCG8vHOi8tpO6+kqU7HzXMg7bMBjXZ/BvjIoG5jeLuSP+1SlsVrQIKtRFklrlSJbB96pmXb3P1c=
+	t=1754313908; cv=none; b=hBNaK2/DIlN4tGH8Hks005vbcSA0YPDwMxaZO/l+JVdsnVh4UIPWntGxyPRs8ytpQrsF4m6f8fN2SCJn2TN7BJuAq2UeuzP1b7/M4tTJRr4HawTTSrTiSe0TqrzXcY+PwrgR+ZlThTK740l0pMirB8zBZpqXyXE8Bm1w62W2QlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754313316; c=relaxed/simple;
-	bh=QQXJ4NR1uMu1IgN3dl3PuSK8BLu/j4cxH3A+dzF6q9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=drXEeFz/ZzVHQAf7btkX/1k7xjs1HJFBGhQxfw7wcb6y8RoY9ClcSrzQGrdmo/cJQYHVNcavgsfyip22wQEwSEKCERvsHjp0mHCJTLa+pbChKuI1K8xHjRMm/iAoPSw5yV3SCERZFgilc365nuj9Lb6WBcjsZ3Vb65X3MzzhitE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AsMQKEGF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754313908; c=relaxed/simple;
+	bh=NTs4IL1Kwd8g0bmY4dYuUQcArWu0IxUvlGbhxSQ476E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TFZOXJJ3PrhsKeRat4DUyjruMi4DYDzZb5h/EEDDV2Rj/vhFnNKbiGZZoEUNo8rOR9vxW/H9R2CjX4/+ZATQXK5PLocwSBedKicRFLinD5J5fHGClNtTlE7Md/tGYPPn3JNNu9qIS0jjQ3HOb7vBf69zSxW6XyM3N+AvAXKkjN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lIDoqjle; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AsMQKEGF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E7BFC4CEE7;
-	Mon,  4 Aug 2025 13:15:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lIDoqjle"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30718C4CEE7;
+	Mon,  4 Aug 2025 13:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754313315;
-	bh=QQXJ4NR1uMu1IgN3dl3PuSK8BLu/j4cxH3A+dzF6q9Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AsMQKEGFwZNq2l5woPe55/esgSkEYeIaPOIMktIPP6W7AHtIWuXM8PDvAPwtYIDTD
-	 Kp3MA6oCztFzWcDXqFSJzXS0P+izV5aHaDnxSD70IIJW8iLfklMreXe8IqnqXI6iYW
-	 6C+jFKI2ChiBLzdGQ8CCLtrSP3HTtFRR4Y4Gfhk6bH6SgnvfPirhtCDyNFehg57tqX
-	 fC03I7uEVJ3mjsjGSH8zqwmGD/dCmV6MdQqSEtg3RhzN93YB+tcbzbt8dK4r4Y8DQH
-	 fLotzguyw2IAxOfvvqOV5COCs3b8CRQ+/i1/0aFIsMDSlsVHtg7kUk62ZyXA4oZVOC
-	 O0vaaGP3zdkLQ==
-Date: Mon, 4 Aug 2025 15:15:11 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 10/12] docs: kdoc: further rewrite_struct_members()
- cleanup
-Message-ID: <20250804151511.73ffb949@foz.lan>
-In-Reply-To: <87v7n6pscu.fsf@trenco.lwn.net>
-References: <20250801001326.924276-1-corbet@lwn.net>
-	<20250801001326.924276-11-corbet@lwn.net>
-	<20250801080744.14f83626@foz.lan>
-	<87v7n6pscu.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1754313908;
+	bh=NTs4IL1Kwd8g0bmY4dYuUQcArWu0IxUvlGbhxSQ476E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lIDoqjleeck4npbrxv3OkmfBzGnFEjjIdKjHNcZb58LOnO/ITcpfW7JabRH8VSXmk
+	 6O5ESCqUuHsvRDdAzsyfaWjuEYEwvRpBKCvuVKz66CbPRny/vz3UV9E6fKEtVBagEt
+	 EXDK/p1KbfN9kCRCsArU4NhVfL8AykP8dShRfCzihfvVfcFDKrEcxDX93tMmqaPFVD
+	 BvKqYmZ9/t6sZn84vLsvP9D3ZZY7SAgyfKagsMYj38xMZLcgLuWZFlF9xF8KwXYLRq
+	 0ukcZNdxqRFMBgSD53CFS1BRNWmPNlkXpBQiJNdefQYdNsYlUNKLVMR3SbUS9k7w4Y
+	 GpfbrLlb26mNQ==
+Date: Mon, 4 Aug 2025 09:25:06 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Michal Hocko <mhocko@suse.com>
+Cc: David Hildenbrand <david@redhat.com>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>, corbet@lwn.net,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org
+Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
+ kernel
+Message-ID: <aJC0ssMzX0KWnTkG@lappy>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+ <75d86e96-cb18-4996-998c-da7ac0e97468@suse.cz>
+ <9afd157a-296d-4f4d-9d65-07b89ab3906f@redhat.com>
+ <2025072832-enrich-pampers-54b9@gregkh>
+ <1bd04ce1-87c0-4e23-b155-84f7235f6072@redhat.com>
+ <aId1oZn_KFaa0R_Q@lappy>
+ <aJB8CdXqCEuitnQj@tiehlicka>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aJB8CdXqCEuitnQj@tiehlicka>
 
-Em Fri, 01 Aug 2025 16:52:33 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Mon, Aug 04, 2025 at 11:23:21AM +0200, Michal Hocko wrote:
+>On Mon 28-07-25 09:05:37, Sasha Levin wrote:
+>> On Mon, Jul 28, 2025 at 12:47:55PM +0200, David Hildenbrand wrote:
+>> > We cannot keep complaining about maintainer overload and, at the same
+>> > time, encourage people to bombard us with even more of that stuff.
+>> >
+>> > Clearly flagging stuff as AI-generated can maybe help. But really, what
+>> > we need is a proper AI policy. I think QEMU did a good job (again, maybe
+>> > too strict, not sure).
+>>
+>> So I've sent this series because I thought it's a parallel effort to the
+>> effort of creating an "AI Policy".
+>>
+>> Right now we already (implicitly) have a policy as far as these
+>> contributions go, based on
+>> https://www.linuxfoundation.org/legal/generative-ai and the lack of
+>> other guidelines in our codebase, we effectively welcome AI generated
+>> contributions without any other requirements beyond the ones that affect
+>> a regular human.
+>>
+>> This series of patches attempts to clarify that point to AI: it has to
+>> follow the same requirements and rules that humans do.
+>
+>The above guidance is quite vague. How me as a maintainer should know
+>that whatever AI tool has been used is meeting those two conditions
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Em Thu, 31 Jul 2025 18:13:24 -0600
-> > Jonathan Corbet <corbet@lwn.net> escreveu:
-> >  
-> >> Get rid of some single-use variables and redundant checks, and generally
-> >> tighten up the code; no logical change.
-> >> 
-> >> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> >> ---
-> >>  scripts/lib/kdoc/kdoc_parser.py | 89 ++++++++++++++++-----------------
-> >>  1 file changed, 42 insertions(+), 47 deletions(-)
-> >> 
-> >> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> >> index 20e0a2abe13b..2b7d7e646367 100644
-> >> --- a/scripts/lib/kdoc/kdoc_parser.py
-> >> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> >> @@ -673,73 +673,68 @@ class KernelDoc:
-> >>          while tuples:
-> >>              for t in tuples:
-> >>                  newmember = ""
-> >> -                maintype = t[0]
-> >> -                _ids = t[5]s
-> >> -                content = t[3]  
-> >
-> > The reason I opted for this particular approach...  
-> >> -
-> >> -                oldmember = "".join(t)
-> >> -
-> >> -                for s_id in s_ids.split(','):
-> >> +                oldmember = "".join(t) # Reconstruct the original formatting
-> >> +                #
-> >> +                # Pass through each field name, normalizing the form and formatting.
-> >> +                #
-> >> +                for s_id in t[5].split(','):  
-> >
-> > ... is that it is easier to understand and to maintain:
-> >
-> > 	for s_id in s_ids.split(','):
-> >
-> > than when magic numbers like this are used:
-> >
-> > 	for s_id in t[5].split(','):  
-> 
-> Coming into this code, I had a different experience, and found the
-> variables to just be a layer of indirection I had to pass through to get
-> to the capture groups and see what was really going on.  That was part
-> of why I put the group numbers in the comments next to that gnarly
-> regex, to make that mapping more direct and easier to understand.
-> 
-> I will not insist on this change either - at least not indefinitely :)
-> I do feel, though, that adding a step between the regex and its use just
-> serves to obscure things.
-> 
-> (And yes, I don't really think that named groups make things better.
-> I've found those useful in situations where multiple regexes are in use
-> and the ordering of the groups may vary, but otherwise have generally
-> avoided them).
+In exactly the same way you know that a human contributor didn't copy
+code with an incompatible license.
 
-I'd say that, when the magic number is within up to 3-lines hunk
-distance - e.g. if all of them will appear at the same hunk, it is 
-probably safe to use, but when it gets far away, it makes more harm 
-than good.
+Quoting from Documentation/process/5.Posting.rst :
 
-Perhaps one alternative would do something like:
+	 - Signed-off-by: this is a developer's certification that he or
+	   she has the right to submit the patch for inclusion into the
+	   kernel.  It is an agreement to the Developer's Certificate of
+	   Origin, the full text of which can be found in
+	   :ref:`Documentation/process/submitting-patches.rst
+	   <submittingpatches>` Code without a proper signoff cannot be
+	   merged into the mainline.
 
-	tuples = struct_members.findall(members)
-        if not tuples:
-            break
+The Signed-off-by tag doesn't mean that a commit was reviewed, it
+doesn't mean that someone tested it, nor does it indicate that the
+person who signed off belives it is correct.
 
-	maintype, -, -, content, -, s_ids = tuples
+It only means that the person has legally certified to you what is
+stated in the DCO.
 
-(assuming that we don't need t[1], t[2] and t[4] here)
+>: 1. Contributors should ensure that the terms and conditions of the
+>: generative AI tool do not place any contractual restrictions on how the
+>: tool’s output can be used that are inconsistent with the project’s open
+>: source software license, the project’s intellectual property policies,
+>: or the Open Source Definition.
+>:
+>: 2. If any pre-existing copyrighted materials (including pre-existing
+>: open source code) authored or owned by third parties are included in the
+>: AI tool’s output, prior to contributing such output to the project, the
+>: Contributor should confirm that they have have permission from the third
+>: party owners–such as the form of an open source license or public domain
+>: declaration that complies with the project’s licensing policies–to use
+>: and modify such pre-existing materials and contribute them to the
+>: project. Additionally, the contributor should provide notice and
+>: attribution of such third party rights, along with information about the
+>: applicable license terms, with their contribution.
+>
+>Is that my responsibility?
 
-Btw, on this specific case, better to use non-capture group matches
-to avoid those "empty" spaces, e.g. (if I got it right):
+As far as making sure that all patches you take come with a
+Signed-off-by tag, yes, it's your responsibility to make sure that such
+tag exists.
 
-	# Curly Brackets are not captured
-        struct_members = KernRe(type_pattern +	        # Capture main type
-				r'([^\{\};]+)' +
-				r'(?:\{)' +
-				r'(?:[^\{\}]*)' +	# Capture content
-				r'(?:\})' +
-				r'([^\{\}\;]*)(\;)')	# Capture IDs
-	...
-	tuples = struct_members.findall(members)
-        if not tuples:
-            break
+Otherwise, this series doesn't add any new requirements on you as a
+maintainer.
 
-	maintype, content, s_ids = tuples
-
-Btw, a cleanup like the above is, IMHO, another good reason why not using
-magic numbers: people may end fixing match groups to use non-capture
-matches, but end forgetting to fix some hidden magic numbers. It is hard
-for a reviewer to see it if the affected magic numbers aren't within the
-3 lines range of a default unified diff, and may introduce hidden bugs.
-
+-- 
 Thanks,
-Mauro
+Sasha
