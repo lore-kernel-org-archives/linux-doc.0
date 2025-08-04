@@ -1,78 +1,301 @@
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2049.outbound.protection.outlook.com [40.107.93.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5D01B043A
-	for <linux-doc@vger.kernel.org>; Mon,  4 Aug 2025 19:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754334591; cv=none; b=NPzZQHZik2mOx8lmZb3iudEsQ9D4lQ3eKX9rpl/udE+y/D6OxLEc5UkagxQegTLWoskBAhA+x2w+5GUB8QV25bm35CrNV6Szz9658uf1rpglbNF5/wihXCF47d+zW5B3tbP6EXIcyN+C08/3LoYfrURWT+uypF5mEsXZA9IomeA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754334591; c=relaxed/simple;
-	bh=EoqfN+RU6ie7d3cK9su2M9aANqfgOvgis4RwAsxwdIM=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JJXWE0TZbb6h3utKNStrN10qx21orQp6t/uARY56spr2v3IM7rn+8m2ghSuerwgmqi0KnjLFj41qbqbFDLOC0RO13k/hdjAGJ6nvr+ldURWhGr9IU72G0LKusnGhJSeI2C21nFKsM5UtqI53qPdIApWzZzHdrrq8bXZVuxDq6B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=I2SBtPqC; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B456A920;
+	Mon,  4 Aug 2025 19:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754335939; cv=fail; b=VbIsOIQLeIqZFB/uVf7wwCe52gyT3j7990cGGkHPmxGKrGA530xItm/H0R/Cn4JE/2B4yg54h3R9MS8eEgovu0jd/ip64LVNZ9NWCpbQCbDDIl1Vtgq657s3loCmapZ0rdYlcUtkl2S50xq4KLOJkgK6CLOVnWpNWzqT9VC2LZc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754335939; c=relaxed/simple;
+	bh=toH5TZRYyp1dovgrrbQknMJtLasDAoKCCG8bAOvkVvc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LT6m9HenkCX0+FY1IOYswHPWtB1UEvkrd/YF4mOci6jelNRVcfiSlZ7eHML2BUCS2CAY5iMHFvPf0MiJpeUZpdqJUjX5bf+sD5ATsxnnE+SJV5Z5S26AO8OzLh0Gr0n+oAXH/cqvjJ0YnEXQ+qbh7OZm10292UkhkugBtKodGno=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xoUHl2bq; arc=fail smtp.client-ip=40.107.93.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="I2SBtPqC"
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 574J4F7o014745
-	for <linux-doc@vger.kernel.org>; Mon, 4 Aug 2025 12:09:48 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=s2048-2025-q2; bh=CVr4dJoT4GG1Eomf8VBL
-	A90t/VLrfXOEcI7JaT4XHqY=; b=I2SBtPqCUgL0pwVPlPkWHU0H827lpFozbzti
-	SOYdRsT9nxB5OYHVTDAze1tWxuKLL9R2PkqDr6JwMgpcmqe7n7W2pnxIVAX4Y8HB
-	nylx8C96ZRUx0NCGXn3zuu37Szz6lfZSkV/RptDf0YioVBnmvGHBfp83xo8ghQPk
-	7yf1pn1Hf573fOWcWS32gnXcq8NYRjTkXwedSoLIbAd5mTGtT0kfHsrgM826jbD1
-	U+v0ITxOOIHi4jIKoB2ZppFCcyckG9MPpHXMs0j787+XxVDNAkKW0Wx52J5Yjf8y
-	vKKaMbJFbpCAF4C9p83zGAgiSTNg2vlxIJCugD+wY9QdpDL7Ag==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48ar4gcc5w-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 04 Aug 2025 12:09:48 -0700 (PDT)
-Received: from twshared21625.15.frc2.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.17; Mon, 4 Aug 2025 19:09:46 +0000
-Received: by devgpu013.nha3.facebook.com (Postfix, from userid 199522)
-	id B3564654B2F; Mon,  4 Aug 2025 12:09:33 -0700 (PDT)
-Date: Mon, 4 Aug 2025 12:09:33 -0700
-From: Alex Mastro <amastro@fb.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Keith
- Busch <kbusch@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <kvm@vger.kernel.org>
-Subject: Re: [PATCH v3] vfio/pci: print vfio-device syspath to fdinfo
-Message-ID: <aJEFbQgzfY6nf5Lc@devgpu013.nha3.facebook.com>
-References: <20250801-show-fdinfo-v3-1-165dfcab89b9@fb.com>
- <20250804102559.5f1e8bcf.alex.williamson@redhat.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xoUHl2bq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YzfaKZnU8BnwhIJlnJIcCq83R2owYbmOBkdFG7gI9Wa/n+EL5vkCZYXoV/vEgxQtBkxU9WgDH8jTJg8OlDOgHsxLa6asIhl0b1D0oLR6KO8beqo4Nh5OOdWy0sX0JDpES8rdXlSIjpixO3aIVBIP/FZot6t9syBEKci7PkL3ve/EgVjNaqAwEmGFEXZjIZYsSW/3a0xOXKmpBPa8Gk51K5XmpSbDfSrEUqYs8+w0noQmuCuC8fiZ6Wivwd8fOx0RDI9XOWhDkSVzeg1YnwhdcsAmkhwAsO4LmPfjJ5mEFepfsHMkT+axun45zjTsyAGp8kWfFrYMZE5/yxx4tSCjgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YC1o9yN6gp7tTxAhJZrP96HbZtJLvwfTFUU3An6d0DA=;
+ b=rSg2gT0XWYVIo5CibnEp5MjAnqP4o22T16FhazN/afzPj1tTSF28ZGPQ+EZDIlXx2YCQq02+RVCSIUH5+zFp3Hyopr/tvqVk+QuM1jg8UJoLYsdL5r46Y1qqJQUwCjd9M9J8iysfG6iAIbCzG063Aa+o/BEWGp8xEv9VVXH7dx9woNqrUr7aRE+Wwx8rX0bB1Il7lMtituqfEUY5YZao+sSHrG+2IIUsGLhuW9HhS5g/xdviqS0nCLSrCvmUMeoVrZckoza6CuyM5H7MvQF+Z963z758cC4b99+LG9Bu2SB3gY+01NJEP5mx2a2ik4fvxmSW47BCaJ5d62c6T5zTkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YC1o9yN6gp7tTxAhJZrP96HbZtJLvwfTFUU3An6d0DA=;
+ b=xoUHl2bqzBOi67V0zPLlQKUXiK5pawA+fpy3AZU1HGcWdglWXIV6OFWIkEYg0FeQiEVq9FONl8r06pxKHZj+xFCKC2fNcmDpI9S9rv/4+qoXR823tr9CC/1igHxB2wdh2PAkpYARgUGpzuHygQy3l0JUvDmyx7hinaoTgNwXYlw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by IA0PR12MB7749.namprd12.prod.outlook.com
+ (2603:10b6:208:432::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.17; Mon, 4 Aug
+ 2025 19:32:14 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.8989.011; Mon, 4 Aug 2025
+ 19:32:12 +0000
+Message-ID: <5bfb400a-948c-40d1-b509-affcc22341f0@amd.com>
+Date: Mon, 4 Aug 2025 14:32:08 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v7 09/10] fs/resctrl: Modify rdt_parse_data to pass mode
+ and CLOSID
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
+ david@redhat.com, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
+ thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
+ yosry.ahmed@linux.dev, sohil.mehta@intel.com, xin@zytor.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
+ me@mixaill.net, mario.limonciello@amd.com, xin3.li@intel.com,
+ ebiggers@google.com, ak@linux.intel.com, chang.seok.bae@intel.com,
+ andrew.cooper3@citrix.com, perry.yuan@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1752167718.git.babu.moger@amd.com>
+ <f52c579262bbbc8bda4dbbb7341ad7bf0add0379.1752167718.git.babu.moger@amd.com>
+ <798ba4db-3ac2-44a9-9e0d-e9cbb0dbff45@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <798ba4db-3ac2-44a9-9e0d-e9cbb0dbff45@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DS7PR03CA0053.namprd03.prod.outlook.com
+ (2603:10b6:5:3b5::28) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250804102559.5f1e8bcf.alex.williamson@redhat.com>
-X-FB-Internal: Safe
-X-Proofpoint-ORIG-GUID: D5Fb9eDEorA_8SFWyv8Vuy5P4AB_l0Kb
-X-Proofpoint-GUID: D5Fb9eDEorA_8SFWyv8Vuy5P4AB_l0Kb
-X-Authority-Analysis: v=2.4 cv=bM0WIO+Z c=1 sm=1 tr=0 ts=6891057c cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=j2pstE2d10wfqDpL5AwA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDExMSBTYWx0ZWRfX1vtefu8fTjIw hMapDIIig9sw71JTC0E1i9tzeC93aoTHRenG6rCqqTqSBeTNKG56HaYtPOowqhwqLOhXRDi+BBE G6/EpJpTRAa1y6/wKLE6VPJrzWQgdCZVPZLbwqgChF+srVfGS43980llAG/FSQmThVd0oxYJBvg
- PAS5d0inpZwEAG+UIVEhcYqq/G5LS2R/tPjt3Yj4mKiQr1cxudjjiXil6DYTwPZInr5R1DJjcGX i16k7u+r4uJ4O5/9ty/JOj6Jf9I15laW4t/YbEC50ZiZz77X8pqqeftdfCkeWA+tQEudjckG6gC UVUkoco37sBp6sP4OJTTjnt+KMvh1wjLfbMe8QnCZhlPxtk7XrOooXaeUNkfqnrilvGXaSieTWR
- HC+H64zC/QPles/KDxrZ9XSmSxIesSwqqg8m4WmjO8wnea+wdgO8h+hzK+jnsbLUNMWB/mDf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-04_08,2025-08-04_01,2025-03-28_01
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|IA0PR12MB7749:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2d91686-691f-4b6e-c5f9-08ddd38d9c84
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bEE2Q0dRbFN6VVBXd1RvR05rZjRwWWxobUhZZFZJTGRMd29qcG83cmM2QXdy?=
+ =?utf-8?B?WlhQMkxQOXNGbDNBWGJUL2hBNnFTcHRnZmtKNHNYVGlxcXQ4UjNFM3RHN0hm?=
+ =?utf-8?B?Q2doK0JQL1JNU1pBVGZ6NkpudUZtL3AwNUZkM3p6b1BLYVhMNlAxRHE4QXpZ?=
+ =?utf-8?B?QTlST2V5Ykw1NHIwU2FJQUlUbGlJNUtNemZNTUhHQjlFYldnOWwraFl2LzA2?=
+ =?utf-8?B?amp3U1o0aXEweS80VUc1Q05pQzVoVHQvN3VqVytKNTN0VW8wcjBEcDhreEFK?=
+ =?utf-8?B?dkR3czhTUFJzZXBMQkZNb2YwVHNOVXQzQmxoWnl1RzZTYU9NUmZqU0VIS3FM?=
+ =?utf-8?B?QWg2b1gybTczU3Y1V0FyWmRmUmtPQW9yWEhMYmlYM2hZY3RMRTlHcXZiQTVD?=
+ =?utf-8?B?N1NVTGIwKzBHeUF2VWpFVzRHbWQ1VVJqdmVCeDE2NlBmb1dzWVRqV1EzZnFo?=
+ =?utf-8?B?TTVmb3pNYUdORGZxZUZaNmhqNlBVU2ZKb2pqeFQzRUF6L2dDVUU3TmVibEti?=
+ =?utf-8?B?VDdnRGU3NzFuS1Q3eHdSNFhDZDNYK3FZSjhmd2RVeG9iL3F0Qm12RUJMRDNL?=
+ =?utf-8?B?YlhkN3Axb0xmeFlHdzJRL3F3Q3FzRjlhRVpVdld3cCtFM1grRkxNcUI4cisx?=
+ =?utf-8?B?b0NBcy9ZUjRZNG84R3I2QWhxdkpMWGR5dXdPMUowR2IvL3BhdmJrZHhaVXNp?=
+ =?utf-8?B?bFk1T3pPNytTdTh0QmJnMStHSVRCVU5FbElIYnJOMWlWbU1OT3FaMjRGY3Bi?=
+ =?utf-8?B?ZDUxYi8zd05zM0JZekU1Q1ZyVUZ6NWlmUWJncUpGS3dYTEpRRUZjcGhsQ2lv?=
+ =?utf-8?B?U1F5dFNkZk5tRFNFa0p0S1VscVgrSXowYUdXcTZkOXRQMUMrdnRoREtqSEZM?=
+ =?utf-8?B?UlVZSkR3c2ZndHd6M2ZSTW11a21CSTQ2RGdpMkdxdE5LQURkc21OWTdYa3hS?=
+ =?utf-8?B?cGpyU0VPMzJyenVVUGYzVmd2ODVtdlo2SVBvL2V5MU9hYWxRK1lMSVMxcWo4?=
+ =?utf-8?B?Skd2czNVTG9ERkdCdTJNRkZ3NzlHSHZqZGNrT25tM3drcW1DbU5aUU1MYXhK?=
+ =?utf-8?B?c0MzZEVnQ0lFOXpOSU00S3ZlYTFqN1A1ZjA1dE5nK2dURnl1OFhjZTRuS3Jo?=
+ =?utf-8?B?MDl3b3lFSVpoVHYwMnhQNWdzTlVHWnNOTVB4VFpvd0VleGY2aE9Bd3VwQ2Fo?=
+ =?utf-8?B?bXRSOTUyNHFhUVprNUZVbUpaTmJDcnQzMlIxRndubUFvUmdjTXZ2Q2owL2lB?=
+ =?utf-8?B?L0YyTlQvMWhYWWlCYWFpbnozWDBreVdOUzlMWWtnUm42QlJJaEZmOFRIajRO?=
+ =?utf-8?B?Sm45ZnJyYjE3MmtrRndxZ2MvdkFPU1JZUFd6QW9VdFNPNHdTcDNMUGlJZHYx?=
+ =?utf-8?B?Um5PcDJjVXAxcTUwQ01nSE1pL0I2T05EMmpYVEsxMkNTZmVBSU1aR0RKQUJF?=
+ =?utf-8?B?QTdBRXJkSEYwMzBrSkkwdnhESHNOQkxSZmp6T3locEd3QjRQcWFEOHBVNHZ1?=
+ =?utf-8?B?bTY5QlhQeWJaSWZEYVJLcllYZHdIZ2RkZitiamc5RUlCRzZLYmdQeWNyT3pi?=
+ =?utf-8?B?bzduMjZBaXVydWFiVzI2TmtVNFliS0Y1MlNkVFJBZkVYZVkrMCtyd2UwVjFL?=
+ =?utf-8?B?amZwVWx2NVhHZzRjeXJQZzFnSFlGS1IremhJZUFETURzYUNHdU0zMm1xbzJO?=
+ =?utf-8?B?STVmYnpuQjhBS3h5STU4c3RNQTV5bFZnRUN3NGtnR2RiRytWakcvSW80V3lD?=
+ =?utf-8?B?VHByeVFoRjlid0E2c3FhNWE4L2MvazFNeHVZU0IvQ21EbmVtSGNpYXlhYklD?=
+ =?utf-8?B?aHBDYkVyV3RuVzVMZS8xZGpHTXpnR3lPY2ZQZjVZS1dFSTZqYTJKWS8xREc4?=
+ =?utf-8?B?ZExlVUx6RGZIN2dIR3BzcnVDZ0NyYWNtWTVwcklOZi9MMXl5N2ovajZ5UVp2?=
+ =?utf-8?Q?DPAcVN9vyTc=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eXUwblJ3T3hrc1A5OXE2R2NtMFR2M3d5N1UxaGYzQ1ovRnFodlh2RGJmQjdI?=
+ =?utf-8?B?WTgxV0NZcng1dThWQkFxbG1STW1lZzFUcDZDRndMb0hIYmtZamdZTHVCNld0?=
+ =?utf-8?B?dmZXaWlobHZlRCtDUVM4SkpZNXRvU3AvazREc1l1K0JJRTZuanNISkttTDVU?=
+ =?utf-8?B?aGdZVmI5UElJUVpCcnRlckRqQ3lMR3RkRE81TEszMXBhNmQ1K1NPbVduNEht?=
+ =?utf-8?B?UURyYjczYlduTEJyU09ab243dnZ6WXlzUk9UV0plZ2x2c2wxbVdUWjZIUjAv?=
+ =?utf-8?B?QlZMQVVlWU8xS0tGd3lyVEM2Ty84Y3Y0Zm5NQWR0azQyM0pjTzhBbUsrZkpE?=
+ =?utf-8?B?dmpEVmI2QTRPUEJzNjUyeEU3anJLUm10emc2V3B6eTc5anlBVXRFVHVjemRK?=
+ =?utf-8?B?REVvblpTa04yanU1S1pHN3g1VzF1K0VuYUhtU3hVb09CMGVMYnpueFhmUW5M?=
+ =?utf-8?B?UmthcVVpY1RnWTBYVE96YkdmbmVxTzY2OEpZMVhvRldtRDJyaXY4TTcwVGts?=
+ =?utf-8?B?OGVDNzB6L0phRDhpYWVWUk1RR0xJOXM2Z3BFUWoyQ1Jibm1TSlpkYnVvd0FR?=
+ =?utf-8?B?UitQMEpMUXNsb25ac29JaGkyWnZiUE5sNTdrZEFRQTNFRUJCUUJsRm0zWWdY?=
+ =?utf-8?B?RHFLTWxwWTFRUm5kQnVrQ2VCeFc4cXdrTVVscHhTTnFpS0VYK1IxV0lBZUc4?=
+ =?utf-8?B?cU43VEliVjYxelJIM3dxTXl2UWdnWjVTSGYvUFRWbEduRDY3a3NwZFh0aTNz?=
+ =?utf-8?B?bU5OclBFN1loaDFKeGo4djZKcGJDZjNHMmMvbHdTZ25Lc081UUJ3UzN0QnFN?=
+ =?utf-8?B?Rml0YVN0TnFlMHNQOElrTEFEZmVNNHQ5SUdlenczWjQ3b1NCUzE3bXU5UFJE?=
+ =?utf-8?B?Z08rMy9NUFNVb2tSemNiT3pIQ0xiM2RnTGMvTndwZEdkRDBmOUZjK3B1NzVF?=
+ =?utf-8?B?OXZ0dlIraXBJRjdDdVkydER6Y1YzOXYxcFovU09Td2RsdTNTbHpvaDNwcm54?=
+ =?utf-8?B?TkdlQXh0WkY1dXJCM3c3c1NaOU42QVJUWHlyZUVUVkkwNEZuNEV3K1hxU0hR?=
+ =?utf-8?B?YnFaSzcxYXhYc3l2SWQ0TXB4NTV2ZTBBOFVVRXd2Uno1OVNVclVHczhKTTBO?=
+ =?utf-8?B?QjlVSWp6L2p0dSswRFMrV05sVWdqN0hkZDI1ZXByT3FBU3VmV2YxYTlmM1NM?=
+ =?utf-8?B?UTBpdnI2S2ZBTEluZHhicmRmaWdFSDRmMWFIemRIeGQ1aWk3dzdBQlF3L09j?=
+ =?utf-8?B?YVJhVnlnWVQrV3ZRaGxWU2xOVjhXRjVJNER1MTBzaCtuVXh5OVYvVDBMb2xn?=
+ =?utf-8?B?cmxhU1VDajBkTENHS2RiVEVORmczKzlucHdFbzRCWisxM3J1K0NOclBPbzd0?=
+ =?utf-8?B?TGJEQ05TNWRqYy9nUXc3VWNaVHg0cTdzODJCR0tlYmVHZkpNWkJZL1hUbWpW?=
+ =?utf-8?B?cEppL29wd0hZd1Z2OE5VYjJRZTd5UFN6RzRHMXVyRXl2M0l6T3ZaSzFFNFg2?=
+ =?utf-8?B?VjJ0SnVVa08xK2NhYXFBMFBSRUVpOWd2bnJ6d1piUGdqQTZxMWtYRHg3RmhP?=
+ =?utf-8?B?ZExtWUJ1ejYrVzFpZDlsK1RGaEZmSDduTlF0cGU1ejJ1bTNkc0ZYWlpKdGZV?=
+ =?utf-8?B?OTF2MHFCUEdJaVV5TkZzckZWMnZUdDBRaERDV3JYVkNKazh2U01HUDh2STVF?=
+ =?utf-8?B?T0NJcTV2TWV6bkVoR2RieWdBb3Z4QkNQVWRoRWEwcUJJZFFTL0ptZWpvTi9x?=
+ =?utf-8?B?VVFqOTQ5RUc5K3B6SC9NUUpQalRVcnFpeFBXMU9ZSTV0UGNNSWFCY3BGN09x?=
+ =?utf-8?B?Z3BQRU5zMmJBVUpWRW00aDVyamFoZ2F3NXl2RUFab1hsZVU5RDkzYlVWcmsr?=
+ =?utf-8?B?WHpRbjNiNThteEVrcG5hQkFFTVR2ZmtvUGh3cFZYQUZJak5IbGlwKzQ0UmFy?=
+ =?utf-8?B?NWROOUlRbDVxZUV2WUJva2JCMzlITU5WaUFvSXNIM1dNVDEvdTRNd0xIbUdL?=
+ =?utf-8?B?Wlh1NEJjaFhLTVNWNGkzWHgwNlhhelZTV3NncWNMMDlzczQ2VlhqRk5XbURZ?=
+ =?utf-8?B?WGNkL2R0c2FUU3RycmtyTnBVYlMvcng0UWhiNWljM1o5T25RMVB6SUhaY0dp?=
+ =?utf-8?Q?ryRo=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2d91686-691f-4b6e-c5f9-08ddd38d9c84
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2025 19:32:12.8134
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yi+GEdV8gvkFl2xwB1YVIPkxkUnr5txAQ5Pyx2fEw6rwnhO5hFvpPA/5LyRtLnHk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7749
 
-On Mon, Aug 04, 2025 at 10:25:59AM -0600, Alex Williamson wrote:
-> Changes in this file look spurious, vfio_device_ops vs
-> vfio_device_fops?  Nothing implements or consumes the vfio_device_ops
-> callback here.
+Hi Reinette,
 
-Agh. Yes. I missed removing this. Fixing in v4.
+On 7/21/25 22:30, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/10/25 10:16 AM, Babu Moger wrote:
+>> The functions parse_cbm() and parse_bw() require mode and CLOSID to
+> 
+> No need to say "function" when using (). Also, drop parse_bw(), since it
+> does not validate CBMs.
+
+Sure.
+> 
+>> validate the Capacity Bit Mask (CBM). It is passed through struct
+> 
+> "passed through" -> "passed via"?
+> 
+
+Sure.
+
+>> rdtgroup in rdt_parse_data.
+> 
+> "rdt_parse_data" -> "struct rdt_parse_data"
+> 
+
+Sure.
+
+>>
+>> This can be simplified by passing the mode and closid directly, instead of
+> 
+> closid -> CLOSID
+> 
+Sure,
+
+>> through the rdtgroup struct. Doing so also facilitates calling parse_cbm()
+>> to verify the CBM within the io_alloc feature, since io_alloc does not
+>> have rdtgroup context.
+> 
+> Above notes that "simplification" is the primary motivation but I do not think
+> this change qualifies as a "simplification". How about second paragraph changed
+> to something like:
+> 
+> 	The io_alloc feature also uses CBMs to indicate which portions of
+> 	cache are allocated for I/O traffic. The CBMs are provided by
+> 	user space and need to be validated the same as CBMs provided for
+> 	general (CPU) cache allocation. parse_cbm() cannot be used as-is
+> 	since io_alloc does not have rdtgroup context.
+> 
+> 	Pass the mode and CLOSID directly to parse_cbm() via struct rdt_parse_data
+> 	instead of through the rdtgroup struct to facilitate calling parse_cbm() to
+> 	verify the CBM of the io_alloc feature.
+> 
+> (please feel free to improve)
+> 
+
+Looks good.
+
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> 
+> 
+>> ---
+>>  fs/resctrl/ctrlmondata.c | 29 +++++++++++++----------------
+>>  fs/resctrl/internal.h    |  6 ++++++
+>>  2 files changed, 19 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
+>> index e78828b0408a..5c16557fb7a8 100644
+>> --- a/fs/resctrl/ctrlmondata.c
+>> +++ b/fs/resctrl/ctrlmondata.c
+>> @@ -23,11 +23,6 @@
+>>  
+>>  #include "internal.h"
+>>  
+>> -struct rdt_parse_data {
+>> -	struct rdtgroup		*rdtgrp;
+>> -	char			*buf;
+>> -};
+>> -
+> 
+> This patch is only about replacing rdtgroup with mode and CLOSID, there is no
+> motivation for relocating the structure declaration. This looks to be a change
+> needed by following patch but is another change that becomes unnecessary if
+> the io_alloc code, specifically resctrl_io_alloc_cbm_write() and
+> resctrl_io_alloc_parse_line() from next patch, are moved to ctrlmondata.c.
+> 
+
+Yes. Not required to move now.
+
+> ...
+> 
+>> @@ -171,7 +167,7 @@ static int parse_cbm(struct rdt_parse_data *data, struct resctrl_schema *s,
+>>  	 * Cannot set up more than one pseudo-locked region in a cache
+>>  	 * hierarchy.
+>>  	 */
+>> -	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP &&
+>> +	if (mode == RDT_MODE_PSEUDO_LOCKSETUP &&
+>>  	    rdtgroup_pseudo_locked_in_hierarchy(d)) {
+>>  		rdt_last_cmd_puts("Pseudo-locked region in hierarchy\n");
+>>  		return -EINVAL;
+>> @@ -180,9 +176,9 @@ static int parse_cbm(struct rdt_parse_data *data, struct resctrl_schema *s,
+>>  	if (!cbm_validate(data->buf, &cbm_val, r))
+>>  		return -EINVAL;
+>>  
+>> -	if ((rdtgrp->mode == RDT_MODE_EXCLUSIVE ||
+>> -	     rdtgrp->mode == RDT_MODE_SHAREABLE) &&
+>> -	    rdtgroup_cbm_overlaps_pseudo_locked(d, cbm_val)) {
+>> +	if ((mode == RDT_MODE_EXCLUSIVE ||
+>> +	     mode == RDT_MODE_SHAREABLE) &&
+>> +	     rdtgroup_cbm_overlaps_pseudo_locked(d, cbm_val)) {
+> 
+> Please fix alignment.
+
+Sure.
+
+> 
+>>  		rdt_last_cmd_puts("CBM overlaps with pseudo-locked region\n");
+>>  		return -EINVAL;
+>>  	}
+> 
+> Reinette
+> 
+
+-- 
+Thanks
+Babu Moger
+
