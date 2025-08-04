@@ -1,439 +1,220 @@
-Received: from mail-il1-f201.google.com (mail-il1-f201.google.com [209.85.166.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723ED2749F9
-	for <linux-doc@vger.kernel.org>; Mon,  4 Aug 2025 14:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92342C190;
+	Mon,  4 Aug 2025 15:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754316693; cv=none; b=emDsJkqxybFQ63QE5oNZvEtcZPMUHP/JW/6AjEul1iP9O0L2Adv6VUktWWlGbUPmWz2Pfty/Hj7GxFIGNCEyz8+qqXcLzp9aq8wGIcZnHOn0NuIobsogae8SSM6ODYjOPJ+mEuJUJEBBsxO/SdaKyevirG/svoICqIrgWYcirTs=
+	t=1754319699; cv=none; b=g1Epdk8Tb/bxRPAuip+00QGNtL98n9ULl8pKu5c6k5F8PyzxOjedkYVlCykPomsWzIhxkNBNqZ4qGhAMbT7D3aHaFd9CSk4QRiScOl+lnOCU6DcyQT2TsKT/9G9k9hBmmc4Xyu/kVp2CQ2JzDgBh47UC29Q6bzABj+YnRrjbz/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754316693; c=relaxed/simple;
-	bh=md9UePRU22vt6Mwv4wXF5OgaKfWWEer98Wt06d08/OQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=DWkTP5qOJUHkTojbIlELpGh8W7LCF2A8etK1RloDTHV/ItkbZXQVojt/eMC+J42r7KGdUhCkzd1HaJt38wYgRoTUwROxIvltunKBnqmu++J1jhPmbVYMu9J2mtp7Apma6rQcY871OGPxSEjLgjG56fBFOqLe+6DKCeTgRkB1uh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OO06CBDX; arc=none smtp.client-ip=209.85.166.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
+	s=arc-20240116; t=1754319699; c=relaxed/simple;
+	bh=FwobIH4OyPCkUNduXkRWqzeDMqJVa1hQQJWmjZl8DeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LjfGcBE5YVZGQchjG9CmWVajhfYvsRN+VLv4GKwUEGK4tIGgZw957XXPBtl9qkViM4VdwetAhAoDWha5eC+aCeB9OJCWU2MkjvPISmUgq53ZgTxJcBJhVna3XJsCOwObSgpaXjPSE/z+wp0rGcgLj4wB3UjzzoO7sozdPlqOAIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xgvZoSlj; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UEgz/aYI; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OO06CBDX"
-Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3e40bc54f89so36545155ab.0
-        for <linux-doc@vger.kernel.org>; Mon, 04 Aug 2025 07:11:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1754316691; x=1754921491; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F6NmZhEmKGYBR+PNmHw027JfaNjka2TCkl4+s269vJA=;
-        b=OO06CBDXdIOcsR1QEVz0Q7qaeNDtCjUX0uzj+ZP40aVvf+bXbO8O5KiDnNqDV5NR3A
-         qNeSx52fXUGVbYgDl2MXvst4uNrMg166lG3bfPLjll5lVYvZ/fLfJSlWLxFzV24xO28r
-         q0mEXjUsimziIf+nfAq1oATW3Ruifj2Nkt0K/pH9uUqz87ia/oldC/Pii9EJL+LTPCba
-         A+pxG0PMs3/EH6WP+YdA63MyB2U0d+ZgagjNEDndUwBs0yKqLAPxEG20u0k06sG/Hf3D
-         wZJhxwf2L9IiYP0FXttKmJvEaZzGsNzsbEViULqFrdN7VtWjNUKgzFAjykrx8n5m/6Eg
-         TTHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754316691; x=1754921491;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F6NmZhEmKGYBR+PNmHw027JfaNjka2TCkl4+s269vJA=;
-        b=vw0VABAFNzhGQlnoeKl7S5Imzh9h5ykjmC9z/8PBn578xUUEx3gzE983KA+SZZvsJw
-         7bS3msNrUSg7P8nqIJX5ZF6q/uXwSQjkOCu3EoB3jjq6EyDzOcLfUNb034WhPjmsgnKC
-         qjG6FQ/HpDpE1Tjpbs2AdqWi29MbbboQKEHJ9jBzxsfW/vBGhzrO/JHvpbos4iQQ2HIo
-         OOViMaTV31i+xYua2kpGtGJiUlj/1vZk4gmwnM+eczuGvHU3W0lkYY8Zlspshz7JAzgh
-         UcUWVrFHBS51NkD1oSFrhqUudUq71gsrs35qwt/PQc7YuiwyXpMMWbqQKb2c3Xw+VQvz
-         NDlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVlvh7OAVXgFqyJJnCGfjsVPjb7WYTn32zF4wd/zXrD8lg4thRXmbrCTk+23J7auU7ieL+h0AEe6Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiqnqH1A+xYmX4O/jBX5E/isamupokGR/Sr8z10uN/8z/MSeo9
-	cH3jVNFYz4kk2LmQYaY+Z0XRsTVm5lu32Mcr5xFyBo6rXuk1MwNHa1B8x6nPmLhpUvjRiwdflW2
-	5oQ7cyP5LsQ==
-X-Google-Smtp-Source: AGHT+IFnashLwLqi+8ZIUULRCqBQ8xPAkOpNzmANHD0VchzkUehGr33uHUOQJBilDkrgfGR3jajFwfoMscpG
-X-Received: from ilbeh24.prod.google.com ([2002:a05:6e02:4c18:b0:3e3:cbd4:ca12])
- (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6e02:1f85:b0:3e3:e78e:4e0a
- with SMTP id e9e14a558f8ab-3e41610d65cmr191359165ab.1.1754316690876; Mon, 04
- Aug 2025 07:11:30 -0700 (PDT)
-Date: Mon, 04 Aug 2025 14:11:26 +0000
-In-Reply-To: <20250804-support-forcepads-v2-0-138ca980261d@google.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xgvZoSlj";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UEgz/aYI"
+Date: Mon, 4 Aug 2025 17:01:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1754319695;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=42vIk650U5Nu4ZZGP8OXuh4SGlMpsh3LVOR0xRo5c+A=;
+	b=xgvZoSljK55eUZl49pOIFNnrdHdyhB+EguZ3VtXjLlw1qYheHhyjn1dh+JM/CN0bP0mFZ/
+	tdTck748/5t0loLo7k3SOaQZq70ELh0QkFrVKXS9c26CQJCq0hx5AfknyV1PuI/aMXoxnK
+	3M2q9amGHrJB88UYc6FayJkazQiw7Zg9Jsn1BPY6MaCeTAdHxlzHh7KaQuZXxSCQnovSbx
+	+lwggG/J8XUl+sXnLhFX95K+3jDt6ym8zMY5Jz/qtkY2igFNCJ6jHt5rTEEjIphF0an7WZ
+	RHHxF8hSznbmiJep7jI2q5bXttGLltUikhYX0OKrqmgEV9SyNyEMZ58PEMorsQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1754319695;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=42vIk650U5Nu4ZZGP8OXuh4SGlMpsh3LVOR0xRo5c+A=;
+	b=UEgz/aYIXbU4AIWY7sRvA+X1Ixnt/rZ/UgnAHLyq1fS1UakxkmQZwtnfaPZS/Pv/yaQIJ3
+	sOxqBD62VUPvTODg==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Christoph Hellwig <hch@lst.de>, Shuah Khan <shuah@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Kees Cook <kees@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 00/15] kunit: Introduce UAPI testing framework
+Message-ID: <20250721100913-0c6d93d8-79d6-482b-9db4-7b0c06b604fa@linutronix.de>
+References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+ <20250717132259.GA25835@lst.de>
+ <20250718073743-d4a1f713-f81b-4e89-b3f8-7eed838798e6@linutronix.de>
+ <20250721070958.GA29367@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250804-support-forcepads-v2-0-138ca980261d@google.com>
-X-Mailer: b4 0.14.2
-Message-ID: <20250804-support-forcepads-v2-11-138ca980261d@google.com>
-Subject: [PATCH v2 11/11] HID: multitouch: add haptic multitouch support
-From: Jonathan Denose <jdenose@google.com>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
-	"Sean O'Brien" <seobrien@google.com>, Jonathan Denose <jdenose@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250721070958.GA29367@lst.de>
 
-From: Angela Czubak <aczubak@google.com>
+Hi Christoph,
 
-Add new option (MULTITOUCH_HAPTIC) to mark whether hid-multitouch
-should try and configure simple haptic device.
-Once this option is configured, and the device is recognized to have simple
-haptic capabilities, check input frames for pressure and handle it using
-hid_haptic_* API.
+On Mon, Jul 21, 2025 at 09:09:58AM +0200, Christoph Hellwig wrote:
+> On Fri, Jul 18, 2025 at 08:22:26AM +0200, Thomas Weißschuh wrote:
+> > > I had my own fair share of problems with kselftests,
+> > > mostly because of the lack of structure and automated way to run them,
+> > 
+> > How did you overcome these issues? Why does everbody need to reinvent the
+> > wheel here?
+> 
+> Told people to use everything remotely file system related to use
+> xfstests instead, and either ignore or suffer from the rest.
 
-Signed-off-by: Angela Czubak <aczubak@google.com>
-Co-developed-by: Jonathan Denose <jdenose@google.com>
-Signed-off-by: Jonathan Denose <jdenose@google.com>
----
- drivers/hid/Kconfig          |  11 ++++
- drivers/hid/Makefile         |   2 +-
- drivers/hid/hid-haptic.h     |  52 +++++++++++++++++
- drivers/hid/hid-multitouch.c | 136 ++++++++++++++++++++++++++++++++++++++++++-
- 4 files changed, 199 insertions(+), 2 deletions(-)
+Suffering from the rest is what I am trying to avoid.
+(More on that below)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index ad6bcc4248cc111705d7cfde2b1481b46353e2d7..b7452f11a4f914f92af582ed054d42ecbcd6cb9e 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -817,6 +817,17 @@ config HID_MULTITOUCH
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called hid-multitouch.
- 
-+config MULTITOUCH_HAPTIC
-+	bool "Simple haptic multitouch support"
-+	depends on HID_MULTITOUCH
-+	select HID_HAPTIC
-+	default n
-+	help
-+	Support for simple multitouch haptic devices.
-+	Adds extra parsing and FF device for the hid multitouch driver.
-+	It can be used for Elan 2703 haptic touchpad.
-+	To enable, say Y.
-+
- config HID_NINTENDO
- 	tristate "Nintendo Joy-Con, NSO, and Pro Controller support"
- 	depends on NEW_LEDS
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 361a7daedeb85454114def8afb5f58caeab58a00..be09b4f13b2058a0a1d7eab79f35def758120fc4 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -4,7 +4,7 @@
- #
- hid-y			:= hid-core.o hid-input.o hid-quirks.o
- hid-$(CONFIG_DEBUG_FS)		+= hid-debug.o
--hid-$(CONFIG_HID_HAPTIC)	+= hid-haptic.o
-+hid-$(CONFIG_MULTITOUCH_HAPTIC)	+= hid-haptic.o
- 
- obj-$(CONFIG_HID_BPF)		+= bpf/
- 
-diff --git a/drivers/hid/hid-haptic.h b/drivers/hid/hid-haptic.h
-index 0a34b0c6d706a985630962acc41f7a8eb73cd343..808cec0b4e51eba1f58b839f3e552493655b7899 100644
---- a/drivers/hid/hid-haptic.h
-+++ b/drivers/hid/hid-haptic.h
-@@ -58,6 +58,7 @@ struct hid_haptic_device {
- 	struct hid_haptic_effect stop_effect;
- };
- 
-+#ifdef CONFIG_MULTITOUCH_HAPTIC
- void hid_haptic_feature_mapping(struct hid_device *hdev,
- 				struct hid_haptic_device *haptic,
- 				struct hid_field *field, struct hid_usage
-@@ -77,3 +78,54 @@ void hid_haptic_handle_press_release(struct hid_haptic_device *haptic);
- void hid_haptic_pressure_reset(struct hid_haptic_device *haptic);
- void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
- 				  __s32 pressure);
-+#else
-+static inline
-+void hid_haptic_feature_mapping(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_field *field, struct hid_usage
-+				*usage)
-+{}
-+static inline
-+bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
-+				    struct hid_input *hi, struct hid_field *field)
-+{
-+	return false;
-+}
-+static inline
-+int hid_haptic_input_mapping(struct hid_device *hdev,
-+			     struct hid_haptic_device *haptic,
-+			     struct hid_input *hi,
-+			     struct hid_field *field, struct hid_usage *usage,
-+			     unsigned long **bit, int *max)
-+{
-+	return 0;
-+}
-+static inline
-+int hid_haptic_input_configured(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_input *hi)
-+{
-+	return 0;
-+}
-+static inline
-+void hid_haptic_reset(struct hid_device *hdev, struct hid_haptic_device *haptic)
-+{}
-+static inline
-+int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr)
-+{
-+	return 0;
-+}
-+static inline
-+void hid_haptic_handle_press_release(struct hid_haptic_device *haptic) {}
-+static inline
-+bool hid_haptic_handle_input(struct hid_haptic_device *haptic)
-+{
-+	return false;
-+}
-+static inline
-+void hid_haptic_pressure_reset(struct hid_haptic_device *haptic) {}
-+static inline
-+void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
-+				  __s32 pressure)
-+{}
-+#endif
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index b41001e02da7e02d492bd85743b359ed7ec16e7f..4ff9ac5022b13a0739dbc7ae5f6ebd84f0114a73 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -49,6 +49,8 @@ MODULE_LICENSE("GPL");
- 
- #include "hid-ids.h"
- 
-+#include "hid-haptic.h"
-+
- /* quirks to control the device */
- #define MT_QUIRK_NOT_SEEN_MEANS_UP	BIT(0)
- #define MT_QUIRK_SLOT_IS_CONTACTID	BIT(1)
-@@ -167,11 +169,13 @@ struct mt_report_data {
- struct mt_device {
- 	struct mt_class mtclass;	/* our mt device class */
- 	struct timer_list release_timer;	/* to release sticky fingers */
-+	struct hid_haptic_device *haptic;	/* haptic related configuration */
- 	struct hid_device *hdev;	/* hid_device we're attached to */
- 	unsigned long mt_io_flags;	/* mt flags (MT_IO_FLAGS_*) */
- 	__u8 inputmode_value;	/* InputMode HID feature value */
- 	__u8 maxcontacts;
- 	bool is_buttonpad;	/* is this device a button pad? */
-+	bool is_haptic_touchpad;	/* is this device a haptic touchpad? */
- 	bool serial_maybe;	/* need to check for serial protocol */
- 
- 	struct list_head applications;
-@@ -490,6 +494,95 @@ static void mt_get_feature(struct hid_device *hdev, struct hid_report *report)
- 	kfree(buf);
- }
- 
-+#if defined(CONFIG_MULTITOUCH_HAPTIC)
-+static int mt_haptic_init(struct hid_device *hdev,
-+				struct hid_haptic_device **haptic_ptr)
-+{
-+	return hid_haptic_init(hdev, haptic_ptr);
-+}
-+
-+static void mt_haptic_feature_mapping(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_field *field, struct hid_usage *usage)
-+{
-+	return hid_haptic_feature_mapping(hdev, haptic, field, usage);
-+}
-+
-+static bool mt_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
-+				    struct hid_input *hi, struct hid_field *field)
-+{
-+	return hid_haptic_check_pressure_unit(haptic, hi, field);
-+}
-+
-+static void mt_haptic_pressure_reset(struct hid_haptic_device *haptic)
-+{
-+	return hid_haptic_pressure_reset(haptic);
-+}
-+
-+static void mt_haptic_pressure_increase(struct hid_haptic_device *haptic,
-+				 __s32 pressure)
-+{
-+	return hid_haptic_pressure_increase(haptic, pressure);
-+}
-+
-+static int mt_haptic_input_mapping(struct hid_device *hdev,
-+			     struct hid_haptic_device *haptic,
-+			     struct hid_input *hi,
-+			     struct hid_field *field, struct hid_usage *usage,
-+			     unsigned long **bit, int *max)
-+{
-+	return hid_haptic_input_mapping(hdev, haptic, hi, field, usage, bit, max);
-+}
-+
-+static int mt_haptic_input_configured(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_input *hi)
-+{
-+	return hid_haptic_input_configured(hdev, haptic, hi);
-+}
-+#else
-+static int mt_haptic_init(struct hid_device *hdev,
-+				struct hid_haptic_device **haptic_ptr)
-+{
-+	return 0;
-+}
-+
-+static void mt_haptic_feature_mapping(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_field *field, struct hid_usage *usage)
-+{}
-+
-+static bool mt_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
-+				    struct hid_input *hi, struct hid_field *field)
-+{
-+	return 0;
-+}
-+
-+static void mt_haptic_pressure_reset(struct hid_haptic_device *haptic)
-+{}
-+
-+static void mt_haptic_pressure_increase(struct hid_haptic_device *haptic,
-+				 __s32 pressure)
-+{}
-+
-+static int mt_haptic_input_mapping(struct hid_device *hdev,
-+			     struct hid_haptic_device *haptic,
-+			     struct hid_input *hi,
-+			     struct hid_field *field, struct hid_usage *usage,
-+			     unsigned long **bit, int *max)
-+{
-+	return 0;
-+}
-+
-+static int mt_haptic_input_configured(struct hid_device *hdev,
-+				struct hid_haptic_device *haptic,
-+				struct hid_input *hi)
-+{
-+	return 0;
-+}
-+#endif
-+
-+
- static void mt_feature_mapping(struct hid_device *hdev,
- 		struct hid_field *field, struct hid_usage *usage)
- {
-@@ -525,6 +618,8 @@ static void mt_feature_mapping(struct hid_device *hdev,
- 			mt_get_feature(hdev, field->report);
- 		break;
- 	}
-+
-+	mt_haptic_feature_mapping(hdev, td->haptic, field, usage);
- }
- 
- static void set_abs(struct input_dev *input, unsigned int code,
-@@ -856,6 +951,9 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 		case HID_DG_TIPPRESSURE:
- 			set_abs(hi->input, ABS_MT_PRESSURE, field,
- 				cls->sn_pressure);
-+			td->is_haptic_touchpad =
-+				mt_haptic_check_pressure_unit(td->haptic,
-+							       hi, field);
- 			MT_STORE_FIELD(p);
- 			return 1;
- 		case HID_DG_SCANTIME:
-@@ -980,6 +1078,8 @@ static void mt_sync_frame(struct mt_device *td, struct mt_application *app,
- 
- 	app->num_received = 0;
- 	app->left_button_state = 0;
-+	if (td->is_haptic_touchpad)
-+		mt_haptic_pressure_reset(td->haptic);
- 
- 	if (test_bit(MT_IO_FLAGS_ACTIVE_SLOTS, &td->mt_io_flags))
- 		set_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags);
-@@ -1137,6 +1237,9 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
- 			minor = minor >> 1;
- 		}
- 
-+		if (td->is_haptic_touchpad)
-+			mt_haptic_pressure_increase(td->haptic, *slot->p);
-+
- 		x = hdev->quirks & HID_QUIRK_X_INVERT ?
- 			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
- 			*slot->x;
-@@ -1324,6 +1427,9 @@ static int mt_touch_input_configured(struct hid_device *hdev,
- 	if (cls->is_indirect)
- 		app->mt_flags |= INPUT_MT_POINTER;
- 
-+	if (td->is_haptic_touchpad)
-+		app->mt_flags |= INPUT_MT_TOTAL_FORCE;
-+
- 	if (app->quirks & MT_QUIRK_NOT_SEEN_MEANS_UP)
- 		app->mt_flags |= INPUT_MT_DROP_UNUSED;
- 
-@@ -1359,6 +1465,7 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	struct mt_device *td = hid_get_drvdata(hdev);
- 	struct mt_application *application;
- 	struct mt_report_data *rdata;
-+	int ret;
- 
- 	rdata = mt_find_report_data(td, field->report);
- 	if (!rdata) {
-@@ -1421,6 +1528,11 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	if (field->physical == HID_DG_STYLUS)
- 		hi->application = HID_DG_STYLUS;
- 
-+	ret = mt_haptic_input_mapping(hdev, td->haptic, hi, field, usage, bit,
-+				       max);
-+	if (ret != 0)
-+		return ret;
-+
- 	/* let hid-core decide for the others */
- 	return 0;
- }
-@@ -1635,6 +1747,14 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
- 	struct hid_report *report;
- 	int ret;
- 
-+	if (td->is_haptic_touchpad && (td->mtclass.name == MT_CLS_WIN_8 ||
-+	    td->mtclass.name == MT_CLS_WIN_8_FORCE_MULTI_INPUT)) {
-+		if (mt_haptic_input_configured(hdev, td->haptic, hi) == 0)
-+			td->is_haptic_touchpad = false;
-+	} else {
-+		td->is_haptic_touchpad = false;
-+	}
-+
- 	list_for_each_entry(report, &hi->reports, hidinput_list) {
- 		rdata = mt_find_report_data(td, report);
- 		if (!rdata) {
-@@ -1764,7 +1884,6 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	int ret, i;
- 	struct mt_device *td;
- 	const struct mt_class *mtclass = mt_classes; /* MT_CLS_DEFAULT */
--
- 	for (i = 0; mt_classes[i].name ; i++) {
- 		if (id->driver_data == mt_classes[i].name) {
- 			mtclass = &(mt_classes[i]);
-@@ -1777,6 +1896,10 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		dev_err(&hdev->dev, "cannot allocate multitouch data\n");
- 		return -ENOMEM;
- 	}
-+	td->haptic = kzalloc(sizeof(*(td->haptic)), GFP_KERNEL);
-+	if (!td->haptic)
-+		return -ENOMEM;
-+	td->haptic->hdev = hdev;
- 	td->hdev = hdev;
- 	td->mtclass = *mtclass;
- 	td->inputmode_value = MT_INPUTMODE_TOUCHSCREEN;
-@@ -1840,6 +1963,17 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 
- 	mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
- 
-+	if (td->is_haptic_touchpad) {
-+		if (mt_haptic_init(hdev, &td->haptic)) {
-+			dev_warn(&hdev->dev, "Cannot allocate haptic for %s\n",
-+				 hdev->name);
-+			td->is_haptic_touchpad = false;
-+			kfree(td->haptic);
-+		}
-+	} else {
-+		kfree(td->haptic);
-+	}
-+
- 	return 0;
- }
- 
+> > KUnit already exists and provides a lot of structure and tooling.
+> 
+> That's great.  Let's reuse it without having to drive running userspace
+> programs from kernel code.
 
--- 
-2.50.1.565.gc32cd1483b-goog
+Running in the kernel is the point behind KUnit. It could be done by putting
+all the userspace test into a initramfs and run them on boot from there.
+But that has other drawbacks:
+* The tests can't be run on an existing system.
+* All tests need to be loaded into memory together, and not on demand.
+* The tests can not be rerun.
 
+> > > but adding them to the kernel (or a module) is overshooting the target
+> > > by far.
+> > 
+> > That's a subjective statement without any reasoning I can engange with.
+> 
+> Well, then we're done here if you can't engage.
+
+This was a response to one specific statement. Could you be a bit more specific
+in your critique? I am not sure what exactly you mean in some cases, making it
+hard to respond properly. For example "bloat", it is bloaty
+* source code,
+* object code for users enabling the new kconfig options,
+* object code for other users *not* enabling the new kconfig options?
+ 
+> > I would be happy to do so, but for now I can only say that I disagree.
+> > The patches have been on the testing-related lists for
+> > some time and so far nobody had an issue with this aspect.
+> 
+> Has anyone actually chimed in and said "it's great that we bloat the
+> kernel to run userspace tests", or have people just mostly ignored it
+> like most things?
+
+That specific wording wasn't used. Obviously...
+So far nobody had any issues with the overall goal of the series.
+There was criticism around implementation details and I have been and will be
+working on resolving those.
+
+Some feedback I got:
+
+David [0]: "I've taken quite a liking to it: it'd definitely have made my
+life easier more than once."
+Benjamin is already playing with it, having built his own testcase [1].
+I asked Shuah about it before starting development and she gave a go-ahead.
+A collegue of mine is also using it to validate the PREEMPT_RT safety of
+various UAPIs by combining KUnit UAPI with a runtime validator [2].
+
+> > > > If the kernel toolchain is not fit to
+> > > > produce userspace because of a missing libc, the kernel's own nolibc can
+> > > > be used instead.
+> > > 
+> > > Is nolibc enough to run all the selftests?
+> > 
+> > It is not and most probably won't ever be. The maintainers of each testcase
+> > will decide which libc to use. Like it is in tools/testing/selftests/ today.
+> > Some use glibc, some nolibc and some can do both.
+> 
+> So why do you want to use it here?  And how is is related to the rest
+> of the series?
+
+To make it easier to test a wide range of architectures by not requiring a
+libc from the toolchain. It also avoids relying on a bunch of out-of-tree
+code (glibc) as part of the test. And there are existing kselftests which
+use it over glibc for their own reasons.
+
+But using nolibc in test code is not necessary and nobody is forced to do so.
+
+(Maybe a disclaimer that I'm one of the nolibc maintainers is in order)
+
+(...)
+
+> You present running pure userspace tests as the solution to a problem
+> you don't even explain, or rather just state very highlevel.
+
+To run kselftests we need the following things:
+a) A toolchain which can build userspace executables.
+b) Quite a bit of supporting userland, at least glibc, coreutils and bash.
+c) A rootfs assembled out of these.
+d) An efficient way to incrementally rebuild the test executables and rootfs.
+e) A way to put that rootfs into the system under test.
+f) A way to configure a kernel which
+   * is as small as possible and as fast as possible to build,
+   * can run on QEMU or a real machine,
+   * can run the functionality under test.
+g) A way to select the tests to run in the system under test.
+h) A way to communicate back the results.
+i) Something to interpret the results.
+j) Hook up everything into a CI system.
+
+And for all of this there should be good in-tree tooling.
+
+For a) and b) I am not aware of any toolchain provider or distribution which
+provides this for all necessary architectures. And the existing userspace test
+frameworks don't even try to address the points a) to e)/f) and let the user
+figure it out. This is the case for xfstests and LTP. virtme(-ng) provide most
+of it but don't support cross-architecture setups. On the other hand the tree
+already contains solutions for most of those points. a) and d) are solved by
+kbuild userprogs, e) to j) by KUnit and my new framework plugs b) and c).
+Moving to a pure userspace solution would preclude the usage of KUnit as far as
+I can see.
+
+This all started when I worked on the generic vDSO data storage patches [3].
+I needed to run the existing vDSO selftests against a bunch of architectures,
+including some esoteric ones [4]. With my framework, running the vDSO selftests
+for any architecture is now trivial and blazingly fast.
+
+Does this make more sense?
+
+> Yes, kselftests suck as most people will agree. But the answer is not
+> to add a lot of kernel bloat to treat userspace integration tests
+> like kernel units tests.
+
+I fail to understand how this test code is worse than the existing KUnit test
+code. This is not meant to test complex scenarios, but single system calls or
+specific UAPIs, which may depend on architecture features. For example timers,
+signals, vDSO, mm etc.
+
+> How about you just fix kselftests, preferably
+> by reusing well known and teststed userland code?
+
+Is "well known and tested userland code" referring to glibc or testing
+frameworks? As mentioned above, glibc can be used just fine and the frameworks
+I know about are lacking.
+
+
+Thomas
+
+
+[0] https://lore.kernel.org/all/CABVgOSn+530YJ3OPNJQncLDQNbd9JEDtZ04Amyyxk57jOVYUyQ@mail.gmail.com/
+[1] https://lore.kernel.org/all/20250626195714.2123694-3-benjamin@sipsolutions.net/
+[2] https://lore.kernel.org/lkml/cover.1752088709.git.namcao@linutronix.de/
+[3] https://lore.kernel.org/lkml/20250204-vdso-store-rng-v3-0-13a4669dfc8c@linutronix.de/
+[4] https://lore.kernel.org/lkml/20250724-vdso-sparc64-generic-2-v1-0-e376a3bd24d1@linutronix.de/
