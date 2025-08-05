@@ -1,391 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5608A1E51EF;
-	Tue,  5 Aug 2025 18:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A160200127
+	for <linux-doc@vger.kernel.org>; Tue,  5 Aug 2025 22:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754419886; cv=none; b=LEit9D69X45+Qjxgp3QJurZ1G1YtUwVybFhYxKjKfCfOSNRgwAIJlkz18gwaqXOr/XJ67usbP6Tw5XFAgibLnq/roPBfLSRXjulXjREc2SJvJzZ9rLyhwZh3yKg2EpzOk+F042xc+6HdN5rXlZZ88xV+5NfJKDzZVNiDp51C+G4=
+	t=1754431732; cv=none; b=uq7xJjVBPCskDQLpkY0EXFd++ZKSG6sCyUHTXKozJ9pof1K2RcnhA4NucQUfFSNtSQKLChmmYvge2Sn+4ov+qgHWLydMnHAawvhGq1oeyaCCDfT5tqH21TP/9E1ONKSZ5pLSAv+eqiYaomNEpnuapJdA6wh8kMlC0pyd3V0fxC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754419886; c=relaxed/simple;
-	bh=1foawzQDKMWTN3rf/TiKTCzlWcGktjNZWFrsshx9B+E=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sfx2sj58yIy8B/0ww6Y5CWshKo6SA9I52KcOLqSMayV+GYJ2wu16xnr7at75Qny3xjpsdxrw5TQMI8qHW8K59A5+EZXPNindWpEF/rFUpYrvpf4aura8RVmNikKSiJmqTdBc7yeOME6SFGz1Z8SJxwMiI+m+8Azckav/sG+SygA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IUcOi8O0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754431732; c=relaxed/simple;
+	bh=C4aF0jhnSDNzgCpC/9MJ35IS2P6qdTHutz5MBfw8VPY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SVbaVjtMPjED8BFPIZANcg1rLwI0ItCkHDxKoLjh7V7J+0tax9Jv7Ld2I0Sk2nwaYNoZM3Lc3QeQv5GidZgCHEnSOHxHB5yv4nHlqsFHfcm6B1f9Oe4PxWp4PfYy2NE8H5FZ2Pf3ZMGaMFE2bfNWLcthFSowIHCcNVYjq0+5k5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=L90XrZQf; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IUcOi8O0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD44C4CEF0;
-	Tue,  5 Aug 2025 18:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754419886;
-	bh=1foawzQDKMWTN3rf/TiKTCzlWcGktjNZWFrsshx9B+E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IUcOi8O0X1C8mUjrGriiMDakXjw8/PRPLbCdwUmlxyG4ieRvhIfEtOy9XVHncDd67
-	 WYluf/e6wJSAYelOyk/tHal/cUcRnltRlZRA+XnDqGvBcFvbD1huS+BsnENzrxOdln
-	 JVl49eUHVNmh9Y7yDhJ5yBbxe8mQyUKeM5jjoln5ALf/PuWm8NkzSJIorn9c6/2Wub
-	 ioy9fyXkceJrBbTEZtXL2CQtrc+emA0r4f9PwgDPLCBQjd1J9c/bEZ16wg2JHq+rYE
-	 1QKQ1uI3HVN4L3HBlL0rEFMaHI9qV/F6mc0st4VXOUOxZXVBHNlF0yEJHS0SelN9hZ
-	 qqca8KvbqwPJg==
-From: SeongJae Park <sj@kernel.org>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	David Hildenbrand <david@redhat.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Yosry Ahmed <yosry.ahmed@linux.dev>,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Takero Funaki <flintglass@gmail.com>
-Subject: Re: [RFC PATCH v2] mm/zswap: store <PAGE_SIZE compression failed page as-is
-Date: Tue,  5 Aug 2025 11:51:23 -0700
-Message-Id: <20250805185123.8691-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <CAKEwX=Pv4+nhG5j=qech3ox6CFKJL6Ox-xy_Tb+cyyXgZU1oPQ@mail.gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="L90XrZQf"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 575I3cvV023149
+	for <linux-doc@vger.kernel.org>; Tue, 5 Aug 2025 22:08:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	NPGNwiXRp88kNPj5T9C7eKWaHt3n1T+xdGhFfZ8qfi8=; b=L90XrZQfg0e/SVV5
+	hnJOKrC93kx5V44KikYr3CH8RJsRDp4v9t6jNOV9v6ig0dEbvn/BQhiIHm6Nuqv5
+	8B/nWVhfNdJHAL7p6iw5uncWCNh25Oo5KdaloshaBt+u52upFL7Fg1M0+NWwIqWs
+	wS6Cdj0usjPaNQdJYeWr7Z/P+f856S2ghV0/OdSAgQ14rtDPGreGLFREZZXmKD3+
+	zTxxDAzBRoixo8InXokNVTnS8l/q+EVa5NM+pMe+s20BZu05Q6i+lVC0KQJLUVA5
+	m98cd/jZUUyRz99QBiVQ1N4OfyqlQBbdiEMOIJVflcUD9kkRsTuWrZYbEtu6866d
+	raJO+w==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpw30jx4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 05 Aug 2025 22:08:49 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-b423dcff27aso7226554a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 Aug 2025 15:08:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754431728; x=1755036528;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NPGNwiXRp88kNPj5T9C7eKWaHt3n1T+xdGhFfZ8qfi8=;
+        b=wPtIta3tFNRyEHPrZyMgP9K0mfxtjilYUUDtIMsKispUbvI/2K3S09MZSyCK+xAH/m
+         X/6VFxBm3PHoDFLe0E+pwjmFdK1VKkH3EejRfvvVQPxBSQ99UC792le7i6bMVQwbZDlV
+         9qhaPrgL3RFs9xj06xxwG+3JSywAL+utocuM6RNhJ0criZNA/MwN9J58MIFwZCf1QCaG
+         hGw1URuqAW4vCD+mQm+BvRA3lg4akpJKRNOmKIUvEWdGHHVcdTw0+05PUpyq9Us4Pbm6
+         ptMDFK7XXV4Q00H8tC1GhL3740nZM6sEhN3NUaatqyVzpyhlycONrhGtePXs5fZz/yZA
+         JPtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUHGGlr4S/+zVueQh5yIkY34TwBNVjhY8LFKPW2mxJz2wxYFYU6sGl/0+jp4361myrXl4TFvKQXiJM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj+1qtLLaJ1hKgLeIJReTRsTK5rvuurhLsuKlymxnvBpuxKx6p
+	vqUXM5ZhlwQJ5gd4rSwpx+B4wRh8Bjhqd1lXmFoF6k7MUVc/wTEjNOFNfTK8BJQSHrm4xADYuUb
+	seRFVA9INN37my954vT7tcwx//sadlxc8J8fzgRiHgXiKtzVYfRApre0GuNK0uAc=
+X-Gm-Gg: ASbGncs0fObdl4WzLy0rLKNggY8d/yp7KxwMBXe5yD0fb8eybfqQIRJiByyum2BFAG4
+	S3BNJTQXf2qGqgh60WOYlf7e8NJ/ZagzgFXHQo2e/NvmTzGieqqniELHH7q4q+iw2kweMKxkNFM
+	VZafD8ddMWnuUSuhgE62zJhRUQ1CSuvBTxHlo6W77QlFpcOd8qqbaNAcOoYb3mqgJRtmdYMEGyc
+	JAxWw09qN0crHlnGIjqhA4vAWDLtfCMBjE2CfRym1AOMSFIZvc7YXrOVqTullSULMqyvsgsft4c
+	nlAQ5c+SdeAj4sLcFI433EfDjAFMmbjVS5OgzvGjnurEnPKcN8HQPQn+RcKFFM7ogWHPTRG9tg+
+	q/y5JbuIQXoAUdx2SZGsLIjmUXaeQi3gJ
+X-Received: by 2002:a17:902:ce83:b0:23d:d2d2:b511 with SMTP id d9443c01a7336-242a0ac1ecfmr3280065ad.19.1754431727842;
+        Tue, 05 Aug 2025 15:08:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG0Kul0H2qbAtCnTZWaSV2/tYAXzYWabMFDcnnTPF71+z9fGCHROeCrM/g1vJAXwk5dY+X+Wg==
+X-Received: by 2002:a17:902:ce83:b0:23d:d2d2:b511 with SMTP id d9443c01a7336-242a0ac1ecfmr3279765ad.19.1754431727402;
+        Tue, 05 Aug 2025 15:08:47 -0700 (PDT)
+Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1f21c65sm143695185ad.73.2025.08.05.15.08.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Aug 2025 15:08:46 -0700 (PDT)
+Message-ID: <771aef93-df3e-4a9b-b6d9-3a5057f77ddb@oss.qualcomm.com>
+Date: Tue, 5 Aug 2025 15:08:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] agents: add legal requirements and agent attribution
+ guidelines
+To: Sasha Levin <sashal@kernel.org>, corbet@lwn.net, linux-doc@vger.kernel.org,
+        workflows@vger.kernel.org
+Cc: josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, rostedt@goodmis.org
+References: <20250727195802.2222764-1-sashal@kernel.org>
+ <20250727195802.2222764-5-sashal@kernel.org>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20250727195802.2222764-5-sashal@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDE1NyBTYWx0ZWRfX2wOXTqrvmziR
+ l94nk1ikSIXO+/lqVm3WW1+JM0cLFS9GGfQtpC3zYZv/zk2EUSaNboK1dBq+i4QOFC24vQ6PFE/
+ CHOosZvTL9hqS4YU/nc3xDM1hi8otHw4v9V3OtAWaeWaaaGJvcInoa6NYvpaqmx+QAGag5EcXJJ
+ oPAoKxi29poicd/f3elpWUpN/08RG9ft0MVYLfbjAHdk6kqvMbKZ/FMMpac1ipv9MufqHqcpRuD
+ qg46YEQbF6rVzToU3+/E5OrycTILFgxG3MAWhpx0GTqRfRK5WiiIDKYQoA3ZGMR5BEIUV7UA5IK
+ TkWfY0AxoMUae8x8zKaV+LAqDdvsVHiYjj8lbulMTMf5jWtouSbeRIartnAGIQ6R9TH2EQLqSp1
+ R9/qOd7giv+7hPQ3oLZUMtziq2Z/XQA1CB3Xwqcbf9MLKVjZ8dLjUmvyldt8sR+KxfDGji4/
+X-Authority-Analysis: v=2.4 cv=J8Cq7BnS c=1 sm=1 tr=0 ts=689280f1 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=e70TP3dOR9hTogukJ0528Q==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=KGwrKJCAF6cQJkUQTlQA:9
+ a=QEXdDO2ut3YA:10 a=mLIokOBbMDMA:10 a=W1xJO3YbG5cA:10
+ a=x9snwWr2DeNwDh03kgHS:22
+X-Proofpoint-GUID: y1NZY5EvPNWKHzUbrwkgQkB2BPo4fmbT
+X-Proofpoint-ORIG-GUID: y1NZY5EvPNWKHzUbrwkgQkB2BPo4fmbT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-05_04,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=862 spamscore=0 bulkscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2507300000
+ definitions=main-2508050157
 
-On Tue, 5 Aug 2025 11:25:38 -0700 Nhat Pham <nphamcs@gmail.com> wrote:
-
-> On Mon, Aug 4, 2025 at 5:30 PM SeongJae Park <sj@kernel.org> wrote:
-> >
-> > When zswap writeback is enabled and it fails compressing a given page,
-> > the page is swapped out to the backing swap device.  This behavior
-> > breaks the zswap's writeback LRU order, and hence users can experience
-> > unexpected latency spikes.  If the page is compressed without failure,
-> > but results in a size of PAGE_SIZE, the LRU order is kept, but the
-> > decompression overhead for loading the page back on the later access is
-> > unnecessary.
-> >
-> > Keep the LRU order and optimize unnecessary decompression overheads in
-> > the cases, by storing the original content in zpool as-is.  The length
-> > field of zswap_entry will be set appropriately, as PAGE_SIZE,  Hence
-> > whether it is saved as-is or not (whether decompression is unnecessary)
-> > is identified by 'zswap_entry->length == PAGE_SIZE'.
-> >
-> > So this change is not increasing per zswap entry metadata overhead.  But
-> > as the number of incompressible pages increases, total zswap metadata
-> > overhead is proportionally increased.  The overhead should not be
-> > problematic in usual cases, since the zswap metadata for single zswap
-> > entry is much smaller than PAGE_SIZE, and in common zswap use cases
-> > there should be a sufficient amount of compressible pages.  Also it can
-> > be mitigated by the zswap writeback.
-> >
-> > When a severe memory pressure comes from memcg's memory.high, storing
-> > incompressible pages as-is may result in reducing accounted memory
-> > footprint slower, since the footprint will be reduced only after the
-> > zswap writeback kicks in.  This can incur higher penalty_jiffies and
-> > degrade the performance.  Arguably this is just a wrong setup, but we
-> > don't want to introduce unnecessary surprises.  Add a parameter, namely
-> > 'save_incompressible_pages', to turn the feature on/off as users want.
-> > It is turned off by default.
-> >
-> > When the writeback is disabled, the additional overhead could be
-> > problematic.  For the case, keep the current behavior that just returns
-> > the failure and let swap_writeout() put the page back to the active LRU
-> > list in the case.  It is known to be suboptimal when the incompressible
-> > pages are cold, since the incompressible pages will continuously be
-> > tried to be zswapped out, and burn CPU cycles for compression attempts
-> > that will anyway fails.  One imaginable solution for the problem is
-> > reusing the swapped-out page and its struct page to store in the zswap
-> > pool.  But that's out of the scope of this patch.
-> >
-> > Tests
-> > -----
-> >
-> > I tested this patch using a simple self-written microbenchmark that is
-> > available at GitHub[1].  You can reproduce the test I did by executing
-> > run_tests.sh of the repo on your system.  Note that the repo's
-> > documentation is not good as of this writing, so you may need to read
-> > and use the code.
-> >
-> > The basic test scenario is simple.  Run a test program making artificial
-> > accesses to memory having artificial content under memory.high-set
-> > memory limit and measure how many accesses were made in given time.
-> >
-> > The test program repeatedly and randomly access three anonymous memory
-> > regions.  The regions are all 500 MiB size, and accessed in the same
-> > probability.  Two of those are filled up with a simple content that can
-> > easily be compressed, while the remaining one is filled up with a
-> > content that read from /dev/urandom, which is easy to fail at
-> > compressing to <PAGE_SIZE size.  The program runs for two minutes and
-> > prints out the number of accesses made every five seconds.
-> >
-> > The test script runs the program under below seven configurations.
-> >
-> > - 0: memory.high is set to 2 GiB, zswap is disabled.
-> > - 1-1: memory.high is set to 1350 MiB, zswap is disabled.
-> > - 1-2: Same to 1-1, but zswap is enabled.
-> > - 1-3: Same to 1-2, but save_incompressible_pages is turned on.
-> > - 2-1: memory.high is set to 1200 MiB, zswap is disabled.
-> > - 2-2: Same to 2-1, but zswap is enabled.
-> > - 2-3: Same to 2-2, but save_incompressible_pages is turned on.
-> >
-> > For all zswap enabled case, zswap shrinker is enabled.
-> >
-> > Configuration '0' is for showing the original memory performance.
-> > Configurations 1-1, 1-2 and 1-3 are for showing the performance of swap,
-> > zswap, and this patch under a level of memory pressure (~10% of working
-> > set).
-> >
-> > Configurations 2-1, 2-2 and 2-3 are similar to 1-1, 1-2 and 1-3 but to
-> > show those under a severe level of memory pressure (~20% of the working
-> > set).
-> >
-> > Because the per-5 seconds performance is not very reliable, I measured
-> > the average of that for the last one minute period of the test program
-> > run.  I also measured a few vmstat counters including zswpin, zswpout,
-> > zswpwb, pswpin and pswpout during the test runs.
-> >
-> > The measurement results are as below.  To save space, I show performance
-> > numbers that are normalized to that of the configuration '0' (no memory
-> > pressure), only.  The averaged accesses per 5 seconds of configuration
-> > '0' was 36493417.75.
-> >
-> >     config            0       1-1     1-2      1-3      2-1     2-2      2-3
-> >     perf_normalized   1.0000  0.0057  0.0235   0.0367   0.0031  0.0122   0.0077
-> >     perf_stdev_ratio  0.0582  0.0652  0.0167   0.0346   0.0404  0.0145   0.0613
-> >     zswpin            0       0       3548424  1999335  0       2912972  1612517
-> >     zswpout           0       0       3588817  2361689  0       2996588  2029884
-> >     zswpwb            0       0       10214    340270   0       34625    382117
-> >     pswpin            0       485806  772038   340967   540476  874909   790418
-> >     pswpout           0       649543  144773   340270   692666  275178   382117
-> >
-> > 'perf_normalized' is the performance metric, normalized to that of
-> > configuration '0' (no pressure).  'perf_stdev_ratio' is the standard
-> > deviation of the averaged data points, as a ratio to the averaged metric
-> > value.  For example, configuration '0' performance was showing 5.8%
-> > stdev.  Configurations 1-1 and 1-3 were having about 6.5% and 6.1%
-> > stdev.  Also the results were highly variable between multiple runs.  So
-> > this result is not very stable but just showing ball park figures.
-> > Please keep this in your mind when reading these results.
-> >
-> > Under about 10% of working set memory pressure, the performance was
-> > dropped to about 0.57% of no-pressure one, when the normal swap is used
-> > (1-1).  Actually ~10% working set pressure is not a mild one, at least
-> > on this test setup.
-> >
-> > By turning zswap on (1-2), the performance was improved about 4x,
-> > resulting in about 2.35% of no-pressure one.  Because of the
-> > incompressible pages in the third memory region, a significant amount of
-> > (non-zswap) swap I/O operations were made, though.
-> >
-> > By enabling the incompressible pages handling feature that is introduced
-> > by this patch (1-3), about 56% performance improvement was made,
-> > resulting in about 3.67% of no-pressure one.  Reduced pswpin of 1-3
-> > compared to 1-2 let us see where this improvement came from.
-> >
-> > Under about 20% of working set memory pressure, which could be extreme,
-> > the performance drops down to 0.31% of no-pressure one when only the
-> > normal swap is used (2-1).  Enabling zswap significantly improves it, up
-> > to 1.22%, though again showing a significant number of (non-zswap) swap
-> > I/O due to incompressible pages.
-> >
-> > Enabling the incompressible pages handling feature of this patch (2-3)
-> > didn't reduce non-zswap swap I/O, because the memory pressure is too
-> > severe to let nearly all zswap pages including the incompressible pages
-> > written back by zswap shrinker.  And because the memory usage is not
-> > dropped as soon as incompressible pages are swapped out but only after
-> > those are written back by shrinker, memory.high apparently applied more
-> > penalty_jiffies.  As a result, the performance became even worse than
-> > 2-2 about 36.88%, resulting in 0.07% of the no-pressure one.
-> >
-> > 20% of working set memory pressure is pretty extreme, but anyway the
-> > incompressible pages handling feature could make it worse in certain
-> > setups.  Hence add the parameter for turning the feature on/off as
-> > needed, and disable it by default.
-> >
-> > Related Works
-> > -------------
-> >
-> > This is not an entirely new attempt.  Nhat Pham and Takero Funaki tried
-> > very similar approaches in October 2023[2] and April 2024[3],
-> > respectively.  The two approaches didn't get merged mainly due to the
-> > metadata overhead concern.  I described why I think that shouldn't be a
-> > problem for this change, which is automatically disabled when writeback
-> > is disabled, at the beginning of this changelog.
-> >
-> > This patch is not particularly different from those, and actually built
-> > upon those.  I wrote this from scratch again, though.  Hence adding
-> > Suggested-by tags for them.  Actually Nhat first suggested this to me
-> > offlist.
-> >
-> > [1] https://github.com/sjp38/eval_zswap/blob/master/run.sh
-> > [2] https://lore.kernel.org/20231017003519.1426574-3-nphamcs@gmail.com
-> > [3] https://lore.kernel.org/20240706022523.1104080-6-flintglass@gmail.com
-> >
-> > Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> > Suggested-by: Takero Funaki <flintglass@gmail.com>
-> > Signed-off-by: SeongJae Park <sj@kernel.org>
-> > ---
-> > Changes from RFC v1
-> > (https://lore.kernel.org/20250730234059.4603-1-sj@kernel.org)
-> > - Consider PAGE_SIZE-resulting compression successes as failures.
-> > - Use zpool for storing incompressible pages.
-> > - Test with zswap shrinker enabled.
-> > - Wordsmith changelog and comments.
-> > - Add documentation of save_incompressible_pages parameter.
-> >
-> >  Documentation/admin-guide/mm/zswap.rst |  9 +++++
-> >  mm/zswap.c                             | 53 +++++++++++++++++++++++++-
-> >  2 files changed, 61 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
-> > index c2806d051b92..20eae0734491 100644
-> > --- a/Documentation/admin-guide/mm/zswap.rst
-> > +++ b/Documentation/admin-guide/mm/zswap.rst
-> > @@ -142,6 +142,15 @@ User can enable it as follows::
-> >  This can be enabled at the boot time if ``CONFIG_ZSWAP_SHRINKER_DEFAULT_ON`` is
-> >  selected.
-> >
-> > +If a page cannot be compressed into a size smaller than PAGE_SIZE, it can be
-> > +beneficial to save the content as is without compression, to keep the LRU
-> > +order.  Users can enable this behavior, as follows::
-> > +
-> > +  echo Y > /sys/module/zswap/parameters/save_incompressible_pages
-> > +
-> > +This is disabled by default, and doesn't change behavior of zswap writeback
-> > +disabled case.
-> > +
-> >  A debugfs interface is provided for various statistic about pool size, number
-> >  of pages stored, same-value filled pages and various counters for the reasons
-> >  pages are rejected.
-> > diff --git a/mm/zswap.c b/mm/zswap.c
-> > index 7e02c760955f..6e196c9a4dba 100644
-> > --- a/mm/zswap.c
-> > +++ b/mm/zswap.c
-> > @@ -129,6 +129,11 @@ static bool zswap_shrinker_enabled = IS_ENABLED(
-> >                 CONFIG_ZSWAP_SHRINKER_DEFAULT_ON);
-> >  module_param_named(shrinker_enabled, zswap_shrinker_enabled, bool, 0644);
-> >
-> > +/* Enable/disable incompressible pages storing */
-> > +static bool zswap_save_incompressible_pages;
-> > +module_param_named(save_incompressible_pages, zswap_save_incompressible_pages,
-> > +               bool, 0644);
-> > +
-> >  bool zswap_is_enabled(void)
-> >  {
-> >         return zswap_enabled;
-> > @@ -937,6 +942,29 @@ static void acomp_ctx_put_unlock(struct crypto_acomp_ctx *acomp_ctx)
-> >         mutex_unlock(&acomp_ctx->mutex);
-> >  }
-> >
-> > +/*
-> > + * Determine whether to save given page as-is.
-> > + *
-> > + * If a page cannot be compressed into a size smaller than PAGE_SIZE, it can be
-> > + * beneficial to saving the content as is without compression, to keep the LRU
-> > + * order.  This can increase memory overhead from metadata, but in common zswap
-> > + * use cases where there are sufficient amount of compressible pages, the
-> > + * overhead should be not critical, and can be mitigated by the writeback.
-> > + * Also, the decompression overhead is optimized.
-> > + *
-> > + * When the writeback is disabled, however, the additional overhead could be
-> > + * problematic.  For the case, just return the failure.  swap_writeout() will
-> > + * put the page back to the active LRU list in the case.
-> > + */
-> > +static bool zswap_save_as_is(int comp_ret, unsigned int dlen,
-> > +               struct page *page)
-> > +{
-> > +       return zswap_save_incompressible_pages &&
-> > +                       (comp_ret || dlen == PAGE_SIZE) &&
-> > +                       mem_cgroup_zswap_writeback_enabled(
-> > +                                       folio_memcg(page_folio(page)));
-> > +}
-> > +
-> >  static bool zswap_compress(struct page *page, struct zswap_entry *entry,
-> >                            struct zswap_pool *pool)
-> >  {
-> > @@ -976,8 +1004,13 @@ static bool zswap_compress(struct page *page, struct zswap_entry *entry,
-> >          */
-> >         comp_ret = crypto_wait_req(crypto_acomp_compress(acomp_ctx->req), &acomp_ctx->wait);
-> >         dlen = acomp_ctx->req->dlen;
-> > -       if (comp_ret)
-> > +       if (zswap_save_as_is(comp_ret, dlen, page)) {
-> > +               comp_ret = 0;
-> > +               dlen = PAGE_SIZE;
-> > +               memcpy_from_page(dst, page, 0, dlen);
-> > +       } else if (comp_ret) {
-> >                 goto unlock;
-> > +       }
-> >
-> >         zpool = pool->zpool;
-> >         gfp = GFP_NOWAIT | __GFP_NORETRY | __GFP_HIGHMEM | __GFP_MOVABLE;
-> > @@ -1001,6 +1034,17 @@ static bool zswap_compress(struct page *page, struct zswap_entry *entry,
-> >         return comp_ret == 0 && alloc_ret == 0;
-> >  }
-> >
-> > +/*
-> > + * If save_incompressible_pages is set and writeback is enabled, incompressible
-> > + * pages are saved as is without compression.  For more details, refer to the
-> > + * comments of zswap_save_as_is().
-> > + */
-> > +static bool zswap_saved_as_is(struct zswap_entry *entry, struct folio *folio)
-> > +{
-> > +       return entry->length == PAGE_SIZE && zswap_save_incompressible_pages &&
-> > +               mem_cgroup_zswap_writeback_enabled(folio_memcg(folio));
-> > +}
+On 7/27/2025 12:58 PM, Sasha Levin wrote:
+> And below is the first test of this scheme:
 > 
-> Actually, this might not be safe either :(
+> Co-developed-by: Claude claude-opus-4-20250514
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  Documentation/agents/index.rst |  3 ++-
+>  Documentation/agents/legal.rst | 42 ++++++++++++++++++++++++++++++++++
+>  Documentation/agents/main.rst  |  5 ++++
+>  3 files changed, 49 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/agents/legal.rst
 > 
-> What if we have the following sequence:
-> 1. Initially, the cgroup is writeback enabled. We encounter an
-> incompressible page, and store it as-is in the zswap pool.
-> 2. Some userspace agent (systemd or whatever) runs, and disables zswap
-> writeback on the cgroup.
-> 3. At fault time, zswap_saved_as_is() returns false, so we'll treat
-> the page-sized stored object as compressed, and attempt to decompress
-> it. This is a memory corruption.
-> 
-> I think you can trigger a similar bug, if you enable
-> zswap_save_incompressible_pages initially, then disable it later on.
+> diff --git a/Documentation/agents/index.rst b/Documentation/agents/index.rst
+> index 354af3f025e5..982602db3349 100644
+> --- a/Documentation/agents/index.rst
+> +++ b/Documentation/agents/index.rst
+> @@ -9,4 +9,5 @@ Agents
+>  
+>     main
+>     core
+> -   coding-style
+> \ No newline at end of file
+> +   coding-style
+> +   legal
+> \ No newline at end of file
+> diff --git a/Documentation/agents/legal.rst b/Documentation/agents/legal.rst
+> new file mode 100644
+> index 000000000000..67e6b2cdff9d
+> --- /dev/null
+> +++ b/Documentation/agents/legal.rst
+> @@ -0,0 +1,42 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===============================
+> +Legal Requirements for Agents
+> +===============================
+> +
+> +This document outlines critical legal requirements that coding agents must follow when working with the Linux kernel codebase.
+> +
+> +Licensing Requirements
+> +----------------------
+> +
+> +**GPL-2.0 License**
+> +  The Linux kernel is licensed under GPL-2.0 only with a syscall exception. Coding agents MUST follow this licensing rule with no exceptions. Any code contributed must be compatible with this license.
+> +
+> +**SPDX License Identifiers**
+> +  All files must have proper SPDX license identifiers. For most kernel source files, this should be the first line of the file in the appropriate comment format:
+> +
+> +  - For C source/header files: ``// SPDX-License-Identifier: GPL-2.0``
+> +  - For scripts: ``# SPDX-License-Identifier: GPL-2.0``
+> +  - For documentation: ``.. SPDX-License-Identifier: GPL-2.0``
 
-Nice catch!  Thank you for catching this and giving this nice explanation.  I
-agree your points.
+I believe the agent has not processed the following correctly:
+https://www.kernel.org/doc/html/latest/process/license-rules.html
 
-> 
-> I think you have to do the following:
-> 1. At store time, if comp_ret or dlen == PAGE_SIZE, treat it as
-> compression failure. This means: saving as-is when writeback enabled,
-> and rejecting when writeback disabled. Basically:
-> 
-> if (!comp_ret || dlen == PAGE_SIZE) {
+1) C header files use /* SPDX-License-Identifier: <expression> */
+2) Contributions need not be GPL-2.0, "individual files can be provided under
+a dual license, e.g. one of the compatible GPL variants and alternatively
+under a permissive license like BSD, MIT etc."
 
-I saw your reply correcting this to '(comp_ret || dlen == PAGE_SIZE)', and that
-makes sense to me.
+These two issues jumped out at me...
 
->     if (zswap_save_incompressible_pages &&
-> mem_cgroup_zswap_writeback_enabled(folio_memcg(page_folio(folio)))) {
->         /* save as-is */
->     } else {
->        /* rejects */
->     }
-> 
-> }
-> 
-> 2. At load time, just check that dlen == PAGE_SIZE. We NEVER store
-> PAGE_SIZE "compressed" page, so we can safely assume that it is the
-> original, uncompressed data.
-
-Thank you for even further giving me this nice suggestion.  Again this makes
-sense to me.  I will make this change on the next version.
-
-
-Thanks,
-SJ
+/jeff
