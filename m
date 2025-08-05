@@ -1,242 +1,111 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [220.197.32.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6DE154BF5
-	for <linux-doc@vger.kernel.org>; Tue,  5 Aug 2025 10:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3CD2566;
+	Tue,  5 Aug 2025 10:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754389831; cv=none; b=mVeSqs7ARn7UJpgdWBPoWuN4obiF2SYHhoMaSC8INmHHDBw6yaatcgNhMQ8nPSQj3bdaZi//9lqNXjv94KkmChZlkwslS2f5dE98hWuKNxVP+KIN/TSNTi3jcYgW2zXp1gkVhhcSiQkX8ANqzldkZ0540fZdzZkoMlvcpgjAim8=
+	t=1754389898; cv=none; b=Mhe6ikR2wDW0/vjCQj2UFjGJffBuk+mdE0D67C6sTKjChsjUbShwGUTo2/EVcKYZYl79b5tN4Z4b/U+MMbRCTEmhriSV4ZOqxjsFkc9B2LYAsVXmXhtTFPVB24jbmeIYIe74zUW33uWdEpdk/qYOITqfmSDUTQJiXmh6A3N1fno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754389831; c=relaxed/simple;
-	bh=lYTsqHfgtClSaq4hDWkmMzi3zRvfGNpaaiR4LI3ZV4w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UVv4SH/C53Bi/DUEYdGWFWakM/xQ6HTPP7V4UgHKpEpTD4dvWby5eNFx2/7SiXQy2aTuaCB0EimipPi0K7UVnc+6AwtIG3tch+5uw9X6kOfw2+Ggtrs8TigeYOn67QCy2tEhsveIN5So5PVwYc8cVNsOq5BI3xR6W8moepZtsQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f0QXJtJ1; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1754389898; c=relaxed/simple;
+	bh=SZXiJmkDMpnyHVml/lE/tZpUhzlTWvl2AufRZ01q3hY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=PAYuQIHd+e2Ih4aTGaUAyYV5uYdiccbJoHnaDjCIkdcKSOBQ4HNGfPloYcMJzEAOpsMareFiRCSY3XWasH7F1pP1xCztHnDWLywAMhKtSsbM3Pa0U/79zUg+sX4PFaP9Aq6l5Pa1yYkv/Rh6kF4T/KnTI9RarE1h964Zz6xl8f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=RV9IzhG+; arc=none smtp.client-ip=220.197.32.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f0QXJtJ1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754389829;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5QBRGAqc9wV2ClFxJdEhBBHYCynit2/ZYJDeC1A7nhI=;
-	b=f0QXJtJ1IRJ0iZFsI2d+6JInanogkBsidZod2z+losqONy3WjMr5b7DJGDx7F9fqzBQdVJ
-	ItBbed3gnuNEzj3Wfns9aZO21KlMy7nFpFCmHxY72TYJr3gdyqxfQ541u46cZPcP+S38xa
-	y6O2wW+BDyMsDmMhDrBjXb0pp8zHtlI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-599-awCBA4l3M0iC8f5nXgGbQQ-1; Tue, 05 Aug 2025 06:30:28 -0400
-X-MC-Unique: awCBA4l3M0iC8f5nXgGbQQ-1
-X-Mimecast-MFC-AGG-ID: awCBA4l3M0iC8f5nXgGbQQ_1754389827
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3a54a8a0122so2203596f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 05 Aug 2025 03:30:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754389827; x=1754994627;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5QBRGAqc9wV2ClFxJdEhBBHYCynit2/ZYJDeC1A7nhI=;
-        b=h2wG72leSoqkVnH0Cl+gPJiN4G5tPewPIVKNuLGMw7wX83hIRQqAPFfJ7rn8Tnx3bX
-         0ymacyuMR1Ds4f/83Shjvbnyb0TXwCqryPxACQVJYsARUj6Zy3R3zzI4hLY6Igiv2XO0
-         Ews+qVjXeB3DRjp5T5Jk861Tb2JLL78Qv40gJp3YQ+M/KjiK/Mx+9ZDlFw490jjUQAGD
-         8W3pXtk8RNafvoPzOgM8prwLJdphEA2v6HE5YMpAm+iYuYdgULqK2UJKOYM/bQXqXl4z
-         lyYvzYHBIEceK4jVwHgXaqgY6u39iDCMcokpJbm6eF7gVInxX/Ub9YI7U+f+JZkutbEx
-         agVw==
-X-Forwarded-Encrypted: i=1; AJvYcCURHqBQQ/Tt/F8Jg8TZFRAgDTuIwbo4K6nrKYKnTu5l8iH6EETme0g9XLXMZ2CdBjlEd9bBydaR0Kw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2CX9IIYGLrHVHhasobWyNwvGEOcFxQz/4+85rfkw03idVDXVw
-	fD9ADc9CP6c3yFIn3ab9zP49sfROSoyA8yiPY8zipSZ71O6i8E3CBD1e560nhHCRcHO87SbtdcT
-	+3A5e3NIwokv/BNFM4u6xNMP7aOuhfI2sKNj1Tn5HhpFi1VruHxqED/uWQlCCFA==
-X-Gm-Gg: ASbGncsmUoDewOnb3xfbh5iUfXPZBUN/LGRfoIY4sSaU+REry7jswiSbcQP1blWFx/Q
-	VG2+URdruBfScPnWIo365Dj9PfS9puPNEd7+o5f/O4fwgqzkQCdLMLyQMgQFZdtLYIAT0xorkfN
-	ZBkXgMIhHIecfKDcij1O6ikReDG2X5zcCXIDuMc8k83wW7ryvswWQlIw+dNR2DTSOJEcI+1kvnb
-	zP4mIdfS/yZphGHL52JzSsuJgQuccIUA0lWuuhIQMg6vpc6bJiJVz8D5bWc4mXinc4kIAhHk+uh
-	10mlu5ccKrdupT2l/Hfqb0xJEWcvpQ0VCVede0VCv8OeXmzk2Il3zi/IpgCoQMbQeJ+Y2PHdpC4
-	heUoGJwheMTeXRrIMEqIsIwu3sXd1ziLsdG41suQwRknqDUegM+xQ2NhdK/MSQmC3bUo=
-X-Received: by 2002:a5d:5849:0:b0:3b7:8481:e365 with SMTP id ffacd0b85a97d-3b8d946807cmr8921453f8f.10.1754389826739;
-        Tue, 05 Aug 2025 03:30:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE1mB+c6XVjZUqBR7O+G7xU80WhlBPcGKDy3bCyz+mMN14dRewdIyXB/kqLc4gAzRNnToKQLw==
-X-Received: by 2002:a5d:5849:0:b0:3b7:8481:e365 with SMTP id ffacd0b85a97d-3b8d946807cmr8921405f8f.10.1754389826173;
-        Tue, 05 Aug 2025 03:30:26 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f2b:b200:607d:d3d2:3271:1be0? (p200300d82f2bb200607dd3d232711be0.dip0.t-ipconnect.de. [2003:d8:2f2b:b200:607d:d3d2:3271:1be0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459d712c386sm81117925e9.23.2025.08.05.03.30.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Aug 2025 03:30:25 -0700 (PDT)
-Message-ID: <eec7e868-a61f-41ed-a8ef-7ff80548089f@redhat.com>
-Date: Tue, 5 Aug 2025 12:30:23 +0200
+	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="RV9IzhG+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Ew
+	X3zpeQCbPJL6bn0vT+8Zrn3/M7RCsOru7l1g5Iunc=; b=RV9IzhG+mR371FwMsI
+	+HWIQzYo1MRRhcNDUF0AqYM/0LXOs+/1WDXHzPLsy1sVxYPu9H/xqM4+OzFDy5ro
+	+G37kwhFkrf8MG1i9YxTxI5O2ydrrtTb5AQ0tEt5GQiRyw6Q9I8NlXjJq1oXTTjA
+	U3U2uyAwRhTDInc3Rdl51O9Q0=
+Received: from mps-HP-EliteBook-840-G3.monolithicpower.com (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id Ms8vCgCnDwTm2pFoQFEdAg--.18285S2;
+	Tue, 05 Aug 2025 18:20:23 +0800 (CST)
+From: wenswang@yeah.net
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Wensheng Wang <wenswang@yeah.net>
+Subject: [PATCH v5 1/3] dt-bindings: hwmon: Add MPS mp2869,mp29608,mp29612,mp29816 and mp29502
+Date: Tue,  5 Aug 2025 18:20:18 +0800
+Message-Id: <20250805102020.749850-1-wenswang@yeah.net>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250805101754.749492-1-wenswang@yeah.net>
+References: <20250805101754.749492-1-wenswang@yeah.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/6] selftests: prctl: introduce tests for disabling
- THPs completely
-To: Usama Arif <usamaarif642@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
- shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
- Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com,
- Donet Tom <donettom@linux.ibm.com>
-References: <20250804154317.1648084-1-usamaarif642@gmail.com>
- <20250804154317.1648084-6-usamaarif642@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAmgsLPQFCRvGjuMACgkQTd4Q
- 9wD/g1o0bxAAqYC7gTyGj5rZwvy1VesF6YoQncH0yI79lvXUYOX+Nngko4v4dTlOQvrd/vhb
- 02e9FtpA1CxgwdgIPFKIuXvdSyXAp0xXuIuRPQYbgNriQFkaBlHe9mSf8O09J3SCVa/5ezKM
- OLW/OONSV/Fr2VI1wxAYj3/Rb+U6rpzqIQ3Uh/5Rjmla6pTl7Z9/o1zKlVOX1SxVGSrlXhqt
- kwdbjdj/csSzoAbUF/duDuhyEl11/xStm/lBMzVuf3ZhV5SSgLAflLBo4l6mR5RolpPv5wad
- GpYS/hm7HsmEA0PBAPNb5DvZQ7vNaX23FlgylSXyv72UVsObHsu6pT4sfoxvJ5nJxvzGi69U
- s1uryvlAfS6E+D5ULrV35taTwSpcBAh0/RqRbV0mTc57vvAoXofBDcs3Z30IReFS34QSpjvl
- Hxbe7itHGuuhEVM1qmq2U72ezOQ7MzADbwCtn+yGeISQqeFn9QMAZVAkXsc9Wp0SW/WQKb76
- FkSRalBZcc2vXM0VqhFVzTb6iNqYXqVKyuPKwhBunhTt6XnIfhpRgqveCPNIasSX05VQR6/a
- OBHZX3seTikp7A1z9iZIsdtJxB88dGkpeMj6qJ5RLzUsPUVPodEcz1B5aTEbYK6428H8MeLq
- NFPwmknOlDzQNC6RND8Ez7YEhzqvw7263MojcmmPcLelYbfOwU0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
- AP+DWgUCaCwtJQUJG8aPFAAKCRBN3hD3AP+DWlDnD/4k2TW+HyOOOePVm23F5HOhNNd7nNv3
- Vq2cLcW1DteHUdxMO0X+zqrKDHI5hgnE/E2QH9jyV8mB8l/ndElobciaJcbl1cM43vVzPIWn
- 01vW62oxUNtEvzLLxGLPTrnMxWdZgxr7ACCWKUnMGE2E8eca0cT2pnIJoQRz242xqe/nYxBB
- /BAK+dsxHIfcQzl88G83oaO7vb7s/cWMYRKOg+WIgp0MJ8DO2IU5JmUtyJB+V3YzzM4cMic3
- bNn8nHjTWw/9+QQ5vg3TXHZ5XMu9mtfw2La3bHJ6AybL0DvEkdGxk6YHqJVEukciLMWDWqQQ
- RtbBhqcprgUxipNvdn9KwNpGciM+hNtM9kf9gt0fjv79l/FiSw6KbCPX9b636GzgNy0Ev2UV
- m00EtcpRXXMlEpbP4V947ufWVK2Mz7RFUfU4+ETDd1scMQDHzrXItryHLZWhopPI4Z+ps0rB
- CQHfSpl+wG4XbJJu1D8/Ww3FsO42TMFrNr2/cmqwuUZ0a0uxrpkNYrsGjkEu7a+9MheyTzcm
- vyU2knz5/stkTN2LKz5REqOe24oRnypjpAfaoxRYXs+F8wml519InWlwCra49IUSxD1hXPxO
- WBe5lqcozu9LpNDH/brVSzHCSb7vjNGvvSVESDuoiHK8gNlf0v+epy5WYd7CGAgODPvDShGN
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <20250804154317.1648084-6-usamaarif642@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:Ms8vCgCnDwTm2pFoQFEdAg--.18285S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uw1rKF4DCw4xury8CFy3urg_yoW8CrWUpF
+	Wkur1IyF4rtr47Ca1I93WkGF45XFsrG3ykJa90yw17Gr1a9rZ29rWa93sYq398CrnayF4U
+	JrsFka409a4jvrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UqiifUUUUU=
+X-CM-SenderInfo: 5zhq24xdqjq5hhdkh0dhw/1tbiIAduE2iR2udMfQAA3v
 
-On 04.08.25 17:40, Usama Arif wrote:
-> The test will set the global system THP setting to never, madvise
-> or always depending on the fixture variant and the 2M setting to
-> inherit before it starts (and reset to original at teardown).
-> 
-> This tests if the process can:
-> - successfully set and get the policy to disable THPs completely.
-> - never get a hugepage when the THPs are completely disabled
->    with the prctl, including with MADV_HUGE and MADV_COLLAPSE.
-> - successfully reset the policy of the process.
-> - after reset, only get hugepages with:
->    - MADV_COLLAPSE when policy is set to never.
->    - MADV_HUGE and MADV_COLLAPSE when policy is set to madvise.
->    - always when policy is set to "always".
-> - repeat the above tests in a forked process to make sure
->    the policy is carried across forks.
-> 
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> ---
->   tools/testing/selftests/mm/.gitignore         |   1 +
->   tools/testing/selftests/mm/Makefile           |   1 +
->   .../testing/selftests/mm/prctl_thp_disable.c  | 173 ++++++++++++++++++
->   tools/testing/selftests/mm/thp_settings.c     |   9 +-
->   tools/testing/selftests/mm/thp_settings.h     |   1 +
->   5 files changed, 184 insertions(+), 1 deletion(-)
->   create mode 100644 tools/testing/selftests/mm/prctl_thp_disable.c
-> 
-> diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
-> index e7b23a8a05fe..eb023ea857b3 100644
-> --- a/tools/testing/selftests/mm/.gitignore
-> +++ b/tools/testing/selftests/mm/.gitignore
-> @@ -58,3 +58,4 @@ pkey_sighandler_tests_32
->   pkey_sighandler_tests_64
->   guard-regions
->   merge
-> +prctl_thp_disable
-> diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-> index d13b3cef2a2b..2bb8d3ebc17c 100644
-> --- a/tools/testing/selftests/mm/Makefile
-> +++ b/tools/testing/selftests/mm/Makefile
-> @@ -86,6 +86,7 @@ TEST_GEN_FILES += on-fault-limit
->   TEST_GEN_FILES += pagemap_ioctl
->   TEST_GEN_FILES += pfnmap
->   TEST_GEN_FILES += process_madv
-> +TEST_GEN_FILES += prctl_thp_disable
->   TEST_GEN_FILES += thuge-gen
->   TEST_GEN_FILES += transhuge-stress
->   TEST_GEN_FILES += uffd-stress
-> diff --git a/tools/testing/selftests/mm/prctl_thp_disable.c b/tools/testing/selftests/mm/prctl_thp_disable.c
-> new file mode 100644
-> index 000000000000..ef150180daf4
-> --- /dev/null
-> +++ b/tools/testing/selftests/mm/prctl_thp_disable.c
-> @@ -0,0 +1,173 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Basic tests for PR_GET/SET_THP_DISABLE prctl calls
-> + *
-> + * Author(s): Usama Arif <usamaarif642@gmail.com>
-> + */
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <unistd.h>
-> +#include <sys/mman.h>
-> +#include <sys/prctl.h>
-> +#include <sys/wait.h>
-> +
-> +#include "../kselftest_harness.h"
-> +#include "thp_settings.h"
-> +#include "vm_util.h"
-> +
-> +static int sz2ord(size_t size, size_t pagesize)
-> +{
-> +	return __builtin_ctzll(size / pagesize);
-> +}
+From: Wensheng Wang <wenswang@yeah.net>
 
-Note: We have this helper duplicated elsewhere (e.g., cow.c).
+Add support for MPS mp2869/mp2869a,mp29608/mp29608a,mp29612/mp29612a,
+mp29816/mp29816a/mp29816b/mp29816c and mp29502 controller.
 
-See [1] how we're going to clean it up.
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Wensheng Wang <wenswang@yeah.net>
+---
+V4 -> V5:
+    1. merge dt-bindings
 
-Not sure how to resolve this. Probably, which series lands first in 
-mm-unstable should clean it up.
+V3 -> V4:
+    1. split patches for MP2869,mp29608,mp29612,mp29816,mp29502
+    2. add description for vender specific registers
 
-I would assume that Donet's series would go in first, such that you can 
-just reuse the helper from vm_utils.h
+V2 -> V3:
+    merge patches for MP2869,mp29608,mp29612,mp29816,mp29502
 
-[1] https://lkml.kernel.org/r/20250804090410.of5xwrlker665bdp@master
+V1 -> V2:
+    add Rob's Acked-by
 
+ Documentation/devicetree/bindings/trivial-devices.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Nothing else jumped at me
-
-Acked-by: David Hildenbrand <david@redhat.com>
-
+diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+index f3dd18681aa6..0e6ba6e12a63 100644
+--- a/Documentation/devicetree/bindings/trivial-devices.yaml
++++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+@@ -293,10 +293,20 @@ properties:
+           - mps,mp2856
+             # Monolithic Power Systems Inc. multi-phase controller mp2857
+           - mps,mp2857
++            # Monolithic Power Systems Inc. multi-phase controller mp2869
++          - mps,mp2869
+             # Monolithic Power Systems Inc. multi-phase controller mp2888
+           - mps,mp2888
+             # Monolithic Power Systems Inc. multi-phase controller mp2891
+           - mps,mp2891
++            # Monolithic Power Systems Inc. multi-phase controller mp29502
++          - mps,mp29502
++            # Monolithic Power Systems Inc. multi-phase controller mp29608
++          - mps,mp29608
++            # Monolithic Power Systems Inc. multi-phase controller mp29612
++          - mps,mp29612
++            # Monolithic Power Systems Inc. multi-phase controller mp29816
++          - mps,mp29816
+             # Monolithic Power Systems Inc. multi-phase controller mp2993
+           - mps,mp2993
+             # Monolithic Power Systems Inc. hot-swap protection device
 -- 
-Cheers,
-
-David / dhildenb
+2.25.1
 
