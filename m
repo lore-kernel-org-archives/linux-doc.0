@@ -1,82 +1,144 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FACD221DB6;
-	Tue,  5 Aug 2025 22:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939262BD5BF;
+	Tue,  5 Aug 2025 23:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754433985; cv=none; b=FOpZ97QzCJZLe0SFhI8RMupRCnVPc32dI+P6fapDfVyR3aEbRxRNqUIlk34NKrLvlhwLqhlJ78Z4/bj6V7Y7CZtXwDocaqLXJ0OtAOApZBYRJT19jKT65juilGXhheBwRiifkaFH3dQ0+toqAGu8Tn0ix+viLwvA+pBqjN3lgLg=
+	t=1754435529; cv=none; b=VzHBLsEHRkRU+A7cZpsMY4eQq84cxtksT3Y2M/Vjj77L6tYrEpbOZTFYteWU2HIQ8M/Qv5FhMs05vXZXQHBq+LEH780URkfBexij3B/GaYNBNI8S0GrjbfLU8migbMJxSweW4ZMUOb5k0vYond+OTiFWSws7+cBlsMbEYcBURFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754433985; c=relaxed/simple;
-	bh=rX+rRKTtvMPKWDm9tJXAz+kJfWbbm+FiFfp2ba4OJL8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PSqCo32jbH2bh8wnN5OXv+WjYPvkPD0DRc1wD9N0CQwiYlml1gZerTR7jyl0aOfkgH8Y7E/MH4RN1VOWuwsqc1ufokAjsIgAGUzpzDp1u4AhwJoYaANJ09rsn+oU+fLyAWPEY56m5Ex2uLQyz5Y0tPuT4u2b5Iva72dDKc0ycdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DaDw12F/; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1754435529; c=relaxed/simple;
+	bh=l2pKQvpfyq31+DQw7ZSp6TmHRMSVcnaO2yH7szAIdz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D2akTNJicgLlNMjRIZJFKJxk24UDpBZJ5BFT36RWe+c25q92IJp1iw7WyQvHLaSv4PWlrjtZ/izGl9JpqSHMdkrjKtc9S3cVuCwB6dcdSQwyp4jIRzXi67J3MLJKSla1ZsEdgrX2rX1/HmRBsUmt6LwMXE0E4TrqoMGbdfDTWIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vU6l6ePW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DaDw12F/"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BEA3940AD5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1754433971; bh=RdpQo7jAReEyWC1pvuPCfemKLhTOM/+GymqNSoWjQ18=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DaDw12F/j/FKnYhTMxiv5JVWBgOpDIz4ZQViYthLWPXWPACZ+9sgbQycr2RxCcR7D
-	 hVqTg0Od08dgOxDQszA7EJW/HbQgDrxOoow/MsllmqFF244j/bMb4wU4SbZ/E2C6P6
-	 PDPSVY9d+UvqqrKnp+PcElaVV6/8tUW9W2xDj8shfXFaSULoO2p6ipVxxFwzeB1XqG
-	 AWO9CdYReDsY/TzshPig42cMXMeATCZUzBEo8PWknrDjzKl+1MVv+XbCcqi0gBxiZy
-	 pVyXVDaa+5pQYprun3sEGvtZxn9E2UPQ/bBXe/Jj8l0QnR+iaeMao1Um4+JfdVpjQe
-	 MWCrFivhWx4cA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BEA3940AD5;
-	Tue,  5 Aug 2025 22:46:11 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 10/12] docs: kdoc: further rewrite_struct_members() cleanup
-In-Reply-To: <20250804151511.73ffb949@foz.lan>
-References: <20250801001326.924276-1-corbet@lwn.net>
- <20250801001326.924276-11-corbet@lwn.net>
- <20250801080744.14f83626@foz.lan> <87v7n6pscu.fsf@trenco.lwn.net>
- <20250804151511.73ffb949@foz.lan>
-Date: Tue, 05 Aug 2025 16:46:10 -0600
-Message-ID: <87ms8djsjx.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vU6l6ePW"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CDD80E91;
+	Wed,  6 Aug 2025 01:11:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754435477;
+	bh=l2pKQvpfyq31+DQw7ZSp6TmHRMSVcnaO2yH7szAIdz4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vU6l6ePWnm2Q6XmAFGwJg8x7ESBro7hpWmDLjxlsedcRksyK1S22jWE0cUIbN+p+S
+	 bjC8TK5Mf/KdiYVMAnbmU+GU3nf1sWe/FnxIRkfSdPsjnYOOlA4UeMhv+xTPZtdjHB
+	 j2RpSD9XXJmlhF4USC97w3fj7rC7t33YnMRuL0j8=
+Date: Wed, 6 Aug 2025 02:11:50 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org
+Subject: Re: [PATCH 4/4] agents: add legal requirements and agent attribution
+ guidelines
+Message-ID: <20250805231150.GD16330@pendragon.ideasonboard.com>
+References: <20250727195802.2222764-1-sashal@kernel.org>
+ <20250727195802.2222764-5-sashal@kernel.org>
+ <771aef93-df3e-4a9b-b6d9-3a5057f77ddb@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <771aef93-df3e-4a9b-b6d9-3a5057f77ddb@oss.qualcomm.com>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Tue, Aug 05, 2025 at 03:08:45PM -0700, Jeff Johnson wrote:
+> On 7/27/2025 12:58 PM, Sasha Levin wrote:
+> > And below is the first test of this scheme:
+> > 
+> > Co-developed-by: Claude claude-opus-4-20250514
+> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > ---
+> >  Documentation/agents/index.rst |  3 ++-
+> >  Documentation/agents/legal.rst | 42 ++++++++++++++++++++++++++++++++++
+> >  Documentation/agents/main.rst  |  5 ++++
+> >  3 files changed, 49 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/agents/legal.rst
+> > 
+> > diff --git a/Documentation/agents/index.rst b/Documentation/agents/index.rst
+> > index 354af3f025e5..982602db3349 100644
+> > --- a/Documentation/agents/index.rst
+> > +++ b/Documentation/agents/index.rst
+> > @@ -9,4 +9,5 @@ Agents
+> >  
+> >     main
+> >     core
+> > -   coding-style
+> > \ No newline at end of file
+> > +   coding-style
+> > +   legal
+> > \ No newline at end of file
+> > diff --git a/Documentation/agents/legal.rst b/Documentation/agents/legal.rst
+> > new file mode 100644
+> > index 000000000000..67e6b2cdff9d
+> > --- /dev/null
+> > +++ b/Documentation/agents/legal.rst
+> > @@ -0,0 +1,42 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +===============================
+> > +Legal Requirements for Agents
+> > +===============================
+> > +
+> > +This document outlines critical legal requirements that coding agents must follow when working with the Linux kernel codebase.
+> > +
+> > +Licensing Requirements
+> > +----------------------
+> > +
+> > +**GPL-2.0 License**
+> > +  The Linux kernel is licensed under GPL-2.0 only with a syscall exception. Coding agents MUST follow this licensing rule with no exceptions. Any code contributed must be compatible with this license.
+> > +
+> > +**SPDX License Identifiers**
+> > +  All files must have proper SPDX license identifiers. For most kernel source files, this should be the first line of the file in the appropriate comment format:
+> > +
+> > +  - For C source/header files: ``// SPDX-License-Identifier: GPL-2.0``
+> > +  - For scripts: ``# SPDX-License-Identifier: GPL-2.0``
+> > +  - For documentation: ``.. SPDX-License-Identifier: GPL-2.0``
+> 
+> I believe the agent has not processed the following correctly:
+> https://www.kernel.org/doc/html/latest/process/license-rules.html
+> 
+> 1) C header files use /* SPDX-License-Identifier: <expression> */
+> 2) Contributions need not be GPL-2.0, "individual files can be provided under
+> a dual license, e.g. one of the compatible GPL variants and alternatively
+> under a permissive license like BSD, MIT etc."
+> 
+> These two issues jumped out at me...
 
-> Perhaps one alternative would do something like:
->
-> 	tuples = struct_members.findall(members)
->         if not tuples:
->             break
->
-> 	maintype, -, -, content, -, s_ids = tuples
->
-> (assuming that we don't need t[1], t[2] and t[4] here)
->
-> Btw, on this specific case, better to use non-capture group matches
-> to avoid those "empty" spaces, e.g. (if I got it right):
+And the text isn't properly wrapped. Also, compiling the series, I get
 
-The problem is this line here:
+----------------------------------------
+Documentation/agents/main.rst:3: WARNING: Title overline too short.
 
-                oldmember = "".join(t) # Reconstruct the original formatting
+=====================================
+Linux Kernel Development Agent Instructions
+=====================================
 
-The regex *has* to capture the entire match string so that it can be
-reconstructed back to its original form, which we need to edit the full
-list of members later on.
+[...]
 
-This code could use a deep rethink, but it works for now :)
+Documentation/agents/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
+----------------------------------------
 
-Thanks,
+<irony>
 
-jon
+Sasha, please make sure you read the kernel documentation before
+submitting patches. We understand there's a learning curve, but we
+expect contributors to perform due diligence to avoid wasting the time
+of reviewers. I would have expected a human developer submitting patches
+generated by LLMs to have proof-read the patches, compiled them, and
+fixed those issues.
+
+</irony>
+
+-- 
+Regards,
+
+Laurent Pinchart
