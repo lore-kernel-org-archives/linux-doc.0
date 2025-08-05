@@ -1,226 +1,183 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FE91AA782;
-	Tue,  5 Aug 2025 09:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25DAE1C6FE8;
+	Tue,  5 Aug 2025 10:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754387967; cv=none; b=CVygMerksiiVdSBEET3ZMaMwL91zJUgH3cjeaNyihLFEp0GySe+onTBTDwolxR339oo6JklHi7GCacn5Q+tONuzKSHV1IWK5YgtAXv+D/7TP6G2vdSfMIKfoJ6zz+zAWuQK/2XP4u5uyOOk9C898mRGg/DUKGt+zGOHpew87Dd8=
+	t=1754389202; cv=none; b=TNraR2i1GGYBCRETLCCGaCQGUzAA7LC8awCHrO5/cSzIVoqre/JnQBmoDb5jhHtnA2elbqiuF9WQyF0H8CvKtDuhEpeXjNE6YknyP829XDk78HscOApvCQAXQRo7qeDbbPEVc7nREjXTBcvpa6l6mbyqU8k24Rav1+plvKEZHAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754387967; c=relaxed/simple;
-	bh=RV+XSnddoBH4JRWHZZy+4T5rBIZcZFEquw455N0WQVA=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=jQRoKnVO0QBKMVxUGPiuOhhHj1DfF33Pbxh6LXGsqjMrtvGDzMTkbi8zplQ/TFllOhRHBTu0HO/FWLxJrISwWGPJ2DmxD9hw3MX/WwY1jaidJYUIjRfrcERag0jPtWniAw+rbIch6ssuLGHRm87yme15TEkiLKin3upanYUFORQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aPIOyP3C; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1754389202; c=relaxed/simple;
+	bh=mdNZYWbFwgA6wLySuufnXZ/JAGUhvzf+uMdGc+KNcdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bk0x56RZ2qIQ3HnrMLxjjrjgpbcTdGitzfJmTeTp6vjvMrt1P20BiVJmzcPSspAqF9CmZbXjX4L2XzdIUdtH29yCJVfX/hNxl71G9S3mMKrvAsLioocojjmBkYI7j3x05knUDEBXEWJV8m3ST9GMDNjPHFGZYoPfhN/OL/wuQHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oIQl1Zs0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aPIOyP3C"
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D96F2AD0;
-	Tue,  5 Aug 2025 11:58:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754387915;
-	bh=RV+XSnddoBH4JRWHZZy+4T5rBIZcZFEquw455N0WQVA=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=aPIOyP3CCN60ghQ95OYLB9emUWH/n0b6O3gtc9ZoA+uMAITK5524gPFOoFe3iPgrR
-	 PeGZgkGvvmEIfAIjVWqinSJN2vlhZuO+XIf+jbLxH1tzVI09y3TIRrSaAcZCkteW9d
-	 f9FcX+PdukMOKmU3dXioC96DYHeFg17Pwv6UxHrs=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oIQl1Zs0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80C66C4CEF0;
+	Tue,  5 Aug 2025 10:19:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754389201;
+	bh=mdNZYWbFwgA6wLySuufnXZ/JAGUhvzf+uMdGc+KNcdA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oIQl1Zs0pphGzQ0D+uUStwqrKbP0YZ16uUALphH+BgUVJxBpBDD/jms0iHyHR3/4c
+	 VBiG6syvDMsxCFiM/ra36yC4X41rXNG34op9JTHWewqtax9FMGuVbtGqDnWb0YBKI+
+	 ZDQPX+200tPD+X09fpd+CGRmjFfj05gyHnfuvQRz8IpfmxME3tyMWrb3zwbJ7bnGZV
+	 jGGg0VOw03cOD40VrrsUelw/S2tLepRWw2Bn+eqrwJ9xDjjl8LkVGmsG1iuva/X7yA
+	 HKuixAgByb96cjaiT+nOQljFx33X4WlgUuoqYezLIsDVcXcjlmboUVzX8Ra3VSfejh
+	 VEit4gDLeGixw==
+Date: Tue, 5 Aug 2025 13:19:46 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: shiju.jose@huawei.com
+Cc: rafael@kernel.org, bp@alien8.de, akpm@linux-foundation.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	jonathan.cameron@huawei.com, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v10 1/3] mm: Add node_to_range lookup facility to
+ numa_memblks
+Message-ID: <aJHawm1zE62x1YH9@kernel.org>
+References: <20250801172040.2175-1-shiju.jose@huawei.com>
+ <20250801172040.2175-2-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250802-media-private-data-v1-42-eb140ddd6a9d@ideasonboard.com>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com> <20250802-media-private-data-v1-42-eb140ddd6a9d@ideasonboard.com>
-Subject: Re: [PATCH 42/65] media: renesas: Access v4l2_fh from file
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Tue, 05 Aug 2025 10:59:19 +0100
-Message-ID: <175438795943.1641235.15440393062572657340@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250801172040.2175-2-shiju.jose@huawei.com>
 
-Quoting Jacopo Mondi (2025-08-02 10:23:04)
-> The v4l2_fh associated with an open file handle is now guaranteed
-> to be available in file->private_data, initialised by v4l2_fh_add().
->=20
-> Access the v4l2_fh, and from there the driver-specific structure,
-> from the file * in all ioctl handlers.
->=20
-> While at it, remove the now unused fh_to_ctx() macro.
->=20
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+On Fri, Aug 01, 2025 at 06:20:27PM +0100, shiju.jose@huawei.com wrote:
+> From: Shiju Jose <shiju.jose@huawei.com>
+> 
+> Lookup facility to retrieve memory phys lowest continuous range for
+> a NUMA node is required in the numa_memblks for the ACPI RAS2 memory
+> scrub use case.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+If the code that needs to find the lowest contiguous range in a node runs
+before we discard .init you can just use
 
+	unsigned long pfn = node_start_pfn(nid);
+	unsigned long start_pfn, end_pfn;
+
+	memblock_search_pfn_nid(pfn, &start_pfn, &end_pfn);
+ 
+> Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
 > ---
->  drivers/media/platform/renesas/rcar_fdp1.c | 11 +++--------
->  drivers/media/platform/renesas/rcar_jpu.c  | 21 ++++++++-------------
->  2 files changed, 11 insertions(+), 21 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/p=
-latform/renesas/rcar_fdp1.c
-> index e78d8fb104e9544d27c8ace38888995ca170483f..84c3901a2e5dc3e7ccfb3b440=
-62e839f8f19ee02 100644
-> --- a/drivers/media/platform/renesas/rcar_fdp1.c
-> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
-> @@ -630,11 +630,6 @@ struct fdp1_ctx {
->         struct fdp1_field_buffer        *previous;
->  };
-> =20
-> -static inline struct fdp1_ctx *fh_to_ctx(struct v4l2_fh *fh)
-> -{
-> -       return container_of(fh, struct fdp1_ctx, fh);
-> -}
-> -
->  static inline struct fdp1_ctx *file_to_ctx(struct file *filp)
->  {
->         return container_of(file_to_v4l2_fh(filp), struct fdp1_ctx, fh);
-> @@ -1411,8 +1406,8 @@ static int fdp1_enum_fmt_vid_out(struct file *file,=
- void *priv,
-> =20
->  static int fdp1_g_fmt(struct file *file, void *priv, struct v4l2_format =
-*f)
->  {
-> +       struct fdp1_ctx *ctx =3D file_to_ctx(file);
->         struct fdp1_q_data *q_data;
-> -       struct fdp1_ctx *ctx =3D fh_to_ctx(priv);
-> =20
->         if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
->                 return -EINVAL;
-> @@ -1589,7 +1584,7 @@ static void fdp1_try_fmt_capture(struct fdp1_ctx *c=
-tx,
-> =20
->  static int fdp1_try_fmt(struct file *file, void *priv, struct v4l2_forma=
-t *f)
->  {
-> -       struct fdp1_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct fdp1_ctx *ctx =3D file_to_ctx(file);
-> =20
->         if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
->                 fdp1_try_fmt_output(ctx, NULL, &f->fmt.pix_mp);
-> @@ -1660,7 +1655,7 @@ static void fdp1_set_format(struct fdp1_ctx *ctx,
-> =20
->  static int fdp1_s_fmt(struct file *file, void *priv, struct v4l2_format =
-*f)
->  {
-> -       struct fdp1_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct fdp1_ctx *ctx =3D file_to_ctx(file);
->         struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
->         struct vb2_queue *vq =3D v4l2_m2m_get_vq(m2m_ctx, f->type);
-> =20
-> diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/pl=
-atform/renesas/rcar_jpu.c
-> index 058fcfb967bd98440f33272db42f0d973299d572..9c70a74a2969fce6446b0f26e=
-0637a68eade3942 100644
-> --- a/drivers/media/platform/renesas/rcar_jpu.c
-> +++ b/drivers/media/platform/renesas/rcar_jpu.c
-> @@ -480,11 +480,6 @@ static struct jpu_ctx *ctrl_to_ctx(struct v4l2_ctrl =
-*c)
->         return container_of(c->handler, struct jpu_ctx, ctrl_handler);
+>  include/linux/numa.h         | 10 ++++++++++
+>  include/linux/numa_memblks.h |  2 ++
+>  mm/numa.c                    | 10 ++++++++++
+>  mm/numa_memblks.c            | 23 +++++++++++++++++++++++
+>  4 files changed, 45 insertions(+)
+> 
+> diff --git a/include/linux/numa.h b/include/linux/numa.h
+> index e6baaf6051bc..d41e583a902d 100644
+> --- a/include/linux/numa.h
+> +++ b/include/linux/numa.h
+> @@ -41,6 +41,10 @@ int memory_add_physaddr_to_nid(u64 start);
+>  int phys_to_target_node(u64 start);
+>  #endif
+>  
+> +#ifndef node_to_phys_lowest_continuous_range
+> +int node_to_phys_lowest_continuous_range(int nid, u64 *start, u64 *end);
+> +#endif
+> +
+>  int numa_fill_memblks(u64 start, u64 end);
+>  
+>  #else /* !CONFIG_NUMA */
+> @@ -63,6 +67,12 @@ static inline int phys_to_target_node(u64 start)
+>  	return 0;
 >  }
-> =20
-> -static struct jpu_ctx *fh_to_ctx(struct v4l2_fh *fh)
-> -{
-> -       return container_of(fh, struct jpu_ctx, fh);
-> -}
-> -
->  static struct jpu_ctx *file_to_ctx(struct file *filp)
->  {
->         return container_of(file_to_v4l2_fh(filp), struct jpu_ctx, fh);
-> @@ -661,7 +656,7 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long s=
-ize, unsigned int *width,
->  static int jpu_querycap(struct file *file, void *priv,
->                         struct v4l2_capability *cap)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         if (ctx->encoder)
->                 strscpy(cap->card, DRV_NAME " encoder", sizeof(cap->card)=
-);
-> @@ -719,7 +714,7 @@ static int jpu_enum_fmt(struct v4l2_fmtdesc *f, u32 t=
-ype)
->  static int jpu_enum_fmt_cap(struct file *file, void *priv,
->                             struct v4l2_fmtdesc *f)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         return jpu_enum_fmt(f, ctx->encoder ? JPU_ENC_CAPTURE :
->                             JPU_DEC_CAPTURE);
-> @@ -728,7 +723,7 @@ static int jpu_enum_fmt_cap(struct file *file, void *=
-priv,
->  static int jpu_enum_fmt_out(struct file *file, void *priv,
->                             struct v4l2_fmtdesc *f)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         return jpu_enum_fmt(f, ctx->encoder ? JPU_ENC_OUTPUT : JPU_DEC_OU=
-TPUT);
+>  
+> +static inline int node_to_phys_lowest_continuous_range(int nid, u64 *start,
+> +						       u64 *end)
+> +{
+> +	return 0;
+> +}
+> +
+>  static inline void alloc_offline_node_data(int nid) {}
+>  #endif
+>  
+> diff --git a/include/linux/numa_memblks.h b/include/linux/numa_memblks.h
+> index 991076cba7c5..ccc53029de8b 100644
+> --- a/include/linux/numa_memblks.h
+> +++ b/include/linux/numa_memblks.h
+> @@ -55,6 +55,8 @@ extern int phys_to_target_node(u64 start);
+>  #define phys_to_target_node phys_to_target_node
+>  extern int memory_add_physaddr_to_nid(u64 start);
+>  #define memory_add_physaddr_to_nid memory_add_physaddr_to_nid
+> +extern int node_to_phys_lowest_continuous_range(int nid, u64 *start, u64 *end);
+> +#define node_to_phys_lowest_continuous_range node_to_phys_lowest_continuous_range
+>  #endif /* CONFIG_NUMA_KEEP_MEMINFO */
+>  
+>  #endif /* CONFIG_NUMA_MEMBLKS */
+> diff --git a/mm/numa.c b/mm/numa.c
+> index 7d5e06fe5bd4..0affb56ef4f2 100644
+> --- a/mm/numa.c
+> +++ b/mm/numa.c
+> @@ -59,3 +59,13 @@ int phys_to_target_node(u64 start)
 >  }
-> @@ -828,7 +823,7 @@ static int __jpu_try_fmt(struct jpu_ctx *ctx, struct =
-jpu_fmt **fmtinfo,
-> =20
->  static int jpu_try_fmt(struct file *file, void *priv, struct v4l2_format=
- *f)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
->                 return -EINVAL;
-> @@ -839,7 +834,7 @@ static int jpu_try_fmt(struct file *file, void *priv,=
- struct v4l2_format *f)
->  static int jpu_s_fmt(struct file *file, void *priv, struct v4l2_format *=
-f)
->  {
->         struct vb2_queue *vq;
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
->         struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
->         struct jpu_fmt *fmtinfo;
->         struct jpu_q_data *q_data;
-> @@ -868,8 +863,8 @@ static int jpu_s_fmt(struct file *file, void *priv, s=
-truct v4l2_format *f)
-> =20
->  static int jpu_g_fmt(struct file *file, void *priv, struct v4l2_format *=
-f)
->  {
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
->         struct jpu_q_data *q_data;
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> =20
->         if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
->                 return -EINVAL;
-> @@ -902,8 +897,8 @@ static const struct v4l2_ctrl_ops jpu_ctrl_ops =3D {
-> =20
->  static int jpu_streamon(struct file *file, void *priv, enum v4l2_buf_typ=
-e type)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
->         struct jpu_q_data *src_q_data, *dst_q_data, *orig, adj, *ref;
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
->         enum v4l2_buf_type adj_type;
-> =20
->         src_q_data =3D jpu_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPL=
-ANE);
-> @@ -1284,8 +1279,8 @@ static int jpu_open(struct file *file)
-> =20
->  static int jpu_release(struct file *file)
->  {
-> -       struct jpu *jpu =3D video_drvdata(file);
->         struct jpu_ctx *ctx =3D file_to_ctx(file);
-> +       struct jpu *jpu =3D video_drvdata(file);
-> =20
->         v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->         v4l2_ctrl_handler_free(&ctx->ctrl_handler);
->=20
-> --=20
-> 2.49.0
->
+>  EXPORT_SYMBOL_GPL(phys_to_target_node);
+>  #endif
+> +
+> +#ifndef node_to_phys_lowest_continuous_range
+> +int node_to_phys_lowest_continuous_range(int nid, u64 *start, u64 *end)
+> +{
+> +	pr_info_once("Unknown target phys addr range for node=%d\n", nid);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(node_to_phys_lowest_continuous_range);
+> +#endif
+> diff --git a/mm/numa_memblks.c b/mm/numa_memblks.c
+> index 541a99c4071a..9cbaa38cb92d 100644
+> --- a/mm/numa_memblks.c
+> +++ b/mm/numa_memblks.c
+> @@ -590,4 +590,27 @@ int memory_add_physaddr_to_nid(u64 start)
+>  }
+>  EXPORT_SYMBOL_GPL(memory_add_physaddr_to_nid);
+>  
+> +static int nid_to_meminfo(struct numa_meminfo *mi, int nid, u64 *start, u64 *end)
+> +{
+> +	int i;
+> +
+> +	if (!numa_valid_node(nid))
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < mi->nr_blks; i++) {
+> +		if (mi->blk[i].nid == nid) {
+> +			*start = mi->blk[i].start;
+> +			*end = mi->blk[i].end;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -ENODEV;
+> +}
+> +
+> +int node_to_phys_lowest_continuous_range(int nid, u64 *start, u64 *end)
+> +{
+> +	return nid_to_meminfo(&numa_meminfo, nid, start, end);
+> +}
+> +EXPORT_SYMBOL_GPL(node_to_phys_lowest_continuous_range);
+>  #endif /* CONFIG_NUMA_KEEP_MEMINFO */
+> -- 
+> 2.43.0
+> 
+
+-- 
+Sincerely yours,
+Mike.
