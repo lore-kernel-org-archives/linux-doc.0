@@ -1,98 +1,196 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A8E226861;
-	Tue,  5 Aug 2025 13:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9C721C16B;
+	Tue,  5 Aug 2025 14:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754400532; cv=none; b=jIvplhObO+H5fIAxhT52Uf0rrR6SCLtBZgi9nFY/2qWlTWSnqahHbpz3/+VZiIYQLZE7g3gcQskt1sFnCB8QGNAnFrTR4zahL/UewScJpgrNuLxI80xHpkaHiRjxS6aAvxkL4HAovdsBsCAC1x7i0gBNAEtMQiiVAKXX4rTylsg=
+	t=1754403985; cv=none; b=mOUbTRor4LFYG2Y+cIiRBKbRWTCQL/jpGm2I1AQo3qxmE/tHUgstzVKk3GvksTQc4jEXyc/MGSgD766vONluUls9hDHA6/UBc1lMavkJ/Kodeu5P8gTZ0MZq+vK7iu0FcQX93u+qYmVNkL+93G0DOkvN85hYSK1nbN6OdBsNdZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754400532; c=relaxed/simple;
-	bh=LGCtxZGKqJ/T7fT2EX9t2uPVkHMdfcR3gXKIlv9D2us=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uTa4bGADuR0ZrXjHi+OAf0szwc9+QRxBuSgpH6J0SnQVXnOg0LtLy8cN98EaHt2OkCj+xtpC2DCLNAoyV14UUAOVBwfdQa128iPp+xS8DakdO6sDWOqNQW8hoTnGUynIbQ/xF9GsPVQwGyfb6UgPWwJ7tf9KCOWpnhPNFFlQ3Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id A33FE160431;
-	Tue,  5 Aug 2025 13:28:41 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id 6CBBB60009;
-	Tue,  5 Aug 2025 13:28:38 +0000 (UTC)
-Date: Tue, 5 Aug 2025 09:29:07 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sasha Levin <sashal@kernel.org>, dan.j.williams@intel.com, Jiri Kosina
- <kosina@gmail.com>, Michal Hocko <mhocko@suse.com>, David Hildenbrand
- <david@redhat.com>, Greg KH <gregkh@linuxfoundation.org>, Vlastimil Babka
- <vbabka@suse.cz>, corbet@lwn.net, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org, josh@joshtriplett.org, kees@kernel.org,
- konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] Add agent coding assistant configuration to Linux
- kernel
-Message-ID: <20250805092907.114eeb23@gandalf.local.home>
-In-Reply-To: <20250804233906.GA12087@pendragon.ideasonboard.com>
-References: <9afd157a-296d-4f4d-9d65-07b89ab3906f@redhat.com>
-	<2025072832-enrich-pampers-54b9@gregkh>
-	<1bd04ce1-87c0-4e23-b155-84f7235f6072@redhat.com>
-	<aId1oZn_KFaa0R_Q@lappy>
-	<aJB8CdXqCEuitnQj@tiehlicka>
-	<aJC0ssMzX0KWnTkG@lappy>
-	<alpine.LRH.2.00.2508050000580.22517@gjva.wvxbf.pm>
-	<20250804181447.0c518b14@gandalf.local.home>
-	<689139fe23f49_55f0910076@dwillia2-xfh.jf.intel.com.notmuch>
-	<aJFCoewqTIXlhnJk@lappy>
-	<20250804233906.GA12087@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1754403985; c=relaxed/simple;
+	bh=FwtBnLDhwV/1DNOAles45j9etEv98yJEYZEYdpI4Odk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qzb7YGcpogrhYdkXMgcwhW775AgpMNPZfVtV5nrjxEW9YlFrHWKTIb5P5LAbqtLtr1dqjNOKkbIWWv/D0uMusRtzV9vy7rWzcwtexiJnmgJKroVLU0QQpqTB5vl2CYehQFlmvw7VSUdkFTemH18uf7gAk5vgHnE/C+avB/cgrrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OoFDAz9e; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OoFDAz9e"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4563cfac2d2so40896725e9.3;
+        Tue, 05 Aug 2025 07:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754403982; x=1755008782; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ry5Dfhvc2U44AmB7UaxhnygbevOBppFjf0G6WuFTeXE=;
+        b=OoFDAz9e6rNUeSgtywoSv1XGmF7US4NORzRHyoziq1vl/6vHc9QI385UGurq6khDDn
+         ruEtsqnwXgTVekuJiJ1NKgKWBipLc13lC/ej6+YPSAG3pD+S2SvRB0VzY1g2fHL7XdG9
+         N9j0Wsk1pDC5Qd37dOxpVCG+6yVArqs00csMObQYsaTB2YDbLaTxBBThz14vlNJwwGty
+         5CUewGeP6KU7A5ELplbCK2RHTOKogYSgl1qhjHYTXZG5Wz9ASWzZ8F2RryTYdiaMqCUu
+         ikBZzIGZOBcFytMznPb26Xi2k7yaww+pYhdbjnBtJMZasP/k7UBwVGTrC/YPTbFCYGwS
+         XGvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754403982; x=1755008782;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ry5Dfhvc2U44AmB7UaxhnygbevOBppFjf0G6WuFTeXE=;
+        b=QHO8tayQ52TD6G5hjjVpaBmLXVoHHno3RLy87P5Dxn7OhoDHcX7D/VAqXUqqEuf870
+         kR3cb3eWiAyEsrJnku/zwFb7R/iPAbW9f/CdqT14d2aAFNXMYeHYaacxqcaWCi5xxul6
+         kHCHVG2Y+hbqXFVPfZnpnJisJwMc+R7ZHHW+2mHXxSo9mJRftmgPbkFMIuPe+EZrLJca
+         d1OS4l8SoTeuiyNt5kOyskJhrwJ1HDHuhlyipxoxJjvWOuHAz9MFEMNNu7dam1JFXe8G
+         R8LMSmR/NljmO36kewZUUgX2Jco9Qe8TpbAX9f/inqUBD/5FMvRvsDfHDlF65uru3lht
+         Iviw==
+X-Forwarded-Encrypted: i=1; AJvYcCUw0p0vUDqWn0fj1zfb3HnBKcgN/nUgGW8zVdiS81CSnZmGLltKSlvPUPtmg5+a7yMEOFKo62/lQaR/quF7@vger.kernel.org, AJvYcCVKO3p82kVQ9zOGrsEpr4RdzSJjGu6ns8n7sZDCrT46qL+KWtZ79zbZ06YMAfgQ057s/iIvTz2aOFs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHd/DSRQj8ZyiYuH05CMuVnDP53uWhf/6MoqRccJrYUJ/Qfdca
+	Xj9XAjKjNGKy5oW1B2Nvb+UgTzkAyysZDIQEikrB0dQMF8i8eGC+EwNQ
+X-Gm-Gg: ASbGncus7ApoZ1Gyfk4d3LYo4/ho7V90hU9/jPDyYdTwzZnOYg/sA5bxA+K8UFNUoOI
+	UAgiRdhMIlOGlCcdSOvCWZkOrTl16hh7LwCqmcg5hREd5JDH+nnD6MWskZSBHIa5WsPvPVeWjxx
+	rbTnC4+IVM3HRfJd/FZ/mYVdg126YiPpRVwqtGTFwZl7JmAeM1YMpi7dzknuO5O2D6CItNDMAhr
+	i0W6UPemwOzwD8nLsdcBMUZwJnxll1KhZ2Dz8AVDxmoYdq0pNjuIvZ/EWr9yBtdSvp4+hHPTmNu
+	BT89lYQhan/GQa6MWEnroMbQWGI+IrX4RSPlwmm7Ts5120TFXJZs1OHmzy6UbqAJtIhmKT1D+MA
+	wQBYIo5mAUusEQEMXc6LPyOdU+sqgedRSpbSoU9lIks5UovYn1RyyMV/nNWmpGlwUZTrsrve20f
+	1k/RsOww==
+X-Google-Smtp-Source: AGHT+IH9EpTWoImUYJcCr9my5UTeO92YxiB5fFdInePVkEEtZ/CAl5u4VV1vdMFHKZwzOROQeDzq4Q==
+X-Received: by 2002:a05:600c:470d:b0:459:d709:e5a1 with SMTP id 5b1f17b1804b1-459d709e91emr78434045e9.6.1754403981789;
+        Tue, 05 Aug 2025 07:26:21 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:14f1:c189:9748:5e5a? ([2620:10d:c092:500::6:98ea])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459e5c40eb1sm1458615e9.6.2025.08.05.07.26.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Aug 2025 07:26:21 -0700 (PDT)
+Message-ID: <955ed533-dd7e-45e6-a2cb-f379a5878ef7@gmail.com>
+Date: Tue, 5 Aug 2025 15:26:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 6CBBB60009
-X-Stat-Signature: ga34x1rbuidk78ckg6wninhur7qjhs6b
-X-Rspamd-Server: rspamout06
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX199WTIUFUacfwXt1+7g+5RNNUBC/xiBqV4=
-X-HE-Tag: 1754400518-941711
-X-HE-Meta: U2FsdGVkX1/LXeYrBOoHg13mAhKoYYR8wqCWtgfcwbQV4w73zaDSKeBVX+ZUsBEa5aLAQcBQR7qocSfRrNTC9dBvhpNQ2BGIue6CogyX0GtNwiiWTfZzUG/tuAwdxVUaBGKcPJyN4Ln93nwmDcAoopOQ6ny7+mordoCZoRVyZQL9lyEF4L/4GBqeEzpF334EzH5Wy7vQOa2qsSa8uUCNMAjYy9xZxcPxvlCtPcUXRUrVThrscqdvcryfWUjqGsB2FnKG08cGfwMTESFz7HSNY0l33BGehYaKFEy6hpa3qJAMGIYDkI1JSZK8UI3j7BPzpRa3I1TdTzQkXqxFTSN4sf6YbdpmLzbAheDfw4Ok7J3PE89UxRU/dQH/5t9RR9rS
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/6] selftests: prctl: introduce tests for disabling
+ THPs completely
+To: David Hildenbrand <david@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
+ shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
+ laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
+ Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20250804154317.1648084-1-usamaarif642@gmail.com>
+ <20250804154317.1648084-6-usamaarif642@gmail.com>
+ <66c2b413-fa60-476a-b88f-542bbda9c89c@redhat.com>
+ <a22beba8-17ae-4c40-88f0-d4027d17fdbc@gmail.com>
+ <e608f766-8750-4781-bd23-8fa95b6d683a@redhat.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <e608f766-8750-4781-bd23-8fa95b6d683a@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 5 Aug 2025 02:39:06 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-> > >
-> > >"Be prepared to declare a confidence interval in every detail of a patch
-> > >series, especially any AI generated pieces."  
 
-Honestly, I think we need to state that.
-
-> > 
-> > Something along the lines of a Social Credit system for the humans
-> > behind the keyboard? :)
-> > 
-> > Do we want to get there? Do we not?  
+On 05/08/2025 13:55, David Hildenbrand wrote:
+> On 05.08.25 14:46, Usama Arif wrote:
+>>
+>>
+>> On 05/08/2025 13:39, David Hildenbrand wrote:
+>>>> +FIXTURE_SETUP(prctl_thp_disable_completely)
+>>>> +{
+>>>> +    if (!thp_available())
+>>>> +        SKIP(return, "Transparent Hugepages not available\n");
+>>>> +
+>>>> +    self->pmdsize = read_pmd_pagesize();
+>>>> +    if (!self->pmdsize)
+>>>> +        SKIP(return, "Unable to read PMD size\n");
+>>>> +
+>>>> +    thp_save_settings();
+>>>> +    thp_read_settings(&self->settings);
+>>>> +    self->settings.thp_enabled = variant->thp_policy;
+>>>> +    self->settings.hugepages[sz2ord(self->pmdsize, getpagesize())].enabled = THP_INHERIT;
+>>>
+>>> Oh, one more thing: should we set all other sizes also to THP_INHERIT or (for simplicity) THP_NEVER?
+>>>
+>>
+>> hmm do we need to? I am hoping that we should always get the PMD size THP no matter what the policy
+>> for others is in the scenario we have?
 > 
-> Don't we have one already ? I'm pretty sure every maintainer keeps a
-> mental list of trust scores, and uses them when reviewing patches.
-> Patch submitter who doesn't perform due diligence usually lose points,
-> especially if the offences occur repeatedly (newcomers often get a few
-> free passes thanks to their inexperience and the benefit of the doubt,
-> at least with most maintainers). 
+> Assuming 64K is set to "always", couldn't it mislead us in the "madvise"/"never" test cases in some scenarios?
 > 
-> LLMs increase the scale of the problem, and also makes it easier to fake
-> due diligence. I believe it's important to make it very clear to
-> contributors that they will suffer consequences if they don't hold up to
-> the standards we expect.
 
-My question is, do we want to document expectations of a patch being
-submitted. It's been a while since I fully read SubmittingPatches (so much
-so, I last read it when it was called that!). Maybe it's already in there.
+I tried it with 64K to always and seems to be ok. check_huge_anon checks AnonHugepages from smaps which
+only indicates the pmd mapped THPs only. So I think should be ok?
+Happy to set them to never and the change is probably something simple like below (untested), but
+just trying to understand better the need for it.
 
-If not, perhaps we need to update the document with the idea that people
-will now be using AI more often to help them do their work. That's still
-not an excuse to not understand the code that is being submitted.
+diff --git a/tools/testing/selftests/mm/prctl_thp_disable.c b/tools/testing/selftests/mm/prctl_thp_disable.c
+index 4b072d4ecc30..ee692c397835 100644
+--- a/tools/testing/selftests/mm/prctl_thp_disable.c
++++ b/tools/testing/selftests/mm/prctl_thp_disable.c
+@@ -142,6 +142,8 @@ FIXTURE_SETUP(prctl_thp_disable_completely)
+        thp_save_settings();
+        thp_read_settings(&self->settings);
+        self->settings.thp_enabled = variant->thp_policy;
++       for (int i = 1; i < sz2ord(self->pmdsize, getpagesize()); i++)
++               self->settings.hugepages[i].enabled = THP_INHERIT;
+        self->settings.hugepages[sz2ord(self->pmdsize, getpagesize())].enabled = THP_INHERIT;
+        thp_write_settings(&self->settings);
+ }
+@@ -244,6 +246,8 @@ FIXTURE_SETUP(prctl_thp_disable_except_madvise)
+        thp_save_settings();
+        thp_read_settings(&self->settings);
+        self->settings.thp_enabled = variant->thp_policy;
++       for (int i = 1; i < sz2ord(self->pmdsize, getpagesize()); i++)
++               self->settings.hugepages[i].enabled = THP_INHERIT;
+        self->settings.hugepages[sz2ord(self->pmdsize, getpagesize())].enabled = THP_INHERIT;
+        thp_write_settings(&self->settings);
+ }
+ 
 
--- Steve
+
+[root@vm7 vmuser]# echo always >  /sys/kernel/mm/transparent_hugepage/hugepages-64kB/enabled                                                                                                                                                                                                                        
+[root@vm7 vmuser]# ./prctl_thp_disable                                                                                                                                                                                                                                                                              
+TAP version 13                                                                                                                                                                                                                                                                                                      
+1..12                                                                                                                                                                                                                                                                                                               
+# Starting 12 tests from 6 test cases.                                                                                                                                                                                                                                                                              
+#  RUN           prctl_thp_disable_completely.never.nofork ...
+#            OK  prctl_thp_disable_completely.never.nofork
+ok 1 prctl_thp_disable_completely.never.nofork
+#  RUN           prctl_thp_disable_completely.never.fork ...
+#            OK  prctl_thp_disable_completely.never.fork
+ok 2 prctl_thp_disable_completely.never.fork
+#  RUN           prctl_thp_disable_completely.madvise.nofork ...
+#            OK  prctl_thp_disable_completely.madvise.nofork
+ok 3 prctl_thp_disable_completely.madvise.nofork
+#  RUN           prctl_thp_disable_completely.madvise.fork ...
+#            OK  prctl_thp_disable_completely.madvise.fork
+ok 4 prctl_thp_disable_completely.madvise.fork
+#  RUN           prctl_thp_disable_completely.always.nofork ...
+#            OK  prctl_thp_disable_completely.always.nofork
+ok 5 prctl_thp_disable_completely.always.nofork
+#  RUN           prctl_thp_disable_completely.always.fork ...
+#            OK  prctl_thp_disable_completely.always.fork
+ok 6 prctl_thp_disable_completely.always.fork
+#  RUN           prctl_thp_disable_except_madvise.never.nofork ...
+#            OK  prctl_thp_disable_except_madvise.never.nofork
+ok 7 prctl_thp_disable_except_madvise.never.nofork
+#  RUN           prctl_thp_disable_except_madvise.never.fork ...
+#            OK  prctl_thp_disable_except_madvise.never.fork
+ok 8 prctl_thp_disable_except_madvise.never.fork
+#  RUN           prctl_thp_disable_except_madvise.madvise.nofork ...
+#            OK  prctl_thp_disable_except_madvise.madvise.nofork
+ok 9 prctl_thp_disable_except_madvise.madvise.nofork
+#  RUN           prctl_thp_disable_except_madvise.madvise.fork ...
+#            OK  prctl_thp_disable_except_madvise.madvise.fork
+ok 10 prctl_thp_disable_except_madvise.madvise.fork
+#  RUN           prctl_thp_disable_except_madvise.always.nofork ...
+#            OK  prctl_thp_disable_except_madvise.always.nofork
+ok 11 prctl_thp_disable_except_madvise.always.nofork
+#  RUN           prctl_thp_disable_except_madvise.always.fork ...
+#            OK  prctl_thp_disable_except_madvise.always.fork
+ok 12 prctl_thp_disable_except_madvise.always.fork
+# PASSED: 12 / 12 tests passed.
+# Totals: pass:12 fail:0 xfail:0 xpass:0 skip:0 error:0
