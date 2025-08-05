@@ -1,237 +1,116 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B60417A2FC;
-	Tue,  5 Aug 2025 16:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92B82566E9;
+	Tue,  5 Aug 2025 16:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754411829; cv=none; b=YDDIvMxRA0jmUwnyh96Bwm18N4i9HzsR5ac90aBzeXswaiWk+FHr8z9G47iynhA8s6B6+qgf1NpKSihPtPuPuN06OVBZXxutrYovW4MXIJD5jxm2lDiHDHKLI50Gwt6HJmalWC6RBzj6CxBPfjtRzB0c8iaYUWTPIOZmB8noXno=
+	t=1754413004; cv=none; b=oWCS5m2kUGva9VBksM3jMkRVeULGGp5I42SljR04wmmjL1MiGH3ezlfFY+nUAwB9aNhFhqFYmblYra/PwnFv0AXeXi6prQulvg1zrCGSjxmqrGUr07dNr7Rz5RssrdfzrxTC6bqI/osELIfsL7t5Eqy6SXynXbb2Pd2J+kvemqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754411829; c=relaxed/simple;
-	bh=F29hzBNcyeahwC4S4pGvw5mdFA7828PNr5zkWmSZ3MI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=GbMZYnEmYuRpTltM1e3UBDMIhnvNfqYT4HYtpaOOJsurgAm/HzkVQfMbMSj/V6ciywv+2vvfSIVYBwTyu6imicxKTizLUIaO5ZxxnknXZBKXw/+5ACGZ9cf8FO9Lojhv9RFY6DnCLpn5trdDfIypKUhGPfMyXwzQDEjTqa97fok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bxJtk1pj9z6D9f2;
-	Wed,  6 Aug 2025 00:35:10 +0800 (CST)
-Received: from frapeml100007.china.huawei.com (unknown [7.182.85.133])
-	by mail.maildlp.com (Postfix) with ESMTPS id 13D861402FE;
-	Wed,  6 Aug 2025 00:36:56 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (7.182.85.172) by
- frapeml100007.china.huawei.com (7.182.85.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 5 Aug 2025 18:36:55 +0200
-Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
- frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
- Tue, 5 Aug 2025 18:36:55 +0200
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Mike Rapoport <rppt@kernel.org>
-CC: "rafael@kernel.org" <rafael@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>,
-	"lenb@kernel.org" <lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Linuxarm <linuxarm@huawei.com>, "rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>, "Jon.Grimm@amd.com"
-	<Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
-	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
-	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
-	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
-	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
- Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v10 1/3] mm: Add node_to_range lookup facility to
- numa_memblks
-Thread-Topic: [PATCH v10 1/3] mm: Add node_to_range lookup facility to
- numa_memblks
-Thread-Index: AQHcAwip/H6S43K2aESNS7qE2UciQ7RTvVYAgACIBKA=
-Date: Tue, 5 Aug 2025 16:36:55 +0000
-Message-ID: <bdbb50d7309741b8b282c2e8a1fc72ae@huawei.com>
-References: <20250801172040.2175-1-shiju.jose@huawei.com>
- <20250801172040.2175-2-shiju.jose@huawei.com> <aJHawm1zE62x1YH9@kernel.org>
-In-Reply-To: <aJHawm1zE62x1YH9@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1754413004; c=relaxed/simple;
+	bh=T399JasSL8DmFMJWo/2MDp8Puq0rW+NQpAQC5f9lM/U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eMgBGp+SdrpaHvjto8lhYbdT8JMxLtyvL6LmmiRiPHHDOkwXAALvxTxPdqE9aJtnJXoM14rEB8qGrmqbfmCf04XyGHikKUma3sPZscq9F5U+nVM0YFb4UYFThARS22JP6J5COR6znqJOL88pSo0r5wxKyywYmqNYx419fEDANiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LsHjzPwW; arc=none smtp.client-ip=209.85.166.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LsHjzPwW"
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-87c4bacb68eso83119639f.3;
+        Tue, 05 Aug 2025 09:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754413002; x=1755017802; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JURikxFj1JPMIG8k9K4ujHkActIooq9Dw9bPvRdWPoY=;
+        b=LsHjzPwWD/NlNhWhJ934wyelq7evZxueo+r16axEbD18oo0+GE3smzsp7wOtwMPXBJ
+         Yfz1gKZYHcs0CThm3VpVyaAdyvMpVJB+BQVYZpoLQR5IDCvDgwXZsKdMIBqpZry7TdMq
+         UgqBAAq6cRk0/y3QCZJKyjauXcgs58v0Z6lrLlrbK4eG/7QKJBDU4Xbh3k294xBl+Te2
+         HG0tk9NjB/GAbzI7VEv1EylyekjCVtPLweDZV/vxp8ec4hYgS1OsQWbSZjfEp7uNgdAL
+         0q1fUvX4iaJ58ny0P5/zJJ7FHEiH92Hh49lbgqIDBLlqwXe8pfDGK5R1gYN6xenRhSQP
+         5uPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754413002; x=1755017802;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JURikxFj1JPMIG8k9K4ujHkActIooq9Dw9bPvRdWPoY=;
+        b=O6suanPQMMKWATUdYRrVkJGT3S305k4niEduXWgRMe5YB4acnscKv/CgTKvcS7VEdU
+         1aEFw54CVzoG+qj13+U55GX+P7ZYt3sWBYbSbmfmTRHbWKMI5kE4W2u5rwhnBeC1ph3/
+         ka92tPWWtU3az7tgZV73lNt2pZluYtPLS/ytf0GuWLAJ888JcmcZszEr2Ja/gwS/ZrjC
+         WVOYuN68BSpBgThrsHpcmKMSesIc8T6Jvcs1149K1oQ1Rdu8L2sOM7LwD0NvuHnLSBPb
+         mLYumSXX9yJe0VdCPM22+f8SaRnHJ+zOHfN7lOEec3Z2n5S32HPqP1sp2+JB46fLlM1a
+         snbw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjQ8BMDQETk295rMv/GNAn3wtaiDBrwE4HGvZ24w6Wid6KfMh3qP7U9Na4KuW6lzlmf3b9rxcRqYoSWFFb@vger.kernel.org, AJvYcCVvxHxSGwkuXwy5ONJiuXphwj834xskL37QIQFibpm6I1vwP7CIdYy3sjjtvsY/2LsabDHV5RmIiYs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxiZbCdHkNpYbLDdJcf7KgFqr0AVPBrlqQt1fMwaHiCVUpVCgVN
+	wXr6rFpqgm6S/iUi6TCmM3zJnBy7Op3p/WlJJkEsgN1aPBmCSFKzZxpUkw/uFsQ8seslHjqoIBt
+	ID/PjJyXHOoDXPZxsoi1O7csipVQNTiE=
+X-Gm-Gg: ASbGncvEL0A39j6TG4tAS2YwAAKjRtd4GF9Eg5L2M6q0IX1krlT8YHh9YRROKGMLpnQ
+	l8wKbdPZL7gDWsUt4hwvCRM1b/6E7zwTcaTN6nUs44FESfyjdc9NzebqE5rrzPDQrvMjcBipg4V
+	CvPRawWnHyBvbmqhzNbJqY++ScGbWNj2e5muC2SviLe8oH0p4eldBo8aUcbx90/o2Y+pAzFlkKp
+	mbpW6s=
+X-Google-Smtp-Source: AGHT+IFKWuYJwFL/TSEMQ2ahjFJ9+k6YIyKX3uyxdbHn8KcO8+Zy6yyb03qRPbsqbjWe3FwKP26ZJ/nzd0auZK37yTY=
+X-Received: by 2002:a05:6e02:3f0d:b0:3e3:fdd9:8972 with SMTP id
+ e9e14a558f8ab-3e41615d9c0mr242900825ab.11.1754413001753; Tue, 05 Aug 2025
+ 09:56:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250805002954.1496-1-sj@kernel.org> <761a2899-6fd9-4bfe-aeaf-23bce0baa0f1@redhat.com>
+In-Reply-To: <761a2899-6fd9-4bfe-aeaf-23bce0baa0f1@redhat.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 5 Aug 2025 09:56:29 -0700
+X-Gm-Features: Ac12FXwKyCyXaDbbCA1d5wEx5xyJYQALLRbD4ssEiJbWg--hw6b-8mhARiZxjN4
+Message-ID: <CAKEwX=MVBJ+Okfsob4Z30_5Y4P8c2DWoS1dYN4dF5dgp4+CexA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2] mm/zswap: store <PAGE_SIZE compression failed page as-is
+To: David Hildenbrand <david@redhat.com>
+Cc: SeongJae Park <sj@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Hocko <mhocko@suse.com>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Yosry Ahmed <yosry.ahmed@linux.dev>, kernel-team@meta.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Takero Funaki <flintglass@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->-----Original Message-----
->From: Mike Rapoport <rppt@kernel.org>
->Sent: 05 August 2025 11:20
->To: Shiju Jose <shiju.jose@huawei.com>
->Cc: rafael@kernel.org; bp@alien8.de; akpm@linux-foundation.org;
->dferguson@amperecomputing.com; linux-edac@vger.kernel.org; linux-
->acpi@vger.kernel.org; linux-mm@kvack.org; linux-doc@vger.kernel.org;
->tony.luck@intel.com; lenb@kernel.org; leo.duran@amd.com;
->Yazen.Ghannam@amd.com; mchehab@kernel.org; Jonathan Cameron
-><jonathan.cameron@huawei.com>; Linuxarm <linuxarm@huawei.com>;
->rientjes@google.com; jiaqiyan@google.com; Jon.Grimm@amd.com;
->dave.hansen@linux.intel.com; naoya.horiguchi@nec.com;
->james.morse@arm.com; jthoughton@google.com; somasundaram.a@hpe.com;
->erdemaktas@google.com; pgonda@google.com; duenwen@google.com;
->gthelen@google.com; wschwartz@amperecomputing.com;
->wbs@os.amperecomputing.com; nifan.cxl@gmail.com; tanxiaofei
-><tanxiaofei@huawei.com>; Zengtao (B) <prime.zeng@hisilicon.com>; Roberto
->Sassu <roberto.sassu@huawei.com>; kangkang.shen@futurewei.com;
->wanghuiqiang <wanghuiqiang@huawei.com>
->Subject: Re: [PATCH v10 1/3] mm: Add node_to_range lookup facility to
->numa_memblks
+On Tue, Aug 5, 2025 at 3:47=E2=80=AFAM David Hildenbrand <david@redhat.com>=
+ wrote:
 >
->On Fri, Aug 01, 2025 at 06:20:27PM +0100, shiju.jose@huawei.com wrote:
->> From: Shiju Jose <shiju.jose@huawei.com>
->>
->> Lookup facility to retrieve memory phys lowest continuous range for a
->> NUMA node is required in the numa_memblks for the ACPI RAS2 memory
->> scrub use case.
+> On 05.08.25 02:29, SeongJae Park wrote:
+> > When zswap writeback is enabled and it fails compressing a given page,
+> > the page is swapped out to the backing swap device.  This behavior
+> > breaks the zswap's writeback LRU order, and hence users can experience
+> > unexpected latency spikes.  If the page is compressed without failure,
+> > but results in a size of PAGE_SIZE, the LRU order is kept, but the
+> > decompression overhead for loading the page back on the later access is
+> > unnecessary.
+> >
+> > Keep the LRU order and optimize unnecessary decompression overheads in
+> > the cases, by storing the original content in zpool as-is.
 >
->If the code that needs to find the lowest contiguous range in a node runs =
-before
->we discard .init you can just use
->
->	unsigned long pfn =3D node_start_pfn(nid);
->	unsigned long start_pfn, end_pfn;
->
->	memblock_search_pfn_nid(pfn, &start_pfn, &end_pfn);
+> Does this have any effect on the movability of the given page? IOW, does
+> page migration etc. still work when we store an ordinary page of an
+> shmem/anon folio here?
 
-Thanks Mike for your suggestion and help.
-=20
-With node_start_pfn(nid) and memblock_search_pfn_nid(), the 'end_pfn' retur=
-n=20
-different value than the actual.
+Good question. This depends on the backend allocator of zswap, but the
+only backend allocator remaining (zsmalloc) does implement page
+migration.
 
-Found similar function get_pfn_range_for_nid(nid, &start_pfn, &end_pfn), se=
-ems more
-suitable as it takes 'nid' directly and both 'start_pfn' and 'end_pfn 'retu=
-rn correct values.=20
+It's why we insisted on using zpool/zsmalloc to handle the
+incompressibility case as well:
 
-Thanks,
-Shiju
+https://lore.kernel.org/all/CAKEwX=3DNC65XCkmX1YzivEJtPc+sEJ3pLHUsYhF60QJnk=
+_OtpVw@mail.gmail.com/
 
 >
->> Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
->> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
->> ---
->>  include/linux/numa.h         | 10 ++++++++++
->>  include/linux/numa_memblks.h |  2 ++
->>  mm/numa.c                    | 10 ++++++++++
->>  mm/numa_memblks.c            | 23 +++++++++++++++++++++++
->>  4 files changed, 45 insertions(+)
->>
->> diff --git a/include/linux/numa.h b/include/linux/numa.h index
->> e6baaf6051bc..d41e583a902d 100644
->> --- a/include/linux/numa.h
->> +++ b/include/linux/numa.h
->> @@ -41,6 +41,10 @@ int memory_add_physaddr_to_nid(u64 start);  int
->> phys_to_target_node(u64 start);  #endif
->>
->> +#ifndef node_to_phys_lowest_continuous_range
->> +int node_to_phys_lowest_continuous_range(int nid, u64 *start, u64
->> +*end); #endif
->> +
->>  int numa_fill_memblks(u64 start, u64 end);
->>
->>  #else /* !CONFIG_NUMA */
->> @@ -63,6 +67,12 @@ static inline int phys_to_target_node(u64 start)
->>  	return 0;
->>  }
->>
->> +static inline int node_to_phys_lowest_continuous_range(int nid, u64 *st=
-art,
->> +						       u64 *end)
->> +{
->> +	return 0;
->> +}
->> +
->>  static inline void alloc_offline_node_data(int nid) {}  #endif
->>
->> diff --git a/include/linux/numa_memblks.h
->> b/include/linux/numa_memblks.h index 991076cba7c5..ccc53029de8b 100644
->> --- a/include/linux/numa_memblks.h
->> +++ b/include/linux/numa_memblks.h
->> @@ -55,6 +55,8 @@ extern int phys_to_target_node(u64 start);  #define
->> phys_to_target_node phys_to_target_node  extern int
->> memory_add_physaddr_to_nid(u64 start);  #define
->> memory_add_physaddr_to_nid memory_add_physaddr_to_nid
->> +extern int node_to_phys_lowest_continuous_range(int nid, u64 *start,
->> +u64 *end); #define node_to_phys_lowest_continuous_range
->> +node_to_phys_lowest_continuous_range
->>  #endif /* CONFIG_NUMA_KEEP_MEMINFO */
->>
->>  #endif /* CONFIG_NUMA_MEMBLKS */
->> diff --git a/mm/numa.c b/mm/numa.c
->> index 7d5e06fe5bd4..0affb56ef4f2 100644
->> --- a/mm/numa.c
->> +++ b/mm/numa.c
->> @@ -59,3 +59,13 @@ int phys_to_target_node(u64 start)  }
->> EXPORT_SYMBOL_GPL(phys_to_target_node);
->>  #endif
->> +
->> +#ifndef node_to_phys_lowest_continuous_range
->> +int node_to_phys_lowest_continuous_range(int nid, u64 *start, u64
->> +*end) {
->> +	pr_info_once("Unknown target phys addr range for node=3D%d\n", nid);
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(node_to_phys_lowest_continuous_range);
->> +#endif
->> diff --git a/mm/numa_memblks.c b/mm/numa_memblks.c index
->> 541a99c4071a..9cbaa38cb92d 100644
->> --- a/mm/numa_memblks.c
->> +++ b/mm/numa_memblks.c
->> @@ -590,4 +590,27 @@ int memory_add_physaddr_to_nid(u64 start)  }
->> EXPORT_SYMBOL_GPL(memory_add_physaddr_to_nid);
->>
->> +static int nid_to_meminfo(struct numa_meminfo *mi, int nid, u64
->> +*start, u64 *end) {
->> +	int i;
->> +
->> +	if (!numa_valid_node(nid))
->> +		return -EINVAL;
->> +
->> +	for (i =3D 0; i < mi->nr_blks; i++) {
->> +		if (mi->blk[i].nid =3D=3D nid) {
->> +			*start =3D mi->blk[i].start;
->> +			*end =3D mi->blk[i].end;
->> +			return 0;
->> +		}
->> +	}
->> +
->> +	return -ENODEV;
->> +}
->> +
->> +int node_to_phys_lowest_continuous_range(int nid, u64 *start, u64
->> +*end) {
->> +	return nid_to_meminfo(&numa_meminfo, nid, start, end); }
->> +EXPORT_SYMBOL_GPL(node_to_phys_lowest_continuous_range);
->>  #endif /* CONFIG_NUMA_KEEP_MEMINFO */
->> --
->> 2.43.0
->>
+> --
+> Cheers,
 >
->--
->Sincerely yours,
->Mike.
-
+> David / dhildenb
+>
