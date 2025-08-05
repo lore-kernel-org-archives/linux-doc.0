@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15F61B6D06
-	for <linux-doc@vger.kernel.org>; Tue,  5 Aug 2025 10:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6DE154BF5
+	for <linux-doc@vger.kernel.org>; Tue,  5 Aug 2025 10:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754389500; cv=none; b=U/3J8be5Leqi7U2hVEw654bVZzOZvUC1/X4ZNZNmrCVdbwe+UHsRxOJ3kiE4s/DmOREF2w50OLWMyavCaSjsolpTBmx+3KBu6ExJzlaLQkrgqZkLh3c7/GHv9zrf056x68mf0ZEH/yHvTmGNdivF3bu2rqDE0qHamOjamwK8KEM=
+	t=1754389831; cv=none; b=mVeSqs7ARn7UJpgdWBPoWuN4obiF2SYHhoMaSC8INmHHDBw6yaatcgNhMQ8nPSQj3bdaZi//9lqNXjv94KkmChZlkwslS2f5dE98hWuKNxVP+KIN/TSNTi3jcYgW2zXp1gkVhhcSiQkX8ANqzldkZ0540fZdzZkoMlvcpgjAim8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754389500; c=relaxed/simple;
-	bh=GOJ9HvDFeOVL3a7vbmOngeI/UuaMPYaoNSTpee0rEzA=;
+	s=arc-20240116; t=1754389831; c=relaxed/simple;
+	bh=lYTsqHfgtClSaq4hDWkmMzi3zRvfGNpaaiR4LI3ZV4w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A9pfXOkONpZjROEOGy/HdtRNIy1rNqjfzA+fiKj261FAkifGK1hg3mj9NKU2EM9OSn1o1v6I5cXMU3ugwm5vT2wGWSH+WPcvQc11I8pXalhGX4HRaWznuB8lKzH7JmAjCxP0KMX0AxE+FmF1DYBJVkboXSCSBC8Aq3NeH5oZUlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eMsAJAbc; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=UVv4SH/C53Bi/DUEYdGWFWakM/xQ6HTPP7V4UgHKpEpTD4dvWby5eNFx2/7SiXQy2aTuaCB0EimipPi0K7UVnc+6AwtIG3tch+5uw9X6kOfw2+Ggtrs8TigeYOn67QCy2tEhsveIN5So5PVwYc8cVNsOq5BI3xR6W8moepZtsQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f0QXJtJ1; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eMsAJAbc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f0QXJtJ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754389497;
+	s=mimecast20190719; t=1754389829;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VBbjKtAO1a03uu2qCH/wtI3fB+RdVfOGPyKiXjnpo+E=;
-	b=eMsAJAbclFOFeSUdZ6+E/DC3nJ6EVfqq0+mYMG4kZeH1pt8tqkZov4ly28IVtj4on9Uz6V
-	HBMBIsiMLOdnhgYnuDB8w2UW4T8BLkr1LzOB62OmLhwcfK31shQqKJvZh80aQZIirTOY6x
-	gaRTLn+A0jmjaSZDxLsFcFFjXVeQLmI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=5QBRGAqc9wV2ClFxJdEhBBHYCynit2/ZYJDeC1A7nhI=;
+	b=f0QXJtJ1IRJ0iZFsI2d+6JInanogkBsidZod2z+losqONy3WjMr5b7DJGDx7F9fqzBQdVJ
+	ItBbed3gnuNEzj3Wfns9aZO21KlMy7nFpFCmHxY72TYJr3gdyqxfQ541u46cZPcP+S38xa
+	y6O2wW+BDyMsDmMhDrBjXb0pp8zHtlI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-kFtNLsecM3a4cRFNrfC4ww-1; Tue, 05 Aug 2025 06:24:56 -0400
-X-MC-Unique: kFtNLsecM3a4cRFNrfC4ww-1
-X-Mimecast-MFC-AGG-ID: kFtNLsecM3a4cRFNrfC4ww_1754389495
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-45891629648so29931025e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 Aug 2025 03:24:56 -0700 (PDT)
+ us-mta-599-awCBA4l3M0iC8f5nXgGbQQ-1; Tue, 05 Aug 2025 06:30:28 -0400
+X-MC-Unique: awCBA4l3M0iC8f5nXgGbQQ-1
+X-Mimecast-MFC-AGG-ID: awCBA4l3M0iC8f5nXgGbQQ_1754389827
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3a54a8a0122so2203596f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 05 Aug 2025 03:30:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754389495; x=1754994295;
+        d=1e100.net; s=20230601; t=1754389827; x=1754994627;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=VBbjKtAO1a03uu2qCH/wtI3fB+RdVfOGPyKiXjnpo+E=;
-        b=aiMlTgLvTEUeZEwmCX2e3RaN2ZfLoaK1yQ6qPqJ1B/vUApGuzq8oV1FgSZ7I7u7rm8
-         HRbQ+aM7urOBMvwPyF2fcKUnEmi+dNSF9fexK82NLre/WbQ970IzDo3b7ZXe8rufSQBU
-         trf4/kzsjo7k+jYmpBdGWhXGC0+EFpVW0aukNeGFj1LvxaS4tcOsKBVoLtHWv4lzzeK3
-         WiavOQM2ZLfm6h2Fgd0/G2YJF8hHeG2tD6cm6CCeHur4d+kqwwAb8ETSCzljIeB0alJ+
-         3VLMNYQyAkwVP2nvOyRQnHYcgd0sYfDxcZYvmeOrcF4T4b/VLysAmqbG33S/QX3v6qMi
-         +gyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVmHl8e0ZDGLUQvm+dN1PrkWw1WPeQ0z8eEvwC/dHEoWfe9VKDbpyTacAr61JkGV7Do8t4pZdiW0L0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqAi8698Fdx1sMPIgTuNgUfs7rmntvFXklQ3+QhM2r/Gpiep++
-	lhNyczdQICqifRugfBIUUPMuvKDFXNu0TbCb21VSN2yIv7w9cYZVSXznm93Tf1GCxr+iprMQVBP
-	79n25fs/bv9aGKA4AXUWhkYs8PtwFcEo8DIHt7xei/9BuNSdEf9Li8XtjymIX4w==
-X-Gm-Gg: ASbGnctsMywPoOtm2konr4Izhcjy+ig6r52PTkO1YekgJf6Lx4I0QmYueLFZXVk7nGX
-	TuaL6pT5v0XwFUEqKfGx0OyNzGSz8+57phrEVBJGpf3xsAhJoJnBz8N4EyEgAikaD6Zxnxw1YoR
-	dsyC0yhlmu6FT7U3afzZFZ5wwR2hsihq36uGgFbFFz2WkKBRFYp0Q003WrVurP5c9qcZt2kzRLP
-	sFsbRiCacaU38b5P4F2y4HRWnyg5u34avUqSHROQiMC3WyQbl8rvYr7JWD7ODtj3KPpp31UvQ9Q
-	cOTNM4q4wss2oh8/y61gnPxGj/YX0MHQlx4D6zI0kKVn7pTafxKlB9ROWG4daf1R8oMb2bPD/PT
-	e5HDoYonSLBZM5GX1PUwNU7mjXP37TJ4LnP8vtasVgoCSb2FnuNXeEGnjpP98az9/ldo=
-X-Received: by 2002:a05:600c:6d0:b0:459:dd4e:4435 with SMTP id 5b1f17b1804b1-459e0cd0377mr16733335e9.5.1754389495240;
-        Tue, 05 Aug 2025 03:24:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE+zb28sOFCvmiXLYnwTCwUW2470YVI9yNLiQDTNd1mndb0l8A/C348gU+81Rr5jw5UUCPB+g==
-X-Received: by 2002:a05:600c:6d0:b0:459:dd4e:4435 with SMTP id 5b1f17b1804b1-459e0cd0377mr16733045e9.5.1754389494731;
-        Tue, 05 Aug 2025 03:24:54 -0700 (PDT)
+        bh=5QBRGAqc9wV2ClFxJdEhBBHYCynit2/ZYJDeC1A7nhI=;
+        b=h2wG72leSoqkVnH0Cl+gPJiN4G5tPewPIVKNuLGMw7wX83hIRQqAPFfJ7rn8Tnx3bX
+         0ymacyuMR1Ds4f/83Shjvbnyb0TXwCqryPxACQVJYsARUj6Zy3R3zzI4hLY6Igiv2XO0
+         Ews+qVjXeB3DRjp5T5Jk861Tb2JLL78Qv40gJp3YQ+M/KjiK/Mx+9ZDlFw490jjUQAGD
+         8W3pXtk8RNafvoPzOgM8prwLJdphEA2v6HE5YMpAm+iYuYdgULqK2UJKOYM/bQXqXl4z
+         lyYvzYHBIEceK4jVwHgXaqgY6u39iDCMcokpJbm6eF7gVInxX/Ub9YI7U+f+JZkutbEx
+         agVw==
+X-Forwarded-Encrypted: i=1; AJvYcCURHqBQQ/Tt/F8Jg8TZFRAgDTuIwbo4K6nrKYKnTu5l8iH6EETme0g9XLXMZ2CdBjlEd9bBydaR0Kw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2CX9IIYGLrHVHhasobWyNwvGEOcFxQz/4+85rfkw03idVDXVw
+	fD9ADc9CP6c3yFIn3ab9zP49sfROSoyA8yiPY8zipSZ71O6i8E3CBD1e560nhHCRcHO87SbtdcT
+	+3A5e3NIwokv/BNFM4u6xNMP7aOuhfI2sKNj1Tn5HhpFi1VruHxqED/uWQlCCFA==
+X-Gm-Gg: ASbGncsmUoDewOnb3xfbh5iUfXPZBUN/LGRfoIY4sSaU+REry7jswiSbcQP1blWFx/Q
+	VG2+URdruBfScPnWIo365Dj9PfS9puPNEd7+o5f/O4fwgqzkQCdLMLyQMgQFZdtLYIAT0xorkfN
+	ZBkXgMIhHIecfKDcij1O6ikReDG2X5zcCXIDuMc8k83wW7ryvswWQlIw+dNR2DTSOJEcI+1kvnb
+	zP4mIdfS/yZphGHL52JzSsuJgQuccIUA0lWuuhIQMg6vpc6bJiJVz8D5bWc4mXinc4kIAhHk+uh
+	10mlu5ccKrdupT2l/Hfqb0xJEWcvpQ0VCVede0VCv8OeXmzk2Il3zi/IpgCoQMbQeJ+Y2PHdpC4
+	heUoGJwheMTeXRrIMEqIsIwu3sXd1ziLsdG41suQwRknqDUegM+xQ2NhdK/MSQmC3bUo=
+X-Received: by 2002:a5d:5849:0:b0:3b7:8481:e365 with SMTP id ffacd0b85a97d-3b8d946807cmr8921453f8f.10.1754389826739;
+        Tue, 05 Aug 2025 03:30:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE1mB+c6XVjZUqBR7O+G7xU80WhlBPcGKDy3bCyz+mMN14dRewdIyXB/kqLc4gAzRNnToKQLw==
+X-Received: by 2002:a5d:5849:0:b0:3b7:8481:e365 with SMTP id ffacd0b85a97d-3b8d946807cmr8921405f8f.10.1754389826173;
+        Tue, 05 Aug 2025 03:30:26 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f2b:b200:607d:d3d2:3271:1be0? (p200300d82f2bb200607dd3d232711be0.dip0.t-ipconnect.de. [2003:d8:2f2b:b200:607d:d3d2:3271:1be0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459dfa64da0sm48813325e9.3.2025.08.05.03.24.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459d712c386sm81117925e9.23.2025.08.05.03.30.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Aug 2025 03:24:54 -0700 (PDT)
-Message-ID: <7828753c-98fc-4f96-bf7c-0d94f3b99e4b@redhat.com>
-Date: Tue, 5 Aug 2025 12:24:52 +0200
+        Tue, 05 Aug 2025 03:30:25 -0700 (PDT)
+Message-ID: <eec7e868-a61f-41ed-a8ef-7ff80548089f@redhat.com>
+Date: Tue, 5 Aug 2025 12:30:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] docs: transhuge: document process level THP
- controls
+Subject: Re: [PATCH v3 5/6] selftests: prctl: introduce tests for disabling
+ THPs completely
 To: Usama Arif <usamaarif642@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
 Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
@@ -86,9 +86,10 @@ Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
  npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
  ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
  Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
+ linux-doc@vger.kernel.org, kernel-team@meta.com,
+ Donet Tom <donettom@linux.ibm.com>
 References: <20250804154317.1648084-1-usamaarif642@gmail.com>
- <20250804154317.1648084-5-usamaarif642@gmail.com>
+ <20250804154317.1648084-6-usamaarif642@gmail.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -136,111 +137,103 @@ Autocrypt: addr=david@redhat.com; keydata=
  WBe5lqcozu9LpNDH/brVSzHCSb7vjNGvvSVESDuoiHK8gNlf0v+epy5WYd7CGAgODPvDShGN
  g3eXuA==
 Organization: Red Hat
-In-Reply-To: <20250804154317.1648084-5-usamaarif642@gmail.com>
+In-Reply-To: <20250804154317.1648084-6-usamaarif642@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 04.08.25 17:40, Usama Arif wrote:
-> This includes the PR_SET_THP_DISABLE/PR_GET_THP_DISABLE pair of
-> prctl calls as well the newly introduced PR_THP_DISABLE_EXCEPT_ADVISED
-> flag for the PR_SET_THP_DISABLE prctl call.
+> The test will set the global system THP setting to never, madvise
+> or always depending on the fixture variant and the 2M setting to
+> inherit before it starts (and reset to original at teardown).
+> 
+> This tests if the process can:
+> - successfully set and get the policy to disable THPs completely.
+> - never get a hugepage when the THPs are completely disabled
+>    with the prctl, including with MADV_HUGE and MADV_COLLAPSE.
+> - successfully reset the policy of the process.
+> - after reset, only get hugepages with:
+>    - MADV_COLLAPSE when policy is set to never.
+>    - MADV_HUGE and MADV_COLLAPSE when policy is set to madvise.
+>    - always when policy is set to "always".
+> - repeat the above tests in a forked process to make sure
+>    the policy is carried across forks.
 > 
 > Signed-off-by: Usama Arif <usamaarif642@gmail.com>
 > ---
->   Documentation/admin-guide/mm/transhuge.rst | 38 ++++++++++++++++++++++
->   1 file changed, 38 insertions(+)
+>   tools/testing/selftests/mm/.gitignore         |   1 +
+>   tools/testing/selftests/mm/Makefile           |   1 +
+>   .../testing/selftests/mm/prctl_thp_disable.c  | 173 ++++++++++++++++++
+>   tools/testing/selftests/mm/thp_settings.c     |   9 +-
+>   tools/testing/selftests/mm/thp_settings.h     |   1 +
+>   5 files changed, 184 insertions(+), 1 deletion(-)
+>   create mode 100644 tools/testing/selftests/mm/prctl_thp_disable.c
 > 
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index 370fba113460..a36a04394ff5 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -225,6 +225,44 @@ to "always" or "madvise"), and it'll be automatically shutdown when
->   PMD-sized THP is disabled (when both the per-size anon control and the
->   top-level control are "never")
->   
-> +process THP controls
-> +--------------------
+> diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
+> index e7b23a8a05fe..eb023ea857b3 100644
+> --- a/tools/testing/selftests/mm/.gitignore
+> +++ b/tools/testing/selftests/mm/.gitignore
+> @@ -58,3 +58,4 @@ pkey_sighandler_tests_32
+>   pkey_sighandler_tests_64
+>   guard-regions
+>   merge
+> +prctl_thp_disable
+> diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
+> index d13b3cef2a2b..2bb8d3ebc17c 100644
+> --- a/tools/testing/selftests/mm/Makefile
+> +++ b/tools/testing/selftests/mm/Makefile
+> @@ -86,6 +86,7 @@ TEST_GEN_FILES += on-fault-limit
+>   TEST_GEN_FILES += pagemap_ioctl
+>   TEST_GEN_FILES += pfnmap
+>   TEST_GEN_FILES += process_madv
+> +TEST_GEN_FILES += prctl_thp_disable
+>   TEST_GEN_FILES += thuge-gen
+>   TEST_GEN_FILES += transhuge-stress
+>   TEST_GEN_FILES += uffd-stress
+> diff --git a/tools/testing/selftests/mm/prctl_thp_disable.c b/tools/testing/selftests/mm/prctl_thp_disable.c
+> new file mode 100644
+> index 000000000000..ef150180daf4
+> --- /dev/null
+> +++ b/tools/testing/selftests/mm/prctl_thp_disable.c
+> @@ -0,0 +1,173 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Basic tests for PR_GET/SET_THP_DISABLE prctl calls
+> + *
+> + * Author(s): Usama Arif <usamaarif642@gmail.com>
+> + */
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <unistd.h>
+> +#include <sys/mman.h>
+> +#include <sys/prctl.h>
+> +#include <sys/wait.h>
 > +
-> +A process can control its own THP behaviour using the ``PR_SET_THP_DISABLE``
-> +and ``PR_GET_THP_DISABLE`` pair of prctl(2) calls. These calls support the
-> +following arguments::
+> +#include "../kselftest_harness.h"
+> +#include "thp_settings.h"
+> +#include "vm_util.h"
 > +
+> +static int sz2ord(size_t size, size_t pagesize)
+> +{
+> +	return __builtin_ctzll(size / pagesize);
+> +}
 
-Not sure if we really want to talk about MMF_ internals.
+Note: We have this helper duplicated elsewhere (e.g., cow.c).
 
-> +	prctl(PR_SET_THP_DISABLE, 1, 0, 0, 0):
-> +		This will set the MMF_DISABLE_THP_COMPLETELY mm flag which will
-> +		result in no THPs being faulted in or collapsed, irrespective
-> +		of global THP controls. This flag and hence the behaviour is
-> +		inherited across fork(2) and execve(2).
+See [1] how we're going to clean it up.
 
-"
-This will disable THPs completely for the process, irrespective
-of global THP controls or MADV_COLLAPSE.
-"
+Not sure how to resolve this. Probably, which series lands first in 
+mm-unstable should clean it up.
 
-?
+I would assume that Donet's series would go in first, such that you can 
+just reuse the helper from vm_utils.h
 
-> +
-> +	prctl(PR_SET_THP_DISABLE, 1, PR_THP_DISABLE_EXCEPT_ADVISED, 0, 0):
-> +		This will set the MMF_DISABLE_THP_EXCEPT_ADVISED mm flag which
-> +		will result in THPs being faulted in or collapsed only for
-> +		the following cases:
+[1] https://lkml.kernel.org/r/20250804090410.of5xwrlker665bdp@master
 
-Maybe:
 
-This will disable THPs for the process except when the usage of THPs is 
-advised. Consequently, THPs will only be used when:
-- Global THP controls are set to "always" or "madvise" and
-   the area either has VM_HUGEPAGE set (e.g., due do MADV_HUGEPAGE) or
-   MADV_COLLAPSE is used.
-- Global THP controls are set to "never" and MADV_COLLAPSE is used. This
-   is the same behavior as if THPs would not be disabled on a process
-   level.
-Note that MADV_COLLAPSE is currently always rejected if VM_NOHUGEPAGE is 
-set on an area.
-...
+Nothing else jumped at me
 
- > +		  or MADV_COLLAPSE.
-> +		- Global THP controls are set to "always" or "madvise" and
-> +		  the process has madvised the region with either MADV_HUGEPAGE
-> +		  or MADV_COLLAPSE.
-> +		- Global THP controls is set to "never" and the process has
-> +		  madvised the region with MADV_COLLAPSE.
-> +		This flag and hence the behaviour is inherited across fork(2)
-> +		and execve(2).
-> +
-> +	prctl(PR_SET_THP_DISABLE, 0, 0, 0, 0):
-> +		This will clear the MMF_DISABLE_THP_COMPLETELY and
-> +		MMF_DISABLE_THP_EXCEPT_ADVISED mm flags. The process will
-> +		behave according to the global THP controls. This behaviour
-> +		will be inherited across fork(2) and execve(2).
-
-"This will re-enabled THPs for the process, as if they would never have 
-been disabled. Whether THPs will actually be used depends on global THP 
-controls."
-
-?
-
-> +
-> +	prctl(PR_GET_THP_DISABLE, 0, 0, 0, 0):
-> +		This will return the THP disable mm flag status of the process
-> +		that was set by prctl(PR_SET_THP_DISABLE, ...). i.e.
-> +		- 1 if MMF_DISABLE_THP_COMPLETELY flag is set
-
-if PR_SET_THP_DISABLE was called without any flags
-
-> +		- 3 if MMF_DISABLE_THP_EXCEPT_ADVISED flag is set
-
-if PR_SET_THP_DISABLE was called with PR_THP_DISABLE_EXCEPT_ADVISED
-
-> +		- 0 otherwise.
-
-> +
->   Khugepaged controls
->   -------------------
->   
-
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
 Cheers,
