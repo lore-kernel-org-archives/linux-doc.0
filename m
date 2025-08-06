@@ -1,37 +1,73 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2D21E834E;
-	Wed,  6 Aug 2025 18:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F94F28D85F
+	for <linux-doc@vger.kernel.org>; Wed,  6 Aug 2025 20:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754506670; cv=none; b=Ije0/JGF9+neO/rijVe8o+E+0BjuejV7bhMi0Di+/xADozrjqUMK6d9qyQ/nh6MP4JL3R24Gw0GOi8vrRzg1PzGboJsS4OY89q6gOxaHM6nD6c+ekf/Q6cfKZNnwC7BGpoWmWG7iFlKoAcZIwo+5ILTJh40ybyGbTmfs57EcsgA=
+	t=1754511290; cv=none; b=XFnSdEpE4mlK+A7YGr6h6qE+DrgBcsDKd70HvPkXu2ZndH+J11F6YmBdq6XzXsPpbFycPW7d5bqhqnw8P8QmjpPGxMsYOwSBpXciROkpc3fupjATJBlcRbbPCRGlNe7IbB+sWN8EWpGiH80xLE4Spl3p1yluPHBIOb7eKyTqvJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754506670; c=relaxed/simple;
-	bh=Z2K44BDv8iYtioBJw82pfmKLTw/D0OBAOM+CsDmQydU=;
+	s=arc-20240116; t=1754511290; c=relaxed/simple;
+	bh=NgXUl4YxXuF66+PoNM170cp1mBj+O8qZdlaedoWYNHw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H6ZTUX63hFxagfhd/RAEnjSyxrVxZFRXIxrOUeCz3n/Xp8swqzmkUrhIOPUzgS63gCC9SzJsq3VRWZR7C6fdL2vd3boiiJKk9iUZWUvyMJJE5mNRtcTkSJ9hJwghynmsUuUapQQD9EXkWagVoJeT6wTxxiRGNpEtrMw0cEz1wu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sbNFfut8; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=mMEOp5TOvT6FFVXrHgTFJRYFE9dgJ1yFrDh8YDkd10qUGVUee/9z0x3TDwTOCHXSDgD09uaX1ly0G2KOzlOmq/xHIGTp213u6Nw8RB/6GB4g1W/3clq5ns3efLGsJeWYLwbDILp8+Jfojenci7bpxHdSH3c+s5JW1RaJo/VChaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MSyw6pAJ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sbNFfut8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=hzq0vb/yvUU3QbvwPK4scAkP5mr8qU5DJOgyJY7yIlM=; b=sbNFfut8rqy1hdfW/leJn9f/Mf
-	cfbhFoDmOnw0rwsdOyFgb0fWp0zUslkXicnn5nYw0vzJZ+ZfIfQ3r1vyZ9Y9v8Diknno3KxftnSyA
-	2PD2UlQMQUY2qFg546bxsdSXs/zjLOnREg5bTHmLhndzsu2/uw2QUBBdHzNujstdUUGF2X1eIj/+5
-	OwjdxuHMgVxSkaxFzT22HEp0HZzkbegje5DiNp1/3c4jzTzhQKskuBOQEvMB9hCovykO7YftUY3e8
-	dCsSXT0EAHP0w6n/nFJp+TLwNtQe/TZmrI7w5w804DkHdKJG2Qg2jdWVAN9L1/sKQf+2ccayBMD/X
-	2L0nM9vA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujjKY-0000000G8fK-3YMG;
-	Wed, 06 Aug 2025 18:57:42 +0000
-Message-ID: <1ea6f1d9-550d-4b81-bade-1a0ca14c27c6@infradead.org>
-Date: Wed, 6 Aug 2025 11:57:42 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MSyw6pAJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1754511287;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=d5P3sES8n4ihLK1cm4EwCWnvXovipYsvkDDRkGH7Rt8=;
+	b=MSyw6pAJxSUT0Tx+RdqBNE6oRUwUi0RQ3aXMZC28AndKF5Dv/N9/JGDinVyDtQf0UN7JE8
+	7VqSRDFYnEUR7w9vzxV9HtpWKzSnnOdqYWsyBdtPjzYo38Yd8rfhqPqYeqDxtA6gF1dOaT
+	jfD88F4C/vJZ18LrrZf2zsBvSJ352CI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-673-eBsEMvxTNmu9P6r4zICk5Q-1; Wed, 06 Aug 2025 16:14:43 -0400
+X-MC-Unique: eBsEMvxTNmu9P6r4zICk5Q-1
+X-Mimecast-MFC-AGG-ID: eBsEMvxTNmu9P6r4zICk5Q_1754511283
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3b7961b3c82so67045f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 06 Aug 2025 13:14:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754511283; x=1755116083;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=d5P3sES8n4ihLK1cm4EwCWnvXovipYsvkDDRkGH7Rt8=;
+        b=IxqB8aqU83kwLubBIVoBl2AW2JrksMgHEH0+nBL2AUnQKOt8ojXwxKxYQDejkK+W6O
+         xSW9EKS8SUOqfZaask+XuakRfszRWXgWs59+sPnpDcj8/zwU6ZNcF82UGInmrAPf5G4D
+         jdDi5Kt3WmuUoB7K466g3SdOlucVLCStz0lbKbDAmvGuZgrp3rhWg0vFfCFT8r6jNm1G
+         WSqYv4/aSYxi+sn3fDI92ROlY394kgw+vbCPVLZxMMXobFRlXBDvv+4AMTdxVTZ/pcZS
+         jcQvRd0FHxStEwOrRHuUdtfDQpjngMPID5Zk3WY07h6Le7kwfOEsdUCFRetpP7OQTB9m
+         GpaA==
+X-Forwarded-Encrypted: i=1; AJvYcCUlrntN4hlnzHfqHTiqVIR+FJkDKfTsclnTUNkIigpvZeZi/x7JTOqyOdboZDYvTKONgriDnnQSt2Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywxpp2x6Ow/ixcQHXvm+02j1Pf8F61F6x3mZsJznV2CeAaWv4Iu
+	XDslGw+usVYh3qw0a1+aq6R4uqZ78D3BumCP8zwfb9BGt/Z/6el408mu2EJuehw4KW7abMkvu0k
+	oc/GsZ/CTgssmE9/yz5Ie5y98GP6d5DAsTITRKRqhnrTuuIG4Pvbd+z5i5RxICD9w34AkHg==
+X-Gm-Gg: ASbGncvldQ+7TEnLQnV1vHV+lCQNUXnLjNOilbnGNfES95XojBdc5VuKA3FVapGtwAB
+	bWWs+qyv4RK6GHNyh5FKyZE70Y6JAsJd5SErLdDYjmyTJbfrCdMqEJLQu/dbn9rOkQ6V3VBZmdE
+	3nBuFIQnxNsgNssUXX8m7nhNqti2t8bzWaj9nQfP/rzH35/aQuhs2rZfnSrJAq+Sed9v+ZAdLCS
+	M+6ob8zae7+N7E4+L/vSMXMK04/5p6EHeRk/c5YdcxZ/IZO0jJNp76FqcNxMZMf2dR5Jm2QPLeu
+	b3CVhnTjNx7ums2U7bkHCl5eD5iAI0F+gKlaLmsWBtht9cOkZN5hb1IQUJ6qec/6AWHScaaX3Pa
+	mhVyJSMTbeZDSdR+Hv54dtvhXcqFXadw5NdCHBVPwzHqp2ksbFwZ6GVj3NmR7QC0mZxE=
+X-Received: by 2002:a05:6000:2388:b0:3b7:8146:4640 with SMTP id ffacd0b85a97d-3b8f9f79c9emr194013f8f.56.1754511282658;
+        Wed, 06 Aug 2025 13:14:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHG0bY644qbBT42RA/yeTwcYjH2tuKmM7gFFv+ZX33Fj0TwtCMSS0ZQLo9cfyNEiDWpFtTRyg==
+X-Received: by 2002:a05:6000:2388:b0:3b7:8146:4640 with SMTP id ffacd0b85a97d-3b8f9f79c9emr193986f8f.56.1754511282226;
+        Wed, 06 Aug 2025 13:14:42 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f42:da00:badf:cc55:23d5:1679? (p200300d82f42da00badfcc5523d51679.dip0.t-ipconnect.de. [2003:d8:2f42:da00:badf:cc55:23d5:1679])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459c58ed0ecsm81898565e9.4.2025.08.06.13.14.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Aug 2025 13:14:41 -0700 (PDT)
+Message-ID: <055a8a69-731d-43b8-887e-54d8718877cb@redhat.com>
+Date: Wed, 6 Aug 2025 22:14:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,111 +75,112 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] procfs: add PROCFS_GET_PID_NAMESPACE ioctl
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- Andy Lutomirski <luto@amacapital.net>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20250805-procfs-pidns-api-v4-0-705f984940e7@cyphar.com>
- <20250805-procfs-pidns-api-v4-3-705f984940e7@cyphar.com>
- <9027aa89-b3b2-46c8-8338-6c37f1c5b97a@infradead.org>
- <2025-08-06.1754503216-vulgar-pinch-more-tasks-meager-grader-93KeQn@cyphar.com>
+Subject: Re: [RFC PATCH v2] mm/zswap: store <PAGE_SIZE compression failed page
+ as-is
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Chengming Zhou <chengming.zhou@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Hocko
+ <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
+ Yosry Ahmed <yosry.ahmed@linux.dev>, kernel-team@meta.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Takero Funaki <flintglass@gmail.com>
+References: <20250805002954.1496-1-sj@kernel.org>
+ <761a2899-6fd9-4bfe-aeaf-23bce0baa0f1@redhat.com>
+ <CAKEwX=MVBJ+Okfsob4Z30_5Y4P8c2DWoS1dYN4dF5dgp4+CexA@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2025-08-06.1754503216-vulgar-pinch-more-tasks-meager-grader-93KeQn@cyphar.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ g3eXuA==
+Organization: Red Hat
+In-Reply-To: <CAKEwX=MVBJ+Okfsob4Z30_5Y4P8c2DWoS1dYN4dF5dgp4+CexA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-
-On 8/6/25 11:02 AM, Aleksa Sarai wrote:
-> On 2025-08-05, Randy Dunlap <rdunlap@infradead.org> wrote:
+On 05.08.25 18:56, Nhat Pham wrote:
+> On Tue, Aug 5, 2025 at 3:47 AM David Hildenbrand <david@redhat.com> wrote:
 >>
+>> On 05.08.25 02:29, SeongJae Park wrote:
+>>> When zswap writeback is enabled and it fails compressing a given page,
+>>> the page is swapped out to the backing swap device.  This behavior
+>>> breaks the zswap's writeback LRU order, and hence users can experience
+>>> unexpected latency spikes.  If the page is compressed without failure,
+>>> but results in a size of PAGE_SIZE, the LRU order is kept, but the
+>>> decompression overhead for loading the page back on the later access is
+>>> unnecessary.
+>>>
+>>> Keep the LRU order and optimize unnecessary decompression overheads in
+>>> the cases, by storing the original content in zpool as-is.
 >>
->> On 8/4/25 10:45 PM, Aleksa Sarai wrote:
->>> /proc has historically had very opaque semantics about PID namespaces,
->>> which is a little unfortunate for container runtimes and other programs
->>> that deal with switching namespaces very often. One common issue is that
->>> of converting between PIDs in the process's namespace and PIDs in the
->>> namespace of /proc.
->>>
->>> In principle, it is possible to do this today by opening a pidfd with
->>> pidfd_open(2) and then looking at /proc/self/fdinfo/$n (which will
->>> contain a PID value translated to the pid namespace associated with that
->>> procfs superblock). However, allocating a new file for each PID to be
->>> converted is less than ideal for programs that may need to scan procfs,
->>> and it is generally useful for userspace to be able to finally get this
->>> information from procfs.
->>>
->>> So, add a new API to get the pid namespace of a procfs instance, in the
->>> form of an ioctl(2) you can call on the root directory of said procfs.
->>> The returned file descriptor will have O_CLOEXEC set. This acts as a
->>> sister feature to the new "pidns" mount option, finally allowing
->>> userspace full control of the pid namespaces associated with procfs
->>> instances.
->>>
->>> The permission model for this is a bit looser than that of the "pidns"
->>> mount option (and also setns(2)) because /proc/1/ns/pid provides the
->>> same information, so as long as you have access to that magic-link (or
->>> something equivalently reasonable such as being in an ancestor pid
->>> namespace) it makes sense to allow userspace to grab a handle. Ideally
->>> we would check for ptrace-read access against all processes in the pidns
->>> (which is very likely to be true for at least one process, as
->>> SUID_DUMP_DISABLE is cleared on exec(2) and is rarely set by most
->>> programs), but this would obviously not scale.
->>>
->>> setns(2) will still have their own permission checks, so being able to
->>> open a pidns handle doesn't really provide too many other capabilities.
->>>
->>> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
->>> ---
->>>  Documentation/filesystems/proc.rst |  4 +++
->>>  fs/proc/root.c                     | 68 ++++++++++++++++++++++++++++++++++++--
->>>  include/uapi/linux/fs.h            |  4 +++
->>>  3 files changed, 74 insertions(+), 2 deletions(-)
->>>
->>
->>
->>> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
->>> index 0bd678a4a10e..68e65e6d7d6b 100644
->>> --- a/include/uapi/linux/fs.h
->>> +++ b/include/uapi/linux/fs.h
->>> @@ -435,8 +435,12 @@ typedef int __bitwise __kernel_rwf_t;
->>>  			 RWF_APPEND | RWF_NOAPPEND | RWF_ATOMIC |\
->>>  			 RWF_DONTCACHE)
->>>  
->>> +/* This matches XSDFEC_MAGIC, so we need to allocate subvalues carefully. */
->>>  #define PROCFS_IOCTL_MAGIC 'f'
->>>  
->>> +/* procfs root ioctls */
->>> +#define PROCFS_GET_PID_NAMESPACE	_IO(PROCFS_IOCTL_MAGIC, 32)
->>
->> Since the _IO() nr here is 32, Documentation/userspace-api/ioctl/ioctl-number.rst
->> should be updated like:
->>
->> -'f'   00-0F  linux/fs.h                                                conflict!
->> +'f'   00-1F  linux/fs.h                                                conflict!
+>> Does this have any effect on the movability of the given page? IOW, does
+>> page migration etc. still work when we store an ordinary page of an
+>> shmem/anon folio here?
 > 
-> Should this be 00-20 (or 00-2F) instead?
+> Good question. This depends on the backend allocator of zswap, but the
+> only backend allocator remaining (zsmalloc) does implement page
+> migration.
 
-Oops, yes, it should be one of those. Thanks.
+Right, but migration of these pages works completely different than 
+folio migration.
 
-> Also, is there a better value to use for this new ioctl? I'm not quite
-> sure what is the best practice to handle these kinds of conflicts...
+But I think the part I was missing: we are still performing a copy to 
+another page, it's just that we don't perform any compression.
 
-I wouldn't worry about it. We have *many* conflicts.
-(unless Al or Christian are concerned)
+So I guess *breaking* movability of folios is not a concern.
 
->> (17 is already used for PROCFS_IOCTL_MAGIC somewhere else, so that probably should
->> have update the Doc/rst file.)
->>
->>> +
->>>  /* Pagemap ioctl */
->>>  #define PAGEMAP_SCAN	_IOWR(PROCFS_IOCTL_MAGIC, 16, struct pm_scan_arg)
+But yeah, whether these "as is" pages are movable or not is a good 
+question as well -- in particular when zsmalloc supports page migration 
+and the "as is" pages would not.
+
+Maybe someone familiar with the code could shed a light on that.
 
 -- 
-~Randy
+Cheers,
+
+David / dhildenb
 
