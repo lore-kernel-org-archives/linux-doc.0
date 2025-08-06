@@ -1,163 +1,111 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BC321765E
-	for <linux-doc@vger.kernel.org>; Wed,  6 Aug 2025 22:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AD1205AA1;
+	Wed,  6 Aug 2025 22:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754519320; cv=none; b=XLiSwCd5PXswyHuHUkje8OgRQIGZH2quNU9zninniGzLlqHhQCYlmkxanCSx9dJk+5xlPs17bIk6j5FNclaqwb4ZcBIrt+u7RgEZSFJA7awmbYEIEZ7HMnBMRMAWeXXquIPNJ9m6+OJbIiaIsI4FDaik8yYgUwi33cuGRCYJH/0=
+	t=1754519854; cv=none; b=P6IQF71rQN8WgGtowQwnErm+NzfgSlYFKQO/toiLLcTrmXBIkudkrR8XFxedgzUAXOzat2UUt2KD/jpm5YVI17Ka0cdC84Bo9O0Hb14CWKjyYbMO5CY8DwIcM6BQLqO675ps7Fe52+p4NDcZ/UrgifsrsKbgDYEG00CIH+SxGCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754519320; c=relaxed/simple;
-	bh=jp5aL9hosoVfsIf/vUTflIwyWNQUTNECZPt4O+fKGxg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fC3FuFC8jEwCkMIEDDJaEnkmr17ssRzey0Qqhz5IN2Pfqh87mGIKDZWHHTs0z9H1OUvowBAsnyBcYBgRBes4n84eIUrmtLn6Dq5yXC51icUAj0vZgpF/mzK/LlV3zQyCEvhN+/9PSDFipVcmvxqb8SitOgB9r/NVbdhrURvlBcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=eo30fwtJ; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1754519854; c=relaxed/simple;
+	bh=GQggngq9RUB7V0jcF0mSBur446HCrK/DXqXlSDNNB+0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t1hcUkV95msJcTIWh80pAZ18NFgpMwUAA/wkYAFBGiwtBRTCsPgPE9N7D1oWi6THbb7Qh6rGlMxnLgMeIwchgAhYk/jUce1tYVJg2OV35FQPD3GXKtBA13lGS/Kh12P88MxRsPahlG5Tc72HoNY8Eyc4S5rQE5lnzgKCIO7XdMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QcB633vG; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="eo30fwtJ"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7e7f940a386so25301485a.3
-        for <linux-doc@vger.kernel.org>; Wed, 06 Aug 2025 15:28:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QcB633vG"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-23ffa7b3b30so3152755ad.1;
+        Wed, 06 Aug 2025 15:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754519317; x=1755124117; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xhQ142AcHuDpEckqO7rgr+eVAp4QNMkO6ZcybFE1pag=;
-        b=eo30fwtJc3FfmJwRbu1NMdcEcqTZKJWByRpVc9OQJoktmAevqt2uWeqlNSJVhGwJEc
-         W/+BR+NeypBV4LA2+rQVcIYO12jMb46CNAKy0tg0lHcr1F2HGWniRsAmovCmtZiuNsFF
-         EBX4sEJOHqteOyjr+gVkvWCvoETjFEsHAfGOiI2GtGStR9APNAkEh0/DJog7cvW9QhBI
-         ixIslptNWRTPPhlewctV8LM9rhkNS43YzajszMmkisyeGedQQPM6Y/7EgPOkGp5d5Vi8
-         LBm1S1eAQsURdAhDPAIgCudSWEDEXmlSuxdu3QsH1tfHTBhRWdkcPc8XqjNVjDIcpgKs
-         nkpA==
+        d=gmail.com; s=20230601; t=1754519852; x=1755124652; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8TVZ3Ief7tQQvhpMVUaEwXY3BktPk6w7JChPGDEPpBY=;
+        b=QcB633vGjdu9DFl1/BiW1qTqMInvUhga8js97jT+2HG/aq4jU6FwaxgfEn3DxwTMnM
+         6eDR/gygDNBEJqV1rCL08C28bRcvVRkJr8UD6yrbdLVJWsLy3PyTeZcaaix2Jez/av2X
+         0TjgAx6KNIWiATj8qXWxQk3oyd6qkIQ0wZBTV33sqp/uvj8u0AtvOwov19zTyz0x0Vue
+         bcQH6nerOam7SP9I1wUtmbMZaBL0/+wLvvCHA4Mht/715kej5+NAM7FaW8Zf/dxqVnyE
+         0MZjGT5+n85jUdOjgS3j3ycmrW9bmkAhT88CNcav9ySwX0pp8DO2MpKuBSr0f2d/0FhO
+         yd9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754519317; x=1755124117;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xhQ142AcHuDpEckqO7rgr+eVAp4QNMkO6ZcybFE1pag=;
-        b=oSWuQJ+N0nfZOuW7VROKNnq2zGxYDhFTLx/DAravZXQGnFFkFjjeZJdM6PfT5q9EtP
-         OOyQpotlGCFH3VEtMHCUJYPq4FuQwMB9pgdWo74azjRfdhsEH7s88UVNRrxpe0+5DDB6
-         1PALxUODr5S212VASRUlkYkZXQ1MOhgCyMGqP7FnUZOvTKRgAMXjbiWrKpcnPpyWP5K8
-         zI0264J7mgmyHW4+ADLhBnNk4Y+qhGMOLY7zjZWHG9lApE6d95HTDCKRYx7/6vjdJ3Vg
-         hWLVQdQn69AI10aT9vl7eWNTSqyNxF0GP1apz03t6AlpD1JtFBJO3Cht121sQFuHu3WH
-         CUDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWWnr86ZkzENTKhYG1bwSVkJddeluPQRgVTW31y7aENhXD6LOIM9PY6CB28cRtoWKhP1zqarzlLdos=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDodn186M6WsoaIa/9C+pUeiiuG0MevImU1vMEkyBLNBa9wT33
-	ZNI+81vAtKfJ3G2/NFc9VSXg/FEuENICFNkofavtvwC0HBu/MoDwdrHTIqkDb7TC9gdmx4JBsq8
-	LLijZmSQgBmgWBmGNZ+AnIZMtkDKFqogdT0aCN5FuJg==
-X-Gm-Gg: ASbGncvN3nrdPVBsj/EpFCi8jq9ndW3Bw1S/2vnqXUquR/rQmeoqfPWEybZasyjsbXW
-	PWojlQRX22AA3OcRAB3+d2yVXpXzR7FVY/+ktSQRFWQT/aPe4WpxBGNldg98hxsfLhYDcznU/zX
-	Cz0rFDpIsywFOXm21hrbIBit2sr+82LrwOgkV2GqWbWTsPTgWSl1M4TspuXPYbpO7x96WsoUXlF
-	lrN
-X-Google-Smtp-Source: AGHT+IGj0vOgYMp9T/0JmW5XllWs9eR8q77wvB4/2/eB5UfznGaAzPWexivE55P3uc74jC/GyDuncjth4cnA3wVQmDo=
-X-Received: by 2002:ac8:5889:0:b0:4b0:695d:9ad0 with SMTP id
- d75a77b69052e-4b0924e0f3emr47887021cf.3.1754519317270; Wed, 06 Aug 2025
- 15:28:37 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754519852; x=1755124652;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8TVZ3Ief7tQQvhpMVUaEwXY3BktPk6w7JChPGDEPpBY=;
+        b=Zl7tPbfNUjgEk985YuXMVevtcjIWpt4k6rLnt3wbHFHb04dW9M5f9JebIKUauE0BgG
+         1lhSlu4Z2h+gOWzUix5vt1Tau49YAlNBUw4Rc4FBwiJrKGrgx58NH4Bn1gkwbTQTv6+7
+         ITmnRD2vTCt+gcPJgoORWGYqlS97LQfI/NNxiWUbUOlvOCvpGko4O7NPcZqH4TPyLSQn
+         GxZLSAaSnJ4y2WJyFZ3lLRvAfBwEAsXOjFuxxxkBvjeILUoNus2dZwpNcsC79GtbgXXZ
+         7524bhHoytHxa/xdAlWQz9lgdaRUBXwVo6niQ/FAcP9JJAZwrZISBvsvwFe0zhFWUAeV
+         nzCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWaaeIv4BbfSoHrgbAzwQOKO47Tv1ozbABJZP9WUxElMtIYZwjvnUL58ISVhalEeodaRJFle5iJbZQO@vger.kernel.org, AJvYcCXEVpBrmaEJMDOOlqI37QmXeyQy5ynVbVztS1u7rbaSz6+s8M5HvSYmpResYvZtZDZy5OWjhGhFZ/u5eQj/@vger.kernel.org, AJvYcCXvp+LLasf1mlXICVhIuSvG5hgQanxKYF2d11Uu3Bqq3/YxZr3tsnFU668sS7oYo6EL0db5nG7CZ9Sf@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyvoXPeHmFsd6EIORyhfoXyCcP5/x5aVBTKTQoHKGXv73zo5kL
+	30ssLUXbSvx1S8oxooITSHtG0WiZdrvF77CDfAsdxh3/fgCS4ZjkCiTcDeNH7w==
+X-Gm-Gg: ASbGncv4STTm1c9KW/9kXdwkH8APDgV4UP+RrMwNFOd076JaYDbfD42V461vFPfnrqv
+	TRdbtAmYCBxdAPTdzg/WjwnI5Jn333uBpyPLTgKxzyvL76AlycGouarV1SjFqJdAMI3CRWIaNdU
+	IAUrp+NsTWwg11U20vjcxBzed3FklR+mGUWFFqrJeemT2Dm0+qhn2FNaerEiSU9lc01Zfh1niVc
+	VUOYNvdBn5i0w8aa3eHVQUSd80teb/1HxlLcnw29CGZL82zr1Bt0h2CXPliW6yq8HteCxhH5qca
+	U5crGYpUMaLXlKuhPYUqO/PVknQRXfthoLcFuXJO2tYD9PN7iJQ5iHtK+o2B3bq5WkALhnnOQ2C
+	5Uxlob6sByiuJoPtowa9aXZD5fa1tuMnIJ0zbv3j+QPpKIN8PgB/s76gMnM/DNB7Cw+pkot42BR
+	SAY0CI
+X-Google-Smtp-Source: AGHT+IEQZbTfjz/n6EoTuO6sa0hfwF2cmnLNm1tXNXdf1KOquGcIkr5nfHYn6H6BmuAwRx0z43CD2Q==
+X-Received: by 2002:a17:902:cf04:b0:240:640a:c560 with SMTP id d9443c01a7336-242a0ad00damr62222945ad.24.1754519852220;
+        Wed, 06 Aug 2025 15:37:32 -0700 (PDT)
+Received: from CNTWS00427A.itotolink.net (111-242-118-39.dynamic-ip.hinet.net. [111.242.118.39])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2426dec66desm86776775ad.54.2025.08.06.15.37.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Aug 2025 15:37:31 -0700 (PDT)
+From: ChiShih Tsai <tomtsai764@gmail.com>
+To: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: jdelvare@suse.com,
+	linux@roeck-us.net,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	t630619@gmail.com,
+	ChiShih Tsai <tomtsai764@gmail.com>
+Subject: [PATCH v3 0/2] Add sq24905c support
+Date: Thu,  7 Aug 2025 06:37:22 +0800
+Message-ID: <20250806223724.1207-1-tomtsai764@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
- <20250723144649.1696299-11-pasha.tatashin@soleen.com> <20250729172812.GP36037@nvidia.com>
- <CA+CK2bCrfVef_sFWCQpdwe9N_go8F_pU4O-w+XBJZ6yEuXRj9g@mail.gmail.com> <20250805123103.GH184255@nvidia.com>
-In-Reply-To: <20250805123103.GH184255@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 6 Aug 2025 22:28:00 +0000
-X-Gm-Features: Ac12FXzz6aElzLLHqZjWxK5H3LOARobpBSmk1rsUp_q_uPWZt7Z5vxl_KzsDWdA
-Message-ID: <CA+CK2bCeaH_Lesyr1G-Ur0eDb9HgKqOYgTu=vk=wrpZExMrWuA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/32] liveupdate: luo_core: Live Update Orchestrator
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 5, 2025 at 12:31=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Sun, Aug 03, 2025 at 09:11:20PM -0400, Pasha Tatashin wrote:
->
-> > Having a global state is necessary for performance optimizations. This
-> > is similar to why we export the state to userspace via sysfs: it
-> > allows other subsystems to behave differently during a
-> > performance-optimized live update versus a normal boot.
->
-> > For example, in our code base we have a driver that doesn't
-> > participate in the live update itself (it has no state to preserve).
-> > However, during boot, it checks this global state. If it's a live
-> > update boot, the driver skips certain steps, like loading firmware, to
-> > accelerate the overall boot time.
->
-> TBH, I'm against this. Give the driver a 0 byte state if it wants to
-> behave differently during live update. We should not be making
-> implicit things like this.
->
-> Plus the usual complaining about building core kernel infrastructure
-> around weird out of tree drivers.
->
-> If userspace wants a device to participate in live update, even just
-> "optimizations", then it has to opt in.
->
-> Frankly, this driver has no idea what the prior kernel did, and by
-> "optimizing" I think you are actually assuming that the prior kernel
-> had it bound to a normal kernel driver that left it in some
-> predictable configuration.
+Add sq24905c support
 
-Fair enough, that subsystem / driver should simply participate in the
-live update process normally.
+---
+v2 -> v3:
+- No code changed, included Acked-by tag from v2 review
+- Link to v2: https://lore.kernel.org/linux-hwmon/20250805124449.15187-1-tomtsai764@gmail.com/
 
-> Vs say bound to VFIO and completely messed up.
->
-> So this should be represented by a LUO serialization that says "the
-> prior kernel left this device in well defined state X" even if it
-> takes 0 bytes to describe that state.
->
-> So no globals, there should be a way for a driver to tell if it is
-> participating in LUO, but not some global 'is luo' boot fla.g
->
-> > > +       ret =3D liveupdate_register_subsystem(&luo_file_subsys);
-> > > +       if (ret) {
-> > > +               pr_warn("Failed to register luo_file subsystem [%d]\n=
-", ret);
-> > > +               return ret;
-> > > +       }
-> > > +
-> > > +       if (liveupdate_state_updated()) {
-> > >
-> > > Thats going to be a standard pattern - I would expect that
-> > > liveupdate_register_subsystem() would do the check for updated and
-> > > then arrange to call back something like
-> > > liveupdate_subsystem.ops.post_update()
+v1 -> v2:
+- Modify devicetree properties ID to silergy,mc09c
+- Combine to a single if statement for MFR_ID.
+- Add description, SQ24905C compatibility to the ADM1278
+- Remove two silergy properties,re-use adi properties
+- Link to v1: https://lore.kernel.org/linux-hwmon/20250804124806.540-1-tomtsai764@gmail.com/
 
-I added another callback liveupdate_subsystem.ops.post_update(), which
-gets called on live update, just when a subsystem registers with LUO,
-because that is when we know that it is ready. I will send the new
-patch version soon.
+ChiShih Tsai (2):
+  dt-bindings: hwmon: adm1275: add sq24905c support
+  hwmon: (pmbus/adm1275) add sq24905c support
 
-Thank you,
-Pasha
+ .../bindings/hwmon/adi,adm1275.yaml           |  9 +++++++
+ Documentation/hwmon/adm1275.rst               | 24 ++++++++++++-------
+ drivers/hwmon/pmbus/Kconfig                   |  3 ++-
+ drivers/hwmon/pmbus/adm1275.c                 | 11 ++++++---
+ 4 files changed, 35 insertions(+), 12 deletions(-)
+
+-- 
+2.43.0
+
