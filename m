@@ -1,220 +1,247 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2087.outbound.protection.outlook.com [40.107.96.87])
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A43C1D47B4;
-	Wed,  6 Aug 2025 18:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.87
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754503850; cv=fail; b=lZQ/Dl73lGK6okQEPsQ0wGMeXI7sB3tPyoXICsXiHaDGxNihZbmzJ/htjLyIKAwL1BQzDoposUktMrTZt8lbdZJAN7Rk1sYhHS3eWlz6AntUwkPuBg6Qh9K9y7zTzQchHOse43jePbbGtw1UhxtVpzQmOMvE4PraFbv5Jfd0n1Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754503850; c=relaxed/simple;
-	bh=PsDGv7f7u+DEgvabwE5dMShltFctIau+NDkiFkIKHp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=r+UYPFsnc90Y7nR5e8qPP+ktqRuMt0kazgIq7EjucF/rol48Ok/mnRKPLzzyhtJTfmPl08i8ZyDyFeTV4g2ztLaJUs83VBNI9u2iGUDhG5IordwXr8TDk/D8blVny6lYo6dKJJCUyfzuJGmO78ySim/oElawNG/POpjhg/HD2cI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=HPdzjbYj; arc=fail smtp.client-ip=40.107.96.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB46273D94;
+	Wed,  6 Aug 2025 18:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754504738; cv=none; b=mdAsH869+dOlcqTxLmD+9SRqfNfbywCO8xeGebWzcN9isHPNT7w7A+YXozBj0n1QhkxWli/LPBt1iAQ7zrOOaz/J54l+MlsZhOSJgvL3xP/yH9CGYQvkyFhd09yhzslVqp7Zi7u9FKnVwcgnb/sswSaCLK9hMJuzDDHXZtU1nYg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754504738; c=relaxed/simple;
+	bh=lLiMUbc8zLGH56UCBmIp7ECag9C43ts/2sCxH5ypZOE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bsfyzGWHucRmWEgQfRqqCikWIH1b+laa0fewnaSrbILqU6p4iFxrcdAs1Cnb0zg/fuv4Jxhr0aOl/trIcnm8oUlOJoggYVmBF0RgjHrm4w1d+GcTj1furOVdAJT4lSSFA7LyWMZtXtiRjkdlqfnOcfAy95iKXmnKHnstkfkFCPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=s0tTe+KM reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="HPdzjbYj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F/xGIwO8l037lIet6XDnEcFADS1S4j1v+xJwq0xbosit3tvuqIY0absR1Ze6wMZ/TKCGl5espW1F2qu9dgEs6hTCxmawYCRVyDJjqkx7uD10rBjCwn9thhOntxISwFDEopAsxahHsMDlteNOsTJTkCdL2YGQDqIORFmMOM+3FPlwgdzAeqB2dGIczqSr30NvwqpnUgihCVGp1w5qoXa+kZKJKBiL8eIGeNkj+On/3ej5JAQzmOa1eNWrANLxLbe4sN9Kqc3Ro6ZWap3O9DIHRdwYlqL09vOTdhX/ylkh+94s1oda8c4XWXi1LgmDah3KH5A6OmG3mbY2sYOXPqS5aA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BhmvRULt71lzNlfdmUfFLRjqdndltyCAJJ0V75nB3/U=;
- b=OfRNJMP8osnjMHer6JHInrB65m7fKLygp+Zaw4kPvI/fO2epH1i54gQoMtc/g7fcD9oCsP3R4D7x5HQrqLdVpmAjYX1fI1UZo2kgN1eJG+WzQgWenMsETr6zko5fX6OsVPba4mqTddkBLydlbQkDWEzamKI5CDfzaVKtaSIzRY9RSbKuv5DjHhaQ3Ja3mWJpxdvT4gdOv/JxTLdThDEal0FfLizU8YSyasLE6+Yebri6vKbxL5AfS3cu8gjlyHfcdXsqqbB6fv3jl7ZY4TUVG4eb5xOMbSDNyXi+wBRbChzImtDLGpmevb9ks0SJ3eQoWEXQCPq3fIHE7DyNJRxb8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BhmvRULt71lzNlfdmUfFLRjqdndltyCAJJ0V75nB3/U=;
- b=HPdzjbYjWyAM0YIrP7JN/Qv9VjR1knp1b+AZSzy3OHlN6i9+poG4a/ygS7kbPE/w4w3CkDMVoi1fhRxxp/RlDzNUfWjTa64t1UTL8F1y4dXdqPseZx0vaKjS9mL46TIOUPMlyIGcpFhRe/ph9w+1c7PfX1sTMRYp8VVK8rKTotrMrTt1QzJRovHrYKDAPXvm4gCIsbQ7tv6J2df+7qgcLOX/APDtSck+iS4VdLgeMc3OVf2Bf1nm7AEK5dtwugkfpvtmhV0VUu7p3ftHZP7JMrhoKtDN8FbN3VFMslO/QQ+wtqqye4OevJQooE5f8r99Z52fZ2sbjCjHdKoMfbogXA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by LV8PR12MB9451.namprd12.prod.outlook.com (2603:10b6:408:206::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.16; Wed, 6 Aug
- 2025 18:10:42 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.013; Wed, 6 Aug 2025
- 18:10:42 +0000
-Date: Wed, 6 Aug 2025 15:10:41 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v1 02/16] iommu/dma: handle MMIO path in dma_iova_link
-Message-ID: <20250806181041.GB184255@nvidia.com>
-References: <cover.1754292567.git.leon@kernel.org>
- <52e39cd31d8f30e54a27afac84ea35f45ae4e422.1754292567.git.leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <52e39cd31d8f30e54a27afac84ea35f45ae4e422.1754292567.git.leon@kernel.org>
-X-ClientProxiedBy: BL0PR02CA0041.namprd02.prod.outlook.com
- (2603:10b6:207:3d::18) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="s0tTe+KM"
+Received: from [192.168.10.111] (p865013-ipoe.ipoe.ocn.ne.jp [153.242.222.12])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 576IOhK2054951
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 7 Aug 2025 03:24:43 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=phX34nUYLjHESXOAqkOcxwCZETbFegwkz1f4cCdWzzU=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=Message-ID:Date:Subject:To:From;
+        s=rs20250326; t=1754504684; v=1;
+        b=s0tTe+KMI7swBAP+Xt3bupx/k9JygXTou5eGqet3hy78WwzAvwG1SEDUkFmJGKPm
+         Fmt1e2dmZ/6uqTJCyxyx7OKvs+36JfYyb+5vNIrCdRnWbBwiOBsvMo8ip/+h8uUa
+         W9iuQh0EGDAjQ/Kh3yRFezjno6q6ySoWUdO3rBWBtqbFzP1qd42be8gifZ+wE4s1
+         l0st77DdTCQazNwWW4YnxkDeAOHCt7rS3l1EkcErRWYpFE9FniE9fskIAB+mLZAV
+         +SoeBkfdAgu4MxJfQiCaTtgBLsqDSUko1PpPKlXc6EnigstQE8M4uOgF+38XxVnC
+         xxaZlbY4fLVTMYeXJyWZWA==
+Message-ID: <276fdfb8-f1ca-44ad-b310-a811684b265a@rsg.ci.i.u-tokyo.ac.jp>
+Date: Thu, 7 Aug 2025 03:24:43 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|LV8PR12MB9451:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc710f14-af91-47c0-1a00-08ddd5148e90
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?wVLnAhfU1oPkeBVGmvAU/NjH/TSeWNoRRIFzWOltqiha8M23FQAybsbpsbZ8?=
- =?us-ascii?Q?4l4viwCu5culuho8iDDBGWEwTq5CXF/Ngqk90oWIfIjUq5vAwtzT3hhe1nou?=
- =?us-ascii?Q?RfHnvfTyjNJJBuNajTKmkrOGxuljQcHezyYYeUOLG8J7e7YhoUfBKi18txfI?=
- =?us-ascii?Q?hy7/LEu5hLaURAAotyzklEoBhtCcuF7b0wjIbikh26fAB0AZcdevouc+gZJl?=
- =?us-ascii?Q?ti3ebAKulXWxzMRy1HKeWCwDMydUyj8or18L2n2kDgRFSozaD5v5MYot+TdF?=
- =?us-ascii?Q?dKxC2QBL/XGhT2R//kxm/Z1i678GXWr53qAvo6Mc8mHvDJOsshvXhzgmGGB/?=
- =?us-ascii?Q?1Y06utPzxf9qZyCI2F1LJWhLSf4aNoLYR7ieU2V2hpnKr0S2IdGAXNglv/V2?=
- =?us-ascii?Q?NbgCREZxnz6y58V3BD9Sto4B8J6D0WmOSREtfBhKzVNd+wqZQEawog1Fo6l3?=
- =?us-ascii?Q?eRHt230nua56QWjnnXCSpemvdaFAgSKyHpP2nrc0T8ngDw+BS+qk/NKK9dKv?=
- =?us-ascii?Q?2miix6/Inv7eZLR4QvFRHYlQVH8fCvteG8WevBDiAT1ifHwyS+kdJMH8MQGa?=
- =?us-ascii?Q?h2oeqnJ+pRCKKqoq3l7Xdxtc06wtRFd1swF3vJw5r9832y4wpSyaBH0ABxQZ?=
- =?us-ascii?Q?/TX07M/n/4wX45/p1sgbqJYIOsZ0f4Kln/pnJIVSKrohhzOpGyheofoWZZwr?=
- =?us-ascii?Q?zXK4lEn71gfSBgA5dXwibv+GitvdQntloKB8klvUD0TvVZmtwBJThY49DnbC?=
- =?us-ascii?Q?SaGwAetiGd0ewGNePMd0j77vgGJ3S9gqeItBg9HkWW8nbdofeXTiplfgFybO?=
- =?us-ascii?Q?lNs6BYW5LAGJmg5Pnawnlkaoh+Nu2SQBxWVZvByCSr2ZHmU6y4hzSYjah2pp?=
- =?us-ascii?Q?1GZgNFRY32XyTX6LfRGJggIvzUvpSKMuFrq/0QbyskUfTnXJtDJqF0u+r0vl?=
- =?us-ascii?Q?FHzw8sLP+mEJIfzWRclp/XpMBrRAtaUz7RJbNp49GDoGb+fHebg/sui6tJqa?=
- =?us-ascii?Q?wBts/fdjF4cWzul1birOsqA2+3Pud2Qkx8i2mJUFiA56ilpf7GZYh/4BAKqM?=
- =?us-ascii?Q?OAzISkmGBsUomFlDjgPXqH/Qtpqizg5ROAIex+09zc5Y9oC7rG28YV1LqC94?=
- =?us-ascii?Q?egOWspWxPkTJ+R+F/qXelpRIyqn/e5juK2Wy3HEjN4aUfEMGE97D0f0V/Yij?=
- =?us-ascii?Q?syps8uDsBntlosNdSlMw7fhzyzdd06tVoGAh+PdjNimZiG3526VvcP3FONDU?=
- =?us-ascii?Q?KeMnRP53LaaCcC4Lr3AycUDXY7BzbMLA+NiIjU7SYQ82Y4tbyP6+KXMLO7oR?=
- =?us-ascii?Q?KZdVJYnIwvN0wJ00oOIphNxFr25xv8l9YxKjGSH9X0lfl5uX35COldoJjmls?=
- =?us-ascii?Q?N3G+dMU9uhXhk6kUq0/AGJnwyceFZ8ROJfy6iKa44R5ANOUgva4Iwo2J4sMs?=
- =?us-ascii?Q?1Yj7dqgsMO4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?jxar6JHm676v7S2VA0b2tp/6YMZTPFXTUBggGgPT3+7w2y648Aing5nielgU?=
- =?us-ascii?Q?C8RGQR5E58Tovl/J41NfvXPwqo83HFAte/q1ThYUU8DpXUJ7xyiOtLI1agTm?=
- =?us-ascii?Q?cJCIeUGMb9nlAL6DL4HqITNVhi1xiGzDJTxsise2ikW8UjN21FJkGKqHdOUx?=
- =?us-ascii?Q?X/NlDLBiVPvSQUFkiKhqQLbU2EEshCknX1MeN/X+GTK9p7yYbr6l2wMFcY+9?=
- =?us-ascii?Q?ND2X9L4Sjj6dAZp144RnyvH9xB1EeMcQ3MsqbdVYA2Ohb6AJiP1WZuEE9jTE?=
- =?us-ascii?Q?XFged2dzreWxtqlRa6tgiGz7uZkQbLA36UuQlGNftfAreBjl1O5vF36LOuVR?=
- =?us-ascii?Q?zTHLQ2sKkyx+9cLiddBDG3UiMuXP2mRrPQ017uORc5S9zBMDpq3jpRzbWLRT?=
- =?us-ascii?Q?OVurgCMW1L9Z6zBg53ZYKRLC/qgk+o8quUk6BvWqo6W4P5Rd5IMUWHGHBi5y?=
- =?us-ascii?Q?zdrO8nCMOYop7lH+MmAFmSuLZhUg6mt/5V3y9Fp/vWWfSmLAzwsQkSU7dsgg?=
- =?us-ascii?Q?IAB3+JkLsRIpcJduXAoL+sT45A1wQHO/TB4imafngd0gcyTT8Nm5dui7KsQu?=
- =?us-ascii?Q?ZAhJZZJ3+iEN4Uo6RQYdG3oU5rGuY/gZN0+7fSIcjdEYFy8qUweayZycVBPS?=
- =?us-ascii?Q?uZTvHKGucjLJA2HHCw5BagLz7ijI619ndghyaq4NY7lrrhDyNS6MdJb9zDTh?=
- =?us-ascii?Q?2ZeuZx7xpC8KaV9ALslVxl4yBLn0WACNoPNnnl+qKNv9Ld8VGZa92JNAkL6O?=
- =?us-ascii?Q?mbSbXlRHXr/hjkElMKDR4FLunfOidt0S4xNZeK19Fuk3N2Z55CsnM5dni9n6?=
- =?us-ascii?Q?AZ728B8IPw3/FN4p5QbS/PdWs5zSXzyPNfdPLZxq9RH1sBV2zdLc3Hjj3BHu?=
- =?us-ascii?Q?8LDmyMknR3iaD0SNhgHj6TZ85GYy/Tx8lFGZAF4XQ1LGJnO5FifPUQE4QmaD?=
- =?us-ascii?Q?1kP0GIcg8w798usyvr0wYVhs4GZo5+Zpp3b4dpymUYFqmXP2hQBqYCP1bM3Y?=
- =?us-ascii?Q?h74ncSMb98quwFZXCze2mn/T7w4TnOnr/4Dcp9XX2npo95Yj4h9SYCXafZGe?=
- =?us-ascii?Q?jVL2DPa9rh+ENyPMGZLYi3KcMJWqmKkGj8Jvx5Ypzo0LsTRiHR8GsTpKDvr0?=
- =?us-ascii?Q?BTOXJuD8u1xnH5J/ttsctfR8qI0NZ50tfYg6KKv6dOO7kwrpZpsqHiCzA8M8?=
- =?us-ascii?Q?8d0LTLkulB7BiIULaMxBzFFXkXy/pUia/A51+edj5UoRdDi6Ef7h4QGrxd/Y?=
- =?us-ascii?Q?UOKnpmM9pkkJkhcM1ufy1RiOi9tFwSJhgqM8ttWgYxD0qePXUBTH3eYMoyhU?=
- =?us-ascii?Q?TUzWO08a7crrOTEWta5HWlFQ/WxCNtSamczRCSy2ZnNeSD0r77+9YRkskgZF?=
- =?us-ascii?Q?llQ6s964oNLxAP1n0oPbz6t2VSbJe+pK1mJMbHJFWwYFZ+zSofvu4kiYHzRC?=
- =?us-ascii?Q?KICyKCvRLsCxNdOToQbBeBEJNAp8AcjnYdGopdOCo1EWynuitRyDGJk/V5CM?=
- =?us-ascii?Q?VaBwfFAxVDY+usMsHxhCwVNi8gUwS3FmQuDxqFeLd4A4XIh04K0X4u7fUifG?=
- =?us-ascii?Q?zTlIkUmjnOYfRUF6+uo=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc710f14-af91-47c0-1a00-08ddd5148e90
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2025 18:10:42.6495
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 57xtDWWsAmS2DZ7qtHKMR4Dn5D+k0Cp1JThowypQclS3wEaF2KtlmBeaDSAVaxXY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9451
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 1/2] KVM: arm64: PMU: Introduce
+ KVM_ARM_VCPU_PMU_V3_COMPOSITION
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu
+ <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org, devel@daynix.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20250806-hybrid-v2-0-0661aec3af8c@rsg.ci.i.u-tokyo.ac.jp>
+ <20250806-hybrid-v2-1-0661aec3af8c@rsg.ci.i.u-tokyo.ac.jp>
+ <aJOO99xUrhsrvLwl@linux.dev>
+Content-Language: en-US
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <aJOO99xUrhsrvLwl@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 04, 2025 at 03:42:36PM +0300, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On 2025/08/07 2:20, Oliver Upton wrote:
+> Hi Akihiko,
 > 
-> Make sure that CPU is not synced if MMIO path is taken.
+> This is an unreasonably large patch that needs to be broken down into
+> smaller patches, ideally one functional change per patch. We need this
+> even for an RFC for the sake of reviews.
+> 
+> On Wed, Aug 06, 2025 at 06:09:54PM +0900, Akihiko Odaki wrote:
+>> +static u64 kvm_pmu_get_pmc_value(struct kvm_vcpu *vcpu, u8 idx)
+>>   {
+>> -	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
+>> +	struct kvm_pmc *pmc = *kvm_vcpu_idx_to_pmc(vcpu, idx);
+>>   	u64 counter, reg, enabled, running;
+>> +	unsigned int i;
+>>   
+>> -	reg = counter_index_to_reg(pmc->idx);
+>> +	reg = counter_index_to_reg(idx);
+>>   	counter = __vcpu_sys_reg(vcpu, reg);
+>>   
+>>   	/*
+>>   	 * The real counter value is equal to the value of counter register plus
+>>   	 * the value perf event counts.
+>>   	 */
+>> -	if (pmc->perf_event)
+>> -		counter += perf_event_read_value(pmc->perf_event, &enabled,
+>> -						 &running);
+>> +	if (pmc)
+>> +		for (i = 0; i < pmc->nr_perf_events; i++)
+>> +			counter += perf_event_read_value(pmc->perf_events[i],
+>> +							 &enabled, &running);
+> 
+> I'm concerned that this array of events concept you're introducing is
+> going to be error-prone. An approach that reallocates a new PMU event in
+> the case of a vCPU migrating to a new PMU implementation would be
+> desirable.
 
-Let's elaborate..
+I avoided allocation at migration because I was worried with disabled 
+preemption. perf_event_create_kernel_counter() internally takes a mutex 
+so it cannot be used if preemption is disabled.
 
-Implement DMA_ATTR_MMIO for dma_iova_link().
+I wonder if it is guaranteed that kvm_arch_vcpu_load() executes with 
+preemption. If so, I can add a hook there to call 
+perf_event_create_kernel_counter().
 
-This will replace the hacky use of DMA_ATTR_SKIP_CPU_SYNC to avoid
-touching the possibly non-KVA MMIO memory.
+> 
+>> +static void reset_sample_period(struct perf_event *perf_event)
+>> +{
+>> +	struct kvm_pmc **pmc = perf_event->overflow_handler_context;
+>> +	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
+>> +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
+>> +	u64 period;
+>> +
+>> +	cpu_pmu->pmu.stop(perf_event, PERF_EF_UPDATE);
+>> +
+>> +	/*
+>> +	 * Reset the sample period to the architectural limit,
+>> +	 * i.e. the point where the counter overflows.
+>> +	 */
+>> +	period = compute_period(pmc, kvm_pmu_get_pmc_value(vcpu, (*pmc)->idx));
+>> +
+>> +	local64_set(&perf_event->hw.period_left, 0);
+>> +	perf_event->attr.sample_period = period;
+>> +	perf_event->hw.sample_period = period;
+>> +
+>> +	cpu_pmu->pmu.start(perf_event, PERF_EF_RELOAD);
+>> +}
+> 
+> No, we can't start calling into the internal driver interfaces. The fact
+> that we have a pointer to the PMU is an ugly hack and shouldn't be used
+> like this.
 
-Also correct the incorrect caching attribute for the IOMMU, MMIO
-memory should not be cachable inside the IOMMU mapping or it can
-possibly create system problems. Set IOMMU_MMIO for DMA_ATTR_MMIO.
+This function was extracted from kvm_pmu_perf_overflow() and is not a 
+new addition (which should have been clear if I would have split the 
+patch as you noted).
 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index ea2ef53bd4fef..399838c17b705 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -1837,13 +1837,20 @@ static int __dma_iova_link(struct device *dev, dma_addr_t addr,
->  		phys_addr_t phys, size_t size, enum dma_data_direction dir,
->  		unsigned long attrs)
->  {
-> -	bool coherent = dev_is_dma_coherent(dev);
-> +	int prot;
->  
-> -	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-> -		arch_sync_dma_for_device(phys, size, dir);
-> +	if (attrs & DMA_ATTR_MMIO)
-> +		prot = dma_info_to_prot(dir, false, attrs) | IOMMU_MMIO;
+I thought of replacing it with perf_event_period(), but there is a 
+catch: it returns -EINVAL if the 63th bit of the sample period number is 
+set. Perhaps we can just specify ((1ULL << 63) - 1) if the sample period 
+is going to be so long, but I conservatively avoided that. I can change 
+it if you prefer that way or have an alternative idea.
 
-Yeah, exactly, we need the IOPTE on ARM to have the right cachability
-or some systems might go wrong.
+> 
+>> @@ -725,8 +729,8 @@ static void kvm_pmu_create_perf_event(struct kvm_pmc *pmc)
+>>   	attr.type = arm_pmu->pmu.type;
+>>   	attr.size = sizeof(attr);
+>>   	attr.pinned = 1;
+>> -	attr.disabled = !kvm_pmu_counter_is_enabled(pmc);
+>> -	attr.exclude_user = !kvm_pmc_counts_at_el0(pmc);
+>> +	attr.disabled = !kvm_pmu_counter_is_enabled(vcpu, (*pmc)->idx);
+>> +	attr.exclude_user = !kvm_pmc_counts_at_el0(vcpu, (*pmc)->idx);
+>>   	attr.exclude_hv = 1; /* Don't count EL2 events */
+>>   	attr.exclude_host = 1; /* Don't count host events */
+>>   	attr.config = eventsel;
+> 
+> Can we just special-case the fixed CPU cycle counter to use
+> PERF_TYPE_HARDWARE / PERF_COUNT_HW_CPU_CYCLES? That _should_ have the
+> intended effect of opening an event on the PMU for this CPU.
 
+I have an impression that perhaps this emulation can be more generic by 
+converting eventsel to PERF_COUNT_HW_* numbers with armv8_pmuv3_perf_map 
+in drivers/perf/arm_pmuv3.c, but it is not in scope of this change. The 
+current code is sufficient for now.
 
-> +	else {
-> +		bool coherent = dev_is_dma_coherent(dev);
-> +
-> +		if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-> +			arch_sync_dma_for_device(phys, size, dir);
-> +		prot = dma_info_to_prot(dir, coherent, attrs);
-> +	}
->  
->  	return iommu_map_nosync(iommu_get_dma_domain(dev), addr, phys, size,
-> -			dma_info_to_prot(dir, coherent, attrs), GFP_ATOMIC);
-> +			prot, GFP_ATOMIC);
->  }
+> 
+>> +	/*
+>> +	 * If we have a filter in place and that the event isn't allowed, do
+>> +	 * not install a perf event either.
+>> +	 */
+>> +	if (vcpu->kvm->arch.pmu_filter &&
+>> +	    !test_bit(eventsel, vcpu->kvm->arch.pmu_filter))
+>> +		return;
+>> +
+>> +	if (arm_pmu) {
+>> +		*pmc = kvm_pmu_alloc_pmc(idx, 1);
+>> +		if (!*pmc)
+>> +			goto err;
+>> +
+>> +		kvm_pmu_create_perf_event(pmc, arm_pmu, eventsel);
+>> +	} else {
+>> +		guard(mutex)(&arm_pmus_lock);
+> 
+> This is a system-wide lock, the need for which is eliminated if you go
+> for the reallocation approach I mention.
+> 
+>> +static int kvm_arm_pmu_v3_set_pmu_composition(struct kvm_vcpu *vcpu)
+>> +{
+>> +	struct kvm *kvm = vcpu->kvm;
+>> +	struct arm_pmu_entry *entry;
+>> +	struct arm_pmu *arm_pmu;
+>> +
+>> +	lockdep_assert_held(&kvm->arch.config_lock);
+>> +
+>> +	if (kvm_vm_has_ran_once(kvm) ||
+>> +	    (kvm->arch.pmu_filter && !kvm->arch.nr_composed_host_pmus))
+>> +		return -EBUSY;
+> 
+> I'm not sure there's much value in preventing the user from configuring
+> the PMU event filter. Even in the case of the fixed CPU cycle counter we
+> allow userspace to filter the event.
 
-Hmm, I missed this in prior series, ideally the GFP_ATOMIC should be
-passed in as a gfp_t here so we can use GFP_KERNEL in callers that are
-able.
+It is possible to configure the PMU event filter, but it needs to be 
+done after setting the attribute. This behavior is aligned with 
+KVM_ARM_VCPU_PMU_V3_SET_PMU.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> 
+> It is much more important to have mutual exclusion between this UAPI and
+> userspace explicitly selecting a PMU implementation.
 
-Jason
+They are mutually exclusive and the latest configuration takes effect.
+
+If you set SET_PMU after COMPOSITION, SET_PMU will take effect.
+If you set COMPOSITION after SET_PMU, COMPOSITION will take effect.
+
+I'll note that in the documentation.
+
+> 
+>> @@ -1223,6 +1328,8 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
+>>   
+>>   		return kvm_arm_pmu_v3_set_nr_counters(vcpu, n);
+>>   	}
+>> +	case KVM_ARM_VCPU_PMU_V3_COMPOSITION:
+>> +		return kvm_arm_pmu_v3_set_pmu_composition(vcpu);
+> 
+> I'd prefer naming this something like 'KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY'.
+> We will have the fixed instruction counter eventually which is another
+> event we could potentially provide system-wide.
+
+The design decision to expose the cycle counter is driven by the 
+motivation to satisfy FEAT_PMU for the guest rather than the host 
+capability.
+
+When we implement FEAT_PMUv3_ICNTR in the future, I think we will need 
+to add KVM_ARM_VCPU_PMU_V3_COMPOSITION_ICNTR or something. The resultig 
+emulated PMU will work only on host CPUs that have instruction counters; 
+a host CPU may lack one because it doesn't implement FEAT_PMUv3_ICNTR or 
+has a third-party PMU like apple-m1-cpu-pmu (this particular PMU has an 
+instruction counter fortunately).
+
+Regards,
+Akihiko Odaki
