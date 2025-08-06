@@ -1,198 +1,381 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C52428373;
-	Wed,  6 Aug 2025 01:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7422A38DDB;
+	Wed,  6 Aug 2025 02:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754443688; cv=none; b=GxF5bMr0Ys77+U/8Y0ZK+OzS7DLb5ZfnwxMYHgJo4JO2CEAeL1HQw+Prxnls6ZxdrDsZbDxQp6pdFFpsFl3+nkZZ2o+Tv3vpfT5APBqHjm2GAguPq/FkkcMbjINeEYjDcp43CsCKwbBg32rWcov64p6nX7pQ1JrlLtYsOgEB2Ok=
+	t=1754445959; cv=none; b=qVDPuUZ5jDKHk+DQ/OrKukpEC4epTcg+IiOWiS14H0WdBvtBhnCLHpiNxN7JHyteLvIUcF2e74OUMc3qEK/c37UkHpvG353XkPLHSVMLDpTCvV+rsV1bztZGhKQeJQdMGivikRiGONHoXidvTLRTZTG0aN6RaRRqFbTNlCzm6tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754443688; c=relaxed/simple;
-	bh=75UGmKi63vWlWvs53JfRNJALeLut97pl4NpjDjkn6hM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fDkQWMCEKxTZ9hucW2CejEZMun75ymVfQPAgzcLJWsawPjZIArBdOXJGs4uBT6S2NTMD+1d92qXH3rMPfblcJNeUcQN0PBS4dzuGCAonPQ93ckVPTSxu7EB/+eqLycyekrHjlmuhgoH4abFTdFI1Ou1WsGHW3HM2BA7FwtHfYic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZF156oAT; arc=none smtp.client-ip=209.85.218.52
+	s=arc-20240116; t=1754445959; c=relaxed/simple;
+	bh=HAPs1p2nc/MGWPCjIv9t61jU/ZEJAhSTY19kgzTA820=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=U3ORa4UmkmzIqqQpOgYdsdA30o74T+rTsgUr0D1Z/lJWBl4pQhs2d0Qup1twzJ3kHC4V99oC9GTvMVHzlHLfTMr8xwplbhYMEQsasg59m9I0Uq/ZcTVVUFx69517NbMtgSCA6HyNEL/i5Jr90kb40MD6c6HVo0B+p/bIQi54LgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XLwE+gcI; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZF156oAT"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-af90fd52147so931956966b.3;
-        Tue, 05 Aug 2025 18:28:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLwE+gcI"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-747e41d5469so5635067b3a.3;
+        Tue, 05 Aug 2025 19:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754443685; x=1755048485; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1754445956; x=1755050756; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F174FEcKIx5bp+8tkyGPW+DIhLOLfIgidyWuudlk20Y=;
-        b=ZF156oATLKiB0DPkl4j9Kv2jRdZ9bUCijq0ZblBApnHsrUhY3rqu1CdD9XCwhbe7im
-         towAHfDc0SGwbu+plJ0FdKLnnR6KVxSoySA71tZUGnCWyj4SnwmjkmZCtGDRE4sPBtFQ
-         G6Oonos3SgRoZPAh6/GAcas3xaHt8jy6jLwrkFOAqAtRVnK39nPg6+QlaU+4fGhoWoeV
-         z2Xoy6QOBnnQ+H0aOvaFHOAx+/iks/SBXwSnw7cPi7Np4WOeydc1oXgnc13iKy8o9bdH
-         xBCZl1vB/oOGK7yikE0ablDuw4ANY8sQ3wbVQsCLgst+5Z7XsqTUfSuck30ywStkfzXE
-         MQvg==
+        bh=wEjPM7lPagmZtZOuGxi0lhrxw65ELHrHI5/yqAy8H2o=;
+        b=XLwE+gcIcFYafCb44uuA3TziMd4llqxRZFV0FctPTjsb5lQMlIBYVGOItyatKzm3s2
+         e3qjPjPep3KXolea1qcrBKBb+JOVlyDEeV03RALCiNGobqw120RhuIa9tkG5oNKxPsd9
+         gS1V9SrsVccwR+rHYDdVLVYG9P953Qu2WGgvJfXa3YCtg0PFxchx8/4MVc5DF1AdP4xC
+         UxlP9oIEhPjDGJz0l+X0enJBSVyzZE6tGGRPriMzh9HW1ag9MCFWNu41gBN6iFcrDTTN
+         tgCmuAHtvFuaSfR8mTIdX8/LT2eMYn3nI+54wXmbGm0l6/G8g8PR6Xc2I/wMED5vmlyV
+         2RpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754443685; x=1755048485;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1754445956; x=1755050756;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=F174FEcKIx5bp+8tkyGPW+DIhLOLfIgidyWuudlk20Y=;
-        b=c9XhpsqRVD25PyqI6xMBVMHH61HjQWEocc+zE0g2X1D782WmXHadQu7nMmKOUwKEFL
-         /Lo2ERumCuXNOPpRX6QnWNXwMEgyuTAO4VvOa7WerHSu58wN+6LfU7GaT915EWUpHuor
-         ljgmbCluP7H2q2D5tsRMHOvU9z8/iSENcKIwnC6edHSDTE70WZdLhV5AC9j4DxHMwWDi
-         X2LIFOhjUWwkvOGMn4ySTVmhWuzlhD15X8WTqX5qsD3ErbVYhoS9P1tKUbArJmP9URo2
-         hw3TBNTuxDawiUbI7E/eR/Ka4yPJEl7SZs0DzJiI6yi4uNDPBoPqQ/FhMV2OiQA+Z/U5
-         ZU5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVKTup4ZxwL/MDfhPWZVDs3yq1Qf/e3bEBTSzBX52IBux07Vtzo0YShfw18T1SuglrO8C2xEKYWeBRW56i4@vger.kernel.org, AJvYcCWBrze7suKAPpXfpjEXYe6JfrLf2Ju1AgzrB0kA646Y22/AnzYCV/KarIHPBaIU6J4zXgr0PFw0DLk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg6IUISNU0/Nd9EA4E0aS4K+Rcu5oMBwiI7IekKRV324bzP5I0
-	VTzWiBAGYZSXmf9douR7R+a/ZDS3xG1pJRk05JOa4baIh/X/X0+c15AZuo+nisGOCuQJ0F0LIXH
-	IvLBOD3mGellpYFN+s0u/421Fsw/8Oms=
-X-Gm-Gg: ASbGnct9xxW7HSIci+Cf+BczjdzXrKJmXjJQ6X6ctWukw1+UaJhUunwoVsrhrlEXMw/
-	bN1y4ZcSdNrOKUX5KeH1RU0tyH6lqwdvw0ShiqW4xiOnuu/WsXMzESJJUbPLIYfEMGfsTAV2+60
-	w3hd96j8Ix8w4VuTDupUY4XorYNA04L7qONNuhrE99rXVJjno+zWvdgMCkZhPMIQAECPCOkvQAD
-	nGM5wTpVfb6NM7UmLaoEETVtEEg4kNQASoRH5YNeA==
-X-Google-Smtp-Source: AGHT+IEtxmGoVXyQi9biUweIxyKxBVbBBTXXXrLHkql4H2KhjN85v5kEqkNbiWpW4Q+t3I4jyPYF5sb+cMzt7HA9eSA=
-X-Received: by 2002:a17:906:6a14:b0:ae9:c2b9:7eba with SMTP id
- a640c23a62f3a-af992aab7a3mr52454566b.24.1754443684401; Tue, 05 Aug 2025
- 18:28:04 -0700 (PDT)
+        bh=wEjPM7lPagmZtZOuGxi0lhrxw65ELHrHI5/yqAy8H2o=;
+        b=byWs0F/nrfqkaoib39uIL2wUVdEyXcweLWBVqbIxKwoXefOEMdbUGHXJMrFOOC0SRp
+         BuCDQeayE6bkhlzIU9LXc7MsuZQ0hcqw8BCW+kw0W9AgAaXuajx5JKi2Mfv4RNJm9G+A
+         LkTpjI4Y9z+6bfphza0K2Bn7MIvM+mRGUgF/aGP7VqQu8ZNJsWloGzMz8ygOkEt7Y9mw
+         E1J8G6k/FIAq/7JgiQ5aoWABjkL7Zs5naxqB+B8zwXoklhpAy2rbfPGrdpaOsaBpVTyi
+         QZWJBtKXaziR39/cb2JopUMzsBqqeSGu+H/hhwzs645n/1ot8gvVX/5uvh2PR4dihgJf
+         w3BQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV7NyXOoEx0ko/PvRnb4c1ViVszD2vs82EP300foxGBfspCdd+RPPAnWIQInn7easSwyv0GnJ5mleE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDfyhGdT2LjrpevRrq1P0KDHwiyM95+pcScver2nSMkq2Jt47I
+	qwXVay+I0a9fUU2CJ7RozMogA8IJXdRrax7DEhOUEPhOVjYT78Jrqmaiq7edkC+i2wvds7nu
+X-Gm-Gg: ASbGncu+kz32rRtaCE0WTYNvzhETnNGApkKgAtqIfWfCApl36UGuX1hLzLHWX2eEu3i
+	hXUVJqqDeWp2cmCx182mRdoDTl61QdWWt29IFUn1ZhgKTZgZnHTlwEDoLNKC30mV+kWPc8R6yZn
+	QLVuTE/sG3vVUpxJ1ntOtUXeu6yU6PzuWExFofuQBhK1MDQ7LZfGTOFLzzNLTZXbbrrN2zMRAPW
+	c4cATvswbuCiNoQGYR4/FqDcbET4XvjaQ93WnuItI/fRmXfx6ntMu+vskRDp6cxNRj4u290QTkx
+	ewhG5dxEmHTpbkf8veoJpRWlBbuzbUVD0OGALQTIxoF2KNwdHcKp9r+bbGYJ6ZN3iDk63TZ7iNo
+	vMsRnn4lOAFyIOOPl
+X-Google-Smtp-Source: AGHT+IFKIRpH3S1hBtxnefv8MiQ72xy1NoafsDp/ZhEtbqLnYtpNIwD/JdfPv6tWRKBJpdyg5YvQww==
+X-Received: by 2002:a05:6a00:2d11:b0:76b:f13e:f598 with SMTP id d2e1a72fcca58-76c2af629d7mr1324973b3a.8.1754445956089;
+        Tue, 05 Aug 2025 19:05:56 -0700 (PDT)
+Received: from nyaos.. ([141.11.79.172])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfcf531sm14068499b3a.92.2025.08.05.19.05.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Aug 2025 19:05:54 -0700 (PDT)
+From: ChenMiao <chenmiao.ku@gmail.com>
+To: Linux Kernel <linux-kernel@vger.kernel.org>
+Cc: Linux OpenRISC <linux-openrisc@vger.kernel.org>,
+	chenmiao <chenmiao.ku@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jason Baron <jbaron@akamai.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Sahil Siddiq <sahilcdq0@gmail.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 2/2] openrisc: Add jump label support
+Date: Wed,  6 Aug 2025 02:05:04 +0000
+Message-ID: <20250806020520.570988-3-chenmiao.ku@gmail.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250806020520.570988-1-chenmiao.ku@gmail.com>
+References: <20250806020520.570988-1-chenmiao.ku@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250805162022.4920-1-bijan311@gmail.com> <20250806004003.52864-1-sj@kernel.org>
-In-Reply-To: <20250806004003.52864-1-sj@kernel.org>
-From: Bijan Tabatabai <bijan311@gmail.com>
-Date: Tue, 5 Aug 2025 20:27:52 -0500
-X-Gm-Features: Ac12FXxqXWKYvb2iP2635uUmCnKs4Ru4zZPjGe2tc8MxztU1iI9ZJV3Enr-80ws
-Message-ID: <CAMvvPS6hfCRh1fQh5zU5_quswPFVp0zWyS9N-Zikc0K-nSZd_g@mail.gmail.com>
-Subject: Re: [PATCH 0/5] mm/damon/sysfs: Add commands useful for using
- migration dests
-To: SeongJae Park <sj@kernel.org>
-Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net, 
-	Bijan Tabatabai <bijantabatab@micron.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi SJ,
+From: chenmiao <chenmiao.ku@gmail.com>
 
+Implemented the full functionality of jump_label, of course,
+with text patching supported by just one API.
 
-On Tue, Aug 5, 2025 at 7:40=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote:
->
-> Hi Bijan,
->
-> Subjects of patches usually be converted into lowercase when be merged in=
-to mm
-> tree.  I'd suggest using lowercase even in patches stage, if those aim to=
- be
-> merged into mm tree.
+By the way, add new macro OPENRISC_INSN_NOP in insn-def.h to use.
 
-Noted, thanks.
+- V2: using the patch_insn_write(void *addr, u32 insn) not the
+const void *insn.
 
-[...]
-> > The commit_schemes_dests command, similar to the existing
-> > commit_schemes_quota_goals, is used to commit only the dests fields of
-> > schemes. This has a couple of benefits:
-> > 1) It is more efficient than recommitting all the DAMON data.
-> > 2) Doing a full commit resets the aggregation and ops_update intervals.=
- If
-> > a user sends the full commit command frequently (relatively to those
-> > intervals) the aggregation and ops_update events will be prevented from
-> > triggering. Having a separate commit command side steps this problem.
->
-> I agree the commit command of DAMON sysfs interface is inefficient, and c=
-ould
-> make the infinite intervals delay problem.  But, I didn't expect there co=
-uld be
-> use cases that use commit feature frequently enough to make the inefficie=
-ncy
-> and the intervals delay be real problems.  Could you please let me know m=
-ore
-> details about your use case and how severe problem DAMON is causing?
+Link: https://lore.kernel.org/openrisc/aJIC8o1WmVHol9RY@antec/T/#t
 
-In my use case, I am trying to optimize the interleave ratio of
-applications to maximize their performance without prior knowledge of
-their behavior. To do this, we take the steps of updating the ratio,
-observing how the system reacts to the change in ratio, and update the
-ratio again accordingly. Because we want to approach the ideal
-interleave ratio quickly, we update the weights frequently, motivating
-the commit_schemes_dests. Similarly, we want to observe how the system
-reacts to the change only after the change has been applied,
-motivating wait_for_schemes_apply.
+Signed-off-by: chenmiao <chenmiao.ku@gmail.com>
+---
+ .../core/jump-labels/arch-support.txt         |  2 +-
+ arch/openrisc/Kconfig                         |  2 +
+ arch/openrisc/configs/or1ksim_defconfig       | 19 ++----
+ arch/openrisc/configs/virt_defconfig          |  1 +
+ arch/openrisc/include/asm/insn-def.h          |  3 +
+ arch/openrisc/include/asm/jump_label.h        | 68 +++++++++++++++++++
+ arch/openrisc/kernel/Makefile                 |  1 +
+ arch/openrisc/kernel/jump_label.c             | 53 +++++++++++++++
+ arch/openrisc/kernel/setup.c                  |  2 +
+ 9 files changed, 138 insertions(+), 13 deletions(-)
+ create mode 100644 arch/openrisc/include/asm/jump_label.h
+ create mode 100644 arch/openrisc/kernel/jump_label.c
 
-The consequences are not very severe. The problem can be worked around
-by either updating less frequently, at the cost of converging slower,
-or decreasing the maximum aggregation period, which from what I
-understand may affect the access monitoring behavior.
+diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/Documentation/features/core/jump-labels/arch-support.txt
+index ccada815569f..683de7c15058 100644
+--- a/Documentation/features/core/jump-labels/arch-support.txt
++++ b/Documentation/features/core/jump-labels/arch-support.txt
+@@ -17,7 +17,7 @@
+     |  microblaze: | TODO |
+     |        mips: |  ok  |
+     |       nios2: | TODO |
+-    |    openrisc: | TODO |
++    |    openrisc: |  ok  |
+     |      parisc: |  ok  |
+     |     powerpc: |  ok  |
+     |       riscv: |  ok  |
+diff --git a/arch/openrisc/Kconfig b/arch/openrisc/Kconfig
+index b38fee299bc4..9156635dd264 100644
+--- a/arch/openrisc/Kconfig
++++ b/arch/openrisc/Kconfig
+@@ -24,6 +24,8 @@ config OPENRISC
+ 	select GENERIC_PCI_IOMAP
+ 	select GENERIC_IOREMAP
+ 	select GENERIC_CPU_DEVICES
++	select HAVE_ARCH_JUMP_LABEL
++	select HAVE_ARCH_JUMP_LABEL_RELATIVE
+ 	select HAVE_PCI
+ 	select HAVE_UID16
+ 	select HAVE_PAGE_SIZE_8KB
+diff --git a/arch/openrisc/configs/or1ksim_defconfig b/arch/openrisc/configs/or1ksim_defconfig
+index 59fe33cefba2..769705ac24d5 100644
+--- a/arch/openrisc/configs/or1ksim_defconfig
++++ b/arch/openrisc/configs/or1ksim_defconfig
+@@ -3,26 +3,23 @@ CONFIG_LOG_BUF_SHIFT=14
+ CONFIG_BLK_DEV_INITRD=y
+ # CONFIG_RD_GZIP is not set
+ CONFIG_EXPERT=y
+-# CONFIG_KALLSYMS is not set
+ # CONFIG_EPOLL is not set
+ # CONFIG_TIMERFD is not set
+ # CONFIG_EVENTFD is not set
+ # CONFIG_AIO is not set
+-# CONFIG_VM_EVENT_COUNTERS is not set
+-# CONFIG_COMPAT_BRK is not set
+-CONFIG_SLUB=y
+-CONFIG_SLUB_TINY=y
+-CONFIG_MODULES=y
+-# CONFIG_BLOCK is not set
++# CONFIG_KALLSYMS is not set
+ CONFIG_BUILTIN_DTB_NAME="or1ksim"
+ CONFIG_HZ_100=y
++CONFIG_JUMP_LABEL=y
++CONFIG_MODULES=y
++# CONFIG_BLOCK is not set
++CONFIG_SLUB_TINY=y
++# CONFIG_COMPAT_BRK is not set
++# CONFIG_VM_EVENT_COUNTERS is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+ CONFIG_UNIX=y
+ CONFIG_INET=y
+-# CONFIG_INET_XFRM_MODE_TRANSPORT is not set
+-# CONFIG_INET_XFRM_MODE_TUNNEL is not set
+-# CONFIG_INET_XFRM_MODE_BEET is not set
+ # CONFIG_INET_DIAG is not set
+ CONFIG_TCP_CONG_ADVANCED=y
+ # CONFIG_TCP_CONG_BIC is not set
+@@ -35,7 +32,6 @@ CONFIG_DEVTMPFS=y
+ CONFIG_DEVTMPFS_MOUNT=y
+ # CONFIG_PREVENT_FIRMWARE_BUILD is not set
+ # CONFIG_FW_LOADER is not set
+-CONFIG_PROC_DEVICETREE=y
+ CONFIG_NETDEVICES=y
+ CONFIG_ETHOC=y
+ CONFIG_MICREL_PHY=y
+@@ -53,4 +49,3 @@ CONFIG_SERIAL_OF_PLATFORM=y
+ # CONFIG_DNOTIFY is not set
+ CONFIG_TMPFS=y
+ CONFIG_NFS_FS=y
+-# CONFIG_ENABLE_MUST_CHECK is not set
+diff --git a/arch/openrisc/configs/virt_defconfig b/arch/openrisc/configs/virt_defconfig
+index c1b69166c500..4a80c5794877 100644
+--- a/arch/openrisc/configs/virt_defconfig
++++ b/arch/openrisc/configs/virt_defconfig
+@@ -12,6 +12,7 @@ CONFIG_NR_CPUS=8
+ CONFIG_SMP=y
+ CONFIG_HZ_100=y
+ # CONFIG_OPENRISC_NO_SPR_SR_DSX is not set
++CONFIG_JUMP_LABEL=y
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+diff --git a/arch/openrisc/include/asm/insn-def.h b/arch/openrisc/include/asm/insn-def.h
+index dc8d16db1579..2ccdbb37c27c 100644
+--- a/arch/openrisc/include/asm/insn-def.h
++++ b/arch/openrisc/include/asm/insn-def.h
+@@ -9,4 +9,7 @@
+ /* or1k instructions are always 32 bits. */
+ #define	OPENRISC_INSN_SIZE		4
+ 
++/* or1k nop instruction code */
++#define OPENRISC_INSN_NOP     0x15000000U
++
+ #endif /* __ASM_INSN_DEF_H */
+diff --git a/arch/openrisc/include/asm/jump_label.h b/arch/openrisc/include/asm/jump_label.h
+new file mode 100644
+index 000000000000..03afca9c3a1f
+--- /dev/null
++++ b/arch/openrisc/include/asm/jump_label.h
+@@ -0,0 +1,68 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2025 Chen Miao
++ *
++ * Based on arch/arm/include/asm/jump_label.h
++ */
++#ifndef __ASM_JUMP_LABEL_H
++#define __ASM_JUMP_LABEL_H
++
++#ifndef __ASSEMBLY__
++
++#include <linux/types.h>
++#include <asm/insn-def.h>
++
++#define HAVE_JUMP_LABEL_BATCH
++
++#define JUMP_LABEL_NOP_SIZE OPENRISC_INSN_SIZE
++
++/*
++ * should aligned 4
++ * for jump_label relative
++ * entry.code   = nop.addr - . -> return false
++ * entry.target = l_yes - .    -> return true
++ * entry.key	= key - .
++ */
++#define JUMP_TABLE_ENTRY(key, label)			\
++	".pushsection	__jump_table, \"aw\"	\n\t"	\
++	".align 	4 			\n\t"	\
++	".long 		1b - ., " label " - .	\n\t"	\
++	".long 		" key " - . 		\n\t"	\
++	".popsection				\n\t"
++
++#define ARCH_STATIC_BRANCH_ASM(key, label)		\
++	".align		4			\n\t"	\
++	"1: l.nop				\n\t"	\
++	"    l.nop				\n\t"	\
++	JUMP_TABLE_ENTRY(key, label)
++
++static __always_inline bool arch_static_branch(struct static_key *const key,
++					       const bool branch)
++{
++	asm goto (ARCH_STATIC_BRANCH_ASM("%0", "%l[l_yes]")
++		  ::"i"(&((char *)key)[branch])::l_yes);
++
++	return false;
++l_yes:
++	return true;
++}
++
++#define ARCH_STATIC_BRANCH_JUMP_ASM(key, label)		\
++	".align		4			\n\t"	\
++	"1: l.j	" label "			\n\t"	\
++	"    l.nop				\n\t"	\
++	JUMP_TABLE_ENTRY(key, label)
++
++static __always_inline bool
++arch_static_branch_jump(struct static_key *const key, const bool branch)
++{
++	asm goto (ARCH_STATIC_BRANCH_JUMP_ASM("%0", "%l[l_yes]")
++		  ::"i"(&((char *)key)[branch])::l_yes);
++
++	return false;
++l_yes:
++	return true;
++}
++
++#endif /* __ASSEMBLY__ */
++#endif /* __ASM_JUMP_LABEL_H */
+diff --git a/arch/openrisc/kernel/Makefile b/arch/openrisc/kernel/Makefile
+index f0957ce16d6b..19e0eb94f2eb 100644
+--- a/arch/openrisc/kernel/Makefile
++++ b/arch/openrisc/kernel/Makefile
+@@ -9,6 +9,7 @@ obj-y	:= head.o setup.o or32_ksyms.o process.o dma.o \
+ 	   traps.o time.o irq.o entry.o ptrace.o signal.o \
+ 	   sys_call_table.o unwinder.o cacheinfo.o
+ 
++obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
+ obj-$(CONFIG_SMP)		+= smp.o sync-timer.o
+ obj-$(CONFIG_STACKTRACE)	+= stacktrace.o
+ obj-$(CONFIG_MODULES)		+= module.o
+diff --git a/arch/openrisc/kernel/jump_label.c b/arch/openrisc/kernel/jump_label.c
+new file mode 100644
+index 000000000000..ce259ba30258
+--- /dev/null
++++ b/arch/openrisc/kernel/jump_label.c
+@@ -0,0 +1,53 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2025 Chen Miao
++ *
++ * Based on arch/arm/kernel/jump_label.c
++ */
++#include <linux/jump_label.h>
++#include <linux/kernel.h>
++#include <linux/memory.h>
++#include <asm/bug.h>
++#include <asm/cacheflush.h>
++#include <asm/text-patching.h>
++
++bool arch_jump_label_transform_queue(struct jump_entry *entry,
++				     enum jump_label_type type)
++{
++	void *addr = (void *)jump_entry_code(entry);
++	u32 insn;
++
++	if (type == JUMP_LABEL_JMP) {
++		long offset;
++
++		offset = jump_entry_target(entry) - jump_entry_code(entry);
++		/*
++		 * The actual maximum range of the l.j instruction's offset is -134,217,728
++		 * ~ 134,217,724 (sign 26-bit imm).
++		 * For the original jump range, we need to right-shift N by 2 to obtain the
++		 * instruction's offset.
++		 */
++		if (unlikely(offset < -134217728 || offset > 134217724)) {
++			WARN_ON_ONCE(true);
++		}
++		/* 26bit imm mask */
++		offset = (offset >> 2) & 0x03ffffff;
++
++		insn = offset;
++	} else {
++		insn = OPENRISC_INSN_NOP;
++	}
++
++	if (early_boot_irqs_disabled) {
++		copy_to_kernel_nofault(addr, &insn, sizeof(insn));
++	} else {
++		patch_insn_write(addr, insn);
++	}
++	return true;
++}
++
++void arch_jump_label_transform_apply(void)
++{
++	// flush
++	kick_all_cpus_sync();
++}
+diff --git a/arch/openrisc/kernel/setup.c b/arch/openrisc/kernel/setup.c
+index a9fb9cc6779e..000a9cc10e6f 100644
+--- a/arch/openrisc/kernel/setup.c
++++ b/arch/openrisc/kernel/setup.c
+@@ -249,6 +249,8 @@ void __init setup_arch(char **cmdline_p)
+ 		initrd_below_start_ok = 1;
+ 	}
+ #endif
++	/* perform jump_table sorting before paging_init locks down read only memory */
++	jump_label_init();
+ 
+ 	/* paging_init() sets up the MMU and marks all pages as reserved */
+ 	paging_init();
+-- 
+2.45.2
 
-> Depending on the real problem, I'm wondering if optimizing commit command=
- can
-> be a solution.  For example, skipping the update of next_aggregation_sis =
-and
-> next_ops_update_sis when the intervals are not changed might be able to s=
-olve
-> the intervals delay problem.
-
-This would work for my use case. Another option might be to have a
-more general commit_schemes command, which may be useful to other use
-cases. I'll defer to your judgement on which would be better.
-
-> >
-> > The wait_for_schemes_apply command causes the calling thread to wait un=
-til
-> > all schemes have been applied. It does this by calling damos_walk() wit=
-h a
-> > NULL walk_fn. This can be useful, for example, if a user wants to know =
-when
-> > new scheme parameters they've committed have been applied. Another use =
-case
-> > could be if a user wants to record the system state every time a scheme=
- is
-> > applied for debuging purposes.
-> >
-> > The functionality of wait_for_schemes_apply can be achieved with the
-> > existing update_schemes_tried_bytes and update_schemes_tried_regions
-> > commands. However, having a separate command avoids extra work and make=
-s
-> > user intent clearer when used in scripts.
->
-> I agree extra works are always better to be avoided.  But is the overhead=
- large
-> enough to be a real problem for your use case?  I also agree it could mak=
-e the
-> user script cleaner, but adding a kernel feature only for user scripts
-> readabilities sounds like too much, since the user script could have its =
-own
-> abstract layers for its readability.
-
-Totally fair. I will drop wait_for_apply_schemes in any future versions.
-
-> Also, even if the new command is implemented, since the DAMOS schemes con=
-tinue
-> running, the system status will keep changing.  If you cannot do the reco=
-rding
-> of the system state in a restricted time, the recorded information might =
-not be
-> that reliable.  So I'm not sure if you really need this strict waiting in=
- this
-> way.
-
-Fair. That was not something I was personally using the command for,
-just another possible use case I thought of. Regardless of the
-usefulness of that, the existing commands using damos_walk would work
-well enough.
-
-> Could you please share more details about what you want to do with the ne=
-w
-> command, and how much problem you are seeing?  I'm particularly curious w=
-hat
-> system state you want to record, and why you need to wait the exact time
-> interval.
-
-I mentioned this above, but I am using this to wait for new migration
-weights to be applied before monitoring how the change affects
-applications, but again, this can be done with existing commands.
-
-Thanks for your response,
-Bijan
