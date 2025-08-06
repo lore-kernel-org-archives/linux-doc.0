@@ -1,161 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E03D1CD0C;
-	Wed,  6 Aug 2025 17:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BF51E0083
+	for <linux-doc@vger.kernel.org>; Wed,  6 Aug 2025 17:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754500796; cv=none; b=KL/L9VdiawPzG5xjeQG07Qs7GfMDElaujpNfgAIsP+JKEMx2RGYL19KQ90FmsENqmnQiC2LOlgEAyz6JYuIJOY1S1oe6iYskJTdLHhhtvh8OUG0DZSr+6hVMXEPXryzmmt/aFWgRwxOIS/GC2vcBVhGEBlU8DIiCwVbmTQxgUag=
+	t=1754500881; cv=none; b=GCLwdK11ZtTX1N0UlgVhkqSS53sVqeUzFdR1PD36OFDB2KLsPKEpIlMTF6DCqGWn0mRu3QO9Qb0pBW/Tj1SzZaIcX9AYH2qVYYtoDPF0akJzOWXXU/Gguyx15oL0a+AINkPUxL6M5/t0MMGdX7VrfzEkd8DkVthbTSRcXKCeHzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754500796; c=relaxed/simple;
-	bh=JRj7PsQL/s6lQLMH5Hz+ENNgXMGZvOEDW61OthTTRbo=;
+	s=arc-20240116; t=1754500881; c=relaxed/simple;
+	bh=kjhnQ5Za+XBsranDfYgw0zRqfwEAy/mULiOdftIXj5Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gaty+U8x/qDZIJzy5KYqGzJLynj8krWi5UqnrkjhFXHu2dRNtYsycmQ7i09/Il7Krkqwu0FdGsdWR+EgspHRT9iXTZ1UFBL/gcyno2eoCl9JTm8ZzVE//vRpldOI2r/m8Y3lVvEUG09U8a/N/qj5Z1Gl1XqQOjgQhKfmhw5ZO8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m2gy0iAq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BwJvc++UpgTuLivfHhQPAM19A7d4jNMtHQvROTlNKV710KxtpvTTPGL9zHm/MAAXPH4l4Z32Wi6CMJvvJ6XAY6wakob96n5JAoNigyl4cw1df0D2X1cPzZO4iMMfSt1GY6kl8T9/gHnFibvO/V3ez/jOmcpKC85M4zwuvfjK6e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VtkQ++7b; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m2gy0iAq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 965F1C4CEF8;
-	Wed,  6 Aug 2025 17:19:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754500795;
-	bh=JRj7PsQL/s6lQLMH5Hz+ENNgXMGZvOEDW61OthTTRbo=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=m2gy0iAq3W71Wn7Z6j8l6kdsbV/fyxb53mB0i/tb3+atk4apGrhtwMlsT10iASRxz
-	 XvfWNOZtPKze+81Eoy5qw3mnbEwYUQFZwYB5B8PCGg3rFxGadlS538XOzG6Qw9v7XM
-	 fXdXBpbVJmYzkk23BzkNOPzvBpfmveQOzUWbXrs3KqDm0wHBXgtB5XU7wDIffcYDjw
-	 x4lrtnrLkjrTztrjSlRENngOjwNtzJYdmbmAg6BmqnBgjAVm2Tx56vKo6V5zpvDcqv
-	 rnEnA9TzcAK/MVL46ThGV3xoIUKAVNMJxgeI6s4Y10Y6mVLjcEfcZwEldY/t+rWhwZ
-	 OHXreM4mw+kBg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 42AC7CE0C35; Wed,  6 Aug 2025 10:19:55 -0700 (PDT)
-Date: Wed, 6 Aug 2025 10:19:55 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Carlos Bilbao <bilbao@vt.edu>
-Cc: Akira Yokosawa <akiyks@gmail.com>, carlos.bilbao@kernel.org,
-	corbet@lwn.net, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, David Howells <dhowells@redhat.com>
-Subject: Re: [PATCH] docs/core-api: Fix circular buffer examples
-Message-ID: <f4c744ec-0f68-49e2-93ff-8d7461cce2fc@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20250720160243.149595-1-carlos.bilbao@kernel.org>
- <1e3c4ee3-f66e-4ce0-819e-e0bed6a744e8@gmail.com>
- <8723a37f-0a04-4e46-80a1-7bb817ecae03@paulmck-laptop>
- <9dcd185f-184e-4c1b-95c8-9f649a9d05f8@vt.edu>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VtkQ++7b"
+Date: Wed, 6 Aug 2025 10:20:55 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1754500867;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LXEzdvjKc1frf74KZZ2Dk9UeoT9Qj8s/haDO00iYsCY=;
+	b=VtkQ++7b2u/bXmsWSk18w3r7GM1P5JVR7OF9qYXkJUdtUAb1xF+174eBKK9E0p7iYnpU9o
+	qMZ/Jn24nSr9r2S/3tLcPCdxS8TX5DhSvQ3mumqS7+RSehNtdiprcMvvWdydZeJAT64sl/
+	DZOMHF4WOTVO1Lqo5qTY5dzVsOhTh5M=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v2 1/2] KVM: arm64: PMU: Introduce
+ KVM_ARM_VCPU_PMU_V3_COMPOSITION
+Message-ID: <aJOO99xUrhsrvLwl@linux.dev>
+References: <20250806-hybrid-v2-0-0661aec3af8c@rsg.ci.i.u-tokyo.ac.jp>
+ <20250806-hybrid-v2-1-0661aec3af8c@rsg.ci.i.u-tokyo.ac.jp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9dcd185f-184e-4c1b-95c8-9f649a9d05f8@vt.edu>
+In-Reply-To: <20250806-hybrid-v2-1-0661aec3af8c@rsg.ci.i.u-tokyo.ac.jp>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Aug 04, 2025 at 05:05:30PM -0500, Carlos Bilbao wrote:
-> Hello,
-> 
-> On 7/23/25 15:47, Paul E. McKenney wrote:
-> > On Mon, Jul 21, 2025 at 11:47:25AM +0900, Akira Yokosawa wrote:
-> > > +CC David and Paul, who are the authors of this doc.
-> > > 
-> > > On Sun, 20 Jul 2025 11:02:43 -0500, Carlos Bilbao wrote:
-> > > > From: Carlos Bilbao <carlos.bilbao@kernel.org>
-> > > > 
-> > > > Fix circular buffer usage in producer/consumer examples in
-> > > > circular-buffers.rst. They incorrectly access items using buffer[head] and
-> > > > buffer[tail], as if buffer was a flat array; but the examples also use
-> > > > buffer->head and buffer->tail, so it's a struct. Use buffer->vals[head] and
-> > > > buffer->vals[tail] instead to match the intended layout.>
-> > > > 
-> > > > Signed-off-by: Carlos Bilbao <carlos.bilbao@kernel.org>
-> > Hello, Carlos, and thank you for your attention to detail!
-> > 
-> > This one could likely use more help, as the last substantive change was
-> > more than ten years ago.
-> > 
-> > But are you referring to a particular use of CIRC_SPACE() and CIRC_CNT()
-> > for this change?  If so, could you please identify it in the commit log?
-> 
-> No, it's just the uses of the structure. Take a look at the patch, you'll
-> see. The mistake was introduced in this commit:
-> 
-> commit 90fddabf5818367c6bd1fe1b256a10e01827862f
-> Author: David Howells <dhowells@redhat.com>
-> Date:   Wed Mar 24 09:43:00 2010 +0000
-> 
->     Document Linux's circular buffering capabilities
-> 
->     Document the circular buffering capabilities available in Linux.
-> 
->     Signed-off-by: David Howells <dhowells@redhat.com>
->     Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
->     Reviewed-by: Randy Dunlap <rdunlap@xenotime.net>
->     Reviewed-by: Stefan Richter <stefanr@s5r6.in-berlin.de>
->     Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Hi Akihiko,
 
-Please understand that I am not arguing for no change, and that I do
-appreciate your attention to detail and your willingness to propose an
-actual change.
+This is an unreasonably large patch that needs to be broken down into
+smaller patches, ideally one functional change per patch. We need this
+even for an RFC for the sake of reviews.
 
-In this sentence in the original:  "The producer will look something like
-this", the words "something like" are important, as in the following is
-pseudocode rather than code that can be built.  You appear to be looking
-to make this be actual code, which would be a good thing.  Except that
-we have this:
+On Wed, Aug 06, 2025 at 06:09:54PM +0900, Akihiko Odaki wrote:
+> +static u64 kvm_pmu_get_pmc_value(struct kvm_vcpu *vcpu, u8 idx)
+>  {
+> -	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
+> +	struct kvm_pmc *pmc = *kvm_vcpu_idx_to_pmc(vcpu, idx);
+>  	u64 counter, reg, enabled, running;
+> +	unsigned int i;
+>  
+> -	reg = counter_index_to_reg(pmc->idx);
+> +	reg = counter_index_to_reg(idx);
+>  	counter = __vcpu_sys_reg(vcpu, reg);
+>  
+>  	/*
+>  	 * The real counter value is equal to the value of counter register plus
+>  	 * the value perf event counts.
+>  	 */
+> -	if (pmc->perf_event)
+> -		counter += perf_event_read_value(pmc->perf_event, &enabled,
+> -						 &running);
+> +	if (pmc)
+> +		for (i = 0; i < pmc->nr_perf_events; i++)
+> +			counter += perf_event_read_value(pmc->perf_events[i],
+> +							 &enabled, &running);
 
-	struct circ_buf {
-		char *buf;
-		int head;
-		int tail;
-	};
+I'm concerned that this array of events concept you're introducing is
+going to be error-prone. An approach that reallocates a new PMU event in
+the case of a vCPU migrating to a new PMU implementation would be
+desirable.
 
-As you can see, there is no ->vals member, which is likely to look silly
-to some future reader, just as the conflict between "buffer->size"
-on the one hand and "buffer[head]" on the other looked silly to you,
-and rightly so.  And both you and that potential future reader would be
-quite justified in their judging the pseudo code as being silly.
+> +static void reset_sample_period(struct perf_event *perf_event)
+> +{
+> +	struct kvm_pmc **pmc = perf_event->overflow_handler_context;
+> +	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
+> +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
+> +	u64 period;
+> +
+> +	cpu_pmu->pmu.stop(perf_event, PERF_EF_UPDATE);
+> +
+> +	/*
+> +	 * Reset the sample period to the architectural limit,
+> +	 * i.e. the point where the counter overflows.
+> +	 */
+> +	period = compute_period(pmc, kvm_pmu_get_pmc_value(vcpu, (*pmc)->idx));
+> +
+> +	local64_set(&perf_event->hw.period_left, 0);
+> +	perf_event->attr.sample_period = period;
+> +	perf_event->hw.sample_period = period;
+> +
+> +	cpu_pmu->pmu.start(perf_event, PERF_EF_RELOAD);
+> +}
 
-So if we are going to change this, why not bite the bullet and make it
-be real code that lives within the confines of the circ_buf structure?
-Or, alternatively, that creates its own structure on the other?
-Either approach will be a larger change, but the result will be more
-helpful to a larger fraction of the future readers.
+No, we can't start calling into the internal driver interfaces. The fact
+that we have a pointer to the PMU is an ugly hack and shouldn't be used
+like this.
 
-One approach would be to look for uses of the circ_buf structure,
-CIRC_SPACE(), and CIRC_CNT() in the kernel and create an example
-based on a simple use case.
+> @@ -725,8 +729,8 @@ static void kvm_pmu_create_perf_event(struct kvm_pmc *pmc)
+>  	attr.type = arm_pmu->pmu.type;
+>  	attr.size = sizeof(attr);
+>  	attr.pinned = 1;
+> -	attr.disabled = !kvm_pmu_counter_is_enabled(pmc);
+> -	attr.exclude_user = !kvm_pmc_counts_at_el0(pmc);
+> +	attr.disabled = !kvm_pmu_counter_is_enabled(vcpu, (*pmc)->idx);
+> +	attr.exclude_user = !kvm_pmc_counts_at_el0(vcpu, (*pmc)->idx);
+>  	attr.exclude_hv = 1; /* Don't count EL2 events */
+>  	attr.exclude_host = 1; /* Don't count host events */
+>  	attr.config = eventsel;
 
-Would you be willing to take this on?
+Can we just special-case the fixed CPU cycle counter to use
+PERF_TYPE_HARDWARE / PERF_COUNT_HW_CPU_CYCLES? That _should_ have the
+intended effect of opening an event on the PMU for this CPU.
 
-							Thanx, Paul
+> +	/*
+> +	 * If we have a filter in place and that the event isn't allowed, do
+> +	 * not install a perf event either.
+> +	 */
+> +	if (vcpu->kvm->arch.pmu_filter &&
+> +	    !test_bit(eventsel, vcpu->kvm->arch.pmu_filter))
+> +		return;
+> +
+> +	if (arm_pmu) {
+> +		*pmc = kvm_pmu_alloc_pmc(idx, 1);
+> +		if (!*pmc)
+> +			goto err;
+> +
+> +		kvm_pmu_create_perf_event(pmc, arm_pmu, eventsel);
+> +	} else {
+> +		guard(mutex)(&arm_pmus_lock);
 
-> > > > ---
-> > > >   Documentation/core-api/circular-buffers.rst | 4 ++--
-> > > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/Documentation/core-api/circular-buffers.rst b/Documentation/core-api/circular-buffers.rst
-> > > > index 50966f66e398..b697915a2bd0 100644
-> > > > --- a/Documentation/core-api/circular-buffers.rst
-> > > > +++ b/Documentation/core-api/circular-buffers.rst
-> > > > @@ -161,7 +161,7 @@ The producer will look something like this::
-> > > >   	if (CIRC_SPACE(head, tail, buffer->size) >= 1) {
-> > > >   		/* insert one item into the buffer */
-> > > > -		struct item *item = buffer[head];
-> > > > +		struct item *item = buffer->vals[head];
-> > > >   		produce_item(item);
-> > > > @@ -203,7 +203,7 @@ The consumer will look something like this::
-> > > >   	if (CIRC_CNT(head, tail, buffer->size) >= 1) {
-> > > >   		/* extract one item from the buffer */
-> > > > -		struct item *item = buffer[tail];
-> > > > +		struct item *item = buffer->vals[tail];
-> > > >   		consume_item(item);
-> > > > -- 
-> > > > 2.43.0
-> > >          Thanks, Akira
-> > > 
-> 
-> Thanks,
-> 
-> Carlos
-> 
+This is a system-wide lock, the need for which is eliminated if you go
+for the reallocation approach I mention.
+
+> +static int kvm_arm_pmu_v3_set_pmu_composition(struct kvm_vcpu *vcpu)
+> +{
+> +	struct kvm *kvm = vcpu->kvm;
+> +	struct arm_pmu_entry *entry;
+> +	struct arm_pmu *arm_pmu;
+> +
+> +	lockdep_assert_held(&kvm->arch.config_lock);
+> +
+> +	if (kvm_vm_has_ran_once(kvm) ||
+> +	    (kvm->arch.pmu_filter && !kvm->arch.nr_composed_host_pmus))
+> +		return -EBUSY;
+
+I'm not sure there's much value in preventing the user from configuring
+the PMU event filter. Even in the case of the fixed CPU cycle counter we
+allow userspace to filter the event.
+
+It is much more important to have mutual exclusion between this UAPI and
+userspace explicitly selecting a PMU implementation.
+
+> @@ -1223,6 +1328,8 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
+>  
+>  		return kvm_arm_pmu_v3_set_nr_counters(vcpu, n);
+>  	}
+> +	case KVM_ARM_VCPU_PMU_V3_COMPOSITION:
+> +		return kvm_arm_pmu_v3_set_pmu_composition(vcpu);
+
+I'd prefer naming this something like 'KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY'.
+We will have the fixed instruction counter eventually which is another
+event we could potentially provide system-wide.
+
+Thanks,
+Oliver
