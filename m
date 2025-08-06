@@ -1,381 +1,283 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7422A38DDB;
-	Wed,  6 Aug 2025 02:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E4138D;
+	Wed,  6 Aug 2025 03:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754445959; cv=none; b=qVDPuUZ5jDKHk+DQ/OrKukpEC4epTcg+IiOWiS14H0WdBvtBhnCLHpiNxN7JHyteLvIUcF2e74OUMc3qEK/c37UkHpvG353XkPLHSVMLDpTCvV+rsV1bztZGhKQeJQdMGivikRiGONHoXidvTLRTZTG0aN6RaRRqFbTNlCzm6tA=
+	t=1754450002; cv=none; b=P6BNwQK/qfsTENpCebCQWtoC6u+oZvs6k59BpeHbpGYfQRYwhW4/LlSc7cZppV6XvNGNrZBwY0SLITeqT3HsIs+wJSc5DNZ6NSMW+YygTH0sdmr8nMJbBAsj2ABLS/xbBBY7oef6MKzq44QHacFvgKJVyNZ5QPI9X62l7hzFhDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754445959; c=relaxed/simple;
-	bh=HAPs1p2nc/MGWPCjIv9t61jU/ZEJAhSTY19kgzTA820=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U3ORa4UmkmzIqqQpOgYdsdA30o74T+rTsgUr0D1Z/lJWBl4pQhs2d0Qup1twzJ3kHC4V99oC9GTvMVHzlHLfTMr8xwplbhYMEQsasg59m9I0Uq/ZcTVVUFx69517NbMtgSCA6HyNEL/i5Jr90kb40MD6c6HVo0B+p/bIQi54LgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XLwE+gcI; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1754450002; c=relaxed/simple;
+	bh=iJJYePiwyIYJmHvhyQzhCFkAnj2RwrOAZLJsQBcGBRA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bEQP19v/MDwdYKY1rKf6PxQknAkTcICsxI2PY0PjSrcKhClizrsp+LHnyYpn/QyLzgrOuSsdX5LeOT92LT2dWhsS6l/myYrriE3O1gRDmh7IWvQ7k+S1jAIHbdgApFxFDjcYaumM1S4h5bjg16YZ9YNu3y6Lk+Lj6d1VhMB69lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JwI2TAbr; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLwE+gcI"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-747e41d5469so5635067b3a.3;
-        Tue, 05 Aug 2025 19:05:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JwI2TAbr"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b421b70f986so4999734a12.1;
+        Tue, 05 Aug 2025 20:13:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754445956; x=1755050756; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wEjPM7lPagmZtZOuGxi0lhrxw65ELHrHI5/yqAy8H2o=;
-        b=XLwE+gcIcFYafCb44uuA3TziMd4llqxRZFV0FctPTjsb5lQMlIBYVGOItyatKzm3s2
-         e3qjPjPep3KXolea1qcrBKBb+JOVlyDEeV03RALCiNGobqw120RhuIa9tkG5oNKxPsd9
-         gS1V9SrsVccwR+rHYDdVLVYG9P953Qu2WGgvJfXa3YCtg0PFxchx8/4MVc5DF1AdP4xC
-         UxlP9oIEhPjDGJz0l+X0enJBSVyzZE6tGGRPriMzh9HW1ag9MCFWNu41gBN6iFcrDTTN
-         tgCmuAHtvFuaSfR8mTIdX8/LT2eMYn3nI+54wXmbGm0l6/G8g8PR6Xc2I/wMED5vmlyV
-         2RpQ==
+        d=gmail.com; s=20230601; t=1754449999; x=1755054799; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=REkGJRy1cW5+Dxc3FwN5T9CLPowsuiAQuLNYSLevuFw=;
+        b=JwI2TAbrLT7v2HbyhtuEAVgZykazCibwoi3K4jXsEqG2TKUWY6bSfRYpmgsuWduEBq
+         CbtMke1UeJue/DuQoBavkCtItEgUP0EXoIPjK6Z1rovonpFMRSBn8fn5FYNz82N1t89o
+         irQnWuYW6qV4DBoUtDIIpbEBtP8vH11vGRH6Jy/M+uP1jenZjQEpfpqgmD/WItiLH6VN
+         T6rxTrnqsiKLpAIU2Kt/B3m9GOQD+XwbOX4AdCKu/nzh1626opl8oFd9F5XqbpGlDp4e
+         /783dWXwewyPznzyy1bVf66cOZZI7+YmiH0nAiz/E1EY95FPpwl9pVZwVJCDmCjn1i4m
+         kQTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754445956; x=1755050756;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wEjPM7lPagmZtZOuGxi0lhrxw65ELHrHI5/yqAy8H2o=;
-        b=byWs0F/nrfqkaoib39uIL2wUVdEyXcweLWBVqbIxKwoXefOEMdbUGHXJMrFOOC0SRp
-         BuCDQeayE6bkhlzIU9LXc7MsuZQ0hcqw8BCW+kw0W9AgAaXuajx5JKi2Mfv4RNJm9G+A
-         LkTpjI4Y9z+6bfphza0K2Bn7MIvM+mRGUgF/aGP7VqQu8ZNJsWloGzMz8ygOkEt7Y9mw
-         E1J8G6k/FIAq/7JgiQ5aoWABjkL7Zs5naxqB+B8zwXoklhpAy2rbfPGrdpaOsaBpVTyi
-         QZWJBtKXaziR39/cb2JopUMzsBqqeSGu+H/hhwzs645n/1ot8gvVX/5uvh2PR4dihgJf
-         w3BQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7NyXOoEx0ko/PvRnb4c1ViVszD2vs82EP300foxGBfspCdd+RPPAnWIQInn7easSwyv0GnJ5mleE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDfyhGdT2LjrpevRrq1P0KDHwiyM95+pcScver2nSMkq2Jt47I
-	qwXVay+I0a9fUU2CJ7RozMogA8IJXdRrax7DEhOUEPhOVjYT78Jrqmaiq7edkC+i2wvds7nu
-X-Gm-Gg: ASbGncu+kz32rRtaCE0WTYNvzhETnNGApkKgAtqIfWfCApl36UGuX1hLzLHWX2eEu3i
-	hXUVJqqDeWp2cmCx182mRdoDTl61QdWWt29IFUn1ZhgKTZgZnHTlwEDoLNKC30mV+kWPc8R6yZn
-	QLVuTE/sG3vVUpxJ1ntOtUXeu6yU6PzuWExFofuQBhK1MDQ7LZfGTOFLzzNLTZXbbrrN2zMRAPW
-	c4cATvswbuCiNoQGYR4/FqDcbET4XvjaQ93WnuItI/fRmXfx6ntMu+vskRDp6cxNRj4u290QTkx
-	ewhG5dxEmHTpbkf8veoJpRWlBbuzbUVD0OGALQTIxoF2KNwdHcKp9r+bbGYJ6ZN3iDk63TZ7iNo
-	vMsRnn4lOAFyIOOPl
-X-Google-Smtp-Source: AGHT+IFKIRpH3S1hBtxnefv8MiQ72xy1NoafsDp/ZhEtbqLnYtpNIwD/JdfPv6tWRKBJpdyg5YvQww==
-X-Received: by 2002:a05:6a00:2d11:b0:76b:f13e:f598 with SMTP id d2e1a72fcca58-76c2af629d7mr1324973b3a.8.1754445956089;
-        Tue, 05 Aug 2025 19:05:56 -0700 (PDT)
-Received: from nyaos.. ([141.11.79.172])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfcf531sm14068499b3a.92.2025.08.05.19.05.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Aug 2025 19:05:54 -0700 (PDT)
-From: ChenMiao <chenmiao.ku@gmail.com>
-To: Linux Kernel <linux-kernel@vger.kernel.org>
-Cc: Linux OpenRISC <linux-openrisc@vger.kernel.org>,
-	chenmiao <chenmiao.ku@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jonas Bonn <jonas@southpole.se>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-	Stafford Horne <shorne@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Sahil Siddiq <sahilcdq0@gmail.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 2/2] openrisc: Add jump label support
-Date: Wed,  6 Aug 2025 02:05:04 +0000
-Message-ID: <20250806020520.570988-3-chenmiao.ku@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250806020520.570988-1-chenmiao.ku@gmail.com>
-References: <20250806020520.570988-1-chenmiao.ku@gmail.com>
+        d=1e100.net; s=20230601; t=1754449999; x=1755054799;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=REkGJRy1cW5+Dxc3FwN5T9CLPowsuiAQuLNYSLevuFw=;
+        b=HSY0xi6pgv/djdFGTrbTzvuqCAS5qHNVFOZj9JTW5pCfijj0XaNzkbEr8b4APVoYRs
+         8JctENLF1MQUkmSBY+QGVmDmXjZE+/Kya3bHIo/uq/gMtY6oeSrpIFkzvZgK4ZIj+lAr
+         yRfYm+jKa5+jhscf2kXehpZMPPtdIaPNxXcsfFQ08Z9GmHHsJCF1FK/SG9DS+jbmGZ/J
+         BPv2ZflifVUkmE9n3t4a1kJMi/VGMau/yWmyFuxkKV8vz6aIgoJ7Tq54ZB0wHkz7bVHf
+         eCGHsPjIoK+LqB65DbloDoNwb3bpL6wMoXbgMhiC3uruX8vbpW7/YFSS9OTa2U6/qpbx
+         AoAg==
+X-Forwarded-Encrypted: i=1; AJvYcCV2l0fH1pPVr3nOLKD959cmZ5BLmCS3rUjTfFDpuQxfCFr2bN4ska/A/6Rk4gSB926sK7ddNj5uotwnhQN7@vger.kernel.org, AJvYcCXU+93DnOLJRBmyUAXpuf3Kk6m09tD95VXHISKnFnSEZbniX73O0TYSHSji9bmwf1IyXS0Ei0hD95g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynDsEjx7ByCVVyShZkSRltgiW7ZVl2jcs+W1FKiVsPlZGkeDqY
+	SWlC3vWUIvk7h3jgedqcM2tcOLbiRhSTWE4ZQCs45gF/ypKq8tvQwHj5
+X-Gm-Gg: ASbGncvKI2mU9BbGuRbA6yPnK0WtqqvqfcAUf4Rn7JbnPAkypQaH+UDiyq6C/U0Sgsj
+	VGbeWTWKSF6VdykOaYcCxATBWp2mG17dy5GTOan0HS2pmTDJs/LDTA8bKJaMi7KAJegy5b7DD35
+	ZlzdpZxyU1vBgbw6zEQmvn0THEPR3E/5kd2AGdxS6hlsR4/zkTrs/1vwV5LCwMgP49Sy7GOIHYH
+	j+xz8AGYG+7vE0xopxQ2cIvNrgijEdeRGe5EZgWqI2qZkuVQVKngqef5u8CcHHJ7nfs7D1xwsAB
+	seki6eSQIf8A323WJ4BaTKMzIqboiKRnKt8pEa3K2qNTbRryGT+0F3z4YpJXzyQqCtARRPnUYZX
+	xZpIzZMkGIZN7KtswOt+NUUOBSzU+QBKzLK5HecpFhebqYAZSHw6NE/sO4F7sDAFzna/0nCWeht
+	r9R7Q=
+X-Google-Smtp-Source: AGHT+IGaTXpA5hA2CiVJWac66rRc5I/dNGJmG87ByeHAwCrIskiCA3Fmv8AeJLSswZvykucje/kZrA==
+X-Received: by 2002:a17:902:dac3:b0:234:9375:e07c with SMTP id d9443c01a7336-2429f45eae8mr24291945ad.46.1754449999259;
+        Tue, 05 Aug 2025 20:13:19 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e8aaf855sm146435895ad.168.2025.08.05.20.13.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Aug 2025 20:13:18 -0700 (PDT)
+Message-ID: <b4c81d64-b605-4b0a-9d99-fec55a1e0514@gmail.com>
+Date: Wed, 6 Aug 2025 12:13:15 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/15] Translate sphinx-pre-install to Python
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Sai Vishnu M <saivishnu725@gmail.com>,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1751318230.git.mchehab+huawei@kernel.org>
+ <d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
+ <87bjpu69q3.fsf@trenco.lwn.net>
+ <9148ae7f-7954-421e-b5dc-366651f0bc48@gmail.com>
+ <20250731135107.6c2b32c2@foz.lan>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250731135107.6c2b32c2@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: chenmiao <chenmiao.ku@gmail.com>
+Hi,
 
-Implemented the full functionality of jump_label, of course,
-with text patching supported by just one API.
+On Thu, 31 Jul 2025 13:51:07 +0200, Mauro Carvalho Chehab wrote:
+> Em Tue, 8 Jul 2025 23:56:01 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> 
+>> I've been ignoring sphinx-pre-install all these years, but the impressive
+>> test results presented in this cover-letter made me test it.
+> 
+> I'm now working to fix PDF generation, assuming that all packages from
+> sphinx-pre-install are installed.
+> 
+> I'm placing the patches on my scratch tree at:
+> 	https://github.com/mchehab/linux/tree/my-docs-next
+> 
+> It contains several branches merged there in sequence:
+> 	- elder_python_v1: makes kernel-doc run with elder kernels (2 patches);
+> 	- netlink_v10: patches adding an yaml parser for netlink (14 patches);
+> 	- sphinx-pre-install-v4: current version of this series (39 patches);
+> 	- pdfdocs: specific fixes for PDF doc generation (11 patches);
+> 	- sphinx-build-wrapper: a new script with a large cleanup at docs Makefile
+> 	  (7 patches)
 
-By the way, add new macro OPENRISC_INSN_NOP in insn-def.h to use.
+Sorry, but I've not looked into those branches.
 
-- V2: using the patch_insn_write(void *addr, u32 insn) not the
-const void *insn.
+[...]
 
-Link: https://lore.kernel.org/openrisc/aJIC8o1WmVHol9RY@antec/T/#t
+> So, at least for me, it seems that the changes will be fixing
+> lots of existing issues.
+> 
+> Btw, one of the problem with PDFs is that the existing logic
+> doesn't really report success/failures for each PDF target.
+> That's why I ended writing a wrapper (sphinx-build-wrapper) with
+> checks the results. As a side effect, docs Makefile is now in
+> sane state.
 
-Signed-off-by: chenmiao <chenmiao.ku@gmail.com>
----
- .../core/jump-labels/arch-support.txt         |  2 +-
- arch/openrisc/Kconfig                         |  2 +
- arch/openrisc/configs/or1ksim_defconfig       | 19 ++----
- arch/openrisc/configs/virt_defconfig          |  1 +
- arch/openrisc/include/asm/insn-def.h          |  3 +
- arch/openrisc/include/asm/jump_label.h        | 68 +++++++++++++++++++
- arch/openrisc/kernel/Makefile                 |  1 +
- arch/openrisc/kernel/jump_label.c             | 53 +++++++++++++++
- arch/openrisc/kernel/setup.c                  |  2 +
- 9 files changed, 138 insertions(+), 13 deletions(-)
- create mode 100644 arch/openrisc/include/asm/jump_label.h
- create mode 100644 arch/openrisc/kernel/jump_label.c
+I might be interested in seeing the docs Makefile updates.
 
-diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/Documentation/features/core/jump-labels/arch-support.txt
-index ccada815569f..683de7c15058 100644
---- a/Documentation/features/core/jump-labels/arch-support.txt
-+++ b/Documentation/features/core/jump-labels/arch-support.txt
-@@ -17,7 +17,7 @@
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-     |       nios2: | TODO |
--    |    openrisc: | TODO |
-+    |    openrisc: |  ok  |
-     |      parisc: |  ok  |
-     |     powerpc: |  ok  |
-     |       riscv: |  ok  |
-diff --git a/arch/openrisc/Kconfig b/arch/openrisc/Kconfig
-index b38fee299bc4..9156635dd264 100644
---- a/arch/openrisc/Kconfig
-+++ b/arch/openrisc/Kconfig
-@@ -24,6 +24,8 @@ config OPENRISC
- 	select GENERIC_PCI_IOMAP
- 	select GENERIC_IOREMAP
- 	select GENERIC_CPU_DEVICES
-+	select HAVE_ARCH_JUMP_LABEL
-+	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_PCI
- 	select HAVE_UID16
- 	select HAVE_PAGE_SIZE_8KB
-diff --git a/arch/openrisc/configs/or1ksim_defconfig b/arch/openrisc/configs/or1ksim_defconfig
-index 59fe33cefba2..769705ac24d5 100644
---- a/arch/openrisc/configs/or1ksim_defconfig
-+++ b/arch/openrisc/configs/or1ksim_defconfig
-@@ -3,26 +3,23 @@ CONFIG_LOG_BUF_SHIFT=14
- CONFIG_BLK_DEV_INITRD=y
- # CONFIG_RD_GZIP is not set
- CONFIG_EXPERT=y
--# CONFIG_KALLSYMS is not set
- # CONFIG_EPOLL is not set
- # CONFIG_TIMERFD is not set
- # CONFIG_EVENTFD is not set
- # CONFIG_AIO is not set
--# CONFIG_VM_EVENT_COUNTERS is not set
--# CONFIG_COMPAT_BRK is not set
--CONFIG_SLUB=y
--CONFIG_SLUB_TINY=y
--CONFIG_MODULES=y
--# CONFIG_BLOCK is not set
-+# CONFIG_KALLSYMS is not set
- CONFIG_BUILTIN_DTB_NAME="or1ksim"
- CONFIG_HZ_100=y
-+CONFIG_JUMP_LABEL=y
-+CONFIG_MODULES=y
-+# CONFIG_BLOCK is not set
-+CONFIG_SLUB_TINY=y
-+# CONFIG_COMPAT_BRK is not set
-+# CONFIG_VM_EVENT_COUNTERS is not set
- CONFIG_NET=y
- CONFIG_PACKET=y
- CONFIG_UNIX=y
- CONFIG_INET=y
--# CONFIG_INET_XFRM_MODE_TRANSPORT is not set
--# CONFIG_INET_XFRM_MODE_TUNNEL is not set
--# CONFIG_INET_XFRM_MODE_BEET is not set
- # CONFIG_INET_DIAG is not set
- CONFIG_TCP_CONG_ADVANCED=y
- # CONFIG_TCP_CONG_BIC is not set
-@@ -35,7 +32,6 @@ CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
- # CONFIG_PREVENT_FIRMWARE_BUILD is not set
- # CONFIG_FW_LOADER is not set
--CONFIG_PROC_DEVICETREE=y
- CONFIG_NETDEVICES=y
- CONFIG_ETHOC=y
- CONFIG_MICREL_PHY=y
-@@ -53,4 +49,3 @@ CONFIG_SERIAL_OF_PLATFORM=y
- # CONFIG_DNOTIFY is not set
- CONFIG_TMPFS=y
- CONFIG_NFS_FS=y
--# CONFIG_ENABLE_MUST_CHECK is not set
-diff --git a/arch/openrisc/configs/virt_defconfig b/arch/openrisc/configs/virt_defconfig
-index c1b69166c500..4a80c5794877 100644
---- a/arch/openrisc/configs/virt_defconfig
-+++ b/arch/openrisc/configs/virt_defconfig
-@@ -12,6 +12,7 @@ CONFIG_NR_CPUS=8
- CONFIG_SMP=y
- CONFIG_HZ_100=y
- # CONFIG_OPENRISC_NO_SPR_SR_DSX is not set
-+CONFIG_JUMP_LABEL=y
- # CONFIG_COMPAT_BRK is not set
- CONFIG_NET=y
- CONFIG_PACKET=y
-diff --git a/arch/openrisc/include/asm/insn-def.h b/arch/openrisc/include/asm/insn-def.h
-index dc8d16db1579..2ccdbb37c27c 100644
---- a/arch/openrisc/include/asm/insn-def.h
-+++ b/arch/openrisc/include/asm/insn-def.h
-@@ -9,4 +9,7 @@
- /* or1k instructions are always 32 bits. */
- #define	OPENRISC_INSN_SIZE		4
- 
-+/* or1k nop instruction code */
-+#define OPENRISC_INSN_NOP     0x15000000U
-+
- #endif /* __ASM_INSN_DEF_H */
-diff --git a/arch/openrisc/include/asm/jump_label.h b/arch/openrisc/include/asm/jump_label.h
-new file mode 100644
-index 000000000000..03afca9c3a1f
---- /dev/null
-+++ b/arch/openrisc/include/asm/jump_label.h
-@@ -0,0 +1,68 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2025 Chen Miao
-+ *
-+ * Based on arch/arm/include/asm/jump_label.h
-+ */
-+#ifndef __ASM_JUMP_LABEL_H
-+#define __ASM_JUMP_LABEL_H
-+
-+#ifndef __ASSEMBLY__
-+
-+#include <linux/types.h>
-+#include <asm/insn-def.h>
-+
-+#define HAVE_JUMP_LABEL_BATCH
-+
-+#define JUMP_LABEL_NOP_SIZE OPENRISC_INSN_SIZE
-+
-+/*
-+ * should aligned 4
-+ * for jump_label relative
-+ * entry.code   = nop.addr - . -> return false
-+ * entry.target = l_yes - .    -> return true
-+ * entry.key	= key - .
-+ */
-+#define JUMP_TABLE_ENTRY(key, label)			\
-+	".pushsection	__jump_table, \"aw\"	\n\t"	\
-+	".align 	4 			\n\t"	\
-+	".long 		1b - ., " label " - .	\n\t"	\
-+	".long 		" key " - . 		\n\t"	\
-+	".popsection				\n\t"
-+
-+#define ARCH_STATIC_BRANCH_ASM(key, label)		\
-+	".align		4			\n\t"	\
-+	"1: l.nop				\n\t"	\
-+	"    l.nop				\n\t"	\
-+	JUMP_TABLE_ENTRY(key, label)
-+
-+static __always_inline bool arch_static_branch(struct static_key *const key,
-+					       const bool branch)
-+{
-+	asm goto (ARCH_STATIC_BRANCH_ASM("%0", "%l[l_yes]")
-+		  ::"i"(&((char *)key)[branch])::l_yes);
-+
-+	return false;
-+l_yes:
-+	return true;
-+}
-+
-+#define ARCH_STATIC_BRANCH_JUMP_ASM(key, label)		\
-+	".align		4			\n\t"	\
-+	"1: l.j	" label "			\n\t"	\
-+	"    l.nop				\n\t"	\
-+	JUMP_TABLE_ENTRY(key, label)
-+
-+static __always_inline bool
-+arch_static_branch_jump(struct static_key *const key, const bool branch)
-+{
-+	asm goto (ARCH_STATIC_BRANCH_JUMP_ASM("%0", "%l[l_yes]")
-+		  ::"i"(&((char *)key)[branch])::l_yes);
-+
-+	return false;
-+l_yes:
-+	return true;
-+}
-+
-+#endif /* __ASSEMBLY__ */
-+#endif /* __ASM_JUMP_LABEL_H */
-diff --git a/arch/openrisc/kernel/Makefile b/arch/openrisc/kernel/Makefile
-index f0957ce16d6b..19e0eb94f2eb 100644
---- a/arch/openrisc/kernel/Makefile
-+++ b/arch/openrisc/kernel/Makefile
-@@ -9,6 +9,7 @@ obj-y	:= head.o setup.o or32_ksyms.o process.o dma.o \
- 	   traps.o time.o irq.o entry.o ptrace.o signal.o \
- 	   sys_call_table.o unwinder.o cacheinfo.o
- 
-+obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
- obj-$(CONFIG_SMP)		+= smp.o sync-timer.o
- obj-$(CONFIG_STACKTRACE)	+= stacktrace.o
- obj-$(CONFIG_MODULES)		+= module.o
-diff --git a/arch/openrisc/kernel/jump_label.c b/arch/openrisc/kernel/jump_label.c
-new file mode 100644
-index 000000000000..ce259ba30258
---- /dev/null
-+++ b/arch/openrisc/kernel/jump_label.c
-@@ -0,0 +1,53 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2025 Chen Miao
-+ *
-+ * Based on arch/arm/kernel/jump_label.c
-+ */
-+#include <linux/jump_label.h>
-+#include <linux/kernel.h>
-+#include <linux/memory.h>
-+#include <asm/bug.h>
-+#include <asm/cacheflush.h>
-+#include <asm/text-patching.h>
-+
-+bool arch_jump_label_transform_queue(struct jump_entry *entry,
-+				     enum jump_label_type type)
-+{
-+	void *addr = (void *)jump_entry_code(entry);
-+	u32 insn;
-+
-+	if (type == JUMP_LABEL_JMP) {
-+		long offset;
-+
-+		offset = jump_entry_target(entry) - jump_entry_code(entry);
-+		/*
-+		 * The actual maximum range of the l.j instruction's offset is -134,217,728
-+		 * ~ 134,217,724 (sign 26-bit imm).
-+		 * For the original jump range, we need to right-shift N by 2 to obtain the
-+		 * instruction's offset.
-+		 */
-+		if (unlikely(offset < -134217728 || offset > 134217724)) {
-+			WARN_ON_ONCE(true);
-+		}
-+		/* 26bit imm mask */
-+		offset = (offset >> 2) & 0x03ffffff;
-+
-+		insn = offset;
-+	} else {
-+		insn = OPENRISC_INSN_NOP;
-+	}
-+
-+	if (early_boot_irqs_disabled) {
-+		copy_to_kernel_nofault(addr, &insn, sizeof(insn));
-+	} else {
-+		patch_insn_write(addr, insn);
-+	}
-+	return true;
-+}
-+
-+void arch_jump_label_transform_apply(void)
-+{
-+	// flush
-+	kick_all_cpus_sync();
-+}
-diff --git a/arch/openrisc/kernel/setup.c b/arch/openrisc/kernel/setup.c
-index a9fb9cc6779e..000a9cc10e6f 100644
---- a/arch/openrisc/kernel/setup.c
-+++ b/arch/openrisc/kernel/setup.c
-@@ -249,6 +249,8 @@ void __init setup_arch(char **cmdline_p)
- 		initrd_below_start_ok = 1;
- 	}
- #endif
-+	/* perform jump_table sorting before paging_init locks down read only memory */
-+	jump_label_init();
- 
- 	/* paging_init() sets up the MMU and marks all pages as reserved */
- 	paging_init();
--- 
-2.45.2
+> 
+> Thanks,
+> Mauro
+> 
+> ---
+
+[...]
+
+> Summary
+> =======
+>   PASSED - AlmaLinux release 9.6 (Sage Margay) (7 tests)
+>   PASSED - Amazon Linux release 2023 (Amazon Linux) (7 tests)
+>   PASSED - Arch Linux (7 tests)
+>   PASSED - CentOS Stream release 9 (7 tests)
+>   PARTIAL - Debian GNU/Linux 12 (7 tests)
+>   PARTIAL - Devuan GNU/Linux 5 (7 tests)
+>   PASSED - Fedora release 42 (Adams) (7 tests)
+>   PARTIAL - Gentoo Base System release 2.17 (7 tests)
+>   PASSED - Kali GNU/Linux 2025.2 (7 tests)
+>   PASSED - Mageia 9 (7 tests)
+>   PARTIAL - Linux Mint 22 (7 tests)
+>   PARTIAL - openEuler release 25.03 (7 tests)
+>   PARTIAL - OpenMandriva Lx 4.0 (7 tests)
+>   PASSED - openSUSE Leap 15.6 (7 tests)
+>   PASSED - openSUSE Tumbleweed (7 tests)
+>   PASSED - Oracle Linux Server release 9.6 (7 tests)
+>   FAILED - Red Hat Enterprise Linux release 8.10 (Ootpa) (7 tests)
+>   FAILED - rockylinux8 (1 tests)
+>   PASSED - Rocky Linux release 9.6 (Blue Onyx) (7 tests)
+>   FAILED - Springdale Open Enterprise Linux release 9.2 (Parma) (7 tests)
+>   PASSED - Ubuntu 24.04.2 LTS (7 tests)
+>   PASSED - Ubuntu 25.04 (7 tests)
+
+Here is a summary I have made based on my own tests against limited list of
+distros.  I'm still ignoring sphinx_pre_install.
+
+-----------------------------------------------------------------------
+* TL;DR
+
+Setting up a tool for SVG --> PDF conversion and CJK fonts properly for
+"make latexdocs" and "make pdfdocs" is sometimes tricky.
+
+Summary table as of 2025/08/02 WRT distro packages installed as they are:
+
+[legends]
+    pdf & img:  pdfdocs with ImageMagick + rsvg-convert; w/o CJK fonts
+    pdf & ink:  pdfdocs with Inkscape; w/o CJK fonts
+    pdf & cjk:  pdfdocs with either ImageMagick or Inkscape; with CJK fonts
+
+========================================================================
+                                                    pdf
+                                            ----------------- 
+distro               python3 sphinx    html   img   ink   cjk   notes
+===================  ======= =======  ===== ===== ===== =====  =========
+debian:bullseye      3.9.2   3.4.3     PASS  FAIL  PASS  PASS   [*0]
+debian:bookworm      3.11.2  5.3.0     PASS  FAIL  PASS  PASS   [*0]
+debian:trixie        3.13.5  8.1.3     PASS  FAIL  PASS  PASS   [*6]
+
+ubuntu:jammy         3.10.6  4.3.2     PASS  FAIL  PASS  PASS   [*0]
+ubuntu:noble         3.12.3  7.2.6     PASS  FAIL  PASS  PASS   [*6]
+ubuntu:plucky        3.13.3  8.1.3     PASS  FAIL  PASS  PASS   [*6]
+
+almalinux:9          3.9.21  3.4.3     PASS  PASS  PASS  PASS
+almalinux:10         3.12.9  7.2.6     PASS  PASS  ---   FAIL   [*1]
+
+fedora:42            3.13.5  8.1.3     PASS  PASS  PASS  PASS   [*2]
+
+opensuse/leap:15.6   3.11.9  7.2.6     PASS  PASS  FAIL  FAIL   [*3]
+
+mageia:9             3.10.11 6.1.3     PASS  PASS  PASS  PASS   [*4]
+
+opensuse/tumbleweed  3.13.5  8.2.3     PASS  PASS  PASS  FAIL   [*5]
+archlinux            3.13.5  8.2.3     PASS  PASS  PASS  PASS
+===================  ======= =======  ===== ===== ===== =====  ==========
+
+"FAIL" means several situations, most of which can be worked around by
+manual intervention after installing distro packages:
+
+ (1) error/warning in "make latexdocs"
+     (1-a) due to some issues in distro package that is not up-to-date
+
+     (1-b) convert(1) of ImageMagick doesn't generate PDFs with the warning:
+        WARNING: Warning msg from convert(1): convert: attempt to perform an
+	operation not allowed by the security policy `PDF' ...
+
+     (1-c) Incompatibility of newly added SVG figures with avalable
+           SVG --> PDF converters:
+
+        (1-c1) covert(1) + rsvg-convert(1)
+	(1-c2) inkscape(1)
+
+ (2) error in "make pdfdocs"
+     (2-a) (1-b) or (1-c) can cause "LaTeX Warning: Float too large for page
+           by <huge>pt" and ends up in the fatal error of xelatex:
+
+             "! TeX capacity exceeded, sorry [main memory size=5000000]"
+
+     (2-b) (1-b) or (1-c) can cause xelatex to error-exit without leaving
+           any hint in the .log file.
+
+ (3) CJK pages can't be rendered
+     (3-a) due to missing *static* Noto CJK fonts in distro packages
+
+Notes
+=====
+
+[*0]  ImageMagick is not allowed to generate PDFs in Debian and its
+      derivative releases prior to ubuntu:noble.
+
+[*1]  An issue in cairo prevents a DOT diagram in a CJK page to be converted
+      into PDF ("dot -Tpdf" crash; known issue with cairo-1.18.2-2.el10).
+      Inkscape is not in EPEL 10.  Use of flatpak is recommended for GUI apps,
+      but flatpak apps don't see font setups of hosts by default.
+      Serif shape Static Noto CJK fonts are not provided as distro packages.
+
+[*2]  Due to a xelatex & fontspec limitation, if you have variable Noto CJK
+      fonts installed, they need to be deny-listed for building PDF docs
+      with CJK fonts.
+
+[*3]  Sphinx 7.2.6 is provided as python311-Sphinx.
+      Inkscape 1.0.1 crashes against figures drawn with Inkscape 1.4.x.
+      Noto CJK fonts are not provided as distro packages.
+
+[*4]  When Inkscape is available, their parallel runs under Gnome desktop
+      can cause emergency saves of SVG files.  This issue can be worked
+      around by, e.g., building under a text-only session or a non-Gnome
+      desktop.
+
+[*5]  Static Noto CJK fonts are not provided as distro packages.
+      Even if they are manually installed from Google fonts manually,
+      deny-listing distro-provided variable ones is required for CJK pages.
+
+[*6]  convert(1) + rsvg_convert(1) doesn't work well with some SVG files
+      under recent debian and its derivatives.  Incomplete list of examples:
+
+      - Documentation/gpu/pipe_and_queue_abstraction.svg:
+          convert: unrecognized color `context-stroke' @ warning/color.c/GetColorCompliance/1057.
+          convert: non-conforming drawing primitive definition `fill' @ error/draw.c/RenderMVGContent/4456.
+
+      - Documentation/userspace-api/media/v4l/selection.svg:
+          convert: unrecognized color `dt' @ warning/color.c/GetColorCompliance/1064.
+          convert: non-conforming drawing primitive definition `fill' @ error/draw.c/RenderMVGContent/4548.
+          convert: unrecognized color `w' @ warning/color.c/GetColorCompliance/1064.
+          convert: unrecognized color `dt' @ warning/color.c/GetColorCompliance/1064.
+          convert: unrecognized color `w' @ warning/color.c/GetColorCompliance/1064.
+
+[about almalinux:8]
+      There is a package python3.11, but there is no accompanying package
+      for virtualenv in official EL 8 repos. It might be possible to install
+      python3.11 as well as accompanying pip and pyyaml, and install modern
+      Sphinx by non-venv pip. This might be feasible, e.g., in containerized
+      setups.
+      On top of almalinux:8, as far as I could test, xelatex & fontspec
+      can't discover fonts by its names such as "DejaVu Sans".
+-----------------------------------------------------------------------
+
+Thanks, Akira
 
