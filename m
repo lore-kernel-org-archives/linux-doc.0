@@ -1,115 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB3919A;
-	Wed,  6 Aug 2025 21:27:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2771E224AF1;
+	Wed,  6 Aug 2025 21:29:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754515626; cv=none; b=BTcLoN7h/YXLvcgwV6VoJowUxg5B99xoW3TwibYrcdHNVG4GSLcPkXm8QkSuJyBxDdzYtXSzNZCUQCP3XTfvEhwrBhalqMp16Gk1sYPmfGq2w49FyixhfzlBK2Jongby4VFCncQBvcqqnDkI2pahsxVS4Xs1oE4i7xNBWiw5QgY=
+	t=1754515743; cv=none; b=symznTTLAaAr9eYDr4r6Mio1NalV4r32bYbA0zIs3RoByFuLKfASLZizRpxU942Tp+wLNEX17zNMCA74G0RH55w7Mu7WO41kY6Id8GBlka/TBqjT3LpSyu8gYwEIFk8hjClhUXNufO571Tgtm6YrFP8LmIBon6VKmJ6WdYD/0ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754515626; c=relaxed/simple;
-	bh=fd/y8s58skXcwfOKZg2Po6E8sPjD5keSHwvzdWhHovo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hyd049Eo1liF+rWoiMsSCszRjcWuZ0Pgo+qKClFxFqiy+nDDO8PnmpGWKqnEcT77TDHZRiQGEM0iXc55A/uFotuf2HZoqz1YN7ZMJ11PrStFNGp7BDcmvO2veYErW1oRPE2fqcdsqkVN0ePE/beAi2pWFCZQOKpkR5m4fd+bAcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XaDw80MR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754515743; c=relaxed/simple;
+	bh=Fq/MOI2IKGG/4kPRJlehFii6lGQAeZnINeDyXd2WKs8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UYtJVLlae1yGy+zUZhzKxlJEgDc/U3/FSyJQ8nsqpo1NZ6+vImKPu0E8SBFshWQK4fpfFsHb58S3+AICTpb8I2IfDZLOyyPojGfiYGekqU4+mqwY9mtwvTUJRd/nIxIOHRcEcKeHrOXHBMwTdEQG4Ima9e6l/sHqwurgPvk/SWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArNiiRcR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XaDw80MR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1C7AC4CEE7;
-	Wed,  6 Aug 2025 21:27:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArNiiRcR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C7E9C4CEE7;
+	Wed,  6 Aug 2025 21:29:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754515625;
-	bh=fd/y8s58skXcwfOKZg2Po6E8sPjD5keSHwvzdWhHovo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XaDw80MRNAQJIgiRSKQYiO+D02uaRQuln7L9Sz1bVZJ1vi1JQR9KkXtR+W1Q1qWP0
-	 GFcLghCHx7DXn+vkZf8KzxOjGvOn0s1R1H18bwMPbNTAnco0TL4OndZLfvHqegvdZ+
-	 KDMP8mpN9vM2L6fXxthIFE3lzWC4qm1pVY+5DQWWX8n6mnqQE0FCOTit69ZIlR/D29
-	 y7b7GOcG1tUrMhaM5RpoY4+sK1J4T7p0RxLHcS8jMKf2KglnVyiYNybCBrP7OudLMK
-	 PJNhiGY/lrEUvrpjDpvGnoNT7gv7RvpO3mpyYsbx4QYb7/6mMsr4T9N+pgo8Wq6V8S
-	 D+GPlJasv3tHg==
-Date: Wed, 6 Aug 2025 23:27:01 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 10/12] docs: kdoc: further rewrite_struct_members()
- cleanup
-Message-ID: <20250806232701.67b707ee@foz.lan>
-In-Reply-To: <87ikj0k3ks.fsf@trenco.lwn.net>
-References: <20250801001326.924276-1-corbet@lwn.net>
-	<20250801001326.924276-11-corbet@lwn.net>
-	<20250801080744.14f83626@foz.lan>
-	<87v7n6pscu.fsf@trenco.lwn.net>
-	<20250804151511.73ffb949@foz.lan>
-	<87ms8djsjx.fsf@trenco.lwn.net>
-	<20250806110538.35bcc127@foz.lan>
-	<87ikj0k3ks.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1754515742;
+	bh=Fq/MOI2IKGG/4kPRJlehFii6lGQAeZnINeDyXd2WKs8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ArNiiRcRKorpVO7z+DunHSF3hxUwxK1EDgvBb0KT5vuGoa2JxHw4Hiaw1jIzkcn/o
+	 l6F0dgqDxDXC2uQcXCFC5MnqwdeR0xzuzO3rfzI7SkQ8sGhRG2wfo5Z+wHuMMbeM1J
+	 zimEjSX1KoMR5gu8jqbdNa2KZ9HmhDXHDusk5BiYoRJR728drUcex1rGiViuqjqo4J
+	 E5it6p4zZSmW86oUo7idBi9RYF8w3U1h1o0tZHAWPRS2VNCTPiZ3Ay1iAnJ1X/VTj3
+	 sJ8XQMWzQqOQ3JNlpQlSI5Ef7XrlYwRmV9P53J6AtenIBJlpMCv3a0a4IeM9rbT2B+
+	 0DV5Mmst4abnw==
+From: SeongJae Park <sj@kernel.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Yosry Ahmed <yosry.ahmed@linux.dev>,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Takero Funaki <flintglass@gmail.com>
+Subject: Re: [RFC PATCH v2] mm/zswap: store <PAGE_SIZE compression failed page as-is
+Date: Wed,  6 Aug 2025 14:28:59 -0700
+Message-Id: <20250806212859.51259-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <055a8a69-731d-43b8-887e-54d8718877cb@redhat.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Em Wed, 06 Aug 2025 07:00:19 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Wed, 6 Aug 2025 22:14:39 +0200 David Hildenbrand <david@redhat.com> wrote:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> On 05.08.25 18:56, Nhat Pham wrote:
+> > On Tue, Aug 5, 2025 at 3:47 AM David Hildenbrand <david@redhat.com> wrote:
+> >>
+> >> On 05.08.25 02:29, SeongJae Park wrote:
+> >>> When zswap writeback is enabled and it fails compressing a given page,
+> >>> the page is swapped out to the backing swap device.  This behavior
+> >>> breaks the zswap's writeback LRU order, and hence users can experience
+> >>> unexpected latency spikes.  If the page is compressed without failure,
+> >>> but results in a size of PAGE_SIZE, the LRU order is kept, but the
+> >>> decompression overhead for loading the page back on the later access is
+> >>> unnecessary.
+> >>>
+> >>> Keep the LRU order and optimize unnecessary decompression overheads in
+> >>> the cases, by storing the original content in zpool as-is.
+> >>
+> >> Does this have any effect on the movability of the given page? IOW, does
+> >> page migration etc. still work when we store an ordinary page of an
+> >> shmem/anon folio here?
+> > 
+> > Good question. This depends on the backend allocator of zswap, but the
+> > only backend allocator remaining (zsmalloc) does implement page
+> > migration.
 > 
-> >> > Btw, on this specific case, better to use non-capture group matches
-> >> > to avoid those "empty" spaces, e.g. (if I got it right):    
-> >> 
-> >> The problem is this line here:
-> >> 
-> >>                 oldmember = "".join(t) # Reconstruct the original formatting
-> >> 
-> >> The regex *has* to capture the entire match string so that it can be
-> >> reconstructed back to its original form, which we need to edit the full
-> >> list of members later on.
-> >> 
-> >> This code could use a deep rethink, but it works for now :)  
-> >
-> > well, we can still do:
-> >
-> > 	for t in tuples:
-> > 	    maintype, -, -, content, -, s_ids = t
-> > 	    oldmember = "".join(t)
-> >
-> > this way, we'll be naming the relevant parameters and reconstructing
-> > the the original form.  
+> Right, but migration of these pages works completely different than 
+> folio migration.
 > 
-> I've already made a change much like that (the "-" syntax doesn't work,
-> of course);
-
-Gah! sorry for the typo. I meant to say:
-
-	maintype, _, _, content, _, s_ids = t
-
-> I hope to post the updates series today, but it's going to
-> be busy.
+> But I think the part I was missing: we are still performing a copy to 
+> another page, it's just that we don't perform any compression.
 > 
-> > Btw, while re.findall() has an API that doesn't return match
-> > objects which is incoherent with the normal re API, while looking
-> > at the specs today(*), there is an alternative: re.finditer(). 
-> > We could add it to KernRE cass and use it on a way that it will use
-> > a Match instance. Something like:
-> >
-> > 	# Original regex expression
-> > 	res = Re.finditer(...)
-> > [...]  
+> So I guess *breaking* movability of folios is not a concern.
 > 
-> A definite possible improvement for later... :)
+> But yeah, whether these "as is" pages are movable or not is a good 
+> question as well -- in particular when zsmalloc supports page migration 
+> and the "as is" pages would not.
 
-Ok.
+Maybe I'm missing some of your points.  But there is no difference for "as is"
+pages.
 
-> 
-> Thanks,
-> 
-> jon
+Before this patch, zswap asks zpool (backed by zsmalloc) to allocate memoy and
+store the content of the page in the "compressed" form, if the content was able
+to be compressed.  After that, the original page becomes same to any pages
+that swapped out.
 
+After this patch, if the content was unable to be compressed, the content is
+saved "as is" _in_ the zpool, in a way same to those "compressible" case,
+except the content is not changed.  After the saving is done, the original page
+becomes same to any pages that swapped out.
+
+Zsmalloc will support migration of pages that backing the internal contents,
+regardless of whether those are compressed or saved "as is".  From perspectives
+other than that of zsmalloc, hence, I think no difference is introduced by this
+patch.
+
+Again, I'm not sure if I'm really understanding your points.  If so, please let
+me know.
 
 
 Thanks,
-Mauro
+SJ
+
+[...]
