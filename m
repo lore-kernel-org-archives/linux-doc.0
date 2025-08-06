@@ -1,57 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309F85CDF1;
-	Wed,  6 Aug 2025 16:56:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF40C29C321;
+	Wed,  6 Aug 2025 17:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754499418; cv=none; b=WcysV7Oc/cVbmHuif5jsWMz1ZNl0f7Ux1dGR/N3hOj3odAy0r4CfzLEGhsG91fezw0lp+tO24uONkFRyY/lXdkfwDZmXK5T5bbzQaAlBS9L1XE2uXPLkQDMOj+DG8j8qsZhhePFKPBQ66DtEMSMc0cXODZQv5z4mEBsjYjWES1o=
+	t=1754500524; cv=none; b=J61ChRkXRSQLJrm2zywyN6Zuo9gEQSJtGc89u706MDVJ+iUv9Dtf99QYu4EYYS4BHODtYxImqTubuGW/9xg3bSArQo1jV7I1Y17hxhsc8iBORkFXMf5fbYhfBK1LthVaU2fQ8kN3/BJjIVGSXhbhzyVKLQeUtl9cWlL1wiGoaWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754499418; c=relaxed/simple;
-	bh=6VJOV51UUM14Q8/toC0ZbrbyRUsviN5blQFEgzQCA58=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Sl5w2yZUfXbH0mg/vp7V6tP/7Ym1yEW7mWnjezCDENrGDof7nO8pn2n+EBuUBkRmq4CfP9XJBeBeN/kJY+IsdHUnhv4AdjA0XCvNJwX0ry5k4xsVRgUk+rO3BEZd4aRhCmBrC2tbkfdFkcMVAca6NxXI4DWYQoBL5IidfB1hRRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oyO1w+tX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754500524; c=relaxed/simple;
+	bh=iP1Vp96AUt0/1/dByJQwxu90FSDRv7L6wCxaXLDltks=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Km4K+n98kPI++SjVqFSc6V3nvBj+ezUZqd+cbVCPoP+DLXVJPcn6eBCAOWI16pucOCIBIry0KlH9aDEHNn2s5jLXbnleUUnC0+IYX0PytqZs7Tz7v+KvRwdVQglxeR+gMBETeYTbHv9iPpb3P8Oep6fwYdmnk1KKrZFvWnlTJSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vw1aN0hN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oyO1w+tX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC30C4CEE7;
-	Wed,  6 Aug 2025 16:56:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vw1aN0hN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41D63C4CEED;
+	Wed,  6 Aug 2025 17:15:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754499418;
-	bh=6VJOV51UUM14Q8/toC0ZbrbyRUsviN5blQFEgzQCA58=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oyO1w+tXRvmiUp12Id1M7+/SjgE51p/1pDK/nVK9GoltG68CmJ07Wwx69+qZjNFLQ
-	 9r+MVfZa65D3mUjDTiZsCuOaoFvddZASOU1KAYIm/cE3XylteMIwMneX+qyLcp+KXV
-	 TD/KLyJXdj79naEXJhxdEt0St7f68Xsr74sLRsiMJ7YuqbQQdNxmzLChlNX3o1uaa9
-	 3YWyGxzF/PjDOWCcNwjGpEPwu1SXwyOIP7DxPKhsFxEW9XaPlq5wHWFi7G1EkSvjG5
-	 /USMn3F+LgtRTRZiyZdZiNhsdImC823BHD6hFdIi906eXddeZyJRmO2rn5o1KtePia
-	 K6UxH9+YFFhew==
-From: SeongJae Park <sj@kernel.org>
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	David Hildenbrand <david@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Yosry Ahmed <yosry.ahmed@linux.dev>,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Takero Funaki <flintglass@gmail.com>
-Subject: Re: [RFC PATCH v2] mm/zswap: store <PAGE_SIZE compression failed page as-is
-Date: Wed,  6 Aug 2025 09:56:54 -0700
-Message-Id: <20250806165654.82673-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250806163221.GA1795303@cmpxchg.org>
-References: 
+	s=k20201202; t=1754500524;
+	bh=iP1Vp96AUt0/1/dByJQwxu90FSDRv7L6wCxaXLDltks=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Vw1aN0hNtZowJgcCAWQjQrvy1CggQwRgv1AmfnF9BoNdbhKbl20bmLNFFEinlAXHV
+	 +w4BhSV/iS5VpXCOXMfVC2oib1f4+cK4iU7lMkZEEuSYSsXQwhmIdfXIRMLMtdLxW6
+	 1KnFFSB4y9bLqDKwrY6nypuQDbyPsoApw+aSreNqSOIMJO1YmARi/cvjsO8onAay8V
+	 3XHxzDEvk/SD9mXgpLU2s2lQtZBsUaTRQ3dxYTNcVGbq6wDyDapPIA5HrbwYZl6fkH
+	 NAa/SFX/I0dxSzNBYT1szqKceE/kuRjMhUic9aZIibRYVGurAM2E1C6y9jEaDfnJUq
+	 YZcwSJ3tFPqFQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33C94383BF63;
+	Wed,  6 Aug 2025 17:15:39 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,111 +37,112 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <175450053775.2863135.11568399057706626223.git-patchwork-notify@kernel.org>
+Date: Wed, 06 Aug 2025 17:15:37 +0000
+References: <20250731-v5_user_cfi_series-v19-0-09b468d7beab@rivosinc.com>
+In-Reply-To: <20250731-v5_user_cfi_series-v19-0-09b468d7beab@rivosinc.com>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ akpm@linux-foundation.org, Liam.Howlett@oracle.com, vbabka@suse.cz,
+ lorenzo.stoakes@oracle.com, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, conor@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ arnd@arndb.de, brauner@kernel.org, peterz@infradead.org, oleg@redhat.com,
+ ebiederm@xmission.com, kees@kernel.org, corbet@lwn.net, shuah@kernel.org,
+ jannh@google.com, conor+dt@kernel.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, lossin@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
+ andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
+ atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+ alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
+ rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+ zong.li@sifive.com, david@redhat.com
 
-On Wed, 6 Aug 2025 12:32:21 -0400 Johannes Weiner <hannes@cmpxchg.org> wrote:
+Hello:
 
-> Hi SJ,
-> 
-> Overall this looks good to me. On top of the feedback provided by
-> others, I have a few comments below.
-> 
-> On Mon, Aug 04, 2025 at 05:29:54PM -0700, SeongJae Park wrote:
-> > @@ -142,6 +142,15 @@ User can enable it as follows::
-> >  This can be enabled at the boot time if ``CONFIG_ZSWAP_SHRINKER_DEFAULT_ON`` is
-> >  selected.
-> >  
-> > +If a page cannot be compressed into a size smaller than PAGE_SIZE, it can be
-> > +beneficial to save the content as is without compression, to keep the LRU
-> > +order.  Users can enable this behavior, as follows::
-> > +
-> > +  echo Y > /sys/module/zswap/parameters/save_incompressible_pages
-> > +
-> > +This is disabled by default, and doesn't change behavior of zswap writeback
-> > +disabled case.
-> > +
-> >  A debugfs interface is provided for various statistic about pool size, number
-> >  of pages stored, same-value filled pages and various counters for the reasons
-> >  pages are rejected.
-> > diff --git a/mm/zswap.c b/mm/zswap.c
-> > index 7e02c760955f..6e196c9a4dba 100644
-> > --- a/mm/zswap.c
-> > +++ b/mm/zswap.c
-> > @@ -129,6 +129,11 @@ static bool zswap_shrinker_enabled = IS_ENABLED(
-> >  		CONFIG_ZSWAP_SHRINKER_DEFAULT_ON);
-> >  module_param_named(shrinker_enabled, zswap_shrinker_enabled, bool, 0644);
-> >  
-> > +/* Enable/disable incompressible pages storing */
-> > +static bool zswap_save_incompressible_pages;
-> > +module_param_named(save_incompressible_pages, zswap_save_incompressible_pages,
-> > +		bool, 0644);
-> 
-> Please remove the knob and just make it the default behavior.
-> 
-> With writeback enabled, the current behavior is quite weird:
-> compressible pages to into zswap, then get written to swap in LRU
-> order. Incompressible pages get sent to swap directly. This is an
-> obvious age inversion, and the performance problems this has caused
-> was a motivating factor for the ability to disable writeback.
-> 
-> I don't think there is much point in keeping that as an officially
-> supported mode.
+This series was applied to riscv/linux.git (for-next)
+by Alexandre Ghiti <alexghiti@rivosinc.com>:
 
-Makes sense, I agree!  I will do so in the next version.
+On Thu, 31 Jul 2025 16:19:10 -0700 you wrote:
+> Basics and overview
+> ===================
+> 
+> Software with larger attack surfaces (e.g. network facing apps like databases,
+> browsers or apps relying on browser runtimes) suffer from memory corruption
+> issues which can be utilized by attackers to bend control flow of the program
+> to eventually gain control (by making their payload executable). Attackers are
+> able to perform such attacks by leveraging call-sites which rely on indirect
+> calls or return sites which rely on obtaining return address from stack memory.
+> 
+> [...]
 
-> 
-> > @@ -937,6 +942,29 @@ static void acomp_ctx_put_unlock(struct crypto_acomp_ctx *acomp_ctx)
-> >  	mutex_unlock(&acomp_ctx->mutex);
-> >  }
-> >  
-> > +/*
-> > + * Determine whether to save given page as-is.
-> > + *
-> > + * If a page cannot be compressed into a size smaller than PAGE_SIZE, it can be
-> > + * beneficial to saving the content as is without compression, to keep the LRU
-> > + * order.  This can increase memory overhead from metadata, but in common zswap
-> > + * use cases where there are sufficient amount of compressible pages, the
-> > + * overhead should be not critical, and can be mitigated by the writeback.
-> > + * Also, the decompression overhead is optimized.
-> > + *
-> > + * When the writeback is disabled, however, the additional overhead could be
-> > + * problematic.  For the case, just return the failure.  swap_writeout() will
-> > + * put the page back to the active LRU list in the case.
-> > + */
-> > +static bool zswap_save_as_is(int comp_ret, unsigned int dlen,
-> > +		struct page *page)
-> > +{
-> > +	return zswap_save_incompressible_pages &&
-> > +			(comp_ret || dlen == PAGE_SIZE) &&
-> > +			mem_cgroup_zswap_writeback_enabled(
-> > +					folio_memcg(page_folio(page)));
-> > +}
-> > +
-> >  static bool zswap_compress(struct page *page, struct zswap_entry *entry,
-> >  			   struct zswap_pool *pool)
-> >  {
-> 
-> > @@ -1001,6 +1034,17 @@ static bool zswap_compress(struct page *page, struct zswap_entry *entry,
-> >  	return comp_ret == 0 && alloc_ret == 0;
-> >  }
-> >  
-> > +/*
-> > + * If save_incompressible_pages is set and writeback is enabled, incompressible
-> > + * pages are saved as is without compression.  For more details, refer to the
-> > + * comments of zswap_save_as_is().
-> > + */
-> > +static bool zswap_saved_as_is(struct zswap_entry *entry, struct folio *folio)
-> > +{
-> > +	return entry->length == PAGE_SIZE && zswap_save_incompressible_pages &&
-> > +		mem_cgroup_zswap_writeback_enabled(folio_memcg(folio));
-> > +}
-> 
-> I don't think there will be much left of these helpers once you
-> incorporate Nhat's feedback, but please open-code these in either
-> case. They're single user, hide what's going on, and the similar names
-> doesn't do them any favors.
+Here is the summary with links:
+  - [v19,01/27] mm: VM_SHADOW_STACK definition for riscv
+    https://git.kernel.org/riscv/c/cbac1921f599
+  - [v19,02/27] dt-bindings: riscv: zicfilp and zicfiss in dt-bindings (extensions.yaml)
+    https://git.kernel.org/riscv/c/529ea23b9724
+  - [v19,03/27] riscv: zicfiss / zicfilp enumeration
+    https://git.kernel.org/riscv/c/2672fcca7d45
+  - [v19,04/27] riscv: zicfiss / zicfilp extension csr and bit definitions
+    https://git.kernel.org/riscv/c/9c6a894fd8b3
+  - [v19,05/27] riscv: usercfi state for task and save/restore of CSR_SSP on trap entry/exit
+    https://git.kernel.org/riscv/c/b01f6537153c
+  - [v19,06/27] riscv/mm : ensure PROT_WRITE leads to VM_READ | VM_WRITE
+    https://git.kernel.org/riscv/c/c13b2d7c1365
+  - [v19,07/27] riscv/mm: manufacture shadow stack pte
+    https://git.kernel.org/riscv/c/68cd7334a8d2
+  - [v19,08/27] riscv/mm: teach pte_mkwrite to manufacture shadow stack PTEs
+    https://git.kernel.org/riscv/c/50c9b9607c89
+  - [v19,09/27] riscv/mm: write protect and shadow stack
+    https://git.kernel.org/riscv/c/cbcccac1eddc
+  - [v19,10/27] riscv/mm: Implement map_shadow_stack() syscall
+    https://git.kernel.org/riscv/c/26e35e774a64
+  - [v19,11/27] riscv/shstk: If needed allocate a new shadow stack on clone
+    https://git.kernel.org/riscv/c/9c72a71321a6
+  - [v19,12/27] riscv: Implements arch agnostic shadow stack prctls
+    https://git.kernel.org/riscv/c/52eff0ab5f8e
+  - [v19,13/27] prctl: arch-agnostic prctl for indirect branch tracking
+    https://git.kernel.org/riscv/c/157690650241
+  - [v19,14/27] riscv: Implements arch agnostic indirect branch tracking prctls
+    https://git.kernel.org/riscv/c/e97ca201e919
+  - [v19,15/27] riscv/traps: Introduce software check exception and uprobe handling
+    https://git.kernel.org/riscv/c/d88b76756b34
+  - [v19,16/27] riscv: signal: abstract header saving for setup_sigcontext
+    https://git.kernel.org/riscv/c/63e713f29efe
+  - [v19,17/27] riscv/signal: save and restore of shadow stack for signal
+    https://git.kernel.org/riscv/c/5b04bbd448a5
+  - [v19,18/27] riscv/kernel: update __show_regs to print shadow stack register
+    https://git.kernel.org/riscv/c/1400341403b3
+  - [v19,19/27] riscv/ptrace: riscv cfi status and state via ptrace and in core files
+    https://git.kernel.org/riscv/c/982c862820b8
+  - [v19,20/27] riscv/hwprobe: zicfilp / zicfiss enumeration in hwprobe
+    https://git.kernel.org/riscv/c/07b1d75233e4
+  - [v19,21/27] riscv: kernel command line option to opt out of user cfi
+    https://git.kernel.org/riscv/c/2c268d3d21f9
+  - [v19,22/27] riscv: enable kernel access to shadow stack memory via FWFT sbi call
+    https://git.kernel.org/riscv/c/4ff7e8937f22
+  - [v19,23/27] arch/riscv: compile vdso with landing pad and shadow stack note
+    https://git.kernel.org/riscv/c/a82422297e63
+  - [v19,24/27] riscv: create a config for shadow stack and landing pad instr support
+    https://git.kernel.org/riscv/c/5bb36633ee56
+  - [v19,25/27] riscv: Documentation for landing pad / indirect branch tracking
+    https://git.kernel.org/riscv/c/9868b87525d9
+  - [v19,26/27] riscv: Documentation for shadow stack on riscv
+    https://git.kernel.org/riscv/c/a56a53730eb6
+  - [v19,27/27] kselftest/riscv: kselftest for user mode cfi
+    https://git.kernel.org/riscv/c/fd40e4a14f45
 
-Agreed, I will do open-code these in the next version.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Thanks,
-SJ
