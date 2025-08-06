@@ -1,135 +1,132 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3F7171C9;
-	Wed,  6 Aug 2025 00:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D871E4AE;
+	Wed,  6 Aug 2025 00:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754439924; cv=none; b=I6hi5Mhfv53sX/A9F5n5bytarsGAaCH6EL3JHr67NMwTc/g2aNY7k/azPOxGVwneZ0kqt3Y7tMsnd4xlBv/OQedAZ+aI+0AMxW9v+1K3KckIugIiM0cx99n1vdsrtA4o/F8QaZZeQxyWd+Bfw9F33XkAzXetGqvVPP6RpSG3xEI=
+	t=1754440808; cv=none; b=h+4vVAXzKTU2p1lvcPQybjx6CR5GXjNcWyzptLLBgc9poNd+51d/HigkJykq4qH8ruS/v/CMU3sE20oFaSjMLwXox2/wGKxszqvTnTZKkok7Qnc5Ky9fY3Eb7F7h28AX4cobQJWCVDxLTcru/9tawgrLnKX7gcQSMXxigCWTR20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754439924; c=relaxed/simple;
-	bh=Xa8K2I92uLyO484B0qkAfsO5WwTjl3NToPDEdFw7lcg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wjtwq6tBw5ge/E46UTDs6102S5txoXSxpQZtN9IorDsfI3dkdDFVOeUGpOi5v2tYq7tT2/qP+dRhc7BykzPbcCI/7KAfM2nRs0T/Cv+zfgokHGDSS2HVBpUOGxK/Uyy3J/3zMw5MYs9g6MxVh+zq31vEj4QwP+9gYhI3ZkIM4EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=H8R01tOn; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1754440808; c=relaxed/simple;
+	bh=fPjD5D3HDLu3NtemT8rWbSgbD6qYNtA8uvatr0PW7QA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=RHxbwmMuAF7deWr11TjsY7Jmm+u3QKSzM5mylt/O2XjzmyJYI6QkGhdLSW4Xq6TBXu31m98C6SdUoHN8ITQZOercXYupPDCF0njUxVizP4T89e7nKdfA7j2+NN+H4qfFThxV8WU5gY3MwpxdAhYDU8OTOu7LjkkNWdoWjSkP6yM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L2U9Zsxo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="H8R01tOn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=zYA8n4MidVExydv3/JxDVqPaTJImy9qKxpLFRRwzZo0=; b=H8R01tOndR7j5SuRFu/C4Cwen/
-	qLz3YG25lqRLqoW6M+4RKs+nHpyWcdKTRyr0ZP5nxnd3D6HmKyoWDxmWXgRHGOUc1FW46lewgrfJ0
-	LSEMLCNC/IH9zpuV4kFdU5ByyPyffXWewCwvfb1ebK7EiQWMyfPZCLw9Yip1A6yH/v00SuK/Aqs9r
-	yWWWVYTuX6LZ/bobuRQDVZ5+aXzrH98yhIA2PePmC4XhJOeiyU8kpCGxyxKyfzMP+fo/jovz2+9tZ
-	lUUp2RUxQXVNT8j9kIlvm2bvsq+hkYJm/litTEgfQNXMZfHmBjQ/e3Ua0f38lvrIVRUjZ3fUNdyg0
-	clkeqPxw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujRy4-0000000E3ZF-3ciz;
-	Wed, 06 Aug 2025 00:25:20 +0000
-Message-ID: <9027aa89-b3b2-46c8-8338-6c37f1c5b97a@infradead.org>
-Date: Tue, 5 Aug 2025 17:25:19 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L2U9Zsxo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D55C4CEF0;
+	Wed,  6 Aug 2025 00:40:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754440808;
+	bh=fPjD5D3HDLu3NtemT8rWbSgbD6qYNtA8uvatr0PW7QA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=L2U9Zsxong5pC1ZCBOpeRRRkjZSlaDbpCpf36zSl0CRMtDzkH3JiV1H7RrMQP+W0y
+	 dzXlMKgr71kVEzpOb0H+dYBsRzNT9MCliE8CVG3YLQbV9E5xbQteffDqRG5aW4Su+O
+	 FXvwY/28e0XnP4znopWCug89r5I+cmj7Jfulh+ecw7AMp6eTSy/sKE5/Km96j6crT0
+	 qAYpHUTeAK5cHjX5K3hd2hNEZsr/tp/3Uh1qKMOlJem5xYbFs7IMfDjc4Hi1hdkEPa
+	 /HgzoMuKAbRn0Z78STDLuptxuBQGfZsGhaQZqHXZXyKM9Z0Se/n3lkMiQQN/Q61tea
+	 X68lGEcLgl2hw==
+From: SeongJae Park <sj@kernel.org>
+To: Bijan Tabatabai <bijan311@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	corbet@lwn.net,
+	Bijan Tabatabai <bijantabatab@micron.com>
+Subject: Re: [PATCH 0/5] mm/damon/sysfs: Add commands useful for using migration dests
+Date: Tue,  5 Aug 2025 17:40:03 -0700
+Message-Id: <20250806004003.52864-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250805162022.4920-1-bijan311@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] procfs: add PROCFS_GET_PID_NAMESPACE ioctl
-To: Aleksa Sarai <cyphar@cyphar.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>
-Cc: Andy Lutomirski <luto@amacapital.net>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20250805-procfs-pidns-api-v4-0-705f984940e7@cyphar.com>
- <20250805-procfs-pidns-api-v4-3-705f984940e7@cyphar.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250805-procfs-pidns-api-v4-3-705f984940e7@cyphar.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Hi Bijan,
 
+Subjects of patches usually be converted into lowercase when be merged into mm
+tree.  I'd suggest using lowercase even in patches stage, if those aim to be
+merged into mm tree.
 
-On 8/4/25 10:45 PM, Aleksa Sarai wrote:
-> /proc has historically had very opaque semantics about PID namespaces,
-> which is a little unfortunate for container runtimes and other programs
-> that deal with switching namespaces very often. One common issue is that
-> of converting between PIDs in the process's namespace and PIDs in the
-> namespace of /proc.
+On Tue,  5 Aug 2025 11:20:17 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
+
+> From: Bijan Tabatabai <bijantabatab@micron.com>
 > 
-> In principle, it is possible to do this today by opening a pidfd with
-> pidfd_open(2) and then looking at /proc/self/fdinfo/$n (which will
-> contain a PID value translated to the pid namespace associated with that
-> procfs superblock). However, allocating a new file for each PID to be
-> converted is less than ideal for programs that may need to scan procfs,
-> and it is generally useful for userspace to be able to finally get this
-> information from procfs.
+> This patchset adds two DAMON commands, commit_schemes_dests and
+> wait_for_schemes_apply, that I have found useful for using a migrate_hot
+> scheme with migration dests.
+
+Thank you for this patchset!  I believe we shouldn't be afraid at adding
+features, but should also be carefult at making good solutions for real
+problems.  So, my main response to this patchset is, hopefully unsurprisingly,
+I'd like to better understand the requirements and the problem you are
+encountering.
+
 > 
-> So, add a new API to get the pid namespace of a procfs instance, in the
-> form of an ioctl(2) you can call on the root directory of said procfs.
-> The returned file descriptor will have O_CLOEXEC set. This acts as a
-> sister feature to the new "pidns" mount option, finally allowing
-> userspace full control of the pid namespaces associated with procfs
-> instances.
+> The commit_schemes_dests command, similar to the existing
+> commit_schemes_quota_goals, is used to commit only the dests fields of
+> schemes. This has a couple of benefits:
+> 1) It is more efficient than recommitting all the DAMON data.
+> 2) Doing a full commit resets the aggregation and ops_update intervals. If
+> a user sends the full commit command frequently (relatively to those
+> intervals) the aggregation and ops_update events will be prevented from
+> triggering. Having a separate commit command side steps this problem.
+
+I agree the commit command of DAMON sysfs interface is inefficient, and could
+make the infinite intervals delay problem.  But, I didn't expect there could be
+use cases that use commit feature frequently enough to make the inefficiency
+and the intervals delay be real problems.  Could you please let me know more
+details about your use case and how severe problem DAMON is causing?
+
+Depending on the real problem, I'm wondering if optimizing commit command can
+be a solution.  For example, skipping the update of next_aggregation_sis and
+next_ops_update_sis when the intervals are not changed might be able to solve
+the intervals delay problem.
+
 > 
-> The permission model for this is a bit looser than that of the "pidns"
-> mount option (and also setns(2)) because /proc/1/ns/pid provides the
-> same information, so as long as you have access to that magic-link (or
-> something equivalently reasonable such as being in an ancestor pid
-> namespace) it makes sense to allow userspace to grab a handle. Ideally
-> we would check for ptrace-read access against all processes in the pidns
-> (which is very likely to be true for at least one process, as
-> SUID_DUMP_DISABLE is cleared on exec(2) and is rarely set by most
-> programs), but this would obviously not scale.
+> The wait_for_schemes_apply command causes the calling thread to wait until
+> all schemes have been applied. It does this by calling damos_walk() with a
+> NULL walk_fn. This can be useful, for example, if a user wants to know when
+> new scheme parameters they've committed have been applied. Another use case
+> could be if a user wants to record the system state every time a scheme is
+> applied for debuging purposes.
 > 
-> setns(2) will still have their own permission checks, so being able to
-> open a pidns handle doesn't really provide too many other capabilities.
-> 
-> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> ---
->  Documentation/filesystems/proc.rst |  4 +++
->  fs/proc/root.c                     | 68 ++++++++++++++++++++++++++++++++++++--
->  include/uapi/linux/fs.h            |  4 +++
->  3 files changed, 74 insertions(+), 2 deletions(-)
-> 
+> The functionality of wait_for_schemes_apply can be achieved with the
+> existing update_schemes_tried_bytes and update_schemes_tried_regions
+> commands. However, having a separate command avoids extra work and makes
+> user intent clearer when used in scripts.
+
+I agree extra works are always better to be avoided.  But is the overhead large
+enough to be a real problem for your use case?  I also agree it could make the
+user script cleaner, but adding a kernel feature only for user scripts
+readabilities sounds like too much, since the user script could have its own
+abstract layers for its readability.
+
+Also, even if the new command is implemented, since the DAMOS schemes continue
+running, the system status will keep changing.  If you cannot do the recording
+of the system state in a restricted time, the recorded information might not be
+that reliable.  So I'm not sure if you really need this strict waiting in this
+way.
+
+Could you please share more details about what you want to do with the new
+command, and how much problem you are seeing?  I'm particularly curious what
+system state you want to record, and why you need to wait the exact time
+interval.
+
+Depending on the real use case and the problem, I think we might be able to
+reuse the DAMOS scheme stats, or implement more strict and reliable time
+control features, say, making kdamond or schemes pause and resume as users ask?
 
 
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index 0bd678a4a10e..68e65e6d7d6b 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -435,8 +435,12 @@ typedef int __bitwise __kernel_rwf_t;
->  			 RWF_APPEND | RWF_NOAPPEND | RWF_ATOMIC |\
->  			 RWF_DONTCACHE)
->  
-> +/* This matches XSDFEC_MAGIC, so we need to allocate subvalues carefully. */
->  #define PROCFS_IOCTL_MAGIC 'f'
->  
-> +/* procfs root ioctls */
-> +#define PROCFS_GET_PID_NAMESPACE	_IO(PROCFS_IOCTL_MAGIC, 32)
+Thanks,
+SJ
 
-Since the _IO() nr here is 32, Documentation/userspace-api/ioctl/ioctl-number.rst
-should be updated like:
-
--'f'   00-0F  linux/fs.h                                                conflict!
-+'f'   00-1F  linux/fs.h                                                conflict!
-
-(17 is already used for PROCFS_IOCTL_MAGIC somewhere else, so that probably should
-have update the Doc/rst file.)
-
-> +
->  /* Pagemap ioctl */
->  #define PAGEMAP_SCAN	_IOWR(PROCFS_IOCTL_MAGIC, 16, struct pm_scan_arg)
->  
-> 
-Thanks.
--- 
-~Randy
-
+[...]
