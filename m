@@ -1,305 +1,185 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6860D28FFC7
-	for <linux-doc@vger.kernel.org>; Wed,  6 Aug 2025 15:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE3ABA34
+	for <linux-doc@vger.kernel.org>; Wed,  6 Aug 2025 16:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754492636; cv=none; b=Y180Kp9WqmtMaTFqa/QbU2NJiqLWiUDN1xWDwV1FIo9WTljFkmfWDW9t0tLroF1g0BeY3RzzWhlyg0L7BrZPJIeqeJY21+J+mcIQqdB+vaaWoDbn2YKKRuwOHqGX5U2z/mkpWFs5MNQ7bUevWib5iz5Q4+NLWUivjw3hoOGFj0U=
+	t=1754497950; cv=none; b=mOEuPJd4JDNad8sJlCFbj9QulV/0WT8oCbDGF0MPnJuwzdALvU2GdLytKwmQ9AenHH4EXlGW8aDfrVf7QObta6gbxS793W0cUcIWn2Vsmb9AW/V7NUc/AMgwrSqN+Jcf1XpAZ/6lQS3ONV8zS170Vutrokp+MJJ/BOA6qFbTsiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754492636; c=relaxed/simple;
-	bh=0pkcvBT3e4XZc7ShBEniMBWN3q1RI9VEAouZGjIeY2Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eDGC6Jy32YLROaKOvf6w1xMO6JF4OQ4ZvNn+1PUFMGpYuz/1IamFqXlYIC3XpsD2eIzi4qu1JbXSaVBaTOkrbN4mmUc72pW/Gr++6eZaTnZ4yIxMdOLwCfRlhTleA7e4XNUzIu001aGWxFIlhTw7GgKty4NeZ4Rw4QgsoGVCAfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EO6B1sa5; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1754497950; c=relaxed/simple;
+	bh=8koxwrrrpXRQv68oFmk2nURbB1epOaqVtBKzW9mOwbY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E2pzfJBv6ZhCj7NTFCjOdrofxgQCTFsKyrz4NebTwoAUtvEVVY5pQcdxDQ6hsJ8DD+P1ArM7IAk4RF8bG1w5o6wHvKVdPC2DMmipKcqDID0FoGxY5n6SbHXC73ZZ17FdC4BtA9WuI0aUGjb85l1dYHAPCb5M3rru+2YCe6GLFRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=N3A6fT7P; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EO6B1sa5"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-458bf57a4e7so64485e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 06 Aug 2025 08:03:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="N3A6fT7P"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4b0770954faso1285351cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 06 Aug 2025 09:32:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1754492632; x=1755097432; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C9hzpMymLHd0tOskj55BKws7W4GFUy+vHJNe1oPqssU=;
-        b=EO6B1sa5jQbDKgE97A3vbaKlh85hCX2TusyKoD1m9XCmFL1KxJnvl1uU1X6jcGWwhz
-         4Q4Ky/Z7rmxiVu24HV70pgq65vhQo0qf6sXuSUjDkXEY+7Sknqof4WoHCSQDSKSElvmX
-         MKUuLz5weJ6ZnESbY/L1Dg0kHUAVf2bMfcqmvVgBNQgq2T5F/uFMZrgPKPSzaDoJGHYu
-         C4UA3v3WLBY8cVFlHhkAfrt/q7EottaLIR/zmTl/RIKfOA1yHOe7mI9mwSwVq6Ow5Orw
-         IkNG0pqo9DhB1sMJw6gUfWpUaF4XVtcbcB2NIXEtZmYg31scC8vrJVxdVPhrSJyij3SD
-         HTug==
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1754497947; x=1755102747; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DczkdOzRVH8sA2mnIf+wryGp+DfW+r4oiu5gHq5d+os=;
+        b=N3A6fT7P1jN9vYQPxniMneX3p/pY/qqymWujslq7w9F8zT8TglOmOum8uHWkP2TQUb
+         m/UCvvEXHz8YXzBKWpe1z/fRhyxwbg/247WHP+Ui9juZeRwUGaIweYc/YKktTNzQDhF5
+         sVdHto0MNVSXpGx1anDigcQgbi0xAs8iQafgGKyGL1gPa/lprSiNPANcVOsSM+EXOzOy
+         /9WCL9+QgjI7Vc98DHXXXauVw6uI8wKhlggoOhtU6GMVusujYwEkAzvLXegj8EiHwLbc
+         6sJsuKS413TnZTXe+YhZ/OUo3YFTousHYNPiQAP0oIBsRvh2INMHq6s4Xv4rquMfOqdn
+         2d+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754492632; x=1755097432;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C9hzpMymLHd0tOskj55BKws7W4GFUy+vHJNe1oPqssU=;
-        b=BwHiXT11IwpW2tVfON5mljNCgDgBoGTLU0pXb2w846yl6fIoZEKvNRAfoaiy+0hkj3
-         +25JOk7rkYkx1Tnw7DGrD4N+39inZvfcvpywvA6goQ55HGNcjMILCYIFzKgUuX5qbjiC
-         TEtVbl63r6MyVn9kXuglfdg8xnYUj3oX83NLiN1pIJXKpl8cv+Fd7XlFptZdITTij+VD
-         6GIsWcu6Ip3L/TduYvAGv8f/lNfgxeMXU96MTUM/puE8UosNwNEOGn7u8JPDsBTYmG6c
-         e3xwq0Ak8E1sXNS7e1ifTlEsymFgiJVoIH9mrO/7oLQ0bUzJxagmn2yxp6HRX1LxmAsd
-         c4Uw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvRgwkQ5a9dyeERXLDUyd9J6ntw2M36+fTX0ACMhP7vR1Phvb25A/5FUinnlnQnv/OSAzSy9OVf0c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxWCFqlKc2ml0jCzJxpB2o+zt3DYXqMcjfuXcXHuWhLwxbxsOA
-	FFSpSKzD2VKDUPxdgJdHg0GQe6gwIwu1KNw495spwhn0R9tU0bxJbZLMAROyhkjmVh1ewjcpFHj
-	Nom5NVil+agDI1WjwypRR9GzEKVKcuJuoXocsC4u2
-X-Gm-Gg: ASbGncsqVQoii9DjjVyblXOBC0eGZHmEuHEyWm6DqDZznEQJ1hNhvAKmtUTfSYn/1nZ
-	aPqWefKhIk29zIsApzprljpj85Hr5tLmVaE9jF2lirmSiNycuPWPoksr7hNrkErNKzjOlcuA0g9
-	rbUVP6+7NZOi2QbDzsKgSOGk6FZMD+acF6wi5F+GEu3L4269AvkqYfklF37HuyIRAPTTcGaiMgN
-	aAJJAYsYZNgN6mCHKVYS/Pq4Z/c/ugEwn5kasTa
-X-Google-Smtp-Source: AGHT+IFRSHXB1edxE24M2cr8EagNxoS3Umr3ekhDunEvzG71eZ1BXAYU7hknAAcoq+dJ3w6ps9DyZyBPQWpQnPYmDrs=
-X-Received: by 2002:a05:600d:18:b0:453:65e6:b4a6 with SMTP id
- 5b1f17b1804b1-459e6c8b7ccmr1554045e9.6.1754492631287; Wed, 06 Aug 2025
- 08:03:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754497947; x=1755102747;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DczkdOzRVH8sA2mnIf+wryGp+DfW+r4oiu5gHq5d+os=;
+        b=ileXBK2Nx9z1Eyo1ThqtlxKUHoyk/G43kT4miN6BYyxnop1MrL3oto7yesJsBr6Aqi
+         fLspzOZ4fTjtdiCKjz4d5E1SKEQ6v2uzljm+fVD6+QojsdbxLk0i5PyUecI4PugfzpdY
+         wGJEM2NDaJuLdZsQI9oQIUSOyADehFU4s8teo/jScFxDI9tLl/7Kiqp6DqeaziVN4Lse
+         67562yocrPZhHgX2KFd2J/4584XPt4JqA3wOnO4JEQYa96uRVoekKBeMVT/zRsS1S0gV
+         9j+i/wLKEcYR4DMerT4SwZzuLOm+DV9vT6OZHKnHcwwY7nTQuguQPEfOLjqWRRKzLcjB
+         I6Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCWs9vW2Clwd1S6aATCxgEchHUSFkuJrdF2EbgwmmrdnGQmymHTwRtrRzBjvBu92/4TbEOw2i0QD+Ms=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTq6yaipLsXoQAAEEIF3FFtVKE0xygqXC33aZ5OiyAREe3xmJw
+	F8sTlcLVTvZSkELRcZy30Gnzx9TbQv0BqhrVtO2lSfhjwzP+EAM1eokHpLvYN7udzz0=
+X-Gm-Gg: ASbGnctIBt01vq4qAljYEYHJi2XlawpN5ufk4dtl4bJyoghFntNr53Py1dK1idQza5S
+	thZ6fz1emXbyhkGmQcV/Zwtx5r4h2mZJd5ec1qrJX9NHBREwauOfLTkYw4pW11rLUgf1fsSuhgL
+	L/pwZBRNgTyhEEBJ2HB7ez6TPdWdYG5nKmBgvN/FqS67WvMKPYfw81FFffYNUABpkx+gwPD01Cd
+	yiCaOBtcQru8H61jz3s3LUQSlWdTbHkmGPyohqOlP+I+O+pB1Zb0c78ZD0VdCVskNqsLnDmOXzl
+	xp8oaVpCXdEwR98KrAnFiGg7w62oL8bqTbHLho/kPcrVQlQat/jGeZmZKQgXxkYkCmxlJ8bZJ/i
+	DIHE64tpEvX1YnhBvUA/42s6oYwvsA42Z
+X-Google-Smtp-Source: AGHT+IHC3hrESSBrcMoIOYxPNKtmK7006X0ZFbjOG06E52Szyt/nP4BqvqO0+YzYU4f3W7ZcXwwE4A==
+X-Received: by 2002:a05:622a:1cca:b0:4af:1fb2:339c with SMTP id d75a77b69052e-4b091534932mr66831011cf.29.1754497945572;
+        Wed, 06 Aug 2025 09:32:25 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-4b09a2e6095sm5411891cf.33.2025.08.06.09.32.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Aug 2025 09:32:24 -0700 (PDT)
+Date: Wed, 6 Aug 2025 12:32:21 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	David Hildenbrand <david@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Yosry Ahmed <yosry.ahmed@linux.dev>, kernel-team@meta.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, Takero Funaki <flintglass@gmail.com>
+Subject: Re: [RFC PATCH v2] mm/zswap: store <PAGE_SIZE compression failed
+ page as-is
+Message-ID: <20250806163221.GA1795303@cmpxchg.org>
+References: <20250805002954.1496-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250731205844.1346839-1-jiaqiyan@google.com> <20250731205844.1346839-2-jiaqiyan@google.com>
-In-Reply-To: <20250731205844.1346839-2-jiaqiyan@google.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Wed, 6 Aug 2025 08:03:39 -0700
-X-Gm-Features: Ac12FXxJqYpQQ--vvuonDndHyeTf3i5rlJy2TpzkQAYWmQtSnPZvo6WJzUZ-3Qo
-Message-ID: <CACw3F53dQmeLjwc4LG5SipiEhB7jj9hK+C_XWrT2eFQghMHXQg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] KVM: arm64: VM exit to userspace to handle SEA
-To: maz@kernel.org, oliver.upton@linux.dev
-Cc: joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	duenwen@google.com, rananta@google.com, jthoughton@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250805002954.1496-1-sj@kernel.org>
 
-Friendly ping for review
+Hi SJ,
 
-On Thu, Jul 31, 2025 at 1:58=E2=80=AFPM Jiaqi Yan <jiaqiyan@google.com> wro=
-te:
->
-> When APEI fails to handle a stage-2 synchronous external abort (SEA),
-> today KVM directly injects an async SError to the VCPU then resumes it,
-> which usually results in unpleasant guest kernel panic.
->
-> One major situation of guest SEA is when vCPU consumes recoverable
-> uncorrected memory error (UER). Although SError and guest kernel panic
-> effectively stops the propagation of corrupted memory, guest may
-> re-use the corrupted memory if auto-rebooted; in worse case, guest
-> boot may run into poisoned memory. So there is room to recover from
-> an UER in a more graceful manner.
->
-> Alternatively KVM can redirect the synchronous SEA event to VMM to
-> - Reduce blast radius if possible. VMM can inject a SEA to VCPU via
->   KVM's existing KVM_SET_VCPU_EVENTS API. If the memory poison
->   consumption or fault is not from guest kernel, blast radius can be
->   limited to the triggering thread in guest userspace, so VM can
->   keep running.
-> - Allow VMM to protect from future memory poison consumption by
->   unmapping the page from stage-2, or to interrupt guest of the
->   poisoned page so guest kernel can unmap it from stage-1 page table.
-> - Allow VMM to track SEA events that VM customers care about, to restart
->   VM when certain number of distinct poison events have happened,
->   to provide observability to customers in log management UI.
->
-> Introduce an userspace-visible feature to enable VMM handle SEA:
-> - KVM_CAP_ARM_SEA_TO_USER. As the alternative fallback behavior
->   when host APEI fails to claim a SEA, userspace can opt in this new
->   capability to let KVM exit to userspace during SEA if it is not
->   owned by host.
-> - KVM_EXIT_ARM_SEA. A new exit reason is introduced for this.
->   KVM fills kvm_run.arm_sea with as much as possible information about
->   the SEA, enabling VMM to emulate SEA to guest by itself.
->   - Sanitized ESR_EL2. The general rule is to keep only the bits
->     useful for userspace and relevant to guest memory.
->   - Flags indicating if faulting guest physical address is valid.
->   - Faulting guest physical and virtual addresses if valid.
->
-> Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
-> Co-developed-by: Oliver Upton <oliver.upton@linux.dev>
-> Signed-off-by: Oliver Upton <oliver.upton@linux.dev>
-> ---
->  arch/arm64/include/asm/kvm_host.h |  2 +
->  arch/arm64/kvm/arm.c              |  5 +++
->  arch/arm64/kvm/mmu.c              | 68 ++++++++++++++++++++++++++++++-
->  include/uapi/linux/kvm.h          | 10 +++++
->  4 files changed, 84 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/k=
-vm_host.h
-> index d373d555a69ba..8b4133a5aacf3 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -349,6 +349,8 @@ struct kvm_arch {
->  #define KVM_ARCH_FLAG_GUEST_HAS_SVE                    9
->         /* MIDR_EL1, REVIDR_EL1, and AIDR_EL1 are writable from userspace=
- */
->  #define KVM_ARCH_FLAG_WRITABLE_IMP_ID_REGS             10
-> +       /* Unhandled SEAs are taken to userspace */
-> +#define KVM_ARCH_FLAG_EXIT_SEA                         11
->         unsigned long flags;
->
->         /* VM-wide vCPU feature set */
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index 7a1a8210ff918..aec6034db1e75 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -133,6 +133,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->                 }
->                 mutex_unlock(&kvm->lock);
->                 break;
-> +       case KVM_CAP_ARM_SEA_TO_USER:
-> +               r =3D 0;
-> +               set_bit(KVM_ARCH_FLAG_EXIT_SEA, &kvm->arch.flags);
-> +               break;
->         default:
->                 break;
->         }
-> @@ -322,6 +326,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, lon=
-g ext)
->         case KVM_CAP_IRQFD_RESAMPLE:
->         case KVM_CAP_COUNTER_OFFSET:
->         case KVM_CAP_ARM_WRITABLE_IMP_ID_REGS:
-> +       case KVM_CAP_ARM_SEA_TO_USER:
->                 r =3D 1;
->                 break;
->         case KVM_CAP_SET_GUEST_DEBUG2:
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index 9a45daf817bfd..f6a545700c15b 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -1812,8 +1812,48 @@ static void handle_access_fault(struct kvm_vcpu *v=
-cpu, phys_addr_t fault_ipa)
->         read_unlock(&vcpu->kvm->mmu_lock);
+Overall this looks good to me. On top of the feedback provided by
+others, I have a few comments below.
+
+On Mon, Aug 04, 2025 at 05:29:54PM -0700, SeongJae Park wrote:
+> @@ -142,6 +142,15 @@ User can enable it as follows::
+>  This can be enabled at the boot time if ``CONFIG_ZSWAP_SHRINKER_DEFAULT_ON`` is
+>  selected.
+>  
+> +If a page cannot be compressed into a size smaller than PAGE_SIZE, it can be
+> +beneficial to save the content as is without compression, to keep the LRU
+> +order.  Users can enable this behavior, as follows::
+> +
+> +  echo Y > /sys/module/zswap/parameters/save_incompressible_pages
+> +
+> +This is disabled by default, and doesn't change behavior of zswap writeback
+> +disabled case.
+> +
+>  A debugfs interface is provided for various statistic about pool size, number
+>  of pages stored, same-value filled pages and various counters for the reasons
+>  pages are rejected.
+> diff --git a/mm/zswap.c b/mm/zswap.c
+> index 7e02c760955f..6e196c9a4dba 100644
+> --- a/mm/zswap.c
+> +++ b/mm/zswap.c
+> @@ -129,6 +129,11 @@ static bool zswap_shrinker_enabled = IS_ENABLED(
+>  		CONFIG_ZSWAP_SHRINKER_DEFAULT_ON);
+>  module_param_named(shrinker_enabled, zswap_shrinker_enabled, bool, 0644);
+>  
+> +/* Enable/disable incompressible pages storing */
+> +static bool zswap_save_incompressible_pages;
+> +module_param_named(save_incompressible_pages, zswap_save_incompressible_pages,
+> +		bool, 0644);
+
+Please remove the knob and just make it the default behavior.
+
+With writeback enabled, the current behavior is quite weird:
+compressible pages to into zswap, then get written to swap in LRU
+order. Incompressible pages get sent to swap directly. This is an
+obvious age inversion, and the performance problems this has caused
+was a motivating factor for the ability to disable writeback.
+
+I don't think there is much point in keeping that as an officially
+supported mode.
+
+> @@ -937,6 +942,29 @@ static void acomp_ctx_put_unlock(struct crypto_acomp_ctx *acomp_ctx)
+>  	mutex_unlock(&acomp_ctx->mutex);
 >  }
->
+>  
 > +/*
-> + * Returns true if the SEA should be handled locally within KVM if the a=
-bort
-> + * is caused by a kernel memory allocation (e.g. stage-2 table memory).
+> + * Determine whether to save given page as-is.
+> + *
+> + * If a page cannot be compressed into a size smaller than PAGE_SIZE, it can be
+> + * beneficial to saving the content as is without compression, to keep the LRU
+> + * order.  This can increase memory overhead from metadata, but in common zswap
+> + * use cases where there are sufficient amount of compressible pages, the
+> + * overhead should be not critical, and can be mitigated by the writeback.
+> + * Also, the decompression overhead is optimized.
+> + *
+> + * When the writeback is disabled, however, the additional overhead could be
+> + * problematic.  For the case, just return the failure.  swap_writeout() will
+> + * put the page back to the active LRU list in the case.
 > + */
-> +static bool host_owns_sea(struct kvm_vcpu *vcpu, u64 esr)
+> +static bool zswap_save_as_is(int comp_ret, unsigned int dlen,
+> +		struct page *page)
 > +{
-> +       /*
-> +        * Without FEAT_RAS HCR_EL2.TEA is RES0, meaning any external abo=
-rt
-> +        * taken from a guest EL to EL2 is due to a host-imposed access (=
-e.g.
-> +        * stage-2 PTW).
-> +        */
-> +       if (!cpus_have_final_cap(ARM64_HAS_RAS_EXTN))
-> +               return true;
-> +
-> +       /* KVM owns the VNCR when the vCPU isn't in a nested context. */
-> +       if (is_hyp_ctxt(vcpu) && (esr & ESR_ELx_VNCR))
-> +               return true;
-> +
-> +       /*
-> +        * Determine if an external abort during a table walk happened at
-> +        * stage-2 is only possible when S1PTW is set. Otherwise, since K=
-VM
-> +        * sets HCR_EL2.TEA, SEAs due to a stage-1 walk (i.e. accessing t=
-he
-> +        * PA of the stage-1 descriptor) can reach here and are reported
-> +        * with a TTW ESR value.
-> +        */
-> +       return (esr_fsc_is_sea_ttw(esr) && (esr & ESR_ELx_S1PTW));
+> +	return zswap_save_incompressible_pages &&
+> +			(comp_ret || dlen == PAGE_SIZE) &&
+> +			mem_cgroup_zswap_writeback_enabled(
+> +					folio_memcg(page_folio(page)));
 > +}
 > +
->  int kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
+>  static bool zswap_compress(struct page *page, struct zswap_entry *entry,
+>  			   struct zswap_pool *pool)
 >  {
-> +       struct kvm *kvm =3D vcpu->kvm;
-> +       struct kvm_run *run =3D vcpu->run;
-> +       u64 esr =3D kvm_vcpu_get_esr(vcpu);
-> +       u64 esr_mask =3D ESR_ELx_EC_MASK  |
-> +                      ESR_ELx_IL       |
-> +                      ESR_ELx_FnV      |
-> +                      ESR_ELx_EA       |
-> +                      ESR_ELx_CM       |
-> +                      ESR_ELx_WNR      |
-> +                      ESR_ELx_FSC;
-> +       u64 ipa;
-> +
->         /*
->          * Give APEI the opportunity to claim the abort before handling i=
-t
->          * within KVM. apei_claim_sea() expects to be called with IRQs en=
-abled.
-> @@ -1822,7 +1862,33 @@ int kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
->         if (apei_claim_sea(NULL) =3D=3D 0)
->                 return 1;
->
-> -       return kvm_inject_serror(vcpu);
-> +       if (host_owns_sea(vcpu, esr) ||
-> +           !test_bit(KVM_ARCH_FLAG_EXIT_SEA, &vcpu->kvm->arch.flags))
-> +               return kvm_inject_serror(vcpu);
-> +
-> +       /* ESR_ELx.SET is RES0 when FEAT_RAS isn't implemented. */
-> +       if (kvm_has_ras(kvm))
-> +               esr_mask |=3D ESR_ELx_SET_MASK;
-> +
-> +       /*
-> +        * Exit to userspace, and provide faulting guest virtual and phys=
-ical
-> +        * addresses in case userspace wants to emulate SEA to guest by
-> +        * writing to FAR_ELx and HPFAR_ELx registers.
-> +        */
-> +       memset(&run->arm_sea, 0, sizeof(run->arm_sea));
-> +       run->exit_reason =3D KVM_EXIT_ARM_SEA;
-> +       run->arm_sea.esr =3D esr & esr_mask;
-> +
-> +       if (!(esr & ESR_ELx_FnV))
-> +               run->arm_sea.gva =3D kvm_vcpu_get_hfar(vcpu);
-> +
-> +       ipa =3D kvm_vcpu_get_fault_ipa(vcpu);
-> +       if (ipa !=3D INVALID_GPA) {
-> +               run->arm_sea.flags |=3D KVM_EXIT_ARM_SEA_FLAG_GPA_VALID;
-> +               run->arm_sea.gpa =3D ipa;
-> +       }
-> +
-> +       return 0;
+
+> @@ -1001,6 +1034,17 @@ static bool zswap_compress(struct page *page, struct zswap_entry *entry,
+>  	return comp_ret == 0 && alloc_ret == 0;
 >  }
->
->  /**
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index e4e566ff348b0..b2cc3d74d769c 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -179,6 +179,7 @@ struct kvm_xen_exit {
->  #define KVM_EXIT_LOONGARCH_IOCSR  38
->  #define KVM_EXIT_MEMORY_FAULT     39
->  #define KVM_EXIT_TDX              40
-> +#define KVM_EXIT_ARM_SEA          41
->
->  /* For KVM_EXIT_INTERNAL_ERROR */
->  /* Emulate instruction failed. */
-> @@ -469,6 +470,14 @@ struct kvm_run {
->                                 } get_tdvmcall_info;
->                         };
->                 } tdx;
-> +               /* KVM_EXIT_ARM_SEA */
-> +               struct {
-> +#define KVM_EXIT_ARM_SEA_FLAG_GPA_VALID        (1ULL << 0)
-> +                       __u64 flags;
-> +                       __u64 esr;
-> +                       __u64 gva;
-> +                       __u64 gpa;
-> +               } arm_sea;
->                 /* Fix the size of the union. */
->                 char padding[256];
->         };
-> @@ -957,6 +966,7 @@ struct kvm_enable_cap {
->  #define KVM_CAP_ARM_EL2_E2H0 241
->  #define KVM_CAP_RISCV_MP_STATE_RESET 242
->  #define KVM_CAP_ARM_CACHEABLE_PFNMAP_SUPPORTED 243
-> +#define KVM_CAP_ARM_SEA_TO_USER 244
->
->  struct kvm_irq_routing_irqchip {
->         __u32 irqchip;
-> --
-> 2.50.1.565.gc32cd1483b-goog
->
+>  
+> +/*
+> + * If save_incompressible_pages is set and writeback is enabled, incompressible
+> + * pages are saved as is without compression.  For more details, refer to the
+> + * comments of zswap_save_as_is().
+> + */
+> +static bool zswap_saved_as_is(struct zswap_entry *entry, struct folio *folio)
+> +{
+> +	return entry->length == PAGE_SIZE && zswap_save_incompressible_pages &&
+> +		mem_cgroup_zswap_writeback_enabled(folio_memcg(folio));
+> +}
+
+I don't think there will be much left of these helpers once you
+incorporate Nhat's feedback, but please open-code these in either
+case. They're single user, hide what's going on, and the similar names
+doesn't do them any favors.
