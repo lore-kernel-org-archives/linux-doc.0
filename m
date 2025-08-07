@@ -1,173 +1,92 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BD41411DE;
-	Thu,  7 Aug 2025 14:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34E24C6D
+	for <linux-doc@vger.kernel.org>; Thu,  7 Aug 2025 15:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754578290; cv=none; b=ChvfMgAJCybLCKUrnvhAVAsPDM1fe7uSlBtq1FzF+vuZkE3a1Ss3+y0jZBDvpR2tNZmxjMX90C/RsGjORyGaXTpyx8gqGnuVzhZCpQmExdpRwprkhQvykXgv28F/zb5ujCbO2jwr9ei081P0w8iNxpiYKyNVcJY8PRkIninq0NA=
+	t=1754580817; cv=none; b=KpPKREkaf9TMUxfzW22Y9Oiom9tZAZ0kN50ZXlcApPQfVhTwxmRRbxOk7Cxmzl7GYxl0S6ANrAe5QxVaUdyUCFM5pXOYTKBgKDu3uiwfwgAZ9UqIhHHPEL5Swc3lKm2hIEvc3dbwoDSHJtNieYYbwXWP4XyL59zIjiv7ZH8B6PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754578290; c=relaxed/simple;
-	bh=Uqx2K8iqj8C9J2fe3pyivDhLY31N5WS3GpKgVecfeqw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YbBrI/FKSpA+F0ko1WEhRMV4yO8FluICxT/ucQXN0aG8furVabnv8mK/CfYn1YyhFjW+rkq3aHX5bHatxf4S82GroGPHCwYblHCPA7UXrY2bj02KF5fT7zuWhzvBnZX1kcaGw+yXsS4zMFqUOrvgXosBQdblYBo2POkZtrDvMw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aEvmgt5x; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754580817; c=relaxed/simple;
+	bh=FnUPB7qv30FA9oqfJQeIo6iP24gxoG1IpXSWOd8UpiQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QP48ecdOy5MUbsCdE/vF5euiWHk1mLIViXav6sZNhKjZTrFHU8LuXx3W+2klNqnXBIR/cFGp4Eaxk5pSZGcjGh+mLwZhlxe4CLP6KkU3OmrQCNYnvUvsPMsE9ho+qG0Xg6u2TEPjkihIegaMjWyJIy89JfV4wwPRsxDLVL98J8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W8B6sQfY; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aEvmgt5x"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76bc68cc9e4so1249393b3a.2;
-        Thu, 07 Aug 2025 07:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754578288; x=1755183088; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9OzOvhq3GmbvaBtGUgAaXSZiV6ZbsCylTW2ygbBRF/o=;
-        b=aEvmgt5xVj/YsLqy43drRU2tXYMHik4IUi6wWVjhp7aIR1rdGHdHVpZ6r97JjmZzfF
-         gR5KX3B8SDL53zejojx7dpJNRK/om+CqBUixE2At8lkL+XS7ve0PsFnVXUGx8z6WnXQn
-         iuRTcqYpHrraosyF2vu6cSQjLZu3uN0T19Fa1PNgVd8pc99CBcG6utWYAARDdRRuBnTX
-         nxndxQZFz17SfL/+iksZXDRv2h1/zPYjCtRbO87IJV7sjNO9spuINxCLOZBmG1nNTbnh
-         U4pD1t8Dr2BaqW/zjy4pzJ9BQYESnNE+EDe79FL+SjdC7yg+oRaBlf3/K24djyHIsvSG
-         eeow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754578288; x=1755183088;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9OzOvhq3GmbvaBtGUgAaXSZiV6ZbsCylTW2ygbBRF/o=;
-        b=AnFpB6OJBKvlVL0Fp91oAIdA+rnqwKjZbAnhka7oiAiZXGiq65U/Y4iHfkmg5QWmXi
-         eEiS7lnS933TOgLtM/k8mg1OrKMsqxQehU7zUi/J7d+NPzTqHXp57HONMl5W/sqYCDCQ
-         VUyBXLqhJKHAODKgy0MeHfBLKb6fUr/jf/niac0hZzIEiJHjijKpXQPz3OOWtezOKPL/
-         EVvrlJXdb3liugnvA8aRT8TSOcdbAlECFCyxb1x5tqyCy+GrJBUatlhNdjuXKpz/2KBr
-         kKislSgwNHtOMRvbghjai2Z5Y4AU9Ja4jDNTXUi5Ww52X9Ha3VEXbWReCJOOXmbpYvxI
-         ap+g==
-X-Forwarded-Encrypted: i=1; AJvYcCXVoLNR1wVojNcOMMbd0WfHrCYKQDyscHI8tSFg7x+eMQefQJKxjlvA6U4W7Ndpb9jEUDDWbgw4fs8pEnw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw76KsMmCIfvTbil7vNqrTCD016t5h9b3jQB9JgJweI5ByJNu/s
-	I1Djj45q663UFFVcrfcRPxPJW6OA3rVsAmiReVmefPLHgriQoh0eYUgd
-X-Gm-Gg: ASbGncsKrsmtWox+8YpPKdD+e0BquuCtogXnVOYMqj2UQVB0FC/f+z0e5nkTS6jQdDF
-	U/mXZRtvWIGxj4d1yr8QUkKgyZqqhFi0m9dZ8juLG79Mt7TU9wtefCU62+853pdxtkcr/6LMetd
-	9LXpyHlGQTvhWdBUBshDid/iMCozVTBiPKc4wbZZ2fHAaLhk1GH5xqUpdcU4z14Aj+8lIwFvMt2
-	CYv3BG1NsjjWpw4rWKdO7zlDkpkZv1AT1qbnqVhvdqo/xf14by1O/aksslLUX1WugMY1ecF9l6t
-	GrAgGhuJZPfXEq/dTUDxLgZXxofzqSGVNRsMyxYhezGCxibnR4oB5uaHmPI7bt5TMeKlmy+U9/s
-	dZLciop9MFDQfQ45KYi4iyQtJ6745H2rZVpAeLNVXmZROo8acM2+/Cqe7PM66fPA=
-X-Google-Smtp-Source: AGHT+IGtphOkrCppTiHiV45+Qe9W2hQNmX+FpcoXnXXadWOHWcmzG19NrBZWjxt3jESoe+Rbd+mthQ==
-X-Received: by 2002:a05:6300:210c:b0:23d:c4c6:f406 with SMTP id adf61e73a8af0-2403159487dmr11371637637.43.1754578288227;
-        Thu, 07 Aug 2025 07:51:28 -0700 (PDT)
-Received: from ak-workspace.tail730999.ts.net ([49.207.200.134])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b422bac0d6csm15569174a12.38.2025.08.07.07.51.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Aug 2025 07:51:27 -0700 (PDT)
-From: Akshaykumar Gunari <akshaygunari@gmail.com>
-To: corbet@lwn.net,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com
-Cc: linux-doc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Akshaykumar Gunari <akshaygunari@gmail.com>
-Subject: [PATCH RESEND] docs: arm: stm32: fix typo "busses" -> "buses"
-Date: Thu,  7 Aug 2025 20:21:19 +0530
-Message-ID: <20250807145119.2214-1-akshaygunari@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W8B6sQfY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754580816; x=1786116816;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FnUPB7qv30FA9oqfJQeIo6iP24gxoG1IpXSWOd8UpiQ=;
+  b=W8B6sQfYsH1x0bXUxRy1lDjHWGdci3cGPzBHEaEMog+nO9BoYmz3sWSH
+   mPFpZdOG8T/bJXpd9YN6JNFMsRgIHugn26jhTKjwNYTV6nz7aas82r6zE
+   3Kin54pal/+1+QHDUs3p98OloRD7VjEds9cXMapDj+G/OzkgloMOZg0S9
+   mhM0EQ3fYS0GeuzKD+nES3/CxkHp13HIGCmly2Vb9Bljr9kcKdW5WVhyk
+   jWNKhjtot5HuKTU8tAcNXggbr7qZDFfaKL5cahDn34AbzfW7b0yjlny2q
+   z+CxQj+9EkMZ7poeLF0uBPpN7d91dsem46E94+iKZLpvk9q19eR8LURDt
+   g==;
+X-CSE-ConnectionGUID: 9sof5ka7Rp2l0BbAhIZuEQ==
+X-CSE-MsgGUID: W7fiO4DSRzq4e3hzqw8zmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="74374972"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="74374972"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 08:33:35 -0700
+X-CSE-ConnectionGUID: o1CHXdWvQDSW10VkV6+4Rw==
+X-CSE-MsgGUID: dkmXxvFfTbqS9ZMXUrL3SQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="165097478"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by orviesa007.jf.intel.com with ESMTP; 07 Aug 2025 08:33:34 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uk2cV-0002UF-2w;
+	Thu, 07 Aug 2025 15:33:31 +0000
+Date: Thu, 7 Aug 2025 17:32:42 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert 186/801] htmldocs: Warning:
+ Documentation/hwmon/vexpress.rst references a file that doesn't exist:
+ Documentation/devicetree/bindings/hwmon/vexpress.txt
+Message-ID: <202508071725.Rt2GN27p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix the spelling of "busses" to the preferred form "buses" in STM32 ARM
-architecture documentation.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
+commit: 8aeff7f162304fd086eb251accbf61a6e5364d7a [186/801] dt-bindings: hwmon: Convert vexpress to DT schema
+reproduce: (https://download.01.org/0day-ci/archive/20250807/202508071725.Rt2GN27p-lkp@intel.com/reproduce)
 
-Signed-off-by: Akshaykumar Gunari <akshaygunari@gmail.com>
----
- Documentation/arch/arm/stm32/stm32f746-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32f769-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32h743-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32h750-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32mp13-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32mp151-overview.rst | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508071725.Rt2GN27p-lkp@intel.com/
 
-diff --git a/Documentation/arch/arm/stm32/stm32f746-overview.rst b/Documentation/arch/arm/stm32/stm32f746-overview.rst
-index 78befddc7740..335f0855a858 100644
---- a/Documentation/arch/arm/stm32/stm32f746-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32f746-overview.rst
-@@ -15,7 +15,7 @@ It features:
- - SD/MMC/SDIO support
- - Ethernet controller
- - USB OTFG FS & HS controllers
--- I2C, SPI, CAN busses support
-+- I2C, SPI, CAN buses support
- - Several 16 & 32 bits general purpose timers
- - Serial Audio interface
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32f769-overview.rst b/Documentation/arch/arm/stm32/stm32f769-overview.rst
-index e482980ddf21..ef31aadee68f 100644
---- a/Documentation/arch/arm/stm32/stm32f769-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32f769-overview.rst
-@@ -15,7 +15,7 @@ It features:
- - SD/MMC/SDIO support*2
- - Ethernet controller
- - USB OTFG FS & HS controllers
--- I2C*4, SPI*6, CAN*3 busses support
-+- I2C*4, SPI*6, CAN*3 buses support
- - Several 16 & 32 bits general purpose timers
- - Serial Audio interface*2
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32h743-overview.rst b/Documentation/arch/arm/stm32/stm32h743-overview.rst
-index 4e15f1a42730..7659df24d362 100644
---- a/Documentation/arch/arm/stm32/stm32h743-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32h743-overview.rst
-@@ -15,7 +15,7 @@ It features:
- - SD/MMC/SDIO support
- - Ethernet controller
- - USB OTFG FS & HS controllers
--- I2C, SPI, CAN busses support
-+- I2C, SPI, CAN buses support
- - Several 16 & 32 bits general purpose timers
- - Serial Audio interface
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32h750-overview.rst b/Documentation/arch/arm/stm32/stm32h750-overview.rst
-index 0e51235c9547..be032b77d1f1 100644
---- a/Documentation/arch/arm/stm32/stm32h750-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32h750-overview.rst
-@@ -15,7 +15,7 @@ It features:
- - SD/MMC/SDIO support
- - Ethernet controller
- - USB OTFG FS & HS controllers
--- I2C, SPI, CAN busses support
-+- I2C, SPI, CAN buses support
- - Several 16 & 32 bits general purpose timers
- - Serial Audio interface
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32mp13-overview.rst b/Documentation/arch/arm/stm32/stm32mp13-overview.rst
-index 3bb9492dad49..b5e9589fb06f 100644
---- a/Documentation/arch/arm/stm32/stm32mp13-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32mp13-overview.rst
-@@ -24,7 +24,7 @@ More details:
- - ADC/DAC
- - USB EHCI/OHCI controllers
- - USB OTG
--- I2C, SPI, CAN busses support
-+- I2C, SPI, CAN buses support
- - Several general purpose timers
- - Serial Audio interface
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32mp151-overview.rst b/Documentation/arch/arm/stm32/stm32mp151-overview.rst
-index f42a2ac309c0..b58c256ede9a 100644
---- a/Documentation/arch/arm/stm32/stm32mp151-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32mp151-overview.rst
-@@ -23,7 +23,7 @@ More details:
- - ADC/DAC
- - USB EHCI/OHCI controllers
- - USB OTG
--- I2C, SPI busses support
-+- I2C, SPI buses support
- - Several general purpose timers
- - Serial Audio interface
- - LCD-TFT controller
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/gpio/gpio-dsp-keystone.txt
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/keystone-gate.txt
+   Warning: Documentation/devicetree/bindings/thermal/armada-thermal.txt references a file that doesn't exist: Documentation/devicetree/bindings/arm/marvell/ap80x-system-controller.txt
+   Warning: Documentation/devicetree/bindings/thermal/armada-thermal.txt references a file that doesn't exist: Documentation/devicetree/bindings/arm/marvell/cp110-system-controller.txt
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+>> Warning: Documentation/hwmon/vexpress.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/vexpress.txt
+   Warning: Documentation/trace/rv/da_monitor_instrumentation.rst references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
