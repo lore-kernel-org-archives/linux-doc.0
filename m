@@ -1,354 +1,222 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5D02750EA
-	for <linux-doc@vger.kernel.org>; Thu,  7 Aug 2025 01:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9647D17A317
+	for <linux-doc@vger.kernel.org>; Thu,  7 Aug 2025 02:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754531137; cv=none; b=mq/3BZV5yxdvKa6NBXfRUUnmmfEr6XKyMfE/YXRxGV8fYo8n9BE7ll490eSlY5IXOlmMAi7qqVJAbHNQbAWXiFKVhPlHXlnktVtjsA9pNNVcklHfp+2Cbxq/ADGzS6BmClC+P2fKn4qymLj8PBmJyDTHXe/1nQ99LRu0U63URvM=
+	t=1754532236; cv=none; b=FubJoHRhMGL9ngRVygupdMavDwUEnWsOl06BVn3yN96gMq2xHWIHhU5dvKHP5maPdmBcNTnnjfxdeXQTukdZvamQXIiVjbHr09P2IrxqDq77iNu24766chDR1P/w8w79gZ4U13h7FtAro+2CT3lh4LxZAQ5+rOIb4UvQFTIzOas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754531137; c=relaxed/simple;
-	bh=J79Sk6AEqFb6qwXHY80LiIIR0kdFlLi7khC7kbAVegc=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=I91T67fRTGy+XrWllIrzLGsGgzRVK/KORlqzfXOxn3Njnp21BgmeJlR8zLTRie+zZ0X4bm/MzGbbSYJYKo+U9CUgnSMfrNLzR3EP5CT2Dn8BzhrvjQzdOC8d2fmKgh5MoTFE9GkpL/GREhab703zlgE5lnN8a4isuQhoUPkqhz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Z77zGx4J; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1754532236; c=relaxed/simple;
+	bh=hqmcfReuijwtnpNcJRsSkCHLXblH9O/rigatjdEuRlU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UGxgxmnrbBJEe0zB1csUxaycI+0Gg2deQ1kf5Q2z2R6YdVKdXyy3KkCClzadQ+2AQm+YNhXtw8lQ6QPXAlAQ8LuEwdzoq9D/swddeKLFK6eD/R5epHsKE7yge9CrA6jVLN5cY60cfQfVT5CEklTtnaNVnVwvhp48V9h2hrjAHUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Qg86bz33; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Z77zGx4J"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4b06d6cb45fso6751631cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 06 Aug 2025 18:45:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754531131; x=1755135931; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bxqnvx2r4Si9BOyfm56lPsflUxyGmt3u+0J7FV+KfwI=;
-        b=Z77zGx4JrCFY/il7oa2goOH/IIDtyey4wbcpnoYFvBhJGXz9yPAzDq3ayqWlXQeS/x
-         FjZRhY9lEmSAwHFPqMRZKBWVd2gXlpLRQ8L1nx6UWZw0tRlIiTj5HY0TKqPu3O/djT0Q
-         nnf5jQFFxkT7VcSHa0vZMjNAwloKpo5822WBLbxnt0UKk+E8KpEqIPgQh8Hu/sXiHO4G
-         nVUFT2+ScE43qABbC2f2hTV+IpZOMNULmwOOCDCQjrGrbH4rZ1VNAD6uInHcI7PWj6Cy
-         Dy156M6UjHJhtQYhdSkggmP65Yb5OlslzI/OsngfSRoght3n//V/+cfqBEIuHKESv7na
-         +FKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754531131; x=1755135931;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bxqnvx2r4Si9BOyfm56lPsflUxyGmt3u+0J7FV+KfwI=;
-        b=MpmQYHwb8UXmvjibCm/kUx4td8xHhwkAN+QRHrNQ5o/uIi+W/nE2Lrq8hA8HBsmH+e
-         7iQOV15NIgA2tAmQBn9dkCXpNrf69XqpBJ1EU+jRdMyM9+p6khPGHPHjXWqhZUC0AIBB
-         PQcH2XerUDEjxOxCZhTvEXx21kHLvLJu0HFw/8pCxrSV2y0MA6i+BXI9zy4R+bOgVdTb
-         izDabEY4Dal+EYGT8kSS8Eois0QabSD+of4mqBXdNNAnRkTztN+r1Pt99tm9OE5la2yN
-         nhM9wj8nJ29Bk6G2gxiuwcBclAulWpfHJ0R2FKEyK5hJGw7H9blGCEGqoM8oqih2mXJ/
-         ePHw==
-X-Forwarded-Encrypted: i=1; AJvYcCWMMJhcTLmzPPUqV95ZBIeluSNxELTwiw0VT/Cld/CqPxOPPNc9ifAA4Lo2jQI5zbwfcBdxeXQkuTM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNMflJ9NGzJ7nE1LspwB8ga3wTJNedoO9bhpS0VrZT2UPnXeg3
-	EvOfqKnnmwVnAzgby9dpil73nJna4wVtrz8IshZzViDD3uIyUN08R2DZAajj9qCqczI=
-X-Gm-Gg: ASbGncvJABxZuBJzHMQhITt1r+JQbGyAZ7ZlRTYgYfXVtOhgbz8DSvMFYJ3DjI5fJaE
-	HQSQYWGlzZJUfBOCjt6CpnSUrJWTTQOIMlxH+h8+NiycH7M8bBcvG6cf8uuliCAc8ekHyvZ9k7f
-	kbSSTsN7U1wohR8iYxjqTo4vCYE/jY0hBwsKhcgj5kK/PMTiHP4cK6o9rIJT6UA0wKikC73pKwi
-	WrEaPSn8ppnzsL80xYhY9mwTg/eeGk9qKh9NtBybT/OKUR8jpm1JBQn6Eb+rzc2aq2h6VgXphwf
-	Hv1iNH2HrT8MvT1vRxEzY38qLqYQI4/kOZ+H7KourcAagidbZROL5MSW5jLF1nRZiut7daZEP7a
-	M+agTS6DezDDAiSNhcX1jsdzoDz56luEsBDIzbT7PSR7vzH+0VZ1p6MOC51KqYXfoGyETUCUFGn
-	bLsfmXIY1FhNUd
-X-Google-Smtp-Source: AGHT+IE25uuFedh62vClwjbUoKXlfnK11WcIRsY3uExXHXg77BXrLNoq560jJFcvmuXwL7CnS28NTA==
-X-Received: by 2002:a05:622a:1a13:b0:4ab:76bd:ec51 with SMTP id d75a77b69052e-4b0912f603cmr60022211cf.3.1754531131249;
-        Wed, 06 Aug 2025 18:45:31 -0700 (PDT)
-Received: from soleen.c.googlers.com.com (235.247.85.34.bc.googleusercontent.com. [34.85.247.235])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077cde5a01sm92969046d6.70.2025.08.06.18.45.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 18:45:30 -0700 (PDT)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: pratyush@kernel.org,
-	jasonmiu@google.com,
-	graf@amazon.com,
-	changyuanl@google.com,
-	pasha.tatashin@soleen.com,
-	rppt@kernel.org,
-	dmatlack@google.com,
-	rientjes@google.com,
-	corbet@lwn.net,
-	rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com,
-	ojeda@kernel.org,
-	aliceryhl@google.com,
-	masahiroy@kernel.org,
-	akpm@linux-foundation.org,
-	tj@kernel.org,
-	yoann.congal@smile.fr,
-	mmaurer@google.com,
-	roman.gushchin@linux.dev,
-	chenridong@huawei.com,
-	axboe@kernel.dk,
-	mark.rutland@arm.com,
-	jannh@google.com,
-	vincent.guittot@linaro.org,
-	hannes@cmpxchg.org,
-	dan.j.williams@intel.com,
-	david@redhat.com,
-	joel.granados@kernel.org,
-	rostedt@goodmis.org,
-	anna.schumaker@oracle.com,
-	song@kernel.org,
-	zhangguopeng@kylinos.cn,
-	linux@weissschuh.net,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	gregkh@linuxfoundation.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	bartosz.golaszewski@linaro.org,
-	cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com,
-	yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com,
-	quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com,
-	ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com,
-	leon@kernel.org,
-	lukas@wunner.de,
-	bhelgaas@google.com,
-	wagi@kernel.org,
-	djeffery@redhat.com,
-	stuart.w.hayes@gmail.com,
-	ptyadav@amazon.de,
-	lennart@poettering.net,
-	brauner@kernel.org,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	saeedm@nvidia.com,
-	ajayachandra@nvidia.com,
-	jgg@nvidia.com,
-	parav@nvidia.com,
-	leonro@nvidia.com,
-	witu@nvidia.com
-Subject: [PATCH v3 30/30] docs: add documentation for memfd preservation via LUO
-Date: Thu,  7 Aug 2025 01:44:36 +0000
-Message-ID: <20250807014442.3829950-31-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.50.1.565.gc32cd1483b-goog
-In-Reply-To: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Qg86bz33"
+Date: Wed, 6 Aug 2025 19:03:32 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1754532222;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m4lFUwBUTBASs8+w6RWnaE1vMNcqXEPtsns4iFPW3QQ=;
+	b=Qg86bz33wt/39A/xZzIW0ZTd1srRiZPD+rB+zqoTKG4gFhl3WRsh3Owk58E9KtF176Vpfj
+	05pY2mo1wxaAb79x+wFf8f2yL2E96FW2bZ4GODk0yLPFhGuQvFjdfgoSq/csplV1rYXk22
+	sFeqpRT2AYHBtFw9a98PEruMPqQMaDc=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v2 1/2] KVM: arm64: PMU: Introduce
+ KVM_ARM_VCPU_PMU_V3_COMPOSITION
+Message-ID: <aJQJdElbZJ6KzQxD@linux.dev>
+References: <20250806-hybrid-v2-0-0661aec3af8c@rsg.ci.i.u-tokyo.ac.jp>
+ <20250806-hybrid-v2-1-0661aec3af8c@rsg.ci.i.u-tokyo.ac.jp>
+ <aJOO99xUrhsrvLwl@linux.dev>
+ <276fdfb8-f1ca-44ad-b310-a811684b265a@rsg.ci.i.u-tokyo.ac.jp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <276fdfb8-f1ca-44ad-b310-a811684b265a@rsg.ci.i.u-tokyo.ac.jp>
+X-Migadu-Flow: FLOW_OUT
 
-From: Pratyush Yadav <ptyadav@amazon.de>
+On Thu, Aug 07, 2025 at 03:24:43AM +0900, Akihiko Odaki wrote:
+> On 2025/08/07 2:20, Oliver Upton wrote:
+> > Hi Akihiko,
+> > 
+> > This is an unreasonably large patch that needs to be broken down into
+> > smaller patches, ideally one functional change per patch. We need this
+> > even for an RFC for the sake of reviews.
+> > 
+> > On Wed, Aug 06, 2025 at 06:09:54PM +0900, Akihiko Odaki wrote:
+> > > +static u64 kvm_pmu_get_pmc_value(struct kvm_vcpu *vcpu, u8 idx)
+> > >   {
+> > > -	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
+> > > +	struct kvm_pmc *pmc = *kvm_vcpu_idx_to_pmc(vcpu, idx);
+> > >   	u64 counter, reg, enabled, running;
+> > > +	unsigned int i;
+> > > -	reg = counter_index_to_reg(pmc->idx);
+> > > +	reg = counter_index_to_reg(idx);
+> > >   	counter = __vcpu_sys_reg(vcpu, reg);
+> > >   	/*
+> > >   	 * The real counter value is equal to the value of counter register plus
+> > >   	 * the value perf event counts.
+> > >   	 */
+> > > -	if (pmc->perf_event)
+> > > -		counter += perf_event_read_value(pmc->perf_event, &enabled,
+> > > -						 &running);
+> > > +	if (pmc)
+> > > +		for (i = 0; i < pmc->nr_perf_events; i++)
+> > > +			counter += perf_event_read_value(pmc->perf_events[i],
+> > > +							 &enabled, &running);
+> > 
+> > I'm concerned that this array of events concept you're introducing is
+> > going to be error-prone. An approach that reallocates a new PMU event in
+> > the case of a vCPU migrating to a new PMU implementation would be
+> > desirable.
+> 
+> I avoided allocation at migration because I was worried with disabled
+> preemption. perf_event_create_kernel_counter() internally takes a mutex so
+> it cannot be used if preemption is disabled.
+> 
+> I wonder if it is guaranteed that kvm_arch_vcpu_load() executes with
+> preemption. If so, I can add a hook there to call
+> perf_event_create_kernel_counter().
 
-Add the documentation under the "Preserving file descriptors" section of
-LUO's documentation. The doc describes the properties preserved,
-behaviour of the file under different LUO states, serialization format,
-and current limitations.
+You don't need to allocate the event at vcpu_load(). The only guarantee
+we need is that an event has been attached to the PMC prior to entering
+the guest, for which the KVM_REQ_* infrastructure is quite useful.
 
-Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- Documentation/core-api/liveupdate.rst   |   7 ++
- Documentation/mm/index.rst              |   1 +
- Documentation/mm/memfd_preservation.rst | 138 ++++++++++++++++++++++++
- MAINTAINERS                             |   1 +
- 4 files changed, 147 insertions(+)
- create mode 100644 Documentation/mm/memfd_preservation.rst
+> > 
+> > > +static void reset_sample_period(struct perf_event *perf_event)
+> > > +{
+> > > +	struct kvm_pmc **pmc = perf_event->overflow_handler_context;
+> > > +	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
+> > > +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
+> > > +	u64 period;
+> > > +
+> > > +	cpu_pmu->pmu.stop(perf_event, PERF_EF_UPDATE);
+> > > +
+> > > +	/*
+> > > +	 * Reset the sample period to the architectural limit,
+> > > +	 * i.e. the point where the counter overflows.
+> > > +	 */
+> > > +	period = compute_period(pmc, kvm_pmu_get_pmc_value(vcpu, (*pmc)->idx));
+> > > +
+> > > +	local64_set(&perf_event->hw.period_left, 0);
+> > > +	perf_event->attr.sample_period = period;
+> > > +	perf_event->hw.sample_period = period;
+> > > +
+> > > +	cpu_pmu->pmu.start(perf_event, PERF_EF_RELOAD);
+> > > +}
+> > 
+> > No, we can't start calling into the internal driver interfaces. The fact
+> > that we have a pointer to the PMU is an ugly hack and shouldn't be used
+> > like this.
+> 
+> This function was extracted from kvm_pmu_perf_overflow() and is not a new
+> addition (which should have been clear if I would have split the patch as
+> you noted).
 
-diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
-index 41c4b76cd3ec..232d5f623992 100644
---- a/Documentation/core-api/liveupdate.rst
-+++ b/Documentation/core-api/liveupdate.rst
-@@ -18,6 +18,13 @@ LUO Preserving File Descriptors
- .. kernel-doc:: kernel/liveupdate/luo_files.c
-    :doc: LUO file descriptors
- 
-+The following types of file descriptors can be preserved
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   ../mm/memfd_preservation
-+
- Public API
- ==========
- .. kernel-doc:: include/linux/liveupdate.h
-diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
-index fb45acba16ac..c504156149a0 100644
---- a/Documentation/mm/index.rst
-+++ b/Documentation/mm/index.rst
-@@ -47,6 +47,7 @@ documentation, or deleted if it has served its purpose.
-    hugetlbfs_reserv
-    ksm
-    memory-model
-+   memfd_preservation
-    mmu_notifier
-    multigen_lru
-    numa
-diff --git a/Documentation/mm/memfd_preservation.rst b/Documentation/mm/memfd_preservation.rst
-new file mode 100644
-index 000000000000..416cd1dafc97
---- /dev/null
-+++ b/Documentation/mm/memfd_preservation.rst
-@@ -0,0 +1,138 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+==========================
-+Memfd Preservation via LUO
-+==========================
-+
-+Overview
-+========
-+
-+Memory file descriptors (memfd) can be preserved over a kexec using the Live
-+Update Orchestrator (LUO) file preservation. This allows userspace to transfer
-+its memory contents to the next kernel after a kexec.
-+
-+The preservation is not intended to be transparent. Only select properties of
-+the file are preserved. All others are reset to default. The preserved
-+properties are described below.
-+
-+.. note::
-+   The LUO API is not stabilized yet, so the preserved properties of a memfd are
-+   also not stable and are subject to backwards incompatible changes.
-+
-+.. note::
-+   Currently a memfd backed by Hugetlb is not supported. Memfds created
-+   with ``MFD_HUGETLB`` will be rejected.
-+
-+Preserved Properties
-+====================
-+
-+The following properties of the memfd are preserved across kexec:
-+
-+File Contents
-+  All data stored in the file is preserved.
-+
-+File Size
-+  The size of the file is preserved. Holes in the file are filled by allocating
-+  pages for them during preservation.
-+
-+File Position
-+  The current file position is preserved, allowing applications to continue
-+  reading/writing from their last position.
-+
-+File Status Flags
-+  memfds are always opened with ``O_RDWR`` and ``O_LARGEFILE``. This property is
-+  maintained.
-+
-+Non-Preserved Properties
-+========================
-+
-+All properties which are not preserved must be assumed to be reset to default.
-+This section describes some of those properties which may be more of note.
-+
-+``FD_CLOEXEC`` flag
-+  A memfd can be created with the ``MFD_CLOEXEC`` flag that sets the
-+  ``FD_CLOEXEC`` on the file. This flag is not preserved and must be set again
-+  after restore via ``fcntl()``.
-+
-+Seals
-+  File seals are not preserved. The file is unsealed on restore and if needed,
-+  must be sealed again via ``fcntl()``.
-+
-+Behavior with LUO states
-+========================
-+
-+This section described the behavior of the memfd in the different LUO states.
-+
-+Normal Phase
-+  During the normal phase, the memfd can be marked for preservation using the
-+  ``LIVEUPDATE_IOCTL_FD_PRESERVE`` ioctl. The memfd acts as a regular memfd
-+  during this phase with no additional restrictions.
-+
-+Prepared Phase
-+  After LUO enters ``LIVEUPDATE_STATE_PREPARED``, the memfd is serialized and
-+  prepared for the next kernel. During this phase, the below things happen:
-+
-+  - All the folios are pinned. If some folios reside in ``ZONE_MIGRATE``, they
-+    are migrated out. This ensures none of the preserved folios land in KHO
-+    scratch area.
-+  - Pages in swap are swapped in. Currently, there is no way to pass pages in
-+    swap over KHO, so all swapped out pages are swapped back in and pinned.
-+  - The memfd goes into "frozen mapping" mode. The file can no longer grow or
-+    shrink, or punch holes. This ensures the serialized mappings stay in sync.
-+    The file can still be read from or written to or mmap-ed.
-+
-+Freeze Phase
-+  Updates the current file position in the serialized data to capture any
-+  changes that occurred between prepare and freeze phases. After this, the FD is
-+  not allowed to be accessed.
-+
-+Restoration Phase
-+  After being restored, the memfd is functional as normal with the properties
-+  listed above restored.
-+
-+Cancellation
-+  If the liveupdate is canceled after going into prepared phase, the memfd
-+  functions like in normal phase.
-+
-+Serialization format
-+====================
-+
-+The state is serialized in an FDT with the following structure::
-+
-+  /dts-v1/;
-+
-+  / {
-+      compatible = "memfd-v1";
-+      pos = <current_file_position>;
-+      size = <file_size_in_bytes>;
-+      folios = <array_of_preserved_folio_descriptors>;
-+  };
-+
-+Each folio descriptor contains:
-+
-+- PFN + flags (8 bytes)
-+
-+  - Physical frame number (PFN) of the preserved folio (bits 63:12).
-+  - Folio flags (bits 11:0):
-+
-+    - ``PRESERVED_FLAG_DIRTY`` (bit 0)
-+    - ``PRESERVED_FLAG_UPTODATE`` (bit 1)
-+
-+- Folio index within the file (8 bytes).
-+
-+Limitations
-+===========
-+
-+The current implementation has the following limitations:
-+
-+Size
-+  Currently the size of the file is limited by the size of the FDT. The FDT can
-+  be at of most ``MAX_PAGE_ORDER`` order. By default this is 4 MiB with 4K
-+  pages. Each page in the file is tracked using 16 bytes. This limits the
-+  maximum size of the file to 1 GiB.
-+
-+See Also
-+========
-+
-+- :doc:`Live Update Orchestrator </admin-guide/liveupdate>`
-+- :doc:`/core-api/kho/concepts`
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7421d21672f3..50482363c9d4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14215,6 +14215,7 @@ S:	Maintained
- F:	Documentation/ABI/testing/sysfs-kernel-liveupdate
- F:	Documentation/admin-guide/liveupdate.rst
- F:	Documentation/core-api/liveupdate.rst
-+F:	Documentation/mm/memfd_preservation.rst
- F:	Documentation/userspace-api/liveupdate.rst
- F:	include/linux/liveupdate.h
- F:	include/uapi/linux/liveupdate.h
--- 
-2.50.1.565.gc32cd1483b-goog
+Yuck, then forgive my whining.
 
+> I thought of replacing it with perf_event_period(), but there is a catch: it
+> returns -EINVAL if the 63th bit of the sample period number is set. Perhaps
+> we can just specify ((1ULL << 63) - 1) if the sample period is going to be
+> so long, but I conservatively avoided that. I can change it if you prefer
+> that way or have an alternative idea.
+
+Let's keep it as-is then. Sorry about the noise.
+
+> > Can we just special-case the fixed CPU cycle counter to use
+> > PERF_TYPE_HARDWARE / PERF_COUNT_HW_CPU_CYCLES? That _should_ have the
+> > intended effect of opening an event on the PMU for this CPU.
+> 
+> I have an impression that perhaps this emulation can be more generic by
+> converting eventsel to PERF_COUNT_HW_* numbers with armv8_pmuv3_perf_map in
+> drivers/perf/arm_pmuv3.c, but it is not in scope of this change. The current
+> code is sufficient for now.
+
+The only cross-PMU events we will support are the fixed counters, my
+strong preference is that we do not reverse-map architectural events to
+generic perf events for all counters.
+
+> > I'm not sure there's much value in preventing the user from configuring
+> > the PMU event filter. Even in the case of the fixed CPU cycle counter we
+> > allow userspace to filter the event.
+> 
+> It is possible to configure the PMU event filter, but it needs to be done
+> after setting the attribute. This behavior is aligned with
+> KVM_ARM_VCPU_PMU_V3_SET_PMU.
+
+That's fine then, I missed that detail.
+
+> They are mutually exclusive and the latest configuration takes effect.
+> 
+> If you set SET_PMU after COMPOSITION, SET_PMU will take effect.
+> If you set COMPOSITION after SET_PMU, COMPOSITION will take effect.
+> 
+> I'll note that in the documentation.
+
+This isn't what I meant. What I mean is that userspace either can use
+the SET_PMU ioctl or the COMPOSITION ioctl. Once one of them has been
+used the other ioctl returns an error.
+
+We're really bad at getting ioctl ordering / interleaving right and
+syzkaller has a habit of finding these mistakes. There's zero practical
+value in using both of these ioctls on the same VM, let's prevent it.
+
+> > > +	case KVM_ARM_VCPU_PMU_V3_COMPOSITION:
+> > > +		return kvm_arm_pmu_v3_set_pmu_composition(vcpu);
+> > 
+> > I'd prefer naming this something like 'KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY'.
+> > We will have the fixed instruction counter eventually which is another
+> > event we could potentially provide system-wide.
+> 
+> The design decision to expose the cycle counter is driven by the motivation
+> to satisfy FEAT_PMU for the guest rather than the host capability.
+> 
+> When we implement FEAT_PMUv3_ICNTR in the future, I think we will need to
+> add KVM_ARM_VCPU_PMU_V3_COMPOSITION_ICNTR or something. The resultig
+> emulated PMU will work only on host CPUs that have instruction counters; a
+> host CPU may lack one because it doesn't implement FEAT_PMUv3_ICNTR or has a
+> third-party PMU like apple-m1-cpu-pmu (this particular PMU has an
+> instruction counter fortunately).
+
+No, this is at odds with the way we handle CPU features in KVM/arm64.
+
+Ignoring this ioctl, the goal is that after KVM_ARM_VCPU_INIT the vCPU
+is initialized to the maximum possible feature set. If userspace wants
+to de-feature the VM it can do so by modifying the ID registers.
+
+OTOH, your ioctl is dealing with something structural in how we
+support PMUs on the system. It should be defined as exposing all fixed
+counters that we support on a given piece of hardware. On systems
+without FEAT_PMUv3_ICNTR, the result should be a vPMU that only has the
+CPU cycle counter.
+
+On a system that has FEAT_PMUv3_ICNTR, userspace can still use this
+ioctl and explicitly de-feature ICNTR by writing to the ID register
+after initialization.
+
+Thanks,
+Oliver
