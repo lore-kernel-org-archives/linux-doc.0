@@ -1,160 +1,90 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CB126D4C0;
-	Thu,  7 Aug 2025 17:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8652E43AA1
+	for <linux-doc@vger.kernel.org>; Thu,  7 Aug 2025 17:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754586114; cv=none; b=Lqh24g0ACiGchBQqa5SH9xOGdbtXqDnk8JoWIvw9uiFfz7Jg5KYlSTjQ+30ipi1LAwQ+hYtMjAXa6k12UkDm6zK2pW668sospjP3mCGZtBBF32uVQi8BR0qJ/fllsfQ8vOtXX0bex0ShqHmKPIUi1by09ZjXhzy7bepnwFN6I6I=
+	t=1754589585; cv=none; b=jsuK/AiEvd+wB82WrkkN5/y2ROo1Tt6X65+r7bz0F/SjSy8AHVk1Y6Q6EmjR4O+sLc6dZcvfhKNzJ2owczBhOkAtNcS311eVEOb1UY28dzjaGK1ECI6uIE/abOOqjvr8G1Y4z9OvxIfWR+MxxRPIMnbWthgMJTLJu2jf/VwgzBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754586114; c=relaxed/simple;
-	bh=eCCvrUfJfnarnq3XXGkIUqgdLZRCxGn7qHjBBcKOTfw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=steI28y9uj57fhgE7oIN2mPKqa2jJGgmyE5Pgak/b1uu3EoyhDF5ev/+StNf2QuNaYdonkK6hh/EGTWLTPKXkcEf8PZy8zpVqlB5r0oc6n7k5td5zhi5FRR6U7/SxAVRNJFaHQMoYenJ1CEP4UmKAREToJEDkyp/kViC6CQREZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qa00LrRf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1754589585; c=relaxed/simple;
+	bh=NMp7eAx8M7eQcMBwoZt8BUBNYZEs3Ri7CxhJo5Fm4sk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c3TmfInv7zRP7IrjdCaKtD5+uJNJI6ny20O1SH0sNs1M4vg0c2sG8DE/VmHbHQ7EoueYD2AWZvojfTpN3N2IqZwqVW4GLdD1DzecNljz6TUpL8wSS7xYUR8mXITRI1JawCVksP1b1Xg5bqcT/7dmKg466KmIWVeQB7LT6bd2sZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OiwTbE9i; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qa00LrRf"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 609F3DF3;
-	Thu,  7 Aug 2025 19:01:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754586061;
-	bh=eCCvrUfJfnarnq3XXGkIUqgdLZRCxGn7qHjBBcKOTfw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qa00LrRfBwStZ0MwGF3BUrJozKPWBnVWsdgf1+OsXtES651W59SuzWCKxRv+u0MzL
-	 vdERPfJcXzpEuCfXJ6WUgW/ioMSeo/eds5iVtoV11pjp77cqXeHbO0+r7ju3n1fnSe
-	 peqJ6m9QUqBn7XnXj1slNAXIOCZtBOMXK7pPJ91I=
-Date: Thu, 7 Aug 2025 20:01:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
-	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 64/65] media: staging: ipu7: isys: Don't set
- V4L2_FL_USES_V4L2_FH manually
-Message-ID: <20250807170135.GH11583@pendragon.ideasonboard.com>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
- <aJRswZIVKCuzqCpr@kekkonen.localdomain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OiwTbE9i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754589585; x=1786125585;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NMp7eAx8M7eQcMBwoZt8BUBNYZEs3Ri7CxhJo5Fm4sk=;
+  b=OiwTbE9iJLiaQcv99T+w4oJxoGIK38rXPaO7JFfttKgcFumOav+Hsv8C
+   eYGrDMOzkv+F9FcDUdNmbPWnIAWKosiu7EhIyT1zAnvmVuq+iEn51kLEj
+   IP90cttGdw4z5R7YSZKFM1Cm9o4qzLYu7ggpeIPFEIYHP3/IUXMaOpjG6
+   WfuZHLL/W7sOaZNL8mAB5UKtObjhWq7iijzrNsTnG//13Tba7HjgfxQ8w
+   +9ifmNGp4p4TR9+55/PARhxbQBbKveoDGXRu9+kZTI7kl3piVApeaCuf2
+   L9dV8xqwV/62dwoXHPik6fRdvAr6+OpoaUCtLq/znuN6uwcZCoD0Jhdkl
+   w==;
+X-CSE-ConnectionGUID: g22f0T84TLebU9HEWAwGVw==
+X-CSE-MsgGUID: YzezT/46RnKx0Dt/VNi5IQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56142140"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="56142140"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 10:59:44 -0700
+X-CSE-ConnectionGUID: 1KhGI1EkRy6V6V5fIGrJrQ==
+X-CSE-MsgGUID: 8/aPishsRO+9vCYwS42F4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="165139937"
+Received: from unknown (HELO b3b7d4258b7c) ([10.91.175.65])
+  by orviesa007.jf.intel.com with ESMTP; 07 Aug 2025 10:59:43 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uk4tw-0002VH-2J;
+	Thu, 07 Aug 2025 17:59:40 +0000
+Date: Thu, 7 Aug 2025 19:59:29 +0200
+From: kernel test robot <lkp@intel.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [frederic-dynticks:kthread/core-v2 33/33] htmldocs: Warning:
+ Documentation/admin-guide/cpu-isolation.rst references a file that doesn't
+ exist: Documentation/core-api/irq/irq-affinity.html
+Message-ID: <202508071911.GID4tmP2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aJRswZIVKCuzqCpr@kekkonen.localdomain>
 
-Hi Sakari,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git kthread/core-v2
+head:   f96c640e8d63f662d0b1c0e29387851b7e9b495a
+commit: f96c640e8d63f662d0b1c0e29387851b7e9b495a [33/33] doc: Add CPU Isolation documentation
+reproduce: (https://download.01.org/0day-ci/archive/20250807/202508071911.GID4tmP2-lkp@intel.com/reproduce)
 
-On Thu, Aug 07, 2025 at 09:07:13AM +0000, Sakari Ailus wrote:
-> On Sat, Aug 02, 2025 at 11:23:26AM +0200, Jacopo Mondi wrote:
-> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > The V4L2_FL_USES_V4L2_FH flag is set by v4l2_fh_init(). It is not meant
-> > to be set manually by drivers. Drop it from the ipu7-isys driver.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> 
-> Thanks, Jacopo!
-> 
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508071911.GID4tmP2-lkp@intel.com/
 
-Can we get you review on patch 63/65 too (for the IPU6 driver) too ?
+All warnings (new ones prefixed by >>):
+
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt-link<../../networking/netlink_spec/rt-link>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+>> Warning: Documentation/admin-guide/cpu-isolation.rst references a file that doesn't exist: Documentation/core-api/irq/irq-affinity.html
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
