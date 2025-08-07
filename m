@@ -1,177 +1,235 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2060.outbound.protection.outlook.com [40.107.243.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E162D25A630
-	for <linux-doc@vger.kernel.org>; Thu,  7 Aug 2025 13:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754573140; cv=none; b=BGhlSn8GSuGSWwviwye4dw+mJKUFJRW5G7542sCapQg8OYGWOKQTqaF38P2fXrkwvF561LhKiNHPLEr36FHs7qGAzl2mme7VZhGnuocLOH81D5ABp68aL4Lw9iun3oGcqy8PU1IBmmBXNjv3G/wvOTD3OnWodS+cF2MAq1GsBV8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754573140; c=relaxed/simple;
-	bh=BE5Henonj83S/x58TbOMswxN6uWYEKzKyZZTSsbruCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DSsvlBpw3F10dKcESbckJ1FE2Wnqaw9nDZgTv1eL5BUUzMZ4be16bYITE1TxtIEbCt80by+u2jNyZ/p6ZsnhXhSaN8dCAubOZMisWIHaWOlOLdF/sUvKwm5RpGtjaiICcyYc+fP2nc7QSmBf09perZpl9UxnUkgbG+zGGp1QBFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Jv7ue3Iy; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6027424E4C3;
+	Thu,  7 Aug 2025 13:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754573935; cv=fail; b=lZwYe7zmbsjyXe4SrPta4bIkYO/TbI1bnJZgWLKtYoF2CouOvY7qa6Q6JRIsO9PySDVWHVDWyuuOsvjSbOOqU613tpfi0kyEXnmFtFM+K/GvlgYiyyfpDOe3cz8dac2g72ocDT4Kve4+a06u0vlgbmZTJsRsOQ+NHTU2Xt914ro=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754573935; c=relaxed/simple;
+	bh=YYkX+2ESGPrpGc4G/ZKAlhPbvd03EeNYskhxHUGxXrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=LcPy46qaRIx0vHztcAcmmUdCX3ovgIG7uqqUhYxF0bY64+ic79l289wEMZJABpccmmPzbM2sTylcuE/jdtf1ElYKx7Pf2RhtcLu2ciB1xQao71sRBU7+b2Ykp8T4HaWIMQoK0yAYFGgf9jNzeTLZO1mJzh/5KZWCnmefSALAb0Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Bf0mhOSD; arc=fail smtp.client-ip=40.107.243.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Jv7ue3Iy"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a6cd1a6fecso697477f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 07 Aug 2025 06:25:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1754573136; x=1755177936; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QkK/h5wyW78slTbM7rfscexueduuSs96e2Qc2RW5gY8=;
-        b=Jv7ue3IyrgE0O2s0Yiy5Wlc7bXv+38eG78W35vf3ll6mzbE4+sAQVdUbMgHgBruA98
-         1gpFQ4yFH5CAlloE7zCQAszHuDQT9wJUVFwYA8vBJoFfzcQlk0a/fmMNqkpo+1C/zLTc
-         fEb8+ViAF2ZhC5onX2ZU12RYblvSPCYGn710dMtWj2uVGclSZGe2VIwYVrPbnnG2tQ0D
-         Zebmh5vcV+ncUu6qaIuhdVYfQG8BwSnLL17O6iI46jT/NF91GFzEevoLNBGahMXy8p+1
-         1xKH44R0c0j/3WLd+qWiXPP+PS4KyJ3eGUkNn8JFN41gTHXJ6QlOZuz0xSJl0qB6f+td
-         SCCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754573136; x=1755177936;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QkK/h5wyW78slTbM7rfscexueduuSs96e2Qc2RW5gY8=;
-        b=W9cNUj4JDwwt+xSXMzjig1PcNDNSsxRrN2q2PB4qD9o8iVA48/hCpwNCmN4xlVFLH0
-         h22fiWFLxSGlqfIxtvIXTersKQTXgkp5v0VMLmAZ6ryHAei+Zht4GEwakOtJfbpsCVzU
-         srP9z8mPsTxtjx7Xlj/pH9SD0fwOFTH8HgvYcUN2pfeejka474rPN4rHYFOdv1hJ4kV4
-         iO5gLac2Y4nkKxdKu/V0prgpfiDuhZINuRUo9+g7GbbQzlPLNolPKaC7vJplAxTABWvP
-         mRTn3znGh2WU9fdNltD2vJDdhturB/np6xEkFBonT6nBXGFlCUjR5SETqNrkuenCZn/T
-         QTOA==
-X-Forwarded-Encrypted: i=1; AJvYcCUoDqKGb6QbvZGa+ArizYfj15mBclPjBUSMIG4y5hKVWVxStHivXMiQEVT7FgfjzCMPDZL1u79FJQE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXwNPUY7Zgi3ftGN/rPhsI3QbNy9KvesGeqAmykyLo8l/QAhFZ
-	oJ4JCiLAUZz4h4ZAut9X50ydht5llWwr1KpkVrobr+yA3iIxRwC5CajXYacnjGXEvgM=
-X-Gm-Gg: ASbGnctb9J6u1tRYgUmFlytpcqGz3LkTU0S2zO3tjhF2vg3PT8YhnlSTlZ6IM6Hqeco
-	Xpwak8MQfeu+swoqSZ7Fqe0oyNQDzzpTH7O9EQWRn2cyaZyfpVLryFam6TmXASXvw88zAz0anLI
-	P69kZxRZmLkqGWgtH3rYzCe4kcz3IW9gm9D/C6Z+3QZrzHbhTBdhLy1lPoyDPYb26tJ8vLsGJm8
-	WhVh+ZBdbu1Df9EPH4caPxN8ZBBPKJW7FRImFAPrC2lg6DYLaR/sz/3meCtXXM+o/cxuSDKW5/3
-	9qeLFxAVuE1viCKqkVa+URAZ/cTmLrgB32fI+yIAGSLhfrZ9G4gkr25dXW4U70Z+i/b/lasFaqC
-	jhHgkYnyb1hvmvy+H7e1h2+zbIysUi5mxIp7ebKkMiz40kQ==
-X-Google-Smtp-Source: AGHT+IHQ9dMmpvwSG0LG+OsU60Voye7P7DJOnU5DCYn4cofMlrbc+GKVT9M1/0FDZpZM67dPsg7qAw==
-X-Received: by 2002:a05:6000:1a85:b0:3b7:78c8:9392 with SMTP id ffacd0b85a97d-3b8f4166f4emr5537116f8f.19.1754573135392;
-        Thu, 07 Aug 2025 06:25:35 -0700 (PDT)
-Received: from localhost (109-81-80-221.rct.o2.cz. [109.81.80.221])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c453ab0sm27171452f8f.44.2025.08.07.06.25.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Aug 2025 06:25:35 -0700 (PDT)
-Date: Thu, 7 Aug 2025 15:25:34 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
-	Kees Cook <kees@kernel.org>,
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Bf0mhOSD"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=odOtssjFOkCHYaLHQ+/p9kfwL3oWQqyiWiKZLpw7XJiF0foKdV34qpOhsa1iNCspSxVdxU4gA0WIItvoFQ9sRtdvvhlbhXyTBk5Ca0RXJ3RlP78IzX7daEYxP+3DERHoiEVZUq6MhT6APGT5uklKHYQGIFquSh71x2Puus3T4i8nJPnglcxkCDj+8H6wruHDXuIIsoc9Tm1p4FS/4NhFdVpTORh7rLv1w8bBVZVxzJvWspW37QJRE8JbsVFRKO7JzmyP7iBHI65AgMr19mjmpCkS4hgxSVfHwg581jbnkd35C/EEQ7HPbqjeAMv/llJMdnXVlbhEQw0Qywxz9wytHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=54Px3zvYf4CuEyxVRynpi6iF48N3mew5kEum4tnD5v0=;
+ b=WHGqL+evN1vHpZ7qbQ6RVVDVkvnpn9fYJEwlKcNw2tuS3UHw/cekUJCZobaYpQw5oT7ZwdVyQKnVpTVWm91I3/g6uByftqmmGJajARVQMwsOO9dqOj08ynUXbkUqDt6SJ5/gtWuR9mLD8+eLzSM5/PNlgbOjQw+WTLl9Q+Wilktn4nmyWf4bk60zuNCZL/pFTfeMO+nffuX/AI27zQBaZMKSFQQb2GELkui8GmIZSdjYczrggAtJANFiIiV2RKlxQg+TV+OCwfC3kU1vxB88biOmpAblynNudTd1fLMHTUoWJN7e0avj0G1kzWej0DCDpJG7TOjvkxlpUnW+JZo5Vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=54Px3zvYf4CuEyxVRynpi6iF48N3mew5kEum4tnD5v0=;
+ b=Bf0mhOSD+JdgReLtcb1INqB0/uyZWs8MTJetWOhSwa3/PLkVmbmv/hM6Jl3dg3NDMwPrsdDM/AlzyEUrUBURHkACZ6cjHLXiooKnG2YMGnzXwkRRzEcBCBNXbcVCGh58e12vxDNvxaaYSD3/bhb5e9s0aMvTNDZ9mGcWTWp5Z0O13GK0Lzmffv4MQJjFCGVLtyoFeRFT2sBeSM6zy6Jvlf/218RHAdsr+LCFfAT+PZAJJKhqdojdp/MgjqxqGvZgP7XN2ZxopR4zMA620B+mgkDwCkQXS11WIz7ZuvEqkQWL/b9jGOLORKloIcURxJ7DSXvoNKuXdOWI1COqBddbww==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by DS0PR12MB8768.namprd12.prod.outlook.com (2603:10b6:8:14f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.13; Thu, 7 Aug
+ 2025 13:38:49 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.017; Thu, 7 Aug 2025
+ 13:38:49 +0000
+Date: Thu, 7 Aug 2025 10:38:48 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Nico Pache <npache@redhat.com>, xu xin <xu.xin16@zte.com.cn>,
-	wangfushuai <wangfushuai@baidu.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Adrian Ratiu <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 0/9] freezer: Introduce freeze priority model to
- address process dependency issues
-Message-ID: <aJSpTpB9_jijiO6m@tiehlicka>
-References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v1 11/16] dma-mapping: export new dma_*map_phys()
+ interface
+Message-ID: <20250807133848.GL184255@nvidia.com>
+References: <cover.1754292567.git.leon@kernel.org>
+ <b96c639433d3b614288be4b305ecba3a9fb2c00f.1754292567.git.leon@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b96c639433d3b614288be4b305ecba3a9fb2c00f.1754292567.git.leon@kernel.org>
+X-ClientProxiedBy: YT4PR01CA0497.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10c::15) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|DS0PR12MB8768:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c6203ba-7b89-4eee-7a5d-08ddd5b7bd5f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?AMKVoTshkoWihCrrnOUvbEbK3Gi7aXCYIDForZBGpYKryA4uJRbN0UDpbFTN?=
+ =?us-ascii?Q?H/nr1xjNK0yCSTAH2/3voqKzqcPQ8JjFMyfvCCv2aMnvNbHTA33B63muGzmW?=
+ =?us-ascii?Q?5DuQYeQkxu9Uw2xN2G18A8DecvYxjTEqqa7EJ52Dz0bjjAPXvhQ6AbLFGWBo?=
+ =?us-ascii?Q?59GavV3fO9HNdDxXcrP+paneiJa1nxYzUrzHDIscVuUyHiCjrFZNgOHhDikR?=
+ =?us-ascii?Q?7wcVcGvgI+hCp9HjXxKQW7tGN8V0FZgKJ/bqXmnsX/x5N/3zlk0pVa9FtJCH?=
+ =?us-ascii?Q?CLPxOt79JdMBCRMDwcNL4hI95vmDbD6/mce+8brYWOpRzcZnRWyO0Z5vCBGI?=
+ =?us-ascii?Q?JDKz/8pIG7Vb3fuJmFMrtI+6ePyGKdAZgWpMJplKOpaDdL8hONs1XFxGY7VF?=
+ =?us-ascii?Q?svLNjoB5HWfHueL7yuniD8+OFfjxkYeo06UE1BdxGED3DIddzKnkvCsYbmy2?=
+ =?us-ascii?Q?VVwT75RYTyr6y5rIgz8ZLeboijTMVYkuysX3l8Ek+VqpZpozDcvGgOwi5WrW?=
+ =?us-ascii?Q?TLv867KYTn5yifskzFshdlklW2WRDN6LKSXpACxyJQaInAZ5DaBuhGWJmIoI?=
+ =?us-ascii?Q?DaBEtwnyLGOS/S1BvFNEUiuqy0i++7tiaJLQxVzGHrqb1qEGEukHyzAMHjZi?=
+ =?us-ascii?Q?TDdil9vH++NAqfwB+u16QWc/W04KAsYHH0kgRD1OlGGP4AQ/OWmGu2I69nP3?=
+ =?us-ascii?Q?IeWJNgKGb2zPeCIR5L77759PtmgLjN9ZhwxCfwgEgrCcd6CywpMAD2pVM8hu?=
+ =?us-ascii?Q?3mZVa0GoXXJgLkCn2cznn+Rk7DSN3JZxQZRyFAC7E5crCHy/caMXV0IW6cKu?=
+ =?us-ascii?Q?u34KX7iKGK8KAze/O4LNUcsx+v3h1RnDfd/N/Rou0rM+Z5viJS4XumBIE1Jz?=
+ =?us-ascii?Q?SzYPcu8cpkdfVKdtTBdSm0oGs3ugExQh0AgyzrygW3AI/wEbU+hmjREG4iGS?=
+ =?us-ascii?Q?qtmNR6urQDwKamP16/n/ls1+o0YkvBPAuhiwtpUP9HOlaORcZB3FN29xVU1v?=
+ =?us-ascii?Q?TqXUAq7QjNtdswDx9oAvbvt/vTce4GRKf/wneoIZAVvOjUckgyP6SfE/Y193?=
+ =?us-ascii?Q?jwhYRGUwASumZDJM62eTSJoZUQEb7/X0M+i1nPjqPkJP33D4vu3NtK94/gKB?=
+ =?us-ascii?Q?wGakF67m/iwQtk5r07m1A/AtX6+j5UjwVztZ34j7mNl+c1EeLAnYfnmrB7aw?=
+ =?us-ascii?Q?sJwNviOQtRPsQfeJqQ/GG5CFr4zbQt7E0hoxpBm9rXEMb8O7/x3Nu0rM+YS6?=
+ =?us-ascii?Q?rxP5rXjWZsJa9uzk+4HAdEq4C3vazwpTl7fBeNJsDiScIPUUvpC5+7OteGZ3?=
+ =?us-ascii?Q?pM8bimM2DTTDvatW94F9tddt+JSq7lKAKgOsbF3YH0ARnXa7VuNBAwsbNsbU?=
+ =?us-ascii?Q?Kt8K+jvchAm+kmGcMUFNcXaGLGeT2VGjqdTOqFq/nWWV8fszgKi6LZ8x6BWB?=
+ =?us-ascii?Q?oJRmbUVR0z0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?MBPINjYfPGiE5jDtZnc+kL6Tem1DGVvWnnr4IAqOJ3QqDGwGQYyBqSEdaTWv?=
+ =?us-ascii?Q?rCrkX2y/Sk4d6j61UbByvUXt3nKTkD+MeO8cPgtXL/XPX2sGtHrb8gNrSr/u?=
+ =?us-ascii?Q?OEKNTVQZ7CHsvHCdnd9X5FXuoX0i/hrhFXJMhY5OxAO2m5eI/uVKfnRhtNME?=
+ =?us-ascii?Q?WfPPxcc0BXNl1H77XG1bbVfLl4VNWDgxX70H0hEofaU4W5E3P1swLrZW9mdQ?=
+ =?us-ascii?Q?Feukc/5DifHe2SePpUv2EKDGC4VLP8K0ep5Ci+eTGyK2EaR19DpqUB7DqHVw?=
+ =?us-ascii?Q?ocoo7Xx2dFbyGGwWrbx8IanAzYUqZ6w3V2/BwdDcAbpOYtPMk++ubsPaWkJS?=
+ =?us-ascii?Q?86KBb6LCEKOCBbnz91YiL8E+jtdRHZk0nVLho1rNXZKq6wB0lX7GySKFPJYi?=
+ =?us-ascii?Q?4omNcGV34wSS0K+GJyD46PR/zDcAmDow1riE3YHKDXpojGGSfyFt7iU3pvfH?=
+ =?us-ascii?Q?wc8uUrVB+XPvmrMfTcW6f6GhHRWWtb4Dv4kTaBpvPOa+uihaAGvn0nj+7oA0?=
+ =?us-ascii?Q?lH1msGlh5aLcnLykZ0KM2VqWGkDwK1aa8TxDl0T7g19lHp/PkCYYEyI4Oydg?=
+ =?us-ascii?Q?x36u5MNNY4csSkfMtShIOKMjAXTOfgsV3noFPXKv7GWBj4G63jQRQy7KIztY?=
+ =?us-ascii?Q?iPkXT0BhYBwhfcaZNLxAMZv/8/Vpu40Cz3B5loET0MoCiijmOSqhjQdf7GwW?=
+ =?us-ascii?Q?D35UMZoK5FjnyeDHRoCkY78/CsRcdqBbRu0V6nzyYh7xTVf8SEmvcU4/IM9+?=
+ =?us-ascii?Q?3LW+QVoPsOUarqzKeGJeU5AoFMb/rluC1yy28WSJumduJKF/GZW2yw51wFAB?=
+ =?us-ascii?Q?AX9Y4SJw5BaOn58fwEy4isBeUtWN43pvqqdfGWTuVGltm4QnzrrRrmFYQxzo?=
+ =?us-ascii?Q?YCfQhh0zaLBvD0u0iYz56hPKffO19tDiR+lPXZxIpIVEszLomukhAvwhOJUW?=
+ =?us-ascii?Q?Mw+9j/MEH0hp09oZ3t8tmTi9yYBa4OvVYhtPBCu7s0rvRmL1yCnVTkTlJvQ5?=
+ =?us-ascii?Q?l3+N6jLtVsMz+54ZIPO8T0dp0FSwyKmeiM2I57nUM+9+kei6xaLYl/nsyMcS?=
+ =?us-ascii?Q?lFDpa4criGr7VWHlF9ecZdlmf8lRoqzbwaY2QJALFxY+Yy8lXP2jKXIhGrlI?=
+ =?us-ascii?Q?nsR1LN7f5+rqLOuMwqDQX4KgxOZc2rBg31tXp98jmNTtVA0VPrwb7rTxuXnP?=
+ =?us-ascii?Q?K7xw5frFaQTc7Tm/sId0dEa4GdyvSh4TxEDupjoJUpbOPfqqUDwiCgIA8VCG?=
+ =?us-ascii?Q?qGb3DHiGYlIQyyN5h8MRnLL5ilAlfSWqxXHhjp5U3+BnT323tDZHc4o4W3Hr?=
+ =?us-ascii?Q?xKkMQNzUFeKjJZjncuQgF/AamcRWrEHt26fXixwlZVz+XJNC3GEHrBc+Ri4r?=
+ =?us-ascii?Q?0+lMkCA/HXc2Shv8z27rCCJ46nrnGEQEFheADapJYipY4Mc0WWth2NBJ4r/t?=
+ =?us-ascii?Q?SM90I4M3q/2GCRG7KRKfbnaRI5P/PHGCBgNBYW/YrXQ62mQggCHMTmkRy/6E?=
+ =?us-ascii?Q?aahjgO1NFxrLDGTYgcHOkgZKuqC/j4pfzuZPIHHd7UDLyQf/J9B+7fmCNSfu?=
+ =?us-ascii?Q?sxifWglQ0mC+PDduUgw=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c6203ba-7b89-4eee-7a5d-08ddd5b7bd5f
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 13:38:49.1750
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ONwX7mHa1EuCmMcNdBKJGTu1Z2nQrZWEhwSNbSygKKjIuQb9Rcj66qSQFOkzaU9W
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8768
 
-On Thu 07-08-25 20:14:09, Zihuan Zhang wrote:
-> The Linux task freezer was designed in a much earlier era, when userspace was relatively simple and flat.
-> Over the years, as modern desktop and mobile systems have become increasingly complex—with intricate IPC,
-> asynchronous I/O, and deep event loops—the original freezer model has shown its age.
+On Mon, Aug 04, 2025 at 03:42:45PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Introduce new DMA mapping functions dma_map_phys() and dma_unmap_phys()
+> that operate directly on physical addresses instead of page+offset
+> parameters. This provides a more efficient interface for drivers that
+> already have physical addresses available.
+> 
+> The new functions are implemented as the primary mapping layer, with
+> the existing dma_map_page_attrs() and dma_unmap_page_attrs() functions
+> converted to simple wrappers around the phys-based implementations.
 
-A modern userspace might be more complex or convoluted but I do not
-think the above statement is accurate or even correct.
+Briefly explain how the existing functions are remapped into wrappers
+calling the phys functions.
 
-> ## Background
-> 
-> Currently, the freezer traverses the task list linearly and attempts to freeze all tasks equally.
-> It sends a signal and waits for `freezing()` to become true. While this model works well in many cases, it has several inherent limitations:
-> 
-> - Signal-based logic cannot freeze uninterruptible (D-state) tasks
-> - Dependencies between processes can cause freeze retries 
-> - Retry-based recovery introduces unpredictable suspend latency
-> 
-> ## Real-world problem illustration
-> 
-> Consider the following scenario during suspend:
-> 
-> Freeze Window Begins
-> 
->     [process A] - epoll_wait()
->         │
->         ▼
->     [process B] - event source (already frozen)
-> 
-> → A enters D-state because of waiting for B
+> +dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+> +		size_t offset, size_t size, enum dma_data_direction dir,
+> +		unsigned long attrs)
+> +{
+> +	phys_addr_t phys = page_to_phys(page) + offset;
+> +
+> +	if (unlikely(attrs & DMA_ATTR_MMIO))
+> +		return DMA_MAPPING_ERROR;
+> +
+> +	if (IS_ENABLED(CONFIG_DMA_API_DEBUG))
+> +		WARN_ON_ONCE(!pfn_valid(PHYS_PFN(phys)));
 
-I thought opoll_wait was waiting in interruptible sleep.
+This is not useful, if we have a struct page and did page_to_phys then
+pfn_valid is always true.
 
-> → Cannot respond to freezing signal
-> → Freezer retries in a loop
-> → Suspend latency spikes
-> 
-> In such cases, we observed that a normal 1–2ms freezer cycle could balloon to **tens of milliseconds**. 
-> Worse, the kernel has no insight into the root cause and simply retries blindly.
-> 
-> ## Proposed solution: Freeze priority model
-> 
-> To address this, we propose a **layered freeze model** based on per-task freeze priorities.
-> 
-> ### Design
-> 
-> We introduce 4 levels of freeze priority:
-> 
-> 
-> | Priority | Level             | Description                       |
-> |----------|-------------------|-----------------------------------|
-> | 0        | HIGH              | D-state TASKs                     |
-> | 1        | NORMAL            | regular  use space TASKS          |
-> | 2        | LOW               | not yet used                      |
-> | 4        | NEVER_FREEZE      | zombie TASKs , PF_SUSPNED_TASK    |
-> 
-> 
-> The kernel will freeze processes **in priority order**, ensuring that higher-priority tasks are frozen first.
-> This avoids dependency inversion scenarios and provides a deterministic path forward for tricky cases.
-> By freezing control or event-source threads first, we prevent dependent tasks from entering D-state prematurely — effectively avoiding dependency inversion.
+Instead this should check for any ZONE_DEVICE page and reject that.
+And handle the error:
 
-I really fail to see how that is supposed to work to be honest. If a
-process is running in the userspace then the priority shouldn't really
-matter much. Tasks will get a signal, freeze themselves and you are
-done. If they are running in the userspace and e.g. sleeping while not
-TASK_FREEZABLE then priority simply makes no difference. And if they are
-TASK_FREEZABLE then the priority doens't matter either.
+  if (WARN_ON_ONCE()) return DMA_MAPPING_ERROR;
 
-What am I missing?
--- 
-Michal Hocko
-SUSE Labs
+I'd add another debug check inside dma_map_phys that if !ATTR_MMIO
+then pfn_valid, and not zone_device
+
+> @@ -337,41 +364,18 @@ EXPORT_SYMBOL(dma_unmap_sg_attrs);
+>  dma_addr_t dma_map_resource(struct device *dev, phys_addr_t phys_addr,
+>  		size_t size, enum dma_data_direction dir, unsigned long attrs)
+>  {
+
+> -	const struct dma_map_ops *ops = get_dma_ops(dev);
+> -	dma_addr_t addr = DMA_MAPPING_ERROR;
+> -
+> -	BUG_ON(!valid_dma_direction(dir));
+> -
+> -	if (WARN_ON_ONCE(!dev->dma_mask))
+> +	if (IS_ENABLED(CONFIG_DMA_API_DEBUG) &&
+> +	    WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
+>  		return DMA_MAPPING_ERROR;
+>  
+> -	if (dma_map_direct(dev, ops))
+> -		addr = dma_direct_map_resource(dev, phys_addr, size, dir, attrs);
+> -	else if (use_dma_iommu(dev))
+> -		addr = iommu_dma_map_resource(dev, phys_addr, size, dir, attrs);
+> -	else if (ops->map_resource)
+> -		addr = ops->map_resource(dev, phys_addr, size, dir, attrs);
+> -
+> -	trace_dma_map_resource(dev, phys_addr, addr, size, dir, attrs);
+> -	debug_dma_map_resource(dev, phys_addr, size, dir, addr, attrs);
+> -	return addr;
+> +	return dma_map_phys(dev, phys_addr, size, dir, attrs | DMA_ATTR_MMIO);
+>  }
+>  EXPORT_SYMBOL(dma_map_resource);
+
+I think this makes alot of sense at least.
+
+Jason
