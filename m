@@ -1,64 +1,64 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96181C5F37
-	for <linux-doc@vger.kernel.org>; Thu,  7 Aug 2025 01:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433EE1D63F7
+	for <linux-doc@vger.kernel.org>; Thu,  7 Aug 2025 01:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754531094; cv=none; b=GWvK/ySeIQVcFv5fgicl67arBvuxhFs/rFJNBHfbf1aVJATKZQKoYjtYpi0Jy9tymIkZGr47RD3XY9Cx3j46AHNi1/9obkpCv7MFIuu1w8/dhFV7QEs1AMSapu3mj/c8a18HSnq7VT1u36yLB3IwLCam8OFw8jbN6u3hrgCJc8U=
+	t=1754531097; cv=none; b=VYUXwBrHGeW2XICIXns6pM0piJBiPtTUgnasOOe3tCtVpczKcVmv3odL2Hu0APJ0k4iClgpEru1Nq8y1JHILthHVL4mzeY++1SXRxI/fi3IZU9frCNK1Nr2mQo8dPeRshhZmIVPMNI23Bx348ga6aevgYiZdyzElgDk8aQd7fSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754531094; c=relaxed/simple;
-	bh=7U4lml8t8oTaVKuCLMpzN1Wuy07LH0AEtgZI7ZnzuAo=;
+	s=arc-20240116; t=1754531097; c=relaxed/simple;
+	bh=9o3FtqjKn/C7E3gCLx9DaCJVqshNMO5CpPQSR//j8AM=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fMaD4vCrxv0PYI1STEo3qx31dA4+5DhypRkyf/gcKznjeYdTULYVHqI5jZMTI9jY93UpAVN7FZ5I0yhEDDR6+GkAbTj6afGEPv4FKah7C+S7GXQBZk5NB6/r4qaJKplKSmbVdQ0Wzzo9XvFVQvMX/Id2U9yLka1/hFut5iwvupY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jGhRq5J8; arc=none smtp.client-ip=209.85.219.48
+	 MIME-Version; b=GOGRFkiI/rkNqYouL6M8tC/IwKmBL2/6XnpcCJVaWKRHZzHKdarguZ+ypqT4WsXYpzXSrrIu6U2jaiFvTSSygWsPAa/wFnlKJRuyWaLtFDHBUSLrRqVBD8MpzQIt2rZYiFWsGkwwZPfxI80N11Oln7l1IauvLCLtyukhqabJaf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=hekIzqZr; arc=none smtp.client-ip=209.85.160.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jGhRq5J8"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-707453b0306so5567726d6.2
-        for <linux-doc@vger.kernel.org>; Wed, 06 Aug 2025 18:44:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="hekIzqZr"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4b07cb2d13bso7903491cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 06 Aug 2025 18:44:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754531092; x=1755135892; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1754531093; x=1755135893; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kaESzk2f6ioxFaB+zOVCWa3oEolQrGNRo6YQh6Uj768=;
-        b=jGhRq5J8VB7lIKnNpy5IKMw8o759Wi8rvUO67fzgAAGCCCNNALGWGFCvUy8qIR2/LT
-         DXGxW0APa9sdDaPeZEwdzz0T2lICen0AXKPPnAznTYEJWRHZQTfte+Svh0/PKYE1wN/E
-         Hw9FP6Y83KNEBd3R+497m3ThktAMJAxFcsnbHwhRHmebFfa7+opf19X8RXLo+BdSY3gw
-         vj1YvsosNm64zjFspN5YAkjdnqvhI7zj2WOgFRuA2hBLMN2h7r3WUF31CD2F4GR4hOmR
-         qf6OOUYSKXEEXnkxZcjMDk/tFAuea95bcYCzFRjAcDrsVywYcGTLqOzHgv1pcuTLGqrI
-         F8Kg==
+        bh=FY0apzV4/jiYpNtz4zaEBU41SIXIqP4k9Hjv/Z6KQLI=;
+        b=hekIzqZrxOsPoxQ4uSUVxR2tdnfeo3Dz2NaEHGWaTGyIyZh13/jf5lR8H8N1Drg+8h
+         BdFj9ICIq9hC5Vxuy7SjSMFqSexd2WUZNFwPlIy7HyG0jcRUQ4t9TQLzPj+V3I3SRTzM
+         4l2slXZHQFkVFJ3l49wgqRArt+vKpVk8h2bSZiuZKuyQaU5nFeHiN4Zoe99gpLMOxUMJ
+         vy20ho52rBMS57InEMEX0MDtgraALp5vcvZKNGuE/M9OcZuhs6Gvo3Yq0rTJ3j9zAlq+
+         zP+cmlRQCE+Uc5zNz7ZfieMDIsCpXvurcCUlwPTCw+BbjlzM/vHTtffoVmS0GCtwJM3w
+         1xjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754531092; x=1755135892;
+        d=1e100.net; s=20230601; t=1754531093; x=1755135893;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kaESzk2f6ioxFaB+zOVCWa3oEolQrGNRo6YQh6Uj768=;
-        b=UUMicEKtxiYpnMFGaK8HDBeFiGgcIH5XqqbPs/3idbRjR4wUfuYfqLwPTrottaYaZV
-         XpvV3px+ah/oLyLo80WztWmzodxDa549YB7FP2ddOll1g0Su93W96RGTT4AAy2BA+lF9
-         1AFnT7mwJ1qHPAAXxNOZpXbyZM8r8erZqFJf569c4cfED9OrrHkCN93tP3nKNg6gDJdi
-         CLRV9mIdvETcbBSew4m4Br83mZqESx5VgF76D7cHvAFAZCvSu2NLa0kR9j9tvG+fGgag
-         Gx1bWFpYXoWFpl1eH7gwb+iXptZ+QrwjsyiNYpB6m+RG7CErUQDKGfzIDY+guoEDr39a
-         jTvw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlwPGa9z9aWEl+c73eB3fLhBKfMv33MXe2FmV2ULR+S8DWYp0TNDvD7P1Rhit4sG8ZgcOa9dfcXN4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytdH9ODQhG07faSR6o8iFzOSMIZ6xhJqwAq0Un+Vs3k9nabetN
-	yCJTo1qUjJ6LTiIOTT26NlkL3vPTzW7UQt0wAr8NgVyKaAV0Y4+KOp9G+HkGPnSOOZY=
-X-Gm-Gg: ASbGncvPsYEEbrsfg+ycqC40+cIkuevWUBDemIsyajx/HnhH0XeJ+19BDzlLnhPl1CD
-	GdwDV+b9tlcB4i6LT4JesI7pTdtM2bLKZi0kKCoBOV3wz3C8P7DrGAPsTLhdyF7KuY8r3Nqjqbj
-	fdIW5V2jZ/3kSyiXmOVQs7ZSf8uR7BH59koVzxAZ7L8aP2YNP2BeOx8nbyzTRmfQ3zb5/6F28y9
-	yj1AdlRr5Ieg177cewDQyj5Q668fnh5o05eRJXV9H6r/oc8xvvu7/f8w2TeLbYYGzaN1TMCwLjt
-	jIUGbJeiiEP8LrklFHnBxnwaMS8cB3IlRM/JtmNyqNld+jyH3BSkburEZ8Ewo/j17nSUpHhSdze
-	UImmmwEvtJRFzvTLof22ppI47y/m0s7EyPAV+vTknBaNtWSQ6o4cvDZjwtvJ7OJBJgudF+oBwJ4
-	fca09c78pdeZeP
-X-Google-Smtp-Source: AGHT+IEyWMvTBlOM62kNmVMKSSB8JNc55ip6AvkaRw6dwIN2X5ATQTWFGGBA3z7kK5RTd9pgC648bw==
-X-Received: by 2002:ad4:5f8f:0:b0:707:4daf:637 with SMTP id 6a1803df08f44-7097af1440bmr64537216d6.29.1754531091759;
-        Wed, 06 Aug 2025 18:44:51 -0700 (PDT)
+        bh=FY0apzV4/jiYpNtz4zaEBU41SIXIqP4k9Hjv/Z6KQLI=;
+        b=a/0/XCAD3AKyme+USZ5BbxTDeYM45EO4KaoxkfMN6sgp2TpShtVO4mCp2My/M7BUtG
+         /sAs9eImaGeWCKK0msiEeGVENSnCIO9kaJl2VByVCtZnRYvV2RAARyyCSswFtVVeYkr2
+         a6lPCCN+I9r0Aiexhw3Uz7sqVx8o9BLKJ5NbNqkuh40QNX1esnkESTcYGskDUA751hxv
+         kZgvaPCslBQ8xJWd++Ys49dOHxPgIrRoptL/2JZfzgdR5qD+lCA2noH5PW6+HHFmnngr
+         ovCtI3bFww0qz0+TrkFRCayXvP242zg4whCfllJvP90+u93iooeOy7oFyaoVgMVUgshR
+         zBTA==
+X-Forwarded-Encrypted: i=1; AJvYcCX9PUBilMK1r2Dd7nl8BeJ9ZrsYbLu82rs+4uWE+dzHtEsglumNLcLu+2cFau9C/Q/m1ppcIAEC6cE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1PFfSEeZDd1Ojy+8VeckGi1v6nQ7i3Y4JI6oqp4FDnml9fMap
+	qSPvwL0TK2/bU9HLlPwD/63n0yVNB3ZSN4uak+2paLoqr1f7GlAwqQgh/qspzZCoHUQ=
+X-Gm-Gg: ASbGncsUhwBFpTTSvs2GZ/j/TgEBo36AQLJagre8aX8FxPplJ22ROsGtoIGajXbwVaa
+	d9pQjiqwYt0g5eRjHAIfe5nznKpaUlqhYS3YseK/YlW47+9nV2iuE2yK4aWgfsu/6uYGFBodZsi
+	ptgOJXw9IvPrzO3QvDZcfeIoKLjjy/hA2MbQN7DH3V1l+P4Misc5Hv3gGTrtaoaPM/QI9St8bp8
+	sqPVGrX9DIt4GFMTMXcjCPREkNU01FLYNrwSSJbjvByiZmt4Eu/JFCKOJPtjcyAyIDdcF+EnwtD
+	aKoR3f7dUXbpHiN5d113LVNH6f5cfe0Ic+90sKdfnrgKxocWbj7kX/ncGfS1t7eTBEt6MEp2W7v
+	hX1haIKgy9/KWutJE6CxA1oWWWELi9JzQAPGXVyM2ndon25BkWycaqYQydaQBMy2HpklqkRDarF
+	ZA6Ajp+kYFmOF0
+X-Google-Smtp-Source: AGHT+IFVnZ5D1Am418Avb76/eeCwz3uLxwOs//KfNDCrFp0xraechqxEC3xc41ENAONdARaIHNn8kA==
+X-Received: by 2002:a05:622a:1494:b0:4ae:cc4b:11bb with SMTP id d75a77b69052e-4b09163a4cbmr65118341cf.57.1754531093076;
+        Wed, 06 Aug 2025 18:44:53 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (235.247.85.34.bc.googleusercontent.com. [34.85.247.235])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077cde5a01sm92969046d6.70.2025.08.06.18.44.50
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077cde5a01sm92969046d6.70.2025.08.06.18.44.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 18:44:51 -0700 (PDT)
+        Wed, 06 Aug 2025 18:44:52 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -132,9 +132,9 @@ To: pratyush@kernel.org,
 	parav@nvidia.com,
 	leonro@nvidia.com,
 	witu@nvidia.com
-Subject: [PATCH v3 03/30] kho: warn if KHO is disabled due to an error
-Date: Thu,  7 Aug 2025 01:44:09 +0000
-Message-ID: <20250807014442.3829950-4-pasha.tatashin@soleen.com>
+Subject: [PATCH v3 04/30] kho: allow to drive kho from within kernel
+Date: Thu,  7 Aug 2025 01:44:10 +0000
+Message-ID: <20250807014442.3829950-5-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.50.1.565.gc32cd1483b-goog
 In-Reply-To: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
@@ -146,31 +146,129 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-During boot scratch area is allocated based on command line
-parameters or auto calculated. However, scratch area may fail
-to allocate, and in that case KHO is disabled. Currently,
-no warning is printed that KHO is disabled, which makes it
-confusing for the end user to figure out why KHO is not
-available. Add the missing warning message.
+Allow to do finalize and abort from kernel modules, so LUO could
+drive the KHO sequence via its own state machine.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- kernel/kexec_handover.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/kexec_handover.h | 15 +++++++++
+ kernel/kexec_handover.c        | 56 ++++++++++++++++++++++++++++++++--
+ 2 files changed, 69 insertions(+), 2 deletions(-)
 
+diff --git a/include/linux/kexec_handover.h b/include/linux/kexec_handover.h
+index 348844cffb13..f98565def593 100644
+--- a/include/linux/kexec_handover.h
++++ b/include/linux/kexec_handover.h
+@@ -54,6 +54,10 @@ void kho_memory_init(void);
+ 
+ void kho_populate(phys_addr_t fdt_phys, u64 fdt_len, phys_addr_t scratch_phys,
+ 		  u64 scratch_len);
++
++int kho_finalize(void);
++int kho_abort(void);
++
+ #else
+ static inline bool kho_is_enabled(void)
+ {
+@@ -104,6 +108,17 @@ static inline void kho_populate(phys_addr_t fdt_phys, u64 fdt_len,
+ 				phys_addr_t scratch_phys, u64 scratch_len)
+ {
+ }
++
++static inline int kho_finalize(void)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int kho_abort(void)
++{
++	return -EOPNOTSUPP;
++}
++
+ #endif /* CONFIG_KEXEC_HANDOVER */
+ 
+ #endif /* LINUX_KEXEC_HANDOVER_H */
 diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
-index 6240bc38305b..c2b7e8b86db0 100644
+index c2b7e8b86db0..2c22a9f3b278 100644
 --- a/kernel/kexec_handover.c
 +++ b/kernel/kexec_handover.c
-@@ -565,6 +565,7 @@ static void __init kho_reserve_scratch(void)
- err_free_scratch_desc:
- 	memblock_free(kho_scratch, kho_scratch_cnt * sizeof(*kho_scratch));
- err_disable_kho:
-+	pr_warn("Failed to reserve scratch area, disabling kexec handover\n");
- 	kho_enable = false;
+@@ -757,7 +757,7 @@ static int kho_out_update_debugfs_fdt(void)
+ 	return err;
  }
  
+-static int kho_abort(void)
++static int __kho_abort(void)
+ {
+ 	int err;
+ 	unsigned long order;
+@@ -790,7 +790,33 @@ static int kho_abort(void)
+ 	return err;
+ }
+ 
+-static int kho_finalize(void)
++int kho_abort(void)
++{
++	int ret = 0;
++
++	if (!kho_enable)
++		return -EOPNOTSUPP;
++
++	mutex_lock(&kho_out.lock);
++
++	if (!kho_out.finalized) {
++		ret = -ENOENT;
++		goto unlock;
++	}
++
++	ret = __kho_abort();
++	if (ret)
++		goto unlock;
++
++	kho_out.finalized = false;
++	ret = kho_out_update_debugfs_fdt();
++
++unlock:
++	mutex_unlock(&kho_out.lock);
++	return ret;
++}
++
++static int __kho_finalize(void)
+ {
+ 	int err = 0;
+ 	u64 *preserved_mem_map;
+@@ -839,6 +865,32 @@ static int kho_finalize(void)
+ 	return err;
+ }
+ 
++int kho_finalize(void)
++{
++	int ret = 0;
++
++	if (!kho_enable)
++		return -EOPNOTSUPP;
++
++	mutex_lock(&kho_out.lock);
++
++	if (kho_out.finalized) {
++		ret = -EEXIST;
++		goto unlock;
++	}
++
++	ret = __kho_finalize();
++	if (ret)
++		goto unlock;
++
++	kho_out.finalized = true;
++	ret = kho_out_update_debugfs_fdt();
++
++unlock:
++	mutex_unlock(&kho_out.lock);
++	return ret;
++}
++
+ static int kho_out_finalize_get(void *data, u64 *val)
+ {
+ 	mutex_lock(&kho_out.lock);
 -- 
 2.50.1.565.gc32cd1483b-goog
 
