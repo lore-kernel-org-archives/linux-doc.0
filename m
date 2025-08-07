@@ -1,43 +1,43 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1C1253934;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB21F256C6F;
 	Thu,  7 Aug 2025 21:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754601419; cv=none; b=Jagm21r6FSxwxbuCuehp87Pc0bbgDNDPF7TBm4lCcKNwHweXaZOaV5XIcKPAaucbEgyajEfe5/yZrE+wsgXCIXRFj3hJqLuCYzMRneoRPMAlYQ4CwTdWyiq5YGOaJEgJdND4e+Y/x4mC2X9XCNLaoL3KKmdJBBdtEQJ7OkrVNfA=
+	t=1754601419; cv=none; b=GhVckDg+hlwyHuksypVQ9OZyZPFJ1c9Uw7bb8Bu6iPOXRhZ3W1GyXzwxRjlrnEthnU8+ZKX1m718BHIntGO/ngkYwXWNOxVHvnfzQsJAkNIeNsHHidLN2udA3td2k3ayedTyjQeHmeBJCIptvBIkKFPtnUFeUzEHP8G2+ts3qWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754601419; c=relaxed/simple;
-	bh=L2cDRRPB5aff3Em7QzWZf/GRyXBTUFvU1Z5hya/sLok=;
+	bh=N5rIVFjF8OXnuuACRtghmEIhy0e0sl7T4fPAn/1yutY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=paCCadssNYw/FGXCWzbMSHtLBCz1SRB8IzO6GvAhRgaoYdcC9QzXEftPoLZZaNSlV5FASBD0V/Kzzo4zv0Hohm/ba+DERyy5KTRWFx+mOs0b/Sj0NcegJwKZ3/RU9rpvcn629J/3+qQTsfuI7H2/S2mOPTAU5kmsXGg7m0faHlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sGHV8l5/; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version; b=YpS7PgHCIFZatpNjTQi6Q7sTCnAKiKZZ1gAiRVHCtc8bT6t+580GHqSeadzti2+zyZZbWpLafpFdUr9VOQboH+KS7NH9kArxrj7T+bPVL2mHHFF7LlCJlgU4+0Ia1sk8m1yjaPHGegFLDdp0fGEq7GIj83BIdfqxHP0nxyS9+4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DLmIb4Rt; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sGHV8l5/"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BC6E540AE7
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DLmIb4Rt"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6139240AED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1754601411; bh=YuXq70gYDsDxuz2bttxrJmH0VnivAUsKGyBztKXkuug=;
+	t=1754601412; bh=k0raakv8o00nkgtMwQK7Y4tf/xXq67ohe7aQZ0MsAag=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sGHV8l5/Rk2e+s7obyRPNjPZu1sjIXq0Lf8CK3psAherICZ84m+bSAOsI1kwwVKP/
-	 10U/lQg8Yg8jQzl96gdTdq1EP2qJjAnMX4hVKxUd2Rq95dYg/HlZAGjkB85iULYgus
-	 AjBA2tZzTHLgiSfV5Z7zawhQaCT1l8uVItwensWrgpW6VFpmD7NhvnxQQkTot2GpSv
-	 6bRBjn2AbKGM6Y9uf5wIwNls3MzFzof74SrDkxp6wH/Fnfi+J9GPhcLa5m+nHIeMhG
-	 S1MMttXkPF9dHlz9ocLwtNbLKAswMcN+argwng/4S1KCMV6RDXT2xghez80DYkrkiE
-	 44W2tLeXrM/TQ==
+	b=DLmIb4RtENxOvp0X1oW1VcH8uZxLTWyhr/fkyyjlZBpbhnChX9SKxJ6gKPu9X5swS
+	 BNXbp67CgG1otwbYNlEy+ZALYADHzlhFdOVP2vcjWLBHcRht9b4E3hILc7kbdTT9HW
+	 8dkYUy+WWQdN0UDq1Cd9yrQ8/Ouzn4zb3G+oF0kfCf0s+DDT3RUTWx8zts4u/NlfDS
+	 QZuPmxq7fmmAJQdu3SrnPjvbsygsM2iWE7BphCBIRep5GaJ9iekzra6y0Bm4M+ewiH
+	 dxPNTUFdDfO2AgMUhpVhw9wE8Zdch0dVL9jBsi15sCQT3kMNGHCmvMosgm2rG7vDeG
+	 aTYFMm0Dq3KbQ==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id BC6E540AE7;
-	Thu,  7 Aug 2025 21:16:50 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPA id 6139240AED;
+	Thu,  7 Aug 2025 21:16:52 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 03/12] docs: kdoc: backslashectomy in kdoc_parser
-Date: Thu,  7 Aug 2025 15:16:30 -0600
-Message-ID: <20250807211639.47286-4-corbet@lwn.net>
+Subject: [PATCH v2 06/12] docs: kdoc: split struct-member rewriting out of dump_struct()
+Date: Thu,  7 Aug 2025 15:16:33 -0600
+Message-ID: <20250807211639.47286-7-corbet@lwn.net>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250807211639.47286-1-corbet@lwn.net>
 References: <20250807211639.47286-1-corbet@lwn.net>
@@ -49,104 +49,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A lot of the regular expressions in this file have extraneous backslashes
-that may have been needed in Perl, but aren't helpful here.  Take them out
-to reduce slightly the visual noise.
-
-Escaping of (){}[] has been left in place, even when unnecessary, for
-visual clarity.
+The massive loop that massages struct members shares no data with the rest
+of dump_struct(); split it out into its own function.  Code movement only,
+no other changes.
 
 Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- scripts/lib/kdoc/kdoc_parser.py | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ scripts/lib/kdoc/kdoc_parser.py | 65 +++++++++++++++++----------------
+ 1 file changed, 34 insertions(+), 31 deletions(-)
 
 diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index aa6d11bf29b1..14ded23f11e0 100644
+index ab896dcd9572..fbd7f6ce3360 100644
 --- a/scripts/lib/kdoc/kdoc_parser.py
 +++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -46,7 +46,7 @@ doc_decl = doc_com + KernRe(r'(\w+)', cache=False)
- known_section_names = 'description|context|returns?|notes?|examples?'
- known_sections = KernRe(known_section_names, flags = re.I)
- doc_sect = doc_com + \
--    KernRe(r'\s*(\@[.\w]+|\@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
-+    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
-            flags=re.I, cache=False)
+@@ -647,37 +647,7 @@ class KernelDoc:
+                 return (r.group(1), r.group(3), r.group(2))
+         return None
  
- doc_content = doc_com_body + KernRe(r'(.*)', cache=False)
-@@ -60,7 +60,7 @@ attribute = KernRe(r"__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)",
- export_symbol = KernRe(r'^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*', cache=False)
- export_symbol_ns = KernRe(r'^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*"\S+"\)\s*', cache=False)
- 
--type_param = KernRe(r"\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
-+type_param = KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
- 
- #
- # Tests for the beginning of a kerneldoc block in its various forms.
-@@ -405,7 +405,7 @@ class KernelDoc:
- 
-         for arg in args.split(splitter):
-             # Strip comments
--            arg = KernRe(r'\/\*.*\*\/').sub('', arg)
-+            arg = KernRe(r'/\*.*\*/').sub('', arg)
- 
-             # Ignore argument attributes
-             arg = KernRe(r'\sPOS0?\s').sub(' ', arg)
-@@ -428,7 +428,7 @@ class KernelDoc:
- 
-                 arg = arg.replace('#', ',')
- 
--                r = KernRe(r'[^\(]+\(\*?\s*([\w\[\]\.]*)\s*\)')
-+                r = KernRe(r'[^\(]+\(\*?\s*([\w\[\].]*)\s*\)')
-                 if r.match(arg):
-                     param = r.group(1)
-                 else:
-@@ -443,7 +443,7 @@ class KernelDoc:
-                 # Array-of-pointers
- 
-                 arg = arg.replace('#', ',')
--                r = KernRe(r'[^\(]+\(\s*\*\s*([\w\[\]\.]*?)\s*(\s*\[\s*[\w]+\s*\]\s*)*\)')
-+                r = KernRe(r'[^\(]+\(\s*\*\s*([\w\[\].]*?)\s*(\s*\[\s*[\w]+\s*\]\s*)*\)')
-                 if r.match(arg):
-                     param = r.group(1)
-                 else:
-@@ -709,7 +709,7 @@ class KernelDoc:
-                         if not arg:
-                             continue
- 
--                        r = KernRe(r'^([^\(]+\(\*?\s*)([\w\.]*)(\s*\).*)')
-+                        r = KernRe(r'^([^\(]+\(\*?\s*)([\w.]*)(\s*\).*)')
-                         if r.match(arg):
-                             # Pointer-to-function
-                             dtype = r.group(1)
-@@ -1044,7 +1044,7 @@ class KernelDoc:
-         Stores a typedef inside self.entries array.
-         """
- 
--        typedef_type = r'((?:\s+[\w\*]+\b){0,7}\s+(?:\w+\b|\*+))\s*'
-+        typedef_type = r'((?:\s+[\w*]+\b){0,7}\s+(?:\w+\b|\*+))\s*'
-         typedef_ident = r'\*?\s*(\w\S+)\s*'
-         typedef_args = r'\s*\((.*)\);'
- 
-@@ -1265,7 +1265,7 @@ class KernelDoc:
-             self.dump_section()
- 
-             # Look for doc_com + <text> + doc_end:
--            r = KernRe(r'\s*\*\s*[a-zA-Z_0-9:\.]+\*/')
-+            r = KernRe(r'\s*\*\s*[a-zA-Z_0-9:.]+\*/')
-             if r.match(line):
-                 self.emit_msg(ln, f"suspicious ending line: {line}")
- 
-@@ -1476,7 +1476,7 @@ class KernelDoc:
-         """Ancillary routine to process a function prototype"""
- 
-         # strip C99-style comments to end of line
--        line = KernRe(r"\/\/.*$", re.S).sub('', line)
-+        line = KernRe(r"//.*$", re.S).sub('', line)
+-    def dump_struct(self, ln, proto):
+-        """
+-        Store an entry for an struct or union
+-        """
+-        #
+-        # Do the basic parse to get the pieces of the declaration.
+-        #
+-        struct_parts = self.split_struct_proto(proto)
+-        if not struct_parts:
+-            self.emit_msg(ln, f"{proto} error: Cannot parse struct or union!")
+-            return
+-        decl_type, declaration_name, members = struct_parts
+-
+-        if self.entry.identifier != declaration_name:
+-            self.emit_msg(ln, f"expecting prototype for {decl_type} {self.entry.identifier}. "
+-                          f"Prototype was for {decl_type} {declaration_name} instead\n")
+-            return
+-        #
+-        # Go through the list of members applying all of our transformations.
+-        #
+-        members = trim_private_members(members)
+-        for search, sub in struct_prefixes:
+-            members = search.sub(sub, members)
+-
+-        nested = NestedMatch()
+-        for search, sub in struct_nested_prefixes:
+-            members = nested.sub(search, sub, members)
+-
+-        # Keeps the original declaration as-is
+-        declaration = members
+-
++    def rewrite_struct_members(self, members):
+         # Split nested struct/union elements
          #
-         # Soak up the line's worth of prototype text, stopping at { or ; if present.
-         #
+         # This loop was simpler at the original kernel-doc perl version, as
+@@ -768,6 +738,39 @@ class KernelDoc:
+                                     newmember += f"{dtype} {s_id}.{name}; "
+ 
+                 members = members.replace(oldmember, newmember)
++        return members
++
++    def dump_struct(self, ln, proto):
++        """
++        Store an entry for an struct or union
++        """
++        #
++        # Do the basic parse to get the pieces of the declaration.
++        #
++        struct_parts = self.split_struct_proto(proto)
++        if not struct_parts:
++            self.emit_msg(ln, f"{proto} error: Cannot parse struct or union!")
++            return
++        decl_type, declaration_name, members = struct_parts
++
++        if self.entry.identifier != declaration_name:
++            self.emit_msg(ln, f"expecting prototype for {decl_type} {self.entry.identifier}. "
++                          f"Prototype was for {decl_type} {declaration_name} instead\n")
++            return
++        #
++        # Go through the list of members applying all of our transformations.
++        #
++        members = trim_private_members(members)
++        for search, sub in struct_prefixes:
++            members = search.sub(sub, members)
++
++        nested = NestedMatch()
++        for search, sub in struct_nested_prefixes:
++            members = nested.sub(search, sub, members)
++
++        # Keeps the original declaration as-is
++        declaration = members
++        members = self.rewrite_struct_members(members)
+ 
+         # Ignore other nested elements, like enums
+         members = re.sub(r'(\{[^\{\}]*\})', '', members)
 -- 
 2.50.1
 
