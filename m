@@ -1,209 +1,247 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2083.outbound.protection.outlook.com [40.107.95.83])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D3523ABB2;
-	Thu,  7 Aug 2025 12:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.83
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754568814; cv=fail; b=CH0WtinmeebKqalPzeXKfmITlxlgpj2+SsvbPy1G3NDckwjLcsBqe3egtm7+lc7x4kjw3nXztKkrwqzTH/kD7laZg5NhQxaAduk5grcq71yqewJsg3I5arFxCwsZAcAl1RvzlYg1CS9H6KiQrwa42s5tYKVa6Rjf0clO+KjzexI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754568814; c=relaxed/simple;
-	bh=oyeTrw8tywcqJMT9woWV5d9SuaUq3fo/NNPHwiwIzto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ToD7dqP3rUYwAejpx9cDgA8DUva78Fe8n3/4OG6fTZUGIIVWnV18U2h7GyUz1U6Ht1MCOORZXqr81jU7TL/tdQ+Yvv20++RoItomEUC2it908+3kWnaZrDx8SkEHEEj6rXOlruTgvE1tkMKvVKCcjmJxkGiL1IPKZKjlZz+aSO8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YZbvDWhX; arc=fail smtp.client-ip=40.107.95.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YZbvDWhX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uxP7Pf0ykg70ESQ1qsMAV46ciw3fMetV5ptq9znpdyVeKuYe0CQx684fgoNYUFgJzPJn3+4lFMQwUMWJvnCER9DzlnAjzb7VOcXipnWlrp5Rw4Grsy1HtLACWH7J3Ed33vP8gXCUoLzgPGe3gtIlOAC4O9FyyR/easgliZtJvaFKrNxs0m6aavuCs6iAlt+gGerYf/zavPmSkkgZFgCQ44WhhSIATvspnXnSyxfWAQHaNOTZ/HVPTzz4GEdkjnqvf3kCRPTfrhReWfvFs/DVv4N8LeoSaEhRlihVFXR5bJsdoCD3YcCry8KRM0MFz2+8xSTiZh8WgrQMoUuWsJghuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jnd91fTvUuf7SAXkMx8PwNrI+Ba1V4Exo/CmbUm1lhI=;
- b=DmkWUqr9j/Xt1cx/er4RxEftmeONbyeBlY6MYlI9tO6ARDn5qDSq+BE9Rn6KcWTUtkkb06gl26cXmkAlhgowChbxbNfVNKTy6XpUC+DUrHUQ+0ALoktpQmGEx9h5Jh/MukgoYpDzNR/5nD0yI9VF60sAHH9yWSOkMUkrJtsgmEW0AGhr4D7rU5U5OiAfYq7p2Pxf94PFeDtWgTKLn6MvCrf0TyKJwv1xON/D9VEEvWA2ZXuhJbeOnUXdnd63ZCwbhDaxa9qWeUGDfLQYoiGD9vb0uZnbPYHLCim+AOmlGJkL5fz5bLkUcnXmDXqyf6XULntQ+lPLJG0oRnpY7ip/fQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jnd91fTvUuf7SAXkMx8PwNrI+Ba1V4Exo/CmbUm1lhI=;
- b=YZbvDWhXqTABMlt291caIizhKaSFiEKa8rVjOU3j280z6lSSTUTJ9gkgrtbIKNjUrsQvbdgFNoPEl13biMjDnb4IKjqKu+Q6E3Bleyj+Yk8eimX7s07c03eMIRq2ryn00DPvA/mIj1geQ3WKROV5Z+OW7NgNIuSOk0X6VcbxBaIJR+poit62h0A9cFE5RF2wZFG08zqqFKdKQwwvFcceqJezuBLK6X6H3oe+sXA5PM0zi8rUei9xWP+PpGM9HiEGTjuU9B5IotuPd9YVh5NfHW9i9u3G7QmQXRMmGYrmQ44zqlJN8/skK8wix4cQd7GI0arZ4735+Q1zxixJIIixwg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by BN7PPFD3499E3E3.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6e3) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.28; Thu, 7 Aug
- 2025 12:13:29 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.017; Thu, 7 Aug 2025
- 12:13:28 +0000
-Date: Thu, 7 Aug 2025 09:13:27 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A6524677A;
+	Thu,  7 Aug 2025 12:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754568884; cv=none; b=lZObqHVri6xejxQBI9CM+fspP+Opm8U8AKzOaoKP5IFw683EKkQHaFSzFsodtRczYfqcYs7alXPGLYAsRwOssKGOn1ASRZ/fy05ULnTp1y6IE0DHueCWJWZ6JmKzSKddH7i0xyCr3HDUy+/ptTsM9voYiPeRqLZlUmvmk6sNuYk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754568884; c=relaxed/simple;
+	bh=ga+5Y/WzOxNrSNP7/LpZ8WdQoVvuReWe8s/e1nCkd0g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Wt+LuXWF9kbVq5DJKwVNEIVCXycb6wENKYNTWH82bKsmNn4L3eomgXBw+BBU5iW1OIOvavUj90c++uSi4/5zXv6dx1oANoBJ91rBMNgh6+EeCBcFDp3S08v9/TXkgTQdH4tZbnkU5dZXYl/hv+JzlSZFh7xCud+9ZwL4w04QJLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 124489dc738811f0b29709d653e92f7d-20250807
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:e53fbca3-e7ef-4682-8117-6db1420a6d82,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6493067,CLOUDID:b9d67b271981c8db314e5ca89b64c629,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:nil,UR
+	L:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:
+	1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-UUID: 124489dc738811f0b29709d653e92f7d-20250807
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <zhangzihuan@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1858613604; Thu, 07 Aug 2025 20:14:30 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 5F62AE01A758;
+	Thu,  7 Aug 2025 20:14:30 +0800 (CST)
+X-ns-mid: postfix-689498A5-59082161
+Received: from localhost.localdomain (unknown [172.25.120.24])
+	by mail.kylinos.cn (NSMail) with ESMTPA id DCC5EE0000B0;
+	Thu,  7 Aug 2025 20:14:20 +0800 (CST)
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+To: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	David Hildenbrand <david@redhat.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v1 07/16] dma-mapping: convert dma_direct_*map_page to be
- phys_addr_t based
-Message-ID: <20250807121327.GG184255@nvidia.com>
-References: <cover.1754292567.git.leon@kernel.org>
- <882499bb37bf4af3dece27d9f791a8982ca4c6a7.1754292567.git.leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <882499bb37bf4af3dece27d9f791a8982ca4c6a7.1754292567.git.leon@kernel.org>
-X-ClientProxiedBy: YT4PR01CA0094.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:ff::8) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	len brown <len.brown@intel.com>,
+	pavel machek <pavel@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Nico Pache <npache@redhat.com>,
+	xu xin <xu.xin16@zte.com.cn>,
+	wangfushuai <wangfushuai@baidu.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jeff Layton <jlayton@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Adrian Ratiu <adrian.ratiu@collabora.com>,
+	linux-pm@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zihuan Zhang <zhangzihuan@kylinos.cn>
+Subject: [RFC PATCH v1 0/9] freezer: Introduce freeze priority model to address process dependency issues
+Date: Thu,  7 Aug 2025 20:14:09 +0800
+Message-Id: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BN7PPFD3499E3E3:EE_
-X-MS-Office365-Filtering-Correlation-Id: b942e929-cfed-4d71-c440-08ddd5abd12a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?axQI8w3VTYtQ5YUSriFu37Q7Ie+PYZ1H4KfTCwRvIpV2kxnY4WC0YXxwLc1M?=
- =?us-ascii?Q?cbMTZRNxCHmOYBy5eTk52kQcR31cLIJacQ+oXZItONC2qt8u2Zu8XIJNpKYr?=
- =?us-ascii?Q?gu0kM7eFZBqOmCJQMScmVxYvkdyFq79o4+asu8uQDBXWpOhKtiTBQ4/5tisb?=
- =?us-ascii?Q?TO1gXmomGnQiCfyhlPKtWUjJWhQFhbqJDXXQEb3XWHf/uds0D1iTj/UUfTfT?=
- =?us-ascii?Q?if/OFKTceOGBXABPR2sFkNv//ZgV2MuYpq373lJwhLmT7LvdSvITw7Dk2TGy?=
- =?us-ascii?Q?zrT16KfExdJ2dogIykgnTAacqFY1GdiloP2yb0mh474ah2q2SWdgy7WGw56y?=
- =?us-ascii?Q?2hDMDaoXNB3+7EJdT+gGGfxan1J9eE3SSZpEo0EAs6iyCvoI3QrsvESzekkS?=
- =?us-ascii?Q?Aq7Ug3SwekNtJvi+h6bEL0HyQL+JO/O8bldy5RAm1U/dSFLxkdFjeooWdhYe?=
- =?us-ascii?Q?bsYjfJ85QBDGi2fzHQKsyoc+8L/rjQmO4svE02zb+8+LABJUkebPFUebZH0I?=
- =?us-ascii?Q?RaDVIVl/B14xPSGwhWIYPkTEYyivT81KwaS91QGcBD25zmAdikz33Xft6bZG?=
- =?us-ascii?Q?lPh0lyooYx8G3l473Bil1oyinXnaB4sWZuy1DuAfZc7o826PRCYqdq4zxy4+?=
- =?us-ascii?Q?kakjsFfEC8Q0qAslgBVUSC6LoRUCk4p3B1HdvZwO0gfQDCkRDJ6lDNgik6cv?=
- =?us-ascii?Q?XDTb3ChTUb/fRynp/7buwxi1ugxtNgbvZGGNnWrl1GWsbsVqsO3F8cTZ4JQt?=
- =?us-ascii?Q?LQu1jS1XNfr+rUCIIuFUrC+qBrsiGSKD1t6zrfaZoQPSEc8PhdmMm4p+nRZH?=
- =?us-ascii?Q?H1094+/bDuXMoCLANgKLaSAIMQF4CdpfEz5LCMQQ68jx8nHrihoK9p4X5P6N?=
- =?us-ascii?Q?jYpsBOBpHVl5lnq75bAXGnoxZ+uw10nHH6iZe7u4kX6ZlfssoZpvdBeyOLnz?=
- =?us-ascii?Q?LtjWmFRu+Jwk/g7XO5D5WQpheth6vm2ElRzni/9d5HHtp5/ZvhjMHcRN6mHO?=
- =?us-ascii?Q?XZBM3ZKiRWuguOnnNngbUY+rO25Z9arZGX/fxnWQ0lIDiw1GOnI7cb5+6ize?=
- =?us-ascii?Q?ZgPXdY/RjlkuwK6Lt6Aox/weShKvRTQB0gf4y/pOw05Ap8GqILFVIk2/dJtH?=
- =?us-ascii?Q?Y8w/rhmP3vMiGMj9PY7cp7p7qb7AZwv8Y2iUTT35R0oTZqCWjpSaTMKH9Nkp?=
- =?us-ascii?Q?bm42bCC9tIArDMLClNbzTHTMKgXi6ZAsJ9/EfCNcg/zNrt0Nul9w6IPKXUyb?=
- =?us-ascii?Q?tM4cmLojMMemwoIaszqe3F0CSUcrb0IzTggrtqUXEAhejPywCBf/Fh+xQYZt?=
- =?us-ascii?Q?E7BC9VeEIfL0ULEsFpq4P1uOG3YGqtIBIlelb5DP6eG6iWO8gPgwPANOHhAb?=
- =?us-ascii?Q?MWaRKqhUyPwrvIdGvNHer0wFh1IBVHE3vsFURjhpYB//6MHcm1cqYt2l9dgN?=
- =?us-ascii?Q?uM/ptoUdCi8=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?sR6OLO7WGVDrwfr9yuQJ+2KW/03YjBHbOxYbGMYOMCZYOWwxQoNDiL2pKIBU?=
- =?us-ascii?Q?hdkr7lEhol4n7NuO50U7v2uTIhbvOWPEQDMioCAWwI5WQ+BE/3msfWyjn31f?=
- =?us-ascii?Q?x3BGFqLNyI27rcfQLAUyUJHgLOFy0VsbZNJvK91B/cFod3Qf9hYYmBV5YKIt?=
- =?us-ascii?Q?rtVCIS0Ssf3y2Mt+NT5/um6iIc7xBaLkA9NCGFuWfqdHRLjD1VNKw4VXR89R?=
- =?us-ascii?Q?xUOuHBnZotMvkW+kxl9yx7S5XFzhtHlJUdnn2SGKzg5VtU7MsLR3dmI0I9qi?=
- =?us-ascii?Q?qeyHePnBc1XYOGm9LIS716SdiU4ZxVX3i0CmQRym1jcMjuKbyhmH5lUi+FHh?=
- =?us-ascii?Q?uhcbgVzRk7Yg1oR/UqFmRv5fhMBqtAEQq6oJ/tjnZHZFTaRRSDsBfE6fN6NE?=
- =?us-ascii?Q?JKctD2IVBqmaZaHCZRmRzgY1bCzFAueOU6do0G3DAp0/enFSV38HI2OZwZF0?=
- =?us-ascii?Q?SOMIQDdX2Efk8Fwlq3FWMITrXSexSeNHuIi5BnLIXSciAOvKAl3vOP/E3j8Q?=
- =?us-ascii?Q?wYTJJ8sGYGHkhpJ3gv8U6ac64gsoWuWdxKlcf2SiBpHebo3B4IAAzNDVWdIv?=
- =?us-ascii?Q?m9fnfBAtoOQGLt82yRP692KRPCQ+LkLMKn9Njq0KJWwTH8dBJ97Y8czAFS0M?=
- =?us-ascii?Q?d1ciS4Ip6i3DlQs542nVxucomToNBgLMN+JXvkOXTrJirQ+nCgoX3ykqu88b?=
- =?us-ascii?Q?RLcE/JY4nR3HrwLzy5YeXeM47gnfdbZwTpvyitRb2GfXGxn2Hk9uS7EnE4RN?=
- =?us-ascii?Q?x2MbostRNOUsHQVsnUtiSKT9/bpO+lScdGXvK+8hYcE3wypOuw3J4Q+FbMxP?=
- =?us-ascii?Q?bxeB+Ulqhl+1nXeAOfJaksQCBo1N9XCSbg/Tnq3nEXm2O+Tb2neq/mKopK+F?=
- =?us-ascii?Q?oKl+oXuS0TcMkLo/SMlBkaWMsClLVblgaVuhVGUIeQ07K+p7HSHOLTw+Rq03?=
- =?us-ascii?Q?NI1xJUEg9MBat+O3XeFBTbsf/WCudMezEwerfinT/opXWjlz7IchRHWWmm8S?=
- =?us-ascii?Q?bf/No0jewWT9JekdbUbxOp1MwITG05L/7/4XB7uSinax4/JiPV6DFvIFfFio?=
- =?us-ascii?Q?J6UR/vOAto95/JmCKTKcJ75TwpY+W0sPkMqL6S1uXILQWYkNhTbfw5ZN0JsS?=
- =?us-ascii?Q?rPepZ9+uT0ggzsogxf8f88ruPBm6yxFrr9/BZQRlLR/i+lKSnmm1bhlDQJ77?=
- =?us-ascii?Q?hsP3bc3vIpXfuixt+PZTiZYIU+cPc4E6h+mwwY+hjCEwKw8pf5W7Hk/rkJQV?=
- =?us-ascii?Q?FF8V0Ynr39av9YDx+D6kS59laa1QOn4cc80bgCG0lnCGNf0fo4BHjy9EOOab?=
- =?us-ascii?Q?1xtwoH1thASYwHssKN6HWrkfUXlzgk8Zz8LFFvntBeE2dH0lgaXNOMV5j2Se?=
- =?us-ascii?Q?ZbE5hA7pfDc0PavMHn29DccR3V/EeR10JgW2CQyK9o5L2ZP+0BTd0j5Ap1aj?=
- =?us-ascii?Q?VxFJSMoyvW6BiFVDB41ontdUjBXvFTPLQyKwQ0mUYVZDQ0IrJ++4PecmR3QV?=
- =?us-ascii?Q?AOjinVp4kbGo9305fabp1UsvUHAZHAVfK1uzEXRGyTKhD+3Hc7TYU1wS+QSw?=
- =?us-ascii?Q?DPs8HyXYZOpmOcM60GA=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b942e929-cfed-4d71-c440-08ddd5abd12a
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 12:13:28.4489
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KROhXLqGII19t1me5Y8/lT8ezU6d/PVXc3lHTLvPLyrmNmHxaDMV+xvImfEg9mk1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPFD3499E3E3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 04, 2025 at 03:42:41PM +0300, Leon Romanovsky wrote:
-> --- a/kernel/dma/direct.h
-> +++ b/kernel/dma/direct.h
-> @@ -80,42 +80,54 @@ static inline void dma_direct_sync_single_for_cpu(struct device *dev,
->  		arch_dma_mark_clean(paddr, size);
->  }
->  
-> -static inline dma_addr_t dma_direct_map_page(struct device *dev,
-> -		struct page *page, unsigned long offset, size_t size,
-> -		enum dma_data_direction dir, unsigned long attrs)
-> +static inline dma_addr_t dma_direct_map_phys(struct device *dev,
-> +		phys_addr_t phys, size_t size, enum dma_data_direction dir,
-> +		unsigned long attrs)
->  {
-> -	phys_addr_t phys = page_to_phys(page) + offset;
-> -	dma_addr_t dma_addr = phys_to_dma(dev, phys);
-> +	bool is_mmio = attrs & DMA_ATTR_MMIO;
-> +	dma_addr_t dma_addr;
-> +	bool capable;
-> +
-> +	dma_addr = (is_mmio) ? phys : phys_to_dma(dev, phys);
-> +	capable = dma_capable(dev, dma_addr, size, is_mmio);
-> +	if (is_mmio) {
-> +	       if (unlikely(!capable))
-> +		       goto err_overflow;
-> +	       return dma_addr;
+The Linux task freezer was designed in a much earlier era, when userspace=
+ was relatively simple and flat.
+Over the years, as modern desktop and mobile systems have become increasi=
+ngly complex=E2=80=94with intricate IPC,
+asynchronous I/O, and deep event loops=E2=80=94the original freezer model=
+ has shown its age.
 
-Similar remark here, shouldn't we be checking swiotlb things for
-ATTR_MMIO and failing if swiotlb is needed?
+## Background
 
-> -	if (is_swiotlb_force_bounce(dev)) {
-> -		if (is_pci_p2pdma_page(page))
-> -			return DMA_MAPPING_ERROR;
+Currently, the freezer traverses the task list linearly and attempts to f=
+reeze all tasks equally.
+It sends a signal and waits for `freezing()` to become true. While this m=
+odel works well in many cases, it has several inherent limitations:
 
-This
+- Signal-based logic cannot freeze uninterruptible (D-state) tasks
+- Dependencies between processes can cause freeze retries=20
+- Retry-based recovery introduces unpredictable suspend latency
 
-> -	if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
-> -	    dma_kmalloc_needs_bounce(dev, size, dir)) {
-> -		if (is_pci_p2pdma_page(page))
-> -			return DMA_MAPPING_ERROR;
+## Real-world problem illustration
 
-And this
+Consider the following scenario during suspend:
 
-Jason
+Freeze Window Begins
+
+    [process A] - epoll_wait()
+        =E2=94=82
+        =E2=96=BC
+    [process B] - event source (already frozen)
+
+=E2=86=92 A enters D-state because of waiting for B
+=E2=86=92 Cannot respond to freezing signal
+=E2=86=92 Freezer retries in a loop
+=E2=86=92 Suspend latency spikes
+
+In such cases, we observed that a normal 1=E2=80=932ms freezer cycle coul=
+d balloon to **tens of milliseconds**.=20
+Worse, the kernel has no insight into the root cause and simply retries b=
+lindly.
+
+## Proposed solution: Freeze priority model
+
+To address this, we propose a **layered freeze model** based on per-task =
+freeze priorities.
+
+### Design
+
+We introduce 4 levels of freeze priority:
+
+
+| Priority | Level             | Description                       |
+|----------|-------------------|-----------------------------------|
+| 0        | HIGH              | D-state TASKs                     |
+| 1        | NORMAL            | regular  use space TASKS          |
+| 2        | LOW               | not yet used                      |
+| 4        | NEVER_FREEZE      | zombie TASKs , PF_SUSPNED_TASK    |
+
+
+The kernel will freeze processes **in priority order**, ensuring that hig=
+her-priority tasks are frozen first.
+This avoids dependency inversion scenarios and provides a deterministic p=
+ath forward for tricky cases.
+By freezing control or event-source threads first, we prevent dependent t=
+asks from entering D-state prematurely =E2=80=94 effectively avoiding dep=
+endency inversion.
+
+Although introducing more fine-grained freeze_priority levels improves ex=
+tensibility and allows better modeling of task dependencies,=20
+it may also introduce additional overhead during task traversal, potentia=
+lly affecting freezer performance.
+
+In our test environment, increasing the maximum freeze retries to 16 only=
+ added ~4ms of overhead to the total suspend latency,
+suggesting the added robustness comes at a relatively low cost. However, =
+for latency-critical systems, this trade-off should be carefully evaluate=
+d.
+
+## Benefits
+
+- Solves D-state process freeze stalls caused by premature freezing of de=
+pendencies
+- Enables more robust and reliable suspend/resume on complex userspace sy=
+stems
+- Introduces extensibility: tasks can be categorized by role, urgency, or=
+ dependency
+- Reduces race conditions by introducing deterministic freezing order
+
+## Previous Discussion
+Link: https://lore.kernel.org/all/20250606062502.19607-1-zhangzihuan@kyli=
+nos.cn/
+Link: https://lore.kernel.org/all/1ca889fd-6ead-4d4f-a3c7-361ea05bb659@ky=
+linos.cn/
+
+## Future directions
+
+This framework opens up several promising areas for further development:
+
+1. Adaptive behavior based on runtime statistics or retry feedback
+The freezer adapts dynamically during suspend/hibernate based on the numb=
+er of retries and which tasks failed to freeze.=20
+Tasks that failed in previous rounds will be assigned a higher freeze pri=
+ority, improving convergence speed and reducing unnecessary retries.
+
+2. cgroup-aware hierarchical freezing for containerized systems
+The design supports cgroup-aware task traversal and freezing.=20
+This ensures compatibility with containerized environments, allowing for =
+better control and visibility when freezing processes in different cgroup=
+s.
+
+3. Unified freezing of userspace processes and kernel threads
+Based on extensive testing, we found that freezing userspace tasks and ke=
+rnel threads together works reliably in practice.=20
+Separating them does not resolve dependency issues between user and kerne=
+l context. Moreover, most kernel threads are marked as non-freezable,
+so including them in the same freeze pass does not impact correctness and=
+ simplifies the logic.
+
+Although the current implementation is relatively simple, it already help=
+s alleviate some suspend failures caused by tasks stuck in D state.
+In our testing, we observed that certain D-state tasks are triggered by f=
+ilesystem sync operations during the freezing phase.
+At this stage, we don't yet have a comprehensive solution for that class =
+of problems.
+This patchset represents a testable version of our design. We plan to fur=
+ther investigate and address such filesystem-related D-state issues in fu=
+ture revisions.
+
+Patch summary:
+ - Patch 1-3: Core infrastructure: field, API, layered freeze logic
+ - Patch 4-7: Default priorities and dynamic adjustments
+ - Patch 8: Statistics: freeze pass retry count
+ - Patch 9: Procfs interface for userspace access
+
+Zihuan Zhang (9):
+  freezer: Introduce freeze_priority field in task_struct
+  freezer: Introduce API to set per-task freeze priority
+  freezer: Add per-priority layered freeze logic
+  freezer: Set default freeze priority for userspace tasks
+  freezer: set default freeze priority for PF_SUSPEND_TASK processes
+  freezer: Set default freeze priority for zombie tasks
+  freezer: raise freeze priority of tasks failed to freeze last time
+  freezer: Add retry count statistics for freeze pass iterations
+  proc: Add /proc/<pid>/freeze_priority interface
+
+ Documentation/filesystems/proc.rst | 14 ++++++-
+ fs/proc/base.c                     | 64 ++++++++++++++++++++++++++++++
+ include/linux/freezer.h            | 20 ++++++++++
+ include/linux/sched.h              |  3 ++
+ kernel/fork.c                      |  1 +
+ kernel/power/process.c             | 23 ++++++++++-
+ kernel/sched/core.c                |  2 +
+ 7 files changed, 124 insertions(+), 3 deletions(-)
+
+--=20
+2.25.1
+
