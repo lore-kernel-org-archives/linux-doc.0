@@ -1,250 +1,261 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2FC23741;
-	Fri,  8 Aug 2025 13:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BB813A3F7
+	for <linux-doc@vger.kernel.org>; Fri,  8 Aug 2025 13:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754660988; cv=none; b=a4y+apl30GhBCUMvAiIX8uXanKUV1LE+egerpq/SpnsbIJt7kStxFaSi/h47dyet3H/89rDwBfkpTQ9vaENjR8mkIiOQ2QkUuGBcgCWwEvI3IEYbdx6K7yNWTOqyIjHV3nr6H7qba/QtsP0ryhu8F4fWW6KoomedDWfuT5ft74s=
+	t=1754661168; cv=none; b=CSUkhqq4opyWEIAGNIJjjYL281o0WPVXxEjsI6Zxjv8lRT+z0JSI2opUDuKWVFIPYaDoiP21RKN6Uxqd/UXoxDj0rKdgY/4x9WP3Nqm4T2lBGxQs73UloCK4wxHYx3tfzEWu18paI0dOwk7K6reffrt6b/0DnvrY/dI0zT0LAwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754660988; c=relaxed/simple;
-	bh=B5lDeezqkk5enqfSPL/TI85oGS6wmZYxDK+9tTEhTUE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Z8iVD0uOfaiwM5kFeJvYl91LnB4aVM4rK9Bb05ureRKNE2UsUY1FzhnIUCmtgliXeDINVuMmpZR2u/ZPXqrLLlF6ajbVmhYidVpEId+TdyeWM2YhmOoMXIfr0+fc8roLtn/6QZ3iKsYOi5snIsOoAQQjCeyiAfswypFSep+yeQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kaod.org; spf=pass smtp.mailfrom=ozlabs.org; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kaod.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ozlabs.org
-Received: from mail.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-	by gandalf.ozlabs.org (Postfix) with ESMTP id 4bz54N18ktz4wbp;
-	Fri,  8 Aug 2025 23:49:40 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4bz54J2g4Qz4wbR;
-	Fri,  8 Aug 2025 23:49:36 +1000 (AEST)
-Message-ID: <dd0b8e6f-1673-49c3-8018-974d1e7f1a54@kaod.org>
-Date: Fri, 8 Aug 2025 15:49:33 +0200
+	s=arc-20240116; t=1754661168; c=relaxed/simple;
+	bh=/phiuRu5p1X263GZfYLWvs+0gJIAThibFvV6rDhANj4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WE6zGo9GIKLvhNHw4wdIDq9NNnvSGeWmUjy6uCJ70Y8E53EQfuIwgYxCeXtLWTWk/B4WEl4yLjERvKMYvI49a2Xxgc4KPkScs2N0HDAikUsKf3VqDrgcXko/Nq42Wn4Z4tAcEp0BHdHHbtXhKOL+AdQR1zKp78a5vGv9hLnCR1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=GQWzPOC0; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="GQWzPOC0"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4b070b3b7adso38054761cf.3
+        for <linux-doc@vger.kernel.org>; Fri, 08 Aug 2025 06:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1754661165; x=1755265965; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eWuSm/n+x6UmSbenhuChDI181POgLouqBLmIRKho6Y8=;
+        b=GQWzPOC0OL9E6k+XWGZiOzDqUTgCk+pMz3VP1SgeRWHZMCWGsYBAsLuigRmoNFSZaT
+         g+3/dUerIytxx+j+7D9Q2fP+HKAxxqyYV8BcUkr9612c9B5p8GfhivzhfZVfmeziOAo8
+         ry/s0eFxPKdwvvqxGLxYrk0JRwD7TIsEMSEyI9CIGtrL7o1PpHv0F1baywXOyyOd2w4l
+         Kbh7BPTo+Mjun/ZQzGxqRjp9/3946VYI9RVuquXp1Jract4r6ngi/5uxBOIjX/Cm406D
+         Fr9ASn85dYL0tICuLV0yieuzhIRoJwSf4x4+Kocmy34EPh94thfy/ZfOhuqF40xrNbr+
+         CyNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754661165; x=1755265965;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eWuSm/n+x6UmSbenhuChDI181POgLouqBLmIRKho6Y8=;
+        b=g+vIZ+BVUEbKcale9atznVYYTKyHpRdPM6nAn+0SsV4eXWz+H3UueAa3dIrDoOpoZ6
+         C2WX6k+CCnsIRsBH7AdOtF2UhrBbTaK+Eu1Uk1JNU5fZXFIE6akcbM+HXozhic384wP0
+         85TesKOJ3qLm1P8k/8bnbEoeT3WBVFudHCJKwJ3f5lHGsIK/OTbolBWpmtmgd+MZpszu
+         gyekdhVVYkgvDEfO8BEg7KhDqbq+EobVJxE46mRhZliXK2Dal/hZO0E4Q0thop49MIJN
+         EtICnYbiEWTZaqsWvbOHGxquCAm3K/aF5ugJAGZCSRllKgv8bTPGNsqHNL/B2j7ISJFZ
+         noIA==
+X-Forwarded-Encrypted: i=1; AJvYcCWYocn/mwTKwj416oln3lb69tlc3u4OMJp0Zu3u0RnoGOzLiK4O6Z3YMsGmc+VSGR0pSQqqF8FeHCk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyF7PTdjFmuRC/FwKf6NeFetaRfgGyPfyb7rAROy3gzif0zD9G1
+	5eALvo9jz/dU2Sz89eaN8S/U8NJUP+1NPUL8Ce5P5Z/Hi0/axy1/9kuPO9HKC2nBJisp3SaZPg1
+	hsthpnG/lpRzRx4PEfJMM72cHKCWe5F2IaYbIJEf7kA==
+X-Gm-Gg: ASbGnctbluQpgt9lGxmSz9kashr3+xBcZPwN3fFeU3CP6rM7FanGIe0X/vPdrlXxaWU
+	GZXqW4BlEgqa7QIXzN7iAQ3hjgDrlfBS0Fo+XNdWpmmh81i4L62l5dzBm/UbZizU9p16WLlHPgb
+	oyHKEbNcz0sZVbf9ZxMkwa5xFOSrioz0ncxalqv/z+XcBeo45tkcrKxmjUFoVkj2pITr9LrGxaY
+	nRo
+X-Google-Smtp-Source: AGHT+IHO5jWq2R+C8O5R0Fm2lL7gLcJpGW7g9n82qYxS65FLgaiPl7bc5Ibupu3yaSPySLQfW9SenpAn90221JpxA8E=
+X-Received: by 2002:ac8:7d89:0:b0:4b0:8092:9918 with SMTP id
+ d75a77b69052e-4b0aec614dfmr42016261cf.1.1754661165053; Fri, 08 Aug 2025
+ 06:52:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] vfio/pci: print vfio-device syspath to fdinfo
-To: Alex Mastro <amastro@fb.com>, Alex Williamson
- <alex.williamson@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Jason Gunthorpe <jgg@ziepe.ca>, Keith Busch <kbusch@kernel.org>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org
-References: <20250804-show-fdinfo-v4-1-96b14c5691b3@fb.com>
- <20250807144938.e0abc7bb-a4-amachhiw@linux.ibm.com>
-From: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Language: en-US, fr
-Autocrypt: addr=clg@kaod.org; keydata=
- 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
-In-Reply-To: <20250807144938.e0abc7bb-a4-amachhiw@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com> <b227482a-31ec-4c92-a856-bd19f72217b7@redhat.com>
+In-Reply-To: <b227482a-31ec-4c92-a856-bd19f72217b7@redhat.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 8 Aug 2025 13:52:08 +0000
+X-Gm-Features: Ac12FXyoXpYy06IoMQTlfI4PNRF-wgM5UcLDQBO-MIGYnp5DILElI_szjslsn1M
+Message-ID: <CA+CK2bCUXszEadZeBvmjJSEPH2NMi_KZA9o3Nvc6WiMBBE=Hfw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/30] Live Update Orchestrator
+To: David Hildenbrand <david@redhat.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, joel.granados@kernel.org, 
+	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
+	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, Hugh Dickins <hughd@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Amit,
+On Fri, Aug 8, 2025 at 12:07=E2=80=AFPM David Hildenbrand <david@redhat.com=
+> wrote:
+>
+> On 07.08.25 03:44, Pasha Tatashin wrote:
+> > This series introduces the LUO, a kernel subsystem designed to
+> > facilitate live kernel updates with minimal downtime,
+> > particularly in cloud delplyoments aiming to update without fully
+> > disrupting running virtual machines.
+> >
+> > This series builds upon KHO framework by adding programmatic
+> > control over KHO's lifecycle and leveraging KHO for persisting LUO's
+> > own metadata across the kexec boundary. The git branch for this series
+> > can be found at:
+> >
+> > https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v3
+> >
+> > Changelog from v2:
+> > - Addressed comments from Mike Rapoport and Jason Gunthorpe
+> > - Only one user agent (LiveupdateD) can open /dev/liveupdate
+> > - Release all preserved resources if /dev/liveupdate closes
+> >    before reboot.
+> > - With the above changes, sessions are not needed, and should be
+> >    maintained by the user-agent itself, so removed support for
+> >    sessions.
+> > - Added support for changing per-FD state (i.e. some FDs can be
+> >    prepared or finished before the global transition.
+> > - All IOCTLs now follow iommufd/fwctl extendable design.
+> > - Replaced locks with guards
+> > - Added a callback for registered subsystems to be notified
+> >    during boot: ops->boot().
+> > - Removed args from callbacks, instead use container_of() to
+> >    carry context specific data (see luo_selftests.c for example).
+> > - removed patches for luolib, they are going to be introduced in
+> >    a separate repository.
+> >
+> > What is Live Update?
+> > Live Update is a kexec based reboot process where selected kernel
+> > resources (memory, file descriptors, and eventually devices) are kept
+> > operational or their state preserved across a kernel transition. For
+> > certain resources, DMA and interrupt activity might continue with
+> > minimal interruption during the kernel reboot.
+> >
+> > LUO provides a framework for coordinating live updates. It features:
+> > State Machine: Manages the live update process through states:
+> > NORMAL, PREPARED, FROZEN, UPDATED.
+> >
+> > KHO Integration:
+> >
+> > LUO programmatically drives KHO's finalization and abort sequences.
+> > KHO's debugfs interface is now optional configured via
+> > CONFIG_KEXEC_HANDOVER_DEBUG.
+> >
+> > LUO preserves its own metadata via KHO's kho_add_subtree and
+> > kho_preserve_phys() mechanisms.
+> >
+> > Subsystem Participation: A callback API liveupdate_register_subsystem()
+> > allows kernel subsystems (e.g., KVM, IOMMU, VFIO, PCI) to register
+> > handlers for LUO events (PREPARE, FREEZE, FINISH, CANCEL) and persist a
+> > u64 payload via the LUO FDT.
+> >
+> > File Descriptor Preservation: Infrastructure
+> > liveupdate_register_filesystem, luo_register_file, luo_retrieve_file to
+> > allow specific types of file descriptors (e.g., memfd, vfio) to be
+> > preserved and restored.
+> >
+> > Handlers for specific file types can be registered to manage their
+> > preservation and restoration, storing a u64 payload in the LUO FDT.
+> >
+> > User-space Interface:
+> >
+> > ioctl (/dev/liveupdate): The primary control interface for
+> > triggering LUO state transitions (prepare, freeze, finish, cancel)
+> > and managing the preservation/restoration of file descriptors.
+> > Access requires CAP_SYS_ADMIN.
+> >
+> > sysfs (/sys/kernel/liveupdate/state): A read-only interface for
+> > monitoring the current LUO state. This allows userspace services to
+> > track progress and coordinate actions.
+> >
+> > Selftests: Includes kernel-side hooks and userspace selftests to
+> > verify core LUO functionality, particularly subsystem registration and
+> > basic state transitions.
+> >
+> > LUO State Machine and Events:
+> >
+> > NORMAL:   Default operational state.
+> > PREPARED: Initial preparation complete after LIVEUPDATE_PREPARE
+> >            event. Subsystems have saved initial state.
+> > FROZEN:   Final "blackout window" state after LIVEUPDATE_FREEZE
+> >            event, just before kexec. Workloads must be suspended.
+> > UPDATED:  Next kernel has booted via live update. Awaiting restoration
+> >            and LIVEUPDATE_FINISH.
+> >
+> > Events:
+> > LIVEUPDATE_PREPARE: Prepare for reboot, serialize state.
+> > LIVEUPDATE_FREEZE:  Final opportunity to save state before kexec.
+> > LIVEUPDATE_FINISH:  Post-reboot cleanup in the next kernel.
+> > LIVEUPDATE_CANCEL:  Abort prepare or freeze, revert changes.
+> >
+> > v2: https://lore.kernel.org/all/20250723144649.1696299-1-pasha.tatashin=
+@soleen.com
+> > v1: https://lore.kernel.org/all/20250625231838.1897085-1-pasha.tatashin=
+@soleen.com
+> > RFC v2: https://lore.kernel.org/all/20250515182322.117840-1-pasha.tatas=
+hin@soleen.com
+> > RFC v1: https://lore.kernel.org/all/20250320024011.2995837-1-pasha.tata=
+shin@soleen.com
+> >
+> > Changyuan Lyu (1):
+> >    kho: add interfaces to unpreserve folios and physical memory ranges
+> >
+> > Mike Rapoport (Microsoft) (1):
+> >    kho: drop notifiers
+> >
+> > Pasha Tatashin (23):
+> >    kho: init new_physxa->phys_bits to fix lockdep
+> >    kho: mm: Don't allow deferred struct page with KHO
+> >    kho: warn if KHO is disabled due to an error
+> >    kho: allow to drive kho from within kernel
+> >    kho: make debugfs interface optional
+> >    kho: don't unpreserve memory during abort
+> >    liveupdate: kho: move to kernel/liveupdate
+> >    liveupdate: luo_core: luo_ioctl: Live Update Orchestrator
+> >    liveupdate: luo_core: integrate with KHO
+> >    liveupdate: luo_subsystems: add subsystem registration
+> >    liveupdate: luo_subsystems: implement subsystem callbacks
+> >    liveupdate: luo_files: add infrastructure for FDs
+> >    liveupdate: luo_files: implement file systems callbacks
+> >    liveupdate: luo_ioctl: add userpsace interface
+> >    liveupdate: luo_files: luo_ioctl: Unregister all FDs on device close
+> >    liveupdate: luo_files: luo_ioctl: Add ioctls for per-file state
+> >      management
+> >    liveupdate: luo_sysfs: add sysfs state monitoring
+> >    reboot: call liveupdate_reboot() before kexec
+> >    kho: move kho debugfs directory to liveupdate
+> >    liveupdate: add selftests for subsystems un/registration
+> >    selftests/liveupdate: add subsystem/state tests
+> >    docs: add luo documentation
+> >    MAINTAINERS: add liveupdate entry
+> >
+> > Pratyush Yadav (5):
+> >    mm: shmem: use SHMEM_F_* flags instead of VM_* flags
+> >    mm: shmem: allow freezing inode mapping
+> >    mm: shmem: export some functions to internal.h
+> >    luo: allow preserving memfd
+> >    docs: add documentation for memfd preservation via LUO
+>
+> It's not clear from the description why these mm shmem changes are
+> buried in this patch set. It's not even described above in the patch
+> description.
 
-On 8/7/25 11:34, Amit Machhiwal wrote:
-> Hello,
-> 
-> On 2025/08/04 12:44 PM, Alex Mastro wrote:
->> Print the PCI device syspath to a vfio device's fdinfo. This enables tools
->> to query which device is associated with a given vfio device fd.
->>
->> This results in output like below:
->>
->> $ cat /proc/"$SOME_PID"/fdinfo/"$VFIO_FD" | grep vfio
->> vfio-device-syspath: /sys/devices/pci0000:e0/0000:e0:01.1/0000:e1:00.0/0000:e2:05.0/0000:e8:00.0
->>
->> Signed-off-by: Alex Mastro <amastro@fb.com>
-> 
-> I tested this patch on a POWER9 bare metal system with a VFIO PCI device and
-> could see the VFIO device syspath in fdinfo.
+Hi David,
 
-POWER9 running on OPAL FW : I am curious about the software stack.
+Yes, I should update the cover letter to include memfd preservation work.
 
-I suppose this is the latest upstream kernel ?
-Are you using an upstream QEMU to test too ?
+> I suggest sending that part out separately, so Hugh actually spots this.
+> (is he even CC'ed?)
 
-and which device ?
++cc hughd@google.com
 
-Thanks,
+While MM list is CCed, you are right, I have not specifically CCed
+shmem maintainers. This will be fixed in the next revision.
 
-C.
-
-
-
-
-> 
->   Without this patch:
->   -------------------
-> 
->      [root@localhost ~]# cat /proc/7059/fdinfo/188
->      pos:    0
->      flags:  02000002
->      mnt_id: 17
->      ino:    1113
-> 
->   With this patch:
->   ----------------
->      [root@localhost ~]# cat /proc/7722/fdinfo/188
->      pos:    0
->      flags:  02000002
->      mnt_id: 17
->      ino:    2145
->      vfio-device-syspath: /sys/devices/pci0031:00/0031:00:00.0/0031:01:00.0
-> 
-> ..., and the code changes LGTM. Hence,
-> 
-> Reviewed-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> Tested-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> 
-> Thanks,
-> Amit
-> 
->> ---
->> Changes in v4:
->> - Remove changes to vfio.h
->> - Link to v3: https://lore.kernel.org/r/20250801-show-fdinfo-v3-1-165dfcab89b9@fb.com
->> Changes in v3:
->> - Remove changes to vfio_pci.c
->> - Add section to Documentation/filesystems/proc.rst
->> - Link to v2: https://lore.kernel.org/all/20250724-show-fdinfo-v2-1-2952115edc10@fb.com
->> Changes in v2:
->> - Instead of PCI bdf, print the fully-qualified syspath (prefixed by
->>    /sys) to fdinfo.
->> - Rename the field to "vfio-device-syspath". The term "syspath" was
->>    chosen for consistency e.g. libudev's usage of the term.
->> - Link to v1: https://lore.kernel.org/r/20250623-vfio-fdinfo-v1-1-c9cec65a2922@fb.com
->> ---
->>   Documentation/filesystems/proc.rst | 14 ++++++++++++++
->>   drivers/vfio/vfio_main.c           | 20 ++++++++++++++++++++
->>   2 files changed, 34 insertions(+)
->>
->> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
->> index 2a17865dfe39..fc5ed3117834 100644
->> --- a/Documentation/filesystems/proc.rst
->> +++ b/Documentation/filesystems/proc.rst
->> @@ -2162,6 +2162,20 @@ DMA Buffer files
->>   where 'size' is the size of the DMA buffer in bytes. 'count' is the file count of
->>   the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
->>   
->> +VFIO Device files
->> +~~~~~~~~~~~~~~~~
->> +
->> +::
->> +
->> +	pos:    0
->> +	flags:  02000002
->> +	mnt_id: 17
->> +	ino:    5122
->> +	vfio-device-syspath: /sys/devices/pci0000:e0/0000:e0:01.1/0000:e1:00.0/0000:e2:05.0/0000:e8:00.0
->> +
->> +where 'vfio-device-syspath' is the sysfs path corresponding to the VFIO device
->> +file.
->> +
->>   3.9	/proc/<pid>/map_files - Information about memory mapped files
->>   ---------------------------------------------------------------------
->>   This directory contains symbolic links which represent memory mapped files
->> diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
->> index 1fd261efc582..37a39cee10ed 100644
->> --- a/drivers/vfio/vfio_main.c
->> +++ b/drivers/vfio/vfio_main.c
->> @@ -28,6 +28,7 @@
->>   #include <linux/pseudo_fs.h>
->>   #include <linux/rwsem.h>
->>   #include <linux/sched.h>
->> +#include <linux/seq_file.h>
->>   #include <linux/slab.h>
->>   #include <linux/stat.h>
->>   #include <linux/string.h>
->> @@ -1354,6 +1355,22 @@ static int vfio_device_fops_mmap(struct file *filep, struct vm_area_struct *vma)
->>   	return device->ops->mmap(device, vma);
->>   }
->>   
->> +#ifdef CONFIG_PROC_FS
->> +static void vfio_device_show_fdinfo(struct seq_file *m, struct file *filep)
->> +{
->> +	char *path;
->> +	struct vfio_device_file *df = filep->private_data;
->> +	struct vfio_device *device = df->device;
->> +
->> +	path = kobject_get_path(&device->dev->kobj, GFP_KERNEL);
->> +	if (!path)
->> +		return;
->> +
->> +	seq_printf(m, "vfio-device-syspath: /sys%s\n", path);
->> +	kfree(path);
->> +}
->> +#endif
->> +
->>   const struct file_operations vfio_device_fops = {
->>   	.owner		= THIS_MODULE,
->>   	.open		= vfio_device_fops_cdev_open,
->> @@ -1363,6 +1380,9 @@ const struct file_operations vfio_device_fops = {
->>   	.unlocked_ioctl	= vfio_device_fops_unl_ioctl,
->>   	.compat_ioctl	= compat_ptr_ioctl,
->>   	.mmap		= vfio_device_fops_mmap,
->> +#ifdef CONFIG_PROC_FS
->> +	.show_fdinfo	= vfio_device_show_fdinfo,
->> +#endif
->>   };
->>   
->>   static struct vfio_device *vfio_device_from_file(struct file *file)
->>
->> ---
->> base-commit: 4518e5a60c7fbf0cdff393c2681db39d77b4f87e
->> change-id: 20250801-show-fdinfo-ef109ca738cf
->>
->> Best regards,
->> -- 
->> Alex Mastro <amastro@fb.com>
->>
-> 
-
+Thank you,
+Pasha
