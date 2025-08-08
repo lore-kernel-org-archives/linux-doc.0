@@ -1,257 +1,179 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2489527815F
-	for <linux-doc@vger.kernel.org>; Fri,  8 Aug 2025 11:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F136526A08D;
+	Fri,  8 Aug 2025 11:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754652245; cv=none; b=fKXluBBh+YTAp1CNSGWU6sHHKmTiwSY12yJwch3HlDoh+iAl7iFnD28M0rzSwdUFscHMRgYOi89Jua+vVBtu3tXtfqHn5XQCtXhY+bVFB8HoUHwQiCaTRngbndK3pxAbV/1Rv2CN9NC24CsdYYsszW1Kx4kS4VT/pWatbFTXGL0=
+	t=1754653353; cv=none; b=QcChV/Xh3pLwoJki2hZ7k8OxdnxdEtZ454vAKloriTB3WdJ7xq4rY6xfdFHk4G0o8ML7+BRX/nSw59Xy+919L9c76YaiwrDRZGT9zRHVCZIzW1n0djzpdVxfvSWJkd5aBDWHdiRGZo01mevoZTP34ErVdSBXIPRVCCop0ustjCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754652245; c=relaxed/simple;
-	bh=aRUWGynzXd2I0iPJ8E252lMe7rGfIx7dGynoHirUSWM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MQZyEc5gqgRTRHS5cpMRRPP6EZC09M/z4LvWws2gYSjSdT4fQmOhWGV4oLJmvaUoH0qgCIcmHomRqEFW2kbmE4nobQ3ZazWkdTN1EQB+yGyS7/58S4uP4umyl32ujs6d50lj+zPZfG7LLvYRNNfBEH6+oLOfjdH5WMSpZvR1HMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T9Qmx8oA; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1754653353; c=relaxed/simple;
+	bh=+EXwIQbDINd7zs+mcit0rAyRB8QW/lOaVnLZfgR3OU4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qpvyoAFN48+Sjc9MSla/10NG90t1jZ9wdmjOJZN1PVycl5eCbi78D5mC0Pz5k46aQ1k1PwORT48zjiRS3tb1DZRONCxjSlLF4MC9fRzR0TrO+AJVAqWd4STS/cf+HASs2gOg9dM29ratr/ucq9QDGzZJ1HkuySX2A9sZ0XLWTl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=thXbzi8U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T9Qmx8oA"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-455b00339c8so12893695e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 08 Aug 2025 04:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754652241; x=1755257041; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aJMmlptoopG7uLnpNHx3BFeWdRFU3hEImM+p7yUrZvk=;
-        b=T9Qmx8oA30OeY/AkrLd+4aJrgboV6NBUIKm1U/nCvGa8s6rKqEnplLWaxtiXuMD2Oh
-         EmN77fIY+v4AlKh+dDxsEfSUPpDUq69xTLwjUpuaUAzn/KbHxnnMHjzrTx4cyEhAO5OV
-         pGCA86SJghMUVcxwHP8F22KHe907F6F29RuJpnIR1syiKv9NSX2kTq4lEa3tJxhZP+zi
-         oABntV0bxhGTSpQQSwTrydFIkKCgmQvUg4M0Pm1QEphP7TafBy1R227OLfW03BY8QhoW
-         GBVXssor0AFKrPbbik2A+opzKdZSD+/+WkQWqNwfs6IFxZCaziRt0cUC44AnRpQpl4ph
-         drkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754652241; x=1755257041;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aJMmlptoopG7uLnpNHx3BFeWdRFU3hEImM+p7yUrZvk=;
-        b=g/RYrLjzBomGwg1yFTjfONMMF2VSgmmGXyyhFMjIBF7eeqaLIhj3w9ToFX3EJfYozE
-         UMgeoZVfWV6hLlNMZNjmghHF6pRXsNrbv/ESceJrDVmS9QaK+1J+aK59qHARZ5HOhTy1
-         bZ0nB0vgRc/CgWk097P4cJ5B2/DE8hbpdFS8rzxxhv+0RQmkKYbTDxiuSKQ521AB5SUY
-         IXauHcWmQoQ2PpvGJb1OX2Es4nBIgO6fx3vBGXUZozczzOq6dPmNKucp6w94//jxlMSM
-         w9dg2u3vM+BBT+o4nNwApe3HlIjQEP8TO5OZUyJDoDeqsiOWJz4HCPxlOdSYnxAHgDwK
-         i5Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCUa6sogP3Do9qtu3ru2K75bCOynSFz4D2mYkIkGpTU3yg+SaC9L3ytrl81Tfcc6ZqtXqMoDRcuFrpM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzsyb+s1fiPvPCsixq9P9VfIVnTR5mK9uYvsYnqdhW7gYMLnmR5
-	xoO40KbolvvjeV+TrWinpOHmE4Svn/KP5FxQB/VNkFrlz8K6Gxwrda4Eo3RXMbFYH1g=
-X-Gm-Gg: ASbGnctaEzZ0Pe4FkMAaA+saQowDIJHWVV8667l06KNAAoV5tq8+Fk3rcWAklZoTc1n
-	6Equ7JZC/ly0mTZBWBOToXiawoIPFgcT3J9MiHn8dt2vT0V/iTD9H+9Pt7nG75NER3NJNZ+Ig5F
-	ZCmB5db4lUHUFGtAfwo0gnWkb07k7FCRzv7wKv7iElVItJeunHMPUobhofL5IpKt6DHm2Bna090
-	Od3jGAMQRU+y1xmclS6vRJ/nuENByKethDDca/P3dVQ3rWlwANug3vjFfNFRh4CTWApPjBdk8ou
-	yPmqUblPlfOTfMv29BZKhqBu4LEvn6v3nU62iOU1HVFW+fEPU7rsS/kDS1njAHb41secD1cy4k3
-	38FetOGmVjiLOsN6ftBtWv8Rg22D+vJ4=
-X-Google-Smtp-Source: AGHT+IHmVAPILAQt3jjnEVGZ95cvj/TwlhhBPdwWWqHVaKoukt+lAJlLJ0e2hot/FLFDTcAHZ+O1UQ==
-X-Received: by 2002:a05:600c:468d:b0:456:fdd:6030 with SMTP id 5b1f17b1804b1-459f4f98174mr23235225e9.19.1754652241155;
-        Fri, 08 Aug 2025 04:24:01 -0700 (PDT)
-Received: from ho-tower-lan.lan ([185.48.76.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45923c34af8sm233482635e9.24.2025.08.08.04.23.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 04:24:00 -0700 (PDT)
-From: James Clark <james.clark@linaro.org>
-Date: Fri, 08 Aug 2025 12:23:09 +0100
-Subject: [PATCH v6 12/12] perf docs: arm-spe: Document new SPE filtering
- features
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="thXbzi8U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F953C4CEED;
+	Fri,  8 Aug 2025 11:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754653352;
+	bh=+EXwIQbDINd7zs+mcit0rAyRB8QW/lOaVnLZfgR3OU4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=thXbzi8UdXsRGC6Qoy3VJbFEU21MkSCOaDClxHC2JK1GJZt0rBKoB1Jn+AH6aCiwi
+	 b0g+JiFxsmHtOPyVLLIP38MuvNDBW1mHFNFAITJGNoRqJtYvVjkmjm6acnUCnynowh
+	 g6z3N7QQLflKhYJYtEJiZG04QlZIGfT09dmtF5670e5T2hm26OfS1CsXEtZzvJw83I
+	 w4zxtBzNlzwxi8sqj1C4dwf2LcZKCFKEp9F5c+F6rW5KqqUC9HWONnn97gcslfc0VX
+	 +QP/gzK0YMadigtYGs3vb06wIiT9fNCYpkbZ5lkp5/VOcN1BNMPTw9E1lQThAMnU6l
+	 PgoVhAgaXBGyg==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 01/30] kho: init new_physxa->phys_bits to fix lockdep
+In-Reply-To: <20250807014442.3829950-2-pasha.tatashin@soleen.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+	<20250807014442.3829950-2-pasha.tatashin@soleen.com>
+Date: Fri, 08 Aug 2025 13:42:22 +0200
+Message-ID: <mafs0o6sqavkx.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250808-james-perf-feat_spe_eft-v6-12-6daf498578c8@linaro.org>
-References: <20250808-james-perf-feat_spe_eft-v6-0-6daf498578c8@linaro.org>
-In-Reply-To: <20250808-james-perf-feat_spe_eft-v6-0-6daf498578c8@linaro.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
- Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>, 
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, Leo Yan <leo.yan@arm.com>, 
- Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, 
- kvmarm@lists.linux.dev, James Clark <james.clark@linaro.org>
-X-Mailer: b4 0.14.0
+Content-Type: text/plain
 
-FEAT_SPE_EFT and FEAT_SPE_FDS etc have new user facing format attributes
-so document them. Also document existing 'event_filter' bits that were
-missing from the doc and the fact that latency values are stored in the
-weight field.
+Hi Pasha,
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
-Tested-by: Leo Yan <leo.yan@arm.com>
-Reviewed-by: Ian Rogers <irogers@google.com>
-Signed-off-by: James Clark <james.clark@linaro.org>
----
- tools/perf/Documentation/perf-arm-spe.txt | 104 +++++++++++++++++++++++++++---
- 1 file changed, 95 insertions(+), 9 deletions(-)
+On Thu, Aug 07 2025, Pasha Tatashin wrote:
 
-diff --git a/tools/perf/Documentation/perf-arm-spe.txt b/tools/perf/Documentation/perf-arm-spe.txt
-index 37afade4f1b2..c7d1032ff219 100644
---- a/tools/perf/Documentation/perf-arm-spe.txt
-+++ b/tools/perf/Documentation/perf-arm-spe.txt
-@@ -141,27 +141,65 @@ Config parameters
- These are placed between the // in the event and comma separated. For example '-e
- arm_spe/load_filter=1,min_latency=10/'
- 
--  branch_filter=1     - collect branches only (PMSFCR.B)
--  event_filter=<mask> - filter on specific events (PMSEVFR) - see bitfield description below
-+  event_filter=<mask> - logical AND filter on specific events (PMSEVFR) - see bitfield description below
-+  inv_event_filter=<mask> - logical OR to filter out specific events (PMSNEVFR, FEAT_SPEv1p2) - see bitfield description below
-   jitter=1            - use jitter to avoid resonance when sampling (PMSIRR.RND)
--  load_filter=1       - collect loads only (PMSFCR.LD)
-   min_latency=<n>     - collect only samples with this latency or higher* (PMSLATFR)
-   pa_enable=1         - collect physical address (as well as VA) of loads/stores (PMSCR.PA) - requires privilege
-   pct_enable=1        - collect physical timestamp instead of virtual timestamp (PMSCR.PCT) - requires privilege
--  store_filter=1      - collect stores only (PMSFCR.ST)
-   ts_enable=1         - enable timestamping with value of generic timer (PMSCR.TS)
-   discard=1           - enable SPE PMU events but don't collect sample data - see 'Discard mode' (PMBLIMITR.FM = DISCARD)
-+  data_src_filter=<mask> - mask to filter from 0-63 possible data sources (PMSDSFR, FEAT_SPE_FDS) - See 'Data source filtering'
- 
- +++*+++ Latency is the total latency from the point at which sampling started on that instruction, rather
- than only the execution latency.
- 
--Only some events can be filtered on; these include:
--
--  bit 1     - instruction retired (i.e. omit speculative instructions)
-+Only some events can be filtered on using 'event_filter' bits. The overall
-+filter is the logical AND of these bits, for example if bits 3 and 5 are set
-+only samples that have both 'L1D cache refill' AND 'TLB walk' are recorded. When
-+FEAT_SPEv1p2 is implemented 'inv_event_filter' can also be used to exclude
-+events that have any (OR) of the filter's bits set. For example setting bits 3
-+and 5 in 'inv_event_filter' will exclude any events that are either L1D cache
-+refill OR TLB walk. If the same bit is set in both filters it's UNPREDICTABLE
-+whether the sample is included or excluded. Filter bits for both event_filter
-+and inv_event_filter are:
-+
-+  bit 1     - Instruction retired (i.e. omit speculative instructions)
-+  bit 2     - L1D access (FEAT_SPEv1p4)
-   bit 3     - L1D refill
-+  bit 4     - TLB access (FEAT_SPEv1p4)
-   bit 5     - TLB refill
--  bit 7     - mispredict
--  bit 11    - misaligned access
-+  bit 6     - Not taken event (FEAT_SPEv1p2)
-+  bit 7     - Mispredict
-+  bit 8     - Last level cache access (FEAT_SPEv1p4)
-+  bit 9     - Last level cache miss (FEAT_SPEv1p4)
-+  bit 10    - Remote access (FEAT_SPEv1p4)
-+  bit 11    - Misaligned access (FEAT_SPEv1p1)
-+  bit 12-15 - IMPLEMENTATION DEFINED events (when implemented)
-+  bit 16    - Transaction (FEAT_TME)
-+  bit 17    - Partial or empty SME or SVE predicate (FEAT_SPEv1p1)
-+  bit 18    - Empty SME or SVE predicate (FEAT_SPEv1p1)
-+  bit 19    - L2D access (FEAT_SPEv1p4)
-+  bit 20    - L2D miss (FEAT_SPEv1p4)
-+  bit 21    - Cache data modified (FEAT_SPEv1p4)
-+  bit 22    - Recently fetched (FEAT_SPEv1p4)
-+  bit 23    - Data snooped (FEAT_SPEv1p4)
-+  bit 24    - Streaming SVE mode event (when FEAT_SPE_SME is implemented), or
-+              IMPLEMENTATION DEFINED event 24 (when implemented, only versions
-+              less than FEAT_SPEv1p4)
-+  bit 25    - SMCU or external coprocessor operation event when FEAT_SPE_SME is
-+              implemented, or IMPLEMENTATION DEFINED event 25 (when implemented,
-+              only versions less than FEAT_SPEv1p4)
-+  bit 26-31 - IMPLEMENTATION DEFINED events (only versions less than FEAT_SPEv1p4)
-+  bit 48-63 - IMPLEMENTATION DEFINED events (when implemented)
-+
-+For IMPLEMENTATION DEFINED bits, refer to the CPU TRM if these bits are
-+implemented.
-+
-+The driver will reject events if requested filter bits require unimplemented SPE
-+versions, but will not reject filter bits for unimplemented IMPDEF bits or when
-+their related feature is not present (e.g. SME). For example, if FEAT_SPEv1p2 is
-+not implemented, filtering on "Not taken event" (bit 6) will be rejected.
- 
- So to sample just retired instructions:
- 
-@@ -171,6 +209,31 @@ or just mispredicted branches:
- 
-   perf record -e arm_spe/event_filter=0x80/ -- ./mybench
- 
-+When set, the following filters can be used to select samples that match any of
-+the operation types (OR filtering). If only one is set then only samples of that
-+type are collected:
-+
-+  branch_filter=1     - Collect branches (PMSFCR.B)
-+  load_filter=1       - Collect loads (PMSFCR.LD)
-+  store_filter=1      - Collect stores (PMSFCR.ST)
-+
-+When extended filtering is supported (FEAT_SPE_EFT), SIMD and float
-+pointer operations can also be selected:
-+
-+  simd_filter=1         - Collect SIMD loads, stores and operations (PMSFCR.SIMD)
-+  float_filter=1        - Collect floating point loads, stores and operations (PMSFCR.FP)
-+
-+When extended filtering is supported (FEAT_SPE_EFT), operation type filters can
-+be changed to AND using _mask fields. For example samples could be selected if
-+they are store AND SIMD by setting 'store_filter=1,simd_filter=1,
-+store_filter_mask=1,simd_filter_mask=1'. The new masks are as follows:
-+
-+  branch_filter_mask=1  - Change branch filter behavior from OR to AND (PMSFCR.Bm)
-+  load_filter_mask=1    - Change load filter behavior from OR to AND (PMSFCR.LDm)
-+  store_filter_mask=1   - Change store filter behavior from OR to AND (PMSFCR.STm)
-+  simd_filter_mask=1    - Change SIMD filter behavior from OR to AND (PMSFCR.SIMDm)
-+  float_filter_mask=1   - Change floating point filter behavior from OR to AND (PMSFCR.FPm)
-+
- Viewing the data
- ~~~~~~~~~~~~~~~~~
- 
-@@ -204,6 +267,10 @@ Memory access details are also stored on the samples and this can be viewed with
- 
-   perf report --mem-mode
- 
-+The latency value from the SPE sample is stored in the 'weight' field of the
-+Perf samples and can be displayed in Perf script and report outputs by enabling
-+its display from the command line.
-+
- Common errors
- ~~~~~~~~~~~~~
- 
-@@ -247,6 +314,25 @@ to minimize output. Then run perf stat:
-   perf record -e arm_spe/discard/ -a -N -B --no-bpf-event -o - > /dev/null &
-   perf stat -e SAMPLE_FEED_LD
- 
-+Data source filtering
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+When FEAT_SPE_FDS is present, 'inv_data_src_filter' can be used as a mask to
-+filter on a subset (0 - 63) of possible data source IDs. The full range of data
-+sources is 0 - 65535 although these are unlikely to be used in practice. Data
-+sources are IMPDEF so refer to the TRM for the mappings. Each bit N of the
-+filter maps to data source N. The filter is an OR of all the bits, and the value
-+provided inv_data_src_filter is inverted before writing to PMSDSFR_EL1 so that
-+set bits exclude that data source and cleared bits include that data source.
-+Therefore the default value of 0 is equivalent to no filtering (all data sources
-+included).
-+
-+For example, to include only data sources 0 and 3, clear bits 0 and 3
-+(0xFFFFFFFFFFFFFFF6)
-+
-+When 'inv_data_src_filter' is set to 0xFFFFFFFFFFFFFFFF, any samples with any
-+data source set are excluded.
-+
- SEE ALSO
- --------
- 
+> Lockdep shows the following warning:
+>
+> INFO: trying to register non-static key.
+> The code is fine but needs lockdep annotation, or maybe
+> you didn't initialize this object before use?
+> turning off the locking correctness validator.
+>
+> [<ffffffff810133a6>] dump_stack_lvl+0x66/0xa0
+> [<ffffffff8136012c>] assign_lock_key+0x10c/0x120
+> [<ffffffff81358bb4>] register_lock_class+0xf4/0x2f0
+> [<ffffffff813597ff>] __lock_acquire+0x7f/0x2c40
+> [<ffffffff81360cb0>] ? __pfx_hlock_conflict+0x10/0x10
+> [<ffffffff811707be>] ? native_flush_tlb_global+0x8e/0xa0
+> [<ffffffff8117096e>] ? __flush_tlb_all+0x4e/0xa0
+> [<ffffffff81172fc2>] ? __kernel_map_pages+0x112/0x140
+> [<ffffffff813ec327>] ? xa_load_or_alloc+0x67/0xe0
+> [<ffffffff81359556>] lock_acquire+0xe6/0x280
+> [<ffffffff813ec327>] ? xa_load_or_alloc+0x67/0xe0
+> [<ffffffff8100b9e0>] _raw_spin_lock+0x30/0x40
+> [<ffffffff813ec327>] ? xa_load_or_alloc+0x67/0xe0
+> [<ffffffff813ec327>] xa_load_or_alloc+0x67/0xe0
+> [<ffffffff813eb4c0>] kho_preserve_folio+0x90/0x100
+> [<ffffffff813ebb7f>] __kho_finalize+0xcf/0x400
+> [<ffffffff813ebef4>] kho_finalize+0x34/0x70
+>
+> This is becase xa has its own lock, that is not initialized in
+> xa_load_or_alloc.
+>
+> Modifiy __kho_preserve_order(), to properly call
+> xa_init(&new_physxa->phys_bits);
+>
+> Fixes: fc33e4b44b27 ("kexec: enable KHO support for memory preservation")
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+>  kernel/kexec_handover.c | 29 +++++++++++++++++++++++++----
+>  1 file changed, 25 insertions(+), 4 deletions(-)
+>
+> diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
+> index e49743ae52c5..6240bc38305b 100644
+> --- a/kernel/kexec_handover.c
+> +++ b/kernel/kexec_handover.c
+> @@ -144,14 +144,35 @@ static int __kho_preserve_order(struct kho_mem_track *track, unsigned long pfn,
+>  				unsigned int order)
+>  {
+>  	struct kho_mem_phys_bits *bits;
+> -	struct kho_mem_phys *physxa;
+> +	struct kho_mem_phys *physxa, *new_physxa;
+>  	const unsigned long pfn_high = pfn >> order;
+>  
+>  	might_sleep();
+>  
+> -	physxa = xa_load_or_alloc(&track->orders, order, sizeof(*physxa));
+> -	if (IS_ERR(physxa))
+> -		return PTR_ERR(physxa);
+> +	physxa = xa_load(&track->orders, order);
+> +	if (!physxa) {
+> +		new_physxa = kzalloc(sizeof(*physxa), GFP_KERNEL);
+> +		if (!new_physxa)
+> +			return -ENOMEM;
+> +
+> +		xa_init(&new_physxa->phys_bits);
+> +		physxa = xa_cmpxchg(&track->orders, order, NULL, new_physxa,
+> +				    GFP_KERNEL);
+> +		if (xa_is_err(physxa)) {
+> +			int err = xa_err(physxa);
+> +
+> +			xa_destroy(&new_physxa->phys_bits);
+> +			kfree(new_physxa);
+> +
+> +			return err;
+> +		}
+> +		if (physxa) {
+> +			xa_destroy(&new_physxa->phys_bits);
+> +			kfree(new_physxa);
+> +		} else {
+> +			physxa = new_physxa;
+> +		}
+
+I suppose this could be simplified a bit to:
+
+	err = xa_err(physxa);
+        if (err || physxa) {
+        	xa_destroy(&new_physxa->phys_bits);
+                kfree(new_physxa);
+
+		if (err)
+                	return err;
+	} else {
+        	physxa = new_physxa;
+	}
+
+No strong preference though, so fine either way. Up to you.
+
+Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
+
+> +	}
+>  
+>  	bits = xa_load_or_alloc(&physxa->phys_bits, pfn_high / PRESERVE_BITS,
+>  				sizeof(*bits));
 
 -- 
-2.34.1
-
+Regards,
+Pratyush Yadav
