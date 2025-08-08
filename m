@@ -1,183 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DF324166F;
-	Fri,  8 Aug 2025 07:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4420A245010;
+	Fri,  8 Aug 2025 07:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754637766; cv=none; b=NXJF35xBAGVp9Slrmhoqf/fh4ZHrUGZEc1+nROKZb21JdaGV85pRVyKu0LK8323sfZJEWHS+SPoL8xmWEw4lln1zT2g+SbT/1C7HVMSLvi4F805gwWVYFVqOr4WmG5llySy8/uTM5HFeN/fKuB5u/gDAFuqS4FI7tNQwFyoWo+Q=
+	t=1754639573; cv=none; b=FXT6HZcvrBppvf4DUC5BhIxvO6aAqxXAH2plIZhAHMHyRoYA977r5K5nUlWnN9AbNlMcVZi/nV0wLgpjb40vSZ4hmR36lhx3uKqYIzbVPNC/CtG2NMlWCfUL0rkLIXr6svY0AEmEiWeSF6xGXR8DrXAYsdVz6NBLqeK/2JYzYfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754637766; c=relaxed/simple;
-	bh=fbLBorPezoJWXQtvSg4WV87SLfHofuZpGSIX8FwjR+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ms1iq8uOCjvB/FKC1QIIwifZ+kmurlPsMzYDgElzbUydOMZBQ1BdMm10ThL49eWkgukouhuqmohoH9zMKQmrN/wz9jlS5H14B5xoDA04/7edggjEupUvBC1bGBvZkoEk+uZjUvhgymlT47tjhjxjPxzaRd9Bx5I9C+l2ECTtxJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjoHuh8E; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjoHuh8E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754637765; x=1786173765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fbLBorPezoJWXQtvSg4WV87SLfHofuZpGSIX8FwjR+A=;
-  b=SjoHuh8EtHrM7tgnpeCISrbn+ybxjw+1nTrgNHifhOx0XgOgVkr5Cuuq
-   QTgS2euRU21K08ExSx6XWM4R3aJ8MHoCdI5B9BeUSigO294lBNzoUbC4s
-   3qTDTaw6I8B2rpsik9gfMzELmwTRBR+1lR0r0bH9lLTXcB1xJXhtfCPts
-   GUjZiAOGkr3QPNoN903b6dHEavWdVXdEAoHumJnWb5Km9bjKoCgAv4RBG
-   GYMoPvvKd/s0yCUtz03HPgpoiRDbPr4wOkEFMm+Ux/OF22JWdWGT1dBHz
-   +oR2ceLdD6cLS/EVyr8iFK4KlFzt2aF94wG5fzNrbwYTdMRt9scHowyn5
-   g==;
-X-CSE-ConnectionGUID: tsMUf0+CT0yNRqN2IMlG6g==
-X-CSE-MsgGUID: yFhiMrAHSgmQ3jzzw3y3Ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="82427449"
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="82427449"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:22:44 -0700
-X-CSE-ConnectionGUID: OdNPlVlrR9m1H28JVd9Cfw==
-X-CSE-MsgGUID: 6MIOtN9XTOqpGi12upForA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="188944168"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.151])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:22:33 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 7FB8211FC97;
-	Fri,  8 Aug 2025 10:22:31 +0300 (EEST)
-Date: Fri, 8 Aug 2025 07:22:31 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
-	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 64/65] media: staging: ipu7: isys: Don't set
- V4L2_FL_USES_V4L2_FH manually
-Message-ID: <aJWltxB6NfXg53KI@kekkonen.localdomain>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
- <aJRswZIVKCuzqCpr@kekkonen.localdomain>
- <20250807170135.GH11583@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1754639573; c=relaxed/simple;
+	bh=/2dZhq2Qy2sSATJbAU+7gVHKsPZccvnLlqFS5AqLg3s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pSeyeX4QHZRfJ7okabM4GtlcItGe0ufmTUe93MIkotUwK+jtnTnt8TF9Ds0D2Dj5xBC1tbGLksiHOdgOuuu0D247Q3ox3o2IRAKaV1AqYukgxzkSTxUgQG8XdyAZflOO4cqrvgum1SZRmog92KxhTx4CLbJoac160zhfb8SmGd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: a8e010ba742c11f0b29709d653e92f7d-20250808
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:906a0f65-2426-4900-802a-89dc3ba00924,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6493067,CLOUDID:12be9df259196fe631b2eedfa1e50959,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
+	-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
+	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 1,FCT|NGT
+X-CID-BAS: 1,FCT|NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: a8e010ba742c11f0b29709d653e92f7d-20250808
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <zhangzihuan@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 931304093; Fri, 08 Aug 2025 15:52:40 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id A013BE0000B0;
+	Fri,  8 Aug 2025 15:52:39 +0800 (CST)
+X-ns-mid: postfix-6895ACC7-490838455
+Received: from [172.25.120.24] (unknown [172.25.120.24])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 9AF52E01A759;
+	Fri,  8 Aug 2025 15:52:31 +0800 (CST)
+Message-ID: <ba9c23c4-cd95-4dba-9359-61565195d7be@kylinos.cn>
+Date: Fri, 8 Aug 2025 15:52:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250807170135.GH11583@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 0/9] freezer: Introduce freeze priority model to
+ address process dependency issues
+To: Michal Hocko <mhocko@suse.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
+ Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Nico Pache <npache@redhat.com>,
+ xu xin <xu.xin16@zte.com.cn>, wangfushuai <wangfushuai@baidu.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Christian Brauner <brauner@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Jeff Layton <jlayton@kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, Adrian Ratiu
+ <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
+ <aJSpTpB9_jijiO6m@tiehlicka>
+ <4c46250f-eb0f-4e12-8951-89431c195b46@kylinos.cn>
+ <aJWglTo1xpXXEqEM@tiehlicka>
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+In-Reply-To: <aJWglTo1xpXXEqEM@tiehlicka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 07, 2025 at 08:01:35PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Thu, Aug 07, 2025 at 09:07:13AM +0000, Sakari Ailus wrote:
-> > On Sat, Aug 02, 2025 at 11:23:26AM +0200, Jacopo Mondi wrote:
-> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > 
-> > > The V4L2_FL_USES_V4L2_FH flag is set by v4l2_fh_init(). It is not meant
-> > > to be set manually by drivers. Drop it from the ipu7-isys driver.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > 
-> > Thanks, Jacopo!
-> > 
-> > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Can we get you review on patch 63/65 too (for the IPU6 driver) too ?
 
-Done.
+=E5=9C=A8 2025/8/8 15:00, Michal Hocko =E5=86=99=E9=81=93:
+> On Fri 08-08-25 09:13:30, Zihuan Zhang wrote:
+> [...]
+>> However, in practice, we=E2=80=99ve observed cases where tasks appear =
+stuck in
+>> uninterruptible sleep (D state) during the freeze phase=C2=A0 =E2=80=94=
+ and thus cannot
+>> respond to signals or enter the refrigerator. These tasks are technica=
+lly
+>> TASK_FREEZABLE, but due to the nature of their sleep state, they don=E2=
+=80=99t
+>> freeze promptly, and may require multiple retry rounds, or cause the e=
+ntire
+>> suspend to fail.
+> Right, but that is an inherent problem of the freezer implemenatation.
+> It is not really clear to me how priorities or layers improve on that.
+> Could you please elaborate on that?
 
--- 
-Sakari Ailus
+Thanks for the follow-up.
+
+ From our observations, we=E2=80=99ve seen processes like Xorg that are i=
+n a=20
+normal state before freezing begins, but enter D state during the freeze=20
+window. Upon investigation,
+
+we found that these processes often depend on other user processes=20
+(e.g., I/O helpers or system services), and when those dependencies are=20
+frozen first, the dependent process (like Xorg) gets stuck and can=E2=80=99=
+t be=20
+frozen itself.
+
+This led us to treat such processes as =E2=80=9Chard to freeze=E2=80=9D t=
+asks =E2=80=94 not=20
+because they=E2=80=99re inherently unfreezable, but because they are more=
+ likely=20
+to become problematic if not frozen early enough.
+
+So our model works as follows:
+ =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 By default, freezer tries to freeze=
+ all freezable tasks in=20
+each round.
+ =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 With our approach, we only attempt =
+to freeze tasks whose=20
+freeze_priority is less than or equal to the current round number.
+ =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 This ensures that higher-priority (=
+i.e., harder-to-freeze)=20
+tasks are attempted earlier, increasing the chance that they freeze=20
+before being blocked by others.
+
+Since we cannot know in advance which tasks will be difficult to freeze,=20
+we use heuristics:
+ =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 Any task that causes freeze failure=
+ or is found in D state=20
+during the freeze window is treated as hard-to-freeze in the next=20
+attempt and its priority is increased.
+ =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 Additionally, users can manually ra=
+ise/reduce the freeze=20
+priority of known problematic tasks via an exposed sysfs interface,=20
+giving them fine-grained control.
+
+This doesn=E2=80=99t change the fundamental logic of the freezer =E2=80=94=
+ it still=20
+retries until all tasks are frozen =E2=80=94 but by adjusting the travers=
+al order,
+
+ =C2=A0we=E2=80=99ve observed significantly fewer retries and more reliab=
+le success=20
+in scenarios where these D state transitions occur.
+
