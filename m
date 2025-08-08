@@ -1,194 +1,266 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2054.outbound.protection.outlook.com [40.107.212.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E40B18871F;
-	Fri,  8 Aug 2025 17:21:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754673699; cv=none; b=lv4Rx4c93BPWxtYsdg7aRy4059kE2x7B9Oufucy21gXTzW5aaBp6nGTsExTVziQcwMF9Ep5vctTj+OxoI2NVxG5crSD3ZOWegULQFPWdT7oL/j1kNgedZZrVEcatroScsJA6VQXj3xe9Cr62Q50RB70iWlz3hT7oDgb8ghVPm10=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754673699; c=relaxed/simple;
-	bh=DBKFYTu5tPuGX9ybLDozeJ5i82kOtDjidng1iB4g6xc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JccXSBRoTO9Av7KiD/d3S0BiO2ayZOIwKIm87f7wC/Hj76Ds1c03LdCEdoO4bE0MWoNGRdKm5JkWv4mXIiS6458LqdiZ7J2fHIBWrPqpKwJME0TX1PUFXhfTQ6X8XaacBt7+6FJeIS8l72cvjvwbUE/u7ZSOx3Z+GLSk0wEvET4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=K5J2AzAJ; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556AF10F1;
+	Fri,  8 Aug 2025 17:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754675271; cv=fail; b=VQaxFA8g5KNaPgxURPOBDx+pkNykDSrEUDU9fCEQ2ZsEE/CF/3WCUY+R9fy2tDvsG/TnrOa5kgZkj+1cWjQhMBIoYPuoOrpwryUFgB3v76UlfdJfRglS/7RC/ymAMnAhx9og4sPNe79lqxeiv+L7Dj6GLjYr6ehbIDzmdwrpCc8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754675271; c=relaxed/simple;
+	bh=Kn+lmZrmN2J3pS7pQCpXeo8SqQNxz+6oxNTNR87MM6Y=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cDS63FGR8JzeNVRUYuXrDEbTBUdpB0FJFE6DF4MPU4qf94Cqu9eVNm9hhnMdSAfXghqk9lvXk51tDZFx0W8YlO3kMRH5fNQEqiRNbnsWByuZI6n56IVzpWhBbfbH1wxtWN/tU2GJAK0xNY6yqQHJUnAt4FbIu+xb5vQAHoicpFc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Y3N7mUJX; arc=fail smtp.client-ip=40.107.212.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="K5J2AzAJ"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 578EVqe4022753;
-	Fri, 8 Aug 2025 17:21:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Ke2ysD
-	bRl8q6joTUOu+MU16x2yWgmGXvnQxWBgQqMZ8=; b=K5J2AzAJbr6j1wVE7r2WCZ
-	eqTkH+QNahoaI/wn8Psq6tEemu90x0/gr1RPOD9AM8Rxf2Jj8ookp5kbaMaTwQeS
-	o2Hhy7fZvogZNoVib1gjYnWX4xKl3knSGj0ed0LJRPPFh9AXl5klylFvexrIn5bE
-	tfRZ4vdxMWnbJhCIrwFy5gxez8wqKSdFTwsu/HEGz5RN7KqEDXWiqb7jndIdTZzb
-	UPYGESswg1VN3vfF9yk4KrRqBbVCRFtjIH71BLlKsif2L7NJ6zlOzfVdtyQAjfHM
-	Smu8S2pLHLC+9j01rXBmkp5SFM8Wl0nkGazzKnXw7l0/YtGz/Uhg/YA2Z9yrq56g
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48dk2n8tua-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Aug 2025 17:21:14 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 578EvZbt031326;
-	Fri, 8 Aug 2025 17:21:13 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 48bpwnpka9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Aug 2025 17:21:13 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 578HLB2j22085908
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 8 Aug 2025 17:21:11 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4D36920040;
-	Fri,  8 Aug 2025 17:21:11 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1B8902004D;
-	Fri,  8 Aug 2025 17:21:09 +0000 (GMT)
-Received: from li-e7e2bd4c-2dae-11b2-a85c-bfd29497117c.ibm.com (unknown [9.39.29.218])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri,  8 Aug 2025 17:21:08 +0000 (GMT)
-Date: Fri, 8 Aug 2025 22:51:06 +0530
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Cc: Alex Mastro <amastro@fb.com>, Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Keith Busch <kbusch@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org
-Subject: Re: [PATCH v4] vfio/pci: print vfio-device syspath to fdinfo
-Message-ID: <20250808224806.09f6d858-1d-amachhiw@linux.ibm.com>
-Mail-Followup-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, 
-	Alex Mastro <amastro@fb.com>, Alex Williamson <alex.williamson@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, Keith Busch <kbusch@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kvm@vger.kernel.org
-References: <20250804-show-fdinfo-v4-1-96b14c5691b3@fb.com>
- <20250807144938.e0abc7bb-a4-amachhiw@linux.ibm.com>
- <dd0b8e6f-1673-49c3-8018-974d1e7f1a54@kaod.org>
- <20250808205338.dc652e3e-61-amachhiw@linux.ibm.com>
- <bc7e754f-f414-4c43-8f25-03314b894b34@kaod.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Y3N7mUJX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HhXl0mUE4cK2GiiciW3KaBkE2xjgLU7GXfAGPBilwXZ8zlkam0aNODw0hxI9gXYMggfFre+SkjgELf4fvIVs3QjiHAXE3kJhOk1ErG+LMyegqUe+o0+x98+Er2m8EhvqCEhAxbZLBrHFpgP8nGdNsXm6MCvJZnBlvVNllmaATb4/LMWDhZX4QGEM4IAy+7/rsxsxhJnCu1n9ilDEAEsiJDG2rD1QKkFtchdLIBHGEyFvXzdxLQQkS0kHWM7d5dNZ34FL43OagtpzOm8sHzxgS/dZZKDc0ChwOLsKQD7nqCaZ+MlVdrSJ0A2UiA5T5r8krXxuaXlw6SHxuzZeiCln+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zN6EbyeVxC+pw3G7K2iq46RBHgVAKfon6GKo8eK6Xho=;
+ b=s7faPpFkmCGQha49H2kjQLOvEPugs3BhbNErAoei655+fS9IEbLyv6SKZo7E4ausyWOUdYZzSsoyWNBhypp/nsNdbmiEBKZJ5SUo9+VSXaDD/vWQblziK42bx3cct5y7ghkArQBKDHpwL0b8ubOexWBJDVtxlCe5JQpBpJQwm6p/EaFTu+g1cWmL5G3nkkZQaVq6e+rSttsMiUNYf4uQmCuv98jJk0TlD9tC6pvLyNt0+rMhXbL99L5aL54iV1mHzq8SmUZPy5pfjLD8wScwrfy+jW40tSaYG8IoeAo7bvk+ehLZFzlepyJXQrrnPZyZ6COq7CBe3RYDX5H62eNcMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zN6EbyeVxC+pw3G7K2iq46RBHgVAKfon6GKo8eK6Xho=;
+ b=Y3N7mUJXEXZ0WMqMLWM5/dLyX8qfSX7ppjL7++agAcUHWcKrRjeZMKI/ZxSRVCmfNmTS/+wMjaQidGyyqZEozGzJgeDfU48YysUet5wnBRHEgSdOti5larJx1IRFnACpN1aql68TWtZ3CmkmXwdc7S2RGuda3AdzLDjS3TRCubU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by CH1PPF2EB7CF87B.namprd12.prod.outlook.com
+ (2603:10b6:61f:fc00::60b) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.14; Fri, 8 Aug
+ 2025 17:47:43 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.8989.011; Fri, 8 Aug 2025
+ 17:47:42 +0000
+Message-ID: <0ce4f15c-40aa-49fe-82f1-3a30d3e56f35@amd.com>
+Date: Fri, 8 Aug 2025 12:47:38 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 25/34] fs/resctrl: Add event configuration directory
+ under info/L3_MON/
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, james.morse@arm.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
+Cc: Dave.Martin@arm.com, x86@kernel.org, hpa@zytor.com,
+ akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
+ Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, fvdl@google.com,
+ seanjc@google.com, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
+ xin@zytor.com, manali.shukla@amd.com, tao1.su@linux.intel.com,
+ sohil.mehta@intel.com, kai.huang@intel.com, xiaoyao.li@intel.com,
+ peterz@infradead.org, xin3.li@intel.com, kan.liang@linux.intel.com,
+ mario.limonciello@amd.com, thomas.lendacky@amd.com, perry.yuan@amd.com,
+ gautham.shenoy@amd.com, chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
+References: <cover.1753467772.git.babu.moger@amd.com>
+ <13467b9a56bccf960974741741b4960a8f02e333.1753467772.git.babu.moger@amd.com>
+ <99614342-b6ce-47ec-baf9-f5cdf42f77be@intel.com>
+ <40d722fc-e08c-4543-973a-3fb7ee29bf2a@amd.com>
+ <1a19e3df-2915-46f9-9677-c369aa31adf7@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <1a19e3df-2915-46f9-9677-c369aa31adf7@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN6PR01CA0019.prod.exchangelabs.com (2603:10b6:805:b6::32)
+ To IA0PPF9A76BB3A6.namprd12.prod.outlook.com (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bc7e754f-f414-4c43-8f25-03314b894b34@kaod.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA4MDE0MSBTYWx0ZWRfX+LTZsfDCvdAS
- zgJH5N24m4p3Hd0TMlHdhraDi2L6J4fMXCjO17EiVdWhz9L5farTcSVt51IlhCDnEkO3A0liE+l
- gxX1QcqTVv+AQtkU6oZTlxBaWl7yEy3ipqCmrLDRaNr1n1PvJpQJadBTnLP0pMmOjqhTjUAH1uM
- T4DGk6SJsmPXYCMyv7xJBz1/onhyDuoleA2i2fCk+cnkSue7oDg4AKgJAbMt/J9PZMtD3IzszgQ
- 8UGSXM0MIrBkDaVSALNMBWjKc9PLDQuCAc3xM+5bE3dT1JOHRnSi7GV4hTrGm/tUjtcA/tIKoA2
- 7oAeFuBEklmOCEr/GI4C+OEVwgGPs7e4l/NzdRyaG+dxBMcCUIT1VcKCCSi6pg4L0hRvOdNvl2f
- 1cMq6blohiFwylb3WPBTvt0yaPslRtECXn+uvQoLu5P8BqWpEHa/5Lfs1tiQQiw+vvTFaCwZ
-X-Proofpoint-GUID: A3HiGeHw8cjSeUofRyC2D-HKmq29oXh6
-X-Proofpoint-ORIG-GUID: A3HiGeHw8cjSeUofRyC2D-HKmq29oXh6
-X-Authority-Analysis: v=2.4 cv=BNWzrEQG c=1 sm=1 tr=0 ts=6896320a cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=8nJEP1OIZ-IA:10 a=2OwXVqhp2XgA:10 a=FOH2dFAWAAAA:8 a=1rDcQM-rTn2rXFAQwpAA:9
- a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-08_05,2025-08-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_spam_definite policy=outbound
- score=100 suspectscore=0 lowpriorityscore=0 spamscore=100 bulkscore=0
- impostorscore=0 phishscore=0 mlxscore=100 clxscore=1015 malwarescore=0
- priorityscore=1501 adultscore=0 mlxlogscore=-999 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508080141
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|CH1PPF2EB7CF87B:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85283291-abff-4033-23bb-08ddd6a3acf0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MEllQnJFNUpuaEV0OUdOci9LOUFkQjNQNmZ6UkhsaGZsSE1GQm84QXVxblkr?=
+ =?utf-8?B?VS9mSE5TbDNIZUljam9ETVpYSVFuN0FrSkxtMVk0WHJtRng1YmNIcEhIZERF?=
+ =?utf-8?B?MFNWd2hmY3Nxczl6OFYyVGE4T3NGbGhDazlaQ0QvdUtQWkFKd0owR0Y5WWwr?=
+ =?utf-8?B?a0pJZ2UyRExEZk1vTWRNSFJUTFJUcWFPV0NYb09wNXFmS09QbXY5SHdhRE1V?=
+ =?utf-8?B?VG1oZkIxcHlDeUl1NFhxaHNQUnBIaVlOVW91UmE0R0crV3liVzl3OFFVamdn?=
+ =?utf-8?B?cW1jY21CbFB4U3JDUDZyQWI4RmVYV3lEbmdIMUt0MWNWUVdLL0Vwd0diZEtr?=
+ =?utf-8?B?WUROdFl4am5LaTFuMWJDODB1UnJiMWZFSVI1aEhJNDRZWUJBWG10dzkzZHJx?=
+ =?utf-8?B?UVcwamRKTWZuS2k5MUcxbHozYUY2dmt0RkxCUi9MTlY4UHRmcmFoRG5QdEZr?=
+ =?utf-8?B?NXdnUkNCNi8zQVR6VlBFK01ic0hqVm9YOCt1UEllUzdJa2lsNU5LUEEyQ3RQ?=
+ =?utf-8?B?eXBUcFdyQlNNbHFsRm1jb0pSRnZteDljVVIrNDFGY2tnRXppN0dpOUUxTkhZ?=
+ =?utf-8?B?cFcwL0Zjc3FkaXMwbHVCOG03TzY5RlNxN2NEcG5DSTdubEpGc0g2aFdGMVFx?=
+ =?utf-8?B?dHMwaGhGWDBKU3Nib0JtZldUYTdmcDljUC96dGhCaW96d0lkcHQyUU9xYTMz?=
+ =?utf-8?B?WjUyUEVYZmVHZnNsL3RSTE5QSTJlck5HbjgvdlhiRWt3VW1VbndsTVR2blpE?=
+ =?utf-8?B?SHZLZjhQcnNFYTIrV3dWU0RoRUNjenFQQkYxL2NPTjAxN0ZHWTNlYUw3TXpB?=
+ =?utf-8?B?T01BN3RFNjY1VVloMy9NY2lkR2UyWlVYN3RaZDVUYjVoRlNodnh2cjY0OGI1?=
+ =?utf-8?B?OHM0elBmZXEwVUtzZk05Ky8wOUVZUlJZZUtrOWFWSE5qczlRNmVwTGRpR3Qr?=
+ =?utf-8?B?SXVYTS80emZhNXIydnkxQ2RZUG1tQ0l3TUcremFSeVJRemwzdHNvTEdXc2JN?=
+ =?utf-8?B?MGNiZ2k5U25nRzdBWE03aUVZMFhGbjV5cGVTbHdzRHU1ellhb1VKbTEySlR4?=
+ =?utf-8?B?SFZmamhDTHpBL2g5YUQyZDNJaVMyTE1nQ1VtOFZ4bkV3amw3MFo2VCtKUCtK?=
+ =?utf-8?B?T3YzZzdLdjB1eUt5Z1BCNWEzaEZ4Yy9VQndCRXFPMUZlYkcwNjd2Tm82WVJn?=
+ =?utf-8?B?TCtHQ1FTUXpqeTFLR1VzdjdsRVQya1YyS1ZsWm9SbDVqSVhoM2VQWW41VE5h?=
+ =?utf-8?B?aUdHRVd4RitadG9Ec3Q4Z0lGTTZHdldlOUlrWjhsN2d4ODlJVmxzT0YrN080?=
+ =?utf-8?B?bjdMQTY5eUUwa0M5eTJCMW41M1gzT2c0M1ZIRWcyTVF6MTFFT2JOaHVvWmNR?=
+ =?utf-8?B?azlYeVVmVzcxakhsRXRPaEVYTDYzdUdtSXRnOVRFZzlDdVFtUkVYczhIZ3Yw?=
+ =?utf-8?B?Y0JjeEdyRzJBWENBaG00V2ZmYzR1UzFld1JlUGt3QkJXYnlFcnZWOERBVFhx?=
+ =?utf-8?B?TmFxL0t0aUVCemNnaEdzeTY5QUNHZTZMZlgvMVZ3WmMvU0RDVjZQM3hnUVhl?=
+ =?utf-8?B?RWVBRHdUUlQrMFFpcEFFdi9vRVFjMXhVMlVuVmN1UFNRWUthSW84VVFhMCt6?=
+ =?utf-8?B?SWFSOUltRk05OFR6ZFN5QUtSWVJUcjR5NnlkMEhTU3NXWHhzWVNDMXduRkhD?=
+ =?utf-8?B?OXB1S2xWL28zWFpoeTliN3Z1WVFwQjBrT1ZXTUh4cUxkd3V0b21mc0FRQkpT?=
+ =?utf-8?B?ZTZPYWUwMTF3WEl3ZGJOY2R2QlBSZUxvdnhRYWhvN3k4UlBqN3RzelJQZXVo?=
+ =?utf-8?B?ZDBkMHFDaHVRTkhydDdTYStKZ2JudTZmY0pFYzBzYTBtZ3JJdFBwWFRPcVo4?=
+ =?utf-8?B?MndEcE9wZGhXK2JGN3lFZ3BXdUhoeXlzWnp6dk52V3ZBemYyM1VuNHhoUEo2?=
+ =?utf-8?Q?63N02+2L6+s=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MGEzUVVrSmJIVlJpNE54a255QlpEZGF5MzFURTRkN0VmV2tWLzlaVGdRcmox?=
+ =?utf-8?B?SktYbU4zc2tXUVhTWWhiVFZhbGFQYmNJNk5tT3dyRzlZQ0lYd3dVbER5bkx3?=
+ =?utf-8?B?Y01adEZDRFlJdURiRTNCTkdLVHZ5bEJ1WnVuekJkNzVsRzI5bHg0RGxSdkxx?=
+ =?utf-8?B?V250a1JVWFlmS3F6R005Mk5OZFowZk83T0hNTXFoemg4MzlLU3cwRGhmb3hN?=
+ =?utf-8?B?aGM3alc0WHI0WUI5RzJUdVBMaElzSWM3VWZVSTZPZDUvU0lGR1VxcUdoVXNV?=
+ =?utf-8?B?U1lZeHM2UU5JcU1IOGZUekhUZjY0bXFpcmlvL0p5N2hKSERnVEJIZnNXNG5U?=
+ =?utf-8?B?Z2o5WHFtY0sxWXVtSE9xRitIZkJGMXRmNjVQSkFMUzNCV3MrSnN3ZnBrTVVR?=
+ =?utf-8?B?aTZONEFLVm43OS9CRjBvajFFdkpzakdMNzhYaU03WHk5T3NtOHVMQVFyYXNL?=
+ =?utf-8?B?NmRJU0hNQkdGMFIrVGRjdUxKZng0RXFxbjNLZkVwTTI4QXdJaHV4R0QzWTMr?=
+ =?utf-8?B?QkowalVoWjN4OGFnSUlFTnFYU3NvMHJzVDcrNTF6QXVUb2d2K1A2YVRBYUZr?=
+ =?utf-8?B?MkNvbkhzckdBdnBTRksrWEJBU1hSQk5weitpWXFsYkxSQ3NPdkQ2WUh4WVZl?=
+ =?utf-8?B?QVd3NnFLWWV6b2Z5WmtSOVJIbmZFdlFRcHVCOXR0b1ZmdFd5TExKeDgxTXJR?=
+ =?utf-8?B?ZEF5czhWQUwzWnE3S2dZZkl5YnJ0VkZNamplbDNKK0FURVY0Z01zRk8yRXdN?=
+ =?utf-8?B?ZmFLQUVrRC9td1pQeG9yVkNkNk42aFFLbTJzYVhNSjgwUUNablhtbCtMK3h1?=
+ =?utf-8?B?WDVaaTFoVVd4d0pkeENkbmRkdGZ3L3hiMDJjL29aT0NoOVFlLzh0ekdYdjFz?=
+ =?utf-8?B?ZnV0UnBSaW1tY3VvdE1Vd0Rvb25aS1RuczdObUN0TFZlRXJmOFNxR1BDRGRF?=
+ =?utf-8?B?TDBlVWo1aFVKUXFtRTBIbXg3Nmk1c1B6ZFNCT25nL2Q5SGg1M3RjRmdVVkxE?=
+ =?utf-8?B?aEdKSTNYNWM0REdZYXBMTW5rY0lkWEtPTXYrdUs1ZkFUenEySERjd2FVTDlP?=
+ =?utf-8?B?MnJGU29ZNzNDQ2o0SlVYZE93cXk0WENCb1N5dXBJcFNLUVA4WXRad3dTMnpr?=
+ =?utf-8?B?WTdGQm8xeWs0WEpyMEl3dTJoOG0yK0N0Y0x2Zlp0QWNZQzZNd2dTcFJPL0xM?=
+ =?utf-8?B?a3VVVFRmLzFjL0I1QmRqbDBDU2dJQjhIc2tsN2VIbmlEZjZ0cWIrSEE4aXBj?=
+ =?utf-8?B?cEd6TXE5U2hHTkJocnVESzhFN3NtYjluOWpKYjhaOHQ2Qk0yTnM0ZXVjWmUw?=
+ =?utf-8?B?RFRwcFpPWFM3S2UwNG1JbDkwQjdSZ0F1TGpkbkRoWThyZUJtQkNHSGswUmoy?=
+ =?utf-8?B?eWU5a0JkMmMxQTBha2RWM2tZTDB5dU9Zc2NrbVMvVWU0QmFNbjRCbTdqRURE?=
+ =?utf-8?B?SzhYNm83S0w5SDBhT1U2Z1pNRUh0ZnFpRkhYYU5CK1dKMjJYMEJBYjh5Zm13?=
+ =?utf-8?B?amdyNUsrb200bGw5MGxqR3E0K1M3TEs4UW1yd2xSN2crb2p2ZGl4eHF0S3Er?=
+ =?utf-8?B?WlhlTTZUdXV5eHR5bXphQml0T3V0Wi9oOWtTRGMrY0UvMWsxZ0NLb05OQmtX?=
+ =?utf-8?B?bVZXRCtqTVNKWHJGRkJ1eGdrc3lXNWh1OEM0eElWUGhUWFk3eEZOZ1NZemZN?=
+ =?utf-8?B?eEZKVGNZWVJOU2tBT2QxQkRraTVYM3V5cVNDT05JaFdCaUhFN0dwcTdKN25F?=
+ =?utf-8?B?dDlaaVVoNnJKRnNaeUE5ZVcvc0hLQWJUUnhoUFhLMVo4dWJwUHVSMWNQNmdo?=
+ =?utf-8?B?azZwSTdLcnRMZFN6L2xwYzlRcmt3Mi96bHIyc3FqSTJqSXBHR2M5UkNMM3ZX?=
+ =?utf-8?B?L3FHeXZSajdPWEY4NExEQ0EzZklkeW5ORFFubmJnajFoTFVPY2NJdjM1YmdP?=
+ =?utf-8?B?dzgyVE5QNk5nQW9FSEF2Z2YydTBzb29vZDR2NlB0OWtWUVV6WEVuWkFtYW85?=
+ =?utf-8?B?WmxhT3VyRjRZb3MyTDlXdXlwdE5LemRiQllPNGdZNFF0WXpKYlcwdmRBSGJq?=
+ =?utf-8?B?RnBmbzRXL0JuYldhbVhqdTZlOEMyVFJuZUlSbllUdGsxYmI2SEdicjJLY3lh?=
+ =?utf-8?Q?JFIA=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85283291-abff-4033-23bb-08ddd6a3acf0
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2025 17:47:42.7369
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oA1X2qSt9Pwh0/RTn/CCnPCD3qD6IInkeYDpC7Cg1vk72vKmioW5ZzvhEAte+rEb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF2EB7CF87B
 
-On 2025/08/08 06:44 PM, C�dric Le Goater wrote:
-> On 8/8/25 17:45, Amit Machhiwal wrote:
-> > Hi C�dric,
-> > 
-> > Please find my comments inline:
-> > 
-> > On 2025/08/08 03:49 PM, C�dric Le Goater wrote:
-> > > Hello Amit,
-> > > 
-> > > On 8/7/25 11:34, Amit Machhiwal wrote:
-> > > > Hello,
-> > > > 
-> > > > On 2025/08/04 12:44 PM, Alex Mastro wrote:
-> > > > > Print the PCI device syspath to a vfio device's fdinfo. This enables tools
-> > > > > to query which device is associated with a given vfio device fd.
-> > > > > 
-> > > > > This results in output like below:
-> > > > > 
-> > > > > $ cat /proc/"$SOME_PID"/fdinfo/"$VFIO_FD" | grep vfio
-> > > > > vfio-device-syspath: /sys/devices/pci0000:e0/0000:e0:01.1/0000:e1:00.0/0000:e2:05.0/0000:e8:00.0
-> > > > > 
-> > > > > Signed-off-by: Alex Mastro <amastro@fb.com>
-> > > > 
-> > > > I tested this patch on a POWER9 bare metal system with a VFIO PCI device and
-> > > > could see the VFIO device syspath in fdinfo.
-> > > 
-> > > POWER9 running on OPAL FW : I am curious about the software stack.
-> > > 
-> > > I suppose this is the latest upstream kernel ?
-> > 
-> > Yes, I used the latest upstream kernel and applied this patch on top of commit
-> > cca7a0aae895.
-> > 
-> > > Are you using an upstream QEMU to test too ?
-> > 
-> > No, I had used the Fedora 42 distro qemu. The version details are as below:
-> > 
-> >    [root@localhost ~]# qemu-system-ppc64 --version
-> >    QEMU emulator version 9.2.4 (qemu-9.2.4-1.fc42)
-> >    Copyright (c) 2003-2024 Fabrice Bellard and the QEMU Project developers
-> > 
-> > I gave the upstream qemu (HEAD pointing to cd21ee5b27) a try and I see the same
-> > behavior with that too.
-> > 
-> >    [root@localhost ~]# ./qemu-system-ppc64 --version
-> >    QEMU emulator version 10.0.92 (v10.1.0-rc2-4-gcd21ee5b27-dirty)
-> >    Copyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers
-> > 
-> >    [root@localhost ~]# cat /proc/52807/fdinfo/191
-> >    pos:    0
-> >    flags:  02000002
-> >    mnt_id: 17
-> >    ino:    1125
-> >    vfio-device-syspath: /sys/devices/pci0031:00/0031:00:00.0/0031:01:00.0
-> > 
-> > > 
-> > > and which device ?
-> > 
-> > I'm using a Broadcom NetXtreme network card (4-port) and passing through its
-> > fn0.
-> > 
-> >    [root@guest ~]# lspci
-> >    [...]
-> >    0001:00:01.0 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme BCM5719 Gigabit Ethernet PCIe (rev 01)
-> > 
-> > Please let me know if I may help you with any additional information.
-> 
-> It is good to know that device pass-through still works with upstream on
-> OpenPower servers.
-> 
-> Have you tried VFs ?
+Hi Reinette,
 
-I didn't get a chance to try VFs yet, C�dric.
+On 8/8/2025 10:12 AM, Reinette Chatre wrote:
+> Hi Babu,
+>
+> On 8/8/25 6:56 AM, Moger, Babu wrote:
+>> On 7/30/2025 3:04 PM, Reinette Chatre wrote:
+>>> On 7/25/25 11:29 AM, Babu Moger wrote:
+>>>> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
+>>>> index 16bcfeeb89e6..fa5f63126682 100644
+>>>> --- a/fs/resctrl/monitor.c
+>>>> +++ b/fs/resctrl/monitor.c
+>>>> @@ -929,6 +929,29 @@ struct mbm_transaction mbm_transactions[NUM_MBM_TRANSACTIONS] = {
+>>>>        {"dirty_victim_writes_all", DIRTY_VICTIMS_TO_ALL_MEM},
+>>>>    };
+>>>>    +int event_filter_show(struct kernfs_open_file *of, struct seq_file *seq, void *v)
+>>>> +{
+>>>> +    struct mon_evt *mevt = rdt_kn_parent_priv(of->kn);
+>>>> +    bool sep = false;
+>>>> +    int i;
+>>>> +
+>>>> +    mutex_lock(&rdtgroup_mutex);
+>>>> +
+>>> There is inconsistency among the files introduced on how
+>>> "mbm_event mode disabled" case is handled. Some files return failure
+>>> from their _show()/_write() when "mbm_event mode is disabled", some don't.
+>>>
+>>> The "event_filter" file always prints the MBM transactions monitored
+>>> when assignable counters are supported, whether mbm_event mode is enabled
+>>> or not. This means that the MBM event's configuration values are printed
+>>> when "default" mode is enabled.  I have two concerns about this
+>>> 1) This is potentially very confusing since switching to "default" will
+>>>      make the BMEC files visible that will enable the user to modify the
+>>>      event configurations per domain. Having this file print a global event
+>>>      configuration while there are potentially various different domain-specific
+>>>      configuration active will be confusing.
+>> Yes. I agree.
+> hmmm ... ok, you say that you agree but I cannot tell if you are going to
+> do anything about it.
+>
+> On a system with BMEC enabled the mbm_total_bytes_config and mbm_local_bytes_config
+> files should be the *only* source of MBM event configuration information, no?
 
-> 
-> Thanks Amit,
+That is correct.
 
-No problem. :)
 
-Thanks,
-Amit
+>
+> It may be ok to have event_filter print configuration when assignable counters are disabled
+> if BMEC is not supported but that would require that this information will always be
+> known for a "default" monitoring setup. While this may be true for AMD it is not obvious
+> to me that this is universally true. Once this file exists in this form resctrl will always
+> be required to provide data for the event configuration and it is not clear to me that
+> this can always be guaranteed.
 
-> 
-> C.
-> 
+Yea. It is not true universally true. I don't know what these values are 
+for Intel and ARM.
+
+>
+>>> 2) Can it be guaranteed that the MBM events will monitor the default
+>>>      assignable counter memory transactions when in "default" mode? It has
+>>>      never been possible to query which memory transactions are monitored by
+>>>      the default X86_FEATURE_CQM_MBM_TOTAL and X86_FEATURE_CQM_MBM_LOCAL features
+>>>      so this seems to use one feature to deduce capabilities or another?
+>> So, initialize both total and local event configuration to default values when switched to "default mode"?
+>>
+>> Something like this?
+>>
+>> mon_event_all[QOS_L3_MBM_TOTAL_EVENT_ID].evt_cfg = r->mon.mbm_cfg_mask;
+>>
+>> mon_event_all[QOS_L3_MBM_LOCAL_EVENT_ID].evt_cfg = READS_TO_LOCAL_MEM | READS_TO_LOCAL_S_MEM | NON_TEMP_WRITE_TO_LOCAL_MEM;
+>>
+>> We are already doing that right (in patch 32)?
+> Yes, but it creates this strange dependency where the "default" monitoring mode
+> (that has been supported long before configurable events and assignable counters came
+> along) requires support of "assignable counter mode".
+>
+> Consider it from another view, if resctrl wants to make event configuration available
+> for the "default" mode then the "event_filter" file could always be visible when MBM
+> local/total is supported to give users insight into what is monitored, whether
+> assignable counters are supported or not. This is not possible on systems that do
+> not support ABMC though, right?
+
+That is correct. With BMEC, each domain can have its own settings.  So, 
+printing the default will not be accurate.
+
+What options do we have here.
+
+How about adding the check if (resctrl_arch_mbm_cntr_assign_enabled())?  
+Only print the values when ABMC is supported else print information in 
+"last_cmd_status".
+
+Thanks
+
+Babu
+
