@@ -1,193 +1,261 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E80285055
-	for <linux-doc@vger.kernel.org>; Fri,  8 Aug 2025 15:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3AC283FE9;
+	Fri,  8 Aug 2025 15:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754666492; cv=none; b=EgZRcjfDyD2AQEbmwB1KhDEu1SoX+oZ/20LWHaZkkQCNl0h8nKydhUF5x5vowU1c9nsZth1d9ZzkG3EH66ySMlQZPXPBDTtK9dTEcP5u/eN38OfrDxnYo9Ows/CUVbNXfYrKuNhofZqyrWROn7RPfNKv0mth5xCHdLyPzPwnI6Q=
+	t=1754666537; cv=none; b=ZOJQ9sNX5j0ulRzbCtJUyQLVW/7PVQMW21El0MMMBHqC1EMvWdwnZx4jqKuyS5uk6PTlWCmZriHOV4/4plecT0XsMCXU7mETu96thSBzt8oYB3mRBhkGhojWQhyka3gGmiostMEJUdwWvkoDsuYX9jrODiL58M5FZa45BbEipKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754666492; c=relaxed/simple;
-	bh=ZncYki1KL4ndbu/cEBgE3ithy3n1MacpG1Kddz8qY/A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=esuu+/o745I0sIX8TRl6mv9DCLNGwKIx5UHWRE7lmaE199IkcN/8HjciictmvdNNGJG5N+s+JPHNp0EgvXGW3MLSeDFph6OEmphT2zDKiNgQEkwFp0GEjSpFnkvCznMoFg+sVlWfIeBGWE2fozUYjCD2DusUREP6kNLO9mSJk/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PC/H9Say; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PC/H9Say"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754666486;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OkInnKItN1D64SESBQnElXZy3eYPYkSB5pXAhM/lfjA=;
-	b=PC/H9SayD/FfXdiclMJWunqQqsVfRkgkpR/du9L6/CF33MKONaitGHup6HlKYVBPy1n2AZ
-	52mNbdDLkuIXIa2Rjmw7MPInJ0JZ4gW293ZOVW/Auezolq7pNGI+9eOdDkYavOkuUXgHO8
-	cGgeHtzMZBa7qEarXpLfrwNCKSbF8UA=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-596-a8ijxvpuNdOkYZYzaCQICw-1; Fri,
- 08 Aug 2025 11:21:22 -0400
-X-MC-Unique: a8ijxvpuNdOkYZYzaCQICw-1
-X-Mimecast-MFC-AGG-ID: a8ijxvpuNdOkYZYzaCQICw_1754666474
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 17E4919560B1;
-	Fri,  8 Aug 2025 15:21:14 +0000 (UTC)
-Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.65.37])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3D1D51800294;
-	Fri,  8 Aug 2025 15:21:08 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Shuah Khan <shuah@kernel.org>
-Cc: cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Phil Auld <pauld@redhat.com>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Cestmir Kalina <ckalina@redhat.com>,
-	Waiman Long <longman@redhat.com>
-Subject: [RFC PATCH 18/18] cgroup/cpuset: Add pr_debug() statements for cpuhp_offline_cb() call
-Date: Fri,  8 Aug 2025 11:20:01 -0400
-Message-ID: <20250808152001.20245-9-longman@redhat.com>
-In-Reply-To: <20250808151053.19777-1-longman@redhat.com>
-References: <20250808151053.19777-1-longman@redhat.com>
+	s=arc-20240116; t=1754666537; c=relaxed/simple;
+	bh=DkHkm43QbebMdGxyrXPLbcaF0/UO96vMSME/mk2C7KQ=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=F1ZJ91Bb8tQ03MtNCynEhHlpxgCQIO26cTLB8VHFMHeCPgHC0sEl+OIvbiTHawoP/WwlzwtlmXxxQkuyOfOO0+P+lAgWrVuEPzx1ZSJrTzYmcI4hKbj4ctqziPxCpHCbgSgeWYnNh5opakrOCS+WUriuf4gA3YPl5XCSdbIcalA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bz7513HRFz6K9DZ;
+	Fri,  8 Aug 2025 23:20:21 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id A68FD140427;
+	Fri,  8 Aug 2025 23:22:11 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 8 Aug
+ 2025 17:22:10 +0200
+Date: Fri, 8 Aug 2025 16:22:09 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Daniel Ferguson <danielf@os.amperecomputing.com>
+CC: Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, "James
+ Morse" <james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, "Borislav
+ Petkov" <bp@alien8.de>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-efi@vger.kernel.org>, <linux-edac@vger.kernel.org>, Jason Tian
+	<jason@os.amperecomputing.com>, Shengwei Luo <luoshengwei@huawei.com>, Mauro
+ Carvalho Chehab <mchehab+huawei@kernel.org>, Shiju Jose
+	<shiju.jose@huawei.com>
+Subject: Re: [PATCH v4 1/5] RAS: Report all ARM processor CPER information
+ to userspace
+Message-ID: <20250808162209.000068f5@huawei.com>
+In-Reply-To: <20250805-mauro_v3-v6-16-rev2-v4-1-ea538759841c@os.amperecomputing.com>
+References: <20250805-mauro_v3-v6-16-rev2-v4-0-ea538759841c@os.amperecomputing.com>
+	<20250805-mauro_v3-v6-16-rev2-v4-1-ea538759841c@os.amperecomputing.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Add some pr_debug() statements to actions performed related to the
-cpuhp_offline_cb() call to aid debugging. Since rcu_nocb_cpu_offload()
-and rcu_nocb_cpu_deoffload() will print out some info text, there is
-no need to add pr_debug() statements for them.
+On Tue, 05 Aug 2025 11:35:38 -0700
+Daniel Ferguson <danielf@os.amperecomputing.com> wrote:
 
-Also update test_cpuset_prs.sh test script to enable printing of dynamic
-debug messages for the kernel/cgroup/cpuset.c file when loglevel is 7
-(debug).
+> From: Jason Tian <jason@os.amperecomputing.com>
+> 
+> The ARM processor CPER record was added in UEFI v2.6 and remained
+> unchanged up to v2.10.
+> 
+> Yet, the original arm_event trace code added by
+> 
+>   e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+> 
+> is incomplete, as it only traces some fields of UAPI 2.6 table N.16, not
+> exporting any information from tables N.17 to N.29 of the record.
+> 
+> This is not enough for the user to be able to figure out what has
+> exactly happened or to take appropriate action.
+> 
+> According to the UEFI v2.9 specification chapter N2.4.4, the ARM
+> processor error section includes:
+> 
+> - several (ERR_INFO_NUM) ARM processor error information structures
+>   (Tables N.17 to N.20);
+> - several (CONTEXT_INFO_NUM) ARM processor context information
+>   structures (Tables N.21 to N.29);
+> - several vendor specific error information structures. The
+>   size is given by Section Length minus the size of the other
+>   fields.
+> 
+> In addition, it also exports two fields that are parsed by the GHES
+> driver when firmware reports it, e.g.:
+> 
+> - error severity
+> - CPU logical index
+> 
+> Report all of these information to userspace via a the ARM tracepoint so
+> that userspace can properly record the error and take decisions related
+> to CPU core isolation according to error severity and other info.
+> 
+> The updated ARM trace event now contains the following fields:
+> 
+> ======================================  =============================
+> UEFI field on table N.16                ARM Processor trace fields
+> ======================================  =============================
+> Validation                              handled when filling data for
+>                                         affinity MPIDR and running
+>                                         state.
+> ERR_INFO_NUM                            pei_len
+> CONTEXT_INFO_NUM                        ctx_len
+> Section Length                          indirectly reported by
+>                                         pei_len, ctx_len and oem_len
+> Error affinity level                    affinity
+> MPIDR_EL1                               mpidr
+> MIDR_EL1                                midr
+> Running State                           running_state
+> PSCI State                              psci_state
+> Processor Error Information Structure   pei_err - count at pei_len
+> Processor Context                       ctx_err- count at ctx_len
+> Vendor Specific Error Info              oem - count at oem_len
+> ======================================  =============================
+> 
+> It should be noted that decoding of tables N.17 to N.29, if needed, will
+> be handled in userspace. That gives more flexibility, as there won't be
+> any need to flood the kernel with micro-architecture specific error
+> decoding.
+> 
+> Also, decoding the other fields require a complex logic, and should be
+> done for each of the several values inside the record field.  So, let
+> userspace daemons like rasdaemon decode them, parsing such tables and
+> having vendor-specific micro-architecture-specific decoders.
+> 
+>   [mchehab: modified description, solved merge conflicts and fixed coding style]
+> 
+> Fixes: e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+> 
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- kernel/cgroup/cpuset.c                         | 18 +++++++++++++-----
- .../selftests/cgroup/test_cpuset_prs.sh        |  7 +++++++
- 2 files changed, 20 insertions(+), 5 deletions(-)
+Fixes tag is part of the main tag block so no blank line here.
+There are at least some scripts running on the kernel tree that trip
+up on this (and one that moans at the submitter ;)
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 489708f4e096..30632e4b5899 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -21,6 +21,7 @@
-  *  License.  See the file COPYING in the main directory of the Linux
-  *  distribution for more details.
-  */
-+#define pr_fmt(fmt) "cpuset: " fmt
- #include "cpuset-internal.h"
- 
- #include <linux/context_tracking.h>
-@@ -1406,10 +1407,13 @@ static int do_housekeeping_exclude_cpumask(void *arg __maybe_unused)
- 	if (tick_nohz_full_enabled()) {
- 		tick_nohz_full_update_cpus(icpus);
- 		for_each_cpu(cpu, isolcpus_update_state.cpus) {
--			if (cpumask_test_cpu(cpu, icpus))
-+			if (cpumask_test_cpu(cpu, icpus)) {
-+				pr_debug("Add CPU %d to nohz_full\n", cpu);
- 				ct_cpu_track_user(cpu);
--			else
-+			} else {
-+				pr_debug("Remove CPU %d from nohz_full\n", cpu);
- 				ct_cpu_untrack_user(cpu);
-+			}
- 		}
- 	} else {
- 		pr_warn_once("Full dynticks cannot be enabled without the nohz_full kernel boot parameter!\n");
-@@ -1425,6 +1429,7 @@ static int do_housekeeping_exclude_cpumask(void *arg __maybe_unused)
- 				ret = rcu_nocb_cpu_offload(cpu);
- 			else
- 				ret = rcu_nocb_cpu_deoffload(cpu);
-+
- 			if (WARN_ON_ONCE(ret))
- 				break;
- 		}
-@@ -1468,11 +1473,14 @@ static void update_isolation_cpumasks(void)
- 	 * Without any change in the set of nohz_full CPUs, we don't really
- 	 * need to use CPU hotplug for making change in HK cpumasks.
- 	 */
--	if (cpumask_empty(isolcpus_update_state.cpus))
-+	if (cpumask_empty(isolcpus_update_state.cpus)) {
- 		ret = do_housekeeping_exclude_cpumask(NULL);
--	else
-+	} else {
-+		pr_debug("cpuhp_offline_cb() called for CPUs %*pbl\n",
-+			 cpumask_pr_args(isolcpus_update_state.cpus));
- 		ret = cpuhp_offline_cb(isolcpus_update_state.cpus,
- 				       do_housekeeping_exclude_cpumask, NULL);
-+	}
- 	/*
- 	 * A errno value of -EPERM may be returned from cpuhp_offline_cb() if
- 	 * any one of the CPUs in isolcpus_update_state.cpus can't be brought
-@@ -1481,7 +1489,7 @@ static void update_isolation_cpumasks(void)
- 	 * isolated partition.
- 	 */
- 	if (ret == -EPERM)
--		pr_warn_once("cpuset: The boot CPU shouldn't be used for isolated partition\n");
-+		pr_warn_once("The boot CPU shouldn't be used for isolated partition\n");
- 	else
- 		WARN_ON_ONCE(ret < 0);
- 
-diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-index f61369be8bf6..43a12690775e 100755
---- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-+++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-@@ -67,6 +67,13 @@ then
- 	echo Y > /sys/kernel/debug/sched/verbose
- fi
- 
-+# Enable dynamic debug messages for cpuset only
-+DYN_DEBUG=/sys/kernel/debug/dynamic_debug/control
-+[[ -f $DYN_DEBUG ]] && {
-+	echo "-p" > $DYN_DEBUG
-+	echo "file kernel/cgroup/cpuset.c +p" > $DYN_DEBUG
-+}
-+
- cd $CGROUP2
- echo +cpuset > cgroup.subtree_control
- 
--- 
-2.50.0
+I'd also add something to explain the SoB sequence for the curious.
+
+> Co-developed-by: Jason Tian <jason@os.amperecomputing.com>
+
+Jason's the Author, so shouldn't have a Co-dev tag.
+There is some info on this in
+https://docs.kernel.org/process/submitting-patches.html
+
+> Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
+> Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
+> Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
+> Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+> Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+
+As person submitting I'd normally expect your SoB last.
+
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+I guess this is because Mauro posted an earlier version in which
+case this is arguably correct, but likely to confuse.
+For cases like this I add comments.
+
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Tested-by: Shiju Jose <shiju.jose@huawei.com>
+> Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+> Link: https://uefi.org/specs/UEFI/2.10/Apx_N_Common_Platform_Error_Record.html#arm-processor-error-section
+
+A couple of trivial things inline.
+
+> diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
+> index a6e4792a1b2e9239f44f29102a7cc058d64b93ef..179b1744df71ee1eac28718628d550075c480cd5 100644
+> --- a/drivers/ras/ras.c
+> +++ b/drivers/ras/ras.c
+> @@ -52,9 +52,46 @@ void log_non_standard_event(const guid_t *sec_type, const guid_t *fru_id,
+>  	trace_non_standard_event(sec_type, fru_id, fru_text, sev, err, len);
+>  }
+>  
+> -void log_arm_hw_error(struct cper_sec_proc_arm *err)
+> +void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
+>  {
+> -	trace_arm_event(err);
+> +	struct cper_arm_err_info *err_info;
+> +	struct cper_arm_ctx_info *ctx_info;
+> +	u8 *ven_err_data;
+> +	u32 ctx_len = 0;
+> +	int n, sz, cpu;
+> +	s32 vsei_len;
+> +	u32 pei_len;
+> +	u8 *pei_err;
+> +	u8 *ctx_err;
+
+Maybe combine the two u8 *
+
+> +
+> +	pei_len = sizeof(struct cper_arm_err_info) * err->err_info_num;
+> +	pei_err = (u8 *)err + sizeof(struct cper_sec_proc_arm);
+	pei_err = (u8 *)(err + 1);
+
+Which is the same as err_info. Setting one to the other will make that
+relationship more obvious if we do need to keep them both around.
+(Similar to the ctx_err = (u8 *)ctx_info; below)
+
+> +
+> +	err_info = (struct cper_arm_err_info *)(err + 1);
+> +	ctx_info = (struct cper_arm_ctx_info *)(err_info + err->err_info_num);
+> +	ctx_err = (u8 *)ctx_info;
+> +
+> +	for (n = 0; n < err->context_info_num; n++) {
+> +		sz = sizeof(struct cper_arm_ctx_info) + ctx_info->size;
+> +		ctx_info = (struct cper_arm_ctx_info *)((long)ctx_info + sz);
+> +		ctx_len += sz;
+> +	}
+> +
+> +	vsei_len = err->section_length - (sizeof(struct cper_sec_proc_arm) + pei_len + ctx_len);
+> +	if (vsei_len < 0) {
+> +		pr_warn(FW_BUG "section length: %d\n", err->section_length);
+> +		pr_warn(FW_BUG "section length is too small\n");
+> +		pr_warn(FW_BUG "firmware-generated error record is incorrect\n");
+> +		vsei_len = 0;
+> +	}
+> +	ven_err_data = (u8 *)ctx_info;
+> +
+> +	cpu = GET_LOGICAL_INDEX(err->mpidr);
+> +	if (cpu < 0)
+> +		cpu = -1;
+> +
+> +	trace_arm_event(err, pei_err, pei_len, ctx_err, ctx_len,
+> +			ven_err_data, (u32)vsei_len, sev, cpu);
+>  }
+
+> diff --git a/include/ras/ras_event.h b/include/ras/ras_event.h
+> index 14c9f943d53fb6cbadeef3f4b13e61470f0b5dee..a6b7ac0adaff9dfeab05a0c75ed359930ae04479 100644
+> --- a/include/ras/ras_event.h
+> +++ b/include/ras/ras_event.h
+> @@ -168,11 +168,24 @@ TRACE_EVENT(mc_event,
+>   * This event is generated when hardware detects an ARM processor error
+>   * has occurred. UEFI 2.6 spec section N.2.4.4.
+>   */
+> +#define APEIL "ARM Processor Err Info data len"
+> +#define APEID "ARM Processor Err Info raw data"
+> +#define APECIL "ARM Processor Err Context Info data len"
+> +#define APECID "ARM Processor Err Context Info raw data"
+> +#define VSEIL "Vendor Specific Err Info data len"
+> +#define VSEID "Vendor Specific Err Info raw data"
+>  TRACE_EVENT(arm_event,
+>  
+> -	TP_PROTO(const struct cper_sec_proc_arm *proc),
+> +	TP_PROTO(const struct cper_sec_proc_arm *proc, const u8 *pei_err,
+> +			const u32 pei_len,
+Trivial but this is an odd bit of wrapping to have two items
+on first line, but then only one on later lines.  Also additional
+indent seems unusual and isn't matched by the first few things I looked
+at in this file.  So should be under the c of const (one space I think
+rather than a tab).
+
+> +			const u8 *ctx_err,
+> +			const u32 ctx_len,
+> +			const u8 *oem,
+> +			const u32 oem_len,
+> +			u8 sev,
+> +			int cpu),
+>  
+
+
 
