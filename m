@@ -1,236 +1,391 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599FC43146;
-	Fri,  8 Aug 2025 06:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E801F1306;
+	Fri,  8 Aug 2025 06:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754633869; cv=none; b=s5a/duBrruqam28dc2E8E6Ej6X3j0aH0WcP1KZFYFudMo3NAi2CRqmu4moEPenezmF2QpIwuaLdxh3Ai0tVHe9YOcythoUWrbUIT90+qQiPuCDoRXAgzCtif7S97bqtKpNvcuyvb+gJJhC8eVwK1/IgwqyK3Ehgx/C9ROJLnHpI=
+	t=1754634634; cv=none; b=geodAv2WxrTvjSx5F+XDmoTy68puTiqH1EQZGu+XoiliyH8QgAtwSsHo1VCkfFVutyvbVi4QpFyIyZ4mNipJ/a9OT7VzVYzzYd6AVuVZnF7/Z9M/e5jr8j4O3A5gt7ZUYvVBZYZLTxAHp1dyi69/B00My0RJ0IYR1XePs0Dvzf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754633869; c=relaxed/simple;
-	bh=cmAsMBvdaiFIRBmsQgKW2WADeetWcA/YHbrfYBriZuU=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=R9zEchM0YAh3q4ycLmOhALXAp9ZIoCPq0dFGaz5+EpztT4U4mcOuKJvhwkKIslSM+jlhAVwPlBGQ42z1Loi/zXxIEYcybiAWXuIWSpK8lCxTs5Zi12nVNi1Pbn8wr0wpbEP6hkJdoIdWYyGez3+Jr/v2qDzsjs3JJPddE/cPqes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4byv2t0MHhzYQttR;
-	Fri,  8 Aug 2025 14:17:42 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id A90161A07BB;
-	Fri,  8 Aug 2025 14:17:40 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgAHzw+ClpVox_zaCw--.65529S3;
-	Fri, 08 Aug 2025 14:17:40 +0800 (CST)
-Subject: Re: [PATCH v5 11/11] md/md-llbitmap: introduce new lockless bitmap
-To: Xiao Ni <xni@redhat.com>, Yu Kuai <yukuai1@huaweicloud.com>
-Cc: hch@lst.de, corbet@lwn.net, song@kernel.org, agk@redhat.com,
- snitzer@kernel.org, mpatocka@redhat.com, linan122@huawei.com, hare@suse.de,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, dm-devel@lists.linux.dev, yi.zhang@huawei.com,
- yangerkun@huawei.com, johnny.chenyi@huawei.com,
- "yukuai (C)" <yukuai3@huawei.com>
-References: <20250801070346.4127558-1-yukuai1@huaweicloud.com>
- <20250801070346.4127558-12-yukuai1@huaweicloud.com>
- <CALTww2-FTgDn9pD-Gmh8YKT-fU1ykk_QbB9J2KO8xQzrkAa_Bg@mail.gmail.com>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <e7902d0b-713f-f245-733b-33fd23262496@huaweicloud.com>
-Date: Fri, 8 Aug 2025 14:17:38 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	s=arc-20240116; t=1754634634; c=relaxed/simple;
+	bh=2sZclBUIchMgOI2BfV6AOvaczH7sNa7CyFdTx87lVcE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WJsST49+5uog5kV2/lr94XjSVUpPOiviZ1BtMsrxc9O1FQHuOMbY9YkiqDxgbRyUDi79p6AUiDG/tsnP1EUqXTWNuBYyNzM19FN1bNNM+pOFKaLqdrjGOtEz5Kzbp/uqIsy/rXsiKC/xlWl5DxuhonkOhx8TnSoEuWpdTPKzqoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oumdgnpI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oumdgnpI"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5463C1648;
+	Fri,  8 Aug 2025 08:29:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754634577;
+	bh=2sZclBUIchMgOI2BfV6AOvaczH7sNa7CyFdTx87lVcE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oumdgnpIcDsNg0djHYTq38XzQUF1TkgCzet42UojtjhitVip2QZCrbg2zqqcByvlX
+	 baY/CA6Dhgx81mz9UqbNHHcJrX7kQLHr2Qwr0A9FfGL8DNPlEjbIJ+qzZwZn4Bu7WR
+	 q6Pt/CjukSiWCSaMGBxXRzbtMbKI+d/wrxnUndSo=
+Date: Fri, 8 Aug 2025 09:30:11 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 27/65] media: Reset file->private_data to NULL in
+ v4l2_fh_del()
+Message-ID: <20250808063011.GJ11583@pendragon.ideasonboard.com>
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-27-eb140ddd6a9d@ideasonboard.com>
+ <e9aaf929-5e0d-4379-996b-a564acd3e331@kernel.org>
+ <20250807085003.GE11583@pendragon.ideasonboard.com>
+ <20250807170004.GG11583@pendragon.ideasonboard.com>
+ <20250807202553.GB28610@pendragon.ideasonboard.com>
+ <7605f778-6b20-47e4-bd65-7a0d85fff736@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CALTww2-FTgDn9pD-Gmh8YKT-fU1ykk_QbB9J2KO8xQzrkAa_Bg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgAHzw+ClpVox_zaCw--.65529S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3WF1kWFy8Cr43JFWUXryxKrg_yoW7Ary8pF
-	WxW3WUGr45JryrXr1UXr97ZF95trs7JwnFqrZ3Aa4rGr1qyrs3Kry8GFyUC34kur97GF1D
-	Za15Gry3uw4rWrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
-	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x
-	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
-	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcV
-	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
-	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
-	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRHUDLUUUUU=
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7605f778-6b20-47e4-bd65-7a0d85fff736@kernel.org>
 
-Hi, Xiao
+On Thu, Aug 07, 2025 at 10:51:27PM +0200, Hans Verkuil wrote:
+> On 07/08/2025 22:25, Laurent Pinchart wrote:
+> > On Thu, Aug 07, 2025 at 08:00:06PM +0300, Laurent Pinchart wrote:
+> >> On Thu, Aug 07, 2025 at 11:50:07AM +0300, Laurent Pinchart wrote:
+> >>> On Wed, Aug 06, 2025 at 02:45:14PM +0200, Hans Verkuil wrote:
+> >>>> On 02/08/2025 11:22, Jacopo Mondi wrote:
+> >>>>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>>>>
+> >>>>> Multiple drivers that use v4l2_fh and call v4l2_fh_del() manually reset
+> >>>>> the file->private_data pointer to NULL in their video device .release()
+> >>>>> file operation handler. Move the code to the v4l2_fh_del() function to
+> >>>>> avoid direct access to file->private_data in drivers. This requires
+> >>>>> adding a file pointer argument to the function.
+> >>>>>
+> >>>>> Changes to drivers have been generated with the following coccinelle
+> >>>>> semantic patch:
+> >>>>>
+> >>>>> @@
+> >>>>> expression fh;
+> >>>>> identifier filp;
+> >>>>> identifier release;
+> >>>>> type ret;
+> >>>>> @@
+> >>>>> ret release(..., struct file *filp, ...)
+> >>>>> {
+> >>>>> 	<...
+> >>>>> -	filp->private_data = NULL;
+> >>>>> 	...
+> >>>>> -	v4l2_fh_del(fh);
+> >>>>> +	v4l2_fh_del(fh, filp);
+> >>>>> 	...>
+> >>>>> }
+> >>>>>
+> >>>>> @@
+> >>>>> expression fh;
+> >>>>> identifier filp;
+> >>>>> identifier release;
+> >>>>> type ret;
+> >>>>> @@
+> >>>>> ret release(..., struct file *filp, ...)
+> >>>>> {
+> >>>>> 	<...
+> >>>>> -	v4l2_fh_del(fh);
+> >>>>> +	v4l2_fh_del(fh, filp);
+> >>>>> 	...
+> >>>>> -	filp->private_data = NULL;
+> >>>>> 	...>
+> >>>>> }
+> >>>>>
+> >>>>> @@
+> >>>>> expression fh;
+> >>>>> identifier filp;
+> >>>>> identifier release;
+> >>>>> type ret;
+> >>>>> @@
+> >>>>> ret release(..., struct file *filp, ...)
+> >>>>> {
+> >>>>> 	<...
+> >>>>> -	v4l2_fh_del(fh);
+> >>>>> +	v4l2_fh_del(fh, filp);
+> >>>>> 	...>
+> >>>>> }
+> >>>>>
+> >>>>> Manual changes have been applied to Documentation/ to update the usage
+> >>>>> patterns, to drivers/media/v4l2-core/v4l2-fh.c to update the
+> >>>>> v4l2_fh_del() prototype and reset file->private_data, and to
+> >>>>> include/media/v4l2-fh.h to update the v4l2_fh_del() function prototype
+> >>>>> and its documentation.
+> >>>>>
+> >>>>> Additionally, white space issues have been fixed manually in
+> >>>>> drivers/usb/gadget/function/uvc_v4l2.c
+> >>>>>
+> >>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> >>>>> ---
+> >>>>>  Documentation/driver-api/media/v4l2-fh.rst                         | 4 ++--
+> >>>>>  Documentation/translations/zh_CN/video4linux/v4l2-framework.txt    | 4 ++--
+> >>>>>  drivers/media/pci/cx18/cx18-fileops.c                              | 4 ++--
+> >>>>>  drivers/media/pci/ivtv/ivtv-fileops.c                              | 4 ++--
+> >>>>>  drivers/media/pci/saa7164/saa7164-encoder.c                        | 2 +-
+> >>>>>  drivers/media/pci/saa7164/saa7164-vbi.c                            | 2 +-
+> >>>>>  drivers/media/platform/allegro-dvt/allegro-core.c                  | 2 +-
+> >>>>>  drivers/media/platform/amlogic/meson-ge2d/ge2d.c                   | 2 +-
+> >>>>>  drivers/media/platform/amphion/vpu_v4l2.c                          | 4 ++--
+> >>>>>  drivers/media/platform/chips-media/coda/coda-common.c              | 4 ++--
+> >>>>>  drivers/media/platform/chips-media/wave5/wave5-helper.c            | 2 +-
+> >>>>>  drivers/media/platform/imagination/e5010-jpeg-enc.c                | 4 ++--
+> >>>>>  drivers/media/platform/m2m-deinterlace.c                           | 2 +-
+> >>>>>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c               | 4 ++--
+> >>>>>  drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c                  | 4 ++--
+> >>>>>  drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c                | 4 ++--
+> >>>>>  .../media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c    | 4 ++--
+> >>>>>  .../media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c    | 4 ++--
+> >>>>>  drivers/media/platform/nvidia/tegra-vde/v4l2.c                     | 2 +-
+> >>>>>  drivers/media/platform/nxp/dw100/dw100.c                           | 2 +-
+> >>>>>  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c                     | 4 ++--
+> >>>>>  drivers/media/platform/nxp/imx-pxp.c                               | 2 +-
+> >>>>>  drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c                 | 2 +-
+> >>>>>  drivers/media/platform/nxp/mx2_emmaprp.c                           | 2 +-
+> >>>>>  drivers/media/platform/qcom/iris/iris_vidc.c                       | 3 +--
+> >>>>>  drivers/media/platform/qcom/venus/core.c                           | 2 +-
+> >>>>>  drivers/media/platform/renesas/rcar_fdp1.c                         | 2 +-
+> >>>>>  drivers/media/platform/renesas/rcar_jpu.c                          | 4 ++--
+> >>>>>  drivers/media/platform/renesas/vsp1/vsp1_video.c                   | 2 +-
+> >>>>>  drivers/media/platform/rockchip/rga/rga.c                          | 2 +-
+> >>>>>  drivers/media/platform/rockchip/rkvdec/rkvdec.c                    | 2 +-
+> >>>>>  drivers/media/platform/samsung/exynos-gsc/gsc-m2m.c                | 4 ++--
+> >>>>>  drivers/media/platform/samsung/exynos4-is/fimc-m2m.c               | 4 ++--
+> >>>>>  drivers/media/platform/samsung/s5p-g2d/g2d.c                       | 2 +-
+> >>>>>  drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c                | 4 ++--
+> >>>>>  drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c                   | 4 ++--
+> >>>>>  drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c                   | 4 ++--
+> >>>>>  drivers/media/platform/st/sti/delta/delta-v4l2.c                   | 4 ++--
+> >>>>>  drivers/media/platform/st/sti/hva/hva-v4l2.c                       | 4 ++--
+> >>>>>  drivers/media/platform/st/stm32/dma2d/dma2d.c                      | 2 +-
+> >>>>>  drivers/media/platform/sunxi/sun8i-di/sun8i-di.c                   | 2 +-
+> >>>>>  drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c           | 2 +-
+> >>>>>  drivers/media/platform/ti/omap3isp/ispvideo.c                      | 5 ++---
+> >>>>>  drivers/media/platform/ti/vpe/vpe.c                                | 2 +-
+> >>>>>  drivers/media/platform/verisilicon/hantro_drv.c                    | 4 ++--
+> >>>>>  drivers/media/test-drivers/vicodec/vicodec-core.c                  | 2 +-
+> >>>>>  drivers/media/test-drivers/vim2m.c                                 | 2 +-
+> >>>>>  drivers/media/test-drivers/visl/visl-core.c                        | 2 +-
+> >>>>>  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c                           | 3 +--
+> >>>>>  drivers/media/v4l2-core/v4l2-fh.c                                  | 7 ++++---
+> >>>>>  drivers/media/v4l2-core/v4l2-subdev.c                              | 5 ++---
+> >>>>>  drivers/staging/media/imx/imx-media-csc-scaler.c                   | 4 ++--
+> >>>>>  drivers/staging/media/meson/vdec/vdec.c                            | 2 +-
+> >>>>>  drivers/staging/media/sunxi/cedrus/cedrus.c                        | 2 +-
+> >>>>>  drivers/staging/most/video/video.c                                 | 4 ++--
+> >>>>>  drivers/usb/gadget/function/uvc_v4l2.c                             | 3 +--
+> >>>>>  include/media/v4l2-fh.h                                            | 5 ++++-
+> >>>>>  57 files changed, 89 insertions(+), 90 deletions(-)
+> >>>>>
+> >>>>
+> >>>> <snip>
+> >>>>
+> >>>>> diff --git a/drivers/media/v4l2-core/v4l2-fh.c b/drivers/media/v4l2-core/v4l2-fh.c
+> >>>>> index b59b1084d8cdf1b62da12879e21dbe56c2109648..df3ba9d4674bd25626cfcddc2d0cb28c233e3cc3 100644
+> >>>>> --- a/drivers/media/v4l2-core/v4l2-fh.c
+> >>>>> +++ b/drivers/media/v4l2-core/v4l2-fh.c
+> >>>>> @@ -67,7 +67,7 @@ int v4l2_fh_open(struct file *filp)
+> >>>>>  }
+> >>>>>  EXPORT_SYMBOL_GPL(v4l2_fh_open);
+> >>>>>  
+> >>>>> -void v4l2_fh_del(struct v4l2_fh *fh)
+> >>>>> +void v4l2_fh_del(struct v4l2_fh *fh, struct file *filp)
+> >>>>
+> >>>> Instead of adding a second argument, perhaps it is better to
+> >>>> just provide the filp pointer. After all, you can get the v4l2_fh
+> >>>> from filp->private_data.
+> >>>>
+> >>>> It simplifies the code a bit.
+> >>>
+> >>> That's an interesting idea. I'll give it a try.
+> >>
+> >> We end up with code like (e.g. in v4l2_fh_release(), with similar
+> >> constructs in lots of drivers)
+> >>
+> >> 	if (fh) {
+> >> 		v4l2_fh_del(filp);
+> >> 		v4l2_fh_exit(fh);
+> >> 		kfree(fh);
+> >> 	}
+> >>
+> >> compared to
+> >>
+> >> 	if (fh) {
+> >> 		v4l2_fh_del(fh, filp);
+> >> 		v4l2_fh_exit(fh);
+> >> 		kfree(fh);
+> >> 	}
+> >>
+> >> with the existing patch. I find the fact that v4l2_fh_del() takes a
+> >> different pointer than v4l2_fh_exit() a bit disturbing. If you think
+> >> it's better I'll drop the fh argument in v2.
+> > 
+> > I gave it a try, and looking at the function prototype, its
+> > documentation, the imbalance with v4l2_fh_add(), and the code in the
+> > callers, I think keeping both arguments would look cleaner. Please tell
+> > me if you feel strongly about this, I can still submit a patch to drop
+> > the argument. It can very easily be scripted with coccinelle and doesn't
+> > conflict with the rest of the series, so it could also be done later.
+> 
+> Looking at all the drivers that call v4l2_fh_del/exit I always see v4l2_fh_del()
+> directly followed by v4l2_fh_exit(). I think it would make a lot of sense to just
+> combine the two as a single function: v4l2_fh_del_exit(filp).
+> 
+> That simplifies the code and solves the imbalance.
 
-在 2025/08/07 11:57, Xiao Ni 写道:
->> +/* set all the bits in the subpage as dirty */
->> +static void llbitmap_infect_dirty_bits(struct llbitmap *llbitmap,
->> +                                      struct llbitmap_page_ctl *pctl,
->> +                                      unsigned int block, unsigned int offset)
->> +{
->> +       bool level_456 = raid_is_456(llbitmap->mddev);
->> +       unsigned int io_size = llbitmap->io_size;
->> +       int pos;
->> +
->> +       for (pos = block * io_size; pos < (block + 1) * io_size; pos++) {
->> +               if (pos == offset)
->> +                       continue;
-> It looks like it doesn't need to pass the argument offset to this
-> function. The pctl->state[offset] must be BitDirty or BitNeedSync. So
-> the following switch/case can skip it. So it can save hundreds
-> comparing pos with offset here.
-> 
-Ok.
->> +
->> +               switch (pctl->state[pos]) {
->> +               case BitUnwritten:
->> +                       pctl->state[pos] = level_456 ? BitNeedSync : BitDirty;
->> +                       break;
->> +               case BitClean:
->> +                       pctl->state[pos] = BitDirty;
->> +                       break;
->> +               };
->> +       }
->> +
->> +}
->> +static void llbitmap_write(struct llbitmap *llbitmap, enum llbitmap_state state,
->> +                          loff_t pos)
->> +{
->> +       unsigned int idx;
->> +       unsigned int offset;
-> How about change offset to bit?
+I'll try that as a separate patch on top of this one. Keeping the two
+separate will ease review (both patches will be simpler, and will be
+generated by coccinelle), and will also make it easier to drop the
+second patch if we decide it's not the way to go.
 
-Yes, and the follong name about bit.
->> +static void llbitmap_write_page(struct llbitmap *llbitmap, int idx)
->> +{
->> +       struct page *page = llbitmap->pctl[idx]->page;
->> +       struct mddev *mddev = llbitmap->mddev;
->> +       struct md_rdev *rdev;
->> +       int bit;
-> It's better to change name "bit" to "block"
->> +static int llbitmap_init(struct llbitmap *llbitmap)
->> +{
->> +       struct mddev *mddev = llbitmap->mddev;
->> +       sector_t blocks = mddev->resync_max_sectors;
->> +       unsigned long chunksize = MIN_CHUNK_SIZE;
->> +       unsigned long chunks = DIV_ROUND_UP(blocks, chunksize);
->> +       unsigned long space = mddev->bitmap_info.space << SECTOR_SHIFT;
->> +       int ret;
->> +
->> +       while (chunks > space) {
->> +               chunksize = chunksize << 1;
->> +               chunks = DIV_ROUND_UP(blocks, chunksize);
->> +       }
->> +
->> +       llbitmap->barrier_idle = DEFAULT_BARRIER_IDLE;
->> +       llbitmap->chunkshift = ffz(~chunksize);
->> +       llbitmap->chunksize = chunksize;
->> +       llbitmap->chunks = chunks;
->> +       mddev->bitmap_info.daemon_sleep = DEFAULT_DAEMON_SLEEP;
->> +
->> +       ret = llbitmap_cache_pages(llbitmap);
->> +       if (ret)
->> +               return ret;
->> +
->> +       llbitmap_state_machine(llbitmap, 0, llbitmap->chunks - 1, BitmapActionInit);
->> +       return 0;
->> +}
-> There is a problem, if array is created with --assume-clean, it
-> doesn't need to start sync. And it doesn't have the chance to sync
-> llbitmap superblock to member disks. So it can't get the right bitmap
-> superblock information which is calculated here after a power off. It
-> needs to sync the superblock here.
-> 
-Yes, you're right. The mdraid bitmap metadata is written by mdadm,
-dm-raid  bitmap metadata is write in kernel by md_update_sb(), llbitmap
-is missing a call to llbitmap_write_sb() after initializing, if
-md_update_sb() is never triggered, the bitmap metadata will be lost.
+> >>>>>  {
+> >>>>>  	unsigned long flags;
+> >>>>>  
+> >>>>> @@ -75,6 +75,8 @@ void v4l2_fh_del(struct v4l2_fh *fh)
+> >>>>>  	list_del_init(&fh->list);
+> >>>>>  	spin_unlock_irqrestore(&fh->vdev->fh_lock, flags);
+> >>>>>  	v4l2_prio_close(fh->vdev->prio, fh->prio);
+> >>>>> +
+> >>>>> +	filp->private_data = NULL;
+> >>>>>  }
+> >>>>>  EXPORT_SYMBOL_GPL(v4l2_fh_del);
+> >>>>>  
+> >>>>> @@ -94,10 +96,9 @@ int v4l2_fh_release(struct file *filp)
+> >>>>>  	struct v4l2_fh *fh = file_to_v4l2_fh(filp);
+> >>>>>  
+> >>>>>  	if (fh) {
+> >>>>> -		v4l2_fh_del(fh);
+> >>>>> +		v4l2_fh_del(fh, filp);
+> >>>>>  		v4l2_fh_exit(fh);
+> >>>>>  		kfree(fh);
+> >>>>> -		filp->private_data = NULL;
+> >>>>>  	}
+> >>>>>  	return 0;
+> >>>>>  }
+> >>>>
+> >>>> <snip>
+> >>>>
+> >>>>> diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
+> >>>>> index d8fcf49f10e09452b73499f4a9bd1285bc2835a5..5e4c761635120608e0b588e0b0daf63e69588d38 100644
+> >>>>> --- a/include/media/v4l2-fh.h
+> >>>>> +++ b/include/media/v4l2-fh.h
+> >>>>> @@ -114,12 +114,15 @@ int v4l2_fh_open(struct file *filp);
+> >>>>>   * v4l2_fh_del - Remove file handle from the list of file handles.
+> >>>>>   *
+> >>>>>   * @fh: pointer to &struct v4l2_fh
+> >>>>> + * @filp: pointer to &struct file associated with @fh
+> >>>>> + *
+> >>>>> + * The function resets filp->private_data to NULL.
+> >>>>>   *
+> >>>>>   * .. note::
+> >>>>>   *    Must be called in v4l2_file_operations->release\(\) handler if the driver
+> >>>>>   *    uses &struct v4l2_fh.
+> >>>>>   */
+> >>>>> -void v4l2_fh_del(struct v4l2_fh *fh);
+> >>>>> +void v4l2_fh_del(struct v4l2_fh *fh, struct file *filp);
+> >>>>>  
+> >>>>>  /**
+> >>>>>   * v4l2_fh_exit - Release resources related to a file handle.
 
->> +
->> +static int llbitmap_create(struct mddev *mddev)
->> +{
->> +       struct llbitmap *llbitmap;
->> +       int ret;
->> +
->> +       ret = llbitmap_check_support(mddev);
->> +       if (ret)
->> +               return ret;
->> +
->> +       llbitmap = kzalloc(sizeof(*llbitmap), GFP_KERNEL);
->> +       if (!llbitmap)
->> +               return -ENOMEM;
->> +
->> +       llbitmap->mddev = mddev;
->> +       llbitmap->io_size = bdev_logical_block_size(mddev->gendisk->part0);
->> +       llbitmap->blocks_per_page = PAGE_SIZE / llbitmap->io_size;
->> +
->> +       timer_setup(&llbitmap->pending_timer, llbitmap_pending_timer_fn, 0);
->> +       INIT_WORK(&llbitmap->daemon_work, md_llbitmap_daemon_fn);
->> +       atomic_set(&llbitmap->behind_writes, 0);
->> +       init_waitqueue_head(&llbitmap->behind_wait);
->> +
->> +       mutex_lock(&mddev->bitmap_info.mutex);
->> +       mddev->bitmap = llbitmap;
->> +       ret = llbitmap_read_sb(llbitmap);
->> +       mutex_unlock(&mddev->bitmap_info.mutex);
->> +       if (ret)
->> +               goto err_out;
->> +
->> +       return 0;
->> +
->> +err_out:
->> +       kfree(llbitmap);
-> mddev->bitmap = NULL. If not,
-> md_run->md_bitmap_destroy->llbitmap_destroy will free it again.
-Yes.
+-- 
+Regards,
 
-> 
->> +static void llbitmap_start_write(struct mddev *mddev, sector_t offset,
->> +                                unsigned long sectors)
->> +{
->> +       struct llbitmap *llbitmap = mddev->bitmap;
->> +       unsigned long start = offset >> llbitmap->chunkshift;
->> +       unsigned long end = (offset + sectors - 1) >> llbitmap->chunkshift;
->> +       int page_start = (start + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
->> +       int page_end = (end + BITMAP_DATA_OFFSET) >> PAGE_SHIFT;
->> +
->> +       llbitmap_state_machine(llbitmap, start, end, BitmapActionStartwrite);
->> +
->> +
-> Two lines here, just need one.
->> +/*
->> + * Force to write all bitmap pages to disk, called when stopping the array, or
->> + * every daemon_sleep seconds when sync_thread is running.
->> + */
->> +static void __llbitmap_flush(struct mddev *mddev)
->> +{
->> +       struct llbitmap *llbitmap = mddev->bitmap;
->> +       struct blk_plug plug;
->> +       int i;
->> +
->> +       blk_start_plug(&plug);
->> +       for (i = 0; i < llbitmap->nr_pages; i++) {
->> +               struct llbitmap_page_ctl *pctl = llbitmap->pctl[i];
->> +
->> +               /* mark all bits as dirty */
-> "mark all blocks as dirty" is better?
-> 
->> +static void llbitmap_write_sb(struct llbitmap *llbitmap)
->> +{
->> +       int nr_bits = DIV_ROUND_UP(BITMAP_DATA_OFFSET, llbitmap->io_size);
-> s/nr_bits/nr_blocks/g
-> 
-> 
-> 
-> 
-
-Thanks again for the review!
-Kuai
-
+Laurent Pinchart
