@@ -1,167 +1,134 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C7327FB07;
-	Fri,  8 Aug 2025 16:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCFF1C84A0
+	for <linux-doc@vger.kernel.org>; Fri,  8 Aug 2025 17:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754671452; cv=none; b=ZBh3o1G6v7KBElU+nFd00o12JDPcqah4i36lS4xiRbPbCkMww6aqnMRZMzoWJlTQCfFjnqK0ZpbPgX25Nsh5pGcUEytT3qnt/m7FNbRV4HjaMkONby1n2MmgfmbHNaBuYCj0jbt/DNbDWhvldVxs0iWuZe4wlLxQ01ho9nspm8k=
+	t=1754673624; cv=none; b=VdSFV4I8S1xtfVqexSisaNNIPgDDV9IFJ4miUx5rem3uWrJHTsPzLqUj6cxym4lm0OZXht/aET+cNlwKtdPDw6D9TyPY3FINrRsJETVmk1zarNCnrSOITfHTzLXBgO0uF/GH8YbxKzvTICzehlj/rRSEkEeKKbB4Z6J6QAo1qQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754671452; c=relaxed/simple;
-	bh=PXre777B2idTmV51mUoS99uMhDePtl9t6H3/4Aoie/0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=AwVj6AUWXYvk4ahtmWT2zFk0xecOWNUa0u8kqxjXU9X1KSBp034ztbArc18VvMjDVwLaGT93DtgNxXXU9L1Pa4AySHVAyxfGg+U7Cd6t5fnywFBvLswQExkS56N9dvEKPFMqqYE2VcPpoiGC+5XkrPlm6qsLpVt2XWiOJ16K4O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kaod.org; spf=pass smtp.mailfrom=ozlabs.org; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kaod.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ozlabs.org
-Received: from mail.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-	by gandalf.ozlabs.org (Postfix) with ESMTP id 4bz8xh05gdz4xdF;
-	Sat,  9 Aug 2025 02:44:08 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4bz8xc2nlQz4xcb;
-	Sat,  9 Aug 2025 02:44:03 +1000 (AEST)
-Message-ID: <bc7e754f-f414-4c43-8f25-03314b894b34@kaod.org>
-Date: Fri, 8 Aug 2025 18:44:00 +0200
+	s=arc-20240116; t=1754673624; c=relaxed/simple;
+	bh=RqNZJ9llYxg5119nPvsoAte+UupsM8m84wjkhwHB7S4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=akQopT3CYypvUdr6fx45yPHla2Tz0LBpbnBjXuTp0/PX8jYuGRMMaWXGtHit7GSfIjjGIC1p7Y1oE8mXzGlSYCE2TjryIob7Lwp76EdlVx8GNzA8veN3Fdb2ryiEd6lYsoqM0LtlCpsceneEu7OWVU7FIRxdYC+sK3Bm/j2FttU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=a8M63Uui; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="a8M63Uui"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b428dd79d46so1597720a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 Aug 2025 10:20:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc.com; s=google; t=1754673622; x=1755278422; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e5KtmNZscqY46KvhQCHs24ev6RrXWd+1XTPfyk6qu6o=;
+        b=a8M63UuieKcX26TzVIbNSA88Yn2tSAaxOYC3qXip6DTpLgrn22RYAPzvTl7GC4X9n7
+         z/MTSt5RmjktrSErLR5LGgZ5yeeSVtDdy7r2tM2Vu46CreMC2xvBV/xJ4kk/9gTLtBME
+         XD6iQ6/bTVbnM06BTpJ3Wqoamucgcv6vA+OIF0+0vPh9mB6sBnKW8qCfSS5KlftSo3az
+         WCQrHVGt76H8CJWQDS7PnRtch2s5ptTFKFYwdOWhLRTPtvqtNEO2M2/DWyUucdKdhrXG
+         PfX0jt+/QtWvkyBjDFhL2MK1WtIdbK19Ej4ghyPEM4jpSiVz2OOVtdPLEqDkQS/C0a4r
+         xzhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754673622; x=1755278422;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e5KtmNZscqY46KvhQCHs24ev6RrXWd+1XTPfyk6qu6o=;
+        b=rEpdmaK5y3Q2J+Ti6DGjCvw3X4GMeMepAMKi8l7LunK/m1EUY8U4weLfYkPNZY5iUp
+         ES/QNVYS85Q7dm+x66mPrtzSpjwBxsXgGv/MHnzNPZsqFSFUT00+ElC6qr3BXf3m1JMp
+         Ojf8vXio+qtVhCueRHCWiiVWNCZNzy9+X9VqS3n7+tzWq+bwA42/oK3hE+fHVjw97YII
+         wx6vIQom/OvcgM+8iRcFFz5xvLz4bZW1aDV+rHUmtE5xmr9FlcEo7CERFwq279izG8jL
+         bqdKaa21N9SDXrUE4FzXMXYoKkUIBjAHmJtuCUi7MZAkTnBr9nGxO+B4+FBHLqFN9VKt
+         bLuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWOeqChpMXkK6ehNW2MtbTQA04tBF7fYPH90gU7yJR2k572zRSTvYvBLaNJkicR2pzWAP3TCSfGRd4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUXtwRFFM1TpooRZYTK572WbuR1HtGTYFz8K6PwHtXuslmNFAU
+	o2vDqk8BwiwLeyND4Nbar+e9WvqohqYHMx9VeB/KnW0xYXzjNzZJ/037ApVzkee/xxg=
+X-Gm-Gg: ASbGnct0H+znF9P3Aj5PKe9f0b+GBM9Mq3qag7tDoFa+lpZd8i+ZoOcIt/PkOAWv7Ps
+	6qRXNieOSF63R0D7EhsH1FtumqKjCexgKUmnf/bATD0jkjxztoaC/3NQUPmzEU9CHJItAESGPj0
+	Px2MA3tDrholetL+2FC7XRx9NhoqxU/wbLnv/bM7m1JD/d/MTcsoE1sLZcFNbBK3LEN9eKRxiz6
+	7N5gUZrvvCeenltlxD1DzKJkEtmGKHgbsmGjJNE8iEBG69kYFlAwcAiLbHHLeNlGgwl94Mp4Ve+
+	o0DG0v4rHs+vRCET8V+lZ32GNamKOFP5hL9paRobR3Go6fhjCANNQc9roAfErTwoW1b9bP5I6gn
+	GihQgheiIz+507IebJNR79qeA7XJHGqIR4bqb0Nhj/wQ=
+X-Google-Smtp-Source: AGHT+IEbXOfCcMMF+EKLeMi8xU3SNI8Lg4qkWBu83GI5zB4sNqf//XXj2WJssysLa22zlDPxSEkl6g==
+X-Received: by 2002:a17:902:da82:b0:240:c678:c1ee with SMTP id d9443c01a7336-242c1ffb211mr57743355ad.11.1754673622272;
+        Fri, 08 Aug 2025 10:20:22 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e8aafa77sm213263625ad.174.2025.08.08.10.20.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Aug 2025 10:20:21 -0700 (PDT)
+Date: Fri, 8 Aug 2025 10:20:17 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: patchwork-bot+linux-riscv@kernel.org, linux-riscv@lists.infradead.org,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	akpm@linux-foundation.org, Liam.Howlett@oracle.com, vbabka@suse.cz,
+	lorenzo.stoakes@oracle.com, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, conor@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, arnd@arndb.de,
+	brauner@kernel.org, peterz@infradead.org, oleg@redhat.com,
+	ebiederm@xmission.com, kees@kernel.org, corbet@lwn.net,
+	shuah@kernel.org, jannh@google.com, conor+dt@kernel.org,
+	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org,
+	aliceryhl@google.com, tmgross@umich.edu, lossin@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, devicetree@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com,
+	richard.henderson@linaro.org, jim.shu@sifive.com,
+	andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
+	atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+	alexghiti@rivosinc.com, samitolvanen@google.com,
+	rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+	zong.li@sifive.com, david@redhat.com
+Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
+Message-ID: <aJYx0Yi3rQcdY6se@debug.ba.rivosinc.com>
+References: <20250731-v5_user_cfi_series-v19-0-09b468d7beab@rivosinc.com>
+ <175450053775.2863135.11568399057706626223.git-patchwork-notify@kernel.org>
+ <db4eb976-693c-426c-a867-66cadd3dd7d8@sirena.org.uk>
+ <aJWz82F21pVTSVJi@debug.ba.rivosinc.com>
+ <09081487-89ac-4f8d-b9fc-e563f09726d2@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] vfio/pci: print vfio-device syspath to fdinfo
-To: Alex Mastro <amastro@fb.com>, Alex Williamson
- <alex.williamson@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Jason Gunthorpe <jgg@ziepe.ca>, Keith Busch <kbusch@kernel.org>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org
-References: <20250804-show-fdinfo-v4-1-96b14c5691b3@fb.com>
- <20250807144938.e0abc7bb-a4-amachhiw@linux.ibm.com>
- <dd0b8e6f-1673-49c3-8018-974d1e7f1a54@kaod.org>
- <20250808205338.dc652e3e-61-amachhiw@linux.ibm.com>
-From: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Language: en-US, fr
-Autocrypt: addr=clg@kaod.org; keydata=
- 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
-In-Reply-To: <20250808205338.dc652e3e-61-amachhiw@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <09081487-89ac-4f8d-b9fc-e563f09726d2@sirena.org.uk>
 
-On 8/8/25 17:45, Amit Machhiwal wrote:
-> Hi Cédric,
-> 
-> Please find my comments inline:
-> 
-> On 2025/08/08 03:49 PM, Cédric Le Goater wrote:
->> Hello Amit,
->>
->> On 8/7/25 11:34, Amit Machhiwal wrote:
->>> Hello,
->>>
->>> On 2025/08/04 12:44 PM, Alex Mastro wrote:
->>>> Print the PCI device syspath to a vfio device's fdinfo. This enables tools
->>>> to query which device is associated with a given vfio device fd.
->>>>
->>>> This results in output like below:
->>>>
->>>> $ cat /proc/"$SOME_PID"/fdinfo/"$VFIO_FD" | grep vfio
->>>> vfio-device-syspath: /sys/devices/pci0000:e0/0000:e0:01.1/0000:e1:00.0/0000:e2:05.0/0000:e8:00.0
->>>>
->>>> Signed-off-by: Alex Mastro <amastro@fb.com>
->>>
->>> I tested this patch on a POWER9 bare metal system with a VFIO PCI device and
->>> could see the VFIO device syspath in fdinfo.
->>
->> POWER9 running on OPAL FW : I am curious about the software stack.
->>
->> I suppose this is the latest upstream kernel ?
-> 
-> Yes, I used the latest upstream kernel and applied this patch on top of commit
-> cca7a0aae895.
-> 
->> Are you using an upstream QEMU to test too ?
-> 
-> No, I had used the Fedora 42 distro qemu. The version details are as below:
-> 
->    [root@localhost ~]# qemu-system-ppc64 --version
->    QEMU emulator version 9.2.4 (qemu-9.2.4-1.fc42)
->    Copyright (c) 2003-2024 Fabrice Bellard and the QEMU Project developers
-> 
-> I gave the upstream qemu (HEAD pointing to cd21ee5b27) a try and I see the same
-> behavior with that too.
-> 
->    [root@localhost ~]# ./qemu-system-ppc64 --version
->    QEMU emulator version 10.0.92 (v10.1.0-rc2-4-gcd21ee5b27-dirty)
->    Copyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers
-> 
->    [root@localhost ~]# cat /proc/52807/fdinfo/191
->    pos:    0
->    flags:  02000002
->    mnt_id: 17
->    ino:    1125
->    vfio-device-syspath: /sys/devices/pci0031:00/0031:00:00.0/0031:01:00.0
-> 
->>
->> and which device ?
-> 
-> I'm using a Broadcom NetXtreme network card (4-port) and passing through its
-> fn0.
-> 
->    [root@guest ~]# lspci
->    [...]
->    0001:00:01.0 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme BCM5719 Gigabit Ethernet PCIe (rev 01)
-> 
-> Please let me know if I may help you with any additional information.
+On Fri, Aug 08, 2025 at 12:48:31PM +0100, Mark Brown wrote:
+>On Fri, Aug 08, 2025 at 01:23:15AM -0700, Deepak Gupta wrote:
+>> On Thu, Aug 07, 2025 at 01:28:36PM +0100, Mark Brown wrote:
+>
+>> > Do you have an update for my clone3() shadow
+>
+>> No I don't.
+>
+>> > stack series that I could roll in for when I repost that after the merge
+>> > window, and/or instructions for how to run this stuff for RISC-V on some
+>> > emulated platform?
+>
+>> I would want to write-up instructions. But I don't want you to go through
+>> a lot of hassle of building toolchain and bunch of other stuff.
+>> Let me see how I can make it easy for you. Will report back.
+>
+>Thanks.  FWIW I should already be sorted for the kernel build, unless
+>there's a super new or specialist toolchain required for this feature
 
-It is good to know that device pass-through still works with upstream on
-OpenPower servers.
+Unlike x86 shadow stack and arm's GCS, push on RISC-V shadow stack is done
+using dedicated `sspush` instruction and pop is done using instruction
+`sspopchk`. RISC-V vDSO has certain `C` files and they would need shadow stack
+push and pop (along with landing pad on them). So that's why kernel compile
+would require the toolchain. I'll point you to it.
 
-Have you tried VFs ?
+>(I'd guess I should be fine for the shadow stacks bit?) - it's userspace
+>and emulation for the extension I'm missing.
 
-Thanks Amit,
+Qemu changes are upstream. I'll provide the command line option.
+On userspace, I'll point you to something pre-compiled rootfs.
 
-C.
 
