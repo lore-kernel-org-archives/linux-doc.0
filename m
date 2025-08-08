@@ -1,113 +1,75 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABFF280CFB
-	for <linux-doc@vger.kernel.org>; Fri,  8 Aug 2025 14:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4E954279;
+	Fri,  8 Aug 2025 15:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754664931; cv=none; b=Ea/7hesG8F8Lr9dHP92bgg9rew4F/FtqmOei80pHTmQQHXQbaZYImiti8MAK0EP5hW/E3nJmZixLEXvIufC6f9LxVrJmsObfRzvvli6VTfwp0JCyaFUJpY1r2lOu/hDdDMnxUoDAca51QpUoZ0P1zJO7fqWfrB2ghT8R7OY7BlI=
+	t=1754665292; cv=none; b=gl1n81Q3AVPxjj75s6cqGSAWIUkl/YfW07RGkI/SArJDTdxSkbJrdE/hiFBpRpeMlj0/PwhGY4dJhZkcXlpxOeQ+cbawwNaEBV0bSDywSLDNSkbY6At+r9DkOUZA7hF5L1oWmvqGme3O3n38OoL4AoY5AxNE8geKX3UpwJY5GGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754664931; c=relaxed/simple;
-	bh=Tj7T2vafcrPanx5uGIfgumtfb4o9PLTGmL4k/Y3xDwE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FXp3p59u6yDyBTbYkVIdT+yanxcRMh0w8dYIlXiPJw0qxsaxJnniilHXR0dbMZkcHny7+P+ByVjXRrIInBYUN0mn9k4/ZjzYEais27pZaeF7K4bwCWiOxD+uZ8mCKFk2gLqprWewMzYJBVnBPBi9afZh1owaO6r8hM2vRtOrHfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BN7YnwTD; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BN7YnwTD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754664926;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gkM3QF49wtdLwhGqe2QpWy/vLyG4tuPu0m+0oSeMzXc=;
-	b=BN7YnwTD/fYIyL5wrO9W6m3WvKcCvGWO5FsMcw9TqN6tPND2w711voETFl813y9A8EeYNj
-	BpgVgbL4Rl64TpE+Yc2JY7UQ+viBXjj/+GgkgCSbOaTp8UyUMtywF5A89C1aXUsbqbmoBK
-	9ysd3fw+yL1cn+jbIOj10+MrC2wGxOg=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-131-M8qeCOvAPA6mb-zvy_eSGw-1; Fri,
- 08 Aug 2025 10:55:23 -0400
-X-MC-Unique: M8qeCOvAPA6mb-zvy_eSGw-1
-X-Mimecast-MFC-AGG-ID: M8qeCOvAPA6mb-zvy_eSGw_1754664919
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2EE8D1800280;
-	Fri,  8 Aug 2025 14:55:17 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.117])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 36BCD180047F;
-	Fri,  8 Aug 2025 14:55:02 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Fri,  8 Aug 2025 16:54:05 +0200 (CEST)
-Date: Fri, 8 Aug 2025 16:53:50 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	David Hildenbrand <david@redhat.com>,
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Nico Pache <npache@redhat.com>, xu xin <xu.xin16@zte.com.cn>,
-	wangfushuai <wangfushuai@baidu.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Adrian Ratiu <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 7/9] freezer: raise freeze priority of tasks
- failed to freeze last time
-Message-ID: <20250808145349.GC21685@redhat.com>
-References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
- <20250807121418.139765-8-zhangzihuan@kylinos.cn>
+	s=arc-20240116; t=1754665292; c=relaxed/simple;
+	bh=nuupsZc8RG3tNebJl+SLG2dA8VB8Aqfq0h2wAajCpEQ=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RZMNGwHRa4HoG2GOvM48dAyMgZeNF6AN/PNW1e/NdNHavpULIZmsJN261GGdhYLcNMZZNczyfTdlEjfri+6rJrj2bQR5swjXG6elImKaXw/jqOyZ6ItEVAdBWYIelnT9vsL5cOXopeIV4oSab4XWwbhLr775YCN4x9uBiRL5i8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bz6d33rXNz6M4Lv;
+	Fri,  8 Aug 2025 22:59:35 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id B9240140446;
+	Fri,  8 Aug 2025 23:01:25 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 8 Aug
+ 2025 17:01:22 +0200
+Date: Fri, 8 Aug 2025 16:01:21 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Daniel Ferguson <danielf@os.amperecomputing.com>
+CC: Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, "James
+ Morse" <james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, "Borislav
+ Petkov" <bp@alien8.de>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-efi@vger.kernel.org>, <linux-edac@vger.kernel.org>, Jason Tian
+	<jason@os.amperecomputing.com>, Shengwei Luo <luoshengwei@huawei.com>, Mauro
+ Carvalho Chehab <mchehab+huawei@kernel.org>, Shiju Jose
+	<shiju.jose@huawei.com>
+Subject: Re: [PATCH v4 0/5] Fix issues with ARM Processor CPER records
+Message-ID: <20250808160121.000038bd@huawei.com>
+In-Reply-To: <385eca9a-0366-4f3a-95cf-6f19101957ea@os.amperecomputing.com>
+References: <20250805-mauro_v3-v6-16-rev2-v4-0-ea538759841c@os.amperecomputing.com>
+	<385eca9a-0366-4f3a-95cf-6f19101957ea@os.amperecomputing.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250807121418.139765-8-zhangzihuan@kylinos.cn>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On 08/07, Zihuan Zhang wrote:
->
-> --- a/kernel/power/process.c
-> +++ b/kernel/power/process.c
-> @@ -111,8 +111,10 @@ static int try_to_freeze_tasks(bool user_only)
->  		if (!wakeup || pm_debug_messages_on) {
->  			read_lock(&tasklist_lock);
->  			for_each_process_thread(g, p) {
-> -				if (p != current && freezing(p) && !frozen(p))
-> +				if (p != current && freezing(p) && !frozen(p)) {
-> +					freeze_set_default_priority(p, FREEZE_PRIORITY_HIGH);
->  					sched_show_task(p);
-> +				}
+On Tue, 5 Aug 2025 11:39:38 -0700
+Daniel Ferguson <danielf@os.amperecomputing.com> wrote:
 
-IMO, this change should go into 3/9 to make the intent more clear.
+> On 8/5/2025 11:35 AM, Daniel Ferguson wrote:
+> > [NO NEED FOR INTERNAL REVIEW, THIS IS JUST A TEST]  
+> 
+> Yes, PLEASE REVIEW...
+> I accidentally left that message in...
+> 
+> ~Daniel
 
-Other than that, I leave this series to maintainers and other reviewers.
-Personally, I am skeptical.
+Hi Daniel,
 
-Oleg.
+No problem with you picking this up to take forwards as I gather you asked
+Mauro first, but good to mention that change and that it's with agreement
+(or not if it's abandoned code which I don't think this was.) 
 
+Thanks,
+
+Jonathan
