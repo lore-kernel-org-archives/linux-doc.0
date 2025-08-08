@@ -1,188 +1,125 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAD81F9F73
-	for <linux-doc@vger.kernel.org>; Fri,  8 Aug 2025 08:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 342E020C010;
+	Fri,  8 Aug 2025 09:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754643513; cv=none; b=djbNXtmi8P3TOiecAOkKPYi0N+o+tTJ6piqDIhWMt7iRsd3tVotDPvetNEZMR0ZZFNCqg/b+/yDBBO47K0Y/0j8cSIzo++CjBF+RLnmXQEcEIe720fRQxPqc6tKqz/gcSNFRo1Z9ijwGsrBYnNNmI9Oqb654CfngOqfDms8vwIE=
+	t=1754644717; cv=none; b=IIK/qqHkk7awPYLwjI0tLqMCURDDLCEUd+7DNUOPTLZXIXZcehlCC6RwflzJasDKxKVOtDQNEk2XSyppx0Vf6vzu6SMAle11mP/tWsaMpkERwVun3sJZhyYhBwRpQunE1rQZB8jLgtwdgu/3EKuZrcpGzXeqb5XeDT9gOKUJ810=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754643513; c=relaxed/simple;
-	bh=2Cd3py93CGXf5mOUzpOs5vVjwes2SdDigwaiSPyUqF8=;
+	s=arc-20240116; t=1754644717; c=relaxed/simple;
+	bh=t5KuL+94ednlQJ7Ve5CREJRT/5Xc6aurxRM+6BLf38c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rFc4Ye8PGOibvbpzAMGgC9iNkuikNGwwJO4pwFMXEnv0IoTHFBhaGNjwKDpe+ouKpiWWNyAuU/LlZTO6SAbQY0npWULGANhZ0j46cO5bHrJ0HuGVt4fBYFAmXtH3UVRphMe6VDnulPlRoRcu62AGmipG/iXqvNiGb0ukrzltqIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=M8iPgaqk; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="M8iPgaqk"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-459d40d16bdso12236475e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 Aug 2025 01:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1754643510; x=1755248310; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lOQVbhQSKupTIDYGcHNIv/5EXRTeGhpJxZzqsjXmSWw=;
-        b=M8iPgaqkss+DKH2EQUlU/8ytVM/eCBYItZh2N8kCndZUrKryObgYTLTi0i0Qk6EdBe
-         h6Zo4XQ8XBNxAeDTG+GYYOan6VGcnoY7C3p6sDLgiBkImDNJmqY0fcsqFJ1ma7trxMfM
-         itf9dcU2rWBcQGTXsFj36ukdfeooZe105uPKYb4Jh1NizP2s0xTX3Rx/CYwOgg/obSeZ
-         wEsqDo5Kt/6MzONNlhYxzU3EVZmsFR0BwOzJ8947OH/lHCccLf2N2mu80FaHUjPxNR15
-         QfdW1WFtfLhDsxY9Qw6agRDuhW0+Hbm7CPl7pJhy1SYOQ1lEL0U2LZ06A04+LAhtZraC
-         VjJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754643510; x=1755248310;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lOQVbhQSKupTIDYGcHNIv/5EXRTeGhpJxZzqsjXmSWw=;
-        b=pj9ZU0+L+sNQ9V4S/iZHIZnmJNsjH5R6dOA3nBU5MfvAAbh5611zDnLnEth+HaogpY
-         2fGD6KBVKRZRqtj2aMczij+hlhqzp1ZcEvdHlkO1AFxIhPu8sNfkliC7lkDfBB9WrmOl
-         Gaw9JGt2WLVxpocqqVF0LmPJAeha/ZyU+zDR9d1Bxkoqduogku2gPZbQOSw0VpsBNU3e
-         AKZCEGQpvZS0WjXYlPb1LhObgTmoZOomX8mqTsE127B5q1cxSo09SWERg4ByehejczL3
-         MO2poO7CFmh3IdogSOavU/LJTVgd+KthGHYzzpqnuCOCEs3yQTQ1DQXlKu0FQrP1sPtW
-         hVVA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUiuAbaqPBb7K8uFlI5fRbPv7XcReKnf9PJeHlRWHxG2VRj8ldpsBiAJV40MwltSc8IIIHwJ9Nm3c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsnXAy4QUTODc/gkAqd3ZypRAzpEOgSKs5fTjzbpOsPY2vA23P
-	xvGjkv+b/BCJsePR65e/z8FhtHljs1N5Ml33tbC75EmP0Xx4P/PJWoLxVvh1fX/6E4Y=
-X-Gm-Gg: ASbGncsVFs8vNnHCUpzUvbuYOThsBp3SdxCt6l3+7Rg6tKHaCyptaTFTXlvSJ5mQhWp
-	odZGtSTOhdMSCog90xAOrklZ/4+Il20/Cdqphvly1TL+u30+WyzG5o+fd2BkdwwX8ORPq8ki3Rl
-	3CiIq8rJQb9PESv2crhbfyZ3wFtPhDMEOWXSa3+jaZR9/mN+byEElm+wUb5qEM73BuaMmA7vfxO
-	luVdWxNZb6yi1APicEhb3HeQwt++EHWHBktJAYRi633IGKU37r3J7szR+JYRRPi9d/dPfpC8QxH
-	PVfI5O0zDIVCuzH+3t3Av2ar2fEYmblMgDkGNTvMpNZpXAJohEkrFj9CO0UT4oWxADuMwR6Iu3c
-	MgmyqVRuQh3nBS86gKmWdObrcCKyiMKvayyI=
-X-Google-Smtp-Source: AGHT+IFzVmndy14yZFXdn3AITFDDpuqCDmasSizVoBUj53EPQz0livj4I20cGXLIqIwR20S7zVle5Q==
-X-Received: by 2002:a05:600c:190b:b0:459:e048:af42 with SMTP id 5b1f17b1804b1-459f4fac94amr17073275e9.24.1754643509756;
-        Fri, 08 Aug 2025 01:58:29 -0700 (PDT)
-Received: from localhost (109-81-80-221.rct.o2.cz. [109.81.80.221])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c47ae8esm29556901f8f.61.2025.08.08.01.58.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 01:58:29 -0700 (PDT)
-Date: Fri, 8 Aug 2025 10:58:28 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=RL39qvDBq2ySrU+IgAHMTez64NkXWKwDV34aJC27znNEZ56oJjV7CCJVgY86favye0sUhcPQVEIo1VpabjpPKi0i+/18yMGHqh9TcNwvtoTjQeDi2pBEkpExHHIgQ/v5TNcLRDo0WOKSr3cRZ5266kxiSyP79/kMsVk1jxCCbCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 329B416F2;
+	Fri,  8 Aug 2025 02:18:26 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9A8E3F673;
+	Fri,  8 Aug 2025 02:18:33 -0700 (PDT)
+Date: Fri, 8 Aug 2025 10:18:32 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
 	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Nico Pache <npache@redhat.com>, xu xin <xu.xin16@zte.com.cn>,
-	wangfushuai <wangfushuai@baidu.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Adrian Ratiu <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 0/9] freezer: Introduce freeze priority model to
- address process dependency issues
-Message-ID: <aJW8NLPxGOOkyCfB@tiehlicka>
-References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
- <aJSpTpB9_jijiO6m@tiehlicka>
- <4c46250f-eb0f-4e12-8951-89431c195b46@kylinos.cn>
- <aJWglTo1xpXXEqEM@tiehlicka>
- <ba9c23c4-cd95-4dba-9359-61565195d7be@kylinos.cn>
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v5 05/12] arm64/boot: Factor out a macro to check SPE
+ version
+Message-ID: <20250808091832.GA3420125@e132581.arm.com>
+References: <20250721-james-perf-feat_spe_eft-v5-0-a7bc533485a1@linaro.org>
+ <20250721-james-perf-feat_spe_eft-v5-5-a7bc533485a1@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ba9c23c4-cd95-4dba-9359-61565195d7be@kylinos.cn>
+In-Reply-To: <20250721-james-perf-feat_spe_eft-v5-5-a7bc533485a1@linaro.org>
 
-On Fri 08-08-25 15:52:31, Zihuan Zhang wrote:
+On Mon, Jul 21, 2025 at 02:04:59PM +0100, James Clark wrote:
+> We check the version of SPE twice, and we'll add one more check in the
+> next commit so factor out a macro to do this. Change the #3 magic number
+> to the actual SPE version define (V1p2) to make it more readable.
 > 
-> 在 2025/8/8 15:00, Michal Hocko 写道:
-> > On Fri 08-08-25 09:13:30, Zihuan Zhang wrote:
-> > [...]
-> > > However, in practice, we’ve observed cases where tasks appear stuck in
-> > > uninterruptible sleep (D state) during the freeze phase  — and thus cannot
-> > > respond to signals or enter the refrigerator. These tasks are technically
-> > > TASK_FREEZABLE, but due to the nature of their sleep state, they don’t
-> > > freeze promptly, and may require multiple retry rounds, or cause the entire
-> > > suspend to fail.
-> > Right, but that is an inherent problem of the freezer implemenatation.
-> > It is not really clear to me how priorities or layers improve on that.
-> > Could you please elaborate on that?
+> No functional changes intended.
+
+I failed to apply this patch on the mailine kernel, seems like this is
+because your local tree does not include the commit:
+
+  ae344bcb0d49 ("arm64: Handle BRBE booting requirements")
+
+Please note the commit above has updated __init_el2_fgt so you might
+need to update this patch.
+
+Thanks,
+Leo
+
+> Signed-off-by: James Clark <james.clark@linaro.org>
+> ---
+>  arch/arm64/include/asm/el2_setup.h | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
 > 
-> Thanks for the follow-up.
+> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+> index 9f38340d24c2..2bb0d28952e4 100644
+> --- a/arch/arm64/include/asm/el2_setup.h
+> +++ b/arch/arm64/include/asm/el2_setup.h
+> @@ -103,8 +103,7 @@
+>  	csel	x2, xzr, x0, eq			// all PMU counters from EL1
+>  
+>  	/* Statistical profiling */
+> -	ubfx	x0, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
+> -	cbz	x0, .Lskip_spe_\@		// Skip if SPE not present
+> +	__spe_vers_imp .Lskip_spe_\@, ID_AA64DFR0_EL1_PMSVer_IMP, x0 // Skip if SPE not present
+>  
+>  	mrs_s	x0, SYS_PMBIDR_EL1              // If SPE available at EL2,
+>  	and	x0, x0, #(1 << PMBIDR_EL1_P_SHIFT)
+> @@ -189,6 +188,14 @@
+>  .Lskip_set_cptr_\@:
+>  .endm
+>  
+> +/* Branch to skip_label if SPE version is less than given version */
+> +.macro __spe_vers_imp skip_label, version, tmp
+> +    mrs    \tmp, id_aa64dfr0_el1
+> +    ubfx   \tmp, \tmp, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
+> +    cmp    \tmp, \version
+> +    b.lt   \skip_label
+> +.endm
+> +
+>  /* Disable any fine grained traps */
+>  .macro __init_el2_fgt
+>  	mrs	x1, id_aa64mmfr0_el1
+> @@ -196,10 +203,8 @@
+>  	cbz	x1, .Lskip_fgt_\@
+>  
+>  	mov	x0, xzr
+> -	mrs	x1, id_aa64dfr0_el1
+> -	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
+> -	cmp	x1, #3
+> -	b.lt	.Lskip_spe_fgt_\@
+> +	/* If SPEv1p2 is implemented, */
+> +	__spe_vers_imp .Lskip_spe_fgt_\@, #ID_AA64DFR0_EL1_PMSVer_V1P2, x1
+>  	/* Disable PMSNEVFR_EL1 read and write traps */
+>  	orr	x0, x0, #(1 << 62)
+>  
 > 
-> From our observations, we’ve seen processes like Xorg that are in a normal
-> state before freezing begins, but enter D state during the freeze window.
-> Upon investigation,
+> -- 
+> 2.34.1
 > 
-> we found that these processes often depend on other user processes (e.g.,
-> I/O helpers or system services), and when those dependencies are frozen
-> first, the dependent process (like Xorg) gets stuck and can’t be frozen
-> itself.
-
-OK, I see.
-
-> This led us to treat such processes as “hard to freeze” tasks — not because
-> they’re inherently unfreezable, but because they are more likely to become
-> problematic if not frozen early enough.
 > 
-> So our model works as follows:
->     •    By default, freezer tries to freeze all freezable tasks in each
-> round.
->     •    With our approach, we only attempt to freeze tasks whose
-> freeze_priority is less than or equal to the current round number.
->     •    This ensures that higher-priority (i.e., harder-to-freeze) tasks
-> are attempted earlier, increasing the chance that they freeze before being
-> blocked by others.
-> 
-> Since we cannot know in advance which tasks will be difficult to freeze, we
-> use heuristics:
->     •    Any task that causes freeze failure or is found in D state during
-> the freeze window is treated as hard-to-freeze in the next attempt and its
-> priority is increased.
->     •    Additionally, users can manually raise/reduce the freeze priority
-> of known problematic tasks via an exposed sysfs interface, giving them
-> fine-grained control.
-
-This would have been a very useful information for the changelog so that
-we can understand what you are trying to achieve.
-
-> This doesn’t change the fundamental logic of the freezer — it still retries
-> until all tasks are frozen — but by adjusting the traversal order,
-> 
->  we’ve observed significantly fewer retries and more reliable success in
-> scenarios where these D state transitions occur.
- 
-OK, I believe I do understand what you are trying to achieve but I am
-not conviced this is a robust way to deal with the problem. This all
-seems highly timing specific that might work in very specific usecase
-but you are essentially trying to fight tiny race windows with a very
-probabilitistic interface.
-
-Also the interface seems to be really coarse grained and it can easily
-turn out insufficient for other usecases while it is not entirely clear
-to me how this could be extended for those.
-
-I believe it would be more useful to find sources of those freezer
-blockers and try to address those. Making more blocked tasks
-__set_task_frozen compatible sounds like a general improvement in
-itself.
-
-Thanks
--- 
-Michal Hocko
-SUSE Labs
