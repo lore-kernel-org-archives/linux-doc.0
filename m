@@ -1,398 +1,437 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCC1227563;
-	Sat,  9 Aug 2025 08:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC96241114;
+	Sat,  9 Aug 2025 09:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754728668; cv=none; b=ux9IMoclvDzAJ0YaU26KMGg4zg/2Dlwu0JtIVshSlSZz2Gsu1qn0GehFltacO7m4azuFS4VsP9vV29XhxYd7Dd4DDpo8XCAEZfpoTOYLLQlPj/3CH2uBNzoj8EuXunzL5RG6Ap81i32wnIlHGrM+VE88yyOOLoDk/s3ICSNS6KA=
+	t=1754732576; cv=none; b=UmDv5c26rWoqrBd+yupvqKdqtXgiF2t5JgxX5e43lbpk2cQZ/sF49djYZdH1Dv0B9gG39rhTh/hcq4Kw4fGLtTyuaqbzxa8jUWqqtA41kf1NtYReqMc8/ZUfFz46aPW4+47R1uf9ZCJKUP2cknjiT9CJN48pY1LLaXHEKhDe2yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754728668; c=relaxed/simple;
-	bh=OXIu3ZwosSTqSvLAOP5vlqWAG1tlDw0cMqTHNjaIquc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jWYMVFphre0VHm2o3MVmxhLyTeTqWyL7/S9WJlby/0zP2nyJlSyE53BefSSMhTsA7wTFzlIHG9C3iwASh4R7qj1dluLgr6dZITobM5QHFAyyeczSoqsVODlEI1d2W6klpcekUrxQfEECbaHlRFym5TauPC4e9L1pu3IoCj9pO+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qi2NT1Mh; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754732576; c=relaxed/simple;
+	bh=3VHE2B0l2Q90/ed5gALWvq6pSkiRJCQYOUx232VRNPs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YGAUecnnTyXRDIs4mTXZw44maaluv44XZYWGgLIPypy+7No+Yqj9rdwupw97O+zQXe34v9BvanqdMPezs+o42o97ZJf5Q3F6G/Uxx2ccAEdqmZ0YjQGtVQBLIpDTgotCr+lEhCfAi+Dy/3qNkOxH7CMQFOmB7RwQFEO3LFl8ga4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lZhklySx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qi2NT1Mh"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-459ddf8acf1so24378085e9.0;
-        Sat, 09 Aug 2025 01:37:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754728665; x=1755333465; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QTOXYj3i7STcpYp00YB8eHyH1DFpV7xQaYk6AtLc3CY=;
-        b=Qi2NT1Mh1QeZy7FgIG9gOg7rpsBedFcXDooTVahdHau/43RY1aSjYi0CqJFHKkAEMQ
-         0oSmph2CvC2evqW/JUSzD/prprnH7yOnPbXS6Z0K7Z/x2IU1BxNiMSch5HDPZzhp2v4u
-         sjnS1Eg1wfFKiUbNPJGy1Yls02IguMQocKCaQiteUg4CuYeFyMC94L7/DeT6BZ3XmQAt
-         Qv3o+1Ln1RyYdFSDA+dx1uNHfSowbmaGkokI822NJ5n/qIEvsfiBm9jaMCh6zL5wPzn1
-         Eca52FS5iuTdX+BwwrkIb/pqzqxdrPJPMxKE0Qx6g3uU5GiJJp10aocu1cgz9Kh919et
-         8E+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754728665; x=1755333465;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QTOXYj3i7STcpYp00YB8eHyH1DFpV7xQaYk6AtLc3CY=;
-        b=CPwZPQtJge4Nvci+HFQNe+K6lLnydaizkWLd0OeEafl+Dj/fCkDdjOfMTK6imibAG8
-         aT1npZMvppd/t7D8nwBXBT9lh0CbRtGBH2sGwaoD1ZBQPXPM05XWkPvqEbhZpB/ij4Bz
-         qVjr9ar4bc4mnZ+RYAVWiaztkB14dsyA80CafZLKOXHocOhIWWlZzgscZWd7YiNuMgRn
-         tkehkNsTywSiZ/c4iJx0Ie6XEGnOvuom8DQy2H6pkr/ERgMTAvaygwSVss/yafOSdz0Q
-         fBG23TY9IiKh4UoOJLW6THjU2YHU/RNoWODxoRxG9QiNwFITXN574KsJdmoB3RT3MD3m
-         32Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5CAH/wS1Bsytqorke1UbpqkTOey1VkXP3Q+fucT7aVQtrfTkuxXIFaXBLaH/4zWuffKuJem6NUVI=@vger.kernel.org, AJvYcCVFhf13T4LQB+eqFvDwIRciQkPZ/opXzJ8CRsIOG5I07FLVFVbNYKOH9zpUQjE9gCv7E43HzcE5khMaZDmp94E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZIF86M9BhsM2rbedFbmLLeUWcN3e7zYmF8B3hfnszrpro3dPV
-	YgECX/iLOOyTeAs9VtFOzmgoKnXooydKCJ4tWwjPrdEnRCoaWancjDbOLnWEYugf
-X-Gm-Gg: ASbGncslDkyCWRnyx40ur0Cjls7+L54sTAwTq8XhU7lSb4e9urAPFCaHi07HXD3BztC
-	ajZ0zIk0nd9oU+JpEuqwLDEDZcx1+a5XXy5oSW25QoirT1diCJA5IWDpjLViRwW9z9oVwP0NljG
-	fal9VCq66tHnJPOQ1zEKWC8454EyUWuk7i99RWTs9O30LU0bo7Vjq0+BodUHw19w5yXjiIG6erY
-	jsI9WCakzVn5mKiBpNI3fn8fadaNwLjiR/1YxIR8QS8V9ag10jylDK4/Op5dPwr54V/0nVuUkPp
-	eDx65+ARzk3+vX86lRaefttaM0+tbKcGXreMqdxQ3CeMcF4TivRkujlEclqkuGFUNOHO6HHUYzN
-	UELcaHPhMaP7dzIIa+9+uhxOV78nASAV5p+GfAUQd758kU786TOQGscMNhkP1pQ==
-X-Google-Smtp-Source: AGHT+IHRfffAqTyGU55GjuAMX7DVuMqjQINkCU0qbnRn8lMroi61+z8ToMKLzzZY9NYbQvCRtc1Q7Q==
-X-Received: by 2002:a05:600c:37cf:b0:459:db80:c2ce with SMTP id 5b1f17b1804b1-459f5a9863amr48573915e9.7.1754728664347;
-        Sat, 09 Aug 2025 01:37:44 -0700 (PDT)
-Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net. [86.9.131.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459e58553f8sm179973925e9.14.2025.08.09.01.37.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Aug 2025 01:37:43 -0700 (PDT)
-Date: Sat, 9 Aug 2025 09:37:42 +0100
-From: Stafford Horne <shorne@gmail.com>
-To: ChenMiao <chenmiao.ku@gmail.com>
-Cc: Linux Kernel <linux-kernel@vger.kernel.org>,
-	Linux OpenRISC <linux-openrisc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Jonas Bonn <jonas@southpole.se>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lZhklySx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D17C9C4CEE7;
+	Sat,  9 Aug 2025 09:42:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754732575;
+	bh=3VHE2B0l2Q90/ed5gALWvq6pSkiRJCQYOUx232VRNPs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lZhklySxjgEYlC0qHipBextwx/4FwvYnf2XeDrbjLmoJBKJcmuWyA000lTE3YEuYQ
+	 ONkcPM8uKZVG6LD9YoXJK39NGBQHqafTT+irDiJ8+5UVJActMTRpj1LNQJCvFVYpKB
+	 sTU3g0YpiUPLIvK89Serw2M9GxjWyFMLwnJBHY+Oh+yw5yXwv9AFbNSByq7b5kO6WD
+	 k2Y6gUZjGnrI1VOvLV1aoE+zlOG2Q9L5baU6o0vkYG3MalLVAYtlYE9sz+FKkj9Sl/
+	 aQxWKlbSCvdeCc6goz7T+XSKPe27Ld5PCakFoBgvS0Lr2r2mf0gTQSccpiFdNUIA/d
+	 5ObM0d2x7UvLA==
+From: Frederic Weisbecker <frederic@kernel.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Frederic Weisbecker <frederic@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Gabriele Monaco <gmonaco@redhat.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
 	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>,
+	Phil Auld <pauld@redhat.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Sahil Siddiq <sahilcdq0@gmail.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Johannes Berg <johannes@sipsolutions.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Waiman Long <longman@redhat.com>,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] openrisc: Add jump label support
-Message-ID: <aJcI1pr9RMTvfcTj@antec>
-References: <20250806020520.570988-1-chenmiao.ku@gmail.com>
- <20250806020520.570988-3-chenmiao.ku@gmail.com>
+Subject: [PATCH] doc: Add CPU Isolation documentation
+Date: Sat,  9 Aug 2025 11:42:47 +0200
+Message-ID: <20250809094247.8384-1-frederic@kernel.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250806020520.570988-3-chenmiao.ku@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 06, 2025 at 02:05:04AM +0000, ChenMiao wrote:
-> From: chenmiao <chenmiao.ku@gmail.com>
-> 
-> Implemented the full functionality of jump_label, of course,
-> with text patching supported by just one API.
-> 
-> By the way, add new macro OPENRISC_INSN_NOP in insn-def.h to use.
-> 
-> - V2: using the patch_insn_write(void *addr, u32 insn) not the
-> const void *insn.
-> 
-> Link: https://lore.kernel.org/openrisc/aJIC8o1WmVHol9RY@antec/T/#t
-> 
-> Signed-off-by: chenmiao <chenmiao.ku@gmail.com>
-> ---
->  .../core/jump-labels/arch-support.txt         |  2 +-
->  arch/openrisc/Kconfig                         |  2 +
->  arch/openrisc/configs/or1ksim_defconfig       | 19 ++----
->  arch/openrisc/configs/virt_defconfig          |  1 +
->  arch/openrisc/include/asm/insn-def.h          |  3 +
->  arch/openrisc/include/asm/jump_label.h        | 68 +++++++++++++++++++
->  arch/openrisc/kernel/Makefile                 |  1 +
->  arch/openrisc/kernel/jump_label.c             | 53 +++++++++++++++
->  arch/openrisc/kernel/setup.c                  |  2 +
->  9 files changed, 138 insertions(+), 13 deletions(-)
->  create mode 100644 arch/openrisc/include/asm/jump_label.h
->  create mode 100644 arch/openrisc/kernel/jump_label.c
-> 
-> diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/Documentation/features/core/jump-labels/arch-support.txt
-> index ccada815569f..683de7c15058 100644
-> --- a/Documentation/features/core/jump-labels/arch-support.txt
-> +++ b/Documentation/features/core/jump-labels/arch-support.txt
-> @@ -17,7 +17,7 @@
->      |  microblaze: | TODO |
->      |        mips: |  ok  |
->      |       nios2: | TODO |
-> -    |    openrisc: | TODO |
-> +    |    openrisc: |  ok  |
->      |      parisc: |  ok  |
->      |     powerpc: |  ok  |
->      |       riscv: |  ok  |
-> diff --git a/arch/openrisc/Kconfig b/arch/openrisc/Kconfig
-> index b38fee299bc4..9156635dd264 100644
-> --- a/arch/openrisc/Kconfig
-> +++ b/arch/openrisc/Kconfig
-> @@ -24,6 +24,8 @@ config OPENRISC
->  	select GENERIC_PCI_IOMAP
->  	select GENERIC_IOREMAP
->  	select GENERIC_CPU_DEVICES
-> +	select HAVE_ARCH_JUMP_LABEL
-> +	select HAVE_ARCH_JUMP_LABEL_RELATIVE
->  	select HAVE_PCI
->  	select HAVE_UID16
->  	select HAVE_PAGE_SIZE_8KB
-> diff --git a/arch/openrisc/configs/or1ksim_defconfig b/arch/openrisc/configs/or1ksim_defconfig
-> index 59fe33cefba2..769705ac24d5 100644
-> --- a/arch/openrisc/configs/or1ksim_defconfig
-> +++ b/arch/openrisc/configs/or1ksim_defconfig
-> @@ -3,26 +3,23 @@ CONFIG_LOG_BUF_SHIFT=14
->  CONFIG_BLK_DEV_INITRD=y
->  # CONFIG_RD_GZIP is not set
->  CONFIG_EXPERT=y
-> -# CONFIG_KALLSYMS is not set
->  # CONFIG_EPOLL is not set
->  # CONFIG_TIMERFD is not set
->  # CONFIG_EVENTFD is not set
->  # CONFIG_AIO is not set
-> -# CONFIG_VM_EVENT_COUNTERS is not set
-> -# CONFIG_COMPAT_BRK is not set
-> -CONFIG_SLUB=y
-> -CONFIG_SLUB_TINY=y
-> -CONFIG_MODULES=y
-> -# CONFIG_BLOCK is not set
-> +# CONFIG_KALLSYMS is not set
->  CONFIG_BUILTIN_DTB_NAME="or1ksim"
->  CONFIG_HZ_100=y
-> +CONFIG_JUMP_LABEL=y
-> +CONFIG_MODULES=y
-> +# CONFIG_BLOCK is not set
-> +CONFIG_SLUB_TINY=y
-> +# CONFIG_COMPAT_BRK is not set
-> +# CONFIG_VM_EVENT_COUNTERS is not set
->  CONFIG_NET=y
->  CONFIG_PACKET=y
->  CONFIG_UNIX=y
->  CONFIG_INET=y
-> -# CONFIG_INET_XFRM_MODE_TRANSPORT is not set
-> -# CONFIG_INET_XFRM_MODE_TUNNEL is not set
-> -# CONFIG_INET_XFRM_MODE_BEET is not set
->  # CONFIG_INET_DIAG is not set
->  CONFIG_TCP_CONG_ADVANCED=y
->  # CONFIG_TCP_CONG_BIC is not set
-> @@ -35,7 +32,6 @@ CONFIG_DEVTMPFS=y
->  CONFIG_DEVTMPFS_MOUNT=y
->  # CONFIG_PREVENT_FIRMWARE_BUILD is not set
->  # CONFIG_FW_LOADER is not set
-> -CONFIG_PROC_DEVICETREE=y
->  CONFIG_NETDEVICES=y
->  CONFIG_ETHOC=y
->  CONFIG_MICREL_PHY=y
-> @@ -53,4 +49,3 @@ CONFIG_SERIAL_OF_PLATFORM=y
->  # CONFIG_DNOTIFY is not set
->  CONFIG_TMPFS=y
->  CONFIG_NFS_FS=y
-> -# CONFIG_ENABLE_MUST_CHECK is not set
-> diff --git a/arch/openrisc/configs/virt_defconfig b/arch/openrisc/configs/virt_defconfig
-> index c1b69166c500..4a80c5794877 100644
-> --- a/arch/openrisc/configs/virt_defconfig
-> +++ b/arch/openrisc/configs/virt_defconfig
-> @@ -12,6 +12,7 @@ CONFIG_NR_CPUS=8
->  CONFIG_SMP=y
->  CONFIG_HZ_100=y
->  # CONFIG_OPENRISC_NO_SPR_SR_DSX is not set
-> +CONFIG_JUMP_LABEL=y
->  # CONFIG_COMPAT_BRK is not set
->  CONFIG_NET=y
->  CONFIG_PACKET=y
+nohz_full was introduced in v3.10 in 2013, which means this
+documentation is overdue for 12 years.
 
-The defconfig updates look quite different.  Did you use savedefconfig for both
-of them?
+The shoemaker's children always go barefoot. And working on timers
+hasn't made me arriving on time either.
 
-> diff --git a/arch/openrisc/include/asm/insn-def.h b/arch/openrisc/include/asm/insn-def.h
-> index dc8d16db1579..2ccdbb37c27c 100644
-> --- a/arch/openrisc/include/asm/insn-def.h
-> +++ b/arch/openrisc/include/asm/insn-def.h
-> @@ -9,4 +9,7 @@
->  /* or1k instructions are always 32 bits. */
->  #define	OPENRISC_INSN_SIZE		4
->  
-> +/* or1k nop instruction code */
-> +#define OPENRISC_INSN_NOP     0x15000000U
+Fortunately Paul wrote a part of the needed documentation a while ago,
+especially concerning nohz_full in Documentation/timers/no_hz.rst and
+also about per-CPU kthreads in
+Documentation/admin-guide/kernel-per-CPU-kthreads.rst
 
-I see you use this header again here, note that in
-arch/openrisc/kernel/signal.c.  We write instructions to memory too for the
-sigreturn trampoline.
+Introduce a new page that gives an overview of CPU isolation in general.
 
-Also, you use OPENRISC_INSN_SIZE below.  Could you move this header to this
-patch completely?  I don't think its needed in the patching patch.
+Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
+---
+ Documentation/admin-guide/cpu-isolation.rst | 338 ++++++++++++++++++++
+ Documentation/admin-guide/index.rst         |   1 +
+ 2 files changed, 339 insertions(+)
+ create mode 100644 Documentation/admin-guide/cpu-isolation.rst
 
->  #endif /* __ASM_INSN_DEF_H */
-> diff --git a/arch/openrisc/include/asm/jump_label.h b/arch/openrisc/include/asm/jump_label.h
-> new file mode 100644
-> index 000000000000..03afca9c3a1f
-> --- /dev/null
-> +++ b/arch/openrisc/include/asm/jump_label.h
-> @@ -0,0 +1,68 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2025 Chen Miao
-> + *
-> + * Based on arch/arm/include/asm/jump_label.h
-> + */
-> +#ifndef __ASM_JUMP_LABEL_H
-> +#define __ASM_JUMP_LABEL_H
+diff --git a/Documentation/admin-guide/cpu-isolation.rst b/Documentation/admin-guide/cpu-isolation.rst
+new file mode 100644
+index 000000000000..250027acf7b2
+--- /dev/null
++++ b/Documentation/admin-guide/cpu-isolation.rst
+@@ -0,0 +1,338 @@
++=============
++CPU Isolation
++=============
++
++Introduction
++============
++
++"CPU Isolation" means leaving a CPU exclusive to a given userspace
++workload without any undesired code interference from the kernel.
++
++Those interferences, commonly pointed out as "noise", can be triggered
++by asynchronous events (interrupts, timers, scheduler preemption by
++workqueues and kthreads, ...) or synchronous events (syscalls and page
++faults).
++
++Such noise usually goes unnoticed. After all synchronous events are a
++component of the requested kernel service. And asynchronous events are
++either sufficiently well distributed by the scheduler when executed
++as tasks or reasonably fast when executed as interrupt. The timer
++interrupt can even execute 1024 times per seconds without
++significantly measurable impact most of the time.
++
++However some rare and extreme workloads can be quite sensitive to
++those kinds of noise. This is the case, for example, with high
++bandwidth network processing that can't afford losing a single packet
++or very low latency network processing. Typically those usecases
++involve DPDK, bypassing the kernel networking stack and performing
++direct access to the networking device from userscace.
++
++In order to run a CPU without or with limited kernel noise, the
++related housekeeping work needs to be either shutdown, migrated or
++offloaded.
++
++Housekeeping
++============
++
++In the CPU isolation terminology, housekeeping is the work, often
++asynchronous, that the kernel needs to process in order to maintain
++all its services. It matches the noises and disturbances enumerated
++above except when at least one CPU is isolated. Then housekeeping may
++make use of further coping mechanisms if CPU-tied work must be
++offloaded.
++
++Housekeeping CPUs are the non-isolated CPUs where the kernel noise
++is moved away from isolated CPUs.
++
++The isolation can be implemented in several ways depending on the
++nature of the noise:
++
++- Unbound work, where "unbound" means not tied to any CPU, can be
++  simply migrated away from isolated CPUs to housekeeping CPUs.
++  This is the case of unbound workqueues, kthreads and timers.
++
++- Bound work, where "bound" means tied to a specific CPU, usually
++  can't be moved away as-is by nature. Either:
++
++	- The work must switch to a locked implementation. Eg: This is
++	  the case of RCU with CONFIG_RCU_NOCB_CPU.
++
++	- The related feature must be shutdown and considered
++	  incompatible with isolated CPUs. Eg: Lockup watchdog,
++	  unreliable clocksources, etc...
++
++	- An elaborated and heavyweight coping mechanism stands as a
++	  replacement. Eg: the timer tick is shutdown on nohz_full but
++	  with the constraint of running a single task on the CPU. A
++	  significant cost penalty is added on kernel entry/exit and
++	  a residual 1Hz scheduler tick is offloaded to housekeeping
++	  CPUs.
++
++In any case, housekeeping work has to be handled, which is why there
++must be at least one housekeeping CPU in the system, preferrably more
++if the machine runs a lot of CPUs. For example one per node on NUMA
++systems.
++
++Also CPU isolation often means a tradeoff between noise-free isolated
++CPUs and added overhead on housekeeping CPUs, sometimes even on
++isolated CPUs entering the kernel.
++
++Isolation features
++==================
++
++Different levels of isolation can be configured in the kernel, each of
++which having their own drawbacks and tradeoffs.
++
++Scheduler domain isolation
++--------------------------
++
++This feature isolates a CPU from the scheduler topology. As a result,
++the target isn't part of the load balancing. Tasks won't migrate
++neither from nor to it unless affine explicitly.
++
++As a side effect the CPU is also isolated from unbound workqueues and
++unbound kthreads.
++
++Requirements
++~~~~~~~~~~~~
++
++- CONFIG_CPUSETS=y for the cpusets based interface
++
++Tradeoffs
++~~~~~~~~~
++
++By nature, the system load is overall less distributed since some CPUs
++are extracted from the global load balancing.
++
++Interface
++~~~~~~~~~
++
++- :ref:`Documentation/admin-guide/cgroup-v2.rst <Cpuset v2 "isolated"
++  partitions>`
++  are recommended because they are tunable at runtime.
++
++- The 'isolcpus=' kernel boot parameter with the 'domain' flag is a
++  less flexible alternative that doesn't allow for runtime
++  reconfiguration.
++
++IRQs isolation
++--------------
++
++Isolate the IRQs whenever possible, so that they don't fire on the
++target CPUs.
++
++Interface
++~~~~~~~~~
++
++- /proc/irq/*/smp_affinity as explained :ref:`Documentation/core-api/irq/irq-affinity.rst <here>` in detail.
++
++- The "irqaffinity=" kernel boot parameter for a default setting.
++
++- The "managed_irq" flag in the "isolcpus=" kernel boot parameter
++  tries a best effort affinity override for managed IRQs.
++
++Full Dynticks (aka nohz_full)
++-----------------------------
++
++Full dynticks extends the dynticks idle mode, which stop the tick when
++the CPU is idle, to CPUs running a single task in userspace. That is,
++the timer tick is stopped if the environment allows it.
++
++Global timer callbacks are also isolated from the nohz_full CPUs.
++
++Requirements
++~~~~~~~~~~~~
++
++- CONFIG_NO_HZ_FULL=y
++
++Constraints
++~~~~~~~~~~~
++
++- The isolated CPUs must run a single task only. Multitask requires
++  the tick to maintain preemption. This is usually fine since the
++  workload usually can't stand the latency of random context switches.
++
++- No call to the kernel from isolated CPUs, at the risk of triggering
++  random noise.
++
++- No use of posix CPU timers on isolated CPUs.
++
++- Architecture must have a stable and reliable clocksource (no
++  unreliable TSC that requires the watchdog).
++
++
++Tradeoffs
++~~~~~~~~~
++
++In terms of cost, this is the most invasive isolation feature. It is
++assumed to be used when the workload spends most of its time in
++userspace and doesn't rely on the kernel except for preparatory
++work because:
++
++- RCU is slower due to the locked, offloaded and threaded callbacks
++  processing (the same that would be obtained with "rcu_nocb=" boot
++  parameter).
++
++- Kernel entry/exit through syscalls, exceptions and IRQs are more
++  costly due to fully ordered RmW operations that maintain userspace
++  as RCU extended quiescent state. Also the CPU time is accounted on
++  kernel boundaries instead of periodically from the tick.
++
++- Housekeeping CPUs must run a 1Hz residual remote scheduler tick
++  on behalf of the isolated CPUs.
++
++Checklist
++=========
++
++You have set up each of the above isolation features but you still
++observe jitters that trash your workload? Make sure to check a few
++elements before proceeding.
++
++Some of these checklist items are similar to those of real time
++workloads:
++
++- Use mlock() to prevent your pages from being swapped away. Page
++  faults are usually not compatible with jitter sensitive workloads.
++
++- Avoid SMT to prevent your hardware thread from being "preempted"
++  by another one.
++
++- CPU frequency changes may induce subtle sorts of jitter in a
++  workload. Cpufreq should be used and tuned with caution.
++
++- Deep C-states may result in latency issues upon wake-up. If this
++  happens to be a problem, C-states can be limited via kernel boot
++  parameters such as processor.max_cstate or intel_idle.max_cstate.
++
++
++Full isolation example
++======================
++
++In this example, the system has 8 CPUs and the 8th is to be fully
++isolated. Since CPUs start from 0, the 8th CPU is CPU 7.
++
++Kernel parameters
++-----------------
++
++Set the following kernel boot parameters to disable SMT and setup tick
++and IRQ isolation:
++
++- Full dynticks: nohz_full=7
++
++- IRQs isolation: irqaffinity=0-6
++
++- Managed IRQs isolation: isolcpus=managed_irq,7
++
++- Prevent from SMT: nosmt
++
++The full command line is then:
++
++  nohz_full=7 irqaffinity=0-6 isolcpus=managed_irq,7 nosmt
++
++CPUSET configuration (cgroup v2)
++--------------------------------
++
++Assuming cgroup v2 is mounted to /sys/fs/cgroup, the following script
++isolates CPU 7 from scheduler domains.
++
++  cd /sys/fs/cgroup
++  # Activate the cpuset subsystem
++  echo +cpuset > cgroup.subtree_control
++  # Create partition to be isolated
++  mkdir test
++  cd test
++  echo +cpuset > cgroup.subtree_control
++  # Isolate CPU 7
++  echo 7 > cpuset.cpus
++  echo "isolated" > cpuset.cpus.partition
++
++The userspace workload
++----------------------
++
++Fake a pure userspace workload, the below program runs a dummy
++userspace loop on the isolated CPU 7.
++
++  #include <stdio.h>
++  #include <fcntl.h>
++  #include <unistd.h>
++  #include <errno.h>
++  int main(void)
++  {
++  	// Move the current task to the isolated cpuset (bind to CPU 7)
++  	int fd = open("/sys/fs/cgroup/test/cgroup.procs", O_WRONLY);
++  	if (fd < 0) {
++  		perror("Can't open cpuset file...\n");
++  		return 0;
++  	}
++
++  	write(fd, "0\n", 2);
++  	close(fd);
++
++  	// Run an endless dummy loop until the launcher kills us
++  	while (1)
++  	;
++
++  	return 0;
++  }
++
++Build it and save for later step:
++
++  # gcc user_loop.c -o user_loop
++
++The launcher
++------------
++
++The below launcher runs the above program for 10 seconds and traces
++the noise resulting from preempting tasks and IRQs.
++
++  TRACING=/sys/kernel/tracing/
++  # Make sure tracing is off for now
++  echo 0 > $TRACING/tracing_on
++  # Flush previous traces
++  echo > $TRACING/trace
++  # Record disturbance from other tasks
++  echo 1 > $TRACING/events/sched/sched_switch/enable
++  # Record disturbance from interrupts
++  echo 1 > $TRACING/events/irq_vectors/enable
++  # Now we can start tracing
++  echo 1 > $TRACING/tracing_on
++  # Run the dummy user_loop for 10 seconds on CPU 7
++  ./user_loop &
++  USER_LOOP_PID=$!
++  sleep 10
++  kill $USER_LOOP_PID
++  # Disable tracing and save traces from CPU 7 in a file
++  echo 0 > $TRACING/tracing_on
++  cat $TRACING/per_cpu/cpu7/trace > trace.7
++
++If no specific problem arose, the output of trace.7 should look like
++the following:
++
++  <idle>-0 [007] d..2. 1980.976624: sched_switch: prev_comm=swapper/7 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=user_loop next_pid=1553 next_prio=120
++  user_loop-1553 [007] d.h.. 1990.946593: reschedule_entry: vector=253
++  user_loop-1553 [007] d.h.. 1990.946593: reschedule_exit: vector=253
++
++That is, no specific noise triggered between the first trace and the
++second during 10 seconds when user_loop was running.
++
++Debugging
++=========
++
++Of course things are never so easy, especially on this matter.
++Chances are that actual noise will be observed in the aforementioned
++trace.7 file.
++
++The best way to investigate further is to enable finer grained
++tracepoints such as those of subsystems producing asynchronous
++events: workqueue, timer, irq_vector, etc... It also can be
++interesting to enable the tick_stop event to diagnose why the tick is
++retained when that happens.
++
++Some tools may also be useful for higher level analysis:
++
++- :ref:`Documentation/tools/rtla/rtla-osnoise.rst <rtla-osnoise>` runs a kernel
++  tracer that analyzes and output a
++  summary of the noises.
++
++- dynticks-testing does something similar but in userspace. It is available
++  at git://git.kernel.org/pub/scm/linux/kernel/git/frederic/dynticks-testing.git
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 259d79fbeb94..b5f1fc7d5290 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -94,6 +94,7 @@ likely to be of interest on almost any system.
+ 
+    cgroup-v2
+    cgroup-v1/index
++   cpu-isolation
+    cpu-load
+    mm/index
+    module-signing
+-- 
+2.50.1
 
-Can this be __ASM_OPENRISC_JUMP_LABEL_H?
-
-> +#ifndef __ASSEMBLY__
-
-Note upstream this is now __ASSEMBLER__.
-
-> +#include <linux/types.h>
-> +#include <asm/insn-def.h>
-> +
-> +#define HAVE_JUMP_LABEL_BATCH
-> +
-> +#define JUMP_LABEL_NOP_SIZE OPENRISC_INSN_SIZE
-> +
-> +/*
-> + * should aligned 4
-> + * for jump_label relative
-> + * entry.code   = nop.addr - . -> return false
-> + * entry.target = l_yes - .    -> return true
-> + * entry.key	= key - .
-> + */
-> +#define JUMP_TABLE_ENTRY(key, label)			\
-> +	".pushsection	__jump_table, \"aw\"	\n\t"	\
-> +	".align 	4 			\n\t"	\
-> +	".long 		1b - ., " label " - .	\n\t"	\
-> +	".long 		" key " - . 		\n\t"	\
-> +	".popsection				\n\t"
-> +
-> +#define ARCH_STATIC_BRANCH_ASM(key, label)		\
-> +	".align		4			\n\t"	\
-> +	"1: l.nop				\n\t"	\
-> +	"    l.nop				\n\t"	\
-> +	JUMP_TABLE_ENTRY(key, label)
-> +
-> +static __always_inline bool arch_static_branch(struct static_key *const key,
-> +					       const bool branch)
-> +{
-> +	asm goto (ARCH_STATIC_BRANCH_ASM("%0", "%l[l_yes]")
-> +		  ::"i"(&((char *)key)[branch])::l_yes);
-> +
-> +	return false;
-> +l_yes:
-> +	return true;
-> +}
-> +
-> +#define ARCH_STATIC_BRANCH_JUMP_ASM(key, label)		\
-> +	".align		4			\n\t"	\
-> +	"1: l.j	" label "			\n\t"	\
-> +	"    l.nop				\n\t"	\
-> +	JUMP_TABLE_ENTRY(key, label)
-> +
-> +static __always_inline bool
-> +arch_static_branch_jump(struct static_key *const key, const bool branch)
-> +{
-> +	asm goto (ARCH_STATIC_BRANCH_JUMP_ASM("%0", "%l[l_yes]")
-> +		  ::"i"(&((char *)key)[branch])::l_yes);
-> +
-> +	return false;
-> +l_yes:
-> +	return true;
-> +}
-> +
-> +#endif /* __ASSEMBLY__ */
-> +#endif /* __ASM_JUMP_LABEL_H */
-> diff --git a/arch/openrisc/kernel/Makefile b/arch/openrisc/kernel/Makefile
-> index f0957ce16d6b..19e0eb94f2eb 100644
-> --- a/arch/openrisc/kernel/Makefile
-> +++ b/arch/openrisc/kernel/Makefile
-> @@ -9,6 +9,7 @@ obj-y	:= head.o setup.o or32_ksyms.o process.o dma.o \
->  	   traps.o time.o irq.o entry.o ptrace.o signal.o \
->  	   sys_call_table.o unwinder.o cacheinfo.o
->  
-> +obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
->  obj-$(CONFIG_SMP)		+= smp.o sync-timer.o
->  obj-$(CONFIG_STACKTRACE)	+= stacktrace.o
->  obj-$(CONFIG_MODULES)		+= module.o
-> diff --git a/arch/openrisc/kernel/jump_label.c b/arch/openrisc/kernel/jump_label.c
-> new file mode 100644
-> index 000000000000..ce259ba30258
-> --- /dev/null
-> +++ b/arch/openrisc/kernel/jump_label.c
-> @@ -0,0 +1,53 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2025 Chen Miao
-> + *
-> + * Based on arch/arm/kernel/jump_label.c
-> + */
-> +#include <linux/jump_label.h>
-> +#include <linux/kernel.h>
-> +#include <linux/memory.h>
-> +#include <asm/bug.h>
-> +#include <asm/cacheflush.h>
-> +#include <asm/text-patching.h>
-> +
-> +bool arch_jump_label_transform_queue(struct jump_entry *entry,
-> +				     enum jump_label_type type)
-> +{
-> +	void *addr = (void *)jump_entry_code(entry);
-> +	u32 insn;
-> +
-> +	if (type == JUMP_LABEL_JMP) {
-> +		long offset;
-> +
-> +		offset = jump_entry_target(entry) - jump_entry_code(entry);
-> +		/*
-> +		 * The actual maximum range of the l.j instruction's offset is -134,217,728
-> +		 * ~ 134,217,724 (sign 26-bit imm).
-> +		 * For the original jump range, we need to right-shift N by 2 to obtain the
-> +		 * instruction's offset.
-> +		 */
-> +		if (unlikely(offset < -134217728 || offset > 134217724)) {
-> +			WARN_ON_ONCE(true);
-> +		}
-> +		/* 26bit imm mask */
-> +		offset = (offset >> 2) & 0x03ffffff;
-> +
-> +		insn = offset;
-> +	} else {
-> +		insn = OPENRISC_INSN_NOP;
-> +	}
-> +
-> +	if (early_boot_irqs_disabled) {
-> +		copy_to_kernel_nofault(addr, &insn, sizeof(insn));
-> +	} else {
-> +		patch_insn_write(addr, insn);
-> +	}
-> +	return true;
-> +}
-> +
-> +void arch_jump_label_transform_apply(void)
-> +{
-> +	// flush
-
-Could you use the /* */ comment style?  Is this really flushing?
-
-> +	kick_all_cpus_sync();
-> +}
-> diff --git a/arch/openrisc/kernel/setup.c b/arch/openrisc/kernel/setup.c
-> index a9fb9cc6779e..000a9cc10e6f 100644
-> --- a/arch/openrisc/kernel/setup.c
-> +++ b/arch/openrisc/kernel/setup.c
-> @@ -249,6 +249,8 @@ void __init setup_arch(char **cmdline_p)
->  		initrd_below_start_ok = 1;
->  	}
->  #endif
-> +	/* perform jump_table sorting before paging_init locks down read only memory */
-> +	jump_label_init();
->  
->  	/* paging_init() sets up the MMU and marks all pages as reserved */
->  	paging_init();
-> -- 
-> 2.45.2
-> 
