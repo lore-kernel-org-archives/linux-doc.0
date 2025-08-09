@@ -1,31 +1,31 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AF22C1592;
-	Sat,  9 Aug 2025 21:18:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CA726C393;
+	Sat,  9 Aug 2025 21:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774301; cv=none; b=lg04u113nZgJpanXyvc9xAeiBmLE0xuy2/l9oeY5E/OFpqCijTHDWxn/UVGtzeXzVHBLFKG34ymixp0DInFF3U+IUU93ZJrxIWMeZeHvTVQ8XPXyPssabo4vSWPfkj1HD0GCrdjuG+uLxU6cbVdPZ6BSWEp3z18DHMQ6t/4wFOk=
+	t=1754774312; cv=none; b=duNw/RdTgMnKHHWS1ESHTzYUtTWDHBiuSOZcoWKK5YIvqXCpEQr8dx3ijAVDBHodMcuXDJW37Z45g7h2EzpGWBar8PTKE+jk5Z+GrrU6fdDPL3wJsqpl3TBC0S79d+lJ/UFglIZuyo1b0/9nWMTmfho8COccxkbkyXvXqotH4MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774301; c=relaxed/simple;
-	bh=LDCCC+MPtpW54+RJ22HPIOtJcjhlNZkCyss0Vo3yekA=;
+	s=arc-20240116; t=1754774312; c=relaxed/simple;
+	bh=VdFyJ6z5K5mQ5KpMOMIXdsnBy6hC4PNJUx6953kKBE8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JfyyqOMJ6TsqlmLPDvf2Lfstg73m+3uNoQOoAxyBhqkLJKg+CR3My+x65VlkfvrmYhy9mk2Cv7geWWVpLnnK86CaLnxTMh9xfD7tjMfG2X0lewSRKFvM9KQG3dyg5yEm95LYL5a7elsIgLMTG+6aM5h9zmNa7Li5dGE4Elj7BFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QDEvd3DL; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version:Content-Type; b=YxgelPGwuf7lZZBcpOS8JjUwPtRof4JB+ttClHuOcrLXFhBpSu2T1P9FhgKvi1XGFgu4wVOQQ+/8uiWlXrkRIABe5vzPzse2LERzQnDcn7SxxfEMb2N/Dt5u9Ry3Wob1zzgy8sLjFHle/XRhsfWmseXcYVXHLMiyvz85IHl955Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Nt+hJzO5; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QDEvd3DL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Nt+hJzO5"
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9F8C01FD3;
-	Sat,  9 Aug 2025 23:17:13 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A3D4F43E1;
+	Sat,  9 Aug 2025 23:17:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774233;
-	bh=LDCCC+MPtpW54+RJ22HPIOtJcjhlNZkCyss0Vo3yekA=;
+	s=mail; t=1754774225;
+	bh=VdFyJ6z5K5mQ5KpMOMIXdsnBy6hC4PNJUx6953kKBE8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QDEvd3DLI/2bz6K6839UDR0P7egvItFrRxdqlT7a5UF36WiyqPKrlOaOb1dSLDj3z
-	 6swD5yvqB0s3oqJVnMo/1DDGcBIyg9/62oPaGuVR5+WqbWfkUUTTOPhPzNZIhrZMiY
-	 rS7wvoP2sqTU9kC8UW+RMvjuKHmG1kQHLFAiDWoA=
+	b=Nt+hJzO50qAyX/dcVATPAMpsKhxat7mjaOMmES1sDqmBmsLDCLgCsxub1GKCFD1l9
+	 +1DN0mUmRJk9Ty97UawGTwYkGgU9D6C+eEMGXA0KdlCixQdsr7cP9EZLRk+6Ke7E6W
+	 nN0lBw33K0hA9I7+ykKD25Zj/EZTRZghNtlhTBR0=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
@@ -35,18 +35,103 @@ Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Yanteng Si <si.yanteng@linux.dev>,
 	Dongliang Mu <dzm91@hust.edu.cn>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Tomasz Figa <tfiga@chromium.org>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Devarsh Thakkar <devarsht@ti.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	=?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
 	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Benoit Parrot <bparrot@ti.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 	Hans Verkuil <hverkuil@kernel.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Ma Ke <make24@iscas.ac.cn>,
-	Erling Ljunggren <hljunggr@cisco.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 32/76] media: Drop V4L2_FL_USES_V4L2_FH checks
-Date: Sun, 10 Aug 2025 00:16:09 +0300
-Message-ID: <20250809211654.28887-33-laurent.pinchart@ideasonboard.com>
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Mike Isely <isely@pobox.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Ariel Otilibili <ariel.otilibili-anieli@eurecom.fr>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Matthew Majewski <mattwmajewski@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Abhishek Tamboli <abhishektamboli9@gmail.com>,
+	Akash Kumar <quic_akakum@quicinc.com>,
+	linux-doc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v2 27/76] media: Reset file->private_data to NULL in v4l2_fh_del()
+Date: Sun, 10 Aug 2025 00:16:04 +0300
+Message-ID: <20250809211654.28887-28-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -61,358 +146,1146 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Now that all drivers use v4l2_fh, we can drop the V4L2_FL_USES_V4L2_FH
-checks through the V4L2 core.
+Multiple drivers that use v4l2_fh and call v4l2_fh_del() manually reset
+the file->private_data pointer to NULL in their video device .release()
+file operation handler. Move the code to the v4l2_fh_del() function to
+avoid direct access to file->private_data in drivers. This requires
+adding a file pointer argument to the function.
 
-To ensure that all new drivers use v4l2_fh, keep setting the
-V4L2_FL_USES_V4L2_FH flag in v4l2_fh_init(), and verify it is set after
-the .open() file operation returns.
+Changes to drivers have been generated with the following coccinelle
+semantic patch:
+
+@@
+expression fh;
+identifier filp;
+identifier release;
+type ret;
+@@
+ret release(..., struct file *filp, ...)
+{
+	<...
+-	filp->private_data = NULL;
+	...
+-	v4l2_fh_del(fh);
++	v4l2_fh_del(fh, filp);
+	...>
+}
+
+@@
+expression fh;
+identifier filp;
+identifier release;
+type ret;
+@@
+ret release(..., struct file *filp, ...)
+{
+	<...
+-	v4l2_fh_del(fh);
++	v4l2_fh_del(fh, filp);
+	...
+-	filp->private_data = NULL;
+	...>
+}
+
+@@
+expression fh;
+identifier filp;
+identifier release;
+type ret;
+@@
+ret release(..., struct file *filp, ...)
+{
+	<...
+-	v4l2_fh_del(fh);
++	v4l2_fh_del(fh, filp);
+	...>
+}
+
+Manual changes have been applied to Documentation/ to update the usage
+patterns, to drivers/media/v4l2-core/v4l2-fh.c to update the
+v4l2_fh_del() prototype and reset file->private_data, and to
+include/media/v4l2-fh.h to update the v4l2_fh_del() function prototype
+and its documentation.
+
+Additionally, white space issues have been fixed manually in
+drivers/usb/gadget/function/uvc_v4l2.c
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- Documentation/driver-api/media/v4l2-fh.rst    | 15 +-------
- .../zh_CN/video4linux/v4l2-framework.txt      |  5 ---
- .../media/common/videobuf2/videobuf2-v4l2.c   | 12 ++----
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c |  7 +---
- drivers/media/v4l2-core/v4l2-ctrls-api.c      |  2 +-
- drivers/media/v4l2-core/v4l2-dev.c            | 21 ++++++++---
- drivers/media/v4l2-core/v4l2-ioctl.c          | 37 ++++++-------------
- drivers/media/v4l2-core/v4l2-mem2mem.c        | 12 ++----
- include/media/v4l2-dev.h                      |  2 +-
- 9 files changed, 42 insertions(+), 71 deletions(-)
+ Documentation/driver-api/media/v4l2-fh.rst                 | 4 ++--
+ .../translations/zh_CN/video4linux/v4l2-framework.txt      | 4 ++--
+ drivers/media/pci/cx18/cx18-fileops.c                      | 4 ++--
+ drivers/media/pci/ivtv/ivtv-fileops.c                      | 4 ++--
+ drivers/media/pci/saa7164/saa7164-encoder.c                | 2 +-
+ drivers/media/pci/saa7164/saa7164-vbi.c                    | 2 +-
+ drivers/media/platform/allegro-dvt/allegro-core.c          | 2 +-
+ drivers/media/platform/amlogic/meson-ge2d/ge2d.c           | 2 +-
+ drivers/media/platform/amphion/vpu_v4l2.c                  | 4 ++--
+ drivers/media/platform/chips-media/coda/coda-common.c      | 4 ++--
+ drivers/media/platform/chips-media/wave5/wave5-helper.c    | 2 +-
+ drivers/media/platform/imagination/e5010-jpeg-enc.c        | 4 ++--
+ drivers/media/platform/m2m-deinterlace.c                   | 2 +-
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c       | 4 ++--
+ drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c          | 4 ++--
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c        | 4 ++--
+ .../platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c  | 4 ++--
+ .../platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c  | 4 ++--
+ drivers/media/platform/nvidia/tegra-vde/v4l2.c             | 2 +-
+ drivers/media/platform/nxp/dw100/dw100.c                   | 2 +-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c             | 4 ++--
+ drivers/media/platform/nxp/imx-pxp.c                       | 2 +-
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c         | 2 +-
+ drivers/media/platform/nxp/mx2_emmaprp.c                   | 2 +-
+ drivers/media/platform/qcom/iris/iris_vidc.c               | 3 +--
+ drivers/media/platform/qcom/venus/core.c                   | 2 +-
+ drivers/media/platform/renesas/rcar_fdp1.c                 | 2 +-
+ drivers/media/platform/renesas/rcar_jpu.c                  | 4 ++--
+ drivers/media/platform/renesas/vsp1/vsp1_video.c           | 2 +-
+ drivers/media/platform/rockchip/rga/rga.c                  | 2 +-
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c            | 2 +-
+ drivers/media/platform/samsung/exynos-gsc/gsc-m2m.c        | 4 ++--
+ drivers/media/platform/samsung/exynos4-is/fimc-m2m.c       | 4 ++--
+ drivers/media/platform/samsung/s5p-g2d/g2d.c               | 2 +-
+ drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c        | 4 ++--
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c           | 4 ++--
+ drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c           | 4 ++--
+ drivers/media/platform/st/sti/delta/delta-v4l2.c           | 4 ++--
+ drivers/media/platform/st/sti/hva/hva-v4l2.c               | 4 ++--
+ drivers/media/platform/st/stm32/dma2d/dma2d.c              | 2 +-
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c           | 2 +-
+ drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c   | 2 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.c              | 5 ++---
+ drivers/media/platform/ti/vpe/vpe.c                        | 2 +-
+ drivers/media/platform/verisilicon/hantro_drv.c            | 4 ++--
+ drivers/media/test-drivers/vicodec/vicodec-core.c          | 2 +-
+ drivers/media/test-drivers/vim2m.c                         | 2 +-
+ drivers/media/test-drivers/visl/visl-core.c                | 2 +-
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c                   | 3 +--
+ drivers/media/v4l2-core/v4l2-fh.c                          | 7 ++++---
+ drivers/media/v4l2-core/v4l2-subdev.c                      | 5 ++---
+ drivers/staging/media/imx/imx-media-csc-scaler.c           | 4 ++--
+ drivers/staging/media/meson/vdec/vdec.c                    | 2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c                | 2 +-
+ drivers/staging/most/video/video.c                         | 4 ++--
+ drivers/usb/gadget/function/uvc_v4l2.c                     | 3 +--
+ include/media/v4l2-fh.h                                    | 5 ++++-
+ 57 files changed, 89 insertions(+), 90 deletions(-)
 
 diff --git a/Documentation/driver-api/media/v4l2-fh.rst b/Documentation/driver-api/media/v4l2-fh.rst
-index afcad22ead7c..a934caa483a4 100644
+index a7393067f5db..afcad22ead7c 100644
 --- a/Documentation/driver-api/media/v4l2-fh.rst
 +++ b/Documentation/driver-api/media/v4l2-fh.rst
-@@ -3,13 +3,8 @@
- V4L2 File handles
- -----------------
+@@ -65,7 +65,7 @@ Example:
+ 		struct my_fh *my_fh = container_of(fh, struct my_fh, fh);
  
--struct v4l2_fh provides a way to easily keep file handle specific
--data that is used by the V4L2 framework.
--
--.. attention::
--	New drivers must use struct v4l2_fh
--	since it is also used to implement priority handling
--	(:ref:`VIDIOC_G_PRIORITY`).
-+struct v4l2_fh provides a way to easily keep file handle specific data that is
-+used by the V4L2 framework. Its usage is mandatory in all drivers.
+ 		...
+-		v4l2_fh_del(&my_fh->fh);
++		v4l2_fh_del(&my_fh->fh, file);
+ 		v4l2_fh_exit(&my_fh->fh);
+ 		kfree(my_fh);
+ 		return 0;
+@@ -86,7 +86,7 @@ Below is a short description of the :c:type:`v4l2_fh` functions used:
+   Must be called once the file handle is completely initialized.
  
- struct v4l2_fh is allocated in the driver's ``open()`` file operation handler.
- It is typically embedded in a larger driver-specific structure. The
-@@ -134,12 +129,6 @@ associated device node:
+ :c:func:`v4l2_fh_del <v4l2_fh_del>`
+-(:c:type:`fh <v4l2_fh>`)
++(:c:type:`fh <v4l2_fh>`, struct file \*filp)
  
- - Same, but it calls v4l2_fh_is_singular with filp->private_data.
- 
--.. note::
--        The V4L2 framework knows whether a driver uses :c:type:`v4l2_fh` as its
--        ``file->private_data`` pointer by testing the ``V4L2_FL_USES_V4L2_FH``
--        bit in :c:type:`video_device`->flags. This bit is set whenever
--        :c:func:`v4l2_fh_init` is called.
--
- 
- V4L2 fh functions and data structures
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ - Unassociate the file handle from :c:type:`video_device`. The file handle
+   exit function may now be called.
 diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-index 1653c6e2cb46..f0be21a60a0f 100644
+index 2d38ae17d940..1653c6e2cb46 100644
 --- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
 +++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-@@ -775,11 +775,6 @@ v4l2_fh 结构体提供一个保存用于 V4L2 框架的文件句柄特定数据
- 如果 video_device 标志，新驱动
- 必须使用 v4l2_fh 结构体，因为它也用于实现优先级处理（VIDIOC_G/S_PRIORITY）。
+@@ -822,7 +822,7 @@ int my_release(struct file *file)
+ 	struct my_fh *my_fh = container_of(fh, struct my_fh, fh);
  
--v4l2_fh 的用户（位于 V4l2 框架中，并非驱动）可通过测试
--video_device->flags 中的 V4L2_FL_USES_V4L2_FH 位得知驱动是否使用
--v4l2_fh 作为他的 file->private_data 指针。这个位会在调用 v4l2_fh_init()
--时被设置。
--
- v4l2_fh 结构体作为驱动自身文件句柄结构体的一部分被分配，且驱动在
- 其打开函数中将 file->private_data 指向它。
+ 	...
+-	v4l2_fh_del(&my_fh->fh);
++	v4l2_fh_del(&my_fh->fh, file);
+ 	v4l2_fh_exit(&my_fh->fh);
+ 	kfree(my_fh);
+ 	return 0;
+@@ -840,7 +840,7 @@ void v4l2_fh_add(struct v4l2_fh *fh, struct file *filp)
+   添加一个 v4l2_fh 到 video_device 文件句柄列表。一旦文件句柄
+   初始化完成就必须调用。
  
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index f29307e59be5..d911021c1bb0 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -973,18 +973,14 @@ EXPORT_SYMBOL_GPL(vb2_queue_change_type);
+-void v4l2_fh_del(struct v4l2_fh *fh)
++void v4l2_fh_del(struct v4l2_fh *fh, struct file *filp)
  
- __poll_t vb2_poll(struct vb2_queue *q, struct file *file, poll_table *wait)
+   从 video_device() 中解除文件句柄的关联。文件句柄的退出函数也
+   将被调用。
+diff --git a/drivers/media/pci/cx18/cx18-fileops.c b/drivers/media/pci/cx18/cx18-fileops.c
+index f90b547f5d67..d49fa4c4119b 100644
+--- a/drivers/media/pci/cx18/cx18-fileops.c
++++ b/drivers/media/pci/cx18/cx18-fileops.c
+@@ -713,7 +713,7 @@ int cx18_v4l2_close(struct file *filp)
+ 		vb2_queue_release(vdev->queue);
+ 		vdev->queue->owner = NULL;
+ 	}
+-	v4l2_fh_del(fh);
++	v4l2_fh_del(fh, filp);
+ 	v4l2_fh_exit(fh);
+ 
+ 	/* 'Unclaim' this stream */
+@@ -751,7 +751,7 @@ static int cx18_serialized_open(struct cx18_stream *s, struct file *filp)
+ 			if (atomic_read(&cx->ana_capturing) > 0) {
+ 				/* switching to radio while capture is
+ 				   in progress is not polite */
+-				v4l2_fh_del(&item->fh);
++				v4l2_fh_del(&item->fh, filp);
+ 				v4l2_fh_exit(&item->fh);
+ 				kfree(item);
+ 				return -EBUSY;
+diff --git a/drivers/media/pci/ivtv/ivtv-fileops.c b/drivers/media/pci/ivtv/ivtv-fileops.c
+index aa5f5f16427c..0040a5e7f654 100644
+--- a/drivers/media/pci/ivtv/ivtv-fileops.c
++++ b/drivers/media/pci/ivtv/ivtv-fileops.c
+@@ -911,7 +911,7 @@ int ivtv_v4l2_close(struct file *filp)
+ 		ivtv_unmute(itv);
+ 	}
+ 
+-	v4l2_fh_del(fh);
++	v4l2_fh_del(fh, filp);
+ 	v4l2_fh_exit(fh);
+ 
+ 	/* Easy case first: this stream was never claimed by us */
+@@ -1006,7 +1006,7 @@ static int ivtv_open(struct file *filp)
+ 			if (atomic_read(&itv->capturing) > 0) {
+ 				/* switching to radio while capture is
+ 				   in progress is not polite */
+-				v4l2_fh_del(&item->fh);
++				v4l2_fh_del(&item->fh, filp);
+ 				v4l2_fh_exit(&item->fh);
+ 				kfree(item);
+ 				return -EBUSY;
+diff --git a/drivers/media/pci/saa7164/saa7164-encoder.c b/drivers/media/pci/saa7164/saa7164-encoder.c
+index e6e353a251cf..66d650b5f69a 100644
+--- a/drivers/media/pci/saa7164/saa7164-encoder.c
++++ b/drivers/media/pci/saa7164/saa7164-encoder.c
+@@ -746,7 +746,7 @@ static int fops_release(struct file *file)
+ 		}
+ 	}
+ 
+-	v4l2_fh_del(&fh->fh);
++	v4l2_fh_del(&fh->fh, file);
+ 	v4l2_fh_exit(&fh->fh);
+ 	kfree(fh);
+ 
+diff --git a/drivers/media/pci/saa7164/saa7164-vbi.c b/drivers/media/pci/saa7164/saa7164-vbi.c
+index 181442fcb43b..57e4362c0d19 100644
+--- a/drivers/media/pci/saa7164/saa7164-vbi.c
++++ b/drivers/media/pci/saa7164/saa7164-vbi.c
+@@ -449,7 +449,7 @@ static int fops_release(struct file *file)
+ 		}
+ 	}
+ 
+-	v4l2_fh_del(&fh->fh);
++	v4l2_fh_del(&fh->fh, file);
+ 	v4l2_fh_exit(&fh->fh);
+ 	kfree(fh);
+ 
+diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
+index 8c30f3cd4fc5..5e3b1f5d7206 100644
+--- a/drivers/media/platform/allegro-dvt/allegro-core.c
++++ b/drivers/media/platform/allegro-dvt/allegro-core.c
+@@ -3241,7 +3241,7 @@ static int allegro_release(struct file *file)
+ 
+ 	v4l2_ctrl_handler_free(&channel->ctrl_handler);
+ 
+-	v4l2_fh_del(&channel->fh);
++	v4l2_fh_del(&channel->fh, file);
+ 	v4l2_fh_exit(&channel->fh);
+ 
+ 	kfree(channel);
+diff --git a/drivers/media/platform/amlogic/meson-ge2d/ge2d.c b/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
+index d36891b546bc..b1b0b6535fb1 100644
+--- a/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
++++ b/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
+@@ -883,7 +883,7 @@ static int ge2d_release(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index e13bfe09af1b..fcb2eff813ac 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -791,7 +791,7 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
+ 
+ 	return 0;
+ error:
+-	v4l2_fh_del(&inst->fh);
++	v4l2_fh_del(&inst->fh, file);
+ 	v4l2_fh_exit(&inst->fh);
+ 	vpu_inst_put(inst);
+ 	return ret;
+@@ -812,7 +812,7 @@ int vpu_v4l2_close(struct file *file)
+ 	call_void_vop(inst, release);
+ 	vpu_inst_unlock(inst);
+ 
+-	v4l2_fh_del(&inst->fh);
++	v4l2_fh_del(&inst->fh, file);
+ 	v4l2_fh_exit(&inst->fh);
+ 
+ 	vpu_inst_unregister(inst);
+diff --git a/drivers/media/platform/chips-media/coda/coda-common.c b/drivers/media/platform/chips-media/coda/coda-common.c
+index 7d874fd502b8..583759eed610 100644
+--- a/drivers/media/platform/chips-media/coda/coda-common.c
++++ b/drivers/media/platform/chips-media/coda/coda-common.c
+@@ -2725,7 +2725,7 @@ static int coda_open(struct file *file)
+ err_clk_enable:
+ 	pm_runtime_put_sync(dev->dev);
+ err_pm_get:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ err_coda_name_init:
+ 	ida_free(&dev->ida, ctx->idx);
+@@ -2763,7 +2763,7 @@ static int coda_release(struct file *file)
+ 	clk_disable_unprepare(dev->clk_ahb);
+ 	clk_disable_unprepare(dev->clk_per);
+ 	pm_runtime_put_sync(dev->dev);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	ida_free(&dev->ida, ctx->idx);
+ 	if (ctx->ops->release)
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+index ed8ff04a899d..0bce62f0c039 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+@@ -46,7 +46,7 @@ void wave5_cleanup_instance(struct vpu_instance *inst, struct file *filp)
+ 	wave5_vdi_free_dma_memory(inst->dev, &inst->bitstream_vbuf);
+ 	v4l2_ctrl_handler_free(&inst->v4l2_ctrl_hdl);
+ 	if (inst->v4l2_fh.vdev) {
+-		v4l2_fh_del(&inst->v4l2_fh);
++		v4l2_fh_del(&inst->v4l2_fh, filp);
+ 		v4l2_fh_exit(&inst->v4l2_fh);
+ 	}
+ 	list_del_init(&inst->list);
+diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+index 1da00ff4b1e3..c4e0097cb8b7 100644
+--- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
++++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+@@ -769,7 +769,7 @@ static int e5010_open(struct file *file)
+ err_ctrls_setup:
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ exit:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	mutex_unlock(&e5010->mutex);
+ free:
+@@ -786,7 +786,7 @@ static int e5010_release(struct file *file)
+ 	mutex_lock(&e5010->mutex);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	mutex_unlock(&e5010->mutex);
+diff --git a/drivers/media/platform/m2m-deinterlace.c b/drivers/media/platform/m2m-deinterlace.c
+index a343dffd19f0..51c2f206cb1f 100644
+--- a/drivers/media/platform/m2m-deinterlace.c
++++ b/drivers/media/platform/m2m-deinterlace.c
+@@ -880,7 +880,7 @@ static int deinterlace_release(struct file *file)
+ 
+ 	dprintk(pcdev, "Releasing instance %p\n", ctx);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	kfree(ctx->xt);
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+index 5178a1b170fe..de15d6f0b490 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+@@ -1201,7 +1201,7 @@ static int mtk_jpeg_open(struct file *file)
+ 	return 0;
+ 
+ error:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	mutex_unlock(&jpeg->lock);
+ free:
+@@ -1217,7 +1217,7 @@ static int mtk_jpeg_release(struct file *file)
+ 	mutex_lock(&jpeg->lock);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	mutex_unlock(&jpeg->lock);
+diff --git a/drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c b/drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c
+index 7a1a8e51dbca..7e89a8443707 100644
+--- a/drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c
++++ b/drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c
+@@ -1130,7 +1130,7 @@ static int mtk_mdp_m2m_open(struct file *file)
+ error_m2m_ctx:
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+ error_ctrls:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	mutex_unlock(&mdp->lock);
+ err_lock:
+@@ -1148,7 +1148,7 @@ static int mtk_mdp_m2m_release(struct file *file)
+ 	mutex_lock(&mdp->lock);
+ 	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	mtk_mdp_vpu_deinit(&ctx->vpu);
+ 	mdp->ctx_num--;
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+index 847d6b310e74..e68ae19d71a9 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+@@ -633,7 +633,7 @@ static int mdp_m2m_open(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+ err_release_handler:
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ err_exit_fh:
+ 	v4l2_fh_exit(&ctx->fh);
+ 	ida_free(&mdp->mdp_ida, ctx->id);
+@@ -657,7 +657,7 @@ static int mdp_m2m_release(struct file *file)
+ 		mdp_vpu_put_locked(mdp);
+ 
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	ida_free(&mdp->mdp_ida, ctx->id);
+ 	mutex_unlock(&mdp->m2m_lock);
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+index 952a77c383bd..46d176e6de63 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+@@ -282,7 +282,7 @@ static int fops_vcodec_open(struct file *file)
+ err_m2m_ctx_init:
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+ err_ctrls_setup:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	mutex_unlock(&dev->dev_mutex);
+@@ -307,7 +307,7 @@ static int fops_vcodec_release(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+ 	mtk_vcodec_dec_release(ctx);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+ 
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
+index 9cacb6cbcf28..fb1c3bdc2dae 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
+@@ -191,7 +191,7 @@ static int fops_vcodec_open(struct file *file)
+ err_m2m_ctx_init:
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+ err_ctrls_setup:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	mutex_unlock(&dev->dev_mutex);
+@@ -209,7 +209,7 @@ static int fops_vcodec_release(struct file *file)
+ 
+ 	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+ 	mtk_vcodec_enc_release(ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+ 
+diff --git a/drivers/media/platform/nvidia/tegra-vde/v4l2.c b/drivers/media/platform/nvidia/tegra-vde/v4l2.c
+index 688b776b3010..0c50f4ff82e0 100644
+--- a/drivers/media/platform/nvidia/tegra-vde/v4l2.c
++++ b/drivers/media/platform/nvidia/tegra-vde/v4l2.c
+@@ -856,7 +856,7 @@ static int tegra_release(struct file *file)
+ 	struct tegra_ctx *ctx = fh_to_tegra_ctx(fh);
+ 	struct tegra_vde *vde = ctx->vde;
+ 
+-	v4l2_fh_del(fh);
++	v4l2_fh_del(fh, file);
+ 	v4l2_m2m_ctx_release(fh->m2m_ctx);
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	v4l2_fh_exit(fh);
+diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
+index 2bd30910ddf9..97744c7b7c03 100644
+--- a/drivers/media/platform/nxp/dw100/dw100.c
++++ b/drivers/media/platform/nxp/dw100/dw100.c
+@@ -667,7 +667,7 @@ static int dw100_release(struct file *file)
  {
--	struct video_device *vfd = video_devdata(file);
-+	struct v4l2_fh *fh = file_to_v4l2_fh(file);
- 	__poll_t res;
+ 	struct dw100_ctx *ctx = dw100_file2ctx(file);
  
- 	res = vb2_core_poll(q, file, wait);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+index d7cecc56a9eb..a34e644b2cb1 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+@@ -2238,7 +2238,7 @@ static int mxc_jpeg_open(struct file *file)
+ err_ctrls_setup:
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ error:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	mutex_unlock(&mxc_jpeg->lock);
+ free:
+@@ -2751,7 +2751,7 @@ static int mxc_jpeg_release(struct file *file)
+ 			ctx->slot);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	mutex_unlock(&mxc_jpeg->lock);
+diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
+index 9602409f3ece..6cc9b07ea53a 100644
+--- a/drivers/media/platform/nxp/imx-pxp.c
++++ b/drivers/media/platform/nxp/imx-pxp.c
+@@ -1716,7 +1716,7 @@ static int pxp_release(struct file *file)
  
--	if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags)) {
--		struct v4l2_fh *fh = file_to_v4l2_fh(file);
--
--		poll_wait(file, &fh->wait, wait);
--		if (v4l2_event_pending(fh))
--			res |= EPOLLPRI;
--	}
-+	poll_wait(file, &fh->wait, wait);
-+	if (v4l2_event_pending(fh))
-+		res |= EPOLLPRI;
+ 	dprintk(dev, "Releasing instance %p\n", ctx);
  
- 	return res;
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	mutex_lock(&dev->dev_mutex);
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+index d6df6e2725f5..31298307c672 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+@@ -716,7 +716,7 @@ static int mxc_isi_m2m_release(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	mxc_isi_m2m_ctx_ctrls_delete(ctx);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 
+ 	mutex_destroy(&ctx->vb2_lock);
+diff --git a/drivers/media/platform/nxp/mx2_emmaprp.c b/drivers/media/platform/nxp/mx2_emmaprp.c
+index 8c8f834e6250..d23da93304bd 100644
+--- a/drivers/media/platform/nxp/mx2_emmaprp.c
++++ b/drivers/media/platform/nxp/mx2_emmaprp.c
+@@ -769,7 +769,7 @@ static int emmaprp_release(struct file *file)
+ 	mutex_lock(&pcdev->dev_mutex);
+ 	clk_disable_unprepare(pcdev->clk_emma_ahb);
+ 	clk_disable_unprepare(pcdev->clk_emma_ipg);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	mutex_unlock(&pcdev->dev_mutex);
+diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+index cdd34a3b71ff..541ae86f7892 100644
+--- a/drivers/media/platform/qcom/iris/iris_vidc.c
++++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+@@ -30,8 +30,7 @@ static void iris_v4l2_fh_init(struct iris_inst *inst, struct file *filp)
+ 
+ static void iris_v4l2_fh_deinit(struct iris_inst *inst, struct file *filp)
+ {
+-	filp->private_data = NULL;
+-	v4l2_fh_del(&inst->fh);
++	v4l2_fh_del(&inst->fh, filp);
+ 	inst->fh.ctrl_handler = NULL;
+ 	v4l2_fh_exit(&inst->fh);
  }
-diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-index 8a5559225ff2..e5642e639811 100644
---- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-+++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-@@ -672,15 +672,12 @@ struct v4l2_ext_control32 {
- static inline bool ctrl_is_pointer(struct file *file, u32 id)
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 5e1ace16a490..90de29f166ad 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -607,7 +607,7 @@ void venus_close_common(struct venus_inst *inst, struct file *filp)
+ 	v4l2_m2m_ctx_release(inst->m2m_ctx);
+ 	v4l2_m2m_release(inst->m2m_dev);
+ 	hfi_session_destroy(inst);
+-	v4l2_fh_del(&inst->fh);
++	v4l2_fh_del(&inst->fh, filp);
+ 	v4l2_fh_exit(&inst->fh);
+ 	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+ 
+diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+index f1ea303ac038..e2dba0e4f315 100644
+--- a/drivers/media/platform/renesas/rcar_fdp1.c
++++ b/drivers/media/platform/renesas/rcar_fdp1.c
+@@ -2166,7 +2166,7 @@ static int fdp1_release(struct file *file)
+ 
+ 	dprintk(fdp1, "Releasing instance %p\n", ctx);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	mutex_lock(&fdp1->dev_mutex);
+diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
+index d0d4ee3f8bdc..0b479dfa2917 100644
+--- a/drivers/media/platform/renesas/rcar_jpu.c
++++ b/drivers/media/platform/renesas/rcar_jpu.c
+@@ -1276,7 +1276,7 @@ static int jpu_open(struct file *file)
+ device_prepare_rollback:
+ 	mutex_unlock(&jpu->mutex);
+ v4l_prepare_rollback:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	return ret;
+@@ -1289,7 +1289,7 @@ static int jpu_release(struct file *file)
+ 
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+index b6dc1ee3dc50..75f9a1a85d55 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+@@ -1083,7 +1083,7 @@ static int vsp1_video_open(struct file *file)
+ 
+ 	ret = vsp1_device_get(video->vsp1);
+ 	if (ret < 0) {
+-		v4l2_fh_del(vfh);
++		v4l2_fh_del(vfh, file);
+ 		v4l2_fh_exit(vfh);
+ 		kfree(vfh);
+ 	}
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index d88817023996..45c42c7ad846 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -418,7 +418,7 @@ static int rga_release(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+index 2fbad685e92c..481c2488f9ac 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+@@ -954,7 +954,7 @@ static int rkvdec_release(struct file *filp)
  {
- 	struct video_device *vdev = video_devdata(file);
--	struct v4l2_fh *fh = NULL;
-+	struct v4l2_fh *fh = file_to_v4l2_fh(file);
- 	struct v4l2_ctrl_handler *hdl = NULL;
- 	struct v4l2_query_ext_ctrl qec = { id };
- 	const struct v4l2_ioctl_ops *ops = vdev->ioctl_ops;
+ 	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(filp);
  
--	if (test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags))
--		fh = file_to_v4l2_fh(file);
--
--	if (fh && fh->ctrl_handler)
-+	if (fh->ctrl_handler)
- 		hdl = fh->ctrl_handler;
- 	else if (vdev->ctrl_handler)
- 		hdl = vdev->ctrl_handler;
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index b0bba8eec143..afb4e5581b90 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -1254,7 +1254,7 @@ int v4l2_ctrl_log_status(struct file *file, void *fh)
- {
- 	struct video_device *vfd = video_devdata(file);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, filp);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+ 	v4l2_fh_exit(&ctx->fh);
+diff --git a/drivers/media/platform/samsung/exynos-gsc/gsc-m2m.c b/drivers/media/platform/samsung/exynos-gsc/gsc-m2m.c
+index 39d84ffd1b05..2999fb2610f0 100644
+--- a/drivers/media/platform/samsung/exynos-gsc/gsc-m2m.c
++++ b/drivers/media/platform/samsung/exynos-gsc/gsc-m2m.c
+@@ -654,7 +654,7 @@ static int gsc_m2m_open(struct file *file)
  
--	if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) && vfd->v4l2_dev) {
-+	if (vfd->v4l2_dev) {
- 		struct v4l2_fh *vfh = file_to_v4l2_fh(file);
+ error_ctrls:
+ 	gsc_ctrls_delete(ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ error_fh:
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+@@ -675,7 +675,7 @@ static int gsc_m2m_release(struct file *file)
  
- 		v4l2_ctrl_handler_log_status(vfh->ctrl_handler,
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index 1a4184b94838..10a126e50c1c 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -425,14 +425,26 @@ static int v4l2_open(struct inode *inode, struct file *filp)
- 	video_get(vdev);
- 	mutex_unlock(&videodev_lock);
+ 	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+ 	gsc_ctrls_delete(ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
  
--	if (video_is_registered(vdev))
--		ret = vdev->fops->open(filp);
--	else
-+	if (!video_is_registered(vdev)) {
- 		ret = -ENODEV;
-+		goto done;
-+	}
+ 	if (--gsc->m2m.refcnt <= 0)
+diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c b/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c
+index b002b02a899e..609fd84f89d4 100644
+--- a/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c
++++ b/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c
+@@ -663,7 +663,7 @@ static int fimc_m2m_open(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ error_c:
+ 	fimc_ctrls_delete(ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ error_fh:
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+@@ -684,7 +684,7 @@ static int fimc_m2m_release(struct file *file)
  
-+	ret = vdev->fops->open(filp);
-+	if (ret)
-+		goto done;
-+
-+	/* All drivers must use v4l2_fh. */
-+	if (WARN_ON(!test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags))) {
-+		vdev->fops->release(filp);
-+		ret = -ENODEV;
-+	}
-+
-+done:
- 	if (vdev->dev_debug & V4L2_DEV_DEBUG_FOP)
- 		dprintk("%s: open (%d)\n",
- 			video_device_node_name(vdev), ret);
-+
- 	/* decrease the refcount in case of an error */
- 	if (ret)
- 		video_put(vdev);
-@@ -1114,8 +1126,7 @@ void video_unregister_device(struct video_device *vdev)
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	fimc_ctrls_delete(ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 
+ 	if (--fimc->m2m.refcnt <= 0)
+diff --git a/drivers/media/platform/samsung/s5p-g2d/g2d.c b/drivers/media/platform/samsung/s5p-g2d/g2d.c
+index e34cae9c9cf6..922262f61e7b 100644
+--- a/drivers/media/platform/samsung/s5p-g2d/g2d.c
++++ b/drivers/media/platform/samsung/s5p-g2d/g2d.c
+@@ -280,7 +280,7 @@ static int g2d_release(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	mutex_unlock(&dev->mutex);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	v4l2_info(&dev->v4l2_dev, "instance closed\n");
+diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+index 9e35dd939ad7..65f256db4c76 100644
+--- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
++++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+@@ -1005,7 +1005,7 @@ static int s5p_jpeg_open(struct file *file)
+ 	return 0;
+ 
+ error:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	mutex_unlock(&jpeg->lock);
+ free:
+@@ -1021,7 +1021,7 @@ static int s5p_jpeg_release(struct file *file)
+ 	mutex_lock(&jpeg->lock);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	mutex_unlock(&jpeg->lock);
+diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+index 74629db05121..a5e756049620 100644
+--- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
++++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+@@ -955,7 +955,7 @@ static int s5p_mfc_open(struct file *file)
+ err_bad_node:
+ 	dev->ctx[ctx->num] = NULL;
+ err_no_ctx:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ err_alloc:
+@@ -1010,7 +1010,7 @@ static int s5p_mfc_release(struct file *file)
+ 	if (dev)
+ 		dev->ctx[ctx->num] = NULL;
+ 	s5p_mfc_dec_ctrls_delete(ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	/* vdev is gone if dev is null */
+ 	if (dev)
+ 		v4l2_fh_exit(&ctx->fh);
+diff --git a/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c b/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
+index 5e983799e298..38b2a2924443 100644
+--- a/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
++++ b/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
+@@ -634,7 +634,7 @@ static int bdisp_open(struct file *file)
+ 
+ error_ctrls:
+ 	bdisp_ctrls_delete(ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ error_fh:
+ 	v4l2_fh_exit(&ctx->fh);
+ 	bdisp_hw_free_nodes(ctx);
+@@ -659,7 +659,7 @@ static int bdisp_release(struct file *file)
+ 
+ 	bdisp_ctrls_delete(ctx);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 
+ 	if (--bdisp->m2m.refcnt <= 0)
+diff --git a/drivers/media/platform/st/sti/delta/delta-v4l2.c b/drivers/media/platform/st/sti/delta/delta-v4l2.c
+index 3063a98ed25b..385b26d21408 100644
+--- a/drivers/media/platform/st/sti/delta/delta-v4l2.c
++++ b/drivers/media/platform/st/sti/delta/delta-v4l2.c
+@@ -1684,7 +1684,7 @@ static int delta_open(struct file *file)
+ 	return 0;
+ 
+ err_fh_del:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ err:
+@@ -1712,7 +1712,7 @@ static int delta_release(struct file *file)
+ 
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 
+ 	/* disable ST231 clocks */
+diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+index 2f9413fa7318..3581b73a99b8 100644
+--- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
++++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+@@ -1218,7 +1218,7 @@ static int hva_open(struct file *file)
+ err_ctrls:
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+ err_fh:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ out:
+@@ -1249,7 +1249,7 @@ static int hva_release(struct file *file)
+ 
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 
+ #ifdef CONFIG_VIDEO_STI_HVA_DEBUGFS
+diff --git a/drivers/media/platform/st/stm32/dma2d/dma2d.c b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+index b2bced06a1e6..bc0f81e78018 100644
+--- a/drivers/media/platform/st/stm32/dma2d/dma2d.c
++++ b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+@@ -326,7 +326,7 @@ static int dma2d_release(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	mutex_unlock(&dev->mutex);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 
+diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+index 7823eb97faf7..eb519afb30ca 100644
+--- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
++++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+@@ -759,7 +759,7 @@ static int deinterlace_release(struct file *file)
+ 
+ 	mutex_lock(&dev->dev_mutex);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 
+diff --git a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+index 368a858b8c0f..89992feaab60 100644
+--- a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
++++ b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+@@ -695,7 +695,7 @@ static int rotate_release(struct file *file)
+ 	mutex_lock(&dev->dev_mutex);
+ 
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 
+diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+index d10a2b96c13c..2c0008444b7e 100644
+--- a/drivers/media/platform/ti/omap3isp/ispvideo.c
++++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+@@ -1336,7 +1336,7 @@ static int isp_video_open(struct file *file)
+ 
+ done:
+ 	if (ret < 0) {
+-		v4l2_fh_del(&handle->vfh);
++		v4l2_fh_del(&handle->vfh, file);
+ 		v4l2_fh_exit(&handle->vfh);
+ 		kfree(handle);
+ 	}
+@@ -1360,10 +1360,9 @@ static int isp_video_release(struct file *file)
+ 	v4l2_pipeline_pm_put(&video->video.entity);
+ 
+ 	/* Release the file handle. */
+-	v4l2_fh_del(vfh);
++	v4l2_fh_del(vfh, file);
+ 	v4l2_fh_exit(vfh);
+ 	kfree(handle);
+-	file->private_data = NULL;
+ 
+ 	omap3isp_put(video->isp);
+ 
+diff --git a/drivers/media/platform/ti/vpe/vpe.c b/drivers/media/platform/ti/vpe/vpe.c
+index a47c5d31c475..6029d4e8e0bd 100644
+--- a/drivers/media/platform/ti/vpe/vpe.c
++++ b/drivers/media/platform/ti/vpe/vpe.c
+@@ -2421,7 +2421,7 @@ static int vpe_release(struct file *file)
+ 	vpdma_free_desc_buf(&ctx->sc_coeff_v);
+ 	vpdma_free_desc_buf(&ctx->sc_coeff_h);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index aadc3d8fb3d1..4cc9d00fd293 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -677,7 +677,7 @@ static int hantro_open(struct file *filp)
+ 	return 0;
+ 
+ err_fh_free:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, filp);
+ 	v4l2_fh_exit(&ctx->fh);
+ err_ctx_free:
+ 	kfree(ctx);
+@@ -693,7 +693,7 @@ static int hantro_release(struct file *filp)
+ 	 * to this file.
  	 */
- 	clear_bit(V4L2_FL_REGISTERED, &vdev->flags);
- 	mutex_unlock(&videodev_lock);
--	if (test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags))
--		v4l2_event_wake_all(vdev);
-+	v4l2_event_wake_all(vdev);
- 	device_unregister(&vdev->dev);
- }
- EXPORT_SYMBOL(video_unregister_device);
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 8c81852c3046..6c684884873e 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1195,8 +1195,6 @@ static int v4l_s_priority(const struct v4l2_ioctl_ops *ops,
- 	u32 *p = arg;
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, filp);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+ 	kfree(ctx);
+diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+index f20d9d9643f5..c340fd226040 100644
+--- a/drivers/media/test-drivers/vicodec/vicodec-core.c
++++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+@@ -1946,7 +1946,7 @@ static int vicodec_release(struct file *file)
+ 	mutex_lock(vfd->lock);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	mutex_unlock(vfd->lock);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	kvfree(ctx->state.compressed_frame);
+diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
+index 24574025f58f..d0e760118c82 100644
+--- a/drivers/media/test-drivers/vim2m.c
++++ b/drivers/media/test-drivers/vim2m.c
+@@ -1450,7 +1450,7 @@ static int vim2m_release(struct file *file)
  
- 	vfd = video_devdata(file);
--	if (!test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags))
--		return -ENOTTY;
- 	vfh = file_to_v4l2_fh(file);
- 	return v4l2_prio_change(vfd->prio, &vfh->prio, *p);
- }
-@@ -2297,8 +2295,7 @@ static int v4l_queryctrl(const struct v4l2_ioctl_ops *ops,
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_query_ext_ctrl qec = {};
- 	struct v4l2_queryctrl *p = arg;
--	struct v4l2_fh *vfh =
--		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
-+	struct v4l2_fh *vfh = fh;
- 	int ret;
+ 	dprintk(dev, 1, "Releasing instance %p\n", ctx);
  
- 	if (vfh && vfh->ctrl_handler)
-@@ -2322,8 +2319,7 @@ static int v4l_query_ext_ctrl(const struct v4l2_ioctl_ops *ops,
- {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_query_ext_ctrl *p = arg;
--	struct v4l2_fh *vfh =
--		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
-+	struct v4l2_fh *vfh = fh;
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	mutex_lock(&dev->dev_mutex);
+diff --git a/drivers/media/test-drivers/visl/visl-core.c b/drivers/media/test-drivers/visl/visl-core.c
+index 0f43ec23f40b..26c6c6835f79 100644
+--- a/drivers/media/test-drivers/visl/visl-core.c
++++ b/drivers/media/test-drivers/visl/visl-core.c
+@@ -389,7 +389,7 @@ static int visl_release(struct file *file)
+ 	dprintk(dev, "Releasing instance %p\n", ctx);
  
- 	if (vfh && vfh->ctrl_handler)
- 		return v4l2_query_ext_ctrl(vfh->ctrl_handler, p);
-@@ -2339,8 +2335,7 @@ static int v4l_querymenu(const struct v4l2_ioctl_ops *ops,
- {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_querymenu *p = arg;
--	struct v4l2_fh *vfh =
--		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
-+	struct v4l2_fh *vfh = fh;
- 
- 	if (vfh && vfh->ctrl_handler)
- 		return v4l2_querymenu(vfh->ctrl_handler, p);
-@@ -2356,8 +2351,7 @@ static int v4l_g_ctrl(const struct v4l2_ioctl_ops *ops,
- {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_control *p = arg;
--	struct v4l2_fh *vfh =
--		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
-+	struct v4l2_fh *vfh = fh;
- 	struct v4l2_ext_controls ctrls;
- 	struct v4l2_ext_control ctrl;
- 
-@@ -2388,8 +2382,7 @@ static int v4l_s_ctrl(const struct v4l2_ioctl_ops *ops,
- {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_control *p = arg;
--	struct v4l2_fh *vfh =
--		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
-+	struct v4l2_fh *vfh = fh;
- 	struct v4l2_ext_controls ctrls;
- 	struct v4l2_ext_control ctrl;
- 	int ret;
-@@ -2418,8 +2411,7 @@ static int v4l_g_ext_ctrls(const struct v4l2_ioctl_ops *ops,
- {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_ext_controls *p = arg;
--	struct v4l2_fh *vfh =
--		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
-+	struct v4l2_fh *vfh = fh;
- 
- 	p->error_idx = p->count;
- 	if (vfh && vfh->ctrl_handler)
-@@ -2439,8 +2431,7 @@ static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
- {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_ext_controls *p = arg;
--	struct v4l2_fh *vfh =
--		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
-+	struct v4l2_fh *vfh = fh;
- 
- 	p->error_idx = p->count;
- 	if (vfh && vfh->ctrl_handler)
-@@ -2460,8 +2451,7 @@ static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
- {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_ext_controls *p = arg;
--	struct v4l2_fh *vfh =
--		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
-+	struct v4l2_fh *vfh = fh;
- 
- 	p->error_idx = p->count;
- 	if (vfh && vfh->ctrl_handler)
-@@ -3073,7 +3063,7 @@ static long __video_do_ioctl(struct file *file,
- 	struct v4l2_ioctl_info default_info;
- 	const struct v4l2_ioctl_info *info;
- 	void *fh = file->private_data;
--	struct v4l2_fh *vfh = NULL;
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
- 	int dev_debug = vfd->dev_debug;
- 	long ret = -ENOTTY;
- 
-@@ -3083,9 +3073,6 @@ static long __video_do_ioctl(struct file *file,
- 		return ret;
+ 	tpg_free(&ctx->tpg);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	mutex_lock(&dev->dev_mutex);
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c b/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
+index 04c77af0c51e..f9535a484738 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
+@@ -900,9 +900,8 @@ static int pvr2_v4l2_release(struct file *file)
+ 		fhp->rhp = NULL;
  	}
  
--	if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags))
--		vfh = file_to_v4l2_fh(file);
--
- 	/*
- 	 * We need to serialize streamon/off with queueing new requests.
- 	 * These ioctls may trigger the cancellation of a streaming
-@@ -3117,10 +3104,10 @@ static long __video_do_ioctl(struct file *file,
- 		info = &v4l2_ioctls[_IOC_NR(cmd)];
+-	v4l2_fh_del(&fhp->fh);
++	v4l2_fh_del(&fhp->fh, file);
+ 	v4l2_fh_exit(&fhp->fh);
+-	file->private_data = NULL;
  
- 		if (!is_valid_ioctl(vfd, cmd) &&
--		    !((info->flags & INFO_FL_CTRL) && vfh && vfh->ctrl_handler))
-+		    !((info->flags & INFO_FL_CTRL) && vfh->ctrl_handler))
- 			goto done;
- 
--		if (vfh && (info->flags & INFO_FL_PRIO)) {
-+		if (info->flags & INFO_FL_PRIO) {
- 			ret = v4l2_prio_check(vfd->prio, vfh->prio);
- 			if (ret)
- 				goto done;
-@@ -3139,7 +3126,7 @@ static long __video_do_ioctl(struct file *file,
- 		ret = -ENOTTY;
- 	} else {
- 		ret = ops->vidioc_default(file, fh,
--			vfh ? v4l2_prio_check(vfd->prio, vfh->prio) >= 0 : 0,
-+			v4l2_prio_check(vfd->prio, vfh->prio) >= 0,
- 			cmd, arg);
- 	}
- 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index e67e67f76f72..7678b8dbedbd 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -951,7 +951,7 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
- __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 		       struct poll_table_struct *wait)
- {
--	struct video_device *vfd = video_devdata(file);
-+	struct v4l2_fh *fh = file_to_v4l2_fh(file);
- 	struct vb2_queue *src_q = v4l2_m2m_get_src_vq(m2m_ctx);
- 	struct vb2_queue *dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
- 	__poll_t req_events = poll_requested_events(wait);
-@@ -970,13 +970,9 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 	if (req_events & (EPOLLOUT | EPOLLWRNORM | EPOLLIN | EPOLLRDNORM))
- 		rc = v4l2_m2m_poll_for_data(file, m2m_ctx, wait);
- 
--	if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags)) {
--		struct v4l2_fh *fh = file_to_v4l2_fh(file);
--
--		poll_wait(file, &fh->wait, wait);
--		if (v4l2_event_pending(fh))
--			rc |= EPOLLPRI;
--	}
-+	poll_wait(file, &fh->wait, wait);
-+	if (v4l2_event_pending(fh))
-+		rc |= EPOLLPRI;
- 
- 	return rc;
+ 	pvr2_channel_done(&fhp->channel);
+ 	pvr2_trace(PVR2_TRACE_STRUCT,
+diff --git a/drivers/media/v4l2-core/v4l2-fh.c b/drivers/media/v4l2-core/v4l2-fh.c
+index b59b1084d8cd..df3ba9d4674b 100644
+--- a/drivers/media/v4l2-core/v4l2-fh.c
++++ b/drivers/media/v4l2-core/v4l2-fh.c
+@@ -67,7 +67,7 @@ int v4l2_fh_open(struct file *filp)
  }
-diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-index a69801274800..a213c3398dcf 100644
---- a/include/media/v4l2-dev.h
-+++ b/include/media/v4l2-dev.h
-@@ -74,7 +74,7 @@ struct dentry;
-  * @V4L2_FL_USES_V4L2_FH:
-  *	indicates that file->private_data points to &struct v4l2_fh.
-  *	This flag is set by the core when v4l2_fh_init() is called.
-- *	All new drivers should use it.
-+ *	All drivers must use it.
-  * @V4L2_FL_QUIRK_INVERTED_CROP:
-  *	some old M2M drivers use g/s_crop/cropcap incorrectly: crop and
-  *	compose are swapped. If this flag is set, then the selection
+ EXPORT_SYMBOL_GPL(v4l2_fh_open);
+ 
+-void v4l2_fh_del(struct v4l2_fh *fh)
++void v4l2_fh_del(struct v4l2_fh *fh, struct file *filp)
+ {
+ 	unsigned long flags;
+ 
+@@ -75,6 +75,8 @@ void v4l2_fh_del(struct v4l2_fh *fh)
+ 	list_del_init(&fh->list);
+ 	spin_unlock_irqrestore(&fh->vdev->fh_lock, flags);
+ 	v4l2_prio_close(fh->vdev->prio, fh->prio);
++
++	filp->private_data = NULL;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_fh_del);
+ 
+@@ -94,10 +96,9 @@ int v4l2_fh_release(struct file *filp)
+ 	struct v4l2_fh *fh = file_to_v4l2_fh(filp);
+ 
+ 	if (fh) {
+-		v4l2_fh_del(fh);
++		v4l2_fh_del(fh, filp);
+ 		v4l2_fh_exit(fh);
+ 		kfree(fh);
+-		filp->private_data = NULL;
+ 	}
+ 	return 0;
+ }
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index bf35ac436249..41e4aca77b7f 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -109,7 +109,7 @@ static int subdev_open(struct file *file)
+ 
+ err:
+ 	module_put(subdev_fh->owner);
+-	v4l2_fh_del(&subdev_fh->vfh);
++	v4l2_fh_del(&subdev_fh->vfh, file);
+ 	v4l2_fh_exit(&subdev_fh->vfh);
+ 	subdev_fh_free(subdev_fh);
+ 	kfree(subdev_fh);
+@@ -127,11 +127,10 @@ static int subdev_close(struct file *file)
+ 	if (sd->internal_ops && sd->internal_ops->close)
+ 		sd->internal_ops->close(sd, subdev_fh);
+ 	module_put(subdev_fh->owner);
+-	v4l2_fh_del(vfh);
++	v4l2_fh_del(vfh, file);
+ 	v4l2_fh_exit(vfh);
+ 	subdev_fh_free(subdev_fh);
+ 	kfree(subdev_fh);
+-	file->private_data = NULL;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
+index 7fedb33dda34..dc7f9a77cbe6 100644
+--- a/drivers/staging/media/imx/imx-media-csc-scaler.c
++++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+@@ -792,7 +792,7 @@ static int ipu_csc_scaler_open(struct file *file)
+ err_ctrls:
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ err_ctx:
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	return ret;
+@@ -807,7 +807,7 @@ static int ipu_csc_scaler_release(struct file *file)
+ 
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdlr);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index b92666ff50a1..49e497a32973 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -926,7 +926,7 @@ static int vdec_close(struct file *file)
+ 
+ 	v4l2_m2m_ctx_release(sess->m2m_ctx);
+ 	v4l2_m2m_release(sess->m2m_dev);
+-	v4l2_fh_del(&sess->fh);
++	v4l2_fh_del(&sess->fh, file);
+ 	v4l2_fh_exit(&sess->fh);
+ 
+ 	mutex_destroy(&sess->lock);
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index ebefd646dbdb..bff42ea1871f 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -404,7 +404,7 @@ static int cedrus_release(struct file *file)
+ 
+ 	mutex_lock(&dev->dev_mutex);
+ 
+-	v4l2_fh_del(&ctx->fh);
++	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 24a68e3e5419..32f71d9a9cf7 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -107,7 +107,7 @@ static int comp_vdev_open(struct file *filp)
+ 	return 0;
+ 
+ err_rm:
+-	v4l2_fh_del(&fh->fh);
++	v4l2_fh_del(&fh->fh, filp);
+ 	v4l2_fh_exit(&fh->fh);
+ 
+ err_dec:
+@@ -143,7 +143,7 @@ static int comp_vdev_close(struct file *filp)
+ 	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
+ 	mdev->mute = false;
+ 
+-	v4l2_fh_del(&fh->fh);
++	v4l2_fh_del(&fh->fh, filp);
+ 	v4l2_fh_exit(&fh->fh);
+ 
+ 	atomic_dec(&mdev->access_ref);
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index 680f25d17dc2..fd4b998ccd16 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -692,8 +692,7 @@ uvc_v4l2_release(struct file *file)
+ 		uvc_v4l2_disable(uvc);
+ 	mutex_unlock(&video->mutex);
+ 
+-	file->private_data = NULL;
+-	v4l2_fh_del(&handle->vfh);
++	v4l2_fh_del(&handle->vfh, file);
+ 	v4l2_fh_exit(&handle->vfh);
+ 	kfree(handle);
+ 
+diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
+index d8fcf49f10e0..5e4c76163512 100644
+--- a/include/media/v4l2-fh.h
++++ b/include/media/v4l2-fh.h
+@@ -114,12 +114,15 @@ int v4l2_fh_open(struct file *filp);
+  * v4l2_fh_del - Remove file handle from the list of file handles.
+  *
+  * @fh: pointer to &struct v4l2_fh
++ * @filp: pointer to &struct file associated with @fh
++ *
++ * The function resets filp->private_data to NULL.
+  *
+  * .. note::
+  *    Must be called in v4l2_file_operations->release\(\) handler if the driver
+  *    uses &struct v4l2_fh.
+  */
+-void v4l2_fh_del(struct v4l2_fh *fh);
++void v4l2_fh_del(struct v4l2_fh *fh, struct file *filp);
+ 
+ /**
+  * v4l2_fh_exit - Release resources related to a file handle.
 -- 
 Regards,
 
