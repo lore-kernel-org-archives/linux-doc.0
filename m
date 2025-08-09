@@ -1,441 +1,530 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD23C29DB77;
-	Sat,  9 Aug 2025 16:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657731F8725;
+	Sat,  9 Aug 2025 21:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754758413; cv=none; b=roYfOTSZefGHIVSAaVGaxl1SFXdDN5U4Yh8HXUtIwzIxLZlRfcswkiuke4KKAGlsP16PRY/Qv6M8AEwpStKOoB++EufPRAXeJsVPcqKJAz/L2sltLfsMN2IU3qi9B0uvgB39USB1IpTsCbwhvaswi12Z7GCg9itSEI1Xi5qazKg=
+	t=1754774248; cv=none; b=a40+ntDK7JuFrkOGmU/sJqIqBairvJ2qEAUWhWZwQZVAXdVWNWpPGYjLCncCvUADSIGYZT2iIp14GzFeUWj+GIyWbYmq9xfHRRF6EDnArbRyXLlVUTUasJqsOFUuh5SB4sfnbJAOFJPpoFR3MwcoyWgWpzgqSDZsLeWCY58ienw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754758413; c=relaxed/simple;
-	bh=phJcwq4KUGhS3dMh4p0MnMkKcybPnptDp0KKYBvj4jM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NPllD0QM5hnxmb1oIQXmaHIQQ/yfMyUSftghLtXnUElBxezmILI9y957s4f3FL1D82jEFXGWd+HGlntNrlyU7WWlR5RjWcSPHGqc43P9qETGCmTMOUClVPqjpoA/mfLw+MCyyarXcxDsZxFrHZ4xsP6AkUdg05sJ317h4AeU868=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eL8KxNu/; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754774248; c=relaxed/simple;
+	bh=YKUqRbBCg4IcIR3LfUtI3OUi+FEwupQo1kIEtOKHlPw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dnda5TQ9z+1UidurSQPwNPIQCMdAfh+Ylz0JVUv1UKwzY0fdVzg7vjltO2RWnTUVr1vuwcH17kEDw0hC5qq36pCk4Y6XBVnFzpRwbpdnUTg8yBuS89d+1nBJA7x0e2tc6Uo4eDU6VCVDHPnm6rasDozLuvy14j7z/EOisfbB0f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QTxD28Xv; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eL8KxNu/"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7e81c336e10so357123885a.0;
-        Sat, 09 Aug 2025 09:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754758410; x=1755363210; darn=vger.kernel.org;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=b82Zl5v+n85Fe4l4e0mlHahtdka+pmXx7LMxto17f5Q=;
-        b=eL8KxNu/odRY4+p93etPDBssm+Cj+MmQjD4/yeSowgUbOrWa5aKUMHWO5puzqZhJCA
-         jFHYkhRXdkRn5fai9i3SZQ8HNu5PAgpOsmFK8oaaUmu35U697e2xSnCQgKBD60OAmJHG
-         pu1Iifv6jr4FfygvPosJtSuas+R6CpfnBrgKkqPm2+XJptnav75ocJ5GWHucOwKMAeFK
-         Ms8K1Bjg+GQocpJJnKs1PYj5kejrw7CQ4sqmwhjlXNjofyJurn2gvgdqPPBC6QEKBjGz
-         uAe5Ha0Eu/GbvaA/wwuGS3fp1CjwYIodACjTBcsaMq0MJVxUv+Xp6j3OlvBo+q+F9/t3
-         MUTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754758410; x=1755363210;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b82Zl5v+n85Fe4l4e0mlHahtdka+pmXx7LMxto17f5Q=;
-        b=RB6/OiqyZ3YrIC6TfeurUUT0tfRTLQAWnbLrHCuB92V8r/YcRf3mLXpGVyvfgLk1EI
-         UBhx4isFVCeyh8OCJyOliTGA4BMe6NNrSEmoVjTqqLD9trfkX0ZBAqx9tKx0Swh1h0Rz
-         l8POUf4laodrynd7cUjwJrNPgV4nq2m6FJJggnrGarW3t16ksyje3DxPJLyWFhz4NdyF
-         9upgyQmHNc62tf42zaP0IHFUkcRCT+n8h1UR0qCJjSJLAsKVdEawvO+3fWC1XhRrYj9X
-         5WyKewQXv3hCy75CiyaJ6/M54qwl7iexvtZ27s79lue4NBk44Mt/kUXNn7IPXmmcoVHg
-         OQSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1D+x94dEvbxtr/PLhh3wA6csD1zjz0pZG8GRPhWRBcA7mRGCzLafpIZr2ubGvb8VxG8aptwtf3GnZkt+y9Mw=@vger.kernel.org, AJvYcCUnDv1opOgozO7Wce5qyRaKPZWiZCvMqAh/U+rh7b8zeTcrBJymY7Tp6WrdFgbMuiEe71RQ53VDyKqwJqgW@vger.kernel.org, AJvYcCUwLGiqNNdJW4GIUHp3HMZWnEE03gudjYpZj6ZXMsyya9Au9sPj414iX81gnjWWwAPfrDj8r63eP/P1Bg==@vger.kernel.org, AJvYcCWShkPjplXy56T9ZS/uogA3R4ZRz58exTU7AQ3TBoQv+ud0LzLrsJ5lmPHz04752hFKCjm662xmVM/U@vger.kernel.org, AJvYcCXWwkWBgjjkABjbjAh1a5p8nSHK3+sazDbyMa+lxYRzZSgLNRJJewuSurZ35v7w7pe77CJzg0jAEK8aU9fwApzvmDCX@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZEo0ahMLxuvIbtYXa7KUZzQL7tuUxx3OWAtiGNXMCqPXHUu6X
-	IePYCqcnwbxNpGJg2wUxhaytNA7nNJKW8FQ4AFe3lwviVrNwtuYl+1NN
-X-Gm-Gg: ASbGncuSahHgbqO6ws1L3p4ie/MWhKWLglNr6MVlYMwGoeWaRuh6mwExauhhOflN2Zm
-	omAIbSNn5BHrXdZHFBtz1TCe/y3QIzC9hZX+47b/+JGHPlnjM1ysLBPsYOjqGRLxDtXohUbFYrx
-	qu1lL5lJo1Lt6tWYqzjCCW+WoVkMfeUPWBKaWrHoZah5LeuhOomzosyJ1KcmF333Grjw5/FbgQ1
-	ZlNypcnl+MgsNsFT6kVnjn6apoMn13x0Gfu/IQ40fhnYwM0eSL4zhuD81BNQ1ar2nuvoX2M+K1g
-	wDwedK+uIDag15NOijmk1L4pFem2nMjpw/++ky8eSeEd8onsrXr0+aL+jtWbS7a5gaitMsbbLjy
-	dDIXuCM+0GGE0ZQD1xd/jlcPZePJs/Hzd2oogTQ==
-X-Google-Smtp-Source: AGHT+IF9oGm+vOmYY4e4ObD+uhpA4yymxsi+N6AjJ7hC/qynLLDha6S5LoqCkRbeKeqnaRxdFbffcA==
-X-Received: by 2002:a05:620a:70e7:b0:7e1:ef9c:551b with SMTP id af79cd13be357-7e82c67f4b6mr814292485a.14.1754758410392;
-        Sat, 09 Aug 2025 09:53:30 -0700 (PDT)
-Received: from [10.138.10.6] ([89.187.178.201])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e840d96d78sm64740685a.3.2025.08.09.09.53.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Aug 2025 09:53:29 -0700 (PDT)
-Message-ID: <6cbaa3a3-694e-4951-abb3-b88e6c9d6638@gmail.com>
-Date: Sat, 9 Aug 2025 12:53:09 -0400
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QTxD28Xv"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 34234C6E;
+	Sat,  9 Aug 2025 23:16:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754774180;
+	bh=YKUqRbBCg4IcIR3LfUtI3OUi+FEwupQo1kIEtOKHlPw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QTxD28Xvm9k6XqO1fMf2npUkCzsfTj1EIk0Wni3m/jFtuWLXxNLvRym7JInI/VUoM
+	 YOI+JEBkwNbWVshkGrl0yDdx+uhewWVsc+oAzyXFZ7LF/6ZF86LpETwO72pR3GCxv8
+	 V6Pnj9BvyD1okEEzGosKJQ2z9S/hlb1c9SEwvN80=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hans@jjverkuil.nl>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Abhishek Tamboli <abhishektamboli9@gmail.com>,
+	Akash Kumar <quic_akakum@quicinc.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alex Shi <alexs@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Ariel Otilibili <ariel.otilibili-anieli@eurecom.fr>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Benoit Parrot <bparrot@ti.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Devarsh Thakkar <devarsht@ti.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Eduardo Valentin <edubezval@gmail.com>,
+	Erling Ljunggren <hljunggr@cisco.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Jai Luthra <jai.luthra@linux.dev>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	=?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Ma Ke <make24@iscas.ac.cn>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Matthew Majewski <mattwmajewski@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Michal Simek <michal.simek@amd.com>,
+	Mike Isely <isely@pobox.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Ming Qian <ming.qian@nxp.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Shreeya Patel <shreeya.patel@collabora.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Todor Tomov <todor.too@gmail.com>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yong Deng <yong.deng@magewell.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Yunke Cao <yunkec@google.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	imx@lists.linux.dev,
+	kernel@collabora.com,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	mjpeg-users@lists.sourceforge.net,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: [PATCH v2 00/76] media: Rationalise usage of v4l2_fh
+Date: Sun, 10 Aug 2025 00:15:37 +0300
+Message-ID: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 00/16] dma-mapping: migrate to physical address-based
- API
-To: Jason Gunthorpe <jgg@nvidia.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Leon Romanovsky <leon@kernel.org>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Alexander Potapenko <glider@google.com>, Alex Gaynor
- <alex.gaynor@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
- iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
- Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
- Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
- kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
- linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- linux-trace-kernel@vger.kernel.org, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, "Michael S. Tsirkin"
- <mst@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, Stefano Stabellini
- <sstabellini@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
- xen-devel@lists.xenproject.org
-References: <cover.1754292567.git.leon@kernel.org>
- <CGME20250807141938eucas1p2319a0526b25db120b3c9aeb49f69cce1@eucas1p2.samsung.com>
- <20250807141929.GN184255@nvidia.com>
- <a154e058-c0e6-4208-9f52-57cec22eaf7d@samsung.com>
- <20250809133454.GP184255@nvidia.com>
-Content-Language: en-US
-From: Demi Marie Obenour <demiobenour@gmail.com>
-Autocrypt: addr=demiobenour@gmail.com; keydata=
- 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
- +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <20250809133454.GP184255@nvidia.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ANOjCz5i1k7QI0nCYN2dEm0B"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ANOjCz5i1k7QI0nCYN2dEm0B
-Content-Type: multipart/mixed; boundary="------------Tcin0j6gTuXw4zaLOgBCLymL";
- protected-headers="v1"
-From: Demi Marie Obenour <demiobenour@gmail.com>
-To: Jason Gunthorpe <jgg@nvidia.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Leon Romanovsky <leon@kernel.org>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Alexander Potapenko <glider@google.com>, Alex Gaynor
- <alex.gaynor@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
- iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
- Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
- Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
- kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
- linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- linux-trace-kernel@vger.kernel.org, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, "Michael S. Tsirkin"
- <mst@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, Stefano Stabellini
- <sstabellini@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
- xen-devel@lists.xenproject.org
-Message-ID: <6cbaa3a3-694e-4951-abb3-b88e6c9d6638@gmail.com>
-Subject: Re: [PATCH v1 00/16] dma-mapping: migrate to physical address-based
- API
-References: <cover.1754292567.git.leon@kernel.org>
- <CGME20250807141938eucas1p2319a0526b25db120b3c9aeb49f69cce1@eucas1p2.samsung.com>
- <20250807141929.GN184255@nvidia.com>
- <a154e058-c0e6-4208-9f52-57cec22eaf7d@samsung.com>
- <20250809133454.GP184255@nvidia.com>
-In-Reply-To: <20250809133454.GP184255@nvidia.com>
-Autocrypt-Gossip: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-
---------------Tcin0j6gTuXw4zaLOgBCLymL
-Content-Type: multipart/mixed; boundary="------------XI3qD7GRJn9UB00QQXegC2mE"
-
---------------XI3qD7GRJn9UB00QQXegC2mE
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On 8/9/25 09:34, Jason Gunthorpe wrote:
-> On Fri, Aug 08, 2025 at 08:51:08PM +0200, Marek Szyprowski wrote:
->> First - basing the=C2=A0API on the phys_addr_t.
->>
->> Page based API had the advantage that it was really hard to abuse it a=
-nd=20
->> call for something that is not 'a normal RAM'.=20
->=20
-> This is not true anymore. Today we have ZONE_DEVICE as a struct page
-> type with a whole bunch of non-dram sub-types:
->=20
-> enum memory_type {
-> 	/* 0 is reserved to catch uninitialized type fields */
-> 	MEMORY_DEVICE_PRIVATE =3D 1,
-> 	MEMORY_DEVICE_COHERENT,
-> 	MEMORY_DEVICE_FS_DAX,
-> 	MEMORY_DEVICE_GENERIC,
-> 	MEMORY_DEVICE_PCI_P2PDMA,
-> };
->=20
-> Few of which are kmappable/page_to_virtable() in a way that is useful
-> for the DMA API.
->=20
-> DMA API sort of ignores all of this and relies on the caller to not
-> pass in an incorrect struct page. eg we rely on things like the block
-> stack to do the right stuff when a MEMORY_DEVICE_PCI_P2PDMA is present
-> in a bio_vec.
->=20
-> Which is not really fundamentally different from just using
-> phys_addr_t in the first place.
->=20
-> Sure, this was a stronger argument when this stuff was originally
-> written, before ZONE_DEVICE was invented.
->=20
->> I initially though that phys_addr_t based API will somehow simplify
->> arch specific implementation, as some of them indeed rely on
->> phys_addr_t internally, but I missed other things pointed by
->> Robin. Do we have here any alternative?
->=20
-> I think it is less of a code simplification, more as a reduction in
-> conceptual load. When we can say directly there is no struct page type
-> anyhwere in the DMA API layers then we only have to reason about
-> kmap/phys_to_virt compatibly.
->=20
-> This is also a weaker overall requirement than needing an actual
-> struct page which allows optimizing other parts of the kernel. Like we
-> aren't forced to create MEMORY_DEVICE_PCI_P2PDMA stuct pages just to
-> use the dma api.
->=20
-> Again, any place in the kernel we can get rid of struct page the
-> smoother the road will be for the MM side struct page restructuring.
->=20
-> For example one of the bigger eventual goes here is to make a bio_vec
-> store phys_addr_t, not struct page pointers.
->=20
-> DMA API is not alone here, we have been de-struct-paging the kernel
-> for a long time now:
->=20
-> netdev: https://lore.kernel.org/linux-mm/20250609043225.77229-1-byungch=
-ul@sk.com/
-> slab: https://lore.kernel.org/linux-mm/20211201181510.18784-1-vbabka@su=
-se.cz/
-> iommmu: https://lore.kernel.org/all/0-v4-c8663abbb606+3f7-iommu_pages_j=
-gg@nvidia.com/
-> page tables: https://lore.kernel.org/linux-mm/20230731170332.69404-1-vi=
-shal.moola@gmail.com/
-> zswap: https://lore.kernel.org/all/20241216150450.1228021-1-42.hyeyoo@g=
-mail.com/
->=20
-> With a long term goal that struct page only exists for legacy code,
-> and is maybe entirely compiled out of modern server kernels.
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Why just server kernels?  I suspect client systems actually run
-newer kernels than servers do.
---=20
-Sincerely,
-Demi Marie Obenour (she/her/hers)
---------------XI3qD7GRJn9UB00QQXegC2mE
-Content-Type: application/pgp-keys; name="OpenPGP_0xB288B55FFF9C22C1.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB288B55FFF9C22C1.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+This patch series refactors v4l2_fh support to make the API easier to
+use, simplify drivers, and overall improve consistency through the whole
+subsystem.
 
-xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49y
-B+l2nipdaq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYf
-bWpr/si88QKgyGSVZ7GeNW1UnzTdhYHuFlk8dBSmB1fzhEYEk0RcJqg4AKoq6/3/
-UorR+FaSuVwT7rqzGrTlscnTDlPWgRzrQ3jssesI7sZLm82E3pJSgaUoCdCOlL7M
-MPCJwI8JpPlBedRpe9tfVyfu3euTPLPxwcV3L/cfWPGSL4PofBtB8NUU6QwYiQ9H
-zx4xOyn67zW73/G0Q2vPPRst8LBDqlxLjbtx/WLR6h3nBc3eyuZ+q62HS1pJ5EvU
-T1vjyJ1ySrqtUXWQ4XlZyoEFUfpJxJoN0A9HCxmHGVckzTRl5FMWo8TCniHynNXs
-BtDQbabt7aNEOaAJdE7to0AH3T/Bvwzcp0ZJtBk0EM6YeMLtotUut7h2Bkg1b//r
-6bTBswMBXVJ5H44Qf0+eKeUg7whSC9qpYOzzrm7+0r9F5u3qF8ZTx55TJc2g656C
-9a1P1MYVysLvkLvS4H+crmxA/i08Tc1h+x9RRvqba4lSzZ6/Tmt60DPM5Sc4R0nS
-m9BBff0Nm0bSNRS8InXdO1Aq3362QKX2NOwcL5YaStwODNyZUqF7izjK4QARAQAB
-zTxEZW1pIE9iZW5vdXIgKElUTCBFbWFpbCBLZXkpIDxhdGhlbmFAaW52aXNpYmxl
-dGhpbmdzbGFiLmNvbT7CwY4EEwEIADgWIQR2h02fEza6IlkHHHGyiLVf/5wiwQUC
-X6YJvQIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCyiLVf/5wiwWRhD/0Y
-R+YYC5Kduv/2LBgQJIygMsFiRHbR4+tWXuTFqgrxxFSlMktZ6gQrQCWe38WnOXkB
-oY6n/5lSJdfnuGd2UagZ/9dkaGMUkqt+5WshLFly4BnP7pSsWReKgMP7etRTwn3S
-zk1OwFx2lzY1EnnconPLfPBc6rWG2moA6l0WX+3WNR1B1ndqpl2hPSjT2jUCBWDV
-rGOUSX7r5f1WgtBeNYnEXPBCUUM51pFGESmfHIXQrqFDA7nBNiIVFDJTmQzuEqIy
-Jl67pKNgooij5mKzRhFKHfjLRAH4mmWZlB9UjDStAfFBAoDFHwd1HL5VQCNQdqEc
-/9lZDApqWuCPadZN+pGouqLysesIYsNxUhJ7dtWOWHl0vs7/3qkWmWun/2uOJMQh
-ra2u8nA9g91FbOobWqjrDd6x3ZJoGQf4zLqjmn/P514gb697788e573WN/MpQ5XI
-Fl7aM2d6/GJiq6LC9T2gSUW4rbPBiqOCeiUx7Kd/sVm41p9TOA7fEG4bYddCfDsN
-xaQJH6VRK3NOuBUGeL+iQEVF5Xs6Yp+U+jwvv2M5Lel3EqAYo5xXTx4ls0xaxDCu
-fudcAh8CMMqx3fguSb7Mi31WlnZpk0fDuWQVNKyDP7lYpwc4nCCGNKCj622ZSocH
-AcQmX28L8pJdLYacv9pU3jPy4fHcQYvmTavTqowGnM08RGVtaSBNYXJpZSBPYmVu
-b3VyIChsb3ZlciBvZiBjb2RpbmcpIDxkZW1pb2Jlbm91ckBnbWFpbC5jb20+wsF4
-BBMBAgAiBQJafgNKAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyiLVf
-/5wiwYa/EACv8a2+MMou9cSCNoZBQaU+fTmyzft9hUE+0d5W2UY1RY3OsjFIzm9R
-/4SVccfsqOYLEo+S0vQMIIIqFEq3FCpXXwPzyimotps05VA8U3Bd7yseojFygOgK
-sAMOAee2RCaDDOnoJue01dfZMzzHPO/TVdp3OvnpWipfv5G1Xg96rwbhMLE3tg6N
-xwAHa31Bv4/Xq8CJOoIWvx6fcmZQpz01/lSvsYn0KrfEbTKkuUf0vM9JrCTCP2oz
-VNN5BYzqaq2M4r+jmSyeXLim922VOWqGkUEQ85BSEemqrRS06IU6NtEMsF8EWt/b
-hWjk/9GDKTcnpdJHTrMxTspExBiNrvpI2t+YPU5B/dJJAUxvmhFrbSIbdB8umBZs
-I3AMYrEmpAbh5x7jEjoskUC7uN3o9vpg1oCLS2ePDLtAtyBtbHnkA4xGD7ar8mem
-xpH9lY/i+sC6CyyIUWcUDnnagKyJP0m9ks0GLsTeOCA0bft2XA6rD6aaCnMUsndT
-ctrab42CV5XypjmC4U1rPJ8JQJUh1/3P48/8sMH+3krxpJ06KNWNFaUbaMTGiltZ
-7x9DngklSYrX0T+2G4kVXNmjaljwkoLahwLla2gUWwBSyofXdqyhQdwZsp01KXNQ
-UCyT/Pg+aDcm/E7OMV3d4lf7g/CSxiX2GSEe6BlhSz+Lmd7ZJ3g32M1ARGVtaSBN
-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
-EtJuZYM5blWncBOJCoWMnBEcTEo/viU3GgcVRw=3D=3D
-=3Dx94R
------END PGP PUBLIC KEY BLOCK-----
+In V4L2, drivers that need to store per file handle data allocate their
+per file handle data structure in the .open() handler and set the struct
+file private_data field to point to it. The private_data field is
+entirely managed by drivers, and is generally opaque to the V4L2
+framework.
 
---------------XI3qD7GRJn9UB00QQXegC2mE--
+The V4L2 framework also needs to store per file handle data to support
+features such as V4L2 events or per file handle controls. To make use of
+those features, driver need to use the v4l2_fh structure to store per
+file handle data, either as-is, or embedded in a driver-specific
+structure. In either case, drivers must initialize the v4l2_fh structure
+with v4l2_fh_init(), and set the file private_data field to point to the
+v4l2_fh structure. The initialization operation sets the
+V4L2_FL_USES_V4L2_FH flag in the video_device.flags field, which
+indicates to the V4L2 core that private_data points to a valid v4l2_fh.
 
---------------Tcin0j6gTuXw4zaLOgBCLymL--
+In practice, while v4l2_fh usage is optional, all V4L2 drivers make use
+of it. As all new drivers are required to use v4l2_fh, this situation
+will not change, and opens the door to lots of simplifications in the
+V4L2 core and in drivers.
 
---------------ANOjCz5i1k7QI0nCYN2dEm0B
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+The series starts with patches 01/76 to 07/76 that align the behaviour
+of all drivers, ensuring they all store a v4l2_fh pointer in the file
+private_data. Seven drivers store a pointer to driver-specific
+structures that embed v4l2_fh. This causes no issue in practice as the
+v4l2_fh field is always the first one in all those structures, but the
+code lacks coherency.
 
------BEGIN PGP SIGNATURE-----
+After that, the series eliminates direct access to the file
+private_data. Patch 08/76 introduces a helper to retrieve the v4l2_fh
+from the file, and patches 09/76 to 11/76 use the helper in drivers.
 
-iQIzBAEBCAAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmiXfP8ACgkQszaHOrMp
-8lOWXBAAnJj/H7NOyJp7v2jGgmnhKlYEqtVi6qlmJcJz14v7rr9/EaskUUoYUujH
-YJp2/18HGnAPoUbUjxec8OzMRUwx1/a93C3+eCSL1AGwf46p6+oTZqMI8RKa10EN
-N8Zn/HcQBQ59AAowJ/XM4UB7bbcG7iqY35SqJ4EiE638m6TkA1I8aFz4xNBS0fuA
-5SdjEn7Pdy9MU5J5Isy8K6eDGwHmKOGVLw2wh7PwCOeBX+Nxy6dKs918KO+tQ5OE
-V/XHQuejVDUEjzknLlJygVa8riswgiP5sEHUT3ByvPP3gR9pPxw734I5LtLKI6vT
-FZHDmcBLkOKsCN7aCP17hef8GziM+krJOh2eMOaMyN6FTvRD3iUluF0TvtEqlnFY
-KZ6/eb/T0W5uz++VA9hFaOlq7sLIFUKRZZqdMXPKGVWSfv90jA12s7t12/gah/SY
-YKNo6UxWKoDXSZWghJ9AZulG6aXoidf4Z1OIDA/bWR7k0XPYO/ibs9HGKXxfpcC1
-ic+vKawKRYsAymyBOrUPYq0tyIO8H6ZGxzSM/U1HvkPnCkcLfb+EhgN0vb10r8+L
-vzcnKJc0HQrXPaW9fqEikyWD+KAmpGhUTEJZFlQaiCMk3VYK1cBx1iVi1i+cZY4S
-zdJjfggKCJ9cXiQB+4wmUT3TiA+fqC/I9hplAia1eXYCQeDQiNM=
-=TrA+
------END PGP SIGNATURE-----
+Patches 12/76 to 25/76 are assorted refactoring and cleanup that prepare
+drivers to remove the last manual accesses to private_data. Patches
+26/76 and 27/27 drop those, by setting private_data in the v4l2_fh_add()
+helper, and resetting it to NULL in v4l2_fh_del(). Prior refactoring
+makes it possible for those last two patches to be generated by
+coccinelle with only small manual additions.
 
---------------ANOjCz5i1k7QI0nCYN2dEm0B--
+Patches 28/76 to 32/76 then move to simplify the V4L2 core. As all
+drivers are guaranteed to use v4l2_fh, all the V4L2_FL_USES_V4L2_FH
+checks can be dropped. Patch 32/76 does so. It however stops short of
+dropping V4L2_FL_USES_V4L2_FH completely, and instead adds a temporary
+check in the open file operation to verify that the driver uses v4l2_fh.
+That check could be dropped after a few kernel releases.
+
+The second part of the series, address a second source of inconsistent
+behaviours in drivers. The V4L2 core passes to most ioctl handlers both
+the file pointer and the file private_data pointer, with the latter
+being passed as a void pointer. Not only is the void pointer redundant,
+as driver can (and do in many cases) access the per file data from the
+file private_data field, but passing a v4l2_fh through a void pointer is
+error-prone as incorrect casts wouldn't be noticed by the compiler.
+
+To fix this, patches 33/76 to 68/76 replace all usage of the void
+pointer, retrieving instead the v4l2_fh from the file structure. Patches
+69/76 and 70/76 then pass a NULL value through the ioctl void pointer
+argument, to ensure no new driver will try to access the v4l2_fh from
+there. They also rename the 'void *fh' argument to the ioctl handler
+definitions to 'void *priv'.
+
+Finally, patches 71/76 to 76/76 also rename the same arguments in
+several locations:
+
+- in the test drivers, the uvcvideo driver and the v4l2-pci-skeleton
+  driver due to their role as sample and reference code (71/76 to
+  73/76) ;
+
+- in the V4L2 core (74/76) ; and
+
+- in all drivers that use names other than the most common 'void *priv'
+  and 'void *fh', in order to standardize on those two names only (75/76
+  and 76/76).
+
+Renaming all remaining 'void *fh' to 'void *priv' would be lots of
+additional churn, and this series is big enough. Furthermore, we have
+plans to introduce a new video_device_state argument to ioctl handlers.
+We will likely remove the 'void *' argument at that time, to avoid
+modifying all ioctl handlers in all drivers twice in a short amount of
+time.
+
+This series is based on a merge of the linux-media next branch, and the
+"[PATCH 0/4] Remove the wl1273 FM Radio" series ([1]) applied on top of
+v6.16. The dependency on the wl1273 removal is due to that driver being
+the very last V4L2 driver that does not use v4l2_fh. I'm not sure yet
+how that series will be merged, but technically we could also merge this
+series without the dependency. It would break the wl1273 driver (at
+runtime only), but that is not an issue as it's scheduled for removal
+anyway.
+
+Compared to v1, all review comments have been addressed. The most
+notable changes are
+
+- the removal of the V4L2_FL_USES_V4L2_FH checks
+- the push of the NULL private pointer to the ioctl wrappers
+- the reintroduction of the 'void *' parameter name in the ioctl handler
+  definitions (now named 'priv'), 
+- the rename of the 'void *' arguments in drivers and in the V4L2 core
+
+Link to v1: https://lore.kernel.org/r/20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com
+
+[1] https://lore.kernel.org/linux-media/20250625133258.78133-1-linux@treblig.org/
+
+Jacopo Mondi (21):
+  media: rcar-vin: Do not set file->private_data
+  media: rzg2l-cru: Do not set file->private_data
+  media: camss: Remove custom .release fop()
+  media: zoran: Remove zoran_fh structure
+  media: zoran: Rename __fh to fh
+  media: v4l2-ioctl: Access v4l2_fh from private_data
+  media: allegro: Access v4l2_fh from file
+  media: meson-ge2d: Access v4l2_fh from file
+  media: coda: Access v4l2_fh from file
+  media: wave5: Access v4l2_fh from file
+  media: m2m-deinterlace: Access v4l2_fh from file
+  media: tegra-vde: Access v4l2_fh from file
+  media: nxp: mx2: Access v4l2_fh from file
+  media: rockhip: rga: Access v4l2_fh from file
+  media: s3c-camif: Access v4l2_fh from file
+  media: s5p-g2d: Access v4l2_fh from file
+  media: s5p-mfc: Access v4l2_fh from file
+  media: stm32: dma2d: Access v4l2_fh from file
+  media: cx18: Access v4l2_fh from file
+  media: usb: hdpvr: Access v4l2_fh from file
+  media: usb: uvc: Access v4l2_fh from file
+
+Laurent Pinchart (55):
+  media: pci: saa7164: Store v4l2_fh pointer in file->private_data
+  media: imagination: Store v4l2_fh pointer in file->private_data
+  media: ti: vpe: Store v4l2_fh pointer in file->private_data
+  media: usb: hdpvr: Store v4l2_fh pointer in file->private_data
+  media: usb: pvrusb2: Store v4l2_fh pointer in file->private_data
+  media: usb: uvcvideo: Store v4l2_fh pointer in file->private_data
+  media: staging: most: Store v4l2_fh pointer in file->private_data
+  media: Wrap file->private_data access with a helper function
+  media: Replace file->private_data access with file_to_v4l2_fh()
+  media: nvidia: tegra-vde: Replace file->private_data access
+  media: Replace file->private_data access with custom functions
+  media: pci: ivtv: Don't create fake v4l2_fh
+  media: amphion: Make some vpu_v4l2 functions static
+  media: amphion: Delete v4l2_fh synchronously in .release()
+  media: visl: Drop visl_v4l2fh_to_ctx() function
+  media: v4l2-fh: Move piece of documentation to correct function
+  media: camss: Replace .open() file operation with v4l2_fh_open()
+  media: chips-media: wave5: Pass file pointer to
+    wave5_cleanup_instance()
+  media: qcom: iris: Pass file pointer to iris_v4l2_fh_(de)init()
+  media: qcom: iris: Set file->private_data in iris_v4l2_fh_(de)init()
+  media: qcom: iris: Drop unused argument to iris_get_inst()
+  media: qcom: venus: Pass file pointer to venus_close_common()
+  media: Set file->private_data in v4l2_fh_add()
+  media: Reset file->private_data to NULL in v4l2_fh_del()
+  media: ipu6: isys: Don't set V4L2_FL_USES_V4L2_FH manually
+  media: staging: ipu7: isys: Don't set V4L2_FL_USES_V4L2_FH manually
+  media: v4l2-ctrls: Move v4l2_fh retrieval after V4L2_FL_USES_V4L2_FH
+    check
+  media: v4l2-dev: Make open and release file operations mandatory
+  media: Drop V4L2_FL_USES_V4L2_FH checks
+  media: mtk: jpeg: Access v4l2_fh from file->private_data
+  media: mtk_mdp_m2m: Access v4l2_fh from file
+  media: mtk: mdp3: Access v4l2_fh from file
+  media: mtk: vcodec: Access v4l2_fh from file
+  media: imx-jpeg: Access v4l2_fh from file
+  media: imx-isi: Access v4l2_fh from file
+  media: renesas: Access v4l2_fh from file
+  media: rockchip: rkvdec: Access v4l2_fh from file
+  media: exynos-gsc: Access v4l2_fh from file
+  media: exynos4-is: Access v4l2_fh from file
+  media: s5p-jpeg: Access v4l2_fh from file
+  media: s5p-mfc: Store s5p_mfc_ctx in vb2_queue.drv_priv
+  media: bdisp: Access v4l2_fh from file
+  media: st: delta: Access v4l2_fh from file
+  media: hantro: Access v4l2_fh from file->private_data
+  media: omap3isp: Access v4l2_fh from file
+  media: ivtv: Access v4l2_fh from file
+  media: staging: imx: Access v4l2_fh from file
+  media: v4l2-ioctl: Stop passing fh pointer to ioctl handlers
+  media: v4l2-ioctl: Push NULL fh argument down to ioctl wrappers
+  media: test-drivers: Rename second ioctl handlers argument to 'void
+    *priv'
+  media: uvcvideo: Rename second ioctl handlers argument to 'void *priv'
+  media: v4l2-pci-skeleton: Rename second ioctl handlers argument to
+    'void *priv'
+  media: v4l2-core: Rename second ioctl handlers argument to 'void
+    *priv'
+  media: v4l2: Rename second ioctl handlers argument to 'void *priv'
+  media: staging: Rename second ioctl handlers argument to 'void *priv'
+
+ Documentation/driver-api/media/v4l2-fh.rst    |  59 ++-
+ .../zh_CN/video4linux/v4l2-framework.txt      |  16 +-
+ .../extron-da-hd-4k-plus.c                    |   4 +-
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  12 +-
+ drivers/media/pci/bt8xx/bttv-driver.c         |  14 +-
+ drivers/media/pci/bt8xx/bttv-vbi.c            |   6 +-
+ drivers/media/pci/cobalt/cobalt-v4l2.c        |  60 +--
+ drivers/media/pci/cx18/cx18-driver.h          |   2 +-
+ drivers/media/pci/cx18/cx18-fileops.c         |  11 +-
+ drivers/media/pci/cx18/cx18-ioctl.c           |  64 +--
+ .../media/pci/intel/ipu6/ipu6-isys-video.c    |   1 -
+ drivers/media/pci/ivtv/ivtv-alsa-pcm.c        |   2 -
+ drivers/media/pci/ivtv/ivtv-driver.h          |   7 +-
+ drivers/media/pci/ivtv/ivtv-fileops.c         |  40 +-
+ drivers/media/pci/ivtv/ivtv-ioctl.c           | 124 ++---
+ drivers/media/pci/ivtv/ivtv-irq.c             |   4 +-
+ drivers/media/pci/saa7134/saa7134-video.c     |   4 +-
+ drivers/media/pci/saa7164/saa7164-encoder.c   |  30 +-
+ drivers/media/pci/saa7164/saa7164-vbi.c       |  25 +-
+ drivers/media/pci/saa7164/saa7164.h           |  10 +
+ drivers/media/pci/zoran/zoran.h               |   6 -
+ drivers/media/pci/zoran/zoran_driver.c        |  35 +-
+ .../media/platform/allegro-dvt/allegro-core.c |  33 +-
+ .../media/platform/amlogic/meson-ge2d/ge2d.c  |  25 +-
+ drivers/media/platform/amphion/vpu.h          |   2 +-
+ drivers/media/platform/amphion/vpu_v4l2.c     |  22 +-
+ drivers/media/platform/amphion/vpu_v4l2.h     |   8 -
+ .../platform/chips-media/coda/coda-common.c   |  50 +-
+ .../platform/chips-media/wave5/wave5-helper.c |  10 +-
+ .../platform/chips-media/wave5/wave5-helper.h |   2 +-
+ .../chips-media/wave5/wave5-vpu-dec.c         |  23 +-
+ .../chips-media/wave5/wave5-vpu-enc.c         |  29 +-
+ .../platform/chips-media/wave5/wave5-vpu.h    |   5 +
+ .../platform/imagination/e5010-jpeg-enc.c     |  23 +-
+ .../platform/imagination/e5010-jpeg-enc.h     |   5 +
+ drivers/media/platform/m2m-deinterlace.c      |  26 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    |  37 +-
+ .../media/platform/mediatek/mdp/mtk_mdp_m2m.c |  29 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  25 +-
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  |  36 +-
+ .../vcodec/decoder/mtk_vcodec_dec_drv.c       |   9 +-
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       |   5 +
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |  37 +-
+ .../vcodec/encoder/mtk_vcodec_enc_drv.c       |   9 +-
+ .../vcodec/encoder/mtk_vcodec_enc_drv.h       |   4 +-
+ .../media/platform/nvidia/tegra-vde/v4l2.c    |  35 +-
+ drivers/media/platform/nxp/dw100/dw100.c      |   7 +-
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    |  45 +-
+ drivers/media/platform/nxp/imx-pxp.c          |   7 +-
+ .../platform/nxp/imx8-isi/imx8-isi-m2m.c      |  21 +-
+ drivers/media/platform/nxp/mx2_emmaprp.c      |  24 +-
+ .../media/platform/qcom/camss/camss-video.c   |  43 +-
+ drivers/media/platform/qcom/iris/iris_vidc.c  |  36 +-
+ drivers/media/platform/qcom/venus/core.c      |   4 +-
+ drivers/media/platform/qcom/venus/core.h      |   4 +-
+ drivers/media/platform/qcom/venus/vdec.c      |   5 +-
+ drivers/media/platform/qcom/venus/venc.c      |   5 +-
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |   2 -
+ drivers/media/platform/renesas/rcar_fdp1.c    |  17 +-
+ drivers/media/platform/renesas/rcar_jpu.c     |  27 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  |   1 -
+ .../media/platform/renesas/vsp1/vsp1_histo.c  |   6 +-
+ .../media/platform/renesas/vsp1/vsp1_video.c  |  18 +-
+ drivers/media/platform/rockchip/rga/rga.c     |  30 +-
+ drivers/media/platform/rockchip/rga/rga.h     |   5 +
+ .../media/platform/rockchip/rkvdec/rkvdec.c   |  21 +-
+ .../media/platform/rockchip/rkvdec/rkvdec.h   |   4 +-
+ .../platform/samsung/exynos-gsc/gsc-core.h    |   6 +-
+ .../platform/samsung/exynos-gsc/gsc-m2m.c     |  37 +-
+ .../platform/samsung/exynos4-is/fimc-core.h   |   5 +-
+ .../platform/samsung/exynos4-is/fimc-m2m.c    |  19 +-
+ .../samsung/s3c-camif/camif-capture.c         |  26 +-
+ drivers/media/platform/samsung/s5p-g2d/g2d.c  |  40 +-
+ .../platform/samsung/s5p-jpeg/jpeg-core.c     |  33 +-
+ .../media/platform/samsung/s5p-mfc/s5p_mfc.c  |  17 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_common.h |   6 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_dec.c    |  34 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_enc.c    |  38 +-
+ .../media/platform/st/sti/bdisp/bdisp-v4l2.c  |  30 +-
+ .../media/platform/st/sti/delta/delta-v4l2.c  |  41 +-
+ drivers/media/platform/st/sti/hva/hva-v4l2.c  |  38 +-
+ drivers/media/platform/st/sti/hva/hva.h       |   2 -
+ drivers/media/platform/st/stm32/dma2d/dma2d.c |  28 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  16 +-
+ .../media/platform/sunxi/sun8i-di/sun8i-di.c  |  10 +-
+ .../sunxi/sun8i-rotate/sun8i_rotate.c         |  10 +-
+ .../platform/synopsys/hdmirx/snps_hdmirx.c    |   8 +-
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   |   2 +-
+ drivers/media/platform/ti/omap/omap_vout.c    |   6 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.c |  36 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.h |   6 +-
+ drivers/media/platform/ti/vpe/vpe.c           |  21 +-
+ drivers/media/platform/verisilicon/hantro.h   |   4 +-
+ .../media/platform/verisilicon/hantro_drv.c   |  10 +-
+ .../media/platform/verisilicon/hantro_v4l2.c  |  22 +-
+ drivers/media/platform/xilinx/xilinx-dma.c    |  10 +-
+ .../radio/si4713/radio-platform-si4713.c      |  10 +-
+ .../media/test-drivers/vicodec/vicodec-core.c |  21 +-
+ drivers/media/test-drivers/vim2m.c            |   7 +-
+ .../media/test-drivers/vimc/vimc-capture.c    |   2 +-
+ drivers/media/test-drivers/visl/visl-core.c   |   5 +-
+ drivers/media/test-drivers/visl/visl.h        |   7 +-
+ drivers/media/test-drivers/vivid/vivid-core.c | 100 ++--
+ .../media/test-drivers/vivid/vivid-radio-rx.c |  12 +-
+ .../media/test-drivers/vivid/vivid-radio-rx.h |   8 +-
+ .../media/test-drivers/vivid/vivid-radio-tx.c |   8 +-
+ .../media/test-drivers/vivid/vivid-radio-tx.h |   4 +-
+ .../media/test-drivers/vivid/vivid-sdr-cap.c  |  18 +-
+ .../media/test-drivers/vivid/vivid-sdr-cap.h  |  18 +-
+ .../media/test-drivers/vivid/vivid-vbi-cap.c  |  10 +-
+ .../media/test-drivers/vivid/vivid-vbi-cap.h  |   8 +-
+ .../media/test-drivers/vivid/vivid-vbi-out.c  |   8 +-
+ .../media/test-drivers/vivid/vivid-vbi-out.h  |   6 +-
+ .../media/test-drivers/vivid/vivid-vid-cap.c  |  24 +-
+ .../media/test-drivers/vivid/vivid-vid-cap.h  |  24 +-
+ .../test-drivers/vivid/vivid-vid-common.c     |   8 +-
+ .../test-drivers/vivid/vivid-vid-common.h     |   8 +-
+ .../media/test-drivers/vivid/vivid-vid-out.c  |  16 +-
+ .../media/test-drivers/vivid/vivid-vid-out.h  |  16 +-
+ drivers/media/usb/cx231xx/cx231xx-417.c       |   2 +-
+ drivers/media/usb/gspca/gspca.c               |  18 +-
+ drivers/media/usb/hdpvr/hdpvr-video.c         |  69 +--
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c      |  69 +--
+ drivers/media/usb/uvc/uvc_metadata.c          |  22 +-
+ drivers/media/usb/uvc/uvc_v4l2.c              |  85 ++--
+ drivers/media/usb/uvc/uvcvideo.h              |   5 +
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c |   9 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      |  11 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |  45 +-
+ drivers/media/v4l2-core/v4l2-fh.c             |  16 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 456 +++++++++---------
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  50 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         |  16 +-
+ .../staging/media/imx/imx-media-csc-scaler.c  |  26 +-
+ drivers/staging/media/ipu7/ipu7-isys-video.c  |   1 -
+ drivers/staging/media/meson/vdec/vdec.c       |  29 +-
+ drivers/staging/media/meson/vdec/vdec.h       |   5 +
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |   8 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   5 +
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   5 -
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c |  16 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  |   6 +-
+ drivers/staging/most/video/video.c            |  19 +-
+ drivers/usb/gadget/function/uvc.h             |   5 +
+ drivers/usb/gadget/function/uvc_v4l2.c        |   8 +-
+ include/media/v4l2-ctrls.h                    |   4 +-
+ include/media/v4l2-dev.h                      |   2 +-
+ include/media/v4l2-fh.h                       |  28 +-
+ include/media/v4l2-ioctl.h                    | 236 ++++-----
+ include/media/v4l2-mem2mem.h                  |  42 +-
+ samples/v4l/v4l2-pci-skeleton.c               |  10 +-
+ 151 files changed, 1790 insertions(+), 1804 deletions(-)
+
+
+base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+-- 
+Regards,
+
+Laurent Pinchart
+
