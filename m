@@ -1,93 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-78.smtpout.orange.fr [80.12.242.78])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E488D17578;
-	Sat,  9 Aug 2025 09:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4099186E2D;
+	Sat,  9 Aug 2025 10:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754733429; cv=none; b=SdkRG9Tj7bPdj1Y/6Z2pYi5NY5Dtx6Bqo8cszXRdpsq+W85ZFocnJgPbBwz56WMw/H0wct+tGUT7YAgpJ1T5FAKhbgXw7ozZQcbPMDKvkpUQTV5V1Hwrbo6pfQ8gnoZ+MRxyeUXoppKfTbf845ohbfFBbRsS6l+8T5ukzlpM9qI=
+	t=1754737160; cv=none; b=PJfVu6q4f9r0zVqpKfuRJ1fASnJGJfVqbU/d4Lar/9zqBhvVW+cCizWSOseuEd6R1veuB8vD0jtBlk/NbsY804ydMSx7yTADb5QGPqCt3m1LpiDylWoIUGmkpccXRU0nYkvPZgpSiVM5U/CDsuHPFQHUwwTXSKJCLs3WOxXcBYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754733429; c=relaxed/simple;
-	bh=KfTztYwi+6LcMDwbkjWdx4AqDgBS3a+xN/DjCueFpvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMMOU28BQAB/O1l4+OnFZWxn4SEsv1xQ1qwvul/Xirhurqoq3ZvkB9wSCOgF1A0m9yUoy22p7Fohf7HzWWFMIUMXadntWbpvjITmbKgRWag+AkuFtr6RRK5gHOT2RVLsB7UfQ6cpKdQf4asi/uwzN4SnUUmWryIjL3rdO8FJ8ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqIxV+s8; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1754737160; c=relaxed/simple;
+	bh=aEBAJo6GU7hqra0E8lreqOsmPp5tWoSDoSmg9CwKSEE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ENusuRiPqnUj2rXxaAPJLiSqu1/ycizua3bWkg8RRRAgGvWzFD3KZ7lScUeSRW+boPTCJ5/gGB6s5yPKn/YQLlCDzYr81sZftOr7cPV0f6RExgTKejoM3JP2ThBYznUpaVCrbBJEuOP24Ghbe7oLS3SX7h3byGdg/TdAYaTpjm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=qkWWr+5F; arc=none smtp.client-ip=80.12.242.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqIxV+s8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754733428; x=1786269428;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=KfTztYwi+6LcMDwbkjWdx4AqDgBS3a+xN/DjCueFpvY=;
-  b=UqIxV+s8RhXLt590kwJ48FRSbLAs1zZB4/tMveq2oPlOwU1QNbmtRe1A
-   9zR73XIesDSOh6FegKfi5eHdHRL6V9HakVPdSs4Sqv1FEJp5K5yfM/k19
-   P7a3qsz//FMZdjSqHw0FNsRvbTfTJV5CwP4cBqXWBaNCwNSSxsOp5l5/J
-   vYK9FEl/GcSe3Gq5HGRgwWKVhi5eD/mjpuCbHEkBVlbtWFycpip5PokRC
-   fBR1rxkjAXDysHNEswEd4zqW69rjdimA/7B/hPx9Hl4aWUTUacrcmwOFd
-   C0ghDTgVT3DIta/ZUd5i9zwnqVr+9qV59B9JQzQ4HO1cYMFY9ysITi6Hq
-   w==;
-X-CSE-ConnectionGUID: se6hIRjwRgirL74RiSYqmg==
-X-CSE-MsgGUID: FzDQx1URTdaYr0dp0qUV6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="56778701"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="56778701"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 02:57:07 -0700
-X-CSE-ConnectionGUID: hr6wK5rpTma0p2tr7gdwng==
-X-CSE-MsgGUID: y132Wk96TECBew8t+w0+sg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="169957051"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 02:57:06 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ukgJy-00000004cbt-0lsQ;
-	Sat, 09 Aug 2025 12:57:02 +0300
-Date: Sat, 9 Aug 2025 12:57:01 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/printf: Use literal fwnode_handle
-Message-ID: <aJcbbb4OVK_q2VkU@smile.fi.intel.com>
-References: <07262c55e82fc4a3e3dbe7c45713b14955271e7f.1754552156.git.geert+renesas@glider.be>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="qkWWr+5F"
+Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+ ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPA
+	id khH2unzT9eRX6khH2uto6O; Sat, 09 Aug 2025 12:58:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1754737087;
+	bh=xA42f4aO7DFUZsQX7jAiZ0ePwTc8RgtUXdvfcDF/Z1M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=qkWWr+5FMk685FQCGu6Ps4GDH5FnGrDZnQQLTgMjmsvRVtNWL0MFIzWsL0b1+YYy+
+	 c1EL6jXiSXf+1iZAh6gxpVG7nbru0h3ZGi1r3Wrxl0CEK0+YkvmYcMCDotrHV+pmfg
+	 GEldkOqoPvwpmWwUol9m/xaH18RrxZZ4KOZ7mGzGJv871lQS4BjDg4zjUFtDKYBA6n
+	 A0DDiDSnM97W9RncWQ0SVBQVAf4guMOy5jSJpqdx8iFNNKHeJ2pX52RIc4rdcqbHy/
+	 hn+fpuLk0Rzs8cA8pWce4mqg0C80QdVNVFaqrnoIvtLHrDAiIh3r3WBkz5vQU2nebB
+	 6Y1wNAsaZcByA==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Sat, 09 Aug 2025 12:58:07 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+Message-ID: <0a5b8931-6f0e-497f-aea9-e1c77bfed027@wanadoo.fr>
+Date: Sat, 9 Aug 2025 12:58:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/14] net: ionic: Create an auxiliary device for rdma
+ driver
+To: Abhijit Gangurde <abhijit.gangurde@amd.com>
+Cc: allen.hubbe@amd.com, nikhil.agarwal@amd.com, davem@davemloft.net,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ shannon.nelson@amd.com, brett.creeley@amd.com, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, jgg@ziepe.ca,
+ leon@kernel.org, andrew+netdev@lunn.ch
+References: <20250723173149.2568776-1-abhijit.gangurde@amd.com>
+ <20250723173149.2568776-2-abhijit.gangurde@amd.com>
+ <7044823e-c263-4789-b83c-ecb1eccde04f@wanadoo.fr>
+ <7393e875-9e7b-929a-a999-2b5e23230da4@amd.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Content-Language: en-US, fr-FR
+In-Reply-To: <7393e875-9e7b-929a-a999-2b5e23230da4@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <07262c55e82fc4a3e3dbe7c45713b14955271e7f.1754552156.git.geert+renesas@glider.be>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Aug 07, 2025 at 09:36:01AM +0200, Geert Uytterhoeven wrote:
-> When looking for fwnode_handle in the printk format documentation, it is
-> only found in the Chinese translation:
+Le 06/08/2025 à 10:14, Abhijit Gangurde a écrit :
 > 
->     $ git grep fwnode_handle -- Documentation/*printk-formats.rst
->     Documentation/translations/zh_CN/core-api/printk-formats.rst:用于打印fwnode_handles的消息。默认情况下是打印完整的节点名称，包括路径。
+> On 8/2/25 02:45, Christophe JAILLET wrote:
+>> Le 23/07/2025 à 19:31, Abhijit Gangurde a écrit :
+>>> To support RDMA capable ethernet device, create an auxiliary device in
+>>> the ionic Ethernet driver. The RDMA device is modeled as an auxiliary
+>>> device to the Ethernet device.
+>>
+>> ...
+>>
+>>> +static DEFINE_IDA(aux_ida);
+>>> +
+>>> +static void ionic_auxbus_release(struct device *dev)
+>>> +{
+>>> +    struct ionic_aux_dev *ionic_adev;
+>>> +
+>>> +    ionic_adev = container_of(dev, struct ionic_aux_dev, adev.dev);
+>>> +    kfree(ionic_adev);
+>>> +}
+>>> +
+>>> +int ionic_auxbus_register(struct ionic_lif *lif)
+>>
+>> The 2 places that uses thus function don't check its error code.
 > 
-> This happens because the original documentation talks about "fwnode
-> handles", without mentioning the actual type name.
+> For the eth driver, RDMA functionality is optional hence return code was 
+> missed. Although devlink parameter to control this is not included in 
+> this series, where it needs return value from this function. Till that 
+> point, I'll make it return void.
 
-Fixes?
+Don't bother with it.
+If it is planned to be used later, I think it is fine to leave it as-is. 
+This will save you some work.
 
-Anyway, LGTM,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Just ignore my comment.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+CJ
