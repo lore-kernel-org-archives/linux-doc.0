@@ -1,100 +1,85 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D995C1BDCF;
-	Sun, 10 Aug 2025 17:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6484CAD51;
+	Sun, 10 Aug 2025 17:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754846674; cv=none; b=l6x9oCwVjpIUBVRd/A8e8VFyBXubRWiusvVzFghP41wkUhCgmbDQ8OjuwtDjdsVsB1kSlMT/+R4k4LNw7OZGifsCdrZsIENjVOgo73ZKEUE+/Zm2Lt7ySYOSjE2zP9cgcVdIFqIWgLFKFKB/qI7YCrUJkdva3kGF3KUd4lbRrY0=
+	t=1754848722; cv=none; b=C994TQOAoNiBdsjAgX0gDBZBiuioXeaSgsXPrIi0NCwoshuMKi2YRzmCrYU51Uec9ChaMFMrscDI+zSYyQewIkQ74htawoIbJsHn5OMA88Q7L9up7BdY79kScUWATf2ZBTwNHui9HkyjBeoYwYZcX3uQozD1JBNhq/ZujiekO3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754846674; c=relaxed/simple;
-	bh=wlZ2vvANBOBNoXnQFZS9/zrkZfupPRS4k+iwoWlqWUg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=umR6pe2BRhDXrDM050kqY9FPNghV18ZaXvrplrHPzK7nK6qSTm98QXDcXKNkHY3YAHt/+nvgNmut52EadxQjka5i+gkUEi0bz183uw7A1PH3Fu6A34Uy9ZcQZugo5LEI5eZPZsyXcwRXmi5DSp95Cii0d4dk4NaaTeL+i2JlC8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mup/xahv; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754848722; c=relaxed/simple;
+	bh=3DY4sdD6Ak+INsGBF03kY73HAAA8wXnirguJXoLXA0k=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=BJkrH6O0N4g40xWcNeJ3op6F5PwEhVXtZWU87N1M50DSr5sNreVYF1Pn6hTuCjDBHCJty108OW80Kn/EYiH4oQdcejUWZ3/DjPC3v+vcUBRcyvZGc+LnkDXM7DHSMZ8Oc2e4RW+vS7u1qnUDZmZoCQDNrlvkE32COnDphr/nSOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ryc/S090; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mup/xahv"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-320dfa8cfa3so3456708a91.3;
-        Sun, 10 Aug 2025 10:24:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754846672; x=1755451472; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vYPf+w1WeOZKmEb4rqwBDVjQYiVUVPfTd8uq28qABWQ=;
-        b=Mup/xahvZuji2DqbG6Wkgvv1N8x1YHQw6zQYU7Zl7uhrHRt+Tqgck1RLxB3aTi3FS+
-         r24mA79U7d9FgbPm0nLV8UQa5+fnRAUkhx+UeD8dIUUSB+PWy6tMjNx66k0i9piDOc0n
-         NOcEUqMuIYAxZafkoUVLB7gnaHIzsCxZrCTiacv1/fDHg5M3GdMtx68n+ooxEQmhYDWK
-         lIH9qQsQ6iG95sQKdjundfYt/ZFWXPYTXVSods/9zpp+Ldh/SizyFmqLvt2EeQ5NSm6j
-         u60xlX2vVAkAxrshdq215A9L6mWhFxzkqV86vy3Uea6Qhe6prdT5DJo2yth7wrJTlFie
-         ptJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754846672; x=1755451472;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vYPf+w1WeOZKmEb4rqwBDVjQYiVUVPfTd8uq28qABWQ=;
-        b=gOP0Ua25REXCoiW0m68rkVaGAxz07MueW6DlSjeqZ5VVaFWF7Z36GqrHNxw5bKYUKr
-         fMjzzVBoOyiB15qmKrxWlO/mLfd45g37RSTmeAheGTmQYd/tBeYmbHy0d/qLzMLk6uC+
-         fwScX7GcjS8+EyH69CsBLGVM/WcqhdTVnraEWYbcKyNa+m0GIiXi+tFhihKoMo88lwhb
-         ckZVlJ9spoR8paWqN2cCl+2mHyW3ENLfvDlcPVKyT3+I+eg+7imU53MuQEMxt18kt9Mv
-         0srnvFkiugCDeBHfbRDGvDOqWzngNl6715h/UIPbcjJjsthmNt7MJaBcrjf5wtgMoTJy
-         Kh/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUg3XV0JIlWEnL7wvIY524q54IxCS6FeJy/8PL4MwMH/aRvtqLvFTUgpjNWRDIsA++xezYRSMsXaRY=@vger.kernel.org, AJvYcCXJOUtLK5sgrcnEKoYr/d6k2sBuskdRCQau8rqZOSzW4RlOhEgerCTN4iLoEPZ7iPCCmLMLrQDCadt1TW9j@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXBaynHlXe6EnrmkKW4YsqZKo0JNasan6R6Wt7ildswj4+AGdd
-	f70B7BknhNRxUPLIwbWcUm6r8rRz5QNQZRrBROTdDHhbJGRXighDySl0
-X-Gm-Gg: ASbGncuCYcFyB18g27BPaswpYR4vhhPIrxrMli+t0JlQ3poEu6Kdw70cxbXIfuRcX7G
-	xkUZ9Ikbaaeb+2E5xOV9WgyqbpBpNkF3hoQ0dbR1drfJv3yX214+VJRmSDuER2m6QPwL7u1/FNn
-	l8sY74SlLv2s3VjZWJDpDU2ZjlqQ2Eq3XdI5XDnIqcvv7Ay+hHdGz9RnN+k9YwZtkrktCaT/guI
-	6a3/rCIfnEELap8/CSHFgV+fJRyj66bsFP22oaOyMxXICktTAxt9mjCvzKd76zU3OVNQfjNWOQR
-	fK3Zs26LTe8C8ZWIHJPlcBchGpsoZQF53nI+05KaIo97pxt2EIYkel2B28dUCF39GJ8fdlA8740
-	8nP34ogRHdJC0LrlSef7SYYPXc30jnw7ogzq98brr0O4xbCrRotxuMQ==
-X-Google-Smtp-Source: AGHT+IFPwzf3lb0Ao4zrfqweIQpn5tKSMkvkW8b+XoGtFSrjdWRdmpvQFTv9O1tZud7cre1Pddk5Ag==
-X-Received: by 2002:a17:902:e741:b0:242:c66f:9f87 with SMTP id d9443c01a7336-242c66fa6c7mr144288355ad.51.1754846672062;
-        Sun, 10 Aug 2025 10:24:32 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:d003:7033:bde6:1560:bbd5:3563])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32161227032sm12781264a91.12.2025.08.10.10.24.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Aug 2025 10:24:31 -0700 (PDT)
-From: vivekyadav1207731111@gmail.com
-To: skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Vivek Yadav <vivekyadav1207731111@gmail.com>
-Subject: [PATCH] kernel-parameters: fix kernel-doc warning
-Date: Sun, 10 Aug 2025 10:24:25 -0700
-Message-Id: <20250810172425.21990-1-vivekyadav1207731111@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ryc/S090"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=7ytPBLXxydKCW1rvbBIqeVfDBeJGUvXYVWgQ5qPn73o=; b=ryc/S090TD4aAR+Y9CodqeNpBu
+	LZ1y5H+kzmlFZdM60EFQeH+97ZaBFuRtt5khUBV/BHpWOosdVmq+spJRD5gqVU4PQUdMsYQD5OlrW
+	b87yc7mM1GOjqttFxDB8rJABM/rHrFI2GM1rxsqrCm7dMjJHbuaethW6vAs8aV0lu5DdVkfCikJkA
+	orMvEh+P33DPIXAVXZ1F8S0VR3RfJGKXuUZkOx1uexiME91cgp8OicTsrBzHXWaxwGoUlOaH1cW5N
+	gkeIt5YvCVFihj1IvNzCWfgo23JuLeuAvd1n1eEs6lXQOA/jKqfOQkHU+jjwbLmH/EFLBiztawwbO
+	bK9bbVOg==;
+Received: from [50.53.25.54] (helo=[127.0.0.1])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ulAJT-0000000DER1-0v6h;
+	Sun, 10 Aug 2025 17:58:32 +0000
+Date: Sun, 10 Aug 2025 10:58:28 -0700
+From: Randy Dunlap <rdunlap@infradead.org>
+To: vivekyadav1207731111@gmail.com, skhan@linuxfoundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+CC: Vivek Yadav <vivekyadav1207731111@gmail.com>
+Subject: Re: [PATCH] kernel-parameters: fix kernel-doc warning
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250810172425.21990-1-vivekyadav1207731111@gmail.com>
+References: <20250810172425.21990-1-vivekyadav1207731111@gmail.com>
+Message-ID: <E7C759A2-E5B2-435F-AF94-E5FF8D9DB281@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Vivek Yadav <vivekyadav1207731111@gmail.com>
+On August 10, 2025 10:24:25 AM PDT, vivekyadav1207731111@gmail=2Ecom wrote:
+>From: Vivek Yadav <vivekyadav1207731111@gmail=2Ecom>
+>
+>Fix kernel-doc warning in kernel-parameters=2Etxt
 
-Fix kernel-doc warning in kernel-parameters.txt
+Please put the warning message here=2E=20
 
-Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail=2Ecom>
+>---
+> Documentation/admin-guide/kernel-parameters=2Etxt | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/Documentation/admin-guide/kernel-parameters=2Etxt b/Document=
+ation/admin-guide/kernel-parameters=2Etxt
+>index 747a55abf=2E=2E302145870 100644
+>--- a/Documentation/admin-guide/kernel-parameters=2Etxt
+>+++ b/Documentation/admin-guide/kernel-parameters=2Etxt
+>@@ -7506,7 +7506,7 @@
+> 			Set a trigger on top of a specific event, with an optional
+> 			filter=2E
+>=20
+>-			The format is is "trace_trigger=3D<event>=2E<trigger>[ if <filter>],=
+=2E=2E=2E"
+>+			The format is "trace_trigger=3D<event>=2E<trigger>[ if <filter>],=2E=
+=2E=2E"
+> 			Where more than one trigger may be specified that are comma deliminat=
+ed=2E
+>=20
+> 			For example:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 747a55abf..302145870 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -7506,7 +7506,7 @@
- 			Set a trigger on top of a specific event, with an optional
- 			filter.
- 
--			The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
-+			The format is "trace_trigger=<event>.<trigger>[ if <filter>],..."
- 			Where more than one trigger may be specified that are comma deliminated.
- 
- 			For example:
--- 
-2.25.1
 
+~Randy
