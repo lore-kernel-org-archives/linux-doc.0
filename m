@@ -1,219 +1,179 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EC12E0B68
-	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 14:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B258C2DFF13
+	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 15:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754923245; cv=none; b=YJt2kP9UzuSRQuers/QluwwbPmpIRC/YMm+bTjOVFfHt4bFFoBSZJKmSSQi0IzG/AVI+8Gx1MfVDOVRdbqRPXJENoD5aWNL5xJyBp2dzJC5UlsMjwMhV/z6jkVhd/bRF//IJX/H9P9ggxKEwiWOEwuISfJvBbCTusin0bWYC5F4=
+	t=1754926032; cv=none; b=EGiSueWMvcYunttFJ36PqjBRieOzrEIVzdiRpD9pT89VCc9S8v7YRscpzo2qPrvA115jiTfReplJ0hTDkU9Z6zvoBvh4o6K2GkIK3JtUm9pH2cchBfDhOO8i40NWx/2FxB6MfsKwfhJsnXpkLyxup8uzQZJ0/ePILfnRYoj6a+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754923245; c=relaxed/simple;
-	bh=JcrZQg4NSQPxjI3ARjKhCDXAM0AmuH0YqWdBQlP7btI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gYKedpu41DVRlmgPAHkD2tzqfV70BSPWcrG4WqYYmE2FzP1LS3Z3xW6AFMJNZtzjcJgCygnygnEcTH3As6yvtVhZy6OjW57DBYbI8AnsgX/cuabLM99G7v7duW30UU2GJFOuGF4Lc6uJfOtU51abIqzkSTt76U/mtQvzPk9ZrHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DOvPvpbT; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1754926032; c=relaxed/simple;
+	bh=xysz5ZWfeLJU14XdQgH88fCcxawJLmGd/fO1hsQ3BdY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k+ARkvfKnRjHQP2NyfcPBoxZ6jMuzKVD6KK9LdRTZPFA0IXUuH2AUA4MAhqNVryN2VBHsMBXx4MfJL8z6A2R/LXuSHMfgJj3QCw5o8n/n+v6sguUPa7GHNkyDAg/bU/8h10T+Ngnp72KZvxnNM8eEX9i18rcXAJ3u4j52fSP+Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=V4gBaytI; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DOvPvpbT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754923242;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UiZnBTHWpWVPXm9lDPLsbMep0xLgG8NJHfff/JNQO4g=;
-	b=DOvPvpbT5zyn1DiB4Z4u1Xc2ksom2dSCmfp+K8SXJO+H2h4h3Xz1+sI2abEw6FWkjkmqDt
-	Bfq4t18X1K3Os9WqClNvjaTjMq9koXQD+ET6Nq2l8qjQV0TKJBvUFW7LljHJUep0NVqDW4
-	dEEBYdJOl+CJ9lFJeIRaW466SlPXVDw=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-547-yJpbncX4P2aRbeJ0keAnug-1; Mon,
- 11 Aug 2025 10:40:40 -0400
-X-MC-Unique: yJpbncX4P2aRbeJ0keAnug-1
-X-Mimecast-MFC-AGG-ID: yJpbncX4P2aRbeJ0keAnug_1754923238
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B2A701956080;
-	Mon, 11 Aug 2025 14:40:38 +0000 (UTC)
-Received: from p16v.luc.cera.cz (unknown [10.45.225.214])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BA1C2300145A;
-	Mon, 11 Aug 2025 14:40:34 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Petr Oros <poros@redhat.com>
-Subject: [PATCH net-next v2 5/5] dpll: zl3073x: Implement devlink flash callback
-Date: Mon, 11 Aug 2025 16:40:09 +0200
-Message-ID: <20250811144009.2408337-6-ivecera@redhat.com>
-In-Reply-To: <20250811144009.2408337-1-ivecera@redhat.com>
-References: <20250811144009.2408337-1-ivecera@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V4gBaytI"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4b06d6cb45fso57109011cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 08:27:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1754926030; x=1755530830; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y9V4fdqKDbSNOCsKA58nuVOImljGAbwCF2ERoqUReLI=;
+        b=V4gBaytImdhkXW3SFy1CpMSJ96x+Mrg/llOSagOm6kCKEx5+QMHAVLpW5/k9MqtNLo
+         YFo0BjO4FrCiHViZvp+34op54xjBKUWtXVQhcwTptYKqtsmKIt3KWj5cKjpFOzP6P7nq
+         +Ris/oqit6gIdw4tAedA1zUoYzCouVPvoF+UZdyt4Qv+SR3G/ARFqvUIRp849S4HgGWC
+         KaEEj0H6jrEx4wxP2wWRS3s2LugFPQyPZrbiCoe7rgScz54+uShus74MJkr1nqW0oKqK
+         TJDWfGGHrfDZ9VNmyUpeAdEHs4vmtwuUb+mBM5nenWTVTMVNIQgTeY7Wx/U9Hyr7ZYlp
+         TkOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754926030; x=1755530830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y9V4fdqKDbSNOCsKA58nuVOImljGAbwCF2ERoqUReLI=;
+        b=Vhbgvx9cB5+/j9cDki6HDor8mtjeyaWI6kjzXng/V850VguCRCTbWe1vmXJhcEF2of
+         mzI+NCzugARBTS/qE7P8Y8pgLND0kqULnghnEPIxtNwS37PIqEAP6CfXh9rt5svUnOiT
+         5KqzbaQvM0YTTF6Odn6RL3i7tc57aIfb0haXwC3rfMjwiOeIKsvCg1owlodeO/qRKxtv
+         gwPnqlR0RJLlJW/wKNS/7oRCal6GGvl5sQkNGWWIGjGHL7I9FTyWFKHRI8JvbQUNWakK
+         J7CK2YALNGkkVNFMlU2HeRwnJZGWz8YZs7oC/bmGlzYVWWRiRWmC4HyYgO4FDfWEyqws
+         zReQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX7+WYncoXgr9mFTSKA43pYj9w8nJIIShX/iBQ+/4gVXmIUtAAd9jAtV3B8GsmYj5w+IDxv2X7ndbQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyn7AbG8WlaNk7t0Td6Nl6L5Tl6c3LitroYTI6G1EgQpy70bkv8
+	Zymolia21ATM2wBmWCDwYXofL+wBM/Z5nd989v2h+jO8o8CxUSG7UmzTBB79YydlDRn3Jd5gX+G
+	4GmJhtJpIP1+2qnNAfdGAzAlslLF+7R59rEhvN4Jz
+X-Gm-Gg: ASbGncvbudl+vJGLUOukTQOXGK+2VtweQH156Dq4D9DbFDxYZZqD6GjYOOvu4hKhe90
+	TSyarN4z+ljLEyEG3d2KG7GTIGqVK5/anAtGEu3mlNbWy0wziUVJ0CeMgQ05Rd2QO1lhibUpfPQ
+	ndddMwU+xE2naFBbs0OcchFfh/G5I32oJRwxy4mbXYKRQibvV+KieOEyyK3cxnmgQbLZ5xeUN9S
+	LMGNZvZgMEKQ1xOlH0HzJCf7t68Fd3XlKUZe3Q=
+X-Google-Smtp-Source: AGHT+IFTgZDMvFHmjjPzgK1Fji+VGq66s9RspgwGr/T3ooHUEsXJrGoRHZnsVlLK0nC1vN2pF/wHZFESxcTNFee1OZs=
+X-Received: by 2002:ac8:5cce:0:b0:4af:1f06:6b41 with SMTP id
+ d75a77b69052e-4b0aee5c2bbmr162894701cf.59.1754926029195; Mon, 11 Aug 2025
+ 08:27:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+References: <20250804-support-forcepads-v2-0-138ca980261d@google.com>
+ <20250804-support-forcepads-v2-2-138ca980261d@google.com> <c7e398e92ecc75f05b575581e79d4cebfa8efb47.camel@gmail.com>
+In-Reply-To: <c7e398e92ecc75f05b575581e79d4cebfa8efb47.camel@gmail.com>
+From: Jonathan Denose <jdenose@google.com>
+Date: Mon, 11 Aug 2025 10:26:57 -0500
+X-Gm-Features: Ac12FXzy1BsmaPYFR1zQrb-XAlFj4H3YXVTyxhiF9usZrrs0vF9zsoXijGk5nc0
+Message-ID: <CAMCVhVNb5N+KR-8+pSixKhH7SAOcbO7o1ewv7NYY3JB4gNn3ZA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/11] Input: add FF_HID effect type
+To: tomasz.pakula.oficjalny@gmail.com
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Angela Czubak <aczubak@google.com>, "Sean O'Brien" <seobrien@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use the introduced functionality to read firmware files and flash their
-contents into the device's internal flash memory to implement the devlink
-flash update callback.
+On Mon, Aug 4, 2025 at 3:34=E2=80=AFPM <tomasz.pakula.oficjalny@gmail.com> =
+wrote:
+>
+> On Mon, 2025-08-04 at 14:11 +0000, Jonathan Denose wrote:
+> > From: Angela Czubak <aczubak@google.com>
+> >
+> > FF_HID effect type can be used to trigger haptic feedback with HID simp=
+le
+> > haptic usages.
+> >
+> > Signed-off-by: Angela Czubak <aczubak@google.com>
+> > Co-developed-by: Jonathan Denose <jdenose@google.com>
+> > Signed-off-by: Jonathan Denose <jdenose@google.com>
+> > ---
+> >  include/uapi/linux/input.h | 22 +++++++++++++++++++++-
+> >  1 file changed, 21 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
+> > index 2557eb7b056178b2b8be98d9cea855eba1bd5aaf..3ea7c826c6fb2034e46f95c=
+b95b84ef6f5b866df 100644
+> > --- a/include/uapi/linux/input.h
+> > +++ b/include/uapi/linux/input.h
+> > @@ -428,6 +428,24 @@ struct ff_rumble_effect {
+> >       __u16 weak_magnitude;
+> >  };
+> >
+> > +/**
+> > + * struct ff_hid_effect
+> > + * @hid_usage: hid_usage according to Haptics page (WAVEFORM_CLICK, et=
+c.)
+> > + * @vendor_id: the waveform vendor ID if hid_usage is in the vendor-de=
+fined range
+> > + * @vendor_waveform_page: the vendor waveform page if hid_usage is in =
+the vendor-defined range
+> > + * @intensity: strength of the effect as percentage
+> > + * @repeat_count: number of times to retrigger effect
+> > + * @retrigger_period: time before effect is retriggered (in ms)
+> > + */
+> > +struct ff_hid_effect {
+> > +     __u16 hid_usage;
+> > +     __u16 vendor_id;
+> > +     __u8  vendor_waveform_page;
+> > +     __u16 intensity;
+> > +     __u16 repeat_count;
+> > +     __u16 retrigger_period;
+> > +};
+>
+> Wouldn't it make more sense to call this new effect ff_haptic_effect?
+> hid_effect sound generic, too generic. One could say, all ff effect are
+> hid effects because most ff apis (linux' included) are based on USB PID
+> spec.
+>
+> > +
+> >  /**
+> >   * struct ff_effect - defines force feedback effect
+> >   * @type: type of the effect (FF_CONSTANT, FF_PERIODIC, FF_RAMP, FF_SP=
+RING,
+> > @@ -464,6 +482,7 @@ struct ff_effect {
+> >               struct ff_periodic_effect periodic;
+> >               struct ff_condition_effect condition[2]; /* One for each =
+axis */
+> >               struct ff_rumble_effect rumble;
+> > +             struct ff_hid_effect hid;
+> >       } u;
+> >  };
+> >
+> > @@ -471,6 +490,7 @@ struct ff_effect {
+> >   * Force feedback effect types
+> >   */
+> >
+> > +#define FF_HID               0x4f
+>
+> Again here, FF_HID sounds confusing without having the broader context.
+> Constant, Sine, Inertia, Spring are way more descriptive. FF_HAPTIC
+> would be a great name to distinguish such an effect. Or maybe FF_TACTILE
+> with ff_tactile_effect?
+>
+> >  #define FF_RUMBLE    0x50
+> >  #define FF_PERIODIC  0x51
+> >  #define FF_CONSTANT  0x52
+> > @@ -480,7 +500,7 @@ struct ff_effect {
+> >  #define FF_INERTIA   0x56
+> >  #define FF_RAMP              0x57
+> >
+> > -#define FF_EFFECT_MIN        FF_RUMBLE
+> > +#define FF_EFFECT_MIN        FF_HID
+> >  #define FF_EFFECT_MAX        FF_RAMP
+> >
+> >  /*
+>
+> Overall, I'll keep an eye on this as I'm slowly working towards a
+> proposal for a revamped and extended ff api on Linux that would make it
+> fully featured (we're lacking things like device control and querying
+> effects and their status, arbitrary number of axes and arbitrary axes
+> themselves).
 
-Sample output on EDS2 development board:
- # devlink -j dev info i2c/1-0070 | jq '.[][]["versions"]["running"]'
- {
-   "fw": "6026"
- }
- # devlink dev flash i2c/1-0070 file firmware_fw2.hex
- [utility] Prepare flash mode
- [utility] Downloading image 100%
- [utility] Flash mode enabled
- [firmware1-part1] Downloading image 100%
- [firmware1-part1] Flashing image
- [firmware1-part2] Downloading image 100%
- [firmware1-part2] Flashing image
- [firmware1] Flashing done
- [firmware2] Downloading image 100%
- [firmware2] Flashing image 100%
- [firmware2] Flashing done
- [utility] Leaving flash mode
- Flashing done
- # devlink -j dev info i2c/1-0070 | jq '.[][]["versions"]["running"]'
- {
-   "fw": "7006"
- }
+Thanks for your review, your comments make sense to me!
 
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- Documentation/networking/devlink/zl3073x.rst | 14 +++++
- drivers/dpll/zl3073x/devlink.c               | 65 ++++++++++++++++++++
- 2 files changed, 79 insertions(+)
-
-diff --git a/Documentation/networking/devlink/zl3073x.rst b/Documentation/networking/devlink/zl3073x.rst
-index 4b6cfaf386433..fc5a8dc272a77 100644
---- a/Documentation/networking/devlink/zl3073x.rst
-+++ b/Documentation/networking/devlink/zl3073x.rst
-@@ -49,3 +49,17 @@ The ``zl3073x`` driver reports the following versions
-       - running
-       - 1.3.0.1
-       - Device configuration version customized by OEM
-+
-+Flash Update
-+============
-+
-+The ``zl3073x`` driver implements support for flash update using the
-+``devlink-flash`` interface. It supports updating the device flash using a
-+combined flash image ("bundle") that contains multiple components (firmware
-+parts and configurations).
-+
-+During the flash procedure, the standard firmware interface is not available,
-+so the driver unregisters all DPLLs and associated pins, and re-registers them
-+once the flash procedure is complete.
-+
-+The driver does not support any overwrite mask flags.
-diff --git a/drivers/dpll/zl3073x/devlink.c b/drivers/dpll/zl3073x/devlink.c
-index d0f6d9cd4a68e..06962643c9363 100644
---- a/drivers/dpll/zl3073x/devlink.c
-+++ b/drivers/dpll/zl3073x/devlink.c
-@@ -9,6 +9,8 @@
- #include "core.h"
- #include "devlink.h"
- #include "dpll.h"
-+#include "flash.h"
-+#include "fw.h"
- #include "regs.h"
- 
- /**
-@@ -141,11 +143,74 @@ void zl3073x_devlink_flash_notify(struct zl3073x_dev *zldev, const char *msg,
- 					   total);
- }
- 
-+/**
-+ * zl3073x_flash_update - Devlink flash update callback
-+ * @devlink: devlink structure pointer
-+ * @params: flashing parameters pointer
-+ * @extack: netlink extack pointer to report errors
-+ *
-+ * Returns 0 in case of success or negative value otherwise
-+ */
-+static int
-+zl3073x_devlink_flash_update(struct devlink *devlink,
-+			     struct devlink_flash_update_params *params,
-+			     struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dev *zldev = devlink_priv(devlink);
-+	struct zl3073x_fw_component *util;
-+	struct zl3073x_fw *zlfw;
-+	int rc = 0;
-+
-+	/* Load firmware */
-+	zlfw = zl3073x_fw_load(zldev, params->fw->data, params->fw->size,
-+			       extack);
-+	if (IS_ERR(zlfw))
-+		return PTR_ERR(zlfw);
-+
-+	util = zlfw->component[ZL_FW_COMPONENT_UTIL];
-+	if (!util) {
-+		zl3073x_devlink_flash_notify(zldev,
-+					     "Utility is missing in firmware",
-+					     NULL, 0, 0);
-+		rc = -EOPNOTSUPP;
-+		goto error;
-+	}
-+
-+	/* Stop normal operation during flash */
-+	zl3073x_dev_stop(zldev);
-+
-+	/* Enter flashing mode */
-+	rc = zl3073x_flash_mode_enter(zldev, util->data, util->size, extack);
-+	if (!rc) {
-+		/* Flash the firmware */
-+		rc = zl3073x_fw_flash(zldev, zlfw, extack);
-+
-+		/* Leave flashing mode */
-+		zl3073x_flash_mode_leave(zldev, extack);
-+	}
-+
-+	/* Restart normal operation */
-+	rc = zl3073x_dev_start(zldev, true);
-+	if (rc)
-+		dev_warn(zldev->dev, "Failed to re-start normal operation\n");
-+
-+error:
-+	/* Free flash context */
-+	zl3073x_fw_free(zlfw);
-+
-+	zl3073x_devlink_flash_notify(zldev,
-+				     rc ? "Flashing failed" : "Flashing done",
-+				     NULL, 0, 0);
-+
-+	return rc;
-+}
-+
- static const struct devlink_ops zl3073x_devlink_ops = {
- 	.info_get = zl3073x_devlink_info_get,
- 	.reload_actions = BIT(DEVLINK_RELOAD_ACTION_DRIVER_REINIT),
- 	.reload_down = zl3073x_devlink_reload_down,
- 	.reload_up = zl3073x_devlink_reload_up,
-+	.flash_update = zl3073x_devlink_flash_update,
- };
- 
- static void
--- 
-2.49.1
-
+I'll change ff_hid_effect to ff_haptic_effect and FF_HID to FF_HAPTIC
+and upload a new version of this series.
