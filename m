@@ -1,106 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0171922FB;
-	Mon, 11 Aug 2025 05:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297BB26D4F9;
+	Mon, 11 Aug 2025 06:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754890148; cv=none; b=HLCeimRdXl8SYPE1tEzoo0nF3aDe9IzR99usXirGQHpEuHdZ2Q5eh7JqfKaNX29Osx+Jmr62Ps4tmXjMDl4IrflqUtBO2nnGR/VgCFQ7ZKAFdwib9iXUwCETs6W0zo6yr3i0i8QYZCjRDc4WsJGOzLrnwOXFhh7ErcKE+/H1wT8=
+	t=1754892488; cv=none; b=X3EU0/c/REkb7KuxQ7V+r7LR+HCIDQ4ul0+0c3EP7oCn+zz/Ueb1/3YSrb5RpC8ApOMapCb7lF+fQLaOxvAZ+OdEl5MdzY8FFFLppaSjDozhObkvZYKY58xj5ncf8+dgI0e/9sZL0ufo71CTeC9FM5VXd6DFlO+Bzj8OfpoqhSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754890148; c=relaxed/simple;
-	bh=fwUmUHih8bzEzyRBwV95L3I4y/zsVn44tOqOAqbjF38=;
+	s=arc-20240116; t=1754892488; c=relaxed/simple;
+	bh=pMDIeN6cHQc15CumEtak7l0KHpV6zdNtQEXaloLZQco=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fvzvS+DrJvCCGhEzV3lIG7qXedV+rO1aPhGvLSYzEJREt7G8EoTpilym+hTnsYqRTdoN1CS60StrkREk5KGBWNdj3YVntQWaGFyfshVmOFAx39mAU0nAQIq7O757tw17brPCJFBE04EVCY4KEcCjciHJA8J89x6WbfrO7J2RX/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u2XmpVRb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=d51k9rKnnnwrLFd5LO+7sVtNqvEz4Gg/gd1ogx+cXzqW7+EWt33FmLfozMCjslVx9p8sWct1QUTQzj/olEG75ZJUYIvH9go0cKvlNm/2nXuoRlcudgXi3HQb6XeKH+dJ4tQAjEXkckYZMamCPT5k5L8iPXvOsDrXYCsXDM+LaMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E9Gkvv1D; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u2XmpVRb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6331C4CEED;
-	Mon, 11 Aug 2025 05:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1754890148;
-	bh=fwUmUHih8bzEzyRBwV95L3I4y/zsVn44tOqOAqbjF38=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u2XmpVRbtHZ++Aj+uioqnQ4ckIj9LWQamPKpJfIU4KgcUpKZT5SXDr7C1EstS5p2F
-	 wqNbZs+C0hn8G9HzM4+5k7TX20mcAui+Lb8Gotl8+En0BR8QoflxWlTm0ZOD6WWuHk
-	 SWaPQbYLmRjVIMwUbpjHje9FYCltqxfG4jGfXmJc=
-Date: Mon, 11 Aug 2025 07:29:05 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nikil <snikilpaul@gmail.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] docs: fix broken link in Documentation/RCU/RTFP.txt
-Message-ID: <2025081134-washhouse-rebuff-ea13@gregkh>
-References: <20250811042357.7470-2-snikilpaul@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9Gkvv1D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754892487; x=1786428487;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=pMDIeN6cHQc15CumEtak7l0KHpV6zdNtQEXaloLZQco=;
+  b=E9Gkvv1D3x8neHAeU8AUBO4aWgeE1ds5OaHmcmJc8jioPh8bzNlX0RgN
+   eXhYBWe4lJkmSoXfPT8FQI9wCVn1psPOiElFMn0AYftd7lhJs1ZVI7Sgw
+   0m3DmjhZubLtyh6AxZgKO+yJuIRtjYnBZHkVvEduacVp81ZmRexC/GdDF
+   dmnaD1xIT2wZtYJTIRUK05HuZYgK8jdcnZfmoTOnqEPYvw59uSUqoN0ic
+   LGWw0zRrA356qglrFC2jK5yJg4RXE3KOPczUdgN1m+01OWeLK4h4ayv01
+   6FofWe5mWDlByVIvwHhkWRJUasgapa+P5ooLjJlaBSLfLtE194/fkR/qI
+   g==;
+X-CSE-ConnectionGUID: WsmbLi1bRP+MCPuuHrKi6A==
+X-CSE-MsgGUID: 1DPdMem8S3Cih+LsoRYJfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="59749471"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="59749471"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 23:08:06 -0700
+X-CSE-ConnectionGUID: 1aAF1SvsTYashk9ftAQYIg==
+X-CSE-MsgGUID: Tos2kzzpRDKL/yc/rTuyBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="165478858"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.87])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 23:08:05 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9A70D120A5B;
+	Mon, 11 Aug 2025 09:08:01 +0300 (EEST)
+Date: Mon, 11 Aug 2025 06:08:01 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/printf: Use literal fwnode_handle
+Message-ID: <aJmIwb84CPvswmaQ@kekkonen.localdomain>
+References: <07262c55e82fc4a3e3dbe7c45713b14955271e7f.1754552156.git.geert+renesas@glider.be>
+ <aJcbbb4OVK_q2VkU@smile.fi.intel.com>
+ <CAMuHMdXF_Dto3EVBKxr9+M=rmcwNcZy66aUqbb5OiRb75vSfnA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250811042357.7470-2-snikilpaul@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXF_Dto3EVBKxr9+M=rmcwNcZy66aUqbb5OiRb75vSfnA@mail.gmail.com>
 
-On Mon, Aug 11, 2025 at 04:23:58AM +0000, Nikil wrote:
+Hi Geert,
+
+On Sun, Aug 10, 2025 at 09:33:50AM +0200, Geert Uytterhoeven wrote:
+> Hi Andy,
 > 
-> The original link to the Linux Symposium 2001 abstract is no longer valid,
-> as the Linux Symposium website is no longer active. Replaced it with an updated
-> link to the read-copy document available on kernel.org
+> CC Sakari
 > 
-> This ensures that readers can still access relevant resources without encountering
-> a dead link.
+> On Sat, 9 Aug 2025 at 11:57, Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Thu, Aug 07, 2025 at 09:36:01AM +0200, Geert Uytterhoeven wrote:
+> > > When looking for fwnode_handle in the printk format documentation, it is
+> > > only found in the Chinese translation:
+> > >
+> > >     $ git grep fwnode_handle -- Documentation/*printk-formats.rst
+> > >     Documentation/translations/zh_CN/core-api/printk-formats.rst:用于打印fwnode_handles的消息。默认情况下是打印完整的节点名称，包括路径。
+> > >
+> > > This happens because the original documentation talks about "fwnode
+> > > handles", without mentioning the actual type name.
+> >
+> > Fixes?
 > 
-> ---
->  Documentation/RCU/RTFP.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> If you insist...
 > 
-> diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
-> index db8f16b392aa..87b1c97c3ec3 100644
-> --- a/Documentation/RCU/RTFP.txt
-> +++ b/Documentation/RCU/RTFP.txt
-> @@ -641,7 +641,7 @@ Orran Krieger and Rusty Russell and Dipankar Sarma and Maneesh Soni"
->  ,Month="July"
->  ,Year="2001"
->  ,note="Available:
-> -\url{http://www.linuxsymposium.org/2001/abstracts/readcopy.php}
-> +\url{https://www.kernel.org/doc/ols/2001/read-copy.pdf}
->  \url{http://www.rdrop.com/users/paulmck/RCU/rclock_OLS.2001.05.01c.pdf}
->  [Viewed June 23, 2004]"
->  ,annotation={
-> -- 
-> 2.43.0
-> Signed-off-by: Nikil <snikilpaul@gmail.com>
+> Fixes: 3bd32d6a2ee62db3 ("lib/vsprintf: Add %pfw conversion specifier
+> for printing fwnode names")
 
-Hi,
+Thanks for the patch.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+-- 
+Regards,
 
-- Your patch does not have a Signed-off-by: line.  Please read the
-  kernel file, Documentation/process/submitting-patches.rst and resend
-  it after adding that line.  Note, the line needs to be in the body of
-  the email, before the patch, not at the bottom of the patch or in the
-  email signature.
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Sakari Ailus
