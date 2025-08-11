@@ -1,147 +1,245 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D501A0BF3
-	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 09:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4315239E9A;
+	Mon, 11 Aug 2025 09:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754905714; cv=none; b=P1odY73J4DUI/ofjQQRCMTd3yDhUAVAZnYhQscATYEr5ZRbfET+4x8bHta08Vh3eIHzQu+flU4LQk5659T2K4FGdTH2DbRMfSVDixDZw6tLOaFQtZWUOu0pG5kDdOCXLzENQ0t0ApTVdQe9lCpbvJ1WsUOJ2kRmJpxez5ZXEb5o=
+	t=1754905835; cv=none; b=oBP7mMFQd5wsCDU/iNJzNUibSjRifPkZTLD0u9kKUPQjK8lgRS/3u7qbeusZ55dsclxj2AHF8nL+84k0Ok/NNEZw6KpbFCd9+o5HKljRSJHDseDg/LBW8WyoBRK2lhh884o3RRvUMGO39m/1sKfpGwee1t/j0lysB4y0HOa54qU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754905714; c=relaxed/simple;
-	bh=0OPcsD/DaGgHciGnZkdoOwhQvX8AaP4eY2Vbszy4FwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OwRFUhFaWZReTKpT9t4ZVX+JTQgynIArBwW54qDRwN8MPLwj57HwkOcfFK/XTNCT5U2OSEPJzYde0YWSlOn9/2S4C8hrQhEGGfjX3U2TlSC4L0Xy/F84O0xU/uY3u4L+/18J+JZTPQz0OSjyeIW/YdskM+/zytVyalkB+ByR8mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WEW3i2Ng; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1754905835; c=relaxed/simple;
+	bh=blj/1UKBFapSa7l6nZB5E2Ph710FcbyLPTh2LAdjhtc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=f+Cg4ldo6G9HxrhdBOAtW17zJJUE4el1HsGBisUrGXf2vxILYQBrNUV4ueCQH7/nX72aj+huJxNbousywaEAD130t+k2cMpL7z3XWk26F1AGrg68f6DBU3+0LxXbO1h0YG4eJ2ejvNLPezWKYZt4ntQUoGSt5zxy2KcXsfiHogY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Wkrx+IHy; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WEW3i2Ng"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754905711;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Wkrx+IHy"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4c0qd1209Mz9snJ;
+	Mon, 11 Aug 2025 11:50:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1754905829; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kICfAp24qHgM+A4GcAjqf86phj/suI1wu/9/TRfKonI=;
-	b=WEW3i2NgU8S3SHbowVfxc911w/aSbg0aEvA1qynB38yDLtI4Yn5JwqZZ5Jzm7dpjTFb2+7
-	m4GZxQ92qwub8vvvwxm/g1KGJeYHAthnfC2+5QDtLyQRgMQmkMJdalTvURMjODDISjhnZM
-	JQ4e3QmSZupttrp2UdQLYEZ4w84YP6k=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-657-kvLj1JhNMtOyQe4g1LJ22A-1; Mon,
- 11 Aug 2025 05:48:28 -0400
-X-MC-Unique: kvLj1JhNMtOyQe4g1LJ22A-1
-X-Mimecast-MFC-AGG-ID: kvLj1JhNMtOyQe4g1LJ22A_1754905704
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C16A0195608E;
-	Mon, 11 Aug 2025 09:48:21 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.234])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 24DE11955F16;
-	Mon, 11 Aug 2025 09:48:05 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon, 11 Aug 2025 11:47:09 +0200 (CEST)
-Date: Mon, 11 Aug 2025 11:46:52 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	David Hildenbrand <david@redhat.com>,
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Nico Pache <npache@redhat.com>, xu xin <xu.xin16@zte.com.cn>,
-	wangfushuai <wangfushuai@baidu.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Adrian Ratiu <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 5/9] freezer: set default freeze priority for
- PF_SUSPEND_TASK processes
-Message-ID: <20250811094651.GD11928@redhat.com>
-References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
- <20250807121418.139765-6-zhangzihuan@kylinos.cn>
- <20250808143943.GB21685@redhat.com>
- <0754e3e3-9c47-47d5-81d9-4574e5b413bc@kylinos.cn>
- <20250811093216.GB11928@redhat.com>
- <428beb0d-2484-4816-86c3-01e91bd7715a@kylinos.cn>
+	bh=6iVG8v6eSQ1zc21xzNcw5sM6wDtRT0rY/n/n6Z+C8FE=;
+	b=Wkrx+IHyKbbOJmC8iU8W9ukEvuRhdtur1R9/nZciQk4jzZnE9v6m/rjLcMr/chaQutwRCz
+	J5Zq6THUqQhMIvIQjzFaCIuzByqmqrpr1kVyyQHpBOpg0/+mLg1XiUBnEKwgPiYUMUEbKO
+	OKMXZk52DcDluNgBOCN+lLmua214RMscl8LZxhPT6j5aaD5NeSl4bdtOWmTKp+u/ETYeVf
+	qz7zmGj4rthvYB2Rm57PjLUW88g7uPbmJh5tyiEaz1/P2EsDM3JLJPsPsIFrXmvNlh8DX2
+	+00EG2ojp/hGz+srPydbvotFy3694J1yotjdFNuyvTOT6BnkB4kD5515rttmoQ==
+Message-ID: <90c89caeb8ec3ac0fcae583df722bad20fa72827.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Extend and update documentation
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
+ Stanner <phasta@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Matthew
+ Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date: Mon, 11 Aug 2025 11:50:22 +0200
+In-Reply-To: <9caf8709-91ef-445a-aa4e-aede1899f364@amd.com>
+References: <20250724140121.70873-2-phasta@kernel.org>
+	 <f064a8c305bd2f2c0684251d3cd2470699c28d5e.camel@redhat.com>
+	 <5fb872d0-9b0a-4398-9472-eea3fdf61940@amd.com>
+	 <c1f7c4adaa0ac8d1994046436da8eb64bba5e06e.camel@redhat.com>
+	 <9caf8709-91ef-445a-aa4e-aede1899f364@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <428beb0d-2484-4816-86c3-01e91bd7715a@kylinos.cn>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-MBO-RS-ID: 523bad2c5c6675e8adc
+X-MBO-RS-META: 6sssz3gmcc77kzux9pogddxatqmafe6o
 
-On 08/11, Zihuan Zhang wrote:
-> 
-> 在 2025/8/11 17:32, Oleg Nesterov 写道:
-> >On 08/11, Zihuan Zhang wrote:
-> >>在 2025/8/8 22:39, Oleg Nesterov 写道:
-> >>>On 08/07, Zihuan Zhang wrote:
-> >>>>--- a/kernel/power/process.c
-> >>>>+++ b/kernel/power/process.c
-> >>>>@@ -147,6 +147,7 @@ int freeze_processes(void)
-> >>>>
-> >>>>  	pm_wakeup_clear(0);
-> >>>>  	pm_freezing = true;
-> >>>>+	freeze_set_default_priority(current, FREEZE_PRIORITY_NEVER);
-> >>>But why?
-> >>>
-> >>>Again, freeze_task() will return false anyway, this process is
-> >>>PF_SUSPEND_TASK.
-> >>I  think there is resaon put it here. For example, systemd-sleep is a
-> >>user-space process that executes the suspend flow.
-> >>
-> >>  If we don’t set its freeze priority explicitly, our current code may end up
-> >>with this user process being the last one that cannot freeze.
-> >How so? sorry I don't follow.
->
-> The problem is in this part:
->
-> +            if (user_only && !(p->flags & PF_KTHREAD) && round <
-> p->freeze_priority)
-> +                continue;
->
-> PF_SUSPEND_TASK is a user process, so it meets the “needs freezing”
-> condition and todo gets incremented.
-            ^^^^^^^^^^^^^^^^^^^^^^^^^
+On Thu, 2025-08-07 at 16:15 +0200, Christian K=C3=B6nig wrote:
+> On 05.08.25 12:22, Philipp Stanner wrote:
+> > On Tue, 2025-08-05 at 11:05 +0200, Christian K=C3=B6nig wrote:
+> > > On 24.07.25 17:07, Philipp Stanner wrote:
+> > > > > +/**
+> > > > > + * DOC: Scheduler Fence Object
+> > > > > + *
+> > > > > + * The scheduler fence object (&struct drm_sched_fence) encapsul=
+ates the whole
+> > > > > + * time from pushing the job into the scheduler until the hardwa=
+re has finished
+> > > > > + * processing it. It is managed by the scheduler. The implementa=
+tion provides
+> > > > > + * dma_fence interfaces for signaling both scheduling of a comma=
+nd submission
+> > > > > + * as well as finishing of processing.
+> > > > > + *
+> > > > > + * The lifetime of this object also follows normal dma_fence ref=
+counting rules.
+> > > > > + */
+> > > >=20
+> > > > The relict I'm most unsure about is this docu for the scheduler fen=
+ce.
+> > > > I know that some drivers are accessing the s_fence, but I strongly
+> > > > suspect that this is a) unncessary and b) dangerous.
+> > >=20
+> > > Which s_fence member do you mean? The one in the job? That should be =
+harmless as far as I can see.
+> >=20
+> > I'm talking about struct drm_sched_fence.
+>=20
+> Yeah that is necessary for the drivers to know about. We could potentiall=
+y abstract it better but we can't really hide it completely.
+>=20
+> > >=20
+> > > > But the original draft from Christian hinted at that. So, @Christia=
+n,
+> > > > this would be an opportunity to discuss this matter.
+> > > >=20
+> > > > Otherwise I'd drop this docu section in v2. What users don't know, =
+they
+> > > > cannot misuse.
+> > >=20
+> > > I would rather like to keep that to avoid misusing the job as the obj=
+ect for tracking the submission lifetime.
+> >=20
+> > Why would a driver ever want to access struct drm_sched_fence? The
+> > driver knows when it signaled the hardware fence, and it knows when its
+> > callbacks run_job() and free_job() were invoked.
+> >=20
+> > I'm open to learn what amdgpu does there and why.
+>=20
+> The simplest use case is performance optimization. You sometimes have sub=
+missions which ideally run with others at the same time.
+>=20
+> So we have AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES which basically tries t=
+o cast a fence to a scheduler fence and then only waits for the dependency =
+to be pushed to the HW instead of waiting for it to finish (see amdgpu_cs.c=
+).
 
-No.
-	if (p == current || !freeze_task(p))
-		continue;
+But the driver recognizes that a certain fence got / gets pushed right
+now through backend_ops.run_job(), doesn't it?
 
-	todo++;
+>=20
+> Another example are gang submissions (where I still have the TODO to actu=
+ally fix the code to not crash in an OOM situation).
+>=20
+> Here we have a gang leader and gang members which are guaranteed to run t=
+ogether on the HW at the same time.
+>=20
+> This works by adding scheduled dependencies to the gang leader so that th=
+e scheduler pushes it to the HW only after all gang members have been pushe=
+d.
+>=20
+> The first gang member pushed now triggers a dependency handling which mak=
+es sure that no other gang can be pushed until gang leader is pushed as wel=
+l.
 
-Again, again, freeze_task(p) returns false.
+You mean amdgpu registers callbacks to drm_sched_fence?
 
-> But it actually doesn’t need to freeze,
-> so resulting in an infinite loop
+>=20
+> > > > > +/**
+> > > > > + * DOC: Error and Timeout handling
+> > > > > + *
+> > > > > + * Errors are signaled by using dma_fence_set_error() on the har=
+dware fence
+> > > > > + * object before signaling it with dma_fence_signal(). Errors ar=
+e then bubbled
+> > > > > + * up from the hardware fence to the scheduler fence.
+> > > > > + *
+> > > > > + * The entity allows querying errors on the last run submission =
+using the
+> > > > > + * drm_sched_entity_error() function which can be used to cancel=
+ queued
+> > > > > + * submissions in &struct drm_sched_backend_ops.run_job as well =
+as preventing
+> > > > > + * pushing further ones into the entity in the driver's submissi=
+on function.
+> > > > > + *
+> > > > > + * When the hardware fence doesn't signal within a configurable =
+amount of time
+> > > > > + * &struct drm_sched_backend_ops.timedout_job gets invoked. The =
+driver should
+> > > > > + * then follow the procedure described in that callback's docume=
+ntation.
+> > > > > + *
+> > > > > + * (TODO: The timeout handler should probably switch to using th=
+e hardware
+> > > > > + * fence as parameter instead of the job. Otherwise the handling=
+ will always
+> > > > > + * race between timing out and signaling the fence).
+> > > >=20
+> > > > This TODO can probably removed, too. The recently merged
+> > > > DRM_GPU_SCHED_STAT_NO_HANG has solved this issue.
+> > >=20
+> > > No, it only scratched on the surface of problems here.
+> > >=20
+> > > I'm seriously considering sending a RFC patch to cleanup the job life=
+time and implementing this change.
+> > >=20
+> > > Not necessarily giving the HW fence as parameter to the timeout callb=
+ack, but more generally not letting the scheduler depend on driver behavior=
+.
+> >=20
+> > That's rather vague. Regarding this TODO, "racing between timing out
+> > and signaling the fence" can now be corrected by the driver. Are there
+> > more issues? If so, we want to add a new FIXME for them.
+>=20
+> Yeah good point. We basically worked around all those issues now.
+>=20
+> It's just that I still see that we are missing a general concept. E.g. we=
+ applied workaround on top of workaround until it didn't crashed any more i=
+nstead of saying ok that is the design does that work? Is it valid? etc...
 
-I don't think so.
+Yes, that seems to have been our destiny for a while now :) :(
 
-Oleg.
+What I'm afraid of right now is that with the callbacks vs.
+drm_sched_fence we now potentially have several distinct mechanisms for
+doing things. The hardware fence is clearly the relevant
+synchronization object for telling when a job is completed; yet, we
+also have s_fence->finished.
+
+Using it (for what?) is even encouraged by the docu:
+
+        /**
+         * @finished: this fence is what will be signaled by the scheduler
+         * when the job is completed.
+         *
+         * When setting up an out fence for the job, you should use
+         * this, since it's available immediately upon
+         * drm_sched_job_init(), and the fence returned by the driver
+         * from run_job() won't be created until the dependencies have
+         * resolved.
+         */
+
+
+Anyways.
+I think this is a big topic very suitable for our work shop at XDC. I
+also have some ideas about paths forward that I want to present.
+
+
+P.
+
+>=20
+> > That said, such an RFC would obviously be great. We can discuss the
+> > paragraph above there, if you want.
+>=20
+> I will try to hack something together. Not necessarily complete but it sh=
+ould show the direction.
+>=20
+> Christian.
+>=20
+> >=20
+> >=20
+> > Regards
+> > P.
 
