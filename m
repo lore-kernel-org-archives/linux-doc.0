@@ -1,104 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2096.outbound.protection.outlook.com [40.107.244.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8476621FF3C;
-	Mon, 11 Aug 2025 22:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7081862;
+	Mon, 11 Aug 2025 22:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.96
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754951387; cv=fail; b=G+R7Qy7etXkBt6CvB0/dsJsjbzswnJ1BKH4VXOjwOFvnbIJlGOtFEFIXhaQRgZwyMYqXpQpQEkabgced1RWPG5U24PVBhUiic1xYmvO/q0uSprBUNFWncpHyRystJl2oi2rdbWyOjL/M87GbUSIdjMIOk65kmGm7uMtEa9HU8Jc=
+	t=1754951850; cv=fail; b=tJyGljnP6wUjW1R1FCKLtR5znmmLcDZtk2ObNI20elu66scY68IFgk7S3xHWmNqC4Pyrf0mAvoelLZ44w8iAlzc+mujHL3AHMNtRZ9dGmTis63+PR+9nG0VrM9qTQ/SBlKUt9z9KHWcE3lfmtLu+TdRou7oFQ0b4bOoROm41I+s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754951387; c=relaxed/simple;
-	bh=QafAb6qshe2HYfuySkE+9FF3NQOMgfqbclPKBSrXUYE=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=bR6m9BFT5nDjEvlwyK5bHoBCFSORMFYNg6o2PZCSHCy50Lw+0TxENbUke6s+xlvkwSr0VilnNVmUl7GNRfiDfsaGfhVd+WRGWhE4jhVXpfNL6+SKCfOofPzzzwJYV3/gwfB91EBRfDvNpiiFoOoIAtenR5AWdk4ZxSH6k8mgKUs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mbRqAATt; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1754951850; c=relaxed/simple;
+	bh=4NAnkU9CoEUBPhPshACCe4MAACtrhJduDpfRtU1skHw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ibcQ0JlPxWk+aByLuyMRZv6p89N7LCmPrgEWrEpdj5r91yGrZAMmK7mbYqbaItDpZQq4TQf+ZHBjWXBJuD4tbVZpixvaOcoccfjqAhIy4ipYIFNLrXmDiNm8lWJeTl2yZ8MCL/E8Iuf+DYTISwh4wPAkfeQeDyNNdjwPL8ZrgRo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=VCBNEGgU; arc=fail smtp.client-ip=40.107.244.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mbRqAATt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754951386; x=1786487386;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=QafAb6qshe2HYfuySkE+9FF3NQOMgfqbclPKBSrXUYE=;
-  b=mbRqAATt2yu0F85nO8vSlb80RLxebUagNoSGYkCCwcFaeh+xxqhyT63F
-   g5EDxWgaVG8fhLDWYZHvKrp1kaJuiV+hvSwIxDECBt2bEdnd0P3OETC0y
-   93hDCgluETuwJMInn1GRfxB08RkjqWxiZU8xowJFxo1CkkDmlxTbUEvl0
-   GEiLAFCgDeHxCHs8IAJVW40Cs5iyXcFsWS3UqFDdaOhdU9utuQH5gDruc
-   yPNlXoa8WZ2P/kKnYJLr/uyDNc8aMsppw5F0ImkDQ/2/63GPEcaSfgdpY
-   lGxpG8cAlOF0tPeFefkdlj7YEcsoXtk/XCV5LTOStkHF4gi55Z7zUB2SI
-   w==;
-X-CSE-ConnectionGUID: iSXJMiUWSOunrfOkTZbE9A==
-X-CSE-MsgGUID: vOlQanjUTNquH2Ama1Gy4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="59827115"
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="59827115"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 15:29:45 -0700
-X-CSE-ConnectionGUID: DKdAiyOMRv+CM1/kW2v1nA==
-X-CSE-MsgGUID: SIQpapS1SWCotkifYmtVig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="170231986"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 15:29:44 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Mon, 11 Aug 2025 15:29:43 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Mon, 11 Aug 2025 15:29:43 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.59)
- by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Mon, 11 Aug 2025 15:29:43 -0700
+	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="VCBNEGgU"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OI7v/w40fiYrtmlzS0w/Knma3vs+GVgPhi0pXB5jCdffLCnceEe0JzCxjuCL5Z/b519SsMpWZGzMrXLIUmbc9knOe0f83fROoMFV42epmLX5IM9kvaKWGis2QZQOZFwQYFMdYUy4K4tSxUPdFdHs8KE8eUIMZYh6i7ILenDkmZc5Pa53VoNNbVroPcYZsK2WRHRqXe2GZFExD3MnoPwlDtqvVXMG+HoXU/D//4HS3hW1rkA/EDMp141IgN+S/GdHZFRgtpwr0cGXt/ouiLs5Bg+rf2M00g9EI5pp93sLClpsbPYB+ePIAJdbfNG47Myig79Xbe6v2VLgHPNXraBwEw==
+ b=UD4ubW7xDZh05ewFrfKTcSBljDgiU9DXw4vK0Tra9hL9ohMYGgEpX3ouMJ4TtAPPciBDitUk4hTMtT4oa8jMAZRGZqo/UB6nlDuVbQpLEoyZ2GDPOs3RZZq9ljx7J6saJ5P149IaZDRLAlv1fI7dN0eEzhLH8Pcrr9UrybC8PkpFNQAUoy4TSwsmiY2H4FEFk1W7Dw+ih471qDvptZjYrfhAkWxAL/lpe/IbDZacw2Sh9H4vXBVBO8XOlvTZSMntPyBIQboRz17s0Suo68bwSJgx9vhIuCZf2OtJ9CgCWQ91EZSLM9mSL502wjvTs9TdGPStzeqo+dFR1UM9h5ITrg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vMA6Eez6mFAOrshFGAWqRgLBOli57/KnfKNZP8FEa8g=;
- b=TaHhJeoM9fHhIoh/Rwj+C6Hc1TBM1/AOR8g8GAoAnlSxtdoEwzGUkrjkpCAm1Fb3KoaMod7t8n0IO9KFzZq/+hvsRFqqEohABqkR15v8WV0VP1M69I/DLyiwlVmbqWtPkYKliwRm+NeJzwzFrAVDBUV6wjOkouupwh9OkplYn6qUP8f45PVRc6k9k6zqmNCsyc8aCnRWqfUoMc0bbT9SAvKgiKLw0Eim/xdHHZjzVGYuwv7GtinIqrb5OOSLLJOc2P/+eIxnihFwNxIe12wC6idfeA+93/88Mgw+R71tn0qNFtLSE8Tle95OQs9Kr5q7cZ2rTj+W7Lp8mtuO8WJURg==
+ bh=VD/vNvXBWyR/7raIRpUT3pi8uZpW7fXWX9ODuxByMkg=;
+ b=DRPv61Srbc/mPa04w6nv5WHeLrcm25DGlYVTrDYZAn6et08uglm4axAYByHe2ydYnov+byU5+mV0U7GzRA8QayoKXkoATkTC6WkBgsSMmZApm2FV2fVVQ8Aa2hEBbNetKQs3ZMnqbJWALvkkceG92sVHhNm9izezLwf3mZ434NWMN0q0Ufcga5Hmq6vkTXWCxSMxTuxZQB2kDmGab9dVV0g/U6IMXBYWDcSbf9u//WOKB6/K2NzUVF6nlkYwgBN3N0bAi31ZC3ldxJJBTHSxUmH9TU7FUh0v08ScoqQ+q8E/mKXzt3VqKqvcv4T4zJBpjEHscYZp2EOojUgPOFN5rw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VD/vNvXBWyR/7raIRpUT3pi8uZpW7fXWX9ODuxByMkg=;
+ b=VCBNEGgUWByFx+2fKnX9IsFSn+hQR4OJUfl5f+aEJ+ZH+IWlHEfqygyhXBz6up2G6YpPf0fqMe08vIO73OVJmMBmoVul/UIx36DGTUJ567IgUvipanYW/h2IqGtoH3ebDXmwYuNNfKVYqlRqDn2SZyjCr2/36O2PuW2Dr9Av8Nw=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
- by CH3PR11MB8139.namprd11.prod.outlook.com (2603:10b6:610:157::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.22; Mon, 11 Aug
- 2025 22:29:41 +0000
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::15b2:ee05:2ae7:cfd6]) by MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::15b2:ee05:2ae7:cfd6%6]) with mapi id 15.20.9009.018; Mon, 11 Aug 2025
- 22:29:41 +0000
-Message-ID: <168315c3-48c2-40ca-be70-8967f65f1343@intel.com>
-Date: Tue, 12 Aug 2025 00:29:35 +0200
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from SA3PR01MB8473.prod.exchangelabs.com (2603:10b6:806:397::12) by
+ LV5PR01MB9441.prod.exchangelabs.com (2603:10b6:408:2b7::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9009.21; Mon, 11 Aug 2025 22:37:24 +0000
+Received: from SA3PR01MB8473.prod.exchangelabs.com
+ ([fe80::46d7:1d3a:dc9c:69c3]) by SA3PR01MB8473.prod.exchangelabs.com
+ ([fe80::46d7:1d3a:dc9c:69c3%6]) with mapi id 15.20.9009.018; Mon, 11 Aug 2025
+ 22:37:24 +0000
+Message-ID: <a302543c-7a99-4ea4-9559-e4cf4ea79b5e@os.amperecomputing.com>
+Date: Mon, 11 Aug 2025 15:37:18 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 2/5] dpll: zl3073x: Add low-level flash
- functions
-To: Ivan Vecera <ivecera@redhat.com>
-CC: Jiri Pirko <jiri@resnulli.us>, <netdev@vger.kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Prathosh Satish
-	<Prathosh.Satish@microchip.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Michal Schmidt <mschmidt@redhat.com>, "Petr
- Oros" <poros@redhat.com>
-References: <20250811144009.2408337-1-ivecera@redhat.com>
- <20250811144009.2408337-3-ivecera@redhat.com>
-From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Subject: Re: [PATCH v4 1/5] RAS: Report all ARM processor CPER information to
+ userspace
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ James Morse <james.morse@arm.com>, Tony Luck <tony.luck@intel.com>,
+ Borislav Petkov <bp@alien8.de>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-edac@vger.kernel.org,
+ Jason Tian <jason@os.amperecomputing.com>,
+ Shengwei Luo <luoshengwei@huawei.com>, Shiju Jose <shiju.jose@huawei.com>
+References: <20250805-mauro_v3-v6-16-rev2-v4-0-ea538759841c@os.amperecomputing.com>
+ <20250805-mauro_v3-v6-16-rev2-v4-1-ea538759841c@os.amperecomputing.com>
+ <20250808162209.000068f5@huawei.com> <20250809175519.74b08ea9@foz.lan>
+ <20250811115238.0000272b@huawei.com>
 Content-Language: en-US
-In-Reply-To: <20250811144009.2408337-3-ivecera@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Daniel Ferguson <danielf@os.amperecomputing.com>
+In-Reply-To: <20250811115238.0000272b@huawei.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DU7P250CA0002.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:10:54f::15) To MN6PR11MB8102.namprd11.prod.outlook.com
- (2603:10b6:208:46d::9)
+X-ClientProxiedBy: CY5PR15CA0150.namprd15.prod.outlook.com
+ (2603:10b6:930:67::9) To SA3PR01MB8473.prod.exchangelabs.com
+ (2603:10b6:806:397::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -106,575 +76,277 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|CH3PR11MB8139:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0383196-a667-4575-ec80-08ddd9269068
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: SA3PR01MB8473:EE_|LV5PR01MB9441:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26ab83ab-a3de-47ac-5135-08ddd927a43e
+X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZHlZVFlwRXQ1RXFSdW5DWG81U29QN3FCUVY5UU9xeGg1eFFmYXFReXVUN25x?=
- =?utf-8?B?bmFHUzRwaUFEaVk0c1lhY0NFTHA5eVhhNFRNRjZyeWV4RFRlZ1NqNTBUa2RV?=
- =?utf-8?B?S1dpSE1JaUFoaHZkSng5akNKNk9tUnM4MHJEc3d4NGcwayt2eGhsU2JZMzU0?=
- =?utf-8?B?SDM5VXcrc1RVL0F2UFkxamhKb0FMam5ta3JEdW52SmFiSzB1MEp2eTZJNlVt?=
- =?utf-8?B?K3FrSllPQXhSVjA4Nm1aVXBNMnU2YTNyeTZVeW9ONzk5d1dDNGd1dmxDanM2?=
- =?utf-8?B?SUlLd25heWNPaEhLYk95dXgzYnk0c29RTXNQRzlxbjdYcmxwUUdNTS9pblJS?=
- =?utf-8?B?VWxDR3F6R2s5aHBOUkVlazc0VHNkUmNqT1NvTWZjTEcwVkd5VjRFd2wyYlpM?=
- =?utf-8?B?TGVza29pNzRERmd4RkpBRE9vcmRuWldiajZndEJJcVRjRHFMTmUxM3RJc0F0?=
- =?utf-8?B?cUFKaUp2MXNIcERURUdra0RyandscVp1QSswWnZJcXlNanpPZHh4bGZTNjZN?=
- =?utf-8?B?UWQ4QkhqcDZ0cFpVSnhYa0FOQlhSQU00eG5FZ2IzYzU1bXV0bFJlNSttVGFY?=
- =?utf-8?B?SzZiWDhKVko0Wm5McnQrekFaM0YvVjZqUkt1NEtiQkZFVzZtcCtwbWZXN0cx?=
- =?utf-8?B?ZHhncXl0WGNXZDZsSnB5N1RWTDNteUQ3U3hyOVZuVjJTY3luYStaL1NPMlFa?=
- =?utf-8?B?MGgyQU9jdnhFUHNnUm81akRDOHNhT0hpcUxURTVPdlRWMFIwZW1HQit4Sk5Y?=
- =?utf-8?B?aS9pZU1TZExGVjVmL1lBeTEvWVBWUVBqWGQxVm9nWFZncG1DbzgrMG1Ccmlt?=
- =?utf-8?B?TFhKaDZ4dGJpKzRPT2JpQUZBaERqUjVkWmY1UmxmNTl5WThsdis1bGZ2NGha?=
- =?utf-8?B?TzBlTCtZSW5Ca3dieTkyVXNKOVZKYUR2U0JUT2FLazlMTmJHYVJPUFFjc3JN?=
- =?utf-8?B?eWtrRHIzVFZDVEh2dXdDSmpwUVJSNVJDc3prbUJYTEtwOEVQbTR6aDlSMFVH?=
- =?utf-8?B?VXFRajYxaE8vdTlsS3VWVkVBb0xKWTh2Y0ZWZDhrZWZNSUxqcEpXc0tJdUlN?=
- =?utf-8?B?Rm9yT3Q0TmpIaWlUaTVlZWlZVXJ5a0ZabCs3N3FRMnZDOWI0c2tiS3NsTEVU?=
- =?utf-8?B?WWZjU0lQZC9HWjlqTHZkUzkxRXJkVmFQdGRBaTlGdE9hY2pQT0xpQjFxOVUz?=
- =?utf-8?B?YXRLeWV1RDVpTHBmVDhnN3F2eDIwMjcwYktpek5KeWpBVGFpOHVtN0ExQ28z?=
- =?utf-8?B?dnByQnpEUklrRENENCtQck9mcVZ5R28vZThIOWcvRFYxK1Y4ZzNmWWwvZjRG?=
- =?utf-8?B?TlR3aVY4VmZLR01kU01mUmRNL0JyVXhxcVp6Y1E4R2JJRnprNWx5ZDUwdThK?=
- =?utf-8?B?OXhXWFlJNHBSODBLMWVEYkRXUE9nQ1dKd0xndjVOb3h6K0dMYTVlNmpRT0xp?=
- =?utf-8?B?Z0I1NEZEbDFpdUhkeG9TVTVJc2J0SHBiVGJzY1NZaW9GR3ZOWEtleXVHK2xL?=
- =?utf-8?B?Vm1qZmZKWWE4c2ltREJvQzljS1NWWlJqZUdTZERIUmpzbkhPQ1VuZGljVjQr?=
- =?utf-8?B?N0o3TXdUR04waHBjL0VYSEhGa0xOQkxaSnBGRFVaNng2TUdnK1IvTDRsR3Rq?=
- =?utf-8?B?MmRIZU5rVDhmZUJyekM1VTFnak5NTCswRGdKVTA4aTM1V2xYalN2ekQ0UkJW?=
- =?utf-8?B?Rzd6eS9ETUNscm1mUWpNd3VoNmFkVEMwdWpiSDVkSGR0K0JLSGRpdGtYRkI3?=
- =?utf-8?B?UytzeE5pWldVVFMvQnpjcEF2a2lBVnNyc2tQVFhzcHdwUEdJZjd4aUsrODd2?=
- =?utf-8?B?bEkzdXBkd25ZVWJFZFhyN0MzQ1p0YXhOeFZrZFhGL3J0MmY1MmhNVmxiWkMx?=
- =?utf-8?B?S09iU1NMa1NvNmlvbitBN3RLQTY2Q3p0WnZOZzA0M1RKcngvSDhtOXVwWGQx?=
- =?utf-8?Q?OrkCZeR3F10=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR11MB8102.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|7416014|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QjNMblRyUE42djdCdXZ1U0dUZmk0dWZkUEhKTWdiT250bE5Gam9YckV4aCt6?=
+ =?utf-8?B?NXNZUWdIU3RXbTBBdEtrOFNqNk04MVhhd01UYzF5bXFwVmc3ZVc2RmNpLzRT?=
+ =?utf-8?B?LzA4U29HTXl5b29xRStRSnRWSEg1R3RaUVFXT0YyRFhuWUtGTThkYW8rUW9M?=
+ =?utf-8?B?N01haG5iYXExWHZWeWxrTWlWQ09NTGRYS3U1UEFEbWI4SEdzVC9sSDFGVFRR?=
+ =?utf-8?B?VkxvK0NheGdxM0pUNTFjZnZvdGRLa0hzYzlhcXdmSUhid1ltd3JqZ1BIWitw?=
+ =?utf-8?B?RmFZMlM4V0VmcWpLWFNjQis0R25YUEtYNG1QZE90dUpDUWE2bHBhSGh1UTY1?=
+ =?utf-8?B?MWVBeE9nNU1zNmhqK0lOUDdQU1M2c0dheFd4cCswR09Qa2lnbXlUck5GelBv?=
+ =?utf-8?B?UEhRV0w2RXVwdlFFSWRvSDRNMXZsWmp4SFRlYXdwTlZZMEFCKzRxQzlOenRS?=
+ =?utf-8?B?N01KT0hnVDFBRmhXRjVrWFRyY1Zyd2V0diszYUk1RjNnQkZBVWtVQ3ZMM3JI?=
+ =?utf-8?B?aG9ZZ3IyRDBURTlhSU1leUZyZ2g2R2EycmY5dERIb2JoNG1OSTNMbjNianc3?=
+ =?utf-8?B?dWZkNE9HN1NPVm5RSVJ1Y2JsZW5xbHN2Znh3ZkZHOWYrdkNTWGIwcjZZTHNZ?=
+ =?utf-8?B?WjBTZEhoWWdTd3hoamQ2Z0ZBZ0hPRzJpUk5YSVc5RVpWSlNxQnVBRmJKeVM2?=
+ =?utf-8?B?ZU1ab2k5WjRmNXRJKzVKYXFiY1F4b0JPeVo4cFQvN0twK0JYRXcxY1EzWCtO?=
+ =?utf-8?B?aDdwVGN5SUxGQm54STlsckZJWEdwMTViT3YyQm5NY0NOa1FHSzJvWFc3U0Jr?=
+ =?utf-8?B?ZnVjMVA0dElnclBtNWdlVzkzSGdJeDZNdDN6MkVNdnFVYjEvdzZlL3R1T2R3?=
+ =?utf-8?B?TDJ5RHBpSmFLekZOaThFUWJkVVhYa3Z4NkhTcXhrREVpd3dlYzQyZ3FLam05?=
+ =?utf-8?B?TWV2Qk9Pb0tvNW5zUnVlbFNJZjFESTZnd2ZHUThZbjRzN3pISCt1QS9tdFIy?=
+ =?utf-8?B?MFJla2dHNlZkTGVvUGVSR3MvWXQrR2ZSeTVGa2Y2WmxsUkFzcFdFM3VBYVFs?=
+ =?utf-8?B?aTAzeW9zdytIdWxIdCtMcEdJT1Awd0N6ZlRqa1pyUTZQSm1SS01Jckw2eTMr?=
+ =?utf-8?B?L2ZEZ1dZUWQ4NjdscXdrVllrRGRuN09pUFNnTE5GNTdjVnlkeWlucmNLQzI0?=
+ =?utf-8?B?Rm0yWHFoZlJjejQ4OWZLY3d2U1hEOElXV0tLeDM1OWdGdk1Gd3NvSGJpTWo3?=
+ =?utf-8?B?eFU1VGtiTkpOY1NrU0c1aURmSzIrVUJIaXhRdlhncTVNSllmSkc2bkhESi9i?=
+ =?utf-8?B?QjE5RXB6MDdwSDRZeHA5SGFTcU94cjlHQUJna1VJWjlVMnYvL1IrNWNBQ0lH?=
+ =?utf-8?B?L3Q4WDV0OG9KNUlXNkRSUUgyMVYrc0p4Y3ZZZXpIcjR6WTJqakJYdGo1Mldi?=
+ =?utf-8?B?MEN4TWRkZC9BNlZhK004SDErOVJsU2dMSEpyRDNnakZ5Y2dob29ENDFsM00w?=
+ =?utf-8?B?aTZYNzcxWERVYkllenRZam5UcG9QOU5JWkpiay9sejZTMGFKaFBla3VVTUVi?=
+ =?utf-8?B?WFg1cXU0dlJFWnFpNmdGZnAzdExaMXphdTlUUGM2bVptYTlyNVR5OGxIa2ly?=
+ =?utf-8?B?a2xTcHNITkh1UUc4SFVZa05sbFZOdFhqcU90blFUaXoyaWc3MFJCQ3lneFJ0?=
+ =?utf-8?B?QmJDMkJPa09rR2xuM2NWZUtjRFc0YmQzK2VkVTBYQzZzYU1hQTRCbU9BSThU?=
+ =?utf-8?B?VXlSVG9OblkxcUZzaUVvTGhEbmZKY0MzbWZuaFQrSHNoTjdwYUUxZ0FLRDNx?=
+ =?utf-8?B?OElsUnh4SGV6dEJHVGozUnNaTnR3dkxEZ1JrUkdKUjhpc2F4c0Qyc0xBS1pB?=
+ =?utf-8?B?QzhiVU5iVWxBSUlCejArNnU5TWZOSXVhcHFYeFlFbUpObHY5Q1hBK1czY1Yw?=
+ =?utf-8?Q?Lv8ckP18QPw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR01MB8473.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(38350700014)(7053199007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?czRJWXVmVkhOTG1USW5DQlZZa3hnNmRONXVBZXNmVFlUakxvVFlnQi9NbmR1?=
- =?utf-8?B?c1U2SG1TSnFNeWQwbTlLL0FlVjJWVG1ncXhQUVFQakhCbU1CSFBLb3BCT25L?=
- =?utf-8?B?a3NZdGlVOEdpWXJiM0x5NG5NQlpSbTU4YnJOYXRQVVlHRElMUVBzenRVZFVq?=
- =?utf-8?B?MTQ5cHlCc2RzOTdUM2s3aUFOc2xLWnFTdjUrakdhK01OZlhBKzRKYjR1WEw0?=
- =?utf-8?B?Zlc4K2x6VlJ3UjY3cnhSWEtCbVdyMlBQQ1Flckx3QUkrWHRzQkVjVUFxcG93?=
- =?utf-8?B?d0djdmltS1gwOUZHeUNGMG5zSFZNaU9seHRKYWhqcC92ekZhb25ORjYxSjJ1?=
- =?utf-8?B?RjlTdDRHSHdWNW5qSXpVa01wajZRVjE4UXR2SG13VnN3MDdIemtoVHpXckZB?=
- =?utf-8?B?OGxzcUlXV0k3YTJpK29iOGp5S1JneFkwMDJMWEJkcmY1bmtHL21zbStKcmQ5?=
- =?utf-8?B?dE1CdFdGbWpudEJ0SGpNZTJ3ZW9xcitsOWw3dlNFbTV1QmVlaWw3aGc3dHJk?=
- =?utf-8?B?U0R2TEd4Zit0VWV1K3ZwMjRZOWFvdzh0eXMxZkd3TDhSaG5yVi8vYzJkeGpx?=
- =?utf-8?B?RUZGQk1PSWl6QjROc1RFTUJuSnlBQUFLMml3WkRHaEhkSWpVRDVFNytGbjYw?=
- =?utf-8?B?UzdENUpzNjI2YlZsdVNSMUVGRTk1NTQrYTFlWTFqaG1TWllBODVYeU9VVGhB?=
- =?utf-8?B?V3NlOEx3Qmp3YjNxV2tVekVHK041TWk3dWpIOUwyTWRlaWgwOVlVVTJGQXhm?=
- =?utf-8?B?STlZQ1NZQUhDMFJncUFBZC9QTnFuWXZ4MWM5QlErendycFRUR1ZjWWlHWk5E?=
- =?utf-8?B?amtKKzYyYkpqZERyY2hPd1BYNFJTb2VlbVJXUVhxK0Z1UmRPVzNoVFA4b1k0?=
- =?utf-8?B?VllTVVRLVXZoRm55dTNjWjBqRVB5bDIxTk5UckJXZ1JRTHdJZjB5TGZneWN0?=
- =?utf-8?B?bmJMcHZMZGsrRkwwM1Z3anBXQklmNi9ncDRoUHR2eWUvcHBGQlJYbnJJbjhH?=
- =?utf-8?B?djhkK3hXN0N1WGxZWERheCtRRGI2MG81L0VOaEZLWjdabGMvNmtDb0doVXdW?=
- =?utf-8?B?eW1DdDRyRUxzZThmUjdaNHg0K3VzZ0MyZTNUWW1WMDUrUTVoUnczV0hXa3Jr?=
- =?utf-8?B?UmMwenVrd28wODFJNGpZaXlDakFpdXVSODBFT3Z3YTJVN0lNeW1TblFqM0NL?=
- =?utf-8?B?UW0yNGZEMmdtZmRpSlFFTDRHdWxvMmRDSmxBM0pOKzZPcnlZK0poY2RXY21I?=
- =?utf-8?B?ZmRXWmdkNEVqSjRoK0xva1F5L3R1NWhWT2F4alN1bWhSL0o4YjlPMHhZTUc0?=
- =?utf-8?B?MnRSSlJkbW8ydUJ4am1xS0JFQ1dKZnpsQ3N0RDZYeFVTNWgzNUE1Ymh0cXp5?=
- =?utf-8?B?MUhKT1pFUTU3UnJJTnY2UlBENmhSSnR2WTlqK2UzMEMyWmdHd3lQMEx1Qlpo?=
- =?utf-8?B?dmsxM3pkWW1iQ2ZnUnI2d0IzT1I1SWxubEZ5LzhxeEdaYkNHdUdQcUc0UGQv?=
- =?utf-8?B?VjhxN0wvNnRnM2FyT0t0RVhrTXJmMVM0SEQrMFdhMjUxdGs5ZW5aejdlODNi?=
- =?utf-8?B?THZqanQ5blJBUk5xZFVmS24rM2JRUGtyODFSNGVDZFk3aUY0ekYybktkakNF?=
- =?utf-8?B?RVgxNmsycjlvNGxWRmh6YUpyUmN6WHNNTDBBNWxaVHZySzhNRWxsZGxwT21V?=
- =?utf-8?B?Unh6aUtQUEhCdTJxMmpYS0tqNytQeGpHQTBSS1l1NE5XVDFpSC9iNk55U3lG?=
- =?utf-8?B?M2x2SzNEVGVRbFVQREJwUzZhbGZKS2d6KzN6citMOVNwV3VNZ0tlRkxUL3FB?=
- =?utf-8?B?Y1JFQjdLSExxek0ydlpyVFRVWThqWWUvallpbk1FYmFqempDOE41WUk2Z3Ra?=
- =?utf-8?B?Q2JjSjNLMHMzalVRRmdBNDQ4dy9taWZ1UGhoNlJiTjY2aW1qWlRnRlV5eW0x?=
- =?utf-8?B?dG4wWEwvcWhQTzhCTDlLYmMrQ2kzQ3UrK1ZwTi8rMnZUZjJGSkF5a25rVUtT?=
- =?utf-8?B?MGlKUy93UnRxY09Jd01YU3VzTG5kQkZPWjB2MTFqbmlxcy9oczhxZUtvcjl4?=
- =?utf-8?B?c3pwU1YvMFVxZ1B6aE9VSjZraTNLN1ZLbE4xcmIwRVRwcnl4K29WRm41K1FK?=
- =?utf-8?B?ckxRRDY4YUdRVUJNaUVwTzFWL1lSakw1VUhzRXF5YlNqYmFnejFUR3EvWHQr?=
- =?utf-8?Q?5UFepGEy0xov8VnMTQReAa0=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0383196-a667-4575-ec80-08ddd9269068
-X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NmZ3YkxZMFdoVHp1Vm41ZmRjYUlvd3RHaU50cnoyaG1hc1ZHdWk5Ti8xcEZz?=
+ =?utf-8?B?cnE3WnRIWUhLOUppZnJYSFllM01lN21STzB5Zm5wZitJdzRYdUNmbVh1aGtn?=
+ =?utf-8?B?V1VIYnFnTnBsbmZ6bHAya05vRE8zd1hJMlJhazJVQTF2Ly9xNWMvV3RReW91?=
+ =?utf-8?B?QURFV05lVlRTY0s5ME05SkhtcE5YSVBIaUVIUzd1a2Y5NlRRTUU2N2JBQm5B?=
+ =?utf-8?B?ZW1aSE1xQmwwcm93eHd2cjFRTUhsVk90NE9SU1IyQ1NYYklNUnJjYU5tbysv?=
+ =?utf-8?B?aERDRGxBMFBEQ0d5SDBoY2V4N3JtV0JWUjV0eGY0dEVCNTNsSzZ1ZjJFT00y?=
+ =?utf-8?B?WTNsMmdlRmhUQ2dEZzVyU3V4ZjBrcXQzZXdnL0N0YjlXWkVoQU1oUGc0RU1x?=
+ =?utf-8?B?M0hhTnlHbHJnRTRQSkxrRDc1QTV6N2NGSmp6cnBZQXp3U2xXSVQ1N082TFh3?=
+ =?utf-8?B?Q1NCYkZQVkh0anZLVlIvVzFEeDhUcVlWSVNvd0lybm81bUJFRlN1YjJHN0RU?=
+ =?utf-8?B?VXlmYk9ITzRkWEhBNG1QbGxKZk9wSEJ6cmpzdFFmWkxtWk9UY1JNNVBmUVZs?=
+ =?utf-8?B?WTIwcDZNTE53QjE5L3hiVTQ1aDNadVFpT29aZjhhaHdJQUw3eG5PRkNZdGVX?=
+ =?utf-8?B?cUpCSUVOSzgyS3hCdjVJZ1Z5RDM3aXR5cFE4TFJNaWFidUZoZ2xQdTZ3b3N2?=
+ =?utf-8?B?M2V6cHVsKzZka0c5dWJYdGRmK2ZuZVZ5M2JBdHJlQi85NU1zWHNjdGRhQjBl?=
+ =?utf-8?B?WWMyaHpDN1FCU29leWhEcVlTRGdQZTE5ZzNHZEN3TFJBczcwMVFPRVpmRjFH?=
+ =?utf-8?B?TFU3TVdQK0RIRVQ1YTNVRWluUmd3SFpzNUU5dnA1QnE4UzhZMUQzVkxIam1P?=
+ =?utf-8?B?RzNQd2pXRkFFWkNiSnFhNFc1ZEM4SU1QMk9TMCtieG9pRElCOUlHTUg1eGk1?=
+ =?utf-8?B?Y2o3NXNMcFRHYWpYVVR3dzlsL0FacWhmRFJva0Z1cHdTZ0Z6SEQxcU5SR3lU?=
+ =?utf-8?B?R2Y5Q3JvYXVOU0tTRys2ZUpMV0hJVW8rRTVncmppSzllbm5ib0VaTUxSNmwy?=
+ =?utf-8?B?Yjd1SlVEejdlZDFUNXR4NkIyOWNYZnFia3RLNFlsVlVPS3dNNnNSQndYaHNQ?=
+ =?utf-8?B?TUxrd3FjR21STWxYZ1NLMFZzSHIyZDRlSmFiZ05BeCtmZDV1M2VDTU8rQXZM?=
+ =?utf-8?B?Y2FBa002WGZkWFpzc3U4emMvbFM5VGJhdTA2cUFid1huejBYd08wTDZSUG1B?=
+ =?utf-8?B?eVh0RUpSNTJHbVZ5ZU9IS0loMkt4MWVWaDJsMkZ1VjVOZ0hNbnppcVhEZmty?=
+ =?utf-8?B?eVJpR1hnSWM5K1lMTTNKU0lGcCthM0lXZk9LTlRFV29MMHR3OFgwSnQ3b0VO?=
+ =?utf-8?B?YjdHb2tPTE5ITmxxeWdSNXVPTWFwN0dIUmorMEZQamsyN3ZWTm1jeGFFbzQx?=
+ =?utf-8?B?aTNSS2Vvb2NXN29OcWlPb0tmUUYzSGtMaXdJeEt4aXEwaG1DRVdTdkFDRWgz?=
+ =?utf-8?B?REdaVEh6bDhibFNyQVZUVTRwYmtXZ29kWkh2NUVuWlA2UjhvYXpSN2hObDZv?=
+ =?utf-8?B?M0Nqb2NvcitiWHRZQzRxQ09BYms0MkhseE9VVVI3U1d2THBRdWhMeFdqVjhV?=
+ =?utf-8?B?ZGJYZXZROXVtdy82ZFllR3g4Qkpnc1QveDdkbjJCU0k0MW54ZEdaTVVmdVpn?=
+ =?utf-8?B?S0djdUVvKzVkU0N4MW1VblRyWGJnZWpGdEhBRVVKYXNud3dLYXpMNjFTY0Vq?=
+ =?utf-8?B?RzdTZEFCVDhhaUlQOXhiNDNKMHk0N2hpS3Q3enEyeVU5Vk13Y1FCQThKVEFE?=
+ =?utf-8?B?Tno1VWkwRC9WT21wZlBtbFJ5Z1pieU0vK2xJUTRGNGs3TVR4YVFHNHFMQ1d5?=
+ =?utf-8?B?VWFiUlJpbzluVEdzakhlalc0NzVURTM5Kzg5MFJKTi9PZkNCbkh5VndiQWx2?=
+ =?utf-8?B?NjVSdHVETnpZOGdYdHljQUdBcE9kV2ljWE1PMStRR0hpK1k5dzdSamJNM2xo?=
+ =?utf-8?B?aStpbjBnV1pKKzdqWVhMOG9MVUpHdkwxU2JJWGhFSUVTM2FhVGpWUVorS29a?=
+ =?utf-8?B?WFppVHdkbXQ2MzU2bGtwV1FWNitmaUZ2bWF2TTNuYUxKOUg0WWRpaFVvS0Vo?=
+ =?utf-8?B?b1Fwdks4YTNiVGJ3TDVzQmxkeUlGQzRWWURLOElwMW01emRtWElpL0VrelBt?=
+ =?utf-8?Q?b6hiRb5GMsjHYTSugPkQIVM=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26ab83ab-a3de-47ac-5135-08ddd927a43e
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR01MB8473.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 22:29:41.3060
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 22:37:24.2046
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cIZrFY7fgd6CQdRUeR+fkJobizmHAEN7v73wNp8DHEdBzbOOismkoVyNq+CFXrNnOXXekyTWjczn34uDVCZXb5awI92lm12l0s7mrwG+w04=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8139
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: +f3Ti5OOqpu0ajBVANfp5CRKHx2ypGTU+myNT5gholZDhgT79FdEl70xE1T6rt4rQwlr4a+WoSPwDabL2+Kl7u+EukkUbxLFmC+95eUOgX9/vMrRLUjzx+rAclpFZ7Qi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR01MB9441
 
-On 8/11/25 16:40, Ivan Vecera wrote:
-> To implement the devlink device flash functionality, the driver needs
-> to access both the device memory and the internal flash memory. The flash
-> memory is accessed using a device-specific program (called the flash
-> utility). This flash utility must be downloaded by the driver into
-> the device memory and then executed by the device CPU. Once running,
-> the flash utility provides a flash API to access the flash memory itself.
+
+
+On 8/11/2025 3:52 AM, Jonathan Cameron wrote:
+> On Sat, 9 Aug 2025 17:55:19 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
-> During this operation, the normal functionality provided by the standard
-> firmware is not available. Therefore, the driver must ensure that DPLL
-> callbacks and monitoring functions are not executed during the flash
-> operation.
+>> Em Fri, 8 Aug 2025 16:22:09 +0100
+>> Jonathan Cameron <Jonathan.Cameron@huawei.com> escreveu:
+>>
+>>> On Tue, 05 Aug 2025 11:35:38 -0700
+>>> Daniel Ferguson <danielf@os.amperecomputing.com> wrote:
+>>>   
+>>>> From: Jason Tian <jason@os.amperecomputing.com>
+>>>>
+>>>> The ARM processor CPER record was added in UEFI v2.6 and remained
+>>>> unchanged up to v2.10.
+>>>>
+>>>> Yet, the original arm_event trace code added by
+>>>>
+>>>>   e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+>>>>
+>>>> is incomplete, as it only traces some fields of UAPI 2.6 table N.16, not
+>>>> exporting any information from tables N.17 to N.29 of the record.
+>>>>
+>>>> This is not enough for the user to be able to figure out what has
+>>>> exactly happened or to take appropriate action.
+>>>>
+>>>> According to the UEFI v2.9 specification chapter N2.4.4, the ARM
+>>>> processor error section includes:
+>>>>
+>>>> - several (ERR_INFO_NUM) ARM processor error information structures
+>>>>   (Tables N.17 to N.20);
+>>>> - several (CONTEXT_INFO_NUM) ARM processor context information
+>>>>   structures (Tables N.21 to N.29);
+>>>> - several vendor specific error information structures. The
+>>>>   size is given by Section Length minus the size of the other
+>>>>   fields.
+>>>>
+>>>> In addition, it also exports two fields that are parsed by the GHES
+>>>> driver when firmware reports it, e.g.:
+>>>>
+>>>> - error severity
+>>>> - CPU logical index
+>>>>
+>>>> Report all of these information to userspace via a the ARM tracepoint so
+>>>> that userspace can properly record the error and take decisions related
+>>>> to CPU core isolation according to error severity and other info.
+>>>>
+>>>> The updated ARM trace event now contains the following fields:
+>>>>
+>>>> ======================================  =============================
+>>>> UEFI field on table N.16                ARM Processor trace fields
+>>>> ======================================  =============================
+>>>> Validation                              handled when filling data for
+>>>>                                         affinity MPIDR and running
+>>>>                                         state.
+>>>> ERR_INFO_NUM                            pei_len
+>>>> CONTEXT_INFO_NUM                        ctx_len
+>>>> Section Length                          indirectly reported by
+>>>>                                         pei_len, ctx_len and oem_len
+>>>> Error affinity level                    affinity
+>>>> MPIDR_EL1                               mpidr
+>>>> MIDR_EL1                                midr
+>>>> Running State                           running_state
+>>>> PSCI State                              psci_state
+>>>> Processor Error Information Structure   pei_err - count at pei_len
+>>>> Processor Context                       ctx_err- count at ctx_len
+>>>> Vendor Specific Error Info              oem - count at oem_len
+>>>> ======================================  =============================
+>>>>
+>>>> It should be noted that decoding of tables N.17 to N.29, if needed, will
+>>>> be handled in userspace. That gives more flexibility, as there won't be
+>>>> any need to flood the kernel with micro-architecture specific error
+>>>> decoding.
+>>>>
+>>>> Also, decoding the other fields require a complex logic, and should be
+>>>> done for each of the several values inside the record field.  So, let
+>>>> userspace daemons like rasdaemon decode them, parsing such tables and
+>>>> having vendor-specific micro-architecture-specific decoders.
+>>>>
+>>>>   [mchehab: modified description, solved merge conflicts and fixed coding style]
+>>>>
+>>>> Fixes: e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+>>>>     
+>>>
+>>> Fixes tag is part of the main tag block so no blank line here.
+>>> There are at least some scripts running on the kernel tree that trip
+>>> up on this (and one that moans at the submitter ;)
+>>>
+>>> I'd also add something to explain the SoB sequence for the curious.
+>>>   
+>>>> Co-developed-by: Jason Tian <jason@os.amperecomputing.com>    
+>>>
+>>> Jason's the Author, so shouldn't have a Co-dev tag.
+>>> There is some info on this in
+>>> https://docs.kernel.org/process/submitting-patches.html  
+>>
+>> My understanding is that all co-authors shall have co-developed-by
+>> and SoB. Anyway, doesn't matter much in practice, I guess.
 > 
-> Add all necessary functions for downloading the utility to device memory,
-> entering and exiting flash mode, and performing flash operations.
+> Nope.  In the description the docs say "in addition to the author
+> attribute in the From: tag"  There are also examples where there
+> isn't a Co-dev for the From author including the subtle question of
+> ordering if someone else posts that patch.
 > 
-> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
-> ---
-> v2:
-> * extended 'comp_str' to 32 chars to avoid warnings related to snprintf
-> * added additional includes
-> ---
->   drivers/dpll/zl3073x/Makefile  |   2 +-
->   drivers/dpll/zl3073x/devlink.c |   9 +
->   drivers/dpll/zl3073x/devlink.h |   3 +
->   drivers/dpll/zl3073x/flash.c   | 684 +++++++++++++++++++++++++++++++++
->   drivers/dpll/zl3073x/flash.h   |  29 ++
->   drivers/dpll/zl3073x/regs.h    |  39 ++
->   6 files changed, 765 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/dpll/zl3073x/flash.c
->   create mode 100644 drivers/dpll/zl3073x/flash.h
+> I have a vague recollection one of the scripts checking linux-next
+> might moan about this. 
+> 
+>>
+>>>   
+>>>> Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
+>>>> Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
+>>>> Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
+>>>> Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+>>>> Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>    
+>>>
+>>> As person submitting I'd normally expect your SoB last.
+>>>   
+>>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>    
+>>>
+>>> I guess this is because Mauro posted an earlier version in which
+>>> case this is arguably correct, but likely to confuse.
+>>> For cases like this I add comments.  
+>>
+>> If the patch is identical, and it is just a resubmission,
+>> I would keep the original order.
+>>
+>> Otherwise, if Daniel did some changes at the code (except for a
+>> trivial rebase stuff), better to move his co-developed-by/SoB to
+>> the end, eventually adding:
+>>
+>> [Daniel: <did something>] before the custody chain block.
+> 
+> Docs are clear that sender of the patch must be last SoB.
+> That's also checked by the some of the tag block check scripts
+> I think.  There's an example of exactly this case in the in the
+> submitting-patches.rst file (last one in the section that talks
+> about Co-developed-by.
+> 
+> For meaning I don't care that much, but keeping to the rigid
+> rules in that doc makes it easier for scripts to check for the
+> more important stuff like whether all necessary SoB are there.
+> 
+> Jonathan
+> 
+
+Just to make sure I get this right...
+
+I will move my SoB and my Co-developed-by after any other SoB's in the tag
+block. As a result, I do not need to provide an explanation in this case,
+because there is nothing curious remaining ? Or should I still add comments
+indicating why I rearranged the tag block ?
+
+Based on your feedback, I'm intending to organize the tag block to look like this:
+
+ Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
+ Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
+ Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
+ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+ Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+ Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+ Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+ Tested-by: Shiju Jose <shiju.jose@huawei.com>
+ Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+ Fixes: e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+ Link:
+https://uefi.org/specs/UEFI/2.10/Apx_N_Common_Platform_Error_Record.html#arm-processor-error-section
 
 
-> +static int
-> +zl3073x_flash_download(struct zl3073x_dev *zldev, const char *component,
-> +		       u32 addr, const void *data, size_t size,
-> +		       struct netlink_ext_ack *extack)
-> +{
-> +#define CHECK_DELAY	5000 /* Check for interrupt each 5 seconds */
+Is that satisfactory?
 
-nit: please add ZL_ prefix
+Thank you,
+Daniel
 
-> +	unsigned long timeout;
-> +	const void *ptr, *end;
-> +	int rc = 0;
-> +
-> +	dev_dbg(zldev->dev, "Downloading %zu bytes to device memory at 0x%0x\n",
-> +		size, addr);
-> +
-> +	timeout = jiffies + msecs_to_jiffies(CHECK_DELAY);
-> +
-> +	for (ptr = data, end = data + size; ptr < end; ptr += 4, addr += 4) {
-> +		/* Write current word to HW memory */
-> +		rc = zl3073x_write_hwreg(zldev, addr, *(const u32 *)ptr);
-> +		if (rc) {
-> +			ZL_FLASH_ERR_MSG(zldev, extack,
-> +					 "failed to write to memory at 0x%0x",
-> +					 addr);
-> +			return rc;
-> +		}
-> +
-> +		/* Check for pending interrupt each 5 seconds */
+>>
+>> Thanks,
+>> Mauro
+>>
+> 
 
-nit: comment seems too trivial (and ~repeats the above one)
-
-> +		if (time_after(jiffies, timeout)) {
-> +			if (signal_pending(current)) {
-> +				ZL_FLASH_ERR_MSG(zldev, extack,
-> +						 "Flashing interrupted");
-> +				return -EINTR;
-> +			}
-> +
-> +			timeout = jiffies + msecs_to_jiffies(CHECK_DELAY);
-> +		}
-> +
-> +		/* Report status each 1 kB block */
-> +		if ((ptr - data) % 1024 == 0)
-> +			zl3073x_devlink_flash_notify(zldev, "Downloading image",
-> +						     component, ptr - data,
-> +						     size);
-> +	}
-> +
-> +	zl3073x_devlink_flash_notify(zldev, "Downloading image", component,
-> +				     ptr - data, size);
-> +
-> +	dev_dbg(zldev->dev, "%zu bytes downloaded to device memory\n", size);
-> +
-> +	return rc;
-> +}
-> +
-
-
-> +/**
-> + * zl3073x_flash_wait_ready - Check or wait for utility to be ready to flash
-> + * @zldev: zl3073x device structure
-> + * @timeout_ms: timeout for the waiting
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +static int
-> +zl3073x_flash_wait_ready(struct zl3073x_dev *zldev, unsigned int timeout_ms)
-> +{
-> +#define ZL_FLASH_POLL_DELAY_MS	100
-> +	unsigned long timeout;
-> +	int rc, i;
-> +
-> +	dev_dbg(zldev->dev, "Waiting for flashing to be ready\n");
-> +
-> +	timeout = jiffies + msecs_to_jiffies(timeout_ms);
-
-this is duplicated in the loop init below
-
-> +
-> +	for (i = 0, timeout = jiffies + msecs_to_jiffies(timeout_ms);
-> +	     time_before(jiffies, timeout);
-> +	     i++) {
-> +		u8 value;
-> +
-> +		/* Check for interrupt each 1s */
-> +		if (i > 9) {
-> +			if (signal_pending(current))
-> +				return -EINTR;
-> +			i = 0;
-> +		}
-> +
-> +		/* Read write_flash register value */
-> +		rc = zl3073x_read_u8(zldev, ZL_REG_WRITE_FLASH, &value);
-> +		if (rc)
-> +			return rc;
-> +
-> +		value = FIELD_GET(ZL_WRITE_FLASH_OP, value);
-> +
-> +		/* Check if the current operation was done */
-> +		if (value == ZL_WRITE_FLASH_OP_DONE)
-> +			return 0; /* Operation was successfully done */
-> +
-> +		msleep(ZL_FLASH_POLL_DELAY_MS);
-
-nit: needless sleep in the very last iteration step
-(a very minor issue with timeouts in range of minutes ;P)
-
-> +	}
-> +
-> +	return -ETIMEDOUT;
-> +}
-> +
-> +/**
-> + * zl3073x_flash_cmd_wait - Perform flash operation and wait for finish
-> + * @zldev: zl3073x device structure
-> + * @operation: operation to perform
-> + * @extack: netlink extack pointer to report errors
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +static int
-> +zl3073x_flash_cmd_wait(struct zl3073x_dev *zldev, u32 operation,
-> +		       struct netlink_ext_ack *extack)
-> +{
-> +#define FLASH_PHASE1_TIMEOUT_MS 60000	/* up to 1 minute */
-> +#define FLASH_PHASE2_TIMEOUT_MS 120000	/* up to 2 minutes */
-
-nit: missing prefixes
-
-> +	u8 value;
-> +	int rc;
-> +
-> +	dev_dbg(zldev->dev, "Sending flash command: 0x%x\n", operation);
-> +
-> +	/* Wait for access */
-> +	rc = zl3073x_flash_wait_ready(zldev, FLASH_PHASE1_TIMEOUT_MS);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Issue the requested operation */
-> +	rc = zl3073x_read_u8(zldev, ZL_REG_WRITE_FLASH, &value);
-> +	if (rc)
-> +		return rc;
-> +
-> +	value &= ~ZL_WRITE_FLASH_OP;
-> +	value |= FIELD_PREP(ZL_WRITE_FLASH_OP, operation);
-> +
-> +	rc = zl3073x_write_u8(zldev, ZL_REG_WRITE_FLASH, value);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Wait for command completion */
-> +	rc = zl3073x_flash_wait_ready(zldev, FLASH_PHASE2_TIMEOUT_MS);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Check for utility errors */
-> +	return zl3073x_flash_error_check(zldev, extack);
-> +}
-> +
-> +/**
-> + * zl3073x_flash_get_sector_size - Get flash sector size
-> + * @zldev: zl3073x device structure
-> + * @sector_size: sector size returned by the function
-> + *
-> + * The function reads the flash sector size detected by flash utility and
-> + * stores it into @sector_size.
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +static int
-> +zl3073x_flash_get_sector_size(struct zl3073x_dev *zldev, size_t *sector_size)
-> +{
-> +	u8 flash_info;
-> +	int rc;
-> +
-> +	rc = zl3073x_read_u8(zldev, ZL_REG_FLASH_INFO, &flash_info);
-> +	if (rc)
-> +		return rc;
-> +
-> +	switch (FIELD_GET(ZL_FLASH_INFO_SECTOR_SIZE, flash_info)) {
-> +	case ZL_FLASH_INFO_SECTOR_4K:
-> +		*sector_size = 0x1000;
-> +		break;
-> +	case ZL_FLASH_INFO_SECTOR_64K:
-> +		*sector_size = 0x10000;
-
-nit: up to you, but I would like to see SZ_64K instead
-(and don't count zeroes), if so, SZ_4K for the above too
-
-> +		break;
-> +	default:
-> +		rc = -EINVAL;
-> +		break;
-> +	}
-> +
-> +	return rc;
-> +}
-> +
-> +/**
-> + * zl3073x_flash_sectors - Flash sectors
-> + * @zldev: zl3073x device structure
-> + * @component: component name
-> + * @page: destination flash page
-> + * @addr: device memory address to load data
-> + * @data: pointer to data to be flashed
-> + * @size: size of data
-> + * @extack: netlink extack pointer to report errors
-> + *
-> + * The function flashes given @data with size of @size to the internal flash
-> + * memory block starting from page @page. The function uses sector flash
-> + * method and has to take into account the flash sector size reported by
-> + * flashing utility. Input data are spliced into blocks according this
-> + * sector size and each block is flashed separately.
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +int zl3073x_flash_sectors(struct zl3073x_dev *zldev, const char *component,
-> +			  u32 page, u32 addr, const void *data, size_t size,
-> +			  struct netlink_ext_ack *extack)
-> +{
-> +#define ZL_FLASH_MAX_BLOCK_SIZE	0x0001E000
-> +#define ZL_FLASH_PAGE_SIZE	256
-> +	size_t max_block_size, block_size, sector_size;
-> +	const void *ptr, *end;
-> +	int rc;
-> +
-> +	/* Get flash sector size */
-> +	rc = zl3073x_flash_get_sector_size(zldev, &sector_size);
-> +	if (rc) {
-> +		ZL_FLASH_ERR_MSG(zldev, extack,
-> +				 "Failed to get flash sector size");
-> +		return rc;
-> +	}
-> +
-> +	/* Determine max block size depending on sector size */
-> +	max_block_size = ALIGN_DOWN(ZL_FLASH_MAX_BLOCK_SIZE, sector_size);
-> +
-> +	for (ptr = data, end = data + size; ptr < end; ptr += block_size) {
-
-block_size is uninitialized on the first loop iteration
-
-> +		char comp_str[32];
-> +
-> +		block_size = min_t(size_t, max_block_size, end - ptr);
-> +
-> +		/* Add suffix '-partN' if the requested component size is
-> +		 * greater than max_block_size.
-> +		 */
-> +		if (max_block_size < size)
-> +			snprintf(comp_str, sizeof(comp_str), "%s-part%zu",
-> +				 component, (ptr - data) / max_block_size + 1);
-> +		else
-> +			strscpy(comp_str, component);
-> +
-> +		/* Download block to device memory */
-> +		rc = zl3073x_flash_download(zldev, comp_str, addr, ptr,
-> +					    block_size, extack);
-> +		if (rc)
-> +			goto finish;
-> +
-> +		/* Set address to flash from */
-> +		rc = zl3073x_write_u32(zldev, ZL_REG_IMAGE_START_ADDR, addr);
-> +		if (rc)
-> +			goto finish;
-> +
-> +		/* Set size of block to flash */
-> +		rc = zl3073x_write_u32(zldev, ZL_REG_IMAGE_SIZE, block_size);
-> +		if (rc)
-> +			goto finish;
-> +
-> +		/* Set destination page to flash */
-> +		rc = zl3073x_write_u32(zldev, ZL_REG_FLASH_INDEX_WRITE, page);
-> +		if (rc)
-> +			goto finish;
-> +
-> +		/* Set filling pattern */
-> +		rc = zl3073x_write_u32(zldev, ZL_REG_FILL_PATTERN, U32_MAX);
-> +		if (rc)
-> +			goto finish;
-> +
-> +		zl3073x_devlink_flash_notify(zldev, "Flashing image", comp_str,
-> +					     0, 0);
-> +
-> +		dev_dbg(zldev->dev, "Flashing %zu bytes to page %u\n",
-> +			block_size, page);
-> +
-> +		/* Execute sectors flash operation */
-> +		rc = zl3073x_flash_cmd_wait(zldev, ZL_WRITE_FLASH_OP_SECTORS,
-> +					    extack);
-> +		if (rc)
-> +			goto finish;
-> +
-> +		/* Move to next page */
-> +		page += block_size / ZL_FLASH_PAGE_SIZE;
-> +	}
-> +
-> +finish:
-> +	zl3073x_devlink_flash_notify(zldev,
-> +				     rc ?  "Flashing failed" : "Flashing done",
-> +				     component, 0, 0);
-> +
-> +	return rc;
-> +}
-> +
-> +/**
-> + * zl3073x_flash_page - Flash page
-> + * @zldev: zl3073x device structure
-> + * @component: component name
-> + * @page: destination flash page
-> + * @addr: device memory address to load data
-> + * @data: pointer to data to be flashed
-> + * @size: size of data
-> + * @extack: netlink extack pointer to report errors
-> + *
-> + * The function flashes given @data with size of @size to the internal flash
-> + * memory block starting with page @page.
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +int zl3073x_flash_page(struct zl3073x_dev *zldev, const char *component,
-> +		       u32 page, u32 addr, const void *data, size_t size,
-> +		       struct netlink_ext_ack *extack)
-> +{
-
-looks like a canditate to use zl3073x_flash_sectors(), or make
-a higher-level helper that will do heavy-lifting for
-zl3073x_flash_sectors() and zl3073x_flash_page()
-(especially that you did such great job with low-level helpers)
-
-> +	int rc;
-> +
-> +	/* Download component to device memory */
-> +	rc = zl3073x_flash_download(zldev, component, addr, data, size, extack);
-> +	if (rc)
-> +		goto finish;
-> +
-> +	/* Set address to flash from */
-> +	rc = zl3073x_write_u32(zldev, ZL_REG_IMAGE_START_ADDR, addr);
-> +	if (rc)
-> +		goto finish;
-> +
-> +	/* Set size of block to flash */
-> +	rc = zl3073x_write_u32(zldev, ZL_REG_IMAGE_SIZE, size);
-> +	if (rc)
-> +		goto finish;
-> +
-> +	/* Set destination page to flash */
-> +	rc = zl3073x_write_u32(zldev, ZL_REG_FLASH_INDEX_WRITE, page);
-> +	if (rc)
-> +		goto finish;
-> +
-> +	/* Set filling pattern */
-> +	rc = zl3073x_write_u32(zldev, ZL_REG_FILL_PATTERN, U32_MAX);
-> +	if (rc)
-> +		goto finish;
-> +
-> +	zl3073x_devlink_flash_notify(zldev, "Flashing image", component, 0,
-> +				     size);
-> +
-> +	/* Execute sectors flash operation */
-> +	rc = zl3073x_flash_cmd_wait(zldev, ZL_WRITE_FLASH_OP_PAGE, extack);
-> +	if (rc)
-> +		goto finish;
-> +
-> +	zl3073x_devlink_flash_notify(zldev, "Flashing image", component, size,
-> +				     size);
-> +
-> +finish:
-> +	zl3073x_devlink_flash_notify(zldev,
-> +				     rc ?  "Flashing failed" : "Flashing done",
-> +				     component, 0, 0);
-> +
-> +	return rc;
-> +}
-
-
-> +
-> +static int
-> +zl3073x_flash_host_ctrl_enable(struct zl3073x_dev *zldev)
-> +{
-> +	u8 host_ctrl;
-> +	int rc;
-> +
-> +	/* Read host control register */
-> +	rc = zl3073x_read_u8(zldev, ZL_REG_HOST_CONTROL, &host_ctrl);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Enable host control */
-> +	host_ctrl &= ~ZL_HOST_CONTROL_ENABLE;
-
-suspicious, as this line does nothing (in the context of the next one)
-
-> +	host_ctrl |= ZL_HOST_CONTROL_ENABLE;
-> +
-> +	/* Update host control register */
-> +	return zl3073x_write_u8(zldev, ZL_REG_HOST_CONTROL, host_ctrl);
-> +}
-> +
-> +/**
-> + * zl3073x_flash_mode_enter - Switch the device to flash mode
-> + * @zldev: zl3073x device structure
-> + * @util_ptr: buffer with flash utility
-> + * @util_size: size of buffer with flash utility
-> + * @extack: netlink extack pointer to report errors
-> + *
-> + * The function prepares and switches the device into flash mode.
-> + *
-> + * The procedure:
-> + * 1) Stop device CPU by specific HW register sequence
-> + * 2) Download flash utility to device memory
-> + * 3) Resume device CPU by specific HW register sequence
-> + * 4) Check communication with flash utility
-> + * 5) Enable host control necessary to access flash API
-> + * 6) Check for potential error detected by the utility
-> + *
-> + * The API provided by normal firmware is not available in flash mode
-> + * so the caller has to ensure that this API is not used in this mode.
-> + *
-> + * After performing flash operation the caller should call
-> + * @zl3073x_flash_mode_leave to return back to normal operation.
-> + *
-> + * Return: 0 on success, <0 on error.
-> + */
-> +int zl3073x_flash_mode_enter(struct zl3073x_dev *zldev, const void *util_ptr,
-> +			     size_t util_size, struct netlink_ext_ack *extack)
-> +{
-> +	/* Sequence to be written prior utility download */
-> +	static const struct zl3073x_hwreg_seq_item pre_seq[] = {
-> +		HWREG_SEQ_ITEM(0x80000400, 1, BIT(0), 0),
-> +		HWREG_SEQ_ITEM(0x80206340, 1, BIT(4), 0),
-> +		HWREG_SEQ_ITEM(0x10000000, 1, BIT(2), 0),
-> +		HWREG_SEQ_ITEM(0x10000024, 0x00000001, U32_MAX, 0),
-> +		HWREG_SEQ_ITEM(0x10000020, 0x00000001, U32_MAX, 0),
-> +		HWREG_SEQ_ITEM(0x10000000, 1, BIT(10), 1000),
-> +	};
-> +	/* Sequence to be written after utility download */
-> +	static const struct zl3073x_hwreg_seq_item post_seq[] = {
-> +		HWREG_SEQ_ITEM(0x10400004, 0x000000C0, U32_MAX, 0),
-> +		HWREG_SEQ_ITEM(0x10400008, 0x00000000, U32_MAX, 0),
-> +		HWREG_SEQ_ITEM(0x10400010, 0x20000000, U32_MAX, 0),
-> +		HWREG_SEQ_ITEM(0x10400014, 0x20000004, U32_MAX, 0),
-> +		HWREG_SEQ_ITEM(0x10000000, 1, GENMASK(10, 9), 0),
-> +		HWREG_SEQ_ITEM(0x10000020, 0x00000000, U32_MAX, 0),
-> +		HWREG_SEQ_ITEM(0x10000000, 0, BIT(0), 1000),
-> +	};
-very nice code
