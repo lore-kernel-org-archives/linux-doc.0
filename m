@@ -1,142 +1,204 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B64B21CFF6;
-	Mon, 11 Aug 2025 09:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F776275B0F;
+	Mon, 11 Aug 2025 10:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754906092; cv=none; b=WzAN4EBwX+CskKcNhlXccVQpNQzaFJsmMKv/ta41xiQSmFw5Frrl/311ZkQJAK2eifqY6SPkNfxIrU32CtYT75LdW/VBe6TGSUfoFVAkpn8+1rbMC9h9POgrUtbLC9NP7VV2AZSzppS2P4CBBb4jzE+vsVnfugZbhDOP1EGPBwQ=
+	t=1754909569; cv=none; b=ryk5JsiEHCvvTryH1TZwNLVlg5J6jRNWO56wui5iB0H4b1EvNA3/xo9qRBWb24lf4Ym4ZqLRuPQnExjWofelgBlNtKWxwwyis75aWoD7RU2FgL7Vo5JX+QyiBNIBPGdF80Cu1pjNOw1iQNGgNw0aPaLidYKL6/VQcN9+FjOrTr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754906092; c=relaxed/simple;
-	bh=JrNdyX6RHoEyF+dmtK86znKyiqTo8VUOFA2j6T73oQ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lp5PClsgRhoL+q21LZyD4XXrVT3E9ypUfqTNo8Lqs574ih0sUSzdNCvZfQaSFoGBykx5rM44feSNpEIAplrSDAASWKBLudr9FbqtN0pyHPNrV47GHYS7Py/lmLhWnEb4hGYcwkyb4SBEdJRN1Ig8iKOxEfZDilA2SCHU/EIUzfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2b9da468769911f0b29709d653e92f7d-20250811
-X-CID-CACHE: Type:Local,Time:202508111725+08,HitQuantity:2
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:acc68978-f090-491f-984d-775e43d21c34,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:d6456464c6e6748e41fc8f4c855f847f,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
-	-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 2b9da468769911f0b29709d653e92f7d-20250811
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <zhangzihuan@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1249145062; Mon, 11 Aug 2025 17:54:28 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 9F9D3E009021;
-	Mon, 11 Aug 2025 17:54:27 +0800 (CST)
-X-ns-mid: postfix-6899BDD3-5075201002
-Received: from [172.25.120.24] (unknown [172.25.120.24])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 81F3EE008FED;
-	Mon, 11 Aug 2025 17:54:24 +0800 (CST)
-Message-ID: <4ceb0e8c-d164-4323-add0-a0770ec2afc6@kylinos.cn>
-Date: Mon, 11 Aug 2025 17:54:23 +0800
+	s=arc-20240116; t=1754909569; c=relaxed/simple;
+	bh=Wd35ZKPMzIKq6KqNhzq7CNK0q0T3QY26+Wt3PhA5IiU=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UYq24mfmWxtSO+rUjy5z+IC+kT6j9M2A4NrF01nENjqUkVJH7hmeFxkjNAxodzIIT2Zd6OtkG9mrduambf30XhT0QQXw+V52ubCLZ8lbrxY3OzzNFYBA0H48zMe2BkM9l+dek6ss0S8T0tfLbwEBc56jNyfUEq1a5y5gEBL8SRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4c0rvG169Pz6L5XV;
+	Mon, 11 Aug 2025 18:47:54 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id CBD301402EF;
+	Mon, 11 Aug 2025 18:52:40 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 11 Aug
+ 2025 12:52:40 +0200
+Date: Mon, 11 Aug 2025 11:52:38 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC: Daniel Ferguson <danielf@os.amperecomputing.com>, Ard Biesheuvel
+	<ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, Len Brown <lenb@kernel.org>, James Morse
+	<james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov
+	<bp@alien8.de>, <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-efi@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, Jason Tian <jason@os.amperecomputing.com>,
+	Shengwei Luo <luoshengwei@huawei.com>, Shiju Jose <shiju.jose@huawei.com>
+Subject: Re: [PATCH v4 1/5] RAS: Report all ARM processor CPER information
+ to userspace
+Message-ID: <20250811115238.0000272b@huawei.com>
+In-Reply-To: <20250809175519.74b08ea9@foz.lan>
+References: <20250805-mauro_v3-v6-16-rev2-v4-0-ea538759841c@os.amperecomputing.com>
+	<20250805-mauro_v3-v6-16-rev2-v4-1-ea538759841c@os.amperecomputing.com>
+	<20250808162209.000068f5@huawei.com>
+	<20250809175519.74b08ea9@foz.lan>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 5/9] freezer: set default freeze priority for
- PF_SUSPEND_TASK processes
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
- Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Nico Pache <npache@redhat.com>,
- xu xin <xu.xin16@zte.com.cn>, wangfushuai <wangfushuai@baidu.com>,
- Andrii Nakryiko <andrii@kernel.org>, Christian Brauner <brauner@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Jeff Layton <jlayton@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Adrian Ratiu
- <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
- <20250807121418.139765-6-zhangzihuan@kylinos.cn>
- <20250808143943.GB21685@redhat.com>
- <0754e3e3-9c47-47d5-81d9-4574e5b413bc@kylinos.cn>
- <20250811093216.GB11928@redhat.com>
- <428beb0d-2484-4816-86c3-01e91bd7715a@kylinos.cn>
- <20250811094651.GD11928@redhat.com>
-From: Zihuan Zhang <zhangzihuan@kylinos.cn>
-In-Reply-To: <20250811094651.GD11928@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
+On Sat, 9 Aug 2025 17:55:19 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-=E5=9C=A8 2025/8/11 17:46, Oleg Nesterov =E5=86=99=E9=81=93:
-> On 08/11, Zihuan Zhang wrote:
->> =E5=9C=A8 2025/8/11 17:32, Oleg Nesterov =E5=86=99=E9=81=93:
->>> On 08/11, Zihuan Zhang wrote:
->>>> =E5=9C=A8 2025/8/8 22:39, Oleg Nesterov =E5=86=99=E9=81=93:
->>>>> On 08/07, Zihuan Zhang wrote:
->>>>>> --- a/kernel/power/process.c
->>>>>> +++ b/kernel/power/process.c
->>>>>> @@ -147,6 +147,7 @@ int freeze_processes(void)
->>>>>>
->>>>>>   	pm_wakeup_clear(0);
->>>>>>   	pm_freezing =3D true;
->>>>>> +	freeze_set_default_priority(current, FREEZE_PRIORITY_NEVER);
->>>>> But why?
->>>>>
->>>>> Again, freeze_task() will return false anyway, this process is
->>>>> PF_SUSPEND_TASK.
->>>> I=C2=A0 think there is resaon put it here. For example, systemd-slee=
-p is a
->>>> user-space process that executes the suspend flow.
->>>>
->>>>  =C2=A0If we don=E2=80=99t set its freeze priority explicitly, our c=
-urrent code may end up
->>>> with this user process being the last one that cannot freeze.
->>> How so? sorry I don't follow.
->> The problem is in this part:
->>
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (user_only && !(p->flags=
- & PF_KTHREAD) && round <
->> p->freeze_priority)
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;
->>
->> PF_SUSPEND_TASK is a user process, so it meets the =E2=80=9Cneeds free=
-zing=E2=80=9D
->> condition and todo gets incremented.
->              ^^^^^^^^^^^^^^^^^^^^^^^^^
->
-> No.
-> 	if (p =3D=3D current || !freeze_task(p))
-> 		continue;
->
-> 	todo++;
->
-> Again, again, freeze_task(p) returns false.
->
->> But it actually doesn=E2=80=99t need to freeze,
->> so resulting in an infinite loop
-> I don't think so.
->
-> Oleg.
-Sorry, you=E2=80=99re right =E2=80=94 it=E2=80=99s indeed unnecessary. In=
- an earlier version, I=20
-incremented the counter before the continue, but I later removed that=20
-and forgot about it.
+> Em Fri, 8 Aug 2025 16:22:09 +0100
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> escreveu:
+> 
+> > On Tue, 05 Aug 2025 11:35:38 -0700
+> > Daniel Ferguson <danielf@os.amperecomputing.com> wrote:
+> >   
+> > > From: Jason Tian <jason@os.amperecomputing.com>
+> > > 
+> > > The ARM processor CPER record was added in UEFI v2.6 and remained
+> > > unchanged up to v2.10.
+> > > 
+> > > Yet, the original arm_event trace code added by
+> > > 
+> > >   e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+> > > 
+> > > is incomplete, as it only traces some fields of UAPI 2.6 table N.16, not
+> > > exporting any information from tables N.17 to N.29 of the record.
+> > > 
+> > > This is not enough for the user to be able to figure out what has
+> > > exactly happened or to take appropriate action.
+> > > 
+> > > According to the UEFI v2.9 specification chapter N2.4.4, the ARM
+> > > processor error section includes:
+> > > 
+> > > - several (ERR_INFO_NUM) ARM processor error information structures
+> > >   (Tables N.17 to N.20);
+> > > - several (CONTEXT_INFO_NUM) ARM processor context information
+> > >   structures (Tables N.21 to N.29);
+> > > - several vendor specific error information structures. The
+> > >   size is given by Section Length minus the size of the other
+> > >   fields.
+> > > 
+> > > In addition, it also exports two fields that are parsed by the GHES
+> > > driver when firmware reports it, e.g.:
+> > > 
+> > > - error severity
+> > > - CPU logical index
+> > > 
+> > > Report all of these information to userspace via a the ARM tracepoint so
+> > > that userspace can properly record the error and take decisions related
+> > > to CPU core isolation according to error severity and other info.
+> > > 
+> > > The updated ARM trace event now contains the following fields:
+> > > 
+> > > ======================================  =============================
+> > > UEFI field on table N.16                ARM Processor trace fields
+> > > ======================================  =============================
+> > > Validation                              handled when filling data for
+> > >                                         affinity MPIDR and running
+> > >                                         state.
+> > > ERR_INFO_NUM                            pei_len
+> > > CONTEXT_INFO_NUM                        ctx_len
+> > > Section Length                          indirectly reported by
+> > >                                         pei_len, ctx_len and oem_len
+> > > Error affinity level                    affinity
+> > > MPIDR_EL1                               mpidr
+> > > MIDR_EL1                                midr
+> > > Running State                           running_state
+> > > PSCI State                              psci_state
+> > > Processor Error Information Structure   pei_err - count at pei_len
+> > > Processor Context                       ctx_err- count at ctx_len
+> > > Vendor Specific Error Info              oem - count at oem_len
+> > > ======================================  =============================
+> > > 
+> > > It should be noted that decoding of tables N.17 to N.29, if needed, will
+> > > be handled in userspace. That gives more flexibility, as there won't be
+> > > any need to flood the kernel with micro-architecture specific error
+> > > decoding.
+> > > 
+> > > Also, decoding the other fields require a complex logic, and should be
+> > > done for each of the several values inside the record field.  So, let
+> > > userspace daemons like rasdaemon decode them, parsing such tables and
+> > > having vendor-specific micro-architecture-specific decoders.
+> > > 
+> > >   [mchehab: modified description, solved merge conflicts and fixed coding style]
+> > > 
+> > > Fixes: e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+> > >     
+> > 
+> > Fixes tag is part of the main tag block so no blank line here.
+> > There are at least some scripts running on the kernel tree that trip
+> > up on this (and one that moans at the submitter ;)
+> > 
+> > I'd also add something to explain the SoB sequence for the curious.
+> >   
+> > > Co-developed-by: Jason Tian <jason@os.amperecomputing.com>    
+> > 
+> > Jason's the Author, so shouldn't have a Co-dev tag.
+> > There is some info on this in
+> > https://docs.kernel.org/process/submitting-patches.html  
+> 
+> My understanding is that all co-authors shall have co-developed-by
+> and SoB. Anyway, doesn't matter much in practice, I guess.
+
+Nope.  In the description the docs say "in addition to the author
+attribute in the From: tag"  There are also examples where there
+isn't a Co-dev for the From author including the subtle question of
+ordering if someone else posts that patch.
+
+I have a vague recollection one of the scripts checking linux-next
+might moan about this. 
+
+> 
+> >   
+> > > Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
+> > > Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
+> > > Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
+> > > Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+> > > Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>    
+> > 
+> > As person submitting I'd normally expect your SoB last.
+> >   
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>    
+> > 
+> > I guess this is because Mauro posted an earlier version in which
+> > case this is arguably correct, but likely to confuse.
+> > For cases like this I add comments.  
+> 
+> If the patch is identical, and it is just a resubmission,
+> I would keep the original order.
+> 
+> Otherwise, if Daniel did some changes at the code (except for a
+> trivial rebase stuff), better to move his co-developed-by/SoB to
+> the end, eventually adding:
+> 
+> [Daniel: <did something>] before the custody chain block.
+
+Docs are clear that sender of the patch must be last SoB.
+That's also checked by the some of the tag block check scripts
+I think.  There's an example of exactly this case in the in the
+submitting-patches.rst file (last one in the section that talks
+about Co-developed-by.
+
+For meaning I don't care that much, but keeping to the rigid
+rules in that doc makes it easier for scripts to check for the
+more important stuff like whether all necessary SoB are there.
+
+Jonathan
+
+> 
+> Thanks,
+> Mauro
+> 
+
