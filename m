@@ -1,67 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6453513AD1C;
-	Mon, 11 Aug 2025 10:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A22289357
+	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 10:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754909760; cv=none; b=Utl0Ze+aOs3hnlOZLN03GBHxMaSF8BV44ivQylWEkAL/p3KnLkd3QhRmZ5tmrMOAqGQknIcDcuKHPtVB3T5q4QF15RQMvwyj+sbz/F/ikNy0EqxPOIrY0j+i5vSFhLpupPNGyT7tpoAWEosV4Z3Di+YAr4PoSbb1vLu/HFN+cJA=
+	t=1754909924; cv=none; b=AxhOXnyHPc/8YgyU9Aqf1KZ5X+zOqstpuyoHoFfsEf3IjuIJ0vwPxQqD861HiBFgPAUZDCczWlqG9TwY35XXO6RLnwc+y7LiLw5M75AiHVl1tIZp1Q5TlEUCPiduliufiuceOVsPfNKZCVlaNTpY7s9vLbWEGle5yKRbtMZoe0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754909760; c=relaxed/simple;
-	bh=Xzf+nwK2qY3PwRvaxvHONcQ/KLgN17tfoQPzvVifMhU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BoJfA6d7p0ADlNllU6gxIEwk2BJLvZ2jJ/ftzZlWpVljyhRSyH6S2+tvUdkkwK3y8xyCrXEovH8FPN4coK1Xu2QRPJxGLRFo25OMhWFIdJXymA/tYt1F9pCimsMAK1iBvFXAa9hpKK/Bp/r2vXeIs/oJbUMR2oK1PqK3CxvZkOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nMA6Irpl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754909924; c=relaxed/simple;
+	bh=fK4jfWxAxG8hhrtguRsi7TtKPjAL7Pn0DSb61hYO1/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F+c9D8LQNPeu1IcnP0uR/vBY8dJ09X/v5+JVbi9mc+nnTSTTpLkxn2Amn35vw5S5tYOI4QuJg0kTsQpdvJUBr94x7eQ+lKc54E5X/WTKXes8HTNzibThlu21vkbK/NFTgi4DQ9o0nCiU0PGfIxv+W9k8HYX+gd+m0V1vL7pg8Bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fyfqeBAd; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nMA6Irpl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C96FC4CEF1;
-	Mon, 11 Aug 2025 10:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754909759;
-	bh=Xzf+nwK2qY3PwRvaxvHONcQ/KLgN17tfoQPzvVifMhU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nMA6IrplwCz+5invYtW8rda4Szx+q4BGFC8SJx2xfpQt4ieIiQ2buj9dtlKxMiPvT
-	 pa1YV6Wt/wG0IUOjn+e9oA+H1m8d09WIZ1NsIlIQDHEHnsg3xo9HxlqnOudaSRCUX1
-	 2Ut7DyUMiG7hJwsNqtKGe+FdXHAlyEXB2ZqszgdfAl50YhSrkk0QR9TbrIEk5iNGdB
-	 l0qEUQqGXKBep2ADwgri0DWWyL/87u5oC9Kcf54NzzeDfpGHxoNYBDh+DuFbEeOXz0
-	 Wr97imQIbDrmKgwbStdLxHGDrsTHdlHhNmcY6K4VE3gwwrZlF+Fra7nKLdT0CrS+7E
-	 F0RbV/GXb21mA==
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>, 
- Jerome Brunet <jbrunet@baylibre.com>
-Cc: Frank Li <Frank.li@nxp.com>, linux-pci@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Bjorn Helgaas <helgaas@kernel.org>
-In-Reply-To: <20250731-vntb-doc-v1-1-95a0e0cd28d0@baylibre.com>
-References: <20250731-vntb-doc-v1-1-95a0e0cd28d0@baylibre.com>
-Subject: Re: [PATCH] Documentation: PCI: endpoint: document BAR assignment
-Message-Id: <175490975683.13738.17889079546991492298.b4-ty@kernel.org>
-Date: Mon, 11 Aug 2025 16:25:56 +0530
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fyfqeBAd"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45a0d5e4c45so2699775e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 03:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1754909921; x=1755514721; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2eDfsoEqJXD8CkPjgI5wPgXdl/c/jHhszq1yFHNlj5s=;
+        b=fyfqeBAdLauFQlbJ5kIubn3oekJOKh17SaO+8Gyc7rdnhzE94ts9jzCnxmT8dhWmyK
+         d+pmOLv4nAWXBiVZEUDPudcHVWhYfSxa+xXCbDJUkaTkhoA9CLtyJ4dA7JVPzfdXvjYg
+         gLVuLIYBYXWUlZoknVTMq3uCLlxiQUJMBAwIxCAlpEJukSMgRg+m2sFaRvXF8K8To75K
+         ZrlrlSJRXkIME54dny/jdnGbDwFhqQhM1TeULiRDI2+YII4nYeIdJC74dR14gKEAz3UV
+         PHLhfrksSnDD57zMZSF/zJsievt3ThOZH6IbqXncG+VLMfpdUDnDkLLwAapWZCG3M6sx
+         WtsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754909921; x=1755514721;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2eDfsoEqJXD8CkPjgI5wPgXdl/c/jHhszq1yFHNlj5s=;
+        b=Je0ko+WmKdCPkQMORTsw4vEX0beA3JfQG87tQRHGfBEBT9GttXPeZITS6ObTSPR5lF
+         Mo4X2fU46EWYCiE+XKXyY5yrePn2xTZDGpsIDJq/XHBV+xh3p2VDBtCJrF3+64ZWrUkL
+         5kkV11tMw9BkHyvYEWUyysVgm2X4vrmZ17+8rM4bDhTWCgzXAjuwzOvMfQ/kqMtWox/E
+         +8CYPbjgMKzvhmrZqTmK2UpOFeV/iEv3p4WU2lJ2/nTHDzntu1ZIDrJJgDQdzMaLUZCs
+         C1IVH7UocYnZknMHUbXhnwxiu74+uQugpjs9qP9vRCcJn8eDqi4riovuBHkd02wu0If8
+         zAxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXcSE/UgQk4Xx29g4gVhWyCrAu6F7+ntRWGGQGHG0BULRHfGU78vuuJpxhE7m73aBB/Fm+PUQUj/PY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5eGLp0u7qTK2WxhVNjXNrndWuJGdYfQL4yRg3MdDvp9XOlMH5
+	XDY/CA5+0jO7h3O7Gdhkpd1jO0CCYlg9o1X5bn0QzoJNjHZYOZ8IYOco4FGFIVZsxhs=
+X-Gm-Gg: ASbGncsBDN4bqS+96PC8LdadFgAJxYEurjttn4R/fEL+60QsJXmBm8/XwiO7nYu51Gh
+	904uRM1STA6BbuFji3SiqED2nTzyZjIIwwcGEqkubVgtEWwCNrMaASbRaYZOPmenyoPMVK9Dpbx
+	DsIBn7W5BTp3F4qO1z3v4dVFOpCrBNmn8W2860RWayt8VeQ3ezy57jHS1w1oOwkWafJkME2znUX
+	UVcaTDR2gGsORgrdWUyR/LntDJos3PsFvLU1X9Z07NM6E2brKAkBEqRfTuTjjLYsB5y1eAI/fNM
+	7FkNZMAjkrIhsQGhLjmLKZHwUdPXqRfcAbPvTBuZVkTHVh/QAIbsKOi56LW9jTaFwFZxkwTWXJc
+	MsP+ceg8i//sn+bDPYSCWPaj5JZvMslMr
+X-Google-Smtp-Source: AGHT+IFbmWJMYJQaNs4CcNQms0cyi9FBgsOYAQyUhMd4iBen9JAGKCb/WkfFa3wB/d3Zu4x8mcv7UA==
+X-Received: by 2002:a05:600c:5254:b0:456:13d8:d141 with SMTP id 5b1f17b1804b1-459f4f282damr96805005e9.27.1754909920821;
+        Mon, 11 Aug 2025 03:58:40 -0700 (PDT)
+Received: from localhost (109-81-30-31.rct.o2.cz. [109.81.30.31])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c48105csm40496846f8f.64.2025.08.11.03.58.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 03:58:40 -0700 (PDT)
+Date: Mon, 11 Aug 2025 12:58:39 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Zihuan Zhang <zhangzihuan@kylinos.cn>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	David Hildenbrand <david@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Nico Pache <npache@redhat.com>, xu xin <xu.xin16@zte.com.cn>,
+	wangfushuai <wangfushuai@baidu.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+	Adrian Ratiu <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v1 0/9] freezer: Introduce freeze priority model to
+ address process dependency issues
+Message-ID: <aJnM32xKq0FOWBzw@tiehlicka>
+References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
+ <aJSpTpB9_jijiO6m@tiehlicka>
+ <4c46250f-eb0f-4e12-8951-89431c195b46@kylinos.cn>
+ <aJWglTo1xpXXEqEM@tiehlicka>
+ <ba9c23c4-cd95-4dba-9359-61565195d7be@kylinos.cn>
+ <aJW8NLPxGOOkyCfB@tiehlicka>
+ <09df0911-9421-40af-8296-de1383be1c58@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <09df0911-9421-40af-8296-de1383be1c58@kylinos.cn>
 
-
-On Thu, 31 Jul 2025 14:49:01 +0200, Jerome Brunet wrote:
-> It is now possible to assign BARs while creating a vNTB endpoint function.
-> Update the documentation accordingly.
+On Mon 11-08-25 17:13:43, Zihuan Zhang wrote:
 > 
+> 在 2025/8/8 16:58, Michal Hocko 写道:
+[...]
+> > Also the interface seems to be really coarse grained and it can easily
+> > turn out insufficient for other usecases while it is not entirely clear
+> > to me how this could be extended for those.
+>  We recognize that the current interface is relatively coarse-grained and
+> may not be sufficient for all scenarios. The present implementation is a
+> basic version.
 > 
+> Our plan is to introduce a classification-based mechanism that assigns
+> different freeze priorities according to process categories. For example,
+> filesystem and graphics-related processes will be given higher default
+> freeze priority, as they are critical in the freezing workflow. This
+> classification approach helps target important processes more precisely.
+> 
+> However, this requires further testing and refinement before full
+> deployment. We believe this incremental, category-based design will make the
+> mechanism more effective and adaptable over time while keeping it
+> manageable.
 
-Applied, thanks!
+Unless there is a clear path for a more extendable interface then
+introducing this one is a no-go. We do not want to grow different ways
+to establish freezing policies.
 
-[1/1] Documentation: PCI: endpoint: document BAR assignment
-      commit: 5f523381fdd44bcc3210ec18653eccafe4c4bf94
+But much more fundamentally. So far I haven't really seen any argument
+why different priorities help with the underlying problem other than the
+timing might be slightly different if you change the order of freezing.
+This to me sounds like the proposed scheme mostly works around the
+problem you are seeing and as such is not a really good candidate to be
+merged as a long term solution. Not to mention with a user API that
+needs to be maintained for ever.
 
-Best regards,
+So NAK from me on the interface.
+
+> > I believe it would be more useful to find sources of those freezer
+> > blockers and try to address those. Making more blocked tasks
+> > __set_task_frozen compatible sounds like a general improvement in
+> > itself.
+> 
+> we have already identified some causes of D-state tasks, many of which are
+> related to the filesystem. On some systems, certain processes frequently
+> execute ext4_sync_file, and under contention this can lead to D-state tasks.
+
+Please work with maintainers of those subsystems to find proper
+solutions.
+
 -- 
-Manivannan Sadhasivam <mani@kernel.org>
-
+Michal Hocko
+SUSE Labs
