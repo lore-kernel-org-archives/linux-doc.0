@@ -1,189 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD7E2E2EF0;
-	Mon, 11 Aug 2025 16:13:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFBA296BB3;
+	Mon, 11 Aug 2025 16:35:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754928796; cv=none; b=mUMyw/EqQ/gZTn+YvoIYaGRlg/1k2J09J4OaU0IFvH1cg4MmAMZmJw0Xt0I1J3yOYdw5JgXG9q2NRkVvaJmuXUw+J6W9Fljqh5pfWzy6BHEXr2F2jv4woJ/npTW3k9+Yqj/8LZ0ZRrKO87E0nR+6aGLgONem2rcJh+GEAsGIsEw=
+	t=1754930108; cv=none; b=kV0oDP+JKEIi/Sp9LuND8HT+Wf1WxtwJNTGQMeYjpQnNhP48Y3ou8cPTlxGRcbilxA4QNPG5zgYhIgBuouUW62g9o6GxBwFq/mlM4LdNxGMbRkSyzelebHLGbZIrvTvHcRtwBcAhFTZ0VU8AIQ6NoWs9KGzZiXCLSOrEGhLvDPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754928796; c=relaxed/simple;
-	bh=OFIAxfCdVqiwI0BnVxFp7HK/cM2fOF129WyqjM+1rZE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MLpm4mdE7zuQXykc/HtQl3O97d3uNmz5M64wk0CMD4hfkT9nIpRWBTYl8TRw0JxeiSXKmvlzoxESLp6rvZHMSpxMueedEkgzR4UN5wDArkh0ldL32XlMfqwctGo9xRjAl3DVoB+xl/qi10X0wgDp0e2lxlRYTz0As9e7cyNBYHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JFWlJLc0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754930108; c=relaxed/simple;
+	bh=U3ajoq2JrlMt/JwLVtLkb6ZXEGfnsVViHIOqNoUf92Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=DFRoksaLhoKBcDDb1dixIflrCZct0rQIRXdwyFLwTyeQUOwVjKq3bDRyE8ZfZcXDlQbvDQxEUFgvQRmI6NQqVql8JV7lZ5qsQYG9BJRqwuRdVzWBEkH7BjQyk6NCXmjG46641q6L0FOEXaBcgzOF/u8iFCtSV8IZlDxK0anqe7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qsEskb/x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JFWlJLc0"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 45D28C4CEF9;
-	Mon, 11 Aug 2025 16:13:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qsEskb/x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D41AC4CEED;
+	Mon, 11 Aug 2025 16:35:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754928796;
-	bh=OFIAxfCdVqiwI0BnVxFp7HK/cM2fOF129WyqjM+1rZE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=JFWlJLc0rhHglycTVAytmDXIZDciSyTdToUPpiBkG+yv28BdJFm9GGtPJZ9BQQcWG
-	 T8m6DtisdzHDlIz6fSd3CYKbkxzWoTmCDxdwCUhaKyOiv874n5cYZNiTqiK6Vb23Ke
-	 TteEcdAAE5KtvxaX06mEhA4WIW/ekbMkQtxIPYAvm3qJmr1lEwj5UVs2G57TTOLxA/
-	 scigtsegiWiAykiG6sUdevsW2Z3l4H8fXZSNr0X5vU4j+cIdwy202YhJC4IMj5iNxF
-	 efnNx7zXdOVaFGpaAd4igXUXUv4DJ+8gru7vcxqdY60nZRdFZjeGVowqSh3KXX9+Lj
-	 GravrAJayNMrA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35579CA0ED3;
-	Mon, 11 Aug 2025 16:13:16 +0000 (UTC)
-From: Gregory Fuchedgi via B4 Relay <devnull+gfuchedgi.gmail.com@kernel.org>
-Date: Mon, 11 Aug 2025 09:13:16 -0700
-Subject: [PATCH v2 2/2] dt-bindings: hwmon: update TI TPS23861 bindings
- with per-port schema
+	s=k20201202; t=1754930107;
+	bh=U3ajoq2JrlMt/JwLVtLkb6ZXEGfnsVViHIOqNoUf92Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qsEskb/xJAz3GxhKxE0sBOWRebcAIO53TMFP/Yn85IgldEGEVADeuMoXhjJiPSAB4
+	 ye5JPikwIET8n/WchW2Q8XAS5bdZN9ld4i6Y0Le46v7rWK+6APLIudA9Sv93N5dVWf
+	 55SHBcT9dVIRHsY1cx3FeXqF0fW+co2jmNu05J+V15mH3U6Qypk02fS1K894eSmBEq
+	 jaswoGPazb0RApM38bHVXjxBnHLr/ZB+2iYyI9eR0o0vEQpgac3OxRMagD2rMzWWqp
+	 NFJcaa86W4/7B/UQ7Nsp0VkiDKE0RIvn+4jLQ4nyqs05v9lZNeiVZsa5SjIfzFqP6W
+	 yz4kiyxBk+YBA==
+From: SeongJae Park <sj@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	oe-kbuild@lists.linux.dev,
+	Bijan Tabatabai <bijan311@gmail.com>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	corbet@lwn.net,
+	Bijan Tabatabai <bijantabatab@micron.com>
+Subject: Re: [PATCH 2/5] mm/damon/sysfs: Implement a command to only commit scheme dests
+Date: Mon, 11 Aug 2025 09:35:05 -0700
+Message-Id: <20250811163505.62056-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <202508101330.XRQqvfiN-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-hwmon-tps23861-add-class-restrictions-v2-2-ebd122ec5e3b@gmail.com>
-References: <20250811-hwmon-tps23861-add-class-restrictions-v2-0-ebd122ec5e3b@gmail.com>
-In-Reply-To: <20250811-hwmon-tps23861-add-class-restrictions-v2-0-ebd122ec5e3b@gmail.com>
-To: Robert Marko <robert.marko@sartura.hr>, 
- Luka Perkov <luka.perkov@sartura.hr>, Jean Delvare <jdelvare@suse.com>, 
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Gregory Fuchedgi <gfuchedgi@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754928795; l=3382;
- i=gfuchedgi@gmail.com; s=20250811; h=from:subject:message-id;
- bh=xpxZZVQduuI8ZuEwYXxZY5dWL1ZqA8Vhj1NRk9pc398=;
- b=m5Lxo8KQLpI997ER/UiJ0xI+2VYJHDsJ2jPXs0/xlemcSbFSNwbzrZoWx4dDYFdjq1q4uE6ve
- l3OImKrhu0KA1/5bHCH47MTf4EbQlfBUO1UkgJQg5uzrlwDRuvQmCqp
-X-Developer-Key: i=gfuchedgi@gmail.com; a=ed25519;
- pk=J3o48+1a2mUIebH8K4S3SPuR5bmamUvjlsf8onoIccA=
-X-Endpoint-Received: by B4 Relay for gfuchedgi@gmail.com/20250811 with
- auth_id=484
-X-Original-From: Gregory Fuchedgi <gfuchedgi@gmail.com>
-Reply-To: gfuchedgi@gmail.com
+Content-Transfer-Encoding: 8bit
 
-From: Gregory Fuchedgi <gfuchedgi@gmail.com>
+On Mon, 11 Aug 2025 10:00:50 +0300 Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-Update schema after per-port poe class restrictions and a few other options
-were implemented.
+> Hi Bijan,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Bijan-Tabatabai/mm-damon-core-Add-damos_destroy_dests/20250806-120845
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20250805162022.4920-3-bijan311%40gmail.com
+> patch subject: [PATCH 2/5] mm/damon/sysfs: Implement a command to only commit scheme dests
+> config: microblaze-randconfig-r072-20250810 (https://download.01.org/0day-ci/archive/20250810/202508101330.XRQqvfiN-lkp@intel.com/config)
+> compiler: microblaze-linux-gcc (GCC) 8.5.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202508101330.XRQqvfiN-lkp@intel.com/
+> 
+> smatch warnings:
+> mm/damon/sysfs-schemes.c:2605 damos_sysfs_set_schemes_dests() warn: iterator 'i' not incremented
 
-Signed-off-by: Gregory Fuchedgi <gfuchedgi@gmail.com>
----
- .../devicetree/bindings/hwmon/ti,tps23861.yaml     | 86 ++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+Thank you for this report.  Nonetheless, this patch has replaced with another
+one[1].  Hence, we have no plan to make this patch be merged into the mainline,
+and we have no action item for this report.  Please let me know if I'm missing
+something.
 
-diff --git a/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-index ee7de53e19184d4c3df7564624532306d885f6e4..578f4dad7eab630b218e9e30b23fc611a760d332 100644
---- a/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-@@ -24,12 +24,62 @@ properties:
-   reg:
-     maxItems: 1
- 
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-   shunt-resistor-micro-ohms:
-     description: The value of current sense resistor in microohms.
-     default: 255000
-     minimum: 250000
-     maximum: 255000
- 
-+  reset-gpios:
-+    description: Optional GPIO for the reset pin.
-+    maxItems: 1
-+
-+  shutdown-gpios:
-+    description: |
-+      Optional GPIO for the shutdown pin. Used to prevent PoE activity before
-+      the driver had a chance to configure the chip.
-+    maxItems: 1
-+
-+  interrupts:
-+    description: |
-+      The interrupt specifier. Only required if PoE class is restricted to less
-+      than class 4 in the device tree.
-+    maxItems: 1
-+
-+patternProperties:
-+  "^port@[0-3]$":
-+    type: object
-+    description: Port specific nodes.
-+    unevaluatedProperties: false
-+    required:
-+      - reg
-+
-+    properties:
-+      reg:
-+        description: Port index.
-+        items:
-+          minimum: 0
-+          maximum: 3
-+
-+      class:
-+        description: The maximum power class a port should accept.
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 4
-+
-+      off-by-default:
-+        description: Indicates the port is off by default.
-+        type: boolean
-+
-+      label:
-+        description: Optional port label
-+
- required:
-   - compatible
-   - reg
-@@ -51,3 +101,39 @@ examples:
-             shunt-resistor-micro-ohms = <255000>;
-         };
-     };
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        tps23861@28 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            compatible = "ti,tps23861";
-+            reg = <0x28>;
-+            shunt-resistor-micro-ohms = <255000>;
-+            reset-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>;
-+            shutdown-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
-+            interrupt-parent = <&gpio1>;
-+            interrupts = <14 0>;
-+            label = "my_poe_controller";
-+            port@0 {
-+                    reg = <0>;
-+                    class = <2>; // Max PoE class allowed.
-+                    off-by-default;
-+                    label = "myport";
-+            };
-+            port@1 {
-+                    reg = <1>;
-+                    status = "disabled";
-+            };
-+            port@2 {
-+                    reg = <2>;
-+                    status = "disabled";
-+            };
-+            port@3 {
-+                    reg = <3>;
-+                    status = "disabled";
-+            };
-+        };
-+    };
-
--- 
-2.43.0
+[1] https://lore.kernel.org/20250806234254.10572-1-bijan311@gmail.com
 
 
+Thanks,
+SJ
+
+[...]
