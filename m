@@ -1,81 +1,66 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1094E482FF;
-	Mon, 11 Aug 2025 17:11:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46E029BDB3
+	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 17:13:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754932291; cv=none; b=nAY7nKt7ClbGtU2qJkpeGSFp+rIKUuZ+EbzrYT0JQAUrzNpfhGJn8GsfNZPN9JFa6HuWDIojHTbcdCo7L15s4wTLTrs/970neaDXBp7fcrlYN9sfj72Y7d92ZBAJEHaHFs61716qTpZlVjlIVRI7guErMEAs3UnXPj80m6nJ9Z4=
+	t=1754932405; cv=none; b=aO8AtRJ7KplqOmAAET4fALsvlsmu0k7J/gX9tzctaKgnsoPxM2v0KZcVsKTzkJ9/ZftomotBfZ7vXJNik8pxrpMJG8tWUvxgIeENqXecWrQEI/k3XACnkh9vWc6PxZYm+pu2I6wwsiS7cC0htIEQWHTw4hdcf8xagIjDH12pqSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754932291; c=relaxed/simple;
-	bh=hTVD6Yv5gSxHlWI+k67kNRMRhKhkFPSUU4Vf0xaHB+g=;
+	s=arc-20240116; t=1754932405; c=relaxed/simple;
+	bh=CvFanQbqqpd3y6hBW8sgxf1GrW2U+dH2vTbRcZPPmW8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KSEFo50Gx3veAcyDPr4q+rlKdvbyxx9bJOzY0g4LIqnlRYXGqedzRHnncpBAN3e8T2vpzty/FsvfZfjZ8Ztu0mr1sB9tCb4snC8sjkCUUuInoylHeINPBSsmmexz1IdT5u3dsvEEq7RKjeR4C+tNJn4q+HGWWTNZLzAsy3wzgGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=a2v3cXFy; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=YjqatQtzk5KIaVOYgzYlbe7fAJQ7i5rl7P9Qk2fHKe/DxCRLN6KY7VWqGP+6U0/5I/7E9H2OBwyUV+Ga4sRTHo5+6BfbciV10aaSqKU+7R6FA9Ue7Ax6zYRFaV4EwYMdvi5i07b63EjJaiu5rbPzBi5FdLzNE+GTbX0oZ9AJe4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MvKqnHQ4; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="a2v3cXFy"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 45F8740AD2
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MvKqnHQ4"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 00BB340AD2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1754932289; bh=YFNo1xyto9wdOJgULlvM7UE/tRTC5mQFaKXpD4FSQ8U=;
+	t=1754932404; bh=xjCRCPM40+40i2fr/lFol9pm8cv5dbHLZnQP//M+5Rc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=a2v3cXFyUgCSVkeaI/GWh46qt+vos0CEqyd6um61eydLHIN3wC4jOy8b4h0/2oRtF
-	 aJbDyWqk0TBxFuh2FHfWK1EwxDPYI1f04Y2MHEUOWxrFwSbVwKrgQL+keBtlntEN6w
-	 i98F/m5vgRDt8A43koEEldW4o76CLlwkQhIhuzSBFS/xdRZrFsL/C1d61L2a5MhD8q
-	 dPKaa/OaPi8h0ayWCd7JEQ4SYbJrwUAwn2QeXXBehE9MUl/ZbPmj/B/dPHQRj8ouDJ
-	 nxii2tebuRH9uYVw1NtD5KpFPNEE3wQNGIZadTMDwP+GG9e4iloH5Q3BMgun7A9CfE
-	 2GOoYIQBBUuhg==
+	b=MvKqnHQ4MzRQ5FyIEWWe7jSKdPfEPzZ+/3lf0uIxG1aY6I48I2q10RqSmIwig4VYF
+	 v0smVNyCZH8m3bft/CTQ9KSPISUkMT3mASdl5pZgvn5OO9RVuI15fzWo/t+LCoatjh
+	 buDQrZMfwp20vkS64lOecUXCok0Q54oMifqwv2ZPOoqVm7PJgHXgbXiqDJgsxtf81N
+	 DeR1sCHKH4J/NILXkpMdkiW/DIPvBTYf3xbzEpHbdo7FlYIs/919XFRqjeWGMtLG3O
+	 RbU8L0YGpEHJaZneTraj3ufiQ4JYXGat13cFd06kWHtMb8BbTIA+3mo9vSpa5t00Qv
+	 vWZRIuZnRsNWQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 45F8740AD2;
-	Mon, 11 Aug 2025 17:11:29 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 00BB340AD2;
+	Mon, 11 Aug 2025 17:13:23 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: =?utf-8?B?xaB0xJtww6FuIE7Em21lYw==?= <stepnem@smrk.net>
-Cc: "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, =?utf-8?B?xaB0xJtww6FuIE7Em21lYw==?=
- <stepnem@smrk.net>
-Subject: Re: [PATCH v2] docs: admin-guide: update to current minimum pipe
- size default
-In-Reply-To: <20250729-pipedoc-v2-1-18b8e735a9c6@smrk.net>
-References: <20250729-pipedoc-v2-1-18b8e735a9c6@smrk.net>
-Date: Mon, 11 Aug 2025 11:11:28 -0600
-Message-ID: <878qjpeqbj.fsf@trenco.lwn.net>
+To: Ranganath V N <vnranganath.20@gmail.com>
+Cc: linux-doc@vger.kernel.org, skhan@linuxfoundation.org, Ranganath V N
+ <vnranganath.20@gmail.com>
+Subject: Re: [PATCH v2] Documentation: Fix minor typos
+In-Reply-To: <20250726063645.4156-1-vnranganath.20@gmail.com>
+References: <20250726063645.4156-1-vnranganath.20@gmail.com>
+Date: Mon, 11 Aug 2025 11:13:23 -0600
+Message-ID: <874iudeq8c.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-=C5=A0t=C4=9Bp=C3=A1n N=C4=9Bmec <stepnem@smrk.net> writes:
+Ranganath V N <vnranganath.20@gmail.com> writes:
 
-> The pipe size limit used when the fs.pipe-user-pages-soft sysctl value
-> is reached was increased from one to two pages in commit 46c4c9d1beb7;
-> update the documentation to match the new reality.
+> Corrected a few spelling errors and improved the phrasing
+> changes since v1:
+> --corrected as per review
 >
-> Fixes: 46c4c9d1beb7 ("pipe: increase minimum default pipe size to 2 pages=
-")
-> Signed-off-by: =C5=A0t=C4=9Bp=C3=A1n N=C4=9Bmec <stepnem@smrk.net>
+> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
 > ---
-> The relevant man page was updated in
-> 7543e84442d7 ("pipe.7: Document change to default pipe size when soft lim=
-it is exceeded")
-> https://lore.kernel.org/linux-man/20240829204448.2027276-2-kstewart@effic=
-ios.com/
-> ---
-> Changes in v2:
-> - Better commit message (addressing Jonathan's feedback)
-> - Link to v1: https://lore.kernel.org/r/20250728-pipedoc-v1-1-2dae082a56f=
-5@smrk.net
-> ---
->  Documentation/admin-guide/sysctl/fs.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
+>  Documentation/arch/loongarch/irq-chip-model.rst | 4 ++--
+>  Documentation/arch/x86/cpuinfo.rst              | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+
 Applied, thanks.
 
 jon
