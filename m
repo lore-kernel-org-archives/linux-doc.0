@@ -1,41 +1,45 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EF71F76A5;
-	Mon, 11 Aug 2025 08:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3EB23B613;
+	Mon, 11 Aug 2025 09:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754901536; cv=none; b=aN2M4Mh9zBHZVIcqpGTdTMHPCUrH9AxMC8oFcxKHmwiwwCJeTvZZRB4I/k5eTsNVWrX0g2dmJTnDYJDGe0dGh1go2ERVp1EUKT3m/JtGkAY+cw3H40ewV779XCvPg7ueACMjwsrSCEX+JdkYnVQ1InU34WKfBkXoxlULE98QnWg=
+	t=1754903644; cv=none; b=X+p76muX0J4D2H2cZiych0jlVQT4od0MoI/Bs0pRc+aGpZsTWXhB3hxvQiOSWAaBAdfXwS2QkRPw+l84vpcDdYpWUFD/IQvqumajxpS8oQiAHCtOwK0417l1bi8evJZiA4laDm+lWHGZU5x/es1D51nRVNYMLxcshuaDyHXV6Gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754901536; c=relaxed/simple;
-	bh=I5kNPzmFS0TrQM08QzuZwvVJEvGEI9YCa4Is7YA/p+U=;
+	s=arc-20240116; t=1754903644; c=relaxed/simple;
+	bh=NXv5SMn7xjwbfnsKK35GuN+UD0kh/Ux7ELzbxv6osL0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AQaiGNU8bLU4czKcoCxodTjSO69JG2aZLmVE5fa2+u/E07gmc7QI6Xr7q7vwCGhwQDwN8Jg3xyKRglwX4W+Lf4+r1skepBJjROVBTO66EDuwADPUy5gr6Y9f5JkqMVgOuXA31butWxVuzWUyY3MBVjCcFg8F032i29kT3jnVbPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=mHe8i0Qb; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="mHe8i0Qb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1754901522; x=1755506322; i=w_armin@gmx.de;
-	bh=I5kNPzmFS0TrQM08QzuZwvVJEvGEI9YCa4Is7YA/p+U=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=mHe8i0QbAguLllPuZ8wLo3CSP1YeAeqe7pymZmhHsxrC0c0Q/bjx+dJ1Isrsepzv
-	 TyDrpe3TEMrotLXlgF7ryCXqi2K+GcJXcOLrVqIFrWUUE+Ls9px26xBhlpaLjiB9b
-	 6bIhqOXzohy5IE+WNdsHYAiA1ymL+nmcieKFzv0CYQdf5jR3mPWb3vCPd22+yuBWy
-	 CsBpR6n5t5tNd6/hH1EuvvOmkWLJE6nWEryghlgc1cZME2mWuRPjENt3phDY4TcIX
-	 i4WQO64ZSB9LfWYJoN9AYFI6HQ4YRBtqh0OjzyAJRzz8wCqsle0NTYfEA02xDEawj
-	 kPfUzORmpZyIIUapJA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.24] ([91.14.231.131]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MPokN-1uywzK3dBb-00YQ8U; Mon, 11
- Aug 2025 10:38:42 +0200
-Message-ID: <5531e051-ad62-4cfd-a733-21f04385e1bb@gmx.de>
-Date: Mon, 11 Aug 2025 10:38:37 +0200
+	 In-Reply-To:Content-Type; b=DQu20tDaMNkio3flFOjmUpXXUpO4A4oHEdumcvGTC/30GqBlCiRsHJagDmGaVOJiPdVQLuJbaFQ54ZVwYeMYe2UhupjBLsBkttdOdkY3qR7m256mBwZQ628QYRAlg501Jeh3t7gCwlB7vyjuPjbIV4byl70LLuUf4JTF/6PB9OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 7f6c73fe769311f0b29709d653e92f7d-20250811
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:3ba7c0db-18e1-43fc-a896-13f729196999,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6493067,CLOUDID:dbc7cdf834544e741f770fa4c9a5deb7,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
+	-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
+	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 1,FCT|NGT
+X-CID-BAS: 1,FCT|NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 7f6c73fe769311f0b29709d653e92f7d-20250811
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <zhangzihuan@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1790700532; Mon, 11 Aug 2025 17:13:51 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 76C64E00901E;
+	Mon, 11 Aug 2025 17:13:51 +0800 (CST)
+X-ns-mid: postfix-6899B44F-304809903
+Received: from [172.25.120.24] (unknown [172.25.120.24])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 4529AE008FED;
+	Mon, 11 Aug 2025 17:13:44 +0800 (CST)
+Message-ID: <09df0911-9421-40af-8296-de1383be1c58@kylinos.cn>
+Date: Mon, 11 Aug 2025 17:13:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,146 +47,239 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-To: Derek John Clark <derekjohn.clark@gmail.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Hans de Goede <hansg@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Alok Tiwari <alok.a.tiwari@oracle.com>,
- David Box <david.e.box@linux.intel.com>,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250726204041.516440-1-derekjohn.clark@gmail.com>
- <20250726204041.516440-2-derekjohn.clark@gmail.com>
- <5b061220-e04a-48b5-ba2c-92ccf240798e@gmx.de>
- <CAFqHKTnkPLEbMk+NeLaSridSJBGU+P4P5PFF7VmiQbcfv7CAkg@mail.gmail.com>
- <404b9bfd-66c7-4524-a7ec-34fa9eb046eb@gmx.de>
- <CAFqHKTnO2NQ+_q_FOwT74Ukg7tx2k3B_sksEhNBzuCeZEWe3FQ@mail.gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAFqHKTnO2NQ+_q_FOwT74Ukg7tx2k3B_sksEhNBzuCeZEWe3FQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 0/9] freezer: Introduce freeze priority model to
+ address process dependency issues
+To: Michal Hocko <mhocko@suse.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
+ Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Nico Pache <npache@redhat.com>,
+ xu xin <xu.xin16@zte.com.cn>, wangfushuai <wangfushuai@baidu.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Christian Brauner <brauner@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Jeff Layton <jlayton@kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, Adrian Ratiu
+ <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
+ <aJSpTpB9_jijiO6m@tiehlicka>
+ <4c46250f-eb0f-4e12-8951-89431c195b46@kylinos.cn>
+ <aJWglTo1xpXXEqEM@tiehlicka>
+ <ba9c23c4-cd95-4dba-9359-61565195d7be@kylinos.cn>
+ <aJW8NLPxGOOkyCfB@tiehlicka>
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+In-Reply-To: <aJW8NLPxGOOkyCfB@tiehlicka>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:n5xXGsRRFknq9bL6r+gn9PebfWjFHtEUJJQ58Yi5HRszTj3vCbj
- /xFhmU2S2Mo5YJzAjHsjh6Qs2KtYwJlBrUH734Q+tYwe1EsW6l8Xj7HgYyOwbA0p+CwsXfI
- d8f1UMWhRCj2Q+x8FWBYZXatUzd/lsbdnrC9r4luYTfWyOeNoTAkkhyHUyYsPR8FfWyv+q6
- myKMeOrA8Ig+kxNgCMKxA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:nIsSwjlLkqM=;1ncjVrOFr/WZgWnoGRQXYIoNUhG
- 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
 
-Am 11.08.25 um 00:27 schrieb Derek John Clark:
 
-> On Mon, Jul 28, 2025 at 9:10=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrot=
-e:
->> Am 29.07.25 um 04:58 schrieb Derek John Clark:
+=E5=9C=A8 2025/8/8 16:58, Michal Hocko =E5=86=99=E9=81=93:
+> On Fri 08-08-25 15:52:31, Zihuan Zhang wrote:
+>> =E5=9C=A8 2025/8/8 15:00, Michal Hocko =E5=86=99=E9=81=93:
+>>> On Fri 08-08-25 09:13:30, Zihuan Zhang wrote:
+>>> [...]
+>>>> However, in practice, we=E2=80=99ve observed cases where tasks appea=
+r stuck in
+>>>> uninterruptible sleep (D state) during the freeze phase=C2=A0 =E2=80=
+=94 and thus cannot
+>>>> respond to signals or enter the refrigerator. These tasks are techni=
+cally
+>>>> TASK_FREEZABLE, but due to the nature of their sleep state, they don=
+=E2=80=99t
+>>>> freeze promptly, and may require multiple retry rounds, or cause the=
+ entire
+>>>> suspend to fail.
+>>> Right, but that is an inherent problem of the freezer implemenatation=
+.
+>>> It is not really clear to me how priorities or layers improve on that=
+.
+>>> Could you please elaborate on that?
+>> Thanks for the follow-up.
 >>
->>> On Sat, Jul 26, 2025 at 4:32=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wr=
-ote:
->>>> Am 26.07.25 um 22:40 schrieb Derek J. Clark:
->>>>
->>>>> Adds platform driver for AYN Loki and Tectoy Zeenix lines of handhel=
-d
->>>>> devices. This patch implements a hwmon interface for EC provided man=
-ual
->>>>> PWM fan control and user defined fan curves. A global ACPI lock is u=
-sed
->>>>> when reading or writing from the EC.
->>>>>
->>>>> There are 4 fan modes implemented in this patch. Modes 0-3 act in
->>>>> accordance with the standard hwmon logic where 0 is 100% fan speed, =
-1 is
->>>>> manual control, and 2 is automatic control. As the EC only provides =
-3
->>>>> modes by default, mode 0 is implemented by setting the device to man=
-ual
->>>>> and then setting fan speed to 100% directly. In mode 1 the PWM duty =
-cycle
->>>>> is set in sysfs with values [0-255], which are then scaled to the EC=
- max
->>>>> of 128. Mode 4 is an automatic mode where the fan curve is user defi=
-ned.
->>>>> There are 5 total set points and each set point takes a temperature =
-in
->>>>> Celsius [0-100] and a PWM duty cycle [0-255]. When the CPU temperatu=
-re
->>>>> reaches a given set point, the corresponding duty cycle is automatic=
-ally
->>>>> set by the EC.
->>>>>
->>>>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
->>>>>
->>>>> space
->>>> Interesting, do you have access to such a device? If yes then i would=
- be very interested
->>>> in looking at the ACPI tables shipped with said device.
->>> Hi Armin,
->>>
->>> I have a Loki Max, and know someone with a Loki Zero. Do you want
->>> plain text acpidump or a decoded DSDT.dat attached?
->> I would prefer the plain text acpidump, as the SSDT tables often contai=
-n important data.
+>>  From our observations, we=E2=80=99ve seen processes like Xorg that ar=
+e in a normal
+>> state before freezing begins, but enter D state during the freeze wind=
+ow.
+>> Upon investigation,
 >>
-> Attached is the plain text acpidump, sorry for the delay. I'll also
-> note that Ayn provided me with documentation of the EC commands for
-> this driver.
+>> we found that these processes often depend on other user processes (e.=
+g.,
+>> I/O helpers or system services), and when those dependencies are froze=
+n
+>> first, the dependent process (like Xorg) gets stuck and can=E2=80=99t =
+be frozen
+>> itself.
+> OK, I see.
 >
-> Cheers,
-> - Derek
+>> This led us to treat such processes as =E2=80=9Chard to freeze=E2=80=9D=
+ tasks =E2=80=94 not because
+>> they=E2=80=99re inherently unfreezable, but because they are more like=
+ly to become
+>> problematic if not frozen early enough.
+>>
+>> So our model works as follows:
+>>  =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 By default, freezer tries to fre=
+eze all freezable tasks in each
+>> round.
+>>  =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 With our approach, we only attem=
+pt to freeze tasks whose
+>> freeze_priority is less than or equal to the current round number.
+>>  =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 This ensures that higher-priorit=
+y (i.e., harder-to-freeze) tasks
+>> are attempted earlier, increasing the chance that they freeze before b=
+eing
+>> blocked by others.
+>>
+>> Since we cannot know in advance which tasks will be difficult to freez=
+e, we
+>> use heuristics:
+>>  =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 Any task that causes freeze fail=
+ure or is found in D state during
+>> the freeze window is treated as hard-to-freeze in the next attempt and=
+ its
+>> priority is increased.
+>>  =C2=A0 =C2=A0 =E2=80=A2=C2=A0 =C2=A0 Additionally, users can manually=
+ raise/reduce the freeze priority
+>> of known problematic tasks via an exposed sysfs interface, giving them
+>> fine-grained control.
+> This would have been a very useful information for the changelog so tha=
+t
+> we can understand what you are trying to achieve.
+>
+Got it, I=E2=80=99ll add that info to the changelog. Thanks!
+>> This doesn=E2=80=99t change the fundamental logic of the freezer =E2=80=
+=94 it still retries
+>> until all tasks are frozen =E2=80=94 but by adjusting the traversal or=
+der,
+>>
+>>  =C2=A0we=E2=80=99ve observed significantly fewer retries and more rel=
+iable success in
+>> scenarios where these D state transitions occur.
+>  =20
+> OK, I believe I do understand what you are trying to achieve but I am
+> not conviced this is a robust way to deal with the problem. This all
+> seems highly timing specific that might work in very specific usecase
+> but you are essentially trying to fight tiny race windows with a very
+> probabilitistic interface.
 
-Nice :)
+Actually, our approach does not conflict with solving the problem. We=20
+plan to keep the freeze priority mechanism disabled by default and only=20
+enable it when issues arise, so as to maintain the consistency of the=20
+existing code flow as much as possible. It acts like a fallback mechanism=
+.
 
-I also noticed that the ACPI code itself uses EC register 0xB0 to control =
-the battery thermal limit. This would
-conflict with your usage of register 0xB0 as the RED RGB value. Does the d=
-ocumentation mention this register?
+We acknowledge that the causes of D-state tasks are complex and require=20
+high effort to fully resolve, which the current freezer mechanism cannot=20
+achieve. Our solution is low-cost and able to capture some problematic=20
+tasks effectively.
 
-Thanks,
-Armin Wolf
+> Also the interface seems to be really coarse grained and it can easily
+> turn out insufficient for other usecases while it is not entirely clear
+> to me how this could be extended for those.
+ =C2=A0We recognize that the current interface is relatively coarse-grain=
+ed=20
+and may not be sufficient for all scenarios. The present implementation=20
+is a basic version.
 
+Our plan is to introduce a classification-based mechanism that assigns=20
+different freeze priorities according to process categories. For=20
+example, filesystem and graphics-related processes will be given higher=20
+default freeze priority, as they are critical in the freezing workflow.=20
+This classification approach helps target important processes more=20
+precisely.
+
+However, this requires further testing and refinement before full=20
+deployment. We believe this incremental, category-based design will make=20
+the mechanism more effective and adaptable over time while keeping it=20
+manageable.
+> I believe it would be more useful to find sources of those freezer
+> blockers and try to address those. Making more blocked tasks
+> __set_task_frozen compatible sounds like a general improvement in
+> itself.
+
+we have already identified some causes of D-state tasks, many of which=20
+are related to the filesystem. On some systems, certain processes=20
+frequently execute ext4_sync_file, and under contention this can lead to=20
+D-state tasks.
+
+ =C2=A06616.650482] task:ThreadPoolForeg state:D stack:0=C2=A0 =C2=A0 =C2=
+=A0pid:262026=20
+tgid:4065=C2=A0 ppid:2490=C2=A0 =C2=A0task_flags:0x400040 flags:0x0000400=
+4
+[ 6616.650485] Call Trace:
+[ 6616.650486]=C2=A0 <TASK>
+[ 6616.650489]=C2=A0 __schedule+0x532/0xea0
+[ 6616.650494]=C2=A0 schedule+0x27/0x80
+[ 6616.650496]=C2=A0 jbd2_log_wait_commit+0xa6/0x120
+[ 6616.650499]=C2=A0 ? __pfx_autoremove_wake_function+0x10/0x10
+[ 6616.650502]=C2=A0 ext4_sync_file+0x1ba/0x380
+[ 6616.650505]=C2=A0 do_fsync+0x3b/0x80
+[ 6616.650507]=C2=A0 __x64_sys_fdatasync+0x17/0x20
+[ 6616.650509]=C2=A0 do_syscall_64+0x7d/0x2c0
+[ 6616.650512]=C2=A0 ? syscall_exit_work+0x108/0x140
+[ 6616.650515]=C2=A0 ? do_syscall_64+0x1f3/0x2c0
+[ 6616.650517]=C2=A0 ? syscall_exit_work+0x108/0x140
+[ 6616.650519]=C2=A0 ? do_syscall_64+0x1d5/0x2c0
+[ 6616.650522]=C2=A0 ? audit_reset_context.part.0+0x284/0x2f0
+[ 6616.650524]=C2=A0 ? syscall_exit_work+0x108/0x140
+[ 6616.650527]=C2=A0 ? do_syscall_64+0x1f3/0x2c0
+[ 6616.650529]=C2=A0 ? futex_unqueue+0x4e/0x80
+[ 6616.650531]=C2=A0 ? __futex_wait+0x9b/0x100
+[ 6616.650534]=C2=A0 ? __pfx_futex_wake_mark+0x10/0x10
+[ 6616.650536]=C2=A0 ? timerqueue_del+0x2e/0x50
+[ 6616.650539]=C2=A0 ? __remove_hrtimer+0x39/0x70
+[ 6616.650542]=C2=A0 ? hrtimer_try_to_cancel+0x85/0x100
+[ 6616.650544]=C2=A0 ? hrtimer_cancel+0x15/0x30
+[ 6616.650546]=C2=A0 ? futex_wait+0x7d/0x110
+[ 6616.650549]=C2=A0 ? __pfx_hrtimer_wakeup+0x10/0x10
+[ 6616.650552]=C2=A0 ? audit_reset_context.part.0+0x284/0x2f0
+[ 6616.650554]=C2=A0 ? syscall_exit_work+0x108/0x140
+[ 6616.650556]=C2=A0 ? do_syscall_64+0x1d5/0x2c0
+[ 6616.650558]=C2=A0 ? switch_fpu_return+0x4f/0xd0
+[ 6616.650560]=C2=A0 ? do_syscall_64+0x1d5/0x2c0
+[ 6616.650563]=C2=A0 entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[ 6616.650565] RIP: 0033:0x7f095ef8f3eb
+[ 6616.650567] RSP: 002b:00007f07409fa360 EFLAGS: 00000293 ORIG_RAX:=20
+000000000000004b
+[ 6616.650569] RAX: ffffffffffffffda RBX: 00000d38021f03a0 RCX:=20
+00007f095ef8f3eb
+[ 6616.650570] RDX: 0000000000000000 RSI: 0000000000000000 RDI:=20
+000000000000009a
+[ 6616.650571] RBP: 00007f07409fa410 R08: 0000000000000000 R09:=20
+00007f07409fa570
+[ 6616.650572] R10: 00007f0960a60000 R11: 0000000000000293 R12:=20
+00000d38021f0380
+[ 6616.650573] R13: 000055c28c70b400 R14: 00007f07409fa3a0 R15:=20
+00007f07409fa380
+
+
+While the kernel already supports freezing the filesystem, which can=20
+address this problem, it is quite expensive =E2=80=94 enabling this featu=
+re=20
+increases the suspend time by about=C2=A0 3~4 seconds in our tests. We ar=
+e=20
+therefore exploring lower-cost approaches to mitigate the issue without=20
+such a heavy performance impact.
+
+root@zzhwaxy-pc:/sys/power# echo 1 > freeze_filesystems
+root@zzhwaxy-pc:/sys/power# sudo dmesg | grep -E 'suspend'
+[ 9844.984658] PM: suspend entry (deep)
+[ 9850.998197] PM: suspend exit
+
+root@zzhwaxy-pc:/sys/power# echo 0 > freeze_filesystems
+root@zzhwaxy-pc:/sys/power# sudo dmesg | grep -E 'suspend'
+[ 9893.928486] PM: suspend entry (deep)
+[ 9896.239425] PM: suspend exit
+
+> Thanks
