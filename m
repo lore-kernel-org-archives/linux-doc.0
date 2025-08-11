@@ -1,109 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297BB26D4F9;
-	Mon, 11 Aug 2025 06:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F059A19C54E;
+	Mon, 11 Aug 2025 06:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754892488; cv=none; b=X3EU0/c/REkb7KuxQ7V+r7LR+HCIDQ4ul0+0c3EP7oCn+zz/Ueb1/3YSrb5RpC8ApOMapCb7lF+fQLaOxvAZ+OdEl5MdzY8FFFLppaSjDozhObkvZYKY58xj5ncf8+dgI0e/9sZL0ufo71CTeC9FM5VXd6DFlO+Bzj8OfpoqhSw=
+	t=1754892973; cv=none; b=aK/3ALoYp9ue0BRZglbxGVm363CwsuVYHpPy1VlxIrbI3a5xVRAz6LDsLtN8bBb2IaVXAuRa0XEqQYY5w5380daP436wf8LDoejlWkrtM94TRS7dwZSlAC7Fo1334ZVC1tB/D1npg2bARfwV4DuX3YKWClAwU/ve7PkOdPr62Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754892488; c=relaxed/simple;
-	bh=pMDIeN6cHQc15CumEtak7l0KHpV6zdNtQEXaloLZQco=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d51k9rKnnnwrLFd5LO+7sVtNqvEz4Gg/gd1ogx+cXzqW7+EWt33FmLfozMCjslVx9p8sWct1QUTQzj/olEG75ZJUYIvH9go0cKvlNm/2nXuoRlcudgXi3HQb6XeKH+dJ4tQAjEXkckYZMamCPT5k5L8iPXvOsDrXYCsXDM+LaMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E9Gkvv1D; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9Gkvv1D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754892487; x=1786428487;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=pMDIeN6cHQc15CumEtak7l0KHpV6zdNtQEXaloLZQco=;
-  b=E9Gkvv1D3x8neHAeU8AUBO4aWgeE1ds5OaHmcmJc8jioPh8bzNlX0RgN
-   eXhYBWe4lJkmSoXfPT8FQI9wCVn1psPOiElFMn0AYftd7lhJs1ZVI7Sgw
-   0m3DmjhZubLtyh6AxZgKO+yJuIRtjYnBZHkVvEduacVp81ZmRexC/GdDF
-   dmnaD1xIT2wZtYJTIRUK05HuZYgK8jdcnZfmoTOnqEPYvw59uSUqoN0ic
-   LGWw0zRrA356qglrFC2jK5yJg4RXE3KOPczUdgN1m+01OWeLK4h4ayv01
-   6FofWe5mWDlByVIvwHhkWRJUasgapa+P5ooLjJlaBSLfLtE194/fkR/qI
-   g==;
-X-CSE-ConnectionGUID: WsmbLi1bRP+MCPuuHrKi6A==
-X-CSE-MsgGUID: 1DPdMem8S3Cih+LsoRYJfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="59749471"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="59749471"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 23:08:06 -0700
-X-CSE-ConnectionGUID: 1aAF1SvsTYashk9ftAQYIg==
-X-CSE-MsgGUID: Tos2kzzpRDKL/yc/rTuyBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="165478858"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.87])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 23:08:05 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9A70D120A5B;
-	Mon, 11 Aug 2025 09:08:01 +0300 (EEST)
-Date: Mon, 11 Aug 2025 06:08:01 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/printf: Use literal fwnode_handle
-Message-ID: <aJmIwb84CPvswmaQ@kekkonen.localdomain>
-References: <07262c55e82fc4a3e3dbe7c45713b14955271e7f.1754552156.git.geert+renesas@glider.be>
- <aJcbbb4OVK_q2VkU@smile.fi.intel.com>
- <CAMuHMdXF_Dto3EVBKxr9+M=rmcwNcZy66aUqbb5OiRb75vSfnA@mail.gmail.com>
+	s=arc-20240116; t=1754892973; c=relaxed/simple;
+	bh=8yBfRNNj88KYOLzIVbc8KOtL/WKAmqp/cxB42b4ZV6I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KY7QILWZQaSgZY87NNxzAF7vylj4RPMt90jIq2VB0j4oiN7InKYNYEJuTofAer949sY9H24ytcZoqm6ZPxaNRZYkDdEAgv9Ci0pMis3xR5Izh+9EBGO2fX2oieZpbHh4CV+pWXkSFrDQOYdDm7u8Hz/MMSFMgS7K9BEYcvTwf2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=207.46.229.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrACnD2dqiploU5gkAA--.35048S2;
+	Mon, 11 Aug 2025 14:15:06 +0800 (CST)
+Received: from [192.168.101.253] (unknown [183.94.132.22])
+	by gateway (Coremail) with SMTP id _____wC3T1Nliplop6jPAQ--.37082S2;
+	Mon, 11 Aug 2025 14:15:03 +0800 (CST)
+Message-ID: <226d6f90-f80b-430d-a30c-db5a2a652e3b@hust.edu.cn>
+Date: Mon, 11 Aug 2025 14:15:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXF_Dto3EVBKxr9+M=rmcwNcZy66aUqbb5OiRb75vSfnA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] scripts/checktransupdate.py: add support for scanning
+ directory
+To: Haoyang LIU <tttturtleruss@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ dzm91@hust.edu.cn, Yanteng Si <si.yanteng@linux.dev>,
+ Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20250810161730.6530-1-tttturtleruss@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20250810161730.6530-1-tttturtleruss@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:HwEQrACnD2dqiploU5gkAA--.35048S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxXw4rJrWDGr1rAFWDZFW3Awb_yoW5ZrWrpa
+	y5K3WfJa47Jw13Gw1fGr48urWfGF97J3yYqr1Iqwn5tr4DKw4SgF43tFyY9FWxJryfXFWU
+	XF4FkryjkryDua7anT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r1q6r43MxAIw2
+	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+	x2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+	wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0trc3UUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Hi Geert,
++to Yanteng, Dongliang, Alex and Jon
 
-On Sun, Aug 10, 2025 at 09:33:50AM +0200, Geert Uytterhoeven wrote:
-> Hi Andy,
-> 
-> CC Sakari
-> 
-> On Sat, 9 Aug 2025 at 11:57, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Aug 07, 2025 at 09:36:01AM +0200, Geert Uytterhoeven wrote:
-> > > When looking for fwnode_handle in the printk format documentation, it is
-> > > only found in the Chinese translation:
-> > >
-> > >     $ git grep fwnode_handle -- Documentation/*printk-formats.rst
-> > >     Documentation/translations/zh_CN/core-api/printk-formats.rst:用于打印fwnode_handles的消息。默认情况下是打印完整的节点名称，包括路径。
-> > >
-> > > This happens because the original documentation talks about "fwnode
-> > > handles", without mentioning the actual type name.
-> >
-> > Fixes?
-> 
-> If you insist...
-> 
-> Fixes: 3bd32d6a2ee62db3 ("lib/vsprintf: Add %pfw conversion specifier
-> for printing fwnode names")
++cc linux-doc mailing list
 
-Thanks for the patch.
+On 8/11/25 12:17 AM, Haoyang LIU wrote:
+> Origin script can only accept a file as parameter, this commit enables
+> it to scan a directory.
+>
+> Usage example:
+> ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools
+>
+> Signed-off-by: Haoyang LIU <tttturtleruss@gmail.com>
+> ---
+>   scripts/checktransupdate.py | 26 +++++++++++++++++++++++++-
+>   1 file changed, 25 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/checktransupdate.py b/scripts/checktransupdate.py
+> index e39529e46c3d..0d197d036650 100755
+> --- a/scripts/checktransupdate.py
+> +++ b/scripts/checktransupdate.py
+> @@ -13,6 +13,8 @@ The usage is as follows:
+>   This will print all the files that need to be updated or translated in the zh_CN locale.
+>   - ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>   This will only print the status of the specified file.
+> +- ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools
+> +This will print all the files in the specified folder and its subfolders.
+>   
+>   The output is something like:
+>   Documentation/dev-tools/kfence.rst
+> @@ -21,6 +23,17 @@ No translation in the locale of zh_CN
+>   Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>   commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
+>   1 commits needs resolving in total
+> +
+> +Documentation/translations/zh_CN/dev-tools/index.rst
+> +commit d5af79c05e93 ("Documentation: move dev-tools debugging files to process/debugging/")
+> +commit d5dc95836147 ("kbuild: Add Propeller configuration for kernel build")
+> +commit 315ad8780a12 ("kbuild: Add AutoFDO support for Clang build")
+> +3 commits needs resolving in total
+> +
+> +Documentation/translations/zh_CN/dev-tools/kcsan.rst
+> +commit b37221cc861d ("Documentation: kcsan: fix "Plain Accesses and Data Races" URL in kcsan.rst")
+> +commit 72ffee678f6f ("docs: update dev-tools/kcsan.rst url about KTSAN")
+> +2 commits needs resolving in total
+>   """
+>   
+>   import os
+> @@ -131,7 +144,7 @@ def check_per_file(file_path):
+>       opath = get_origin_path(file_path)
+>   
+>       if not os.path.isfile(opath):
+> -        logging.error("Cannot find the origin path for {file_path}")
+> +        logging.error(f"Cannot find the origin path for {file_path}")
+>           return
+>   
+>       o_from_head = get_latest_commit_from(opath, "HEAD")
+> @@ -293,6 +306,17 @@ def main():
+>                   if args.print_missing_translations:
+>                       logging.info(os.path.relpath(os.path.abspath(file), linux_path))
+>                       logging.info("No translation in the locale of %s\n", args.locale)
+> +    else:
+> +        # check if the files are directories or files
+> +        new_files = []
+> +        for file in files:
+> +            if os.path.isfile(file):
+> +                new_files.append(file)
+> +            elif os.path.isdir(file):
+> +                # for directories, list all files in the directory and its subfolders
+> +                new_files.extend(list_files_with_excluding_folders(
+> +                    file, [], "rst"))
+> +        files = new_files
+>   
+>       files = list(map(lambda x: os.path.relpath(os.path.abspath(x), linux_path), files))
+>   
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
--- 
-Regards,
-
-Sakari Ailus
