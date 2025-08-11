@@ -1,179 +1,141 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B258C2DFF13
-	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 15:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7672E54D3;
+	Mon, 11 Aug 2025 15:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754926032; cv=none; b=EGiSueWMvcYunttFJ36PqjBRieOzrEIVzdiRpD9pT89VCc9S8v7YRscpzo2qPrvA115jiTfReplJ0hTDkU9Z6zvoBvh4o6K2GkIK3JtUm9pH2cchBfDhOO8i40NWx/2FxB6MfsKwfhJsnXpkLyxup8uzQZJ0/ePILfnRYoj6a+I=
+	t=1754926140; cv=none; b=Q2QAHQDjmfA92JvtaDs3xu7td6Yasm3WpgyLQiujqioqEv/IuqRxFzJtDXB7clamT78sc0oFWP3VDHOlAiGHqWI961ybnlf/VNpoUaNAdLlt9BEbNLzGdN2PoQKJPmQaCE/aPWtyRiF7q5ERDfkF/bY64zkc6it0NDNjoz5s0oY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754926032; c=relaxed/simple;
-	bh=xysz5ZWfeLJU14XdQgH88fCcxawJLmGd/fO1hsQ3BdY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k+ARkvfKnRjHQP2NyfcPBoxZ6jMuzKVD6KK9LdRTZPFA0IXUuH2AUA4MAhqNVryN2VBHsMBXx4MfJL8z6A2R/LXuSHMfgJj3QCw5o8n/n+v6sguUPa7GHNkyDAg/bU/8h10T+Ngnp72KZvxnNM8eEX9i18rcXAJ3u4j52fSP+Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=V4gBaytI; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1754926140; c=relaxed/simple;
+	bh=k/m6lvsrhx66tVmA9oNvvHDSs/6d366lIs2hxoW219A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nspge/inuqo1fqo7s/i77DL/PV+xzuy+RI0X6oX5ZWY02dw6t5qbw/oB5sR+ez12qcFKCc+xyrbGcvssaq1XIKdBk/v4DUX4G1rjrE611DO/Gf9HtPgfgzsmjctmErYml5JU0tzyXkUaP9cw/AMHoRehs8ykll1jy5DTY3uBsTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=lZC6zGWj; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V4gBaytI"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4b06d6cb45fso57109011cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 08:27:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1754926030; x=1755530830; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y9V4fdqKDbSNOCsKA58nuVOImljGAbwCF2ERoqUReLI=;
-        b=V4gBaytImdhkXW3SFy1CpMSJ96x+Mrg/llOSagOm6kCKEx5+QMHAVLpW5/k9MqtNLo
-         YFo0BjO4FrCiHViZvp+34op54xjBKUWtXVQhcwTptYKqtsmKIt3KWj5cKjpFOzP6P7nq
-         +Ris/oqit6gIdw4tAedA1zUoYzCouVPvoF+UZdyt4Qv+SR3G/ARFqvUIRp849S4HgGWC
-         KaEEj0H6jrEx4wxP2wWRS3s2LugFPQyPZrbiCoe7rgScz54+uShus74MJkr1nqW0oKqK
-         TJDWfGGHrfDZ9VNmyUpeAdEHs4vmtwuUb+mBM5nenWTVTMVNIQgTeY7Wx/U9Hyr7ZYlp
-         TkOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754926030; x=1755530830;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y9V4fdqKDbSNOCsKA58nuVOImljGAbwCF2ERoqUReLI=;
-        b=Vhbgvx9cB5+/j9cDki6HDor8mtjeyaWI6kjzXng/V850VguCRCTbWe1vmXJhcEF2of
-         mzI+NCzugARBTS/qE7P8Y8pgLND0kqULnghnEPIxtNwS37PIqEAP6CfXh9rt5svUnOiT
-         5KqzbaQvM0YTTF6Odn6RL3i7tc57aIfb0haXwC3rfMjwiOeIKsvCg1owlodeO/qRKxtv
-         gwPnqlR0RJLlJW/wKNS/7oRCal6GGvl5sQkNGWWIGjGHL7I9FTyWFKHRI8JvbQUNWakK
-         J7CK2YALNGkkVNFMlU2HeRwnJZGWz8YZs7oC/bmGlzYVWWRiRWmC4HyYgO4FDfWEyqws
-         zReQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7+WYncoXgr9mFTSKA43pYj9w8nJIIShX/iBQ+/4gVXmIUtAAd9jAtV3B8GsmYj5w+IDxv2X7ndbQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn7AbG8WlaNk7t0Td6Nl6L5Tl6c3LitroYTI6G1EgQpy70bkv8
-	Zymolia21ATM2wBmWCDwYXofL+wBM/Z5nd989v2h+jO8o8CxUSG7UmzTBB79YydlDRn3Jd5gX+G
-	4GmJhtJpIP1+2qnNAfdGAzAlslLF+7R59rEhvN4Jz
-X-Gm-Gg: ASbGncvbudl+vJGLUOukTQOXGK+2VtweQH156Dq4D9DbFDxYZZqD6GjYOOvu4hKhe90
-	TSyarN4z+ljLEyEG3d2KG7GTIGqVK5/anAtGEu3mlNbWy0wziUVJ0CeMgQ05Rd2QO1lhibUpfPQ
-	ndddMwU+xE2naFBbs0OcchFfh/G5I32oJRwxy4mbXYKRQibvV+KieOEyyK3cxnmgQbLZ5xeUN9S
-	LMGNZvZgMEKQ1xOlH0HzJCf7t68Fd3XlKUZe3Q=
-X-Google-Smtp-Source: AGHT+IFTgZDMvFHmjjPzgK1Fji+VGq66s9RspgwGr/T3ooHUEsXJrGoRHZnsVlLK0nC1vN2pF/wHZFESxcTNFee1OZs=
-X-Received: by 2002:ac8:5cce:0:b0:4af:1f06:6b41 with SMTP id
- d75a77b69052e-4b0aee5c2bbmr162894701cf.59.1754926029195; Mon, 11 Aug 2025
- 08:27:09 -0700 (PDT)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="lZC6zGWj"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1018140E0217;
+	Mon, 11 Aug 2025 15:28:54 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id xeBqMQ4xZ56G; Mon, 11 Aug 2025 15:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1754926127; bh=lAb2hlkPZfqAZ5oWuzo7LQdnJ5lfu4VxJv8CxW4eSIk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lZC6zGWjMEAOrzyuS+/HRWJJ1Y5enmj8JYL1MKqrjAIrKXnhRlg2pks3w1t1dsm8s
+	 VgQX7hQzICo+PlFDtKKfkpeYervMPLDU1LhRUmdYbCvFGkaKprxvff3Mny9tP0tK2v
+	 jFLzfDeVcj09bsLeiYZW3ydDPvhP0bOf0qjbjebHvZeEEdxpYt9w+BNODv0evjjCfd
+	 qu2Gmm/t8q07TtzWK3Hcx8ljbaxBs6vOK6SnBsavBpWB46ACbgdiCECq9RKYMeT6Yu
+	 Rv6X4mZl0SjClJac/fpdhQUjKJWTGsmK3wIQsEIhVRqgtjS+sXYS6s4h0cRPaZjzB2
+	 pNr1bPmpciuI3xNvSgW/dh223zY92QujuDd0lBtF/D1tu0iCfgwLJVJDlGAEaZKUAy
+	 qnJlAojA8dd2jiRnG3g52vs5QkI3tnJ5ImVf/utDnXdsOqcHcsdTwGsgmCpCL3w6kF
+	 aYsQW7HTUQC+mNq/ySVjmhhEGcv9t0QWKVbSs97sbSzHcemNCpgivFTEyEWpPGoJZ3
+	 PRsCJ7tZ27OiTfdgQHeKb5EUbHLX4AdEkqkM/5y/BpenmCMbmeZSbPbI5PJOKvtyB+
+	 NDA8ZPylW9J5ncjOHY3xdti3LjniPgMVCo9TpAU5cT4tmQNkN2NImOEP0Ndd8yyN8r
+	 bCYs0gIfNWAyVOOWrYpT03oQ=
+Received: from zn.tnic (pd953092e.dip0.t-ipconnect.de [217.83.9.46])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 561AA40E023B;
+	Mon, 11 Aug 2025 15:28:11 +0000 (UTC)
+Date: Mon, 11 Aug 2025 17:28:05 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: shiju.jose@huawei.com
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	jonathan.cameron@huawei.com, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v10 1/3] mm: Add node_to_range lookup facility to
+ numa_memblks
+Message-ID: <20250811152805.GQaJoMBecC4DSDtTAu@fat_crate.local>
+References: <20250801172040.2175-1-shiju.jose@huawei.com>
+ <20250801172040.2175-2-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250804-support-forcepads-v2-0-138ca980261d@google.com>
- <20250804-support-forcepads-v2-2-138ca980261d@google.com> <c7e398e92ecc75f05b575581e79d4cebfa8efb47.camel@gmail.com>
-In-Reply-To: <c7e398e92ecc75f05b575581e79d4cebfa8efb47.camel@gmail.com>
-From: Jonathan Denose <jdenose@google.com>
-Date: Mon, 11 Aug 2025 10:26:57 -0500
-X-Gm-Features: Ac12FXzy1BsmaPYFR1zQrb-XAlFj4H3YXVTyxhiF9usZrrs0vF9zsoXijGk5nc0
-Message-ID: <CAMCVhVNb5N+KR-8+pSixKhH7SAOcbO7o1ewv7NYY3JB4gNn3ZA@mail.gmail.com>
-Subject: Re: [PATCH v2 02/11] Input: add FF_HID effect type
-To: tomasz.pakula.oficjalny@gmail.com
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Angela Czubak <aczubak@google.com>, "Sean O'Brien" <seobrien@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250801172040.2175-2-shiju.jose@huawei.com>
 
-On Mon, Aug 4, 2025 at 3:34=E2=80=AFPM <tomasz.pakula.oficjalny@gmail.com> =
-wrote:
->
-> On Mon, 2025-08-04 at 14:11 +0000, Jonathan Denose wrote:
-> > From: Angela Czubak <aczubak@google.com>
-> >
-> > FF_HID effect type can be used to trigger haptic feedback with HID simp=
-le
-> > haptic usages.
-> >
-> > Signed-off-by: Angela Czubak <aczubak@google.com>
-> > Co-developed-by: Jonathan Denose <jdenose@google.com>
-> > Signed-off-by: Jonathan Denose <jdenose@google.com>
-> > ---
-> >  include/uapi/linux/input.h | 22 +++++++++++++++++++++-
-> >  1 file changed, 21 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-> > index 2557eb7b056178b2b8be98d9cea855eba1bd5aaf..3ea7c826c6fb2034e46f95c=
-b95b84ef6f5b866df 100644
-> > --- a/include/uapi/linux/input.h
-> > +++ b/include/uapi/linux/input.h
-> > @@ -428,6 +428,24 @@ struct ff_rumble_effect {
-> >       __u16 weak_magnitude;
-> >  };
-> >
-> > +/**
-> > + * struct ff_hid_effect
-> > + * @hid_usage: hid_usage according to Haptics page (WAVEFORM_CLICK, et=
-c.)
-> > + * @vendor_id: the waveform vendor ID if hid_usage is in the vendor-de=
-fined range
-> > + * @vendor_waveform_page: the vendor waveform page if hid_usage is in =
-the vendor-defined range
-> > + * @intensity: strength of the effect as percentage
-> > + * @repeat_count: number of times to retrigger effect
-> > + * @retrigger_period: time before effect is retriggered (in ms)
-> > + */
-> > +struct ff_hid_effect {
-> > +     __u16 hid_usage;
-> > +     __u16 vendor_id;
-> > +     __u8  vendor_waveform_page;
-> > +     __u16 intensity;
-> > +     __u16 repeat_count;
-> > +     __u16 retrigger_period;
-> > +};
->
-> Wouldn't it make more sense to call this new effect ff_haptic_effect?
-> hid_effect sound generic, too generic. One could say, all ff effect are
-> hid effects because most ff apis (linux' included) are based on USB PID
-> spec.
->
-> > +
-> >  /**
-> >   * struct ff_effect - defines force feedback effect
-> >   * @type: type of the effect (FF_CONSTANT, FF_PERIODIC, FF_RAMP, FF_SP=
-RING,
-> > @@ -464,6 +482,7 @@ struct ff_effect {
-> >               struct ff_periodic_effect periodic;
-> >               struct ff_condition_effect condition[2]; /* One for each =
-axis */
-> >               struct ff_rumble_effect rumble;
-> > +             struct ff_hid_effect hid;
-> >       } u;
-> >  };
-> >
-> > @@ -471,6 +490,7 @@ struct ff_effect {
-> >   * Force feedback effect types
-> >   */
-> >
-> > +#define FF_HID               0x4f
->
-> Again here, FF_HID sounds confusing without having the broader context.
-> Constant, Sine, Inertia, Spring are way more descriptive. FF_HAPTIC
-> would be a great name to distinguish such an effect. Or maybe FF_TACTILE
-> with ff_tactile_effect?
->
-> >  #define FF_RUMBLE    0x50
-> >  #define FF_PERIODIC  0x51
-> >  #define FF_CONSTANT  0x52
-> > @@ -480,7 +500,7 @@ struct ff_effect {
-> >  #define FF_INERTIA   0x56
-> >  #define FF_RAMP              0x57
-> >
-> > -#define FF_EFFECT_MIN        FF_RUMBLE
-> > +#define FF_EFFECT_MIN        FF_HID
-> >  #define FF_EFFECT_MAX        FF_RAMP
-> >
-> >  /*
->
-> Overall, I'll keep an eye on this as I'm slowly working towards a
-> proposal for a revamped and extended ff api on Linux that would make it
-> fully featured (we're lacking things like device control and querying
-> effects and their status, arbitrary number of axes and arbitrary axes
-> themselves).
+On Fri, Aug 01, 2025 at 06:20:27PM +0100, shiju.jose@huawei.com wrote:
+> From: Shiju Jose <shiju.jose@huawei.com>
+> 
+> Lookup facility to retrieve memory phys lowest continuous range for
+			
+A commit message is not code. Please write it for humans.
 
-Thanks for your review, your comments make sense to me!
+> a NUMA node is required in the numa_memblks for the ACPI RAS2 memory
+> scrub use case.
+> 
+> Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+> ---
+>  include/linux/numa.h         | 10 ++++++++++
+>  include/linux/numa_memblks.h |  2 ++
+>  mm/numa.c                    | 10 ++++++++++
+>  mm/numa_memblks.c            | 23 +++++++++++++++++++++++
+>  4 files changed, 45 insertions(+)
 
-I'll change ff_hid_effect to ff_haptic_effect and FF_HID to FF_HAPTIC
-and upload a new version of this series.
+...
+
+> +static int nid_to_meminfo(struct numa_meminfo *mi, int nid, u64 *start, u64 *end)
+
+This function name sounds like it converts a node ID to meminfo. But it
+doesn't do that.
+
+> +{
+> +	int i;
+> +
+> +	if (!numa_valid_node(nid))
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < mi->nr_blks; i++) {
+> +		if (mi->blk[i].nid == nid) {
+> +			*start = mi->blk[i].start;
+> +			*end = mi->blk[i].end;
+
+It looks like it returns the start and end range of a node ID.
+
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -ENODEV;
+> +}
+> +
+> +int node_to_phys_lowest_continuous_range(int nid, u64 *start, u64 *end)
+> +{
+> +	return nid_to_meminfo(&numa_meminfo, nid, start, end);
+
+Where is the "lowest" thing here?
+
+And where is the "continuous" thing?
+
+This thing simply hides the struct numa_meminfo from the exported interface.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
