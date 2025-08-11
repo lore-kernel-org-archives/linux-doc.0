@@ -1,94 +1,98 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4571262FF1;
-	Mon, 11 Aug 2025 17:00:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C78C311C08;
+	Mon, 11 Aug 2025 17:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754931647; cv=none; b=P10QioN45O7QZdkDWD8q1oAszsZe9x/Mmp5PEM5q9cAe2UJJxaurXkzkuPmAPuEXhrky1LGALdiiQEPwxuKDlDo0duSUvVUB7TtxFhZal55t6YiRgdP2iWjGmx5YRmnkJl9nfdEcYDgkSbtMAUPFSRKg1gpB6TOPB1G+Dg4apcw=
+	t=1754931749; cv=none; b=CziM1hSWdvmc+q1oUbtyHfRm1gZDbjdAG8CQBz+U2UfiELhRIS5FJD/sg+9PrZaV8UwBTUtmUib07l1qNPFTauW0tFdvg38Q25QKd4JEvUOKC/F+MNswgnN3vGMzGbmRYU4r2ZTXTVloHM7wG/Ugh44cm/Jj34GNwA1izIdeZLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754931647; c=relaxed/simple;
-	bh=/wMxM4RKAGxKIP1Ser8xxq+lbQZEdcFqtOMStm1K60w=;
+	s=arc-20240116; t=1754931749; c=relaxed/simple;
+	bh=3sAW5use/d0p4JMBeqh7v8J0A8eAIYwi2D9eCjvPVIg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dEi19blXEcTvu1y+7ItPI7Pvsao3GCQPMl5YHPCO6roIVJgrAx8LSybxv4n+WMy2XyBYu2u18qLLQFvT1En0YBtdwRcuBM+qgRRD0y+icRP9xwthc4RjZiEXRcj0rSW5HZPmI8hY5FNe2BTP1lB9LroHneJJLwYLBeNviyizQUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AFUZTEUt; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=iegnjRJotouOfOg+mFq0er7346bWyP/pwLBUMIdVaH1RX+jVqGU/+yf9we6sS7QRgfynyu2+xhQs/ZrHF3IDvwAIm+nzCYeKTrUVG7t3J79y/QiP6tOWkYbH7A50cX0MyQvx9WLczqCxwUdyIROySWdp3GfqqZhD6iZ1dwXWyUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CfpGLflX; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AFUZTEUt"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DA1CB40AD2
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CfpGLflX"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9225A40AD2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1754931645; bh=WTFzAFPn1a9qI2BOH7lZX+Br9yJcFtU5QZnHQb2WBng=;
+	t=1754931747; bh=HyJNv4Iqb/QlTf75BWxUsaGQi8lW5NbyDX/ljSnu+ek=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=AFUZTEUt3DQ19EsDrlU6OA5AjZeuCutryOv/w4On9iZlmE4uUUKJvQcO0osxvCOs7
-	 NCYz+qfkAN/jROf/pgEdacfVGMWG/P/xApMb+A+OaEFhC+wzPJcAgUeeWUqtM/H3HF
-	 CNLtQ3IMpl4ueNXVasiQ70L1QO+99JJZSUBKo6F67WP1CSp7yTNoQjPpEz7XlDXep1
-	 Sphb+z3JRjmvH9KrsqNlOgj7Pru6ivUSpMqqKYKsRhbE2jYPQ3Uw13xp7gv48AtqsQ
-	 ML2N9lu4f8LKNuSEFy9XG/OejWJYjwLv4I1kJv/SA/N/SOU7FpV+K2eJtSkgNGv5se
-	 bvAnMVsMNh+8w==
+	b=CfpGLflXSD/qosQDjst1ov6KrIJsSSmkstzDHxJTH6syyDpkF4bsdhYsN2bIT8r5N
+	 0SdHQyoiF1hPGpiwx1cXoB0DH1Pa6T040w1bjFSqMVF1Uzd19J7JUOmRnwibDiYngk
+	 CbaOcwhe75sPBiDdqI5cAJGZvbglF+pKgZTqCMPHHQMF33qak6c7EiZwF4rsp/mY4H
+	 cRxLY88zIfzdak5hDD6Ss0xhu2NWd55/fjhMtZcInoHJhJB8QX9km2xARYU40QbflQ
+	 sEjMFGKL6nNOuZoIghusr3BsX4gWXr3y5kSYxkfVIxymE6pTj/5dzu1LddWC8Oq+ck
+	 P3UCs5Ig3zETA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DA1CB40AD2;
-	Mon, 11 Aug 2025 17:00:44 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9225A40AD2;
+	Mon, 11 Aug 2025 17:02:27 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Geert
- Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] Documentation/printf: Use literal fwnode_handle
-In-Reply-To: <07262c55e82fc4a3e3dbe7c45713b14955271e7f.1754552156.git.geert+renesas@glider.be>
-References: <07262c55e82fc4a3e3dbe7c45713b14955271e7f.1754552156.git.geert+renesas@glider.be>
-Date: Mon, 11 Aug 2025 11:00:44 -0600
-Message-ID: <87ldnpeqtf.fsf@trenco.lwn.net>
+To: Osama Albahrani <osalbahr@gmail.com>, Justin Sanders
+ <justin@coraid.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Osama Albahrani <osalbahr@gmail.com>
+Subject: Re: [PATCH] docs: aoe: Remove trailing whitespace
+In-Reply-To: <20250804152516.16493-1-osalbahr@gmail.com>
+References: <20250804152516.16493-1-osalbahr@gmail.com>
+Date: Mon, 11 Aug 2025 11:02:26 -0600
+Message-ID: <87h5ydeqql.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Geert Uytterhoeven <geert+renesas@glider.be> writes:
+Osama Albahrani <osalbahr@gmail.com> writes:
 
-> When looking for fwnode_handle in the printk format documentation, it is
-> only found in the Chinese translation:
+> Fix `ERROR: trailing whitespace` errors from scripts/checkpatch.pl
 >
->     $ git grep fwnode_handle -- Documentation/*printk-formats.rst
->     Documentation/translations/zh_CN/core-api/printk-formats.rst:=E7=94=
-=A8=E4=BA=8E=E6=89=93=E5=8D=B0fwnode_handles=E7=9A=84=E6=B6=88=E6=81=AF=E3=
-=80=82=E9=BB=98=E8=AE=A4=E6=83=85=E5=86=B5=E4=B8=8B=E6=98=AF=E6=89=93=E5=8D=
-=B0=E5=AE=8C=E6=95=B4=E7=9A=84=E8=8A=82=E7=82=B9=E5=90=8D=E7=A7=B0=EF=BC=8C=
-=E5=8C=85=E6=8B=AC=E8=B7=AF=E5=BE=84=E3=80=82
->
-> This happens because the original documentation talks about "fwnode
-> handles", without mentioning the actual type name.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Osama Albahrani <osalbahr@gmail.com>
 > ---
->  Documentation/core-api/printk-formats.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/admin-guide/aoe/udev.txt | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/co=
-re-api/printk-formats.rst
-> index 4b7f3646ec6ce028..7f2f11b482865175 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -521,7 +521,7 @@ Fwnode handles
->=20=20
->  	%pfw[fP]
->=20=20
-> -For printing information on fwnode handles. The default is to print the =
-full
-> +For printing information on an fwnode_handle. The default is to print th=
-e full
->  node name, including the path. The modifiers are functionally equivalent=
- to
+> diff --git a/Documentation/admin-guide/aoe/udev.txt b/Documentation/admin-guide/aoe/udev.txt
+> index 5fb756466bc7..d55ecb411c21 100644
+> --- a/Documentation/admin-guide/aoe/udev.txt
+> +++ b/Documentation/admin-guide/aoe/udev.txt
+> @@ -2,7 +2,7 @@
+>  # They may be installed along the following lines.  Check the section
+>  # 8 udev manpage to see whether your udev supports SUBSYSTEM, and
+>  # whether it uses one or two equal signs for SUBSYSTEM and KERNEL.
+> -# 
+> +#
+>  #   ecashin@makki ~$ su
+>  #   Password:
+>  #   bash# find /etc -type f -name udev.conf
+> @@ -13,7 +13,7 @@
+>  #   10-wacom.rules  50-udev.rules
+>  #   bash# cp /path/to/linux/Documentation/admin-guide/aoe/udev.txt \
+>  #           /etc/udev/rules.d/60-aoe.rules
+> -#  
+> +#
+>  
+>  # aoe char devices
+>  SUBSYSTEM=="aoe", KERNEL=="discover",	NAME="etherd/%k", GROUP="disk", MODE="0220"
+> @@ -22,5 +22,5 @@ SUBSYSTEM=="aoe", KERNEL=="interfaces",	NAME="etherd/%k", GROUP="disk", MODE="02
+>  SUBSYSTEM=="aoe", KERNEL=="revalidate",	NAME="etherd/%k", GROUP="disk", MODE="0220"
+>  SUBSYSTEM=="aoe", KERNEL=="flush",	NAME="etherd/%k", GROUP="disk", MODE="0220"
+>  
+> -# aoe block devices     
+> +# aoe block devices
+>  KERNEL=="etherd*",       GROUP="disk"
 
-Applied, thanks.
+I have applied this.  Congratulations on your first kernel patch; I do
+hope you can move on from checkpatch-driven fixes for future work,
+though!
+
+Thanks,
 
 jon
