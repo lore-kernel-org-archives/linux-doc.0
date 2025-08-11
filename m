@@ -1,163 +1,111 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A22289357
-	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 10:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EB22D0C6C
+	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 11:22:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754909924; cv=none; b=AxhOXnyHPc/8YgyU9Aqf1KZ5X+zOqstpuyoHoFfsEf3IjuIJ0vwPxQqD861HiBFgPAUZDCczWlqG9TwY35XXO6RLnwc+y7LiLw5M75AiHVl1tIZp1Q5TlEUCPiduliufiuceOVsPfNKZCVlaNTpY7s9vLbWEGle5yKRbtMZoe0A=
+	t=1754911352; cv=none; b=rZ0PSawEBlkyxuFEP00tMiaoHrJO3O0cc8X34p7BB0sDLkAzWMIyOrjywWUePRUCgSR76D1hWvePJnd919NPIUF8bmJQk/unuue8oAbzRHTU8x+UTxBCzVb1NlGxsGPg3Y2uv+kGUDEavKuZ+A92NTzvd0X8VqzS/8+jWemj/1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754909924; c=relaxed/simple;
-	bh=fK4jfWxAxG8hhrtguRsi7TtKPjAL7Pn0DSb61hYO1/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F+c9D8LQNPeu1IcnP0uR/vBY8dJ09X/v5+JVbi9mc+nnTSTTpLkxn2Amn35vw5S5tYOI4QuJg0kTsQpdvJUBr94x7eQ+lKc54E5X/WTKXes8HTNzibThlu21vkbK/NFTgi4DQ9o0nCiU0PGfIxv+W9k8HYX+gd+m0V1vL7pg8Bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fyfqeBAd; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1754911352; c=relaxed/simple;
+	bh=yH9o/+7iQTtEc5jc6WfYbooYmTC+iDCsKE/1zeYeYwQ=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=CslIhMOfrYe3vFKyXOoa2QI6RS9iSEl6NWB55/6LYPvrbPcdw5CZdC5iHs83O3459k3amPDeXRkNvG6t/U/i/V8SOsxqiuyaZaPK1AxcB5UCdVUy+buTlBL1OQtHcx+wJoEHrBNciPDTxYEWVdoqpTTUSzzs3qMI2uvh9itQT0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LICLo1Gq; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fyfqeBAd"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45a0d5e4c45so2699775e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 03:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1754909921; x=1755514721; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2eDfsoEqJXD8CkPjgI5wPgXdl/c/jHhszq1yFHNlj5s=;
-        b=fyfqeBAdLauFQlbJ5kIubn3oekJOKh17SaO+8Gyc7rdnhzE94ts9jzCnxmT8dhWmyK
-         d+pmOLv4nAWXBiVZEUDPudcHVWhYfSxa+xXCbDJUkaTkhoA9CLtyJ4dA7JVPzfdXvjYg
-         gLVuLIYBYXWUlZoknVTMq3uCLlxiQUJMBAwIxCAlpEJukSMgRg+m2sFaRvXF8K8To75K
-         ZrlrlSJRXkIME54dny/jdnGbDwFhqQhM1TeULiRDI2+YII4nYeIdJC74dR14gKEAz3UV
-         PHLhfrksSnDD57zMZSF/zJsievt3ThOZH6IbqXncG+VLMfpdUDnDkLLwAapWZCG3M6sx
-         WtsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754909921; x=1755514721;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2eDfsoEqJXD8CkPjgI5wPgXdl/c/jHhszq1yFHNlj5s=;
-        b=Je0ko+WmKdCPkQMORTsw4vEX0beA3JfQG87tQRHGfBEBT9GttXPeZITS6ObTSPR5lF
-         Mo4X2fU46EWYCiE+XKXyY5yrePn2xTZDGpsIDJq/XHBV+xh3p2VDBtCJrF3+64ZWrUkL
-         5kkV11tMw9BkHyvYEWUyysVgm2X4vrmZ17+8rM4bDhTWCgzXAjuwzOvMfQ/kqMtWox/E
-         +8CYPbjgMKzvhmrZqTmK2UpOFeV/iEv3p4WU2lJ2/nTHDzntu1ZIDrJJgDQdzMaLUZCs
-         C1IVH7UocYnZknMHUbXhnwxiu74+uQugpjs9qP9vRCcJn8eDqi4riovuBHkd02wu0If8
-         zAxw==
-X-Forwarded-Encrypted: i=1; AJvYcCXcSE/UgQk4Xx29g4gVhWyCrAu6F7+ntRWGGQGHG0BULRHfGU78vuuJpxhE7m73aBB/Fm+PUQUj/PY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5eGLp0u7qTK2WxhVNjXNrndWuJGdYfQL4yRg3MdDvp9XOlMH5
-	XDY/CA5+0jO7h3O7Gdhkpd1jO0CCYlg9o1X5bn0QzoJNjHZYOZ8IYOco4FGFIVZsxhs=
-X-Gm-Gg: ASbGncsBDN4bqS+96PC8LdadFgAJxYEurjttn4R/fEL+60QsJXmBm8/XwiO7nYu51Gh
-	904uRM1STA6BbuFji3SiqED2nTzyZjIIwwcGEqkubVgtEWwCNrMaASbRaYZOPmenyoPMVK9Dpbx
-	DsIBn7W5BTp3F4qO1z3v4dVFOpCrBNmn8W2860RWayt8VeQ3ezy57jHS1w1oOwkWafJkME2znUX
-	UVcaTDR2gGsORgrdWUyR/LntDJos3PsFvLU1X9Z07NM6E2brKAkBEqRfTuTjjLYsB5y1eAI/fNM
-	7FkNZMAjkrIhsQGhLjmLKZHwUdPXqRfcAbPvTBuZVkTHVh/QAIbsKOi56LW9jTaFwFZxkwTWXJc
-	MsP+ceg8i//sn+bDPYSCWPaj5JZvMslMr
-X-Google-Smtp-Source: AGHT+IFbmWJMYJQaNs4CcNQms0cyi9FBgsOYAQyUhMd4iBen9JAGKCb/WkfFa3wB/d3Zu4x8mcv7UA==
-X-Received: by 2002:a05:600c:5254:b0:456:13d8:d141 with SMTP id 5b1f17b1804b1-459f4f282damr96805005e9.27.1754909920821;
-        Mon, 11 Aug 2025 03:58:40 -0700 (PDT)
-Received: from localhost (109-81-30-31.rct.o2.cz. [109.81.30.31])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c48105csm40496846f8f.64.2025.08.11.03.58.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 03:58:40 -0700 (PDT)
-Date: Mon, 11 Aug 2025 12:58:39 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Nico Pache <npache@redhat.com>, xu xin <xu.xin16@zte.com.cn>,
-	wangfushuai <wangfushuai@baidu.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Adrian Ratiu <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 0/9] freezer: Introduce freeze priority model to
- address process dependency issues
-Message-ID: <aJnM32xKq0FOWBzw@tiehlicka>
-References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
- <aJSpTpB9_jijiO6m@tiehlicka>
- <4c46250f-eb0f-4e12-8951-89431c195b46@kylinos.cn>
- <aJWglTo1xpXXEqEM@tiehlicka>
- <ba9c23c4-cd95-4dba-9359-61565195d7be@kylinos.cn>
- <aJW8NLPxGOOkyCfB@tiehlicka>
- <09df0911-9421-40af-8296-de1383be1c58@kylinos.cn>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LICLo1Gq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1754911349;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FwVUSFRZ0F7GHgPHZ+J3/Ax+Q+cwf/vSatx/cEwvjzI=;
+	b=LICLo1GqVIBeDhr6ZoegKfAuQxSEppY4ae3lrCCHDRdA6LdF3cTMzQdq7tgzVmzxrauj7E
+	wvbdynjU9Vf92hf83J8QVFonV5ghuLRh3BOBRRMM7qqQNUJdc8lAsaMXQDpjVyEdSP72YI
+	EnXNJyvqO6E8xflQtSizMuHiPHJgufo=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-685-k73NodGxOoSyNSYeShpbMA-1; Mon,
+ 11 Aug 2025 07:22:28 -0400
+X-MC-Unique: k73NodGxOoSyNSYeShpbMA-1
+X-Mimecast-MFC-AGG-ID: k73NodGxOoSyNSYeShpbMA_1754911347
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 02A9F1800370;
+	Mon, 11 Aug 2025 11:22:27 +0000 (UTC)
+Received: from [10.22.80.50] (unknown [10.22.80.50])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7812219560B4;
+	Mon, 11 Aug 2025 11:22:24 +0000 (UTC)
+Date: Mon, 11 Aug 2025 13:22:18 +0200 (CEST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Shubham Sharma <slopixelz@gmail.com>
+cc: agk@redhat.com, snitzer@kernel.org, corbet@lwn.net, msakai@redhat.com, 
+    dm-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: device-mapper :Fix typos in delay.rst and
+ vdo-design.rst
+In-Reply-To: <20250810113008.27381-1-slopixelz@gmail.com>
+Message-ID: <b03394a2-eca7-6c39-6ab8-d3a7ae1c7233@redhat.com>
+References: <20250810113008.27381-1-slopixelz@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <09df0911-9421-40af-8296-de1383be1c58@kylinos.cn>
+Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Mon 11-08-25 17:13:43, Zihuan Zhang wrote:
+Applied, thanks.
+
+Mikulas
+
+
+
+On Sun, 10 Aug 2025, Shubham Sharma wrote:
+
+> Fixed the following typos in device-mapper documentation:
+> - explicitely -> explicitly
+> - approriate -> appropriate
 > 
-> 在 2025/8/8 16:58, Michal Hocko 写道:
-[...]
-> > Also the interface seems to be really coarse grained and it can easily
-> > turn out insufficient for other usecases while it is not entirely clear
-> > to me how this could be extended for those.
->  We recognize that the current interface is relatively coarse-grained and
-> may not be sufficient for all scenarios. The present implementation is a
-> basic version.
+> Signed-off-by: Shubham Sharma <slopixelz@gmail.com>
+> ---
+>  Documentation/admin-guide/device-mapper/delay.rst      | 2 +-
+>  Documentation/admin-guide/device-mapper/vdo-design.rst | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> Our plan is to introduce a classification-based mechanism that assigns
-> different freeze priorities according to process categories. For example,
-> filesystem and graphics-related processes will be given higher default
-> freeze priority, as they are critical in the freezing workflow. This
-> classification approach helps target important processes more precisely.
+> diff --git a/Documentation/admin-guide/device-mapper/delay.rst b/Documentation/admin-guide/device-mapper/delay.rst
+> index 4d667228e744..982136160d6f 100644
+> --- a/Documentation/admin-guide/device-mapper/delay.rst
+> +++ b/Documentation/admin-guide/device-mapper/delay.rst
+> @@ -18,7 +18,7 @@ Table line has to either have 3, 6 or 9 arguments:
+>     to write and flush operations on optionally different write_device with
+>     optionally different sector offset
+>  
+> -9: same as 6 arguments plus define flush_offset and flush_delay explicitely
+> +9: same as 6 arguments plus define flush_offset and flush_delay explicitly
+>     on/with optionally different flush_device/flush_offset.
+>  
+>  Offsets are specified in sectors.
+> diff --git a/Documentation/admin-guide/device-mapper/vdo-design.rst b/Documentation/admin-guide/device-mapper/vdo-design.rst
+> index 3cd59decbec0..faa0ecd4a5ae 100644
+> --- a/Documentation/admin-guide/device-mapper/vdo-design.rst
+> +++ b/Documentation/admin-guide/device-mapper/vdo-design.rst
+> @@ -600,7 +600,7 @@ lock and return itself to the pool.
+>  All storage within vdo is managed as 4KB blocks, but it can accept writes
+>  as small as 512 bytes. Processing a write that is smaller than 4K requires
+>  a read-modify-write operation that reads the relevant 4K block, copies the
+> -new data over the approriate sectors of the block, and then launches a
+> +new data over the appropriate sectors of the block, and then launches a
+>  write operation for the modified data block. The read and write stages of
+>  this operation are nearly identical to the normal read and write
+>  operations, and a single data_vio is used throughout this operation.
+> -- 
+> 2.43.0
 > 
-> However, this requires further testing and refinement before full
-> deployment. We believe this incremental, category-based design will make the
-> mechanism more effective and adaptable over time while keeping it
-> manageable.
 
-Unless there is a clear path for a more extendable interface then
-introducing this one is a no-go. We do not want to grow different ways
-to establish freezing policies.
-
-But much more fundamentally. So far I haven't really seen any argument
-why different priorities help with the underlying problem other than the
-timing might be slightly different if you change the order of freezing.
-This to me sounds like the proposed scheme mostly works around the
-problem you are seeing and as such is not a really good candidate to be
-merged as a long term solution. Not to mention with a user API that
-needs to be maintained for ever.
-
-So NAK from me on the interface.
-
-> > I believe it would be more useful to find sources of those freezer
-> > blockers and try to address those. Making more blocked tasks
-> > __set_task_frozen compatible sounds like a general improvement in
-> > itself.
-> 
-> we have already identified some causes of D-state tasks, many of which are
-> related to the filesystem. On some systems, certain processes frequently
-> execute ext4_sync_file, and under contention this can lead to D-state tasks.
-
-Please work with maintainers of those subsystems to find proper
-solutions.
-
--- 
-Michal Hocko
-SUSE Labs
