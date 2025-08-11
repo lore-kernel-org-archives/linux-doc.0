@@ -1,141 +1,124 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7672E54D3;
-	Mon, 11 Aug 2025 15:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9D22E2DC1;
+	Mon, 11 Aug 2025 15:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754926140; cv=none; b=Q2QAHQDjmfA92JvtaDs3xu7td6Yasm3WpgyLQiujqioqEv/IuqRxFzJtDXB7clamT78sc0oFWP3VDHOlAiGHqWI961ybnlf/VNpoUaNAdLlt9BEbNLzGdN2PoQKJPmQaCE/aPWtyRiF7q5ERDfkF/bY64zkc6it0NDNjoz5s0oY=
+	t=1754927286; cv=none; b=U9hROXLGcMAKrkgwauLjIXpVnV9f+zL7VcHsleVTIQ3MF4xIKicyPgM0wYSpegUVjH72jfQgzn5hfrDbjs58hhwSVkeYAFyghgrO/Y65DTHaQePQSiO5nTA4C8Py7jh2Q5/uBNoUjyRq5TnvzRvoqcYOpBUxYABaEHubgI0DZwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754926140; c=relaxed/simple;
-	bh=k/m6lvsrhx66tVmA9oNvvHDSs/6d366lIs2hxoW219A=;
+	s=arc-20240116; t=1754927286; c=relaxed/simple;
+	bh=8gmWeKWrJeK2Xkqz/8/mh/JFMl+WMCygehd7PMn2K1I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nspge/inuqo1fqo7s/i77DL/PV+xzuy+RI0X6oX5ZWY02dw6t5qbw/oB5sR+ez12qcFKCc+xyrbGcvssaq1XIKdBk/v4DUX4G1rjrE611DO/Gf9HtPgfgzsmjctmErYml5JU0tzyXkUaP9cw/AMHoRehs8ykll1jy5DTY3uBsTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=lZC6zGWj; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=PsVRxXcCr41ULSWxc7xmD8mnp6rOBSv4y1Y+9BIjuP7YBZ0vjpUPeVzNVgFHuIqNaPDEkyDKDzvn9IMPlVh2LMLOq/TZuJb5UvryQXdj4TVXv3+roIE08GVHKzoWiP9XcGo55i5Ap/Qko7CB4fI7aTDezGxSf7pdATxQt5xaSnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DkKBeFf1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="lZC6zGWj"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1018140E0217;
-	Mon, 11 Aug 2025 15:28:54 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id xeBqMQ4xZ56G; Mon, 11 Aug 2025 15:28:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1754926127; bh=lAb2hlkPZfqAZ5oWuzo7LQdnJ5lfu4VxJv8CxW4eSIk=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DkKBeFf1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61320C4CEED;
+	Mon, 11 Aug 2025 15:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754927285;
+	bh=8gmWeKWrJeK2Xkqz/8/mh/JFMl+WMCygehd7PMn2K1I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lZC6zGWjMEAOrzyuS+/HRWJJ1Y5enmj8JYL1MKqrjAIrKXnhRlg2pks3w1t1dsm8s
-	 VgQX7hQzICo+PlFDtKKfkpeYervMPLDU1LhRUmdYbCvFGkaKprxvff3Mny9tP0tK2v
-	 jFLzfDeVcj09bsLeiYZW3ydDPvhP0bOf0qjbjebHvZeEEdxpYt9w+BNODv0evjjCfd
-	 qu2Gmm/t8q07TtzWK3Hcx8ljbaxBs6vOK6SnBsavBpWB46ACbgdiCECq9RKYMeT6Yu
-	 Rv6X4mZl0SjClJac/fpdhQUjKJWTGsmK3wIQsEIhVRqgtjS+sXYS6s4h0cRPaZjzB2
-	 pNr1bPmpciuI3xNvSgW/dh223zY92QujuDd0lBtF/D1tu0iCfgwLJVJDlGAEaZKUAy
-	 qnJlAojA8dd2jiRnG3g52vs5QkI3tnJ5ImVf/utDnXdsOqcHcsdTwGsgmCpCL3w6kF
-	 aYsQW7HTUQC+mNq/ySVjmhhEGcv9t0QWKVbSs97sbSzHcemNCpgivFTEyEWpPGoJZ3
-	 PRsCJ7tZ27OiTfdgQHeKb5EUbHLX4AdEkqkM/5y/BpenmCMbmeZSbPbI5PJOKvtyB+
-	 NDA8ZPylW9J5ncjOHY3xdti3LjniPgMVCo9TpAU5cT4tmQNkN2NImOEP0Ndd8yyN8r
-	 bCYs0gIfNWAyVOOWrYpT03oQ=
-Received: from zn.tnic (pd953092e.dip0.t-ipconnect.de [217.83.9.46])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 561AA40E023B;
-	Mon, 11 Aug 2025 15:28:11 +0000 (UTC)
-Date: Mon, 11 Aug 2025 17:28:05 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: shiju.jose@huawei.com
-Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
-	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
-	leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org,
-	jonathan.cameron@huawei.com, linuxarm@huawei.com,
-	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
-	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
-	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
-	gthelen@google.com, wschwartz@amperecomputing.com,
-	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
-	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
-	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
-	wanghuiqiang@huawei.com
-Subject: Re: [PATCH v10 1/3] mm: Add node_to_range lookup facility to
- numa_memblks
-Message-ID: <20250811152805.GQaJoMBecC4DSDtTAu@fat_crate.local>
-References: <20250801172040.2175-1-shiju.jose@huawei.com>
- <20250801172040.2175-2-shiju.jose@huawei.com>
+	b=DkKBeFf1TXwV2F0ZOL9ioAkAZlbyz1mBR7cI5v4XGX1SgG96WAhj7uO1wVK5vWPft
+	 mvhSF68zCaiZv0e/313lzJq2fXxZjisu9w00pKKCcyjmg8c3YiJ2FL8+O3z+lL5E8w
+	 avSOcY74Ui7UIInfSSPhyarl/DuXEweNKo+8+aDCRQXPY6+AB9FzVuY1Ki3p/d0ziM
+	 e9AOS+GvjD8JNJK/74LHXkqL3sJZSs0Mf+APtWUp1D22vWYSrZoXYWgND19fjrE8xi
+	 kdx4GxBIRT2s/5uVUMUTTGFolE5AiukVGp9PQGCtgVczj/2/vXp0MGSvLwRsq+riBS
+	 AF7fCp/sKxsIA==
+Date: Mon, 11 Aug 2025 11:48:03 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: corbet@lwn.net, josh@joshtriplett.org, kees@kernel.org,
+	konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+	workflows@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] README: restructure with role-based documentation
+ and guidelines
+Message-ID: <aJoQs_5Mp7-LAtTS@lappy>
+References: <20250809234008.1540324-1-sashal@kernel.org>
+ <20250809234008.1540324-2-sashal@kernel.org>
+ <CAMuHMdWaVvAfm6LMxSpPuz3yZ7FDAexbUTOXrg58TqoWbce5ag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20250801172040.2175-2-shiju.jose@huawei.com>
+In-Reply-To: <CAMuHMdWaVvAfm6LMxSpPuz3yZ7FDAexbUTOXrg58TqoWbce5ag@mail.gmail.com>
 
-On Fri, Aug 01, 2025 at 06:20:27PM +0100, shiju.jose@huawei.com wrote:
-> From: Shiju Jose <shiju.jose@huawei.com>
-> 
-> Lookup facility to retrieve memory phys lowest continuous range for
-			
-A commit message is not code. Please write it for humans.
+On Mon, Aug 11, 2025 at 10:22:34AM +0200, Geert Uytterhoeven wrote:
+>Hi Sasha,
+>
+>On Sun, 10 Aug 2025 at 10:09, Sasha Levin <sashal@kernel.org> wrote:
+>> Reorganize README to provide targeted documentation paths for different
+>> user roles including developers, researchers, security experts,
+>> maintainers, and AI coding assistants. Add quick start section and
+>> essential docs links.
+>>
+>> Include proper attribution requirements for AI-assisted contributions
+>> using Assisted-by tags with agent details and tools used.
+>>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>
+>Thanks for your patch!
+>
+>> --- a/README
+>> +++ b/README
+>
+>> +Who Are You?
+>> +============
+>> +
+>> +Find your role below:
+>> +
+>> +* New Kernel Developer - Getting started with kernel development
+>> +* Academic Researcher - Studying kernel internals and architecture
+>> +* Security Expert - Hardening and vulnerability analysis
+>> +* Backport/Maintenance Engineer - Maintaining stable kernels
+>> +* System Administrator - Configuring and troubleshooting
+>> +* Maintainer - Leading subsystems and reviewing patches
+>
+>Kernel Maintainer?
+>Driver/Subsystem Maintainer?
 
-> a NUMA node is required in the numa_memblks for the ACPI RAS2 memory
-> scrub use case.
-> 
-> Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
-> ---
->  include/linux/numa.h         | 10 ++++++++++
->  include/linux/numa_memblks.h |  2 ++
->  mm/numa.c                    | 10 ++++++++++
->  mm/numa_memblks.c            | 23 +++++++++++++++++++++++
->  4 files changed, 45 insertions(+)
+I tried to use similar terms to the ones used by the rest of our docs.
+In this case, the CoC interpertation actually defines this term :)
 
-...
+	The Code of Conduct uses the term "maintainers" numerous times.
+	In the kernel community, a "maintainer" is anyone who is
+	responsible for a subsystem, driver, or file, and is listed in
+	the MAINTAINERS file in the kernel source tree.
 
-> +static int nid_to_meminfo(struct numa_meminfo *mi, int nid, u64 *start, u64 *end)
+So I just went with "Maintainer".
 
-This function name sounds like it converts a node ID to meminfo. But it
-doesn't do that.
+>> +* Hardware Vendor - Writing drivers for new hardware
+>> +* Distribution Maintainer - Packaging kernels for distros
+>> +* Agentic Coding - AI assistants working with kernel code
+>
+>Given the extensive split, what about normal (existing) kernel
+>developers?
 
-> +{
-> +	int i;
-> +
-> +	if (!numa_valid_node(nid))
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < mi->nr_blks; i++) {
-> +		if (mi->blk[i].nid == nid) {
-> +			*start = mi->blk[i].start;
-> +			*end = mi->blk[i].end;
+Those people don't read the docs anyway :p
 
-It looks like it returns the start and end range of a node ID.
+How about something like:
 
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	return -ENODEV;
-> +}
-> +
-> +int node_to_phys_lowest_continuous_range(int nid, u64 *start, u64 *end)
-> +{
-> +	return nid_to_meminfo(&numa_meminfo, nid, start, end);
+Existing Kernel Developer
+-------------------------
 
-Where is the "lowest" thing here?
+Continue advancing your kernel development expertise:
 
-And where is the "continuous" thing?
-
-This thing simply hides the struct numa_meminfo from the exported interface.
+* Locking and Concurrency: Documentation/locking/index.rst
+* RCU (Read-Copy Update): Documentation/RCU/index.rst
+* Subsystem APIs: Documentation/driver-api/index.rst
+* Performance Analysis: Documentation/trace/index.rst
+* Testing Infrastructure: Documentation/dev-tools/testing-overview.rst
+* Patch Series Management: Documentation/process/5.Posting.rst
+* Maintainer Handbooks: Documentation/process/maintainer-handbooks.rst
+* Cross-Architecture Development: Documentation/arch/index.rst
+* Kernel Debugging: Documentation/process/debugging/kgdb.rst
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks,
+Sasha
