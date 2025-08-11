@@ -1,96 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2086.outbound.protection.outlook.com [40.107.93.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DFE238C16;
-	Mon, 11 Aug 2025 18:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754938299; cv=none; b=GV+feA6+bI4djlsnI7DgBSCg3Wpm2MwNqMrfPy2k0Lced4SGk6ZgQDyFFlDHeHoq1E+nelU7uU81rlYS7Llm0Yu5uzrtxPTF0umJK1LXAjAaTgm7SppDiJ7aVjnUIRsQEanqKx8LUxIPG5FPFliYSFtiYEkR24HIlHbuOcX5rwk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754938299; c=relaxed/simple;
-	bh=TyL5WM4KmK4UEKtUWLjU9qmPO9uX7gp5FgMMIIGkhR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A0Kw9u8Ed38g87dWDXyHjS529U0JGiuU3AQx1PKofSN9ZpW3QRzm1ylUS0BAIWJqrnQwmprHpETyZCAd0HoGbqKhw29LViik+ivGnHM+80wJ6X/avoQe3oKnhmfMwr7gqd9iij1zIAorJU/Epqcn1dg1H7Y5mcDlm43SCtlXDI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T6KUrDNG; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC522139CE;
+	Mon, 11 Aug 2025 20:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754944246; cv=fail; b=HarcRjLT0TDgJ6GmnN+4Ne2y1ZMIGc8SX7mhdyGmXqYKjeLegXAJnerhYydlFVE1n+qmWJZ0w0C7FKDfVo6DHwRdb3z4Wb39KRiZamLpuaVYhe7Ih7Ei4v6cN9+VhbB7E9TbzuCHZslenSdNrlxg3oQ0qIq9vQ+yaH02kdjdWpk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754944246; c=relaxed/simple;
+	bh=3CsPy640ASAkacaWz6SLRFW6B047OwYZJWo2LzKq3fI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hJzR4UyrQKEbEUmlFwotD9Ncf27mD1tbwLlKj33OvCYawTF4qBLwZZefIqQaieHJGIoieleQ4hFym2Nk898wR+N1Pb2ZozmUWHkH4+wck3FLgTls2PV3pc+qpLvZWCpszcx6hjIRtPN+kWH6nd9Oqf54WPt/3lidIg68XKBBhgE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=p+VpV416; arc=fail smtp.client-ip=40.107.93.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T6KUrDNG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A28B0C4CEED;
-	Mon, 11 Aug 2025 18:51:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754938298;
-	bh=TyL5WM4KmK4UEKtUWLjU9qmPO9uX7gp5FgMMIIGkhR0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T6KUrDNGWelM7URVAXZGo04+ZxAi3SALiGcDdo0UxtvFW2rLJeiGYAy+K2tV9jaWp
-	 kp6Ev7FTupGWIEM+tTCcwxLnwwHS6eH677EawQBgpALNsiXKDiBh6+RTU8GNyeVogD
-	 7nXh2/3I5U232t3QATccielwpgjL/QIlLMBu4xR7wmrraJ1E73jQuCQJnDo4xhTr+V
-	 L70+SNO/W7ocYzKR2EVwHxA3lbJh5faP645ADGJS1RWnx2VuMG786Pi7J8d/1u+aR0
-	 wqMB2cJXVNSfupzUCTB+/l+tyySY/oEdR1km468NI4Z05si1HUZGmy2t58wBCEZpYJ
-	 dufb9Mrcityew==
-Date: Mon, 11 Aug 2025 08:51:37 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Tiffany Yang <ynaffit@google.com>
-Cc: linux-kernel@vger.kernel.org, John Stultz <jstultz@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH v3 1/2] cgroup: cgroup.freeze.stat.local time
- accounting
-Message-ID: <aJo7udUoWJt_jLzK@slm.duckdns.org>
-References: <20250805032940.3587891-4-ynaffit@google.com>
- <20250805032940.3587891-5-ynaffit@google.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="p+VpV416"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Fz3BVprCU79a+CIFAwTqBmIJTM1RjAPVX2aRHnZS2L3sscyeWeP/Mwfviqf417e8QrAIRrc19ymAnLxPdNrG/V9EEDbV5p5mO15bK9pzpipt0R3kDldTc3wBRtOMmO2qZQe/6dBgfiR/e9eWCiQQeL76ticq00EYpkOSNdGHdl0euGOpyTzIKCtwrnLPUgxZNwsnWBE2LvvCDkoa60L6vIzH7SouelS1zO3pda/8dG2mprMAQvfCVMs+W0xKMSHlKESXbpJFBAKXhxjWZ8P3djWpDNtL95ZLci3l5Dv2KPXtpAjUNdlaq31DB9sczQVSQ2VvUd6TUKNseMJC8kXlHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3CsPy640ASAkacaWz6SLRFW6B047OwYZJWo2LzKq3fI=;
+ b=g49diJN/lM3ZfljbczMmAUlbLfRAyFLCrq5EjTEYXjb7LjVd1FxF+kwyv/88+OmHHGcWWbHI2YC5prwO0xvBWjSE/ZSg1ILyPAlaPtZyiL7QFYZ73GCMZnmDx4LpBf0WNnGsxR54Q0v0v424cGieG2ausMq+ksStNEzAs2qm3uIpuLPzdFy9VYeFj8CMsb2Pkvk4sBKh5ks5v+xDbK7GuKv+Mjtlo+u404TGGYQjwzNOoLywnlo9CEeBGlftrPrUdTeoC5QuUg58HiAFqxekQuWHkE7krPgAoak7O3De1b5PydqrNf2AQNk1H6oL0CJV16tZLPnXM1Y0s+Ede1aUZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3CsPy640ASAkacaWz6SLRFW6B047OwYZJWo2LzKq3fI=;
+ b=p+VpV416I41oBboylVBnJ/wNcXgQjbPt/thcn2ZU5IWMRIGPTBdUKK4ZhnHP/KR/nEWgIGeMQAmnmmWBqPCOsZLr3X3GiVFi57eyZnVlZgX6XgaMdsA20xFciGlZ7prjPRxSMlK1Ls52RYtKDmhzK+wA2eA2GkK5cdC+DY2kqNU=
+Received: from DM6PR07CA0128.namprd07.prod.outlook.com (2603:10b6:5:330::20)
+ by DS0PR12MB7748.namprd12.prod.outlook.com (2603:10b6:8:130::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Mon, 11 Aug
+ 2025 20:30:40 +0000
+Received: from DS3PEPF000099D7.namprd04.prod.outlook.com
+ (2603:10b6:5:330:cafe::c0) by DM6PR07CA0128.outlook.office365.com
+ (2603:10b6:5:330::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9009.21 via Frontend Transport; Mon,
+ 11 Aug 2025 20:30:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF000099D7.mail.protection.outlook.com (10.167.17.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9031.11 via Frontend Transport; Mon, 11 Aug 2025 20:30:40 +0000
+Received: from purico-ed09host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 11 Aug
+ 2025 15:30:37 -0500
+From: Ashish Kalra <Ashish.Kalra@amd.com>
+To: <ashish.kalra@amd.com>
+CC: <Neeraj.Upadhyay@amd.com>, <aik@amd.com>, <akpm@linux-foundation.org>,
+	<ardb@kernel.org>, <arnd@arndb.de>, <bp@alien8.de>, <corbet@lwn.net>,
+	<dave.hansen@linux.intel.com>, <davem@davemloft.net>,
+	<herbert@gondor.apana.org.au>, <hpa@zytor.com>, <john.allen@amd.com>,
+	<kvm@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<michael.roth@amd.com>, <mingo@redhat.com>, <nikunj@amd.com>,
+	<paulmck@kernel.org>, <pbonzini@redhat.com>, <rostedt@goodmis.org>,
+	<seanjc@google.com>, <tglx@linutronix.de>, <thomas.lendacky@amd.com>,
+	<x86@kernel.org>
+Subject: Re: [PATCH v7 0/7] Add SEV-SNP CipherTextHiding feature support
+Date: Mon, 11 Aug 2025 20:30:25 +0000
+Message-ID: <20250811203025.25121-1-Ashish.Kalra@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1752869333.git.ashish.kalra@amd.com>
+References: <cover.1752869333.git.ashish.kalra@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250805032940.3587891-5-ynaffit@google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D7:EE_|DS0PR12MB7748:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0dbd255d-5579-4056-52fd-08ddd915f03f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?nqtp3JzIVZbww92kty7BPcNcCOlJbCFaGeF5fc/G1+8HJRVheNjZfURhrEwW?=
+ =?us-ascii?Q?rAUQl1qZA0UnfsXLxonXtKT2plnVO5tvCDwfvgl76DFgVZCs3cXLrlap7jaY?=
+ =?us-ascii?Q?Qm/tRODZzK6DVx0WY+mtKt7HTfKhwUdMk3fTsMHZLcKkFbwQc9CB4PTZduTZ?=
+ =?us-ascii?Q?eRoA9Zn47cporbqiys4769DwzGwBdnJNRgCYhYYHA+cGfHd35UrD9mMdUPUg?=
+ =?us-ascii?Q?XMOfvz0BTV1ERqkeyL7zpuKlz8ffOm7bdIfIR73Mpb0R+xAyFcLK2l9CB6vi?=
+ =?us-ascii?Q?pMwnbyaCF5LDl/pbn6vNMOmp6t8EcZYOqMrunaNYiURfhTcJTjlcqTKb1HMi?=
+ =?us-ascii?Q?wbE44UNN27Pr3h+AuZGYnKK66o2fHqCRSiR88Dym0i3UKUERJPcWzb3CT8TZ?=
+ =?us-ascii?Q?BzJEyyQ/QWoHJofP19pWDQR20dGxCg85K4iA/kn3tx7j+FWSv8nppnNv6L+n?=
+ =?us-ascii?Q?TceOWmWRz64YuVFMshRJ2KK5ArYlZYhWV8hOVxz4fmJGO6OizfF5Dm+4xIkE?=
+ =?us-ascii?Q?ly8gpXuHwqCz8HNJcUAQ5QcaGFtgdBpBYB9aYMPxMXAs80WxTovsaXwJJ8DO?=
+ =?us-ascii?Q?sQ6dYasNmPkM5DiU/Z0lxwnLzy6ou5KdIc1sJx45WUMJBvGyrEHztLZzX4CF?=
+ =?us-ascii?Q?oPCZZW1LxYHf+wi1LeWUfJxKNzawlMrpLAqq+/xgBqQooMlxdKXKZCD0nzid?=
+ =?us-ascii?Q?1wsPHyzzas3nak3wm1HoEDKNYKUVqdl+x5UJSwM8eJ2s4Cr+wfb6md3Vwnry?=
+ =?us-ascii?Q?Dov8mw72ItGhsLc9/SDTnsnPOf5L/lQH5iVhEQGTWWhjwJtavx/K7Q//LBlE?=
+ =?us-ascii?Q?7QjKInEqMbNJwuLpva6MAmIPTAhldww/MhOm2Z8m5l5eon1jcqjugb1IeCWh?=
+ =?us-ascii?Q?osiqvA3DvZ6bXrTbwmfwP/kSWHAMSLCBbPBoBnsTU7hGVZqlxyZVOyxyJeab?=
+ =?us-ascii?Q?jBRgRfPTKvbjMD4f4UMkpNM3tp+KQhe8f96GgrFJ1WchIc2Qb/f+6oCNXcC7?=
+ =?us-ascii?Q?XVqKgbWyEM2MA0HbyH3p9oH5L6Y1X5htYYd05Z7u3oVPu/xwv1t6YqNvLcTt?=
+ =?us-ascii?Q?Ytt6sUnVTZVjpGhVqcWa1mkedkQIwsJIgFNvD8MPv3RoeDIGu4xbq6ZzZd6a?=
+ =?us-ascii?Q?78eB+iQnAxsWwnlHAzJQxJZP3RV/uOwa/IHqOoMshHlca6fmtKwUbE2byGpn?=
+ =?us-ascii?Q?ujm9O4iZFeDI8lbE8Pkg1N+6EhbgNNvmLzJWSAad07h0TsehMZbTVhQu7X1Y?=
+ =?us-ascii?Q?MOQ/t57xFtFdc+cUgV7HOCw8rxDe6NDzejpZ3oFJ1teDzL1qYibZO13mzdtT?=
+ =?us-ascii?Q?4bkmKGL7SKNA2NsMTjSdlWYU42QZSXa6mTir9oiVQ5Jkc1cev9qSTFKle6XY?=
+ =?us-ascii?Q?uy4EUZbRSymBhd0C0RWxUKrdWbyQ31LzcTHRs0pg7nDPHKhgfyrIdFLNrGli?=
+ =?us-ascii?Q?HWQ2qOJsjbTMfEBGeT4rPJuiisqVoCIx+hBA9ZAhRHsQAO4zjKwtQ+7JYzza?=
+ =?us-ascii?Q?ZRs6D/tYqYAEx+QPju0O9GST5iZxEh0nw2IM?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 20:30:40.3890
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0dbd255d-5579-4056-52fd-08ddd915f03f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS3PEPF000099D7.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7748
 
-Hello,
+Hi Herbert, can you please merge patches 1-5.
 
-Generally looks good to me. Some comments on cosmetics / interface.
+Paolo/Sean/Herbert, i don't know how do you want handle cross-tree merging
+for patches 6 & 7.
 
-On Mon, Aug 04, 2025 at 08:29:41PM -0700, Tiffany Yang wrote:
-...
-> +  cgroup.freeze.stat.local
-
-This was mentioned before and maybe I missed the following discussions but
-given that cgroup.freeze is a part of core cgroup, cgroup.stat.local is
-probably the right place. It's not great that cgroup.stat wouldn't be a
-superset of cgroup.stat.local but we can add the hierarchical counter later
-if necessary.
-
-> +	A read-only flat-keyed file which exists in non-root cgroups.
-> +	The following entry is defined:
-> +
-> +	  freeze_time_total
-
-How about just frozen_usec? "_usec" is what we used in cpu.stat for time
-stats.
-
-> +		Cumulative time that this cgroup has spent between freezing and
-> +		thawing, regardless of whether by self or ancestor groups.
-> +		NB: (not) reaching "frozen" state is not accounted here.
-> +
-> +		Using the following ASCII representation of a cgroup's freezer
-> +		state, ::
-
-It's a bit odd to include credit in a doc file. Maybe move it to the
-description or add Co-developed-by: tag?
-
-Thanks.
-
--- 
-tejun
+Thanks,
+Ashish
