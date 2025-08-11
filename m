@@ -1,121 +1,96 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A994A2D;
-	Mon, 11 Aug 2025 00:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D3479FE
+	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 03:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754871021; cv=none; b=pFeOwK0yQOJ8wUYFAnoQ/fYqyYCvvF961CX6VTbohCDI9IVXfBYtGWwFoEYMyy3umE1QlkNV5L1VAS1qjfZgc5ZWyKnz+HSoIpFUnpNAn46yzznW8rPjc3l90PRtLxfhMx2lLi6GhI2itxbdaAgECBhyUP4xkrsrA5OljCipsKI=
+	t=1754884048; cv=none; b=KWIC96J9alZ5Zd86x/fbH5io519EycYE8r5AZozW8LtoRaUDA6qz/klGYzEgL81ZsHrm47melZPTlyu2f2nfqXzd4Khagc9J+mxjKe3OVareAKgPiuRp5JHA57F7nmy1ddACdaqPz5Kr8LL4H+ItXvQpJy1dceZKb5wCHny9RFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754871021; c=relaxed/simple;
-	bh=8hwwZNPOCYpNxCxer0VxJ1qiElxYhy23+OK7racy2nE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iyX5K9UmhfaxKqiAg26l64SdLi5IDTyX9jqLx0pHMgsWWMxYBTVM5P9aZF3vYJhqwhxmj1T0hOaCCHfrxvXxm9Cf7oKtVV4hYMkZ9SAZLwtCkIXZ03EfufEXeXMWfepa8mTq+DpMHlWfq3T0ryvlMMyqTYoXy3qGxGRFNfgbipM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 2A23FC05A2;
-	Mon, 11 Aug 2025 00:10:18 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf01.hostedemail.com (Postfix) with ESMTPA id 9B5DD6000F;
-	Mon, 11 Aug 2025 00:10:15 +0000 (UTC)
-Message-ID: <6a9620575d59483b105a35e8c2f53890a5d1f159.camel@perches.com>
-Subject: Re: [PATCH v2 1/2] README: restructure with role-based
- documentation and guidelines
-From: Joe Perches <joe@perches.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, josh@joshtriplett.org, kees@kernel.org, 
-	konstantin@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org, workflows@vger.kernel.org
-Date: Sun, 10 Aug 2025 17:10:14 -0700
-In-Reply-To: <aJjM1oF8hJJrqDhN@lappy>
-References: <20250809234008.1540324-1-sashal@kernel.org>
-		 <20250809234008.1540324-2-sashal@kernel.org>
-		 <bee3cea19d9fc1c97b1816f516fdd5283cebc1e1.camel@perches.com>
-		 <aJjM1oF8hJJrqDhN@lappy>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1754884048; c=relaxed/simple;
+	bh=rs1ZbDTkdXoK18Jlldz/kRW9hBLLB4AUFEUqTZReA0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NLS5h+ixKwSHU5QQBaQ77aRcI5VMSZE9YqhdqTcRSspyXeCbyYMuppCDzjyKwCp//XXNOzuT/4OlJ2AAXhjTQPy0yUjpArlB63UUrgxuN3p9MpaK5Op8kneBp9QrvmL8TbbqV0ydcTHlOMmm4wQ8IYlrJ7kJKEwBWVaSGQgFJts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gSCS387E; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gSCS387E"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-76bc5e68e26so3563177b3a.0
+        for <linux-doc@vger.kernel.org>; Sun, 10 Aug 2025 20:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754884046; x=1755488846; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AzgJOorJWfoxagIgZyAmkW/+CgCib8gpyjSc17Nah8o=;
+        b=gSCS387EVTeHfcC12IYdtc/WneWgA3lQlP4LYqNhqm/jKcdqNNKZcRKt7SmHrq0/o0
+         Tgzi4FmoMi4MfokUdDjFAAgoXkd/AAA5wzqk5XSZJfHy8qV0Wkfs1ZGWRB/zk/69+bAi
+         tiEEBvKXXqSxbRLeXmn8ibbzHQH35Joih+cV4muYT1zaxALXR9nWN9hwlPM+dHjaHhpS
+         PrjlOEZ1Nv0C6xbfHaoEzXwK0RgE/W3nRLsYMLHzdbw0u0TBtU9C2f67fxYUecWjEpDa
+         m6jVlEOfTqyuK/h+yEn4GmabLRFybIl0CG8C8a8JtqQhGwZAXC+MCTRx549Q5UdF/vQU
+         fb5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754884046; x=1755488846;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AzgJOorJWfoxagIgZyAmkW/+CgCib8gpyjSc17Nah8o=;
+        b=EjjnQXPhlRoCbgLVGR+lxR1b3iie9WXB1HZVWfAbzXLbp4EZ8MU/mvu+hETc9be0zB
+         e483UbZZJoYtbi5982VjJUFfpJ2YNRImf8MoULkYTEwC589c5st4+ZAR9j+gB3GAMgyL
+         uVWP7oyXeP4mB4SnTsfHCmNGEtMYpmXyu0ScGvhntIkAdp+DJ9vIMh/UNCrfeYMaQfwe
+         nca18bcDDIQxYr5+9iBCz4U4VzPBsWXtRAo+tF/J964jTc78TON5AtbmQrO8ZiBtQSr7
+         jzsqItFWj9IBtsBhIBxG7ACJQiI4Zb/uvaoP7JJVWzXzxFuY6z3hPN63BbpjqNAUIlzW
+         ubQw==
+X-Forwarded-Encrypted: i=1; AJvYcCW66XWaTLi7oCkXk2wMH2lmA5TRtWsqhmUzTxk1/B6mBoDr4WCWTCL0DrEudYfSmUJQ6m/6BRVO+jI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6xrHsemIgxWU+wr333JoSqdtq9D9PKDgFW6rGv9bDUz6v6UXk
+	Tc2s8xX5O9s/Yh80644CfJvkaIn44wS1cauAz19yf8CfTEM4oD5c4rY=
+X-Gm-Gg: ASbGncsHIUeaqtGyBoydBOC8WQQ8KYdv/URNWL8MXXWKZwrB4P+qifwPWxDrnGmOnoH
+	4Cs8v2JY77589MKl483L+tpVPa0py2FSO2Rrdb92WPkDUl/DFSueCDEXFvZ8dkG8YHYu81W1dF7
+	pB4vyWc4XNDnDZzWpYomnWbr+wg9pnwKjBAPUAcyb9uBzF4y3tJIswZsTlCYcB9/+IlOL5aiwc1
+	ZH5ygO/Lly+j1sNoMwrWqALcN9zI3Xf0nN+YIJ/VPkX6rWmpAUXN6J/4OaJoq37Dl6XqsnUw/Oj
+	lwRKPGGvfrdimb1uTxtxNR3rmSkpGvxSLT5du155T+T+FvZF1DnUbxt09Q1UEUP47ML9WMEXBPS
+	l+QvDns9FX0c99lowxrcDLSTw4WNA9w9cVFok5dc=
+X-Google-Smtp-Source: AGHT+IF4oM7SLruPY53gPR20B/yTto/vDJwxwk8SIxnGPvVl634pVWYjl4GCMAz4KqHHBfdvnZx9ng==
+X-Received: by 2002:a05:6a21:32a0:b0:240:1a3a:d7ec with SMTP id adf61e73a8af0-2405501258fmr18221624637.4.1754884046009;
+        Sun, 10 Aug 2025 20:47:26 -0700 (PDT)
+Received: from kerneldocs.. ([117.231.194.180])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bdf61d092sm22706164b3a.116.2025.08.10.20.47.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Aug 2025 20:47:25 -0700 (PDT)
+From: Nikil <snikilpaul@gmail.com>
+To: corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Nikil <snikilpaul@gmail.com>
+Subject: [PATCH] docs: timers: Update dead OLS link in timekeeping docs
+Date: Mon, 11 Aug 2025 03:47:17 +0000
+Message-ID: <20250811034717.6100-1-snikilpaul@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Stat-Signature: eobbaqiebk7z393ets76zxnbr6xt3z37
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 9B5DD6000F
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19zrOciS4xm3vyDpEqG1tMZN+HqTSsJnCo=
-X-HE-Tag: 1754871015-939760
-X-HE-Meta: U2FsdGVkX183GdC57GyHLKXG38ktqNK5G9QkEVsK/2TROQ+PIDYCZW0+2HOvi9MXr77jcZo4U5dgi2+yx1RbOs/WNEmVxkUNlSj4pPuzVTViV8E4Vi4l8NGEWYfTq/bokFYNB2nlD13i0JmQ+amArgkyXGNzWi69HTIpARwfC4D7cwjlM03jlpDF+rZjbqNcLT9ZqgjS0ZgtMuQl+xLjUol+ZTZwaa5X4igftSOV/mqWRit6GTnI0u3RBXN3SqGdyLko8+o6foztuyxRaXE9qvlXDRXG0FHXr+2wBcomekyIp5BkNQBI7cMtDk2ZX4UB
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2025-08-10 at 12:46 -0400, Sasha Levin wrote:
-> On Sun, Aug 10, 2025 at 08:44:58AM -0700, Joe Perches wrote:
-> > On Sat, 2025-08-09 at 19:40 -0400, Sasha Levin wrote:
-> > > Reorganize README to provide targeted documentation paths for differe=
-nt
-> > > user roles including developers, researchers, security experts,
-> > > maintainers, and AI coding assistants. Add quick start section and
-> > > essential docs links.
-> > >=20
-> > > Include proper attribution requirements for AI-assisted contributions
-> > > using Assisted-by tags with agent details and tools used.
-> >=20
-> > Nicely done.
->=20
-> Thanks Joe!
->=20
-> > Perhaps the 'Assisted-by:' tag should not be limited to AI
-> > assistance but could also be used when accepted notes were
-> > given on any revised patch submission.
->=20
-> The suggestions from the previous patches around expanding this to be a
-> list of tools rather than just "AI" made sense, this is the example I
-> gave in the cover letter:
->=20
-> 	Assisted-by: Claude-claude-3-opus-20240229 checkpatch
->=20
-> I find something like that useful because it tells me from the get-go
-> that the submitter ran checkpatch on it (without having to spend a line
-> in the commit message saying the same).
->=20
-> I'm not sure about mixing human feedback into this, it might be
-> difficult to interpert it later.
->=20
-> It might work more naturally as an extension of Reviewed-by?
->=20
-> 	Reviewed-by: Developer A <a@b.c> # Improved the XYZ algorithm
+---
+ Documentation/timers/highres.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Maybe.  Dunno.
-
-Sometimes I just give style suggestions or notes for things I'm
-cc'd on but I don't really review it as a "Reviewed-by:" tag
-seems to imply a more formal process.
-
-> > Oh, and maybe a checkpatch update like this?
-[]
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> > @@ -641,6 +641,7 @@ our $signature_tags =3D qr{(?xi:
-> > 	Reviewed-by:|
-> > 	Reported-by:|
-> > 	Suggested-by:|
-> > +	Assisted-by:|
-> > 	To:|
-> > 	Cc:
-> > )};
->=20
-> Yup, makes sense! I'll start including checkpatch updates going forward.
-
-If the AI/coding 'Assisted-by:' tag doesn't have an email address,
-then checkpatch is going to complain anyway.
-
-Something in checkpatch's
-
-	# Check signature styles
-
-block starting around line 3040 or so will also need updating.
-
-
+diff --git a/Documentation/timers/highres.rst b/Documentation/timers/highres.rst
+index bde5eb7e5c9e..24dcc32f8dcc 100644
+--- a/Documentation/timers/highres.rst
++++ b/Documentation/timers/highres.rst
+@@ -58,7 +58,7 @@ merged into the 2.6.18 kernel.
+ Further information about the Generic Time Of Day framework is available in the
+ OLS 2005 Proceedings Volume 1:
+ 
+-	http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
++	https://www.kernel.org/doc/ols/2005/ols2005v1-pages-227-240.pdf
+ 
+ The paper "We Are Not Getting Any Younger: A New Approach to Time and
+ Timers" was written by J. Stultz, D.V. Hart, & N. Aravamudan.
+-- 
+2.43.0
 
