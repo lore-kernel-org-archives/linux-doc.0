@@ -1,104 +1,106 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8E7245032
-	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 04:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0171922FB;
+	Mon, 11 Aug 2025 05:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754886586; cv=none; b=HiOlah3DwOQ0Deglb7IRdBL5LoT+bBQvPRjvWEMLUc52SJ7S6ujGFiANAb6foFwi72qpaA5Hb3t5udUednk3gnCOqbluaOgm/r0tjeb5MEsWVRjofAEOrOdJ23Po8vHdtkvORpA3oaKMyUYQPMeEADYOwgKzFtTWDg5Ha0qzK6I=
+	t=1754890148; cv=none; b=HLCeimRdXl8SYPE1tEzoo0nF3aDe9IzR99usXirGQHpEuHdZ2Q5eh7JqfKaNX29Osx+Jmr62Ps4tmXjMDl4IrflqUtBO2nnGR/VgCFQ7ZKAFdwib9iXUwCETs6W0zo6yr3i0i8QYZCjRDc4WsJGOzLrnwOXFhh7ErcKE+/H1wT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754886586; c=relaxed/simple;
-	bh=asAYiJd2BPVbPq0TrnmfQDeswmedlMHPQ/HIzf4WD8g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LDvHSrVQUAjgKldD/ygkVym5ANDhWXQd3qm78Z49PzSdzdrj8M6dF01CIHCTtkQlhM/rEpwLMwwmGRB6AtjCK33xIyBe1W3pSspz+z1cSGuVNEwWclyx/MO5B3hTP+2i0T8qD1q72NH4PWkCJeODCsChkWVwxuzPeVAIl6CpXSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNwvRYyt; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754890148; c=relaxed/simple;
+	bh=fwUmUHih8bzEzyRBwV95L3I4y/zsVn44tOqOAqbjF38=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fvzvS+DrJvCCGhEzV3lIG7qXedV+rO1aPhGvLSYzEJREt7G8EoTpilym+hTnsYqRTdoN1CS60StrkREk5KGBWNdj3YVntQWaGFyfshVmOFAx39mAU0nAQIq7O757tw17brPCJFBE04EVCY4KEcCjciHJA8J89x6WbfrO7J2RX/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u2XmpVRb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNwvRYyt"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-321895391b2so1471709a91.2
-        for <linux-doc@vger.kernel.org>; Sun, 10 Aug 2025 21:29:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754886584; x=1755491384; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UyfTclra65yMzd5uvao1JUKR6GowJ/GfOw5QMCSske8=;
-        b=PNwvRYytt5MCWqFDsxz3+vJg1iruy10Z0SG771WDgChxUKC8EQftdO/QDXUALivOzW
-         DE++/mVamAAyVzuhcXUKrevl7B0nww4PL3QSt0ZX2V8wgpzYm0ZVms3Sr/HMl1ety1e2
-         d4Csr3Zm8n9DN3GuLfPkFFnHRf+BRBAi3vYMpMdyIl0qjR2FPIqSgxcRtzoqZyf1Jddk
-         /INlPqJ0aZ+lF61EqtC4nCmI8FNIts9sQcGG8cuLLKab8Ngk5CrUnSaDBiFSizgGDEZA
-         Yu0Nl4ugeNUp+1Z+x822M3z81ZJr26zFi6VTRTHPBJYw8ANz3NkWnBNkgXsyWCG9MRmf
-         Y1ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754886584; x=1755491384;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UyfTclra65yMzd5uvao1JUKR6GowJ/GfOw5QMCSske8=;
-        b=CAKWL970EYA2l+5Xajz73E9XnsRr59q/GwaNMf7MDLwKMGtvMuhc9U00l/8wREmRKw
-         Zz54AyAoKhsdLflXOZ6bh3cJYKRKZ3FOf2IuXDuGTZDTfoQIxmjOEq5AgKzG0dBkxCX6
-         FSFIeRj0SAwGQtpXVeMOv9hT28xfKF355R3YQO3vkaFURTgR2kyMQxptUp5Bmu6tkfUw
-         vG7C+xZV5pbtOt2ZMil6iUDw65jO6kVjez0A/3uBpCj/Rw0Sz8VGyaC0CzSlv3JFLNqv
-         NAoACT2+eMKdigNlNoxBYazeY/rtvb4tytCq7lZorkX2PAkkv/XSUJObYpeSp6p/q4M/
-         1gUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWzE+xhNesFlgiofeo3wL1j8VZu08ZVQFNwD+kIOEOxrF9pJJfYsGbz8QOLLfNDHBJ8T1lGXQD5EH4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiDgU6AIijd/fdZBlXBHXXT3Uw2DTdDlEib1ZlTTa0eycmLsZe
-	5GiKWoBDHFmFO1z7SZnnDqi99nGvn8v0cS57smqjIAZBINzKAcu63WmKy0/KNOz2HSeFk8o=
-X-Gm-Gg: ASbGncsZbCpvhZpOPp6CSWHuayvxDgG2aqxLye7wRuWdbctio5Br1fJhO/HvhKS/xWj
-	A5F+EkxH9R5uaq7RfQ1OA8BeZB52O/cn2yTI+OuznCJG1SBzInLFPkeHdX+M6NxX4gYQo0BgaX5
-	/Yccy6N91crVxWN7WJ5BoXxfV1sQ+29OILEMVC3XVzGFIE+GrRN2TAF9gL7h3l+127pHhAjf7Me
-	UZgOJofAnfzn04oX8pHOoTmFHscT2Z3/atIqjIgfJj2jSk5+TFyqwlhscbv12Brw8nPFs1yKXVm
-	4YsqUjcUX9ToscsBSTLa0TgmoHAiAEoFBPr67iRwnR7CSBjwlR/E70ovubN95wuLAX8sgr4MDGG
-	UnFFYlnvCGyJHQ7jMjVf+FYt3XnB+8596CplOCCQrkNoaY/iLxQ==
-X-Google-Smtp-Source: AGHT+IF32WnIAqQMfkdBLhJzzL+vsh7maHs2RRXoBX/ACxt8kloDd33fVoTNUpB1P6ihoXwRx79luA==
-X-Received: by 2002:a17:90b:4c8a:b0:2f8:34df:5652 with SMTP id 98e67ed59e1d1-32183b4382cmr15867750a91.21.1754886583965;
-        Sun, 10 Aug 2025 21:29:43 -0700 (PDT)
-Received: from kerneldocs.. ([117.231.194.180])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-321611dd694sm13412186a91.1.2025.08.10.21.29.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Aug 2025 21:29:43 -0700 (PDT)
-From: Nikil <snikilpaul@gmail.com>
-To: corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Nikil <snikilpaul@gmail.com>
-Subject: [PATCH] docs: fix broken link in Documentation/RCU/RTFP.txt
-Date: Mon, 11 Aug 2025 04:23:58 +0000
-Message-ID: <20250811042357.7470-2-snikilpaul@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u2XmpVRb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6331C4CEED;
+	Mon, 11 Aug 2025 05:29:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1754890148;
+	bh=fwUmUHih8bzEzyRBwV95L3I4y/zsVn44tOqOAqbjF38=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u2XmpVRbtHZ++Aj+uioqnQ4ckIj9LWQamPKpJfIU4KgcUpKZT5SXDr7C1EstS5p2F
+	 wqNbZs+C0hn8G9HzM4+5k7TX20mcAui+Lb8Gotl8+En0BR8QoflxWlTm0ZOD6WWuHk
+	 SWaPQbYLmRjVIMwUbpjHje9FYCltqxfG4jGfXmJc=
+Date: Mon, 11 Aug 2025 07:29:05 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Nikil <snikilpaul@gmail.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] docs: fix broken link in Documentation/RCU/RTFP.txt
+Message-ID: <2025081134-washhouse-rebuff-ea13@gregkh>
+References: <20250811042357.7470-2-snikilpaul@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250811042357.7470-2-snikilpaul@gmail.com>
 
+On Mon, Aug 11, 2025 at 04:23:58AM +0000, Nikil wrote:
+> 
+> The original link to the Linux Symposium 2001 abstract is no longer valid,
+> as the Linux Symposium website is no longer active. Replaced it with an updated
+> link to the read-copy document available on kernel.org
+> 
+> This ensures that readers can still access relevant resources without encountering
+> a dead link.
+> 
+> ---
+>  Documentation/RCU/RTFP.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
+> index db8f16b392aa..87b1c97c3ec3 100644
+> --- a/Documentation/RCU/RTFP.txt
+> +++ b/Documentation/RCU/RTFP.txt
+> @@ -641,7 +641,7 @@ Orran Krieger and Rusty Russell and Dipankar Sarma and Maneesh Soni"
+>  ,Month="July"
+>  ,Year="2001"
+>  ,note="Available:
+> -\url{http://www.linuxsymposium.org/2001/abstracts/readcopy.php}
+> +\url{https://www.kernel.org/doc/ols/2001/read-copy.pdf}
+>  \url{http://www.rdrop.com/users/paulmck/RCU/rclock_OLS.2001.05.01c.pdf}
+>  [Viewed June 23, 2004]"
+>  ,annotation={
+> -- 
+> 2.43.0
+> Signed-off-by: Nikil <snikilpaul@gmail.com>
 
-The original link to the Linux Symposium 2001 abstract is no longer valid,
-as the Linux Symposium website is no longer active. Replaced it with an updated
-link to the read-copy document available on kernel.org
+Hi,
 
-This ensures that readers can still access relevant resources without encountering
-a dead link.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
----
- Documentation/RCU/RTFP.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
-index db8f16b392aa..87b1c97c3ec3 100644
---- a/Documentation/RCU/RTFP.txt
-+++ b/Documentation/RCU/RTFP.txt
-@@ -641,7 +641,7 @@ Orran Krieger and Rusty Russell and Dipankar Sarma and Maneesh Soni"
- ,Month="July"
- ,Year="2001"
- ,note="Available:
--\url{http://www.linuxsymposium.org/2001/abstracts/readcopy.php}
-+\url{https://www.kernel.org/doc/ols/2001/read-copy.pdf}
- \url{http://www.rdrop.com/users/paulmck/RCU/rclock_OLS.2001.05.01c.pdf}
- [Viewed June 23, 2004]"
- ,annotation={
--- 
-2.43.0
-Signed-off-by: Nikil <snikilpaul@gmail.com>
+- Your patch does not have a Signed-off-by: line.  Please read the
+  kernel file, Documentation/process/submitting-patches.rst and resend
+  it after adding that line.  Note, the line needs to be in the body of
+  the email, before the patch, not at the bottom of the patch or in the
+  email signature.
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
