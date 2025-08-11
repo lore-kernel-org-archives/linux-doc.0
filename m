@@ -1,95 +1,122 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C4423D297;
-	Mon, 11 Aug 2025 09:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C0721D3E6
+	for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 09:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754904730; cv=none; b=o9numsvMQVOzQLOPkjiAhG4cYXOnsI8SdOGTJgZ5SRRsEx5d5wU2uBhZ75x+xLRisMDXuPnjLjrOBQsHk6X7xDRT74T46e33jNB4Ev8J9lVYIRhzgm98ZykC7RghzIkjVSO7O68cD+SRmCDvekTgOYXfmBN11Hy7vIYJKfcuLdQ=
+	t=1754904763; cv=none; b=WUjPHv+sA4rdL5N+0XnMNbdqi+hPYQ1rT23Us3wnRZ1/LKarzNOeeU9H2DVbwzl1aPltMw9TRiTYS7vxi2YjzJgJauc+o6VYK2hBywTBNVY3Bwgnx5duWPyU1zm5V7E1uEx+A2o88k9pXO4RdkE/noXdIUXKTFhrtfgWJJYWgEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754904730; c=relaxed/simple;
-	bh=z+e4SktanIlv7wl3w34bGoc7lNCFYrrXJIFaG3Pie+E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DELFo2Z/hAWuwdmqeKKg2Ie/dHCgX3Wv8Ji/VmZsyYa0CKOB75iTjjhg1DnJ3Mlezu453uAX5NGha8mnbCKnr9v9s7jJCaFLwlnEUaOjcSdRPqDSwNMqoXL25vdLM9w09DCwPCVqGRyvY5xcnh+37Nn5Uwjgqn6uL+LP82s9mRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 09119de4769611f0b29709d653e92f7d-20250811
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:6894e59b-7da2-4bdd-9d45-8007d9a3ccca,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:116d6fe237f848fad94ae5ca94f49707,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
-	-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 09119de4769611f0b29709d653e92f7d-20250811
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <zhangzihuan@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1613669997; Mon, 11 Aug 2025 17:32:01 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 2F02AE009021;
-	Mon, 11 Aug 2025 17:32:01 +0800 (CST)
-X-ns-mid: postfix-6899B890-891391949
-Received: from [172.25.120.24] (unknown [172.25.120.24])
-	by mail.kylinos.cn (NSMail) with ESMTPA id CD093E00901E;
-	Mon, 11 Aug 2025 17:31:57 +0800 (CST)
-Message-ID: <ee4191ab-ecce-481f-999d-e65bfee799e7@kylinos.cn>
-Date: Mon, 11 Aug 2025 17:31:57 +0800
+	s=arc-20240116; t=1754904763; c=relaxed/simple;
+	bh=QRhrdkf/dzLj5skKI+9jF97tErLwlGBI1q/OhEGZmFc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DT9cn9NFehFbFy25mNaa1KP0GKWeABG9Kj+/tPOcMs11vAMOoYkFoRqx5Zd9ZqBtOZcf7m20FkTe0PvoXNu0CajGAGtzmeqkIqaZ+uIAw8CmhEeWrug00yTFLPp61YzqLr/Uwumh8j4O4xinzMjXijAZfgN1F6uR8rA7kJwUgJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HSY2xBZp; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HSY2xBZp"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3b78310b296so2172797f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 11 Aug 2025 02:32:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754904760; x=1755509560; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NMhYy0D7+tDMBqaPesJxlaquyxiEfLakNWEt456gjBI=;
+        b=HSY2xBZpHK3oT+HgSh0wzXjWwBalK3WA4Cwe7b/6jMX1FNjwbTbJBtLdVWW5U2p93X
+         j6M3PkhX0SgEMHhZsokDt8+w31qfoRReZ9fJorhiRIVDCNFJE3iJ2QnYCnO+mSNN8TzY
+         EDB+59hNCocT/fzCCDjylfkG0jJ220vRPQtGkkEJWI4FA3vsocwKdDp/Je/yN8YRvBDH
+         a2CatxJ4nFIlgD7uIcy5hu5YvGxqTYDVyt9IdskXXYHUutPbDcxKhO5rTT+YaQRSBp2m
+         w+kRKAfFW0KsL5wtGdts9F4V3hxla5KwC+uiYoLOSc7TI0Ru8eblphkl3dDlxXKyUb5M
+         1x3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754904760; x=1755509560;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NMhYy0D7+tDMBqaPesJxlaquyxiEfLakNWEt456gjBI=;
+        b=hWPV+tARA4DeRMZ9V7845Ovy+Rzq4Lv7hP+Qqam49rZPFXDvHabiiHp/LUjFFP/WF4
+         0EjS8P89tFhEndUJSHKFdQan2Tg1VbEYQDcLlZ1QPCSbFOiIu0O1ak/knEq4WF99ar8y
+         9UD2FCnpiB7CTlTY7mK60Xny5zpLkyUGesdCB80gJRySxCqHlAw4DZVwMYnlnbUyiyPd
+         VmDx3DaWAr4G2bUvJAkzovxVBw8GuyRAof5txn9KuOQALfttwedXnNli89s31tppwWPm
+         37bVzEcZuDMZwUKbe+WWG7GuNbDPhNiGJjDIAMYpKGXTTv54lwggUsz7hWI+mtABqbwi
+         /+Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCWBb6e+BY5gUybmSnKQT3n4SIsmClJ0/Y5tnPrC1Oaa7Cid7imDxhrB/NXheEQvN7GgseZHwWD0O4I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDfpsgf7GpRNyC/FCqT+bdC1gEVzuV3ZfxJ4u2A5pXH40Ss1vU
+	Zsc3iiwHvyqn/TLjsyQYE3wrJiWiFbrTKu7y+mELXalhRmp3bevN/fymFBBQvJcl+G4=
+X-Gm-Gg: ASbGncv4s+118oC8bg4xTw6yTdn5jfBlFk9N12PRa537MPX052YicccvgL9DDedN86Q
+	llnf8+nOOwWyOMVdoi2+DT6CwUwAXG9ns8iYuiuH1x7uG9UeH3UW3dtZsnTBfLar/BePls3Uqbv
+	ih/fvew3TbhVoC2sS3gfSs5i14ZWQPE/07cxNlHmP+LeEgafurZEAg9T3zy4H85I18UmxshEZ30
+	Wlo02m0cOjWoFye7g4v7kAysQsh6NITr2D0QzCxRF+vMEPX8HbqynUqjGz9i5Mwzpg/xzX3tZY9
+	9CJjxTAeB7SjJmyWejoMyk/BHECNFIsYYYRw74tgr/BB43QX3FHCPrvg/r0mZtZHeIGTPtadK2L
+	8wyppXc57PSrxi6AQ0NqjM83MqYk9cKg=
+X-Google-Smtp-Source: AGHT+IG926P2UAZWTkKtlExqrZmNaWG7qVePQONHyDrug9yxfDtNL3kmdiq1ifaCnyzk+36/Ct5zPg==
+X-Received: by 2002:a05:6000:4308:b0:3b7:9214:6d70 with SMTP id ffacd0b85a97d-3b900b2c485mr12845369f8f.15.1754904759816;
+        Mon, 11 Aug 2025 02:32:39 -0700 (PDT)
+Received: from ho-tower-lan.lan ([185.48.76.109])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c45346asm39904799f8f.39.2025.08.11.02.32.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 02:32:39 -0700 (PDT)
+From: James Clark <james.clark@linaro.org>
+Subject: [PATCH 0/6] coresight: Add format attribute for setting the
+ timestamp interval
+Date: Mon, 11 Aug 2025 10:32:05 +0100
+Message-Id: <20250811-james-cs-syncfreq-v1-0-b001cd6e3404@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 7/9] freezer: raise freeze priority of tasks failed
- to freeze last time
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
- Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Nico Pache <npache@redhat.com>,
- xu xin <xu.xin16@zte.com.cn>, wangfushuai <wangfushuai@baidu.com>,
- Andrii Nakryiko <andrii@kernel.org>, Christian Brauner <brauner@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Jeff Layton <jlayton@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Adrian Ratiu
- <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
- <20250807121418.139765-8-zhangzihuan@kylinos.cn>
- <20250808145349.GC21685@redhat.com>
-From: Zihuan Zhang <zhangzihuan@kylinos.cn>
-In-Reply-To: <20250808145349.GC21685@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJW4mWgC/x3MwQpAQBCA4VfRnE0xSyuvIodtDUZZ7JRI3t3m+
+ B3+/wHlKKzQZg9EPkVlCwllnoGfXZgYZUgGKqguLFW4uJUVvaLewY+RD7SeqLbONDwYSN0eeZT
+ rf3b9+37Hq4JgYwAAAA==
+To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@linaro.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>
+Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ James Clark <james.clark@linaro.org>
+X-Mailer: b4 0.14.0
 
+Do some cleanups then add a new format attribute to set the timestamp
+interval for ETMv4 in Perf mode. The current interval is too high for
+most use cases, and particularly on the FVP the number of timestamps
+generated is excessive.
 
-=E5=9C=A8 2025/8/8 22:53, Oleg Nesterov =E5=86=99=E9=81=93:
->> -				if (p !=3D current && freezing(p) && !frozen(p))
->> +				if (p !=3D current && freezing(p) && !frozen(p)) {
->> +					freeze_set_default_priority(p, FREEZE_PRIORITY_HIGH);
->>   					sched_show_task(p);
->> +				}
-> IMO, this change should go into 3/9 to make the intent more clear.
-Will do. Indeed, D-state tasks are not easy to solve, so our plan is to=20
-provide a fallback-like mechanism.
-> Other than that, I leave this series to maintainers and other reviewers=
-.
-> Personally, I am skeptical.
+Although it would be good to make only SYNC timestamps the default and
+have counter timestamps opt-in, this would be a breaking change. We
+can always do that later, or disable counter timestamps from Perf.
+
+This is added as an event format attribute, rather than a Coresight
+config because it's something that the driver is already configuring
+automatically in Perf mode with any unused counter, so it's not possible
+to modify this with a config.
+
+Applies to coresight/next
+
+Signed-off-by: James Clark <james.clark@linaro.org>
+---
+James Clark (6):
+      coresight: Change syncfreq to be a u8
+      coresight: Fix holes in struct etmv4_config
+      coresight: Repack struct etmv4_drvdata
+      coresight: Refactor etm4_config_timestamp_event()
+      coresight: Add format attribute for setting the timestamp interval
+      coresight: docs: Document etm4x ts_interval
+
+ Documentation/trace/coresight/coresight.rst        |  14 +++
+ drivers/hwtracing/coresight/coresight-etm-perf.c   |   6 +-
+ drivers/hwtracing/coresight/coresight-etm4x-core.c | 110 +++++++++++++--------
+ drivers/hwtracing/coresight/coresight-etm4x.h      |  86 ++++++++++------
+ 4 files changed, 144 insertions(+), 72 deletions(-)
+---
+base-commit: a80198ba650f50d266d7fc4a6c5262df9970f9f2
+change-id: 20250724-james-cs-syncfreq-7c2257a38ed3
+
+Best regards,
+-- 
+James Clark <james.clark@linaro.org>
+
