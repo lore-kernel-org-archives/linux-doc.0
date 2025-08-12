@@ -1,265 +1,283 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB8E2D4B7C;
-	Tue, 12 Aug 2025 14:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784D828C036;
+	Tue, 12 Aug 2025 14:11:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755007569; cv=none; b=Z3lxptI/+oPWYEJ/+1AIrb/Zaeahr6fPJ4XI0kU7FJwSsmi79qcWU9jBAzJQSiypCBi7jAytLMO+dn3aqX71UBD0sAVVQFjRqEMyRHwX3HDgs0v+X+Zd25km3U1eg633rsmadjOZ0k2aZXWmOKIC8AQIDboc6W6UT4jKIdtmbF8=
+	t=1755007866; cv=none; b=e/Erwqb0HHqujHJ/36V/r23owaL++h7CKhOQeFLN/CbtIzLF5EQ1uFSa6JgkfIVwv6MNnG7QBn+ozC13YN0hiaeiN7g9qiVJx+K2Byb+UginMHhby4bBfeZ0RyWVNxc0IXJDvlbKAnYADStH9i41uU0UTsHgcrmtuz6WKPW0/5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755007569; c=relaxed/simple;
-	bh=XIoZ8vIH2KQrNtvMxY+WpKLxz+TVhrwXofBF0C71u78=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZJehghwp6RbD+rWxAn3ToMGHdUiIMIHKNjr0iemYjAeOdgEvGkAHFiMY8VU50w30H+13avbNbWlqay2pnzw7P9kkR+MavJiol93RuAn8MvqYyERJLPQ00ystpkZu9iU4xMWwj6b28Zc1qitrTU5gqQs7vonYlETebNTZQzpcYNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4c1Y7m0KyHz6L56K;
-	Tue, 12 Aug 2025 22:01:08 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id ED7A014033C;
-	Tue, 12 Aug 2025 22:05:57 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 12 Aug
- 2025 16:05:57 +0200
-Date: Tue, 12 Aug 2025 15:05:55 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Daniel Ferguson <danielf@os.amperecomputing.com>
-CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Ard Biesheuvel
-	<ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki"
-	<rafael@kernel.org>, Len Brown <lenb@kernel.org>, James Morse
-	<james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov
-	<bp@alien8.de>, <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-efi@vger.kernel.org>,
-	<linux-edac@vger.kernel.org>, Jason Tian <jason@os.amperecomputing.com>,
-	Shengwei Luo <luoshengwei@huawei.com>, Shiju Jose <shiju.jose@huawei.com>
-Subject: Re: [PATCH v4 1/5] RAS: Report all ARM processor CPER information
- to userspace
-Message-ID: <20250812150555.000067f7@huawei.com>
-In-Reply-To: <a302543c-7a99-4ea4-9559-e4cf4ea79b5e@os.amperecomputing.com>
-References: <20250805-mauro_v3-v6-16-rev2-v4-0-ea538759841c@os.amperecomputing.com>
-	<20250805-mauro_v3-v6-16-rev2-v4-1-ea538759841c@os.amperecomputing.com>
-	<20250808162209.000068f5@huawei.com>
-	<20250809175519.74b08ea9@foz.lan>
-	<20250811115238.0000272b@huawei.com>
-	<a302543c-7a99-4ea4-9559-e4cf4ea79b5e@os.amperecomputing.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1755007866; c=relaxed/simple;
+	bh=qMH3cTKgJh6SBVXlTLjeA7u07E/rJtuf9VbpMh50f8k=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=q8Q0YQ68nmV+3R8dC3eiIY3ugV6TuimUROGIZWNXG+RymAtVylDQC+OvcfOxiS+WllwHiJexO5RPgZYDSffRckV5Y6R2tBfXMOt/fgTu1znkd1seCxozGh2IpTierw3sJiEDCZgeIuIXj8XA2bcr387ZMKaWzFEZv3Shb59/X7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OK/K6Fit; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OK/K6Fit"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CAvgCP032241;
+	Tue, 12 Aug 2025 14:10:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=6B+5/Kq0FGdDqjbr13nFxd
+	qyYfTIQYymlpG3JdXEwmQ=; b=OK/K6Fitl/1L1ACRH5446vmg4NOMFyYUBdYvEC
+	360i/fnklG1DTBPezxSXEdp2+KzM8Ef5E7pus8ulv8WNqc7EE6dDD2ATdW4AtU9P
+	cTxR4UKEaULXcbWIJaN+3gyVus7DOhc9jxQa5aGeYyoVGO64QhnRm4dZhj/G+RcD
+	XhZQGCpp6N8GOs2ceGvghSg8ZDKd89WQ3SvlVzVh1nfsKvaRonSXYnkKgmQuFGFs
+	WZimPee+9x7xD3QoKfr2WDDCOWforHH3FxKCHWZbYNQqdrSu60G0fl8cEw2AQp3j
+	6NnOiz8dfGku/hlhgAAXVkJWe1IHY4HjDDTb28FG76ywAo1w==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fm3vk9ac-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Aug 2025 14:10:47 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57CEAkl2020552
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Aug 2025 14:10:46 GMT
+Received: from nsssdc-sh01-lnx.ap.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Tue, 12 Aug 2025 07:10:41 -0700
+From: Luo Jie <quic_luoj@quicinc.com>
+Subject: [PATCH net-next v7 00/14] Add PPE driver for Qualcomm IPQ9574 SoC
+Date: Tue, 12 Aug 2025 22:10:24 +0800
+Message-ID: <20250812-qcom_ipq_ppe-v7-0-789404bdbc9a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- frapeml500008.china.huawei.com (7.182.85.71)
+X-B4-Tracking: v=1; b=H4sIAFBLm2gC/12NQQ6DIBREr9KwLg2igHbVezSNUfzUvygiWGJjv
+ HsJm6YuJzPvzUYCeIRArqeNeIgYcLIpqPOJ6LGzT6A4pEw444KpQtFZT68W3dw6B1TJuhp6Xda
+ mq0hCnAeDa9bdiYWFWlgX8kjNiGGZ/Cf/RJH7rJRc/iujoIw2oh+07GsjjbnNb9Ro9SWtsirKH
+ 644O+Ay4VUHTaE5KztxwPd9/wIJl3hW8wAAAA==
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
+        Suruchi Agarwal
+	<quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>,
+        "Simon
+ Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook
+	<kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        "Philipp
+ Zabel" <p.zabel@pengutronix.de>
+CC: <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
+        Luo Jie
+	<quic_luoj@quicinc.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755007841; l=8484;
+ i=quic_luoj@quicinc.com; s=20250209; h=from:subject:message-id;
+ bh=qMH3cTKgJh6SBVXlTLjeA7u07E/rJtuf9VbpMh50f8k=;
+ b=9GDcw4nZb91ZozoRO8bhod6tyNaQq+9ikeaOOoTcjC8cTgYru6TNXUNzSkPmU3OUdpWMHfx/4
+ 9VTMQkZIxckCew2/4GlBVjN92HIJZefpiL1qK2/yx82vQ2a7Abd2eCh
+X-Developer-Key: i=quic_luoj@quicinc.com; a=ed25519;
+ pk=pzwy8bU5tJZ5UKGTv28n+QOuktaWuriznGmriA9Qkfc=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDEwNyBTYWx0ZWRfXy8I3NZS1Zx2C
+ Gpf/aLMFaODZBwa9j0OnKnChGXmy8ehxNXhB4u+3riPuRxZClDfMtITWCF4qZ3Agec7s4bnSxOF
+ Rs24Z6+qj8G7TIMDLAscjOl70UAhYaHGtdo8r1zpFVf5kA2PLUOcWnft8vgvC50oRcGtuSbARwr
+ xBLwxHXx4DF5bJcMtNrUyzaeLKc+Vm3yETrtPOjzSYupG7rUw6AbQZ9/NZjxEXkqPVVwx1qpEBa
+ McjurL8DZKEcJSSruNwTf7G6eGLwvjuIp9VEZtJaVsIls7yq21x6mi9/YNGI1Kr+aXwHL0lFG3r
+ 0a/3FPUIliBJ5yRBIVVdip0nLTJgJ/NbpdfXUvdp4XFLkk7Ke0k5Bi0AUDgzMJFR0LbWCvY+5Ib
+ VaE4b+T3
+X-Proofpoint-GUID: pRXJGHoM1k6CgH791KIzhFN-qS2iTJug
+X-Authority-Analysis: v=2.4 cv=A+1sP7WG c=1 sm=1 tr=0 ts=689b4b67 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=z2GUvUhWd2_2b9YoxfUA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: pRXJGHoM1k6CgH791KIzhFN-qS2iTJug
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_07,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 malwarescore=0 spamscore=0
+ phishscore=0 clxscore=1015 adultscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508110107
 
-On Mon, 11 Aug 2025 15:37:18 -0700
-Daniel Ferguson <danielf@os.amperecomputing.com> wrote:
+The PPE (packet process engine) hardware block is available in Qualcomm
+IPQ chipsets that support PPE architecture, such as IPQ9574 and IPQ5332.
+The PPE in the IPQ9574 SoC includes six ethernet ports (6 GMAC and 6
+XGMAC), which are used to connect with external PHY devices by PCS. The
+PPE also includes packet processing offload capabilities for various
+networking functions such as route and bridge flows, VLANs, different
+tunnel protocols and VPN. It also includes an L2 switch function for
+bridging packets among the 6 ethernet ports and the CPU port. The CPU
+port enables packet transfer between the ethernet ports and the ARM
+cores in the SoC, using the ethernet DMA.
 
-> On 8/11/2025 3:52 AM, Jonathan Cameron wrote:
-> > On Sat, 9 Aug 2025 17:55:19 +0200
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> >   
-> >> Em Fri, 8 Aug 2025 16:22:09 +0100
-> >> Jonathan Cameron <Jonathan.Cameron@huawei.com> escreveu:
-> >>  
-> >>> On Tue, 05 Aug 2025 11:35:38 -0700
-> >>> Daniel Ferguson <danielf@os.amperecomputing.com> wrote:
-> >>>     
-> >>>> From: Jason Tian <jason@os.amperecomputing.com>
-> >>>>
-> >>>> The ARM processor CPER record was added in UEFI v2.6 and remained
-> >>>> unchanged up to v2.10.
-> >>>>
-> >>>> Yet, the original arm_event trace code added by
-> >>>>
-> >>>>   e9279e83ad1f ("trace, ras: add ARM processor error trace event")
-> >>>>
-> >>>> is incomplete, as it only traces some fields of UAPI 2.6 table N.16, not
-> >>>> exporting any information from tables N.17 to N.29 of the record.
-> >>>>
-> >>>> This is not enough for the user to be able to figure out what has
-> >>>> exactly happened or to take appropriate action.
-> >>>>
-> >>>> According to the UEFI v2.9 specification chapter N2.4.4, the ARM
-> >>>> processor error section includes:
-> >>>>
-> >>>> - several (ERR_INFO_NUM) ARM processor error information structures
-> >>>>   (Tables N.17 to N.20);
-> >>>> - several (CONTEXT_INFO_NUM) ARM processor context information
-> >>>>   structures (Tables N.21 to N.29);
-> >>>> - several vendor specific error information structures. The
-> >>>>   size is given by Section Length minus the size of the other
-> >>>>   fields.
-> >>>>
-> >>>> In addition, it also exports two fields that are parsed by the GHES
-> >>>> driver when firmware reports it, e.g.:
-> >>>>
-> >>>> - error severity
-> >>>> - CPU logical index
-> >>>>
-> >>>> Report all of these information to userspace via a the ARM tracepoint so
-> >>>> that userspace can properly record the error and take decisions related
-> >>>> to CPU core isolation according to error severity and other info.
-> >>>>
-> >>>> The updated ARM trace event now contains the following fields:
-> >>>>
-> >>>> ======================================  =============================
-> >>>> UEFI field on table N.16                ARM Processor trace fields
-> >>>> ======================================  =============================
-> >>>> Validation                              handled when filling data for
-> >>>>                                         affinity MPIDR and running
-> >>>>                                         state.
-> >>>> ERR_INFO_NUM                            pei_len
-> >>>> CONTEXT_INFO_NUM                        ctx_len
-> >>>> Section Length                          indirectly reported by
-> >>>>                                         pei_len, ctx_len and oem_len
-> >>>> Error affinity level                    affinity
-> >>>> MPIDR_EL1                               mpidr
-> >>>> MIDR_EL1                                midr
-> >>>> Running State                           running_state
-> >>>> PSCI State                              psci_state
-> >>>> Processor Error Information Structure   pei_err - count at pei_len
-> >>>> Processor Context                       ctx_err- count at ctx_len
-> >>>> Vendor Specific Error Info              oem - count at oem_len
-> >>>> ======================================  =============================
-> >>>>
-> >>>> It should be noted that decoding of tables N.17 to N.29, if needed, will
-> >>>> be handled in userspace. That gives more flexibility, as there won't be
-> >>>> any need to flood the kernel with micro-architecture specific error
-> >>>> decoding.
-> >>>>
-> >>>> Also, decoding the other fields require a complex logic, and should be
-> >>>> done for each of the several values inside the record field.  So, let
-> >>>> userspace daemons like rasdaemon decode them, parsing such tables and
-> >>>> having vendor-specific micro-architecture-specific decoders.
-> >>>>
-> >>>>   [mchehab: modified description, solved merge conflicts and fixed coding style]
-> >>>>
-> >>>> Fixes: e9279e83ad1f ("trace, ras: add ARM processor error trace event")
-> >>>>       
-> >>>
-> >>> Fixes tag is part of the main tag block so no blank line here.
-> >>> There are at least some scripts running on the kernel tree that trip
-> >>> up on this (and one that moans at the submitter ;)
-> >>>
-> >>> I'd also add something to explain the SoB sequence for the curious.
-> >>>     
-> >>>> Co-developed-by: Jason Tian <jason@os.amperecomputing.com>      
-> >>>
-> >>> Jason's the Author, so shouldn't have a Co-dev tag.
-> >>> There is some info on this in
-> >>> https://docs.kernel.org/process/submitting-patches.html    
-> >>
-> >> My understanding is that all co-authors shall have co-developed-by
-> >> and SoB. Anyway, doesn't matter much in practice, I guess.  
-> > 
-> > Nope.  In the description the docs say "in addition to the author
-> > attribute in the From: tag"  There are also examples where there
-> > isn't a Co-dev for the From author including the subtle question of
-> > ordering if someone else posts that patch.
-> > 
-> > I have a vague recollection one of the scripts checking linux-next
-> > might moan about this. 
-> >   
-> >>  
-> >>>     
-> >>>> Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
-> >>>> Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
-> >>>> Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
-> >>>> Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-> >>>> Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>      
-> >>>
-> >>> As person submitting I'd normally expect your SoB last.
-> >>>     
-> >>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>      
-> >>>
-> >>> I guess this is because Mauro posted an earlier version in which
-> >>> case this is arguably correct, but likely to confuse.
-> >>> For cases like this I add comments.    
-> >>
-> >> If the patch is identical, and it is just a resubmission,
-> >> I would keep the original order.
-> >>
-> >> Otherwise, if Daniel did some changes at the code (except for a
-> >> trivial rebase stuff), better to move his co-developed-by/SoB to
-> >> the end, eventually adding:
-> >>
-> >> [Daniel: <did something>] before the custody chain block.  
-> > 
-> > Docs are clear that sender of the patch must be last SoB.
-> > That's also checked by the some of the tag block check scripts
-> > I think.  There's an example of exactly this case in the in the
-> > submitting-patches.rst file (last one in the section that talks
-> > about Co-developed-by.
-> > 
-> > For meaning I don't care that much, but keeping to the rigid
-> > rules in that doc makes it easier for scripts to check for the
-> > more important stuff like whether all necessary SoB are there.
-> > 
-> > Jonathan
-> >   
-> 
-> Just to make sure I get this right...
-> 
-> I will move my SoB and my Co-developed-by after any other SoB's in the tag
-> block. As a result, I do not need to provide an explanation in this case,
-> because there is nothing curious remaining ? Or should I still add comments
-> indicating why I rearranged the tag block ?
-> 
-> Based on your feedback, I'm intending to organize the tag block to look like this:
-> 
->  Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
->  Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
->  Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
->  Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->  Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
->  Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>
->  Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->  Tested-by: Shiju Jose <shiju.jose@huawei.com>
->  Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
->  Fixes: e9279e83ad1f ("trace, ras: add ARM processor error trace event")
->  Link:
-> https://uefi.org/specs/UEFI/2.10/Apx_N_Common_Platform_Error_Record.html#arm-processor-error-section
-> 
-> 
-> Is that satisfactory?
+This patch series is the first part of a three part series that will
+together enable Ethernet function for IPQ9574 SoC. While support is
+initially being added for IPQ9574 SoC, the driver will be easily
+extendable to enable Ethernet support for other IPQ SoC such as IPQ5332.
+The driver can also be extended later for adding support for L2/L3
+network offload features that the PPE can support. The functionality
+to be enabled by each of the three series (to be posted sequentially)
+is as below:
 
-The SoB from Mauro is still out of the normal pattern which
-tends to happen only when things are bouncing between different submitters.
+Part 1: The PPE patch series (this series), which enables the platform
+driver, probe and initialization/configuration of different PPE hardware
+blocks.
 
-So I'd still add a comment and keep that after you Codev/SoB.
+Part 2: The PPE MAC patch series, which enables the phylink operations
+for the PPE ethernet ports.
 
-#1 [mchehab: modified description, solved merge conflicts and fixed coding style
-   in version 3.]
+Part 3: The PPE EDMA patch series, which enables the Rx/Tx Ethernet DMA
+and netdevice driver for the 6 PPE ethernet ports.
 
-Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
-Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
-Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
-Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org> # 1
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Tested-by: Shiju Jose <shiju.jose@huawei.com>
-Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
-Link: https://uefi.org/specs/UEFI/2.10/Apx_N_Common_Platform_Error_Record.html#arm-processor-error-section
+A more detailed description of the functions enabled by part 1 is below:
+1. Initialize PPE device hardware functions such as buffer management,
+   queue management, scheduler and clocks in order to bring up PPE
+   device.
+2. Enable platform driver and probe functions
+3. Register debugfs file to provide access to various PPE packet
+   counters. These statistics are recorded by the various hardware
+   process counters, such as port RX/TX, CPU code and hardware queue
+   counters.
+4. A detailed introduction of PPE along with the PPE hardware diagram
+   in the first two patches (dt-bindings and documentation).
 
-Or something along those lines
+Below is a reference to an earlier RFC discussion with the community
+about enabling ethernet driver support for Qualcomm IPQ9574 SoC. This
+writeup can help provide a higher level architectural view of various
+other drivers that support the PPE such as clock and PCS drivers.
+Topic: RFC: Advice on adding support for Qualcomm IPQ9574 SoC Ethernet.
+https://lore.kernel.org/linux-arm-msm/d2929bd2-bc9e-4733-a89f-2a187e8bf917@quicinc.com/
 
-Jonathan
+Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+---
+Changes in v7:
+- DT binding improvements:
+    * Remove the description "from NSS clock controller" for clocks and
+      resets properties.
+    * Update interconnect property descriptions to specify the use of
+      "bus interconnect path".
+    * Add item constraints for interrupt-names.
+    * Mark 'ethernet-ports' as the mandatory node name for switch ports
+      section.
+- Link to v6: https://lore.kernel.org/r/20250720-qcom_ipq_ppe-v6-0-4ae91c203a5f@quicinc.com
 
-> 
-> Thank you,
-> Daniel
-> 
-> >>
-> >> Thanks,
-> >> Mauro
-> >>  
-> >   
-> 
+Changes in v6:
+- DT binding improvements:
+    * Add the missing ethernet-ports node.
+    * Update to use 'ethernet-port' as the port node name.
+    * Ensure the port node numbering is constrained appropriately.
+    * Enhance the commit message to add a brief overview of the switch schema
+      hierarchy and properties.
+- Refactor the RSS hash configuration code to eliminate redundant code.
+- Update copyright to remove year as per guidelines in all driver files.
+- Update 'M' to 'MHz' in the documentation patch for clarity.
+- Link to v5: https://lore.kernel.org/r/20250626-qcom_ipq_ppe-v5-0-95bdc6b8f6ff@quicinc.com
+
+Changes in v5:
+- DT binding improvements:
+    * Update example by using clock & reset ID instead of magic number.
+    * Fix the duplicate '>' symbol.
+    * Convert the interrupt number to a fixed value and add the missing but
+      unused interrupts to complete the hardware description.
+    * Constraint the port node with clock and reset.
+- Add debugfs based queue drop counter.
+- Cosmetic update to commit messages to wrap the text correctly.
+- Link to v4: https://lore.kernel.org/r/20250513-qcom_ipq_ppe-v4-0-4fbe40cbbb71@quicinc.com
+
+Changes in v4:
+- Simplify statements regarding module load in documentation as per comments.
+- Improve data structure definitions for scheduler patch for clarity.
+- Replace u32p_replace_bits() with FIELD_MODIFY().
+- Enhance the comment of the PPE scheduler for BM and QM configurations.
+- Debugfs improvements:
+    *Remove print related macros and inline the code instead.
+    *Return error codes from register read/write wherever applicable.
+    *Split the hardware counter display file into separate files.
+- Link to v3: https://lore.kernel.org/r/20250209-qcom_ipq_ppe-v3-0-453ea18d3271@quicinc.com
+
+Changes in v3:
+- Add the top-level ref ethernet-switch.yaml and remove node definition
+  ethernet-ports in the DT binding file.
+- Remove unnecessary error message for devm_kzalloc().
+- Reverse the mapping of BM ceiling bits.
+- Fix multicast queue start/end configurations.
+- Declare the SoC-specific PPE configuration variables as const.
+- Fix kernel documentation errors.
+- Fix the compile errors reported by gcc-14.
+- Improve the commit message of L2 bridge initialization and debugfs patches.
+- Link to v2: https://lore.kernel.org/r/20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com
+
+Changes in v2:
+- Represent the PPE hardware hierarchy in dtbindings, add PPE hardware diagram.
+- Remove all SoC specific hardware properties from dtbindings since driver
+  maintains them.
+- Move out the PCS (UNIPHY) handling into a separate PCS driver posted
+  separately at below.
+  https://lore.kernel.org/all/20250108-ipq_pcs_net-next-v4-0-0de14cd2902b@quicinc.com
+- Move out the PPE MAC patches into a separate series to limit patch count to
+  15 or less. (PPE MAC patches will be posted sequentially after this series).
+- Rename the hardware initialization related files from ppe_ops.c[h] to
+  ppe_config.c[h]
+- Improve PPE driver documentation and diagram.
+- Fix dtbinding check errors.
+- Link to v1: https://lore.kernel.org/r/20240110114033.32575-1-quic_luoj@quicinc.com
+
+---
+Lei Wei (2):
+      docs: networking: Add PPE driver documentation for Qualcomm IPQ9574 SoC
+      net: ethernet: qualcomm: Initialize PPE L2 bridge settings
+
+Luo Jie (12):
+      dt-bindings: net: Add PPE for Qualcomm IPQ9574 SoC
+      net: ethernet: qualcomm: Add PPE driver for IPQ9574 SoC
+      net: ethernet: qualcomm: Initialize PPE buffer management for IPQ9574
+      net: ethernet: qualcomm: Initialize PPE queue management for IPQ9574
+      net: ethernet: qualcomm: Initialize the PPE scheduler settings
+      net: ethernet: qualcomm: Initialize PPE queue settings
+      net: ethernet: qualcomm: Initialize PPE service code settings
+      net: ethernet: qualcomm: Initialize PPE port control settings
+      net: ethernet: qualcomm: Initialize PPE RSS hash settings
+      net: ethernet: qualcomm: Initialize PPE queue to Ethernet DMA ring mapping
+      net: ethernet: qualcomm: Add PPE debugfs support for PPE counters
+      MAINTAINERS: Add maintainer for Qualcomm PPE driver
+
+ .../devicetree/bindings/net/qcom,ipq9574-ppe.yaml  |  533 +++++
+ .../networking/device_drivers/ethernet/index.rst   |    1 +
+ .../device_drivers/ethernet/qualcomm/ppe/ppe.rst   |  194 ++
+ MAINTAINERS                                        |    8 +
+ drivers/net/ethernet/qualcomm/Kconfig              |   15 +
+ drivers/net/ethernet/qualcomm/Makefile             |    1 +
+ drivers/net/ethernet/qualcomm/ppe/Makefile         |    7 +
+ drivers/net/ethernet/qualcomm/ppe/ppe.c            |  239 +++
+ drivers/net/ethernet/qualcomm/ppe/ppe.h            |   39 +
+ drivers/net/ethernet/qualcomm/ppe/ppe_config.c     | 2034 ++++++++++++++++++++
+ drivers/net/ethernet/qualcomm/ppe/ppe_config.h     |  317 +++
+ drivers/net/ethernet/qualcomm/ppe/ppe_debugfs.c    |  847 ++++++++
+ drivers/net/ethernet/qualcomm/ppe/ppe_debugfs.h    |   16 +
+ drivers/net/ethernet/qualcomm/ppe/ppe_regs.h       |  591 ++++++
+ 14 files changed, 4842 insertions(+)
+---
+base-commit: bc4c0a48bdad7f225740b8e750fdc1da6d85e1eb
+change-id: 20250717-qcom_ipq_ppe-7684dbc38fa4
+
+Best regards,
+-- 
+Luo Jie <quic_luoj@quicinc.com>
 
