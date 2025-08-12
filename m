@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7342F659C;
-	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B572F8BEA;
+	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=sVVMc2EZPlmSSxjm9MoBAPQySpeQ9Tcgv1Z6z2clLcY91wsM3UOkkyZksRG6mFgxsRJFTaO+jmYshwWxQWyYqc5jSmSsb31W7DVNYFbRK2/b5BrKF5TH7wUvxTcrVIDYKCKSqKLoWLfsQFjLMudn2dActizLrSGFq/8IRZri2dI=
+	t=1755013985; cv=none; b=hFP3mtAhZBGDl+vSw3b0lUO+iv7nsFxdJYYKDHyh6/vvmYuaFPanznuIePCXKMJ/EAxJ+KlZ0liWVSo6Nh6dX4LbnlVqUvOJYbWfWRLs/fjNSv6ZfR4bk9/syWkQXGOSHpi9LpTeDjI9HzN8dEiUeJG6d6lcLbk34drqD85yxTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=F0VIBtxterrSQG9wqzNfarK/AogmBCYnIszdwgzywXg=;
+	bh=vRnsNCgM3YDMxmN+8rNiF2tJ0DjUjMBLbtkTm4kNDsA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S2TJthHyXOX9Ua6tuWSmYPjtdf7Y8tzonQS8yhnsrjXAx6YGomrVQJlRfg5cDvF5FP8Ef2qFCYUHe3q/2g+/6mr+24blLiFWw50C70nac32cAc5suXsgP2Disvobd+LzBBk3IyeCo8o5Dorw5EsDP8bWinOwruL8jYbf330GzLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XeUJiRb6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=m3NS4/Frr4zXQIToyI+3jfp9FjAWzD6UN+yWXZ9pps+tdiJ7uVh+07HWaON4Hqro+9sGXpU/Rni7EIbTKnpjGuWTaqpYeeSUn3Ry7CRutKyIPu2MT8khuTVBv7d5kI8ProCygLq1VulEwiMr1IWGaepqwchtTplUsNuZJBRSdLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zg9+phgP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XeUJiRb6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B89C7C4CEF6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zg9+phgP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B30CCC4AF0B;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013984;
-	bh=F0VIBtxterrSQG9wqzNfarK/AogmBCYnIszdwgzywXg=;
+	bh=vRnsNCgM3YDMxmN+8rNiF2tJ0DjUjMBLbtkTm4kNDsA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XeUJiRb6yJo+s7FnM6i9GtC4OxkoRd1tbcLwwG0NyeBCT+xEb1D1YzsLlVDeIdZEI
-	 TcpALt3fCLtkDTlQO5uCxdWXmGoRjYgzIGKXzYQJcq6r0eyRQ3uieImIFwcyjivhuh
-	 dxrIeRbFpzwCseskvTW0tNlP27cRiD3dsZXpdLWkHL4XvtGQ78hFGqndd48akmRjit
-	 UBySO4KyXXfTplPmwKEjSYqPogNhoPjz3AMGv9yZWsAeeYQNPerzE17PrnO8u0cbqP
-	 Ga2gmG+s/ZgS2lUaV7ZTMrXjUc8CaZJL+bwAXqCClGoZrAOqxXnqf1HlbZDyiTJnrX
-	 UfyqWZVz4zVFw==
+	b=Zg9+phgPZLhUffMRUl030IJ328z2sfa3qoqxB+/JmkolJDwbax5Di9rzzstuO8nBr
+	 mnLVMBbC/ce4olnSO4h9kqbdDXrQiFXginVneHRqf0f5a+yubvA5Ryddv/WU1VHfuf
+	 GARm3lIU5SECBI+teXCJF8zT8q0tkJ9KKJgZqKO3jfV8n6YKez6bcA7FspgiuZ61IR
+	 sExHOZJvaqhWCiMH1BcTsS2aEqTdpId6DB0EHXr5IlnCzOzse6Sbm30Y5qyB4279qD
+	 47qcMp9v4Muj2mLxT571EzzixWVt1wtyCKi6bUTUF0KGd/5m56z4TrAXfSzsFxh8NI
+	 HxFDbdGy1aq/w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kWU-2hgd;
+	id 1ulrJ8-00000006kWc-2yPm;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 20/39] scripts: sphinx-pre-install: fix OpenMandriva support
-Date: Tue, 12 Aug 2025 17:52:37 +0200
-Message-ID: <0b4e7aa88c96e6a5b8f2e6f381b3e21124680d33.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 22/39] scripts: sphinx-pre-install: adjust a warning message
+Date: Tue, 12 Aug 2025 17:52:39 +0200
+Message-ID: <74a17edd70364ca623a54b62bd97a344bb474988.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,30 +51,29 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-OpenMandriva Lx 4.3 has different package names for ImageMagick
-and yaml. Fix them to ensure that system setup will pass.
+There is one extra space at the first line. Also, as now we only
+support Python 3.4+, update the text.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/sphinx-pre-install.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 94f3d2e32fd6..2f6036eadc94 100755
+index 2360ca2ed21c..365590f81551 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -647,6 +647,11 @@ class SphinxDependencyChecker:
-             packager_cmd = "dnf install"
-             noto_sans = "noto-sans-cjk-fonts"
-             tex_pkgs = ["texlive-collection-fontsextra"]
-+
-+            # Tested on OpenMandriva Lx 4.3
-+            progs["convert"] = "imagemagick"
-+            progs["yaml"] = "python-pyyaml"
-+
-         else:
-             packager_cmd = "urpmi"
-             noto_sans = "google-noto-sans-cjk-ttc-fonts"
+@@ -1081,8 +1081,8 @@ class SphinxDependencyChecker:
+             self.recommend_package()
+ 
+         print("\n" \
+-              "    Please note that Sphinx >= 3.0 will currently produce false-positive\n" \
+-              "   warning when the same name is used for more than one type (functions,\n" \
++              "   Please note that Sphinx currentlys produce false-positive\n" \
++              "   warnings when the same name is used for more than one type (functions,\n" \
+               "   structs, enums,...). This is known Sphinx bug. For more details, see:\n" \
+               "\thttps://github.com/sphinx-doc/sphinx/pull/8313")
+ 
 -- 
 2.50.1
 
