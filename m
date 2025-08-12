@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6949E2F8BEC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7129E2F83A0;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=f4n3b5FiwunC8J97pZdW36rCffh7BfXdqm/poz56NQaNJfPD8W4OguIBsSH8zu9Ypn9XgR5zJ8aInf+LSduyVUEZFVoWQcCdgtXYeuHTz8TBx+MDf2WGv/lppNPcnWoSOGZAjzbeU+U0xbjwOZUT/6HBQ+Y5yOHxBAssY+flvJA=
+	t=1755013985; cv=none; b=WBK8Y+ya/Kxb/ZwqPJPFTmZtpTOAUev4m2kVJe5Gjv8pHbjBl90k48H2EJxPgFiIwmKC/lvYL/Wa2fs+FlzvihVBLvtxr4sGi7fzVNqq4F1qkoZOhJc4GyTnYdP6ms3LeIJT4kP1WVYGC8Dd5O3lrJKj5JcfQTjQAAHHesTJyQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=6213I1YGIhaAMSl82yuZqy7K1JDcqwNqRPbmxLRGh8s=;
+	bh=H6jfXH3dWyR+l6WUYs4k/BA5+/vFZ9seox7HuHh0dvs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ma/2+LBCpc+bGm/bIIHT5xi+oyzzGh/PGutFWMfY6yHDFNpkhsMqFQLXtRGiNOG5rRUIxTuPdN5FyXzQfjwQIG4RfdXbufWFPoVUgauFDL8ubi8gqcLCtB9reKyy0QzivPuwoJhGIOT1HjAueG6r3Ud8sKVMwOwLHQwwLDZ8iwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KTbzYx5u; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=pXDo4K3c3bObM2uFnKycfVE3Fbl60gAD3kdiX0J2D7cbvApg3kr3a3kC+hzyJKLx9xzUXxHVs0CDeYZKq/0dCmQgjb3OY7midf4Z1INg/5x4HscYXsel1mLJj+Tc0wymv1aI+v6arWC1CihVVS2FGl1A5AGtCKgjDqiWaG82+gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0VUbw3w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KTbzYx5u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC7CDC4CEFA;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0VUbw3w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4591C4AF10;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013984;
-	bh=6213I1YGIhaAMSl82yuZqy7K1JDcqwNqRPbmxLRGh8s=;
+	bh=H6jfXH3dWyR+l6WUYs4k/BA5+/vFZ9seox7HuHh0dvs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KTbzYx5usqNc8tDJUk72dsA35+q+q8EvkiAJSbLo0ymHr4hCJ4m4ePp2RnNn6e3rf
-	 /hn7kyxma85yroK5mNSQLaB78QTOaS8Nvon+7FmknV6Gags5l131qZxBiSjZh0DauL
-	 2kbFLmtQu4WDKwr/ZeMyFB12UQB+Mwiycap+Crcpcr3BD/tB4pQFKJJmSd6cB8TZD0
-	 /SjnOM3DL2ZQNUbeF7So3ZT4cE+AvVuYcq0SVzbHP+o6PA64tWGmHQhY36CiL7LUQW
-	 qtc+7wPbH5wJSgM3whxX2BdyXbm1wB1HB7NDitDcNTTqz7cSAT9iQ8w+2zEYswT/3B
-	 bRy+1Hq2OhicA==
+	b=S0VUbw3wjjIW8Fd8gxZnblWtcviSvwcEtGti25m65ZNUVKInlJu//78y6I4yHM9ch
+	 dxI259yaUygrP2+mEkZyBhO0dP5JfW9EJ2Bb3tBZOekm5irBqYdfUgA93Hfp518//1
+	 XbACVFs3LIGF5PrUJnv5IPlQKtTN+2laPI2WDf0x36LLtI5xjbOtvPgtpb2MhrtHNh
+	 mQpyUDX3l47d2snxup+AzPOvdVHWjL2zUPTPvGBC8QLzZStw1zToI4jt1cR2uIOZkg
+	 6FnqJcu7l6V0Ql7Y9w6wzr0iDv0AsjprdVjojDJS9pFXt9EBD58So8AdgE0jcS9ho8
+	 HXwF+nwbcXjbw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kVG-0KdN;
+	id 1ulrJ8-00000006kVm-1KNc;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/39] scripts: sphinx-pre-install: fix version check for Fedora
-Date: Tue, 12 Aug 2025 17:52:18 +0200
-Message-ID: <9d1e5c9906534e2bae586f891770066346463146.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 09/39] scripts: sphinx-pre-install: fix opensuse Leap hint for PyYAML
+Date: Tue, 12 Aug 2025 17:52:26 +0200
+Message-ID: <0266c5e28e136c62de33d2d7f7d5e69b273e0d01.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,26 +51,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The script is now picking the wrong version. Fix it.
+On Leap, the name of the package is python311-PyYAML.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install | 2 +-
+ scripts/sphinx-pre-install.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 3f8d6925e896..07234d482fa8 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -413,7 +413,7 @@ sub give_redhat_hints()
- 	my $old = 0;
- 	my $rel;
- 	my $noto_sans_redhat = "google-noto-sans-cjk-ttc-fonts";
--	$rel = $1 if ($system_release =~ /(release|Linux)\s+(\d+)/);
-+	$rel = $2 if ($system_release =~ /(release|Linux)\s+(\d+)/);
+diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
+index eca42d90ed01..65438c198674 100755
+--- a/scripts/sphinx-pre-install.py
++++ b/scripts/sphinx-pre-install.py
+@@ -569,7 +569,7 @@ class SphinxDependencyChecker:
+                 progs.update({
+                     "python-sphinx": "python311-Sphinx",
+                     "virtualenv":    "python311-virtualenv",
+-                    "yaml":          "python311-pyyaml",
++                    "yaml":          "python311-PyYAML",
+                 })
  
- 	if (!($system_release =~ /Fedora/)) {
- 		$map{"virtualenv"} = "python-virtualenv";
+         # FIXME: add support for installing CJK fonts
 -- 
 2.50.1
 
