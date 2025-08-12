@@ -1,167 +1,98 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A7B23D7C1
-	for <linux-doc@vger.kernel.org>; Tue, 12 Aug 2025 15:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6F82F658F;
+	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013787; cv=none; b=XK/UM1cnZT7NPFuH1ZXqKc8PMXQQelE6/QqPtbGFHEcleQ9VKU7EteUd7UTtjDTDYxIhXFn4GVKDALP7ASTfGfGv1eXuVEoRXikOKUowfoSOAt/V3BDO6lhHHVJySsQ/d5scYQDJh6XydyVab4gj4/EEeTaj+MrOFe3ZwmyqDnU=
+	t=1755013985; cv=none; b=KbfMcWhVqD+rWfuHrNWdhKOduu5Y/Xhr/zbyatkqRBH+2SB/tXkdR0RLMndnrpIvfgissHgOekeNaYrJSF7gU0r237r6f8cui2M1+8aNQSvpeiaQdpbRDB8Cdhcp0UeHuLyHfn+l2zm+Iw+6aZQFnh9EDQI4XM377+eETLMtFAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755013787; c=relaxed/simple;
-	bh=r9nRSmpQ0Q1tnVWbPzsdrA0J+YfIItvBLXSSqI5H8xw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hDfAkLeMUbYFbD0ImrbKGJElHSj/mhRdsxvll06t3UjNV7RqJiXlHMRKzS2IccvH6A46nhvewqqT6ES2cw844Y3ZEtstezzild7nNc3Geg6kkcGRzETBFJeqn9Vu3SWokPaWFKvZJZ6Oxo5UP81FcVsnQr3+XC1llXjutsEWj5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=A+YUMXGO; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1755013985; c=relaxed/simple;
+	bh=oCK6WGvw+7PUuHUA0XAEiLZ3Xl9xo2K88VEoJ8LgJJI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dxt0BmJfbSlKgK8J6t6dbioyrmI7P/jykG0aSJLiWRFzgZ6yblUm+pv+zyiG48zw16mLPJmrXoKcifNeZj83m12h+uhWKzyKdtNYn8Si0KfNOqaEPCdSEaIhLbUQBzrw81Dw+67y9+4gEiV2A868LwYwHqp+lBf6B7LCGGC+Dt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JH+4l/z5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="A+YUMXGO"
-Message-ID: <69d797eb-4a17-4d54-a7c0-8409fa8bc066@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1755013780;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ucz50+HGWOpZtiZEia1PUziWiFKm4k3f8o7eN5YWlBw=;
-	b=A+YUMXGO9/ZJ/BvfIFZB/f/+10+t4OQMyamYip6EDn1+sfGFJji3Y8XrgrddrjckeRU/qt
-	8cSdHxJNKXFZsSpVegngEZElXogSJJ2W3EH5+aAzR1dkpiAqMAcSJVsOvc02FofPHGTEI7
-	e6F8Za4nGCi3v/l+Ovkr5h5yyiXnoUA=
-Date: Tue, 12 Aug 2025 16:49:33 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JH+4l/z5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD125C4CEF8;
+	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755013984;
+	bh=oCK6WGvw+7PUuHUA0XAEiLZ3Xl9xo2K88VEoJ8LgJJI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JH+4l/z5Ct4Cwi4pgZhQbwRWJEXYJD/k208XqFAD13vlGnP8nSRMF6wvqWqgfaCuY
+	 ZW9hjzhb5C4CX8M38WdqbIoBy5s4C7JnnCWmDe4Em0N+5n9faCVIYdQCurU+4oyt6F
+	 bNFlmpixwzifAM5BUGypeRH2mdJ09deA0Xkvf0H1pG2WHmmaMVWXwenNH9uWP/53am
+	 NxSGkhJDqwcYHMlR+84aylbnqgWhVDI44mA+IZyPN4D5glfvCZB8HYF99ubHdAJZrP
+	 4PMIkUOERzAf6WaKTgyeAKI9ZwAWfgKiEmn4ol12A1IUv/1veY0I4InwoEQyA7l8ue
+	 UtZOp6ub6/s1A==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1ulrJ8-00000006kVy-1h5Z;
+	Tue, 12 Aug 2025 17:53:02 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 12/39] scripts: sphinx-pre-install: only show portage hints once
+Date: Tue, 12 Aug 2025 17:52:29 +0200
+Message-ID: <d4e7ef1d5e1f0412eb9f9ae4913dc64c0821e002.1754992972.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
+References: <cover.1754992972.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/5] net: rnpgbe: Add n500/n210 chip support
-To: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
- maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
- gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
- Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
- alexanderduyck@fb.com, richardcochran@gmail.com
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-3-dong100@mucse.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20250812093937.882045-3-dong100@mucse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+On gentoo, doesn't repeat instructions about how to enable
+portage.
 
-> +struct mucse_dma_info {
-> +	void __iomem *dma_base_addr;
-> +	void __iomem *dma_ring_addr;
-> +	void *back;
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/sphinx-pre-install.py | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-it might be better to keep the type of back pointer and give it
-a bit more meaningful name ...
+diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
+index 0e165ad05fdb..808d31bfa790 100755
+--- a/scripts/sphinx-pre-install.py
++++ b/scripts/sphinx-pre-install.py
+@@ -89,6 +89,9 @@ class SphinxDependencyChecker:
+         self.python_cmd = ""
+         self.activate_cmd = ""
+ 
++        # Certain hints are meant to be shown only once
++        self.first_hint = True
++
+         self.min_version = (0, 0, 0)
+         self.cur_version = (0, 0, 0)
+         self.latest_avail_ver = (0, 0, 0)
+@@ -714,11 +717,14 @@ class SphinxDependencyChecker:
+             "media-gfx/graphviz",
+         ]
+ 
+-        for p in portages:
+-            result = self.run(["grep", p, "/etc/portage/package.use/*"],
+-                               stdout=subprocess.PIPE, text=True)
+-            if not result.stdout.strip():
+-                print(f"\tsudo emerge -av1 {p}")
++        if self.first_hint:
++            for p in portages:
++                result = self.run(["grep", p, "/etc/portage/package.use/*"],
++                                stdout=subprocess.PIPE, text=True)
++                if not result.stdout.strip():
++                    print(f"\tsudo emerge -av1 {p}")
++
++            self.first_hint = False
+ 
+         print(f"\tsudo emerge --ask {self.install}")
+ 
+-- 
+2.50.1
 
-> +	u32 dma_version;
-> +};
-> +
-> +struct mucse_eth_info {
-> +	void __iomem *eth_base_addr;
-> +	void *back;
-
-.. here ...
-
-> +};
-> +
-> +struct mucse_mac_info {
-> +	void __iomem *mac_addr;
-> +	void *back;
-
-and here...
-
-> +};
-> +
-> +struct mucse_mbx_info {
-> +	/* fw <--> pf mbx */
-> +	u32 fw_pf_shm_base;
-> +	u32 pf2fw_mbox_ctrl;
-> +	u32 pf2fw_mbox_mask;
-> +	u32 fw_pf_mbox_mask;
-> +	u32 fw2pf_mbox_vec;
-> +};
-> +
-> +struct mucse_hw {
-> +	void *back;
-
-you can also use container_of() as all these structures are embedded and
-simple pointer math can give you proper result.
-
-> +	void __iomem *hw_addr;
-> +	void __iomem *ring_msix_base;
-> +	struct pci_dev *pdev;
-> +	enum rnpgbe_hw_type hw_type;
-> +	struct mucse_dma_info dma;
-> +	struct mucse_eth_info eth;
-> +	struct mucse_mac_info mac;
-> +	struct mucse_mbx_info mbx;
-> +	u32 driver_version;
-> +	u16 usecstocount;
-> +};
-> +
->   struct mucse {
->   	struct net_device *netdev;
->   	struct pci_dev *pdev;
-> +	struct mucse_hw hw;
->   	u16 bd_number;
->   };
->   
-
-[...]
-
-> +/**
-> + * rnpgbe_add_adapter - Add netdev for this pci_dev
-> + * @pdev: PCI device information structure
-> + * @info: chip info structure
-> + *
-> + * rnpgbe_add_adapter initializes a netdev for this pci_dev
-> + * structure. Initializes Bar map, private structure, and a
-> + * hardware reset occur.
-> + *
-> + * @return: 0 on success, negative on failure
-> + **/
-> +static int rnpgbe_add_adapter(struct pci_dev *pdev,
-> +			      const struct rnpgbe_info *info)
-> +{
-> +	struct net_device *netdev;
-> +	void __iomem *hw_addr;
-> +	static int bd_number;
-
-it's not clear from the patchset why do you need this static variable...
-
-> +	struct mucse *mucse;
-> +	struct mucse_hw *hw;
-> +	u32 dma_version = 0;
-> +	u32 queues;
-> +	int err;
-> +
-> +	queues = info->total_queue_pair_cnts;
-> +	netdev = alloc_etherdev_mq(sizeof(struct mucse), queues);
-> +	if (!netdev)
-> +		return -ENOMEM;
-> +
-> +	SET_NETDEV_DEV(netdev, &pdev->dev);
-> +	mucse = netdev_priv(netdev);
-> +	mucse->netdev = netdev;
-> +	mucse->pdev = pdev;
-> +	mucse->bd_number = bd_number++;
-
-... but this code is racy by design
-
-> +	pci_set_drvdata(pdev, mucse);
-> +
-> +	hw = &mucse->hw;
-> +	hw->back = mucse;
-> +	hw->hw_type = info->hw_type;
-> +	hw->pdev = pdev;
-> +
