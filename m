@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4704A2F6592;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471412F2907;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=ijBWPhEXx1Vz+Il7V8aT9+J57CEU6gsj4DwIaoyx+qfDRyCTtswLHlz+SrOn58QgbBMlM2aY7rTvYWX81NZHncFHbzWg+UPCVNQ1pKId91LmCswVmCE+sLBtQNclb4US7yApVzo7kpZ2mcy70llKOwB6vmIY4atrPyO5BlzaoR4=
+	t=1755013985; cv=none; b=XRpVE7yB4e0Z4CsghXvrUtFLG/yTFcdVr0uR0N58gBr14S4QJonX73bN7ZWdQWN1wKKBX3ghmKGNvR/Jp6JP9TExMFqD+pDOlTgI2rlMBLVW1LKS8Imk5QjKYp2oKC+zA7nAEr00MGsxYSCEoq0JO4ezUhyIWHxP2R1OuiQaoWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=xnQ6IjOnGM/7IpW6FAxRYORGqrWYSQqxyC/SU5roPxA=;
+	bh=d4OYIow3OjJEsE2LMoKb03hk1/jC/7h0+7RSb/71xC8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bcp/D4YxXa7aHNpGuWHD0QJED5QyiZKgBuKxOEVLqqwQncprXpyXHuFukZjkX9D0LsCTH95BoxOKoekuG3ZHHCx2V6KtgYHwHgs2z47DhbovjNt4a/4/t5rFUsWgphFbwVgSKElu8wAz2/TVkWejr7hibASHfBM02SlIBaHSSOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SkYLY/qq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=mM6/m86vob6qb+XZEcvXHEYPeP9wEWIItWVfQMwaymJPz2dj9Hh1ZPX0gwLTuUd9ueDLg5b9GcdDxDy36z8XReRVaNBk9BeY3ZYDPfVdTCm6vCNpjZn52ROWB4hWaISaEUlJrhVJf67uyIfGPp4cIEW2n6vo/8IaBrWN/hzfcZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V/piWB0h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SkYLY/qq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA0B6C4CEFF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V/piWB0h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C410CC4CEFD;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013984;
-	bh=xnQ6IjOnGM/7IpW6FAxRYORGqrWYSQqxyC/SU5roPxA=;
+	bh=d4OYIow3OjJEsE2LMoKb03hk1/jC/7h0+7RSb/71xC8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SkYLY/qqDhry6CyCAPVo9mPlJfps2zuZr/Ut5NPCengna0/SEhEWEejOdaCmPdBSU
-	 eZqs7Rk2LE7BmbVf+f4ukyLhHcjHGFajJlFWaDcDWkrbru+TMZnP5i9mGnjqNWcm4T
-	 JOI4/qAZX60g/yHpnOlwrxJVoA0E9mx+X0Y7Q21O/F+091pPL5wobxz0iMrXJHBuhs
-	 XtAsluJc4GFiSzI/pqM53mTmkR7wb40ONzq31sYRwH8AmQucAVzTT0btzRwKlekpH/
-	 mmthccgbHaxLWMj4IJC1t1I055vS6c33ldgldHEHbLkanpaygKSEYzyn9ywPKFqi0b
-	 he+0Fn2R85ePg==
+	b=V/piWB0hMGMC1sBe5DyHaYshf7X/mSl8VjLYGoeKH9AgWtppEu5xZQaE7sjHEWW4x
+	 y/VW2mNX/hKM6bA4/VG4znCRo31Af1qfd0IURd+K3k4xGbQKpls3ygD4uysuDGnGyL
+	 gJB1yr+wT9Gjj+yeRqt0ODWzcQQ8IuSdciATCLTPIWj9bvjWUv27EGKpN00T5XplcF
+	 ebP3r3lSFT67PkO1yGBfEbbKlSrltbZWG9k2Lt0dILkcKSif8GAKvl0g1PFbHL5QyZ
+	 d6XZn1mJhUJKjzehI5BHU5wk36mW8g4kN9z8MrfGunICgfyRRN1VZ4nXrfiPXFkzXx
+	 tah17j+rIZ40Q==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kVW-0rGl;
+	id 1ulrJ8-00000006kVi-1D9E;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/39] scripts: sphinx-pre-install: run on a supported version
-Date: Tue, 12 Aug 2025 17:52:22 +0200
-Message-ID: <76627055a7f82f6a79296ddbd873fa5ac8f82a1d.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 08/39] scripts: sphinx-pre-install: Address issues with OpenSUSE Leap 15.x
+Date: Tue, 12 Aug 2025 17:52:25 +0200
+Message-ID: <a1600e292b63f96f40163e350238812158ebd6c2.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,123 +51,73 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The scripts/sphinx-pre-install is used to detect problems at
-the system environment and adjust it to build the Kernel
-documentation. If the version is too old, it won't run, though.
+On openSUSE Leap 15.6, which is the current LTS version, has two
+Sphinx packages. The normal one requires Python 3.6, which we
+don't support anymore. However, it also has Python 3.11 with a
+newer Sphinx version (7.2.6).
 
-Check if the version which started the script is valid. If not,
-seek for a new one that is compatible with documentation
-build.
+Suggest the newer version:
+
+        Detected OS: openSUSE Leap 15.6.
+        ERROR: at least python 3.7 is required to build the kernel docs
+        Warning: python version is not supported.
+        Warning: better to also install "convert".
+        Warning: better to also install "dot".
+        ERROR: please install "yaml", otherwise, build won't work.
+        You should run:
+
+                sudo zypper install --no-recommends ImageMagick graphviz python311-pyyaml
+
+        Sphinx needs to be installed either:
+        1) via pip/pypi with:
+
+           Currently not possible.
+
+           Please upgrade Python to a newer version and run this script again
+
+        2) As a package with:
+
+                sudo zypper install --no-recommends python311-Sphinx
+
+            Please note that Sphinx >= 3.0 will currently produce false-positive
+           warning when the same name is used for more than one type (functions,
+           structs, enums,...). This is known Sphinx bug. For more details, see:
+                https://github.com/sphinx-doc/sphinx/pull/8313
+
+        Can't build as 2 mandatory dependencies are missing
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 65 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 64 insertions(+), 1 deletion(-)
+ scripts/sphinx-pre-install.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 71d86b230b22..3912359d2bae 100755
+index 0a73b1b33842..eca42d90ed01 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -5,6 +5,9 @@
- # pylint: disable=C0103,C0114,C0115,C0116,C0301
- # pylint: disable=R0902,R0904,R0912,R0915,R1705,R1710,E1121
+@@ -556,6 +556,22 @@ class SphinxDependencyChecker:
  
-+# Note: this script requires at least Python 3.6 to run.
-+# Don't add changes not compatible with it, it is meant to report
-+# incompatible python versions.
+         progs["latexmk"] = "texlive-latexmk-bin"
  
- import argparse
- import os
-@@ -16,7 +19,6 @@ from glob import glob
- 
- def parse_version(version):
-     """Convert a major.minor.patch version into a tuple"""
--#
-     return tuple(int(x) for x in version.split("."))
- 
- 
-@@ -27,6 +29,7 @@ def ver_str(version):
- 
- 
- RECOMMENDED_VERSION = parse_version("3.4.3")
-+MIN_PYTHON_VERSION = parse_version("3.7")
- 
- 
- class SphinxDependencyChecker:
-@@ -132,6 +135,65 @@ class SphinxDependencyChecker:
-         # Python not found at the PATH
-         return python_names[-1]
- 
-+    @staticmethod
-+    def get_python_version(cmd):
-+
-+        result = SphinxDependencyChecker.run([cmd, "--version"],
-+                                            capture_output=True, text=True)
-+        version = result.stdout.strip()
-+
-+        match = re.search(r"(\d+\.\d+\.\d+)", version)
++        match = re.search(r"(Leap)\s+(\d+).(\d)", self.system_release)
 +        if match:
-+            return parse_version(match.group(1))
++            rel = int(match.group(2))
 +
-+        print(f"Can't parse version {version}")
-+        return (0, 0, 0)
++            # Leap 15.x uses Python 3.6, which is not compatible with
++            # the build system anymore. Suggest Python 3.11
++            if rel == 15:
++                if not self.which(self.python_cmd):
++                    self.add_package(self.python_cmd, 0)
 +
-+    @staticmethod
-+    def find_python():
++                progs.update({
++                    "python-sphinx": "python311-Sphinx",
++                    "virtualenv":    "python311-virtualenv",
++                    "yaml":          "python311-pyyaml",
++                })
 +
-+        patterns = [
-+            "python3.[0-9]",
-+            "python3.[0-9][0-9]",
-+        ]
-+
-+        new_python_cmd = None
-+
-+        # Seek for a python binary newer than MIN_PYTHON_VERSION
-+        for path in os.getenv("PATH", "").split(":"):
-+            for pattern in patterns:
-+                for cmd in glob(os.path.join(path, pattern)):
-+                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
-+                        version = SphinxDependencyChecker.get_python_version(cmd)
-+                        if version >= MIN_PYTHON_VERSION:
-+                            return(cmd)
-+
-+    @staticmethod
-+    def check_python():
-+
-+        cur_ver = sys.version_info[:3]
-+        if cur_ver >= MIN_PYTHON_VERSION:
-+            return
-+
-+        python_ver = ver_str(cur_ver)
-+
-+        new_python_cmd = SphinxDependencyChecker.find_python()
-+        if not new_python_cmd:
-+            print(f"ERROR: Python version {python_ver} is not spported anymore")
-+            print(f"       Can't find a new version. This script may fail")
-+            return
-+
-+        # Restart script using the newer version
-+        script_path = os.path.abspath(sys.argv[0])
-+        args = [new_python_cmd, script_path] + sys.argv[1:]
-+
-+        print(f"Python {python_ver} not supported. Changing to {new_python_cmd}")
-+
-+        try:
-+            os.execv(new_python_cmd, args)
-+        except OSError as e:
-+            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")
-+
-     @staticmethod
-     def run(*args, **kwargs):
-         """Excecute a command, hiding its output by default"""
-@@ -1107,6 +1169,7 @@ def main():
- 
-     checker = SphinxDependencyChecker(args)
- 
-+    checker.check_python()
-     checker.check_needs()
- 
- 
+         # FIXME: add support for installing CJK fonts
+         #
+         # I tried hard, but was unable to find a way to install
 -- 
 2.50.1
 
