@@ -1,253 +1,327 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2048.outbound.protection.outlook.com [40.107.96.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5BC23D7CF;
-	Tue, 12 Aug 2025 16:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755016654; cv=none; b=jRVzBaBMdtDNmYBI/KnCR+zL7OR1dH/SWySvHP4QFt6wduYusrWV/Z3XyjS37Q/MMKUfX0ttnN0edgA3TIHkhjH06n8f6p7wKQ/eAg0i1MyKicEc7akqMsd8doCLlrhoG8WLxOTpfwPjT69W3CQw9e2PYyCJbcbpQN8i8x5+lLc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755016654; c=relaxed/simple;
-	bh=1LB3sQUcUTaY7w8V2P9L+qNDuPdWsQ0wWN2BJLOvNmg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cOJ5nq6bi/vv+2W/LC7IFup8iE99ENIOG4pHB5h+SK5tIrplyFrogEaqeFQ9ftiTlUyWe/4TmaZSRNd6HO7sxBi4Rnbj9wmOWBg5gAhCH4CRjqO5nd/hBQ+pvaMUewmxLeTCBPbBWTCuztVANZXZIZXa9t6j/EBVfneL0dUEtCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KfJy6j4K; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0348D1E501C;
+	Tue, 12 Aug 2025 16:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755017115; cv=fail; b=NCkA+DUBN/l4kDZFdKqz+KO5ATl2v4eDngO2vn3uzufDt9xrWUwjo4Jg/SUwTCwl3hihDGQpbIo8kovkkTxRaAON5hN7Z4cSTGceGQU2LZdI3YqhS0D73w5UW5nDAeK7wDS1FYZoxeCteIoJGQ0JO0UAUfcQi2N7S4oUIjDVgQ0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755017115; c=relaxed/simple;
+	bh=z3jkT+36Z3Y9K7lbTozYPsZE18K3g76tHbHllbY4ufk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=P/+Zz3z1AXGj2tXpw7Y1dhPzCa81Xf9iGmamyFRKlWnXJmnlhw+vbnPdJRT8xWr3TgnEuZYkoHkj2mGeUVl7dlS5rI4Sg6GZYkZ6BP5sjeb7aeJy9ge3U4LKJ/dZJJ9BfTPJJIeOESnx3RGoAq58XkdLjaaGTOi81pL3DkoaFHA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ri9UvlLi; arc=fail smtp.client-ip=40.107.96.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KfJy6j4K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89936C4CEF1;
-	Tue, 12 Aug 2025 16:37:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755016653;
-	bh=1LB3sQUcUTaY7w8V2P9L+qNDuPdWsQ0wWN2BJLOvNmg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KfJy6j4KkfFeebnA9BSAnLlnIckfhzhg9lYw3ZuK2N27U6XVi2Pv+M72SLzJQV62Z
-	 Pv5qN+NtdnEQIF8wEfapGW8QB1d3e2gAwfzTg73XcSxkooIDLbJEkemyBl7b20NH/1
-	 WUHB/fUmTNK+2IVLZAJQWj1GjfnuamGnKCHwFRChrFfgkvHE0aVnjkVwEqq1kRZjdb
-	 4nH9cTQONP7bHctTLPvI/qcOoFUdUDBZ8JXmnRKdsHn4E20wgH572JfopSXAkinMZn
-	 8eWvE5W2cVyRYq/cHgT10b/qBueTYsn0hw3AjTyBvNYHkyKMKdfbD8iaTUg/1soyHm
-	 KhD95htVxRh0g==
-Date: Tue, 12 Aug 2025 09:37:33 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: John Groves <John@groves.net>
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bschubert@ddn.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 10/18] famfs_fuse: Basic fuse kernel ABI enablement for
- famfs
-Message-ID: <20250812163733.GF7942@frogsfrogsfrogs>
-References: <20250703185032.46568-1-john@groves.net>
- <20250703185032.46568-11-john@groves.net>
- <CAOQ4uxi7fvMgYqe1M3_vD3+YXm7x1c4YjA=eKSGLuCz2Dsk0TQ@mail.gmail.com>
- <yhso6jddzt6c7glqadrztrswpisxmuvg7yopc6lp4gn44cxd4m@my4ajaw47q7d>
- <20250707173942.GC2672029@frogsfrogsfrogs>
- <ueepqz3oqeqzwiidk2wlf3f7enxxte4ws27gtxhakfmdiq4t26@cvfmozym5rme>
- <20250709015348.GD2672029@frogsfrogsfrogs>
- <wam2qo5r7tbpf4ork5qcdqnw4olhfpkvlqpnbuqpwfhrymf3dq@hw3frnbadhk7>
- <z2yuwgzsbbirtfmr2rkgbq3yhjtvihumdxp4bvwgkybikubhgp@lfjfhlvtckmr>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ri9UvlLi"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Du9YqNhD4AtOlQX25RqV5zQWU5Gj4swS3eYlX0fW77GJywTZiJ/dWT0pcca0dW6PbwaTVy3Z5i4p40Gsm5fUBfwUsgzcemTFEiUeAGCw6h+A9dznvnjiAKiQQfGGgysXJ/0hBBHYAzTetsGJzQF1Chr79ZAvImbN9z175x5eEGzn5zjBUdWpuoWvcu8twJ8UTw++1COJL9yrDc4Ljbes5Vz6M3XhE/0E51Gol5Flqr9mJsoz2m8ikGZocidNb4KuhIZ1WNbQl2K7slljAXfyUuFswvEL7k7zBrkh1YChh0gg01FQAoUKeSQnpHtIOPH/rhrDljUR3EfWPFKG13TeXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2sr0IVXpWluZCVS6P5XLYx+AuVFBsOYWbkoDMAA7klg=;
+ b=ME5DVacphOTYGYlPOdv3dQdd8xX1d8iwLPbbtMtyCgPdNTOHmt8y8kx0VotSBn1hLVG/o9j+MrWQ7CVjEABk8FZo0epKsq28i3Y0rsgg7OwFSiJE5+uCAlW53YIYMo4sWTVdNt+J57bOhUjxt8FaMkjZazNrAMBTvSdxQ6udB+jAWhzLU+qyJ4gz+V2F98PmbTkXmp3ki+RwiRwXfH+y/Ev9MNUtzxZ40jyvqZtzKqqtGgpC97s80hUJWhwsnM1mAkbtN/fHci3PTfN3b+A1tpLtg99PiPf8XYLqXOPf93jlE1wGkY/wDHIfTjckk88y0yRRicb4vdJByDgBvfmxfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2sr0IVXpWluZCVS6P5XLYx+AuVFBsOYWbkoDMAA7klg=;
+ b=Ri9UvlLiYZGsh4HXNfb+GHfngI2ZZuinPwOFOtetH9ateAnuO//u0XT+qbwOWXt6EyDWmSO87rSohz+rr7R+EBRYxAJipJW1junT1Usdfto4qTmvGoDtAECkDqZYCNRoZyjNTKQWilZEPactK/zS6uqgicnFsjq6Gubkh+dY/Ao=
+Received: from BY5PR13CA0019.namprd13.prod.outlook.com (2603:10b6:a03:180::32)
+ by DS0PR12MB7559.namprd12.prod.outlook.com (2603:10b6:8:134::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.22; Tue, 12 Aug
+ 2025 16:45:09 +0000
+Received: from CO1PEPF000042AB.namprd03.prod.outlook.com
+ (2603:10b6:a03:180:cafe::ee) by BY5PR13CA0019.outlook.office365.com
+ (2603:10b6:a03:180::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.14 via Frontend Transport; Tue,
+ 12 Aug 2025 16:45:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000042AB.mail.protection.outlook.com (10.167.243.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9031.11 via Frontend Transport; Tue, 12 Aug 2025 16:45:08 +0000
+Received: from [10.236.30.53] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 12 Aug
+ 2025 11:45:01 -0500
+Message-ID: <a6864a2c-b88f-4639-bf66-0b0cfbc5b20c@amd.com>
+Date: Tue, 12 Aug 2025 11:45:00 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 7/7] KVM: SEV: Add SEV-SNP CipherTextHiding support
+To: "Kalra, Ashish" <ashish.kalra@amd.com>, Tom Lendacky
+	<thomas.lendacky@amd.com>, <corbet@lwn.net>, <seanjc@google.com>,
+	<pbonzini@redhat.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	<hpa@zytor.com>, <john.allen@amd.com>, <herbert@gondor.apana.org.au>,
+	<davem@davemloft.net>, <akpm@linux-foundation.org>, <rostedt@goodmis.org>,
+	<paulmck@kernel.org>
+CC: <nikunj@amd.com>, <Neeraj.Upadhyay@amd.com>, <aik@amd.com>,
+	<ardb@kernel.org>, <michael.roth@amd.com>, <arnd@arndb.de>,
+	<linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
+References: <cover.1752869333.git.ashish.kalra@amd.com>
+ <44866a07107f2b43d99ab640680eec8a08e66ee1.1752869333.git.ashish.kalra@amd.com>
+ <9132edc0-1bc2-440a-ac90-64ed13d3c30c@amd.com>
+ <03068367-fb6e-4f97-9910-4cf7271eae15@amd.com>
+ <b063801d-af60-461d-8112-2614ebb3ac26@amd.com>
+ <29bff13f-5926-49bb-af54-d4966ff3be96@amd.com>
+ <5a207fe7-9553-4458-b702-ab34b21861da@amd.com>
+From: Kim Phillips <kim.phillips@amd.com>
+Content-Language: en-US
+In-Reply-To: <5a207fe7-9553-4458-b702-ab34b21861da@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <z2yuwgzsbbirtfmr2rkgbq3yhjtvihumdxp4bvwgkybikubhgp@lfjfhlvtckmr>
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000042AB:EE_|DS0PR12MB7559:EE_
+X-MS-Office365-Filtering-Correlation-Id: 531a50a1-1775-4eb2-5137-08ddd9bf9951
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014|7416014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?SjJzbnJaRGV0b2Q0ZlRQZWVFbzFBMWVZZ2FpQTZJYkNMcEszbzBSRTRJcTV6?=
+ =?utf-8?B?UTBtcjRFWkdoRSszc1MveGppcU9jdVB1ZzQxRDl4WjE1TjI2Z25lbmtHUlJQ?=
+ =?utf-8?B?Z2JaaHJxeWRUalBZNFNKaEd0RmVHbFkyUEtvVzFNTEJ5ZlVPUktxUm5jblZv?=
+ =?utf-8?B?czAwWnRpaXZpTksrMXZqcUFmYTFzeWFmK0MrQlVQcm5NRGNhS1VLdjZuMmx5?=
+ =?utf-8?B?T0tUUldDbm50V0tsYStZNFJLRnNYcWZWNXI5eTMrTFIxazkyekIveElJbXZY?=
+ =?utf-8?B?Mlo4c1UvZ3czTTNtM0xrTlNUd1Jrc2h2RWNGRUhsUW9tMUdMeGVJNmNkUlp2?=
+ =?utf-8?B?Z2psUjB2WVVGNFYydDZnNmRvKzFSR3VJMUU3WElDSGZWV2hQQzFjbFZYVGMv?=
+ =?utf-8?B?ZFVzRituQVNEbUVRWmNKZmkzcUJCT0s5YU5lYTJGN3ZYRjVXSVdZOEU3R3FG?=
+ =?utf-8?B?QjVBTkpSZ0JWN2QzQ3JDUGI5U3UxcUJyNVBEaGFpdEdWY2VPcXE2bWlyci9z?=
+ =?utf-8?B?MVgxVnNCeHJXek04SURtcHJCc2ZuYm5rcWcyRkpSWVllWC9JL2p6WG84cS9w?=
+ =?utf-8?B?MC92cWFGU1Btc2VSa1FJNjJHNGh3aGIrbjNxY1pjbTdWTGVUdnM4U0dadkl3?=
+ =?utf-8?B?Nk5tUGVoY2JuNENqTjJMU01EdGtDVE16aWFxaEpkT3hwaDFXckFMZ0E2aVN3?=
+ =?utf-8?B?SndZRU9QT3M4WEh3aWRLUDBMRVdsN2Y1Q21MVDRrYWtqQ0pHVnBoSlpEV2N2?=
+ =?utf-8?B?L1k5R2MvWWRXMDR2Z1NKS013clhKWmhaRXNaWFk0M1g4VkdMUVJBZmRKWitn?=
+ =?utf-8?B?T1g2UDJqNTBrRE9BMi9NaWVBcVhwQU41SlFZMTlIdFZTK2x1K0Q3RkQ5YytG?=
+ =?utf-8?B?KzhPZUtVcWdENDBjN2RtZDdZdG45NTFjTFpQWS9zOVpmSUZINzlGZkdEc04r?=
+ =?utf-8?B?WWtqMjhkeDZTazNxb0JwZmNUZ3JQbUxTRE9xSjN2SC9STzV1OHc4N2hMZ094?=
+ =?utf-8?B?MkNXNmV4UzVMWVY0WmtUU0ErTUJEdFVDU21Od0h2c1dScDhsSFVFakRlWHgx?=
+ =?utf-8?B?b0ozbXJ1SDlqeSswUlZINjlZNFRsVlpKdmlaRDVLU3YySDdHdmdoWlg5cmNJ?=
+ =?utf-8?B?VXkvbERHVnRYSFBRSjd3aEhXZHg1WHhDN1ZINW13a1NJWTA5aXM2SXEzdURi?=
+ =?utf-8?B?SExLN2laWVFxZEl0MU9JNTFFZ3k4Yk5sNkNNdWVIcEx1Z2NyNDJNRjlxTUJH?=
+ =?utf-8?B?VjBReWxsTGJURnBYRUNPeWx4ZG03RzY5Q3EvZkZYTjFVNGZZRTh4UG14bjhY?=
+ =?utf-8?B?TWlWSWEwZjZCdlY4em1xZzZEV29NZWozOUc3eUdXWFNLTEFmUVNWMW5Fbi9Y?=
+ =?utf-8?B?b3pKSUJ4TUt5WUduMS9HQ04xRGFBTjJIN21YdEJhNGxhVlo4elR3ay9NWHVn?=
+ =?utf-8?B?N3lGM0YySDZEOHQ5eXU5S3J4VEc2OU1OOUNrUm9XaDNSeStJaFhmejhhTkhG?=
+ =?utf-8?B?Q1l1TDlqc1gwajZqVEdFSzJUYWZ4RlVyUDVsNDhGdGlOM2RUdXFiTjhtcjQ4?=
+ =?utf-8?B?eVZjTTkwcXV3ajBhR1BvNHVReDg0U282U3d2WjZjSndndXhHL2Q0VjdCeHpl?=
+ =?utf-8?B?SWVQUHBNckxJMkFydzZINnplRDlLTTJrYVBXMVZZTktUN0Q0UDZxVGNwS3Z6?=
+ =?utf-8?B?R2VEcWRrKzU3a2dQcndpQWpGc3pXc3lxN3UyRW4zNTJBcVBJcWhjWWlrMVBP?=
+ =?utf-8?B?ZnZJbHRyU1JDREM0Vy9lTG5ocm1DRFhNN0RqOVlxRDJ5dG00Vll2Nm1KNExz?=
+ =?utf-8?B?aUt5L3dmVWhhcW1UMit2TTRXWnBvTVFvV0RnV3ZDR1hhWnZObGR2ZmExK3Bt?=
+ =?utf-8?B?ekpFRUlsZENHZ1licklZai9ZSmxVclhzSFF2dEtRdXZVL0ZyQVFCd1RoWW5Z?=
+ =?utf-8?B?enNrSlZTWHRPK3RtSHNwYWVTZ3dpcTB5V2xVekVDQlYzQ2hnOUpQSlRoQldk?=
+ =?utf-8?B?cHA2SkFBNjBBZVRxaS9EbEZ6Y2tTMWo2ck5hQ1lrY0N3OE5aZFltaUxBVzha?=
+ =?utf-8?B?UjFuVlh3NnNjZEx1Ty8vRVhlVjFOZlltN3Y0QT09?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2025 16:45:08.9353
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 531a50a1-1775-4eb2-5137-08ddd9bf9951
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000042AB.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7559
 
-On Mon, Aug 11, 2025 at 01:30:53PM -0500, John Groves wrote:
-> On 25/07/10 08:32PM, John Groves wrote:
-> > On 25/07/08 06:53PM, Darrick J. Wong wrote:
-> > > On Tue, Jul 08, 2025 at 07:02:03AM -0500, John Groves wrote:
-> > > > On 25/07/07 10:39AM, Darrick J. Wong wrote:
-> > > > > On Fri, Jul 04, 2025 at 08:39:59AM -0500, John Groves wrote:
-> > > > > > On 25/07/04 09:54AM, Amir Goldstein wrote:
-> > > > > > > On Thu, Jul 3, 2025 at 8:51 PM John Groves <John@groves.net> wrote:
-> > > > > > > >
-> > > > > > > > * FUSE_DAX_FMAP flag in INIT request/reply
-> > > > > > > >
-> > > > > > > > * fuse_conn->famfs_iomap (enable famfs-mapped files) to denote a
-> > > > > > > >   famfs-enabled connection
-> > > > > > > >
-> > > > > > > > Signed-off-by: John Groves <john@groves.net>
-> > > > > > > > ---
-> > > > > > > >  fs/fuse/fuse_i.h          |  3 +++
-> > > > > > > >  fs/fuse/inode.c           | 14 ++++++++++++++
-> > > > > > > >  include/uapi/linux/fuse.h |  4 ++++
-> > > > > > > >  3 files changed, 21 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > > > > > > > index 9d87ac48d724..a592c1002861 100644
-> > > > > > > > --- a/fs/fuse/fuse_i.h
-> > > > > > > > +++ b/fs/fuse/fuse_i.h
-> > > > > > > > @@ -873,6 +873,9 @@ struct fuse_conn {
-> > > > > > > >         /* Use io_uring for communication */
-> > > > > > > >         unsigned int io_uring;
-> > > > > > > >
-> > > > > > > > +       /* dev_dax_iomap support for famfs */
-> > > > > > > > +       unsigned int famfs_iomap:1;
-> > > > > > > > +
-> > > > > > > 
-> > > > > > > pls move up to the bit fields members.
-> > > > > > 
-> > > > > > Oops, done, thanks.
-> > > > > > 
-> > > > > > > 
-> > > > > > > >         /** Maximum stack depth for passthrough backing files */
-> > > > > > > >         int max_stack_depth;
-> > > > > > > >
-> > > > > > > > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> > > > > > > > index 29147657a99f..e48e11c3f9f3 100644
-> > > > > > > > --- a/fs/fuse/inode.c
-> > > > > > > > +++ b/fs/fuse/inode.c
-> > > > > > > > @@ -1392,6 +1392,18 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
-> > > > > > > >                         }
-> > > > > > > >                         if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled())
-> > > > > > > >                                 fc->io_uring = 1;
-> > > > > > > > +                       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&
-> > > > > > > > +                           flags & FUSE_DAX_FMAP) {
-> > > > > > > > +                               /* XXX: Should also check that fuse server
-> > > > > > > > +                                * has CAP_SYS_RAWIO and/or CAP_SYS_ADMIN,
-> > > > > > > > +                                * since it is directing the kernel to access
-> > > > > > > > +                                * dax memory directly - but this function
-> > > > > > > > +                                * appears not to be called in fuse server
-> > > > > > > > +                                * process context (b/c even if it drops
-> > > > > > > > +                                * those capabilities, they are held here).
-> > > > > > > > +                                */
-> > > > > > > > +                               fc->famfs_iomap = 1;
-> > > > > > > > +                       }
-> > > > > > > 
-> > > > > > > 1. As long as the mapping requests are checking capabilities we should be ok
-> > > > > > >     Right?
-> > > > > > 
-> > > > > > It depends on the definition of "are", or maybe of "mapping requests" ;)
-> > > > > > 
-> > > > > > Forgive me if this *is* obvious, but the fuse server capabilities are what
-> > > > > > I think need to be checked here - not the app that it accessing a file.
-> > > > > > 
-> > > > > > An app accessing a regular file doesn't need permission to do raw access to
-> > > > > > the underlying block dev, but the fuse server does - becuase it is directing
-> > > > > > the kernel to access that for apps.
-> > > > > > 
-> > > > > > > 2. What's the deal with capable(CAP_SYS_ADMIN) in process_init_limits then?
-> > > > > > 
-> > > > > > I *think* that's checking the capabilities of the app that is accessing the
-> > > > > > file, and not the fuse server. But I might be wrong - I have not pulled very
-> > > > > > hard on that thread yet.
-> > > > > 
-> > > > > The init reply should be processed in the context of the fuse server.
-> > > > > At that point the kernel hasn't exposed the fs to user programs, so
-> > > > > (AFAICT) there won't be any other programs accessing that fuse mount.
-> > > > 
-> > > > Hmm. It would be good if you're right about that. My fuse server *is* running
-> > > > as root, and when I check those capabilities in process_init_reply(), I
-> > > > find those capabilities. So far so good.
-> > > > 
-> > > > Then I added code to my fuse server to drop those capabilities prior to
-> > > > starting the fuse session (prctl(PR_CAPBSET_DROP, CAP_SYS_RAWIO) and 
-> > > > prctl(PR_CAPBSET_DROP, CAP_SYS_ADMIN). I expected (hoped?) to see those 
-> > > > capabilities disappear in process_init_reply() - but they did not disappear.
-> > > > 
-> > > > I'm all ears if somebody can see a flaw in my logic here. Otherwise, the
-> > > > capabilities need to be stashed away before the reply is processsed, when 
-> > > > fs/fuse *is* running in fuse server context.
-> > > > 
-> > > > I'm somewhat surprised if that isn't already happening somewhere...
-> > > 
-> > > Hrm.  I *thought* that since FUSE_INIT isn't queued as a background
-> > > command, it should still execute in the same process context as the fuse
-> > > server.
-> > > 
-> > > OTOH it also occurs to me that I have this code in fuse_send_init:
-> > > 
-> > > 	if (has_capability_noaudit(current, CAP_SYS_RAWIO))
-> > > 		flags |= FUSE_IOMAP | FUSE_IOMAP_DIRECTIO | FUSE_IOMAP_PAGECACHE;
-> > > 	...
-> > > 	ia->in.flags = flags;
-> > > 	ia->in.flags2 = flags >> 32;
-> > > 
-> > > which means that we only advertise iomap support in FUSE_INIT if the
-> > > process running fuse_fill_super (which you hope is the fuse server)
-> > > actually has CAP_SYS_RAWIO.  Would that work for you?  Or are you
-> > > dropping privileges before you even open /dev/fuse?
-> > 
-> > Ah - that might be the answer. I will check if dropped capabilities 
-> > disappear in fuse_send_init. If so, I can work with that - not advertising 
-> > the famfs capability unless the capability is present at that point looks 
-> > like a perfectly good option. Thanks for that idea!
-> 
-> Review: the famfs fuse server directs the kernel to provide access to raw
-> (memory) devices, so it should should be required to have have the
-> CAP_SYS_RAWIO capability. fs/fuse needs to detect this at init time,
-> and fail the connection/mount if the capability is missing.
-> 
-> I initially attempted to do this verification in process_init_reply(), but
-> that doesn't run in the fuse server process context.
-> 
-> I am now checking the capability in fuse_send_init(), and not advertising
-> the FUSE_DAX_FMAP capability (in in_args->flags[2]) unless the server has 
-> CAP_SYS_RAWIO.
-> 
-> That requires that process_init_reply() reject FUSE_DAX_FMAP from a server
-> if FUSE_DAX_FMAP was not set in in_args->flags[2]. process_init_reply() was
-> not previously checking the in_args, but no big deal - this works.
-> 
-> This leads to an apparent dilemma in libfuse. In fuse_lowlevel_ops->init(),
-> I should check for (flags & FUSE_DAX_IOMAP), and fail the connection if
-> that capability is not on offer. But fuse_lowlevel_ops->init() doesn't
-> have an obvious way to fail the connection. 
+On 8/12/25 9:40 AM, Kalra, Ashish wrote:
+> On 8/12/2025 7:06 AM, Kim Phillips wrote:
+>>   arch/x86/kvm/svm/sev.c | 47 ++++++++++++++++++-----------------------------
+>>   1 file changed, 18 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
+>> index 7ac0f0f25e68..57c6e4717e51 100644
+>> --- a/arch/x86/kvm/svm/sev.c
+>> +++ b/arch/x86/kvm/svm/sev.c
+>> @@ -2970,42 +2970,29 @@ static bool is_sev_snp_initialized(void)
+>>
+>>   static bool check_and_enable_sev_snp_ciphertext_hiding(void)
+>>   {
+>> -       unsigned int ciphertext_hiding_asid_nr = 0;
+>> -
+>> -       if (!ciphertext_hiding_asids[0])
+>> -               return false;
+>> -
+>> -       if (!sev_is_snp_ciphertext_hiding_supported()) {
+>> +       if (ciphertext_hiding_asids[0] && !sev_is_snp_ciphertext_hiding_supported()) {
+>>                  pr_warn("Module parameter ciphertext_hiding_asids specified but ciphertext hiding not supported\n");
+>>                  return false;
+>>          }
+>>
+> This is incorrect, if ciphertext_hiding_asids module parameter is never specified, user will always
+> get a warning of an invalid ciphertext_hiding_asids module parameter.
+>
+> When this module parameter is optional why should the user get a warning about an invalid module parameter.
 
-Yeah, I really wish it did.  I particularly wish that it had a way to
-negotiate all the FUSE_INIT stuff before libfuse daemonizes and starts
-up the event loop.  Well, not all of it -- by the time we get to
-FUSE_INIT we've basically decided to commit to mounting.
+Ack, sorry, new diff below that fixes this.
 
-For fuseblk servers this is horrible, because the kernel needs to be
-able to open the block device with O_EXCL during the mount() process,
-which means you actually have to be able to (re)open the block device
-from op_init, which can fail.  Unless there's a way to drop O_EXCL from
-an open fd?
+> Again, why do we want to do all these checks below if this module parameter has not been specified by
+> the user ?
 
-The awful way that I handle failure in FUSE_INIT is to call
-fuse_session_exit, but that grossly leaves a dead mount in its place.
+Not sure what you mean by 'below' here (assuming in the resulting code), 
+but, in general, there are less checks with this diff than the original 
+v7 code.
 
-Hey wait, is this what Mikulas was talking about when he mentioned
-synchronous initialization?
+>> -       if (isdigit(ciphertext_hiding_asids[0])) {
+>> -               if (kstrtoint(ciphertext_hiding_asids, 10, &ciphertext_hiding_asid_nr))
+>> -                       goto invalid_parameter;
+>> -
+>> -               /* Do sanity check on user-defined ciphertext_hiding_asids */
+>> -               if (ciphertext_hiding_asid_nr >= min_sev_asid) {
+>> -                       pr_warn("Module parameter ciphertext_hiding_asids (%u) exceeds or equals minimum SEV ASID (%u)\n",
+>> -                               ciphertext_hiding_asid_nr, min_sev_asid);
+> A *combined* error message such as this:
+> "invalid ciphertext_hiding_asids XXX or !(0 < XXX < minimum SEV ASID 100)"
+>
+> is going to be really confusing to the user.
+>
+> It is much simpler for user to understand if the error/warning is:
+> "Module parameter ciphertext_hiding_asids XXX exceeds or equals minimum SEV ASID YYY"
+> OR
+> "Module parameter ciphertext_hiding_asids XXX invalid"
 
-For iomap I created a discovery ioctl so that you can open /dev/fuse and
-ask the kernel about the iomap functionality that it supports, and you
-can exit(1) without creating a fuse session.  The one goofy problem with
-that is that there's a TOCTOU race if someone else does echo N >
-/sys/module/fuse/parameters/enable_iomap, though fuse4fs can always
-fall back to non-iomap mode.
+I tend to disagree. If, e.g., the user sets ciphertext_hiding_asids=100, 
+they see:
 
---D
+      kvm_amd: invalid ciphertext_hiding_asids "100" or !(0 < 100 < 
+minimum SEV ASID 100)
 
-> How should I do that? Hoping Bernd, Amir or the other libfuse people may 
-> have "the answer" (tm).
-> 
-> And of course if any of this doesn't sound like the way to go, let me know...
-> 
-> Thanks!
-> John
-> 
-> 
+which the user can easily unmistakably and quickly deduce that the 
+problem is the latter - not the former - condition that has the problem.
+
+The original v7 code in that same case would emit:
+
+kvm_amd: Module parameter ciphertext_hiding_asids (100) exceeds or 
+equals minimum SEV ASID (100)
+
+...to which the user would ask themselves "What's wrong with equalling 
+the minimum SEV ASID (100)"?
+
+It's not as immediately obvious that it needs to (0 < x < minimum SEV 
+ASID 100).
+
+OTOH, if the user inputs "ciphertext_hiding_asids=0x1", they now see:
+
+      kvm_amd: invalid ciphertext_hiding_asids "0x1" or !(0 < 99 < 
+minimum SEV ASID 100)
+
+which - unlike the original v7 code - shows the user that the '0x1' was 
+not interpreted as a number at all: thus the 99 in the latter condition.
+
+But all this is nothing compared to the added simplicity resulting from 
+making the change to the original v7 code.
+
+New diff from original v7 below:
+
+  arch/x86/kvm/svm/sev.c | 42 +++++++++++++++++-------------------------
+  1 file changed, 17 insertions(+), 25 deletions(-)
+
+diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
+index 7ac0f0f25e68..a879ea5f53f2 100644
+--- a/arch/x86/kvm/svm/sev.c
++++ b/arch/x86/kvm/svm/sev.c
+@@ -2970,8 +2970,6 @@ static bool is_sev_snp_initialized(void)
+
+  static bool check_and_enable_sev_snp_ciphertext_hiding(void)
+  {
+-       unsigned int ciphertext_hiding_asid_nr = 0;
+-
+         if (!ciphertext_hiding_asids[0])
+                 return false;
+
+@@ -2980,32 +2978,24 @@ static bool 
+check_and_enable_sev_snp_ciphertext_hiding(void)
+                 return false;
+         }
+
+-       if (isdigit(ciphertext_hiding_asids[0])) {
+-               if (kstrtoint(ciphertext_hiding_asids, 10, 
+&ciphertext_hiding_asid_nr))
+-                       goto invalid_parameter;
+-
+-               /* Do sanity check on user-defined 
+ciphertext_hiding_asids */
+-               if (ciphertext_hiding_asid_nr >= min_sev_asid) {
+-                       pr_warn("Module parameter 
+ciphertext_hiding_asids (%u) exceeds or equals minimum SEV ASID (%u)\n",
+-                               ciphertext_hiding_asid_nr, min_sev_asid);
+-                       return false;
+-               }
+-       } else if (!strcmp(ciphertext_hiding_asids, "max")) {
+-               ciphertext_hiding_asid_nr = min_sev_asid - 1;
+-       }
+-
+-       if (ciphertext_hiding_asid_nr) {
+-               max_snp_asid = ciphertext_hiding_asid_nr;
++       if (!strcmp(ciphertext_hiding_asids, "max")) {
++               max_snp_asid = min_sev_asid - 1;
+                 min_sev_es_asid = max_snp_asid + 1;
+-               pr_info("SEV-SNP ciphertext hiding enabled\n");
+-
+                 return true;
+         }
+
+-invalid_parameter:
+-       pr_warn("Module parameter ciphertext_hiding_asids (%s) invalid\n",
+-               ciphertext_hiding_asids);
+-       return false;
++       /* Do sanity check on user-defined ciphertext_hiding_asids */
++       if (kstrtoint(ciphertext_hiding_asids, 10, &max_snp_asid) ||
++           !max_snp_asid || max_snp_asid >= min_sev_asid) {
++               pr_warn("invalid ciphertext_hiding_asids \"%s\" or !(0 < 
+%u < minimum SEV ASID %u)\n",
++                       ciphertext_hiding_asids, max_snp_asid, 
+min_sev_asid);
++               max_snp_asid = min_sev_asid - 1;
++               return false;
++       }
++
++       min_sev_es_asid = max_snp_asid + 1;
++
++       return true;
+  }
+
+  void __init sev_hardware_setup(void)
+@@ -3122,8 +3112,10 @@ void __init sev_hardware_setup(void)
+                  * ASID range into separate SEV-ES and SEV-SNP ASID 
+ranges with
+                  * the SEV-SNP ASID starting at 1.
+                  */
+-               if (check_and_enable_sev_snp_ciphertext_hiding())
++               if (check_and_enable_sev_snp_ciphertext_hiding()) {
++                       pr_info("SEV-SNP ciphertext hiding enabled\n");
+                         init_args.max_snp_asid = max_snp_asid;
++               }
+                 if (sev_platform_init(&init_args))
+                         sev_supported = sev_es_supported = 
+sev_snp_supported = false;
+                 else if (sev_snp_supported)
+
+Thanks,
+
+Kim
+
