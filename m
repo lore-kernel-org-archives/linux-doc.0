@@ -1,150 +1,210 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E8A2EA721;
-	Tue, 12 Aug 2025 14:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DC12D8377;
+	Tue, 12 Aug 2025 14:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755007934; cv=none; b=tXwEOP4ZbyVHtdn0CXKd3kSUpppt6ufIrl7Qo4VHGgvY5E0Q01JWpnl/appx7QuLmS7Yc9vML6qzASnl7j09Bup1c3gl5ILh8hHVFZkt2LLXy4UMWCpC4czYPD3QYJ2QC0NpiOCXFczMUftQiosutMKO40WKiuwhNM5nYkmgofs=
+	t=1755009076; cv=none; b=DnhCkji8ji/0bqbgPAPUu5lvb/NhsXLnI3e1Os3GXYc57DNMv3LokqPvODFCS+6HUMQMBF4M0e+WGq15x9nYETpQVo9+inBj27Ce7JVwzJwkB0Ao616mYrafSzLcWdqu6oNcRkcnV3wo7I16IfIUyIinroBQZqowemnegejgejk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755007934; c=relaxed/simple;
-	bh=PJRh77BlqVsEpKRGUextThdX92CPAbJt12XhrYigNZc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=jubENxFZSnwfEHkTTKcDeCc7oO+n/sEJBPntD/d3Vsax5L8++EoQJqqKuuBI3WyZFUYyayMGHAyHhyQVDflP/8T7Tr7v1J1Ua5AATuK7eXCCkhelct3Dj8LwmLvAb0Ip8DOPt7N/UWgXmbS41TwaE6VsWt2sZ4CtT0u1tB6tobY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XqE1sexr; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XqE1sexr"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CAwi8E025631;
-	Tue, 12 Aug 2025 14:11:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dMh9F/zW3ltk/+W9kfI6XSfIFxsE1lXA2GRM0pTwl34=; b=XqE1sexrZQEHCWtt
-	TtdEAR//dSyvEl4PGQOxxxvK8QdVyl9n//axIEN4i2CLiXMHsu/dd5/w3LJAv+fm
-	/b9XU3mj5gRSUehPmdu+IeUPOIuQ0IY2VfLXW6QDRfcNrYC/eOiRI6djphYcJap4
-	wyJla+bvl9PmKXE3kh01jIyGtcIEp6n0usBqSP/pkjLY2vG6hA5yN2H6yE+7D02Q
-	r6ZDt78UhysrN/uJaStQ86aAB1It4vRfvLCb3HBw3mW97SWSxkG7VyQwL/Ty2h6y
-	XTJw66gJXfyYdAP1/8Eh8ZdP0tOFmS9CE5EbuWcy+IjX2u3mWDMnf79yn8NYqeYV
-	TbHtsg==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dw9srka7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Aug 2025 14:11:58 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57CEBvbn029825
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Aug 2025 14:11:57 GMT
-Received: from nsssdc-sh01-lnx.ap.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+	s=arc-20240116; t=1755009076; c=relaxed/simple;
+	bh=Qpm/B0Vg4Q0Qi2W9A/ZC7CFKZnk9fzUtGg/stWWESQ0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uqPFIboIPYOkXaIBIZnUQlcRvHm3LsQ6QBcgF2icS6t1hSrBN/9IYeV2qdtAUIDS226dEZ3fHtJ7UHhq8A8O9tIm3ed2IbOr8jW+Fksq70fY/91tyKhPfBwcyopInRKZlkwWShnzNpOc27GceRLqc5mEiHFevn6/hgCgbBs8tKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4c1Yhr5R4zz6L55k;
+	Tue, 12 Aug 2025 22:26:20 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
+	by mail.maildlp.com (Postfix) with ESMTPS id A37EA1402FF;
+	Tue, 12 Aug 2025 22:31:10 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.144.134) by
+ frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Tue, 12 Aug 2025 07:11:52 -0700
-From: Luo Jie <quic_luoj@quicinc.com>
-Date: Tue, 12 Aug 2025 22:10:38 +0800
-Subject: [PATCH net-next v7 14/14] MAINTAINERS: Add maintainer for Qualcomm
- PPE driver
+ 15.1.2507.39; Tue, 12 Aug 2025 16:31:08 +0200
+From: <shiju.jose@huawei.com>
+To: <rafael@kernel.org>, <bp@alien8.de>, <akpm@linux-foundation.org>,
+	<rppt@kernel.org>, <dferguson@amperecomputing.com>,
+	<linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+	<rientjes@google.com>, <jiaqiyan@google.com>, <Jon.Grimm@amd.com>,
+	<dave.hansen@linux.intel.com>, <naoya.horiguchi@nec.com>,
+	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
+	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
+	<gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
+	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
+	<shiju.jose@huawei.com>
+Subject: [PATCH v11 0/3] ACPI: Add support for ACPI RAS2 feature table
+Date: Tue, 12 Aug 2025 15:26:12 +0100
+Message-ID: <20250812142616.2330-1-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250812-qcom_ipq_ppe-v7-14-789404bdbc9a@quicinc.com>
-References: <20250812-qcom_ipq_ppe-v7-0-789404bdbc9a@quicinc.com>
-In-Reply-To: <20250812-qcom_ipq_ppe-v7-0-789404bdbc9a@quicinc.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
-        Suruchi Agarwal
-	<quic_suruchia@quicinc.com>,
-        Pavithra R <quic_pavir@quicinc.com>,
-        "Simon
- Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook
-	<kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        "Philipp
- Zabel" <p.zabel@pengutronix.de>
-CC: <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
-        Luo Jie
-	<quic_luoj@quicinc.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755007841; l=898;
- i=quic_luoj@quicinc.com; s=20250209; h=from:subject:message-id;
- bh=PJRh77BlqVsEpKRGUextThdX92CPAbJt12XhrYigNZc=;
- b=KfHO01pLn3Yb/4AY90A9qSPRVYZGnXYwTQ+VXn+LrPflqznhIG3aL9ZyQoA5iZTO+yVmsS8le
- W8XLgjIEP17DOO2zeyiWexoSerNoy8yybF9KsUIvKnatlpKOHJfn2hT
-X-Developer-Key: i=quic_luoj@quicinc.com; a=ed25519;
- pk=pzwy8bU5tJZ5UKGTv28n+QOuktaWuriznGmriA9Qkfc=
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=J+Wq7BnS c=1 sm=1 tr=0 ts=689b4bae cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=-_PooAnB-Ua2z9syxaEA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: ifEkOtMyIBd0Sbtl52OoNEFz26zP2EOh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAxNSBTYWx0ZWRfX/FUod6/49Bh+
- NknTj+COarb+8/JUHSokfDXveTag+4TmETaj/qTYMhXv3S07msJQi+DNXG+hfWOg93RClk6mXOK
- 51Gzm+kI5Cqd1BgZJq19BIU6DRtZ+FoAVRAz23MSoQwdKcNkPJuiUki97d3z4CYir+BUr3XUmkw
- vLXHRto0Mwms9R8XZhe5nIkHtpDolBcAv5iZlf8o6DSPexzv3N3NjD9e8lwks4pGzLbaaqI55C7
- lcq318ZswPjtwOyRsyiEmdvkq1cgGJh/1J90XqHyt+JKwfe2rGo3Dyj+JKtQCCZaBiABAHMfi6M
- wu5N/QQaHE5l0SdLYiHmNmxz3Ocmxf9dJpOvDN0RJhrkeeUo7MirtFhugUTt9idx/S6fTxCtaSj
- YsGiubPG
-X-Proofpoint-GUID: ifEkOtMyIBd0Sbtl52OoNEFz26zP2EOh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-12_07,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- phishscore=0 suspectscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508090015
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ frapeml500007.china.huawei.com (7.182.85.172)
 
-Add maintainer entry for PPE (Packet Process Engine) driver supported
-for Qualcomm IPQ SoCs.
+From: Shiju Jose <shiju.jose@huawei.com>
 
-Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+1. In numa_memblks, add support to retrieve physical address range of
+   memory in a NUMA domain, which is required for the ACPI RAS2 memory
+   features.
+   
+2. Add support for ACPI RAS2 feature table (RAS2) defined in the
+   ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+   scrubbing feature.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bd62ad58a47f..bcab0192f39b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20837,6 +20837,14 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/power/supply/qcom,pmi8998-charger.yaml
- F:	drivers/power/supply/qcom_smbx.c
- 
-+QUALCOMM PPE DRIVER
-+M:	Luo Jie <quic_luoj@quicinc.com>
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
-+F:	Documentation/networking/device_drivers/ethernet/qualcomm/ppe/ppe.rst
-+F:	drivers/net/ethernet/qualcomm/ppe/
-+
- QUALCOMM QSEECOM DRIVER
- M:	Maximilian Luz <luzmaximilian@gmail.com>
- L:	linux-arm-msm@vger.kernel.org
+ACPI RAS2 patches were part of the EDAC series [1].
+
+The code is based on linux.git v6.17-rc1 [2].
+
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://github.com/torvalds/linux.git
+
+Changes
+=======
+v10 -> v11:
+1. Simplified code by removing workarounds previously added to support
+   non-compliant case of single PCC channel shared across all proximity
+   domains (which is no longer required). 
+   https://lore.kernel.org/all/f5b28977-0b80-4c39-929b-cf02ab1efb97@os.amperecomputing.com/
+
+2. Fix for the comments from Borislav (Thanks).
+   https://lore.kernel.org/all/20250811152805.GQaJoMBecC4DSDtTAu@fat_crate.local/
+
+3. Rebase to v6.17-rc1.
+
+v9 -> v10:
+1. Use pcc_chan->shmem instead of 
+   acpi_os_ioremap(pcc_chan->shmem_base_addr,...) as it was
+   acpi_os_ioremap internally by the PCC driver to pcc_chan->shmem.
+   
+2. Changes required for the Ampere Computing system where uses a single
+   PCC channel for RAS2 memory features across all NUMA domains. Based on the
+   requirements from by Daniel on V9
+   https://lore.kernel.org/all/547ed8fb-d6b7-4b6b-a38b-bf13223971b1@os.amperecomputing.com/
+   and discussion with Jonathan.
+2.1 Add node_to_range lookup facility to numa_memblks. This is to retrieve the lowest
+    physical continuous memory range of the memory associated with a NUMA domain.
+2.2. Set requested addr range to the memory region's base addr and size
+   while send RAS2 cmd GET_PATROL_PARAMETER 
+   in functions ras2_update_patrol_scrub_params_cache() &
+   ras2_get_patrol_scrub_running().
+2.3. Split struct ras2_mem_ctx into struct ras2_mem_ctx_hdr and struct ras2_pxm_domain
+   to support cases, uses a single PCC channel for RAS2 scrubbers across all NUMA
+   domains and PCC channel per RAS2 scrub instance. Provided ACPI spec define single
+   memory scrub per NUMA domain.
+2.4. EDAC feature sysfs folder for RAS2 changed from "acpi_ras_memX" to  "acpi_ras_mem_idX"
+   because memory scrub instances across all NUMA domains would present under
+   "acpi_ras_mem_id0" when a system uses a single PCC channel for RAS2 scrubbers across
+   all NUMA domains etc.
+2.5. Removed Acked-by: Rafael from patch [2], because of the several above changes from v9.
+
+v8 -> v9:
+1. Added following changes for feedback from Yazen.
+ 1.1 In ras2_check_pcc_chan(..) function
+    - u32 variables moved to the same line.
+    - Updated error log for readw_relaxed_poll_timeout()
+    - Added error log for if (status & PCC_STATUS_ERROR), error condition.
+    - Removed an impossible condition check.
+  1.2. Added guard for ras2_pc_list_lock in ras2_get_pcc_subspace().
+        
+2. Rebased to linux.git v6.16-rc2 [2].
+
+v7 -> v8:
+1. Rebased to linux.git v6.16-rc1 [2].
+
+v6 -> v7:
+1. Fix for the issue reported by Daniel,
+   In ras2_check_pcc_chan(), add read, clear and check RAS2 set_cap_status outside
+   if (status & PCC_STATUS_ERROR) check. 
+   https://lore.kernel.org/all/51bcb52c-4132-4daf-8903-29b121c485a1@os.amperecomputing.com/
+
+v5 -> v6:
+1. Fix for the issue reported by Daniel, in start scrubbing with correct addr and size
+   after firmware return INVALID DATA error for scrub request with invalid addr or size.
+   https://lore.kernel.org/all/8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com/
+   
+v4 -> v5:
+1. Fix for the build warnings reported by kernel test robot.
+   https://patchwork.kernel.org/project/linux-edac/patch/20250423163511.1412-3-shiju.jose@huawei.com/
+2. Removed patch "ACPI: ACPI 6.5: RAS2: Rename RAS2 table structure and field names"
+   from the series as the patch was merged to linux-pm.git : branch linux-next
+3. Rebased to ras.git: edac-for-next branch merged with linux-pm.git : linux-next branch.
+      
+v3 -> v4:
+1.  Changes for feedbacks from Yazen on v3.
+    https://lore.kernel.org/all/20250415210504.GA854098@yaz-khff2.amd.com/
+
+v2 -> v3:
+1. Rename RAS2 table structure and field names in 
+   include/acpi/actbl2.h limited to only necessary
+   for RAS2 scrub feature.
+2. Changes for feedbacks from Jonathan on v2.
+3. Daniel reported a known behaviour: when readback 'size' attribute after
+   setting in, returns 0 before starting scrubbing via 'addr' attribute.
+   Changes added to fix this.
+4. Daniel reported that firmware cannot update status of demand scrubbing
+   via the 'Actual Address Range (OUTPUT)', thus add workaround in the
+   kernel to update sysfs 'addr' attribute with the status of demand
+   scrubbing.
+5. Optimized logic in ras2_check_pcc_chan() function
+   (patch - ACPI:RAS2: Add ACPI RAS2 driver).
+6. Add PCC channel lock to struct ras2_pcc_subspace and change
+   lock in ras2_mem_ctx as a pointer to pcc channel lock to make sure
+   writing to PCC subspace shared memory is protected from race conditions.
+   
+v1 -> v2:
+1.  Changes for feedbacks from Borislav.
+    - Shorten ACPI RAS2 structures and variables names.
+    - Shorten some of the other variables in the RAS2 drivers.
+    - Fixed few CamelCases.
+
+2.  Changes for feedbacks from Yazen.
+    - Added newline after number of '}' and return statements.
+    - Changed return type for "ras2_add_aux_device() to 'int'.
+    - Deleted a duplication of acpi_get_table("RAS2",...) in the ras2_acpi_parse_table().
+    - Add "FW_WARN" to few error logs in the ras2_acpi_parse_table().
+    - Rename ras2_acpi_init() to acpi_ras2_init() and modified to call acpi_ras2_init()
+      function from the acpi_init().
+    - Moved scrub related variables from the struct ras2_mem_ctx from  patch
+      "ACPI:RAS2: Add ACPI RAS2 driver" to "ras: mem: Add memory ACPI RAS2 driver".
+
+Shiju Jose (3):
+  mm: Add support to retrieve physical address range of memory from the
+    node ID
+  ACPI:RAS2: Add ACPI RAS2 driver
+  ras: mem: Add memory ACPI RAS2 driver
+
+ Documentation/edac/scrub.rst |  73 ++++++
+ drivers/acpi/Kconfig         |  12 +
+ drivers/acpi/Makefile        |   1 +
+ drivers/acpi/bus.c           |   3 +
+ drivers/acpi/ras2.c          | 385 +++++++++++++++++++++++++++++++
+ drivers/ras/Kconfig          |  11 +
+ drivers/ras/Makefile         |   1 +
+ drivers/ras/acpi_ras2.c      | 424 +++++++++++++++++++++++++++++++++++
+ include/acpi/ras2.h          |  77 +++++++
+ include/linux/numa.h         |   9 +
+ include/linux/numa_memblks.h |   2 +
+ mm/numa.c                    |  10 +
+ mm/numa_memblks.c            |  37 +++
+ 13 files changed, 1045 insertions(+)
+ create mode 100644 drivers/acpi/ras2.c
+ create mode 100644 drivers/ras/acpi_ras2.c
+ create mode 100644 include/acpi/ras2.h
 
 -- 
-2.34.1
+2.43.0
 
