@@ -1,44 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6852F83B0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B2F2F83C0;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=Y+nczte71Gm+5l7x+7ygflcmC6aJTEW3OmXXQrFNpztIObqFajh7IueNRM8k61zXwDUQz6DMdHzz3tyR3ZTvW4H1z2wh0Nm+KMoaCjq48Ez/CXAi4Gsydlz3UaSekHfu104I7MRLnOOfTv38Zqob26fA7QQNe+pvsaXn1WCfCek=
+	t=1755013985; cv=none; b=JnoncdWbqggsJ87t2c9Leez5x7LWAyK8uVekH7OHhHFNBEBlILSzGgBNV2FMpARbC3kgiY2po322zPVsDH2u8ZfSHNFtVNUMU5OWphX0VIHyhV38FgVxk7eRDckrgq5HgIfNIFLrNi5Xh+wzjB74KJdhrdDAZEHW8YjRYsuQqWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=i0mHMu7j1L1UYsoNJE+5G4UPEMroTjEGJD+fY6oMYWg=;
+	bh=WebWcu8z+YevfzDBChtXNRkHwfTSu+wYncOqqxbNMio=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T9l5ZhBX/r5DBM3pm+SlJVe5Co1ukmFmTU5ikAYbo5o4gY4uMhqP/0oA8iqDiykb8dY6uIMLiTjxEQML+FtShmnQBNWa2zPMCMrToPPyxbTiJ0OiRhAcguSNg9d8WsV8Q97ES79zbNtWhQswFBhSA8d1J3cHXdmhkkJZNkI5GQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l1JpFD1i; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Tz8WbdB0YQbXhTWTtIIscJHzI//kAl5HYujlfZGuqSaxtk3X3YkPYqGKYGpr4i2ybD+tYyTxmhtIWL4L7uEfycn6lEzM03gJqraa26xEVcN//h8oGMpQq5SXPFy9jp7x1z7cUYhLBjgww+URAwCzobJvMPVM6vN9md+VObvZdfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aSFA8CqG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l1JpFD1i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1541DC4AF48;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aSFA8CqG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F90CC2BCF6;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013985;
-	bh=i0mHMu7j1L1UYsoNJE+5G4UPEMroTjEGJD+fY6oMYWg=;
+	bh=WebWcu8z+YevfzDBChtXNRkHwfTSu+wYncOqqxbNMio=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=l1JpFD1itzwxGC7q+pJ8Cf5X8+RV3TFWbeiYNvZ/umZHmKcsespRuzjY6UBM8T7UY
-	 YQRMycqSmiS0n/MlGpf9MnnkoxgRoX+bdnoe12EbfAmg0FEpWVHe7COwdMA+JPwc87
-	 T1mXoTuILmE0cdmprEPYoy0QiVMdbNm07o9TdYfBPVCdJNChzE9fquZEpzBNr+BhID
-	 RiGeE0a0FMkYl/eZwMmOA3hi9MUCKUXUp73TjI3PLuZp2UcujPVXuJRtrN4S7eSre0
-	 qX8LgW4uf7YGAE17YDmOU6e6HFcZoBgkaz/WQ+0vByhUMTepyVzL6f8bN62Pc6KS/N
-	 qpCm6FpYT9vgA==
+	b=aSFA8CqGgrFaRwZ/HyAv4vh89GoILlu7blWgntOq7dPUcRmI6zeZQwsOt35132bGx
+	 4527Jh27mYQG18NI7HtoFkQ+TM8fFUbsXlO9Xr7ae+Uyobf9+ef3AN8kHiIzuVpKJW
+	 /KtNN3SbPOUBiKg27LnbTMXmxNNkh6U1VY9lhMh6O2G1ToXP5ulXvVWbnGp4EuPVGO
+	 t8mtIoA17sI+6cK8rpAkeTTrGdihYvtkxFMOgss8VqNUvONP89DTl+51CXZGkDY256
+	 aDPGd+P98uJgt8UrBwB98dW+IIjVpcVPOpGZqZ1F02VFR3jX2ECUfA3fHhEugb/5P3
+	 OeXsltw0frcaw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ9-00000006kXl-0n9X;
+	id 1ulrJ9-00000006kXX-0Sbg;
 	Tue, 12 Aug 2025 17:53:03 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 39/39] scripts: sphinx-pre-install: some adjustments related to venv
-Date: Tue, 12 Aug 2025 17:52:56 +0200
-Message-ID: <e3a0e5eccd50eb506846e3e8487a2d9124ef83e2.1754992972.git.mchehab+huawei@kernel.org>
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nathan Chancellor <mchehab+huawei@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2 36/39] scripts: sphinx-pre-install: update mandatory system deps
+Date: Tue, 12 Aug 2025 17:52:53 +0200
+Message-ID: <4ec979e4692c9e4acd6c31424c0e2f4bf5b80e71.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,55 +56,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While nothing was really needed for virtualenv to work on most
-distros, we had an issue with OpenMandriva.
+To build docs, gcc is not needed. Also, Kernel can be built
+nowadays with clang. So, drop it.
 
-While checking for it, it was noticed that there was no check if
-python-virtualenv was installed.
-
-This didn't solve the issues we faced there: at least with
-the half-broken OpenMandriva Lx 4.0 docker container we used,
-ensurepip was not available anywhere, causing venv to fail.
-
-Add a distro-specific note about that.
-
-Note: at least at the time we did our tests, OpenMandriva Lx 4.0
-docker was shipped with wrong dnf repositories. Also, there
-was no repos available for it anymore. So, we had to do some
-hacks to upgrade to 4.3 before being able to run any tests.
+On the other hand, which is needed. Add a system dependency
+for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ scripts/sphinx-pre-install | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 09a337509b23..b8474848df4e 100755
+index 7dfe5c2a6cc2..fc9dc45054d7 100755
 --- a/scripts/sphinx-pre-install
 +++ b/scripts/sphinx-pre-install
-@@ -983,6 +983,22 @@ class SphinxDependencyChecker(MissingCheckers):
-             # Tested on OpenMandriva Lx 4.3
-             progs["convert"] = "imagemagick"
-             progs["yaml"] = "python-pyyaml"
-+            progs["python-virtualenv"] = "python-virtualenv"
-+            progs["python-sphinx"] = "python-sphinx"
-+
-+            self.check_program("python-virtualenv", DepManager.PYTHON_MANDATORY)
-+
-+            # On my tests with openMandriva LX 4.0 docker image, upgraded
-+            # to 4.3, python-virtualenv package is broken: it is missing
-+            # ensurepip. Without it, the alternative would be to run:
-+            # python3 -m venv --without-pip ~/sphinx_latest, but running
-+            # pip there won't install sphinx at venv.
-+            #
-+            # Add a note about that.
-+
-+            if not self.distro_msg:
-+                self.distro_msg = \
-+                    "Note: for venv, ensurepip could be broken, preventing its install method."
+@@ -1476,7 +1476,7 @@ class SphinxDependencyChecker(MissingCheckers):
+         self.check_perl_module("Pod::Usage", DepManager.SYSTEM_MANDATORY)
  
-         else:
-             packager_cmd = "urpmi"
+         self.check_program("make", DepManager.SYSTEM_MANDATORY)
+-        self.check_program("gcc", DepManager.SYSTEM_MANDATORY)
++        self.check_program("which", DepManager.SYSTEM_MANDATORY)
+ 
+         self.check_program("dot", DepManager.SYSTEM_OPTIONAL)
+         self.check_program("convert", DepManager.SYSTEM_OPTIONAL)
 -- 
 2.50.1
 
