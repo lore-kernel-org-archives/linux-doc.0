@@ -1,207 +1,116 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB21280308;
-	Tue, 12 Aug 2025 22:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FD31A9F9A;
+	Tue, 12 Aug 2025 22:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755037465; cv=none; b=FafWQNMUOkHNwyBeXjLd8tOUr8mbvTSAHi1xhr+bQkVmqAI3EhOc+7SIp+fzYm0A2CcvuTONwK0yK4nobXUTb1t7isctUlmOjJPZ+ysV7GtirP/9VDF/9DZzOdzt9sexOQNlsXyF8HMQpjw6tzcQbVZDAd/HQTs0yNEe99C5HQc=
+	t=1755038346; cv=none; b=bIWg+l/27R5CQ1n/YfCKkSY+jDlqUsoM4lLULsKqB/LnuKdG+7NI9wev+mwkLBhoLz7GEZ3cF/G6ZypdC0ukRt4zJsZOWOKN2svJDcXm0Wa9ZjJP8nGtZ4zZkJjYMdL9AHlI2By1kdw0ryrG7yF0FX3cZGfzfW3uD1Hm11h1GgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755037465; c=relaxed/simple;
-	bh=VTu1YlP6cbBxPd8KlY7/RgMoLKQvCZlYMTO6Lr73lws=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kJ/8AtMQ1kRi/7mVZBGK3giJque5zDKQdno4k0N21paFr0WTaXk4yLMSlP1szm2li/NweLdK3UcPAp6f5fDr8kiLhKiJVCRfvdEyatFLmc98qHxXCTWB92KEweCzWnY4ErSvtYj8MxpfCINtdcCKOZIv2WvOHJlxfX1LkZ6+cq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UsgG2lN0; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755038346; c=relaxed/simple;
+	bh=zBLOdm+92gEjPKvOs7yrSjtIDseJ9HloWYSWxpDP+AQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kSjJaQ9pm9UJoQBjlUjXOoZalluqN8L/kXVl29iaxceVbdsSbE+vhmi7ns/A0rQJXZ4WJFA63898CH7DH3fisTaqdLQuWOFQU1VG9QZN9C07YOR66/8QX/iEvF88gIM20TeEXA0K9lvhG1oIdSPELeSaKmNTGBS7yvEfX+9Qzco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q9stgKG0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UsgG2lN0"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3b783ea502eso203346f8f.1;
-        Tue, 12 Aug 2025 15:24:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755037462; x=1755642262; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rtjUK0AZOjm4eF0vnry/hWr4fc/ZinEdNV9kmjIXNAY=;
-        b=UsgG2lN0/dfvuiGD/r5glWiHVrG4l89saV+mlnzWnKFzmWWfFufR+ttIQPnxpwoTuK
-         Xz4/VHGXDCCFZyoxXOcsYB36Wck3M0v2TzVxKzI87M58bJOrsPvDXPyeOWtigvfp6TPC
-         k/i5ilA+ePGDSKJBp5IlTI+TBe7n7OwSdW43/bhUaxk65sB35FhSxL5R64J0myrBFMdp
-         /ODx6S+LIoVfKqg+CuMxydF+3BvqxaxvF/Rh6oO8FuF8uMsGZqat9TbZXUciQZ+2aO5r
-         6blGBtVOavLwBOkRZhfE5gQ+4/exWFbt8EHIpPZ6VgTWGkPy0yks4wtnvR4RryW0PCxh
-         XVtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755037462; x=1755642262;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rtjUK0AZOjm4eF0vnry/hWr4fc/ZinEdNV9kmjIXNAY=;
-        b=Jy0kVZOLv6cZgF/rd+Xje4arfcQAK1N3xFlktuQBFrlHo+khivCawW9kSMisB+eZKe
-         sGReooHIRzrftzvEsl5pJHPeijr1ZnKvEqGm7/gq1nFpAqwKmx1C5lMW+cDBvM5XSutR
-         w/UTeqs19NoSdvNhdIjnA6eGeSSL1kpYy3m6+jhXv3SceJxsEeI2SZmg8ub5AiuBeaJD
-         z/MdcSbZDmmiQLwAhia2RUQcumLXzMWvZV0mVBrGw9pAU+C/lRphYwnm+ZHDICHh6iqe
-         uR1LG/x6qwsfp807Q834F+nZ+tiaCBrvAiBLOtHqGT3VECYye3UnXsXLTe+REImts6MY
-         evwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU26KLfefZxtdrid992cL40r7mUKF/drLukWXnbj4vXvSNeqql/R0l7VnecEZjwUGC5KWw=@vger.kernel.org, AJvYcCVBTCaX7FMNyorDmaboS17h084f8ea8YKVqjlnJJZRVYZQ7GvAtA6nz1oSgFdLCash3GiDHLQuyPf/m@vger.kernel.org, AJvYcCWI3mGJrhAHMFlAZlaS29x5jOfEMts4K+loweGnVBW9gZn5cJwfPp37Oo25gsud7CRu4biFZd315jMkkvog@vger.kernel.org
-X-Gm-Message-State: AOJu0YxE8e5Zu+HfDuK5YSHgaEhirWFNHt+39FGQjR9tuXmjPFU3gBp8
-	yX2XTnstzG3jetGIt6MUHCCDdCluiYQVVNI1tYH7jw3h6qR8WJHWm9YdKBIZM3LB
-X-Gm-Gg: ASbGncsu4O/9fpdBv2cLXQ4wM4DcddjS01qpGSD6eLEVhmVPoGfF1Kwzw3M0x6onJrL
-	ZscYl2Ej+VSA2P3CLZ+McaG4tP5eQoykP9xgKTeAsGkgmQvavgoD//V2sZ1CBoWBL8ngYWBgErn
-	6ex2HsjtwTmdzuiQ1fKAGKk4D9wYk3t1cB5U0cdzEGuup/lcM7x3A+LzdGhMKdEUn/4wdb9pnPg
-	ipk+EC0D7gQYy/EvCH8IhsCWKu0FzmC8NobtWo+BUalXaSQH/FYomO55FEeaOOIVlHReVz6EsTA
-	aMN+VcQvvYaeIu7SPQ1qtyM/L9Rsk4kqKsX+53FXC+8zkdFwEILYZxzaBdFLmaIrCgWgeuWzIv5
-	KfSCjIa6SD12uZ31sDUfKHH45jKRwv80Vf88=
-X-Google-Smtp-Source: AGHT+IHJr9x4tPHQB488BcmKjtF7JFP/uv+eKfUyu+Ss45vTGSVkFV0Ahpktarr49m9/oxGrmVivog==
-X-Received: by 2002:a05:6000:3107:b0:3b9:16e5:bd38 with SMTP id ffacd0b85a97d-3b918c4cebcmr138431f8f.4.1755037461620;
-        Tue, 12 Aug 2025 15:24:21 -0700 (PDT)
-Received: from localhost ([2a03:2880:31ff:2::])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3abedesm46018339f8f.3.2025.08.12.15.24.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 15:24:19 -0700 (PDT)
-From: Mohsin Bashir <mohsin.bashr@gmail.com>
-To: netdev@vger.kernel.org
-Cc: aleksander.lobakin@intel.com,
-	alexanderduyck@fb.com,
-	andrew+netdev@lunn.ch,
-	ast@kernel.org,
-	bpf@vger.kernel.org,
-	corbet@lwn.net,
-	daniel@iogearbox.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	hawk@kernel.org,
-	horms@kernel.org,
-	john.fastabend@gmail.com,
-	kernel-team@meta.com,
-	kuba@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mohsin.bashr@gmail.com,
-	pabeni@redhat.com,
-	sdf@fomichev.me,
-	vadim.fedorenko@linux.dev
-Subject: [PATCH net-next V3 9/9] eth: fbnic: Report XDP stats via ethtool
-Date: Tue, 12 Aug 2025 15:24:17 -0700
-Message-ID: <20250812222417.268420-1-mohsin.bashr@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250812220150.161848-1-mohsin.bashr@gmail.com>
-References: <20250812220150.161848-1-mohsin.bashr@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q9stgKG0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FCC1C4CEF0;
+	Tue, 12 Aug 2025 22:39:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755038346;
+	bh=zBLOdm+92gEjPKvOs7yrSjtIDseJ9HloWYSWxpDP+AQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Q9stgKG02jgzChio9R11ImFMLmJWPrCcFBIaQgPV/DOLd2FkDaVSiFs5N64KzHiC2
+	 HQKKXCrRCFPxZsBqSdeK2vRGSXL0juE8zchC/W40Kn3rWLHKvwSpB5+55WPHeeYlhK
+	 3NIev4fnjUn1PRtbY+j+RIcmBkINRZdotSA0zYeYT01qjYrb9fQJolOBCph6w95Qlf
+	 py9N68whkQVZH9+Efc9Na+9+vl7fxsaF8oZjzbWNG8vEaMt8I9MzB8LdFI1cVKOvA3
+	 xJ9FLFKpKx2tRFDxLg72iZ1DzaV9HwfWB6YFc44860QbefIlwp80RPGqz9wZ0v5Rkw
+	 Z13p/5/hrRaTg==
+Date: Wed, 13 Aug 2025 00:39:02 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 6/7] docs: kdoc: tighten up the pointer-to-function case
+Message-ID: <20250813003902.2fc82b54@foz.lan>
+In-Reply-To: <20250812195748.124402-7-corbet@lwn.net>
+References: <20250812195748.124402-1-corbet@lwn.net>
+	<20250812195748.124402-7-corbet@lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add support to collect XDP stats via ethtool API. We record
-packets and bytes sent, and packets dropped on the XDP_TX path.
+On Tue, 12 Aug 2025 13:57:47 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-ethtool -S eth0 | grep xdp | grep -v "0"
-     xdp_tx_queue_13_packets: 2
-     xdp_tx_queue_13_bytes: 16126
+> Tighten up the code and remove an unneeded regex operation.
+> 
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  scripts/lib/kdoc/kdoc_parser.py | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
+> 
+> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> index d7fb79a64487..ceb38b59fb4c 100644
+> --- a/scripts/lib/kdoc/kdoc_parser.py
+> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> @@ -511,22 +511,19 @@ class KernelDoc:
+>                  # Treat preprocessor directive as a typeless variable
+>                  self.push_parameter(ln, decl_type, arg, "",
+>                                      "", declaration_name)
+> -
+> +            #
+> +            # The pointer-to-function case.
+> +            #
+>              elif KernRe(r'\(.+\)\s*\(').search(arg):
+> -                # Pointer-to-function
+> -
+>                  arg = arg.replace('#', ',')
+> -
+> -                r = KernRe(r'[^\(]+\(\*?\s*([\w\[\].]*)\s*\)')
+> +                r = KernRe(r'[^\(]+\(\*?\s*' r'([\w\[\].]*)' r'\s*\)')
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Mohsin Bashir <mohsin.bashr@gmail.com>
----
- .../net/ethernet/meta/fbnic/fbnic_ethtool.c   | 50 ++++++++++++++++++-
- 1 file changed, 49 insertions(+), 1 deletion(-)
+Heh, it took me a couple of seconds to understand this concat, as I haven't
+seem concat pattern like that before (maybe except for some old C book
+I read a millennium ago that I barely remember).  So, IMO, it became harder
+to understand this way. I would either remove the extra two ' r' from the
+string or write it as:
 
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c b/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
-index 742b557d0e56..ceb8f88ae41c 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
-@@ -112,6 +112,20 @@ static const struct fbnic_stat fbnic_gstrings_hw_q_stats[] = {
- 	 FBNIC_HW_RXB_DEQUEUE_STATS_LEN * FBNIC_RXB_DEQUEUE_INDICES + \
- 	 FBNIC_HW_Q_STATS_LEN * FBNIC_MAX_QUEUES)
- 
-+#define FBNIC_QUEUE_STAT(name, stat) \
-+	FBNIC_STAT_FIELDS(fbnic_ring, name, stat)
-+
-+static const struct fbnic_stat fbnic_gstrings_xdp_stats[] = {
-+	FBNIC_QUEUE_STAT("xdp_tx_queue_%u_packets", stats.packets),
-+	FBNIC_QUEUE_STAT("xdp_tx_queue_%u_bytes", stats.bytes),
-+	FBNIC_QUEUE_STAT("xdp_tx_queue_%u_dropped", stats.dropped),
-+};
-+
-+#define FBNIC_XDP_STATS_LEN ARRAY_SIZE(fbnic_gstrings_xdp_stats)
-+
-+#define FBNIC_STATS_LEN \
-+	(FBNIC_HW_STATS_LEN + FBNIC_XDP_STATS_LEN * FBNIC_MAX_XDPQS)
-+
- static void
- fbnic_get_drvinfo(struct net_device *netdev, struct ethtool_drvinfo *drvinfo)
- {
-@@ -422,6 +436,16 @@ static void fbnic_get_rxb_dequeue_strings(u8 **data, unsigned int idx)
- 		ethtool_sprintf(data, stat->string, idx);
- }
- 
-+static void fbnic_get_xdp_queue_strings(u8 **data, unsigned int idx)
-+{
-+	const struct fbnic_stat *stat;
-+	int i;
-+
-+	stat = fbnic_gstrings_xdp_stats;
-+	for (i = 0; i < FBNIC_XDP_STATS_LEN; i++, stat++)
-+		ethtool_sprintf(data, stat->string, idx);
-+}
-+
- static void fbnic_get_strings(struct net_device *dev, u32 sset, u8 *data)
- {
- 	const struct fbnic_stat *stat;
-@@ -447,6 +471,9 @@ static void fbnic_get_strings(struct net_device *dev, u32 sset, u8 *data)
- 			for (i = 0; i < FBNIC_HW_Q_STATS_LEN; i++, stat++)
- 				ethtool_sprintf(&data, stat->string, idx);
- 		}
-+
-+		for (i = 0; i < FBNIC_MAX_XDPQS; i++)
-+			fbnic_get_xdp_queue_strings(&data, i);
- 		break;
- 	}
- }
-@@ -464,6 +491,24 @@ static void fbnic_report_hw_stats(const struct fbnic_stat *stat,
- 	}
- }
- 
-+static void fbnic_get_xdp_queue_stats(struct fbnic_ring *ring, u64 **data)
-+{
-+	const struct fbnic_stat *stat;
-+	int i;
-+
-+	if (!ring) {
-+		*data += FBNIC_XDP_STATS_LEN;
-+		return;
-+	}
-+
-+	stat = fbnic_gstrings_xdp_stats;
-+	for (i = 0; i < FBNIC_XDP_STATS_LEN; i++, stat++, (*data)++) {
-+		u8 *p = (u8 *)ring + stat->offset;
-+
-+		**data = *(u64 *)p;
-+	}
-+}
-+
- static void fbnic_get_ethtool_stats(struct net_device *dev,
- 				    struct ethtool_stats *stats, u64 *data)
- {
-@@ -511,13 +556,16 @@ static void fbnic_get_ethtool_stats(struct net_device *dev,
- 				      FBNIC_HW_Q_STATS_LEN, &data);
- 	}
- 	spin_unlock(&fbd->hw_stats_lock);
-+
-+	for (i = 0; i < FBNIC_MAX_XDPQS; i++)
-+		fbnic_get_xdp_queue_stats(fbn->tx[i + FBNIC_MAX_TXQS], &data);
- }
- 
- static int fbnic_get_sset_count(struct net_device *dev, int sset)
- {
- 	switch (sset) {
- 	case ETH_SS_STATS:
--		return FBNIC_HW_STATS_LEN;
-+		return FBNIC_STATS_LEN;
- 	default:
- 		return -EOPNOTSUPP;
- 	}
--- 
-2.47.3
+               r = KernRe(r'[^\(]+\(\*?\s*' 
+			  r'([\w\[\].]*)'
+			  r'\s*\)')
 
+Eventually adding a comment for the capture group. 
+
+With that, feel free to add:
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+>                  if r.match(arg):
+>                      param = r.group(1)
+>                  else:
+>                      self.emit_msg(ln, f"Invalid param: {arg}")
+>                      param = arg
+> -
+> -                dtype = KernRe(r'([^\(]+\(\*?)\s*' + re.escape(param)).sub(r'\1', arg)
+> -                self.push_parameter(ln, decl_type, param, dtype,
+> -                                    arg, declaration_name)
+> +                dtype = arg.replace(param, '')
+
+Nice cleanup. 
+
+> +                self.push_parameter(ln, decl_type, param, dtype, arg, declaration_name)
+>              #
+>              # The array-of-pointers case.  Dig the parameter name out from the middle
+>              # of the declaration.
+
+
+
+Thanks,
+Mauro
