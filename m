@@ -1,119 +1,248 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92362E8895;
-	Tue, 12 Aug 2025 17:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855581FE455;
+	Tue, 12 Aug 2025 17:26:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755019409; cv=none; b=lHeS7DnvXYG7cp1kipTZTghLoIrP7xSKOMlvS+mquicJZ+gsmlGQiyLzDmXLTEZPfM++BswbM3Y1j6vKNtfI2wn6xGRZFGQ0e9+fdRQ/k5oTxukchW5mxg9gyXLmsIdIBlmiEZB+BU+mFNgFAVYTcYhtrLbTjBO2dNk4XBG8Igc=
+	t=1755019617; cv=none; b=f90Q5Hx4WstFjz9z8TXWsQ8j/8ESmllLdCSuZYzQ2add+dq25iwS+OqrOPW1uy8LImjEV9Zkx6sCGcYS3Sg1Kbq6hEqsIGrY8d8m3ZvEhStPVL7Nae3hK6xm5GHrXZ5AqDRrPhkDJl6zpoGBcw62pZQyVWQaYlQ7B8lmHsBzoEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755019409; c=relaxed/simple;
-	bh=VTKiW/arTSFgxUTGvJKEwKbN5NnUiXVTNCU960pet6Y=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cNOzqU/scdavIzENyNws8xtdSgwHCYv2c41N60dPjl+9sMt4n7CQySlCgWQ1bDojgPKa7rgxjh3P6KEGVpKLfTn95SLfuGg/GK9qSN6TgqOOat7zDK2tdddh2JxGpG0LwpInV2KhvUhjJyXvT9hhzsWoQutikSL+s21T8qM8GcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHgwbk6g; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755019617; c=relaxed/simple;
+	bh=3+G+Hlu9Vk9eunN31fxV4PS7eTzvIgYXetLB/9sOOwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G/mkNbzQwsYNrNAzJMXuO+hQEzOUSBGxP8yHzyGWZRiwLNzmunqGEhIPieDr6v+aXVEWYwnU03/dKKPcE9uWZwtzzs6+W7r34bacvFNb4dnBo0zGgLMJZCWsOXaOxEA9NhH42EzmTnF5TnIUH/4C0M09RbdqHy3cmNhz4I2zo2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qdZLy0K7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHgwbk6g"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7e83d6633f2so318641685a.1;
-        Tue, 12 Aug 2025 10:23:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755019407; x=1755624207; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3MEv/35TdFko7V8jKEvPmOrK0mNNoGmEroSq4RQ6znw=;
-        b=iHgwbk6gTR5ojEi77ilR/m5QsLDzus2sspf2GYptoJ+1EaJOmLWcSTZxOtjEBESFET
-         /8K8duDJx6h3s7G9N/KanXs+5VxNG6b52UzGX0qUNBm48BL5qiinXxVWKK6DQGSJCXur
-         mvCMIeLNHSYNw/iBOF8Os5lfPksgUk5SHZHi3GeRanRopjaar6u1EAgrbcelymRRqi/h
-         zpouCCxmqNcW3usUlOd9rBi2B2hzvRxllv0kdsSqO7j32cjag7hWaaPkP+4yLFCLorbb
-         X7C4+0YESxWN4pS+hoo8Yxhr58Y2qiu82QU/sk9ZZak8d4rzOplKuCqjE+RshdLABXWG
-         T1NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755019407; x=1755624207;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3MEv/35TdFko7V8jKEvPmOrK0mNNoGmEroSq4RQ6znw=;
-        b=UXVcGEJf/ZZ3zNM4WdXrH7Z4d0yk+IJWQFNHgy4A03Wfd3HTobBxhPMhBYyP3MeqIY
-         U4J0hnKFqd9+R+9kBirgKxtUmqs4aJwOzFj99WR+cGc7Sy4q9OelOLOR8RTMOJ4jyvat
-         UASZO3kGJxsN5/2sS26ZyWd6ZdhZn5+gBoaWm3OlIvvRBVDV5dwtfML+OHJ0E8cX34x8
-         AGUm2HwSsauA+0BxFCuC23RDm0uOXKeT5XAh0IrBHqxXO6NWccKDrKSZ7VJlfVF5N84A
-         51lvOMbEi9y0RZErmNkT9CMFz5eUs3kXEEKbbmJ2HBatarnljMuivnMYlIScznB/GBc1
-         +usA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWEHSgdl2IWGtKbPcM24vVBETIJF1s0aU5OawFIPY6B/MwlexJpY8fHBZpR4aWpL1iZ9Hm7HDDGOAqmMum4sDxqtQF@vger.kernel.org, AJvYcCX+8OGg1i0CvOv1JBzaBegeg1f/hpJJGRdX3oWdrxU/MNXzqc+XLnGyG2wKEt6Z2brrXC0LeMbSuRE=@vger.kernel.org, AJvYcCXNpcrH9c2XqJWjiL9h2ewZPh1hz8AyCBvkKVOIeh3yfCa1knQJXh94drhAU76ZUKdIZh0Cd5f5wsIzwoup@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNilpPjxZ7zKdRvDOe4r0fl7RRxRSgwB2fVP4j+mbLOZFXOJox
-	KUC9caKjKJUh9uzNM9Y6nrmJ+KIvvPDnjvjTDnZi8kAdYIHy8p3loFGT
-X-Gm-Gg: ASbGncslwp3S8wTLKd/8NeXZ8+fWzRQevH8EZ0SLa1PlYn2LPriYVt62KBvV7pfJHSZ
-	0Y2FqF++dBu31p9ac/m4TtFIaNb3psIVw5ziAg9ZuZgdpwDr2Be6aLwDmFMm/7sII4Kek4uvkJN
-	9c+05gygWpV0YpIMSR42khPqMn8R+pBR1g4kXOelCBuSBu1t4xJs0zlBEVeQqukNMUdQMJ88Sa8
-	06xs6W6qeRSAjmgqrqpBAsP+3NZJG6/5pp9JTdgTG9WpdK1d4w6I8R1PNW7x7VvxRqaAPN7kusa
-	uTbAOxZHZqEzpKoShcodWP7sh2j3AUzyvga/1dh/1Z0P+4Ebge+b/ixEI7GwjAYPdVHd1fk56TN
-	RwwRyJu8LnEAIN09WrvQO8RM1uRMQfbB4fLUSQUcf9FVgNDOB2RIhOB9NyrI=
-X-Google-Smtp-Source: AGHT+IG9DGtRf9eW7lHgF7ZCSZIm3F4i6WgkIKUulVaxDcfzOzfY48TifK/0jn08i+UfO1hLD2d2cA==
-X-Received: by 2002:a05:620a:7187:b0:7e3:3417:8c80 with SMTP id af79cd13be357-7e864593f2dmr63534785a.31.1755019406487;
-        Tue, 12 Aug 2025 10:23:26 -0700 (PDT)
-Received: from ipravd-Nitro-AN515-55 ([2600:4040:530f:f000:a841:61f7:aa1f:bc8])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e83075ffa6sm780236485a.4.2025.08.12.10.23.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 10:23:26 -0700 (PDT)
-Date: Tue, 12 Aug 2025 13:23:24 -0400
-From: Ivan Pravdin <ipravdin.official@gmail.com>
-To: rostedt@goodmis.org, corbet@lwn.net, tglozar@redhat.com, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] rtla: fix cgroup and trace options parsing
-Message-ID: <cxc4vnifqfnizy6xx3m7rwyz442fur7stbfqas3qxat2opq5sv@zt2eerzhnwr4>
-References: <cover.1755014784.git.ipravdin.official@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qdZLy0K7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8DC8C4CEF0;
+	Tue, 12 Aug 2025 17:26:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755019616;
+	bh=3+G+Hlu9Vk9eunN31fxV4PS7eTzvIgYXetLB/9sOOwA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qdZLy0K7i9vgcXSgUICwY8FOv2kcDgtA95nkdB2az+5P3mnY8PMt/gm0fLGWNV4ew
+	 qKiFiCEYJZkW2NiH4WRaoN+ycjrlv8uHKfRoU257dRGblX4r1Wpf6WbhUh9+sq1wxj
+	 vVoznPuVwXl/j41iNsQZope6uGa7jCLppaF/p1kNnTImRZgBUNcseM8/VXbrQmKSdu
+	 aPn6BkWuUpVJ9IMabBUEZwBzFPx4fwHOFGQkf/AS/VLGlMKxcSCwAy6pR/NVRUU+CP
+	 JW6GPzZ02Exi3LfxSiFmgiiGjRtiUB3vrbv7q2BBJVGVVmxorC/wDPRhJhStqZKCiJ
+	 pLTgF/Sx1YNyQ==
+Date: Tue, 12 Aug 2025 10:26:55 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Zihuan Zhang <zhangzihuan@kylinos.cn>
+Cc: Michal Hocko <mhocko@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+	Jan Kara <jack@suse.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	David Hildenbrand <david@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Nico Pache <npache@redhat.com>, xu xin <xu.xin16@zte.com.cn>,
+	wangfushuai <wangfushuai@baidu.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+	Adrian Ratiu <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-ext4@vger.kernel.org
+Subject: Re: [RFC PATCH v1 0/9] freezer: Introduce freeze priority model to
+ address process dependency issues
+Message-ID: <20250812172655.GF7938@frogsfrogsfrogs>
+References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
+ <aJSpTpB9_jijiO6m@tiehlicka>
+ <4c46250f-eb0f-4e12-8951-89431c195b46@kylinos.cn>
+ <aJWglTo1xpXXEqEM@tiehlicka>
+ <ba9c23c4-cd95-4dba-9359-61565195d7be@kylinos.cn>
+ <aJW8NLPxGOOkyCfB@tiehlicka>
+ <09df0911-9421-40af-8296-de1383be1c58@kylinos.cn>
+ <aJnM32xKq0FOWBzw@tiehlicka>
+ <d86a9883-9d2e-4bb2-a93d-0d95b4a60e5f@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1755014784.git.ipravdin.official@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d86a9883-9d2e-4bb2-a93d-0d95b4a60e5f@kylinos.cn>
 
-On Tue, Aug 12, 2025 at 12:27:29PM -0400, Ivan Pravdin wrote:
-> This series fixes 3 issue in rtla timerlat and osnoise parsing.
+On Tue, Aug 12, 2025 at 01:57:49PM +0800, Zihuan Zhang wrote:
+> Hi all,
 > 
-> 1. Fix buffer overflow when using --on-threshold option. Currently
->    passing `--on-threshold trace` causes rtla timerlat to segfault.
->    First patch addresses this issue.
+> We encountered an issue where the number of freeze retries increased due to
+> processes stuck in D state. The logs point to jbd2-related activity.
 > 
-> 2. Make -C/--cgroup option more user-friendly. Currently rtla timerlat
->    and osnoise parses does not allow to specify tracer's threads cgroup
->    name as `-C [cgroup]` or `--cgroup [cgroup]`. Second patch fixes this by
->    allowing users to specify cgroup in the aforementioned manner.
+> log1:
 > 
-> 3. When specifying `-t/--trace` before `-a/--auto`, trace filename is
->    override to default <osnoise|timerlat>_trace.txt. For example, when
->    running rtla as 
->     
->        `rtla timerlat top -t custom_file.txt -a 100`
+> 6616.650482] task:ThreadPoolForeg state:D stack:0     pid:262026
+> tgid:4065  ppid:2490   task_flags:0x400040 flags:0x00004004
+> [ 6616.650485] Call Trace:
+> [ 6616.650486]  <TASK>
+> [ 6616.650489]  __schedule+0x532/0xea0
+> [ 6616.650494]  schedule+0x27/0x80
+> [ 6616.650496]  jbd2_log_wait_commit+0xa6/0x120
+> [ 6616.650499]  ? __pfx_autoremove_wake_function+0x10/0x10
+> [ 6616.650502]  ext4_sync_file+0x1ba/0x380
+> [ 6616.650505]  do_fsync+0x3b/0x80
 > 
->    when the threshold is reached, timerlat_trace.txt file is created
->    instead of specified custom_file.txt. Third patch addresses this issue.
+> log2:
 > 
-> Ivan Pravdin (3):
->   rtla: fix buffer overflow in actions_parse
->   rtla: fix -C/--cgroup interface
->   rtla: fix -a overriding -t argument
+> [  631.206315] jdb2_log_wait_log_commit  completed (elapsed 0.002 seconds)
+> [  631.215325] jdb2_log_wait_log_commit  completed (elapsed 0.001 seconds)
+> [  631.240704] jdb2_log_wait_log_commit  completed (elapsed 0.386 seconds)
+> [  631.262167] Filesystems sync: 0.424 seconds
+> [  631.262821] Freezing user space processes
+> [  631.263839] freeze round: 1, task to freeze: 852
+> [  631.265128] freeze round: 2, task to freeze: 2
+> [  631.267039] freeze round: 3, task to freeze: 2
+> [  631.271176] freeze round: 4, task to freeze: 2
+> [  631.279160] freeze round: 5, task to freeze: 2
+> [  631.287152] freeze round: 6, task to freeze: 2
+> [  631.295346] freeze round: 7, task to freeze: 2
+> [  631.301747] freeze round: 8, task to freeze: 2
+> [  631.309346] freeze round: 9, task to freeze: 2
+> [  631.317353] freeze round: 10, task to freeze: 2
+> [  631.325348] freeze round: 11, task to freeze: 2
+> [  631.333353] freeze round: 12, task to freeze: 2
+> [  631.341358] freeze round: 13, task to freeze: 2
+> [  631.349357] freeze round: 14, task to freeze: 2
+> [  631.357363] freeze round: 15, task to freeze: 2
+> [  631.365361] freeze round: 16, task to freeze: 2
+> [  631.373379] freeze round: 17, task to freeze: 2
+> [  631.381366] freeze round: 18, task to freeze: 2
+> [  631.389365] freeze round: 19, task to freeze: 2
+> [  631.397371] freeze round: 20, task to freeze: 2
+> [  631.405373] freeze round: 21, task to freeze: 2
+> [  631.413373] freeze round: 22, task to freeze: 2
+> [  631.421392] freeze round: 23, task to freeze: 1
+> [  631.429948] freeze round: 24, task to freeze: 1
+> [  631.438295] freeze round: 25, task to freeze: 1
+> [  631.444546] jdb2_log_wait_log_commit  completed (elapsed 0.249 seconds)
+> [  631.446387] freeze round: 26, task to freeze: 0
+> [  631.446390] Freezing user space processes completed (elapsed 0.183
+> seconds)
+> [  631.446392] OOM killer disabled.
+> [  631.446393] Freezing remaining freezable tasks
+> [  631.446656] freeze round: 1, task to freeze: 4
+> [  631.447976] freeze round: 2, task to freeze: 0
+> [  631.447978] Freezing remaining freezable tasks completed (elapsed 0.001
+> seconds)
+> [  631.447980] PM: suspend debug: Waiting for 1 second(s).
+> [  632.450858] OOM killer enabled.
+> [  632.450859] Restarting tasks: Starting
+> [  632.453140] Restarting tasks: Done
+> [  632.453173] random: crng reseeded on system resumption
+> [  632.453370] PM: suspend exit
+> [  632.462799] jdb2_log_wait_log_commit  completed (elapsed 0.000 seconds)
+> [  632.466114] jdb2_log_wait_log_commit  completed (elapsed 0.001 seconds)
 > 
->  Documentation/tools/rtla/common_options.rst |  2 +-
->  tools/tracing/rtla/src/actions.c            |  2 +-
->  tools/tracing/rtla/src/osnoise_hist.c       | 24 ++++++++------
->  tools/tracing/rtla/src/osnoise_top.c        | 24 ++++++++------
->  tools/tracing/rtla/src/timerlat_hist.c      | 24 ++++++++------
->  tools/tracing/rtla/src/timerlat_top.c       | 36 +++++++++------------
->  6 files changed, 62 insertions(+), 50 deletions(-)
+> This is the reason:
 > 
-> -- 
-> 2.48.1
->
+> [  631.444546] jdb2_log_wait_log_commit  completed (elapsed 0.249 seconds)
+> 
+> 
+> During freezing, user processes executing jbd2_log_wait_commit enter D state
+> because this function calls wait_event and can take tens of milliseconds to
+> complete. This long execution time, coupled with possible competition with
+> the freezer, causes repeated freeze retries.
+> 
+> While we understand that jbd2 is a freezable kernel thread, we would like to
+> know if there is a way to freeze it earlier or freeze some critical
+> processes proactively to reduce this contention.
 
-Please disregard this and see v2 [1]
+Freeze the filesystem before you start freezing kthreads?  That should
+quiesce the jbd2 workers and pause anyone trying to write to the fs.
+Maybe the missing piece here is the device model not knowing how to call
+bdev_freeze prior to a suspend?
 
-[1] https://lore.kernel.org/all/cover.1755018581.git.ipravdin.official@gmail.com/T/#t
+That said, I think that doesn't 100% work for XFS because it has
+kworkers for metadata buffer read completions, and freezes don't affect
+read operations...
 
-	Ivan Pravdin
+(just my clueless 2c)
+
+--D
+
+> Thanks for your input and suggestions.
+> 
+> 在 2025/8/11 18:58, Michal Hocko 写道:
+> > On Mon 11-08-25 17:13:43, Zihuan Zhang wrote:
+> > > 在 2025/8/8 16:58, Michal Hocko 写道:
+> > [...]
+> > > > Also the interface seems to be really coarse grained and it can easily
+> > > > turn out insufficient for other usecases while it is not entirely clear
+> > > > to me how this could be extended for those.
+> > >   We recognize that the current interface is relatively coarse-grained and
+> > > may not be sufficient for all scenarios. The present implementation is a
+> > > basic version.
+> > > 
+> > > Our plan is to introduce a classification-based mechanism that assigns
+> > > different freeze priorities according to process categories. For example,
+> > > filesystem and graphics-related processes will be given higher default
+> > > freeze priority, as they are critical in the freezing workflow. This
+> > > classification approach helps target important processes more precisely.
+> > > 
+> > > However, this requires further testing and refinement before full
+> > > deployment. We believe this incremental, category-based design will make the
+> > > mechanism more effective and adaptable over time while keeping it
+> > > manageable.
+> > Unless there is a clear path for a more extendable interface then
+> > introducing this one is a no-go. We do not want to grow different ways
+> > to establish freezing policies.
+> > 
+> > But much more fundamentally. So far I haven't really seen any argument
+> > why different priorities help with the underlying problem other than the
+> > timing might be slightly different if you change the order of freezing.
+> > This to me sounds like the proposed scheme mostly works around the
+> > problem you are seeing and as such is not a really good candidate to be
+> > merged as a long term solution. Not to mention with a user API that
+> > needs to be maintained for ever.
+> > 
+> > So NAK from me on the interface.
+> > 
+> Thanks for the feedback. I understand your concern that changing the freezer
+> priority order looks like working around the symptom rather than solving the
+> root cause.
+> 
+> Since the last discussion, we have analyzed the D-state processes further
+> and identified that the long wait time is caused by jbd2_log_wait_commit.
+> This wait happens because user tasks call into this function during
+> fsync/fdatasync and it can take tens of milliseconds to complete. When this
+> coincides with the freezer operation, the tasks are stuck in D state and
+> retried multiple times, increasing the total freeze time.
+> 
+> Although we know that jbd2 is a freezable kernel thread, we are exploring
+> whether freezing it earlier — or freezing certain key processes first —
+> could reduce this contention and improve freeze completion time.
+> 
+> 
+> > > > I believe it would be more useful to find sources of those freezer
+> > > > blockers and try to address those. Making more blocked tasks
+> > > > __set_task_frozen compatible sounds like a general improvement in
+> > > > itself.
+> > > we have already identified some causes of D-state tasks, many of which are
+> > > related to the filesystem. On some systems, certain processes frequently
+> > > execute ext4_sync_file, and under contention this can lead to D-state tasks.
+> > Please work with maintainers of those subsystems to find proper
+> > solutions.
+> 
+> We’ve pulled in the jbd2 maintainer to get feedback on whether changing the
+> freeze ordering for jbd2 is safe or if there’s a better approach to avoid
+> the repeated retries caused by this wait.
+> 
