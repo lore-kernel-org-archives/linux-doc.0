@@ -1,317 +1,265 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A7127FB3E;
-	Tue, 12 Aug 2025 13:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB8E2D4B7C;
+	Tue, 12 Aug 2025 14:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755005519; cv=none; b=lOwBJFNo/JmlZQDiIUj1AKI/QBcBwtWh5+YEj3wRh6n/YPIEZiOja1P/j/4CoSva5jG5EP5mST4z/18PARL1NfRTrL95i/TPgXINggMqI7craeY8NhWt5iFbrCPCtKCvCMCoYZtppa2+/3MuqpayBVGLvoC923qsKEHcqdnq/Aw=
+	t=1755007569; cv=none; b=Z3lxptI/+oPWYEJ/+1AIrb/Zaeahr6fPJ4XI0kU7FJwSsmi79qcWU9jBAzJQSiypCBi7jAytLMO+dn3aqX71UBD0sAVVQFjRqEMyRHwX3HDgs0v+X+Zd25km3U1eg633rsmadjOZ0k2aZXWmOKIC8AQIDboc6W6UT4jKIdtmbF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755005519; c=relaxed/simple;
-	bh=Vl29c6D1eR0f0U4vY2WrG9uFQFyXVuYuiDzYnN2VaZk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IhxLeKCdH/Y3xTFkWQRsHx8/VGVYbmQxtXUYexvtzLm3HjX4si7wNDZw/LU1sC0JWYFsRk19NZhkeN9Dyazm0Hsc9gsQMsR5hMYpOD78S6Mk3nSj4bPX4wR02daBbgUqwfT10QD1c6tMDPevUCKRc9L0xpfWPSqe2BLdYzzA8SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BvCs7dxe; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BvCs7dxe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755005519; x=1786541519;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Vl29c6D1eR0f0U4vY2WrG9uFQFyXVuYuiDzYnN2VaZk=;
-  b=BvCs7dxeahxYboCZmojBIuouvOGg4gMIZpUQQFFHWJX/z1zF9GGjmlW2
-   X4BCMW0vlmEnzwcMQ5IgqVyf4sC52WjFb2vjml+ZgmP4limPvPgy3lsZO
-   qYVTW3hbaLJWxlp8rt+3C+xgaHvbdickvZNiYZQQ4KDlYNP+BZnj6ZbqR
-   /InZUyUps7gePABqszrFwfO31sSN8Hlde1QAIVw3XpS/7XGBY6Tgr4Dag
-   kLfMMa1Qs9cCquqj8Vy1rit1sGPlBKj5mxExc/acbBrsQwbsp0KAr77SU
-   XpElpnNyOvwd/TxAjRITUJAdiCddpWCiAMq6UtA8+F/4bmkkMtaItW6or
-   g==;
-X-CSE-ConnectionGUID: m0nCU0fBQcSod0S4QQRB+w==
-X-CSE-MsgGUID: 1GfOCaKmSzSQcPOvAer+1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="60904210"
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="60904210"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:31:57 -0700
-X-CSE-ConnectionGUID: uGwnKofIQG2MO3tLlIilYQ==
-X-CSE-MsgGUID: HOOQUTfdSZuSH6R+h2pTMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="165832158"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.245.54])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:31:31 -0700
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: nathan@kernel.org,
-	arnd@arndb.de,
-	broonie@kernel.org,
-	Liam.Howlett@oracle.com,
-	urezki@gmail.com,
-	will@kernel.org,
-	kaleshsingh@google.com,
-	rppt@kernel.org,
-	leitao@debian.org,
-	coxu@redhat.com,
-	surenb@google.com,
-	akpm@linux-foundation.org,
-	luto@kernel.org,
-	jpoimboe@kernel.org,
-	changyuanl@google.com,
-	hpa@zytor.com,
-	dvyukov@google.com,
-	kas@kernel.org,
-	corbet@lwn.net,
-	vincenzo.frascino@arm.com,
-	smostafa@google.com,
-	nick.desaulniers+lkml@gmail.com,
-	morbo@google.com,
-	andreyknvl@gmail.com,
-	alexander.shishkin@linux.intel.com,
-	thiago.bauermann@linaro.org,
-	catalin.marinas@arm.com,
-	ryabinin.a.a@gmail.com,
-	jan.kiszka@siemens.com,
-	jbohac@suse.cz,
-	dan.j.williams@intel.com,
-	joel.granados@kernel.org,
-	baohua@kernel.org,
-	kevin.brodsky@arm.com,
-	nicolas.schier@linux.dev,
-	pcc@google.com,
-	andriy.shevchenko@linux.intel.com,
-	wei.liu@kernel.org,
-	bp@alien8.de,
-	ada.coupriediaz@arm.com,
-	xin@zytor.com,
-	pankaj.gupta@amd.com,
-	vbabka@suse.cz,
-	glider@google.com,
-	jgross@suse.com,
-	kees@kernel.org,
-	jhubbard@nvidia.com,
-	joey.gouly@arm.com,
-	ardb@kernel.org,
-	thuth@redhat.com,
-	pasha.tatashin@soleen.com,
-	kristina.martsenko@arm.com,
-	bigeasy@linutronix.de,
-	maciej.wieczor-retman@intel.com,
-	lorenzo.stoakes@oracle.com,
-	jason.andryuk@amd.com,
-	david@redhat.com,
-	graf@amazon.com,
-	wangkefeng.wang@huawei.com,
-	ziy@nvidia.com,
-	mark.rutland@arm.com,
-	dave.hansen@linux.intel.com,
-	samuel.holland@sifive.com,
-	kbingham@kernel.org,
-	trintaeoitogc@gmail.com,
-	scott@os.amperecomputing.com,
-	justinstitt@google.com,
-	kuan-ying.lee@canonical.com,
-	maz@kernel.org,
-	tglx@linutronix.de,
-	samitolvanen@google.com,
-	mhocko@suse.com,
-	nunodasneves@linux.microsoft.com,
-	brgerst@gmail.com,
-	willy@infradead.org,
-	ubizjak@gmail.com,
-	peterz@infradead.org,
-	mingo@redhat.com,
-	sohil.mehta@intel.com
-Cc: linux-mm@kvack.org,
-	linux-kbuild@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	x86@kernel.org,
-	llvm@lists.linux.dev,
-	kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 18/18] x86: Make software tag-based kasan available
-Date: Tue, 12 Aug 2025 15:23:54 +0200
-Message-ID: <414e258b828b4710966c3864aebc7a9bc598eb4f.1755004923.git.maciej.wieczor-retman@intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
-References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
+	s=arc-20240116; t=1755007569; c=relaxed/simple;
+	bh=XIoZ8vIH2KQrNtvMxY+WpKLxz+TVhrwXofBF0C71u78=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZJehghwp6RbD+rWxAn3ToMGHdUiIMIHKNjr0iemYjAeOdgEvGkAHFiMY8VU50w30H+13avbNbWlqay2pnzw7P9kkR+MavJiol93RuAn8MvqYyERJLPQ00ystpkZu9iU4xMWwj6b28Zc1qitrTU5gqQs7vonYlETebNTZQzpcYNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4c1Y7m0KyHz6L56K;
+	Tue, 12 Aug 2025 22:01:08 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id ED7A014033C;
+	Tue, 12 Aug 2025 22:05:57 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 12 Aug
+ 2025 16:05:57 +0200
+Date: Tue, 12 Aug 2025 15:05:55 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Daniel Ferguson <danielf@os.amperecomputing.com>
+CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Ard Biesheuvel
+	<ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, Len Brown <lenb@kernel.org>, James Morse
+	<james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov
+	<bp@alien8.de>, <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-efi@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, Jason Tian <jason@os.amperecomputing.com>,
+	Shengwei Luo <luoshengwei@huawei.com>, Shiju Jose <shiju.jose@huawei.com>
+Subject: Re: [PATCH v4 1/5] RAS: Report all ARM processor CPER information
+ to userspace
+Message-ID: <20250812150555.000067f7@huawei.com>
+In-Reply-To: <a302543c-7a99-4ea4-9559-e4cf4ea79b5e@os.amperecomputing.com>
+References: <20250805-mauro_v3-v6-16-rev2-v4-0-ea538759841c@os.amperecomputing.com>
+	<20250805-mauro_v3-v6-16-rev2-v4-1-ea538759841c@os.amperecomputing.com>
+	<20250808162209.000068f5@huawei.com>
+	<20250809175519.74b08ea9@foz.lan>
+	<20250811115238.0000272b@huawei.com>
+	<a302543c-7a99-4ea4-9559-e4cf4ea79b5e@os.amperecomputing.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Make CONFIG_KASAN_SW_TAGS available for x86 machines if they have
-ADDRESS_MASKING enabled (LAM) as that works similarly to Top-Byte Ignore
-(TBI) that allows the software tag-based mode on arm64 platform.
+On Mon, 11 Aug 2025 15:37:18 -0700
+Daniel Ferguson <danielf@os.amperecomputing.com> wrote:
 
-Set scale macro based on KASAN mode: in software tag-based mode 16 bytes
-of memory map to one shadow byte and 8 in generic mode.
+> On 8/11/2025 3:52 AM, Jonathan Cameron wrote:
+> > On Sat, 9 Aug 2025 17:55:19 +0200
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> >   
+> >> Em Fri, 8 Aug 2025 16:22:09 +0100
+> >> Jonathan Cameron <Jonathan.Cameron@huawei.com> escreveu:
+> >>  
+> >>> On Tue, 05 Aug 2025 11:35:38 -0700
+> >>> Daniel Ferguson <danielf@os.amperecomputing.com> wrote:
+> >>>     
+> >>>> From: Jason Tian <jason@os.amperecomputing.com>
+> >>>>
+> >>>> The ARM processor CPER record was added in UEFI v2.6 and remained
+> >>>> unchanged up to v2.10.
+> >>>>
+> >>>> Yet, the original arm_event trace code added by
+> >>>>
+> >>>>   e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+> >>>>
+> >>>> is incomplete, as it only traces some fields of UAPI 2.6 table N.16, not
+> >>>> exporting any information from tables N.17 to N.29 of the record.
+> >>>>
+> >>>> This is not enough for the user to be able to figure out what has
+> >>>> exactly happened or to take appropriate action.
+> >>>>
+> >>>> According to the UEFI v2.9 specification chapter N2.4.4, the ARM
+> >>>> processor error section includes:
+> >>>>
+> >>>> - several (ERR_INFO_NUM) ARM processor error information structures
+> >>>>   (Tables N.17 to N.20);
+> >>>> - several (CONTEXT_INFO_NUM) ARM processor context information
+> >>>>   structures (Tables N.21 to N.29);
+> >>>> - several vendor specific error information structures. The
+> >>>>   size is given by Section Length minus the size of the other
+> >>>>   fields.
+> >>>>
+> >>>> In addition, it also exports two fields that are parsed by the GHES
+> >>>> driver when firmware reports it, e.g.:
+> >>>>
+> >>>> - error severity
+> >>>> - CPU logical index
+> >>>>
+> >>>> Report all of these information to userspace via a the ARM tracepoint so
+> >>>> that userspace can properly record the error and take decisions related
+> >>>> to CPU core isolation according to error severity and other info.
+> >>>>
+> >>>> The updated ARM trace event now contains the following fields:
+> >>>>
+> >>>> ======================================  =============================
+> >>>> UEFI field on table N.16                ARM Processor trace fields
+> >>>> ======================================  =============================
+> >>>> Validation                              handled when filling data for
+> >>>>                                         affinity MPIDR and running
+> >>>>                                         state.
+> >>>> ERR_INFO_NUM                            pei_len
+> >>>> CONTEXT_INFO_NUM                        ctx_len
+> >>>> Section Length                          indirectly reported by
+> >>>>                                         pei_len, ctx_len and oem_len
+> >>>> Error affinity level                    affinity
+> >>>> MPIDR_EL1                               mpidr
+> >>>> MIDR_EL1                                midr
+> >>>> Running State                           running_state
+> >>>> PSCI State                              psci_state
+> >>>> Processor Error Information Structure   pei_err - count at pei_len
+> >>>> Processor Context                       ctx_err- count at ctx_len
+> >>>> Vendor Specific Error Info              oem - count at oem_len
+> >>>> ======================================  =============================
+> >>>>
+> >>>> It should be noted that decoding of tables N.17 to N.29, if needed, will
+> >>>> be handled in userspace. That gives more flexibility, as there won't be
+> >>>> any need to flood the kernel with micro-architecture specific error
+> >>>> decoding.
+> >>>>
+> >>>> Also, decoding the other fields require a complex logic, and should be
+> >>>> done for each of the several values inside the record field.  So, let
+> >>>> userspace daemons like rasdaemon decode them, parsing such tables and
+> >>>> having vendor-specific micro-architecture-specific decoders.
+> >>>>
+> >>>>   [mchehab: modified description, solved merge conflicts and fixed coding style]
+> >>>>
+> >>>> Fixes: e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+> >>>>       
+> >>>
+> >>> Fixes tag is part of the main tag block so no blank line here.
+> >>> There are at least some scripts running on the kernel tree that trip
+> >>> up on this (and one that moans at the submitter ;)
+> >>>
+> >>> I'd also add something to explain the SoB sequence for the curious.
+> >>>     
+> >>>> Co-developed-by: Jason Tian <jason@os.amperecomputing.com>      
+> >>>
+> >>> Jason's the Author, so shouldn't have a Co-dev tag.
+> >>> There is some info on this in
+> >>> https://docs.kernel.org/process/submitting-patches.html    
+> >>
+> >> My understanding is that all co-authors shall have co-developed-by
+> >> and SoB. Anyway, doesn't matter much in practice, I guess.  
+> > 
+> > Nope.  In the description the docs say "in addition to the author
+> > attribute in the From: tag"  There are also examples where there
+> > isn't a Co-dev for the From author including the subtle question of
+> > ordering if someone else posts that patch.
+> > 
+> > I have a vague recollection one of the scripts checking linux-next
+> > might moan about this. 
+> >   
+> >>  
+> >>>     
+> >>>> Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
+> >>>> Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
+> >>>> Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
+> >>>> Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+> >>>> Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>      
+> >>>
+> >>> As person submitting I'd normally expect your SoB last.
+> >>>     
+> >>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>      
+> >>>
+> >>> I guess this is because Mauro posted an earlier version in which
+> >>> case this is arguably correct, but likely to confuse.
+> >>> For cases like this I add comments.    
+> >>
+> >> If the patch is identical, and it is just a resubmission,
+> >> I would keep the original order.
+> >>
+> >> Otherwise, if Daniel did some changes at the code (except for a
+> >> trivial rebase stuff), better to move his co-developed-by/SoB to
+> >> the end, eventually adding:
+> >>
+> >> [Daniel: <did something>] before the custody chain block.  
+> > 
+> > Docs are clear that sender of the patch must be last SoB.
+> > That's also checked by the some of the tag block check scripts
+> > I think.  There's an example of exactly this case in the in the
+> > submitting-patches.rst file (last one in the section that talks
+> > about Co-developed-by.
+> > 
+> > For meaning I don't care that much, but keeping to the rigid
+> > rules in that doc makes it easier for scripts to check for the
+> > more important stuff like whether all necessary SoB are there.
+> > 
+> > Jonathan
+> >   
+> 
+> Just to make sure I get this right...
+> 
+> I will move my SoB and my Co-developed-by after any other SoB's in the tag
+> block. As a result, I do not need to provide an explanation in this case,
+> because there is nothing curious remaining ? Or should I still add comments
+> indicating why I rearranged the tag block ?
+> 
+> Based on your feedback, I'm intending to organize the tag block to look like this:
+> 
+>  Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
+>  Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
+>  Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
+>  Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>  Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+>  Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+>  Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>  Tested-by: Shiju Jose <shiju.jose@huawei.com>
+>  Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+>  Fixes: e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+>  Link:
+> https://uefi.org/specs/UEFI/2.10/Apx_N_Common_Platform_Error_Record.html#arm-processor-error-section
+> 
+> 
+> Is that satisfactory?
 
-Disable CONFIG_KASAN_INLINE and CONFIG_KASAN_STACK when
-CONFIG_KASAN_SW_TAGS is enabled on x86 until the appropriate compiler
-support is available.
+The SoB from Mauro is still out of the normal pattern which
+tends to happen only when things are bouncing between different submitters.
 
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
----
-Changelog v4:
-- Add x86 specific kasan_mem_to_shadow().
-- Revert x86 to the older unsigned KASAN_SHADOW_OFFSET. Do the same to
-  KASAN_SHADOW_START/END.
-- Modify scripts/gdb/linux/kasan.py to keep x86 using unsigned offset.
-- Disable inline and stack support when software tags are enabled on
-  x86.
+So I'd still add a comment and keep that after you Codev/SoB.
 
-Changelog v3:
-- Remove runtime_const from previous patch and merge the rest here.
-- Move scale shift definition back to header file.
-- Add new kasan offset for software tag based mode.
-- Fix patch message typo 32 -> 16, and 16 -> 8.
-- Update lib/Kconfig.kasan with x86 now having software tag-based
-  support.
+#1 [mchehab: modified description, solved merge conflicts and fixed coding style
+   in version 3.]
 
-Changelog v2:
-- Remove KASAN dense code.
+Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
+Co-developed-by: Shengwei Luo <luoshengwei@huawei.com>
+Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
+Co-developed-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org> # 1
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Tested-by: Shiju Jose <shiju.jose@huawei.com>
+Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://uefi.org/specs/UEFI/2.10/Apx_N_Common_Platform_Error_Record.html#arm-processor-error-section
 
- Documentation/arch/x86/x86_64/mm.rst | 6 ++++--
- arch/x86/Kconfig                     | 4 +++-
- arch/x86/boot/compressed/misc.h      | 1 +
- arch/x86/include/asm/kasan.h         | 1 +
- arch/x86/kernel/setup.c              | 2 ++
- lib/Kconfig.kasan                    | 3 ++-
- scripts/gdb/linux/kasan.py           | 4 ++--
- 7 files changed, 15 insertions(+), 6 deletions(-)
+Or something along those lines
 
-diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x86/x86_64/mm.rst
-index a6cf05d51bd8..ccbdbb4cda36 100644
---- a/Documentation/arch/x86/x86_64/mm.rst
-+++ b/Documentation/arch/x86/x86_64/mm.rst
-@@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
-    ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused hole
-    ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual memory map (vmemmap_base)
-    ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused hole
--   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory
-+   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory (generic mode)
-+   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN shadow memory (software tag-based mode)
-   __________________|____________|__________________|_________|____________________________________________________________
-                                                               |
-                                                               | Identical layout to the 56-bit one from here on:
-@@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
-    ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
-    ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
-    ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
--   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shadow memory
-+   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shadow memory (generic mode)
-+   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN shadow memory (software tag-based mode)
-   __________________|____________|__________________|_________|____________________________________________________________
-                                                               |
-                                                               | Identical layout to the 47-bit one from here on:
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index b8df57ac0f28..f44fec1190b6 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -69,6 +69,7 @@ config X86
- 	select ARCH_CLOCKSOURCE_INIT
- 	select ARCH_CONFIGURES_CPU_MITIGATIONS
- 	select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
-+	select ARCH_DISABLE_KASAN_INLINE	if X86_64 && KASAN_SW_TAGS
- 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if X86_64 && HUGETLB_PAGE && MIGRATION
- 	select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64
- 	select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
-@@ -199,6 +200,7 @@ config X86
- 	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_ARCH_KASAN			if X86_64
- 	select HAVE_ARCH_KASAN_VMALLOC		if X86_64
-+	select HAVE_ARCH_KASAN_SW_TAGS		if ADDRESS_MASKING
- 	select HAVE_ARCH_KFENCE
- 	select HAVE_ARCH_KMSAN			if X86_64
- 	select HAVE_ARCH_KGDB
-@@ -403,7 +405,7 @@ config AUDIT_ARCH
- 
- config KASAN_SHADOW_OFFSET
- 	hex
--	depends on KASAN
-+	default 0xeffffc0000000000 if KASAN_SW_TAGS
- 	default 0xdffffc0000000000
- 
- config HAVE_INTEL_TXT
-diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/misc.h
-index db1048621ea2..ded92b439ada 100644
---- a/arch/x86/boot/compressed/misc.h
-+++ b/arch/x86/boot/compressed/misc.h
-@@ -13,6 +13,7 @@
- #undef CONFIG_PARAVIRT_SPINLOCKS
- #undef CONFIG_KASAN
- #undef CONFIG_KASAN_GENERIC
-+#undef CONFIG_KASAN_SW_TAGS
- 
- #define __NO_FORTIFY
- 
-diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-index f3e34a9754d2..385f4e9daab3 100644
---- a/arch/x86/include/asm/kasan.h
-+++ b/arch/x86/include/asm/kasan.h
-@@ -7,6 +7,7 @@
- #include <linux/types.h>
- #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
- #ifdef CONFIG_KASAN_SW_TAGS
-+#define KASAN_SHADOW_SCALE_SHIFT 4
- 
- /*
-  * LLVM ABI for reporting tag mismatches in inline KASAN mode.
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index 1b2edd07a3e1..5b819f84f6db 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -1207,6 +1207,8 @@ void __init setup_arch(char **cmdline_p)
- 
- 	kasan_init();
- 
-+	kasan_init_sw_tags();
-+
- 	/*
- 	 * Sync back kernel address range.
- 	 *
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index f82889a830fa..9ddbc6aeb5d5 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -100,7 +100,8 @@ config KASAN_SW_TAGS
- 
- 	  Requires GCC 11+ or Clang.
- 
--	  Supported only on arm64 CPUs and relies on Top Byte Ignore.
-+	  Supported on arm64 CPUs that support Top Byte Ignore and on x86 CPUs
-+	  that support Linear Address Masking.
- 
- 	  Consumes about 1/16th of available memory at kernel start and
- 	  add an overhead of ~20% for dynamic allocations.
-diff --git a/scripts/gdb/linux/kasan.py b/scripts/gdb/linux/kasan.py
-index fca39968d308..4b86202b155f 100644
---- a/scripts/gdb/linux/kasan.py
-+++ b/scripts/gdb/linux/kasan.py
-@@ -7,7 +7,7 @@
- #
- 
- import gdb
--from linux import constants, mm
-+from linux import constants, utils, mm
- from ctypes import c_int64 as s64
- 
- def help():
-@@ -40,7 +40,7 @@ class KasanMemToShadow(gdb.Command):
-         else:
-             help()
-     def kasan_mem_to_shadow(self, addr):
--        if constants.CONFIG_KASAN_SW_TAGS:
-+        if constants.CONFIG_KASAN_SW_TAGS and not utils.is_target_arch('x86'):
-             addr = s64(addr)
-         return (addr >> self.p_ops.KASAN_SHADOW_SCALE_SHIFT) + self.p_ops.KASAN_SHADOW_OFFSET
- 
--- 
-2.50.1
+Jonathan
+
+> 
+> Thank you,
+> Daniel
+> 
+> >>
+> >> Thanks,
+> >> Mauro
+> >>  
+> >   
+> 
 
