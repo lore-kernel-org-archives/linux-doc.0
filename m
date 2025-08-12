@@ -1,76 +1,104 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F172F7477
-	for <linux-doc@vger.kernel.org>; Tue, 12 Aug 2025 17:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B8B2DE1E2;
+	Tue, 12 Aug 2025 17:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755020947; cv=none; b=gxjlmk011yVCMHXHTGUOSs33PmZ2mdFO861EZbJB4E/i6I0MsmR6pzHiqF5MUPjLf25JU46yH955uQFIueeMbib0ehOw5T6x7Eskv4uW54DtZ0VOFrzhqy6pCASoegrVmJTRzj8lZ89ntuZYQbMTSQ+xXYJj4JFr3/NoauBS9HE=
+	t=1755021533; cv=none; b=I9T9tB8kKw2xRl8CGylO1kyScMpcWtIrITT6BiRuiuousAJM8M+qvhBWRtFny1Tv9i/ZHSGSMQLiK+LkZCWVe0NPDFJXU3nUIs6dUpoWS3ckalCq3okW3m3FzgLLruGvp6PuAO9y/h1DXw1vpjSUaGjfgnsVr3KPwNiiDpoScIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755020947; c=relaxed/simple;
-	bh=9Wnyfu+XaOOZnlufreHhCk7JiqaiO+DPUVXZqATdgmw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OaY52+RbQh30UPB2Ixz2mZxt8U5mKQ28t8BFxt/x0BnzC8bJ7PCo0Bpz3nxivkqccx7pmED7ajuP7CTC3G285UsvTimHjfC+pRvXL4DvndtkQ/iYJCNmVMan+mLpRKnOFvzbVqAcBdndVoXdow9qTilc52u6nvF7Y7H4bmn0NG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1NVraV+b; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1755021533; c=relaxed/simple;
+	bh=qFgqOdxV1F9ejz004iGryJ3qWW5B6GXnUjljpVgqkLk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tEb4Rr6JMYfor0SpNO7vpLtq+zu+SXkdxqWJt0a6NjWJ3L6tcwlaLi6e2uec0ch3T69Nct9hNI5BRszyhsRxkIA2qGJKFl6uE+bYKfJnHulXKjdi0SlqvTzx0jsafQFi7Huh4f1mydqGcoEGW4asL9l5BF726f1fdfljHaU4U+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YX7s3/qi; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1NVraV+b"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=lrPIpyIK37IliP12r4RxpJdSz6iDcvTig/imS+n1pZs=; b=1NVraV+bxzQ/9gCkBMs1wm/QQD
-	qHdTa3Y/z2Y7OjG8BwS50zH6FmrAreVNBae/1EbYw7vONudBNG2B0KP//0kqnlH5oBPDDmYpgEbWb
-	jZCnVgV2ZeEn4X6B9RWHNSaQGN6dBn521augPEKGhGKiN5YibFQNo3Bfu5a7GKIt0rOHhFlWEoe8+
-	cMnzzh3HFsz59ek7TmXb9cCE/XGfhXVJrXaRSlvGraICX769vZ4ciI3YYKgNxdN884lkAjHTzLKzU
-	13p5PuvnttDmqxouIIf7yPs9NdUnOaeEUXqnRszz34I7esSGyPCwb/mSbXEu+lmnKd8pCmQ/SZFyx
-	SgKhDWew==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ult7M-0000000BeBB-0ekg;
-	Tue, 12 Aug 2025 17:49:00 +0000
-Message-ID: <36b8eed4-2148-4d73-af9f-5614060f9f54@infradead.org>
-Date: Tue, 12 Aug 2025 10:48:59 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YX7s3/qi"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-458bf6d69e4so52486925e9.2;
+        Tue, 12 Aug 2025 10:58:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755021530; x=1755626330; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qFgqOdxV1F9ejz004iGryJ3qWW5B6GXnUjljpVgqkLk=;
+        b=YX7s3/qimEBabN9V0dpnydl2pOzbfI5LAtGY9VJbuQWsYoZ/lAftlR35jrCbj9NOSj
+         9aU4VP5tdZNdf908CDdYYFqwh7HrSASmw0m66wPAfGt5WJ7XxM07/lCeOAAReCEmfoSG
+         GYRxncoE49lcxtaAlQi92mbEG6dWFyu5ZyRiXS62bYPt2WhZPdJjBsytF2wiOz2gXgMt
+         X8/fDmQ9oq43TzrqDUW0aE8XoDaykujf7Z0tIbeVwaAC0ViUJrUWSzBPU/tR7Qf8Dchn
+         eGqLWaGSpv3PzHyymRpHmD18YrIc0WN9aOiNhELruG272tY2UT6r1q8B0j+Chb5KVyhh
+         DsCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755021530; x=1755626330;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qFgqOdxV1F9ejz004iGryJ3qWW5B6GXnUjljpVgqkLk=;
+        b=UtrUV4h/Uf2QcKkOv0pGCz7OPVQSk713eMOuX4EJwdhtktHqEPAOJZNdTw/sTxTa8D
+         gsUshsZsFjLKaS0iXFlTPo4e/O5LTg6au/kQ9FjBsNKN4ngr1aSe2LBn00Z7zJ4r/6yo
+         iXjmqUKej58/+S4Irbs4FQQn1sFBUAloaxXGMZuxDAleQXMrLPzspmzsWnd/DoAYy0xa
+         08wGv2Rk73mgrnftarKNYBxw0WdDGc5BTst4WSR30dZiaVpHBas93Nurvao66t+27rk9
+         CrEtTH3qSvYsjsUjSXFFCGIz9p3NHj5Rj/rfDVEP5fVG8PDVquDYvRalUyCyiGcVu7FK
+         mnFw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7iYQDfa/b+1S2wd2CfXIkAYQRVYcGHMOvGUTyLFYSmokyoK+jmz+OcaKvcJoOP9NLETy1tBvPGE0SnmoQ@vger.kernel.org, AJvYcCWoiYjjYAtF8JydQJgR9pPKztPSvIzZ6PyqvA2vcrOc0gLyTeHfLEn5s0IcXQKvmukH3c8mvGbMriuu@vger.kernel.org, AJvYcCXwcee3opnSEDlioAte17RwH5Ob6JRQUVNspHrx6/f18DGqUFNuK6xpuFWfGmn+4PB6Fbx7kbkx++g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylAC7go70wWyZZu4fcQcOhkCw8Pxzox6FmmdBOVqixJWX8eYsx
+	oU9aLdM5tH4OqmbZQBWBSef8UujKdOcmzuIWfJwu7Ooxz3zb0yZmMmAzNimkRQwiXVcxbGyOkTl
+	qam24SeUguS5Bm9Mi9HPEZ0TM4LQKnRA=
+X-Gm-Gg: ASbGncvWGRlYDvoid1/sfc4DKy98N+TBtrwXZ8uIFSz74uehBEr68b3ZWZqF5UyLmS9
+	2Sp//af6KkUkzbzZUs3WQgDFhGH/+9XkyS56uLBE//gPolkcmOL1CAOJbpCTo0KbqexUCFGoMkw
+	kbCThXfRBRMXPeCgQAFsKBX24XbDosWsFAaiOZ+ambquNMu82iIc4T5FCsl59xBg/6VnyvER6Mi
+	FqnT4WJIw==
+X-Google-Smtp-Source: AGHT+IGCSqi+u7zPAKJbXiVle6HBw4vaddTrUBJW1UYwaHGnh/4m0lYlidEl1hsmzcOBFaEBgHl1CB3LcKFa24raxFg=
+X-Received: by 2002:a05:600c:1c01:b0:458:bbed:a827 with SMTP id
+ 5b1f17b1804b1-45a165b7b15mr660355e9.1.1755021529570; Tue, 12 Aug 2025
+ 10:58:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: fix spelling mistakes across multiple directories
-To: Soham Metha <sohammetha01@gmail.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- skhan@linuxfoundation.org, jaegeuk@kernel.org, chao@kernel.org,
- dlemoal@kernel.org, hch@lst.de, tj@kernel.org, hannes@cmpxchg.org,
- mkoutny@suse.com, agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com,
- kuurtb@gmail.com, sj@kernel.org, corbet@lwn.net, chenhuacai@kernel.org,
- kernel@xen0n.name
-References: <20250812173903.43333-1-sohammetha01@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250812173903.43333-1-sohammetha01@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250811173626.1878783-1-yeoreum.yun@arm.com> <20250811173626.1878783-3-yeoreum.yun@arm.com>
+ <CA+fCnZeSV4fDBQr-WPFA66OYxN8zOQ2g1RQMDW3Ok8FaE7=NXQ@mail.gmail.com> <aJtyR3hCW5fG+niV@e129823.arm.com>
+In-Reply-To: <aJtyR3hCW5fG+niV@e129823.arm.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 12 Aug 2025 19:58:37 +0200
+X-Gm-Features: Ac12FXy555KMqM9sRgAgjXOVEGNZdNcePtQ9D4aII7b1VUPGHKMWOpB_9plVIlw
+Message-ID: <CA+fCnZeznLqoLsUOgB1a1TNpR9PxjZKrrVBhotpMh0KVwvzj_Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kasan: apply store-only mode in kasan kunit testcases
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
+	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com, 
+	will@kernel.org, akpm@linux-foundation.org, scott@os.amperecomputing.com, 
+	jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org, 
+	kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org, 
+	oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org, 
+	hardevsinh.palaniya@siliconsignals.io, david@redhat.com, 
+	yang@os.amperecomputing.com, kasan-dev@googlegroups.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, Aug 12, 2025 at 6:57=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com> w=
+rote:
+>
+> > Right now, KASAN tests are crafted to avoid/self-contain harmful
+> > memory corruptions that they do (e.g. make sure that OOB write
+> > accesses land in in-object kmalloc training space, etc.). If you turn
+> > read accesses in tests into write accesses, memory corruptions caused
+> > by the earlier tests will crash the kernel or the latter tests.
+>
+> That's why I run the store-only test when this mode is "sync"
+> In case of "async/asymm" as you mention since it reports "after",
+> there will be memory corruption.
+>
+> But in case of sync, when the MTE fault happens, it doesn't
+> write to memory so, I think it's fine.
 
-The changes all LGTM, although maintainers will probably want the patch split
-up by subsystem.
-
-
-On 8/12/25 10:39 AM, Soham Metha wrote:
-
-> -Availablity
-> +Availability
->  ~~~~~~~~~~~
->  
-
-Whenever a heading is made longer, the underline for it must also be
-increased in length; otherwise it causes a build warning.
-
-thanks.
--- 
-~Randy
-
+Does it not? I thought MTE gets disabled and we return from the fault
+handler and let the write instruction execute. But my memory on this
+is foggy. And I don't have a setup right now to test.
