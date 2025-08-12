@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2992F83A7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7121230E83B;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=UYUSJpjBrvLbwSeLbr9LBdeY+n15XlywEj+LkPt+0lNkaFtdTEAm/1ha/KWH4ZJj+4n3Tslw64FfH4ovJaegIa+SPZFECZKAlCb5bA+BLurcY3ID5hZwTReTelqGsz0gb5Qp7ZC+1PRUmNFzAXUFdqGXYqkcZj9XDRottW5qQKM=
+	t=1755013985; cv=none; b=FE54RY2nOE/aLp53KExiZ+A13b9yG55j9aK4bv3Ty37Zef5mXxmXrp3AmhMj0xJflarQvBdknB1u8hYn1UPPKJlLC5bmF+Bagy0YYJDJNAhVoCKBjK7Opg6TNZBGHR8fW56mGz4S7pod1xz8ZMtp+CX4dt5IRTTAsHG1/k8ZeOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=kHHUrzrUzCfISUwvoyyC98eBFz5CP0ST0NUYuTddsmQ=;
+	bh=HRyoaqgBpGj0yMJpohLVQjmYgGi9rpud//gcUb4ofas=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NBlZ73v4k/xWUvTmX1XioDozSFd2YjN3odT71bYmkUS9VMqkYE0P/LEBaWRUweqXWWPfiAeexymfJFhOocgtjlMuopKyTbEL7WND0zrwYOPPN7Nuqbc9sjfHcLUO/6bVxdrVcOtqFRUQlgT1slHc6h+8bo9UIhFl8mPWFcKPVUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C/RuddMX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=BVYGJE1epv2OmLCm8ReXgbLQDXda81OEhJgbDTLPDwN8j8V+VUAlkmU/LMZniOuFHQIcVBOikGSSyS5Yiz/trmkZXUVdr29D4KLRndG2zOdUFn2pzWFh8TSYWh1/5gfEQ1LUUt6hKlgfSu5/vH/dLfGXjeLHORbzyV8ZnyWYRs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TNb7H8C5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C/RuddMX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DED01C116B1;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TNb7H8C5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3CB8C4AF0F;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755013985;
-	bh=kHHUrzrUzCfISUwvoyyC98eBFz5CP0ST0NUYuTddsmQ=;
+	s=k20201202; t=1755013984;
+	bh=HRyoaqgBpGj0yMJpohLVQjmYgGi9rpud//gcUb4ofas=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C/RuddMXj01aFckxdmu1McLsV4wBlfjaWp3dv90LWm+tMd3Gdej/cR0EcJKUGExch
-	 Rgwer0d0WLCI6/UN3RAJXA7H3xvVWYXqOF/qB8p9gQRbLt/oEXv9aEnjTRaIEAng7L
-	 RCY2in7h8AK3bMWer6J1RU2+JxFPK9AlWiLTaDpXcV/Q/6i+Km6Ye+qoygL+jPGFpr
-	 spTUuHo0F+h/4NQGvsxY0CWNP1K8TNVgYgWJmdKX4VRMEXvINRJn0TCACbzE4+n6dI
-	 /U9jw4rGcbYXcR+Vn6bWQgU1TwOLc0LUjj+JIoMeMtxFr0E3qRug8FV/d95rAGXnkx
-	 1fM2z+i5m+rAA==
+	b=TNb7H8C5beQY8DOiQy9XZMW6/Xs+pz/Ftzlcrqu6Yo8ZdKB3foe+Rczw9ZpSM6CJH
+	 k9skTAwcfPey60bbJdDfm8dm2tME6/+3xoAfoHEBu0I3Fyc4liuwxa9S57xnkmDIag
+	 IkKqbbe5qMbn5vSaj585rbqYIubM+A0DhkKZB0fMHHcnGRhHAyrrWDc4AkPkk6mu7s
+	 /KRrdZyvVX4CE9T595JZ6fLyuhoMQ4/jT8m6whAmCM2VYTV03Bc7eryz428uU07pfd
+	 xbKEDmS2JD86OKYyFKrtHOU3k/ChYxeszOEf5gMfyfC40XpdRr2vWY0LROwq/jHBnB
+	 PL28YPp9EbjHg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kVS-0ibi;
+	id 1ulrJ8-00000006kW6-1wrn;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 04/39] scripts: sphinx-pre-install: Make it compatible with Python 3.6
-Date: Tue, 12 Aug 2025 17:52:21 +0200
-Message-ID: <39d6e27a047bc3cc8208ac5e11fe6ba44faff9c4.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 14/39] scripts: sphinx-pre-install: output Python and docutils version
+Date: Tue, 12 Aug 2025 17:52:31 +0200
+Message-ID: <96142ec916b9064c859b200639c3595115080322.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,55 +51,39 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The minimal version requirements we have is 3.9. Yet, the
-script which detects it is this one. So, let's try supporting
-an old version here, as we may want to suggest to upgrade
-Python version to build the docs.
+Specially when debugging issues, knowing the versions is
+important. Add it to the script output.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ scripts/sphinx-pre-install.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index dcee2181b72f..71d86b230b22 100755
+index 42f55e67256d..de5bcfd052b5 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -115,7 +115,8 @@ class SphinxDependencyChecker:
-     def find_python_no_venv():
-         # FIXME: does it makes sense now that this script is in Python?
+@@ -154,6 +154,20 @@ class SphinxDependencyChecker:
  
--        result = subprocess.run(["pwd"], capture_output=True, text=True)
-+        result = SphinxDependencyChecker.run(["pwd"], capture_output=True,
-+                                             text=True)
-         cur_dir = result.stdout.strip()
- 
-         python_names = ["python3", "python"]
-@@ -135,12 +136,23 @@ class SphinxDependencyChecker:
-     def run(*args, **kwargs):
-         """Excecute a command, hiding its output by default"""
- 
--        if not kwargs.get('capture_output', False):
-+        capture_output = kwargs.pop('capture_output', False)
+         cur_ver = sys.version_info[:3]
+         if cur_ver >= MIN_PYTHON_VERSION:
++            ver = ver_str(cur_ver)
++            print(f"Python version: {ver}")
 +
-+        if capture_output:
-+            if 'stdout' not in kwargs:
-+                kwargs['stdout'] = subprocess.PIPE
-+            if 'stderr' not in kwargs:
-+                kwargs['stderr'] = subprocess.PIPE
-+        else:
-             if 'stdout' not in kwargs:
-                 kwargs['stdout'] = subprocess.DEVNULL
-             if 'stderr' not in kwargs:
-                 kwargs['stderr'] = subprocess.DEVNULL
- 
-+        # Don't break with older Python versions
-+        if 'text' in kwargs and sys.version_info < (3, 7):
-+            kwargs['universal_newlines'] = kwargs.pop('text')
++            # This could be useful for debugging purposes
++            if SphinxDependencyChecker.which("docutils"):
++                result = SphinxDependencyChecker.run(["docutils", "--version"],
++                                                    capture_output=True, text=True)
++                ver = result.stdout.strip()
++                match = re.search(r"(\d+\.\d+\.\d+)", ver)
++                if match:
++                    ver = match.group(1)
 +
-         return subprocess.run(*args, **kwargs)
++                print(f"Docutils version: {ver}")
++
+             return
  
-     #
+         python_ver = ver_str(cur_ver)
 -- 
 2.50.1
 
