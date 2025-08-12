@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECC32F83B2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12EC2F83BC;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=DJh+wbiBA64LiQsNqhxkrtwZNjjo2gm6is565O8UJem28CLT6epYNuCpeEWmPpvhv+oWPA1wtP9a8p/RePVzBdqzqn74v/EnkdL4WDX48jfOHLpi2vJlDbquGJHWySB2VimGrIAev/Nu/UAkbRZ1WwG2maFGD5gWvBg//QkvNew=
+	t=1755013985; cv=none; b=Dpbb3IzMM6pcUc9fMgyHkqQ1V67vJaYd5XeVkfj59ocCESrVqefEIzZSXH1JK1bBwXgurM8WTpOq8lawf7VRf43ov+emTdoNm2/bKOkb4pzirgrKHCCpvXb+BuIxozeQBYgEvON3fIHFMoN0VMtC9OqUM0xJPeYPjYakDfC1mx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=Ttf2nErBntacD7+Zyv3rczkrnRx+/elXiyJgXiaMhfI=;
+	bh=2YsXAMd/pCiQ6uIzzxaRELl35dvP/BI9lWiGv4U9Fk4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r/uYtdb7wjWTIv4AdGVesv33Xknv/IGjPpAnMHQpHmaPqMUYc664k2ofxNRnuvI1/kRHfS8ifiJ8WodPZBwcWIISVe7PI3POgJq+F53z/1I6X88nFIfb0CAbzX4rhGrxO8LA2CVzgdmc2w8RmIolNwN5WqWGIlPbglgfCkyINSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RIQ/OGUA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=CahX2k8r7g0Q62RbVMlGBFqHBSoih/qpjLWOkaUHq5FMv5UE5dRBVEJjesQ/E9tUIJJb/k0zAuzr4Q+YRZXEfgOYBR0gwmjOZdRIN+fBgdu61ycoG7IgH9tyo1g3OTyQ7ZLxXb8YWwjOFER5W7QTxeaVvnFlKWU7CJnb8xq1O3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I7zLsrAS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RIQ/OGUA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174D9C2BCF5;
-	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I7zLsrAS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E43D8C19421;
+	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013985;
-	bh=Ttf2nErBntacD7+Zyv3rczkrnRx+/elXiyJgXiaMhfI=;
+	bh=2YsXAMd/pCiQ6uIzzxaRELl35dvP/BI9lWiGv4U9Fk4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RIQ/OGUAkdovMTbFZ76EZtN7MVny+nAhrPOTQF2lWXbCfEhZaoTX58o7RXrDpRpn1
-	 4uB3MvpMFvY2xiFfqabQNH3ncNOWEH7sUf45uViJJJ4Hq19dmlsikRea3CA3fUCfvH
-	 DAp8+qezqs1/3r9ZYAQdnw4MWr10z3DYZndXob9UqqqeLQ/9X765eiyBs57ADle4ks
-	 9pJZzg4KhrRLkBnGOU5SX8jfQQIfgLQQtqeC46F0ZOwh3iIJ+fFmO+L2G15hdr0//n
-	 YWKMdo26zSNZJ00vqjwBuEMlw+rD/1myExlo+nCVJnsBRAcMwoKRHZRVkXm5bQQzhn
-	 BXD0CCP6Oo1lA==
+	b=I7zLsrASYMz8iMRtwIQuFxK2wMbcAz0MyUbU0kvJOj/v9BdYMykafy1H7JV1CfBsf
+	 CogXXNjilQNsiL0HvKywdQtnJqhs6jowIGDBt8Uaa7bzWLZG4C8ghuFN+EfqmTVlvC
+	 +xovnQ84TI9AgETr8yVP1nr7Yj3wygSE45sTOxFrGKmYnDpq+KnvPgffV5FMDkVlRH
+	 mceZ+UppO4JRvrtNTsSj4S1ZelRiHhshCAo4DbwkUucmbcX6/FIy+Vg3mys0Qttahz
+	 yiifo26yCwXKL0Vwe7ewB5gn2eZWCzVfnxtgllD9h1Ts0HZzkWejWO3iUEoFBaunPt
+	 psE5SZq9AJI7g==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ9-00000006kXh-0gG6;
-	Tue, 12 Aug 2025 17:53:03 +0200
+	id 1ulrJ8-00000006kX0-3hv5;
+	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 38/39] scripts: sphinx-pre-install: add a warning for Debian-based distros
-Date: Tue, 12 Aug 2025 17:52:55 +0200
-Message-ID: <628d01784e8c24e3d93c69c436f12398e00165b3.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 28/39] scripts: sphinx-pre-install: add more generic checkers on a class
+Date: Tue, 12 Aug 2025 17:52:45 +0200
+Message-ID: <11a252fe816bd7c85583d26ade0666eb2b481bf0.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,41 +51,213 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Some Debian-based distros, ImageMagick package has a broken
-policy that causes LaTeX to fail while building docs.
+Better organize the code by moving the more generic methods
+to MissingCheckers. Such class contain only binary and package
+dependent missing checkers, but no distro-specific data or code.
 
-Add a note about that.
+All distro-specific data/code remains at SphinxDependencyChecker
+class.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ scripts/sphinx-pre-install.py | 142 ++++++++++++++++++----------------
+ 1 file changed, 76 insertions(+), 66 deletions(-)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 324baa98a395..09a337509b23 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -782,6 +782,11 @@ class SphinxDependencyChecker(MissingCheckers):
+diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
+index b00e50028f4d..9127487bd4d7 100755
+--- a/scripts/sphinx-pre-install.py
++++ b/scripts/sphinx-pre-install.py
+@@ -150,7 +150,7 @@ class DepManager:
+         if output_msg:
+             print(f"\n{output_msg}\n")
  
-             self.check_program("dvipng", DepManager.PDF_MANDATORY)
+-class AncillaryCheckers:
++class AncillaryMethods:
+     """
+     Ancillary methods that checks for missing dependencies for different
+     types of types, like binaries, python modules, rpm deps, etc.
+@@ -261,81 +261,24 @@ class AncillaryCheckers:
  
-+        if not self.distro_msg:
-+            self.distro_msg = \
-+                "Note: ImageMagick is broken on some distros, affecting PDF output. For more details:\n" \
-+                "\thttps://askubuntu.com/questions/1158894/imagemagick-still-broken-using-with-usr-bin-convert"
+         return subprocess.run(*args, **kwargs)
+ 
+-class SphinxDependencyChecker(AncillaryCheckers):
+-    # List of required texlive packages on Fedora and OpenSuse
+-    texlive = {
+-        "amsfonts.sty":       "texlive-amsfonts",
+-        "amsmath.sty":        "texlive-amsmath",
+-        "amssymb.sty":        "texlive-amsfonts",
+-        "amsthm.sty":         "texlive-amscls",
+-        "anyfontsize.sty":    "texlive-anyfontsize",
+-        "atbegshi.sty":       "texlive-oberdiek",
+-        "bm.sty":             "texlive-tools",
+-        "capt-of.sty":        "texlive-capt-of",
+-        "cmap.sty":           "texlive-cmap",
+-        "ctexhook.sty":       "texlive-ctex",
+-        "ecrm1000.tfm":       "texlive-ec",
+-        "eqparbox.sty":       "texlive-eqparbox",
+-        "eu1enc.def":         "texlive-euenc",
+-        "fancybox.sty":       "texlive-fancybox",
+-        "fancyvrb.sty":       "texlive-fancyvrb",
+-        "float.sty":          "texlive-float",
+-        "fncychap.sty":       "texlive-fncychap",
+-        "footnote.sty":       "texlive-mdwtools",
+-        "framed.sty":         "texlive-framed",
+-        "luatex85.sty":       "texlive-luatex85",
+-        "multirow.sty":       "texlive-multirow",
+-        "needspace.sty":      "texlive-needspace",
+-        "palatino.sty":       "texlive-psnfss",
+-        "parskip.sty":        "texlive-parskip",
+-        "polyglossia.sty":    "texlive-polyglossia",
+-        "tabulary.sty":       "texlive-tabulary",
+-        "threeparttable.sty": "texlive-threeparttable",
+-        "titlesec.sty":       "texlive-titlesec",
+-        "ucs.sty":            "texlive-ucs",
+-        "upquote.sty":        "texlive-upquote",
+-        "wrapfig.sty":        "texlive-wrapfig",
+-    }
++class MissingCheckers(AncillaryMethods):
+ 
+-    def __init__(self, args):
++    def __init__(self, args, texlive):
+         self.pdf = args.pdf
+         self.virtualenv = args.virtualenv
+         self.version_check = args.version_check
++        self.texlive = texlive
+ 
+         self.deps = DepManager(self.pdf)
+ 
+         self.need_symlink = 0
+         self.need_sphinx = 0
+-        self.need_pip = 0
+-        self.rec_sphinx_upgrade = 0
 +
-         return self.get_install_progs(progs, "apt-get install")
+         self.verbose_warn_install = 1
  
-     def give_redhat_hints(self):
-@@ -1193,7 +1198,7 @@ class SphinxDependencyChecker(MissingCheckers):
-         self.distro_msg = \
-             f"I don't know distro {self.system_release}.\n" \
-             "So, I can't provide you a hint with the install procedure.\n" \
--            "There are likely missing dependencies.\n"
-+            "There are likely missing dependencies."
+-        self.system_release = ""
+-        self.install = ""
+         self.virtenv_dir = ""
+-        self.python_cmd = ""
+-        self.activate_cmd = ""
  
-         return self.get_install_progs(progs, None)
+-        # Some distros may not have a Sphinx shipped package compatible with
+-        # our minimal requirements
+-        self.package_supported = True
+-
+-        # Recommend a new python version
+-        self.recommend_python = None
+-
+-        # Certain hints are meant to be shown only once
+-        self.first_hint = True
+-
+-        self.min_version = (0, 0, 0)
+-        self.cur_version = (0, 0, 0)
+-        self.latest_avail_ver = (0, 0, 0)
+-        self.venv_ver = (0, 0, 0)
+-
+-        prefix = os.environ.get("srctree", ".") + "/"
+-
+-        self.conf = prefix + "Documentation/conf.py"
+-        self.requirement_file = prefix + "Documentation/sphinx/requirements.txt"
+-        self.virtenv_prefix = ["sphinx_", "Sphinx_" ]
++        self.install = ""
  
+     #
+     # Methods to check if a feature exists
+@@ -460,9 +403,9 @@ class SphinxDependencyChecker(AncillaryCheckers):
+             if match:
+                 return parse_version(match.group(1))
+ 
+-    def check_sphinx(self):
++    def check_sphinx(self, conf):
+         try:
+-            with open(self.conf, "r", encoding="utf-8") as f:
++            with open(conf, "r", encoding="utf-8") as f:
+                 for line in f:
+                     match = re.match(r"^\s*needs_sphinx\s*=\s*[\'\"]([\d\.]+)[\'\"]", line)
+                     if match:
+@@ -513,6 +456,73 @@ class SphinxDependencyChecker(AncillaryCheckers):
+ 
+         return True
+ 
++class SphinxDependencyChecker(MissingCheckers):
++
++    def __init__(self, args):
++        # List of required texlive packages on Fedora and OpenSuse
++        texlive = {
++            "amsfonts.sty":       "texlive-amsfonts",
++            "amsmath.sty":        "texlive-amsmath",
++            "amssymb.sty":        "texlive-amsfonts",
++            "amsthm.sty":         "texlive-amscls",
++            "anyfontsize.sty":    "texlive-anyfontsize",
++            "atbegshi.sty":       "texlive-oberdiek",
++            "bm.sty":             "texlive-tools",
++            "capt-of.sty":        "texlive-capt-of",
++            "cmap.sty":           "texlive-cmap",
++            "ctexhook.sty":       "texlive-ctex",
++            "ecrm1000.tfm":       "texlive-ec",
++            "eqparbox.sty":       "texlive-eqparbox",
++            "eu1enc.def":         "texlive-euenc",
++            "fancybox.sty":       "texlive-fancybox",
++            "fancyvrb.sty":       "texlive-fancyvrb",
++            "float.sty":          "texlive-float",
++            "fncychap.sty":       "texlive-fncychap",
++            "footnote.sty":       "texlive-mdwtools",
++            "framed.sty":         "texlive-framed",
++            "luatex85.sty":       "texlive-luatex85",
++            "multirow.sty":       "texlive-multirow",
++            "needspace.sty":      "texlive-needspace",
++            "palatino.sty":       "texlive-psnfss",
++            "parskip.sty":        "texlive-parskip",
++            "polyglossia.sty":    "texlive-polyglossia",
++            "tabulary.sty":       "texlive-tabulary",
++            "threeparttable.sty": "texlive-threeparttable",
++            "titlesec.sty":       "texlive-titlesec",
++            "ucs.sty":            "texlive-ucs",
++            "upquote.sty":        "texlive-upquote",
++            "wrapfig.sty":        "texlive-wrapfig",
++        }
++
++        super().__init__(args, texlive)
++
++        self.need_pip = 0
++        self.rec_sphinx_upgrade = 0
++
++        self.system_release = ""
++        self.python_cmd = ""
++        self.activate_cmd = ""
++
++        # Some distros may not have a Sphinx shipped package compatible with
++        # our minimal requirements
++        self.package_supported = True
++
++        # Recommend a new python version
++        self.recommend_python = None
++
++        # Certain hints are meant to be shown only once
++        self.first_hint = True
++
++        self.min_version = (0, 0, 0)
++        self.cur_version = (0, 0, 0)
++        self.latest_avail_ver = (0, 0, 0)
++        self.venv_ver = (0, 0, 0)
++
++        prefix = os.environ.get("srctree", ".") + "/"
++
++        self.conf = prefix + "Documentation/conf.py"
++        self.requirement_file = prefix + "Documentation/sphinx/requirements.txt"
++        self.virtenv_prefix = ["sphinx_", "Sphinx_" ]
+ 
+     #
+     # Distro-specific hints methods
+@@ -1187,7 +1197,7 @@ class SphinxDependencyChecker(AncillaryCheckers):
+         self.python_cmd = sys.executable
+ 
+         # Check if Sphinx is already accessible from current environment
+-        self.check_sphinx()
++        self.check_sphinx(self.conf)
+ 
+         if self.system_release:
+             print(f"Detected OS: {self.system_release}.")
 -- 
 2.50.1
 
