@@ -1,569 +1,503 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2076.outbound.protection.outlook.com [40.107.92.76])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF31A22D9EB;
-	Mon, 11 Aug 2025 23:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754956328; cv=fail; b=kRrLRhnCjOsYbRMXw/5f5NGHjh41sU2wU+5Vth0OiF+4NzjGcwGw/ZjQS+be481bs3DXieJkGj1EBCdGyCPDAMuDLXojDRLRCmcGQhZD16ZXHoBRm9EnHiwmcZvoTnfbB67708u2nRMgw4lbKMrHXMYyAk4TWaQPe1H2eP1KK5o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754956328; c=relaxed/simple;
-	bh=YGycEF3zT3pmxAWOiXEiL6BzUwb9JYK0L+kIgB6ZVhM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=AWAXyy5J+yKH1MB9urXfEr6TyvzftNY2n7CUlusa2jbRlKhOW2zpV68YvTNiXFoZ6mv68glDkWollMkIltO/q2e/lXeII7iELl/ZjNcqFEx+j/nnVbD7md67JvOYo5LtF1sdxUClZzVsn37l5X9gbnPvVKCgqlQliWlvQSn50GA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vjPRIqF0; arc=fail smtp.client-ip=40.107.92.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51ADB1E4BE;
+	Tue, 12 Aug 2025 00:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754959567; cv=none; b=TveaL8/zY9k5NnPQJ72on0xc/epIHS94GqX6N94Vw/ORl1iBU/ZGCC/2+HtywfCiMl5aiTcQhgU7CoLmNTnaDPBSMNVy6rkxjEr4gnzH20sbwxsBXVxinnKqBvhQ3ncO940DR4wqWfzNVQyJN8Acgg7y0MWw7bcK8+Qepo740AI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754959567; c=relaxed/simple;
+	bh=HTvWHrbEgTwV6dOXbyxHGqJLFD1JoLZNgz6ZCTyt5AE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XcvNumO31bDHGfORqtbRMnQDjno5O3h+bHYkpWnSkockU5MM8xaTcAKuwds/2biJkmDMABM5xJInp0sUXxi5LIc/xA2RQ9uC+vhEkx5VtrplrZAJAH1uUiuZo9nQ01XBy4vHzZBe343kWbKvpKDKFrMe/ZufxJ8DMJpTIqtl0iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JtDx5CLC; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vjPRIqF0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PYUCEGgweiPG7pG/e8J1fUWAmEZjASOSOXjfNW2zLafet0Er/7UrqY2/vdBL5DJ5nmUijorH5yCZpBMnB12VVPUzcfby12n799X+AKvFaO9G8uVGoZga+2ChP3l69L3aMMW6gSb9BlrXWMmefTbtnlv0m1q5OCDS734+nBvs0Dq30FUvJLK3qt6u+Fyp6nVlqJnKaYVgRJH8rL+9dNLqjb4EKS30Vx5T/pIEO1Z8ThkbTgV+5ZVcN7H0t2tBNdMwQtKGR03T3Mflo9aKE5epgovNaqqKRGlkLq9FDs4hDIysZFk29fsc2LKEoMR0vZpbbPtUR8bh8kGfNbthm4tVyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5yhe13I1EAZA9MvKs85Ixo+Gia4f1tQPhAJWnBNl+BI=;
- b=W8GnPBSvepOwj/mdqHlM7ksX0NZcIrW1hejfMst60pvOnuZcF6OIt3eWQ/RuSbznzQ1/7SMiOsxMhilGOrVBsyU9ii0QE5KT4j+DYv8BkUnD087bjok+0FNgS/p9SA+r7uKWfQb9o9IvgQTsgi5XXIcRdweEeF0XGYs+mBSsNmSpvpVUXOg5jvh8HZvqfziRUJtLyjrvChpqdo+/J8oegQirGl2fhF/Kjha3tadZeeDiuhsVi53g0mLBP9pNmtiuhw9TopNK82srJFJiBh+fhwrv8UJofZsQoU4AwTU3EMTr9ev7nYkRo9Q4lUHhihmQpxFhiOQImJTBAz/X50l+pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5yhe13I1EAZA9MvKs85Ixo+Gia4f1tQPhAJWnBNl+BI=;
- b=vjPRIqF0sElUaOt843J/VaklXa8xWN/UHYl0/EP5glLwJwBQ5IwiJTcwThVhXgYS6QrxoJTf+KsLZ0PC3c6mUi0Ck+PBr/oQdcpOTfkrJ990KGIEpr4fc2Q8P78cUaYgE3NbzueuLLxhoTHZhjsoOXhR0cchmSmDEcoRAjna1JQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by MN2PR12MB4270.namprd12.prod.outlook.com
- (2603:10b6:208:1d9::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.13; Mon, 11 Aug
- 2025 23:52:02 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.8989.011; Mon, 11 Aug 2025
- 23:52:02 +0000
-Message-ID: <ff20aa57-9858-4cca-8709-51cbb67037d5@amd.com>
-Date: Mon, 11 Aug 2025 18:51:56 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 30/34] fs/resctrl: Introduce the interface to modify
- assignments in a group
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, james.morse@arm.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: Dave.Martin@arm.com, x86@kernel.org, hpa@zytor.com,
- akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
- Neeraj.Upadhyay@amd.com, david@redhat.com, arnd@arndb.de, fvdl@google.com,
- seanjc@google.com, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
- xin@zytor.com, manali.shukla@amd.com, tao1.su@linux.intel.com,
- sohil.mehta@intel.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- peterz@infradead.org, xin3.li@intel.com, kan.liang@linux.intel.com,
- mario.limonciello@amd.com, thomas.lendacky@amd.com, perry.yuan@amd.com,
- gautham.shenoy@amd.com, chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
-References: <cover.1753467772.git.babu.moger@amd.com>
- <5c589b07428d3bce95616b0f69fc58883eb86360.1753467772.git.babu.moger@amd.com>
- <2e88d204-cca4-4df4-94f1-478150eff2cf@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <2e88d204-cca4-4df4-94f1-478150eff2cf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9PR13CA0177.namprd13.prod.outlook.com
- (2603:10b6:806:28::32) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JtDx5CLC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=7xEGavM38EexJs6+R3NP60uuzbfpXor25lCw94ANNOs=; b=JtDx5CLCTLXAtES4F1cItMgI8f
+	TdwkUaS+3aktVQBl0AarUavpFW8Px3V3Ov09UA7pnbOQoeciPtN7l67fv8RMRkFBPTb2d/hnkk/b1
+	hKl+VoC769Mpj9+XLbWCwVOT7xdNdHMq9GtKCqcmrTQLYd67LnT93E223XlTu9lgMgSOpKucKwsX4
+	15ftrDNuCeSXByVg0U22onhzt7AVw88f8w+3Ai93UtxZ/unznt+RIZNV7cSOM0pPfRZYpi5Jl9XBF
+	zxt0R9xFhHmUBKeIRBufYIQdJRTBTyeXsAC4iW1MKIsXk/EJ7qnoUl2ofHhDRgld6YA76KJIr6ytN
+	sBM8Q7xQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uld9P-00000009TGQ-1sqU;
+	Tue, 12 Aug 2025 00:46:03 +0000
+Message-ID: <5cd1c94c-e122-45e6-8333-9eff3ae6303e@infradead.org>
+Date: Mon, 11 Aug 2025 17:46:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|MN2PR12MB4270:EE_
-X-MS-Office365-Filtering-Correlation-Id: 993bca9b-3181-4c9a-e5fd-08ddd932114b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SngxSVBwZk5HMHdZV25NN1BIRnNFenVpcWtaTm14d3NkUkZSZUptZm5QdnVr?=
- =?utf-8?B?YVFBSnBDYjNSeGNpWVora3RMZlhFUFh4WXl4YTNsMjBYdzU3eDdETkFxWEo3?=
- =?utf-8?B?KzFUb3kxeWdKT3ZMU0c0dkRFbnRXeFZ5ZnVpY0VaSk9qbG5UaTg5R21Pb0JH?=
- =?utf-8?B?R09kRGlMcFFCN2pjQnp6UitEbk9xem0yWGduYzAwNGozQXV3WE9IclZnakhB?=
- =?utf-8?B?UjVucWVsMVFtYTBqYnJUajlvc0xpTEhidnJPdXBMK2hOY2ljWGNnM0JvMWlw?=
- =?utf-8?B?SHo1NFpPeksrbStvQ3M0dERPZFNSK0JydmlqT3RueFVNL1dqTCt4ZDFJTkZy?=
- =?utf-8?B?TGhrSkhsR29oTkhEMnVYcXFLVVBqc0xCd2R5VnlWOW5VVTdMSHNPMG5nVzhT?=
- =?utf-8?B?Y0h4b0h3aWdtNXFod2ZQODBRUDNTdzRvRGxlOUpGMm5wOXdSSExpZmFaZDY3?=
- =?utf-8?B?UnZWY2V5Q2Q3bzBpU2FseFVQN3E2WjF5aTlHOTVBeHB6aGpuYnVpRXFrd2Vi?=
- =?utf-8?B?ajdBMGJHVXBNRFMybmdPWE9qanpaWjVmcVNPMDFSTTZYRDdZUTM1NkpPd0Ir?=
- =?utf-8?B?VVgwRVJvM1A0WGRUTDZSTlZSazNRTHdhdG1ETlB6YVd1bWx4QU8yc1NFUmlP?=
- =?utf-8?B?SmdEaEFMeGlSSnhVTDN1M3c4RHFJV2x4Qm1vYWVYLzJpcVNoUUlYYUJkVloy?=
- =?utf-8?B?Ni9VYSt3UVpleW1hYWFhTHVCaHNGSTI3TmJTVGlaa3o5eHltaGM5WTNnMTYy?=
- =?utf-8?B?a1c1d2RsM2RQeVhqV3ZOMFc0OW5maEpJcnV4NkM3bC9qanQxaUt1eVliRWRF?=
- =?utf-8?B?L2hFS3QxS2FsYnlieEtpL1lrZEVjQW56dXd6WG9ldXozSStpdUpwQ0NubVBy?=
- =?utf-8?B?YnUyWDY5ejk2cDBucktSNkMvdVlDYkw4ZjRrUkJlNnJuVTN4RGhSY05FeURh?=
- =?utf-8?B?RXBsRit5NGhJZ0JudE9heHlaV1ErQ1V1Y2k5bFdGTXN2Z09JT3daK0NWcitV?=
- =?utf-8?B?V1BoakErVXgxNWR5N2g4eDM4bnYvMWxWOWk3OU43NlBYZ0VpQTR5aVhiL0Nr?=
- =?utf-8?B?cXkvYmx3NFlLeEdidUR0SnQzL1h4czhBMERlZmtqMDJuaDZSL1dHMTdrV0ho?=
- =?utf-8?B?SktVTHNaNFJHWFJTaStTZWFvaG5XTG9CaGtaVGloeEh5MjcybzhCenhsNTFR?=
- =?utf-8?B?NDcwMzlWaFIzY1NtUW5rM3Mwb013NXA0WlZYS1BJUjdoSXBDRVRGMm8vU1d4?=
- =?utf-8?B?bW04aXY5c2JpQU9FZUZwYy9IRlJlQld3QXJiNWZHaWxrcVBubllyNStSdkxN?=
- =?utf-8?B?NzFudWtDRi9UaFZrTE5UZkptYllmeDczY1piSStsKzRwQUhyWEhZenVZZzk0?=
- =?utf-8?B?WXVSd3JIOFNGMmcybnRJS0ZwMVdKNGhNbmZoTEo2N3J2MTlkUGQ5ejBzRzFX?=
- =?utf-8?B?TGxLZGd5ay9jQ25wYkZBMlR1SGp4SkFoeVlYUzY5eFEyaWVTVGhPOWl5NnQw?=
- =?utf-8?B?TnBveDJ0bGtqQWZlTXNDZHB2dDBIcGthaEwyOUcrQXptMU51d0N5VjhmNVRh?=
- =?utf-8?B?RXpWVFlGYjk0MldsZUZ0Qnd5U1o2c3ErMzhhcHI0YUwwRlY3U1Q4NTZ0dm0r?=
- =?utf-8?B?dGxvYlZKRmNZT3AwNTBXVU9qZllXaElPVHZOTnFpRlFsdU1wSWlpMEZMSjdD?=
- =?utf-8?B?bE1sdWZHL0ZiVDlFeFFuRjh1a2JobXhpNDVZaiszcjlDQ0VVeGk3Y3NORHZ3?=
- =?utf-8?B?S1BBQUtXOFIvVXIzL2hvMHE0Ylh0Q1F3QVBlMzY0TjQvaFVQRVY0Z3djQVFQ?=
- =?utf-8?B?MklhQkFWcHExaEx2NVM1bk1UZ0tPMzAvZlJHQTJwdGQrOXBIL0daMk5WWnNi?=
- =?utf-8?B?cjh4dTBYUGxLR3FnUTdHWWhKV2pmWk1lTFZUcmhmeWlTMlpnTEt0Y1RTNWw0?=
- =?utf-8?Q?exFVgYjrGuA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eldGa1paMTBTU0JDUkZ5MXlmaDFVOEVkZnJFci9yT1BkLzhFbTRyb09hY1pU?=
- =?utf-8?B?SVpyNGtIbW4vQm01UFBDM2t1bUk3b2VEVjNxUy9BV0pIOFVwdzNjZ3NObnVh?=
- =?utf-8?B?VGIzM2I0QlFQQlh6Kzg5d2ZmbGNYTHBia0szWlZJVkg2NjAzbkI5STkvTDhG?=
- =?utf-8?B?dFJ2LzdSZ1Y2WDBIQzJ3QjkzRDREYktBZU9lV2VzeWorUHFmSDk0WjZ6dVZ0?=
- =?utf-8?B?ZnJnYWtDSUhtZ01XVnYyVGFxM1ZHT0orK1k3YTRvQ0VzTnMveDBXRTZBK0t2?=
- =?utf-8?B?VmgyVnJMSlhvbTZMOVRpNWpuOHZzSlMwS2lXaWVENWNTL3p0Y3pHbGptR0xw?=
- =?utf-8?B?YWd6R3VHaTNkNVdZdnd5V0hZNTJoUmhxQS9VNm5PdFh6VnZQQm8wbnRIZzEv?=
- =?utf-8?B?aUovaFJrTDEvSEU1SU1HbFVnbUJYamhtMkJwY1BXQjNRY0U0d2VHbnBteVBB?=
- =?utf-8?B?bFROWEpubDlIR2ZzY0UvTnZUcERmS2pQbVprTjU5VllmYmQ2M2tZUWsycUhN?=
- =?utf-8?B?SUUrMGRhOStMQ012VTR0aVcxNVZqNGdrZ0JkUTA2K0xVajVvUVZBbG5zL08z?=
- =?utf-8?B?TFlDUTQ2OEVHbXR5dWoxdEVneDRaUnVXenVGZzBSeEtRWldQMVFMb3ZkU1or?=
- =?utf-8?B?Q0M5K1J1UHJIcGd3TUFVajZVT0UraXgzNTlXb1ZtSnBCamJ2bGU2S3B1U0ZX?=
- =?utf-8?B?NXhoc25rWENKYXg4bUlXQUVlN0xTL1E1dkdQR3ZNaXJUdXYyU2FjWCtYMFF1?=
- =?utf-8?B?UURSRmtFamJUdnFGa1UvSlg0K21jaTE1UkZhOTR3Zmw0NURKNmNSb1V5b3dj?=
- =?utf-8?B?eWxGODRjWWhMdUZqa04zSWc2Vm4xaFQyWUw2U0dEU1hqbmtvV3pwbjdjNno5?=
- =?utf-8?B?bVB1dWFLOC9rMGVLSzI3bG94U2ZqR2xYRmRSV2piajFmNHB4N1FvRmxlR3Ux?=
- =?utf-8?B?NFkrVEhqMFZMTHNJYXpSUExqTlc4YkgyR01PUitjUUlDemVrVE80Q2pMbGsw?=
- =?utf-8?B?eDVjaE1pbUU2eXZ1S3dsUjB1UjJOaHQyeXJLY0ZzZ0wzSFE0OEJNQTB4R0x6?=
- =?utf-8?B?ZU1RYzhmMmVMbEQyZi95dlJKRHN6TFpxdEdQTmNhTUlENCtXNG1xWitqRGJW?=
- =?utf-8?B?Tjg4c042NjRJWlFXYzh1Q0RIeHJIQ2NJVzVSbDc2YWNwelpVQ2hJTDJOU2J6?=
- =?utf-8?B?Sk9Tc1NnQ3VuQTdOQUhxajJyZ2hZZFU0UjBldmhwaDdJQ1VlMkt3ek11VEVx?=
- =?utf-8?B?NzhmQnZIWjlTellpcW9TcXg0WW1JNTRqVGN0T2Q0Y2RaSkNTQ2xjaGJwR1Av?=
- =?utf-8?B?UkRONDk0VlRGRmZvMGtOdk1HaFJ6RGJkK1owZGJsR0QvbjRjRFUva2gzakJN?=
- =?utf-8?B?TllCKy9BbmZ2Z05RTDM4QVZYOXRLUCtYd1JibmNzVlhPNmwrcGgzSnpzb0c2?=
- =?utf-8?B?RkJaNEU2MjNrekVZOVBzNXRLYmlCWHduZUZlS3Q0MzNKa0JETHF0SnVEbTVN?=
- =?utf-8?B?RStLdE5HN3FuZWRDV2JrbFZ3T0VYajR2WlpqamlLZkZvV3UxSFFQWm1BcENr?=
- =?utf-8?B?VVBPbG1kT1hnZTcrRzR1OWhZbjRFYlhXZXljV0E5UlpGSGk1M0g4UXZoVXgv?=
- =?utf-8?B?RkdLbjJsL2pxeHc1Wis0T3lSbUNUaEJHRHViRmFBY01lK3lzR1YvajJvYll0?=
- =?utf-8?B?MWR4RnJWYXNqNDhKcmlGMkpBT283UE1Xbmt6ZFlBc00ydkJJTlVXUGFRaC95?=
- =?utf-8?B?RHNNd251d0pKT1pPMHJhNmNPdmErQm92cDc4RzArbmMvZkJTVHlWMDAvSWRF?=
- =?utf-8?B?dGwvN2tZRHFhVXY4VGdDNlU2T3hFVkJNa3Nmd2NLbU14OS9IMGt2ZXZFNXJB?=
- =?utf-8?B?RXJ6amhsV3QyNjhwTnpycVoxVE12ZUNYdWlrVU56UTNwKzFjYkxEQmVVcGlz?=
- =?utf-8?B?blU3c1ZSazJ5Vm16K0J5VDJPQ3NQa3YwQzlpbTE5UlRpL1VqV0hQWUxoYjBM?=
- =?utf-8?B?VXhHNXIraWdkdURtVmdYYmFMZjlpc3JqdmVtb1NiRThxa2tOUThGTzRzUTd6?=
- =?utf-8?B?c09NNnB0OWUyZVRLblBRcW5XMWE0NVNHbnFFRWtaL2RMeGZ5dnpPb2dvREtM?=
- =?utf-8?Q?7Z7M=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 993bca9b-3181-4c9a-e5fd-08ddd932114b
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 23:52:01.9851
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z8uShAWWHuEhdX9r672ns154bYN2b0mkLgcHNuWn+88/bihUw5fGgBg7ytTN8rx2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4270
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: gpio: add documentation about using
+ software nodes
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Arnd Bergmann <arnd@kernel.org>, Hans de Goede <hansg@kernel.org>,
+ linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <b52lpk2vqr4asp5iaqwcvcac3b6gen52rbu4cwy5kcnxszc3fj@6i77jr53kzje>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <b52lpk2vqr4asp5iaqwcvcac3b6gen52rbu4cwy5kcnxszc3fj@6i77jr53kzje>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
+Hi,
 
-On 7/30/2025 3:10 PM, Reinette Chatre wrote:
-> Hi Babu,
->
-> On 7/25/25 11:29 AM, Babu Moger wrote:
->> Enable the mbm_l3_assignments resctrl file to be used to modify counter
->> assignments of CTRL_MON and MON groups when the "mbm_event" counter
->> assignment mode is enabled.
->>
->> The assignment modifications are done in the following format:
-> (needs imperative)
+On 8/11/25 2:30 PM, Dmitry Torokhov wrote:
+> Introduce documentation regarding use of software nodes to describe
+> GPIOs on legacy boards that have not been converted to device tree.
+> 
+
+Thanks for the additional documentation.
+
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  Documentation/driver-api/gpio/board.rst       |  64 ++++
+>  Documentation/driver-api/gpio/index.rst       |   1 +
+>  .../driver-api/gpio/legacy-boards.rst         | 298 ++++++++++++++++++
+>  3 files changed, 363 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
+> index 4fd1cbd8296e..0cf64e1f2623 100644
+> --- a/Documentation/driver-api/gpio/board.rst
+> +++ b/Documentation/driver-api/gpio/board.rst
+> @@ -94,6 +94,70 @@ with the help of _DSD (Device Specific Data), introduced in ACPI 5.1::
+>  For more information about the ACPI GPIO bindings see
+>  Documentation/firmware-guide/acpi/gpio-properties.rst.
+>  
+> +Software Nodes
+> +--------------
+> +Software nodes allows to construct an in-memory, device-tree-like structure
+
+                  allow { drivers | modules | software | us}
+
+although "software" seems redundant.
+
+> +using ``struct software_node`` and ``struct property_entry``. This structure
+
+Quoting Jon (for a different struct):
+  Better to just say "struct list_head", and the automarkup logic should
+  take care of the rest.
+
+@Jon: ISTM that we need something in Documentation/doc-guide/sphinx.rst (?) about which
+keywords are handled by automarkup logic. AFAIK, they are struct, union, enum,
+and typedef (keywords) and function() as indicated by the "()".
 
 
-Sure.
+
+> +can then be associated with a platform device, allowing drivers to use the
+> +standard device properties API to query configuration, just as they would on an
+> +ACPI or device tree systems.
+
+                       system.
+
+> +
+> +Software-node-backed GPIOs are described using ``PROPERTY_ENTRY_GPIO()``
+> +macro, which ties a sotfware node representing GPIO controller with consumer
+
+                       software
+
+> +device. It allows consumers to use regular gpiolib APIs, such as ``gpiod_get()``,
+> +``gpiod_get_optional()``.
+> +
+> +The software node representing GPIO controller need not be attached to the
+> +GPIO controller device. The only requirement that the node must be registered
+
+                                    requirement is that
+
+> +and its name much match the GPIO controller's label.
+
+                must
+
+> +
+> +For example, here is how to describe a single GPIO-connected LED. This is an
+> +alternative to using platform_data on legacy systems.
+> +
+> +.. code-block:: c
+> +
+> +	#include <linux/property.h>
+> +	#include <linux/gpio/machine.h>
+> +	#include <linux/gpio/property.h>
+> +
+> +	/*
+> +	 * 1. Define a node for the GPIO controller. Its .name must match the
+> +	 *    controller's label.
+> +	 */
+> +	static const struct software_node gpio_controller_node = {
+> +		.name = "gpio-foo",
+> +	};
+> +
+> +	/* 2. Define the properties for the LED device. */
+> +	static const struct property_entry led_device_props[] = {
+> +		PROPERTY_ENTRY_STRING("label", "myboard:green:status"),
+> +		PROPERTY_ENTRY_STRING("linux,default-trigger", "heartbeat"),
+> +		PROPERTY_ENTRY_GPIO("gpios", &gpio_controller_node, 42, GPIO_ACTIVE_HIGH),
+> +		{ }
+> +	};
+> +
+> +	/* 3. Define the software node for the LED device. */
+> +	static const struct software_node led_device_swnode = {
+> +		.name = "status-led",
+> +		.properties = led_device_props,
+> +	};
+> +
+> +	/*
+> +	 * 4. Register the software nodes and the platform device.
+> +	 */
+> +	const struct software_node *swnodes[] = {
+> +		&gpio_controller_node,
+> +		&led_device_swnode,
+> +		NULL
+> +	};
+> +	software_node_register_node_group(swnodes);
+> +
+> +	// Then register a platform_device for "leds-gpio" and associate
+> +	// it with &led_device_swnode via .fwnode.
+> +
+> +For a complete guide on converting board files to use software nodes, see
+> +Documentation/driver-api/gpio/legacy-boards.rst.
+> +
+>  Platform Data
+>  -------------
+>  Finally, GPIOs can be bound to devices and functions using platform data. Board
 
 
->
->> <Event>:<Domain id>=<Assignment state>
->>
->> Event: A valid MBM event in the
->>         /sys/fs/resctrl/info/L3_MON/event_configs directory.
->>
->> Domain ID: A valid domain ID. When writing, '*' applies the changes
->> 	   to all domains.
->>
->> Assignment states:
->>
->>      _ : Unassign a counter.
->>
->>      e : Assign a counter exclusively.
->>
->> Examples:
->>
->> $ cd /sys/fs/resctrl
->> $ cat /sys/fs/resctrl/mbm_L3_assignments
->>    mbm_total_bytes:0=e;1=e
->>    mbm_local_bytes:0=e;1=e
->>
->> To unassign the counter associated with the mbm_total_bytes event on
->> domain 0:
->>
->> $ echo "mbm_total_bytes:0=_" > mbm_L3_assignments
->> $ cat /sys/fs/resctrl/mbm_L3_assignments
->>    mbm_total_bytes:0=_;1=e
->>    mbm_local_bytes:0=e;1=e
->>
->> To unassign the counter associated with the mbm_total_bytes event on
->> all the domains:
->>
->> $ echo "mbm_total_bytes:*=_" > mbm_L3_assignments
->> $ cat /sys/fs/resctrl/mbm_L3_assignments
->>    mbm_total_bytes:0=_;1=_
->>    mbm_local_bytes:0=e;1=e
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> ...
->
->> ---
->>   Documentation/filesystems/resctrl.rst | 146 +++++++++++++++++++++++++-
->>   fs/resctrl/internal.h                 |   3 +
->>   fs/resctrl/monitor.c                  |  94 +++++++++++++++++
->>   fs/resctrl/rdtgroup.c                 |  48 ++++++++-
->>   4 files changed, 289 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
->> index 0b8ce942f112..0c8701103214 100644
->> --- a/Documentation/filesystems/resctrl.rst
->> +++ b/Documentation/filesystems/resctrl.rst
->> @@ -525,7 +525,8 @@ When the "mba_MBps" mount option is used all CTRL_MON groups will also contain:
->>   	Event: A valid MBM event in the
->>   	       /sys/fs/resctrl/info/L3_MON/event_configs directory.
->>   
->> -	Domain ID: A valid domain ID.
->> +	Domain ID: A valid domain ID. When writing, '*' applies the changes
->> +		   to all the domains.
->>   
->>   	Assignment states:
->>   
->> @@ -542,6 +543,34 @@ When the "mba_MBps" mount option is used all CTRL_MON groups will also contain:
->>   	   mbm_total_bytes:0=e;1=e
->>   	   mbm_local_bytes:0=e;1=e
->>   
->> +	Assignments can be modified by writing to the interface.
->> +
->> +	Example:
->> +	To unassign the counter associated with the mbm_total_bytes event on domain 0:
-> The alignment is off when looking at the generated html. What seems to be intended is that
-> "Example" is some sort of heading but it ends up just being part of the sentence that follows
-> and thus not apply to other examples that follow.
-> It can also be "Examples" since there are more than one.
 
+> diff --git a/Documentation/driver-api/gpio/legacy-boards.rst b/Documentation/driver-api/gpio/legacy-boards.rst
+> new file mode 100644
+> index 000000000000..6700a2549220
+> --- /dev/null
+> +++ b/Documentation/driver-api/gpio/legacy-boards.rst
+> @@ -0,0 +1,298 @@
+> +Supporting Legacy Boards
+> +========================
+> +
+> +Many drivers in the kernel, such as ``leds-gpio`` and ``gpio-keys``, are
+> +migrating away from using board-specific ``platform_data`` to a unified device
+> +properties interface. This interface allows drivers to be simpler and more
+> +generic, as they can query properties in a standardized way.
+> +
+> +On modern systems, these properties are provided via device tree. However, some
+> +older platforms have not been converted to device tree and instead rely on
+> +board files to describe their hardware configuration. To bridge this gap and
+> +allow these legacy boards to work with modern, generic drivers, the kernel
+> +provides a mechanism called **software nodes**.
+> +
+> +This document provides a guide on how to convert a legacy board file from using
+> +``platform_data`` and ``gpiod_lookup_table`` to the modern software node
+> +approach for describing GPIO-connected devices.
+> +
+> +The Core Idea: Software Nodes
+> +-----------------------------
+> +
+> +Software nodes allows to construct an in-memory, device-tree-like structure
 
-Checking it again.
+                  allow {some object of the verb, as suggested above}
 
->
->> +	::
->> +
->> +	 # echo "mbm_total_bytes:0=_" > /sys/fs/resctrl/mbm_L3_assignments
->> +	 # cat /sys/fs/resctrl/mbm_L3_assignments
->> +	   mbm_total_bytes:0=_;1=e
->> +	   mbm_local_bytes:0=e;1=e
->> +
->> +	To unassign the counter associated with the mbm_total_bytes event on all the domains:
->> +	::
->> +
->> +	 # echo "mbm_total_bytes:*=_" > /sys/fs/resctrl/mbm_L3_assignments
->> +	 # cat /sys/fs/resctrl/mbm_L3_assignments
->> +	   mbm_total_bytes:0=_;1=_
->> +	   mbm_local_bytes:0=e;1=e
->> +
->> +	To assign a counter associated with the mbm_total_bytes event on all domains in
->> +	exclusive mode:
->> +	::
->> +
->> +	 # echo "mbm_total_bytes:*=e" > /sys/fs/resctrl/mbm_L3_assignments
->> +	 # cat /sys/fs/resctrl/mbm_L3_assignments
->> +	   mbm_total_bytes:0=e;1=e
->> +	   mbm_local_bytes:0=e;1=e
->> +
->>   Resource allocation rules
->>   -------------------------
->>   
->> @@ -1577,6 +1606,121 @@ View the llc occupancy snapshot::
->>     # cat /sys/fs/resctrl/p1/mon_data/mon_L3_00/llc_occupancy
->>     11234000
->>   
->> +
->> +Examples on working with mbm_assign_mode
->> +========================================
->> +
->> +a. Check if MBM counter assignment mode is supported.
->> +::
->> +
->> +  # mount -t resctrl resctrl /sys/fs/resctrl/
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +  [mbm_event]
->> +  default
->> +
->> +The "mbm_event" mode is detected and enabled.
->> +
->> +b. Check how many assignable counters are supported.
->> +::
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
->> +  0=32;1=32
->> +
->> +c. Check how many assignable counters are available for assignment in each domain.
->> +::
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/available_mbm_cntrs
->> +  0=30;1=30
->> +
->> +d. To list the default group's assign states.
->> +::
->> +
->> +  # cat /sys/fs/resctrl/mbm_L3_assignments
->> +  mbm_total_bytes:0=e;1=e
->> +  mbm_local_bytes:0=e;1=e
->> +
->> +e.  To unassign the counter associated with the mbm_total_bytes event on domain 0.
->> +::
->> +
->> +  # echo "mbm_total_bytes:0=_" > /sys/fs/resctrl/mbm_L3_assignments
->> +  # cat /sys/fs/resctrl/mbm_L3_assignments
->> +  mbm_total_bytes:0=_;1=e
->> +  mbm_local_bytes:0=e;1=e
->> +
->> +f. To unassign the counter associated with the mbm_total_bytes event on all domains.
->> +::
->> +
->> +  # echo "mbm_total_bytes:*=_" > /sys/fs/resctrl/mbm_L3_assignments
->> +  # cat /sys/fs/resctrl/mbm_L3_assignment
->> +  mbm_total_bytes:0=_;1=_
->> +  mbm_local_bytes:0=e;1=e
->> +
->> +g. To assign a counter associated with the mbm_total_bytes event on all domains in
->> +exclusive mode.
->> +::
->> +
->> +  # echo "mbm_total_bytes:*=e" > /sys/fs/resctrl/mbm_L3_assignments
->> +  # cat /sys/fs/resctrl/mbm_L3_assignments
->> +  mbm_total_bytes:0=e;1=e
->> +  mbm_local_bytes:0=e;1=e
->> +
->> +h. Read the events mbm_total_bytes and mbm_local_bytes of the default group. There is
->> +no change in reading the events with the assignment.  If the event is unassigned when
->> +reading, then the read will come back as "Unassigned".
-> While this example is for a single resource group the supporting text goes back
-> and forth between being specific to one resource group and describing what happens
-> when there are multiple resource groups (see (j)). If it is just one resource group then above is
-> fine, but for multiple there are much more involved with the "unassigned". Same as what
-> was mentioned during previous version.
+> +using ``struct software_node`` and ``struct property_entry``. This structure
 
-Removed the "Unassigned" related text.  Also removed texts about 
-multiple groups.
+Please drop the "``" markups. They aren't needed.
 
-We already have details on "Unassigned" in mon_data section.
+> +can then be associated with a platform device, allowing drivers to use the
+> +standard device properties API (e.g., ``device_property_read_u32()``,
+> +``device_property_read_string()``) to query configuration, just as they would
+> +on an ACPI or device tree systems.
 
+                             system.
 
->
->> +::
->> +
->> +  # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->> +  779247936
->> +  # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->> +  765207488
->> +
->> +i. Check the event configurations.
->> +::
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/event_configs/mbm_total_bytes/event_filter
->> +  local_reads,remote_reads,local_non_temporal_writes,remote_non_temporal_writes,
->> +  local_reads_slow_memory,remote_reads_slow_memory,dirty_victim_writes_all
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/event_configs/mbm_local_bytes/event_filter
->> +  local_reads,local_non_temporal_writes,local_reads_slow_memory
->> +
->> +j. Change the event configuration for mbm_local_bytes.
->> +::
->> +
->> +  # echo "local_reads, local_non_temporal_writes, local_reads_slow_memory, remote_reads" >
->> +  /sys/fs/resctrl/info/L3_MON/event_configs/mbm_local_bytes/event_filter
->> +
->> +  # cat /sys/fs/resctrl/info/L3_MON/event_configs/mbm_local_bytes/event_filter
->> +  local_reads,local_non_temporal_writes,local_reads_slow_memory,remote_reads
->> +
->> +This will update all (across all domains of all monitor groups) counter assignments
->> +associated with the mbm_local_bytes event.
->> +
->> +k. Now read the local event again. The first read may come back with "Unavailable"
->> +status. The subsequent read of mbm_local_bytes will display the current value.
->> +::
->> +
->> +  # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->> +  Unavailable
->> +  # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->> +  314101
->> +
->> +l. Users have the option to go back to 'default' mbm_assign_mode if required. This can be
->> +done using the following command. Note that switching the mbm_assign_mode may reset all
->> +the MBM counters (and thus all MBM events) of all the resctrl groups.
->> +::
->> +
->> +  # echo "default" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +  # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +  mbm_event
->> +  [default]
->> +
->> +m. Unmount the resctrl filesystem.
->> +::
->> +
->> +  # umount /sys/fs/resctrl/
->> +
->>   Intel RDT Errata
->>   ================
->>   
->> diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
->> index e2e3fc0c5fab..1350fc273258 100644
->> --- a/fs/resctrl/internal.h
->> +++ b/fs/resctrl/internal.h
->> @@ -418,6 +418,9 @@ int event_filter_show(struct kernfs_open_file *of, struct seq_file *seq, void *v
->>   ssize_t event_filter_write(struct kernfs_open_file *of, char *buf, size_t nbytes,
->>   			   loff_t off);
->>   
->> +int resctrl_parse_mbm_assignment(struct rdt_resource *r, struct rdtgroup *rdtgrp,
->> +				 char *event, char *tok);
->> +
->>   #ifdef CONFIG_RESCTRL_FS_PSEUDO_LOCK
->>   int rdtgroup_locksetup_enter(struct rdtgroup *rdtgrp);
->>   
->> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
->> index ebc049105949..1e4f8e3bedc6 100644
->> --- a/fs/resctrl/monitor.c
->> +++ b/fs/resctrl/monitor.c
->> @@ -1311,3 +1311,97 @@ void resctrl_update_cntr_allrdtgrp(struct mon_evt *mevt)
->>   			rdtgroup_update_cntr_event(r, crgrp, mevt->evtid);
->>   	}
->>   }
->> +
->> +/*
->> + * mbm_get_mon_event_by_name() - Return the mon_evt entry for the matching
->> + * event name.
->> + */
->> +static struct mon_evt *mbm_get_mon_event_by_name(struct rdt_resource *r, char *name)
->> +{
->> +	struct mon_evt *mevt;
->> +
->> +	for_each_mon_event(mevt) {
->> +		if (mevt->rid == r->rid && mevt->enabled &&
->> +		    resctrl_is_mbm_event(mevt->evtid) &&
->> +		    !strcmp(mevt->name, name))
->> +			return mevt;
->> +	}
->> +
->> +	return NULL;
->> +}
->> +
->> +static int rdtgroup_modify_assign_state(char *assign, struct rdt_mon_domain *d,
->> +					struct rdtgroup *rdtgrp, struct mon_evt *mevt)
->> +{
->> +	int ret = 0;
->> +
->> +	if (!assign || strlen(assign) != 1)
->> +		return -EINVAL;
->> +
->> +	switch (*assign) {
->> +	case 'e':
->> +		ret = rdtgroup_assign_cntr_event(d, rdtgrp, mevt);
->> +		break;
->> +	case '_':
->> +		rdtgroup_unassign_cntr_event(d, rdtgrp, mevt);
->> +		break;
->> +	default:
->> +		ret = -EINVAL;
->> +		break;
->> +	}
->> +
->> +	return ret;
->> +}
->> +
->> +int resctrl_parse_mbm_assignment(struct rdt_resource *r, struct rdtgroup *rdtgrp,
->> +				 char *event, char *tok)
->> +{
->> +	struct rdt_mon_domain *d;
->> +	unsigned long dom_id = 0;
->> +	char *dom_str, *id_str;
->> +	struct mon_evt *mevt;
->> +	int ret;
->> +
->> +	mevt = mbm_get_mon_event_by_name(r, event);
->> +	if (!mevt) {
->> +		rdt_last_cmd_printf("Invalid event %s\n", event);
->> +		return  -ENOENT;
-> Extra space
+> +
+> +The gpiolib code has support for handling software nodes, so that if GPIO is
+> +described properly, as detailed in the section below, then regular gpiolib APIs,
+> +such as ``gpiod_get()``, ``gpiod_get_optional()`` and others will work.
+> +
+> +Requirements for GPIO Properties
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +When using software nodes to describe GPIO connections, the following
+> +requirements must be met for the GPIO core to correctly resolve the reference:
+> +
+> +1.  **The GPIO controller's software node ``name`` must match the controller's
+> +    ``label``.** The gpiolib core uses this name to find the corresponding
+> +    ``struct gpio_chip`` at runtime.
 
+"``" not needed.
 
-Sure.
+> +    This software node has to be registered, but need not be attached to the
+> +    device representing GPIO controller that is providing GPIO in question.
+> +    It may be left as a "free floating" node.
+> +
+> +2.  **The GPIO property must be a reference.** The ``PROPERTY_ENTRY_GPIO()``
+> +    macro handles this as it is an alias for ``PROPERTY_ENTRY_REF()``.
+> +
+> +3.  **The reference must have exactly two arguments:**
+> +
+> +    - The first argument is the GPIO offset within the controller.
+> +    - The second argument is the flags for the GPIO line (e.g.,
+> +      ``GPIO_ACTIVE_HIGH``, ``GPIO_ACTIVE_LOW``).
+> +
+> +The ``PROPERTY_ENTRY_GPIO()`` macro is the preferred way of defining GPIO
+> +properties in software nodes.
+> +
+> +Conversion Example
+> +------------------
+> +
+> +Let's walk through an example of converting a board file that defines a GPIO-
+> +connected LED and a button.
+> +
+> +Before: Using Platform Data
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +A typical legacy board file might look like this:
+> +
+> +.. code-block:: c
+> +
+> +  #include <linux/platform_device.h>
+> +  #include <linux/leds.h>
+> +  #include <linux/gpio_keys.h>
+> +  #include <linux/gpio/machine.h>
+> +
+> +  #define MYBOARD_GPIO_CONTROLLER "gpio-foo"
+> +
+> +  /* LED setup */
+> +  static const struct gpio_led myboard_leds[] = {
+> +  	{
+> +  		.name = "myboard:green:status",
+> +  		.default_trigger = "heartbeat",
+> +  	},
+> +  };
+> +
+> +  static const struct gpio_led_platform_data myboard_leds_pdata = {
+> +  	.num_leds = ARRAY_SIZE(myboard_leds),
+> +  	.leds = myboard_leds,
+> +  };
+> +
+> +  static struct gpiod_lookup_table myboard_leds_gpios = {
+> +  	.dev_id = "leds-gpio",
+> +  	.table = {
+> +  		GPIO_LOOKUP_IDX(MYBOARD_GPIO_CONTROLLER, 42, NULL, 0, GPIO_ACTIVE_HIGH),
+> +  		{ },
+> +  	},
+> +  };
+> +
+> +  /* Button setup */
+> +  static struct gpio_keys_button myboard_buttons[] = {
+> +  	{
+> +  		.code = KEY_WPS_BUTTON,
+> +  		.desc = "WPS Button",
+> +  		.active_low = 1,
+> +  	},
+> +  };
+> +
+> +  static const struct gpio_keys_platform_data myboard_buttons_pdata = {
+> +  	.buttons = myboard_buttons,
+> +  	.nbuttons = ARRAY_SIZE(myboard_buttons),
+> +  };
+> +
+> +  static struct gpiod_lookup_table myboard_buttons_gpios = {
+> +  	.dev_id = "gpio-keys",
+> +  	.table = {
+> +  		GPIO_LOOKUP_IDX(MYBOARD_GPIO_CONTROLLER, 15, NULL, 0, GPIO_ACTIVE_LOW),
+> +  		{ },
+> +  	},
+> +  };
+> +
+> +  /* Device registration */
+> +  static int __init myboard_init(void)
+> +  {
+> +  	gpiod_add_lookup_table(&myboard_leds_gpios);
+> +  	gpiod_add_lookup_table(&myboard_buttons_gpios);
+> +
+> +  	platform_device_register_data(NULL, "leds-gpio", -1,
+> +  				      &myboard_leds_pdata, sizeof(myboard_leds_pdata));
+> +  	platform_device_register_data(NULL, "gpio-keys", -1,
+> +  				      &myboard_buttons_pdata, sizeof(myboard_buttons_pdata));
+> +
+> +  	return 0;
+> +  }
+> +
+> +After: Using Software Nodes
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Here is how the same configuration can be expressed using software nodes.
+> +
+> +Step 1: Define the GPIO Controller Node
+> +***************************************
+> +
+> +First, define a software node that represents the GPIO controller that the
+> +LEDs and buttons are connected to. The ``name`` of this node must match the
+> +name of the driver for the GPIO controller (e.g., "gpio-foo").
+> +
+> +.. code-block:: c
+> +
+> +  #include <linux/property.h>
+> +  #include <linux/gpio/property.h>
+> +
+> +  #define MYBOARD_GPIO_CONTROLLER "gpio-foo"
+> +
+> +  static const struct software_node myboard_gpio_controller_node = {
+> +  	.name = MYBOARD_GPIO_CONTROLLER,
+> +  };
+> +
+> +Step 2: Define Consumer Device Nodes and Properties
+> +***************************************************
+> +
+> +Next, define the software nodes for the consumer devices (the LEDs and buttons).
+> +This involves creating a parent node for each device type and child nodes for
+> +each individual LED or button.
+> +
+> +.. code-block:: c
+> +
+> +  /* LED setup */
+> +  static const struct software_node myboard_leds_node = {
+> +  	.name = "myboard-leds",
+> +  };
+> +
+> +  static const struct property_entry myboard_status_led_props[] = {
+> +  	PROPERTY_ENTRY_STRING("label", "myboard:green:status"),
+> +  	PROPERTY_ENTRY_STRING("linux,default-trigger", "heartbeat"),
+> +  	PROPERTY_ENTRY_GPIO("gpios", &myboard_gpio_controller_node, 42, GPIO_ACTIVE_HIGH),
+> +  	{ }
+> +  };
+> +
+> +  static const struct software_node myboard_status_led_swnode = {
+> +  	.name = "status-led",
+> +  	.parent = &myboard_leds_node,
+> +  	.properties = myboard_status_led_props,
+> +  };
+> +
+> +  /* Button setup */
+> +  static const struct software_node myboard_keys_node = {
+> +  	.name = "myboard-keys",
+> +  };
+> +
+> +  static const struct property_entry myboard_wps_button_props[] = {
+> +  	PROPERTY_ENTRY_STRING("label", "WPS Button"),
+> +  	PROPERTY_ENTRY_U32("linux,code", KEY_WPS_BUTTON),
+> +  	PROPERTY_ENTRY_GPIO("gpios", &myboard_gpio_controller_node, 15, GPIO_ACTIVE_LOW),
+> +  	{ }
+> +  };
+> +
+> +  static const struct software_node myboard_wps_button_swnode = {
+> +  	.name = "wps-button",
+> +  	.parent = &myboard_keys_node,
+> +  	.properties = myboard_wps_button_props,
+> +  };
+> +
+> +
+> +
+> +Step 3: Group and Register the Nodes
+> +************************************
+> +
+> +For maintainability, it is often beneficial to group all software nodes into a
+> +single array and register them with one call.
+> +
+> +.. code-block:: c
+> +
+> +  static const struct software_node * const myboard_swnodes[] __initconst = {
+> +  	&myboard_gpio_controller_node,
+> +  	&myboard_leds_node,
+> +  	&myboard_status_led_swnode,
+> +  	&myboard_keys_node,
+> +  	&myboard_wps_button_swnode,
+> +  	NULL
+> +  };
+> +
+> +  static int __init myboard_init(void)
+> +  {
+> +  	int error;
+> +
+> +  	error = software_node_register_node_group(myboard_swnodes);
+> +  	if (error) {
+> +  		pr_err("Failed to register software nodes: %d\n", error);
+> +  		return error;
+> +  	}
+> +
+> +  	// ... platform device registration follows
+> +  }
+> +
+> +.. note::
+> +  When splitting registration of nodes by devices that they represent, it is
+> +  essential that the software node representing the GPIO controller itself
+> +  is registered first, before any of the nodes that reference it.
+> +
+> +Step 4: Register Platform Devices with Software Nodes
+> +*****************************************************
+> +
+> +Finally, register the platform devices and associate them with their respective
+> +software nodes using the ``fwnode`` field in ``struct platform_device_info``.
 
->
->> +	}
->> +
->> +next:
->> +	if (!tok || tok[0] == '\0')
->> +		return 0;
->> +
->> +	/* Start processing the strings for each domain */
->> +	dom_str = strim(strsep(&tok, ";"));
->> +
->> +	id_str = strsep(&dom_str, "=");
->> +
->> +	/* Check for domain id '*' which means all domains */
->> +	if (id_str && *id_str == '*') {
->> +		ret = rdtgroup_modify_assign_state(dom_str, NULL, rdtgrp, mevt);
->> +		if (ret)
->> +			rdt_last_cmd_printf("Assign operation '%s:*=%s' failed\n",
->> +					    event, dom_str);
->> +		return ret;
->> +	} else if (!id_str || kstrtoul(id_str, 10, &dom_id)) {
->> +		rdt_last_cmd_puts("Missing domain id\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	/* Verify if the dom_id is valid */
->> +	list_for_each_entry(d, &r->mon_domains, hdr.list) {
->> +		if (d->hdr.id == dom_id) {
->> +			ret = rdtgroup_modify_assign_state(dom_str, d, rdtgrp, mevt);
->> +			if (ret) {
->> +				rdt_last_cmd_printf("Assign operation '%s:%ld=%s' failed\n",
->> +						    event, dom_id, dom_str);
->> +				return ret;
->> +			}
->> +			goto next;
->> +		}
->> +	}
->> +
->> +	rdt_last_cmd_printf("Invalid domain id %ld\n", dom_id);
->> +	return -EINVAL;
->> +}
->> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
->> index 47716e623a9c..2d2b91cd1f67 100644
->> --- a/fs/resctrl/rdtgroup.c
->> +++ b/fs/resctrl/rdtgroup.c
->> @@ -1979,6 +1979,51 @@ static int mbm_L3_assignments_show(struct kernfs_open_file *of, struct seq_file
->>   	return ret;
->>   }
->>   
->> +static ssize_t mbm_L3_assignments_write(struct kernfs_open_file *of, char *buf,
-> Please move to monitor.c
+Drop the "``" on struct platform_device_info.
 
+> +
+> +.. code-block:: c
+> +
+> +  static struct platform_device *leds_pdev;
+> +  static struct platform_device *keys_pdev;
+> +
+> +  static int __init myboard_init(void)
+> +  {
+> +  	struct platform_device_info pdev_info;
+> +  	int error;
+> +
+> +  	error = software_node_register_node_group(myboard_swnodes);
+> +  	if (error)
+> +  		return error;
+> +
+> +  	memset(&pdev_info, 0, sizeof(pdev_info));
+> +  	pdev_info.name = "leds-gpio";
+> +  	pdev_info.id = PLATFORM_DEVID_NONE;
+> +  	pdev_info.fwnode = software_node_fwnode(&myboard_leds_node);
+> +  	leds_pdev = platform_device_register_full(&pdev_info);
+> +  	if (IS_ERR(leds_pdev)) {
+> +  		error = PTR_ERR(leds_pdev);
+> +  		goto err_unregister_nodes;
+> +  	}
+> +
+> +  	memset(&pdev_info, 0, sizeof(pdev_info));
+> +  	pdev_info.name = "gpio-keys";
+> +  	pdev_info.id = PLATFORM_DEVID_NONE;
+> +  	pdev_info.fwnode = software_node_fwnode(&myboard_keys_node);
+> +  	keys_pdev = platform_device_register_full(&pdev_info);
+> +  	if (IS_ERR(keys_pdev)) {
+> +  		error = PTR_ERR(keys_pdev);
+> +  		platform_device_unregister(leds_pdev);
+> +  		goto err_unregister_nodes;
+> +  	}
+> +
+> +  	return 0;
+> +
+> +  err_unregister_nodes:
+> +  	software_node_unregister_node_group(myboard_swnodes);
+> +  	return error;
+> +  }
+> +
+> +  static void __exit myboard_exit(void)
+> +  {
+> +  	platform_device_unregister(keys_pdev);
+> +  	platform_device_unregister(leds_pdev);
+> +  	software_node_unregister_node_group(myboard_swnodes);
+> +  }
+> +
+> +With these changes, the generic ``leds-gpio`` and ``gpio-keys`` drivers will
+> +be able to probe successfully and get their configuration from the properties
+> +defined in the software nodes, removing the need for board-specific platform
+> +data.
+.
 
-Sure.
-
-Thanks
-
-Babu
+-- 
+~Randy
 
