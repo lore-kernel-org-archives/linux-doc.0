@@ -1,127 +1,317 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4736D2F8BDB;
-	Tue, 12 Aug 2025 16:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EE32F5490;
+	Tue, 12 Aug 2025 16:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755016394; cv=none; b=Sh9nzC2dkl4PW0TAlpcIY+ezZaWhpyIOGAOVEFP6s+Hgw12pVf+0OpHhfVyz2U0lxclj/8q5VCn1/3tBDaFqH3W1/3UbLz4kcE4dKFVYspP+YXhgbFJEp/WDOsuWQFP+JbfRbiIrMKMRTQW3BlzSelZKJi+7p3UpsSvZrmXsgGM=
+	t=1755016652; cv=none; b=Uf0rkRy+PnWBCBHuM9HQ1m/kCUYckTBTiTw+gL7IuiNKHJy6zabImxcjMbZi8xmmQZmRjGT+8KIGhibxhZhr2bfiThIYZAXSqpvFPMjJK9NioA2Y/Ijh0dzpQ5FxtcbY+fgntielSM+0XUZjJy/4MHOQW6ViFa23IzKCG8x4WZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755016394; c=relaxed/simple;
-	bh=f08XFR8IircaNgpPYMT7Fy0n+rjk6cJzLyG3MPy06O0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bYIUZhpR7vxZ0M0OIG1NWuH1+qJyKS9Rc6uUb4I+5A0MF2v5dtpBeef7FB26paxLEj0UXENT4OP2WZCo5sV1Eu0mBGun73tmGiDrna/HdUiTpmUljr0ckMvNeqoilEjs+lH9AAfv3UcetfTaluBHAKQcgV8/WjBTvzWp8M5HJro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lU8d390v; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755016652; c=relaxed/simple;
+	bh=KCKNEl62rjrtMG8u1hgKULtjfvWRT+ksDKwDjpV2ePE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=S4ovOM7NCVL67UTOIK/oGAYDRWOacCLVdMkEb57mCSAr7q91NQbvc6Vq1eWEks3xQT/GxtEJeyCbAJzrkpweAP7fh7whQihPeiJs0prPps3wzDubuvoQK/eXp4doPgMpaRRPEbwh5/YRGSXm83Yx35uyiifCDUm5XZRLT/hggQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=PDDayXFJ; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lU8d390v"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b429abd429aso3106011a12.1;
-        Tue, 12 Aug 2025 09:33:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755016392; x=1755621192; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PUAqfV6P2BvW2KJeyshLxvsq1rnCHf6iWhSgNpwwIrI=;
-        b=lU8d390v4MkE9aCJgTuei2Md9/rxeh/LggpHEj6iGEjy3Jj37TablaUKlJjdwoTDDq
-         Arqux63YDSuH8jbDFug6h2gqGnF3bnVImBeGcyaKOrAzfd0Mt0oHI7TP1Y6iTQFJ3qVV
-         lC2AdACSXokIOm3U5wxU2S+3kbPWzF3rkNjk/U51UgeME/wxEd0VGzYcuAitKaMBpvD+
-         ALC136dUX5uUfQrwtj4fplX4sOq/6wAf77mi0glVaXLp35nPlYEZY24Ll4Fz6GMJO8L5
-         Cr4PoxNCtAOX2VqVuYXSZ8e2MLFmvJxS6qLnM31xPd53NzE/jPCb5PpiCg9rz3Obyr3h
-         2vjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755016392; x=1755621192;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PUAqfV6P2BvW2KJeyshLxvsq1rnCHf6iWhSgNpwwIrI=;
-        b=v3lnL810z2DtPYfENpqHpxCsAIWybhK9/Q7qi3vVHUUsuF0GCAdoFyle1dmjrTFOGj
-         Kl4+wsRgusHXsLOow13JlY3SvhQysBVGe/aCWwLG3q/5StdDcKgvJNsEmcFFMYvuiejZ
-         aWCoSGzfa42zmpmmP883ne7L/cjToqDVErqq+bbFBpXpySpYznG4NSkpd8/BZCjC/ULr
-         C2zTPuUBcWHf1guSSWrc3pMODq/IwwlWwEUP6LKsVnhEIiLN3FD46viGAleDDw95/dh3
-         pbOXyF43jUGInA56zHt/s40rPxi4BZVW76NtMJLdCOf2AAP/9D7DF17/ptrT/Bh2K/fD
-         gg6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWBbXvk2ze/kJBkavvTZFh19lD2WDj/3a7u5ew+RaYfT9jL2a8q2DAlKY4G7dFbZBSs0c6A7Iya2hhHBMY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFw/gFaAVDqBLbumiiYAE5SDL7DtQFIqt0ppqDRzHqd44wLTwC
-	Pr+GW1eMSiT+XYJBwj5sA3q8duPV+Wv/SRBBbT+Pz4l9Z3cfZ9wOrU7P+OXCTwqk0l8GAJ8=
-X-Gm-Gg: ASbGncs8HHvPxDhSKcEBoJphr+MTs8K9s6LHvIJW6nDUVYDXBXGokgusziESJj4935O
-	c8KvVxw4IAPgX8JI+oLEmhbh+063WzL0bDECl8ORi1Tm0QuwAzyBxEPSK/co+JqwY2H4r/sSqCJ
-	s3VCuh9Km+jfUo4A2/I0ehBVO79rxmr8cxXNTTMpPpQQdMQEyF9wihgnZwUoILjG15g0Edol4wX
-	y7oyitpjzw0KzZQ9YU/Q/2yWTUZPT9TXozxyU48BvPEeN0U0M1nY0x2H+g3APegmWsD7W3zUA7f
-	5Lhlr6VHgOAA/O3G6sGFTbWl4EW7ZYsCdvjI5jmX+fLOwhyKqdOVu/az9Fjcs0YUY13vUBOeJyc
-	+w0snU0rjmUKp66gWZyNgsplEqgQglrYLihZ3TD6c
-X-Google-Smtp-Source: AGHT+IHqEZ3rQaVCy+twTsvOt2mx75csoIYg1bVSRcP0tmlZVXsZ7CWak3N01tkgaFoJP+dkNIsjYg==
-X-Received: by 2002:a17:90b:1652:b0:321:cf49:2c04 with SMTP id 98e67ed59e1d1-321cf8e946cmr285135a91.9.1755016392088;
-        Tue, 12 Aug 2025 09:33:12 -0700 (PDT)
-Received: from kerneldocs.. ([157.51.85.238])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4290df0bdcsm11937060a12.34.2025.08.12.09.33.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 09:33:11 -0700 (PDT)
-From: Nikil Paul S <snikilpaul@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Nikil Paul S <snikilpaul@gmail.com>
-Subject: [PATCH 2/2 v3] docs: rcu: Replace multiple dead OLS links in RTFP.txt
-Date: Tue, 12 Aug 2025 16:32:34 +0000
-Message-ID: <20250812163233.7330-2-snikilpaul@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="PDDayXFJ"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57CGVEpi1447545;
+	Tue, 12 Aug 2025 11:31:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1755016274;
+	bh=YFLM9pfLOusy2YVMdLzf9ptsSRr3pdKzRMQf7aNOi3M=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=PDDayXFJeFvugwsuu8W3/SXdqBGeOvAgqbJl/IOnBJcnLKq8bMOp574l4TIH8rRHi
+	 TPnzd0FP2DnLEM8AP6y+oaiEzvRVl6AmeFUswvqFmNvqEFaZzKZS5xlwMv0fslKAmz
+	 A8MvM9Dy77mB89zmD/claPP7wZP79g9A962sjOzA=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57CGVEBg3598831
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Tue, 12 Aug 2025 11:31:14 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 12
+ Aug 2025 11:31:13 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Tue, 12 Aug 2025 11:31:13 -0500
+Received: from [10.249.130.61] ([10.249.130.61])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57CGUw4i639914;
+	Tue, 12 Aug 2025 11:30:59 -0500
+Message-ID: <4f8d678a-8b72-449e-9809-bed912f26e59@ti.com>
+Date: Tue, 12 Aug 2025 22:00:57 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/5] net: rnpgbe: Add basic mbx ops support
+To: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
+        <gur.stavi@huawei.com>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
+        <danishanwar@ti.com>, <lee@trager.us>, <gongfan1@huawei.com>,
+        <lorenzo@kernel.org>, <geert+renesas@glider.be>,
+        <Parthiban.Veerasooran@microchip.com>, <lukas.bulwahn@redhat.com>,
+        <alexanderduyck@fb.com>, <richardcochran@gmail.com>
+CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250812093937.882045-1-dong100@mucse.com>
+ <20250812093937.882045-4-dong100@mucse.com>
+Content-Language: en-US
+From: "Anwar, Md Danish" <a0501179@ti.com>
+In-Reply-To: <20250812093937.882045-4-dong100@mucse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-This patch is a v3 update to the earlier "[PATCH 2/2] docs: rcu: Update
-dead OLS link in RTFP.txt". In addition to fixing the OLS 2001 link from
-v2, it also updates two more dead links from the OLS 2006 Proceedings.
 
-Several references in RTFP.txt pointed to linuxsymposium.org, which is no
-longer hosting the original documents. These have been replaced with
-working copies hosted on kernel.org.
 
-Changes since v2:
- - Updated two OLS 2006 abstract links in addition to the OLS 2001 link.
+On 8/12/2025 3:09 PM, Dong Yibo wrote:
+> Initialize basic mbx function.
+> 
+> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> ---
+>  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
+>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  37 ++
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |   5 +
+>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |   2 +
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c    | 443 ++++++++++++++++++
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h    |  31 ++
+>  6 files changed, 520 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
+> 
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> index 42c359f459d9..5fc878ada4b1 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> @@ -6,4 +6,5 @@
+>  
+>  obj-$(CONFIG_MGBE) += rnpgbe.o
+>  rnpgbe-objs := rnpgbe_main.o\
+> -	       rnpgbe_chip.o
+> +	       rnpgbe_chip.o\
+> +	       rnpgbe_mbx.o
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> index 0dd3d3cb2a4d..05830bb73d3e 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> @@ -5,6 +5,7 @@
+>  #define _RNPGBE_H
+>  
+>  #include <linux/types.h>
+> +#include <linux/mutex.h>
+>  
+>  extern const struct rnpgbe_info rnpgbe_n500_info;
+>  extern const struct rnpgbe_info rnpgbe_n210_info;
+> @@ -40,7 +41,43 @@ struct mucse_mac_info {
+>  	void *back;
+>  };
+>  
+> +struct mucse_hw;
+> +
+> +struct mucse_mbx_operations {
+> +	void (*init_params)(struct mucse_hw *hw);
+> +	int (*read)(struct mucse_hw *hw, u32 *msg,
+> +		    u16 size);
+> +	int (*write)(struct mucse_hw *hw, u32 *msg,
+> +		     u16 size);
+> +	int (*read_posted)(struct mucse_hw *hw, u32 *msg,
+> +			   u16 size);
+> +	int (*write_posted)(struct mucse_hw *hw, u32 *msg,
+> +			    u16 size);
+> +	int (*check_for_msg)(struct mucse_hw *hw);
+> +	int (*check_for_ack)(struct mucse_hw *hw);
+> +	void (*configure)(struct mucse_hw *hw, int num_vec,
+> +			  bool enable);
+> +};
+> +
+> +struct mucse_mbx_stats {
+> +	u32 msgs_tx;
+> +	u32 msgs_rx;
+> +	u32 acks;
+> +	u32 reqs;
+> +	u32 rsts;
+> +};
+> +
+>  struct mucse_mbx_info {
+> +	const struct mucse_mbx_operations *ops;
+> +	struct mucse_mbx_stats stats;
+> +	u32 timeout;
+> +	u32 usec_delay;
+> +	u16 size;
+> +	u16 fw_req;
+> +	u16 fw_ack;
+> +	/* lock for only one use mbx */
+> +	struct mutex lock;
+> +	bool irq_enabled;
+>  	/* fw <--> pf mbx */
+>  	u32 fw_pf_shm_base;
+>  	u32 pf2fw_mbox_ctrl;
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> index 20ec67c9391e..16d0a76114b5 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> @@ -1,8 +1,11 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /* Copyright(c) 2020 - 2025 Mucse Corporation. */
+>  
+> +#include <linux/string.h>
+> +
+>  #include "rnpgbe.h"
+>  #include "rnpgbe_hw.h"
+> +#include "rnpgbe_mbx.h"
+>  
+>  /**
+>   * rnpgbe_init_common - Setup common attribute
+> @@ -23,6 +26,8 @@ static void rnpgbe_init_common(struct mucse_hw *hw)
+>  
+>  	mac->mac_addr = hw->hw_addr + RNPGBE_MAC_BASE;
+>  	mac->back = hw;
+> +
+> +	hw->mbx.ops = &mucse_mbx_ops_generic;
+>  }
+>  
+>  /**
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> index fc57258537cf..aee037e3219d 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> @@ -7,6 +7,8 @@
+>  #define RNPGBE_RING_BASE 0x1000
+>  #define RNPGBE_MAC_BASE 0x20000
+>  #define RNPGBE_ETH_BASE 0x10000
+> +/**************** DMA Registers ****************************/
+> +#define RNPGBE_DMA_DUMY 0x000c
+>  /**************** CHIP Resource ****************************/
+>  #define RNPGBE_MAX_QUEUES 8
+>  #endif /* _RNPGBE_HW_H */
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+> new file mode 100644
+> index 000000000000..1195cf945ad1
+> --- /dev/null
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+> @@ -0,0 +1,443 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright(c) 2022 - 2025 Mucse Corporation. */
+> +
+> +#include <linux/pci.h>
+> +#include <linux/errno.h>
+> +#include <linux/delay.h>
+> +#include <linux/iopoll.h>
+> +
+> +#include "rnpgbe.h"
+> +#include "rnpgbe_mbx.h"
+> +#include "rnpgbe_hw.h"
+> +
+> +/**
+> + * mucse_read_mbx - Reads a message from the mailbox
+> + * @hw: pointer to the HW structure
+> + * @msg: the message buffer
+> + * @size: length of buffer
+> + *
+> + * @return: 0 on success, negative on failure
+> + **/
+> +int mucse_read_mbx(struct mucse_hw *hw, u32 *msg, u16 size)
+> +{
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +
+> +	/* limit read size */
+> +	min(size, mbx->size);
+> +	return mbx->ops->read(hw, msg, size);
+> +}
 
-Signed-off-by: Nikil Paul S <snikilpaul@gmail.com>
----
- Documentation/RCU/RTFP.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+What's the purpose of min() here if you are anyways passing size to read()?
 
-diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
-index db8f16b392aa..8d4e8de4c460 100644
---- a/Documentation/RCU/RTFP.txt
-+++ b/Documentation/RCU/RTFP.txt
-@@ -641,7 +641,7 @@ Orran Krieger and Rusty Russell and Dipankar Sarma and Maneesh Soni"
- ,Month="July"
- ,Year="2001"
- ,note="Available:
--\url{http://www.linuxsymposium.org/2001/abstracts/readcopy.php}
-+\url{https://kernel.org/doc/ols/2001/read-copy.pdf}
- \url{http://www.rdrop.com/users/paulmck/RCU/rclock_OLS.2001.05.01c.pdf}
- [Viewed June 23, 2004]"
- ,annotation={
-@@ -1480,7 +1480,7 @@ Suparna Bhattacharya"
- ,Year="2006"
- ,pages="v2 123-138"
- ,note="Available:
--\url{http://www.linuxsymposium.org/2006/view_abstract.php?content_key=184}
-+\url{https://kernel.org/doc/ols/2006/ols2006v2-pages-131-146.pdf}
- \url{http://www.rdrop.com/users/paulmck/RCU/OLSrtRCU.2006.08.11a.pdf}
- [Viewed January 1, 2007]"
- ,annotation={
-@@ -1511,7 +1511,7 @@ Canis Rufus and Zoicon5 and Anome and Hal Eisen"
- ,Year="2006"
- ,pages="v2 249-254"
- ,note="Available:
--\url{http://www.linuxsymposium.org/2006/view_abstract.php?content_key=184}
-+\url{https://kernel.org/doc/ols/2006/ols2006v2-pages-249-262.pdf}
- [Viewed January 11, 2009]"
- ,annotation={
- 	Uses RCU-protected radix tree for a lockless page cache.
+The min() call needs to be assigned to size, e.g.: size = min(size,
+mbx->size);
+
+> +
+> +/**
+> + * mucse_write_mbx - Write a message to the mailbox
+> + * @hw: pointer to the HW structure
+> + * @msg: the message buffer
+> + * @size: length of buffer
+> + *
+> + * @return: 0 on success, negative on failure
+> + **/
+
+> +
+> +/**
+> + * mucse_mbx_reset - Reset mbx info, sync info from regs
+> + * @hw: pointer to the HW structure
+> + *
+> + * This function reset all mbx variables to default.
+> + **/
+> +static void mucse_mbx_reset(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +	int v;
+> +
+
+Variable 'v' should be declared as u32 to match the register read.
+
+> +	v = mbx_rd32(hw, FW2PF_COUNTER(mbx));
+> +	hw->mbx.fw_req = v & GENMASK(15, 0);
+> +	hw->mbx.fw_ack = (v >> 16) & GENMASK(15, 0);
+> +	mbx_wr32(hw, PF2FW_MBOX_CTRL(mbx), 0);
+> +	mbx_wr32(hw, FW_PF_MBOX_MASK(mbx), GENMASK(31, 16));
+> +}
+> +
+> +/**
+> + * mucse_mbx_configure_pf - Configure mbx to use nr_vec interrupt
+> + * @hw: pointer to the HW structure
+> + * @nr_vec: vector number for mbx
+> + * @enable: TRUE for enable, FALSE for disable
+> + *
+> + * This function configure mbx to use interrupt nr_vec.
+> + **/
+> +static void mucse_mbx_configure_pf(struct mucse_hw *hw, int nr_vec,
+> +				   bool enable)
+> +{
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +	u32 v;
+> +
+> +	if (enable) {
+> +		v = mbx_rd32(hw, FW2PF_COUNTER(mbx));
+> +		hw->mbx.fw_req = v & GENMASK(15, 0);
+> +		hw->mbx.fw_ack = (v >> 16) & GENMASK(15, 0);
+> +		mbx_wr32(hw, PF2FW_MBOX_CTRL(mbx), 0);
+> +		mbx_wr32(hw, FW2PF_MBOX_VEC(mbx), nr_vec);
+> +		mbx_wr32(hw, FW_PF_MBOX_MASK(mbx), GENMASK(31, 16));
+> +	} else {
+> +		mbx_wr32(hw, FW_PF_MBOX_MASK(mbx), 0xfffffffe);
+> +		mbx_wr32(hw, PF2FW_MBOX_CTRL(mbx), 0);
+> +		mbx_wr32(hw, RNPGBE_DMA_DUMY, 0);
+> +	}
+> +}
+> +
+> +/**
+> + * mucse_init_mbx_params_pf - Set initial values for pf mailbox
+> + * @hw: pointer to the HW structure
+> + *
+> + * Initializes the hw->mbx struct to correct values for pf mailbox
+> + */
+> +static void mucse_init_mbx_params_pf(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +
+> +	mbx->usec_delay = 100;
+> +	mbx->timeout = (4 * 1000 * 1000) / mbx->usec_delay;
+
+Use appropriate constants like USEC_PER_SEC instead of hardcoded values.
+
+> +	mbx->stats.msgs_tx = 0;
+> +	mbx->stats.msgs_rx = 0;
+
+
 -- 
-2.43.0
+Thanks and Regards,
+Md Danish Anwar
 
