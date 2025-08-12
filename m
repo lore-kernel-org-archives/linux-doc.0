@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C94D2F8BC3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C872F8BE8;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=eAfTQvAPsl0P85/8YIlNysgLizAEHSsVi/uiT3ye0qK3c3ZRzlq/S5IcfwTTxtkseCBzKF2/cFgH51mvP1vaXhSwPgEhcSp+k5LSyHTMtE1qjFLQRJpHkJxj/u4Smm/KNo+oxXlBVFkJfDceEduMCEI20enz8fUf+Naw+OOFLL8=
+	t=1755013985; cv=none; b=lR03MSif2NrYQj9GJcmt1KfNgzCF4+mjzfFkgvRZOT6TOyphYUmPE+tzGDW3oi0ghk9i8Hzx3XNOxIU4q5xXOQubfZAsa/Ip4SIqgmF2+mru5yrvtgP7st1mnuJS0mFAtx2PoYYDVW+yE9EqhYeYTM9DJjhJe8PVDkGmP8qgwio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=cob72lTRvAFK2nKnFZHwgao4n+Ti/eTdktqy5wFC7NM=;
+	bh=qLTUoIeHx8ybD7DbPrlVFUdn0U//pEmmYDk8jCaRb/Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CQXhsMrwkfODqv0s92AQJWi8JBo5SKSd7gDacX4hj+20f38RpRgvkG3ERYFjZo6VFhiT4+eGzVH3p9TDlmxfoe+coF3VuL9zikoLVi7XxuoFRm8cBuwRr0mKJrG5SURfQfeLq/9qaVVa1MqqbF+BBgmb7DIU8kDu65SSlRFE//E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ip4R/w8W; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=EQoxEX7uQxmT8FgBDb93LKIFRVBAr7zB60BI4xIZyRifJOlzO5CUp5Zcnf+9kZCykJute9HOUQF3bLKCU6ocunQcVjKFMDFT5MoEIpFJ9vwQwu8GK8Ydwwa21svxMdAyDD0Bt0pEnZNNqh2rQ9oAy0Pq/okHZhgQbt/4RFxA6GU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPKfhhYn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ip4R/w8W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA2EAC113CF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPKfhhYn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEEACC4CEF9;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013984;
-	bh=cob72lTRvAFK2nKnFZHwgao4n+Ti/eTdktqy5wFC7NM=;
+	bh=qLTUoIeHx8ybD7DbPrlVFUdn0U//pEmmYDk8jCaRb/Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ip4R/w8WKu4o/Sx7cFm84ltMbnw3oAznk6tLfiWw7QM6ghYHPIJLOTfzUJ9COR21w
-	 1/E/uK23u7V7Oi5jkKdRijdOZLhI2b/X7Bywu39BEfdKiBCC//BO/smwp8kgIlxFcj
-	 FLNY2aMT0czPFXx/q+gfAVJRNpTyTzTZFwOK0m7PGIMCOCUQPJIFaoG1pGVc2XE5gT
-	 KkHaEtLJ6OrvK8s2Rd3hJSRvKCkmjthUuld4LcDSI1bZTJjduhKzVlOtEWpZDI0SMr
-	 JpIsBQIBBxx6WWfgDURHhIdWDoyVUwBI1A0JgTwjEIyJI0z4b4dpdz57YsjKIAb7yJ
-	 gczE4r3gj8h1g==
+	b=mPKfhhYniAUoi3VzM1inuPRpcyjh1ue0mI+Zh9LrYWPx/UL9UrpulXbQ1ZWNrNSSA
+	 muQHRobp+QKziVErl6vQveRSyFbnkSIOotnOPrHYYvyk6IsELCuN0qXkaZNtbZIptD
+	 Mir4coFf7bI0ZqcoBX5uC26a484sYFOaAZksFEiSfYTm/7F7I3vfMo8i+76TGiIRB9
+	 u0Tci0MG4Q6td21tORIHNt+JG5+9okor72t1Ou7P+gnJHCcy66lZYC9Ijy/QVxdGAi
+	 vOf56nnXDstHUGOJ/SYzE3e/QBYkADaXAAg4fIFKNlpUs4KeEbbz5RWeQiNzL6TOTv
+	 A/Rs+Fjud0o0w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kVq-1RSx;
+	id 1ulrJ8-00000006kWY-2q80;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/39] scripts: sphinx-pre-install: fix support for gentoo
-Date: Tue, 12 Aug 2025 17:52:27 +0200
-Message-ID: <283987633aae7d99e0eff41e24eb6285c1b6b335.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 21/39] scripts: sphinx-pre-install: move package instructions to a new func
+Date: Tue, 12 Aug 2025 17:52:38 +0200
+Message-ID: <4fb2181c960e89774309a833f80209a1a3ab10d2.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,70 +51,90 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Some gentoo packages have changes. Fix it.
+Currently, if Python < 3.7, package install will fail. That happens
+with OpenSuse Leap and RHEL-based ver 8 distros.
 
-While here, improve emerge portage use logic.
+OpenSuse allows installing Sphinx with Python 3.11, but RHEL-based
+distros don't.
+
+Prepare to recomend only venv on such cases. For now, just split
+the recomendation on a new function that will check for a
+paramtere to be called.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
+ scripts/sphinx-pre-install.py | 44 +++++++++++++++++++++--------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 65438c198674..b793796329c8 100755
+index 2f6036eadc94..2360ca2ed21c 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -669,12 +669,13 @@ class SphinxDependencyChecker:
+@@ -89,6 +89,9 @@ class SphinxDependencyChecker:
+         self.python_cmd = ""
+         self.activate_cmd = ""
  
-     def give_gentoo_hints(self):
-         progs = {
--            "convert":      "media-gfx/imagemagick",
--            "dot":          "media-gfx/graphviz",
--            "rsvg-convert": "gnome-base/librsvg",
--            "virtualenv":   "dev-python/virtualenv",
--            "xelatex":      "dev-texlive/texlive-xetex media-fonts/dejavu",
--            "yaml":         "dev-python/pyyaml",
-+            "convert":       "media-gfx/imagemagick",
-+            "dot":           "media-gfx/graphviz",
-+            "rsvg-convert":  "gnome-base/librsvg",
-+            "virtualenv":    "dev-python/virtualenv",
-+            "xelatex":       "dev-texlive/texlive-xetex media-fonts/dejavu",
-+            "yaml":          "dev-python/pyyaml",
-+            "python-sphinx": "dev-python/sphinx",
-         }
++        # Some distros may not have a Sphinx shipped package compatible with
++        # our minimal requirements
++        self.package_supported = True
+         # Certain hints are meant to be shown only once
+         self.first_hint = True
  
-         if self.pdf:
-@@ -699,21 +700,17 @@ class SphinxDependencyChecker:
-             print("You should run:")
-         print("\n")
+@@ -969,6 +972,27 @@ class SphinxDependencyChecker:
  
--        imagemagick = "media-gfx/imagemagick svg png"
--        cairo = "media-gfx/graphviz cairo pdf"
--        portage_imagemagick = "/etc/portage/package.use/imagemagick"
--        portage_cairo = "/etc/portage/package.use/graphviz"
+         return self.latest_avail_ver
  
--        result = self.run(["grep", "imagemagick", portage_imagemagick],
--                          stdout=subprocess.PIPE, text=True)
--        if not result.stdout.strip():
--            print(f"\tsudo su -c 'echo \"{imagemagick}\" > {portage_imagemagick}'")
-+        portages = [
-+            "media-gfx/imagemagick",
-+            "media-gfx/graphviz",
-+        ]
++    def recommend_package(self):
++
++        print("\n2) As a package with:")
++
++        old_need = self.need
++        old_optional = self.optional
++        self.missing = {}
++        self.pdf = False
++        self.optional = 0
++        self.install = ""
++        old_verbose = self.verbose_warn_install
++        self.verbose_warn_install = 0
++
++        self.add_package("python-sphinx", 0)
++
++        self.check_distros()
++
++        self.need = old_need
++        self.optional = old_optional
++        self.verbose_warn_install = old_verbose
++
+     def recommend_sphinx_version(self, virtualenv_cmd):
+         # The logic here is complex, as it have to deal with different versions:
+         #	- minimal supported version;
+@@ -1053,24 +1077,8 @@ class SphinxDependencyChecker:
+             print(f"\tpip install -r {self.requirement_file}")
+             self.deactivate_help()
  
--        result = self.run(["grep", "graphviz", portage_cairo],
--                          stdout=subprocess.PIPE, text=True)
+-        print("\n2) As a package with:")
 -
--        if not result.stdout.strip():
--            print(f"\tsudo su -c 'echo \"{cairo}\" > {portage_cairo}'")
-+        for p in portages:
-+            result = self.run(["grep", p, "/etc/portage/package.use/*"],
-+                               stdout=subprocess.PIPE, text=True)
-+            if not result.stdout.strip():
-+                print(f"\tsudo emerge -av1 {p}")
+-        old_need = self.need
+-        old_optional = self.optional
+-        self.missing = {}
+-        self.pdf = False
+-        self.optional = 0
+-        self.install = ""
+-        old_verbose = self.verbose_warn_install
+-        self.verbose_warn_install = 0
+-
+-        self.add_package("python-sphinx", 0)
+-
+-        self.check_distros()
+-
+-        self.need = old_need
+-        self.optional = old_optional
+-        self.verbose_warn_install = old_verbose
++        if self.package_supported:
++            self.recommend_package()
  
-         print(f"\tsudo emerge --ask {self.install}")
- 
+         print("\n" \
+               "    Please note that Sphinx >= 3.0 will currently produce false-positive\n" \
 -- 
 2.50.1
 
