@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C872F8BE8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711102F8BF0;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=lR03MSif2NrYQj9GJcmt1KfNgzCF4+mjzfFkgvRZOT6TOyphYUmPE+tzGDW3oi0ghk9i8Hzx3XNOxIU4q5xXOQubfZAsa/Ip4SIqgmF2+mru5yrvtgP7st1mnuJS0mFAtx2PoYYDVW+yE9EqhYeYTM9DJjhJe8PVDkGmP8qgwio=
+	t=1755013985; cv=none; b=CFI1+R61o6+ViIlXvviL5F+dNk3aiCVm7QWif7JXaNPkJnvd+7TlphmgGvF4Ejn/lkR0p1GyCdYijq/8GYNcjspRvVUiyR1N5cdJK4t7PKOhW1ODZlR4jImHxAYX+d7l639uRPHx6lOomyxoES5s2Jxxl0unoiyMD6IxzuhLw20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=qLTUoIeHx8ybD7DbPrlVFUdn0U//pEmmYDk8jCaRb/Y=;
+	bh=ny376t2fqD0GqIIjAOTP7dUiyq0BQJ47NgDRbfadqEM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EQoxEX7uQxmT8FgBDb93LKIFRVBAr7zB60BI4xIZyRifJOlzO5CUp5Zcnf+9kZCykJute9HOUQF3bLKCU6ocunQcVjKFMDFT5MoEIpFJ9vwQwu8GK8Ydwwa21svxMdAyDD0Bt0pEnZNNqh2rQ9oAy0Pq/okHZhgQbt/4RFxA6GU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPKfhhYn; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=XHZzfch8sYdON8C3adhOJOiSckkPoVGkEw+3C9vzSGEH90GFqiY+hXNvomhTWv2/TZFSxmiavt3afJZ1Vxyga8rIrQ6q6vHiaNVBWdZiUqf1TCzCvBE3RzgZ6WlZPDE0Tc+OeckvShizAHr5UCrGNKg5yhikMJOd6uXfj3ZW7nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YhrXT25c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPKfhhYn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEEACC4CEF9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YhrXT25c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C81C116C6;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013984;
-	bh=qLTUoIeHx8ybD7DbPrlVFUdn0U//pEmmYDk8jCaRb/Y=;
+	bh=ny376t2fqD0GqIIjAOTP7dUiyq0BQJ47NgDRbfadqEM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mPKfhhYniAUoi3VzM1inuPRpcyjh1ue0mI+Zh9LrYWPx/UL9UrpulXbQ1ZWNrNSSA
-	 muQHRobp+QKziVErl6vQveRSyFbnkSIOotnOPrHYYvyk6IsELCuN0qXkaZNtbZIptD
-	 Mir4coFf7bI0ZqcoBX5uC26a484sYFOaAZksFEiSfYTm/7F7I3vfMo8i+76TGiIRB9
-	 u0Tci0MG4Q6td21tORIHNt+JG5+9okor72t1Ou7P+gnJHCcy66lZYC9Ijy/QVxdGAi
-	 vOf56nnXDstHUGOJ/SYzE3e/QBYkADaXAAg4fIFKNlpUs4KeEbbz5RWeQiNzL6TOTv
-	 A/Rs+Fjud0o0w==
+	b=YhrXT25cltKKir1fMpjVmF+eoD23lWjYSrhUcn7zIzWk+N1t8OG+oigZvvjQM49Sv
+	 q6UHWbbzIWJDgb89gqUECI/TUYDtEzAbJ4OmjyzPCODmJSWXSognVWjz4bFpwaKfEK
+	 Te62VpqkmDPHDzZIG16mj4AVW/08iNeCqg74so3tadoV3AjhTAJUeWiHjYR2hwmJLN
+	 1iWiCVZ0yiwaMeyWiTNH20xWUYQxefGUxLoFbNUSa8hW2F2Dh4uOL/AK6I8ZIvSWEb
+	 WcDHl6Jx9pFFxv6TUgqoYFnSIFP+MvO1tJiyYv06jbbd+YIlOBdCYgWwdameD7QlVZ
+	 cjKf3eiV8LRfA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kWY-2q80;
+	id 1ulrJ8-00000006kWE-2D8G;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 21/39] scripts: sphinx-pre-install: move package instructions to a new func
-Date: Tue, 12 Aug 2025 17:52:38 +0200
-Message-ID: <4fb2181c960e89774309a833f80209a1a3ab10d2.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 16/39] scripts: sphinx-pre-install: fix Leap support for rsvg-convert
+Date: Tue, 12 Aug 2025 17:52:33 +0200
+Message-ID: <6fcc94533d860e2f6f4f2c7d6ceb6cca70f48bb6.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,90 +51,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Currently, if Python < 3.7, package install will fail. That happens
-with OpenSuse Leap and RHEL-based ver 8 distros.
-
-OpenSuse allows installing Sphinx with Python 3.11, but RHEL-based
-distros don't.
-
-Prepare to recomend only venv on such cases. For now, just split
-the recomendation on a new function that will check for a
-paramtere to be called.
+There is a test logic meant to be for Leap, renaming rsvg-convert
+package. Well, at least on latest Leap releases, this is wrong,
+causing install to fail. Drop it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 44 +++++++++++++++++++++--------------
- 1 file changed, 26 insertions(+), 18 deletions(-)
+ scripts/sphinx-pre-install.py | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 2f6036eadc94..2360ca2ed21c 100755
+index 6a244105f7ef..6b5f9eda91bb 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -89,6 +89,9 @@ class SphinxDependencyChecker:
-         self.python_cmd = ""
-         self.activate_cmd = ""
+@@ -566,10 +566,6 @@ class SphinxDependencyChecker:
+             "yaml":          "python3-pyyaml",
+         }
  
-+        # Some distros may not have a Sphinx shipped package compatible with
-+        # our minimal requirements
-+        self.package_supported = True
-         # Certain hints are meant to be shown only once
-         self.first_hint = True
- 
-@@ -969,6 +972,27 @@ class SphinxDependencyChecker:
- 
-         return self.latest_avail_ver
- 
-+    def recommend_package(self):
-+
-+        print("\n2) As a package with:")
-+
-+        old_need = self.need
-+        old_optional = self.optional
-+        self.missing = {}
-+        self.pdf = False
-+        self.optional = 0
-+        self.install = ""
-+        old_verbose = self.verbose_warn_install
-+        self.verbose_warn_install = 0
-+
-+        self.add_package("python-sphinx", 0)
-+
-+        self.check_distros()
-+
-+        self.need = old_need
-+        self.optional = old_optional
-+        self.verbose_warn_install = old_verbose
-+
-     def recommend_sphinx_version(self, virtualenv_cmd):
-         # The logic here is complex, as it have to deal with different versions:
-         #	- minimal supported version;
-@@ -1053,24 +1077,8 @@ class SphinxDependencyChecker:
-             print(f"\tpip install -r {self.requirement_file}")
-             self.deactivate_help()
- 
--        print("\n2) As a package with:")
+-        # On Tumbleweed, this package is also named rsvg-convert
+-        if not re.search(r"Tumbleweed", self.system_release):
+-            progs["rsvg-convert"] = "rsvg-view"
 -
--        old_need = self.need
--        old_optional = self.optional
--        self.missing = {}
--        self.pdf = False
--        self.optional = 0
--        self.install = ""
--        old_verbose = self.verbose_warn_install
--        self.verbose_warn_install = 0
--
--        self.add_package("python-sphinx", 0)
--
--        self.check_distros()
--
--        self.need = old_need
--        self.optional = old_optional
--        self.verbose_warn_install = old_verbose
-+        if self.package_supported:
-+            self.recommend_package()
- 
-         print("\n" \
-               "    Please note that Sphinx >= 3.0 will currently produce false-positive\n" \
+         suse_tex_pkgs = [
+             "texlive-babel-english",
+             "texlive-caption",
 -- 
 2.50.1
 
