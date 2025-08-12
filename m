@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711853093B7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2992F83A7;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=NERRwJPjC4CIn7rwvhGXOi9FdNu4r8T/0aWB6MTLvNd/TGyb/Yf85g8jExwUa6cYUnWd3aq+nuK6j5zv9WL1PSq6Xx5xm67ubPrdZOCCo9ZvT8P5Qrwv7EOABSM55T2W6GOa9boR7/uO38+P2N7YxUqso6EHPbbvj3myuVc4uFA=
+	t=1755013985; cv=none; b=UYUSJpjBrvLbwSeLbr9LBdeY+n15XlywEj+LkPt+0lNkaFtdTEAm/1ha/KWH4ZJj+4n3Tslw64FfH4ovJaegIa+SPZFECZKAlCb5bA+BLurcY3ID5hZwTReTelqGsz0gb5Qp7ZC+1PRUmNFzAXUFdqGXYqkcZj9XDRottW5qQKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=RQNr/KzcW0oNe7IfHfuHatT3uQ+/hZf9xD7Hq5Cp2QY=;
+	bh=kHHUrzrUzCfISUwvoyyC98eBFz5CP0ST0NUYuTddsmQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P54t0O9Mv0DaWeyXaRIPxeiOvPmxmQEfE0mIcHzzP/xKUFnDYrgtHT8VDPbYTtjiklC5VgsmkjPlR5jdKO0DTW7Fqa+cjQo36/KTVpP6ToyONYSLmsWQm+ezL6h2AuKcoisiohvMRCygGIEg3kZvm3TEg1xig+qtoViQbejNpVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o2GZoDuR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=NBlZ73v4k/xWUvTmX1XioDozSFd2YjN3odT71bYmkUS9VMqkYE0P/LEBaWRUweqXWWPfiAeexymfJFhOocgtjlMuopKyTbEL7WND0zrwYOPPN7Nuqbc9sjfHcLUO/6bVxdrVcOtqFRUQlgT1slHc6h+8bo9UIhFl8mPWFcKPVUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C/RuddMX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o2GZoDuR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D004CC4CEFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C/RuddMX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DED01C116B1;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755013984;
-	bh=RQNr/KzcW0oNe7IfHfuHatT3uQ+/hZf9xD7Hq5Cp2QY=;
+	s=k20201202; t=1755013985;
+	bh=kHHUrzrUzCfISUwvoyyC98eBFz5CP0ST0NUYuTddsmQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=o2GZoDuRbAQ7u2QyHRK8Vmxjf4deHBGIjBWGX7aC5XiCFGDBzvlgXefR1zO0FPSLG
-	 PqUG6fe8A+9yQozmB9X4KsLf0BnazixETE2qdxifnh7bKE1cyHSsHtrE77kWgLlbkO
-	 VX2j+79p5Of+G3rRjKDslnxwLCALO/QUGzXy2rl4ZP81u7NWoqkG3BeK8AlcZ+MTWY
-	 IB+6xbm5FHBg305r2zSCLmpvucMDABuZIT9tbHTXCeZ0m6sNivgmv0KoOOQxHHISyQ
-	 3RvMB4w16aJ1/muzJphfAXYKwnTTCfcxmiHxncaABnw6OCIciMX0kYyZLZCM5pm3L4
-	 ZndtLFX6n+m4w==
+	b=C/RuddMXj01aFckxdmu1McLsV4wBlfjaWp3dv90LWm+tMd3Gdej/cR0EcJKUGExch
+	 Rgwer0d0WLCI6/UN3RAJXA7H3xvVWYXqOF/qB8p9gQRbLt/oEXv9aEnjTRaIEAng7L
+	 RCY2in7h8AK3bMWer6J1RU2+JxFPK9AlWiLTaDpXcV/Q/6i+Km6Ye+qoygL+jPGFpr
+	 spTUuHo0F+h/4NQGvsxY0CWNP1K8TNVgYgWJmdKX4VRMEXvINRJn0TCACbzE4+n6dI
+	 /U9jw4rGcbYXcR+Vn6bWQgU1TwOLc0LUjj+JIoMeMtxFr0E3qRug8FV/d95rAGXnkx
+	 1fM2z+i5m+rAA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kVu-1YZJ;
+	id 1ulrJ8-00000006kVS-0ibi;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 11/39] scripts: sphinx-pre-install: Address issues with OpenSUSE Tumbleweed
-Date: Tue, 12 Aug 2025 17:52:28 +0200
-Message-ID: <fe0b5f7c18d7b32e0229c0890371e1441ffea294.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 04/39] scripts: sphinx-pre-install: Make it compatible with Python 3.6
+Date: Tue, 12 Aug 2025 17:52:21 +0200
+Message-ID: <39d6e27a047bc3cc8208ac5e11fe6ba44faff9c4.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,33 +51,55 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Tumbleweed, package names are named after python-313*, as it also
-has older python versions on it.
+The minimal version requirements we have is 3.9. Yet, the
+script which detects it is this one. So, let's try supporting
+an old version here, as we may want to suggest to upgrade
+Python version to build the docs.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ scripts/sphinx-pre-install.py | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index b793796329c8..0e165ad05fdb 100755
+index dcee2181b72f..71d86b230b22 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -571,6 +571,14 @@ class SphinxDependencyChecker:
-                     "virtualenv":    "python311-virtualenv",
-                     "yaml":          "python311-PyYAML",
-                 })
-+        else:
-+            # Tumbleweed defaults to Python 3.11
-+
-+            progs.update({
-+                "python-sphinx": "python313-Sphinx",
-+                "virtualenv":    "python313-virtualenv",
-+                "yaml":          "python313-PyYAML",
-+            })
+@@ -115,7 +115,8 @@ class SphinxDependencyChecker:
+     def find_python_no_venv():
+         # FIXME: does it makes sense now that this script is in Python?
  
-         # FIXME: add support for installing CJK fonts
-         #
+-        result = subprocess.run(["pwd"], capture_output=True, text=True)
++        result = SphinxDependencyChecker.run(["pwd"], capture_output=True,
++                                             text=True)
+         cur_dir = result.stdout.strip()
+ 
+         python_names = ["python3", "python"]
+@@ -135,12 +136,23 @@ class SphinxDependencyChecker:
+     def run(*args, **kwargs):
+         """Excecute a command, hiding its output by default"""
+ 
+-        if not kwargs.get('capture_output', False):
++        capture_output = kwargs.pop('capture_output', False)
++
++        if capture_output:
++            if 'stdout' not in kwargs:
++                kwargs['stdout'] = subprocess.PIPE
++            if 'stderr' not in kwargs:
++                kwargs['stderr'] = subprocess.PIPE
++        else:
+             if 'stdout' not in kwargs:
+                 kwargs['stdout'] = subprocess.DEVNULL
+             if 'stderr' not in kwargs:
+                 kwargs['stderr'] = subprocess.DEVNULL
+ 
++        # Don't break with older Python versions
++        if 'text' in kwargs and sys.version_info < (3, 7):
++            kwargs['universal_newlines'] = kwargs.pop('text')
++
+         return subprocess.run(*args, **kwargs)
+ 
+     #
 -- 
 2.50.1
 
