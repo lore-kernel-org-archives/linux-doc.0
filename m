@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B572F8BEA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470BE2F28E2;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=hFP3mtAhZBGDl+vSw3b0lUO+iv7nsFxdJYYKDHyh6/vvmYuaFPanznuIePCXKMJ/EAxJ+KlZ0liWVSo6Nh6dX4LbnlVqUvOJYbWfWRLs/fjNSv6ZfR4bk9/syWkQXGOSHpi9LpTeDjI9HzN8dEiUeJG6d6lcLbk34drqD85yxTs=
+	t=1755013985; cv=none; b=HR+ZX7ERCVFHhLHYCnnlIxZmjNYKQ04/Zfk556QxwbMNvYCdos45ylL9BoaCv8DqUzlmzoUPKWaipaxEKwDBu0XLjJxWE0K/3SvECU7ItubfB0xAdC0tjCg1k+65DHjIfepRE+xmd+UtPevNoGl8wo+ox6PqWWOwZp5P+yd1a9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=vRnsNCgM3YDMxmN+8rNiF2tJ0DjUjMBLbtkTm4kNDsA=;
+	bh=8zP8NZvDvUvs74ttgmIZZECJykztS2ZwmnhgJaultkg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m3NS4/Frr4zXQIToyI+3jfp9FjAWzD6UN+yWXZ9pps+tdiJ7uVh+07HWaON4Hqro+9sGXpU/Rni7EIbTKnpjGuWTaqpYeeSUn3Ry7CRutKyIPu2MT8khuTVBv7d5kI8ProCygLq1VulEwiMr1IWGaepqwchtTplUsNuZJBRSdLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zg9+phgP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=hCWrHgwcsh5r0wl7sQwPS4kmj5URfpcR1UWb8WHH93aXhAsY4sKCm4g9F6Pon8z3wiHrgn92bqV6+ybDp1eoLqHPomCg5g7nDUMjII+RoY3uSwtlbE6ycsz1gGAUw5adcd5sy6ebEFYB3h3YON9XltyFWBuOgx4D+EDFVV61rRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rpmT1wJP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zg9+phgP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B30CCC4AF0B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rpmT1wJP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1B97C4CEFB;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013984;
-	bh=vRnsNCgM3YDMxmN+8rNiF2tJ0DjUjMBLbtkTm4kNDsA=;
+	bh=8zP8NZvDvUvs74ttgmIZZECJykztS2ZwmnhgJaultkg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zg9+phgPZLhUffMRUl030IJ328z2sfa3qoqxB+/JmkolJDwbax5Di9rzzstuO8nBr
-	 mnLVMBbC/ce4olnSO4h9kqbdDXrQiFXginVneHRqf0f5a+yubvA5Ryddv/WU1VHfuf
-	 GARm3lIU5SECBI+teXCJF8zT8q0tkJ9KKJgZqKO3jfV8n6YKez6bcA7FspgiuZ61IR
-	 sExHOZJvaqhWCiMH1BcTsS2aEqTdpId6DB0EHXr5IlnCzOzse6Sbm30Y5qyB4279qD
-	 47qcMp9v4Muj2mLxT571EzzixWVt1wtyCKi6bUTUF0KGd/5m56z4TrAXfSzsFxh8NI
-	 HxFDbdGy1aq/w==
+	b=rpmT1wJPOBB0McfHSic7rm7vkIGC7mGedxK4InyrjTYusUS5pYW2aDip4GdakkvBE
+	 UFOYNauGqhvMkXHAh0ECEwJ8NHPgD1bDguGu9/BV4rL4tJ3QOyv8cquT+LUSW6xABi
+	 fLEQqgj8yFZOPcaq1ulj42+9iqF+W5SdBXzr0be+rhZJvphyIy2QdLpvgWfZLZfwlq
+	 9mxWWFPu47SiATrGcwnKMkVnqxWYGeMvAhBweDdNhUBrbPc0u2gaZrKSSUxDSlQL3+
+	 a+3eHtDiKvhVCdPSzzPREVhEQWWWnPYdpFkQWAWka86wq7hO1jSRbnS9PIcdimN68f
+	 70PBkNf+excTQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kWc-2yPm;
+	id 1ulrJ8-00000006kVK-0SXG;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 22/39] scripts: sphinx-pre-install: adjust a warning message
-Date: Tue, 12 Aug 2025 17:52:39 +0200
-Message-ID: <74a17edd70364ca623a54b62bd97a344bb474988.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 02/39] scripts: sphinx-pre-install: rename it to scripts/sphinx-pre-install.pl
+Date: Tue, 12 Aug 2025 17:52:19 +0200
+Message-ID: <08d9a32a5aaf3784fef016594efe505d7c5a2697.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,29 +51,82 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There is one extra space at the first line. Also, as now we only
-support Python 3.4+, update the text.
+That helps us to later replace the scripts.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/Makefile                             | 14 +++++++-------
+ .../{sphinx-pre-install => sphinx-pre-install.pl}  |  0
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+ rename scripts/{sphinx-pre-install => sphinx-pre-install.pl} (100%)
 
-diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 2360ca2ed21c..365590f81551 100755
---- a/scripts/sphinx-pre-install.py
-+++ b/scripts/sphinx-pre-install.py
-@@ -1081,8 +1081,8 @@ class SphinxDependencyChecker:
-             self.recommend_package()
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index b98477df5ddf..c486fe3cc5e1 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -46,7 +46,7 @@ ifeq ($(HAVE_SPHINX),0)
+ .DEFAULT:
+ 	$(warning The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the '$(SPHINXBUILD)' executable.)
+ 	@echo
+-	@$(srctree)/scripts/sphinx-pre-install
++	@$(srctree)/scripts/sphinx-pre-install.pl
+ 	@echo "  SKIP    Sphinx $@ target."
  
-         print("\n" \
--              "    Please note that Sphinx >= 3.0 will currently produce false-positive\n" \
--              "   warning when the same name is used for more than one type (functions,\n" \
-+              "   Please note that Sphinx currentlys produce false-positive\n" \
-+              "   warnings when the same name is used for more than one type (functions,\n" \
-               "   structs, enums,...). This is known Sphinx bug. For more details, see:\n" \
-               "\thttps://github.com/sphinx-doc/sphinx/pull/8313")
+ else # HAVE_SPHINX
+@@ -121,7 +121,7 @@ $(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
+ htmldocs texinfodocs latexdocs epubdocs xmldocs: $(YNL_INDEX)
  
+ htmldocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+ 
+ # If Rust support is available and .config exists, add rustdoc generated contents.
+@@ -135,7 +135,7 @@ endif
+ endif
+ 
+ texinfodocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,texinfo,$(var),texinfo,$(var)))
+ 
+ # Note: the 'info' Make target is generated by sphinx itself when
+@@ -147,7 +147,7 @@ linkcheckdocs:
+ 	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
+ 
+ latexdocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
+ 
+ ifeq ($(HAVE_PDFLATEX),0)
+@@ -160,7 +160,7 @@ else # HAVE_PDFLATEX
+ 
+ pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
+ pdfdocs: latexdocs
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
+ 	$(foreach var,$(SPHINXDIRS), \
+ 	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || sh $(srctree)/scripts/check-variable-fonts.sh || exit; \
+ 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
+@@ -170,11 +170,11 @@ pdfdocs: latexdocs
+ endif # HAVE_PDFLATEX
+ 
+ epubdocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+ 
+ xmldocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,xml,$(var),xml,$(var)))
+ 
+ endif # HAVE_SPHINX
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install.pl
+similarity index 100%
+rename from scripts/sphinx-pre-install
+rename to scripts/sphinx-pre-install.pl
 -- 
 2.50.1
 
