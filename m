@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471412F2907;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681F82F8BEB;
 	Tue, 12 Aug 2025 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=XRpVE7yB4e0Z4CsghXvrUtFLG/yTFcdVr0uR0N58gBr14S4QJonX73bN7ZWdQWN1wKKBX3ghmKGNvR/Jp6JP9TExMFqD+pDOlTgI2rlMBLVW1LKS8Imk5QjKYp2oKC+zA7nAEr00MGsxYSCEoq0JO4ezUhyIWHxP2R1OuiQaoWI=
+	t=1755013985; cv=none; b=F8+p79BTq6YWcc5nKogtE2p/wVnhH9SWtqR1uelABcDdkOfxtPoQ9hA1ITHWhyCFguKRfL8KFBU6C66JERVEKfulQ0T/h+rNNH9D9Z1ysK1eZXXNHxiCKlk8z4sfIE3cuZucFAsAi5xLRtxUAO+4uq6oD2gzUs6az56Pd6zUJJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=d4OYIow3OjJEsE2LMoKb03hk1/jC/7h0+7RSb/71xC8=;
+	bh=KTpTCCjkRQ7n/04aWXym3yGT7vJ2QtIeN0GnK9dV3AI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mM6/m86vob6qb+XZEcvXHEYPeP9wEWIItWVfQMwaymJPz2dj9Hh1ZPX0gwLTuUd9ueDLg5b9GcdDxDy36z8XReRVaNBk9BeY3ZYDPfVdTCm6vCNpjZn52ROWB4hWaISaEUlJrhVJf67uyIfGPp4cIEW2n6vo/8IaBrWN/hzfcZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V/piWB0h; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=pR6BbBD4aSTutM/Q7I8VYWw3v/vS9mSlVO4rbI88QopQjU+9lAHRrVpymOHDEGRgwpMpWDfdThQVc4Q4Z2BaQe/qdFLustDuh9veCamWvjgjSo10+7IEGXYo0MpV8koGYIjMqUGGnJBrxJAzmaPE/xVi+z5wA+s15jf+EmLM/Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gDvM2J8n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V/piWB0h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C410CC4CEFD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gDvM2J8n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5CCBC4AF0C;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013984;
-	bh=d4OYIow3OjJEsE2LMoKb03hk1/jC/7h0+7RSb/71xC8=;
+	bh=KTpTCCjkRQ7n/04aWXym3yGT7vJ2QtIeN0GnK9dV3AI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=V/piWB0hMGMC1sBe5DyHaYshf7X/mSl8VjLYGoeKH9AgWtppEu5xZQaE7sjHEWW4x
-	 y/VW2mNX/hKM6bA4/VG4znCRo31Af1qfd0IURd+K3k4xGbQKpls3ygD4uysuDGnGyL
-	 gJB1yr+wT9Gjj+yeRqt0ODWzcQQ8IuSdciATCLTPIWj9bvjWUv27EGKpN00T5XplcF
-	 ebP3r3lSFT67PkO1yGBfEbbKlSrltbZWG9k2Lt0dILkcKSif8GAKvl0g1PFbHL5QyZ
-	 d6XZn1mJhUJKjzehI5BHU5wk36mW8g4kN9z8MrfGunICgfyRRN1VZ4nXrfiPXFkzXx
-	 tah17j+rIZ40Q==
+	b=gDvM2J8nBvJryctvpwI1NRYjLOYp37rknbpUpCz8vmOSmn2I8HrillVizXMZtXl8o
+	 XusQxEjYTomR668FXvlU/3B6IF8Y5xvJIBZf3wok2d9lQ4BpDPlYWwCYbXKeC+s8UI
+	 HGUZ9XfBfx6eFkAhIzRLtjMDM+sdF5nYBak8UEay/uOYbEISyU7kQ5dfzReFkyjgWf
+	 Wr1bsay1UlboivWvC+AMbixWowfM57DLPxVKoyuYyzQwuNKhpHnQViO1sfF3MXOCmu
+	 Rm0XCzc3182g7m+LxyB7oj6FGGCwvwHiKy2YsGIyvgLTw3tahptOCQQ95Ak8YPzq7C
+	 OJbFW61ppGxzQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kVi-1D9E;
+	id 1ulrJ8-00000006kWI-2K8p;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 08/39] scripts: sphinx-pre-install: Address issues with OpenSUSE Leap 15.x
-Date: Tue, 12 Aug 2025 17:52:25 +0200
-Message-ID: <a1600e292b63f96f40163e350238812158ebd6c2.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 17/39] scripts: sphinx-pre-install: fix rhel recomendations
+Date: Tue, 12 Aug 2025 17:52:34 +0200
+Message-ID: <393a299a850ba9d94c6a8965e78db4da2dbf7e37.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,73 +51,28 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On openSUSE Leap 15.6, which is the current LTS version, has two
-Sphinx packages. The normal one requires Python 3.6, which we
-don't support anymore. However, it also has Python 3.11 with a
-newer Sphinx version (7.2.6).
-
-Suggest the newer version:
-
-        Detected OS: openSUSE Leap 15.6.
-        ERROR: at least python 3.7 is required to build the kernel docs
-        Warning: python version is not supported.
-        Warning: better to also install "convert".
-        Warning: better to also install "dot".
-        ERROR: please install "yaml", otherwise, build won't work.
-        You should run:
-
-                sudo zypper install --no-recommends ImageMagick graphviz python311-pyyaml
-
-        Sphinx needs to be installed either:
-        1) via pip/pypi with:
-
-           Currently not possible.
-
-           Please upgrade Python to a newer version and run this script again
-
-        2) As a package with:
-
-                sudo zypper install --no-recommends python311-Sphinx
-
-            Please note that Sphinx >= 3.0 will currently produce false-positive
-           warning when the same name is used for more than one type (functions,
-           structs, enums,...). This is known Sphinx bug. For more details, see:
-                https://github.com/sphinx-doc/sphinx/pull/8313
-
-        Can't build as 2 mandatory dependencies are missing
-
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ scripts/sphinx-pre-install.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 0a73b1b33842..eca42d90ed01 100755
+index 6b5f9eda91bb..1f64909953b9 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -556,6 +556,22 @@ class SphinxDependencyChecker:
+@@ -519,9 +519,9 @@ class SphinxDependencyChecker:
+                       "For most, enabling epel and crb are enough:\n" \
+                       "\tsudo dnf install -y epel-release", \
+                       "\tsudo dnf config-manager --set-enabled crb\n" \
+-                      "Yet, some may have other required repositories. Those commands could be useful:" \
+-                      "\tsudo dnf repolist all" \
+-                      "\tsudo repoquery --available --info <pkgs>",
++                      "Yet, some may have other required repositories. Those commands could be useful:\n" \
++                      "\tsudo dnf repolist all\n" \
++                      "\tsudo dnf repoquery --available --info <pkgs>\n",
+                       "\tsudo dnf config-manager --set-enabled '*' # enable all - probably not what you want")
  
-         progs["latexmk"] = "texlive-latexmk-bin"
- 
-+        match = re.search(r"(Leap)\s+(\d+).(\d)", self.system_release)
-+        if match:
-+            rel = int(match.group(2))
-+
-+            # Leap 15.x uses Python 3.6, which is not compatible with
-+            # the build system anymore. Suggest Python 3.11
-+            if rel == 15:
-+                if not self.which(self.python_cmd):
-+                    self.add_package(self.python_cmd, 0)
-+
-+                progs.update({
-+                    "python-sphinx": "python311-Sphinx",
-+                    "virtualenv":    "python311-virtualenv",
-+                    "yaml":          "python311-pyyaml",
-+                })
-+
-         # FIXME: add support for installing CJK fonts
-         #
-         # I tried hard, but was unable to find a way to install
+                 self.first_hint = False
 -- 
 2.50.1
 
