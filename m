@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6F82F658F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A75C2F659D;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=KbfMcWhVqD+rWfuHrNWdhKOduu5Y/Xhr/zbyatkqRBH+2SB/tXkdR0RLMndnrpIvfgissHgOekeNaYrJSF7gU0r237r6f8cui2M1+8aNQSvpeiaQdpbRDB8Cdhcp0UeHuLyHfn+l2zm+Iw+6aZQFnh9EDQI4XM377+eETLMtFAM=
+	t=1755013985; cv=none; b=QSL5BDxBG3O10S0uQsy/D/6sz4YCF+RQ+8eIAMgjkAdUJlCFZ8Vk9JsB06fwLzg3DPrkNdNQTbdPvPQ7SiU920YM9YfiXcRFg0jj/cRCgkeVhFD0G7kIeZy1Ll6V/46XAI749slthUpZTASlQPyBfr5ZvLYwUkGIJFjFE6jaShw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=oCK6WGvw+7PUuHUA0XAEiLZ3Xl9xo2K88VEoJ8LgJJI=;
+	bh=lubWYVOEybDAGm9ORXVmoDyKTrHZrfWsx56TwRP66U0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dxt0BmJfbSlKgK8J6t6dbioyrmI7P/jykG0aSJLiWRFzgZ6yblUm+pv+zyiG48zw16mLPJmrXoKcifNeZj83m12h+uhWKzyKdtNYn8Si0KfNOqaEPCdSEaIhLbUQBzrw81Dw+67y9+4gEiV2A868LwYwHqp+lBf6B7LCGGC+Dt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JH+4l/z5; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=HzRz9wc9NuqBQ9JSDjXjmwI+zYKF8eySsSc9RG7bToo8eFNIv8bDtt/eXEIuMDLR7NAPOfLIBjpjECXZQBGXY8Z4i1gHCNVdpieAmjtABstGlYlVaYgiUDv00q/QM+eYzw8BZxCGOTmpFYYOX053cI+vccFFnm5Y97C38qMTgXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vp+oupgx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JH+4l/z5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD125C4CEF8;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vp+oupgx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B01B7C4AF09;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013984;
-	bh=oCK6WGvw+7PUuHUA0XAEiLZ3Xl9xo2K88VEoJ8LgJJI=;
+	bh=lubWYVOEybDAGm9ORXVmoDyKTrHZrfWsx56TwRP66U0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JH+4l/z5Ct4Cwi4pgZhQbwRWJEXYJD/k208XqFAD13vlGnP8nSRMF6wvqWqgfaCuY
-	 ZW9hjzhb5C4CX8M38WdqbIoBy5s4C7JnnCWmDe4Em0N+5n9faCVIYdQCurU+4oyt6F
-	 bNFlmpixwzifAM5BUGypeRH2mdJ09deA0Xkvf0H1pG2WHmmaMVWXwenNH9uWP/53am
-	 NxSGkhJDqwcYHMlR+84aylbnqgWhVDI44mA+IZyPN4D5glfvCZB8HYF99ubHdAJZrP
-	 4PMIkUOERzAf6WaKTgyeAKI9ZwAWfgKiEmn4ol12A1IUv/1veY0I4InwoEQyA7l8ue
-	 UtZOp6ub6/s1A==
+	b=Vp+oupgxm8UgYRAOwSaWBmmuBgju8QMbUrbGh96KGrFtA+Ix5HUKEjKbvJAtQ2Psz
+	 36uRSQl5IyrFp/ypwcssSA0dmHRb5GkehDS+t3rp/7wijzIXxhvUtko8D1e3mARZ/h
+	 5IpXvs7ZD3QbES0lWpIeKNyxsQ7xLVTpcPiOujVG3Mc0tG2iabXod/lgmKC12s/gIP
+	 7Ez/CrD4yz7TM2UNqLx605vP52FJkCn/BqObmjohrwZZ1vF1PTaMskeiKknzVidlOt
+	 y7GcfI3e6ikr5wx79GYmh0XtxgjINEgMJrVlTez90xPx/Vt/rCL+Tkh6EVbaSYA5x8
+	 V17dFnt64OQ1A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kVy-1h5Z;
+	id 1ulrJ8-00000006kWM-2Se0;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/39] scripts: sphinx-pre-install: only show portage hints once
-Date: Tue, 12 Aug 2025 17:52:29 +0200
-Message-ID: <d4e7ef1d5e1f0412eb9f9ae4913dc64c0821e002.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 18/39] scripts: sphinx-pre-install: remove Scientific Linux
+Date: Tue, 12 Aug 2025 17:52:35 +0200
+Message-ID: <dde5e0c95017022840f8a522ce44759e51f52aa1.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,48 +51,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On gentoo, doesn't repeat instructions about how to enable
-portage.
+According with its website: https://scientificlinux.org/
+
+Scientific Linux reached end of life in June 30, 2024.
+Also, it was based on RHEL 7, which is not compatible with
+our build system anymore.
+
+So, drop support for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ scripts/sphinx-pre-install.py | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 0e165ad05fdb..808d31bfa790 100755
+index 1f64909953b9..cd9c83b17971 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -89,6 +89,9 @@ class SphinxDependencyChecker:
-         self.python_cmd = ""
-         self.activate_cmd = ""
+@@ -769,7 +769,6 @@ class SphinxDependencyChecker:
+             re.compile("openEuler"):                  self.give_redhat_hints,
+             re.compile("Oracle Linux Server"):        self.give_redhat_hints,
+             re.compile("Rocky Linux"):                self.give_redhat_hints,
+-            re.compile("Scientific Linux"):           self.give_redhat_hints,
+             re.compile("Springdale Open Enterprise"): self.give_redhat_hints,
  
-+        # Certain hints are meant to be shown only once
-+        self.first_hint = True
-+
-         self.min_version = (0, 0, 0)
-         self.cur_version = (0, 0, 0)
-         self.latest_avail_ver = (0, 0, 0)
-@@ -714,11 +717,14 @@ class SphinxDependencyChecker:
-             "media-gfx/graphviz",
-         ]
- 
--        for p in portages:
--            result = self.run(["grep", p, "/etc/portage/package.use/*"],
--                               stdout=subprocess.PIPE, text=True)
--            if not result.stdout.strip():
--                print(f"\tsudo emerge -av1 {p}")
-+        if self.first_hint:
-+            for p in portages:
-+                result = self.run(["grep", p, "/etc/portage/package.use/*"],
-+                                stdout=subprocess.PIPE, text=True)
-+                if not result.stdout.strip():
-+                    print(f"\tsudo emerge -av1 {p}")
-+
-+            self.first_hint = False
- 
-         print(f"\tsudo emerge --ask {self.install}")
- 
+             re.compile("Ubuntu"):                     self.give_debian_hints,
 -- 
 2.50.1
 
