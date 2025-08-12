@@ -1,142 +1,133 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1907E335C7;
-	Tue, 12 Aug 2025 03:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54F817A2E6;
+	Tue, 12 Aug 2025 04:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754968748; cv=none; b=VPgYt6KC+urWDxIqOL0JA6mYvBxIQ8C9z1kINOprE/mPnG0uspxaCWC1ZNSCA2P4sFtUgzY2oC8RmfrBj2UeJDdfZfV5VJL5SVqmC2/WKYmx8R7HJoTSDkr7f1tJNAJvmbd7bdzBdfRCTwBEke7mFD/dyLDUug+A7T7z8teayaQ=
+	t=1754974129; cv=none; b=lzzAv8ZpWMVziAqT6+feuI1voQ2sVB0huzfqhN1upP2gt+vA/5xnH07vrsZHfXFyDkV5f9MmU/YI/GgNgJeBdGTGGoPyUTZkO+TbaPLNlkdKoqVFwipIVmkVnql0ertJcdg/iWMiLNJeTY3772JqcH4bi0ycaIASFbs6+vJnb3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754968748; c=relaxed/simple;
-	bh=JWr5GnVWnAU4GM/yEBrAkx091IAX+YqdPOB6mV+qwbc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VxAjrIuzp3Acs0vF2nZHxTWzYsugsnx4KfE0q6abKL/xMSpEjJAQS9fRHhzsA81B6FRif8bpuSolkdc4kRYeda1+cFhlQKEjvByHRe0rxlRMesFBRZzTcM7/VEDMWGBSnpgSk5+/s0pQ2RnMvmnMD3CxFonkN39GPQVDP07QYTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=ZyOOaVkn; arc=none smtp.client-ip=54.204.34.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1754974129; c=relaxed/simple;
+	bh=rd3l0x+u9gxrsAvt6wXIGSPCtQ9fjFS56ByUZRBtFvw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n/Rl57GkGiV8LKHKtMy4teNEzTKWzDk2QKthpGwBZqHDaBf2vQK2WjnFGB8xigEOl6ypZ0XpwojSfg7asWfjRjuufyEXgq3YN/rR410BCzKfr6BzeOrc+PCfW1WQypNmbyxxHuybJZ4Z/fTm34bse1Q8Cmdkr9bMLez8ig4nH9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DUBTAPAz; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="ZyOOaVkn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1754968711;
-	bh=w819vPHCzSjvWIZoGLPIItTx9dfZyFMgI1mbx4HJIQ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=ZyOOaVknf6aDeI+yz7yMuiJOvdxjlIvmTI4ci+FTRC0JhGIP0JmhTlnfC373YEISd
-	 xZu8B+sqthPjybV978xLkxN3SpM1W6ab5vHha+HLEgn40P7cpsIt8N0SPrk/Rj21tl
-	 5/uif6N0yWX4GGTPZhSveH8AmpiL9TnsPbRIrFlM=
-X-QQ-mid: zesmtpgz6t1754968709t0043451a
-X-QQ-Originating-IP: h1CUU9sYr1EUHV6mgQSmOBaLIqXPI1sP3mzlfK/dHE8=
-Received: from [198.18.0.1] ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 12 Aug 2025 11:18:27 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 7724009268559505436
-Message-ID: <E8C4F9764DD41E5E+97d54ecc-9519-4ec5-a995-5c9dc45961cd@uniontech.com>
-Date: Tue, 12 Aug 2025 11:18:26 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DUBTAPAz"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b4245235a77so4279589a12.1;
+        Mon, 11 Aug 2025 21:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754974126; x=1755578926; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ExX652zHf1GHUfqv+cm0zn7UYbTpQ3yVS+bG4tF/0so=;
+        b=DUBTAPAzrQEndWJCNwRsrk1V4laqGBT5ql3fIoizFiqQ6DITK/zMktp9gZ4XX6JnP9
+         KSbVu29DsoaglEQMi1Pq5mXbf50XOmtxg2YBYPEYAza/KQfkv2yU7Wn0WML4+gDk8YYB
+         YpWr/zRlO5eC4dghoJFml2fcJZpsAiE+0eaefpIYKgg+fNMWZIq5YI6ew8+XsBS3DR5X
+         O1b61rFFMSZAXMjK7pq74PiNrDpL4aKrtVxv1F7nBApOyhwQv1EyErf2e3ebQ0jZqpIM
+         2Pd6yB+e/1XNOoMYU6bvU1zLABj0bRef+GmbpGsybmTL9pv9h8o5RkBUm/vfHeG9/RLZ
+         4Zlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754974126; x=1755578926;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ExX652zHf1GHUfqv+cm0zn7UYbTpQ3yVS+bG4tF/0so=;
+        b=Cl0LH8vjv/EA7S+YyB0YPZ/nwWu0sjvWm8M4PzmvhWf68I9frH8h/mvpFV86rPsc9J
+         gZ6RJK8MMPZWeoAfjcG9ouoOVS2MQomSpR1XuWbL7LJIEIfnkOrYrHuxLcESUVPxjac5
+         z96xresHbBzgaArymItIY/OGOSxCxtxxzXu28bFo2NEA1yvz9ynj01I8J5sx4Znp6N9b
+         bN3SwJ4q2adVEddyX4eIa4GxTREK0h0Vz1DE40qTcC4SKrjs7QWqWJIb/YyFsneswCPO
+         EFUtBel29b6b184OaWhFoCaR2S8UnKgKy6Sv1IDVete4Gxfmy9jLGhuFki9IAsjKf5x2
+         7PJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/DDQE4yOMiKzSIRXjFtkRX32nD/tB48+nc8uum3uGb4/b7GnvnlHv0kVuPo36ARl79ZiJNz1tOoK5aJ415+tg@vger.kernel.org, AJvYcCX13R5CBHxf/NG8SVXgMCNBwptbu2R1TqF/dBvybObs1urV/LtJqdfbdgXCqh4V9ZLrkVBWPww64es=@vger.kernel.org, AJvYcCX9Rkg85GcXcKTbKvzp/qQ+ypsdUlNm0Yzdnz/R5OhfUousARsmhaG4Ao5mtnegdcsN7vtRyeYfwjiopYdo@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7U+ButA4775mrS4QK7cxxPnw+H9AYKelfQgV9E1QusyS6uCFB
+	lKhw4g3WIEONyMr2VjDwFgdbOEMp87bj+TyR3OgpEvy42z4+Ann2UB/5
+X-Gm-Gg: ASbGncvKw9J7+a4PxzxssWRlRAwR/AjUD99YICcOp93ctpTe8GRowBzGYF45ep+jSyv
+	vzdPTPbjGU8iKmLPPOro1nmTya+olqhlTxOs+9cpHekwtIFYdOfx6I7b3Br0zS1Q5Dba42+hrkZ
+	A1/FJjgSHuGalKMlqjpV8FWwmPs8eTPgG1NF9MEF+SkivitzoqrK/FFBmu+qGEgAtg5nG1285Tj
+	7RLW9d6qTQcqKJAxrBx955tIG9P2kL3pdYubDXSjCxML4cXLoIA2S5OHWWd7aA6FQM/osHHmuEq
+	OaWOI8J/wzc5PQfGgi5U3rAtF92yDkf7FxKIUMnapDOkGl59KMHjhckevYxCJBAv3Oz8gFb693T
+	202ftMQqV6D3CeDMqM9vEsQITjfxkHoQydyGRTA==
+X-Google-Smtp-Source: AGHT+IH4bampa00vZY2wn4ikjgxtDmkLgf5+sXi+LEPPRG28R7ojBu8w1mILEa76tO4L5ruhfLwAgg==
+X-Received: by 2002:a17:902:cf04:b0:240:7308:aecb with SMTP id d9443c01a7336-242c21ff8f9mr274922235ad.32.1754974126159;
+        Mon, 11 Aug 2025 21:48:46 -0700 (PDT)
+Received: from fedora ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-243031afd94sm2644655ad.113.2025.08.11.21.48.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 21:48:45 -0700 (PDT)
+Date: Tue, 12 Aug 2025 04:48:34 +0000
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: Nikolay Aleksandrov <razor@blackwall.org>
+Cc: netdev@vger.kernel.org, Jay Vosburgh <jv@jvosburgh.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
+	Amit Cohen <amcohen@nvidia.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Alessandro Zanni <alessandro.zanni87@gmail.com>,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 1/3] bonding: add support for per-port LACP
+ actor priority
+Message-ID: <aJrHomEWwIn8a1Ql@fedora>
+References: <20250724081632.12921-1-liuhangbin@gmail.com>
+ <20250724081632.12921-2-liuhangbin@gmail.com>
+ <a1f88a9d-14b8-4547-a6c1-b880633775a5@blackwall.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] hwmon: add GPD devices sensor driver
-To: Antheas Kapenekakis <lkml@antheas.dev>
-Cc: Guenter Roeck <linux@roeck-us.net>, Cryolitia@gmail.com,
- Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
- Yao Zi <ziyao@disroot.org>, Derek John Clark <derekjohn.clark@gmail.com>,
- =?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>,
- someone5678 <someone5678.dev@gmail.com>,
- Justin Weiss <justin@justinweiss.com>, command_block <mtf@ik.me>
-References: <20250314-gpd_fan-v6-0-1dc992050e42@gmail.com>
- <20250314-gpd_fan-v6-1-1dc992050e42@gmail.com>
- <CAGwozwENLOOS5q1Bs5SEh3FFJAY-=kcVimf5U+tWzy6HaiGd=g@mail.gmail.com>
- <bb57fe1d-fde9-45f8-9f5c-0836a6e557ff@roeck-us.net>
- <CAGwozwGdZ5tzHg7_TF5d_AWVDmypP987XS-x_GWqrSF81PiG2Q@mail.gmail.com>
- <B751D49737DD10DC+00a0ff95-476a-4d0a-9bc6-40e77012a554@uniontech.com>
- <d4b6932f-fe95-4502-b7c9-650a61ab565d@roeck-us.net>
- <4CFDED845BBB7FFB+10019dea-8229-4681-9beb-5f351eb8faf4@uniontech.com>
- <CAGwozwG13swYjCB6_Wm2h8a2CdHxam+2y=g1m42pynkKqqdDLg@mail.gmail.com>
-Content-Language: en-US
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-In-Reply-To: <CAGwozwG13swYjCB6_Wm2h8a2CdHxam+2y=g1m42pynkKqqdDLg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: NcfXIs+Ms1qHGA0BJZqOjmZMULX90a9+w1wk9RTX4GN7WgPJxANHbmFC
-	VIAifO0y/LORoGmAi/LRexuGezm2O9VKGZsvABDK0H8hNyX0ozgcRxSUi9GKfz1L4TbIxrv
-	XDE/DtbmjkjMjBeSnSNDq8jV8h2fMtdYgunp61kAmzHYpuSrYmrXqyg8crdDZsL0NuWSodI
-	masAvU+g2/PxqCQgnQYynp8dwaUeY7ZV+CMsN1/KwIKOULvBwkOg7byxIx30nnjzmQ1B5b6
-	APR+r+roe8cGy3kvwDEY5+zsWFQlaJGLZmqRdK6sbqDJYACEzETbgLvR2RwLIPs4iHd57yb
-	oCWir24bhYQC2BSqleon4B7qRtc7oP01E1dyW25sCElJ3cuz/m4A8oP4gP9lvh+beDfWIvw
-	i2E8cgraV4oGnN9yK8jdBKLOraalH2jlyQje5YOJNjUxjsSDAi6NPZ4m1t0VQm7rdzW2j9w
-	1SMlhTL+4L3YVd319e2K20/PKBb2b7Rg8UztP6rIpTPptnQr6cwr24Pc0Jnb2c8nf2dziGz
-	aDL7rs2JDgMAaYBfEJh9elAvzovLNxU9nfD1zmo4tsNZXtS+FCeWj+ZDy0s4pjK1pP1+aze
-	V2w7K8ADKu24luKNC7bXldas+dYjARTK8FyTbBYQIyhTBA0tJkyEw+kmUhVqS9DizSCPM2A
-	mwo4B37kFhFFeGfwN6FrFmxBLBOM4M3vbQSzj21+g4rgYi7N8+5Ty0rouwmyOKbeKIaLDl9
-	GIIYovEHX8bmvuoUXWlyJT8Nb29FgwNXtrPYgDf57HPOk4aJet95whT5Dw/ySyoOJVPT2JN
-	2Q0sPENQNoCuI9kpNkXO7CXPyM1RWaBJaqoi8mFH1DchXwGR2rQZUKqJzuP58Wzw5+tfTFX
-	hujoGFBNlDrINQyrrkm/ae4mfKcHAy9oth0rLTcNVhn93kcr1Evz2+9MaiXYdc+JIKKM6ji
-	fsqEpaQa2+HU7N77zG7Lo90nMxuFPfu6RzsP7jrkvOJTf4wA9u5F3q9HErY4cL9VbDAqbH3
-	sLBzvoog==
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a1f88a9d-14b8-4547-a6c1-b880633775a5@blackwall.org>
 
-
-
-On 31/07/2025 16.13, Antheas Kapenekakis wrote:
-> On Thu, 31 Jul 2025 at 05:30, Cryolitia PukNgae <liziyao@uniontech.com> wrote:
->>
->> Personally, I'd prefer to maintain this small driver in the hwmon
->> subsystem until we need to write drivers for the same EC with more
->> diverse subsystem functionality. We can then discuss and learn how to
->> evolve it. I personally don't think that's going to happen in the near
->> future.
->>
->> So, could we continue reviewing the current patch series? Where are we
->> stuck?
+On Fri, Jul 25, 2025 at 11:55:54AM +0300, Nikolay Aleksandrov wrote:
+> On 7/24/25 11:16, Hangbin Liu wrote:
+> > Introduce a new option ad_actor_port_prio, allowing users to set the actor
+> > port priority on a per-port basis in LACPDU.
+> > 
+> > This priority can be used in future enhancements to influence aggregator
+> > selection via ad_select policy.
+> > 
+> > Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+> > ---
+> >  Documentation/networking/bonding.rst |  9 +++++++
+> >  drivers/net/bonding/bond_3ad.c       |  2 ++
+> >  drivers/net/bonding/bond_netlink.c   | 16 +++++++++++++
+> >  drivers/net/bonding/bond_options.c   | 35 ++++++++++++++++++++++++++++
+> >  include/net/bond_3ad.h               |  1 +
+> >  include/net/bond_options.h           |  1 +
+> >  include/uapi/linux/if_link.h         |  1 +
+> >  7 files changed, 65 insertions(+)
+> > 
+> > diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
+> > index a4c1291d2561..5e105e7ac8e6 100644
+> > --- a/Documentation/networking/bonding.rst
+> > +++ b/Documentation/networking/bonding.rst
+> > @@ -193,6 +193,15 @@ ad_actor_sys_prio
+> >  	This parameter has effect only in 802.3ad mode and is available through
+> >  	SysFs interface.
+> >  
+> > +ad_actor_port_prio
+> > +
+> > +	In an AD system, this specifies the port priority. The allowed range
+> > +	is 1 - 65535. If the value is not specified, it takes 255 as the
 > 
-> Either is fine by me. The move is simply a rename anyway. My reasoning
-> was it will take a bit of back and forth to get approved and charge
-> limiting is a standard feature now on all manufacturers except GPD, so
-> I expect them to add it soon. But since it is a rename, it is not a
-> blocker for reviewing in any case.
 > 
-> If you want more comments I think you should send a new current
-> version so it can be reviewed again. It has been a while since the
-> previous one.
+> Leaving this as a note: it is set to 255 because actor_port_priorty is initialized to 255
+>                         and port_priority is initialized to actor_port_priority at slave
+>                         bind time.
 
-I have sent the 7th version two weeks ago. I would like to hear your 
-comments if you have a free time to take a look at it. Thx a lot.
+Hi Nikolay,
 
-> Antheas
-> 
->> 在 2025/7/31 01:26, Guenter Roeck 写道:
->>> On 7/30/25 02:24, Cryolitia wrote:
->>>> Thank you for raising this valid concern. We've closely monitored GPD's
->>>> development plans and currently see no indication of EC functionality
->>>> expansion beyond thermal sensors in the foreseeable future. Given this
->>>> observation, we believe placing the driver in hwmon remains appropriate
->>>> for now.
->>>>
->>>> That said, we fully respect your maintainer perspective on
->>>> future-proofing. If you feel strongly that platform/x86 would be a safer
->>>> long-term home despite the current scope, we're happy to move the driver
->>>> there immediately. We're committed to finding the most sustainable
->>>> solution for upstream.
->>>>
->>>
->>> As hwmon maintainer, I feel strongly (since you used the word) that moving
->>> the driver (or any hwmon driver, for that matter) out of hwmon space would
->>> be a bad idea, but I won't prevent you from doing it either. It means less
->>> work for me, after all.
->>>
->>> Guenter
->>>
+Is this a note for you? Or you want me add it to the doc?
 
-Best regards,
-Cryolitia
-
+Thanks
+Hangbin
