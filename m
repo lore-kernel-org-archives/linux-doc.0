@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7B82F659F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7342F659C;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013985; cv=none; b=oGFjv1H0hVFmT2DlIeAORTi68GQBeMN7n1DzOcIpDgNMXKqyBQfBbY8gTBgCZ6fOIVb1Vig5k/ocF2SLStXVsTWqu6XJIaHwlTcPg0SGlEM52nW+s+Bi6Rx/ASGf9CJBASuVFKdJEVBzR4O9PGHBaHYda1aW5JWxM2m0Wt1QArU=
+	t=1755013985; cv=none; b=sVVMc2EZPlmSSxjm9MoBAPQySpeQ9Tcgv1Z6z2clLcY91wsM3UOkkyZksRG6mFgxsRJFTaO+jmYshwWxQWyYqc5jSmSsb31W7DVNYFbRK2/b5BrKF5TH7wUvxTcrVIDYKCKSqKLoWLfsQFjLMudn2dActizLrSGFq/8IRZri2dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013985; c=relaxed/simple;
-	bh=pGT/dJ53lsh8VHk2ntlH7KrRTKY2+y+5ODEQAIhvyXw=;
+	bh=F0VIBtxterrSQG9wqzNfarK/AogmBCYnIszdwgzywXg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cL5x5fU2zgV+dgnac80+sLcfmetQM8mv50nt1pK712uY01EkuCBQnG8j76M1IrTHdXVtV8wpZ9Jlc3u0RBDnan6c3nFyGkqBYJHP4WjsqD0w4CMMZzLQPgJHkriTtN8+zpX43HNtvZ276Y+mSb/iCTQmr5kbDJAx1Nw4SLoRcNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AdCHPJDE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=S2TJthHyXOX9Ua6tuWSmYPjtdf7Y8tzonQS8yhnsrjXAx6YGomrVQJlRfg5cDvF5FP8Ef2qFCYUHe3q/2g+/6mr+24blLiFWw50C70nac32cAc5suXsgP2Disvobd+LzBBk3IyeCo8o5Dorw5EsDP8bWinOwruL8jYbf330GzLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XeUJiRb6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AdCHPJDE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8160C4CEF1;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XeUJiRb6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B89C7C4CEF6;
 	Tue, 12 Aug 2025 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755013984;
-	bh=pGT/dJ53lsh8VHk2ntlH7KrRTKY2+y+5ODEQAIhvyXw=;
+	bh=F0VIBtxterrSQG9wqzNfarK/AogmBCYnIszdwgzywXg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AdCHPJDEq60dZomyyc7UglZUBwAT7hWQlGJg4fyUJyANhZP4GL8+amPtylK9J01y6
-	 SZJHogBtUhXpvZdMyb9Mfwp3mrjgZs2fiBXmuanJ3HHhz0CvLshEZzjZKi7GNLowYD
-	 Kabxs0TahdWWlNaWGShOPiw++Gmsut7QgINjMSLHnvs2qzOTKrC1AH2EyV54Mbq9Mi
-	 A+ZRw96BfMPhFFuwCx60HiYOjX6ochlrNwxCHE8xkaxbfmpIAJsLT69TbdHy0WpQbx
-	 EdLNncMpbVzLHJb4uUBcgLuqjZLFrQ0Vcs70xDKO5SC5+JtHUHMD/RADdLah1g8vnq
-	 8BknR7sADB8lg==
+	b=XeUJiRb6yJo+s7FnM6i9GtC4OxkoRd1tbcLwwG0NyeBCT+xEb1D1YzsLlVDeIdZEI
+	 TcpALt3fCLtkDTlQO5uCxdWXmGoRjYgzIGKXzYQJcq6r0eyRQ3uieImIFwcyjivhuh
+	 dxrIeRbFpzwCseskvTW0tNlP27cRiD3dsZXpdLWkHL4XvtGQ78hFGqndd48akmRjit
+	 UBySO4KyXXfTplPmwKEjSYqPogNhoPjz3AMGv9yZWsAeeYQNPerzE17PrnO8u0cbqP
+	 Ga2gmG+s/ZgS2lUaV7ZTMrXjUc8CaZJL+bwAXqCClGoZrAOqxXnqf1HlbZDyiTJnrX
+	 UfyqWZVz4zVFw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ulrJ8-00000006kVa-0yT2;
+	id 1ulrJ8-00000006kWU-2hgd;
 	Tue, 12 Aug 2025 17:53:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/39] scripts: sphinx-pre-install: drop obsolete routines
-Date: Tue, 12 Aug 2025 17:52:23 +0200
-Message-ID: <afb97854f05b0852f4c6c1fcee102e9697c14cd8.1754992972.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 20/39] scripts: sphinx-pre-install: fix OpenMandriva support
+Date: Tue, 12 Aug 2025 17:52:37 +0200
+Message-ID: <0b4e7aa88c96e6a5b8f2e6f381b3e21124680d33.1754992972.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754992972.git.mchehab+huawei@kernel.org>
 References: <cover.1754992972.git.mchehab+huawei@kernel.org>
@@ -51,52 +51,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+OpenMandriva Lx 4.3 has different package names for ImageMagick
+and yaml. Fix them to ensure that system setup will pass.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 23 +----------------------
- 1 file changed, 1 insertion(+), 22 deletions(-)
+ scripts/sphinx-pre-install.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 3912359d2bae..b639acd455cc 100755
+index 94f3d2e32fd6..2f6036eadc94 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -114,27 +114,6 @@ class SphinxDependencyChecker:
- 
-         return None
- 
--    @staticmethod
--    def find_python_no_venv():
--        # FIXME: does it makes sense now that this script is in Python?
--
--        result = SphinxDependencyChecker.run(["pwd"], capture_output=True,
--                                             text=True)
--        cur_dir = result.stdout.strip()
--
--        python_names = ["python3", "python"]
--
--        for d in os.environ.get("PATH", "").split(":"):
--            if f"{cur_dir}/sphinx" in d:
--                continue
--
--            for p in python_names:
--                if os.access(os.path.join(d, p), os.X_OK):
--                    return os.path.join(d, p)
--
--        # Python not found at the PATH
--        return python_names[-1]
--
-     @staticmethod
-     def get_python_version(cmd):
- 
-@@ -940,7 +919,7 @@ class SphinxDependencyChecker:
+@@ -647,6 +647,11 @@ class SphinxDependencyChecker:
+             packager_cmd = "dnf install"
+             noto_sans = "noto-sans-cjk-fonts"
+             tex_pkgs = ["texlive-collection-fontsextra"]
++
++            # Tested on OpenMandriva Lx 4.3
++            progs["convert"] = "imagemagick"
++            progs["yaml"] = "python-pyyaml"
++
          else:
-             print("\nSphinx needs to be installed either:\n1) via pip/pypi with:\n")
- 
--        self.python_cmd = self.find_python_no_venv()
-+        self.python_cmd = os.path.abspath(sys.argv[0])
- 
-         print(f"\t{virtualenv_cmd} {self.virtenv_dir}")
-         print(f"\t. {self.virtenv_dir}/bin/activate")
+             packager_cmd = "urpmi"
+             noto_sans = "google-noto-sans-cjk-ttc-fonts"
 -- 
 2.50.1
 
