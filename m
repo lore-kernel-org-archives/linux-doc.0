@@ -1,58 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBE81EF38C;
-	Tue, 12 Aug 2025 18:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BABD2FDC55;
+	Tue, 12 Aug 2025 18:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755023473; cv=none; b=QUABkWByuk9uFOpJP4ASnzNGSlND3VIEiLK+lI+guVqzUg4D4TgMo5ifWspdqg7H47vsU4JkcDAxjoroW0at7uUmdjY5ebl4SV79X7bhit5VPYuOsfMrBAfVF1I85ctx7rVrtYdc4O6EOWqBpsja/R3S0rAzHSWLND/TD0yEFPU=
+	t=1755023945; cv=none; b=nL7MGgRRec2B1bqk/sVpKsDyV7twCopq08YbB2y4O2o+KQWuPejueqsEqeysV/fIyhVrcbcx1EoW5SqtqlAGtn0KkgzXVPHLAwL4L2W6Z0Go+lINnhjTje1p8i+eJPYqT3GiYGDG/Yj7Ry28cTut75P2mXEE0jsMBpU2KmYJbow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755023473; c=relaxed/simple;
-	bh=VYEh2U+HozjubzC2hkNUllG0x1AMyWF47DIDyoFwjKo=;
+	s=arc-20240116; t=1755023945; c=relaxed/simple;
+	bh=K4zcpvodHKRtUTgq0qJbR0c9lCKU6kpCp0Kmpo5DY30=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eTu0cMPsqyDAIHVbiNm3Mmv/0fCQaJSOOKesHNQh7R2l0qMr2rS7/NEM+EuRp4W9rNcqMkTUeZkw+mrJ6Ox9jKNB/o+xJ3ObnRNFLdDMTMxqjTFT5RY6DGKtx7t3k79cSGBqmMilY+QDa389G1X/wDf1Fgwdl/KK2Wh6/EF4Ipc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LP8EWMdQ; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Hq8JI0K1XyugcQY/L1//HyK+WrTvJIopeYO4nS7WJMU/KJLXaYFsPD4UCYpUoIpQJ2BsBoOMUoDhZw5ujZkvJ3pgeVp/Td38F9FXMtTTKWtQkY1RO2pPyWS6IFbKZ6gUOx6kM5EmINQDJO3la/QrbVOPBrCKDxikVl4quwTpl80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Ur1wgBXu; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LP8EWMdQ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9338C40AD9
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ur1wgBXu"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E1E3B40AD9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755023464; bh=Pc+Sy5s3UxH6RxvOOBqHHymFZRkVWMaCuaEcOu5B17k=;
+	t=1755023943; bh=rHDn941Sg/eSk0bmpOyy2XNxu/PzRvDqOKXRQlNFv1s=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=LP8EWMdQ19YVqACm/1vbJGHvip6CRo5BsdM0VdGFyoguvggipnqqXgExOE+Nj1UUQ
-	 8lco9QQiyrH2CgbV1W1sMs4O8nhI+aVaVxmJVVYQvuHD2US2ZEh1gG02b1wr+rZEyF
-	 uwZUPBl7/E4lCKzQnO+7tvR9MNCHU96JKbugULYrv7nBH68UxMVx3rJvFtN9isHlHO
-	 yg20a5+vR8pSzbJoiuXrjGCG5dJRaYu9M3QRgJRAPt37Czo/iNflOgNrWKszmI5V9W
-	 zo6H1uTYoSpmsFEscxPMzHud2gUa3maKtLzznnAHtf0okuZqcDrZkW7/lG8SL7dEvM
-	 xedj3Y9uurjdw==
+	b=Ur1wgBXuom2nwAqVqx7OUtkP9XmJ4h+IMVcCbdXeQ3n/bpwqB7c5kWvgJmeFtx2VB
+	 f5f5Yj4G1x42XGImUnF1UCqD9fllUl9o9DJciCp3h6tSSWduQUj4bzqhOps9xruetz
+	 32YWH0SNa9ZvsfV5Eb9T2Fgu03F2lW3+dbeuN1WVI2bgssZMVFMD36oTnuiBUlTvsT
+	 +l5Hr8Z1wc8NgMY+sHsKlt4DNiu2PtoF4yn+piYiUOk7phnreDmnolSPXxkB6YB+rN
+	 Je6MDOkgKNOAJth7VlhiDgL3gBrfO8Y0yNF8LQlGARUkWW98xMtd+c2OKxMN6b3nU1
+	 RkcCsQMDvSe9w==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9338C40AD9;
-	Tue, 12 Aug 2025 18:31:04 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E1E3B40AD9;
+	Tue, 12 Aug 2025 18:39:02 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jakub Kicinski
- <kuba@kernel.org>
-Cc: EDAC Mailing List <linux-edac@vger.kernel.org>, Linux Kernel Mailing
- List <linux-kernel@vger.kernel.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>, "David S. Miller" <davem@davemloft.net>, Ignacio
- Encinas Rubio <ignacio@iencinas.com>, Marco Elver <elver@google.com>, Shuah
- Khan <skhan@linuxfoundation.org>, Donald Hunter <donald.hunter@gmail.com>,
- Eric Dumazet <edumazet@google.com>, Jan Stancek <jstancek@redhat.com>,
- Paolo Abeni <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
- stern@rowland.harvard.edu, Breno Leitao <leitao@debian.org>, Randy Dunlap
- <rdunlap@infradead.org>, Simon Horman <horms@kernel.org>
-Subject: Re: [GIT PULL for v6.17-rc2] add a generic yaml parser integrated
- with Netlink specs generation
-In-Reply-To: <20250812113329.356c93c2@foz.lan>
-References: <20250812113329.356c93c2@foz.lan>
-Date: Tue, 12 Aug 2025 12:31:03 -0600
-Message-ID: <87h5ycfl3s.fsf@trenco.lwn.net>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: linux-doc@vger.kernel.org, alexs@kernel.org, si.yanteng@linux.dev,
+ dzm91@hust.edu.cn, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: add File entry for
+ scripts/checktransupdate.py to DOCUMENTATION
+In-Reply-To: <20250812050711.2515173-1-dzm91@hust.edu.cn>
+References: <20250812050711.2515173-1-dzm91@hust.edu.cn>
+Date: Tue, 12 Aug 2025 12:39:02 -0600
+Message-ID: <878qjofkqh.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,25 +50,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Dongliang Mu <dzm91@hust.edu.cn> writes:
 
-> Hi Jon/Jakub,
+> As suggested by Nathan, add a File entry for scripts/checktransupdate.py
+> to the DOCUMENTATION section to maintain this script.
 >
-> In case you both prefer to merge from a stable tag, please pull from:
+> Link: https://lore.kernel.org/all/20250811212446.GA924610@ax162/
 >
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-docs.git docs/v6.17-1
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> For:
->
-> - An YAML parser Sphinx plugin, integrated with Netlink YAML doc
->   parser.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fe168477caa4..b7e3a8c8832e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7302,6 +7302,7 @@ P:	Documentation/doc-guide/maintainer-profile.rst
+>  T:	git git://git.lwn.net/linux.git docs-next
+>  F:	Documentation/
+>  F:	scripts/check-variable-fonts.sh
+> +F:	scripts/checktransupdate.py
+>  F:	scripts/documentation-file-ref-check
 
-OK, I have done that.  I will note that it adds a warning:
-
-> Documentation/networking/netlink_spec/index.rst: WARNING: document isn't included in any toctree
-
-...it might be nice to get that straightened out.
-
-Thanks,
+Applied, thanks.
 
 jon
