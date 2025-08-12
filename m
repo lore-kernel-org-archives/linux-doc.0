@@ -1,83 +1,116 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 328901A9FA6;
-	Tue, 12 Aug 2025 05:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.142.27])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DA441A23A0;
+	Tue, 12 Aug 2025 05:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.76.142.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754975279; cv=none; b=YNL1V5fjVBYsFJjNoQM8qT83e+4+e5hCBet+2EYal5MbfjBKyzElr1DyudZEh80gBsERIV/3vlGyVzL75XwZOlSpFQIRp1YgW76soHM9ORIZwgvFADSthHX4ShCR8Mvb/hEjY8zJkkz9Qn6mxKLC0GH3salJvgrxNmNohsXhMmQ=
+	t=1754975522; cv=none; b=EjShECxWfwJrHM6RbsQpyPdFyykhvCJVQiiWoUMn4yAJ29qrpQhiUFC5jUgxkIRMjjD/SS9LwMH92rgeDxf0WOA7EQNRfVt09pdBwM7C0MNBxwIQ8tW+nk4o0czQfWYZND/Zi8JsNPdCqOnb/2ZiDQSO05S9rwcbsMiPxRCmecg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754975279; c=relaxed/simple;
-	bh=10+O5604qlxvSutID6a/mGeuyisqpxtE4eEmXYjsZSI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=usV5Ul7SPDt1+uOhP/9aNPPlD5ZexgMPCIVmqgGJKv9UdpBuw7WMC5n08zNMIHa4mFYUMeeq4nwE7ZhPPUlz4uLWyyhLrWYsl1xg4TvoeJqmX/uHiEAMbOoxeq1p9EPM6u3YJFhltO2ELST7qoad3F70wCHbeKdiNGT+2Ctfsio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
+	s=arc-20240116; t=1754975522; c=relaxed/simple;
+	bh=+e4aQ4erJHP8iI85HC9zaagNuxNBEEFdnp0sUhqAedE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AKMIhMakt3T69ctSTTz0oN+mLbjVdGNJMSi4hwedkh+l7rycCGx4n1WeGDzkaDeyHVmWNl8PFStVINTru2QeOe+UaG8XND7eGzc35UQDdQ5ej9QCgXvBHMzOe65Sk0ovaCGeIRl5JU8sc1xXIPd153w71+uHs3NJ1ZNgv2/Hh/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.76.142.27
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
 Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrAAnLqYHzJpoR7UmAA--.858S2;
-	Tue, 12 Aug 2025 13:07:19 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wCXgJoBzJpo1LbVAQ--.40495S2;
-	Tue, 12 Aug 2025 13:07:14 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	alexs@kernel.org,
-	si.yanteng@linux.dev,
-	dzm91@hust.edu.cn,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: add File entry for scripts/checktransupdate.py to DOCUMENTATION
-Date: Tue, 12 Aug 2025 13:07:10 +0800
-Message-ID: <20250812050711.2515173-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	by app1 (Coremail) with SMTP id HgEQrADHSMnlzJpo7ywIAQ--.1733S2;
+	Tue, 12 Aug 2025 13:11:02 +0800 (CST)
+Received: from [192.168.43.195] (unknown [10.200.80.159])
+	by gateway (Coremail) with SMTP id _____wCXkFPkzJpo_rrVAQ--.47500S2;
+	Tue, 12 Aug 2025 13:11:01 +0800 (CST)
+Message-ID: <c8a9e908-5231-4856-a722-ddc211154924@hust.edu.cn>
+Date: Tue, 12 Aug 2025 13:11:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAAnLqYHzJpoR7UmAA--.858S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoWrtr4DJFW8Gr1rXrWDKr45Jrb_yoW3WFgEyr
-	nrtFWIgFykGF17tr4kGasxJr4avr1xXrW8Xan8Jay3AasrKrZxKF9xKas7Cw13WryfurZ7
-	ZasxXr9xGr4avjkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbv8YjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2
-	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
-	WUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
-	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
-	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
-	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82
-	IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
-	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
-	CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
-	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-	AIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2
-	KfnxnUUI43ZEXa7IU0X_-JUUUUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] scripts/checktransupdate.py: add support for scanning
+ directory
+To: Nathan Chancellor <nathan@kernel.org>,
+ Haoyang LIU <tttturtleruss@gmail.com>, Yanteng Si <si.yanteng@linux.dev>,
+ Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ hust-os-kernel-patches@googlegroups.com, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, linux-doc@vger.kernel.org
+References: <20250811170050.94997-1-tttturtleruss@gmail.com>
+ <20250811212446.GA924610@ax162>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20250811212446.GA924610@ax162>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:HgEQrADHSMnlzJpo7ywIAQ--.1733S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxJr4DGFWfWFyfuw1DJF1fWFg_yoW8AF45pa
+	18Kw1aka43Kr47Cwn3Kw4YyF1rAa18GFy5Grn2qwn2vFn8tr40gr4I9wn0vF4kZFWrCFW5
+	XF4a9ry5KF4UZFDanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
+	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+	x2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
+	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
+	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jDkucUUUUU=
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-As suggested by Nathan, add a File entry for scripts/checktransupdate.py
-to the DOCUMENTATION section to maintain this script.
 
-Link: https://lore.kernel.org/all/20250811212446.GA924610@ax162/
+On 8/12/25 5:24 AM, 'Nathan Chancellor' via HUST OS Kernel Contribution 
+wrote:
+> Hi Haoyang,
+>
+> On Tue, Aug 12, 2025 at 01:00:50AM +0800, Haoyang LIU wrote:
+>> Origin script can only accept a file as parameter, this commit enables
+>> it to scan a directory.
+>>
+>> Usage example:
+>> ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools
+>>
+>> Signed-off-by: Haoyang LIU <tttturtleruss@gmail.com>
+>> ---
+>>
+>> V1 -> V2: remove the fix of missing "f" in f-string and make it a new patch
+>>
+>>   scripts/checktransupdate.py | 24 ++++++++++++++++++++++++
+>>   1 file changed, 24 insertions(+)
+> Thanks for the update. While this seems reasonable to me from a purely
+> surface level glance over the actual Python, I have added the
+> Documentation folks that Dongliang added from the previous thread, who
+> really own and maintain this file (the original patch is at [1]). Please
+> include them in future revisions should they be necessary. It would
+> probably be good for something like this to be applied?
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for the suggestion. I've submitted a patch[1].
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe168477caa4..b7e3a8c8832e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7302,6 +7302,7 @@ P:	Documentation/doc-guide/maintainer-profile.rst
- T:	git git://git.lwn.net/linux.git docs-next
- F:	Documentation/
- F:	scripts/check-variable-fonts.sh
-+F:	scripts/checktransupdate.py
- F:	scripts/documentation-file-ref-check
- F:	scripts/get_abi.py
- F:	scripts/kernel-doc*
--- 
-2.43.0
+[1] 
+https://lore.kernel.org/linux-doc/20250812050711.2515173-1-dzm91@hust.edu.cn/
+
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fe168477caa4..b7e3a8c8832e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7302,6 +7302,7 @@ P:	Documentation/doc-guide/maintainer-profile.rst
+>   T:	git git://git.lwn.net/linux.git docs-next
+>   F:	Documentation/
+>   F:	scripts/check-variable-fonts.sh
+> +F:	scripts/checktransupdate.py
+>   F:	scripts/documentation-file-ref-check
+>   F:	scripts/get_abi.py
+>   F:	scripts/kernel-doc*
+>
+> [1]: https://lore.kernel.org/20250811170050.94997-1-tttturtleruss@gmail.com/
+>
+> Cheers,
+> Nathan
+>
 
