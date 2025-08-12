@@ -1,381 +1,912 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2052.outbound.protection.outlook.com [40.107.243.52])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DD12E06EF;
-	Tue, 12 Aug 2025 12:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755000406; cv=fail; b=UIRmcna6PHkkivSzFz5bV8Grb+SvGqe8Ii5FLQB8hjTcnlp+PMNB0AMclkyjijsms5zXphWf6ul6xKCTc1w/n6TEad5pgGDWLspj/SojGwkJaBrNZcK7RnCx2KsqBoqdTk6EUwDbSvq0Eb/XZI9TK5GK+tdV6DgkI3Bt2xU8K10=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755000406; c=relaxed/simple;
-	bh=yRlbwj/dB/eyocG3BvPNCVuhcPAD7e6b3on2B6Jw7Ls=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=PPGwq0lYMtXafo96i8/Co+HMHnyIPCJAjZJsy4utal10ZDDHA21EzpbHCXPlg1vMW4SYtPMirwKVA4MW3Ic9l68p2UYxdBVCL7e9Jcaa5vo/3ou7SLOjKVDe7sZ+kNc8aG04Q5H8g3jcWLC5jthvbReYKM1EaxorB1cxr1gQbOg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NOQLps2F; arc=fail smtp.client-ip=40.107.243.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NOQLps2F"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HkT80cnHFYcR+V3rGgBn/029yhZeYW/lg1hFjp0VO207JdIjjcC24qvbGIg6lPZ3sw/Rl1P0PuuaR2Wks7z3LhNCnRtEKOQOTH60SCJmG3B0dDhuH0WOGGwt+55vrF3tEw0v4tuOc/raoFHF2b6TJ5ydgSlgcG5/p5vt8OBS6OXfwQLJ1vXfLc4NW7OlLIOu5AE2Awf6t47NyyysRVdGCfIBiCQIDwOR848h367ONTBRVbAdOS86074jcNPKE7cdJg0SmzbhzrIOR5HW3csg50sYOwskryguzSg/AP2gWNuaYzBJc/whrEFs5Mk/P/mijzElT23RtU/bzh4IOcf60A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CYuxo9hzPAP8P/RAwfAqFO3bLoYV2qO6AgfPHZsuiO0=;
- b=VLtDTmY7smVLHjLEgH+Sj7GN/t37VwlUNweU0TWJd5VxsZssDnphEEnqkaADXElpgLFLeLi51dUNWfsJxoYVxmCcxQ/Ou1GgoYr9hojiNh4kNHme2vnC5VUkycNsc1yCQCTBAlf8nCr9NoejtqAadZmjCmMNua4yL6osaeeyeBx1IDoajlseZrhq7wPeCxvKkv3ou9WnCSlT43wnGwnsfocWwhjmG817ti2ZOaBUIANIVNhQFjsKmep55wplmmYsvVAn3nanQoNkM1QeTqSgYEhilivQGtqQuJBtx1oWzudUUfpuQ/NeF+Q+j0GoxM9ZFj5D4tFDKvzqiFENyUqxPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CYuxo9hzPAP8P/RAwfAqFO3bLoYV2qO6AgfPHZsuiO0=;
- b=NOQLps2FJUox3hFTnumxAMWmh91iEdTWAcC/a3SxphaVs178xpSBkSilueix8r1V0qSi5LuNYf2Y1KpBiGs1DoV/0N77XAGW/EdySh+Yc3f39Glsq1IS8o/DWnPXFDMeOqj5CF1g52kpeV7vrOkmpf+MsGpx55PWnwK70yYP4TE=
-Received: from SA9PR13CA0082.namprd13.prod.outlook.com (2603:10b6:806:23::27)
- by SA3PR12MB7879.namprd12.prod.outlook.com (2603:10b6:806:306::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.14; Tue, 12 Aug
- 2025 12:06:41 +0000
-Received: from SN1PEPF0002BA4F.namprd03.prod.outlook.com
- (2603:10b6:806:23:cafe::d7) by SA9PR13CA0082.outlook.office365.com
- (2603:10b6:806:23::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.8 via Frontend Transport; Tue,
- 12 Aug 2025 12:06:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF0002BA4F.mail.protection.outlook.com (10.167.242.72) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9031.11 via Frontend Transport; Tue, 12 Aug 2025 12:06:40 +0000
-Received: from [10.236.30.53] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 12 Aug
- 2025 07:06:39 -0500
-Message-ID: <29bff13f-5926-49bb-af54-d4966ff3be96@amd.com>
-Date: Tue, 12 Aug 2025 07:06:38 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F426311C26;
+	Tue, 12 Aug 2025 12:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755002022; cv=none; b=CFpXdYpjQCT3312c7JlEkfkVOcwKSU51QuDkocv+aOhtRikPdrnO2zdvTuyqbVahGWANmca975ExJ7c56I22Mio5QXecjx2Tx0tj3QFtK3JyitxjtyLFrONdARD5u+NoxoIF+nSCd+aIF6yQ/gK4zfuG8v3Uvgi3kcXSiwCsoog=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755002022; c=relaxed/simple;
+	bh=eJ0B07enzCZ7W7OwQRrrV5zWBAWxGaRIgsgA0k+DASo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VYAoU3ESCEavXaxbGejPVo7V2Gu5thVm5lOXddBjQSnl6aPcY0IJRgs1cMr2xBihCzfeB7amTvlOdCf4COdZ1HHSYo0kd5rou0f1JHMv2UnTsI7+EV48LBRiNKAbXBfjyp1nN397rd/tCyykVYCk4UVGhRxqo8kQaYYh1EX6Gks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4c1W7S68SWz1R8w0;
+	Tue, 12 Aug 2025 20:30:44 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5D0241A0188;
+	Tue, 12 Aug 2025 20:33:34 +0800 (CST)
+Received: from DESKTOP-F6Q6J7K.china.huawei.com (10.174.175.220) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 12 Aug 2025 20:33:32 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
+	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Fu Guiming <fuguiming@h-partners.com>, Meny Yossefi
+	<meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>, Lee Trager
+	<lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>, Vadim Fedorenko
+	<vadim.fedorenko@linux.dev>, Suman Ghosh <sumang@marvell.com>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH net-next v12 1/8] hinic3: Async Event Queue interfaces
+Date: Tue, 12 Aug 2025 20:33:19 +0800
+Message-ID: <059cb5e921093c4ac303dff8389de55be1f41574.1754998409.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.21.0.windows.1
+In-Reply-To: <cover.1754998409.git.zhuyikai1@h-partners.com>
+References: <cover.1754998409.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 7/7] KVM: SEV: Add SEV-SNP CipherTextHiding support
-To: "Kalra, Ashish" <ashish.kalra@amd.com>, Tom Lendacky
-	<thomas.lendacky@amd.com>, <corbet@lwn.net>, <seanjc@google.com>,
-	<pbonzini@redhat.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-	<hpa@zytor.com>, <john.allen@amd.com>, <herbert@gondor.apana.org.au>,
-	<davem@davemloft.net>, <akpm@linux-foundation.org>, <rostedt@goodmis.org>,
-	<paulmck@kernel.org>
-CC: <nikunj@amd.com>, <Neeraj.Upadhyay@amd.com>, <aik@amd.com>,
-	<ardb@kernel.org>, <michael.roth@amd.com>, <arnd@arndb.de>,
-	<linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
-References: <cover.1752869333.git.ashish.kalra@amd.com>
- <44866a07107f2b43d99ab640680eec8a08e66ee1.1752869333.git.ashish.kalra@amd.com>
- <9132edc0-1bc2-440a-ac90-64ed13d3c30c@amd.com>
- <03068367-fb6e-4f97-9910-4cf7271eae15@amd.com>
- <b063801d-af60-461d-8112-2614ebb3ac26@amd.com>
-From: Kim Phillips <kim.phillips@amd.com>
-Content-Language: en-US
-In-Reply-To: <b063801d-af60-461d-8112-2614ebb3ac26@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4F:EE_|SA3PR12MB7879:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1228a2ac-1994-46c1-5721-08ddd998b283
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZWtRUzgvaWZzRkpCYTJkUFpBUkZ2RHhCZUZCV3g4OThJTUcwb3hJYkNqL1lm?=
- =?utf-8?B?eitIdFFIcU42bHFzWDRmQjEwRHVnNmUwdk01NlJKdkNTZHI1N1oxQ3FNWG1H?=
- =?utf-8?B?NHc5UXBOd202dTFUSmZQbGtyc2VsOHZMbWhzVE4yWmtDUkJlZDhpSFRzaDZJ?=
- =?utf-8?B?VFNwRk5zRjBGandNTHljSjZmV09CREp6NzExVkdsYzYybmEvYVhYa3pyYWRh?=
- =?utf-8?B?ODZUa2dmdUd6SXZrWnRXY2lUb09wSjZxNysxTzZPSlNjNHRwbkNZRUVUOXdJ?=
- =?utf-8?B?bUxlVFVpbzFoeGVHVHZMZkU0alZ3dzQ1VzRKYlRWc0h0Rng5VXozSDBMZ2lY?=
- =?utf-8?B?R1l6bWVzNlBYM0NvQXc2d0owSmpBYU9JVHRVclMvL1ozNVBwK01Na3RMYlVG?=
- =?utf-8?B?Ly81c3VwY2puMFRVL05NQW9UaXM3My9lK21BWE0rckFJZ3dlQUEveVJsSnNy?=
- =?utf-8?B?RVBmZmJMcTZTMDhTaWhIOEt6bTYrN3Zmcjl0c2xlaC84Q2FYQWkzbDdPWk93?=
- =?utf-8?B?Y3h0UFRKMTJIVDJ5SE5ZRENwYTY2aXc1WDhGOVlnZVhTUVVpM0JGTDk0R3Nm?=
- =?utf-8?B?d29ZcnNVS3FkOGNFV0czNlA0SnJGYkhFaDFaMlZieVY5dHZnZDc1ckxWdVQy?=
- =?utf-8?B?L3lTdTlBc2x6Vy9uK3hDbXZzY3JSR2dOeWsrNWl3cGl3Y214eitoL2RLdmNI?=
- =?utf-8?B?Q2puNzFnRitob0laN0JUVDJyRjUvdHRrQ2tWdkZwT2UrV0dwUEJaN3NhOWpN?=
- =?utf-8?B?OW5KakJHQVYxOU9HS3A1N2NqUUVSNFZDOGVFeEU3allHNGdrWTRMYTBDRUpT?=
- =?utf-8?B?bFRYUXpqd0RVNVhBTTRqMWF6bXQ5Tm80bkZ0Z0k2UzBUY25oLzRNREVPUjJM?=
- =?utf-8?B?Y2NyNE9rSGRvR0ZpdW0yK1dsS1RmVWhEU1BBVkg2S0NsYWFtRU1pUjlnRGho?=
- =?utf-8?B?b2FCZ0kzbTRYZTNFSVROQk0yenp4Qk91UmE5bTZDcEFyMUd4czlwbHU2WnZl?=
- =?utf-8?B?bVpWQWxWU0pzcXJHQWtZYnRzUVdiaUdjTW96d0tVeDRIeDVSMHQ2QkttTVQz?=
- =?utf-8?B?Smk5eG14UEpkZ3cwK1grNm9BcGdRNGtFdHVFYzZkQjdkSmY5SHVwRnR2UCtY?=
- =?utf-8?B?S1lURVgxQVZQL0pzREdFMnFIYlplRmhzdHJpeks0RVNMS3hzT0Y3eDhMeDMw?=
- =?utf-8?B?amRIL0NPYkpXeTNCZ1ZtM2VIVW1MRlNpKzVkcSt4SUlqWE8yYm5vSkNDelMw?=
- =?utf-8?B?WmRxZ0tQc2diSTd6TnNaUmNzeXU3YlpNblV5NHpxKzh2cnVPQThsNk9kQ1JN?=
- =?utf-8?B?QS9ReDRPWjVycWZlT0lvQk5hbUV5TzI2dXNGMENiVjZGL3pyR1hoVmFwb0ZM?=
- =?utf-8?B?emRtQXRhSTJHVUV6WjgrSitXWkYxczhORC9tU1lCdHpRYjdsaHpDWEFtQnJa?=
- =?utf-8?B?S1kwNTkrSm9NYmF4aktjcS9pN1pDY1dsRWJmR3N3eGpXeEdLQmw0ek54UmV3?=
- =?utf-8?B?aVF4dzdoU3hDVjEvcmVQL00rWDhXbWZDSElsSUgrK3N3M21ERkwySW1HODBZ?=
- =?utf-8?B?TU9CdWYvY2hlS1ZLcDhwNW92K0pJK3VTb3BzNEw3MFBxQjZ1Q2F2cFA1S0lM?=
- =?utf-8?B?MEFCVi9uRENxSyttZXl2M0JMdjVBM20rWVFJeC9HWndrUWJ0SUFXOURLeGJu?=
- =?utf-8?B?OWMrTERsMU1BVHRVeWZFS0c4VmVsMFVLeStjaDFTL1BPd3pUcXRFTEFIMUlN?=
- =?utf-8?B?ckEzbS9rRHQvRWdjalBTOTZoWHVSakhlZTJWc0hPTUxCZmdxNmNCQ0ZFNzBG?=
- =?utf-8?B?cm16NjNhZFRONks4NkZLQVBjRXJXQXQxczFvZ1ZydVhEYysvN0Iva0hUV3U5?=
- =?utf-8?B?TXliOSs2RnVDdUFTQnU0SU94VHNKNXNXZ3NLVldIbkhLeWl4dFJDbDR0UEMy?=
- =?utf-8?B?WGFXZXozdWxGL3NyL1gwUXg0Q3g2UnpJTjFrTzErc1VJZ25yaEpsNzE3NFlE?=
- =?utf-8?B?ZTBzdnNacUlOMVVJK3MwZzFxM3J1NWZhZC9Da25mQzF3bENiWVhLYjFJYys4?=
- =?utf-8?B?UEdUdExXTml5cCtmTjhtckFxSHlkOE5abkZvZz09?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2025 12:06:40.9020
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1228a2ac-1994-46c1-5721-08ddd998b283
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF0002BA4F.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7879
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On 7/25/25 1:46 PM, Kalra, Ashish wrote:
-> On 7/25/2025 1:28 PM, Tom Lendacky wrote:
->> On 7/25/25 12:58, Kim Phillips wrote:
->>> Hi Ashish,
->>>
->>> For patches 1 through 6 in this series:
->>>
->>> Reviewed-by: Kim Phillips <kim.phillips@amd.com>
->>>
->>> For this 7/7 patch, consider making the simplification changes I've supplied
->>> in the diff at the bottom of this email: it cuts the number of lines for
->>> check_and_enable_sev_snp_ciphertext_hiding() in half.
->> Not sure that change works completely... see below.
->>
->>> Thanks,
->>>
->>> Kim
->>>
->>> On 7/21/25 9:14 AM, Ashish Kalra wrote:
->>>> From: Ashish Kalra <ashish.kalra@amd.com>
->>> diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
->>> index 7ac0f0f25e68..bd0947360e18 100644
->>> --- a/arch/x86/kvm/svm/sev.c
->>> +++ b/arch/x86/kvm/svm/sev.c
->>> @@ -59,7 +59,7 @@ static bool sev_es_debug_swap_enabled = true;
->>>   module_param_named(debug_swap, sev_es_debug_swap_enabled, bool, 0444);
->>>   static u64 sev_supported_vmsa_features;
->>>
->>> -static char ciphertext_hiding_asids[16];
->>> +static char ciphertext_hiding_asids[10];
->>>   module_param_string(ciphertext_hiding_asids, ciphertext_hiding_asids,
->>>               sizeof(ciphertext_hiding_asids), 0444);
->>>   MODULE_PARM_DESC(ciphertext_hiding_asids, "  Enable ciphertext hiding for
->>> SEV-SNP guests and specify the number of ASIDs to use ('max' to utilize
->>> all available SEV-SNP ASIDs");
->>> @@ -2970,42 +2970,22 @@ static bool is_sev_snp_initialized(void)
->>>
->>>   static bool check_and_enable_sev_snp_ciphertext_hiding(void)
->>>   {
->>> -    unsigned int ciphertext_hiding_asid_nr = 0;
->>> -
->>> -    if (!ciphertext_hiding_asids[0])
->>> -        return false;
->> If the parameter was never specified
->>> -
->>> -    if (!sev_is_snp_ciphertext_hiding_supported()) {
->>> -        pr_warn("Module parameter ciphertext_hiding_asids specified but
->>> ciphertext hiding not supported\n");
->>> -        return false;
->>> -    }
->> Removing this block will create an issue below.
->>
->>> -
->>> -    if (isdigit(ciphertext_hiding_asids[0])) {
->>> -        if (kstrtoint(ciphertext_hiding_asids, 10,
->>> &ciphertext_hiding_asid_nr))
->>> -            goto invalid_parameter;
->>> -
->>> -        /* Do sanity check on user-defined ciphertext_hiding_asids */
->>> -        if (ciphertext_hiding_asid_nr >= min_sev_asid) {
->>> -            pr_warn("Module parameter ciphertext_hiding_asids (%u)
->>> exceeds or equals minimum SEV ASID (%u)\n",
->>> -                ciphertext_hiding_asid_nr, min_sev_asid);
->>> -            return false;
->>> -        }
->>> -    } else if (!strcmp(ciphertext_hiding_asids, "max")) {
->>> -        ciphertext_hiding_asid_nr = min_sev_asid - 1;
->>> +    if (!strcmp(ciphertext_hiding_asids, "max")) {
->>> +        max_snp_asid = min_sev_asid - 1;
->>> +        return true;
->>>       }
-> As Tom has already pointed out, we will try enabling ciphertext hiding with SNP_INIT_EX even if ciphertext hiding feature is not supported and enabled.
-AFAICT, Tom pointed out two bugs with my changes: the 'base' argument to 
-kstrtoint(), and bad min_sev_es_asid assignment if ciphertext hiding 
-isn't supported.
-> We do need to make these basic checks, i.e., if the parameter has been specified and if ciphertext hiding feature is supported and enabled,
-> before doing any further processing.
->
-> Why should we even attempt to do any parameter comparison, parameter conversion or sanity checks if the parameter has not been specified and/or
-> ciphertext hiding feature itself is not supported and enabled.
-Agreed.
-> I believe this function should be simple and understandable which it is.
-Please take a look at the new diff below: I believe it's even simpler 
-and more understandable as it's less code, and now alerts the user if 
-they provide an empty "ciphertext_hiding_asids= ".
+Add async event queue interfaces initialization.
+It allows driver to handle async events reported by HW.
 
-Thanks,
+Co-developed-by: Xin Guo <guoxin09@huawei.com>
+Signed-off-by: Xin Guo <guoxin09@huawei.com>
+Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+Signed-off-by: Fan Gong <gongfan1@huawei.com>
+---
+ drivers/net/ethernet/huawei/hinic3/Makefile   |   1 +
+ .../ethernet/huawei/hinic3/hinic3_common.c    |   9 +
+ .../ethernet/huawei/hinic3/hinic3_common.h    |   2 +
+ .../net/ethernet/huawei/hinic3/hinic3_csr.h   |  65 +++
+ .../net/ethernet/huawei/hinic3/hinic3_eqs.c   | 497 ++++++++++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_eqs.h   |  90 ++++
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    |  43 ++
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  |  28 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |   5 +
+ 9 files changed, 740 insertions(+)
 
-Kim
-
-  arch/x86/kvm/svm/sev.c | 47 
-++++++++++++++++++-----------------------------
-  1 file changed, 18 insertions(+), 29 deletions(-)
-
-diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
-index 7ac0f0f25e68..57c6e4717e51 100644
---- a/arch/x86/kvm/svm/sev.c
-+++ b/arch/x86/kvm/svm/sev.c
-@@ -2970,42 +2970,29 @@ static bool is_sev_snp_initialized(void)
-
-  static bool check_and_enable_sev_snp_ciphertext_hiding(void)
-  {
--       unsigned int ciphertext_hiding_asid_nr = 0;
--
--       if (!ciphertext_hiding_asids[0])
--               return false;
--
--       if (!sev_is_snp_ciphertext_hiding_supported()) {
-+       if (ciphertext_hiding_asids[0] && 
-!sev_is_snp_ciphertext_hiding_supported()) {
-                 pr_warn("Module parameter ciphertext_hiding_asids 
-specified but ciphertext hiding not supported\n");
-                 return false;
-         }
-
--       if (isdigit(ciphertext_hiding_asids[0])) {
--               if (kstrtoint(ciphertext_hiding_asids, 10, 
-&ciphertext_hiding_asid_nr))
--                       goto invalid_parameter;
--
--               /* Do sanity check on user-defined 
-ciphertext_hiding_asids */
--               if (ciphertext_hiding_asid_nr >= min_sev_asid) {
--                       pr_warn("Module parameter 
-ciphertext_hiding_asids (%u) exceeds or equals minimum SEV ASID (%u)\n",
--                               ciphertext_hiding_asid_nr, min_sev_asid);
--                       return false;
--               }
--       } else if (!strcmp(ciphertext_hiding_asids, "max")) {
--               ciphertext_hiding_asid_nr = min_sev_asid - 1;
--       }
--
--       if (ciphertext_hiding_asid_nr) {
--               max_snp_asid = ciphertext_hiding_asid_nr;
-+       if (!strcmp(ciphertext_hiding_asids, "max")) {
-+               max_snp_asid = min_sev_asid - 1;
-                 min_sev_es_asid = max_snp_asid + 1;
--               pr_info("SEV-SNP ciphertext hiding enabled\n");
--
-                 return true;
-         }
-
--invalid_parameter:
--       pr_warn("Module parameter ciphertext_hiding_asids (%s) invalid\n",
--               ciphertext_hiding_asids);
--       return false;
-+       /* Do sanity check on user-defined ciphertext_hiding_asids */
-+       if (kstrtoint(ciphertext_hiding_asids, 10, &max_snp_asid) ||
-+           max_snp_asid >= min_sev_asid) {
-+               pr_warn("invalid ciphertext_hiding_asids \"%s\" or !(0 < 
-%u < minimum SEV ASID %u)\n",
-+                       ciphertext_hiding_asids, max_snp_asid, 
-min_sev_asid);
-+               max_snp_asid = min_sev_asid - 1;
-+               return false;
-+       }
+diff --git a/drivers/net/ethernet/huawei/hinic3/Makefile b/drivers/net/ethernet/huawei/hinic3/Makefile
+index 509dfbfb0e96..5fb4d1370049 100644
+--- a/drivers/net/ethernet/huawei/hinic3/Makefile
++++ b/drivers/net/ethernet/huawei/hinic3/Makefile
+@@ -4,6 +4,7 @@
+ obj-$(CONFIG_HINIC3) += hinic3.o
+ 
+ hinic3-objs := hinic3_common.o \
++	       hinic3_eqs.o \
+ 	       hinic3_hw_cfg.o \
+ 	       hinic3_hw_comm.o \
+ 	       hinic3_hwdev.o \
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_common.c b/drivers/net/ethernet/huawei/hinic3/hinic3_common.c
+index 0aa42068728c..b8d29e26e2da 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_common.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_common.c
+@@ -51,3 +51,12 @@ void hinic3_dma_free_coherent_align(struct device *dev,
+ 	dma_free_coherent(dev, mem_align->real_size,
+ 			  mem_align->ori_vaddr, mem_align->ori_paddr);
+ }
 +
-+       min_sev_es_asid = max_snp_asid + 1;
++/* Data provided to/by cmdq is arranged in structs with little endian fields but
++ * every dword (32bits) should be swapped since HW swaps it again when it
++ * copies it from/to host memory.
++ */
++void hinic3_cmdq_buf_swab32(void *data, int len)
++{
++	swab32_array(data, len / sizeof(u32));
++}
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_common.h b/drivers/net/ethernet/huawei/hinic3/hinic3_common.h
+index bb795dace04c..c8e8a491adbf 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_common.h
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_common.h
+@@ -24,4 +24,6 @@ int hinic3_dma_zalloc_coherent_align(struct device *dev, u32 size, u32 align,
+ void hinic3_dma_free_coherent_align(struct device *dev,
+ 				    struct hinic3_dma_addr_align *mem_align);
+ 
++void hinic3_cmdq_buf_swab32(void *data, int len);
 +
-+       return true;
-  }
-
-  void __init sev_hardware_setup(void)
-@@ -3122,8 +3109,10 @@ void __init sev_hardware_setup(void)
-                  * ASID range into separate SEV-ES and SEV-SNP ASID 
-ranges with
-                  * the SEV-SNP ASID starting at 1.
-                  */
--               if (check_and_enable_sev_snp_ciphertext_hiding())
-+               if (check_and_enable_sev_snp_ciphertext_hiding()) {
-+                       pr_info("SEV-SNP ciphertext hiding enabled\n");
-                         init_args.max_snp_asid = max_snp_asid;
-+               }
-                 if (sev_platform_init(&init_args))
-                         sev_supported = sev_es_supported = 
-sev_snp_supported = false;
-                 else if (sev_snp_supported)
-
-
-> Thanks,
-> Ashish
->
->>> -    if (ciphertext_hiding_asid_nr) {
->>> -        max_snp_asid = ciphertext_hiding_asid_nr;
->>> -        min_sev_es_asid = max_snp_asid + 1;
->>> -        pr_info("SEV-SNP ciphertext hiding enabled\n");
->>> -
->>> -        return true;
->>> +    /* Do sanity check on user-defined ciphertext_hiding_asids */
->>> +    if (kstrtoint(ciphertext_hiding_asids,
->>> sizeof(ciphertext_hiding_asids), &max_snp_asid) ||
->> The second parameter is supposed to be the base, this gets lucky because
->> you changed the size of the ciphertext_hiding_asids to 10.
->>
->>> +        max_snp_asid >= min_sev_asid ||
->>> +        !sev_is_snp_ciphertext_hiding_supported()) {
->>> +        pr_warn("ciphertext_hiding not supported, or invalid
->>> ciphertext_hiding_asids \"%s\", or !(0 < %u < minimum SEV ASID %u)\n",
->>> +            ciphertext_hiding_asids, max_snp_asid, min_sev_asid);
->>> +        max_snp_asid = min_sev_asid - 1;
->>> +        return false;
->>>       }
->>>
->>> -invalid_parameter:
->>> -    pr_warn("Module parameter ciphertext_hiding_asids (%s) invalid\n",
->>> -        ciphertext_hiding_asids);
->>> -    return false;
->>> +    return true;
->>>   }
->>>
->>>   void __init sev_hardware_setup(void)
->>> @@ -3122,8 +3102,11 @@ void __init sev_hardware_setup(void)
->>>            * ASID range into separate SEV-ES and SEV-SNP ASID ranges with
->>>            * the SEV-SNP ASID starting at 1.
->>>            */
->>> -        if (check_and_enable_sev_snp_ciphertext_hiding())
->>> +        if (check_and_enable_sev_snp_ciphertext_hiding()) {
->>> +            pr_info("SEV-SNP ciphertext hiding enabled\n");
->>>               init_args.max_snp_asid = max_snp_asid;
->>> +            min_sev_es_asid = max_snp_asid + 1;
->> If "max" was specified, but ciphertext hiding isn't enabled, you've now
->> changed min_sev_es_asid to an incorrect value and will be trying to enable
->> ciphertext hiding during initialization.
->>
->> Thanks,
->> Tom
->>
->>> +        }
->>>           if (sev_platform_init(&init_args))
->>>               sev_supported = sev_es_supported = sev_snp_supported = false;
->>>           else if (sev_snp_supported)
->>>
+ #endif
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_csr.h b/drivers/net/ethernet/huawei/hinic3/hinic3_csr.h
+new file mode 100644
+index 000000000000..39e15fbf0ed7
+--- /dev/null
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_csr.h
+@@ -0,0 +1,65 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright (c) Huawei Technologies Co., Ltd. 2025. All rights reserved. */
++
++#ifndef _HINIC3_CSR_H_
++#define _HINIC3_CSR_H_
++
++#define HINIC3_CFG_REGS_FLAG                  0x40000000
++#define HINIC3_REGS_FLAG_MASK                 0x3FFFFFFF
++
++#define HINIC3_VF_CFG_REG_OFFSET              0x2000
++
++/* HW interface registers */
++#define HINIC3_CSR_FUNC_ATTR0_ADDR            (HINIC3_CFG_REGS_FLAG + 0x0)
++#define HINIC3_CSR_FUNC_ATTR1_ADDR            (HINIC3_CFG_REGS_FLAG + 0x4)
++#define HINIC3_CSR_FUNC_ATTR2_ADDR            (HINIC3_CFG_REGS_FLAG + 0x8)
++#define HINIC3_CSR_FUNC_ATTR3_ADDR            (HINIC3_CFG_REGS_FLAG + 0xC)
++#define HINIC3_CSR_FUNC_ATTR4_ADDR            (HINIC3_CFG_REGS_FLAG + 0x10)
++#define HINIC3_CSR_FUNC_ATTR5_ADDR            (HINIC3_CFG_REGS_FLAG + 0x14)
++#define HINIC3_CSR_FUNC_ATTR6_ADDR            (HINIC3_CFG_REGS_FLAG + 0x18)
++
++#define HINIC3_FUNC_CSR_MAILBOX_DATA_OFF      0x80
++#define HINIC3_FUNC_CSR_MAILBOX_CONTROL_OFF   (HINIC3_CFG_REGS_FLAG + 0x0100)
++#define HINIC3_FUNC_CSR_MAILBOX_INT_OFF       (HINIC3_CFG_REGS_FLAG + 0x0104)
++#define HINIC3_FUNC_CSR_MAILBOX_RESULT_H_OFF  (HINIC3_CFG_REGS_FLAG + 0x0108)
++#define HINIC3_FUNC_CSR_MAILBOX_RESULT_L_OFF  (HINIC3_CFG_REGS_FLAG + 0x010C)
++
++#define HINIC3_CSR_DMA_ATTR_TBL_ADDR          (HINIC3_CFG_REGS_FLAG + 0x380)
++#define HINIC3_CSR_DMA_ATTR_INDIR_IDX_ADDR    (HINIC3_CFG_REGS_FLAG + 0x390)
++
++/* MSI-X registers */
++#define HINIC3_CSR_FUNC_MSI_CLR_WR_ADDR       (HINIC3_CFG_REGS_FLAG + 0x58)
++
++#define HINIC3_MSI_CLR_INDIR_RESEND_TIMER_CLR_MASK  BIT(0)
++#define HINIC3_MSI_CLR_INDIR_INT_MSK_SET_MASK       BIT(1)
++#define HINIC3_MSI_CLR_INDIR_INT_MSK_CLR_MASK       BIT(2)
++#define HINIC3_MSI_CLR_INDIR_AUTO_MSK_SET_MASK      BIT(3)
++#define HINIC3_MSI_CLR_INDIR_AUTO_MSK_CLR_MASK      BIT(4)
++#define HINIC3_MSI_CLR_INDIR_SIMPLE_INDIR_IDX_MASK  GENMASK(31, 22)
++#define HINIC3_MSI_CLR_INDIR_SET(val, member)  \
++	FIELD_PREP(HINIC3_MSI_CLR_INDIR_##member##_MASK, val)
++
++/* EQ registers */
++#define HINIC3_AEQ_INDIR_IDX_ADDR      (HINIC3_CFG_REGS_FLAG + 0x210)
++
++#define HINIC3_EQ_INDIR_IDX_ADDR(type)  \
++	HINIC3_AEQ_INDIR_IDX_ADDR
++
++#define HINIC3_AEQ_MTT_OFF_BASE_ADDR   (HINIC3_CFG_REGS_FLAG + 0x240)
++
++#define HINIC3_CSR_EQ_PAGE_OFF_STRIDE  8
++
++#define HINIC3_AEQ_HI_PHYS_ADDR_REG(pg_num)  \
++	(HINIC3_AEQ_MTT_OFF_BASE_ADDR + (pg_num) *  \
++	 HINIC3_CSR_EQ_PAGE_OFF_STRIDE)
++
++#define HINIC3_AEQ_LO_PHYS_ADDR_REG(pg_num)  \
++	(HINIC3_AEQ_MTT_OFF_BASE_ADDR + (pg_num) *  \
++	 HINIC3_CSR_EQ_PAGE_OFF_STRIDE + 4)
++
++#define HINIC3_CSR_AEQ_CTRL_0_ADDR           (HINIC3_CFG_REGS_FLAG + 0x200)
++#define HINIC3_CSR_AEQ_CTRL_1_ADDR           (HINIC3_CFG_REGS_FLAG + 0x204)
++#define HINIC3_CSR_AEQ_PROD_IDX_ADDR         (HINIC3_CFG_REGS_FLAG + 0x20C)
++#define HINIC3_CSR_AEQ_CI_SIMPLE_INDIR_ADDR  (HINIC3_CFG_REGS_FLAG + 0x50)
++
++#endif
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c b/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c
+new file mode 100644
+index 000000000000..60385c242fb3
+--- /dev/null
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c
+@@ -0,0 +1,497 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (c) Huawei Technologies Co., Ltd. 2025. All rights reserved.
++
++#include <linux/delay.h>
++
++#include "hinic3_csr.h"
++#include "hinic3_eqs.h"
++#include "hinic3_hwdev.h"
++#include "hinic3_hwif.h"
++#include "hinic3_mbox.h"
++
++#define AEQ_CTRL_0_INTR_IDX_MASK      GENMASK(9, 0)
++#define AEQ_CTRL_0_DMA_ATTR_MASK      GENMASK(17, 12)
++#define AEQ_CTRL_0_PCI_INTF_IDX_MASK  GENMASK(22, 20)
++#define AEQ_CTRL_0_INTR_MODE_MASK     BIT(31)
++#define AEQ_CTRL_0_SET(val, member)  \
++	FIELD_PREP(AEQ_CTRL_0_##member##_MASK, val)
++
++#define AEQ_CTRL_1_LEN_MASK           GENMASK(20, 0)
++#define AEQ_CTRL_1_ELEM_SIZE_MASK     GENMASK(25, 24)
++#define AEQ_CTRL_1_PAGE_SIZE_MASK     GENMASK(31, 28)
++#define AEQ_CTRL_1_SET(val, member)  \
++	FIELD_PREP(AEQ_CTRL_1_##member##_MASK, val)
++
++#define EQ_ELEM_DESC_TYPE_MASK        GENMASK(6, 0)
++#define EQ_ELEM_DESC_SRC_MASK         BIT(7)
++#define EQ_ELEM_DESC_SIZE_MASK        GENMASK(15, 8)
++#define EQ_ELEM_DESC_WRAPPED_MASK     BIT(31)
++#define EQ_ELEM_DESC_GET(val, member)  \
++	FIELD_GET(EQ_ELEM_DESC_##member##_MASK, val)
++
++#define EQ_CI_SIMPLE_INDIR_CI_MASK       GENMASK(20, 0)
++#define EQ_CI_SIMPLE_INDIR_ARMED_MASK    BIT(21)
++#define EQ_CI_SIMPLE_INDIR_AEQ_IDX_MASK  GENMASK(31, 30)
++#define EQ_CI_SIMPLE_INDIR_SET(val, member)  \
++	FIELD_PREP(EQ_CI_SIMPLE_INDIR_##member##_MASK, val)
++
++#define EQ_CI_SIMPLE_INDIR_REG_ADDR  \
++	HINIC3_CSR_AEQ_CI_SIMPLE_INDIR_ADDR
++
++#define EQ_PROD_IDX_REG_ADDR  \
++	HINIC3_CSR_AEQ_PROD_IDX_ADDR
++
++#define EQ_HI_PHYS_ADDR_REG(type, pg_num)  \
++	HINIC3_AEQ_HI_PHYS_ADDR_REG(pg_num)
++
++#define EQ_LO_PHYS_ADDR_REG(type, pg_num)  \
++	HINIC3_AEQ_LO_PHYS_ADDR_REG(pg_num)
++
++#define EQ_MSIX_RESEND_TIMER_CLEAR  1
++
++#define HINIC3_EQ_MAX_PAGES  \
++	HINIC3_AEQ_MAX_PAGES
++
++#define HINIC3_TASK_PROCESS_EQE_LIMIT  1024
++#define HINIC3_EQ_UPDATE_CI_STEP       64
++#define HINIC3_EQS_WQ_NAME             "hinic3_eqs"
++
++#define HINIC3_EQ_VALID_SHIFT          31
++#define HINIC3_EQ_WRAPPED(eq)  \
++	((eq)->wrapped << HINIC3_EQ_VALID_SHIFT)
++
++#define HINIC3_EQ_WRAPPED_SHIFT        20
++#define HINIC3_EQ_CONS_IDX(eq)  \
++	((eq)->cons_idx | ((eq)->wrapped << HINIC3_EQ_WRAPPED_SHIFT))
++
++static const struct hinic3_aeq_elem *get_curr_aeq_elem(const struct hinic3_eq *eq)
++{
++	return get_q_element(&eq->qpages, eq->cons_idx, NULL);
++}
++
++int hinic3_aeq_register_cb(struct hinic3_hwdev *hwdev,
++			   enum hinic3_aeq_type event,
++			   hinic3_aeq_event_cb hwe_cb)
++{
++	struct hinic3_aeqs *aeqs;
++
++	aeqs = hwdev->aeqs;
++	aeqs->aeq_cb[event] = hwe_cb;
++	spin_lock_init(&aeqs->aeq_lock);
++
++	return 0;
++}
++
++void hinic3_aeq_unregister_cb(struct hinic3_hwdev *hwdev,
++			      enum hinic3_aeq_type event)
++{
++	struct hinic3_aeqs *aeqs;
++
++	aeqs = hwdev->aeqs;
++
++	spin_lock_bh(&aeqs->aeq_lock);
++	aeqs->aeq_cb[event] = NULL;
++	spin_unlock_bh(&aeqs->aeq_lock);
++}
++
++/* Set consumer index in the hw. */
++static void set_eq_cons_idx(struct hinic3_eq *eq, u32 arm_state)
++{
++	u32 addr = EQ_CI_SIMPLE_INDIR_REG_ADDR;
++	u32 eq_wrap_ci, val;
++
++	eq_wrap_ci = HINIC3_EQ_CONS_IDX(eq);
++	val = EQ_CI_SIMPLE_INDIR_SET(arm_state, ARMED) |
++		EQ_CI_SIMPLE_INDIR_SET(eq_wrap_ci, CI) |
++		EQ_CI_SIMPLE_INDIR_SET(eq->q_id, AEQ_IDX);
++
++	hinic3_hwif_write_reg(eq->hwdev->hwif, addr, val);
++}
++
++static struct hinic3_aeqs *aeq_to_aeqs(const struct hinic3_eq *eq)
++{
++	return container_of(eq, struct hinic3_aeqs, aeq[eq->q_id]);
++}
++
++static void aeq_event_handler(struct hinic3_aeqs *aeqs, __le32 aeqe,
++			      const struct hinic3_aeq_elem *aeqe_pos)
++{
++	struct hinic3_hwdev *hwdev = aeqs->hwdev;
++	u8 data[HINIC3_AEQE_DATA_SIZE], size;
++	enum hinic3_aeq_type event;
++	hinic3_aeq_event_cb hwe_cb;
++
++	if (EQ_ELEM_DESC_GET(aeqe, SRC))
++		return;
++
++	event = EQ_ELEM_DESC_GET(aeqe, TYPE);
++	if (event >= HINIC3_MAX_AEQ_EVENTS) {
++		dev_warn(hwdev->dev, "Aeq unknown event:%d\n", event);
++		return;
++	}
++
++	memcpy(data, aeqe_pos->aeqe_data, HINIC3_AEQE_DATA_SIZE);
++	swab32_array((__le32 *)data, HINIC3_AEQE_DATA_SIZE / sizeof(__le32));
++	size = EQ_ELEM_DESC_GET(aeqe, SIZE);
++
++	spin_lock_bh(&aeqs->aeq_lock);
++	hwe_cb = aeqs->aeq_cb[event];
++	if (hwe_cb)
++		hwe_cb(aeqs->hwdev, data, size);
++	spin_unlock_bh(&aeqs->aeq_lock);
++}
++
++static int aeq_irq_handler(struct hinic3_eq *eq)
++{
++	const struct hinic3_aeq_elem *aeqe_pos;
++	struct hinic3_aeqs *aeqs;
++	u32 i, eqe_cnt = 0;
++	__le32 aeqe;
++
++	aeqs = aeq_to_aeqs(eq);
++	for (i = 0; i < HINIC3_TASK_PROCESS_EQE_LIMIT; i++) {
++		aeqe_pos = get_curr_aeq_elem(eq);
++		aeqe = be32_to_cpu(aeqe_pos->desc);
++		/* HW updates wrapped bit, when it adds eq element event */
++		if (EQ_ELEM_DESC_GET(aeqe, WRAPPED) == eq->wrapped)
++			return 0;
++
++		/* Prevent speculative reads from element */
++		dma_rmb();
++		aeq_event_handler(aeqs, aeqe, aeqe_pos);
++		eq->cons_idx++;
++		if (eq->cons_idx == eq->eq_len) {
++			eq->cons_idx = 0;
++			eq->wrapped = !eq->wrapped;
++		}
++
++		if (++eqe_cnt >= HINIC3_EQ_UPDATE_CI_STEP) {
++			eqe_cnt = 0;
++			set_eq_cons_idx(eq, HINIC3_EQ_NOT_ARMED);
++		}
++	}
++
++	return -EAGAIN;
++}
++
++static void reschedule_eq_handler(struct hinic3_eq *eq)
++{
++	struct hinic3_aeqs *aeqs = aeq_to_aeqs(eq);
++
++	queue_work(aeqs->workq, &eq->aeq_work);
++}
++
++static int eq_irq_handler(struct hinic3_eq *eq)
++{
++	int err;
++
++	err = aeq_irq_handler(eq);
++
++	set_eq_cons_idx(eq, err ? HINIC3_EQ_NOT_ARMED :
++			HINIC3_EQ_ARMED);
++
++	return err;
++}
++
++static void eq_irq_work(struct work_struct *work)
++{
++	struct hinic3_eq *eq = container_of(work, struct hinic3_eq, aeq_work);
++	int err;
++
++	err = eq_irq_handler(eq);
++	if (err)
++		reschedule_eq_handler(eq);
++}
++
++static irqreturn_t aeq_interrupt(int irq, void *data)
++{
++	struct workqueue_struct *workq;
++	struct hinic3_eq *aeq = data;
++	struct hinic3_hwdev *hwdev;
++	struct hinic3_aeqs *aeqs;
++
++	aeqs = aeq_to_aeqs(aeq);
++	hwdev = aeq->hwdev;
++
++	/* clear resend timer cnt register */
++	workq = aeqs->workq;
++	hinic3_msix_intr_clear_resend_bit(hwdev, aeq->msix_entry_idx,
++					  EQ_MSIX_RESEND_TIMER_CLEAR);
++	queue_work(workq, &aeq->aeq_work);
++
++	return IRQ_HANDLED;
++}
++
++static int set_eq_ctrls(struct hinic3_eq *eq)
++{
++	struct hinic3_hwif *hwif = eq->hwdev->hwif;
++	struct hinic3_queue_pages *qpages;
++	u8 pci_intf_idx, elem_size;
++	u32 mask, ctrl0, ctrl1;
++	u32 page_size_val;
++
++	qpages = &eq->qpages;
++	page_size_val = ilog2(qpages->page_size / HINIC3_MIN_PAGE_SIZE);
++	pci_intf_idx = hwif->attr.pci_intf_idx;
++
++	/* set ctrl0 using read-modify-write */
++	mask = AEQ_CTRL_0_INTR_IDX_MASK |
++	       AEQ_CTRL_0_DMA_ATTR_MASK |
++	       AEQ_CTRL_0_PCI_INTF_IDX_MASK |
++	       AEQ_CTRL_0_INTR_MODE_MASK;
++	ctrl0 = hinic3_hwif_read_reg(hwif, HINIC3_CSR_AEQ_CTRL_0_ADDR);
++	ctrl0 = (ctrl0 & ~mask) |
++		AEQ_CTRL_0_SET(eq->msix_entry_idx, INTR_IDX) |
++		AEQ_CTRL_0_SET(0, DMA_ATTR) |
++		AEQ_CTRL_0_SET(pci_intf_idx, PCI_INTF_IDX) |
++		AEQ_CTRL_0_SET(HINIC3_INTR_MODE_ARMED, INTR_MODE);
++	hinic3_hwif_write_reg(hwif, HINIC3_CSR_AEQ_CTRL_0_ADDR, ctrl0);
++
++	/* HW expects log2(number of 32 byte units). */
++	elem_size = qpages->elem_size_shift - 5;
++	ctrl1 = AEQ_CTRL_1_SET(eq->eq_len, LEN) |
++		AEQ_CTRL_1_SET(elem_size, ELEM_SIZE) |
++		AEQ_CTRL_1_SET(page_size_val, PAGE_SIZE);
++	hinic3_hwif_write_reg(hwif, HINIC3_CSR_AEQ_CTRL_1_ADDR, ctrl1);
++
++	return 0;
++}
++
++static void aeq_elements_init(struct hinic3_eq *eq, u32 init_val)
++{
++	struct hinic3_aeq_elem *aeqe;
++	u32 i;
++
++	for (i = 0; i < eq->eq_len; i++) {
++		aeqe = get_q_element(&eq->qpages, i, NULL);
++		aeqe->desc = cpu_to_be32(init_val);
++	}
++
++	wmb();    /* Clear aeq elements bit */
++}
++
++static void eq_elements_init(struct hinic3_eq *eq, u32 init_val)
++{
++	aeq_elements_init(eq, init_val);
++}
++
++static int alloc_eq_pages(struct hinic3_eq *eq)
++{
++	struct hinic3_hwif *hwif = eq->hwdev->hwif;
++	struct hinic3_queue_pages *qpages;
++	dma_addr_t page_paddr;
++	u32 reg, init_val;
++	u16 pg_idx;
++	int err;
++
++	qpages = &eq->qpages;
++	err = hinic3_queue_pages_alloc(eq->hwdev, qpages, HINIC3_MIN_PAGE_SIZE);
++	if (err)
++		return err;
++
++	for (pg_idx = 0; pg_idx < qpages->num_pages; pg_idx++) {
++		page_paddr = qpages->pages[pg_idx].align_paddr;
++		reg = EQ_HI_PHYS_ADDR_REG(eq->type, pg_idx);
++		hinic3_hwif_write_reg(hwif, reg, upper_32_bits(page_paddr));
++		reg = EQ_LO_PHYS_ADDR_REG(eq->type, pg_idx);
++		hinic3_hwif_write_reg(hwif, reg, lower_32_bits(page_paddr));
++	}
++
++	init_val = HINIC3_EQ_WRAPPED(eq);
++	eq_elements_init(eq, init_val);
++
++	return 0;
++}
++
++static void eq_calc_page_size_and_num(struct hinic3_eq *eq, u32 elem_size)
++{
++	u32 max_pages, min_page_size, page_size, total_size;
++
++	/* No need for complicated arithmetic. All values must be power of 2.
++	 * Multiplications give power of 2 and divisions give power of 2 without
++	 * remainder.
++	 */
++	max_pages = HINIC3_EQ_MAX_PAGES;
++	min_page_size = HINIC3_MIN_PAGE_SIZE;
++	total_size = eq->eq_len * elem_size;
++
++	if (total_size <= max_pages * min_page_size)
++		page_size = min_page_size;
++	else
++		page_size = total_size / max_pages;
++
++	hinic3_queue_pages_init(&eq->qpages, eq->eq_len, page_size, elem_size);
++}
++
++static int request_eq_irq(struct hinic3_eq *eq)
++{
++	INIT_WORK(&eq->aeq_work, eq_irq_work);
++	snprintf(eq->irq_name, sizeof(eq->irq_name),
++		 "hinic3_aeq%u@pci:%s", eq->q_id,
++		 pci_name(eq->hwdev->pdev));
++
++	return request_irq(eq->irq_id, aeq_interrupt, 0,
++			  eq->irq_name, eq);
++}
++
++static void reset_eq(struct hinic3_eq *eq)
++{
++	/* clear eq_len to force eqe drop in hardware */
++	hinic3_hwif_write_reg(eq->hwdev->hwif,
++			      HINIC3_CSR_AEQ_CTRL_1_ADDR, 0);
++
++	hinic3_hwif_write_reg(eq->hwdev->hwif, EQ_PROD_IDX_REG_ADDR, 0);
++}
++
++static int init_eq(struct hinic3_eq *eq, struct hinic3_hwdev *hwdev, u16 q_id,
++		   u32 q_len, enum hinic3_eq_type type,
++		   struct msix_entry *msix_entry)
++{
++	u32 elem_size;
++	int err;
++
++	eq->hwdev = hwdev;
++	eq->q_id = q_id;
++	eq->type = type;
++	eq->eq_len = q_len;
++
++	/* Indirect access should set q_id first */
++	hinic3_hwif_write_reg(hwdev->hwif, HINIC3_EQ_INDIR_IDX_ADDR(eq->type),
++			      eq->q_id);
++
++	reset_eq(eq);
++
++	eq->cons_idx = 0;
++	eq->wrapped = 0;
++
++	elem_size = HINIC3_AEQE_SIZE;
++	eq_calc_page_size_and_num(eq, elem_size);
++
++	err = alloc_eq_pages(eq);
++	if (err) {
++		dev_err(hwdev->dev, "Failed to allocate pages for eq\n");
++		return err;
++	}
++
++	eq->msix_entry_idx = msix_entry->entry;
++	eq->irq_id = msix_entry->vector;
++
++	err = set_eq_ctrls(eq);
++	if (err) {
++		dev_err(hwdev->dev, "Failed to set ctrls for eq\n");
++		goto err_free_queue_pages;
++	}
++
++	set_eq_cons_idx(eq, HINIC3_EQ_ARMED);
++
++	err = request_eq_irq(eq);
++	if (err) {
++		dev_err(hwdev->dev,
++			"Failed to request irq for the eq, err: %d\n", err);
++		goto err_free_queue_pages;
++	}
++
++	hinic3_set_msix_state(hwdev, eq->msix_entry_idx, HINIC3_MSIX_DISABLE);
++
++	return 0;
++
++err_free_queue_pages:
++	hinic3_queue_pages_free(hwdev, &eq->qpages);
++
++	return err;
++}
++
++static void remove_eq(struct hinic3_eq *eq)
++{
++	hinic3_set_msix_state(eq->hwdev, eq->msix_entry_idx,
++			      HINIC3_MSIX_DISABLE);
++	free_irq(eq->irq_id, eq);
++	/* Indirect access should set q_id first */
++	hinic3_hwif_write_reg(eq->hwdev->hwif,
++			      HINIC3_EQ_INDIR_IDX_ADDR(eq->type),
++			      eq->q_id);
++
++	cancel_work_sync(&eq->aeq_work);
++	/* clear eq_len to avoid hw access host memory */
++	hinic3_hwif_write_reg(eq->hwdev->hwif,
++			      HINIC3_CSR_AEQ_CTRL_1_ADDR, 0);
++
++	/* update consumer index to avoid invalid interrupt */
++	eq->cons_idx = hinic3_hwif_read_reg(eq->hwdev->hwif,
++					    EQ_PROD_IDX_REG_ADDR);
++	set_eq_cons_idx(eq, HINIC3_EQ_NOT_ARMED);
++	hinic3_queue_pages_free(eq->hwdev, &eq->qpages);
++}
++
++int hinic3_aeqs_init(struct hinic3_hwdev *hwdev, u16 num_aeqs,
++		     struct msix_entry *msix_entries)
++{
++	struct hinic3_aeqs *aeqs;
++	u16 q_id;
++	int err;
++
++	aeqs = kzalloc(sizeof(*aeqs), GFP_KERNEL);
++	if (!aeqs)
++		return -ENOMEM;
++
++	hwdev->aeqs = aeqs;
++	aeqs->hwdev = hwdev;
++	aeqs->num_aeqs = num_aeqs;
++	aeqs->workq = alloc_workqueue(HINIC3_EQS_WQ_NAME, WQ_MEM_RECLAIM,
++				      HINIC3_MAX_AEQS);
++	if (!aeqs->workq) {
++		dev_err(hwdev->dev, "Failed to initialize aeq workqueue\n");
++		err = -ENOMEM;
++		goto err_free_aeqs;
++	}
++
++	for (q_id = 0; q_id < num_aeqs; q_id++) {
++		err = init_eq(&aeqs->aeq[q_id], hwdev, q_id,
++			      HINIC3_DEFAULT_AEQ_LEN, HINIC3_AEQ,
++			      &msix_entries[q_id]);
++		if (err) {
++			dev_err(hwdev->dev, "Failed to init aeq %u\n",
++				q_id);
++			goto err_remove_eqs;
++		}
++	}
++	for (q_id = 0; q_id < num_aeqs; q_id++)
++		hinic3_set_msix_state(hwdev, aeqs->aeq[q_id].msix_entry_idx,
++				      HINIC3_MSIX_ENABLE);
++
++	return 0;
++
++err_remove_eqs:
++	while (q_id > 0) {
++		q_id--;
++		remove_eq(&aeqs->aeq[q_id]);
++	}
++
++	destroy_workqueue(aeqs->workq);
++
++err_free_aeqs:
++	kfree(aeqs);
++
++	return err;
++}
++
++void hinic3_aeqs_free(struct hinic3_hwdev *hwdev)
++{
++	struct hinic3_aeqs *aeqs = hwdev->aeqs;
++	enum hinic3_aeq_type aeq_event;
++	struct hinic3_eq *eq;
++	u16 q_id;
++
++	for (q_id = 0; q_id < aeqs->num_aeqs; q_id++) {
++		eq = aeqs->aeq + q_id;
++		remove_eq(eq);
++		hinic3_free_irq(hwdev, eq->irq_id);
++	}
++
++	for (aeq_event = 0; aeq_event < HINIC3_MAX_AEQ_EVENTS; aeq_event++)
++		hinic3_aeq_unregister_cb(hwdev, aeq_event);
++
++	destroy_workqueue(aeqs->workq);
++
++	kfree(aeqs);
++}
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.h b/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.h
+new file mode 100644
+index 000000000000..74f40dac474a
+--- /dev/null
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.h
+@@ -0,0 +1,90 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright (c) Huawei Technologies Co., Ltd. 2025. All rights reserved. */
++
++#ifndef _HINIC3_EQS_H_
++#define _HINIC3_EQS_H_
++
++#include <linux/interrupt.h>
++
++#include "hinic3_hw_cfg.h"
++#include "hinic3_queue_common.h"
++
++#define HINIC3_MAX_AEQS              4
++
++#define HINIC3_AEQ_MAX_PAGES         4
++
++#define HINIC3_AEQE_SIZE             64
++
++#define HINIC3_AEQE_DESC_SIZE        4
++#define HINIC3_AEQE_DATA_SIZE        (HINIC3_AEQE_SIZE - HINIC3_AEQE_DESC_SIZE)
++
++#define HINIC3_DEFAULT_AEQ_LEN       0x10000
++
++#define HINIC3_EQ_IRQ_NAME_LEN       64
++
++#define HINIC3_EQ_USLEEP_LOW_BOUND   900
++#define HINIC3_EQ_USLEEP_HIGH_BOUND  1000
++
++enum hinic3_eq_type {
++	HINIC3_AEQ = 0,
++};
++
++enum hinic3_eq_intr_mode {
++	HINIC3_INTR_MODE_ARMED  = 0,
++	HINIC3_INTR_MODE_ALWAYS = 1,
++};
++
++enum hinic3_eq_ci_arm_state {
++	HINIC3_EQ_NOT_ARMED = 0,
++	HINIC3_EQ_ARMED     = 1,
++};
++
++struct hinic3_eq {
++	struct hinic3_hwdev       *hwdev;
++	struct hinic3_queue_pages qpages;
++	u16                       q_id;
++	enum hinic3_eq_type       type;
++	u32                       eq_len;
++	u32                       cons_idx;
++	u8                        wrapped;
++	u32                       irq_id;
++	u16                       msix_entry_idx;
++	char                      irq_name[HINIC3_EQ_IRQ_NAME_LEN];
++	struct work_struct        aeq_work;
++};
++
++struct hinic3_aeq_elem {
++	u8     aeqe_data[HINIC3_AEQE_DATA_SIZE];
++	__be32 desc;
++};
++
++enum hinic3_aeq_type {
++	HINIC3_HW_INTER_INT   = 0,
++	HINIC3_MBX_FROM_FUNC  = 1,
++	HINIC3_MSG_FROM_FW    = 2,
++	HINIC3_MAX_AEQ_EVENTS = 6,
++};
++
++typedef void (*hinic3_aeq_event_cb)(struct hinic3_hwdev *hwdev, u8 *data,
++				    u8 size);
++
++struct hinic3_aeqs {
++	struct hinic3_hwdev     *hwdev;
++	hinic3_aeq_event_cb     aeq_cb[HINIC3_MAX_AEQ_EVENTS];
++	struct hinic3_eq        aeq[HINIC3_MAX_AEQS];
++	u16                     num_aeqs;
++	struct workqueue_struct *workq;
++	/* lock for aeq event flag */
++	spinlock_t              aeq_lock;
++};
++
++int hinic3_aeqs_init(struct hinic3_hwdev *hwdev, u16 num_aeqs,
++		     struct msix_entry *msix_entries);
++void hinic3_aeqs_free(struct hinic3_hwdev *hwdev);
++int hinic3_aeq_register_cb(struct hinic3_hwdev *hwdev,
++			   enum hinic3_aeq_type event,
++			   hinic3_aeq_event_cb hwe_cb);
++void hinic3_aeq_unregister_cb(struct hinic3_hwdev *hwdev,
++			      enum hinic3_aeq_type event);
++
++#endif
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
+index 87d9450c30ca..0599fc4f3fb0 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
+@@ -8,6 +8,49 @@
+ #include "hinic3_hwif.h"
+ #include "hinic3_mbox.h"
+ 
++int hinic3_alloc_irqs(struct hinic3_hwdev *hwdev, u16 num,
++		      struct msix_entry *alloc_arr, u16 *act_num)
++{
++	struct hinic3_irq_info *irq_info;
++	struct hinic3_irq *curr;
++	u16 i, found = 0;
++
++	irq_info = &hwdev->cfg_mgmt->irq_info;
++	mutex_lock(&irq_info->irq_mutex);
++	for (i = 0; i < irq_info->num_irq && found < num; i++) {
++		curr = irq_info->irq + i;
++		if (curr->allocated)
++			continue;
++		curr->allocated = true;
++		alloc_arr[found].vector = curr->irq_id;
++		alloc_arr[found].entry = curr->msix_entry_idx;
++		found++;
++	}
++	mutex_unlock(&irq_info->irq_mutex);
++
++	*act_num = found;
++
++	return found == 0 ? -ENOMEM : 0;
++}
++
++void hinic3_free_irq(struct hinic3_hwdev *hwdev, u32 irq_id)
++{
++	struct hinic3_irq_info *irq_info;
++	struct hinic3_irq *curr;
++	u16 i;
++
++	irq_info = &hwdev->cfg_mgmt->irq_info;
++	mutex_lock(&irq_info->irq_mutex);
++	for (i = 0; i < irq_info->num_irq; i++) {
++		curr = irq_info->irq + i;
++		if (curr->irq_id == irq_id) {
++			curr->allocated = false;
++			break;
++		}
++	}
++	mutex_unlock(&irq_info->irq_mutex);
++}
++
+ bool hinic3_support_nic(struct hinic3_hwdev *hwdev)
+ {
+ 	return hwdev->cfg_mgmt->cap.supp_svcs_bitmap &
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hwif.c b/drivers/net/ethernet/huawei/hinic3/hinic3_hwif.c
+index 0865453bf0e7..27baa9693d20 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_hwif.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hwif.c
+@@ -6,15 +6,43 @@
+ #include <linux/io.h>
+ 
+ #include "hinic3_common.h"
++#include "hinic3_csr.h"
+ #include "hinic3_hwdev.h"
+ #include "hinic3_hwif.h"
+ 
++#define HINIC3_GET_REG_ADDR(reg)  ((reg) & (HINIC3_REGS_FLAG_MASK))
++
++static void __iomem *hinic3_reg_addr(struct hinic3_hwif *hwif, u32 reg)
++{
++	return hwif->cfg_regs_base + HINIC3_GET_REG_ADDR(reg);
++}
++
++u32 hinic3_hwif_read_reg(struct hinic3_hwif *hwif, u32 reg)
++{
++	void __iomem *addr = hinic3_reg_addr(hwif, reg);
++
++	return ioread32be(addr);
++}
++
++void hinic3_hwif_write_reg(struct hinic3_hwif *hwif, u32 reg, u32 val)
++{
++	void __iomem *addr = hinic3_reg_addr(hwif, reg);
++
++	iowrite32be(val, addr);
++}
++
+ void hinic3_set_msix_state(struct hinic3_hwdev *hwdev, u16 msix_idx,
+ 			   enum hinic3_msix_state flag)
+ {
+ 	/* Completed by later submission due to LoC limit. */
+ }
+ 
++void hinic3_msix_intr_clear_resend_bit(struct hinic3_hwdev *hwdev, u16 msix_idx,
++				       u8 clear_resend_en)
++{
++	/* Completed by later submission due to LoC limit. */
++}
++
+ u16 hinic3_global_func_id(struct hinic3_hwdev *hwdev)
+ {
+ 	return hwdev->hwif->attr.func_global_idx;
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hwif.h b/drivers/net/ethernet/huawei/hinic3/hinic3_hwif.h
+index 513c9680e6b6..2e300fb0ba25 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_hwif.h
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hwif.h
+@@ -50,8 +50,13 @@ enum hinic3_msix_state {
+ 	HINIC3_MSIX_DISABLE,
+ };
+ 
++u32 hinic3_hwif_read_reg(struct hinic3_hwif *hwif, u32 reg);
++void hinic3_hwif_write_reg(struct hinic3_hwif *hwif, u32 reg, u32 val);
++
+ void hinic3_set_msix_state(struct hinic3_hwdev *hwdev, u16 msix_idx,
+ 			   enum hinic3_msix_state flag);
++void hinic3_msix_intr_clear_resend_bit(struct hinic3_hwdev *hwdev, u16 msix_idx,
++				       u8 clear_resend_en);
+ 
+ u16 hinic3_global_func_id(struct hinic3_hwdev *hwdev);
+ 
+-- 
+2.43.0
 
