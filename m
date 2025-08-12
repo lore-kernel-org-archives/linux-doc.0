@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085EA2D781F;
-	Tue, 12 Aug 2025 07:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425962E03F3;
+	Tue, 12 Aug 2025 07:23:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754983232; cv=none; b=b2P1Rt+t8rPnw771SAUd0zOSlQEGprf+HggMtCzrblAvX8WI+XU/2GMTO3vJNJjv4/ePDyfzCErbKkqOvtcAVOvOUwPxUsqGYQFkGBejzKY/uAsN2AtBPp7D4fTdWAvidnMu24fY1dEcwS3/PQChd1MjWIbACFOC2eoBcoL1pn4=
+	t=1754983419; cv=none; b=QDoAOf9mDbjNPO8TsnFZkF0nKN0Vux/IAcv0NUiVCkt8dsN64fIktC65fb1p71JQWUSJ6/eQ/PWKJ6u0xiK+6Dp2SQwEOlx2UldP58nlLjzBtIw64Tz3gL4+Sjz3yFt7MmhNs4tQj+N/zF50THlJa43gHr6PDsSVKEY2mjmIhMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754983232; c=relaxed/simple;
-	bh=3zXD/+65HbFtTHBlTBULFxIEcPSOGq0V7b8vr8mcreE=;
+	s=arc-20240116; t=1754983419; c=relaxed/simple;
+	bh=JiE8CKcIxE7skuyrDeYkQpvSNgGqopGhxb7VfznaQeE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N+1nRZE1+ym9tDypg94fUTDX9YU4ZuzzuP0ws7htjRlg2YkllVHdhV/aPRMqavOioxt0KWjBaeCb/i5jsnQy6p7ydqXtxjo0tF9w1Rxza/SMuU27LZimv1Xz8VM9e41iJ8wfzcvCgZ1LXoR9KZ9m31Vi8n6BVQR3pwrzy6ZWG5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WFA+l0xD; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=BlNbnR5raJDvHmHjvbKXb9aWxCbRxvmCLF5CUkb5XltaxGe4VPlg5zR4vuJ7eP6TZLBUqcV2ZZNCzqDq+AWVZTFV8k2wx/4Qj8Fk3rjTmIEBjFoFYCHW4/CiQ0JiiUy008UIs2rjl+ivnstAxqtlW++n/61+7JuGwsw8o2N74V0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J9NTolve; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WFA+l0xD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A6B0C4CEF0;
-	Tue, 12 Aug 2025 07:20:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J9NTolve"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C126C4CEF0;
+	Tue, 12 Aug 2025 07:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754983231;
-	bh=3zXD/+65HbFtTHBlTBULFxIEcPSOGq0V7b8vr8mcreE=;
+	s=k20201202; t=1754983416;
+	bh=JiE8CKcIxE7skuyrDeYkQpvSNgGqopGhxb7VfznaQeE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WFA+l0xDczXlJQV0BfNDF6S5Adxp4Jjr1xRUUhYBWgihhjiPxagxSt5sJfBnl5OcD
-	 ehqDYQORdF6Ss/ew4pR38LZX//pWEaqLxzcV+pQLMVLx27jxQr5bP1c53bddIN+3RM
-	 IISVe8bkBRxC5xz+oodaWBu9eLoZwZHupBjMzDcLvQeahd6c7+AAcYOyEt5kJo2wCG
-	 tKY4NnjCKQaQpk9NoGbYM7+E0rQQsxGZbc+ZelO302jsegywG2Sl24Pn/ik6k2c0p5
-	 tZlNFGoXPgAY/bkoExgU3Ml4rQ8wKiI88Ums6TzxCE7ylIlSE4wDlnBVX4jANLJmew
-	 Mbt2KZpcCBSdQ==
-Message-ID: <eab6d2d2-9337-40fe-81c7-95dc1956ce6f@kernel.org>
-Date: Tue, 12 Aug 2025 09:20:26 +0200
+	b=J9NTolveGpBhWAvij58oUWOP2vguKLwWjqPfp95pSn5u0OVwuc/8HgIIRNp/hgTYu
+	 Z2PzUYkZaSRY4k2AgBDndi3Tk97DXMXp2sclnItCHN+LNaMFnrD1snBel/5N/Zntht
+	 hR3VwLfaDfoIPLajJwG0kpZ5PCrUMC6ZMDdFUJ5nFe6+vmOzHgqknrroIQpoxjPRrs
+	 Y8R17VT6eeuHFcOc4dk6bPJnPohq/aqyonDJwiG21J4gx6VxcgHqTDIUWzdhq/+csO
+	 ll8+FioTFQeaBXJ4UFNBfqOdjR3drwg07aFdQzRH7uDuV3lW9cKwMys4CAebNhA3qe
+	 a2aczlbG19g/g==
+Message-ID: <09179c67-1dbe-41e5-9905-26b4c6bf9f60@kernel.org>
+Date: Tue, 12 Aug 2025 09:23:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,17 +35,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: update TI TPS23861 bindings
- with per-port schema
-To: gfuchedgi@gmail.com, Robert Marko <robert.marko@sartura.hr>,
- Luka Perkov <luka.perkov@sartura.hr>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250811-hwmon-tps23861-add-class-restrictions-v2-0-ebd122ec5e3b@gmail.com>
- <20250811-hwmon-tps23861-add-class-restrictions-v2-2-ebd122ec5e3b@gmail.com>
+Subject: Re: [PATCH v13 04/25] virt: geniezone: Add GenieZone hypervisor
+ driver
+To: =?UTF-8?B?TGlqdS1jbHIgQ2hlbiAo6Zmz6bqX5aaCKQ==?=
+ <Liju-clr.Chen@mediatek.com>, "corbet@lwn.net" <corbet@lwn.net>,
+ "mhiramat@kernel.org" <mhiramat@kernel.org>,
+ =?UTF-8?B?WWluZ3NoaXVhbiBQYW4gKOa9mOepjui7kik=?=
+ <Yingshiuan.Pan@mediatek.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "will@kernel.org"
+ <will@kernel.org>, "richardcochran@gmail.com" <richardcochran@gmail.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?WmUteXUgV2FuZyAo546L5r6k5a6HKQ==?= <Ze-yu.Wang@mediatek.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: =?UTF-8?B?S2V2ZW5ueSBIc2llaCAo6Kyd5a6c6Iq4KQ==?=
+ <Kevenny.Hsieh@mediatek.com>, =?UTF-8?B?U2hhd24gSHNpYW8gKOiVreW/l+elpSk=?=
+ <shawn.hsiao@mediatek.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ =?UTF-8?B?UGVpTHVuIFN1ZWkgKOmai+WfueWAqyk=?= <PeiLun.Suei@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
+ =?UTF-8?B?Q2hpLXNoZW4gWWVoICjokYnlpYfou5Ip?= <Chi-shen.Yeh@mediatek.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20241114100802.4116-1-liju-clr.chen@mediatek.com>
+ <20241114100802.4116-5-liju-clr.chen@mediatek.com>
+ <7b79d4b5-ba91-41a0-90d1-c64bcab53cec@kernel.org>
+ <cb84d8d87a67516f9b92a89f81fe4efc088f7617.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,174 +113,39 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250811-hwmon-tps23861-add-class-restrictions-v2-2-ebd122ec5e3b@gmail.com>
+In-Reply-To: <cb84d8d87a67516f9b92a89f81fe4efc088f7617.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/08/2025 18:13, Gregory Fuchedgi via B4 Relay wrote:
-> From: Gregory Fuchedgi <gfuchedgi@gmail.com>
+On 12/08/2025 09:04, Liju-clr Chen (陳麗如) wrote:
+> On Wed, 2024-12-11 at 09:44 +0100, Krzysztof Kozlowski wrote:
+>>
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> On 14/11/2024 11:07, Liju-clr Chen wrote:
+>>> +
+>>> +static int gzvm_dev_open(struct inode *inode, struct file *file)
+>>> +{
+>>> +     /*
+>>> +      * Reference count to prevent this module is unload without
+>>> destroying
+>>> +      * VM
+>>
+>> So you re-implemented suppress-bind attrs... no, drop.
+>>
 > 
-> Update schema after per-port poe class restrictions and a few other options
-> were implemented.
+> Thanks, will fix in next version.
 
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+I gave you comments within hours. You responded 8 months after. That is
+not making the process easy.
 
-> 
-> Signed-off-by: Gregory Fuchedgi <gfuchedgi@gmail.com>
-> ---
->  .../devicetree/bindings/hwmon/ti,tps23861.yaml     | 86 ++++++++++++++++++++++
->  1 file changed, 86 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> index ee7de53e19184d4c3df7564624532306d885f6e4..578f4dad7eab630b218e9e30b23fc611a760d332 100644
-> --- a/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> @@ -24,12 +24,62 @@ properties:
->    reg:
->      maxItems: 1
->  
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
->    shunt-resistor-micro-ohms:
->      description: The value of current sense resistor in microohms.
->      default: 255000
->      minimum: 250000
->      maximum: 255000
->  
-> +  reset-gpios:
-> +    description: Optional GPIO for the reset pin.
-> +    maxItems: 1
-> +
-> +  shutdown-gpios:
+I expect all comments applied in such case and I will not be reading
+further. You got comments, implement them fully. I think you reject
+them, but rejection after 8 months, means all context is gone.
 
-powerdown-gpios, see gpio-consumer-common.yaml
-
-> +    description: |
-
-Drop |
-
-> +      Optional GPIO for the shutdown pin. Used to prevent PoE activity before
-> +      the driver had a chance to configure the chip.
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description: |
-> +      The interrupt specifier. Only required if PoE class is restricted to less
-
-Drop first sentence, redundant. Interrupts property cannot be anything
-else than interrupt specifier.
-
-> +      than class 4 in the device tree.
-> +    maxItems: 1
-> +
-> +patternProperties:
-> +  "^port@[0-3]$":
-
-This goes to ports property.
-
-
-> +    type: object
-> +    description: Port specific nodes.
-> +    unevaluatedProperties: false
-> +    required:
-> +      - reg
-
-required goes to the end.
-
-> +
-> +    properties:
-> +      reg:
-> +        description: Port index.
-> +        items:
-> +          minimum: 0
-
-Drop minimum.
-
-> +          maximum: 3
-> +
-> +      class:
-> +        description: The maximum power class a port should accept.
-
-What are the values? Where is the property defined - which schema - that
-you do not use vendor prefix?
-
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        minimum: 0
-
-Drop minimum.
-
-> +        maximum: 4
-> +
-> +      off-by-default:
-
-Same question - which common schema defines this?
-
-> +        description: Indicates the port is off by default.
-> +        type: boolean
-> +
-> +      label:
-> +        description: Optional port label
-
-Skip all "optional" here and other places. Schema tells it, not free
-form text. Say something useful here or just ": true".
-
-> +
->  required:
->    - compatible
->    - reg
-> @@ -51,3 +101,39 @@ examples:
->              shunt-resistor-micro-ohms = <255000>;
->          };
->      };
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        tps23861@28 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-
-Follow closely DTS coding style.
-
-> +            compatible = "ti,tps23861";
-> +            reg = <0x28>;
-> +            shunt-resistor-micro-ohms = <255000>;
-> +            reset-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>;
-> +            shutdown-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
-> +            interrupt-parent = <&gpio1>;
-> +            interrupts = <14 0>;
-
-0 looks like invalid flag. Use proper defines and proper values.
-
-> +            label = "my_poe_controller";
-
-Use useful names or just drop it.
-
-
-> +            port@0 {
-> +                    reg = <0>;
-> +                    class = <2>; // Max PoE class allowed.
-
-
-> +                    off-by-default;
-> +                    label = "myport";
-
-Also not useful.
-
+NAK
 
 Best regards,
 Krzysztof
