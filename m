@@ -1,103 +1,149 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710312DCF5F
-	for <linux-doc@vger.kernel.org>; Tue, 12 Aug 2025 09:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223C920D4E1;
+	Tue, 12 Aug 2025 10:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754992140; cv=none; b=IE/yMrI12C21FTg08CGLXJfvdlJhULvOiALNJTQXoJNPdNTXvg3SVqzR03Z1e/CV/iYbNqIKbT8DpJQmYvTkHWk5d485pNyzalaIc3bMEo/CtsTiiZAsv6LLZrnJ9ZjfvL66qyRUZyUa9DEh26um1SJpyRyHkuUSk58ADGy+WLA=
+	t=1754993395; cv=none; b=jAg3o2C5nc4cJDEbpK5w2mESO+yyb7yP1Mgi27IZ7f42oDno99SBE+8aVeLlPH28XE/cqoMELX74hp550T6VW1guuYBQ+w9+LvcZSK+EslLNmsya6e0hUq+flEAlfj09ovnXggZbR6Ry/NBWphw+Eec+civbZf6ctL1+dES8l9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754992140; c=relaxed/simple;
-	bh=IqM9Egqj60sPQY75Jbo8X/0aXh7vHx4YyPcX1CkbW1Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AxRU2Mi7lDgYcursUQcwoJqyKochWQEiXPfVtSWpAccNv8h2xUuCesUBCRtl1UU70iRfBTaMG1n9l1rsBovwU3T+rSE1Fm+8VA3thy2BA+t6U8292FBO4PcZhg5WnoL3k9i6/zxbXHOLw5b7tVYoyqmGDPZYldUiAL9IsDjn/gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l1qylGGX; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1754993395; c=relaxed/simple;
+	bh=6P/aKqG7fY1LNdU4jwyXEd4Urbpceh+qKNGedxVIFJc=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=WnCFeESetBYKrXWZVS4EXusCvyiMsY/a8+7DCIGpCc3NsRHiQYaKIdJqQxfE97Ssh46uoHXOiLwyiTWwHdJx/S27tB3HrT45YfVQh1WCxwV170QzgH4B1S5H7pcP5rB+dYvkXql1yuRcX0Ch9E2QhjwnhD1+augwtTGbzLqh0FA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f0QsGoKY; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l1qylGGX"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-76bddb92dc1so6605905b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 12 Aug 2025 02:48:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f0QsGoKY"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-769a21bd4d5so4926998b3a.0;
+        Tue, 12 Aug 2025 03:09:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754992139; x=1755596939; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DoiwOB73jcXX9IhnQQ+H5JUTDd+HhYY1cCM/SuflF/E=;
-        b=l1qylGGX09WqAzsRRWLDd5ZwViYe3BV4JGsJIsOSpta8s83LtjHxx0ukJL+ky1rGA5
-         GoOohQOEmW9JZZZHIuc71SdSpSwfGYYs4Y2TYetjQgXwJ8Y9YS+rBxZMNyrejUte8uYy
-         FKHCE2fAXIvwd09N4kSpG/VvYfjsXrC9zeCLTk+lImKHwjSGyGM/u8dqAuTeLKrhM4TT
-         NixvEfFLO2G90aFF5yG7ZeB8be2YumBdGXFBf4pdFD+0kfG/nCaYsY8UsvgouZAwLSFv
-         9uJluSyUFRYdDkfRy9xAPj4NilBuiMMcGRW2Uz7xnwusussrNJu6z0X6ErFv3kHYlAJM
-         tzKw==
+        d=gmail.com; s=20230601; t=1754993393; x=1755598193; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6P/aKqG7fY1LNdU4jwyXEd4Urbpceh+qKNGedxVIFJc=;
+        b=f0QsGoKYgTTr2YtjTyb6X0E3f0iTe6HzK5XQRvYbgNavVTkPwdsIziVDR4idg9xE1d
+         Q58gHLiL+0lfanvhjji+r6+dlW3qzdGHBkXlgmA60lfv2WHLekWVwCg+oCTBaRQdMG5A
+         6ZjZr7sVVeurtEQIdzijfOP5cowIeSEO8pGmipo7lgZQMR0XEAVXD4FzLXMtCgzQyNwI
+         IFgW0imux+W4dUEv67td0IRA55Wvxc9CGeCML2AANtZ6gh92fTaLkpKpnqXGFRc5prwm
+         54Sw7MmfS8tPR26YW8xSZszv3j8XDwLyJ5Sc71KXQvgWd8vHHrtt9ZjQqvk0qzywQUtY
+         JWrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754992139; x=1755596939;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DoiwOB73jcXX9IhnQQ+H5JUTDd+HhYY1cCM/SuflF/E=;
-        b=XqXfQBa5gWZ9oJbjDlntOQlz24rgklbMgwVtrme+hc6ohPLGo5I74kkHlrPlKakvFc
-         eiq1jRChi/Zbvog7/tXwyegBQ/O+IWpnfqSvoaOAOEJvms1EgcWob6boQir/IPiG15Ch
-         syuQl4k18aCET1WFvHfM2A3Y2TztCdoCpSAmYMk2k14dJKiaP1655OVqwjQnmh/g9/gz
-         0magZPh6pwFz87XkaMha8jgRao+HRy4otRe+jBLYkTxh9IeY5lnl8hKm5PBmZ30jdNfK
-         T6AkLsTeqpdoP6ykrArqLT7j6KPGTJ4wNmP0D+TGWK0o7QXj+aImnMLpCxYzAuwd6c/E
-         8/OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGBcG9Z0OBcqss1MhYD9+YcxIxSlpzEXrbbJ6CYKohkRpa4N+BnGj+ycRXncB+KXX/f5dmAZ2BmnU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS9pmb3xskMAc5fYqHuC9tBw+W44lUw1ErWWy5N4WtxA/X5J3M
-	O7XbadNhblpD/8fg/FLkPm0gqbQcUD796REofwWNCmqhl0u766l61i4MfXTRbwYto6JLwJY=
-X-Gm-Gg: ASbGncsgpokefAiuigPvlrylWXwMp7nGTlMMyJrSZvY01riyiM9waIAHFzEYKZE/JNX
-	Ym3obDKCg4iSiJe3h9QEk1fC2YKP4ubqHJfBUXC3HjrL7MhehfcnpsYeOCWzQx9GV86MsKY9PEO
-	8X16MaCAMXxqDucy/RPsi6JzBMstsrGPLZhAInYcv/H3xIhtetqrID4OGnV5kLkynoIbcdMnNm+
-	bHXXc7PCTSN29AaBySMGl0KXB4jD75mITl0gnrhX24nMjW9yFK4XT/GGIZF7Z1srLXlbSbg+79q
-	mRL7MsBImRbQuDNKqTrxRETnW/127bAkkV1ETYtPS72jERFyOjcJn34qa4RVdcB2K04uzKTBLg5
-	qmznV4UhYQ/PdV2YW4y3mL6KGDI16LfW2ofbHh4bhFg==
-X-Google-Smtp-Source: AGHT+IFk5gkRYuZgrPrI7adUC3TaYSMJYP9VlEaIs890Cz2OO0izXYMskNXCFzGuexyVyMXyp2sHyw==
-X-Received: by 2002:a05:6a20:3d8a:b0:220:aea6:2154 with SMTP id adf61e73a8af0-2409a8920f5mr4985976637.17.1754992138519;
-        Tue, 12 Aug 2025 02:48:58 -0700 (PDT)
-Received: from kerneldocs.. ([157.51.103.219])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4371980668sm7029833a12.30.2025.08.12.02.48.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 02:48:58 -0700 (PDT)
-From: Nikil Paul S <snikilpaul@gmail.com>
-To: corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	snikilpaul@gmail.com
-Subject: [PATCH 2/2] docs: rcu: Update dead OLS link in RTFP.txt
-Date: Tue, 12 Aug 2025 09:48:24 +0000
-Message-ID: <20250812094851.3770-1-snikilpaul@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1754993393; x=1755598193;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6P/aKqG7fY1LNdU4jwyXEd4Urbpceh+qKNGedxVIFJc=;
+        b=lh9+RcoFwJlQHbFkbTDWbHiJ4CT17r9hG76q2XDbV109I1WBkfbR2Mm6VNn80erN/R
+         FKLrEG0tGLnlNZwQCiXDGf7ITEdnTaTY9BwelhHx1VXNVdFy88SaGGMPbyd0T/LuJba5
+         LipSQtHY3PjRC4xOj6NlwbHJu+lIbcGrez/k0lxzUm1Uyr3QSFi1KZkHtXF5E4mEVF9+
+         skeEW3Vq4838V+QSDcsUv0Xi7ybNwSYRjsAHtKN6vZZMFgQ/AWXT4GNF9UgS6lqtag2V
+         1CBWBkdTUkfmlyWPB5UfMumiDxMqEclF27DQi6ZA2ye/BLfpgNFioSqeoNFUPYayO7Vu
+         55Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCWrNPEC7mJ1kf+ebigSpTPnmz0on1MAOpNCoZQ9FEVbxQbV/IxHr6FsRmDbnfrSsRggeM7JcVOlpF0=@vger.kernel.org, AJvYcCXiu2IOfjkuivRYC0bXmDlaSOHxFW7sKU+9t2h2gpPXZ5W4awTjBymQdSZrKvPnN4UXIoi1oS8zL9iEfDrz@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTHSFfTKgsgcZVoj2EebzD5bRteKv+qmlOBFhA8WaHFwRUzbxe
+	i74YhraAQeT++jiNllaSRIHvTwlTEG74daa4nCtqXe82QblRJKa+TD+z
+X-Gm-Gg: ASbGncsB4JvZr+oN7JGr9FH96o9hPQ61c+DQo+LB1rOsa+4QadrxxeFMOC69gr28MDk
+	hvgIJwYmAgYBxQc+7kqrp6QU33fL/XJfpw0MFNh2FLgDZD9KD2sK1H0BLTC73tjw+COzgvlqnQO
+	zuv4vnDx6hB0Hy+/N37YCqWgLfgnlqLZvPXoRqm3AyK7ghULDcg/mrTbHZSfbyoh39Zl64uHh9K
+	RxmRK33LhGCDPD85AhaqHVrFXeSvdLswak8B+l3HsuLSTdJ6/QFD6HS1pKCp+v83VXnEJUunFxl
+	kPmdixNPwS1yxuFittUP70CtvdTRCbkHw2Ad8ujUmViaf8hDJZrMZufN5SiVwwH2CTRxOGA2VXa
+	ecT3HCG5JsxYr17JS8swUBBZpn1qBT8Jf8ymuDHBbbF/fG8FCbpX135qIDGw=
+X-Google-Smtp-Source: AGHT+IGhpjBlFVCtqKifefIW582qoUXW/+MuMV6QaAxlQhCOTK745+twCA/BAAXtV9H+RzFvQWkZMg==
+X-Received: by 2002:a17:902:e547:b0:242:9bc5:31a1 with SMTP id d9443c01a7336-242fc3d395emr36043155ad.57.1754993393248;
+        Tue, 12 Aug 2025 03:09:53 -0700 (PDT)
+Received: from smtpclient.apple (wf122-104.ust.hk. [175.159.122.104])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3216128ce35sm16962338a91.29.2025.08.12.03.09.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 12 Aug 2025 03:09:52 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH V2] scripts/checktransupdate.py: add support for scanning
+ directory
+From: Haoyang LIU <tttturtleruss@gmail.com>
+In-Reply-To: <20250811212446.GA924610@ax162>
+Date: Tue, 12 Aug 2025 18:09:38 +0800
+Cc: Dongliang Mu <dzm91@hust.edu.cn>,
+ Yanteng Si <si.yanteng@linux.dev>,
+ Alex Shi <alexs@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>,
+ hust-os-kernel-patches@googlegroups.com,
+ linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <31217D41-748F-4528-B3C0-60CC5EB6833F@gmail.com>
+References: <20250811170050.94997-1-tttturtleruss@gmail.com>
+ <20250811212446.GA924610@ax162>
+To: Nathan Chancellor <nathan@kernel.org>
+X-Mailer: Apple Mail (2.3826.700.81)
 
-From: Nikil <snikilpaul@gmail.com>
 
-Replace a dead link to the OLS 2001 Proceedings with a working
-version hosted on kernel.org.
-v2: Added missing blank line before Signed-off-by: as suggested. 
 
-Signed-off-by: Nikil Paul S <snikilpaul@gmail.com>
----
- Documentation/RCU/RTFP.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On 12 Aug 2025, at 05:24, Nathan Chancellor <nathan@kernel.org> wrote:
+>=20
+> Hi Haoyang,
+>=20
+> On Tue, Aug 12, 2025 at 01:00:50AM +0800, Haoyang LIU wrote:
+>> Origin script can only accept a file as parameter, this commit =
+enables
+>> it to scan a directory.
+>>=20
+>> Usage example:
+>> ./scripts/checktransupdate.py =
+Documentation/translations/zh_CN/dev-tools
+>>=20
+>> Signed-off-by: Haoyang LIU <tttturtleruss@gmail.com>
+>> ---
+>>=20
+>> V1 -> V2: remove the fix of missing "f" in f-string and make it a new =
+patch
+>>=20
+>> scripts/checktransupdate.py | 24 ++++++++++++++++++++++++
+>> 1 file changed, 24 insertions(+)
+>=20
+> Thanks for the update. While this seems reasonable to me from a purely
+> surface level glance over the actual Python, I have added the
+> Documentation folks that Dongliang added from the previous thread, who
+> really own and maintain this file (the original patch is at [1]). =
+Please
+> include them in future revisions should they be necessary. It would
+> probably be good for something like this to be applied?
+Hi Nathan
+That makes sense. My V1 patch also missed Dongliang Mu and the other =
+maintainers. Thanks for pointing it out.
 
-diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
-index db8f16b392aa..87b1c97c3ec3 100644
---- a/Documentation/RCU/RTFP.txt
-+++ b/Documentation/RCU/RTFP.txt
-@@ -641,7 +641,7 @@ Orran Krieger and Rusty Russell and Dipankar Sarma and Maneesh Soni"
- ,Month="July"
- ,Year="2001"
- ,note="Available:
--\url{http://www.linuxsymposium.org/2001/abstracts/readcopy.php}
-+\url{https://www.kernel.org/doc/ols/2001/read-copy.pdf}
- \url{http://www.rdrop.com/users/paulmck/RCU/rclock_OLS.2001.05.01c.pdf}
- [Viewed June 23, 2004]"
- ,annotation={
--- 
-2.43.0
+Sincerely,
+Haoyang
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fe168477caa4..b7e3a8c8832e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7302,6 +7302,7 @@ P: =
+Documentation/doc-guide/maintainer-profile.rst
+> T: git git://git.lwn.net/linux.git docs-next
+> F: Documentation/
+> F: scripts/check-variable-fonts.sh
+> +F: scripts/checktransupdate.py
+> F: scripts/documentation-file-ref-check
+> F: scripts/get_abi.py
+> F: scripts/kernel-doc*
+>=20
+> [1]: =
+https://lore.kernel.org/20250811170050.94997-1-tttturtleruss@gmail.com/
+>=20
+> Cheers,
+> Nathan
 
