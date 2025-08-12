@@ -1,276 +1,115 @@
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA1A2F8BFE;
-	Tue, 12 Aug 2025 16:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C54305E1C;
+	Tue, 12 Aug 2025 16:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755015977; cv=none; b=bwWZcpDvbtvqlxf2P8R1sy7a6YvpLAgz3FyTbH01DrohFLEvY9vIxHMut2A+3t1nMARRnSo2lzu3JWKK/ecKrZKU+kBGByCHOh2R4bb4DMBD0xE957rWSg+icj1Rkz/GFSys8G/phoUv6vU9CmxykHU6Kiaq4na1+Lzio4DMY/I=
+	t=1755016072; cv=none; b=Lm/JsIbvlzv6JhkJ7B59ZyoKnSyn7MZs5gz8kyejNaeWjnPsYcQEB8aZ+QfcOTnzf62xqai/xToojQTVmUSJppPVecLzhWdYer/Y0BCfoaqNH5QKuojnrYZPhjpo43C3fKOLini5b1YBHcBVBQmSK21P8h/tq2ykqQKLChGBEnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755015977; c=relaxed/simple;
-	bh=mERfh/S4RUDhW5Z1CFSz/aH4PfqzLX4p+kfBZfUrQrg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JzSvtRZoK3TqhJ+MSRTlLBYKb9cphmWmyv4S/sAAfhZ3sI02rncL9zq6Fy02ru58xpe7keHtUxULG4SM8hU07URHWYmL49SqbYoJRyEF+1EsosMNuk0T2S2jELd+iASv7qX8T3gzvRa6TJTqKh0tf1xBJ71vCJPqssuXuhyE1TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=XK5e7/n/; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1755016072; c=relaxed/simple;
+	bh=H4wHN42+zKDQDW19yMF/FjeYkLlXStajbQksxijv184=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BIK2xjmDd6SIkTngXPi/pPxLnftxm9n7oy8tECHFdqIC7TPiA/YmCWKoNDTLRr0oTDPG4e0NAo/SyuDsK8597EKhqXE6EBYUxby2/FxvlRmrq0kmXfvLePonfRtkxixA6C8RrwZT7knjeaauzm0SCOhS4cw7S8VUmoGOrLHm3LA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jGMkrphs; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="XK5e7/n/"
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57CGPNAj1947279;
-	Tue, 12 Aug 2025 11:25:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755015923;
-	bh=0svE4w2w2DMu3Hngj9bv0Qop7RXmrRjLkTtIJIaYnvQ=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=XK5e7/n/Sl6c6Y0Jy8DL+HixLNzbUwJ1hXPvzRo6xQ+8olG/dqg25LkKflPBVfN9T
-	 9lzlGxBoX0WI5lbjJJTq/g0RrvAQx6ghhJnsVkBsHnlpTWyPfssCK6F6L2zTe4o1pV
-	 Wfa4ocY4q4f5qlXUrxK48G24bILqV7oauRTFTOwA=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57CGPMXw3939979
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 12 Aug 2025 11:25:22 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 12
- Aug 2025 11:25:22 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 12 Aug 2025 11:25:22 -0500
-Received: from [10.249.130.61] ([10.249.130.61])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57CGPBC3631375;
-	Tue, 12 Aug 2025 11:25:12 -0500
-Message-ID: <d77189ec-b1ee-4718-9212-c7208da40814@ti.com>
-Date: Tue, 12 Aug 2025 21:55:11 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jGMkrphs"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7e69960c557so858444385a.1;
+        Tue, 12 Aug 2025 09:27:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755016070; x=1755620870; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=872DLzccGLdeccFMNiMQO9zyDCZsoO8QTCAZbV7RhvA=;
+        b=jGMkrphsb0BYnfetforWuB0UmJiWRAyFNtqi7E3tZunPdddeP8aVFRQ6v5jsZcZwai
+         60jG2OnSLN0HSF3dgsItBBwiK/LFkfGQkbgsIZsTLsiZUtPUV8MPb9VMqful3vm0e3fL
+         /pPjr5hQXEIZSEc7wP1tjfdb58XWxtITWRZFEu3x/kHv92ePVMsOtzsbwkqNchkN/Yy1
+         8m8T+2tG8oOcSXsLV7k8RjxIPAP+/3UGflVPvuwNEXzOX0C1nm3MK0SvWPd+Tnvcg/Ok
+         ltXFIJQmoMppiThvnFLXC7l+mvxwushKmczOJJk0CV6fsSd9ZxhXZ7VvP3wQUjrHeWyD
+         ZFVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755016070; x=1755620870;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=872DLzccGLdeccFMNiMQO9zyDCZsoO8QTCAZbV7RhvA=;
+        b=EFd1WlvCij1uvKK2+aM3ogn+Xf4zu/C6oL8VnwxKElgysyaSZvxk88Aobs4fhsdXBx
+         bdPf5l6P94d9Xb32Ew45THwT3DexJP9fO7kD7tE0bY6FXMSOKRCOLqNVTOdDnf8kNO0Y
+         ewiqtWsAsZ/Nihb3tC3bM0b3qyOhEW9sEBTwMF5hCP3beyJDYUl81jZqTQZ6YfGiNe2V
+         W9Hm76LwqRc/P9qkk9k0JxPqvR66fjb4Zk0uXX6aGP2AR/yX/54i5oECLy5BnaUnAg5r
+         RPSioB6sTIUNpDLifyk73Aqs9CqjlMnr1OELwN1rBD7130dwlZMGLG3zVt8c1kW5b8gN
+         eOgw==
+X-Forwarded-Encrypted: i=1; AJvYcCU2TDzhJ1It2jPUrn7MNqpHV8eKosRob8ohBPPS32hfg3gPUijHkHnl+ama6T3zydP+l8GVBZeT8kHqqHDe@vger.kernel.org, AJvYcCVhDBe69k7+x7Ion26fykuNvEo05o1xRTSBoAtCXEpX1sjdhkY/cgwUwN71q6SWrPMziKy8ueEiblWzAZVRqDW7SlXt@vger.kernel.org, AJvYcCWL6xVMOttoaGwJhRfZeE5Nz/L4esj9awkDASANZS09TvTQP7iaofH9Yrcu3Lc2mVHomrH0WekjqYM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyHFFR0LX9gC+ds0lpWWv/ViBrhJOFpEbaD4ZM40kFpbWtL2tz
+	D+zksX2y3YcFJvDgWHo/qU/VIvkomo+x4jbTj58vpAkgMOvRoQdzwgiV
+X-Gm-Gg: ASbGnct1yChKkWf9XzPzOnfC71yuKh5/FOC8cy+ZGu7CHgV/XgAY9XJ625efx3MS1/q
+	zHRKwmBt+q7TJe6SFTgEJKorXB58j1LWlTNSSy/nK7RNkt9AN5sCH3slcX1DcRuvNoAWlNSkZ/+
+	/RjGmTrzZVwKa0w+24hbpwHbW5WWyo25s94mkguf/f3Zt2APux0tJ6Qm/aeiAdx0LhfdcpOadz3
+	2V5zg5ELdNpCs6C3VPq4PCOhkfA9nVLqSk4twqA/bR1cXu2TAAH6rREt4bLPEXRfU9z1grPmyi+
+	eL1l9k9KofgYGc5TVlgywMIcVY29H5/uR+G5skT02/B8x6HBE8ACiL/cJucTNYrrHvbHgaGGg4o
+	0geOcbJiOt7RSm/mTcfqPlZC0hKTq9ogpykQvZklTJ/rfFyy2VINpZChoPa8Iv+kXZ239/L95yg
+	wOLtyqx2zvMdh7
+X-Google-Smtp-Source: AGHT+IFxhKZRHNUBkF8fW0WhG5+zFamuxSg1/GhEXwahNWd7gHiivmN+ywTMT50AIlpgMLveRmN0mQ==
+X-Received: by 2002:a05:620a:4ad9:b0:7e8:5bb:b398 with SMTP id af79cd13be357-7e8644cad80mr37414685a.9.1755016069413;
+        Tue, 12 Aug 2025 09:27:49 -0700 (PDT)
+Received: from ipravd-Nitro-AN515-55.mynetworksettings.com ([2600:4040:530f:f000:a841:61f7:aa1f:bc8])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e8079cfcc9sm1269013885a.29.2025.08.12.09.27.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Aug 2025 09:27:49 -0700 (PDT)
+From: Ivan Pravdin <ipravdin.official@gmail.com>
+To: rostedt@goodmis.org,
+	corbet@lwn.net,
+	tglozar@redhat.com,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Ivan Pravdin <ipravdin.official@gmail.com>
+Subject: [PATCH 0/3] rtla: fix cgroup and trace options parsing
+Date: Tue, 12 Aug 2025 12:27:29 -0400
+Message-ID: <cover.1755014784.git.ipravdin.official@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/5] net: rnpgbe: Add n500/n210 chip support
-To: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
-        <gur.stavi@huawei.com>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
-        <danishanwar@ti.com>, <lee@trager.us>, <gongfan1@huawei.com>,
-        <lorenzo@kernel.org>, <geert+renesas@glider.be>,
-        <Parthiban.Veerasooran@microchip.com>, <lukas.bulwahn@redhat.com>,
-        <alexanderduyck@fb.com>, <richardcochran@gmail.com>
-CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-3-dong100@mucse.com>
-Content-Language: en-US
-From: "Anwar, Md Danish" <a0501179@ti.com>
-In-Reply-To: <20250812093937.882045-3-dong100@mucse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
 
+This series fixes 3 issue in rtla timerlat and osnoise parsing.
 
+1. Fix buffer overflow when using --on-threshold option. Currently
+   passing `--on-threshold trace` causes rtla timerlat to segfault.
+   First patch addresses this issue.
 
-On 8/12/2025 3:09 PM, Dong Yibo wrote:
-> Initialize n500/n210 chip bar resource map and
-> dma, eth, mbx ... info for future use.
-> 
-> Signed-off-by: Dong Yibo <dong100@mucse.com>
-> ---
->  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
->  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  60 +++++++++
->  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |  88 ++++++++++++++
->  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  12 ++
->  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 115 ++++++++++++++++++
->  5 files changed, 277 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
->  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-> 
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> index 9df536f0d04c..42c359f459d9 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> @@ -5,4 +5,5 @@
->  #
->  
->  obj-$(CONFIG_MGBE) += rnpgbe.o
-> -rnpgbe-objs := rnpgbe_main.o
-> +rnpgbe-objs := rnpgbe_main.o\
-> +	       rnpgbe_chip.o
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> index 23c84454e7c7..0dd3d3cb2a4d 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> @@ -4,18 +4,78 @@
->  #ifndef _RNPGBE_H
->  #define _RNPGBE_H
->  
-> +#include <linux/types.h>
-> +
-> +extern const struct rnpgbe_info rnpgbe_n500_info;
-> +extern const struct rnpgbe_info rnpgbe_n210_info;
-> +extern const struct rnpgbe_info rnpgbe_n210L_info;
-> +
->  enum rnpgbe_boards {
->  	board_n500,
->  	board_n210,
->  	board_n210L,
->  };
->  
-> +enum rnpgbe_hw_type {
-> +	rnpgbe_hw_n500 = 0,
-> +	rnpgbe_hw_n210,
-> +	rnpgbe_hw_n210L,
-> +	rnpgbe_hw_unknow
-> +};
+2. Make -C/--cgroup option more user-friendly. Currently rtla timerlat
+   and osnoise parses does not allow to specify tracer's threads cgroup
+   name as `-C [cgroup]` or `--cgroup [cgroup]`. Second patch fixes this by
+   allowing users to specify cgroup in the aforementioned manner.
 
+3. When specifying `-t/--trace` before `-a/--auto`, trace filename is
+   override to default <osnoise|timerlat>_trace.txt. For example, when
+   running rtla as 
+    
+       `rtla timerlat top -t custom_file.txt -a 100`
 
-The enum value name should be "rnpgbe_hw_unknown" not "rnpgbe_hw_unknow"
-(missing 'n').
+   when the threshold is reached, timerlat_trace.txt file is created
+   instead of specified custom_file.txt. Third patch addresses this issue.
 
-> +
-> +struct mucse_dma_info {
-> +	void __iomem *dma_base_addr;
-> +	void __iomem *dma_ring_addr;
-> +	void *back;
-> +	u32 dma_version;
-> +};
-> +
-> +struct mucse_eth_info {
-> +	void __iomem *eth_base_addr;
-> +	void *back;
-> +};
-> +
-> +struct mucse_mac_info {
-> +	void __iomem *mac_addr;
-> +	void *back;
-> +};
-> +
-> +struct mucse_mbx_info {
-> +	/* fw <--> pf mbx */
-> +	u32 fw_pf_shm_base;
-> +	u32 pf2fw_mbox_ctrl;
-> +	u32 pf2fw_mbox_mask;
-> +	u32 fw_pf_mbox_mask;
-> +	u32 fw2pf_mbox_vec;
-> +};
-> +
-> +struct mucse_hw {
-> +	void *back;
-> +	void __iomem *hw_addr;
-> +	void __iomem *ring_msix_base;
-> +	struct pci_dev *pdev;
-> +	enum rnpgbe_hw_type hw_type;
-> +	struct mucse_dma_info dma;
-> +	struct mucse_eth_info eth;
-> +	struct mucse_mac_info mac;
-> +	struct mucse_mbx_info mbx;
-> +	u32 driver_version;
-> +	u16 usecstocount;
-> +};
-> +
->  struct mucse {
->  	struct net_device *netdev;
->  	struct pci_dev *pdev;
-> +	struct mucse_hw hw;
->  	u16 bd_number;
->  };
->  
-> +struct rnpgbe_info {
-> +	int total_queue_pair_cnts;
-> +	enum rnpgbe_hw_type hw_type;
-> +	void (*init)(struct mucse_hw *hw);
-> +};
-> +
->  /* Device IDs */
->  #define PCI_VENDOR_ID_MUCSE 0x8848
->  #define PCI_DEVICE_ID_N500_QUAD_PORT 0x8308
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> new file mode 100644
-> index 000000000000..20ec67c9391e
-> --- /dev/null
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> @@ -0,0 +1,88 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
-> +
-> +#include "rnpgbe.h"
-> +#include "rnpgbe_hw.h"
-> +
-> +/**
-> + * rnpgbe_init_common - Setup common attribute
-> + * @hw: hw information structure
-> + **/
-> +static void rnpgbe_init_common(struct mucse_hw *hw)
-> +{
-> +	struct mucse_dma_info *dma = &hw->dma;
-> +	struct mucse_eth_info *eth = &hw->eth;
-> +	struct mucse_mac_info *mac = &hw->mac;
-> +
-> +	dma->dma_base_addr = hw->hw_addr;
-> +	dma->dma_ring_addr = hw->hw_addr + RNPGBE_RING_BASE;
-> +	dma->back = hw;
-> +
-> +	eth->eth_base_addr = hw->hw_addr + RNPGBE_ETH_BASE;
-> +	eth->back = hw;
-> +
-> +	mac->mac_addr = hw->hw_addr + RNPGBE_MAC_BASE;
-> +	mac->back = hw;
-> +}
-> +
-> +/**
-> + * rnpgbe_init_n500 - Setup n500 hw info
-> + * @hw: hw information structure
-> + *
-> + * rnpgbe_init_n500 initializes all private
-> + * structure, such as dma, eth, mac and mbx base on
-> + * hw->addr for n500
-> + **/
-> +static void rnpgbe_init_n500(struct mucse_hw *hw)
-> +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +
-> +	rnpgbe_init_common(hw);
-> +
-> +	mbx->fw2pf_mbox_vec = 0x28b00;
-> +	mbx->fw_pf_shm_base = 0x2d000;
-> +	mbx->pf2fw_mbox_ctrl = 0x2e000;
-> +	mbx->fw_pf_mbox_mask = 0x2e200;
-> +	hw->ring_msix_base = hw->hw_addr + 0x28700;
-> +	hw->usecstocount = 125;
-> +}
-> +
-> +/**
-> + * rnpgbe_init_n210 - Setup n210 hw info
-> + * @hw: hw information structure
-> + *
-> + * rnpgbe_init_n210 initializes all private
-> + * structure, such as dma, eth, mac and mbx base on
-> + * hw->addr for n210
-> + **/
-> +static void rnpgbe_init_n210(struct mucse_hw *hw)
-> +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +
-> +	rnpgbe_init_common(hw);
-> +
-> +	mbx->fw2pf_mbox_vec = 0x29400;
-> +	mbx->fw_pf_shm_base = 0x2d900;
-> +	mbx->pf2fw_mbox_ctrl = 0x2e900;
-> +	mbx->fw_pf_mbox_mask = 0x2eb00;
-> +	hw->ring_msix_base = hw->hw_addr + 0x29000;
-> +	hw->usecstocount = 62;
-> +}
+Ivan Pravdin (3):
+  rtla: fix buffer overflow in actions_parse
+  rtla: fix -C/--cgroup interface
+  rtla: fix -a overriding -t argument
 
-I don't see pf2fw_mbox_mask getting initialized anywhere. Is that not
-needed?
-
-> +
-> +const struct rnpgbe_info rnpgbe_n500_info = {
-
+ Documentation/tools/rtla/common_options.rst |  2 +-
+ tools/tracing/rtla/src/actions.c            |  2 +-
+ tools/tracing/rtla/src/osnoise_hist.c       | 24 ++++++++------
+ tools/tracing/rtla/src/osnoise_top.c        | 24 ++++++++------
+ tools/tracing/rtla/src/timerlat_hist.c      | 24 ++++++++------
+ tools/tracing/rtla/src/timerlat_top.c       | 36 +++++++++------------
+ 6 files changed, 62 insertions(+), 50 deletions(-)
 
 -- 
-Thanks and Regards,
-Md Danish Anwar
+2.48.1
 
