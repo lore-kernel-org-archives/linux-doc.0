@@ -1,317 +1,253 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EE32F5490;
-	Tue, 12 Aug 2025 16:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5BC23D7CF;
+	Tue, 12 Aug 2025 16:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755016652; cv=none; b=Uf0rkRy+PnWBCBHuM9HQ1m/kCUYckTBTiTw+gL7IuiNKHJy6zabImxcjMbZi8xmmQZmRjGT+8KIGhibxhZhr2bfiThIYZAXSqpvFPMjJK9NioA2Y/Ijh0dzpQ5FxtcbY+fgntielSM+0XUZjJy/4MHOQW6ViFa23IzKCG8x4WZ0=
+	t=1755016654; cv=none; b=jRVzBaBMdtDNmYBI/KnCR+zL7OR1dH/SWySvHP4QFt6wduYusrWV/Z3XyjS37Q/MMKUfX0ttnN0edgA3TIHkhjH06n8f6p7wKQ/eAg0i1MyKicEc7akqMsd8doCLlrhoG8WLxOTpfwPjT69W3CQw9e2PYyCJbcbpQN8i8x5+lLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755016652; c=relaxed/simple;
-	bh=KCKNEl62rjrtMG8u1hgKULtjfvWRT+ksDKwDjpV2ePE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=S4ovOM7NCVL67UTOIK/oGAYDRWOacCLVdMkEb57mCSAr7q91NQbvc6Vq1eWEks3xQT/GxtEJeyCbAJzrkpweAP7fh7whQihPeiJs0prPps3wzDubuvoQK/eXp4doPgMpaRRPEbwh5/YRGSXm83Yx35uyiifCDUm5XZRLT/hggQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=PDDayXFJ; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1755016654; c=relaxed/simple;
+	bh=1LB3sQUcUTaY7w8V2P9L+qNDuPdWsQ0wWN2BJLOvNmg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cOJ5nq6bi/vv+2W/LC7IFup8iE99ENIOG4pHB5h+SK5tIrplyFrogEaqeFQ9ftiTlUyWe/4TmaZSRNd6HO7sxBi4Rnbj9wmOWBg5gAhCH4CRjqO5nd/hBQ+pvaMUewmxLeTCBPbBWTCuztVANZXZIZXa9t6j/EBVfneL0dUEtCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KfJy6j4K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="PDDayXFJ"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57CGVEpi1447545;
-	Tue, 12 Aug 2025 11:31:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755016274;
-	bh=YFLM9pfLOusy2YVMdLzf9ptsSRr3pdKzRMQf7aNOi3M=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=PDDayXFJeFvugwsuu8W3/SXdqBGeOvAgqbJl/IOnBJcnLKq8bMOp574l4TIH8rRHi
-	 TPnzd0FP2DnLEM8AP6y+oaiEzvRVl6AmeFUswvqFmNvqEFaZzKZS5xlwMv0fslKAmz
-	 A8MvM9Dy77mB89zmD/claPP7wZP79g9A962sjOzA=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57CGVEBg3598831
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 12 Aug 2025 11:31:14 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 12
- Aug 2025 11:31:13 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 12 Aug 2025 11:31:13 -0500
-Received: from [10.249.130.61] ([10.249.130.61])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57CGUw4i639914;
-	Tue, 12 Aug 2025 11:30:59 -0500
-Message-ID: <4f8d678a-8b72-449e-9809-bed912f26e59@ti.com>
-Date: Tue, 12 Aug 2025 22:00:57 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KfJy6j4K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89936C4CEF1;
+	Tue, 12 Aug 2025 16:37:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755016653;
+	bh=1LB3sQUcUTaY7w8V2P9L+qNDuPdWsQ0wWN2BJLOvNmg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KfJy6j4KkfFeebnA9BSAnLlnIckfhzhg9lYw3ZuK2N27U6XVi2Pv+M72SLzJQV62Z
+	 Pv5qN+NtdnEQIF8wEfapGW8QB1d3e2gAwfzTg73XcSxkooIDLbJEkemyBl7b20NH/1
+	 WUHB/fUmTNK+2IVLZAJQWj1GjfnuamGnKCHwFRChrFfgkvHE0aVnjkVwEqq1kRZjdb
+	 4nH9cTQONP7bHctTLPvI/qcOoFUdUDBZ8JXmnRKdsHn4E20wgH572JfopSXAkinMZn
+	 8eWvE5W2cVyRYq/cHgT10b/qBueTYsn0hw3AjTyBvNYHkyKMKdfbD8iaTUg/1soyHm
+	 KhD95htVxRh0g==
+Date: Tue, 12 Aug 2025 09:37:33 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: John Groves <John@groves.net>
+Cc: Amir Goldstein <amir73il@gmail.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Bernd Schubert <bschubert@ddn.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC V2 10/18] famfs_fuse: Basic fuse kernel ABI enablement for
+ famfs
+Message-ID: <20250812163733.GF7942@frogsfrogsfrogs>
+References: <20250703185032.46568-1-john@groves.net>
+ <20250703185032.46568-11-john@groves.net>
+ <CAOQ4uxi7fvMgYqe1M3_vD3+YXm7x1c4YjA=eKSGLuCz2Dsk0TQ@mail.gmail.com>
+ <yhso6jddzt6c7glqadrztrswpisxmuvg7yopc6lp4gn44cxd4m@my4ajaw47q7d>
+ <20250707173942.GC2672029@frogsfrogsfrogs>
+ <ueepqz3oqeqzwiidk2wlf3f7enxxte4ws27gtxhakfmdiq4t26@cvfmozym5rme>
+ <20250709015348.GD2672029@frogsfrogsfrogs>
+ <wam2qo5r7tbpf4ork5qcdqnw4olhfpkvlqpnbuqpwfhrymf3dq@hw3frnbadhk7>
+ <z2yuwgzsbbirtfmr2rkgbq3yhjtvihumdxp4bvwgkybikubhgp@lfjfhlvtckmr>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/5] net: rnpgbe: Add basic mbx ops support
-To: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
-        <gur.stavi@huawei.com>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
-        <danishanwar@ti.com>, <lee@trager.us>, <gongfan1@huawei.com>,
-        <lorenzo@kernel.org>, <geert+renesas@glider.be>,
-        <Parthiban.Veerasooran@microchip.com>, <lukas.bulwahn@redhat.com>,
-        <alexanderduyck@fb.com>, <richardcochran@gmail.com>
-CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-4-dong100@mucse.com>
-Content-Language: en-US
-From: "Anwar, Md Danish" <a0501179@ti.com>
-In-Reply-To: <20250812093937.882045-4-dong100@mucse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <z2yuwgzsbbirtfmr2rkgbq3yhjtvihumdxp4bvwgkybikubhgp@lfjfhlvtckmr>
 
-
-
-On 8/12/2025 3:09 PM, Dong Yibo wrote:
-> Initialize basic mbx function.
+On Mon, Aug 11, 2025 at 01:30:53PM -0500, John Groves wrote:
+> On 25/07/10 08:32PM, John Groves wrote:
+> > On 25/07/08 06:53PM, Darrick J. Wong wrote:
+> > > On Tue, Jul 08, 2025 at 07:02:03AM -0500, John Groves wrote:
+> > > > On 25/07/07 10:39AM, Darrick J. Wong wrote:
+> > > > > On Fri, Jul 04, 2025 at 08:39:59AM -0500, John Groves wrote:
+> > > > > > On 25/07/04 09:54AM, Amir Goldstein wrote:
+> > > > > > > On Thu, Jul 3, 2025 at 8:51 PM John Groves <John@groves.net> wrote:
+> > > > > > > >
+> > > > > > > > * FUSE_DAX_FMAP flag in INIT request/reply
+> > > > > > > >
+> > > > > > > > * fuse_conn->famfs_iomap (enable famfs-mapped files) to denote a
+> > > > > > > >   famfs-enabled connection
+> > > > > > > >
+> > > > > > > > Signed-off-by: John Groves <john@groves.net>
+> > > > > > > > ---
+> > > > > > > >  fs/fuse/fuse_i.h          |  3 +++
+> > > > > > > >  fs/fuse/inode.c           | 14 ++++++++++++++
+> > > > > > > >  include/uapi/linux/fuse.h |  4 ++++
+> > > > > > > >  3 files changed, 21 insertions(+)
+> > > > > > > >
+> > > > > > > > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > > > > > > > index 9d87ac48d724..a592c1002861 100644
+> > > > > > > > --- a/fs/fuse/fuse_i.h
+> > > > > > > > +++ b/fs/fuse/fuse_i.h
+> > > > > > > > @@ -873,6 +873,9 @@ struct fuse_conn {
+> > > > > > > >         /* Use io_uring for communication */
+> > > > > > > >         unsigned int io_uring;
+> > > > > > > >
+> > > > > > > > +       /* dev_dax_iomap support for famfs */
+> > > > > > > > +       unsigned int famfs_iomap:1;
+> > > > > > > > +
+> > > > > > > 
+> > > > > > > pls move up to the bit fields members.
+> > > > > > 
+> > > > > > Oops, done, thanks.
+> > > > > > 
+> > > > > > > 
+> > > > > > > >         /** Maximum stack depth for passthrough backing files */
+> > > > > > > >         int max_stack_depth;
+> > > > > > > >
+> > > > > > > > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> > > > > > > > index 29147657a99f..e48e11c3f9f3 100644
+> > > > > > > > --- a/fs/fuse/inode.c
+> > > > > > > > +++ b/fs/fuse/inode.c
+> > > > > > > > @@ -1392,6 +1392,18 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
+> > > > > > > >                         }
+> > > > > > > >                         if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled())
+> > > > > > > >                                 fc->io_uring = 1;
+> > > > > > > > +                       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&
+> > > > > > > > +                           flags & FUSE_DAX_FMAP) {
+> > > > > > > > +                               /* XXX: Should also check that fuse server
+> > > > > > > > +                                * has CAP_SYS_RAWIO and/or CAP_SYS_ADMIN,
+> > > > > > > > +                                * since it is directing the kernel to access
+> > > > > > > > +                                * dax memory directly - but this function
+> > > > > > > > +                                * appears not to be called in fuse server
+> > > > > > > > +                                * process context (b/c even if it drops
+> > > > > > > > +                                * those capabilities, they are held here).
+> > > > > > > > +                                */
+> > > > > > > > +                               fc->famfs_iomap = 1;
+> > > > > > > > +                       }
+> > > > > > > 
+> > > > > > > 1. As long as the mapping requests are checking capabilities we should be ok
+> > > > > > >     Right?
+> > > > > > 
+> > > > > > It depends on the definition of "are", or maybe of "mapping requests" ;)
+> > > > > > 
+> > > > > > Forgive me if this *is* obvious, but the fuse server capabilities are what
+> > > > > > I think need to be checked here - not the app that it accessing a file.
+> > > > > > 
+> > > > > > An app accessing a regular file doesn't need permission to do raw access to
+> > > > > > the underlying block dev, but the fuse server does - becuase it is directing
+> > > > > > the kernel to access that for apps.
+> > > > > > 
+> > > > > > > 2. What's the deal with capable(CAP_SYS_ADMIN) in process_init_limits then?
+> > > > > > 
+> > > > > > I *think* that's checking the capabilities of the app that is accessing the
+> > > > > > file, and not the fuse server. But I might be wrong - I have not pulled very
+> > > > > > hard on that thread yet.
+> > > > > 
+> > > > > The init reply should be processed in the context of the fuse server.
+> > > > > At that point the kernel hasn't exposed the fs to user programs, so
+> > > > > (AFAICT) there won't be any other programs accessing that fuse mount.
+> > > > 
+> > > > Hmm. It would be good if you're right about that. My fuse server *is* running
+> > > > as root, and when I check those capabilities in process_init_reply(), I
+> > > > find those capabilities. So far so good.
+> > > > 
+> > > > Then I added code to my fuse server to drop those capabilities prior to
+> > > > starting the fuse session (prctl(PR_CAPBSET_DROP, CAP_SYS_RAWIO) and 
+> > > > prctl(PR_CAPBSET_DROP, CAP_SYS_ADMIN). I expected (hoped?) to see those 
+> > > > capabilities disappear in process_init_reply() - but they did not disappear.
+> > > > 
+> > > > I'm all ears if somebody can see a flaw in my logic here. Otherwise, the
+> > > > capabilities need to be stashed away before the reply is processsed, when 
+> > > > fs/fuse *is* running in fuse server context.
+> > > > 
+> > > > I'm somewhat surprised if that isn't already happening somewhere...
+> > > 
+> > > Hrm.  I *thought* that since FUSE_INIT isn't queued as a background
+> > > command, it should still execute in the same process context as the fuse
+> > > server.
+> > > 
+> > > OTOH it also occurs to me that I have this code in fuse_send_init:
+> > > 
+> > > 	if (has_capability_noaudit(current, CAP_SYS_RAWIO))
+> > > 		flags |= FUSE_IOMAP | FUSE_IOMAP_DIRECTIO | FUSE_IOMAP_PAGECACHE;
+> > > 	...
+> > > 	ia->in.flags = flags;
+> > > 	ia->in.flags2 = flags >> 32;
+> > > 
+> > > which means that we only advertise iomap support in FUSE_INIT if the
+> > > process running fuse_fill_super (which you hope is the fuse server)
+> > > actually has CAP_SYS_RAWIO.  Would that work for you?  Or are you
+> > > dropping privileges before you even open /dev/fuse?
+> > 
+> > Ah - that might be the answer. I will check if dropped capabilities 
+> > disappear in fuse_send_init. If so, I can work with that - not advertising 
+> > the famfs capability unless the capability is present at that point looks 
+> > like a perfectly good option. Thanks for that idea!
 > 
-> Signed-off-by: Dong Yibo <dong100@mucse.com>
-> ---
->  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
->  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  37 ++
->  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |   5 +
->  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |   2 +
->  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c    | 443 ++++++++++++++++++
->  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h    |  31 ++
->  6 files changed, 520 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
->  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
+> Review: the famfs fuse server directs the kernel to provide access to raw
+> (memory) devices, so it should should be required to have have the
+> CAP_SYS_RAWIO capability. fs/fuse needs to detect this at init time,
+> and fail the connection/mount if the capability is missing.
 > 
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> index 42c359f459d9..5fc878ada4b1 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> @@ -6,4 +6,5 @@
->  
->  obj-$(CONFIG_MGBE) += rnpgbe.o
->  rnpgbe-objs := rnpgbe_main.o\
-> -	       rnpgbe_chip.o
-> +	       rnpgbe_chip.o\
-> +	       rnpgbe_mbx.o
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> index 0dd3d3cb2a4d..05830bb73d3e 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> @@ -5,6 +5,7 @@
->  #define _RNPGBE_H
->  
->  #include <linux/types.h>
-> +#include <linux/mutex.h>
->  
->  extern const struct rnpgbe_info rnpgbe_n500_info;
->  extern const struct rnpgbe_info rnpgbe_n210_info;
-> @@ -40,7 +41,43 @@ struct mucse_mac_info {
->  	void *back;
->  };
->  
-> +struct mucse_hw;
-> +
-> +struct mucse_mbx_operations {
-> +	void (*init_params)(struct mucse_hw *hw);
-> +	int (*read)(struct mucse_hw *hw, u32 *msg,
-> +		    u16 size);
-> +	int (*write)(struct mucse_hw *hw, u32 *msg,
-> +		     u16 size);
-> +	int (*read_posted)(struct mucse_hw *hw, u32 *msg,
-> +			   u16 size);
-> +	int (*write_posted)(struct mucse_hw *hw, u32 *msg,
-> +			    u16 size);
-> +	int (*check_for_msg)(struct mucse_hw *hw);
-> +	int (*check_for_ack)(struct mucse_hw *hw);
-> +	void (*configure)(struct mucse_hw *hw, int num_vec,
-> +			  bool enable);
-> +};
-> +
-> +struct mucse_mbx_stats {
-> +	u32 msgs_tx;
-> +	u32 msgs_rx;
-> +	u32 acks;
-> +	u32 reqs;
-> +	u32 rsts;
-> +};
-> +
->  struct mucse_mbx_info {
-> +	const struct mucse_mbx_operations *ops;
-> +	struct mucse_mbx_stats stats;
-> +	u32 timeout;
-> +	u32 usec_delay;
-> +	u16 size;
-> +	u16 fw_req;
-> +	u16 fw_ack;
-> +	/* lock for only one use mbx */
-> +	struct mutex lock;
-> +	bool irq_enabled;
->  	/* fw <--> pf mbx */
->  	u32 fw_pf_shm_base;
->  	u32 pf2fw_mbox_ctrl;
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> index 20ec67c9391e..16d0a76114b5 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> @@ -1,8 +1,11 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /* Copyright(c) 2020 - 2025 Mucse Corporation. */
->  
-> +#include <linux/string.h>
-> +
->  #include "rnpgbe.h"
->  #include "rnpgbe_hw.h"
-> +#include "rnpgbe_mbx.h"
->  
->  /**
->   * rnpgbe_init_common - Setup common attribute
-> @@ -23,6 +26,8 @@ static void rnpgbe_init_common(struct mucse_hw *hw)
->  
->  	mac->mac_addr = hw->hw_addr + RNPGBE_MAC_BASE;
->  	mac->back = hw;
-> +
-> +	hw->mbx.ops = &mucse_mbx_ops_generic;
->  }
->  
->  /**
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-> index fc57258537cf..aee037e3219d 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-> @@ -7,6 +7,8 @@
->  #define RNPGBE_RING_BASE 0x1000
->  #define RNPGBE_MAC_BASE 0x20000
->  #define RNPGBE_ETH_BASE 0x10000
-> +/**************** DMA Registers ****************************/
-> +#define RNPGBE_DMA_DUMY 0x000c
->  /**************** CHIP Resource ****************************/
->  #define RNPGBE_MAX_QUEUES 8
->  #endif /* _RNPGBE_HW_H */
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
-> new file mode 100644
-> index 000000000000..1195cf945ad1
-> --- /dev/null
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
-> @@ -0,0 +1,443 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright(c) 2022 - 2025 Mucse Corporation. */
-> +
-> +#include <linux/pci.h>
-> +#include <linux/errno.h>
-> +#include <linux/delay.h>
-> +#include <linux/iopoll.h>
-> +
-> +#include "rnpgbe.h"
-> +#include "rnpgbe_mbx.h"
-> +#include "rnpgbe_hw.h"
-> +
-> +/**
-> + * mucse_read_mbx - Reads a message from the mailbox
-> + * @hw: pointer to the HW structure
-> + * @msg: the message buffer
-> + * @size: length of buffer
-> + *
-> + * @return: 0 on success, negative on failure
-> + **/
-> +int mucse_read_mbx(struct mucse_hw *hw, u32 *msg, u16 size)
-> +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +
-> +	/* limit read size */
-> +	min(size, mbx->size);
-> +	return mbx->ops->read(hw, msg, size);
-> +}
+> I initially attempted to do this verification in process_init_reply(), but
+> that doesn't run in the fuse server process context.
+> 
+> I am now checking the capability in fuse_send_init(), and not advertising
+> the FUSE_DAX_FMAP capability (in in_args->flags[2]) unless the server has 
+> CAP_SYS_RAWIO.
+> 
+> That requires that process_init_reply() reject FUSE_DAX_FMAP from a server
+> if FUSE_DAX_FMAP was not set in in_args->flags[2]. process_init_reply() was
+> not previously checking the in_args, but no big deal - this works.
+> 
+> This leads to an apparent dilemma in libfuse. In fuse_lowlevel_ops->init(),
+> I should check for (flags & FUSE_DAX_IOMAP), and fail the connection if
+> that capability is not on offer. But fuse_lowlevel_ops->init() doesn't
+> have an obvious way to fail the connection. 
 
-What's the purpose of min() here if you are anyways passing size to read()?
+Yeah, I really wish it did.  I particularly wish that it had a way to
+negotiate all the FUSE_INIT stuff before libfuse daemonizes and starts
+up the event loop.  Well, not all of it -- by the time we get to
+FUSE_INIT we've basically decided to commit to mounting.
 
-The min() call needs to be assigned to size, e.g.: size = min(size,
-mbx->size);
+For fuseblk servers this is horrible, because the kernel needs to be
+able to open the block device with O_EXCL during the mount() process,
+which means you actually have to be able to (re)open the block device
+from op_init, which can fail.  Unless there's a way to drop O_EXCL from
+an open fd?
 
-> +
-> +/**
-> + * mucse_write_mbx - Write a message to the mailbox
-> + * @hw: pointer to the HW structure
-> + * @msg: the message buffer
-> + * @size: length of buffer
-> + *
-> + * @return: 0 on success, negative on failure
-> + **/
+The awful way that I handle failure in FUSE_INIT is to call
+fuse_session_exit, but that grossly leaves a dead mount in its place.
 
-> +
-> +/**
-> + * mucse_mbx_reset - Reset mbx info, sync info from regs
-> + * @hw: pointer to the HW structure
-> + *
-> + * This function reset all mbx variables to default.
-> + **/
-> +static void mucse_mbx_reset(struct mucse_hw *hw)
-> +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +	int v;
-> +
+Hey wait, is this what Mikulas was talking about when he mentioned
+synchronous initialization?
 
-Variable 'v' should be declared as u32 to match the register read.
+For iomap I created a discovery ioctl so that you can open /dev/fuse and
+ask the kernel about the iomap functionality that it supports, and you
+can exit(1) without creating a fuse session.  The one goofy problem with
+that is that there's a TOCTOU race if someone else does echo N >
+/sys/module/fuse/parameters/enable_iomap, though fuse4fs can always
+fall back to non-iomap mode.
 
-> +	v = mbx_rd32(hw, FW2PF_COUNTER(mbx));
-> +	hw->mbx.fw_req = v & GENMASK(15, 0);
-> +	hw->mbx.fw_ack = (v >> 16) & GENMASK(15, 0);
-> +	mbx_wr32(hw, PF2FW_MBOX_CTRL(mbx), 0);
-> +	mbx_wr32(hw, FW_PF_MBOX_MASK(mbx), GENMASK(31, 16));
-> +}
-> +
-> +/**
-> + * mucse_mbx_configure_pf - Configure mbx to use nr_vec interrupt
-> + * @hw: pointer to the HW structure
-> + * @nr_vec: vector number for mbx
-> + * @enable: TRUE for enable, FALSE for disable
-> + *
-> + * This function configure mbx to use interrupt nr_vec.
-> + **/
-> +static void mucse_mbx_configure_pf(struct mucse_hw *hw, int nr_vec,
-> +				   bool enable)
-> +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +	u32 v;
-> +
-> +	if (enable) {
-> +		v = mbx_rd32(hw, FW2PF_COUNTER(mbx));
-> +		hw->mbx.fw_req = v & GENMASK(15, 0);
-> +		hw->mbx.fw_ack = (v >> 16) & GENMASK(15, 0);
-> +		mbx_wr32(hw, PF2FW_MBOX_CTRL(mbx), 0);
-> +		mbx_wr32(hw, FW2PF_MBOX_VEC(mbx), nr_vec);
-> +		mbx_wr32(hw, FW_PF_MBOX_MASK(mbx), GENMASK(31, 16));
-> +	} else {
-> +		mbx_wr32(hw, FW_PF_MBOX_MASK(mbx), 0xfffffffe);
-> +		mbx_wr32(hw, PF2FW_MBOX_CTRL(mbx), 0);
-> +		mbx_wr32(hw, RNPGBE_DMA_DUMY, 0);
-> +	}
-> +}
-> +
-> +/**
-> + * mucse_init_mbx_params_pf - Set initial values for pf mailbox
-> + * @hw: pointer to the HW structure
-> + *
-> + * Initializes the hw->mbx struct to correct values for pf mailbox
-> + */
-> +static void mucse_init_mbx_params_pf(struct mucse_hw *hw)
-> +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +
-> +	mbx->usec_delay = 100;
-> +	mbx->timeout = (4 * 1000 * 1000) / mbx->usec_delay;
+--D
 
-Use appropriate constants like USEC_PER_SEC instead of hardcoded values.
-
-> +	mbx->stats.msgs_tx = 0;
-> +	mbx->stats.msgs_rx = 0;
-
-
--- 
-Thanks and Regards,
-Md Danish Anwar
-
+> How should I do that? Hoping Bernd, Amir or the other libfuse people may 
+> have "the answer" (tm).
+> 
+> And of course if any of this doesn't sound like the way to go, let me know...
+> 
+> Thanks!
+> John
+> 
+> 
