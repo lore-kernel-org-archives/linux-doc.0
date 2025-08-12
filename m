@@ -1,133 +1,83 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54F817A2E6;
-	Tue, 12 Aug 2025 04:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 328901A9FA6;
+	Tue, 12 Aug 2025 05:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754974129; cv=none; b=lzzAv8ZpWMVziAqT6+feuI1voQ2sVB0huzfqhN1upP2gt+vA/5xnH07vrsZHfXFyDkV5f9MmU/YI/GgNgJeBdGTGGoPyUTZkO+TbaPLNlkdKoqVFwipIVmkVnql0ertJcdg/iWMiLNJeTY3772JqcH4bi0ycaIASFbs6+vJnb3k=
+	t=1754975279; cv=none; b=YNL1V5fjVBYsFJjNoQM8qT83e+4+e5hCBet+2EYal5MbfjBKyzElr1DyudZEh80gBsERIV/3vlGyVzL75XwZOlSpFQIRp1YgW76soHM9ORIZwgvFADSthHX4ShCR8Mvb/hEjY8zJkkz9Qn6mxKLC0GH3salJvgrxNmNohsXhMmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754974129; c=relaxed/simple;
-	bh=rd3l0x+u9gxrsAvt6wXIGSPCtQ9fjFS56ByUZRBtFvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n/Rl57GkGiV8LKHKtMy4teNEzTKWzDk2QKthpGwBZqHDaBf2vQK2WjnFGB8xigEOl6ypZ0XpwojSfg7asWfjRjuufyEXgq3YN/rR410BCzKfr6BzeOrc+PCfW1WQypNmbyxxHuybJZ4Z/fTm34bse1Q8Cmdkr9bMLez8ig4nH9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DUBTAPAz; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DUBTAPAz"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b4245235a77so4279589a12.1;
-        Mon, 11 Aug 2025 21:48:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754974126; x=1755578926; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ExX652zHf1GHUfqv+cm0zn7UYbTpQ3yVS+bG4tF/0so=;
-        b=DUBTAPAzrQEndWJCNwRsrk1V4laqGBT5ql3fIoizFiqQ6DITK/zMktp9gZ4XX6JnP9
-         KSbVu29DsoaglEQMi1Pq5mXbf50XOmtxg2YBYPEYAza/KQfkv2yU7Wn0WML4+gDk8YYB
-         YpWr/zRlO5eC4dghoJFml2fcJZpsAiE+0eaefpIYKgg+fNMWZIq5YI6ew8+XsBS3DR5X
-         O1b61rFFMSZAXMjK7pq74PiNrDpL4aKrtVxv1F7nBApOyhwQv1EyErf2e3ebQ0jZqpIM
-         2Pd6yB+e/1XNOoMYU6bvU1zLABj0bRef+GmbpGsybmTL9pv9h8o5RkBUm/vfHeG9/RLZ
-         4Zlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754974126; x=1755578926;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ExX652zHf1GHUfqv+cm0zn7UYbTpQ3yVS+bG4tF/0so=;
-        b=Cl0LH8vjv/EA7S+YyB0YPZ/nwWu0sjvWm8M4PzmvhWf68I9frH8h/mvpFV86rPsc9J
-         gZ6RJK8MMPZWeoAfjcG9ouoOVS2MQomSpR1XuWbL7LJIEIfnkOrYrHuxLcESUVPxjac5
-         z96xresHbBzgaArymItIY/OGOSxCxtxxzXu28bFo2NEA1yvz9ynj01I8J5sx4Znp6N9b
-         bN3SwJ4q2adVEddyX4eIa4GxTREK0h0Vz1DE40qTcC4SKrjs7QWqWJIb/YyFsneswCPO
-         EFUtBel29b6b184OaWhFoCaR2S8UnKgKy6Sv1IDVete4Gxfmy9jLGhuFki9IAsjKf5x2
-         7PJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/DDQE4yOMiKzSIRXjFtkRX32nD/tB48+nc8uum3uGb4/b7GnvnlHv0kVuPo36ARl79ZiJNz1tOoK5aJ415+tg@vger.kernel.org, AJvYcCX13R5CBHxf/NG8SVXgMCNBwptbu2R1TqF/dBvybObs1urV/LtJqdfbdgXCqh4V9ZLrkVBWPww64es=@vger.kernel.org, AJvYcCX9Rkg85GcXcKTbKvzp/qQ+ypsdUlNm0Yzdnz/R5OhfUousARsmhaG4Ao5mtnegdcsN7vtRyeYfwjiopYdo@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7U+ButA4775mrS4QK7cxxPnw+H9AYKelfQgV9E1QusyS6uCFB
-	lKhw4g3WIEONyMr2VjDwFgdbOEMp87bj+TyR3OgpEvy42z4+Ann2UB/5
-X-Gm-Gg: ASbGncvKw9J7+a4PxzxssWRlRAwR/AjUD99YICcOp93ctpTe8GRowBzGYF45ep+jSyv
-	vzdPTPbjGU8iKmLPPOro1nmTya+olqhlTxOs+9cpHekwtIFYdOfx6I7b3Br0zS1Q5Dba42+hrkZ
-	A1/FJjgSHuGalKMlqjpV8FWwmPs8eTPgG1NF9MEF+SkivitzoqrK/FFBmu+qGEgAtg5nG1285Tj
-	7RLW9d6qTQcqKJAxrBx955tIG9P2kL3pdYubDXSjCxML4cXLoIA2S5OHWWd7aA6FQM/osHHmuEq
-	OaWOI8J/wzc5PQfGgi5U3rAtF92yDkf7FxKIUMnapDOkGl59KMHjhckevYxCJBAv3Oz8gFb693T
-	202ftMQqV6D3CeDMqM9vEsQITjfxkHoQydyGRTA==
-X-Google-Smtp-Source: AGHT+IH4bampa00vZY2wn4ikjgxtDmkLgf5+sXi+LEPPRG28R7ojBu8w1mILEa76tO4L5ruhfLwAgg==
-X-Received: by 2002:a17:902:cf04:b0:240:7308:aecb with SMTP id d9443c01a7336-242c21ff8f9mr274922235ad.32.1754974126159;
-        Mon, 11 Aug 2025 21:48:46 -0700 (PDT)
-Received: from fedora ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-243031afd94sm2644655ad.113.2025.08.11.21.48.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 21:48:45 -0700 (PDT)
-Date: Tue, 12 Aug 2025 04:48:34 +0000
-From: Hangbin Liu <liuhangbin@gmail.com>
-To: Nikolay Aleksandrov <razor@blackwall.org>
-Cc: netdev@vger.kernel.org, Jay Vosburgh <jv@jvosburgh.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
-	Amit Cohen <amcohen@nvidia.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Alessandro Zanni <alessandro.zanni87@gmail.com>,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	s=arc-20240116; t=1754975279; c=relaxed/simple;
+	bh=10+O5604qlxvSutID6a/mGeuyisqpxtE4eEmXYjsZSI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=usV5Ul7SPDt1+uOhP/9aNPPlD5ZexgMPCIVmqgGJKv9UdpBuw7WMC5n08zNMIHa4mFYUMeeq4nwE7ZhPPUlz4uLWyyhLrWYsl1xg4TvoeJqmX/uHiEAMbOoxeq1p9EPM6u3YJFhltO2ELST7qoad3F70wCHbeKdiNGT+2Ctfsio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrAAnLqYHzJpoR7UmAA--.858S2;
+	Tue, 12 Aug 2025 13:07:19 +0800 (CST)
+Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
+	by gateway (Coremail) with SMTP id _____wCXgJoBzJpo1LbVAQ--.40495S2;
+	Tue, 12 Aug 2025 13:07:14 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	alexs@kernel.org,
+	si.yanteng@linux.dev,
+	dzm91@hust.edu.cn,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 1/3] bonding: add support for per-port LACP
- actor priority
-Message-ID: <aJrHomEWwIn8a1Ql@fedora>
-References: <20250724081632.12921-1-liuhangbin@gmail.com>
- <20250724081632.12921-2-liuhangbin@gmail.com>
- <a1f88a9d-14b8-4547-a6c1-b880633775a5@blackwall.org>
+Subject: [PATCH] MAINTAINERS: add File entry for scripts/checktransupdate.py to DOCUMENTATION
+Date: Tue, 12 Aug 2025 13:07:10 +0800
+Message-ID: <20250812050711.2515173-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a1f88a9d-14b8-4547-a6c1-b880633775a5@blackwall.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrAAnLqYHzJpoR7UmAA--.858S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoWrtr4DJFW8Gr1rXrWDKr45Jrb_yoW3WFgEyr
+	nrtFWIgFykGF17tr4kGasxJr4avr1xXrW8Xan8Jay3AasrKrZxKF9xKas7Cw13WryfurZ7
+	ZasxXr9xGr4avjkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbv8YjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+	8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
+	WUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82
+	IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
+	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+	CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
+	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+	AIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2
+	KfnxnUUI43ZEXa7IU0X_-JUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Fri, Jul 25, 2025 at 11:55:54AM +0300, Nikolay Aleksandrov wrote:
-> On 7/24/25 11:16, Hangbin Liu wrote:
-> > Introduce a new option ad_actor_port_prio, allowing users to set the actor
-> > port priority on a per-port basis in LACPDU.
-> > 
-> > This priority can be used in future enhancements to influence aggregator
-> > selection via ad_select policy.
-> > 
-> > Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
-> > ---
-> >  Documentation/networking/bonding.rst |  9 +++++++
-> >  drivers/net/bonding/bond_3ad.c       |  2 ++
-> >  drivers/net/bonding/bond_netlink.c   | 16 +++++++++++++
-> >  drivers/net/bonding/bond_options.c   | 35 ++++++++++++++++++++++++++++
-> >  include/net/bond_3ad.h               |  1 +
-> >  include/net/bond_options.h           |  1 +
-> >  include/uapi/linux/if_link.h         |  1 +
-> >  7 files changed, 65 insertions(+)
-> > 
-> > diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
-> > index a4c1291d2561..5e105e7ac8e6 100644
-> > --- a/Documentation/networking/bonding.rst
-> > +++ b/Documentation/networking/bonding.rst
-> > @@ -193,6 +193,15 @@ ad_actor_sys_prio
-> >  	This parameter has effect only in 802.3ad mode and is available through
-> >  	SysFs interface.
-> >  
-> > +ad_actor_port_prio
-> > +
-> > +	In an AD system, this specifies the port priority. The allowed range
-> > +	is 1 - 65535. If the value is not specified, it takes 255 as the
-> 
-> 
-> Leaving this as a note: it is set to 255 because actor_port_priorty is initialized to 255
->                         and port_priority is initialized to actor_port_priority at slave
->                         bind time.
+As suggested by Nathan, add a File entry for scripts/checktransupdate.py
+to the DOCUMENTATION section to maintain this script.
 
-Hi Nikolay,
+Link: https://lore.kernel.org/all/20250811212446.GA924610@ax162/
 
-Is this a note for you? Or you want me add it to the doc?
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks
-Hangbin
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fe168477caa4..b7e3a8c8832e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7302,6 +7302,7 @@ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+ F:	scripts/check-variable-fonts.sh
++F:	scripts/checktransupdate.py
+ F:	scripts/documentation-file-ref-check
+ F:	scripts/get_abi.py
+ F:	scripts/kernel-doc*
+-- 
+2.43.0
+
