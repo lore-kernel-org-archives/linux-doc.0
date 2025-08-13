@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD6E2FC890;
-	Wed, 13 Aug 2025 23:29:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28F02F60A5;
+	Wed, 13 Aug 2025 23:31:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755127784; cv=none; b=kNUr52qIGEURi0pTPtF+uNFCembLr88e0E+wZSs18D8fNe154O6AEVnyK2PkcKERJJjnNIuDYugNoUMytR3OlViXXYmpHSz1c2uxOAbo9XC/y/Pi9CqP+05s3+uLQwklNkJaS8VtSnb+OCyzIme6sVq2/JCDmvT+35uCzttJbTM=
+	t=1755127918; cv=none; b=AbEeAuFI0dBNr8fiJrBzbRwKH1GkcRdC+l02tgSS+IQQgKu8jp9/BLLePCv64aJbsxk4vib4gDv4FI4/oVH/46B9krjx3L55t75qmdPDXXRbOeyqugcFOJU4uRY/ePMnJOk2S6/X3IEXo6LZRh6eQVQgEDB+wGS2dqTRjz+XUbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755127784; c=relaxed/simple;
-	bh=ziSfoknMH5h3TXjzmmojwrcw+kVqkFWXQYJtaH4hbks=;
+	s=arc-20240116; t=1755127918; c=relaxed/simple;
+	bh=nF7toL7Yj0MDeijA8jPHl59MTK7TzqVBJffEbOipCdw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FQmGk8B4rapcjkbqbU89/i8IwXTSkTjfmRSCCrFGYZaCti64EBRWgr/C8xRtX6bGdHA9AH13y9uRLXmi+pFohpxFuz0IY/9OoqQvEsCggeRicbdxNafxHljbVVzzz0++VlAPCuJ2Vc49ZklcXLBufvjwaja+d+mEA3DT0rfvuRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uXYNJsPB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Mz9iR0iRjbfSrJFg+YPrqB0DMfW3BTuRIs3Bdqb/1rGR1rMooeBqqwMpzlNZKzdBnnqG8YBSpX5lS6lzwC0X+8JC9CbxUnDWU9ct7v7/8iG46vNnUfHQzxlkjGP5D+kSEAfUdl37zW8p0/gc9KkxLHwITviAqowfZ9oJtZKwTHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q+o/ecNp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uXYNJsPB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBF1BC4CEFB;
-	Wed, 13 Aug 2025 23:29:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q+o/ecNp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19CE9C4CEEB;
+	Wed, 13 Aug 2025 23:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755127784;
-	bh=ziSfoknMH5h3TXjzmmojwrcw+kVqkFWXQYJtaH4hbks=;
+	s=k20201202; t=1755127918;
+	bh=nF7toL7Yj0MDeijA8jPHl59MTK7TzqVBJffEbOipCdw=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uXYNJsPB7lNyiTOr7FckiRFkvE5R+6dFhuZItSaog0p3/lTPt+7ixc/3S5GIl0xk4
-	 H4RrTP0Lck6DfdhNIG+HALY2aUIBjBe2OYdZj5O2mv0iztif4e/uueQa0LpwIVXUDE
-	 45YfOL6tAvB4yA6vmNPYTVniobqUGTpnsgqmdMajQg57kwslB/5vJ4pGB02vel2VJg
-	 k7lyaRIXB/IkO1RF0Etc86CEMgCG7OPfGsUD6/N+GQflXpieftij0Qtn/Ue5AamPJY
-	 fVMcjWlCOD+HiWi3BWAdJc9voRJyZZKp9ZcmxeJKrnJVMZ1QICv4T0eTTOKQoYWJuz
-	 6DzGmPkU/Ar9g==
-Date: Thu, 14 Aug 2025 01:29:39 +0200
+	b=q+o/ecNpafpF95IK6OOv23aJF/5tP2XkfGZUCKl+gJsPndu40zqNZskJlOhmAZSjb
+	 lpr8noavNJaL5WWqoLFSXIkPnyQcx1xH8WwDvFd3KUC7Ebzcx/7P+Ys8imlfvnoy1Z
+	 lXhcFiuvQJl1s6hF6ryahiFFrwnCllh0RrTNxrU4HXWp5THcVsgoKNbOW2XmoovBLA
+	 UtGy2VjXq+fxYqv1f0iw9RNudsd36t2tMSZipB7Emt/79MM+piO1sNCTBAZEXmvlGD
+	 oJyu+QHEiGeXgixh20mj1iGb8z1XpmtgDL1trDq0hUtfrD8oysh2sCc/2Rx4dpKRUr
+	 l7/mK24/aqKVA==
+Date: Thu, 14 Aug 2025 01:31:54 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH RFC 00/13] Collect documention-related tools under
- tools/doc
-Message-ID: <20250814012939.0850e5e6@foz.lan>
-In-Reply-To: <20250813213218.198582-1-corbet@lwn.net>
+Subject: Re: [PATCH 05/13] docs: move parallel-wrapper.sh to tools/doc/
+Message-ID: <20250814013154.623955ed@foz.lan>
+In-Reply-To: <20250813213218.198582-6-corbet@lwn.net>
 References: <20250813213218.198582-1-corbet@lwn.net>
+	<20250813213218.198582-6-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,126 +46,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Wed, 13 Aug 2025 15:31:59 -0600
+Em Wed, 13 Aug 2025 15:32:04 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Our documentation-related tools are spread out over various directories;
-> several are buried in the scripts/ dumping ground.  That makes them harder
-> to discover and harder to maintain.
-> 
-> Recently, the idea of creating a dedicated directory for documentation tools
-> came up; I decided to see what it would look like.  This series creates a
-> new directory, tools/doc, and moves various utilities there, hopefully
-> fixing up all of the relevant references in the process.
+> This little script was buried in Documentation/sphinx/; put it with the
+> other documentation-related tools.
 
-I would prefer tools/docs ;-)
+This will conflict with my series getting rid of it and touching Makefile.
 
-The rationale is that it is common to have patches for Documentation
-described with "docs:" prefix. Anyway, I don't mind that much.
-
-Btw, one of my pending patch series is creating a new *.py script over
-tools/docs (moving a script from Documentation/sphinx) ;-) 
+I prefer if you don't merge this one.
 
 > 
-> At the end, rather than move the old, Perl kernel-doc, I simply removed it.
-> 
-> The big elephant lurking in this small room is the home for Python modules;
-> I left them under scripts/lib, but that is an even less appropriate place
-> than it was before.
-
-Agreed.
-
-> I would propose either tools/python or lib/python;
-> thoughts on that matter welcome.
-
-Wither way works for me.
-
-> Jonathan Corbet (13):
->   docs: Move the "features" tools to tools/doc
->   docs: move checktransupdate.py to tools/doc
->   docs: move scripts/check-variable-fonts.sh to tools/doc
->   docs: move scripts/documentation-file-ref-check to tools/doc
->   docs: move parallel-wrapper.sh to tools/doc/
->   docs: move get_abi.py to tools/doc
->   docs: move sphinx-pre-install to tools/doc
->   docs: move test_doc_build.py to tools/doc
->   docs: move parse-headers.pl to tools/doc
->   docs: move kernel-doc to tools/doc
->   docs: move split-man.pl to tools/doc
->   docs: move find-unused-docs.sh to tools/doc
->   docs: remove kernel-doc.pl
-> 
->  Documentation/Kconfig                         |    2 +-
->  Documentation/Makefile                        |   24 +-
->  Documentation/conf.py                         |    2 +-
->  Documentation/doc-guide/checktransupdate.rst  |    6 +-
->  Documentation/doc-guide/contributing.rst      |    2 +-
->  Documentation/doc-guide/kernel-doc.rst        |   18 +-
->  Documentation/doc-guide/parse-headers.rst     |    6 +-
->  Documentation/doc-guide/sphinx.rst            |    6 +-
->  Documentation/kbuild/kbuild.rst               |    2 +-
->  Documentation/process/coding-style.rst        |    2 +-
->  Documentation/sphinx/kernel_abi.py            |    2 +-
->  Documentation/sphinx/kernel_feat.py           |    4 +-
->  Documentation/sphinx/kerneldoc-preamble.sty   |    2 +-
->  .../it_IT/doc-guide/kernel-doc.rst            |    8 +-
->  .../it_IT/doc-guide/parse-headers.rst         |    6 +-
->  .../translations/it_IT/doc-guide/sphinx.rst   |    4 +-
->  .../sp_SP/process/coding-style.rst            |    2 +-
->  .../zh_CN/doc-guide/checktransupdate.rst      |    6 +-
->  .../zh_CN/doc-guide/contributing.rst          |    2 +-
->  .../zh_CN/doc-guide/kernel-doc.rst            |   16 +-
->  .../zh_CN/doc-guide/parse-headers.rst         |    6 +-
->  .../translations/zh_CN/doc-guide/sphinx.rst   |    4 +-
->  Documentation/translations/zh_CN/how-to.rst   |    4 +-
->  .../translations/zh_CN/kbuild/kbuild.rst      |    2 +-
->  .../zh_CN/process/coding-style.rst            |    2 +-
->  .../zh_TW/process/coding-style.rst            |    2 +-
->  Documentation/userspace-api/media/Makefile    |    2 +-
->  MAINTAINERS                                   |   11 +-
->  Makefile                                      |    2 +-
->  drivers/gpu/drm/i915/Makefile                 |    2 +-
->  scripts/kernel-doc                            |    1 -
->  scripts/kernel-doc.pl                         | 2439 -----------------
->  .../doc}/check-variable-fonts.sh              |    2 +-
->  {scripts => tools/doc}/checktransupdate.py    |    8 +-
->  .../doc}/documentation-file-ref-check         |    2 +-
->  .../scripts => tools/doc}/features-refresh.sh |    0
->  {scripts => tools/doc}/find-unused-docs.sh    |    8 +-
->  {scripts => tools/doc}/get_abi.py             |    0
->  {scripts => tools/doc}/get_feat.pl            |    2 +-
->  scripts/kernel-doc.py => tools/doc/kernel-doc |    0
->  .../features => tools/doc}/list-arch.sh       |    2 +-
->  .../sphinx => tools/doc}/parallel-wrapper.sh  |    0
->  .../sphinx => tools/doc}/parse-headers.pl     |    4 +-
->  {scripts => tools/doc}/sphinx-pre-install     |    2 +-
->  {scripts => tools/doc}/split-man.pl           |    0
->  {scripts => tools/doc}/test_doc_build.py      |    0
->  46 files changed, 91 insertions(+), 2538 deletions(-)
->  delete mode 120000 scripts/kernel-doc
->  delete mode 100755 scripts/kernel-doc.pl
->  rename {scripts => tools/doc}/check-variable-fonts.sh (98%)
->  rename {scripts => tools/doc}/checktransupdate.py (98%)
->  rename {scripts => tools/doc}/documentation-file-ref-check (99%)
->  rename {Documentation/features/scripts => tools/doc}/features-refresh.sh (100%)
->  rename {scripts => tools/doc}/find-unused-docs.sh (79%)
->  rename {scripts => tools/doc}/get_abi.py (100%)
->  rename {scripts => tools/doc}/get_feat.pl (99%)
->  rename scripts/kernel-doc.py => tools/doc/kernel-doc (100%)
->  rename {Documentation/features => tools/doc}/list-arch.sh (83%)
-
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/Makefile                                  | 2 +-
+>  {Documentation/sphinx => tools/doc}/parallel-wrapper.sh | 0
+>  2 files changed, 1 insertion(+), 1 deletion(-)
 >  rename {Documentation/sphinx => tools/doc}/parallel-wrapper.sh (100%)
->  rename {Documentation/sphinx => tools/doc}/parse-headers.pl (98%)
+> 
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index f7b8342f9666..962c4fab94b0 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -91,7 +91,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+>  	PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
+>  	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(src)/$5/$(SPHINX_CONF)) \
+>  	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
+> -	$(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+> +	$(CONFIG_SHELL) $(srctree)/tools/doc/parallel-wrapper.sh \
+>  	$(SPHINXBUILD) \
+>  	-b $2 \
+>  	-c $(abspath $(src)) \
+> diff --git a/Documentation/sphinx/parallel-wrapper.sh b/tools/doc/parallel-wrapper.sh
+> similarity index 100%
+> rename from Documentation/sphinx/parallel-wrapper.sh
+> rename to tools/doc/parallel-wrapper.sh
 
-I prefer if you don't touch those two. I'm already handling them.
 
-Basically, parallel-wrapper.sh will be decommissioned; parse-readers.pl
-will become parse-headers.py (on my series, at tools/docs, but if you
-opt to tools/doc, I'll update it.
-
->  rename {scripts => tools/doc}/sphinx-pre-install (99%)
->  rename {scripts => tools/doc}/split-man.pl (100%)
->  rename {scripts => tools/doc}/test_doc_build.py (100%)
 
 Thanks,
 Mauro
