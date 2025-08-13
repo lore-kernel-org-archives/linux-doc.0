@@ -1,30 +1,30 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D543B2C3240;
-	Wed, 13 Aug 2025 06:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A65269D06;
+	Wed, 13 Aug 2025 07:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755067550; cv=none; b=JWHd2z6U17DVPbDEH/2u65j/TqsBAjqsYelHHFBuGccGybWQgW72zSwLDTNnvypUd45qN3nRdT82q01yihMqdb6Mo6N2Xz23ZP8obIkSJuuA67QSBtb6Bl2eweMOX6ukRDwIDNq7S8fC94ED4khgT0UxZ74xx7Sy7rWjkfN4BoQ=
+	t=1755068592; cv=none; b=ttI4vjRjLo6OsPnhyd5it/+vp4Lg64WHZZ2HkN8+V0djFVwrel1GFy1jsWxULf414fMV9+3toe96taF3CJVG4DpPdUgJ+Jriu0b0CW8bXdnQHIiGPDMpoqalOaO/4FTFfoFub0T8DPaAopnKkli0uVKu2MJN9EUesdoftPFvt6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755067550; c=relaxed/simple;
-	bh=X1iAxCzkC0UTn04Af07aTWJbu6jdxrV+7YWDNaiy9Eo=;
+	s=arc-20240116; t=1755068592; c=relaxed/simple;
+	bh=qT9o6CB73jvOc1dAh2L6tM+gnP44Xl7OmT/+Hnyb8RI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lHE9ZB9qDYrF6iE3+PIpDaq4ouZ6ZhTiQS7A5Ij9h/ZXnSLWYJoX/MtzIyA7TEYuGZ8mzsjuBngGgaYJKhYPmWOmb6rp8qrrTQNB7U89AEivQtepz5zBGsESMYW3kmrm7PYCuva6LWu1byNghiG0oRP4djX+2zj0j0Me62QTZ4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.19.206
+	 Content-Type:Content-Disposition:In-Reply-To; b=gp0wP6Je/tFV1YB8Ofp7wNZAwv+g3EZ+Jv06z+kIKDr08JJlCnkP4gPfNlRiXHzgHIgWN8L9LSp263rnaBblSOSJnm2BufgQZUlGkHjojB03TD1s+ZCtH7o3Cl0Y2dTEPiHgMQM1JTXHob9uYGVlP6QeoTN4wcnkhFxZfnMYKdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.16.166
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz11t1755067483t4b22c6e6
-X-QQ-Originating-IP: atNYv484Sc0LnNQn6B0BdZHBN2Wh7P8+LL0ZD0kuURs=
+X-QQ-mid: zesmtpsz1t1755068517t476d51cb
+X-QQ-Originating-IP: MG483g31/GJY9i/Jt+OtReD7Xnxy/u5hqXTI3V5X8b4=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 13 Aug 2025 14:44:41 +0800 (CST)
+	id ; Wed, 13 Aug 2025 15:01:55 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 1883357001402126137
-Date: Wed, 13 Aug 2025 14:44:41 +0800
+X-BIZMAIL-ID: 8711740590628175254
+Date: Wed, 13 Aug 2025 15:01:55 +0800
 From: Yibo Dong <dong100@mucse.com>
-To: "Anwar, Md Danish" <a0501179@ti.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
 	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
@@ -34,11 +34,11 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/5] net: rnpgbe: Add build support for rnpgbe
-Message-ID: <F9D5358C994A229C+20250813064441.GB944516@nic-Precision-5820-Tower>
+Subject: Re: [PATCH v3 2/5] net: rnpgbe: Add n500/n210 chip support
+Message-ID: <7AD2F2D5BC45498D+20250813070155.GC944516@nic-Precision-5820-Tower>
 References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-2-dong100@mucse.com>
- <5528c38b-0405-4d3b-924a-2bed769f314d@ti.com>
+ <20250812093937.882045-3-dong100@mucse.com>
+ <69d797eb-4a17-4d54-a7c0-8409fa8bc066@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,111 +47,148 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5528c38b-0405-4d3b-924a-2bed769f314d@ti.com>
+In-Reply-To: <69d797eb-4a17-4d54-a7c0-8409fa8bc066@linux.dev>
 X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NKfj2Wq2UxkCMsCw1IBd6tlCIxUPVXwDv1tSRFqaAx+AuSu4aeRiHTLO
-	J37q4RFSY3pW8o0D9ZD3VgwRafPrmSGTZJ2ZY75mJ/QY7JGdglOICIBEbtdW1ZfJdv0tE9P
-	9O1meq9FBi7nPc8Uu5jSJwZ6XvDic7tCXK+Fu4pCBadEF51xQzaTA2ttT/tdYabkaAtKanV
-	Wwfs8Cw7XBYEYi/X7L3j/gmFOA3JYMbF8cHtUZInOT4DkM0ddAvaoJjFT0+oR3S7WH/tZd5
-	OvbkCXcEx7TrRCVBkEMJnDZtIYYHCB6SWIPSjnkbTGgHfs97GfEutV+T1RJHDPJNUa4PSq4
-	l2bSCure1YnhNkOxBGDJLm+EeMskP0A7fzxR8P/jpDMpsaJ+LwG5q4x977DR0HHsv7uUPh4
-	3MNBgaozP3fux7eciJVbSfy71fitFbYRe6MTLsiNc2NChpzoFcA5CxSHz+Qp0tPT8J6r3kQ
-	zsjEIQLzzA81DVMlsi4MADumrjrkXo3RtnULmmyQKmusPb5JnqpASwtbRDknOZIyKwm3joQ
-	7h56u5R5C6dXsEXYTUtcIELz0MrXufiXHnRJcr4hCNCHBkJvI5uOqf/OBrOzszFwy3h+BOF
-	91HYrvh9+AH94rpJ816Tzse67cRaE2SQYX+fbL84FmwRaSTyWSw7zQw9qwKWHTTuYvSgXUl
-	i8nqjzUhZCxZGCRtMRxFQr0TNXIwMQDHD/oYLdK0gqh5kkzb/yzJoxasdWJ+H3lCvS+JN7k
-	tsP3kwOGAvjXvu9EjFDXoeduAEGK0Gc44ykCsckq+gpJAg8N+hMJczhSyGsRK5+OUa4xm9E
-	M8oVbHuvyTn9pgZS2k9j5LG6Xt7OUhQrRBb1ndmpzyqhTpeLNMrNX5kcBJ5LOngu4BHJEap
-	tSBBFCHkpVwR4pXMPV0YefqXmDvK/mtXh/sLOOD7dFsj9zb3qv5o6XWpxhssV9/AWrhsS1a
-	QQDuQQn7B449tiiczyMYvPETsItYSyk4n6Utb5jwGZINmSvnbFo+FcuLPejMgpbXYxmdvnC
-	s2NmQL8w==
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OTubY8CZDgpR0IfudCXDkbrWiv8594/cvI5hOl8zhAPk9KIrdcRNAR2s
+	1Mpv6lWaQu1w6i2BUwyuPNrSzNyidhPr298Ee66JnPVmBVTSfs0gHZfEA2nJXP2hMuG3L26
+	s+DGjF53Fvf/dk1oNxOPo4pvVemH7dgwo6QD0P9m5tNC8X2zrnwDjPPraahWzRaiYlwK9FL
+	dpaVwLjQUl27mp7JRF/DaYgjGtU0aR3AwPYmVBzvLr/NFo/sE8eOx6JqULv2cybyYcVgQkt
+	o1hQAt8WbwGkLvhwXoAHQ6Jc7FbWppuVKROILRqSS1ZzY5g5quBXk5bE40y5viQilva8CoP
+	z8oWOkHtcQz93RUJSkMS9ZmdoZyr6SekPlmrLFo4RAM4RzEsIXp+8CLJ1r1iCdEHeOIPA3D
+	8XCLLkkonrZjDw4+RSksRJybvFQWvYxODpyMjlKrUIVe7GSpGX13l3m+f5JK4TObNBOItCO
+	vNqSkL0+W+Bsr9UIQu70zFWd9l7/Yg+9taesZuvYUDrtltC8D3jM8bk8Ul6WXD1i7KXuWtb
+	iiDqCsajlSjEOu+1W1M/SEpHGKCG/m6pE8ymQkYHE2L3uE7UJsYp2kZk3nFvtWKza/yUamr
+	RJAtV1BIimXv3ICzbk1dwE56fE4BUVl47eeBG8cvltYzRHQKM5ZTYQao8RLI293n3UsXAPl
+	xNSe9+c9PyKlPy18TzS9CRhZ3Tl+NBsGsaSvsex1YYp6jX6UxogbRX2xfCZk5VmqLZeLnuW
+	LOvgTh9J5cKNRJSyxXw+rTr43OhUYH5qDrmbS5acCzeyRm43VCkmfXR8YADyi3+QVjQZ3tj
+	xjqNPx5661XS5c6V+fDHu4w4h9s/8Eng+F277OzcJJ1AnY17+f99dB02Q5d67kdMFFRvjaT
+	UbgeXT4/Iw23dxeoe8sPST96T743Dl6DKy1y8wfeIod9ZyJ7yDfZKQUsgdq04fp6cS9SQUb
+	NN1q8UZmtHt5Vujtg9NIGc4xawQfoETMZWMRzqgJZFoMppwQ5ZekrHwAxoMh/Stfxys2VAy
+	AQOXFJLA==
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
 X-QQ-RECHKSPAM: 0
 
-On Tue, Aug 12, 2025 at 09:48:07PM +0530, Anwar, Md Danish wrote:
-> On 8/12/2025 3:09 PM, Dong Yibo wrote:
-> > Add build options and doc for mucse.
-> > Initialize pci device access for MUCSE devices.
-> > 
-> > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> > ---
-> >  .../device_drivers/ethernet/index.rst         |   1 +
-> >  .../device_drivers/ethernet/mucse/rnpgbe.rst  |  21 +++
-> >  MAINTAINERS                                   |   8 +
-> >  drivers/net/ethernet/Kconfig                  |   1 +
-> >  drivers/net/ethernet/Makefile                 |   1 +
-> >  drivers/net/ethernet/mucse/Kconfig            |  34 ++++
-> >  drivers/net/ethernet/mucse/Makefile           |   7 +
-> >  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   8 +
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  25 +++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 161 ++++++++++++++++++
-> >  10 files changed, 267 insertions(+)
-> >  create mode 100644 Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst
-> >  create mode 100644 drivers/net/ethernet/mucse/Kconfig
-> >  create mode 100644 drivers/net/ethernet/mucse/Makefile
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/Makefile
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+On Tue, Aug 12, 2025 at 04:49:33PM +0100, Vadim Fedorenko wrote:
+> > +struct mucse_dma_info {
+> > +	void __iomem *dma_base_addr;
+> > +	void __iomem *dma_ring_addr;
+> > +	void *back;
 > 
-> [ ... ]
+> it might be better to keep the type of back pointer and give it
+> a bit more meaningful name ...
 > 
-> > + **/
-> > +static int __init rnpgbe_init_module(void)
-> > +{
-> > +	int ret;
+> > +	u32 dma_version;
+> > +};
 > > +
-> > +	ret = pci_register_driver(&rnpgbe_driver);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return 0;
-> > +}
+> > +struct mucse_eth_info {
+> > +	void __iomem *eth_base_addr;
+> > +	void *back;
 > 
-> Unnecessary code - can be simplified to just `return
-> pci_register_driver(&rnpgbe_driver);`
+> .. here ...
+> 
+> > +};
+> > +
+> > +struct mucse_mac_info {
+> > +	void __iomem *mac_addr;
+> > +	void *back;
+> 
+> and here...
+> 
+> > +};
+> > +
+> > +struct mucse_mbx_info {
+> > +	/* fw <--> pf mbx */
+> > +	u32 fw_pf_shm_base;
+> > +	u32 pf2fw_mbox_ctrl;
+> > +	u32 pf2fw_mbox_mask;
+> > +	u32 fw_pf_mbox_mask;
+> > +	u32 fw2pf_mbox_vec;
+> > +};
+> > +
+> > +struct mucse_hw {
+> > +	void *back;
+> 
+> you can also use container_of() as all these structures are embedded and
+> simple pointer math can give you proper result.
 > 
 
-Yes, but if I add some new codes which need some free after
-pci_register_driver failed, the new patch will be like this:
+Got it, I will use container_of(), and remove the '*back' define.
+Maybe eth to hw like this:
+#define eth_to_hw(eth) container_of(eth, struct rnpgbe_hw, eth)
+It is ok?
 
--return pci_register_driver(&rnpgbe_driver);
-+int ret:
-+wq = create_singlethread_workqueue(rnpgbe_driver_name);
-+ret = pci_register_driver(&rnpgbe_driver);
-+if (ret) {
-+	destroy_workqueue(wq);
-+	return ret;
-+}
-+return 0;
-
-Is this ok? Maybe not good to delete code for adding new feature?
-This is what Andrew suggested not to do.
-
+> > +	void __iomem *hw_addr;
+> > +	void __iomem *ring_msix_base;
+> > +	struct pci_dev *pdev;
+> > +	enum rnpgbe_hw_type hw_type;
+> > +	struct mucse_dma_info dma;
+> > +	struct mucse_eth_info eth;
+> > +	struct mucse_mac_info mac;
+> > +	struct mucse_mbx_info mbx;
+> > +	u32 driver_version;
+> > +	u16 usecstocount;
+> > +};
 > > +
-> > +module_init(rnpgbe_init_module);
-> > +
+> >   struct mucse {
+> >   	struct net_device *netdev;
+> >   	struct pci_dev *pdev;
+> > +	struct mucse_hw hw;
+> >   	u16 bd_number;
+> >   };
+> 
+> [...]
+> 
 > > +/**
-> > + * rnpgbe_exit_module - Driver remove routine
+> > + * rnpgbe_add_adapter - Add netdev for this pci_dev
+> > + * @pdev: PCI device information structure
+> > + * @info: chip info structure
 > > + *
-> > + * rnpgbe_exit_module is called when driver is removed
+> > + * rnpgbe_add_adapter initializes a netdev for this pci_dev
+> > + * structure. Initializes Bar map, private structure, and a
+> > + * hardware reset occur.
+> > + *
+> > + * @return: 0 on success, negative on failure
 > > + **/
-> > +static void __exit rnpgbe_exit_module(void)
+> > +static int rnpgbe_add_adapter(struct pci_dev *pdev,
+> > +			      const struct rnpgbe_info *info)
 > > +{
-> > +	pci_unregister_driver(&rnpgbe_driver);
-> > +}
-> > +
-> > +module_exit(rnpgbe_exit_module);
-> > +
-> > +MODULE_DEVICE_TABLE(pci, rnpgbe_pci_tbl);
-> > +MODULE_AUTHOR("Mucse Corporation, <techsupport@mucse.com>");
-> > +MODULE_DESCRIPTION("Mucse(R) 1 Gigabit PCI Express Network Driver");
-> > +MODULE_LICENSE("GPL");
+> > +	struct net_device *netdev;
+> > +	void __iomem *hw_addr;
+> > +	static int bd_number;
 > 
-> -- 
-> Thanks and Regards,
-> Md Danish Anwar
+> it's not clear from the patchset why do you need this static variable...
 > 
+
+Ok, bd_number seems no usefull, I will remove it.
+
+> > +	struct mucse *mucse;
+> > +	struct mucse_hw *hw;
+> > +	u32 dma_version = 0;
+> > +	u32 queues;
+> > +	int err;
+> > +
+> > +	queues = info->total_queue_pair_cnts;
+> > +	netdev = alloc_etherdev_mq(sizeof(struct mucse), queues);
+> > +	if (!netdev)
+> > +		return -ENOMEM;
+> > +
+> > +	SET_NETDEV_DEV(netdev, &pdev->dev);
+> > +	mucse = netdev_priv(netdev);
+> > +	mucse->netdev = netdev;
+> > +	mucse->pdev = pdev;
+> > +	mucse->bd_number = bd_number++;
+> 
+> ... but this code is racy by design
+> 
+> > +	pci_set_drvdata(pdev, mucse);
+> > +
+> > +	hw = &mucse->hw;
+> > +	hw->back = mucse;
+> > +	hw->hw_type = info->hw_type;
+> > +	hw->pdev = pdev;
+> > +
 > 
 
 Thanks for your feedback.
+
