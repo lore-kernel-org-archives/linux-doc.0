@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED3D2F5486;
-	Wed, 13 Aug 2025 23:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75B92F60A6;
+	Wed, 13 Aug 2025 23:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755129010; cv=none; b=hM0erxliRmn6A2KgPekM23UJCXsVUg8hCYAs9OTW3q39VmW4B9MU3qO0R6I54sSxRaKCAzZdB4kjQkb6xrTh917LCXmsmds7Z19xk7a8clSLMZedxH2hzBoJE8bRySBolrajxzxhQ5+4ipBG2GRyi1izB5vPV0K7P2TWqUgw1Ys=
+	t=1755129045; cv=none; b=RAcrzqrYc36Js+TTM3BC9XG6YjntCYXHgxYtHuhLFmcsDLa8gmqkRDj+MDywYx8an9KTQ+4wGYaLUrmIJRDpMvwhPOjvuWfMDjD9Dhq7ZgLdkNFcyOLEQU+dAFHUqDHWMNZRiiCJgk1o+KnpjUIfMRQzbo81aa2jMu3yfS4XWR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755129010; c=relaxed/simple;
-	bh=Bfa1R9PdPt54oMTeMBbf5OyYs5cCUkD2CO7qy0S3TH4=;
+	s=arc-20240116; t=1755129045; c=relaxed/simple;
+	bh=V8NGTu6nVm3ohtX2JeGDiq1FMx/+4PB7zIAIRxX49yM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=arVDvNv6ls+Xht6GA91ApgrCtiZhYpgLEqALt5tu9K53WYNSfai+EgFiA71Vj/YimgTOtHWp7ovT2zMYy6KtURoTruIpBWKTbvY9r72ONMipVQm0445JKGN04tRXkUDMWgiUv+7PxpkeYjZuzyHBVPOBX7DlpBPx8Xyx7J7ErvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PwKM6yTY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Gxf3nbe7EjHsc+QzqYx1g2kJ5sd3c9j1ew/W10qpKCK1JOyTBalN6cN9Vyi9pvxTigDf6Lwv8PYeX4UlKo/sB8KZ41gW4LzRsyICBTLoyjlIAo8+YjQV1hdnTjkhs30IrHsUqo+CueZI2/yG0RJqbtLaVg5ag17OjXnCc52nVaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QXKVK3yU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PwKM6yTY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EA7EC4CEEB;
-	Wed, 13 Aug 2025 23:50:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QXKVK3yU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89585C4CEEB;
+	Wed, 13 Aug 2025 23:50:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755129009;
-	bh=Bfa1R9PdPt54oMTeMBbf5OyYs5cCUkD2CO7qy0S3TH4=;
+	s=k20201202; t=1755129044;
+	bh=V8NGTu6nVm3ohtX2JeGDiq1FMx/+4PB7zIAIRxX49yM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PwKM6yTY6q+wTiuOKSi/BWxP9u3Lu77Nj5Badk16Kk8bZFe5hFhiR9Ps6XcnKAZsJ
-	 O13VAAd2/WwSiwqgREjYNaOZ3dGlPch6ftHI+gUvddKIBWTYLIKC5vACCferabi1Nx
-	 AeBSKDmkX0N66X69bDYDvBQI9D2nexH62YzfRvFv0AT3/cBJfGlFycUB+T50WAVcMW
-	 X5ayA/doUbM0dse+wJeMAUC7kC+VyVQlmJnPe147kN4RQUCXu0fOw2YRQLVUb0V5o8
-	 eyf304IIgVjoQ8hZjwxcBLl2Zzkft8BT5ANzOm06f1Ei2j1tUcPjseDAkHLprxgDnw
-	 kAVnwtjpCOzcA==
-Date: Thu, 14 Aug 2025 01:50:05 +0200
+	b=QXKVK3yUA2IeBNFkLFJNoz/wxOnaIhyVJ4nb0g0DbGOPfbmcCeBIZMS1qx+v7P1vg
+	 IhzBAQukl/v8hFqdlivGUkj9vqnS3K5FHzHRD14xHQGG66bvT80MWsZI5xVv793jov
+	 MOQ2uoVOmTL3XLM4HaPlI2it+ozz/TGDEqVqbxZ3Fpp5ximwwqunfsMFWMme6Vwinj
+	 5IK+0rUoj70pvyn3krKPU4I1RNh2kEQGS0RZZKNaIKheBvRPkg2aCFZlgadvaJBAsM
+	 wmaTVW8B/ZUoB88khtp+UkVAuHkzAGWGMwbynuJhZovx5uIU8IqfCuGZXIgMjFuSmT
+	 4GwiBVvRWwENg==
+Date: Thu, 14 Aug 2025 01:50:40 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 11/13] docs: move split-man.pl to tools/doc
-Message-ID: <20250814015005.22f0fced@foz.lan>
-In-Reply-To: <20250813213218.198582-12-corbet@lwn.net>
+Subject: Re: [PATCH 12/13] docs: move find-unused-docs.sh to tools/doc
+Message-ID: <20250814015040.09db5b0c@foz.lan>
+In-Reply-To: <20250813213218.198582-13-corbet@lwn.net>
 References: <20250813213218.198582-1-corbet@lwn.net>
-	<20250813213218.198582-12-corbet@lwn.net>
+	<20250813213218.198582-13-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,103 +46,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Em Wed, 13 Aug 2025 15:32:10 -0600
+Em Wed, 13 Aug 2025 15:32:11 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> ...and update all references to it.
+> ...and update references accordingly.
 
 Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Btw, I was not aware of this. It makes sense to move its logic to
-the new sphinx-build-wrapper Python script that I'll be submitting
-soon.
 
 >=20
 > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 > ---
->  Documentation/doc-guide/kernel-doc.rst                    | 6 +++---
->  Documentation/translations/it_IT/doc-guide/kernel-doc.rst | 2 +-
->  Documentation/translations/zh_CN/doc-guide/kernel-doc.rst | 6 +++---
->  {scripts =3D> tools/doc}/split-man.pl                       | 0
->  4 files changed, 7 insertions(+), 7 deletions(-)
->  rename {scripts =3D> tools/doc}/split-man.pl (100%)
+>  Documentation/doc-guide/contributing.rst                    | 2 +-
+>  Documentation/translations/zh_CN/doc-guide/contributing.rst | 2 +-
+>  {scripts =3D> tools/doc}/find-unused-docs.sh                  | 6 +++---
+>  3 files changed, 5 insertions(+), 5 deletions(-)
+>  rename {scripts =3D> tools/doc}/find-unused-docs.sh (85%)
 >=20
-> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-g=
-uide/kernel-doc.rst
-> index 6fc89d444ada..b7c8ce55323c 100644
-> --- a/Documentation/doc-guide/kernel-doc.rst
-> +++ b/Documentation/doc-guide/kernel-doc.rst
-> @@ -584,15 +584,15 @@ from the kernel git tree::
+> diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc=
+-guide/contributing.rst
+> index 662c7a840cd5..81633c6c6c11 100644
+> --- a/Documentation/doc-guide/contributing.rst
+> +++ b/Documentation/doc-guide/contributing.rst
+> @@ -152,7 +152,7 @@ generate links to that documentation.  Adding ``kerne=
+l-doc`` directives to
+>  the documentation to bring those comments in can help the community deri=
+ve
+>  the full value of the work that has gone into creating them.
 > =20
->    $ tools/doc/kernel-doc -man \
->      $(git grep -l '/\*\*' -- :^Documentation :^tools) \
-> -    | scripts/split-man.pl /tmp/man
-> +    | tools/doc/split-man.pl /tmp/man
+> -The ``scripts/find-unused-docs.sh`` tool can be used to find these
+> +The ``tools/doc/find-unused-docs.sh`` tool can be used to find these
+>  overlooked comments.
 > =20
->  Some older versions of git do not support some of the variants of syntax=
- for
->  path exclusion.  One of the following commands may work for those versio=
-ns::
+>  Note that the most value comes from pulling in the documentation for
+> diff --git a/Documentation/translations/zh_CN/doc-guide/contributing.rst =
+b/Documentation/translations/zh_CN/doc-guide/contributing.rst
+> index 394a13b438b0..d205f8ed9fce 100644
+> --- a/Documentation/translations/zh_CN/doc-guide/contributing.rst
+> +++ b/Documentation/translations/zh_CN/doc-guide/contributing.rst
+> @@ -124,7 +124,7 @@ C=E4=BB=A3=E7=A0=81=E7=BC=96=E8=AF=91=E5=99=A8=E5=8F=
+=91=E5=87=BA=E7=9A=84=E8=AD=A6=E5=91=8A=E5=B8=B8=E5=B8=B8=E4=BC=9A=E8=A2=AB=
+=E8=A7=86=E4=B8=BA=E8=AF=AF=E6=8A=A5=EF=BC=8C=E4=BB=8E=E8=80=8C=E5=AF=BC=E8=
+=87=B4=E5=87=BA=E7=8E=B0=E4=BA=86
+>  =E8=BF=99=E4=BD=BF=E5=BE=97=E8=BF=99=E4=BA=9B=E4=BF=A1=E6=81=AF=E6=9B=B4=
+=E9=9A=BE=E6=89=BE=E5=88=B0=EF=BC=8C=E4=BE=8B=E5=A6=82=E4=BD=BFSphinx=E6=97=
+=A0=E6=B3=95=E7=94=9F=E6=88=90=E6=8C=87=E5=90=91=E8=AF=A5=E6=96=87=E6=A1=A3=
+=E7=9A=84=E9=93=BE=E6=8E=A5=E3=80=82=E5=B0=86 ``kernel-doc``
+>  =E6=8C=87=E4=BB=A4=E6=B7=BB=E5=8A=A0=E5=88=B0=E6=96=87=E6=A1=A3=E4=B8=AD=
+=E4=BB=A5=E5=BC=95=E5=85=A5=E8=BF=99=E4=BA=9B=E6=B3=A8=E9=87=8A=E5=8F=AF=E4=
+=BB=A5=E5=B8=AE=E5=8A=A9=E7=A4=BE=E5=8C=BA=E8=8E=B7=E5=BE=97=E4=B8=BA=E7=BC=
+=96=E5=86=99=E6=B3=A8=E9=87=8A=E6=89=80=E5=81=9A=E5=B7=A5=E4=BD=9C=E7=9A=84=
+=E5=85=A8=E9=83=A8=E4=BB=B7=E5=80=BC=E3=80=82
 > =20
->    $ tools/doc/kernel-doc -man \
->      $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
-> -    | scripts/split-man.pl /tmp/man
-> +    | tools/doc/split-man.pl /tmp/man
+> -``scripts/find-unused-docs.sh`` =E5=B7=A5=E5=85=B7=E5=8F=AF=E4=BB=A5=E7=
+=94=A8=E6=9D=A5=E6=89=BE=E5=88=B0=E8=BF=99=E4=BA=9B=E8=A2=AB=E5=BF=BD=E7=95=
+=A5=E7=9A=84=E8=AF=84=E8=AE=BA=E3=80=82
+> +``tools/doc/find-unused-docs.sh`` =E5=B7=A5=E5=85=B7=E5=8F=AF=E4=BB=A5=
+=E7=94=A8=E6=9D=A5=E6=89=BE=E5=88=B0=E8=BF=99=E4=BA=9B=E8=A2=AB=E5=BF=BD=E7=
+=95=A5=E7=9A=84=E8=AF=84=E8=AE=BA=E3=80=82
 > =20
->    $ tools/doc/kernel-doc -man \
->      $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tool=
-s") \
-> -    | scripts/split-man.pl /tmp/man
-> +    | tools/doc/split-man.pl /tmp/man
-> diff --git a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst b/=
-Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-> index 05ea0f03c80b..bf04ceea2d83 100644
-> --- a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-> +++ b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-> @@ -604,4 +604,4 @@ Come utilizzare kernel-doc per generare pagine man
->  Se volete utilizzare kernel-doc solo per generare delle pagine man, pote=
-te
->  farlo direttamente dai sorgenti del kernel::
+>  =E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8C=E5=B0=86=E5=AF=BC=E5=87=BA=E7=9A=84=
+=E5=87=BD=E6=95=B0=E5=92=8C=E6=95=B0=E6=8D=AE=E7=BB=93=E6=9E=84=E5=BC=95=E5=
+=85=A5=E6=96=87=E6=A1=A3=E6=98=AF=E6=9C=80=E6=9C=89=E4=BB=B7=E5=80=BC=E7=9A=
+=84=E3=80=82=E8=AE=B8=E5=A4=9A=E5=AD=90=E7=B3=BB=E7=BB=9F=E8=BF=98=E5=85=B7=
+=E6=9C=89=E4=BE=9B=E5=86=85=E9=83=A8
+>  =E4=BD=BF=E7=94=A8=E7=9A=84kernel-doc=E6=B3=A8=E9=87=8A=EF=BC=9B=E9=99=
+=A4=E9=9D=9E=E8=BF=99=E4=BA=9B=E6=B3=A8=E9=87=8A=E6=94=BE=E5=9C=A8=E4=B8=93=
+=E9=97=A8=E9=92=88=E5=AF=B9=E7=9B=B8=E5=85=B3=E5=AD=90=E7=B3=BB=E7=BB=9F=E5=
+=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E7=9A=84=E6=96=87=E6=A1=A3=E4=B8=AD=EF=BC=
+=8C
+> diff --git a/scripts/find-unused-docs.sh b/tools/doc/find-unused-docs.sh
+> similarity index 85%
+> rename from scripts/find-unused-docs.sh
+> rename to tools/doc/find-unused-docs.sh
+> index 0ae445dec2e4..a64389a15f09 100755
+> --- a/scripts/find-unused-docs.sh
+> +++ b/tools/doc/find-unused-docs.sh
+> @@ -5,10 +5,10 @@
+>  # This script detects files with kernel-doc comments for exported functi=
+ons
+>  # that are not included in documentation.
+>  #
+> -# usage: Run 'scripts/find-unused-docs.sh directory' from top level of k=
+ernel
+> +# usage: Run 'tools/doc/find-unused-docs.sh directory' from top level of=
+ kernel
+>  # 	 tree.
+>  #
+> -# example: $scripts/find-unused-docs.sh drivers/scsi
+> +# example: $tools/doc/find-unused-docs.sh drivers/scsi
+>  #
+>  # Licensed under the terms of the GNU GPL License
 > =20
-> -  $ tools/doc/kernel-doc -man $(git grep -l '/\*\*' -- :^Documentation :=
-^tools) | scripts/split-man.pl /tmp/man
-> +  $ tools/doc/kernel-doc -man $(git grep -l '/\*\*' -- :^Documentation :=
-^tools) | tools/doc/split-man.pl /tmp/man
-> diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/=
-Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> index b242e52f911c..a807295bc403 100644
-> --- a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> +++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> @@ -484,16 +484,16 @@ kernel-doc=E6=89=A9=E5=B1=95=E5=8C=85=E5=90=AB=E5=
-=9C=A8=E5=86=85=E6=A0=B8=E6=BA=90=E4=BB=A3=E7=A0=81=E6=A0=91=E4=B8=AD=EF=BC=
-=8C=E4=BD=8D=E4=BA=8E ``Documentation/sphinx/k
+> @@ -18,7 +18,7 @@ if ! [ -d "Documentation" ]; then
+>  fi
 > =20
->    $ tools/doc/kernel-doc -man \
->      $(git grep -l '/\*\*' -- :^Documentation :^tools) \
-> -    | scripts/split-man.pl /tmp/man
-> +    | tools/doc/split-man.pl /tmp/man
+>  if [ "$#" -ne 1 ]; then
+> -	echo "Usage: scripts/find-unused-docs.sh directory"
+> +	echo "Usage: tools/doc/find-unused-docs.sh directory"
+>  	exit 1
+>  fi
 > =20
->  =E4=B8=80=E4=BA=9B=E6=97=A7=E7=89=88=E6=9C=AC=E7=9A=84git=E4=B8=8D=E6=94=
-=AF=E6=8C=81=E8=B7=AF=E5=BE=84=E6=8E=92=E9=99=A4=E8=AF=AD=E6=B3=95=E7=9A=84=
-=E6=9F=90=E4=BA=9B=E5=8F=98=E4=BD=93=E3=80=82
->  =E4=BB=A5=E4=B8=8B=E5=91=BD=E4=BB=A4=E4=B9=8B=E4=B8=80=E5=8F=AF=E8=83=BD=
-=E9=80=82=E7=94=A8=E4=BA=8E=E8=BF=99=E4=BA=9B=E7=89=88=E6=9C=AC::
-> =20
->    $ tools/doc/kernel-doc -man \
->      $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
-> -    | scripts/split-man.pl /tmp/man
-> +    | tools/doc/split-man.pl /tmp/man
-> =20
->    $ tools/doc/kernel-doc -man \
->      $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tool=
-s") \
-> -    | scripts/split-man.pl /tmp/man
-> +    | tools/doc/split-man.pl /tmp/man
-> =20
-> diff --git a/scripts/split-man.pl b/tools/doc/split-man.pl
-> similarity index 100%
-> rename from scripts/split-man.pl
-> rename to tools/doc/split-man.pl
 
 
 
