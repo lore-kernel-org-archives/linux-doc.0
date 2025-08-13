@@ -1,48 +1,48 @@
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009FB2ECEBD;
-	Wed, 13 Aug 2025 08:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AEB2ECD3C;
+	Wed, 13 Aug 2025 08:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755073276; cv=none; b=SSKtiT6ULzZmw5tpC/bFRGBZ2Eac6jFiUr0C/ASXfkHo6s/drFlWz0Wv2DLyeC93TDaapYpPNlYkMBNUTb4P+5NcRfhdOPO9hA1tuCi0wdSwpbAMevEBOrFbqSO+V/nmII3NOn6oXxOsRlFeRp1f3DAcuz0N2j1RaEhrB9gZDHg=
+	t=1755073641; cv=none; b=b1Voi1QTt/hI3xNJEy1Z1LWLD0jniImLhStgCwnLKG5b13XtLCcEoiggfFlOjDnJC2NFHYveKesD44XY+gMGxkEaZu60+K5AB88hOQvIt62byEcJ7Tu4vgGGfI6hAvWvFLewaLAdu7IzYGuFjNZEAdn1Znr7WFRMXwzhn+0UBm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755073276; c=relaxed/simple;
-	bh=4nJfdxzcG4OcM3o0GGc0fk6bUgEPLo11b5P1eW5MSA4=;
+	s=arc-20240116; t=1755073641; c=relaxed/simple;
+	bh=EETb+mATWoalC/jIg1GxMzaFPbxxVYn4Baz6WzC73Pk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=YYsAQwffPTegs97IfU1t5PSeE2RQvIqE7yJRpqZRRWs8Msnr6pFuylxJtgLYvLWlYDRvcVyQ8pU6Ai9gHKmfZ/j+vqnH0meFPgbwid/j2C+CRMD1TFwsEPBIeRdGjN+BXTtvorIh2cxsNdYMUbSpRt9XWrRP/DLoQKQBDZUa8pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=eNx4LCbG; arc=none smtp.client-ip=198.47.23.235
+	 In-Reply-To:Content-Type; b=BoCvVS02QRM+FyLCFVFCB7KQrKwNHkRxKmkCu4KPUUApCcT2Y/gZe0Ef//MfKCjVHagIZybVEZd/2odG7kw6MK/pOhHNXunIVQoaZ6pVaZ2I7HTTXraauDX1yNdTERrCq/QiZUD5Y0rHyfMHZhWZtu2/lFIBrTgB3DVFhnZC4Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=E/KL4qn/; arc=none smtp.client-ip=198.47.23.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="eNx4LCbG"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57D8KGP42108025;
-	Wed, 13 Aug 2025 03:20:16 -0500
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="E/KL4qn/"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57D8QFrq1659217;
+	Wed, 13 Aug 2025 03:26:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755073216;
-	bh=tFefP1/yJlaAiGAZVj+v17ptcjE2g02yG+MMbCWecvo=;
+	s=ti-com-17Q1; t=1755073575;
+	bh=LxxC+vWL+dBv0jeH8xTa33bVZ4qWYF8YDuV31GextYQ=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=eNx4LCbGOW99HXoL9WyQlZDzPGnspHO7byjmLgCVttJyvbz9GrmJf5qDtDNk/D3gr
-	 ZRfroad0I+A2LSFijVskPrkXlzf1/v05OGCighnsKm+7gfU6vbGwjHjCzzIXEXHvh3
-	 Mq5wynYxft68hDfZfx+Tde/NkBNDlnqRnOh3xX7Q=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57D8KGXd4113029
+	b=E/KL4qn/ZvseqzCjyaciE6Wvi42lnHNKpBZuHekmdtnS5MVfb7PcteyB6elY2DZ6Y
+	 X2j8RCKYqEPZKYn+lwzuDS/HWSeOgHzKz9eoDP/1ZAQ9U+39k1ttU6KWWDz5IhTF+m
+	 h64B6kZ4GqwYH3BEOIAA7XOQtCkFe+v5oiEPHzHM=
+Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57D8QFKo257229
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 13 Aug 2025 03:20:16 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+	Wed, 13 Aug 2025 03:26:15 -0500
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 13
- Aug 2025 03:20:15 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2025 03:26:14 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 13 Aug 2025 03:20:15 -0500
+ Frontend Transport; Wed, 13 Aug 2025 03:26:14 -0500
 Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57D8K8io2021639;
-	Wed, 13 Aug 2025 03:20:09 -0500
-Message-ID: <ab6e5c8c-6f91-4017-b68b-7fdf93980a17@ti.com>
-Date: Wed, 13 Aug 2025 13:50:08 +0530
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57D8Q8Xc1721088;
+	Wed, 13 Aug 2025 03:26:08 -0500
+Message-ID: <94eeae65-0e4b-45ef-a9c0-6bc8d37ae789@ti.com>
+Date: Wed, 13 Aug 2025 13:56:07 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/5] net: rnpgbe: Add basic mbx_fw support
+Subject: Re: [PATCH v3 5/5] net: rnpgbe: Add register_netdev
 To: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
         <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
         <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
@@ -62,10 +62,10 @@ To: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
 CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-5-dong100@mucse.com>
+ <20250812093937.882045-6-dong100@mucse.com>
 Content-Language: en-US
 From: MD Danish Anwar <danishanwar@ti.com>
-In-Reply-To: <20250812093937.882045-5-dong100@mucse.com>
+In-Reply-To: <20250812093937.882045-6-dong100@mucse.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
@@ -73,77 +73,146 @@ X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
 
 On 12/08/25 3:09 pm, Dong Yibo wrote:
+> Initialize get mac from hw, register the netdev.
+> 
+> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> ---
+>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 22 ++++++
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 73 ++++++++++++++++++
+>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  1 +
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 76 +++++++++++++++++++
+>  4 files changed, 172 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> index 6cb14b79cbfe..644b8c85c29d 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> @@ -6,6 +6,7 @@
+>  
+>  #include <linux/types.h>
+>  #include <linux/mutex.h>
+> +#include <linux/netdevice.h>
+>  
+>  extern const struct rnpgbe_info rnpgbe_n500_info;
+>  extern const struct rnpgbe_info rnpgbe_n210_info;
+> @@ -86,6 +87,18 @@ struct mucse_mbx_info {
+>  	u32 fw2pf_mbox_vec;
+>  };
+>  
+> +struct mucse_hw_operations {
+> +	int (*init_hw)(struct mucse_hw *hw);
+> +	int (*reset_hw)(struct mucse_hw *hw);
+> +	void (*start_hw)(struct mucse_hw *hw);
+> +	void (*init_rx_addrs)(struct mucse_hw *hw);
+> +	void (*driver_status)(struct mucse_hw *hw, bool enable, int mode);
+> +};
+
+You define functions init_hw, start_hw, and init_rx_addrs in this
+structure but they aren't implemented in this patch. Either implement
+them or remove them if not needed yet.
+
+
+> +
+> +enum {
+> +	mucse_driver_insmod,
+> +};
+> +
+>  struct mucse_hw {
+>  	void *back;
+>  	u8 pfvfnum;
+> @@ -96,12 +109,18 @@ struct mucse_hw {
+>  	u32 axi_mhz;
+>  	u32 bd_uid;
+>  	enum rnpgbe_hw_type hw_type;
+> +	const struct mucse_hw_operations *ops;
+>  	struct mucse_dma_info dma;
+>  	struct mucse_eth_info eth;
+>  	struct mucse_mac_info mac;
+>  	struct mucse_mbx_info mbx;
+> +	u32 flags;
+> +#define M_FLAGS_INIT_MAC_ADDRESS BIT(0)
+>  	u32 driver_version;
+>  	u16 usecstocount;
+> +	int lane;
+> +	u8 addr[ETH_ALEN];
+> +	u8 perm_addr[ETH_ALEN];
+>  };
+>  
+>  struct mucse {
+> @@ -123,4 +142,7 @@ struct rnpgbe_info {
+>  #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
+>  #define PCI_DEVICE_ID_N210 0x8208
+>  #define PCI_DEVICE_ID_N210L 0x820a
+> +
+> +#define dma_wr32(dma, reg, val) writel((val), (dma)->dma_base_addr + (reg))
+> +#define dma_rd32(dma, reg) readl((dma)->dma_base_addr + (reg))
+>  #endif /* _RNPGBE_H */
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> index 16d0a76114b5..3eaa0257f3bb 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> @@ -2,10 +2,82 @@
+>  /* Copyright(c) 2020 - 2025 Mucse Corporation. */
+>  
+>  #include <linux/string.h>
+> +#include <linux/etherdevice.h>
+>  
+>  #include "rnpgbe.h"
+>  #include "rnpgbe_hw.h"
+>  #include "rnpgbe_mbx.h"
+> +#include "rnpgbe_mbx_fw.h"
+> +
 > +/**
-> + * mucse_fw_get_capability - Get hw abilities from fw
-> + * @hw: pointer to the HW structure
-> + * @abil: pointer to the hw_abilities structure
+> + * rnpgbe_get_permanent_mac - Get permanent mac
+> + * @hw: hw information structure
+> + * @mac_addr: pointer to store mac
 > + *
-> + * mucse_fw_get_capability tries to get hw abilities from
-> + * hw.
-> + *
-> + * @return: 0 on success, negative on failure
+> + * rnpgbe_get_permanent_mac tries to get mac from hw.
+> + * It use eth_random_addr if failed.
 > + **/
-> +static int mucse_fw_get_capability(struct mucse_hw *hw,
-> +				   struct hw_abilities *abil)
+> +static void rnpgbe_get_permanent_mac(struct mucse_hw *hw,
+> +				     u8 *mac_addr)
 > +{
-> +	struct mbx_fw_cmd_reply reply;
-> +	struct mbx_fw_cmd_req req;
-> +	int err;
-> +
-> +	memset(&req, 0, sizeof(req));
-> +	memset(&reply, 0, sizeof(reply));
-> +	build_phy_abalities_req(&req, &req);
-
-Typo in function name. You probably meant "build_phy_abilities_req".
-
-> +	err = mucse_fw_send_cmd_wait(hw, &req, &reply);
-> +	if (!err)
-> +		memcpy(abil, &reply.hw_abilities, sizeof(*abil));
-> +	return err;
-> +}
-> +
-> +/**
-> + * mucse_mbx_get_capability - Get hw abilities from fw
-> + * @hw: pointer to the HW structure
-> + *
-> + * mucse_mbx_get_capability tries to some capabities from
-> + * hw. Many retrys will do if it is failed.
-> + *
-
-Typo in comment: "tries to some capabities" should be "tries to get
-capabilities"
-
-> + * @return: 0 on success, negative on failure
-> + **/
-> +int mucse_mbx_get_capability(struct mucse_hw *hw)
-> +{
-> +	struct hw_abilities ability;
-> +	int try_cnt = 3;
-> +	int err;
-> +
-> +	memset(&ability, 0, sizeof(ability));
-> +	while (try_cnt--) {
-> +		err = mucse_fw_get_capability(hw, &ability);
-> +		if (err)
-> +			continue;
-> +		hw->pfvfnum = le16_to_cpu(ability.pfnum);
-> +		hw->fw_version = le32_to_cpu(ability.fw_version);
-> +		hw->axi_mhz = le32_to_cpu(ability.axi_mhz);
-> +		hw->bd_uid = le32_to_cpu(ability.bd_uid);
-> +		return 0;
+> +	if (mucse_fw_get_macaddr(hw, hw->pfvfnum, mac_addr, hw->lane)) {
+> +		eth_random_addr(mac_addr);
+> +	} else {
+> +		if (!is_valid_ether_addr(mac_addr))
+> +			eth_random_addr(mac_addr);
 > +	}
-> +	return err;
+> +
+
+The function should log a warning when falling back to a random MAC
+address, especially in the second case where the hardware returned an
+invalid MAC.
+
+> +	hw->flags |= M_FLAGS_INIT_MAC_ADDRESS;
+> +}
+> +
+
+> +/**
+> + * rnpgbe_xmit_frame - Send a skb to driver
+> + * @skb: skb structure to be sent
+> + * @netdev: network interface device structure
+> + *
+> + * @return: NETDEV_TX_OK or NETDEV_TX_BUSY
+> + **/
+> +static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
+> +				     struct net_device *netdev)
+> +{
+> +		dev_kfree_skb_any(skb);
+> +		return NETDEV_TX_OK;
 > +}
 
-
-Missing initialization of err variable before the last return, which
-could lead to undefined behavior if all attempts fail.
+Extra indentation on these two lines. Also, the function just drops all
+packets without any actual transmission. This should at least increment
+the drop counter statistics.
 
 > +
-> +/**
-> + * mbx_cookie_zalloc - Alloc a cookie structure
-> + * @priv_len: private length for this cookie
-> + *
+> +static const struct net_device_ops rnpgbe_netdev_ops = {
+> +	.ndo_open = rnpgbe_open,
+> +	.ndo_stop = rnpgbe_close,
+> +	.ndo_start_xmit = rnpgbe_xmit_frame,
+> +};
 
 
 -- 
