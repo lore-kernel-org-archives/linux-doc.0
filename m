@@ -1,127 +1,109 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070DF27602D;
-	Wed, 13 Aug 2025 12:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336AC2D542A;
+	Wed, 13 Aug 2025 12:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755086969; cv=none; b=a2dQPEYfTiWcvqRXL0Hm/+tjoYkTU1xac9a+yM1L392BiuVWL9k4LImzcsddhJvooD7b1GS/Tc/AV8fGpm9ayszMXSfDnzbVR3z33QVuOu9UIPalE5IVbJDAThVivdWS++VFqEN3KUK4wxAooV4PxQhVqvTvLCg+VxQymubju+k=
+	t=1755087267; cv=none; b=oKpagVfGkvbN/nEFyn7MFDQiOQ2tLNbUGw17nIymGLRMCOmAUTuG9Hk1rgf5ba3ChVztaoRQBPAT3ZW63V9zyFfqce8NMoVRm3tm7h/Pl+S6tzhJgaj6c+lTR8LCOPY+UJiCa7vXI471aUXX3vOgb4N1DRG24cmqUM+Ze+Bo7B8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755086969; c=relaxed/simple;
-	bh=H8g91jdJ2I5Pf8/gXHixSVo5JI5EuDOSta97uJaRL8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DX4ya0udcIYKw+hWvDH7Go/OCc5TK+7VlnsgoKntWsGbMn2WvSmN7jAsaTbQY2GCQLHvBOwDNRsq1zxR64cCvPbk+HOFfpBj5oXt9vERr6zMXp9TDVZLtcLqtABiMM5vSQBSeGj95o2mAMh0QkrRFTENHRJ4ZkrAOgaWDGaM+/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g7xDDgWO; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755087267; c=relaxed/simple;
+	bh=tLOV7MuxuGZuAFjpe/xUc874h2DrbSyeczMhXjDQFOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L1Zz3YQTOvBcgvmlyoV7fO7mWB+/fELDoT8B301O3eGHOXbywcaY7YqlQQSWFj+8zlpfrQhrxj0xnnU+4Tmf3Iezk6a5ahPosAcajHZ4drGkESfEepioCEHsFHax/cYyFyL3m8SgRQPsV9pb+bbL4JGO8DkfNTsNTsu1Ymqra3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rujDt7ws; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7xDDgWO"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2430926b53eso8910275ad.0;
-        Wed, 13 Aug 2025 05:09:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755086967; x=1755691767; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=O1ynA9yNCLb/DJJBcL2J9BbHmd/+2r7TiLGTA87x+sQ=;
-        b=g7xDDgWOC08vzuhDYY5bW4v88RPzwBe/jbcdT4HGsBnRbjmLHrODOe/Ytohr5r46L3
-         wM3BvctpxcQngdNIR6pUaMQj0r2+tUPUptPolt+0X77szDb76gR/nMWAxYXDTuIAUEZ9
-         WhWbS2rThf/VsR0Z7Wb6XSvD78CeCf0xI5NpvGNAmJHp4vW20CIUZEFhN87FXOShG3ew
-         fMOSyzU9JGpPKF+HXhl+68CgrTtblNyXEstS5KHe3D6Bqony/rHoDEYTWGjScyEmn/6X
-         xXhAUT96nlHKvLWnfpoKQwDtK7QZI8kCT0b7Q8Vd6wpRwAtdgysRdCd+wgmosALhbn/S
-         ghsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755086967; x=1755691767;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O1ynA9yNCLb/DJJBcL2J9BbHmd/+2r7TiLGTA87x+sQ=;
-        b=YUu+ObAEbFFqFHpwKt4dwpzvk9WCW0cNpKaxXKcpKKZ4VZZc7NroFVjniqm+edoVqU
-         ngyH23/bArD8g3dT3ekcW/U3GqPYrpeMUegxOUTxGbg4hBlvcVgWGfijl4EyjUUP36BN
-         LprpO5HO4P0uQPH97Nq17eRwViMk43tR3rQ6TK1/CGe02DUscN6aI7WgVQvpwDufzAyT
-         A1n2vhwe0TJWTaqvOmVhZXf6GUBmDpzjMqXB+MoODznTK0jqFuJfDrvTn+HIQkDWX3Ae
-         DM2DxnmBWXliWKF4pMnH2/Cnj0RhAa1wZ5S4bnhSXreu5PV0vk8SIpRjvKK+5GaAFsU4
-         MUhA==
-X-Forwarded-Encrypted: i=1; AJvYcCV534CNsJ9AiZmRbf38nJkCr/CKDoClfvoCjJiXNO3MwTLWntvOTcCqWMTazYTg7peXTB5NvEaW1TSfURzy@vger.kernel.org, AJvYcCVoI6kCo1nor1SXAgG1gg/retkntINIb85tswUoOIrVBvirac+a69lXfPTW0AJXkWENm3Vj2lcxtEmURHIsBBbZlzkeTg==@vger.kernel.org, AJvYcCXunf+8MBY5lfe1ze1ZtFsRQoF/1HEhczSjSEcyGqCk46HlGJqFY4tJ/UxOLdOVIZ4iy/9wwKboWKE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpZv4S3RpMxpTeT5/GotMirbKG1ljsk/U3dWLMS4jBziJT5l+n
-	FrgTZQOOFq5LDTkZGdZPlV7bvoYiewhf6NC1/Ai8O1csW5OGfVCNv1vR
-X-Gm-Gg: ASbGnctPEEA+uUNhq4rRWEIhko7TZ4Ue7kFojS5dFfBR82Ptd7Fasrlsb1MtOz4+fhf
-	jxtznTvNb2CHjyXKbvRFiaUB/p04yB64D/C66sxed/YYw887E3fY9oHPTCHEbvmEWVvXVYkL3VZ
-	IHb7gElUKTtgSAZeSddlMO92viHr55169mvkyw5xLCAKG0tXtSAuCs/fU/RwCAS/5NnSLYJkUgK
-	D13gf0FLvMRgCmbTMRnfFaAz7dpvjXZAVPYUiGMpEwYaFaPjVAPBtWPste5VlyLf65z9E5zmAcB
-	KPiJszTItAD89HCrgD5i/EHAxD6aLYry25PSylxDVGhyq+adxxdozkiLPKSGNss1iLUJjRiAR+h
-	lrobnX9hEOa0v/G/xK7i7kGFnSJ2t14E=
-X-Google-Smtp-Source: AGHT+IEKxlh5V2GF8tDsf9jD1Ub2AHyeBNd/wpCv29SX9TggXc56K8tKdTw7IPvGqUw42iV6V+rong==
-X-Received: by 2002:a17:903:1ac4:b0:23d:fa9a:80ac with SMTP id d9443c01a7336-2430d142278mr41905825ad.16.1755086967165;
-        Wed, 13 Aug 2025 05:09:27 -0700 (PDT)
-Received: from [192.168.7.13] ([103.182.158.108])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e8977896sm324251535ad.79.2025.08.13.05.09.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Aug 2025 05:09:26 -0700 (PDT)
-Message-ID: <dcbd352d-2474-4d83-b7b4-1dce2932c9f2@gmail.com>
-Date: Wed, 13 Aug 2025 17:39:21 +0530
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rujDt7ws"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A10ECC4CEEB;
+	Wed, 13 Aug 2025 12:14:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1755087266;
+	bh=tLOV7MuxuGZuAFjpe/xUc874h2DrbSyeczMhXjDQFOI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rujDt7wsKQqVTbCwQrtiVRdM2aH76LameWGzvTdZ5npEBlrG95aNQxa3fQpNRodhk
+	 QJbxh/7YOXP2RZlRsBQ3Euf+xwHlnxbyvDua1jB4H6D5yGcYFwDUM1uYw6W6cryK3z
+	 Pug/jEnZ7mb8BeSzL61ybm0Sudo+Z5LhYzcQFvOs=
+Date: Wed, 13 Aug 2025 14:14:23 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Vipin Sharma <vipinsh@google.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+Message-ID: <2025081351-tinsel-sprinkler-af77@gregkh>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com>
+ <20250813063407.GA3182745.vipinsh@google.com>
+ <2025081310-custodian-ashamed-3104@gregkh>
+ <mafs01ppfxwe8.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/9] docs: alienware-wmi: fixed spelling mistake in
- admin guide
-To: Kurt Borja <kuurtb@gmail.com>, linux-doc@vger.kernel.org
-Cc: skhan@linuxfoundation.org, corbet@lwn.net,
- linux-kernel-mentees@lists.linuxfoundation.org,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- ilpo.jarvinen@linux.intel.com, hansg@kernel.org
-References: <20250812201523.69221-1-sohammetha01@gmail.com>
- <20250812204952.73136-1-sohammetha01@gmail.com>
- <20250812204952.73136-3-sohammetha01@gmail.com>
- <DC0RIMIRP717.345GQONQFW4HI@gmail.com>
- <dea5d89e-d918-4d80-a205-38ca7c166cc3@gmail.com>
- <DC10RH2NVBR9.3QC7LKK4O4CW1@gmail.com>
-Content-Language: en-US
-From: Soham Metha <sohammetha01@gmail.com>
-In-Reply-To: <DC10RH2NVBR9.3QC7LKK4O4CW1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mafs01ppfxwe8.fsf@kernel.org>
 
-found/fixed the following typo
-
-- aproximate -> approximate
-
-in `Documentation/admin-guide/laptops/alienware-wmi.rst`
-
-Signed-off-by: Soham Metha <sohammetha01@gmail.com>
-Reviewed-by: Kurt Borja <kuurtb@gmail.com>
----
-
-> You are missing mailing lists:
+On Wed, Aug 13, 2025 at 02:02:07PM +0200, Pratyush Yadav wrote:
+> On Wed, Aug 13 2025, Greg KH wrote:
 > 
->   - platform-driver-x86@vger.kernel.org
->   - linux-kernel@vger.kernel.org
+> > On Tue, Aug 12, 2025 at 11:34:37PM -0700, Vipin Sharma wrote:
+> >> On 2025-08-07 01:44:35, Pasha Tatashin wrote:
+> >> > From: Pratyush Yadav <ptyadav@amazon.de>
+> >> > +static void memfd_luo_unpreserve_folios(const struct memfd_luo_preserved_folio *pfolios,
+> >> > +					unsigned int nr_folios)
+> >> > +{
+> >> > +	unsigned int i;
+> >> > +
+> >> > +	for (i = 0; i < nr_folios; i++) {
+> >> > +		const struct memfd_luo_preserved_folio *pfolio = &pfolios[i];
+> >> > +		struct folio *folio;
+> >> > +
+> >> > +		if (!pfolio->foliodesc)
+> >> > +			continue;
+> >> > +
+> >> > +		folio = pfn_folio(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
+> >> > +
+> >> > +		kho_unpreserve_folio(folio);
+> >> 
+> >> This one is missing WARN_ON_ONCE() similar to the one in
+> >> memfd_luo_preserve_folios().
+> >
+> > So you really want to cause a machine to reboot and get a CVE issued for
+> > this, if it could be triggered?  That's bold :)
+> >
+> > Please don't.  If that can happen, handle the issue and move on, don't
+> > crash boxes.
 > 
-> And platform-drivers-x86 subsystem maintainers:
-> 
->   - Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->   - Hans de Goede <hansg@kernel.org>
-> 
+> Why would a WARN() crash the machine? That is what BUG() does, not
+> WARN().
 
-Thanks for the clarification. I have added the missing mailing lists 
-and subsystem maintainers as suggested.
-
----
-
- Documentation/admin-guide/laptops/alienware-wmi.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/laptops/alienware-wmi.rst b/Documentation/admin-guide/laptops/alienware-wmi.rst
-index 27a32a8057da..e532c60db8e2 100644
---- a/Documentation/admin-guide/laptops/alienware-wmi.rst
-+++ b/Documentation/admin-guide/laptops/alienware-wmi.rst
-@@ -105,7 +105,7 @@ information.
- 
- Manual fan control on the other hand, is not exposed directly by the AWCC
- interface. Instead it let's us control a fan `boost` value. This `boost` value
--has the following aproximate behavior over the fan pwm:
-+has the following approximate behavior over the fan pwm:
+See 'panic_on_warn' which is enabled in a few billion Linux systems
+these days :(
