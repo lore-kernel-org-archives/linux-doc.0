@@ -1,78 +1,65 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A341F4CB2;
-	Wed, 13 Aug 2025 15:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02E2269AFB;
+	Wed, 13 Aug 2025 15:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755098233; cv=none; b=Y+BCzHWOOIhq1jLUM9boEUXcsY2vopCsrhJvGEUxqFvjlM7BA/BBRld7/tjGDFkE/hKnivOaGord6DySweF9zpT9yfOZUp1vWSOl+jRQXr5YTQk66jHzpZu0unxBOcT6FcMHlWev/bZjgur6TQ3y0zDsmDvuX0ltV1vAdyZcuPE=
+	t=1755099453; cv=none; b=Ae+lS1df21PNWB1SjNmYVweoxTT3su8FEbERXqDHQPgmyNHBqDXWrKDjdV9vXyCD/LaDGBR3Hz2QX/gyA4qBVIocINgTwoxh+jwR3WdAv2k2JKkbxLctukr6IX2MvZT1AzTM7vmgpnqkz2XkH5WRJ8HHGvBCsj+xUT6o0r2Lw+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755098233; c=relaxed/simple;
-	bh=0UvE3D33DbMuFPY6dxrR8vwFv0Cc+jwGirlm+m7m8h8=;
+	s=arc-20240116; t=1755099453; c=relaxed/simple;
+	bh=PQhq5rWxBSi6wo5Tnnh0V92zapg7M+UyVJSAH0kCd/o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VGzfbyrMMlG2ZM7qJBnK1XHvYaZZLgrWa7evifDTRCjQtAN88a5sKbUONGbLIYbf6YkneEGQk5Vm2jqyAnBviPvDfIAo+sMo5Pd4DwVGrdQLMsiKkZeX+i7flwus1whf6NWbw2yPOAZVvG+m/DUiWjFDbBhmhg/8wpzRAL5ZGvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WxLyCH8i; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=lFt4cTn3RHVs3V/ong6dsm69eVJSW+DIFuf21Z64O4REfL6eCKN+kpjhj/PW54NLbmTJzAjmdDCIlfbZtW8+t9YueF0TsJEebhFq5sF3cpZp8CpVOAnjo+yIJruCHt2OxAbFA880qaAjI4wpRq0qIkhyCrWhqXo/F9xk45auUhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kkqdIE/H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WxLyCH8i"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pNSPGI3nahSLz3vSSHU/GM73uUfkJwp5wjG48WP8eNs=; b=WxLyCH8iH69E9BH7UtMzH7H17H
-	t6Ml0vI1fI2OOdNxOGP+5iq+poupLQ2GZTl8Qbg+GLZRMfJhbheIFXwQRw1fAo5vR3jjnVWGALbDA
-	GF76KZXk/18EMG+E2DoKUem8UcWsq4kimbAVigd1E9VJbGvY6eMOx/aSv7+4PZZXOjQZExeGyi9kM
-	hKX2INP+qOiw68z+tMFED9Du70a0VZMniilClGrYQN98aaHcaPJwhLCTFus3IDJnpPe0eJIJBCBdh
-	hGIx2Rn6domoKnDI7gda9nml2xVHmkJ45p9qHFrGca4GFufzKdq8T/KWcgwMoXA06x8qBnyuwj/3g
-	Q99O5ANA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umDDr-00000009rE6-0f1W;
-	Wed, 13 Aug 2025 15:17:03 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C17623001D6; Wed, 13 Aug 2025 17:17:02 +0200 (CEST)
-Date: Wed, 13 Aug 2025 17:17:02 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: nathan@kernel.org, arnd@arndb.de, broonie@kernel.org,
-	Liam.Howlett@oracle.com, urezki@gmail.com, will@kernel.org,
-	kaleshsingh@google.com, rppt@kernel.org, leitao@debian.org,
-	coxu@redhat.com, surenb@google.com, akpm@linux-foundation.org,
-	luto@kernel.org, jpoimboe@kernel.org, changyuanl@google.com,
-	hpa@zytor.com, dvyukov@google.com, kas@kernel.org, corbet@lwn.net,
-	vincenzo.frascino@arm.com, smostafa@google.com,
-	nick.desaulniers+lkml@gmail.com, morbo@google.com,
-	andreyknvl@gmail.com, alexander.shishkin@linux.intel.com,
-	thiago.bauermann@linaro.org, catalin.marinas@arm.com,
-	ryabinin.a.a@gmail.com, jan.kiszka@siemens.com, jbohac@suse.cz,
-	dan.j.williams@intel.com, joel.granados@kernel.org,
-	baohua@kernel.org, kevin.brodsky@arm.com, nicolas.schier@linux.dev,
-	pcc@google.com, andriy.shevchenko@linux.intel.com,
-	wei.liu@kernel.org, bp@alien8.de, ada.coupriediaz@arm.com,
-	xin@zytor.com, pankaj.gupta@amd.com, vbabka@suse.cz,
-	glider@google.com, jgross@suse.com, kees@kernel.org,
-	jhubbard@nvidia.com, joey.gouly@arm.com, ardb@kernel.org,
-	thuth@redhat.com, pasha.tatashin@soleen.com,
-	kristina.martsenko@arm.com, bigeasy@linutronix.de,
-	lorenzo.stoakes@oracle.com, jason.andryuk@amd.com, david@redhat.com,
-	graf@amazon.com, wangkefeng.wang@huawei.com, ziy@nvidia.com,
-	mark.rutland@arm.com, dave.hansen@linux.intel.com,
-	samuel.holland@sifive.com, kbingham@kernel.org,
-	trintaeoitogc@gmail.com, scott@os.amperecomputing.com,
-	justinstitt@google.com, kuan-ying.lee@canonical.com, maz@kernel.org,
-	tglx@linutronix.de, samitolvanen@google.com, mhocko@suse.com,
-	nunodasneves@linux.microsoft.com, brgerst@gmail.com,
-	willy@infradead.org, ubizjak@gmail.com, mingo@redhat.com,
-	sohil.mehta@intel.com, linux-mm@kvack.org,
-	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	x86@kernel.org, llvm@lists.linux.dev, kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 13/18] kasan: arm64: x86: Handle int3 for inline KASAN
- reports
-Message-ID: <20250813151702.GO4067720@noisy.programming.kicks-ass.net>
-References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
- <9030d5a35eb5a3831319881cb8cb040aad65b7b6.1755004923.git.maciej.wieczor-retman@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kkqdIE/H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A911EC4CEEB;
+	Wed, 13 Aug 2025 15:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755099452;
+	bh=PQhq5rWxBSi6wo5Tnnh0V92zapg7M+UyVJSAH0kCd/o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kkqdIE/HRQ5cedE1zyuMfMRaAZJeqzpFBH0/fLyOJbOpD7Q9Y6fUKKVCUSYg6Iu9+
+	 +0lhPpaogX+zo7DE625PlBBN7tO+nQtx0LA2aKRv5GqYQcf/TD8I++3mIddUS1oGuS
+	 2Xu0FGRyeN7MRl5kxApDBRYf8dHZhW8fLMu9BCMo8fTZeDkfiJH03TaTo8MCeUS3wk
+	 Q3N2kSeVd08IYz9d3sNubS0p0XfPjY2fnOy5IU5HLL6nAdg88Wdvo9IzmX54CnrqWQ
+	 dCVsQbDhz8GqQ+nB2+l0260S3CZs7QJe8H773Ex1NmDTheYUl2t1VYx6TqiJOtited
+	 Jw1XTt4Q0BCbw==
+Date: Wed, 13 Aug 2025 18:37:28 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v1 16/16] nvme-pci: unmap MMIO pages with appropriate
+ interface
+Message-ID: <20250813153728.GC310013@unreal>
+References: <cover.1754292567.git.leon@kernel.org>
+ <5b0131f82a3d14acaa85f0d1dd608d2913af84e2.1754292567.git.leon@kernel.org>
+ <20250807134533.GM184255@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,23 +68,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9030d5a35eb5a3831319881cb8cb040aad65b7b6.1755004923.git.maciej.wieczor-retman@intel.com>
+In-Reply-To: <20250807134533.GM184255@nvidia.com>
 
-On Tue, Aug 12, 2025 at 03:23:49PM +0200, Maciej Wieczor-Retman wrote:
-> Inline KASAN on x86 does tag mismatch reports by passing the faulty
-> address and metadata through the INT3 instruction - scheme that's setup
-> in the LLVM's compiler code (specifically HWAddressSanitizer.cpp).
+On Thu, Aug 07, 2025 at 10:45:33AM -0300, Jason Gunthorpe wrote:
+> On Mon, Aug 04, 2025 at 03:42:50PM +0300, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Block layer maps MMIO memory through dma_map_phys() interface
+> > with help of DMA_ATTR_MMIO attribute. There is a need to unmap
+> > that memory with the appropriate unmap function.
 > 
-> Add a kasan hook to the INT3 handling function.
+> Be specific, AFIACT the issue is that on dma_ops platforms the map
+> will call ops->map_resource for ATTR_MMIO so we must have the unmap
+> call ops->unmap_resournce
 > 
-> Disable KASAN in an INT3 core kernel selftest function since it can raise
-> a false tag mismatch report and potentially panic the kernel.
-> 
-> Make part of that hook - which decides whether to die or recover from a
-> tag mismatch - arch independent to avoid duplicating a long comment on
-> both x86 and arm64 architectures.
-> 
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+> Maybe these patches should be swapped then, as adding ATTR_MMIO seems
+> like it created this issue?
 
-Can we please split this into an arm64 and x86 patch. Also, why use int3
-here rather than a #UD trap, which we use for all other such cases?
+The best variant will be to squash previous patch "block-dma: properly
+take MMIO path", but I don't want to mix them as they for different
+kernel areas.
+
+Thanks
+
+> 
+> Jason
+> 
