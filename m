@@ -1,406 +1,230 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011045.outbound.protection.outlook.com [52.101.65.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434821DE2D7;
-	Wed, 13 Aug 2025 06:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.45
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755066425; cv=fail; b=Am1WXgyE1PPsLMfd7EscOCxf4giAusQlIknDIZO8EXX/rXJfvHejFpbCH/PAtT+Q1Hqze7V81mUmKS5J1Gk8wMweiX7vr1X11SmqjW49F4tBCkBBOkzcYvE9SlZM5eJXGWIFcPi1mFzEQIQq5D+vZDueJ6mQZDwh089aJMqcTec=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755066425; c=relaxed/simple;
-	bh=3AzyAfUy/HjVTkWuYzCbR1afZmUepotSModylkCqxpc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=uST7bcHx3jW9eWi0LH1DC0khNjtuz0ZSwDzR4ehm8eZcRG9RGryus5nqJIuWT+zUfUaj3daXyOERPZNhjgz2aqvtGBRATZIpHATEIk6ZSPuJCUU3K3txsvvzBrUpprTXBs7p/IcpFUgw6p8PeCV+DnLuMoF9goBJCAponYlrkYA=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QFJXkta/; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QFJXkta/; arc=fail smtp.client-ip=52.101.65.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477052D238C
+	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 06:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755066886; cv=none; b=CoAVsYCnc5KMikm3IiE5cPdNNR9QiauNFTbBW8hYbmbaJrGsapnAm4VF2zl08zjE2C2yAvFLE+p3s6Lmu2MdbgnxCmCjbYmJYHei2ZD0i71NelTCQI+29D/Kg0cYX0/6C8Xie6EkgSIhnsgQ77OI6gTC1KwWMCPIHlRxBcMK5YA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755066886; c=relaxed/simple;
+	bh=QnD42qcFxdQmw5Rdxw3IWpBHxe/eMag57tc2qEN9NFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XsZv4tjONh159QbYrz76UW9W47x+pKQWSrKipavpKqV4vTsX9UWC6+Z1Kma5vvW4uX/38W57RgBmfcOohHUlnrVxAjLQS1aiQ4xBL/j9G8p3IYwdu+sJSS2O60TxlWVrowzkCIXk+IF1Ht5fG74li7iI/+aSEYkIKLP+8l9PCH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LmdalF4+; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QFJXkta/";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QFJXkta/"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=X84Jlx/p2PRhdduHcskf0RAE4GMYJhjhYlRmm3p9akkmDvBXq8NuyJ52UK73TcTX8Vcd8ce6oa4ubKNJCuy0U+PWK1b9PYZIumTjDta++Jt8M5V0OyhJ3vpW4doKVek8kP0KlMemHjgt52xU8VWnFBXkbAZycbuazDMtYxkUo5uSJwxgPmRR2nStUvrsFSI7Zep7v0zRsOIIkikTqG/b6lf2iDzmgLm3tehb9FYRE65joBkxTWmFnR0Ix8aD8kOYB+yE15wTRUXo2XtDYiO5VHwndIDPdMW0ZGGxDmlrIJWsSAo/+Ns26Hwdld2ErW5t4o0ewy+NzT2fPjcO/YQFlg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bgsnuYhmf4nbO6Kttw/oLMavKD4JKFavy6PjPHgHCSU=;
- b=nnn+bkC3fw4X235UtQSuL1Ad70X4W8FkDWRDX3ptD9pPvhHFZAaWBQtjZwjo2cK3ubeemaEmuzLV/9NlVX0YtZfbvRgvYvn1+C5HUMco1zH4okx51DQETE1vBZR50mSHRAZJkMjtUuxICOe7Xf7rOOK/HA3VbFSBbUj/rQvG0CZLqOkX9oX0bd0pUHVbmq+iKZi3ghWqUlGuyNm+XVJON3CW7RTezhSI1knFFRllEZM0O+kv2j0B3/JRnOfJ+HW3+C8AabT5gjm82cj/0LH4fiiiDaIqdcyklcEHwFMPyL3L7U7/TUK8MSq+1Gc71xJvKMygwVJc5twQIs0HXgNCUA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bgsnuYhmf4nbO6Kttw/oLMavKD4JKFavy6PjPHgHCSU=;
- b=QFJXkta/HbsE0WHV3A6bhJLtBoIGslBY/mzePfa93xxP3XBS2oKDd79YqThKpkElfWiy6rH09SeNPfc5Mdyb5plKMKqgdASewFz1Le+8SCE7J2RYbcORrDAX5Y4GER+8djs3bP0Jt1iiGlSpBoGBzWafyATPeut0WPoWJ2fIK3c=
-Received: from PAZP264CA0207.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:237::25)
- by DU0PR08MB8977.eurprd08.prod.outlook.com (2603:10a6:10:465::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.13; Wed, 13 Aug
- 2025 06:26:59 +0000
-Received: from AM4PEPF00025F98.EURPRD83.prod.outlook.com
- (2603:10a6:102:237:cafe::d) by PAZP264CA0207.outlook.office365.com
- (2603:10a6:102:237::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.15 via Frontend Transport; Wed,
- 13 Aug 2025 06:26:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM4PEPF00025F98.mail.protection.outlook.com (10.167.16.7) with Microsoft SMTP
- Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.0 via
- Frontend Transport; Wed, 13 Aug 2025 06:26:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ehRyYh0G4+RAbXI4u91OJkNMcfjaH2E7nmX2TQpyLaqt0FSpKG+1Kbxgr7RmD5B0t0oIkQ97fXa6XkxclSbqjZjPzEuaYa8Rb8iuU6uaTlcCQh2RYf2jnaUl9bDkE5GdOY4vq24iyJu78w6EcoXzBpmW3bUxTvGdNJxUlv0sYJRawvRoq9lNxMbRUkOd2iZa31eKQMly9HlG6hDU1UUrhpCFaASlkX14o3dAaFvmcwo9hVxtNtq6SxOfCESSD7CgORLZMVsg9TAMbDMoyU/d7Apx29uCX1gCLqoLPY1rPlljvVdo0KbuVXHXWCfFFEsoQ1PNOfcI+9ESg6WN6Z9XDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bgsnuYhmf4nbO6Kttw/oLMavKD4JKFavy6PjPHgHCSU=;
- b=PyheTsSeAB5bmB0NFUQ8EQf/8+MAqnvdupWJD94PIl9tJ4dEcHGCLSYFVQuzRP8hryKuNdNLrcbrbNRQ6dw9MQv9cnQp7/m2DfMHWEYWJHCsMWNXFr7NPHJWvwBUHD/QIlr+qskyfeehbxr0qdYmyHSXcP9NkKZj2XnLgBPWqc9XyaoCArWlahs851ltMHr0rgzBRIYHYJs8w6Ul448Xan1jcVkA0lRS2zR3uUYpvuicrVpvEzWV9C9ts1C1q8BB0bWRByrvlmz/LRzTsWCTlS9phIAvnkNcDDJHAuV6MkWdEVYoSdj5SBnbBY4HSyzBHbotfcH2WgjQ1EMUZcPZNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bgsnuYhmf4nbO6Kttw/oLMavKD4JKFavy6PjPHgHCSU=;
- b=QFJXkta/HbsE0WHV3A6bhJLtBoIGslBY/mzePfa93xxP3XBS2oKDd79YqThKpkElfWiy6rH09SeNPfc5Mdyb5plKMKqgdASewFz1Le+8SCE7J2RYbcORrDAX5Y4GER+8djs3bP0Jt1iiGlSpBoGBzWafyATPeut0WPoWJ2fIK3c=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20) by DU2PR08MB10230.eurprd08.prod.outlook.com
- (2603:10a6:10:46e::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Wed, 13 Aug
- 2025 06:26:26 +0000
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739%7]) with mapi id 15.20.9031.012; Wed, 13 Aug 2025
- 06:26:26 +0000
-Date: Wed, 13 Aug 2025 07:26:22 +0100
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com,
-	will@kernel.org, akpm@linux-foundation.org,
-	scott@os.amperecomputing.com, jhubbard@nvidia.com,
-	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
-	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
-	james.morse@arm.com, ardb@kernel.org,
-	hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
-	yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 1/2] kasan/hw-tags: introduce store only mode
-Message-ID: <aJwwDs9bGGFSYWTk@e129823.arm.com>
-References: <20250811173626.1878783-1-yeoreum.yun@arm.com>
- <20250811173626.1878783-2-yeoreum.yun@arm.com>
- <CA+fCnZe6F9dn8qGbNsgWXkQ_3e8oSQ80sd3X=aHFa-AUy_7kjg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+fCnZe6F9dn8qGbNsgWXkQ_3e8oSQ80sd3X=aHFa-AUy_7kjg@mail.gmail.com>
-X-ClientProxiedBy: LO2P265CA0045.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:61::33) To GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LmdalF4+"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-242d3be6484so77385ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 12 Aug 2025 23:34:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1755066883; x=1755671683; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lBz0ZD/446lYgybbXFehAqqU9nULcqKZHue50p4Cg4E=;
+        b=LmdalF4+Xw6sd67w7kK6jpC5AMPxVqlMSoK3VA0cHd4z487+feM82OX2+fio6RcOQI
+         aMA9rJy1LvZYDsOQhFbukl57iNew5vh8yirvg/Eji+cTT8hRWsGN0NgO5qWDGb7R2jkV
+         269fnapyIHbLquCGOPa8pc5i99Qkez2iSHuZ+iaZ0UbDoypnWCj4LY6ZNUqwsVbNR5g0
+         oKGiVfrqHrgP/ZFZENH8gHMQrw+SMoBA1cRLApGgCfKoysEMLiHc24XXsR199ob3qxtA
+         5jtKErkudTCWpxxrAOTiiJOy/ceKhw51LoqBPNU5/5dYhW0yEEdKHCpwRcfPo3IbOE2z
+         RpvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755066883; x=1755671683;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lBz0ZD/446lYgybbXFehAqqU9nULcqKZHue50p4Cg4E=;
+        b=mqJryT4dm5Gps4Iv/n8eaTIWrYMRznHmbk8ALzFciEU0bPPsUpBqfQtzUsh1qa48gJ
+         O73HprZq+R4b5UjvgQn1oAHDHqf7sbW6ZnIBYUbBRQJ18isVe2WTlpMWC4oswFgYJ1DK
+         EisiVfTXExuWFMh3a2FSNMnOaZkZi+xgPpaBXykVRyF9/Znu8VQX2Cw9fEBxc3pCur/i
+         dc75L1HasI1mmjrtJ8soNpkMpLW+azNIklYamYjq4ES/qj9rMBj2LsV1vCrtso8bZEcH
+         AEsrJnDuejUqLqvoajL5pS9fxzp4UwnxTJXngCPCIVNfnU4kfnAyq911uPLF1Tfn4nkb
+         dlTg==
+X-Forwarded-Encrypted: i=1; AJvYcCURSCU9kCBpgIMUGoD+xUg/5NzdWctGAzC613+2/4hZ8fSU9dde8lI8KnuNbxqxz7c9prKAl/0AIJY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmgTxuiWtDKclCnO0zJG9AYzmJfXEtsn1QyZLmWxhEZKQXnygg
+	NpEDgVtyFkNiC0BmYGpWIkDmzG4LwnT0HVEE2e69ifiIAQ81yxDCNwtqfk6kpqRaMw==
+X-Gm-Gg: ASbGncvjMPg4GI0nzrUoFo63gO/xPxa0ryyTWldeHGr8sY4EaO0ZEZUG8Im/pQ9uKnu
+	dJIlElapgeFl5Jk0sgcn22OThMH0M6tY8Q7wOrEvre/1ZvnUYHsJjmmR/Fl3JFHcGeQeE0cU67/
+	FM3q1Z6Lf1UfySyZfiX2+hoNZkeh5RAVIFe7PMl0TQrx70VeEDMPcetLU3uh4bE3HiYK8OLd6OY
+	P9JFjKKfhmsNG9oZUyz3pjCXlcxzz4kvrL0IuKOqrl8dPEyfteNoE7h9jHBcI28lOIIoT5jhntB
+	bECWsCiXWOQ3QCIzKWVWyC5IoRqbMVRZXEPa3sKAxx0EDBP3GGux8S65o5GR6eBJEO3Os9Txpdf
+	TJBYJ/za0Wx4ZBqrWReM+vrs8mhXuHkrWWx0UxuKhpRr4T0hlTtc4qlTrdjyJI4tFfSw=
+X-Google-Smtp-Source: AGHT+IGFb0xX7B2Q6MyY6rFw3BXv1hxo5YhlKW11olCnEO5GfmzQ9WNDztxD1sYVpPXUsxAdW3d/ig==
+X-Received: by 2002:a17:902:e746:b0:240:6076:20cd with SMTP id d9443c01a7336-2430e55bb17mr2238135ad.15.1755066883155;
+        Tue, 12 Aug 2025 23:34:43 -0700 (PDT)
+Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24303d5e705sm30477375ad.14.2025.08.12.23.34.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Aug 2025 23:34:42 -0700 (PDT)
+Date: Tue, 12 Aug 2025 23:34:37 -0700
+From: Vipin Sharma <vipinsh@google.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com,
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+Message-ID: <20250813063407.GA3182745.vipinsh@google.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	GV1PR08MB10521:EE_|DU2PR08MB10230:EE_|AM4PEPF00025F98:EE_|DU0PR08MB8977:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1d20319-bf3d-4599-67c6-08ddda3267e0
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info-Original:
- =?utf-8?B?RSt1V3ByWjBuR2hyQUZkeW9pZ2E2MkhFT1VkS09IUXVHZEwyNFY3NTdOdWY1?=
- =?utf-8?B?dkVld2k0b01IYXV5RmdjMDIyWDJYOGZRYjdkRHFaTWtqN2RpYTAwWnlFenZv?=
- =?utf-8?B?ajVNR2VzaWxkUnpPSmtSMXB0akxUbVd0TmpDUmdqdTc0ZEVJclVKVzhaNEgv?=
- =?utf-8?B?RFZ2WEUvQUh6Zy9VWWFTNkxpak54d2ZVU3NuV2c2VWZXdkZTT01qdmg1RDhw?=
- =?utf-8?B?NWQ0R3l3cVZ5WmxvSnFoMGY4MFMxMXUvYld2MXpBMm1Tc2hRYjZlVzNZT1Fh?=
- =?utf-8?B?eEpFdnlEZHppRVZ5Rmg0MmQvS2ovMDVPUkltcHJvcTN2akdkYVhOY3ZHN0Nu?=
- =?utf-8?B?dmVId1Zrc2dtVVhDdEpuVWdiYiszRSthVWZjeUw4YityN2FjbXQ2dkpwcVVx?=
- =?utf-8?B?R1FsWVlXSkYraHpKdmw0T283aTdCQStZR24ycEhpMi8xME1zNXF1VlA2Smx2?=
- =?utf-8?B?MHFXaTJ1ODF5UCtidENyVklwVktTQWpycDFWc1B3YVpwN1VEcmtBb2dIQTFq?=
- =?utf-8?B?U2QwTFhYcVFUVmMxa1FsMEUyYWNaRDRaQ2NpWUFKYlUzbXlicnF3bVBIdzV4?=
- =?utf-8?B?SFAyTjRuQ1VRT3YvVFJnVVhBV1pVTXVrRXM4TzV5TkwyNUY1NTZudHo2cFNX?=
- =?utf-8?B?ZGJhUVhOMnMxZEg4STN5VEI4bVNNMUF3MkczaWtLNkVmS3R5VlMwTGtqcDUz?=
- =?utf-8?B?ZnYzdDR0c285ZHNveno1N2I0ejRtdmFUcHNJOWlyMHF4QUpFNDNUQ2swbFpl?=
- =?utf-8?B?K1IwQURYd1grZkpWNHZacXV0TnpOem5oWVR0cVZaRnpJYmMwRE51MjhLRXp3?=
- =?utf-8?B?OXRjZ0dGZ3MwcWhBZ25LZHhVWGh6dDhtMEJaTlBuU0Y5WSs3S3hzYUVuak5H?=
- =?utf-8?B?MFFKZjRZNWhodnhhVG5XQ1RJcUtnK2QvOExmbWhGOEhWSXFRRGFMemZxRzVk?=
- =?utf-8?B?Wk9EaC9ocDU4RGJFd3BMN0VVUXRCaGs3M3ZyeG5hUHA5bTk4TmYvWHdDTHRJ?=
- =?utf-8?B?MkxtbmtsUklUb21TSUloTFk5TENHMWhRaGUyY3QzR2Q5Y1NPNVBkTmdMOHZi?=
- =?utf-8?B?d2pIRUlYZXRxcWNjY3lTUTc3Y3V2MGVIVE5CTVdPRzdlMnNMYU1GVno0N2Qz?=
- =?utf-8?B?NnhycEt4T01mN2d6eCtkTVN6bmVrZFF1MGZ2bDEvNUgrbVQyMm5TendZQXlP?=
- =?utf-8?B?WW5MY2s2R1Q0MkRLamhJczdrZ1pTQndIK1RMQ0RpRjFaVVdmbUJUSExSbVhX?=
- =?utf-8?B?S2lpdEhITHAwd3FnWDhNZDgzZ0k1Q0xISmlJdnQ4MGtLazVaZFJSZjdhcDN4?=
- =?utf-8?B?VWZubklhVlJuWDNRMGtBVHI2RDVaUWFoUGtBZm9ya29XM3pZek82T0hRTnFM?=
- =?utf-8?B?TmdvQ2d2MXJzS3lwcDA1SmpMQkRKUjgrcXFkcXlleUwvYlZhWUV6T05aRGlJ?=
- =?utf-8?B?RkJ2TDBRSmx3a1JDL2FtZVJMK1lwVHBaZmw1R24zVlRMa1JBek5Cd0s0MXI2?=
- =?utf-8?B?NlhvcTFtWUtlWHBhaVBLVkFRTlhkeWRrcEZrMWhTVDJ0ckI3UktNRkM3bjgr?=
- =?utf-8?B?eWFiTGw4RG0vV3ZRY3JEODcvWG5uenZBcHNlZlIvTVRKbUdya21kc09OU1Vq?=
- =?utf-8?B?SURtVVk4elkrci90S0ZoSjFPRUJ2MUQwS3p2eElQNEVONlZicVg1djRQZ1Ro?=
- =?utf-8?B?Zm5XVmNDUGlDelczdHRqTVhncWRZQ3BzTTY1djJ3ZWoxamdKUG90ZTNnWkhO?=
- =?utf-8?B?aWRpTmFvWE55MUVSK0pRcmpDU3hPRjFvanRxdW44UWIxU2RGWVM5WE5OTEFs?=
- =?utf-8?B?NFEzQyttT2lUeCtzczMvTGQxbG1hMFJyM05xZ1JjUWV3S0lSQUQrQ0NOMkhw?=
- =?utf-8?B?enFPVm9DOGdIYWN5K0ZWcjhCS3BLS2c2Z1ZKSWFOZXFYb1RqT2FtSjdvWU8v?=
- =?utf-8?Q?+DO8nP1aRzg=3D?=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR08MB10230
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM4PEPF00025F98.EURPRD83.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	d36912ec-9cc3-4a3d-49a4-08ddda325499
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|35042699022|14060799003|376014|7416014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?L2c1RXd1Uld4SlcyVllFZlB6akN2MGNhSXlZdHRGUVpGT3R6R2o2Rktabmc3?=
- =?utf-8?B?YlU1M3pSSWdiaUdIdFhscmJ5RDY3dzdzakF2QzJMcnNTMFVyOW9QQXhxSTlN?=
- =?utf-8?B?bGUwTm5VQkJMYmg0Y0F5Q0FWcnBxdWVKT29xUjVnN1p4eHJrTWNicFNBVUVn?=
- =?utf-8?B?R3lhaGtWTXFQM2tXRDQ4ZVZRSGhvbFNOOVQ0YWhJcXdUYm5EeEM5aWJ3WVM4?=
- =?utf-8?B?eU5RNUdsc0R3TU56Y3QyTjlDc2x3cHhrSEN0bS8xWm5MM2lGcWw0aEgyUWsx?=
- =?utf-8?B?K1FLV0plRW05S040VGtFYUdjYU9GMVhZVTdTRncwRzROczNKak1PSHBZWHlP?=
- =?utf-8?B?czFTdVNvTnd1L1ZtOW15emZuTGgrZ0R0UTVUR1NuZ1JFWWRqNzUvVGdTdTRy?=
- =?utf-8?B?OTg0S2c2S01oMlY1OUR4ajZEQUszOWhSL01XNW1ZZEowd21IQUFBRncrQTdm?=
- =?utf-8?B?Tnpyc2N2Q1F1ZnVJUFpxaHJDaHFGVzQ3UnAzNjNybEhRNU9KaHJMU0lGRVR6?=
- =?utf-8?B?TVYzcGk0ZWtGeFhGQVhRaldxOFJxaTJ5WERUUlMrL1pGR1FnUStlM0paSWp2?=
- =?utf-8?B?OXJUc1VXTXN3eHN4N3MvMnVuOGdMTFZhTVFlcjkxcWNha0gvTUQ5S1FOVmFH?=
- =?utf-8?B?bUtrM2hTUXdpWXRJRHNXcnZ0bG9EYzJCRncxMzJ2dHdHQy9LN3gxcFZseG56?=
- =?utf-8?B?Wm1tcEtSalo3cWdWMmVXZ0xXZHVmU3FpV1ZIWFF4LytPdEwzS01XRndFQXNT?=
- =?utf-8?B?YTM3VVVIL1l6UVB6WXVkZUVIOFpzekx6aE9FdGtWK2YxdjFrUW5KbHRPaGla?=
- =?utf-8?B?RnZRMTVoUUZuR3diWFBDVGxaTXJPVU1CVlU0OWp6S01rWitZUmc4SmdOUkhq?=
- =?utf-8?B?SjJkZVU0L0RwazBPZkcreURSd2VSRnU4SGR3cWo4YU9WOHNmQ0ozbS9UcWJW?=
- =?utf-8?B?cnpiNTRlUDNzaFNZeWIvNWJUUTRSa1p3Yy9pRkluaFlxTThNbUFZSVlHZWVP?=
- =?utf-8?B?UXQ3bCtUdHdieDcwS2dMTmZ3R1FuQlhWSVloWTkwdVdjQ0RlMFZKcWUrcFh2?=
- =?utf-8?B?WTBLWDBIelpXeFpoTHFrUUJ2ZjcvL1R4UG42dmNCdDlyU0Y1THhuclp2aEl3?=
- =?utf-8?B?TzdnZlBwVTQyU0VNWWRJTU1EMG5YV3lVQUY2UEFoUm1SemhzYmNQTFlXaEgz?=
- =?utf-8?B?c0drRlVnVWMyZTJLVUtYUEFtaXNMWVBaRWN2TkdRU3ZkWE9zT2ZrbFJUc0tl?=
- =?utf-8?B?Z2FSdjJvVjlBMHFWL1NBSTVrS3ovU1RBajczajQvbVJyS3ZrMS9rZzFtNlVh?=
- =?utf-8?B?TDZFL09PV2tiZ0hNWGF6Unc0UmdScXlaNDZOVG5YTzdyU0hkTDVHbU9xY2dX?=
- =?utf-8?B?cUEyWjJNZmFhN2pORkNncGRKdjFCZ25PTDBXZFBXdmJUNjlmeGc4Vnl2NHBq?=
- =?utf-8?B?aUI5aGZBQlpCeDNRNGxOUE1aZ2EvSGFMUXNNcWJ2M1d4eFZwaEQ5VVBrZXd1?=
- =?utf-8?B?dzVoZVpWTW52LzBQZkp5Y3VyYUNPakpmL2Z2SEFVaXNpWGNVQkxMYVg2bkJT?=
- =?utf-8?B?dnYrR2oxODNCbWF3TTgvUFU0bUFlT0RoZWJ6Rnh3ZVorUEdZcEh6VUM2ZEp5?=
- =?utf-8?B?c0w3SlgrWW44L2U1NTZ3dCt5dFIxYmt3SGQ3VUdPbDZjWVhCYUNiMlF2a2Vo?=
- =?utf-8?B?Q2FiUE0xTS9pc0RzYmt4eXdrOElDNm9vQW1PcUxvNzZaa2U3cTRQM29zK2or?=
- =?utf-8?B?NEhWNXQ4dXJKNGxNT3ZWV0k0TlpFRGQzdTJjMDVoblJwQWR4Z1JSUnl0SlpW?=
- =?utf-8?B?ZFo2TmF4d01pY1gwUnZEaFNFK0ZHV1pRVFhGbk5jU00ra0JXeU1WMUpTNDMw?=
- =?utf-8?B?MS9KYWExb2h4Q3RUUVIwSlFyTGxqQ3FQMGpGenMySmVtOEx0dzFVNmthNjgy?=
- =?utf-8?B?Tnd1dXQ0aGpKUENycTgrN1pkRzJxMUw5YXVTNmRMbVVoWnF6S3lxK0RGZ1FU?=
- =?utf-8?B?TkFzeWlCSUZsT09ZQTBqTzFKQyswdExMcjVINlZaU0ZPZ0JyWnN5TEJRa21H?=
- =?utf-8?Q?ABz5da?=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(14060799003)(376014)(7416014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 06:26:58.1399
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1d20319-bf3d-4599-67c6-08ddda3267e0
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00025F98.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8977
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250807014442.3829950-30-pasha.tatashin@soleen.com>
 
-Hi Andrey,
+On 2025-08-07 01:44:35, Pasha Tatashin wrote:
+> From: Pratyush Yadav <ptyadav@amazon.de>
+> +static void memfd_luo_unpreserve_folios(const struct memfd_luo_preserved_folio *pfolios,
+> +					unsigned int nr_folios)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < nr_folios; i++) {
+> +		const struct memfd_luo_preserved_folio *pfolio = &pfolios[i];
+> +		struct folio *folio;
+> +
+> +		if (!pfolio->foliodesc)
+> +			continue;
+> +
+> +		folio = pfn_folio(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
+> +
+> +		kho_unpreserve_folio(folio);
 
-> On Mon, Aug 11, 2025 at 7:36 PM Yeoreum Yun <yeoreum.yun@arm.com> wrote:
-> >
-> > Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
-> > raise of tag check fault on store operation only.
->
-> To clarify: this feature is independent on the sync/async/asymm modes?
-> So any mode can be used together with FEATURE_MTE_STORE_ONLY?
+This one is missing WARN_ON_ONCE() similar to the one in
+memfd_luo_preserve_folios().
 
-Yes it is. the ARM64_MTE_STORE_ONLY is separate SYSTEM_FEATURE then
-ARM64_MTE and ARM64_MTE_ASYMM.
-0 So any mode can be used together with ARM64_MTE_STORE_ONLY.
+> +		unpin_folio(folio);
+> +	}
+> +}
+> +
+> +static void *memfd_luo_create_fdt(unsigned long size)
+> +{
+> +	unsigned int order = get_order(size);
+> +	struct folio *fdt_folio;
+> +	int err = 0;
+> +	void *fdt;
+> +
+> +	if (order > MAX_PAGE_ORDER)
+> +		return NULL;
+> +
+> +	fdt_folio = folio_alloc(GFP_KERNEL, order);
 
->
-> > Introcude KASAN store only mode based on this feature.
-> >
-> > KASAN store only mode restricts KASAN checks operation for store only and
-> > omits the checks for fetch/read operation when accessing memory.
-> > So it might be used not only debugging enviroment but also normal
-> > enviroment to check memory safty.
-> >
-> > This features can be controlled with "kasan.stonly" arguments.
-> > When "kasan.stonly=on", KASAN checks store only mode otherwise
-> > KASAN checks all operations.
->
-> "stonly" looks cryptic, how about "kasan.store_only"?
+__GFP_ZERO should also be used here. Otherwise this can lead to
+unintentional passing of old kernel memory.
 
-Okay.
+> +static int memfd_luo_prepare(struct liveupdate_file_handler *handler,
+> +			     struct file *file, u64 *data)
+> +{
+> +	struct memfd_luo_preserved_folio *preserved_folios;
+> +	struct inode *inode = file_inode(file);
+> +	unsigned int max_folios, nr_folios = 0;
+> +	int err = 0, preserved_size;
+> +	struct folio **folios;
+> +	long size, nr_pinned;
+> +	pgoff_t offset;
+> +	void *fdt;
+> +	u64 pos;
+> +
+> +	if (WARN_ON_ONCE(!shmem_file(file)))
+> +		return -EINVAL;
 
->
-> Also, are there any existing/planned modes/extensions of the feature?
-> E.g. read only? Knowing this will allow to better plan the
-> command-line parameter format.
+This one is only check for shmem_file, whereas in
+memfd_luo_can_preserve() there is check for inode->i_nlink also. Is that
+not needed here?
 
-AFAIK, there will be no plan for new feature like "read only"
-and any other modes to be added.
-Also "store only" feature can be used with all mode
-currently, I seems good to leave it as it is.
+> +
+> +	inode_lock(inode);
+> +	shmem_i_mapping_freeze(inode, true);
+> +
+> +	size = i_size_read(inode);
+> +	if ((PAGE_ALIGN(size) / PAGE_SIZE) > UINT_MAX) {
+> +		err = -E2BIG;
+> +		goto err_unlock;
+> +	}
+> +
+> +	/*
+> +	 * Guess the number of folios based on inode size. Real number might end
+> +	 * up being smaller if there are higher order folios.
+> +	 */
+> +	max_folios = PAGE_ALIGN(size) / PAGE_SIZE;
+> +	folios = kvmalloc_array(max_folios, sizeof(*folios), GFP_KERNEL);
 
->
-> >
-> > Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> > ---
-> >  Documentation/dev-tools/kasan.rst  |  3 ++
-> >  arch/arm64/include/asm/memory.h    |  1 +
-> >  arch/arm64/include/asm/mte-kasan.h |  6 +++
-> >  arch/arm64/kernel/cpufeature.c     |  6 +++
-> >  arch/arm64/kernel/mte.c            | 14 ++++++
-> >  include/linux/kasan.h              |  2 +
-> >  mm/kasan/hw_tags.c                 | 76 +++++++++++++++++++++++++++++-
-> >  mm/kasan/kasan.h                   | 10 ++++
-> >  8 files changed, 116 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> > index 0a1418ab72fd..7567a2ca0e39 100644
-> > --- a/Documentation/dev-tools/kasan.rst
-> > +++ b/Documentation/dev-tools/kasan.rst
-> > @@ -163,6 +163,9 @@ disabling KASAN altogether or controlling its features:
-> >    This parameter is intended to allow sampling only large page_alloc
-> >    allocations, which is the biggest source of the performance overhead.
-> >
-> > +- ``kasan.stonly=off`` or ``kasan.stonly=on`` controls whether KASAN checks
-> > +  store operation only or all operation.
->
-> How about:
->
-> ``kasan.store_only=off`` or ``=on`` controls whether KASAN checks only
-> the store (write) accesses only or all accesses (default: ``off``).
->
-> And let's put this next to kasan.mode, as the new parameter is related.
+__GFP_ZERO?
 
-Thanks for your suggetion. I'll change it.
+> +static int memfd_luo_freeze(struct liveupdate_file_handler *handler,
+> +			    struct file *file, u64 *data)
+> +{
+> +	u64 pos = file->f_pos;
+> +	void *fdt;
+> +	int err;
+> +
+> +	if (WARN_ON_ONCE(!*data))
+> +		return -EINVAL;
+> +
+> +	fdt = phys_to_virt(*data);
+> +
+> +	/*
+> +	 * The pos or size might have changed since prepare. Everything else
+> +	 * stays the same.
+> +	 */
+> +	err = fdt_setprop(fdt, 0, "pos", &pos, sizeof(pos));
+> +	if (err)
+> +		return err;
 
->
-> > +
-> >  Error reports
-> >  ~~~~~~~~~~~~~
-> >
-> > diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-> > index 5213248e081b..9d8c72c9c91f 100644
-> > --- a/arch/arm64/include/asm/memory.h
-> > +++ b/arch/arm64/include/asm/memory.h
-> > @@ -308,6 +308,7 @@ static inline const void *__tag_set(const void *addr, u8 tag)
-> >  #define arch_enable_tag_checks_sync()          mte_enable_kernel_sync()
-> >  #define arch_enable_tag_checks_async()         mte_enable_kernel_async()
-> >  #define arch_enable_tag_checks_asymm()         mte_enable_kernel_asymm()
-> > +#define arch_enable_tag_checks_stonly()        mte_enable_kernel_stonly()
-> >  #define arch_suppress_tag_checks_start()       mte_enable_tco()
-> >  #define arch_suppress_tag_checks_stop()                mte_disable_tco()
-> >  #define arch_force_async_tag_fault()           mte_check_tfsr_exit()
-> > diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
-> > index 2e98028c1965..d75908ed9d0f 100644
-> > --- a/arch/arm64/include/asm/mte-kasan.h
-> > +++ b/arch/arm64/include/asm/mte-kasan.h
-> > @@ -200,6 +200,7 @@ static inline void mte_set_mem_tag_range(void *addr, size_t size, u8 tag,
-> >  void mte_enable_kernel_sync(void);
-> >  void mte_enable_kernel_async(void);
-> >  void mte_enable_kernel_asymm(void);
-> > +int mte_enable_kernel_stonly(void);
-> >
-> >  #else /* CONFIG_ARM64_MTE */
-> >
-> > @@ -251,6 +252,11 @@ static inline void mte_enable_kernel_asymm(void)
-> >  {
-> >  }
-> >
-> > +static inline int mte_enable_kenrel_stonly(void)
-> > +{
-> > +       return -EINVAL;
-> > +}
-> > +
-> >  #endif /* CONFIG_ARM64_MTE */
-> >
-> >  #endif /* __ASSEMBLY__ */
-> > diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> > index 9ad065f15f1d..fdc510fe0187 100644
-> > --- a/arch/arm64/kernel/cpufeature.c
-> > +++ b/arch/arm64/kernel/cpufeature.c
-> > @@ -2404,6 +2404,11 @@ static void cpu_enable_mte(struct arm64_cpu_capabilities const *cap)
-> >
-> >         kasan_init_hw_tags_cpu();
-> >  }
-> > +
-> > +static void cpu_enable_mte_stonly(struct arm64_cpu_capabilities const *cap)
-> > +{
-> > +       kasan_late_init_hw_tags_cpu();
-> > +}
-> >  #endif /* CONFIG_ARM64_MTE */
-> >
-> >  static void user_feature_fixup(void)
-> > @@ -2922,6 +2927,7 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
-> >                 .capability = ARM64_MTE_STORE_ONLY,
-> >                 .type = ARM64_CPUCAP_SYSTEM_FEATURE,
-> >                 .matches = has_cpuid_feature,
-> > +               .cpu_enable = cpu_enable_mte_stonly,
-> >                 ARM64_CPUID_FIELDS(ID_AA64PFR2_EL1, MTESTOREONLY, IMP)
-> >         },
-> >  #endif /* CONFIG_ARM64_MTE */
-> > diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-> > index e5e773844889..a1cb2a8a79a1 100644
-> > --- a/arch/arm64/kernel/mte.c
-> > +++ b/arch/arm64/kernel/mte.c
-> > @@ -157,6 +157,20 @@ void mte_enable_kernel_asymm(void)
-> >                 mte_enable_kernel_sync();
-> >         }
-> >  }
-> > +
-> > +int mte_enable_kernel_stonly(void)
-> > +{
-> > +       if (!cpus_have_cap(ARM64_MTE_STORE_ONLY))
-> > +               return -EINVAL;
-> > +
-> > +       sysreg_clear_set(sctlr_el1, SCTLR_EL1_TCSO_MASK,
-> > +                        SYS_FIELD_PREP(SCTLR_EL1, TCSO, 1));
-> > +       isb();
-> > +
-> > +       pr_info_once("MTE: enabled stonly mode at EL1\n");
-> > +
-> > +       return 0;
-> > +}
-> >  #endif
-> >
-> >  #ifdef CONFIG_KASAN_HW_TAGS
-> > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> > index 890011071f2b..28951b29c593 100644
-> > --- a/include/linux/kasan.h
-> > +++ b/include/linux/kasan.h
-> > @@ -552,9 +552,11 @@ static inline void kasan_init_sw_tags(void) { }
-> >  #ifdef CONFIG_KASAN_HW_TAGS
-> >  void kasan_init_hw_tags_cpu(void);
-> >  void __init kasan_init_hw_tags(void);
-> > +void kasan_late_init_hw_tags_cpu(void);
->
-> Why do we need a separate late init function? Can we not enable
-> store-only at the same place where we enable async/asymm?
+Comment is talking about pos and size but code is only updating pos. 
 
-It couldn't since the ARM64_MTE_ASYMM and ARM64_MTE are boot feature
-So the kasan_init_hw_tags() is called by boot cpu before other cpus're on.
-But, ARM64_MTE_STORE_ONLY is SYSTEM_FEATURE so this feature is enabled
-only when all cpus're on and they can use this system feature.
+> +static int memfd_luo_retrieve(struct liveupdate_file_handler *handler, u64 data,
+> +			      struct file **file_p)
+> +{
+> +	const struct memfd_luo_preserved_folio *pfolios;
+> +	int nr_pfolios, len, ret = 0, i = 0;
+> +	struct address_space *mapping;
+> +	struct folio *folio, *fdt_folio;
+> +	const u64 *pos, *size;
+> +	struct inode *inode;
+> +	struct file *file;
+> +	const void *fdt;
+> +
+> +	fdt_folio = memfd_luo_get_fdt(data);
+> +	if (!fdt_folio)
+> +		return -ENOENT;
+> +
+> +	fdt = page_to_virt(folio_page(fdt_folio, 0));
+> +
+> +	pfolios = fdt_getprop(fdt, 0, "folios", &len);
+> +	if (!pfolios || len % sizeof(*pfolios)) {
+> +		pr_err("invalid 'folios' property\n");
 
-[...]
+Print should clearly state that error is because fields is not found or
+len is not multiple of sizeof(*pfolios).
 
-Thanks!
---
-Sincerely,
-Yeoreum Yun
