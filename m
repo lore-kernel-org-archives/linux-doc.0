@@ -1,84 +1,103 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80924187332;
-	Wed, 13 Aug 2025 13:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BE81A9FBE;
+	Wed, 13 Aug 2025 13:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755091063; cv=none; b=VMRD3cJaEyu0pzYw1VZe8ZSwP8rLWEIg7gWFUA7RGICeHbOHn1/72G2sxbvHoPdVgm8VZDP8WawmlDVGjR+Q6SDXgLRFJ4envfbbero5FSnqaAyVg8+oZfdhAGxAe3+Rjnhb5egoyu3E9z3pThzM+UI4kubak8B71eYTa3ZMEKs=
+	t=1755091092; cv=none; b=IPQvTz/6d8SxtJEvrbFXTCTn7LyzzbZBrAGqdbnnJxf/QldZJrjZSkbr7jdgwsAH+HtigOFav0cByV3GXQCEp2NG3hxekv5+pGykf1VCFk0bsennUPVCpYMx0UhWoIOHED6+0KNAvT5pwbd5oBjYjSR7CY/oQdmCjsjlLUsmIPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755091063; c=relaxed/simple;
-	bh=zzEj9cfqbd2spSJTYTHqtFNTblZavGAp656fzwWKmWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MfDHFRQ7pxblGO9A+Ga4EocM2zLyI+02n6FascAuB9S4TOWCWuMA+vrZMd0JGYDVk7UB2xAOnTMJgFmvbFH5AKUGkTyL/eJaLH3KCcwekmpf0ba0hZyC2dn/zuQ0ElKABUo5I6QkYHRIGXXDH/OFQCweTFhA7q/SQ6dwlRGvamk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tJand2IK; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1755091092; c=relaxed/simple;
+	bh=paBBxIJ8noDSJ4LteRLE5WZlCC+7BlQPyGjfPYEj38Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uEwMZaYS3na/2HGpfmseKnb2V9C2YAVfAsfpYHC+wTOeh1zgv2qez4lqwj3AbdJ4IkORxwVosJ0EF8R42xxFmqRwa+pU98t3M/w0M1SA2PhH+YrUeBOQ4XqLgMM/LTXXoEDCp09EOZFrvkLkjgaWFXxuJzEpAuoua/mgfj+RIF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HpLHytG+; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tJand2IK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=NqnMKRewUhK+QutzEosxqVjfhtOVe9aM8YUWyA7VAJ0=; b=tJand2IKWK2LpeSVoQ5rvnu/mz
-	6O1eb4G6fU5r2QX9dJECNoLgKV4IJI3RjgcZ4dNRpzidLPgYneXBu3VLDpCgmb8/Yh/6ECJ4gMQ8S
-	/s3oe2KSouY+N0Htk+szxFHiBPB9Bh8LXZaISrn+1ry7FJJTvoy4MX/ugQjBcOJPaI/+68Cc1PZ9A
-	hXwVANoFMsKyIxe7JBrtxjTyCQu7MKG5wu6D8NvDeYqeIYp6CTjhwfus8QvGaVAj6x/PTOuiotv+Z
-	DbENhdZm+Q6P1SJbIrRZ88WML5IT9upAF8EsHdC0Ykqy+/nbiF+0mhsoh/fhA5UyBQD0mlCTtT9Zj
-	rbYGSAmQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umBMG-000000090UJ-1PxJ;
-	Wed, 13 Aug 2025 13:17:36 +0000
-Date: Wed, 13 Aug 2025 14:17:36 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: David Sterba <dsterba@suse.com>
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Paul Moore <paul@paul-moore.com>, selinux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Remove remainders of reiserfs
-Message-ID: <aJyQcAyOrp45D84g@casper.infradead.org>
-References: <20250813100053.1291961-1-dsterba@suse.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HpLHytG+"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b429b2470b7so4425842a12.3;
+        Wed, 13 Aug 2025 06:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755091090; x=1755695890; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0dtvKbvd1NoePKeupTUb6wGa3pqvPcbWWYugYL7f94E=;
+        b=HpLHytG+x3gWWe2bYJny9Bu7NLzpxcDYjcJ1TrzLIr66tf7gamQ2tBbYe+klq2xXlq
+         Zym1mu08BpoJJ00VskyHCnDOSejCOkjnsyCCY1rGFyFrVTgOfBu2fkkcw1lm7YHN8o+1
+         u1sGh8R/Au7jz22KEiEA6sas5lFxEUfzh3tI6i9xMtMoq8vKeIt+OQQp/c4n0nBQiIoy
+         V84wVS9pRC1Y91yux33c494BtmhSkoha77/qSXZAFqIRtlIVvRA2vdSGwhvZfEKXqQ6/
+         kh0vqiSWnEBJJec0fBustvXgDMFeDRknaBgHcj5jU9wFxdsu27Ca6THzdzJyvMD4wPgI
+         74Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755091090; x=1755695890;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0dtvKbvd1NoePKeupTUb6wGa3pqvPcbWWYugYL7f94E=;
+        b=rJlOgRY8MtMVR7vCw2VE8KC7eJrVhl8sob1q1zw3rK8F29aYXEvF12ioB20e2MqpmS
+         7Bs0OONoF6p5awi5TfkgKwvhikqkNHQhlc3pypKgQCuHIOBsrsj49j2pPHfpE3WQFY35
+         zheFu/VjMeVEAnMG/jidtc+CPHsmXi8rFLnTNtv7CS1PScjWtJDemWgTN26uai0d/Lct
+         cDa0lAXbCBZGKR+Tk5d1ciUGx/9l5RwlH8IZz5r/aLNafPvgDPZqoeVu9tmnBzR0WZVJ
+         jMUVEqg2TD+judNmMCbyFTCGR+cHNwPD9Q+AVq7eYt7KKQCLKorw2qnbtQSXtJPTThkL
+         Cndw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTLUG9hS8dQNhWZ0dawHqt6xKIbsqwaEDpdl7VPEz4PX6xZ6G2DU/OWgqWkOjp8ykh/vD6RVA6ONg=@vger.kernel.org, AJvYcCXh9qw+WMmejxwSXEZ51VaoX9fuzw7WVrycoGUuO4o1C15tRhdlsJ0R34o6l9cJjYAUkk8svH5OXfcp+1/C@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVfXlKQR7UdOeDNNnC/ms3JpG4aD/r19AJGtS1ZUSPV3NiI4Nf
+	EjIM9G93OODEBknZnTQLy1jNLc/VZf/s8XJGatf8fbQprN9TtWWe3RK7EXIY9A==
+X-Gm-Gg: ASbGncstcUWHWp0Puv1FEjNvmvHnpJxnbROg00jcBE729KFHSkZSelHcgCLe5L3310m
+	Duqm24jmUeKST3FAKoAyHJ0auYFXH8Ix80IJKNmbyxUGV7gMtHChRKCgOh6b4WR5JYlrPSVAEEQ
+	5XAkTx0e1nl6h9wq6KQTIoDEdtnsNXDg1z1EWFbzE4rq0pRYrSyuzGpV9E0VaPtIFsfpJwuu0Oo
+	6I4CJ6YCevXaee3aooraMX+rsbccDYnBIGO5lDfnFmbabKtQKnuoAgSl+sa53h7Ya9OUJ52it/h
+	72ZtC4TSzjSbs7yP06Jqdrg4tASz9DeLopatkxR0LswLC1GN5OkP47pDNHYsIP6rxcvvK39TCD5
+	mGtfuA01IWwpnSvAqZmsnaxNapk105ddO55eLIj5pvVoAcJlA6dj2
+X-Google-Smtp-Source: AGHT+IEvca5Q1Y+XwKwhx/vIhFJnb2VLh00ptMOdHF5t8h9B1lUfXKpJKlk9GNPxbQn4/U+nnx/VYg==
+X-Received: by 2002:a17:903:3546:b0:240:48f4:40f7 with SMTP id d9443c01a7336-2430d1e2efemr46395445ad.39.1755091090085;
+        Wed, 13 Aug 2025 06:18:10 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:d003:7033:a55a:73ad:3b4e:d936])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1f21b69sm329057525ad.71.2025.08.13.06.18.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Aug 2025 06:18:09 -0700 (PDT)
+From: vivekyadav1207731111@gmail.com
+To: skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org
+Cc: Vivek Yadav <vivekyadav1207731111@gmail.com>
+Subject: [PATCH] kernel-parameters: fix kernel-doc warning
+Date: Wed, 13 Aug 2025 06:18:01 -0700
+Message-Id: <20250813131801.2701-1-vivekyadav1207731111@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250813100053.1291961-1-dsterba@suse.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 13, 2025 at 12:00:52PM +0200, David Sterba wrote:
-> +++ b/Documentation/admin-guide/laptops/laptop-mode.rst
-> @@ -61,7 +61,7 @@ Caveats
->    Check your drive's rating, and don't wear down your drive's lifetime if you
->    don't need to.
->  
-> -* If you mount some of your ext3/reiserfs filesystems with the -n option, then
-> +* If you mount some of your ext3 filesystems with the -n option, then
+From: Vivek Yadav <vivekyadav1207731111@gmail.com>
 
-Should this be updated to ext4?  ;-)
+Fix kernel-doc warning in kernel-parameters.txt
 
-> @@ -587,7 +587,7 @@ Control script::
->  					FST=$(deduce_fstype $MP)
->  				fi
->  				case "$FST" in
-> -					"ext3"|"reiserfs")
-> +					"ext3")
+WARNING: Possible repeated word: 'is'
 
-... uh.  Maybe much more significant work is needed ;-)
+Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +++ b/Documentation/arch/powerpc/eeh-pci-error-recovery.rst
-> @@ -315,7 +315,6 @@ network daemons and file systems that didn't need to be disturbed.
->     ideally, the reset should happen at or below the block layer,
->     so that the file systems are not disturbed.
->  
-> -   Reiserfs does not tolerate errors returned from the block device.
->     Ext3fs seems to be tolerant, retrying reads/writes until it does
->     succeed. Both have been only lightly tested in this scenario.
-
-"Both" is now orphaned with the removal of ReiserFS.  And the ext3
-sentence has an implicit reference to "errors returned from the block
-device" that is now missing.  A wider change is needed here.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 747a55abf..302145870 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7506,7 +7506,7 @@
+ 			Set a trigger on top of a specific event, with an optional
+ 			filter.
+ 
+-			The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
++			The format is "trace_trigger=<event>.<trigger>[ if <filter>],..."
+ 			Where more than one trigger may be specified that are comma deliminated.
+ 
+ 			For example:
+-- 
+2.25.1
 
