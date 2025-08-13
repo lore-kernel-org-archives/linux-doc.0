@@ -1,60 +1,62 @@
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B662EB5A5;
-	Wed, 13 Aug 2025 08:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C23F2EE29D
+	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 08:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755072841; cv=none; b=KOHwGKmXVBd++kcFcTAgKteunYVQHEFSAjq4TCiiUfnlQn+ZNnT/al6mFbRNOy7IJVTDGeagDhQU7HTvOpW/OTvZfNr+pdw2OEMZ9vjudf4Ue9w7SHaZd14LYfDWTw0p6IYWhDyO1gvdtia82DU14KeT0b1O0s43e2vFdj9kltE=
+	t=1755072919; cv=none; b=MY/uTtF+ZAjt4VauVz9YkDJEDUtBEci4Hu0G24fj986gLIVPxtjYV06LJE2fB3iyBLUNecGNJ4xqbwcxd8ez4Pw2UDUm7wMvhBusUCU9XPXPo09lBfcAPtpP4gZgtbfTJFwtRMhnjJ1kK7WqBYUmWNt2GnaLfq4pZcUz3cPfUbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755072841; c=relaxed/simple;
-	bh=RxOaCxFqgyJ4fXjs5iPEqg2DD5QwzRYvxDwX5dxrW+0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hHNabaMS5nG3IJr4V126ozSN3hQFrtB1NtF5GWORdne62vRwn6jPn76FY8CSb7PFFrRQgNLJMQkaR/tdo313pAMber+F8MAuEVjkhgO7meO8nyl1ZC3CQFWtnX1Nir01ri3htku+UDAxw9umBwOwe5G5hD2HKLVUUEBXlEvKSzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=gWkZP3gY; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="gWkZP3gY"
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57D6lVXJ017818;
-	Wed, 13 Aug 2025 10:13:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	exY+dHY+552wwN9moAQa2Zyi0HlOu7i3su6LGv7Ws/I=; b=gWkZP3gYVzONerz6
-	IgQd9CEWe/EMflOxQkEToT65P27vHjIFs5J8aNOMw6nNiK8MbbaZ4KA8z1c/shPY
-	JrCq6V7g7jklus7nGtnD8Jz8VSYfr14yRK5VMvOfRK6gWvmA5Q4xOXvCLUwSsAIR
-	6gwCee6zAoroVte36C7du4pVAlIxDWaXEzQj+Z3rzfMUuDELKLApZiZkznU/4X8z
-	2iMFgTYQCdyd2nN081ljNiVhUooWGsaKj/99grC3/Ch+KdhsdFgYxJqpQnEPaske
-	CL3ud1Qc1BIOl3mZKchjBYqSpT96Ski6Pe307WaID9ijjV2r8y3Kj09lIlWmoTax
-	1sPaxg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48eh9nbkrc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Aug 2025 10:13:38 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 357A64004B;
-	Wed, 13 Aug 2025 10:12:34 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9E0C27206D5;
-	Wed, 13 Aug 2025 10:12:00 +0200 (CEST)
-Received: from localhost (10.130.77.120) by SHFDAG1NODE3.st.com (10.75.129.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 13 Aug
- 2025 10:12:00 +0200
-From: Christian Bruel <christian.bruel@foss.st.com>
-To: <linus.walleij@linaro.org>, <corbet@lwn.net>, <bhelgaas@google.com>,
-        <mani@kernel.org>
-CC: <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Christian Bruel <christian.bruel@foss.st.com>
-Subject: [PATCH v1 2/2] pinctrl: Add pinctrl_pm_select_init_state helper function
-Date: Wed, 13 Aug 2025 10:11:39 +0200
-Message-ID: <20250813081139.93201-3-christian.bruel@foss.st.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250813081139.93201-1-christian.bruel@foss.st.com>
-References: <20250813081139.93201-1-christian.bruel@foss.st.com>
+	s=arc-20240116; t=1755072919; c=relaxed/simple;
+	bh=34LTcszKLeYDmHdbnh9rrfPNBpaMAPrseZ4WCws0Ieg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=KEi1h3O4IpAZXURiCsb6EFYEs3L3x7kMWa2VC0k3B/0txOSew4x2ilEEU1LUaoUrf6Xnt9uaLWjgB8ur04XBBAyGdQuZ42IfUhnQicWnwRz74uXgaEI7QEmRi3HLnYJnsa13imXD+mHmQ7RV0g3DhsMjIbfyYsAkVKZh7orlAoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1um6dO-0002Kb-FF; Wed, 13 Aug 2025 10:14:58 +0200
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1um6dK-0003m5-1p;
+	Wed, 13 Aug 2025 10:14:54 +0200
+Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1um6dK-00Ey7H-1R;
+	Wed, 13 Aug 2025 10:14:54 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nishanth Menon <nm@ti.com>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com,
+	linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>,
+	Roan van Dijk <roan@protonic.nl>
+Subject: [PATCH net-next v1 5/5] net: phy: dp83td510: add MSE interface support for 10BASE-T1L
+Date: Wed, 13 Aug 2025 10:14:53 +0200
+Message-Id: <20250813081453.3567604-6-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250813081453.3567604-1-o.rempel@pengutronix.de>
+References: <20250813081453.3567604-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,92 +64,98 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE3.st.com
- (10.75.129.71)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-If a platformm requires an initial pinctrl state during probing, this
-helper function provides the client with access to the same initial
-state.
+Implement get_mse_config() and get_mse_snapshot() for the DP83TD510E
+to expose its Mean Square Error (MSE) register via the new PHY MSE
+UAPI.
 
-eg:
- xxx_suspend_noirq
-    ...
-    pinctrl_pm_select_sleep_state
+The DP83TD510E does not document any peak MSE values; it only exposes
+a single average MSE register used internally to derive SQI. This
+implementation therefore advertises only PHY_MSE_CAP_AVG, along with
+LINK and channel-A selectors. Scaling is fixed to 0xFFFF, and the
+refresh interval/number of symbols are estimated from 10BASE-T1L
+symbol rate (7.5 MBd) and typical diagnostic intervals (~1 ms).
 
- xxx resume_noirq
-    pinctrl_pm_select_init_state
-    ...
-    pinctrl_pm_select_default_state
+For 10BASE-T1L deployments, SQI is a reliable indicator of link
+modulation quality once the link is established, but it does not
+indicate whether autonegotiation pulses will be correctly received
+in marginal conditions. MSE provides a direct measurement of slicer
+error rate that can be used to evaluate if autonegotiation is likely
+to succeed under a given cable length and condition. In practice,
+testing such scenarios often requires forcing a fixed-link setup to
+isolate MSE behaviour from the autonegotiation process.
 
-Signed-off-by: Christian Bruel <christian.bruel@foss.st.com>
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- drivers/pinctrl/core.c           | 13 +++++++++++++
- include/linux/pinctrl/consumer.h | 10 ++++++++++
- 2 files changed, 23 insertions(+)
+ drivers/net/phy/dp83td510.c | 44 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/drivers/pinctrl/core.c b/drivers/pinctrl/core.c
-index 73b78d6eac67..c5dbf4e9db84 100644
---- a/drivers/pinctrl/core.c
-+++ b/drivers/pinctrl/core.c
-@@ -1655,6 +1655,19 @@ int pinctrl_pm_select_default_state(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(pinctrl_pm_select_default_state);
+diff --git a/drivers/net/phy/dp83td510.c b/drivers/net/phy/dp83td510.c
+index 23af1ac194fa..094c070f3f96 100644
+--- a/drivers/net/phy/dp83td510.c
++++ b/drivers/net/phy/dp83td510.c
+@@ -249,6 +249,47 @@ struct dp83td510_priv {
+ #define DP83TD510E_ALCD_COMPLETE			BIT(15)
+ #define DP83TD510E_ALCD_CABLE_LENGTH			GENMASK(10, 0)
  
-+/**
-+ * pinctrl_pm_select_init_state() - select init pinctrl state for PM
-+ * @dev: device to select init state for
-+ */
-+int pinctrl_pm_select_init_state(struct device *dev)
++static int dp83td510_get_mse_config(struct phy_device *phydev,
++				    struct phy_mse_config *config)
 +{
-+	if (!dev->pins)
-+		return 0;
++	/* The DP83TD510E datasheet does not specify peak MSE values.
++	 * It only provides a single MSE value which is used to derive SQI.
++	 * Therefore, we only support the average MSE capability.
++	 */
++	config->supported_caps = PHY_MSE_CAP_AVG | PHY_MSE_CAP_LINK |
++		PHY_MSE_CAP_CHANNEL_A;
++	config->max_average_mse = 0xFFFF;
 +
-+	return pinctrl_select_bound_state(dev, dev->pins->init_state);
-+}
-+EXPORT_SYMBOL_GPL(pinctrl_pm_select_init_state);
++	/* The datasheet does not specify the refresh rate or symbol count,
++	 * but based on similar PHYs and standards, we can assume a common
++	 * value. For 10BaseT1L, the symbol rate is 7.5 MBd. A common
++	 * diagnostic interval is around 1ms.
++	 * 7.5e6 symbols/sec * 0.001 sec = 7500 symbols.
++	 */
++	config->refresh_rate_ps = 1000000000; /* 1 ms */
++	config->num_symbols = 7500;
 +
- /**
-  * pinctrl_pm_select_sleep_state() - select sleep pinctrl state for PM
-  * @dev: device to select sleep state for
-diff --git a/include/linux/pinctrl/consumer.h b/include/linux/pinctrl/consumer.h
-index 73de70362b98..63ce16191eb9 100644
---- a/include/linux/pinctrl/consumer.h
-+++ b/include/linux/pinctrl/consumer.h
-@@ -48,6 +48,7 @@ int pinctrl_select_default_state(struct device *dev);
- 
- #ifdef CONFIG_PM
- int pinctrl_pm_select_default_state(struct device *dev);
-+int pinctrl_pm_select_init_state(struct device *dev);
- int pinctrl_pm_select_sleep_state(struct device *dev);
- int pinctrl_pm_select_idle_state(struct device *dev);
- #else
-@@ -55,6 +56,10 @@ static inline int pinctrl_pm_select_default_state(struct device *dev)
- {
- 	return 0;
- }
-+static inline int pinctrl_pm_select_init_state(struct device *dev)
-+{
-+	return 0;
-+}
- static inline int pinctrl_pm_select_sleep_state(struct device *dev)
- {
- 	return 0;
-@@ -143,6 +148,11 @@ static inline int pinctrl_pm_select_default_state(struct device *dev)
- 	return 0;
- }
- 
-+static inline int pinctrl_pm_select_init_state(struct device *dev)
-+{
 +	return 0;
 +}
 +
- static inline int pinctrl_pm_select_sleep_state(struct device *dev)
++static int dp83td510_get_mse_snapshot(struct phy_device *phydev, u32 channel,
++				      struct phy_mse_snapshot *snapshot)
++{
++	int ret;
++
++	if (channel != PHY_MSE_CHANNEL_LINK &&
++	    channel != PHY_MSE_CHANNEL_A)
++		return -EOPNOTSUPP;
++
++	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_MSE_DETECT);
++	if (ret < 0)
++		return ret;
++
++	snapshot->average_mse = ret;
++
++	return 0;
++}
++
+ static int dp83td510_led_brightness_set(struct phy_device *phydev, u8 index,
+ 					enum led_brightness brightness)
  {
- 	return 0;
+@@ -893,6 +934,9 @@ static struct phy_driver dp83td510_driver[] = {
+ 	.get_phy_stats	= dp83td510_get_phy_stats,
+ 	.update_stats	= dp83td510_update_stats,
+ 
++	.get_mse_config	= dp83td510_get_mse_config,
++	.get_mse_snapshot = dp83td510_get_mse_snapshot,
++
+ 	.led_brightness_set = dp83td510_led_brightness_set,
+ 	.led_hw_is_supported = dp83td510_led_hw_is_supported,
+ 	.led_hw_control_set = dp83td510_led_hw_control_set,
 -- 
-2.34.1
+2.39.5
 
