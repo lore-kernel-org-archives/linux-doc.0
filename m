@@ -1,232 +1,245 @@
-Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E9121257C;
-	Wed, 13 Aug 2025 09:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37ACF2C15BF
+	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 09:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755078648; cv=none; b=jFJIzntItt/tAjclsCgy60fOhDUTvgkrZzaq01HoD4D8OQ8WCeMG2xwmD/bG2RpNJgODioSMiqIif4K+WmvAump99Ufbf/9jJGYLnMF5IwSR2Lcd2sbla02ABpcu1h0DhgTfRBnta6Rvewp8hfficg9vfCrXb2FLVs+hpAzeNZY=
+	t=1755078818; cv=none; b=TmzcISUfG+qGyVlPMpH2m+Rts/YTG6dxtxORNuK2gLcoVtaVSlKNU5a496pTktwyhOg7ZofCLxbOLZtj4jR/uSOBvx+FX+ko7g16FysOdhSkkvceW4KCEQnsjHK5tAoFPCZoEpsQJGPb4TlEXj7sHlyPtSSaap/aXUVTb9i2lcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755078648; c=relaxed/simple;
-	bh=5NjWnfB3j0SmFDYMTbW6G/aUvyqoKnQU7ro3SxcuX84=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QZ108eZUsn/IKQDc3DjHabZD2ExRLjKve2cq4Q80h8QvR2mEds54tE2hryQ0j2y7vdFE0bKt4xKxcIoauO1SHplbf59dT2V5/9fKKxJy3FJFtxCcaIdtQMZyZoR8TxyBJRK0Aa8AVGLTwFW/KYN73eklzKex0OTHypGIoSUT7sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz16t1755078556t50122486
-X-QQ-Originating-IP: jHUKPmaXLURVrfNnE3/1JIusEU5dtzB9sfHBB4pZc1s=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 13 Aug 2025 17:49:14 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3286716278462949229
-Date: Wed, 13 Aug 2025 17:49:14 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: MD Danish Anwar <danishanwar@ti.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/5] net: rnpgbe: Add register_netdev
-Message-ID: <B301753EBB777DDB+20250813094914.GB972027@nic-Precision-5820-Tower>
-References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-6-dong100@mucse.com>
- <94eeae65-0e4b-45ef-a9c0-6bc8d37ae789@ti.com>
+	s=arc-20240116; t=1755078818; c=relaxed/simple;
+	bh=ht1diEblsf5dN2e1cjhOK7qCFVmjDiqNwW826Qyw2Rw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M8DmIMbfz/5/i/Bs4/GLX5cbLTU3QMn6llvdzMY8PBiAeudSEkyIxAXsbA9zz7Su2Bq0DY0GDauRSCt1n8dSRyxoP1PKAKJDhRnXjgtRQRXXjnu4i9Cx7YhBoEWaKlJs+KofbXIvt+lTBzHtW8rCYLIPKkg5Gg4N5v1GI4VnVHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jv1gb4ke; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jv1gb4ke"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57D6mMlv011163
+	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 09:53:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	0MpY81TRuNNBDJHPaklTYFI4wsF3yIvIsNOVJLMUbFI=; b=jv1gb4keblqk8Oe8
+	0IfDMzKm25CeMTPUr3pF7EbmmsPsOLRWBpI00RvmXRswzIs7e8YQH+a0cRyDckIF
+	LA4ZoN1AZjOx5pFVY3yJK4jw/QU8r2bxYcFvbcGdFiorQreKFUbhT07kl9Gi+G2N
+	f55HidrgJkXBV5yJUT8BuXqNrt4c5PTtAZP+JnoYr5CYrsGIvfgmUEzGc4h7rmVc
+	/DqajI7vnQRNFloz+QUnWILumdJbaJEZiGsizqio23jkwNZSN4z803BRoqhfjI79
+	Wes3vpWBA5aKH4D6XyhjXc0Xhyb1iJFF9YTwD+0giYsH3PMGy5fLkWA1jfGrVSci
+	OBrGMg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dxdv3akf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 09:53:34 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4b07ae72350so16973371cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 02:53:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755078813; x=1755683613;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0MpY81TRuNNBDJHPaklTYFI4wsF3yIvIsNOVJLMUbFI=;
+        b=NJioSdwdYq5tEXiihqmCoYMzecF8eY5cA5/TWyFSNEbOyWc9MNPw1SKuVg+ZSq1tSy
+         XYGCEdVqHU4IOQBikSinuxwhhns/7tRd0ADXaRXFHz9bTYV8+4iHrqMtuJxCdJNAELnU
+         GYbX38YCwpiBC3DAhRKHGaWKV3QTz+6OHPM8ig8x+qpHxKlX0MLRPVXatPtFaEsKh/hj
+         auNKd49mJNutcK/cFXJZ3DYZmKY3h4E2pvbSOwKJrlHLCzQlHliJ7JbRhLEDCHC/J+hs
+         lgB75xAeWiRsjRjuu6ObwVDOiL4BI07s/yNML070NkYFksw08hNhp4caoZ1iL9I+v2K9
+         x3aw==
+X-Forwarded-Encrypted: i=1; AJvYcCWtvIMLj/ExZ5JEurQKwIvOfoVHIGqPwkihK+vVqIsA7cmpcO0dTQemlqaI/QrvwwDrZsAXkLIdkYY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysQIfiyMGmlZa7REf8aR2xXowW6V8uNt67cBfCrIxhmAasgzW0
+	klHkIzrh+LvH0gW9g2MawSBhJarSfeIeTs0mGSbFkbPjHaW5BfB+PI4YvcekzCrbOG+9wGuztoO
+	jYcZYRO8PbZoptguKcVjPwSRCcmRKZOav9jPfJaJVGvSsHPoQx3FpAYE+9uQydE8=
+X-Gm-Gg: ASbGncvMKlPwnuDxxIgEbEpPRxlnJ5vBXfakH30w75w+q5hvTPMRTTffZlZL5IgzzhO
+	W1AWyW+Eq6+G520RUn61fz+kcaCqLDcDH+Gy28SxK8HCwyGAEazK77mJSI8lNk8kircJfFFnAqW
+	pF3Rku5JspjzkadTyFA2CvyOCbHhCV8Ng3MAQaFUo9rKqFIJvhZMfzK1KUkBl+UAFnYXPep6Lwc
+	m9mBz7D76sQZsNQCabVtaFOEgD5V2v2qge7nfn/YGoai1D5SVSVVE4OD6Oqj54K1+4MtdaNbTVe
+	PoPYSUBytrQFhsKgApwAMyZ8vJZnNBHkSL/JtX71xcrxTlU1I/7GGRuQmH3DoRH4uPRZtLXQh7i
+	xVegNoyg0ujt/+fs15g==
+X-Received: by 2002:a05:622a:143:b0:4ab:63f8:ef30 with SMTP id d75a77b69052e-4b0fc6f5abamr14652551cf.3.1755078813073;
+        Wed, 13 Aug 2025 02:53:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFHL9p/V8kgz7pgbQLj/2LkDGUoYpwD7WnZTmIEKh4brnTqRmXHLFYJ1dJDBYqoeMLjGgWK2g==
+X-Received: by 2002:a05:622a:143:b0:4ab:63f8:ef30 with SMTP id d75a77b69052e-4b0fc6f5abamr14652161cf.3.1755078812394;
+        Wed, 13 Aug 2025 02:53:32 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af92a2ec9cbsm2254739566b.79.2025.08.13.02.53.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Aug 2025 02:53:31 -0700 (PDT)
+Message-ID: <f015c644-1176-47b3-8ce2-2567e529081e@oss.qualcomm.com>
+Date: Wed, 13 Aug 2025 11:53:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <94eeae65-0e4b-45ef-a9c0-6bc8d37ae789@ti.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: OQNQM5UP8StMDdmKQ4cRpMKOIhXI86KRyY6GW62byRr3PlxyTbNjhc5l
-	l/XiOGF3/9rMVo4hpO8kmd8ZY7d9/f50dVidSvlceUIheO8KHGzajutyGSAmUSIapnrsHBK
-	g8vxds4EhAqaDK6qpnEuleRGxBtelCu13dZ+ovGe4Mokq5GoZ/bbn2T966KrokwufIUudjb
-	2jbWje0DA7wMih7K6rWX3rD7sEgpaquhXbuELbX33CTxR1uW6aARNhI/q9DWrGElH+/9YWa
-	B+MO0JmbjvJbmsJBB3Cu9bKrdh+gA8cor4C1PZmqxknJ1ju0BO35cA/m3BOSttgqk9sDrYA
-	zkzcPgly7Sk37W+GNQ7ii2EGHvuVTVp+FqdNsqSIvs30spsIlOJCF66DuOQcWby7eJoJq1g
-	uJ37h39XAa1o6dKQCM1uRIn+ZwUYXo87Qqo+nEMMc4QrW3umlBWBkXO+p/4dedRUhUmpZaD
-	18l59jNFRKo8L2KgoI4PPHJKRWJ5No3ojnoJ6EvZJMa6IpPcQwmhLMxHOVDEua8keMJbzSU
-	n0YqjI4c9eFlm10Q+TuRCEx6TRCec5GF1mSHgTAXaVAdUMWAELEbg9Idbe3Z6+OVGoE7m5x
-	G5E8YBEFYcZSLxNzdMNOFv0xPKz7HvUUnUv/kxkwvFXS143D6FcgflNSexknfQ8dds/Xffu
-	4KIk1qHHoMgY4Pt8ISdMjbN7GsH9hMcMHyexeEv6xBcBCzLbOheydjSLslyaj2h2XEzPwvw
-	qCYcaWV6jXjuH26apLphuwVAAi1a9Oho1QLHsQbWCxmoxJotINUHhR9+1cdUzZx99F9kEZC
-	Pp3ZD0fHPB5LqCI/O82meRaMU8d08bnLhN0cI3dXLAXan+htKtsKIMyOeGCm6OON/NfrSXL
-	d7SoOocGZhdLvWcxQH7793GxN+K9y3ed1unjIcfL3gKcJs0AsJycItqz9CTtFycTAUFNwhH
-	I1scdWZxGQrqOZuN/uSifPwnJBx6BTXZ3ykLD9dZZLBOyBfpNotFyQSLgX64NN5d/jmUbKX
-	tUYxtS2w==
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 06/11] firmware: qcom: scm: add support for object
+ invocation
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Sumit Garg <sumit.garg@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Apurupa Pattapu <quic_apurupa@quicinc.com>,
+        Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+        op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
+ <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-6-ce7a1a774803@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-6-ce7a1a774803@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=IuYecK/g c=1 sm=1 tr=0 ts=689c609e cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=EUspDBNiAAAA:8 a=ZC-EX8TnQz-G3DLW9GIA:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: 8Eazcs2Ctz6qM6xkBgu_a3lyCzzr_DW-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAyNSBTYWx0ZWRfX/mv3y4reOiD0
+ yVDfUbzidfIQt2sdvuJ93599AX1YPS5onvbOuU74wK/9WcFASfvE9PvbWjMLV2W1wrHkGdZlJix
+ Coj2uqzhp+pTgRRSSoYu1DeZ1QPJmRPdpoMXvHmDzEcpWFzIsP1TAeUC2CC9dlla7QwCZ8Vflsn
+ 5in/c12usc0jK4ZKExLtet0CGBqKIbsTkuXSuBtg9T4uIkNw4vkZ3kUXBVPD4DXPjbYEa9KuFGU
+ CMyObH0X2vxZ6DtizpqVTtQKPBX3UO5I4l6RvxyLxP8ciebeG3586yQjvm+wP+hX0TGoPv2YKB9
+ eTS3E48Zd0kKynVQETEbITIX2veERga26cuMngYVLJLcXFq8LwgzqzJY1EWjpyB25j7GV2VSE73
+ xVEqLW02
+X-Proofpoint-GUID: 8Eazcs2Ctz6qM6xkBgu_a3lyCzzr_DW-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 phishscore=0 suspectscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090025
 
-On Wed, Aug 13, 2025 at 01:56:07PM +0530, MD Danish Anwar wrote:
-> On 12/08/25 3:09 pm, Dong Yibo wrote:
-> > Initialize get mac from hw, register the netdev.
-> > 
-> > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> > ---
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 22 ++++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 73 ++++++++++++++++++
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  1 +
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 76 +++++++++++++++++++
-> >  4 files changed, 172 insertions(+)
-> > 
-> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> > index 6cb14b79cbfe..644b8c85c29d 100644
-> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> > @@ -6,6 +6,7 @@
-> >  
-> >  #include <linux/types.h>
-> >  #include <linux/mutex.h>
-> > +#include <linux/netdevice.h>
-> >  
-> >  extern const struct rnpgbe_info rnpgbe_n500_info;
-> >  extern const struct rnpgbe_info rnpgbe_n210_info;
-> > @@ -86,6 +87,18 @@ struct mucse_mbx_info {
-> >  	u32 fw2pf_mbox_vec;
-> >  };
-> >  
-> > +struct mucse_hw_operations {
-> > +	int (*init_hw)(struct mucse_hw *hw);
-> > +	int (*reset_hw)(struct mucse_hw *hw);
-> > +	void (*start_hw)(struct mucse_hw *hw);
-> > +	void (*init_rx_addrs)(struct mucse_hw *hw);
-> > +	void (*driver_status)(struct mucse_hw *hw, bool enable, int mode);
-> > +};
+On 8/13/25 2:35 AM, Amirreza Zarrabi wrote:
+> Qualcomm TEE (QTEE) hosts Trusted Applications (TAs) and services in
+> the secure world, accessed via objects. A QTEE client can invoke these
+> objects to request services. Similarly, QTEE can request services from
+> the nonsecure world using objects exported to the secure world.
 > 
-> You define functions init_hw, start_hw, and init_rx_addrs in this
-> structure but they aren't implemented in this patch. Either implement
-> them or remove them if not needed yet.
+> Add low-level primitives to facilitate the invocation of objects hosted
+> in QTEE, as well as those hosted in the nonsecure world.
 > 
+> If support for object invocation is available, the qcom_scm allocates
+> a dedicated child platform device. The driver for this device communicates
+> with QTEE using low-level primitives.
 > 
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Tested-by: Harshal Dev <quic_hdev@quicinc.com>
+> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+> ---
 
-Got it, I will remove not implemented define.
+[...]
 
-> > +
-> > +enum {
-> > +	mucse_driver_insmod,
-> > +};
-> > +
-> >  struct mucse_hw {
-> >  	void *back;
-> >  	u8 pfvfnum;
-> > @@ -96,12 +109,18 @@ struct mucse_hw {
-> >  	u32 axi_mhz;
-> >  	u32 bd_uid;
-> >  	enum rnpgbe_hw_type hw_type;
-> > +	const struct mucse_hw_operations *ops;
-> >  	struct mucse_dma_info dma;
-> >  	struct mucse_eth_info eth;
-> >  	struct mucse_mac_info mac;
-> >  	struct mucse_mbx_info mbx;
-> > +	u32 flags;
-> > +#define M_FLAGS_INIT_MAC_ADDRESS BIT(0)
-> >  	u32 driver_version;
-> >  	u16 usecstocount;
-> > +	int lane;
-> > +	u8 addr[ETH_ALEN];
-> > +	u8 perm_addr[ETH_ALEN];
-> >  };
-> >  
-> >  struct mucse {
-> > @@ -123,4 +142,7 @@ struct rnpgbe_info {
-> >  #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
-> >  #define PCI_DEVICE_ID_N210 0x8208
-> >  #define PCI_DEVICE_ID_N210L 0x820a
-> > +
-> > +#define dma_wr32(dma, reg, val) writel((val), (dma)->dma_base_addr + (reg))
-> > +#define dma_rd32(dma, reg) readl((dma)->dma_base_addr + (reg))
-> >  #endif /* _RNPGBE_H */
-> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> > index 16d0a76114b5..3eaa0257f3bb 100644
-> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> > @@ -2,10 +2,82 @@
-> >  /* Copyright(c) 2020 - 2025 Mucse Corporation. */
-> >  
-> >  #include <linux/string.h>
-> > +#include <linux/etherdevice.h>
-> >  
-> >  #include "rnpgbe.h"
-> >  #include "rnpgbe_hw.h"
-> >  #include "rnpgbe_mbx.h"
-> > +#include "rnpgbe_mbx_fw.h"
-> > +
-> > +/**
-> > + * rnpgbe_get_permanent_mac - Get permanent mac
-> > + * @hw: hw information structure
-> > + * @mac_addr: pointer to store mac
-> > + *
-> > + * rnpgbe_get_permanent_mac tries to get mac from hw.
-> > + * It use eth_random_addr if failed.
-> > + **/
-> > +static void rnpgbe_get_permanent_mac(struct mucse_hw *hw,
-> > +				     u8 *mac_addr)
-> > +{
-> > +	if (mucse_fw_get_macaddr(hw, hw->pfvfnum, mac_addr, hw->lane)) {
-> > +		eth_random_addr(mac_addr);
-> > +	} else {
-> > +		if (!is_valid_ether_addr(mac_addr))
-> > +			eth_random_addr(mac_addr);
-> > +	}
-> > +
-> 
-> The function should log a warning when falling back to a random MAC
-> address, especially in the second case where the hardware returned an
-> invalid MAC.
-> 
+> +int qcom_scm_qtee_invoke_smc(phys_addr_t inbuf, size_t inbuf_size,
+> +			     phys_addr_t outbuf, size_t outbuf_size,
+> +			     u64 *result, u64 *response_type)
+> +{
+> +	struct qcom_scm_desc desc = {
+> +		.svc = QCOM_SCM_SVC_SMCINVOKE,
+> +		.cmd = QCOM_SCM_SMCINVOKE_INVOKE,
+> +		.owner = ARM_SMCCC_OWNER_TRUSTED_OS,
+> +		.args[0] = inbuf,
+> +		.args[1] = inbuf_size,
+> +		.args[2] = outbuf,
+> +		.args[3] = outbuf_size,
+> +		.arginfo = QCOM_SCM_ARGS(4, QCOM_SCM_RW, QCOM_SCM_VAL,
+> +					 QCOM_SCM_RW, QCOM_SCM_VAL),
+> +	};
+> +	struct qcom_scm_res res;
+> +	int ret;
+> +
+> +	ret = qcom_scm_call(__scm->dev, &desc, &res);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*response_type = res.result[0];
+> +	*result = res.result[1];
 
-Got it, I will fix it.
+These are dereferenced without checking, which will surely upset static
+checkers (and users)
 
-> > +	hw->flags |= M_FLAGS_INIT_MAC_ADDRESS;
-> > +}
-> > +
-> 
-> > +/**
-> > + * rnpgbe_xmit_frame - Send a skb to driver
-> > + * @skb: skb structure to be sent
-> > + * @netdev: network interface device structure
-> > + *
-> > + * @return: NETDEV_TX_OK or NETDEV_TX_BUSY
-> > + **/
-> > +static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
-> > +				     struct net_device *netdev)
-> > +{
-> > +		dev_kfree_skb_any(skb);
-> > +		return NETDEV_TX_OK;
-> > +}
-> 
-> Extra indentation on these two lines. Also, the function just drops all
-> packets without any actual transmission. This should at least increment
-> the drop counter statistics.
-> 
+I see that res.result[2] should also return some (aptly named) "data"
+which you handled in v1, but dropped in v2 (without a comment AFAICT)
 
-Got it, I will add 'netdev->stats.tx_dropped++;' here.
+Looking at it, we could probably wrap it in qcom_scm_qseecom_call()
+which this seems to be fit for
 
-> > +
-> > +static const struct net_device_ops rnpgbe_netdev_ops = {
-> > +	.ndo_open = rnpgbe_open,
-> > +	.ndo_stop = rnpgbe_close,
-> > +	.ndo_start_xmit = rnpgbe_xmit_frame,
-> > +};
-> 
-> 
-> -- 
-> Thanks and Regards,
-> Danish
-> 
-> 
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(qcom_scm_qtee_invoke_smc);
+> +
+> +/**
+> + * qcom_scm_qtee_callback_response() - Submit response for callback request.
+> + * @buf: start address of memory area used for outbound buffer.
+> + * @buf_size: size of the memory area used for outbound buffer.
+> + * @result: Result of QTEE object invocation.
+> + * @response_type: Response type returned by QTEE.
+> + *
+> + * @response_type determines how the contents of @buf should be processed.
+> + *
+> + * Return: On success, return 0 or <0 on failure.
+> + */
+> +int qcom_scm_qtee_callback_response(phys_addr_t buf, size_t buf_size,
+> +				    u64 *result, u64 *response_type)
 
-Thanks for your feedback.
+These should be aligned
 
+> +{
+> +	struct qcom_scm_desc desc = {
+> +		.svc = QCOM_SCM_SVC_SMCINVOKE,
+> +		.cmd = QCOM_SCM_SMCINVOKE_CB_RSP,
+> +		.owner = ARM_SMCCC_OWNER_TRUSTED_OS,
+> +		.args[0] = buf,
+> +		.args[1] = buf_size,
+> +		.arginfo = QCOM_SCM_ARGS(2, QCOM_SCM_RW, QCOM_SCM_VAL),
+> +	};
+> +	struct qcom_scm_res res;
+> +	int ret;
+> +
+> +	ret = qcom_scm_call(__scm->dev, &desc, &res);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*response_type = res.result[0];
+> +	*result = res.result[1];
+
+this also seems like a good candidate for qcom_scm_qseecom_call()
+
+[...]
+
+>  /**
+>   * qcom_scm_is_available() - Checks if SCM is available
+>   */
+> @@ -2326,6 +2444,16 @@ static int qcom_scm_probe(struct platform_device *pdev)
+>  	ret = qcom_scm_qseecom_init(scm);
+>  	WARN(ret < 0, "failed to initialize qseecom: %d\n", ret);
+>  
+> +	/*
+> +	 * Initialize the QTEE object interface.
+> +	 *
+> +	 * This only represents the availability for QTEE object invocation
+> +	 * and callback support. On failure, ignore the result. Any subsystem
+> +	 * depending on it may fail if it tries to access this interface.
+> +	 */
+> +	ret = qcom_scm_qtee_init(scm);
+> +	WARN(ret < 0, "failed to initialize qcomtee: %d\n", ret);
+
+This will throw a WARN on *a lot* of platforms, ranging from
+Chromebooks running TF-A (with a reduced SMC handler), through
+platforms requiring QCOM_SCM_SMCINVOKE_INVOKE_LEGACY (0x00) cmd
+
+Konrad
