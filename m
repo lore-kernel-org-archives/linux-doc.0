@@ -1,33 +1,33 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D490F2EE5FD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D497D2F0C64;
 	Wed, 13 Aug 2025 21:32:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755120757; cv=none; b=uaNWLKJkg3ZxC7AiB8ctKWpEIRTyLZtWrOjK2Xt8EJ7ipBKguFIyxxKtLvq7g7jhmRz5iD0OyULM5cgcCwwCXEMZ21jqCHdUED0NnN7ru4Tu0yNkWjcQPMyPnbXwDdiyG1miJeQ/lnXe3Kuf+BKP5lnwg0plyUiih0gQqkt6I2I=
+	t=1755120757; cv=none; b=lQzc5V2td/ofBRD1sVwqWFnoInDXfLork4biYZVVemN72qYDAdKTOaV4Zl8NAlbSkBMnBQ+56wFbNrYHIMKQxduW+SnqUhXdk4C040ow1+Vk1B9RfPrNSSD5ORYzDny5eu7NdbT3I99o54lZ++Tfu0lMhTmD94h9zpu9j6l2DvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755120757; c=relaxed/simple;
-	bh=LTmqyp1/ibDp2tcqxUewokyf5alWURxLCwluqirhyC0=;
+	bh=i6r2cjqRgdoWCE3T1s1d2OsuEgwemxbRmk7qaifEkZg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fmrdr2lyIMJ9kxZ5hbpm2b4pp9+NRebrU/ZTgeXq7D9xni7LmfdamDPO7fyTgIXWXHCHVLJCnI//VAhD3s4NXYzuhv0vdX0MRYOqhA8B9EfQ7gPMxwTmf2E0m3X7IvatQXgKxNKF5OPQbJpat/PQVYcN+yL68G6RZn1KlONfkls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bFpG3rQm; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version; b=tmS2lS7D+0pIEdbFqS1tmSqfCjgSUTuZNDwmOuaFVAgIowIM14hgbqV+DvWgBwiMaymR0C/5dbG7YYZ6QhZsAxPoBVG/nsqc6oCWI4Yp3xluWxKjSSchZKB9jPlYbhvjQLz44EOE16aEDhZeBpjzWiE60yUhUYUqJQzKsbfFKtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NNsqny6d; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bFpG3rQm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3A1F940AF8
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NNsqny6d"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D079840AF9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755120750; bh=EMIkJCSFEzX4JDPJfUNMvF3Fqzv6hrJlDW3m1/cGsBE=;
+	t=1755120751; bh=uai5P2Z7dyR9FKIsZAMHGxNGWkNu0mA8sIZFMSJISjA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bFpG3rQmfysW1PQMFQxVj1u0aAHu7Pepzw+ope22rFpIG3m7HVceHL1zkEMSjNKBZ
-	 eYFje5JFwpD792uE48brZljMs4pPgKPck+Uytk5vLMitlEaZxGNnfTGlEoI4UtYq88
-	 UWWIhPmrSu9MCF7Ux5nQ8nW55afCtlBU0S9uf+GfTzzQooxhlXibt0gPa41UhHqy2h
-	 Vr2TA6ZaZif5fFW+vq+dtOyVeBNdQRT3veGmwEWvIe5upvKaRW9boCMjvIUrQ/Gdxe
-	 6WAC7lckHH2Dord1YKNX8Fax39IZ3GZ2uXI14Dtfi6Ug2IQnJ1NV4Qo/G5JQNOBHq8
-	 s5ZxQgcKSJFbg==
+	b=NNsqny6daSZRimNvA/M9l5hXdBoJOUJpxTyTBcYWgpIF+vW6zsxqK6pzTF/qB7U2S
+	 c9TapNRWzkeSofL29YPDhZBirG1eVIDai2cqJZFCop3tDWM8cmXuof6DNq50al4nNh
+	 sMMv+qVzxPwP1/k37oDz6DMeHiWWRxPoZdEDx/uTwMOys4aiCM+txRNnngwcohn49t
+	 mF9rV9k5kFvad7oUgIy0e059c9IzxUBi11Xwmv12YjR4Jsm+r9HmFE7noDRtoIuUPZ
+	 InOj/l3rPRzwdyC0aOlcfZvB7jqWF+M8HxqxVg4WF1A/DfVKbivgzI8By4JIDeO4FJ
+	 F8VPItWcFV5iA==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id 3A1F940AF8;
+	by ms.lwn.net (Postfix) with ESMTPA id D079840AF9;
 	Wed, 13 Aug 2025 21:32:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
@@ -36,9 +36,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 05/13] docs: move parallel-wrapper.sh to tools/doc/
-Date: Wed, 13 Aug 2025 15:32:04 -0600
-Message-ID: <20250813213218.198582-6-corbet@lwn.net>
+Subject: [PATCH 06/13] docs: move get_abi.py to tools/doc
+Date: Wed, 13 Aug 2025 15:32:05 -0600
+Message-ID: <20250813213218.198582-7-corbet@lwn.net>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250813213218.198582-1-corbet@lwn.net>
 References: <20250813213218.198582-1-corbet@lwn.net>
@@ -50,33 +50,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This little script was buried in Documentation/sphinx/; put it with the
-other documentation-related tools.
+Move this tool out of scripts/ to join the other documentation tools; fix
+up a couple of erroneous references in the process.
+
+It's worth noting that this script will fail badly unless one has a
+PYTHONPATH referencing scripts/lib/abi.
 
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/Makefile                                  | 2 +-
- {Documentation/sphinx => tools/doc}/parallel-wrapper.sh | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename {Documentation/sphinx => tools/doc}/parallel-wrapper.sh (100%)
+ Documentation/Kconfig              | 2 +-
+ Documentation/Makefile             | 2 +-
+ Documentation/sphinx/kernel_abi.py | 2 +-
+ MAINTAINERS                        | 1 -
+ {scripts => tools/doc}/get_abi.py  | 0
+ 5 files changed, 3 insertions(+), 4 deletions(-)
+ rename {scripts => tools/doc}/get_abi.py (100%)
 
+diff --git a/Documentation/Kconfig b/Documentation/Kconfig
+index 3a0e7ac0c4e3..70178e9e0c6c 100644
+--- a/Documentation/Kconfig
++++ b/Documentation/Kconfig
+@@ -19,7 +19,7 @@ config WARN_ABI_ERRORS
+ 	  described at Documentation/ABI/README. Yet, as they're manually
+ 	  written, it would be possible that some of those files would
+ 	  have errors that would break them for being parsed by
+-	  scripts/get_abi.pl. Add a check to verify them.
++	  tools/doc/get_abi.py. Add a check to verify them.
+ 
+ 	  If unsure, select 'N'.
+ 
 diff --git a/Documentation/Makefile b/Documentation/Makefile
-index f7b8342f9666..962c4fab94b0 100644
+index 962c4fab94b0..eef5decb79b8 100644
 --- a/Documentation/Makefile
 +++ b/Documentation/Makefile
-@@ -91,7 +91,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
- 	PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
- 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(src)/$5/$(SPHINX_CONF)) \
- 	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
--	$(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
-+	$(CONFIG_SHELL) $(srctree)/tools/doc/parallel-wrapper.sh \
- 	$(SPHINXBUILD) \
- 	-b $2 \
- 	-c $(abspath $(src)) \
-diff --git a/Documentation/sphinx/parallel-wrapper.sh b/tools/doc/parallel-wrapper.sh
+@@ -13,7 +13,7 @@ endif
+ 
+ # Check for broken ABI files
+ ifeq ($(CONFIG_WARN_ABI_ERRORS),y)
+-$(shell $(srctree)/scripts/get_abi.py --dir $(srctree)/Documentation/ABI validate)
++$(shell $(srctree)/tools/doc/get_abi.py --dir $(srctree)/Documentation/ABI validate)
+ endif
+ endif
+ 
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index 4c4375201b9e..32e39fb8bc3b 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -14,7 +14,7 @@
+     :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
+ 
+     The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
+-    scripts/get_abi.py script to parse the Kernel ABI files.
++    AbiParser class to parse the Kernel ABI files.
+ 
+     Overview of directive's argument and options.
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ec9872642597..b41b78215035 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7302,7 +7302,6 @@ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+ F:	tools/doc/
+-F:	scripts/get_abi.py
+ F:	scripts/kernel-doc*
+ F:	scripts/lib/abi/*
+ F:	scripts/lib/kdoc/*
+diff --git a/scripts/get_abi.py b/tools/doc/get_abi.py
 similarity index 100%
-rename from Documentation/sphinx/parallel-wrapper.sh
-rename to tools/doc/parallel-wrapper.sh
+rename from scripts/get_abi.py
+rename to tools/doc/get_abi.py
 -- 
 2.50.1
 
