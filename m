@@ -1,147 +1,127 @@
-Received: from mail-io1-f73.google.com (mail-io1-f73.google.com [209.85.166.73])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B28B3009DE
-	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 22:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB6E1373;
+	Wed, 13 Aug 2025 22:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755122515; cv=none; b=X5Zu5lKdllIERd2yVshFZlzvovJhecelnboGFIAKf3Ex5Z4AXbxpB4qnMrmJgtakstyHPKmzRyAdwWU+2VGnBkElES5rpGnAdicBqbykhctqsEOqoMfQVOsjoNstBJAbYAJx5JRb+OROY0JF9d7ki3Ntk3YkniODiO7KXWqkQ0w=
+	t=1755123210; cv=none; b=ateDRULXWH1l5I1p5SQJ06kaWBkRsmzICZ8u8gAb0Z18WwbTTFvdE2P6RUdgDGBFrfChLug3ODB+1/IFJ/TrEukVwVb6Mnu2sbGoWqscwtfjdKI1YBV4DSPzwbruh1/SaFb6eHlT4e16j6csxwbUvX/5aX8Szr+tpPpsX0iiqB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755122515; c=relaxed/simple;
-	bh=RH+90nQ0r0rQd7AUFhTs/1Hi439AwUXYx50x6ncYXEk=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=GlciB/3jF42+ybAxhgq+JvBlvBrKow4QM/dmIREee4p9LncT3fAoikKJDJB2U5jX1Sr3iLrb8KI2vbbaxgUl/nNKnSg8Be8JgdOK0ypq0vafQBIEkcstNzlj0ubWCtfd28880sTVMi8TJQNwRCAaWzpKPy9PbvosqWVnb8kEe/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2rQFB0Av; arc=none smtp.client-ip=209.85.166.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1755123210; c=relaxed/simple;
+	bh=wsgTYWz+q5jarASqIiz5BIS2G/GGIrV62OlpbkLocaQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TRMOFQJ6uKAgL/EQlq1RyjUNYsiZdExdY7YMATm5/p0aNOFV0PuX6/SFxo+uBLKBKUM6AqV4Zk1dfWpXYwidhRSHpD83es05g9BCQ77Hd3e0VTxG7EuIO4j6acRbk3KAmrsEKLMsP4J8Sku0k8vMjFmQiByF61lklAYp7EDTeHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N+LCJT7O; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2rQFB0Av"
-Received: by mail-io1-f73.google.com with SMTP id ca18e2360f4ac-88432e64477so39299739f.3
-        for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 15:01:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N+LCJT7O"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45a1b0bd237so1976755e9.2;
+        Wed, 13 Aug 2025 15:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755122512; x=1755727312; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Lffc0WMub0rTiOOasAgzp27lbUXwGqsfsYixfeu01z4=;
-        b=2rQFB0Av6IF5cKZLwYnHy9c5DAgTC/EGmKX9NrhCQ19OVnkVxZwtam3XIc8OfgqHQf
-         axpYHg+9S6MgCmqeCZbP84McFEjflPBBk2IQLIBBl4uFU/YKtBj+fNky2pYu30u30IqP
-         aHpYtcssUihfEMNKwF0oinMArgvHv6TnFfkVw7Y3Ts4mIbNEfWJjcLS9LdN2J/NM7EpV
-         2QvmXFTdwMy7drVEq7aX5dVbLWwCSxDVDJh/79B14F4hul6/BfjpD7TWkm3RuRvJ7UiV
-         UkpW0Rv3N/hWh6S8k24QtgZ86G9sExnRQvafVbeyLfEHhzQ3SNySGscO08E8I2kqLa6L
-         knrw==
+        d=gmail.com; s=20230601; t=1755123207; x=1755728007; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dDFPVS137ylDlXC8OWHO8bXFe2oiIQi6ZcxoEUrV+VY=;
+        b=N+LCJT7OoSn3pyGXTIFnWlVUfLqrSreWsFnAPal5eWh9DmY3fwWDdSjVubkQtDNqiq
+         sTSIXzmF4blWLWjHxtpdK6FBlgcq/iCoBp3lq+JBhsWz6clfYjIVhE+tSMx8f9UJxNf1
+         PkNpqFuxFiYFaqdN//+nHXwkgbxoTnV+meH2dXyJS+rA2vZJl+mhRLkGtODdl4ekANKR
+         pbgEAYYmvi0y7r6sPuvmcphcKPDNzazIbPqI1jqNHbfInBbEAMltJY1lYL4eHHtNe7t4
+         +jPsAwYC0pJIkJLvX7pilPkJqKso+bN/Gn1eBSiLxF3CjIUUBUGhefle67ygbWiS4iHM
+         9rmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755122512; x=1755727312;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lffc0WMub0rTiOOasAgzp27lbUXwGqsfsYixfeu01z4=;
-        b=dw0aRBO/KQfipGW0aQM0gijCUEM07sHmGM8xW8MUz6jKzxYQVvXHergv2AOOx3GPUj
-         VC3gQh2s9YNYj3pxdcDSlmwkFImnYwUT8kJDzzJDlCFnejyDJgY56/XBnVOVu2LcZICp
-         tP8hfnicahL9wLYqmtuLq13dtg7L0+s+6XVrGYnRg8vg+hnld8EQe6ns4u3heEggd5rP
-         VNmx06MVF1QN2DCOTMVjsFugrvZJXKgeub7+NXIJjFQAT+ed0OgHPoVfJoMQmmTLuhoQ
-         QJ6D0xlWswoiRdxMGV+6Ak46Iz6k1jsLaZ4TikAttQ0t/DsovvheG2E/PlEnzyeCW6MV
-         biEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVvfuzzmFZvuLUU9ENkZEeAHrN6EULMe9ZCqIZVhkWDGg2Vsb7m0DhlITDIzkv1WP+xNEXrHrwVX1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxH4QxZo7luCPcb5Q56lwMzUNs+R4W74wkgZESSvL+qYHyUx5Ei
-	iL9qmqPpoKCbVv9YWNY9w1H/pHn9i2vNSO3277kfdkFYKDfyPODlZ/CX0ts+uhILRc7j9/cLdtb
-	+NJN5QhmRQoFGQaw92zFPj2Ws4A==
-X-Google-Smtp-Source: AGHT+IG5r8vYJD9ejnNmOkd2D/b3gPNw0HLwazt4Xo6qZB5BPCocG+3nQgDyMNKMBq/qXmrpxMezac4YdgIdTVzxSA==
-X-Received: from iosu8.prod.google.com ([2002:a05:6602:29a8:b0:87c:58a2:24c5])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6602:26cd:b0:86a:84f:7a45 with SMTP id ca18e2360f4ac-8843382aa8cmr146631439f.8.1755122511931;
- Wed, 13 Aug 2025 15:01:51 -0700 (PDT)
-Date: Wed, 13 Aug 2025 22:01:50 +0000
-In-Reply-To: <20250714225917.1396543-11-coltonlewis@google.com> (message from
- Colton Lewis on Mon, 14 Jul 2025 22:59:04 +0000)
+        d=1e100.net; s=20230601; t=1755123207; x=1755728007;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dDFPVS137ylDlXC8OWHO8bXFe2oiIQi6ZcxoEUrV+VY=;
+        b=RNYmqgGW7iKtP3J2HuqxpGceMpIxhMcjS3mgMplBySFKhHSUdhvYgo8kp3l5XTXfXm
+         EplMOl1y1aEwMRNu3l4XIhr4jBhvsxYm+Sb4N+JkF4gUO+cdCsPk8Nc0DpomU5hddbUG
+         52mI0wAZB8ZGMch81/wpqfhemo00H7VpHIi9vqhdpBl0MdzJbl6BkNLexe9WtsUS39qO
+         nCuqtT7Q/gRnMp6OWd0B3cEi2n9/6aIewCcSR7y7ifmVagvZIxxtJ/VXMoGVN+SlJdk2
+         D33ecmTD+Oa9s5U3ss/gJz17A6dDvvmclbExgHR50K4kvLXulhcWyhIPMr4UlDjpi7d1
+         sQ6g==
+X-Forwarded-Encrypted: i=1; AJvYcCU7o8r/6bqA4L0ToH+dXDfKX/XmeyYqV7GUlqib/gDVPzXy35rcpUWA3TE35Rm2r24gVuQwtYMrL36p@vger.kernel.org, AJvYcCWLYpHM5uwmX+VpOY6SjoqT6lHnpuZLwdI4APk8H/KpCIz+4G3uqWNTeeE/4MPxScoR34s=@vger.kernel.org, AJvYcCWMtVS29jGJArmJW/j+3dzLmvCP7lNVFeGULhlJkOK99mR/00hb1IUfSZ2gvzdnfQLwfC65mwAM9yqkckY0@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKCeytlpgkROVHMogqa2SL46N93dbZwlIvQEwQLMAMsWF4h4ci
+	pWpQ7jCSskUA7CPwva+7o9f6K4WklR28Z0A9LxXrecVLITUf9H2rXP4R5n3NnNrT
+X-Gm-Gg: ASbGncsZN4r9oxVZcTq2RJVTXFWF08ZVAeZr817PjWAVECdhjdinrWBRe7C1ePhjRAX
+	AcmRWurw02p6ELmjqL8HAA5Ne6b9WFGQskN/NroPcD7TmzIJttQMaECnDZvDKuECb76rIUPZvC6
+	OI+O5XST0Mb8CuXOd1oxQovkwLXwjTrUb70mIEMUKpodB5IE4/AqB9iur1xW/WOqcWRrFFq9DuH
+	kKeykZPg/lqAoxO06bb0l1jc3HHW001JaxE7utJ9lloYlPNzOBr4tuRIqJFf7JakW8EtSpy0XLA
+	rNiJXmo+V9mNcELRAVtyXS2fDttU+nqxllufIqcr6w+6JOsYEbUPU8AyUC/OnmwdZgYwuSorsO1
+	+Zt7N7hK+Lo0g3Z0f
+X-Google-Smtp-Source: AGHT+IECbO9+5qI7uaiWbS5VWSXHf5AGxchCFUBpHcwjiq8LorAwKXhQGgIrDpK4ib5mNrXuEDWaeA==
+X-Received: by 2002:a05:600c:4f89:b0:456:1ac8:cace with SMTP id 5b1f17b1804b1-45a1b60f933mr3496885e9.12.1755123206799;
+        Wed, 13 Aug 2025 15:13:26 -0700 (PDT)
+Received: from localhost ([2a03:2880:31ff::])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a50b90dsm15998425e9.1.2025.08.13.15.13.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Aug 2025 15:13:24 -0700 (PDT)
+From: Mohsin Bashir <mohsin.bashr@gmail.com>
+To: netdev@vger.kernel.org
+Cc: aleksander.lobakin@intel.com,
+	alexanderduyck@fb.com,
+	andrew+netdev@lunn.ch,
+	ast@kernel.org,
+	bpf@vger.kernel.org,
+	corbet@lwn.net,
+	daniel@iogearbox.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	hawk@kernel.org,
+	horms@kernel.org,
+	john.fastabend@gmail.com,
+	kernel-team@meta.com,
+	kuba@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mohsin.bashr@gmail.com,
+	pabeni@redhat.com,
+	sdf@fomichev.me,
+	vadim.fedorenko@linux.dev
+Subject: [PATCH net-next V4 0/9] eth: fbnic: Add XDP support for fbnic
+Date: Wed, 13 Aug 2025 15:13:10 -0700
+Message-ID: <20250813221319.3367670-1-mohsin.bashr@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsntwm76ricx.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v4 10/23] KVM: arm64: Writethrough trapped PMEVTYPER register
-From: Colton Lewis <coltonlewis@google.com>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
-	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	mark.rutland@arm.com, shuah@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Colton Lewis <coltonlewis@google.com> writes:
+This patch series introduces basic XDP support for fbnic. To enable this,
+it also includes preparatory changes such as making the HDS threshold
+configurable via ethtool, updating headroom for fbnic, tracking
+frag state in shinfo, and prefetching the first cacheline of data.
 
-> With FGT in place, the remaining trapped registers need to be written
-> through to the underlying physical registers as well as the virtual
-> ones. Failing to do this means delaying when guest writes take effect.
+---
+Changelog:
+V4: Update P7 and P8 to address cocci complains about PTR_ERR
 
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> ---
->   arch/arm64/kvm/sys_regs.c | 28 +++++++++++++++++++++++++++-
->   1 file changed, 27 insertions(+), 1 deletion(-)
+V3: https://lore.kernel.org/netdev/20250812220150.161848-1-mohsin.bashr@gmail.com/
+V2: https://lore.kernel.org/netdev/20250811211338.857992-1-mohsin.bashr@gmail.com/
+V1: https://lore.kernel.org/netdev/20250723145926.4120434-1-mohsin.bashr@gmail.com/
 
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index b3f97980b11f..704e5d45ce52 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -1036,6 +1036,30 @@ static bool access_pmu_evcntr(struct kvm_vcpu  
-> *vcpu,
->   	return true;
->   }
+Mohsin Bashir (9):
+  eth: fbnic: Add support for HDS configuration
+  eth: fbnic: Update Headroom
+  eth: fbnic: Use shinfo to track frags state on Rx
+  eth: fbnic: Prefetch packet headers on Rx
+  eth: fbnic: Add XDP pass, drop, abort support
+  eth: fbnic: Add support for XDP queues
+  eth: fbnic: Add support for XDP_TX action
+  eth: fbnic: Collect packet statistics for XDP
+  eth: fbnic: Report XDP stats via ethtool
 
-> +static bool writethrough_pmevtyper(struct kvm_vcpu *vcpu, struct  
-> sys_reg_params *p,
-> +				   u64 reg, u64 idx)
-> +{
-> +	u64 eventsel;
-> +
-> +	if (idx == ARMV8_PMU_CYCLE_IDX)
-> +		eventsel = ARMV8_PMUV3_PERFCTR_CPU_CYCLES;
-> +	else
-> +		eventsel = p->regval & kvm_pmu_evtyper_mask(vcpu->kvm);
-> +
-> +	if (vcpu->kvm->arch.pmu_filter &&
-> +	    !test_bit(eventsel, vcpu->kvm->arch.pmu_filter))
-> +		return false;
+ .../device_drivers/ethernet/meta/fbnic.rst    |  11 +
+ .../net/ethernet/meta/fbnic/fbnic_ethtool.c   |  82 +++-
+ .../net/ethernet/meta/fbnic/fbnic_netdev.c    |  75 ++-
+ .../net/ethernet/meta/fbnic/fbnic_netdev.h    |   9 +-
+ drivers/net/ethernet/meta/fbnic/fbnic_txrx.c  | 458 +++++++++++++++---
+ drivers/net/ethernet/meta/fbnic/fbnic_txrx.h  |  23 +-
+ 6 files changed, 576 insertions(+), 82 deletions(-)
 
-I made a mistake here. The thing tested in the pmu_filter should be &
-kvm_pmu_event_mask(), not & kvm_pmu_evtyper_mask()
+-- 
+2.47.3
 
-Then, the value written to the register should be &
-kvm_pmu_evtyper_mask()
-
-There might be a similar mistake in Patch 17 where I enforce the filter
-at vcpu load time.
-
-> +
-> +	__vcpu_assign_sys_reg(vcpu, reg, eventsel);
-> +
-> +	if (idx == ARMV8_PMU_CYCLE_IDX)
-> +		write_pmccfiltr(eventsel);
-> +	else
-> +		write_pmevtypern(idx, eventsel);
-> +
-> +	return true;
-> +}
-> +
->   static bool access_pmu_evtyper(struct kvm_vcpu *vcpu, struct  
-> sys_reg_params *p,
->   			       const struct sys_reg_desc *r)
->   {
-> @@ -1062,7 +1086,9 @@ static bool access_pmu_evtyper(struct kvm_vcpu  
-> *vcpu, struct sys_reg_params *p,
->   	if (!pmu_counter_idx_valid(vcpu, idx))
->   		return false;
-
-> -	if (p->is_write) {
-> +	if (kvm_vcpu_pmu_is_partitioned(vcpu) && p->is_write) {
-> +		writethrough_pmevtyper(vcpu, p, reg, idx);
-> +	} else if (p->is_write) {
->   		kvm_pmu_set_counter_event_type(vcpu, p->regval, idx);
->   		kvm_vcpu_pmu_restore_guest(vcpu);
->   	} else {
-> --
-> 2.50.0.727.gbf7dc18ff4-goog
