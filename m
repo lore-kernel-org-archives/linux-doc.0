@@ -1,34 +1,34 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D63C30AACA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6CBC30AADC;
 	Wed, 13 Aug 2025 21:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755120759; cv=none; b=n5VBHJTgXiPNNd3Jqx/7pLiFm6EgSiiNGvldpAz3khpQTKw80aADJ0hAHPpq3tuVKqq3NlSFIdgQSJ+J6Du0nLAW6/vzRUmtLTEbzEoGPKN1NTw12sXoEPY3QQyTcEXzaZD+YmtZTFeL8TuU6egudGZIC16MvBPaPUw+ETndS6A=
+	t=1755120759; cv=none; b=KmaPJOQTK+7ardkoRMnf9jGWSblwxi2NzCbI12q527QsTufzhixNxvHPtWehx6Uz+hBjjUoT8klliTMonnx8R3Hd30z55yUWXPizZB/2Sq5eKhP7viz+L5yTXp6VE0dVGrTv3tinY3/sR8wWZnAj94xeOvooOBTxPm4eYEI6Usw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755120759; c=relaxed/simple;
-	bh=bCqcEuYXIZ5FS0iGGlt/V5k155zzYR3s8m9do/BeNFw=;
+	bh=cHVafsQkMatusIyl18LnCBDDt3qyCUmVBGagdV25Z4M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dscQwURhrY/ZYU+D645O7R2BO32mHZqPCfpHZ37Bg0sRoYOh1oETWIFJi+4Ffb44F3cssfYr/zGHJ0Uc/Hoa7XLwUoRuBZ+8CnLRl/C1jbxNEZVj/fK40j/TfBtKnh8xezNnYznLEhfcn6ateYpypVpmkCJDP9ZNrfBizy7tg2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hhVafAcs; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Vh386Ent/3q0NhLYpMAyznPRj8pDsNpLroOOcSZQSwbaXz83N+GN0NAxBAZbxZbjUGiVS88N2n/qjhC8Os//Wj58CVy+2+Pn5aJqD4UPM83dxpU+ePp1Ij7svLGzHmh5do/9KV7m9qOj4cWNlJKyXpTkYjFmpN57eHWyc9WLIYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AR2qs5kN; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hhVafAcs"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9AC0A40AFC
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AR2qs5kN"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5A51D40AFF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755120753; bh=n0Uge/EydivOUALbTlxUcyMHQ+hRH50kMHQoRmNZbsc=;
+	t=1755120754; bh=ciA6v8vzpOCLxeWYQORVHLpqww7jCTPQ8HyEFYK1r4A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hhVafAcso4jU6ES5Kl6Km6bZcrjTFmUX3wtKUgbPPO2sA3IFGdhkIQQynqR8X2eh7
-	 rYmgWmaEUjjpOxfMONtofgT0XumzXBf5THhtQCau7u0LQ9ZxuLEUuJyYhtUOSTWx6l
-	 Hyu0td5mqz3Eo5wCCKaE3Cw/U40ySREr9pCzBktumEnP+RCeGyJtU5mD/jqNPJ4Wx5
-	 bfOATRAr2qKPAi0znNDLm8djZrD7K4iDurtFG4wZeD3Xw3fTMBPZj6sJtnbVC0F+Fa
-	 nKB6li2AqX3Frkwo9VpMSaToI4k5a7LgPxb3MbKrLivoy6ZUYufE2n2Oqu5a7ocyZt
-	 xkACiZS+frnew==
+	b=AR2qs5kNk3zh31ibd/2k7Qln6r4g1TyxFmuCjgSrowl3QoqFc5K0UhCTF/MhfBrCE
+	 /LTW/XKIrSqFHopXsn/PICyyjyLInaKPaQPwhB1075ej1SXqKfXsYX0426vrGsdsY6
+	 78ge88lfckzPNPPqGasapy0L4EZjtCYM6EFEWRmqGOmONpMVj7mDJeH8qAb5FMGUww
+	 mqkNqAZCQ7v7akXQMKM8BWE/9uaRXj9a1SbmMyQkvui5LfnJbuL1m79MJFjlA9cxT8
+	 qhKvQRK2eIY7SEd00tTt550NOV0qfHU44WopXYNUMzYpjH7+61/IjfA7zVoeTMp+yY
+	 o2NzMMcTszPGQ==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id 9AC0A40AFC;
-	Wed, 13 Aug 2025 21:32:32 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPA id 5A51D40AFF;
+	Wed, 13 Aug 2025 21:32:34 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -36,9 +36,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 09/13] docs: move parse-headers.pl to tools/doc
-Date: Wed, 13 Aug 2025 15:32:08 -0600
-Message-ID: <20250813213218.198582-10-corbet@lwn.net>
+Subject: [PATCH 12/13] docs: move find-unused-docs.sh to tools/doc
+Date: Wed, 13 Aug 2025 15:32:11 -0600
+Message-ID: <20250813213218.198582-13-corbet@lwn.net>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250813213218.198582-1-corbet@lwn.net>
 References: <20250813213218.198582-1-corbet@lwn.net>
@@ -51,155 +51,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Move the tool and fix all the references, including the numerous ones that
-said "parse_headers" instead of "parse-headers".
+...and update references accordingly.
 
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/doc-guide/parse-headers.rst                   | 6 +++---
- .../translations/it_IT/doc-guide/parse-headers.rst          | 6 +++---
- .../translations/zh_CN/doc-guide/parse-headers.rst          | 6 +++---
- Documentation/userspace-api/media/Makefile                  | 2 +-
- MAINTAINERS                                                 | 1 -
- {Documentation/sphinx => tools/doc}/parse-headers.pl        | 4 ++--
- 6 files changed, 12 insertions(+), 13 deletions(-)
- rename {Documentation/sphinx => tools/doc}/parse-headers.pl (98%)
+ Documentation/doc-guide/contributing.rst                    | 2 +-
+ Documentation/translations/zh_CN/doc-guide/contributing.rst | 2 +-
+ {scripts => tools/doc}/find-unused-docs.sh                  | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+ rename {scripts => tools/doc}/find-unused-docs.sh (85%)
 
-diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
-index 204b025f1349..954cd81523a0 100644
---- a/Documentation/doc-guide/parse-headers.rst
-+++ b/Documentation/doc-guide/parse-headers.rst
-@@ -15,14 +15,14 @@ about how to use it inside the Kernel tree.
+diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
+index 662c7a840cd5..81633c6c6c11 100644
+--- a/Documentation/doc-guide/contributing.rst
++++ b/Documentation/doc-guide/contributing.rst
+@@ -152,7 +152,7 @@ generate links to that documentation.  Adding ``kernel-doc`` directives to
+ the documentation to bring those comments in can help the community derive
+ the full value of the work that has gone into creating them.
  
- .. _parse_headers:
+-The ``scripts/find-unused-docs.sh`` tool can be used to find these
++The ``tools/doc/find-unused-docs.sh`` tool can be used to find these
+ overlooked comments.
  
--parse_headers.pl
-+parse-headers.pl
- ^^^^^^^^^^^^^^^^
+ Note that the most value comes from pulling in the documentation for
+diff --git a/Documentation/translations/zh_CN/doc-guide/contributing.rst b/Documentation/translations/zh_CN/doc-guide/contributing.rst
+index 394a13b438b0..d205f8ed9fce 100644
+--- a/Documentation/translations/zh_CN/doc-guide/contributing.rst
++++ b/Documentation/translations/zh_CN/doc-guide/contributing.rst
+@@ -124,7 +124,7 @@ C代码编译器发出的警告常常会被视为误报，从而导致出现了
+ 这使得这些信息更难找到，例如使Sphinx无法生成指向该文档的链接。将 ``kernel-doc``
+ 指令添加到文档中以引入这些注释可以帮助社区获得为编写注释所做工作的全部价值。
  
- NAME
- ****
+-``scripts/find-unused-docs.sh`` 工具可以用来找到这些被忽略的评论。
++``tools/doc/find-unused-docs.sh`` 工具可以用来找到这些被忽略的评论。
  
+ 请注意，将导出的函数和数据结构引入文档是最有价值的。许多子系统还具有供内部
+ 使用的kernel-doc注释；除非这些注释放在专门针对相关子系统开发人员的文档中，
+diff --git a/scripts/find-unused-docs.sh b/tools/doc/find-unused-docs.sh
+similarity index 85%
+rename from scripts/find-unused-docs.sh
+rename to tools/doc/find-unused-docs.sh
+index 0ae445dec2e4..a64389a15f09 100755
+--- a/scripts/find-unused-docs.sh
++++ b/tools/doc/find-unused-docs.sh
+@@ -5,10 +5,10 @@
+ # This script detects files with kernel-doc comments for exported functions
+ # that are not included in documentation.
+ #
+-# usage: Run 'scripts/find-unused-docs.sh directory' from top level of kernel
++# usage: Run 'tools/doc/find-unused-docs.sh directory' from top level of kernel
+ # 	 tree.
+ #
+-# example: $scripts/find-unused-docs.sh drivers/scsi
++# example: $tools/doc/find-unused-docs.sh drivers/scsi
+ #
+ # Licensed under the terms of the GNU GPL License
  
--parse_headers.pl - parse a C file, in order to identify functions, structs,
-+parse-headers.pl - parse a C file, in order to identify functions, structs,
- enums and defines and create cross-references to a Sphinx book.
+@@ -18,7 +18,7 @@ if ! [ -d "Documentation" ]; then
+ fi
  
- 
-@@ -30,7 +30,7 @@ SYNOPSIS
- ********
- 
- 
--\ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
-+\ **parse-headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
- 
- Where <options> can be: --debug, --help or --usage.
- 
-diff --git a/Documentation/translations/it_IT/doc-guide/parse-headers.rst b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-index 026a23e49767..45b6b6fc4fb5 100644
---- a/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-+++ b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-@@ -20,21 +20,21 @@ consultate ``Documentation/userspace-api/media/Makefile``.
- 
- .. _it_parse_headers:
- 
--parse_headers.pl
-+parse-headers.pl
- ^^^^^^^^^^^^^^^^
- 
- NOME
- ****
- 
- 
--parse_headers.pl - analizza i file C al fine di identificare funzioni,
-+parse-headers.pl - analizza i file C al fine di identificare funzioni,
- strutture, enumerati e definizioni, e creare riferimenti per Sphinx
- 
- SINTASSI
- ********
- 
- 
--\ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
-+\ **parse-headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
- 
- Dove <options> può essere: --debug, --usage o --help.
- 
-diff --git a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-index a08819e904ed..22253fea5da1 100644
---- a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-@@ -19,14 +19,14 @@ Sphinx将生成警告。这有助于保持用户空间API文档与内核更改
- 
- .. _parse_headers_zh:
- 
--parse_headers.pl
-+parse-headers.pl
- ----------------
- 
- 脚本名称
- ~~~~~~~~
- 
- 
--parse_headers.pl——解析一个C文件，识别函数、结构体、枚举、定义并对Sphinx文档
-+parse-headers.pl——解析一个C文件，识别函数、结构体、枚举、定义并对Sphinx文档
- 创建交叉引用。
- 
- 
-@@ -34,7 +34,7 @@ parse_headers.pl——解析一个C文件，识别函数、结构体、枚举、
- ~~~~~~~~
- 
- 
--\ **parse_headers.pl**\  [<选项>] <C文件> <输出文件> [<例外文件>]
-+\ **parse-headers.pl**\  [<选项>] <C文件> <输出文件> [<例外文件>]
- 
- <选项> 可以是： --debug, --help 或 --usage 。
- 
-diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
-index 3d8aaf5c253b..632798bca615 100644
---- a/Documentation/userspace-api/media/Makefile
-+++ b/Documentation/userspace-api/media/Makefile
-@@ -3,7 +3,7 @@
- # Rules to convert a .h file to inline RST documentation
- 
- SRC_DIR=$(srctree)/Documentation/userspace-api/media
--PARSER = $(srctree)/Documentation/sphinx/parse-headers.pl
-+PARSER = $(srctree)/tools/doc/parse-headers.pl
- UAPI = $(srctree)/include/uapi/linux
- KAPI = $(srctree)/include/linux
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2f1374130240..c2d2ce92bf79 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7338,7 +7338,6 @@ DOCUMENTATION SCRIPTS
- M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-doc@vger.kernel.org
- S:	Maintained
--F:	Documentation/sphinx/parse-headers.pl
- F:	tools/doc/
- 
- DOCUMENTATION/ITALIAN
-diff --git a/Documentation/sphinx/parse-headers.pl b/tools/doc/parse-headers.pl
-similarity index 98%
-rename from Documentation/sphinx/parse-headers.pl
-rename to tools/doc/parse-headers.pl
-index 7b1458544e2e..47b90bf8c96d 100755
---- a/Documentation/sphinx/parse-headers.pl
-+++ b/tools/doc/parse-headers.pl
-@@ -340,12 +340,12 @@ __END__
- 
- =head1 NAME
- 
--parse_headers.pl - parse a C file, in order to identify functions, structs,
-+parse-headers.pl - parse a C file, in order to identify functions, structs,
- enums and defines and create cross-references to a Sphinx book.
- 
- =head1 SYNOPSIS
- 
--B<parse_headers.pl> [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
-+B<parse-headers.pl> [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
- 
- Where <options> can be: --debug, --help or --usage.
+ if [ "$#" -ne 1 ]; then
+-	echo "Usage: scripts/find-unused-docs.sh directory"
++	echo "Usage: tools/doc/find-unused-docs.sh directory"
+ 	exit 1
+ fi
  
 -- 
 2.50.1
