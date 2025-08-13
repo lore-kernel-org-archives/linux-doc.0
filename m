@@ -1,207 +1,166 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D5C2FE067;
-	Wed, 13 Aug 2025 22:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDD6302757
+	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 22:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755123237; cv=none; b=txjhduxFPOTx3XMnxvhcSWFyKCPtA9pROd36ReKjqZr3Mw0ustkIzxQIjYhb2t+tPwaltWazAp1B7vkJ5TGb+aNRpGqACIIF5dXQX7UAoGU8LcLcKewq8FICXFYvJnQ2EFDrM3LZT6Z3vlHsgnOXay0orYMZFVWW5ypxBmyGCpQ=
+	t=1755123874; cv=none; b=YnX0deneL2aCTFo6DNSjFOLjp38rdcoD48J83Xop+W7fNI0RBKAaVyJmFytxj/cDACxUoR6peO9paZQQAglorfeloTMaq7Dn+7NGTZ/kA8g2xJGx6cUZR4YwlevFalfRYxlNijBE6iw1jUY0nJryS1mQc2Ux6eNu5VWBweOph3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755123237; c=relaxed/simple;
-	bh=VTu1YlP6cbBxPd8KlY7/RgMoLKQvCZlYMTO6Lr73lws=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cjH8y/RkbTLXSJ4TrsMjEeuT2QhV4JWK+MK/V1et/BaJx+9fDIHv/B4H+mbWe3vtQYxI9qha+wmxN7AZc+q86EFNEqKlnDOypWKEe/8qHz/DF/zHplGRZoAmvOgbS97G6K7Qq+H2/2VOMbajaxLzQdlQKKC31YieLm/IVjEWwTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RjtgX1a9; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755123874; c=relaxed/simple;
+	bh=MkzcIASgD2QGbcPW+Wul+0S3bWjeYPRrF6/zdQI2jik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h2G9HJKseMYGG7rn3q4TQxLERbyhP1bUCkiXAwjcV+HC8dA7MSkfsIH+Vs0mKtdBD5BT572Fdu0FozO4+C+mRnRca7+/UBZOW6TdtrF3unO5Q0W9+/JL5hFjcxB+qHU3AtpRNDzNSECE0w3+KeauGHeFY5BlziQ9qVPd5R/hcxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=K9Rmk/HK; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RjtgX1a9"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45a1b001f55so1374695e9.0;
-        Wed, 13 Aug 2025 15:13:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755123233; x=1755728033; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rtjUK0AZOjm4eF0vnry/hWr4fc/ZinEdNV9kmjIXNAY=;
-        b=RjtgX1a93HGEm3VhOTw/CVWVGuLeDsVdnkMCpQed8DHC+nIzKJVFFs/EqnOQoklQk0
-         VNfOQPwHLCyLI4ZEsdnDW5K7MlheIP+t7qcd07mZYK4i03kcjhqx9pHwvVUze+VuHeDA
-         Ip3s2SDRpj5JkfvM7GapzPkJaSCRwT52kyVlJP1o2FPiw3xK0lwrRmUTwCkOmAhkRFMu
-         AE0C78fSj8Z3NhxFaBXJdKqVgCxna/H2KQCvoJP6nlyXLrBseUk/kAQhroW9fQhFtHcc
-         etVZplB/LQRsVaCt3rhCezXWrOdbDuoFhBTfJTSc2qqZGtz1rPFCgpsggj+WMpa3BlUx
-         fX/Q==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="K9Rmk/HK"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DBM9ai027025
+	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 22:24:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	q7gth1q5wXt2kbolj7dWwKraNNmPxnZCoAelNEomImI=; b=K9Rmk/HKt+36obya
+	M7UIbbgfRjSYDDYDWA3EMZ/BOIvwNdm2eFMRYEt3okNQRPA0cpkcWri3lnn2208z
+	b57DhfPUBmsM/a71CsC8D0O0AGP4VNVIBDndA7NCLVIzbv38FMJIAfi+yQht2xNc
+	VSuQDiWxyoC+8D1qos/8AaQZjYj43EmBU0CdXTGnrPwt10R0byL6SP7n2tRHtW4e
+	MsTJ/Yw/hRfq5eyXk2PmPRIR41v/3ydboLU2mE6ABUihzo1eKQ5uTw2fr3QnZz06
+	ecyaMqZzanckeqGnfFNvxfTg4ooITRU5EAIh1v9QvRicXdAvrfMU8kKF4NuFc7QW
+	G8R6UA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dy3gdcgy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 22:24:31 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-76e2e8bb2d2so297424b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 15:24:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755123233; x=1755728033;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rtjUK0AZOjm4eF0vnry/hWr4fc/ZinEdNV9kmjIXNAY=;
-        b=DzXvH5qcMwOCfMM8C2onpjcWmvuuVkRWAIdwbMByC+0KT09tedlGRzuh/sh0NZWNh/
-         bOgHtxDBCB44FUyBZgNib/6th+Tg5Cn4OXqMLpM9ZhUhxUplrFO9BD5Oxna6QLkXR09c
-         yA/e7kjlcC1m+xLWDJUtx+xRy/RI+byFKxXwrIBXz9Z/Srj/0OvkEUi1ojOAhZj5TRdJ
-         PkVyDR6HhgsyQAJUsCgdz4E9qhvzO1i07q6mDfAMHY5Wvtc7sPnzOu6gpLzFtxOVvi+d
-         P3XrittofbWE3jP/mh6ERj8NZU+y39mzpOUH6kaMcvdMXCdqI4vpt67g6NfsgTuDK6qu
-         ozfw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/ySMAQObuT9NI0sxITyInzIfJOeqpreQKoyv+xDGWqK1GRKc7XWEG4fMRW9Nh2IPV9nkv7GmRUafWwc51@vger.kernel.org, AJvYcCWd6pm86q9uslxwd3gTO4gdEA5bg5P3KFxykdfGoUCbWWX0x2oJSZ6tb/hU1bdtOFYuA1Y=@vger.kernel.org, AJvYcCXrzH+CYv+Dxa//PFIKNnXrIZetToLuoluWioaIH9zL+UecUj4rgZiBPGlzLfwj3bAaAZ5rDo+881bA@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1dsiTZeT0nr2Aspij6yPfYaIn3kqx2eYAdymvRoW9vaw8Ga6j
-	ahVfsDmlFpwdb6gxqfR1Wjue2BslNr3ARjp3AU5DdQjFD5R8zUut335C8EAOoSUv
-X-Gm-Gg: ASbGnct0QR6CYnY8VSYdf3dYZkEw4lniD4Uz8gVxo1OEoAVdbBcC6k6I0wv1CRIKWcp
-	2nXr1HLgLp38al48BYVRKtQbISc5EFdUVec+3+HOxmaNclGdxr05q6sIOwitPxdo7zjy1eWA3XZ
-	XG/a0VHSfu0xnRWgbjyAVJi/U1bZo90fXG6Z9lmxlsoUxOJVNrIbMo5XGHKHfZB8y906YuMQTHm
-	+wA8vVMTi4wR4NlwBT39Qm0X/xAcZ/y/qgvMpUmxweUKI6UkrEdjy8Ji8r6jejPft8AQy1cbxVP
-	3P5D/0JntuFx2rDHWdr72wGncNl2iM5EI1pBpW9ytY8os0tAX3j3CM67C1cmIiRjfa8wUNPymvQ
-	raFk7IgSu+q+fPw6WIbrQwYWaTA==
-X-Google-Smtp-Source: AGHT+IEgB2v+gCGAWANNa3EKMpLphRvnlwapSV7jWPPQcd9HuQt+NoEXnt3jKfFlDc25gkCc0Dio4g==
-X-Received: by 2002:a05:600c:4f16:b0:442:e9eb:1b48 with SMTP id 5b1f17b1804b1-45a1b65634bmr2958025e9.24.1755123232973;
-        Wed, 13 Aug 2025 15:13:52 -0700 (PDT)
-Received: from localhost ([2a03:2880:31ff:71::])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a59019dsm15967745e9.21.2025.08.13.15.13.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 15:13:52 -0700 (PDT)
-From: Mohsin Bashir <mohsin.bashr@gmail.com>
-To: netdev@vger.kernel.org
-Cc: aleksander.lobakin@intel.com,
-	alexanderduyck@fb.com,
-	andrew+netdev@lunn.ch,
-	ast@kernel.org,
-	bpf@vger.kernel.org,
-	corbet@lwn.net,
-	daniel@iogearbox.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	hawk@kernel.org,
-	horms@kernel.org,
-	john.fastabend@gmail.com,
-	kernel-team@meta.com,
-	kuba@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mohsin.bashr@gmail.com,
-	pabeni@redhat.com,
-	sdf@fomichev.me,
-	vadim.fedorenko@linux.dev
-Subject: [PATCH net-next V4 9/9] eth: fbnic: Report XDP stats via ethtool
-Date: Wed, 13 Aug 2025 15:13:19 -0700
-Message-ID: <20250813221319.3367670-10-mohsin.bashr@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250813221319.3367670-1-mohsin.bashr@gmail.com>
-References: <20250813221319.3367670-1-mohsin.bashr@gmail.com>
+        d=1e100.net; s=20230601; t=1755123871; x=1755728671;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q7gth1q5wXt2kbolj7dWwKraNNmPxnZCoAelNEomImI=;
+        b=kt2z+jsoZU9EByj0p835aPujMod8snBBLLNc1iZPSTrpHWbHPTviliSSfmzlpLBFbu
+         QyMpyc+Q/UKKubnsket+E+Y5554Rbuc8+BnxWDzDhL6UCtIVZR457AynPo8wckmSn+ve
+         o12ObrJkSR2X6mxS4o01O4HMp4Y8ZVyJsG9htisEP5jsZ/k7yEvBUABr6rzIOvcpQa4K
+         nBq2PutH1R91MxQG5X2qlp9gmZpFsPd8nN+IXZ3uEN9iTlRt5wBztwt+1vp0xY37R44V
+         RBLdLEVNGif9BDb9v6YZL2KQEQMgik7y9LSGP6nmMGgRmZQqUDwqhS8chGrAqmXcTV4U
+         2a7g==
+X-Forwarded-Encrypted: i=1; AJvYcCV7kyRS6sEhxlRq/OKZ/wKlRNTBV62tQJGnz+R3i9Z2a82T1oKvmchTPmDgQItz79nJHztPbyhBt3E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2zBnSrBuuJk1x0a1gmPVQ1UjHbR89+rNUDd7wg6l7aBoypWY2
+	T7W4RLRNS4ABZjyisO8skF95hMa6CQghERTjh/IcQa6X4D9N0CBVApaoXIoAhfutWtdXN3jhxst
+	tgu9rLD7cuM4dF/u8/G4Sba5l0PyARAJXOrIjKWvzO7pe9I6iup4x4+1QSpUaWw==
+X-Gm-Gg: ASbGnctYqNU83mB80ghOGUsA+zne/4gzWtYicP2aVtYvFBHHyPmoJBcQe7VFkYyTsBL
+	u+t/Dzdz/YFqXoWdjkyKdksfSwDnvAUvUP1CSx9S58bRRBlCRvT9CyDYR31YeF1StRjlTetEqch
+	UtiSc/7ic139Mx/dAJRRCV7mPMe4U2N2khjsjvFsP0ZD5PzxqbDpB0GeFhwqLmzK4YGwM5xqSG0
+	5Lb9QkYnF4/tESK9aOqTYe184hZDcL4MSFXA4SkcHHnWI2ymXcbZNwZMUKUZ25UA0ZSzgm3qMle
+	2Rx+ZzEULsf9SqArCP+1hnnFm87hinphB2bch4QAQE8+B4FUtqIq0RR0R9HyrGQfqcPiutkSu2u
+	jwO+SoBVXch3t0uNc8FVDYuwb/s01Z3rZTB+D/w==
+X-Received: by 2002:a05:6a00:3e24:b0:76b:f1c9:4ec9 with SMTP id d2e1a72fcca58-76e2fc23e59mr1085310b3a.6.1755123870893;
+        Wed, 13 Aug 2025 15:24:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHrd6YX7PSuR1I0NvscqCwDnSHruYilibycjxTioyww4LMs5uJhtMWQp7pwAdosrJAlaZ3ajA==
+X-Received: by 2002:a05:6a00:3e24:b0:76b:f1c9:4ec9 with SMTP id d2e1a72fcca58-76e2fc23e59mr1085287b3a.6.1755123870379;
+        Wed, 13 Aug 2025 15:24:30 -0700 (PDT)
+Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au. [1.41.240.65])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfd8ebbsm33032684b3a.102.2025.08.13.15.24.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Aug 2025 15:24:29 -0700 (PDT)
+Message-ID: <d81abdef-18fa-496d-8493-e8f336c43800@oss.qualcomm.com>
+Date: Thu, 14 Aug 2025 08:24:21 +1000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 10/11] qcomtee: enable TEE_IOC_SHM_ALLOC ioctl
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Sumit Garg <sumit.garg@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Apurupa Pattapu <quic_apurupa@quicinc.com>,
+        Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+        op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sumit Garg <sumit.garg@oss.qualcomm.com>
+References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
+ <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-10-ce7a1a774803@oss.qualcomm.com>
+ <3ec0a8d0-7900-45bd-b0d3-90ee8ca7730c@oss.qualcomm.com>
+Content-Language: en-US
+From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+In-Reply-To: <3ec0a8d0-7900-45bd-b0d3-90ee8ca7730c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=X4lSKHTe c=1 sm=1 tr=0 ts=689d109f cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=ShNZIzb07UMatG3o2d8A:9 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAzMSBTYWx0ZWRfX2eGz+omsES+/
+ +l2zW6xZmb5BRTubah89hQFPotcaKji9VXGBnB73EAwwpz1VYPdDCoXqd69772r2OcpxxC0zME3
+ bZfEOqDC/lQFnSbi4LKldQlQFtMFyq2a8atgfUXOENmC9ST3h1an0/Mq8PkI+rE5w5lcAAttIAq
+ JMNR8nuw9lb1GvXyS+fBmtrOhey9EI4VVAad2YZ38+QelaZyh+QJpxJGQWG43qJEB1YkLHlQT2s
+ yAW54rqfdBAmD3tcLU9RBcvZAHTzS22V308evHrZmyDj12eIQcR3LtuqZwiQRMAvWS5vecqBYhh
+ veK9CV4tUYw/6N1leyQ+334Vhx82QsUSd1LOcqMqZuGUax+vEzP6KjujlUGRXM8x0G8fo9aR6Qz
+ 0YyN2/8m
+X-Proofpoint-GUID: ScjRN6rBdwixKPy7Xd_rmJJqsiGiQlXA
+X-Proofpoint-ORIG-GUID: ScjRN6rBdwixKPy7Xd_rmJJqsiGiQlXA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090031
 
-Add support to collect XDP stats via ethtool API. We record
-packets and bytes sent, and packets dropped on the XDP_TX path.
 
-ethtool -S eth0 | grep xdp | grep -v "0"
-     xdp_tx_queue_13_packets: 2
-     xdp_tx_queue_13_bytes: 16126
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Mohsin Bashir <mohsin.bashr@gmail.com>
----
- .../net/ethernet/meta/fbnic/fbnic_ethtool.c   | 50 ++++++++++++++++++-
- 1 file changed, 49 insertions(+), 1 deletion(-)
+On 8/13/2025 8:00 PM, Konrad Dybcio wrote:
+> On 8/13/25 2:35 AM, Amirreza Zarrabi wrote:
+>> Enable userspace to allocate shared memory with QTEE. Since
+>> QTEE handles shared memory as object, a wrapper is implemented
+>> to represent tee_shm as an object. The shared memory identifier,
+>> obtained through TEE_IOC_SHM_ALLOC, is transferred to the driver using
+>> TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT.
+>>
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> Acked-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+>> Tested-by: Harshal Dev <quic_hdev@quicinc.com>
+>> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+>> ---
+> 
+> [...]
+> 
+>> +/* Mapping information format as expected by QTEE. */
+>> +struct qcomtee_mapping_info {
+>> +	u64 paddr;
+>> +	u64 len;
+>> +	u32 perms;
+>> +} __packed;
+> 
+> Please use types with explicit endianness, e.g. __le32. I'm assuming
+> TZ will always be little-endian, regardless of the host OS
+> 
 
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c b/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
-index 742b557d0e56..ceb8f88ae41c 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
-@@ -112,6 +112,20 @@ static const struct fbnic_stat fbnic_gstrings_hw_q_stats[] = {
- 	 FBNIC_HW_RXB_DEQUEUE_STATS_LEN * FBNIC_RXB_DEQUEUE_INDICES + \
- 	 FBNIC_HW_Q_STATS_LEN * FBNIC_MAX_QUEUES)
- 
-+#define FBNIC_QUEUE_STAT(name, stat) \
-+	FBNIC_STAT_FIELDS(fbnic_ring, name, stat)
-+
-+static const struct fbnic_stat fbnic_gstrings_xdp_stats[] = {
-+	FBNIC_QUEUE_STAT("xdp_tx_queue_%u_packets", stats.packets),
-+	FBNIC_QUEUE_STAT("xdp_tx_queue_%u_bytes", stats.bytes),
-+	FBNIC_QUEUE_STAT("xdp_tx_queue_%u_dropped", stats.dropped),
-+};
-+
-+#define FBNIC_XDP_STATS_LEN ARRAY_SIZE(fbnic_gstrings_xdp_stats)
-+
-+#define FBNIC_STATS_LEN \
-+	(FBNIC_HW_STATS_LEN + FBNIC_XDP_STATS_LEN * FBNIC_MAX_XDPQS)
-+
- static void
- fbnic_get_drvinfo(struct net_device *netdev, struct ethtool_drvinfo *drvinfo)
- {
-@@ -422,6 +436,16 @@ static void fbnic_get_rxb_dequeue_strings(u8 **data, unsigned int idx)
- 		ethtool_sprintf(data, stat->string, idx);
- }
- 
-+static void fbnic_get_xdp_queue_strings(u8 **data, unsigned int idx)
-+{
-+	const struct fbnic_stat *stat;
-+	int i;
-+
-+	stat = fbnic_gstrings_xdp_stats;
-+	for (i = 0; i < FBNIC_XDP_STATS_LEN; i++, stat++)
-+		ethtool_sprintf(data, stat->string, idx);
-+}
-+
- static void fbnic_get_strings(struct net_device *dev, u32 sset, u8 *data)
- {
- 	const struct fbnic_stat *stat;
-@@ -447,6 +471,9 @@ static void fbnic_get_strings(struct net_device *dev, u32 sset, u8 *data)
- 			for (i = 0; i < FBNIC_HW_Q_STATS_LEN; i++, stat++)
- 				ethtool_sprintf(&data, stat->string, idx);
- 		}
-+
-+		for (i = 0; i < FBNIC_MAX_XDPQS; i++)
-+			fbnic_get_xdp_queue_strings(&data, i);
- 		break;
- 	}
- }
-@@ -464,6 +491,24 @@ static void fbnic_report_hw_stats(const struct fbnic_stat *stat,
- 	}
- }
- 
-+static void fbnic_get_xdp_queue_stats(struct fbnic_ring *ring, u64 **data)
-+{
-+	const struct fbnic_stat *stat;
-+	int i;
-+
-+	if (!ring) {
-+		*data += FBNIC_XDP_STATS_LEN;
-+		return;
-+	}
-+
-+	stat = fbnic_gstrings_xdp_stats;
-+	for (i = 0; i < FBNIC_XDP_STATS_LEN; i++, stat++, (*data)++) {
-+		u8 *p = (u8 *)ring + stat->offset;
-+
-+		**data = *(u64 *)p;
-+	}
-+}
-+
- static void fbnic_get_ethtool_stats(struct net_device *dev,
- 				    struct ethtool_stats *stats, u64 *data)
- {
-@@ -511,13 +556,16 @@ static void fbnic_get_ethtool_stats(struct net_device *dev,
- 				      FBNIC_HW_Q_STATS_LEN, &data);
- 	}
- 	spin_unlock(&fbd->hw_stats_lock);
-+
-+	for (i = 0; i < FBNIC_MAX_XDPQS; i++)
-+		fbnic_get_xdp_queue_stats(fbn->tx[i + FBNIC_MAX_TXQS], &data);
- }
- 
- static int fbnic_get_sset_count(struct net_device *dev, int sset)
- {
- 	switch (sset) {
- 	case ETH_SS_STATS:
--		return FBNIC_HW_STATS_LEN;
-+		return FBNIC_STATS_LEN;
- 	default:
- 		return -EOPNOTSUPP;
- 	}
--- 
-2.47.3
+I'm not entirely sure how this point is relevant. As I understand it,
+the core that populates this struct is the same one that accesses it in TZ.
+Your argument would absolutely make sense if the host and TZ were operating
+on different cores with distinct architectures -- such as one being
+little-endian and the other big-endian, which is not the case.
+
+Regards,
+Amir
+
+> Konrad
 
