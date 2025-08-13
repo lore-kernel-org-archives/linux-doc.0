@@ -1,104 +1,197 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CEBC2DEA7D
-	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 07:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97ABE27E05E;
+	Wed, 13 Aug 2025 07:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755071383; cv=none; b=VIYe5Ud9clY6scC7CdRyV3pIGM6Y2WpAWtxo6jfnFGP5YhqmDOioC3NhOKkkDBRJLdpOxfbNJ/wcG8SinjB8ikTmO/Zx7GSWg7huV2CNyC/L9LInpjOtJOAuLTTqxW2BH2jjnFQtXtP/KA9S/RD7zUtjZ4D4+wuc4E4UXU3rJwY=
+	t=1755071560; cv=none; b=Vd5kQjthUJyfrhbLGHW3mCXps/OtqnHj3Y8+bgGF+cXJzUgwCdbQcdVODSVwsh3o4DnONNO+G3VeiNRba7RAvgRN2x7NCYsQCKxWUQiC5Oyz9LpXToZq7kB8/2fAUayNnHYosngQVXHxJNLEx13CC/XehH5E3P6Ey+ABt5MO2/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755071383; c=relaxed/simple;
-	bh=wfeJn6OXLOSd2GklhvEK2KXBF/te/QhNlLJRLLpT6NU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MdYOQegietpMfZcXwVr5Db4GeCPDxartOWbL++pE2LvOkyqbNqF/d9BjGRWQYnZt/FTWN1jWN92K+XJH0TCHqS+7lrDD+BDI5/0dW5jFbfeZxA1oq0DPcgOXDdTK4x0MEc76WeHPYP16S9HL7FkTMRWxFxsju3n+5FJqsP8Ssvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XLyuCYqE; arc=none smtp.client-ip=209.85.161.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755071560; c=relaxed/simple;
+	bh=XlFq4Sgus3oQVPGHzXvXgTDE9t8jmHYL6F+kNSEKiPQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Mj253TP4du5Az44TCiqpcIV+fcTgUj53lgzRtDTZ5l7WgyzqW5EaTWkDSSV2z3whOMmp6DITp0Wzmuh0D3e9IyMII19dHG6pWilYdMG6tlxslZ65k4xXyCBghyqgfv+oNQGmaFLwMYDMGsVAsaE1Iluof5qYEaKe4or4tuh9YoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=IPi8sKZV; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XLyuCYqE"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-61b7e44f8b3so722739eaf.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 00:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755071379; x=1755676179; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wfeJn6OXLOSd2GklhvEK2KXBF/te/QhNlLJRLLpT6NU=;
-        b=XLyuCYqEnk9yF8JdXGunyN+ujw1Fymw1txYThuFHVO2alhysN1K4UCef6XGGbyw5it
-         2w0IztDtFaXf65o16a9X5/C6QcWHc/D94mgHCUwA34dngIcBBdYYDnV54lk3yrY6Si7x
-         gIewLX3Vp/4GbAGHr/ZjpbHAauw2rtEsgLo7/PNdYPphtnLTjL1YCQiJFlIzHn6ofNsW
-         nD76UpLQUHYCKuBeJiR8PSOAuOchc/t5lZ7/SIK75NQw5Fir5TTIkgblpdxglIh/dcZm
-         i19+M2atTq0+VCm9ibcrVebj29D6Bute5K5CHRYwwqLlty+2MyY5WNCJ0vWDrPpSnkAv
-         mkkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755071379; x=1755676179;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wfeJn6OXLOSd2GklhvEK2KXBF/te/QhNlLJRLLpT6NU=;
-        b=UU/5P3BppuM/LzeKR20frwTWIAbuj/rsCYzCLWBsNMu+V1f1kFAClKdnuHNi047W31
-         2Fx8ZPK7zFy5M8EJXbn0pGWJgfEWTzumR1W3tJY2vfGP9Kgdo1DnPuqfaw6xRnV50HRW
-         dDf1Nob7Nb2kcJXeSvpvHPP+VwxrtcTRfXxJg17HSHJiweK0h+dVUTu8xRKvAzixGnCd
-         EzI6MYIOcuSBpvNOFYgekbJmlhVZAqzZ11WVbR66A2hGtjwN/nfm7wTTknYc5g9q0dJm
-         SMgxS2cbbCSSQPEWemYvKK33RsUHstoz5Xd8FQKxrBe1nJ3C6tQqJJ3EWuiV3m+w2G3N
-         b/ng==
-X-Forwarded-Encrypted: i=1; AJvYcCX7+kWgtL6SB4nYNfXEQzx03TFbeIT48KLnr3Vd78Z1cS+2xWCKPlB5RJAnNLSC1RXjLeZ1ZRXSMHI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfcPJ915Lv76aX7wFsnuu6NxS8RDJ8NVNCBnPduwZn96cqp9VH
-	EU3cAqaebdwDu/hkA5j5ueZKbBhxbrjbU/wE/KkKgcX7XvoBcG9z2+Mbl3CeOS9wRbLnMWXEvm6
-	Hkhfmtlj7lPyVsh2nzQz2Vwyr+QMaBuSHV7eCgoYJmA==
-X-Gm-Gg: ASbGncs6adE/up3KaxYxqfJpb001FpY6VZqfJ1QKUr5DDItkrDjm6Ab+ryh7Emnc2ws
-	KHYdPTLA5wZzsE1qTIUCxlySYqBm2rX8DlfjXa10an291NvVBM3jbXnUq3eiN0RiyZSx2K/uGI0
-	Dwz/9v/hpH3MpQ9qeLFlCb3BqzFxyr2gUBKf8B9i1lRqUw2NVBISIvdC8KLfNVbX3PlwYlU8pXR
-	pdedfw1pKUjozVWeu8=
-X-Google-Smtp-Source: AGHT+IFAfPPXVnV/fIsv8KnI8b8Bl+IOsf+U5t0pmvRJM0gZ8xG3AukFt3DXdXVb9aF/gWZVqDSUuTyRuSP2uDtgU3s=
-X-Received: by 2002:a05:6820:1ac1:b0:619:a6c0:b4b with SMTP id
- 006d021491bc7-61bc758538amr1013523eaf.5.1755071379266; Wed, 13 Aug 2025
- 00:49:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="IPi8sKZV"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57D7pYMT1600946;
+	Wed, 13 Aug 2025 02:51:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1755071494;
+	bh=rJa4YbPLmwHtQ5vYaRplxOBKhYAcebYKOd1/PHvF9Rw=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=IPi8sKZVyBFUyA1jBcIN7qegHeqU4NgvB0m7TW8js9bv4wlWetdgTtpDMzvTU7G+X
+	 Rvv4dHysOQwh2JPhPemQJtnCFFJHqbU7z6KnB7mISjp1dc5jZcUx8CxxVck+7sKizM
+	 mi/T+sC/kQs0SKyCJlqPjaI6SuxhxrUgbH8h+oR4=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57D7pYZK4090251
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Wed, 13 Aug 2025 02:51:34 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 13
+ Aug 2025 02:51:33 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 13 Aug 2025 02:51:33 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57D7pRPs1978735;
+	Wed, 13 Aug 2025 02:51:27 -0500
+Message-ID: <d0c2fcb1-578d-443c-949f-860c94824ac9@ti.com>
+Date: Wed, 13 Aug 2025 13:21:26 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
-In-Reply-To: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Wed, 13 Aug 2025 09:49:27 +0200
-X-Gm-Features: Ac12FXyfvHrDtrackOzZC99WcBb71C_WC3_DT2d5Ppi_3YWKQtwtthH808vWulI
-Message-ID: <CAHUa44FJ9iRMyDHffRBwgxxX27vTwsAwNiCCEGQ8fMQPZS_D+g@mail.gmail.com>
-Subject: Re: [PATCH v7 00/11] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
-Cc: Sumit Garg <sumit.garg@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Apurupa Pattapu <quic_apurupa@quicinc.com>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org, 
-	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	Sumit Garg <sumit.garg@oss.qualcomm.com>, Neil Armstrong <neil.armstrong@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] net: rnpgbe: Add build support for rnpgbe
+To: Yibo Dong <dong100@mucse.com>, "Anwar, Md Danish" <a0501179@ti.com>
+CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+        <kuba@kernel.org>, <pabeni@redhat.com>, <horms@kernel.org>,
+        <corbet@lwn.net>, <gur.stavi@huawei.com>, <maddy@linux.ibm.com>,
+        <mpe@ellerman.id.au>, <lee@trager.us>, <gongfan1@huawei.com>,
+        <lorenzo@kernel.org>, <geert+renesas@glider.be>,
+        <Parthiban.Veerasooran@microchip.com>, <lukas.bulwahn@redhat.com>,
+        <alexanderduyck@fb.com>, <richardcochran@gmail.com>,
+        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250812093937.882045-1-dong100@mucse.com>
+ <20250812093937.882045-2-dong100@mucse.com>
+ <5528c38b-0405-4d3b-924a-2bed769f314d@ti.com>
+ <F9D5358C994A229C+20250813064441.GB944516@nic-Precision-5820-Tower>
+Content-Language: en-US
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <F9D5358C994A229C+20250813064441.GB944516@nic-Precision-5820-Tower>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Amir,
 
-On Wed, Aug 13, 2025 at 2:37=E2=80=AFAM Amirreza Zarrabi
-<amirreza.zarrabi@oss.qualcomm.com> wrote:
->
-> This patch series introduces a Trusted Execution Environment (TEE)
-> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
-> and services to run securely. It uses an object-based interface, where
-> each service is an object with sets of operations. Clients can invoke
-> these operations on objects, which can generate results, including other
-> objects. For example, an object can load a TA and return another object
-> that represents the loaded TA, allowing access to its services.
->
 
-There are some build errors/warnings for arm and x86_64, see
-https://tuxapi.tuxsuite.com/v1/groups/linaro/projects/jens/plans/31DmCOn1pF=
-2JGVDk3otBOXOL6kV
+On 13/08/25 12:14 pm, Yibo Dong wrote:
+> On Tue, Aug 12, 2025 at 09:48:07PM +0530, Anwar, Md Danish wrote:
+>> On 8/12/2025 3:09 PM, Dong Yibo wrote:
+>>> Add build options and doc for mucse.
+>>> Initialize pci device access for MUCSE devices.
+>>>
+>>> Signed-off-by: Dong Yibo <dong100@mucse.com>
+>>> ---
+>>>  .../device_drivers/ethernet/index.rst         |   1 +
+>>>  .../device_drivers/ethernet/mucse/rnpgbe.rst  |  21 +++
+>>>  MAINTAINERS                                   |   8 +
+>>>  drivers/net/ethernet/Kconfig                  |   1 +
+>>>  drivers/net/ethernet/Makefile                 |   1 +
+>>>  drivers/net/ethernet/mucse/Kconfig            |  34 ++++
+>>>  drivers/net/ethernet/mucse/Makefile           |   7 +
+>>>  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   8 +
+>>>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  25 +++
+>>>  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 161 ++++++++++++++++++
+>>>  10 files changed, 267 insertions(+)
+>>>  create mode 100644 Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst
+>>>  create mode 100644 drivers/net/ethernet/mucse/Kconfig
+>>>  create mode 100644 drivers/net/ethernet/mucse/Makefile
+>>>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/Makefile
+>>>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+>>>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+>>
+>> [ ... ]
+>>
+>>> + **/
+>>> +static int __init rnpgbe_init_module(void)
+>>> +{
+>>> +	int ret;
+>>> +
+>>> +	ret = pci_register_driver(&rnpgbe_driver);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	return 0;
+>>> +}
+>>
+>> Unnecessary code - can be simplified to just `return
+>> pci_register_driver(&rnpgbe_driver);`
+>>
+> 
+> Yes, but if I add some new codes which need some free after
+> pci_register_driver failed, the new patch will be like this:
+> 
+> -return pci_register_driver(&rnpgbe_driver);
+> +int ret:
+> +wq = create_singlethread_workqueue(rnpgbe_driver_name);
+> +ret = pci_register_driver(&rnpgbe_driver);
+> +if (ret) {
+> +	destroy_workqueue(wq);
+> +	return ret;
+> +}
+> +return 0;
+> 
+> Is this ok? Maybe not good to delete code for adding new feature?
+> This is what Andrew suggested not to do.
+> 
 
-Thanks,
-Jens
+In this patch series you are not modifying rnpgbe_init_module() again.
+If you define a function as something in one patch and in later patches
+you change it to something else - That is not encouraged, you should not
+remove the code that you added in previous patches.
+
+However here throughout your series you are not modifying this function.
+Now the diff that you are showing, I don't know when you plan to post
+that but as far as this series is concerned this diff is not part of the
+series.
+
+static int __init rnpgbe_init_module(void)
+{
+	int ret;
+
+	ret = pci_register_driver(&rnpgbe_driver);
+	if (ret)
+		return ret;
+
+	return 0;
+}
+
+This to me just seems unnecessary. You can just return
+pci_register_driver() now and in future whenever you add other code you
+can modify the function.
+
+It would have  made sense for you to keep it as it is if some later
+patch in your series would have modified it.
+
+>>> +
+>>> +module_init(rnpgbe_init_module);
+>>> +
+>>> +/**
+>>> + * rnpgbe_exit_module - Driver remove routine
+>>> + *
+>>> + * rnpgbe_exit_module is called when driver is removed
+>>> + **/
+>>> +static void __exit rnpgbe_exit_module(void)
+>>> +{
+>>> +	pci_unregister_driver(&rnpgbe_driver);
+>>> +}
+>>> +
+>>> +module_exit(rnpgbe_exit_module);
+>>> +
+>>> +MODULE_DEVICE_TABLE(pci, rnpgbe_pci_tbl);
+>>> +MODULE_AUTHOR("Mucse Corporation, <techsupport@mucse.com>");
+>>> +MODULE_DESCRIPTION("Mucse(R) 1 Gigabit PCI Express Network Driver");
+>>> +MODULE_LICENSE("GPL");
+>>
+>> -- 
+>> Thanks and Regards,
+>> Md Danish Anwar
+>>
+>>
+> 
+> Thanks for your feedback.
+
+-- 
+Thanks and Regards,
+Danish
+
