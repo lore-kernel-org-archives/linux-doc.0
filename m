@@ -1,127 +1,148 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80972BCF75;
-	Wed, 13 Aug 2025 08:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A220C2D540B;
+	Wed, 13 Aug 2025 08:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755072432; cv=none; b=px4YlZ2uFOx4fNZQyZlc8fQgC0bjoYL1B3oeiV1xW3bDbEODx2gN1SVUwskm+DFp+9ZFDw0DN5M7myCsB7v1lEEeIZITHXFN1Izw8aMrxiP4Am0K4iKcaAjvfTQq6xFCalrSiPr/cx1v/4UzFtDzaTHkYcKlSp5g9ahgHNrSdTc=
+	t=1755072810; cv=none; b=GNdcE+XCV5mtItOH9OFLNr2/U94ivExkwiS2fBja5CsY7flpYqIZDVksbJwll1QjDVEIhqdiBRaad8Ga29dDsk4t3sVZee+CCOv/2zMGoyZwwm+IiRGHLc8ZXLc/hx9/zPmvCdVqBI+CLY6aNBfYomP+B7VTsP59GwPdSEFWCX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755072432; c=relaxed/simple;
-	bh=OUMJOI0Ha5+pB2VtsSwgb3N13p0Nqt6Y7Y1h7BSr1EM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JxHyZ3BgRVE+9sC3CBjHZ/hloXcqUqIW/xwO2LAIYRKhGQM13ndImljNZ/0EqlRhuB+TCRjBQtzi7SKJ3olOGRB/8N86zCq3w2zQQdrMZUC4tenmQvu7hfsnashqglUjh/ke2ubCYwIIvBhtbE7PE/O5hmL1UL9c4b4RLb/a5vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m4/AMASI; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4/AMASI"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3b8de193b60so3534203f8f.0;
-        Wed, 13 Aug 2025 01:07:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755072429; x=1755677229; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=maMRjoqJXCK/+GFkp6ApW3O21rIqKnM3FTWwDItdMGw=;
-        b=m4/AMASIWGTWcTTzWrUvm+sDazFxOuvVqJP3HvHujRRD4CjTzIo+wvaUQ0/GSaT3jn
-         Gq97K4HkFkVqBJT1BW5aXKEqnRiCUwhpcVfnf1MKbb+ySzzYfu88Skk3apwrFm6jE+CR
-         8CS2mWSh5vYmAJdkSzo81Opk21bCP7X2w5rgUw+LErtlmiBNOihTQKYHpiXO5XYRX7uA
-         aktSJEVnVKYJ5uOjnnwFEVQ7hqMHIyKflD2aTpPbVkRTBUUZKtOS3/jwBjMaiQLfMCVw
-         QiE0IjEm2LE+2A8gB5/3JqoxxXD84Ia0tz7ujlj+OEU4Ex0zRfVAYDB+1p96CT47oQe4
-         a2xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755072429; x=1755677229;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=maMRjoqJXCK/+GFkp6ApW3O21rIqKnM3FTWwDItdMGw=;
-        b=NlnluhiTerhP0mpIs6ZW+b5twiPXhhxl3Uex8Vjs/5QEHXQB4gdjrWKwumX6HVtxb/
-         xZQomM/uXeJKF5j/iFCTKDI02L+X5Z44S2b88G/U7Jd1xB/L9Ey/owwdmQiU1o4TRaj+
-         wpTQul/d/cC7HbgfCViriTZ6ScSP0T9iu8JsE3dHyhja93XiEWhTLsp6Coyb7BnWRQhA
-         3X/tVzUZgXmBU2mnn9gjTNYIguNOxmaY4KchDWlWW8+/H4+qN0JDF6b0CsSu3AaVI56Z
-         QsKeGUcGDkqy4KcPtuSUMyavPM4qnLknIbgUw1Z8nbMPECoN241YjZKZNYMkfLv5fVJl
-         u/qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUNORQxlrRNjsGNo2vwb1eG+Hgo3GpnpxgWWilx5WnYDPr+TJrb/v3Rwxbe/4TdwDdc19Arn6PUaMNjUvE0@vger.kernel.org, AJvYcCUlR2lyEQqoyOVHZRouZhfOCMadLrQ04EH0PfTkYTt26MPVAHxjfoBbYJpFSm12myLga3qxaQE5E/A=@vger.kernel.org, AJvYcCWL7hx+SwRqP3fKprNyUbZ7Fk8P+Ht+QyYe2lhbCc/54pDmY4BqWEZgy3nuk80gMP8EDGGcvE9WGUFWDw4yMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz24N6+j957fs4+AsiJXQF1W5POEMRse5cv+eOtz7U/uwxu/yDF
-	MEBQAWMuAZ+gLnGLEJAXyNd6UJ8sh8RhlM5wKuF93ivFAjb1I/LaQvSz
-X-Gm-Gg: ASbGnctQ4hOsW28ih4/Bythd+rER4hXglTOZQoKQQEV9i+vR8YGnnNRrsp7nujhJPUX
-	AZnzzmQROkmKRihsyDSpUSgiMbVy8trBgvY5Dz64TeY1yk92SjgVf5U8aizUbRXtAdPbOaJbLwy
-	zWy6bvjOEl/MbLhYI3VJU+OK2R7/T1frXXjphee6v7pBGYdTwuGJfSlxy19PPurcqCleUlybqhK
-	f93hStzEdqId6ih/tLKEykVhC4Oru5rmCdmw2bvNGEyk/kpHmdj7RNKMtt1S9IwZRjkgWJZcGYG
-	gj97W1BpVbpJXPV0LtG1LgSkWr3zAhsByhvOssyGTJl2dqf5Va6wCvxEFkxuyeh4SRx65HGC8V7
-	WIBNW3boMQ0UA9WBVl27glLXYPlB/AXvia8rP6ddQht3ugOFNUf/KRDNiwaUlNssVUejR3CNQxP
-	h+a8OgFssOwLyDNGRApXMj
-X-Google-Smtp-Source: AGHT+IG21U8BYsNzqLWav/ytlWcEyoyWQmL1EXaTaANw9uatg14wjY4T/4or/U27usDsLhFE+I8vug==
-X-Received: by 2002:a5d:584e:0:b0:3b7:dd87:d730 with SMTP id ffacd0b85a97d-3b917ed493bmr1488118f8f.52.1755072428736;
-        Wed, 13 Aug 2025 01:07:08 -0700 (PDT)
-Received: from ?IPV6:2a02:6b6f:e759:7e00:8b4:7c1f:c64:2a4? ([2a02:6b6f:e759:7e00:8b4:7c1f:c64:2a4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c48105csm47122956f8f.64.2025.08.13.01.07.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Aug 2025 01:07:07 -0700 (PDT)
-Message-ID: <d3d1b812-066a-4124-83ca-df96fa75e3b1@gmail.com>
-Date: Wed, 13 Aug 2025 09:07:06 +0100
+	s=arc-20240116; t=1755072810; c=relaxed/simple;
+	bh=6+7jJZ3HhTmLYJo9sruLtdjHZVI54SZ6HNZmAF5DWM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bzirCO7vem7X1T6+rVCskG8XaPX28mo8yJOshqnSQc5Agm2/2AvtFZFncUXB5H6YiOKHwDbtlpOlYVxzoPg65fzLWCF85fu0yjgGQ3fHr4zWpuB7mVVR1cuscrii3rfUZROdnz+m0UYbl6Nz9tLCKlNvoonnr3Ogmglasg3GZCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz4t1755072724t6817de95
+X-QQ-Originating-IP: +icP6DoFFNymN8R74c7afLzyc/7lvOHbSeRS8oPVEgw=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 13 Aug 2025 16:12:02 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 1664480856713457679
+Date: Wed, 13 Aug 2025 16:12:02 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <211A876E5960B039+20250813081202.GB965498@nic-Precision-5820-Tower>
+References: <20250812093937.882045-1-dong100@mucse.com>
+ <20250812093937.882045-5-dong100@mucse.com>
+ <eafb8874-a7a3-4028-a4ad-d71fc5689813@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] prctl: extend PR_SET_THP_DISABLE to only provide
- THPs when advised
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, corbet@lwn.net,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
- baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
- sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com
-References: <20250804154317.1648084-1-usamaarif642@gmail.com>
- <0f8b7e64-d08b-44d6-8a1b-2b4b8d64cbe6@lucifer.local>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <0f8b7e64-d08b-44d6-8a1b-2b4b8d64cbe6@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eafb8874-a7a3-4028-a4ad-d71fc5689813@linux.dev>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: N3l5ASPewLWqYR3azMlZEiI6nfFXBz1FR6v3zkKFwZJOmkNMYtY5MC05
+	w5AJs/OXVEnt0MolHUVxnXj4HukzRudKq2eH7LdEPPDyareSStT191dBTH4kOxOcglEja9v
+	PhI7/dR40k/W4wVcp+tlCh8p+LYQCJTbfdH9rradN1DQTj79mWlFT1nK3U6jX70sqoDFkkW
+	WNFAH5RMrBXRwTEwEvRg9Lka3hfn+2YQosoidoaN8SXIowV3fMxxvzuaalWRYbi7MC9nUqW
+	UVXLqcXL0efhmAnW1Tl85oASi6KX6NMnwzQUGggp0G57bWx9Nun8Nwk6wLqlciPQrJHlaVv
+	J+iNWzMSiecoNrWsmqRMoSEjM7pK/sajt9XMpKQIXTQcTNQ++GJyVKOCrRDsCeOPpioWcI3
+	15tOEXTnMQBzqbKjK9TRKHODGXd08x3U/kaoXj2mzIDCaKWdfcttxoeuyOrl/H7BiNx3bR6
+	gwqlVpqVjEgsO2kSBgtrmpETSvQsNnrfRR5+bpr8aMKm6104G6DjsQK08suOogJ5TzrTW85
+	GLGjlmzbvRyMScgfzDK7JMyCrMgDoU1UtmUAp4y9cKKcpBO0uhM9C2Ay5Mb4emn/XB1HLs/
+	yW5zQsBLhsprGC1LfdwZnbdD7sd2fXy6wvUzlj5fapImXZWhbMuMS+vhzVlN0FnLWEwk+7y
+	PNuijB4HOkKkQ9ZHXMq1OVUA+sYsiPdmSo1E6mzCQdXnhOkdb5Z+lDeOqcm/vBtRKnnJzgO
+	Ojtb/wyJvaAN+x27JsuuNATH9n3zRuviY/OATzaoiW+m/BbrBl3gKGVXfm76C2+txmUtTm7
+	ony1Akxdqflo1Nnm07FFq8hq6o1/0FkGYbuen8DRhrJlJUGrw7R+/aoMXDnD3jAEqggc1C+
+	Gf0kuyiYyNzBu1QpzdwQj8LbYAQQKr1FdzegbtVYzcg1Y9rW5j+tipduD8/fx/sQQdjV9Ib
+	mRaGpHCnbkPNyBJpgp8fxd8+8ScQB6KoR0hsRzxWV8egCQl08VYQOOMLNOL1iLb3YynpNLR
+	Sc5AV+Xkf3V7XlgEcrJUS62+d9FeuU05/TEvHk7Q==
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
+X-QQ-RECHKSPAM: 0
 
-
-
-On 13/08/2025 07:06, Lorenzo Stoakes wrote:
-> Usama - did we plan another respin here? I ask as not in mm-new.
+On Tue, Aug 12, 2025 at 05:14:15PM +0100, Vadim Fedorenko wrote:
+> On 12/08/2025 10:39, Dong Yibo wrote:
+> > Initialize basic mbx_fw ops, such as get_capability, reset phy
+> > and so on.
+> > 
+> > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> > +static int mucse_fw_send_cmd_wait(struct mucse_hw *hw,
+> > +				  struct mbx_fw_cmd_req *req,
+> > +				  struct mbx_fw_cmd_reply *reply)
+> > +{
+> > +	int len = le16_to_cpu(req->datalen) + MBX_REQ_HDR_LEN;
+> > +	int retry_cnt = 3;
+> > +	int err;
+> > +
+> > +	err = mutex_lock_interruptible(&hw->mbx.lock);
+> > +	if (err)
+> > +		return err;
+> > +	err = hw->mbx.ops->write_posted(hw, (u32 *)req,
+> > +					L_WD(len));
+> > +	if (err) {> +		mutex_unlock(&hw->mbx.lock);
+> > +		return err;
+> > +	}
+> 
+> it might look a bit cleaner if you add error label and have unlock code
+> once in the end of the function...
 > 
 
-Yes, I have the changes ready since last week, was just waiting for a respin of
-the selftest cleanup series that David mentioned in [1], but I dont see it
-in the mailing list. I will just do the cleanup in my series and send it.
+Ok, I will try to update this.
 
-
-> Also heads up, my mm flags series will break this one, so if you're
-> respinning, please make sure to use the mm flag helpers described in [0].
-
-Sounds good, Thanks for the heads up!
-
-I do see this in mm-new, so will just send the next revision today tested
-on latest mm-new.
-
-
+> > +	do {
+> > +		err = hw->mbx.ops->read_posted(hw, (u32 *)reply,
+> > +					       L_WD(sizeof(*reply)));
+> > +		if (err) {
+> > +			mutex_unlock(&hw->mbx.lock);
+> > +			return err;
+> > +		}
+> > +	} while (--retry_cnt >= 0 && reply->opcode != req->opcode);
+> > +	mutex_unlock(&hw->mbx.lock);
+> > +	if (retry_cnt < 0 || reply->error_code)
+> > +		return -EIO;
+> > +	return 0;
+> > +}
+> > +
+> > +/**
+> > + * mucse_fw_get_capability - Get hw abilities from fw
+> > + * @hw: pointer to the HW structure
+> > + * @abil: pointer to the hw_abilities structure
+> > + *
+> > + * mucse_fw_get_capability tries to get hw abilities from
+> > + * hw.
+> > + *
+> > + * @return: 0 on success, negative on failure
+> > + **/
+> > +static int mucse_fw_get_capability(struct mucse_hw *hw,
+> > +				   struct hw_abilities *abil)
+> > +{
+> > +	struct mbx_fw_cmd_reply reply;
+> > +	struct mbx_fw_cmd_req req;
+> > +	int err;
+> > +
+> > +	memset(&req, 0, sizeof(req));
+> > +	memset(&reply, 0, sizeof(reply));
 > 
-> It's really simple, you just do:
+> probably
 > 
-> mm_flags_test(MMF_xxx, mm) instead of test_bit(MMF_xxx, &mm->flags)
-> mm_flags_set(MMF_xxx, mm) instead of set_bit(MMF_xxx, &mm->flags)
-> mm_flags_clear(MMF_xxx, mm) instead of clear_bit(MMF_xxx, &mm->flags)
+> 	struct mbx_fw_cmd_reply reply = {};
+> 	struct mbx_fw_cmd_req req = {};
 > 
-> So should be very quick to fixup.
+> will look better. in the other functions as well..
 > 
-> Sorry about that, but should be super simple to sort out.
 > 
-> Cheers, Lorenzo
 > 
-> [0]: https://lore.kernel.org/linux-mm/cover.1755012943.git.lorenzo.stoakes@oracle.com/
-[1] https://lore.kernel.org/all/eec7e868-a61f-41ed-a8ef-7ff80548089f@redhat.com/
 
+Got it, I will update it.
+
+Thanks for your feedback.
 
