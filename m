@@ -1,88 +1,109 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3ADD296BCE
-	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 17:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2867D214232;
+	Wed, 13 Aug 2025 17:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755107297; cv=none; b=Hiq781cqMd6ocWz2YkGJ9uo4Ws04s20/Li04Wmp5XZBW9A+l42/q6w8xaMtt8fbFBUN49EWF0IAupjpVe06TYZf9Va9/jVvWhdT0gUSdfmfW3CJ0L7ApA8q5zxBCQ3kzrXeSZ3gIUHlZoSYVAzNeO+WqhRyydO4enztmhK1Mk2A=
+	t=1755107624; cv=none; b=DEY43LqRd1GUjiyY4DqiE1A0YxEV5agRiP1guFHqo9i/YM4VjnYhUR4p7r9aJwGWDo2pIvQlno6wAY2TdQmDI8E8451gX9SCmCP3WSit+6Jv40hEpcqjg2j28IHuupw1ro0dnETktWuYAxyp+OwSjO164l8uGQL1Waa/o+iIkxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755107297; c=relaxed/simple;
-	bh=t5lSA6nKiMR3E1kI5QFkQD2u7ryrd49eosyt53kLnio=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u7iVtYTdtjjEKjhN+U6A55W4ugyu+JY/uBORwwJ+Uo4JcLW42i/CPRPrR0ZG8IlGCqCCASpaelADw+H4oqZActIQNEsC3N4mM6Pv8fkva2uqfFW4vOmcVwBjjSMpg5lHFz2DM9jIEFcYXMJGw3g+o1px/QMyvklQHcSXJgWoyN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uXeCFrUC; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uXeCFrUC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=DRAQ0C1Hyq1GkALVW/K/qHwTuWG3xsoWi585SpljGp0=; b=uXeCFrUCiF7yXXamFrQWANEvff
-	6I0FAbOh+dMHxYX9n+Pf9Vy+mZvFqn39PB6M+YySawLfxVmizkQJP6lNe/FmqmrJ4HafkgsUMIS2V
-	QZhpp2t7gCAzK2kilhWC457PmGJnuOcysv4wPoRqoqYyHicjA5FBupjEJf1IMVJSTTvuWBMyVBZlG
-	xM9SebJ/tP/NpVgDkLoWMzeCuyM4RR4sfQfwaeoRurcmuwXz5czn/x7Qqv3bsVIz+di2aIv0Dh4tk
-	wGyi2uUhk+L2hsEe0bO4CgIwHFMNplUCKyJlkZvk+4z7f8xgZNopn9FgVoYMLmbkgZgKlTc1E7hrn
-	sfUfYVCg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umFa9-0000000Ec7U-3Ekw;
-	Wed, 13 Aug 2025 17:48:13 +0000
-Message-ID: <970be4df-e010-4ba2-b2e9-c2c24b8742ef@infradead.org>
-Date: Wed, 13 Aug 2025 10:48:13 -0700
+	s=arc-20240116; t=1755107624; c=relaxed/simple;
+	bh=rqm8YhfoDu+gYeoQgniIzuJQxhpMYSxEL81Z/EUaH3M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Yqis5sXWmPj3rHYqLjgYTro82A9oK5ETKWmIKuDYd8mTDNmrbtjy5PIwfA+aBvbZPiOKGMESt1zBuB/e6SL77V7BQRpQE8/IISx+A572QEuLEl3I+kUa8uW85yVcNGfPagINpSXrFmSwp01wEyQz9P/qaEF10uwHNJi3VN8g6PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1D3F212FC;
+	Wed, 13 Aug 2025 10:53:33 -0700 (PDT)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5C05D3F5A1;
+	Wed, 13 Aug 2025 10:53:37 -0700 (PDT)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: ryabinin.a.a@gmail.com,
+	glider@google.com,
+	andreyknvl@gmail.com,
+	dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	akpm@linux-foundation.org,
+	scott@os.amperecomputing.com,
+	jhubbard@nvidia.com,
+	pankaj.gupta@amd.com,
+	leitao@debian.org,
+	kaleshsingh@google.com,
+	maz@kernel.org,
+	broonie@kernel.org,
+	oliver.upton@linux.dev,
+	james.morse@arm.com,
+	ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io,
+	david@redhat.com,
+	yang@os.amperecomputing.com
+Cc: kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v2 0/2] introduce kasan.store_only option in hw-tags
+Date: Wed, 13 Aug 2025 18:53:33 +0100
+Message-Id: <20250813175335.3980268-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [PATCH] Documentation/kernel_hacking: Fix minor typo in
- hacking.rst
-To: rakuram <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- skhan@linuxfoundation.org, corbet@lwn.net, ukleinek@kernel.org
-References: <20250813174326.6544-1-rakuram.e96@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250813174326.6544-1-rakuram.e96@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+Hardware tag based KASAN is implemented using the Memory Tagging Extension
+(MTE) feature.
+
+MTE is built on top of the ARMv8.0 virtual address tagging TBI
+(Top Byte Ignore) feature and allows software to access a 4-bit
+allocation tag for each 16-byte granule in the physical address space.
+A logical tag is derived from bits 59-56 of the virtual
+address used for the memory access. A CPU with MTE enabled will compare
+the logical tag against the allocation tag and potentially raise an
+tag check fault on mismatch, subject to system registers configuration.
+
+Since ARMv8.9, FEAT_MTE_STORE_ONLY can be used to restrict raise of tag
+check fault on store operation only.
+
+Using this feature (FEAT_MTE_STORE_ONLY), introduce KASAN store-only mode
+which restricts KASAN check store operation only.
+This mode omits KASAN check for fetch/load operation.
+Therefore, it might be used not only debugging purpose but also in
+normal environment.
+
+Patch History
+=============
+from v1 to v2:
+  - change cryptic name -- stonly to store_only
+  - remove some TCF check with store which can make memory courruption.
+  - https://lore.kernel.org/all/20250811173626.1878783-1-yeoreum.yun@arm.com/
 
 
+Yeoreum Yun (2):
+  kasan/hw-tags: introduce kasan.store_only option
+  kasan: apply store-only mode in kasan kunit testcases
 
-On 8/13/25 10:43 AM, rakuram wrote:
-> fixed the following typo in 'Documentation/kernel-hacking/hacking.rst'
-> compatability --> compatibility
-> 
-> Signed-off-by: rakuram <rakuram.e96@gmail.com>
+ Documentation/dev-tools/kasan.rst  |   3 +
+ arch/arm64/include/asm/memory.h    |   1 +
+ arch/arm64/include/asm/mte-kasan.h |   6 +
+ arch/arm64/kernel/cpufeature.c     |   6 +
+ arch/arm64/kernel/mte.c            |  14 ++
+ include/linux/kasan.h              |   2 +
+ mm/kasan/hw_tags.c                 |  76 +++++-
+ mm/kasan/kasan.h                   |  10 +
+ mm/kasan/kasan_test_c.c            | 366 ++++++++++++++++++++++-------
+ 9 files changed, 402 insertions(+), 82 deletions(-)
 
-Hi,
-Please see the previous such patch attempt here:
-  https://lore.kernel.org/linux-doc/87jz6ckeux.fsf@trenco.lwn.net/
 
-Thanks.
-
-> ---
->  Documentation/kernel-hacking/hacking.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-> index 0042776a9e17..22b880add846 100644
-> --- a/Documentation/kernel-hacking/hacking.rst
-> +++ b/Documentation/kernel-hacking/hacking.rst
-> @@ -794,7 +794,7 @@ Some favorites from browsing the source. Feel free to add to this list.
->  ``arch/sparc/kernel/head.S:``::
->  
->      /*
-> -     * Sun people can't spell worth damn. "compatability" indeed.
-> +     * Sun people can't spell worth damn. "compatibility" indeed.
->       * At least we *know* we can't spell, and use a spell-checker.
->       */
->  
-
--- 
-~Randy
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
