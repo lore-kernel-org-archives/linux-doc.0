@@ -1,123 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4E32E1C69;
-	Wed, 13 Aug 2025 12:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4513717B402;
+	Wed, 13 Aug 2025 12:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755089054; cv=none; b=qSJf2l7WCpDrKXTigH8Z/RAmZss9NF3Ox4Yp22x+osJyf3K980dgI4xtUJEotQddRA8djlmdvnSNvU6rNDxLUjtnL9QS68mv3CJGIVh6qGhRLf7rWvfca6CeT0gdsLDEkmbbEX8U4gifrpk5y+cwKtVfS5WCeWepFVV9ts6LEQA=
+	t=1755089160; cv=none; b=ayUWSHwe+E8KEahGmtVtUyxGNXnHKDfZ23oQ1jCJ5CYLCV1NmFWmE3HxTbAyutVpC+0KVkHceVQVm17FpUero9NyWiE0s6ieWWGvcvg+ZVG/MXLCvZemCG2m9qd7gxFS14fQBjoVC0Lx35jRs3lRfuVh/aMMipw0kFdV+5wME18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755089054; c=relaxed/simple;
-	bh=DDRdKzPeZcrqxhyOyBHNrCzLGb9zvR9HWqXptkScBTI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gdY/Ju0zfsrh2Yd55m05hZSeTy7kbBzTZrzacX9yq5obT5PchtZPudtFiJZgl4YUy1n5Ygd+Ai2PP8b73dCIDCzwkFYt2KYfr4qY67KieUaRLSf/gWvwvgDTPCicVP5kX422fEFgSmwb11DNpTd5o5JzUWggNZ1bqf6StSzsAJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gYls+iQY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755089160; c=relaxed/simple;
+	bh=0M8pfTsIZmI0u0UzRO0+bhYvF+WzsBzbryTYBMghUMw=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=eA2gFJl9xxwn/nlNPyFoLQ8MCXCw4NfnkzI59qeZCKWZtJ99MdCu081QvnoEXkGa0n2TPs6KvCx/Xy+DIiciUdZWjM53pgiEijcTUUGZaNKGZ6IIAqXrNsNswfMlZXL8YtC4BnUtI7HBYqrxvJQOwoOGcxioRFb+Rbq/Q5pdcl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HtD/OtLv; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gYls+iQY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98A6DC4CEEB;
-	Wed, 13 Aug 2025 12:44:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755089053;
-	bh=DDRdKzPeZcrqxhyOyBHNrCzLGb9zvR9HWqXptkScBTI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gYls+iQY+eTb+KNGGeRqRwXWo8twVx/emg3S4y0UYygbM5zO9NqHkKOoMf8oqlqlP
-	 i5BoF7JCGyiO+dNBV43VNf06FoblMmDnfeIMsiezUIzZfEQos0MK5yNU6enaGQAXPc
-	 tCsL8SK1kvYsw8aimFXHiMMAwSGXX7LDT6+1+LkNShDaUxJ3nYokKDBO3d9YFW2t7o
-	 c9QlpPdguBGmx0nGMIzgIleVjk+S5361TxR74ppc2b/6EXawl7CJnZvFXZFEEbfHCx
-	 gh4FPANJ/YJ8GX/Ep0bKAQ87CTUUl2M23ZDqJXJIS3hCTlslAYG8KhB50nLC1O2H22
-	 coJJM4BNYO67w==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
-  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
-  jrhilke@google.com
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-In-Reply-To: <CA+CK2bAP-PWkYtZbw8ofhTgDaW3qoQkNob30wWSjidxEUTV4pg@mail.gmail.com>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
-	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
-	<CA+CK2bAP-PWkYtZbw8ofhTgDaW3qoQkNob30wWSjidxEUTV4pg@mail.gmail.com>
-Date: Wed, 13 Aug 2025 14:44:03 +0200
-Message-ID: <mafs0o6sjwfvw.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtD/OtLv"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-71a38e35674so46792067b3.3;
+        Wed, 13 Aug 2025 05:45:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755089158; x=1755693958; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GBx2z/vPe5D7yLRGcOgmPu0sG1tvZgwioNSTVBmyCXc=;
+        b=HtD/OtLv2SLzGl9sAFUFC7ab/t3G1C3kXiPYaqkzuLn2YLOqMD7jGqOtNNPa50z9ih
+         NnmDplDyHC0knxOQ+8DSzIRMfY6myVyyyQC0mFalxTC+zBCUPi3yxq1CKI37+O3yUg72
+         Un5AYmsrItT+gO/OE3DgcH8+MseWm74IjkND2ZVMdZL8+Yxm8cTz4Sco8Bgk+Xt70xmN
+         UlJFWhGpKh/5uslFoQzQexCcgN3lTATPGFGuw+6/Xyq+G5Uovore46kjuQgKKJkVeM6y
+         pGlIDQD51mZ2ZHm6y++XwzmmMzWYtgMnRnC7CCFLdZz5gctI99GCmeiED5DgzJ3sY32F
+         gM+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755089158; x=1755693958;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GBx2z/vPe5D7yLRGcOgmPu0sG1tvZgwioNSTVBmyCXc=;
+        b=d/aLin2KrNx3B+Ro3S2n2ejcu/Jcx8knG8+TnSm8rbWKPZSvfjG80NoSaP8FkzFohn
+         NFq7pVrKYk2hfgBU1G/ZJVh1ln/FGSxxDjg15ltRwYKBNfXbBSf1mdKKEl8Rxxi0ghD1
+         terfx1y4/VFHmt37C259EuIm5U/eBzQll/fXgCNzjEFP14dbgBhALKvegj5lrOVY+IOb
+         iQurtPw6yJY6Rvx9MGxFWm+oakEE9YZKNgB7VNszkJCjhRGD3i2iEwrQAo777OSSK/Qw
+         52i/ch0sXOposlczjrhYu174qe6vSFj/3FQZziO7e3oAshPVlV3d0ayGwGyA4plnymZX
+         W4OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUuc1OflXndjjj5bfZPUQIFHrh8ONRgkCRZhmzxfGw7Y86bTYNqhLitNCjH2bZ/Aet9q1Ew8+kFPXoepeJi@vger.kernel.org, AJvYcCWW+0wEmCFmqljbgSHUSttqcFBUb4ol8HA6Ax1goiibVge5fqQO1LVJoqCUKepMSyOsYh5AvBFPevw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/UBTgoYU9eudEDdKGL3kUX83E9YMrRAFwkmYL6JoX+qagH0C2
+	PNh2LCYGwCILzAobMYumCPGX4VjZF4DaRQe+DKQhQIA51GnJwM8mrQMkzK7eRMcqvlWjjtJ9Lzh
+	bdIGuEPhIhyhJK1PTxorKaPMFo9OLOC8=
+X-Gm-Gg: ASbGnctepgHBc232f0jYmruFSTEBhPC7FXjEKQhdZQGdChSu3ZXopdbzStQsgcnhZel
+	qDUhpauiLdJuW7ARgZWAgH4VIJqbBptv+ITxvpJKUBnEKDyvyNUCo9xqwxJwndcxG4gpxr2F3Kz
+	V3qaJhnqIHbON2q34eaN5+by38Wbgq1zibqRy73b7mvJ1N07wYATfHvA8gWzjwSKIvL0qnbvuTX
+	WskN05+yArOxzkoq6zo
+X-Google-Smtp-Source: AGHT+IFlb2b5IpXDiSZlxeBMX/BwJrCLwgtfaQYOLWXdH0F8mJA9XX3eenuzROZh+lYybzGgpYYc1HC20ufGJM0eguU=
+X-Received: by 2002:a05:690c:a89:b0:71c:1a46:48ee with SMTP id
+ 00721157ae682-71d4e55d7f7mr31514577b3.19.1755089158191; Wed, 13 Aug 2025
+ 05:45:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Wed, 13 Aug 2025 20:45:31 +0800
+X-Gm-Features: Ac12FXxVFTmWjeaCKXuJpQigf5uI2hJOfZy2W_DZxfQBpi3w4N0rFs8UGZGkfOA
+Message-ID: <CAD-N9QW7=frNYSJDhaUiggSF9p_v33R8BQ0t8vypWUCXO+pyZQ@mail.gmail.com>
+Subject: Re: Docs/zh_CN: Translate networking docs to Simplified Chinese
+To: wang.yaxin@zte.com.cn
+Cc: Alex Shi <alexs@kernel.org>, YanTeng Si <si.yanteng@linux.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, xu.xin16@zte.com.cn, yang.yang29@zte.com.cn, 
+	fan.yu9@zte.com.cn, he.peilin@zte.com.cn, tu.qiang35@zte.com.cn, 
+	qiu.yutan@zte.com.cn, zhang.yunkai@zte.com.cn, sun.yuxi@zte.com.cn, 
+	jiang.kun2@zte.com.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 08 2025, Pasha Tatashin wrote:
-
->> +static int memfd_luo_preserve_folios(struct memfd_luo_preserved_folio *pfolios,
->> +                                    struct folio **folios,
->> +                                    unsigned int nr_folios)
->> +{
->> +       unsigned int i;
+On Tue, Jul 22, 2025 at 5:11=E2=80=AFPM <wang.yaxin@zte.com.cn> wrote:
 >
-> Should be 'long i'
+> From: Wang Yaxin <wang.yaxin@zte.com.cn>
 >
-> Otherwise in err_unpreserve we get into an infinite loop. Thank you
-> Josh Hilke for noticing this.
-
-Good catch! Will fix.
 >
->> +       int err;
->> +
->> +       for (i = 0; i < nr_folios; i++) {
->> +               struct memfd_luo_preserved_folio *pfolio = &pfolios[i];
->> +               struct folio *folio = folios[i];
->> +               unsigned int flags = 0;
->> +               unsigned long pfn;
->> +
->> +               err = kho_preserve_folio(folio);
->> +               if (err)
->> +                       goto err_unpreserve;
->> +
->> +               pfn = folio_pfn(folio);
->> +               if (folio_test_dirty(folio))
->> +                       flags |= PRESERVED_FLAG_DIRTY;
->> +               if (folio_test_uptodate(folio))
->> +                       flags |= PRESERVED_FLAG_UPTODATE;
->> +
->> +               pfolio->foliodesc = PRESERVED_FOLIO_MKDESC(pfn, flags);
->> +               pfolio->index = folio->index;
->> +       }
->> +
->> +       return 0;
->> +
->> +err_unpreserve:
->> +       i--;
->> +       for (; i >= 0; i--)
->> +               WARN_ON_ONCE(kho_unpreserve_folio(folios[i]));
->> +       return err;
->> +}
->> +
+> translate networking docs to Simplified Chinese
+>
 
--- 
-Regards,
-Pratyush Yadav
+There are several issues in the patchset:
+
+1) The line spacing is weird. Each paragraph has an empty line below.
+It seems non-text mode.
+2) This patchset misses a cover letter: [PATCH 0/4] Docs/zh_CN:
+Translate networking docs to Simplified Chinese. A little picky:
+docs/zh_CN is more suitable.
+3) Revise the subject as mentioned by Xu Xin.
+
+Dongliang Mu
+
+>
+> Wang Yaxin (2):
+>
+>   Docs/zh_CN: Translate timestamping.rst to Simplified  Chinese
+>
+>   Docs/zh_CN: Translate skbuff.rst to Simplified  Chinese
+>
+> Sun yuxi (2):
+>
+>   Docs/zh_CN: Translate generic-hdlc.rst to Simplified  Chinese
+>
+>   Docs/zh_CN: Translate mptcp-sysctl.rst to Simplified  Chinese
+>
+>
+>  .../zh_CN/networking/generic-hdlc.rst         | 176 +++++
+>
+>  .../translations/zh_CN/networking/index.rst   |   8 +-
+>
+>  .../zh_CN/networking/mptcp-sysctl.rst         | 139 ++++
+>
+>  .../translations/zh_CN/networking/skbuff.rst  |  44 ++
+>
+>  .../zh_CN/networking/timestamping.rst         | 674 ++++++++++++++++++
+>
+>  5 files changed, 1037 insertions(+), 4 deletions(-)
+>
+>  create mode 100644 Documentation/translations/zh_CN/networking/generic-h=
+dlc.rst
+>
+>  create mode 100644 Documentation/translations/zh_CN/networking/mptcp-sys=
+ctl.rst
+>
+>  create mode 100644 Documentation/translations/zh_CN/networking/skbuff.rs=
+t
+>
+>  create mode 100644 Documentation/translations/zh_CN/networking/timestamp=
+ing.rst
+>
+>
+> --
+>
+> 2.25.1
