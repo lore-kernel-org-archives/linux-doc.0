@@ -1,44 +1,64 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BEF2EE5F0;
-	Wed, 13 Aug 2025 07:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C1A1E7C1C;
+	Wed, 13 Aug 2025 07:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755068945; cv=none; b=iBgWQnDcFouJGCBVGAn66lrl8T0chY5rS1LBxOmRLQvzsCw6gKpF4UqD5Nb6PgAzsK3IaiP48ct++fSJLPPeRzIytckvs4t6XWu7EGgOUfka1Syj9WDm54a42I6hlj/RDWA3sHcY7Q3fkBkr53g8TlijJKpZ6jwAUwTV8uVQt88=
+	t=1755068998; cv=none; b=Tj1BXlIcG/hf4BVXYgeM5zSyxDrIaRuoax0zfVJkg2g6SAtVmyXLhcY/Cv4bKoY0yb0OkEY4Pih1Uu2r4mCA53cOHosTzv1z7pSNZo4VYaXhotkyJPr/j3SqClf50oFxz/8VRF69E0gQFOmoQN4MLkmW9dgrZ8b15wDcg9DnhX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755068945; c=relaxed/simple;
-	bh=ZxOsu80dPXP4RVHcQKDLMmEkqIlc7JubAlytaedrZf4=;
+	s=arc-20240116; t=1755068998; c=relaxed/simple;
+	bh=qYxBarsfIxoqtVOdgyZu0XSkWfI2wWyZlaofZIWXx50=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fLJrHAAz9dboz3bKSVxq2UIJSXUypUi9/qILT8Em2NftFyYzacEM9R0rVg7c2sxLwuw9Ra/BVRk7B82GTO30NtinJgKou5oXXkQQFXt4TFeMUX6JmGckToPXB/hy2NH/owWr5ixwqEVPs0X7EdeKXq9m2sO0gJpktQiJWu+glNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz21t1755068854tcf55b7c1
-X-QQ-Originating-IP: gnaOuli4b2G/5CPyc2oyLv+iGndJ646NoS1ke4YiZho=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 13 Aug 2025 15:07:32 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 1358432892365096457
-Date: Wed, 13 Aug 2025 15:07:32 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: "Anwar, Md Danish" <a0501179@ti.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] net: rnpgbe: Add n500/n210 chip support
-Message-ID: <9CCA89AC57AB18AC+20250813070732.GD944516@nic-Precision-5820-Tower>
-References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-3-dong100@mucse.com>
- <d77189ec-b1ee-4718-9212-c7208da40814@ti.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=caIPPPPCqirBX9piD6ZjZYTWZJG2cpxb0oxBHzIQXLeoiQxSWFGXc8svuUfusMkbY6lqXJxlC8gbdOkdu+BZpm3sGb8iUWnKVSPEUUirnifE43/n9UB7dw8WfXvchxUzFxs7cY1tyscQoTOaasL4K4WInH/RGVJE2TSFyrhX5jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NocSEfYL; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NocSEfYL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA26AC4CEEB;
+	Wed, 13 Aug 2025 07:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1755068998;
+	bh=qYxBarsfIxoqtVOdgyZu0XSkWfI2wWyZlaofZIWXx50=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NocSEfYLe30ZRY2fHD2eMr9WqjHVuC9F/px//tLPS15SsrzoG9iv1HwM8iQDKE67S
+	 ZqIZrwB6jm/9KKfam0/4WZbDHX0t5+hxCiBriTSU8w8f0hqWmVGvbCFp0w4JQSDEvS
+	 7dYDYI0kpYCmumRuzXCuANSWpidAV9iKz8KGjkmU=
+Date: Wed, 13 Aug 2025 09:09:54 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Vipin Sharma <vipinsh@google.com>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
+	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
+	rppt@kernel.org, dmatlack@google.com, rientjes@google.com,
+	corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+Message-ID: <2025081310-custodian-ashamed-3104@gregkh>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com>
+ <20250813063407.GA3182745.vipinsh@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,238 +67,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d77189ec-b1ee-4718-9212-c7208da40814@ti.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MTGYztYhR5ETiX0PhubvQKeRIctxmuYfakhQ/saxxtKlDjM9hy1ODQr8
-	by2iwXqrHrdt3QUSJifH9gjQFPygwndAzBXZmy0N9hwGHhox8MkG3QEZKU4WnvqlHJLySmD
-	y8tgvi4IGlWC5C5fCQd0hhbHLtJHHqq4fUxB1Ker/bA6jHuH+8kTt3lysu72DqeB/XRcnnW
-	bD2g4Zqh3mxUU8Dlm15L9eAK49vQ/yJ8aVps2I1OEZ0t5h7N3apFeWDslaM5AAZqtttbtdx
-	3SJYLsbhmWcwAfg1FXeofd292qfWU4ixrj6NIHcgrnNZLAiGzfYzGL4d6+PH4tgNsvIyXUJ
-	GzFsuVKh5iTfxL0fGcBXUUrMTN4C83/d2l5lusvU9FFUExQ+O2TPpdoQVGwKzeVMSYJbEqc
-	KyOX9hebr2nQ+ecaPLiZNytkQ1Pk2QCofMo8/zD5OzzPX4UceVsOhDeWX07Yllt5P3C4Sgi
-	HuCciiiI5bAOqDMJpBAnUpo4J3OZDVd0Vau6qP4qETuCI/57TJR14yMJVHp8Ypf35f7m1ut
-	L3OaELUcTRufeSLlZcGNnn+mVR5+4MZT3oPYB2CcWSjScMN7qvBbLwubuwdmpSWKV5LZXcE
-	5niqn9dAJmqq/2G2oVps09daYOXVS3xHSXTr2uiDJanLE5tq6gm6eOg6H0Cp5p3st9lQbSe
-	Io+ri80JY+2yuPuNWfOPECJG20aJXgCO28kBkGUIv55511+dOS2W4KYUGvSsq3e50Ogzdwx
-	fbBb4bBqZjCg9otf9r8Fi4/o6/pfGXxMm/ELoZm81NcTKxOmBvT838kAJWVRNAmqPrGpflQ
-	YUlPMzno5S+ZxwrT/aqNpAejU0QYI3dtOrWmwVeIbyFr0vTybaq8qrzpLYXHm36lED19zdH
-	tJUeTXiW/1Z3j6DCdANsZScI00iH+sfqddBWtH6ZB1rI8/LMd2lflQAgpBGsIYm3VJ8agcR
-	d2/ql4WMWFk2RMIMUyPVsyIhPFPnrnKF9F1E+TwdgK2xPBGEYNStN9TsOS8D1EXfNVD+Ers
-	F4vg32VrEOPwnhXfU4
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-QQ-RECHKSPAM: 0
+In-Reply-To: <20250813063407.GA3182745.vipinsh@google.com>
 
-On Tue, Aug 12, 2025 at 09:55:11PM +0530, Anwar, Md Danish wrote:
-> On 8/12/2025 3:09 PM, Dong Yibo wrote:
-> > Initialize n500/n210 chip bar resource map and
-> > dma, eth, mbx ... info for future use.
-> > 
-> > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> > ---
-> >  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  60 +++++++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |  88 ++++++++++++++
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  12 ++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 115 ++++++++++++++++++
-> >  5 files changed, 277 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-> > 
-> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> > index 9df536f0d04c..42c359f459d9 100644
-> > --- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> > +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-> > @@ -5,4 +5,5 @@
-> >  #
-> >  
-> >  obj-$(CONFIG_MGBE) += rnpgbe.o
-> > -rnpgbe-objs := rnpgbe_main.o
-> > +rnpgbe-objs := rnpgbe_main.o\
-> > +	       rnpgbe_chip.o
-> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> > index 23c84454e7c7..0dd3d3cb2a4d 100644
-> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> > @@ -4,18 +4,78 @@
-> >  #ifndef _RNPGBE_H
-> >  #define _RNPGBE_H
-> >  
-> > +#include <linux/types.h>
-> > +
-> > +extern const struct rnpgbe_info rnpgbe_n500_info;
-> > +extern const struct rnpgbe_info rnpgbe_n210_info;
-> > +extern const struct rnpgbe_info rnpgbe_n210L_info;
-> > +
-> >  enum rnpgbe_boards {
-> >  	board_n500,
-> >  	board_n210,
-> >  	board_n210L,
-> >  };
-> >  
-> > +enum rnpgbe_hw_type {
-> > +	rnpgbe_hw_n500 = 0,
-> > +	rnpgbe_hw_n210,
-> > +	rnpgbe_hw_n210L,
-> > +	rnpgbe_hw_unknow
-> > +};
-> 
-> 
-> The enum value name should be "rnpgbe_hw_unknown" not "rnpgbe_hw_unknow"
-> (missing 'n').
-> 
-
-Got it, I will fix this.
-
-> > +
-> > +struct mucse_dma_info {
-> > +	void __iomem *dma_base_addr;
-> > +	void __iomem *dma_ring_addr;
-> > +	void *back;
-> > +	u32 dma_version;
-> > +};
-> > +
-> > +struct mucse_eth_info {
-> > +	void __iomem *eth_base_addr;
-> > +	void *back;
-> > +};
-> > +
-> > +struct mucse_mac_info {
-> > +	void __iomem *mac_addr;
-> > +	void *back;
-> > +};
-> > +
-> > +struct mucse_mbx_info {
-> > +	/* fw <--> pf mbx */
-> > +	u32 fw_pf_shm_base;
-> > +	u32 pf2fw_mbox_ctrl;
-> > +	u32 pf2fw_mbox_mask;
-> > +	u32 fw_pf_mbox_mask;
-> > +	u32 fw2pf_mbox_vec;
-> > +};
-> > +
-> > +struct mucse_hw {
-> > +	void *back;
-> > +	void __iomem *hw_addr;
-> > +	void __iomem *ring_msix_base;
-> > +	struct pci_dev *pdev;
-> > +	enum rnpgbe_hw_type hw_type;
-> > +	struct mucse_dma_info dma;
-> > +	struct mucse_eth_info eth;
-> > +	struct mucse_mac_info mac;
-> > +	struct mucse_mbx_info mbx;
-> > +	u32 driver_version;
-> > +	u16 usecstocount;
-> > +};
-> > +
-> >  struct mucse {
-> >  	struct net_device *netdev;
-> >  	struct pci_dev *pdev;
-> > +	struct mucse_hw hw;
-> >  	u16 bd_number;
-> >  };
-> >  
-> > +struct rnpgbe_info {
-> > +	int total_queue_pair_cnts;
-> > +	enum rnpgbe_hw_type hw_type;
-> > +	void (*init)(struct mucse_hw *hw);
-> > +};
-> > +
-> >  /* Device IDs */
-> >  #define PCI_VENDOR_ID_MUCSE 0x8848
-> >  #define PCI_DEVICE_ID_N500_QUAD_PORT 0x8308
-> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> > new file mode 100644
-> > index 000000000000..20ec67c9391e
-> > --- /dev/null
-> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> > @@ -0,0 +1,88 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
-> > +
-> > +#include "rnpgbe.h"
-> > +#include "rnpgbe_hw.h"
-> > +
-> > +/**
-> > + * rnpgbe_init_common - Setup common attribute
-> > + * @hw: hw information structure
-> > + **/
-> > +static void rnpgbe_init_common(struct mucse_hw *hw)
+On Tue, Aug 12, 2025 at 11:34:37PM -0700, Vipin Sharma wrote:
+> On 2025-08-07 01:44:35, Pasha Tatashin wrote:
+> > From: Pratyush Yadav <ptyadav@amazon.de>
+> > +static void memfd_luo_unpreserve_folios(const struct memfd_luo_preserved_folio *pfolios,
+> > +					unsigned int nr_folios)
 > > +{
-> > +	struct mucse_dma_info *dma = &hw->dma;
-> > +	struct mucse_eth_info *eth = &hw->eth;
-> > +	struct mucse_mac_info *mac = &hw->mac;
+> > +	unsigned int i;
 > > +
-> > +	dma->dma_base_addr = hw->hw_addr;
-> > +	dma->dma_ring_addr = hw->hw_addr + RNPGBE_RING_BASE;
-> > +	dma->back = hw;
+> > +	for (i = 0; i < nr_folios; i++) {
+> > +		const struct memfd_luo_preserved_folio *pfolio = &pfolios[i];
+> > +		struct folio *folio;
 > > +
-> > +	eth->eth_base_addr = hw->hw_addr + RNPGBE_ETH_BASE;
-> > +	eth->back = hw;
+> > +		if (!pfolio->foliodesc)
+> > +			continue;
 > > +
-> > +	mac->mac_addr = hw->hw_addr + RNPGBE_MAC_BASE;
-> > +	mac->back = hw;
-> > +}
+> > +		folio = pfn_folio(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
 > > +
-> > +/**
-> > + * rnpgbe_init_n500 - Setup n500 hw info
-> > + * @hw: hw information structure
-> > + *
-> > + * rnpgbe_init_n500 initializes all private
-> > + * structure, such as dma, eth, mac and mbx base on
-> > + * hw->addr for n500
-> > + **/
-> > +static void rnpgbe_init_n500(struct mucse_hw *hw)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +
-> > +	rnpgbe_init_common(hw);
-> > +
-> > +	mbx->fw2pf_mbox_vec = 0x28b00;
-> > +	mbx->fw_pf_shm_base = 0x2d000;
-> > +	mbx->pf2fw_mbox_ctrl = 0x2e000;
-> > +	mbx->fw_pf_mbox_mask = 0x2e200;
-> > +	hw->ring_msix_base = hw->hw_addr + 0x28700;
-> > +	hw->usecstocount = 125;
-> > +}
-> > +
-> > +/**
-> > + * rnpgbe_init_n210 - Setup n210 hw info
-> > + * @hw: hw information structure
-> > + *
-> > + * rnpgbe_init_n210 initializes all private
-> > + * structure, such as dma, eth, mac and mbx base on
-> > + * hw->addr for n210
-> > + **/
-> > +static void rnpgbe_init_n210(struct mucse_hw *hw)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +
-> > +	rnpgbe_init_common(hw);
-> > +
-> > +	mbx->fw2pf_mbox_vec = 0x29400;
-> > +	mbx->fw_pf_shm_base = 0x2d900;
-> > +	mbx->pf2fw_mbox_ctrl = 0x2e900;
-> > +	mbx->fw_pf_mbox_mask = 0x2eb00;
-> > +	hw->ring_msix_base = hw->hw_addr + 0x29000;
-> > +	hw->usecstocount = 62;
-> > +}
+> > +		kho_unpreserve_folio(folio);
 > 
-> I don't see pf2fw_mbox_mask getting initialized anywhere. Is that not
-> needed?
-> 
+> This one is missing WARN_ON_ONCE() similar to the one in
+> memfd_luo_preserve_folios().
 
-You are right, pf2fw_mbox_mask is not needed. I will delete it.
+So you really want to cause a machine to reboot and get a CVE issued for
+this, if it could be triggered?  That's bold :)
 
-> > +
-> > +const struct rnpgbe_info rnpgbe_n500_info = {
-> 
-> 
-> -- 
-> Thanks and Regards,
-> Md Danish Anwar
-> 
-> 
+Please don't.  If that can happen, handle the issue and move on, don't
+crash boxes.
 
-Thanks for your feedback.
+thanks,
 
+greg k-h
