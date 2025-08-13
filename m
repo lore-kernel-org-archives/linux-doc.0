@@ -1,34 +1,34 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945D33093D9;
-	Wed, 13 Aug 2025 21:32:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D63C30AACA;
+	Wed, 13 Aug 2025 21:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755120758; cv=none; b=MkStagalTgRFhbwy4sdb8fqhAKeoWWS5spGnsRBr6lBDpbCyk5X2KCRJkrTDwH+Rgf0yioI70P5H5sApBP1S9WEUmrR/obDsz4Tu2SSdpEWm9R+XxPq9sYcq1XIZ3Nw17NxM45SAupeAcZ8ixFN5GcdtLtw8eAiX32/bXhS0ppI=
+	t=1755120759; cv=none; b=n5VBHJTgXiPNNd3Jqx/7pLiFm6EgSiiNGvldpAz3khpQTKw80aADJ0hAHPpq3tuVKqq3NlSFIdgQSJ+J6Du0nLAW6/vzRUmtLTEbzEoGPKN1NTw12sXoEPY3QQyTcEXzaZD+YmtZTFeL8TuU6egudGZIC16MvBPaPUw+ETndS6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755120758; c=relaxed/simple;
-	bh=EhNf0jiEtdDWAQPcaEI9GyJeZ6PI01pY8P9MzP0ffXA=;
+	s=arc-20240116; t=1755120759; c=relaxed/simple;
+	bh=bCqcEuYXIZ5FS0iGGlt/V5k155zzYR3s8m9do/BeNFw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EA9zK3PqU1gYC/FfpLs//9NGI+n2c9Jbm61DRl9SySrwRRvQKJdv9qnQTYFiH5aeWNcJnm16eZVyaQCOgNrQ/cooZs+b29Jf9eUmqN885PlXlAl8KW46Wm3yMz4NkUy73lsTEhU5jXk1yFtOtEIMJA6z59s+DanbNKQ3VTnhQuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OFm9wmCp; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=dscQwURhrY/ZYU+D645O7R2BO32mHZqPCfpHZ37Bg0sRoYOh1oETWIFJi+4Ffb44F3cssfYr/zGHJ0Uc/Hoa7XLwUoRuBZ+8CnLRl/C1jbxNEZVj/fK40j/TfBtKnh8xezNnYznLEhfcn6ateYpypVpmkCJDP9ZNrfBizy7tg2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hhVafAcs; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OFm9wmCp"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6ED7A40AFA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hhVafAcs"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9AC0A40AFC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755120751; bh=jUgpkfrm8XLsvgYXsY28qPmnnuIaoJZxaMVlOOoZBdQ=;
+	t=1755120753; bh=n0Uge/EydivOUALbTlxUcyMHQ+hRH50kMHQoRmNZbsc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OFm9wmCp9vjZFfQTqIyViyS0j9mkr7RsADNIt4/9qID0crcrJ1hL3z834zAI0iAKl
-	 RKA1uD84evJQjsQ0bwhTJNLQf2jimZjKPTppmnENFCb1mwJsA7FP+PspodzvwYMe6b
-	 jJjjuBT7FyHPbzQeLqLcEA8Oqbr9F73edaCEpJWgppnt6pytKxwn/5joQ74zKd8N+9
-	 pWjg5whpukHcqtU58MwXP+RcYtkVq7hLHYwca6g94uggtIkacL9TOBCN9aoe8yYdEN
-	 tTtvi5y2Y6Gs2YVu7FlPgsGBEzyLfB4MX4FtTGzPrFLn6DRhVX58ikWyksUtWJzTcC
-	 XjUQUCmgD6Mig==
+	b=hhVafAcso4jU6ES5Kl6Km6bZcrjTFmUX3wtKUgbPPO2sA3IFGdhkIQQynqR8X2eh7
+	 rYmgWmaEUjjpOxfMONtofgT0XumzXBf5THhtQCau7u0LQ9ZxuLEUuJyYhtUOSTWx6l
+	 Hyu0td5mqz3Eo5wCCKaE3Cw/U40ySREr9pCzBktumEnP+RCeGyJtU5mD/jqNPJ4Wx5
+	 bfOATRAr2qKPAi0znNDLm8djZrD7K4iDurtFG4wZeD3Xw3fTMBPZj6sJtnbVC0F+Fa
+	 nKB6li2AqX3Frkwo9VpMSaToI4k5a7LgPxb3MbKrLivoy6ZUYufE2n2Oqu5a7ocyZt
+	 xkACiZS+frnew==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id 6ED7A40AFA;
-	Wed, 13 Aug 2025 21:32:31 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPA id 9AC0A40AFC;
+	Wed, 13 Aug 2025 21:32:32 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -36,9 +36,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 07/13] docs: move sphinx-pre-install to tools/doc
-Date: Wed, 13 Aug 2025 15:32:06 -0600
-Message-ID: <20250813213218.198582-8-corbet@lwn.net>
+Subject: [PATCH 09/13] docs: move parse-headers.pl to tools/doc
+Date: Wed, 13 Aug 2025 15:32:08 -0600
+Message-ID: <20250813213218.198582-10-corbet@lwn.net>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250813213218.198582-1-corbet@lwn.net>
 References: <20250813213218.198582-1-corbet@lwn.net>
@@ -51,200 +51,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Put this tool with the other documentation-related scripts.
+Move the tool and fix all the references, including the numerous ones that
+said "parse_headers" instead of "parse-headers".
 
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/Makefile                             | 14 +++++++-------
- Documentation/doc-guide/sphinx.rst                 |  4 ++--
- Documentation/sphinx/kerneldoc-preamble.sty        |  2 +-
- .../translations/it_IT/doc-guide/sphinx.rst        |  4 ++--
- .../translations/zh_CN/doc-guide/sphinx.rst        |  4 ++--
- Documentation/translations/zh_CN/how-to.rst        |  2 +-
- MAINTAINERS                                        |  2 --
- {scripts => tools/doc}/sphinx-pre-install          |  0
- 8 files changed, 15 insertions(+), 17 deletions(-)
- rename {scripts => tools/doc}/sphinx-pre-install (100%)
+ Documentation/doc-guide/parse-headers.rst                   | 6 +++---
+ .../translations/it_IT/doc-guide/parse-headers.rst          | 6 +++---
+ .../translations/zh_CN/doc-guide/parse-headers.rst          | 6 +++---
+ Documentation/userspace-api/media/Makefile                  | 2 +-
+ MAINTAINERS                                                 | 1 -
+ {Documentation/sphinx => tools/doc}/parse-headers.pl        | 4 ++--
+ 6 files changed, 12 insertions(+), 13 deletions(-)
+ rename {Documentation/sphinx => tools/doc}/parse-headers.pl (98%)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index eef5decb79b8..818d866756b0 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -46,7 +46,7 @@ ifeq ($(HAVE_SPHINX),0)
- .DEFAULT:
- 	$(warning The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the '$(SPHINXBUILD)' executable.)
- 	@echo
--	@$(srctree)/scripts/sphinx-pre-install
-+	@$(srctree)/tools/doc/sphinx-pre-install
- 	@echo "  SKIP    Sphinx $@ target."
+diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
+index 204b025f1349..954cd81523a0 100644
+--- a/Documentation/doc-guide/parse-headers.rst
++++ b/Documentation/doc-guide/parse-headers.rst
+@@ -15,14 +15,14 @@ about how to use it inside the Kernel tree.
  
- else # HAVE_SPHINX
-@@ -105,7 +105,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
- 	fi
+ .. _parse_headers:
  
- htmldocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/doc/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+-parse_headers.pl
++parse-headers.pl
+ ^^^^^^^^^^^^^^^^
  
- # If Rust support is available and .config exists, add rustdoc generated contents.
-@@ -119,7 +119,7 @@ endif
- endif
+ NAME
+ ****
  
- texinfodocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/doc/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,texinfo,$(var),texinfo,$(var)))
  
- # Note: the 'info' Make target is generated by sphinx itself when
-@@ -131,7 +131,7 @@ linkcheckdocs:
- 	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
+-parse_headers.pl - parse a C file, in order to identify functions, structs,
++parse-headers.pl - parse a C file, in order to identify functions, structs,
+ enums and defines and create cross-references to a Sphinx book.
  
- latexdocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/doc/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
  
- ifeq ($(HAVE_PDFLATEX),0)
-@@ -144,7 +144,7 @@ else # HAVE_PDFLATEX
+@@ -30,7 +30,7 @@ SYNOPSIS
+ ********
  
- pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
- pdfdocs: latexdocs
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/doc/sphinx-pre-install --version-check
- 	$(foreach var,$(SPHINXDIRS), \
- 	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || sh $(srctree)/tools/doc/check-variable-fonts.sh || exit; \
- 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
-@@ -154,11 +154,11 @@ pdfdocs: latexdocs
- endif # HAVE_PDFLATEX
  
- epubdocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/doc/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+-\ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
++\ **parse-headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
  
- xmldocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/doc/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,xml,$(var),xml,$(var)))
+ Where <options> can be: --debug, --help or --usage.
  
- endif # HAVE_SPHINX
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 607589592bfb..2a0fc6c39cf4 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -106,7 +106,7 @@ There's a script that automatically checks for Sphinx dependencies. If it can
- recognize your distribution, it will also give a hint about the install
- command line options for your distro::
+diff --git a/Documentation/translations/it_IT/doc-guide/parse-headers.rst b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
+index 026a23e49767..45b6b6fc4fb5 100644
+--- a/Documentation/translations/it_IT/doc-guide/parse-headers.rst
++++ b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
+@@ -20,21 +20,21 @@ consultate ``Documentation/userspace-api/media/Makefile``.
  
--	$ ./scripts/sphinx-pre-install
-+	$ ./tools/doc/sphinx-pre-install
- 	Checking if the needed tools for Fedora release 26 (Twenty Six) are available
- 	Warning: better to also install "texlive-luatex85".
- 	You should run:
-@@ -116,7 +116,7 @@ command line options for your distro::
- 		. sphinx_2.4.4/bin/activate
- 		pip install -r Documentation/sphinx/requirements.txt
+ .. _it_parse_headers:
  
--	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
-+	Can't build as 1 mandatory dependency is missing at ./tools/doc/sphinx-pre-install line 468.
+-parse_headers.pl
++parse-headers.pl
+ ^^^^^^^^^^^^^^^^
  
- By default, it checks all the requirements for both html and PDF, including
- the requirements for images, math expressions and LaTeX build, and assumes
-diff --git a/Documentation/sphinx/kerneldoc-preamble.sty b/Documentation/sphinx/kerneldoc-preamble.sty
-index 5d68395539fe..736c2568377e 100644
---- a/Documentation/sphinx/kerneldoc-preamble.sty
-+++ b/Documentation/sphinx/kerneldoc-preamble.sty
-@@ -220,7 +220,7 @@
- 	    If you want them, please install non-variable ``Noto Sans CJK''
- 	    font families along with the texlive-xecjk package by following
- 	    instructions from
--	    \sphinxcode{./scripts/sphinx-pre-install}.
-+	    \sphinxcode{./tools/doc/sphinx-pre-install}.
- 	    Having optional non-variable ``Noto Serif CJK'' font families will
- 	    improve the looks of those translations.
- 	\end{sphinxadmonition}}
-diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-index 1f513bc33618..104aa159c1ce 100644
---- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
-+++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-@@ -109,7 +109,7 @@ Sphinx. Se lo script riesce a riconoscere la vostra distribuzione, allora
- sarà in grado di darvi dei suggerimenti su come procedere per completare
- l'installazione::
+ NOME
+ ****
  
--	$ ./scripts/sphinx-pre-install
-+	$ ./tools/doc/sphinx-pre-install
- 	Checking if the needed tools for Fedora release 26 (Twenty Six) are available
- 	Warning: better to also install "texlive-luatex85".
- 	You should run:
-@@ -119,7 +119,7 @@ l'installazione::
- 		. sphinx_2.4.4/bin/activate
- 		pip install -r Documentation/sphinx/requirements.txt
  
--	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
-+	Can't build as 1 mandatory dependency is missing at ./tools/doc/sphinx-pre-install line 468.
+-parse_headers.pl - analizza i file C al fine di identificare funzioni,
++parse-headers.pl - analizza i file C al fine di identificare funzioni,
+ strutture, enumerati e definizioni, e creare riferimenti per Sphinx
  
- L'impostazione predefinita prevede il controllo dei requisiti per la generazione
- di documenti html e PDF, includendo anche il supporto per le immagini, le
-diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-index 23eac67fbc30..3d2c4e262bb5 100644
---- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-@@ -84,7 +84,7 @@ PDF和LaTeX构建
- 这有一个脚本可以自动检查Sphinx依赖项。如果它认得您的发行版，还会提示您所用发行
- 版的安装命令::
+ SINTASSI
+ ********
  
--	$ ./scripts/sphinx-pre-install
-+	$ ./tools/doc/sphinx-pre-install
- 	Checking if the needed tools for Fedora release 26 (Twenty Six) are available
- 	Warning: better to also install "texlive-luatex85".
- 	You should run:
-@@ -94,7 +94,7 @@ PDF和LaTeX构建
- 		. sphinx_2.4.4/bin/activate
- 		pip install -r Documentation/sphinx/requirements.txt
  
--	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
-+	Can't build as 1 mandatory dependency is missing at ./tools/doc/sphinx-pre-install line 468.
+-\ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
++\ **parse-headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
  
- 默认情况下，它会检查html和PDF的所有依赖项，包括图像、数学表达式和LaTeX构建的
- 需求，并假设将使用虚拟Python环境。html构建所需的依赖项被认为是必需的，其他依
-diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-index cf66c72ee0c5..77da507d29cf 100644
---- a/Documentation/translations/zh_CN/how-to.rst
-+++ b/Documentation/translations/zh_CN/how-to.rst
-@@ -64,7 +64,7 @@ Linux 发行版和简单地使用 Linux 命令行，那么可以迅速开始了
- ::
+ Dove <options> può essere: --debug, --usage o --help.
  
- 	cd linux
--	./scripts/sphinx-pre-install
-+	./tools/doc/sphinx-pre-install
+diff --git a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
+index a08819e904ed..22253fea5da1 100644
+--- a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
++++ b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
+@@ -19,14 +19,14 @@ Sphinx将生成警告。这有助于保持用户空间API文档与内核更改
  
- 以 Fedora 为例，它的输出是这样的::
+ .. _parse_headers_zh:
+ 
+-parse_headers.pl
++parse-headers.pl
+ ----------------
+ 
+ 脚本名称
+ ~~~~~~~~
+ 
+ 
+-parse_headers.pl——解析一个C文件，识别函数、结构体、枚举、定义并对Sphinx文档
++parse-headers.pl——解析一个C文件，识别函数、结构体、枚举、定义并对Sphinx文档
+ 创建交叉引用。
+ 
+ 
+@@ -34,7 +34,7 @@ parse_headers.pl——解析一个C文件，识别函数、结构体、枚举、
+ ~~~~~~~~
+ 
+ 
+-\ **parse_headers.pl**\  [<选项>] <C文件> <输出文件> [<例外文件>]
++\ **parse-headers.pl**\  [<选项>] <C文件> <输出文件> [<例外文件>]
+ 
+ <选项> 可以是： --debug, --help 或 --usage 。
+ 
+diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
+index 3d8aaf5c253b..632798bca615 100644
+--- a/Documentation/userspace-api/media/Makefile
++++ b/Documentation/userspace-api/media/Makefile
+@@ -3,7 +3,7 @@
+ # Rules to convert a .h file to inline RST documentation
+ 
+ SRC_DIR=$(srctree)/Documentation/userspace-api/media
+-PARSER = $(srctree)/Documentation/sphinx/parse-headers.pl
++PARSER = $(srctree)/tools/doc/parse-headers.pl
+ UAPI = $(srctree)/include/uapi/linux
+ KAPI = $(srctree)/include/linux
  
 diff --git a/MAINTAINERS b/MAINTAINERS
-index b41b78215035..2f1374130240 100644
+index 2f1374130240..c2d2ce92bf79 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -7306,7 +7306,6 @@ F:	scripts/kernel-doc*
- F:	scripts/lib/abi/*
- F:	scripts/lib/kdoc/*
- F:	tools/net/ynl/pyynl/lib/doc_generator.py
--F:	scripts/sphinx-pre-install
- X:	Documentation/ABI/
- X:	Documentation/admin-guide/media/
- X:	Documentation/devicetree/
-@@ -7341,7 +7340,6 @@ L:	linux-doc@vger.kernel.org
+@@ -7338,7 +7338,6 @@ DOCUMENTATION SCRIPTS
+ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+ L:	linux-doc@vger.kernel.org
  S:	Maintained
- F:	Documentation/sphinx/parse-headers.pl
+-F:	Documentation/sphinx/parse-headers.pl
  F:	tools/doc/
--F:	scripts/sphinx-pre-install
  
  DOCUMENTATION/ITALIAN
- M:	Federico Vaga <federico.vaga@vaga.pv.it>
-diff --git a/scripts/sphinx-pre-install b/tools/doc/sphinx-pre-install
-similarity index 100%
-rename from scripts/sphinx-pre-install
-rename to tools/doc/sphinx-pre-install
+diff --git a/Documentation/sphinx/parse-headers.pl b/tools/doc/parse-headers.pl
+similarity index 98%
+rename from Documentation/sphinx/parse-headers.pl
+rename to tools/doc/parse-headers.pl
+index 7b1458544e2e..47b90bf8c96d 100755
+--- a/Documentation/sphinx/parse-headers.pl
++++ b/tools/doc/parse-headers.pl
+@@ -340,12 +340,12 @@ __END__
+ 
+ =head1 NAME
+ 
+-parse_headers.pl - parse a C file, in order to identify functions, structs,
++parse-headers.pl - parse a C file, in order to identify functions, structs,
+ enums and defines and create cross-references to a Sphinx book.
+ 
+ =head1 SYNOPSIS
+ 
+-B<parse_headers.pl> [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
++B<parse-headers.pl> [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
+ 
+ Where <options> can be: --debug, --help or --usage.
+ 
 -- 
 2.50.1
 
