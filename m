@@ -1,308 +1,281 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11022130.outbound.protection.outlook.com [52.101.43.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F4A2D541B;
-	Wed, 13 Aug 2025 20:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755115550; cv=none; b=GGd89Qau9gTTyu/u+2kWfjtevjK4HM9I7jCsYo4yhyEBM2d/kwzO+ornU8T6JGJYb3aUmBpwMTb5UhdUPUBs9636R5FUubM1WSFAXUXtuziRHRNfSLFNWYxBSUqnHXY6iTUAucWNINU7XZ3nFCuyrWinc7H06wWVjO9t1PhjvYI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755115550; c=relaxed/simple;
-	bh=Jg9Z7QAvjp/RAR3RPWLBE1YWB3y536M6igQ7Xbi8qlQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oPFxcmlkLbo/f7lzmGNxAo8Us/utna1/msc6CWom4/6V5e9bPNN/0RuuG4+lNOfJw3FFCWwovIb5GZjjrAFn/UALxF2LEwsyMAmMhFZhSfxtFQzX888OQZv4xnpb2Ve2sAR5moion1cUceFVLlEfJc3gfuCUSeR63CII/lsDnoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sRTR6Vdv; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F58122F389;
+	Wed, 13 Aug 2025 21:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.130
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755119982; cv=fail; b=GwC7HWaX9DbXsKg1mSr1okWyD/ezreZG4X2KqpmYSOm9gZh1HXS2rBM8z1rPIhN7iys5+tAh3Zo1a22ufchnlSYOtMr76HMCp+DVuHarC3FmAPUsWlTyaeJ1TxtxL4vvjQ3eJ1m70QuJmmYh67O3YtTyOImOfyIJ53oPu8kSVpA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755119982; c=relaxed/simple;
+	bh=MJUaUZZOR8MU5gJdGjaD7ImMzVPJIT5zoxE16shBU5k=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=nswuoEO4j8Jt0ldpppRgvLQWT+bHghGTv6NL89ZFGvIEI8RHBD8sokdP08xPf9OBrUXdbbAl4ML9M+gyVyQg/P14iGPWQrqbaW0NJkyvHKn5J5n5cjBcYnJOYLnQaoqa2muMKw3dJqDEmZRoqR4TVA99wLWQIPEByvRKqALZqSA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=Zhd1SlC8; arc=fail smtp.client-ip=52.101.43.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sRTR6Vdv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDE87C4CEF1;
-	Wed, 13 Aug 2025 20:05:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755115550;
-	bh=Jg9Z7QAvjp/RAR3RPWLBE1YWB3y536M6igQ7Xbi8qlQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sRTR6VdvzU1erU9L1jZaGa8Y6v/qJGw836zjahFcO9R9c91DudPC0xt5Qg9HHipeh
-	 kEBuVwqYaPKO/TvvegihTnKkM2Gj/Ps80qtdKfEfXq0LsJLZgj9ctrRQ+TD8lmfpEm
-	 p70otd9dOTz/enMPI56sUxDmbdWXZui6s9M9/53orLPXtRDpLTpeqPUEZWkOtSQD+z
-	 u/iXkzzJZwAvEmmvVBn38L0Irvubc0AQbuNXYk8d0JKfS3KEpDVzzRSIe38efpxp8z
-	 Sg3VqQIoc4XyTHku1Af9RG70Wya68xS7zSuuu+bBSOzksjHQ2M8MpTiQ/g0+F7JT92
-	 vPTdGVXhL9S9g==
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH 9/9] Documentation: Fix misc typos
-Date: Wed, 13 Aug 2025 15:05:05 -0500
-Message-ID: <20250813200526.290420-10-helgaas@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250813200526.290420-1-helgaas@kernel.org>
-References: <20250813200526.290420-1-helgaas@kernel.org>
+	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="Zhd1SlC8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OO+1HbazljDcz2NuGwwp7P9Mmx6T1Sy/qxvMhuTk+6teMhAHdTxL5yXJYG0kztuANJ7nmF61dksLlF8gVVQboOx3cbipTzJcbCJ9pAokXIFnsxXaygZ6A3i32JGWFW5/boY9ycgvQTos58Ivi9SUSzNuuT5Evn0xh1FhS+GY+pTGUN7wCfr14Z4lQbzVn10NkGaM/taC3tIwhwBimltMMtr1AQ73sSl4Kaqhby/53j1MX7Zy5tYCqtzPjDCEt2bbyDk8SpYgCXqqCeuBj9PCH8+9w+c3YnTSBoQxpcZve/ERc4R6md6GLTBPoWw+qAqgIh7udp3LeA0/XsDNiJ8lcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ssz/pOd+LIPTiLCapGwCl8VScqMruUB11aUKhqbX8b8=;
+ b=ydIe3ddGU9NkKRG1hX1WT3aFaccTcfoL67TztuTGZ93XgNTFdivMRuVJByLEJvLVutGWpDEmRMMLcy9OswkS/GjklLxDcr/d23MCGGccgEjjjcNvGVu+nziJpnecG54ByPqM467sP/ZM9A2WWhDSh/pPwm0uO4zmbNo527AeJBV5tEAO2MGMn3lgqwmTHVt956CkGwZD883ThEvzrRm1sxNg/eWXoQItYkLBscqX8/CgGK3phAlXJXgylKvm0gRI1hpzCaVaDysFtI6O7EfCRN5Q2LJRSsoChF3aGXjRoIl5bYl5xdtoKXv7yJ9wSROlIRN3/pjEbss0BbGTy0hjlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ssz/pOd+LIPTiLCapGwCl8VScqMruUB11aUKhqbX8b8=;
+ b=Zhd1SlC8agbuXNbsMcmXqw/KDJGA2A1nY0jOmNQs+FvtULtO7ii3EWgzHT2PfEFMGcot2H+SRWRXYc1W0tKLAHVY2HwDXZyVKuzWf3a7k+qeNED01aJuS0s4eNm1MwxexC8Vtai0wJbTjBZYEOKTySJeDdazdBdxzfroDHoYP6A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from SA3PR01MB8473.prod.exchangelabs.com (2603:10b6:806:397::12) by
+ SN4PR01MB7423.prod.exchangelabs.com (2603:10b6:806:1ea::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9031.14; Wed, 13 Aug 2025 21:19:36 +0000
+Received: from SA3PR01MB8473.prod.exchangelabs.com
+ ([fe80::46d7:1d3a:dc9c:69c3]) by SA3PR01MB8473.prod.exchangelabs.com
+ ([fe80::46d7:1d3a:dc9c:69c3%6]) with mapi id 15.20.9031.014; Wed, 13 Aug 2025
+ 21:19:35 +0000
+From: Daniel Ferguson <danielf@os.amperecomputing.com>
+Subject: [PATCH v5 0/5] Fix issues with ARM Processor CPER records
+Date: Wed, 13 Aug 2025 14:19:13 -0700
+Message-Id: <20250813-mauro_v3-v6-16-rev2-v5-0-954db8ccfbe6@os.amperecomputing.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFEBnWgC/22Nyw6CMBREf4XctZcU+qCw8j8MMRWu0AWUtNBoC
+ P9uxa27OZPMmR0CeUsBmmwHT9EG6+YE8pJBN5p5ILR9YihZKVnFC5zM5t09cowKC4VpUyKvtRJ
+ a9STZA9Jy8fS0r9N6axOPNqzOv8+TKL7tz6eZ/OuLAhmSkVxXstai6K4u5GZayFPnpmVb7TzkK
+ UF7HMcHxVXbU8MAAAA=
+X-Change-ID: 20250731-mauro_v3-v6-16-rev2-3986486de50b
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ James Morse <james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, 
+ Borislav Petkov <bp@alien8.de>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ linux-efi@vger.kernel.org, linux-edac@vger.kernel.org, 
+ Jason Tian <jason@os.amperecomputing.com>, 
+ Shengwei Luo <luoshengwei@huawei.com>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Daniel Ferguson <danielf@os.amperecomputing.com>, 
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+ Shiju Jose <shiju.jose@huawei.com>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: CYZPR20CA0009.namprd20.prod.outlook.com
+ (2603:10b6:930:a2::20) To SA3PR01MB8473.prod.exchangelabs.com
+ (2603:10b6:806:397::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA3PR01MB8473:EE_|SN4PR01MB7423:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3670a3ae-8883-4440-49d3-08dddaaf1a88
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Rko4c3U1UmdlZGxOMUlyUHRRWUg2WTRObG41SE5LcjVnWDRUMTR3QVFxT05w?=
+ =?utf-8?B?c3dhYW5EWW1SdE0wcXU0NGFQa3hyUTRIWllBSEdSOXVQUmtOZ2hZZ3J2YTU5?=
+ =?utf-8?B?TktyR0hRc3F6c3g2VnBodTVGUDNuT2lqd3U3WTFGemNhcVNzQzdtTW5wUHVy?=
+ =?utf-8?B?WnNNM1FsOG8zRitPVG52anYwSm95NHRySnNPc1E4cm83REwxb1BSNWZZOXRG?=
+ =?utf-8?B?Y00vVEZwcTJzNEdTMVJQci9jRWlYMDdPeWlPOS9ZN3NBOExDNkplZlVSVndj?=
+ =?utf-8?B?SEJaY0tFcU1RZkQwQmpRSjcybU9vTm1aNkNhNlpwNFRtLzZ0VzNwQ0drT1JO?=
+ =?utf-8?B?aU1sWXNKZ1J4MzdCeUhWWnRjdWkzcnphSzNFaWR3bDAxNTN0dXdxT1dpZ2Yz?=
+ =?utf-8?B?bXFoeGR5bGh6TVZscjQxZURyUFRTeGVqZSt2U1dkaFA4UnJrRzlVTTEzQjAx?=
+ =?utf-8?B?SUpnaU12V2NsSWNZNElremFPYjIzN3JtdlE0aVdiZ1BhemNrUEtIaW1Cb3Np?=
+ =?utf-8?B?MjkvL3ZyYjZuYkhyY0JzVXI4Yzh2OEJhQnoyR0F1QWxFajVJNWxua0d0WHJO?=
+ =?utf-8?B?S1hYelVJTW9PT0xNakdRUXl0bDBXV0pEYkp6NnhKZ1JHeEt0eTRHdGt2NFRr?=
+ =?utf-8?B?ejZWbmhUcVFQL09BNWJhM093RVlLTHZNZWp0ZTNVdE9QWnpSV3JIalN4ekQ4?=
+ =?utf-8?B?UHJvdnk1QU5wMFk5UU9pNGF4S2ZZUWhSU0R2UkRVekx4WkVDSHBVVDlsTTFM?=
+ =?utf-8?B?VVRxWUt3UFVUSy9lSUlIbTFtVFhZTFhaY3dRN1JWRFErOEV4ZHhKUTZnOE0v?=
+ =?utf-8?B?Ykd3c2h5Vy9razFDYXdwR2UzSVI5endBSElRbUpXbkVUM0ZuSGt4dE8rdSti?=
+ =?utf-8?B?OWdCbHJIMUV0cVVGWHY4RWN6MHlVRmIvQkRNV2FkM3RaZlR6NmpTSGFOMXk1?=
+ =?utf-8?B?alUwa1l0V3BLemp2ZXY3K3I1MlRWcEF5MDZmb2dDeDhVeFNJS243a1p3NGVq?=
+ =?utf-8?B?RURFZjRpamZPK3E5TmFkQ3BOL2dWdnpEQXZNOUFRaktzdFMwR0VJeFNnVG9W?=
+ =?utf-8?B?a2ZXY1p4UkcvaStaTjVLVTFZY3hUeHE1K1hVeDFtR21zSHBYTEZ3NmdmTUJP?=
+ =?utf-8?B?VWlmTEJsOUFKQ1g0aWpHM05Ob2R1dTNTcXBlYTdOTkpKclB1L0pmUFBkMTds?=
+ =?utf-8?B?bFdwNFBmS0lVZ1h4K2hQMDA5QmFZVTlMVUcvWHJpUkVKL3ltd2QrOVFzQXhI?=
+ =?utf-8?B?eiszN3JCc0lHdHpWZ0RGTGhiQi9JKzF5L1BFRzR2M1BsVjNtUXJJL0JPdVNV?=
+ =?utf-8?B?N2lvSkVRYzl3aG05QitUUnpYL0pzaGZXL1hMOXZuRVk5NjNKMDZnY01aMWhh?=
+ =?utf-8?B?TDRqWTVzckJjYkJqaG9ZU3dNUzhQY3YyMUlRbDN6V0xxU1pEbXFTV2JKbUZs?=
+ =?utf-8?B?bUNJT2Y3bU11WitvVDl5ZmdUVGkyYkNmcW9YMGFUNjI3ZnNydjJjWkxrelRu?=
+ =?utf-8?B?aUQrMVNvM05ad3JhNmJhc3NBYjQ0WHZFQ2t0Y1JTYXoybERVVGVadnh2WmJY?=
+ =?utf-8?B?NkNGZjVNaXFjWFFZS0kzN1g3TnFBUHY1VmwrenNhUHkrcjEzSGFRL01oM0hJ?=
+ =?utf-8?B?dDVDZDZtZ1REc0FzNGYweXZnOUZpMklBbHFZclY1ZEpYc1JoQWM5ZkpWaGhu?=
+ =?utf-8?B?Z2VxWVExQ2QxWDlOQ1BEMmY0b1RSQy93cHUrQUlVNzBDVUw5UnFNNG1uNGZW?=
+ =?utf-8?B?dDRUOTBBcUxsditEdkU4M0xkUTJFL0VkeEd6T29Hd1hLMlI4b2xGUUVYUFhQ?=
+ =?utf-8?B?RFBWZ3NiK25CVXZZT2NiWGRiSmVYYTBqb1Z3WmtaR0ViMThUVFZZQ2lvL05M?=
+ =?utf-8?B?VjFuZUFRT1FrK0pHOFVyVFhRb3dMN2NycFhadXlmclpvMjZ6OCt0OEFHTnlZ?=
+ =?utf-8?B?cnBsOU85bngrUk4xaGVJRUVHRnB3MkRic1JjUUFUUVdiVHhLL1FVZnZVZUV4?=
+ =?utf-8?Q?s24ws0i5QbQ9dA+o6QO0vF6XaE4jUA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR01MB8473.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OFdNZkErRG5RTkl4bVZ1RTU2a1JLUjBVaVRTdDVteU5zWThGc09WanRyNDVq?=
+ =?utf-8?B?N2hhVU42dVp3OGYrVzFLL2piaTdCMGxSTFZhMVFHYjNjYVhFc2tzcitmWER6?=
+ =?utf-8?B?dmE2Unk3aDBWSXErTm1MREFpN21MVDRkVXFkc2tDY3Bad29ZNFZlSmJGMUxw?=
+ =?utf-8?B?bXQ0QjFtSkFJbVVRVDFoOURmNUVySi9YMitXZVhmZUtnaVVJS3FML1dReE1O?=
+ =?utf-8?B?Q2ozWGFyV2lrSlNxeDR6ekNTYjExYjVtbW0zTURXS0d1WnhwV2FsbjlOajhX?=
+ =?utf-8?B?dzVlRUJHTXFCYi9RdXk5cnhxendHMGs0Y3ZmVXREVzllSG1PYURmZGdzTnFl?=
+ =?utf-8?B?UkxTMHl3NGRiS3FUc3ZicnhmanVvNDNkRnRYTHpnYlZORWJGaXdWV3Urekc1?=
+ =?utf-8?B?QlNaMXJzODF3dzErWFFqQktpL25Yb0IwU1BkNWYzV0N5N21CN080OTNCTEg3?=
+ =?utf-8?B?cEtLMTJ1QTN6QW5HWGxLU09TYW5PK2h5ZEtKSU1SWk51NDJWTEJiVDlHUXNK?=
+ =?utf-8?B?ZXVMV3RhOVliSkpETmpSRzdHeTU5cW5tWlUxV0VkcHRMTzhMcXVRN3gxc09X?=
+ =?utf-8?B?a3EveVpweWpSalY3MWFVSFRXZDdzTk5lUFh5SjkxZ2xSRjdUMW5wTXJWdE5G?=
+ =?utf-8?B?YWE3Wkh0U0dBMWdxVWNOTEZXNkNRYWd1VXc4UE81ZURzUURtemF0KzdwNWow?=
+ =?utf-8?B?ODQ2Vm9Nek9FVEZTYlhCV2IzZEpzcjlycldqRENIRFNmY1B5WlhGUTFnSkVB?=
+ =?utf-8?B?Z1ovVHhZVkpzVkpGWnRqYlpwRTNicDVHNWhyOWtkYkRFbGdWWTJOMmVLYlor?=
+ =?utf-8?B?ODl5MXJFbVY4cmp1R3JIdWllL1JxelJJNDNXa0dUc1lyZkk5ZFdmZk5Iamho?=
+ =?utf-8?B?VVZ0ZTNzRys3bCtjQmROMm5pYmNBQXNmR1pMZnpCb3hqMEFYblJyOHNmN1RY?=
+ =?utf-8?B?OHorbXB4QTgyRUxnQXNZR1hIR2ZFY3FTQjMrOUFvTVpjWWQvTVJKQkwwdUMy?=
+ =?utf-8?B?Qy9GQStVU29tUnMvNGtKVVRzZEFQblowUG01cDY4cnRRaDhkam1mdERRVkth?=
+ =?utf-8?B?TVJwbEFLSHFwbktsMWhGWFBKRFJjTWtVSEJsa2NaeUxKa1dZWVh0QjR2V1VW?=
+ =?utf-8?B?ZjE0UE4rdkRtdkg2RjdDNmNOMGw5YXVtcVY0QnZQZHN1WUJJVkhBVU1kUCtB?=
+ =?utf-8?B?aEJvUmtsWDZIdVhlYzVkcitvUW1zMW9NbFpxZHNFZ3Qra1p6ZGhOMVY3OEF0?=
+ =?utf-8?B?OTV2VzA5NU4vRjBqYU9Vd0RHQ1h4eExyQ3Q4ekkybVVEZ0VTbVhGQUNZeUxP?=
+ =?utf-8?B?aU16aXV0cTdGWWsxQ3g1SjFRdm4vSHF1Q3pXMXRJQ0xFS3JPVHBsdjJSU2tn?=
+ =?utf-8?B?VzVUWFZlYkkvek5sbkZvZkVpYXczakRidXlQYUZuVldiYzlDbFBkSzFQeGUz?=
+ =?utf-8?B?ZVBmdHcyY2VqYkNRKzA3dEtWNUJ2MnNPa3BSZzhuUmFGTmZ0M1JBdVRGUGl0?=
+ =?utf-8?B?dENiYTYrenU4SWdPdDRhVDI5RnlrZCtKQ2RQc0ppZkJnMjB5WXU5RzVGYkEv?=
+ =?utf-8?B?N3pJNHRSM0pNWVkyc0pxSmJLcU51aFF5ZmpsUmxuTjlBYnJzQUh3U3ZUaS9q?=
+ =?utf-8?B?UmF1VTRrRWgyc1JEVHhYMkwzczdBcW8xMytUNnpCUFdjVFI0U1RRb044aXhP?=
+ =?utf-8?B?SjRsRHRrYWd5RHhpTE0zcHZnSmxrT0lpWDhJUXZLM0RZVVBTeUtVcnRhblI0?=
+ =?utf-8?B?SkJhYy9XN2dGZ084aEliYWhsRjltVUlHK3N4K0s5RXkrWnV3blF2VDIrZGVq?=
+ =?utf-8?B?L1dmcnhSL2tZLzdoMmxxb2V6cnFZL0RwUlhySHRyaFBOQmp4VlZveDRYSm5p?=
+ =?utf-8?B?b01RYWJUdS9TejhPblUwcHd1YStMK0s2TDA2bVl2RnoyZjgyZDd3NGVLZHA1?=
+ =?utf-8?B?QWQ4MkU5c2h2MjdmYXJ3K0xBVHQ1SWJJOTFOSG9iMXpGbHIxTFlZTGp0NEFR?=
+ =?utf-8?B?TFR0cnV1ZG5tMTRDcUQwaTNHY3g2eHM5YWNjVVVWMUo1YXd3MzZkNkFZS3ht?=
+ =?utf-8?B?ZVpnN2h2d2s4RlQyNEU4c2Q4QkJaUHdwLzF5d1dKejBpdEoxT0I3Z21zR2lB?=
+ =?utf-8?B?VExFOGtWV3JtQ0lPYkpqVHRjbHVMZitpQkUzeEgyU1RUQzByZE1hNXhPaU9v?=
+ =?utf-8?Q?ae3ySEyNB7uj4pvKg8zCCxs=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3670a3ae-8883-4440-49d3-08dddaaf1a88
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR01MB8473.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 21:19:35.8378
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QCDFCPKzk64xsdTFznTEo9m0D98dkSUJ/dDPDas4kHIWVTYxxNyyG3ilPgMbikPTfcTxYc0TxcvziFxpYNpD1w/fzGnl85VMZfSSE0HpqyJU1tncITGzpp3c9El8aKLV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR01MB7423
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+This is needed for both kernelspace and userspace properly handle
+ARM processor CPER events.
 
-Fix typos.
+Patch 1 of this series fix the UEFI 2.6+ implementation of the ARM
+trace event, as the original implementation was incomplete.
+Changeset e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+added such event, but it reports only some fields of the CPER record
+defined on UEFI 2.6+ appendix N, table N.16.  Those are not enough
+actually parse such events on userspace, as not even the event type
+is exported.
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Patch 2 fixes a compilation breakage when W=1;
+
+Patch 3 adds a new helper function to be used by cper and ghes drivers to
+display CPER bitmaps;
+
+Patch 4 fixes CPER logic according with UEFI 2.9A errata. Before it, there
+was no description about how processor type field was encoded. The errata
+defines it as a bitmask, and provides the information about how it should
+be encoded.
+
+Patch 5 adds CPER functions to Kernel-doc.
+
+This series was validated with the help of an ARM EINJ code for QEMU:
+
+	https://gitlab.com/mchehab_kernel/qemu/-/tree/qemu_submission
+
+$ scripts/ghes_inject.py -d arm -p 0xdeadbeef -t cache,bus,micro-arch
+
+[   11.094205] {1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 0
+[   11.095009] {1}[Hardware Error]: event severity: recoverable
+[   11.095486] {1}[Hardware Error]:  Error 0, type: recoverable
+[   11.096090] {1}[Hardware Error]:   section_type: ARM processor error
+[   11.096399] {1}[Hardware Error]:   MIDR: 0x00000000000f0510
+[   11.097135] {1}[Hardware Error]:   Multiprocessor Affinity Register (MPIDR): 0x0000000080000000
+[   11.097811] {1}[Hardware Error]:   running state: 0x0
+[   11.098193] {1}[Hardware Error]:   Power State Coordination Interface state: 0
+[   11.098699] {1}[Hardware Error]:   Error info structure 0:
+[   11.099174] {1}[Hardware Error]:   num errors: 2
+[   11.099682] {1}[Hardware Error]:    error_type: 0x1a: cache error|bus error|micro-architectural error
+[   11.100150] {1}[Hardware Error]:    physical fault address: 0x00000000deadbeef
+[   11.111214] Memory failure: 0xdeadb: recovery action for free buddy page: Recovered
+
+- 
+
+I also tested the ghes and cper reports both with and without this
+change, using different versions of rasdaemon, with and without
+support for the extended trace event. Those are a summary of the
+test results:
+
+- adding more fields to the trace events didn't break userspace API:
+  both versions of rasdaemon handled it;
+
+- the rasdaemon patches to handle the new trace report was missing
+  a backward-compatibility logic. I fixed already. So, rasdaemon
+  can now handle both old and new trace events.
+
+Btw, rasdaemon has gained support for the extended trace since its
+version 0.5.8 (released in 2021). I didn't saw any issues there
+complain about troubles on it, so either distros used on ARM servers
+are using an old version of rasdaemon, or they're carrying on the trace
+event changes as well.
+
 ---
- Documentation/accel/qaic/aic100.rst           |  4 ++--
- Documentation/accounting/taskstats.rst        |  2 +-
- Documentation/arch/arm/keystone/knav-qmss.rst |  2 +-
- Documentation/arch/x86/cpuinfo.rst            |  2 +-
- Documentation/devicetree/usage-model.rst      |  2 +-
- Documentation/driver-api/vfio.rst             |  2 +-
- Documentation/hwmon/f71805f.rst               |  2 +-
- Documentation/misc-devices/apds990x.rst       |  2 +-
- Documentation/mm/hwpoison.rst                 |  2 +-
- Documentation/sound/cards/emu-mixer.rst       |  2 +-
- .../translations/zh_TW/process/5.Posting.rst  |  2 +-
- .../userspace-api/media/rc/rc-protos.rst      | 20 +++++++++----------
- 12 files changed, 22 insertions(+), 22 deletions(-)
+v5:
+ - fix a few code formatting issues
+ - remove "Co-developed-by: danielf" because his/my contribution was
+   removed in v2.
+ - adjust tag block
+ - Link to v4: https://lore.kernel.org/linux-acpi/20250805-mauro_v3-v6-16-rev2-v4-0-ea538759841c@os.amperecomputing.com
 
-diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
-index 273da6192fb3..0b575f24eab5 100644
---- a/Documentation/accel/qaic/aic100.rst
-+++ b/Documentation/accel/qaic/aic100.rst
-@@ -455,7 +455,7 @@ deactivate
- 	Deactivate an active workload and return the NSPs to idle.
- 
- status
--	Query the QSM about it's NNC implementation. Returns the NNC version,
-+	Query the QSM about its NNC implementation. Returns the NNC version,
- 	and if CRC is used.
- 
- terminate
-@@ -487,7 +487,7 @@ one user crashes, the fallout of that should be limited to that workload and not
- impact other workloads. SSR accomplishes this.
- 
- If a particular workload crashes, QSM notifies the host via the QAIC_SSR MHI
--channel. This notification identifies the workload by it's assigned DBC. A
-+channel. This notification identifies the workload by its assigned DBC. A
- multi-stage recovery process is then used to cleanup both sides, and get the
- DBC/NSPs into a working state.
- 
-diff --git a/Documentation/accounting/taskstats.rst b/Documentation/accounting/taskstats.rst
-index 2a28b7f55c10..af0519c58eb7 100644
---- a/Documentation/accounting/taskstats.rst
-+++ b/Documentation/accounting/taskstats.rst
-@@ -141,7 +141,7 @@ in future:
- 1. Adding more fields to the end of the existing struct taskstats. Backward
-    compatibility is ensured by the version number within the
-    structure. Userspace will use only the fields of the struct that correspond
--   to the version its using.
-+   to the version it's using.
- 
- 2. Defining separate statistic structs and using the netlink attributes
-    interface to return them. Since userspace processes each netlink attribute
-diff --git a/Documentation/arch/arm/keystone/knav-qmss.rst b/Documentation/arch/arm/keystone/knav-qmss.rst
-index 7f7638d80b42..f9a77eb462b2 100644
---- a/Documentation/arch/arm/keystone/knav-qmss.rst
-+++ b/Documentation/arch/arm/keystone/knav-qmss.rst
-@@ -39,7 +39,7 @@ CPPI/QMSS Low Level Driver document (docs/CPPI_QMSS_LLD_SDS.pdf) at
- 
- 	git://git.ti.com/keystone-rtos/qmss-lld.git
- 
--k2_qmss_pdsp_acc48_k2_le_1_0_0_9.bin firmware supports upto 48 accumulator
-+k2_qmss_pdsp_acc48_k2_le_1_0_0_9.bin firmware supports up to 48 accumulator
- channels. This firmware is available under ti-keystone folder of
- firmware.git at
- 
-diff --git a/Documentation/arch/x86/cpuinfo.rst b/Documentation/arch/x86/cpuinfo.rst
-index dd8b7806944e..4a2a4f2b5fb0 100644
---- a/Documentation/arch/x86/cpuinfo.rst
-+++ b/Documentation/arch/x86/cpuinfo.rst
-@@ -12,7 +12,7 @@ represents an ill-fated attempt from long time ago to put feature flags
- in an easy to find place for userspace.
- 
- However, the amount of feature flags is growing by the CPU generation,
--leading to unparseable and unwieldy /proc/cpuinfo.
-+leading to unparsable and unwieldy /proc/cpuinfo.
- 
- What is more, those feature flags do not even need to be in that file
- because userspace doesn't care about them - glibc et al already use
-diff --git a/Documentation/devicetree/usage-model.rst b/Documentation/devicetree/usage-model.rst
-index 0717426856b2..c89cc3cf817c 100644
---- a/Documentation/devicetree/usage-model.rst
-+++ b/Documentation/devicetree/usage-model.rst
-@@ -128,7 +128,7 @@ successor, the BeagleBoard xM board might look like, respectively::
- 	compatible = "ti,omap3-beagleboard-xm", "ti,omap3450", "ti,omap3";
- 
- Where "ti,omap3-beagleboard-xm" specifies the exact model, it also
--claims that it compatible with the OMAP 3450 SoC, and the omap3 family
-+claims that it is compatible with the OMAP 3450 SoC, and the omap3 family
- of SoCs in general.  You'll notice that the list is sorted from most
- specific (exact board) to least specific (SoC family).
- 
-diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
-index 2a21a42c9386..c358f6989c1c 100644
---- a/Documentation/driver-api/vfio.rst
-+++ b/Documentation/driver-api/vfio.rst
-@@ -124,7 +124,7 @@ Assume user wants to access PCI device 0000:06:0d.0::
- 	../../../../kernel/iommu_groups/26
- 
- This device is therefore in IOMMU group 26.  This device is on the
--pci bus, therefore the user will make use of vfio-pci to manage the
-+PCI bus, therefore the user will make use of vfio-pci to manage the
- group::
- 
- 	# modprobe vfio-pci
-diff --git a/Documentation/hwmon/f71805f.rst b/Documentation/hwmon/f71805f.rst
-index 1efe5e5d337c..dea0364c2a6e 100644
---- a/Documentation/hwmon/f71805f.rst
-+++ b/Documentation/hwmon/f71805f.rst
-@@ -55,7 +55,7 @@ additional internal voltages monitored (VSB and battery). It also features
- 6 VID inputs. The VID inputs are not yet supported by this driver.
- 
- The Fintek F71806F/FG Super-I/O chip is essentially the same as the
--F71872F/FG, and is undistinguishable therefrom.
-+F71872F/FG, and is indistinguishable from it.
- 
- The driver assumes that no more than one chip is present, which seems
- reasonable.
-diff --git a/Documentation/misc-devices/apds990x.rst b/Documentation/misc-devices/apds990x.rst
-index e2f75577f731..afba68223a5e 100644
---- a/Documentation/misc-devices/apds990x.rst
-+++ b/Documentation/misc-devices/apds990x.rst
-@@ -26,7 +26,7 @@ using clear channel only. Lux value and the threshold level on the HW
- might vary quite much depending the spectrum of the light source.
- 
- Driver makes necessary conversions to both directions so that user handles
--only lux values. Lux value is calculated using information from the both
-+only lux values. Lux value is calculated using information from both
- channels. HW threshold level is calculated from the given lux value to match
- with current type of the lightning. Sometimes inaccuracy of the estimations
- lead to false interrupt, but that doesn't harm.
-diff --git a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.rst
-index 483b72aa7c11..dd02fae484dc 100644
---- a/Documentation/mm/hwpoison.rst
-+++ b/Documentation/mm/hwpoison.rst
-@@ -17,7 +17,7 @@ To quote the overview comment::
- 	hardware as being corrupted usually due to a 2bit ECC memory or cache
- 	failure.
- 
--	This focusses on pages detected as corrupted in the background.
-+	This focuses on pages detected as corrupted in the background.
- 	When the current CPU tries to consume corruption the currently
- 	running process can just be killed directly instead. This implies
- 	that if the error cannot be handled for some reason it's safe to
-diff --git a/Documentation/sound/cards/emu-mixer.rst b/Documentation/sound/cards/emu-mixer.rst
-index d87a6338d3d8..edcedada4c96 100644
---- a/Documentation/sound/cards/emu-mixer.rst
-+++ b/Documentation/sound/cards/emu-mixer.rst
-@@ -66,7 +66,7 @@ FX-bus
- 
- name='Clock Source',index=0
- ---------------------------
--This control allows switching the word clock between interally generated
-+This control allows switching the word clock between internally generated
- 44.1 or 48 kHz, or a number of external sources.
- 
- Note: the sources for the 1616 CardBus card are unclear. Please report your
-diff --git a/Documentation/translations/zh_TW/process/5.Posting.rst b/Documentation/translations/zh_TW/process/5.Posting.rst
-index 38f3a6d618eb..eb41ae82d0da 100644
---- a/Documentation/translations/zh_TW/process/5.Posting.rst
-+++ b/Documentation/translations/zh_TW/process/5.Posting.rst
-@@ -88,7 +88,7 @@
- 
-  - 每個補丁都應該能創建一個可以正確地構建和運行的內核；如果補丁系列在中間被
-    斷開，那麼結果仍應是一個正常工作的內核。部分應用一系列補丁是使用
--   “git bisct”工具查找回歸的一個常見場景；如果結果是一個損壞的內核，那麼將使
-+   “git bisect”工具查找回歸的一個常見場景；如果結果是一個損壞的內核，那麼將使
-    那些從事追蹤問題的高尚工作的開發人員和用戶的生活更加艱難。
- 
-  - 不要過分分割。一位開發人員曾經將一組針對單個文件的編輯分成500個單獨的補丁
-diff --git a/Documentation/userspace-api/media/rc/rc-protos.rst b/Documentation/userspace-api/media/rc/rc-protos.rst
-index ec706290c921..a3a9f46b2b9a 100644
---- a/Documentation/userspace-api/media/rc/rc-protos.rst
-+++ b/Documentation/userspace-api/media/rc/rc-protos.rst
-@@ -11,7 +11,7 @@ protocols can encode e.g. an address (which device should respond) and a
- command: what it should do. The values for these are not always consistent
- across different devices for a given protocol.
- 
--Therefore out the output of the IR decoder is a scancode; a single u32
-+Therefore the output of the IR decoder is a scancode; a single u32
- value. Using keymap tables this can be mapped to linux key codes.
- 
- Other things can be encoded too. Some IR protocols encode a toggle bit; this
-@@ -19,7 +19,7 @@ is to distinguish whether the same button is being held down, or has been
- released and pressed again. If has been released and pressed again, the
- toggle bit will invert from one IR message to the next.
- 
--Some remotes have a pointer-type device which can used to control the
-+Some remotes have a pointer-type device which can be used to control the
- mouse; some air conditioning systems can have their target temperature
- target set in IR.
- 
-@@ -75,8 +75,8 @@ protocol, or the manchester BPF decoder.
-      - Command
- 
- There is a variant of rc5 called either rc5x or extended rc5
--where there the second stop bit is the 6th command bit, but inverted.
--This is done so it the scancodes and encoding is compatible with existing
-+where the second stop bit is the 6th command bit, but inverted.
-+This is done so the scancodes and encoding are compatible with existing
- schemes. This bit is stored in bit 6 of the scancode, inverted. This is
- done to keep it compatible with plain rc-5 where there are two start bits.
- 
-@@ -127,7 +127,7 @@ differently.
- rc-5x-20 (RC_PROTO_RC5X_20)
- ---------------------------
- 
--This rc-5 extended to encoded 20 bits. The is a 3555 microseconds space
-+This rc-5 extended to encoded 20 bits. There is a 3555 microsecond space
- after the 8th bit.
- 
- .. flat-table:: rc-5x-20 bits scancode mapping
-@@ -182,7 +182,7 @@ jvc (RC_PROTO_JVC)
- The jvc protocol is much like nec, without the inverted values. It is
- described here https://www.sbprojects.net/knowledge/ir/jvc.php.
- 
--The scancode is a 16 bits value, where the address is the lower 8 bits
-+The scancode is a 16 bit value, where the address is the lower 8 bits
- and the command the higher 8 bits; this is reversed from IR order.
- 
- sony-12 (RC_PROTO_SONY12)
-@@ -329,11 +329,11 @@ The scancode has a somewhat unusual encoding.
- sanyo (RC_PROTO_SANYO)
- ----------------------
- 
--The sanyo protocol is like the nec protocol, but with 13 bits address
-+The sanyo protocol is like the nec protocol, but with 13 bit address
- rather than 8 bits. Both the address and the command are followed by
- their inverted versions, but these are not present in the scancodes.
- 
--Bis 8 to 20 of the scancode is the 13 bits address, and the lower 8
-+Bis 8 to 20 of the scancode is the 13 bit address, and the lower 8
- bits are the command.
- 
- mcir2-kbd (RC_PROTO_MCIR2_KBD)
-@@ -388,7 +388,7 @@ rc-6-mce (RC_PROTO_RC6_MCE)
- This is the rc-6 in mode 6a, 32 bits. The upper 16 bits are the vendor,
- and the lower 16 bits are the vendor-specific bits. This protocol is
- for the Microsoft MCE variant (vendor = 0x800f). The toggle bit in the
--protocol itself is ignored, and the 16th bit should be takes as the toggle
-+protocol itself is ignored, and the 16th bit should be taken as the toggle
- bit.
- 
- sharp (RC_PROTO_SHARP)
-@@ -399,7 +399,7 @@ https://www.sbprojects.net/knowledge/ir/sharp.php. There is a very long
- (40ms) space between the normal and inverted values, and some IR receivers
- cannot decode this.
- 
--There is a 5 bit address and a 8 bit command. In the scancode the address is
-+There is a 5 bit address and an 8 bit command. In the scancode the address is
- in bits 8 to 12, and the command in bits 0 to 7.
- 
- xmp (RC_PROTO_XMP)
--- 
-2.43.0
+v4:
+ - rebase to kernel v6.16
+ - modify commit message of patch 1, and adjust white spaces
+   per Boris' suggestions.
+ - Link to v3: https://lore.kernel.org/linux-acpi/cover.1725429659.git.mchehab+huawei@kernel.org
+
+v3:
+ - history of patch 1 improved with a chain of co-developed-by;
+ - add a better description and an example on patch 3;
+ - use BIT_ULL() on patch 3;
+ - add a missing include on patch 4.
+
+v2:
+  - removed an uneeded patch adding #ifdef for CONFIG_ARM/ARM64;
+  - cper_bits_to_str() now returns the number of chars filled at the buffer;
+  - did a cosmetic (blank lines) improvement at include/linux/ras.h;
+  - arm_event trace dynamic arrays renamed to pei_buf/ctx_buf/oem_buf.
+
+Jason Tian (1):
+      RAS: Report all ARM processor CPER information to userspace
+
+Mauro Carvalho Chehab (4):
+      efi/cper: Adjust infopfx size to accept an extra space
+      efi/cper: Add a new helper function to print bitmasks
+      efi/cper: align ARM CPER type with UEFI 2.9A/2.10 specs
+      docs: efi: add CPER functions to driver-api
+
+ Documentation/driver-api/firmware/efi/index.rst | 11 +++--
+ drivers/acpi/apei/ghes.c                        | 27 +++++------
+ drivers/firmware/efi/cper-arm.c                 | 52 ++++++++++-----------
+ drivers/firmware/efi/cper.c                     | 62 ++++++++++++++++++++++++-
+ drivers/ras/ras.c                               | 40 +++++++++++++++-
+ include/linux/cper.h                            | 12 +++--
+ include/linux/ras.h                             | 16 +++++--
+ include/ras/ras_event.h                         | 49 +++++++++++++++++--
+ 8 files changed, 210 insertions(+), 59 deletions(-)
 
