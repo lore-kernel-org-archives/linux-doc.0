@@ -1,34 +1,34 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F5E3093CE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945123093D2;
 	Wed, 13 Aug 2025 21:32:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755120758; cv=none; b=Wo86KjyBsgz/B3mXDtmulKu+5wnuU/v/bRsCPR18DTu505hNZv8R69SDJtzZKl31WdviNWtwMEI9nZs647vXSx0JO3DGgvynZelg8t2U+U+Hwpo9rzH93qcuZpnPfiqER5CyE7ZNfKwR0dJM6YCN/5CKmLC9fhdm8OdebOwpj6g=
+	t=1755120758; cv=none; b=Y5Ce08H71oyoeeWs0D0ruxrvVHDpdwFTYNrKN0tQuJwWjGo5+RBNPyHD7pXnSd8fwh7PSBlecv039tjXJthzhvy3gRypWfr2Lo179+CC9iiWRVH3XmcyLjA/1G8azGGd2K06+QgQzRmHvmYSv42xrALygwo2Rll+ly+BuqngzmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755120758; c=relaxed/simple;
-	bh=XG0IUTzgggjHC7XpWjNslDa9iaLpJbCXZTSzuwzJvw4=;
+	bh=td1wQOZTn2t7taMZPMo13hQVK7UFhFEqonm4xpsJez8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aGMCNS3ID321FJ6AYW7rwtPsWq4x7ZL43MqFBoev351lQm7v3+WM1/D8RUWWFchk3EAlxEuDFYOWRRoZPH2hs5yBUW/CPLha19MuXEl/HNJKIMSjMjcLgeO6Y+ULpXtQHcEFzhGigCut1mTo4ofdfcGG9ziIvfbRc8Pg3IJ0KZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Hu3VU+RS; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version; b=kZdwJVDDfuYkHreyEwoEvMl8p9kAFhxNbhko/kKPD6zX1YfqRRDdu9dbUkPRYoFD6joHUoE8irla4B/xRGT3wNcUDIbH16a0LW+KExfzGuB/2XNutXGg+msfpw/Yak2p3j6HnKcOW1SM2UqnENZgrL3susxS6OTfqsGjiwFoNmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=HejI7dMK; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Hu3VU+RS"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A1A5440AF7
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="HejI7dMK"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 064EC40AFB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755120750; bh=GwRKiICIPVgXd2SKXzVv6F2/MjfrEfTZ1LdNZfZSnnE=;
+	t=1755120752; bh=6A2E3kW8F6s7/ZG38M+WOh1FiZ91olnH6JrnWCCTVuQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Hu3VU+RSuMGiprUals2x6pp71+vCP21VAiAtLsEiMMHbdnR+iO6UhUkEgM+cJCVO5
-	 f1tMSxxhxhIZUak1qObUH+qk2sQGqJl6SGRT/jwhme0IVhzCGGyaNLRygyQiYoo3YI
-	 pVvYymi0UpBMpzDuGzMfM4hSfBM51x1vKq7LwdBpeGCcQIeQyGVCy2Ipz5KiW+zkQz
-	 tciT13De7HAG39IUzVnjrXLIm0XKAuBsV2U8qgz8QhYgttojZXo3OD7ua6TeUlXO6s
-	 EcpaZhkrX7DQB6VsqTlP09Eb4z5Lefc+GGDkXEK5fI3jCZsle3QYTJbQcC9hV7akU/
-	 hJ8W8fvekI7oQ==
+	b=HejI7dMKH560V6rSEIIxMCRY9nokCOfubp96mrVGYhqmRhCfP0TWrFM+x0L93M0i2
+	 Hr/sH6CsKnOOcbMykOFVpZppqXPGYimh5tMQi5sLveAh2nWcl8abnQ0Ce2QxwxrLwP
+	 Kfyh0uEAT24u9AdRbm4zlxORYnjWbZLZkePIn9yN4d3ZR77VB6xwmvIAwQzmDkj3V0
+	 tmAIgPOHrhO0d0ap4A7nrp3orOWXryWZ++6wD/CLgDcbs/Mx9OrPM3KrgaIQCS0k9Q
+	 hsoRriCeiHpROuvcxpCT1hdbUNwcl/W8UDmrApMIFdKbtYbgzAZJGoMkfpp35hYD//
+	 LpziWBB+OAp0g==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id A1A5440AF7;
-	Wed, 13 Aug 2025 21:32:29 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPA id 064EC40AFB;
+	Wed, 13 Aug 2025 21:32:31 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -36,9 +36,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 04/13] docs: move scripts/documentation-file-ref-check to tools/doc
-Date: Wed, 13 Aug 2025 15:32:03 -0600
-Message-ID: <20250813213218.198582-5-corbet@lwn.net>
+Subject: [PATCH 08/13] docs: move test_doc_build.py to tools/doc
+Date: Wed, 13 Aug 2025 15:32:07 -0600
+Message-ID: <20250813213218.198582-9-corbet@lwn.net>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250813213218.198582-1-corbet@lwn.net>
 References: <20250813213218.198582-1-corbet@lwn.net>
@@ -50,89 +50,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add this script to the growing collection of documentation tools.
+Add this tool to tools/doc.
 
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/Makefile                              | 4 ++--
- MAINTAINERS                                         | 3 +--
- scripts/sphinx-pre-install                          | 2 +-
- {scripts => tools/doc}/documentation-file-ref-check | 2 +-
- 4 files changed, 5 insertions(+), 6 deletions(-)
- rename {scripts => tools/doc}/documentation-file-ref-check (99%)
+ Documentation/doc-guide/sphinx.rst       | 2 +-
+ {scripts => tools/doc}/test_doc_build.py | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename {scripts => tools/doc}/test_doc_build.py (100%)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 70095465dce1..f7b8342f9666 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -8,7 +8,7 @@ subdir- := devicetree/bindings
- ifneq ($(MAKECMDGOALS),cleandocs)
- # Check for broken documentation file references
- ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
--$(shell $(srctree)/scripts/documentation-file-ref-check --warn)
-+$(shell $(srctree)/tools/doc/documentation-file-ref-check --warn)
- endif
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index 2a0fc6c39cf4..d874dd0ed7d0 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -149,7 +149,7 @@ a venv with it with, and install minimal requirements with::
  
- # Check for broken ABI files
-@@ -167,7 +167,7 @@ endif # HAVE_SPHINX
- # work or silently pass without Sphinx.
+ A more comprehensive test can be done by using:
  
- refcheckdocs:
--	$(Q)cd $(srctree);scripts/documentation-file-ref-check
-+	$(Q)cd $(srctree); tools/doc/documentation-file-ref-check
+-	scripts/test_doc_build.py
++	tools/doc/test_doc_build.py
  
- cleandocs:
- 	$(Q)rm -rf $(BUILDDIR)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ca4c7992369d..ec9872642597 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7302,7 +7302,6 @@ P:	Documentation/doc-guide/maintainer-profile.rst
- T:	git git://git.lwn.net/linux.git docs-next
- F:	Documentation/
- F:	tools/doc/
--F:	scripts/documentation-file-ref-check
- F:	scripts/get_abi.py
- F:	scripts/kernel-doc*
- F:	scripts/lib/abi/*
-@@ -7342,7 +7341,7 @@ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-doc@vger.kernel.org
- S:	Maintained
- F:	Documentation/sphinx/parse-headers.pl
--F:	scripts/documentation-file-ref-check
-+F:	tools/doc/
- F:	scripts/sphinx-pre-install
- 
- DOCUMENTATION/ITALIAN
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index b8474848df4e..5d006a037428 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -406,7 +406,7 @@ class MissingCheckers(AncillaryMethods):
-         Right now, we still need Perl for doc build, as it is required
-         by some tools called at docs or kernel build time, like:
- 
--            scripts/documentation-file-ref-check
-+            tools/doc/documentation-file-ref-check
- 
-         Also, checkpatch is on Perl.
-         """
-diff --git a/scripts/documentation-file-ref-check b/tools/doc/documentation-file-ref-check
-similarity index 99%
-rename from scripts/documentation-file-ref-check
-rename to tools/doc/documentation-file-ref-check
-index 408b1dbe7884..2dc53f5661b1 100755
---- a/scripts/documentation-file-ref-check
-+++ b/tools/doc/documentation-file-ref-check
-@@ -17,7 +17,7 @@ my %false_positives = (
- );
- 
- my $scriptname = $0;
--$scriptname =~ s,.*/([^/]+/),$1,;
-+$scriptname =~ s,tools/doc/([^/]+/),$1,;
- 
- # Parse arguments
- my $help = 0;
+ Such script create one Python venv per supported version,
+ optionally building documentation for a range of Sphinx versions.
+diff --git a/scripts/test_doc_build.py b/tools/doc/test_doc_build.py
+similarity index 100%
+rename from scripts/test_doc_build.py
+rename to tools/doc/test_doc_build.py
 -- 
 2.50.1
 
