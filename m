@@ -1,59 +1,59 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661262EACE7
-	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 13:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C452C0F6F
+	for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 13:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755092551; cv=none; b=JZ0Fw2XIwzpcEbwX4pXRglvC/ke7lCx6MWWGKAtK05pHo2wop58fkwFNsO45ayNEgZAewLyM5RX9SsBtdk97MBPHuDzi05w7+k72S6MXEWtamMIVjpyofO8tSEaAihBAXsiQAGT8ax77Ycz0yNz3R02HExvp6uTYyNVEa7wRLb4=
+	t=1755092988; cv=none; b=oZ2QLLezpijXJBkk0Q06Vg2Nko02JJUCSKCkG5t7FrKHxktitAUF41WAZzibJR6eD+FAizdHKK9SwoNXGnC7xCWDjkdhSVlMJ4mex059vzz2ohepX3OJa8Hi24j0jdyWf72HCW9W2hjbkN+Lpr6Pe0WtAOpOJCPsSAFOw8BgRo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755092551; c=relaxed/simple;
-	bh=79L6nL2lVlR1vgW7gSeFO1OcMuOBtdLGT/Ddk5toK1k=;
+	s=arc-20240116; t=1755092988; c=relaxed/simple;
+	bh=tjiy6lq7zUfoy7QhTySB92H1/vQWjMoW9kYs9mRlj60=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dQIpVqrDcGXPRHFVn8cEoi6U7LN4fTd0RapqWdubB2cd+VIQwyEB8zKrwNrDkN6pp/xy4eQshK4YL+siNJNTJhkB/Ilu9kW+SRcPtFrBpE0CQZNcEQxQW40zD+qb5uH1Dl4XYvWu4mWLl0PRcEoy/OMzUA3qnP5kCeH+TqAbGWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=b2lqj+QS; arc=none smtp.client-ip=209.85.160.180
+	 To:Cc:Content-Type; b=oKrG2eSMrENi7B9eKfNGLh7ZadTGNdVHhKHXspsFJKcGIUI7H7t11lo5Mc2O2u8al8gBFvJ17Uj9V9Rv5wFyUTv7/FERNuYyCfoU9h+0JeNdrIQeWMr+40nXfI0AVEfhoQiQ/7gdyKlv8WSiQIBa16axJuqfZJ/8VsqVPQru/s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=CYLpPAZK; arc=none smtp.client-ip=209.85.160.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="b2lqj+QS"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4aeb5eb611bso65236971cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 06:42:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="CYLpPAZK"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4b08c56d838so12327791cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 06:49:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1755092548; x=1755697348; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1755092985; x=1755697785; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NX7QgU4RYkpyaIY+9NdW+KbcJXzTDUdRfjFR9v7XueI=;
-        b=b2lqj+QS4h1kd0qlevn3j1+XnXmsh9SieGN33Ia8fu0zm3Gs0St7ghhxNTyh7wT0HL
-         2ECcVY1r8tPzLot215SnRzvwxu/Fr9i8oubGC3OMsnfJI6Xva1WRln0vxcmvK9CgIJ4F
-         dDnsm7lG6300bCs+1xYTr5OKpkCVg0uPtAfhHGBFvQsbIkDl03mQ6Gxv8ehjtFQ7pQ90
-         Of33C8zSKqyYQnKF9OgBC1hav2VXJKmdjEKAgny4j+QzpeLoyFlnJxc6Xw7EYWyZtUJm
-         hbYSQJ1kDrmMGfsiXzAmsMRiS8B0SS7GrgF5xC/eoPDu7ROHmJSXroFXCgwsidGSejCn
-         BSmQ==
+        bh=5COPJ1bhIrlUBdoMgcmCT1dlQIxGjY3lpdJsY0vxHvo=;
+        b=CYLpPAZKQShpwEUsNee6RM4kJnUJPku1C/MQYNOe/wnPVA5nW2BKgAt1P1Qd8z89nW
+         3UtpVGFG3IKSpUYRpGP4xEOZPpe4ziX5OZepo7criuF/tePoWvlr4yv0hTFZKmgQZI4k
+         VQUSLZjp6YrmB0xiF14ed5T0A0SiZIpyA1wMp1Sds5IooxGok3m9ud2CPdLLBq6MDLhj
+         KPmeuvzKihC4FqfvrU71scgVCrIzuCp9x1FTnxYbscMeB1lss3m2+En/hx6Zuqqs+k06
+         9qhgvDn1hn6kcvSvreQ1PTIR+age4FM1u9iMaS0Vbc4R7zAXprlU4SM3S8Vb5iJdYS6j
+         GOhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755092548; x=1755697348;
+        d=1e100.net; s=20230601; t=1755092985; x=1755697785;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NX7QgU4RYkpyaIY+9NdW+KbcJXzTDUdRfjFR9v7XueI=;
-        b=IzDtE8KjYy9opKK2FvNB3r8tvKtDjb6tqlo1JksmSLqDRMWAOTtyoqIqA0BIDD2bhK
-         iE5KBdMmbQZ4gG91xSQuWIpZ+H1L3xzhk0iH3rtkPZ3KzuPJfYgHhVPihhKwSDnsZQO4
-         AEhPcqkH+7GUTjNgyOAmBdmildGgh/RAwIkmQ9IZKgFYogeDoSk7n4l5KtXW0b2GGlw2
-         sUc3GmxnC0vXhYugsfkzxlC6fCJsZTLE+GhWoRgwSXDDymwiX+lXCcf+QOsTuHsMLpNU
-         64izANKAXoLiSByJbQs0+KsdjMJ/9xvOhJjaAxSNhqEd4+mdgv1zr3jUS61/w/k0sDnX
-         In4g==
-X-Forwarded-Encrypted: i=1; AJvYcCWxw7mu1wwJEyhn1ymBeyH9TDTXJSpvcejjfxDN+rL4tvbgHLPVACDOUc9BZvfDJeIOGWcWDC5VkCQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAfuAcgff5To03D6rGqdDLFIPk1qc7727MX2WE2RmaGPvg/xlK
-	RdFghqHLmkZ1xnGmwDvw3W4ZWfipnTYDRi6kwtZYOSkiIOJ9XVXPQYYM4fBT39q0pa5ZkcH8ilZ
-	Todg/SJo5gU2at8DGFIQBibvJVoF1A2Qma+utlBA7iw==
-X-Gm-Gg: ASbGncsxlRXHYCOTQ64eOm0PQ3eJ14v/vpc2qMc/5RitBDIc1lk5yrxrE+gZaFiihAk
-	PfllW8amOHejukyR6x/f+lIoSqSwhPCJLQlwYqQUS/39qTdqtM+f0Ds0W37+Vi3DzUegO35eop+
-	JzD4zgYjZ8Z0vf5gbq3tfKZg6AW5pOQf7gohImtm8yIGcW3SdOtaYJu1O5u9YtoZAYYL69yy97H
-	EBy
-X-Google-Smtp-Source: AGHT+IGLfaaQwFEY+EAD7Oyb3ssHwz9Mxecc5gc1KtJUOKANujOZKp0yfy7BpGqxCbIGhcOB/MMwQSa7HBfsw+eWd5U=
-X-Received: by 2002:a05:622a:1f09:b0:4b0:86b4:2513 with SMTP id
- d75a77b69052e-4b0fc70ed8fmr45524721cf.26.1755092547727; Wed, 13 Aug 2025
- 06:42:27 -0700 (PDT)
+        bh=5COPJ1bhIrlUBdoMgcmCT1dlQIxGjY3lpdJsY0vxHvo=;
+        b=fUZjBGFjxFJaT2a6T2s0GQOd/Ln2T+uSG7/VPez/7+t4UDx7AHFnuCbbV23FIcjnny
+         ExpS5F+CiqmWr0NaHllogEePsn10pMzW4p4QSmVqzU2avggRYDbIdtq/M//FqHrc4TOU
+         04QSD2/AX++fPNxjSZUVVzxFO0DSlgzYr30zp/6D/3/HStOmXtwyk+2Lyt5ul5UW0QmU
+         f2XkFk0qeUr1rWSiajkakFqqjTLdy6AQxYYPAsnXGGqGPfHJx1G3Ple7lLUVVGsnQg+K
+         oSDNTMtfMLA5p4EKKCZ8PVlQ7LM8rCtKrbrgwiUbWSGiXZtbLeY/u8BVlmEU7Jo6tWLW
+         Rphg==
+X-Forwarded-Encrypted: i=1; AJvYcCX60h8X1ZFK7I8ED1zgqIonKbz8Gf8VF6C7ixIJ4lurge2ELGQ6SElMd6MqK3ZqtDDqgOpDhKhTkf4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YziXD210D22VLQhDyEezWKxqyjYbrjFYQKKyDxgV+clpTcxDMTv
+	P3fc0AXc3nj85nRWQ27JgADIAsus0mMHq/+w1qvl2iPHZ/8rzrbGjCQRH2KcOLmcz1ZaDtzgq5x
+	4XLBRw0vd5eeb29keL8SX3oZLweRYyPbCS3oBfpuuDg==
+X-Gm-Gg: ASbGncth5kafFgjzd86ZQP3jVTR8LCgghChnQvtZo5OlIrCpl+FfQkNjVAaeVuNx8+b
+	nZTfL9POsLjdTuYekLNKk2TeWlsvjU7zy3aXgpC5U0jJxZzHYVgX5iUaBN0KlOkX+daC0rnSrzg
+	l3bzK+86N0mgsJ4XAHknFVxVrTE/Gmig2WR8OYJCHd47F8PLv+FMIFkMq/esVeg5aI9WmGsbkIz
+	ws/
+X-Google-Smtp-Source: AGHT+IGct8ZeidsnGi/YbFJu4oMvwbFYwPG2diux+p27hnjphdKkPPw2dpGSZ3mXdM1D29x0JXCw0Y4/KsFGm7KlPlM=
+X-Received: by 2002:ac8:5d55:0:b0:4af:4bac:e539 with SMTP id
+ d75a77b69052e-4b0fdfdb678mr31989691cf.3.1755092985396; Wed, 13 Aug 2025
+ 06:49:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,18 +62,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
  <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250813063407.GA3182745.vipinsh@google.com>
- <2025081310-custodian-ashamed-3104@gregkh> <mafs01ppfxwe8.fsf@kernel.org>
- <2025081351-tinsel-sprinkler-af77@gregkh> <20250813124140.GA699432@nvidia.com>
- <2025081334-rotten-visible-517a@gregkh> <mafs07bz7wdfk.fsf@kernel.org>
-In-Reply-To: <mafs07bz7wdfk.fsf@kernel.org>
+ <mafs0wm77wgjx.fsf@kernel.org>
+In-Reply-To: <mafs0wm77wgjx.fsf@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 13 Aug 2025 13:41:51 +0000
-X-Gm-Features: Ac12FXxwYgoxAEMomw-_iEhgQJ-Al-xyM3lcJTz2IeukxaEHZZmWI0qPQ6BAJJ8
-Message-ID: <CA+CK2bDs9prKNSo=Ris-L7T43ZFU7ji3cBH3KD1=FxXg7hFbFA@mail.gmail.com>
+Date: Wed, 13 Aug 2025 13:49:09 +0000
+X-Gm-Features: Ac12FXyj1CElzNmOfajT8FxAkTu6tjsBaL5e4YwqAjZVvEs1xx2b7a4U9Pkl3Fk
+Message-ID: <CA+CK2bCmQ3hY+ACnLrVZ1qwiTiVvxEBCDNFmAHn_uVRagvshhw@mail.gmail.com>
 Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
 To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Vipin Sharma <vipinsh@google.com>, jasonmiu@google.com, graf@amazon.com, 
+Cc: Vipin Sharma <vipinsh@google.com>, jasonmiu@google.com, graf@amazon.com, 
 	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
 	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
 	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
@@ -85,57 +82,92 @@ Cc: Greg KH <gregkh@linuxfoundation.org>, Jason Gunthorpe <jgg@nvidia.com>,
 	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
 	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
 	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
 	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 13, 2025 at 1:37=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
-> wrote:
+On Wed, Aug 13, 2025 at 12:29=E2=80=AFPM Pratyush Yadav <pratyush@kernel.or=
+g> wrote:
 >
-> On Wed, Aug 13 2025, Greg KH wrote:
+> Hi Vipin,
 >
-> > On Wed, Aug 13, 2025 at 09:41:40AM -0300, Jason Gunthorpe wrote:
-> [...]
-> >> Use the warn ons. Make sure they can't be triggered by userspace. Use
-> >> them to detect corruption/malfunction in the kernel.
-> >>
-> >> In this case if kho_unpreserve_folio() fails in this call chain it
-> >> means some error unwind is wrongly happening out of sequence, and we
-> >> are now forced to leak memory. Unwind is not something that userspace
-> >> should be controlling, so of course we want a WARN_ON here.
+> Thanks for the review.
+>
+> On Tue, Aug 12 2025, Vipin Sharma wrote:
+>
+> > On 2025-08-07 01:44:35, Pasha Tatashin wrote:
+> >> From: Pratyush Yadav <ptyadav@amazon.de>
+> >> +static void memfd_luo_unpreserve_folios(const struct memfd_luo_preser=
+ved_folio *pfolios,
+> >> +                                    unsigned int nr_folios)
+> >> +{
+> >> +    unsigned int i;
+> >> +
+> >> +    for (i =3D 0; i < nr_folios; i++) {
+> >> +            const struct memfd_luo_preserved_folio *pfolio =3D &pfoli=
+os[i];
+> >> +            struct folio *folio;
+> >> +
+> >> +            if (!pfolio->foliodesc)
+> >> +                    continue;
+> >> +
+> >> +            folio =3D pfn_folio(PRESERVED_FOLIO_PFN(pfolio->foliodesc=
+));
+> >> +
+> >> +            kho_unpreserve_folio(folio);
 > >
-> > "should be" is the key here.  And it's not obvious from this patch if
-> > that's true or not, which is why I mentioned it.
-> >
-> > I will keep bringing this up, given the HUGE number of CVEs I keep
-> > assigning each week for when userspace hits WARN_ON() calls until that
-> > flow starts to die out either because we don't keep adding new calls, O=
-R
-> > we finally fix them all.  Both would be good...
+> > This one is missing WARN_ON_ONCE() similar to the one in
+> > memfd_luo_preserve_folios().
 >
-> Out of curiosity, why is hitting a WARN_ON() considered a vulnerability?
-> I'd guess one reason is overwhelming system console which can cause a
-> denial of service, but what about WARN_ON_ONCE() or WARN_RATELIMIT()?
+> Right, will add.
+>
+> >
+> >> +            unpin_folio(folio);
+>
+> Looking at this code caught my eye. This can also be called from LUO's
+> finish callback if no one claimed the memfd after live update. In that
+> case, unpin_folio() is going to underflow the pincount or refcount on
+> the folio since after the kexec, the folio is no longer pinned. We
+> should only be doing folio_put().
+>
+> I think this function should take a argument to specify which of these
+> cases it is dealing with.
+>
+> >> +    }
+> >> +}
+> >> +
+> >> +static void *memfd_luo_create_fdt(unsigned long size)
+> >> +{
+> >> +    unsigned int order =3D get_order(size);
+> >> +    struct folio *fdt_folio;
+> >> +    int err =3D 0;
+> >> +    void *fdt;
+> >> +
+> >> +    if (order > MAX_PAGE_ORDER)
+> >> +            return NULL;
+> >> +
+> >> +    fdt_folio =3D folio_alloc(GFP_KERNEL, order);
+> >
+> > __GFP_ZERO should also be used here. Otherwise this can lead to
+> > unintentional passing of old kernel memory.
+>
+> fdt_create() zeroes out the buffer so this should not be a problem.
 
-My understanding that it is vulnerability only if it can be triggered
-from userspace, otherwise it is a preferred method to give a notice
-that something is very wrong.
-
-Given the large number of machines that have panic_on_warn, a reliable
-kernel crash that is triggered from userspace is a vulnerability(?).
+You are right, fdt_create() zeroes the whole buffer, however, I wonder
+if it could be `optimized` to only clear only the header part of FDT,
+not the rest and this could potentially lead us to send an FDT buffer
+that contains both a valid FDT and the trailing bits contain data from
+old kernel.
 
 Pasha
-
->
-> --
-> Regards,
-> Pratyush Yadav
