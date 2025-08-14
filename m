@@ -1,274 +1,134 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638B02E9EB3;
-	Thu, 14 Aug 2025 08:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1452EBDC7;
+	Thu, 14 Aug 2025 09:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755161916; cv=none; b=eXmLNSv9j54qXFoJVCj1oPJ2WhxGMm4LjAUXL/xH8ZyGVu1m5hu1CeSOOhhi+F8fyZmPvg2DfmlweB/WlFv65okbYRSdWSBkGsDWMMrt4BhC70p9UrAoFEYfW13zYYOw9rkutR1mTGhByTg1ag1cPy3126rGIwt18FukF8FI4oU=
+	t=1755162601; cv=none; b=tgwiOvUcEBIyo4uAFshke2Y65WeSsdcfQEnjV2n1HWrrit1113XQp7Yr7JxHPD1fbYpfOG87WMntB1WipvYLcj9mB0j0ApWN5a88kQuakfh4Fb0c8LyL6J9qtyNlF84zmI7k/DAS7AbrVJfIOGwBK9oQVAqF+fSC0zihC3Zl1a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755161916; c=relaxed/simple;
-	bh=vDE0E1yjqY0f3HYkpoHZtIgg9O221SAmsRn5vbMsxL8=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mv3ZltAwDvwiVf3CwQEGiU15ZXsAv46drUsH2nEw5ISukY1BNecEuCY59OIfv750bXeT8VHKHChrdApho1nns1tYV7Se4Re/etLg+1K7kglwKMnC8NsehqrwnnU6jSCCj0GUQn3y3tlvupwH/aA21IdkX+bbwTqvCKpeRZwSYSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=aJiP6LHg; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="aJiP6LHg"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DLLlpK015987;
-	Thu, 14 Aug 2025 08:58:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=lcCq/XnqkIW2A53JNZQeehAP0zinHF
-	hevLkE5cHGNns=; b=aJiP6LHgGSuJ9h8GDC6c6NGZfUBv/48XTnYZ8GV3qDgEsD
-	Z077rWzqH810j4Bz2oZYRmWLOx5lUqbBXQNloLCwmfWA10hdiO/L67t0KEqYpFpN
-	vPx0V3l72xWNs+6hWRMbVKuozPgVK6JYBMQeGKIZOEQnrv7VyeXHU8+wznTNzjBR
-	Rrmz5WAIjR1CFh9mlPnwFASgpi/WxdACkhgU3v0PCcSPx8iWQgHZ8wStPFVwSXsN
-	zGyOI4rClzGqIkcd6ix857DtBv+LY0hAjoF5qFh7Cz1JdcsqNpgF8+bav+fnCTlf
-	JYOryBwOsjKqL0YoQ3D8MttwJl7G6uPLeWQtyXuQ==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48dvrp8vyv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Aug 2025 08:58:26 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 57E6JJFd017637;
-	Thu, 14 Aug 2025 08:58:23 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 48ekc3u366-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Aug 2025 08:58:22 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 57E8wLMv32702992
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 14 Aug 2025 08:58:21 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4F04B2004E;
-	Thu, 14 Aug 2025 08:58:21 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2BA9320040;
-	Thu, 14 Aug 2025 08:58:19 +0000 (GMT)
-Received: from li-e7e2bd4c-2dae-11b2-a85c-bfd29497117c.ibm.com (unknown [9.124.218.79])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu, 14 Aug 2025 08:58:18 +0000 (GMT)
-Date: Thu, 14 Aug 2025 14:28:16 +0530
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: Alex Mastro <amastro@fb.com>, Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Keith Busch <kbusch@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org
-Subject: Re: [PATCH v4] vfio/pci: print vfio-device syspath to fdinfo
-Message-ID: <20250814141153.8294c6d3-83-amachhiw@linux.ibm.com>
-Mail-Followup-To: Alex Mastro <amastro@fb.com>, 
-	Alex Williamson <alex.williamson@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Keith Busch <kbusch@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org
-References: <20250804-show-fdinfo-v4-1-96b14c5691b3@fb.com>
- <20250807144938.e0abc7bb-a4-amachhiw@linux.ibm.com>
+	s=arc-20240116; t=1755162601; c=relaxed/simple;
+	bh=tMY4dvXutGA0Xp78nYkrpfsUKYwF4wzyT2kopCfHWGY=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=OBP400x8Mnm4TSBvbTcd9mbapBsLI1E8Xz4KG0+3XQgA0zIlNVNmYQ5sIqAAaNBp/sawccIwq2h6p9qfDg3sr45nTLIPyUVYy5s7g/5dv/gaG8GfX4AAFDc7Hiwzxlld9Ymfb60/lhlGTm4b4x/rAhjX4HIoE4WICSxc0GWqU/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4c2fZf3wZpz7s3pk;
+	Thu, 14 Aug 2025 17:09:46 +0800 (CST)
+Received: from xaxapp05.zte.com.cn ([10.99.98.109])
+	by mse-fl1.zte.com.cn with SMTP id 57E99IR4031171;
+	Thu, 14 Aug 2025 17:09:18 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Thu, 14 Aug 2025 17:09:20 +0800 (CST)
+Date: Thu, 14 Aug 2025 17:09:20 +0800 (CST)
+X-Zmail-TransId: 2afa689da7c0ffffffff9fc-70ef0
+X-Mailer: Zmail v1.0
+Message-ID: <202508141709204212p78jkpo53qqgf0IMpdsO@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250807144938.e0abc7bb-a4-amachhiw@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEyMDIxOSBTYWx0ZWRfX+7pGaXeFCS82
- iUug+sfuqRUNtHWdb6JNLVlR3LpZ8+kmqKnfWFhvXm9HbjJrRLJhBVwTrh7V98qRBXNxBsXqRId
- y8Hxj/mv3h9DeXDJ5iejH2DiQ2K4MMXqYiDkFZjTABYzS60CRQrQraz/SNfsDLXEuET1MPtuy9L
- fUx2CJYwVirs8Vxg325FM2jzx710QXwrYWJ7e4mR29wqU4ZqNwOg8Qd4UOq2MGtGjcEDlb9ETxx
- g29D/5ujVVN0NLO1LT2TetJ8+ltiUnk3MvhlbjWIW8WZbiWw7PKxjZEhX5saHxy5ybSVEhWmpK+
- 7a1iIieYyRvq/PjQyw9OSHcEBoZg3KsOnxMp+jQHlU2L8Ed00ZvusRGgslYzG891bS9Lq2EQTsp
- 4qDCEEbI
-X-Authority-Analysis: v=2.4 cv=GrpC+l1C c=1 sm=1 tr=0 ts=689da532 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=FOH2dFAWAAAA:8
- a=VnNF1IyMAAAA:8 a=znEx-w3LAaTq8doKefoA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: YD4Sb_c9EQrVEZ1hJvtDxWT_0T1C4fmf
-X-Proofpoint-ORIG-GUID: YD4Sb_c9EQrVEZ1hJvtDxWT_0T1C4fmf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 spamscore=0 impostorscore=0 suspectscore=0
- phishscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508120219
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
+        <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>,
+        <zhang.yunkai@zte.com.cn>
+Subject: =?UTF-8?B?wqBbUEFUQ0ggMC80IGxpbnV4IG5leHQgUkVTRU5EXSBEb2NzL3poX0NOOiBUcmFuc2xhdGUgbmV0d29ya2luZyBkb2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
+Content-Type: multipart/mixed;
+	boundary="=====_001_next====="
+X-MAIL:mse-fl1.zte.com.cn 57E99IR4031171
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Thu, 14 Aug 2025 17:09:46 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 689DA7DA.001/4c2fZf3wZpz7s3pk
 
-On 2025/08/07 03:04 PM, Amit Machhiwal wrote:
-> Hello,
-> 
-> On 2025/08/04 12:44 PM, Alex Mastro wrote:
-> > Print the PCI device syspath to a vfio device's fdinfo. This enables tools
-> > to query which device is associated with a given vfio device fd.
-> > 
-> > This results in output like below:
-> > 
-> > $ cat /proc/"$SOME_PID"/fdinfo/"$VFIO_FD" | grep vfio
-> > vfio-device-syspath: /sys/devices/pci0000:e0/0000:e0:01.1/0000:e1:00.0/0000:e2:05.0/0000:e8:00.0
-> > 
-> > Signed-off-by: Alex Mastro <amastro@fb.com>
-> 
-> I tested this patch on a POWER9 bare metal system with a VFIO PCI device and
-> could see the VFIO device syspath in fdinfo.
-> 
->  Without this patch:
->  -------------------
-> 
->     [root@localhost ~]# cat /proc/7059/fdinfo/188
->     pos:    0
->     flags:  02000002
->     mnt_id: 17
->     ino:    1113
-> 
->  With this patch:
->  ----------------
->     [root@localhost ~]# cat /proc/7722/fdinfo/188
->     pos:    0
->     flags:  02000002
->     mnt_id: 17
->     ino:    2145
->     vfio-device-syspath: /sys/devices/pci0031:00/0031:00:00.0/0031:01:00.0
-> 
-> ..., and the code changes LGTM. Hence,
 
-Additionally, I got a chance to test this patch on a pSeries POWER10 logical
-partition (L1) running a KVM guest (L2) with a PCI device passthrough and I see
-the expected results:
 
-  [root@guest ~]# lscpu
-  Architecture:             ppc64le
-    Byte Order:             Little Endian
-  CPU(s):                   20
-    On-line CPU(s) list:    0-19
-  Model name:               POWER10 (architected), altivec supported
-    Model:                  2.0 (pvr 0080 0200)
-  [...]
+--=====_001_next=====
+Content-Type: multipart/related;
+	boundary="=====_002_next====="
 
-  [root@guest ~]# lspci
-  [...]
-  0001:00:01.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller PM9A1/PM9A3/980PRO
 
-  root@host:~ # cat /proc/2116/fdinfo/68
-  pos:    0
-  flags:  02000002
-  mnt_id: 17
-  ino:    160
-  vfio-device-syspath: /sys/devices/pci0182:70/0182:70:00.0
+--=====_002_next=====
+Content-Type: multipart/alternative;
+	boundary="=====_003_next====="
 
-The L1 was booted with latest upstream kernel (HEAD: 53e760d89498) with the
-patch applied and the L2 was booted on distro QEMU (version 10.0.2) and as well
-as on latest upstream QEMU (HEAD: 5836af078321, version 10.0.93).
 
-Thanks,
-Amit
+--=====_003_next=====
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-> 
-> Reviewed-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> Tested-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> 
-> Thanks,
-> Amit
-> 
-> > ---
-> > Changes in v4:
-> > - Remove changes to vfio.h
-> > - Link to v3: https://lore.kernel.org/r/20250801-show-fdinfo-v3-1-165dfcab89b9@fb.com
-> > Changes in v3:
-> > - Remove changes to vfio_pci.c
-> > - Add section to Documentation/filesystems/proc.rst
-> > - Link to v2: https://lore.kernel.org/all/20250724-show-fdinfo-v2-1-2952115edc10@fb.com
-> > Changes in v2:
-> > - Instead of PCI bdf, print the fully-qualified syspath (prefixed by
-> >   /sys) to fdinfo.
-> > - Rename the field to "vfio-device-syspath". The term "syspath" was
-> >   chosen for consistency e.g. libudev's usage of the term.
-> > - Link to v1: https://lore.kernel.org/r/20250623-vfio-fdinfo-v1-1-c9cec65a2922@fb.com
-> > ---
-> >  Documentation/filesystems/proc.rst | 14 ++++++++++++++
-> >  drivers/vfio/vfio_main.c           | 20 ++++++++++++++++++++
-> >  2 files changed, 34 insertions(+)
-> > 
-> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> > index 2a17865dfe39..fc5ed3117834 100644
-> > --- a/Documentation/filesystems/proc.rst
-> > +++ b/Documentation/filesystems/proc.rst
-> > @@ -2162,6 +2162,20 @@ DMA Buffer files
-> >  where 'size' is the size of the DMA buffer in bytes. 'count' is the file count of
-> >  the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
-> >  
-> > +VFIO Device files
-> > +~~~~~~~~~~~~~~~~
-> > +
-> > +::
-> > +
-> > +	pos:    0
-> > +	flags:  02000002
-> > +	mnt_id: 17
-> > +	ino:    5122
-> > +	vfio-device-syspath: /sys/devices/pci0000:e0/0000:e0:01.1/0000:e1:00.0/0000:e2:05.0/0000:e8:00.0
-> > +
-> > +where 'vfio-device-syspath' is the sysfs path corresponding to the VFIO device
-> > +file.
-> > +
-> >  3.9	/proc/<pid>/map_files - Information about memory mapped files
-> >  ---------------------------------------------------------------------
-> >  This directory contains symbolic links which represent memory mapped files
-> > diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-> > index 1fd261efc582..37a39cee10ed 100644
-> > --- a/drivers/vfio/vfio_main.c
-> > +++ b/drivers/vfio/vfio_main.c
-> > @@ -28,6 +28,7 @@
-> >  #include <linux/pseudo_fs.h>
-> >  #include <linux/rwsem.h>
-> >  #include <linux/sched.h>
-> > +#include <linux/seq_file.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/stat.h>
-> >  #include <linux/string.h>
-> > @@ -1354,6 +1355,22 @@ static int vfio_device_fops_mmap(struct file *filep, struct vm_area_struct *vma)
-> >  	return device->ops->mmap(device, vma);
-> >  }
-> >  
-> > +#ifdef CONFIG_PROC_FS
-> > +static void vfio_device_show_fdinfo(struct seq_file *m, struct file *filep)
-> > +{
-> > +	char *path;
-> > +	struct vfio_device_file *df = filep->private_data;
-> > +	struct vfio_device *device = df->device;
-> > +
-> > +	path = kobject_get_path(&device->dev->kobj, GFP_KERNEL);
-> > +	if (!path)
-> > +		return;
-> > +
-> > +	seq_printf(m, "vfio-device-syspath: /sys%s\n", path);
-> > +	kfree(path);
-> > +}
-> > +#endif
-> > +
-> >  const struct file_operations vfio_device_fops = {
-> >  	.owner		= THIS_MODULE,
-> >  	.open		= vfio_device_fops_cdev_open,
-> > @@ -1363,6 +1380,9 @@ const struct file_operations vfio_device_fops = {
-> >  	.unlocked_ioctl	= vfio_device_fops_unl_ioctl,
-> >  	.compat_ioctl	= compat_ptr_ioctl,
-> >  	.mmap		= vfio_device_fops_mmap,
-> > +#ifdef CONFIG_PROC_FS
-> > +	.show_fdinfo	= vfio_device_show_fdinfo,
-> > +#endif
-> >  };
-> >  
-> >  static struct vfio_device *vfio_device_from_file(struct file *file)
-> > 
-> > ---
-> > base-commit: 4518e5a60c7fbf0cdff393c2681db39d77b4f87e
-> > change-id: 20250801-show-fdinfo-ef109ca738cf
-> > 
-> > Best regards,
-> > -- 
-> > Alex Mastro <amastro@fb.com>
-> > 
+RnJvbTogV2FuZyBZYXhpbiA8d2FuZy55YXhpbkB6dGUuY29tLmNuPg0KDQp0cmFuc2xhdGUgbmV0
+d29ya2luZyBkb2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ0KDQpTdW4geXV4aSAoMik6DQogIERv
+Y3MvemhfQ046IFRyYW5zbGF0ZSBtcHRjcC1zeXNjdGwucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVz
+ZQ0KICBEb2NzL3poX0NOOiBUcmFuc2xhdGUgZ2VuZXJpYy1oZGxjLnJzdCB0byBTaW1wbGlmaWVk
+IENoaW5lc2UNCg0KV2FuZyBZYXhpbiAoMik6DQogIERvY3MvemhfQ046IFRyYW5zbGF0ZSBza2J1
+ZmYucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ0KICBEb2NzL3poX0NOOiBUcmFuc2xhdGUgdGlt
+ZXN0YW1waW5nLnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2UNCg0KIC4uLi96aF9DTi9uZXR3b3Jr
+aW5nL2dlbmVyaWMtaGRsYy5yc3QgICAgICAgICB8IDE3NiArKysrKw0KIC4uLi90cmFuc2xhdGlv
+bnMvemhfQ04vbmV0d29ya2luZy9pbmRleC5yc3QgICB8ICAgOCArLQ0KIC4uLi96aF9DTi9uZXR3
+b3JraW5nL21wdGNwLXN5c2N0bC5yc3QgICAgICAgICB8IDEzOSArKysrDQogLi4uL3RyYW5zbGF0
+aW9ucy96aF9DTi9uZXR3b3JraW5nL3NrYnVmZi5yc3QgIHwgIDQ0ICsrDQogLi4uL3poX0NOL25l
+dHdvcmtpbmcvdGltZXN0YW1waW5nLnJzdCAgICAgICAgIHwgNjc0ICsrKysrKysrKysrKysrKysr
+Kw0KIDUgZmlsZXMgY2hhbmdlZCwgMTAzNyBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0K
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9uZXR3
+b3JraW5nL2dlbmVyaWMtaGRsYy5yc3QNCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlv
+bi90cmFuc2xhdGlvbnMvemhfQ04vbmV0d29ya2luZy9tcHRjcC1zeXNjdGwucnN0DQogY3JlYXRl
+IG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL25ldHdvcmtpbmcv
+c2tidWZmLnJzdA0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy96aF9DTi9uZXR3b3JraW5nL3RpbWVzdGFtcGluZy5yc3QNCg0KLS0gDQoyLjI1LjE=
+
+
+--=====_003_next=====
+Content-Type: text/html ;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+PGRpdiBjbGFzcz0iemNvbnRlbnRSb3ciPjxwPkZyb206IFdhbmcgWWF4aW4gJmx0O3dhbmcueWF4
+aW5AenRlLmNvbS5jbiZndDs8L3A+PHA+PGJyPjwvcD48cD50cmFuc2xhdGUgbmV0d29ya2luZyBk
+b2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZTwvcD48cD48YnI+PC9wPjxwPlN1biB5dXhpICgyKTo8
+L3A+PHA+Jm5ic3A7IERvY3MvemhfQ046IFRyYW5zbGF0ZSBtcHRjcC1zeXNjdGwucnN0IHRvIFNp
+bXBsaWZpZWQgQ2hpbmVzZTwvcD48cD4mbmJzcDsgRG9jcy96aF9DTjogVHJhbnNsYXRlIGdlbmVy
+aWMtaGRsYy5yc3QgdG8gU2ltcGxpZmllZCBDaGluZXNlPC9wPjxwPjxicj48L3A+PHA+V2FuZyBZ
+YXhpbiAoMik6PC9wPjxwPiZuYnNwOyBEb2NzL3poX0NOOiBUcmFuc2xhdGUgc2tidWZmLnJzdCB0
+byBTaW1wbGlmaWVkIENoaW5lc2U8L3A+PHA+Jm5ic3A7IERvY3MvemhfQ046IFRyYW5zbGF0ZSB0
+aW1lc3RhbXBpbmcucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZTwvcD48cD48YnI+PC9wPjxwPiZu
+YnNwOy4uLi96aF9DTi9uZXR3b3JraW5nL2dlbmVyaWMtaGRsYy5yc3QmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7fCAxNzYgKysrKys8L3A+PHA+Jm5ic3A7Li4uL3RyYW5zbGF0aW9u
+cy96aF9DTi9uZXR3b3JraW5nL2luZGV4LnJzdCZuYnNwOyAmbmJzcDt8Jm5ic3A7ICZuYnNwOzgg
+Ky08L3A+PHA+Jm5ic3A7Li4uL3poX0NOL25ldHdvcmtpbmcvbXB0Y3Atc3lzY3RsLnJzdCZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt8IDEzOSArKysrPC9wPjxwPiZuYnNwOy4uLi90
+cmFuc2xhdGlvbnMvemhfQ04vbmV0d29ya2luZy9za2J1ZmYucnN0Jm5ic3A7IHwmbmJzcDsgNDQg
+Kys8L3A+PHA+Jm5ic3A7Li4uL3poX0NOL25ldHdvcmtpbmcvdGltZXN0YW1waW5nLnJzdCZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt8IDY3NCArKysrKysrKysrKysrKysrKys8L3A+
+PHA+Jm5ic3A7NSBmaWxlcyBjaGFuZ2VkLCAxMDM3IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25z
+KC0pPC9wPjxwPiZuYnNwO2NyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0
+aW9ucy96aF9DTi9uZXR3b3JraW5nL2dlbmVyaWMtaGRsYy5yc3Q8L3A+PHA+Jm5ic3A7Y3JlYXRl
+IG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL25ldHdvcmtpbmcv
+bXB0Y3Atc3lzY3RsLnJzdDwvcD48cD4mbmJzcDtjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRh
+dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbmV0d29ya2luZy9za2J1ZmYucnN0PC9wPjxwPiZuYnNw
+O2NyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9uZXR3
+b3JraW5nL3RpbWVzdGFtcGluZy5yc3Q8L3A+PHA+PGJyPjwvcD48cD4tLSZuYnNwOzwvcD48cD4y
+LjI1LjE8L3A+PHA+PGJyPjwvcD48L2Rpdj4=
+
+
+--=====_003_next=====--
+
+--=====_002_next=====--
+
+--=====_001_next=====--
+
