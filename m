@@ -1,143 +1,123 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3149A2F8BC3;
-	Thu, 14 Aug 2025 11:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C412E6106;
+	Thu, 14 Aug 2025 11:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755171798; cv=none; b=N7VmHPpgegCP1PMwMorBJtFnDxSROmo8luXNTx5iYgK1FArtSk6ATKC6tHDf6JcrCIqhKo4ntMb2Pj/6hnviI6Fh7wDa/tX9WNYB+wuaxOoGD7WDoetU4OurIDz/ZC/fYto229NgMJYYGtRWBkY0QDdAGYwGo8oIQqrm+VbEzNc=
+	t=1755171950; cv=none; b=MEcGBj3Mr5mIdnbIUwOaVdMtU/HfbLubPs0LN2znD7CTpER69cAD/wup4l34h2uSIf9JGv3xyeqVAcLI5AeNH3b5FJRXwT6IjPsK5oCKzCr3j/6iqTpHves4eCG1md6y33LZAe393YVeO28iTgtEmUyOgFEGukp2pp2nEfjpzKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755171798; c=relaxed/simple;
-	bh=Zdy7dLbFkZGtII3NQmazxOkB03u71Z+SQYve42TvTVI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UYJNkU0fkVioW/z5bPYlEnSh1sZXiqmsowJC/1ESXEFq7tR7SJEZZic99S/tGx+AaAvmSKT6DCwWqYvOGCS8JsrxPkBTDgwleIPxYa9sMS1nRUzuimI1jmKHxmsoDw+iuq4CHb1TR8TGu0L9HMOvFXEQevUUqXXi39+wd7coh5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NnG4Um3r; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755171950; c=relaxed/simple;
+	bh=FexkV7nvaMJKSQuSjt56VRn1ropgn6XWofqYu3VqSl0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bx1mkDSspXgCilokvH8kPICDDpkmIB5ifWSSyueAnBaXmftSTYYxPjdKOz8RsAJvhE6dxjseVgAs3sSq+KcDxavje/uHUZ5hnMTeVn31lg+LA8Oqhaf/5Gzwi7QsUgUMEo7KwElEdJ4vWDKrel6qlMJW7vc4tPLB/EZRtcy5HI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPnGEXsm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NnG4Um3r"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b4716f9a467so129123a12.0;
-        Thu, 14 Aug 2025 04:43:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755171794; x=1755776594; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SCmrgWC//nzUB+KMWvV1r1xovE6hyF4d5hN6Lt7hoXI=;
-        b=NnG4Um3rLqvb/JV9fj9axMvAe7G/lfxsVLeAyiNLD9Idtxs9PM/foXkAUyV8brWT4v
-         5vnTC9hSX0fgKZrDc5ZR+QQXN+Mo9hBORolsYx6QwneBNmQHe2SYRR4BAxYwv9IdU0ri
-         sWPN2g2rNKHFqbvzdR5yIHXCbihIWcWoO8xu5R1brv+K2IkhlSGfSsIYjiXknZG6yy8+
-         YXKPJxJQmeTdzj2GfhzOqOV/SLZAzwo9ZDxzC8sjSZv/65LcGRMHfd6k8cQIFmPT0HBE
-         tmomlMumDCWc4P5Cfw7HdSobNLjeCSgq+Zi4WFfUhEjOzWZigfpB2dlqx2J7iJMtQmmc
-         aIHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755171794; x=1755776594;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SCmrgWC//nzUB+KMWvV1r1xovE6hyF4d5hN6Lt7hoXI=;
-        b=adxQQPdhr/1xBoliHvUfSfhEDVDcI1kdFrD7HJnBPXHnyWz/C79f0EEHqHNorZN4Gb
-         teuX9VRV5bTJNjJXN10aRUKHiN4u9lic7xNoBDACkjKi0Wa9w0RhHJs/XS6f/cBu3ZzV
-         lCzjSQ5hSE1JX7l4qfvyZY6k5e04RfJ1GeIZk9iwu8hK4eJwsbGFWku+b3BlC2Es6QzG
-         8AQuo6ukHnKsroOCbm1QnOAdXSQq3NTKqLgfckz4m2Y6VkIFv6quf0+fnQWcmrwn0LAk
-         euGGTyC1V9vKLJNtV4goH5LPbA/SPd+n/DwGrAqu9FTxVnSFmMkFLHjl2+z5UughYyBv
-         fGqw==
-X-Forwarded-Encrypted: i=1; AJvYcCUUFaE7KZrJU5SuEgdXfrHIURXwtSLFoux0UKJHgEpz/F+bE4EHjWA85VUQDfTrM9sDi8Q3UlwDzEWcOuRuHPc9padS9jk=@vger.kernel.org, AJvYcCV5zilt2kkotn5bab3TTAzs06ZVUgPDpxOPVybAbHtolJ95oACLfIWTFNDKvJ6Ni/12a6TAvbvYPr4FyXNM7NnzZLs=@vger.kernel.org, AJvYcCVzdGvCRioMKMoenEceN8lCraMec+S/Owf15sa+TX5ysbwRCc2R7jkpwKsVU2/ri3IDWwKrR+bshgr3@vger.kernel.org, AJvYcCW9wTS7TUxe+boB25ydMM5sXCg4uB/KZr3iUGBDwiRO7id6YKBwg9KbX2oSleVhcFbpOWf1pqzo5IQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9BSPZMilMGlLyLvsLnlt817KNtnc+gdvt0RR87GzlWl9HMjJo
-	DQW76cDigL12xXjP1W6srdM4+i3WY7wwp9mmjwt2M6bl3jOiSRtXPh7P
-X-Gm-Gg: ASbGncvPXtfMqohgQ44bs8U646vZL2kbYOsw8kUOEe5O/T3LpS1U87B/zjmnhGwIz1/
-	kerbFHki5Ku8uudKCid1RRyOGVR/t5G31oO5BW1OjLsZ0ebRBzvaFoF/9iW81fm3dFOXChhPvZQ
-	zsjpGLWjL5zl0I9YP2okJ2xbtvchXe2RAZP1icTDCDHWv55DPa//WsabnJCOrm6Wtont+jbksyU
-	mQHtCD2lE2jxcGkK8YbYokxtmTIAq5Jvyihh2Fdf1QZHNhpOUi22FeAgWfqf0wmeZzILqDTAVHe
-	QxWhhke5ulaPuElp7VfxGx1t8zis5fSJ9nH83d84quJXMMbCAgZPdNbf69QhEUjPjo+SMSrdgxC
-	2guLi/ZroI9aa0JE9KmfydZTjdnlM+Q==
-X-Google-Smtp-Source: AGHT+IGj538MNFw8lnLpKQJxZofnRLU078qxv/1o5OvFcfhFzVvepwV4a2SHH8CKzazBMkPgBT0qiQ==
-X-Received: by 2002:a05:6a00:1255:b0:736:4d90:f9c0 with SMTP id d2e1a72fcca58-76e2f8bfd42mr1938894b3a.1.1755171794275;
-        Thu, 14 Aug 2025 04:43:14 -0700 (PDT)
-Received: from ranganath.. ([2406:7400:98:6831:7d1d:f0f4:7398:409e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76c34d23f01sm19285741b3a.23.2025.08.14.04.43.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 04:43:13 -0700 (PDT)
-From: Ranganath V N <vnranganath.20@gmail.com>
-To: corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	alim.akhtar@samsung.com,
-	dave@stgolabs.net,
-	rafael@kernel.org,
-	linux-kernel-mentees@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	vishal.l.verma@intel.com,
-	Ranganath V N <vnranganath.20@gmail.com>
-Subject: [PATCH] Documentation: Fix driver-api typos
-Date: Thu, 14 Aug 2025 17:12:44 +0530
-Message-ID: <20250814114245.16399-1-vnranganath.20@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPnGEXsm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6900C4CEF1;
+	Thu, 14 Aug 2025 11:45:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755171950;
+	bh=FexkV7nvaMJKSQuSjt56VRn1ropgn6XWofqYu3VqSl0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OPnGEXsmQefCR5XKxWgB20+CdEPRHLpwVjZ9QqpgyiEZ/0tCDnmajIc2xnznI+BzQ
+	 Is37m5tR5w39ME0RZCAMaBBsKQRSYqMs9a9tZjjyQriX3RqQOr5IihltzPkGu3m3Q4
+	 vZTJUJH1TKkWTXuh5TamQ5xvr35SXOixpW9FVi2OiCGYyXHmfuOj0dXi7B8UQAC5Q+
+	 zxQk6CKRtdavLtwGvB7gY6HSlp4w30N0rA/eF4w9gIis1iaNFxzbmJZsXiOQE7bHUr
+	 9ZJMetEeDzQbchb9v2/vyLtoHZnblpw/SncrzFzAA5/Uj9OF05Wi8okNIKcTLXJXu5
+	 tNIXry1AK4ePw==
+Date: Thu, 14 Aug 2025 12:45:42 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: David Hildenbrand <david@redhat.com>,
+	Usama Arif <usamaarif642@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
+	baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
+	ziy@nvidia.com, laoar.shao@gmail.com, dev.jain@arm.com,
+	baolin.wang@linux.alibaba.com, npache@redhat.com,
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, vbabka@suse.cz,
+	jannh@google.com, Arnd Bergmann <arnd@arndb.de>, sj@kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v4 7/7] selftests: prctl: introduce tests for disabling
+ THPs except for madvise
+Message-ID: <b433c998-0f7b-4ca4-a867-5d1235149843@sirena.org.uk>
+References: <20250813135642.1986480-1-usamaarif642@gmail.com>
+ <20250813135642.1986480-8-usamaarif642@gmail.com>
+ <13220ee2-d767-4133-9ef8-780fa165bbeb@lucifer.local>
+ <bac33bcc-8a01-445d-bc42-29dabbdd1d3f@redhat.com>
+ <5b341172-5082-4df4-8264-e38a01f7c7d7@lucifer.local>
+ <0b7543dd-4621-432c-9185-874963e8a6af@redhat.com>
+ <5dce29cc-3fad-416f-844d-d40c9a089a5f@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HgKF1GOS9//9I841"
+Content-Disposition: inline
+In-Reply-To: <5dce29cc-3fad-416f-844d-d40c9a089a5f@lucifer.local>
+X-Cookie: This sentence no verb.
 
-Corrected a few spelling mistakes
 
-- functionalty ==> functionality
-in Documentation/driver-api/cxl/devices/device-types.rst
+--HgKF1GOS9//9I841
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-- adjascent ==> adjacent
-in Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
+On Thu, Aug 14, 2025 at 11:49:15AM +0100, Lorenzo Stoakes wrote:
+> On Thu, Aug 14, 2025 at 11:32:55AM +0200, David Hildenbrand wrote:
+> > On 13.08.25 20:52, Lorenzo Stoakes wrote:
 
-- succeessful ==> successful
-in Documentation/driver-api/thermal/exynos_thermal_emulation.rst
+> > > I can't see anything in the kernel to #ifdef it out so I suppose you mean
+> > > running these tests on an older kernel?
 
-Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
----
- Documentation/driver-api/cxl/devices/device-types.rst           | 2 +-
- .../cxl/platform/example-configurations/one-dev-per-hb.rst      | 2 +-
- Documentation/driver-api/thermal/exynos_thermal_emulation.rst   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+...
 
-diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
-index 923f5d89bc04..7f69dfa4509b 100644
---- a/Documentation/driver-api/cxl/devices/device-types.rst
-+++ b/Documentation/driver-api/cxl/devices/device-types.rst
-@@ -22,7 +22,7 @@ The basic interaction protocol, similar to PCIe configuration mechanisms.
- Typically used for initialization, configuration, and I/O access for anything
- other than memory (CXL.mem) or cache (CXL.cache) operations.
- 
--The Linux CXL driver exposes access to .io functionalty via the various sysfs
-+The Linux CXL driver exposes access to .io functionality via the various sysfs
- interfaces and /dev/cxl/ devices (which exposes direct access to device
- mailboxes).
- 
-diff --git a/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst b/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
-index aebda0eb3e17..a4c3fb51ea7d 100644
---- a/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
-+++ b/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
-@@ -10,7 +10,7 @@ has a single CXL memory expander with a 4GB of memory.
- Things to note:
- 
- * Cross-Bridge interleave is not being used.
--* The expanders are in two separate but adjascent memory regions.
-+* The expanders are in two separate but adjacent memory regions.
- * This CEDT/SRAT describes one node per device
- * The expanders have the same performance and will be in the same memory tier.
- 
-diff --git a/Documentation/driver-api/thermal/exynos_thermal_emulation.rst b/Documentation/driver-api/thermal/exynos_thermal_emulation.rst
-index c21d10838bc5..f77d27c25ce2 100644
---- a/Documentation/driver-api/thermal/exynos_thermal_emulation.rst
-+++ b/Documentation/driver-api/thermal/exynos_thermal_emulation.rst
-@@ -32,7 +32,7 @@ Exynos emulation mode requires synchronous of value changing and
- enabling. It means when you want to update the any value of delay or
- next temperature, then you have to enable emulation mode at the same
- time. (Or you have to keep the mode enabling.) If you don't, it fails to
--change the value to updated one and just use last succeessful value
-+change the value to updated one and just use last successful value
- repeatedly. That's why this node gives users the right to change
- termerpature only. Just one interface makes it more simply to use.
- 
--- 
-2.43.0
+> > > But this is an unsupported way of running self-tests, they are tied to the
+> > > kernel version in which they reside, and test that specific version.
 
+> > > Unless I'm missing something here?
+
+> > I remember we allow for a bit of flexibility when it is simple to handle.
+
+> > Is that documented somewhere?
+
+> Not sure if it's documented, but it'd make testing extremely egregious if
+> you had to consider all of the possible kernels and interactions and etc.
+
+> I think it's 'if it happens to work then fine' but otherwise it is expected
+> that the tests match the kernel.
+
+> It's also very neat that with a revision you get a set of (hopefully)
+> working tests for that revision :)
+
+Some people do try to run the selftests with older kernels, they're
+trying to get better coverage for the stables.  For a lot of areas the
+skipping falls out natually since there's some optionality (so even with
+the same kernel version you might not have the feature in the running
+kernel) or it's a new API which has a discovery mechanism in the ABI
+anyway.  OTOH some areas have been actively hostile to the idea of
+running on older kernels so there are things that do break when you try.
+TBH so long as the tests don't crash the system or something people are
+probably just going to ignore any tests that have never passed.
+
+--HgKF1GOS9//9I841
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmidzGUACgkQJNaLcl1U
+h9A7uAf/TsWdfXYkIPkM2Rj3C1HzjIuj6j4nnUhMESgtZSbf9Am99POGQmQxnUay
+Mz75k34/LOlxbUGyk2oz2tqb4Ad725WPmSqg4IEQXJ3or551O2tAApBrrbwTKfrT
+ha9jUqj/hhFasDuM9PZsHTUcEk4DKGYtFHOtrucuQMDOSNH7lsB3BEVyaY4xxHzM
+d2dWm3i1c8VlbU8gFIX794INH1sdcja2Syh0d5wraBAZ+NS+uJ5iWyZw43YgTGiX
+qQR+HWxD/m3NSNX6L58jpZYJq6Q40xDz8aQQiAd2omnwIYWln4HIitcYTpeNvQNw
+Poh6lZXtgIVoXt2Io6PYJpr3LnpP6A==
+=Xem/
+-----END PGP SIGNATURE-----
+
+--HgKF1GOS9//9I841--
