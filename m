@@ -1,281 +1,155 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2059.outbound.protection.outlook.com [40.107.95.59])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31621F2C45;
-	Thu, 14 Aug 2025 14:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755180179; cv=fail; b=DW8mepRVcEV3JyZ6LHzclDwlNqou+ySSY8DSJQ7iAzpqzRxoU+O+2TbbuFZkxHhCg3Dl9dfgiIs5GhXN35D9VJR8kCCO5ybXUU+W8pMzP31QdRqrfQP6JEoX51mLNzWxaYBret5NBd28HbNhxJggTeEzZHqhVE0+xVLXKTGaRSA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755180179; c=relaxed/simple;
-	bh=W4YNYuarqU+YZ19gmETk1wYyFpgocIONJPD3Vnjyi2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=JZIx4ppFt1xX1kD+vltXgIEm5n1DgsWLGJ44CKjhK6rqZZUOQ5LWkcG5ezVoPwR1Rug6Q2illGUFYPbsI3TfDTv7+h+9isav6jadtfJGWMIAntUxFuI8R2izQQtSOa+Wba9d2hz90GsPKsxdj4p8cjiquxj6LaOLh6O2gagv3Ik=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IPRIPR9t; arc=fail smtp.client-ip=40.107.95.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC03321427;
+	Thu, 14 Aug 2025 14:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755180408; cv=none; b=V+Q2/RduAfCvZjCoOH5gmgQnTTARjegyNhms1i8s9uHSXADFQWmziOuiIIs6DG2C9tZ2hf5FRwlohzlxFxAI/vR6cwIV80W08Gmr4SccsrwL3FwQG8c7Ult1DnvobevL+O7Rh1mkYZ+12RI7Ve49B2uCEqODcjN+c99sUC0bO0I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755180408; c=relaxed/simple;
+	bh=Ybxk1TB6zRWIfSh85LcO2RRx7atnh+AZLW/N/PE9Rcs=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=mUyBNeELNzOgCUg2jCxasK5M0tyAJx4y2+4iOd4iGHu+uzUhvGnTAFVuQHBhVOyub5gwG+5ZwnmWbi1n8zIl04Qd0LezxmXFaE9F6VAI46c2atzEaicVgPxJhdc/IBi71B14SjX1bjnjSMfLbk1iLXBdW9lZehC+G6ufMKoCUGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UEOyQxV2; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IPRIPR9t"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vmlSHWQ8c+JkZy79/XVjneW72a7fFxB07OglLFQV/YPaHH/iBi/uSyFNBlLUviPx56QCFBg3ShG3TaU9U2HTgVTtcjONB4NR+N4N7bqJKoZMmQP/6ce4rFTLnpJLw/zTSxgUYMuJbzu/x5zVyVmzEDvfjvj1/nfGIElNv6aMSoL+Z0mDmDDHdFaBuwQDP0UNq4xbAjyWOgAdzbloRrqGjaNhqvmL2VXkReze2fujKOdPkyH8efKO2qRNLuwmt+hVic2T3xRjOA27W7UTG/UFylmvuj6okYBrfl9/o/agkxs0dase9z5hA4hNoeD0xqlr51FSTGHFoL7lr/Uoox9TVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VCRR+qficmaSKAAxzP/PqrjpL2iTV293DJwBdO7Gd6k=;
- b=D2Fe5B/iIaJKOK0VJp4SbnwlIMeXxb3f66FiLDreRM+V6GMdstiFo1lfUzze0raJhc+xMbzO/GhC51xY7+2jlH3dYD3RGu4C6aZKOO4gnZoj6QlXNOzRwAH4MZCiA8ngTghMzQAcS4U30IMGz3V1O9ujM5L2BkxGsDm9QyYFBcWc+5xMcsKht+yYNZgJkCjlLu6hj2ihwd1no+bz07G1gbkTp2b5R1ZkJYf2gSv/wx4EM4ffpA7/bXHp4sUvgCt9qltIfJzpOXkoLMjJfTivOBtaseMo0szWJEngCRm47HLuBIpSs8BiIJnQWLVGABspF4HjANd8BKsd1xWSqNeYaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VCRR+qficmaSKAAxzP/PqrjpL2iTV293DJwBdO7Gd6k=;
- b=IPRIPR9t4+jf+D8P8VOltPuQ9oCxKawdAhUnPnxav9ygZpht6StSv+8DRXOyvuA3/LVZflU4EM4TqM6nLm45ayHuFzKYf7zueStn1AR/9fyF4F1FdPMYXpBKhw9xPVOa+RyHTyT7iNsOqwyG/DSnhMEuDpkK/jSUkt7TmDTtEGM+bKJDpqHhWv7+xNXHZJRqZ8IEY9tygLQa8xnnZq6zHXNvQXSX356HVnGI66FEtYVTsJa+WYG/xVe93q5cAGbKiRaXVcX9ztyHmL2olzXcyE4pirHBa4yzdUrgkTwzr5nQt5a+bVb1pXaSCkD78N3XNzR1cRQ1zVjG3SI2ZQ2F0Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by CH3PR12MB8935.namprd12.prod.outlook.com (2603:10b6:610:169::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Thu, 14 Aug
- 2025 14:02:54 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9031.012; Thu, 14 Aug 2025
- 14:02:54 +0000
-Date: Thu, 14 Aug 2025 11:02:52 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com,
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
-	witu@nvidia.com
-Subject: Re: [PATCH v3 18/30] liveupdate: luo_files: luo_ioctl: Add ioctls
- for per-file state management
-Message-ID: <20250814140252.GF802098@nvidia.com>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-19-pasha.tatashin@soleen.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250807014442.3829950-19-pasha.tatashin@soleen.com>
-X-ClientProxiedBy: BL1PR13CA0231.namprd13.prod.outlook.com
- (2603:10b6:208:2bf::26) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UEOyQxV2"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3b9e418ba08so477264f8f.3;
+        Thu, 14 Aug 2025 07:06:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755180405; x=1755785205; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Qda6eKiChu1mXCojr2a5Wn7iDIeLm6m2hQhqg1Pn4sg=;
+        b=UEOyQxV2fDgRPnaeK13ztdYlFtXTWFg64MhSQhLr9GeLlZCAIn0K97TQUBfP2+SduR
+         Al2JfRyZZm2u9JJ+unyZ7q375+glYjQQKM//CeKBjP5J8X9bPHWSGRhkqB4jZqBwu7r/
+         zDeOnVfox4n+JUoSrqeNesGOKMb83hXBKxU/u/fKv/zso4XPrGfUQ3zfSZAAnYSTa3Jq
+         4aNoOVJJLBXogTTu0NQ8CurDLFA+ht0Ft1GYDCW1hLAMqlbDCGltE+j+bYeNU9j2Ll2P
+         YSTD9iAT5FxvILJmBQFpIenvZyrbq0VRBn0ef1UzMXHsVNYOoGnI9qP7rwfTW90b90XJ
+         B3ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755180405; x=1755785205;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qda6eKiChu1mXCojr2a5Wn7iDIeLm6m2hQhqg1Pn4sg=;
+        b=cx8KrlCSHUcIxMN5jRuK9sHHqrr3aLtW7UggxS+3bejR6Wasodjm0cjavrzbun/gVE
+         NSZwIa52DVBiH9COvG/ERYCuomGcOEqIGUuUmcnE6XAcHzzfZKMb+VKVtuqgxPxGweIs
+         kD67nkpJdpgHtVJNK/zDBAcGeaIs1KoJuXs6mUwkYaDPUnGpti3JLhf+aEWNW0GtBTmQ
+         wXcom8kAFFydxIN4ANeaEs0Tg6zURNmL4gg3UPbZhlmoVqcH3ws7+DxYJMKOa3qojbxk
+         KihkYkhGwMY84jxCoEV0ce8wC7nPCz3vyP3jR9GQoh15Djptj4tMcCwRLnx1zpVPIQ6s
+         OxSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUl9stnpj4dcJZ69DWkrXWP3MVfPaoS19rI/lqC3cYdDjxzyZCE9TiWEp4GYuE4JRCZdUs4qTAOxr9qWKRBLZ52jw==@vger.kernel.org, AJvYcCVwNXwtQbEu2ngNB0OdQE1459Y8oGdLxao3IKx/73iQumJuHqBqpnHvpamfWpCCDFsb3aggOX4SDaOv@vger.kernel.org, AJvYcCWHTfpM5B1Ij7F+fd8jOwYDJod+AA6gkQx4QtFt+GFN04HsCbePs/nmgVGzeybuzZ+HogN58Dviv9gE@vger.kernel.org, AJvYcCXTFRikrNZ4wgEeEmya00J2Dz7HurzJcHpyRouEsqY7H1+UU0l1Txjb1hfPdXKRSmx9QNUAMBe1i9Uj@vger.kernel.org, AJvYcCXj9xd6PaEkNXO9MBNhOpvg6Rrqqi+8zb+ONT46OwDtKl653Da48CCsYecIXoo061tBPeBUW8kGY/9+rpq+@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfunE9r9nrfoGbNhasfvwz9IaMq9FWCB7yNkXeLMEfza+P2m+v
+	sGbRVyl1AxOJp5d41YQHhCg3nBzlwzNEndwAfkdCZdpIcrD0g8zc3WwY
+X-Gm-Gg: ASbGncvmFhRPDf10dzEm+sONPK3cNF3W4jBi6bDeZ0jZ76RuQxoRRWSBNKHE+7QiL6U
+	ufQHVhGEa1gsvcOCbXOIU9LLBjUaCKGldAYHLSTYxncu94gwMBI6brtMbRjLZVcEIq5nzmBLWHr
+	66nqyupdtmek2A994t/8OiMrZ9k0r3PYXSCE9pn73c/gbBkLdbV5+qMLCV52hgRJ0CEABNNiPey
+	nZZo+Ii1ns5vKbRgQM5P1L1xo6Llj9wInmC4bqVewglcRxcdv7YPle8C1cNJCNmL1DZ7odtYO74
+	yoQZrLKF9uCfG1+lfqTjjYqJH4iVnfqq4D/s2tV7p0Qg0kH8btbpTT3KQX2x6DR7SBW7aJk8HnD
+	1sxiOjgvS30kQQ8YvegvPXEJikhW78rsh3gPzivG60iLSOlAymhxf1jk3cyI626QtMpcRdTX4hz
+	8kxvc0pB6RGnICcpYCkWyZLfPXJbAmvWbGAIVuDCYkoPOqZJC7K2zLl7sg7nfBF24WI4z6pwyPh
+	8M=
+X-Google-Smtp-Source: AGHT+IEnQ9do0ALLGKmunp/XJpi/t5BmL0hnvtsNOXrAxguTK/fiIMH8QwU2UzXZuUzOb9KHxDTCdQ==
+X-Received: by 2002:a05:6000:2405:b0:3b9:7bf0:88e1 with SMTP id ffacd0b85a97d-3b9edfd55bfmr2615620f8f.56.1755180404714;
+        Thu, 14 Aug 2025 07:06:44 -0700 (PDT)
+Received: from ?IPV6:2a01:cb08:941b:4c00:f383:4db2:82a:81e9? (2a01cb08941b4c00f3834db2082a81e9.ipv6.abo.wanadoo.fr. [2a01:cb08:941b:4c00:f383:4db2:82a:81e9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b8e0bfc79fsm40404341f8f.56.2025.08.14.07.06.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Aug 2025 07:06:44 -0700 (PDT)
+Message-ID: <4055d2c4-64c7-498f-8cdb-8d749d32ec68@gmail.com>
+Date: Thu, 14 Aug 2025 16:06:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CH3PR12MB8935:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd8fd9fb-a06d-4966-99c8-08dddb3b4357
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?oMiBmFvCu0QCQ+C005SPY+ownvnebSIZQZJonfxZcIVMPjeBjHivDq/h+HMd?=
- =?us-ascii?Q?WqdB5PXa+An9sAqK5bepwhI0sbqoIPaPnVap9i5ioS5BmgObrCS7ZfFITpgS?=
- =?us-ascii?Q?ARXatnZG8AQD680UrU+cAGM41wjmtMbPpkKSbciAoFoBhK4T6SDDjV3FNsb1?=
- =?us-ascii?Q?+xWAmu7BTxaNuBHJpOwql3J2sWmYuGg3p3NR4+ZgYi6Iix2ZEx4okrI/Mp3h?=
- =?us-ascii?Q?Awl10vQTxRQSaYR9jX1XVrOp01P0GyQejnrAx+BULhL1WmzvUnAd3ddlqhS3?=
- =?us-ascii?Q?3/AOJ7NEVHrqsT09D/tRPCXQPf2G7bX61H8nt1TM7jTP7qkHaLNJV0Vh2TRg?=
- =?us-ascii?Q?8hIf+zluw+zEJhHQeFn7ohFoPnpEOwEPKLm+R1rhmqMpsII3MSMHeBf1OhjN?=
- =?us-ascii?Q?+r9qaXsuDqbe0lV6rL7dzjPdUCsbGzo/hXDH/b8Bhb11SgNad067kLq6Tzm1?=
- =?us-ascii?Q?2+D8E3ggW1dohzvdr3T2oGcAJJ0Byoh6hXHJZ/8f25oi096VJMPcz1303VeR?=
- =?us-ascii?Q?JlEJYuliGXPYw+nV+ClJckjkKKxHyTJFwi7EIWzCb7YDrlk5MfXdfLJSHAEo?=
- =?us-ascii?Q?SmxrkeWAruZ88mbhZY2c+Fh7+CJM4lnXmlf103nkAF+yfIiepHXxdu+Z85wZ?=
- =?us-ascii?Q?yCHwBhstK+ZTCyb3pRyOJMpHK1A/dXOIkGr5DfPktizpu7hekP8IR42eVnhd?=
- =?us-ascii?Q?Qte59G9rDOFLP2VNIzNa5xj7NI/EV7zWPGbL6E/IMwafQ8lrBHWGAiHqfDiC?=
- =?us-ascii?Q?D1CZ6Z1prNT8glKUUuVObKHm8+mN3sY8RhEuLnP+730/pY0IxGRhAOnebBh7?=
- =?us-ascii?Q?VEo1nXrXmKTsSBshqWq0yn37REzM4DTJuBEAr6a12mhC3M6Pwxzfaev7c1sw?=
- =?us-ascii?Q?RNydvJYU2lhDVnLdHZRmXIjvTogKciWHFZs1HFwYyRMy2iKdZ7TRiaZMp4V/?=
- =?us-ascii?Q?P4WkaDgLARVlbPJ/CsRWqH4CvGuPUVrb78CJjfFqNsABPNx5T6bS9iBiuo3U?=
- =?us-ascii?Q?Rgua1lSOwCWslRbEMKvfwW6vhyXyA/fuF1x7ipdA58qofpcqj6cedfLguFS2?=
- =?us-ascii?Q?PmMCpXznBmxlzsL4ieB4Bra/hwcbvHAuIFYeG+5DMl4bQDaqePOhLI2WJGjI?=
- =?us-ascii?Q?gUEEkJXjIXRbmoWUsLEF3ZT7kpEOAjM2fp7lcBC9Azw/0ycfxsjfO52jMRdz?=
- =?us-ascii?Q?dohbQyml2UQo0uow/8fWFwMNoPug8sl+LR7eKrGqzgnET8dvWbAGrvugTYwu?=
- =?us-ascii?Q?7ROJx/3b8TbtNpvOmUIDOxYk+Ni4QPpkggX456SB5DfxNse5bpPgO4/NKx0t?=
- =?us-ascii?Q?Xm3X8/BVZy8AEQJOnaS5mNUu8vLxAQBOdmGS7kYKjkIcvrTKALHvL033lC47?=
- =?us-ascii?Q?EJhXPkE0AxCyWmbVQxLP4JQNK88Ts+F/MD2TCZECs261/gojDM/C/9ryrf9G?=
- =?us-ascii?Q?GGAQhWVEK/c=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?s3MsgChoxW0lhutlTBgL48qPuAKQ2t8jUZaTOxuTU+DwtREuHRJVlC0NEDjF?=
- =?us-ascii?Q?2eikU6q7j2az0/iiN9zVDqb7Cyqg5vr8D47IuFZO4nRxl/9+1Un7jNwNbC/V?=
- =?us-ascii?Q?WrExTJdx8ewBHyjoxuj70zV6j2wXvz/icFs8EWMmglhxwERIIqiAWzm1pS5F?=
- =?us-ascii?Q?N1cUBacipE1cNr7CfisiHqKSBqiCiJXFCHCZhFs6oljJ9twMP394Y1va949O?=
- =?us-ascii?Q?GZzP7M7GquKi7316Ke3TT0jaXMOIyaJ9k5R2W9UDENpKZVhxFm0CRdYQFn3S?=
- =?us-ascii?Q?Atr7eQS3apybHC3kDN7gaClpRhLDSI07oL3qe9MF4fzuExr54WZ9ANdjHra4?=
- =?us-ascii?Q?VFHkGoWt/DUcTQQ/Z6Bwrx0yuUS1dAxsbZ7col6LpXKGxKi/TMuyerlk+dga?=
- =?us-ascii?Q?INAg786na65GAIgk8bQ0EKq3DJ8LHd7kyvB68WjOO4VhjzJIF5iYVeBUGE3i?=
- =?us-ascii?Q?gBiy3pRQs1MJRzzuEQxOBrRvBMLlNWgKhPN6gGHK078okyd/WrpLEbOBDa/1?=
- =?us-ascii?Q?RNXMFwrWoRpahLVZKsdK6f/dwIN5mULiNvMpqcKQ02x6bTKGaAqtLXIDyOT6?=
- =?us-ascii?Q?HKCc/pN9TMbBwllJcaoT6GdDN/ueLHzPKL5u55vZalJeR4PjksunT6oTnNxt?=
- =?us-ascii?Q?CPAmZhiM9Ot1dm5tiANyCC0n/xtNfFZHZG9dS9cglJ8rQ55b/FzjB6d8NWM7?=
- =?us-ascii?Q?sOsvXN3mR8/HPz4KN5xkkNGdFPN71NU1sbOf1HTV8Ar1BG70XCn96uf70sza?=
- =?us-ascii?Q?SC70hrn5tByk69jDrNnzRrSd3YjdC1opNxIpt5OjYIzbiWV5E/4UiSBqWQDz?=
- =?us-ascii?Q?Z1L+WO4fhhOSXHYOilGR8TTzKvEjCQdNFKAc4nUxbhl0nZ4zOWBughWGpXvz?=
- =?us-ascii?Q?agmDZcDz89Ul7/yYesT2lJBunM/8PS/Z2lftVs6KwGf8L8QGIyCu0LFKmQH4?=
- =?us-ascii?Q?B3RG8587uTN+Nii3S4cvmPCaDCi9PKlJPfhTYMnk60Xwx+O52t0u0OT/YKly?=
- =?us-ascii?Q?8IGDmkg52oPZN75NDROQYz8g4V1v3my9rgOFphhfnPokIqbrFt1BHKxLrDWm?=
- =?us-ascii?Q?j1+TC2GbOMM3UjVb7kTSNE3lONrU6o+6MhTr3ciyW58fBD67UEztcM8oPkWP?=
- =?us-ascii?Q?1iPmVmCia0+ILiW5QHNi5wofbdWs0Q39FWOKns/9KFsNK2iEav5sSWPwarM6?=
- =?us-ascii?Q?zjtE/Wrpkzamo/Ld0a+yWxl3Zs6Ts40q42Wgh4cbL68znfsR2CYdsgOcynky?=
- =?us-ascii?Q?tPFE6BJQCb5V4lH81HpCVsbT3ZWJbzj43245qIOSjj4C4MlNcwsoggAJxBE7?=
- =?us-ascii?Q?IwyMk3zXHz54yOhZmyzIDIqDu5E0kYZSpfae675BcT8VkJvm7xClp/q/UAqZ?=
- =?us-ascii?Q?+BfkSPYngwQtHs6d3e6GtKeahPyzc2QjjvT1NXSdZJZUEqCpLxQEHcXG3s28?=
- =?us-ascii?Q?bwbVVNUQeseYDXTxJvoynOcBvESONGXS4KxjN4YzGdaPZ51GgtW2LlTh29jC?=
- =?us-ascii?Q?UvwxYqKHsZgg+OsrrIzuNQ2r3xDHLjDyibKLza5GYBa1Dewg6fpBfyTabYNl?=
- =?us-ascii?Q?1XTaGMHdZXCbsyLIJM8=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd8fd9fb-a06d-4966-99c8-08dddb3b4357
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 14:02:53.8873
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7MOha3hvQ4EJrU0HN7JLqgDU8PNpj3JrRWbovUa/NP7+WYrfftJ5z8Ku5NaM+tDd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8935
+User-Agent: Mozilla Thunderbird
+From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <legoffic.clement@gmail.com>
+Subject: Re: [PATCH v5 05/20] dt-bindings: memory: factorise LPDDR props into
+ SDRAM props
+To: Julius Werner <jwerner@chromium.org>,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+ Gatien Chevallier <gatien.chevallier@foss.st.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
+References: <20250728-ddrperfm-upstream-v5-0-03f1be8ad396@foss.st.com>
+ <20250728-ddrperfm-upstream-v5-5-03f1be8ad396@foss.st.com>
+ <CAODwPW-FjCtPGYkNYozo0ybEjz_rVOeDqkvEPiCmQ6M2in0OeQ@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAODwPW-FjCtPGYkNYozo0ybEjz_rVOeDqkvEPiCmQ6M2in0OeQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 07, 2025 at 01:44:24AM +0000, Pasha Tatashin wrote:
-> +struct liveupdate_ioctl_get_fd_state {
-> +	__u32		size;
-> +	__u8		incoming;
-> +	__aligned_u64	token;
-> +	__u32		state;
-> +};
+Hi Julius,
 
-Same remark about explicit padding and checking padding for 0
+On 30/07/2025 20:27, Julius Werner wrote:
+>> +      Compatible strings can be either explicit vendor names and part numbers
+>> +      (e.g. elpida,ECB240ABACN), or generated strings of the form
+>> +      lpddrX,YY,ZZZZ or ddrX-YYYY,AAAA...,ZZZZ where X, Y, A and Z are in lower
+> 
+> If the revision ID is only one byte for DDR, there should be only two Zs.
 
-> + * luo_file_get_state - Get the preservation state of a specific file.
-> + * @token: The token of the file to query.
-> + * @statep: Output pointer to store the file's current live update state.
-> + * @incoming: If true, query the state of a restored file from the incoming
-> + *            (previous kernel's) set. If false, query a file being prepared
-> + *            for preservation in the current set.
-> + *
-> + * Finds the file associated with the given @token in either the incoming
-> + * or outgoing tracking arrays and returns its current LUO state
-> + * (NORMAL, PREPARED, FROZEN, UPDATED).
-> + *
-> + * Return: 0 on success, -ENOENT if the token is not found.
-> + */
-> +int luo_file_get_state(u64 token, enum liveupdate_state *statep, bool incoming)
-> +{
-> +	struct luo_file *luo_file;
-> +	struct xarray *target_xa;
-> +	int ret = 0;
-> +
-> +	luo_state_read_enter();
+Indeed, will fix it here and in the dedicated field documentation below.
+Wouldn't it be better to add a regex pattern for the compatible ?
 
-Less globals, at this point everything should be within memory
-attached to the file descriptor and not in globals. Doing this will
-promote good maintainable structure and not a spaghetti
+> 
+>> +      case hexadecimal with leading zeroes.
+> 
+> AAAA is not hexadecimal, it's a verbatim ASCII string (at least that's
+> how I would define it, for readability).
 
-Also I think a BKL design is not a good idea for new code. We've had
-so many bad experiences with this pattern promoting uncontrolled
-incomprehensible locking.
+Yes you're right. I'll add the numbers of chars it corresponds to in the 
+dedicated field below also.
 
-The xarray already has a lock, why not have reasonable locking inside
-the luo_file? Probably just a refcount?
+> 
+>> +      For LPDDR and DDR SDRAM, X is the SDRAM version (2, 3, 4, etc.).
+>> +      For LPDDR SDRAM:
+>> +        - YY is the manufacturer ID (from MR5), 1 byte
+>> +        - ZZZZ is the revision ID (from MR6 and MR7), 2 bytes
+>> +      For DDR4 SDRAM with SPD, according to JEDEC SPD4.1.2.L-6 :
+>> +        - YYYY is the manufacturer ID, 2 bytes, from bytes 320 and 321
+>> +        - AAAA... is the part number, 20 bytes, from bytes 329 to 348
+> 
+> This should clarify that it is excluding trailing spaces (so only the
+> significant part of those 20 bytes, since they're supposed to be
+> padded with spaces at the end).
 
-> +	target_xa = incoming ? &luo_files_xa_in : &luo_files_xa_out;
-> +	luo_file = xa_load(target_xa, token);
-> +
-> +	if (!luo_file) {
-> +		ret = -ENOENT;
-> +		goto out_unlock;
-> +	}
-> +
-> +	scoped_guard(mutex, &luo_file->mutex)
-> +		*statep = luo_file->state;
-> +
-> +out_unlock:
-> +	luo_state_read_exit();
+I'll add a comment about that.
 
-If we are using cleanup.h then use it for this too..
+> 
+>> +        - Z is the revision ID, 1 byte, from byte 349
+>> +      The former form is useful when the SDRAM vendor and part number are
+>> +      known, such as when the SDRAM is soldered on the board.
+> 
+> This inversion of the statement is a bit odd? I think it's more
+> important to explain why we need the latter form (or just explain
+> both).
 
-But it seems kind of weird, why not just
+I will document both forms so.
 
-xa_lock()
-xa_load()
-*statep = READ_ONCE(luo_file->state);
-xa_unlock()
+> 
+>> +      SDRAM revision ID:
+>> +        - LPDDR SDRAM, decoded from Mode Register 6 and 7, always 2 bytes.
+>> +        - DDR4 SDRAM, decoded from the SPD from byte 349 according to
+>> +          JEDEC SPD4.1.2.L-6.
+> 
+> nit: Add "always one byte" for clarity and consistency with the LPDDR
+> equivalent.
 
-?
+Ack
 
-> +static int luo_ioctl_set_fd_event(struct luo_ucmd *ucmd)
-> +{
-> +	struct liveupdate_ioctl_set_fd_event *argp = ucmd->cmd;
-> +	int ret;
-> +
-> +	switch (argp->event) {
-> +	case LIVEUPDATE_PREPARE:
-> +		ret = luo_file_prepare(argp->token);
-> +		break;
-> +	case LIVEUPDATE_FREEZE:
-> +		ret = luo_file_freeze(argp->token);
-> +		break;
-> +	case LIVEUPDATE_FINISH:
-> +		ret = luo_file_finish(argp->token);
-> +		break;
-> +	case LIVEUPDATE_CANCEL:
-> +		ret = luo_file_cancel(argp->token);
-> +		break;
-
-The token should be converted to a file here instead of duplicated in
-each function
-
->  static int luo_open(struct inode *inodep, struct file *filep)
->  {
->  	if (atomic_cmpxchg(&luo_device_in_use, 0, 1))
-> @@ -149,6 +191,8 @@ union ucmd_buffer {
->  	struct liveupdate_ioctl_fd_restore	restore;
->  	struct liveupdate_ioctl_get_state	state;
->  	struct liveupdate_ioctl_set_event	event;
-> +	struct liveupdate_ioctl_get_fd_state	fd_state;
-> +	struct liveupdate_ioctl_set_fd_event	fd_event;
->  };
->  
->  struct luo_ioctl_op {
-> @@ -179,6 +223,10 @@ static const struct luo_ioctl_op luo_ioctl_ops[] = {
->  		 struct liveupdate_ioctl_get_state, state),
->  	IOCTL_OP(LIVEUPDATE_IOCTL_SET_EVENT, luo_ioctl_set_event,
->  		 struct liveupdate_ioctl_set_event, event),
-> +	IOCTL_OP(LIVEUPDATE_IOCTL_GET_FD_STATE, luo_ioctl_get_fd_state,
-> +		 struct liveupdate_ioctl_get_fd_state, token),
-> +	IOCTL_OP(LIVEUPDATE_IOCTL_SET_FD_EVENT, luo_ioctl_set_fd_event,
-> +		 struct liveupdate_ioctl_set_fd_event, token),
->  };
-
-Keep sorted
-
-Jason
