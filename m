@@ -1,134 +1,187 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1452EBDC7;
-	Thu, 14 Aug 2025 09:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B522D372C
+	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 09:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755162601; cv=none; b=tgwiOvUcEBIyo4uAFshke2Y65WeSsdcfQEnjV2n1HWrrit1113XQp7Yr7JxHPD1fbYpfOG87WMntB1WipvYLcj9mB0j0ApWN5a88kQuakfh4Fb0c8LyL6J9qtyNlF84zmI7k/DAS7AbrVJfIOGwBK9oQVAqF+fSC0zihC3Zl1a0=
+	t=1755163562; cv=none; b=i2BEntIkuQoIpnFx5hWSeoGW64O7AihciAbFG9RtKkNly8swQZNxqL5hO5p0aLLOOYGrnU/CH5tX1nycU9hCCELL5YDEo/aD4KBc61jx0SsLX5X8nIL6kNy004f4FTiLOh0Bw0kdz1bVLhv9rQxCi21Cw1f8ihiap84OX2668hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755162601; c=relaxed/simple;
-	bh=tMY4dvXutGA0Xp78nYkrpfsUKYwF4wzyT2kopCfHWGY=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=OBP400x8Mnm4TSBvbTcd9mbapBsLI1E8Xz4KG0+3XQgA0zIlNVNmYQ5sIqAAaNBp/sawccIwq2h6p9qfDg3sr45nTLIPyUVYy5s7g/5dv/gaG8GfX4AAFDc7Hiwzxlld9Ymfb60/lhlGTm4b4x/rAhjX4HIoE4WICSxc0GWqU/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4c2fZf3wZpz7s3pk;
-	Thu, 14 Aug 2025 17:09:46 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl1.zte.com.cn with SMTP id 57E99IR4031171;
-	Thu, 14 Aug 2025 17:09:18 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 14 Aug 2025 17:09:20 +0800 (CST)
-Date: Thu, 14 Aug 2025 17:09:20 +0800 (CST)
-X-Zmail-TransId: 2afa689da7c0ffffffff9fc-70ef0
-X-Mailer: Zmail v1.0
-Message-ID: <202508141709204212p78jkpo53qqgf0IMpdsO@zte.com.cn>
+	s=arc-20240116; t=1755163562; c=relaxed/simple;
+	bh=vZt4y1xzXM2B0r7bPL4MAJjGUGj9Xtb3vhQWkxkwSiA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XxK8n6O1qkrqtCC56C93zfTRWi13tpPiz2G3DnfFMekgebvwBa32ZPm/ZifltQzxEc2qHAPBQ3Uj0Bx4lrHvs/n4bfW/PIdxE4XFOH7rvDFO2Gqs4lfXg75JlQ+1YREqct9hkyUhS0VcMkZSOJe8CoBxMzPSOFzmzznfC9S1LN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e1/GBGIt; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e1/GBGIt"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45a1b00f187so3142035e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 02:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755163557; x=1755768357; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=caKBHp5j7/gqOP8pJYBB+m+OwHzfEzblmPGpxjdh1VA=;
+        b=e1/GBGItkOPuB/BOxvbBsSA+3Mp/+EGDKezCfzDumtsfOnDymU1qQsuqp1h3m4ins/
+         uSwWVQWecGGmv4gRfnTPnD52WrHG6pl12jc2dww6h8dXvs6+DbBCFiiHTotynHsyCQLy
+         T+U9BRpjk70eW33WGkk8KnWzOdzn0GHFm73b8MqOAg+FYPpoWdUKLemeWZXGaSd7ZqOL
+         vq4d8OaJ1Sl1vQAORBl6dCI1UycWjppSi2/8eUl2y7eDImUovShwkaQK7pRQTPDr7mQ0
+         Z18IC69loFOlgKsNGhX04LR8ySiSB4ocxzFkVtePP8567M1FYp6yXTMR4Zz8EhfzhTJE
+         euxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755163557; x=1755768357;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=caKBHp5j7/gqOP8pJYBB+m+OwHzfEzblmPGpxjdh1VA=;
+        b=hipjQF6vRthCijcDbcC67PCkB5QXadchdEyAwKyp1Ty0DwLor7koc873N7TorzqIgt
+         POWUFIVFerSXTjLwjNo7Z1Wb1FV88YAZ5vnxIlXEFWUwqWicGcDSfPF/OPLyXTbDAti/
+         Kokix5jZyl/VneRT798cBU9kKEg4zN+qrhzMRPnS4Redt7Db3iVrLTU6hCBvaHJYyudl
+         Th6s8QaYMubHK0AX5XErMkdNepbcUt2iPgxxbmAeP2gKAm7mqmrLGfpnanhwRvDGBE7Z
+         WGRZ3b/rlvUIiZWTqB/hKZMVyNT4WySLUEQrElfRDzGkMRCeEdYxo6rdf70VFenibgbS
+         NH8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWIG3iL0xt89sAi9WylF0y9khUFPk1SZHQIgI63poWZe7PLNKQKCrt5jj5u+EzeQauQtlafdjK6VOk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1VqD7Sur8woArdcj3wxURAOZx3OULKWbIGYSxEkuFpZ+MO7na
+	X0cDtbrUXNPDSRchaYQnZyx5L4xO6onh39I18EVI5VGlcea53v5vIxnDGx9Z6XtPUo0=
+X-Gm-Gg: ASbGncvozSXlUQ21aafWPLSqIUIzMkczSTiEDL/FByZOzrda9Sk/IM68ruE9oknfCTo
+	lPtJmNQgRe5A35st7I13A5BDLv62azJfjYvfZ1oh0zlMbr8wKZe5ArVylJQLtPclRSYi2t6auGA
+	uxlKdySQDMvb4EjxG7KZiDHikZPW/9c3tOUyJOIdFrbwAz1BXGo4UGA9QZuH/NhAWR1K1JczUqT
+	jljotJJSLURHN17Ebx7QcejhlhN2C02Kp7RnEsfyKw2MrcZB3cBoq9qqPc1UYA8VGf6zJc+BgQw
+	HFumZ6PdRrDZXiVUGvmNWjxYf8JP4H7arO4UyeSeL9/Y/0nQ5ncwz1wBUqGX0tCN+Udedt72NlA
+	hIm8/4QVwcVuuEDkvzL5CW/nKFD3yCYI=
+X-Google-Smtp-Source: AGHT+IFFjX/pyxO97kvg4fUgCnvfBjzIV9RmUUCrFRLJzwl3KMUkNYunWOuq124cI/SZDDfNBj88iQ==
+X-Received: by 2002:a05:600c:450e:b0:456:496:2100 with SMTP id 5b1f17b1804b1-45a1b6753a2mr19665655e9.31.1755163557196;
+        Thu, 14 Aug 2025 02:25:57 -0700 (PDT)
+Received: from ho-tower-lan.lan ([185.48.76.109])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c76e9basm14536775e9.21.2025.08.14.02.25.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 02:25:56 -0700 (PDT)
+From: James Clark <james.clark@linaro.org>
+Subject: [PATCH v7 00/12] perf: arm_spe: Armv8.8 SPE features
+Date: Thu, 14 Aug 2025 10:25:22 +0100
+Message-Id: <20250814-james-perf-feat_spe_eft-v7-0-6a743f7fa259@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>
-Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>,
-        <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
-        <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>,
-        <zhang.yunkai@zte.com.cn>
-Subject: =?UTF-8?B?wqBbUEFUQ0ggMC80IGxpbnV4IG5leHQgUkVTRU5EXSBEb2NzL3poX0NOOiBUcmFuc2xhdGUgbmV0d29ya2luZyBkb2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
-Content-Type: multipart/mixed;
-	boundary="=====_001_next====="
-X-MAIL:mse-fl1.zte.com.cn 57E99IR4031171
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.132 unknown Thu, 14 Aug 2025 17:09:46 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 689DA7DA.001/4c2fZf3wZpz7s3pk
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIKrnWgC/43R20oDMRAG4Fcpe21kck688j2klGkyaSO6uyRlU
+ Urf3WxBVllWvPwD880h165SyVS7p921KzTlmoe+Bfuw68IZ+xOxHFvuBAgNkgv2iu9U2UglsUR
+ 4OdSRDpQuzJgQk4oukfddqx4Lpfxxl1/2LZ9zvQzl895o4vPrtyk3zYkzYAKDgKjAhuCe33KPZ
+ XgcymnucQc0mL+BGJUDcqSc5j+BeapJLJNo4bch0SAEjv6IGMHgCpILZEBvQ7JBlh8h+OQdeLm
+ C1AJZwbch1SBALazikFyKK0j/E9LzavYYtJTtRLi+kVkgB24bMg0yEZPyTlv3+7f2t9vtCzTYw
+ CptAgAA
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+ Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, Leo Yan <leo.yan@arm.com>, 
+ Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, 
+ kvmarm@lists.linux.dev, James Clark <james.clark@linaro.org>
+X-Mailer: b4 0.14.0
 
+Support 3 new SPE features: FEAT_SPEv1p4 filters, FEAT_SPE_EFT extended
+filtering, and SPE_FEAT_FDS data source filtering. The features are
+independent can be applied separately:
 
+  * Prerequisite sysreg changes - patch 1
+  * FEAT_SPEv1p4 - patches 2 - 3
+  * FEAT_SPE_EFT - patch 4
+  * FEAT_SPE_FDS - patches 5 - 9
+  * FEAT_SPE_FDS Perf tool changes - patches 10 - 12
 
---=====_001_next=====
-Content-Type: multipart/related;
-	boundary="=====_002_next====="
+The first two features will work with old Perfs but a Perf change to
+parse the new config4 is required for the last feature.
 
+---
+Changes in v7:
+- Fix typo in docs: s/data_src_filter/inv_data_src_filter
+- Pickup trailers
+- Link to v6: https://lore.kernel.org/r/20250808-james-perf-feat_spe_eft-v6-0-6daf498578c8@linaro.org
 
---=====_002_next=====
-Content-Type: multipart/alternative;
-	boundary="=====_003_next====="
+Changes in v6:
+- Rebase to resolve conflict with BRBE changes in el2_setup.h
+- Link to v5: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v5-0-a7bc533485a1@linaro.org
 
+Changes in v5:
+- Forgot to pickup tags from v4
+- Forgot to drop test and review tags on v4 patches that were
+  significantly modified
+- Update commit message for data source filtering to mention inversion
+- Link to v4: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v4-0-0a527410f8fd@linaro.org
 
---=====_003_next=====
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
+Changes in v4:
+- Rewrite "const u64 feat_spe_eft_bits" inline
+- Invert data source filter so that it's possible to exclude all data
+  sources without adding an additional 'enable filter' flag
+- Add a macro in el2_setup.h to check for an SPE version
+- Probe valid filter bits instead of hardcoding them
+- Take in Leo's commit to expose the filter bits as it depends on the
+  new filter probing
+- Link to v3: https://lore.kernel.org/r/20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org
 
-RnJvbTogV2FuZyBZYXhpbiA8d2FuZy55YXhpbkB6dGUuY29tLmNuPg0KDQp0cmFuc2xhdGUgbmV0
-d29ya2luZyBkb2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ0KDQpTdW4geXV4aSAoMik6DQogIERv
-Y3MvemhfQ046IFRyYW5zbGF0ZSBtcHRjcC1zeXNjdGwucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVz
-ZQ0KICBEb2NzL3poX0NOOiBUcmFuc2xhdGUgZ2VuZXJpYy1oZGxjLnJzdCB0byBTaW1wbGlmaWVk
-IENoaW5lc2UNCg0KV2FuZyBZYXhpbiAoMik6DQogIERvY3MvemhfQ046IFRyYW5zbGF0ZSBza2J1
-ZmYucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ0KICBEb2NzL3poX0NOOiBUcmFuc2xhdGUgdGlt
-ZXN0YW1waW5nLnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2UNCg0KIC4uLi96aF9DTi9uZXR3b3Jr
-aW5nL2dlbmVyaWMtaGRsYy5yc3QgICAgICAgICB8IDE3NiArKysrKw0KIC4uLi90cmFuc2xhdGlv
-bnMvemhfQ04vbmV0d29ya2luZy9pbmRleC5yc3QgICB8ICAgOCArLQ0KIC4uLi96aF9DTi9uZXR3
-b3JraW5nL21wdGNwLXN5c2N0bC5yc3QgICAgICAgICB8IDEzOSArKysrDQogLi4uL3RyYW5zbGF0
-aW9ucy96aF9DTi9uZXR3b3JraW5nL3NrYnVmZi5yc3QgIHwgIDQ0ICsrDQogLi4uL3poX0NOL25l
-dHdvcmtpbmcvdGltZXN0YW1waW5nLnJzdCAgICAgICAgIHwgNjc0ICsrKysrKysrKysrKysrKysr
-Kw0KIDUgZmlsZXMgY2hhbmdlZCwgMTAzNyBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0K
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9uZXR3
-b3JraW5nL2dlbmVyaWMtaGRsYy5yc3QNCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlv
-bi90cmFuc2xhdGlvbnMvemhfQ04vbmV0d29ya2luZy9tcHRjcC1zeXNjdGwucnN0DQogY3JlYXRl
-IG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL25ldHdvcmtpbmcv
-c2tidWZmLnJzdA0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9DTi9uZXR3b3JraW5nL3RpbWVzdGFtcGluZy5yc3QNCg0KLS0gDQoyLjI1LjE=
+Changes in v3:
+- Use PMSIDR_EL1_FDS instead of 1 << PMSIDR_EL1_FDS_SHIFT
+- Add VNCR offsets
+- Link to v2: https://lore.kernel.org/r/20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org
 
+Changes in v2:
+- Fix detection of FEAT_SPE_FDS in el2_setup.h
+- Pickup Marc Z's sysreg change instead which matches the json
+- Restructure and expand docs changes
+- Link to v1: https://lore.kernel.org/r/20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org
 
---=====_003_next=====
-Content-Type: text/html ;
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
+---
+James Clark (11):
+      arm64: sysreg: Add new PMSFCR_EL1 fields and PMSDSFR_EL1 register
+      perf: arm_spe: Support FEAT_SPEv1p4 filters
+      perf: arm_spe: Add support for FEAT_SPE_EFT extended filtering
+      arm64/boot: Factor out a macro to check SPE version
+      arm64/boot: Enable EL2 requirements for SPE_FEAT_FDS
+      KVM: arm64: Add trap configs for PMSDSFR_EL1
+      perf: Add perf_event_attr::config4
+      perf: arm_spe: Add support for filtering on data source
+      tools headers UAPI: Sync linux/perf_event.h with the kernel sources
+      perf tools: Add support for perf_event_attr::config4
+      perf docs: arm-spe: Document new SPE filtering features
 
-PGRpdiBjbGFzcz0iemNvbnRlbnRSb3ciPjxwPkZyb206IFdhbmcgWWF4aW4gJmx0O3dhbmcueWF4
-aW5AenRlLmNvbS5jbiZndDs8L3A+PHA+PGJyPjwvcD48cD50cmFuc2xhdGUgbmV0d29ya2luZyBk
-b2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZTwvcD48cD48YnI+PC9wPjxwPlN1biB5dXhpICgyKTo8
-L3A+PHA+Jm5ic3A7IERvY3MvemhfQ046IFRyYW5zbGF0ZSBtcHRjcC1zeXNjdGwucnN0IHRvIFNp
-bXBsaWZpZWQgQ2hpbmVzZTwvcD48cD4mbmJzcDsgRG9jcy96aF9DTjogVHJhbnNsYXRlIGdlbmVy
-aWMtaGRsYy5yc3QgdG8gU2ltcGxpZmllZCBDaGluZXNlPC9wPjxwPjxicj48L3A+PHA+V2FuZyBZ
-YXhpbiAoMik6PC9wPjxwPiZuYnNwOyBEb2NzL3poX0NOOiBUcmFuc2xhdGUgc2tidWZmLnJzdCB0
-byBTaW1wbGlmaWVkIENoaW5lc2U8L3A+PHA+Jm5ic3A7IERvY3MvemhfQ046IFRyYW5zbGF0ZSB0
-aW1lc3RhbXBpbmcucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZTwvcD48cD48YnI+PC9wPjxwPiZu
-YnNwOy4uLi96aF9DTi9uZXR3b3JraW5nL2dlbmVyaWMtaGRsYy5yc3QmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7fCAxNzYgKysrKys8L3A+PHA+Jm5ic3A7Li4uL3RyYW5zbGF0aW9u
-cy96aF9DTi9uZXR3b3JraW5nL2luZGV4LnJzdCZuYnNwOyAmbmJzcDt8Jm5ic3A7ICZuYnNwOzgg
-Ky08L3A+PHA+Jm5ic3A7Li4uL3poX0NOL25ldHdvcmtpbmcvbXB0Y3Atc3lzY3RsLnJzdCZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt8IDEzOSArKysrPC9wPjxwPiZuYnNwOy4uLi90
-cmFuc2xhdGlvbnMvemhfQ04vbmV0d29ya2luZy9za2J1ZmYucnN0Jm5ic3A7IHwmbmJzcDsgNDQg
-Kys8L3A+PHA+Jm5ic3A7Li4uL3poX0NOL25ldHdvcmtpbmcvdGltZXN0YW1waW5nLnJzdCZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt8IDY3NCArKysrKysrKysrKysrKysrKys8L3A+
-PHA+Jm5ic3A7NSBmaWxlcyBjaGFuZ2VkLCAxMDM3IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25z
-KC0pPC9wPjxwPiZuYnNwO2NyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy96aF9DTi9uZXR3b3JraW5nL2dlbmVyaWMtaGRsYy5yc3Q8L3A+PHA+Jm5ic3A7Y3JlYXRl
-IG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL25ldHdvcmtpbmcv
-bXB0Y3Atc3lzY3RsLnJzdDwvcD48cD4mbmJzcDtjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRh
-dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbmV0d29ya2luZy9za2J1ZmYucnN0PC9wPjxwPiZuYnNw
-O2NyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9uZXR3
-b3JraW5nL3RpbWVzdGFtcGluZy5yc3Q8L3A+PHA+PGJyPjwvcD48cD4tLSZuYnNwOzwvcD48cD4y
-LjI1LjE8L3A+PHA+PGJyPjwvcD48L2Rpdj4=
+Leo Yan (1):
+      perf: arm_spe: Expose event filter
 
+ Documentation/arch/arm64/booting.rst      |  11 +++
+ arch/arm64/include/asm/el2_setup.h        |  28 ++++--
+ arch/arm64/include/asm/sysreg.h           |   9 --
+ arch/arm64/include/asm/vncr_mapping.h     |   2 +
+ arch/arm64/kvm/emulate-nested.c           |   1 +
+ arch/arm64/kvm/sys_regs.c                 |   1 +
+ arch/arm64/tools/sysreg                   |  13 ++-
+ drivers/perf/arm_spe_pmu.c                | 148 ++++++++++++++++++++++++++----
+ include/uapi/linux/perf_event.h           |   2 +
+ tools/include/uapi/linux/perf_event.h     |   2 +
+ tools/perf/Documentation/perf-arm-spe.txt | 104 +++++++++++++++++++--
+ tools/perf/tests/parse-events.c           |  14 ++-
+ tools/perf/util/parse-events.c            |  11 +++
+ tools/perf/util/parse-events.h            |   1 +
+ tools/perf/util/parse-events.l            |   1 +
+ tools/perf/util/pmu.c                     |   8 ++
+ tools/perf/util/pmu.h                     |   1 +
+ 17 files changed, 312 insertions(+), 45 deletions(-)
+---
+base-commit: 0cc53520e68bea7fb80fdc6bdf8d226d1b6a98d9
+change-id: 20250312-james-perf-feat_spe_eft-66cdf4d8fe99
 
---=====_003_next=====--
-
---=====_002_next=====--
-
---=====_001_next=====--
+Best regards,
+-- 
+James Clark <james.clark@linaro.org>
 
