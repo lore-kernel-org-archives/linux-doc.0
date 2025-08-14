@@ -1,123 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C412E6106;
-	Thu, 14 Aug 2025 11:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DC3288C81;
+	Thu, 14 Aug 2025 11:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755171950; cv=none; b=MEcGBj3Mr5mIdnbIUwOaVdMtU/HfbLubPs0LN2znD7CTpER69cAD/wup4l34h2uSIf9JGv3xyeqVAcLI5AeNH3b5FJRXwT6IjPsK5oCKzCr3j/6iqTpHves4eCG1md6y33LZAe393YVeO28iTgtEmUyOgFEGukp2pp2nEfjpzKw=
+	t=1755171976; cv=none; b=LyuAEkF+8G8oo4v4iOUmHex8LiMRQf9cV/rHRbW5OZlMvpzutL8+p9I4T3Cw+5awue0wJx4N3iRmfygf32S4qu86FJ7imMXVbNdC57BMlb3xoT1o/zDZOFFZ3fV3rB0BrChXCZFC92zphWk+QdgYl2rXCn5UNczPwJwVuWtVHOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755171950; c=relaxed/simple;
-	bh=FexkV7nvaMJKSQuSjt56VRn1ropgn6XWofqYu3VqSl0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bx1mkDSspXgCilokvH8kPICDDpkmIB5ifWSSyueAnBaXmftSTYYxPjdKOz8RsAJvhE6dxjseVgAs3sSq+KcDxavje/uHUZ5hnMTeVn31lg+LA8Oqhaf/5Gzwi7QsUgUMEo7KwElEdJ4vWDKrel6qlMJW7vc4tPLB/EZRtcy5HI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPnGEXsm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755171976; c=relaxed/simple;
+	bh=EPvdS7aVkBtwB3OhVA+7wiGzFkFTuQ0xT5JdRJ7cvWE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gJGVS3lVnYRvzXJ0UH+CUFCg1Gk/xIez/AlF8uFustXUu5vS5LkqL/7QKCdjjR3mDDOj/YzD3aqyFgBT9lkjh3AmueDWDKQfFwGZyEUUNkzPdfLuez2EfnE9npP1+U4QyAaejHyIxfPvhAkRfGIwAyJuwZY8XvCPKjulaU1lb/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IyQakyzR; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPnGEXsm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6900C4CEF1;
-	Thu, 14 Aug 2025 11:45:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755171950;
-	bh=FexkV7nvaMJKSQuSjt56VRn1ropgn6XWofqYu3VqSl0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OPnGEXsmQefCR5XKxWgB20+CdEPRHLpwVjZ9QqpgyiEZ/0tCDnmajIc2xnznI+BzQ
-	 Is37m5tR5w39ME0RZCAMaBBsKQRSYqMs9a9tZjjyQriX3RqQOr5IihltzPkGu3m3Q4
-	 vZTJUJH1TKkWTXuh5TamQ5xvr35SXOixpW9FVi2OiCGYyXHmfuOj0dXi7B8UQAC5Q+
-	 zxQk6CKRtdavLtwGvB7gY6HSlp4w30N0rA/eF4w9gIis1iaNFxzbmJZsXiOQE7bHUr
-	 9ZJMetEeDzQbchb9v2/vyLtoHZnblpw/SncrzFzAA5/Uj9OF05Wi8okNIKcTLXJXu5
-	 tNIXry1AK4ePw==
-Date: Thu, 14 Aug 2025 12:45:42 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: David Hildenbrand <david@redhat.com>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
-	baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
-	ziy@nvidia.com, laoar.shao@gmail.com, dev.jain@arm.com,
-	baolin.wang@linux.alibaba.com, npache@redhat.com,
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, vbabka@suse.cz,
-	jannh@google.com, Arnd Bergmann <arnd@arndb.de>, sj@kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v4 7/7] selftests: prctl: introduce tests for disabling
- THPs except for madvise
-Message-ID: <b433c998-0f7b-4ca4-a867-5d1235149843@sirena.org.uk>
-References: <20250813135642.1986480-1-usamaarif642@gmail.com>
- <20250813135642.1986480-8-usamaarif642@gmail.com>
- <13220ee2-d767-4133-9ef8-780fa165bbeb@lucifer.local>
- <bac33bcc-8a01-445d-bc42-29dabbdd1d3f@redhat.com>
- <5b341172-5082-4df4-8264-e38a01f7c7d7@lucifer.local>
- <0b7543dd-4621-432c-9185-874963e8a6af@redhat.com>
- <5dce29cc-3fad-416f-844d-d40c9a089a5f@lucifer.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IyQakyzR"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-afcb7ae6ed0so107458666b.3;
+        Thu, 14 Aug 2025 04:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755171973; x=1755776773; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2nlRfwEePLJBrTmXUpP/E3Bax77fjCyq+CaY5BjSJgo=;
+        b=IyQakyzRuHh6ghlcoSizosl1W05jnCiumcwD9C9J+0YnEP5V9OXX8zr9Ni9J6ZiXZW
+         n75nrkOe7q0l48AuWgzNTSXFKHP98aKurpe8DqWfHhBRYulxK3k5FvqJ77Nw2JVm1PtI
+         Ld/8oyypL8UXTBSY6rVHqljBFuz++Yj+5REV3KriQ6i4qmG2I0MlilqY7XHZrKFFhDCc
+         ItDAePlOrV6llrefS1crQvucqneGKtbDKTmw2i/uxy7kOTQMAB7EPCNxW/kwFV79dwFq
+         OsFHzGeRz+jVxGg/iv2P2kyZqhWZz5v1fx6crolqehm+fSdUy6M4GfPAG8i4aPcOlOQF
+         vtbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755171973; x=1755776773;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2nlRfwEePLJBrTmXUpP/E3Bax77fjCyq+CaY5BjSJgo=;
+        b=krCNk+oYMSftfRJX6v8i7l4LiW3k8rBaEv6lKN284/UM/Aaa9D5gNv6d1OUz/5q9CY
+         UYrG1Te9fZMo6Fot5Tg0gwIItWcDa/7nrROlf4xFbTM9Y7BOvdRMUmOuHDGQb2Z7eHxe
+         ngoLCybWNBfoA9cDZQRlBkLgLt4isQFJqXXmeJbwVU1Q+u2TJfAXhyIns7UX7o3EVCFf
+         rpeB2mvV1pG7GHgJqT9Jw5HJM0K/HnlYlt4nBC29kzZBBIBuV0o4pBOFpZWQswbwD2yF
+         VrrvYCCxcPJyL/B5oaevwkCQZWWVyj5e5gTKQ12VHWYMpheLZEbilFtzJKEELrXnG89d
+         3ymQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/VZZAA9zLWKH03/9fIs+sMwL7c+ta4vfWcphW2lG0S/nPcaiNpqOALoxFni/7IyflfoWoyezlGnidBvP0TjPT@vger.kernel.org, AJvYcCVvdzS6Jhc1BLs2pcdOF7k3TqvuAbnN2HqlI3fQ91Ll3sQVE2ni8cmED65RuV9MBaxVBborMH0zc84=@vger.kernel.org, AJvYcCXXaHtdb0AfvWJ015zGq177wwaTulnlSW2xRrZPJvagJVH4+LB2mOhjVbLnEu+P4mRzHugjF2jw@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoHTOCV9Fq1406ZPov4N1dkfd97i6hvckF94G8gLxzADIvY8m4
+	/KfuAYscs7iW3IdtPRDe7EsXg6vp1oQiUs+Uh0axQOsmk2YvtdJFWd3S
+X-Gm-Gg: ASbGncsxclFwDCagqFjcjUF5bf1qHaYoLzdM2k5WPTba4xvbdBn/4EPfkmAXoIhf4EB
+	h76aJgSaiIpgU8kliIDGj/pLG3RYM2HY+xRWOiAtSbv0RcticLi4QZ8afmvgBs+jCFryWSWGItH
+	n8lMn8pNl1y2AoqGSsQx7GoLM2pDs9p4OkLLdr2Ixwwq3KASYc1YTOa/artyZYjqFWaRmp9cCWQ
+	Q32syFHcl5fztd8r+T34wSV/nk8VXMcSjhnG4mdq0+UDod0urfbPXJ+89XAZG2Xq92gveX2ggwP
+	qjZrANVvfdSmNEoxL6WzxhcCc+JfiVtlXmqaTtdkHHvXfMEp/1Pf8E3vOnFL5w8hxqXnep5Zhua
+	NjzxSARjXveP0us07aD44BF4xyNmytIkEAmEMUWpa473M+g9uhD9VG4F8pjCRdEkWRwXmjdNnyD
+	w/j7Sri+M=
+X-Google-Smtp-Source: AGHT+IFcNIgWEbldO7XiQAyOiuDDpvpJsZRCwoG05l9vu0kiGbqQ+bpmB/yrTEWAMGKxSxZzCFfjEw==
+X-Received: by 2002:a17:907:1c9f:b0:ae3:5e70:32fb with SMTP id a640c23a62f3a-afcb93a233bmr284068266b.4.1755171972570;
+        Thu, 14 Aug 2025 04:46:12 -0700 (PDT)
+Received: from [192.168.0.2] (dslb-002-205-018-108.002.205.pools.vodafone-ip.de. [2.205.18.108])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af919e96050sm2561184866b.0.2025.08.14.04.46.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Aug 2025 04:46:12 -0700 (PDT)
+Message-ID: <66bea2a5-b873-4e08-9500-a0093648bc39@gmail.com>
+Date: Thu, 14 Aug 2025 13:46:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HgKF1GOS9//9I841"
-Content-Disposition: inline
-In-Reply-To: <5dce29cc-3fad-416f-844d-d40c9a089a5f@lucifer.local>
-X-Cookie: This sentence no verb.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 net-next 1/3] bonding: add support for per-port LACP
+ actor priority
+To: Hangbin Liu <liuhangbin@gmail.com>, netdev@vger.kernel.org
+Cc: Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Simon Horman <horms@kernel.org>,
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Petr Machata <petrm@nvidia.com>, Amit Cohen <amcohen@nvidia.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Stephen Hemminger <stephen@networkplumber.org>,
+ David Ahern <dsahern@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20250814104256.18372-1-liuhangbin@gmail.com>
+ <20250814104256.18372-2-liuhangbin@gmail.com>
+Content-Language: en-US
+From: Jonas Gorski <jonas.gorski@gmail.com>
+In-Reply-To: <20250814104256.18372-2-liuhangbin@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi,
+
+On 14.08.25 12:42, Hangbin Liu wrote:
+> Introduce a new netlink attribute 'ad_actor_port_prio' to allow setting
+> the LACP actor port priority on a per-slave basis. This extends the
+> existing bonding infrastructure to support more granular control over
+> LACP negotiations.
+> 
+> The priority value is embedded in LACPDU packets and will be used by
+> subsequent patches to influence aggregator selection policies.
+> 
+> Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+> ---
+>  Documentation/networking/bonding.rst |  9 +++++++
+>  drivers/net/bonding/bond_3ad.c       |  2 ++
+>  drivers/net/bonding/bond_netlink.c   | 16 +++++++++++++
+>  drivers/net/bonding/bond_options.c   | 36 ++++++++++++++++++++++++++++
+>  include/net/bond_3ad.h               |  1 +
+>  include/net/bond_options.h           |  1 +
+>  include/uapi/linux/if_link.h         |  1 +
+>  7 files changed, 66 insertions(+)
+> 
+> diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
+> index f8f5766703d4..874d8a4681ec 100644
+> --- a/Documentation/networking/bonding.rst
+> +++ b/Documentation/networking/bonding.rst
+> @@ -193,6 +193,15 @@ ad_actor_sys_prio
+>  	This parameter has effect only in 802.3ad mode and is available through
+>  	SysFs interface.
+>  
+> +ad_actor_port_prio
+> +
+> +	In an AD system, this specifies the port priority. The allowed range
+> +	is 1 - 65535. If the value is not specified, it takes 255 as the
+> +	default value.
+> +
+> +	This parameter has effect only in 802.3ad mode and is available through
+> +	netlink interface.
+> +
+>  ad_actor_system
+>  
+>  	In an AD system, this specifies the mac-address for the actor in
+> diff --git a/drivers/net/bonding/bond_3ad.c b/drivers/net/bonding/bond_3ad.c
+> index 2fca8e84ab10..19b389b81600 100644
+> --- a/drivers/net/bonding/bond_3ad.c
+> +++ b/drivers/net/bonding/bond_3ad.c
+> @@ -436,6 +436,7 @@ static void __ad_actor_update_port(struct port *port)
+>  
+>  	port->actor_system = BOND_AD_INFO(bond).system.sys_mac_addr;
+>  	port->actor_system_priority = BOND_AD_INFO(bond).system.sys_priority;
+> +	port->actor_port_priority = SLAVE_AD_INFO(port->slave)->port_priority;
+>  }
+>  
+>  /* Conversions */
+> @@ -2211,6 +2212,7 @@ void bond_3ad_bind_slave(struct slave *slave)
+>  		port->actor_admin_port_key = bond->params.ad_user_port_key << 6;
+>  		ad_update_actor_keys(port, false);
+>  		/* actor system is the bond's system */
+> +		SLAVE_AD_INFO(slave)->port_priority = port->actor_port_priority;
+
+I don't know the code flow well, but the assignment direction here is the
+opposite of other values, e.g.
+
+                port->actor_port_number = SLAVE_AD_INFO(slave)->id;
+
+so I would have expected this to be
+
+		port->actor_port_priority = SLAVE_AD_INFO(slave)->port_priority;
+
+Is this intentional?
+
+>  		__ad_actor_update_port(port);
+>  		/* tx timer(to verify that no more than MAX_TX_IN_SECOND
+>  		 * lacpdu's are sent in one second)
+> diff --git a/drivers/net/bonding/bond_netlink.c b/drivers/net/bonding/bond_netlink.c
+> index 57fff2421f1b..3a37298583ed 100644
+> --- a/drivers/net/bonding/bond_netlink.c
+> +++ b/drivers/net/bonding/bond_netlink.c
+> @@ -28,6 +28,7 @@ static size_t bond_get_slave_size(const struct net_device *bond_dev,
+>  		nla_total_size(sizeof(u8)) +	/* IFLA_BOND_SLAVE_AD_ACTOR_OPER_PORT_STATE */
+>  		nla_total_size(sizeof(u16)) +	/* IFLA_BOND_SLAVE_AD_PARTNER_OPER_PORT_STATE */
+>  		nla_total_size(sizeof(s32)) +	/* IFLA_BOND_SLAVE_PRIO */
+> +		nla_total_size(sizeof(u16)) +	/* IFLA_BOND_SLAVE_AD_ACTOR_PORT_PRIO */
+>  		0;
+>  }
+>  
+> @@ -77,6 +78,10 @@ static int bond_fill_slave_info(struct sk_buff *skb,
+>  					ad_port->partner_oper.port_state))
+>  				goto nla_put_failure;
+>  		}
+> +
+> +		if (nla_put_u16(skb, IFLA_BOND_SLAVE_AD_ACTOR_PORT_PRIO,
+> +				SLAVE_AD_INFO(slave)->port_priority))
+> +			goto nla_put_failure;
 
 
---HgKF1GOS9//9I841
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This is an 802.3ad (exclusive) setting, shouldn't this be in the
 
-On Thu, Aug 14, 2025 at 11:49:15AM +0100, Lorenzo Stoakes wrote:
-> On Thu, Aug 14, 2025 at 11:32:55AM +0200, David Hildenbrand wrote:
-> > On 13.08.25 20:52, Lorenzo Stoakes wrote:
+  if (BOND_MODE(slave->bond) == BOND_MODE_8023AD) { }
 
-> > > I can't see anything in the kernel to #ifdef it out so I suppose you mean
-> > > running these tests on an older kernel?
+block above this?
 
-...
-
-> > > But this is an unsupported way of running self-tests, they are tied to the
-> > > kernel version in which they reside, and test that specific version.
-
-> > > Unless I'm missing something here?
-
-> > I remember we allow for a bit of flexibility when it is simple to handle.
-
-> > Is that documented somewhere?
-
-> Not sure if it's documented, but it'd make testing extremely egregious if
-> you had to consider all of the possible kernels and interactions and etc.
-
-> I think it's 'if it happens to work then fine' but otherwise it is expected
-> that the tests match the kernel.
-
-> It's also very neat that with a revision you get a set of (hopefully)
-> working tests for that revision :)
-
-Some people do try to run the selftests with older kernels, they're
-trying to get better coverage for the stables.  For a lot of areas the
-skipping falls out natually since there's some optionality (so even with
-the same kernel version you might not have the feature in the running
-kernel) or it's a new API which has a discovery mechanism in the ABI
-anyway.  OTOH some areas have been actively hostile to the idea of
-running on older kernels so there are things that do break when you try.
-TBH so long as the tests don't crash the system or something people are
-probably just going to ignore any tests that have never passed.
-
---HgKF1GOS9//9I841
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmidzGUACgkQJNaLcl1U
-h9A7uAf/TsWdfXYkIPkM2Rj3C1HzjIuj6j4nnUhMESgtZSbf9Am99POGQmQxnUay
-Mz75k34/LOlxbUGyk2oz2tqb4Ad725WPmSqg4IEQXJ3or551O2tAApBrrbwTKfrT
-ha9jUqj/hhFasDuM9PZsHTUcEk4DKGYtFHOtrucuQMDOSNH7lsB3BEVyaY4xxHzM
-d2dWm3i1c8VlbU8gFIX794INH1sdcja2Syh0d5wraBAZ+NS+uJ5iWyZw43YgTGiX
-qQR+HWxD/m3NSNX6L58jpZYJq6Q40xDz8aQQiAd2omnwIYWln4HIitcYTpeNvQNw
-Poh6lZXtgIVoXt2Io6PYJpr3LnpP6A==
-=Xem/
------END PGP SIGNATURE-----
-
---HgKF1GOS9//9I841--
+Regards,
+Jonas
