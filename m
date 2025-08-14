@@ -1,66 +1,66 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DC3288C81;
-	Thu, 14 Aug 2025 11:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F242FABFD;
+	Thu, 14 Aug 2025 11:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755171976; cv=none; b=LyuAEkF+8G8oo4v4iOUmHex8LiMRQf9cV/rHRbW5OZlMvpzutL8+p9I4T3Cw+5awue0wJx4N3iRmfygf32S4qu86FJ7imMXVbNdC57BMlb3xoT1o/zDZOFFZ3fV3rB0BrChXCZFC92zphWk+QdgYl2rXCn5UNczPwJwVuWtVHOo=
+	t=1755172297; cv=none; b=WF34y1QM7bdkLHNUThlNhLzevbwmKYj0uV4RS7eJZhcp0Tq7ihA3ZkdVv7A1F/DnSbs9oWTp/XdDI0WWASI6Lh9zme6bsBS2Mv3VxFi1FUw033ox6aIVQZZ/BI4fKc3YKVXk0OFtAFFo9+R4FCT4jkqhHZW/8xzLKgsQK/3PNs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755171976; c=relaxed/simple;
-	bh=EPvdS7aVkBtwB3OhVA+7wiGzFkFTuQ0xT5JdRJ7cvWE=;
+	s=arc-20240116; t=1755172297; c=relaxed/simple;
+	bh=4tk9bwz8coDizZfq6CK2c5VjBma58QVXrU05Sen13vo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gJGVS3lVnYRvzXJ0UH+CUFCg1Gk/xIez/AlF8uFustXUu5vS5LkqL/7QKCdjjR3mDDOj/YzD3aqyFgBT9lkjh3AmueDWDKQfFwGZyEUUNkzPdfLuez2EfnE9npP1+U4QyAaejHyIxfPvhAkRfGIwAyJuwZY8XvCPKjulaU1lb/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IyQakyzR; arc=none smtp.client-ip=209.85.218.51
+	 In-Reply-To:Content-Type; b=qGcYBPzaFqo1TpzYpcD9BRbxLrMl0+rJuXOCNDDqNkVGDRBFzQicDF/bDt74quqS6RuzLAXE03nOvKkxx+SIm92dU0CKS1qJxIKrYw/Ja+ctbJGgD8kDq0v55VEp25g9159XXMvqb/gIsxBgfLjbBl/Z90YDUFNwVwh4EjIuC+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aOpuGU1j; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IyQakyzR"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-afcb7ae6ed0so107458666b.3;
-        Thu, 14 Aug 2025 04:46:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aOpuGU1j"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45a1b065d59so4182175e9.1;
+        Thu, 14 Aug 2025 04:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755171973; x=1755776773; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755172294; x=1755777094; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2nlRfwEePLJBrTmXUpP/E3Bax77fjCyq+CaY5BjSJgo=;
-        b=IyQakyzRuHh6ghlcoSizosl1W05jnCiumcwD9C9J+0YnEP5V9OXX8zr9Ni9J6ZiXZW
-         n75nrkOe7q0l48AuWgzNTSXFKHP98aKurpe8DqWfHhBRYulxK3k5FvqJ77Nw2JVm1PtI
-         Ld/8oyypL8UXTBSY6rVHqljBFuz++Yj+5REV3KriQ6i4qmG2I0MlilqY7XHZrKFFhDCc
-         ItDAePlOrV6llrefS1crQvucqneGKtbDKTmw2i/uxy7kOTQMAB7EPCNxW/kwFV79dwFq
-         OsFHzGeRz+jVxGg/iv2P2kyZqhWZz5v1fx6crolqehm+fSdUy6M4GfPAG8i4aPcOlOQF
-         vtbQ==
+        bh=6VnTFOiEQ/KEA1BYExh4enVyNJmydSamaAd1v3h7zMU=;
+        b=aOpuGU1jf+qcwwAvXD+VrAXKD9P6O8jdO0Xyi6BlALhF66zSV/QxYf4avRSshfPoG8
+         LlRjGznS7W7Z6nu0rJG9UNciNhrSJa8Rj39lN1hT3X/jr2MZ7RQOjNXGsoJAu36IlewB
+         Ug3V8CBDjwMOQs5hDsloV/ZlYWQzPjTzRwaeXb9amijVAOyLnBOK48ageNruL8L/pwrp
+         K6dGVcKCK9dGo/N9ZVnzWBYTqGU3EvhJWfpv53K80Ik7T4QkgnmmUbUDL8KrBaNgwUgE
+         RolMnDFPTPtgDFGaQAMo37sfXKjnmf5NCTntKuS2OTlPtmC9QnO9d/lJ1P2d1K3XT4qE
+         VD4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755171973; x=1755776773;
+        d=1e100.net; s=20230601; t=1755172294; x=1755777094;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2nlRfwEePLJBrTmXUpP/E3Bax77fjCyq+CaY5BjSJgo=;
-        b=krCNk+oYMSftfRJX6v8i7l4LiW3k8rBaEv6lKN284/UM/Aaa9D5gNv6d1OUz/5q9CY
-         UYrG1Te9fZMo6Fot5Tg0gwIItWcDa/7nrROlf4xFbTM9Y7BOvdRMUmOuHDGQb2Z7eHxe
-         ngoLCybWNBfoA9cDZQRlBkLgLt4isQFJqXXmeJbwVU1Q+u2TJfAXhyIns7UX7o3EVCFf
-         rpeB2mvV1pG7GHgJqT9Jw5HJM0K/HnlYlt4nBC29kzZBBIBuV0o4pBOFpZWQswbwD2yF
-         VrrvYCCxcPJyL/B5oaevwkCQZWWVyj5e5gTKQ12VHWYMpheLZEbilFtzJKEELrXnG89d
-         3ymQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/VZZAA9zLWKH03/9fIs+sMwL7c+ta4vfWcphW2lG0S/nPcaiNpqOALoxFni/7IyflfoWoyezlGnidBvP0TjPT@vger.kernel.org, AJvYcCVvdzS6Jhc1BLs2pcdOF7k3TqvuAbnN2HqlI3fQ91Ll3sQVE2ni8cmED65RuV9MBaxVBborMH0zc84=@vger.kernel.org, AJvYcCXXaHtdb0AfvWJ015zGq177wwaTulnlSW2xRrZPJvagJVH4+LB2mOhjVbLnEu+P4mRzHugjF2jw@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoHTOCV9Fq1406ZPov4N1dkfd97i6hvckF94G8gLxzADIvY8m4
-	/KfuAYscs7iW3IdtPRDe7EsXg6vp1oQiUs+Uh0axQOsmk2YvtdJFWd3S
-X-Gm-Gg: ASbGncsxclFwDCagqFjcjUF5bf1qHaYoLzdM2k5WPTba4xvbdBn/4EPfkmAXoIhf4EB
-	h76aJgSaiIpgU8kliIDGj/pLG3RYM2HY+xRWOiAtSbv0RcticLi4QZ8afmvgBs+jCFryWSWGItH
-	n8lMn8pNl1y2AoqGSsQx7GoLM2pDs9p4OkLLdr2Ixwwq3KASYc1YTOa/artyZYjqFWaRmp9cCWQ
-	Q32syFHcl5fztd8r+T34wSV/nk8VXMcSjhnG4mdq0+UDod0urfbPXJ+89XAZG2Xq92gveX2ggwP
-	qjZrANVvfdSmNEoxL6WzxhcCc+JfiVtlXmqaTtdkHHvXfMEp/1Pf8E3vOnFL5w8hxqXnep5Zhua
-	NjzxSARjXveP0us07aD44BF4xyNmytIkEAmEMUWpa473M+g9uhD9VG4F8pjCRdEkWRwXmjdNnyD
-	w/j7Sri+M=
-X-Google-Smtp-Source: AGHT+IFcNIgWEbldO7XiQAyOiuDDpvpJsZRCwoG05l9vu0kiGbqQ+bpmB/yrTEWAMGKxSxZzCFfjEw==
-X-Received: by 2002:a17:907:1c9f:b0:ae3:5e70:32fb with SMTP id a640c23a62f3a-afcb93a233bmr284068266b.4.1755171972570;
-        Thu, 14 Aug 2025 04:46:12 -0700 (PDT)
-Received: from [192.168.0.2] (dslb-002-205-018-108.002.205.pools.vodafone-ip.de. [2.205.18.108])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af919e96050sm2561184866b.0.2025.08.14.04.46.11
+        bh=6VnTFOiEQ/KEA1BYExh4enVyNJmydSamaAd1v3h7zMU=;
+        b=oZiVRapC/cTrOR3LJvSKhXqeTo2orzLuctHJ/cZoYJC0FQ+6WpTHDT5lqE2V21sYvP
+         uHLsIwa6ohp6egQ3Jwd8hSfz5ek+KGu2t9xTJikIkmSZlNe2jyKMMejX7LEVg3rBNcHm
+         3x088xyUqCUVP3EIWB0PbwHI/K3asMMefrODzuzip/rcTdYLtWm867cq7ekt19l4hrNB
+         yzUrTG+cvCw0qf6rt1q4vx5URNM19YqhfSO796FjZFqVbj5Em6RuDxNmamOFGsTJ9fes
+         PXsL1gj1Kr6AN+kQ7l44ROmXpd/AEvQNs7bvGyWPqJMus1IeEyf1+wI6EgHL9TwFi6gA
+         IV2g==
+X-Forwarded-Encrypted: i=1; AJvYcCVR72gMDLSLwJa2OokLeVHlQsUxqnDhvUucPU1tmxft+p+VzR1I0xluqEXcgCYyurq2fbsrunq2xiM0jCiH@vger.kernel.org, AJvYcCWAop0R5qC6KFEORbaoMrUun+1OetbA1cfMBiMOhAM30upoVNMhNPnWjNF+JkBbz7fgC08+UCoIN7bdyCdHmA==@vger.kernel.org, AJvYcCXAVLpzQKr62bTXdeIrQk1h5uLY4i2+T6NHVK/gGFoGoXqQuwoKiWUn4yU7qHnVBaB/8DPJOmyYHRs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXN66GzwNGPcDOKnU/s8PHByqF/yo8P5FMq8u6JrzjzsWwoJ8D
+	HbYBFKxuq2wrdcfC+qe+3l7skQy/EgePeF97WLA3EgAZlwhfIsictq4R
+X-Gm-Gg: ASbGncsfFOsFd7IjWRNlSV0CN2U3IEhH2ij3QRcr4G4o4F4UqExXBSMqlATXz3SVciP
+	xWMlnQajzt5q0hhivO6ozr1xh1/1dmSNNxc0gVTmK8pxogkaKylmuRYA6Lgw5QNdmIORrHv7GLi
+	eqTj9Ul4OFjQSHI9cbzHtO38Ur8xk+ryq3Art84N8O/eod7vhy8AOK4a9IL/hhDmPwDnGC+D1jz
+	hG4PsuIQVDh3+WjkOunYIXExGyElDEtNb7QTwAaQZU3wB01/dZeG0r08BkNoqnz4aXUwP6ivtzS
+	uG+mneN/PuJql7B9RKSIU+Qp4atnXk6x6kK2MkAjMf2jZbavK27Fp+zQnZVU9HNFyFyvYgS7vgo
+	wpE1DcouPnHeDU4ykaPovcvQvHTcGCveMf2CBOf0i8286G16oBritZc4Bb5fC5naEq7kb19SpyA
+	WmQCWNvQ==
+X-Google-Smtp-Source: AGHT+IHthldMbcpzDbaJ1GGbyBIqgCUgRr8Aa4x6eTmOxq4YHMkcIGai32HHy+wWjTZMm4tR/4WApw==
+X-Received: by 2002:a05:600c:1390:b0:459:db5a:b0b9 with SMTP id 5b1f17b1804b1-45a1b67a215mr16749815e9.28.1755172293482;
+        Thu, 14 Aug 2025 04:51:33 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:14f1:c189:9748:5e5a? ([2620:10d:c092:500::7:8979])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3abeb2sm50579340f8f.11.2025.08.14.04.51.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Aug 2025 04:46:12 -0700 (PDT)
-Message-ID: <66bea2a5-b873-4e08-9500-a0093648bc39@gmail.com>
-Date: Thu, 14 Aug 2025 13:46:10 +0200
+        Thu, 14 Aug 2025 04:51:32 -0700 (PDT)
+Message-ID: <4d23ba51-e8d8-41bc-8d46-a7bccb4c3c20@gmail.com>
+Date: Thu, 14 Aug 2025 12:51:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,128 +68,43 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 net-next 1/3] bonding: add support for per-port LACP
- actor priority
-To: Hangbin Liu <liuhangbin@gmail.com>, netdev@vger.kernel.org
-Cc: Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Nikolay Aleksandrov <razor@blackwall.org>, Simon Horman <horms@kernel.org>,
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Petr Machata <petrm@nvidia.com>, Amit Cohen <amcohen@nvidia.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Stephen Hemminger <stephen@networkplumber.org>,
- David Ahern <dsahern@gmail.com>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20250814104256.18372-1-liuhangbin@gmail.com>
- <20250814104256.18372-2-liuhangbin@gmail.com>
+Subject: Re: [PATCH v4 7/7] selftests: prctl: introduce tests for disabling
+ THPs except for madvise
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
+ shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
+ laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
+ sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com, Mark Brown <broonie@kernel.org>
+References: <20250813135642.1986480-1-usamaarif642@gmail.com>
+ <20250813135642.1986480-8-usamaarif642@gmail.com>
+ <13220ee2-d767-4133-9ef8-780fa165bbeb@lucifer.local>
+ <bac33bcc-8a01-445d-bc42-29dabbdd1d3f@redhat.com>
+ <5b341172-5082-4df4-8264-e38a01f7c7d7@lucifer.local>
+ <1ff24f1b-7ba2-4595-b3f6-3eb93ea5a40d@gmail.com>
+ <a8b0eb8d-442e-4cfc-ab79-3c6bc6a86ff0@lucifer.local>
 Content-Language: en-US
-From: Jonas Gorski <jonas.gorski@gmail.com>
-In-Reply-To: <20250814104256.18372-2-liuhangbin@gmail.com>
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <a8b0eb8d-442e-4cfc-ab79-3c6bc6a86ff0@lucifer.local>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 14.08.25 12:42, Hangbin Liu wrote:
-> Introduce a new netlink attribute 'ad_actor_port_prio' to allow setting
-> the LACP actor port priority on a per-slave basis. This extends the
-> existing bonding infrastructure to support more granular control over
-> LACP negotiations.
+
 > 
-> The priority value is embedded in LACPDU packets and will be used by
-> subsequent patches to influence aggregator selection policies.
+> Why would you move things around though? Think it's fine as-is, if something on
+> setup fails then all tests should fail.
+
+If its a "test" itself and not a check, I think its better if it belongs in TEST_F and
+not FIXTURE_SETUP.
+But yeah this is ofcourse going to be the first test, so if it fails the entire thing
+is marked as a failure and we dont proceed.
+
 > 
-> Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
-> ---
->  Documentation/networking/bonding.rst |  9 +++++++
->  drivers/net/bonding/bond_3ad.c       |  2 ++
->  drivers/net/bonding/bond_netlink.c   | 16 +++++++++++++
->  drivers/net/bonding/bond_options.c   | 36 ++++++++++++++++++++++++++++
->  include/net/bond_3ad.h               |  1 +
->  include/net/bond_options.h           |  1 +
->  include/uapi/linux/if_link.h         |  1 +
->  7 files changed, 66 insertions(+)
-> 
-> diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
-> index f8f5766703d4..874d8a4681ec 100644
-> --- a/Documentation/networking/bonding.rst
-> +++ b/Documentation/networking/bonding.rst
-> @@ -193,6 +193,15 @@ ad_actor_sys_prio
->  	This parameter has effect only in 802.3ad mode and is available through
->  	SysFs interface.
->  
-> +ad_actor_port_prio
-> +
-> +	In an AD system, this specifies the port priority. The allowed range
-> +	is 1 - 65535. If the value is not specified, it takes 255 as the
-> +	default value.
-> +
-> +	This parameter has effect only in 802.3ad mode and is available through
-> +	netlink interface.
-> +
->  ad_actor_system
->  
->  	In an AD system, this specifies the mac-address for the actor in
-> diff --git a/drivers/net/bonding/bond_3ad.c b/drivers/net/bonding/bond_3ad.c
-> index 2fca8e84ab10..19b389b81600 100644
-> --- a/drivers/net/bonding/bond_3ad.c
-> +++ b/drivers/net/bonding/bond_3ad.c
-> @@ -436,6 +436,7 @@ static void __ad_actor_update_port(struct port *port)
->  
->  	port->actor_system = BOND_AD_INFO(bond).system.sys_mac_addr;
->  	port->actor_system_priority = BOND_AD_INFO(bond).system.sys_priority;
-> +	port->actor_port_priority = SLAVE_AD_INFO(port->slave)->port_priority;
->  }
->  
->  /* Conversions */
-> @@ -2211,6 +2212,7 @@ void bond_3ad_bind_slave(struct slave *slave)
->  		port->actor_admin_port_key = bond->params.ad_user_port_key << 6;
->  		ad_update_actor_keys(port, false);
->  		/* actor system is the bond's system */
-> +		SLAVE_AD_INFO(slave)->port_priority = port->actor_port_priority;
+> Cheers, Lorenzo
 
-I don't know the code flow well, but the assignment direction here is the
-opposite of other values, e.g.
-
-                port->actor_port_number = SLAVE_AD_INFO(slave)->id;
-
-so I would have expected this to be
-
-		port->actor_port_priority = SLAVE_AD_INFO(slave)->port_priority;
-
-Is this intentional?
-
->  		__ad_actor_update_port(port);
->  		/* tx timer(to verify that no more than MAX_TX_IN_SECOND
->  		 * lacpdu's are sent in one second)
-> diff --git a/drivers/net/bonding/bond_netlink.c b/drivers/net/bonding/bond_netlink.c
-> index 57fff2421f1b..3a37298583ed 100644
-> --- a/drivers/net/bonding/bond_netlink.c
-> +++ b/drivers/net/bonding/bond_netlink.c
-> @@ -28,6 +28,7 @@ static size_t bond_get_slave_size(const struct net_device *bond_dev,
->  		nla_total_size(sizeof(u8)) +	/* IFLA_BOND_SLAVE_AD_ACTOR_OPER_PORT_STATE */
->  		nla_total_size(sizeof(u16)) +	/* IFLA_BOND_SLAVE_AD_PARTNER_OPER_PORT_STATE */
->  		nla_total_size(sizeof(s32)) +	/* IFLA_BOND_SLAVE_PRIO */
-> +		nla_total_size(sizeof(u16)) +	/* IFLA_BOND_SLAVE_AD_ACTOR_PORT_PRIO */
->  		0;
->  }
->  
-> @@ -77,6 +78,10 @@ static int bond_fill_slave_info(struct sk_buff *skb,
->  					ad_port->partner_oper.port_state))
->  				goto nla_put_failure;
->  		}
-> +
-> +		if (nla_put_u16(skb, IFLA_BOND_SLAVE_AD_ACTOR_PORT_PRIO,
-> +				SLAVE_AD_INFO(slave)->port_priority))
-> +			goto nla_put_failure;
-
-
-This is an 802.3ad (exclusive) setting, shouldn't this be in the
-
-  if (BOND_MODE(slave->bond) == BOND_MODE_8023AD) { }
-
-block above this?
-
-Regards,
-Jonas
