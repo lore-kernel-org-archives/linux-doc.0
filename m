@@ -1,103 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956A22EA72D;
-	Thu, 14 Aug 2025 12:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FB02FC892;
+	Thu, 14 Aug 2025 12:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755173377; cv=none; b=mo/LGZgsD4fSYTeBcv9EdFYQN57Y40j94gYc6PGc6xyu4t11E/jAmoP+P29y1GwnZMf21Ad2zvYOWO+Nxmyg8r1ILpw6/nHfoBvT/PeAkbz8rFEzdzajDwOdLk+jfFHJA3rIhmEsat6x9/s62lc0I5ydVTIpxthfF8xt6efFedU=
+	t=1755173467; cv=none; b=Jg2+dS5WDJrekAXYhraFvWHLhbCaHJSy9oK9o3v+6v/ddxOatMFNJTVyNZU/9xjtLJa/F/YcMpoNRx1g0NGZPbg3VicdxptmEnGvjpaoKJ8hzKxo0M4tBiJFSLuzhjHOzBTVq9N/HK+yj7obFUoLSAIhyYoyTbRai56V/YcMV9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755173377; c=relaxed/simple;
-	bh=gpnex3Vd8qVIbIJY0F+J1N3ucXel3F/WTFMjzzOmJyg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nAVZfdd8R5hNlkApCS3AKliwQfctSr6zDbCBcPfSb7mixKtu6O3w3Hx/w48k0R0tRjogtrhIfPHc4VBROcPyRUNUtfsJONKUfzQfSeFI2F67rhQLHoi5SbgpmWab3yczipqZItBFAR91iON73qjUugy9OEB2bjkwdgAQO6PD5CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=peuKMqOU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755173467; c=relaxed/simple;
+	bh=X8Ebv39DsgYW5S3vCtvPIj2jStoX614nqqQF4Oft9TA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=idnJmnJ5d2UjDj/1gvz8STUQ3zpxymW1/ea3TwmF65bSJi3LY/4iauWMue5ffzJCkmJ29CQlXim1AcOLgMXJbVrSlxp9lXaXEZqCWP1/Ff1QbT+0+xbpC6tQQwZ+OAGUTQeg4cZ7zJCeGOViqJ7hvMDYxAtPmCc+xluaYBxKNYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=FWLeO9XL; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="peuKMqOU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1021BC4CEED;
-	Thu, 14 Aug 2025 12:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755173375;
-	bh=gpnex3Vd8qVIbIJY0F+J1N3ucXel3F/WTFMjzzOmJyg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=peuKMqOUACl5UuhoepTx5K9KNtA4V6LwnSzzEQyrFwwHzANVvJ3u3yXnOxbjqblcm
-	 ufMGKIIlHSTgJQcdEJ30saGaXUb0vs6aXwA4cOjFAmxwPfRO7Dc87JwZdW8VPUwFFg
-	 7LQtN2U8wXq/UYg3jJ5yGK34gZDADjUo2aL5g2NmWqysZeqB420yvaiD5TWZ/YoSjy
-	 EgdZnSjMQeAhXebV/ayiBuKBfNsDaNltMwkuU5v4NCWdl/B+D/6NStPhH9PnWLJc9C
-	 hBrGbGkv4R/eGxHxVsjMMCzFGME24nsaPUBiHDEN+Ryp0Y/jDnUZC85s4PUXnKYRr2
-	 cJx/nlSF3Vxzg==
-Date: Thu, 14 Aug 2025 13:09:26 +0100
-From: Mark Brown <broonie@kernel.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
-	baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
-	ziy@nvidia.com, laoar.shao@gmail.com, dev.jain@arm.com,
-	baolin.wang@linux.alibaba.com, npache@redhat.com,
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, vbabka@suse.cz,
-	jannh@google.com, Arnd Bergmann <arnd@arndb.de>, sj@kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v4 7/7] selftests: prctl: introduce tests for disabling
- THPs except for madvise
-Message-ID: <47e98636-aace-4a42-b6a4-3c63880f394b@sirena.org.uk>
-References: <20250813135642.1986480-1-usamaarif642@gmail.com>
- <20250813135642.1986480-8-usamaarif642@gmail.com>
- <13220ee2-d767-4133-9ef8-780fa165bbeb@lucifer.local>
- <bac33bcc-8a01-445d-bc42-29dabbdd1d3f@redhat.com>
- <5b341172-5082-4df4-8264-e38a01f7c7d7@lucifer.local>
- <0b7543dd-4621-432c-9185-874963e8a6af@redhat.com>
- <5dce29cc-3fad-416f-844d-d40c9a089a5f@lucifer.local>
- <b433c998-0f7b-4ca4-a867-5d1235149843@sirena.org.uk>
- <eb90eff6-ded8-40a3-818f-fce3331df464@redhat.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="FWLeO9XL"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57ECAM3t1927833;
+	Thu, 14 Aug 2025 07:10:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1755173422;
+	bh=P55J7AG+dVG9wSnCiAJHatO757Yyz2jOVx50FgR/qyA=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=FWLeO9XLv76gKZ8Sqysx3J24Rq32v/j5fEXrMvLxCjGxOpak/ZySOpwE2F8wUle2i
+	 sT7NMO+TI4vN2ZV4V0hxDuCOvYORT2IhqghhQuQqxXlPJIwYXnH/xCO0EV4v13LNMZ
+	 SJyBDDSvlx5BgddFmZvWFfR5o9gXc8Jt+TU4l9tg=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57ECAMh11135417
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 14 Aug 2025 07:10:22 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 14
+ Aug 2025 07:10:21 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Thu, 14 Aug 2025 07:10:21 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57ECAFeI3887319;
+	Thu, 14 Aug 2025 07:10:16 -0500
+Message-ID: <c69d6a87-3d9f-49dc-836e-f33508c62c1a@ti.com>
+Date: Thu, 14 Aug 2025 17:40:14 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="GHi46nNQCVWNJMJH"
-Content-Disposition: inline
-In-Reply-To: <eb90eff6-ded8-40a3-818f-fce3331df464@redhat.com>
-X-Cookie: This sentence no verb.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/5] net: rnpgbe: Add basic mbx_fw support
+To: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
+        <gur.stavi@huawei.com>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
+        <lee@trager.us>, <gongfan1@huawei.com>, <lorenzo@kernel.org>,
+        <geert+renesas@glider.be>, <Parthiban.Veerasooran@microchip.com>,
+        <lukas.bulwahn@redhat.com>, <alexanderduyck@fb.com>,
+        <richardcochran@gmail.com>
+CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250814073855.1060601-1-dong100@mucse.com>
+ <20250814073855.1060601-5-dong100@mucse.com>
+Content-Language: en-US
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <20250814073855.1060601-5-dong100@mucse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
 
---GHi46nNQCVWNJMJH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Thu, Aug 14, 2025 at 02:00:27PM +0200, David Hildenbrand wrote:
+On 14/08/25 1:08 pm, Dong Yibo wrote:
+> Initialize basic mbx_fw ops, such as get_capability, reset phy
+> and so on.
+> 
+> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> ---
+>  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
+>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |   4 +
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c | 264 ++++++++++++++++++
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h | 201 +++++++++++++
+>  4 files changed, 471 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
+>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h
+> 
 
-> Some people (hello :) ) run tests against distro kernels ... shame that
-> prctl just knows one sort of "EINVAL" so we cannot distinguish :(
+> +
+> +/**
+> + * mbx_cookie_zalloc - Alloc a cookie structure
+> + * @priv_len: private length for this cookie
+> + *
+> + * @return: cookie structure on success
+> + **/
+> +static struct mbx_req_cookie *mbx_cookie_zalloc(int priv_len)
+> +{
+> +	struct mbx_req_cookie *cookie;
+> +
+> +	cookie = kzalloc(struct_size(cookie, priv, priv_len), GFP_KERNEL);
+> +	if (cookie) {
+> +		cookie->timeout_jiffes = 30 * HZ;
 
-> But yeah, maybe one has to be more careful of filtering these failures out
-> then.
+Typo: should be "timeout_jiffies" instead of "timeout_jiffes"
 
-Perhaps this is something that needs considering in the ABI, so
-userspace can reasonably figure out if it failed to configure whatever
-is being configured due to a missing feature (in which case it should
-fall back to not using that feature somehow) or due to it messing
-something else up?  We might be happy with the tests being version
-specific but general userspace should be able to be a bit more robust.
+> +		cookie->magic = COOKIE_MAGIC;
+> +		cookie->priv_len = priv_len;
+> +	}
+> +	return cookie;
+> +}
+> +
+> +/**
 
---GHi46nNQCVWNJMJH
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+-- 
+Thanks and Regards,
+Danish
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmid0fYACgkQJNaLcl1U
-h9C9EAf/aEPUAni8qteBGzYVxbP+2fWh24gpZRUzIwMgipxQm2thCmcg68/+dFq4
-dstImKXyE21x8t30rJinOCW+RpwSzA1V3b9ZHm6cjQPe2ZDB16BP01neXpXNU4um
-v9RalcxQY8+Pfdy++yS1rfUKx6/D9Shag9pDvu4iOyrOv4xeH/MkKD/23OvyB7fE
-Ukwx3wKDnx7NAHX/kfqg3P+OQwn7AWGZRhL1hQt2rZqDok7vUEN2lyQQnMsV8L1u
-lB4FldRiC0ODiUV+A+BZ4qc/QYvHGz3Lys1VcRcQEVCzODOYyCxsfvQRXdopcULf
-wxyiXZpWXsqfM//MSw9F0h7ihG9rnQ==
-=O/vD
------END PGP SIGNATURE-----
-
---GHi46nNQCVWNJMJH--
