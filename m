@@ -1,110 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8093A295D91;
-	Thu, 14 Aug 2025 12:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82E62E7BBC;
+	Thu, 14 Aug 2025 12:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755173644; cv=none; b=maB3cSXRCcyYD9V3937veeXKg7cHUV+R+8UPvxh3tKRb5GaaesVo6qtZa633Ubsj7Dhm0nPv84kIcikDfcWxvg8mY0yioVGqyXqX116RogZSxsJUYv/U5ZllkgEijl83lhBYbrWVGVwUhvXjrluQ9kzMGZH+82wtjQR5Dcxunw8=
+	t=1755173750; cv=none; b=PbAqpkYvyb5/n5zUlGcU2itNuqvJrW4Z2P3Bz7f2St0YDPsUqP4r7YliH9e0f011TFclhHBBzQ/PYWWvY3lR0YLa/L4zjkuMzUUlZqUoCTW6mle+BlHdWI1NT9wDGabCYXtWpqu6xr6G4ypUfUbtI8x8LKS6dlDtxDCgyJthnFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755173644; c=relaxed/simple;
-	bh=M/IUS4lgTZ6YXgbn1Q91Y9cZrMJeVX6pFsHRNGCQNh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bMeImVFT5ufUImq01+mUbhWi09aA+HdhvN2yQ4jem2biVpSXWHz6Z25VNubNJzl96kwDCMbdDC4SkyxTUZNCzH+MFRkyLdtb+eP7864CItXZ42cDRHCPU1czoKuoX7jQmTD7iurX6yODZEIqIOomCH3ZvK6RH3vMqscXWr5ik7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uye1wauo; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755173750; c=relaxed/simple;
+	bh=zsj/r4+qg+RibQeEvHxn2GkGt2ubYJ+iN86QAKdU1/0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=kDMjliO0nVgdoTneZuAKnt4S3wHTyVTU7MIFBcZXIuPpeHe3DMKhK7muCmV3gZgM5cpkjs+H+XbVhg9hnpoPsrVYWz4x+5zlZBnEfZg3auYGGxhz/UVrITSAxEZNTy5U5iGaTEuvQ2zyD5gZ9NDfBiOzdwiJ6CvWX4xeiL/YSRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=dbLo7fO4; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uye1wauo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755173643; x=1786709643;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M/IUS4lgTZ6YXgbn1Q91Y9cZrMJeVX6pFsHRNGCQNh8=;
-  b=Uye1wauoGDSi9KCqtZTWPnephZMuEOr8yUvgbX53EBKKnvUzD2v8tckV
-   n8N4lMWT4d3T5yuZ5IOPSp5XpMapQ0WFy5FzS3MbuBB2ojd7u0Uz5+Wf/
-   QvZrswSn9FOFCf2uSBc46TyUS7AYOqjp2/9ELQldPkcQe72YOrcDfhsdg
-   uXhqtwLwUgdb1eh9OZMzQCurN8b0J5CSXR0vyYRrjwXSgkhKQYHvRJT3a
-   dpCjVLHgGamsy1Kbfv3wVXeiIaGFT58kcz0aaGSs+DzZBaB9jwsbCMYOk
-   yjVLxL8yeRDsFI3dmv/oNjjnXhSE6LOdGwMCLU+n4jKWLNPdfUQ0HF8Yg
-   A==;
-X-CSE-ConnectionGUID: 2wd0BeVjQNmx03rP0eHa2Q==
-X-CSE-MsgGUID: eE0S7XnNQvuBR+fKzVugYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="82921612"
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="82921612"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 05:14:02 -0700
-X-CSE-ConnectionGUID: 1YW4nW7dREW+hSuOVIh7hw==
-X-CSE-MsgGUID: W+WtmqtKRuSU26VIer0jCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="165925245"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 14 Aug 2025 05:14:00 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1umWqD-000AwG-1r;
-	Thu, 14 Aug 2025 12:13:57 +0000
-Date: Thu, 14 Aug 2025 20:13:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 10/13] docs: move kernel-doc to tools/doc
-Message-ID: <202508141909.XegB3Vla-lkp@intel.com>
-References: <20250813213218.198582-11-corbet@lwn.net>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="dbLo7fO4"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57ECExwS1875851;
+	Thu, 14 Aug 2025 07:14:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1755173699;
+	bh=3bkB4ImlGUHuqngaDsC8bS0n8FZ4dBNcDo4Y1EMKjpE=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=dbLo7fO40YX7UWvYJmhodrSTTzlEIOLeOw35d4UR+YPJE1fj4ourbiGEy1rYfkDPC
+	 UWPGYNHmbEf1ZZzLDEw6H4MdUY3YKILbftMREbHBMams0wqz4AeHDrxD+57kPfR0x1
+	 7b56lgQBaD/wXECzbSoPTgKGr8Yy8WhDHq5TzZPQ=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57ECEx9L1821238
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 14 Aug 2025 07:14:59 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 14
+ Aug 2025 07:14:58 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Thu, 14 Aug 2025 07:14:58 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57ECEqac3583824;
+	Thu, 14 Aug 2025 07:14:52 -0500
+Message-ID: <dd6ece66-ae4b-424a-aa09-872ac15e1549@ti.com>
+Date: Thu, 14 Aug 2025 17:44:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250813213218.198582-11-corbet@lwn.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/5] net: rnpgbe: Add register_netdev
+To: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
+        <gur.stavi@huawei.com>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
+        <lee@trager.us>, <gongfan1@huawei.com>, <lorenzo@kernel.org>,
+        <geert+renesas@glider.be>, <Parthiban.Veerasooran@microchip.com>,
+        <lukas.bulwahn@redhat.com>, <alexanderduyck@fb.com>,
+        <richardcochran@gmail.com>
+CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250814073855.1060601-1-dong100@mucse.com>
+ <20250814073855.1060601-6-dong100@mucse.com>
+Content-Language: en-US
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <20250814073855.1060601-6-dong100@mucse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Jonathan,
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on lwn/docs-next]
-[also build test ERROR on next-20250814]
-[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.17-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 14/08/25 1:08 pm, Dong Yibo wrote:
+> Initialize get mac from hw, register the netdev.
+> 
+> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> ---
+>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 18 +++++
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 73 ++++++++++++++++++
+>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  1 +
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 75 +++++++++++++++++++
+>  4 files changed, 167 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> index 7ab1cbb432f6..7e51a8871b71 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> @@ -6,6 +6,7 @@
+>  
+>  #include <linux/types.h>
+>  #include <linux/mutex.h>
+> +#include <linux/netdevice.h>
+>  
+>  extern const struct rnpgbe_info rnpgbe_n500_info;
+>  extern const struct rnpgbe_info rnpgbe_n210_info;
+> @@ -82,6 +83,15 @@ struct mucse_mbx_info {
+>  	u32 fw2pf_mbox_vec;
+>  };
+>  
+> +struct mucse_hw_operations {
+> +	int (*reset_hw)(struct mucse_hw *hw);
+> +	void (*driver_status)(struct mucse_hw *hw, bool enable, int mode);
+> +};
+> +
+> +enum {
+> +	mucse_driver_insmod,
+> +};
+> +
+>  struct mucse_hw {
+>  	u8 pfvfnum;
+>  	void __iomem *hw_addr;
+> @@ -91,12 +101,17 @@ struct mucse_hw {
+>  	u32 axi_mhz;
+>  	u32 bd_uid;
+>  	enum rnpgbe_hw_type hw_type;
+> +	const struct mucse_hw_operations *ops;
+>  	struct mucse_dma_info dma;
+>  	struct mucse_eth_info eth;
+>  	struct mucse_mac_info mac;
+>  	struct mucse_mbx_info mbx;
+> +	u32 flags;
+> +#define M_FLAGS_INIT_MAC_ADDRESS BIT(0)
+>  	u32 driver_version;
+>  	u16 usecstocount;
+> +	int lane;
+> +	u8 perm_addr[ETH_ALEN];
+>  };
+>  
+>  struct mucse {
+> @@ -117,4 +132,7 @@ struct rnpgbe_info {
+>  #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
+>  #define PCI_DEVICE_ID_N210 0x8208
+>  #define PCI_DEVICE_ID_N210L 0x820a
+> +
+> +#define dma_wr32(dma, reg, val) writel((val), (dma)->dma_base_addr + (reg))
+> +#define dma_rd32(dma, reg) readl((dma)->dma_base_addr + (reg))
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/docs-Move-the-features-tools-to-tools-doc/20250814-053915
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20250813213218.198582-11-corbet%40lwn.net
-patch subject: [PATCH 10/13] docs: move kernel-doc to tools/doc
-config: i386-randconfig-011-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141909.XegB3Vla-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141909.XegB3Vla-lkp@intel.com/reproduce)
+These macros could collide with other definitions. Consider prefixing
+them with the driver name (rnpgbe_dma_wr32).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508141909.XegB3Vla-lkp@intel.com/
+I don't see these macros getting used anywhere in this series. They
+should be introduced when they are used.
 
-All errors (new ones prefixed by >>):
+>  #endif /* _RNPGBE_H */
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> index e0c6f47efd4c..aba44b31eae3 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> @@ -1,11 +1,83 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /* Copyright(c) 2020 - 2025 Mucse Corporation. */
+>  
+> +#include <linux/pci.h>
+>  #include <linux/string.h>
+> +#include <linux/etherdevice.h>
+>  
+>  #include "rnpgbe.h"
+>  #include "rnpgbe_hw.h"
+>  #include "rnpgbe_mbx.h"
+> +#include "rnpgbe_mbx_fw.h"
 
->> /bin/sh: 1: tools/doc/kernel-doc.py: not found
-   make[3]: *** [scripts/Makefile.build:287: scripts/mod/empty.o] Error 127 shuffle=1730989061
-   make[3]: *** Deleting file 'scripts/mod/empty.o'
-   make[3]: Target 'scripts/mod/' not remade because of errors.
-   make[2]: *** [Makefile:1281: prepare0] Error 2 shuffle=1730989061
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1730989061
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1730989061
-   make: Target 'prepare' not remade because of errors.
+> +/**
+> + * rnpgbe_xmit_frame - Send a skb to driver
+> + * @skb: skb structure to be sent
+> + * @netdev: network interface device structure
+> + *
+> + * @return: NETDEV_TX_OK or NETDEV_TX_BUSY
+> + **/
+> +static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
+> +				     struct net_device *netdev)
+> +{
+> +		dev_kfree_skb_any(skb);
+> +		netdev->stats.tx_dropped++;
+> +		return NETDEV_TX_OK;
+> +}
+
+You didn't fix this extra indentation. This was present in v3 as well
+
+https://lore.kernel.org/all/94eeae65-0e4b-45ef-a9c0-6bc8d37ae789@ti.com/#:~:text=skb)%3B%0A%3E%20%2B%09%09return%20NETDEV_TX_OK%3B%0A%3E%20%2B-,%7D,-Extra%20indentation%20on
+
+> +
+> +static const struct net_device_ops rnpgbe_netdev_ops = {
+> +	.ndo_open = rnpgbe_open,
+> +	.ndo_stop = rnpgbe_close,
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks and Regards,
+Danish
+
