@@ -1,192 +1,147 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82E62E7BBC;
-	Thu, 14 Aug 2025 12:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD752264CF;
+	Thu, 14 Aug 2025 12:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755173750; cv=none; b=PbAqpkYvyb5/n5zUlGcU2itNuqvJrW4Z2P3Bz7f2St0YDPsUqP4r7YliH9e0f011TFclhHBBzQ/PYWWvY3lR0YLa/L4zjkuMzUUlZqUoCTW6mle+BlHdWI1NT9wDGabCYXtWpqu6xr6G4ypUfUbtI8x8LKS6dlDtxDCgyJthnFI=
+	t=1755174531; cv=none; b=QldFIHj/P174O+0Csr3W/IZrR941zPvLI0Y/8vawV2Is+BfT/oEZDdA36qU5cvpD8TYueemwRU5fF06hEAtniNys4Kp59r5YToMMiDVIRvz0jsWAfPd2Y3TtSjIpKPvLpRnrn5/SrjVIbKnWdCSd5tWIx+I+ScuFNa83dKTzaJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755173750; c=relaxed/simple;
-	bh=zsj/r4+qg+RibQeEvHxn2GkGt2ubYJ+iN86QAKdU1/0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kDMjliO0nVgdoTneZuAKnt4S3wHTyVTU7MIFBcZXIuPpeHe3DMKhK7muCmV3gZgM5cpkjs+H+XbVhg9hnpoPsrVYWz4x+5zlZBnEfZg3auYGGxhz/UVrITSAxEZNTy5U5iGaTEuvQ2zyD5gZ9NDfBiOzdwiJ6CvWX4xeiL/YSRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=dbLo7fO4; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="dbLo7fO4"
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57ECExwS1875851;
-	Thu, 14 Aug 2025 07:14:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755173699;
-	bh=3bkB4ImlGUHuqngaDsC8bS0n8FZ4dBNcDo4Y1EMKjpE=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=dbLo7fO40YX7UWvYJmhodrSTTzlEIOLeOw35d4UR+YPJE1fj4ourbiGEy1rYfkDPC
-	 UWPGYNHmbEf1ZZzLDEw6H4MdUY3YKILbftMREbHBMams0wqz4AeHDrxD+57kPfR0x1
-	 7b56lgQBaD/wXECzbSoPTgKGr8Yy8WhDHq5TzZPQ=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57ECEx9L1821238
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 14 Aug 2025 07:14:59 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 14
- Aug 2025 07:14:58 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Thu, 14 Aug 2025 07:14:58 -0500
-Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57ECEqac3583824;
-	Thu, 14 Aug 2025 07:14:52 -0500
-Message-ID: <dd6ece66-ae4b-424a-aa09-872ac15e1549@ti.com>
-Date: Thu, 14 Aug 2025 17:44:51 +0530
+	s=arc-20240116; t=1755174531; c=relaxed/simple;
+	bh=8xx0v++E2X24TTjRB2GImLBQxE6J4zlYevYDhKIBE1E=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=UdvQLiAwac/ZB4AVn3FDlDuELvTYYJRzEteaD5GrNRSXMTbcXUAtHkqIPFSJ217fbDKSdaDMZz9PfSTeFUFPTkUn4G6sPMVcCT8y6JCJuXLtR8sauSVr17MWoD+jsNHVl08QGyKffv4wbuEym1lWJZ1plbpf8ogJE17EDRimK+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4c2l093Rlpz7rYv6;
+	Thu, 14 Aug 2025 20:28:41 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl1.zte.com.cn with SMTP id 57ECSbiQ092876;
+	Thu, 14 Aug 2025 20:28:37 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Thu, 14 Aug 2025 20:28:40 +0800 (CST)
+Date: Thu, 14 Aug 2025 20:28:40 +0800 (CST)
+X-Zmail-TransId: 2afa689dd678ffffffffa38-72e2b
+X-Mailer: Zmail v1.0
+Message-ID: <202508142028407445nvZxgf2l-bOvTMm2v-zs@zte.com.cn>
+In-Reply-To: <20250814201129510XielEwRpr4QXPx_XBtkhv@zte.com.cn>
+References: 20250814201129510XielEwRpr4QXPx_XBtkhv@zte.com.cn
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/5] net: rnpgbe: Add register_netdev
-To: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
-        <gur.stavi@huawei.com>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
-        <lee@trager.us>, <gongfan1@huawei.com>, <lorenzo@kernel.org>,
-        <geert+renesas@glider.be>, <Parthiban.Veerasooran@microchip.com>,
-        <lukas.bulwahn@redhat.com>, <alexanderduyck@fb.com>,
-        <richardcochran@gmail.com>
-CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250814073855.1060601-1-dong100@mucse.com>
- <20250814073855.1060601-6-dong100@mucse.com>
-Content-Language: en-US
-From: MD Danish Anwar <danishanwar@ti.com>
-In-Reply-To: <20250814073855.1060601-6-dong100@mucse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <wang.yaxin@zte.com.cn>
+Cc: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>, <fan.yu9@zte.com.cn>,
+        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
+        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIDIvNCB2Ml0gRG9jcy96aF9DTjogVHJhbnNsYXRlIHNrYnVmZi5yc3QgdG8gU2ltcGxpZmllZCBDaGluZXNl?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 57ECSbiQ092876
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Thu, 14 Aug 2025 20:28:41 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 689DD679.000/4c2l093Rlpz7rYv6
 
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
+translate the "skbuff.rst" into Simplified Chinese.
 
-On 14/08/25 1:08 pm, Dong Yibo wrote:
-> Initialize get mac from hw, register the netdev.
-> 
-> Signed-off-by: Dong Yibo <dong100@mucse.com>
-> ---
->  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 18 +++++
->  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 73 ++++++++++++++++++
->  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  1 +
->  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 75 +++++++++++++++++++
->  4 files changed, 167 insertions(+)
-> 
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> index 7ab1cbb432f6..7e51a8871b71 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> @@ -6,6 +6,7 @@
->  
->  #include <linux/types.h>
->  #include <linux/mutex.h>
-> +#include <linux/netdevice.h>
->  
->  extern const struct rnpgbe_info rnpgbe_n500_info;
->  extern const struct rnpgbe_info rnpgbe_n210_info;
-> @@ -82,6 +83,15 @@ struct mucse_mbx_info {
->  	u32 fw2pf_mbox_vec;
->  };
->  
-> +struct mucse_hw_operations {
-> +	int (*reset_hw)(struct mucse_hw *hw);
-> +	void (*driver_status)(struct mucse_hw *hw, bool enable, int mode);
-> +};
-> +
-> +enum {
-> +	mucse_driver_insmod,
-> +};
-> +
->  struct mucse_hw {
->  	u8 pfvfnum;
->  	void __iomem *hw_addr;
-> @@ -91,12 +101,17 @@ struct mucse_hw {
->  	u32 axi_mhz;
->  	u32 bd_uid;
->  	enum rnpgbe_hw_type hw_type;
-> +	const struct mucse_hw_operations *ops;
->  	struct mucse_dma_info dma;
->  	struct mucse_eth_info eth;
->  	struct mucse_mac_info mac;
->  	struct mucse_mbx_info mbx;
-> +	u32 flags;
-> +#define M_FLAGS_INIT_MAC_ADDRESS BIT(0)
->  	u32 driver_version;
->  	u16 usecstocount;
-> +	int lane;
-> +	u8 perm_addr[ETH_ALEN];
->  };
->  
->  struct mucse {
-> @@ -117,4 +132,7 @@ struct rnpgbe_info {
->  #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
->  #define PCI_DEVICE_ID_N210 0x8208
->  #define PCI_DEVICE_ID_N210L 0x820a
-> +
-> +#define dma_wr32(dma, reg, val) writel((val), (dma)->dma_base_addr + (reg))
-> +#define dma_rd32(dma, reg) readl((dma)->dma_base_addr + (reg))
+Update the translation through commit 9facd94114b5
+("skbuff: render the checksum comment to documentation")
 
-These macros could collide with other definitions. Consider prefixing
-them with the driver name (rnpgbe_dma_wr32).
+Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+Signed-off-by: Sun yuxi <sun.yuxi@zte.com.cn>
+---
+ .../translations/zh_CN/networking/index.rst   |  2 +-
+ .../translations/zh_CN/networking/skbuff.rst  | 44 +++++++++++++++++++
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/networking/skbuff.rst
 
-I don't see these macros getting used anywhere in this series. They
-should be introduced when they are used.
+diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
+index 6e1c1df4a980..e03b5d5d39ee 100644
+--- a/Documentation/translations/zh_CN/networking/index.rst
++++ b/Documentation/translations/zh_CN/networking/index.rst
+@@ -28,6 +28,7 @@
+    netmem
+    alias
+    mptcp-sysctl
++   skbuff
 
->  #endif /* _RNPGBE_H */
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> index e0c6f47efd4c..aba44b31eae3 100644
-> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> @@ -1,11 +1,83 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /* Copyright(c) 2020 - 2025 Mucse Corporation. */
->  
-> +#include <linux/pci.h>
->  #include <linux/string.h>
-> +#include <linux/etherdevice.h>
->  
->  #include "rnpgbe.h"
->  #include "rnpgbe_hw.h"
->  #include "rnpgbe_mbx.h"
-> +#include "rnpgbe_mbx_fw.h"
+ Todolist:
 
-> +/**
-> + * rnpgbe_xmit_frame - Send a skb to driver
-> + * @skb: skb structure to be sent
-> + * @netdev: network interface device structure
-> + *
-> + * @return: NETDEV_TX_OK or NETDEV_TX_BUSY
-> + **/
-> +static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
-> +				     struct net_device *netdev)
-> +{
-> +		dev_kfree_skb_any(skb);
-> +		netdev->stats.tx_dropped++;
-> +		return NETDEV_TX_OK;
-> +}
-
-You didn't fix this extra indentation. This was present in v3 as well
-
-https://lore.kernel.org/all/94eeae65-0e4b-45ef-a9c0-6bc8d37ae789@ti.com/#:~:text=skb)%3B%0A%3E%20%2B%09%09return%20NETDEV_TX_OK%3B%0A%3E%20%2B-,%7D,-Extra%20indentation%20on
-
-> +
-> +static const struct net_device_ops rnpgbe_netdev_ops = {
-> +	.ndo_open = rnpgbe_open,
-> +	.ndo_stop = rnpgbe_close,
-
-
+@@ -126,7 +127,6 @@ Todolist:
+ *   sctp
+ *   secid
+ *   seg6-sysctl
+-*   skbuff
+ *   smc-sysctl
+ *   sriov
+ *   statistics
+diff --git a/Documentation/translations/zh_CN/networking/skbuff.rst b/Documentation/translations/zh_CN/networking/skbuff.rst
+new file mode 100644
+index 000000000000..2624ea8e8e05
+--- /dev/null
++++ b/Documentation/translations/zh_CN/networking/skbuff.rst
+@@ -0,0 +1,44 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/networking/skbuff.rst
++
++:翻译:
++
++   王亚鑫 Wang Yaxin <wang.yaxin@zte.com.cn>
++
++struct sk_buff
++==============
++
++:c:type:`sk_buff` 是表示数据包的主要网络结构体。
++
++基本sk_buff几何结构
++-------------------
++
++.. kernel-doc:: include/linux/skbuff.h
++   :doc: Basic sk_buff geometry
++
++共享skb和skb克隆
++----------------
++
++:c:member:`sk_buff.users` 是一个简单的引用计数，允许
++多个实体保持 struct sk_buff 存活。 ``sk_buff.users != 1``
++的 skb 被称为共享 skb（参见 skb_shared()）。
++
++skb_clone() 允许快速复制 skb。不会复制任何数据缓冲区，
++但调用者会获得一个新的元数据结构体（struct sk_buff）。
++&skb_shared_info.refcount 表示指向同一数据包数据的
++skb 数量（即克隆）。
++
++数据引用和无头skb
++-----------------
++
++.. kernel-doc:: include/linux/skbuff.h
++   :doc: dataref and headerless skbs
++
++校验和信息
++----------
++
++.. kernel-doc:: include/linux/skbuff.h
++   :doc: skb checksums
 -- 
-Thanks and Regards,
-Danish
-
+2.25.1
