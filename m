@@ -1,115 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF221DE2A5;
-	Thu, 14 Aug 2025 12:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3801DE2A5
+	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 12:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755174912; cv=none; b=bIT5Zc/kQ3NYWol5bPy/zl2FbXAOafSCrPtHbEQLl0V2U2ISBlP2gSjockzA5ZOXujj6/UuvkZbWNnGJtLLXrB2xi+WVnQ/zh69p/qiVS2lV0OasO0h6Z2JSmxgH+Zb8wepjuvM7I/1DFnc4GeQH7NBMcWPRKAYmS8ratnmf3u0=
+	t=1755175058; cv=none; b=Txc07yaZOmMwXrF4rvnkyZJto+NWXwYOsTLxC18c2GTAJuElIsERUJ/Ei8gf/oXOLacpxEklrReISroL4uJt31mEH7GQP6UEQPYJfQZTfq9zGSz5v6ZyeLplUTiE+45TbdE2K73vnmFoTCuI14IWZGVBT3URYIxdxC3lstsi90Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755174912; c=relaxed/simple;
-	bh=5hXrpmcmtYiZJx4oU8qkI207P6Gx3hYundw5EKylrIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DPdc7sHAGVD4TrJ2AMAQs8w+ZVFfeKiMAkPt0F0Q2+g+oLCATQPpfpK2j8cMiVkL7teBmg85fMm+qg1W/t1R0sb/Nzak8LER2tySdRJa7/fpPzMPOU7OMXgGSmwtr6rlnjXJDOyM+sgI6nzsP7XBJpawpIs6pbDFMAg53BnPVOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N2g2BIJ8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755175058; c=relaxed/simple;
+	bh=c5vSJaIThkKie9e5z3BpvRyqmQ04ukIKKeNTi4Akz+w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=foGGsmkHlILkfwcNG2bqFsCT9O/NLyyqjbdH7pZYSWfwtbG4vsPyqjVYKbpoSROWhe1Jq1TwPh+rcZUQoIVLCajk2Zy2oToX5pQbdla4NlevyV88cK3rA9J/EOcsz9uCqHiBR/MoD1jikDhAj2VtVl1xl9BNsUtnL8TQqucRo5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=onMOQbb2; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N2g2BIJ8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3623FC4CEED;
-	Thu, 14 Aug 2025 12:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755174912;
-	bh=5hXrpmcmtYiZJx4oU8qkI207P6Gx3hYundw5EKylrIQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N2g2BIJ8YPB3KdUqlIQ+3sf88XYTAU5YzXsxCIMkq+b9inEW2vgp9A4ivccGvjwfF
-	 AV/wNRHN7Rl4BZfB83b4YqKem1VH+FiuolX5SiQ0hmKku6kJ9fzYlnSHRYR/hZfo4A
-	 t7RgKyvSz54/20bp9OQxBJ3FdHTZ28zI3/O5nihwLrWH4XxMFsh7ImLJrid7kdNvXc
-	 dxHzSoTZ0eAkBFydpLdrAEROqaFVHC+xn4DDTCz/hN4fLyFBvzVlWYglA0CvtcModo
-	 8sk1zeTQvWBfTVENe6sc6PZjsbCDpigaPftEIsijKrs4a0DqSYC9HgT0MWUqY4ie5R
-	 dAHYa4zIponFg==
-Date: Thu, 14 Aug 2025 15:35:06 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v1 08/16] kmsan: convert kmsan_handle_dma to use physical
- addresses
-Message-ID: <20250814123506.GD310013@unreal>
-References: <cover.1754292567.git.leon@kernel.org>
- <5b40377b621e49ff4107fa10646c828ccc94e53e.1754292567.git.leon@kernel.org>
- <20250807122115.GH184255@nvidia.com>
- <20250813150718.GB310013@unreal>
- <20250814121316.GC699432@nvidia.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="onMOQbb2"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-32326e2f0b3so742493a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 05:37:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755175055; x=1755779855; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8NIrhvWA3XT+D6ry67eQSgPW4LGM+PP71oE6xphaZ8=;
+        b=onMOQbb2ThzPF793qH+3DWBTmTe9n25MNQ9JcgAi0g28CddgQxGDm2E/g4CqK838d5
+         gHcYtY6V1tYMlFzLrilniHZ06SON446ZyKWr5dXeuJZgpLuE8+a4nQBDC+aeSSl8z1QA
+         n/Aps4JksJKJhSiraUFALXViUSgnCdaDVxbRi5iQqZf+E/NzhueXeo6zl2Crt734eUhk
+         jLRGXLjiRZRNZBo+VXxZpHteJ1MQigOYUXoSsAsZUfzmZBuUCvyfohq/eXLmowjplphk
+         FSzcnusa/a101g5lYwRx21uL92uagH+f8TEpppiZg89PW1+/w5e/fltn9BPmc4t5pTty
+         ubcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755175055; x=1755779855;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l8NIrhvWA3XT+D6ry67eQSgPW4LGM+PP71oE6xphaZ8=;
+        b=t5kUnJVsM+5nSefvLxCULfVhpf5eTGGIlpbNVsIZ/KflKdxls+NEcjPUlbb6pgMb0Z
+         M77GLm4Aq0aCukjsxn1uVFUh7jOMR+TFp5iUlwn67uLuMhtC79bqEIhP7aUO1cTxSjmN
+         6K5FpaiMnVyS8RYASY4oizhZt5SdoShtJgdFcybL0ZYplOLT7o9WxggU+ye6OavpwBIg
+         ec7ST0lHQQXDPm0kJx5pu4AkqY+qaBopoTDDJZoxlwRqYzjIdEywLP4w2pZiHxGUwJf/
+         HpQusGCDlZMcI/TNlNCmkvKFo6K5wY+X4Fax/u5zwaHt51qnvhGRGw7XbYvSVtAzwSa2
+         ES4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXPQ23sAbQn4qnq3TUKH+7nV10XMA+I//bprkPm5zv13+sSE5UB0ua6fg8yEnNXv1KDkzdxftVdNdQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx19GT4GKSs7/AtwTU92SVcO1qO7/B0ZiLqSdiLfxzXJzTfa5PG
+	WEVyLJ6CP37mtW4v/nOS8sE6T2Qrfq5m2M6btGwW+04P3T08+0+MHv8DIVF5lQJKUXgF1ie5uvR
+	wSzSdoab9VEJrd5wMLRvTfYjrjjaAMoIk4nlgTP97vQ==
+X-Gm-Gg: ASbGncuViGTWVf9O86o5DfW/dAtmjF+H46ZNhAKVFgtDthy2FdShOyzB5vvixQ9GJbR
+	4Xy/hWelHIS0Siw09hAK7BsEMHstVLHK/IFWrmpLGb8TZjF7Covi55a3YaPPgQ3dkap6BnRaNLZ
+	l3bGh+DlJmB/F9/28hIdw/IHIssJIvCh2yUpkamF3FxwommLOTuxoo7ITWFRRSh4t8p7ErV8hvK
+	pBh++v4
+X-Google-Smtp-Source: AGHT+IFp5bAV3mlCwQE02uvVSf6ZahrQODia4B5N0jsqEGKT7zYD/rS2C/DAdPrSOa20N/yIekDRogPj27rDkMSmcHo=
+X-Received: by 2002:a17:90b:3d46:b0:321:265a:e0c2 with SMTP id
+ 98e67ed59e1d1-32327ad25femr3514452a91.32.1755175055180; Thu, 14 Aug 2025
+ 05:37:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250814121316.GC699432@nvidia.com>
+References: <20250811-james-cs-syncfreq-v1-0-b001cd6e3404@linaro.org> <20250811-james-cs-syncfreq-v1-2-b001cd6e3404@linaro.org>
+In-Reply-To: <20250811-james-cs-syncfreq-v1-2-b001cd6e3404@linaro.org>
+From: Mike Leach <mike.leach@linaro.org>
+Date: Thu, 14 Aug 2025 13:37:23 +0100
+X-Gm-Features: Ac12FXwNdxfp1DMoW8IPZs7kHmN3duHawTMxGkhLBFv3GFYUtE-A_kMdlr2VOJY
+Message-ID: <CAJ9a7Vh44rYWN3mjHPBq8pkBcPuhS2pTBZNaMpWgJECmPZtupg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] coresight: Fix holes in struct etmv4_config
+To: James Clark <james.clark@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Leo Yan <leo.yan@arm.com>, coresight@lists.linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Aug 14, 2025 at 09:13:16AM -0300, Jason Gunthorpe wrote:
-> On Wed, Aug 13, 2025 at 06:07:18PM +0300, Leon Romanovsky wrote:
-> > > >  /* Helper function to handle DMA data transfers. */
-> > > > -void kmsan_handle_dma(struct page *page, size_t offset, size_t size,
-> > > > +void kmsan_handle_dma(phys_addr_t phys, size_t size,
-> > > >  		      enum dma_data_direction dir)
-> > > >  {
-> > > >  	u64 page_offset, to_go, addr;
-> > > > +	struct page *page;
-> > > > +	void *kaddr;
-> > > >  
-> > > > -	if (PageHighMem(page))
-> > > > +	if (!pfn_valid(PHYS_PFN(phys)))
-> > > >  		return;
-> > > 
-> > > Not needed, the caller must pass in a phys that is kmap
-> > > compatible. Maybe just leave a comment. FWIW today this is also not
-> > > checking for P2P or DEVICE non-kmap struct pages either, so it should
-> > > be fine without checks.
-> > 
-> > It is not true as we will call to kmsan_handle_dma() unconditionally in
-> > dma_map_phys(). The reason to it is that kmsan_handle_dma() is guarded
-> > with debug kconfig options and cost of pfn_valid() can be accommodated
-> > in that case. It gives more clean DMA code.
-> 
-> Then check attrs here, not pfn_valid.
+Hi James
 
-attrs are not available in kmsan_handle_dma(). I can add it if you prefer.
+On Mon, 11 Aug 2025 at 10:32, James Clark <james.clark@linaro.org> wrote:
+>
+> Lots of u8s are mixed with u64s and u32s so repack it to save a bit
+> of space because there's one of these for each ETM.
+>
+> Signed-off-by: James Clark <james.clark@linaro.org>
+> ---
+>  drivers/hwtracing/coresight/coresight-etm4x.h | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
+> index 746627476bd3..a355a1e9606d 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x.h
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x.h
+> @@ -832,28 +832,33 @@ struct etmv4_config {
+>         u32                             vipcssctlr;
+>         u8                              seq_idx;
+>         u8                              syncfreq;
+> +       u8                              cntr_idx;
+> +       u8                              res_idx;
+> +       u8                              ss_idx;
+> +       u8                              addr_idx;
+> +       u8                              addr_type[ETM_MAX_SINGLE_ADDR_CMP];
+> +       u8                              ctxid_idx;
+> +       u8                              vmid_idx;
+>         u32                             seq_ctrl[ETM_MAX_SEQ_STATES];
+>         u32                             seq_rst;
+>         u32                             seq_state;
+> -       u8                              cntr_idx;
+> +
+>         u32                             cntrldvr[ETMv4_MAX_CNTR];
+>         u32                             cntr_ctrl[ETMv4_MAX_CNTR];
+>         u32                             cntr_val[ETMv4_MAX_CNTR];
+> -       u8                              res_idx;
+> +
+>         u32                             res_ctrl[ETM_MAX_RES_SEL];
+> -       u8                              ss_idx;
+> +
+>         u32                             ss_ctrl[ETM_MAX_SS_CMP];
+>         u32                             ss_status[ETM_MAX_SS_CMP];
+>         u32                             ss_pe_cmp[ETM_MAX_SS_CMP];
+> -       u8                              addr_idx;
+> +
+>         u64                             addr_val[ETM_MAX_SINGLE_ADDR_CMP];
+>         u64                             addr_acc[ETM_MAX_SINGLE_ADDR_CMP];
+> -       u8                              addr_type[ETM_MAX_SINGLE_ADDR_CMP];
 
-> 
-> > So let's keep this patch as is.
-> 
-> Still need to fix the remarks you clipped, do not check PageHighMem
-> just call kmap_local_pfn(). All thie PageHighMem stuff is new to this
-> patch and should not be here, it is the wrong way to use highmem.
+this is 16 x u8 - could this not just stay here?
 
-Sure, thanks
+> -       u8                              ctxid_idx;
+> +
+>         u64                             ctxid_pid[ETMv4_MAX_CTXID_CMP];
+>         u32                             ctxid_mask0;
+>         u32                             ctxid_mask1;
+> -       u8                              vmid_idx;
+>         u64                             vmid_val[ETM_MAX_VMID_CMP];
+>         u32                             vmid_mask0;
+>         u32                             vmid_mask1;
+>
+> --
+> 2.34.1
+>
 
-> 
-> Jason
-> 
+These attributes have been functionally grouped for ease of
+understanding. If we move the _idx values away from what they are
+indexing, we probably need comments cross  referencing from where they
+where and where they have gone to.
+
+Mike
+
+
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
