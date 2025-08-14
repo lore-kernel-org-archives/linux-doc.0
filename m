@@ -1,118 +1,106 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D8B23B611;
-	Thu, 14 Aug 2025 06:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC5D2417F2;
+	Thu, 14 Aug 2025 06:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755152380; cv=none; b=TrDVa822UJH/tONBJ4bkZhYHsTxQNIh1avvR9lvfvHzDuuVEUafw/tpSoYA5kgGc21mqPNP94XYFHWZ9Mb8WGlV2FJn1/mfYJUjz2lX6JG/UVmHwX9FrMwRc2qv4AhxiVzJEbwV96u+R2fQyqPnx5V711LaFYLwbZrsOg9xZyrY=
+	t=1755152499; cv=none; b=i2vy6f8LIW5nXtWJRflzrpHPmtzt5KMG0RWyB+/YhjFNnt33vwOky+zu7X5L0AUdq6czmDNltj1eLrD3jUXaNinCBhn96a5VJhb8WyXcI044JWM5HhgYV4g9jy708PjubI1eyTSqR0gaqUR/VsuXNAuaRmPXOI5BOZpQkgQOGSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755152380; c=relaxed/simple;
-	bh=HcspPniQ+/a9UgjFb44d/Qy83pFsOwoD+mG4yuju6Fo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=E0dJ+mJbTTMh25DqaTdpAoF/nUmW/bAC0/BLX/c9vY4hS0WarDmDIoCzrQRIdkFEREwBZRo9D4PjYtHZCR3fwJAGceYU/X5cDm7C6NQ9yTG4kng2Qf6kPpJ35KumP93wnJ+SkwKwO6tScvGe4AZbEoCUy9IJe4WFK5gPWIsGBwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XSALF2kF; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755152499; c=relaxed/simple;
+	bh=ad0ESFomXR6hzJsoqncZBBl8RJZ2v1U0lsN4nBWb8Ss=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s+OicCABW00wJovF7oomYfQ5Dy/tly8s6ykkrZ3sltCarEOJ1O6Jy0LpsY26AisdkGtsWuVuBRU/bJvBELxTi4p687o0Ep3CChcYFZfumoH9Hb5S0WLLATBvCEdsW2h+TyMvuMvDNVs0vHFsj+kPGuFb2z5KnDUqzzE1eSbReXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XXFNqxKG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XSALF2kF"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-76e2ea887f6so495158b3a.2;
-        Wed, 13 Aug 2025 23:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755152377; x=1755757177; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s+vKmcBx4tFOUtnevR3o1xCot+6PtJYfeGLB/iWk5Rc=;
-        b=XSALF2kFRUKvPdj9DrtHxxFYS4a1HVNReH5UDjrGVUl/83YjR730w8ct37sPQy+WMr
-         C9whrHXm36EmrX7vtP6k5wRtpTE19uulKjswDm59lJKM4Tl7h71ZwewHzQraj+m4gd7R
-         KX35wIYZfqlakac4QPT3otD21Uaqtwga9FmLQjcuk2Fh6Z797rqDEiW29owHclr2AmgZ
-         WshdCCJWAVs5FKXRDNsLzyA8J1hxNjZzBtUhdiuJo8nwwmSGti/ML/3mfBOmEoYcqWFZ
-         MTbRYKqbRUNEedvG1xuMf0/RyEgPZRXmU/Fevgglg54Z53ogTW9Rybqf/UXwjyiHdGMg
-         h5Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755152377; x=1755757177;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s+vKmcBx4tFOUtnevR3o1xCot+6PtJYfeGLB/iWk5Rc=;
-        b=fLKD9VVOquI0UWmUFVsfCN5K8dMpBzL+2DYCRUsptD51SEikNWHzvURkSj8PW24Iz4
-         +1SlV2xbJsvgjDPhO7qJwCGBqA6Q9cqn6GwBIBQLNWVd1dJJbD2jvkS2gFGNwpaaG8aR
-         6setauNy2MsEz5o6yJid55ziH4Vye/aM10mBJARMGWqOUGGRz2I4bHPlk9phHdA+nGtF
-         7FCeoS59c4cn6JwVs6Udj8H7y8hFyLLwC8ydUOmYC5GqdehlCNuEujI+8GmoK7zxPbnT
-         1QoPpgITbFbKOjsKO3fO1Y1LYAizJqHQybjlKyJb52KHUWa5oRlC/BAwNc/YmegcjVDB
-         RtCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUffoH6EJjjqJTD3S5eXqqBY8vtfItBAO9CPHaIh8u8tQjDPD/R9WwKtvzrdBfXGP/7QuCBDeH+jqwjMmY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLR5E8BoS8bMar+vEZ0iWT3s3kLJj8mGlW62Hzs4Y3pwcggQ7u
-	Q8JXdYFaQQAled07qQjkBh4qyWqnRFvuOYt2p6VZZfCeARDIZbofs4VT7dQj3Q==
-X-Gm-Gg: ASbGncsiKTuBnoIOoWdQDnBwL7p0O2zUQmWQ1B1nYi5WylPJ6spk4YPa/raaKZ1/cm4
-	AQ5g59bKjS1QAvdjsZer9jXKJJXdlrUbZzSH8swhzCoNehv2NTTkZryqAIw6jEo/Kpl/3vJYnGE
-	pnIEq6buqq8OUNi2wmljvSFeby8dRl/fJnts9dCHaU2o7DP8w5BWYkSjWSiyoamPBBKeWzJXgpp
-	xDkr+/eHoAluyOYWzhfrwxoNMm0c8yt0akFPbKaGrKVNPBBZFBUq/QvqTsET6yToeDjTlDqZkd2
-	eblJwG9IKlc1+/F+KeTY2rjIjuDkVC3K7pYi2JuUEfVt55hEEBY2me4wzI3pCKZ0Q7YvkjFDzVw
-	4PcgBbFkZ60mSkGD8+FkQ7iKqkSmj7ltwyt8RfGNhbDBgJUAj27GFl5Uf/89Kfg==
-X-Google-Smtp-Source: AGHT+IENr9Qn+GUepbngqAMVYzfwmsgTlwwhKf6Z5G5NtxRUHPwwPyMROo1T3CRHR+hZnOQveZ2vQQ==
-X-Received: by 2002:a17:903:191:b0:226:38ff:1d6a with SMTP id d9443c01a7336-244584c2650mr30919735ad.7.1755152377190;
-        Wed, 13 Aug 2025 23:19:37 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:d003:7033:3e4:5d66:b054:56a2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899a909sm339674185ad.123.2025.08.13.23.19.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 23:19:36 -0700 (PDT)
-From: vivekyadav1207731111@gmail.com
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org
-Cc: Vivek Yadav <vivekyadav1207731111@gmail.com>
-Subject: [PATCH v3] kernel-parameters: fix kernel-doc warning
-Date: Wed, 13 Aug 2025 23:19:25 -0700
-Message-Id: <20250814061925.4281-1-vivekyadav1207731111@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <B15E4343-E543-4C59-85E4-CF06FE78A627@infradead.org>
-References: <B15E4343-E543-4C59-85E4-CF06FE78A627@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XXFNqxKG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8F8CC4CEEF;
+	Thu, 14 Aug 2025 06:21:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755152499;
+	bh=ad0ESFomXR6hzJsoqncZBBl8RJZ2v1U0lsN4nBWb8Ss=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XXFNqxKG2mC81Go6GBQqab31AUbWe57gS4SVHRcMI8rTcN/DCaCmYrnDfgeB6iADP
+	 F8t5s+XETAXnIycnQh+UpNDHiy+RSprZZj16GjCIMj+xLzM5xlqiDIZBAHewZIxq6f
+	 MaZhy/jTjg8lbyEZBcaX1HfeJuEQ8RdsYj2IxVYDRWU2d4QvOQHJRspX/Ppj9n2IL9
+	 L28dJDJ09wVdST0UF/+PIqVHtsajFPdo3COcPnnZfcjsXXMQthqdurIhVA5WQTWs1v
+	 ehj2Ye18st1MbY1hYMiif8HbdjyUL63WvWIiXxkloXbEibE1vuRA2+hPu3S2PdYtfG
+	 398U0wfSi/fCQ==
+Date: Thu, 14 Aug 2025 08:21:35 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 07/13] docs: move sphinx-pre-install to tools/doc
+Message-ID: <20250814080539.2218eb4e@foz.lan>
+In-Reply-To: <871ppehcod.fsf@trenco.lwn.net>
+References: <20250813213218.198582-1-corbet@lwn.net>
+	<20250813213218.198582-8-corbet@lwn.net>
+	<20250814013600.5aec0521@foz.lan>
+	<871ppehcod.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Vivek Yadav <vivekyadav1207731111@gmail.com>
+Em Wed, 13 Aug 2025 20:14:42 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Fix kernel-doc warning in kernel-parameters.txt
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > Em Wed, 13 Aug 2025 15:32:06 -0600
+> > Jonathan Corbet <corbet@lwn.net> escreveu:
+> >  
+> >> Put this tool with the other documentation-related scripts.  
+> >
+> > This one will be painful, as it will cause conflicts with my series
+> > that clean up the docs Makefile.  
+> 
+> Just in general ... I'm more than happy to put this whole series on the
+> back burner until we've gotten that other stuff merged ... it's an RFC
+> after all, and there's no urgency here.
 
-WARNING: Possible repeated word: 'is'
+Ok, thanks! Yeah, this would help avoiding conflicts with the patches
+I have piled here.
 
-```
-[command]
-./scripts/checkpatch.pl --strict -f Documentation/admin-guide/kernel-parameters.txt
+Btw, as I said I have a /51 patch series focused on parse-headers.pl
+and kernel_include.py, which is currently used only by media docs.
 
-[output]
-WARNING: Possible repeated word: 'is'
-+            The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
+For those who don't know, this was added at the very beginning of
+Sphinx adoption, and had its own particular way to create *.rst
+files from source code with cross references, via an specially crafted
+Makefile that runs before Sphinx. This was written as a way to detect
+uAPI documentation gaps, producing warnings for unsolved cross references.
+Recent Sphinx versions broke it by disabling cross-reference warnings.
 
-total: 0 errors, 1 warnings, 0 checks, 8339 lines checked
-```
+This series is big (51 patches) because it needs to fix thousands of
+broken cross references on media. I may end splitting it on two series
+to make easier for review, one for the script and another for media doc
+fixes.
 
-Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Such series affect this RFC as it is creating a tools/docs and placing 
+there the parse-headers.py code as:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 747a55abf..302145870 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -7506,7 +7506,7 @@
- 			Set a trigger on top of a specific event, with an optional
- 			filter.
- 
--			The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
-+			The format is "trace_trigger=<event>.<trigger>[ if <filter>],..."
- 			Where more than one trigger may be specified that are comma deliminated.
- 
- 			For example:
--- 
-2.25.1
+	 tools/docs/lib/parse_data_structs.py                                  |  230 +++++++++++++++--------------------
+	 tools/docs/parse-headers.py                                           |    5 
 
+Now, if you prefer tools/doc instead and/or place the libs elsewhere,
+we have a couple of options:
+
+1. rebase my series to do the changes. I suspect that there won't
+   be much conflicts, but this may delay a little bit sending you
+   what I have;
+
+2. add a patch at the end moving stuff elsewhere;
+
+3. on your series, move them elsewhere.
+
+What do you prefer?
+
+Thanks,
+Mauro
