@@ -1,103 +1,125 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653472E8899
-	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 10:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740992F39D5;
+	Thu, 14 Aug 2025 10:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755167842; cv=none; b=ob6cUfYYwVGrPv2jY1G2g1DqdKwZVHyPJZs1kLNzkPE6A8LmQsle7T+g0Jp70oMMBjwRqsSuRJpUiRq4NWiI/Dmo0wWB1ZvD8WRcZI1QNFwfTBj7pl7AnCl9Eb0zh53X2soj7sJwg/pe6lV0GIs/rgQ7Wm9xYxv2i1xpqAXTiBc=
+	t=1755168198; cv=none; b=LjuuDj5Y4hb9rY2JDgZFbfbi4ddb1gyOp18Iugfsfmq/A0bU5hwAf2RS1JXt2ISEveLtX3xsIReVmGxUrozFNzqfi8lX5Ir8/oPBUSvUvpP7M0Md3Tnj5nlyzQMqxDRylQNIdIHRijyUDU+ncsHTTSrhlfF5B8c+kvPe8jP27yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755167842; c=relaxed/simple;
-	bh=2z4KHp3G9a5b9AfVC4TLzGl8oU7ja1D8uVs4f94B57E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CjgRpUh6b2L1+LqQx3/xHtcBZ4oDomp71bPSjNhrCv8oLiwRw6ScCaK1vmKRycMTkZ/rr30FvL5RFMRrei5gD8Y/2IWQqi3/6Lp87xE+ITdLRIODp00RCbz2bZO7CGKhCdUB+s+IUJv03oZpuciXTzl0PP5wCWZTVd75UUxItQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=O/GOHdyW; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	s=arc-20240116; t=1755168198; c=relaxed/simple;
+	bh=ByaxPKIOOsSpAmqsDB0Mq3lT1GdJT7b79vpjsbOysw4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O53WghFBUODwcFiZDALvWxZx+WeohGPI40E3miNfF8Vwjwo0NHMTmnnGgs0mctb0EEgjDwCMKpM2Z98XmRgFSevXQKL2FU7q9hZDBCaIT8FkP28VmO0BZYW9QW4d3GTBwVJhUT4o9u18fQKkubwbJHV1MeNbjH0BsJqjRsDL4mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YFZEZUNT; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="O/GOHdyW"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7e870325db1so71013485a.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 03:37:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YFZEZUNT"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b47173a7e50so589241a12.1;
+        Thu, 14 Aug 2025 03:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1755167839; x=1755772639; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kfg1xdeLOfyreKnr328hQaYYjz2z+mng0dgiwOWK8Ho=;
-        b=O/GOHdyWZapd+Nae4I8AkqAIRlDiXTWapC6/jH6o4x70+cSV5xWtCGGTblvSY3gApB
-         QHc/mOyfbM+ZTYQ8ptVLzn1NDc4xewRyPkMC87FPDYgcd9c6qEFXD6RSyGE8+s0oo4AX
-         rhkrWHIK/1AfLWZXh1yFCv3TFLmRVPrORiMp4=
+        d=gmail.com; s=20230601; t=1755168195; x=1755772995; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NQQrI7equ/7Apuzl/jQOdd++HWjACeEFbFrTaZ0NeVc=;
+        b=YFZEZUNTIrOnbb2x1lGE1MIb4iu9/eriu8nXIugf8mT3CP8vPVW99vkQBpnCxY0c2z
+         9CllxRBviPb0kSv4TMzBXycltb4Aqj5Scr0a563VOHpNqAGbaEBJ9bWFs+v3Iljpn0T0
+         ZX/NATbHBIeheerB99gnNzxcGxp5xPVRDk+QynRXW3ff+hUXUxTFpF7Wx6Jd1qKu7t5+
+         nCWZ0rCeCfJih1geRl1sc9gPCJaazgCcoYkIC84x+9y47uzVcL9Avc1SV+GvsX4xJH0L
+         5rzdMAnumaKNRFa5XfveTvhzkz+k5deNwT/rCQAg3t39yLAwc3sIJssoIcMGDYRq0evq
+         /7Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755167839; x=1755772639;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1755168195; x=1755772995;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kfg1xdeLOfyreKnr328hQaYYjz2z+mng0dgiwOWK8Ho=;
-        b=DGKCAPG0CzIpKLo3YSDXygCdErI1zL40XaJ7F9CWM8ppuzMdB7S8A4YqIxzx2XrsS6
-         lnE1/y+PTvsolXf3lxiE0+fQ/6B5M1V9cVH97uMxEqA7j4PKnsfGwLXO9+EA1BMqOJpp
-         FmPQJp83vKQfGBDgrhXnCIoR/6wjE0Lrf3KJJiEMLCcqCon7oZSOY+50jEX9z6vhayPM
-         YPdOt72rx+pITMQ3QOY2suA4Ha46N++puoLhEqUvssi1ere94ZrobvhNXlDlPLNnmYld
-         30EYj/CN+shgl95jrUoH7Rexi2nKtjBimeQeHsJGCk1t1pqp4t2rhbbK4N1rKtRo/kL4
-         e5/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVxd71E6YrGoWNQuaq08B5stPAMWN2e/hhxtBuu4bKjyWs+c/EVEyhwbtpA5Pep9P1kfH4kFbns6Vg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywn3/Ok9xq/ofKLx1CCzjgtduMqe0smkGxnaGGdD5c+IjPfP6pG
-	4eJ7GdQrlaPWlrr40JCZFE44t+GD2kb6xcnNQRxBQMhZ2Cvg4idKKEHim8cONngoaTsDGIenpW9
-	NyiGZj7Osai0bAaIAs7P8Rbt0QF59guRqSQwM4WCbzw==
-X-Gm-Gg: ASbGncsPp45f/PQ7BM0r/EJcibMcO4k7ySKsOALbiosm+xAwzJQ+Fww19ut5UYujG7N
-	x+Q2XSRMpZ25/NZ55a0Z/1a3OMqYLNh7H7fee+0hzZpbx5rPLowcG8kzYOdrPMywJN6pSI0uMoR
-	UcSJxrMf0dvlPRMDpTcEtTxUiRM2QRpZIoIHDLodIIoK3YYrpoP0zYkmROoTUAR+XpcS8+I47JN
-	/Xj
-X-Google-Smtp-Source: AGHT+IGCyQ+LrtnuvvD4cnfS9KWxmodF+LtsJHdOQQ03BWq4ghzPdSAt/rs4hdQANvXyGJmp0NayklHjGgL6sn9UaHM=
-X-Received: by 2002:a05:620a:17a8:b0:7e7:f84c:9d65 with SMTP id
- af79cd13be357-7e87066e73cmr321505585a.38.1755167839208; Thu, 14 Aug 2025
- 03:37:19 -0700 (PDT)
+        bh=NQQrI7equ/7Apuzl/jQOdd++HWjACeEFbFrTaZ0NeVc=;
+        b=M7IleBZvuh2tqORiVxq9oE9pOB8MfdGQkn2dHGgNIN422phJI6SnL9Jlp99aLn5KA7
+         7YN/YB1RNULGvMXG2MKdA/XN1fGhnDp0q0g60ox0odd2IAdVNy4pkM10aZJJk3c6/vFQ
+         7oupG8ERf110KW04UYnjmJfZTl78risqxtZAtk+ppQ2GUadXcwfrBOaU6m6UkZryOXVY
+         yuqMixYtPGHUZQgi1dXD8aHXWModShxE2mnT3JiW3qAWPM7aeO3kUjSEAg9pgponMNMF
+         /BJoiVy2kMvga5fiL28/LJXQECkJGQNvOQEAj8fgEGLIMRWPf+38xi0GrOnaswIMhWi7
+         malA==
+X-Forwarded-Encrypted: i=1; AJvYcCUMbcIt53UbOU/PSZscYb7a2LMSxhOf8fGWHHAjbnIuZ/QssAauF2vRBWzvypOk5JEgeRCuKnHlzSvv6QMH7nyK@vger.kernel.org, AJvYcCWh2bp8tYko/WUyYDK/SBfVvxZhThL+u3GJQ0xvPeUI+ewzRZO4PsXRQIR+VqQDEnXi/UUzjWRGRvo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuMH3SYSHuHa5QM3Y7TY93sqS/mnLoJt4YpTdTpbU48bCwg49I
+	HpwkyT2haP7BaH3f+a1lJ/vGDxa4AJuyOqtiVHxlmJWCRpqGPJeZz+iBmbdvLVma
+X-Gm-Gg: ASbGnct3cwS6EmIojqaZ6014Jz4etgxWRo6eDg9XOIcs4D2bnwaXl87TcCjE2mXwFX7
+	1oHBKY+A6vGyyv4XLAgZhPN3rtRFZ65vryiHNNK9uayqWtLZH0qHrQDma5NPkmkgmSfDNuYA4Fo
+	LNWZh3qoEF5MGXimVhjdG4jQWET6CgbQLhPDWjjkvMa5KAEsxd7yVRlumjmXM5A7O6XT75jBTWn
+	AzdnOnzZE33LpPyz+d4NqFR+jRQsfRSBVz4jnkW7uHPpPrUU3x+H33HUuq+bZbF2KnxxslLpsrT
+	O/a36bYhQ9DOHaYiaPdJ+2V6pymVEv+yLnslSoOzykm0AJ6csf2XUJ7I6dIgzV5u67iyG3g5mbV
+	JIgPVOmB84g4nobRHWXjHpBDrDjjPo9clN8GcBwIWrw==
+X-Google-Smtp-Source: AGHT+IFrxnbMnFTrneqJzK3CsUad1WU6U11pJTdSkCfwczVAOD+xvDSRYuVuFDDf9/y+3vylk9r3EQ==
+X-Received: by 2002:a17:902:ce12:b0:243:e3:a505 with SMTP id d9443c01a7336-244586f2595mr32018195ad.57.1755168195448;
+        Thu, 14 Aug 2025 03:43:15 -0700 (PDT)
+Received: from fedora.redhat.com ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e8976a1csm351796225ad.78.2025.08.14.03.43.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 03:43:14 -0700 (PDT)
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: netdev@vger.kernel.org
+Cc: Jay Vosburgh <jv@jvosburgh.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Simon Horman <horms@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Petr Machata <petrm@nvidia.com>,
+	Amit Cohen <amcohen@nvidia.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	David Ahern <dsahern@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Hangbin Liu <liuhangbin@gmail.com>
+Subject: [PATCHv2 net-next 0/3] bonding: support aggregator selection based on port priority
+Date: Thu, 14 Aug 2025 10:42:53 +0000
+Message-ID: <20250814104256.18372-1-liuhangbin@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250703185032.46568-1-john@groves.net> <20250703185032.46568-12-john@groves.net>
- <20250709035911.GE2672029@frogsfrogsfrogs> <ttjh3gqk3fmykwrb7dg6xaqhkpxk7g773fkvuzvbdlefimpseg@l5ermgxixeen>
- <20250712055405.GK2672029@frogsfrogsfrogs>
-In-Reply-To: <20250712055405.GK2672029@frogsfrogsfrogs>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 14 Aug 2025 12:37:08 +0200
-X-Gm-Features: Ac12FXw_tUJvAdswzhdrUe0cP4gCxZqTC0WTTpEt7BoMabiUDl0tjdFveoca6_Y
-Message-ID: <CAJfpegspQYVbWVztU5_XFwbGaTQKe2NCm2mcui6J3qv1VDxdSQ@mail.gmail.com>
-Subject: Re: [RFC V2 11/18] famfs_fuse: Basic famfs mount opts
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <John@groves.net>, Dan Williams <dan.j.williams@intel.com>, 
-	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, 12 Jul 2025 at 07:54, Darrick J. Wong <djwong@kernel.org> wrote:
->
-> On Fri, Jul 11, 2025 at 10:28:20AM -0500, John Groves wrote:
+This patchset introduces a new per-port bonding option: `ad_actor_port_prio`.
 
-> >     famfs_fuse: Basic famfs mount opt: -o shadow=<shadowpath>
-> >
-> >     The shadow path is a (usually tmpfs) file system area used by the famfs
-> >     user space to commuicate with the famfs fuse server. There is a minor
-> >     dilemma that the user space tools must be able to resolve from a mount
-> >     point path to a shadow path. The shadow path is exposed via /proc/mounts,
-> >     but otherwise not used by the kernel. User space gets the shadow path
-> >     from /proc/mounts...
+It allows users to configure the actor's port priority, which can then be used
+by the bonding driver for aggregator selection based on port priority.
 
-Don't know if we want to go that way.  Is there no other way?
+This provides finer control over LACP aggregator choice, especially in setups
+with multiple eligible aggregators over 2 switches.
 
-But if we do, at least do it in a generic way.  I.e. fuse server can
-tell the kernel to display options A, B and C in /proc/mounts.
+v2:
+a) set default bond option value for port priority (Nikolay Aleksandrov)
+b) fix __agg_ports_priority coding style (Nikolay Aleksandrov)
+c) fix shellcheck warns
 
-Thanks,
-Miklos
+Hangbin Liu (3):
+  bonding: add support for per-port LACP actor priority
+  bonding: support aggregator selection based on port priority
+  selftests: bonding: add test for LACP actor port priority
+
+ Documentation/networking/bonding.rst          | 18 +++-
+ drivers/net/bonding/bond_3ad.c                | 29 ++++++
+ drivers/net/bonding/bond_netlink.c            | 16 ++++
+ drivers/net/bonding/bond_options.c            | 37 ++++++++
+ include/net/bond_3ad.h                        |  2 +
+ include/net/bond_options.h                    |  1 +
+ include/uapi/linux/if_link.h                  |  1 +
+ .../selftests/drivers/net/bonding/Makefile    |  3 +-
+ .../drivers/net/bonding/bond_lacp_prio.sh     | 93 +++++++++++++++++++
+ tools/testing/selftests/net/forwarding/lib.sh | 24 -----
+ tools/testing/selftests/net/lib.sh            | 24 +++++
+ 11 files changed, 222 insertions(+), 26 deletions(-)
+ create mode 100755 tools/testing/selftests/drivers/net/bonding/bond_lacp_prio.sh
+
+-- 
+2.50.1
+
