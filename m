@@ -1,96 +1,50 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D71D25A62E
-	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 12:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC3D2FDC2A;
+	Thu, 14 Aug 2025 13:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755176360; cv=none; b=MyD/d5E3qLHgctaX9uC6SVv36GKrL8MDs//tkZEq9cERqqOpql4D376cZqb6iyzgORSXhvZQQHkWmVVxY2yY9ktmr2Z2NxfL9bUdt+nuPMtPpZs9H8Rf/TbbORCkMMu9sdA+uAbIcRkdlG7b6C4l3AhHCMYIS3jo6U3TtKZFiDk=
+	t=1755176946; cv=none; b=nvt3rZ6FgUQ1t33saTeNsYlDbbk2mKLRPP+klj0czlai38sfUaIgbhjIH5PucOwnNxlzs+ZR+hjI1kAtztxAzdhuxiApotq/QPc/nXbdaaxaQvmk/Nkr4ccre/w5lmVezOMxO6SP+/SbrdWxX3is+J05U4SeecJJNxO/g3N9Tm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755176360; c=relaxed/simple;
-	bh=lpcy5pD+EwYOeWX4XiJByNE9Zu6T8tfIZy/8aoPzZWc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ds7bbsP0bdkGXb5+EVb5SpboCpaI6ca29/82YJw8Jyz+lp6/Eu+dX1KKIenqWfCL0hYcTkg2/fcswCWAOigEHpnue6ranx5jW9aFH/Rc0bbo9p+vTkv/jwILDseGNsd6snCvhGsB0JAVOnmbORIlKjQQMbjEcd4kWwe4fWfVK50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RHN4yE0Q; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755176946; c=relaxed/simple;
+	bh=V0/mzt7rpQ7Ja/nnjC462dZYJStiYQcl4BcFdcuXGcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VHqJgJg6zQ+Qv9n3mKawbFbZ5ivwhsdYOqxchoWNhmRPVsZ4I2X1snsOB0Xw/0xUf8gwwmV/eeyrJ3l+YYpZxhSyciaelaM/SJrZlAFtIQUu/FeOTOtA+xwriG7N6TdXcfFXZtSCX0dB44qgiOw2fxDSGHFPDZ/OU+TbgiRIQYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kCaNwslg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RHN4yE0Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755176358;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=3t0CR39RiS9bo6V+bAaM9oWX90Si1UImEXsrmk0A3lE=;
-	b=RHN4yE0QfKFsJG6aYupck5ZvYzKBKLpvGWq9O1nZ1GnZrl7wupONhz0w4BWzvnhWpJNfpd
-	vnVVS1oU5I7qoPptQDikclbLREQnhmFexxhWDD0Ml5z+YTaCpKQHICo6PEOHWmque66a2M
-	7PKcQrdut2y26pixmaR/7TV3OfrNbWA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-408-M_9UkMZcO72RhrFkKYbNbg-1; Thu, 14 Aug 2025 08:59:17 -0400
-X-MC-Unique: M_9UkMZcO72RhrFkKYbNbg-1
-X-Mimecast-MFC-AGG-ID: M_9UkMZcO72RhrFkKYbNbg_1755176356
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45a1b0098c0so5513475e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 05:59:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755176356; x=1755781156;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3t0CR39RiS9bo6V+bAaM9oWX90Si1UImEXsrmk0A3lE=;
-        b=YN/O5Ui7q/RwHQo2tg20eC2rXAUXQgc/bQUIt2WZVbhXHCMbVjgaBULAU/sis4lvbU
-         Ee4y72jYW+QlC1tIjuqMUBDt5bUZ8AZfd1o05XqTXuNoJ7YABUNaddRIdsx1aYBlcaxq
-         76QZ/FuGm5GnWDuykur/aPQwfeeVi+pTBOolmEfeVCPOENueRah5bK3bI1sx9JjK27/U
-         tUWodp1yxPas4pnPoUFnV+goYepIYo9wGFaizJ5iJInp06aF216aoZvEtGWu7tHglg26
-         kRbK/mQNhwE3T3g+Go1tOMmG7Mi0HORpKZfJo3L4PjjpQvlBjvf/EtZ7Tu4kY1JGJzbF
-         VoFw==
-X-Forwarded-Encrypted: i=1; AJvYcCV+aB1BLj+9kK8NTezWnSdNGv9tg1HG6Gm2hgxAewF4v2/AD2RcNuApqcOFZ5ho7f2fEOXJ04+Xmes=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+9P8xNIIhP/8BmDQ6CSpZOnPgyts6Wo37OmYG2S/5UePZ0FmM
-	DEjRiEafQxOHQsbGEUVXsVaY51aNpcr9aWorFQd8/+Qxm605E/0DI2LErc0EZWArof13C1j+SVn
-	SP8DukLcLkI1ZSTous1cYSWNUB/SCCssOajziWUyqi2sBeny5C1d/YqQ0/wpYlA==
-X-Gm-Gg: ASbGncvLYTmRokWhijXT6yeoLp7ZMaMC3eNuivjSiACx6XVHiIaCwFAKsiHpZlVe49k
-	s4gXAUvRh189FGtNsk6yt3Yhgv2A1R+CD1V1n5ZqRtOYSGAUyjJjiTN7tGTIIl/N08IclIM7Tp0
-	sRQjDKwevNrVyPr9gwlBPFUKcDUVZO01rcUA3aJTDgsPXZSisaz/CPy5BFDfTr5+iU+SBs8wMEL
-	IfWhIzyRpSGEQOpQQcIMS0ghqNxKEahZfZ3cfjCqgW49KdmnkHjDyIPLJ6mWXvmi+3Y3JDfM2Sq
-	QWYlo+XQCCCQvt4rVKAQnTTv5NfBwQoBYw7bDwlUMrY51nGPEZlCJnpV39lNx8o/N7fhMqJhBvH
-	CwV3lGENeyi7w1wrQkWKxSfTnp3YZN2sXO1yKtXy7m3tkayZGzoIOu4cJV6J+/IrwW1A=
-X-Received: by 2002:a05:600c:5491:b0:43c:fc04:6d35 with SMTP id 5b1f17b1804b1-45a1faf691bmr4202315e9.4.1755176355900;
-        Thu, 14 Aug 2025 05:59:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGCXUPq3MF/2LcfaRa34zIT915GKLnG74JH+H3ePtWgYmrBLGllfjQvCJgjkywipvIy1ObAlA==
-X-Received: by 2002:a05:600c:5491:b0:43c:fc04:6d35 with SMTP id 5b1f17b1804b1-45a1faf691bmr4201945e9.4.1755176355455;
-        Thu, 14 Aug 2025 05:59:15 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f44:3e00:9fca:7d89:a265:56f3? (p200300d82f443e009fca7d89a26556f3.dip0.t-ipconnect.de. [2003:d8:2f44:3e00:9fca:7d89:a265:56f3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c6cfed5sm19815875e9.7.2025.08.14.05.59.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Aug 2025 05:59:14 -0700 (PDT)
-Message-ID: <1387eeb8-fc61-4894-b12f-6cae3ad920bd@redhat.com>
-Date: Thu, 14 Aug 2025 14:59:13 +0200
-Precedence: bulk
-X-Mailing-List: linux-doc@vger.kernel.org
-List-Id: <linux-doc.vger.kernel.org>
-List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCaNwslg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC5B4C4CEEF;
+	Thu, 14 Aug 2025 13:09:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755176946;
+	bh=V0/mzt7rpQ7Ja/nnjC462dZYJStiYQcl4BcFdcuXGcQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kCaNwslgBWiblbN70JZHhnR5rMobNvr1yRsRWdmRLk8CfXmjfDOFKtMilcgwfucRX
+	 VeMVXVBYLCiJ3I8uK9A5rhZbCBO5DyKMWzaR6iU74ujFIK1PF2tUlV0MZwZC4MFwfV
+	 T9npTDmENz+NZ/nlqn5WLnVUPCxEN/pyzmuaDXZkcyckKJ4thf38213tTBFf8fw09Y
+	 ZEqOBWi+nL8MyTv1WdLnph3/Lz7lSTYVo20jjsUne0fWuxO5yhhhQcILxgJZr0P2Sv
+	 zHHZ0qGsMIWdb/pxVY+kyc5a2GYdPdKp0R91s+uUI3uq4UJBCBKP+tgDV04sTt5Xti
+	 6u9VjIh0hhAbA==
+Date: Thu, 14 Aug 2025 14:08:57 +0100
+From: Mark Brown <broonie@kernel.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Usama Arif <usamaarif642@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
+	baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
+	ziy@nvidia.com, laoar.shao@gmail.com, dev.jain@arm.com,
+	baolin.wang@linux.alibaba.com, npache@redhat.com,
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, vbabka@suse.cz,
+	jannh@google.com, Arnd Bergmann <arnd@arndb.de>, sj@kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel-team@meta.com
 Subject: Re: [PATCH v4 7/7] selftests: prctl: introduce tests for disabling
  THPs except for madvise
-To: Mark Brown <broonie@kernel.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Usama Arif <usamaarif642@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
- shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
- sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com
-References: <20250813135642.1986480-1-usamaarif642@gmail.com>
- <20250813135642.1986480-8-usamaarif642@gmail.com>
+Message-ID: <620a586e-54a2-4ce0-9cf7-2ddf4b6ef59d@sirena.org.uk>
+References: <20250813135642.1986480-8-usamaarif642@gmail.com>
  <13220ee2-d767-4133-9ef8-780fa165bbeb@lucifer.local>
  <bac33bcc-8a01-445d-bc42-29dabbdd1d3f@redhat.com>
  <5b341172-5082-4df4-8264-e38a01f7c7d7@lucifer.local>
@@ -99,76 +53,53 @@ References: <20250813135642.1986480-1-usamaarif642@gmail.com>
  <b433c998-0f7b-4ca4-a867-5d1235149843@sirena.org.uk>
  <eb90eff6-ded8-40a3-818f-fce3331df464@redhat.com>
  <47e98636-aace-4a42-b6a4-3c63880f394b@sirena.org.uk>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <47e98636-aace-4a42-b6a4-3c63880f394b@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <1387eeb8-fc61-4894-b12f-6cae3ad920bd@redhat.com>
+Precedence: bulk
+X-Mailing-List: linux-doc@vger.kernel.org
+List-Id: <linux-doc.vger.kernel.org>
+List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="glbdhY1Z3FbfdGG7"
+Content-Disposition: inline
+In-Reply-To: <1387eeb8-fc61-4894-b12f-6cae3ad920bd@redhat.com>
+X-Cookie: This sentence no verb.
 
-On 14.08.25 14:09, Mark Brown wrote:
-> On Thu, Aug 14, 2025 at 02:00:27PM +0200, David Hildenbrand wrote:
-> 
->> Some people (hello :) ) run tests against distro kernels ... shame that
->> prctl just knows one sort of "EINVAL" so we cannot distinguish :(
-> 
->> But yeah, maybe one has to be more careful of filtering these failures out
->> then.
-> 
-> Perhaps this is something that needs considering in the ABI, so
-> userspace can reasonably figure out if it failed to configure whatever
-> is being configured due to a missing feature (in which case it should
-> fall back to not using that feature somehow) or due to it messing
-> something else up?  We might be happy with the tests being version
-> specific but general userspace should be able to be a bit more robust.
 
-Yeah, the whole prctl() ship has sailed, unfortunately :(
+--glbdhY1Z3FbfdGG7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
--- 
-Cheers
+On Thu, Aug 14, 2025 at 02:59:13PM +0200, David Hildenbrand wrote:
+> On 14.08.25 14:09, Mark Brown wrote:
 
-David / dhildenb
+> > Perhaps this is something that needs considering in the ABI, so
+> > userspace can reasonably figure out if it failed to configure whatever
+> > is being configured due to a missing feature (in which case it should
+> > fall back to not using that feature somehow) or due to it messing
+> > something else up?  We might be happy with the tests being version
+> > specific but general userspace should be able to be a bit more robust.
 
+> Yeah, the whole prctl() ship has sailed, unfortunately :(
+
+Perhaps a second call or sysfs file or something that returns the
+supported mask?  You'd still have a boostrapping issue with existing
+versions but at least at any newer stuff would be helped.
+
+--glbdhY1Z3FbfdGG7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmid3+kACgkQJNaLcl1U
+h9DBEAf/atqlzm4RBPppUe6r1XpYt+RajQsB5AiYLmN8lTjImryp/2Gh23hCHlZw
+gm22HJ5HZ/zAJketjugdDOiovu1RPgg4kJNoXy/tDnG/Sq1bFd9eZzu1QLKutztl
+Hr2SbJii1zQgWo7bcSXMKKoHOva+AbkhTItweml/3eD0ntEoAak2niwtuhKYzw25
+3DhOe5GOhsDt3OUTx9Z5kakWLDGkbmTc0ITomwJCste4pcdUFFOtv4m5XSGkAQOT
+8xyA9jEUMM5ZXsrhdkNa85XMDb3/CPhNEX0jHBr4tikptYvJDf/ZV5a9rCldNAvl
+lYGN1sDmGdtMHATgR170R/sTrdE2vw==
+=ASIV
+-----END PGP SIGNATURE-----
+
+--glbdhY1Z3FbfdGG7--
