@@ -1,91 +1,67 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A242A231853;
-	Thu, 14 Aug 2025 01:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E981BC2A;
+	Thu, 14 Aug 2025 02:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755136698; cv=none; b=udNDMMAG38yZhYQUiT/NFcd2GpMoDpX4tHXz9KwYV8J8Ad+rGUIvYsfzO54rE7lns5CeB9dcl8mFGZ6c6/zEKne/ecSXp1S1kg+YA++lUf50Iw3sKYamvSkcErD3yCH3wCn05Peh166Paly682oykySCVY62uTc1DVr2Gee2H8g=
+	t=1755137686; cv=none; b=F8GwudQ6JUl+ZNa9XlWZwF5+6pl+Hp90Fr2xeXd5xeYUWqHZPasf1F+MrVTUfaujMMmhYCDWlvBkiC/P06JgemJECJBln7K1olU6szokuWX5bFFm0fpFpenvQ7JLFL/ofZoHlC2bT3AdUWrgH03HCcIuy7Ie3Z8FwL+1RltKTqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755136698; c=relaxed/simple;
-	bh=q2SGHb3APxGdMTmDmItq4Pu4zI6iiexqPHr9lgOY3DA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ej5YkK2itbnWaz+D0jLsJ9m6VGSg4JeKvQjIHtA44XTrpWXFDjftlpcMH5YgH8ukvf2r2sRMGPlZSoUiafRTJf3H4PK5OitYIeZLqgmv806dkibF0t31+3TKAZh8bldr5k2JQWsw5VZXsaYvBQJh93f5T4JtC10pa1Vvnj4FQDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MBsIxElx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1755137686; c=relaxed/simple;
+	bh=TKVYO6A/sLZs95wSkW7D51yS5lCcT5G1jMqbHqh9ynw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Z17S6D8u6jY1peVnVaK9lRUp8eEl4T3tDhyigy5kNlx22hCLg7kp9Yfq1NehjnJBOJgeaBvFl4bbTD9X53NcWfriPH5QVfwrrJijWLc7OIqYSKZb3MxGTo97sBkWxESuHnTVWuHth8OCwP/UevCe1+Y3grmCu525QK8W7JhZLOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KWwg6lNV; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MBsIxElx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=OULRM4aV2FRJFBE1gYMM0RJzh8b5jot7eoMGHtiCmGA=; b=MBsIxElxqbQMTdHrM6BcYWZ0+4
-	xcO7DUvbQHekl9JU9h0eEA/acArYZO0/c65dzpp7XBIumGFJqNYBpC68WOoKvWn8IZIeSjwbcvBQ2
-	Bfaag3Z/VQZqmKIdoz8T7OV2W/PKYme6DAPAtt1HIM13lNWvbZlyTRIuKd/2SKxU4kh81c3L2Zo9P
-	ytGu8bkFzPSKdQik9vbNYDAyKncI1gQIZTZJZzS79qYzN8z0qPjP/j8tp/WRh5RcgeYOHEr6tvUsD
-	fEAyXRTq8T+QfnRyP/OFBEYNw00YCRTnHjkdrpGp0T3hcQRPDyabtEoq9K0FC8+lYi3DwHYZ+35aS
-	iRTcK5Xg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umNEL-0000000FXu6-0gjV;
-	Thu, 14 Aug 2025 01:58:13 +0000
-Message-ID: <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
-Date: Wed, 13 Aug 2025 18:58:12 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KWwg6lNV"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DA13A40AD3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755137683; bh=TKVYO6A/sLZs95wSkW7D51yS5lCcT5G1jMqbHqh9ynw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=KWwg6lNVP1pDYW1KEmghdiU89RPgD3PTP1mqM7uDADBF/Dl8+eXFIkqf2i+362y7X
+	 Hbg8kz3kYG/BaipHuWiTVRo42kYQzuCBYIcPz8RuIrzbGzCtxb9zs9ElLO781nqCro
+	 o6ePm6/m40OU1IXbimNGf8KMP+IwCPjdtCy9dNuqIhHu2m8pQi51ocZZOsivdp4p/q
+	 hbh1SvnEFLj2HP9IdAFyJGqD8nu/+XXdE1wW4RovyPwipMTLFxCBac5CLGUw4V7US6
+	 wfr5DECzmyDy//uLk+pvTscnCDm++NyVIX1yzp1iBMrEtIsMroVYFJYGc2pfZj9Zu/
+	 g2BppHWZX2h7g==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id DA13A40AD3;
+	Thu, 14 Aug 2025 02:14:42 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 07/13] docs: move sphinx-pre-install to tools/doc
+In-Reply-To: <20250814013600.5aec0521@foz.lan>
+References: <20250813213218.198582-1-corbet@lwn.net>
+ <20250813213218.198582-8-corbet@lwn.net> <20250814013600.5aec0521@foz.lan>
+Date: Wed, 13 Aug 2025 20:14:42 -0600
+Message-ID: <871ppehcod.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- Linux Kernel Selftests <linux-kselftest@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Tim Bird <Tim.Bird@sony.com>,
- Rae Moar <rmoar@google.com>
-References: <20250814012046.21235-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250814012046.21235-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi,
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-For both patches:
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Em Wed, 13 Aug 2025 15:32:06 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+>
+>> Put this tool with the other documentation-related scripts.
+>
+> This one will be painful, as it will cause conflicts with my series
+> that clean up the docs Makefile.
 
-but I have a process question, I suppose.
-Why send this patch series to the workflows mailing list?
+Just in general ... I'm more than happy to put this whole series on the
+back burner until we've gotten that other stuff merged ... it's an RFC
+after all, and there's no urgency here.
 
-(This is not the first occasion of this happening [by other people]).
-
-Thanks.
-
-On 8/13/25 6:20 PM, Bagas Sanjaya wrote:
-> Hi,
-> 
-> Just a little formatting cleanup for ktap docs (actually only bullet list
-> items fix in [2/2]; the first patch is trivial spelling fix).
-> 
-> Enjoy!
-
-
-> 
-> Bagas Sanjaya (2):
->   Documentation: ktap: Correct "its" spelling
->   Documentation: ktap: Separate first bullet list items
-> 
->  Documentation/dev-tools/ktap.rst | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> 
-> base-commit: 0bbc2548ea85e6bda835a08c6d47d46435945cda
-
--- 
-~Randy
+jon
