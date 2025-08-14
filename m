@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311932264A1;
-	Thu, 14 Aug 2025 05:57:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E3D230BD2;
+	Thu, 14 Aug 2025 06:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755151078; cv=none; b=Tg9zrzJG3EZv0RfUXOWosba66Rk6UfuwHLYWHWL8lB1bkkiSjoN4ncUgrBLmX9L8CCii3k9JSrS5+aK8a02o4vW+y1FHfVSmNMBv5xB2P5Mn3x0D+HCWru1LwPtoHqoskt2peKNvFudgltbC8ZMpUSzq3WKePTS5V1ZhwUYqcAo=
+	t=1755151251; cv=none; b=W/J9KDI/bTwvzkx9u5RJq0GCgdeeBw6fH+N+UGG+mmg2xoUmw/Z6dTc3ggwTT+ul75qdHJuip/L7EBvvwJjJnxK7LaJ6b9E5zDRly/Py5HWcfUM02y9ef2NvMRoOfphTO4/zdii/hUNUMEwgsnn9/4hlT99o2U8uI76c/Uj9rIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755151078; c=relaxed/simple;
-	bh=DnXdPc7ABxLygYVJDuIfEzT/1IavykRtS1/c+9WhEug=;
+	s=arc-20240116; t=1755151251; c=relaxed/simple;
+	bh=JC/RWVioF1QV3ACGfJLGvNWucnG7XrmTqAIPB21t45Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZG5IrNevR7kQBGUg4pY+vERtQur16LIReDCm6Wkba3FvYvXwcm3ljqzc9wV1h8gFzVGyvqsveaYng5apvnO9RYNlH9WYtnPAqB/Z2lvEM+P5OEmKOXKd4pYlADnXNC/tBT8s/qOlfzXvT6YLT0oFVDQ0Q1J543qWsrE0rsQM3oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AAfrzkn7; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=uX6o0/1x4TObQo65UHaopFqoZJHU/1T8Ue1VOqtHF4iDYcx5Uk43Q8bcSO4GCUHH2TgAcwj6TStA4l1IBuT4NDNwWv0oIAPzbzpenPFEpDl6v+c5W8y2109RlHU0ERCoBvtQFd8cgO4guTqngn5ZX6S3PxbzD8c/JDmKbx/qjG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ChL7xFU6; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AAfrzkn7"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ChL7xFU6"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Us2ovdjyNrwh8OtJg8jW/y3MdOFxfd+CPZH2ahT32bM=; b=AAfrzkn7qGE7ijaY0b6WMZ46Qv
-	e6JZz9fP8bXaidpVzlQnJ7PV4D8C5cxp1GnS/cKSVyWjVBN1eoxRu15Cq4HF+sOtllyCMupTt8Yfn
-	PtNqsJZEbyKSf1QBtcB59Q8YWyqfe5IBvJ2ppZeRrYnijaoFjrM260MT8ncZm0RxJVccnjxL6z5qj
-	/rELSNwBDpvcVQce0GIZW5NCrM7jFOFpFZi+fAs/VN+aaX5+2HqiYkYeA+2PZiP9HCs7vICWBw7GY
-	S02tsEayxdxixbJ440AWaUmrclTxgJkj07Vwp4OwO4QdiGC1oJ0h6hyxHCbtDi1nM6+cb1EQfuZNS
-	PKwjPHGg==;
+	bh=VHwBCELpy483gJxb6QuMvzNBeU1vQC2waNJoabTWiKU=; b=ChL7xFU61wQj98+eRVxbj6+nOp
+	dRLr8ewfvO5xwGwenuItHN5CApsc1a/oaJOChoROm7p4/7x3gCPjrz7igCSU0UIelKnKTZ1mB9ZAE
+	73wxUu/fBbxaLQzS6qMiGlmKNKbhmixdMClnCmUSdxzbTef6ekagcTN8gkm5L/DbRkmneeXh2Pf30
+	PCRDxEwhAz5Xebdm0wpYP9+Rwc+uuMb7/o6ZQRgEqocZSohu/aZRiwQah2115FdZhjZjpUI8QerM3
+	yy9QoyUFNSh7mL/n1MTN/24hb+dNT6u+RW2OPwmfPXP4cv2hysWPJHHyE9ur1FmCdqrkdFnA+zTfh
+	oj3wgJvQ==;
 Received: from [50.53.25.54] (helo=[192.168.254.17])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umQyJ-0000000Fsea-2z1V;
-	Thu, 14 Aug 2025 05:57:55 +0000
-Message-ID: <0942c623-626e-43f5-90f8-552adc8d00dc@infradead.org>
-Date: Wed, 13 Aug 2025 22:57:53 -0700
+	id 1umR14-0000000Fszj-1NYZ;
+	Thu, 14 Aug 2025 06:00:46 +0000
+Message-ID: <4c51b440-03c2-43cf-b9c9-67c0be3c3c25@infradead.org>
+Date: Wed, 13 Aug 2025 23:00:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,57 +39,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/13] docs: Move the "features" tools to tools/doc
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <20250813213218.198582-1-corbet@lwn.net>
- <20250813213218.198582-2-corbet@lwn.net> <20250814013817.249eb3c5@foz.lan>
- <a18c897e-8679-4155-932e-4bdb9e37f25c@infradead.org>
- <20250814075612.30ca0050@foz.lan>
+Subject: Re: [PATCH v5 01/14] net: ionic: Create an auxiliary device for rdma
+ driver
+To: Abhijit Gangurde <abhijit.gangurde@amd.com>, brett.creeley@amd.com,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, corbet@lwn.net, jgg@ziepe.ca, leon@kernel.org,
+ andrew+netdev@lunn.ch
+Cc: sln@onemain.com, allen.hubbe@amd.com, nikhil.agarwal@amd.com,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shannon Nelson <shannon.nelson@amd.com>
+References: <20250814053900.1452408-1-abhijit.gangurde@amd.com>
+ <20250814053900.1452408-2-abhijit.gangurde@amd.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250814075612.30ca0050@foz.lan>
+In-Reply-To: <20250814053900.1452408-2-abhijit.gangurde@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 8/13/25 10:56 PM, Mauro Carvalho Chehab wrote:
-> Em Wed, 13 Aug 2025 16:42:42 -0700
-> Randy Dunlap <rdunlap@infradead.org> escreveu:
-> 
->> On 8/13/25 4:38 PM, Mauro Carvalho Chehab wrote:
->>> Em Wed, 13 Aug 2025 15:32:00 -0600
->>> Jonathan Corbet <corbet@lwn.net> escreveu:
->>>   
->>>> The scripts for managing the features docs are found in three different
->>>> directories; unite them all under tools/doc and update references as
->>>> needed.
->>>>
->>>> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
->>>> ---
->>>>  Documentation/sphinx/kernel_feat.py                           | 4 ++--
->>>>  .../features/scripts => tools/doc}/features-refresh.sh        | 0
->>>>  {scripts => tools/doc}/get_feat.pl                            | 2 +-  
->>>
->>> This one is the next on my list to convert to Python, but I didn't
->>> do any changes on it yet.  
->>
->> Just curious, why does it need to be converted from shell to Python?
->> I'm sure you will explain that in the patch description (or cover letter).
-> 
-> The rationale is the same as kernel-doc and get-abi: there is a Sphinx
-> extension that executes it. By converting it into Python and splitting
-> the code into an exec and a library, we can use the library directly at
-> the extension.
-> 
-> Besides that, the code in Python, specially after using modules and 
-> classes, become IMO clearer, making easier to maintain, specially if
-> we avoid functions inside functions, complex class inheritance, lamba
-> functions and multiple statements on a single line.
+On 8/13/25 10:38 PM, Abhijit Gangurde wrote:
+> +RDMA Support via Auxiliary Device
+> +=================================
+> +
+> +The ionic driver supports RDMA (Remote Direct Memory Access) functionality
+> +through the Linux auxiliary device framework when advertised by the firmware.
+> +RDMA capability is detected during device initialization, and if supported,
+> +the ethernet driver will create an auxiliary device that allows the rdma
 
-Thank you for that.
+s/rdma/RDMA/ as is used elsewhere. (?)
+
+> +driver to bind and provide InfiniBand/RoCE functionality.
+> +
 
 -- 
 ~Randy
