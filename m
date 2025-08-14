@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8731124EAB1
-	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 15:09:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0F120101D
+	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 15:10:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755184192; cv=none; b=b+tPQ3IA5LTECkSZPVOfjyxonxuIzqgmFxJVpJfSuBtlzvx0w/eZnAsfkVfJdZVmWos4e6apvWXHBtxj4l5PStVNQIR9QqIFRi08f/JDVRIcMaLtRhXBl6GmkK5f3MW6JR+1mobsWoZ/BXyTWgCLl681TvECApa7DLzizDYHL+Y=
+	t=1755184221; cv=none; b=Z2lGS/ufjG26FtNZug9QcxrTDe62M2M+BwbAfT3jXDw83W5z+q68FFrt9az+jrFfwgjPztl+DEH9bzinmBYrEFE5e9gtzif2VLLnHgQWp9pVeiDUDzDCJy9WmdpmO0Su8aKih0oddAPfxBXi0mCdV/Ul8RTxS/076R3Vu54q+qY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755184192; c=relaxed/simple;
-	bh=ja5mHrcZ1U1iD/ctofa2Ybi7+SMjYtWvrATSMWpdIH0=;
+	s=arc-20240116; t=1755184221; c=relaxed/simple;
+	bh=vbNUuQ+LEC8jHEYcLR4c+coDZ+fgEIVwo79nvcHDkCo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O3rQqrU5sKi/vHiKv5o/5BrtHGOtyNa1kz67qfoqXNWFFNYpruVAAv2I//wT+MRPsqiqjNZ5CMg2OrNEZrxRUSWk+hD8LNIfCFvidIE4y+dWhiYuhDk4hTXx9GU3PzlD22ygmwxsyi1VqZ2Pfeb6Q+c5W0C533x/WpRVnWqE7Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iVNKvR5Y; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=okgnIQXZtuAjheTNV7UPIvaA/0CjWLB1mnORDzUpf0mf+oS64YwhKuLgUga6WoMhjJmp6QvPtesTHYeD5JhYWsMWBjXLpx6Xun4GergQHEQyUBA42eqmfNPOdHzAq6w0zk62oCCJ7Idl2cd2zY3vkBsh54YoKknLkwaP1DhaQ3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CsX5AljP; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iVNKvR5Y"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CsX5AljP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755184189;
+	s=mimecast20190719; t=1755184217;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Fs2rXWhD8HMpQa7A8RBvUe4TIFLUYWsfqJQ6/IX4RDM=;
-	b=iVNKvR5Y5uJbVjqoxTT9YMW4Ih5S1cR5Wa7bPOdHU4yAzkcYK/JXDtEP2JhaMeIFErqA2E
-	f+rqmej1nCnenNZDWTXZrQjd4FbN1TWOLRcB9NA8Sq0dnTaBfJ9YcFD05FDROU4zYZf71P
-	OC7FadmAuMEjhZRolEdzAmTXLKDQH1Q=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=khBqRM5AjZJd10ToKw1jOg1G418nf/ZBqYYXNkLs71k=;
+	b=CsX5AljPwGHPv1kg/rxU5aFZOR8279f7S8/FSeM5RH/HZi1nh9pEWCXORR0Rpvh8JFH8Ah
+	fKBkYb/XxCPJProAWrT3qq1drNFAzQa3RmlYIa/w1VYtIilNCq9HGVeRpAJ9bJcz4N2+Ka
+	v8iESo55PRZpmL1YjxhApyqB+qD8yFs=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-511-Uq1dOcOkNSqiKfddU1jDUg-1; Thu,
- 14 Aug 2025 11:09:46 -0400
-X-MC-Unique: Uq1dOcOkNSqiKfddU1jDUg-1
-X-Mimecast-MFC-AGG-ID: Uq1dOcOkNSqiKfddU1jDUg_1755184184
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-261-PpfKwIFyOOWQVGm5kGsYkw-1; Thu,
+ 14 Aug 2025 11:10:13 -0400
+X-MC-Unique: PpfKwIFyOOWQVGm5kGsYkw-1
+X-Mimecast-MFC-AGG-ID: PpfKwIFyOOWQVGm5kGsYkw_1755184211
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8FD111800446;
-	Thu, 14 Aug 2025 15:09:44 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CEE68195F166;
+	Thu, 14 Aug 2025 15:10:11 +0000 (UTC)
 Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.44.32.52])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 08BAF180047F;
-	Thu, 14 Aug 2025 15:09:39 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0FD74180047F;
+	Thu, 14 Aug 2025 15:10:05 +0000 (UTC)
 From: Gabriele Monaco <gmonaco@redhat.com>
 To: linux-kernel@vger.kernel.org,
 	Steven Rostedt <rostedt@goodmis.org>,
@@ -55,9 +55,9 @@ Cc: Gabriele Monaco <gmonaco@redhat.com>,
 	Juri Lelli <jlelli@redhat.com>,
 	Clark Williams <williams@redhat.com>,
 	John Kacur <jkacur@redhat.com>
-Subject: [RFC PATCH 13/17] rv: Convert the opid monitor to a hybrid automaton
-Date: Thu, 14 Aug 2025 17:08:05 +0200
-Message-ID: <20250814150809.140739-14-gmonaco@redhat.com>
+Subject: [RFC PATCH 17/17] rv: Add deadline monitors
+Date: Thu, 14 Aug 2025 17:08:09 +0200
+Message-ID: <20250814150809.140739-18-gmonaco@redhat.com>
 In-Reply-To: <20250814150809.140739-1-gmonaco@redhat.com>
 References: <20250814150809.140739-1-gmonaco@redhat.com>
 Precedence: bulk
@@ -69,494 +69,1233 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-The opid monitor validates that wakeup and need_resched events only
-occur with interrupts and preemption disabled by following the
-preemptirq tracepoints.
-As reported in [1], those tracepoints might be inaccurate in some
-situations (e.g. NMIs).
+Add the deadline monitors collection to validate the deadline scheduler,
+both for deadline tasks and servers.
 
-Since the monitor doesn't validate other ordering properties, remove the
-dependency on preemptirq tracepoints and convert the monitor to a hybrid
-automaton to validate the constraint during event handling.
-This makes the monitor more robust by also removing the workaround for
-interrupts missing the preemption tracepoints, which was working on
-PREEMPT_RT only and allows the monitor to be built on kernels without
-the preemptirqs tracepoints.
-
-[1] - https://lore.kernel.org/lkml/20250625120823.60600-1-gmonaco@redhat.com
+The currently implemented monitors are:
+* throttle:
+    validate dl entities are throttled when they use up their runtime
+* nomiss:
+    validate dl entities run to completion before their deadiline
 
 Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
 ---
- Documentation/trace/rv/monitor_sched.rst   |  62 +++---------
- kernel/trace/rv/monitors/opid/Kconfig      |  11 +--
- kernel/trace/rv/monitors/opid/opid.c       | 109 ++++++---------------
- kernel/trace/rv/monitors/opid/opid.h       |  88 ++++-------------
- kernel/trace/rv/monitors/opid/opid_trace.h |   4 +
- kernel/trace/rv/rv_trace.h                 |   2 +-
- tools/verification/models/sched/opid.dot   |  36 ++-----
- 7 files changed, 77 insertions(+), 235 deletions(-)
+ Documentation/trace/rv/monitor_deadline.rst   | 111 ++++++++
+ kernel/trace/rv/Kconfig                       |   5 +
+ kernel/trace/rv/Makefile                      |   3 +
+ kernel/trace/rv/monitors/deadline/Kconfig     |   5 +
+ kernel/trace/rv/monitors/deadline/deadline.c  |  35 +++
+ kernel/trace/rv/monitors/deadline/deadline.h  |  82 ++++++
+ kernel/trace/rv/monitors/nomiss/Kconfig       |  15 +
+ kernel/trace/rv/monitors/nomiss/nomiss.c      | 234 ++++++++++++++++
+ kernel/trace/rv/monitors/nomiss/nomiss.h      |  81 ++++++
+ .../trace/rv/monitors/nomiss/nomiss_trace.h   |  19 ++
+ kernel/trace/rv/monitors/throttle/Kconfig     |  15 +
+ kernel/trace/rv/monitors/throttle/throttle.c  | 259 ++++++++++++++++++
+ kernel/trace/rv/monitors/throttle/throttle.h  | 115 ++++++++
+ .../rv/monitors/throttle/throttle_trace.h     |  19 ++
+ kernel/trace/rv/rv_trace.h                    |   2 +
+ tools/verification/models/deadline/nomiss.dot |  23 ++
+ .../verification/models/deadline/throttle.dot |  43 +++
+ 17 files changed, 1066 insertions(+)
+ create mode 100644 Documentation/trace/rv/monitor_deadline.rst
+ create mode 100644 kernel/trace/rv/monitors/deadline/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/deadline/deadline.c
+ create mode 100644 kernel/trace/rv/monitors/deadline/deadline.h
+ create mode 100644 kernel/trace/rv/monitors/nomiss/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/nomiss/nomiss.c
+ create mode 100644 kernel/trace/rv/monitors/nomiss/nomiss.h
+ create mode 100644 kernel/trace/rv/monitors/nomiss/nomiss_trace.h
+ create mode 100644 kernel/trace/rv/monitors/throttle/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/throttle/throttle.c
+ create mode 100644 kernel/trace/rv/monitors/throttle/throttle.h
+ create mode 100644 kernel/trace/rv/monitors/throttle/throttle_trace.h
+ create mode 100644 tools/verification/models/deadline/nomiss.dot
+ create mode 100644 tools/verification/models/deadline/throttle.dot
 
-diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
-index 3f8381ad9ec7..0b96d6e147c6 100644
---- a/Documentation/trace/rv/monitor_sched.rst
-+++ b/Documentation/trace/rv/monitor_sched.rst
-@@ -346,55 +346,21 @@ Monitor opid
- 
- The operations with preemption and irq disabled (opid) monitor ensures
- operations like ``wakeup`` and ``need_resched`` occur with interrupts and
--preemption disabled or during interrupt context, in such case preemption may
--not be disabled explicitly.
-+preemption disabled.
- ``need_resched`` can be set by some RCU internals functions, in which case it
--doesn't match a task wakeup and might occur with only interrupts disabled::
--
--                 |                     sched_need_resched
--                 |                     sched_waking
--                 |                     irq_entry
--                 |                   +--------------------+
--                 v                   v                    |
--               +------------------------------------------------------+
--  +----------- |                     disabled                         | <+
--  |            +------------------------------------------------------+  |
--  |              |                 ^                                     |
--  |              |          preempt_disable      sched_need_resched      |
--  |       preempt_enable           |           +--------------------+    |
--  |              v                 |           v                    |    |
--  |            +------------------------------------------------------+  |
--  |            |                   irq_disabled                       |  |
--  |            +------------------------------------------------------+  |
--  |                              |             |        ^                |
--  |     irq_entry            irq_entry         |        |                |
--  |     sched_need_resched       v             |   irq_disable           |
--  |     sched_waking +--------------+          |        |                |
--  |           +----- |              |     irq_enable    |                |
--  |           |      |    in_irq    |          |        |                |
--  |           +----> |              |          |        |                |
--  |                  +--------------+          |        |          irq_disable
--  |                     |                      |        |                |
--  | irq_enable          | irq_enable           |        |                |
--  |                     v                      v        |                |
--  |            #======================================================#  |
--  |            H                     enabled                          H  |
--  |            #======================================================#  |
--  |              |                   ^         ^ preempt_enable     |    |
--  |       preempt_disable     preempt_enable   +--------------------+    |
--  |              v                   |                                   |
--  |            +------------------+  |                                   |
--  +----------> | preempt_disabled | -+                                   |
--               +------------------+                                      |
--                 |                                                       |
--                 +-------------------------------------------------------+
--
--This monitor is designed to work on ``PREEMPT_RT`` kernels, the special case of
--events occurring in interrupt context is a shortcut to identify valid scenarios
--where the preemption tracepoints might not be visible, during interrupts
--preemption is always disabled. On non- ``PREEMPT_RT`` kernels, the interrupts
--might invoke a softirq to set ``need_resched`` and wake up a task. This is
--another special case that is currently not supported by the monitor.
-+doesn't match a task wakeup and might occur with only interrupts disabled.
-+The interrupt and preemption status are validated by the hybrid automaton
-+constraints when processing the events::
+diff --git a/Documentation/trace/rv/monitor_deadline.rst b/Documentation/trace/rv/monitor_deadline.rst
+new file mode 100644
+index 000000000000..af144605bbb0
+--- /dev/null
++++ b/Documentation/trace/rv/monitor_deadline.rst
+@@ -0,0 +1,111 @@
++Scheduler monitors
++==================
 +
-+   |
-+   |
-+   v
-+ #=========#   sched_need_resched;irq_off == 1
-+ H         H   sched_waking;irq_off == 1 && preempt_off == 1
-+ H   any   H ------------------------------------------------+
-+ H         H                                                 |
-+ H         H <-----------------------------------------------+
-+ #=========#
++- Name: deadline
++- Type: container for multiple monitors
++- Author: Gabriele Monaco <gmonaco@redhat.com>
++
++Description
++-----------
++
++The deadline monitor is a set of specifications to describe the deadline
++scheduler behaviour. It includes monitors per scheduling entity (deadline tasks
++and servers) that work independently to verify different specifications the
++deadline scheduler should follow.
++
++Specifications
++--------------
++
++Monitor throttle
++~~~~~~~~~~~~~~~~
++
++The throttle monitor ensures deadline entities are throttled when they use up
++their runtime. Deadline tasks can be only ``running``, ``preempted`` and
++``throttled``, the runtime is enforced only in ``running`` based on an internal
++clock and the runtime value in the deadline entity.
++
++Servers can be also in the ``armed`` state, which corresponds to when the
++server is consuming bandwidth in background (e.g. idle or normal tasks are
++running without any boost). From this state the server can be throttled but it
++can also use more runtime than available. A server is considered ``running``
++when it's actively boosting a task, only there the runtime is enforced::
++
++                                     |
++                                     |
++      dl_replenish;reset(clk)        v
++              sched_switch_in   #=========================# sched_switch_in;
++               +--------------- H                         H   reset(clk)
++               |                H                         H <----------------+
++               +--------------> H         running         H                  |
++    dl_throttle                 H clk < runtime_left_ns() H                  |
++  +---------------------------- H                         H sched_switch_out |
++  |      +--------------------> H                         H -------------+   |
++  |     dl_replenish;           #=========================#              |   |
++  |      reset(clk)                  |             ^                     |   |
++  |      |                    dl_defer_arm   sched_switch_in;            |   |
++  |      |                           |         reset(clk)                |   |
++  v      |                           v             |                     |   |
++ +------------+       dl_replenish  +----------------+                   |   |
++ |            |       dl_defer_arm  |                | sched_switch_out  |   |
++ | throttled  |         +---------- |     armed      | -------------+    |   |
++ |            |         |           |                | <--------+   |    |   |
++ +------------+         +---------> |                | dl_defer_arm |    |   |
++   |      |                         +----------------+          |   |    |   |
++   |      |                             |         ^             |   |    |   |
++   |      |                         dl_throttle  dl_replenish   |   |    |   |
++   |      | dl_throttle;yielded==1      v         |             |   |    |   |
++   |      |   dl_defer_arm         +--------------------+       |   v    v   |
++   |      |            +---------- |                    |     +--------------+
++   |      |            |           |                    |     |              |
++   |      |            +---------> |  armed_throttled   |     |  preempted   |
++   |      |                        |                    |     |              |
++   |      +----------------------> |                    |     +--------------+
++   |        dl_defer_arm           +--------------------+              ^
++   |                                 |                ^                |
++   |                         sched_switch_out         | dl_defer_arm   |
++   |                                 v                |                |
++   |             sched_switch_out  +-------------------------+         |
++   |               +-------------- |                         |   dl_replenish
++   |               |               |                         |         |
++   |               +-------------> |   preempted_throttled   | --------+
++   |                               |                         |
++   +-----------------------------> |                         |
++         sched_switch_out          +-------------------------+
++
++
++Monitor nomiss
++~~~~~~~~~~~~~~
++
++The nomiss monitor ensures dl entities run to completion before their
++deadiline. An entity is considered done if throttled, either because it yielded
++or used up its runtime, or when it goes to sleep.
++The monitor includes a user configurable deadline threshold. If the total
++utilisation of deadline tasks is larger than 1, they are only guaranteed
++bounded tardiness. See Documentation/scheduler/sched-deadline.rst for more
++details. The threshold (module parameter ``nomiss.deadline_thresh``) can be
++configured to avoid the monitor to fail based on the acceptable tardiness in
++the system::
++
++                             sched_switch_in
++                             sched_wakeup
++                           +----------------------+
++                           v                      |
++                         #==========================#  sched_switch_suspend
++               --------> H                          H ----------------+
++                         H                          H                 v
++                         H                          H           +----------+
++                         H                          H           | sleeping |
++                         H         running          H           +----------+
++                         H clk < DEADLINE_LEFT_NS() H  sched_wakeup;  |
++                         H                          H  reset(clk)     |
++                         H                          H <---------------+
++     +-----------------> H                          H -+
++     |                   #==========================#  |
++     |                                                 |
++     |                       sched_switch_suspend      |
++ sched_switch_in             dl_throttle               |
++ sched_wakeup;reset(clk)   +----------------------+    | dl_throttle
++     |                     v                      |    |
++     |                   +--------------------------+  |
++     +------------------ |        throttled         | <+
++                         +--------------------------+
+diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+index 720fbe4935f8..719cdcfb6d41 100644
+--- a/kernel/trace/rv/Kconfig
++++ b/kernel/trace/rv/Kconfig
+@@ -79,6 +79,11 @@ source "kernel/trace/rv/monitors/sleep/Kconfig"
+ # Add new rtapp monitors here
  
- References
- ----------
-diff --git a/kernel/trace/rv/monitors/opid/Kconfig b/kernel/trace/rv/monitors/opid/Kconfig
-index 561d32da572b..6d02e239b684 100644
---- a/kernel/trace/rv/monitors/opid/Kconfig
-+++ b/kernel/trace/rv/monitors/opid/Kconfig
-@@ -2,18 +2,13 @@
- #
- config RV_MON_OPID
- 	depends on RV
--	depends on TRACE_IRQFLAGS
--	depends on TRACE_PREEMPT_TOGGLE
- 	depends on RV_MON_SCHED
--	default y if PREEMPT_RT
--	select DA_MON_EVENTS_IMPLICIT
-+	default y
-+	select HA_MON_EVENTS_IMPLICIT
- 	bool "opid monitor"
- 	help
- 	  Monitor to ensure operations like wakeup and need resched occur with
--	  interrupts and preemption disabled or during IRQs, where preemption
--	  may not be disabled explicitly.
--
--	  This monitor is unstable on !PREEMPT_RT, say N unless you are testing it.
-+	  interrupts and preemption disabled.
+ source "kernel/trace/rv/monitors/stall/Kconfig"
++source "kernel/trace/rv/monitors/deadline/Kconfig"
++source "kernel/trace/rv/monitors/nomiss/Kconfig"
++source "kernel/trace/rv/monitors/throttle/Kconfig"
++# Add new deadline monitors here
++
+ # Add new monitors here
  
- 	  For further information, see:
- 	    Documentation/trace/rv/monitor_sched.rst
-diff --git a/kernel/trace/rv/monitors/opid/opid.c b/kernel/trace/rv/monitors/opid/opid.c
-index 7e9f23a76867..396841106aa4 100644
---- a/kernel/trace/rv/monitors/opid/opid.c
-+++ b/kernel/trace/rv/monitors/opid/opid.c
-@@ -10,94 +10,53 @@
- #define MODULE_NAME "opid"
- 
- #include <trace/events/sched.h>
--#include <trace/events/irq.h>
--#include <trace/events/preemptirq.h>
- #include <rv_trace.h>
- #include <monitors/sched/sched.h>
- 
- #define RV_MON_TYPE RV_MON_PER_CPU
- #include "opid.h"
--#include <rv/da_monitor.h>
-+#include <rv/ha_monitor.h>
- 
--#ifdef CONFIG_X86_LOCAL_APIC
--#include <asm/trace/irq_vectors.h>
--
--static void handle_vector_irq_entry(void *data, int vector)
--{
--	da_handle_event(irq_entry_opid);
--}
--
--static void attach_vector_irq(void)
-+static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_opid env)
- {
--	rv_attach_trace_probe("opid", local_timer_entry, handle_vector_irq_entry);
--	if (IS_ENABLED(CONFIG_IRQ_WORK))
--		rv_attach_trace_probe("opid", irq_work_entry, handle_vector_irq_entry);
--	if (IS_ENABLED(CONFIG_SMP)) {
--		rv_attach_trace_probe("opid", reschedule_entry, handle_vector_irq_entry);
--		rv_attach_trace_probe("opid", call_function_entry, handle_vector_irq_entry);
--		rv_attach_trace_probe("opid", call_function_single_entry, handle_vector_irq_entry);
-+	if (env == irq_off_opid)
-+		return irqs_disabled();
-+	else if (env == preempt_off_opid) {
+ config RV_REACTORS
+diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
+index 51c95e2d2da6..15a1edc8bd0f 100644
+--- a/kernel/trace/rv/Makefile
++++ b/kernel/trace/rv/Makefile
+@@ -18,6 +18,9 @@ obj-$(CONFIG_RV_MON_NRP) += monitors/nrp/nrp.o
+ obj-$(CONFIG_RV_MON_SSSW) += monitors/sssw/sssw.o
+ obj-$(CONFIG_RV_MON_OPID) += monitors/opid/opid.o
+ obj-$(CONFIG_RV_MON_STALL) += monitors/stall/stall.o
++obj-$(CONFIG_RV_MON_DEADLINE) += monitors/deadline/deadline.o
++obj-$(CONFIG_RV_MON_NOMISS) += monitors/nomiss/nomiss.o
++obj-$(CONFIG_RV_MON_THROTTLE) += monitors/throttle/throttle.o
+ # Add new monitors here
+ obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
+ obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
+diff --git a/kernel/trace/rv/monitors/deadline/Kconfig b/kernel/trace/rv/monitors/deadline/Kconfig
+new file mode 100644
+index 000000000000..652876730a39
+--- /dev/null
++++ b/kernel/trace/rv/monitors/deadline/Kconfig
+@@ -0,0 +1,5 @@
++config RV_MON_DEADLINE
++	depends on RV
++	bool "deadline monitor"
++	help
++	  auto-generated
+diff --git a/kernel/trace/rv/monitors/deadline/deadline.c b/kernel/trace/rv/monitors/deadline/deadline.c
+new file mode 100644
+index 000000000000..61564fbbe333
+--- /dev/null
++++ b/kernel/trace/rv/monitors/deadline/deadline.c
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/rv.h>
++
++#define MODULE_NAME "deadline"
++
++#include "deadline.h"
++
++struct rv_monitor rv_deadline = {
++	.name = "deadline",
++	.description = "auto-generated",
++	.enable = NULL,
++	.disable = NULL,
++	.reset = NULL,
++	.enabled = 0,
++};
++
++static int __init register_deadline(void)
++{
++	return rv_register_monitor(&rv_deadline, NULL);
++}
++
++static void __exit unregister_deadline(void)
++{
++	rv_unregister_monitor(&rv_deadline);
++}
++
++module_init(register_deadline);
++module_exit(unregister_deadline);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("dot2k: auto-generated");
++MODULE_DESCRIPTION("deadline: auto-generated");
+diff --git a/kernel/trace/rv/monitors/deadline/deadline.h b/kernel/trace/rv/monitors/deadline/deadline.h
+new file mode 100644
+index 000000000000..20f51e1de866
+--- /dev/null
++++ b/kernel/trace/rv/monitors/deadline/deadline.h
+@@ -0,0 +1,82 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#include <linux/kernel.h>
++#include <asm/syscall.h>
++#include <uapi/linux/sched/types.h>
++
++/*
++ * Dummy values if not available
++ */
++#ifndef __NR_sched_setscheduler
++#define __NR_sched_setscheduler -1
++#endif
++#ifndef __NR_sched_setattr
++#define __NR_sched_setattr -2
++#endif
++
++extern struct rv_monitor rv_deadline;
++
++/*
++ * If both have dummy values, the syscalls are not supported and we don't even
++ * need to register the handler.
++ */
++static inline bool should_skip_syscall_handle(void)
++{
++	return __NR_sched_setattr < 0 && __NR_sched_setscheduler < 0;
++}
++
++static inline int get_server_id(void)
++{
++	/*
++	 * Use negative numbers for the server.
++	 * Currently only one fair server per CPU, may change in the future.
++	 */
++	return -__smp_processor_id();
++}
++
++static inline int extract_params(struct pt_regs *regs, long id, struct task_struct **p)
++{
++	size_t size = offsetof(struct sched_attr, sched_nice);
++	struct sched_attr __user *uattr, attr;
++	int new_policy = -1, ret;
++	unsigned long args[6];
++	pid_t pid;
++
++	switch (id) {
++		case __NR_sched_setscheduler:
++			syscall_get_arguments(current, regs, args);
++			pid = args[0];
++			new_policy = args[1];
++			break;
++		case __NR_sched_setattr:
++			syscall_get_arguments(current, regs, args);
++			pid = args[0];
++			uattr = (void *)args[1];
++			/*
++			 * Just copy up to sched_flags, we are not interested after that
++			 */
++			ret = copy_struct_from_user(&attr, size, uattr, size);
++			if (ret)
++				return ret;
++			if (attr.sched_flags & SCHED_FLAG_KEEP_POLICY)
++				return -EINVAL;
++			new_policy = attr.sched_policy;
++			break;
++		default:
++			return -EINVAL;
++	}
++	if (!pid)
++		*p = current;
++	else {
 +		/*
-+		 * If CONFIG_PREEMPTION is enabled, then the tracepoint itself disables
-+		 * preemption (adding one to the preempt_count). Since we are
-+		 * interested in the preempt_count at the time the tracepoint was
-+		 * hit, we consider 1 as still enabled.
++		 * Required for find_task_by_vpid, make sure the caller doesn't
++		 * need to get_task_struct().
 +		 */
-+		if (IS_ENABLED(CONFIG_PREEMPTION))
-+			return (preempt_count() & PREEMPT_MASK) > 1;
-+		return true;
- 	}
++		guard(rcu)();
++		*p = find_task_by_vpid(pid);
++		if (unlikely(!p))
++			return -EINVAL;
++	}
++
++	return new_policy;
++}
+diff --git a/kernel/trace/rv/monitors/nomiss/Kconfig b/kernel/trace/rv/monitors/nomiss/Kconfig
+new file mode 100644
+index 000000000000..e1886c3a0dd9
+--- /dev/null
++++ b/kernel/trace/rv/monitors/nomiss/Kconfig
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++config RV_MON_NOMISS
++	depends on RV
++	depends on HAVE_SYSCALL_TRACEPOINTS
++	depends on RV_MON_DEADLINE
++	default y
++	select HA_MON_EVENTS_ID
++	bool "nomiss monitor"
++	help
++	  Monitor to ensure dl entities run to completion before their deadiline.
++	  This monitor is part of the deadline monitors collection.
++
++	  For further information, see:
++	    Documentation/trace/rv/monitor_deadline.rst
+diff --git a/kernel/trace/rv/monitors/nomiss/nomiss.c b/kernel/trace/rv/monitors/nomiss/nomiss.c
+new file mode 100644
+index 000000000000..4b61a861a62c
+--- /dev/null
++++ b/kernel/trace/rv/monitors/nomiss/nomiss.c
+@@ -0,0 +1,234 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/ftrace.h>
++#include <linux/tracepoint.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/rv.h>
++#include <rv/instrumentation.h>
++
++#define MODULE_NAME "nomiss"
++
++#include <uapi/linux/sched/types.h>
++#include <trace/events/syscalls.h>
++#include <trace/events/sched.h>
++#include <trace/events/task.h>
++#include <rv_trace.h>
++#include <monitors/deadline/deadline.h>
++
++#define RV_MON_TYPE RV_MON_PER_OBJ
++/* The start condition is on sched_switch, it's dangerous to allocate there */
++#define DA_SKIP_AUTO_ALLOC
++typedef struct sched_dl_entity *monitor_target;
++#include "nomiss.h"
++#include <rv/ha_monitor.h>
++
++/*
++ * da_get_id - Get the id from a dl server
++ *
++ * Deadline tasks use the task's PID, while fair servers use the negated cpu.
++ */
++static inline da_id_type da_get_id(monitor_target target)
++{
++	if (target->dl_server)
++		return get_server_id();
++	return container_of(target, struct task_struct, dl)->pid;
++}
++
++/*
++ * User configurable deadline threshold. If the total utilisation of deadline
++ * tasks is larger than 1, they are only guaranteed bounded tardiness. See
++ * Documentation/scheduler/sched-deadline.rst for more details.
++ */
++static u64 deadline_thresh = 0;
++module_param(deadline_thresh, ullong, 0644);
++#define DEADLINE_LEFT_NS(ha_mon) (ha_get_target(ha_mon)->deadline + deadline_thresh)
++
++static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_nomiss env)
++{
++	if (env == clk_nomiss)
++		return ha_get_clk_ns(ha_mon, env);
 +	return ENV_INVALID_VALUE;
- }
- 
--static void detach_vector_irq(void)
--{
--	rv_detach_trace_probe("opid", local_timer_entry, handle_vector_irq_entry);
--	if (IS_ENABLED(CONFIG_IRQ_WORK))
--		rv_detach_trace_probe("opid", irq_work_entry, handle_vector_irq_entry);
--	if (IS_ENABLED(CONFIG_SMP)) {
--		rv_detach_trace_probe("opid", reschedule_entry, handle_vector_irq_entry);
--		rv_detach_trace_probe("opid", call_function_entry, handle_vector_irq_entry);
--		rv_detach_trace_probe("opid", call_function_single_entry, handle_vector_irq_entry);
--	}
--}
--
--#else
--/* We assume irq_entry tracepoints are sufficient on other architectures */
--static void attach_vector_irq(void) { }
--static void detach_vector_irq(void) { }
--#endif
--
--static void handle_irq_disable(void *data, unsigned long ip, unsigned long parent_ip)
--{
--	da_handle_event(irq_disable_opid);
--}
--
--static void handle_irq_enable(void *data, unsigned long ip, unsigned long parent_ip)
--{
--	da_handle_event(irq_enable_opid);
--}
--
--static void handle_irq_entry(void *data, int irq, struct irqaction *action)
--{
--	da_handle_event(irq_entry_opid);
--}
--
--static void handle_preempt_disable(void *data, unsigned long ip, unsigned long parent_ip)
--{
--	da_handle_event(preempt_disable_opid);
--}
--
--static void handle_preempt_enable(void *data, unsigned long ip, unsigned long parent_ip)
++}
++
++static void ha_reset_env(struct ha_monitor *ha_mon, enum envs_nomiss env)
++{
++	if (env == clk_nomiss)
++		ha_reset_clk_ns(ha_mon, env);
++}
++
 +static bool ha_verify_constraint(struct ha_monitor *ha_mon,
 +				 enum states curr_state, enum events event,
 +				 enum states next_state)
- {
--	da_handle_event(preempt_enable_opid);
++{
 +	bool res = true;
 +
-+	if (curr_state == any_opid && event == sched_need_resched_opid)
-+		res = ha_get_env(ha_mon, irq_off_opid) == 1ull;
-+	else if (curr_state == any_opid && event == sched_waking_opid)
-+		res = ha_get_env(ha_mon, irq_off_opid) == 1ull &&
-+		      ha_get_env(ha_mon, preempt_off_opid) == 1ull;
++	if (curr_state == sleeping_nomiss && event == sched_switch_in_nomiss)
++		ha_reset_env(ha_mon, clk_nomiss);
++	else if (curr_state == throttled_nomiss && event == sched_switch_in_nomiss)
++		ha_reset_env(ha_mon, clk_nomiss);
++
++	if (next_state == curr_state || !res)
++		return res;
++	if (next_state == running_nomiss)
++		ha_start_timer_ns(ha_mon, clk_nomiss, DEADLINE_LEFT_NS(ha_mon));
++	else if (curr_state == running_nomiss)
++		res = !ha_cancel_timer(ha_mon);
 +	return res;
- }
- 
- static void handle_sched_need_resched(void *data, struct task_struct *tsk, int cpu, int tif)
- {
--	/* The monitor's intitial state is not in_irq */
--	if (this_cpu_read(hardirq_context))
--		da_handle_event(sched_need_resched_opid);
--	else
--		da_handle_start_event(sched_need_resched_opid);
-+	da_handle_start_event(sched_need_resched_opid);
- }
- 
- static void handle_sched_waking(void *data, struct task_struct *p)
- {
--	/* The monitor's intitial state is not in_irq */
--	if (this_cpu_read(hardirq_context))
--		da_handle_event(sched_waking_opid);
--	else
--		da_handle_start_event(sched_waking_opid);
-+	da_handle_start_event(sched_waking_opid);
- }
- 
- static int enable_opid(void)
-@@ -108,14 +67,8 @@ static int enable_opid(void)
- 	if (retval)
- 		return retval;
- 
--	rv_attach_trace_probe("opid", irq_disable, handle_irq_disable);
--	rv_attach_trace_probe("opid", irq_enable, handle_irq_enable);
--	rv_attach_trace_probe("opid", irq_handler_entry, handle_irq_entry);
--	rv_attach_trace_probe("opid", preempt_disable, handle_preempt_disable);
--	rv_attach_trace_probe("opid", preempt_enable, handle_preempt_enable);
- 	rv_attach_trace_probe("opid", sched_set_need_resched_tp, handle_sched_need_resched);
- 	rv_attach_trace_probe("opid", sched_waking, handle_sched_waking);
--	attach_vector_irq();
- 
- 	return 0;
- }
-@@ -124,14 +77,8 @@ static void disable_opid(void)
- {
- 	rv_opid.enabled = 0;
- 
--	rv_detach_trace_probe("opid", irq_disable, handle_irq_disable);
--	rv_detach_trace_probe("opid", irq_enable, handle_irq_enable);
--	rv_detach_trace_probe("opid", irq_handler_entry, handle_irq_entry);
--	rv_detach_trace_probe("opid", preempt_disable, handle_preempt_disable);
--	rv_detach_trace_probe("opid", preempt_enable, handle_preempt_enable);
- 	rv_detach_trace_probe("opid", sched_set_need_resched_tp, handle_sched_need_resched);
- 	rv_detach_trace_probe("opid", sched_waking, handle_sched_waking);
--	detach_vector_irq();
- 
- 	da_monitor_destroy();
- }
-diff --git a/kernel/trace/rv/monitors/opid/opid.h b/kernel/trace/rv/monitors/opid/opid.h
-index 5014f1b85ecf..7c39641c65eb 100644
---- a/kernel/trace/rv/monitors/opid/opid.h
-+++ b/kernel/trace/rv/monitors/opid/opid.h
-@@ -8,30 +8,31 @@
- #define MONITOR_NAME opid
- 
- enum states_opid {
--	disabled_opid = 0,
--	enabled_opid,
--	in_irq_opid,
--	irq_disabled_opid,
--	preempt_disabled_opid,
-+	any_opid = 0,
- 	state_max_opid
- };
- 
- #define INVALID_STATE state_max_opid
- 
- enum events_opid {
--	irq_disable_opid = 0,
--	irq_enable_opid,
--	irq_entry_opid,
--	preempt_disable_opid,
--	preempt_enable_opid,
--	sched_need_resched_opid,
-+	sched_need_resched_opid = 0,
- 	sched_waking_opid,
- 	event_max_opid
- };
- 
-+enum envs_opid {
-+	irq_off_opid = 0,
-+	preempt_off_opid,
-+	env_max_opid,
-+	env_max_stored_opid = irq_off_opid
++}
++
++static void handle_dl_throttle(void *data, struct sched_dl_entity *dl)
++{
++	da_handle_event(dl, dl_throttle_nomiss);
++}
++
++static void handle_dl_server_start(void *data, struct sched_dl_entity *dl)
++{
++	da_handle_start_event(dl, sched_switch_in_nomiss);
++}
++
++static void handle_dl_server_stop(void *data, struct sched_dl_entity *dl, bool hard)
++{
++	if (hard)
++		da_handle_event(dl, sched_switch_suspend_nomiss);
++}
++
++static void handle_sched_switch(void *data, bool preempt, struct task_struct *prev, struct task_struct *next, unsigned int prev_state)
++{
++	if (prev_state != TASK_RUNNING && prev->policy == SCHED_DEADLINE)
++		da_handle_event(&prev->dl, sched_switch_suspend_nomiss);
++	if (next->policy == SCHED_DEADLINE)
++		da_handle_start_event(&next->dl, sched_switch_in_nomiss);
++}
++
++static void handle_syscall(void *data, struct pt_regs *regs, long id)
++{
++	struct task_struct *p;
++	int new_policy = -1;
++
++	new_policy = extract_params(regs, id, &p);
++	if (new_policy < 0 || new_policy == p->policy)
++		return;
++	if (p->policy == SCHED_DEADLINE)
++		da_reset(&p->dl);
++	else if (new_policy == SCHED_DEADLINE)
++		da_create_conditional(&p->dl);
++}
++
++static void handle_sched_wakeup(void *data, struct task_struct *tsk)
++{
++	if (tsk->policy == SCHED_DEADLINE)
++		da_handle_start_event(&tsk->dl, sched_wakeup_nomiss);
++}
++
++static void handle_newtask(void *data, struct task_struct *task, unsigned long flags)
++{
++	/* Might be superfluous as tasks are not started with this policy.. */
++	if (task->policy == SCHED_DEADLINE)
++		da_create_storage(&task->dl, NULL);
++}
++
++static void handle_exit(void *data, struct task_struct *p, bool group_dead)
++{
++	if (p->policy == SCHED_DEADLINE)
++		da_destroy_storage(&p->dl);
++}
++
++/*
++ * Initialise monitors for all tasks and pre-allocate the storage for servers.
++ * This is necessary since we don't have access to the servers here and
++ * allocation can cause deadlocks from their tracepoints. We can only fill
++ * pre-initialised storage from there.
++ */
++static inline int init_storage(void)
++{
++	struct task_struct *g, *p;
++	int cpu;
++
++	for_each_possible_cpu(cpu) {
++		/* The servers' ids are determined according to da_get_id */
++		if (!da_create_empty_storage(-cpu))
++			goto fail;
++	}
++
++	for_each_process_thread(g, p) {
++		if (p->policy == SCHED_DEADLINE) {
++			if (!da_create_storage(&p->dl, NULL))
++				goto fail;
++		}
++	}
++	return 0;
++
++fail:
++	da_monitor_destroy();
++	return -ENOMEM;
++}
++
++static int enable_nomiss(void)
++{
++	int retval;
++
++	retval = da_monitor_init();
++	if (retval)
++		return retval;
++
++	retval = init_storage();
++	if (retval)
++		return retval;
++	rv_attach_trace_probe("nomiss", sched_dl_throttle_tp, handle_dl_throttle);
++	rv_attach_trace_probe("nomiss", sched_dl_server_start_tp, handle_dl_server_start);
++	rv_attach_trace_probe("nomiss", sched_dl_server_stop_tp, handle_dl_server_stop);
++	rv_attach_trace_probe("nomiss", sched_switch, handle_sched_switch);
++	rv_attach_trace_probe("nomiss", sched_wakeup, handle_sched_wakeup);
++	if (!should_skip_syscall_handle())
++		rv_attach_trace_probe("nomiss", sys_enter, handle_syscall);
++	rv_attach_trace_probe("nomiss", task_newtask, handle_newtask);
++	rv_attach_trace_probe("nomiss", sched_process_exit, handle_exit);
++
++	return 0;
++}
++
++static void disable_nomiss(void)
++{
++	rv_nomiss.enabled = 0;
++
++	/* Those are RCU writers, detach earlier hoping to close a bit faster */
++	rv_detach_trace_probe("nomiss", task_newtask, handle_newtask);
++	rv_detach_trace_probe("nomiss", sched_process_exit, handle_exit);
++	if (!should_skip_syscall_handle())
++		rv_detach_trace_probe("nomiss", sys_enter, handle_syscall);
++
++	rv_detach_trace_probe("nomiss", sched_dl_throttle_tp, handle_dl_throttle);
++	rv_detach_trace_probe("nomiss", sched_dl_server_start_tp, handle_dl_server_start);
++	rv_detach_trace_probe("nomiss", sched_dl_server_stop_tp, handle_dl_server_stop);
++	rv_detach_trace_probe("nomiss", sched_switch, handle_sched_switch);
++	rv_detach_trace_probe("nomiss", sched_wakeup, handle_sched_wakeup);
++
++	da_monitor_destroy();
++}
++
++static struct rv_monitor rv_nomiss = {
++	.name = "nomiss",
++	.description = "dl entities run to completion before their deadiline.",
++	.enable = enable_nomiss,
++	.disable = disable_nomiss,
++	.reset = da_monitor_reset_all,
++	.enabled = 0,
 +};
 +
-+_Static_assert(env_max_stored_opid <= MAX_HA_ENV_LEN, "Not enough slots");
++static int __init register_nomiss(void)
++{
++	return rv_register_monitor(&rv_nomiss, &rv_deadline);
++}
 +
- struct automaton_opid {
- 	char *state_names[state_max_opid];
- 	char *event_names[event_max_opid];
-+	char *env_names[env_max_opid];
- 	unsigned char function[state_max_opid][event_max_opid];
- 	unsigned char initial_state;
- 	bool final_states[state_max_opid];
-@@ -39,68 +40,19 @@ struct automaton_opid {
- 
- static const struct automaton_opid automaton_opid = {
- 	.state_names = {
--		"disabled",
--		"enabled",
--		"in_irq",
--		"irq_disabled",
--		"preempt_disabled"
-+		"any"
- 	},
- 	.event_names = {
--		"irq_disable",
--		"irq_enable",
--		"irq_entry",
--		"preempt_disable",
--		"preempt_enable",
- 		"sched_need_resched",
- 		"sched_waking"
- 	},
-+	.env_names = {
-+		"irq_off",
-+		"preempt_off"
++static void __exit unregister_nomiss(void)
++{
++	rv_unregister_monitor(&rv_nomiss);
++}
++
++module_init(register_nomiss);
++module_exit(unregister_nomiss);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
++MODULE_DESCRIPTION("nomiss: dl entities run to completion before their deadiline.");
+diff --git a/kernel/trace/rv/monitors/nomiss/nomiss.h b/kernel/trace/rv/monitors/nomiss/nomiss.h
+new file mode 100644
+index 000000000000..a4059b34c60d
+--- /dev/null
++++ b/kernel/trace/rv/monitors/nomiss/nomiss.h
+@@ -0,0 +1,81 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Automatically generated C representation of nomiss automaton
++ * For further information about this format, see kernel documentation:
++ *   Documentation/trace/rv/deterministic_automata.rst
++ */
++
++#define MONITOR_NAME nomiss
++
++enum states_nomiss {
++	running_nomiss = 0,
++	sleeping_nomiss,
++	throttled_nomiss,
++	state_max_nomiss
++};
++
++#define INVALID_STATE state_max_nomiss
++
++enum events_nomiss {
++	dl_throttle_nomiss = 0,
++	sched_switch_in_nomiss,
++	sched_switch_suspend_nomiss,
++	sched_wakeup_nomiss,
++	event_max_nomiss
++};
++
++enum envs_nomiss {
++	clk_nomiss = 0,
++	env_max_nomiss,
++	env_max_stored_nomiss = env_max_nomiss
++};
++
++_Static_assert(env_max_stored_nomiss <= MAX_HA_ENV_LEN, "Not enough slots");
++
++struct automaton_nomiss {
++	char *state_names[state_max_nomiss];
++	char *event_names[event_max_nomiss];
++	char *env_names[env_max_nomiss];
++	unsigned char function[state_max_nomiss][event_max_nomiss];
++	unsigned char initial_state;
++	bool final_states[state_max_nomiss];
++};
++
++static const struct automaton_nomiss automaton_nomiss = {
++	.state_names = {
++		"running",
++		"sleeping",
++		"throttled"
 +	},
- 	.function = {
--		{
--			INVALID_STATE,
--			preempt_disabled_opid,
--			disabled_opid,
--			INVALID_STATE,
--			irq_disabled_opid,
--			disabled_opid,
--			disabled_opid
--		},
--		{
--			irq_disabled_opid,
--			INVALID_STATE,
--			INVALID_STATE,
--			preempt_disabled_opid,
--			enabled_opid,
--			INVALID_STATE,
--			INVALID_STATE
--		},
--		{
--			INVALID_STATE,
--			enabled_opid,
--			in_irq_opid,
--			INVALID_STATE,
--			INVALID_STATE,
--			in_irq_opid,
--			in_irq_opid
--		},
--		{
--			INVALID_STATE,
--			enabled_opid,
--			in_irq_opid,
--			disabled_opid,
--			INVALID_STATE,
--			irq_disabled_opid,
--			INVALID_STATE
--		},
--		{
--			disabled_opid,
--			INVALID_STATE,
--			INVALID_STATE,
--			INVALID_STATE,
--			enabled_opid,
--			INVALID_STATE,
--			INVALID_STATE
--		},
-+		{           any_opid,           any_opid },
- 	},
--	.initial_state = disabled_opid,
--	.final_states = { 0, 1, 0, 0, 0 },
-+	.initial_state = any_opid,
-+	.final_states = { 1 },
- };
-diff --git a/kernel/trace/rv/monitors/opid/opid_trace.h b/kernel/trace/rv/monitors/opid/opid_trace.h
-index 3df6ff955c30..b04005b64208 100644
---- a/kernel/trace/rv/monitors/opid/opid_trace.h
-+++ b/kernel/trace/rv/monitors/opid/opid_trace.h
-@@ -12,4 +12,8 @@ DEFINE_EVENT(event_da_monitor, event_opid,
- DEFINE_EVENT(error_da_monitor, error_opid,
- 	     TP_PROTO(char *state, char *event),
- 	     TP_ARGS(state, event));
++	.event_names = {
++		"dl_throttle",
++		"sched_switch_in",
++		"sched_switch_suspend",
++		"sched_wakeup"
++	},
++	.env_names = {
++		"clk"
++	},
++	.function = {
++		{
++			throttled_nomiss,
++			running_nomiss,
++			sleeping_nomiss,
++			running_nomiss
++		},
++		{
++			INVALID_STATE,
++			INVALID_STATE,
++			INVALID_STATE,
++			running_nomiss
++		},
++		{
++			throttled_nomiss,
++			running_nomiss,
++			throttled_nomiss,
++			running_nomiss
++		},
++	},
++	.initial_state = running_nomiss,
++	.final_states = { 1, 0, 0 },
++};
+diff --git a/kernel/trace/rv/monitors/nomiss/nomiss_trace.h b/kernel/trace/rv/monitors/nomiss/nomiss_trace.h
+new file mode 100644
+index 000000000000..42e7efaca4e7
+--- /dev/null
++++ b/kernel/trace/rv/monitors/nomiss/nomiss_trace.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +
-+DEFINE_EVENT(error_env_da_monitor, error_env_opid,
-+	     TP_PROTO(char *state, char *event, char *env),
-+	     TP_ARGS(state, event, env));
- #endif /* CONFIG_RV_MON_OPID */
++/*
++ * Snippet to be included in rv_trace.h
++ */
++
++#ifdef CONFIG_RV_MON_NOMISS
++DEFINE_EVENT(event_da_monitor_id, event_nomiss,
++	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
++	     TP_ARGS(id, state, event, next_state, final_state));
++
++DEFINE_EVENT(error_da_monitor_id, error_nomiss,
++	     TP_PROTO(int id, char *state, char *event),
++	     TP_ARGS(id, state, event));
++
++DEFINE_EVENT(error_env_da_monitor_id, error_env_nomiss,
++	     TP_PROTO(int id, char *state, char *event, char *env),
++	     TP_ARGS(id, state, event, env));
++#endif /* CONFIG_RV_MON_NOMISS */
+diff --git a/kernel/trace/rv/monitors/throttle/Kconfig b/kernel/trace/rv/monitors/throttle/Kconfig
+new file mode 100644
+index 000000000000..d9bd2dc903cd
+--- /dev/null
++++ b/kernel/trace/rv/monitors/throttle/Kconfig
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++config RV_MON_THROTTLE
++	depends on RV
++	depends on HAVE_SYSCALL_TRACEPOINTS
++	depends on RV_MON_DEADLINE
++	default y
++	select HA_MON_EVENTS_ID
++	bool "throttle monitor"
++	help
++	  Monitor to ensure dl entities are throttled when they use up their runtime.
++	  This monitor is part of the deadline monitors collection.
++
++	  For further information, see:
++	    Documentation/trace/rv/monitor_deadline.rst
+diff --git a/kernel/trace/rv/monitors/throttle/throttle.c b/kernel/trace/rv/monitors/throttle/throttle.c
+new file mode 100644
+index 000000000000..412b53b268f5
+--- /dev/null
++++ b/kernel/trace/rv/monitors/throttle/throttle.c
+@@ -0,0 +1,259 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/ftrace.h>
++#include <linux/tracepoint.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/rv.h>
++#include <rv/instrumentation.h>
++
++#define MODULE_NAME "throttle"
++
++#include <uapi/linux/sched/types.h>
++#include <trace/events/syscalls.h>
++#include <trace/events/sched.h>
++#include <trace/events/task.h>
++#include <rv_trace.h>
++#include <monitors/deadline/deadline.h>
++
++#define RV_MON_TYPE RV_MON_PER_OBJ
++/* The start condition is on sched_switch, it's dangerous to allocate there */
++#define DA_SKIP_AUTO_ALLOC
++typedef struct sched_dl_entity *monitor_target;
++#include "throttle.h"
++#include <rv/ha_monitor.h>
++
++/*
++ * da_get_id - Get the id from a dl server
++ *
++ * Deadline tasks use the task's PID, while fair servers use the negated cpu.
++ */
++static inline da_id_type da_get_id(monitor_target target)
++{
++	if (target->dl_server)
++		return get_server_id();
++	return container_of(target, struct task_struct, dl)->pid;
++}
++
++/* with sched_feat(HRTICK_DL) the threshold should be lower */
++#define RUNTIME_THRESH jiffies_to_nsecs(1)
++
++static inline u64 runtime_left_ns(struct ha_monitor *ha_mon)
++{
++	return ha_get_target(ha_mon)->runtime + RUNTIME_THRESH;
++}
++
++static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_throttle env)
++{
++	if (env == clk_throttle)
++		return ha_get_clk_ns(ha_mon, env);
++	else if (env == yielded_throttle)
++		return ha_get_target(ha_mon)->dl_yielded;
++	return ENV_INVALID_VALUE;
++}
++
++static void ha_reset_env(struct ha_monitor *ha_mon, enum envs_throttle env)
++{
++	if (env == clk_throttle)
++		ha_reset_clk_ns(ha_mon, env);
++}
++
++static bool ha_verify_constraint(struct ha_monitor *ha_mon,
++				 enum states curr_state, enum events event,
++				 enum states next_state)
++{
++	bool res = true;
++
++	if (curr_state == armed_throttle && event == sched_switch_in_throttle)
++		ha_reset_env(ha_mon, clk_throttle);
++	else if (curr_state == armed_throttled_throttle && event == dl_throttle_throttle)
++		res = ha_get_env(ha_mon, yielded_throttle) == 1ull;
++	else if (curr_state == preempted_throttle && event == sched_switch_in_throttle)
++		ha_reset_env(ha_mon, clk_throttle);
++	else if (curr_state == running_throttle && event == dl_replenish_throttle)
++		ha_reset_env(ha_mon, clk_throttle);
++	else if (curr_state == throttled_throttle && event == dl_replenish_throttle)
++		ha_reset_env(ha_mon, clk_throttle);
++
++	if ((next_state == curr_state && event != dl_replenish_throttle) || !res)
++		return res;
++	if (next_state == running_throttle)
++		ha_start_timer_ns(ha_mon, clk_throttle, runtime_left_ns(ha_mon));
++	else if (curr_state == running_throttle)
++		res = !ha_cancel_timer(ha_mon);
++	return res;
++}
++
++static void handle_dl_replenish(void *data, struct sched_dl_entity *dl)
++{
++	da_handle_event(dl, dl_replenish_throttle);
++}
++
++static void handle_dl_throttle(void *data, struct sched_dl_entity *dl)
++{
++	da_handle_event(dl, dl_throttle_throttle);
++}
++
++static inline struct sched_dl_entity *get_fair_server(struct task_struct *tsk)
++{
++	if (tsk->dl_server)
++		return tsk->dl_server;
++	return da_get_target_by_id(get_server_id());
++}
++
++static void handle_sched_switch(void *data, bool preempt, struct task_struct *prev, struct task_struct *next, unsigned int prev_state)
++{
++	struct sched_dl_entity *dl;
++
++	if (prev->policy == SCHED_DEADLINE)
++		da_handle_event(&prev->dl, sched_switch_out_throttle);
++	if (next->policy == SCHED_DEADLINE)
++		da_handle_start_event(&next->dl, sched_switch_in_throttle);
++
++	/*
++	 * The server is available in next only if the next task is boosted,
++	 * otherwise we need to retrieve it.
++	 */
++	dl = get_fair_server(next);
++	if (!dl)
++		return;
++	if (next->dl_server)
++		da_handle_start_event(next->dl_server, sched_switch_in_throttle);
++	else if (is_idle_task(next) || next->policy == SCHED_NORMAL)
++		da_handle_event(dl, dl_defer_arm_throttle);
++	else
++		da_handle_event(dl, sched_switch_out_throttle);
++}
++
++static void handle_syscall(void *data, struct pt_regs *regs, long id)
++{
++	struct task_struct *p;
++	int new_policy = -1;
++
++	new_policy = extract_params(regs, id, &p);
++	if (new_policy < 0 || new_policy == p->policy)
++		return;
++	if (p->policy == SCHED_DEADLINE) {
++		da_reset(&p->dl);
++		/*
++		 * When a task changes from SCHED_DEADLINE to SCHED_NORMAL, the
++		 * runtime after the change is counted in the fair server.
++		 */
++		if (new_policy == SCHED_NORMAL) {
++			struct sched_dl_entity *dl = get_fair_server(p);
++			if (!dl)
++				return;
++			da_handle_event(dl, dl_defer_arm_throttle);
++		}
++	} else if (new_policy == SCHED_DEADLINE) {
++		da_create_conditional(&p->dl);
++	}
++}
++
++static void handle_newtask(void *data, struct task_struct *task, unsigned long flags)
++{
++	/* Might be superfluous as tasks are not started with this policy.. */
++	if (task->policy == SCHED_DEADLINE)
++		da_create_storage(&task->dl, NULL);
++}
++
++static void handle_exit(void *data, struct task_struct *p, bool group_dead)
++{
++	if (p->policy == SCHED_DEADLINE)
++		da_destroy_storage(&p->dl);
++}
++
++/*
++ * Initialise monitors for all tasks and pre-allocate the storage for servers.
++ * This is necessary since we don't have access to the servers here and
++ * allocation can cause deadlocks from their tracepoints. We can only fill
++ * pre-initialised storage from there.
++ */
++static inline int init_storage(void)
++{
++	struct task_struct *g, *p;
++	int cpu;
++
++	for_each_possible_cpu(cpu) {
++		/* The servers' ids are determined according to da_get_id */
++		if (!da_create_empty_storage(-cpu))
++			goto fail;
++	}
++
++	for_each_process_thread(g, p) {
++		if (p->policy == SCHED_DEADLINE) {
++			if (!da_create_storage(&p->dl, NULL))
++				goto fail;
++		}
++	}
++	return 0;
++
++fail:
++	da_monitor_destroy();
++	return -ENOMEM;
++}
++
++static int enable_throttle(void)
++{
++	int retval;
++
++	retval = da_monitor_init();
++	if (retval)
++		return retval;
++
++	retval = init_storage();
++	if (retval)
++		return retval;
++	rv_attach_trace_probe("throttle", sched_dl_replenish_tp, handle_dl_replenish);
++	rv_attach_trace_probe("throttle", sched_dl_throttle_tp, handle_dl_throttle);
++	rv_attach_trace_probe("throttle", sched_switch, handle_sched_switch);
++	if (!should_skip_syscall_handle())
++		rv_attach_trace_probe("throttle", sys_enter, handle_syscall);
++	rv_attach_trace_probe("throttle", task_newtask, handle_newtask);
++	rv_attach_trace_probe("throttle", sched_process_exit, handle_exit);
++
++	return 0;
++}
++
++static void disable_throttle(void)
++{
++	rv_throttle.enabled = 0;
++
++	/* Those are RCU writers, detach earlier hoping to close a bit faster */
++	rv_detach_trace_probe("throttle", task_newtask, handle_newtask);
++	rv_detach_trace_probe("throttle", sched_process_exit, handle_exit);
++	if (!should_skip_syscall_handle())
++		rv_detach_trace_probe("throttle", sys_enter, handle_syscall);
++
++	rv_detach_trace_probe("throttle", sched_dl_replenish_tp, handle_dl_replenish);
++	rv_detach_trace_probe("throttle", sched_dl_throttle_tp, handle_dl_throttle);
++	rv_detach_trace_probe("throttle", sched_switch, handle_sched_switch);
++
++	da_monitor_destroy();
++}
++
++static struct rv_monitor rv_throttle = {
++	.name = "throttle",
++	.description = "throttle dl entities when they use up their runtime.",
++	.enable = enable_throttle,
++	.disable = disable_throttle,
++	.reset = da_monitor_reset_all,
++	.enabled = 0,
++};
++
++static int __init register_throttle(void)
++{
++	return rv_register_monitor(&rv_throttle, &rv_deadline);
++}
++
++static void __exit unregister_throttle(void)
++{
++	rv_unregister_monitor(&rv_throttle);
++}
++
++module_init(register_throttle);
++module_exit(unregister_throttle);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
++MODULE_DESCRIPTION("throttle: throttle dl entities when they use up their runtime.");
+diff --git a/kernel/trace/rv/monitors/throttle/throttle.h b/kernel/trace/rv/monitors/throttle/throttle.h
+new file mode 100644
+index 000000000000..084221556bae
+--- /dev/null
++++ b/kernel/trace/rv/monitors/throttle/throttle.h
+@@ -0,0 +1,115 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Automatically generated C representation of throttle automaton
++ * For further information about this format, see kernel documentation:
++ *   Documentation/trace/rv/deterministic_automata.rst
++ */
++
++#define MONITOR_NAME throttle
++
++enum states_throttle {
++	running_throttle = 0,
++	armed_throttle,
++	armed_throttled_throttle,
++	preempted_throttle,
++	preempted_throttled_throttle,
++	throttled_throttle,
++	state_max_throttle
++};
++
++#define INVALID_STATE state_max_throttle
++
++enum events_throttle {
++	dl_defer_arm_throttle = 0,
++	dl_replenish_throttle,
++	dl_throttle_throttle,
++	sched_switch_in_throttle,
++	sched_switch_out_throttle,
++	event_max_throttle
++};
++
++enum envs_throttle {
++	clk_throttle = 0,
++	yielded_throttle,
++	env_max_throttle,
++	env_max_stored_throttle = yielded_throttle
++};
++
++_Static_assert(env_max_stored_throttle <= MAX_HA_ENV_LEN, "Not enough slots");
++
++struct automaton_throttle {
++	char *state_names[state_max_throttle];
++	char *event_names[event_max_throttle];
++	char *env_names[env_max_throttle];
++	unsigned char function[state_max_throttle][event_max_throttle];
++	unsigned char initial_state;
++	bool final_states[state_max_throttle];
++};
++
++static const struct automaton_throttle automaton_throttle = {
++	.state_names = {
++		"running",
++		"armed",
++		"armed_throttled",
++		"preempted",
++		"preempted_throttled",
++		"throttled"
++	},
++	.event_names = {
++		"dl_defer_arm",
++		"dl_replenish",
++		"dl_throttle",
++		"sched_switch_in",
++		"sched_switch_out"
++	},
++	.env_names = {
++		"clk",
++		"yielded"
++	},
++	.function = {
++		{
++			armed_throttle,
++			running_throttle,
++			throttled_throttle,
++			running_throttle,
++			preempted_throttle
++		},
++		{
++			armed_throttle,
++			armed_throttle,
++			armed_throttled_throttle,
++			running_throttle,
++			preempted_throttle
++		},
++		{
++			armed_throttled_throttle,
++			armed_throttle,
++			armed_throttled_throttle,
++			INVALID_STATE,
++			preempted_throttled_throttle
++		},
++		{
++			armed_throttle,
++			preempted_throttle,
++			INVALID_STATE,
++			running_throttle,
++			preempted_throttle
++		},
++		{
++			armed_throttled_throttle,
++			preempted_throttle,
++			INVALID_STATE,
++			INVALID_STATE,
++			preempted_throttled_throttle
++		},
++		{
++			armed_throttled_throttle,
++			running_throttle,
++			INVALID_STATE,
++			INVALID_STATE,
++			preempted_throttled_throttle
++		},
++	},
++	.initial_state = running_throttle,
++	.final_states = { 1, 0, 0, 0, 0, 0 },
++};
+diff --git a/kernel/trace/rv/monitors/throttle/throttle_trace.h b/kernel/trace/rv/monitors/throttle/throttle_trace.h
+new file mode 100644
+index 000000000000..7e376d3aec60
+--- /dev/null
++++ b/kernel/trace/rv/monitors/throttle/throttle_trace.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/*
++ * Snippet to be included in rv_trace.h
++ */
++
++#ifdef CONFIG_RV_MON_THROTTLE
++DEFINE_EVENT(event_da_monitor_id, event_throttle,
++	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
++	     TP_ARGS(id, state, event, next_state, final_state));
++
++DEFINE_EVENT(error_da_monitor_id, error_throttle,
++	     TP_PROTO(int id, char *state, char *event),
++	     TP_ARGS(id, state, event));
++
++DEFINE_EVENT(error_env_da_monitor_id, error_env_throttle,
++	     TP_PROTO(int id, char *state, char *event, char *env),
++	     TP_ARGS(id, state, event, env));
++#endif /* CONFIG_RV_MON_THROTTLE */
 diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
-index 3d9a4c70f523..601b03179328 100644
+index 601b03179328..40b19e2aa69c 100644
 --- a/kernel/trace/rv/rv_trace.h
 +++ b/kernel/trace/rv/rv_trace.h
-@@ -62,7 +62,6 @@ DECLARE_EVENT_CLASS(error_da_monitor,
- #include <monitors/scpd/scpd_trace.h>
- #include <monitors/snep/snep_trace.h>
- #include <monitors/sts/sts_trace.h>
--#include <monitors/opid/opid_trace.h>
- // Add new monitors based on CONFIG_DA_MON_EVENTS_IMPLICIT here
- 
- #ifdef CONFIG_HA_MON_EVENTS_IMPLICIT
-@@ -92,6 +91,7 @@ DECLARE_EVENT_CLASS(error_env_da_monitor,
+@@ -188,6 +188,8 @@ DECLARE_EVENT_CLASS(error_env_da_monitor_id,
  );
  
- // Add new monitors based on CONFIG_HA_MON_EVENTS_IMPLICIT here
-+#include <monitors/opid/opid_trace.h>
+ #include <monitors/stall/stall_trace.h>
++#include <monitors/nomiss/nomiss_trace.h>
++#include <monitors/throttle/throttle_trace.h>
+ // Add new monitors based on CONFIG_HA_MON_EVENTS_ID here
  
  #endif
- 
-diff --git a/tools/verification/models/sched/opid.dot b/tools/verification/models/sched/opid.dot
-index 840052f6952b..511051fce430 100644
---- a/tools/verification/models/sched/opid.dot
-+++ b/tools/verification/models/sched/opid.dot
-@@ -1,35 +1,13 @@
- digraph state_automaton {
- 	center = true;
- 	size = "7,11";
--	{node [shape = plaintext, style=invis, label=""] "__init_disabled"};
--	{node [shape = circle] "disabled"};
--	{node [shape = doublecircle] "enabled"};
--	{node [shape = circle] "enabled"};
--	{node [shape = circle] "in_irq"};
--	{node [shape = circle] "irq_disabled"};
--	{node [shape = circle] "preempt_disabled"};
--	"__init_disabled" -> "disabled";
--	"disabled" [label = "disabled"];
--	"disabled" -> "disabled" [ label = "sched_need_resched\nsched_waking\nirq_entry" ];
--	"disabled" -> "irq_disabled" [ label = "preempt_enable" ];
--	"disabled" -> "preempt_disabled" [ label = "irq_enable" ];
--	"enabled" [label = "enabled", color = green3];
--	"enabled" -> "enabled" [ label = "preempt_enable" ];
--	"enabled" -> "irq_disabled" [ label = "irq_disable" ];
--	"enabled" -> "preempt_disabled" [ label = "preempt_disable" ];
--	"in_irq" [label = "in_irq"];
--	"in_irq" -> "enabled" [ label = "irq_enable" ];
--	"in_irq" -> "in_irq" [ label = "sched_need_resched\nsched_waking\nirq_entry" ];
--	"irq_disabled" [label = "irq_disabled"];
--	"irq_disabled" -> "disabled" [ label = "preempt_disable" ];
--	"irq_disabled" -> "enabled" [ label = "irq_enable" ];
--	"irq_disabled" -> "in_irq" [ label = "irq_entry" ];
--	"irq_disabled" -> "irq_disabled" [ label = "sched_need_resched" ];
--	"preempt_disabled" [label = "preempt_disabled"];
--	"preempt_disabled" -> "disabled" [ label = "irq_disable" ];
--	"preempt_disabled" -> "enabled" [ label = "preempt_enable" ];
-+	{node [shape = plaintext, style=invis, label=""] "__init_any"};
-+	{node [shape = doublecircle] "any"};
-+	"__init_any" -> "any";
-+	"any" [label = "any", color = green3];
-+	"any" -> "any" [ label = "sched_need_resched;irq_off == 1\nsched_waking;irq_off == 1 && preempt_off == 1" ];
- 	{ rank = min ;
--		"__init_disabled";
--		"disabled";
-+		"__init_any";
-+		"any";
- 	}
- }
+diff --git a/tools/verification/models/deadline/nomiss.dot b/tools/verification/models/deadline/nomiss.dot
+new file mode 100644
+index 000000000000..81d7028cfc3b
+--- /dev/null
++++ b/tools/verification/models/deadline/nomiss.dot
+@@ -0,0 +1,23 @@
++digraph state_automaton {
++	center = true;
++	size = "7,11";
++	{node [shape = plaintext, style=invis, label=""] "__init_running"};
++	{node [shape = doublecircle] "running"};
++	{node [shape = circle] "running"};
++	{node [shape = circle] "sleeping"};
++	{node [shape = circle] "throttled"};
++	"__init_running" -> "running";
++	"running" [label = "running\nclk < DEADLINE_LEFT_NS()", color = green3];
++	"running" -> "running" [ label = "sched_switch_in\nsched_wakeup" ];
++	"running" -> "sleeping" [ label = "sched_switch_suspend" ];
++	"running" -> "throttled" [ label = "dl_throttle" ];
++	"sleeping" [label = "sleeping"];
++	"sleeping" -> "running" [ label = "sched_wakeup;reset(clk)" ];
++	"throttled" [label = "throttled"];
++	"throttled" -> "running" [ label = "sched_switch_in\nsched_wakeup;reset(clk)" ];
++	"throttled" -> "throttled" [ label = "sched_switch_suspend\ndl_throttle" ];
++	{ rank = min ;
++		"__init_running";
++		"running";
++	}
++}
+diff --git a/tools/verification/models/deadline/throttle.dot b/tools/verification/models/deadline/throttle.dot
+new file mode 100644
+index 000000000000..2477115aa286
+--- /dev/null
++++ b/tools/verification/models/deadline/throttle.dot
+@@ -0,0 +1,43 @@
++digraph state_automaton {
++	center = true;
++	size = "7,11";
++	{node [shape = circle] "armed"};
++	{node [shape = circle] "armed_throttled"};
++	{node [shape = circle] "preempted"};
++	{node [shape = circle] "preempted_throttled"};
++	{node [shape = plaintext, style=invis, label=""] "__init_running"};
++	{node [shape = doublecircle] "running"};
++	{node [shape = circle] "running"};
++	{node [shape = circle] "throttled"};
++	"__init_running" -> "running";
++	"armed" [label = "armed"];
++	"armed" -> "armed" [ label = "dl_replenish\ndl_defer_arm" ];
++	"armed" -> "armed_throttled" [ label = "dl_throttle" ];
++	"armed" -> "preempted" [ label = "sched_switch_out" ];
++	"armed" -> "running" [ label = "sched_switch_in;reset(clk)" ];
++	"armed_throttled" [label = "armed_throttled"];
++	"armed_throttled" -> "armed" [ label = "dl_replenish" ];
++	"armed_throttled" -> "armed_throttled" [ label = "dl_defer_arm\ndl_throttle;yielded==1" ];
++	"armed_throttled" -> "preempted_throttled" [ label = "sched_switch_out" ];
++	"preempted" [label = "preempted"];
++	"preempted" -> "armed" [ label = "dl_defer_arm" ];
++	"preempted" -> "preempted" [ label = "dl_replenish\nsched_switch_out" ];
++	"preempted" -> "running" [ label = "sched_switch_in;reset(clk)" ];
++	"preempted_throttled" [label = "preempted_throttled"];
++	"preempted_throttled" -> "armed_throttled" [ label = "dl_defer_arm" ];
++	"preempted_throttled" -> "preempted" [ label = "dl_replenish" ];
++	"preempted_throttled" -> "preempted_throttled" [ label = "sched_switch_out" ];
++	"running" [label = "running\nclk < runtime_left_ns()", color = green3];
++	"running" -> "armed" [ label = "dl_defer_arm" ];
++	"running" -> "preempted" [ label = "sched_switch_out" ];
++	"running" -> "running" [ label = "dl_replenish;reset(clk)\nsched_switch_in" ];
++	"running" -> "throttled" [ label = "dl_throttle" ];
++	"throttled" [label = "throttled"];
++	"throttled" -> "armed_throttled" [ label = "dl_defer_arm" ];
++	"throttled" -> "preempted_throttled" [ label = "sched_switch_out" ];
++	"throttled" -> "running" [ label = "dl_replenish;reset(clk)" ];
++	{ rank = min ;
++		"__init_running";
++		"running";
++	}
++}
 -- 
 2.50.1
 
