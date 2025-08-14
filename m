@@ -1,373 +1,278 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4282FD7CE;
-	Thu, 14 Aug 2025 10:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755168734; cv=none; b=Ogg5BZvdVxilQ3whOtcuCTbZPjX6MmmNJF4Ln/qI4ZOYWBRXAyKjHsJaciMGq/qVLgHKFeQdt/5NpHMciJYNE0T14RYqe0VF/2PV8TUir84MnJh5mGZtbm53kVluZzfy9bxtAMkH6wYNk4XWfzFbaA64sXWWPt+ckkUuwPS5ZJA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755168734; c=relaxed/simple;
-	bh=VjTUeKO5DzaMDYjeEYA5iF9+wACGlLhG3F60oh75hSc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NYUe2u+/WaFi7Z75pRLkoLNYWloswjojJahCtvy42IaKwHn75ltFKyw89ZHjcyrYTxUioC8tzZYWsoR5fO+n3EP704xnhklKdggFlyoCmJQ1bqWWJQz13izrxTH6BZvB9SfQhoYnVKmEIe6JgmqhgsyKxPFL7ARFkZ2Su9lBZTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNC14W8A; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BBE2EA472;
+	Thu, 14 Aug 2025 10:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755168862; cv=fail; b=YLOflRZyd06ln/qtRxnvbUdSM+hDy+CV42tHx8JLRI6/F7kufYlp2/LTd/PVIR4aQ76VCoqR5ckuLLq00QX4wcon1pcILTLD7x2WI2DaBKPSb+dvAOo9p79K8iJ0S+JoTn/2k94oRV8fhaTadKW0EvN3AC8zCbr8fKoUDwWU6Dg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755168862; c=relaxed/simple;
+	bh=M2kvHoIH8snp9lpKY9jjR07Gwseg9Ln+S5HMgEzuvTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=C5SAviX+61GSnsQAzWfge3ds/m/qCjTLCsBmZTBfNHa/zlPm6E01UvzVtg3AHqiGmxDv58g2/J+k4Oef4yGH8zUJ3zaVIpq2UH2Xiz68jj7DsGWD1obMEpZ/34T29n9tzTK41amfZDTNah2mCsiuS4pWS/cQ9axyGUZTdH0hxQc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=khbI4eAe; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=AuswNU4Y; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNC14W8A"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E7AFEC116C6;
-	Thu, 14 Aug 2025 10:52:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755168734;
-	bh=VjTUeKO5DzaMDYjeEYA5iF9+wACGlLhG3F60oh75hSc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=KNC14W8A5+6rwWWaCK9IhSljuFwveZUwinNedHP00BVcepgDPA4wXkp25ondA5jva
-	 SV53cOvY+B/7vguHcR2O8c7Jau9CvTUI/zp0avRrZVZYT2e5S8KMzdKHYZA/zaSFoA
-	 v1RRNaOLF3yn5TZIERTNURzaM8iEGzleR46TF9iq6Lmr/yC82vXMIs5gcOgqrwyCdz
-	 lHweWuY+FXUr3sTdHefKaWbq11ynPfpWPm2hjIQDHhoI23xVLLGLTrqdPHulo6Br47
-	 WYDj6w8UAY6cMk+APct9yHVJr+Hv/2zC5jhzpwh+2xWgMhLsrBoJcBhBHZOzyYMHMl
-	 vnGZZ/bgbk6xg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBCECA0EDC;
-	Thu, 14 Aug 2025 10:52:13 +0000 (UTC)
-From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
-Date: Thu, 14 Aug 2025 11:52:28 +0100
-Subject: [PATCH 6/6] gpio: gpio-ltc4283: Add support for the LTC4283 Swap
- Controller
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="khbI4eAe";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="AuswNU4Y"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57EApSwT011888;
+	Thu, 14 Aug 2025 10:53:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=X8A0eZeqKNHXpPiBX3
+	4++i4wMwxlVCyeV2C92yL4krI=; b=khbI4eAedofj5gtHRzEhoOSVMbAqgdG8Hg
+	Lmo/LF3U0IlgA9WBqQilPcF1BUg2QAgy2OLilvzuzGzdti/Nl9d4qd2zYbCws2Bt
+	vFUD3TyMcazPwaT/rFcV8lTCIk95oCaf5HubbX7qrJh9zi5gKdbPJAFQ50JYhfhB
+	NBSpeDTfGliorpMUlyeOSxnb6FeWD+waMvw+JGq2YaJpB8P9mabWE8cvYY/eNxtZ
+	0FCQCXsgpxeVAgCrEs9ASwyD2iHqPZKZMc3EPFxiuIDgC27Kny7o+h33v8LOukli
+	SmtdJahHTLnTtoXfb2McqaKzdkYmwMlV1CG3d+iKTP6pXxLWiwCg==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48dvx4hp10-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 14 Aug 2025 10:53:31 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57E92v8s030165;
+	Thu, 14 Aug 2025 10:53:30 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12on2086.outbound.protection.outlook.com [40.107.243.86])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48dvsckmt4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 14 Aug 2025 10:53:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xBFFcObEW7wwa9EuCYpfnNndXhsFpzkOaIpcZE5ErS33f2AFb6iCf3eiAO33Sajgd/fPzhvQS/9yDxtAEhVvr8EB5u12cULPEqhkxr05So7ttM2UZ2aTz3ixeI1bVF+PHmCwRrraCuSb/TcmdFGsdtimppgHed0v+Dna97FCFNEXGCTC92+Nn99YYCZxofGkSjPMIlz7Mlwb78QzoNkUPWCxUv6JNvNshHRqvkM7LYgerCK4o7rkw+eIa0uirhYFnadlLOBIAw1gW9YeeOvku5poBZz2KcmpHgcxIcdHsQlx5ESQOyyb7pdzZOkYrQXKlqmlt0P/+0sklsUo3vvaOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X8A0eZeqKNHXpPiBX34++i4wMwxlVCyeV2C92yL4krI=;
+ b=vwf4UoGNtabfP9Ixb5n5bg8IP7RbPTElhrQhbrr3k58OjlC7keK0MyiwU9Q2gjXpDD1Am2EKDmTAfdNvXouRPDGGhVVh6c+3vYGbXMMftnbLTLsRI/K4Z7weTpUpFWSadBHSrCbArewEqk82nudWqeU/IrBn8q2NoveBXxiRQHp1dz3hojN97DHAIHVTEtCjFb+j+WfYO4oIPUaNCfF5OYSK+K60tsU60SoY6ng9x3qCGImwuP79SjbL/8tIoFJP7fgWbTfxgUGfb5tUB4+KkcWrOv4HrxjdmItVMdT3Akl1AD5vJhxdcYwx7ADbh2JJ8LuwfP9bI7kvFx9pmZ69TQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X8A0eZeqKNHXpPiBX34++i4wMwxlVCyeV2C92yL4krI=;
+ b=AuswNU4YnbilsWjVc8K+zJU0V/Npy80jVH9GkUOB9vnX0duTYhzHTt4h3LpdS/hZCaUr0PbtFeN93UqmAAVTd9dO1XLUczMJ4xj73HHVFEGcOlINLknx3zNf7dQtwxebVbQZjPsEG2eRZzCPqzQw/x6q1VRw4dj5FhMmEL7YXPY=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by CYXPR10MB7897.namprd10.prod.outlook.com (2603:10b6:930:da::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.14; Thu, 14 Aug
+ 2025 10:53:08 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
+ 10:53:08 +0000
+Date: Thu, 14 Aug 2025 11:53:05 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
+        surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
+        baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
+        ziy@nvidia.com, laoar.shao@gmail.com, dev.jain@arm.com,
+        baolin.wang@linux.alibaba.com, npache@redhat.com,
+        Liam.Howlett@oracle.com, ryan.roberts@arm.com, vbabka@suse.cz,
+        jannh@google.com, Arnd Bergmann <arnd@arndb.de>, sj@kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@meta.com, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v4 7/7] selftests: prctl: introduce tests for disabling
+ THPs except for madvise
+Message-ID: <a8b0eb8d-442e-4cfc-ab79-3c6bc6a86ff0@lucifer.local>
+References: <20250813135642.1986480-1-usamaarif642@gmail.com>
+ <20250813135642.1986480-8-usamaarif642@gmail.com>
+ <13220ee2-d767-4133-9ef8-780fa165bbeb@lucifer.local>
+ <bac33bcc-8a01-445d-bc42-29dabbdd1d3f@redhat.com>
+ <5b341172-5082-4df4-8264-e38a01f7c7d7@lucifer.local>
+ <1ff24f1b-7ba2-4595-b3f6-3eb93ea5a40d@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1ff24f1b-7ba2-4595-b3f6-3eb93ea5a40d@gmail.com>
+X-ClientProxiedBy: GV3PEPF0000366D.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:401::390) To BL4PR10MB8229.namprd10.prod.outlook.com
+ (2603:10b6:208:4e6::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250814-ltc4283-support-v1-6-88b2cef773f2@analog.com>
-References: <20250814-ltc4283-support-v1-0-88b2cef773f2@analog.com>
-In-Reply-To: <20250814-ltc4283-support-v1-0-88b2cef773f2@analog.com>
-To: linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>, 
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755168753; l=9063;
- i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=086cCq1l2Tj2mWktUEYQQ1Yx2N11Tx954i757Fp6GS8=;
- b=Df5+LPzwO2GllKw5IVHwHmIpshDRP7srrKtkaqLHYV1ft7YNDZPrlSvKEbke84e1zjoZSC5b0
- 6t0oRmMZgtUCrFQnOxeoKq6LZdpMz+gqwyUXt0HM1dMTCJAI/vWAGZa
-X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
- pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
-X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
- auth_id=100
-X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
-Reply-To: nuno.sa@analog.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|CYXPR10MB7897:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35d111f7-fa1e-4a9c-9d61-08dddb20c086
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?RYwRnQ8N2TvfSH55K4W94Gc1PezQPZlDcHkBVbqyhQVK08hHTe2ImxCk328W?=
+ =?us-ascii?Q?JCEDHUJ6PxlqJ2hm5fmLhTQhm2nRwSPH0/+0UgzVl4aoq41LLxu29vPbyonI?=
+ =?us-ascii?Q?YYm/bfTLEEBXXkOxTuy6km+co4+66FCGBT+OdZI4VueYEaosMWSC3cUAx8AX?=
+ =?us-ascii?Q?68yK9Onz9MSos3o+n13hj8jGmTWIIQxhHcUyyaKcESxZd1Rtu194jj6mMXFf?=
+ =?us-ascii?Q?SsUfGBjggfgGuqi/r45OiMuQVjK87xxtqUbJABc0OQbD6GjghSlZO2nxPpg6?=
+ =?us-ascii?Q?gQnq3n9Le9haSY4j1DA5T6gebTJhgmroZB0fZSGPMYcK0QaPBBiK/+J2KRK1?=
+ =?us-ascii?Q?TTfxnqUaka/g847zkfUlY/7t878ghNoauShWoOzhskpH1kS7V0vkuCeJhUB1?=
+ =?us-ascii?Q?ZRH+7iWJ56PsSSYJsPPGCJ5FWr++4drjJAHufYZK+qDQpU8p8WCxr6ZkmkfE?=
+ =?us-ascii?Q?l0W5C4lYEGmUpg5iCQijfJWFBJinXz+XA59Snkqosd3jhlHy8zHkB9n3N9bh?=
+ =?us-ascii?Q?D9gZ5tBnttN7Qyxx1z/FeaN4OqLITrQ2dD2F1vBPn2EBjq1qhr6BFjIWnmlB?=
+ =?us-ascii?Q?5SQ2pnqGMSrSZmBdiFhUEP3QAPNim/sCi7y8ZAZb74v/D7DkGTUj4Dw9X/GT?=
+ =?us-ascii?Q?pgglU2Fv0GAXhtOcksXRxCQ8gYGZ/OtJtMe71WOpFqBQ4y5PHz6XEQKqpkid?=
+ =?us-ascii?Q?H4SRgKExg64JYPxsSi86fJ0QBNOGOy7JQ3oNLpWEPmaIcZNkE9S6gHfpZlDY?=
+ =?us-ascii?Q?SrR8DMoxJVf77+z4MpsmukAMjW4HXqgd5uzngncvoZiIreqkfq8I1nM/fbnB?=
+ =?us-ascii?Q?YA10Pd3fJtbYqLZEqDgYV9SY6yCh6/kYT/ZXsyJhQ81M144PVTJPDWyM5pxE?=
+ =?us-ascii?Q?xatAD9BS/TTqHoYOJ76nEfsoXK9M77Osm33+0hGutlfzxYBxEpTbkvOquyPL?=
+ =?us-ascii?Q?fahWGDt6GDTGRoWq4Nr1pxHDHMR0v2xYZ5GwkDTi3OCeMN/sa8wQAVPy8iSn?=
+ =?us-ascii?Q?un1iW3LiadLJ4LKMkPY3WZJxKNbCzmi/yA+xx2YtfQQFn0VytjtFtaaYP25N?=
+ =?us-ascii?Q?qbUk9G4ePrAXEc7feS/gsDoHGP192Dm9sqdYdKjKQdbpJA9DAfnAu5IJKIO3?=
+ =?us-ascii?Q?diEYltnMvlqj3IRzinSVcTDNwKDepYcZREevHD62cjLkyXB9IU9A6nQRb0Oc?=
+ =?us-ascii?Q?/uHL9IlBaigB+3gaPpITN/C9bgXMtqpbNspXWUMMXMijtKVkHHfmt3452e3X?=
+ =?us-ascii?Q?MnoJtDLGhcc79x/tLkMgpQBxI5Osj+ky2EoOBpUHi2px/gmd+F2sHQUg7wNq?=
+ =?us-ascii?Q?MolV7TVGjGkDwbbzQz/jzMsBJIpvcoCOqA+CR+wmtW17Vkf5To4eWkQSs3yW?=
+ =?us-ascii?Q?eleLbv6OigL0pbviUTzw8Qzhoaq4R7eYDjJs57m8ELWDUPIrFxGWpl3gZl51?=
+ =?us-ascii?Q?0ymt8okWQk0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VHbuk6Fj9mqUxNgshjAgOZugRnhIp9cdvc32PYas18HKNJpeQVeaSWJYiK/m?=
+ =?us-ascii?Q?+PJ6/16eoBMhugpDAOAr7yLfldaEMr4EoPbNWsIGd2lbjezYPyJL4iDoeDk3?=
+ =?us-ascii?Q?OkTaeIkl85G7c09+GBNOZjp5cFZOxVSuFPmF0plCyqLqQSsaIUgmdb91L4dk?=
+ =?us-ascii?Q?k+LS1+8+sos54/hFMZlaeQntBS/lmuEmlLXsTn6Uz7dzNXt7HytRXGBzYm3Z?=
+ =?us-ascii?Q?fzzSprGohQ9CWwhJeQab9O6qfl0Rxz53A04qXFvYF8z2fl0XnK4GvaSklCDn?=
+ =?us-ascii?Q?NlapC11FB1NEmlo46PKPowlFQ9ZXHCFR3NFkirm0WKuPm48rM/16jaIV7PC3?=
+ =?us-ascii?Q?QU/EIsG8k1/My+mVPGP+Tw2V8kszHbmYQjS4hishm/ew+9Tf3Wq3m+iUkgre?=
+ =?us-ascii?Q?5rrptT1t5ttVZcOk1hlRmCdqrdvqqpsstmZmeDyTPpHWh1lWT1ywd05RrZoG?=
+ =?us-ascii?Q?YY/Jzm2n09irmr9Ck3DZckfoTJrHBiFnJgH/KP1N0gyxcEqWXrkknUydDMDf?=
+ =?us-ascii?Q?yY0Vst431vVsT3+DWu3+uQNzKqh9a/wHvEe8rx8htN5YYSyYk5uVe4V5ARhG?=
+ =?us-ascii?Q?30B4k+sEWmFhrjccgAEKaRcAi/D8uxSmRFV/oVwmYUYF0FHaoc5c9b8bd23d?=
+ =?us-ascii?Q?cNpmSD5wq8lNDUShZEUmNcvoqbIaB1lC7jsD1C5eFMDFxSIVHV3LINXj0+ra?=
+ =?us-ascii?Q?YSZknSC3VXVIz8pYFwDKwQtsFR6pD9XCpTG3p1Pm8PmlWgOoJP47MsTHOMvn?=
+ =?us-ascii?Q?jE8O6cPsNFZ5CkWfT7sNCOkLhTARZLWpKJ+OjzRlpO8OBDosakhJv9xAw7kc?=
+ =?us-ascii?Q?Mh3kVDXBDXospwIpEqtgxtQlpf24AX1eaO5CPYGhUwJkinMiT/yODzrUQqEc?=
+ =?us-ascii?Q?edK2BYUdTNoDDxNppfZInbewV/rRr922Q0iPfrSuqB3VtwGVBRpI8IC6tiUc?=
+ =?us-ascii?Q?zK4xv55ebDvKEEjxHnvKSY+pGeNE9LVjB3MsNa1lmaUZ8eQUJyj0lOdM/yxA?=
+ =?us-ascii?Q?w/wjkp+EoneGKbeLjun9ZCMiGAt4D2SoVe2FahnI+lfkRpZcHKasQcyLIliQ?=
+ =?us-ascii?Q?pajkLb1/muqRbdL9aKpiFhQtmo4OE89ZF64m8fNTGoCzGScrEY8IuuvE9hEU?=
+ =?us-ascii?Q?bQT291f9NhQTf158NJze7tUbC8hjkCWALN+aAEJEMUtjHJjHxmXfdpnKzJD1?=
+ =?us-ascii?Q?KP2q6ur4npHXHQk0YzQVJNYZGYx9JRF7aRBjhlQHP9XBr4vj4a4TcADuSmkF?=
+ =?us-ascii?Q?0dCBhCSeI7nT/95XLzjzRkMLo7/w6NWX1R9d/ZtSJaExqeGBlAwXyH9jASTh?=
+ =?us-ascii?Q?ly7Q6uTtR+/qhIyLsjX5Bo4bx4BrnWjVjQUPONungF9pkuMb8/wN51PO8Q8U?=
+ =?us-ascii?Q?MnBuKhEaXlyYedTxEcrgvbaCq1SLboxbLNT/YcaqdPy+12kNDaSfNcooX6tM?=
+ =?us-ascii?Q?IZRwOSHhWiXX+TNJ7kcZLRBm8CccozE6X4tnDBpW5ZKEHsCR//Cl86b6EtN0?=
+ =?us-ascii?Q?YBjg45DHAq5//xLVN+iSuEGuUuUHjQGzrTLTWpfDRgjtlJZfSV00wMpkWh/C?=
+ =?us-ascii?Q?8lSfoia4P96jjg30yxfleyFQB+VO+2PQE3/omW/ehqXaPJ1knuADeSF1+xEJ?=
+ =?us-ascii?Q?1g=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	C0kph4ZzCtvN7LatTiaT6xZd5TtjIhogdKctfNhtV/B+NceKmTfA+evQWREqVj6ExsLmbeeMmuxp20d3+zds1azsvynzWuOGN/QBESYpfwlDOf2e9XDZyohwZLbai5PIJAkBy3lrwjRYdamtPeDt0uzPPlNr3nOSxejgbxglDS4j6LSc/gpJTyJQYdlVPvonvkQ3d5zXg3mQeLQs76shQi1QWB58iO6tyF0vzjDakCLW/+OrfMv8z/7WUoM8b5mAV7xm4JrtIFtT5MdbhDVhVhgVwfpQjGCKzH9exjYjfObZ1qZvNxj/VNZSALgYW1FtoRpKboA8kFTEwDSU5MIPDLJPA4wTQmVMAtAMS4ZlmiLhGu4W6JOozAPOjtmz53EKSwGX9v4fkkg5Wwk/Peycj8oMuI/fttjE1ozB2OOgPDU1bPOL0qBGHiQtgAXvmEjvUVOWrx2XJgKcJJku2z9m98V5D6w0Lcvc7rMiSqqeFPcpAFj/DhKI+5n2IZhefL4/s167slzptJhm1lpdght4lvSE0dmKQOhrtk4PbDJmpN6ggVT9XUI8sQt280P5Er+vsAR44WAz2S7Y/rAgnwpbHo/5AdeJt1yRjDUKcdLVxEM=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35d111f7-fa1e-4a9c-9d61-08dddb20c086
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 10:53:08.0765
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ldG9fpzHSxe+ofO5waw+6WLb2WVuSFvy4sGDlLA+PySyYhBzD2V6S3buy8XbSpEy5Pc9dC8mxjJmUnbeczyOiTRUHIW2l+IGIWTM7Rplx4c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR10MB7897
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0
+ adultscore=0 mlxscore=0 bulkscore=0 spamscore=0 mlxlogscore=901
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2507300000 definitions=main-2508140090
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE0MDA5MCBTYWx0ZWRfX3uLps3jB3I1/
+ L9FmZLRPMEFCTfW6M9WkH9zF1fL9Tl2+mMT29T82YiDdCJMW6IPPPleIFdAufcX3OyW9HbOzzko
+ RzHZbHXhxukQsInqxgq7n3lpCktoc5v8RpaeMqsC1e7QdiT1s4aNNNWTxErNtyRztaFi3C0H2xC
+ kM+C/zxOOGqK98dwVh1khnuBRorF3Hb3yvPAAWPXXRhKh/JnTRDn/wrwSc4K5nhOPeUqFNA31vZ
+ P5qZ9fuAlWDeMq02iQBdNizQjS9b9d7l23wusC7oZWEr+gzee957nsRzS0wh6xlwgNPl0cQwZZb
+ sXWuskiGvRGDkj+Q/UiP/8e3NqWr4OAcReCNCod3tFRNni7V1MkWwgoGZuBty12YxO2yJGz3YA9
+ 558r+fw8+oek+X5ZzM4x4xYgqV2YeGuKh2INlV6JkvFJpClL/iGS1+bPpCogHMwQn0D7CzMN
+X-Authority-Analysis: v=2.4 cv=eIsTjGp1 c=1 sm=1 tr=0 ts=689dc02b cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=VwQbUJbxAAAA:8 a=20KFwNOVAAAA:8
+ a=iH-G_q8OMZp2NVMiAZAA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: AUvtNaofHr5x6NQGXsOAMyEZx0XucipP
+X-Proofpoint-ORIG-GUID: AUvtNaofHr5x6NQGXsOAMyEZx0XucipP
 
-From: Nuno Sá <nuno.sa@analog.com>
+On Thu, Aug 14, 2025 at 11:36:51AM +0100, Usama Arif wrote:
+>
+>
+> On 13/08/2025 19:52, Lorenzo Stoakes wrote:
+> > On Wed, Aug 13, 2025 at 06:24:11PM +0200, David Hildenbrand wrote:
+> >>>> +
+> >>>> +FIXTURE_SETUP(prctl_thp_disable_except_madvise)
+> >>>> +{
+> >>>> +	if (!thp_available())
+> >>>> +		SKIP(return, "Transparent Hugepages not available\n");
+> >>>> +
+> >>>> +	self->pmdsize = read_pmd_pagesize();
+> >>>> +	if (!self->pmdsize)
+> >>>> +		SKIP(return, "Unable to read PMD size\n");
+> >>>> +
+> >>>> +	if (prctl(PR_SET_THP_DISABLE, 1, PR_THP_DISABLE_EXCEPT_ADVISED, NULL, NULL))
+> >>>> +		SKIP(return, "Unable to set PR_THP_DISABLE_EXCEPT_ADVISED\n");
+> >>>
+> >>> This should be a test fail I think, as the only ways this could fail are
+> >>> invalid flags, or failure to obtain an mmap write lock.
+> >>
+> >> Running a kernel that does not support it?
+> >
+> > I can't see anything in the kernel to #ifdef it out so I suppose you mean
+> > running these tests on an older kernel?
+> >
+>
+> It was a fail in my previous revision
+> (https://lore.kernel.org/all/9bcb1dee-314e-4366-9bad-88a47d516c79@redhat.com/)
 
-The LTC4283 device has up to 8 pins that can be configured as GPIOs.
+Well it seems it's a debate between me and David then haha :P sorry.
 
-Note that PGIO pins are not set as GPIOs by default so if they are
-configured to be used as GPIOs we need to make sure to initialize them
-to a sane default. They are set as inputs by default.
+This is a bit of a trivial thing I'm just keen that bugs don't get accidentally
+missed because of skips, that's the most important thing I think.
 
-Signed-off-by: Nuno Sá <nuno.sa@analog.com>
----
- MAINTAINERS                 |   1 +
- drivers/gpio/Kconfig        |  10 ++
- drivers/gpio/Makefile       |   1 +
- drivers/gpio/gpio-ltc4283.c | 233 ++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 245 insertions(+)
+>
+> I do believe people (including me :)) get the latest kernel selftest and run it on
+> older kernels.
+> It might not be the right way to run selftests, but I do think its done.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e492e75833564bd9065fe2422e86479553ea59dd..ae45c190920930ebe8890610bd7f92bd628ad025 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14508,6 +14508,7 @@ S:	Supported
- F:	Documentation/devicetree/bindings/gpio/adi,ltc4283.yaml
- F:	Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
- F:	Documentation/devicetree/bindings/mfd/adi,ltc4283.yaml
-+F:	drivers/gpio/gpio-ltc4283.c
- F:	drivers/hwmon/ltc4283-hwmon.c
- F:	drivers/mfd/ltc4283.c
- F:	include/linux/mfd/ltc4283.h
-diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index e43abb322fa6e15f19f2f498aa5adea03e6cd3bf..fe1cd8c1a2f7f012ece0f207552fd1f15df26b1d 100644
---- a/drivers/gpio/Kconfig
-+++ b/drivers/gpio/Kconfig
-@@ -461,6 +461,16 @@ config GPIO_LPC32XX
- 	  Select this option to enable GPIO driver for
- 	  NXP LPC32XX devices.
- 
-+config GPIO_LTC4283
-+	tristate "Analog Devices LTC4283 GPIO support"
-+	depends on MFD_LTC4283
-+	help
-+	  If you say yes here you want the GPIO function available in Analog
-+	  Devices LTC4283 Negative Voltage Hot Swap Controller.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called gpio-ltc4283.
-+
- config GPIO_MB86S7X
- 	tristate "GPIO support for Fujitsu MB86S7x Platforms"
- 	help
-diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-index 379f55e9ed1e69cd9c5745f8643541b85953db1c..513f2b5c82ccff3a1da855d45abb5ad6abf5a14e 100644
---- a/drivers/gpio/Makefile
-+++ b/drivers/gpio/Makefile
-@@ -99,6 +99,7 @@ obj-$(CONFIG_GPIO_LP873X)		+= gpio-lp873x.o
- obj-$(CONFIG_GPIO_LP87565)		+= gpio-lp87565.o
- obj-$(CONFIG_GPIO_LPC18XX)		+= gpio-lpc18xx.o
- obj-$(CONFIG_GPIO_LPC32XX)		+= gpio-lpc32xx.o
-+obj-$(CONFIG_GPIO_LTC4283)		+= gpio-ltc4283.o
- obj-$(CONFIG_GPIO_MACSMC)		+= gpio-macsmc.o
- obj-$(CONFIG_GPIO_MADERA)		+= gpio-madera.o
- obj-$(CONFIG_GPIO_MAX3191X)		+= gpio-max3191x.o
-diff --git a/drivers/gpio/gpio-ltc4283.c b/drivers/gpio/gpio-ltc4283.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..c2c454c3b6e4ab0fe315dafc7eb66c45c3ceae67
---- /dev/null
-+++ b/drivers/gpio/gpio-ltc4283.c
-@@ -0,0 +1,233 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Analog Devices LTC4283 GPIO driver
-+ *
-+ * Copyright 2025 Analog Devices Inc.
-+ */
-+#include <linux/bitmap.h>
-+#include <linux/bits.h>
-+#include <linux/device.h>
-+#include <linux/gpio/driver.h>
-+#include <linux/mfd/ltc4283.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#define LTC4283_INPUT_STATUS			0x02
-+#define LTC4283_PGIO_CONFIG_2			0x11
-+
-+#define LTC42823_ADIO_CONFIG			0x12
-+/* starts at bit 4 */
-+#define   LTC4283_ADIOX_CONFIG_MASK(pin)	BIT((pin) + 4)
-+#define LTC4283_PGIO_DIR_IN			3
-+
-+struct ltc4283_gpio {
-+	struct gpio_chip gpio_chip;
-+	struct regmap *regmap;
-+};
-+
-+static int ltc4283_pgio_get_direction(const struct ltc4283_gpio *st, unsigned int off)
-+{
-+	unsigned int val;
-+	int ret;
-+
-+	ret = regmap_read(st->regmap, LTC4283_PGIO_CONFIG, &val);
-+	if (ret)
-+		return ret;
-+
-+	val = field_get(LTC4283_PGIO_CFG_MASK(off), val);
-+	if (val == LTC4283_PGIO_DIR_IN)
-+		return GPIO_LINE_DIRECTION_IN;
-+
-+	return GPIO_LINE_DIRECTION_OUT;
-+}
-+
-+static int ltc4283_gpio_get_direction(struct gpio_chip *gc, unsigned int off)
-+{
-+	struct ltc4283_gpio *st = gpiochip_get_data(gc);
-+	unsigned int val;
-+	int ret;
-+
-+	if (off >= LTC4283_PGIOX_START_NR)
-+		return ltc4283_pgio_get_direction(st, off);
-+
-+	ret = regmap_read(st->regmap, LTC42823_ADIO_CONFIG, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val & LTC4283_ADIOX_CONFIG_MASK(off))
-+		return GPIO_LINE_DIRECTION_IN;
-+
-+	return GPIO_LINE_DIRECTION_OUT;
-+}
-+
-+static int ltc4283_gpio_direction_set(const struct ltc4283_gpio *st,
-+				      unsigned int off, bool input)
-+{
-+	if (off >= LTC4283_PGIOX_START_NR) {
-+		unsigned int val;
-+
-+		val = field_prep(LTC4283_PGIO_CFG_MASK(off), input ? 3 : 2);
-+		return regmap_update_bits(st->regmap, LTC4283_PGIO_CONFIG,
-+					  LTC4283_PGIO_CFG_MASK(off), val);
-+	}
-+
-+	return regmap_update_bits(st->regmap, LTC42823_ADIO_CONFIG,
-+				  LTC4283_ADIOX_CONFIG_MASK(off),
-+				  field_prep(LTC4283_ADIOX_CONFIG_MASK(off), input));
-+}
-+
-+static int __ltc4283_gpio_set_value(const struct ltc4283_gpio *st,
-+				    unsigned int off, int val)
-+{
-+	u32 reg = off < LTC4283_PGIOX_START_NR ? LTC42823_ADIO_CONFIG : LTC4283_PGIO_CONFIG_2;
-+
-+	return regmap_update_bits(st->regmap, reg, BIT(off),
-+				  field_prep(BIT(off), !!val));
-+}
-+
-+static int ltc4283_gpio_direction_input(struct gpio_chip *gc, unsigned int off)
-+{
-+	struct ltc4283_gpio *st = gpiochip_get_data(gc);
-+
-+	return ltc4283_gpio_direction_set(st, off, true);
-+}
-+
-+static int ltc4283_gpio_direction_output(struct gpio_chip *gc, unsigned int off, int val)
-+{
-+	struct ltc4283_gpio *st = gpiochip_get_data(gc);
-+	int ret;
-+
-+	ret = ltc4283_gpio_direction_set(st, off, false);
-+	if (ret)
-+		return ret;
-+
-+	return __ltc4283_gpio_set_value(st, off, val);
-+}
-+
-+static int ltc4283_gpio_get_value(struct gpio_chip *gc, unsigned int off)
-+{
-+	struct ltc4283_gpio *st = gpiochip_get_data(gc);
-+	unsigned int val, reg;
-+	int ret, dir;
-+
-+	dir = ltc4283_gpio_get_direction(gc, off);
-+	if (dir < 0)
-+		return dir;
-+
-+	if (dir == GPIO_LINE_DIRECTION_IN) {
-+		ret = regmap_read(st->regmap, LTC4283_INPUT_STATUS, &val);
-+		if (ret)
-+			return ret;
-+
-+		/* ADIO1 is at bit 3. */
-+		if (off < LTC4283_PGIOX_START_NR)
-+			return !!(val & BIT(3 - off));
-+
-+		/* PGIO1 is at bit 7. */
-+		return !!(val & BIT(7 - (off - LTC4283_PGIOX_START_NR)));
-+	}
-+
-+	if (off < LTC4283_PGIOX_START_NR)
-+		reg = LTC42823_ADIO_CONFIG;
-+	else
-+		reg = LTC4283_PGIO_CONFIG_2;
-+
-+	ret = regmap_read(st->regmap, reg, &val);
-+	if (ret)
-+		return ret;
-+
-+	return !!(val & BIT(off));
-+}
-+
-+static int ltc4283_gpio_set_value(struct gpio_chip *gc, unsigned int off, int val)
-+{
-+	struct ltc4283_gpio *st = gpiochip_get_data(gc);
-+
-+	return __ltc4283_gpio_set_value(st, off, val);
-+}
-+
-+static int ltc4283_init_valid_mask(struct gpio_chip *gc, unsigned long *valid_mask,
-+				   unsigned int ngpios)
-+{
-+	unsigned long *mask = dev_get_drvdata(gc->parent->parent);
-+
-+	bitmap_copy(valid_mask, mask, ngpios);
-+	return 0;
-+}
-+
-+static int ltc4283_gpio_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	/* Get mask from top level device. */
-+	unsigned long *mask = dev_get_drvdata(dev->parent);
-+	struct ltc4283_gpio *st;
-+	struct gpio_chip *gc;
-+	unsigned int gpio;
-+	int ret;
-+
-+	st = devm_kzalloc(dev, sizeof(*st), GFP_KERNEL);
-+	if (!st)
-+		return -ENOMEM;
-+
-+	st->regmap = dev_get_regmap(dev->parent, NULL);
-+
-+	gc = &st->gpio_chip;
-+	gc->parent = dev;
-+	gc->get_direction = ltc4283_gpio_get_direction;
-+	gc->direction_input = ltc4283_gpio_direction_input;
-+	gc->direction_output = ltc4283_gpio_direction_output;
-+	gc->get = ltc4283_gpio_get_value;
-+	gc->set = ltc4283_gpio_set_value;
-+	gc->init_valid_mask = ltc4283_init_valid_mask;
-+	gc->can_sleep = true;
-+
-+	gc->base = -1;
-+	gc->ngpio = LTC4283_GPIO_MAX;
-+	gc->label = pdev->name;
-+	gc->owner = THIS_MODULE;
-+
-+	for_each_set_bit(gpio, mask, LTC4283_GPIO_MAX) {
-+		if (gpio < LTC4283_PGIOX_START_NR)
-+			continue;
-+
-+		/*
-+		 * PGIO pins can have some other state other than input
-+		 * or output, so we need to make sure to set one of those.
-+		 * Default to input.
-+		 */
-+		ret = ltc4283_gpio_direction_set(st, gpio, true);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "Failed to set direction for PGIO %u\n", gpio);
-+	}
-+
-+	return devm_gpiochip_add_data(dev, &st->gpio_chip, st);
-+}
-+
-+static const struct platform_device_id ltc4283_gpio_id_table[] = {
-+	{ "ltc4283-gpio" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(platform, ltc4283_gpio_id_table);
-+
-+static const struct of_device_id ltc4283_of_id_table[] = {
-+	{ "adi,ltc4283-gpio" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ltc4283_of_id_table);
-+
-+static struct platform_driver ltc4283_gpio_driver = {
-+	.driver	= {
-+		.name = "ltc4283-gpio",
-+		.of_match_table = ltc4283_of_id_table,
-+	},
-+	.probe = ltc4283_gpio_probe,
-+	.id_table = ltc4283_gpio_id_table,
-+};
-+module_platform_driver(ltc4283_gpio_driver);
-+
-+MODULE_AUTHOR("Nuno Sá <nuno.sa@analog.com>");
-+MODULE_DESCRIPTION("GPIO LTC4283 Driver");
-+MODULE_LICENSE("GPL");
+People can do unsupported things, but then if it breaks that's on them to live
+with :)
 
--- 
-2.50.1
+>
+> > But this is an unsupported way of running self-tests, they are tied to the
+> > kernel version in which they reside, and test that specific version.
+> >
+> > Unless I'm missing something here?
+> >
+> >>
+> >> We could check the errno to distinguish I guess.
+> >
+> > Which one? manpage says -EINVAL, but can also be due to incorrect invocation,
+> > which would mean a typo could mean tests pass but your tests do nothing :)
+> >
+>
+> Yeah I dont think we can distinguish between the prctl not being available (i.e. older kernel)
+> and the prctl not working as it should.
+>
+> We just need to decide whether to fail or skip.
 
+I really think it's far worse to miss a bug in the code (or testing) than to
+account for people running with different kernels.
 
+>
+> If the right way is to always run selftests from the same kernel version as the host
+> on which its being run on, we can just fail? I can go back to the older version of
+> doing things and move the failure from FIXTURE_SETUP to TEST_F?
+
+Yeah I think it simply should just be a fail.
+
+Why would you move things around though? Think it's fine as-is, if something on
+setup fails then all tests should fail.
+
+Cheers, Lorenzo
