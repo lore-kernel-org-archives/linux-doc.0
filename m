@@ -1,157 +1,91 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C455D14A4F0;
-	Thu, 14 Aug 2025 01:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A242A231853;
+	Thu, 14 Aug 2025 01:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755136481; cv=none; b=U4RLME6ba4xM3bKsUlFJ4iwANlNUrfunY5wAJEvmUwGCsvcmowWyZVVsWPjKkFRhQRbudvfVCKOFEsLcZTwRgafxMHy5C/q1aR7/9hS1GJyu3NTX6StW/9FTu8BBCq/Wg/TE1CDF5BQWMHyEgAXypXkQg6NA8hXe5Lhc9zoE6d4=
+	t=1755136698; cv=none; b=udNDMMAG38yZhYQUiT/NFcd2GpMoDpX4tHXz9KwYV8J8Ad+rGUIvYsfzO54rE7lns5CeB9dcl8mFGZ6c6/zEKne/ecSXp1S1kg+YA++lUf50Iw3sKYamvSkcErD3yCH3wCn05Peh166Paly682oykySCVY62uTc1DVr2Gee2H8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755136481; c=relaxed/simple;
-	bh=Ac3maCaIZzqWgg+Pzfw4v81Zk72IU43wq9/V06+1a0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I8vmRMEcmanqcdQP3Duz/x5puIHe7Z/pTDpHso+UkgZVdmlSrW3wLIRCtkwoMpkQmav181FqFlAXgltXSsp6zrZ9Y/i5vHTw1PIKnufKJTxtLm7xIyjrS6d24gu61OLy7e4LTdZ1ucPKcLvvhaDZyBF0IE8ZjugPmALhZ5f/huQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz18t1755136417t11072677
-X-QQ-Originating-IP: m/6wtrsB7RUkOkSTUYXbZsMfDHOmwTUKxwgLbPBVHBI=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 14 Aug 2025 09:53:35 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12872293914549841660
-Date: Thu, 14 Aug 2025 09:53:35 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <3B3BFEBA13D607F2+20250814015335.GB1031326@nic-Precision-5820-Tower>
-References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-5-dong100@mucse.com>
- <eafb8874-a7a3-4028-a4ad-d71fc5689813@linux.dev>
- <9A6132D78B40DAFD+20250813095214.GA979548@nic-Precision-5820-Tower>
- <2ef60880-f85d-4a1a-b50c-9ea73fee70b0@linux.dev>
+	s=arc-20240116; t=1755136698; c=relaxed/simple;
+	bh=q2SGHb3APxGdMTmDmItq4Pu4zI6iiexqPHr9lgOY3DA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ej5YkK2itbnWaz+D0jLsJ9m6VGSg4JeKvQjIHtA44XTrpWXFDjftlpcMH5YgH8ukvf2r2sRMGPlZSoUiafRTJf3H4PK5OitYIeZLqgmv806dkibF0t31+3TKAZh8bldr5k2JQWsw5VZXsaYvBQJh93f5T4JtC10pa1Vvnj4FQDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MBsIxElx; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MBsIxElx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OULRM4aV2FRJFBE1gYMM0RJzh8b5jot7eoMGHtiCmGA=; b=MBsIxElxqbQMTdHrM6BcYWZ0+4
+	xcO7DUvbQHekl9JU9h0eEA/acArYZO0/c65dzpp7XBIumGFJqNYBpC68WOoKvWn8IZIeSjwbcvBQ2
+	Bfaag3Z/VQZqmKIdoz8T7OV2W/PKYme6DAPAtt1HIM13lNWvbZlyTRIuKd/2SKxU4kh81c3L2Zo9P
+	ytGu8bkFzPSKdQik9vbNYDAyKncI1gQIZTZJZzS79qYzN8z0qPjP/j8tp/WRh5RcgeYOHEr6tvUsD
+	fEAyXRTq8T+QfnRyP/OFBEYNw00YCRTnHjkdrpGp0T3hcQRPDyabtEoq9K0FC8+lYi3DwHYZ+35aS
+	iRTcK5Xg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umNEL-0000000FXu6-0gjV;
+	Thu, 14 Aug 2025 01:58:13 +0000
+Message-ID: <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
+Date: Wed, 13 Aug 2025 18:58:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ef60880-f85d-4a1a-b50c-9ea73fee70b0@linux.dev>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MIEbEOayU4LolvXP1In3pbish+h1dk16IWye5SafhIHhT2J+ADgvwF20
-	oFQR5rmIENmn3U3pkpeXEd120gltLulhAnMtiXrEPYsPIQ9aiNFn0cK5uXP10zjsz3MicqM
-	Bm786NKpYpTsV3cP8QoXTQiAvm1E8PXAw6mzX3Zz6MkoQ6nwinJbIsf34cnA0VLFT4ob5Rn
-	L5DDmU7mbQtxvuID866k1ujsihjPDb+QEnNjZJtUdi2djJt/vi8+SS6w8l2ks/+8CX8veZw
-	1axie63URi7E+cjXRJUfyQm4FBn0UaorHx843ISgtnXn549LvyS+YljfgrJYZj/4XsbBc6K
-	ag5aIQoZXXRQaVCo5HopTN8IehPlWE46P8iapCY100k3vQeDphcvq01tTkhzS+boIuj9d33
-	nwC77B9dv50OFeD8cwk3MYdj7ob0wD0FrVpZQ2u8CrkfvnbjRIxH7fybas1tbuVYZpUvEgZ
-	0ZIntOwGi0rDV/DA2Fdbuzy1OmhBGWIqX9t6Gd8L15F07BplNr/4+sSWolNSG6geoXKWOwl
-	CzHuxftf52TRB8ykjgJjcOgRSISCXuc0bg5yNnqRbJQig34Hpp0griEkCI3KivOX9JDrR8s
-	BDJCJ+zWNyt/BXi5sahah0hweE1tIRP25Am9Bmujk017FKDT7yaG667nQTQ4SHI/XCrBbyq
-	Tbmfvmf0ClTgQMdLQs2ENkdXNMRO1DLKE/EWXlMlA2lr5m0H+G7wx738dl3vOOEs1LtoACa
-	mYF52y0OH7oObiqTvfcGQxllcdTBWU0QiHOyUrK/V0ADbDF59zi5TgGqI2v2IQYJtoLpxlJ
-	yO8fbQvcTj3kNeadhW04DTrlQFeyF7zR0UVFncVJVEm9+Gkt+5mrgIIs4mtdTyopvWhMAF5
-	Wt51qExzPLqtLIxClPjVntz+MqNrBOfk7K65tqKKTzaNrysb9dJbHJ/46a1Au+SV+1wJtCf
-	O0J8wc4jm0hqB0jSoTdvu9X+511EmXCt6CTEo+SlE6f09QIUh1BMtXdHZSJkESMfH6GKH+D
-	qzZgjgVQ==
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>,
+ Linux Kernel Selftests <linux-kselftest@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Tim Bird <Tim.Bird@sony.com>,
+ Rae Moar <rmoar@google.com>
+References: <20250814012046.21235-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250814012046.21235-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 13, 2025 at 02:33:39PM +0100, Vadim Fedorenko wrote:
-> On 13/08/2025 10:52, Yibo Dong wrote:
-> > On Tue, Aug 12, 2025 at 05:14:15PM +0100, Vadim Fedorenko wrote:
-> > > On 12/08/2025 10:39, Dong Yibo wrote:
-> > > > Initialize basic mbx_fw ops, such as get_capability, reset phy
-> > > > and so on.
-> > > > 
-> > > > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> > > > +static int mucse_fw_send_cmd_wait(struct mucse_hw *hw,
-> > > > +				  struct mbx_fw_cmd_req *req,
-> > > > +				  struct mbx_fw_cmd_reply *reply)
-> > > > +{
-> > > > +	int len = le16_to_cpu(req->datalen) + MBX_REQ_HDR_LEN;
-> > > > +	int retry_cnt = 3;
-> > > > +	int err;
-> > > > +
-> > > > +	err = mutex_lock_interruptible(&hw->mbx.lock);
-> > > > +	if (err)
-> > > > +		return err;
-> > > > +	err = hw->mbx.ops->write_posted(hw, (u32 *)req,
-> > > > +					L_WD(len));
-> > > > +	if (err) {> +		mutex_unlock(&hw->mbx.lock);
-> > > > +		return err;
-> > > > +	}
-> > > 
-> > > it might look a bit cleaner if you add error label and have unlock code
-> > > once in the end of the function...
-> > > 
-> > 
-> > If it is more cleaner bellow?
-> > 
-> > static int mucse_fw_send_cmd_wait(struct mucse_hw *hw,
-> >                                    struct mbx_fw_cmd_req *req,
-> >                                    struct mbx_fw_cmd_reply *reply)
-> > {
-> >          int len = le16_to_cpu(req->datalen) + MBX_REQ_HDR_LEN;
-> >          int retry_cnt = 3;
-> >          int err;
-> > 
-> >          err = mutex_lock_interruptible(&hw->mbx.lock);
-> >          if (err)
-> >                  return err;
-> >          err = hw->mbx.ops->write_posted(hw, (u32 *)req,
-> >                                          L_WD(len));
-> >          if (err)
-> >                  goto quit;
-> >          do {
-> >                  err = hw->mbx.ops->read_posted(hw, (u32 *)reply,
-> >                                                 L_WD(sizeof(*reply)));
-> >                  if (err)
-> >                          goto quit;
-> >          } while (--retry_cnt >= 0 && reply->opcode != req->opcode);
-> > 
-> >          mutex_unlock(&hw->mbx.lock);
-> >          if (retry_cnt < 0)
-> >                  return -ETIMEDOUT;
-> >          if (reply->error_code)
-> >                  return -EIO;
-> >          return 0;
-> > quit:
-> >          mutex_unlock(&hw->mbx.lock);
-> >          return err;
-> > }
-> > 
-> 
-> Maybe:
-> 
->           } while (--retry_cnt >= 0 && reply->opcode != req->opcode);
-> 
->  quit:
->           mutex_unlock(&hw->mbx.lock);
->           if (!err && retry_cnt < 0)
->                   return -ETIMEDOUT;
->           if (!err && reply->error_code)
->                   return -EIO;
->           return err;
-> 
-> 
-> looks cleaner
-> 
-> 
+Hi,
 
-Got it, I will update this, thanks. 
+For both patches:
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
+but I have a process question, I suppose.
+Why send this patch series to the workflows mailing list?
+
+(This is not the first occasion of this happening [by other people]).
+
+Thanks.
+
+On 8/13/25 6:20 PM, Bagas Sanjaya wrote:
+> Hi,
+> 
+> Just a little formatting cleanup for ktap docs (actually only bullet list
+> items fix in [2/2]; the first patch is trivial spelling fix).
+> 
+> Enjoy!
+
+
+> 
+> Bagas Sanjaya (2):
+>   Documentation: ktap: Correct "its" spelling
+>   Documentation: ktap: Separate first bullet list items
+> 
+>  Documentation/dev-tools/ktap.rst | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> 
+> base-commit: 0bbc2548ea85e6bda835a08c6d47d46435945cda
+
+-- 
+~Randy
