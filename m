@@ -1,97 +1,92 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1CE28507C;
-	Thu, 14 Aug 2025 07:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6282E7F1F;
+	Thu, 14 Aug 2025 08:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755158361; cv=none; b=AFyvkkFgtS+Ss24gmtWaoRfbi/6Tm+uDGfxfipOfFiuk9vffHBJZ7mDs4e4gDIfMjMSeBI95Vp/2f4gookO8tRCU3SG5kvvINH/ibCwaU8gDERs7NuRGoqB2EVaeUGOYLODSBOWS9YZJy8XT13WbPNdqSCKxxWNVZMv6aX3nwCs=
+	t=1755160856; cv=none; b=Lenpqn/OgivP5JIFAlNLS7HiV9KcH90RlRZn3vbXSRv7LAyq8KLrQzJ0QqpAqusLwPgGIkU7FOMwFpMWgbUWs7Rxd5hqyfNU3wDE9BM/FkuyhIH11RMtXm/6lxuL+1HunAUVB1SL9x4j2pmpFRKhFR7+kP0ha47g+PfefQ45wAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755158361; c=relaxed/simple;
-	bh=VpKIa8LgibfoJADpoNgeGgl5dJ2VMP4Uoi/rmo0dahI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V4Yfjhns1nidDun4KgN1mC7BLoQOyyiEOLwfykE4MCO0VLpncw8j9E8KjSYBEqwqmegnD9JIC84b44Ag99sG1mA2oTEWbT6encyUckmY5At/zmTTqn1tj2lj7m/jdlU34GFuchC+QGyFYdCjlICn6HjK7egXH5AMydulSRkP6WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-50f85c8a9f8so299058137.0;
-        Thu, 14 Aug 2025 00:59:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755158358; x=1755763158;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h+i7bCdgaRO4PJGywSV9WTbQBb+KITW5yzAKza8+ctg=;
-        b=COTVNTCmDmTO3knbHgIlvw2CMLzxqrCCHrQ6JrZo5dR0FfDGQ5bMRgUPxuRSbw4ZmF
-         NMHe8BFayCj8Ihgaa/1gmmaxYMpblRPyD20fmV70xDaz5igrtoZ+TDIlqzfjl0MIAwBY
-         LYx95SOI/pAX7tkMEPY/L4AvSY0zdW00iJY3hZQtWUVndEtgvG5DL028oTWoBqCAgrN4
-         XRQkh7d8KZV3mbD2dWKuflBqeL4ehBSz4xsrqiRQcyKCBDguyzKX8/ECkuPMm9CX/wUK
-         oozxXfFdO0EZC3qk62qZju9tx6KJZY//XZxZG8utcsCIIt3j2gQwXYIZ8JHPLcQT2Df2
-         jPeA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRMeww72qXYk6BwadZn4JphXHVl8Jip79r4GsLDHCi8HB+uEjGNjR+NjfLCMuXvKhkjyuX/23UOT2xNtfY@vger.kernel.org, AJvYcCVtoDfuUWCVsO8EDkzBE3BWqVmVXHaPWX4eO5UsE+BoeX782802yxL828i8+/b8WyMM2ueLhZthhibZ@vger.kernel.org, AJvYcCX8vE1evbpRcPBtWDGy+6cFoTjPm20duc5t1kWi6rY8F1stghuk8X8CXynZHwvD2LbsstkqTdlkwjM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziovdvA/UY5O30Tb3Ad4A6rOWy77Fff1u1gR/xeAus7qOEj/Nr
-	24750H1TX6h6tNqvgKL9M3dqSvELhJBbeNEmXALsV2ff6Ub7Lin84Xw4bt8eyBZe
-X-Gm-Gg: ASbGnct+NhZ5UTaDVzR8w18GYExkrcAjNIe+6JqJuw9uujGN7T6CR2gGk2aTxw4H6iX
-	jNV+YVh52dK7O4MsrfHBw0d/P9ozSIyAj2XsBoAOxNL63EVf6cUUF5pR+xkFnyk3ahmJNjqaD49
-	LlRa8ZHBA68vlp6Dn/eXRLhmwjj1SiBME906bTMfTz7a28Ftl5XJbRGEOV3JGq0QPWoB5KjsVIT
-	BuwxkJCblzGnKI+wtf7ewCrSrBGnogntSneNjX6tpPDJ4+2uZeLU2L8Hi7zTheCV7NlXOHe8tpb
-	zmqu42NeJqiweDCvZsBgza76x+3QBBH6+4Iob6k2swBMMwrQ9+kh5a5Y9RPRVeVDWfnBo+dmLRt
-	gu0p9gUDCHvIcK3RsbjC6HaR8yxTPpC/DyiZEXAa02y7MpCD1W/LHoPEJ4Z2j
-X-Google-Smtp-Source: AGHT+IF5wDRcyJJTbcWVBTGepzlQ+jHSOzM0ZzXPaBfNAzOnorpFF17V6m+dbGBuxcb3lj5HuL3l7Q==
-X-Received: by 2002:a05:6102:2c1b:b0:4fc:e6f:2e20 with SMTP id ada2fe7eead31-50fea2ba3b8mr739598137.24.1755158357806;
-        Thu, 14 Aug 2025 00:59:17 -0700 (PDT)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-88e0293141asm3152928241.17.2025.08.14.00.59.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Aug 2025 00:59:17 -0700 (PDT)
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-89018ea8f7cso357780241.0;
-        Thu, 14 Aug 2025 00:59:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVXhMrSg9QzL83M3nPhbAwYbtNC37ediKreTuaLoejxipWl7ulKHrtpROr1KkHuAPpMFUCeCTEjJhHb@vger.kernel.org, AJvYcCWk1z8a9xaISQ/Cz342zJ/9utIkjv0v9NwuP1pr1+vZyAX4Za3q+Rf4rqAx1zZei88F0AtSvnsCJvc=@vger.kernel.org, AJvYcCWx0sZUDLROw56X7pRH8LiKjDi4jzukjOAcTBAV0PN372jStxDxCVpEbwElw2p/95tWOkcdtJQ1pLWq9DZF@vger.kernel.org
-X-Received: by 2002:a05:6102:4192:b0:4f3:1731:8c01 with SMTP id
- ada2fe7eead31-50fe9f8ba91mr647723137.19.1755158357000; Thu, 14 Aug 2025
- 00:59:17 -0700 (PDT)
+	s=arc-20240116; t=1755160856; c=relaxed/simple;
+	bh=EGmdGalmSci7nSZoWt5x2LKRSVMsbV9SrPNPS2/ywi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uau4LKARYCNMmRLdItlmMwlaQRgdIfy4ENNAddjjyA3WIlINtuuxwQEJ6WapQ06ekgH0RGQIvqMdpuGb1HhCTTTOLqfV6Fk6QQOpemT9isyCDJR5zyhlRcSTa1KH598hZ/MvRYJ3IViJvj19KZIovsxbClF+LK4a54+eaMAZAk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=E0tYJUhh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gVhM9bFj; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="E0tYJUhh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gVhM9bFj"
+Date: Thu, 14 Aug 2025 10:40:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1755160853;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EGmdGalmSci7nSZoWt5x2LKRSVMsbV9SrPNPS2/ywi0=;
+	b=E0tYJUhhqWGzJkLqlqnrXvx7ycRG9J+diDGQasFLbLXYzs/gzZkY6pqbjfDGvuzLOs5opb
+	aumB00UynmDf5h18xIsAomY2XQwdbaF9WyoaXH/Xg/8kuNqsWcyd7U/NYPIVpNaw5k/KGy
+	P4sgP50bGJAyciGWri3DXYC+K1vfgf9yKYBwMo9k2Wh0TvCXRK8HbWFVVj2zx/Qnl09/q8
+	cHPTr+9HbBqP/BiVLrHk0rhNEbYiXJKob+GRv+/aYhOdlgAuSWhpN5RUnEip6e4e6DotDf
+	dWNilAzOlugjXscBlgIldspg9m8sutktnw0QZLif9FKy302dwsjAJOls6slSQg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1755160853;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EGmdGalmSci7nSZoWt5x2LKRSVMsbV9SrPNPS2/ywi0=;
+	b=gVhM9bFjRi3QknRLLekuJWfdDbQEEigf5tdJfnp3sqelwXGvx+7jaq6Tkg0tS+Vym4dteO
+	Q/ZdeFGp+vY5ADCQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 2/3] Documentation: locking: Add local_lock_nested_bh()
+ to locktypes
+Message-ID: <20250814084051.QU77fjQo@linutronix.de>
+References: <20250715144127.697787-1-bigeasy@linutronix.de>
+ <20250715144127.697787-3-bigeasy@linutronix.de>
+ <87zfd5dxlc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250812104154.42289-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250812104154.42289-2-krzysztof.kozlowski@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 14 Aug 2025 09:59:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXz60tBNh3DemVOmdYA9YT+aLGfKR-AGp7OT72gGkNOnQ@mail.gmail.com>
-X-Gm-Features: Ac12FXyFisZ5qsOIsDXr4nfrcLgkkLJm5dx-Z9otnKfuIczkkZJm2xxpNDB0tU8
-Message-ID: <CAMuHMdXz60tBNh3DemVOmdYA9YT+aLGfKR-AGp7OT72gGkNOnQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/process: maintainer-soc: Use "DTS" instead
- of "devicetree"
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org, 
-	soc@lists.linux.dev, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87zfd5dxlc.fsf@trenco.lwn.net>
 
-On Thu, 14 Aug 2025 at 00:55, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> Devicetree is a data structure and it is a bit generic term, because
-> some treat Devicetree bindings as Devicetree.  What the SoC maintainers
-> profile is mentioning in ABI stability are the Devicetree sources, so
-> DTS files.  It is also more common during reviews to refer to these as
-> per "DTS" instead "devicetree".
->
-> Clarify that by using "DTS" name in few more places.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On 2025-07-15 14:10:23 [-0600], Jonathan Corbet wrote:
+=E2=80=A6
+> > +A local_lock_t together with local_lock_nested_bh() and
+> > +local_unlock_nested_bh() for locking operations help to identify the l=
+ocking
+> > +scope.
+> > +
+> > +With lockdep is enabled, these functions verify that data structure ac=
+cess
+>=20
+> Did you mean *When* lockdep is enabled?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Lets do "When". I most likely should have removed the "is".
 
-Gr{oetje,eeting}s,
+> Otherwise no complaints here.
+Thanks.
 
-                        Geert
+>=20
+> jon
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Sebastian
