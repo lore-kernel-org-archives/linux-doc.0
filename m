@@ -1,425 +1,240 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41BF21C192;
-	Thu, 14 Aug 2025 03:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755140864; cv=none; b=n/K1HvhtnjT/tnQZXwqJiTDRNE7jMDJRRLSgaugmL/nSzuMitmebqOMXhr3SNdt6XxSmL7/McC3nnmwgXffjawcbTw4Z0mSTvlZguIOwbVQNbPYTSr62dJVyC0qhL/f45Iq0zeKYo7cdaaqiIVXDBwb4sFYATgz/c30HiIIEZVE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755140864; c=relaxed/simple;
-	bh=1KlUcrBRrFp/B5jQJD9nCnjZm0GqgPsP5dpL6i9Z0ko=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lJvn9PyR6LTSzpsqTiBXt3KBD/DxrCj5sxSbyWMw/+GATJZoL96nudZeqt7p/UspvKVJzIKQHB0yn37e3pofq1O5NLWPFuqX7dR7xa/SmGdtDrpV7J79FZ17CyPn++cpcfy4a3b+LyFgt+r7fT6J1uroYlcSLct+Vm7TLoygpPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dTAZ7Xvt; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2931A9F9E;
+	Thu, 14 Aug 2025 03:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=210.61.82.184
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755142074; cv=fail; b=vDiySGoPbD00V2c/UK6GII3FpyZ0OvZy6gRHuzkV+ymV7zfEmbtQ7A96INIwpMrEpYLasldc73l8p1i1xI1RU0Re+nNDUxoGCrQQQCfzFfTjSeAl81+nL6f/54XiZDp7VxQDsLpI/HyqWT+ZPzjFr2c8IxAhEzC2D8RQ3CqR2yY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755142074; c=relaxed/simple;
+	bh=7JmZtq02oA5H+o3xnJztpqTuss6sBDVQTD2EwqjpOco=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hkoSzyyp9H0BWJIfQybEpI07NVSQ1dYyvDUDtmICoWedOuPupd0h89E4Wvkshc0TluMKz0uigeWnmQRFtAAFvoVkWRlhXxft6eqJYWCtD3GDTJXo1i3q37VLSspw1mYEX/jP6NZX/Vdel7qc563zns2yf/Z7Li1xNmPkEZj7PUc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=EDD+QEJc; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=hM7bTbDH; arc=fail smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dTAZ7Xvt"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-70a927f38deso3511686d6.1;
-        Wed, 13 Aug 2025 20:07:42 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="EDD+QEJc";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="hM7bTbDH"
+X-UUID: a0ed79b078be11f0b33aeb1e7f16c2b6-20250814
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=7JmZtq02oA5H+o3xnJztpqTuss6sBDVQTD2EwqjpOco=;
+	b=EDD+QEJcFtk4UesAvZCIPZBJR+ctOtSulOb7DawMiX8IO9WjqMxsIK0NbypBXGzhDLIflWm0qwXJy7iicjap93wwcTHzDkoieIbqZi/W5kZAXeupUTGJ53N+7rahoosUJW95nmMcAF9xItPc83PpbsxB7ckvKRi1o0/bNl5J8ss=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.3,REQID:7213b54a-f34b-46ad-93a4-0ce2114ffb9b,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:f1326cf,CLOUDID:f6437644-18c5-4075-a135-4c0afe29f9d6,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111,TC:-5,Conten
+	t:0|15|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:
+	0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: a0ed79b078be11f0b33aeb1e7f16c2b6-20250814
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
+	(envelope-from <liju-clr.chen@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 328902834; Thu, 14 Aug 2025 11:27:38 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Thu, 14 Aug 2025 11:27:37 +0800
+Received: from TYDPR03CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Thu, 14 Aug 2025 11:27:37 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JADfFz+sIaFqA6iIWsW65kVU2bVil4Cw6il16hUH1+iC0TOO3UmN1VIg52Urp4un7tYiZNYy1I07wSKiP0i571lLyurK2r8AdC36jBpPwhw9QJGUXdE4EsLJFln7S+rXYXBl93dsT39BIJsZIHwua0eJQ6BG6jGZD3GdftG/enOj9Gvn+zEFB8LlnKxmwRSN83lN1grFvG/ewE0Fts8G02PrYhsemGHofMHNUkTCkToXsBIX+04aR3SZRJhpW495P8D/LY6PCWVsV9XkQoLkSyP7lwKm1lGCFQbII0KFTsy1B5w1GVt+DNbIeZIi7Cvbwg70h4QVcPvLoQUOOEpACg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7JmZtq02oA5H+o3xnJztpqTuss6sBDVQTD2EwqjpOco=;
+ b=ns5gI3zWZdX8IsV44taLMQcxocvxWOIDsumOvnCYE9nXfbaeHU8q5nxsoo6YikC1ShFPL0WwNdGeys3HFzIYnKw0ePiCENRcpF5wNDOZsEF7jUpkIg7pOQZv3R8blrt9UzXDhLjTBU8DsheKKnk7mkmRQ7vApxMtLOxeXRW0LWavyU8H2WeyzZABGyE2F79T90X5CCmBW8/4aCneV2nOAxnG7dbG44iyFf2kN5hpHj8U2KqdGvC3qs3SDWfkL/f7v2oZ/TZknFSDgGMoIFhqNEfMAxcxRDe3ewmrgUusBXKic8I2iQoNxAwlQpbtJzQ+3BKNGzxAo1rojxgbPhWcmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755140862; x=1755745662; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qUDzc1mdDHBjiqG/zzLcUzG9tliWvoEfjM11Vf1vwNI=;
-        b=dTAZ7XvtQcH+NanhSD0UJkwQ7Tv6ExVvwvARVUh59A0H7LiSFkM+OKyJ+YEelR5RmP
-         yBY9Og90s9DdFB1XlLzCZwMKL9on35QF2Fvn4MulaKXU1zWfAq7iN3IVTdStzlGbd9Ga
-         lKIC5/2t19N4sX586KT2kpF7YptFduq48tBakqdcS8nTA1OaNbjFV1ldYD1iycXqL9+r
-         iOoTBAjNXH58DszTxmyNfTHCxASzQG/FL8D6usrDEsPFahHdAuiwBVITDdf7FHoaXt/O
-         OM3OMI6IsYwjKxZOA8gXJy9xMt9QNUeJqcrIx+GRyKZZT1I6xi2b+yMf2XJq+hJdNNFt
-         femg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755140862; x=1755745662;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qUDzc1mdDHBjiqG/zzLcUzG9tliWvoEfjM11Vf1vwNI=;
-        b=JnFec2hYe0GfoDKaNnrrtnCNCFwPuxJ1jcyjo2LNypRstv/BnAYaY92WB0sY+QLAHJ
-         R+z/d66OXQJ5dGEbTKnUBSu8sxfD0CK9j3ruvCPQgOJc5RPtMPPP4WSN47FYtLECElFv
-         m/evjfHUvgacWsshlpFR3u3haq5USOQyGp6PLwj32bJ6ZW4xQ4pk0wb7xMKb+VOeZO7b
-         DbnrIGRzryvUEc92M+k58Lp3Af99H5ZfXkvXHeDn07TD72N8CwgQpEDo4u3D9+hdKMV+
-         5yjUkC/4VrTEruoW4WXYpfpi8Hvkhi9hokZ4mL18EAoRWNQRInryZbhMngOLXhEy05qu
-         bWDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdlPNpD5N8l0vXCNUZ21oitb0YQPh3GREYueMl/cxXWyTPUYdy4FRzPHqu6R3xxiiYULtNXmRPqs0=@vger.kernel.org, AJvYcCVCRmp5USXlNWePjlXl/TXodb4F/Ma+CqFDtNejfeg0r9mRG1lhJvF1C0jUvvSd5NbDYeHuF5xBZ+b+4hNR7A==@vger.kernel.org, AJvYcCX3QaLoLoyBUo6UoZOKBvJcPE6LNIHKh0apb6DJQpGsBML9esSsCE7/1hXG4myUzJ/Ejrh2uhXmfXyDHUDc@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXxZflaIrKqkHCFGOVqj9BQIkTkHsnIjzXRh09a2Hx6We+Ev3S
-	cTvXfTSUIatoUOYL5maLi5zA8w9opJAqZZNxTSRUDxxmiyx1gSP9rMTWEvInoTN+WKm6QW1iek0
-	d9q3gETg6YionEhxbJJE8zapx8/FCAz4=
-X-Gm-Gg: ASbGncuRbrINq1+N9qUedEl0mMnOgXAQYpdj4IF9YFOilJQWUY5WB7QRSmEshcTbZzn
-	9zylVhEz8A+G/mTMk8Rg0kD1+KvzRrbHqw3bGVn+QG+N7fhz5xS6QQQg1x36l8D5X96Q5Sa7hvI
-	BWWqJ9jHt2bwwVS+ozpPk13kppPslNFPj/wtm9sCRKITjBy/wi1AKld8us8IR9zKYBnJO8DtOy5
-	w1qbOR0mQlm9i7U7Txff/vYGClsvA==
-X-Google-Smtp-Source: AGHT+IFYxDmdtCd1AOfg3PPu0GGuc/CboEux5FPcuVbxvPt1Q0ZG3/4JBDkLE42D+b8yyII1bAVdU+IUJHNYlXKAF6Y=
-X-Received: by 2002:a05:6214:e6e:b0:709:bc45:b9f7 with SMTP id
- 6a1803df08f44-70af5b03e24mr23289996d6.14.1755140861453; Wed, 13 Aug 2025
- 20:07:41 -0700 (PDT)
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7JmZtq02oA5H+o3xnJztpqTuss6sBDVQTD2EwqjpOco=;
+ b=hM7bTbDHmJfTIl6iDQkplMuKSyet/VU6Vke+3G2Fq0wPdPT+PZ6zcKzFu+xoJLTvyLfM7zPp4uJnrvWEhWsrVBZkfCU+JrbSoaGWY+/+2d2u8+LVrizWjleuJUswvR7iZENmyyyyoPq4CeEqkqWgPG86MWrGJoCCkf0xLWn5o5Q=
+Received: from SEZPR03MB8273.apcprd03.prod.outlook.com (2603:1096:101:19a::11)
+ by SEZPR03MB6524.apcprd03.prod.outlook.com (2603:1096:101:73::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.15; Thu, 14 Aug
+ 2025 03:27:34 +0000
+Received: from SEZPR03MB8273.apcprd03.prod.outlook.com
+ ([fe80::f7ac:70cb:3cb4:acac]) by SEZPR03MB8273.apcprd03.prod.outlook.com
+ ([fe80::f7ac:70cb:3cb4:acac%5]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
+ 03:27:34 +0000
+From: =?utf-8?B?TGlqdS1jbHIgQ2hlbiAo6Zmz6bqX5aaCKQ==?=
+	<Liju-clr.Chen@mediatek.com>
+To: "corbet@lwn.net" <corbet@lwn.net>, "krzk@kernel.org" <krzk@kernel.org>,
+	=?utf-8?B?WmUteXUgV2FuZyAo546L5r6k5a6HKQ==?= <Ze-yu.Wang@mediatek.com>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "rostedt@goodmis.org"
+	<rostedt@goodmis.org>, "robh@kernel.org" <robh@kernel.org>,
+	"mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+	"mhiramat@kernel.org" <mhiramat@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "will@kernel.org" <will@kernel.org>,
+	=?utf-8?B?WWluZ3NoaXVhbiBQYW4gKOa9mOepjui7kik=?=
+	<Yingshiuan.Pan@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"richardcochran@gmail.com" <richardcochran@gmail.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>
+CC: =?utf-8?B?U2hhd24gSHNpYW8gKOiVreW/l+elpSk=?= <shawn.hsiao@mediatek.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>,
+	=?utf-8?B?S2V2ZW5ueSBIc2llaCAo6Kyd5a6c6Iq4KQ==?=
+	<Kevenny.Hsieh@mediatek.com>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, =?utf-8?B?Q2hpLXNoZW4gWWVoICjokYnlpYfou5Ip?=
+	<Chi-shen.Yeh@mediatek.com>, "linux-trace-kernel@vger.kernel.org"
+	<linux-trace-kernel@vger.kernel.org>,
+	=?utf-8?B?UGVpTHVuIFN1ZWkgKOmai+WfueWAqyk=?= <PeiLun.Suei@mediatek.com>
+Subject: Re: [PATCH v13 04/25] virt: geniezone: Add GenieZone hypervisor
+ driver
+Thread-Topic: [PATCH v13 04/25] virt: geniezone: Add GenieZone hypervisor
+ driver
+Thread-Index: AQHbNn029Xq+tnHy3U+kHaTtB6IkebLg5LqAgX9dFQCAAAecAIAC4FmA
+Date: Thu, 14 Aug 2025 03:27:34 +0000
+Message-ID: <1bc18dc60615e3eda0afe35a597b77dfd05ce010.camel@mediatek.com>
+References: <20241114100802.4116-1-liju-clr.chen@mediatek.com>
+	 <20241114100802.4116-5-liju-clr.chen@mediatek.com>
+	 <7b79d4b5-ba91-41a0-90d1-c64bcab53cec@kernel.org>
+	 <cb84d8d87a67516f9b92a89f81fe4efc088f7617.camel@mediatek.com>
+	 <c44c9aad-b08e-4be8-b135-258305b1f950@kernel.org>
+In-Reply-To: <c44c9aad-b08e-4be8-b135-258305b1f950@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEZPR03MB8273:EE_|SEZPR03MB6524:EE_
+x-ms-office365-filtering-correlation-id: a525f0f1-bea1-4f99-f191-08dddae282ae
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|921020|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?OGxWNmlwMlh2endVQmlZYVlUa1dNVmY0VFhqamFiNWJ5Rko1bExJc0tzUTdu?=
+ =?utf-8?B?ZlRSaElBQTFBejRBTmVjWVpOS0Z3YnFlV2hIbWFZZXk0NTBPbGdZdElNSCta?=
+ =?utf-8?B?THVvUGJ4VXNpOVFiUFJNVXdNSGNhTUczVHlTVHFuU0ZlNURVa29US0wvSHBp?=
+ =?utf-8?B?MVBRS0w5c1phajZub0duUERGMld1bkExT0RqdlV2N0Y1dVptbFovRnFKQ0xR?=
+ =?utf-8?B?Y3EwOCt3ZTFObk9FQ1Q4M21FVzVJSXg5a3Jnd3grUTdJc21rWmUvd01QOVUv?=
+ =?utf-8?B?azZuU3pGYWp4VGtVeFZJM0F6bjlIRUxFaGFzVlE4S1AyOHl3RUZzM2VseGpa?=
+ =?utf-8?B?QXlkdDJ2MUorUGJnOGkzV25ENU1DL283Zkk5VW9kdW1qZjdoMExVWktnUlZS?=
+ =?utf-8?B?NWlzYWZhY0lUYm52Rkc4VjQxUk1NMDE5Y09YVU9NeWxLZ0xNcEt3YU5LcFNn?=
+ =?utf-8?B?SWo1NkRRNGNkV0xoNXR6OHd0eVUzNm1SSk9OanVWcy85SFNyTE1XM1FoY28z?=
+ =?utf-8?B?ZHlIaW1qSGxhQWQycUI1dWh3WlhlRXorbGJ6REhSbjlhSE8xdWRJWWpUREtZ?=
+ =?utf-8?B?WFJPbEhadWR1NTR6OHRTRi9hVTNhU25wcVJtcUxHR1JEWFgwYWJ2SjBZTVcw?=
+ =?utf-8?B?elZjSzY3Ym1PYjJ1S3o1RUowbmd5U2VVNzRWRUR1UndrMmZ2N2FGYldTcFVs?=
+ =?utf-8?B?NTVxTzFMZU91b0cvOU9LZHRKb3FFbUEyeUorNWVRNFEybXREVk1zT1VPVlBE?=
+ =?utf-8?B?eGxUdmR1SnQvb2pUZHZHS2EvU0dJaUl5OG9FalBUWjRhVnhLM1FESFpFU0p1?=
+ =?utf-8?B?Ry9IWG9YUXRENmVWSU8wSHNqWUNYWGl1Vzk2OGdyNXhZRFc5V1kyUnIvaXp2?=
+ =?utf-8?B?MnRKcmppdE5yWXVqZ0ZRN0RoSG1zZnlDZHpYcVEzbU1ranBZcFpDRExzcmls?=
+ =?utf-8?B?YlRkbzVENERSWFFGZDE0ay82NlhYWkxmY01BWVE2T1VTb0ZiL0pVQTRvdklo?=
+ =?utf-8?B?MXkyYXFtS2hWY0w5aTRBM1RjNDlmL0FxZGNXbXRaQ2xWa0xLcTJZV2gyZGhE?=
+ =?utf-8?B?bUFCN0o4ajk4bkVTNHpvZnBOVXJKUXBxVmMyL3FXZENiT1ZSeHhNOFNhMzhV?=
+ =?utf-8?B?cmZhVEgrUnZDNFJEaDFxSHdrZWo5Zk8wY3pWYkR6bkRTZEVMR1NIQXRTZHUr?=
+ =?utf-8?B?L2JJQ0hyeTlRS3cvbjRVT01VSzdoZ2dEc1IyWWhLUGFyVXNkY2djbHdnbEgr?=
+ =?utf-8?B?dlZzeWsyNWhzaGNkZW1FT3FmUVl1Ym91Q2Z0RmwvRllPVXl6RVB1SEJRakh5?=
+ =?utf-8?B?dTF0M3ZVQW8xb3dEcFQ0UGZJQVZrc0FWUktNOExWbjNrdzVMZ3N4cjJZVUN0?=
+ =?utf-8?B?ZHB0bk9TTzFnS09JWTIxYmpiUEt6NzFhNEFrRFFJNmJ4S1p0WEJSa3JJd2ti?=
+ =?utf-8?B?NDEyQ3pCT0lnZnk5UzJRUzd0NUNyZXphVFljS0FJVktHcnV3Mld2QXl4eCt1?=
+ =?utf-8?B?bFNleHJTK1NXRGR1UnRUOHJaT2hCdGlxWnVmWWlhS1VHbFFaZWhXOWtNdlVm?=
+ =?utf-8?B?aGRHcTZuNGZCY0pYWHFTMExhcFBsVWRPakhpM2pyZGs5S0F2R0Jnb2NVZDJI?=
+ =?utf-8?B?L043RmQ2UnFQdVNQMXEveVdzcjc4ZG14OU8zY0NoNEF2ZmEvM0tWb084cFZN?=
+ =?utf-8?B?czgyb2p5bkxBZFhxeUJ5Zi90MHdJUHJUS2hwUnVnWFBBTW8wNTJVT0p6Tndn?=
+ =?utf-8?B?b2JQL3ZuWXNaQm1tTG9CQjFiM0dmVkVWSXdKTUZuQndrMEMwTnhqcGh1aTlz?=
+ =?utf-8?B?YzNwSlJuaEVoRnZWcU94aEUyNitpRWl2UkhucVYwcXFRaklJZmovNTFaUnBU?=
+ =?utf-8?B?ZG5iTGxxU21YSENOUnRRemV3VFZqRlU1UjIwd2pIWWhCUXB4dW1IRURhVUU0?=
+ =?utf-8?B?WTBFa1dqdFh4ZkY5ZzdiZVAydnhPS25zOHA3VGZ1UkUzaXRma3dnNkpURGl1?=
+ =?utf-8?Q?hYZEbcrF4MjIgzixyfwIcqz+mIq9v8=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR03MB8273.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cDhPRVZmNlRhcHI0cjlUdEQxN0JUV1lOSlVlS1BLL0o4MWlBRDcxZ1ZkTG0z?=
+ =?utf-8?B?dHJQZkxPSzhlWjIxWmZVQUVzV1BValFDNmdxazNWTUlxT1B1NHQ3amQ4MnVp?=
+ =?utf-8?B?N0haSWtjUmJiUHkrQWgybmFaWWNENElRZ2Z2Y2pnb2VhUEdFY293bm92dnVw?=
+ =?utf-8?B?c3Jnd0xDOGEvU0hvVENiSzlxMFQ3cTdQZEF6WGZ5ZzQrSXdtWWZhK3dOeTdH?=
+ =?utf-8?B?aEZhNm9BUVNKMmdoQkxxVnZyT1YzRTZmYnJWd0ZWbXVaSzFaSVE4S0xTK1Qy?=
+ =?utf-8?B?Q2ZaajQvYXc3TnIwNXZxV2pBcnMzK2EzRVM2dWNHbDkrUmtkZ3RQZDBuTCtF?=
+ =?utf-8?B?RVoxVms1YUZLWHdXNTF4VVd6WkpTTGVVM3RpczVHRFdnbC85UDVZY2xxNVNZ?=
+ =?utf-8?B?c2k0c2hiTHEzQVJSaWl5ZEpudHVBVEFweHk4UnQ3cmMwYW54OS9LN21xOGlJ?=
+ =?utf-8?B?NkhLeE9oTURqd1pNWktXbUtaQ0QxcUhzMCtnMzZoQitRRVNPcjdRazZIYWN4?=
+ =?utf-8?B?b1c3Mzd3ZXpJU3UzVFVvby80MUxHdDd1RXM5a0VRRlJGNEswL2tSSG5wUXBR?=
+ =?utf-8?B?dk4zaDg5M3VwWVFRWUV3WWRneEFOWnQzVS9aWEk3Y21vSEM5d3RPWEozcTRD?=
+ =?utf-8?B?MUE1blFQRXBzem5Pd0dkTEtYblRqSjA1aUVNbmcxYVlXNWdlZkZaWlZ4ekFH?=
+ =?utf-8?B?ZGtPQWc2TGZwN2o0NE1JVlVRQkNzKzZUY2lWb0kzelluV0Z2VGxHTWY0ck8r?=
+ =?utf-8?B?bVZUS1JhaDlYejVobVhRVzRydGxqZDN4d09qZThadHkwWHk3WDdwbms5enpW?=
+ =?utf-8?B?ZW9lOHNKVFNsNVl4MnZPZ3Ayb253Zm9TSFBpUjlYS2dtYTZvSUMyQngzY05s?=
+ =?utf-8?B?WFlzNDhZaGYzN25nYWo5cUlNK1AySVRIVHRLeDRlSUdlOWlJblkvMmtjNGhz?=
+ =?utf-8?B?aDVUN0lLdVZ6WU5xYXZObGVSZ0srTkFMb1dUNVNSTmhZdko3QlV6MkwyZnB5?=
+ =?utf-8?B?enk0TDhOMUhJdXlYS2RLZmNva1BWTnQvWGlrN1dQTWZxcGVkQ0R6UEtJZVEw?=
+ =?utf-8?B?dGNod1VtRituQVNhQlZpUHBhZUVuc01tamdHVGRRMmpiZVpITTNPMEh5c1Nz?=
+ =?utf-8?B?K0traWs0U253ZnBaOVkwQVRoOExvWm0vZjFud2VNTk9FTVNaRHJjZDBvZzhT?=
+ =?utf-8?B?Q3VmcGEwb09HUExWRXhjK3MrbEtHTFNJanBwUHBzQ3FmN2dpN2xGd1ozSkpx?=
+ =?utf-8?B?SHI4RzBYbHo3VTQrcDNzR0JIblByWTZTcVV6eXRlYW1FbDZaQngxSkJ0RDcx?=
+ =?utf-8?B?OW9vMzQyQXJSb3FMdzFLSkd0bzJmT2VsY0JYS1JYMGdnblBSWFBJVkdrRW5H?=
+ =?utf-8?B?dWgxQkNrOWdsZEFwODgzUnE4RUNNSk9PMzFmdkV1N05pL2FCdjdkeG1HUzUz?=
+ =?utf-8?B?a3J6eHQwTVFoWWdLK2x4NXpxTDkzaEY4UE52VjVFMmVGM1hSZVFyNnpqdkxG?=
+ =?utf-8?B?OGhyMFRJRFlaNVRBM2lwSGs4ZVJTamJTaWZDN2RQRFdIVDl4cHpxaFl6S2Iw?=
+ =?utf-8?B?aktURm9UWUwrUXpvVm5MaG1yUFBsc1ppTkdDNVJnUmdIVHZPQTJ4VXpEbk5u?=
+ =?utf-8?B?UThKZzF5RFVVSDZyeEV4NnhOWUJsNTVXU3BYQ2dmdGJIQUdJblBGVlZ2MGh2?=
+ =?utf-8?B?RlA2ZTlWVzZ2VVhSQ3U0Rzg0OENOOTlBNUNFVGtsd2pLbzNWUG95RHBET0dG?=
+ =?utf-8?B?NHV2U1ltK2Z4R211ZHV1UTR4eS9XWVJwYk81eDJ4LzlncHNJK1drKy9rdjh5?=
+ =?utf-8?B?elM3M0xWVER0ZG9Db1ZRT0gvTEt3NzFrcDRmN0ZlcFpwazFWL0RGQWFCYTd5?=
+ =?utf-8?B?OEhZTS9LQ0Vma1VPQnNHRndNM3h1RG15dWd3RG5BaEZ6dURkRG5qNDB4TDRY?=
+ =?utf-8?B?cFIrUHVGeWJiNkQxRUYrREJuZkh6WFIrcDRnOC9iOFBJZDBUaVBvOUZTZW80?=
+ =?utf-8?B?TEJobHJTRmlIMzdEalJRYThZZ3Q3bkRZN0hGdmhvWG1sclZET3FTOTY4YnlS?=
+ =?utf-8?B?YjNOdzFYbzB1SnZWSkVoVGpJNlFiSmNFT0QrN0JQbDQwSmsxN1dnVXk2cXV6?=
+ =?utf-8?B?NG5rK2dMTkZlZGU1YVJnd2I5NTQ1K2NYeGd2K01Ra1ZDS2tWY0FxbXlQM21l?=
+ =?utf-8?Q?AcL9fl3HmEltWeC1AmNd4aQ=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E7EEE02581779F43901F7C73C9D7ACE5@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250813135642.1986480-1-usamaarif642@gmail.com> <20250813135642.1986480-3-usamaarif642@gmail.com>
-In-Reply-To: <20250813135642.1986480-3-usamaarif642@gmail.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Thu, 14 Aug 2025 11:07:05 +0800
-X-Gm-Features: Ac12FXw7qs-tSJF4aKoa8rmDweW7mQyT51zC6eFE-QG_TX-v7WWZYuuumuDMqoY
-Message-ID: <CALOAHbAe9Rbb2iC3Vnw29jxHEQiWA83jw72fb_CQKGDFHv6+FQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/7] mm/huge_memory: convert "tva_flags" to "enum tva_type"
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org, 
-	shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com, dev.jain@arm.com, 
-	baolin.wang@linux.alibaba.com, npache@redhat.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, vbabka@suse.cz, 
-	jannh@google.com, Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR03MB8273.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a525f0f1-bea1-4f99-f191-08dddae282ae
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2025 03:27:34.6372
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /e8EZDZh6C2Uh1POoASPs8nzLw0jAVEIodrKTy9LYPjaCuMdmBqLVeCpMFYDCDVrnW6J5EInT0Wpz4W5U7DIYFKOxjCRvMv4XhFjtvRqcdU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB6524
 
-On Wed, Aug 13, 2025 at 9:57=E2=80=AFPM Usama Arif <usamaarif642@gmail.com>=
- wrote:
->
-> From: David Hildenbrand <david@redhat.com>
->
-> When determining which THP orders are eligible for a VMA mapping,
-> we have previously specified tva_flags, however it turns out it is
-> really not necessary to treat these as flags.
->
-> Rather, we distinguish between distinct modes.
->
-> The only case where we previously combined flags was with
-> TVA_ENFORCE_SYSFS, but we can avoid this by observing that this
-> is the default, except for MADV_COLLAPSE or an edge cases in
-> collapse_pte_mapped_thp() and hugepage_vma_revalidate(), and
-> adding a mode specifically for this case - TVA_FORCED_COLLAPSE.
->
-> We have:
-> * smaps handling for showing "THPeligible"
-> * Pagefault handling
-> * khugepaged handling
-> * Forced collapse handling: primarily MADV_COLLAPSE, but also for
->   an edge case in collapse_pte_mapped_thp()
->
-> Disregarding the edge cases, we only want to ignore sysfs settings only
-> when we are forcing a collapse through MADV_COLLAPSE, otherwise we
-> want to enforce it, hence this patch does the following flag to enum
-> conversions:
->
-> * TVA_SMAPS | TVA_ENFORCE_SYSFS -> TVA_SMAPS
-> * TVA_IN_PF | TVA_ENFORCE_SYSFS -> TVA_PAGEFAULT
-> * TVA_ENFORCE_SYSFS             -> TVA_KHUGEPAGED
-> * 0                             -> TVA_FORCED_COLLAPSE
->
-> With this change, we immediately know if we are in the forced collapse
-> case, which will be valuable next.
->
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> Acked-by: Usama Arif <usamaarif642@gmail.com>
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-
-Acked-by: Yafang Shao <laoar.shao@gmail.com>
-
-Hello Usama,
-
-This change is also required by my BPF-based THP order selection
-series [0]. Since this patch appears to be independent of the series,
-could we merge it first into mm-new or mm-everything if the series
-itself won't be merged shortly?
-
-Link: https://lwn.net/Articles/1031829/ [0]
-
-> ---
->  fs/proc/task_mmu.c      |  4 ++--
->  include/linux/huge_mm.h | 30 ++++++++++++++++++------------
->  mm/huge_memory.c        |  8 ++++----
->  mm/khugepaged.c         | 17 ++++++++---------
->  mm/memory.c             | 14 ++++++--------
->  5 files changed, 38 insertions(+), 35 deletions(-)
->
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index e8e7bef345313..ced01cf3c5ab3 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -1369,8 +1369,8 @@ static int show_smap(struct seq_file *m, void *v)
->         __show_smap(m, &mss, false);
->
->         seq_printf(m, "THPeligible:    %8u\n",
-> -                  !!thp_vma_allowable_orders(vma, vma->vm_flags,
-> -                          TVA_SMAPS | TVA_ENFORCE_SYSFS, THP_ORDERS_ALL)=
-);
-> +                  !!thp_vma_allowable_orders(vma, vma->vm_flags, TVA_SMA=
-PS,
-> +                                             THP_ORDERS_ALL));
->
->         if (arch_pkeys_enabled())
->                 seq_printf(m, "ProtectionKey:  %8u\n", vma_pkey(vma));
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index 22b8b067b295e..92ea0b9771fae 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -94,12 +94,15 @@ extern struct kobj_attribute thpsize_shmem_enabled_at=
-tr;
->  #define THP_ORDERS_ALL \
->         (THP_ORDERS_ALL_ANON | THP_ORDERS_ALL_SPECIAL | THP_ORDERS_ALL_FI=
-LE_DEFAULT)
->
-> -#define TVA_SMAPS              (1 << 0)        /* Will be used for procf=
-s */
-> -#define TVA_IN_PF              (1 << 1)        /* Page fault handler */
-> -#define TVA_ENFORCE_SYSFS      (1 << 2)        /* Obey sysfs configurati=
-on */
-> +enum tva_type {
-> +       TVA_SMAPS,              /* Exposing "THPeligible:" in smaps. */
-> +       TVA_PAGEFAULT,          /* Serving a page fault. */
-> +       TVA_KHUGEPAGED,         /* Khugepaged collapse. */
-> +       TVA_FORCED_COLLAPSE,    /* Forced collapse (e.g. MADV_COLLAPSE). =
-*/
-> +};
->
-> -#define thp_vma_allowable_order(vma, vm_flags, tva_flags, order) \
-> -       (!!thp_vma_allowable_orders(vma, vm_flags, tva_flags, BIT(order))=
-)
-> +#define thp_vma_allowable_order(vma, vm_flags, type, order) \
-> +       (!!thp_vma_allowable_orders(vma, vm_flags, type, BIT(order)))
->
->  #define split_folio(f) split_folio_to_list(f, NULL)
->
-> @@ -264,14 +267,14 @@ static inline unsigned long thp_vma_suitable_orders=
-(struct vm_area_struct *vma,
->
->  unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
->                                          vm_flags_t vm_flags,
-> -                                        unsigned long tva_flags,
-> +                                        enum tva_type type,
->                                          unsigned long orders);
->
->  /**
->   * thp_vma_allowable_orders - determine hugepage orders that are allowed=
- for vma
->   * @vma:  the vm area to check
->   * @vm_flags: use these vm_flags instead of vma->vm_flags
-> - * @tva_flags: Which TVA flags to honour
-> + * @type: TVA type
->   * @orders: bitfield of all orders to consider
->   *
->   * Calculates the intersection of the requested hugepage orders and the =
-allowed
-> @@ -285,11 +288,14 @@ unsigned long __thp_vma_allowable_orders(struct vm_=
-area_struct *vma,
->  static inline
->  unsigned long thp_vma_allowable_orders(struct vm_area_struct *vma,
->                                        vm_flags_t vm_flags,
-> -                                      unsigned long tva_flags,
-> +                                      enum tva_type type,
->                                        unsigned long orders)
->  {
-> -       /* Optimization to check if required orders are enabled early. */
-> -       if ((tva_flags & TVA_ENFORCE_SYSFS) && vma_is_anonymous(vma)) {
-> +       /*
-> +        * Optimization to check if required orders are enabled early. On=
-ly
-> +        * forced collapse ignores sysfs configs.
-> +        */
-> +       if (type !=3D TVA_FORCED_COLLAPSE && vma_is_anonymous(vma)) {
->                 unsigned long mask =3D READ_ONCE(huge_anon_orders_always)=
-;
->
->                 if (vm_flags & VM_HUGEPAGE)
-> @@ -303,7 +309,7 @@ unsigned long thp_vma_allowable_orders(struct vm_area=
-_struct *vma,
->                         return 0;
->         }
->
-> -       return __thp_vma_allowable_orders(vma, vm_flags, tva_flags, order=
-s);
-> +       return __thp_vma_allowable_orders(vma, vm_flags, type, orders);
->  }
->
->  struct thpsize {
-> @@ -547,7 +553,7 @@ static inline unsigned long thp_vma_suitable_orders(s=
-truct vm_area_struct *vma,
->
->  static inline unsigned long thp_vma_allowable_orders(struct vm_area_stru=
-ct *vma,
->                                         vm_flags_t vm_flags,
-> -                                       unsigned long tva_flags,
-> +                                       enum tva_type type,
->                                         unsigned long orders)
->  {
->         return 0;
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 6df1ed0cef5cf..9c716be949cbf 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -99,12 +99,12 @@ static inline bool file_thp_enabled(struct vm_area_st=
-ruct *vma)
->
->  unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
->                                          vm_flags_t vm_flags,
-> -                                        unsigned long tva_flags,
-> +                                        enum tva_type type,
->                                          unsigned long orders)
->  {
-> -       bool smaps =3D tva_flags & TVA_SMAPS;
-> -       bool in_pf =3D tva_flags & TVA_IN_PF;
-> -       bool enforce_sysfs =3D tva_flags & TVA_ENFORCE_SYSFS;
-> +       const bool smaps =3D type =3D=3D TVA_SMAPS;
-> +       const bool in_pf =3D type =3D=3D TVA_PAGEFAULT;
-> +       const bool enforce_sysfs =3D type !=3D TVA_FORCED_COLLAPSE;
->         unsigned long supported_orders;
->
->         /* Check the intersection of requested and supported orders. */
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 1a416b8659972..d3d4f116e14b6 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -474,8 +474,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
->  {
->         if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
->             hugepage_pmd_enabled()) {
-> -               if (thp_vma_allowable_order(vma, vm_flags, TVA_ENFORCE_SY=
-SFS,
-> -                                           PMD_ORDER))
-> +               if (thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED=
-, PMD_ORDER))
->                         __khugepaged_enter(vma->vm_mm);
->         }
->  }
-> @@ -921,7 +920,8 @@ static int hugepage_vma_revalidate(struct mm_struct *=
-mm, unsigned long address,
->                                    struct collapse_control *cc)
->  {
->         struct vm_area_struct *vma;
-> -       unsigned long tva_flags =3D cc->is_khugepaged ? TVA_ENFORCE_SYSFS=
- : 0;
-> +       enum tva_type type =3D cc->is_khugepaged ? TVA_KHUGEPAGED :
-> +                                TVA_FORCED_COLLAPSE;
->
->         if (unlikely(hpage_collapse_test_exit_or_disable(mm)))
->                 return SCAN_ANY_PROCESS;
-> @@ -932,7 +932,7 @@ static int hugepage_vma_revalidate(struct mm_struct *=
-mm, unsigned long address,
->
->         if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
->                 return SCAN_ADDRESS_RANGE;
-> -       if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_flags, PMD_O=
-RDER))
-> +       if (!thp_vma_allowable_order(vma, vma->vm_flags, type, PMD_ORDER)=
-)
->                 return SCAN_VMA_CHECK;
->         /*
->          * Anon VMA expected, the address may be unmapped then
-> @@ -1533,9 +1533,9 @@ int collapse_pte_mapped_thp(struct mm_struct *mm, u=
-nsigned long addr,
->          * in the page cache with a single hugepage. If a mm were to faul=
-t-in
->          * this memory (mapped by a suitably aligned VMA), we'd get the h=
-ugepage
->          * and map it by a PMD, regardless of sysfs THP settings. As such=
-, let's
-> -        * analogously elide sysfs THP settings here.
-> +        * analogously elide sysfs THP settings here and force collapse.
->          */
-> -       if (!thp_vma_allowable_order(vma, vma->vm_flags, 0, PMD_ORDER))
-> +       if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_FORCED_COLLA=
-PSE, PMD_ORDER))
->                 return SCAN_VMA_CHECK;
->
->         /* Keep pmd pgtable for uffd-wp; see comment in retract_page_tabl=
-es() */
-> @@ -2432,8 +2432,7 @@ static unsigned int khugepaged_scan_mm_slot(unsigne=
-d int pages, int *result,
->                         progress++;
->                         break;
->                 }
-> -               if (!thp_vma_allowable_order(vma, vma->vm_flags,
-> -                                       TVA_ENFORCE_SYSFS, PMD_ORDER)) {
-> +               if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_KHUG=
-EPAGED, PMD_ORDER)) {
->  skip:
->                         progress++;
->                         continue;
-> @@ -2767,7 +2766,7 @@ int madvise_collapse(struct vm_area_struct *vma, un=
-signed long start,
->         BUG_ON(vma->vm_start > start);
->         BUG_ON(vma->vm_end < end);
->
-> -       if (!thp_vma_allowable_order(vma, vma->vm_flags, 0, PMD_ORDER))
-> +       if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_FORCED_COLLA=
-PSE, PMD_ORDER))
->                 return -EINVAL;
->
->         cc =3D kmalloc(sizeof(*cc), GFP_KERNEL);
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 002c28795d8b7..7b1e8f137fa3f 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -4515,8 +4515,8 @@ static struct folio *alloc_swap_folio(struct vm_fau=
-lt *vmf)
->          * Get a list of all the (large) orders below PMD_ORDER that are =
-enabled
->          * and suitable for swapping THP.
->          */
-> -       orders =3D thp_vma_allowable_orders(vma, vma->vm_flags,
-> -                       TVA_IN_PF | TVA_ENFORCE_SYSFS, BIT(PMD_ORDER) - 1=
-);
-> +       orders =3D thp_vma_allowable_orders(vma, vma->vm_flags, TVA_PAGEF=
-AULT,
-> +                                         BIT(PMD_ORDER) - 1);
->         orders =3D thp_vma_suitable_orders(vma, vmf->address, orders);
->         orders =3D thp_swap_suitable_orders(swp_offset(entry),
->                                           vmf->address, orders);
-> @@ -5063,8 +5063,8 @@ static struct folio *alloc_anon_folio(struct vm_fau=
-lt *vmf)
->          * for this vma. Then filter out the orders that can't be allocat=
-ed over
->          * the faulting address and still be fully contained in the vma.
->          */
-> -       orders =3D thp_vma_allowable_orders(vma, vma->vm_flags,
-> -                       TVA_IN_PF | TVA_ENFORCE_SYSFS, BIT(PMD_ORDER) - 1=
-);
-> +       orders =3D thp_vma_allowable_orders(vma, vma->vm_flags, TVA_PAGEF=
-AULT,
-> +                                         BIT(PMD_ORDER) - 1);
->         orders =3D thp_vma_suitable_orders(vma, vmf->address, orders);
->
->         if (!orders)
-> @@ -6254,8 +6254,7 @@ static vm_fault_t __handle_mm_fault(struct vm_area_=
-struct *vma,
->                 return VM_FAULT_OOM;
->  retry_pud:
->         if (pud_none(*vmf.pud) &&
-> -           thp_vma_allowable_order(vma, vm_flags,
-> -                               TVA_IN_PF | TVA_ENFORCE_SYSFS, PUD_ORDER)=
-) {
-> +           thp_vma_allowable_order(vma, vm_flags, TVA_PAGEFAULT, PUD_ORD=
-ER)) {
->                 ret =3D create_huge_pud(&vmf);
->                 if (!(ret & VM_FAULT_FALLBACK))
->                         return ret;
-> @@ -6289,8 +6288,7 @@ static vm_fault_t __handle_mm_fault(struct vm_area_=
-struct *vma,
->                 goto retry_pud;
->
->         if (pmd_none(*vmf.pmd) &&
-> -           thp_vma_allowable_order(vma, vm_flags,
-> -                               TVA_IN_PF | TVA_ENFORCE_SYSFS, PMD_ORDER)=
-) {
-> +           thp_vma_allowable_order(vma, vm_flags, TVA_PAGEFAULT, PMD_ORD=
-ER)) {
->                 ret =3D create_huge_pmd(&vmf);
->                 if (!(ret & VM_FAULT_FALLBACK))
->                         return ret;
-> --
-> 2.47.3
->
-
-
---=20
-Regards
-Yafang
+T24gVHVlLCAyMDI1LTA4LTEyIGF0IDA5OjMyICswMjAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
+b3RlOg0KPiANCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNrIGxpbmtzIG9y
+IG9wZW4gYXR0YWNobWVudHMgdW50aWwNCj4geW91IGhhdmUgdmVyaWZpZWQgdGhlIHNlbmRlciBv
+ciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBPbiAxMi8wOC8yMDI1IDA5OjA0LCBMaWp1LWNsciBD
+aGVuICjpmbPpupflpoIpIHdyb3RlOg0KPiA+IHdlIGhhdmUgZ3VhcmRlZCB0aGUgZ3p2bSBkcml2
+ZXIgd2l0aCB0aGUgQ09ORklHX01US19HWlZNIEtjb25maWcNCj4gPiBvcHRpb24uIFRoaXMgZW5z
+dXJlcyB0aGUgY29kZSBpcyBvbmx5IGNvbXBpbGVkIGFuZCBhY3RpdmUgb24NCj4gPiBzZWxlY3Rl
+ZA0KPiA+IHBsYXRmb3JtcywgYW5kIHdpbGwgbm90IGFmZmVjdCBvdGhlciB1c2VycyBvciBzeXN0
+ZW1zLg0KPiANCj4gVGhhdCBpcyBzaW1wbHkgbm90IHRydWUsIHNpbmNlIGl0IHdpbGwgYmUgZW5h
+YmxlZCBpbiBkZWZjb25maWcgaW4NCj4gRVZFUlkNCj4gcGxhdGZvcm0uIExvb2sgdXAgYXBwcm9h
+Y2ggb2Ygc2luZ2xlIGtlcm5lbCBhbmQgc2luZ2xlIGltYWdlLg0KPiANCj4gQmVzdCByZWdhcmRz
+LA0KPiBLcnp5c3p0b2YNCg0KSGkgS3J6eXN6dG9mLA0KDQpUaGFuayB5b3UgZm9yIGV4cGxhaW5p
+bmcgd2h5IHRoZSBLY29uZmlnIG9wdGlvbiBjYW5ub3QgcHJldmVudA0KcG9sbHV0aW5nIGFsbCBz
+eXN0ZW1zIGR1ZSB0byB0aGUgc2luZ2xlIGtlcm5lbCBhcHByb2FjaC4NCg0KQXMgeW91IG1lbnRp
+b25lZCwgdXNpbmcgS2NvbmZpZyBjYW5ub3Qgc29sdmUgdGhlIGlzc3VlIG9mIHBvbGx1dGluZyBh
+bGwNCnN5c3RlbXMsIHNvIHByb2JpbmcgZGlyZWN0bHkgaXMgbm90IHJlY29tbWVuZGVkLg0KDQpU
+aGUgb3RoZXIgbWV0aG9kIEkga25vdyBpcyB0byB1c2UgYSBEVCBub2RlLCBidXQgdGhlIGNvbW11
+bml0eSBkb2VzIG5vdA0KYWNjZXB0IERUIG5vZGVzIHdpdGhvdXQgcmVhbCBoYXJkd2FyZSByZXNv
+dXJjZXMuDQoNCkN1cnJlbnRseSwgdGhlc2UgYXJlIHRoZSBvbmx5IHR3byBtZXRob2RzIEkgYW0g
+YXdhcmUgb2YuIEkgd2lsbA0KY29udGludWUgdG8gbG9vayBmb3Igb3RoZXIgcG9zc2libGUgc29s
+dXRpb25zLCBhbmQgYW55IHN1Z2dlc3Rpb25zDQp3b3VsZCBiZSBhcHByZWNpYXRlZC4NCg0KVGhh
+bmsgeW91IGFnYWluIGZvciB5b3VyIGZlZWRiYWNrLg0KDQpCZXN0IFJlZ2FyZHMsDQpMaWp1LWNs
+ciBDaGVuDQo=
