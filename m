@@ -1,88 +1,70 @@
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9009923D7F4;
-	Thu, 14 Aug 2025 19:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=163.172.96.212
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C00319860;
+	Thu, 14 Aug 2025 19:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755199851; cv=none; b=ZMj1LZNLpXorbiuTYx7FAjp6LsdOF3pBdQt6R6SAgBub74WoSs9seERVLTV6MjYN7BaxoFed6DnO+iaIUrMe6h6bhoPnJMdoGMTE3/aMRwWCzpBx1W9WBZ0/J1R6/Pw4+nwNM9oFudPbQJYRJAtmitBr5Hl8oIVjvEz8ysvD0p0=
+	t=1755201461; cv=none; b=E7nSpM9n6t2ri9DFwj3uEwl3ninRY3k8DEBiDqSgX7zImLazMlf26vwYoh/6+uNs5I3A4e1pfr4l51Ly38lvOst1kYnnkxunGLOY/VFyV2dndbCI5pgtoan1BzL8UeSqGDRsZNz8ayPgwhF1okuS99EQcsz2IGN8bMEvrlaFrYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755199851; c=relaxed/simple;
-	bh=B8D84kncEdf8+YC+9tk/28lZGcp6tSs3s4JbHwObiJ8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=eD/MTA3+ByUQwwYIZNrTvLAP5pV7ndEv8DNsfUy+4VIjc67tA2ObT51CIQeFUKgzMjUrIq/45p/MMi46nu4Rdddfun9ph1tfSORiDvEh7PS1VmUt9fxkwM2EBGCKUWNlc8sa1G93QGT3IHA3O82Bq+BsPnA+5USdQt1oPm/yDkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; arc=none smtp.client-ip=163.172.96.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
-Received: (from willy@localhost)
-	by pcw.home.local (8.15.2/8.15.2/Submit) id 57EJRmgr019295;
-	Thu, 14 Aug 2025 21:27:48 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: security@kernel.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 2/2] Documentation: smooth the text flow in the security bug reporting process
-Date: Thu, 14 Aug 2025 21:27:30 +0200
-Message-Id: <20250814192730.19252-2-w@1wt.eu>
-X-Mailer: git-send-email 2.17.5
-In-Reply-To: <20250814192730.19252-1-w@1wt.eu>
-References: <20250814192730.19252-1-w@1wt.eu>
+	s=arc-20240116; t=1755201461; c=relaxed/simple;
+	bh=jwr1D/M/D6J8UXOLpfzxnHBTHqKQx+aPFWGFdoCo7Fo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dTJSGGAKP6y3A2Ht1spch8by6Haj7WHWCwtvDluDTRkS++EdVbFtgyb7iSL5Oz34FSFQWbF6GB6c2JmwZpOY6S6QU6/vBTZVV0QUGrLULc01/BYuHFrkAMsAAEZP0R82VZs4IVMjcwpFyi4NBNYn46pXC1hj4iAvEmvVqlnPhgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FKOxemmD; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FKOxemmD"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 29D1E40AD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755201459; bh=1gbvYz4GsU0PNtrxGdC8PGv96PBc4YyIP2GPO/NWKI8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=FKOxemmD5CAy8tadlQ6sNqF708V3koVuyEThfv5Ekr86q+wCll0KEaEy2uOrMArXN
+	 gXrJibg6o+iVyQpZzy0rO+iwI8mXBepq1hQIwXwhdsc3Y9/iPrRcrz0giYzM4jPwEu
+	 6DIVZ147pP5etHteMDoJ/Zc2df6ZAWwpRUABPRTtBrx8AkQDQoPPRRfHwVHi6nvf11
+	 Z13Iryqoo1w4NMHj3xbFlavQs9R6HNe5fXo+M6pIbhDdRGc4P/BG2+w2HMUOSmy9DI
+	 PfC5zyXc5e2mPOeAI+0jkbqZUlN9iijK8CP7yD3DYo9+402PmOiRKIkfZa+bOvQJdA
+	 tmnqHbnm73icg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 29D1E40AD8;
+	Thu, 14 Aug 2025 19:57:39 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Ranganath V N <vnranganath.20@gmail.com>, alison.schofield@intel.com
+Cc: alim.akhtar@samsung.com, dave@stgolabs.net, linux-cxl@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel-mentees@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ rafael@kernel.org, skhan@linuxfoundation.org, vishal.l.verma@intel.com,
+ vnranganath.20@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v2] Documentation: Fix driver-api typos
+In-Reply-To: <20250814184304.20448-1-vnranganath.20@gmail.com>
+References: <aJ4KEKHn351vQXe_@aschofie-mobl2.lan>
+ <20250814184304.20448-1-vnranganath.20@gmail.com>
+Date: Thu, 14 Aug 2025 13:57:38 -0600
+Message-ID: <87wm75ekwd.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-The text was presenting the team, the the e-mail address, then some of
-the expectations, then what form of e-mail is expected. By switching
-the e-mail paragraph two paragraphs later and dropping the "Contact"
-sub-section, we can have a more natural flow that presents the team,
-then its expectation, then how to best contribute, then where to send.
+Ranganath V N <vnranganath.20@gmail.com> writes:
 
-And more importantly, it increases the chances that reporters have read
-the prerequisites before finding the e-mail address.
+> Corrected a few spelling mistakes
+>
+> v2:
+> * corrected as per suggestions.
+> * improved the phrasing.
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Willy Tarreau <w@1wt.eu>
----
- Documentation/process/security-bugs.rst | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+For future reference, this information should go below the "---" line so
+that the person applying the patch does not have to edit it out.  I can
+take care of it this time, no need to resend.
 
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 7dcc034d3df8e..84657e7d2e5b4 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -8,17 +8,6 @@ like to know when a security bug is found so that it can be fixed and
- disclosed as quickly as possible.  Please report security bugs to the
- Linux kernel security team.
- 
--Contact
---------
--
--The Linux kernel security team can be contacted by email at
--<security@kernel.org>.  This is a private list of security officers
--who will help verify the bug report and develop and release a fix.
--If you already have a fix, please include it with your report, as
--that can speed up the process considerably.  It is possible that the
--security team will bring in extra help from area maintainers to
--understand and fix the security vulnerability.
--
- The security team and maintainers almost always require additional
- information beyond what was initially provided in a report and rely on
- active and efficient collaboration with the reporter to perform further
-@@ -36,6 +25,14 @@ information is helpful.  Any exploit code is very helpful and will not
- be released without consent from the reporter unless it has already been
- made public.
- 
-+The Linux kernel security team can be contacted by email at
-+<security@kernel.org>.  This is a private list of security officers
-+who will help verify the bug report and develop and release a fix.
-+If you already have a fix, please include it with your report, as
-+that can speed up the process considerably.  It is possible that the
-+security team will bring in extra help from area maintainers to
-+understand and fix the security vulnerability.
-+
- Please send plain text emails without attachments where possible.
- It is much harder to have a context-quoted discussion about a complex
- issue if all the details are hidden away in attachments.  Think of it like a
--- 
-2.17.5
+Thanks,
 
+jon
