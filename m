@@ -1,124 +1,146 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A843002DB;
-	Thu, 14 Aug 2025 13:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CFC301029
+	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 13:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755179777; cv=none; b=KvblzUYFX/qZPUAeMpWz4I6wI/nbltdVo136OFagnqypUM85wb4mbq7ErHnBfnsL8kfNW06GSRIQDmbEQJBwfmgz9w97ifGMrJRanndEkeDv2OKZ8GMJ4g379yBzKDWgk/drfuBDFRUwKSPJNpKc741r1UBoOxOfe5Xv/Fc1RjA=
+	t=1755179916; cv=none; b=JKTVsA/Jp5pd8sltNjP7FN8yahyoB5RK4eYzNDrJOAS/9N0mmqnEUiGg8ShkB9SFz4NuVI0o2ObeiPqfFJh9Q7N99A+6qWWeqgh7XeuW2ux/y5EVqXtV7t13bC4fR3bKPGnsLCyOSw0+oslooyCdQZr7encK735b9rYN5DjSg8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755179777; c=relaxed/simple;
-	bh=FY5sbNBK7qZlnMcmmL7hNtLU1I+7sRKJWqEJAf4IRlo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GglJZeI2UEK3aLJ5770UdZAqGBg8GAzVrShhIpiRAoeThNUosG314XPvurwWasa86s7VUP/ZxbKPfR1Xqxqgrak5czfZsWuEEu8pNn6I8sCgjN/Ge/BL8kWe7qbJBm99twNi9GufInFzXjVUMuom9o1c1vLwkdWDip7McysVnM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz9t1755179680t7764a06f
-X-QQ-Originating-IP: kAirI4c1dFDqOa0MCUTbPS30JYAfzpXeBXjviMMwVKo=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 14 Aug 2025 21:54:38 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2664948985724009700
-Date: Thu, 14 Aug 2025 21:54:37 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: MD Danish Anwar <danishanwar@ti.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <3866866DBCE66734+20250814135437.GB1094497@nic-Precision-5820-Tower>
-References: <20250814073855.1060601-1-dong100@mucse.com>
- <20250814073855.1060601-5-dong100@mucse.com>
- <c69d6a87-3d9f-49dc-836e-f33508c62c1a@ti.com>
+	s=arc-20240116; t=1755179916; c=relaxed/simple;
+	bh=RjNP51rWOqwJvFPujRiwfpryaBNZ5h9BXsFdM4LJEDA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=HRxoVNsoZ4z+RPrTMm7xy/tMO1m9Ezdu4vEDGK7Y3O99KPqPT37EuK7WNeyFGmC4usLYXRZ5298wcHRGRFU9Ol+BUdvxHb+XTCiyqrVxwP6b/Vu3JEK4nhRZ0txywtnaTtkAQ4vYJkky7fiTreRphWa+FpgsuJE4h1G6N89MMJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bsD7+ILO; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bsD7+ILO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755179913;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+jw6WbtaoxN6m6sw5E6mdvsLGnRETkf4AVaUkSvs2F4=;
+	b=bsD7+ILOXhrUoPJx5WhfmYNiwa1zInSpEdLWZCOSC/WTR+XnViN511EHf8TL/YcuphDFao
+	Lk85CMMJRQYKiDYuxDN74ZzPqzBDdSm7UT4pyppoeH0vmAhG/Px1vW0DlDKwJh2CgO+Q/e
+	CwDLA3Uo7SviqCkLh6YHX3ZSsCSvm90=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-196-eG3dGHF4N9euJneMVvhlHg-1; Thu,
+ 14 Aug 2025 09:58:30 -0400
+X-MC-Unique: eG3dGHF4N9euJneMVvhlHg-1
+X-Mimecast-MFC-AGG-ID: eG3dGHF4N9euJneMVvhlHg_1755179909
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 43B92195609F;
+	Thu, 14 Aug 2025 13:58:29 +0000 (UTC)
+Received: from [10.22.80.50] (unknown [10.22.80.50])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B521C19A4CAB;
+	Thu, 14 Aug 2025 13:58:26 +0000 (UTC)
+Date: Thu, 14 Aug 2025 15:58:19 +0200 (CEST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Soham Metha <sohammetha01@gmail.com>
+cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+    skhan@linuxfoundation.org, Alasdair Kergon <agk@redhat.com>, 
+    Mike Snitzer <snitzer@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+    Matthew Sakai <msakai@redhat.com>
+Subject: Re: [PATCH v2 4/9] docs: device-mapper: fixed spelling mistakes in
+ documentation
+In-Reply-To: <20250812204952.73136-2-sohammetha01@gmail.com>
+Message-ID: <1b392cd9-ff49-2b5e-bc42-c544170c1da6@redhat.com>
+References: <20250812201523.69221-1-sohammetha01@gmail.com> <20250812204952.73136-1-sohammetha01@gmail.com> <20250812204952.73136-2-sohammetha01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c69d6a87-3d9f-49dc-836e-f33508c62c1a@ti.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: M18A+sp1qNHzq4pS8N4zhVqEyqkwpR7zx0f9witggg/dsBSbKWlYGfF+
-	KSC3lTws0MRn5ALXJj3gWlUBde/tPG8qQZIuw9kYIoRZfRZFFtLRp+junxyMZti2Y0gpduW
-	YJvddH7f3qf9BSTA5DlQbk7u4lQOr81HEloppjsHkh4IY0H4N0j1iGLdtiSFmC7Tiep5KtS
-	x5HCbA5ul6dHGomY8MnWW0mF4TEIetJeX+JpNx70Y69THDIlK+LDPGsT0snlthmprBriTCX
-	gLjd5NXoy++aH4VXnniVSMjqSTcpE+GTDgXx0Y9ClnxggdliMF1Zhm+TaIcpY3n4mZuGgke
-	r91IrVzsmG1cXNYDJOMnxFI+mgoaYnzgBVsSAkE2WC2yOOf23Vf564Ju7WfUROmfH3lmIbz
-	oxhyuUqnz0GkXDFo3xuiIYkJKLbPQnu/D8kuNE8OM5R+bIXCZ8TjPer9yIOS6SKuFgxyAHN
-	JWDBSBQg/O4lTgpE7zDkYTG3vbd8ihzhTF4zhVTWiwrc2ANPUClZogOFwW85B2YORNc/nUX
-	Tw3t5IqeEZDNTAxEqPPZLp6isxWQck0MbYfrXVg9Ng1Rlp2nr8nkkOO+L8voZ/E8B1HDF3j
-	BmD8X7NhUAyPd14ehGsElAF88EpUCfIfTt0y1KAtwsfTlx0vXFuKxkzz90tRRqyby/VPZ2E
-	Madd51B/uDQTEwJ0O+IOE8eKQQfg6BpPytaA+hIbG1fonPhJPRqn3ZfmwH46QPy/letg+QU
-	B9Cmw0mRbrZrgSIqOirE2lanKLFbdwrR0DcelfVeZJvc/jFnTMquoosSt4s0h5RPUKhNlND
-	gMbW1ojh9bKBSXBy4wHnI+HJGcVoe3bFhvVJe7AzRckIGs9m8y9pXE6w2WE5c/qS0bh7UcD
-	2ajtooU3vBi8EoJZmYDSQ2sSvbaNl6YvVqOACdx4qk4boRWpiSdNMMI4uH/szhcvORE71/G
-	q2goKo/jxgMfHnfjGbEYM2rbw2Mku9KbuAwxBYgVx8bFIv0rFKBY//hgPQNwAeHnulXuGFd
-	rHcFCNrbtfvTuuPIpuut2ALHBsU8M=
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Thu, Aug 14, 2025 at 05:40:14PM +0530, MD Danish Anwar wrote:
-> On 14/08/25 1:08 pm, Dong Yibo wrote:
-> > Initialize basic mbx_fw ops, such as get_capability, reset phy
-> > and so on.
-> > 
-> > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> > ---
-> >  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |   4 +
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c | 264 ++++++++++++++++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h | 201 +++++++++++++
-> >  4 files changed, 471 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
-> >  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h
-> > 
-> 
-> > +
-> > +/**
-> > + * mbx_cookie_zalloc - Alloc a cookie structure
-> > + * @priv_len: private length for this cookie
-> > + *
-> > + * @return: cookie structure on success
-> > + **/
-> > +static struct mbx_req_cookie *mbx_cookie_zalloc(int priv_len)
-> > +{
-> > +	struct mbx_req_cookie *cookie;
-> > +
-> > +	cookie = kzalloc(struct_size(cookie, priv, priv_len), GFP_KERNEL);
-> > +	if (cookie) {
-> > +		cookie->timeout_jiffes = 30 * HZ;
-> 
-> Typo: should be "timeout_jiffies" instead of "timeout_jiffes"
-> 
+Applied, thanks.
 
-Got it, I will fix it.
+Mikulas
 
-> > +		cookie->magic = COOKIE_MAGIC;
-> > +		cookie->priv_len = priv_len;
-> > +	}
-> > +	return cookie;
-> > +}
-> > +
-> > +/**
+
+
+On Wed, 13 Aug 2025, Soham Metha wrote:
+
+> found/fixed the following typos
 > 
+> - flushs -> flushes
+> - explicitely -> explicitly
 > 
+> in `Documentation/admin-guide/device-mapper/delay.rst`, and
+> 
+> - approriate -> appropriate
+> 
+> in `Documentation/admin-guide/device-mapper/vdo-design.rst`
+> 
+> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+> ---
+>  Documentation/admin-guide/device-mapper/delay.rst      | 8 ++++----
+>  Documentation/admin-guide/device-mapper/vdo-design.rst | 2 +-
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/device-mapper/delay.rst b/Documentation/admin-guide/device-mapper/delay.rst
+> index 4d667228e744..a1e673c0e782 100644
+> --- a/Documentation/admin-guide/device-mapper/delay.rst
+> +++ b/Documentation/admin-guide/device-mapper/delay.rst
+> @@ -3,7 +3,7 @@ dm-delay
+>  ========
+>  
+>  Device-Mapper's "delay" target delays reads and/or writes
+> -and/or flushs and optionally maps them to different devices.
+> +and/or flushes and optionally maps them to different devices.
+>  
+>  Arguments::
+>  
+> @@ -18,7 +18,7 @@ Table line has to either have 3, 6 or 9 arguments:
+>     to write and flush operations on optionally different write_device with
+>     optionally different sector offset
+>  
+> -9: same as 6 arguments plus define flush_offset and flush_delay explicitely
+> +9: same as 6 arguments plus define flush_offset and flush_delay explicitly
+>     on/with optionally different flush_device/flush_offset.
+>  
+>  Offsets are specified in sectors.
+> @@ -40,7 +40,7 @@ Example scripts
+>  	#!/bin/sh
+>  	#
+>  	# Create mapped device delaying write and flush operations for 400ms and
+> -	# splitting reads to device $1 but writes and flushs to different device $2
+> +	# splitting reads to device $1 but writes and flushes to different device $2
+>  	# to different offsets of 2048 and 4096 sectors respectively.
+>  	#
+>  	dmsetup create delayed --table "0 `blockdev --getsz $1` delay $1 2048 0 $2 4096 400"
+> @@ -48,7 +48,7 @@ Example scripts
+>  ::
+>  	#!/bin/sh
+>  	#
+> -	# Create mapped device delaying reads for 50ms, writes for 100ms and flushs for 333ms
+> +	# Create mapped device delaying reads for 50ms, writes for 100ms and flushes for 333ms
+>  	# onto the same backing device at offset 0 sectors.
+>  	#
+>  	dmsetup create delayed --table "0 `blockdev --getsz $1` delay $1 0 50 $2 0 100 $1 0 333"
+> diff --git a/Documentation/admin-guide/device-mapper/vdo-design.rst b/Documentation/admin-guide/device-mapper/vdo-design.rst
+> index 3cd59decbec0..faa0ecd4a5ae 100644
+> --- a/Documentation/admin-guide/device-mapper/vdo-design.rst
+> +++ b/Documentation/admin-guide/device-mapper/vdo-design.rst
+> @@ -600,7 +600,7 @@ lock and return itself to the pool.
+>  All storage within vdo is managed as 4KB blocks, but it can accept writes
+>  as small as 512 bytes. Processing a write that is smaller than 4K requires
+>  a read-modify-write operation that reads the relevant 4K block, copies the
+> -new data over the approriate sectors of the block, and then launches a
+> +new data over the appropriate sectors of the block, and then launches a
+>  write operation for the modified data block. The read and write stages of
+>  this operation are nearly identical to the normal read and write
+>  operations, and a single data_vio is used throughout this operation.
 > -- 
-> Thanks and Regards,
-> Danish
+> 2.34.1
 > 
-> 
-
-Thanks for you feedback.
 
