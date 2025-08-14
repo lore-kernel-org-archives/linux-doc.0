@@ -1,106 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC5D2417F2;
-	Thu, 14 Aug 2025 06:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9EB24FC09;
+	Thu, 14 Aug 2025 06:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755152499; cv=none; b=i2vy6f8LIW5nXtWJRflzrpHPmtzt5KMG0RWyB+/YhjFNnt33vwOky+zu7X5L0AUdq6czmDNltj1eLrD3jUXaNinCBhn96a5VJhb8WyXcI044JWM5HhgYV4g9jy708PjubI1eyTSqR0gaqUR/VsuXNAuaRmPXOI5BOZpQkgQOGSY=
+	t=1755153584; cv=none; b=jaxDQt1lr1rXig0sWI9/4ah7mMKBeN/08MuL33BHbMxpDsXcdaSX+aPdfqaE+ClujswgSh5sEpETvrT/UjsSdImDczujhjjgZamwIxD75Bj47RSBizgVyElkxj3Id0l3GIEVWs9VlV/QeR8tmCdssk5P3ix9NsoII2YTZwCRCTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755152499; c=relaxed/simple;
-	bh=ad0ESFomXR6hzJsoqncZBBl8RJZ2v1U0lsN4nBWb8Ss=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s+OicCABW00wJovF7oomYfQ5Dy/tly8s6ykkrZ3sltCarEOJ1O6Jy0LpsY26AisdkGtsWuVuBRU/bJvBELxTi4p687o0Ep3CChcYFZfumoH9Hb5S0WLLATBvCEdsW2h+TyMvuMvDNVs0vHFsj+kPGuFb2z5KnDUqzzE1eSbReXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XXFNqxKG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755153584; c=relaxed/simple;
+	bh=R1C/8DCIBJz96E2r7yTyeQKXLBEZvbbz3YPZilRHxA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SCRvjW41h+P/OktOMoODO/atJpVVJM8sxfth2jcdx0kbagtm9rhPPK03q1yBZ8qeMWJ03Tvmc6x4zwysMIyIL/bZYYbrzA6lZAbv3U96i6wuy6sRY903f9TPbKFZknlTvLm5Cz112z74QIOQeM9EUIw9FlS7G6ivR/+b/C6NJLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jr/kJEsD; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XXFNqxKG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8F8CC4CEEF;
-	Thu, 14 Aug 2025 06:21:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755152499;
-	bh=ad0ESFomXR6hzJsoqncZBBl8RJZ2v1U0lsN4nBWb8Ss=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XXFNqxKG2mC81Go6GBQqab31AUbWe57gS4SVHRcMI8rTcN/DCaCmYrnDfgeB6iADP
-	 F8t5s+XETAXnIycnQh+UpNDHiy+RSprZZj16GjCIMj+xLzM5xlqiDIZBAHewZIxq6f
-	 MaZhy/jTjg8lbyEZBcaX1HfeJuEQ8RdsYj2IxVYDRWU2d4QvOQHJRspX/Ppj9n2IL9
-	 L28dJDJ09wVdST0UF/+PIqVHtsajFPdo3COcPnnZfcjsXXMQthqdurIhVA5WQTWs1v
-	 ehj2Ye18st1MbY1hYMiif8HbdjyUL63WvWIiXxkloXbEibE1vuRA2+hPu3S2PdYtfG
-	 398U0wfSi/fCQ==
-Date: Thu, 14 Aug 2025 08:21:35 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 07/13] docs: move sphinx-pre-install to tools/doc
-Message-ID: <20250814080539.2218eb4e@foz.lan>
-In-Reply-To: <871ppehcod.fsf@trenco.lwn.net>
-References: <20250813213218.198582-1-corbet@lwn.net>
-	<20250813213218.198582-8-corbet@lwn.net>
-	<20250814013600.5aec0521@foz.lan>
-	<871ppehcod.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jr/kJEsD"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2445806df50so4184335ad.1;
+        Wed, 13 Aug 2025 23:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755153582; x=1755758382; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R1C/8DCIBJz96E2r7yTyeQKXLBEZvbbz3YPZilRHxA8=;
+        b=jr/kJEsDnjD/nmJQ3oijUrAZXAf8LhjzJwNhxGxq1aPEwJdCWvhVb+DXYr9v+olo9y
+         zn+n9IvAztJeIUArutGDSoBMSKmLovA5Z0NkqAsYI72SuWavElB3iXVsK5KnSOoteuZa
+         yzvxl80Ir1wtGSVXsnAX2YYwB6yPG5OZDqGrIlUH70wJZj7dZslKOhwWyuci/URYipHy
+         v3GuvTnkz6FSje5n6XezNSJoHoXfJxMUlTXlck+ZhqCxAbetHoDM6LafzuWoPHkmOsoY
+         U9y2T9Y9elp4kRON3eRFf7umnUNyS7wGhqxgfPaBVfiBk8RuG0GEVC8KqrGZCTMQRviB
+         tjGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755153582; x=1755758382;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R1C/8DCIBJz96E2r7yTyeQKXLBEZvbbz3YPZilRHxA8=;
+        b=hXdNkpauHn/+rL0INDWcHPd/Pl4cgpm9IzOFJyTX1877LA6K9fxiun+mRU4Di6EaKS
+         O5pTkEWGyP2yM29y7iAVnrAMYF5JnGF7erKILoxWWzXjTunnd3nGfGAzvGA8XkiSyBmL
+         y5X2J/Rk4JUNqInX0zCafcU8r51Vi0oof/RN3jT9w2nzvexKeR8TUVc8EpmiLCo27H6R
+         I2UQWxsoXp3TLI8McljgFjeYPyT2Lln1d32OrEWdbB2z+UX5Xe4qNcjSv9QnZaxEfyRr
+         KQQe1sJIDVf4MblxWwLALM1hi3/IESaDjdA/ixbOPJNtjei2yHi18gqOl92j+qz2dtzX
+         /pbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCYnqQLr+GUCDc/wIYggZRL4gha+PX8M3dirZH522MTGVUaGXgOU5cEDEJm42ACAl/grdfD3MdNswPIinh@vger.kernel.org, AJvYcCUjaHAhKgBzhVINEjve5q1ul5OsHsmKb+dKT67Ju36YorIqhMcpgscwYJPpUPObeMYtsWxgvL4qSMAP@vger.kernel.org, AJvYcCVAdiBLuS+F62ly4JS/XB0y2Ly14UtnnVG4E7wpNuyaqSYTwZqQTXuVRScCiPasWB0ieuN+hWZMd4g=@vger.kernel.org, AJvYcCVNTes2H2etAEXGiPte1wQjhqQFD0YU1wRG4XXn//prxBMcIiQwVOTNQYlUKEteFZBrwJBT0un2qJBdrWyPt8Nd@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwyMMv8yHtRnyOyaHEILxPtYR7sD5dV0AoUhPjnrzPoCJIn0AX
+	bxRDZdCoVrU1dXFDV6zLe2S5Qjt8PG+/nUn9LbRrZISTmX0862eFntsA
+X-Gm-Gg: ASbGnctgDS+J3Zui/4etNHcbmr+qmpJjCICOdrGmDf4aSPp4VGv08h3XcNm6Aav5bQi
+	YhGpQqUTc3kXZZ94tTeoGXGoM1mbjyhtPHXsZOruygLkisOZZZf++rLFBAMPH+2aRhOaFwnw3B9
+	y5P9UbZwlMfFrL6tjHX8W8kLC4/O4MpbKpoBweQeXNEjdqw6310+UM3BrRJwSYntluesocSCbS/
+	pIT/9FnPDlSZwSuiBU3Zguie7TZ+JVGzXjaM0F7cF718a16+hBkBR+/ly6+CL9S4jK62Tnq5oFz
+	v18APxGchKOzYlyCjo0SaqbUArmd6E/hSrcypL2RDHjje4txikHmj4Dq9AeVlY45YziRGE61TdD
+	U7vFMH2TnTXi9bpL4KSlAnw==
+X-Google-Smtp-Source: AGHT+IEUsKVk7G4ljZuETiaQhj9SpFjdw3c+YmZ4fIKMSMdn/3GF4m36bVdbkDaj2lnQ9wltfClBWA==
+X-Received: by 2002:a17:903:1af0:b0:240:2145:e51d with SMTP id d9443c01a7336-2445868b3ebmr30999825ad.31.1755153582122;
+        Wed, 13 Aug 2025 23:39:42 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-244590608dbsm10300325ad.66.2025.08.13.23.39.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Aug 2025 23:39:38 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 783CB40164BE; Thu, 14 Aug 2025 13:39:34 +0700 (WIB)
+Date: Thu, 14 Aug 2025 13:39:34 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Linux Kernel Selftests <linux-kselftest@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Tim Bird <Tim.Bird@sony.com>, Rae Moar <rmoar@google.com>
+Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
+Message-ID: <aJ2Epp0b3HgeaMxk@archie.me>
+References: <20250814012046.21235-1-bagasdotme@gmail.com>
+ <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ie7JBSI6Q0nMquM1"
+Content-Disposition: inline
+In-Reply-To: <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
 
-Em Wed, 13 Aug 2025 20:14:42 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Em Wed, 13 Aug 2025 15:32:06 -0600
-> > Jonathan Corbet <corbet@lwn.net> escreveu:
-> >  
-> >> Put this tool with the other documentation-related scripts.  
-> >
-> > This one will be painful, as it will cause conflicts with my series
-> > that clean up the docs Makefile.  
-> 
-> Just in general ... I'm more than happy to put this whole series on the
-> back burner until we've gotten that other stuff merged ... it's an RFC
-> after all, and there's no urgency here.
+--ie7JBSI6Q0nMquM1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ok, thanks! Yeah, this would help avoiding conflicts with the patches
-I have piled here.
+On Wed, Aug 13, 2025 at 06:58:12PM -0700, Randy Dunlap wrote:
+> Why send this patch series to the workflows mailing list?
 
-Btw, as I said I have a /51 patch series focused on parse-headers.pl
-and kernel_include.py, which is currently used only by media docs.
+Workflows ML is listed in get_maintainer.pl output.
 
-For those who don't know, this was added at the very beginning of
-Sphinx adoption, and had its own particular way to create *.rst
-files from source code with cross references, via an specially crafted
-Makefile that runs before Sphinx. This was written as a way to detect
-uAPI documentation gaps, producing warnings for unsolved cross references.
-Recent Sphinx versions broke it by disabling cross-reference warnings.
+Thanks.
 
-This series is big (51 patches) because it needs to fix thousands of
-broken cross references on media. I may end splitting it on two series
-to make easier for review, one for the script and another for media doc
-fixes.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Such series affect this RFC as it is creating a tools/docs and placing 
-there the parse-headers.py code as:
+--ie7JBSI6Q0nMquM1
+Content-Type: application/pgp-signature; name=signature.asc
 
-	 tools/docs/lib/parse_data_structs.py                                  |  230 +++++++++++++++--------------------
-	 tools/docs/parse-headers.py                                           |    5 
+-----BEGIN PGP SIGNATURE-----
 
-Now, if you prefer tools/doc instead and/or place the libs elsewhere,
-we have a couple of options:
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaJ2EoAAKCRD2uYlJVVFO
+o1TpAP9lIizu4pMJAsA+vYyUic3/QOcQJD/j49wQx+7Ze/5cOwD+NP451W3K4yU0
+7K0SzH1b+L+VQr9cnTE9JqR0GqZ1BAk=
+=TK+6
+-----END PGP SIGNATURE-----
 
-1. rebase my series to do the changes. I suspect that there won't
-   be much conflicts, but this may delay a little bit sending you
-   what I have;
-
-2. add a patch at the end moving stuff elsewhere;
-
-3. on your series, move them elsewhere.
-
-What do you prefer?
-
-Thanks,
-Mauro
+--ie7JBSI6Q0nMquM1--
