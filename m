@@ -1,97 +1,200 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B2B311C0F
-	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 13:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0666512FF69;
+	Thu, 14 Aug 2025 14:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755179953; cv=none; b=tCBwoEYuu8pyECPunqBV8n4PxJW+5DgqfTgR0QVRTmH86q1zbl6aSnQpqo7Cb/VZ9MEZEaDHmqh0lqP35KCei8TW+FY+i6uJkyrZDj/LOSuFQpo130yOHB+rEP6YXDVah0I9RlbuiiNU243561Oz8CmseC9XODwG6vvBR2mMFgk=
+	t=1755180033; cv=none; b=fOcmOSYAn0yY1IOKnXxJnni5Tehd20PU14IbIn1yqWN8AhO0GhP2kPAxmabzWUb8SQrB0ismycXyx6VVckTAxoqCDNvKyTKnkjzKy3y6zlvByAhVfeV8peyQbwuKjXamvBrgBSF1i9UqYGsaQ+2FVdPIgga41beyULkjaALa3ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755179953; c=relaxed/simple;
-	bh=4ExxKGDx0fgiOXw8CTywAcBsJ8ogwJcpwNnL1i5YNn4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lEqAgw+4xUjiZeaBr6KontaHut9DCriuGZUwiZL+IvrcXlunBfpLaz9q2EIsuyI1P/62at6bpCap2V0hBQgZ+HgBJq1ctFv0ijHoOoB3G+U6gwaAdiZyWFMaih2q/5Yb4IYwtSBbp0HGcZHxuPD3T8+PvbWdiOAWEqnOY5kGuvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=N9PzrbPR; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="N9PzrbPR"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7e87050b077so111075485a.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 06:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1755179950; x=1755784750; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4ZZu0s3S5A8+/SIi2GUbQjh84N2xIaZ27oBHRZEOGZ0=;
-        b=N9PzrbPROtxWyZbVaEBxCJ+BwqqrykRK9dMm5PlCwrgj52BJTh0yaIKl6U+TBukioz
-         BPxbfO2yXzEC2/eypvErSF9CJUW2sfKkMpg9uPwPErqosswfRFh3t0BTbhDI54npUagA
-         lilmlNGdIvGBEGMnLDjZnPV+IPwZ9Rp6Swc0c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755179950; x=1755784750;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4ZZu0s3S5A8+/SIi2GUbQjh84N2xIaZ27oBHRZEOGZ0=;
-        b=NA2Fl9MMwPL0qMgPtu+j/T3twhloH8gqKbmzXynV9BrHZBuLtlYkBV6el0cWR05mUT
-         64ISUrMjNDYhO2rKnLl/lHZpWB5SOB78DGw27VhNQNZbbt3Lf6fDaRHi1I3dHYew8mf3
-         s3+IRF843C1l2ABWQs86HZ4JMD9jFjsdHpYUeiMGzoMTY6mfGpWyKegqmmEJCTFJtJ3G
-         y9NIRiECRv3BFfZ2DzXWEOJKOru7bI0hWCRdS1EfLlfzIKlibnbyDSzxFDuBc9ZCbiTZ
-         0VNxyXBZ3wucw74zIAWgeV3qidJ9gjpFdwOzBI05gsMpBDD2JtkznQguf5+Kz+TA+kgV
-         Gk8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVq65A1E78j3t3OGliZJQY50eX8J8AbRq5dDp1dxCZiFMk86d0FDYqWBpMGeIsG4M1RxXsF6jokI6c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMk9cIo6LPsyu1xZ4pMix7DKuoq44NGDEcm0lWEixCPjM3zXyx
-	nQxQGyPDqANNwsi/7IM+kRgAH4crCgX5BXNJCrbgBhZ1kejY2zicyJ27Is9Kc7gvuxHSDAA3cRf
-	7fYyuF3U7g0rnJSyQj5rNunJCgK6vfQt05uGqTiUwUQ==
-X-Gm-Gg: ASbGncv47kqEzv4rqPpW/H3rHgycqZfmYPmNUYOjTKo/klHVMCXLUDpNQf/JvUx+RSt
-	XXfCEzJmlPKvbZp62cWN3K6x6Zd9/DmzXMmHlZoS9g1fz8Oa4lGGjEziNUQwvBB5DmHZFaRGAWP
-	uDaA4FJLyXEwugoclB0ZnSHB4SXaELub//Fj6VwbDPOmTtX1VGseKh4YgbTi0z1E2qFIn0JZiHv
-	qtY
-X-Google-Smtp-Source: AGHT+IHDCZisldsHFROueT1mDv+N2w5BriAS/91vOctNmeG6Etw7NNZmRk8u6yHZ87xrdPA7iktx621LgwaHh85teV4=
-X-Received: by 2002:a05:620a:e0a:b0:7e6:8545:5505 with SMTP id
- af79cd13be357-7e8705a2a88mr419769985a.55.1755179950579; Thu, 14 Aug 2025
- 06:59:10 -0700 (PDT)
+	s=arc-20240116; t=1755180033; c=relaxed/simple;
+	bh=KHG7xwAlZo5KtTQwWmzzzmt2xUyzEvURPn80RuE61H4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pyziuP3NGzwOlXlYpTgtPrmBmWfkuSEoJIbID22l0D4mzQ2E0qNnT88itKJv6diZ5XYHcVDlIRlZ+bGkqFTn6hWavKIV2kS2VVhV+QO5nC50+AxSkHR3iTkooIuY5JnU6Z1PlC9EEuFHgoQj3Dw6qEHKEF4ypAzTV0avkbzjGU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.194.254.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpsz5t1755179969tcc391592
+X-QQ-Originating-IP: oo50RviW9iR1o+OtONEechxBV1y/n/Sj+n0GrlQ3YP4=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 14 Aug 2025 21:59:27 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 6429672801832651080
+Date: Thu, 14 Aug 2025 21:59:26 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: MD Danish Anwar <danishanwar@ti.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, lee@trager.us, gongfan1@huawei.com,
+	lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 5/5] net: rnpgbe: Add register_netdev
+Message-ID: <933ACEBDA5823549+20250814135926.GC1094497@nic-Precision-5820-Tower>
+References: <20250814073855.1060601-1-dong100@mucse.com>
+ <20250814073855.1060601-6-dong100@mucse.com>
+ <dd6ece66-ae4b-424a-aa09-872ac15e1549@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250703185032.46568-1-john@groves.net> <20250703185032.46568-15-john@groves.net>
-In-Reply-To: <20250703185032.46568-15-john@groves.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 14 Aug 2025 15:58:58 +0200
-X-Gm-Features: Ac12FXxPrNeYbLt2gO4V6U2nB86--yn65EeQtUloUgMUUdsnzFSb_AaNjXQhYqI
-Message-ID: <CAJfpegv19wFrT0QFkwFrKbc6KXmktt0Ba2Lq9fZoihA=eb8muA@mail.gmail.com>
-Subject: Re: [RFC V2 14/18] famfs_fuse: GET_DAXDEV message and daxdev_table
-To: John Groves <John@groves.net>
-Cc: Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dd6ece66-ae4b-424a-aa09-872ac15e1549@ti.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MgRO26CFjEybqIR83FmKs4gEh8++NeWfcuOdUd3x6X0XNdyiI8GBHAmJ
+	LOD720A0RBmR3TuWFSylxdUo8RB7BuqEDa7oNNrHZyI2fDspsXiI9G6Dzq30sofb9EtgiWL
+	bmCux0/vo7j/uV6SS181L/3WPgZITDjKc5Pmdru3AbWJvzjFbtx+d5LAAycAP/sP8nDdwH1
+	PWdaC1WE3KS4w9MSwhVVSg3QQRN6oKdj02RcdjDYyuNEBJub+EDxKsSi2MrurYpSU1ZGNAp
+	84qv9UVr/0WJPn/3+1YcC2qhwdMaIg7Cq+J4kn4OWpvKn+ZeAxIAnAbhuwxVdfjFhnEg9kQ
+	ZLjLo1hOe03j5fEILCPqy0fAMY6Y2Rvk+kuAUFGv2rvC9To+7zOaowJRd+XGG6KQN8jOcoF
+	lwkrrXTiDt0HjBmIZkNAID6LQNl62zCnqunNrSDVp9e2+XwIvxsw7DlvcC6hc+eGC/x+kCb
+	RE3fIS3Z2eypkrUxXeFeDieIwzfAr233LWHqRRPevf4khqtiWRzeUWm5msIfOcSfM3NShAr
+	u2yA6QIDkVNUU8uEYjvb3VfdN6ad/cmYURPv0gb7zZgNEonkOBqnlum2/81l5Ka+EQZrAJZ
+	QgOjdPD2Lgk8CaxM7clTEI8+WWmAzWCTlSN/3Fp2OkoonCIUB4L2R20EQqKPaJEZ6Wq3SYK
+	KEJNrSANxZjs0TC0kcnZO410iqZDLjHAKaIRRV9Gxe5eyPNdvFR0lZBzEyg/hp6J89qYKTq
+	zbnKVimaTPTVEO5HUCsBLi1k1UePI0IWmJEYLVLC/4aewA5h0B4IG3LkY82TqR1YQ731Oq1
+	OTwJbHGWHsWKBfS2WKi6AbAHcTdewtGx2nDiuJs4jgUl/EtsklxQ3XcjYU8IcmFL/W+D7iT
+	4wrrbn+kvDqP9vHsDh4omLxdIfyORqUmd0WHosTTiI1W7s7ptsghhVrqhxGLWZOuswkmWRo
+	ZsFtH+SJBgDeAW641jWcKRKPb691C/opGH6abo4h0qEuB3e/mSebRdZJZds2mKrZsXyaNJw
+	fk6KMexlfcwADPUFo8EM2SmkiBmJCL6EAubCKDCQ==
+X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+X-QQ-RECHKSPAM: 0
 
-On Thu, 3 Jul 2025 at 20:54, John Groves <John@groves.net> wrote:
->
-> * The new GET_DAXDEV message/response is enabled
-> * The command it triggered by the update_daxdev_table() call, if there
->   are any daxdevs in the subject fmap that are not represented in the
->   daxdev_dable yet.
+On Thu, Aug 14, 2025 at 05:44:51PM +0530, MD Danish Anwar wrote:
+> On 14/08/25 1:08 pm, Dong Yibo wrote:
+> > Initialize get mac from hw, register the netdev.
+> > 
+> > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> > ---
+> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 18 +++++
+> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 73 ++++++++++++++++++
+> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  1 +
+> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 75 +++++++++++++++++++
+> >  4 files changed, 167 insertions(+)
+> > 
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > index 7ab1cbb432f6..7e51a8871b71 100644
+> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> > @@ -6,6 +6,7 @@
+> >  
+> >  #include <linux/types.h>
+> >  #include <linux/mutex.h>
+> > +#include <linux/netdevice.h>
+> >  
+> >  extern const struct rnpgbe_info rnpgbe_n500_info;
+> >  extern const struct rnpgbe_info rnpgbe_n210_info;
+> > @@ -82,6 +83,15 @@ struct mucse_mbx_info {
+> >  	u32 fw2pf_mbox_vec;
+> >  };
+> >  
+> > +struct mucse_hw_operations {
+> > +	int (*reset_hw)(struct mucse_hw *hw);
+> > +	void (*driver_status)(struct mucse_hw *hw, bool enable, int mode);
+> > +};
+> > +
+> > +enum {
+> > +	mucse_driver_insmod,
+> > +};
+> > +
+> >  struct mucse_hw {
+> >  	u8 pfvfnum;
+> >  	void __iomem *hw_addr;
+> > @@ -91,12 +101,17 @@ struct mucse_hw {
+> >  	u32 axi_mhz;
+> >  	u32 bd_uid;
+> >  	enum rnpgbe_hw_type hw_type;
+> > +	const struct mucse_hw_operations *ops;
+> >  	struct mucse_dma_info dma;
+> >  	struct mucse_eth_info eth;
+> >  	struct mucse_mac_info mac;
+> >  	struct mucse_mbx_info mbx;
+> > +	u32 flags;
+> > +#define M_FLAGS_INIT_MAC_ADDRESS BIT(0)
+> >  	u32 driver_version;
+> >  	u16 usecstocount;
+> > +	int lane;
+> > +	u8 perm_addr[ETH_ALEN];
+> >  };
+> >  
+> >  struct mucse {
+> > @@ -117,4 +132,7 @@ struct rnpgbe_info {
+> >  #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
+> >  #define PCI_DEVICE_ID_N210 0x8208
+> >  #define PCI_DEVICE_ID_N210L 0x820a
+> > +
+> > +#define dma_wr32(dma, reg, val) writel((val), (dma)->dma_base_addr + (reg))
+> > +#define dma_rd32(dma, reg) readl((dma)->dma_base_addr + (reg))
+> 
+> These macros could collide with other definitions. Consider prefixing
+> them with the driver name (rnpgbe_dma_wr32).
+> 
+> I don't see these macros getting used anywhere in this series. They
+> should be introduced when they are used.
+> 
 
-This is rather convoluted, the server *should know* which dax devices
-it has registered, hence it shouldn't need to be explicitly asked.
+Got it, I will introduce codes when they are used.
 
-And there's already an API for registering file descriptors:
-FUSE_DEV_IOC_BACKING_OPEN.  Is there a reason that interface couldn't
-be used by famfs?
+> >  #endif /* _RNPGBE_H */
+> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> > index e0c6f47efd4c..aba44b31eae3 100644
+> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> > @@ -1,11 +1,83 @@
+> >  // SPDX-License-Identifier: GPL-2.0
+> >  /* Copyright(c) 2020 - 2025 Mucse Corporation. */
+> >  
+> > +#include <linux/pci.h>
+> >  #include <linux/string.h>
+> > +#include <linux/etherdevice.h>
+> >  
+> >  #include "rnpgbe.h"
+> >  #include "rnpgbe_hw.h"
+> >  #include "rnpgbe_mbx.h"
+> > +#include "rnpgbe_mbx_fw.h"
+> 
+> > +/**
+> > + * rnpgbe_xmit_frame - Send a skb to driver
+> > + * @skb: skb structure to be sent
+> > + * @netdev: network interface device structure
+> > + *
+> > + * @return: NETDEV_TX_OK or NETDEV_TX_BUSY
+> > + **/
+> > +static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
+> > +				     struct net_device *netdev)
+> > +{
+> > +		dev_kfree_skb_any(skb);
+> > +		netdev->stats.tx_dropped++;
+> > +		return NETDEV_TX_OK;
+> > +}
+> 
+> You didn't fix this extra indentation. This was present in v3 as well
+> 
+> https://lore.kernel.org/all/94eeae65-0e4b-45ef-a9c0-6bc8d37ae789@ti.com/#:~:text=skb)%3B%0A%3E%20%2B%09%09return%20NETDEV_TX_OK%3B%0A%3E%20%2B-,%7D,-Extra%20indentation%20on
+> 
 
-Thanks,
-Miklos
+Sorry, I missed fix this, I will fix it in the next version.
+
+> > +
+> > +static const struct net_device_ops rnpgbe_netdev_ops = {
+> > +	.ndo_open = rnpgbe_open,
+> > +	.ndo_stop = rnpgbe_close,
+> 
+> 
+> -- 
+> Thanks and Regards,
+> Danish
+> 
+> 
+
+Thanks for your feedback
+
