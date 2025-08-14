@@ -1,190 +1,166 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2047.outbound.protection.outlook.com [40.107.220.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBABF3A8F7;
-	Thu, 14 Aug 2025 15:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755186786; cv=fail; b=kxCSkaq4VKm056SNHgEb/W7IQ5hA44Z5FJYJL/z79PmNG+Bfh2mwWiun2185wgfy7f+9FAamrusX0R8oIRsTjL5Vc6jlr0tcHbkGDYNVixgr+CkS50LRGs2tidb6X3MAkPwoKUKAcD4ZiBm4YcfXSIRpqwgRqGS9GNVEvDzsa48=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755186786; c=relaxed/simple;
-	bh=0P/5nxRD9peTxLfJE8cYuVX0qvg5iUnB/62g65uogsc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EchcL9Pvbif92wzyqAerjQNF2QAf5gfJMoNqOKcz5hPJLFGqYb1aULe7RWCW5R0WKgHkT8wXqDeS18B35jddTE8pJs4+3/X1baYSWR+VId5bmLcPUJPN5kOupojcz5qwO4IzGsKrVlZz1sZMCM+mRN28JYnpfhem9l5ow37ZMac=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=uqU/zdZ6; arc=fail smtp.client-ip=40.107.220.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E275204096
+	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 15:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755186905; cv=none; b=iUm2JwYMT3cn5Pe9pIa8i6rNWxexD0+DfzJfEtBrIHRzdgpdPAufB4zM3X/VMng76kvEfyqJP21EtRtcxg75AdvpcIQDX1naMT8jX8n8ejnnIDVvwM8mOL453bRzFeMZ0mQOdbgbmjbdZ3vFn9frex8AVHZHtIXp+fEKUzKypIw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755186905; c=relaxed/simple;
+	bh=XkpJgq+lIXUCppVHf15aiVr5Q8p7XI7C729dg+Vl3Qg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QQNLjE/FRxfJe2uJ4mYSIjCptIHbnv9S9YrvrejnqxyEia9x5BiE7roDlukxUx5WpWy6ZWcU5llLIx2LxC9ZkfPFiYyDGdRiqd++h8nU63XOUqrKdHEpGPsSxz4o+eykT0LmqihTQnVeMF5FZTXoemqXP2PCqx+YACuXVP2SF48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=HhUKmSmR; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="uqU/zdZ6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U3aX6738YKDobH64on1HRNvVDKbCxYPbQdOYJaM82NMsOkpps+2JIcE4bSrAGHE3lnuXUgwmSQenOEayIGZbCOCCfeB6yCoLm86xdVbnV12RqGYeV807ynstd/4fl3cVARAzbdsOB//LLwWgNVe8hq9abrcUS1GVkjk0G2QUXsocf08HDS5JzjiamOp4CgczVJ3DGXSbNgFPrnwWAaXKP7MMR9gYLzh7sUbMI31CO1d5lrWKaKAJbJ8fdFDYuLZfDHkJbP72KDowRS7QAJg3QWlEySMfZm7aNPAhWtZ58qXNB1KeqnKjXgClyly12TOCsDofefQ37zWllJka+qKqEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=coye6i8oHaHQ2bdF3UW1jPG1mc3iee9wOtEN1DTXaw0=;
- b=FqaEBdh9WZiwiTaFmMUx2nhzWWinNajrFwaZ73c3Mb0mrEDhVQhhlT8mtayp9QfapN6JB1QYbSR7WT7bYAJa/Bd+zZ6Gpi8mDwD4r78jKUrPAyAQqZYzcwxSP0SPMDXJO+jLg/RI1e8LFSvGI4oRAb3yZwf2V+FpwxH2w03WgX5LX94rhM4u7F3SNmQUz9kPhV7rBP2SmR385pYH7U1TKcVE8JMoP2hn6tMotgeNVr0t+++FLsP/kK6zJG0Wy3Jyy4g1vUsYkI3ESMXlTXCzXKxUKtqfggcEuISjBhvfPzFuYsErHmqjfP/S6sx1IluRok3ukcmHSCI1HVOIIjgwDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=coye6i8oHaHQ2bdF3UW1jPG1mc3iee9wOtEN1DTXaw0=;
- b=uqU/zdZ6JQoHfayTmIuCivL21IUG6a7M5ybmplC2S1gzqjb3yN2Vxmjj4LHlKHzNfh5B1Tbvv80CsTVB+bi9wlWTmB6Djg2POpve1DWvKmAEJIROxo6LfikxUDU1Lv9fboa1eFxa3fnVDyN9mCHKQWmPDVxetQRIHJkIIB1SVv/2m5i/2q+t6Md0/g4mN+zM1KzD7HMorMIC7R3yAtACvqDHid1o1bJABMQXPXiYiLOAxGI3JgBj3xc4WK1XYJJvnJZaW2CMXixIT1IaiJT0duauY6JEvmw/WJBD5wCBxPedKhIgXoSoB/y3VYMlRupf98qf6fE9TA2nAcjFqIsQhA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- LV8PR12MB9111.namprd12.prod.outlook.com (2603:10b6:408:189::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.17; Thu, 14 Aug
- 2025 15:53:00 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%6]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
- 15:53:00 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, corbet@lwn.net,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
- baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
- Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v4 5/7] selftest/mm: Extract sz2ord function into
- vm_util.h
-Date: Thu, 14 Aug 2025 11:52:57 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <D3D3F7A5-A7CD-4D93-AB76-2200569AF98E@nvidia.com>
-In-Reply-To: <20250813135642.1986480-6-usamaarif642@gmail.com>
-References: <20250813135642.1986480-1-usamaarif642@gmail.com>
- <20250813135642.1986480-6-usamaarif642@gmail.com>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: MN2PR07CA0010.namprd07.prod.outlook.com
- (2603:10b6:208:1a0::20) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="HhUKmSmR"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-45a1b0cbbbaso7584935e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 08:55:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1755186901; x=1755791701; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SviimhcnBMLOVVMhOENj2J5Tfh1/NQV1XS5VZG0D3iQ=;
+        b=HhUKmSmRpXmjZFZ5q/DoCDAPbLa89O1pAzxr9RG0pfEAMsY+VGEGPuPpus4BiNfK2f
+         OP3UWnBLgTiFOCLKIOudw+RO+8dZhLZQVivsrnUqdRizT964W2XrjTDknJ7fbqSEdXCB
+         yQMXKx/GosmiQWhAZd/aJRMxp7ySrXoZYphjtdkGbLVaI3vqu4tGWTrWRo1+ULQhcNeS
+         nXBonXQaaLA5APE+I2oLRjaM1LBFz644LtblJhLyqsSDU9umKxA3xEqg5nmQOzS4o0Rf
+         mnGGbtJDtkPowPQlKi/43B9xwTc04cJGX27HvfZ3NaBqROEu2Gl9OaqgX//qGncDXwlL
+         R3Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755186901; x=1755791701;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SviimhcnBMLOVVMhOENj2J5Tfh1/NQV1XS5VZG0D3iQ=;
+        b=aFjNeCOnp9DyK0H9GXU/7CB9vqI3/Y1wyhgpJWkBtuKqGhGuQN630U2AouRihShbty
+         t1TAQ9AmK9+EMtiKFXzVECvETtfJvXbNnNKSXB7Gm+nEz2osMNdiJ9vqMCT19dmgGxBX
+         67eKh123+ukRVNzsxiBpWsBhNEhIKLNT4v5QI2Hxl1ASumSpJ3JIJOZ01/dw9Hx0h5p4
+         W2ibWsuMmK8yh8Sv4WrYBPbzj71ISYwTBgwKGMBAhYKuLTWcVdeUGGmhJIXPOyUFhS3k
+         aFECH4LlLg5w3x2n07DNc6MBv0PpEEwZETvme99YyUTMNTTt0JoGv4hIMnsjxaO1GxAA
+         HT8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU3BeOiDW5S6bmzpy9dfZXlUw/o4we43fkq7JZYKyX+BNkTSNKRgDAT4/K6uVb2PV4s5wdtkYA7XrA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz838Tw9r408fJAk0+kjr4fmAiQJ44JstCdbh+F/MZdDAxcbY1b
+	KxFeiqzwinBZILxQkGVf3CN0cBmWEPmSovhMe1m4zBsMpuA2XS6U6gzhj1Oz7RcBuKQ=
+X-Gm-Gg: ASbGncur79RH/3kyvnDZCQeeff+aBdPVzobyemGSk5bhRvCLNBnsW+pexWB3kRmSvlJ
+	K/t6EtkCgChF2Q6BUZFgLaL6WvATab7bWsa7SK9KyMz1F4/cwxJmX+uRFlY5tOvZpkm93yq/tyY
+	VM/td6vHkAJymdpJeWQW3ykg2xf4k55BuThxR9cWT1qMza8vRRq1uJw3g8FPp+1q4XsoaY877Be
+	gP9+v6gU0YJg75a/cwwis/Pwxt/jtRwYXp0FSTScG2mFjSwMdM7viVRyAEa/IBG9/HSANMUBf51
+	c3BJw5Df/IXplYyBSGTzSxm06ZGtf9bmA7WOFMJPvvLENBYGGo3n1YM+PRCxODAtMNb/GlrA7iK
+	tuYSiGrpxqrRtwvNq0jwAjRQmg7K/eNtsH2K4TrbBLw==
+X-Google-Smtp-Source: AGHT+IEg8KfFdsEWg4VePIf9NMFdjfj2YyB1TPJBwkQF8f3PI8g01heEQys1xj+KdL5pkHweD6cG9A==
+X-Received: by 2002:a05:6000:2910:b0:3b8:d5cb:ae1c with SMTP id ffacd0b85a97d-3b9edf2d87dmr3225979f8f.28.1755186901323;
+        Thu, 14 Aug 2025 08:55:01 -0700 (PDT)
+Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24302e028dcsm70954145ad.91.2025.08.14.08.54.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 08:55:00 -0700 (PDT)
+Date: Thu, 14 Aug 2025 17:54:44 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Tiffany Yang <ynaffit@google.com>
+Cc: linux-kernel@vger.kernel.org, John Stultz <jstultz@google.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Chen Ridong <chenridong@huawei.com>, kernel-team@android.com, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH v3 1/2] cgroup: cgroup.freeze.stat.local time
+ accounting
+Message-ID: <oel2dyzlyvzggpwxprhwbd7n2ye2bst32izjnzywjdilo4nena@p7bcxgy6lqyq>
+References: <20250805032940.3587891-4-ynaffit@google.com>
+ <20250805032940.3587891-5-ynaffit@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|LV8PR12MB9111:EE_
-X-MS-Office365-Filtering-Correlation-Id: 00a9b36f-cfbf-4ab7-8061-08dddb4aa56e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?WiSM8WTHbMHCq76y4GA3q07LdsiJHBwm+lHRl760fCUixcJz1Otr11yrPeEw?=
- =?us-ascii?Q?3b5RGG5LT8cPZVZJ59B9LP7H7neIK0D/ly47G1P1iy4Hhb12h1wXLzFtkUrf?=
- =?us-ascii?Q?B4gFbsvNYyq6nRIvrYbSx77WnIJpWUY6vwMuDnk6pFxYClQdySw41ixaft5G?=
- =?us-ascii?Q?7ecaSbdkFK+8coEedO7gYcyCZnR4mubggfhYcvvj45n/6zy3ylidQP/uBhE3?=
- =?us-ascii?Q?3Z/JwjKnwveM6V2oJ5UN1NjN4YYhDs9xprdPDeKrDN0aRqazsnIBSwiWD/mC?=
- =?us-ascii?Q?sQ+oFmTXkGeEcj35Pm38Z2paYWLPUokKxuoiwkS5RejT517eNyRD+LcpU7CO?=
- =?us-ascii?Q?nqaMAVETsczf1DRvyeBMyycVSrjmtYQh6PVyYnOly9TAh60yKg+dupKTLwf2?=
- =?us-ascii?Q?eVRcM79oGawFIOBmndzwnNGuPVyaKfo7PeQKaM38VzAy0YitmrbnoFYhaI7l?=
- =?us-ascii?Q?5Tb2wBIFwUuHYn+MHvCPES+6XS1LobSqphgycGKy5b92ZtW6482k/siahlrm?=
- =?us-ascii?Q?o01rZd3MFpxAmWPwZ9pBRNlc/EZDQgYxwxAmbekqSIiZPqi1FFQRhdGaiS5p?=
- =?us-ascii?Q?mzChgNO16rq+RmQLsfzYaR2bnNmLGwl2i5aW2o1+drl5jG5PqeufD41dehF/?=
- =?us-ascii?Q?INHfWkhXIcQJvDf/wBzvv/HQ7brUcykZkZK3kbIt0BwmlfnfLM1pT5GCEf6H?=
- =?us-ascii?Q?eST8mDPwDXhQuSuffJ9R3ob9wupv0hHYfEN8ulxaO3M55rH1y2EYu1yRMVZr?=
- =?us-ascii?Q?VeZnO54PinXE8nMVAtzQlQ+GZbL0Qws2VQoikdWLiD15rwNq3ncEFSv7eao+?=
- =?us-ascii?Q?VrpouqNZJecQdpO4Sk+em/2+R5cMA08tg7Mt+8jbJ8/VU3DAqmPUPI/I0Bqn?=
- =?us-ascii?Q?s7PxzAL8gMRb1lwtMecLfDXbeLDcQC2dr9wuEc871AChzSPfE1+g++siMnho?=
- =?us-ascii?Q?xMiAf/mj5vT4VFxTmGk2bLyb3Y5bUMzenHu8gM8a3VM/VWWqn8cSVl/cK5Oy?=
- =?us-ascii?Q?F9vD6BQrcSsa5l9tbtBndK0179+rFpLQM+AIzlcNu1w0cMJHj2sU/zi66G3b?=
- =?us-ascii?Q?p76CAYYPmyrt0gje8Lcg7ijXrTmqXHpskk7Gw6PodePZBmZYgJ1FZW0JtHZk?=
- =?us-ascii?Q?OljogoBPyV+gy4MLw5zqmZkAuuvOLwPZYLqz0cRaO/kbWwsxhMGFPriCayg8?=
- =?us-ascii?Q?etaSjNqMyFHB0BMlD8a5soh66LxJ/eMR9PZzlPXPldJ+33A2zBETHiYu2sh9?=
- =?us-ascii?Q?+2rLZjWWu6XviclLDfvs+YjOv8dk1A/s+JuZa+XUA5b568mNykU3Nc5GbH0Y?=
- =?us-ascii?Q?aUO/+3MkDUSfFIJEmd6wq77xtovcCRUKzHucmxTyo7a+iOnDqfrPLJyvFeeN?=
- =?us-ascii?Q?p7HxErYLemN5uNIPZdc54RISuu9e/QEcQhBlegZRnYPzEcduRxkQHeVwQ/ze?=
- =?us-ascii?Q?i4hXg5Hd3uA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9d+p5/N7X4mZKgFDalwQRGEYBv5KiUdRqfJaRdXx2z0gUrHP9gwDKhAMYo9D?=
- =?us-ascii?Q?O6RL3I9HaS3Kd2CZoJmGjWBY79QjtFQScYwgdtLgNoSPzscbN8ocK5BpUj6a?=
- =?us-ascii?Q?naAe7QQWHUHZ8NixM2B+HDjZFuyvPwIEm3E/jcUkzfJN3a7MJZXL8o9nJchb?=
- =?us-ascii?Q?8Zl4eigj7Y4Hwdk+BE8YIz/M2z3uwTHapYSmu49k/mq/eDmS/mlpJJUEaOLu?=
- =?us-ascii?Q?YvEnJveuhFMRI8JtuZtOpVWzWvTOvWR7kn//Ds0T6LI0LJnZJgOAoo2Dj+mz?=
- =?us-ascii?Q?bN+vn66mT/2tginsN2GwdluVtCxxJfoaEBeCRTr2O47+ZnNLmjMt9tFQRNNT?=
- =?us-ascii?Q?lO8y9t44Vyez8NblVG0ecY3/RXRjp9g6tmivpO61RII0v1Dr7JeodocxLlGP?=
- =?us-ascii?Q?us8fTvC9lSidDliGR8LIWFjWqpBuNKwqqc2YoQyTWgdOG7G9JijDxR8ICbrt?=
- =?us-ascii?Q?0jLIhWZTm5YSbH4sVEg/lqX3NmOVFhDCM9gldoEbRBLSmwfXhDF7JbO8kJr+?=
- =?us-ascii?Q?8rZkdLZG+1OejSvTsIWDb/tHHRFX+S/xcLsniSE80rDY/6ashosEUYbASaR6?=
- =?us-ascii?Q?Jijm3Utf7ocxtRq7FDnbiFwzYXODTZEC9c3HwWN6L3PX+YSXuosfN8ZDS1Pv?=
- =?us-ascii?Q?H0hxFUAELb938z0Wu8Q+jF6hhZqh+ISVsutvLlsrnZ3bWXwuiDsxDOqb7ejK?=
- =?us-ascii?Q?lhw0+XiHr7XLx1ImpdNmDO8qQwytviDK5fneEGGB+x6WcHsO6/sSNBVHfA3c?=
- =?us-ascii?Q?lDBy1MvE2NOKHY/7bhakGzeblZKZYOqjixMjZm3+GXdeOuiKrhCp5XozkFTs?=
- =?us-ascii?Q?QRZbglC/mh1kwnyC90Jh2wjS/3P0NpEfKFasRb4j+oWptTIy+iASzeuXdMBl?=
- =?us-ascii?Q?bpiSBZhDQLPjhahZBy8gREBqFibv/5gmOHJR/84yk4BQDWl4dqHwCwWvttqO?=
- =?us-ascii?Q?iLTLUPu4evoMeO+B1CzNFmdoxb/XEf2hoNxTtJI2ptgRUSlaHqhflv3R7Y79?=
- =?us-ascii?Q?4SMdiF506KLeNtsuQ87McRIAmc4q9vPsPhUj369wArbI1sEdLCbhTaQH6Zdg?=
- =?us-ascii?Q?+PwtuECkVNFu/TPyBnsbeCmPqn/0bfbxCqM9icDLsrC0a/LETjxlf6RK+j+d?=
- =?us-ascii?Q?nbkWWWMdHEusdxSWTlGEJaddiC6QK7XUCfYYEsw7Vghnez623dfXhnIODPEf?=
- =?us-ascii?Q?Md8XGVlVwYriZTKnJGiicyF94FdOYh+yAeRYq/7aV3HHEt++Vbj9gGpIVYW0?=
- =?us-ascii?Q?Cy41wGHWruWfSeRwaH0+u1AdhuBIb5dDN9TE6e34YHszrqke7Egb2/2zowU4?=
- =?us-ascii?Q?Qm5IzZHGt/A4lezExkPGVZq6vz7Pf14XfFloXHcEG7vdI3fZRC0DxbmYwOl8?=
- =?us-ascii?Q?qUyCo7R35SGylKkmj28kTybfYLpFbvgrzJD+o7H9kUe4MKl+Py8XJy+OpRpW?=
- =?us-ascii?Q?gAAXra/j9ni6m24og48ARiBaQ6aetepufaWwtFgeoWcBz4Yj9KPC9lD0Umx3?=
- =?us-ascii?Q?GpfmzY48UE+2A8wIDAa88gwY2/7YpqW1LpL5jdRgHwO/fGFc4tMJv7D5iw/C?=
- =?us-ascii?Q?eFCHhhfKGSC/IoiBfxaCeLP9Rkm3JweRcGDs6noK?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00a9b36f-cfbf-4ab7-8061-08dddb4aa56e
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 15:53:00.7484
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SJhXASYfmaRy2W3xgin3w9EU+9fjmGFk4+rG90cF4vRPU1AhdAVt//MQAWJ2+2OH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9111
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pjtwomnmbus7efjt"
+Content-Disposition: inline
+In-Reply-To: <20250805032940.3587891-5-ynaffit@google.com>
 
-On 13 Aug 2025, at 9:55, Usama Arif wrote:
 
-> The function already has 2 uses and will have a 3rd one
-> in prctl selftests. The pagesize argument is added into
-> the function, as it's not a global variable anymore.
-> No functional change intended with this patch.
->
-> Suggested-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> ---
->  tools/testing/selftests/mm/cow.c            | 12 ++++--------
->  tools/testing/selftests/mm/uffd-wp-mremap.c |  9 ++-------
->  tools/testing/selftests/mm/vm_util.h        |  5 +++++
->  3 files changed, 11 insertions(+), 15 deletions(-)
->
+--pjtwomnmbus7efjt
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH v3 1/2] cgroup: cgroup.freeze.stat.local time
+ accounting
+MIME-Version: 1.0
 
-<snip>
+Hello.
 
-> diff --git a/tools/testing/selftests/mm/vm_util.h b/tools/testing/selft=
-ests/mm/vm_util.h
-> index 148b792cff0fc..e5cb72bf3a2ab 100644
-> --- a/tools/testing/selftests/mm/vm_util.h
-> +++ b/tools/testing/selftests/mm/vm_util.h
-> @@ -135,6 +135,11 @@ static inline void log_test_result(int result)
->  	ksft_test_result_report(result, "%s\n", test_name);
->  }
->
-> +static inline int sz2ord(size_t size, size_t pagesize)
-> +{
-> +	return __builtin_ctzll(size / pagesize);
-> +}
+On Mon, Aug 04, 2025 at 08:29:41PM -0700, Tiffany Yang <ynaffit@google.com>=
+ wrote:
+> +  cgroup.freeze.stat.local
+> +	A read-only flat-keyed file which exists in non-root cgroups.
+> +	The following entry is defined:
 > +
+> +	  freeze_time_total
+> +		Cumulative time that this cgroup has spent between freezing and
+> +		thawing, regardless of whether by self or ancestor groups.
+> +		NB: (not) reaching "frozen" state is not accounted here.
+> +
+> +		Using the following ASCII representation of a cgroup's freezer
+> +		state, ::
+> +
+> +			       1    _____
+> +			frozen 0 __/     \__
+> +			          ab    cd
+> +
+> +		.. Originally contributed by Michal Koutn=FD <mkoutny@suse.com>
+> +
+> +		the duration being measured is the span between a and c.
 
-There is a psize() at the top of vm_util.h to get pagesize.
-But I have no strong opinion on passing pagesize or not.
+This is so little "artwork" that a mere mention in commit message is OK
+;-)
 
-Anyway, Reviewed-by: Zi Yan <ziy@nvidia.com>
+> +static int cgroup_freeze_local_stat_show(struct seq_file *seq, void *v)
+> +{
+> +	struct cgroup *cgrp =3D seq_css(seq)->cgroup;
+> +	unsigned int sequence;
+> +	u64 freeze_time;
+> +
+> +	do {
+> +		sequence =3D read_seqcount_begin(&cgrp->freezer.freeze_seq);
+> +		freeze_time =3D cgrp->freezer.freeze_time_total_ns;
+> +		/* Add in current freezer interval if the task is now frozen */
 
-Best Regards,
-Yan, Zi
+Nit: cgrp is frozen, not a task here
+
+> @@ -179,10 +179,16 @@ static void cgroup_do_freeze(struct cgroup *cgrp, b=
+ool freeze)
+>  	lockdep_assert_held(&cgroup_mutex);
+> =20
+>  	spin_lock_irq(&css_set_lock);
+> -	if (freeze)
+> +	write_seqcount_begin(&cgrp->freezer.freeze_seq);
+> +	if (freeze) {
+>  		set_bit(CGRP_FREEZE, &cgrp->flags);
+> -	else
+> +		cgrp->freezer.freeze_time_start_ns =3D ktime_get_ns();
+
+I wonder whether it wouldn't achieve more stable results if the
+reference timestamp was taken only once in cgroup_freeze().
+Measuring the rate of cgroup traversal is rather noise in this case.
+
+Thanks,
+Michal
+
+--pjtwomnmbus7efjt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaJ4GwgAKCRB+PQLnlNv4
+CNbxAP9FzlDCoVP1/jhXEaVA20T+mwq1x7BETTs7XxHWatYQTAD+OE7kYl0NbVYD
+g6r21AfecI9/DXVLMsPPub/G82cpWwI=
+=3Weh
+-----END PGP SIGNATURE-----
+
+--pjtwomnmbus7efjt--
