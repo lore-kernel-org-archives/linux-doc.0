@@ -1,1301 +1,311 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2063.outbound.protection.outlook.com [40.107.220.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0F120101D
-	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 15:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755184221; cv=none; b=Z2lGS/ufjG26FtNZug9QcxrTDe62M2M+BwbAfT3jXDw83W5z+q68FFrt9az+jrFfwgjPztl+DEH9bzinmBYrEFE5e9gtzif2VLLnHgQWp9pVeiDUDzDCJy9WmdpmO0Su8aKih0oddAPfxBXi0mCdV/Ul8RTxS/076R3Vu54q+qY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755184221; c=relaxed/simple;
-	bh=vbNUuQ+LEC8jHEYcLR4c+coDZ+fgEIVwo79nvcHDkCo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015EE21256D;
+	Thu, 14 Aug 2025 15:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755184503; cv=fail; b=RHLc0EPWHPcZWhRvYgU/spxCTkVCPZ/zsUG0j4vMKVdxCbgPgj38gmulTkZYxv/4FM/p+ipSVBWDmuNa82+DrKNX3TOAavUADKf67/T7+C49y8scPmpuwgjco8X/OZXtcRoZ7K+ycQ9TbVWapQf5OdTINrJWctxBoNCTdp/nq0Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755184503; c=relaxed/simple;
+	bh=MYQmK9TH9tEu5N7mvo8Yqi0lhKT335Q2WPMx57mCh8c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=okgnIQXZtuAjheTNV7UPIvaA/0CjWLB1mnORDzUpf0mf+oS64YwhKuLgUga6WoMhjJmp6QvPtesTHYeD5JhYWsMWBjXLpx6Xun4GergQHEQyUBA42eqmfNPOdHzAq6w0zk62oCCJ7Idl2cd2zY3vkBsh54YoKknLkwaP1DhaQ3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CsX5AljP; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:MIME-Version; b=bPfaRhPiMXwOxBg98C7baQkPojNdlKvzPwUoqBkgeYNPQLqfXnz8b4kAsdCNiNs58BxuDHfCtiGPAb+MoSu8jORZgo+ZYyMWtGsYWIo5SMfADbJCXLkj4bbaocsHlm5sotVieGsNlua4KqqdYK80Wqsrkk5rITFeBo9kI/CnVz0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=uLQvOu30; arc=fail smtp.client-ip=40.107.220.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CsX5AljP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755184217;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=khBqRM5AjZJd10ToKw1jOg1G418nf/ZBqYYXNkLs71k=;
-	b=CsX5AljPwGHPv1kg/rxU5aFZOR8279f7S8/FSeM5RH/HZi1nh9pEWCXORR0Rpvh8JFH8Ah
-	fKBkYb/XxCPJProAWrT3qq1drNFAzQa3RmlYIa/w1VYtIilNCq9HGVeRpAJ9bJcz4N2+Ka
-	v8iESo55PRZpmL1YjxhApyqB+qD8yFs=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-261-PpfKwIFyOOWQVGm5kGsYkw-1; Thu,
- 14 Aug 2025 11:10:13 -0400
-X-MC-Unique: PpfKwIFyOOWQVGm5kGsYkw-1
-X-Mimecast-MFC-AGG-ID: PpfKwIFyOOWQVGm5kGsYkw_1755184211
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CEE68195F166;
-	Thu, 14 Aug 2025 15:10:11 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.44.32.52])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0FD74180047F;
-	Thu, 14 Aug 2025 15:10:05 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Gabriele Monaco <gmonaco@redhat.com>,
-	Nam Cao <namcao@linutronix.de>,
-	Tomas Glozar <tglozar@redhat.com>,
-	Juri Lelli <jlelli@redhat.com>,
-	Clark Williams <williams@redhat.com>,
-	John Kacur <jkacur@redhat.com>
-Subject: [RFC PATCH 17/17] rv: Add deadline monitors
-Date: Thu, 14 Aug 2025 17:08:09 +0200
-Message-ID: <20250814150809.140739-18-gmonaco@redhat.com>
-In-Reply-To: <20250814150809.140739-1-gmonaco@redhat.com>
-References: <20250814150809.140739-1-gmonaco@redhat.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="uLQvOu30"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=d4kGRUoNuKfkkpQKssXF8F3jv+YityuLHicsnk993mraLlWCQtLCoYXEUxAdTlvKvIUTKR+qT8ZclKkRtWSglxyP+hrhe2oXQNl2vCaRHG/6HERTmE2YgrHGfBaSiC7MVDVDJQOgnXiUnRIf5VN6jqtgxS5DcQdNwarofHHzw+ArjsxO3F3JbodgFuMt9fYUhA8ntT401n25ivPfoT20K9e7V+4wboWDz31Mru61OC39jvqhYP5qyHHAyaF/KT5K2X2XDKCflXUdBUZdKOXCTi/fU43M6RqznoRubhgDbTPStEtdHyLtRQ1Aso+4ZLsvspeQQzjSmDAwZzTbw5e7Ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+t6KslPj3SAtsgptsUnrxpGW4FenpxFpxGwUINluNNs=;
+ b=nCmElgISKEj9PdTGpUYXHQHM1UKzjxhOcn3ehgsohTH4RpJhDjLZo7iHp9Cb96H7bmoMIKqZ9ReOeP/6LAnAOHEzke3ce/F+Heox0mjT2HIyVfAi7jm53HvgEWwF7TSs8VhF9Myi8AUmOaWWc0vBtV+ZzR33I5M0MZtFP5sKt1Us8lytte7uBEn90EeWBpWOQYYvYytIFU0tpbNGbyhhXIdq5cRTprajoxQNnrvj8jjOUW8eRSm6Bnj0cGGJ+4FSmMSQ7LvK2orKMXlWfzqNdR2ghGSJqLRyK6CzFIns12IVrZno8XezWNPNvgd2OW5ZWgOLtbToCQXxjYZX6aFlvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+t6KslPj3SAtsgptsUnrxpGW4FenpxFpxGwUINluNNs=;
+ b=uLQvOu30pLKBkn3L+9B6LrUBGhsBN3zIA7u1MZ+x7Wh6U54sufoI59X6Mk33O7BVP5oaooAgbVpl2osa/LA9a48atqEyoHxUi8YPhH8Y4AF2sx1ffQp4YRUONSDnDGwh2Q76qmSgcQbinTNRpCGN06695lpi33Xc71QyTB6lQpVbWmE7ZuFrFewjmhBF9yDvDvdsJF+cjMaAaF8Oa1vsAiibTQg17PQ8fCZIXXjUzPMHYCk6FWCU5FVwsCkBSBHKhAMm2jbQSnWhMv9gjw8AvZSuvFl/HIxgbuICewZl5fXJrG9f7Sno8s7fOZL8nLzrxjVYqfYfvPc2/0z62feDPg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ SJ0PR12MB6903.namprd12.prod.outlook.com (2603:10b6:a03:485::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9031.16; Thu, 14 Aug 2025 15:14:55 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a%6]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
+ 15:14:55 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, corbet@lwn.net,
+ rppt@kernel.org, surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
+ baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
+ laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
+ Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v4 3/7] mm/huge_memory: respect MADV_COLLAPSE with
+ PR_THP_DISABLE_EXCEPT_ADVISED
+Date: Thu, 14 Aug 2025 11:14:51 -0400
+X-Mailer: MailMate (2.0r6272)
+Message-ID: <365027D2-9BB3-439A-9080-2684E1795B7F@nvidia.com>
+In-Reply-To: <20250813135642.1986480-4-usamaarif642@gmail.com>
+References: <20250813135642.1986480-1-usamaarif642@gmail.com>
+ <20250813135642.1986480-4-usamaarif642@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BLAPR05CA0023.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::25) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SJ0PR12MB6903:EE_
+X-MS-Office365-Filtering-Correlation-Id: f100202c-baa7-4fa2-07ec-08dddb45532e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RllHcndMQmtnaU9FMGd0VC8vdUhWelFqaGRUQVBYdkkxTlpGWW5PcmRLQTYy?=
+ =?utf-8?B?ak1weW11aldzQlFMQlo4c0lrWmV2THpUSUR2U243SEFyQ0tuVVl3VC9Mdkl4?=
+ =?utf-8?B?NWhTQmJtTUNEa3RkdmxJZFZPMDQzb1pveVdsWXBRMTVHTEMyL045U1QrYXdq?=
+ =?utf-8?B?RloxSnFLbjBwbEcyRW95NWJZeGRPUGhEdlBGSFIwcEgvSWwxbjA0Y0dzcGFM?=
+ =?utf-8?B?UXlVaEtkbHhOQWltNktYaW9KKzlHMmRDSGpYMzNnS1UwUXdKMzhMaGs2Rlpw?=
+ =?utf-8?B?Y2U3TmRYQVRCMGdLOTh2MXFyaFp6emRpOEhyUmFndm9wMFpFb2I1RmVlanZP?=
+ =?utf-8?B?dVF4WEVIWlZVZXlJUERZa1I3NElXWXZLZ2xRNVQrUExqODhJYWVnNnpKTWRO?=
+ =?utf-8?B?SUJKRisvSUNadURYcjZId0ZtK1QrM0ZhYi9wLzY1bGw5L0NRclRCaDhmNDVB?=
+ =?utf-8?B?Y25vNUhFeW1hbTdmR3R0UDhnMjBDNm9JSUJUSFdLVHE0OVVSYTBkUElnY2ts?=
+ =?utf-8?B?MHdUNVl5QkZVVGlWLytlQnA0d1F4VUdkb3kySHpCWGZxZHNROEdWWnBFYW9O?=
+ =?utf-8?B?MmhicUxGUUxjYnB0ZEdDa0liWEdUSFlVdVE3KzNmT0ZkSENod1AyWW85dWY0?=
+ =?utf-8?B?Vy9ETlJSN3hoSEpmeXMwZ0JIMy80MFFqTzhCd1h5djBIZExzcklJOEkrMUR6?=
+ =?utf-8?B?V3lMSDFCN3VvVXZDbTlXUnFnNXpyYmpOd1BubE5QNkJmckxrTWZIbDFySGNp?=
+ =?utf-8?B?K3grK1lPZWF1R2ppbnpINCs3cjNWYzErVjVRSDRkUHp5SFJmUE1qRlRjTzZr?=
+ =?utf-8?B?ZGdnbmtUNUh1ZjBDQnVqMGpOZHNnZ1I0OWVKWVNrbGlsQ3VOWXFnTkxCbXdy?=
+ =?utf-8?B?S2ZvMzUzemZPWXVLNkplTWJrNUloQkt4dkxVU0Q2NDdqb09aSEViOEtRUXI4?=
+ =?utf-8?B?cXVGZE9MYW8xWmd4Vm9PMzA5VmkrcFpUcmlic3FNZHZPSGlNUHdmQ1pwaFhW?=
+ =?utf-8?B?VTJYOEw4OXBqcC93dUVtZnB2RlhqcDBrY24yenAwYWQydFFvUlE1NXN0NnlE?=
+ =?utf-8?B?MlRXWDJ5VDRTYUNVL2NzSUxiQUdOTlRZVHNSSkJua3NpUEhHeE5LMHphaW14?=
+ =?utf-8?B?WTdoQzdtNXVmZjFTNlZiU3hxbFptaDNadGpKdTR4K1dQaEQzMXo0V0M5dVo2?=
+ =?utf-8?B?THluSUJLUVNZemN0Y2IxZ1NxYkRHTXM3a3pzOWluVUNmbzZJbThMc3AzSmkv?=
+ =?utf-8?B?RWg2UEw4dFduMVIybUtSOXlkS3E4V1FkTG04ZjJoOFUvWm9oKzZxYkFxZVU0?=
+ =?utf-8?B?QnI0a3hxeDFLUHJCYTZURFY1SUx1L1B5N2t3dXBBb290Z0RSQkYxMytJdGFn?=
+ =?utf-8?B?dms1M2VabU1XbDg5d2JtclhRSCttZUNxMUFWeWlnY2haODdqYTBZQiszZXh6?=
+ =?utf-8?B?eU9MdlpWdVdjRFBkdi85UU1YMlBwNG1EbjNjVTVCaEFJMDA4UjFTczFCa1Zp?=
+ =?utf-8?B?RTFtd3FmbXQydzNpeXBINmFwa1pJTUpwSFBhNkR5TTM2dU1Xb2tkQi9qWEFY?=
+ =?utf-8?B?TWVYRk1ZSWlWNWVtT1VIUXFEL1dsQmhGZW04Nk5UcGIvL1FNbnJNODZXQ0NZ?=
+ =?utf-8?B?Wlh2dGhFZ3hLNHZMVVVMdnFsaFF6bkQ5MkpQTGcraHR5dlZMWlVaaVoxRU1R?=
+ =?utf-8?B?MjRIOWdEaEREMjFkcVZjODRFTXBlNmRHaXdFdEYwaDVMc280NldXT251R3Y1?=
+ =?utf-8?B?ZmF0N2k0UXIvRENJMzAybGtUWVpvZXdiTGQ1bWI3ZFdMTnptY0NzUEtWMGV4?=
+ =?utf-8?B?RXdkdm1YcFduaVNQcCt1eHE4Tmg1OUVaUXlxUzVOUlVSOExKdGtCVExrdVYv?=
+ =?utf-8?B?Mk1TQjZ5dDJScmFKaG1NOHFCbURVQ0RaNlBvczBsMVVXYUJMQ2VtNlg4cE03?=
+ =?utf-8?Q?RPBOrHjibMA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Kzc0RUJWczM4T0hKWWJIZzB5emM3bEFXZkZQSzQ0MllyMEZrRVkwQXZnZWpr?=
+ =?utf-8?B?aHBWa1NGQlYxWGpwWFZrOGNsRzlNS3E1d3liWHpRVU81U1BURUdLQWtnYVBl?=
+ =?utf-8?B?dHNKVjNSRkJiUWl5VFFXMnF4MGNIUE00aDdsK25VVGk1ZXNKWHdxTWhYMzBx?=
+ =?utf-8?B?MGVPTVVzbTNvSExESnhWSFc1R01RdlYwRTVzNmIyUUtjUUc4aFcxZXRsYjJ1?=
+ =?utf-8?B?RytNNFF0NnFGK2h6dlY0b0ZUM093N3NLQlFLbjdQUnRyMElRZU9iTTE2amw2?=
+ =?utf-8?B?NGU0QWRSSmZ0S1pxQ0swblJ4ZnpvclZXVUFWbld5K0xrRUJCbmh4QVRyN1hB?=
+ =?utf-8?B?Ukdhbk10aldZOXlqckh1dEoxb2NGalRCNW9wQWh2bGFueUUwaXlqQXF1M24w?=
+ =?utf-8?B?ckxyK0VINUtEWWNaYzN2enZINEFrTzZUT1hWYjk1T0FVTy9pdmpKM3N2eHA3?=
+ =?utf-8?B?S0ZMMzFvOHlEc1BGMGJsNGZXS3h1MjMzMFNYOHQycUp5RForNmhkUVBDUUFK?=
+ =?utf-8?B?b05HR0FERy9ZWHdXU1l4TXpZZXZ6SStGRFVVMzRtakk2N1kxOU1Pb1VzcGlv?=
+ =?utf-8?B?YXE1YlVGU3VaT3djbVdQNFZhckU4ZnZnOE12K1hxdjJwQlpoSkkvWldteVNs?=
+ =?utf-8?B?Mld0dUlXUGZWUmpHWER1Qm5aRHBUUU93SFhMUnhzV3NxekgyNEJsSEYvT0d3?=
+ =?utf-8?B?L3hyWnRNM3BVSVVodmxSSHZRTnZ0U1ZxWnhlbHk4Ny96OEZsODVUVkxPMjZ2?=
+ =?utf-8?B?bG9lV0pTU1BEQlVRdURDNTlOSTNMTStrV2V3Rzh4elZ1VDlZdFJkd01CTFZi?=
+ =?utf-8?B?UStlZjZiVTVPSC9iSi8vSENiYWd1TlRqWGZ3a3B3SGpjZTBSczg4aHYwZlhx?=
+ =?utf-8?B?bEdCVTRtWUlJS1dveVY5M3l3QkhUbXgreU9wdHNSMVM4OU5LcUtlRWxOVzFR?=
+ =?utf-8?B?K0pleGxDWEVlY0JBNUNxVHlnYzNTWk9BOFZ0eHFXZEJLWjVOU1V5RkVWbzI2?=
+ =?utf-8?B?VmdXeWxxcWVld3NYaTVWTWllWkI1bk1Jb1pNV2F0a3c1TzZWZ2NaSXQrRjh1?=
+ =?utf-8?B?NENwS0F3Z2VKTFlrcXJJQ2ZrL3EvaFJKaU1ld0dicE9YdmxGdzdqOVliak1i?=
+ =?utf-8?B?UUVRcXlIdVl1cGRaV1hPaGpkRjFyd01JdXlaWHRHcXpQZ1J5Um5RZm9nU1NP?=
+ =?utf-8?B?bUNrODFFc0xJL1J3WmpheTMwUGF6bnVHaGtWZG5laEZNZW5BbUhJeUp5cDJI?=
+ =?utf-8?B?VkhZT3JIYWNmNVFmZG5FUURKcnhRMWtQUkM5UVowMUU2SHBSYlMyVmhjZFVs?=
+ =?utf-8?B?TnJpcXNMdEhBT1pHRUs0dlpvV3lKQitKQ2xVNkNreFVsb0VBU1JqN2pZbWN1?=
+ =?utf-8?B?TU03dE1EOGtuemtsemhOYXFldENybnZpOGZ5U3BjUThPNmRqRndMMFpSSjll?=
+ =?utf-8?B?eW1QSDZIZ3JobHlrbWloSzZUUVhVRnFna0RYc0N0VlhCU2ZzT3E0RGFiazQ5?=
+ =?utf-8?B?OVVVK25pZUV6bktkL1E5bVlmOWxIVmVVZElMV2t0TTY2MHhoKzhaQTlmVlFm?=
+ =?utf-8?B?QnNVQU0vOGdpdHBra3lUT1hTN3lMTnZ6NXV5OGZ5TTJaNVlqMVhSdUl2Vmc3?=
+ =?utf-8?B?Y3NmcXFmYmxSVGpmMDlpQ1IrK1UxdHFYUFZxeS90VzM4dEhCbmkyQmkwNHlx?=
+ =?utf-8?B?NHhIbjBuTWgxU0J2Mmxzb1VwU1kyYzlvMWpXQ3F5UEFGamRlaWVETUVISW5s?=
+ =?utf-8?B?SXBzb2orUDYyZzlyK04zSWJ3TmpudmNweDNtYVYzVWs3YkZOa3ZueWt1bmUz?=
+ =?utf-8?B?RGs2S1ZFelA3Mzh1R1BGbW8xZ25YTmppTGVQNDlST3ZuSTZ6MFk5UHFSK0hC?=
+ =?utf-8?B?SkFtNDFUQnpUTEpjc21iMndhd3lIcS96NmlHODlZaVhLSENHNDlSUlBQMjd0?=
+ =?utf-8?B?REY2M1c1ZE9IRlEwMkNFbXJRblc4M0o0Y3FEeWdxRDVDMXRqaWJOV00wakxa?=
+ =?utf-8?B?elU5UXlpclB6Rko0eEl0YnhRRFM4MEM4THdSWTlsd0VGaUxIRWFCMDZXNkhr?=
+ =?utf-8?B?emtab3M2WW54bWllYmpER2FPeVQra0dCSnJOalN4TmR6SUhJcjBIWWJPbUJB?=
+ =?utf-8?Q?TnmmR1BpX72spWjbu6aZdyemL?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f100202c-baa7-4fa2-07ec-08dddb45532e
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 15:14:55.2499
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I3cLb+zaHJ0CDiYds/vtyhIQCP2iy0uOx08CTazAW12h1nTpanbv3NigUV9I3yr/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6903
 
-Add the deadline monitors collection to validate the deadline scheduler,
-both for deadline tasks and servers.
+On 13 Aug 2025, at 9:55, Usama Arif wrote:
 
-The currently implemented monitors are:
-* throttle:
-    validate dl entities are throttled when they use up their runtime
-* nomiss:
-    validate dl entities run to completion before their deadiline
+> From: David Hildenbrand <david@redhat.com>
+>
+> Let's allow for making MADV_COLLAPSE succeed on areas that neither have
+> VM_HUGEPAGE nor VM_NOHUGEPAGE when we have THP disabled
+> unless explicitly advised (PR_THP_DISABLE_EXCEPT_ADVISED).
+>
+> MADV_COLLAPSE is a clear advice that we want to collapse.
+>
+> Note that we still respect the VM_NOHUGEPAGE flag, just like
+> MADV_COLLAPSE always does. So consequently, MADV_COLLAPSE is now only
+> refused on VM_NOHUGEPAGE with PR_THP_DISABLE_EXCEPT_ADVISED,
+> including for shmem.
+>
+> Co-developed-by: Usama Arif <usamaarif642@gmail.com>
+> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
+>  include/linux/huge_mm.h    | 8 +++++++-
+>  include/uapi/linux/prctl.h | 2 +-
+>  mm/huge_memory.c           | 5 +++--
+>  mm/memory.c                | 6 ++++--
+>  mm/shmem.c                 | 2 +-
+>  5 files changed, 16 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index 92ea0b9771fae..1ac0d06fb3c1d 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -329,7 +329,7 @@ struct thpsize {
+>   * through madvise or prctl.
+>   */
+>  static inline bool vma_thp_disabled(struct vm_area_struct *vma,
+> -		vm_flags_t vm_flags)
+> +		vm_flags_t vm_flags, bool forced_collapse)
+>  {
+>  	/* Are THPs disabled for this VMA? */
+>  	if (vm_flags & VM_NOHUGEPAGE)
+> @@ -343,6 +343,12 @@ static inline bool vma_thp_disabled(struct vm_area_s=
+truct *vma,
+>  	 */
+>  	if (vm_flags & VM_HUGEPAGE)
+>  		return false;
+> +	/*
+> +	 * Forcing a collapse (e.g., madv_collapse), is a clear advice to
+> +	 * use THPs.
+> +	 */
+> +	if (forced_collapse)
+> +		return false;
+>  	return mm_flags_test(MMF_DISABLE_THP_EXCEPT_ADVISED, vma->vm_mm);
+>  }
+>
+> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> index 150b6deebfb1e..51c4e8c82b1e9 100644
+> --- a/include/uapi/linux/prctl.h
+> +++ b/include/uapi/linux/prctl.h
+> @@ -185,7 +185,7 @@ struct prctl_mm_map {
+>  #define PR_SET_THP_DISABLE	41
+>  /*
+>   * Don't disable THPs when explicitly advised (e.g., MADV_HUGEPAGE /
+> - * VM_HUGEPAGE).
+> + * VM_HUGEPAGE, MADV_COLLAPSE).
+>   */
+>  # define PR_THP_DISABLE_EXCEPT_ADVISED	(1 << 1)
+>  #define PR_GET_THP_DISABLE	42
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 9c716be949cbf..1eca2d543449c 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -104,7 +104,8 @@ unsigned long __thp_vma_allowable_orders(struct vm_ar=
+ea_struct *vma,
+>  {
+>  	const bool smaps =3D type =3D=3D TVA_SMAPS;
+>  	const bool in_pf =3D type =3D=3D TVA_PAGEFAULT;
+> -	const bool enforce_sysfs =3D type !=3D TVA_FORCED_COLLAPSE;
+> +	const bool forced_collapse =3D type =3D=3D TVA_FORCED_COLLAPSE;
+> +	const bool enforce_sysfs =3D !forced_collapse;
+>  	unsigned long supported_orders;
+>
+>  	/* Check the intersection of requested and supported orders. */
+> @@ -122,7 +123,7 @@ unsigned long __thp_vma_allowable_orders(struct vm_ar=
+ea_struct *vma,
+>  	if (!vma->vm_mm)		/* vdso */
+>  		return 0;
+>
+> -	if (thp_disabled_by_hw() || vma_thp_disabled(vma, vm_flags))
+> +	if (thp_disabled_by_hw() || vma_thp_disabled(vma, vm_flags, forced_coll=
+apse))
+>  		return 0;
+>
+>  	/* khugepaged doesn't collapse DAX vma, but page fault is fine. */
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 7b1e8f137fa3f..e4f533655305a 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -5332,9 +5332,11 @@ vm_fault_t do_set_pmd(struct vm_fault *vmf, struct=
+ folio *folio, struct page *pa
+>  	 * It is too late to allocate a small folio, we already have a large
+>  	 * folio in the pagecache: especially s390 KVM cannot tolerate any
+>  	 * PMD mappings, but PTE-mapped THP are fine. So let's simply refuse an=
+y
+> -	 * PMD mappings if THPs are disabled.
+> +	 * PMD mappings if THPs are disabled. As we already have a THP ...
+> +	 * behave as if we are forcing a collapse.
 
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
----
- Documentation/trace/rv/monitor_deadline.rst   | 111 ++++++++
- kernel/trace/rv/Kconfig                       |   5 +
- kernel/trace/rv/Makefile                      |   3 +
- kernel/trace/rv/monitors/deadline/Kconfig     |   5 +
- kernel/trace/rv/monitors/deadline/deadline.c  |  35 +++
- kernel/trace/rv/monitors/deadline/deadline.h  |  82 ++++++
- kernel/trace/rv/monitors/nomiss/Kconfig       |  15 +
- kernel/trace/rv/monitors/nomiss/nomiss.c      | 234 ++++++++++++++++
- kernel/trace/rv/monitors/nomiss/nomiss.h      |  81 ++++++
- .../trace/rv/monitors/nomiss/nomiss_trace.h   |  19 ++
- kernel/trace/rv/monitors/throttle/Kconfig     |  15 +
- kernel/trace/rv/monitors/throttle/throttle.c  | 259 ++++++++++++++++++
- kernel/trace/rv/monitors/throttle/throttle.h  | 115 ++++++++
- .../rv/monitors/throttle/throttle_trace.h     |  19 ++
- kernel/trace/rv/rv_trace.h                    |   2 +
- tools/verification/models/deadline/nomiss.dot |  23 ++
- .../verification/models/deadline/throttle.dot |  43 +++
- 17 files changed, 1066 insertions(+)
- create mode 100644 Documentation/trace/rv/monitor_deadline.rst
- create mode 100644 kernel/trace/rv/monitors/deadline/Kconfig
- create mode 100644 kernel/trace/rv/monitors/deadline/deadline.c
- create mode 100644 kernel/trace/rv/monitors/deadline/deadline.h
- create mode 100644 kernel/trace/rv/monitors/nomiss/Kconfig
- create mode 100644 kernel/trace/rv/monitors/nomiss/nomiss.c
- create mode 100644 kernel/trace/rv/monitors/nomiss/nomiss.h
- create mode 100644 kernel/trace/rv/monitors/nomiss/nomiss_trace.h
- create mode 100644 kernel/trace/rv/monitors/throttle/Kconfig
- create mode 100644 kernel/trace/rv/monitors/throttle/throttle.c
- create mode 100644 kernel/trace/rv/monitors/throttle/throttle.h
- create mode 100644 kernel/trace/rv/monitors/throttle/throttle_trace.h
- create mode 100644 tools/verification/models/deadline/nomiss.dot
- create mode 100644 tools/verification/models/deadline/throttle.dot
+What does the =E2=80=9C...=E2=80=9D mean here?
 
-diff --git a/Documentation/trace/rv/monitor_deadline.rst b/Documentation/trace/rv/monitor_deadline.rst
-new file mode 100644
-index 000000000000..af144605bbb0
---- /dev/null
-+++ b/Documentation/trace/rv/monitor_deadline.rst
-@@ -0,0 +1,111 @@
-+Scheduler monitors
-+==================
-+
-+- Name: deadline
-+- Type: container for multiple monitors
-+- Author: Gabriele Monaco <gmonaco@redhat.com>
-+
-+Description
-+-----------
-+
-+The deadline monitor is a set of specifications to describe the deadline
-+scheduler behaviour. It includes monitors per scheduling entity (deadline tasks
-+and servers) that work independently to verify different specifications the
-+deadline scheduler should follow.
-+
-+Specifications
-+--------------
-+
-+Monitor throttle
-+~~~~~~~~~~~~~~~~
-+
-+The throttle monitor ensures deadline entities are throttled when they use up
-+their runtime. Deadline tasks can be only ``running``, ``preempted`` and
-+``throttled``, the runtime is enforced only in ``running`` based on an internal
-+clock and the runtime value in the deadline entity.
-+
-+Servers can be also in the ``armed`` state, which corresponds to when the
-+server is consuming bandwidth in background (e.g. idle or normal tasks are
-+running without any boost). From this state the server can be throttled but it
-+can also use more runtime than available. A server is considered ``running``
-+when it's actively boosting a task, only there the runtime is enforced::
-+
-+                                     |
-+                                     |
-+      dl_replenish;reset(clk)        v
-+              sched_switch_in   #=========================# sched_switch_in;
-+               +--------------- H                         H   reset(clk)
-+               |                H                         H <----------------+
-+               +--------------> H         running         H                  |
-+    dl_throttle                 H clk < runtime_left_ns() H                  |
-+  +---------------------------- H                         H sched_switch_out |
-+  |      +--------------------> H                         H -------------+   |
-+  |     dl_replenish;           #=========================#              |   |
-+  |      reset(clk)                  |             ^                     |   |
-+  |      |                    dl_defer_arm   sched_switch_in;            |   |
-+  |      |                           |         reset(clk)                |   |
-+  v      |                           v             |                     |   |
-+ +------------+       dl_replenish  +----------------+                   |   |
-+ |            |       dl_defer_arm  |                | sched_switch_out  |   |
-+ | throttled  |         +---------- |     armed      | -------------+    |   |
-+ |            |         |           |                | <--------+   |    |   |
-+ +------------+         +---------> |                | dl_defer_arm |    |   |
-+   |      |                         +----------------+          |   |    |   |
-+   |      |                             |         ^             |   |    |   |
-+   |      |                         dl_throttle  dl_replenish   |   |    |   |
-+   |      | dl_throttle;yielded==1      v         |             |   |    |   |
-+   |      |   dl_defer_arm         +--------------------+       |   v    v   |
-+   |      |            +---------- |                    |     +--------------+
-+   |      |            |           |                    |     |              |
-+   |      |            +---------> |  armed_throttled   |     |  preempted   |
-+   |      |                        |                    |     |              |
-+   |      +----------------------> |                    |     +--------------+
-+   |        dl_defer_arm           +--------------------+              ^
-+   |                                 |                ^                |
-+   |                         sched_switch_out         | dl_defer_arm   |
-+   |                                 v                |                |
-+   |             sched_switch_out  +-------------------------+         |
-+   |               +-------------- |                         |   dl_replenish
-+   |               |               |                         |         |
-+   |               +-------------> |   preempted_throttled   | --------+
-+   |                               |                         |
-+   +-----------------------------> |                         |
-+         sched_switch_out          +-------------------------+
-+
-+
-+Monitor nomiss
-+~~~~~~~~~~~~~~
-+
-+The nomiss monitor ensures dl entities run to completion before their
-+deadiline. An entity is considered done if throttled, either because it yielded
-+or used up its runtime, or when it goes to sleep.
-+The monitor includes a user configurable deadline threshold. If the total
-+utilisation of deadline tasks is larger than 1, they are only guaranteed
-+bounded tardiness. See Documentation/scheduler/sched-deadline.rst for more
-+details. The threshold (module parameter ``nomiss.deadline_thresh``) can be
-+configured to avoid the monitor to fail based on the acceptable tardiness in
-+the system::
-+
-+                             sched_switch_in
-+                             sched_wakeup
-+                           +----------------------+
-+                           v                      |
-+                         #==========================#  sched_switch_suspend
-+               --------> H                          H ----------------+
-+                         H                          H                 v
-+                         H                          H           +----------+
-+                         H                          H           | sleeping |
-+                         H         running          H           +----------+
-+                         H clk < DEADLINE_LEFT_NS() H  sched_wakeup;  |
-+                         H                          H  reset(clk)     |
-+                         H                          H <---------------+
-+     +-----------------> H                          H -+
-+     |                   #==========================#  |
-+     |                                                 |
-+     |                       sched_switch_suspend      |
-+ sched_switch_in             dl_throttle               |
-+ sched_wakeup;reset(clk)   +----------------------+    | dl_throttle
-+     |                     v                      |    |
-+     |                   +--------------------------+  |
-+     +------------------ |        throttled         | <+
-+                         +--------------------------+
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index 720fbe4935f8..719cdcfb6d41 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -79,6 +79,11 @@ source "kernel/trace/rv/monitors/sleep/Kconfig"
- # Add new rtapp monitors here
- 
- source "kernel/trace/rv/monitors/stall/Kconfig"
-+source "kernel/trace/rv/monitors/deadline/Kconfig"
-+source "kernel/trace/rv/monitors/nomiss/Kconfig"
-+source "kernel/trace/rv/monitors/throttle/Kconfig"
-+# Add new deadline monitors here
-+
- # Add new monitors here
- 
- config RV_REACTORS
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index 51c95e2d2da6..15a1edc8bd0f 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -18,6 +18,9 @@ obj-$(CONFIG_RV_MON_NRP) += monitors/nrp/nrp.o
- obj-$(CONFIG_RV_MON_SSSW) += monitors/sssw/sssw.o
- obj-$(CONFIG_RV_MON_OPID) += monitors/opid/opid.o
- obj-$(CONFIG_RV_MON_STALL) += monitors/stall/stall.o
-+obj-$(CONFIG_RV_MON_DEADLINE) += monitors/deadline/deadline.o
-+obj-$(CONFIG_RV_MON_NOMISS) += monitors/nomiss/nomiss.o
-+obj-$(CONFIG_RV_MON_THROTTLE) += monitors/throttle/throttle.o
- # Add new monitors here
- obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
- obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
-diff --git a/kernel/trace/rv/monitors/deadline/Kconfig b/kernel/trace/rv/monitors/deadline/Kconfig
-new file mode 100644
-index 000000000000..652876730a39
---- /dev/null
-+++ b/kernel/trace/rv/monitors/deadline/Kconfig
-@@ -0,0 +1,5 @@
-+config RV_MON_DEADLINE
-+	depends on RV
-+	bool "deadline monitor"
-+	help
-+	  auto-generated
-diff --git a/kernel/trace/rv/monitors/deadline/deadline.c b/kernel/trace/rv/monitors/deadline/deadline.c
-new file mode 100644
-index 000000000000..61564fbbe333
---- /dev/null
-+++ b/kernel/trace/rv/monitors/deadline/deadline.c
-@@ -0,0 +1,35 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+
-+#define MODULE_NAME "deadline"
-+
-+#include "deadline.h"
-+
-+struct rv_monitor rv_deadline = {
-+	.name = "deadline",
-+	.description = "auto-generated",
-+	.enable = NULL,
-+	.disable = NULL,
-+	.reset = NULL,
-+	.enabled = 0,
-+};
-+
-+static int __init register_deadline(void)
-+{
-+	return rv_register_monitor(&rv_deadline, NULL);
-+}
-+
-+static void __exit unregister_deadline(void)
-+{
-+	rv_unregister_monitor(&rv_deadline);
-+}
-+
-+module_init(register_deadline);
-+module_exit(unregister_deadline);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("dot2k: auto-generated");
-+MODULE_DESCRIPTION("deadline: auto-generated");
-diff --git a/kernel/trace/rv/monitors/deadline/deadline.h b/kernel/trace/rv/monitors/deadline/deadline.h
-new file mode 100644
-index 000000000000..20f51e1de866
---- /dev/null
-+++ b/kernel/trace/rv/monitors/deadline/deadline.h
-@@ -0,0 +1,82 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#include <linux/kernel.h>
-+#include <asm/syscall.h>
-+#include <uapi/linux/sched/types.h>
-+
-+/*
-+ * Dummy values if not available
-+ */
-+#ifndef __NR_sched_setscheduler
-+#define __NR_sched_setscheduler -1
-+#endif
-+#ifndef __NR_sched_setattr
-+#define __NR_sched_setattr -2
-+#endif
-+
-+extern struct rv_monitor rv_deadline;
-+
-+/*
-+ * If both have dummy values, the syscalls are not supported and we don't even
-+ * need to register the handler.
-+ */
-+static inline bool should_skip_syscall_handle(void)
-+{
-+	return __NR_sched_setattr < 0 && __NR_sched_setscheduler < 0;
-+}
-+
-+static inline int get_server_id(void)
-+{
-+	/*
-+	 * Use negative numbers for the server.
-+	 * Currently only one fair server per CPU, may change in the future.
-+	 */
-+	return -__smp_processor_id();
-+}
-+
-+static inline int extract_params(struct pt_regs *regs, long id, struct task_struct **p)
-+{
-+	size_t size = offsetof(struct sched_attr, sched_nice);
-+	struct sched_attr __user *uattr, attr;
-+	int new_policy = -1, ret;
-+	unsigned long args[6];
-+	pid_t pid;
-+
-+	switch (id) {
-+		case __NR_sched_setscheduler:
-+			syscall_get_arguments(current, regs, args);
-+			pid = args[0];
-+			new_policy = args[1];
-+			break;
-+		case __NR_sched_setattr:
-+			syscall_get_arguments(current, regs, args);
-+			pid = args[0];
-+			uattr = (void *)args[1];
-+			/*
-+			 * Just copy up to sched_flags, we are not interested after that
-+			 */
-+			ret = copy_struct_from_user(&attr, size, uattr, size);
-+			if (ret)
-+				return ret;
-+			if (attr.sched_flags & SCHED_FLAG_KEEP_POLICY)
-+				return -EINVAL;
-+			new_policy = attr.sched_policy;
-+			break;
-+		default:
-+			return -EINVAL;
-+	}
-+	if (!pid)
-+		*p = current;
-+	else {
-+		/*
-+		 * Required for find_task_by_vpid, make sure the caller doesn't
-+		 * need to get_task_struct().
-+		 */
-+		guard(rcu)();
-+		*p = find_task_by_vpid(pid);
-+		if (unlikely(!p))
-+			return -EINVAL;
-+	}
-+
-+	return new_policy;
-+}
-diff --git a/kernel/trace/rv/monitors/nomiss/Kconfig b/kernel/trace/rv/monitors/nomiss/Kconfig
-new file mode 100644
-index 000000000000..e1886c3a0dd9
---- /dev/null
-+++ b/kernel/trace/rv/monitors/nomiss/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+config RV_MON_NOMISS
-+	depends on RV
-+	depends on HAVE_SYSCALL_TRACEPOINTS
-+	depends on RV_MON_DEADLINE
-+	default y
-+	select HA_MON_EVENTS_ID
-+	bool "nomiss monitor"
-+	help
-+	  Monitor to ensure dl entities run to completion before their deadiline.
-+	  This monitor is part of the deadline monitors collection.
-+
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_deadline.rst
-diff --git a/kernel/trace/rv/monitors/nomiss/nomiss.c b/kernel/trace/rv/monitors/nomiss/nomiss.c
-new file mode 100644
-index 000000000000..4b61a861a62c
---- /dev/null
-+++ b/kernel/trace/rv/monitors/nomiss/nomiss.c
-@@ -0,0 +1,234 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+#include <rv/instrumentation.h>
-+
-+#define MODULE_NAME "nomiss"
-+
-+#include <uapi/linux/sched/types.h>
-+#include <trace/events/syscalls.h>
-+#include <trace/events/sched.h>
-+#include <trace/events/task.h>
-+#include <rv_trace.h>
-+#include <monitors/deadline/deadline.h>
-+
-+#define RV_MON_TYPE RV_MON_PER_OBJ
-+/* The start condition is on sched_switch, it's dangerous to allocate there */
-+#define DA_SKIP_AUTO_ALLOC
-+typedef struct sched_dl_entity *monitor_target;
-+#include "nomiss.h"
-+#include <rv/ha_monitor.h>
-+
-+/*
-+ * da_get_id - Get the id from a dl server
-+ *
-+ * Deadline tasks use the task's PID, while fair servers use the negated cpu.
-+ */
-+static inline da_id_type da_get_id(monitor_target target)
-+{
-+	if (target->dl_server)
-+		return get_server_id();
-+	return container_of(target, struct task_struct, dl)->pid;
-+}
-+
-+/*
-+ * User configurable deadline threshold. If the total utilisation of deadline
-+ * tasks is larger than 1, they are only guaranteed bounded tardiness. See
-+ * Documentation/scheduler/sched-deadline.rst for more details.
-+ */
-+static u64 deadline_thresh = 0;
-+module_param(deadline_thresh, ullong, 0644);
-+#define DEADLINE_LEFT_NS(ha_mon) (ha_get_target(ha_mon)->deadline + deadline_thresh)
-+
-+static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_nomiss env)
-+{
-+	if (env == clk_nomiss)
-+		return ha_get_clk_ns(ha_mon, env);
-+	return ENV_INVALID_VALUE;
-+}
-+
-+static void ha_reset_env(struct ha_monitor *ha_mon, enum envs_nomiss env)
-+{
-+	if (env == clk_nomiss)
-+		ha_reset_clk_ns(ha_mon, env);
-+}
-+
-+static bool ha_verify_constraint(struct ha_monitor *ha_mon,
-+				 enum states curr_state, enum events event,
-+				 enum states next_state)
-+{
-+	bool res = true;
-+
-+	if (curr_state == sleeping_nomiss && event == sched_switch_in_nomiss)
-+		ha_reset_env(ha_mon, clk_nomiss);
-+	else if (curr_state == throttled_nomiss && event == sched_switch_in_nomiss)
-+		ha_reset_env(ha_mon, clk_nomiss);
-+
-+	if (next_state == curr_state || !res)
-+		return res;
-+	if (next_state == running_nomiss)
-+		ha_start_timer_ns(ha_mon, clk_nomiss, DEADLINE_LEFT_NS(ha_mon));
-+	else if (curr_state == running_nomiss)
-+		res = !ha_cancel_timer(ha_mon);
-+	return res;
-+}
-+
-+static void handle_dl_throttle(void *data, struct sched_dl_entity *dl)
-+{
-+	da_handle_event(dl, dl_throttle_nomiss);
-+}
-+
-+static void handle_dl_server_start(void *data, struct sched_dl_entity *dl)
-+{
-+	da_handle_start_event(dl, sched_switch_in_nomiss);
-+}
-+
-+static void handle_dl_server_stop(void *data, struct sched_dl_entity *dl, bool hard)
-+{
-+	if (hard)
-+		da_handle_event(dl, sched_switch_suspend_nomiss);
-+}
-+
-+static void handle_sched_switch(void *data, bool preempt, struct task_struct *prev, struct task_struct *next, unsigned int prev_state)
-+{
-+	if (prev_state != TASK_RUNNING && prev->policy == SCHED_DEADLINE)
-+		da_handle_event(&prev->dl, sched_switch_suspend_nomiss);
-+	if (next->policy == SCHED_DEADLINE)
-+		da_handle_start_event(&next->dl, sched_switch_in_nomiss);
-+}
-+
-+static void handle_syscall(void *data, struct pt_regs *regs, long id)
-+{
-+	struct task_struct *p;
-+	int new_policy = -1;
-+
-+	new_policy = extract_params(regs, id, &p);
-+	if (new_policy < 0 || new_policy == p->policy)
-+		return;
-+	if (p->policy == SCHED_DEADLINE)
-+		da_reset(&p->dl);
-+	else if (new_policy == SCHED_DEADLINE)
-+		da_create_conditional(&p->dl);
-+}
-+
-+static void handle_sched_wakeup(void *data, struct task_struct *tsk)
-+{
-+	if (tsk->policy == SCHED_DEADLINE)
-+		da_handle_start_event(&tsk->dl, sched_wakeup_nomiss);
-+}
-+
-+static void handle_newtask(void *data, struct task_struct *task, unsigned long flags)
-+{
-+	/* Might be superfluous as tasks are not started with this policy.. */
-+	if (task->policy == SCHED_DEADLINE)
-+		da_create_storage(&task->dl, NULL);
-+}
-+
-+static void handle_exit(void *data, struct task_struct *p, bool group_dead)
-+{
-+	if (p->policy == SCHED_DEADLINE)
-+		da_destroy_storage(&p->dl);
-+}
-+
-+/*
-+ * Initialise monitors for all tasks and pre-allocate the storage for servers.
-+ * This is necessary since we don't have access to the servers here and
-+ * allocation can cause deadlocks from their tracepoints. We can only fill
-+ * pre-initialised storage from there.
-+ */
-+static inline int init_storage(void)
-+{
-+	struct task_struct *g, *p;
-+	int cpu;
-+
-+	for_each_possible_cpu(cpu) {
-+		/* The servers' ids are determined according to da_get_id */
-+		if (!da_create_empty_storage(-cpu))
-+			goto fail;
-+	}
-+
-+	for_each_process_thread(g, p) {
-+		if (p->policy == SCHED_DEADLINE) {
-+			if (!da_create_storage(&p->dl, NULL))
-+				goto fail;
-+		}
-+	}
-+	return 0;
-+
-+fail:
-+	da_monitor_destroy();
-+	return -ENOMEM;
-+}
-+
-+static int enable_nomiss(void)
-+{
-+	int retval;
-+
-+	retval = da_monitor_init();
-+	if (retval)
-+		return retval;
-+
-+	retval = init_storage();
-+	if (retval)
-+		return retval;
-+	rv_attach_trace_probe("nomiss", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_attach_trace_probe("nomiss", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_attach_trace_probe("nomiss", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_attach_trace_probe("nomiss", sched_switch, handle_sched_switch);
-+	rv_attach_trace_probe("nomiss", sched_wakeup, handle_sched_wakeup);
-+	if (!should_skip_syscall_handle())
-+		rv_attach_trace_probe("nomiss", sys_enter, handle_syscall);
-+	rv_attach_trace_probe("nomiss", task_newtask, handle_newtask);
-+	rv_attach_trace_probe("nomiss", sched_process_exit, handle_exit);
-+
-+	return 0;
-+}
-+
-+static void disable_nomiss(void)
-+{
-+	rv_nomiss.enabled = 0;
-+
-+	/* Those are RCU writers, detach earlier hoping to close a bit faster */
-+	rv_detach_trace_probe("nomiss", task_newtask, handle_newtask);
-+	rv_detach_trace_probe("nomiss", sched_process_exit, handle_exit);
-+	if (!should_skip_syscall_handle())
-+		rv_detach_trace_probe("nomiss", sys_enter, handle_syscall);
-+
-+	rv_detach_trace_probe("nomiss", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_detach_trace_probe("nomiss", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_detach_trace_probe("nomiss", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_detach_trace_probe("nomiss", sched_switch, handle_sched_switch);
-+	rv_detach_trace_probe("nomiss", sched_wakeup, handle_sched_wakeup);
-+
-+	da_monitor_destroy();
-+}
-+
-+static struct rv_monitor rv_nomiss = {
-+	.name = "nomiss",
-+	.description = "dl entities run to completion before their deadiline.",
-+	.enable = enable_nomiss,
-+	.disable = disable_nomiss,
-+	.reset = da_monitor_reset_all,
-+	.enabled = 0,
-+};
-+
-+static int __init register_nomiss(void)
-+{
-+	return rv_register_monitor(&rv_nomiss, &rv_deadline);
-+}
-+
-+static void __exit unregister_nomiss(void)
-+{
-+	rv_unregister_monitor(&rv_nomiss);
-+}
-+
-+module_init(register_nomiss);
-+module_exit(unregister_nomiss);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
-+MODULE_DESCRIPTION("nomiss: dl entities run to completion before their deadiline.");
-diff --git a/kernel/trace/rv/monitors/nomiss/nomiss.h b/kernel/trace/rv/monitors/nomiss/nomiss.h
-new file mode 100644
-index 000000000000..a4059b34c60d
---- /dev/null
-+++ b/kernel/trace/rv/monitors/nomiss/nomiss.h
-@@ -0,0 +1,81 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Automatically generated C representation of nomiss automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
-+
-+#define MONITOR_NAME nomiss
-+
-+enum states_nomiss {
-+	running_nomiss = 0,
-+	sleeping_nomiss,
-+	throttled_nomiss,
-+	state_max_nomiss
-+};
-+
-+#define INVALID_STATE state_max_nomiss
-+
-+enum events_nomiss {
-+	dl_throttle_nomiss = 0,
-+	sched_switch_in_nomiss,
-+	sched_switch_suspend_nomiss,
-+	sched_wakeup_nomiss,
-+	event_max_nomiss
-+};
-+
-+enum envs_nomiss {
-+	clk_nomiss = 0,
-+	env_max_nomiss,
-+	env_max_stored_nomiss = env_max_nomiss
-+};
-+
-+_Static_assert(env_max_stored_nomiss <= MAX_HA_ENV_LEN, "Not enough slots");
-+
-+struct automaton_nomiss {
-+	char *state_names[state_max_nomiss];
-+	char *event_names[event_max_nomiss];
-+	char *env_names[env_max_nomiss];
-+	unsigned char function[state_max_nomiss][event_max_nomiss];
-+	unsigned char initial_state;
-+	bool final_states[state_max_nomiss];
-+};
-+
-+static const struct automaton_nomiss automaton_nomiss = {
-+	.state_names = {
-+		"running",
-+		"sleeping",
-+		"throttled"
-+	},
-+	.event_names = {
-+		"dl_throttle",
-+		"sched_switch_in",
-+		"sched_switch_suspend",
-+		"sched_wakeup"
-+	},
-+	.env_names = {
-+		"clk"
-+	},
-+	.function = {
-+		{
-+			throttled_nomiss,
-+			running_nomiss,
-+			sleeping_nomiss,
-+			running_nomiss
-+		},
-+		{
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			running_nomiss
-+		},
-+		{
-+			throttled_nomiss,
-+			running_nomiss,
-+			throttled_nomiss,
-+			running_nomiss
-+		},
-+	},
-+	.initial_state = running_nomiss,
-+	.final_states = { 1, 0, 0 },
-+};
-diff --git a/kernel/trace/rv/monitors/nomiss/nomiss_trace.h b/kernel/trace/rv/monitors/nomiss/nomiss_trace.h
-new file mode 100644
-index 000000000000..42e7efaca4e7
---- /dev/null
-+++ b/kernel/trace/rv/monitors/nomiss/nomiss_trace.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Snippet to be included in rv_trace.h
-+ */
-+
-+#ifdef CONFIG_RV_MON_NOMISS
-+DEFINE_EVENT(event_da_monitor_id, event_nomiss,
-+	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(id, state, event, next_state, final_state));
-+
-+DEFINE_EVENT(error_da_monitor_id, error_nomiss,
-+	     TP_PROTO(int id, char *state, char *event),
-+	     TP_ARGS(id, state, event));
-+
-+DEFINE_EVENT(error_env_da_monitor_id, error_env_nomiss,
-+	     TP_PROTO(int id, char *state, char *event, char *env),
-+	     TP_ARGS(id, state, event, env));
-+#endif /* CONFIG_RV_MON_NOMISS */
-diff --git a/kernel/trace/rv/monitors/throttle/Kconfig b/kernel/trace/rv/monitors/throttle/Kconfig
-new file mode 100644
-index 000000000000..d9bd2dc903cd
---- /dev/null
-+++ b/kernel/trace/rv/monitors/throttle/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+config RV_MON_THROTTLE
-+	depends on RV
-+	depends on HAVE_SYSCALL_TRACEPOINTS
-+	depends on RV_MON_DEADLINE
-+	default y
-+	select HA_MON_EVENTS_ID
-+	bool "throttle monitor"
-+	help
-+	  Monitor to ensure dl entities are throttled when they use up their runtime.
-+	  This monitor is part of the deadline monitors collection.
-+
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_deadline.rst
-diff --git a/kernel/trace/rv/monitors/throttle/throttle.c b/kernel/trace/rv/monitors/throttle/throttle.c
-new file mode 100644
-index 000000000000..412b53b268f5
---- /dev/null
-+++ b/kernel/trace/rv/monitors/throttle/throttle.c
-@@ -0,0 +1,259 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+#include <rv/instrumentation.h>
-+
-+#define MODULE_NAME "throttle"
-+
-+#include <uapi/linux/sched/types.h>
-+#include <trace/events/syscalls.h>
-+#include <trace/events/sched.h>
-+#include <trace/events/task.h>
-+#include <rv_trace.h>
-+#include <monitors/deadline/deadline.h>
-+
-+#define RV_MON_TYPE RV_MON_PER_OBJ
-+/* The start condition is on sched_switch, it's dangerous to allocate there */
-+#define DA_SKIP_AUTO_ALLOC
-+typedef struct sched_dl_entity *monitor_target;
-+#include "throttle.h"
-+#include <rv/ha_monitor.h>
-+
-+/*
-+ * da_get_id - Get the id from a dl server
-+ *
-+ * Deadline tasks use the task's PID, while fair servers use the negated cpu.
-+ */
-+static inline da_id_type da_get_id(monitor_target target)
-+{
-+	if (target->dl_server)
-+		return get_server_id();
-+	return container_of(target, struct task_struct, dl)->pid;
-+}
-+
-+/* with sched_feat(HRTICK_DL) the threshold should be lower */
-+#define RUNTIME_THRESH jiffies_to_nsecs(1)
-+
-+static inline u64 runtime_left_ns(struct ha_monitor *ha_mon)
-+{
-+	return ha_get_target(ha_mon)->runtime + RUNTIME_THRESH;
-+}
-+
-+static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_throttle env)
-+{
-+	if (env == clk_throttle)
-+		return ha_get_clk_ns(ha_mon, env);
-+	else if (env == yielded_throttle)
-+		return ha_get_target(ha_mon)->dl_yielded;
-+	return ENV_INVALID_VALUE;
-+}
-+
-+static void ha_reset_env(struct ha_monitor *ha_mon, enum envs_throttle env)
-+{
-+	if (env == clk_throttle)
-+		ha_reset_clk_ns(ha_mon, env);
-+}
-+
-+static bool ha_verify_constraint(struct ha_monitor *ha_mon,
-+				 enum states curr_state, enum events event,
-+				 enum states next_state)
-+{
-+	bool res = true;
-+
-+	if (curr_state == armed_throttle && event == sched_switch_in_throttle)
-+		ha_reset_env(ha_mon, clk_throttle);
-+	else if (curr_state == armed_throttled_throttle && event == dl_throttle_throttle)
-+		res = ha_get_env(ha_mon, yielded_throttle) == 1ull;
-+	else if (curr_state == preempted_throttle && event == sched_switch_in_throttle)
-+		ha_reset_env(ha_mon, clk_throttle);
-+	else if (curr_state == running_throttle && event == dl_replenish_throttle)
-+		ha_reset_env(ha_mon, clk_throttle);
-+	else if (curr_state == throttled_throttle && event == dl_replenish_throttle)
-+		ha_reset_env(ha_mon, clk_throttle);
-+
-+	if ((next_state == curr_state && event != dl_replenish_throttle) || !res)
-+		return res;
-+	if (next_state == running_throttle)
-+		ha_start_timer_ns(ha_mon, clk_throttle, runtime_left_ns(ha_mon));
-+	else if (curr_state == running_throttle)
-+		res = !ha_cancel_timer(ha_mon);
-+	return res;
-+}
-+
-+static void handle_dl_replenish(void *data, struct sched_dl_entity *dl)
-+{
-+	da_handle_event(dl, dl_replenish_throttle);
-+}
-+
-+static void handle_dl_throttle(void *data, struct sched_dl_entity *dl)
-+{
-+	da_handle_event(dl, dl_throttle_throttle);
-+}
-+
-+static inline struct sched_dl_entity *get_fair_server(struct task_struct *tsk)
-+{
-+	if (tsk->dl_server)
-+		return tsk->dl_server;
-+	return da_get_target_by_id(get_server_id());
-+}
-+
-+static void handle_sched_switch(void *data, bool preempt, struct task_struct *prev, struct task_struct *next, unsigned int prev_state)
-+{
-+	struct sched_dl_entity *dl;
-+
-+	if (prev->policy == SCHED_DEADLINE)
-+		da_handle_event(&prev->dl, sched_switch_out_throttle);
-+	if (next->policy == SCHED_DEADLINE)
-+		da_handle_start_event(&next->dl, sched_switch_in_throttle);
-+
-+	/*
-+	 * The server is available in next only if the next task is boosted,
-+	 * otherwise we need to retrieve it.
-+	 */
-+	dl = get_fair_server(next);
-+	if (!dl)
-+		return;
-+	if (next->dl_server)
-+		da_handle_start_event(next->dl_server, sched_switch_in_throttle);
-+	else if (is_idle_task(next) || next->policy == SCHED_NORMAL)
-+		da_handle_event(dl, dl_defer_arm_throttle);
-+	else
-+		da_handle_event(dl, sched_switch_out_throttle);
-+}
-+
-+static void handle_syscall(void *data, struct pt_regs *regs, long id)
-+{
-+	struct task_struct *p;
-+	int new_policy = -1;
-+
-+	new_policy = extract_params(regs, id, &p);
-+	if (new_policy < 0 || new_policy == p->policy)
-+		return;
-+	if (p->policy == SCHED_DEADLINE) {
-+		da_reset(&p->dl);
-+		/*
-+		 * When a task changes from SCHED_DEADLINE to SCHED_NORMAL, the
-+		 * runtime after the change is counted in the fair server.
-+		 */
-+		if (new_policy == SCHED_NORMAL) {
-+			struct sched_dl_entity *dl = get_fair_server(p);
-+			if (!dl)
-+				return;
-+			da_handle_event(dl, dl_defer_arm_throttle);
-+		}
-+	} else if (new_policy == SCHED_DEADLINE) {
-+		da_create_conditional(&p->dl);
-+	}
-+}
-+
-+static void handle_newtask(void *data, struct task_struct *task, unsigned long flags)
-+{
-+	/* Might be superfluous as tasks are not started with this policy.. */
-+	if (task->policy == SCHED_DEADLINE)
-+		da_create_storage(&task->dl, NULL);
-+}
-+
-+static void handle_exit(void *data, struct task_struct *p, bool group_dead)
-+{
-+	if (p->policy == SCHED_DEADLINE)
-+		da_destroy_storage(&p->dl);
-+}
-+
-+/*
-+ * Initialise monitors for all tasks and pre-allocate the storage for servers.
-+ * This is necessary since we don't have access to the servers here and
-+ * allocation can cause deadlocks from their tracepoints. We can only fill
-+ * pre-initialised storage from there.
-+ */
-+static inline int init_storage(void)
-+{
-+	struct task_struct *g, *p;
-+	int cpu;
-+
-+	for_each_possible_cpu(cpu) {
-+		/* The servers' ids are determined according to da_get_id */
-+		if (!da_create_empty_storage(-cpu))
-+			goto fail;
-+	}
-+
-+	for_each_process_thread(g, p) {
-+		if (p->policy == SCHED_DEADLINE) {
-+			if (!da_create_storage(&p->dl, NULL))
-+				goto fail;
-+		}
-+	}
-+	return 0;
-+
-+fail:
-+	da_monitor_destroy();
-+	return -ENOMEM;
-+}
-+
-+static int enable_throttle(void)
-+{
-+	int retval;
-+
-+	retval = da_monitor_init();
-+	if (retval)
-+		return retval;
-+
-+	retval = init_storage();
-+	if (retval)
-+		return retval;
-+	rv_attach_trace_probe("throttle", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_attach_trace_probe("throttle", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_attach_trace_probe("throttle", sched_switch, handle_sched_switch);
-+	if (!should_skip_syscall_handle())
-+		rv_attach_trace_probe("throttle", sys_enter, handle_syscall);
-+	rv_attach_trace_probe("throttle", task_newtask, handle_newtask);
-+	rv_attach_trace_probe("throttle", sched_process_exit, handle_exit);
-+
-+	return 0;
-+}
-+
-+static void disable_throttle(void)
-+{
-+	rv_throttle.enabled = 0;
-+
-+	/* Those are RCU writers, detach earlier hoping to close a bit faster */
-+	rv_detach_trace_probe("throttle", task_newtask, handle_newtask);
-+	rv_detach_trace_probe("throttle", sched_process_exit, handle_exit);
-+	if (!should_skip_syscall_handle())
-+		rv_detach_trace_probe("throttle", sys_enter, handle_syscall);
-+
-+	rv_detach_trace_probe("throttle", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_detach_trace_probe("throttle", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_detach_trace_probe("throttle", sched_switch, handle_sched_switch);
-+
-+	da_monitor_destroy();
-+}
-+
-+static struct rv_monitor rv_throttle = {
-+	.name = "throttle",
-+	.description = "throttle dl entities when they use up their runtime.",
-+	.enable = enable_throttle,
-+	.disable = disable_throttle,
-+	.reset = da_monitor_reset_all,
-+	.enabled = 0,
-+};
-+
-+static int __init register_throttle(void)
-+{
-+	return rv_register_monitor(&rv_throttle, &rv_deadline);
-+}
-+
-+static void __exit unregister_throttle(void)
-+{
-+	rv_unregister_monitor(&rv_throttle);
-+}
-+
-+module_init(register_throttle);
-+module_exit(unregister_throttle);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
-+MODULE_DESCRIPTION("throttle: throttle dl entities when they use up their runtime.");
-diff --git a/kernel/trace/rv/monitors/throttle/throttle.h b/kernel/trace/rv/monitors/throttle/throttle.h
-new file mode 100644
-index 000000000000..084221556bae
---- /dev/null
-+++ b/kernel/trace/rv/monitors/throttle/throttle.h
-@@ -0,0 +1,115 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Automatically generated C representation of throttle automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
-+
-+#define MONITOR_NAME throttle
-+
-+enum states_throttle {
-+	running_throttle = 0,
-+	armed_throttle,
-+	armed_throttled_throttle,
-+	preempted_throttle,
-+	preempted_throttled_throttle,
-+	throttled_throttle,
-+	state_max_throttle
-+};
-+
-+#define INVALID_STATE state_max_throttle
-+
-+enum events_throttle {
-+	dl_defer_arm_throttle = 0,
-+	dl_replenish_throttle,
-+	dl_throttle_throttle,
-+	sched_switch_in_throttle,
-+	sched_switch_out_throttle,
-+	event_max_throttle
-+};
-+
-+enum envs_throttle {
-+	clk_throttle = 0,
-+	yielded_throttle,
-+	env_max_throttle,
-+	env_max_stored_throttle = yielded_throttle
-+};
-+
-+_Static_assert(env_max_stored_throttle <= MAX_HA_ENV_LEN, "Not enough slots");
-+
-+struct automaton_throttle {
-+	char *state_names[state_max_throttle];
-+	char *event_names[event_max_throttle];
-+	char *env_names[env_max_throttle];
-+	unsigned char function[state_max_throttle][event_max_throttle];
-+	unsigned char initial_state;
-+	bool final_states[state_max_throttle];
-+};
-+
-+static const struct automaton_throttle automaton_throttle = {
-+	.state_names = {
-+		"running",
-+		"armed",
-+		"armed_throttled",
-+		"preempted",
-+		"preempted_throttled",
-+		"throttled"
-+	},
-+	.event_names = {
-+		"dl_defer_arm",
-+		"dl_replenish",
-+		"dl_throttle",
-+		"sched_switch_in",
-+		"sched_switch_out"
-+	},
-+	.env_names = {
-+		"clk",
-+		"yielded"
-+	},
-+	.function = {
-+		{
-+			armed_throttle,
-+			running_throttle,
-+			throttled_throttle,
-+			running_throttle,
-+			preempted_throttle
-+		},
-+		{
-+			armed_throttle,
-+			armed_throttle,
-+			armed_throttled_throttle,
-+			running_throttle,
-+			preempted_throttle
-+		},
-+		{
-+			armed_throttled_throttle,
-+			armed_throttle,
-+			armed_throttled_throttle,
-+			INVALID_STATE,
-+			preempted_throttled_throttle
-+		},
-+		{
-+			armed_throttle,
-+			preempted_throttle,
-+			INVALID_STATE,
-+			running_throttle,
-+			preempted_throttle
-+		},
-+		{
-+			armed_throttled_throttle,
-+			preempted_throttle,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			preempted_throttled_throttle
-+		},
-+		{
-+			armed_throttled_throttle,
-+			running_throttle,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			preempted_throttled_throttle
-+		},
-+	},
-+	.initial_state = running_throttle,
-+	.final_states = { 1, 0, 0, 0, 0, 0 },
-+};
-diff --git a/kernel/trace/rv/monitors/throttle/throttle_trace.h b/kernel/trace/rv/monitors/throttle/throttle_trace.h
-new file mode 100644
-index 000000000000..7e376d3aec60
---- /dev/null
-+++ b/kernel/trace/rv/monitors/throttle/throttle_trace.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Snippet to be included in rv_trace.h
-+ */
-+
-+#ifdef CONFIG_RV_MON_THROTTLE
-+DEFINE_EVENT(event_da_monitor_id, event_throttle,
-+	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(id, state, event, next_state, final_state));
-+
-+DEFINE_EVENT(error_da_monitor_id, error_throttle,
-+	     TP_PROTO(int id, char *state, char *event),
-+	     TP_ARGS(id, state, event));
-+
-+DEFINE_EVENT(error_env_da_monitor_id, error_env_throttle,
-+	     TP_PROTO(int id, char *state, char *event, char *env),
-+	     TP_ARGS(id, state, event, env));
-+#endif /* CONFIG_RV_MON_THROTTLE */
-diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
-index 601b03179328..40b19e2aa69c 100644
---- a/kernel/trace/rv/rv_trace.h
-+++ b/kernel/trace/rv/rv_trace.h
-@@ -188,6 +188,8 @@ DECLARE_EVENT_CLASS(error_env_da_monitor_id,
- );
- 
- #include <monitors/stall/stall_trace.h>
-+#include <monitors/nomiss/nomiss_trace.h>
-+#include <monitors/throttle/throttle_trace.h>
- // Add new monitors based on CONFIG_HA_MON_EVENTS_ID here
- 
- #endif
-diff --git a/tools/verification/models/deadline/nomiss.dot b/tools/verification/models/deadline/nomiss.dot
-new file mode 100644
-index 000000000000..81d7028cfc3b
---- /dev/null
-+++ b/tools/verification/models/deadline/nomiss.dot
-@@ -0,0 +1,23 @@
-+digraph state_automaton {
-+	center = true;
-+	size = "7,11";
-+	{node [shape = plaintext, style=invis, label=""] "__init_running"};
-+	{node [shape = doublecircle] "running"};
-+	{node [shape = circle] "running"};
-+	{node [shape = circle] "sleeping"};
-+	{node [shape = circle] "throttled"};
-+	"__init_running" -> "running";
-+	"running" [label = "running\nclk < DEADLINE_LEFT_NS()", color = green3];
-+	"running" -> "running" [ label = "sched_switch_in\nsched_wakeup" ];
-+	"running" -> "sleeping" [ label = "sched_switch_suspend" ];
-+	"running" -> "throttled" [ label = "dl_throttle" ];
-+	"sleeping" [label = "sleeping"];
-+	"sleeping" -> "running" [ label = "sched_wakeup;reset(clk)" ];
-+	"throttled" [label = "throttled"];
-+	"throttled" -> "running" [ label = "sched_switch_in\nsched_wakeup;reset(clk)" ];
-+	"throttled" -> "throttled" [ label = "sched_switch_suspend\ndl_throttle" ];
-+	{ rank = min ;
-+		"__init_running";
-+		"running";
-+	}
-+}
-diff --git a/tools/verification/models/deadline/throttle.dot b/tools/verification/models/deadline/throttle.dot
-new file mode 100644
-index 000000000000..2477115aa286
---- /dev/null
-+++ b/tools/verification/models/deadline/throttle.dot
-@@ -0,0 +1,43 @@
-+digraph state_automaton {
-+	center = true;
-+	size = "7,11";
-+	{node [shape = circle] "armed"};
-+	{node [shape = circle] "armed_throttled"};
-+	{node [shape = circle] "preempted"};
-+	{node [shape = circle] "preempted_throttled"};
-+	{node [shape = plaintext, style=invis, label=""] "__init_running"};
-+	{node [shape = doublecircle] "running"};
-+	{node [shape = circle] "running"};
-+	{node [shape = circle] "throttled"};
-+	"__init_running" -> "running";
-+	"armed" [label = "armed"];
-+	"armed" -> "armed" [ label = "dl_replenish\ndl_defer_arm" ];
-+	"armed" -> "armed_throttled" [ label = "dl_throttle" ];
-+	"armed" -> "preempted" [ label = "sched_switch_out" ];
-+	"armed" -> "running" [ label = "sched_switch_in;reset(clk)" ];
-+	"armed_throttled" [label = "armed_throttled"];
-+	"armed_throttled" -> "armed" [ label = "dl_replenish" ];
-+	"armed_throttled" -> "armed_throttled" [ label = "dl_defer_arm\ndl_throttle;yielded==1" ];
-+	"armed_throttled" -> "preempted_throttled" [ label = "sched_switch_out" ];
-+	"preempted" [label = "preempted"];
-+	"preempted" -> "armed" [ label = "dl_defer_arm" ];
-+	"preempted" -> "preempted" [ label = "dl_replenish\nsched_switch_out" ];
-+	"preempted" -> "running" [ label = "sched_switch_in;reset(clk)" ];
-+	"preempted_throttled" [label = "preempted_throttled"];
-+	"preempted_throttled" -> "armed_throttled" [ label = "dl_defer_arm" ];
-+	"preempted_throttled" -> "preempted" [ label = "dl_replenish" ];
-+	"preempted_throttled" -> "preempted_throttled" [ label = "sched_switch_out" ];
-+	"running" [label = "running\nclk < runtime_left_ns()", color = green3];
-+	"running" -> "armed" [ label = "dl_defer_arm" ];
-+	"running" -> "preempted" [ label = "sched_switch_out" ];
-+	"running" -> "running" [ label = "dl_replenish;reset(clk)\nsched_switch_in" ];
-+	"running" -> "throttled" [ label = "dl_throttle" ];
-+	"throttled" [label = "throttled"];
-+	"throttled" -> "armed_throttled" [ label = "dl_defer_arm" ];
-+	"throttled" -> "preempted_throttled" [ label = "sched_switch_out" ];
-+	"throttled" -> "running" [ label = "dl_replenish;reset(clk)" ];
-+	{ rank = min ;
-+		"__init_running";
-+		"running";
-+	}
-+}
--- 
-2.50.1
+Shouldn=E2=80=99t it be:
 
+As we already have a THP,
+behave as if we are forcing a collapse.
+
+>  	 */
+> -	if (thp_disabled_by_hw() || vma_thp_disabled(vma, vma->vm_flags))
+> +	if (thp_disabled_by_hw() || vma_thp_disabled(vma, vma->vm_flags,
+> +						     /* forced_collapse=3D*/ true))
+>  		return ret;
+>
+>  	if (!thp_vma_suitable_order(vma, haddr, PMD_ORDER))
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index e2c76a30802b6..d945de3a7f0e7 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -1817,7 +1817,7 @@ unsigned long shmem_allowable_huge_orders(struct in=
+ode *inode,
+>  	vm_flags_t vm_flags =3D vma ? vma->vm_flags : 0;
+>  	unsigned int global_orders;
+>
+> -	if (thp_disabled_by_hw() || (vma && vma_thp_disabled(vma, vm_flags)))
+> +	if (thp_disabled_by_hw() || (vma && vma_thp_disabled(vma, vm_flags, shm=
+em_huge_force)))
+>  		return 0;
+>
+>  	global_orders =3D shmem_huge_global_enabled(inode, index, write_end,
+> --=20
+> 2.47.3
+
+Otherwise, LGTM. Reviewed-by: Zi Yan <ziy@nvidia.com>
+
+
+Best Regards,
+Yan, Zi
