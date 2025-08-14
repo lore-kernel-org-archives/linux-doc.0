@@ -1,200 +1,281 @@
-Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2059.outbound.protection.outlook.com [40.107.95.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0666512FF69;
-	Thu, 14 Aug 2025 14:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755180033; cv=none; b=fOcmOSYAn0yY1IOKnXxJnni5Tehd20PU14IbIn1yqWN8AhO0GhP2kPAxmabzWUb8SQrB0ismycXyx6VVckTAxoqCDNvKyTKnkjzKy3y6zlvByAhVfeV8peyQbwuKjXamvBrgBSF1i9UqYGsaQ+2FVdPIgga41beyULkjaALa3ec=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755180033; c=relaxed/simple;
-	bh=KHG7xwAlZo5KtTQwWmzzzmt2xUyzEvURPn80RuE61H4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pyziuP3NGzwOlXlYpTgtPrmBmWfkuSEoJIbID22l0D4mzQ2E0qNnT88itKJv6diZ5XYHcVDlIRlZ+bGkqFTn6hWavKIV2kS2VVhV+QO5nC50+AxSkHR3iTkooIuY5JnU6Z1PlC9EEuFHgoQj3Dw6qEHKEF4ypAzTV0avkbzjGU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.194.254.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz5t1755179969tcc391592
-X-QQ-Originating-IP: oo50RviW9iR1o+OtONEechxBV1y/n/Sj+n0GrlQ3YP4=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 14 Aug 2025 21:59:27 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 6429672801832651080
-Date: Thu, 14 Aug 2025 21:59:26 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: MD Danish Anwar <danishanwar@ti.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 5/5] net: rnpgbe: Add register_netdev
-Message-ID: <933ACEBDA5823549+20250814135926.GC1094497@nic-Precision-5820-Tower>
-References: <20250814073855.1060601-1-dong100@mucse.com>
- <20250814073855.1060601-6-dong100@mucse.com>
- <dd6ece66-ae4b-424a-aa09-872ac15e1549@ti.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31621F2C45;
+	Thu, 14 Aug 2025 14:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755180179; cv=fail; b=DW8mepRVcEV3JyZ6LHzclDwlNqou+ySSY8DSJQ7iAzpqzRxoU+O+2TbbuFZkxHhCg3Dl9dfgiIs5GhXN35D9VJR8kCCO5ybXUU+W8pMzP31QdRqrfQP6JEoX51mLNzWxaYBret5NBd28HbNhxJggTeEzZHqhVE0+xVLXKTGaRSA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755180179; c=relaxed/simple;
+	bh=W4YNYuarqU+YZ19gmETk1wYyFpgocIONJPD3Vnjyi2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JZIx4ppFt1xX1kD+vltXgIEm5n1DgsWLGJ44CKjhK6rqZZUOQ5LWkcG5ezVoPwR1Rug6Q2illGUFYPbsI3TfDTv7+h+9isav6jadtfJGWMIAntUxFuI8R2izQQtSOa+Wba9d2hz90GsPKsxdj4p8cjiquxj6LaOLh6O2gagv3Ik=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IPRIPR9t; arc=fail smtp.client-ip=40.107.95.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IPRIPR9t"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vmlSHWQ8c+JkZy79/XVjneW72a7fFxB07OglLFQV/YPaHH/iBi/uSyFNBlLUviPx56QCFBg3ShG3TaU9U2HTgVTtcjONB4NR+N4N7bqJKoZMmQP/6ce4rFTLnpJLw/zTSxgUYMuJbzu/x5zVyVmzEDvfjvj1/nfGIElNv6aMSoL+Z0mDmDDHdFaBuwQDP0UNq4xbAjyWOgAdzbloRrqGjaNhqvmL2VXkReze2fujKOdPkyH8efKO2qRNLuwmt+hVic2T3xRjOA27W7UTG/UFylmvuj6okYBrfl9/o/agkxs0dase9z5hA4hNoeD0xqlr51FSTGHFoL7lr/Uoox9TVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VCRR+qficmaSKAAxzP/PqrjpL2iTV293DJwBdO7Gd6k=;
+ b=D2Fe5B/iIaJKOK0VJp4SbnwlIMeXxb3f66FiLDreRM+V6GMdstiFo1lfUzze0raJhc+xMbzO/GhC51xY7+2jlH3dYD3RGu4C6aZKOO4gnZoj6QlXNOzRwAH4MZCiA8ngTghMzQAcS4U30IMGz3V1O9ujM5L2BkxGsDm9QyYFBcWc+5xMcsKht+yYNZgJkCjlLu6hj2ihwd1no+bz07G1gbkTp2b5R1ZkJYf2gSv/wx4EM4ffpA7/bXHp4sUvgCt9qltIfJzpOXkoLMjJfTivOBtaseMo0szWJEngCRm47HLuBIpSs8BiIJnQWLVGABspF4HjANd8BKsd1xWSqNeYaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VCRR+qficmaSKAAxzP/PqrjpL2iTV293DJwBdO7Gd6k=;
+ b=IPRIPR9t4+jf+D8P8VOltPuQ9oCxKawdAhUnPnxav9ygZpht6StSv+8DRXOyvuA3/LVZflU4EM4TqM6nLm45ayHuFzKYf7zueStn1AR/9fyF4F1FdPMYXpBKhw9xPVOa+RyHTyT7iNsOqwyG/DSnhMEuDpkK/jSUkt7TmDTtEGM+bKJDpqHhWv7+xNXHZJRqZ8IEY9tygLQa8xnnZq6zHXNvQXSX356HVnGI66FEtYVTsJa+WYG/xVe93q5cAGbKiRaXVcX9ztyHmL2olzXcyE4pirHBa4yzdUrgkTwzr5nQt5a+bVb1pXaSCkD78N3XNzR1cRQ1zVjG3SI2ZQ2F0Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by CH3PR12MB8935.namprd12.prod.outlook.com (2603:10b6:610:169::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Thu, 14 Aug
+ 2025 14:02:54 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9031.012; Thu, 14 Aug 2025
+ 14:02:54 +0000
+Date: Thu, 14 Aug 2025 11:02:52 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com,
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
+	witu@nvidia.com
+Subject: Re: [PATCH v3 18/30] liveupdate: luo_files: luo_ioctl: Add ioctls
+ for per-file state management
+Message-ID: <20250814140252.GF802098@nvidia.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-19-pasha.tatashin@soleen.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250807014442.3829950-19-pasha.tatashin@soleen.com>
+X-ClientProxiedBy: BL1PR13CA0231.namprd13.prod.outlook.com
+ (2603:10b6:208:2bf::26) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd6ece66-ae4b-424a-aa09-872ac15e1549@ti.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MgRO26CFjEybqIR83FmKs4gEh8++NeWfcuOdUd3x6X0XNdyiI8GBHAmJ
-	LOD720A0RBmR3TuWFSylxdUo8RB7BuqEDa7oNNrHZyI2fDspsXiI9G6Dzq30sofb9EtgiWL
-	bmCux0/vo7j/uV6SS181L/3WPgZITDjKc5Pmdru3AbWJvzjFbtx+d5LAAycAP/sP8nDdwH1
-	PWdaC1WE3KS4w9MSwhVVSg3QQRN6oKdj02RcdjDYyuNEBJub+EDxKsSi2MrurYpSU1ZGNAp
-	84qv9UVr/0WJPn/3+1YcC2qhwdMaIg7Cq+J4kn4OWpvKn+ZeAxIAnAbhuwxVdfjFhnEg9kQ
-	ZLjLo1hOe03j5fEILCPqy0fAMY6Y2Rvk+kuAUFGv2rvC9To+7zOaowJRd+XGG6KQN8jOcoF
-	lwkrrXTiDt0HjBmIZkNAID6LQNl62zCnqunNrSDVp9e2+XwIvxsw7DlvcC6hc+eGC/x+kCb
-	RE3fIS3Z2eypkrUxXeFeDieIwzfAr233LWHqRRPevf4khqtiWRzeUWm5msIfOcSfM3NShAr
-	u2yA6QIDkVNUU8uEYjvb3VfdN6ad/cmYURPv0gb7zZgNEonkOBqnlum2/81l5Ka+EQZrAJZ
-	QgOjdPD2Lgk8CaxM7clTEI8+WWmAzWCTlSN/3Fp2OkoonCIUB4L2R20EQqKPaJEZ6Wq3SYK
-	KEJNrSANxZjs0TC0kcnZO410iqZDLjHAKaIRRV9Gxe5eyPNdvFR0lZBzEyg/hp6J89qYKTq
-	zbnKVimaTPTVEO5HUCsBLi1k1UePI0IWmJEYLVLC/4aewA5h0B4IG3LkY82TqR1YQ731Oq1
-	OTwJbHGWHsWKBfS2WKi6AbAHcTdewtGx2nDiuJs4jgUl/EtsklxQ3XcjYU8IcmFL/W+D7iT
-	4wrrbn+kvDqP9vHsDh4omLxdIfyORqUmd0WHosTTiI1W7s7ptsghhVrqhxGLWZOuswkmWRo
-	ZsFtH+SJBgDeAW641jWcKRKPb691C/opGH6abo4h0qEuB3e/mSebRdZJZds2mKrZsXyaNJw
-	fk6KMexlfcwADPUFo8EM2SmkiBmJCL6EAubCKDCQ==
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-X-QQ-RECHKSPAM: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CH3PR12MB8935:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd8fd9fb-a06d-4966-99c8-08dddb3b4357
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?oMiBmFvCu0QCQ+C005SPY+ownvnebSIZQZJonfxZcIVMPjeBjHivDq/h+HMd?=
+ =?us-ascii?Q?WqdB5PXa+An9sAqK5bepwhI0sbqoIPaPnVap9i5ioS5BmgObrCS7ZfFITpgS?=
+ =?us-ascii?Q?ARXatnZG8AQD680UrU+cAGM41wjmtMbPpkKSbciAoFoBhK4T6SDDjV3FNsb1?=
+ =?us-ascii?Q?+xWAmu7BTxaNuBHJpOwql3J2sWmYuGg3p3NR4+ZgYi6Iix2ZEx4okrI/Mp3h?=
+ =?us-ascii?Q?Awl10vQTxRQSaYR9jX1XVrOp01P0GyQejnrAx+BULhL1WmzvUnAd3ddlqhS3?=
+ =?us-ascii?Q?3/AOJ7NEVHrqsT09D/tRPCXQPf2G7bX61H8nt1TM7jTP7qkHaLNJV0Vh2TRg?=
+ =?us-ascii?Q?8hIf+zluw+zEJhHQeFn7ohFoPnpEOwEPKLm+R1rhmqMpsII3MSMHeBf1OhjN?=
+ =?us-ascii?Q?+r9qaXsuDqbe0lV6rL7dzjPdUCsbGzo/hXDH/b8Bhb11SgNad067kLq6Tzm1?=
+ =?us-ascii?Q?2+D8E3ggW1dohzvdr3T2oGcAJJ0Byoh6hXHJZ/8f25oi096VJMPcz1303VeR?=
+ =?us-ascii?Q?JlEJYuliGXPYw+nV+ClJckjkKKxHyTJFwi7EIWzCb7YDrlk5MfXdfLJSHAEo?=
+ =?us-ascii?Q?SmxrkeWAruZ88mbhZY2c+Fh7+CJM4lnXmlf103nkAF+yfIiepHXxdu+Z85wZ?=
+ =?us-ascii?Q?yCHwBhstK+ZTCyb3pRyOJMpHK1A/dXOIkGr5DfPktizpu7hekP8IR42eVnhd?=
+ =?us-ascii?Q?Qte59G9rDOFLP2VNIzNa5xj7NI/EV7zWPGbL6E/IMwafQ8lrBHWGAiHqfDiC?=
+ =?us-ascii?Q?D1CZ6Z1prNT8glKUUuVObKHm8+mN3sY8RhEuLnP+730/pY0IxGRhAOnebBh7?=
+ =?us-ascii?Q?VEo1nXrXmKTsSBshqWq0yn37REzM4DTJuBEAr6a12mhC3M6Pwxzfaev7c1sw?=
+ =?us-ascii?Q?RNydvJYU2lhDVnLdHZRmXIjvTogKciWHFZs1HFwYyRMy2iKdZ7TRiaZMp4V/?=
+ =?us-ascii?Q?P4WkaDgLARVlbPJ/CsRWqH4CvGuPUVrb78CJjfFqNsABPNx5T6bS9iBiuo3U?=
+ =?us-ascii?Q?Rgua1lSOwCWslRbEMKvfwW6vhyXyA/fuF1x7ipdA58qofpcqj6cedfLguFS2?=
+ =?us-ascii?Q?PmMCpXznBmxlzsL4ieB4Bra/hwcbvHAuIFYeG+5DMl4bQDaqePOhLI2WJGjI?=
+ =?us-ascii?Q?gUEEkJXjIXRbmoWUsLEF3ZT7kpEOAjM2fp7lcBC9Azw/0ycfxsjfO52jMRdz?=
+ =?us-ascii?Q?dohbQyml2UQo0uow/8fWFwMNoPug8sl+LR7eKrGqzgnET8dvWbAGrvugTYwu?=
+ =?us-ascii?Q?7ROJx/3b8TbtNpvOmUIDOxYk+Ni4QPpkggX456SB5DfxNse5bpPgO4/NKx0t?=
+ =?us-ascii?Q?Xm3X8/BVZy8AEQJOnaS5mNUu8vLxAQBOdmGS7kYKjkIcvrTKALHvL033lC47?=
+ =?us-ascii?Q?EJhXPkE0AxCyWmbVQxLP4JQNK88Ts+F/MD2TCZECs261/gojDM/C/9ryrf9G?=
+ =?us-ascii?Q?GGAQhWVEK/c=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?s3MsgChoxW0lhutlTBgL48qPuAKQ2t8jUZaTOxuTU+DwtREuHRJVlC0NEDjF?=
+ =?us-ascii?Q?2eikU6q7j2az0/iiN9zVDqb7Cyqg5vr8D47IuFZO4nRxl/9+1Un7jNwNbC/V?=
+ =?us-ascii?Q?WrExTJdx8ewBHyjoxuj70zV6j2wXvz/icFs8EWMmglhxwERIIqiAWzm1pS5F?=
+ =?us-ascii?Q?N1cUBacipE1cNr7CfisiHqKSBqiCiJXFCHCZhFs6oljJ9twMP394Y1va949O?=
+ =?us-ascii?Q?GZzP7M7GquKi7316Ke3TT0jaXMOIyaJ9k5R2W9UDENpKZVhxFm0CRdYQFn3S?=
+ =?us-ascii?Q?Atr7eQS3apybHC3kDN7gaClpRhLDSI07oL3qe9MF4fzuExr54WZ9ANdjHra4?=
+ =?us-ascii?Q?VFHkGoWt/DUcTQQ/Z6Bwrx0yuUS1dAxsbZ7col6LpXKGxKi/TMuyerlk+dga?=
+ =?us-ascii?Q?INAg786na65GAIgk8bQ0EKq3DJ8LHd7kyvB68WjOO4VhjzJIF5iYVeBUGE3i?=
+ =?us-ascii?Q?gBiy3pRQs1MJRzzuEQxOBrRvBMLlNWgKhPN6gGHK078okyd/WrpLEbOBDa/1?=
+ =?us-ascii?Q?RNXMFwrWoRpahLVZKsdK6f/dwIN5mULiNvMpqcKQ02x6bTKGaAqtLXIDyOT6?=
+ =?us-ascii?Q?HKCc/pN9TMbBwllJcaoT6GdDN/ueLHzPKL5u55vZalJeR4PjksunT6oTnNxt?=
+ =?us-ascii?Q?CPAmZhiM9Ot1dm5tiANyCC0n/xtNfFZHZG9dS9cglJ8rQ55b/FzjB6d8NWM7?=
+ =?us-ascii?Q?sOsvXN3mR8/HPz4KN5xkkNGdFPN71NU1sbOf1HTV8Ar1BG70XCn96uf70sza?=
+ =?us-ascii?Q?SC70hrn5tByk69jDrNnzRrSd3YjdC1opNxIpt5OjYIzbiWV5E/4UiSBqWQDz?=
+ =?us-ascii?Q?Z1L+WO4fhhOSXHYOilGR8TTzKvEjCQdNFKAc4nUxbhl0nZ4zOWBughWGpXvz?=
+ =?us-ascii?Q?agmDZcDz89Ul7/yYesT2lJBunM/8PS/Z2lftVs6KwGf8L8QGIyCu0LFKmQH4?=
+ =?us-ascii?Q?B3RG8587uTN+Nii3S4cvmPCaDCi9PKlJPfhTYMnk60Xwx+O52t0u0OT/YKly?=
+ =?us-ascii?Q?8IGDmkg52oPZN75NDROQYz8g4V1v3my9rgOFphhfnPokIqbrFt1BHKxLrDWm?=
+ =?us-ascii?Q?j1+TC2GbOMM3UjVb7kTSNE3lONrU6o+6MhTr3ciyW58fBD67UEztcM8oPkWP?=
+ =?us-ascii?Q?1iPmVmCia0+ILiW5QHNi5wofbdWs0Q39FWOKns/9KFsNK2iEav5sSWPwarM6?=
+ =?us-ascii?Q?zjtE/Wrpkzamo/Ld0a+yWxl3Zs6Ts40q42Wgh4cbL68znfsR2CYdsgOcynky?=
+ =?us-ascii?Q?tPFE6BJQCb5V4lH81HpCVsbT3ZWJbzj43245qIOSjj4C4MlNcwsoggAJxBE7?=
+ =?us-ascii?Q?IwyMk3zXHz54yOhZmyzIDIqDu5E0kYZSpfae675BcT8VkJvm7xClp/q/UAqZ?=
+ =?us-ascii?Q?+BfkSPYngwQtHs6d3e6GtKeahPyzc2QjjvT1NXSdZJZUEqCpLxQEHcXG3s28?=
+ =?us-ascii?Q?bwbVVNUQeseYDXTxJvoynOcBvESONGXS4KxjN4YzGdaPZ51GgtW2LlTh29jC?=
+ =?us-ascii?Q?UvwxYqKHsZgg+OsrrIzuNQ2r3xDHLjDyibKLza5GYBa1Dewg6fpBfyTabYNl?=
+ =?us-ascii?Q?1XTaGMHdZXCbsyLIJM8=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd8fd9fb-a06d-4966-99c8-08dddb3b4357
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 14:02:53.8873
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7MOha3hvQ4EJrU0HN7JLqgDU8PNpj3JrRWbovUa/NP7+WYrfftJ5z8Ku5NaM+tDd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8935
 
-On Thu, Aug 14, 2025 at 05:44:51PM +0530, MD Danish Anwar wrote:
-> On 14/08/25 1:08 pm, Dong Yibo wrote:
-> > Initialize get mac from hw, register the netdev.
-> > 
-> > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> > ---
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 18 +++++
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 73 ++++++++++++++++++
-> >  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  1 +
-> >  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 75 +++++++++++++++++++
-> >  4 files changed, 167 insertions(+)
-> > 
-> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> > index 7ab1cbb432f6..7e51a8871b71 100644
-> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-> > @@ -6,6 +6,7 @@
-> >  
-> >  #include <linux/types.h>
-> >  #include <linux/mutex.h>
-> > +#include <linux/netdevice.h>
-> >  
-> >  extern const struct rnpgbe_info rnpgbe_n500_info;
-> >  extern const struct rnpgbe_info rnpgbe_n210_info;
-> > @@ -82,6 +83,15 @@ struct mucse_mbx_info {
-> >  	u32 fw2pf_mbox_vec;
-> >  };
-> >  
-> > +struct mucse_hw_operations {
-> > +	int (*reset_hw)(struct mucse_hw *hw);
-> > +	void (*driver_status)(struct mucse_hw *hw, bool enable, int mode);
-> > +};
-> > +
-> > +enum {
-> > +	mucse_driver_insmod,
-> > +};
-> > +
-> >  struct mucse_hw {
-> >  	u8 pfvfnum;
-> >  	void __iomem *hw_addr;
-> > @@ -91,12 +101,17 @@ struct mucse_hw {
-> >  	u32 axi_mhz;
-> >  	u32 bd_uid;
-> >  	enum rnpgbe_hw_type hw_type;
-> > +	const struct mucse_hw_operations *ops;
-> >  	struct mucse_dma_info dma;
-> >  	struct mucse_eth_info eth;
-> >  	struct mucse_mac_info mac;
-> >  	struct mucse_mbx_info mbx;
-> > +	u32 flags;
-> > +#define M_FLAGS_INIT_MAC_ADDRESS BIT(0)
-> >  	u32 driver_version;
-> >  	u16 usecstocount;
-> > +	int lane;
-> > +	u8 perm_addr[ETH_ALEN];
-> >  };
-> >  
-> >  struct mucse {
-> > @@ -117,4 +132,7 @@ struct rnpgbe_info {
-> >  #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
-> >  #define PCI_DEVICE_ID_N210 0x8208
-> >  #define PCI_DEVICE_ID_N210L 0x820a
-> > +
-> > +#define dma_wr32(dma, reg, val) writel((val), (dma)->dma_base_addr + (reg))
-> > +#define dma_rd32(dma, reg) readl((dma)->dma_base_addr + (reg))
-> 
-> These macros could collide with other definitions. Consider prefixing
-> them with the driver name (rnpgbe_dma_wr32).
-> 
-> I don't see these macros getting used anywhere in this series. They
-> should be introduced when they are used.
-> 
+On Thu, Aug 07, 2025 at 01:44:24AM +0000, Pasha Tatashin wrote:
+> +struct liveupdate_ioctl_get_fd_state {
+> +	__u32		size;
+> +	__u8		incoming;
+> +	__aligned_u64	token;
+> +	__u32		state;
+> +};
 
-Got it, I will introduce codes when they are used.
+Same remark about explicit padding and checking padding for 0
 
-> >  #endif /* _RNPGBE_H */
-> > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> > index e0c6f47efd4c..aba44b31eae3 100644
-> > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-> > @@ -1,11 +1,83 @@
-> >  // SPDX-License-Identifier: GPL-2.0
-> >  /* Copyright(c) 2020 - 2025 Mucse Corporation. */
-> >  
-> > +#include <linux/pci.h>
-> >  #include <linux/string.h>
-> > +#include <linux/etherdevice.h>
-> >  
-> >  #include "rnpgbe.h"
-> >  #include "rnpgbe_hw.h"
-> >  #include "rnpgbe_mbx.h"
-> > +#include "rnpgbe_mbx_fw.h"
-> 
-> > +/**
-> > + * rnpgbe_xmit_frame - Send a skb to driver
-> > + * @skb: skb structure to be sent
-> > + * @netdev: network interface device structure
-> > + *
-> > + * @return: NETDEV_TX_OK or NETDEV_TX_BUSY
-> > + **/
-> > +static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
-> > +				     struct net_device *netdev)
-> > +{
-> > +		dev_kfree_skb_any(skb);
-> > +		netdev->stats.tx_dropped++;
-> > +		return NETDEV_TX_OK;
-> > +}
-> 
-> You didn't fix this extra indentation. This was present in v3 as well
-> 
-> https://lore.kernel.org/all/94eeae65-0e4b-45ef-a9c0-6bc8d37ae789@ti.com/#:~:text=skb)%3B%0A%3E%20%2B%09%09return%20NETDEV_TX_OK%3B%0A%3E%20%2B-,%7D,-Extra%20indentation%20on
-> 
+> + * luo_file_get_state - Get the preservation state of a specific file.
+> + * @token: The token of the file to query.
+> + * @statep: Output pointer to store the file's current live update state.
+> + * @incoming: If true, query the state of a restored file from the incoming
+> + *            (previous kernel's) set. If false, query a file being prepared
+> + *            for preservation in the current set.
+> + *
+> + * Finds the file associated with the given @token in either the incoming
+> + * or outgoing tracking arrays and returns its current LUO state
+> + * (NORMAL, PREPARED, FROZEN, UPDATED).
+> + *
+> + * Return: 0 on success, -ENOENT if the token is not found.
+> + */
+> +int luo_file_get_state(u64 token, enum liveupdate_state *statep, bool incoming)
+> +{
+> +	struct luo_file *luo_file;
+> +	struct xarray *target_xa;
+> +	int ret = 0;
+> +
+> +	luo_state_read_enter();
 
-Sorry, I missed fix this, I will fix it in the next version.
+Less globals, at this point everything should be within memory
+attached to the file descriptor and not in globals. Doing this will
+promote good maintainable structure and not a spaghetti
 
-> > +
-> > +static const struct net_device_ops rnpgbe_netdev_ops = {
-> > +	.ndo_open = rnpgbe_open,
-> > +	.ndo_stop = rnpgbe_close,
-> 
-> 
-> -- 
-> Thanks and Regards,
-> Danish
-> 
-> 
+Also I think a BKL design is not a good idea for new code. We've had
+so many bad experiences with this pattern promoting uncontrolled
+incomprehensible locking.
 
-Thanks for your feedback
+The xarray already has a lock, why not have reasonable locking inside
+the luo_file? Probably just a refcount?
 
+> +	target_xa = incoming ? &luo_files_xa_in : &luo_files_xa_out;
+> +	luo_file = xa_load(target_xa, token);
+> +
+> +	if (!luo_file) {
+> +		ret = -ENOENT;
+> +		goto out_unlock;
+> +	}
+> +
+> +	scoped_guard(mutex, &luo_file->mutex)
+> +		*statep = luo_file->state;
+> +
+> +out_unlock:
+> +	luo_state_read_exit();
+
+If we are using cleanup.h then use it for this too..
+
+But it seems kind of weird, why not just
+
+xa_lock()
+xa_load()
+*statep = READ_ONCE(luo_file->state);
+xa_unlock()
+
+?
+
+> +static int luo_ioctl_set_fd_event(struct luo_ucmd *ucmd)
+> +{
+> +	struct liveupdate_ioctl_set_fd_event *argp = ucmd->cmd;
+> +	int ret;
+> +
+> +	switch (argp->event) {
+> +	case LIVEUPDATE_PREPARE:
+> +		ret = luo_file_prepare(argp->token);
+> +		break;
+> +	case LIVEUPDATE_FREEZE:
+> +		ret = luo_file_freeze(argp->token);
+> +		break;
+> +	case LIVEUPDATE_FINISH:
+> +		ret = luo_file_finish(argp->token);
+> +		break;
+> +	case LIVEUPDATE_CANCEL:
+> +		ret = luo_file_cancel(argp->token);
+> +		break;
+
+The token should be converted to a file here instead of duplicated in
+each function
+
+>  static int luo_open(struct inode *inodep, struct file *filep)
+>  {
+>  	if (atomic_cmpxchg(&luo_device_in_use, 0, 1))
+> @@ -149,6 +191,8 @@ union ucmd_buffer {
+>  	struct liveupdate_ioctl_fd_restore	restore;
+>  	struct liveupdate_ioctl_get_state	state;
+>  	struct liveupdate_ioctl_set_event	event;
+> +	struct liveupdate_ioctl_get_fd_state	fd_state;
+> +	struct liveupdate_ioctl_set_fd_event	fd_event;
+>  };
+>  
+>  struct luo_ioctl_op {
+> @@ -179,6 +223,10 @@ static const struct luo_ioctl_op luo_ioctl_ops[] = {
+>  		 struct liveupdate_ioctl_get_state, state),
+>  	IOCTL_OP(LIVEUPDATE_IOCTL_SET_EVENT, luo_ioctl_set_event,
+>  		 struct liveupdate_ioctl_set_event, event),
+> +	IOCTL_OP(LIVEUPDATE_IOCTL_GET_FD_STATE, luo_ioctl_get_fd_state,
+> +		 struct liveupdate_ioctl_get_fd_state, token),
+> +	IOCTL_OP(LIVEUPDATE_IOCTL_SET_FD_EVENT, luo_ioctl_set_fd_event,
+> +		 struct liveupdate_ioctl_set_fd_event, token),
+>  };
+
+Keep sorted
+
+Jason
