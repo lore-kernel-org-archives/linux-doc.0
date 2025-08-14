@@ -1,310 +1,194 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2061.outbound.protection.outlook.com [40.107.244.61])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB94722D4F9;
-	Thu, 14 Aug 2025 05:40:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755150031; cv=fail; b=gpGEUNyQPHtYqR49kf4xtm/mtwBx8wEnq8z9HkXtQ5qA1F19YC/UCGbrkAeb3PILsN77LtT3scKVrAANt2Gj3Kj1GW7kDlNxc+L8Nt/i9DDtCEtn/3MTeAPQ3WRvwZbg1AYaYANZhKMV+Z5hzZldWV+tNnwVJI4MVmoy29oOQhQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755150031; c=relaxed/simple;
-	bh=iTLQD7Ix9GSTo0/qYbXpAHaaN7JzZVsMRXJjlL1ZSGU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tPTWHa1vSn/Emlj5O+zRovgLmXHmTnpW+QcPI2DSJONdjSdxsNKpMGV9TupsbmZZ8YUU1hZubdtqv1Lx8CtvUE/7/S9mSKIMp+u03/uzT97ZN0E79PxekLpKker3rhA0hyMgH+EpgzmdhoaeJPSFK5MIdZljEQOUtqMSOzH/QkQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=KfUeyUoT; arc=fail smtp.client-ip=40.107.244.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6616D21FF58
+	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 05:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755150653; cv=none; b=X3ITyBN4aVo9gIYpWHpPPS8PqZMcXZvceiKFr6zWB5N+KPT+WQEKGLzbP0MbrlcheVFf/s9MnK6gq9cH675eO7NZQLmGdkluLxBDxOCryN6EwPQ2cPZn0zHCwNDtoh3oh3Ejdz+QadPFtFnkaxnkDS+oBKY9qoNu2S7n8kPnP6I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755150653; c=relaxed/simple;
+	bh=lomnEJ9yPVx44OUpUFVsAUpjLoAdKXlzeGHzBgBZ8co=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UUKi6gqGTosEFgoLcNfCdWUDiQzx1PYJgMKPNGJXv4egzfvDIggOrQAqcCahyyiY6qZM2SQMmL2D2zkDULnts9vO6ZBY8bMg2t17Y3cloerVmWEe6TbkCA9rmDYLhA6EOu/5zKJZwg5eglhRx3HO1ECKTIYKS84vNkfDvlxg+l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XvVOo5Xg; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KfUeyUoT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C2AWZgU+S9vQkJJIRoId9WrNj0w7qT1dnMA3bST17XMPj7sMzZvISlYyDZSFIS6mN+3SuvHYShxxsJtGmM/PrEbI7OtzvPTlU5VvHdlcqvUF8sx/u9CtUvRq79NdzhJPNeVWEsgRSGhDgxffY1eabeFswaMHw8WmG+ETFNDHCuKxfCpPx0nUDsXjGEvrXmHnfuwwl72RK6vqPVNLL1bTP9wEHuX5WxHLYZtilPZGr2mIcrra3PRwS5Ymm+wZhLdaVbKQiifh/J7LpamsD6hbaqd0kaylXcyBDWr5VzrMOpswFP3UtzdpP7IfZcUEfNHE8PaLnRgcosGIaQs3BkEpig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZJSBmKnVxonXyxHftDcuf0T/lU+7rDT6nlMYP3fhCbE=;
- b=I1llAuZQg/XBy7ei8nypl0m+/KyQR/zYCM+2o2VHhz92rBia9wLFMmf9RLr5JvMDwkNZkcCj4QI8hkhTSIQUE9lmZqPeoqGlAcC4oO6Y8vAAor0cxWwzKG347iMOgjJQiV5uVr10VECeY9bXB3abyjTKXhbyGEJKFXk5/p7wOf9IvHaAqsgsxM6fGuqtxI8ECMF36Y+aFcWjPbgQ1eH21xIgfEj1uMss7tkjIUF/wmm3yMkYvKHcRodVAEc623QhETOAykBAX34JPsoes2VJCy4gyUBoqvWDkd1nP2hgAqePTVe57vwGIO8FVQSX03rYOzq4sapsygHMnGTr8B9zag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=davemloft.net smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZJSBmKnVxonXyxHftDcuf0T/lU+7rDT6nlMYP3fhCbE=;
- b=KfUeyUoTga/+TKJSNy5zBYvd4ScN03MTLcXnYIObhI5tpcftpcN4QDmi2bvafjCoJRQAHzag/gdpO+/81fe8vxmkpIG3oRV/PuwinDWxKF5NIophCR22mGMTYcqa5jKh8UgealM86wqp0b2mB53hqCkU+NLn9U/2u3Nc6/ef5K4=
-Received: from SA0PR11CA0118.namprd11.prod.outlook.com (2603:10b6:806:d1::33)
- by MN0PR12MB5980.namprd12.prod.outlook.com (2603:10b6:208:37f::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.15; Thu, 14 Aug
- 2025 05:40:23 +0000
-Received: from SA2PEPF00003AE6.namprd02.prod.outlook.com
- (2603:10b6:806:d1:cafe::16) by SA0PR11CA0118.outlook.office365.com
- (2603:10b6:806:d1::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.16 via Frontend Transport; Thu,
- 14 Aug 2025 05:40:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- SA2PEPF00003AE6.mail.protection.outlook.com (10.167.248.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9031.11 via Frontend Transport; Thu, 14 Aug 2025 05:40:23 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 14 Aug
- 2025 00:40:21 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Wed, 13 Aug
- 2025 22:40:21 -0700
-Received: from xhdabhijitg41x.xilinx.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39
- via Frontend Transport; Thu, 14 Aug 2025 00:40:17 -0500
-From: Abhijit Gangurde <abhijit.gangurde@amd.com>
-To: <brett.creeley@amd.com>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <corbet@lwn.net>, <jgg@ziepe.ca>,
-	<leon@kernel.org>, <andrew+netdev@lunn.ch>
-CC: <sln@onemain.com>, <allen.hubbe@amd.com>, <nikhil.agarwal@amd.com>,
-	<linux-rdma@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Abhijit Gangurde
-	<abhijit.gangurde@amd.com>
-Subject: [PATCH v5 14/14] RDMA/ionic: Add Makefile/Kconfig to kernel build environment
-Date: Thu, 14 Aug 2025 11:09:00 +0530
-Message-ID: <20250814053900.1452408-15-abhijit.gangurde@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250814053900.1452408-1-abhijit.gangurde@amd.com>
-References: <20250814053900.1452408-1-abhijit.gangurde@amd.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XvVOo5Xg"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DN86im025642
+	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 05:50:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ZOJ5RR3PqgCQNdZV6tHlQpMWfAVJArmZDw7MU6+DL7M=; b=XvVOo5XgoxdS+3Sf
+	Bq2yXWJ0hiwSTa0MEuZoW4IjIJC86W8OrGPMHs40+cf+tOMSGGaYuKi7i2oPVGqe
+	gSWw1VbakLMUewkEiRv1vIbQjopB4W4bdMf67x+MclV95o1iXuDkfsK1sau/aKQv
+	VhIikW19P9Bevhi8z17Bu4IrPqlmDJJp4k9OK73+oqjS7XZt9u5HR6yfL8wFwz77
+	0gV49EtbSLRjR1YvMPZeSDnV9uKscVy7QYe2Iot+qf+vee8/8A7pjLGkH4JCW5K/
+	HorgUiylHUufqpREbDbZCaH+kbcZdkZg5+arxe1Kgc/kbYdf+Mo/szhMVvUp85zv
+	DNaEqg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dy3gec6g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 05:50:51 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-24457f4f3ecso6391505ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Aug 2025 22:50:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755150650; x=1755755450;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZOJ5RR3PqgCQNdZV6tHlQpMWfAVJArmZDw7MU6+DL7M=;
+        b=snoghY35e5EUEPekg2q19qh800uJjbXm1mgGzaB2W3+F5a5PpVRKzSnUeWmDRLOr5q
+         9Kq3Qy748cvQnBlihTO2iMPyWg2o5VcIIDQdlw0RMhHGbpxOii9tUjs85cVPNVO/+AFa
+         pZeC5jux0y6q0PnccH8neTB9pW1ljUnc9lhy64ZmkcDuc8pGGcbmu0wlNR61/bF/WvGE
+         mJTa+OkVaHT3JlQeKpRm+8sXKHcRQxe5gcfBnJiOvuBxRhjCI2UZt448ROFP67aBxm+6
+         ueSMwHtopxpz/UGzRB5hqpy337saVgYtP3vll1Pb3fOfzoZN2urQbYEY8m4s57WgJuOe
+         1lTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWBlzrcF6Osb6OtfYr2M0RJ6wfQWnAji/goNd8f98RpSiZzxpq8K+2IISO2nQsELsMlY5qpSStsThM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVlrB0IQm/c00XVhBvYw9FV7ztlLhZrH5IaLKdW+SojKdNRUfu
+	GzoAcwkHc5ui/ktDYu9Mo5/1HF2oSoycZgKwfJcuQnjp96ly4LFsohgxtI/d6kjtmOCO2E77N/J
+	HM212ZGMGbtum4IkbWlmk03spQ5yjjTmJDF5nBK8nnEXV/Q2sxoMhhouCnx/N+w==
+X-Gm-Gg: ASbGncu/m3AmV25gxKf2Kg09yp1MahXkmjF6h2Gxlt/f8GKtCIu2b9uQ9RcbaCnN5Tt
+	h0ob4KJxbAd68TcGTp8xmP/Hcv1oHleWp7+ntQeMmUV7M4MxxX08pEZKxJbF9NBXrMMai2vJfd5
+	FmydjuJ+t2nnZ02Aijnu6rVOSM0Wv6/4M3G4yj1k/j5vfJz4tXBhAlNdNui7hsR1sxBsBZDeIaR
+	xzLsKt2rVZNzwZOGL+FtAQHpJ7Axc2r+BXee6EHSLt0WV4n90WZPA71JL8mOsjHxFNhTd6h2uW7
+	hoqyve50xQI/jQkHbADbotJTzEblTba0xTmwbSRflTK/njUYgzeQwBSJIcAH6gUR/vvHluiefIo
+	zD3ZTxs0QtsT2zoxoCkfx98WhbXx8PSl5v9v0Bw==
+X-Received: by 2002:a17:902:e784:b0:242:9bc6:63c3 with SMTP id d9443c01a7336-244586efd7amr26911565ad.54.1755150650510;
+        Wed, 13 Aug 2025 22:50:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEg+3/0CB4U2pDNP5uuELEloHSNUMx8oZuD+AyTPJ8LiDQNxpnVIDTDJbE8IvvpsAU7Y3B2/w==
+X-Received: by 2002:a17:902:e784:b0:242:9bc6:63c3 with SMTP id d9443c01a7336-244586efd7amr26911215ad.54.1755150650056;
+        Wed, 13 Aug 2025 22:50:50 -0700 (PDT)
+Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au. [1.41.240.65])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2430558a0b7sm52896745ad.85.2025.08.13.22.50.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Aug 2025 22:50:49 -0700 (PDT)
+Message-ID: <22d6cbc1-90ad-44b0-80fa-c3c67abdae8d@oss.qualcomm.com>
+Date: Thu, 14 Aug 2025 15:50:41 +1000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 10/11] qcomtee: enable TEE_IOC_SHM_ALLOC ioctl
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Sumit Garg <sumit.garg@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Apurupa Pattapu <quic_apurupa@quicinc.com>,
+        Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+        op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sumit Garg <sumit.garg@oss.qualcomm.com>
+References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
+ <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-10-ce7a1a774803@oss.qualcomm.com>
+ <3ec0a8d0-7900-45bd-b0d3-90ee8ca7730c@oss.qualcomm.com>
+ <d81abdef-18fa-496d-8493-e8f336c43800@oss.qualcomm.com>
+ <d74404ec-44ad-412f-98ef-eed288ecf1bf@oss.qualcomm.com>
+ <87c884ed-0975-4ac2-a0fa-16e830a57c72@oss.qualcomm.com>
+ <8bcb37ed-2885-4f4d-abed-5dd5ec6a254c@oss.qualcomm.com>
+Content-Language: en-US
+From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+In-Reply-To: <8bcb37ed-2885-4f4d-abed-5dd5ec6a254c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE6:EE_|MN0PR12MB5980:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae37221f-e39b-41fb-beba-08dddaf51074
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?kND+BsVpVuZs9k/UyKKHNEzsCm3QVaUn13YjjDqMZ3r+cCAwOHQExNqwRgGL?=
- =?us-ascii?Q?ms+6hffLjNJBmQU/eceTb7/Q3djCFZOISrKPpeFo+CRKKSpqlb+f4rlS3S3L?=
- =?us-ascii?Q?OzVyMCgIUXy+cZbTRMTnGra8z8NyJosaAM+S8BwoRm2q3NwzkQ8rcCAFwoPC?=
- =?us-ascii?Q?f6EJ+Vj0/Uii08DC0ee1yN6V/2EaJ0u3cQC3yNGAqLdhwStywxWGf21L4NUy?=
- =?us-ascii?Q?zcPMn53Nt8yWDMqjCZ8rMwR8FFJ9ZZfsjsNF1f9rn/NnwHoV+tzDUdlCkSog?=
- =?us-ascii?Q?/8P64vGSC4bLy9FJvKusaS8YW1Kq+JGup4EXZk+fYsxiRZ95QZ0VB7LIqQ9C?=
- =?us-ascii?Q?Slmmwo3JZGRGDs1LdWj/Azc0adR66lZU+wZHHC4/9o8OrotJomJJeuJ/zvCv?=
- =?us-ascii?Q?T4Wi+wIns5cefUTABPOeqP9zTxNwangN4FVTQqztA5rgi2Vgx0dUzAka9ROJ?=
- =?us-ascii?Q?LEMOjjIC4SJXceV8owLJ+Pk121/MDoRXaw7d5Tl0F7YbZObv7eye8XtTlTg3?=
- =?us-ascii?Q?Xx5C8x3uCz8OCEPIfSCBhHRWKBpLS2T5U1DYJABpBVuD6PqMtUhy07qywRFD?=
- =?us-ascii?Q?87EQ8kqwaOkdY5tkWThCrOTKIfUkHtagKqmt2gwlxOBmhHRVGuzXOOye4p+v?=
- =?us-ascii?Q?mAfKB6d+piRVmT78L+rd9FrvqdHYkk0zKagiQRZE+UsoZHIPYQ7OFdRP0T42?=
- =?us-ascii?Q?oNpv79dEudjLYBckf2TR6JCH5RHGZitGFqMX4cKv+k/ajwuHSRSLCd7GfzOG?=
- =?us-ascii?Q?DPGjd3JvtvxobGeyb6ERUr3P2Fr+MMkavPw6sG9kR03/EQAVWvr9k9+W0SwD?=
- =?us-ascii?Q?vKXof5H6HI5uzKcUbXqcI3qUoMR17XiAL/BuJc14AKMb/47IfOdOIB/4BNba?=
- =?us-ascii?Q?ITm69qF5OHNEPgmDrOenyr6dMos5tc62YGKywmb7JbTsnPDijy51Nm4TRMFh?=
- =?us-ascii?Q?SJCvBLBlHofq9wln3W4OxtKooV1cQExW9oTk7ZwXM2wccaGnzlqcoQJ/+uP/?=
- =?us-ascii?Q?8wsoTGNB0auqNSKCdMF23BKgOa7Fg4QXGigh8aZxRj7lnhQLamjPo9WK+n+0?=
- =?us-ascii?Q?Ep4MDnyqaHtgERjEI6irQHpF4LcQyuy7b+kgubLdPjIbnXYL72fEnSapC6a4?=
- =?us-ascii?Q?0kVR9YUveGMvwnuRRmAABpxVxFbkFup11bHy1WnsRT1p01DVa8FILxbsX6vL?=
- =?us-ascii?Q?fLOonb60JTn4NQfnS/CnJcpwJLZOlku+6NoGl0bGFln1Fg93BZ5tCXfh6i83?=
- =?us-ascii?Q?3x48UkK4ps2gJGpuqRMPULsOmUFlR5Vs10r3RS5sebKFuMpDPsa/GmuwG7RJ?=
- =?us-ascii?Q?5W7rdc1/7gnaD79p1ZoyN1YHD77eWZWopJe/DPX7XX+4YJdUPdBtfzuUq5eq?=
- =?us-ascii?Q?vyR2kqp9QPmikeZ8vCMIp40RsyOVrLEktUAzoTOUEh5BgOEhGYXkqhlKy68y?=
- =?us-ascii?Q?kNwc+v8rmS9BMjv8ROQc3kXU2YgJVuj1OnHhEOu+q5KRUltOBaXTNcf4ROGX?=
- =?us-ascii?Q?0VOgp2MS6vYGcC0TCpxHpCJTg8iAjkQ6NrEr3U28n6XhPTKchf4DGNoEZA?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 05:40:23.3765
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae37221f-e39b-41fb-beba-08dddaf51074
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003AE6.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5980
+X-Authority-Analysis: v=2.4 cv=X4lSKHTe c=1 sm=1 tr=0 ts=689d793b cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=oZdMm6XVNGq0ThNLGeAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAzMSBTYWx0ZWRfX6GRe3bQ47RAj
+ fUaJKKF8+VG37YSKGJMVDqDxuwDpPqQs0tJS1S8NXtgipGpiExtDmqyFBn4i9rzAAU7g/dK2zdq
+ w+OR12KX4iihE0zHr3gIzIsZSdnywuZdbk6fkjyiOBxHQzh624nFdOpQ22rZZQjrdC2cJaXDlEU
+ PHuLwPOLphGkIpRr1eksvXoz27e3titJXKyzEJLLjZ+87+sXe28OExfV/u6t6kesftEF77p064d
+ yjoFY3YztxayaK80OQQdxJtzawfm/5kUkwD97zhaarO5mpLfMzdbm/1m3yLrgDsnEJd4ZCcve7v
+ n6erW8UjwrN53Qc7DiWODfBZpxCQFaoq9bouzsoqLxOZC4KJLYn2QzwRlBN4lPkVOwfZXvpJoLF
+ 5qhvRQEx
+X-Proofpoint-GUID: DdwZ56Zwr3hqjUMqcOl8pxYtDMRUlt4F
+X-Proofpoint-ORIG-GUID: DdwZ56Zwr3hqjUMqcOl8pxYtDMRUlt4F
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090031
 
-Add ionic to the kernel build environment.
 
-Co-developed-by: Allen Hubbe <allen.hubbe@amd.com>
-Signed-off-by: Allen Hubbe <allen.hubbe@amd.com>
-Signed-off-by: Abhijit Gangurde <abhijit.gangurde@amd.com>
----
-v4->v5
-  - Updated documentation
-v2->v3
-  - Removed select of ethernet driver
-  - Fixed make htmldocs error
 
- .../device_drivers/ethernet/index.rst         |  1 +
- .../ethernet/pensando/ionic_rdma.rst          | 52 +++++++++++++++++++
- MAINTAINERS                                   |  9 ++++
- drivers/infiniband/Kconfig                    |  1 +
- drivers/infiniband/hw/Makefile                |  1 +
- drivers/infiniband/hw/ionic/Kconfig           | 15 ++++++
- drivers/infiniband/hw/ionic/Makefile          |  9 ++++
- 7 files changed, 88 insertions(+)
- create mode 100644 Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
- create mode 100644 drivers/infiniband/hw/ionic/Kconfig
- create mode 100644 drivers/infiniband/hw/ionic/Makefile
+On 8/14/2025 9:20 AM, Konrad Dybcio wrote:
+> On 8/14/25 1:19 AM, Amirreza Zarrabi wrote:
+>>
+>>
+>> On 8/14/2025 8:49 AM, Konrad Dybcio wrote:
+>>> On 8/14/25 12:24 AM, Amirreza Zarrabi wrote:
+>>>>
+>>>>
+>>>> On 8/13/2025 8:00 PM, Konrad Dybcio wrote:
+>>>>> On 8/13/25 2:35 AM, Amirreza Zarrabi wrote:
+>>>>>> Enable userspace to allocate shared memory with QTEE. Since
+>>>>>> QTEE handles shared memory as object, a wrapper is implemented
+>>>>>> to represent tee_shm as an object. The shared memory identifier,
+>>>>>> obtained through TEE_IOC_SHM_ALLOC, is transferred to the driver using
+>>>>>> TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT.
+>>>>>>
+>>>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>>>>> Acked-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+>>>>>> Tested-by: Harshal Dev <quic_hdev@quicinc.com>
+>>>>>> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+>>>>>> ---
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>> +/* Mapping information format as expected by QTEE. */
+>>>>>> +struct qcomtee_mapping_info {
+>>>>>> +	u64 paddr;
+>>>>>> +	u64 len;
+>>>>>> +	u32 perms;
+>>>>>> +} __packed;
+>>>>>
+>>>>> Please use types with explicit endianness, e.g. __le32. I'm assuming
+>>>>> TZ will always be little-endian, regardless of the host OS
+>>>>>
+>>>>
+>>>> I'm not entirely sure how this point is relevant. As I understand it,
+>>>> the core that populates this struct is the same one that accesses it in TZ.
+>>>> Your argument would absolutely make sense if the host and TZ were operating
+>>>> on different cores with distinct architectures -- such as one being
+>>>> little-endian and the other big-endian, which is not the case.
+>>>
+>>> CONFIG_CPU_BIG_ENDIAN=y exists on arm64
+>>>
+>>
+>> Or, you are saying we may have a configuration where host is big-endian
+>> but TZ is little-endian?
+> 
+> I was indeed about to say that.. I believe our tz is always little-endian
+> but you can run the HLOS of either endianness
+> 
 
-diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
-index 40ac552641a3..1fabfe02eb12 100644
---- a/Documentation/networking/device_drivers/ethernet/index.rst
-+++ b/Documentation/networking/device_drivers/ethernet/index.rst
-@@ -50,6 +50,7 @@ Contents:
-    neterion/s2io
-    netronome/nfp
-    pensando/ionic
-+   pensando/ionic_rdma
-    smsc/smc9
-    stmicro/stmmac
-    ti/cpsw
-diff --git a/Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst b/Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
-new file mode 100644
-index 000000000000..4c8a7abb24e0
---- /dev/null
-+++ b/Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
-@@ -0,0 +1,52 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+===========================================================
-+RDMA Driver for the AMD Pensando(R) Ethernet adapter family
-+===========================================================
-+
-+AMD Pensando RDMA driver.
-+Copyright (C) 2018-2025, Advanced Micro Devices, Inc.
-+
-+Overview
-+========
-+
-+The ionic_rdma driver provides Remote Direct Memory Access functionality
-+for AMD Pensando DSC (Distributed Services Card) devices. This driver
-+implements RDMA capabilities as an auxiliary driver that operates in
-+conjunction with the ionic ethernet driver.
-+
-+The ionic ethernet driver detects RDMA capability during device
-+initialization and creates auxiliary devices that the ionic_rdma driver
-+binds to, establishing the RDMA data path and control interfaces.
-+
-+Identifying the Adapter
-+=======================
-+
-+See Documentation/networking/device_drivers/ethernet/pensando/ionic.rst
-+for more information on identifying the adapter.
-+
-+Enabling the driver
-+===================
-+
-+The ionic_rdma driver depends on the ionic ethernet driver.
-+See Documentation/networking/device_drivers/ethernet/pensando/ionic.rst
-+for detailed information on enabling and configuring the ionic driver.
-+
-+The ionic_rdma driver is enabled via the standard kernel configuration system,
-+using the make command::
-+
-+  make oldconfig/menuconfig/etc.
-+
-+The driver is located in the menu structure at:
-+
-+  -> Device Drivers
-+    -> InfiniBand support
-+      -> AMD Pensando DSC RDMA/RoCE Support
-+
-+Support
-+=======
-+
-+For general Linux rdma support, please use the rdma mailing
-+list, which is monitored by AMD Pensando personnel::
-+
-+  linux-rdma@vger.kernel.org
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe168477caa4..088558cc8b18 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1176,6 +1176,15 @@ F:	Documentation/networking/device_drivers/ethernet/amd/pds_core.rst
- F:	drivers/net/ethernet/amd/pds_core/
- F:	include/linux/pds/
- 
-+AMD PENSANDO RDMA DRIVER
-+M:	Abhijit Gangurde <abhijit.gangurde@amd.com>
-+M:	Allen Hubbe <allen.hubbe@amd.com>
-+L:	linux-rdma@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
-+F:	drivers/infiniband/hw/ionic/
-+F:	include/uapi/rdma/ionic-abi.h
-+
- AMD PMC DRIVER
- M:	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
- L:	platform-driver-x86@vger.kernel.org
-diff --git a/drivers/infiniband/Kconfig b/drivers/infiniband/Kconfig
-index 3a394cd772f6..f0323f1d6f01 100644
---- a/drivers/infiniband/Kconfig
-+++ b/drivers/infiniband/Kconfig
-@@ -85,6 +85,7 @@ source "drivers/infiniband/hw/efa/Kconfig"
- source "drivers/infiniband/hw/erdma/Kconfig"
- source "drivers/infiniband/hw/hfi1/Kconfig"
- source "drivers/infiniband/hw/hns/Kconfig"
-+source "drivers/infiniband/hw/ionic/Kconfig"
- source "drivers/infiniband/hw/irdma/Kconfig"
- source "drivers/infiniband/hw/mana/Kconfig"
- source "drivers/infiniband/hw/mlx4/Kconfig"
-diff --git a/drivers/infiniband/hw/Makefile b/drivers/infiniband/hw/Makefile
-index df61b2299ec0..b706dc0d0263 100644
---- a/drivers/infiniband/hw/Makefile
-+++ b/drivers/infiniband/hw/Makefile
-@@ -14,3 +14,4 @@ obj-$(CONFIG_INFINIBAND_HNS_HIP08)	+= hns/
- obj-$(CONFIG_INFINIBAND_QEDR)		+= qedr/
- obj-$(CONFIG_INFINIBAND_BNXT_RE)	+= bnxt_re/
- obj-$(CONFIG_INFINIBAND_ERDMA)		+= erdma/
-+obj-$(CONFIG_INFINIBAND_IONIC)		+= ionic/
-diff --git a/drivers/infiniband/hw/ionic/Kconfig b/drivers/infiniband/hw/ionic/Kconfig
-new file mode 100644
-index 000000000000..de6f10e9b6e9
---- /dev/null
-+++ b/drivers/infiniband/hw/ionic/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2018-2025, Advanced Micro Devices, Inc.
-+
-+config INFINIBAND_IONIC
-+	tristate "AMD Pensando DSC RDMA/RoCE Support"
-+	depends on NETDEVICES && ETHERNET && PCI && INET && IONIC
-+	help
-+	  This enables RDMA/RoCE support for the AMD Pensando family of
-+	  Distributed Services Cards (DSCs).
-+
-+	  To learn more, visit our website at
-+	  <https://www.amd.com/en/products/accelerators/pensando.html>.
-+
-+	  To compile this driver as a module, choose M here. The module
-+	  will be called ionic_rdma.
-diff --git a/drivers/infiniband/hw/ionic/Makefile b/drivers/infiniband/hw/ionic/Makefile
-new file mode 100644
-index 000000000000..957973742820
---- /dev/null
-+++ b/drivers/infiniband/hw/ionic/Makefile
-@@ -0,0 +1,9 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+ccflags-y :=  -I $(srctree)/drivers/net/ethernet/pensando/ionic
-+
-+obj-$(CONFIG_INFINIBAND_IONIC)	+= ionic_rdma.o
-+
-+ionic_rdma-y :=	\
-+	ionic_ibdev.o ionic_lif_cfg.o ionic_queue.o ionic_pgtbl.o ionic_admin.o \
-+	ionic_controlpath.o ionic_datapath.o ionic_hw_stats.o
--- 
-2.43.0
+Okay, I’ve thought about this point and also discussed it internally.
+I can add an entry to Kconfig to ensure the driver is unavailable when
+CONFIG_CPU_BIG_ENDIAN is selected -- for now. However, without a clear
+usecase, adding all the le32_to_cpu/cpu_to_le32 conversions just makes
+the driver messy.
+
+Regards,
+Amir
+
+> Konrad
 
