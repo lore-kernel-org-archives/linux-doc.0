@@ -1,114 +1,180 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9EB24FC09;
-	Thu, 14 Aug 2025 06:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9382C24468A;
+	Thu, 14 Aug 2025 07:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755153584; cv=none; b=jaxDQt1lr1rXig0sWI9/4ah7mMKBeN/08MuL33BHbMxpDsXcdaSX+aPdfqaE+ClujswgSh5sEpETvrT/UjsSdImDczujhjjgZamwIxD75Bj47RSBizgVyElkxj3Id0l3GIEVWs9VlV/QeR8tmCdssk5P3ix9NsoII2YTZwCRCTc=
+	t=1755155740; cv=none; b=avRkJlLsM/1S3HCTomVXqEfA9nREKFWdPJGqtsY82rN5BTAoWG0v/W5SwNw9iVnySc65QEx3khJbq4dGGIgWoLhK5X5+T3i0mv72l5HseXtu0nlbmLDQakIlGnT7acR7tay0K2ojuvgxDhJscKAbXQ2q6A5iS4yQIYOjFJ0UFo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755153584; c=relaxed/simple;
-	bh=R1C/8DCIBJz96E2r7yTyeQKXLBEZvbbz3YPZilRHxA8=;
+	s=arc-20240116; t=1755155740; c=relaxed/simple;
+	bh=SaB56iFHq9R1lIIJgY1jOBN/SbTeOE8emRCvNnsEoq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SCRvjW41h+P/OktOMoODO/atJpVVJM8sxfth2jcdx0kbagtm9rhPPK03q1yBZ8qeMWJ03Tvmc6x4zwysMIyIL/bZYYbrzA6lZAbv3U96i6wuy6sRY903f9TPbKFZknlTvLm5Cz112z74QIOQeM9EUIw9FlS7G6ivR/+b/C6NJLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jr/kJEsD; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=E3RQy2Pmj9Fl8lc55CB5FJPsWZJj1lygVl9wXLl0XaGug4U3ii0ZnFgCMQhgsRb3/ufadoafhX/U9I8HrNiXeZJ9OLCifUwialYdnyT4r481mjIDvAuTn+kYhb65vRvbSLMAR21+Z/+oPsol+Uc4+EMjc/TJLMPeSdOD6JNibcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1IKT2zw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jr/kJEsD"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2445806df50so4184335ad.1;
-        Wed, 13 Aug 2025 23:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755153582; x=1755758382; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R1C/8DCIBJz96E2r7yTyeQKXLBEZvbbz3YPZilRHxA8=;
-        b=jr/kJEsDnjD/nmJQ3oijUrAZXAf8LhjzJwNhxGxq1aPEwJdCWvhVb+DXYr9v+olo9y
-         zn+n9IvAztJeIUArutGDSoBMSKmLovA5Z0NkqAsYI72SuWavElB3iXVsK5KnSOoteuZa
-         yzvxl80Ir1wtGSVXsnAX2YYwB6yPG5OZDqGrIlUH70wJZj7dZslKOhwWyuci/URYipHy
-         v3GuvTnkz6FSje5n6XezNSJoHoXfJxMUlTXlck+ZhqCxAbetHoDM6LafzuWoPHkmOsoY
-         U9y2T9Y9elp4kRON3eRFf7umnUNyS7wGhqxgfPaBVfiBk8RuG0GEVC8KqrGZCTMQRviB
-         tjGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755153582; x=1755758382;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R1C/8DCIBJz96E2r7yTyeQKXLBEZvbbz3YPZilRHxA8=;
-        b=hXdNkpauHn/+rL0INDWcHPd/Pl4cgpm9IzOFJyTX1877LA6K9fxiun+mRU4Di6EaKS
-         O5pTkEWGyP2yM29y7iAVnrAMYF5JnGF7erKILoxWWzXjTunnd3nGfGAzvGA8XkiSyBmL
-         y5X2J/Rk4JUNqInX0zCafcU8r51Vi0oof/RN3jT9w2nzvexKeR8TUVc8EpmiLCo27H6R
-         I2UQWxsoXp3TLI8McljgFjeYPyT2Lln1d32OrEWdbB2z+UX5Xe4qNcjSv9QnZaxEfyRr
-         KQQe1sJIDVf4MblxWwLALM1hi3/IESaDjdA/ixbOPJNtjei2yHi18gqOl92j+qz2dtzX
-         /pbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUCYnqQLr+GUCDc/wIYggZRL4gha+PX8M3dirZH522MTGVUaGXgOU5cEDEJm42ACAl/grdfD3MdNswPIinh@vger.kernel.org, AJvYcCUjaHAhKgBzhVINEjve5q1ul5OsHsmKb+dKT67Ju36YorIqhMcpgscwYJPpUPObeMYtsWxgvL4qSMAP@vger.kernel.org, AJvYcCVAdiBLuS+F62ly4JS/XB0y2Ly14UtnnVG4E7wpNuyaqSYTwZqQTXuVRScCiPasWB0ieuN+hWZMd4g=@vger.kernel.org, AJvYcCVNTes2H2etAEXGiPte1wQjhqQFD0YU1wRG4XXn//prxBMcIiQwVOTNQYlUKEteFZBrwJBT0un2qJBdrWyPt8Nd@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwyMMv8yHtRnyOyaHEILxPtYR7sD5dV0AoUhPjnrzPoCJIn0AX
-	bxRDZdCoVrU1dXFDV6zLe2S5Qjt8PG+/nUn9LbRrZISTmX0862eFntsA
-X-Gm-Gg: ASbGnctgDS+J3Zui/4etNHcbmr+qmpJjCICOdrGmDf4aSPp4VGv08h3XcNm6Aav5bQi
-	YhGpQqUTc3kXZZ94tTeoGXGoM1mbjyhtPHXsZOruygLkisOZZZf++rLFBAMPH+2aRhOaFwnw3B9
-	y5P9UbZwlMfFrL6tjHX8W8kLC4/O4MpbKpoBweQeXNEjdqw6310+UM3BrRJwSYntluesocSCbS/
-	pIT/9FnPDlSZwSuiBU3Zguie7TZ+JVGzXjaM0F7cF718a16+hBkBR+/ly6+CL9S4jK62Tnq5oFz
-	v18APxGchKOzYlyCjo0SaqbUArmd6E/hSrcypL2RDHjje4txikHmj4Dq9AeVlY45YziRGE61TdD
-	U7vFMH2TnTXi9bpL4KSlAnw==
-X-Google-Smtp-Source: AGHT+IEUsKVk7G4ljZuETiaQhj9SpFjdw3c+YmZ4fIKMSMdn/3GF4m36bVdbkDaj2lnQ9wltfClBWA==
-X-Received: by 2002:a17:903:1af0:b0:240:2145:e51d with SMTP id d9443c01a7336-2445868b3ebmr30999825ad.31.1755153582122;
-        Wed, 13 Aug 2025 23:39:42 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-244590608dbsm10300325ad.66.2025.08.13.23.39.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 23:39:38 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 783CB40164BE; Thu, 14 Aug 2025 13:39:34 +0700 (WIB)
-Date: Thu, 14 Aug 2025 13:39:34 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux Kernel Selftests <linux-kselftest@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Tim Bird <Tim.Bird@sony.com>, Rae Moar <rmoar@google.com>
-Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
-Message-ID: <aJ2Epp0b3HgeaMxk@archie.me>
-References: <20250814012046.21235-1-bagasdotme@gmail.com>
- <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1IKT2zw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0A94C4CEEF;
+	Thu, 14 Aug 2025 07:15:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755155740;
+	bh=SaB56iFHq9R1lIIJgY1jOBN/SbTeOE8emRCvNnsEoq0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i1IKT2zwhssHQnjqKIWtvjwXerI6qQ1PNJ4VSL+eAdBxYbqVIjTYRDr4HQdDI2lyQ
+	 u6nsFBnRLyaqgFWWbzOeyOQEECfpnB7HFRoM6E3hO6sGlgss41eOmCgTCj8UDbGGiV
+	 kcOFxGN3h7q6PRJ0LFnpAK1twBP/I25c5bcY/wvp+piLO9bOEem5o1u/IyOlnGVqs5
+	 L90FI8Llj1gEjlrSGyhD/ENLft+kX+3j3yL1mUP3JUHnDXG1H78KF3wqJLtE+umkB6
+	 9qj4v3Wff5u7Gq6G5C3vOrkknrJVOKySTv9AXEbB2AQ2VTkv5un2lOKqSHyQjbbKCj
+	 5qil2ya53k7Hw==
+Date: Thu, 14 Aug 2025 10:15:09 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: nathan@kernel.org, arnd@arndb.de, broonie@kernel.org,
+	Liam.Howlett@oracle.com, urezki@gmail.com, will@kernel.org,
+	kaleshsingh@google.com, leitao@debian.org, coxu@redhat.com,
+	surenb@google.com, akpm@linux-foundation.org, luto@kernel.org,
+	jpoimboe@kernel.org, changyuanl@google.com, hpa@zytor.com,
+	dvyukov@google.com, kas@kernel.org, corbet@lwn.net,
+	vincenzo.frascino@arm.com, smostafa@google.com,
+	nick.desaulniers+lkml@gmail.com, morbo@google.com,
+	andreyknvl@gmail.com, alexander.shishkin@linux.intel.com,
+	thiago.bauermann@linaro.org, catalin.marinas@arm.com,
+	ryabinin.a.a@gmail.com, jan.kiszka@siemens.com, jbohac@suse.cz,
+	dan.j.williams@intel.com, joel.granados@kernel.org,
+	baohua@kernel.org, kevin.brodsky@arm.com, nicolas.schier@linux.dev,
+	pcc@google.com, andriy.shevchenko@linux.intel.com,
+	wei.liu@kernel.org, bp@alien8.de, ada.coupriediaz@arm.com,
+	xin@zytor.com, pankaj.gupta@amd.com, vbabka@suse.cz,
+	glider@google.com, jgross@suse.com, kees@kernel.org,
+	jhubbard@nvidia.com, joey.gouly@arm.com, ardb@kernel.org,
+	thuth@redhat.com, pasha.tatashin@soleen.com,
+	kristina.martsenko@arm.com, bigeasy@linutronix.de,
+	lorenzo.stoakes@oracle.com, jason.andryuk@amd.com, david@redhat.com,
+	graf@amazon.com, wangkefeng.wang@huawei.com, ziy@nvidia.com,
+	mark.rutland@arm.com, dave.hansen@linux.intel.com,
+	samuel.holland@sifive.com, kbingham@kernel.org,
+	trintaeoitogc@gmail.com, scott@os.amperecomputing.com,
+	justinstitt@google.com, kuan-ying.lee@canonical.com, maz@kernel.org,
+	tglx@linutronix.de, samitolvanen@google.com, mhocko@suse.com,
+	nunodasneves@linux.microsoft.com, brgerst@gmail.com,
+	willy@infradead.org, ubizjak@gmail.com, peterz@infradead.org,
+	mingo@redhat.com, sohil.mehta@intel.com, linux-mm@kvack.org,
+	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org, llvm@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 06/18] x86: Reset tag for virtual to physical address
+ conversions
+Message-ID: <aJ2M_eKPvBluyLKJ@kernel.org>
+References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
+ <01e62233dcc39aeb8d640eb3ee794f5da533f2a3.1755004923.git.maciej.wieczor-retman@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ie7JBSI6Q0nMquM1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <98ed6868-8030-4d10-b66d-c7e3d42886f8@infradead.org>
+In-Reply-To: <01e62233dcc39aeb8d640eb3ee794f5da533f2a3.1755004923.git.maciej.wieczor-retman@intel.com>
 
+On Tue, Aug 12, 2025 at 03:23:42PM +0200, Maciej Wieczor-Retman wrote:
+> Any place where pointer arithmetic is used to convert a virtual address
+> into a physical one can raise errors if the virtual address is tagged.
+> 
+> Reset the pointer's tag by sign extending the tag bits in macros that do
+> pointer arithmetic in address conversions. There will be no change in
+> compiled code with KASAN disabled since the compiler will optimize the
+> __tag_reset() out.
+> 
+> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+> ---
+> Changelog v4:
+> - Simplify page_to_virt() by removing pointless casts.
+> - Remove change in __is_canonical_address() because it's taken care of
+>   in a later patch due to a LAM compatible definition of canonical.
+> 
+>  arch/x86/include/asm/page.h    | 14 +++++++++++---
+>  arch/x86/include/asm/page_64.h |  2 +-
+>  arch/x86/mm/physaddr.c         |  1 +
+>  3 files changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/page.h b/arch/x86/include/asm/page.h
+> index 9265f2fca99a..15c95e96fd15 100644
+> --- a/arch/x86/include/asm/page.h
+> +++ b/arch/x86/include/asm/page.h
+> @@ -7,6 +7,7 @@
+>  #ifdef __KERNEL__
+>  
+>  #include <asm/page_types.h>
+> +#include <asm/kasan.h>
+>  
+>  #ifdef CONFIG_X86_64
+>  #include <asm/page_64.h>
+> @@ -41,7 +42,7 @@ static inline void copy_user_page(void *to, void *from, unsigned long vaddr,
+>  #define __pa(x)		__phys_addr((unsigned long)(x))
+>  #endif
+>  
+> -#define __pa_nodebug(x)	__phys_addr_nodebug((unsigned long)(x))
+> +#define __pa_nodebug(x)	__phys_addr_nodebug((unsigned long)(__tag_reset(x)))
 
---ie7JBSI6Q0nMquM1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Why not reset the tag inside __phys_addr_nodebug() and __phys_addr()?
 
-On Wed, Aug 13, 2025 at 06:58:12PM -0700, Randy Dunlap wrote:
-> Why send this patch series to the workflows mailing list?
+>  /* __pa_symbol should be used for C visible symbols.
+>     This seems to be the official gcc blessed way to do such arithmetic. */
+>  /*
+> @@ -65,9 +66,16 @@ static inline void copy_user_page(void *to, void *from, unsigned long vaddr,
+>   * virt_to_page(kaddr) returns a valid pointer if and only if
+>   * virt_addr_valid(kaddr) returns true.
+>   */
+> -#define virt_to_page(kaddr)	pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+> +
+> +#ifdef CONFIG_KASAN_SW_TAGS
+> +#define page_to_virt(x) ({							\
+> +	void *__addr = __va(page_to_pfn((struct page *)x) << PAGE_SHIFT);	\
+> +	__tag_set(__addr, page_kasan_tag(x));					\
+> +})
+> +#endif
+> +#define virt_to_page(kaddr)	pfn_to_page(__pa((void *)__tag_reset(kaddr)) >> PAGE_SHIFT)
 
-Workflows ML is listed in get_maintainer.pl output.
+then virt_to_page() will remain the same, no?
 
-Thanks.
+>  extern bool __virt_addr_valid(unsigned long kaddr);
+> -#define virt_addr_valid(kaddr)	__virt_addr_valid((unsigned long) (kaddr))
+> +#define virt_addr_valid(kaddr)	__virt_addr_valid((unsigned long)(__tag_reset(kaddr)))
 
---=20
-An old man doll... just what I always wanted! - Clara
+The same here, I think tag_reset() should be inside __virt_addr_valid()
+  
+>  static __always_inline void *pfn_to_kaddr(unsigned long pfn)
+>  {
+> diff --git a/arch/x86/include/asm/page_64.h b/arch/x86/include/asm/page_64.h
+> index 015d23f3e01f..de68ac40dba2 100644
+> --- a/arch/x86/include/asm/page_64.h
+> +++ b/arch/x86/include/asm/page_64.h
+> @@ -33,7 +33,7 @@ static __always_inline unsigned long __phys_addr_nodebug(unsigned long x)
+>  extern unsigned long __phys_addr(unsigned long);
+>  extern unsigned long __phys_addr_symbol(unsigned long);
+>  #else
+> -#define __phys_addr(x)		__phys_addr_nodebug(x)
+> +#define __phys_addr(x)		__phys_addr_nodebug(__tag_reset(x))
+>  #define __phys_addr_symbol(x) \
+>  	((unsigned long)(x) - __START_KERNEL_map + phys_base)
+>  #endif
+> diff --git a/arch/x86/mm/physaddr.c b/arch/x86/mm/physaddr.c
+> index fc3f3d3e2ef2..7f2b11308245 100644
+> --- a/arch/x86/mm/physaddr.c
+> +++ b/arch/x86/mm/physaddr.c
+> @@ -14,6 +14,7 @@
+>  #ifdef CONFIG_DEBUG_VIRTUAL
+>  unsigned long __phys_addr(unsigned long x)
+>  {
+> +	x = __tag_reset(x);
+>  	unsigned long y = x - __START_KERNEL_map;
+>  
+>  	/* use the carry flag to determine if x was < __START_KERNEL_map */
+> -- 
+> 2.50.1
+> 
 
---ie7JBSI6Q0nMquM1
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaJ2EoAAKCRD2uYlJVVFO
-o1TpAP9lIizu4pMJAsA+vYyUic3/QOcQJD/j49wQx+7Ze/5cOwD+NP451W3K4yU0
-7K0SzH1b+L+VQr9cnTE9JqR0GqZ1BAk=
-=TK+6
------END PGP SIGNATURE-----
-
---ie7JBSI6Q0nMquM1--
+-- 
+Sincerely yours,
+Mike.
