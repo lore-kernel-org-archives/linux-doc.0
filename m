@@ -1,66 +1,38 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B492FD1B1
-	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 10:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E24318138;
+	Thu, 14 Aug 2025 10:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755168689; cv=none; b=HM83KXrseij6GCEGha8aUaCsw7im/S2/vNIWuQ9XCTLI4segZ68RWpec87f2vrymR7B2fdVkuhJnD7ZKsgVI7/8Zj3KOvIzPu8ShhXDxJfsCLBnfXZpIhZOdQNDsrR/rL8XUOIc+wyWjch4jL3v/QTWxcf3Pq3kUGTexp02TcGc=
+	t=1755168734; cv=none; b=bni/X6inJBZ8eJaF4abXH8f3MfG5bGVaP9Li0UaUZxsEEcpPdmCq7H23g3IHodM1GscZ2otXS2e0+u6SHNvLmjqQQfwo/kqXqh/iMOPfBRUPs9NiQhfeJI/ruPBIvqEUu/flKx7pcGDZgEfd+nAvZhUTP7iaCoG2Ip86kgL7gFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755168689; c=relaxed/simple;
-	bh=o8uIpvdm8rS/o+S1mykUYGGLHkWfPhCsX3cg0yw1X58=;
+	s=arc-20240116; t=1755168734; c=relaxed/simple;
+	bh=tuNThMyK+20yfHoL5Rs3ghED3P4RDx1PE6VnCgjUVfg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rLaNrtRdDfM0J5O5upRNBT66kcJGoqOtd+9WbuZV8W13TvOATk2MNcYwL5cnZkDJdvL+9G7AmeQMgElIHKhvZjs6QxfB16UW5SPaD5oJ5ex46LvPkV7uFffGvyvyP6HHJtdRN3kmOTSybKfFeZotXaB2DuMsN3F0dxBpEJ4hg10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zBdbMAJs; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:To:Cc; b=prRPgAGA8UwAwaLqBLijPGf+Neo+6kMH1Fj2p61HChWdPC7dFlS6wjbB7EACoL//dJZeUo+54MS0VEPsjgZUNeEGM2j6l0BflNqtj+278xMtdAJdTaF9/FFpwBHVLj4zta5J0JurHBZI1WZG9ei81gsCFPggMvwRo7OWLoIBLJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mlz8Xjz5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zBdbMAJs"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45a1b0bde14so3808255e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 03:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755168686; x=1755773486; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S28JNZPWK+3sAmARH83rSsyGla0uTsZRncPjJTp9toA=;
-        b=zBdbMAJs9CCm85BjdAfc74UUMg1aS1BRv72lP5XEfJ2MdK4TkcC6mninks4lzA4ZnF
-         ScPR4mxDiXyAJuGHSfi57AZjJl4HHdBeENXsNnwYNIZQumInYrjWtxDZIq5SmkWLpvFw
-         TVnZV+IC3ZbrYnj6tTvTjB5wq+5WgM93J2OctEMrQX2nWiKRqZzlJGpmjCwS+82mKNLA
-         i177iYLDLG3Y+/WRIkKd6B/Ub+sa482ghzzGM80S5bCFyvXx1YOvNoLunk08eK7hEiK3
-         JsoUcak5mPGDMx/cuGqbUmokmuMQUAfFX4dyW5VZI3rMvE8evkcsbAwjZFQTGiV6pfkK
-         9GeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755168686; x=1755773486;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S28JNZPWK+3sAmARH83rSsyGla0uTsZRncPjJTp9toA=;
-        b=w8EBdGnHQV5MpdCQSMr2QfUrvc8hhOFHjMwgudoRNKpNHj16TfjXIqf6qlDZCGyKU4
-         vgmAPwWLDh25tyo+gzBBAgqPrCMQSdyA+Na3CCq6UvMg+apDtFVzagsvzN65vA8P1Cdk
-         OOwhitflO61HJitiP5dY+16p5byE5u5HUTHlHWjvCWCxwNyk/yXuY7WZHYAiG5+Aczna
-         V7Wc1kaBjNafrqDu1V2hs7ZyXBsO99vL55VZ/Xs1n2QFUxan11urv0GkTra1XaSaezhb
-         BGV2pI8r9WrLKQImAcVsRbhc4GcUi5zcC8EQAXrPPHGwMbelWZoK4Jt3kPsnhAnzB4sG
-         r+dA==
-X-Forwarded-Encrypted: i=1; AJvYcCXpnUGZ3lnRV2JjCJ0YBWkZOpa/2N7jn1YGei0IDLWciJd8GXZ+HIMSz3jW223qR/mQNgrGuvMwCrk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKqqeQw9DeJMs3yu1sb+wofefm23cIIyJtTeg5la7URiYXNekY
-	r1EbfF4yN+6wzidZ3PG8lnnrMiiSLfbmZ5oiW1oBGYEvAKZLp20r1HI/SHSnD9q9MpM=
-X-Gm-Gg: ASbGnctGrtsz5JYDN/S7mhQ88psBHQEkfRUTEnyI9Pwv8V+9K8fpjbuaOEEJn0X8kO3
-	o2V5mB8axqtm0NMOsvQQgd2TczQoR+M0hSLgGadu9q03Ofx+miOd4AZQ3nD5t/KQ7XVLgCAv7VV
-	cShbE3LbflAfHK61R9yli5ZL9mRqs4O1tZcY6q1/J2RNdBJsyGEn4HJi+AX/Ea6dvQDr9cKHQ22
-	62egYpnVBEFcmUO1qjNxBmSGJQjO65XkE0hsin7JfXoTZLhAFanSUSMO/bHCV8dWWPjUQy6GWwf
-	zokTzgALxG7L+P8umEudL7XQIlZYEUyBXakEpyzhK8D6bbpu8xhHheAu3Q64QsXRfoq3cjoXty5
-	zRdYGfFw0c3ZsxqUV9oMbGplTBgxi2KU=
-X-Google-Smtp-Source: AGHT+IF68KOqRUAOMHDKBpVY9t7uVgR8MmpK7ImpWi3/zcrlNC+5/ptZ2W1zXkHPP+sNnqPRzwGUWw==
-X-Received: by 2002:a05:600c:4708:b0:459:e025:8c5b with SMTP id 5b1f17b1804b1-45a1b674677mr23813915e9.30.1755168685858;
-        Thu, 14 Aug 2025 03:51:25 -0700 (PDT)
-Received: from ho-tower-lan.lan ([185.48.76.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1b226eecsm14228345e9.1.2025.08.14.03.51.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 03:51:25 -0700 (PDT)
-From: James Clark <james.clark@linaro.org>
-Date: Thu, 14 Aug 2025 11:49:57 +0100
-Subject: [PATCH v2 6/6] coresight: docs: Document etm4x ts_interval
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mlz8Xjz5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BAD74C4CEF9;
+	Thu, 14 Aug 2025 10:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755168733;
+	bh=tuNThMyK+20yfHoL5Rs3ghED3P4RDx1PE6VnCgjUVfg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=mlz8Xjz5GT3DDcebvIT5SkVmi+R425lYHqib6cLHMV32xbKOuf5Oej6eMtCQevu26
+	 A1ikRwePb22yXfpIiOEGbsrnoDVAB4vFP6gGDqHmvOqbdOLPOLYXsNfhxIOLy/P5Uh
+	 0qmp+KQIE8EuYtgWdI3+Ayg5muS/4pRMxjRgPbsCaI3ZMFhC+G+p+WRYmlLGGzQn7U
+	 TLNKGxW76WIGbZ6e8BR6UDEWkhixLbjA/jBjKeZ5jK8DHFJNWZoaDnrPf2chuxTrYH
+	 skeErxXIZa0xby/a4UEKUjK2qJ42ssQUMJWa4uvKkuNX4QHofBHTwhnKoT/uVA+O7u
+	 rYQ8raJS51AfQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A8FCA0ED1;
+	Thu, 14 Aug 2025 10:52:13 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Date: Thu, 14 Aug 2025 11:52:25 +0100
+Subject: [PATCH 3/6] dt-binbings: hwmon: Add bindings for the LTC4283 Swap
+ Controller
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,53 +40,228 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250814-james-cs-syncfreq-v2-6-c76fcb87696d@linaro.org>
-References: <20250814-james-cs-syncfreq-v2-0-c76fcb87696d@linaro.org>
-In-Reply-To: <20250814-james-cs-syncfreq-v2-0-c76fcb87696d@linaro.org>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Mike Leach <mike.leach@linaro.org>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>
-Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- James Clark <james.clark@linaro.org>
-X-Mailer: b4 0.14.0
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250814-ltc4283-support-v1-3-88b2cef773f2@analog.com>
+References: <20250814-ltc4283-support-v1-0-88b2cef773f2@analog.com>
+In-Reply-To: <20250814-ltc4283-support-v1-0-88b2cef773f2@analog.com>
+To: linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>, 
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755168752; l=6973;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=HsDdoBnjwJgf7HxiAniojdoW83Qd+owHP8CXaML6ml4=;
+ b=27DMRJsVWDaaEnYZxcgcr1RPm+1aGmpgHyXN6+ElU4OO6MijcnZbwKuFjtle603REtvrHnXt8
+ 6WuU+XcNdczC7Vq78GUn/aJ7QykX/fjLWcYAasrgDsFaJrrXyz4HwJ2
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-Document how the new field is used, maximum value and the interaction
-with SYNC timestamps.
+From: Nuno Sá <nuno.sa@analog.com>
 
-Signed-off-by: James Clark <james.clark@linaro.org>
+Document the bindings for the Hardware monitoring functions of the
+LTC4283 Hot Swap Controller.
+
+Special note for the "adi,vpower-drns-enable" property. It allows to choose
+between the attenuated MOSFET drain voltage or the attenuated input
+voltage at the RTNS pin (effectively choosing between input or output
+power). This is a system level decision not really intended to change at
+runtime and hence is being added as Firmware property.
+
+Signed-off-by: Nuno Sá <nuno.sa@analog.com>
 ---
- Documentation/trace/coresight/coresight.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ .../devicetree/bindings/hwmon/adi,ltc4283.yaml     | 159 +++++++++++++++++++++
+ MAINTAINERS                                        |   1 +
+ 2 files changed, 160 insertions(+)
 
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 806699871b80..0cd83119b83f 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -619,6 +619,20 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
-      - Cycle count threshold value. If nothing is provided here or the provided value is 0, then the
-        default value i.e 0x100 will be used. If provided value is less than minimum cycles threshold
-        value, as indicated via TRCIDR3.CCITMIN, then the minimum value will be used instead.
-+   * - ts_level
-+     - Controls frequency of timestamps. The reload value of the
-+       timestamp counter is 2 raised to the power of this value. If the value is
-+       0 then the reload value is 1, if the value is 10 then the reload value is
-+       1024. Maximum allowed value is 15, and setting the maximum disables
-+       generation of timestamps via the counter, freeing the counter resources.
-+       Timestamps will be generated after 2 ^ ts_level cycles.
+diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..5630623fd3dafa1d86e1877de6cd8844e2826ed2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
+@@ -0,0 +1,159 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/adi,ltc4283.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+       Separately to this value, timestamps will also be emitted when a SYNC
-+       packet is generated, although this is only for every 4096 bytes of trace.
-+       Therefore it's not possible to generate timestamps less frequently than
-+       that and ts_level timestamps are always in addition to SYNC timestamps.
-+       Timestamps must be enabled for this to have effect.
++title: HWMON LTC4283 Negative Voltage Hot Swap Controller
 +
- 
- How to use the STM module
- -------------------------
++maintainers:
++  - Nuno Sá <nuno.sa@analog.com>
++
++description: |
++  This module is part of the LTC4283 MFD device.
++  See Documentation/devicetree/bindings/mfd/adi,ltc4283.yaml
++  This implements the HWMON bindings for the LTC4283 negative voltage hot swap
++  controller.
++
++properties:
++  compatible:
++    enum:
++      - adi,ltc4283-hwmon
++
++  adi,rsense-nano-ohms:
++    description: Value of the sense resistor.
++
++  adi,current-limit-sense-microvolt:
++    description:
++      The current limit sense voltage of the chip is adjustable between
++      15mV and 30mV in 1mV steps. This effectively limits the current
++      on the load.
++    minimum: 15000
++    maximum: 30000
++    default: 15000
++
++  adi,current-limit-foldback-factor:
++    description:
++      Specifies the foldback factor for the current limit. The current limit
++      can be reduced (folded back) to one of four preset levels. The value
++      represents the percentage of the current limit sense voltage to use
++      during foldback. A value of 100 means no foldback.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [10, 20, 50, 100]
++    default: 100
++
++  adi,cooling-delay-ms:
++    description:
++      Cooling time to apply after an overcurrent fault, FET bad or
++      external fault.
++    enum: [512, 1002, 2005, 4100, 8190, 16400, 32800, 65600]
++    default: 512
++
++  adi,fet-bad-timer-delay-ms:
++    description:
++      FET bad timer delay. After a FET bad status condition is detected,
++      this timer is started. If the condition persists for the
++      specified time, the FET is turned off and a fault is logged.
++    enum: [256, 512, 1002, 2005]
++    default: 256
++
++  adi,power-good-reset-on-fet:
++    description:
++      If set, resets the power good status when the MOSFET is turned off.
++      Otherwise, it resets when a low output voltage is detected.
++    type: boolean
++
++  adi,fet-turn-off-disable:
++    description:
++      If set, the MOSFET is turned off immediately when a FET fault is detected.
++    type: boolean
++
++  adi,tmr-pull-down-disable:
++    description: Disables 2uA pull-down current on the TMR pin.
++    type: boolean
++
++  adi,dvdt-inrush-control-disable:
++    description:
++      Enables dV/dt inrush control during startup. In dV/dt mode, the inrush
++      current is limited by controlling a constant output voltage ramp rate.
++      If not set, the inrush control mechanism is active current limiting.
++    type: boolean
++
++  adi,fault-log-enable:
++    description:
++      If set, enables logging fault registers and ADC data into EEPROM upon a
++      fault.
++    type: boolean
++
++  adi,vpower-drns-enable:
++    description:
++      If set, enables the attenuated MOSFET drain voltage to be monitored. This
++      effectively means that the MOSFET power is monitored. If not set, the
++      attenuated input voltage (and hence input power) is monitored.
++    type: boolean
++
++  adi,external-fault-fet-off-enable:
++    description: Turns MOSFET off following an external fault.
++    type: boolean
++
++  adi,undervoltage-retry-disable:
++    description: Do not retry to turn on the MOSFET after an undervoltage fault.
++    type: boolean
++
++  adi,overvoltage-retry-disable:
++    description: Do not retry to turn on the MOSFET after an overvoltage fault.
++    type: boolean
++
++  adi,external-fault-retry-enable:
++    description: Retry to turn on the MOSFET retry after an external fault.
++    type: boolean
++
++  adi,overcurrent-retries:
++    description: Configures auto-retry following an Overcurrent fault.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [latch-off, "1", "7", unlimited]
++    default: latch-off
++
++  adi,fet-bad-retries:
++    description:
++      Configures auto-retry following a FET bad fault and a consequent MOSFET
++      turn off.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [latch-off, "1", "7", unlimited]
++    default: latch-off
++
++  adi,pgio1-func:
++    description: Configures the function of the PGIO1 pin.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [inverted_power_good, power_good]
++    default: inverted_power_good
++
++  adi,pgio2-func:
++    description: Configures the function of the PGIO2 pin.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [inverted_power_good, power_good, active_current_limiting]
++    default: inverted_power_good
++
++  adi,pgio3-func:
++    description: Configures the function of the PGIO3 pin.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [inverted_power_good_input, power_good_input]
++    default: inverted_power_good_input
++
++  adi,pgio4-func:
++    description: Configures the function of the PGIO4 pin.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [inverted_external_fault, external_fault]
++    default: inverted_external_fault
++
++dependencies:
++  adi,external-fault-retry-enable:
++    - adi,pgio4-func
++  adi,external-fault-fet-off-enable:
++    - adi,pgio4-func
++
++required:
++  - compatible
++  - adi,rsense-nano-ohms
++
++additionalProperties: false
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b5f4f1c41c64b738d57c1fb5552a60b4c6b9985c..5f344ed81c80c9c30d6b2ee81bb00a44874e3b4c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14505,6 +14505,7 @@ M:	Nuno Sá <nuno.sa@analog.com>
+ L:	linux-hwmon@vger.kernel.org
+ L:	linux-gpio@vger.kernel.org
+ S:	Supported
++F:	Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
+ F:	Documentation/devicetree/bindings/mfd/adi,ltc4283.yaml
+ F:	drivers/mfd/ltc4283.c
+ F:	include/linux/mfd/ltc4283.h
 
 -- 
-2.34.1
+2.50.1
+
 
