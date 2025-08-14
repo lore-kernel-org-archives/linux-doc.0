@@ -1,71 +1,71 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3801DE2A5
-	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 12:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DA9286436
+	for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 12:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755175058; cv=none; b=Txc07yaZOmMwXrF4rvnkyZJto+NWXwYOsTLxC18c2GTAJuElIsERUJ/Ei8gf/oXOLacpxEklrReISroL4uJt31mEH7GQP6UEQPYJfQZTfq9zGSz5v6ZyeLplUTiE+45TbdE2K73vnmFoTCuI14IWZGVBT3URYIxdxC3lstsi90Y=
+	t=1755175108; cv=none; b=tKrItem5gwsKbnrtOkmicoFnHQB8txYUMmns/oM8FOs2nnvFCrqXDYtDGGdIsdmJq4qmAX5N7qoVFHVRrVtA8GYPMJF6u8j/x4iUigcYxXHqwEBHkSbSdo8OmDKsLhBf4H3SXzV7uQdHUmTKz01rqKbQBJ+1TouaFQQYjZaLZDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755175058; c=relaxed/simple;
-	bh=c5vSJaIThkKie9e5z3BpvRyqmQ04ukIKKeNTi4Akz+w=;
+	s=arc-20240116; t=1755175108; c=relaxed/simple;
+	bh=p1B9+ooErqXDUtfYBKduvEAXjnYV8On2TECtaqCtlXo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=foGGsmkHlILkfwcNG2bqFsCT9O/NLyyqjbdH7pZYSWfwtbG4vsPyqjVYKbpoSROWhe1Jq1TwPh+rcZUQoIVLCajk2Zy2oToX5pQbdla4NlevyV88cK3rA9J/EOcsz9uCqHiBR/MoD1jikDhAj2VtVl1xl9BNsUtnL8TQqucRo5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=onMOQbb2; arc=none smtp.client-ip=209.85.216.50
+	 To:Cc:Content-Type; b=Zi08j/DuuFC9iJrAL58COgYKkqBKv4y8jyh8pLssm5B6uTFQNPpjE64HhuEuIFL9JAixgom/9eMss2bSZ6bBDz09EW9+wD6TbDFZjeJhu4IqXSgR4I9R5ZDD6fTqXfM56JFTr+Ewl2BcGa89h3LwFIebHqNyUB9MpFE/t1KhWNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DKRZYtqC; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="onMOQbb2"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-32326e2f0b3so742493a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 05:37:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DKRZYtqC"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-323266b2368so652959a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 Aug 2025 05:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755175055; x=1755779855; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1755175106; x=1755779906; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=l8NIrhvWA3XT+D6ry67eQSgPW4LGM+PP71oE6xphaZ8=;
-        b=onMOQbb2ThzPF793qH+3DWBTmTe9n25MNQ9JcgAi0g28CddgQxGDm2E/g4CqK838d5
-         gHcYtY6V1tYMlFzLrilniHZ06SON446ZyKWr5dXeuJZgpLuE8+a4nQBDC+aeSSl8z1QA
-         n/Aps4JksJKJhSiraUFALXViUSgnCdaDVxbRi5iQqZf+E/NzhueXeo6zl2Crt734eUhk
-         jLRGXLjiRZRNZBo+VXxZpHteJ1MQigOYUXoSsAsZUfzmZBuUCvyfohq/eXLmowjplphk
-         FSzcnusa/a101g5lYwRx21uL92uagH+f8TEpppiZg89PW1+/w5e/fltn9BPmc4t5pTty
-         ubcw==
+        bh=Y/SKouLfB4Dt96a+piQ7gJ9WekR4y2KBR6TTQHeQMIQ=;
+        b=DKRZYtqCJo/Z3KCQEUhN6M1pHNEOgy3U+KUucsbx9BRkQ+DBUCt8VsmEDU5y8qYtVT
+         YaJXDN7Nn12lKN5VUrsSSBChWrc4O4jpMrov0S8dNd4cimTWp+tbliJaGi+pLZpN4fHO
+         QJgst7Vdwq8z+zd7a17o5syIyhLYax5C9edxT9S/iBQ4zedN0xk+c8I1v6/m5m0tFPsq
+         ryhuK9VEhQMHdKgeY4pkALCC8Fkk1oHnqSrvshfKK2ZvoyYkM+K25o2cyIt2orD3vbr6
+         Go+ezIqxcCYtRqM+KmQutzoUMlfpR1uhOUz/ARpxnQAMJBZKQFV6nnHtWeZn3E760Smf
+         cR2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755175055; x=1755779855;
+        d=1e100.net; s=20230601; t=1755175106; x=1755779906;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=l8NIrhvWA3XT+D6ry67eQSgPW4LGM+PP71oE6xphaZ8=;
-        b=t5kUnJVsM+5nSefvLxCULfVhpf5eTGGIlpbNVsIZ/KflKdxls+NEcjPUlbb6pgMb0Z
-         M77GLm4Aq0aCukjsxn1uVFUh7jOMR+TFp5iUlwn67uLuMhtC79bqEIhP7aUO1cTxSjmN
-         6K5FpaiMnVyS8RYASY4oizhZt5SdoShtJgdFcybL0ZYplOLT7o9WxggU+ye6OavpwBIg
-         ec7ST0lHQQXDPm0kJx5pu4AkqY+qaBopoTDDJZoxlwRqYzjIdEywLP4w2pZiHxGUwJf/
-         HpQusGCDlZMcI/TNlNCmkvKFo6K5wY+X4Fax/u5zwaHt51qnvhGRGw7XbYvSVtAzwSa2
-         ES4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXPQ23sAbQn4qnq3TUKH+7nV10XMA+I//bprkPm5zv13+sSE5UB0ua6fg8yEnNXv1KDkzdxftVdNdQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx19GT4GKSs7/AtwTU92SVcO1qO7/B0ZiLqSdiLfxzXJzTfa5PG
-	WEVyLJ6CP37mtW4v/nOS8sE6T2Qrfq5m2M6btGwW+04P3T08+0+MHv8DIVF5lQJKUXgF1ie5uvR
-	wSzSdoab9VEJrd5wMLRvTfYjrjjaAMoIk4nlgTP97vQ==
-X-Gm-Gg: ASbGncuViGTWVf9O86o5DfW/dAtmjF+H46ZNhAKVFgtDthy2FdShOyzB5vvixQ9GJbR
-	4Xy/hWelHIS0Siw09hAK7BsEMHstVLHK/IFWrmpLGb8TZjF7Covi55a3YaPPgQ3dkap6BnRaNLZ
-	l3bGh+DlJmB/F9/28hIdw/IHIssJIvCh2yUpkamF3FxwommLOTuxoo7ITWFRRSh4t8p7ErV8hvK
-	pBh++v4
-X-Google-Smtp-Source: AGHT+IFp5bAV3mlCwQE02uvVSf6ZahrQODia4B5N0jsqEGKT7zYD/rS2C/DAdPrSOa20N/yIekDRogPj27rDkMSmcHo=
-X-Received: by 2002:a17:90b:3d46:b0:321:265a:e0c2 with SMTP id
- 98e67ed59e1d1-32327ad25femr3514452a91.32.1755175055180; Thu, 14 Aug 2025
- 05:37:35 -0700 (PDT)
+        bh=Y/SKouLfB4Dt96a+piQ7gJ9WekR4y2KBR6TTQHeQMIQ=;
+        b=vKzrhkpvUMSXyCBZ+veBrYZvq9ebgcjDiDQMWYM2m4KW/SpRLz+0f0AMfC3ocFHeA7
+         n/vO+VAYxr+d8/0M/qO7rrF4RvMwXF+PPJchAfOukGaexCo6CixCiRFZsTx/CQKRoxNw
+         SFiNW+XnJZgAOJUKkga8tNGst9MEWifCpasgkwBpGsAxAlQECHCw1jnNRbGJ5vut82Xg
+         rpKY/Z/CYM1BOA/zpQlhp31HHhCLzxU0XUHJs13orReFm6woWGJn80bW4eJipJE9E+em
+         2W16nOcvVVTzbx+8EjOs+97LSOF9znAbioaZmewdfM9NTOpvEJDJo0fKFBsvbPKBztSV
+         MMeA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMs6kz+zsXYUQkNWZxlpXSZQITM58A6F5s/BSOcgESrDhKlYVo2M7K4kMR+O1FX4u9a3rApg1eTqs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9i00sVWyjvUvXo+yRiZwZiAhWG8G3KGxVxNZWPqVt4HQ37hQh
+	U+XkHtIvCmc6T5yFrvizPuMO2UXUt8X1eFZRn9hrveGjl63EoW60yAgBIseqaIoYlQylYq1QBAh
+	+juTYEI7IwVCV4ryq7n/JjU7Of0pft8l8ixC7/5rsfQ==
+X-Gm-Gg: ASbGncsmdqFjl2XatJw2MFEsRSls77aTdCY1nFucPCByRotKbWyDRVdXvQ3ZQiaaoYi
+	0NxrgKFyclNlAYQ1xn7fZWXvoKDFM0ZA0HEpXPrP6d3meCGUsTwUYOWJ01euMl1SbO0r2Z34P7v
+	/i5XwlnpWFs0nrlCnZJdgjG2V0oNJ8H+Qmg2TWEvWcaXh+FREHn00FUP+jdtks/q18dG4VQXPpb
+	1vTmhJX
+X-Google-Smtp-Source: AGHT+IGSclopDnHf9B3zonnvXINSROJBoUEpQ4myknxB/jv0JOS4+2qsCtwFneFqnIPDyDUqajH3gvHZEPoUUbizmJs=
+X-Received: by 2002:a17:90b:3e8e:b0:31e:c95a:cef8 with SMTP id
+ 98e67ed59e1d1-3232b7b7707mr2940353a91.32.1755175105752; Thu, 14 Aug 2025
+ 05:38:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250811-james-cs-syncfreq-v1-0-b001cd6e3404@linaro.org> <20250811-james-cs-syncfreq-v1-2-b001cd6e3404@linaro.org>
-In-Reply-To: <20250811-james-cs-syncfreq-v1-2-b001cd6e3404@linaro.org>
+References: <20250811-james-cs-syncfreq-v1-0-b001cd6e3404@linaro.org> <20250811-james-cs-syncfreq-v1-3-b001cd6e3404@linaro.org>
+In-Reply-To: <20250811-james-cs-syncfreq-v1-3-b001cd6e3404@linaro.org>
 From: Mike Leach <mike.leach@linaro.org>
-Date: Thu, 14 Aug 2025 13:37:23 +0100
-X-Gm-Features: Ac12FXwNdxfp1DMoW8IPZs7kHmN3duHawTMxGkhLBFv3GFYUtE-A_kMdlr2VOJY
-Message-ID: <CAJ9a7Vh44rYWN3mjHPBq8pkBcPuhS2pTBZNaMpWgJECmPZtupg@mail.gmail.com>
-Subject: Re: [PATCH 2/6] coresight: Fix holes in struct etmv4_config
+Date: Thu, 14 Aug 2025 13:38:14 +0100
+X-Gm-Features: Ac12FXzyxxKA_BOyrBNq7M0owGv4_wTgorvEm4dWj6LYiHxzxFQ-EPbV7AZ31P0
+Message-ID: <CAJ9a7VhXAhDHkpyA6gHWPfr+HAEFLEPa01vx0n=b+82TrEMUTQ@mail.gmail.com>
+Subject: Re: [PATCH 3/6] coresight: Repack struct etmv4_drvdata
 To: James Clark <james.clark@linaro.org>
 Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, 
 	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -74,79 +74,76 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
 	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi James
-
 On Mon, 11 Aug 2025 at 10:32, James Clark <james.clark@linaro.org> wrote:
 >
-> Lots of u8s are mixed with u64s and u32s so repack it to save a bit
-> of space because there's one of these for each ETM.
+> Fix holes and convert the long list of bools to single bits to save
+> some space because there's one of these for each ETM.
 >
 > Signed-off-by: James Clark <james.clark@linaro.org>
 > ---
->  drivers/hwtracing/coresight/coresight-etm4x.h | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
+>  drivers/hwtracing/coresight/coresight-etm4x.h | 39 ++++++++++++++-------------
+>  1 file changed, 20 insertions(+), 19 deletions(-)
 >
 > diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
-> index 746627476bd3..a355a1e9606d 100644
+> index a355a1e9606d..1c67b263b01b 100644
 > --- a/drivers/hwtracing/coresight/coresight-etm4x.h
 > +++ b/drivers/hwtracing/coresight/coresight-etm4x.h
-> @@ -832,28 +832,33 @@ struct etmv4_config {
->         u32                             vipcssctlr;
->         u8                              seq_idx;
->         u8                              syncfreq;
-> +       u8                              cntr_idx;
-> +       u8                              res_idx;
-> +       u8                              ss_idx;
-> +       u8                              addr_idx;
-> +       u8                              addr_type[ETM_MAX_SINGLE_ADDR_CMP];
-> +       u8                              ctxid_idx;
-> +       u8                              vmid_idx;
->         u32                             seq_ctrl[ETM_MAX_SEQ_STATES];
->         u32                             seq_rst;
->         u32                             seq_state;
-> -       u8                              cntr_idx;
+> @@ -1020,29 +1020,30 @@ struct etmv4_drvdata {
+>         u8                              ns_ex_level;
+>         u8                              q_support;
+>         u8                              os_lock_model;
+> -       bool                            sticky_enable;
+> -       bool                            boot_enable;
+> -       bool                            os_unlock;
+> -       bool                            instrp0;
+> -       bool                            q_filt;
+> -       bool                            trcbb;
+> -       bool                            trccond;
+> -       bool                            retstack;
+> -       bool                            trccci;
+> -       bool                            trc_error;
+> -       bool                            syncpr;
+> -       bool                            stallctl;
+> -       bool                            sysstall;
+> -       bool                            nooverflow;
+> -       bool                            atbtrig;
+> -       bool                            lpoverride;
+> +       bool                            sticky_enable : 1;
+> +       bool                            boot_enable : 1;
+> +       bool                            os_unlock : 1;
+> +       bool                            instrp0 : 1;
+> +       bool                            q_filt : 1;
+> +       bool                            trcbb : 1;
+> +       bool                            trccond : 1;
+> +       bool                            retstack : 1;
+> +       bool                            trccci : 1;
+> +       bool                            trc_error : 1;
+> +       bool                            syncpr : 1;
+> +       bool                            stallctl : 1;
+> +       bool                            sysstall : 1;
+> +       bool                            nooverflow : 1;
+> +       bool                            atbtrig : 1;
+> +       bool                            lpoverride : 1;
+> +       bool                            state_needs_restore : 1;
+> +       bool                            skip_power_up : 1;
+> +       bool                            paused : 1;
+>         u64                             trfcr;
+>         struct etmv4_config             config;
+>         u64                             save_trfcr;
+>         struct etmv4_save_state         *save_state;
+> -       bool                            state_needs_restore;
+> -       bool                            skip_power_up;
+> -       bool                            paused;
 > +
->         u32                             cntrldvr[ETMv4_MAX_CNTR];
->         u32                             cntr_ctrl[ETMv4_MAX_CNTR];
->         u32                             cntr_val[ETMv4_MAX_CNTR];
-> -       u8                              res_idx;
-> +
->         u32                             res_ctrl[ETM_MAX_RES_SEL];
-> -       u8                              ss_idx;
-> +
->         u32                             ss_ctrl[ETM_MAX_SS_CMP];
->         u32                             ss_status[ETM_MAX_SS_CMP];
->         u32                             ss_pe_cmp[ETM_MAX_SS_CMP];
-> -       u8                              addr_idx;
-> +
->         u64                             addr_val[ETM_MAX_SINGLE_ADDR_CMP];
->         u64                             addr_acc[ETM_MAX_SINGLE_ADDR_CMP];
-> -       u8                              addr_type[ETM_MAX_SINGLE_ADDR_CMP];
-
-this is 16 x u8 - could this not just stay here?
-
-> -       u8                              ctxid_idx;
-> +
->         u64                             ctxid_pid[ETMv4_MAX_CTXID_CMP];
->         u32                             ctxid_mask0;
->         u32                             ctxid_mask1;
-> -       u8                              vmid_idx;
->         u64                             vmid_val[ETM_MAX_VMID_CMP];
->         u32                             vmid_mask0;
->         u32                             vmid_mask1;
+>         DECLARE_BITMAP(arch_features, ETM4_IMPDEF_FEATURE_MAX);
+>  };
+>
 >
 > --
 > 2.34.1
 >
 
-These attributes have been functionally grouped for ease of
-understanding. If we move the _idx values away from what they are
-indexing, we probably need comments cross  referencing from where they
-where and where they have gone to.
-
-Mike
-
-
+Reviewed-by: Mike Leach <mike.leach@linaro.org>
 -- 
 Mike Leach
 Principal Engineer, ARM Ltd.
