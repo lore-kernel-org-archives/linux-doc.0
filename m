@@ -1,241 +1,110 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57BE2FD7AE;
-	Thu, 14 Aug 2025 12:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8093A295D91;
+	Thu, 14 Aug 2025 12:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755173606; cv=none; b=t5LTageq2k0Sdo1KUsPsviREueb76XRVC1lB0Psjn2CmDQ6NzRbiAUvIKgCYuqSLYWuEf1LahKV9PBcHh8w4Fc8NraflFqOrekTs/ccmjJy3UIIschBkelr61loZOh9wu22MgVMOENKb1rPdMggB5WbnP8bZ4kSRT50t2uokLJA=
+	t=1755173644; cv=none; b=maB3cSXRCcyYD9V3937veeXKg7cHUV+R+8UPvxh3tKRb5GaaesVo6qtZa633Ubsj7Dhm0nPv84kIcikDfcWxvg8mY0yioVGqyXqX116RogZSxsJUYv/U5ZllkgEijl83lhBYbrWVGVwUhvXjrluQ9kzMGZH+82wtjQR5Dcxunw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755173606; c=relaxed/simple;
-	bh=2QPji+8dx+Th/PTzpm9lm12w4IVe922eHowyz+Qxw1A=;
-	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=pWJ2arcBI+yladTHgB2+IEvUdKqT/7STlKIlBDD/9WqQ9P+RirpOS0SRF7HakrIypsW0G3leYSH82r8sK/pg4qwSrjP8xtFjhjHBLPP5vl/Az5EFdTipSOj2HWZF09RPrS7Uj0AJb7tNkzGweQnJ8YOWe1c2jX6b0C5vF+6XGYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4c2kfJ5GX4z5B13j;
-	Thu, 14 Aug 2025 20:13:12 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl2.zte.com.cn with SMTP id 57ECD9aN003334;
-	Thu, 14 Aug 2025 20:13:09 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 14 Aug 2025 20:13:12 +0800 (CST)
-Date: Thu, 14 Aug 2025 20:13:12 +0800 (CST)
-X-Zmail-TransId: 2afb689dd2d80e1-3d509
-X-Mailer: Zmail v1.0
-Message-ID: <20250814201312381TGvjbLkruWW4KHzCZuHCV@zte.com.cn>
-In-Reply-To: <20250814201129510XielEwRpr4QXPx_XBtkhv@zte.com.cn>
-References: 20250814201129510XielEwRpr4QXPx_XBtkhv@zte.com.cn
+	s=arc-20240116; t=1755173644; c=relaxed/simple;
+	bh=M/IUS4lgTZ6YXgbn1Q91Y9cZrMJeVX6pFsHRNGCQNh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bMeImVFT5ufUImq01+mUbhWi09aA+HdhvN2yQ4jem2biVpSXWHz6Z25VNubNJzl96kwDCMbdDC4SkyxTUZNCzH+MFRkyLdtb+eP7864CItXZ42cDRHCPU1czoKuoX7jQmTD7iurX6yODZEIqIOomCH3ZvK6RH3vMqscXWr5ik7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uye1wauo; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uye1wauo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755173643; x=1786709643;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M/IUS4lgTZ6YXgbn1Q91Y9cZrMJeVX6pFsHRNGCQNh8=;
+  b=Uye1wauoGDSi9KCqtZTWPnephZMuEOr8yUvgbX53EBKKnvUzD2v8tckV
+   n8N4lMWT4d3T5yuZ5IOPSp5XpMapQ0WFy5FzS3MbuBB2ojd7u0Uz5+Wf/
+   QvZrswSn9FOFCf2uSBc46TyUS7AYOqjp2/9ELQldPkcQe72YOrcDfhsdg
+   uXhqtwLwUgdb1eh9OZMzQCurN8b0J5CSXR0vyYRrjwXSgkhKQYHvRJT3a
+   dpCjVLHgGamsy1Kbfv3wVXeiIaGFT58kcz0aaGSs+DzZBaB9jwsbCMYOk
+   yjVLxL8yeRDsFI3dmv/oNjjnXhSE6LOdGwMCLU+n4jKWLNPdfUQ0HF8Yg
+   A==;
+X-CSE-ConnectionGUID: 2wd0BeVjQNmx03rP0eHa2Q==
+X-CSE-MsgGUID: eE0S7XnNQvuBR+fKzVugYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="82921612"
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="82921612"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 05:14:02 -0700
+X-CSE-ConnectionGUID: 1YW4nW7dREW+hSuOVIh7hw==
+X-CSE-MsgGUID: W+WtmqtKRuSU26VIer0jCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="165925245"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 14 Aug 2025 05:14:00 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1umWqD-000AwG-1r;
+	Thu, 14 Aug 2025 12:13:57 +0000
+Date: Thu, 14 Aug 2025 20:13:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 10/13] docs: move kernel-doc to tools/doc
+Message-ID: <202508141909.XegB3Vla-lkp@intel.com>
+References: <20250813213218.198582-11-corbet@lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <wang.yaxin@zte.com.cn>
-Cc: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>, <fan.yu9@zte.com.cn>,
-        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
-        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIDEvNCB2Ml0gRG9jcy96aF9DTjogVHJhbnNsYXRlIG1wdGNwLXN5c2N0bC5yc3QgdG8gU2ltcGxpZmllZCBDaGluZXNl?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 57ECD9aN003334
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.133 unknown Thu, 14 Aug 2025 20:13:12 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 689DD2D8.001/4c2kfJ5GX4z5B13j
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250813213218.198582-11-corbet@lwn.net>
 
-From: Sun yuxi <sun.yuxi@zte.com.cn>
+Hi Jonathan,
 
-translate the "mptcp-sysctl.rst" into Simplified Chinese.
+kernel test robot noticed the following build errors:
 
-Update the translation through commit fa3ee9dd8067
-("mptcp: sysctl: add available_path_managers")
+[auto build test ERROR on lwn/docs-next]
+[also build test ERROR on next-20250814]
+[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.17-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Sun yuxi <sun.yuxi@zte.com.cn>
----
- .../translations/zh_CN/networking/index.rst   |   2 +-
- .../zh_CN/networking/mptcp-sysctl.rst         | 139 ++++++++++++++++++
- 2 files changed, 140 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/networking/mptcp-sysctl.rst
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/docs-Move-the-features-tools-to-tools-doc/20250814-053915
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20250813213218.198582-11-corbet%40lwn.net
+patch subject: [PATCH 10/13] docs: move kernel-doc to tools/doc
+config: i386-randconfig-011-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141909.XegB3Vla-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141909.XegB3Vla-lkp@intel.com/reproduce)
 
-diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
-index bb0edcffd144..6e1c1df4a980 100644
---- a/Documentation/translations/zh_CN/networking/index.rst
-+++ b/Documentation/translations/zh_CN/networking/index.rst
-@@ -27,6 +27,7 @@
-    xfrm_proc
-    netmem
-    alias
-+   mptcp-sysctl
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508141909.XegB3Vla-lkp@intel.com/
 
- Todolist:
+All errors (new ones prefixed by >>):
 
-@@ -96,7 +97,6 @@ Todolist:
- *   mctp
- *   mpls-sysctl
- *   mptcp
--*   mptcp-sysctl
- *   multiqueue
- *   multi-pf-netdev
- *   net_cachelines/index
-diff --git a/Documentation/translations/zh_CN/networking/mptcp-sysctl.rst b/Documentation/translations/zh_CN/networking/mptcp-sysctl.rst
-new file mode 100644
-index 000000000000..0b1b9ed7c647
---- /dev/null
-+++ b/Documentation/translations/zh_CN/networking/mptcp-sysctl.rst
-@@ -0,0 +1,139 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/networking/mptcp-sysctl.rst
-+
-+:翻译:
-+
-+   孙渔喜 Sun yuxi <sun.yuxi@zte.com.cn>
-+
-+================
-+MPTCP Sysfs 变量
-+================
-+
-+/proc/sys/net/mptcp/* Variables
-+===============================
-+
-+add_addr_timeout - INTEGER (秒)
-+	设置ADD_ADDR控制消息的重传超时时间。当MPTCP对端未确认
-+	先前的ADD_ADDR消息时，将在该超时时间后重新发送。
-+
-+	默认值与TCP_RTO_MAX相同。此为每个命名空间的sysctl参数。
-+
-+	默认值：120
-+
-+allow_join_initial_addr_port - BOOLEAN
-+	控制是否允许对端向初始子流使用的IP地址和端口号发送加入
-+	请求（1表示允许）。此参数会设置连接时发送给对端的标志位，
-+	并决定是否接受此类加入请求。
-+
-+	通过ADD_ADDR通告的地址不受此参数影响。
-+
-+	此为每个命名空间的sysctl参数。
-+
-+	默认值：1
-+
-+available_path_managers - STRING
-+	显示已注册的可用路径管理器选项。可能有更多路径管理器可用
-+	但尚未加载。
-+
-+available_schedulers - STRING
-+	显示已注册的可用调度器选项。可能有更多数据包调度器可用
-+	但尚未加载。
-+
-+blackhole_timeout - INTEGER (秒)
-+	当发生MPTCP防火墙黑洞问题时，初始禁用活跃MPTCP套接字上MPTCP
-+	功能的时间（秒）。如果在重新启用MPTCP后立即检测到更多黑洞问题，
-+	此时间段将呈指数增长；当黑洞问题消失时，将重置为初始值。
-+
-+	设置为0可禁用黑洞检测功能。此为每个命名空间的sysctl参数。
-+
-+	默认值：3600
-+
-+checksum_enabled - BOOLEAN
-+	控制是否启用DSS校验和功能。
-+
-+	当值为非零时可启用DSS校验和。此为每个命名空间的sysctl参数。
-+
-+	默认值：0
-+
-+close_timeout - INTEGER (seconds)
-+	设置"先断后连"超时时间：在未调用close或shutdown系统调用时，
-+	MPTCP套接字将在最后一个子流移除后保持当前状态达到该时长，才
-+	会转为TCP_CLOSE状态。
-+
-+	默认值与TCP_TIMEWAIT_LEN相同。此为每个命名空间的sysctl参数。
-+
-+	默认值：60
-+
-+enabled - BOOLEAN
-+	控制是否允许创建MPTCP套接字。
-+
-+	当值为1时允许创建MPTCP套接字。此为每个命名空间的sysctl参数。
-+
-+	默认值：1（启用）
-+
-+path_manager - STRING
-+	设置用于每个新MPTCP套接字的默认路径管理器名称。内核路径管理将
-+	根据通过MPTCP netlink API配置的每个命名空间值来控制子流连接
-+	和地址通告。用户空间路径管理将每个MPTCP连接的子流连接决策和地
-+	址通告交由特权用户空间程序控制，代价是需要更多netlink流量来
-+	传播所有相关事件和命令。
-+
-+	此为每个命名空间的sysctl参数。
-+
-+	* "kernel"		  - 内核路径管理器
-+	* "userspace"	   - 用户空间路径管理器
-+
-+	默认值："kernel"
-+
-+pm_type - INTEGER
-+	设置用于每个新MPTCP套接字的默认路径管理器类型。内核路径管理将
-+	根据通过MPTCP netlink API配置的每个命名空间值来控制子流连接
-+	和地址通告。用户空间路径管理将每个MPTCP连接的子流连接决策和地
-+	址通告交由特权用户空间程序控制，代价是需要更多netlink流量来
-+	传播所有相关事件和命令。
-+
-+	此为每个命名空间的sysctl参数。
-+
-+	自v6.15起已弃用，请改用path_manager参数。
-+
-+	* 0 - 内核路径管理器
-+	* 1 - 用户空间路径管理器
-+
-+	默认值：0
-+
-+scheduler - STRING
-+	选择所需的调度器类型。
-+
-+	支持选择不同的数据包调度器。此为每个命名空间的sysctl参数。
-+
-+	默认值："default"
-+
-+stale_loss_cnt - INTEGER
-+	用于判定子流失效（stale）的MPTCP层重传间隔次数阈值。当指定
-+	子流在连续多个重传间隔内既无数据传输又有待处理数据时，将被标
-+	记为失效状态。失效子流将被数据包调度器忽略。
-+	设置较低的stale_loss_cnt值可实现快速主备切换，较高的值则能
-+	最大化边缘场景（如高误码率链路或对端暂停数据处理等异常情况）
-+	的链路利用率。
-+
-+	此为每个命名空间的sysctl参数。
-+
-+	默认值：4
-+
-+syn_retrans_before_tcp_fallback - INTEGER
-+	在回退到 TCP（即丢弃 MPTCP 选项）之前，SYN + MP_CAPABLE
-+	报文的重传次数。换句话说，如果所有报文在传输过程中都被丢弃，
-+	那么将会：
-+
-+	* 首次SYN携带MPTCP支持选项
-+	* 按本参数值重传携带MPTCP选项的SYN包
-+	* 后续重传将不再携带MPTCP支持选项
-+
-+	0 表示首次重传即丢弃MPTCP选项。
-+	>=128 表示所有SYN重传均保留MPTCP选项设置过低的值可能增加
-+	MPTCP黑洞误判几率。此为每个命名空间的sysctl参数。
-+
-+	默认值：2
+>> /bin/sh: 1: tools/doc/kernel-doc.py: not found
+   make[3]: *** [scripts/Makefile.build:287: scripts/mod/empty.o] Error 127 shuffle=1730989061
+   make[3]: *** Deleting file 'scripts/mod/empty.o'
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1281: prepare0] Error 2 shuffle=1730989061
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1730989061
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1730989061
+   make: Target 'prepare' not remade because of errors.
+
 -- 
-2.25.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
