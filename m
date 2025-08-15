@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AA72882D9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8950D288529;
 	Fri, 15 Aug 2025 11:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755257846; cv=none; b=ZMeVLwu5Cveu9BLIUzmmUI2XRoQh4uDH3F4TKqWWLtv0Mjo0t4FviOPRmFilndYWNpiIb4/XIOwgYnjCzuMDzU3dmPB6WEBhz/v5DkQ8Bq5ryh1VXIuKHCEyypA6zBxpa2yESMrUigY8zDRd/yYCHa9PZeoj0fHTKDqzo+e/z1M=
+	t=1755257846; cv=none; b=jQ2LVRYRPPRclX4Otlnsv+9Y9lN6npZ8LMEFqtXeN+18ntHJM3seJ6d6yT2h2sAaQFfLHjdb8nzYAsWCsiOcWzTZRcMz2wYla4ndDItEHJ98TjocTEr3in70GaWImyDCrGrCWdJy0JTu/AtFotqRR42pLtsAnes7Gh5z11P0KCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755257846; c=relaxed/simple;
-	bh=DJ6PKIVf54EN0EVhgnkCRmWpgby/c+jMwkXMtSedHKY=;
+	bh=DbSg1eVMzWOl8sp3iwWjKfFikdD3ZrhJkW3NI3ZW7Hk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n+7kYEeCxJXyz6AC0vXdzczO75hTuKgrZ+eR1YIGNON5BIQWTIa12A1LUOYUDsMhqd4ZzSIq3wnjzjYtUHfArUxMHfHKBBCa0OAyqoQLPo5/fSDcVm5ah5ypoJ/VbRznLBPAySZJQpWarjTcZgkTusQlY30+yK8k3BdR6queJ9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEiNrh4A; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=kl871T8WOrRiu8mJQfMDCnZkSawl0lch2NoBWGNXe/EjtaS8w2HJGuEl7Laz109fykv3hPnFjFMwC3n88we0uh1jR3Lu0i5ez+n47CdXjRCpotaoeLXf5iul1xeRSLXqBg6oFSO9MX7+usRheHxStCRPQrt0L94SUApQ3re0zoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lir05pcN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEiNrh4A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2ABBC4CEF9;
-	Fri, 15 Aug 2025 11:37:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lir05pcN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D6A3C4CEFF;
+	Fri, 15 Aug 2025 11:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755257846;
-	bh=DJ6PKIVf54EN0EVhgnkCRmWpgby/c+jMwkXMtSedHKY=;
+	bh=DbSg1eVMzWOl8sp3iwWjKfFikdD3ZrhJkW3NI3ZW7Hk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oEiNrh4ABj+qWKIVW68luFPDGQLHKAgttGTwtsc72LU9xVoOhpAtbHuU9RuXk6pJA
-	 qznykEih+00AH4X4jSDJ/9MfjIR+MmD+7ffPJp8Qd4HtJCQZk8r1LEAfA+/qEx7jI1
-	 InDT/4NtgC9GIu4W9QaqCqgvtdOgj2D/hYe7uWRgakn274zS+PaluoMFGi5kQGLrlC
-	 B1X/DCNC7G59F9KgNJF+VocT7HEPqC2MaX8Y9ovkeHq9pFQAoFPRhm012zqgfmDHdE
-	 SO8hEyoAp9rwh6vU33HRjHStF3CmH3UJJY4xRo3BmyKJ51iWEw4Cl6/VD00Ke17RzV
-	 EntO3ofGVxGtw==
+	b=lir05pcNITHZGagABV6/OicIXK6PyLn8cU+Ikx2xcaYgyXGWujmjzHpXwbgjy7CYY
+	 nShNUZ34Oxhxwjp1RmfJyl+chUSMirQsb6R+FO9kxD6BVLjK0U53jeFuSJ47Us0Nhw
+	 s/jX33AzUcSuEWXfaKsCvO0AAJkFmFd0ZjER6kfEcY7zQAq1ODZbI14aE0QV0zrI5t
+	 B4Mqdpu5gyo7wAe4P90PBnW8nQvlI35e+CZhlKL9Ei46ug+RszcCFv3Qrxd2nB1a/r
+	 3D/xRm6CNYUVXIpNwy0c48gmgkgb7yXhrFPHG1vEQc0lizoz6Ae03HeOzYMVsBZcgB
+	 aNY1V4EvLqHtQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1umskO-000000042T9-0CGZ;
+	id 1umskO-000000042TT-0lfq;
 	Fri, 15 Aug 2025 13:37:24 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 04/11] docs: conf.py: rename some vars at latex_documents logic
-Date: Fri, 15 Aug 2025 13:36:20 +0200
-Message-ID: <8105a4afe3210cd974a4e0cba9c280226a9aa63e.1755256868.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 09/11] scripts: sphinx-pre-install: fix dependencies for OpenMandriva
+Date: Fri, 15 Aug 2025 13:36:25 +0200
+Message-ID: <73a2384db32429ac6640474d63af9a7440c7a211.1755256868.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755256868.git.mchehab+huawei@kernel.org>
 References: <cover.1755256868.git.mchehab+huawei@kernel.org>
@@ -51,69 +51,55 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Currently, the logic uses fn and doc vars, but they don't
-properly describe what such vars do.
+The dependeny list for OpenMandriva is wrong. Update it.
 
-Make them clearer:
-	- fname: points to the file name to search (index.rst);
-	- doc: contains the name of the LaTeX or PDF doc to
-	  be produced.
+Yet, on my tests with OpenMandriva LX 4.3, the texlive packages are
+broken: xelatex can't build anything there, as it lacks xelatex.sfm.
 
-With that, the checks for SPHINXDIRS and for subdirs will
-be more coherent.
+Yet, this could be a problem at the way I created the container.
+Just in case, add a note about that.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/conf.py | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ scripts/sphinx-pre-install | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index c8401ed75402..6e12c7d8e07e 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -93,31 +93,31 @@ def config_init(app, config):
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 86f129c76ecd..224db3af17db 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -984,13 +984,19 @@ class SphinxDependencyChecker(MissingCheckers):
+         if re.search(r"OpenMandriva", self.system_release):
+             packager_cmd = "dnf install"
+             noto_sans = "noto-sans-cjk-fonts"
+-            tex_pkgs = ["texlive-collection-fontsextra"]
++            tex_pkgs = [
++                "texlive-collection-basic",
++                "texlive-collection-langcjk",
++                "texlive-collection-fontsextra",
++                "texlive-collection-fontsrecommended"
++            ]
  
-     # When SPHINXDIRS is used, we just need to get index.rst, if it exists
-     if not os.path.samefile(doctree, app.srcdir):
--        doc = "index"
--        doc_name = os.path.basename(app.srcdir)
--        if os.path.exists(os.path.join(app.srcdir, doc + ".rst")):
--            latex_documents.append((doc, doc_name + ".tex",
--                                    "Linux %s Documentation" % doc_name.capitalize(),
-+        doc = os.path.basename(app.srcdir)
-+        fname = "index"
-+        if os.path.exists(os.path.join(app.srcdir, fname + ".rst")):
-+            latex_documents.append((fname, doc + ".tex",
-+                                    "Linux %s Documentation" % doc.capitalize(),
-                                     "The kernel development community",
-                                     "manual"))
-             return
+             # Tested on OpenMandriva Lx 4.3
+             progs["convert"] = "imagemagick"
+             progs["yaml"] = "python-pyyaml"
+             progs["python-virtualenv"] = "python-virtualenv"
+             progs["python-sphinx"] = "python-sphinx"
++            progs["xelatex"] = "texlive"
  
-     # When building all docs, or when a main index.rst doesn't exist, seek
-     # for it on subdirectories
--    for fn in os.listdir(app.srcdir):
--        doc = os.path.join(fn, "index")
--        if not os.path.exists(os.path.join(app.srcdir, doc + ".rst")):
-+    for doc in os.listdir(app.srcdir):
-+        fname = os.path.join(doc, "index")
-+        if not os.path.exists(os.path.join(app.srcdir, fname + ".rst")):
-             continue
+             self.check_program("python-virtualenv", DepManager.PYTHON_MANDATORY)
  
-         has = False
-         for l in latex_documents:
--            if l[0] == doc:
-+            if l[0] == fname:
-                 has = True
-                 break
+@@ -1004,7 +1010,9 @@ class SphinxDependencyChecker(MissingCheckers):
  
-         if not has:
--            latex_documents.append((doc, fn + ".tex",
--                                    "Linux %s Documentation" % fn.capitalize(),
-+            latex_documents.append((fname, doc + ".tex",
-+                                    "Linux %s Documentation" % doc.capitalize(),
-                                     "The kernel development community",
-                                     "manual"))
+             if not self.distro_msg:
+                 self.distro_msg = \
+-                    "Note: for venv, ensurepip could be broken, preventing its install method."
++                    "Notes:\n"\
++                    "1. for venv, ensurepip could be broken, preventing its install method.\n" \
++                    "2. at least on OpenMandriva LX 4.3, texlive packages seem broken"
  
+         else:
+             packager_cmd = "urpmi"
 -- 
 2.50.1
 
