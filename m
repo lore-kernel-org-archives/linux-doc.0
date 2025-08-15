@@ -1,57 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DA62877DA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AA72882D9;
 	Fri, 15 Aug 2025 11:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755257846; cv=none; b=lZIxnBcFchywbkFpW4tU9J5FdhssVk9DQpUlJRVL4mtgbGHSAQNcRJAOpEp7Iu/ekFds5ljwx9cYhhJI5NDx8DyQWEf4wWV0HwK4V/tvOAK8dnOBgvFwX8WLjM1QwYJJ1TY5MNqlVw+n52wCJctfEV6eo8vnyYFB5A+IO0iqVj4=
+	t=1755257846; cv=none; b=ZMeVLwu5Cveu9BLIUzmmUI2XRoQh4uDH3F4TKqWWLtv0Mjo0t4FviOPRmFilndYWNpiIb4/XIOwgYnjCzuMDzU3dmPB6WEBhz/v5DkQ8Bq5ryh1VXIuKHCEyypA6zBxpa2yESMrUigY8zDRd/yYCHa9PZeoj0fHTKDqzo+e/z1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755257846; c=relaxed/simple;
-	bh=U/g86Ig1pMFruBqlvyzjZIHjO9UsMDLq3GNFDgoQFww=;
+	bh=DJ6PKIVf54EN0EVhgnkCRmWpgby/c+jMwkXMtSedHKY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cMG+TBVhOK8OZdjAyAoknQgHQScZ+cyDcV9H4yd7gw1Wf+BV+aKsKvG9rbvbr/wbIusvnu4ZOAphtl8lY8z2vPpc+1QVMFZzq4dAkhIMpyHojz22qzWHka7OS1hzXtFb7dWZcoum/nd3uVNA9qr8hcNaJVqcLE0DV0LamhmcW3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=USYkRbnE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=n+7kYEeCxJXyz6AC0vXdzczO75hTuKgrZ+eR1YIGNON5BIQWTIa12A1LUOYUDsMhqd4ZzSIq3wnjzjYtUHfArUxMHfHKBBCa0OAyqoQLPo5/fSDcVm5ah5ypoJ/VbRznLBPAySZJQpWarjTcZgkTusQlY30+yK8k3BdR6queJ9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEiNrh4A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="USYkRbnE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8744C4CEF8;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEiNrh4A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2ABBC4CEF9;
 	Fri, 15 Aug 2025 11:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755257846;
-	bh=U/g86Ig1pMFruBqlvyzjZIHjO9UsMDLq3GNFDgoQFww=;
+	bh=DJ6PKIVf54EN0EVhgnkCRmWpgby/c+jMwkXMtSedHKY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=USYkRbnEwnF4+qENTLbHftnrPtONckoKAuM+TucKwcCuz5bN7omBDrfEGRp65OBcC
-	 4k3sDdAZQraKoYZK79ZqgX+lcSjl0CXwaYkUo9hE/l81D8U8iVlMV8w5cLZdu0Qu2x
-	 ukY/+FKMNF66kCL3htCyMnVwkeZ+s/Zh+3IyVY9h7iw9c0B3IE9cc4NX7s1FfX2DRI
-	 pldxzF88fiCsWy9D9M0ypnb64DAcv2iZX6kisk6iWGwRGHgcn6wT4adr3WQd0H74rv
-	 m6qa5Tl3YNl+w/Oh6vmlSv3EsHDg3sJN/zvFpPl8hiNTsa2siTyUxkRMJasclVI+rM
-	 eBNwOude/Ewew==
+	b=oEiNrh4ABj+qWKIVW68luFPDGQLHKAgttGTwtsc72LU9xVoOhpAtbHuU9RuXk6pJA
+	 qznykEih+00AH4X4jSDJ/9MfjIR+MmD+7ffPJp8Qd4HtJCQZk8r1LEAfA+/qEx7jI1
+	 InDT/4NtgC9GIu4W9QaqCqgvtdOgj2D/hYe7uWRgakn274zS+PaluoMFGi5kQGLrlC
+	 B1X/DCNC7G59F9KgNJF+VocT7HEPqC2MaX8Y9ovkeHq9pFQAoFPRhm012zqgfmDHdE
+	 SO8hEyoAp9rwh6vU33HRjHStF3CmH3UJJY4xRo3BmyKJ51iWEw4Cl6/VD00Ke17RzV
+	 EntO3ofGVxGtw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1umskO-000000042TH-0QUu;
+	id 1umskO-000000042T9-0CGZ;
 	Fri, 15 Aug 2025 13:37:24 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andreas Hindborg <mchehab+huawei@kernel.org>,
-	Benno Lossin <mchehab+huawei@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Danilo Krummrich <mchehab+huawei@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 06/11] scripts: sphinx-pre-install: fix PDF build issues on Ubuntu
-Date: Fri, 15 Aug 2025 13:36:22 +0200
-Message-ID: <a888d353ac1eb0d558fda5482c6955d6c4a29f23.1755256868.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 04/11] docs: conf.py: rename some vars at latex_documents logic
+Date: Fri, 15 Aug 2025 13:36:20 +0200
+Message-ID: <8105a4afe3210cd974a4e0cba9c280226a9aa63e.1755256868.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755256868.git.mchehab+huawei@kernel.org>
 References: <cover.1755256868.git.mchehab+huawei@kernel.org>
@@ -64,130 +51,69 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-PDF output with current Debian-based distros require other
-packages for it to work. The main one is pzdr.tfm. Without
-that, \sphinxhyphen{} won't work, affecting multiple docs.
+Currently, the logic uses fn and doc vars, but they don't
+properly describe what such vars do.
 
-For CJK, tex-gyre is required.
+Make them clearer:
+	- fname: points to the file name to search (index.rst);
+	- doc: contains the name of the LaTeX or PDF doc to
+	  be produced.
 
-Add the missing packages to the list.
+With that, the checks for SPHINXDIRS and for subdirs will
+be more coherent.
 
-After the change, all PDF files build on latest Ubuntu:
-
-Ubuntu 25.04:
--------------
-    PASSED: OS detection: Ubuntu 25.04
-    SKIPPED (Sphinx Sphinx 8.1.3): System packages
-    SKIPPED (Sphinx already installed either as venv or as native package): Sphinx on venv
-    SKIPPED (Sphinx already installed either as venv or as native package): Sphinx package
-    PASSED: Clean documentation: Build time: 0:00, return code: 0
-    PASSED: Build HTML documentation: Build time: 3:28, return code: 0
-    PASSED: Build PDF documentation: Build time: 11:08, return code: 0
-
-  PDF docs:
-  ---------
-      PASSED: dev-tools: pdf/dev-tools.pdf
-      PASSED: tools: pdf/tools.pdf
-      PASSED: filesystems: pdf/filesystems.pdf
-      PASSED: w1: pdf/w1.pdf
-      PASSED: maintainer: pdf/maintainer.pdf
-      PASSED: process: pdf/process.pdf
-      PASSED: isdn: pdf/isdn.pdf
-      PASSED: fault-injection: pdf/fault-injection.pdf
-      PASSED: iio: pdf/iio.pdf
-      PASSED: scheduler: pdf/scheduler.pdf
-      PASSED: staging: pdf/staging.pdf
-      PASSED: fpga: pdf/fpga.pdf
-      PASSED: power: pdf/power.pdf
-      PASSED: leds: pdf/leds.pdf
-      PASSED: edac: pdf/edac.pdf
-      PASSED: PCI: pdf/PCI.pdf
-      PASSED: firmware-guide: pdf/firmware-guide.pdf
-      PASSED: cpu-freq: pdf/cpu-freq.pdf
-      PASSED: mhi: pdf/mhi.pdf
-      PASSED: wmi: pdf/wmi.pdf
-      PASSED: timers: pdf/timers.pdf
-      PASSED: accel: pdf/accel.pdf
-      PASSED: hid: pdf/hid.pdf
-      PASSED: userspace-api: pdf/userspace-api.pdf
-      PASSED: spi: pdf/spi.pdf
-      PASSED: networking: pdf/networking.pdf
-      PASSED: virt: pdf/virt.pdf
-      PASSED: nvme: pdf/nvme.pdf
-      PASSED: translations: pdf/translations.pdf
-      PASSED: input: pdf/input.pdf
-      PASSED: tee: pdf/tee.pdf
-      PASSED: doc-guide: pdf/doc-guide.pdf
-      PASSED: cdrom: pdf/cdrom.pdf
-      PASSED: gpu: pdf/gpu.pdf
-      PASSED: i2c: pdf/i2c.pdf
-      PASSED: RCU: pdf/RCU.pdf
-      PASSED: watchdog: pdf/watchdog.pdf
-      PASSED: usb: pdf/usb.pdf
-      PASSED: rust: pdf/rust.pdf
-      PASSED: crypto: pdf/crypto.pdf
-      PASSED: kbuild: pdf/kbuild.pdf
-      PASSED: livepatch: pdf/livepatch.pdf
-      PASSED: mm: pdf/mm.pdf
-      PASSED: locking: pdf/locking.pdf
-      PASSED: infiniband: pdf/infiniband.pdf
-      PASSED: driver-api: pdf/driver-api.pdf
-      PASSED: bpf: pdf/bpf.pdf
-      PASSED: devicetree: pdf/devicetree.pdf
-      PASSED: block: pdf/block.pdf
-      PASSED: target: pdf/target.pdf
-      PASSED: arch: pdf/arch.pdf
-      PASSED: pcmcia: pdf/pcmcia.pdf
-      PASSED: scsi: pdf/scsi.pdf
-      PASSED: netlabel: pdf/netlabel.pdf
-      PASSED: sound: pdf/sound.pdf
-      PASSED: security: pdf/security.pdf
-      PASSED: accounting: pdf/accounting.pdf
-      PASSED: admin-guide: pdf/admin-guide.pdf
-      PASSED: core-api: pdf/core-api.pdf
-      PASSED: fb: pdf/fb.pdf
-      PASSED: peci: pdf/peci.pdf
-      PASSED: trace: pdf/trace.pdf
-      PASSED: misc-devices: pdf/misc-devices.pdf
-      PASSED: kernel-hacking: pdf/kernel-hacking.pdf
-      PASSED: hwmon: pdf/hwmon.pdf
-
-Reported-by: Akira Yokosawa <akiyks@gmail.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ Documentation/conf.py | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index b8474848df4e..b24a6f91ec0a 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -764,9 +764,6 @@ class SphinxDependencyChecker(MissingCheckers):
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index c8401ed75402..6e12c7d8e07e 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -93,31 +93,31 @@ def config_init(app, config):
  
-         if self.pdf:
-             pdf_pkgs = {
--                "texlive-lang-chinese": [
--                    "/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexhook.sty",
--                ],
-                 "fonts-dejavu": [
-                     "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-                 ],
-@@ -775,6 +772,15 @@ class SphinxDependencyChecker(MissingCheckers):
-                     "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
-                     "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc",
-                 ],
-+                "tex-gyre": [
-+                    "/usr/share/texmf/tex/latex/tex-gyre/tgtermes.sty"
-+                ],
-+                "texlive-fonts-recommended": [
-+                    "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm",
-+                ],
-+                "texlive-lang-chinese": [
-+                    "/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexhook.sty",
-+                ],
-             }
+     # When SPHINXDIRS is used, we just need to get index.rst, if it exists
+     if not os.path.samefile(doctree, app.srcdir):
+-        doc = "index"
+-        doc_name = os.path.basename(app.srcdir)
+-        if os.path.exists(os.path.join(app.srcdir, doc + ".rst")):
+-            latex_documents.append((doc, doc_name + ".tex",
+-                                    "Linux %s Documentation" % doc_name.capitalize(),
++        doc = os.path.basename(app.srcdir)
++        fname = "index"
++        if os.path.exists(os.path.join(app.srcdir, fname + ".rst")):
++            latex_documents.append((fname, doc + ".tex",
++                                    "Linux %s Documentation" % doc.capitalize(),
+                                     "The kernel development community",
+                                     "manual"))
+             return
  
-             for package, files in pdf_pkgs.items():
+     # When building all docs, or when a main index.rst doesn't exist, seek
+     # for it on subdirectories
+-    for fn in os.listdir(app.srcdir):
+-        doc = os.path.join(fn, "index")
+-        if not os.path.exists(os.path.join(app.srcdir, doc + ".rst")):
++    for doc in os.listdir(app.srcdir):
++        fname = os.path.join(doc, "index")
++        if not os.path.exists(os.path.join(app.srcdir, fname + ".rst")):
+             continue
+ 
+         has = False
+         for l in latex_documents:
+-            if l[0] == doc:
++            if l[0] == fname:
+                 has = True
+                 break
+ 
+         if not has:
+-            latex_documents.append((doc, fn + ".tex",
+-                                    "Linux %s Documentation" % fn.capitalize(),
++            latex_documents.append((fname, doc + ".tex",
++                                    "Linux %s Documentation" % doc.capitalize(),
+                                     "The kernel development community",
+                                     "manual"))
+ 
 -- 
 2.50.1
 
