@@ -1,28 +1,28 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219CE824A3;
-	Fri, 15 Aug 2025 07:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8B61B423C;
+	Fri, 15 Aug 2025 07:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755242558; cv=none; b=StaxDewdKHU2k04Ycga11NeXORr8dNqzO8RIROROTXaWDsAvuM0zsOYC9ZDiW6fK6RQUCBOK2XJ+WeVdNEiyDmSv8G/AFwzdRQx8APCJ9guAYq9FeqJWB608bSUEOPwPDi579qhe3DeLhngtomUFy6Mx2lc6xFDMltY4hOyIzs4=
+	t=1755242608; cv=none; b=faEtsWBgK2CwDybzwv3f4m1i6ibJrVM9aZSutjackmoc04LkzT6wZPxrP6sCMsRmiPlHEhZpIfBGbQqK1ZFPOLbzL3pnrhxND08C/wJT15YovDIbtU59mdT3S19cvXvbxst44GhGNUm/KpTgx9/e3/me1bld4JwNX3hRFTheNgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755242558; c=relaxed/simple;
-	bh=Zr9P2ndnhX3SK5UWWH9OdT0pfil/s2pLoN+1J1CRKnA=;
+	s=arc-20240116; t=1755242608; c=relaxed/simple;
+	bh=FGUMLzOhG0N1xTrWjGU43GorMZdiCn98jXecdCwWJkM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VmPb7q01o+FsXxnNXQrDgHqzcne0D5N9jMB8OcTB18SVkAlOSWF0Yd1gM3osRvSPpV6YJV1Ks9L/8Un0pcwW1ImWgaihOaoUFxdsoFA30dZ+IVXwarN+hWXjfULO7OAbCOrAJOfhiYp7sleeGzqRpU8Wt4Q6ZL6opC7M7OJZ+WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=eUPM4OWqoSlGC7oI+wp6DmJCSO+uJ+W4eQN9K29AlYK5TeQdGgmQBOItZIHgeL4cJPYmdbI72LcWOl6NUvUZCCH6pzb0wDHL+CEpGPJnRIRy3Nlw+A/fxZXPsNbj6LyEskDhY8gAkn+hXDjTO2SIqhs+qORb8S2GeFCUnQTPMj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=52.59.177.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpgz13t1755242466td134eb93
-X-QQ-Originating-IP: P8B29TxqAIjtw9rcUWdGPOj/UlpMvPoKRSUDmw0C7LM=
+X-QQ-mid: esmtpgz14t1755242542t88795e43
+X-QQ-Originating-IP: QmeCaZXz5zfxX1+I895iAG+f+GvT7685EYRqPTmo+fs=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 15 Aug 2025 15:21:03 +0800 (CST)
+	id ; Fri, 15 Aug 2025 15:22:20 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 5156444352730471506
-Date: Fri, 15 Aug 2025 15:21:03 +0800
+X-BIZMAIL-ID: 18254593275676516444
+Date: Fri, 15 Aug 2025 15:22:20 +0800
 From: Yibo Dong <dong100@mucse.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
@@ -34,13 +34,13 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] net: rnpgbe: Add n500/n210 chip support
-Message-ID: <67844B7C9238FBFB+20250815072103.GC1148411@nic-Precision-5820-Tower>
+Subject: Re: [PATCH v4 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <F32413B2F4429255+20250815072220.GD1148411@nic-Precision-5820-Tower>
 References: <20250814073855.1060601-1-dong100@mucse.com>
- <20250814073855.1060601-3-dong100@mucse.com>
- <a0553f1d-46dd-470c-aabf-163442449e19@lunn.ch>
- <F74E98A5E4BF5DA4+20250815023836.GB1137415@nic-Precision-5820-Tower>
- <63af9ff7-0008-4795-a78b-9bed84d75ae0@lunn.ch>
+ <20250814073855.1060601-4-dong100@mucse.com>
+ <fa273889-f96e-4ca8-9d19-ff3b226e2e29@lunn.ch>
+ <497996B7269F1229+20250815024302.GC1137415@nic-Precision-5820-Tower>
+ <19d66fa8-f42c-4c52-b42b-49994f29e293@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,84 +49,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <63af9ff7-0008-4795-a78b-9bed84d75ae0@lunn.ch>
+In-Reply-To: <19d66fa8-f42c-4c52-b42b-49994f29e293@lunn.ch>
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NyID+twfxCOjBl5qGI5kvatijftQftb6jgAw36eIBtExXbZEhO08dH0M
-	6jdA1imzV9Di15d94kRKAonCByyy1f0qefbskuz5dksMWrdSqrtboqJRxqaTWLccQTCHNNc
-	7ouMJSRqL6tz2mhabbs8cTBmiVyjXbcW5fgtmo/5d6EmuVb9ZeDzIOp9NKhm+ConLHzit4H
-	KuQvTZDFhnjCM7ahO4K/bGva+bom/N1byNZPn+pXrhN+6wtAMye0zKG56icvduee6xNHY6W
-	AFFbPRKM0GvIpBULixJhs9zM3ZKFQHMrTwZsY4CtKYT7eLt7gqcGKZM4RWJNY6bPVtcdcB+
-	p0DJ31yfDL8uNfuOdjkACsvasI+A6plm5MPZ57RFcnGdN+pSqpunKyjaj8/P+CAR/2CZPhv
-	Tqw+Spdpi/iiZ/BYifjBPCMDlqMCBniLxsrHfflmCiHZLeJrd9SWn6yQbIXPJcX6hf+s8w3
-	jtihLB/2lpE/neHcWjDSnSz+/6nSsvrrsbbZgjlD4vgQVGW82Q0cohvjt3UDMn1dXSsfeOa
-	Xd68iKsKymGXa726/vMAOXc/Vfgv1QKjtVKwo1kJubjbeLqAdLHgPg4xNJX/LVvlu7g96YC
-	PA1CrcXBvNPt4jVRj1ATauHR/2lXjHixiRH2OkthqnDCnWkP0HN4LHHkXttGm4Q11eC0oJK
-	tWRJ/RJ5HfplDoOQgFTvNultLOweyIEqvTtHDvvMajWDF8JJu9rltrX11Exgn1tgRLmn7Cp
-	gBKHn51o9Wm6QM5fNqLjOUWKNU/cDwF44Va9XLu1DTH7IvYPIV9rhqaUvebcRdAnTfpEaqX
-	5tzU99QJXEzEKiuwq2M2/R77qQQXtBhNtVVPBboSas385Uv6kwhiOuDqW/U2OhFjujmJ1GO
-	iG/dJn4gEpjfyZIUJxYW6EypNI5/xEVkYZMdki8qOlvkk0FzgAksDjjNZpIJrn/PnzKe56z
-	QHK7MZzVz/NcPCTXet86xe+LIg8KVLgyjC57axqz7fX1EbZqIUTIDrGgtEsWqE2+vTsmIGE
-	Kn9PHb6TuanjYkScFHkIBQ/23rpUe8UWAicSOQjlpPgOOlYG2hb+PWWqwje5bxd3i+hFlO2
-	buYS4ubOeTP4tbjiR2bJtY=
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-XMAILINFO: ML0WjuuRu+Tq3LzAJAdg8mLQcgxQlsrnRy35tirVVHppam7ZDTlTsgWm
+	zM8QP2klntlXl5S0yA8bwDgYVJKkN/MVzwb48kTWue5ULklyfcCpUtRiQ7KYUu07IQsEAKj
+	Slk1gaOpOpTKzENOvhV2k2fc+hhuZmrAGJifya+EyJMIfQf4LvvlV9uP4M970fyK2UPh3Gy
+	iyhWZFJJY59Wv0auDE/2eVRO/u2h1Jaa49RLwhhswqzzT1oaEiTg87SxgLVg49tH6po0JUX
+	Zw7DQOwkrl5jWxxUAzYfgGe++9oOkGLi2+8PaU8lipdtAcnMECaSvvQ7NWXagN1ATHQ3SD7
+	sTyQiuni070COYIp4CpUlG7q1EL94403+Tsah/oJecq+1WOI5w+72cb1cwM3xdfOVKQU35R
+	4CA82Ie3x/QLk3SxR9QybMn94A+4s2Oz+ODwR7foB2A/BuyUa6wE65wxeoao1v71lobuvhp
+	sDb9kwRY0xnr/BJrbYgrDsoVM3j/yhFyTXiYEG6FCFOzrSUGB++quVsgR8EW5+0DpYvPJLw
+	cMSBkGrfxd2RyFO8x+0nf9BNE8U3Oj/d5ESDFv+SCO7MopjldLNcZGKH9Y24cO66l2oO75Q
+	NtPLmfZNoC+IEIGi+BqixxuS1Q8qCSsUGCHL5NvGPaXmGuuSY65vafsThLA7pMO/kiQgv87
+	73fO3WZoFxavu39xj4GLAkUVk/T6lHGr+sZlIZkZOrRme5oLsyS4/X6GPDMfFklzg/1nRsf
+	Zr0hiaaJgu9baSZ0qIFH1MfqQJKv8VPcFSHhV9abdc59xx21AVr5zlT/tJZ6ifcueaUms1h
+	xxUsk7b7tvt0K7g2wuL4qAKKUCgfUFx4zp+FihZ/MryZw0iHiP6mWoMBOi3nkfLYPK8YHeL
+	LO2RwFbYjoRqiVNMCcbR4fLxGZuK2UAdoT1Rz7wR4WTfnhKCH3Xb9s4etWoxTpoMEWehL4E
+	LvKpNBDg1Ns3+yakRpkiMIu7uhPTmo6RdzHHkMDWerd5YELT8CgmX7HOoKLxCCiwA+CB2XV
+	opSvqmkkThNC9awcKI+I1PQ5oELTn9njF2tGzlOVFUCfwELlHekntcA/eTxIxqq4aD0RSnD
+	Q==
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
 X-QQ-RECHKSPAM: 0
 
-On Fri, Aug 15, 2025 at 05:56:30AM +0200, Andrew Lunn wrote:
-> > It means driver version 0.2.4.16.
+On Fri, Aug 15, 2025 at 05:59:10AM +0200, Andrew Lunn wrote:
+> On Fri, Aug 15, 2025 at 10:43:02AM +0800, Yibo Dong wrote:
+> > On Fri, Aug 15, 2025 at 04:13:52AM +0200, Andrew Lunn wrote:
+> > > > +const struct mucse_mbx_operations mucse_mbx_ops_generic = {
+> > > > +	.init_params = mucse_init_mbx_params_pf,
+> > > > +	.read = mucse_read_mbx_pf,
+> > > > +	.write = mucse_write_mbx_pf,
+> > > > +	.read_posted = mucse_read_posted_mbx,
+> > > > +	.write_posted = mucse_write_posted_mbx,
+> > > > +	.check_for_msg = mucse_check_for_msg_pf,
+> > > > +	.check_for_ack = mucse_check_for_ack_pf,
+> > > > +	.configure = mucse_mbx_configure_pf,
+> > > > +};
+> > > 
+> > > As far as i can see, this is the only instance of
+> > > mucse_mbx_operations. Will there be other instances of this structure?
+> > > 
+> > > 	Andrew
+> > > 
+> > 
+> > Yes, It is the only instance. Not other instances at all.
+> > Is there any improvement?
 > 
-> And what does that mean?
-> 
-> > I used it in 'mucse_mbx_ifinsmod'(patch4, I will move this to that patch),
-> > to echo 'driver version' to FW. FW reply different command for different driver.
-> 
-> There only is one driver. This driver.
-> 
-> This all sounds backwards around. Normally the driver asks the
-> firmware what version it is. From that, it knows what operations the
-> firmware supports, and hence what it can offer to user space.
-> 
-> So what is your long terms plan? How do you keep backwards
-> compatibility between the driver and the firmware?
+> So throw away the abstraction and call the functions directly. Only
+> add abstractions if you have some differences to abstract over. Only
+> make the driver more complex and harder to understand, if you need to
+> make the driver more complex and harder to understand.... KISS.
 > 
 > 	Andrew
 > 
 
-To the driver, it is the only driver. It get the fw version and do
-interactive with fw, this is ok.
-But to the fw, I think it is not interactive with only 'this driver'?
-Chips has been provided to various customers with different driver
-version......
+Ok, I will try to call the functions directly.
 
-More specific, our FW can report link state with 2 version:
-a: without pause status (to driver < 0.2.1.0)
-b: with pause status (driver >= 0.2.1.0)
-
-Then the driver update the status to reg to confirm info to fw.
-fw check reg status to decide whether report state again or not.
-
-'Driver < 0.2.1.0' only support 'version a', it will not update
-pause status to reg. Then, fw will report status again, again...
-
-So, I add 'echo driver version to fw in driver 0.2.1.0' to solve
-this condition. fw consider it an old driver if driver not 'echo
-version to it'.
-
-1. Old driver with old fw, it works fine.
-2. Old driver with new fw, fw knows the driver is old, it works fine with
-version a.
-3. New driver with new fw, fw knows the driver is new, it works fine with
-version b.
-4. New driver with old fw, fw echo state without pause, and it never check
-it in reg, it also works fine.
-
-And I think it is a way to make compatibility more easy. Driver know fw
-version, and fw also know driver version. Fw can easy edit existing cmd,
-not only add new ones since it can support old cmd for old driver,
-'edited cmd' to new driver.
-
-Also, hw->driver_version is not useful to driver. I can use a macro in
-mucse_mbx_ifinsmod.
 
 Thanks for your feedback.
 
