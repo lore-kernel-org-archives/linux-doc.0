@@ -1,89 +1,103 @@
-Received: from m239-4.eu.mailgun.net (m239-4.eu.mailgun.net [185.250.239.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6E6305E0E
-	for <linux-doc@vger.kernel.org>; Fri, 15 Aug 2025 15:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.250.239.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F45305E3D;
+	Fri, 15 Aug 2025 15:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755272340; cv=none; b=ca0BHZJVSPwKXXbvio1JxXYJKuATgzMNx8s9p2TUXCw7leJEGxTc/JG7zzLedyxHZVgDose8wuFU1AW9d3pw3qhN+vPl/khx0NPYb7JlPVJBU3APPZWBA6iCVnBsOfZU3byADrCm6ynNR8QTzyl/yG8X1WYzH0yGvLm2wWnyXso=
+	t=1755272405; cv=none; b=uVpLI+6hE854U/SHrXmUcIW7RcPrqV9JPPYkIspD1GSFxerRW9h6NNsI1RkSQgICW22YGlDtktcIWGgefD4955d7lfYivRvF9oW5zCKppUEOUfuq9C5VwR1ivfn7pSnyLhc85xuIvlv3bJP/NZ55En37NCWoGnk4qwGOkYEb78w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755272340; c=relaxed/simple;
-	bh=5tQ4CjJEGw0g5kPBiUHlzngWyj8hm0U1PNDAoqkvlqo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O/68EuidXfPLIR1HWrQdJS83jjlGdOEqlHDs8FULn0u3EdukrvEx2sJ0RqKyWca1HP6ayPkIOi7vpH532+67bLFEwqkMi67guEgMDRMM2B2N0JsrgIAOukx1oyBk3VDG0MidJuvToFhsHlNkeW/9a4Cl03ea2w67iNWbvHGDcCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0x65c.net; spf=pass smtp.mailfrom=0x65c.net; dkim=pass (2048-bit key) header.d=0x65c.net header.i=@0x65c.net header.b=JFtrnlU+; arc=none smtp.client-ip=185.250.239.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0x65c.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x65c.net
+	s=arc-20240116; t=1755272405; c=relaxed/simple;
+	bh=qFFD29Z0bBGyOJ/r8urMn6MWEW61foW7aAMeULHu5cQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a2xy/QlxIynPNEzZxOQX4+wvlIkD8h3pHLlQz8JCcxDfcp+0BVP5J0Rf83ffi00oRbdW28xdg6NHp8OyRUetzUBLVowhmfq/0yjDdE9TGK37uL69uHFbYiUAkOv4cqqZqQsa07xtCq5/od4yAfbSybuY28chSH+hQ8/mO8+S65Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLtvEjpC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=0x65c.net header.i=@0x65c.net header.b="JFtrnlU+"
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=0x65c.net; q=dns/txt; s=email; t=1755272336; x=1755279536;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To: Message-ID: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
- bh=f9ccNxfcK3sEBlBPYF9k8p2zcJ8aW3uNnCuA6Buc4Do=;
- b=JFtrnlU+5j35/oxBPABmAESHmrnli/9zpBf4BmgxIxhuDvP9Ql0dNojMuG4SdVADyFvgfdRlIPZdUuaXt9cITIPltN7Gf3fpCq9K7G4/8OGz2vt3GNFlpDnwNIUyIhweM8qukIUBgPz+aw29CpqYYYUvcWmnBqkID4pLrYL1jqt7j0XG13QiAeDy6I1p3Xwinia/kEQFVZKRy/vgm4nYzoPr/K5bWPHvnPZRaIuZlTh4pkvQcdcYBFga7vsz+eKWDb3t9ckvp2gL8toRv62NSxMypCo8G8ZR7Bib/vKIKDKXHg21EIj21/CLRm5UkUTWYEBdAuYNz71pWpz0Ve6Y4A==
-X-Mailgun-Sid: WyI1NDY3NyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI1NGVmNCJd
-Received: from fedora (pub082136115007.dh-hfc.datazug.ch [82.136.115.7]) by
- nomad-client-influx-c1dk with SMTP id 689f549003c0e2ff1bb12d20; Fri, 15 Aug
- 2025 15:38:56 GMT
-X-Mailgun-Sending-Ip: 185.250.239.4
-Sender: alessandro@0x65c.net
-From: Alessandro Ratti <alessandro@0x65c.net>
-To: jgg@ziepe.ca,
-	kevin.tian@intel.com,
-	corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	alessandro.ratti@gmail.com,
-	Alessandro Ratti <alessandro@0x65c.net>
-Subject: [PATCH] Documentation: fix spelling errors in iommufd.rst
-Date: Fri, 15 Aug 2025 17:37:26 +0200
-Message-ID: <20250815153840.188213-2-alessandro@0x65c.net>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250815153840.188213-1-alessandro@0x65c.net>
-References: <20250815153840.188213-1-alessandro@0x65c.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLtvEjpC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E9CC4CEEB;
+	Fri, 15 Aug 2025 15:39:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755272405;
+	bh=qFFD29Z0bBGyOJ/r8urMn6MWEW61foW7aAMeULHu5cQ=;
+	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fLtvEjpCpJcL4Br3dGCA310R4Y2FqThotOiDwP4/RNMBJ98DOeQ6jMFavPuxM7u3Z
+	 YBee3GcniPTXE8VnxbNAntO0WnrVAlBSPN/Rg+auulmBzReVjKLE2wtJk5WGr9p/bA
+	 v+UNwcB1/HCJcruh4liLcSUzkIFGzj0D5zYEE1AXG6Bk3xOVDgSxCTVgfi20L/peGh
+	 W5FxJvKHnD4Ces7ML+U4Xa6U1VyeXnxnHxpgLwSOkuc9mVH4pqvhiFujcu52R4pqai
+	 z7w2V5CQDgdwyu3IrZ3mvsiUf3zYUspnccKIKH2BgfWuZt+l2P3OJX4xy8OsKJ0J7E
+	 gbYclLaeRfxNw==
+Message-ID: <6cce2564-04f2-44ab-96d3-2f47fc221591@kernel.org>
+Date: Fri, 15 Aug 2025 17:39:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Reply-To: Daniel Gomez <da.gomez@kernel.org>
+Subject: Re: [PATCH v4] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
+ EXPORT_SYMBOL_FOR_MODULES
+To: Christian Brauner <brauner@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Christoph Hellwig <hch@infradead.org>,
+ Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
+ Shivank Garg <shivankg@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Daniel Gomez <da.gomez@samsung.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
+References: <20250808-export_modules-v4-1-426945bcc5e1@suse.cz>
+ <20250811-wachen-formel-29492e81ee59@brauner>
+ <2472a139-064c-4381-bc6e-a69245be01df@kernel.org>
+ <20250815-darstellen-pappen-90a9edb193e5@brauner>
+Content-Language: en-US
+From: Daniel Gomez <da.gomez@kernel.org>
+Organization: kernel.org
+In-Reply-To: <20250815-darstellen-pappen-90a9edb193e5@brauner>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This patch corrects two minor spelling issues found in
-Documentation/userspace-api/iommufd.rst:
 
-- "primarly" -> "primarily"
-- "sharable" -> "shareable"
 
-Found using codespell(1).
+On 15/08/2025 07.25, Christian Brauner wrote:
+> On Tue, Aug 12, 2025 at 09:54:43AM +0200, Daniel Gomez wrote:
+>> On 11/08/2025 07.18, Christian Brauner wrote:j
+>>> On Fri, 08 Aug 2025 15:28:47 +0200, Vlastimil Babka wrote:
+>>>> Christoph suggested that the explicit _GPL_ can be dropped from the
+>>>> module namespace export macro, as it's intended for in-tree modules
+>>>> only. It would be possible to restrict it technically, but it was
+>>>> pointed out [2] that some cases of using an out-of-tree build of an
+>>>> in-tree module with the same name are legitimate. But in that case those
+>>>> also have to be GPL anyway so it's unnecessary to spell it out in the
+>>>> macro name.
+>>>>
+>>>> [...]
+>>>
+>>> Ok, so last I remember we said that this is going upstream rather sooner
+>>> than later before we keep piling on users. If that's still the case I'll
+>>> take it via vfs.fixes unless I hear objections.
+>>
+>> This used to go through Masahiro's kbuild tree. However, since he is not
+>> available anymore [1] I think it makes sense that this goes through the modules
+>> tree. The only reason we waited until rc1 was released was because of Greg's
+>> advise [2]. Let me know if that makes sense to you and if so, I'll merge this
+>> ASAP.
+> 
+> At this point it would mean messing up all of vfs.fixes to drop it from
+> there. So I'd just leave it in there and send it to Linus.
 
-Signed-off-by: Alessandro Ratti <alessandro@0x65c.net>
----
- Documentation/userspace-api/iommufd.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Got it. I was waiting for confirmation before taking it into the modules tree,
+and I agree that at this point it makes sense to keep it in vfs.fixes.
 
-diff --git a/Documentation/userspace-api/iommufd.rst b/Documentation/userspace-api/iommufd.rst
-index 03f7510384d2..f1c4d21e5c5e 100644
---- a/Documentation/userspace-api/iommufd.rst
-+++ b/Documentation/userspace-api/iommufd.rst
-@@ -43,7 +43,7 @@ Following IOMMUFD objects are exposed to userspace:
- 
- - IOMMUFD_OBJ_HWPT_PAGING, representing an actual hardware I/O page table
-   (i.e. a single struct iommu_domain) managed by the iommu driver. "PAGING"
--  primarly indicates this type of HWPT should be linked to an IOAS. It also
-+  primarily indicates this type of HWPT should be linked to an IOAS. It also
-   indicates that it is backed by an iommu_domain with __IOMMU_DOMAIN_PAGING
-   feature flag. This can be either an UNMANAGED stage-1 domain for a device
-   running in the user space, or a nesting parent stage-2 domain for mappings
-@@ -76,7 +76,7 @@ Following IOMMUFD objects are exposed to userspace:
- 
-   * Security namespace for guest owned ID, e.g. guest-controlled cache tags
-   * Non-device-affiliated event reporting, e.g. invalidation queue errors
--  * Access to a sharable nesting parent pagetable across physical IOMMUs
-+  * Access to a shareable nesting parent pagetable across physical IOMMUs
-   * Virtualization of various platforms IDs, e.g. RIDs and others
-   * Delivery of paravirtualized invalidation
-   * Direct assigned invalidation queues
--- 
-2.39.5
+> Next time I know where it'll end up.
 
+Can you clarify what you mean by this?
