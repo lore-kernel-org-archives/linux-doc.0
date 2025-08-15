@@ -1,120 +1,134 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8332BE64F;
-	Fri, 15 Aug 2025 03:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DB11514F7;
+	Fri, 15 Aug 2025 03:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.139.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755229362; cv=none; b=qt8FXAyw6SogmAl8uGaKcFWHnhzlx9UU0Ac4Ly/ss5McT41Q+vRwY0X+A8VD4m+iXMoO6qR/Q4lWrN9kwJ07NLscwRM3EatddvuZqCDaELp1NW0/qUmeltFZNTG8V4uO36ardcGMaroRgXDNfWBxvORqzJkYDVewFSUf2P6AOrs=
+	t=1755229765; cv=none; b=A1DTa+dWPQI94YVp094oy36OoMfGhqHqUR90z3mSh8w69oWxqb/PVV7J2qtF7T9g2WXOwn9AaisCtIY8w8tqZ/ytKlKjv/7MPyVW4vjCTwWad4T+J23MePSBcjtSzUqrYxOvqLG3jN/ueO8UplJ8ueal/CE7ikvicG24MGonato=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755229362; c=relaxed/simple;
-	bh=aMG5MR/kQYbZlG+R41I+TyUtSopot5UaB9vuS57geCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fITd8lJYaEleNuCOLLxLXlGxhSCUsh9AcilIGcJy4BqBeI6kt4vmRlrLhKPHZv4x2/NxldawUNbk8dzN299ndgR0G8jE/u35r6xUXD9XPglNXJ6aYe/umVYOrQ5dOzCczGrD3RsVLUb75P7j4IfWpcXsbCFERhFGISNsf9W4OBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=TEv8ySd3; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1755229765; c=relaxed/simple;
+	bh=vb+8+cI/6mN9k6R4rO9pApJyDljK42JSjMf6BVyNR6M=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=r8nVZ+CX3FTrj3B3ed3Qwhsyn8Wtlb7HjCHk9ogRGkBXNDOOjfdQrpuOsOVYviQNdffbbrDHhTukEJu8u80J9G0LYKSiHleCrS/X4EhU65yIDXaIwcsUapcHVieyhW4Yat0SZltie97N7Kg/INBHsHtIcewRotEIkqqoBO4j7PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=alvq1nAV; arc=none smtp.client-ip=68.232.139.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="TEv8ySd3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=UxqLZiyOaKpTCfZHAkjWJO2mNSyIpBiF2SW7fqA3g6A=; b=TEv8ySd3nZP5F6ZZMmUW3h52BT
-	pnCXRyrqJfTlGSHFeyp+w3x69iMAv4c/u5UAz65KL6gaB0qgg9JTuJnUpNHCDQyoy8pIuWgNXa16A
-	MdIELcWGHAMUrHekzNSuZGxIudJaqO1vxWg9sRJ0WBpuEU5jAV33E3yodWQfXg1eBDEk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1umlKP-004mYa-7S; Fri, 15 Aug 2025 05:42:05 +0200
-Date: Fri, 15 Aug 2025 05:42:05 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Dong Yibo <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 5/5] net: rnpgbe: Add register_netdev
-Message-ID: <099a6006-02e4-44f0-ae47-7de14cc58a12@lunn.ch>
-References: <20250814073855.1060601-1-dong100@mucse.com>
- <20250814073855.1060601-6-dong100@mucse.com>
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="alvq1nAV"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1755229764; x=1786765764;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vb+8+cI/6mN9k6R4rO9pApJyDljK42JSjMf6BVyNR6M=;
+  b=alvq1nAVfQOUNU2+vrxvWGvPo93HRgNGbSNxV7+xVtni6zkU5hCX8a2k
+   fLo+s2277fTXaniNDzRUBanu8WJ0BT+qRXHMkwvrXKu/29zezYTb43XTT
+   18gQuZowdXCaJKkQd3+P/6+iglXSft5jcTzyx+AYfTwAWMGruDjG+XKpr
+   EcaPYD6fcYsThOWbUZtFvnORLbueg8aWS6HGWfq+lEQ4UM5n3paIPzoMV
+   1SU+ltkfFLJ6z+Hfon5duJNEUnonGVeLwk/Br2lofuyx8CQ8qlcMjf0xt
+   ONsNTJKM+GHH8oEYeSDQU3yYm/Gvb56pHDE42jJpZ2T3tJKBnVQnQmWzS
+   g==;
+X-CSE-ConnectionGUID: IORzhdfbS3yqLEvLmmHhAw==
+X-CSE-MsgGUID: l7AKp4JeS32A2x+UEUaj0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="212714369"
+X-IronPort-AV: E=Sophos;i="6.17,290,1747666800"; 
+   d="scan'208";a="212714369"
+Received: from unknown (HELO az2nlsmgr1.o.css.fujitsu.com) ([20.61.8.234])
+  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 12:48:12 +0900
+Received: from az2nlsmgm3.fujitsu.com (unknown [10.150.26.205])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id 2FCF11C00099;
+	Fri, 15 Aug 2025 03:48:12 +0000 (UTC)
+Received: from az2nlsmom1.o.css.fujitsu.com (az2nlsmom1.o.css.fujitsu.com [10.150.26.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm3.fujitsu.com (Postfix) with ESMTPS id DBB651810851;
+	Fri, 15 Aug 2025 03:48:11 +0000 (UTC)
+Received: from sm-arm-grace07.ssoft.mng.com (sm-x86-stp01.soft.fujitsu.com [10.124.178.20])
+	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTP id ED482829192;
+	Fri, 15 Aug 2025 03:48:03 +0000 (UTC)
+From: Koichi Okuno <fj2767dz@fujitsu.com>
+To: Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Gowthami Thiagarajan <gthiagarajan@marvell.com>,
+	Linu Cherian <lcherian@marvell.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Koichi Okuno <fj2767dz@fujitsu.com>
+Subject: [PATCH v7 0/2] perf: Fujitsu: Add Uncore MAC/PCI PMU driver
+Date: Fri, 15 Aug 2025 12:47:27 +0900
+Message-ID: <20250815034751.3726963-1-fj2767dz@fujitsu.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250814073855.1060601-6-dong100@mucse.com>
+Content-Transfer-Encoding: 8bit
 
-> +struct mucse_hw_operations {
-> +	int (*reset_hw)(struct mucse_hw *hw);
-> +	void (*driver_status)(struct mucse_hw *hw, bool enable, int mode);
-> +};
+This adds two new dynamic PMUs to the Perf Events framework to program
+and control the Uncore MAC/PCI PMUs in Fujitsu chips.
 
-Again, there is only one instance of this. Will there be more?
+These drivers were created with reference to drivers/perf/qcom_l3_pmu.c.
 
-> + * rnpgbe_get_permanent_mac - Get permanent mac
-> + * @hw: hw information structure
-> + * @mac_addr: pointer to store mac
-> + *
-> + * rnpgbe_get_permanent_mac tries to get mac from hw.
-> + * It use eth_random_addr if failed.
-> + **/
-> +static void rnpgbe_get_permanent_mac(struct mucse_hw *hw,
-> +				     u8 *mac_addr)
-> +{
-> +	struct device *dev = &hw->pdev->dev;
-> +
-> +	if (mucse_fw_get_macaddr(hw, hw->pfvfnum, mac_addr, hw->lane) ||
-> +	    !is_valid_ether_addr(mac_addr)) {
-> +		dev_warn(dev, "Failed to get valid MAC from FW, using random\n");
-> +		eth_random_addr(mac_addr);
-> +	}
+These drivers export formatting and event information to sysfs so they can
+be used by the perf user space tools with the syntaxes:
 
-With a function named rnpgbe_get_permanent_mac(), i would not expect
-it to return a random MAC address. If there is no permanent MAC
-address, return -EINVAL, and let the caller does with the error.
+perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
+perf stat -e mac_iod0_mac0_ch0/event=0x80/ ls
 
-> +static int rnpgbe_reset_hw_ops(struct mucse_hw *hw)
-> +{
-> +	struct mucse_dma_info *dma = &hw->dma;
-> +	int err;
-> +
-> +	dma_wr32(dma, RNPGBE_DMA_AXI_EN, 0);
-> +	err = mucse_mbx_fw_reset_phy(hw);
-> +	if (err)
-> +		return err;
-> +	/* Store the permanent mac address */
-> +	if (!(hw->flags & M_FLAGS_INIT_MAC_ADDRESS))
+perf stat -e pci_iod0_pci0/ea-pci/ ls
+perf stat -e pci_iod0_pci0/event=0x80/ ls
 
-What do this hw->flags add to the driver? Why is it here?
+FUJITSU-MONAKA PMU Events Specification v1.1 URL:
+https://github.com/fujitsu/FUJITSU-MONAKA
 
->  static void rnpgbe_rm_adapter(struct pci_dev *pdev)
->  {
->  	struct mucse *mucse = pci_get_drvdata(pdev);
-> +	struct mucse_hw *hw = &mucse->hw;
->  	struct net_device *netdev;
->  
->  	if (!mucse)
->  		return;
->  	netdev = mucse->netdev;
-> +	if (netdev->reg_state == NETREG_REGISTERED)
-> +		unregister_netdev(netdev);
+Changes in v7:
+- Modify the code as suggested. (Jonathan Cameron)
+  - Renamed the macros name to make it clear which register it applies to.
+  - Deleted unused macro.
+  - Changed some programming styles as suggested.
+  - I tested using v6.17-rc1 and confirmed that I get the same results
+    as before the macro name change.
+- Link to v6:https://lore.kernel.org/all/20250711071404.2138816-1-fj2767dz@fujitsu.com/
 
-Is that possible?
+Signed-off-by: Koichi Okuno <fj2767dz@fujitsu.com>
 
->  	mucse->netdev = NULL;
-> +	hw->ops->driver_status(hw, false, mucse_driver_insmod);
->  	free_netdev(netdev);
->  }
->  
-> -- 
-> 2.25.1
-> 
+Koichi Okuno (2):
+  perf: Fujitsu: Add the Uncore MAC PMU driver
+  perf: Fujitsu: Add the Uncore PCI PMU driver
+
+ .../admin-guide/perf/fujitsu_mac_pmu.rst      |  73 +++
+ .../admin-guide/perf/fujitsu_pci_pmu.rst      |  50 ++
+ Documentation/admin-guide/perf/index.rst      |   2 +
+ drivers/perf/Kconfig                          |  18 +
+ drivers/perf/Makefile                         |   2 +
+ drivers/perf/fujitsu_mac_pmu.c                | 552 ++++++++++++++++++
+ drivers/perf/fujitsu_pci_pmu.c                | 536 +++++++++++++++++
+ 7 files changed, 1233 insertions(+)
+ create mode 100644 Documentation/admin-guide/perf/fujitsu_mac_pmu.rst
+ create mode 100644 Documentation/admin-guide/perf/fujitsu_pci_pmu.rst
+ create mode 100644 drivers/perf/fujitsu_mac_pmu.c
+ create mode 100644 drivers/perf/fujitsu_pci_pmu.c
+
+-- 
+2.43.0
+
