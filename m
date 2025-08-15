@@ -1,56 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BED528852D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF65288534;
 	Fri, 15 Aug 2025 11:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755257846; cv=none; b=cKv5k4TDb6gPgJe0ca/UU2msDn06cwOc/UrzdCiovuXF+wdOZBFaAJqZgc8m3gY/I1zgtaNiqqTfFyXuE9Vr3n+mGpMfqp9roNhSrUx/KWpgqRsi23ct+lfCRzDk+V+aA+iHqbJIF2IWENjmV8mRsQApDr4CKD09ScNVvb3NQmw=
+	t=1755257846; cv=none; b=JtEP3Yk5Uf8ZPam/H6DfHaeS2pX7PXUoZxsMNsI4tNyRFlmkAvS2Byv6YBzf4o6MvBmjtC08Is3tp8aGqYOLP17ZCY+FtgLCZ3gqdTZAVd960nnuryeYe9Dpc1sh8TwnQvM9exfz5dKs1xA7sO2IChC/SrssqEvp8X/n+Ka61Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755257846; c=relaxed/simple;
-	bh=41pClSqrGKyS+WUV3sXkeu12bzUgmg2ZeJUiAXxatDs=;
+	bh=7SndwlVAORMkK7k0a/gvSMQNE5mjIwPthu9bKP5Mrso=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A1O3krRxVIOb1f6sP9tnvsPp146/dvLpvNygOQbww1hG6AMN4HS6qhOlyIIcdMucIiu5yOlYAOHs23itSAb3IpCPRcjA+SclXj3GmhhRKkcZWarWTtDO6U6v/CBcaYYBTD2Usz1cM8xeT6cETBz5B4EkjFLbitFtUIq85qDjffw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gQ5MDXz2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=GQ05T8Uo5Fk/nk6OrOIUwLhGXrjUTuHtPBFfTJu0AgfLR7XXFFxpbExD58EYNenGLUCdB+oCxIn9LjWIFVMr8L2zH4d8oCC5wEaw2NGdQUiFXSAtVjDO7UNijcebAzfl+wY7Rns7yuprxgHwtswzz1ixjAja8TILtrjrwox99ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qa0D/W3L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gQ5MDXz2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F008DC4AF09;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qa0D/W3L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED8ECC4CEFA;
 	Fri, 15 Aug 2025 11:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755257846;
-	bh=41pClSqrGKyS+WUV3sXkeu12bzUgmg2ZeJUiAXxatDs=;
+	bh=7SndwlVAORMkK7k0a/gvSMQNE5mjIwPthu9bKP5Mrso=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gQ5MDXz2tJyeUjch/T6OPRGT4o34nT48A42+kY36KmVHeLiGieCK31KQafsAXm/DD
-	 wWHE+zJ/RjPQwg1qzn5HYcrtfRg9LxETAJswKLIf16l2CpjgDgMWzZgAmCtJJOXy0J
-	 hY3qX81ARZ1apcHhOj+8co/3kUZEau+UNueZyOa9ltlBrh712aHFyR19aJAAN9EICZ
-	 Hm0oX98GXiR7qSG7PCO3DqMvLjZVbAoT/elL00F2AxC5pwbPc/SutnhdlRtok6l2m4
-	 H+k6N3JEt0dlitmv2xitt6abN2RDAsXaTgoexWFTE3DZT+iYB4Iqdaqf7Cq47Stno2
-	 YAdrYgx+Jm7jQ==
+	b=qa0D/W3L1vVbnx0fuGkz0fymKiaoMUfekX1W72hERS0tb55pFPXjmCJY7tAka/AfZ
+	 SwA8G7zrExK9qqmEo10fipDd0VgyCf/XlYBxVApJM5REBBjwP+vMoq8t/MrE8mdqXb
+	 okSgBTNAxyxrL7TCeJG1UKeoHD3QE+4+1Vz3XvFIySD4zOKJk8OUgr1SGfIT5cvvna
+	 WMVvZG3Q6fbFCgsxcgoArDWV4tLBcJq2f2iDv6NL7v1evH3vNMl5H9a/mZL62q9lJu
+	 VG/xhJ+6KS6QKCEmME/X3faial/EeQHhlC3XlAogkNyhiislMYvevoKrlSw1ecf+Hq
+	 psZbc9unYaJbg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1umskO-000000042TL-0XzB;
-	Fri, 15 Aug 2025 13:37:24 +0200
+	id 1umskN-000000042Sx-44Pn;
+	Fri, 15 Aug 2025 13:37:23 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andreas Hindborg <mchehab+huawei@kernel.org>,
-	Benno Lossin <mchehab+huawei@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Danilo Krummrich <mchehab+huawei@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH 07/11] scripts: sphinx-pre-install: add missing gentoo pdf dependencies
-Date: Fri, 15 Aug 2025 13:36:23 +0200
-Message-ID: <3772eb51d1af3653dcd05b4d31cca8e52bad974b.1755256868.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 01/11] docs: Makefile: Fix LaTeX paper size settings
+Date: Fri, 15 Aug 2025 13:36:17 +0200
+Message-ID: <963bf2736855387e092d3e1b455cbe2ec47b61f4.1755256868.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755256868.git.mchehab+huawei@kernel.org>
 References: <cover.1755256868.git.mchehab+huawei@kernel.org>
@@ -63,124 +51,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There are two packages that are required to build PDF at gentoo:
+According with:
+	https://www.sphinx-doc.org/en/master/latex.html
 
-	dev-texlive/texlive-latexextra
-	media-fonts/lm
-
-Place latex_dependencies on a list to make it easier to maintain
-and add the missing ones.
-
-With that, most PDF documents now build on Gentoo:
-
-Gentoo Base System release 2.17:
---------------------------------
-    PASSED: OS detection: Gentoo Base System release 2.17
-    SKIPPED (Sphinx Sphinx 8.2.3): System packages
-    SKIPPED (Sphinx already installed either as venv or as native package): Sphinx on venv
-    SKIPPED (Sphinx already installed either as venv or as native package): Sphinx package
-    PASSED: Clean documentation: Build time: 0:00, return code: 0
-    PASSED: Build HTML documentation: Build time: 5:28, return code: 0
-    PARTIAL: Build PDF documentation: Test failed (Build time: 9:19, return code: 2)
-
-  PDF docs:
-  ---------
-      PASSED: dev-tools: pdf/dev-tools.pdf
-      PASSED: tools: pdf/tools.pdf
-      PASSED: filesystems: pdf/filesystems.pdf
-      PASSED: w1: pdf/w1.pdf
-      PASSED: maintainer: pdf/maintainer.pdf
-      PASSED: process: pdf/process.pdf
-      PASSED: isdn: pdf/isdn.pdf
-      PASSED: fault-injection: pdf/fault-injection.pdf
-      PASSED: iio: pdf/iio.pdf
-      PASSED: scheduler: pdf/scheduler.pdf
-      PASSED: staging: pdf/staging.pdf
-      PASSED: fpga: pdf/fpga.pdf
-      PASSED: power: pdf/power.pdf
-      PASSED: leds: pdf/leds.pdf
-      PASSED: edac: pdf/edac.pdf
-      PASSED: PCI: pdf/PCI.pdf
-      PASSED: firmware-guide: pdf/firmware-guide.pdf
-      PASSED: cpu-freq: pdf/cpu-freq.pdf
-      PASSED: mhi: pdf/mhi.pdf
-      PASSED: wmi: pdf/wmi.pdf
-      PASSED: timers: pdf/timers.pdf
-      PASSED: accel: pdf/accel.pdf
-      PASSED: hid: pdf/hid.pdf
-      FAILED: userspace-api: Build failed (FAILED)
-      PASSED: spi: pdf/spi.pdf
-      PASSED: networking: pdf/networking.pdf
-      PASSED: virt: pdf/virt.pdf
-      PASSED: nvme: pdf/nvme.pdf
-      FAILED: translations: Build failed (FAILED)
-      PASSED: input: pdf/input.pdf
-      PASSED: tee: pdf/tee.pdf
-      PASSED: doc-guide: pdf/doc-guide.pdf
-      PASSED: cdrom: pdf/cdrom.pdf
-      FAILED: gpu: Build failed (FAILED)
-      FAILED: i2c: Build failed (FAILED)
-      FAILED: RCU: Build failed (FAILED)
-      PASSED: watchdog: pdf/watchdog.pdf
-      PASSED: usb: pdf/usb.pdf
-      PASSED: rust: pdf/rust.pdf
-      PASSED: crypto: pdf/crypto.pdf
-      PASSED: kbuild: pdf/kbuild.pdf
-      PASSED: livepatch: pdf/livepatch.pdf
-      PASSED: mm: pdf/mm.pdf
-      PASSED: locking: pdf/locking.pdf
-      PASSED: infiniband: pdf/infiniband.pdf
-      PASSED: driver-api: pdf/driver-api.pdf
-      PASSED: bpf: pdf/bpf.pdf
-      PASSED: devicetree: pdf/devicetree.pdf
-      PASSED: block: pdf/block.pdf
-      PASSED: target: pdf/target.pdf
-      FAILED: arch: Build failed (FAILED)
-      PASSED: pcmcia: pdf/pcmcia.pdf
-      PASSED: scsi: pdf/scsi.pdf
-      PASSED: netlabel: pdf/netlabel.pdf
-      PASSED: sound: pdf/sound.pdf
-      PASSED: security: pdf/security.pdf
-      PASSED: accounting: pdf/accounting.pdf
-      PASSED: admin-guide: pdf/admin-guide.pdf
-      FAILED: core-api: Build failed (FAILED)
-      PASSED: fb: pdf/fb.pdf
-      PASSED: peci: pdf/peci.pdf
-      PASSED: trace: pdf/trace.pdf
-      PASSED: misc-devices: pdf/misc-devices.pdf
-      PASSED: kernel-hacking: pdf/kernel-hacking.pdf
-      PASSED: hwmon: pdf/hwmon.pdf
+The variable that handles paper size changed during version 1.5,
+as pointed at:
+	https://www.sphinx-doc.org/en/master/changes/1.5.html
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ Documentation/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index b24a6f91ec0a..f987abfec802 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -1058,12 +1058,19 @@ class SphinxDependencyChecker(MissingCheckers):
-         """
-         Provide package installation hints for Gentoo.
-         """
-+        texlive_deps = [
-+            "dev-texlive/texlive-latexextra",
-+            "dev-texlive/texlive-xetex",
-+            "media-fonts/dejavu",
-+            "media-fonts/lm",
-+        ]
-+
-         progs = {
-             "convert":       "media-gfx/imagemagick",
-             "dot":           "media-gfx/graphviz",
-             "rsvg-convert":  "gnome-base/librsvg",
-             "virtualenv":    "dev-python/virtualenv",
--            "xelatex":       "dev-texlive/texlive-xetex media-fonts/dejavu",
-+            "xelatex":       " ".join(texlive_deps),
-             "yaml":          "dev-python/pyyaml",
-             "python-sphinx": "dev-python/sphinx",
-         }
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 820f07e0afe6..2ed334971acd 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -60,8 +60,8 @@ ifeq ($(HAVE_LATEXMK),1)
+ endif #HAVE_LATEXMK
+ 
+ # Internal variables.
+-PAPEROPT_a4     = -D latex_paper_size=a4
+-PAPEROPT_letter = -D latex_paper_size=letter
++PAPEROPT_a4     = -D latex_elements.papersize=a4paper
++PAPEROPT_letter = -D latex_elements.papersize=letterpaper
+ ALLSPHINXOPTS   = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
+ ALLSPHINXOPTS   += $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
+ ifneq ($(wildcard $(srctree)/.config),)
 -- 
 2.50.1
 
