@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B62C2C374E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F50A2D7389;
 	Fri, 15 Aug 2025 11:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755258666; cv=none; b=MqjkVAxkAcCuCKCx7t/ONv+Y70E9z36NAFfeoEVQN1E1hihqI0KpZdXd7sqCpPsymycQYjrCZyfi8K6YKX7fuj1WpfAeyfKtcY/4tyHoWiNoNElrCA1CZC/pmh0KEF55/GhBgXkSLbPMznZ1nARjrTsNRGkDIwSNdYOQcREl9eA=
+	t=1755258666; cv=none; b=ROlVZNsmqE/4vpS2kbUhgLJNQsXpSBP4H8hwGvV8og/epzwdaNxKimefu4VPRy9FNMKTfiKBuQ0hKAgtaiVdgqj41tGkccwkZOKHjQbIwpwp7arY0Wfd9aDD+WrBhA76ciwwcY4GWosme2XwN6Wc+xoT+Khl5LBhzcfFOOgVyw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755258666; c=relaxed/simple;
-	bh=okAkyWYXR3GzaUm2kaZCuiY/fD0sE+ZIr5TU73IPSTg=;
+	bh=gQ6kk5WPc72Dq2AQd/n6nSscjReWsPfB0/s1IlVKE+c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uT/liVpgd+DcW8yZnFLlL576TFKxPN89c/aAokaP7Jw2mR0Px6Lyy+1olZ+kPKVjDe72gSMCz7Bgl0Pbt9cAiRyxw/Q7NXmW6RKSPSq/JPUjRhY0fNyRPF2rQuhiyUT81A12o3qc8nL812W9H6/qKKYs6bgGrL0oK4Sws1XY5WM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eheRVI45; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=NeL2IGo6R9Xgrvzo1RMsY3+Ps4jpqbA11WZ95uwakfhwgVD+mf6tGfPvAXw/l8mB67dS3ns7ccYXhNlv/lSqFhbWLNnhW7QpFsjgzPtVXhGi0cJLIDC2iQzOBE3xnzLo4VaC712uqSiddgEwiyF+Ao2maVGWpntr174l/uhwvsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h+M+Tq/d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eheRVI45"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9AA2C4CEFD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h+M+Tq/d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F193AC113CF;
 	Fri, 15 Aug 2025 11:51:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755258665;
-	bh=okAkyWYXR3GzaUm2kaZCuiY/fD0sE+ZIr5TU73IPSTg=;
+	s=k20201202; t=1755258666;
+	bh=gQ6kk5WPc72Dq2AQd/n6nSscjReWsPfB0/s1IlVKE+c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eheRVI45uZJxUcqr6HUgFEMqDTGPqz/T4XpWpCSly5bGpzdc7eEy7tAskXGJI2Ple
-	 A5HGZqtuNcBNlTIwJbQ1n3UrWo9BeBAvK8kEza9yMD8p8jBPX9G3oV1jidKFyo05Br
-	 00rjGrm2qD535eUPQoNdIE4bnJJc6CRN//p3/rSfB/34M4B4KaainHoyC8lyl+Ut9s
-	 zAMrqLkypcFi57fqSWbhilvhsKLb2KdpdO7aqAqt8hZ8Y2+dS26SQpmUZlfPeCh943
-	 R2cJxyya/PKBcNWp1ho7wxZv48c/55PAiGp6Ctt4+DBnmsldjNkbCxnpnaW+aOOOzg
-	 Corps6CE9PPiw==
+	b=h+M+Tq/d+hBeMlPVTjHZo2vkzeO1qLH30Cde8nS9nSbkTp19fczQNfeHW2yUt503f
+	 2aI7K0JnvENo9IK8lO9CY990Erpn8d0X4FcIzKy7Wl5oO0iB3JgFLl/lsoE03bUAi2
+	 EBPYYo+YR6jifsd6/lqxUx4LjYjA+vTWkWF/SRtGOtPtByWUNPWsI586XoLmAkTCEg
+	 PJOXbsHFgvSuwx4gBO/cB524XswwN5Pv5Qr9JI6vpJZVwXfawEyBOIuYlRRN19cOPL
+	 LL7vkfgSeB42lDhXLBysGkJWdM+wpCRfjwC26z8kn9EKvYHmYJS/8xFB27Qnc+Fk0O
+	 z8F5YOQadHx1w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1umsxc-000000042oe-0euP;
+	id 1umsxc-000000042oq-0zxq;
 	Fri, 15 Aug 2025 13:51:04 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 07/11] docs: Makefile: document latex/PDF PAPER= parameter
-Date: Fri, 15 Aug 2025 13:50:35 +0200
-Message-ID: <70f03a706a01d1493ed3fe085b394cc15683fe51.1755258303.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 10/11] scripts: sphinx-*: prevent sphinx-build crashes
+Date: Fri, 15 Aug 2025 13:50:38 +0200
+Message-ID: <461e00fe7ce75eaac90d98572bb93910b39361e2.1755258303.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755258303.git.mchehab+huawei@kernel.org>
 References: <cover.1755258303.git.mchehab+huawei@kernel.org>
@@ -51,25 +51,87 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While the build system supports this for a long time, this was
-never documented. Add a documentation for it.
+On a properly set system, LANG and LC_ALL is always defined.
+However, some distros like Debian, Gentoo and their variants
+start with those undefioned.
+
+When Sphinx tries to set a locale with:
+
+	locale.setlocale(locale.LC_ALL, '')
+
+It raises an exception, making Sphinx fail. This is more likely
+to happen with test containers.
+
+Add a logic to detect and workaround such issue by setting
+locale to C.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/Makefile | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/sphinx-build-wrapper | 10 ++++++++++
+ scripts/sphinx-pre-install   | 14 +++++++++++++-
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 4013286bef04..280728cf78b9 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -129,4 +129,6 @@ dochelp:
- 	@echo
- 	@echo  '  make DOCS_CSS={a .css file} adds a DOCS_CSS override file for html/epub output.'
- 	@echo
-+	@echo  '  make PAPER={a4|letter} Specifies the paper size used for LaTeX/PDF output.'
-+	@echo
- 	@echo  '  Default location for the generated documents is Documentation/output'
+diff --git a/scripts/sphinx-build-wrapper b/scripts/sphinx-build-wrapper
+index f6fec766c3e6..f21701d34552 100755
+--- a/scripts/sphinx-build-wrapper
++++ b/scripts/sphinx-build-wrapper
+@@ -45,6 +45,7 @@ the newer version.
+ """
+ 
+ import argparse
++import locale
+ import os
+ import re
+ import shlex
+@@ -495,6 +496,15 @@ class SphinxBuilder:
+         if not sphinxdirs:
+             sphinxdirs = os.environ.get("SPHINXDIRS", ".")
+ 
++        # The sphinx-build tool has a bug: internally, it tries to set
++        # locale with locale.setlocale(locale.LC_ALL, ''). This causes a
++        # crash if language is not set. Detect and fix it.
++        try:
++            locale.setlocale(locale.LC_ALL, '')
++        except Exception:
++            self.env["LC_ALL"] = "C"
++            self.env["LANG"] = "C"
++
+         # sphinxdirs can be a list or a whitespace-separated string
+         sphinxdirs_list = []
+         for sphinxdir in sphinxdirs:
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index c46d7b76f93c..50ae9cfcb3d7 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -26,6 +26,7 @@ system pacage install is recommended.
+ """
+ 
+ import argparse
++import locale
+ import os
+ import re
+ import subprocess
+@@ -516,8 +517,19 @@ class MissingCheckers(AncillaryMethods):
+         """
+         Gets sphinx-build version.
+         """
++        env = os.environ.copy()
++
++        # The sphinx-build tool has a bug: internally, it tries to set
++        # locale with locale.setlocale(locale.LC_ALL, ''). This causes a
++        # crash if language is not set. Detect and fix it.
+         try:
+-            result = self.run([cmd, "--version"],
++            locale.setlocale(locale.LC_ALL, '')
++        except Exception:
++            env["LC_ALL"] = "C"
++            env["LANG"] = "C"
++
++        try:
++            result = self.run([cmd, "--version"], env=env,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT,
+                               text=True, check=True)
 -- 
 2.50.1
 
