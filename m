@@ -1,77 +1,73 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9B013FEE;
-	Fri, 15 Aug 2025 04:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05D2374C4;
+	Fri, 15 Aug 2025 04:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755230887; cv=none; b=WQjiqEa30Y8/T/GLiLZuruS8JdSIOMiuBCLu3cc+2Ra33cxVZnSk0GnOHN4/+WBFIpDC+56kSjNgdE+tmy49TQLQy3qnpo1z9wV5SUyRnwbq56TOzSD/KZ364F1t40hTrqF72AT8FNR8LdGKXXSMDNoj9zVd0cdkG3tU/RHHuw4=
+	t=1755233149; cv=none; b=JC2e7pxNYlZrAfYtZ0wmTw88ozI2x5AqTM/2v3rq47IO+0U/Q0Ehks4zQn1XRM5iZFm+IwkjxtU5BlR2RgQlZUH0uonFKKAgXCzEGepm1r4TJLJ4aPTJbqLL44Hd4PCAdU89a635r7BFLdZGwoC4JkEvNuUFGdyPcxIiJv4jLKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755230887; c=relaxed/simple;
-	bh=D+6W3XJNV1CjXkDZdn6IEYlQBJoxfn7zvGJ+fWx4njk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H1qUHqgOkbBTzqdxiXYuoSTMNjPXLrynp1uJk+RAzqFn3zUC6vIXrXgbnz/6348DOTkM+jO2Np7vsGf7MIhV1KfvglwjLDIoxrpjwfw2u5WeyFUjbeN9dcYk/wa50baDtyN9S//tLLi9JrpSwKGwdy5a58lImZpwi+G2+Tf6I1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=JU8/sim9; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1755233149; c=relaxed/simple;
+	bh=5518tGIAJHriIerFhh+G7NKWa5HclOb4NT2OtCVz8Pk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HKMsqG3YUbP6qC0NPXNdV/UVnFAImc+3HyOXgEXnw3Vsn5FKc9OVyLKMSSojBY2Xfb/blF9mUJ0XPLH+Kj2EN6lNm4nByH701V0ln/B7MV17n8afqRLMEErx8Rj8Z4ej7JeJ8F49oOiBm2M+B2+Epw8ps1eB35Z8NCb53Ikxs5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ja5lO8Jz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="JU8/sim9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ZRd3lPF/jp54o/xsDfYASXzAEXV60quLPJGLeCwcw8w=; b=JU8/sim9ZhE2nGPIG7n4He5hVz
-	aEoTPYAXqiF34y9V4el955qI5AqX0lzE2/xDlzo9tIj1urZ/V7A3oRn+vFPit6OaDKTqEzkRO2Udp
-	M0L4vlgSQ3eryqI56N0hUaglsXvC5qJo6SDxQQBQ81+hhqYl9bXLsVwamRoxG4E+Y5Hk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1umlix-004mhq-O1; Fri, 15 Aug 2025 06:07:27 +0200
-Date: Fri, 15 Aug 2025 06:07:27 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Yibo Dong <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/5] net: rnpgbe: Add basic mbx ops support
-Message-ID: <4be8e875-d8a0-4f3c-8305-5b0787039826@lunn.ch>
-References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-4-dong100@mucse.com>
- <a0cd145c-c02e-40da-b180-a8ca041f2ca3@lunn.ch>
- <D19BDA0A798B918F+20250815013153.GA1129045@nic-Precision-5820-Tower>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ja5lO8Jz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF9A6C4CEEB;
+	Fri, 15 Aug 2025 04:45:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755233149;
+	bh=5518tGIAJHriIerFhh+G7NKWa5HclOb4NT2OtCVz8Pk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ja5lO8JzDJeoq7q4/PtzaZG74reCmx24SH+XJoBXyBhOkhTXHMpnti58r6M7Vi0jN
+	 K0pB3X41vvPEoJp6H9I89vxwvRRsPvAMfKjDwlAln4zKC6Qt2lI8EK1bzJfcxaZvWG
+	 KOABNpEgg9m3Dp/ofocg4ZXooPv3gEbzI1jmqQ/9VB6Ds5FzeCXZYI10TwtjaogWAa
+	 7oUwCl+PvF2S+aQhlC88Fsg7WwxH5oqaIQAVTi41CgBT/NX7tyBOcV2lvklCEgC/Ca
+	 Y1nc/I04kQqIwsJy8iaaM4ucx4Jhz3csIUdF1sYUPySglve+KCv5qH563tTQiP5suJ
+	 VDg4v9gjWmcVA==
+Date: Fri, 15 Aug 2025 06:45:45 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 13/13] docs: remove kernel-doc.pl
+Message-ID: <20250815064545.392a4fee@foz.lan>
+In-Reply-To: <1c04bed1-64aa-478d-a9ea-e54c335b3a1f@infradead.org>
+References: <20250813213218.198582-1-corbet@lwn.net>
+	<20250813213218.198582-14-corbet@lwn.net>
+	<1c04bed1-64aa-478d-a9ea-e54c335b3a1f@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D19BDA0A798B918F+20250815013153.GA1129045@nic-Precision-5820-Tower>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> By the way, how long should I wait before sending the new version? If it
-> is too frequent, it might cause reviewers to check old versions and miss
-> feedback, link what happened with this mail. And if it is too long, it
-> is easy to miss the 'open window'....
+Em Thu, 14 Aug 2025 19:43:38 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
+> On 8/13/25 2:32 PM, Jonathan Corbet wrote:
+> > We've been using the Python version and nobody has missed this one.  All
+> > credit goes to Mauro Carvalho Chehab for creating the replacement.  
+> 
+> Thanks, Mauro. I certainly won't miss kernel-doc.pl.
 
-Says at least 24 hours.
+Anytime. I'm very glad to see that the Python version have been work
+nicely, and having you, Jon and others looking on its code. My feeling
+is that it will be easier to maintain.
+> 
+> > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> > ---
+> >  scripts/kernel-doc.pl | 2439 -----------------------------------------
+> >  1 file changed, 2439 deletions(-)
+> >  delete mode 100755 scripts/kernel-doc.pl  
+> 
 
-But i have been away from emails for a few days, so i was slower than
-usual.
 
-Most patches get reviewed in 3 work days. So i would probably not wait
-much longer than that. But also wait for any discussion about a patch
-to come to an end.
 
-Also, different subsystems work are different speed. 3 days would be
-way to fast for USB for example, that would be more like 2 weeks.
-
-	Andrew
+Thanks,
+Mauro
