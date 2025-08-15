@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F352882A6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EA62882A1;
 	Fri, 15 Aug 2025 11:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755257846; cv=none; b=W9xlkK7QVypobNLlIk47M0UQCwrhjtX+k9o5qyaX2gcA7eNfDPG39AkLtWFIPwvcHF4ohaKO5j8k+jqHIeazfIIoHYUv6Mr6tedG0hfrBiOUMlAHNq9mEAUwgUmmxdRwbvOKOJXww9DNtepKSpUfM8HavZuNmduPoC59Yw+jj38=
+	t=1755257846; cv=none; b=Do9+e1uOF7mlHGrg4wKCnjQ5mHgg7QxM1pjHFMPUg/khfeqfdF4kLkhLQ0J+tBN/A1+JsFhsr3YBnznVrt63tI4d+mmmC3QGdCfDELlWkAvfItg1oSOcO4SS6tcYoGsbxsZJp7uFHAXYPCa5LLmxYRH8NcjjDs2+yucn7jH4PP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755257846; c=relaxed/simple;
-	bh=fC/Zs5gmjYzgmfpcSoCA1d9edA3MkAXrkitO6YzqW1c=;
+	bh=PgoMVLECaBOExEXb56ZJhk6niEL59BPqFAalBLW0AT4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G5sEmWVIUQNmCJTc1TAk72ClIH8RQ5tuEQf2G+3ib7XtOjWz9/xvXpX8nHInVkaxT+wDkzApl535xBZOqPs1eIFWK0Ds8Omk5JmYaiz0gy426PipDkBF8+25PFhPMG5Nfs+TEXuf8x8k0TkFExX4Dvw8DiqXLUE5u1SFe56KFf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hzI8qDci; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=uln0scuNQm6rpHVFWcBlBXvl1PzJG2TZze53uJaCeXH+jkE3iM6rgdxzC6ikVLHtjJ5NHtI6Zv2zE3g6zKzqWgOpBd57Qa2FlnvitVnR33mwCsRL3Z6CiWgYQlRQWSXbMqU27xLeJcuv2l4EQugPpO9yNGdqvNf1qZ229L89cTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSxNQKfS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hzI8qDci"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EACC6C4CEF6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSxNQKfS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2B4CC4AF0B;
 	Fri, 15 Aug 2025 11:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755257846;
-	bh=fC/Zs5gmjYzgmfpcSoCA1d9edA3MkAXrkitO6YzqW1c=;
+	s=k20201202; t=1755257845;
+	bh=PgoMVLECaBOExEXb56ZJhk6niEL59BPqFAalBLW0AT4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hzI8qDciN69UTB2znPj5Ito1AtBzw9HaDuTdo0Ji6Tgx6E3zE0caxJbD8exUXHWT/
-	 dzFdXjMcTL5ukEN/KU37QTDXwgJ6WJCOpfRgD+IhXxp18LF7pOeE+VCZYkVgcOsKAM
-	 I/b+01mTvP0eaHc1sBU+GII++QGpQFlCS1CTkLtxfp7SRoQ4/J5cpBQJxwKCB2/vRC
-	 XjjZW1vr3WOKkto1eGJMJRCVnBOylF9jUynKFIUuSMLkeJk3dz3wfkkSOk91fl9dIt
-	 ATHBjg28i0Ub/vz64Mp6JA9Tc2rZMN/oNa37+w+0qm/naC2+bL1z6OpQm7wm0fgPtH
-	 61nfcGdBxUpWw==
+	b=iSxNQKfSH1Vzj91lLyfJbN5JIeU84GyLRPGigVSEhDoTj4NiUYeWb6NwLHTMJrexe
+	 L3xlUj6NgYz9QArzHSlpYLGxKviHiUS1t0Uh31PWH+ppV6wxctF0VSgFRn/WQTW/R3
+	 704OeQ6pmQQ56rZpjvL4mQWtwpdxgb3tTVy+JwbSNE2TW0aQyVInYUETPUM8wML+Ze
+	 NtRsbOnj4VGsKLuPCo/3kHejcQFUWp+j5QzWkFj0sZZAAWw51+F5/1Ai15az//XD2h
+	 THJt9Qtvbex3KcDv/4NK7HnWQwHT0roc3/wa1VwzCfxpsuS33QOPdaDVbdYNJowxrk
+	 g6QDPwKuS30KQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1umskO-000000042TP-0et3;
+	id 1umskO-000000042TD-0J3P;
 	Fri, 15 Aug 2025 13:37:24 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 08/11] scripts: sphinx-pre-install: fix PDF dependencies for openSuse
-Date: Fri, 15 Aug 2025 13:36:24 +0200
-Message-ID: <cb4b9502d95cbb486c06acb50c45f5dcada01b1e.1755256868.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 05/11] docs: conf.py: fix some troubles for LaTeX output
+Date: Fri, 15 Aug 2025 13:36:21 +0200
+Message-ID: <ceaa9512336444bd148511a4a3bbc336ca317757.1755256868.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755256868.git.mchehab+huawei@kernel.org>
 References: <cover.1755256868.git.mchehab+huawei@kernel.org>
@@ -51,73 +51,111 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The dependencies are outdated: both versions need texlive-dejavu
-fonts. Also, for PDF generation, python311-Sphinx-latex is
-required.
+While PDF docs work fine on RPM-based distros, it causes conflicts
+on Debian & friends:
 
-With that, all PDF files are now tuilt on both:
+Documentation/output/process/latex/process.log:
 
-openSUSE Leap 15.6:
--------------------
-    PASSED: OS detection: openSUSE Leap 15.6
-    SKIPPED (Sphinx Sphinx 7.2.6): System packages
-    SKIPPED (Sphinx already installed either as venv or as native package): Sphinx on venv
-    SKIPPED (Sphinx already installed either as venv or as native package): Sphinx package
-    PASSED: Clean documentation: Build time: 0:00, return code: 0
-    PASSED: Build HTML documentation: Build time: 5:29, return code: 0
-    PASSED: Build PDF documentation: Build time: 13:45, return code: 0
+	Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+	LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+	6.
+	LaTeX Font Info:    No file T1lmr.fd. on input line 116.
 
-openSUSE Tumbleweed:
---------------------
-    PASSED: OS detection: openSUSE Tumbleweed
-    SKIPPED (Sphinx Sphinx 8.2.3): System packages
-    SKIPPED (Sphinx already installed either as venv or as native package): Sphinx on venv
-    SKIPPED (Sphinx already installed either as venv or as native package): Sphinx package
-    PASSED: Clean documentation: Build time: 0:00, return code: 0
-    PASSED: Build HTML documentation: Build time: 4:33, return code: 0
-    PASSED: Build PDF documentation: Build time: 13:18, return code: 0
+	LaTeX Font Warning: Font shape `T1/lmr/m/n' undefined
+	(Font)              using `T1/lmr/m/n' instead on input line 116.
 
-Summary
-=======
-  PASSED - openSUSE Leap 15.6 (7 tests)
-  PASSED - openSUSE Tumbleweed (7 tests)
+	! Corrupted NFSS tables.
+	wrong@fontshape ...message {Corrupted NFSS tables}
+                                                  error@fontshape else let f...
+	l.116 ...\familydefault\seriesdefault\shapedefault
+
+Change some logic inside latex_elements to avoid such issues,
+following the example from Sphinx documentation:
+
+	https://www.sphinx-doc.org/en/master/latex.html
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/conf.py | 39 +++++++++++++++++++++++----------------
+ 1 file changed, 23 insertions(+), 16 deletions(-)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index f987abfec802..86f129c76ecd 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -901,7 +901,7 @@ class SphinxDependencyChecker(MissingCheckers):
-             "dot":           "graphviz",
-             "python-sphinx": "python3-sphinx",
-             "virtualenv":    "python3-virtualenv",
--            "xelatex":       "texlive-xetex-bin",
-+            "xelatex":       "texlive-xetex-bin texlive-dejavu",
-             "yaml":          "python3-pyyaml",
-         }
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 6e12c7d8e07e..712e0a016727 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -9,6 +9,8 @@ import os
+ import shutil
+ import sys
  
-@@ -937,7 +937,7 @@ class SphinxDependencyChecker(MissingCheckers):
-                     self.recommend_python = True
++from  textwrap import dedent
++
+ import sphinx
  
-                 progs.update({
--                    "python-sphinx": "python311-Sphinx",
-+                    "python-sphinx": "python311-Sphinx python311-Sphinx-latex",
-                     "virtualenv":    "python311-virtualenv",
-                     "yaml":          "python311-PyYAML",
-                 })
-@@ -945,7 +945,7 @@ class SphinxDependencyChecker(MissingCheckers):
-             # Tumbleweed defaults to Python 3.11
+ # If extensions (or modules to document with autodoc) are in another directory,
+@@ -454,19 +456,38 @@ htmlhelp_basename = "TheLinuxKerneldoc"
+ latex_elements = {
+     # The paper size ('letterpaper' or 'a4paper').
+     "papersize": "a4paper",
++    "passoptionstopackages": dedent(r"""
++        \PassOptionsToPackage{svgnames}{xcolor}
++        % Avoid encoding troubles when creating indexes
++        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
++    """),
+     # The font size ('10pt', '11pt' or '12pt').
+     "pointsize": "11pt",
++    # Needed to generate a .ind file
++    'printindex': r'\footnotesize\raggedright\printindex',
+     # Latex figure (float) alignment
+     # 'figure_align': 'htbp',
+     # Don't mangle with UTF-8 chars
++    "fontenc": "",
+     "inputenc": "",
+     "utf8extra": "",
++    'fontpkg': dedent(r'''
++        \usepackage{fontspec}
++        \setmainfont{DejaVu Serif}
++        \setsansfont{DejaVu Sans}
++        \setmonofont{DejaVu Sans Mono}
++        \newfontfamily\headingfont{DejaVu Serif}
++    '''),
+     # Set document margins
+-    "sphinxsetup": """
++    "sphinxsetup": dedent(r"""
+         hmargin=0.5in, vmargin=1in,
+         parsedliteralwraps=true,
+         verbatimhintsturnover=false,
+-    """,
++    """),
++    "preamble": dedent(r"""
++        % Load kerneldoc specific LaTeX settings
++        \input{kerneldoc-preamble.sty}
++    """),
+     #
+     # Some of our authors are fond of deep nesting; tell latex to
+     # cope.
+@@ -474,22 +495,8 @@ latex_elements = {
+     "maxlistdepth": "10",
+     # For CJK One-half spacing, need to be in front of hyperref
+     "extrapackages": r"\usepackage{setspace}",
+-    # Additional stuff for the LaTeX preamble.
+-    "preamble": """
+-        % Use some font with UTF-8 support with XeLaTeX
+-        \\usepackage{fontspec}
+-        \\setsansfont{DejaVu Sans}
+-        \\setromanfont{DejaVu Serif}
+-        \\setmonofont{DejaVu Sans Mono}
+-    """,
+ }
  
-             progs.update({
--                "python-sphinx": "python313-Sphinx",
-+                "python-sphinx": "python313-Sphinx python313-Sphinx-latex",
-                 "virtualenv":    "python313-virtualenv",
-                 "yaml":          "python313-PyYAML",
-             })
+-# Load kerneldoc specific LaTeX settings
+-latex_elements["preamble"] += """
+-        % Load kerneldoc specific LaTeX settings
+-        \\input{kerneldoc-preamble.sty}
+-"""
+-
+ # This will be filled up by config-inited event
+ latex_documents = []
+ 
 -- 
 2.50.1
 
