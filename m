@@ -1,75 +1,84 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA822C1582
-	for <linux-doc@vger.kernel.org>; Fri, 15 Aug 2025 13:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D99DDAB;
+	Fri, 15 Aug 2025 13:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755262849; cv=none; b=MbqszAwVmt2whi1GCPJiUUS1CqmynenVbC/WlfYBf+CpcZjrlMCp7TF2kXm06GF03jKwF2H4deM+92SUEKhf0qW7a3oz19RrgzjDlgBVHIUrZOA6tpbv+3H/WnkfIIKY/7ndh/hyt80uBJomFz4ZX2VJBK29gzjuF75D777Hs3w=
+	t=1755262929; cv=none; b=HN/rukJlHLVaH1Fs13vwWB+C26B+cCh7t6m/q0sy0De11VCqK/1uT2SbkZOsmuFd6SgVbBsGOTm3+5vSqGKCU4LDVqWOkTkcwD/p8S6Vns80dlTg+M43p+xrMtUEHovtrc/UD4fFhCfUCaeeLjheW9ABEzMTKPbVVhOJ4auP79E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755262849; c=relaxed/simple;
-	bh=wSis39yIb0n9Nkid2+KmzOkvqKCQAn8rxjFclMh78mU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aT2mMRMnUXDZkQSI2nIHSS4sD089+fQd9BiDywciIoHOJSkvRFpJPNRnkt4YEfmRJQKyDLXSEpoS4EjmvhW/4haoEsKyOxMbUiWx6rWjAXH83rhjesMzZ/m4kW1YGsBWP9rT1hP5zJmbcnTi6AGf4rFInc2MtFcF5bMwfQp6xKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=g6T7z1+I; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="g6T7z1+I"
-Message-ID: <0b01e47c-ee81-4650-af5d-328544089391@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1755262835;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e6IPjYI6u0832mFiHwUFWLMB7x9Um1SBVr0ChQ/OD3k=;
-	b=g6T7z1+IKl8PuWBCEU7j82Ich9w+uBUWtkisN+RXw1lpGeFs5fkD8oQmNPbxSFsF/2ucCX
-	idgKMU+YR4w2VMdSesRcY912RSHgG1kggty+phpdGmBJU9bCm1B1pzfCUjz/XIYOh+fPnj
-	hGOY9Bz9dXAykvcDxR9NCNXE8L2zc0g=
-Date: Fri, 15 Aug 2025 21:00:29 +0800
+	s=arc-20240116; t=1755262929; c=relaxed/simple;
+	bh=7oJi1kiVoqD18WX1ltF3JE4FFuv8iY+yTb0nDaJeqvY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=E6WDh40n+/5/Ojuc35Yd051IHOUtSro1JHKXhF9k0QtV/o2M3ro8T78VMM5jXlU4uFYcIOmdMoSRoEBMKIE7HEdt59E/KjyxWUFb+bsNjjF0JPkObUe6t+6kzDLKBAab9P+UUUuQ9NJx/VzmFUr0cQo3J6JhNEbmseb87QtorNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 853EE1691;
+	Fri, 15 Aug 2025 06:01:58 -0700 (PDT)
+Received: from [10.57.1.201] (unknown [10.57.1.201])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E7183F5A1;
+	Fri, 15 Aug 2025 06:00:11 -0700 (PDT)
+Message-ID: <995e093f-7b6c-4701-87af-2f4d21b08ada@arm.com>
+Date: Fri, 15 Aug 2025 13:59:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/3] Documentation fixes for dm-pcache
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Device Mapper <dm-devel@lists.linux.dev>
-Cc: Zheng Gu <cengku@gmail.com>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>
-References: <20250815075622.23953-2-bagasdotme@gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Dongsheng Yang <dongsheng.yang@linux.dev>
-In-Reply-To: <20250815075622.23953-2-bagasdotme@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
+To: Koichi Okuno <fj2767dz@fujitsu.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Gowthami Thiagarajan <gthiagarajan@marvell.com>,
+ Linu Cherian <lcherian@marvell.com>, linux-arm-kernel@lists.infradead.org,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250815034751.3726963-1-fj2767dz@fujitsu.com>
+ <20250815034751.3726963-3-fj2767dz@fujitsu.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250815034751.3726963-3-fj2767dz@fujitsu.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
 
-Acked-by: Dongsheng Yang <dongsheng.yang@linux.dev>
+On 2025-08-15 4:47 am, Koichi Okuno wrote:
+> This adds a new dynamic PMU to the Perf Events framework to program and
+> control the Uncore PCI PMUs in Fujitsu chips.
+> 
+> This driver was created with reference to drivers/perf/qcom_l3_pmu.c.
+> 
+> This driver exports formatting and event information to sysfs so it can
+> be used by the perf user space tools with the syntaxes:
+> 
+> perf stat -e pci_iod0_pci0/ea-pci/ ls
+> perf stat -e pci_iod0_pci0/event=0x80/ ls
+> 
+> FUJITSU-MONAKA PMU Events Specification v1.1 URL:
+> https://github.com/fujitsu/FUJITSU-MONAKA
+> 
+> Signed-off-by: Koichi Okuno <fj2767dz@fujitsu.com>
+> ---
+>   .../admin-guide/perf/fujitsu_pci_pmu.rst      |  50 ++
+>   Documentation/admin-guide/perf/index.rst      |   1 +
+>   drivers/perf/Kconfig                          |   9 +
+>   drivers/perf/Makefile                         |   1 +
+>   drivers/perf/fujitsu_pci_pmu.c                | 536 ++++++++++++++++++
 
+ From a quick side-by-side skim, this is a copy-paste of the exact same 
+driver from patch #1 with s/mac/pci/g applied. Please don't do that. If 
+the hardware is functionally the same, then it should just be a single 
+driver that can then pick which PMU name and set of event alias 
+attributes to use for a given instance based on the ACPI HID match 
+(and/or any other ID register info you may have.)
 
-在 8/15/2025 3:56 PM, Bagas Sanjaya 写道:
-> Hi,
->
-> Here are docs fixes for dm-pcache as reported in linux-next ([1], [2]).
->
-> Enjoy!
->
-> [1]: https://lore.kernel.org/linux-next/20250815130543.3112144e@canb.auug.org.au/
-> [2]: https://lore.kernel.org/linux-next/20250815131115.45518c74@canb.auug.org.au/
->
-> Bagas Sanjaya (3):
->    dm-pcache: Remove unnecessary line breaks
->    dm-pcache: Use bullet list for data_crc constructor argument
->    Documentation: device-mapper: Add dm-pcache docs to toctree index
->
->   .../admin-guide/device-mapper/dm-pcache.rst       | 15 ++++-----------
->   Documentation/admin-guide/device-mapper/index.rst |  1 +
->   2 files changed, 5 insertions(+), 11 deletions(-)
->
->
-> base-commit: 6fb8fbbaf147fe4153177320ee354c457605800a
+Thanks,
+Robin.
