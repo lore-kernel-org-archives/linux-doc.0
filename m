@@ -1,100 +1,114 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B960291C2D;
-	Fri, 15 Aug 2025 02:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2999B277C86;
+	Fri, 15 Aug 2025 03:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755226393; cv=none; b=aFNeMzi30Owv53pt2aBzPleXOnxhizA0zoez8GsWgWKsFkqICr7XgsPLqLwI7Iot/nqBZgZE0IOJW9URjQU7OEPGnYcgGQ7s3RmBr2JaECu80OVW/vuJLM0au6Xlg3hO8719u2gcSDmIeDkAT8+jJ3mHdn6sKqRRHQDKyyoWQQE=
+	t=1755227787; cv=none; b=H2zq9MCG9uLKWXIaurgV4UGcKSJptnZdpwvsqTIfUN5dcYg7G+F+3rxIKHwZWE490DMHJqM5eHa26gkBZ+YtbHpglsqKMoUINdUfLLXTLxMnmSjZ1iNjxNjQ52LuPPbIW4JNPqvatGBbpKnlBGJ445vAISRb5ohjc1Rx0fKyD40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755226393; c=relaxed/simple;
-	bh=wad71HYAYfLhhLqPojmKa25g/oEHTWLZegrpvBYkr7I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WR0/JHmNZdH0GwQeRykqJAgfYMksAs0+KsRhBzeuN3zlFSszBR17qY8qPfAHRJ4uWizX1HeZHr5TK60pLp5gQxlJm5wjTSis7VJ//PT2lJ9LljCY4grRehbo069GDMzvDeJLrEsibCc2cC60jQZnPY3xk6EUDK0/qBCrjm0ig9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=j4COaN5t; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="j4COaN5t"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=QZVCzrbuC3u5VaWwoobTCBcWvATTA38krFlGKxEqZJE=; b=j4COaN5tYuRhIY7ZY473lK72dY
-	EiguNMWI8t/0QwYXS7gawwzmkBkizObitNkYcK7EME9QFTygLi60wo1won4CXE2iX2Vgu5s6t8BU4
-	xLh0H8c1pttR7Itt4pwZHP0rQ+ocDKMAw4v9mHcI85L8Tz+8fjRj6cw1AQhxUJB2Oa4qaKmkNpep5
-	J25N+vxYlLRiu9jCPQE1IBBwpWb3iMJA58AcPwsc0GyKkhSoESmArSEEliGF8kUhEX/pPR2Ptn0vA
-	TKbGQPTlQB84/rJel8Xm3a+9VRblK+nyA9d6bEjS8v7GRB4UJZRst86YmSWgIuBRKHk/uslycBJ0b
-	m1NBhPCw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umkZ5-00000001EKb-2h1k;
-	Fri, 15 Aug 2025 02:53:11 +0000
-Message-ID: <b63fb30a-5d33-42bd-bdf3-b8dfb960bdf5@infradead.org>
-Date: Thu, 14 Aug 2025 19:53:11 -0700
+	s=arc-20240116; t=1755227787; c=relaxed/simple;
+	bh=T1sh+P7hG/l43OUvLJm9SoI62WnK76nbGCjSpnoUIhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ce3wRMi3ktZ/13/cWc3OAdhXeDXlhJtliZGvvbYPGpcA1ukQu55IorgBQRUiIV0fWgJ2CUbrVzBsU28leKZVwG3pQUIm0tEzVUs4Ztv7ugBdWjVdW+u3j1skNFbr3E2Rkioa4pjj3MasohZGW5Xx1G9btX8FdqdlMK34hQkMTEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpsz21t1755227724tda874541
+X-QQ-Originating-IP: SYs96dYgVOR/5RRgXZvpgPmZ38GjwJyNFCQsbJZuGLE=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 15 Aug 2025 11:15:22 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 17237872932614161195
+Date: Fri, 15 Aug 2025 11:15:22 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <047254CB5E8480A1+20250815031522.GA1138819@nic-Precision-5820-Tower>
+References: <20250814073855.1060601-1-dong100@mucse.com>
+ <20250814073855.1060601-4-dong100@mucse.com>
+ <edf9be27-fdbf-44c9-8ce8-86ba25147f02@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 00/13] Collect documention-related tools under
- tools/doc
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20250813213218.198582-1-corbet@lwn.net>
- <e84e288af0536cdc406c787301bc6b9b11c0be0a@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <e84e288af0536cdc406c787301bc6b9b11c0be0a@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <edf9be27-fdbf-44c9-8ce8-86ba25147f02@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: M8X+OvqqReHCn4jzLQWtt6Lv92biL8EhsWSc67NU58me8hNecZbX9Gjf
+	arX84nGGHqjQsAodYgp6pemoZ9XpYNsvXJyw5ZpVXo1nuVpn9lRrVr00PciGjxToBKYsu3K
+	xVzSEEucuifaQ+oFKowlNMWNXFVC6mzqZYWtZI9WA31+ydKefNRs1bIBS3h9P8vx62m5u3k
+	Nb9jlZCMht5OEk2MKiibClpQT0uyOLAjcj8kRgcNeAMUve2EUcOHEUBYJTaMnU4M4WNLlpL
+	74OQGuv2xbsxlcIyrUJSsFtB4V7WMWqNrOQWQoUA2DdxThLXY2RDIqb40+KBveB/pT/QK3H
+	7WMcLjiM2mK7ppOHaHbrbkaZz3ywLX4EYo+ynR+dT1T1zxPNqHwdSpDnzQ7bX9litVI1Qor
+	IIJ5D2RFIVvzSL06mPhRqqomESjFTv31+xqT5PejzyelK73ScxkUf81zgqOSY57hDEUrVS2
+	u2/QFB8GsDCM4KHVPdQcf2jVUyXn5dMgTPjqoK3a5ntwh/xysyrbjpp6PCoX1Jj3PdZTzvl
+	sC7A+qNSIdRzOaXxWi+bP45qsQ8B8rR+FEUaUsfFRz8bxyYH3wlQlWui0Gjb2wmrbZQtb/c
+	TxuCrtF9Hqx0eQ51CwgpPoWlDvznitcTJiUCU9mfNRuD3c2umE+x+KtnvJwhj90d+hQ2dEy
+	bxdoYfQ/aDV9T1uOlD4O1d+1+QLtYCipWswEojbxsXgGpedgQS9/4eUmYH9sKDsZ43PvDd/
+	/7IrmZuw9OCy9Ipf43wYkKk81ARByFMydtowJrUfAx4RiCYG/XfGPioJbVh3O8JtoF0KYNm
+	YBac/3UPxty5Ln6OVCeZd5++XyUT6y3PPK1MAJfZ63YrhHB+265Ay2yvFNcyX9zgZP9N7+x
+	wLvSuTp7am67bq+oE/z8QfnJCruMdzpTzwAkNUxCckB32IhUriohUXoZKXzO61phjUUMEl2
+	Ya9BeBDgAyzLrw3+jCFjX4IVeCGlsVZHbWNVGiGhBClhfV7HvlFdRPWQx9aNT03yOvukncM
+	bM8xd7ScXeU50rGQvfIxHjhbjmaNR4h7gPNJsKukzYbvPCuYOl5hl+dF3oIp/XWx0k3Au9u
+	O2v2KdqT4Lep4RPTyL70KUJ9TXvY18zNbexIxQaowdUoIKnsiicv4TICu0JJM5Rhg==
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-RECHKSPAM: 0
 
-
-
-On 8/14/25 7:59 AM, Jani Nikula wrote:
-> On Wed, 13 Aug 2025, Jonathan Corbet <corbet@lwn.net> wrote:
->> Our documentation-related tools are spread out over various directories;
->> several are buried in the scripts/ dumping ground.  That makes them harder
->> to discover and harder to maintain.
->>
->> Recently, the idea of creating a dedicated directory for documentation tools
->> came up; I decided to see what it would look like.  This series creates a
->> new directory, tools/doc, and moves various utilities there, hopefully
->> fixing up all of the relevant references in the process.
->>
->> At the end, rather than move the old, Perl kernel-doc, I simply removed it.
+On Fri, Aug 15, 2025 at 04:29:28AM +0200, Andrew Lunn wrote:
+> > +#define MUCSE_MAILBOX_WORDS 14
+> > +#define MUCSE_FW_MAILBOX_WORDS MUCSE_MAILBOX_WORDS
+> > +#define FW_PF_SHM(mbx) ((mbx)->fw_pf_shm_base)
+> > +#define FW2PF_COUNTER(mbx) (FW_PF_SHM(mbx) + 0)
+> > +#define PF2FW_COUNTER(mbx) (FW_PF_SHM(mbx) + 4)
+> > +#define FW_PF_SHM_DATA(mbx) (FW_PF_SHM(mbx) + 8)
 > 
-> A wholehearted
+> There seems to be quite a bit of obfuscation here. Why is both
+> MUCSE_MAILBOX_WORDS and MUCSE_FW_MAILBOX_WORDS needed?
 > 
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+I will remove MUCSE_MAILBOX_WORDS.
+
+> Why not
 > 
-> on all of it.
-
-and
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-for the series.
-
-along with using either of tools/doc/ or tools/docs/.
-
->> The big elephant lurking in this small room is the home for Python modules;
->> I left them under scripts/lib, but that is an even less appropriate place
->> than it was before.  I would propose either tools/python or lib/python;
->> thoughts on that matter welcome.
+> #define FW2PF_COUNTER(mbx) (mbx->fw_pf_shm_base + 0)
 > 
-> lib/ contains code that's built into the kernel, I think lib/python
-> would be out of place.
+> Or even better
+> 
+> #define MBX_FW2PF_COUNTER	0
+> #define MBX_W2PF_COUNTER	4
+> #define MBX_FW_PF_SHM_DATA	8
+> 
+> static u32 mbx_rd32(struct mbx *mbx, int reg) {
+> 
+>        return readl(mbx->hw->hw_addr + reg);
+> }
+> 
+> 	u32 val = mbx_rd32(mbx, MBX_FW2PF_COUNTER);
+> 
+> Look at what other drivers do. They are much more likely to define a
+> set of offset from the base address, and let the read/write helper do
+> the addition to the base.
+> 
+> 	Andrew
+> 
 
-Would tools/docs/lib be OK?
-I wouldn't tie it up to a specific language,
-but I don't have a strong opinion either way.
+Ok, I will use 'static u32 mbx_rd32(struct mbx *mbx, int reg)' way.
 
-> IMO tools/python (or tools/lib/python, no strong opinion) is more
-> appropriate.
+Thanks for your feedback.
 
--- 
-~Randy
