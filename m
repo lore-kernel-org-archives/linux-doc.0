@@ -1,102 +1,66 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31885A41;
-	Fri, 15 Aug 2025 00:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7714191;
+	Fri, 15 Aug 2025 00:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755216334; cv=none; b=ZrBn/XVTtiTE3sVYpCq3LqT0nKQvvpGIO2sasDc15fItrpHg4KrrxkM+L0BLTmNvfeDJZToJRn78YNRg4DAE4mFPzzU0vhfOltPqYTIOO38/MJoiYolnG9ObJcwZEWem5UrJ8+XSoi/y0VIzWtmriDSNsl0JlJUn0xHuwbAoxE8=
+	t=1755218087; cv=none; b=ge4kL0a//QHL/wYcT6gRY4JeUVsMchL3n07fawa6oBihWmsBkGg0EID8xGcE5ypH0UTq6NCsZmfJBqzO6B1zTZSIgYvIOmJM++9bASiClyYFxbj6nSdVnFsoARpRQ4ShFrAp+egWzaoVAlcL2B7gvmOJukJKQCmM5rjuQaONkTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755216334; c=relaxed/simple;
-	bh=AI6EC+WjrnaVKgQRAnxGKZerbb+jbd1sEX7r6pONNvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aKP5wih+kH4pvsscOSR1n5WIj3Yba8aA1Hocv5ke01VtzEa1ZwYFY0lq29FdKaQ52BJy4RsIYRdbVYCy+4+3TnFPH5bWA69sGRSdZ4dMQsXJ9GfuGtK7ZXcD5UrBUv4I/9FgWNAEQzjqb/oTDntSg5BgvHB4UigZiVk9T4RNcsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=xHY5s2Ul; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1755218087; c=relaxed/simple;
+	bh=exoJ5TjOCyb/sHGSwDeRxqMEr2yHZ0ClQXoLDWjt2RY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KuhqTsy5y6M/zuSEtsRZYN3vvWC0Snfwk3b5TeMwSoMWMm0/O3DotC3Xv+kFsLo+9mP6suJS++oAeHPiTinvlKp0Ues/13PuUwSXgnf2lq+kRg20t8MwblxuaTvd050vqHolbAtfM4Rw5xqao5UNaBdug8WNZeP1Ly/fVtkwffU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FhezOpL1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="xHY5s2Ul"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=uyIoDG3Q5lXrt2iNgEV1rF7cmOwtm6+FCTj1aZTo/Q0=; b=xHY5s2UlG3VEMLoeSIOa0VWA95
-	EzhSxYzMcOw63bZ7Qtnq5NHF8IwBtdtUvLMZjs3ly+cEsBll/mxhdFkWQ0oK80kbuip6K56N/fjHg
-	xwyX0dfmfGBMCTv/Zw1bx8unhIIYLcX0OIDeM2t0bmLB99C0W4U4bvjlIANpqoZ00cAY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1umhwH-004lMt-JT; Fri, 15 Aug 2025 02:04:57 +0200
-Date: Fri, 15 Aug 2025 02:04:57 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Yibo Dong <dong100@mucse.com>
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <9af5710c-e465-4e21-8705-4698e544c649@lunn.ch>
-References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-5-dong100@mucse.com>
- <eafb8874-a7a3-4028-a4ad-d71fc5689813@linux.dev>
- <9A6132D78B40DAFD+20250813095214.GA979548@nic-Precision-5820-Tower>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FhezOpL1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84B06C4CEED;
+	Fri, 15 Aug 2025 00:34:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755218087;
+	bh=exoJ5TjOCyb/sHGSwDeRxqMEr2yHZ0ClQXoLDWjt2RY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FhezOpL1f1xXAWWa03D+vTNB/eNMg+i9QdUJBL+/sPByC9Qb9o1+BFDnnPKLvIZRZ
+	 MYvnWL8D8N0ygDJAMpwtUPgdm7KUZLqN1ahKtbYII4oqSQfp24s+3L/2tF12STiYHo
+	 1gBWqchiGc5uaIVlhAgsYK1vG/3KRrFYaHBruarJgbMgBwdbC3y1bgey90LGQoos5/
+	 mximlyNdk36U8CQmO41Um2kW7tS/xqPqZxkASS5+it5wevzsk+Udntw9T5NP3gH822
+	 iRYNHhdbMdpGWNKEp6YPeoEibjLmAkbekKuQFtRUvc2NNn0sUgcKk/RvYhkfODAuiV
+	 +sIGOw1LwmwqQ==
+Date: Thu, 14 Aug 2025 17:34:45 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Kory Maincent
+ <kory.maincent@bootlin.com>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Nishanth Menon <nm@ti.com>,
+ kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
+ linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
+ <roan@protonic.nl>
+Subject: Re: [PATCH net-next v1 0/5] ethtool: introduce PHY MSE diagnostics
+ UAPI and drivers
+Message-ID: <20250814173445.63cf56c2@kernel.org>
+In-Reply-To: <20250813081453.3567604-1-o.rempel@pengutronix.de>
+References: <20250813081453.3567604-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9A6132D78B40DAFD+20250813095214.GA979548@nic-Precision-5820-Tower>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> If it is more cleaner bellow?
-> 
-> static int mucse_fw_send_cmd_wait(struct mucse_hw *hw,
->                                   struct mbx_fw_cmd_req *req,
->                                   struct mbx_fw_cmd_reply *reply)
-> {
->         int len = le16_to_cpu(req->datalen) + MBX_REQ_HDR_LEN;
->         int retry_cnt = 3;
->         int err;
-> 
->         err = mutex_lock_interruptible(&hw->mbx.lock);
->         if (err)
->                 return err;
->         err = hw->mbx.ops->write_posted(hw, (u32 *)req,
->                                         L_WD(len));
->         if (err)
->                 goto quit;
->         do {
->                 err = hw->mbx.ops->read_posted(hw, (u32 *)reply,
->                                                L_WD(sizeof(*reply)));
->                 if (err)
->                         goto quit;
->         } while (--retry_cnt >= 0 && reply->opcode != req->opcode);
-> 
->         mutex_unlock(&hw->mbx.lock);
->         if (retry_cnt < 0)
->                 return -ETIMEDOUT;
->         if (reply->error_code)
->                 return -EIO;
->         return 0;
-> quit:
->         mutex_unlock(&hw->mbx.lock);
->         return err;
-> }
+On Wed, 13 Aug 2025 10:14:48 +0200 Oleksij Rempel wrote:
+> This series introduces a generic kernel-userspace API for retrieving PHY
+> Mean Square Error (MSE) diagnostics, together with netlink integration,
+> a fast-path reporting hook in LINKSTATE_GET, and initial driver
+> implementations for the KSZ9477 and DP83TD510E PHYs.
 
-You might want a read a few other drivers in mailine. Look at the
-naming. I doubt you will find many using "quit" for a label. "out" or
-"unlock" is more popular.
-
-When it comes to locks, it is better to have one lock statement and
-one unlock statement. It then becomes easy to see all paths lead to
-the unlock.
-
-	Andrew
+Hi Oleksij, the series doesn't apply, could you respin?
+I haven't had a chance to look at the code unfortunately
+-- 
+pw-bot: cr
