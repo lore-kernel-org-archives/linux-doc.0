@@ -1,44 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D172FCC0B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CA62FCBE1;
 	Fri, 15 Aug 2025 11:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755258666; cv=none; b=GKAFPpUaLKIWir78JfRMYVHzVycFLGVXgcI+SQ9RMEBWLXYEkGt7uoMmwxB6fntVerftuUFVozQ+unpAw5RcSLegz18H9DBK4TPCHcXDrTuTVUpC8nXzktjQ4KsruKAm+tTVkLH6dvKz+Yn9OsY5j+PGOEdrJQXyDtbNu9qmkHE=
+	t=1755258666; cv=none; b=pdunVbrezGR4DIkkZywB9sqOk0IgkJm0Id5a+neMvPnJVh2ST91bUNmJpd7Upg7bShQHXHuXyuh68fVMEUMPM7EvQEPOEIFOkJEiqcLixJGrZqAEtdxNVmUGLRHzKwiihSD94Pt7Jljuv5oveZqUiJmxj2oC8XCmY+imo0QYXwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755258666; c=relaxed/simple;
-	bh=ZoOtF8id0ICXUTMlmq1Pqq/MM5WeKdvyH7/glTLcTBs=;
+	bh=GYr8tmb4fF6RXpmQJmwNpnesZAm+FKFpIMMt22zUWek=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AnJX8yFIWKLMCXUbj/4P207wlk8gvQnwBLBTKRO5CzSSdUdaMMTzNW79fGfCTpyxl1e1NJZyz5UPH25lC1S+qohpJtoJs4P4KsbIGYGUDBZlqildo2QSahBk1ksoJxEWjwtChxD23+wIqJqfUfJlQkij+xmr4EKXho18D71iTMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJqbPr+o; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ERYhz0+qNFOg6NBblDKNFvbZNA2wg7WKefhktowoHqyA1DG8XTn88VwPIlKeqdVLcbJfN4OddWGIBJpWF26NlCznEmVlRlsnbLsKgYeZdvz2neoKr228iTZgBMDifxEgjKabgCt/XrGvdGBFrOq8HVTZsAbjDYCwbst9GBP+t0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pz2ke7K1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJqbPr+o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5371C4CEFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pz2ke7K1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB17FC4CEF7;
 	Fri, 15 Aug 2025 11:51:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755258665;
-	bh=ZoOtF8id0ICXUTMlmq1Pqq/MM5WeKdvyH7/glTLcTBs=;
+	s=k20201202; t=1755258666;
+	bh=GYr8tmb4fF6RXpmQJmwNpnesZAm+FKFpIMMt22zUWek=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oJqbPr+okVXndDrRx0wc0NynxAK9Hf7ZjlKzaD06dTFia2tJP1ubqqMKadBBiKRfP
-	 6rfoH36bWO1DDRyyn1fiBpcJunXb1MwxA3cV6mBIRxatgkI/rxbzUJ1Dpjpx7u9Iiy
-	 Z/qR+2vcKy45Fy/FCV1qJClvrKfvUyfL1XT/RcK4Rlw2BOjsGxqVXt1mr1fp0ouoo+
-	 cyyz06PZ7KjxqF76LJgYR0Mq/8ocBsNefCEgzwD9En2N7m/eMpqpW3pFV1GRyx2CMJ
-	 pTJQft2rsqLjh+YZWEKpYkavxgUMdlIULRSdp8yk6N6GWMssksYU6uBCBSACBM33jL
-	 616iVHowj+ObA==
+	b=Pz2ke7K1JrytdVdkFRYd5y6b7sTYFT+c70cN4MoXzaSP/KAqidpInRrAdKsYMyAYd
+	 DYhcBdf4l5lcZetXKlZZaWKOM5cK3izEsxvQXJhldYV1Qez57Z0Q4f7upOXCfaaXYr
+	 hGzNOxn5SCaleubtPX9Qaj99SvfjNAB2oeQGmd0DQ4Tkzc0wrCVy9Wt9Lmkt4LUEVb
+	 lveu373kP/gmvjlqvFAOdI7UjxNt1XrhIfcM9psgmyDk16rxFdjvgHidZiFtnq84Od
+	 6FdPyNm0NtyfKilirzxuOEE8a+26fIVJWgPEqpb6d0TnPnmp5uLvGDWXBUMK4Q0F3x
+	 P4GkfLp+ND43g==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1umsxc-000000042oi-0m79;
+	id 1umsxc-000000042oW-0RQD;
 	Fri, 15 Aug 2025 13:51:04 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 08/11] scripts/sphinx-build-wrapper: restore SPHINXOPTS parsing
-Date: Fri, 15 Aug 2025 13:50:36 +0200
-Message-ID: <da3e3258cfaaff331030cfe00df604b12f80f5cf.1755258303.git.mchehab+huawei@kernel.org>
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andreas Hindborg <mchehab+huawei@kernel.org>,
+	Benno Lossin <mchehab+huawei@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Danilo Krummrich <mchehab+huawei@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Miguel Ojeda <mchehab+huawei@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH 05/11] docs: Makefile: cleanup the logic by using sphinx-build-wrapper
+Date: Fri, 15 Aug 2025 13:50:33 +0200
+Message-ID: <3a62c847a812905f3a4c85f6b984d021ae88188d.1755258303.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755258303.git.mchehab+huawei@kernel.org>
 References: <cover.1755258303.git.mchehab+huawei@kernel.org>
@@ -51,185 +62,184 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While rewriting the wrapper, incidentally support for SPHINXOPTS
-was dropped. Restore it and better handle them.
+Now that we have a sphinx-build-wrapper capable of handling
+all the needed step to build the supported build targets,
+cleanup the Makefile.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/Makefile       |  1 +
- scripts/sphinx-build-wrapper | 86 +++++++++++++++++++++++++++++-------
- 2 files changed, 70 insertions(+), 17 deletions(-)
+ Documentation/Makefile | 127 ++++++++++-------------------------------
+ 1 file changed, 29 insertions(+), 98 deletions(-)
 
 diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 280728cf78b9..d2e626627ee6 100644
+index 2ed334971acd..4013286bef04 100644
 --- a/Documentation/Makefile
 +++ b/Documentation/Makefile
-@@ -19,6 +19,7 @@ endif
+@@ -19,7 +19,6 @@ endif
  
  # You can set these variables from the command line.
  SPHINXBUILD   = sphinx-build
-+SPHINXOPTS    =
+-SPHINXOPTS    =
  SPHINXDIRS    = .
  DOCS_THEME    =
  DOCS_CSS      =
-diff --git a/scripts/sphinx-build-wrapper b/scripts/sphinx-build-wrapper
-index 5c728956b53c..b9d40f4a6573 100755
---- a/scripts/sphinx-build-wrapper
-+++ b/scripts/sphinx-build-wrapper
-@@ -148,10 +148,10 @@ class SphinxBuilder:
- 
-         return path
- 
--    def __init__(self, venv=None, verbose=False):
-+    def __init__(self, venv=None, verbose=False, n_jobs=None):
-         """Initialize internal variables"""
-         self.venv = venv
--        self.verbose = verbose
-+        self.verbose = None
- 
-         # Normal variables passed from Kernel's makefile
-         self.kernelversion = os.environ.get("KERNELVERSION", "unknown")
-@@ -159,6 +159,34 @@ class SphinxBuilder:
-         self.pdflatex = os.environ.get("PDFLATEX", "xelatex")
-         self.latexopts = os.environ.get("LATEXOPTS", "-interaction=batchmode -no-shell-escape")
- 
-+        if not verbose:
-+            verbose = bool(os.environ.get("KBUILD_VERBOSE", "") != "")
+@@ -29,14 +28,14 @@ PAPER         =
+ BUILDDIR      = $(obj)/output
+ PDFLATEX      = xelatex
+ LATEXOPTS     = -interaction=batchmode -no-shell-escape
++BUILD_WRAPPER = $(srctree)/scripts/sphinx-build-wrapper
 +
-+        # Handle SPHINXOPTS evironment
-+        sphinxopts = shlex.split(os.environ.get("SPHINXOPTS", ""))
-+
-+        # As we handle number of jobs and quiet in separate, we need to pick
-+        # it the same way as sphinx-build would pick, so let's use argparse
-+        # do to the right argument expansion
-+        parser = argparse.ArgumentParser()
-+        parser.add_argument('-j', '--jobs', type=int)
-+        parser.add_argument('-q', '--quiet', type=int)
-+
-+        # Other sphinx-build arguments go as-is, so place them
-+        # at self.sphinxopts
-+        sphinx_args, self.sphinxopts = parser.parse_known_args(sphinxopts)
-+        if sphinx_args.quiet == True:
-+            self.verbose = False
-+
-+        if sphinx_args.jobs:
-+            self.n_jobs = sphinx_args.jobs
-+
-+        # Command line arguments was passed, override SPHINXOPTS
-+        if verbose is not None:
-+            self.verbose = verbose
-+
-+        self.n_jobs = n_jobs
-+
-         # Source tree directory. This needs to be at os.environ, as
-         # Sphinx extensions and media uAPI makefile needs it
-         self.srctree = os.environ.get("srctree")
-@@ -199,7 +227,7 @@ class SphinxBuilder:
-             else:
-                 sys.exit(f"Venv {venv} not found.")
++PYTHONPYCACHEPREFIX ?= $(abspath $(BUILDDIR)/__pycache__)
  
--    def run_sphinx(self, sphinx_build, sphinx_args, *args, **pwargs):
-+    def run_sphinx(self, sphinx_build, build_args, *args, **pwargs):
-         """
-         Executes sphinx-build using current python3 command and setting
-         -j parameter if possible to run the build in parallel.
-@@ -207,11 +235,9 @@ class SphinxBuilder:
+ # For denylisting "variable font" files
+ # Can be overridden by setting as an env variable
+ FONTS_CONF_DENY_VF ?= $(HOME)/deny-vf
  
-         with JobserverExec() as jobserver:
-             if jobserver.claim:
--                parallelism = str(jobserver.claim)
-+                n_jobs = str(jobserver.claim)
-             else:
--                # As Sphinx has parallelism since version 1.7, we don't need
--                # any check here.
--                parallelism = "auto"
-+                n_jobs = "auto" # Supported since Sphinx 1.7
+-ifeq ($(findstring 1, $(KBUILD_VERBOSE)),)
+-SPHINXOPTS    += "-q"
+-endif
  
-             cmd = []
+ # User-friendly check for sphinx-build
+ HAVE_SPHINX := $(shell if which $(SPHINXBUILD) >/dev/null 2>&1; then echo 1; else echo 0; fi)
+@@ -51,62 +50,37 @@ ifeq ($(HAVE_SPHINX),0)
  
-@@ -222,10 +248,19 @@ class SphinxBuilder:
+ else # HAVE_SPHINX
  
-             cmd.append(sphinx_build)
+-# User-friendly check for pdflatex and latexmk
+-HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
+-HAVE_LATEXMK := $(shell if which latexmk >/dev/null 2>&1; then echo 1; else echo 0; fi)
++# Common documentation targets
++infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
++	$(Q)@$(srctree)/scripts/sphinx-pre-install --version-check
++	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
++		--sphinxdirs="$(SPHINXDIRS)" \
++		--conf=$(SPHINX_CONF) \
++		--theme=$(DOCS_THEME) \
++		--css=$(DOCS_CSS) \
++		--paper=$(PAPER)
  
--            if parallelism:
--                cmd.append("-j" + parallelism)
-+            # if present, SPHINXOPTS or command line --jobs overrides default
-+            if self.n_jobs:
-+                n_jobs = str(self.n_jobs)
- 
--            cmd += sphinx_args
-+            if n_jobs:
-+                cmd += [f"-j{n_jobs}"]
-+
-+            if not self.verbose:
-+                cmd.append("-q")
-+
-+            cmd += self.sphinxopts
-+
-+            cmd += build_args
- 
-             if self.verbose:
-                 print(" ".join(cmd))
-@@ -447,9 +482,6 @@ class SphinxBuilder:
- 
-             args.extend(["-D", f"latex_elements.papersize={paper}paper"])
- 
--        if not self.verbose:
--            args.append("-q")
+-ifeq ($(HAVE_LATEXMK),1)
+-	PDFLATEX := latexmk -$(PDFLATEX)
+-endif #HAVE_LATEXMK
 -
-         if self.config_rust:
-             args.extend(["-t", "rustdoc"])
- 
-@@ -582,6 +614,25 @@ class SphinxBuilder:
-         except OSError as e:
-             sys.exit(f"Failed to restart with {new_python_cmd}: {e}")
- 
-+def jobs_type(value):
-+    """
-+    Handle valid values for -j. Accepts Sphinx "-jauto", plus a number
-+    equal or bigger than one.
-+    """
-+    if value is None:
-+        return None
-+
-+    if value.lower() == 'auto':
-+        return value.lower()
-+
-+    try:
-+        if int(value) >= 1:
-+            return value
-+
-+        raise argparse.ArgumentTypeError(f"Minimum jobs is 1, got {value}")
-+    except ValueError:
-+        raise argparse.ArgumentTypeError(f"Must be 'auto' or positive integer, got {value}")
-+
- def main():
-     """
-     Main function. The only mandatory argument is the target. If not
-@@ -607,18 +658,19 @@ def main():
-     parser.add_argument("-v", "--verbose", action='store_true',
-                         help="place build in verbose mode")
- 
-+    parser.add_argument('-j', '--jobs', type=jobs_type,
-+                        help="Sets number of jobs to use with sphinx-build")
-+
-     parser.add_argument("-V", "--venv", nargs='?', const=f'{VENV_DEFAULT}',
-                         default=None,
-                         help=f'If used, run Sphinx from a venv dir (default dir: {VENV_DEFAULT})')
- 
-     args = parser.parse_args()
- 
--    if not args.verbose:
--        args.verbose = bool(os.environ.get("KBUILD_VERBOSE", "") != "")
+-# Internal variables.
+-PAPEROPT_a4     = -D latex_elements.papersize=a4paper
+-PAPEROPT_letter = -D latex_elements.papersize=letterpaper
+-ALLSPHINXOPTS   = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
+-ALLSPHINXOPTS   += $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
+-ifneq ($(wildcard $(srctree)/.config),)
+-ifeq ($(CONFIG_RUST),y)
+-	# Let Sphinx know we will include rustdoc
+-	ALLSPHINXOPTS   +=  -t rustdoc
+-endif
++# Special handling for pdfdocs
++ifeq ($(shell which $(PDFLATEX) >/dev/null 2>&1; echo $$?),0)
++pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
++else
++pdfdocs:
++	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
++	@echo "  SKIP    Sphinx $@ target."
+ endif
+-# the i18n builder cannot share the environment and doctrees with the others
+-I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 -
-     SphinxBuilder.check_python()
+-# commands; the 'cmd' from scripts/Kbuild.include is not *loopable*
+-loop_cmd = $(echo-cmd) $(cmd_$(1)) || exit;
+-
+-# $2 sphinx builder e.g. "html"
+-# $3 name of the build subfolder / e.g. "userspace-api/media", used as:
+-#    * dest folder relative to $(BUILDDIR) and
+-#    * cache folder relative to $(BUILDDIR)/.doctrees
+-# $4 dest subfolder e.g. "man" for man pages at userspace-api/media/man
+-# $5 reST source folder relative to $(src),
+-#    e.g. "userspace-api/media" for the linux-tv book-set at ./Documentation/userspace-api/media
+-
+-PYTHONPYCACHEPREFIX ?= $(abspath $(BUILDDIR)/__pycache__)
  
--    builder = SphinxBuilder(venv=args.venv, verbose=args.verbose)
-+    builder = SphinxBuilder(venv=args.venv, verbose=args.verbose,
-+                            n_jobs=args.jobs)
+-quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+-      cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media $2 && \
+-	PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
+-	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(src)/$5/$(SPHINX_CONF)) \
+-	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
+-	$(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+-	$(SPHINXBUILD) \
+-	-b $2 \
+-	-c $(abspath $(src)) \
+-	-d $(abspath $(BUILDDIR)/.doctrees/$3) \
+-	-D version=$(KERNELVERSION) -D release=$(KERNELRELEASE) \
+-	$(ALLSPHINXOPTS) \
+-	$(abspath $(src)/$5) \
+-	$(abspath $(BUILDDIR)/$3/$4) && \
+-	if [ "x$(DOCS_CSS)" != "x" ]; then \
+-		cp $(if $(patsubst /%,,$(DOCS_CSS)),$(abspath $(srctree)/$(DOCS_CSS)),$(DOCS_CSS)) $(BUILDDIR)/$3/_static/; \
+-	fi
++infodocs: texinfodocs
  
-     builder.build(args.target, sphinxdirs=args.sphinxdirs, conf=args.conf,
-                   theme=args.theme, css=args.css, paper=args.paper)
++# HTML main logic is identical to other targets. However, if rust is enabled,
++# an extra step at the end is required to generate rustdoc.
+ htmldocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
++	$(Q)@$(srctree)/scripts/sphinx-pre-install --version-check
++	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
++		--sphinxdirs="$(SPHINXDIRS)" \
++		--conf=$(SPHINX_CONF) \
++		--theme=$(DOCS_THEME) \
++		--css=$(DOCS_CSS) \
++		--paper=$(PAPER)
+ 
+ # If Rust support is available and .config exists, add rustdoc generated contents.
+ # If there are any, the errors from this make rustdoc will be displayed but
+@@ -118,49 +92,6 @@ ifeq ($(CONFIG_RUST),y)
+ endif
+ endif
+ 
+-texinfodocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,texinfo,$(var),texinfo,$(var)))
+-
+-# Note: the 'info' Make target is generated by sphinx itself when
+-# running the texinfodocs target define above.
+-infodocs: texinfodocs
+-	$(MAKE) -C $(BUILDDIR)/texinfo info
+-
+-linkcheckdocs:
+-	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
+-
+-latexdocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
+-
+-ifeq ($(HAVE_PDFLATEX),0)
+-
+-pdfdocs:
+-	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
+-	@echo "  SKIP    Sphinx $@ target."
+-
+-else # HAVE_PDFLATEX
+-
+-pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
+-pdfdocs: latexdocs
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
+-	$(foreach var,$(SPHINXDIRS), \
+-	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || sh $(srctree)/scripts/check-variable-fonts.sh || exit; \
+-	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
+-	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
+-	)
+-
+-endif # HAVE_PDFLATEX
+-
+-epubdocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+-
+-xmldocs:
+-	@$(srctree)/scripts/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,xml,$(var),xml,$(var)))
+-
+ endif # HAVE_SPHINX
+ 
+ # The following targets are independent of HAVE_SPHINX, and the rules should
 -- 
 2.50.1
 
