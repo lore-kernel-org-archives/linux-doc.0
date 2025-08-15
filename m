@@ -1,165 +1,93 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2041.outbound.protection.outlook.com [40.107.94.41])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41782BDC09;
-	Fri, 15 Aug 2025 02:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755225041; cv=fail; b=F1R6H04K+iTWnN4vLlv0js2Dj0IzVjsy7lpE/JiuYv1+5xWoDNoHuGWxDa+IOiRYd7XQyFJpQQUDEHboPSsK+6y3d9m+hUUiTfdR9DFOkRr0UyBloffrw4e+TGfEjzqFBv1MYKe+miT7o8vrgOVx/kUHJgiwQG9kRp5QzcX+3sU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755225041; c=relaxed/simple;
-	bh=X/4YmlbAkyWeSZMbiOA2c+CjPSHu8dig2KOg3/no3Dw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RVTpay9LoInRVGSQe+5szjhEocwXd4PmlAMllZzWLxgad/t6/ACGdV9xj4BAXtITtjtxdUhuo5mNU6MF/VeNGf8JDmz6EiG1HltWF9WqXzVSUH5Lc5sunQvDN94WHXXvcrBrLgsj6A+G6XEZNVZuTklgUfjzVh0+GW9OKQn4XGE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pHDJCx2m; arc=fail smtp.client-ip=40.107.94.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pHDJCx2m"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zKqu7oeARBa7zEVIDkLb8l7cEFUNZNQegn8P5n+PQAJ+Pnfq8dBQ4mXARJdWnXLkDxCMkDgtuCqJ1aoFy40VnsFKhK3fVbOrlfrmQykqmfbVYAPDI8r4hbNtYryjOqDQZp3gHxtdLcUMrggNLl8+YUwCBl+ahPs4m51TJrDn/pBSUyXEwkttGmKTlsmWJkXvW89d7+cOPyA8Ihu6mo9bv1QPr03tPkkksO9PjLH05AT5YWxdgQxjEatlKIWhRiBurvury8ceGffRAS37AQ04ragv2Z9AQc8CUGQmFhd9AiHVj2vOonR2T96pz8iLKpnmxluLVTGSswiLZGW+Pt5agg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6NEIBDC6iRJNeAag2EwSyJls8bju/k74xrLXsX5lvjg=;
- b=vwcO+hfrQ4zJYQVU/3Udg8SZhFRh1N5m30VdDcvJ+cHbTOPhfHITHu+AkI51QZgpFd2tvcG1C6EjgnNe+SixJlJ+AF3wdQgQFq6USRGL3luEZ6SvClV/BYIUei8cruoggy/3o2YRYYonZKSgTxwGm1p1yLifV8fwpkRDbd5/bztOeRzuJiQLmxLkX+dJPOMrLtJyA/tO9cVLYh0tcKSRXYSfIbZv/tn14S1+rpgKjIC4Ih2h/0bdHmQSr8RPo4r3//r4ZP1mYgZ+oVMFnmaAsa6zW89KTGNZ3YR5gjcsBdCOe4k6qLqezXUcl8gAFpKVn/uvIiCQUzaTu7kUn9zbXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6NEIBDC6iRJNeAag2EwSyJls8bju/k74xrLXsX5lvjg=;
- b=pHDJCx2mwMIIfYLIBkjztaTEvu48ut72NamMZNpUCugE1u4teZg2khYUEBGCMX8FTbWrgGH/8HpcJXQfURmS/f9PTO/Aj/IZOkxgvvZeJitauc7MYwPvbiWz4TjMkj1eWFlu7jKxWoYsv/XcWgdRv8w201N8mse7/hAiLEhIVC4=
-Received: from SJ0PR13CA0236.namprd13.prod.outlook.com (2603:10b6:a03:2c1::31)
- by SJ0PR12MB8092.namprd12.prod.outlook.com (2603:10b6:a03:4ee::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.14; Fri, 15 Aug
- 2025 02:30:36 +0000
-Received: from SJ5PEPF000001EF.namprd05.prod.outlook.com
- (2603:10b6:a03:2c1:cafe::76) by SJ0PR13CA0236.outlook.office365.com
- (2603:10b6:a03:2c1::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.7 via Frontend Transport; Fri,
- 15 Aug 2025 02:30:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF000001EF.mail.protection.outlook.com (10.167.242.203) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9031.11 via Frontend Transport; Fri, 15 Aug 2025 02:30:35 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 14 Aug
- 2025 21:30:33 -0500
-From: Babu Moger <babu.moger@amd.com>
-To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>
-CC: <Dave.Martin@arm.com>, <james.morse@arm.com>, <babu.moger@amd.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
-	<rostedt@goodmis.org>, <paulmck@kernel.org>,
-	<pawan.kumar.gupta@linux.intel.com>, <kees@kernel.org>, <arnd@arndb.de>,
-	<fvdl@google.com>, <seanjc@google.com>, <thomas.lendacky@amd.com>,
-	<yosry.ahmed@linux.dev>, <xin@zytor.com>, <sohil.mehta@intel.com>,
-	<kai.huang@intel.com>, <xiaoyao.li@intel.com>, <peterz@infradead.org>,
-	<mario.limonciello@amd.com>, <xin3.li@intel.com>, <perry.yuan@amd.com>,
-	<chang.seok.bae@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <peternewman@google.com>,
-	<eranian@google.com>, <gautham.shenoy@amd.com>
-Subject: [PATCH v17 33/33] MAINTAINERS: resctrl: add myself as reviewer
-Date: Thu, 14 Aug 2025 21:25:37 -0500
-Message-ID: <b5f527fc33ec5c187af0ffa02a4b6366bccd1c65.1755224735.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1755224735.git.babu.moger@amd.com>
-References: <cover.1755224735.git.babu.moger@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ECB287246;
+	Fri, 15 Aug 2025 02:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755225612; cv=none; b=gY/rA+lM0vKXI1gGpZ91Va2U2dxOzHdw5mJfxXqKsqg4yUo+J8LaFxu9sboj9XzrP8ex8qInTGZe1mO/+q9yEKtGQobUuZadd1m5u7ho0oB99MhB5mAOX9OYQQ3s6oU8StCrThEO2ftRMdv+f9f2shuxcWC6Iz5JA8VJYgQbFkw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755225612; c=relaxed/simple;
+	bh=u8I2X25WR4fgpDkMDlFyC0T3LW3CMF15mu1UZnKTUlc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LfBmJH5gE99sBLibdtk3LvpNmMIX9qN8CpidEc49xw+7PKS1zk5g3yETwjAoOysjnUZ8EEXGMrKGfdePbPZkV7ItM0CVQXVHhxGgdWsRb9kfnU0MeWADsXtqF9i2n6fNbkmrbutajHM1NsLPEh8UK5PbUSpnzl7IsPxcSbtuiTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpgz11t1755225519t45fc5bba
+X-QQ-Originating-IP: yq0E6dA0Nd3VzJJptiSQmJVFvn7q1TzIAMReu6KVsPY=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 15 Aug 2025 10:38:36 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 5342344533602567481
+Date: Fri, 15 Aug 2025 10:38:36 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/5] net: rnpgbe: Add n500/n210 chip support
+Message-ID: <F74E98A5E4BF5DA4+20250815023836.GB1137415@nic-Precision-5820-Tower>
+References: <20250814073855.1060601-1-dong100@mucse.com>
+ <20250814073855.1060601-3-dong100@mucse.com>
+ <a0553f1d-46dd-470c-aabf-163442449e19@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001EF:EE_|SJ0PR12MB8092:EE_
-X-MS-Office365-Filtering-Correlation-Id: 669a62e4-4fa7-43f1-57ec-08dddba3b76e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0iVSOQL3hpecCk1n+uKmkwaaRLB0JSSzY9fv4Cc0DPrWccEzmS7WvwpepQLR?=
- =?us-ascii?Q?qPEDNVlssjQ0JjFKaGbKfMIu0Ws6q+ehmnc8pj5UZoVdaM8eHXETmqbBATsi?=
- =?us-ascii?Q?P6MKIdLBzeMo2XbSMBqJBWCYjQ8ZHnSccEHg5zBpFZoD6Q0QSZrzsTeoL9ML?=
- =?us-ascii?Q?fVul0LLAAVZi1Px3POrdPKjvulHCPswhIxiVWDSYnzoLgJFUvrb8miaGrkRg?=
- =?us-ascii?Q?bFR1Oht9vE1mU/zndg7beNTsVjPmYCqTE0QNXJUstN2jFr9x1tiqpSplBdp3?=
- =?us-ascii?Q?pGxcyPTKPdwbw3ssBn8LUXpsd61tWQwrP16hObtr4sxsL1rSPOfJw39x+AeH?=
- =?us-ascii?Q?6stuFPWF0dZREtqUIzPHBagDKqVtZXN7U+a/RAQgbphJEy3Y60UBYFMkxb2r?=
- =?us-ascii?Q?6OaogUrl6nQ+LXuxUGifWFlBN8/1IKqWEJltLMqJhboApZsC318haNcCnT4/?=
- =?us-ascii?Q?2x8sm8+sqxLStCXpVfzC9fVwk1dvjBjWDQd1IRr+JHbCjQb/TaXNOE/tvSKN?=
- =?us-ascii?Q?E0+3DkAg8Nqc8uYVqIVdSbMDndmc8TQDjeNcD2KZr7vMskqkke55x3f4mYFK?=
- =?us-ascii?Q?wwvHrlzHAzaf5BzBJTd2QKrAL3pwoHRpgDGq3XqJoqPAnBCcZD0CIpekFVLA?=
- =?us-ascii?Q?8Db7I6Q53zeu9VALVARoAG+jN3rlIxr5gCrFmmVknEXgSE6lZq3IRLGY/VOO?=
- =?us-ascii?Q?KZ33gDu9gA1W8g8TwGvTO8tC6gMY6OJed4d+8EuNr/o3gk/ZW/8aA8zj3j8p?=
- =?us-ascii?Q?NdMmFurROjC0O4xM636+xmpPfgjCcuj6UdHhM4NEF1sl0pfE8KqkRWBOobPW?=
- =?us-ascii?Q?aSeUlpltxO9X4ju2mjMG4B1W63YfzvGd+RlZYqyVUABNXSvpWYvUMWglhepr?=
- =?us-ascii?Q?7FZ7TCHLadXHBV+sqtYgpUjEeg566jzHFnDf5yAh6poQ3bIvwc6S4jQA72U1?=
- =?us-ascii?Q?y39dqwRPVLozMP2AeOaWha8PUyGf1JtfOrRifxWqyB5gUWYMLOKuT6S9zX85?=
- =?us-ascii?Q?tpmnv9zFIdtC6W6z6x6sh65Iq432Enbpxc/BDsCabm3R2lYanIEjBXUefUh+?=
- =?us-ascii?Q?rmyuql7pB4PTSEOOVf+5JAxp7a0RaWaFt6kxTFT7NrfW5lhLef+CzXUWASaD?=
- =?us-ascii?Q?Yuqx9Wxsosy3tpiS3JLhAQ8tM7z09BMkEsxzsM6Mp3mniKok74Zb1rASRSsc?=
- =?us-ascii?Q?EmGnxvWklyAdxlV9pnou4SASmK46vVWJtShbyFcgjkgSXKgONg39ZpUHBCJQ?=
- =?us-ascii?Q?GKeewtlK56RRHUmDtVIHKutOJ1bzZ8rMNF+CGLipc4tfQDVVggQbzLZsMhzu?=
- =?us-ascii?Q?Ndu5hrpvzZZ4YoHhuVABk2+3iXN/CdGdOcGudJuNHa6acl3At3cGffTCJl07?=
- =?us-ascii?Q?wWdry6KALEKggeyoz8lenGfR4XZcCtYH+xvZm8wnGLjnPvnr8Nl3LrjPx3un?=
- =?us-ascii?Q?sAs3ahdomx4Qv1nOiZtOPa3Xd1JS2wizwSpW+O9hnVQKNqn6ChwdMFYk833t?=
- =?us-ascii?Q?khKa0K8wKsmEpVvs1f5398lKKhK27m89VDGt?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 02:30:35.8752
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 669a62e4-4fa7-43f1-57ec-08dddba3b76e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001EF.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB8092
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a0553f1d-46dd-470c-aabf-163442449e19@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: M613wnTrQKZbbJVjJPiVF5qUZkkZaUCybkZ1Rrq/LD7XscKj2g+IMy8i
+	ZeVTua40pupIfse+Ejlzg4pQY71gRw8XkdHiJABJKhjKij+9IGr3vwG+i4eFpKqNqvhiMMr
+	XpETE1WfYWELv+DJAfM/CIkfczlQDIOpraskMUJOPR9Hd1EpFYXxXXcamFxFJU2Z6XnNrQq
+	luySaaIucWztMzbAyFajdX7MHZQ1QJCH6vzxzb8oo52A4eQBaPkb2HUjuFPDFO4vO5PDMS1
+	6w/aaCLdOn7zTGfnsv0CLLlOhG/Bh9h67RVNwd9aqpWMAMY7pOnE7/91gx7OQN5ov+0lkqD
+	6z4bRjaDoten8o1ptazvIns+mBRAkW5NxZFRazW+selTg43SoU1sZNJ3WhTJgqV4OaUk+1l
+	T4yCnnZ8CBo8fgzLtDh8LEH5boc7/C+4HzKW4JLRl29PhD5L8h4h4AuOQU0dQH/MSga9tMW
+	PjS4KO4vCwMHd3OfUU0HRu63JwjeqEA03yyfVBiDrG9x/pBZ9CGTmJTjtvb9joz8iBEKJhj
+	gQrKWgHD0fu0vUgf/RgH2kq6anueZiWexHwb0qiOIY9YS9NQDgz5N9Zes2YXq1k2tYTEuKI
+	wlEXSay5I3wA6evl2SELA4d3oQUNFqqaABh61/CSVJPhFoKNi+GQcX1inH53rWDiKG6seCl
+	ursXmI5+HdnvLzUCoI1a1RAfV85pOucnJD5LkM/4dUlqTyCX1tZR9u8Q7MvKYReghODv2yf
+	q25XPhCuOOurDAbNHpCFez33gQoGJSH4DSxnUr1WQgK0mVife83h1UeAhMkhmOXaJwWZ1M9
+	3DTA2SWb6aqYZPZcOYn9puhCNAaz/2O0MSLmHQIBZrtcH+mB0W/FhoX2spIkEow0BQnZ0fn
+	JkeRgYPemfzDM6DdyR3Wu+aeu9Q3WOSD3uUWkb5WqSxb6DibI0vNb7lYYpS9aNLplxd6aJp
+	7sgvPTKXslxPaYZAzOBZiMzhsx242GrEGO4y5I2EtCjLYAHZV+NAh+2sS8vmaFaKlWa6Zoe
+	rd4yZ/vhTT9G2TsRz1Ih7A12+BhUhr3qdhLGZ0j9yMGSZyv0ki6KIHvUBLL3SNd/AnnhcKD
+	Evd/jLLbwfjm3dLsqNcmcXxOiChWw7C+w==
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
-I have been contributing to resctrl for sometime now and I would like to
-help with code reviews as well.
+On Fri, Aug 15, 2025 at 04:05:32AM +0200, Andrew Lunn wrote:
+> > +	hw->driver_version = 0x0002040f;
+> 
+> What does this mean? It is not used anywhere. Such values are usually
+> useless, because they never change, where as the kernel around the
+> driver changes all the time, and it is the combination of the driver
+> and the kernel which matters.
+> 
+>     Andrew
+> 
+> ---
+> pw-bot: cr
+> 
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Acked-by: Reinette Chatre <reinette.chatre@intel.com>
----
-v17: Added Acked-by tag.
+It means driver version 0.2.4.16.
+I used it in 'mucse_mbx_ifinsmod'(patch4, I will move this to that patch),
+to echo 'driver version' to FW. FW reply different command for different driver.
 
-v16: Reinette suggested to add me as a reviewer. I am glad to help as a reviewer.
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for your feedback.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe168477caa4..875c4cc8bcfe 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21144,6 +21144,7 @@ M:	Tony Luck <tony.luck@intel.com>
- M:	Reinette Chatre <reinette.chatre@intel.com>
- R:	Dave Martin <Dave.Martin@arm.com>
- R:	James Morse <james.morse@arm.com>
-+R:	Babu Moger <babu.moger@amd.com>
- L:	linux-kernel@vger.kernel.org
- S:	Supported
- F:	Documentation/filesystems/resctrl.rst
--- 
-2.34.1
 
