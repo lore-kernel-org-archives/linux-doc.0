@@ -1,84 +1,138 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D99DDAB;
-	Fri, 15 Aug 2025 13:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1EF3019C4;
+	Fri, 15 Aug 2025 13:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755262929; cv=none; b=HN/rukJlHLVaH1Fs13vwWB+C26B+cCh7t6m/q0sy0De11VCqK/1uT2SbkZOsmuFd6SgVbBsGOTm3+5vSqGKCU4LDVqWOkTkcwD/p8S6Vns80dlTg+M43p+xrMtUEHovtrc/UD4fFhCfUCaeeLjheW9ABEzMTKPbVVhOJ4auP79E=
+	t=1755263940; cv=none; b=WrYKTG3P65pGyldzrQLAucdvh+CNhtF6M73BeSGNYeFvZLDP3brIC+YcdZELTCL/FvhkBha7+U2it08wWzEaEtivj2lCd0foO7w4I+AzJC8LV95KDXPmKsHiBMWn8ot15XcByYEfY8jDMZsSiZUE0CfotQGwyVeHl57ZY7JJ2nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755262929; c=relaxed/simple;
-	bh=7oJi1kiVoqD18WX1ltF3JE4FFuv8iY+yTb0nDaJeqvY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=E6WDh40n+/5/Ojuc35Yd051IHOUtSro1JHKXhF9k0QtV/o2M3ro8T78VMM5jXlU4uFYcIOmdMoSRoEBMKIE7HEdt59E/KjyxWUFb+bsNjjF0JPkObUe6t+6kzDLKBAab9P+UUUuQ9NJx/VzmFUr0cQo3J6JhNEbmseb87QtorNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 853EE1691;
-	Fri, 15 Aug 2025 06:01:58 -0700 (PDT)
-Received: from [10.57.1.201] (unknown [10.57.1.201])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E7183F5A1;
-	Fri, 15 Aug 2025 06:00:11 -0700 (PDT)
-Message-ID: <995e093f-7b6c-4701-87af-2f4d21b08ada@arm.com>
-Date: Fri, 15 Aug 2025 13:59:37 +0100
+	s=arc-20240116; t=1755263940; c=relaxed/simple;
+	bh=t8N+HXNl2JNKsVXxcJ8ZFOUyTihZhTb77YL1GHR13ik=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hbmGGXGhPf2uHIpPr20JnCsHmOvU7y8smUs4OTaLTSICh6dnl6XJMhyLbCVXheYfjJhMt+jVDC74LttsimN8eeqkMG7iUEUmwxZS+71eD3GalN6BkZYluHmj/jQYW6si3WbWAhwQj4hrLNH/dY9sw+1o1GDaQ8k9myvkWIj9YR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Oz2w6BgX; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Oz2w6BgX"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 509E840AE3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755263932; bh=PM+Z8veN76HmwT0wGJKQE7XB5+VdNOMJ+QMOyijcm4A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Oz2w6BgXxN0rGkWlLrHuSLutQadCVcFyJYxTH4YwY5iz8gzlzD7fvbf28KM69tW3I
+	 qra2U0BouviWaC0dfpJ8GQJxK7kW7FtQIGOKPfCGmW2KI7T3Aytf5qDit0PtCSmk8k
+	 uqN5F3xsepQiKp9mcgVs0tsbZYcBoT4upLH87YysdxQYb+I6QbxoXZaXENfa3G9sCc
+	 8rJegfFF83x6IKqSmTiF1wY5Zc4sVdtCbbzyF2onh/goO5s124Mmpkm3owZ2S7vhon
+	 nao492nGv5aRH5kMqoDcC9jsBcoZuV41prROw99h32nE4zqN5MuT93HExDfwHNLfa4
+	 zxiK0EmtDNbvw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 509E840AE3;
+	Fri, 15 Aug 2025 13:18:52 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 07/13] docs: move sphinx-pre-install to tools/doc
+In-Reply-To: <20250815071829.3d5163fc@foz.lan>
+References: <20250813213218.198582-1-corbet@lwn.net>
+ <20250813213218.198582-8-corbet@lwn.net> <20250814013600.5aec0521@foz.lan>
+ <871ppehcod.fsf@trenco.lwn.net> <20250814080539.2218eb4e@foz.lan>
+ <87wm76f1t5.fsf@trenco.lwn.net> <20250815071829.3d5163fc@foz.lan>
+Date: Fri, 15 Aug 2025 07:18:51 -0600
+Message-ID: <87sehsen9g.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
-To: Koichi Okuno <fj2767dz@fujitsu.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Gowthami Thiagarajan <gthiagarajan@marvell.com>,
- Linu Cherian <lcherian@marvell.com>, linux-arm-kernel@lists.infradead.org,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250815034751.3726963-1-fj2767dz@fujitsu.com>
- <20250815034751.3726963-3-fj2767dz@fujitsu.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250815034751.3726963-3-fj2767dz@fujitsu.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 2025-08-15 4:47 am, Koichi Okuno wrote:
-> This adds a new dynamic PMU to the Perf Events framework to program and
-> control the Uncore PCI PMUs in Fujitsu chips.
-> 
-> This driver was created with reference to drivers/perf/qcom_l3_pmu.c.
-> 
-> This driver exports formatting and event information to sysfs so it can
-> be used by the perf user space tools with the syntaxes:
-> 
-> perf stat -e pci_iod0_pci0/ea-pci/ ls
-> perf stat -e pci_iod0_pci0/event=0x80/ ls
-> 
-> FUJITSU-MONAKA PMU Events Specification v1.1 URL:
-> https://github.com/fujitsu/FUJITSU-MONAKA
-> 
-> Signed-off-by: Koichi Okuno <fj2767dz@fujitsu.com>
-> ---
->   .../admin-guide/perf/fujitsu_pci_pmu.rst      |  50 ++
->   Documentation/admin-guide/perf/index.rst      |   1 +
->   drivers/perf/Kconfig                          |   9 +
->   drivers/perf/Makefile                         |   1 +
->   drivers/perf/fujitsu_pci_pmu.c                | 536 ++++++++++++++++++
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
- From a quick side-by-side skim, this is a copy-paste of the exact same 
-driver from patch #1 with s/mac/pci/g applied. Please don't do that. If 
-the hardware is functionally the same, then it should just be a single 
-driver that can then pick which PMU name and set of event alias 
-attributes to use for a given instance based on the ACPI HID match 
-(and/or any other ID register info you may have.)
+>> Between "tools/doc" and "tools/docs" I don't really have overly strong
+>> feelings; if you work has the latter we can just stick with that.  If
+>> you propose "tools/Documentation", though, expect resistance :)
+>
+> <joke>
+> Heh, I'm tempted to propose:
+> 	/Documentation -> /docs
+> or
+> 	/Documentation -> /Docs
+> </joke>
 
-Thanks,
-Robin.
+I proposed the former at a maintainers summit a few years ago ... the
+response was less than fully positive.  I guess the fact that docs have
+the longest and only capitalized top-level directory name shows their
+relative importance :)
+
+> Ok, so let's keep tools/docs then. We need to decide about python
+> lib. On my series, I'm placing at tools/docs/lib, but I guess we
+> can change it later.
+>
+> From my side, I would prefer to have a single directory for tools,
+> as we may place there things that aren't specific to docs.
+>
+> For instance, I have my own class that I use for command execution,
+> using asyncio. The rationale is that it allows output messages in
+> real time without needing to wait for the entire process to end(*).
+>
+> (*) I recently discovered a way to do that without needing asyncio,
+>     which makes the code a little bit simpler.
+
+This is just flushing the output buffer?  Asyncio seems like a heavy
+tool for that; I guess I'm missing something.
+
+> Either using asyncio or not, a class for such purpose is something
+> that multiple tools could use. So, a generic dir like tools/lib, 
+> lib/python, ... IMO makes sense.
+
+I agree with this, anyway.  "tools/python" might end up as the winning
+suggestion. 
+
+>> As I said, my series was an RFC to see what it would look like; it did't
+>> take all that long the first time around, and will be even quicker to
+>> redo on top of a new base, whatever that turns out to be.
+>
+> With regards to the RFC, IMO we still may need to discuss how we'll end 
+> placing libraries under a LIBDIR. IMO, your RFC should also propose
+> a directory structure. I mean, we could have something like:
+>
+> 	LIBDIR     # either tools/docs/lib, tools/lib, lib/python or whatever
+> 	|
+> 	+---> common
+> 	\---> docs
+> 		|
+> 	    	+---> kdoc
+> 	    	\---> abi
+>
+> We could instead do:
+> 	- flatten "common" to LIBDIR; or:
+> 	- flatten "docs" to LIBDIR; or:
+> 	- flatten both but keeping kdoc, abi, ... directories inside
+> 	  LIBDIR; or:
+> 	- have a completely flatten directory with everything
+> 	  under LIBDIR.
+
+I'm not sure we need the common/docs intermediate directory.
+
+Meanwhile, I had a related, possibly unpopular idea...  Start with
+.../tools/python/kernel and put a basic __init__.py file there;
+everything else would go into that directory or before.  The imports
+would then read something like:
+
+  from kernel import abi_parser
+
+That would make it clear which modules are ours and which come from
+elsewhere.
+
+I was planning to toss together another RFC with that scheme, again to
+see what it would look like in practice.
+
+Thoughts?
+
+jon
