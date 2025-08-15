@@ -1,95 +1,100 @@
-Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D99D29ACD1;
-	Fri, 15 Aug 2025 02:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B960291C2D;
+	Fri, 15 Aug 2025 02:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755225856; cv=none; b=tt22ViuojHMLim0/pFFNtcSAY7pIK8erG2hF5rT+Hyq1Bz6NgIyPtRnjvrWbkM23kBH7bpGwC1kDyK7aJ/6Yt6fjwN4FNvlG83ACDAyyGMkWiU+Dzhn18sQbnbf+0/+xdm/puj/8iuGauuGl+Wqu+l/Qsaf3uRnpPkcDL8YP2Sw=
+	t=1755226393; cv=none; b=aFNeMzi30Owv53pt2aBzPleXOnxhizA0zoez8GsWgWKsFkqICr7XgsPLqLwI7Iot/nqBZgZE0IOJW9URjQU7OEPGnYcgGQ7s3RmBr2JaECu80OVW/vuJLM0au6Xlg3hO8719u2gcSDmIeDkAT8+jJ3mHdn6sKqRRHQDKyyoWQQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755225856; c=relaxed/simple;
-	bh=C+nv8PjvjRT5VVseg8mFqHqLGLycXA0mcxiRZuNVllA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=roYNNnmHwwHT5prkJcNk9gv9qrplDL2Mi1lOv5B25OVSC5yG06J6hmYVs5GezQsr1veztVnJ5J0yPPhD3HIYtAOC8rbvBT4yXrCqjRHgqw+vUSf40VE2ehp/5z6RKGNSn24RxAU+j9WzzNYa3/HyXYcYiZiyqulfkelu36l2TWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz9t1755225785t18a98fe0
-X-QQ-Originating-IP: qZWec32v0f2IQWBPzJqvPtOzV3dv+pEGwUf5SLtvS68=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 15 Aug 2025 10:43:03 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2926667803765780674
-Date: Fri, 15 Aug 2025 10:43:02 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/5] net: rnpgbe: Add basic mbx ops support
-Message-ID: <497996B7269F1229+20250815024302.GC1137415@nic-Precision-5820-Tower>
-References: <20250814073855.1060601-1-dong100@mucse.com>
- <20250814073855.1060601-4-dong100@mucse.com>
- <fa273889-f96e-4ca8-9d19-ff3b226e2e29@lunn.ch>
+	s=arc-20240116; t=1755226393; c=relaxed/simple;
+	bh=wad71HYAYfLhhLqPojmKa25g/oEHTWLZegrpvBYkr7I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WR0/JHmNZdH0GwQeRykqJAgfYMksAs0+KsRhBzeuN3zlFSszBR17qY8qPfAHRJ4uWizX1HeZHr5TK60pLp5gQxlJm5wjTSis7VJ//PT2lJ9LljCY4grRehbo069GDMzvDeJLrEsibCc2cC60jQZnPY3xk6EUDK0/qBCrjm0ig9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=j4COaN5t; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="j4COaN5t"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=QZVCzrbuC3u5VaWwoobTCBcWvATTA38krFlGKxEqZJE=; b=j4COaN5tYuRhIY7ZY473lK72dY
+	EiguNMWI8t/0QwYXS7gawwzmkBkizObitNkYcK7EME9QFTygLi60wo1won4CXE2iX2Vgu5s6t8BU4
+	xLh0H8c1pttR7Itt4pwZHP0rQ+ocDKMAw4v9mHcI85L8Tz+8fjRj6cw1AQhxUJB2Oa4qaKmkNpep5
+	J25N+vxYlLRiu9jCPQE1IBBwpWb3iMJA58AcPwsc0GyKkhSoESmArSEEliGF8kUhEX/pPR2Ptn0vA
+	TKbGQPTlQB84/rJel8Xm3a+9VRblK+nyA9d6bEjS8v7GRB4UJZRst86YmSWgIuBRKHk/uslycBJ0b
+	m1NBhPCw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umkZ5-00000001EKb-2h1k;
+	Fri, 15 Aug 2025 02:53:11 +0000
+Message-ID: <b63fb30a-5d33-42bd-bdf3-b8dfb960bdf5@infradead.org>
+Date: Thu, 14 Aug 2025 19:53:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fa273889-f96e-4ca8-9d19-ff3b226e2e29@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MBun5VhikmqxOknxadMkRYFgh3iA9R62QtHUMW7W2T0TCccgUBIz25Rm
-	WHcLGgFEMM0vR3XKNscCvV4zK4v6iEip1mloBcwGqK86rzdloQ1vVj+b1xArepmkEf9ynUW
-	ZOMK9XIDql9zRpnRpA3YAHGvhCcL48MN8BKG8qbN+4TSsfPgQsUR3vv5yMPECaZ34x+rwGO
-	MgQRtIgUIISmERV2EiVXx9/o5KZnEyyDy2r2IXG/pCWsAqPkYUJWzDPCtCj2B9q9uSJgSBi
-	Z6zfXjTzPCEpzIkI8cEdH1AOSK9gFYDyakLWUTBcwROEwslBB2eVxTyStjEsHaKmhF+ODnE
-	XM88BBEoTRt06UxBPeAskq4b3gSR3aa4+Ts+f4p99aGpur4XTmX1GZ7yp9MfFn8mQHxb7Oq
-	3zlGQWdW360iMGrYiwIZ0DMLYGKaXMfYvWHLAaRgy6Y1rtKOWy/VwX0xYYOyMaRnD+/V2za
-	m5C8UIuTY0SUHmEYHSobAA0aUvwLHhs2q/DD9o8UyGq8RMHZqAwW5InRoL7K8jmJamKGiY+
-	VYfFdzIZIcKtDtRNbADphOHMakTRCv/GnQNIS0Rd1eLkCg+lu7AWFeRZKRyUR5YDfAZiqrO
-	hul+ZMsR4rdAgVxpFk83+8QyE6medOqDc2lo/nfutKv9V850VpUsWaxGRuNVvRchCH1HSon
-	ozmnyQ/9UP4Sd15l8DB/rIrrnzQDb/P+uAbMuOJzAnN1eVlOVYcz2HaFoGju4hrOc6/F3ZN
-	eAw3gBgHkUviQ0CL0R7xy37xlbxVpHFNA/TAIqSxF1P16ynpVtr9m8+KVtrmMJdWqDb+pBT
-	vc971plkHDuy16swCU+cZvlOM1jGvAAdygK09QkvX8bk9udrlJN/npeuxvMS0fNbWYTz0qK
-	2MNbYkwPwmpgKAre4xKwfeyqPhw8bPhYRMw8OT6CKaLGSZopElX7o2qJdeIINPTrHIoPIVp
-	UScySX5iVb6++hHNF5/lsmrl8EkezMbmJqMbWxLLBpC2l7+4/PSX9KNS8Nd3cWm4+ZO5KTa
-	6wcKHQAHsOz1KRcfFgPfEZu34Ou6cr6HuEeBJxdUgF4Z0UJrSYphdPXZ6LFNosKkLUjA6+Y
-	OxW7xYg7grCktSgHvvSha4=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 00/13] Collect documention-related tools under
+ tools/doc
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <20250813213218.198582-1-corbet@lwn.net>
+ <e84e288af0536cdc406c787301bc6b9b11c0be0a@intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <e84e288af0536cdc406c787301bc6b9b11c0be0a@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 15, 2025 at 04:13:52AM +0200, Andrew Lunn wrote:
-> > +const struct mucse_mbx_operations mucse_mbx_ops_generic = {
-> > +	.init_params = mucse_init_mbx_params_pf,
-> > +	.read = mucse_read_mbx_pf,
-> > +	.write = mucse_write_mbx_pf,
-> > +	.read_posted = mucse_read_posted_mbx,
-> > +	.write_posted = mucse_write_posted_mbx,
-> > +	.check_for_msg = mucse_check_for_msg_pf,
-> > +	.check_for_ack = mucse_check_for_ack_pf,
-> > +	.configure = mucse_mbx_configure_pf,
-> > +};
+
+
+On 8/14/25 7:59 AM, Jani Nikula wrote:
+> On Wed, 13 Aug 2025, Jonathan Corbet <corbet@lwn.net> wrote:
+>> Our documentation-related tools are spread out over various directories;
+>> several are buried in the scripts/ dumping ground.  That makes them harder
+>> to discover and harder to maintain.
+>>
+>> Recently, the idea of creating a dedicated directory for documentation tools
+>> came up; I decided to see what it would look like.  This series creates a
+>> new directory, tools/doc, and moves various utilities there, hopefully
+>> fixing up all of the relevant references in the process.
+>>
+>> At the end, rather than move the old, Perl kernel-doc, I simply removed it.
 > 
-> As far as i can see, this is the only instance of
-> mucse_mbx_operations. Will there be other instances of this structure?
+> A wholehearted
 > 
-> 	Andrew
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
 > 
+> on all of it.
 
-Yes, It is the only instance. Not other instances at all.
-Is there any improvement?
+and
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+for the series.
 
-Thanks for your feedback.
+along with using either of tools/doc/ or tools/docs/.
 
+>> The big elephant lurking in this small room is the home for Python modules;
+>> I left them under scripts/lib, but that is an even less appropriate place
+>> than it was before.  I would propose either tools/python or lib/python;
+>> thoughts on that matter welcome.
+> 
+> lib/ contains code that's built into the kernel, I think lib/python
+> would be out of place.
+
+Would tools/docs/lib be OK?
+I wouldn't tie it up to a specific language,
+but I don't have a strong opinion either way.
+
+> IMO tools/python (or tools/lib/python, no strong opinion) is more
+> appropriate.
+
+-- 
+~Randy
