@@ -1,110 +1,84 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341A710E0;
-	Fri, 15 Aug 2025 08:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056AD10E0;
+	Fri, 15 Aug 2025 08:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755246455; cv=none; b=U7I3UwP4C0jiroLSAz8gGh4K+RYYnIGETJMIbVpY9UlHHkgliNsUK/xFI0O+gsXZabe62xNhLjGb0SrQrBoU3qUt06cjiAPRBK0NK6lITeNIixEs3iK+lbWlLk3uJtY1P3UpddJuaMzwY9A1noc8GWgMIpSJwLIQix3txN75OBM=
+	t=1755246560; cv=none; b=K3KA9uVQcgjWMFJn5VDoY4o4GPpd2hGQy1LanP4iSEgIT+DDjP4TaBUsoJzvk2ki9lqiUxspiaD8F/MOcutPc2gacaqW3xfzBwTygBVo0hLqBzZHq75w4zBulrX9ycMRTDRcdmosQ5ZOiOqo9gh5NnKAQR6xMpzNHzYG/nGV+lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755246455; c=relaxed/simple;
-	bh=RcZMl5K/x5WJWGxz7wXDHxJSURQrTCmZO/JmwgRl6B4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mlcrAzbmh81A+K8U5Fep+KPWBrcj3prYcbaL86xlstg83M5JywQ9C4Pti3CErLT4aR3Y6IHQ2mKu3/tfoSTABMENd7eQ0msBoWgjLx1MaoKeIfyGy+44jujAjdg8ayIp6/v6A0Yd53uRx3tACvd8IFsBQUkdnre2ReuF676H3Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: abff620279b111f0b29709d653e92f7d-20250815
-X-CID-CACHE: Type:Local,Time:202508151617+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:339357e6-611c-4c45-9af4-4b0f9ad93f29,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:bc8e9e1cfca9223f5b74cc50e33c6883,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
-	-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-UUID: abff620279b111f0b29709d653e92f7d-20250815
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <zhangzihuan@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1281589497; Fri, 15 Aug 2025 16:27:25 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id A5724E008FA4;
-	Fri, 15 Aug 2025 16:27:24 +0800 (CST)
-X-ns-mid: postfix-689EEF6C-527582324
-Received: from [172.25.120.24] (unknown [172.25.120.24])
-	by mail.kylinos.cn (NSMail) with ESMTPA id B8201E008FA3;
-	Fri, 15 Aug 2025 16:27:18 +0800 (CST)
-Message-ID: <bef49dcb-8619-4448-b8d7-6dca3a6cb456@kylinos.cn>
-Date: Fri, 15 Aug 2025 16:27:18 +0800
+	s=arc-20240116; t=1755246560; c=relaxed/simple;
+	bh=8k1nPSWczSYuLZc+h4QPqdu/jttIuO/RCgCR6g3i8Dw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=jaJVXxU9a/FiBU7AoFwcgfsufg3IqLWnKcwrivLPglGeHkSKiKIFjKhpQ2K1puFsULfa7IAkoH+KabKCatxQNVkrRF8XjKfywlrisgf2oMUcstNeq/JfnfQRiOXK4YJD5+B0gXwU1lTYZo1uLb1oPZPb+cpcIMl/OuH73jwTiPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RcMw9aYy; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RcMw9aYy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755246559; x=1786782559;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=8k1nPSWczSYuLZc+h4QPqdu/jttIuO/RCgCR6g3i8Dw=;
+  b=RcMw9aYyBLYVE1yTafQcEmAtXVCf2blAKGc3EGciPhIj+e21hCtrUeJP
+   SYS22fULfBKcriOBf8xbVYCL5ykIUMOc8Q1NqVD3t7S8EBMlBRzSy9xCX
+   zHv0OSM2m1kd1hWG17Rapo3yIXz2I/dVEBGo4LOjZyejj9REZRy88RdSx
+   r7isKmIy4snTdT6P2SiG85JUpt6Zxy+lbVqSe0vlT7ymSU9pOReOIjAKJ
+   mkrCg7C+LqY4XPMC10rF/X8dFBGGgGN6puK9wJyMeAxXmq1Uzwg8CXfeB
+   uoy6kQKxEefujpr3whraU8i3rt5mtfAdjdK2CGZJUWl+jOSM5JhXyxsW0
+   w==;
+X-CSE-ConnectionGUID: SdHLiinORj6Hdsub2d13dw==
+X-CSE-MsgGUID: mwy6/98NS5yzOhz5Bz2ySg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57645282"
+X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
+   d="scan'208";a="57645282"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 01:29:19 -0700
+X-CSE-ConnectionGUID: C1MLpPdWQPWV/kIBo+WJsw==
+X-CSE-MsgGUID: oL817FOoS9eCwKr/6HHJyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
+   d="scan'208";a="167229240"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.246.142])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 01:29:16 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH RFC 00/13] Collect documention-related tools under
+ tools/doc
+In-Reply-To: <b63fb30a-5d33-42bd-bdf3-b8dfb960bdf5@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250813213218.198582-1-corbet@lwn.net>
+ <e84e288af0536cdc406c787301bc6b9b11c0be0a@intel.com>
+ <b63fb30a-5d33-42bd-bdf3-b8dfb960bdf5@infradead.org>
+Date: Fri, 15 Aug 2025 11:29:13 +0300
+Message-ID: <5a17445f2ebb4a1290df1d046f0752f7fd8742d1@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 0/9] freezer: Introduce freeze priority model to
- address process dependency issues
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Oleg Nesterov
- <oleg@redhat.com>, David Hildenbrand <david@redhat.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- len brown <len.brown@intel.com>, pavel machek <pavel@kernel.org>,
- Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Nico Pache <npache@redhat.com>,
- xu xin <xu.xin16@zte.com.cn>, wangfushuai <wangfushuai@baidu.com>,
- Andrii Nakryiko <andrii@kernel.org>, Christian Brauner <brauner@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Jeff Layton <jlayton@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Adrian Ratiu
- <adrian.ratiu@collabora.com>, linux-pm@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250807121418.139765-1-zhangzihuan@kylinos.cn>
- <20250814143717.GY4067720@noisy.programming.kicks-ass.net>
-From: Zihuan Zhang <zhangzihuan@kylinos.cn>
-In-Reply-To: <20250814143717.GY4067720@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+
+On Thu, 14 Aug 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
+> Would tools/docs/lib be OK?
+> I wouldn't tie it up to a specific language,
+> but I don't have a strong opinion either way.
+
+I think the question is, is the directory for libraries used by
+documentation tools *or* for python libraries used by tools in general?
+
+I would lean towards the latter, to not create another dilemma when a
+library is used by both documentation and other tools.
 
 
-=E5=9C=A8 2025/8/14 22:37, Peter Zijlstra =E5=86=99=E9=81=93:
-> On Thu, Aug 07, 2025 at 08:14:09PM +0800, Zihuan Zhang wrote:
->
->> Freeze Window Begins
->>
->>      [process A] - epoll_wait()
->>          =E2=94=82
->>          =E2=96=BC
->>      [process B] - event source (already frozen)
->>
-> Can we make epoll_wait() TASK_FREEZABLE? AFAICT it doesn't hold any
-> resources, it just sits there waiting for stuff.
+BR,
+Jani.
 
-Based on the code, it=E2=80=99s ep_poll() that puts the task into the D s=
-tate,=20
-most likely due to I/O or lower-level driver behavior. In fs/eventpoll.c:
-
-Line:2097 __set_current_state=20
-<https://elixir.bootlin.com/linux/v6.16/C/ident/__set_current_state>(TASK=
-_INTERRUPTIBLE=20
-<https://elixir.bootlin.com/linux/v6.16/C/ident/TASK_INTERRUPTIBLE>);
-
-Simply changing the task state may not actually address the root cause.=20
-Currently, our approach is to identify tasks that are more likely to=20
-cause such issues and freeze them earlier or later in the process to=20
-avoid conflicts.
-
+-- 
+Jani Nikula, Intel
