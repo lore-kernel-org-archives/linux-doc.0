@@ -1,93 +1,70 @@
-Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ECB287246;
-	Fri, 15 Aug 2025 02:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C6C29B23E;
+	Fri, 15 Aug 2025 02:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755225612; cv=none; b=gY/rA+lM0vKXI1gGpZ91Va2U2dxOzHdw5mJfxXqKsqg4yUo+J8LaFxu9sboj9XzrP8ex8qInTGZe1mO/+q9yEKtGQobUuZadd1m5u7ho0oB99MhB5mAOX9OYQQ3s6oU8StCrThEO2ftRMdv+f9f2shuxcWC6Iz5JA8VJYgQbFkw=
+	t=1755225822; cv=none; b=iq97Z2ALSzhDKvCvX+ZsDRwNvMhnjD24Nmy3Pvmg5P/DA+Bx86AlVpGWZFPaE0357ULx4YlSKPO2fui9t4xFgS9IXK2JgG48VSn5eM0+0MRN/gMf5NL38lcBUUp6GOnaqwi3d7DwIk4hWhdu2ga0KLfv19bkCs0TpILHXLZ8MZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755225612; c=relaxed/simple;
-	bh=u8I2X25WR4fgpDkMDlFyC0T3LW3CMF15mu1UZnKTUlc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LfBmJH5gE99sBLibdtk3LvpNmMIX9qN8CpidEc49xw+7PKS1zk5g3yETwjAoOysjnUZ8EEXGMrKGfdePbPZkV7ItM0CVQXVHhxGgdWsRb9kfnU0MeWADsXtqF9i2n6fNbkmrbutajHM1NsLPEh8UK5PbUSpnzl7IsPxcSbtuiTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpgz11t1755225519t45fc5bba
-X-QQ-Originating-IP: yq0E6dA0Nd3VzJJptiSQmJVFvn7q1TzIAMReu6KVsPY=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 15 Aug 2025 10:38:36 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 5342344533602567481
-Date: Fri, 15 Aug 2025 10:38:36 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] net: rnpgbe: Add n500/n210 chip support
-Message-ID: <F74E98A5E4BF5DA4+20250815023836.GB1137415@nic-Precision-5820-Tower>
-References: <20250814073855.1060601-1-dong100@mucse.com>
- <20250814073855.1060601-3-dong100@mucse.com>
- <a0553f1d-46dd-470c-aabf-163442449e19@lunn.ch>
+	s=arc-20240116; t=1755225822; c=relaxed/simple;
+	bh=/PV07ux8NWA3wTky7V+QQKjc5NjD4ZFIT6NkARZRNGw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BCvaQNvBgxSciUBaia3Ehup7xTpaxjvqDWMc8wJJFC5Ah4BSvkpwEq46v1J3bZQAdbpdUUoMwFtDisejoVXNbathv48SevawAG7qzqUjRVKd9dy/HnwwYj952aEvvwp/TFpDflDNr5rgT/kNfbFalTIm8RFA7RD6B+lvCyUHqTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lq3golUm; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lq3golUm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=aBmIJscIait2IhulupFgTY7aIusSXNXvDlOfUbDJvoc=; b=lq3golUmdLII2ubuRV5Ikjfnu2
+	TjDFEND/pwz75AUlrIHozYbX0ySZOSEDHW6OOe43BVXEYz8SYA9KxuZgUs1uEXS0Z2IL0I8J8vgyj
+	4uj2vqOrC1AqwV36zkNDTpltl/ZBmG98776puO3HP4wBHgw9VJLYMjD2ZAjDgEsntH1PA5TuFGBiq
+	4NbDsur6l9HURRHxfSfxlwq5Hkp1J7bt9MYylmqlRpduf43lusEkuICMrgbINnaMTeVwlTZIV3WyP
+	mBq0kIuDmk42/OQegxBrEtgKR3dsSVln5ISp1UR2NE258VtSAHLFTaWoJSRf+2YRwayifZV2eyTo7
+	wuhn0h3g==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umkPq-00000001DDQ-2Qu8;
+	Fri, 15 Aug 2025 02:43:38 +0000
+Message-ID: <1c04bed1-64aa-478d-a9ea-e54c335b3a1f@infradead.org>
+Date: Thu, 14 Aug 2025 19:43:38 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a0553f1d-46dd-470c-aabf-163442449e19@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: M613wnTrQKZbbJVjJPiVF5qUZkkZaUCybkZ1Rrq/LD7XscKj2g+IMy8i
-	ZeVTua40pupIfse+Ejlzg4pQY71gRw8XkdHiJABJKhjKij+9IGr3vwG+i4eFpKqNqvhiMMr
-	XpETE1WfYWELv+DJAfM/CIkfczlQDIOpraskMUJOPR9Hd1EpFYXxXXcamFxFJU2Z6XnNrQq
-	luySaaIucWztMzbAyFajdX7MHZQ1QJCH6vzxzb8oo52A4eQBaPkb2HUjuFPDFO4vO5PDMS1
-	6w/aaCLdOn7zTGfnsv0CLLlOhG/Bh9h67RVNwd9aqpWMAMY7pOnE7/91gx7OQN5ov+0lkqD
-	6z4bRjaDoten8o1ptazvIns+mBRAkW5NxZFRazW+selTg43SoU1sZNJ3WhTJgqV4OaUk+1l
-	T4yCnnZ8CBo8fgzLtDh8LEH5boc7/C+4HzKW4JLRl29PhD5L8h4h4AuOQU0dQH/MSga9tMW
-	PjS4KO4vCwMHd3OfUU0HRu63JwjeqEA03yyfVBiDrG9x/pBZ9CGTmJTjtvb9joz8iBEKJhj
-	gQrKWgHD0fu0vUgf/RgH2kq6anueZiWexHwb0qiOIY9YS9NQDgz5N9Zes2YXq1k2tYTEuKI
-	wlEXSay5I3wA6evl2SELA4d3oQUNFqqaABh61/CSVJPhFoKNi+GQcX1inH53rWDiKG6seCl
-	ursXmI5+HdnvLzUCoI1a1RAfV85pOucnJD5LkM/4dUlqTyCX1tZR9u8Q7MvKYReghODv2yf
-	q25XPhCuOOurDAbNHpCFez33gQoGJSH4DSxnUr1WQgK0mVife83h1UeAhMkhmOXaJwWZ1M9
-	3DTA2SWb6aqYZPZcOYn9puhCNAaz/2O0MSLmHQIBZrtcH+mB0W/FhoX2spIkEow0BQnZ0fn
-	JkeRgYPemfzDM6DdyR3Wu+aeu9Q3WOSD3uUWkb5WqSxb6DibI0vNb7lYYpS9aNLplxd6aJp
-	7sgvPTKXslxPaYZAzOBZiMzhsx242GrEGO4y5I2EtCjLYAHZV+NAh+2sS8vmaFaKlWa6Zoe
-	rd4yZ/vhTT9G2TsRz1Ih7A12+BhUhr3qdhLGZ0j9yMGSZyv0ki6KIHvUBLL3SNd/AnnhcKD
-	Evd/jLLbwfjm3dLsqNcmcXxOiChWw7C+w==
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] docs: remove kernel-doc.pl
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <20250813213218.198582-1-corbet@lwn.net>
+ <20250813213218.198582-14-corbet@lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250813213218.198582-14-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 15, 2025 at 04:05:32AM +0200, Andrew Lunn wrote:
-> > +	hw->driver_version = 0x0002040f;
-> 
-> What does this mean? It is not used anywhere. Such values are usually
-> useless, because they never change, where as the kernel around the
-> driver changes all the time, and it is the combination of the driver
-> and the kernel which matters.
-> 
->     Andrew
-> 
+
+On 8/13/25 2:32 PM, Jonathan Corbet wrote:
+> We've been using the Python version and nobody has missed this one.  All
+> credit goes to Mauro Carvalho Chehab for creating the replacement.
+
+Thanks, Mauro. I certainly won't miss kernel-doc.pl.
+
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 > ---
-> pw-bot: cr
-> 
+>  scripts/kernel-doc.pl | 2439 -----------------------------------------
+>  1 file changed, 2439 deletions(-)
+>  delete mode 100755 scripts/kernel-doc.pl
 
-It means driver version 0.2.4.16.
-I used it in 'mucse_mbx_ifinsmod'(patch4, I will move this to that patch),
-to echo 'driver version' to FW. FW reply different command for different driver.
-
-Thanks for your feedback.
-
+-- 
+~Randy
 
