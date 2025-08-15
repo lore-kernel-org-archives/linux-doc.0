@@ -1,94 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CC6221D87;
-	Fri, 15 Aug 2025 19:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD431A317D;
+	Fri, 15 Aug 2025 19:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755285989; cv=none; b=hGbM4+PPRwOz8sVIKrXuE/KYZ81TRm+5CW8EnSJC7EeRjWZZk8xZQJaMJwiwuSrs0ohhsWiky0mnCB645sLn9kGWneTIfNDFAtByp6eL0s7lcuxggdwhjaLOST8pZEMWPr6ya6Rg7ogmIP7pIXvUBx07kp6HKgxmcfTe3MXNIRQ=
+	t=1755286309; cv=none; b=axdc/6iz2+KCPeo60cQ9suVuN4/YAIsi5oPs0dElcJTQ0a0jiTvFijRkzbR+gzv7I9au2I3d9xvQVc/2+BeNprow6n8lRDbVOkkHWil16kzNBchONmGrhyFkPvEWlPZCVw2TFijzcr6l75BZlE9N7uvzgP5qBKynbMrJLcB52S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755285989; c=relaxed/simple;
-	bh=XThlV1U6bmBUoCCBTZhniQaFumiomKJglFZyqJ8EKMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GpoPwVUwJJTKcbEsjf/hxdVvCA+qshOxZRkrXUc+Zcv0oe4GVvMquLBpR0YPX3zuAvHLjrhgqaGmjk/W/hQHD5UwWsm5GIisZfbH4qh1qSDuzQv0QYY6Sg97MsMdmvLKfQvl9iqL20txCriXriPmcVNQJmTJZ57GQ5rCERmRanw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RPzsPUfJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755286309; c=relaxed/simple;
+	bh=b0UVwRc9cc22D51mdHrR0YFUZ9B/PwS6AYr9N5t5WcY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Yz2nQD/YIXWKQQYHAnMOHqcnbC1cq5EfWgA4NfSN15HcUsbS4VUyrRCcinSwZVLD9DLKl6Si8ur3WdIXd48vUw8nwnhpHKh0r4WQ2zOOcEuXCuI38UrIPFda9zCzcPSl8W8FEqAxYunvFVSvcMJrA+7jHjy2x81d14yx8fURMhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=d467waA6; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RPzsPUfJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 234DAC4CEEB;
-	Fri, 15 Aug 2025 19:26:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755285989;
-	bh=XThlV1U6bmBUoCCBTZhniQaFumiomKJglFZyqJ8EKMo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RPzsPUfJBr5q5p+iF9vGtPAIahYFabs9abdt4JCY7KxS1BzGSCe6yRc539IhK5VBn
-	 BHJH/IQp4gyfnkPd1YC/dKSq0GM/dU83SnnwkOxSYvQ4TUUPUuV0CoMUlKZANeCulU
-	 IXM7O4rn6DuC98dxd83wIL7+Z2YA1qUbe6SKpFDZ796B1oaIbDtehNXYrQJ3NyjTB8
-	 ThvxZ/TZ1RZHfqz1s2dV1biJs0NzcmsQg3rroH2ODMZvpYx7eLoaDNpgmShfEcB0P1
-	 15fyszyNz+4TOiZQtxl4cn/2BGzPyxDkB2ruCyy84Yo8ioH+1EZGfD3XjmVyTDdNMw
-	 8Qx3qtsNsZypw==
-Date: Fri, 15 Aug 2025 12:26:27 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: Jiri Pirko <jiri@nvidia.com>, Jiri Pirko <jiri@resnulli.us>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Donald
- Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Brett
- Creeley <brett.creeley@amd.com>, Michael Chan <michael.chan@broadcom.com>,
- Pavan Chebbi <pavan.chebbi@broadcom.com>, "Cai Huoqing"
- <cai.huoqing@linux.dev>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek
- Kitszel <przemyslaw.kitszel@intel.com>, Sunil Goutham
- <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>, Geetha
- sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>, hariprasad
- <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>, Saeed
- Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
- <mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, Petr Machata
- <petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>,
- <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <intel-wired-lan@lists.osuosl.org>,
- <linux-rdma@vger.kernel.org>, "Gal Pressman" <gal@nvidia.com>, Dragos
- Tatulea <dtatulea@nvidia.com>, "Shahar Shitrit" <shshitrit@nvidia.com>
-Subject: Re: [PATCH net-next V3 4/5] devlink: Make health reporter error
- burst period configurable
-Message-ID: <20250815122627.77877d21@kernel.org>
-In-Reply-To: <1755111349-416632-5-git-send-email-tariqt@nvidia.com>
-References: <1755111349-416632-1-git-send-email-tariqt@nvidia.com>
-	<1755111349-416632-5-git-send-email-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="d467waA6"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE3EB40AD7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755286306; bh=kAjB3uHTsSIgD3/BTLSqoSTkF9t7gtXVyuuOWiasw4Q=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=d467waA6rahVgMt+h/8Qtt50YDqQRNtLICTwqYnCLsItM1l0spN1MTmGstWWVRY5F
+	 r2limmQS2W3RU6P8WfxT0tVaJDDk6cP5/H8Jbuslq6gb9R7DqmOCMZslchfyia5FYi
+	 MtjzXVH7ic2KezuNfMls6DIqlQNx4q4AYG4aDdCQb3EOvLRXyrXaJILADiSQLJdjWo
+	 BoIcjAQBztL5zVVr2zmqx/eBlvmYXY55HW7kB1ZHIEbydmNHtDSdoAKX43d5Aq55r4
+	 V8lM/uRkTBSCDJ/RaG4E8+sd9E4YE1HhcNyLrrlNQ3TMrH0W0N4tHkpVeSE217rSDn
+	 oUIHRcTD66OLw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id BE3EB40AD7;
+	Fri, 15 Aug 2025 19:31:46 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 07/13] docs: move sphinx-pre-install to tools/doc
+In-Reply-To: <20250815171342.3006f30a@sal.lan>
+References: <20250813213218.198582-1-corbet@lwn.net>
+ <20250813213218.198582-8-corbet@lwn.net> <20250814013600.5aec0521@foz.lan>
+ <871ppehcod.fsf@trenco.lwn.net> <20250814080539.2218eb4e@foz.lan>
+ <87wm76f1t5.fsf@trenco.lwn.net> <20250815071829.3d5163fc@foz.lan>
+ <87sehsen9g.fsf@trenco.lwn.net> <20250815171342.3006f30a@sal.lan>
+Date: Fri, 15 Aug 2025 13:31:45 -0600
+Message-ID: <87ms80crfi.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Wed, 13 Aug 2025 21:55:48 +0300 Tariq Toukan wrote:
-> diff --git a/Documentation/netlink/specs/devlink.yaml b/Documentation/netlink/specs/devlink.yaml
-> index bb87111d5e16..0e81640dd3b2 100644
-> --- a/Documentation/netlink/specs/devlink.yaml
-> +++ b/Documentation/netlink/specs/devlink.yaml
-> @@ -853,6 +853,9 @@ attribute-sets:
->          type: nest
->          multi-attr: true
->          nested-attributes: dl-rate-tc-bws
-> +      -
-> +        name: health-reporter-error-burst-period
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-the "graceful-period" does not have the word "error"
-in it. Why is it necessary to include it in this parameter?
-What else would be bursting in an error reporter if not errors?
+>> I'm not sure we need the common/docs intermediate directory.
+>> 
+>> Meanwhile, I had a related, possibly unpopular idea...  Start with
+>> .../tools/python/kernel and put a basic __init__.py file there;
+>> everything else would go into that directory or before.  The imports
+>> would then read something like:
+>> 
+>>   from kernel import abi_parser
+>
+> Not against something similar to it, but IMO "kernel" is a bad
+> name as it sounds something that runs in kernel stace or for Kernel
+> build. It could be, instead:
+>
+> 	from lib import abi_parser
 
-> +        type: u64
+Part of my purpose was to make it clear that the import was coming from
+our own library - to distinguish it from all of the other imports that
+these programs have.  "Kernel" seems good to me, but we could call it
+"kernel_lib" or some such if we really want.  "lib" seems too generic.
 
-could you add a doc: here?
+> Yet, I guess it may still need to add something at PATH, depending from
+> where current working dir the script was called (but tests required).
 
->    -
->      name: dl-dev-stats
->      subset-of: devlink
+That seems hard to avoid, yes.
 
-> +	DEVLINK_ATTR_HEALTH_REPORTER_ERR_BURST_PERIOD,	/* u64 */
+Of course, we could require that all kernel tools run in a special
+virtualenv :)
 
-The _ERR here won't work if you used _ERROR in YAML. 
-The naming in the YAML spec must match the C naming exactly.
--- 
-pw-bot: cr
+> Btw, nothing prevents moving extensions from Documentation/sphinx
+> into tools/sphinx_extensions. We just need to add the path insert
+> at conf.py.
+
+I feel less of a need to do that; it seems that the Sphinx-specific
+stuff can stay where it is.  Though I guess I wouldn't scream too loud
+if people really wanted to do that move.
+
+Thanks,
+
+jon
