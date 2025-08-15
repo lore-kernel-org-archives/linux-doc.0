@@ -1,103 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F45305E3D;
-	Fri, 15 Aug 2025 15:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB27308F2B;
+	Fri, 15 Aug 2025 15:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755272405; cv=none; b=uVpLI+6hE854U/SHrXmUcIW7RcPrqV9JPPYkIspD1GSFxerRW9h6NNsI1RkSQgICW22YGlDtktcIWGgefD4955d7lfYivRvF9oW5zCKppUEOUfuq9C5VwR1ivfn7pSnyLhc85xuIvlv3bJP/NZ55En37NCWoGnk4qwGOkYEb78w=
+	t=1755273117; cv=none; b=aAnxortwN/55b3F2vygOkBZDQVLGkLtGojb/WS0Sx9YcMqJ0Qu996P3R0mE0+Qy8rYB1SyRy91HCBptvjjNT4upinDyYMRCAwEbCpNOW3HvxK1upbkUWeg7t+oE3+1P+l89tFeBJ2oF1E5A8bMCsAierRAjeAcO33cJX440WviQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755272405; c=relaxed/simple;
-	bh=qFFD29Z0bBGyOJ/r8urMn6MWEW61foW7aAMeULHu5cQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a2xy/QlxIynPNEzZxOQX4+wvlIkD8h3pHLlQz8JCcxDfcp+0BVP5J0Rf83ffi00oRbdW28xdg6NHp8OyRUetzUBLVowhmfq/0yjDdE9TGK37uL69uHFbYiUAkOv4cqqZqQsa07xtCq5/od4yAfbSybuY28chSH+hQ8/mO8+S65Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLtvEjpC; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLtvEjpC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E9CC4CEEB;
-	Fri, 15 Aug 2025 15:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755272405;
-	bh=qFFD29Z0bBGyOJ/r8urMn6MWEW61foW7aAMeULHu5cQ=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fLtvEjpCpJcL4Br3dGCA310R4Y2FqThotOiDwP4/RNMBJ98DOeQ6jMFavPuxM7u3Z
-	 YBee3GcniPTXE8VnxbNAntO0WnrVAlBSPN/Rg+auulmBzReVjKLE2wtJk5WGr9p/bA
-	 v+UNwcB1/HCJcruh4liLcSUzkIFGzj0D5zYEE1AXG6Bk3xOVDgSxCTVgfi20L/peGh
-	 W5FxJvKHnD4Ces7ML+U4Xa6U1VyeXnxnHxpgLwSOkuc9mVH4pqvhiFujcu52R4pqai
-	 z7w2V5CQDgdwyu3IrZ3mvsiUf3zYUspnccKIKH2BgfWuZt+l2P3OJX4xy8OsKJ0J7E
-	 gbYclLaeRfxNw==
-Message-ID: <6cce2564-04f2-44ab-96d3-2f47fc221591@kernel.org>
-Date: Fri, 15 Aug 2025 17:39:54 +0200
+	s=arc-20240116; t=1755273117; c=relaxed/simple;
+	bh=0bO6C3bPDqcBN0lGRqXIhg8z/Rx87SNP9KLtOI9K9QE=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dDHQYgtwgrAn/FPVAf/z7YxqQPEv4ljFrXG+qBUv/a+OFEYNlGnJkxWohL/224ZtBU2E0XBU6uIhOJnuEl7IMnUDfwhSLwedQr1BuwIBAV3NJ9/Ue2zPeEbjlMM9gFM5whU+PQzuMEamGNZGtQz624byP+U2rbztv6sBkjIuEXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4c3RNw16jZz6L5R0;
+	Fri, 15 Aug 2025 23:49:04 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id B3A4C1400CA;
+	Fri, 15 Aug 2025 23:51:51 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 15 Aug
+ 2025 17:51:50 +0200
+Date: Fri, 15 Aug 2025 16:51:49 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Robin Murphy <robin.murphy@arm.com>
+CC: Koichi Okuno <fj2767dz@fujitsu.com>, Will Deacon <will@kernel.org>, Mark
+ Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, Catalin
+ Marinas <catalin.marinas@arm.com>, Gowthami Thiagarajan
+	<gthiagarajan@marvell.com>, Linu Cherian <lcherian@marvell.com>,
+	<linux-arm-kernel@lists.infradead.org>, Bjorn Andersson
+	<quic_bjorande@quicinc.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Konrad Dybcio
+	<konradybcio@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, "Arnd
+ Bergmann" <arnd@arndb.de>, "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado"
+	<nfraprado@collabora.com>, Thomas Gleixner <tglx@linutronix.de>, "Peter
+ Zijlstra" <peterz@infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v7 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+Message-ID: <20250815165149.00004d60@huawei.com>
+In-Reply-To: <ea3fda8c-2b7d-4902-9bda-d97d7b090cff@arm.com>
+References: <20250815034751.3726963-1-fj2767dz@fujitsu.com>
+	<20250815034751.3726963-2-fj2767dz@fujitsu.com>
+	<ea3fda8c-2b7d-4902-9bda-d97d7b090cff@arm.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [PATCH v4] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-To: Christian Brauner <brauner@kernel.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Christoph Hellwig <hch@infradead.org>,
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Shivank Garg <shivankg@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Daniel Gomez <da.gomez@samsung.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-References: <20250808-export_modules-v4-1-426945bcc5e1@suse.cz>
- <20250811-wachen-formel-29492e81ee59@brauner>
- <2472a139-064c-4381-bc6e-a69245be01df@kernel.org>
- <20250815-darstellen-pappen-90a9edb193e5@brauner>
-Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <20250815-darstellen-pappen-90a9edb193e5@brauner>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
 
-
-On 15/08/2025 07.25, Christian Brauner wrote:
-> On Tue, Aug 12, 2025 at 09:54:43AM +0200, Daniel Gomez wrote:
->> On 11/08/2025 07.18, Christian Brauner wrote:j
->>> On Fri, 08 Aug 2025 15:28:47 +0200, Vlastimil Babka wrote:
->>>> Christoph suggested that the explicit _GPL_ can be dropped from the
->>>> module namespace export macro, as it's intended for in-tree modules
->>>> only. It would be possible to restrict it technically, but it was
->>>> pointed out [2] that some cases of using an out-of-tree build of an
->>>> in-tree module with the same name are legitimate. But in that case those
->>>> also have to be GPL anyway so it's unnecessary to spell it out in the
->>>> macro name.
->>>>
->>>> [...]
->>>
->>> Ok, so last I remember we said that this is going upstream rather sooner
->>> than later before we keep piling on users. If that's still the case I'll
->>> take it via vfs.fixes unless I hear objections.
->>
->> This used to go through Masahiro's kbuild tree. However, since he is not
->> available anymore [1] I think it makes sense that this goes through the modules
->> tree. The only reason we waited until rc1 was released was because of Greg's
->> advise [2]. Let me know if that makes sense to you and if so, I'll merge this
->> ASAP.
+> > +static struct attribute *fujitsu_mac_pmu_events[] = {
+> > +	MAC_EVENT_ATTR(cycles, MAC_EVENT_CYCLES),
+> > +	MAC_EVENT_ATTR(read-count, MAC_EVENT_READ_COUNT),
+> > +	MAC_EVENT_ATTR(read-count-request, MAC_EVENT_READ_COUNT_REQUEST),
+> > +	MAC_EVENT_ATTR(read-count-return, MAC_EVENT_READ_COUNT_RETURN),
+> > +	MAC_EVENT_ATTR(read-count-request-pftgt, MAC_EVENT_READ_COUNT_REQUEST_PFTGT),
+> > +	MAC_EVENT_ATTR(read-count-request-normal, MAC_EVENT_READ_COUNT_REQUEST_NORMAL),
+> > +	MAC_EVENT_ATTR(read-count-return-pftgt-hit, MAC_EVENT_READ_COUNT_RETURN_PFTGT_HIT),
+> > +	MAC_EVENT_ATTR(read-count-return-pftgt-miss, MAC_EVENT_READ_COUNT_RETURN_PFTGT_MISS),
+> > +	MAC_EVENT_ATTR(read-wait, MAC_EVENT_READ_WAIT),
+> > +	MAC_EVENT_ATTR(write-count, MAC_EVENT_WRITE_COUNT),
+> > +	MAC_EVENT_ATTR(write-count-write, MAC_EVENT_WRITE_COUNT_WRITE),
+> > +	MAC_EVENT_ATTR(write-count-pwrite, MAC_EVENT_WRITE_COUNT_PWRITE),
+> > +	MAC_EVENT_ATTR(memory-read-count, MAC_EVENT_MEMORY_READ_COUNT),
+> > +	MAC_EVENT_ATTR(memory-write-count, MAC_EVENT_MEMORY_WRITE_COUNT),
+> > +	MAC_EVENT_ATTR(memory-pwrite-count, MAC_EVENT_MEMORY_PWRITE_COUNT),
+> > +	MAC_EVENT_ATTR(ea-mac, MAC_EVENT_EA_MAC),
+> > +	MAC_EVENT_ATTR(ea-memory, MAC_EVENT_EA_MEMORY),
+> > +	MAC_EVENT_ATTR(ea-memory-mac-write, MAC_EVENT_EA_MEMORY_MAC_WRITE),
+> > +	MAC_EVENT_ATTR(ea-ha, MAC_EVENT_EA_HA),  
+> I firmly maintain my opinion that if this is the only place the event 
+> numbers are referenced then the extra layer of macros actually makes it 
+> *harder* to read and follow, compared to simply:
 > 
-> At this point it would mean messing up all of vfs.fixes to drop it from
-> there. So I'd just leave it in there and send it to Linus.
+> 	MAC_EVENT_ATTR(ea-ha, 0xa0),
+> 
+> but that is very much just one reviewer's personal opinion :)
 
-Got it. I was waiting for confirmation before taking it into the modules tree,
-and I agree that at this point it makes sense to keep it in vfs.fixes.
+I'll second this suggestion!  I failed to notice they were only used here.
 
-> Next time I know where it'll end up.
-
-Can you clarify what you mean by this?
+Jonathan
