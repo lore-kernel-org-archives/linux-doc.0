@@ -1,85 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A1622333D;
-	Fri, 15 Aug 2025 14:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78F2238C33;
+	Fri, 15 Aug 2025 14:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755267944; cv=none; b=KBKHlA53RS6xUL03+bLqfX23pXhwvc3ds3hiuDWk0cdb7fZpnTDUHhvGKkEGcDKh5yxOtJ8yHUvtKA96coRW5wpwVCNOJkN/irp9UCdmUH6RSUo3TcrceowwQsezPd7efIgFTDK18x5mlMVF/8b63Gf4S7xs3duu+lCsRPAdQAY=
+	t=1755268220; cv=none; b=c4Dl8UkjzRdfOvO5OkGh4ro6KiDw779w44L8kg1/si45TPh4YZ3fOa+LlQ2UA+hZlL6xph9ByrfHYrQjYuM/MyUbZJBlh8ESwjYzqToxhn6lUZKw9x7U9+vD1NICoTbI5ZBK8nHyDYQoYmh2Fi/sAW6e1EJlO9o3+X+21jFkRa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755267944; c=relaxed/simple;
-	bh=IZndjDUGqtf8qtTgBD7buye/s0ai0XN3SlKIaNaEeUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KBL+v8gBfZGH6KdVVJIz4n+PnZ3K+zSQoIzliQ4cx6mNGK4B67XO5lThMtQCydMS5NdApcDEeYf3P0JpopXbevf2Mu8vXnBaMCvt9IU1dq+bQklQPBaU6jWFfJZfVw7JTDruzJ6+1th4ufbXrV2FUeJZtZSDKdaejXnVR6u7eBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYMz9gcS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755268220; c=relaxed/simple;
+	bh=A4YoorR9gNLOM84qZZhNM54EKs1QY2Qg1zbHz4xlTQQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZPZDMfrMEHmJ9zs7PtEX9xFIpzAbpRNDIR49ifqIoNOyWDTZA2pWpbM+HB7ZSfJI16VwdTvQ9/EXS5Zo35vPRHuZXSnyoBzovO4vW03O6ZaPOiYiZrZdLbow5dUd0DDx6nGrjpPFc3UcjHbSEkDWUEsHgac7f+vEh5zJzhBrlQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=jwkHJvVZ; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYMz9gcS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58D40C4CEEB;
-	Fri, 15 Aug 2025 14:25:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755267943;
-	bh=IZndjDUGqtf8qtTgBD7buye/s0ai0XN3SlKIaNaEeUg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LYMz9gcShwpMMEiSo1WWYlkuM6E6kInrV6Orrl+JK6yk+Nmb+ijdYckIwQMbcFNfQ
-	 K6JY4LCJjGuxU19K6lhWn7JGx64MrXiXBPUbjankFoUaJLuutbAjbUfJek1z101hVZ
-	 lVkptAmAoeaI1Oadk7bEdUJWvBYWFw5vfQZ7dlREPuHGXt2ZV4j2DOq10T94SrKIF/
-	 W4ha2iCGy5MT1UjKcFAUTnJNPl1PVEs4pNPIia6uskrefrJtsoZ4k9mX7gs5XBB4CK
-	 1rWslMwRVoFSeCggAdB93nlk++9zly/qqTLOp4SJLt7MCQoljkpLe+L2HEfUAB1qtF
-	 Nx4ukXSNcVIvQ==
-Date: Fri, 15 Aug 2025 16:25:36 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Daniel Gomez <da.gomez@kernel.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>, 
-	Christoph Hellwig <hch@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
-	David Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez <da.gomez@samsung.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Matthias Maennich <maennich@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v4] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-Message-ID: <20250815-darstellen-pappen-90a9edb193e5@brauner>
-References: <20250808-export_modules-v4-1-426945bcc5e1@suse.cz>
- <20250811-wachen-formel-29492e81ee59@brauner>
- <2472a139-064c-4381-bc6e-a69245be01df@kernel.org>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="jwkHJvVZ"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57FEUEYU2117553;
+	Fri, 15 Aug 2025 09:30:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1755268214;
+	bh=5FQazpu8UtzG5DyCGxOc96Id5YT6LEKovSAlId61R8E=;
+	h=From:To:CC:Subject:Date;
+	b=jwkHJvVZB1LVihax83tpmzqDiv3pT5Dmkf9a8v7Eu5DACUjlaZZqyCe3+65z6qGqW
+	 x4rOYJ0xcQtpM3LbgzsZdtqh8UVU6P2/9/Ccn43eMU81UK9vVhsD7ETUZ/KL437Gei
+	 1BUt6UndPblHqTtXF8h1JrI2EqLjDnYHViGkzWP8=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57FEUEON2650504
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Fri, 15 Aug 2025 09:30:14 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 15
+ Aug 2025 09:30:14 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Fri, 15 Aug 2025 09:30:14 -0500
+Received: from fllvem-mr07.itg.ti.com ([10.249.42.149])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57FEUDs01416333;
+	Fri, 15 Aug 2025 09:30:13 -0500
+From: Andrew Davis <afd@ti.com>
+To: Jonathan Corbet <corbet@lwn.net>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Andrew Davis
+	<afd@ti.com>
+Subject: [PATCH] docs: driver-api: device-io: Split out relaxed access mention
+Date: Fri, 15 Aug 2025 09:30:12 -0500
+Message-ID: <20250815143012.788929-1-afd@ti.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2472a139-064c-4381-bc6e-a69245be01df@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Tue, Aug 12, 2025 at 09:54:43AM +0200, Daniel Gomez wrote:
-> On 11/08/2025 07.18, Christian Brauner wrote:
-> > On Fri, 08 Aug 2025 15:28:47 +0200, Vlastimil Babka wrote:
-> >> Christoph suggested that the explicit _GPL_ can be dropped from the
-> >> module namespace export macro, as it's intended for in-tree modules
-> >> only. It would be possible to restrict it technically, but it was
-> >> pointed out [2] that some cases of using an out-of-tree build of an
-> >> in-tree module with the same name are legitimate. But in that case those
-> >> also have to be GPL anyway so it's unnecessary to spell it out in the
-> >> macro name.
-> >>
-> >> [...]
-> > 
-> > Ok, so last I remember we said that this is going upstream rather sooner
-> > than later before we keep piling on users. If that's still the case I'll
-> > take it via vfs.fixes unless I hear objections.
-> 
-> This used to go through Masahiro's kbuild tree. However, since he is not
-> available anymore [1] I think it makes sense that this goes through the modules
-> tree. The only reason we waited until rc1 was released was because of Greg's
-> advise [2]. Let me know if that makes sense to you and if so, I'll merge this
-> ASAP.
+We list all the normal non-relaxed device io functions first, but also
+list just the "read" versions of the relaxed device io functions.
+Instead of adding the "write" versions to that list, fix a statement
+below which should describe the relaxed versions so it is understood
+that both read and write have relaxed versions.
 
-At this point it would mean messing up all of vfs.fixes to drop it from
-there. So I'd just leave it in there and send it to Linus. Next time
-I know where it'll end up.
+Signed-off-by: Andrew Davis <afd@ti.com>
+---
+ Documentation/driver-api/device-io.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/Documentation/driver-api/device-io.rst b/Documentation/driver-api/device-io.rst
+index 5c7e8194bef92..09e02dc803024 100644
+--- a/Documentation/driver-api/device-io.rst
++++ b/Documentation/driver-api/device-io.rst
+@@ -56,7 +56,6 @@ Both read and write accesses are supported; there is no prefetch support
+ at this time.
+ 
+ The functions are named readb(), readw(), readl(), readq(),
+-readb_relaxed(), readw_relaxed(), readl_relaxed(), readq_relaxed(),
+ writeb(), writew(), writel() and writeq().
+ 
+ Some devices (such as framebuffers) would like to use larger transfers than
+@@ -67,7 +66,7 @@ guaranteed to copy data in order.
+ 
+ The read and write functions are defined to be ordered. That is the
+ compiler is not permitted to reorder the I/O sequence. When the ordering
+-can be compiler optimised, you can use __readb() and friends to
++can be compiler optimised, you can use readb_relaxed() and friends to
+ indicate the relaxed ordering. Use this with care.
+ 
+ While the basic functions are defined to be synchronous with respect to
+-- 
+2.39.2
+
