@@ -1,83 +1,113 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603812F9C34;
-	Fri, 15 Aug 2025 17:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AD930F524;
+	Fri, 15 Aug 2025 17:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755278415; cv=none; b=DsL9/0YRmzz+E3+lqQIpRGZcbe84DewUB5XkC9PJVNqPUBlOPkVr6nfp4+wZ+VMv1leoa/JMOLDw8W1P6oy7472KFC0oxtNlHWIAyOK8OzDjIfcZDavh3iC9AJlApgjI3KMLKH7zWUPWVpMjicHLRLumhKDd1TqAu48u5WudA24=
+	t=1755278927; cv=none; b=XRZDvboh6J0E1x05JqljziDY30KVViazt5tBtI59JGyjBd6DSgdSC4QHFyPxNypeEuTYZbBDxivqATDRKarc9q1HX/PEBwNk9njhP6/4Dw3CVzcVPlfnSyr9wn4RlLaz2/8ZdLBx11YylnrgyVAOYi9//RWzOvpnJbAfriOC00s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755278415; c=relaxed/simple;
-	bh=SUiiRJ3yGxoPXaH8M9+QdGkFHbB1hKcd3L5XOGPaRZs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=riM4ShgymNlBkS3uUJcCO4E+pspHQ0tFA+Am/JjEBVMO19O5MDMXRMA+gDRs3LxdEjxDvX8uBTL+H/CALCVuO1Ut6EsxNHIz01QBbsk+FqO7w2keTP18R9duZLyuxcxPoXeKEUqzjiyjFUazhb89KGwczo3JwgjH2lZoEdaPyRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=V8uHfd0g; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1755278927; c=relaxed/simple;
+	bh=kFHaCPABuJTztGrxoIXb4alwdVui2jyyPeZPCucfwVY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HRIfnqCPDkiM7dSY7THcqh6a7lXRNk4BEab6W/f1wtqKBHUthY2P8RoUlMnU2JLdQeC8GL/w0OJvTs69k+BYUnZLwfCCtqlD0aiL+AdwPijtbkHUTXJiKercvE4K5DXIKZZaa+ZP5I68Ye+o6AGssmWVgLN8YzB0QDU5lx9x0zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkKIQ8dz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="V8uHfd0g"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=3MCf5e3TI9cJ7IsBDtDWvT98184OzmB18hpxzAlH6qg=; b=V8uHfd0gfbvQ6jKOkxOoO1tyld
-	jCM8kisINijPGiH2Q+s4+emo0250pJLnRFpxWQ8foiaJgRb+9IjrjIssFRRaG2ydTvH+e4XtnEaN1
-	wFajiuoOOTQ6jp64gNTaGL62DF0EII7qtkz6yi8k+r/aoQvqXuIrRyiuOvuSkE5T7tWD+6oPpilZL
-	kJgMmbbZ+06A6SzUR544IzoCNcjv7QEuKuaY8P5NpwO3R2ddLPEjvOplbJJDoHOCrIiHw++WlIU+q
-	GQnPUyInMaGff5jz6MHX5SVv5Om8YhkMU0lREJeVkM3G+3BIBWCcDcDgHO9I1c+apudNP8p82/3HG
-	6tcVmf3w==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umy68-000000036Uf-45oy;
-	Fri, 15 Aug 2025 17:20:13 +0000
-Message-ID: <d4a6bf68-3348-49b7-a9fc-d84c8e416b4f@infradead.org>
-Date: Fri, 15 Aug 2025 10:20:11 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkKIQ8dz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B8A1C4CEEB;
+	Fri, 15 Aug 2025 17:28:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755278926;
+	bh=kFHaCPABuJTztGrxoIXb4alwdVui2jyyPeZPCucfwVY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=bkKIQ8dzTbYZ35KkicwmdW4kZIp3/+t6dxRRrIVSzsgnIwvN2uwkpauye0h555nKc
+	 azVUvz6v/foa1Xk1aobOVw817ANQNivLfRRCtNp1/6WHV28qfe97uczLIVtsdyngM8
+	 hfO7xwbfYci6rcb4iYrF17H6N68Jqgm0TrKVJ7Es6JIu88l+RPpWGKrkI5oGKFBmwC
+	 iNfg0Eo5LKYkOrEWTg2Gc2NsSdGlbG6ULcIq/z3C4owsGPx1PB7nojpdS2/zNGOnJa
+	 4Jsc1nIbVeDer6LtMVlUs7G9q6mKW4WikvcYXbCdNzmPt1Ex+IzBafOAMEd7EbRf0X
+	 6P7blVGAANrLQ==
+From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Subject: [PATCH net 0/8] mptcp: misc fixes for v6.17-rc
+Date: Fri, 15 Aug 2025 19:28:18 +0200
+Message-Id: <20250815-net-mptcp-misc-fixes-6-17-rc2-v1-0-521fe9957892@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] Documentation fixes for dm-pcache
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Device Mapper <dm-devel@lists.linux.dev>
-Cc: Dongsheng Yang <dongsheng.yang@linux.dev>, Zheng Gu <cengku@gmail.com>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>
-References: <20250815075622.23953-2-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250815075622.23953-2-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADJun2gC/x2MzQqDMBAGX0X23A9M/At9ldJDTbZ1D6YhK6Ugv
+ ruLx4GZ2Um5Civdm50q/0Tlmw3craG4vPKHIcmYfOuHNrgBmTesZYsFq2jEW/6sGOEm1OiRXJh
+ 9300cUk/2KJUvwxYPspSex3ECaHtIkXQAAAA=
+X-Change-ID: 20250815-net-mptcp-misc-fixes-6-17-rc2-d18b2437e8d4
+To: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>, 
+ Geliang Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jianguo Wu <wujianguo@chinatelecom.cn>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, zhenwei pi <pizhenwei@bytedance.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+ "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, 
+ Christoph Paasch <cpaasch@openai.com>, stable@vger.kernel.org, 
+ Thomas Dreibholz <dreibh@simula.no>, Geliang Tang <geliang@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1941; i=matttbe@kernel.org;
+ h=from:subject:message-id; bh=kFHaCPABuJTztGrxoIXb4alwdVui2jyyPeZPCucfwVY=;
+ b=owGbwMvMwCVWo/Th0Gd3rumMp9WSGDLm59mzhffvk71p3Ly2Q2jRi2K2AyzSYqf3LdBad9FLq
+ 0Ckcm14RykLgxgXg6yYIot0W2T+zOdVvCVefhYwc1iZQIYwcHEKwESaohkZ+kI8z1zc8/CchHPS
+ jJJbP869E7v4iWOb68Qr/5jbHqrYz2BkeDfRr1InirX/3c793j/PMk+YYHtx8VyuR5tsyiWSFqz
+ VYgUA
+X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
+Here are various fixes:
 
+- Patch 1: Better handling SKB extension allocation failures. A fix for
+  v5.7.
 
-On 8/15/25 12:56 AM, Bagas Sanjaya wrote:
-> Hi,
-> 
-> Here are docs fixes for dm-pcache as reported in linux-next ([1], [2]).
-> 
-> Enjoy!
-> 
-> [1]: https://lore.kernel.org/linux-next/20250815130543.3112144e@canb.auug.org.au/
-> [2]: https://lore.kernel.org/linux-next/20250815131115.45518c74@canb.auug.org.au/
-> 
-> Bagas Sanjaya (3):
->   dm-pcache: Remove unnecessary line breaks
->   dm-pcache: Use bullet list for data_crc constructor argument
->   Documentation: device-mapper: Add dm-pcache docs to toctree index
-> 
->  .../admin-guide/device-mapper/dm-pcache.rst       | 15 ++++-----------
->  Documentation/admin-guide/device-mapper/index.rst |  1 +
->  2 files changed, 5 insertions(+), 11 deletions(-)
+- Patches 2, 3: Avoid resetting MPTCP limits when flushing MPTCP
+  endpoints. With a validation in the selftests. Fixes for v5.7.
 
+- Patches 4, 5, 6: Disallow '0' as ADD_ADDR retransmission timeout.
+  With a preparation patch, and a validation in the selftests. Fixes for
+  v5.11.
 
-LGTM. Thanks.
+- Patches 8, 9: Fix C23 extension warnings in the selftests, spotted by
+  GCC. Fixes for v6.16.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+---
+Christoph Paasch (1):
+      mptcp: drop skb if MPTCP skb extension allocation fails
+
+Geliang Tang (3):
+      mptcp: remove duplicate sk_reset_timer call
+      mptcp: disable add_addr retransmission when timeout is 0
+      selftests: mptcp: disable add_addr retrans in endpoint_tests
+
+Matthieu Baerts (NGI0) (4):
+      mptcp: pm: kernel: flush: do not reset ADD_ADDR limit
+      selftests: mptcp: pm: check flush doesn't reset limits
+      selftests: mptcp: connect: fix C23 extension warning
+      selftests: mptcp: sockopt: fix C23 extension warning
+
+ Documentation/networking/mptcp-sysctl.rst         |  2 ++
+ net/mptcp/options.c                               |  6 ++++--
+ net/mptcp/pm.c                                    | 18 ++++++++++++------
+ net/mptcp/pm_kernel.c                             |  1 -
+ tools/testing/selftests/net/mptcp/mptcp_connect.c |  5 +++--
+ tools/testing/selftests/net/mptcp/mptcp_inq.c     |  5 +++--
+ tools/testing/selftests/net/mptcp/mptcp_join.sh   |  1 +
+ tools/testing/selftests/net/mptcp/mptcp_sockopt.c |  5 +++--
+ tools/testing/selftests/net/mptcp/pm_netlink.sh   |  1 +
+ 9 files changed, 29 insertions(+), 15 deletions(-)
+---
+base-commit: 065c31f2c6915b38f45b1c817b31f41f62eaa774
+change-id: 20250815-net-mptcp-misc-fixes-6-17-rc2-d18b2437e8d4
+
+Best regards,
 -- 
-~Randy
+Matthieu Baerts (NGI0) <matttbe@kernel.org>
+
