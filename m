@@ -1,46 +1,46 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2058.outbound.protection.outlook.com [40.107.96.58])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8F329ACC2;
-	Fri, 15 Aug 2025 02:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C605729ACCC;
+	Fri, 15 Aug 2025 02:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.83
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755224962; cv=fail; b=YeHI4yMmEQjUVGw2dMHbMZYYTnQDcCHOQX2q8OTIdSQ7AVEkANUqaw+M3Yb9oXskckadJWmUHR4921VzynvDabK+RoQkqXYfML2PIwnbpJFh7uMdC3P/1AaICeMB1Bjp7DzlSBeJN261ba1xyi/GUCkQWRuQJ6eFT14IpJ2D7Ns=
+	t=1755224966; cv=fail; b=YCGKL9hHzMdVHrpeWOFe50GLyk64twSZR7i6pEg3YawzRMk8Ooo8gJxe9hddB/Mol3QX9h0U2CFr5wL7GvAx7D6m29c4x+7alOnduCPLA5XM9MVDuKHpzZFVwKryJBNJmpa+Vn37FH+PnAmU714G1Ld2eky0cFP6COBDW9RXJQ0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755224962; c=relaxed/simple;
-	bh=H/yaSx5fJt3J016Q/FgSHMUjGQoGxJMCxCyasAG0IF4=;
+	s=arc-20240116; t=1755224966; c=relaxed/simple;
+	bh=ZLT0u+6DSSCnTJs1nnIwAShSzWFl0p90FO70PLgmjW0=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MlQR6C9UoZKMFqKy+ZNj/k1ePvJSiTTE0pSkdcR1VmyJMAaKo1eChMSLajg0QJdO/Mp68qslM8VOsQ3FKbTvLw3IMSvU4PKWVQrZCJEpwiu5dYzKNfgSOXaNyqlgtf5yO42s1gEsLVUFIRKHz7nZfwT6ucyTwSSdtyKPGMgTWhs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3+33vRNb; arc=fail smtp.client-ip=40.107.96.58
+	 MIME-Version:Content-Type; b=SV91Kf2UAZnlgLLPm95DTiabH34qhUwcWj/0Dlt8JV4KMhArEQiTpwi9f0zfX5aUdqpq4gWBzzFRpD0nXnVqx2OOo6FN7VX2Apv+eOcfp7tigtixukkDi1yL4rpYraDSoEWySqz4HLLbpGzMtk67X02SLAoWcN0RV7OZCEdL9bg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vqOyXPPf; arc=fail smtp.client-ip=40.107.93.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3+33vRNb"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vqOyXPPf"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rckpMpnU8+ZyIvI2JK9smvw0BQ4cDJxFPxsYSnUZJlH/oWlHL3k+HuTCSSQu4zImJyJuOHTPct+Qb1GYdaDjuOctdSpMpsxg+negMEb7YtEQGJXpuK5vzAkMM0ZEWnCDZNQzqGRUUR3arh+F6fmllF0LoH5kbLHgC5z6rdncb2O1lLsT7m8o0Z14Ad35eKcplkEanNZsUdFyLFIsh/JsyHdldbpDDj3I2VKUKg7G7Rnq3AHEmCUjpY4uLNiZLTyjiWqaOikp4QJNf7Burl0kNahXa6pZhJv2YGHTC8riwmHenGhbw+ITXneuv/Mm3hBU62IDJgYSevgUtPf74nntnA==
+ b=R02w2mu7u1H0qGS8fKOKuqRyN2rZN0GQAL8xMGI3DQkBuKJlkVndPkdtMpxk1T8hvX1HqRPiw/TXZHry1vM6it47Bh/LJcIztp5xWdB8ka0FDGDENYMoVawaH0WDJHWp+0k1NR5CoESYrx738Oidmg3IqWoydsAzq7TElEiAc5SBt9Y6Yd0Di7RJEKjPDv1FhQC+PPzzdC7hOvt8Ax+TGHmBoMmhxZpZbxWpBdX2GCTxzoqUuf+kMhWJKB0X2ZWYcz7j6+mmoZS54tU1DXuR46DQd006rZL+HHio/giXQUzXpXYhn+mRBI2uYlCDMfe+mRc7uj1/Y6IQfmgqrIXYzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gXIYlUP485fRqil1tr1o8ITGAVCSYZ4sJtNhB82ZsNc=;
- b=x7gN5SFZ4Z2a4wz1hCzm5h3RRjvvvjmUMEFEJ+oZh+QJYY1q305SGOygvjuPWy5+xnd6jCba3lpfrNwYZ7SyRMUc2L+/y58xWIqvEGXChuOJxeXzboN9Ndv+H+Qs7jIVPvwECF0jfmPriMsCuSEuAkV5pNop5F3N8SqomYtV2DKYFbuYFPFEMNDcg7ooBnVK3IvVmTAU5MhxKM+Hm9PStL8dg0veu3/KNHqpNh3Fkg71/FCqdmWhdeOawb5leOVoYt8WNIhEd5Mo+YtrGjvY8rTPibi2vylQwxgMsbD4tZeFsKmYZpNiTISRm9s5JYONiro0C66IuC/yaQjdfY5egA==
+ bh=RqK4HiZu/DfGpLRXyR8CTwd2qLVMPcCb68g4/wHw9V4=;
+ b=EZwuQaNKRExAAGu30/NzGkoIUvS9I81a76iI/3MQ0YpXmJ1oPuwmi1vxEeCGF6+KO6dB+1AeVOpjNarqIDDrOqzunEbseYwdQCyXcetdvRutUeEt7u4Ns7RWXSQq7UF8MQHFF7Y5TL3gShW6w34tSiMBYhHpgMC5ue/2RUHijKafGSks1C8YZnUzmBhHur1pNtm6S2ZfAy9FPq3Qq7H2NKUhR5hNFBUtTDPbRiGgcY/nc9C9L9fnJINuxhnadEsDZbk0BQ3/xxARQvD7H6RC6YuOsQRoAvgatjpg6zdOKHGHGvFmVF4Q14e1/5G7fT15E1Q+c12vJ31F+cKbA9Ggvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gXIYlUP485fRqil1tr1o8ITGAVCSYZ4sJtNhB82ZsNc=;
- b=3+33vRNb4n864IXmy9FH+wNXrrRR44TpDlwyBpRWxETKuLOiQvwKijq/gN+iF/TmrhAZgMa1otaA0txtgPdetFvhAWZQT4+yqraz5I5TgYYmX6wb/XwVcU8UxmonPDkGlsneX1V83DhJZ9dR4WIVzJkVehszQoDD5X8uTptiBdA=
+ bh=RqK4HiZu/DfGpLRXyR8CTwd2qLVMPcCb68g4/wHw9V4=;
+ b=vqOyXPPfC6yrdNEKWuuUC/xyp53mU+ZskjfRzrikZeEdF5RgAYMIV6tQTkpjkLE9273gCE2fRls3wc/EEP98s1J+EdFDf6ynQrPKi/qe/8GmSXvoAT3lkIX28gJry8IEIbPoEbDVY88PsceZ0xvsBVvh2M2xIBpmQG86o4xhFQc=
 Received: from SJ0PR13CA0079.namprd13.prod.outlook.com (2603:10b6:a03:2c4::24)
- by PH8PR12MB7446.namprd12.prod.outlook.com (2603:10b6:510:216::13) with
+ by PH8PR12MB6745.namprd12.prod.outlook.com (2603:10b6:510:1c0::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.14; Fri, 15 Aug
- 2025 02:29:14 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.16; Fri, 15 Aug
+ 2025 02:29:19 +0000
 Received: from SJ5PEPF000001EB.namprd05.prod.outlook.com
- (2603:10b6:a03:2c4:cafe::24) by SJ0PR13CA0079.outlook.office365.com
+ (2603:10b6:a03:2c4:cafe::63) by SJ0PR13CA0079.outlook.office365.com
  (2603:10b6:a03:2c4::24) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.7 via Frontend Transport; Fri,
- 15 Aug 2025 02:29:14 +0000
+ 15 Aug 2025 02:29:19 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,11 +50,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  SJ5PEPF000001EB.mail.protection.outlook.com (10.167.242.199) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9031.11 via Frontend Transport; Fri, 15 Aug 2025 02:29:14 +0000
+ 15.20.9031.11 via Frontend Transport; Fri, 15 Aug 2025 02:29:18 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 14 Aug
- 2025 21:29:06 -0500
+ 2025 21:29:15 -0500
 From: Babu Moger <babu.moger@amd.com>
 To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
 	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
@@ -70,9 +70,9 @@ CC: <Dave.Martin@arm.com>, <james.morse@arm.com>, <babu.moger@amd.com>,
 	<chang.seok.bae@intel.com>, <linux-doc@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <peternewman@google.com>,
 	<eranian@google.com>, <gautham.shenoy@amd.com>
-Subject: [PATCH v17 23/33] fs/resctrl: Support counter read/reset with mbm_event assignment mode
-Date: Thu, 14 Aug 2025 21:25:27 -0500
-Message-ID: <2aaa25da49e8fad9d6c71b7baf476f2d7977e8f0.1755224735.git.babu.moger@amd.com>
+Subject: [PATCH v17 24/33] fs/resctrl: Add event configuration directory under info/L3_MON/
+Date: Thu, 14 Aug 2025 21:25:28 -0500
+Message-ID: <b09cc34a98f31ffbb913b26a64d9742ffa617dcf.1755224735.git.babu.moger@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1755224735.git.babu.moger@amd.com>
 References: <cover.1755224735.git.babu.moger@amd.com>
@@ -88,271 +88,374 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001EB:EE_|PH8PR12MB7446:EE_
-X-MS-Office365-Filtering-Correlation-Id: 589bee74-0e35-4e20-8c38-08dddba386df
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001EB:EE_|PH8PR12MB6745:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d098768-d082-487c-d520-08dddba3898b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024|7416014|13003099007;
+	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|7416014|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xVwvjCrBTsrZf6pJZay3mD20E1M/g6/Ci/WYwWF69+rCQuabAe/GdF04LYuR?=
- =?us-ascii?Q?1xemRBTWXxennAP9v9KKbUDRAFVzxVJaqSTvPVxv6tgQJLdSPDaDtdDVIoZc?=
- =?us-ascii?Q?5v8lMHbyczItfLfib4TpTbFOSvcsELDmRc+VURjTGanxx/qwrrCpjuZY32Ha?=
- =?us-ascii?Q?5m/suOzjqyxCt2Mxqi9xkxDfwMzrwT2GH6X7WA63mxSg3CaOA/taGF3wQG7r?=
- =?us-ascii?Q?wI6/rJjGb0Zyguqf5HrnWETLnhiljywg/LbPK6B0Hriy2P3PK6CJTBBYasmp?=
- =?us-ascii?Q?nrXc6qKdwpyTUit+sHnCvBSGXT5z85cTpg/fsHBvgH0+CQsqyh/N69KZtnan?=
- =?us-ascii?Q?R/hpUr+xsFlHMgbdOrYZCIzTw37e9aoeoGDGYY4WaNH64nOxRFL6gMjORY8w?=
- =?us-ascii?Q?rvgBEFzKZOCmn3RMP6jOB/MhV1YMBAL4QStf/lUACqNlM9+Jyy0j6+nE2RcE?=
- =?us-ascii?Q?AaJTfWEnfap9tmg8t9u/zgTpWwoTxuzhhlWVdNivvNKNmMjGhpXbyFS4/W1b?=
- =?us-ascii?Q?wbVF6yqowJNd7zq3D4BO7VYJPusA93qo/ufh9tZK3Ng/g6C8xdfnhbxT2Lnv?=
- =?us-ascii?Q?czPpUMAr0Uxme19ROSYjJ2YT0bYZH2lcjT2vhNZiwZxuKfTPMAc5OOZpPik4?=
- =?us-ascii?Q?gU86ePsrt6jj9PQECKdFwpPI+mjnxjRtsnbAvlrUbIVhT6G+veWTjiVTb6lz?=
- =?us-ascii?Q?/lHYMwlWoL9B/i9rQNzGpHGLBMIueeEPNrmVHXZUe6ysWDs14+j2Ss4VGiNr?=
- =?us-ascii?Q?FOg7qWPhOmKVzhch89SraBpTtblZB6ArWn/T4Szr6yieh1bBoIYfe4/QMQ8a?=
- =?us-ascii?Q?st7ZnYF1KO/IQNmQ+SSlX3Uo1S6qzYLXCgCspf9l2eL6NXx92UaIYfIIsJE+?=
- =?us-ascii?Q?LfedUhiHoB8N37pTgQZJUyDaVLTc1dxN22cALI8RdzXfaP3sx+pOIo90hYpJ?=
- =?us-ascii?Q?gKY7BU3LHe+25R0kYW6ZCwOIyM1PKmou1ViiY1VD4K4hWGEtjfKHVnJnFPTf?=
- =?us-ascii?Q?wxJyuwEXDXQ5Q3rll7oWer4zaWSxROKFFC+GC5Ijq89cNCEot2yEWO7pbHkC?=
- =?us-ascii?Q?dcbd+QDYFDXBxHW3Q7Wst2IpL5YvCp7Ezlvmr+ilRRdlFaN9oFuMh3qWku99?=
- =?us-ascii?Q?0iFkabKPxYJ1P18UmkvgAgv+nNkP+g2EqEc8oTKo2W0vzHiIjVTH6oruTqje?=
- =?us-ascii?Q?fOWlkoqsIVz5seBxGxB9niz/Z8kOwZ5NBjdPHDCEzDi4hmUo8WwOsOBNFBoK?=
- =?us-ascii?Q?urOwz4oL2jmM1Ky2A2Iq9y+iW3aYdf3AKnUqr5x4Bcmjb2tdqLDM/IH2cndn?=
- =?us-ascii?Q?OsLOAYUIANXQw1E/XgFmzmTof1pUNiYk590vI9IPUQA5EqwMjiY8hMPLz2vT?=
- =?us-ascii?Q?YL0fkQwGwU1APQzV6anNaWE2mIgQsZIg3EgoTRMG9U/AZ889hSkS4JUiIKmR?=
- =?us-ascii?Q?iCAGCWjAY0YhzoiTgOaQnI1RRIDdB0B92qPv7/qV6Cfudzy9NitVitYlP1l1?=
- =?us-ascii?Q?+gbhX0bkdM0BEfebTw6hq8tZlkrZtJxvvXmC6ai7d7Y/ZCmYSCMy6QkU6A?=
- =?us-ascii?Q?=3D=3D?=
+	=?us-ascii?Q?7xrKG6+Qx6Z9XDSFFFxzN8SieRffPPaTKdP7uNNIVNBOyeNxDRdpO/kOZUdF?=
+ =?us-ascii?Q?1jzGEtqeQgTEtborHIpVtKfFadb9HTSaJrucQNiQI9RNqXpSNztwLdacnHt6?=
+ =?us-ascii?Q?zcX5wsFRLjzEwRs+kNdQsqXy96nNBfPetnrZbY9BNT/nwppBea0JtaTM5ruL?=
+ =?us-ascii?Q?4hx6bjGarcdVBsyDEULkB6yRjTTAg1ty0Sd5EdRClwg9vexq3Kjx+DWInxoJ?=
+ =?us-ascii?Q?qRPyyfaNx7b24EHsoLKsibBsapRSDEC8aqrM4GxE3aY2cTPvHkI73UMJxQpu?=
+ =?us-ascii?Q?4CLz6oh/xBemmqakIxp8Lu4GyQDzXUIJ7s1DqHz4rka23C8Kuelcb8nl2Ov5?=
+ =?us-ascii?Q?pa/n/981suAfiqly06eR6sc26Jd3GOmCiDMvXRodIvUPAtUl+KULC4kGiHgh?=
+ =?us-ascii?Q?g17MZqTYTn9RRRijSopo9cb4f+a7Ij2dZVMS7g/8QPqM79mPlYBZMYq/bt6I?=
+ =?us-ascii?Q?BVOrx1qgUTlu8IqXUWELiYq8rcFWOVSxxKepH42/+u2X2knLKzhd2IGVn30m?=
+ =?us-ascii?Q?z+3Oab+/Q7qPoAM3nZZauCTqKcb2DBNfHL73c8BCvYJkis+KWgW7eIDZ4Qe5?=
+ =?us-ascii?Q?QZzHqHxc9M7LJQ1gRA9v7r3kspmaNHNPa8wcCGOeIy+zP7B+b3FHG0NvjARI?=
+ =?us-ascii?Q?QaEYrWUixlPX7VA2w2cwz0GbgFE9bYdU+QBDKGpb0f7tpm6UqLPkM/wklNt1?=
+ =?us-ascii?Q?bdQ3x57Zfsq9HdQxe7T3grYo53DPDR/7Y/TNbn62ENswXREIljlK/Jac0TBs?=
+ =?us-ascii?Q?lJZ0CA2V2O6geFKnkPVbzIzwi8XxdSM3xqFod13qLwnrNwtsMnyWBjdakUav?=
+ =?us-ascii?Q?wokcuL0Iu6KDR6XkgAnUlnISFB0URZohfghSeYMOGjMAN/YKbVwCwIgbe96o?=
+ =?us-ascii?Q?qSDMbLiDpEd+3byRLMNmyCnZwUUu0Y0I+GCj1q2oIBuiw+U4rHyt5JIrusit?=
+ =?us-ascii?Q?dm8qgN1fsSsX3SFPkqO/Dkr6xMn41qQFlNqNemwN2eCQu45Bhal/e1VbLTWg?=
+ =?us-ascii?Q?ro5UFY7AtyZTnHs8LJl9v2KgX1WvRU0PAqwO3vc/T+NRmmIGwQHa2Wiy1bGn?=
+ =?us-ascii?Q?PldNg3QC9NZR9aFwoMBIYZy0XkD/DqInKqjawMSZZdNljF+w1vz3AIt5LiVH?=
+ =?us-ascii?Q?TaLB4AgGWnytxMQz1ErKC3Qt/N7FnQFycEvcL9alt008UtpYrrBvcRE1WHZ2?=
+ =?us-ascii?Q?LIb3Tc5hufRwOiMpK4igdVj/mndziYAq8ROx1m/BpfrD/7wsW5vBiHTtpjNd?=
+ =?us-ascii?Q?ZPafDnU58HHH9Sqia0fq2SXb8bnWJp9PTBIKLWRlodzyMx2jmmEItadC1QNb?=
+ =?us-ascii?Q?yhooQodnLDggxZiaFAKTMMkihl3XAae1rxIClGEa6OiSrxSVSuM/F91zM03h?=
+ =?us-ascii?Q?65cB1GIPuMoVSvR8m68FM4u7UHwmn2UTR63+4noZ83ptshL2Jo9sM0D/uZ2j?=
+ =?us-ascii?Q?IWzcP1PyFsqLKkjYH2bQbrx7qsCCcN6gFZ9PbftUppbVs4UF6W5ceRVnFVEE?=
+ =?us-ascii?Q?x8FgQOyo6F2vLEh0iYJlssDFUqyYi+SWev0p?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024)(7416014)(13003099007);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 02:29:14.4096
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 02:29:18.8941
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 589bee74-0e35-4e20-8c38-08dddba386df
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d098768-d082-487c-d520-08dddba3898b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	SJ5PEPF000001EB.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7446
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6745
 
-When "mbm_event" counter assignment mode is enabled, the architecture
-requires a counter ID to read the event data.
+The "mbm_event" counter assignment mode allows the user to assign a
+hardware counter to an RMID, event pair and monitor the bandwidth as long
+as it is assigned. The user can specify the memory transaction(s) for the
+counter to track.
 
-Introduce an is_mbm_cntr field in struct rmid_read to indicate whether
-counter assignment mode is in use.
+When this mode is supported, the /sys/fs/resctrl/info/L3_MON/event_configs
+directory contains a sub-directory for each MBM event that can be assigned
+to a counter.  The MBM event sub-directory contains a file named
+"event_filter" that is used to view and modify which memory transactions
+the MBM event is configured with.
 
-Update the logic to call resctrl_arch_cntr_read() and
-resctrl_arch_reset_cntr() when the assignment mode is active. Report
-'Unassigned' in case the user attempts to read an event without assigning
-a hardware counter.
+Create /sys/fs/resctrl/info/L3_MON/event_configs directory on resctrl mount
+and pre-populate it with directories for the two existing MBM events:
+mbm_total_bytes and mbm_local_bytes. Create the "event_filter" file within
+each MBM event directory with the needed *show() that displays the memory
+transactions with which the MBM event is configured.
 
-Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+Example:
+$ mount -t resctrl resctrl /sys/fs/resctrl
+$ cd /sys/fs/resctrl/
+$ cat info/L3_MON/event_configs/mbm_total_bytes/event_filter
+  local_reads,remote_reads,local_non_temporal_writes,
+  remote_non_temporal_writes,local_reads_slow_memory,
+  remote_reads_slow_memory,dirty_victim_writes_all
+
+$ cat info/L3_MON/event_configs/mbm_local_bytes/event_filter
+  local_reads,local_non_temporal_writes,local_reads_slow_memory
+
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
-v17: Updated the changelog.
-     Removed duplicate resctrl_arch_mbm_cntr_assign_enabled() check.
-     mbm_cntr_get() need not be static anymore.
+v17: Squashed patch #24 abd #25 into one. Both are dependent on each other.
+     Minor change in resctrl.rst.
+     Remove check for kernfs_activate() in rdtgroup_mkdir_info_resdir().
+     Added resctrl_arch_mbm_cntr_assign_enabled() in event_filter_show().
+     Moved struct mbm_transaction declaration to monitor.c and made it static.
 
-v16: Squashed two patches here.
-     https://lore.kernel.org/lkml/df215f02db88cad714755cd5275f20cf0ee4ae26.1752013061.git.babu.moger@amd.com/
-     https://lore.kernel.org/lkml/296c435e9bf63fc5031114cced00fbb4837ad327.1752013061.git.babu.moger@amd.com/
-     Changed is_cntr field in struct rmid_read to is_mbm_cntr.
-     Fixed the memory leak with arch_mon_ctx.
-     Updated the resctrl.rst user doc.
+v16: Moved event_filter_show() to fs/resctrl/monitor.c
+     Changed the goto label out_config to out.
+     Added rdtgroup_mutex in event_filter_show().
+     Removed extern for mbm_transactions. Not required.
+     0025-fs-resctrl-Add-event-configuration-directory-under
+     0025-fs-resctrl-Add-event-configuration-directory-under
+     0025-fs-resctrl-Add-event-configuration-directory-under
+     Added prototype rdt_kn_parent_priv() in so it can be called from monitor.c
+
+v15: Fixed the event_filter display with proper spacing.
      Updated the changelog.
-     Report Unassigned only if none of the events in CTRL_MON and MON are assigned.
+     Changed the function name resctrl_mkdir_counter_configs() to
+     resctrl_mkdir_event_configs().
+     Called resctrl_mkdir_event_configs from rdtgroup_mkdir_info_resdir().
+     It avoids the call kernfs_find_and_get() to get the node for info directory.
+     Used for_each_mon_event() where applicable.
 
-v15: New patch to add is_cntr in rmid_read as discussed in
-     https://lore.kernel.org/lkml/b4b14670-9cb0-4f65-abd5-39db996e8da9@intel.com/
+v14: Updated the changelog with context. Thanks to Reinette.
+     Changed the name of directory to event_configs from counter_config.
+     Updated user doc about the memory transactions supported by assignment.
+     Removed mbm_mode from struct mon_evt. Not required anymore.
+
+v13: Updated user doc (resctrl.rst).
+     Changed the name of the function resctrl_mkdir_info_configs to
+     resctrl_mkdir_counter_configs().
+     Replaced seq_puts() with seq_putc() where applicable.
+     Removed RFTYPE_MON_CONFIG definition. Not required.
+     Changed the name of the flag RFTYPE_CONFIG to RFTYPE_ASSIGN_CONFIG.
+     Reinette suggested RFTYPE_MBM_EVENT_CONFIG but RFTYPE_ASSIGN_CONFIG
+     seemed shorter and pricise.
+     The configuration is created using evt_list.
+     Resolved conflicts caused by the recent FS/ARCH code restructure.
+     The monitor.c/rdtgroup.c files have been split between the FS and ARCH directories.
+
+v12: New patch to hold the MBM event configurations for mbm_cntr_assign mode.
 ---
- Documentation/filesystems/resctrl.rst |  6 ++++
- fs/resctrl/ctrlmondata.c              | 22 ++++++++++---
- fs/resctrl/internal.h                 |  3 ++
- fs/resctrl/monitor.c                  | 47 ++++++++++++++++++++-------
- 4 files changed, 62 insertions(+), 16 deletions(-)
+ Documentation/filesystems/resctrl.rst | 33 +++++++++++++++
+ fs/resctrl/internal.h                 |  4 ++
+ fs/resctrl/monitor.c                  | 56 +++++++++++++++++++++++++
+ fs/resctrl/rdtgroup.c                 | 59 ++++++++++++++++++++++++++-
+ include/linux/resctrl_types.h         |  3 ++
+ 5 files changed, 153 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index 446736dbd97f..4c24c5f3f4c1 100644
+index 4c24c5f3f4c1..ddd95f1472e6 100644
 --- a/Documentation/filesystems/resctrl.rst
 +++ b/Documentation/filesystems/resctrl.rst
-@@ -434,6 +434,12 @@ When monitoring is enabled all MON groups will also contain:
- 	for the L3 cache they occupy). These are named "mon_sub_L3_YY"
- 	where "YY" is the node number.
+@@ -310,6 +310,39 @@ with the following files:
+ 	  # cat /sys/fs/resctrl/info/L3_MON/available_mbm_cntrs
+ 	  0=30;1=30
  
-+	When the 'mbm_event' counter assignment mode is enabled, reading
-+	an MBM event of a MON group returns 'Unassigned' if no hardware
-+	counter is assigned to it. For CTRL_MON groups, 'Unassigned' is
-+	returned if the MBM event does not have an assigned counter in the
-+	CTRL_MON group nor in any of its associated MON groups.
++"event_configs":
++	Directory that exists when "mbm_event" counter assignment mode is supported.
++	Contains a sub-directory for each MBM event that can be assigned to a counter.
 +
- "mon_hw_id":
- 	Available only with debug option. The identifier used by hardware
- 	for the monitor group. On x86 this is the RMID.
-diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
-index ad7ffc6acf13..31787ce6ec91 100644
---- a/fs/resctrl/ctrlmondata.c
-+++ b/fs/resctrl/ctrlmondata.c
-@@ -563,10 +563,15 @@ void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
- 	rr->r = r;
- 	rr->d = d;
- 	rr->first = first;
--	rr->arch_mon_ctx = resctrl_arch_mon_ctx_alloc(r, evtid);
--	if (IS_ERR(rr->arch_mon_ctx)) {
--		rr->err = -EINVAL;
--		return;
-+	if (resctrl_arch_mbm_cntr_assign_enabled(r) &&
-+	    resctrl_is_mbm_event(evtid)) {
-+		rr->is_mbm_cntr = true;
-+	} else {
-+		rr->arch_mon_ctx = resctrl_arch_mon_ctx_alloc(r, evtid);
-+		if (IS_ERR(rr->arch_mon_ctx)) {
-+			rr->err = -EINVAL;
-+			return;
-+		}
- 	}
- 
- 	cpu = cpumask_any_housekeeping(cpumask, RESCTRL_PICK_ANY_CPU);
-@@ -582,7 +587,8 @@ void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
- 	else
- 		smp_call_on_cpu(cpu, smp_mon_event_count, rr, false);
- 
--	resctrl_arch_mon_ctx_free(r, evtid, rr->arch_mon_ctx);
-+	if (rr->arch_mon_ctx)
-+		resctrl_arch_mon_ctx_free(r, evtid, rr->arch_mon_ctx);
- }
- 
- int rdtgroup_mondata_show(struct seq_file *m, void *arg)
-@@ -653,10 +659,16 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
- 
- checkresult:
- 
-+	/*
-+	 * -ENOENT is a special case, set only when "mbm_event" counter assignment
-+	 * mode is enabled and no counter has been assigned.
-+	 */
- 	if (rr.err == -EIO)
- 		seq_puts(m, "Error\n");
- 	else if (rr.err == -EINVAL)
- 		seq_puts(m, "Unavailable\n");
-+	else if (rr.err == -ENOENT)
-+		seq_puts(m, "Unassigned\n");
- 	else
- 		seq_printf(m, "%llu\n", rr.val);
- 
++	Two MBM events are supported by default: mbm_local_bytes and mbm_total_bytes.
++	Each MBM event's sub-directory contains a file named "event_filter" that is
++	used to view and modify which memory transactions the MBM event is configured
++	with. The file is accessible only when "mbm_event" counter assignment mode is
++	enabled.
++
++	List of memory transaction types supported:
++
++	==========================  ========================================================
++	Name			    Description
++	==========================  ========================================================
++	dirty_victim_writes_all     Dirty Victims from the QOS domain to all types of memory
++	remote_reads_slow_memory    Reads to slow memory in the non-local NUMA domain
++	local_reads_slow_memory     Reads to slow memory in the local NUMA domain
++	remote_non_temporal_writes  Non-temporal writes to non-local NUMA domain
++	local_non_temporal_writes   Non-temporal writes to local NUMA domain
++	remote_reads                Reads to memory in the non-local NUMA domain
++	local_reads                 Reads to memory in the local NUMA domain
++	==========================  ========================================================
++
++	For example::
++
++	  # cat /sys/fs/resctrl/info/L3_MON/event_configs/mbm_total_bytes/event_filter
++	  local_reads,remote_reads,local_non_temporal_writes,remote_non_temporal_writes,
++	  local_reads_slow_memory,remote_reads_slow_memory,dirty_victim_writes_all
++
++	  # cat /sys/fs/resctrl/info/L3_MON/event_configs/mbm_local_bytes/event_filter
++	  local_reads,local_non_temporal_writes,local_reads_slow_memory
++
+ "max_threshold_occupancy":
+ 		Read/write file provides the largest value (in
+ 		bytes) at which a previously used LLC_occupancy
 diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index c11f2751acf5..88e1a800417d 100644
+index 88e1a800417d..7b1206fff116 100644
 --- a/fs/resctrl/internal.h
 +++ b/fs/resctrl/internal.h
-@@ -110,6 +110,8 @@ struct mon_data {
-  *	   domains in @r sharing L3 @ci.id
-  * @evtid: Which monitor event to read.
-  * @first: Initialize MBM counter when true.
-+ * @is_mbm_cntr: true if "mbm_event" counter assignment mode is enabled and it
-+ *	   is an MBM event.
-  * @ci_id: Cacheinfo id for L3. Only set when @d is NULL. Used when summing domains.
-  * @err:   Error encountered when reading counter.
-  * @val:   Returned value of event counter. If @rgrp is a parent resource group,
-@@ -124,6 +126,7 @@ struct rmid_read {
- 	struct rdt_mon_domain	*d;
- 	enum resctrl_event_id	evtid;
- 	bool			first;
-+	bool			is_mbm_cntr;
- 	unsigned int		ci_id;
- 	int			err;
- 	u64			val;
+@@ -241,6 +241,8 @@ struct rdtgroup {
+ 
+ #define RFTYPE_DEBUG			BIT(10)
+ 
++#define RFTYPE_ASSIGN_CONFIG		BIT(11)
++
+ #define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)
+ 
+ #define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
+@@ -403,6 +405,8 @@ void rdtgroup_assign_cntrs(struct rdtgroup *rdtgrp);
+ 
+ void rdtgroup_unassign_cntrs(struct rdtgroup *rdtgrp);
+ 
++int event_filter_show(struct kernfs_open_file *of, struct seq_file *seq, void *v);
++
+ #ifdef CONFIG_RESCTRL_FS_PSEUDO_LOCK
+ int rdtgroup_locksetup_enter(struct rdtgroup *rdtgrp);
+ 
 diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-index 85187273d562..0a9d257e27a2 100644
+index 0a9d257e27a2..25fec9bf2d61 100644
 --- a/fs/resctrl/monitor.c
 +++ b/fs/resctrl/monitor.c
-@@ -419,13 +419,25 @@ static int __mon_event_count(struct rdtgroup *rdtgrp, struct rmid_read *rr)
- 	u32 closid = rdtgrp->closid;
- 	u32 rmid = rdtgrp->mon.rmid;
- 	struct rdt_mon_domain *d;
-+	int cntr_id = -ENOENT;
- 	struct cacheinfo *ci;
- 	struct mbm_state *m;
- 	int err, ret;
- 	u64 tval = 0;
+@@ -974,6 +974,61 @@ u32 resctrl_get_mon_evt_cfg(enum resctrl_event_id evtid)
+ 	return mon_event_all[evtid].evt_cfg;
+ }
  
-+	if (rr->is_mbm_cntr) {
-+		cntr_id = mbm_cntr_get(rr->r, rr->d, rdtgrp, rr->evtid);
-+		if (cntr_id < 0) {
-+			rr->err = -ENOENT;
-+			return -EINVAL;
++/**
++ * struct mbm_transaction - Memory transaction an MBM event can be configured with.
++ * @name:	Name of memory transaction (read, write ...).
++ * @val:	The bit (eg. READS_TO_LOCAL_MEM or READS_TO_REMOTE_MEM) used to
++ *		represent the memory transaction within an event's configuration.
++ */
++struct mbm_transaction {
++	char	name[32];
++	u32	val;
++};
++
++/* Decoded values for each type of memory transaction. */
++static struct mbm_transaction mbm_transactions[NUM_MBM_TRANSACTIONS] = {
++	{"local_reads", READS_TO_LOCAL_MEM},
++	{"remote_reads", READS_TO_REMOTE_MEM},
++	{"local_non_temporal_writes", NON_TEMP_WRITE_TO_LOCAL_MEM},
++	{"remote_non_temporal_writes", NON_TEMP_WRITE_TO_REMOTE_MEM},
++	{"local_reads_slow_memory", READS_TO_LOCAL_S_MEM},
++	{"remote_reads_slow_memory", READS_TO_REMOTE_S_MEM},
++	{"dirty_victim_writes_all", DIRTY_VICTIMS_TO_ALL_MEM},
++};
++
++int event_filter_show(struct kernfs_open_file *of, struct seq_file *seq, void *v)
++{
++	struct mon_evt *mevt = rdt_kn_parent_priv(of->kn);
++	struct rdt_resource *r;
++	bool sep = false;
++	int ret = 0, i;
++
++	mutex_lock(&rdtgroup_mutex);
++	rdt_last_cmd_clear();
++
++	r = resctrl_arch_get_resource(mevt->rid);
++	if (!resctrl_arch_mbm_cntr_assign_enabled(r)) {
++		rdt_last_cmd_puts("mbm_event counter assignment mode is not enabled\n");
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	for (i = 0; i < NUM_MBM_TRANSACTIONS; i++) {
++		if (mevt->evt_cfg & mbm_transactions[i].val) {
++			if (sep)
++				seq_putc(seq, ',');
++			seq_printf(seq, "%s", mbm_transactions[i].name);
++			sep = true;
++		}
++	}
++	seq_putc(seq, '\n');
++
++out_unlock:
++	mutex_unlock(&rdtgroup_mutex);
++
++	return ret;
++}
++
+ /*
+  * rdtgroup_assign_cntr() - Assign/unassign the counter ID for the event, RMID
+  * pair in the domain.
+@@ -1289,6 +1344,7 @@ int resctrl_mon_resource_init(void)
+ 					 RFTYPE_MON_INFO | RFTYPE_RES_CACHE);
+ 		resctrl_file_fflags_init("available_mbm_cntrs",
+ 					 RFTYPE_MON_INFO | RFTYPE_RES_CACHE);
++		resctrl_file_fflags_init("event_filter", RFTYPE_ASSIGN_CONFIG);
+ 	}
+ 
+ 	return 0;
+diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+index 8eaad45b28ea..25a653847f49 100644
+--- a/fs/resctrl/rdtgroup.c
++++ b/fs/resctrl/rdtgroup.c
+@@ -1923,6 +1923,12 @@ static struct rftype res_common_files[] = {
+ 		.seq_show	= mbm_local_bytes_config_show,
+ 		.write		= mbm_local_bytes_config_write,
+ 	},
++	{
++		.name		= "event_filter",
++		.mode		= 0444,
++		.kf_ops		= &rdtgroup_kf_single_ops,
++		.seq_show	= event_filter_show,
++	},
+ 	{
+ 		.name		= "mbm_assign_mode",
+ 		.mode		= 0444,
+@@ -2183,10 +2189,48 @@ int rdtgroup_kn_mode_restore(struct rdtgroup *r, const char *name,
+ 	return ret;
+ }
+ 
++static int resctrl_mkdir_event_configs(struct rdt_resource *r, struct kernfs_node *l3_mon_kn)
++{
++	struct kernfs_node *kn_subdir, *kn_subdir2;
++	struct mon_evt *mevt;
++	int ret;
++
++	kn_subdir = kernfs_create_dir(l3_mon_kn, "event_configs", l3_mon_kn->mode, NULL);
++	if (IS_ERR(kn_subdir))
++		return PTR_ERR(kn_subdir);
++
++	ret = rdtgroup_kn_set_ugid(kn_subdir);
++	if (ret)
++		return ret;
++
++	for_each_mon_event(mevt) {
++		if (mevt->rid != r->rid || !mevt->enabled || !resctrl_is_mbm_event(mevt->evtid))
++			continue;
++
++		kn_subdir2 = kernfs_create_dir(kn_subdir, mevt->name, kn_subdir->mode, mevt);
++		if (IS_ERR(kn_subdir2)) {
++			ret = PTR_ERR(kn_subdir2);
++			goto out;
++		}
++
++		ret = rdtgroup_kn_set_ugid(kn_subdir2);
++		if (ret)
++			goto out;
++
++		ret = rdtgroup_add_files(kn_subdir2, RFTYPE_ASSIGN_CONFIG);
++		if (ret)
++			break;
++	}
++
++out:
++	return ret;
++}
++
+ static int rdtgroup_mkdir_info_resdir(void *priv, char *name,
+ 				      unsigned long fflags)
+ {
+ 	struct kernfs_node *kn_subdir;
++	struct rdt_resource *r;
+ 	int ret;
+ 
+ 	kn_subdir = kernfs_create_dir(kn_info, name,
+@@ -2199,8 +2243,19 @@ static int rdtgroup_mkdir_info_resdir(void *priv, char *name,
+ 		return ret;
+ 
+ 	ret = rdtgroup_add_files(kn_subdir, fflags);
+-	if (!ret)
+-		kernfs_activate(kn_subdir);
++	if (ret)
++		return ret;
++
++	if ((fflags & RFTYPE_MON_INFO) == RFTYPE_MON_INFO) {
++		r = priv;
++		if (r->mon.mbm_cntr_assignable) {
++			ret = resctrl_mkdir_event_configs(r, kn_subdir);
++			if (ret)
++				return ret;
 +		}
 +	}
 +
- 	if (rr->first) {
--		resctrl_arch_reset_rmid(rr->r, rr->d, closid, rmid, rr->evtid);
-+		if (rr->is_mbm_cntr)
-+			resctrl_arch_reset_cntr(rr->r, rr->d, closid, rmid, cntr_id, rr->evtid);
-+		else
-+			resctrl_arch_reset_rmid(rr->r, rr->d, closid, rmid, rr->evtid);
- 		m = get_mbm_state(rr->d, closid, rmid, rr->evtid);
- 		if (m)
- 			memset(m, 0, sizeof(struct mbm_state));
-@@ -436,8 +448,12 @@ static int __mon_event_count(struct rdtgroup *rdtgrp, struct rmid_read *rr)
- 		/* Reading a single domain, must be on a CPU in that domain. */
- 		if (!cpumask_test_cpu(cpu, &rr->d->hdr.cpu_mask))
- 			return -EINVAL;
--		rr->err = resctrl_arch_rmid_read(rr->r, rr->d, closid, rmid,
--						 rr->evtid, &tval, rr->arch_mon_ctx);
-+		if (rr->is_mbm_cntr)
-+			rr->err = resctrl_arch_cntr_read(rr->r, rr->d, closid, rmid, cntr_id,
-+							 rr->evtid, &tval);
-+		else
-+			rr->err = resctrl_arch_rmid_read(rr->r, rr->d, closid, rmid,
-+							 rr->evtid, &tval, rr->arch_mon_ctx);
- 		if (rr->err)
- 			return rr->err;
++	kernfs_activate(kn_subdir);
  
-@@ -462,8 +478,12 @@ static int __mon_event_count(struct rdtgroup *rdtgrp, struct rmid_read *rr)
- 	list_for_each_entry(d, &rr->r->mon_domains, hdr.list) {
- 		if (d->ci_id != rr->ci_id)
- 			continue;
--		err = resctrl_arch_rmid_read(rr->r, d, closid, rmid,
--					     rr->evtid, &tval, rr->arch_mon_ctx);
-+		if (rr->is_mbm_cntr)
-+			err = resctrl_arch_cntr_read(rr->r, d, closid, rmid, cntr_id,
-+						     rr->evtid, &tval);
-+		else
-+			err = resctrl_arch_rmid_read(rr->r, d, closid, rmid,
-+						     rr->evtid, &tval, rr->arch_mon_ctx);
- 		if (!err) {
- 			rr->val += tval;
- 			ret = 0;
-@@ -670,11 +690,15 @@ static void mbm_update_one_event(struct rdt_resource *r, struct rdt_mon_domain *
- 	rr.r = r;
- 	rr.d = d;
- 	rr.evtid = evtid;
--	rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
--	if (IS_ERR(rr.arch_mon_ctx)) {
--		pr_warn_ratelimited("Failed to allocate monitor context: %ld",
--				    PTR_ERR(rr.arch_mon_ctx));
--		return;
-+	if (resctrl_arch_mbm_cntr_assign_enabled(r)) {
-+		rr.is_mbm_cntr = true;
-+	} else {
-+		rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
-+		if (IS_ERR(rr.arch_mon_ctx)) {
-+			pr_warn_ratelimited("Failed to allocate monitor context: %ld",
-+					    PTR_ERR(rr.arch_mon_ctx));
-+			return;
-+		}
- 	}
- 
- 	__mon_event_count(rdtgrp, &rr);
-@@ -686,7 +710,8 @@ static void mbm_update_one_event(struct rdt_resource *r, struct rdt_mon_domain *
- 	if (is_mba_sc(NULL))
- 		mbm_bw_count(rdtgrp, &rr);
- 
--	resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
-+	if (rr.arch_mon_ctx)
-+		resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
+ 	return ret;
  }
+diff --git a/include/linux/resctrl_types.h b/include/linux/resctrl_types.h
+index d98351663c2c..acfe07860b34 100644
+--- a/include/linux/resctrl_types.h
++++ b/include/linux/resctrl_types.h
+@@ -34,6 +34,9 @@
+ /* Max event bits supported */
+ #define MAX_EVT_CONFIG_BITS		GENMASK(6, 0)
  
- static void mbm_update(struct rdt_resource *r, struct rdt_mon_domain *d,
++/* Number of memory transactions that an MBM event can be configured with */
++#define NUM_MBM_TRANSACTIONS		7
++
+ /* Event IDs */
+ enum resctrl_event_id {
+ 	/* Must match value of first event below */
 -- 
 2.34.1
 
