@@ -1,79 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F238C2629C;
-	Fri, 15 Aug 2025 01:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49332DF58;
+	Fri, 15 Aug 2025 01:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755220263; cv=none; b=UtFw+zht/y+sA+hBPstlzKY7PEdZWtfqgoHPRPLTNxTNxcNol0MKvHLA+mXXgbsWyz+Y0ulP6lvbARHfIEuZkXYvJ2OXH0eS9dsEtKpCG6pWEBOBT5RzbzwjuUxSU3X6biN0ae2gBhl4rIDjVtwCP3/uOMkLPj0HC5pWbDlV8jo=
+	t=1755221580; cv=none; b=bUhMAU4kqTNKqKOy2WKE/DlxMSHMrIS3OMyzk8tQNqil9ilaAKgNoPzOezXT+HeeITT13fOpfywswFWgRhPYQODY+uT7FGShn4Tp1IW4LaB1oOgtpU+Gr+NWF5u0Xl976wJlgS8j2ol+K93mPDKi/d3S8NzUbC46be53hilgWn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755220263; c=relaxed/simple;
-	bh=z73WFDouE2luwIWEwjVYjCE/sTdxrrTGRHZK09LdMMs=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=FfQQCV9SRPlf+78Vn9TjjlHu/6lC/HrzGH279vsC6y/tMF9TgPtdUbVpO1QpTwobp9AY30YE+eyyFyar24YPIR8hBP8VRzbfxWKrDWzdyd4CIK6MX2wMQL7mcaQ6ze7i6YJtCyodqSZb4hKAL1m7ymrIy39bhgf3jdlKewCCAWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=fL2nFq9/; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="fL2nFq9/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 968F4C4CEED;
-	Fri, 15 Aug 2025 01:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1755220262;
-	bh=z73WFDouE2luwIWEwjVYjCE/sTdxrrTGRHZK09LdMMs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fL2nFq9/PNhIEwgZ2UQpPTz8+BNrFJncGrTSd+kKDGTwjmqVBezRlwLIoECD1R/qm
-	 1h4wRYhhdy1BwSgucdu6Ws+cimUwZTmWXpbFwq5qVrcqwEYk3R2BirDLs6bknNQNUN
-	 DOfp5foSBJH7D2JMfVko+PD2qPbVc++rqmCmIe4c=
-Date: Thu, 14 Aug 2025 18:11:01 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: Yafang Shao <laoar.shao@gmail.com>, david@redhat.com,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, corbet@lwn.net,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org,
- baohua@kernel.org, shakeel.butt@linux.dev, riel@surriel.com,
- ziy@nvidia.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com, Arnd Bergmann
- <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v4 2/7] mm/huge_memory: convert "tva_flags" to
- "enum tva_type"
-Message-Id: <20250814181101.9e15c8c0202face2230ad1fb@linux-foundation.org>
-In-Reply-To: <c8a47a7d-3810-426f-a2cf-7c020ce25c7d@gmail.com>
-References: <20250813135642.1986480-1-usamaarif642@gmail.com>
-	<20250813135642.1986480-3-usamaarif642@gmail.com>
-	<CALOAHbAe9Rbb2iC3Vnw29jxHEQiWA83jw72fb_CQKGDFHv6+FQ@mail.gmail.com>
-	<c8a47a7d-3810-426f-a2cf-7c020ce25c7d@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1755221580; c=relaxed/simple;
+	bh=9sKiNJfyjngAIgU9d5CWTxV4AUcI11DOY+yK5q41XhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LjpB95X6wEPWOyMFd/nN9QzVwGlB5J2x9Cx5weyzaocHJB3/Bp6xeZUmiA3y8Q3dKJix+pPiJ8z2ACcWazI1WXg/164Hlz4NTw3qgQ/uroPDIWhN36b9LYkQlhl/49q6BwU52nH44lXiAd5mOu1TxX/U+Z/FFz9eRT5wY0XcSgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.169.211.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz7t1755221515t7af4e635
+X-QQ-Originating-IP: JF5mJYe+rP14nNyYmSDK6SVBxUoGK8zGerfLiLi6wCg=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 15 Aug 2025 09:31:53 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 6925513884918620857
+Date: Fri, 15 Aug 2025 09:31:53 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <D19BDA0A798B918F+20250815013153.GA1129045@nic-Precision-5820-Tower>
+References: <20250812093937.882045-1-dong100@mucse.com>
+ <20250812093937.882045-4-dong100@mucse.com>
+ <a0cd145c-c02e-40da-b180-a8ca041f2ca3@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a0cd145c-c02e-40da-b180-a8ca041f2ca3@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: M+BwzFJ2m+rnFO8XPUs/UM7x8JATF7aIdVc60fX6XBiq8LQ74Paab5Hj
+	7LGaUEI2tdrNfqVXkh+TTitDcJyQT7yTg4gGo95OA9oFtXYSgOoOEsN14YS1Am+4J2OrLt3
+	4YsiB5O5tEVQUXXahJfk6+f9oE8hkYRh/m7oqluVPY0UAszHHjE3R1NFo8N7Y94uQmx/2XY
+	l3dW0hcjnusgn9qo6QIniNF7zmU3wmzkUfTipcEcSdR+ojZLQNsVRvm9YDP1/WGzi2dGYt6
+	sdzrTMPzUXi3c1C9uDE4baCymOXqQjste8oj26nACI/xOijlF2dYkRjluJVZzxGrmY3FBB3
+	V1pq48sGHXLtlD5vKJBAC6oWzYrYU5+TNy7v4YHyBHlfq/YedSPp/85gebturdO1QYwzMfA
+	FaihqnOhoQyV+PPPn5btGbvhFYJqrjajGcjYb4vS6lNTaW3vyaknU9ZjL2A2BlFe6mW57JC
+	IsSe4e+zoMsWi8NFJftsvZrgM1TR0XVSIlHfQfqV6jYHHJAf3rkRnB+MTXQf3iIW9CGQQMM
+	xVtK+AMSUIKiY87F7J+KgS6sIW6OyrBf+vYcEo5AFIOe2Ep+/7wsgmiqNgGSIJiHV/TtW7D
+	PbvgpWtnM7u/5s/v4O6zGJJzkaObIo4RH5NwmzyjYJgGN4e6iMQW3+4DOTQ0AB9pUTxZAJP
+	YwNuWhrkYoNhTftQn9BQVqvdMPLKIP6KVPWnlZ/RncOnadwTZdJydwKYeB8AW7kbAE5e3ja
+	W1NAE1lEAQkxSAZFnt7HFMKARiIFCrUa1AewTr26AlR5Jol/AVHMrY8/poffb3d+buvZmo6
+	Qq3cfzBCBwBxq5wDo+kqcOlXS0HalTJ5r4e0ff6r1ERFqmGWoUGzukFmQJ1uNBpu5YdCIbE
+	Otu/CxR7gxE8Ps8mvxukPBQ9LbiC8scWEyGiPHNfbSpB0y71zUxmTxSCalJcNTAzwh9jO+b
+	5H7YeP0P+NdlRtxqoE8SHVNjuS+fjbyAdcIArNk5AmP1Iyv0sQs3HNpHuFWyq9P8mY/2rac
+	D8n0Almw==
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
-On Thu, 14 Aug 2025 11:43:16 +0100 Usama Arif <usamaarif642@gmail.com> wrote:
-
+On Fri, Aug 15, 2025 at 01:55:42AM +0200, Andrew Lunn wrote:
+> > +int mucse_read_mbx(struct mucse_hw *hw, u32 *msg, u16 size)
+> > +{
+> > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > +
+> > +	/* limit read size */
+> > +	min(size, mbx->size);
+> > +	return mbx->ops->read(hw, msg, size);
 > 
+> As well as the obvious bug pointed out by others, isn't this condition
+> actually indicating a bug somewhere else? If size is bigger than
+> mbx->size, the caller is broken. You probably want a dev_err() here,
+> and return -EINVAL, so you get a hint something else is broken
+> somewhere.
 > 
-> > Hello Usama,
-> > 
-> > This change is also required by my BPF-based THP order selection
-> > series [0]. Since this patch appears to be independent of the series,
-> > could we merge it first into mm-new or mm-everything if the series
-> > itself won't be merged shortly?
-> > 
-> > Link: https://lwn.net/Articles/1031829/ [0]
-> > 
-> 
-> Thanks for reviewing!
-> 
-> All of the patches in the series have several acks/reviews. Only a small change
-> might be required in selftest, so hopefully the next revision is the last one.
-> 
-> Andrew - would it be ok to start including this entire series in the mm-new now?
+> 	Andrew
 > 
 
-https://lkml.kernel.org/r/0879b2c9-3088-4f92-8d73-666493ec783a@gmail.com
-led me to expect a v5 series?
+Ok, the caller is broken when size is bigger than mbx->size. I will use
+dev_err here in v5 since I had sent v4 before this mail.
+By the way, how long should I wait before sending the new version? If it
+is too frequent, it might cause reviewers to check old versions and miss
+feedback, link what happened with this mail. And if it is too long, it
+is easy to miss the 'open window'....
+
+Thanks for your feedback.
+
