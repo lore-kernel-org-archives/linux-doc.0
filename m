@@ -1,131 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0834248891;
-	Fri, 15 Aug 2025 09:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B03B246BB3;
+	Fri, 15 Aug 2025 09:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755249157; cv=none; b=JI+V65cY2eHHojZ/e8wuICqipEHoBbCAGh3TCstVa2569FJ5Cb/ivHAzoJVxjfBfASyYtMjrgTwIL9Vmh2afBxvU9U4YiQUMWXi27pWjrxzQMGJGyXdK3V64We+YJ+PPNdXmaYav1mOBgJtAEwRONw8MB0MpvZwntajCQrkj9+c=
+	t=1755249624; cv=none; b=gEfc18UZ1dVvgeWPJ7kObi3Kj1WnUOPAgaQujOIjVpAktbk73zggVTO4/soLWFx/FjLRw9XYDs2uc64J0GiRytIlC1lsykJdV4fkzIQaF6biY4Ne+BAcfd2U8XcRssIQe/GtjfKqnfRpIxwoYxiqltNHfSFHtvxzXRPv0Uo+hDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755249157; c=relaxed/simple;
-	bh=NCVfEVQN6LHwkNoCyqO9selISDvFLOPAgNrIg0ejz0k=;
+	s=arc-20240116; t=1755249624; c=relaxed/simple;
+	bh=KG2+fnJpIx2NMqstgoKNpNnE+HWM0QGt9UgjidkNy8E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JniuZN8wD8ZYubEAW3MoKWWtH4KH4YnhpEw7tpgG3rFPrs94cPAlUijpv+sAj8lpkoniQhk4qT3Z2iQY0Yp5B43M9WEiPcg25uu5MBL6CoYcIFGlj6UG9b1ne4+KxVqbUehk1sXgRcmjs5gJAMozrIvOmbHMl+lE0BiT41sCQRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k64qKfJ6; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gXtPDpsT8JbLhj4mbEH7QHDduz6MeMJLB3ig1EG20e0usAmvu1zUOshAgQ9T68b/Hif0tiyuxqEzXRsanHO//r2vf+eaZHjl4hodduSSfGtXEkSo3PkuHep1y6xknyAyzHEHzFFxaAgmr7vKgMlCSVKCmCiiz2G/ECRpRfPlops=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hKvj224/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9ZeAegd2; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k64qKfJ6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36ED2C4CEEB;
-	Fri, 15 Aug 2025 09:12:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755249154;
-	bh=NCVfEVQN6LHwkNoCyqO9selISDvFLOPAgNrIg0ejz0k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k64qKfJ6zNJDhsnuWxR0fgqX3BVaqQwvdZElR/klQAEoCxi1g56cxeHTAZN0/wswK
-	 Pq+3GThmFMau+x8U6BogKChu5yqp5BwT3RbxGdJVY+yxVsA/3n3361XvguUQYtAzo0
-	 CwsxkbStJHs9RAUy1BQLHDF5j08YA23EQWtialVtSTBmcZtV4ZgvbsnBJMyvgGhChp
-	 CJH00Qs5o00iwlgrtxYWMVa2jp4VjDFoGjgtjzcCsiVePDp+01FqKPujeYxhNnJ5cJ
-	 L4zaOZ7N9WkPfF3VfgjAaCkkSQpngOXjnWintiz60FKc8w0raVBwqKL8kvbukYzLFm
-	 Bt1jthD93yq4g==
-Date: Fri, 15 Aug 2025 12:12:10 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
-	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
-	witu@nvidia.com
-Subject: Re: [PATCH v3 07/30] kho: add interfaces to unpreserve folios and
- physical memory ranges
-Message-ID: <aJ756q-wWJV37fMm@kernel.org>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-8-pasha.tatashin@soleen.com>
- <20250814132233.GB802098@nvidia.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hKvj224/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9ZeAegd2"
+Date: Fri, 15 Aug 2025 11:20:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1755249621;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YnorshHHbLPDgCMGHLAFyLgo2Y6yF3hic/k3HY3FcUQ=;
+	b=hKvj224/7awgp0KbQmOGNajfOgjmbt+Uv04X3mvqVPGFsDxLkZ1IMFApo9kCYS90uspOC5
+	PnxUbQF4JiJxjjOck8a3z5SjgJriEfUp+i6ecQesi1Sq72x0j90gUF/0vhMipgjs2rmu2g
+	9yfv+HpNA53WwBKggC2PlT+i+Gy6B2oJJBoGDeZxdtRbfrN8uRB2nj8HHLBYJ9lA/oedvh
+	77ZSeu/CeNkCewAe0dfrF8AfpGrtTbvmqSq3PCvws51rcUAQNasITEZj9L2VcRZzLaxDu3
+	8vY890ZYnxr8Qt004yckfGiZuV4kkUGXv52NmW7KGgkFZUl0oWEclWHfAxLRgQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1755249621;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YnorshHHbLPDgCMGHLAFyLgo2Y6yF3hic/k3HY3FcUQ=;
+	b=9ZeAegd2Ht11PEvjxIqRiQlInctKBDPR6sn5j/nXtFuVmAPUEl9eBljsckInAPKTHQXY/U
+	73lHbn5xLMITl6Aw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 3/3] Documentation: Add real-time
+Message-ID: <20250815092019.EAd9FdNN@linutronix.de>
+References: <20250715144127.697787-1-bigeasy@linutronix.de>
+ <20250715144127.697787-4-bigeasy@linutronix.de>
+ <87v7ntdwp5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250814132233.GB802098@nvidia.com>
+In-Reply-To: <87v7ntdwp5.fsf@trenco.lwn.net>
 
-On Thu, Aug 14, 2025 at 10:22:33AM -0300, Jason Gunthorpe wrote:
-> On Thu, Aug 07, 2025 at 01:44:13AM +0000, Pasha Tatashin wrote:
-> > +int kho_unpreserve_phys(phys_addr_t phys, size_t size)
-> > +{
+On 2025-07-15 14:29:42 [-0600], Jonathan Corbet wrote:
+> So overall it looks good, but I do have one overriding question:
 > 
-> Why are we adding phys apis? Didn't we talk about this before and
-> agree not to expose these?
+> - Who is the audience for this documentation?
 > 
-> The places using it are goofy:
+> I think it's an important question to ask, because something this easily
+> becomes an unorganized pile of stuff that somebody thought should be
+> written down somewhere - better than nothing, but hard for readers to
+> use effectively.
 > 
-> +static int luo_fdt_setup(void)
-> +{
-> +       fdt_out = (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
-> +                                          get_order(LUO_FDT_SIZE));
-> 
-> +       ret = kho_preserve_phys(__pa(fdt_out), LUO_FDT_SIZE);
-> 
-> +       WARN_ON_ONCE(kho_unpreserve_phys(__pa(fdt_out), LUO_FDT_SIZE));
-> 
-> It literally allocated a page and then for some reason switches to
-> phys with an open coded __pa??
-> 
-> This is ugly, if you want a helper to match __get_free_pages() then
-> make one that works on void * directly. You can get the order of the
-> void * directly from the struct page IIRC when using GFP_COMP.
-> 
-> Which is perhaps another comment, if this __get_free_pages() is going
-> to be a common pattern (and I guess it will be) then the API should be
-> streamlined alot more:
-> 
->  void *kho_alloc_preserved_memory(gfp, size);
->  void kho_free_preserved_memory(void *);
+> A good first step would be to supply a paragraph or two in the new
+> Documentation/real-time/index.rst describing the nature of the
+> documentation and who it is intended for.
 
-This looks backwards to me. KHO should not deal with memory allocation,
-it's responsibility to preserve/restore memory objects it supports.
+The main audience are kernel developers.
 
-For __get_free_pages() the natural KHO API is kho_(un)preserve_pages().
-With struct page/mesdesc we always have page_to_<specialized object> from
-one side and page_to_pfn from the other side.
-
-Then folio and phys/virt APIS just become a thin wrappers around the _page
-APIs. And down the road we can add slab and maybe vmalloc. 
-
-Once folio won't overlap struct page, we'll have a hard time with only
-kho_preserve_folio() for memory that's not actually folio (i.e. anon and
-page cache)
- 
-> Which can wrapper the get_free_pages and the preserve logic and gives
-> a nice path to possibly someday supporting non-PAGE_SIZE allocations.
+> Then ... think about whether a new top-level directory under
+> Documentation makes sense.  I've been working for years to reduce those,
+> so I tend to push back a little when new ones show up.
 > 
-> Jason
+> - Is this documentation for kernel developers in general, with the idea
+>   of maybe helping them to not break PREEMPT_RT so often?  Then perhaps
+>   documentation with that focus under core-api/ makes sense.
 > 
+> - Is it, instead, intended as overall design documentation?  We don't
+>   really have a good place for that now, maybe we need a new design/
+>   book to gather such material.
+> 
+> See what I'm getting at?  I'm not saying that these docs *have* to go
+> somewhere else, but I do think it's worth thinking about.
 
--- 
-Sincerely yours,
-Mike.
+While thinking about it I moved it to core-api. There might some user
+bits which in terms of setup which might fit under admin-guide.
+
+> Thanks,
+> 
+> jon
+
+Sebastian
