@@ -1,44 +1,47 @@
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49332DF58;
-	Fri, 15 Aug 2025 01:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690D919ABD8
+	for <linux-doc@vger.kernel.org>; Fri, 15 Aug 2025 01:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755221580; cv=none; b=bUhMAU4kqTNKqKOy2WKE/DlxMSHMrIS3OMyzk8tQNqil9ilaAKgNoPzOezXT+HeeITT13fOpfywswFWgRhPYQODY+uT7FGShn4Tp1IW4LaB1oOgtpU+Gr+NWF5u0Xl976wJlgS8j2ol+K93mPDKi/d3S8NzUbC46be53hilgWn8=
+	t=1755221899; cv=none; b=qte0GEqyQxH/p+KiAI79zW3w8hzQ7YOctlutndxVRVT527Esh90rFjx/syjXLydZzBeIRg94xs891zlMYEQT1T0DXkiWEgkYwT3WG58VMkrNWcPxkKeKvw7vD2DcMxzDr+AfWVlWwMbTBOuBuUIT2Aosvw/q41a9I3Ja4TIYs6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755221580; c=relaxed/simple;
-	bh=9sKiNJfyjngAIgU9d5CWTxV4AUcI11DOY+yK5q41XhU=;
+	s=arc-20240116; t=1755221899; c=relaxed/simple;
+	bh=W49tmC8pMPCmtFcn3qEiXKG1KBDWgCmX4g9K7vu18jQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LjpB95X6wEPWOyMFd/nN9QzVwGlB5J2x9Cx5weyzaocHJB3/Bp6xeZUmiA3y8Q3dKJix+pPiJ8z2ACcWazI1WXg/164Hlz4NTw3qgQ/uroPDIWhN36b9LYkQlhl/49q6BwU52nH44lXiAd5mOu1TxX/U+Z/FFz9eRT5wY0XcSgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.169.211.239
+	 Content-Type:Content-Disposition:In-Reply-To; b=UY9KmuJog1z/KaYz0sAEsMXb+GaHiTaL0ZCkbPMk5Ht00X0VMNlGJKSr0d6dLZCX8DG8zq+ShntmuPZ7Z9JAhdcULxz6MoxuNaREQA85eQ4uKsPv8gGPrpERVjDwG5sJFRpeF0jF3NSp/WOOm+9UbJ6p0q2TAzJs2kaJcHn3Nik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpgz7t1755221515t7af4e635
-X-QQ-Originating-IP: JF5mJYe+rP14nNyYmSDK6SVBxUoGK8zGerfLiLi6wCg=
+X-QQ-mid: zesmtpgz8t1755221820tf5699c30
+X-QQ-Originating-IP: tlNQ7+NHEjaXcRky/Tvj9nySe0eW04M+BZV9Y0tdcD4=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 15 Aug 2025 09:31:53 +0800 (CST)
+	id ; Fri, 15 Aug 2025 09:36:58 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 6925513884918620857
-Date: Fri, 15 Aug 2025 09:31:53 +0800
+X-BIZMAIL-ID: 9320296151560598808
+Date: Fri, 15 Aug 2025 09:36:58 +0800
 From: Yibo Dong <dong100@mucse.com>
 To: Andrew Lunn <andrew@lunn.ch>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
+	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
+	lorenzo@kernel.org, geert+renesas@glider.be,
 	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/5] net: rnpgbe: Add basic mbx ops support
-Message-ID: <D19BDA0A798B918F+20250815013153.GA1129045@nic-Precision-5820-Tower>
+Subject: Re: [PATCH v3 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <AC9522804BA5F115+20250815013658.GB1129045@nic-Precision-5820-Tower>
 References: <20250812093937.882045-1-dong100@mucse.com>
- <20250812093937.882045-4-dong100@mucse.com>
- <a0cd145c-c02e-40da-b180-a8ca041f2ca3@lunn.ch>
+ <20250812093937.882045-5-dong100@mucse.com>
+ <eafb8874-a7a3-4028-a4ad-d71fc5689813@linux.dev>
+ <9A6132D78B40DAFD+20250813095214.GA979548@nic-Precision-5820-Tower>
+ <9af5710c-e465-4e21-8705-4698e544c649@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,52 +50,78 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a0cd145c-c02e-40da-b180-a8ca041f2ca3@lunn.ch>
+In-Reply-To: <9af5710c-e465-4e21-8705-4698e544c649@lunn.ch>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: M+BwzFJ2m+rnFO8XPUs/UM7x8JATF7aIdVc60fX6XBiq8LQ74Paab5Hj
-	7LGaUEI2tdrNfqVXkh+TTitDcJyQT7yTg4gGo95OA9oFtXYSgOoOEsN14YS1Am+4J2OrLt3
-	4YsiB5O5tEVQUXXahJfk6+f9oE8hkYRh/m7oqluVPY0UAszHHjE3R1NFo8N7Y94uQmx/2XY
-	l3dW0hcjnusgn9qo6QIniNF7zmU3wmzkUfTipcEcSdR+ojZLQNsVRvm9YDP1/WGzi2dGYt6
-	sdzrTMPzUXi3c1C9uDE4baCymOXqQjste8oj26nACI/xOijlF2dYkRjluJVZzxGrmY3FBB3
-	V1pq48sGHXLtlD5vKJBAC6oWzYrYU5+TNy7v4YHyBHlfq/YedSPp/85gebturdO1QYwzMfA
-	FaihqnOhoQyV+PPPn5btGbvhFYJqrjajGcjYb4vS6lNTaW3vyaknU9ZjL2A2BlFe6mW57JC
-	IsSe4e+zoMsWi8NFJftsvZrgM1TR0XVSIlHfQfqV6jYHHJAf3rkRnB+MTXQf3iIW9CGQQMM
-	xVtK+AMSUIKiY87F7J+KgS6sIW6OyrBf+vYcEo5AFIOe2Ep+/7wsgmiqNgGSIJiHV/TtW7D
-	PbvgpWtnM7u/5s/v4O6zGJJzkaObIo4RH5NwmzyjYJgGN4e6iMQW3+4DOTQ0AB9pUTxZAJP
-	YwNuWhrkYoNhTftQn9BQVqvdMPLKIP6KVPWnlZ/RncOnadwTZdJydwKYeB8AW7kbAE5e3ja
-	W1NAE1lEAQkxSAZFnt7HFMKARiIFCrUa1AewTr26AlR5Jol/AVHMrY8/poffb3d+buvZmo6
-	Qq3cfzBCBwBxq5wDo+kqcOlXS0HalTJ5r4e0ff6r1ERFqmGWoUGzukFmQJ1uNBpu5YdCIbE
-	Otu/CxR7gxE8Ps8mvxukPBQ9LbiC8scWEyGiPHNfbSpB0y71zUxmTxSCalJcNTAzwh9jO+b
-	5H7YeP0P+NdlRtxqoE8SHVNjuS+fjbyAdcIArNk5AmP1Iyv0sQs3HNpHuFWyq9P8mY/2rac
-	D8n0Almw==
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-XMAILINFO: MAMW4dxoxFyt4QS9Wrwt6Bb6c+QKJAOHnLKYhEZOuqjRf1o+uhsnFaZj
+	Dw7eGNHWknnrsy89Dr8/wTZKcYJCDrw0G2MAMRW4Rev8kukKnLQawf0ChKsriXTWZY61ZpB
+	Hh2Apn3HBZREESAKq4J5Ch18NH8ARWQQI5m1Y6ORTFxdwR7u5spaUUpx463137nS9YEnND4
+	0qYs5MTMjOMJ9RuKb9T5DamHrfM8DwfzLnDRsqGDGyQlYkuxdH1s7FXIZ8eUIikOdXDfXNa
+	8ljnjwzKWZOCv0NwtCYffZiyt8OrvUhw7TqgYgzbIiNpZrHT12NYA4Ynom8DN4gkSMAjzw3
+	lLcGMq5Qt4fatHmbNESDlfWaXX2++jPCKlfUjJGduaNVJELKFaRzoX6RfqfJ99m6n7U06FW
+	Miv2zfu9jXZUBx7ayNe/AcCUJjPkaTbWQ62FBRMty73eGIP+UwLQo+9kZ26mT8aoMvwTH7K
+	a3BMLDnG3IPXZ4ZtlIJlCx5YKJ6zEoJ2eU6yZDqDBJH20xRLPPGysI6HBHwtylx3E55dr+0
+	WwjBMeMtwTxmIHIOQpQukFL7uMlET3tR14D4YTyOKAHj2Ty/x0QMtyJcNJRH7tPlmO0Ib2F
+	ikE7UAkT9Ih5Pdm1vVPWMKKlo1uALcjjBh0f/r+MH/UjmScy8U+2w6wnSP5tRpaCSulWKaN
+	CjYCE0dw6C6vQeYb57/thfEDZWWnbcTrlx5ZTctISHwoXFzLTNCuRj8G0elgrVF/DnR0VHU
+	zO/nJEPNgiYBaWe9JjR2802NzB3h8LcE/ZOr7dJlk3/txQ5ebYLmru7ZsljQ71gKyANDW1j
+	6Y6exdJsAceh3ebnFQiN2Ubxl6zGiqrHNOTwKiWfF5uOUUOetTbM9vgpa03U98hwmQXlyyi
+	y6wVkzGghaYx7iMSK/kMjSyCA5z/abDpWfMPrE4iLHyI7qLFLqzH6Tt6XMcN7dTdco7ZKel
+	5eSP6RaoaFNHGw5kf3U3SmHgYTGBNQbHqocL3v7h+WBbBxEs+nILeUJymcYgcAxygDhbIL6
+	269xUjvKKzRkTXGCTn
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
 X-QQ-RECHKSPAM: 0
 
-On Fri, Aug 15, 2025 at 01:55:42AM +0200, Andrew Lunn wrote:
-> > +int mucse_read_mbx(struct mucse_hw *hw, u32 *msg, u16 size)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +
-> > +	/* limit read size */
-> > +	min(size, mbx->size);
-> > +	return mbx->ops->read(hw, msg, size);
+On Fri, Aug 15, 2025 at 02:04:57AM +0200, Andrew Lunn wrote:
+> > If it is more cleaner bellow?
+> > 
+> > static int mucse_fw_send_cmd_wait(struct mucse_hw *hw,
+> >                                   struct mbx_fw_cmd_req *req,
+> >                                   struct mbx_fw_cmd_reply *reply)
+> > {
+> >         int len = le16_to_cpu(req->datalen) + MBX_REQ_HDR_LEN;
+> >         int retry_cnt = 3;
+> >         int err;
+> > 
+> >         err = mutex_lock_interruptible(&hw->mbx.lock);
+> >         if (err)
+> >                 return err;
+> >         err = hw->mbx.ops->write_posted(hw, (u32 *)req,
+> >                                         L_WD(len));
+> >         if (err)
+> >                 goto quit;
+> >         do {
+> >                 err = hw->mbx.ops->read_posted(hw, (u32 *)reply,
+> >                                                L_WD(sizeof(*reply)));
+> >                 if (err)
+> >                         goto quit;
+> >         } while (--retry_cnt >= 0 && reply->opcode != req->opcode);
+> > 
+> >         mutex_unlock(&hw->mbx.lock);
+> >         if (retry_cnt < 0)
+> >                 return -ETIMEDOUT;
+> >         if (reply->error_code)
+> >                 return -EIO;
+> >         return 0;
+> > quit:
+> >         mutex_unlock(&hw->mbx.lock);
+> >         return err;
+> > }
 > 
-> As well as the obvious bug pointed out by others, isn't this condition
-> actually indicating a bug somewhere else? If size is bigger than
-> mbx->size, the caller is broken. You probably want a dev_err() here,
-> and return -EINVAL, so you get a hint something else is broken
-> somewhere.
+> You might want a read a few other drivers in mailine. Look at the
+> naming. I doubt you will find many using "quit" for a label. "out" or
+> "unlock" is more popular.
+> 
+> When it comes to locks, it is better to have one lock statement and
+> one unlock statement. It then becomes easy to see all paths lead to
+> the unlock.
 > 
 > 	Andrew
 > 
 
-Ok, the caller is broken when size is bigger than mbx->size. I will use
-dev_err here in v5 since I had sent v4 before this mail.
-By the way, how long should I wait before sending the new version? If it
-is too frequent, it might cause reviewers to check old versions and miss
-feedback, link what happened with this mail. And if it is too long, it
-is easy to miss the 'open window'....
+Got it, I will change label 'quit' to 'out'.
+And I will try to keep 'one lock statement and one unlock statement'
+principle in mind.
 
 Thanks for your feedback.
 
