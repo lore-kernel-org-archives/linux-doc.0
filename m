@@ -1,180 +1,137 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ECB33EC;
-	Sat, 16 Aug 2025 05:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176E43176F0;
+	Sat, 16 Aug 2025 06:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755321545; cv=none; b=Hvl4soB4jKfe/9tNU+GvzhLbAp+dRr1P56YylIQyKFmEeiwokcpI7hw8zetz5DeYsKSIvtIwVOw7xrSMp9Tdru6u2cvTHbbykYHAQxJotzJuWRbOLey9ZwM0Qt+THhwnj2qRvZcZYvkJ7zqscHHxWkOppRZjs6FpUoiEGNs/sNk=
+	t=1755324951; cv=none; b=TAD0OLtaRlx/86emMw8psJiJFEvVVSOKm+SZu+CUVLovIIlpIpIwNfzRbNGSlDGuTHBQakcRAULStVyhjWNuK0dTfkl2eEk2b8FV680emmesqymd1GPu2fkOYihKiH95LNBH1wg+s1cnuSoB63XRJqLBlr1THnehrPa411ZO2B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755321545; c=relaxed/simple;
-	bh=Gm64J36QXnfSRLkDe+0+vYNftocOboKLW+Bgxkh8el8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=NjqQZn3VfoVGr2U6FLcP5lMMgXaFR5tCVrZw2XVjMZR1UJYzS2NLPcHX/blBadVzs8It7DWYdSx+l/HiKd2FYiWwi+02JE3TA6eZX5WJhdYSXSuTBgim7YuT8jP+ufvihXtqMQuBYLdMz20N7l5KdmskgVyAe5TlzUJKjw1YN2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M5UBxNQ9; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755324951; c=relaxed/simple;
+	bh=jheQbrl6mo7J2mKnNzaTKtMrCR9vMP2nmVKMbKRV5Ik=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Bt/Uiai9qgWTU8Jn5Vwlt3ygsUFXpuABG/LNMs+r2dm+J3GjdGygPy1OxL2gM/zSs7DxgGZcnMVDUUtQMxqNYnb7BcJZpV80c1KbIhTbpM9JucfraFG9pUS5QiWBOmNs0aHzqsFrmgZGFv5utmHHQfNlEEoRX2JHbRdZy09RX+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=eFFcWNgi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M5UBxNQ9"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e39ec6e05so1413484b3a.2;
-        Fri, 15 Aug 2025 22:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755321544; x=1755926344; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hg7l3bbSFZPtoIG+3mgwC3AL7gcWmKd442FKHZEi+xU=;
-        b=M5UBxNQ90IfJAuC/CvPcRwAVmtiQrJZwHVfNo4bJIrW2sKDG9urx4e58/r7EWRfmeI
-         gAyyQsAlCrrZNJc2C6KcwWYf9/CO0M95eC5ZOPBRLPT4XysVwom13oVdhndHKNrLFDRf
-         LQPbdAWQ9KJsc7n3hA2tJKCVFtzv0PjdmJfT0MxCyyAMi6RSIVIool61ZziJMWvdr8Qu
-         RhSUyYH7A1LCNzl4mKfZGCUO+bjlyrwE4gBYhLAmN3K95c5NUCC4cRQkHGlWF76fTvoI
-         292dDJonjq4V6nkCXz6okMoKC9CxlZ4bENHIyz7F4RkFTGPp3iUH1vNEEPPWSr+uF2Lg
-         C4sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755321544; x=1755926344;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hg7l3bbSFZPtoIG+3mgwC3AL7gcWmKd442FKHZEi+xU=;
-        b=kZjKpJX429btBEFhGMYptxgnIU87SQA79YruKFrfPreeYybs0IpA+Rew8dvXWtF7Z0
-         vhZ44elLzEt0xbpWFXo1iM8VaAQGJ8E1SWIZkSm+Xk+BEb7clPgXoyjn/8KH8HekN2it
-         TQ8yD4Mg1Ls1KImmacRDO8Ik5sg8u29fQ15zS/pULRh0ezFg6Wu6zKwE5+KHSfhNIkmu
-         cmYixvIq3ljyfk6BMqcZrzB3RUTQSffJmM6Gdskx4/6+688x1hGmoOlO586S8yCI/L9j
-         7OPr8Hyf5vc+jVGJQ5U3xOAE+ZkF9qonSjU+d1G0qH3DjOyrkAATsBxg+jHNayhH8Snd
-         jnfw==
-X-Forwarded-Encrypted: i=1; AJvYcCVFKdrw2i/Hseza/r7O3wALZhJ1vUUedsV0mds65WHvauM1RnlKBlKXEp4We0+Nkz4KtGB+xeo7L8o=@vger.kernel.org, AJvYcCVi4WXCu5rRjaXAagPQqC0I/4HhQSaHZdEJB/elODaEhDeRT921WmA93ALMPM2QOUERBF0i5ayxcLolUCiJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMoT/r1BazNLAp4Q8k7yoJMPoVlbi+fGipinxofz8FyDNBQmWS
-	a0ZcAQJARYOoL7bnjlK4uCOZlhSE9SwMMU2AgI+19Oew95Fcoj5AxcED
-X-Gm-Gg: ASbGnct1z0WarmnszUaNH2MXHe93HwwQ0E5deOQTYCKwWqF6vMuaj41SMX8Zyj1xZ+w
-	Gy6zj6k0Ltm+hYKccIPK2ArZri5Ca67oFfald6Ci/4Fj60ybfGTXYGJWDjfpuG41QRjRMeknSTw
-	61SCr2ia6Ez8isfTlMw+vUwx90WWQABbaiRUgJ5M/BJvTBNaJVX1wp2Zywol9l8bDAO5gek0ntQ
-	Q+zkwcN0gB/cJ0LhHQhg5/s+g8AfW4UAZbNJ1z94fGeb2smWogj8v/5N/quIuMS9kWnakxIOTEg
-	XIJdxAcMF+2FevTy3LSSPwN1heExAGfY1B7x69en0A1nWyXrTWWwO3PmTsJ31bC8//+wHYWI3ud
-	8DozvQEvzWHEpksElx5rbgDcFiibUfSgbYZPcNPd9llidVBtHkdkXBaBp5+mph/H/+96x
-X-Google-Smtp-Source: AGHT+IFkeW6vUGKadK1tRdBbxQantqRYXD/XkBxSfAysSmRbdkf/hrVXlC5RZ2s3zvce2Tavkp5/7w==
-X-Received: by 2002:a05:6a20:2585:b0:240:fe4:10f9 with SMTP id adf61e73a8af0-240d3006933mr7472724637.6.1755321543580;
-        Fri, 15 Aug 2025 22:19:03 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d602713sm2738470a12.27.2025.08.15.22.19.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Aug 2025 22:19:03 -0700 (PDT)
-Message-ID: <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
-Date: Sat, 16 Aug 2025 14:06:43 +0900
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="eFFcWNgi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7758C4CEEF;
+	Sat, 16 Aug 2025 06:15:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1755324950;
+	bh=jheQbrl6mo7J2mKnNzaTKtMrCR9vMP2nmVKMbKRV5Ik=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eFFcWNgiGcxyOJzwvTV+O8epT32CN6pMMrHQrTBnK47ltJ3kaFTY0YfDu8vbZ5l0E
+	 Wo+IYTPEnoW9T0YtNcGyuIV5s85/amVROP+WqbjMtBCJpaF9eQycl9gpzK6QxUykxC
+	 bWBY0jYi35xQg8n2VLrVqTZNqGDs6/nZDfBts/Kg=
+Date: Fri, 15 Aug 2025 23:15:49 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: david@redhat.com, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ corbet@lwn.net, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ hannes@cmpxchg.org, baohua@kernel.org, shakeel.butt@linux.dev,
+ riel@surriel.com, ziy@nvidia.com, laoar.shao@gmail.com, dev.jain@arm.com,
+ baolin.wang@linux.alibaba.com, npache@redhat.com,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
+ sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com
+Subject: Re: [PATCH v5 5/7] selftest/mm: Extract sz2ord function into
+ vm_util.h
+Message-Id: <20250815231549.1d7ef74fc13149e07471f335@linux-foundation.org>
+In-Reply-To: <20250815135549.130506-6-usamaarif642@gmail.com>
+References: <20250815135549.130506-1-usamaarif642@gmail.com>
+	<20250815135549.130506-6-usamaarif642@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: mchehab+huawei@kernel.org
-Cc: bpf@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <cover.1755256868.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-[-CC most folks]
+On Fri, 15 Aug 2025 14:54:57 +0100 Usama Arif <usamaarif642@gmail.com> wrote:
 
-Hi Mauro,
+> The function already has 2 uses and will have a 3rd one
+> in prctl selftests. The pagesize argument is added into
+> the function, as it's not a global variable anymore.
+> No functional change intended with this patch.
+> 
 
-On Fri, 15 Aug 2025 13:36:16 +0200, Mauro Carvalho Chehab wrote:
-> Hi Jon,
-> 
-> This series touch only on three files, and have a small diffstat:
-> 
->    Documentation/Makefile     |    4 -
->    Documentation/conf.py      |  106 +++++++++++++++++++++----------------
->    scripts/sphinx-pre-install |   41 +++++++++++---
->    3 files changed, 96 insertions(+), 55 deletions(-)
-> 
-> Yet, it took a lot of my time.  Basically, it addresses lots of problems  related
-> with building PDF docs:
-> 
-> - Makefile has a wrong set of definitions for paper size. It was
->   using pre-1.7 Sphinx nomenclature for some conf vars;
-> - The LaTeX options a conf.py had lots of issues;
-> - Finally, some PDF package dependencies for distros were wrong.
-> 
-> I wrote an entire testbench to test this and doing builds on every
-> platform mentioned at sphinx-pre-install. 
-> 
-> After the change *most* PDF files are built on *most* platforms. 
-> 
-> 
-> Summary
-> =======
->   PASSED - AlmaLinux release 9.6 (Sage Margay) (7 tests)
->   PASSED - Amazon Linux release 2023 (Amazon Linux) (7 tests)
->   FAILED - archlinux (1 tests)
->   PASSED - CentOS Stream release 9 (7 tests)
->   PARTIAL - Debian GNU/Linux 12 (7 tests)
->   PARTIAL - Devuan GNU/Linux 5 (7 tests)
->   PASSED - Fedora release 42 (Adams) (7 tests)
->   PARTIAL - Gentoo Base System release 2.17 (7 tests)
->   PASSED - Kali GNU/Linux 2025.2 (7 tests)
->   PASSED - Mageia 9 (7 tests)
->   PARTIAL - Linux Mint 22 (7 tests)
->   PARTIAL - openEuler release 25.03 (7 tests)
->   PARTIAL - OpenMandriva Lx 4.3 (7 tests)
->   PASSED - openSUSE Leap 15.6 (7 tests)
->   PASSED - openSUSE Tumbleweed (7 tests)
->   PARTIAL - Oracle Linux Server release 9.6 (7 tests)
->   FAILED - Red Hat Enterprise Linux release 8.10 (Ootpa) (7 tests)
->   PARTIAL - Rocky Linux release 8.9 (Green Obsidian) (7 tests)
->   PARTIAL - Rocky Linux release 9.6 (Blue Onyx) (7 tests)
->   FAILED - Springdale Open Enterprise Linux release 9.2 (Parma) (7 tests)
->   PARTIAL - Ubuntu 24.04.2 LTS (7 tests)
->   PASSED - Ubuntu 25.04 (7 tests)
-> 
-> The failed distros are:
-> 
-> - archlinux. This is some problem on recent lxc containers. Unrelated
->   with pdf builds;
-> - RHEL 8: paywall issue: some packages required by Sphinx require a repository
->   that it is not openly available. I might have using CentOS repos, but, as we're
->   already testing it, I opted not do do it;
-> - Springdale 9.2: some broken package dependency.
-> 
-> Now, if you look at the full logs below, you'll see that some distros come with
-> XeLaTeX or LaTeX troubles, causing bigger and/or more complex docs to
-> fail. It is possible to fix those, but they depend on addressing distro-specific
-> LaTeX issues like increasing maximum memory limits and maximum number
-> of idented paragraphs.
+https://lkml.kernel.org/r/20250816040113.760010-5-aboorvad@linux.ibm.com
+jut did this, but didn't add the extra arg. 
+tools/testing/selftests/mm/split_huge_page_test.c needed updating.
 
-No, the trouble is failed conversion of SVG --> PDF by convert(1) + rsvg-convert(1).
-Failed conversions trigger huge raw SVG code to be included literally into LaTeX
-sources, which results in code listings too huge to be rendered in a page; and
-overwhelms xelatex.
-
-IIUC, kfigure.py does such fallbacks of failed PDF conversions.  Mightn't it be
-better to give up early in the latexdocs stage?
-
-> It follows full results per distro.
-
-[Ignoring lengthy list of results...]
-
-I think all you need to test build against are the limited list of:
-
-    - arch.pdf
-    - core-api.pdf
-    - doc-guide.pdf
-    - gpu.pdf
-    - i2c.pdf
-    - RCU.pdf
-    - translations.pdf
-    - userspace-api.pdf
-
-All of them have figures in SVG, and latexdocs tries to convert them
-into PDF.
-
-Probably, recommending Inkscape rather than ImageMagick would be the right
-thing, at least where it is provided as a distro package.
-
-Regards,
-Akira
+--- a/tools/testing/selftests/mm/cow.c~selftest-mm-extract-sz2ord-function-into-vm_utilh
++++ a/tools/testing/selftests/mm/cow.c
+@@ -52,7 +52,7 @@ static int detect_thp_sizes(size_t sizes
+ 	if (!pmdsize)
+ 		return 0;
+ 
+-	orders = 1UL << sz2ord(pmdsize);
++	orders = 1UL << sz2ord(pmdsize, pagesize);
+ 	orders |= thp_supported_orders();
+ 
+ 	for (i = 0; orders && count < max; i++) {
+@@ -1211,8 +1211,8 @@ static void run_anon_test_case(struct te
+ 		size_t size = thpsizes[i];
+ 		struct thp_settings settings = *thp_current_settings();
+ 
+-		settings.hugepages[sz2ord(pmdsize)].enabled = THP_NEVER;
+-		settings.hugepages[sz2ord(size)].enabled = THP_ALWAYS;
++		settings.hugepages[sz2ord(pmdsize, pagesize)].enabled = THP_NEVER;
++		settings.hugepages[sz2ord(size, pagesize)].enabled = THP_ALWAYS;
+ 		thp_push_settings(&settings);
+ 
+ 		if (size == pmdsize) {
+@@ -1863,7 +1863,7 @@ int main(void)
+ 	if (pmdsize) {
+ 		/* Only if THP is supported. */
+ 		thp_read_settings(&default_settings);
+-		default_settings.hugepages[sz2ord(pmdsize)].enabled = THP_INHERIT;
++		default_settings.hugepages[sz2ord(pmdsize, pagesize)].enabled = THP_INHERIT;
+ 		thp_save_settings();
+ 		thp_push_settings(&default_settings);
+ 
+--- a/tools/testing/selftests/mm/uffd-wp-mremap.c~selftest-mm-extract-sz2ord-function-into-vm_utilh
++++ a/tools/testing/selftests/mm/uffd-wp-mremap.c
+@@ -82,9 +82,9 @@ static void *alloc_one_folio(size_t size
+ 		struct thp_settings settings = *thp_current_settings();
+ 
+ 		if (private)
+-			settings.hugepages[sz2ord(size)].enabled = THP_ALWAYS;
++			settings.hugepages[sz2ord(size, pagesize)].enabled = THP_ALWAYS;
+ 		else
+-			settings.shmem_hugepages[sz2ord(size)].enabled = SHMEM_ALWAYS;
++			settings.shmem_hugepages[sz2ord(size, pagesize)].enabled = SHMEM_ALWAYS;
+ 
+ 		thp_push_settings(&settings);
+ 
+--- a/tools/testing/selftests/mm/vm_util.h~selftest-mm-extract-sz2ord-function-into-vm_utilh
++++ a/tools/testing/selftests/mm/vm_util.h
+@@ -127,9 +127,9 @@ static inline void log_test_result(int r
+ 	ksft_test_result_report(result, "%s\n", test_name);
+ }
+ 
+-static inline int sz2ord(size_t size)
++static inline int sz2ord(size_t size, size_t pagesize)
+ {
+-	return __builtin_ctzll(size / getpagesize());
++	return __builtin_ctzll(size / pagesize);
+ }
+ 
+ void *sys_mremap(void *old_address, unsigned long old_size,
+--- a/tools/testing/selftests/mm/split_huge_page_test.c~selftest-mm-extract-sz2ord-function-into-vm_utilh
++++ a/tools/testing/selftests/mm/split_huge_page_test.c
+@@ -544,7 +544,7 @@ int main(int argc, char **argv)
+ 		ksft_exit_fail_msg("Reading PMD pagesize failed\n");
+ 
+ 	nr_pages = pmd_pagesize / pagesize;
+-	max_order =  sz2ord(pmd_pagesize);
++	max_order =  sz2ord(pmd_pagesize, pagesize);
+ 	tests = 2 + (max_order - 1) + (2 * max_order) + (max_order - 1) * 4 + 2;
+ 	ksft_set_plan(tests);
+ 
+_
 
