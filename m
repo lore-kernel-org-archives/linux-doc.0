@@ -1,126 +1,106 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FE9450F2;
-	Sat, 16 Aug 2025 19:01:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2243215175;
+	Sat, 16 Aug 2025 20:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755370902; cv=none; b=RucPElTeHB8g92WM/8DHGVVRwmwStuAEYv9FX6K8mb3Xx2CyEfrIgJ1asAl4RGYri36ZP++TtbWler/Aw2ADQqFKq7XfNZdu4pnfMOOwhOCljwJqeuQivRktJmFa64eExbEPVqusL4EaEW1+Q9qaLNrdYgYyH+b6Y8HxpN7ubOY=
+	t=1755375657; cv=none; b=iNu2emL57mvwPBdkfl+oznuFh34f3aTv1N71IPf7fSlKhbeQ0JmasCBHKFjq0i/qkMeVFpXsCog+3aJBO86sDdA/RfN38flsMgK0gIcM8hxVhTBd1oIR4pVV/3WsiryOMKyD5ar+aAoxpPuPKaWkIufIOZ6r+TyWGkN3LJSivU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755370902; c=relaxed/simple;
-	bh=NMHQWek6hJCAFu2VRXW9YhQZ3hluLQdp9qccjoE3vCI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cslI7ViLNN/ahMKtnXTLEz6z8M7/4s4mTcA7CJPJN+vmgso4v7DZNCoXuQl1U4FvtocPFeUSAIcFH9UubIBtAqw0uGk1PWkJ7MJJa7qq+XMeapLELYcdJH2hrBcTQ49W+36gCsawSr3hEi8s2WvSOGVRQU85OmkNYXJsMGXJvoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q8Owlow8; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755375657; c=relaxed/simple;
+	bh=0iD5Zn10j+hRwp1KNjGhNOoJ8UqwWQyyKlBc9v/dF4k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ahCruXCtBCvzBBj0akIiUf7EajT8KF22H52MSnRBSXenL21Xv1fJKiNINVKhE6E8QMkcjB1mDKIJ7p4u0E3L3UY+UqryT29LRbl2hjhK3p18kmro1GINv5zdN9k7eApZq1BgqcVGzHaqLUBU1QcVFFWlAtn1eovNx/aPCiokW0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dU5KEkFj; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q8Owlow8"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45a1b0bd237so21979785e9.2;
-        Sat, 16 Aug 2025 12:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755370899; x=1755975699; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ge402z6OscbL8CU2G3ApWQ3/4su8++yMy2rU7voov5g=;
-        b=Q8Owlow8C4lhWXtSNKrYaN5z/3XllqAwygvWuBZ96v2vnnYIHKmewF+O/mzZuFVOWr
-         SPclIZlLIHr6zWaI5AUAaIQgH7u4gwvRxJo7hcVXjAd/SQK2OWCZQJ9YBEqlzcGJcQN/
-         m7j+jvFE/KqjdG199nVGtpP7r6DlVkbv9oTaP0d55B4rTlJCSP3imdN2dpYY/KknQCqJ
-         PIOj0ON/hP8nPLVp1etUJQru0OOMkYHTYNqVdNBgs1euqnxxj2AJ6223DjHLNp+b7+wW
-         lvJRpdfng8pZmtHqUSZvfXBkCXl1oHLJjh8BNfy0grxtvRHaZG3jFKvP8XMhSyUZ+csE
-         2MAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755370899; x=1755975699;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ge402z6OscbL8CU2G3ApWQ3/4su8++yMy2rU7voov5g=;
-        b=tA/cPdHdRAtuq0NlrF/QMQY+Y+vdn2zf81eYlIVvpAkhPw1VvLjw8Msx56O/c5xaA8
-         4qtdVqxqGMqgQ+iULrtXz7wHrs8xq0Gn1Z9iao4bCb+LAgn889qA3KwXbzd0nVQctzcE
-         M0vRgGOc94OjPIrQrjQ6nlodMXJalhaD2kL1OuSFHtvzYUP6/mybLQ1x03R6erY/qeVF
-         uuh5OV4LipapPVO2172pGQqT+e4IqyG9lH/MQbTJJZ0ueAAJG8VGlGLyrf1KDhIp6NVB
-         FMZkSjQyq2FnB2VK8MsVdtcSM4EkLmWVdr1zYTucPngBbkSkn17oSR0bTroqpRg760vy
-         URig==
-X-Forwarded-Encrypted: i=1; AJvYcCXvYezhrtj+BniGGVdcF4BZlaZdQcKCNKx2UO6dTyRE2GfGUtODaVdlNJc5GoenKnq4hRxtIkptO1k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzK3b6vi1RPLc2VJ6oB3b5qqCCeZOKqvRCsy+KR2h9MfadSpF3M
-	WQuW609QNdenJDSUYzFnk4zRUrraCo8ADyQmRPhIxTKpt+j7+zznX0CI
-X-Gm-Gg: ASbGncvBFJifJFVNCwNyzvAUf3lxsfdiKuuDYrJM4n6+CO2SVUX7amXKZ0L0DMdQGe7
-	S7c1zzTdMlrHI6nzqB15A3OmxJwh3vzZXWtIVHYOtf43hOcSivUTAvH5e1l+o2xEA15+h5TDN5L
-	j9V9JTBMqCQDAOM0yjepSxh1H+i1Uk32x8wmpaNjEggiL7TjBb5NiXsVUxvYtiCwanYOKj698ud
-	4Ecn8U1q1h34EwP3ds2OHlQj/l8Oq1Xay9kyDnuW4VgocBOY44YzWmaMPUKBwSClHD0BJhp34qL
-	AL5N94VVGp1aaYYMrDM40vPe65oQvTE9/nvkTpwKuFsOvinhSdBj1vaJSt+rju+AdyXxXx9w+j9
-	JQICGXlrBPbMvo0FnBFSnhVn4q0AhFGnF
-X-Google-Smtp-Source: AGHT+IFtveIIDTcyJAnjHia9tIV1AvmirXxSlVv11WsL6hk8Z34okLiXhF2+XZpD6tAQX8TpSeCydQ==
-X-Received: by 2002:a05:600c:154c:b0:43c:fc04:6d35 with SMTP id 5b1f17b1804b1-45a217f1cf7mr59689355e9.4.1755370898887;
-        Sat, 16 Aug 2025 12:01:38 -0700 (PDT)
-Received: from localhost.localdomain ([46.10.223.24])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb676c96dasm6608999f8f.43.2025.08.16.12.01.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Aug 2025 12:01:38 -0700 (PDT)
-From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-To: tglx@linutronix.de,
-	bp@alien8.de,
-	peterz@infradead.org,
-	jpoimboe@kernel.org,
-	pawan.kumar.gupta@linux.intel.com,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	"Nikola Z. Ivanov" <zlatistiv@gmail.com>
-Subject: [PATCH] docs: Replace dead links to spectre side channel white papers
-Date: Sat, 16 Aug 2025 22:00:28 +0300
-Message-ID: <20250816190028.55573-1-zlatistiv@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dU5KEkFj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=EUeXu/2DCU0fXiHQ7lQWRj20/Vwjp9o8J49BwAgYgNc=; b=dU5KEkFjhzJOwStBBKzS2gltau
+	HG9CRVtlDYx9wwa/U7hzuLgc0IKOqR7kMs45YoI4HI7f9Aal7+8/PYuVt4COO8ftobqak0tQojB3B
+	3U8t5nCTqDU0I+qnsVn3zxXhGR7166mCZTNRTohhCiiC6lFQCayaAEnfMNiG2Ky8N0kOQLKt18K8X
+	vgpOCegG9LLq6OaSjcZC2zxY5KtOfGsLXYjYkjexlO+e6EHYj2oKIIX9kvAdYhQIBv+HG9NFqgJrl
+	Po0GIj/RbXHOEOi0jgQHffc/IrGaqawlFVqh3HMdmiP+ihF2BkeIw3OIBx/G22/2RqOm4pPrOMDJv
+	Hm+NG5NQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1unNOU-0000000598j-2vHN;
+	Sat, 16 Aug 2025 20:20:50 +0000
+Message-ID: <b7be48b2-d326-45af-9608-375117ffb4db@infradead.org>
+Date: Sat, 16 Aug 2025 13:20:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
+To: rakuram <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org
+Cc: dan.j.williams@intel.com, dave@stgolabs.net, dave.jiang@intel.com,
+ jonathan.cameron@huawei.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
+ linux-cxl@vger.kernel.org, alison.schofield@intel.com, gourry@gourry.net,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ corbet@lwn.net
+References: <20250816183034.7970-1-rakuram.e96@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250816183034.7970-1-rakuram.e96@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The papers are published by Intel, AMD and MIPS.
 
-Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
----
-The MIPS blog post is nowhere to be found on mips.com,
-instead a link is placed to the last time the web archive
-has crawled it.
 
- Documentation/admin-guide/hw-vuln/spectre.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 8/16/25 11:30 AM, rakuram wrote:
+> Fixed the following typo errors
+> 
+> intersparsed ==> interspersed
+> in Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> 
+> ndoe ==> node
+> in Documentation/driver-api/cxl/allocation/page-allocator.rst
+> 
+> Signed-off-by: rakuram <rakuram.e96@gmail.com>
 
-diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
-index 132e0bc6007e..991f12adef8d 100644
---- a/Documentation/admin-guide/hw-vuln/spectre.rst
-+++ b/Documentation/admin-guide/hw-vuln/spectre.rst
-@@ -664,7 +664,7 @@ Intel white papers:
- 
- .. _spec_ref1:
- 
--[1] `Intel analysis of speculative execution side channels <https://newsroom.intel.com/wp-content/uploads/sites/11/2018/01/Intel-Analysis-of-Speculative-Execution-Side-Channels.pdf>`_.
-+[1] `Intel analysis of speculative execution side channels <https://www.intel.com/content/dam/www/public/us/en/documents/white-papers/analysis-of-speculative-execution-side-channels-white-paper.pdf>`_.
- 
- .. _spec_ref2:
- 
-@@ -682,7 +682,7 @@ AMD white papers:
- 
- .. _spec_ref5:
- 
--[5] `AMD64 technology indirect branch control extension <https://developer.amd.com/wp-content/resources/Architecture_Guidelines_Update_Indirect_Branch_Control.pdf>`_.
-+[5] `AMD64 technology indirect branch control extension <https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/white-papers/111006-architecture-guidelines-update-amd64-technology-indirect-branch-control-extension.pdf>`_.
- 
- .. _spec_ref6:
- 
-@@ -708,7 +708,7 @@ MIPS white paper:
- 
- .. _spec_ref10:
- 
--[10] `MIPS: response on speculative execution and side channel vulnerabilities <https://www.mips.com/blog/mips-response-on-speculative-execution-and-side-channel-vulnerabilities/>`_.
-+[10] `MIPS: response on speculative execution and side channel vulnerabilities <https://web.archive.org/web/20220512003005if_/https://www.mips.com/blog/mips-response-on-speculative-execution-and-side-channel-vulnerabilities/>`_.
- 
- Academic papers:
- 
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/driver-api/cxl/allocation/page-allocator.rst | 2 +-
+>  Documentation/driver-api/cxl/platform/bios-and-efi.rst     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/cxl/allocation/page-allocator.rst b/Documentation/driver-api/cxl/allocation/page-allocator.rst
+> index 7b8fe1b8d5bb..4ac3368c3947 100644
+> --- a/Documentation/driver-api/cxl/allocation/page-allocator.rst
+> +++ b/Documentation/driver-api/cxl/allocation/page-allocator.rst
+> @@ -62,7 +62,7 @@ Because the local node does not have :code:`ZONE_MOVABLE`, the CXL node is
+>  functionally unreachable for direct allocation.  As a result, the only way
+>  for CXL capacity to be used is via `demotion` in the reclaim path.
+>  
+> -This configuration also means that if the DRAM ndoe has :code:`ZONE_MOVABLE`
+> +This configuration also means that if the DRAM node has :code:`ZONE_MOVABLE`
+>  capacity - when that capacity is depleted, the page allocator will actually
+>  prefer CXL :code:`ZONE_MOVABLE` pages over DRAM :code:`ZONE_NORMAL` pages.
+>  
+> diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> index 645322632cc9..a9aa0ccd92af 100644
+> --- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> +++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> @@ -202,7 +202,7 @@ future and such a configuration should be avoided.
+>  
+>  Memory Holes
+>  ------------
+> -If your platform includes memory holes intersparsed between your CXL memory, it
+> +If your platform includes memory holes interspersed between your CXL memory, it
+>  is recommended to utilize multiple decoders to cover these regions of memory,
+>  rather than try to program the decoders to accept the entire range and expect
+>  Linux to manage the overlap.
+
 -- 
-2.49.0
-
+~Randy
