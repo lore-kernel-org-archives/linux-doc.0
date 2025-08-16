@@ -1,106 +1,273 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2243215175;
-	Sat, 16 Aug 2025 20:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D963215175;
+	Sat, 16 Aug 2025 21:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755375657; cv=none; b=iNu2emL57mvwPBdkfl+oznuFh34f3aTv1N71IPf7fSlKhbeQ0JmasCBHKFjq0i/qkMeVFpXsCog+3aJBO86sDdA/RfN38flsMgK0gIcM8hxVhTBd1oIR4pVV/3WsiryOMKyD5ar+aAoxpPuPKaWkIufIOZ6r+TyWGkN3LJSivU8=
+	t=1755380682; cv=none; b=B7588EZE7WxGC5C9NgVB9m6qaZadQTMcKrTybFnZW/V1yOo4EUaw5QJbpVO+0u1R86o/9ovl9T0WUmPg+PJLMFcKIMd/cVOd1+J/DCj1UCC6ElbbU7CxHhj+wfEsQUyiJCOoeDdinU7iugJogVOT3/BwJU5QhJ6e0CyRTNnd6AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755375657; c=relaxed/simple;
-	bh=0iD5Zn10j+hRwp1KNjGhNOoJ8UqwWQyyKlBc9v/dF4k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ahCruXCtBCvzBBj0akIiUf7EajT8KF22H52MSnRBSXenL21Xv1fJKiNINVKhE6E8QMkcjB1mDKIJ7p4u0E3L3UY+UqryT29LRbl2hjhK3p18kmro1GINv5zdN9k7eApZq1BgqcVGzHaqLUBU1QcVFFWlAtn1eovNx/aPCiokW0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dU5KEkFj; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1755380682; c=relaxed/simple;
+	bh=rH+iZVOojl81+gh+Qt2mwYI85KqtnO4j8w5ftUhj4/o=;
+	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
+	 Content-Type:Date:Message-ID; b=g+UeqHg0aY/wePjAe/la3g+QMCav4eSoQ+jGQVF6qG5qxtZ/+PBLSYJU9xN9/vpr0aIBEI1ri9DpufQ+gkYtjZVCDAvE/jp5Vhrjkhd04mGUK0rlKZBFIbGMAcCezpB2pcS7Eq6wsjpLIOqosn7DqP88gFPKJKCndj51qHy1Ilk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net; spf=pass smtp.mailfrom=jvosburgh.net; dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b=LNuoyGlP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CbjsNcAp; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jvosburgh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dU5KEkFj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=EUeXu/2DCU0fXiHQ7lQWRj20/Vwjp9o8J49BwAgYgNc=; b=dU5KEkFjhzJOwStBBKzS2gltau
-	HG9CRVtlDYx9wwa/U7hzuLgc0IKOqR7kMs45YoI4HI7f9Aal7+8/PYuVt4COO8ftobqak0tQojB3B
-	3U8t5nCTqDU0I+qnsVn3zxXhGR7166mCZTNRTohhCiiC6lFQCayaAEnfMNiG2Ky8N0kOQLKt18K8X
-	vgpOCegG9LLq6OaSjcZC2zxY5KtOfGsLXYjYkjexlO+e6EHYj2oKIIX9kvAdYhQIBv+HG9NFqgJrl
-	Po0GIj/RbXHOEOi0jgQHffc/IrGaqawlFVqh3HMdmiP+ihF2BkeIw3OIBx/G22/2RqOm4pPrOMDJv
-	Hm+NG5NQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unNOU-0000000598j-2vHN;
-	Sat, 16 Aug 2025 20:20:50 +0000
-Message-ID: <b7be48b2-d326-45af-9608-375117ffb4db@infradead.org>
-Date: Sat, 16 Aug 2025 13:20:49 -0700
+	dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b="LNuoyGlP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CbjsNcAp"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id D37D1EC0075;
+	Sat, 16 Aug 2025 17:44:35 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Sat, 16 Aug 2025 17:44:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jvosburgh.net;
+	 h=cc:cc:content-id:content-transfer-encoding:content-type
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to; s=fm2; t=1755380675; x=1755467075; bh=I3Cv5gTZ28aN83YHExaUK
+	avYb1lKshX4L/7hwiwo+fU=; b=LNuoyGlP5rW8sSJi4VbAQ9MltNvRp5MD0nWtQ
+	h1kBsSMYAfS/Fq4SzdXQgl19KLEAlBBCXVeV0LAAJIg2Szo3t51Y1DgFXfzfuQ9s
+	uf3ITgv0rPG4pL3mvafjfXN6OC4VDzLqBE18PRgs++aWeoCEYAX/K8MXIuAvmQfZ
+	DbOBtSDJvMlZkxMStQcirR/ejaLislZMgNNWyAoaVnZvUGmwE+z/3LtlDJOJFAOR
+	yqGI/zq1E4n7ljnTG/EhnhKRw3QdQRclv2nRtci2nwbyPc+k+41+mH45kkKhsG7t
+	7w2k6Etq5Crwu7w/ea1Z6ErXUZYe1o9q8vm7DceZ1eQSBsSmw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-id
+	:content-transfer-encoding:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1755380675; x=1755467075; bh=I3Cv5gTZ28aN83YHExaUKavYb1lKshX4L/7
+	hwiwo+fU=; b=CbjsNcAp1+1DY/DIUwzL5Qgh76ZpLUnoSGOYctEwp5H4JM+NvH8
+	znFqtltzzLplhLwvQOV8gHAJrVyn9jWjqNIafPiuvsiwq+HKz63YspOtd/dmtOys
+	UKCbesjziuMalmgCb7osbWoaza7tehb8WeAoUu4wghMsaf+ja6iaPcic09X70R3f
+	r3bnMgdlDvPzf5DDAQUMD73tn+J3nbfpEd6cnrWkWpzC1tqWBu2u6QIhbj21hSpc
+	n/FHONVemJ4rUbRz5FE+yTG56rEZzYb5VqNmz+KWeIeGGN4QfqXkj2lFMbt9S919
+	AbrTj74PMtIpyMjkF6oSBK1S+I+ipwBx6Aw==
+X-ME-Sender: <xms:w_ugaBslVhgHqHVKEFRrN9P3MKlnxEQ_ZfQW8VUr0M8pH0A-RAkCHw>
+    <xme:w_ugaEvBp23dwWVSOf8YqTiRpwCIqfrTNAC3jKx_YnQjbWs4h6iQ7b3j-slQ04ND4
+    4IixqsDsVE7EXusfLk>
+X-ME-Received: <xmr:w_ugaKNKY0CoE8vspUN0IMBtHKeq0Rny5tN5Bh_KSf4Yos876fxvIZkF3p-rbbqNiQdzvA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddugeejleeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefujghfofggtgfgfffksehtqhertdertddvnecuhfhrohhmpeflrgihucgg
+    ohhssghurhhghhcuoehjvhesjhhvohhssghurhhghhdrnhgvtheqnecuggftrfgrthhtvg
+    hrnhepieefvdelfeeljeevtefhfeeiudeuiedvfeeiveelffduvdevfedtheffffetfeff
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhvse
+    hjvhhoshgsuhhrghhhrdhnvghtpdhnsggprhgtphhtthhopedukedpmhhouggvpehsmhht
+    phhouhhtpdhrtghpthhtoheprhgriihorhessghlrggtkhifrghllhdrohhrghdprhgtph
+    htthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepughsrghh
+    vghrnhesghhmrghilhdrtghomhdprhgtphhtthhopehlihhuhhgrnhhgsghinhesghhmrg
+    hilhdrtghomhdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhr
+    tghpthhtohephhhorhhmsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhusggrse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehshhhurghhsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopegrnhgurhgvfidonhgvthguvghvsehluhhnnhdrtghh
+X-ME-Proxy: <xmx:w_ugaOdYOBIiemgzlQnb06iIAPnYvkxUsFunk8LCVSo69bV3D8jD3Q>
+    <xmx:w_ugaJn76wrqgBHEyceOJnDNXfo3W755CyGsVYZBnwdg5JzXSbTwjA>
+    <xmx:w_ugaIxVSOXf_RtrNlpN3piO5s7vnkyeUCLfaXw6FNK1liChmu3Wow>
+    <xmx:w_ugaEPrruU0OF9xms9RxFL_b4RoNJCfI1wnX3bMiCGmoDufihyzqg>
+    <xmx:w_ugaOVdgUf-MiKtBHdUTYvDJsFVWKELljfYm1cL5Ic-qjtEUiUBWOkg>
+Feedback-ID: i53714940:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 16 Aug 2025 17:44:34 -0400 (EDT)
+Received: by famine.localdomain (Postfix, from userid 1000)
+	id 2E9709FC9C; Sat, 16 Aug 2025 14:44:33 -0700 (PDT)
+Received: from famine (localhost [127.0.0.1])
+	by famine.localdomain (Postfix) with ESMTP id 2B91B9FB65;
+	Sat, 16 Aug 2025 14:44:33 -0700 (PDT)
+From: Jay Vosburgh <jv@jvosburgh.net>
+To: Hangbin Liu <liuhangbin@gmail.com>
+cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
+    "David S. Miller" <davem@davemloft.net>,
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+    Paolo Abeni <pabeni@redhat.com>,
+    Nikolay Aleksandrov <razor@blackwall.org>,
+    Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
+    Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
+    Amit Cohen <amcohen@nvidia.com>,
+    Vladimir Oltean <vladimir.oltean@nxp.com>,
+    Stephen Hemminger <stephen@networkplumber.org>,
+    David Ahern <dsahern@gmail.com>, linux-doc@vger.kernel.org,
+    linux-kselftest@vger.kernel.org
+Subject: Re: [PATCHv2 net-next 2/3] bonding: support aggregator selection
+ based on port priority
+In-reply-to: <20250814104256.18372-3-liuhangbin@gmail.com>
+References: <20250814104256.18372-1-liuhangbin@gmail.com>
+ <20250814104256.18372-3-liuhangbin@gmail.com>
+Comments: In-reply-to Hangbin Liu <liuhangbin@gmail.com>
+   message dated "Thu, 14 Aug 2025 10:42:55 -0000."
+X-Mailer: MH-E 8.6+git; nmh 1.8+dev; Emacs 29.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
-To: rakuram <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org
-Cc: dan.j.williams@intel.com, dave@stgolabs.net, dave.jiang@intel.com,
- jonathan.cameron@huawei.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
- linux-cxl@vger.kernel.org, alison.schofield@intel.com, gourry@gourry.net,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- corbet@lwn.net
-References: <20250816183034.7970-1-rakuram.e96@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250816183034.7970-1-rakuram.e96@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1109152.1755380673.1@famine>
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 16 Aug 2025 14:44:33 -0700
+Message-ID: <1109153.1755380673@famine>
 
+Hangbin Liu <liuhangbin@gmail.com> wrote:
 
+>Add a new ad_select policy 'port_priority' that uses the per-port
+>actor priority values (set via ad_actor_port_prio) to determine
+>aggregator selection.
+>
+>This allows administrators to influence which ports are preferred
+>for aggregation by assigning different priority values, providing
+>more flexible load balancing control in LACP configurations.
+>
+>Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+>---
+> Documentation/networking/bonding.rst |  9 ++++++++-
+> drivers/net/bonding/bond_3ad.c       | 27 +++++++++++++++++++++++++++
+> drivers/net/bonding/bond_options.c   |  1 +
+> include/net/bond_3ad.h               |  1 +
+> 4 files changed, 37 insertions(+), 1 deletion(-)
+>
+>diff --git a/Documentation/networking/bonding.rst b/Documentation/network=
+ing/bonding.rst
+>index 874d8a4681ec..151c964562db 100644
+>--- a/Documentation/networking/bonding.rst
+>+++ b/Documentation/networking/bonding.rst
+>@@ -250,7 +250,14 @@ ad_select
+> 		ports (slaves).  Reselection occurs as described under the
+> 		"bandwidth" setting, above.
+> =
 
-On 8/16/25 11:30 AM, rakuram wrote:
-> Fixed the following typo errors
-> 
-> intersparsed ==> interspersed
-> in Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> 
-> ndoe ==> node
-> in Documentation/driver-api/cxl/allocation/page-allocator.rst
-> 
-> Signed-off-by: rakuram <rakuram.e96@gmail.com>
+>-	The bandwidth and count selection policies permit failover of
+>+	prio or 3
+>+
+>+		The active aggregator is chosen by the highest total sum of
+>+		actor port priorities across its active ports. Note this
+>+		priority is ad_actor_port_prio, not per port prio, which is
+>+		used for primary reselect.
+>+
+>+	The bandwidth, count and prio selection policies permit failover of
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+	Needing to have a caveat here makes me think we should instead
+change the nomenclature.  Perhaps "lacp_port_prio"?  The standard hasn't
+had "ad" in its name for 20-ish years, so I don't think we should use
+"ad" in user facing options, and common usage these days is to just call
+it "lacp."
 
-Thanks.
+	Simiarly, I don't think we need "ad" in the option name, either;
+the standard just calls it "actor_port_priority", is there a good reason
+not to use that?
 
-> ---
->  Documentation/driver-api/cxl/allocation/page-allocator.rst | 2 +-
->  Documentation/driver-api/cxl/platform/bios-and-efi.rst     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/cxl/allocation/page-allocator.rst b/Documentation/driver-api/cxl/allocation/page-allocator.rst
-> index 7b8fe1b8d5bb..4ac3368c3947 100644
-> --- a/Documentation/driver-api/cxl/allocation/page-allocator.rst
-> +++ b/Documentation/driver-api/cxl/allocation/page-allocator.rst
-> @@ -62,7 +62,7 @@ Because the local node does not have :code:`ZONE_MOVABLE`, the CXL node is
->  functionally unreachable for direct allocation.  As a result, the only way
->  for CXL capacity to be used is via `demotion` in the reclaim path.
->  
-> -This configuration also means that if the DRAM ndoe has :code:`ZONE_MOVABLE`
-> +This configuration also means that if the DRAM node has :code:`ZONE_MOVABLE`
->  capacity - when that capacity is depleted, the page allocator will actually
->  prefer CXL :code:`ZONE_MOVABLE` pages over DRAM :code:`ZONE_NORMAL` pages.
->  
-> diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> index 645322632cc9..a9aa0ccd92af 100644
-> --- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> +++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> @@ -202,7 +202,7 @@ future and such a configuration should be avoided.
->  
->  Memory Holes
->  ------------
-> -If your platform includes memory holes intersparsed between your CXL memory, it
-> +If your platform includes memory holes interspersed between your CXL memory, it
->  is recommended to utilize multiple decoders to cover these regions of memory,
->  rather than try to program the decoders to accept the entire range and expect
->  Linux to manage the overlap.
+	-J
 
--- 
-~Randy
+> 	802.3ad aggregations when partial failure of the active aggregator
+> 	occurs.  This keeps the aggregator with the highest availability
+> 	(either in bandwidth or in number of ports) active at all times.
+>diff --git a/drivers/net/bonding/bond_3ad.c b/drivers/net/bonding/bond_3a=
+d.c
+>index 19b389b81600..dcc1a1750df5 100644
+>--- a/drivers/net/bonding/bond_3ad.c
+>+++ b/drivers/net/bonding/bond_3ad.c
+>@@ -747,6 +747,18 @@ static int __agg_active_ports(struct aggregator *agg=
+)
+> 	return active;
+> }
+> =
+
+>+static unsigned int __agg_ports_priority(const struct aggregator *agg)
+>+{
+>+	struct port *port =3D agg->lag_ports;
+>+	unsigned int prio =3D 0;
+>+
+>+	for (; port; port =3D port->next_port_in_aggregator)
+>+		if (port->is_enabled)
+>+			prio +=3D port->actor_port_priority;
+>+
+>+	return prio;
+>+}
+>+
+> /**
+>  * __get_agg_bandwidth - get the total bandwidth of an aggregator
+>  * @aggregator: the aggregator we're looking at
+>@@ -1707,6 +1719,9 @@ static struct aggregator *ad_agg_selection_test(str=
+uct aggregator *best,
+> 	 * BOND_AD_COUNT: Select by count of ports.  If count is equal,
+> 	 *     select by bandwidth.
+> 	 *
+>+	 * BOND_AD_PRIO: Select by total priority of ports. If priority
+>+	 *     is equal, select by count.
+>+	 *
+> 	 * BOND_AD_STABLE, BOND_AD_BANDWIDTH: Select by bandwidth.
+> 	 */
+> 	if (!best)
+>@@ -1725,6 +1740,14 @@ static struct aggregator *ad_agg_selection_test(st=
+ruct aggregator *best,
+> 		return best;
+> =
+
+> 	switch (__get_agg_selection_mode(curr->lag_ports)) {
+>+	case BOND_AD_PRIO:
+>+		if (__agg_ports_priority(curr) > __agg_ports_priority(best))
+>+			return curr;
+>+
+>+		if (__agg_ports_priority(curr) < __agg_ports_priority(best))
+>+			return best;
+>+
+>+		fallthrough;
+> 	case BOND_AD_COUNT:
+> 		if (__agg_active_ports(curr) > __agg_active_ports(best))
+> 			return curr;
+>@@ -1790,6 +1813,10 @@ static int agg_device_up(const struct aggregator *=
+agg)
+>  * (slaves), and reselect whenever a link state change takes place or th=
+e
+>  * set of slaves in the bond changes.
+>  *
+>+ * BOND_AD_PRIO: select the aggregator with highest total priority of po=
+rts
+>+ * (slaves), and reselect whenever a link state change takes place or th=
+e
+>+ * set of slaves in the bond changes.
+>+ *
+>  * FIXME: this function MUST be called with the first agg in the bond, o=
+r
+>  * __get_active_agg() won't work correctly. This function should be bett=
+er
+>  * called with the bond itself, and retrieve the first agg from it.
+>diff --git a/drivers/net/bonding/bond_options.c b/drivers/net/bonding/bon=
+d_options.c
+>index 5b58326dd24c..4bfff38b9ad0 100644
+>--- a/drivers/net/bonding/bond_options.c
+>+++ b/drivers/net/bonding/bond_options.c
+>@@ -165,6 +165,7 @@ static const struct bond_opt_value bond_ad_select_tbl=
+[] =3D {
+> 	{ "stable",    BOND_AD_STABLE,    BOND_VALFLAG_DEFAULT},
+> 	{ "bandwidth", BOND_AD_BANDWIDTH, 0},
+> 	{ "count",     BOND_AD_COUNT,     0},
+>+	{ "prio",      BOND_AD_PRIO,      0},
+> 	{ NULL,        -1,                0},
+> };
+> =
+
+>diff --git a/include/net/bond_3ad.h b/include/net/bond_3ad.h
+>index bf551ca70359..34495df965f0 100644
+>--- a/include/net/bond_3ad.h
+>+++ b/include/net/bond_3ad.h
+>@@ -26,6 +26,7 @@ enum {
+> 	BOND_AD_STABLE =3D 0,
+> 	BOND_AD_BANDWIDTH =3D 1,
+> 	BOND_AD_COUNT =3D 2,
+>+	BOND_AD_PRIO =3D 3,
+> };
+> =
+
+> /* rx machine states(43.4.11 in the 802.3ad standard) */
+>-- =
+
+>2.50.1
+>
+
+---
+	-Jay Vosburgh, jv@jvosburgh.net
