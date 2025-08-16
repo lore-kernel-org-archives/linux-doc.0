@@ -1,154 +1,180 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F7A194C75;
-	Sat, 16 Aug 2025 09:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03CFA2288D5;
+	Sat, 16 Aug 2025 09:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755336366; cv=none; b=DMe/2UeYU4S+rZQkZD1O+TELZzMD4ARUzzf4NHIbbl1z/h/w+UNHifQChPs22JorjMS87j0sSYdD0TaJGm4vqECY7TvRqsUAtQk4LWP7jzYrVF85IZg4nrvB+f2vJYzYl4og56l2wT4/+Ok8o541KeCTCXJrF+l2qmfyBcfRZP4=
+	t=1755336627; cv=none; b=D0MnIXJ31cu1U8xyl7yVsgh/58gDR6GCMwxhU+PNoKxB8PrQBzqX15fMrVWDYzAbDQEliLagXBmmkvcq7S2WSUE53mLg4xlPyiKQxai9tdODuvIMMZJ7rxaxk5UkQIHILSR/7pLlQmyUO0dte8rs6JDCOrJzPjG0l7UTOMOabEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755336366; c=relaxed/simple;
-	bh=QvEU6HRO0DARKMydq9orO5i/PFQrv20H+oLTRghpq7w=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=UEOOHei0KKIq9lhfteVY0G0UaH4E4krMzVmUm+I1zoN4y+vDBzyHdvxqkA3nMRaVbjulT0St3wQl7p5ASsNtPvZ1wVMZB7BLn/ceLRduWr3Drb2vYmNK9FEHJy7HihMWDnwud0WyeCCGloZca/4mJKkQH0j4yH3UB8j+c8cPbEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=CGjmAFig; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1755336627; c=relaxed/simple;
+	bh=ZMB0T7WyZDc/KYFhxhYAA5BbOcLSc9wwrxrSkbS/0Do=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nUbQuqfOaCyyzICyqn/HZsBbvLQHE+QfaoG/gRB9TqHtM4csGJ3xsXhjmNVeG/j5T6Br329H0i0r7EGXkI7uHnmhTvBJjYvZ1D2xMnlQ/tA1vguIP2Va6WXJACDEpKOadUf5c4ZEGiQvzA1Em8JLtDF0JDLi+4x7DCuOdhYRXBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=OTg6XfFH; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="CGjmAFig"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1755336337; x=1755941137; i=markus.elfring@web.de;
-	bh=ygRsKx0lB8Er7OpZFhZCEN79wM6pfvOZNWmfxbSCU/M=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=CGjmAFigBIOAKV3SK59zAXQtjHvji5NMQ14hTRERTb+NgSzPL10Ej28vedhfmQDX
-	 96evRJVsPBvR2ugYCJ74u+SQUM4RJTd22QCMuNxLh9qkbnzhwE8RUMhBKEYYwH9PV
-	 RPDGjfftCzAubDpStO/TkX7WVHDCCKXhBW4br2l1RylGVeK7R4QGr9++ZoRdNoUrY
-	 OH6iA/pwjhfz9OErB9FjQWd1KtC+skHsGHyWDs2u6P0ag0pahqXI/Ut/uYqFnwX6V
-	 isdsiOzVBXrr3YtjDcvlYPSSj31SgpV9eYAzSlR1poUcBgIXhnUwyqBSJLBCfv6HD
-	 pTf+//vsJ5824b5KMQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.92.248]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MMXxF-1v6f3v3XFv-00J9mY; Sat, 16
- Aug 2025 11:25:36 +0200
-Message-ID: <f9638a40-7927-4456-9b9d-d449c06b1070@web.de>
-Date: Sat, 16 Aug 2025 11:25:31 +0200
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="OTg6XfFH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=d9UixZd+ywiMt91Do8+cl23FuTfwWnP+omo1gMjpILA=; b=OTg6XfFHsfjrOZ3hD6wVssqj7J
+	qtHjXlVWv7mLQHNATuNhigGzBgckLqiJdQuL6VLbE0GDh7nM/HeMsVP+F3NC8c2HoIwb+E52yIesU
+	SxFQNjMe6VXPPRs8nLgowDNq/t6h9dGR372SSbaCX23Gik1N1S7lP8q57jgZsy3VUEls347mmpmPr
+	lHdHTN4rpMxkTpDh8Iw4ySU5ZD+TvyCucEaTE3us9yzeCF3w9kYMK1T8spF132iDtfKIX5rdvX48D
+	E4Cjj0/Dy5g7OLg10UGz3TXTUOojkmNDePIkwaMcCGuetn4dA4zm7Y5SpH+Hor3dociAiRQLCfTH5
+	Bsh0V33A==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1unCz2-00EmIs-25;
+	Sat, 16 Aug 2025 17:29:50 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sat, 16 Aug 2025 17:29:49 +0800
+Date: Sat, 16 Aug 2025 17:29:49 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Ashish Kalra <Ashish.Kalra@amd.com>
+Cc: corbet@lwn.net, seanjc@google.com, pbonzini@redhat.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	thomas.lendacky@amd.com, john.allen@amd.com, davem@davemloft.net,
+	akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org,
+	nikunj@amd.com, Neeraj.Upadhyay@amd.com, aik@amd.com,
+	ardb@kernel.org, michael.roth@amd.com, arnd@arndb.de,
+	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 0/7] Add SEV-SNP CipherTextHiding feature support
+Message-ID: <aKBPjfyIHMc2X_ZL@gondor.apana.org.au>
+References: <cover.1752869333.git.ashish.kalra@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Abhijit Gangurde <abhijit.gangurde@amd.com>, linux-rdma@vger.kernel.org,
- netdev@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Allen Hubbe <allen.hubbe@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Brett Creeley <brett.creeley@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Paolo Abeni <pabeni@redhat.com>, Shannon Nelson <shannon.nelson@amd.com>,
- Shannon Nelson <sln@onemain.com>, Simon Horman <horms@kernel.org>
-References: <20250814053900.1452408-2-abhijit.gangurde@amd.com>
-Subject: Re: [PATCH v5 01/14] net: ionic: Create an auxiliary device for rdma
- driver
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250814053900.1452408-2-abhijit.gangurde@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:iauRxyQjADelyP2sFys0+KzZgu340c5fR0yRNILaMmNldQTIdsM
- CeEHBC2P0pBAN2+qIPwq5489DZ1b/svSfNPk4fDXoBoJ4wQ9Ze5+lXkYYQAvmGscPG1saVQ
- RiyyjdhktVdWsEJaf3cGI9KSRua3DSP8AwtL4F3mwO2baM6lE+7QHO6NSfK0fB6/GH5cHDZ
- rX4qof1IlRc4xj9MfnMZQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NQdwOQD4K88=;38XZtlDYX325gzU941eoHYLCE79
- 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
- f5Wq+JLTwVXwpeAzxdkTxxzBbcK9f/i/KzMHq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1752869333.git.ashish.kalra@amd.com>
 
-=E2=80=A6
-> +++ b/drivers/net/ethernet/pensando/ionic/ionic_aux.c
-> @@ -0,0 +1,80 @@
-=E2=80=A6
-> +void ionic_auxbus_unregister(struct ionic_lif *lif)
-> +{
-> +	mutex_lock(&lif->adev_lock);
-> +	if (!lif->ionic_adev)
-=E2=80=A6
-> +out:
-> +	mutex_unlock(&lif->adev_lock);
-> +}
-=E2=80=A6
+On Mon, Jul 21, 2025 at 02:12:15PM +0000, Ashish Kalra wrote:
+> From: Ashish Kalra <ashish.kalra@amd.com>
+> 
+> Ciphertext hiding prevents host accesses from reading the ciphertext
+> of SNP guest private memory. Instead of reading ciphertext, the host
+> will see constant default values (0xff).
+> 
+> The SEV ASID space is split into SEV and SEV-ES/SNP ASID ranges.
+> Enabling ciphertext hiding further splits the SEV-ES/SEV-SNP ASID space
+> into separate ASID ranges for SEV-ES and SEV-SNP guests.
+> 
+> Add new module parameter to the KVM module to enable ciphertext hiding
+> support and a user configurable system-wide maximum SNP ASID value. If
+> the module parameter value is "max" then the complete SEV-ES/SEV-SNP
+> space is allocated to SEV-SNP guests.
+> 
+> v7:
+> - Fix comments.
+> - Move the check for module parameter ciphertext_hiding_asids inside
+> check_and_enable_sev_snp_ciphertext_hiding(), this keeps all the logic
+> related to the parameter in a single function.
+> 
+> v6:
+> - Fix module parameter ciphertext_hiding_asids=0 case.
+> - Coalesce multiple cases of handling invalid module parameter
+> ciphertext_hiding_asids into a single branch/label.
+> - Fix commit logs.
+> - Fix Documentation.
+> 
+> v5:
+> - Add pre-patch to cache SEV platform status and use this cached
+> information to set api_major/api_minor/build.
+> - Since the SEV platform status and SNP platform status differ, 
+> remove the state field from sev_device structure and instead track
+> SEV platform state from cached SEV platform status.
+> - If SNP is enabled then cached SNP platform status is used for 
+> api_major/api_minor/build.
+> - Fix using sev_do_cmd() instead of __sev_do_cmd_locked().
+> - Fix commit logs.
+> - Fix kernel-parameters documentation. 
+> - Modify KVM module parameter to enable CipherTextHiding to support
+> "max" option to allow complete SEV-ES+ ASID space to be allocated
+> to SEV-SNP guests.
+> - Do not enable ciphertext hiding if module parameter to specify
+> maximum SNP ASID is invalid.
+> 
+> v4:
+> - Fix buffer allocation for SNP_FEATURE_INFO command to correctly
+> handle page boundary check requirements.
+> - Return correct length for SNP_FEATURE_INFO command from
+> sev_cmd_buffer_len().
+> - Switch to using SNP platform status instead of SEV platform status if
+> SNP is enabled and cache SNP platform status and feature information.
+> Modify sev_get_api_version() accordingly.
+> - Fix commit logs.
+> - Expand the comments on why both the feature info and the platform
+> status fields have to be checked for CipherTextHiding feature 
+> detection and enablement.
+> - Add new preperation patch for CipherTextHiding feature which
+> introduces new {min,max}_{sev_es,snp}_asid variables along with
+> existing {min,max}_sev_asid variable to simplify partitioning of the
+> SEV and SEV-ES+ ASID space.
+> - Switch to single KVM module parameter to enable CipherTextHiding
+> feature and the maximum SNP ASID usable for SNP guests when 
+> CipherTextHiding feature is enabled.
+> 
+> v3:
+> - rebase to linux-next.
+> - rebase on top of support to move SEV-SNP initialization to
+> KVM module from CCP driver.
+> - Split CipherTextHiding support between CCP driver and KVM module
+> with KVM module calling into CCP driver to initialize SNP with
+> CipherTextHiding enabled and MAX ASID usable for SNP guest if
+> KVM is enabling CipherTextHiding feature.
+> - Move module parameters to enable CipherTextHiding feature and
+> MAX ASID usable for SNP guests from CCP driver to KVM module
+> which allows KVM to be responsible for enabling CipherTextHiding
+> feature if end-user requests it.
+> 
+> v2:
+> - Fix and add more description to commit logs.
+> - Rename sev_cache_snp_platform_status_and_discover_features() to 
+> snp_get_platform_data().
+> - Add check in snp_get_platform_data to guard against being called
+> after SNP_INIT_EX.
+> - Fix comments for new structure field definitions being added.
+> - Fix naming for new structure being added.
+> - Add new vm-type parameter to sev_asid_new().
+> - Fix identation.
+> - Rename CCP module parameters psp_cth_enabled to cipher_text_hiding and 
+> psp_max_snp_asid to max_snp_asid.
+> - Rename max_snp_asid to snp_max_snp_asid. 
+> 
+> Ashish Kalra (7):
+>   crypto: ccp - New bit-field definitions for SNP_PLATFORM_STATUS
+>     command
+>   crypto: ccp - Cache SEV platform status and platform state
+>   crypto: ccp - Add support for SNP_FEATURE_INFO command
+>   crypto: ccp - Introduce new API interface to indicate SEV-SNP
+>     Ciphertext hiding feature
+>   crypto: ccp - Add support to enable CipherTextHiding on SNP_INIT_EX
+>   KVM: SEV: Introduce new min,max sev_es and sev_snp asid variables
+>   KVM: SEV: Add SEV-SNP CipherTextHiding support
+> 
+>  .../admin-guide/kernel-parameters.txt         |  18 +++
+>  arch/x86/kvm/svm/sev.c                        |  96 +++++++++++--
+>  drivers/crypto/ccp/sev-dev.c                  | 127 ++++++++++++++++--
+>  drivers/crypto/ccp/sev-dev.h                  |   6 +-
+>  include/linux/psp-sev.h                       |  44 +++++-
+>  include/uapi/linux/psp-sev.h                  |  10 +-
+>  6 files changed, 274 insertions(+), 27 deletions(-)
+> 
+> -- 
+> 2.34.1
 
-Under which circumstances would you become interested to apply a call
-like =E2=80=9Cscoped_guard(mutex, &lif->adev_lock)=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.16/source/include/linux/mutex.h#L225
-
-Regards,
-Markus
+Patches 1-5 applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
