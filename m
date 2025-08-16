@@ -1,65 +1,65 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FF41311AC;
-	Sat, 16 Aug 2025 01:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ECB33EC;
+	Sat, 16 Aug 2025 05:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755307714; cv=none; b=PrtUi2svk1ze783bwNrBVwJMGk3nYewTQAtMLwS1S/2HXpIxA0pY7qCma/kolR7mRh9quN5i/JKIS2pXxI9M8ajUkEwSpXvOr34KFEs0c2P1z/cKL29QQAVskgrjNPkcixlg0+AQQWEPdHb9olir1Ma2pU/VEmMZZtDfwRM3LiA=
+	t=1755321545; cv=none; b=Hvl4soB4jKfe/9tNU+GvzhLbAp+dRr1P56YylIQyKFmEeiwokcpI7hw8zetz5DeYsKSIvtIwVOw7xrSMp9Tdru6u2cvTHbbykYHAQxJotzJuWRbOLey9ZwM0Qt+THhwnj2qRvZcZYvkJ7zqscHHxWkOppRZjs6FpUoiEGNs/sNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755307714; c=relaxed/simple;
-	bh=cL68yKgFih+YoDzXuN2geWynULDzFGUjryO4X7D/qn0=;
+	s=arc-20240116; t=1755321545; c=relaxed/simple;
+	bh=Gm64J36QXnfSRLkDe+0+vYNftocOboKLW+Bgxkh8el8=;
 	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=Bh1wuWAfHXXk3WDF6IRamfwFlrJ7tIbX9OBq4AV7rMR1XVEcqMjtvshfbY4iyTNUudvI3TGdSiHMpgTUaP52hbKwx1xYkyI1GFl0qg2WaCSYHUns04o3ATSPegLL1lOmB6LummUbrpNEjJI/IVANNMisXLP+/5NJIxt+9JcJLtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JnNX8cE6; arc=none smtp.client-ip=209.85.215.179
+	 In-Reply-To:Content-Type; b=NjqQZn3VfoVGr2U6FLcP5lMMgXaFR5tCVrZw2XVjMZR1UJYzS2NLPcHX/blBadVzs8It7DWYdSx+l/HiKd2FYiWwi+02JE3TA6eZX5WJhdYSXSuTBgim7YuT8jP+ufvihXtqMQuBYLdMz20N7l5KdmskgVyAe5TlzUJKjw1YN2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M5UBxNQ9; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JnNX8cE6"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b4716f46a2eso1756422a12.0;
-        Fri, 15 Aug 2025 18:28:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M5UBxNQ9"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e39ec6e05so1413484b3a.2;
+        Fri, 15 Aug 2025 22:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755307711; x=1755912511; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755321544; x=1755926344; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language:subject
          :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DcLbTgkOJ/gVwg1vh3eVTe4SEaylBKg4H4V6ioMpdtQ=;
-        b=JnNX8cE6hbJXRUOkGhoA0Tpqb1dgc2Mkp29J5TX6/e/ncKvj3oTBxpSRbI5bHTCpVe
-         kdiUOY9dzFnDJpDKx46LxyWVPSlfKGmVB6bcLTtAmkRsvIk6Je5w7KRA5nBU1qO3YJXt
-         g2PEOaw6NbA0aIUQ/A/UwsPEWmIOZe5RFzjpWNLe4CShU6Q6bGvzySphed7n/hZjJIdU
-         gYU6goKeUTGnlr20Lk5nA7ON8llyjyUBSoeX5q+jKCkmaSBaUNRmY5YvE/hAlUlZRUHp
-         4h4YsQEVLB/vOUmqpx4vfj/qtrTdc6Efb4aMutT5dQJrI8KbBj6m7pLxUtThNyVbgRVu
-         N4iw==
+        bh=hg7l3bbSFZPtoIG+3mgwC3AL7gcWmKd442FKHZEi+xU=;
+        b=M5UBxNQ90IfJAuC/CvPcRwAVmtiQrJZwHVfNo4bJIrW2sKDG9urx4e58/r7EWRfmeI
+         gAyyQsAlCrrZNJc2C6KcwWYf9/CO0M95eC5ZOPBRLPT4XysVwom13oVdhndHKNrLFDRf
+         LQPbdAWQ9KJsc7n3hA2tJKCVFtzv0PjdmJfT0MxCyyAMi6RSIVIool61ZziJMWvdr8Qu
+         RhSUyYH7A1LCNzl4mKfZGCUO+bjlyrwE4gBYhLAmN3K95c5NUCC4cRQkHGlWF76fTvoI
+         292dDJonjq4V6nkCXz6okMoKC9CxlZ4bENHIyz7F4RkFTGPp3iUH1vNEEPPWSr+uF2Lg
+         C4sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755307711; x=1755912511;
+        d=1e100.net; s=20230601; t=1755321544; x=1755926344;
         h=content-transfer-encoding:in-reply-to:from:content-language:subject
          :references:cc:to:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DcLbTgkOJ/gVwg1vh3eVTe4SEaylBKg4H4V6ioMpdtQ=;
-        b=CxwImTEaBkl3mqmEW/jBDZEdC9Tl9xJmMQ45Jvswv9dOG5xaPqLqYdPRU/C1suzs4E
-         PyT5BILbEZ5doX6A23MxyFqNQARI49Fh+VUG78y1iIJPueLueTRF7q7jyltlsEV+8lxc
-         /+FJJ3RAsohnVxECP7WOZqp+/zECjxIQgjZrPaHmUPOOzNv4hBijfog/ZeuKEjT+i5NO
-         tC+l5vHQUySZSLxhkL4pDe8q1ZNljXVL5jkOXZz/XDjm31BB+sKYHA9u3jUOBQIDY9LX
-         MNpK4GjBSHrfkn33KxHEux432XK5cyEX/8Shwr43O5E7+Fp+E8IJBMuPgQ3pUbKHfdES
-         Aojg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4jL+GdieYoZ3K08Q86fg3RKAh8bkwu+k0akJFBdOHQOm1Q+cnzjjad0JQA/SAhkZ72iuIJGk+Q1IEB7rW@vger.kernel.org, AJvYcCVlqVdIA7Rr25bA+KembH5BOTNYBYfffepIhMRJ9PP5anf7C/jo6G1YKHJM6rbnU8atF7VxShsDmJ8=@vger.kernel.org, AJvYcCWZALBr7xHcbALL2dKX10tnrrBqdqE+gBb00F0bIoEsoQQOYOjbu7BThtRstLrRUR2Ce1C5+h44z4sNO0tQNiU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAvGbe93TJCkErEQ7Bc4o6U2oPjxGGzt7Yg/MQrhcBY/uy4DgU
-	nd7ZaSvwucCE765Wp4zAFmn9BVuughNC5UCRf2kzU18ppdCzS6fP+w/h
-X-Gm-Gg: ASbGncsYebFp9Nz3Mi83SV5WbqCIw2/JPRBeEMz7bsORxtZCSsU4xecgIuhyVN8Odte
-	nrvIvUVqBLC+XmmnWhiqq8LmMOXWOXZH1y2nePQLqLB44Eq7zEKcW32hW8+cJSu9FbTYKLVl9rc
-	GAz1eWCSTn4ev4s8uRkeUcuQQg/DD8sKbIO5XU28URzrn57kjVq0+7OjqXhQDSU1IDSn4SUV95K
-	/FlcMsvNyyqm75UCSMuWW9p+bwqY36n5flqxYc6vLr8Csaq8otSnWL5/2h8NYA4dGJ0Ddp7Slg2
-	S//97CLdw2vkHTV+EAnVS4rMCAIh9RV0XrDD46nfygOXQGHV+dvIk2GR+xPNQ6mFCk6lrpRKLWS
-	rfYN13hjEYvG8T+i/GJnEn2au81hc8nhzDN6YrnV5PzeZymZq4tSXRQwD1U0UWCBSnHM2
-X-Google-Smtp-Source: AGHT+IFmuoEaAgmc+b55KXKn0mWdwufV7rUOybmN9i6VMPi1iQ0K4+L67TRNxK1sXLqxq/P0faU7dg==
-X-Received: by 2002:a17:903:1a43:b0:240:41a3:8e0d with SMTP id d9443c01a7336-2446d8b51f4mr49260615ad.36.1755307710724;
-        Fri, 15 Aug 2025 18:28:30 -0700 (PDT)
+        bh=hg7l3bbSFZPtoIG+3mgwC3AL7gcWmKd442FKHZEi+xU=;
+        b=kZjKpJX429btBEFhGMYptxgnIU87SQA79YruKFrfPreeYybs0IpA+Rew8dvXWtF7Z0
+         vhZ44elLzEt0xbpWFXo1iM8VaAQGJ8E1SWIZkSm+Xk+BEb7clPgXoyjn/8KH8HekN2it
+         TQ8yD4Mg1Ls1KImmacRDO8Ik5sg8u29fQ15zS/pULRh0ezFg6Wu6zKwE5+KHSfhNIkmu
+         cmYixvIq3ljyfk6BMqcZrzB3RUTQSffJmM6Gdskx4/6+688x1hGmoOlO586S8yCI/L9j
+         7OPr8Hyf5vc+jVGJQ5U3xOAE+ZkF9qonSjU+d1G0qH3DjOyrkAATsBxg+jHNayhH8Snd
+         jnfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVFKdrw2i/Hseza/r7O3wALZhJ1vUUedsV0mds65WHvauM1RnlKBlKXEp4We0+Nkz4KtGB+xeo7L8o=@vger.kernel.org, AJvYcCVi4WXCu5rRjaXAagPQqC0I/4HhQSaHZdEJB/elODaEhDeRT921WmA93ALMPM2QOUERBF0i5ayxcLolUCiJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMoT/r1BazNLAp4Q8k7yoJMPoVlbi+fGipinxofz8FyDNBQmWS
+	a0ZcAQJARYOoL7bnjlK4uCOZlhSE9SwMMU2AgI+19Oew95Fcoj5AxcED
+X-Gm-Gg: ASbGnct1z0WarmnszUaNH2MXHe93HwwQ0E5deOQTYCKwWqF6vMuaj41SMX8Zyj1xZ+w
+	Gy6zj6k0Ltm+hYKccIPK2ArZri5Ca67oFfald6Ci/4Fj60ybfGTXYGJWDjfpuG41QRjRMeknSTw
+	61SCr2ia6Ez8isfTlMw+vUwx90WWQABbaiRUgJ5M/BJvTBNaJVX1wp2Zywol9l8bDAO5gek0ntQ
+	Q+zkwcN0gB/cJ0LhHQhg5/s+g8AfW4UAZbNJ1z94fGeb2smWogj8v/5N/quIuMS9kWnakxIOTEg
+	XIJdxAcMF+2FevTy3LSSPwN1heExAGfY1B7x69en0A1nWyXrTWWwO3PmTsJ31bC8//+wHYWI3ud
+	8DozvQEvzWHEpksElx5rbgDcFiibUfSgbYZPcNPd9llidVBtHkdkXBaBp5+mph/H/+96x
+X-Google-Smtp-Source: AGHT+IFkeW6vUGKadK1tRdBbxQantqRYXD/XkBxSfAysSmRbdkf/hrVXlC5RZ2s3zvce2Tavkp5/7w==
+X-Received: by 2002:a05:6a20:2585:b0:240:fe4:10f9 with SMTP id adf61e73a8af0-240d3006933mr7472724637.6.1755321543580;
+        Fri, 15 Aug 2025 22:19:03 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d5a7a40sm2354708a12.9.2025.08.15.18.28.27
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d602713sm2738470a12.27.2025.08.15.22.19.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Aug 2025 18:28:30 -0700 (PDT)
-Message-ID: <9b3b0430-066f-486e-89cc-00e6f1f3b096@gmail.com>
-Date: Sat, 16 Aug 2025 10:16:01 +0900
+        Fri, 15 Aug 2025 22:19:03 -0700 (PDT)
+Message-ID: <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
+Date: Sat, 16 Aug 2025 14:06:43 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,145 +68,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 To: mchehab+huawei@kernel.org
-Cc: alex.gaynor@gmail.com, aliceryhl@google.com, bjorn3_gh@protonmail.com,
- boqun.feng@gmail.com, corbet@lwn.net, gary@garyguo.net,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, tmgross@umich.edu,
- Akira Yokosawa <akiyks@gmail.com>
-References: <88a95c7f6996cafb247d6706060173b17a46d570.1755258303.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 04/11] scripts: sphinx-build-wrapper: add a wrapper for
- sphinx-build
+Cc: bpf@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1755256868.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
 Content-Language: en-US
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <88a95c7f6996cafb247d6706060173b17a46d570.1755258303.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1755256868.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+[-CC most folks]
+
 Hi Mauro,
 
-On Fri, 15 Aug 2025 13:50:32 +0200, Mauro Carvalho Chehab wrote:
-> There are too much magic inside docs Makefile to properly run
-> sphinx-build. Create an ancillary script that contains all
-> kernel-related sphinx-build call logic currently at Makefile.
+On Fri, 15 Aug 2025 13:36:16 +0200, Mauro Carvalho Chehab wrote:
+> Hi Jon,
 > 
-> Such script is designed to work both as an standalone command
-> and as part of a Makefile. As such, it properly handles POSIX
-> jobserver used by GNU make.
+> This series touch only on three files, and have a small diffstat:
 > 
-> It should be noticed that, when running the script alone,
-> it will only take care of sphinx-build and cleandocs target.
-> As such:
+>    Documentation/Makefile     |    4 -
+>    Documentation/conf.py      |  106 +++++++++++++++++++++----------------
+>    scripts/sphinx-pre-install |   41 +++++++++++---
+>    3 files changed, 96 insertions(+), 55 deletions(-)
 > 
-> - it won't run "make rustdoc";
-> - no extra checks.
+> Yet, it took a lot of my time.  Basically, it addresses lots of problems  related
+> with building PDF docs:
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .pylintrc                    |   2 +-
->  scripts/sphinx-build-wrapper | 627 +++++++++++++++++++++++++++++++++++
->  2 files changed, 628 insertions(+), 1 deletion(-)
->  create mode 100755 scripts/sphinx-build-wrapper
+> - Makefile has a wrong set of definitions for paper size. It was
+>   using pre-1.7 Sphinx nomenclature for some conf vars;
+> - The LaTeX options a conf.py had lots of issues;
+> - Finally, some PDF package dependencies for distros were wrong.
 > 
+> I wrote an entire testbench to test this and doing builds on every
+> platform mentioned at sphinx-pre-install. 
+> 
+> After the change *most* PDF files are built on *most* platforms. 
+> 
+> 
+> Summary
+> =======
+>   PASSED - AlmaLinux release 9.6 (Sage Margay) (7 tests)
+>   PASSED - Amazon Linux release 2023 (Amazon Linux) (7 tests)
+>   FAILED - archlinux (1 tests)
+>   PASSED - CentOS Stream release 9 (7 tests)
+>   PARTIAL - Debian GNU/Linux 12 (7 tests)
+>   PARTIAL - Devuan GNU/Linux 5 (7 tests)
+>   PASSED - Fedora release 42 (Adams) (7 tests)
+>   PARTIAL - Gentoo Base System release 2.17 (7 tests)
+>   PASSED - Kali GNU/Linux 2025.2 (7 tests)
+>   PASSED - Mageia 9 (7 tests)
+>   PARTIAL - Linux Mint 22 (7 tests)
+>   PARTIAL - openEuler release 25.03 (7 tests)
+>   PARTIAL - OpenMandriva Lx 4.3 (7 tests)
+>   PASSED - openSUSE Leap 15.6 (7 tests)
+>   PASSED - openSUSE Tumbleweed (7 tests)
+>   PARTIAL - Oracle Linux Server release 9.6 (7 tests)
+>   FAILED - Red Hat Enterprise Linux release 8.10 (Ootpa) (7 tests)
+>   PARTIAL - Rocky Linux release 8.9 (Green Obsidian) (7 tests)
+>   PARTIAL - Rocky Linux release 9.6 (Blue Onyx) (7 tests)
+>   FAILED - Springdale Open Enterprise Linux release 9.2 (Parma) (7 tests)
+>   PARTIAL - Ubuntu 24.04.2 LTS (7 tests)
+>   PASSED - Ubuntu 25.04 (7 tests)
+> 
+> The failed distros are:
+> 
+> - archlinux. This is some problem on recent lxc containers. Unrelated
+>   with pdf builds;
+> - RHEL 8: paywall issue: some packages required by Sphinx require a repository
+>   that it is not openly available. I might have using CentOS repos, but, as we're
+>   already testing it, I opted not do do it;
+> - Springdale 9.2: some broken package dependency.
+> 
+> Now, if you look at the full logs below, you'll see that some distros come with
+> XeLaTeX or LaTeX troubles, causing bigger and/or more complex docs to
+> fail. It is possible to fix those, but they depend on addressing distro-specific
+> LaTeX issues like increasing maximum memory limits and maximum number
+> of idented paragraphs.
 
-[...]
+No, the trouble is failed conversion of SVG --> PDF by convert(1) + rsvg-convert(1).
+Failed conversions trigger huge raw SVG code to be included literally into LaTeX
+sources, which results in code listings too huge to be rendered in a page; and
+overwhelms xelatex.
 
-> diff --git a/scripts/sphinx-build-wrapper b/scripts/sphinx-build-wrapper
-> new file mode 100755
-> index 000000000000..5c728956b53c
-> --- /dev/null
-> +++ b/scripts/sphinx-build-wrapper
-> @@ -0,0 +1,627 @@
+IIUC, kfigure.py does such fallbacks of failed PDF conversions.  Mightn't it be
+better to give up early in the latexdocs stage?
 
-[...]
+> It follows full results per distro.
 
-> +    def handle_pdf(self, output_dirs):
-> +        """
-> +        Extra steps for PDF output.
-> +
-> +        As PDF is handled via a LaTeX output, after building the .tex file,
-> +        a new build is needed to create the PDF output from the latex
-> +        directory.
-> +        """
-> +        builds = {}
-> +        max_len = 0
-> +
-> +        for from_dir in output_dirs:
-> +            pdf_dir = os.path.join(from_dir, "../pdf")
-> +            os.makedirs(pdf_dir, exist_ok=True)
-> +
-> +            if self.latexmk_cmd:
-> +                latex_cmd = [self.latexmk_cmd, f"-{self.pdflatex}"]
-> +            else:
-> +                latex_cmd = [self.pdflatex]
-> +
-> +            latex_cmd.extend(shlex.split(self.latexopts))
-> +
-> +            tex_suffix = ".tex"
-> +
-> +            # Process each .tex file
-> +            has_tex = False
-> +            build_failed = False
-> +            with os.scandir(from_dir) as it:
-> +                for entry in it:
-> +                    if not entry.name.endswith(tex_suffix):
-> +                        continue
-> +
-> +                    name = entry.name[:-len(tex_suffix)]
-> +                    has_tex = True
-> +
-> +                    try:
-> +                        subprocess.run(latex_cmd + [entry.path],
-> +                                       cwd=from_dir, check=True)
+[Ignoring lengthy list of results...]
 
-So, runs of latexmk (or xelatex) would be serialized, wouldn't they?
-That would be a *huge* performance regression when I say:
+I think all you need to test build against are the limited list of:
 
-    "make -j10 -O pdfdocs"
+    - arch.pdf
+    - core-api.pdf
+    - doc-guide.pdf
+    - gpu.pdf
+    - i2c.pdf
+    - RCU.pdf
+    - translations.pdf
+    - userspace-api.pdf
 
-Current Makefile delegates .tex --> .pdf part of pdfdocs to sub make
-of .../output/Makefile, which is generated on-the-fly by Sphinx's
-latex builder.  That "-j10 -O" flag is passed to the sub make.
+All of them have figures in SVG, and latexdocs tries to convert them
+into PDF.
 
-Another issue is that you are not deny-listing variable Noto CJK
-fonts for latexmk/xelatex.  So this version of wrapper won't be able
-to build translations.pdf if you have such variable fonts installed.
-That failuer is not caught by your ad-hoc logic below.
-
-> +                    except subprocess.CalledProcessError:
-> +                        # LaTeX PDF error code is almost useless: it returns
-> +                        # error codes even when build succeeds but has warnings.
-> +                        pass
-> +
-> +                    # Instead of checking errors, let's do the next best thing:
-> +                    # check if the PDF file was actually created.
-
-I've seen cases where a corrupt .pdf file is left after premature crashes
-of xdvipdfmx.  So, checking .pdf is not good enough for determining
-success/failure.
-
-One way to see if a .pdf file is properly formatted would be to run
-"pdffonts" against the resulting .pdf.
-
-For example, if I run "pdffonts translations.pdf" against the corrupted
-one, I get:
-
-   Syntax Error: Couldn't find trailer dictionary
-   Syntax Error: Couldn't find trailer dictionary
-   Syntax Error: Couldn't read xref table
-
-, with the exit code of 1.
-Against a successfully built translations.pdf, I get something like:
-
-name                                 type              encoding         emb sub uni object ID
------------------------------------- ----------------- ---------------- --- --- --- ---------
-JPRCQB+DejaVuSans-Bold               CID TrueType      Identity-H       yes yes yes      4  0
-QFNXFP+DejaVuSerif-Bold              CID TrueType      Identity-H       yes yes yes     13  0
-NMFBZR+NotoSerifCJKjp-Bold-Identity-H CID Type 0C       Identity-H       yes yes yes     15  0
-WYMCYC+NotoSansCJKjp-Black-Identity-H CID Type 0C       Identity-H       yes yes yes     32  0
-[...]
-
-So I have to say this version of your wrapper does not look quite
-ready to replace what you call "too much magic inside docs Makefile".
+Probably, recommending Inkscape rather than ImageMagick would be the right
+thing, at least where it is provided as a distro package.
 
 Regards,
 Akira
