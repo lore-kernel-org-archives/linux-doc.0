@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937201F4706;
-	Sun, 17 Aug 2025 07:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E2E202F93;
+	Sun, 17 Aug 2025 07:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755415151; cv=none; b=E7G6MVcIV+VjRYPUorQl/2i7kjxL7d+ujGXnTfUOjB7YESUs8qAIP5I7HvdOxeZ472FH5BAlAbEW3bIaQwfshUb8d/bTMQtlp8EPe4k6MwtZHdFKfgHnkaK1ZZk6dm0W3vmrvkTa6/99Y2ZMyZEhKbm8gzx/CATC9B25h6Qdrq4=
+	t=1755415395; cv=none; b=EAArigniUYx/PyFCLRMsQQymKm5EG73H4uV5skorhQeAu1IfQhmN8EUSoVGMtWFIPm5Qadtm+S95Zysek6kRvCrier1IiAKtenpCuEQxMSi2eKOfwbF1E+70Sb9SygLi3z2mP6jHLZp32DlTschclBobTkxyfyxNHvIrpPTGazM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755415151; c=relaxed/simple;
-	bh=JFDiGM0BVBryvFA/mMw/si31ekZeLVsvinEiadWqIdM=;
+	s=arc-20240116; t=1755415395; c=relaxed/simple;
+	bh=34FTHGnwsJ7syn3/SeG8AvHnM0WI6ebyoXYwAz3kn0I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RmMomjObPBSOtPoF3XNmI+wyBoafk11X0VajHabF+/Y1EYP6WOH7LltmyHTf99ULL1Up3BP7VXy1R9QO90AlX3uqXkP3EK8eP2WuI9uBE3pPba9N5PCe5LGqOZ0ut5uTMAA1j4Fxp2KqzaNnWjvFNXaL3Wb0qzlca1tz5ASxLwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIzZcZhr; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=qk7nEpuib/GUhTWftGkXcF5L/CXrXc2LOX65sb9PI0lao5OSQN4TdlIqeuD+qweI7mBG4f63p3EOycAsCVlwZP5obXRNAX3q4bNLXnTFbBp0gZ23bRZmdYB1rG/m82Feb+kCwO9upgQdSJv9xnjoQyMkmS7kSZqnXgLHjiZsI5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J+lxK1jk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIzZcZhr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08CD7C4CEEB;
-	Sun, 17 Aug 2025 07:19:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J+lxK1jk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95F45C4CEEB;
+	Sun, 17 Aug 2025 07:23:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755415151;
-	bh=JFDiGM0BVBryvFA/mMw/si31ekZeLVsvinEiadWqIdM=;
+	s=k20201202; t=1755415394;
+	bh=34FTHGnwsJ7syn3/SeG8AvHnM0WI6ebyoXYwAz3kn0I=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WIzZcZhrGmrVNBZxq2Gcv1VEeQrnro/YDTiryCPMd6mt1e64BabAxeKsbS0uHeo22
-	 Ny5/52BqNnV3tDlTDzpYQfOfc6YSXBJ2m4dxny6LtkDM4BgUo7zFPkSjAQM2ncRVQO
-	 W/p6VvaqCd+euTgxH7EQHRrvbST1sIfzqGfigtVABMstAI/Xok1w6kzPkQep4yWvPx
-	 mqpK7uToLeuiWm+OmFl8f7rR1rDUukrOlxFp/kUL+lvqCHmCcwl/2aHxBzkWDVDUx+
-	 Mq6IIMJFyRL6YM606LS+MtHiYWjlEarzzfrm4Mu3xBE5o206ysYn3ZpmmqO30aCh65
-	 gXqlZzu27L3Fg==
-Message-ID: <fb5083ff-4bee-4a0f-8774-54b492cd9a6d@kernel.org>
-Date: Sun, 17 Aug 2025 09:19:04 +0200
+	b=J+lxK1jk6jsLRjQ/u9kBzinNqcuLdrctAsnV8WS06nKwmdFmEgA3xQw3FQpYxv28+
+	 0dfTg/rvO1DFk+BcUWEH+S8ATMqY7m0Vyp+E8IlDppHo6EoRXrNzsKADu/kG8gYaER
+	 R0iiVnMVaigtjwvKlGuD/hm8dzK/aYET9uun4/uuKWYPqOb14WcPR/xd4GUmrqXgpJ
+	 u4BbgdnOx7h0AGT7KVyi1RCDw10P0cSgQtBQq6fpjjsg9z0bTmAn5VnKY5S9Tk7hMS
+	 ucB2jaFmTuHTmWB0A4WzRNclmCwsRNqACjZlhE1vgK0IId0/xBONqOg7058cyM+Jan
+	 8ceTgpJM6W7Xg==
+Message-ID: <ff167728-a4a7-4f7d-a809-d0e482ab7dd6@kernel.org>
+Date: Sun, 17 Aug 2025 09:23:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,26 +35,20 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 06/20] dt-bindings: memory: introduce DDR4
-To: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <legoffic.clement@gmail.com>,
- Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
- Gatien Chevallier <gatien.chevallier@foss.st.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
- Julius Werner <jwerner@chromium.org>, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20250728-ddrperfm-upstream-v5-0-03f1be8ad396@foss.st.com>
- <20250728-ddrperfm-upstream-v5-6-03f1be8ad396@foss.st.com>
- <20250730211151.GA1749004-robh@kernel.org>
- <da8578ae-3f79-4082-b0fb-760553004c93@gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: update TI TPS23861 bindings
+ with per-port schema
+To: Gregory Fuchedgi <gfuchedgi@gmail.com>
+Cc: Robert Marko <robert.marko@sartura.hr>,
+ Luka Perkov <luka.perkov@sartura.hr>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250811-hwmon-tps23861-add-class-restrictions-v2-0-ebd122ec5e3b@gmail.com>
+ <20250811-hwmon-tps23861-add-class-restrictions-v2-2-ebd122ec5e3b@gmail.com>
+ <eab6d2d2-9337-40fe-81c7-95dc1956ce6f@kernel.org>
+ <CAAcybusHjAR67N0rumb6M_uG1ct3aa=zv2XkpUjhSSxv0NdzFA@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -100,64 +94,59 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <da8578ae-3f79-4082-b0fb-760553004c93@gmail.com>
+In-Reply-To: <CAAcybusHjAR67N0rumb6M_uG1ct3aa=zv2XkpUjhSSxv0NdzFA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 14/08/2025 16:42, Clément Le Goffic wrote:
-> Hi Rob,
-> 
-> On 30/07/2025 23:11, Rob Herring wrote:
->> On Mon, Jul 28, 2025 at 05:29:37PM +0200, Clément Le Goffic wrote:
->>> Introduce JEDEC compliant DDR bindings, that use new memory-props binding.
->>>
->>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
->>> ---
->>>   .../memory-controllers/ddr/jedec,ddr4.yaml         | 34 ++++++++++++++++++++++
->>>   1 file changed, 34 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr4.yaml b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr4.yaml
->>> new file mode 100644
->>> index 000000000000..f457066a2f8b
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr4.yaml
->>> @@ -0,0 +1,34 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/memory-controllers/ddr/jedec,ddr4.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: DDR3 SDRAM compliant to JEDEC JESD79-4D
->>> +
->>> +maintainers:
->>> +  - Krzysztof Kozlowski <krzk@kernel.org>
->>> +
->>> +allOf:
->>> +  - $ref: jedec,sdram-props.yaml#
->>> +
->>> +properties:
->>> +  compatible:
->>> +    items:
->>> +      - pattern: "^ddr4-[0-9a-f]{2},[0-9a-f]{1}$"
->>
->> Shouldn't this be 'jedec,ddr4-...'
-> 
-> That's not the case for lpddr bindings, I wanted both lpddr and ddr 
-> bindings to be similar but this can change.
+On 13/08/2025 05:00, Gregory Fuchedgi wrote:
+> On Tue, Aug 12, 2025 at 12:20 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>> +  shutdown-gpios:
+>> powerdown-gpios, see gpio-consumer-common.yaml
+> It is called shutdown in the datasheet, but seems like neither powerdown nor
+> shutdown truly reflects its purpose. This pin doesn't power down the controller
+> itself. It shuts down the ports while keeping the controller available for
+> configuration over i2c. Should I call it ti,ports-shutdown-gpios or maybe
+> ti,shutdown-gpios? Any other suggestions?
 
-For LPDDR Julius introduced in commit 686fe63b2280 ("dt-bindings:
-memory: Add numeric LPDDR compatible string variant") ddr4-VENDORID
-pattern to distinguish individual manufacturers.
 
-Jedec is not really the vendor here.
-
-Is it the same case in DDR? You have a defined list of vendor IDs (also
-1 byte)?
+Feels more like enable-gpios.
 
 > 
->>
->>> +      - const: jedec,ddr4
+>>> +patternProperties:
+>>> +  "^port@[0-3]$":
+>> This goes to ports property.
+> Do you mean I should add another DT node that groups all ports? such as:
+> compatible = "ti,tps23861"; ports { port@0 {...} port@1 {...} }
+
+
+Yes.
+
+> 
+> If that's the case would it make sense to use "^.*$" pattern to allow any name
+> and drop the port label? Is patternProperties even needed in this case?
+
+
+You should use standard graph bindings, so:
+
+git grep 'ref' -- Documentation/devicetree/bindings/ | grep ports
+
+
+> 
+>>> +        tps23861@28 {
+>> Node names should be generic. See also an explanation and list of
+> Ack. Should I also fix the existing example in this patch?
+
+
+You can, up to you.
+
+> 
+>>> +            label = "my_poe_controller";
+>> Use useful names or just drop it.
+> I thought this is good as an example? A useful name would be board specific.
+
+
+Then it should be board specific. You add here real and the most
+complete example.
 
 
 Best regards,
