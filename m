@@ -1,122 +1,171 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF50D1D61BB;
-	Sun, 17 Aug 2025 09:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2B7139D0A;
+	Sun, 17 Aug 2025 11:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755424518; cv=none; b=GpcKALQaftVs6E9GDXTF1pkqXrFNjZXxIHRSCsAtxzNX8uoXp3y0wK80pfCJRbnV8lbTXOUXTNRlux3f6YJ7/6FsAr1Fl8zAx2PO4xDy667XVrgB3r5wIPaxTDpZ4nsymwu7HuyMe0AEDsyqKr+8rIneY73jilLWTM+1Rpe21RA=
+	t=1755430572; cv=none; b=GF3ggj0pXfXjEGOYJXHCYswqwU587bedMmZFTxeZJeUj6fjtHBse5wkQ36K3XQpmIB/8c5Zu5UYdD0EVk3MAkrehgAv6Rd/lixOum4euzNSvQZDi+e5GpSuBlXPDG5X/sHax0U8ziOuT5kJdy/5bQkKx861gVH9MwI2OApYhybU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755424518; c=relaxed/simple;
-	bh=5mGqUIDf+LX8bqGv7TzokLroBn0Pqi6DYGaWVlXHAPI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Qe+KxX5LbDQoCKeR7zE9GO80Tz6vmxVy4yMIebepRWhj3TC82CcQF5nPp1IoQ88YcaChgfk9lNCyn0fo0KmAFbpQ+2jkiUTDHuixcaAm8MjoRx1r2oxhKC1QFtgE9bWEvlzRtkMxco7ZxcTtDoGQVk98eaxEHaCdK/cqM/v6tFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TeZoIt7a; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755430572; c=relaxed/simple;
+	bh=GmRpuf1WWiswTGLBZ8QswzjuANRbxc5t6gbEU4uCTdM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EdHNcuJFG6N+l4757KXrHZb5fQuPMYTOUPyfujUTjy+pxRhymJgD39/i3YvIwGv5jFpVBHuSZa4GBaMeDo8ILzz88YAOFRZzCJ06w7KytAemymKo6nTz92D51K4xHnhh5FbgDkKuZ+ZZBCmoAZcJjfa6V9AjSiYeZx9PIyWCDiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kT9mi3wL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TeZoIt7a"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b4717390ad7so2191682a12.1;
-        Sun, 17 Aug 2025 02:55:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755424515; x=1756029315; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1cmvwdDq9fEzI7gI5zVxq5BwjnNnPgACKd9WbNXnBmE=;
-        b=TeZoIt7aLfhiMwp7d7HKm2DE+2rZ7hHF4FM3YFQxBIJ7aTNhnUF3ujsQFGOyMKct0X
-         wMR05QtNrnq6BLYzWWKewwoqnzx1GDM2Uc4+LREdwfcCAHwp5Jny38c6fDW5m7Z205v9
-         vIO6rCDYMytHc2K3Qs3FUGNGQ+gvQTcYQnwKm4AI7OZGGDxMFV87e6yKh89K8e012BMc
-         6hX5ILznr47E5FYVtI2ZYo0nrjAIrdPOalQBtDfUHKWjgeryBE8KDPj4b5G5V4nqCXvy
-         Ei7cKtdXmFpqj6iWaEIGqPkXyRjYnOVbOERE2tzc6w7kJtPALHWr1kmIVPoPV5kHlQ5i
-         5tZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755424515; x=1756029315;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1cmvwdDq9fEzI7gI5zVxq5BwjnNnPgACKd9WbNXnBmE=;
-        b=c7wKMlxHn3FIxpil84ts3Z+BP0hj2Qkc3B5jTprYulDwp8IBiCxRZKogYi9n8lrJIC
-         6W/BSsttXKz/T09yMdW8l6WEnKob1yeHInNq8s2f/V70aZdkXoBtGNK9gR8lRojHQnEK
-         7j4mW0dIh/9LUcyGMn0LyaOPDjGHe0J5Wxubqyk79hAp1j9fNJnbRcgj8HfXLlU5aK7F
-         N2zW9u56r1rw08FldycJ4DwpEh3YWpLpPqnRdF6gxiUKajVt8RpPqoLtXFGHPncIuuje
-         0zj3zgQv/8+CXnu6yg9k9RDRU7PJFDnGjc/tC1RZdAMorXGSp1DJHB3j1yAffzI5lZ7f
-         orkw==
-X-Forwarded-Encrypted: i=1; AJvYcCW2YjuXgd8KP4epFLSgLxwqYswkNxwex4SuAV2xNT8/6PL9M7IFG5imC04qQwZyAeRiKRaXK84NXYU=@vger.kernel.org, AJvYcCWGyS47LP4uEPsRS6SWnAGbZiuYfICHRNu8GTS6mUXqedGkax6gclHvBetT4z5zA3HjbQ2ELWs6I7XAtCsY@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9eakJ2zlt3aE9jtLl0t3H6XxdEsr2nSDoo3rCh8x1x0JD/Zmu
-	b5mBKOgAE77URqDk2qQLxtSPJjAKzY6+WG3HJo59qAk1Sh63Ng4oEuXbhVNc7g==
-X-Gm-Gg: ASbGncsEtiATc7w/LRZAZh+sDYwsJDcfrRmB4nmLp4fcoY7nJdXUQs6qTL1iza1LWPK
-	dY3QhU9sAKs3B3SC/btHIo2M0ZfesQ0gyDc3xbLjWFXkXnpWiyJL1c3f0guncs6f7+qih0VahkY
-	eGZBoRIirafYoS5POndX0H35ToTWNZ9J0tPTOASBBC73zFvtp1jhtzoQYp5QpoUgFt0ieL6EJi9
-	6Ia9I1CiKXJIL5pVmmHT91npJ6WOecMgNlYvdENSOZPOqYB+1BSohltqWNr3/4IgWvD0QFfQyj6
-	/UTBnaWz9pfYTwalbV7zd691kVL4PCgoVwfwkn28rgIODA3fNbckqo4nI5wq5W8moG2GpRaShYW
-	cC0AQmZvhHmgxEK3Qe497SBrzPRoWybcGyasyVAFWQb2anK4NqJ0RybuCjPd2qE7RBAhC
-X-Google-Smtp-Source: AGHT+IH1Axs+2f8ZFd8sImHvAUvBgL0gAUZ3lcY6HEZqk8DFv+ake24/oVXSE8Kf/UsSHzPjEihHYg==
-X-Received: by 2002:a17:903:3c6f:b0:23f:df56:c74c with SMTP id d9443c01a7336-2446d715b0bmr99414185ad.14.1755424514982;
-        Sun, 17 Aug 2025 02:55:14 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d554619sm52022805ad.141.2025.08.17.02.55.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Aug 2025 02:55:14 -0700 (PDT)
-Message-ID: <acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
-Date: Sun, 17 Aug 2025 18:46:35 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kT9mi3wL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A05FFC4CEEB;
+	Sun, 17 Aug 2025 11:36:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755430571;
+	bh=GmRpuf1WWiswTGLBZ8QswzjuANRbxc5t6gbEU4uCTdM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kT9mi3wLePKByM7ioIfXteIDxbA9/yX1Sq00Pv4MOjf2Nhkw1lwNcywzaH+el8P4G
+	 iM3CcfSZrDt7xwozyuwnrU/zX1IpE+ZHB5TX4DKj0wkU/dUf7dRUD/+BwpHu+dJJIb
+	 WW9sK9Xn4z3R4lVkJ/GIqk08uQqH/jev5SyPqQhg2u40xFd/2erZDlcpQjOGAEDk2G
+	 Sd7SmiiUT4mhduEoa6cQmzN/s8zly1PyLvMF5Zs9+4Ua9BuBb14XcyeDeVmS2EpQuh
+	 V2Q6vo/lgqa8+PgvKIbfOBnup6RITjUEiEJLuCDYV7E2J4Ps3uRYMf35IDFRVbabmh
+	 Hv2n1U2K7atbg==
+Date: Sun, 17 Aug 2025 13:36:06 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
+Message-ID: <20250817133606.79d968ed@sal.lan>
+In-Reply-To: <acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
+References: <cover.1755256868.git.mchehab+huawei@kernel.org>
+	<773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
+	<20250816135538.733b80d3@foz.lan>
+	<acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
- <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
- <20250816135538.733b80d3@foz.lan>
-Content-Language: en-US
-In-Reply-To: <20250816135538.733b80d3@foz.lan>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-[-CC: bpf@vger]
+Em Sun, 17 Aug 2025 18:46:35 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-On Sat, 16 Aug 2025 13:55:38 +0200, Mauro Carvalho Chehab wrote:
-> Em Sat, 16 Aug 2025 14:06:43 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> [-CC: bpf@vger]
 > 
-
-[...]
-
-> Works for me, but let's do it on a separate series. I still have more
-> than 100 patches on my pile to be merged. This series is focused on
-> making at least some PDFs to build where possible, addressing major
-> problems at conf.py that are causing LaTeX to not work on several
-> distros and to fix wrong package dependencies(*).
+> On Sat, 16 Aug 2025 13:55:38 +0200, Mauro Carvalho Chehab wrote:
+> > Em Sat, 16 Aug 2025 14:06:43 +0900
+> > Akira Yokosawa <akiyks@gmail.com> escreveu:
+> >   
 > 
-> I'll add a TODO item on my queue to replace fom ImageMagick to
-> Inkscape on a separate series.
+> [...]
 > 
-> (*) One of such problem you blamed sphinx-build-wrapper, but 
->     the issue is actually addressed on this series with fixes to conf.py: 
->     there are currently several troubles at latex_documents list and at
->     latex_elements.
+> > Works for me, but let's do it on a separate series. I still have more
+> > than 100 patches on my pile to be merged. This series is focused on
+> > making at least some PDFs to build where possible, addressing major
+> > problems at conf.py that are causing LaTeX to not work on several
+> > distros and to fix wrong package dependencies(*).
+> > 
+> > I'll add a TODO item on my queue to replace fom ImageMagick to
+> > Inkscape on a separate series.
+> > 
+> > (*) One of such problem you blamed sphinx-build-wrapper, but 
+> >     the issue is actually addressed on this series with fixes to conf.py: 
+> >     there are currently several troubles at latex_documents list and at
+> >     latex_elements.
+> > 
+> >     Those are causing wrong font detection on LaTeX.  
 > 
->     Those are causing wrong font detection on LaTeX.
+> I couldn't see what you are talking about at first, because there
+> have not been any such issues reported.
 
-I couldn't see what you are talking about at first, because there
-have not been any such issues reported.
+Heh, as you reported, you had troubles building pdf on Debian/Ubuntu. 
+That's mainly why I took some time finding issues and writing this
+series. Basically, just fixing ImageMagick permissions didn't fix
+everything, as, at least with the Sphinx versions used at the tests
+got troubles with Sphinx hyphernation, which required a Polish font.
 
-Also, after applying 1/11 ... 4/11 on top of current docs-next
-(commit 0bbc2548ea85 ("Merge branch 'pre-install' into docs-mw"),
-despite the changelog of 5/11 which claims to fix an issue under
-debian, I couldn't reproduce the "! Corrupted NFSS tables" error
-under Ubuntu 24.04 (noble).
+Debian LaTeX packages seem to have issues with that. Fedora and
+other rpm-based distros built it fine.
 
-I'm confused ...  How can I reproduce this?
+Now, reproducing such bugs could be tricky, specially with LaTeX,
+which is a complex tool with lots of system-specific stuff.
 
-It's getting really hard for me to keep up with your pace of changes
-in doc build scripts, really.
+Eventually, this could be related to LANG/LANGUAGE/LC_ALL/...
+env vars. Here, I'm using lxc-attach to bind to the container.
+It doesn't run .bashrc nor set locale vars, and it seems to keep
+some env vars from the host. In the specific case of LANG,
+it doesn't set anything. So, my test script sets LANG and LC_ALL
+to "C". The host has it set to LANG=pt_BR.UTF-8.
 
-Akira
+> Also, after applying 1/11 ... 4/11 on top of current docs-next
+> (commit 0bbc2548ea85 ("Merge branch 'pre-install' into docs-mw"),
+> despite the changelog of 5/11 which claims to fix an issue under
+> debian, I couldn't reproduce the "! Corrupted NFSS tables" error
+> under Ubuntu 24.04 (noble).
+
+Maybe you could try set LANG/LC_ALL to "C".
+
+I tested it on the following lxc containers (picked from lxc
+download repositories):
+
+  # APT-based (Debian/Ubuntu-like)
+  debian:
+    release: "bookworm"
+    pre_setup_cmds: *apt_pkg_cmd
+    post_setup_cmds:
+      - "systemctl enable ssh"
+    pkg_cmd: *apt_pkg_cmd
+
+  devuan:
+    release: "daedalus"
+    pkg_cmd: *apt_pkg_cmd
+
+  kali:
+    release: "current"
+    pkg_cmd: *apt_pkg_cmd
+
+  mint:
+    release: "wilma"
+    pkg_cmd: *apt_pkg_cmd
+
+  ubuntu:
+    release: "plucky"
+    pkg_cmd: *apt_pkg_cmd
+
+  ubuntu-lts:
+    dist: "ubuntu"
+    release: "noble"
+    pkg_cmd: *apt_pkg_cmd
+
+apt_pkg_cmd: &apt_pkg_cmd
+  - "sudo locale-gen"
+  - "sudo dpkg-reconfigure --frontend=noninteractive locales"
+  - "apt-get update && apt-get install -y openssh-server git python3 make"
+  - |
+    if [ -f /etc/ImageMagick-6/policy.xml ]; then
+      # Remove any existing restrictive policies for PDF/PS/EPS/XPS
+      sed -i '/<policy.*domain="coder".*pattern=".*\(PDF\|PS\|EPS\|XPS\).*"/d' /etc/ImageMagick-6/policy.xml
+      # Allow PDF patterns at the end </policymap>
+      sed -i '/<\/policymap>/i \ \ <policy domain="coder" rights="read|write" pattern="{PS,PS2,PS3,EPS,PDF,XPS}" />' /etc/ImageMagick-6/policy.xml
+    fi
+  - |
+    if [ -f /etc/ImageMagick-7/policy.xml ]; then
+      # Remove any existing restrictive policies for PDF/PS/EPS/XPS
+      sed -i '/<policy.*domain="coder".*pattern=".*\(PDF\|PS\|EPS\|XPS\).*"/d' /etc/ImageMagick-7/policy.xml
+      # Allow PDF patterns at the end </policymap>
+      sed -i '/<\/policymap>/i \ \ <policy domain="coder" rights="read|write" pattern="{PS,PS2,PS3,EPS,PDF,XPS}" />' /etc/ImageMagick-7/policy.xml
+    fi
+
+Packages are installed according using sphinx-pre-install
+instructions.
+
+I don't remember what of those got the corrupted tables LaTeX warning,
+but I got it on more than one Debian-based distro. When I wrote the
+fix, I guess I logged at the Debian container.
+
+> I'm confused ...  How can I reproduce this?
+> 
+> It's getting really hard for me to keep up with your pace of changes
+> in doc build scripts, really.
+> 
+> Akira
