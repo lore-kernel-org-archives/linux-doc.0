@@ -1,33 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E2E202F93;
-	Sun, 17 Aug 2025 07:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF50D1D61BB;
+	Sun, 17 Aug 2025 09:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755415395; cv=none; b=EAArigniUYx/PyFCLRMsQQymKm5EG73H4uV5skorhQeAu1IfQhmN8EUSoVGMtWFIPm5Qadtm+S95Zysek6kRvCrier1IiAKtenpCuEQxMSi2eKOfwbF1E+70Sb9SygLi3z2mP6jHLZp32DlTschclBobTkxyfyxNHvIrpPTGazM=
+	t=1755424518; cv=none; b=GpcKALQaftVs6E9GDXTF1pkqXrFNjZXxIHRSCsAtxzNX8uoXp3y0wK80pfCJRbnV8lbTXOUXTNRlux3f6YJ7/6FsAr1Fl8zAx2PO4xDy667XVrgB3r5wIPaxTDpZ4nsymwu7HuyMe0AEDsyqKr+8rIneY73jilLWTM+1Rpe21RA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755415395; c=relaxed/simple;
-	bh=34FTHGnwsJ7syn3/SeG8AvHnM0WI6ebyoXYwAz3kn0I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qk7nEpuib/GUhTWftGkXcF5L/CXrXc2LOX65sb9PI0lao5OSQN4TdlIqeuD+qweI7mBG4f63p3EOycAsCVlwZP5obXRNAX3q4bNLXnTFbBp0gZ23bRZmdYB1rG/m82Feb+kCwO9upgQdSJv9xnjoQyMkmS7kSZqnXgLHjiZsI5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J+lxK1jk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755424518; c=relaxed/simple;
+	bh=5mGqUIDf+LX8bqGv7TzokLroBn0Pqi6DYGaWVlXHAPI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Qe+KxX5LbDQoCKeR7zE9GO80Tz6vmxVy4yMIebepRWhj3TC82CcQF5nPp1IoQ88YcaChgfk9lNCyn0fo0KmAFbpQ+2jkiUTDHuixcaAm8MjoRx1r2oxhKC1QFtgE9bWEvlzRtkMxco7ZxcTtDoGQVk98eaxEHaCdK/cqM/v6tFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TeZoIt7a; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J+lxK1jk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95F45C4CEEB;
-	Sun, 17 Aug 2025 07:23:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755415394;
-	bh=34FTHGnwsJ7syn3/SeG8AvHnM0WI6ebyoXYwAz3kn0I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J+lxK1jk6jsLRjQ/u9kBzinNqcuLdrctAsnV8WS06nKwmdFmEgA3xQw3FQpYxv28+
-	 0dfTg/rvO1DFk+BcUWEH+S8ATMqY7m0Vyp+E8IlDppHo6EoRXrNzsKADu/kG8gYaER
-	 R0iiVnMVaigtjwvKlGuD/hm8dzK/aYET9uun4/uuKWYPqOb14WcPR/xd4GUmrqXgpJ
-	 u4BbgdnOx7h0AGT7KVyi1RCDw10P0cSgQtBQq6fpjjsg9z0bTmAn5VnKY5S9Tk7hMS
-	 ucB2jaFmTuHTmWB0A4WzRNclmCwsRNqACjZlhE1vgK0IId0/xBONqOg7058cyM+Jan
-	 8ceTgpJM6W7Xg==
-Message-ID: <ff167728-a4a7-4f7d-a809-d0e482ab7dd6@kernel.org>
-Date: Sun, 17 Aug 2025 09:23:09 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TeZoIt7a"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b4717390ad7so2191682a12.1;
+        Sun, 17 Aug 2025 02:55:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755424515; x=1756029315; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1cmvwdDq9fEzI7gI5zVxq5BwjnNnPgACKd9WbNXnBmE=;
+        b=TeZoIt7aLfhiMwp7d7HKm2DE+2rZ7hHF4FM3YFQxBIJ7aTNhnUF3ujsQFGOyMKct0X
+         wMR05QtNrnq6BLYzWWKewwoqnzx1GDM2Uc4+LREdwfcCAHwp5Jny38c6fDW5m7Z205v9
+         vIO6rCDYMytHc2K3Qs3FUGNGQ+gvQTcYQnwKm4AI7OZGGDxMFV87e6yKh89K8e012BMc
+         6hX5ILznr47E5FYVtI2ZYo0nrjAIrdPOalQBtDfUHKWjgeryBE8KDPj4b5G5V4nqCXvy
+         Ei7cKtdXmFpqj6iWaEIGqPkXyRjYnOVbOERE2tzc6w7kJtPALHWr1kmIVPoPV5kHlQ5i
+         5tZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755424515; x=1756029315;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1cmvwdDq9fEzI7gI5zVxq5BwjnNnPgACKd9WbNXnBmE=;
+        b=c7wKMlxHn3FIxpil84ts3Z+BP0hj2Qkc3B5jTprYulDwp8IBiCxRZKogYi9n8lrJIC
+         6W/BSsttXKz/T09yMdW8l6WEnKob1yeHInNq8s2f/V70aZdkXoBtGNK9gR8lRojHQnEK
+         7j4mW0dIh/9LUcyGMn0LyaOPDjGHe0J5Wxubqyk79hAp1j9fNJnbRcgj8HfXLlU5aK7F
+         N2zW9u56r1rw08FldycJ4DwpEh3YWpLpPqnRdF6gxiUKajVt8RpPqoLtXFGHPncIuuje
+         0zj3zgQv/8+CXnu6yg9k9RDRU7PJFDnGjc/tC1RZdAMorXGSp1DJHB3j1yAffzI5lZ7f
+         orkw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2YjuXgd8KP4epFLSgLxwqYswkNxwex4SuAV2xNT8/6PL9M7IFG5imC04qQwZyAeRiKRaXK84NXYU=@vger.kernel.org, AJvYcCWGyS47LP4uEPsRS6SWnAGbZiuYfICHRNu8GTS6mUXqedGkax6gclHvBetT4z5zA3HjbQ2ELWs6I7XAtCsY@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9eakJ2zlt3aE9jtLl0t3H6XxdEsr2nSDoo3rCh8x1x0JD/Zmu
+	b5mBKOgAE77URqDk2qQLxtSPJjAKzY6+WG3HJo59qAk1Sh63Ng4oEuXbhVNc7g==
+X-Gm-Gg: ASbGncsEtiATc7w/LRZAZh+sDYwsJDcfrRmB4nmLp4fcoY7nJdXUQs6qTL1iza1LWPK
+	dY3QhU9sAKs3B3SC/btHIo2M0ZfesQ0gyDc3xbLjWFXkXnpWiyJL1c3f0guncs6f7+qih0VahkY
+	eGZBoRIirafYoS5POndX0H35ToTWNZ9J0tPTOASBBC73zFvtp1jhtzoQYp5QpoUgFt0ieL6EJi9
+	6Ia9I1CiKXJIL5pVmmHT91npJ6WOecMgNlYvdENSOZPOqYB+1BSohltqWNr3/4IgWvD0QFfQyj6
+	/UTBnaWz9pfYTwalbV7zd691kVL4PCgoVwfwkn28rgIODA3fNbckqo4nI5wq5W8moG2GpRaShYW
+	cC0AQmZvhHmgxEK3Qe497SBrzPRoWybcGyasyVAFWQb2anK4NqJ0RybuCjPd2qE7RBAhC
+X-Google-Smtp-Source: AGHT+IH1Axs+2f8ZFd8sImHvAUvBgL0gAUZ3lcY6HEZqk8DFv+ake24/oVXSE8Kf/UsSHzPjEihHYg==
+X-Received: by 2002:a17:903:3c6f:b0:23f:df56:c74c with SMTP id d9443c01a7336-2446d715b0bmr99414185ad.14.1755424514982;
+        Sun, 17 Aug 2025 02:55:14 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d554619sm52022805ad.141.2025.08.17.02.55.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Aug 2025 02:55:14 -0700 (PDT)
+Message-ID: <acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
+Date: Sun, 17 Aug 2025 18:46:35 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,119 +67,56 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: update TI TPS23861 bindings
- with per-port schema
-To: Gregory Fuchedgi <gfuchedgi@gmail.com>
-Cc: Robert Marko <robert.marko@sartura.hr>,
- Luka Perkov <luka.perkov@sartura.hr>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250811-hwmon-tps23861-add-class-restrictions-v2-0-ebd122ec5e3b@gmail.com>
- <20250811-hwmon-tps23861-add-class-restrictions-v2-2-ebd122ec5e3b@gmail.com>
- <eab6d2d2-9337-40fe-81c7-95dc1956ce6f@kernel.org>
- <CAAcybusHjAR67N0rumb6M_uG1ct3aa=zv2XkpUjhSSxv0NdzFA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1755256868.git.mchehab+huawei@kernel.org>
+ <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
+ <20250816135538.733b80d3@foz.lan>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAAcybusHjAR67N0rumb6M_uG1ct3aa=zv2XkpUjhSSxv0NdzFA@mail.gmail.com>
+In-Reply-To: <20250816135538.733b80d3@foz.lan>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 13/08/2025 05:00, Gregory Fuchedgi wrote:
-> On Tue, Aug 12, 2025 at 12:20 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>> +  shutdown-gpios:
->> powerdown-gpios, see gpio-consumer-common.yaml
-> It is called shutdown in the datasheet, but seems like neither powerdown nor
-> shutdown truly reflects its purpose. This pin doesn't power down the controller
-> itself. It shuts down the ports while keeping the controller available for
-> configuration over i2c. Should I call it ti,ports-shutdown-gpios or maybe
-> ti,shutdown-gpios? Any other suggestions?
+[-CC: bpf@vger]
 
-
-Feels more like enable-gpios.
-
+On Sat, 16 Aug 2025 13:55:38 +0200, Mauro Carvalho Chehab wrote:
+> Em Sat, 16 Aug 2025 14:06:43 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
 > 
->>> +patternProperties:
->>> +  "^port@[0-3]$":
->> This goes to ports property.
-> Do you mean I should add another DT node that groups all ports? such as:
-> compatible = "ti,tps23861"; ports { port@0 {...} port@1 {...} }
 
+[...]
 
-Yes.
-
+> Works for me, but let's do it on a separate series. I still have more
+> than 100 patches on my pile to be merged. This series is focused on
+> making at least some PDFs to build where possible, addressing major
+> problems at conf.py that are causing LaTeX to not work on several
+> distros and to fix wrong package dependencies(*).
 > 
-> If that's the case would it make sense to use "^.*$" pattern to allow any name
-> and drop the port label? Is patternProperties even needed in this case?
-
-
-You should use standard graph bindings, so:
-
-git grep 'ref' -- Documentation/devicetree/bindings/ | grep ports
-
-
+> I'll add a TODO item on my queue to replace fom ImageMagick to
+> Inkscape on a separate series.
 > 
->>> +        tps23861@28 {
->> Node names should be generic. See also an explanation and list of
-> Ack. Should I also fix the existing example in this patch?
-
-
-You can, up to you.
-
+> (*) One of such problem you blamed sphinx-build-wrapper, but 
+>     the issue is actually addressed on this series with fixes to conf.py: 
+>     there are currently several troubles at latex_documents list and at
+>     latex_elements.
 > 
->>> +            label = "my_poe_controller";
->> Use useful names or just drop it.
-> I thought this is good as an example? A useful name would be board specific.
+>     Those are causing wrong font detection on LaTeX.
 
+I couldn't see what you are talking about at first, because there
+have not been any such issues reported.
 
-Then it should be board specific. You add here real and the most
-complete example.
+Also, after applying 1/11 ... 4/11 on top of current docs-next
+(commit 0bbc2548ea85 ("Merge branch 'pre-install' into docs-mw"),
+despite the changelog of 5/11 which claims to fix an issue under
+debian, I couldn't reproduce the "! Corrupted NFSS tables" error
+under Ubuntu 24.04 (noble).
 
+I'm confused ...  How can I reproduce this?
 
-Best regards,
-Krzysztof
+It's getting really hard for me to keep up with your pace of changes
+in doc build scripts, really.
+
+Akira
