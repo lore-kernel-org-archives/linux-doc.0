@@ -1,73 +1,77 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EA423E358
-	for <linux-doc@vger.kernel.org>; Sun, 17 Aug 2025 17:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCF715A85A;
+	Sun, 17 Aug 2025 20:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755453337; cv=none; b=QSEVW4AP3aoK9St8EcTRvlz8BYgOZ+IAUl9lkEVInw4YlEXYXgLMcOZcwsujAq0LOjexJFA5uqiclif9nb7HfmF3du80BTUgVePnKj7P6tX3wMnMA4Fahr8lL+eoOsJyzj6qzAlhnTTiTW2VtLK6FgWtth9rVqrgRWCin4hQ22E=
+	t=1755462512; cv=none; b=L2xheDr9S4Ykv5mn9UYJTbUIo1gxT2X9KJtdoQGZbpuD4kpJuQ4zs4QeCOpHPDx0wFao3y788ABwOcWm0Mz7qOzGV6DQ+OXqoe+FZ2sUFw9JSN5P0G0tCdqBwad/16gemAEfE+r6ZlCgrk6X2h6LvTDKMS6cddH1x8bvamyjLmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755453337; c=relaxed/simple;
-	bh=ZX65Osj3KZd+3VMcWnHgTciqbWcOdnJj8eq+6yip750=;
+	s=arc-20240116; t=1755462512; c=relaxed/simple;
+	bh=ewyhE5rOOHRrhA2irhmRVxhNqn931+IK/ET4AwII7U0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CcLqHRwHMKU2D6H0D6Gfb+cLaOpDlWVbEY0O0QTREPsI7fjqK3omFpuhQkk+Pw3wBNL0yuumP8qggU5rVvwT4R+uM/7Imcznvm2r6lG32nFXgLT7YhHyKjMH4d5oWBVWFyQ4rfAtXGn7KCn4wFElv507DDjBE87kB4uRmeBcyzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=o1LThcsY; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=cQnVHrBW5ojEg1QAt2jMFEHce9NDKEd5CC7/2i1aq/dXlYfBZU72oJ0sEDRmxlpqCSzbENLV+f6KSvLGbXE+1MU+Hxb/DMiES65OSSpG4gn+O0zW7nlfAz8sc5+qzffNGz/FzAiW1Xh2/1Kp3zJF26DfgXSVesZ1eIjcN+KhNDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MftTbmY6; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="o1LThcsY"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4b109c59dc9so46454761cf.3
-        for <linux-doc@vger.kernel.org>; Sun, 17 Aug 2025 10:55:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MftTbmY6"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-244581d9866so28367015ad.2;
+        Sun, 17 Aug 2025 13:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1755453334; x=1756058134; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755462510; x=1756067310; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7ef15y+hBWoFQAF/OeWDYMRMusZ2qkkd9+CBv2gOjP8=;
-        b=o1LThcsYcTqdLu7JXhyJ0Wj95rKJBG2xc5LaXMBkhScqIVGPGztqh561yyVz015fBm
-         F+BToe2KaXtglUms/VEsiRXp6jyeXWzWrN42+NKWFHO80Mevgb4zu5SYWkJGyFsewI+K
-         Fg71ITR2PGREaP+apBlPz1Bco1dfK5SZeb7a1GLlQYaXfoME5cXfBVOqRKRXRk+sfWdE
-         k7x/qG77acYCCjTF4oYPiA8pQOXiUqSG9hn6lXdRwAemMVSma86TqhXcT/JOVZM3xY8G
-         HhmS/jEF5W8Thr9m/ka4miTp7iWBO5YatYgCLyKvOLDWxDi0JEUTNe6dsLz9IqxtYty8
-         JJbQ==
+        bh=B5FzmTLswZzbOXBPvvbc2aB07rjQ92za6IFLWDHDVQo=;
+        b=MftTbmY68nyJB1j/EV5fbBx5uU5kw8hG+wXHRXP8ipxg5u2oqcdnRX9Ob5Kr+202Wy
+         iMrkE++NbFxiotdn6vWp+M6tIO8VzOt8bKS8/R+T+PWuGf/ObKF4VOasoNyR+ShThZd+
+         SFsmOxp0D5hsYTgEq3xOf7uHqNGTdJVhZ6fkwODDeQN3WGAWUPJlRqP6dXjGVYczFGwx
+         e0u+zNkb6Xcovgn6mk924x8SBAcL4wc2qBWixZXZUUrojGGMKmJlu6Rz6iYpGBzbjEx7
+         ZLGWzK4vtaVPf/BRtwolzK897FwzqiwgqgjoL5leOTK79wxcnlLIMtRX5D64KIt1vmuN
+         UqDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755453334; x=1756058134;
+        d=1e100.net; s=20230601; t=1755462510; x=1756067310;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7ef15y+hBWoFQAF/OeWDYMRMusZ2qkkd9+CBv2gOjP8=;
-        b=EUFfnZmTfIAMZ4zYJPwyxjeiKZQZbU9NyZUTRYEIDSKjOjXmsnNX8ZOW+wvzhHGRuC
-         5yQVa4jRjLbjSewIte+jp0xZntz4lJa5exDLOOios7LSOVRwd2v9CZwcjCGfP/UooGVB
-         E2c4FfELssZ+Vi1PLGGq3QVpfuBO5KZuVs+WzyKISOYYtu6H9h8OUF5X9Nl1+k3FLLL1
-         0h6fgvgkyJznVoMClPBHXBLRI7mryb3+XZ2a1sBST1KxNE99pyZeejBcCl6jqDq5c1Dx
-         U3oJr/5CEGFtj50dJtghI0bvuCyPXksGLIVsRTHWs1TSE1eIqR4nHVu80T95XEyVNAsM
-         gDsw==
-X-Gm-Message-State: AOJu0YxoUyzBLM3m1yK1qCNvSwaplJP94f4GDrBTT5fH/4kGQH7x9qeL
-	iB+goqtzUANlOiMz90LzMRdk5SuDose75AdKnOCwvVwphPt9Mt4zOhnF+5WA7/M019o=
-X-Gm-Gg: ASbGncuiZnhuZcu51nTw+RM6x1jNgUsbh2BVWzkbB3mpIzNPBAUY3t0uoujKEF0I5PA
-	E+tzD0UJeuGbaUi9Us+WzeWi66IEc5fAY3YsbO7drxo9ky36kdI3Oh2b4Ctwi3AAYSJo5HGN9Ci
-	a/h3B8HdfOhN0o5UHdc8mS6svJX9+T/Ufx71llghLLed48iw9Z+g8AyMQEWe1PmJmjbOxGtZBxW
-	4FakppfaeN4RyzA/zPMFcyU1KxbyjCmklG6RKDaCHq+FkIrShxWYHILNwpyFTvxbbvh0g+frYuv
-	+k+f0N2bxYxZxG66hy1CDzAJfm1LxDvP7RBnuADz5aynMxYzNAHZfxB9rK91vicCx39I2Mn8/6d
-	J501o03n6gR2TgWSrw+v0cJC+/Si9zYb3p4cMeaQ9yqqML92hkTciYdWO
-X-Google-Smtp-Source: AGHT+IGGPniltbwWGADuC89Da2QodO4Z1fNUe08TbR56jJKviW2gzde0TZQ0UAs5hoxjQJhD9PIKdw==
-X-Received: by 2002:a05:622a:1f0b:b0:4b0:b36e:b151 with SMTP id d75a77b69052e-4b11e0bb988mr130888341cf.16.1755453333798;
-        Sun, 17 Aug 2025 10:55:33 -0700 (PDT)
-Received: from fedora (pool-96-255-20-42.washdc.ftas.verizon.net. [96.255.20.42])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b11dc1aa56sm39748811cf.7.2025.08.17.10.55.33
+        bh=B5FzmTLswZzbOXBPvvbc2aB07rjQ92za6IFLWDHDVQo=;
+        b=csPEB7ZEOmKXtw5ytY4gymdzrEZPTX2xBfxSNRgv3DxwCCvjIbncBYgL1J3ntHpaCf
+         evUf8i1Yon8vLPqvz29U5y/5BtN9RILtLhjzxYPrkJ+3XrHB8oLfyp+Gd+lMEJ9m9usd
+         FoM3vynDSLhvi4e/gMox4YHAShf9RQ+FbeXFsqHr7LBMhn/wJPL2Dt42EgeVSWT1dynL
+         CQsNBRryagPSQ8oopxqH59mExNo2Z2DrltxKfHXK6BQ4lwS3gb6lXVPEzPl7P/e2YcoX
+         7MyNPrs72J2QxG/Ox9pqn3AXQzpyAD8muo0GpM29EtXeff2RcFJpx/Ta5zp3QwrcbbB2
+         opOw==
+X-Forwarded-Encrypted: i=1; AJvYcCUwy9Gb80i073SpZ9durrvq4NV4otCVVrubQ6gEQUMiJXnkDp2Ydl1XGbGlkn9fciES7Y3fF0x0iQGHWTmx@vger.kernel.org, AJvYcCVT/xbY/6R5ASqZEFncV/VPEB6dFmAAziQzqsbPILRsJsKbMiqwEnROHth/WtbuFykQzeAiMYN4XqQ=@vger.kernel.org, AJvYcCX4KV9m52WoN8aiPiCtjzosNJU+6W4/TXbhfUbFu95/ao9keRi/Ghs0tXWov23n2zwVyNN0oWUnIdrd6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmysJ7gFlkRSW6mYac9aDusnvEfivJTSItUipqzjPbgfvDPDl/
+	LswrTykR6cGyUTwTwv/wB60Z2qBGT0Qad+SkCpqaVbEuKxgODJAtoxhT
+X-Gm-Gg: ASbGncs4Oedmm73YNw6MB9DWbMRTcAES6IHF3K2OZ+nBKfjzbpZMBDpahPr5p4yd4Ma
+	qpgu33DLSpKYGXz20H+6hnECKPdI7tRr4soQmgEVsC8jJGhj6En2uJqahUU6OsEC9ino/91uOLm
+	jnlsNJmw1GZ13axeS00ROIObZX30tqAXeiTfm0EAaxkO8p4KCSE10wOi2lkVtYUHKM3ipzjNw6j
+	eYBpd3Mbjqhm1RnLiGvwmMjKvPyoIrLu4E/3acz7A5ckyrDeNeYv7XGsYa597PL3jl+43DnwXZw
+	Ov8efITIivPng2wnAdraomboFEdBC/a4DEZsiwbxgrAcj6QjWEkw33LUdu3yOvbsAx/n4ABwae5
+	BHkrw4ssTl4jCys3r00DFyhw=
+X-Google-Smtp-Source: AGHT+IFReg9uLxf3fTCI2GcK1mj7BVPUAk7GVWqcLnzh++rW7XXkMMYL9GZ7dldGWH7fZgnKjt836Q==
+X-Received: by 2002:a17:903:37c7:b0:23f:f96f:9de7 with SMTP id d9443c01a7336-2446d94ecbfmr147284775ad.51.1755462509962;
+        Sun, 17 Aug 2025 13:28:29 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:1c99:c9f5:d858:a21b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446cb0f007sm61001275ad.69.2025.08.17.13.28.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 10:55:33 -0700 (PDT)
-Date: Sun, 17 Aug 2025 13:55:31 -0400
-From: Gregory Price <gourry@gourry.net>
-To: rakuram <rakuram.e96@gmail.com>
-Cc: linux-doc@vger.kernel.org, dan.j.williams@intel.com, dave@stgolabs.net,
-	dave.jiang@intel.com, jonathan.cameron@huawei.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	linux-cxl@vger.kernel.org, alison.schofield@intel.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org, corbet@lwn.net
-Subject: Re: [PATCH v2] Documentation/driver-api: Fix typo error in cxl
-Message-ID: <aKIXk8SKIMKSuGDv@fedora>
-References: <20250817173355.6615-2-rakuram.e96@gmail.com>
+        Sun, 17 Aug 2025 13:28:29 -0700 (PDT)
+Date: Sun, 17 Aug 2025 13:28:26 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Arnd Bergmann <arnd@kernel.org>, 
+	Hans de Goede <hansg@kernel.org>, linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: gpio: add documentation about using
+ software nodes
+Message-ID: <2eq7nuv2zddslzpfui5plh6b7lhvqwrv3ik5wprsatu4ubd7hj@llyibugzcrwm>
+References: <ce4pjordujfvaujjgxruszba7ivoywex32rfwzeiil2zcdlgl5@lt4vvv4yalzm>
+ <8bdf668d-c120-4ed5-a0f4-fe8c0876c8d2@infradead.org>
+ <f93c26c6-c390-46d4-bdd1-4d2f0e03e63d@infradead.org>
+ <b69d92aa-2d41-4b79-ad15-75b73897e263@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,42 +80,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250817173355.6615-2-rakuram.e96@gmail.com>
+In-Reply-To: <b69d92aa-2d41-4b79-ad15-75b73897e263@infradead.org>
 
-On Sun, Aug 17, 2025 at 11:03:56PM +0530, rakuram wrote:
-> Fixed the following typo errors
-> 
-> intersparsed ==> interspersed
-> in Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> 
-> ---
-> Changelog:
-> 
-> Changes since v1:
-> Dropped fix for page-allocator.rst as requested by Gregory
-> 
-> Suggested-by: Gregory Price <gourry@gourry.net> 
-> Signed-off-by: rakuram <rakuram.e96@gmail.com>
+Hi Randy,
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
+On Sat, Aug 16, 2025 at 04:17:32PM -0700, Randy Dunlap wrote:
+> 
+> 
+> On 8/16/25 3:21 PM, Randy Dunlap wrote:
+> > 
+> > 
+> > On 8/16/25 3:08 PM, Randy Dunlap wrote:
+> >> Hi,
+> >>
+> >> On 8/15/25 10:30 AM, Dmitry Torokhov wrote:
+> >>> Introduce documentation regarding use of software nodes to describe
+> >>> GPIOs on legacy boards that have not been converted to device tree.
+> >>>
+> >>> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> >>> ---
+> >>>
+> >>> v2: Addressed Randy's comments.
+> >>>
+> >>>  Documentation/driver-api/gpio/board.rst       |  65 ++++
+> >>>  Documentation/driver-api/gpio/index.rst       |   1 +
+> >>>  .../driver-api/gpio/legacy-boards.rst         | 298 ++++++++++++++++++
+> >>>  3 files changed, 364 insertions(+)
+> 
+> Hi Dmitry,
+> 
+> There are a few build errors with the example code. It's OK to leave that
+> as an exercise for the reader. :)
+> 
+> There are a few missing header files, but the biggest build warning/error
+> is a Section mismatch:
+> WARNING: modpost: gpio-swnodes: section mismatch in reference: myboard_exit+0x1f (section: .exit.text) -> myboard_swnodes (section: .init.rodata)
+> 
+> so myboard_swnodes should not be marked as __initconst.
 
-> ---
->  Documentation/driver-api/cxl/platform/bios-and-efi.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> index 645322632cc9..a9aa0ccd92af 100644
-> --- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> +++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> @@ -202,7 +202,7 @@ future and such a configuration should be avoided.
->  
->  Memory Holes
->  ------------
-> -If your platform includes memory holes intersparsed between your CXL memory, it
-> +If your platform includes memory holes interspersed between your CXL memory, it
->  is recommended to utilize multiple decoders to cover these regions of memory,
->  rather than try to program the decoders to accept the entire range and expect
->  Linux to manage the overlap.
-> -- 
-> 2.43.0
-> 
+Ah, yes, indeed, I'll drop the annotation. Thank you for all the
+reviews.
+
+-- 
+Dmitry
