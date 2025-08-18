@@ -1,136 +1,78 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA5835A293;
-	Mon, 18 Aug 2025 16:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE739261B99;
+	Mon, 18 Aug 2025 16:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755534995; cv=none; b=Q2RfUUmeqXQafoPIhTazgLGcJnHroIokGz8sulwQbgIpV+gm8h91FtLtihEutT0oVmiyjmgmDnnPWF3Txd5eMnqvPA7DZO2I6LGbcaLxYZ+kEIIIdnCpg29I0D5aSZKy0enSp3ljQXwPRNcUY5AW4J2gVI1SFs0ju9+qt+UlP0A=
+	t=1755535469; cv=none; b=PCU5q/k6dnb/GSfeMRMMfKWc+ggMqSe2CED5eri7da16zeZRcracV7B0/WRp01tTenGN/9cOeqw5XYYJQPVPdEiHz6WqTQNpCcKoL9YIyZsI7kJNJUgsUpwjdHYB7cuxMxvemdTz52jm3CfwKb4qbZfJidGzpUUeCNm+JRB+Rxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755534995; c=relaxed/simple;
-	bh=S2odiuAWwf4l/aBcoEJweUAHkgf1oRU7Yp4RQ7lelfU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZFgF9oB09Ll7sOiD6i/QK751Z0VksCyk7H18wIaIKp4S+qiX6oyCx518stt1twfG2cH9u3ynSelR78Q7NZmcM87e9NWvHtH5gFTmyricFB9ZGj/YASnoboJXmbT4lzrALGo/oDZ2yBMymmRb421ssFJkPl5/KG2qr5XTovlURGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1REn+abr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1755535469; c=relaxed/simple;
+	bh=mAu53RQa1p4mwxImYjTqIgP/UIrdc4uU5KnAdcoHk/I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PTmvcH4NiGv2GVHpgGkBpVZ29DQ0nefqpARqxgZJYcMgzBsd1+MPjWTclkeQjvv7ZWWjU2XHvjkBPxF0z3jBUMM1abqvSWaTdIrPUbazpYe7iNNE7tA0agOHrysJJ/CSva81RhrVzH6Pqvmt8XGTswwHIFcRZC85cl38EnERfeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XIQkQvTe; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1REn+abr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=t+B3FIwTPUwvyJsUkYQ9oCKexdILGN0DuGzoxe3tROs=; b=1REn+abrd6DnvmxauV2/cuRsYy
-	LKKXI5B+UwlT5Eg5kTmYvv0ArKNbmCbhMqExXVGvkFtAE2C2Flly7+hIV+UhdFZPQ764yIgGxHk6S
-	IEI8v77s7LbXbjPYK35ITpaXuHpFS57QuTiQw8Uqpr/vqtX33UnYYbcjSVUTTYGWrkiKi3KbGWZMR
-	6Wlu/2sWaLJe8tC25xEtKL9ijWDXNbw1Z6o6wWC0cWzrShu+65x4Kaobuz6QFt/VpVufuThNQTRks
-	EMuq2s6SWKHnHJ3+s/4biGjwygI3WTa3URFz+uhqQ8kFkbiF5wO6CnCielRQoYR6/qurBmdavBHzd
-	6tCih5xA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uo2qW-000000082UQ-2pDq;
-	Mon, 18 Aug 2025 16:36:32 +0000
-Message-ID: <67156238-7915-4725-a030-d0b422a2aedc@infradead.org>
-Date: Mon, 18 Aug 2025 09:36:31 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XIQkQvTe"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 06ECD40AB4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755535467; bh=uZM+ty5L6QX52OSYlv92YVmvHeMNoqJ5c9r7mKCeJaE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=XIQkQvTer66IgtoLqikVHYiFfqFj6AcIS0LW+kn0kEKf0IPrnYNZxMTn8bwDjLIbP
+	 AnFQ2tbLrJ540lDAe5qi9kG9J/4MkgEAy71Y9KJtpWSE8iZFESebvRMtv21mRCKJK3
+	 7WWtPBKohrONzeMSA057Hv2p/q2lZ0Ox8YFD0HkTn9AJvOsdCJBj/aCr04lrRz6rqV
+	 gIAl0WZqutqUYZryhpnfUgNoUD1Qv3QS9EC/wGq6osvd464B9B1LyjOwfelqK7F9ta
+	 0NZ1yjV7iz8O5suwQGzwI5Nn3HqP5VnkJXyeC15M4JyE49ExlHWzEoUR8UDMjmGziO
+	 hyH0xQEKFLhzg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 06ECD40AB4;
+	Mon, 18 Aug 2025 16:44:26 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH 0/9] Documentation: Fix typos
+In-Reply-To: <20250813200526.290420-1-helgaas@kernel.org>
+References: <20250813200526.290420-1-helgaas@kernel.org>
+Date: Mon, 18 Aug 2025 10:44:26 -0600
+Message-ID: <87frdo8tqt.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/11] HID: haptic: introduce hid_haptic_device
-To: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>,
- Sean O'Brien <seobrien@google.com>
-References: <20250818-support-forcepads-v2-0-ca2546e319d5@google.com>
- <20250818-support-forcepads-v2-4-ca2546e319d5@google.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250818-support-forcepads-v2-4-ca2546e319d5@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi,
+Bjorn Helgaas <helgaas@kernel.org> writes:
 
-On 8/18/25 7:28 AM, Jonathan Denose wrote:
-> From: Angela Czubak <aczubak@google.com>
-> 
-> Define a new structure that contains simple haptic device configuration
-> as well as current state.
-> Add functions that recognize auto trigger and manual trigger reports
-> as well as save their addresses.
-> Verify that the pressure unit is either grams or newtons.
-> Mark the input device as a haptic touchpad if the unit is correct and
-> the reports are found.
-> 
-> Signed-off-by: Angela Czubak <aczubak@google.com>
-> Co-developed-by: Jonathan Denose <jdenose@google.com>
-> Signed-off-by: Jonathan Denose <jdenose@google.com>
-> ---
->  drivers/hid/Kconfig      |  11 +++++
->  drivers/hid/Makefile     |   1 +
->  drivers/hid/hid-haptic.c |  72 ++++++++++++++++++++++++++++++++
->  drivers/hid/hid-haptic.h | 105 +++++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 189 insertions(+)
-> 
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index 43859fc757470caf6ad43bd5f72f119e9c36aea7..cbbe82a0a2ba257e45f77ca014fb5f08b71fc62f 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -92,6 +92,17 @@ config HID_GENERIC
->  
->  	If unsure, say Y.
->  
-> +config HID_HAPTIC
-> +	bool "Haptic touchpad support"
+> From: Bjorn Helgaas <bhelgaas@google.com>
+>
+> Fix typos in Documentation/.  Based on v6.17-rc1.
+>
+> "git log -p --word-diff" or similar might make this easier to review.
+>
+> Feel free drop any conflicts; nothing here touches code or messages.
+>
+> Bjorn Helgaas (9):
+>   Documentation: Fix PCI typos
+>   Documentation: Fix RCU typos
+>   Documentation: Fix admin-guide typos
+>   Documentation: Fix core-api typos
+>   Documentation: Fix filesystems typos
+>   Documentation: Fix networking typos
+>   Documentation: Fix power typos
+>   Documentation: Fix trace typos
+>   Documentation: Fix misc typos
 
-Why bool instead of tristate?
+That last patch conflicts with linux-next, so I've dropped it; the rest
+are applied.
 
-> +	default n
-> +	help
-> +	Support for touchpads with force sensors and haptic actuators instead of a
-> +	traditional button.
-> +	Adds extra parsing and FF device for the hid multitouch driver.
-> +	It can be used for Elan 2703 haptic touchpad.
-> +
-> +	If unsure, say N.
-> +
+Thanks,
 
-I do wish that hid/Kconfig indentation didn't vary so much from coding-style.rst.
-
->  menu "Special HID drivers"
->  
->  config HID_A4TECH
-
-
-
-> diff --git a/drivers/hid/hid-haptic.h b/drivers/hid/hid-haptic.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..b729f8245aa60c3d06b79b11846dccf6fcc0c08b
-> --- /dev/null
-> +++ b/drivers/hid/hid-haptic.h
-> @@ -0,0 +1,105 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + *  HID Haptic support for Linux
-> + *
-> + *  Copyright (c) 2021 Angela Czubak <acz@semihalf.com>
-> + */
-> +
-> +/*
-> + */
-eh?
-
-> +
-> +
-> +#include <linux/hid.h>
-?
-
--- 
-~Randy
-
+jon
