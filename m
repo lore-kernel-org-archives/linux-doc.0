@@ -1,120 +1,166 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1783D2765CC;
-	Mon, 18 Aug 2025 10:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0227266A7;
+	Mon, 18 Aug 2025 11:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755513823; cv=none; b=dXhyXrWE/epzg8PjHxBy6IGk5vY+rq7q1U17egud/1SeADoVjQBu8gM5HSVUlRTa9bnVVGZDougwIOxpM1WcA5FXzLFRAs/X057iGf86v2IVklIv0F+BFrei5NpoO38NcvSc6RH836dvHD2IQgU0dhWZQrSVj0+caxYrjUxXwik=
+	t=1755516619; cv=none; b=h5YaIkIR85JtSbYl/ZnP9j54QFEH8VV3n3FZmX0PZKIqKHYz7V2eOUtnjofr4eqytMO3T7x1TKwvIOc7ewvKskmXBPY7d7FcZlMeF7sFocBCoTdeQ78dxRgzAxGRAliFKnsEYZsUhZQmELcPNsv6w2ZkWj++9JKMWyUExC5wMQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755513823; c=relaxed/simple;
-	bh=Zt1gMmCEWLI3/oLyfWB5PLNg8I5VQKWHXz3FvR8qYiE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nLWjBybmOFmBKwArpUNVfx5IVXrqAAHd5v/lAn8p+6tsQxFc007utTDwr/OwFV85prVbhkkkflxFg7TZMWPfZL8sRQFPxxsff+slj5/ZscXVg6mH+hwCKpCwjy5KRTXbDsNFkQ9QjFaJKGbdPbQijsN8KtYeYvbK1eFr7bLbyVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fVk7WmVZ; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fVk7WmVZ"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3b9d41d2a5cso2961307f8f.0;
-        Mon, 18 Aug 2025 03:43:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755513820; x=1756118620; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6r3SaHRyW0coFrYXSGevRrDyhzWvwUgHlOXlsOiQukM=;
-        b=fVk7WmVZS3E/gwjIuPgq1VN1wVMdSOJAHm0z/3N0o9V89LwcM8ffe3tK3O6ztLdHPF
-         5F/4WMbXlC0KFbP98MXxfARrUAvV4Z+7fHGyAvoqAgtsRIsQDG/UDkVtL8+1xNfd3+Ug
-         Py8qt6QXC8/D3dLuFQo708nE+aoheWX/vMpp/oIcikPbMuV5QLmeb/UlVNQid1k7TSdX
-         aP+F2QiFG1RJwewDdYOs1siPJdpPx35XNTA9F+bMBC7ZATgzewsEUX7BKuPNhsk2UGrJ
-         DHR8CHdWOKqEKnfv88u3KiP4r4NwCpJe/oiK38LWXgqt7nmfEFiDnoTipau3c+uSTTkN
-         FAaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755513820; x=1756118620;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6r3SaHRyW0coFrYXSGevRrDyhzWvwUgHlOXlsOiQukM=;
-        b=L6wDgM8MT3ASTKVJ8C3NUtj43WyMfFM/e4Z/6PZfXibs3q1diImlGPJFD4H9aRuowo
-         62bswpRSlNAFnIxRjz7kDFEW2QCC2RqWxlRUKcU/lBC/IyC/szrNw5mexVrCu7A97Gap
-         0GieHjQ+kHXWj4PrKqL1L9GToiNfNHxzpBufyLWmuXLcTWF/CK0wMPruyD8oDt/qBEHR
-         pbxVxq9cXSmXDuXfopUVP7U3N3zSTyR/+UMe1iC/2qPYstFutgbDIyz4bOwSRP9TCwpq
-         1rnQhYefV+LjpcJ4Za/LKK15misSo6QRmHQbz1YBrJtz/pvejNV4pPwjHpO5ZYlJ+EEi
-         8rDg==
-X-Forwarded-Encrypted: i=1; AJvYcCUddrRQS89iqxFjgL5veu6LxRDrD0mcrdjC5lXvHbaCKzmf6SeZn43jUhiCHEbmo1/4lspoPQbDN/cWg2Il@vger.kernel.org, AJvYcCX275Mn+0dduomMGPngzpWdFmTlyiW/RSPWRr5cEXCMMimHT1WEIitkOGIQETyQUsBGz/iaEUpukfY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxm9EOjP2YLsdjo18oOxL8HCS3ZTaazNvYV7I/O+9onTBgaxOkh
-	icFFhQpy1EjP48XGiznS5PVTm4sowDtgShc/HZavSNN4Aw8kvFpoMkYQ
-X-Gm-Gg: ASbGnctVO/Xw+QJ47ZYz8+XUC/z+DzIaVMI7IWH+j6toxqI12oojdycEMnRKqio1g86
-	nSn4DkISmS56K64PYSffS/K893UTjEzZY2mc3gxLj7DsUCbpyxN4FSFkHUrrn6n0f966ZiOLr7f
-	BbDcXw2MrDCe9cS+w0Z7pWCXbP9TA4glbIp58UMTxbOB49znrGiTAtEZkIE0dWXT3nHy9JOUhqL
-	1Py2ZSat5SwG1qJ/LxQWhyPoqQ4G8UPFMbycPSk5Af7dyLEdhwStKXBp26AhCcbNt4y913n3Zc+
-	nmHZIZzlCM2In8Uk66vcgaHUYCOBk/qxnPX95Pmsh4Dp2KGgu4P6suB97cNvZhrkUNzu4Y3XIvz
-	239I2uEvtro2P7LWk/cpKmsMDIR5a2g1+BkWbQkQHLHtdGxIzx07IZv4UjBHSYvnZtBr2YlE+tW
-	Ci4+wuBg==
-X-Google-Smtp-Source: AGHT+IFsKR1Ldy5RQ1PDhrHI0xRfPnmBR+5bPKLtaVpXzp3YgdHRXH22mh0OTnGitE+mCt+Wq/AYAg==
-X-Received: by 2002:a05:6000:2501:b0:3b7:8af8:b91d with SMTP id ffacd0b85a97d-3bc69cc2bd2mr6578410f8f.35.1755513820124;
-        Mon, 18 Aug 2025 03:43:40 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:14f1:c189:9748:5e5a? ([2620:10d:c092:500::5:7223])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a23327809sm70936965e9.5.2025.08.18.03.43.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Aug 2025 03:43:39 -0700 (PDT)
-Message-ID: <5560e517-aa26-4693-baf7-e618bec3c5fa@gmail.com>
-Date: Mon, 18 Aug 2025 11:43:35 +0100
+	s=arc-20240116; t=1755516619; c=relaxed/simple;
+	bh=+LPdqwhCnAO60h1rRJ4mU9PRwuJG4gT9+SyzZF6MgGM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PYNJMsMu2RFX4+BDfEklUWTnTQM5NPeqOodK6ZMCX2KKn8Tp7MRCcZbJpUPgOZCHTxJyphXGelawW2fEHyUgBjnVhFaAxeaghViEel21q3cL6h/rMEZyXZWosw26IwNLThFnNB1NXNmj+yS/FXPyxxPGVO6sxJej2fmfRrYG/hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpsz2t1755516554tb16007fa
+X-QQ-Originating-IP: iAa0o7aZGeg/JJqbr9ti+RkKGqaM92/kXXZgOgCBDtE=
+Received: from localhost.localdomain ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 18 Aug 2025 19:29:11 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 13453606116894291205
+EX-QQ-RecipientCnt: 23
+From: Dong Yibo <dong100@mucse.com>
+To: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	gur.stavi@huawei.com,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	danishanwar@ti.com,
+	lee@trager.us,
+	gongfan1@huawei.com,
+	lorenzo@kernel.org,
+	geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com,
+	lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com,
+	richardcochran@gmail.com
+Cc: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dong100@mucse.com
+Subject: [PATCH v5 0/5] Add driver for 1Gbe network chips from MUCSE
+Date: Mon, 18 Aug 2025 19:28:51 +0800
+Message-Id: <20250818112856.1446278-1-dong100@mucse.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/7] selftests: prctl: introduce tests for disabling
- THPs completely
-To: David Hildenbrand <david@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
- shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
- Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20250815135549.130506-1-usamaarif642@gmail.com>
- <20250815135549.130506-7-usamaarif642@gmail.com>
- <a385e09f-f582-4ede-9e60-1d85cee02a3c@redhat.com>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <a385e09f-f582-4ede-9e60-1d85cee02a3c@redhat.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: Ob1RgLjHLyZvLqdkENgsxeYivp9Ri6KHEjeeDH6eL9dvaIFuePPlDltH
+	28+HrBKwQf+88FuMgp6fOfHXxqnFTMKIXWgnKCwjJD7gvCFmBdq2j876n33QsM79x19o3TP
+	Ldh5rewjZ1eHEZ4nhHU4O44dKiogpJWmIJUFer38fj/Dr1LqgE76iUPPsj4onjH3bbLJf4G
+	TW2Vxav9FXLlEj2Agp2fBUpdxDAulyt8YL6QmIGRVfx5h24JZ6WnU3Z/qq7yn6gzFcw6XEV
+	F5N+5ldIrjQS1EeLpoMw12+dyPk4FWwpBb53phOTZYJwA7sv3RXh9t+jDSS+Jtc3kACqbre
+	vzH7qtW07gQ7YT2+nWF8FaML9xV134PQcfzLsnx+QzH+4P8a1eTJxkTC17RzO+k+eJNHkDZ
+	WLr2r4IsBYVBuAX9gf0nYOpYUhWxU9K7ARWDddiOBNjVvwLY0SYgjgnNPBH/3DYTJRhkE9j
+	QWVEIkbVj3q/+oXI0KvV+Yuap3E6xLsF4F34jXd15qqQRnqezfI3JoGYslzMLbujLl9Qox4
+	kmgdkDu0ufdAltCEyNKaqujZYjqaxmFG0V79oslXotkxX5ywb4UchVqbsZNRN7LjM8u8Mg3
+	HRBxj6yFicIceySz7ly/rjjtsdb42G6OBPieIbjB/jR3KQslTrei1RmfQVboR/SFF2QsIrA
+	Od0A0845F/mE0yE/0zSAxqQyDKXOSbGlIvXT5YlAoEGmCQLu1Z8D40tgnObMe54VH176n07
+	FBTOD1oLJEFrvHqA/Md1ZJrl546kzPFar+sBTsdUPIFazrZrjYh++hR9nApo4O3ighTcYgF
+	PWhZ+rOcseKCteCOiuTHN6d0yBU4GifHvwyBoRo/vduHQPxM1Uo8UY5pZaDvG4dzktneWYW
+	68o3vaj5bUwkYgGeLdZ3jyCIOZD1GcVY75HPI4Cdvg3IovZN4hukOVwbQtVYhX4XO7Ts+h3
+	X+yt3cU78Ly7LVyepwmw3wbeV3xN/F4FIrzppHHx80kYFlAq0uP4fMPdSs5qcv14gWn3y1Y
+	pNBGp7tMgijZXzYCpNkK+1IC29R2g6sVAviIyrvCblxI1AdBrroLbLuYa9Pvo=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
+Hi maintainers,
 
+This patch series is v5 to introduce support for MUCSE N500/N210 1Gbps
+Ethernet controllers. I divide codes into multiple series, this is the
+first one which only register netdev without true tx/rx functions.
 
-On 18/08/2025 10:36, David Hildenbrand wrote:
->> +
->> +TEST_F(prctl_thp_disable_completely, fork)
->> +{
->> +    int ret = 0;
->> +    pid_t pid;
->> +
->> +    /* Make sure prctl changes are carried across fork */
->> +    pid = fork();
->> +    ASSERT_GE(pid, 0);
->> +
->> +    if (!pid)
->> +        prctl_thp_disable_completely_test(_metadata, self->pmdsize, variant->thp_policy);
->> +
-> 
-> Skimming over this once more ... this raises two questions
-> 
-> (a) There is nothing to wait for in the child
-> (b) Does it work when we return in the child from this function?
-> 
-> I think (b) works by design of the kselftest_harness, as this function is
-> itself executed from a child process.
-> 
-> Regarding (a), it might be cleaner to just
-> 
+The driver has been tested on the following platform:
+   - Kernel version: 6.16.0
+   - Intel Xeon Processor
 
-Makes sense, thanks for pointing this out! Have sent the fixlets.
+Changelog:
+v4 -> v5:
+  [patch 1/5]:
+  1. Remove system state and Wol code.
+  [patch 2/5]:
+  1. Use define for mbx offset registers.
+  2. Remove 'switch (hw->hw_type)' in rnpgbe_add_adapter. 
+  3. Remove 'hw->driver_version' in hw structure.
+  [patch 3/5]:
+  1. Return -EINVAL if 'size > mbx->size' in mucse_read_mbx.
+  2. Remove mbx->ops, call the functions directly.
+  3. Rewrite mbx_wr32, mbx_rd32.
+  [patch 4/5]:
+  1. Change laber 'quit' to 'out' in mucse_fw_send_cmd_wait.
+  2. Fix 'mucse_mbx_fw_post_req' to follow 'one lock statement and
+  3. Use "timeout_jiffies" instead of "timeout_jiffes".
+  4. Fix 'pfvfnum' in define structure to improve padding problem.
+  5. Fix 'build_phy_abilities_req' pass the same parameter twice.
+  6. Use wait_event_timeout, not wait_event_interruptible_timeout.
+  7. Move 'build**' functions to .c.
+  8. Remove L_WD, do it in the lowest layer.
+  9. Add MBX_REQ_HDR_LEN in build**.
+  [patch 5/5]:
+  1. Remove no-use define dma_wr32.
+  2. Rename dma_rd32 to rnpgbe_dma_rd32.
+  3. Fix extra indentation in 'rnpgbe_xmit_frame'.
+  4. Return -EINVAL if get perm_addr failed in 'rnpgbe_get_permanent_mac'.
+  5. Remove flags 'M_FLAGS_INIT_MAC_ADDRESS'.
+  6. Remove 'netdev->reg_state' in rnpgbe_rm_adapter.
+
+links:
+v4: https://lore.kernel.org/netdev/20250814073855.1060601-1-dong100@mucse.com/
+v3: https://lore.kernel.org/netdev/20250812093937.882045-1-dong100@mucse.com/
+v2: https://lore.kernel.org/netdev/20250721113238.18615-1-dong100@mucse.com/
+v1: https://lore.kernel.org/netdev/20250703014859.210110-1-dong100@mucse.com/
+
+Dong Yibo (5):
+  net: rnpgbe: Add build support for rnpgbe
+  net: rnpgbe: Add n500/n210 chip support
+  net: rnpgbe: Add basic mbx ops support
+  net: rnpgbe: Add basic mbx_fw support
+  net: rnpgbe: Add register_netdev
+
+ .../device_drivers/ethernet/index.rst         |   1 +
+ .../device_drivers/ethernet/mucse/rnpgbe.rst  |  21 +
+ MAINTAINERS                                   |   8 +
+ drivers/net/ethernet/Kconfig                  |   1 +
+ drivers/net/ethernet/Makefile                 |   1 +
+ drivers/net/ethernet/mucse/Kconfig            |  34 ++
+ drivers/net/ethernet/mucse/Makefile           |   7 +
+ drivers/net/ethernet/mucse/rnpgbe/Makefile    |  11 +
+ drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 117 +++++
+ .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 160 ++++++
+ drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  26 +
+ .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 310 +++++++++++
+ .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c    | 481 ++++++++++++++++++
+ .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h    |  31 ++
+ .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c | 333 ++++++++++++
+ .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h | 155 ++++++
+ 16 files changed, 1697 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst
+ create mode 100644 drivers/net/ethernet/mucse/Kconfig
+ create mode 100644 drivers/net/ethernet/mucse/Makefile
+ create mode 100644 drivers/net/ethernet/mucse/rnpgbe/Makefile
+ create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+ create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+ create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+ create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+ create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+ create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
+ create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
+ create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h
+
+-- 
+2.25.1
+
