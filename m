@@ -1,66 +1,65 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA23626FD9D;
-	Mon, 18 Aug 2025 10:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D20C258EFF;
+	Mon, 18 Aug 2025 10:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755511569; cv=none; b=Al5YEtQxCixxWC+nO9ssHQZAJRBkGmIvKekkalowFTIUvvivtkxSCdspvegO1vVtprazMZMO4wAu2NH2yP1BFpOdr4ix4wG+cBVRUWDpyrKBB0pOKrHCNDEY6t2gFW/iCn+p+b2TmgnwSs3/dy7PmkTiJlYiKTvqmRhBgKKy41Y=
+	t=1755513679; cv=none; b=EuwvILqn9ubFv4fftM865JttbaaDZ2DMSm/C8RjBMN/3qLOZ57LwwK7Dt6mh0wtlmStXVW3xKrrDH9Dy7mSuxEdDe1/1+YdGiJnwWVedk4mslrjg1J2Bw492CSC1H2zLYhMnhlZPTEfyuBAfMCG3So2uKXGPbu9MqceRwxq2Msk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755511569; c=relaxed/simple;
-	bh=MlfKA80csAtyMekKy0tuKaDg/8XwAoP1D+tkBCBVi5E=;
+	s=arc-20240116; t=1755513679; c=relaxed/simple;
+	bh=ZVbgjvIAUQZEq8GAesdIxfdSjjdVs7b5JBgGQfKUikM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XbCj0EirOaGepngShUY2ZkN9BwFz/y94VzNhWefJR0XYVboWJwZ6hZagehRf8gXeVWveeCawLUUOTDtUR5TltRJTtZENCuBWNL4Wanv7hWc0dBI3zF73bmkQp7VutTXVyyoDO4hEzmrGcL2k1xqnVZxHJRKbD1sZmGMoKRGl7Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cDqe6vpe; arc=none smtp.client-ip=209.85.216.45
+	 In-Reply-To:Content-Type; b=iXvPZ0qsSW2wW85SKTon+81f2c7ynUwFGVjO+7SBEo17P3Vp/MnkdhAMkcsqtjqQ6+mbnj1t9zdJr+9h4fqguv1GoQHyNnjKZr157i4vfYZw8elqh+zU+M51/NzSfh6BWFQWosHEtkl+CWCPMViptZOCMuiUKx4mzNCtkU858Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B37GgHIn; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cDqe6vpe"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-321cf75482fso4408907a91.0;
-        Mon, 18 Aug 2025 03:06:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B37GgHIn"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3b9d41c1149so3044747f8f.0;
+        Mon, 18 Aug 2025 03:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755511567; x=1756116367; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755513676; x=1756118476; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CaCO6brQwzjW+TX1R3UQhbjIaIZFQtHR+ZTT3gImHsE=;
-        b=cDqe6vpeTU99qPzPp66jRgObSOFEjepQOMltIOz+/R7DIRLVyNFeWiluF5Rn+lvW/8
-         DJPTvNaAJ5bWmCAt5O6dPyOXcRx+BXsSLN1S0jI2xrwKog6nF4UqDm5MryADNQQwi8XP
-         7TwAFJ/y09XfmmeT+pLLYYqUYfq0kX7hf1qDyUyEUU0w+ZEHQR1tycDKZ4f+/K4E+bXg
-         +sf0kuJN70R+WeU52hpqCnMiAvztfPcgd2V+Qij4em5XOCfPtq5cqLUya17eETtivTOM
-         kBUG25hct/+9d//VSXlfDdqul016XPo7zT3bcW7VPiawd7cO+Y+k+mF7NZ6PqFDz2iOt
-         I/fQ==
+        bh=BEOAZHx/EHGfD/sfEV5SJgXP8RiWdRzDUoJ3dlTfHJY=;
+        b=B37GgHInIm6igICjbYht1ZiVC3mK7pPw6nEia/kUUio86S869T/66FoQOYIX6dgjTn
+         TWXgGyZy0/x2CtiK2x31Sn1041tZqPWI8nNknuIXc6HTzaznvzChWogg+3MvnT2ZHuh9
+         zUamXAUoXVf9Uav3Y7S43k7FNsMDwZTCFkhZ7xU+RjTfOBfZ/xd/4husT7g1ruDbMDRO
+         5gn79yfumMVwNmJQQmX4JIpM5mfy1frl2tUPMJDfgmyOqgqK6gFu8VIFXeK62tD14tbY
+         nBghZQd8MReukiZscqIaE29OBJjl/ovk+YOMG1oJjJsb4aukqbisjso/JgGlME4LyEsD
+         D49Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755511567; x=1756116367;
+        d=1e100.net; s=20230601; t=1755513676; x=1756118476;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CaCO6brQwzjW+TX1R3UQhbjIaIZFQtHR+ZTT3gImHsE=;
-        b=WSFgZooz78gXWs5ZW46h+Cucccxh6RjN5iUK86CeUdVXj+PZnZ5bzlgWEi6TNbiVhP
-         YbPlbTPZiBPoiTLKFW8Hn3dnx4JNFStLYaHPZl/axElMNXf4Rnbcec7cFcH79TI6oqKn
-         R+f8GAFDlk+OtVfXiYgmh/nUUoI+ne9YFTRHIZ1NYA0h7ojSUms6SBc0AfAHI2f3R+rq
-         +ElnMA/6zD0oaIQwhl2/2+kB/T6Kid6piH7oUpE59NtDkShfcdHpyMfEqLBnkBJiRD74
-         JWsOI8bdjvOj30rdP0jCHuBPeabYW1Y1sXk9Z2UE2r2FKq1f6rx2U7snqsa61WFxaW33
-         Unng==
-X-Forwarded-Encrypted: i=1; AJvYcCUwvZVzL5dtA6LjZfXV3eWYTs8Y+zIR9j1Op8JOJeQBOKDkeazQluQnFmE7tt1abrzS3EoFiAi6hMvce36N@vger.kernel.org, AJvYcCX/Rp+ohNHYZ2jrHW0jbAGBmLpbVqNKMBg6rXPfH1Q4S/rIlKBU1Xm81R0e47rEb4X/OSjnB59Aulo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCBfD16yC/DFb/yj2aPNUK69ZCIVtXG9JIvIe//dDTZg9xKcTx
-	viwCzW3rGCxjc0jxTmwpepix++Q1uEPQrxVciBUkJo7Q2CcxhoB9QZ7TK2bv8Q==
-X-Gm-Gg: ASbGncsn7nxLU/YissLDJ1eYdpt9qG1vAFWX+HJNT/y7MD4dtwfFJpRMjW6g3E7mtc6
-	EwqCQAKX7NdPWB4Q9XBeOFO7+ISWKPDPYM92lLQS1lyjJOYdJlJcdiYe2SS1RtavVfiTd8jwubp
-	aiGLoChtYbNvCR4zHKczKQmNoGQbtZOneP0IszKeLtJ4X1JUoWsvU/hQPOHirAXayXgbDj2680+
-	gv7A/xcVHADkGSO3u2sAfMp9dMAfgYaFHaPSFANnPZY4q3U48RvH1Xf3uejBmJddzMCfTOlEu0M
-	TsRS6qOcxHFBC1r5KJTP1GtZqoh3Ynf1JIp0a9xkoAIL2ilKPlSZ5qs/FUvhOWwFaZ93rK84cva
-	z49dtl3iE0jwB/FKevbIEXlKP1m6tlWGP4E79N+5XN+fzQfPa6ic3c2hpdPxIjN21o/0cEc8dhO
-	q2xKI=
-X-Google-Smtp-Source: AGHT+IGkbOz08ZGFXiD0osQcGU8ix6vtUqdWI+23FywJ19dangUDVmkUnIBgZ67NTN05rMbZeikEgQ==
-X-Received: by 2002:a17:90b:53c8:b0:2fa:42f3:e3e4 with SMTP id 98e67ed59e1d1-3232969ad44mr20566918a91.3.1755511566941;
-        Mon, 18 Aug 2025 03:06:06 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3234396471dsm7679447a91.5.2025.08.18.03.06.05
+        bh=BEOAZHx/EHGfD/sfEV5SJgXP8RiWdRzDUoJ3dlTfHJY=;
+        b=C/WTcMHNaQ1nlpKVQLG2N7esBlUT2q+wgLamKiXaqiolkeIqtTS1KQZFp1HXXAE8Nz
+         4GZR+4JSfrRkTTYLGkdstDyOXbXUK1/tFHjg6spR8P6Fjf2ah9ttbT1YTfGrAzCuzYmE
+         qlaKVUkzqAfEL9UhmAvVL8ukN2eVsDRON3pN3sdCrrAENZ3glGMTyZudyYBcQpcQ9M0Z
+         2JlKb+R4AEflv+PfED3Yzd0+ZOhJ2XqF1tJrggYVh7wWyr2ThpzcCwFwC9gfd0ici/zI
+         gvSUlHBdvc96+snC/OucCTRlBNkTq9hICiruvmqgmD8RtMFtolEt9+ozh7LtOO6SS5r+
+         7e0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVQn8y0JZWZdIQ1jOLEX+k0clNSYeO9Ak+7FPoxfZeX6b86aBlz8iWClqSgOqMtkiG0cO7CJDMQ9lM=@vger.kernel.org, AJvYcCXlJE76n0nINQ9PHStzJLI1WTHf34WhujhXLuL3DNSucOdm6+DfuyZb3pVW2zhR3ZR+dogA2F+xp8UL2Too@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZIs/SBMB3Pw0c7JDSTLHMkV0Bzy6x2wDI2Wdrx8brc0NwNqS/
+	BhAfaG/XoxXmp7XAJuUuShUMkvrGM5oGiOI4S//RWtom6bUhxES/jcN5
+X-Gm-Gg: ASbGnctVArkWyGLEdvaAA3E6HSYYthpPwoCzT5gKMzmNVO0w8dDu6jz2nrLcBW+UWya
+	3SYTYIAHPMM/ewjxOCWfKRHxXJ5eEv9o+SOPqCyQ/ATRGtvpxxaGOQMgeAx2UDxS3xgIfLPk1DP
+	MqWfUTUGgBn3rYWMfID5bC5B8X15a9B4do1peBzvSTKM75I45oDEyDWSzI0WTXt4WcrvIhgaCaP
+	0mfXPf23DWBaIuZ5LujXqS20jO8eXI4efgn4Ydx/o7DVgA7D8yj3LuffimcWP0/Rf8dGbA1vD3N
+	zPzuSmxFXeIF+f64gJi6MLl0ZaJE5Xrc4FaarJS67lDM0z+YuUgWank6FbhJlwM5ZSVcj3o70WH
+	VMV28BuWRJErDTrKUeRVZHnvLmK9YjDNehcNKRwX6P+ytTl5db0Hl1qAbXjp/7IPhghX76Z4=
+X-Google-Smtp-Source: AGHT+IEA+CnzAZG5nqPWaucE17ppRYMiLY/83IrR6orHShs0Kok5GpAbtKiOzXR6WepIUKE8wXMAWw==
+X-Received: by 2002:a05:6000:1a8d:b0:3b9:16fb:bfe2 with SMTP id ffacd0b85a97d-3bb66f10137mr7575027f8f.18.1755513675369;
+        Mon, 18 Aug 2025 03:41:15 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:14f1:c189:9748:5e5a? ([2620:10d:c092:500::5:7223])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb64758d27sm12714320f8f.9.2025.08.18.03.41.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Aug 2025 03:06:06 -0700 (PDT)
-Message-ID: <fc93e36f-7503-430d-a611-983f0325ab1b@gmail.com>
-Date: Mon, 18 Aug 2025 19:06:03 +0900
+        Mon, 18 Aug 2025 03:41:14 -0700 (PDT)
+Message-ID: <2d0ea708-ecba-4021-b6ca-e93f1413d60a@gmail.com>
+Date: Mon, 18 Aug 2025 11:41:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,48 +67,97 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
- <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
- <20250816135538.733b80d3@foz.lan>
- <acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
- <20250817133606.79d968ed@sal.lan>
- <b3d97e98-121d-4d12-9624-3efd119b12a4@gmail.com>
- <20250817154544.78d61029@foz.lan>
- <b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
- <816ec5d2-33ea-4399-86e6-51ddc20ead28@gmail.com>
- <20250818114220.7f82d2f7@foz.lan>
+Subject: Re: [PATCH v5 6/7] selftests: prctl: introduce tests for disabling
+ THPs completely
+To: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
+ linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
+ shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
+ laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
+ Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20250815135549.130506-1-usamaarif642@gmail.com>
+ <20250815135549.130506-7-usamaarif642@gmail.com>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250818114220.7f82d2f7@foz.lan>
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <20250815135549.130506-7-usamaarif642@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 18 Aug 2025 11:42:20 +0200, Mauro Carvalho Chehab wrote:
-> Em Mon, 18 Aug 2025 09:44:39 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
->> Sidenote:
->>
->> It looks like texlive-xindy is not available for RHEL based distros.
+
+
+On 15/08/2025 14:54, Usama Arif wrote:
+> The test will set the global system THP setting to never, madvise
+> or always depending on the fixture variant and the 2M setting to
+> inherit before it starts (and reset to original at teardown).
+> The fixture setup will also test if PR_SET_THP_DISABLE prctl call can
+> be made to disable all THPs and skip if it fails.
 > 
-> On several rpm-based distros, extra repositories are needed.
+> This tests if the process can:
+> - successfully get the policy to disable THPs completely.
+> - never get a hugepage when the THPs are completely disabled
+>   with the prctl, including with MADV_HUGE and MADV_COLLAPSE.
+> - successfully reset the policy of the process.
+> - after reset, only get hugepages with:
+>   - MADV_COLLAPSE when policy is set to never.
+>   - MADV_HUGE and MADV_COLLAPSE when policy is set to madvise.
+>   - always when policy is set to "always".
+> - never get a THP with MADV_NOHUGEPAGE.
+> - repeat the above tests in a forked process to make sure
+>   the policy is carried across forks.
 > 
-> So, if you take a look at rpmfind:
-> 	https://rpmfind.net/linux/rpm2html/search.php?query=python3-sphinx
+> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
+>  tools/testing/selftests/mm/.gitignore         |   1 +
+>  tools/testing/selftests/mm/Makefile           |   1 +
+>  .../testing/selftests/mm/prctl_thp_disable.c  | 175 ++++++++++++++++++
+>  tools/testing/selftests/mm/thp_settings.c     |   9 +-
+>  tools/testing/selftests/mm/thp_settings.h     |   1 +
+>  5 files changed, 186 insertions(+), 1 deletion(-)
+>  create mode 100644 tools/testing/selftests/mm/prctl_thp_disable.c
+>
 
-No, I'm talking about texlive-xindy.
+Andrew, could you please apply the below fixlet on top of this patch as suggested
+by David in https://lore.kernel.org/all/a385e09f-f582-4ede-9e60-1d85cee02a3c@redhat.com/?
 
-     https://rpmfind.net/linux/rpm2html/search.php?query=texlive-xindy
+Thanks!
 
-has RPMs for fedora 41/42/rawhide only.
+From db9306c06cbd6057c2a8839e5d4c1d2559b58b70 Mon Sep 17 00:00:00 2001
+From: Usama Arif <usamaarif642@gmail.com>
+Date: Mon, 18 Aug 2025 11:27:04 +0100
+Subject: [PATCH 2/4] [fixlet] selftests: prctl: return after executing test in
+ child process
 
-How do you install xindy under AlmaLinux release 9.6 (Sage Margay),
-Amazon Linux release 2023 (Amazon Linux), CentOS Stream release 9,
-and the likes?
+The next step after executing the test is a wait, but there is nothing to wait
+for in the child, so just return.
 
-Thanks,
-Akira
+Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+---
+ tools/testing/selftests/mm/prctl_thp_disable.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/mm/prctl_thp_disable.c b/tools/testing/selftests/mm/prctl_thp_disable.c
+index e9e519c85224c..df3cce278e10a 100644
+--- a/tools/testing/selftests/mm/prctl_thp_disable.c
++++ b/tools/testing/selftests/mm/prctl_thp_disable.c
+@@ -161,8 +161,10 @@ TEST_F(prctl_thp_disable_completely, fork)
+ 	pid = fork();
+ 	ASSERT_GE(pid, 0);
+ 
+-	if (!pid)
++	if (!pid) {
+ 		prctl_thp_disable_completely_test(_metadata, self->pmdsize, variant->thp_policy);
++		return;
++	}
+ 
+ 	wait(&ret);
+ 	if (WIFEXITED(ret))
+-- 
+2.47.3
+
 
