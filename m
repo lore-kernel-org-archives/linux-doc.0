@@ -1,72 +1,73 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0825D258ECF
-	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 15:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29DC25A2C2
+	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 15:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755531083; cv=none; b=OdfSccHxjVvOTmxyQb5hbAg8AH6bDT9dzNHJoPgUtMAJLl1dhFnxz5P8PXRXudQ/LW28d9oxOIIJaqy0oqYJMrnFG97QLoj0XfKI57r3XxiQ8M0Wno3uQm5YUJGPQeIKJgYoq+KQ+TL+rkzqak9GlE8z4ZHLhs7fL2mTGGYzon4=
+	t=1755531110; cv=none; b=Bj0pviAxizCE0t3nQGPx2XGunE0mqcdOcpTjixfsztwO2FXwY2yLwKo0dtryisA45NcIYed5S3bd6PeDZ6jBGyUe3HpFg18EAz4u6DDIo595iKypKqm/nDW0Q9AY74i/3S7XQyU7aeRkcXYYLSppkjvyS/F52zl2BZr4Zq4FD50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755531083; c=relaxed/simple;
-	bh=+6VqLVKyv05yN0VjgFO41/0HRC8AqQkg4NrOglzZNEQ=;
+	s=arc-20240116; t=1755531110; c=relaxed/simple;
+	bh=rZ0dwCAQY3J2oIRCeDvzc2CwT76Cq6Vb0Lwbbf7BnKU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eKT5KEwqqCL3jPyUSc6nlJeHiEgJQD/x1g+NwBzFncMD9QSxufWUzYjQEUF6OCcQcrM1gVTU1xfcg0VVwOLYgYKaV4RybFADHZ9PK2jV7tFCSwx19SscEM7UFjX/bR8u1479WMNZxCRgsf/2ow1PdaWGjV371Bz20TCE49ttAug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HDj51jWc; arc=none smtp.client-ip=209.85.167.46
+	 To:Cc:Content-Type; b=PEMblWtbM2J3QSlheQ/5t2qK/TcfTRDx+e9jOfuEkn0lx5kJEIl/f6pnJFgDJQ1/GqnpiDcwlcV+JZp+a8MPEQmo8TielEQuS08VnKy6daHVr9WE6Ui2Gd7GB67GpaG3PPIo4EBvFGrQW2/led2VVXjwbktRJpktiT5KHiumWDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dKGlARi3; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HDj51jWc"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-55ce5097638so4421213e87.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 08:31:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dKGlARi3"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-333f8d39e94so32074871fa.0
+        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 08:31:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755531080; x=1756135880; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1755531107; x=1756135907; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0KCWYcyoQfVDDPCaibHrt6HfGNhIf9FB+HrFqr1TEMY=;
-        b=HDj51jWcZPySdCrZLpQgNeKs3PgI7cCfT+Q8XVFWMlCT82eycYZC6JqgrQ3GORQYE+
-         MZZfZjnHQJAg3YzNRJfbfH6mROVdretcL1R8qkx3PYKtnNplPERcU8spdTIdhFSIxKKD
-         /iyoCm7i4H05gF8c8d4ZTXVaABuhB6nR3T0t+UDb0NhtFusyD1mYAvWbZEXx6mc4OG6R
-         ENlyXoUnTpikkrJQIizYBqr+6OaKC1wLiPMhtMZ9/BhUhOL6vb+ENn2Aywp7r0rPSOID
-         8xgU2QGpGOH28pDKSxg+LtPm3YPO/0aTbcYRtK5OvtkPg9qRRbnXCiO6sFv+5VuGdEp0
-         75aA==
+        bh=rZ0dwCAQY3J2oIRCeDvzc2CwT76Cq6Vb0Lwbbf7BnKU=;
+        b=dKGlARi3a7MknAkUpQxCZ00y0dMS3gUPn3qhsB9gs+ltYthPlTNLhVIfm8dSqqEcTc
+         0c5blBM6B2ay7Tn79tfy23H+KUfWPsD5hKZ7rkMsw7VQeaswl3On2rkykzoUe0HzoUpB
+         2jsHwL0BocnXgBQGNBCuLn/HBgecbbKMAiHMfpb3dImF+epLr3/ohpyMZcT2kQbz0ZUT
+         e0Y0k3VNCawJvLsX/sal+uwML9XdrbsfD7Xm2LAXnFE8TvlhqN197INaW8L5VMtf7iB+
+         rCF9tx5kgpwCY3BJZT1q9A7U1HdWBIH2LN3WBDcP2w6Bxo18OWbvW/HVAbxrcJkdnZjl
+         Mq1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755531080; x=1756135880;
+        d=1e100.net; s=20230601; t=1755531107; x=1756135907;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0KCWYcyoQfVDDPCaibHrt6HfGNhIf9FB+HrFqr1TEMY=;
-        b=ZSh4FwjzSTbJQHts+X+14CUnv6+y1SRJfgBh/ydDIATHepDNFMkjXbz/17pOhi5/ah
-         yHuqPkgGIlr87QNoFBgHKqQFSXU4mwxsAvsNHvn9KBNJOBhbdvWHbwr1I/kVxspm0/st
-         N93NU8tsxKvtTweXFXmeBSftxWsjcoMJGnb0oPFw8p15p4EVNYWx+9gSmgWvruj/St/3
-         mUiak9Z+C3y8Sh7kFAWGfXF7Jdqw1/GM2VfkDRrk1vhZYyd1COI1iNvGytzo1sJFqKb0
-         4cX8KMOxxWvkzgsSowZV5spOySx1V14GZjnQrwCi7bzsxzcvilVVXXuTQ/HpG4LaV5fi
-         lrvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbaKm59limUwllpcIi5vKeaeiGgrVWkK9i8U/WveNqQXr6wr1FaQOFR1opTNfoOTRRoGSfPIP6Jc0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxMUzqYNPwu6kPRUUdJykK4U9cjJNX4l8Phqio2ey3Jgfp/nZZ
-	GfoTxnc4tFDuSNtsWowJ+q98MivEMfU7cvi08kTNC4RoCxpVMqdqMOFEFBiHZCWjPqb303pCsgZ
-	fX90+KvQmU/WhSMGlgWF9Owuul7uciqDeSxFLovgiKQ==
-X-Gm-Gg: ASbGncvSk2jN/MdaSwj2gu42EjbLtoYi7Ci8JxCRISxZWj7WxhQ7Lje0Co2uNOvC8n/
-	z0rK9BcoYk+0RMtc27x1k2rnMLBMChFaH/ZT0pAQxgH+SkW3qNu6EO52GQLPnpcJogzouiJ4kiz
-	5dFTzUUpqOnOZxEZ3wJnuoNzQ2o2nRvSgfAisk3sn9+yunF35HxSoYAAdJtPPe5Ena3et9tpIVF
-	ADH1JmZu7Eu
-X-Google-Smtp-Source: AGHT+IELpJnaXx7GhevpidzXIkKTwIAXCmVMgW9kYcw7FaocEXBHltXdb8h9Lt/Brd2z5aHr05TbcwdYLSE7e6xBYFY=
-X-Received: by 2002:a05:6512:31cb:b0:55c:cb6d:a45a with SMTP id
- 2adb3069b0e04-55ceeb2d2f8mr3584495e87.26.1755531079971; Mon, 18 Aug 2025
- 08:31:19 -0700 (PDT)
+        bh=rZ0dwCAQY3J2oIRCeDvzc2CwT76Cq6Vb0Lwbbf7BnKU=;
+        b=sCsT1/QOtWgMZ+amI91YkE1+5ldNUg25GhSx+VpTt1LMjOg8YgcKIhbnGu+bpu9c4Q
+         yNOB3kzyZzGtJlRaAMNbVCg0zkrNHES00yQzY1wAt6iHjbPta1xWbWJ4cRO/hB4dZacF
+         Uae0DnnSvUZfNt7C5dSN8NfRm0L/TWOEMQKxM4CatfufiAfz9fQ9O8gqh0Xx98w5xgM3
+         AG6isyxtEzKeYdoWYX57tF++sw9jYaR6QWea77o6ghfEB9YRbXFd5g7LxMgReMV5clBP
+         5E5xPHr9pmS3d96csnWZQTFtdjmfhpR3LdApTzSzR0Qik2S+y2r1IyiV5uNgKrVduWZV
+         f5OA==
+X-Forwarded-Encrypted: i=1; AJvYcCUBiQVh4womOLcdzz0P7QHzEJHezQmFZ2Ag762m6CtxRUceT5TnB9FY9UIP7UQLTNlkT1p8V7mMl+M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/1DjB20J+s+8x8cOXHgeV+J7whq1J+zgApuXsZjXZeMounYS7
+	JNQvoWbb2kcD5F7Jsunk4CrY+AepBYpB5EnlsV7Qn29tlrJrSYmY0cBOO1+JxH/cP774nwfw4fe
+	bZyGGf9oJy3u8Gp8cm4wqn2UbGOTcBVN/I14tJTUf3b6f+6ZX0YGSnH4=
+X-Gm-Gg: ASbGncvs7rJj4Y81VLB5r8IJEktX+BLhAunOEwBo4C3NG3GTcNGVzcK+QEbap4ukhFM
+	TsRi63M1VgqIBMOd02NiLjQlhQPR0F7ieMu/2om6WehwyWEnOOLyVzBrH31ZXwtdUWkLnP8Yk8O
+	24vwv+oP19GNZ/6G7f89agQH9xSRRmbVxuacyN+wug+ex59HV5/ofNU6YoLgy3US1gYgnEx/wgX
+	GZAlA80HRgLgt2bNg==
+X-Google-Smtp-Source: AGHT+IFs+u+QQ3aTG4A/OJjJanOujDjAB+Wl71F0SifIFYHpU0A6WvX6Ba+2IJZ3wThNNKqqP6l7dqXLCYXQFACA4ts=
+X-Received: by 2002:a2e:b888:0:b0:333:fb34:9b52 with SMTP id
+ 38308e7fff4ca-3340995c145mr34976401fa.35.1755531106744; Mon, 18 Aug 2025
+ 08:31:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250813081139.93201-1-christian.bruel@foss.st.com> <20250813081139.93201-3-christian.bruel@foss.st.com>
-In-Reply-To: <20250813081139.93201-3-christian.bruel@foss.st.com>
+References: <20250813081139.93201-1-christian.bruel@foss.st.com> <20250813081139.93201-2-christian.bruel@foss.st.com>
+In-Reply-To: <20250813081139.93201-2-christian.bruel@foss.st.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 18 Aug 2025 17:31:08 +0200
-X-Gm-Features: Ac12FXxa8EDDTp4GkHqlafMLuMBYVjtHPVlM15dMmsTqEHuJ1r-eg9GR22h9qAU
-Message-ID: <CACRpkdafM9-0DYumrwuZZ5S2_CbabdP6joK1bGiAvm897Ng89Q@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] pinctrl: Add pinctrl_pm_select_init_state helper function
+Date: Mon, 18 Aug 2025 17:31:35 +0200
+X-Gm-Features: Ac12FXzzIQxz6KyrnD-BuJV_RkrIckO1ITh9kqtOp8xqM7oYrs8HIMacwPvpGKU
+Message-ID: <CACRpkdbA0OcAv5kKJTzm-piRt5eTP_pzHVAZFuR_LCgOA0q9YA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] Documentation: pinctrl: Describe PM helper
+ functions for standard states.
 To: Christian Bruel <christian.bruel@foss.st.com>
 Cc: corbet@lwn.net, bhelgaas@google.com, mani@kernel.org, 
 	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -77,26 +78,12 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Aug 13, 2025 at 10:13=E2=80=AFAM Christian Bruel
 <christian.bruel@foss.st.com> wrote:
 
-> If a platformm requires an initial pinctrl state during probing, this
-> helper function provides the client with access to the same initial
-> state.
->
-> eg:
->  xxx_suspend_noirq
->     ...
->     pinctrl_pm_select_sleep_state
->
->  xxx resume_noirq
->     pinctrl_pm_select_init_state
->     ...
->     pinctrl_pm_select_default_state
+> Clarify documentation for predefined standard state names 'default',
+> 'init', 'sleep', 'idle' and their associated PM API.
 >
 > Signed-off-by: Christian Bruel <christian.bruel@foss.st.com>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Bj=C3=B6rn, just apply this with the other patch so all works fine
-in your tree, I don't think it will conflict anything.
 
 Yours,
 Linus Walleij
