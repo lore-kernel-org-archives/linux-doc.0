@@ -1,55 +1,55 @@
-Received: from mail-io1-f73.google.com (mail-io1-f73.google.com [209.85.166.73])
+Received: from mail-io1-f74.google.com (mail-io1-f74.google.com [209.85.166.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0BD271479
-	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 23:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8279827F177
+	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 23:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755558646; cv=none; b=Ni36Go2WVOyV29CT5LBZwCG2nl+zM6mn3K+FQKC7EjPy6NOgfNcnqzW3D72xpqoy0CgY+DnD4b60zh4eYhx4zGkuIi7cNLAvbgIOjIlXUcd4RIKcfUUGvF4vwXZ7bxFuoYuRViQE2Cl4efBKAIFpyWxFEASd/xAQfpYhDEkNJPY=
+	t=1755558646; cv=none; b=U4hn7qg5mZ1MyWgr/TxXWkGoefpnZnIYb8/67XnQp8HL5PD30uqcj03Hr5r8yWaQ2IngQkjTF2KtQTZGMqvRqZOI/15i/JW4c2O3jdwexf0UYE21yxLN2ugNqfxudY6CqYtSOCgQZCTe5b8vkiStOsOy18TMQn+1yj5KiWgei2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755558646; c=relaxed/simple;
-	bh=jKW22Y1YSZCMJKYVPMb/MDnG5XPEPaPhSJ4Fk8StOYY=;
+	bh=fOUQ9iN+/TFHSMLuk8u/9z0NqvmTbx1gpw+j00H42/I=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rslKHWkB6ZYy76cOETzYFBtEZcFBGyu1GUqV3j5wfCE94iUqRwLDH8l/MtWnFT7OmI5Cr7kzH6LkfKvX0pYuOFspRX0zZWLKhHqaysAz6I84ZLXBLe/ov0JC+xt0fLfFIdu4P7kLwkjoXqSzdQMrlBQWUZAj7SbxlB+uT5azpNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O6Fl9WCa; arc=none smtp.client-ip=209.85.166.73
+	 To:Cc:Content-Type; b=adV3aszNtQpiYPcYNgJyAQKbAwdVsGLOYARr/lCiuj35N60NZTOkKE+w8PRYSJBUDkGtWfXcttwvxPPNuyvfTMSXCmIe177TNuJn0f2GBcoCY/GeygFjUj4iczjdvU6eTj25ugHkC4wwrJiBZVkXDrnXByA0cRp3FyiTs0/5xZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Pb6gLOym; arc=none smtp.client-ip=209.85.166.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O6Fl9WCa"
-Received: by mail-io1-f73.google.com with SMTP id ca18e2360f4ac-88432e1c782so585141439f.2
-        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 16:10:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Pb6gLOym"
+Received: by mail-io1-f74.google.com with SMTP id ca18e2360f4ac-88432e140b8so538375039f.2
+        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 16:10:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20230601; t=1755558643; x=1756163443; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sQOdy+KlWKxwsTUwWnTs614rgt1w5bSixUfa+zzu7Sc=;
-        b=O6Fl9WCa2uWL0n6ouYPaq6gu3HAxYLjMedmyqpH3tT/9V/xlYIjRBdTAO2En/+gAic
-         c+NGc75y6YFMotMnfMkMsDpyvFkDBLPfBnri/Pq/nJlFhqt6AsFh+nyPPF4/pRohBaB4
-         ABwgoO5rVdR323AZYgsqBkefXaqLs+RUcVHP2DRIey+2Ek4tsVhy+rxgb6nUOBgG4y1v
-         uAflzBtQ5PrciZAV8H9lYSqIwpsH5VJn7M4la4kfU7f3fRM3nyDEcrhcyYYlDGwmdjX8
-         zkt7rZsS4oD6N7Lhb7WJMz7Kwa/QiEJq0CS1H9ZulI3+Q4lmYGn6stBSoXxPcQ25LOlg
-         X68w==
+        bh=Xze907Psa5S/IYsuccVxAJQ0ljBH6WFw3XWFWUMA8Qk=;
+        b=Pb6gLOymF78pcFKu/yTkaCyui64GqS000a7v2BPGC3fhIQaux2tdTv9ksI2vY48enA
+         yRYJvtOorJN4aT7i5Y20mM8mNC33qiSaSRo6+yoyvquoWzPeFfqKS3Sni+YCGhaBaKuk
+         C2ndCa5NZ5mJojRu5Rung9HUMHDa295rWax81DHaD+lJ0iICaOL8VBdiYhvaiuUdltqK
+         74+vykMcryqxBVfLzk6Mb7RQyWKoyQfIIIRQ5mWPR8sk1xEG4mK4nkO1/CycV7D5aGKn
+         LIvVEFvN6XHMkBQ+0al4MBT+/Pmt6Z5UXvTGYpUn1X9BBb5AcpUeEdPG/+8O5/Gyz+kb
+         OIBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1755558643; x=1756163443;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sQOdy+KlWKxwsTUwWnTs614rgt1w5bSixUfa+zzu7Sc=;
-        b=ZCcOWOJPozyavp/STYDlvSTGUnL2hdq5CCDbJwWuqRQg1Y/AWXECJwXBIiYjJQwGVk
-         drITVyPiw+lB+tz14BB2yF96igiu1aq3JdhI4qfvP1mXCiACLNH3HqYxJfHwMfR5+4Uf
-         jrn8NE6JSpHobR5TVqlOR4rk4GKQV/JV9imo3ezRtENZZagAzBVy8c7f81gYyE9fj85i
-         OQ0Q1E2J44fOOEQFef1b0Gm1SFdjMG15UBzY7DmKgCvScrGZFTwFjPA4s2mxGOE3tuzo
-         uhWO2287BI7U8HjWYKoNb+tQPKZVTopP/xmvSLBVmKtBL5j1CiISYe+w7Pn4maicm03s
-         xYAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPoacvsRf1MlOjETVNVU7G9giEIbu5w1BsGRIjMk9YEgw++yJteH6jCMv7SFf267lMUs6toydif7o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaMYefbNurJ4TkR0U/+BvWwSdQxDPq9szM9OPVJhDhJsksn1ks
-	6v6VDA2dkHh8Gx1qf24qtD28FT8Fxoqwr75h87k6C/uuvyma3FFlQ8sxar1fxtRn1fvfhLw0tFH
-	oLy+gT8aK3g==
-X-Google-Smtp-Source: AGHT+IENXK2kuyir4ub8DtPGQzHQsMDEtGHtPbYUJO4YqIMU/DCj3/jGIUSc7sqfu0LqU2QJCqI05UDl8KNS
-X-Received: from jabkw19.prod.google.com ([2002:a05:6638:9313:b0:501:eef5:7b8e])
- (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6602:340e:b0:87c:1cc3:c0fa
- with SMTP id ca18e2360f4ac-88467dc9d94mr94914139f.0.1755558636882; Mon, 18
- Aug 2025 16:10:36 -0700 (PDT)
-Date: Mon, 18 Aug 2025 23:08:44 +0000
+        bh=Xze907Psa5S/IYsuccVxAJQ0ljBH6WFw3XWFWUMA8Qk=;
+        b=kmKl1okTpR3KZacC9vF9clSI8y3UTRZYg0+GigcpqtCiNrm0gJtjEViwqL+nFWm8C/
+         9VEjltpK8pt39sDFbZbxp2zY3/34HvG1WVLLiq0pLctjQKIlUn0wfAqDXkRY59eAffP4
+         p8qDTKSin4XutSjkK57M6GlsROaeCVfCqwzsucZaiPFVP4LJoiMJTWQNaqkq7/UVG3Nk
+         4KO2TqH9WPzxttG5g4cR7CqPQ2qbOiGSw6xDIO128eKRK4a9aCxR+trQzgfIVpdIrnQv
+         i/5DglUz7cO+e5/oequkqsigHUAe49WjViGP2noPbBCzquX7Gj7MlEgw6oi7x+RD6nI3
+         Dx0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXCvBjJHUNtJPG0zziNPxPJxIPpIwL1VcDaVE1uHBlONd1F3o/vef5PxtT4gmYXbGEnPBmZiGIwmRA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1Qc2InZ5luSxvvXLqyButcBDaKrpJpB1OUXyI0/6Zp6O7jyLq
+	WSBOaw0v6v8Hmr3gTUXu9pz9vvMcbNk6LnYXn4AxiUUz7jCKOHyrEeejeUOtgGTY+nI1p+dt+ZH
+	HiChDnDhvuQ==
+X-Google-Smtp-Source: AGHT+IEae1a+RGpmevjA4aZuqHwjm+8LM/JeSvDhnxxKn/QsDajDWX8k6ANbWJ5eqhAEwHBj0zXnOe75dCaS
+X-Received: from iobjk23.prod.google.com ([2002:a05:6602:7217:b0:881:8ed2:a750])
+ (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6602:2d8b:b0:87c:1d65:3aeb
+ with SMTP id ca18e2360f4ac-88467e8caa0mr98419439f.2.1755558643163; Mon, 18
+ Aug 2025 16:10:43 -0700 (PDT)
+Date: Mon, 18 Aug 2025 23:08:50 +0000
 In-Reply-To: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
 X-Mailer: b4 0.14.2
-Message-ID: <20250818-support-forcepads-v3-3-e4f9ab0add84@google.com>
-Subject: [PATCH v3 03/11] Input: add INPUT_PROP_HAPTIC_TOUCHPAD
+Message-ID: <20250818-support-forcepads-v3-9-e4f9ab0add84@google.com>
+Subject: [PATCH v3 09/11] Input: MT - add INPUT_MT_TOTAL_FORCE flags
 From: Jonathan Denose <jdenose@google.com>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -72,54 +72,70 @@ Content-Type: text/plain; charset="utf-8"
 
 From: Angela Czubak <aczubak@google.com>
 
-INPUT_PROP_HAPTIC_TOUCHPAD property is to be set for a device with simple
-haptic capabilities.
+Add a flag to generate ABS_PRESSURE as sum of ABS_MT_PRESSURE across
+all slots.
+This flag should be set if one knows a device reports true force and would
+like to report total force to the userspace.
 
 Signed-off-by: Angela Czubak <aczubak@google.com>
 Co-developed-by: Jonathan Denose <jdenose@google.com>
 Signed-off-by: Jonathan Denose <jdenose@google.com>
 ---
- Documentation/input/event-codes.rst    | 14 ++++++++++++++
- include/uapi/linux/input-event-codes.h |  1 +
- 2 files changed, 15 insertions(+)
+ drivers/input/input-mt.c | 14 ++++++++++----
+ include/linux/input/mt.h |  1 +
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-index b4557462edd7b3fef9e9cd6c2c3cb2d05bb531ab..1ead9bb8d9c6451a81426665baab643f9e50216a 100644
---- a/Documentation/input/event-codes.rst
-+++ b/Documentation/input/event-codes.rst
-@@ -400,6 +400,20 @@ can report through the rotational axes (absolute and/or relative rx, ry, rz).
- All other axes retain their meaning. A device must not mix
- regular directional axes and accelerometer axes on the same event node.
+diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
+index 337006dd9dcf72ef2eeb8580e4dd83babf8100be..09f518897d4a71a4a7625367dc2c652ee6035d98 100644
+--- a/drivers/input/input-mt.c
++++ b/drivers/input/input-mt.c
+@@ -198,6 +198,7 @@ void input_mt_report_pointer_emulation(struct input_dev *dev, bool use_count)
+ 	struct input_mt *mt = dev->mt;
+ 	struct input_mt_slot *oldest;
+ 	int oldid, count, i;
++	int p, reported_p = 0;
  
-+INPUT_PROP_HAPTIC_TOUCHPAD
-+--------------------------
-+
-+The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that device:
-+- supports simple haptic auto and manual triggering
-+- can differentiate between at least 5 fingers
-+- uses correct resolution for the X/Y (units and value)
-+- reports correct force per touch, and correct units for them (newtons or grams)
-+- follows the MT protocol type B
-+
-+Summing up, such devices follow the MS spec for input devices in
-+Win8 and Win8.1, and in addition support the Simple haptic controller HID table,
-+and report correct units for the pressure.
-+
- Guidelines
- ==========
+ 	if (!mt)
+ 		return;
+@@ -216,6 +217,13 @@ void input_mt_report_pointer_emulation(struct input_dev *dev, bool use_count)
+ 			oldest = ps;
+ 			oldid = id;
+ 		}
++		if (test_bit(ABS_MT_PRESSURE, dev->absbit)) {
++			p = input_mt_get_value(ps, ABS_MT_PRESSURE);
++			if (mt->flags & INPUT_MT_TOTAL_FORCE)
++				reported_p += p;
++			else if (oldid == id)
++				reported_p = p;
++		}
+ 		count++;
+ 	}
  
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 3b2524e4b667d1e7cc02ff5cb674e7c2ac069a66..efe8c36d4ee9a938ffb1b0dd0ddd0ec6a3fcb8fe 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -27,6 +27,7 @@
- #define INPUT_PROP_TOPBUTTONPAD		0x04	/* softbuttons at top of pad */
- #define INPUT_PROP_POINTING_STICK	0x05	/* is a pointing stick */
- #define INPUT_PROP_ACCELEROMETER	0x06	/* has accelerometer */
-+#define INPUT_PROP_HAPTIC_TOUCHPAD	0x07	/* is a haptic touchpad */
+@@ -245,10 +253,8 @@ void input_mt_report_pointer_emulation(struct input_dev *dev, bool use_count)
+ 		input_event(dev, EV_ABS, ABS_X, x);
+ 		input_event(dev, EV_ABS, ABS_Y, y);
  
- #define INPUT_PROP_MAX			0x1f
- #define INPUT_PROP_CNT			(INPUT_PROP_MAX + 1)
+-		if (test_bit(ABS_MT_PRESSURE, dev->absbit)) {
+-			int p = input_mt_get_value(oldest, ABS_MT_PRESSURE);
+-			input_event(dev, EV_ABS, ABS_PRESSURE, p);
+-		}
++		if (test_bit(ABS_MT_PRESSURE, dev->absbit))
++			input_event(dev, EV_ABS, ABS_PRESSURE, reported_p);
+ 	} else {
+ 		if (test_bit(ABS_MT_PRESSURE, dev->absbit))
+ 			input_event(dev, EV_ABS, ABS_PRESSURE, 0);
+diff --git a/include/linux/input/mt.h b/include/linux/input/mt.h
+index 2cf89a538b18bbc7c99c8705c2d22bdc95065238..d30286298a00a356bc9db954ae362f034cdd359b 100644
+--- a/include/linux/input/mt.h
++++ b/include/linux/input/mt.h
+@@ -17,6 +17,7 @@
+ #define INPUT_MT_DROP_UNUSED	0x0004	/* drop contacts not seen in frame */
+ #define INPUT_MT_TRACK		0x0008	/* use in-kernel tracking */
+ #define INPUT_MT_SEMI_MT	0x0010	/* semi-mt device, finger count handled manually */
++#define INPUT_MT_TOTAL_FORCE	0x0020	/* calculate total force from slots pressure */
+ 
+ /**
+  * struct input_mt_slot - represents the state of an input MT slot
 
 -- 
 2.51.0.rc1.193.gad69d77794-goog
