@@ -1,87 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DC334574E;
-	Mon, 18 Aug 2025 17:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2830932C33A;
+	Mon, 18 Aug 2025 17:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755538029; cv=none; b=fU2BblwjekFODkuYlwoaMnNrNun1GH30i8tF3QROG/p83PSl8HGWXFU6sU7XFYIdgFXnFMSJxlezNqTfiw3tM4bj3J2hv7n1Ij1uEB+6tnxdcFBEXPQBQd5tJ2R8vuXr5pY++ZqSvkf9BZF/YI7CJyzHKXC85lAlH96xwkwTn9o=
+	t=1755538309; cv=none; b=WGtXvXVcmm/5gGhPk33XWC0u0GCcVxVfeOJMyABpkknxil36hUmwvXpAOT5v+8ppfb4s9dS278FmaVIAkcu5FaX4hJS2U1LORceDkKNn2XiFjP8Kkq9Ej2KSGSLNHXN7YcjS/UDDFoP0qkmNun+iGSM5L9Ugb4Q+Uj4ehlhy0IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755538029; c=relaxed/simple;
-	bh=HwKz2ZvTlrx9A/GRESM903NFMrPusguohKyWSeDg0QM=;
+	s=arc-20240116; t=1755538309; c=relaxed/simple;
+	bh=mF/CW5aAEQgDT+OAezbsRp+d9z4XVVZyDXgDqKkePis=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VJWB0nsy90ML9+NJ10aujwQclSg12PQD/2SE10sEa29DW3fXBIf7aJhjFRCh8HQvJ3nmHTS5gkVfYZmN2lH70tqB3jzj06BoV+5AilAUVX4YTJeFAdhht7Q8jusoyJZF8FXl4Ccs2me/+pGgWbYJ0+wMORvZ480XQrF/DO0ctXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AjeEJIbl; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=tgo4oWNp9KcyLr4Q0Tyb/gRbSqy/p4Swxuvs0CIk6cFVWX0oOwjeOrZ2IOPOTp+zjpHtyYuJwsNWPZpRbU1XR0jofU0MVMWuul++MpaDiWuRZXhFPfRek5/SQF6oxtz7QaZbTkX75DOZe9wxjYI115ilzGoPTeNnHhgQdIllOk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZEuau1i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AjeEJIbl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755538028; x=1787074028;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HwKz2ZvTlrx9A/GRESM903NFMrPusguohKyWSeDg0QM=;
-  b=AjeEJIbll40l1KLUjF3+zGbWah03vQ9fCM/mP+VwkoUaA+aaampIRLio
-   782yzJPrNfTla23GnRCmcV0pKf1W1RP+6pl6lysVyOi2wZUgYz1PGOllt
-   n+jRDfsISDMmuCf55LcjY+MwCbt/gn4gAY97+aaQ3G3jmD40XQFMG9WTB
-   MrcA5/7ru7/UYSQ8rUNzxo9ojU0l1yQbQZ5pPadVu+czS/QHa8Bgbr6Sx
-   FC/JzORU0bBl9urLZ69clkaZSW+3wW4WS+0tMFZWzKES6OriuEub5p0HY
-   s7B4TXaKzNvmeiI2aZqbLcH1JVfUPv66anDC7ux6SVdUMJlneEJgS6ypl
-   Q==;
-X-CSE-ConnectionGUID: AZ15PtlCQjWfjI+tRK96/w==
-X-CSE-MsgGUID: Y5ltu4XgRv276OuSpmedDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57481497"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="57481497"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 10:27:07 -0700
-X-CSE-ConnectionGUID: 4D4u2epWRwGxu77OuzSNcg==
-X-CSE-MsgGUID: pmBbF8sQSMWFW7IwRx1oQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="166867851"
-Received: from rfrazer-mobl3.amr.corp.intel.com (HELO desk) ([10.124.220.33])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 10:27:07 -0700
-Date: Mon, 18 Aug 2025 10:26:55 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: "Nikola Z. Ivanov" <zlatistiv@gmail.com>, tglx@linutronix.de,
-	bp@alien8.de, peterz@infradead.org, jpoimboe@kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZEuau1i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D1DDC4CEEB;
+	Mon, 18 Aug 2025 17:31:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755538308;
+	bh=mF/CW5aAEQgDT+OAezbsRp+d9z4XVVZyDXgDqKkePis=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nZEuau1ilMigYR6sE3ycqybvBBfxu4cT4RDewaxT0p3Folqihwx4NGgVB3CmBCg48
+	 ihSDtZdmMy/unNb2Z5kB+E6+qYY6sZKL+h/Q2BxBBbscPlsxa2ZZy6H3I8e4UvTn1j
+	 krRlGfhS96PPTzu3w7WvCXmob+iBe954KeJMUCqdT7wTw39BALf7mDZ9Zq42Cm/pkD
+	 srQPQaLE8L/Z9VvB9R6e7wO5OUhZKvHFMtLaX5r1toCu12Uo2tiXLW1YJyza2AHGZG
+	 DDUhzXlFBL6plUl3fpG27Cuq+THU21JeY2AzUVeh5nmTw3Z1IvaDNsQZHQmGZB9UP6
+	 jrdbQ6U1u48jA==
+Date: Mon, 18 Aug 2025 12:31:47 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+	Gregory Fuchedgi <gfuchedgi@gmail.com>
+Cc: Robert Marko <robert.marko@sartura.hr>,
+	Luka Perkov <luka.perkov@sartura.hr>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] docs: Replace dead links to spectre side channel white
- papers
-Message-ID: <20250818172655.g7qr6yue5oeewk5w@desk>
-References: <20250816190028.55573-1-zlatistiv@gmail.com>
- <875xekaa4a.fsf@trenco.lwn.net>
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: update TI TPS23861 bindings
+ with per-port schema
+Message-ID: <20250818173147.GA1496879-robh@kernel.org>
+References: <20250811-hwmon-tps23861-add-class-restrictions-v2-0-ebd122ec5e3b@gmail.com>
+ <20250811-hwmon-tps23861-add-class-restrictions-v2-2-ebd122ec5e3b@gmail.com>
+ <eab6d2d2-9337-40fe-81c7-95dc1956ce6f@kernel.org>
+ <CAAcybusHjAR67N0rumb6M_uG1ct3aa=zv2XkpUjhSSxv0NdzFA@mail.gmail.com>
+ <ff167728-a4a7-4f7d-a809-d0e482ab7dd6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <875xekaa4a.fsf@trenco.lwn.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ff167728-a4a7-4f7d-a809-d0e482ab7dd6@kernel.org>
 
-On Mon, Aug 18, 2025 at 10:05:25AM -0600, Jonathan Corbet wrote:
-> "Nikola Z. Ivanov" <zlatistiv@gmail.com> writes:
+On Sun, Aug 17, 2025 at 09:23:09AM +0200, Krzysztof Kozlowski wrote:
+> On 13/08/2025 05:00, Gregory Fuchedgi wrote:
+> > On Tue, Aug 12, 2025 at 12:20 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >>> +  shutdown-gpios:
+> >> powerdown-gpios, see gpio-consumer-common.yaml
+> > It is called shutdown in the datasheet, but seems like neither powerdown nor
+> > shutdown truly reflects its purpose. This pin doesn't power down the controller
+> > itself. It shuts down the ports while keeping the controller available for
+> > configuration over i2c. Should I call it ti,ports-shutdown-gpios or maybe
+> > ti,shutdown-gpios? Any other suggestions?
 > 
-> > The papers are published by Intel, AMD and MIPS.
-> >
-> > Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
-> > ---
-> > The MIPS blog post is nowhere to be found on mips.com,
-> > instead a link is placed to the last time the web archive
-> > has crawled it.
-> >
-> >  Documentation/admin-guide/hw-vuln/spectre.rst | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> I sure wish I understood why companies feel such a need to break links
-> so often ... I've applied this, thanks.
+> Feels more like enable-gpios.
+> 
+> > 
+> >>> +patternProperties:
+> >>> +  "^port@[0-3]$":
+> >> This goes to ports property.
+> > Do you mean I should add another DT node that groups all ports? such as:
+> > compatible = "ti,tps23861"; ports { port@0 {...} port@1 {...} }
+> 
+> 
+> Yes.
 
-Sorry about that, I have let the Intel team know about the broken links.
-And requested them to make sure that this does not happen again in the
-future.
+Except this is not an OF graph. Don't re-use it when it is not that. 
+Maybe 'poe-port@'? Is multiple ports/channels something common on PoE 
+chips? I'd guess so. If so, then come up with something common.
+
+Whether you should have a container node like 'ports' is a separate 
+question. You get exactly 1 address space for any given node. So if you 
+ever might need to address multiple disjoint things, then you probably 
+want a container node.
+
+Rob
