@@ -1,84 +1,87 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002A632C304;
-	Mon, 18 Aug 2025 17:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DC334574E;
+	Mon, 18 Aug 2025 17:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755536881; cv=none; b=rQmXwQFwPl+1nkaeJVv3rLNdNnICCv3ug18Rsk9uHrOvpi/QKU99K3N7pELTZHtoM4Np4sUF6Sxb4C7iGDx54mVzKpPzWUh8Gloqrp4YsZyTRDZyqWoqmhFw3Yk3jfLwnsNvJykGxuDJgsnIHqav9QY0NtqWDV0W+BJ/GlT1hHQ=
+	t=1755538029; cv=none; b=fU2BblwjekFODkuYlwoaMnNrNun1GH30i8tF3QROG/p83PSl8HGWXFU6sU7XFYIdgFXnFMSJxlezNqTfiw3tM4bj3J2hv7n1Ij1uEB+6tnxdcFBEXPQBQd5tJ2R8vuXr5pY++ZqSvkf9BZF/YI7CJyzHKXC85lAlH96xwkwTn9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755536881; c=relaxed/simple;
-	bh=3HIX8xBft0wT7KpvML4CREs5ghLtKYmEz8RLBPEHaF0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=YZ78AVoBPXQy0R8eHG0Y8JV65+ZrJSOYFmpaGrBqqCLSJZShLz/Mqh0+m1x2f7gE0jjshetNzr9+HTsqZyAuXkveT1/Hx/42eocCZlAiDFypUUo3Mda2SpGsp8wWJeVwD534WqJkfhL6YNrkVGuoGnMHAPyVcppfGJEg3us5Wxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=TFGovbOF; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1755538029; c=relaxed/simple;
+	bh=HwKz2ZvTlrx9A/GRESM903NFMrPusguohKyWSeDg0QM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VJWB0nsy90ML9+NJ10aujwQclSg12PQD/2SE10sEa29DW3fXBIf7aJhjFRCh8HQvJ3nmHTS5gkVfYZmN2lH70tqB3jzj06BoV+5AilAUVX4YTJeFAdhht7Q8jusoyJZF8FXl4Ccs2me/+pGgWbYJ0+wMORvZ480XQrF/DO0ctXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AjeEJIbl; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TFGovbOF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 16AD540AB4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755536879; bh=pJLU23dJ8UZqkLglKDXDhtJiJ2cETKYaZ8oMIDK736g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TFGovbOFisyx6lhFQLySC25yp83WJWP6QCl+HdrBA0KOp5eEjox96MiB+gxzDwJ6H
-	 gOJC65JZ4tnvuyO5KKhjZJtoldgl3mpoXnOgqAsMmsWRrJyFwTjezsZhMcHT/W5oli
-	 MQGdCqe1mPQ83m+xswyW1OzkBgJBNYNbXi2YakzXiOEYsFUFINpnBGMciWyfQwruLp
-	 2ArDfb5wDKucPooT7cxl+D2bgf10ANAepWroQqrI50CuyC83kkURtOSZCEZA8tjZpG
-	 +qSUaZl7FnSOX4iwDP7emM3O708OVZvIdyZOB4y7b/azVQM/swJXT0xMa72rqaQLiE
-	 bbYeA2+lM0+2A==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 16AD540AB4;
-	Mon, 18 Aug 2025 17:07:59 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-In-Reply-To: <b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
- <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
- <20250816135538.733b80d3@foz.lan>
- <acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
- <20250817133606.79d968ed@sal.lan>
- <b3d97e98-121d-4d12-9624-3efd119b12a4@gmail.com>
- <20250817154544.78d61029@foz.lan>
- <b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
-Date: Mon, 18 Aug 2025 11:07:58 -0600
-Message-ID: <87y0rg7e35.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AjeEJIbl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755538028; x=1787074028;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HwKz2ZvTlrx9A/GRESM903NFMrPusguohKyWSeDg0QM=;
+  b=AjeEJIbll40l1KLUjF3+zGbWah03vQ9fCM/mP+VwkoUaA+aaampIRLio
+   782yzJPrNfTla23GnRCmcV0pKf1W1RP+6pl6lysVyOi2wZUgYz1PGOllt
+   n+jRDfsISDMmuCf55LcjY+MwCbt/gn4gAY97+aaQ3G3jmD40XQFMG9WTB
+   MrcA5/7ru7/UYSQ8rUNzxo9ojU0l1yQbQZ5pPadVu+czS/QHa8Bgbr6Sx
+   FC/JzORU0bBl9urLZ69clkaZSW+3wW4WS+0tMFZWzKES6OriuEub5p0HY
+   s7B4TXaKzNvmeiI2aZqbLcH1JVfUPv66anDC7ux6SVdUMJlneEJgS6ypl
+   Q==;
+X-CSE-ConnectionGUID: AZ15PtlCQjWfjI+tRK96/w==
+X-CSE-MsgGUID: Y5ltu4XgRv276OuSpmedDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57481497"
+X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
+   d="scan'208";a="57481497"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 10:27:07 -0700
+X-CSE-ConnectionGUID: 4D4u2epWRwGxu77OuzSNcg==
+X-CSE-MsgGUID: pmBbF8sQSMWFW7IwRx1oQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
+   d="scan'208";a="166867851"
+Received: from rfrazer-mobl3.amr.corp.intel.com (HELO desk) ([10.124.220.33])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 10:27:07 -0700
+Date: Mon, 18 Aug 2025 10:26:55 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: "Nikola Z. Ivanov" <zlatistiv@gmail.com>, tglx@linutronix.de,
+	bp@alien8.de, peterz@infradead.org, jpoimboe@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] docs: Replace dead links to spectre side channel white
+ papers
+Message-ID: <20250818172655.g7qr6yue5oeewk5w@desk>
+References: <20250816190028.55573-1-zlatistiv@gmail.com>
+ <875xekaa4a.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875xekaa4a.fsf@trenco.lwn.net>
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+On Mon, Aug 18, 2025 at 10:05:25AM -0600, Jonathan Corbet wrote:
+> "Nikola Z. Ivanov" <zlatistiv@gmail.com> writes:
+> 
+> > The papers are published by Intel, AMD and MIPS.
+> >
+> > Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+> > ---
+> > The MIPS blog post is nowhere to be found on mips.com,
+> > instead a link is placed to the last time the web archive
+> > has crawled it.
+> >
+> >  Documentation/admin-guide/hw-vuln/spectre.rst | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> I sure wish I understood why companies feel such a need to break links
+> so often ... I've applied this, thanks.
 
-> Ah, I have finally understood what 5/11 is trying to do.
->
-> Its changelog mainly talks about an issue you saw after adding options
-> to xindy in that same commit, and you added
->
->    \newfontfamily\headingfont{DejaVu Serif}
->
-> to resolve it.
->
-> Current changelog didn't make sense at all for me.
->
-> Can you please reword it and make it easier to follow?
->
-> With that, feel free to add my
->
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-
-So, if I have managed to understand this conversation, this reword is
-all we need to get this series merged..?
-
-Thanks,
-
-jon
+Sorry about that, I have let the Intel team know about the broken links.
+And requested them to make sure that this does not happen again in the
+future.
