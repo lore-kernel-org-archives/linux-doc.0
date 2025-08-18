@@ -1,49 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB2D340D86;
-	Mon, 18 Aug 2025 16:02:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9774A253F3A;
+	Mon, 18 Aug 2025 16:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755532960; cv=none; b=ESyBMEMfC0ygTysgaoeC9LUuCTBSsEulyO7OKsMcsqqbOBpuk1FvkHi0T6BqWvTHbumQDOhbb/qBes/wYeZtcJRxOzHRjtT7Hr3BxQBS5DIjOPUfSfH57IOn6Pn4Cw+l41bwIyC0r08AXM5IPHTALHhDRH7Ugr3Oj6q0QO05rdQ=
+	t=1755533128; cv=none; b=XI8SNMgOpAlmHH6nsACeglvyx0tzadj0dGAhoMgZYw8R7IgudA2NaA3b0WbWrlTV84QGsjqDygRgJbBeKQw3z18u6kbXS3yNIDIkGU4sge60hMCoi66TvDPYk1zgENZGKN7iFKEFZ3pipWBkKxewLHWDXo+u/ThURIXmRhwRIdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755532960; c=relaxed/simple;
-	bh=t027B0rQp7JsYSyfU4NtKIBv8WrWkrLSL/nQx0S7Crc=;
+	s=arc-20240116; t=1755533128; c=relaxed/simple;
+	bh=5mamOuwuN2q0c1HpCm7iCluXnDCuzCY0FW8G1fkNs8I=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GmmEN2PZXXW4w6Db8iLJFjbQgL1X0+mnZ+aCSEVxmJVg3nM3eranMCeWHdsAVLZW/5xNEj+BNJ6NaRqtKIAPsYgXepSA/d2lt270vyNh6VIPW4CR6rYjUuYYw+R0h0WJZteY2evKmGXCYQp1z34zoy8VjNY8w4l2KAjEpZ/JcVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CNKEz1Uz; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=SCE66YrqFibZDyfTrGYuVy6xrrOS77FSgi+kw5UjeznLnlVsG16Bc7UW2P8j0hvGQ2042q/LeOLUAcTe/kyw87XPBQrUGfNbKOCQkJBNMUk+mhr0FAhT9C+rd0G2OUQZyzXJptFJbudIuWdexKBypOYV7Zs2rVPAmcfNHrSmUwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jTDbiiow; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CNKEz1Uz"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 70F3440AE3
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jTDbiiow"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB7A640AB4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755532954; bh=1aJKByTDq/tn5iUnOzjI0JX85JLg+1vr/5QFFZWyVP4=;
+	t=1755533126; bh=wk/rXX1AoG7L4arFu7XcJ27vQ+aO9yrhpMlrzmUyPdo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CNKEz1UzV5fvbkyLGgXLAqJKhUw8VOLcRphTroIrXt59qT904MXjtlfZj8oQEabNt
-	 lCo1j3oia8E+BFR2gut8jC1XajvxJRpXe+sUk6d0C2pGw9uOWCjLqoDaJuXfJT4BmV
-	 PKCKYLsafsb6YBSKzUD8aadwZNX3dNCcnMtVeHx0pDExjBezQSgUwMevIV6I8rHxqE
-	 +tqdWJEVgcQULRs68e3I0n7oZGz+DIzmouZ50OkPMoopvugn584ezYV2/6UrX5Kx1S
-	 6ouOL2Qrk/zUtHmx/G0o3P3+SDKuw+5wvG7zulPG0lM2TtI+zh7iECkMTAZAY+DMwo
-	 IQdLVqYRZRvOQ==
+	b=jTDbiiowfIAA2xOD4uU5CeBeWqMnV7BuSLi6XqnYorLlyf5ORDCLrbvz6iIbWtys6
+	 Noh5+xeaOO2cxsWtOhIap65y9wTXy4pShJCTyw5m2xgpdFoJeWvysyXTV9ng0v96W0
+	 aRROIASopbyNyUnJUySksoJgTlPCW9Z03yPxAR+jznpiM9Z8asZnw2xnGvdb3EZolm
+	 BwCnva1idG2KoKtDV2UzTXApepaytbFj+Drf+stuCkUGuJ55fGkDLtPQk1EY3iqm/t
+	 XKtxXnBhOmfeLjYPJNrj9MZVwF85xNd4Bhut++3rAhnoTRcKm9s/+2ZAawPpQ9jvGD
+	 9XvvK8kNdszjQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 70F3440AE3;
-	Mon, 18 Aug 2025 16:02:34 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id AB7A640AB4;
+	Mon, 18 Aug 2025 16:05:26 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: rakuram <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org
-Cc: dan.j.williams@intel.com, dave@stgolabs.net, dave.jiang@intel.com,
- jonathan.cameron@huawei.com, vishal.l.verma@intel.com,
- ira.weiny@intel.com, linux-cxl@vger.kernel.org,
- alison.schofield@intel.com, gourry@gourry.net, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, rakuram.e96@gmail.com
-Subject: Re: [PATCH v2] Documentation/driver-api: Fix typo error in cxl
-In-Reply-To: <20250817173355.6615-2-rakuram.e96@gmail.com>
-References: <20250817173355.6615-2-rakuram.e96@gmail.com>
-Date: Mon, 18 Aug 2025 10:02:33 -0600
-Message-ID: <87a53waa92.fsf@trenco.lwn.net>
+To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>, tglx@linutronix.de,
+ bp@alien8.de, peterz@infradead.org, jpoimboe@kernel.org,
+ pawan.kumar.gupta@linux.intel.com, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, "Nikola Z. Ivanov"
+ <zlatistiv@gmail.com>
+Subject: Re: [PATCH] docs: Replace dead links to spectre side channel white
+ papers
+In-Reply-To: <20250816190028.55573-1-zlatistiv@gmail.com>
+References: <20250816190028.55573-1-zlatistiv@gmail.com>
+Date: Mon, 18 Aug 2025 10:05:25 -0600
+Message-ID: <875xekaa4a.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,27 +53,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-rakuram <rakuram.e96@gmail.com> writes:
+"Nikola Z. Ivanov" <zlatistiv@gmail.com> writes:
 
-> Fixed the following typo errors
+> The papers are published by Intel, AMD and MIPS.
 >
-> intersparsed ==> interspersed
-> in Documentation/driver-api/cxl/platform/bios-and-efi.rst
->
+> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
 > ---
-> Changelog:
+> The MIPS blog post is nowhere to be found on mips.com,
+> instead a link is placed to the last time the web archive
+> has crawled it.
 >
-> Changes since v1:
-> Dropped fix for page-allocator.rst as requested by Gregory
->
-> Suggested-by: Gregory Price <gourry@gourry.net> 
-> Signed-off-by: rakuram <rakuram.e96@gmail.com>
-> ---
->  Documentation/driver-api/cxl/platform/bios-and-efi.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/admin-guide/hw-vuln/spectre.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-Your Signed-off-by line really needs to include your full name, please.
-
-Thanks,
+I sure wish I understood why companies feel such a need to break links
+so often ... I've applied this, thanks.
 
 jon
