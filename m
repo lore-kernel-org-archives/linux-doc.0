@@ -1,265 +1,296 @@
-Received: from mail-oi1-f201.google.com (mail-oi1-f201.google.com [209.85.167.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2048.outbound.protection.outlook.com [40.107.220.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45632280308
-	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 23:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755558648; cv=none; b=ZnPlYswmHMcmNYGJDwa0hu7nTs/T+DQ1aoI8KSpvXcYcOyWc2ari3aKo575VjDQlP0u+rgF9R35N8+KUvMp0XQcqseXWHt2K+KKWEU/mpCZls2TaUjrRghAMt1JirP64rBnZf7abL5VgiLnK6BHnTbDj7BHTKqKm4D2m5SZbwyI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755558648; c=relaxed/simple;
-	bh=2hHEU72PYJh+SNwdPqD8UkbjBlmg8/6dhsKpY3DeON4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=WAQR+n4phAxlaJziWQSvSsLtZ812+hzXwAWhQ6zTZ+hb4WMSEdETg3cR4URb/XZ4myjt4Wf19CJUqzUo+gQrtWqTfFep7wtG71oJRa+YISttE+xcLSjlU2cewsggkjy019DeVhu3YeIqXKu0nEKQCo4Zb36DGn0mFYxJBrBEUTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jOrlyiBK; arc=none smtp.client-ip=209.85.167.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CE53451BF;
+	Mon, 18 Aug 2025 23:24:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755559442; cv=fail; b=dK/qOOx40wE23BXblsqXpPovXqLtakHRFZt1Gos+KSNWQ3U84uwEPCGrjP23HVm/VJcOrXLk8YX6igOee6CMe1ry/lYLwDUcpU6XdmDnqSa7t8xGr3AjIrhxk5Uw90sUrNWDiNpCXRuag5GiXshsYQdp+lABGna2RzZM8bhgBkI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755559442; c=relaxed/simple;
+	bh=LgiSbm2Shu6LPQSgqbEXTCNIRlUlXFm7wYW11YISOVg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=espkTGaOW03IE7GUFtEg8YVUXQ7g39HrFjqeWJvfIZhTfBTRWEReWTC6beXTp9TWgWNtHPBH4A6V4Kg4jhpxFqFdyTWbgjaazRIjwYvn8rj4Y4pmbv4+Xv2N0HOmhmgiU3UDQEXcsPtB+DwRHK5aswwvzUY1HsXSeYvXMyqWm2U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Rpsiob6B; arc=fail smtp.client-ip=40.107.220.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jOrlyiBK"
-Received: by mail-oi1-f201.google.com with SMTP id 5614622812f47-435de8351b9so7399864b6e.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 16:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755558645; x=1756163445; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v6LP4kbkBa88jvBhrFEiryEKhPYdSyeLgBMrYzBXaW8=;
-        b=jOrlyiBKYTnXaAb79/VUneC6kJzsV7MaCwLamcSHrzUJQSxMM8EdLcYRWSLp/GHZyC
-         VZzzJBJ1sT6+TL1AxydN/rLis6nxQ0Nw3Y2KKnNvVJ7/EKZP5OoDshHGkv//nquCaF6K
-         iO/rmbxs7V/o7TV6pzzthOB2dZGiX0+zIJTQiFQeNi9GuQZnZ1g44tRczaETACzqHT6b
-         Jirpihi+3OvKupb6u/9CNfm6VFeAY/lIba/SCN6qx8umljrQkl9kiND8ZSIwJ/MhgrJA
-         kjmLGoO49sfY2XT+OYxgqoT9SLJNTJzXIDy6H19YIfjSMhfnOkGwCVDONpJcTnINFx4/
-         Qi8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755558645; x=1756163445;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v6LP4kbkBa88jvBhrFEiryEKhPYdSyeLgBMrYzBXaW8=;
-        b=XKmwyxhfnXjAQm2WEWg1uN1a+AhioFzdFEqm44VT2AcexVsItG0ACcP16u1W88uGuA
-         QIJ++XtVN7qmKeGSzlCizpb6ICpVMJ0z3y//EzICoCvrvEqSkw9FmxHFQZNHwEuntFiA
-         HKZnec3NLs5Mbqz2FXPzdWRqBGLh0lwbDmiq/XgYPlUHPrHvwLoGhOnHqakXSvBsgfF0
-         ch0uC4ivKMqW6uK9va297M4icToDg8WeJ/CAZGLDBbY2BRF/0TqAGbuWOPre1gw73P//
-         nf4nB1i3nOk5JHyuXAJsajhQoPP6gCzAErtZ2N8eNtxP7MQVmdfrwQVQ8UCxieZr1OqV
-         STaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXgIP9KwLZCafElAoZQ7FeNsrql5LKWzN9HR/P045Pn5KnNeiCc7vA0Zm8SVm9/uvNyvthQpF12sxc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmyyNz4UCbpAaluZQ769MByBL2CXEIKMAI5wgrswLd4jTG/4Qw
-	gdL40L27NpXrSnc3U5nS6SPDSq18lJED8/Jdn670YnaYUjeEIHtCXQLCS9btKg/xV53I4FGFsjV
-	uJuZC06YOKw==
-X-Google-Smtp-Source: AGHT+IGvHvXylkHG6WHZrQWzPSMwYKk8K05RhCTgWLj+FR1COmKkfK+rlfyJhr4vBYqNgMXFLIyPTGnZ4b1E
-X-Received: from oibbj22.prod.google.com ([2002:a05:6808:1996:b0:408:fef8:9c6e])
- (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6808:218f:b0:406:71fd:b610
- with SMTP id 5614622812f47-436da1e7e5cmr308794b6e.33.1755558645195; Mon, 18
- Aug 2025 16:10:45 -0700 (PDT)
-Date: Mon, 18 Aug 2025 23:08:52 +0000
-In-Reply-To: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Rpsiob6B"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BALuyTM7Xk/gCG/zGF+p8f+8ZeMOECpNiZW7UoNSLZmv8XEbOEPM/ZIMlpzoJBS+ntFP8xnRusqOCLOsEQDXPMrcKM5o5zvteuDMwGcxKLrgO3X5lxhClXi/U6DvY/aLdeEjfMJBlCC320/qebUFz/g3K7pdY9B1XXg8KTu4ZF3GWCSayRRwnlMVQetxG4/4zwEANayNflmonp1s5SeJgx2qG2Lwg4Pnj5Iz1Me1wfXmDcdpZT5YSuKBeZjxH3vPQaE2LjvK0bNhYTHChmzcOtCzMK4pbOctnSgAxGG0jQEmfaICsOkL8/eLU3b6II5MVZuQU/df6rKsxXDnTJS6jQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qb7BcD36UB6pV/zvOuGc9DLIBGAVQMDkM7YIadwpprQ=;
+ b=ZTINLXtPk/PX/ivKbHjuo9OCVIhHQM8jakf9puETYehcd8spC3qd0jik01r4amcEGVjIK2bKQ/KgK2Ffl/8X7EpyOHmbL9lsM4nGudyBTco2dH8jVUJ1nKCHU88HdE8voEdg7pDCz+EJzZM7aU4hywvI7dv5BjfkJg9BwMlKoEkehdISxNDY+3CcCKiiiV6tc+X2ED6bbPk9d0JkyXSXyqMHLzjXFgv43kKf9KlVlCm4H97aKdQp9fPECh+IS+Fba54W1B/Yh1EPlLuoydkqdK0rctHJUhSAIom/P7o62K482IL7CxYjkmMTWsC1BQdy9vzH+Z8SmOtmHl50AXtIFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gondor.apana.org.au smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qb7BcD36UB6pV/zvOuGc9DLIBGAVQMDkM7YIadwpprQ=;
+ b=Rpsiob6BtfrRxVMzLMMveX6LigMOBVthLUzrIBQsE16c/mC8/SKJQL0NzR9wgWQUXfNo3A/jQqF5Q8D9zoYlzxqtTGeWgTGjKa/4vl9DjMX1FtXSoh0BnK50WHTXWnybksBIy3M3ciYMtnHJ17xxn+nYUT90lRRjQD6G4v33Vqo=
+Received: from BYAPR02CA0051.namprd02.prod.outlook.com (2603:10b6:a03:54::28)
+ by CH3PR12MB8712.namprd12.prod.outlook.com (2603:10b6:610:171::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
+ 2025 23:23:56 +0000
+Received: from CO1PEPF000066E7.namprd05.prod.outlook.com
+ (2603:10b6:a03:54:cafe::97) by BYAPR02CA0051.outlook.office365.com
+ (2603:10b6:a03:54::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.20 via Frontend Transport; Mon,
+ 18 Aug 2025 23:23:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000066E7.mail.protection.outlook.com (10.167.249.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9052.8 via Frontend Transport; Mon, 18 Aug 2025 23:23:55 +0000
+Received: from [10.236.30.53] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 18 Aug
+ 2025 18:23:53 -0500
+Message-ID: <a16f1420-fe20-4c3c-9b75-806b1da22336@amd.com>
+Date: Mon, 18 Aug 2025 18:23:53 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
-X-Mailer: b4 0.14.2
-Message-ID: <20250818-support-forcepads-v3-11-e4f9ab0add84@google.com>
-Subject: [PATCH v3 11/11] HID: multitouch: add haptic multitouch support
-From: Jonathan Denose <jdenose@google.com>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
-	"Sean O'Brien" <seobrien@google.com>, Jonathan Denose <jdenose@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/7] Add SEV-SNP CipherTextHiding feature support
+To: "Kalra, Ashish" <ashish.kalra@amd.com>, Herbert Xu
+	<herbert@gondor.apana.org.au>
+CC: <Neeraj.Upadhyay@amd.com>, <aik@amd.com>, <akpm@linux-foundation.org>,
+	<ardb@kernel.org>, <arnd@arndb.de>, <bp@alien8.de>, <corbet@lwn.net>,
+	<dave.hansen@linux.intel.com>, <davem@davemloft.net>, <hpa@zytor.com>,
+	<john.allen@amd.com>, <kvm@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<michael.roth@amd.com>, <mingo@redhat.com>, <nikunj@amd.com>,
+	<paulmck@kernel.org>, <pbonzini@redhat.com>, <rostedt@goodmis.org>,
+	<seanjc@google.com>, <tglx@linutronix.de>, <thomas.lendacky@amd.com>,
+	<x86@kernel.org>
+References: <cover.1752869333.git.ashish.kalra@amd.com>
+ <20250811203025.25121-1-Ashish.Kalra@amd.com>
+ <aKBDyHxaaUYnzwBz@gondor.apana.org.au>
+ <f2fc55bb-3fc4-4c45-8f0a-4995e8bf5890@amd.com>
+ <51f0c677-1f9f-4059-9166-82fb2ed0ecbb@amd.com>
+ <c17990ac-30b2-4bdc-b31a-811af6052782@amd.com>
+From: Kim Phillips <kim.phillips@amd.com>
+Content-Language: en-US
+In-Reply-To: <c17990ac-30b2-4bdc-b31a-811af6052782@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000066E7:EE_|CH3PR12MB8712:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac4b4607-fe41-4cc1-a26f-08dddeae4d47
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VEszREJsZ3gxcEwvVytOdUZrQXdLS25HWk1HQTZDR0xaUGxQYmxlNGNjYzE3?=
+ =?utf-8?B?THEyOWRaek54aWlqM25WckRrTVVrUzFYT2tmVnpOV3hJcTUxQUhBWGNVTWNV?=
+ =?utf-8?B?VnZsWDY1eUh6Q1BhMWRheWZ0SG5ocnE2TlVwVVRVZng3TWYrMEo5bHVZdFo0?=
+ =?utf-8?B?cUQ4L2R5VVREZ1d4dlc0eVZoakFNUjE1VXBTWTNwVkVVbkw1a3pZVjVIU3NR?=
+ =?utf-8?B?cXB5WUZFd2x5aVE3L0IwQnd1MndkWjhQamhyOU5kSXVRZW9uZmVPb0RBOGZU?=
+ =?utf-8?B?djBJSmRWalNsRjVVSG9QQlM2aFRxeXc5KzdYK1E4ZGU4eUl4b1dXVzdsZFRv?=
+ =?utf-8?B?aCtscFpNRFRQSUNmNWZSR05aTmsxdmovaWxiVXdoL3MwRHJxV3NNOTFNTlB3?=
+ =?utf-8?B?eDNLUkRsY2R5V090LzZMM1VKNXB2Y2g4MTlKd3Y1c2hGVE4yQlU1cW5QenNv?=
+ =?utf-8?B?dGsrS2RJVHEwd2ZHYUxWTTNPeHZ5cDZJZk8rZXlTUlhZcTNPb2xSWGIzYkVr?=
+ =?utf-8?B?aEVtdE03dGVaaU5namt2Y1hZaWZ6WnMxWkNCRWd3YXVMNU16bWxtUFBOWUc4?=
+ =?utf-8?B?aUtVbUpDcm9EdGk5RkNORWhZcnZnS2ZOY1A5cGJHRjZ5bFpNaElzMXdsZS9C?=
+ =?utf-8?B?SUxhNlV3ZXBMcUZuWnlnZ3hIdGErb1pYalZTUWtZODlDWDdJSkZ5R0VZUldx?=
+ =?utf-8?B?dFVuTnJ4N3V6L3I2RXFtdFVXK3kwY0wxMTFuNnErZE96ZzRvZWNFVjBmcnlG?=
+ =?utf-8?B?Z0xTSG1pMWI0VHg3Nk9SZ3l3NjM4b3E5d0ZpV3NGcTlrcG1oSDB1N2lMTHJG?=
+ =?utf-8?B?cHhPclh3U09LajZ3YjIzK3pwTmxBZC9PV21JWGtZRFY1ekcyVk1xYlQrb1dQ?=
+ =?utf-8?B?Y2tYRHdxTzNqcHJWNkdDV2hJNjJEdXhiVWx0TitUSTFOT1NmeUlXUys4bW8w?=
+ =?utf-8?B?cm94blo2ejAwY3VTN2Q2ZWYwZVpzbWhiendHZHJqWnZGYzh2RG5xaHVhU0l0?=
+ =?utf-8?B?VC92TjRPallmdTdMUlcxanhhWVZ2QktWUGY1UXIyNnBmMTg1ZjF0ejBuWlRO?=
+ =?utf-8?B?b2RxaUFFV25WQmhXV09EL1RRWjdycEtTb0ZlcmdJczIwZnRTL2VpZXljTUs2?=
+ =?utf-8?B?aThNVjNYdDJsbCtXUGZScHhHdG1sY0VLK0hjREtZdWNteWlmUmwwKzBCcXZY?=
+ =?utf-8?B?eE5YSVAxbm05K0dSMnA4b2o0d2EvZ2Q0emwya2hMcmZ3bEhXcytveU43dnlF?=
+ =?utf-8?B?WVRURGZHNGhWU2hITGdXYWtEZkN4S3k2OVhvUFVYS05oSWYyL1NnR0ZtcGZQ?=
+ =?utf-8?B?N1kxS0Z2UEpaYlpPNTVENWRTb1RyMDgvWkNBcE5hZi9PQVIxQkJPeWFhaUV4?=
+ =?utf-8?B?R01HVkZHVFhvVWRQU0VzOTgrR3lZVFpCWUNjSXlzb3M5ZHdaSE9aUjhacm9Y?=
+ =?utf-8?B?ZGo3MU1wSzV2WkZZUlkvSnliVk1STUJYb0tHSkdtOXBPWGN5OSs2bE14aVpx?=
+ =?utf-8?B?Yk96YVNJby8rNk5JYXdwR2tOdDBST1pxN21zRUNvRy9oNkN3TStCMVk0aXc2?=
+ =?utf-8?B?Tm4yc0J4Z2ErOGtvbkJzVzN0K096NXozMjgzYy8vZ28wM3FuR1Rmd3Y1c09L?=
+ =?utf-8?B?cmN6cGlWWWVXLzZ0dHVjMVFuaTNVcFAyVzloWGxtRlVkdFBudW9xOTNHVFl4?=
+ =?utf-8?B?NVgvVGVVWjlKdE5xT2s1aHVqSVlsOHZYUDh5YiszdTZqeVdvb3FnRW0zSDNN?=
+ =?utf-8?B?ZGQzcmJ4c0tPNHRYSE8xV1RVbXdVeEpSc1NZaEZWbUNGMmRwbTBHazBLbVZT?=
+ =?utf-8?B?WUh5TWI5RnpleCtGOVJTQW5yZjZqbVpvMlZLNWhhTWk5MkhDNU90TWkyQUM2?=
+ =?utf-8?B?VE5Oa0dHZmYzem04U3lDYi9pMlM1cDM4OVRlaFBwR3Z6MUZMdHZsbmM1Uk5l?=
+ =?utf-8?B?cGJrV0ZkR0szVWFNY2tadXFyMXYwcSt3K1FmSUhGeERZdWU4Mzd1YnFsRkZn?=
+ =?utf-8?B?SzAvd1dUWnBBPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 23:23:55.7342
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac4b4607-fe41-4cc1-a26f-08dddeae4d47
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000066E7.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8712
 
-From: Angela Czubak <aczubak@google.com>
+On 8/18/25 3:39 PM, Kalra, Ashish wrote:
+> On 8/18/2025 2:38 PM, Kim Phillips wrote:
+>> On 8/18/25 2:16 PM, Kalra, Ashish wrote:
+>>> On 8/16/2025 3:39 AM, Herbert Xu wrote:
+>>>> On Mon, Aug 11, 2025 at 08:30:25PM +0000, Ashish Kalra wrote:
+>>>>> Hi Herbert, can you please merge patches 1-5.
+>>>>>
+>>>>> Paolo/Sean/Herbert, i don't know how do you want handle cross-tree merging
+>>>>> for patches 6 & 7.
+>>>> These patches will be at the base of the cryptodev tree for 6.17
+>>>> so it could be pulled into another tree without any risks.
+>>>>
+>>>> Cheers,
+>>> Thanks Herbert for pulling in patches 1-5.
+>>>
+>>> Paolo, can you please merge patches 6 and 7 into the KVM tree.
+>> Hi Ashish,
+>>
+>> I have pending comments on patch 7:
+>>
+>> https://lore.kernel.org/kvm/e32a48dc-a8f7-4770-9e2f-1f3721872a63@amd.com/
+>>
+>> If still not welcome, can you say why you think:
+>>
+>> 1. The ciphertext_hiding_asid_nr variable is necessary
+> I prefer safe coding, and i don't want to update max_snp_asid, until i am sure there are no sanity
+> check failures and that's why i prefer using a *temp* variable and then updating max_snp_asid when i
+> am sure all sanity checks have been done.
+>
+> Otherwise, in your case you are updating max_snp_asid and then rolling it back in case of sanity check
+> failures, i don't like that.
 
-If CONFIG_HID_HAPTIC is enabled, and the device is recognized to have
-simple haptic capabilities, try initializing the haptic device, check
-input frames for pressure and handle it using hid_haptic_* API.
+Item (1):
 
-Signed-off-by: Angela Czubak <aczubak@google.com>
-Co-developed-by: Jonathan Denose <jdenose@google.com>
-Signed-off-by: Jonathan Denose <jdenose@google.com>
----
- drivers/hid/hid-haptic.h     | 16 ++++++++++-----
- drivers/hid/hid-multitouch.c | 47 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+), 5 deletions(-)
+The rollback is in a single place, and the extra variable's existence 
+can be avoided, or, at least have 'temp' somewhere in its name.
 
-diff --git a/drivers/hid/hid-haptic.h b/drivers/hid/hid-haptic.h
-index abdd7d710c0b832ad0be8fe63ebfa7692c8ea5ca..c6539ac04c1dbd36fb25eed9370e6fe747a28f10 100644
---- a/drivers/hid/hid-haptic.h
-+++ b/drivers/hid/hid-haptic.h
-@@ -103,19 +103,25 @@ int hid_haptic_input_configured(struct hid_device *hdev,
- {
- 	return 0;
- }
-+static inline
-+void hid_haptic_reset(struct hid_device *hdev, struct hid_haptic_device *haptic)
-+{}
-+static inline
- int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr)
- {
- 	return 0;
- }
- static inline
--void hid_haptic_handle_press_release(struct hid_haptic_device *haptic)
--{}
-+void hid_haptic_handle_press_release(struct hid_haptic_device *haptic) {}
- static inline
--void hid_haptic_pressure_reset(struct hid_haptic_device *haptic)
--{}
-+bool hid_haptic_handle_input(struct hid_haptic_device *haptic)
-+{
-+	return false;
-+}
-+static inline
-+void hid_haptic_pressure_reset(struct hid_haptic_device *haptic) {}
- static inline
- void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
- 				  __s32 pressure)
- {}
- #endif
--
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index b41001e02da7e02d492bd85743b359ed7ec16e7f..94dd0033290d6ae37d82f0992b94e24ebbc1f301 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -49,6 +49,8 @@ MODULE_LICENSE("GPL");
- 
- #include "hid-ids.h"
- 
-+#include "hid-haptic.h"
-+
- /* quirks to control the device */
- #define MT_QUIRK_NOT_SEEN_MEANS_UP	BIT(0)
- #define MT_QUIRK_SLOT_IS_CONTACTID	BIT(1)
-@@ -167,11 +169,13 @@ struct mt_report_data {
- struct mt_device {
- 	struct mt_class mtclass;	/* our mt device class */
- 	struct timer_list release_timer;	/* to release sticky fingers */
-+	struct hid_haptic_device *haptic;	/* haptic related configuration */
- 	struct hid_device *hdev;	/* hid_device we're attached to */
- 	unsigned long mt_io_flags;	/* mt flags (MT_IO_FLAGS_*) */
- 	__u8 inputmode_value;	/* InputMode HID feature value */
- 	__u8 maxcontacts;
- 	bool is_buttonpad;	/* is this device a button pad? */
-+	bool is_haptic_touchpad;	/* is this device a haptic touchpad? */
- 	bool serial_maybe;	/* need to check for serial protocol */
- 
- 	struct list_head applications;
-@@ -525,6 +529,8 @@ static void mt_feature_mapping(struct hid_device *hdev,
- 			mt_get_feature(hdev, field->report);
- 		break;
- 	}
-+
-+	hid_haptic_feature_mapping(hdev, td->haptic, field, usage);
- }
- 
- static void set_abs(struct input_dev *input, unsigned int code,
-@@ -856,6 +862,9 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 		case HID_DG_TIPPRESSURE:
- 			set_abs(hi->input, ABS_MT_PRESSURE, field,
- 				cls->sn_pressure);
-+			td->is_haptic_touchpad =
-+				hid_haptic_check_pressure_unit(td->haptic,
-+							       hi, field);
- 			MT_STORE_FIELD(p);
- 			return 1;
- 		case HID_DG_SCANTIME:
-@@ -980,6 +989,8 @@ static void mt_sync_frame(struct mt_device *td, struct mt_application *app,
- 
- 	app->num_received = 0;
- 	app->left_button_state = 0;
-+	if (td->is_haptic_touchpad)
-+		hid_haptic_pressure_reset(td->haptic);
- 
- 	if (test_bit(MT_IO_FLAGS_ACTIVE_SLOTS, &td->mt_io_flags))
- 		set_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags);
-@@ -1137,6 +1148,9 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
- 			minor = minor >> 1;
- 		}
- 
-+		if (td->is_haptic_touchpad)
-+			hid_haptic_pressure_increase(td->haptic, *slot->p);
-+
- 		x = hdev->quirks & HID_QUIRK_X_INVERT ?
- 			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
- 			*slot->x;
-@@ -1324,6 +1338,9 @@ static int mt_touch_input_configured(struct hid_device *hdev,
- 	if (cls->is_indirect)
- 		app->mt_flags |= INPUT_MT_POINTER;
- 
-+	if (td->is_haptic_touchpad)
-+		app->mt_flags |= INPUT_MT_TOTAL_FORCE;
-+
- 	if (app->quirks & MT_QUIRK_NOT_SEEN_MEANS_UP)
- 		app->mt_flags |= INPUT_MT_DROP_UNUSED;
- 
-@@ -1359,6 +1376,7 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	struct mt_device *td = hid_get_drvdata(hdev);
- 	struct mt_application *application;
- 	struct mt_report_data *rdata;
-+	int ret;
- 
- 	rdata = mt_find_report_data(td, field->report);
- 	if (!rdata) {
-@@ -1421,6 +1439,11 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	if (field->physical == HID_DG_STYLUS)
- 		hi->application = HID_DG_STYLUS;
- 
-+	ret = hid_haptic_input_mapping(hdev, td->haptic, hi, field, usage, bit,
-+				       max);
-+	if (ret != 0)
-+		return ret;
-+
- 	/* let hid-core decide for the others */
- 	return 0;
- }
-@@ -1635,6 +1658,14 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
- 	struct hid_report *report;
- 	int ret;
- 
-+	if (td->is_haptic_touchpad && (td->mtclass.name == MT_CLS_WIN_8 ||
-+	    td->mtclass.name == MT_CLS_WIN_8_FORCE_MULTI_INPUT)) {
-+		if (hid_haptic_input_configured(hdev, td->haptic, hi) == 0)
-+			td->is_haptic_touchpad = false;
-+	} else {
-+		td->is_haptic_touchpad = false;
-+	}
-+
- 	list_for_each_entry(report, &hi->reports, hidinput_list) {
- 		rdata = mt_find_report_data(td, report);
- 		if (!rdata) {
-@@ -1777,6 +1808,11 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		dev_err(&hdev->dev, "cannot allocate multitouch data\n");
- 		return -ENOMEM;
- 	}
-+	td->haptic = devm_kzalloc(&hdev->dev, sizeof(*(td->haptic)), GFP_KERNEL);
-+	if (!td->haptic)
-+		return -ENOMEM;
-+
-+	td->haptic->hdev = hdev;
- 	td->hdev = hdev;
- 	td->mtclass = *mtclass;
- 	td->inputmode_value = MT_INPUTMODE_TOUCHSCREEN;
-@@ -1840,6 +1876,17 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 
- 	mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
- 
-+	if (td->is_haptic_touchpad) {
-+		if (hid_haptic_init(hdev, &td->haptic)) {
-+			dev_warn(&hdev->dev, "Cannot allocate haptic for %s\n",
-+				 hdev->name);
-+			td->is_haptic_touchpad = false;
-+			devm_kfree(&hdev->dev, td->haptic);
-+		}
-+	} else {
-+		devm_kfree(&hdev->dev, td->haptic);
-+	}
-+
- 	return 0;
- }
- 
+FWIW, any "Safe coding" practices should have been performed prior to 
+the submission of the patch, IMO.
 
--- 
-2.51.0.rc1.193.gad69d77794-goog
+>> 2. The isdigit(ciphertext_hiding_asids[0])) check is needed when it's immediately followed by kstrtoint which effectively makes the open-coded isdigit check  redundant?
+> isdigit() is a MACRO compared to kstrtoint() call, it is more optimal to do an inline check and avoid
+> calling kstrtoint() if the parameter is not a number.
+
+Item (2):
+
+This is module initialization code, it's better optimized for 
+readability than for performance.  As a reader of the code, I'm 
+constantly wondering why the redundancy exists, and am sure it is made 
+objectively easier to read if the isdigit() check were removed.
+
+>> 3. Why the 'invalid_parameter:' label referenced by only one goto statement can't be folded and removed.
+> This is for understandable code flow :
+>
+> 1). Check module parameter is set by user.
+> 2). Check ciphertext_hiding_feature enabled.
+> 3). Check if parameter is numeric.
+>      Sanity checks on numeric parameter
+>      If checks fail goto invalid_parameter
+> 4). Check if parameter is the string "max".
+> 5). Set max_snp_asid and min_sev_es_asid.
+> 6). Fall-through to invalid parameter.
+> invalid_parameter:
+>
+> This is overall a more understandable code flow.
+
+Item (3):
+
+That's not how your original v7 flows, but I do now see the non-obvious 
+fall-through from the else if (...'max'...).  I believe I am not alone 
+in missing that, and that a comment would have helped. Also, the 'else' 
+isn't required
+
+Flow readability-wise, comparing the two, after the two common if()s, 
+your original v7 goes:
+
+{
+...
+     if (isdigit() {
+         if (kstrtoint())
+             goto invalid_parameter
+         if (temporary variable >= min_sev_asid) {
+             pr_warn()
+             return false;
+     } else if (..."max"...) {
+         temporary variable = ...
+         /* non-obvious fallthrough to invalid_parameter iff 
+temporary_variable == 0 */
+     }
+
+     if (temporary variable) {
+         max_snp_asid = ...
+         min_sev_es_asid = ...
+         pr_info(..."enabled"...)
+         return true;
+     }
+
+invalid_parameter:
+     pr_warn()
+     return false;
+}
+
+vs the result of my latest diff:
+
+{
+...
+     if (..."max"...) {
+         max_snp_asid =
+         min_sev_es_asid = ...
+         return true;
+     }
+
+     if (kstrtoint()) {
+         pr_warn()
+         return false
+     }
+
+     if (max_snp_asid < 1 || >= min_sev_asid) {
+         pr_warn()
+         max_snp_asid = /* rollback */
+         return false;
+     }
+
+     min_sev_es_asid = ...
+
+     return true;
+}
+
+So, just from an outright flow perspective, I believe my latest diff is 
+objectively easier to follow.
+
+> Again, this is just a module parameter checking function and not something which will affect runtime performance by eliminating a single temporary variable or jump label.
+With this statement, you self-contradict your rationale to keep your 
+version of the above to Item (2): "isdigit() is a MACRO compared to 
+kstrtoint() call, it is more optimal to do an inline check and avoid 
+calling kstrtoint() if the parameter is not a number". If not willing to 
+take my latest diff as-is, I really would like to see:
+
+Item (1)'s variable get a temporary-sounding name,
+item (2)'s the isdigit() check (and thus a whole indentation level) 
+removed, and
+item (3)'s flow reconsidered given the (IMO objective) readability 
+enhancement.
+
+Thanks,
+
+Kim
 
