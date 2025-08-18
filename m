@@ -1,48 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602C532BF49;
-	Mon, 18 Aug 2025 18:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85AE311947;
+	Mon, 18 Aug 2025 18:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755540611; cv=none; b=NSq5QepvjhZEXL/uH7mUdnW5dKaH2YV7RIHrO04UUjugRo0Bo3kpH/RVlfz1dC22YvVH55yN58S0iy2MWE9xSOsMltXjAYBrHaod7trxRfrJKC4EsDb7dX2zjyIkPOwas6N7pIq10ieRJl8kpXJ6IZ21g40wEpTDxOOEP2ICIaE=
+	t=1755541234; cv=none; b=mmqel6w2CkJrd93dQmZV6WlZyV7HXxpFLRG7VNDicYUTsxuPyh8ncvYkf6WjFhsfLp9L8Md5kwmXWpTYoPNZjHPIj4MS331crDdS0wDufk3/MeZoix/y1d3cBTFEUJPxlBZk+ZbDgfbEqOsPGVyrM5xhz1+RBrjwutAWxVr1sOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755540611; c=relaxed/simple;
-	bh=pSUYHeQFFjfTKV4SrKrg5p5P0FR3kF+lS2zeb56AmEE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T5tpNf9Jtocfk4Dlst1CreFZG+XnersdgDfELLPrYwFaOMihn74XsjNxukryywN6VNnB9Qc74/7nxV2ajd8K/Ir2EgTqL3O8XzP3KqCyYk5sYd+d0ynLrnwnywLUcxkL9GWLf4acWciP7X4rWEkUyLQbd6qohn5/rd0g/3CrGtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pqnD8BNG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755541234; c=relaxed/simple;
+	bh=PwIjObjNEXnILCG6Etqwvak9uZ8WrPCGLpoI1Xb4OBQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IHGVsrloCRrRKB31WcqriYWqyDOa6Uj8z34CXsso24Vljxqp4+xqLDTnQLYpMiinio4ZVtxoH4hp5vmp8Vdz21B9okwkCOaudD4iKZ3uI2b1ZRxv56Wid+pBc2ZvRNK9dpQH9COh9NzE9qaTCxq3c0X7KqUht+Jv/63i1+9NJAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AcnOrGkU; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pqnD8BNG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DCFDC4CEEB;
-	Mon, 18 Aug 2025 18:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755540609;
-	bh=pSUYHeQFFjfTKV4SrKrg5p5P0FR3kF+lS2zeb56AmEE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pqnD8BNGIzE7+OVaO2QIYI+pAI2A23y6Tv9IUkeXitQN8triKhyofOpP5PVZkwPRI
-	 iUkfpr3qo5TSO9MzKxHV73nG5p9/qHkoGhOVn/exoAL7PhEZXMF4VLC0+DWl370ZT4
-	 HRwKaSpVJvxHfMt1getZoP2z/EXMTc82gGQ+WYR3/i5rFppKmYchMR9WenLGHYZl7g
-	 cEB7X/rXun0yfL1/w55DXTNDKhTUetG2m0JZr+iWRaLsWPF324ErHZ0uzxaDf/aYzA
-	 dl4qxPPdEaCZdqIWjOk6oVDPbaOeJgwcdq8k2LKJ2ko6wHEz/cP5Odcmoyz2fTpMgu
-	 vswVeHuWhKSZg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uo4J5-00000001sQb-1RN9;
-	Mon, 18 Aug 2025 20:10:07 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	corbet@lwn.net
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Akira Yokosawa" <akiyks@gmail.com>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] scripts/sphinx-build-wrapper: allow building PDF files in parallel
-Date: Mon, 18 Aug 2025 20:10:01 +0200
-Message-ID: <26e5efca73dbd2f863a51018054a749c9e5f5a19.1755540431.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1755540431.git.mchehab+huawei@kernel.org>
-References: <cover.1755540431.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AcnOrGkU"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b109c63e84so47986391cf.3;
+        Mon, 18 Aug 2025 11:20:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755541232; x=1756146032; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nrSYI9QoQCti3KzYW07TUz+VPNm/G69l6PB9811/RbE=;
+        b=AcnOrGkUoHW/0YGAc9i0/ceyxNKvmu5rPsnUBlvWaU6ODg6sZEHLBly6c3LTqavvNw
+         Za1G7D5D89Z24L+uHhVp9YJTLTylXZLSHaTczlt/8xNaIXNs44dnvLThyal+bDrrYayU
+         NrWgWBOyMzhNEZDVCOpt67tDQ/polzy4ZXzns8I9CuOkMCYr9aeTMAruyitmfuRaiOMy
+         /v6lDN6PW/1B56sOBB0jyZBypHZmk7nfBhjWB4fRd8RmuttOjOgCGEJmCwVoGmjNQAUO
+         s6s91ay05gXkPvKhPR1+flSmaSFzgITt4+rauUkX09ftOU6lklNw7/JOYfsV2HXNFX20
+         Fgzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755541232; x=1756146032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nrSYI9QoQCti3KzYW07TUz+VPNm/G69l6PB9811/RbE=;
+        b=RXs+UXoFONl8UQP82K0sx4ma5EAiYciPpiDPUzCFVf/3BEFzI8VlLhRsR48ZzHLpVP
+         jPfoAcr3SF8zU8Z06D+lChwOBgviC8amJoxAAnp5XT80xBquQDWaX5jj+C3sm9nAkQxs
+         roCd53UYt00wXQxJLPWXdkw8JBWLmpherw5szOk7yGJ+AA8gHJdVMzfr8wa0e3bcTX4M
+         zf+FCE4jScbFCVevPo3fYrTA1dITv/BndRFgQ17f6gzXnQcfHH/hmcBEezTVSdiNfYGW
+         4a+CSwxPIuPelIH3WS0Cnl08SGr/600P0Z9zYtFUqfSsukm8vYhiQu0q7RBpG9eAjFul
+         sUCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZUJ2f9tayHXr55QauvYtXJMVFSw5bywUJw1sFzV7qh1ho1MiUJue/O7Jm7XY0IWf3g0iheOSjcEgKnGWE@vger.kernel.org, AJvYcCVteHywpdojjZzFr6Qbw3RMH8C1L1zun5uL8Z5wUwDL88mi4XNGXdsmeE9KF9Lt6d4zNUTIShuePak=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4isB2oCWrL/e1hQ24wK68lwXYk3yqfsFItxs0ZttoKXSSoNtT
+	SuGaCFVUU9g2/Q3j1Do5/Vcrw0Uy31E/t7R12H7D/zdF9HgUoK95CPQh
+X-Gm-Gg: ASbGncv7jFive95E6/5pOCq3AVTeOOxNZDP7vyqzrxgptO4sVU/SPE10f4cT56332qD
+	DPOmyah/WgmXp+Osq1mwBYQfKqxHkJewVlRR68RLGhniSj27l96p5Bh9/FnFyGO2sSAhU2/FJBk
+	5n/si2Mz0bx84WXnUnmP5oPuHW6g3+GDNPMaKuCaPu85PUBW9ozjLEOB5YqoOHla6GPLzgeSyQ5
+	sYafK+IOZvIaR5JppZJ1uqspV1JKD88vrD0fmlQA1CqWiXZgXxxruM/7ID0+WEs/WEoxrrkO4aA
+	vN9SdLI7fJE7Dly+AIas9AvjPURbCpk386eZ22Kcz+3rNDbeYAYkly4FQ97U5SoUEs4THjC7nkV
+	/GUQCplmgU0Asf9Fim0Vmh5WokLUioT/6/8mSQZ8G6Ic=
+X-Google-Smtp-Source: AGHT+IFdCFoIWH+NW1tEJJiuqHiXqdPjwHco3+jsUBbyLhPEQe/utSV/NDFrs3kVmC/ukjigzg+GIw==
+X-Received: by 2002:a05:622a:1246:b0:4b0:e934:6ff4 with SMTP id d75a77b69052e-4b2856f4c32mr188791cf.52.1755541231475;
+        Mon, 18 Aug 2025 11:20:31 -0700 (PDT)
+Received: from rpthibeault-XPS-13-9305.. ([23.233.177.113])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b11dc188desm55994811cf.2.2025.08.18.11.20.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 11:20:31 -0700 (PDT)
+From: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+To: corbet@lwn.net,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	skhan@linuxfoundation.org
+Cc: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] docs: fix trailing whitespace error and remove repeated words in propagate_umount.txt
+Date: Mon, 18 Aug 2025 14:19:34 -0400
+Message-ID: <20250818181934.55491-2-rpthibeault@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,228 +76,48 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Use POSIX jobserver when available or -j<number> to run PDF
-builds in parallel, restoring pdf build performance. Yet,
-running it when debugging troubles is a bad idea, so, when
-calling directly via command line, except if "-j" is splicitly
-requested, it will serialize the build.
+in Documentation/filesystems/propagate_umount.txt:
+line 289: remove whitespace on blank line
+line 315: remove duplicate "that"
+line 364: remove duplicate "in"
 
-With such change, a PDF doc builds now takes around 5 minutes
-on a Ryzen 9 machine with 32 cpu threads:
-
-	# Explicitly paralelize both Sphinx and LaTeX pdf builds
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs -j 33
-
-	real	5m17.901s
-	user	15m1.499s
-	sys	2m31.482s
-
-	# Use POSIX jobserver to paralelize both sphinx-build and LaTeX
-	$ make cleandocs; time make pdfdocs
-
-	real	5m22.369s
-	user	15m9.076s
-	sys	2m31.419s
-
-	# Serializes PDF build, while keeping Sphinx parallelized.
-	# it is equivalent of passing -jauto via command line
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs
-
-	real	11m20.901s
-	user	13m2.910s
-	sys	1m44.553s
-
-Reported-by: Akira Yokosawa <akiyks@gmail.com>
-Closes: https://lore.kernel.org/linux-doc/9b3b0430-066f-486e-89cc-00e6f1f3b096@gmail.com/
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
 ---
- scripts/sphinx-build-wrapper | 141 ++++++++++++++++++++++++++---------
- 1 file changed, 106 insertions(+), 35 deletions(-)
+ Documentation/filesystems/propagate_umount.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/sphinx-build-wrapper b/scripts/sphinx-build-wrapper
-index f21701d34552..0d13c19f6df3 100755
---- a/scripts/sphinx-build-wrapper
-+++ b/scripts/sphinx-build-wrapper
-@@ -53,6 +53,7 @@ import shutil
- import subprocess
- import sys
+diff --git a/Documentation/filesystems/propagate_umount.txt b/Documentation/filesystems/propagate_umount.txt
+index c90349e5b889..9a7eb96df300 100644
+--- a/Documentation/filesystems/propagate_umount.txt
++++ b/Documentation/filesystems/propagate_umount.txt
+@@ -286,7 +286,7 @@ Trim_one(m)
+ 		strip the "seen by Trim_ancestors" mark from m
+ 		remove m from the Candidates list
+ 		return
+-		
++
+ 	remove_this = false
+ 	found = false
+ 	for each n in children(m)
+@@ -312,7 +312,7 @@ Trim_ancestors(m)
+ 	}
  
-+from concurrent import futures
- from glob import glob
- 
- LIB_DIR = "lib"
-@@ -295,6 +296,76 @@ class SphinxBuilder:
-         except (OSError, IOError) as e:
-             print(f"Warning: Failed to copy CSS: {e}", file=sys.stderr)
- 
-+    def build_pdf_file(self, latex_cmd, from_dir, path):
-+        """Builds a single pdf file using latex_cmd"""
-+        try:
-+            subprocess.run(latex_cmd + [path],
-+                            cwd=from_dir, check=True)
-+
-+            return True
-+        except subprocess.CalledProcessError:
-+            # LaTeX PDF error code is almost useless: it returns
-+            # error codes even when build succeeds but has warnings.
-+            # So, we'll ignore the results
-+            return False
-+
-+    def pdf_parallel_build(self, tex_suffix, latex_cmd, tex_files, n_jobs):
-+        """Build PDF files in parallel if possible"""
-+        builds = {}
-+        build_failed = False
-+        max_len = 0
-+        has_tex = False
-+
-+        # Process files in parallel
-+        with futures.ThreadPoolExecutor(max_workers=n_jobs) as executor:
-+            jobs = {}
-+
-+            for from_dir, pdf_dir, entry in tex_files:
-+                name = entry.name
-+
-+                if not name.endswith(tex_suffix):
-+                    continue
-+
-+                name = name[:-len(tex_suffix)]
-+
-+                max_len = max(max_len, len(name))
-+
-+                has_tex = True
-+
-+                future = executor.submit(self.build_pdf_file, latex_cmd,
-+                                         from_dir, entry.path)
-+                jobs[future] = (from_dir, name, entry.path)
-+
-+            for future in futures.as_completed(jobs):
-+                from_dir, name, path = jobs[future]
-+
-+                pdf_name = name + ".pdf"
-+                pdf_from = os.path.join(from_dir, pdf_name)
-+
-+                try:
-+                    success = future.result()
-+
-+                    if success and os.path.exists(pdf_from):
-+                        pdf_to = os.path.join(pdf_dir, pdf_name)
-+
-+                        os.rename(pdf_from, pdf_to)
-+                        builds[name] = os.path.relpath(pdf_to, self.builddir)
-+                    else:
-+                        builds[name] = "FAILED"
-+                        build_failed = True
-+                except Exception as e:
-+                    builds[name] = f"FAILED ({str(e)})"
-+                    build_failed = True
-+
-+        # Handle case where no .tex files were found
-+        if not has_tex:
-+            name = "Sphinx LaTeX builder"
-+            max_len = max(max_len, len(name))
-+            builds[name] = "FAILED (no .tex file was generated)"
-+            build_failed = True
-+
-+        return builds, build_failed, max_len
-+
-     def handle_pdf(self, output_dirs):
-         """
-         Extra steps for PDF output.
-@@ -305,7 +376,10 @@ class SphinxBuilder:
-         """
-         builds = {}
-         max_len = 0
-+        tex_suffix = ".tex"
- 
-+        # Get all tex files that will be used for PDF build
-+        tex_files = []
-         for from_dir in output_dirs:
-             pdf_dir = os.path.join(from_dir, "../pdf")
-             os.makedirs(pdf_dir, exist_ok=True)
-@@ -317,49 +391,46 @@ class SphinxBuilder:
- 
-             latex_cmd.extend(shlex.split(self.latexopts))
- 
--            tex_suffix = ".tex"
--
--            # Process each .tex file
--            has_tex = False
--            build_failed = False
-+            # Get a list of tex files to process
-             with os.scandir(from_dir) as it:
-                 for entry in it:
--                    if not entry.name.endswith(tex_suffix):
--                        continue
-+                    if entry.name.endswith(tex_suffix):
-+                        tex_files.append((from_dir, pdf_dir, entry))
- 
--                    name = entry.name[:-len(tex_suffix)]
--                    has_tex = True
-+        # When using make, this won't be used, as the number of jobs comes
-+        # from POSIX jobserver. So, this covers the case where build comes
-+        # from command line. On such case, serialize by default, except if
-+        # the user explicitly sets the number of jobs.
-+        n_jobs = 1
- 
--                    try:
--                        subprocess.run(latex_cmd + [entry.path],
--                                       cwd=from_dir, check=True)
--                    except subprocess.CalledProcessError:
--                        # LaTeX PDF error code is almost useless: it returns
--                        # error codes even when build succeeds but has warnings.
--                        pass
-+        # n_jobs is either an integer or "auto". Only use it if it is a number
-+        if self.n_jobs:
-+            try:
-+                n_jobs = int(self.n_jobs)
-+            except ValueError:
-+                pass
- 
--                    # Instead of checking errors, let's do the next best thing:
--                    # check if the PDF file was actually created.
-+        # When using make, jobserver.claim is the number of jobs that were
-+        # used with "-j" and that aren't used by other make targets
-+        with JobserverExec() as jobserver:
-+            n_jobs = 1
- 
--                    pdf_name = name + ".pdf"
--                    pdf_from = os.path.join(from_dir, pdf_name)
--                    pdf_to = os.path.join(pdf_dir, pdf_name)
-+            # Handle the case when a parameter is passed via command line,
-+            # using it as default, if jobserver doesn't claim anything
-+            if self.n_jobs:
-+                try:
-+                    n_jobs = int(self.n_jobs)
-+                except ValueError:
-+                    pass
- 
--                    if os.path.exists(pdf_from):
--                        os.rename(pdf_from, pdf_to)
--                        builds[name] = os.path.relpath(pdf_to, self.builddir)
--                    else:
--                        builds[name] = "FAILED"
--                        build_failed = True
-+            if jobserver.claim:
-+                n_jobs = jobserver.claim
- 
--                    name = entry.name.removesuffix(".tex")
--                    max_len = max(max_len, len(name))
--
--            if not has_tex:
--                name = os.path.basename(from_dir)
--                max_len = max(max_len, len(name))
--                builds[name] = "FAILED (no .tex)"
--                build_failed = True
-+            # Build files in parallel
-+            builds, build_failed, max_len = self.pdf_parallel_build(tex_suffix,
-+                                                                    latex_cmd,
-+                                                                    tex_files,
-+                                                                    n_jobs)
- 
-         msg = "Summary"
-         msg += "\n" + "=" * len(msg)
+ 	Terminating condition in the loop in Trim_ancestors() is correct,
+-since that that loop will never run into p belonging to U - p is always
++since that loop will never run into p belonging to U - p is always
+ an ancestor of argument of Trim_one() and since U is closed, the argument
+ of Trim_one() would also have to belong to U.  But Trim_one() is never
+ called for elements of U.  In other words, p belongs to S if and only
+@@ -361,7 +361,7 @@ such removals.
+ Proof: suppose S was non-shifting, x is a locked element of S, parent of x
+ is not in S and S - {x} is not non-shifting.  Then there is an element m
+ in S - {x} and a subtree mounted strictly inside m, such that m contains
+-an element not in in S - {x}.  Since S is non-shifting, everything in
++an element not in S - {x}.  Since S is non-shifting, everything in
+ that subtree must belong to S.  But that means that this subtree must
+ contain x somewhere *and* that parent of x either belongs that subtree
+ or is equal to m.  Either way it must belong to S.  Contradiction.
 -- 
-2.50.1
+2.43.0
 
