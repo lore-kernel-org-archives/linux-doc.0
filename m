@@ -1,190 +1,91 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BDA2459E1;
-	Mon, 18 Aug 2025 02:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A51111A8;
+	Mon, 18 Aug 2025 02:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755483434; cv=none; b=Cd7MnfB2opU5MqNy8BmTIdzhJJxOKru2aah31u34NJ5tExzt++iq71BH7xOxik9wvIBt+/lZ+46hftlTg/vJ0+/rx+hdGF1Ic5lSxo0l1vo9iYs+Cakp4mkCDrRdWpbB4yFHyQo93zSF19hz0Fkgm3VxswALHGeDVDQ9U/5O8ak=
+	t=1755484308; cv=none; b=pAiCg7WqcRXOFirufHYl4zu6OSfCH+7jQKSG7VKLwdGxxYglZhBTn/M8j/3WXj64dY96fWFCumJQKqS2ef1aNzXhGgioyZtT3v3pF4uz6u9vcD1gCwnJZATMyTUK6VU2Pyh0cjTxf40Pcdl+94tY5hZSoF2uMehC6Y3yQjF3JoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755483434; c=relaxed/simple;
-	bh=DkI8PHPeptSQVxGgA+vwNi4TFVYR9eQDIXUem0HipI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sb8hKQG7WuzJKLwaLWOcUNgPfuNHVKuMd1Ils8kchw34PDVoMJ58w6Yce+FTFL1dSgqQTbP252B0QpYgjpT8e8q/ZxBKOw937npgO00iydtFuqh3bKjc3HgUrt5X81idWgrJ3w121hKIts855YDMIT3CbM999RtPWaPtgo8/oHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpgz9t1755483266t232adb71
-X-QQ-Originating-IP: UCwSp3ZXIX+i4qABggLBvhtpUNEtadG3qkHLkiDF9cI=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 18 Aug 2025 10:14:24 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12181084716518767878
-Date: Mon, 18 Aug 2025 10:14:24 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <955130413833E341+20250818021424.GA1385422@nic-Precision-5820-Tower>
-References: <20250814073855.1060601-1-dong100@mucse.com>
- <20250814073855.1060601-5-dong100@mucse.com>
- <eebc7ed8-f6c5-4095-b33e-251411f26f0a@lunn.ch>
- <3A381A779EB97B74+20250815063656.GA1148411@nic-Precision-5820-Tower>
- <0890f9e0-1115-4fa3-8c1c-0f2e8e5625de@lunn.ch>
+	s=arc-20240116; t=1755484308; c=relaxed/simple;
+	bh=+4qNgvQy+1/DLXb5T9gVXI3Pk7l/GEhUmzDE8+k73io=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=mIWTyGdRE2Oi6xRJ8gGEuglR3PIfdtqV7wUaFZYVxaQP87JlJDK/UBcbD1UbENFak5G9uZDqtNKD4x/kHHubAQOGI7mltN4rVODN9i1xhqFqo2tiZH844zAGczn3UJbY3V5zMLhsyjwEX6h38adzRIylv5TJs7dLrUpVpVGF+k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvhcQeBh; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvhcQeBh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 444D3C4CEEB;
+	Mon, 18 Aug 2025 02:31:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755484308;
+	bh=+4qNgvQy+1/DLXb5T9gVXI3Pk7l/GEhUmzDE8+k73io=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=FvhcQeBhjPfGwyTq8WFWxQUK2NfwdnlgZlEwiUIyhorqrJYjszn5bZ95MvUQq6jv9
+	 6FXfDMGRXYXq+dUZ2zvu4bXlYoPDTQMF05e3tHCqX34ERBlbWc7zrqPnEEqjtsxtgN
+	 oK0iuWPFZwaRhRsMmWajOAOeQE8ZcMA1f5kS5qjHpmHKrAFLK9Ml4IBfb1AL9A29/8
+	 nC26G72IUWXFFQSu61NCKXHBjX9HVy5a6xnJfOutnGrJ6uToteAKyNAmM1A23W3lvc
+	 tf7NsvzJSpmqS+M+6b6pa6O3bgamHYIpEgPE89UQ6oNMFFOW4V69Bsym1rSBg04rVj
+	 3e3vOdYHuCZeQ==
+Date: Sun, 17 Aug 2025 21:31:47 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0890f9e0-1115-4fa3-8c1c-0f2e8e5625de@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NZcrde3zhHkVzeva99MKTzBquxQqcGxPMpv7Q2jOBY4wwScOtv2PPQ3L
-	bH8Yrkibo4FI6VTxo1uajhTpUJ0b6Vasf+YTWXOxj1eqj+NVEsGIo/wOeh7bvn9fMpG05iI
-	iVKrSstUDRnFGKz/U6XgbOjfehubKqhyEcWlzxy8Xy2u0x6seEZ4SvN/4lSuJ0vxrpg/76E
-	iBLSnnko9wKMF6ib/81H4F2FjBZkwqoV07MZQ72dQ+DLFpR3Se1SdlTCehiPXgZD/6wM/YA
-	d1eh71HJbyIOH/jcca7gX/IMF0wAJzXFkCwKvF+idhyj9W1fSdcerr00Bw9T2Hk9fuKNO5a
-	9A8cPX5PWdyX59p5X2FtKzXHlLrrLEHdWt66yjJckfFup4lhqIax2BXxdRacN4NDMw9uJJU
-	k6bzRFmD2Bzs4BkeVhctfeUwYe/giclDYy++0FRtG+nT5ehw+QcmaqmrAi9gxyOLR6eipYk
-	P2y57C3KpWZE0k68xRwxbO28eV6HaTEGiZpJVOQzmMIGAzgSTsKZNY5gY53o8oM2uEGwoIE
-	h+1jo7wOozLhocOzSnmwOujO6RjDAUqpWEvgFZVjLM2CfaJN4ZdUsZx4h6XGdg+lK41ix8s
-	ZpUTLVF6I/B7eRp2qJVHNKechAqvK6dsfEGgbruUv7hjyYeabFPRNvxE17GNOn4ZZGZsWQb
-	7ZyB19n0zaXDyuO8c1JLVYJGsvuAo8yCBnrtFrypMmCIg+6XFvw44hcjMMEkLV0R9KWSAix
-	Zf5BiJnK6v88S8epR+yAJ23Auv2mIaeRpCEJ9nsZ7hqq8vcsGNepx3UleBrXIxCx4YjJfXu
-	lGbsNmZH8j7VCQ9oXizDl/A2r4j2AtsrXx6YnWZHArYHoLg7vGP/0IfD2d0slapw7upgTHo
-	l67VWnsN01qsoqXVIL7b+An6ErcqwzoQ72mhTH4sxjWPKRce4hD80MZgbit52CLZuBdfSOS
-	1gyNcburwUk5NG7IkLXRn91y8q//LjbKBd53Yj08NVHlv3Kn+5l2IkRKADjEYFYChB7WbT4
-	UUVkl0BM2Pbn88cywC
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-QQ-RECHKSPAM: 0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: lee@kernel.org, linux-leds@vger.kernel.org, corbet@lwn.net, 
+ christophe.jaillet@wanadoo.fr, devicetree@vger.kernel.org, 
+ krzk+dt@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ rdunlap@infradead.org, pavel@kernel.org, conor+dt@kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Nam Tran <trannamatk@gmail.com>
+In-Reply-To: <20250818012654.143058-2-trannamatk@gmail.com>
+References: <20250818012654.143058-1-trannamatk@gmail.com>
+ <20250818012654.143058-2-trannamatk@gmail.com>
+Message-Id: <175548430728.3642063.6873272310272616172.robh@kernel.org>
+Subject: Re: [PATCH v13 RESEND 1/4] dt-bindings: leds: add TI/National
+ Semiconductor LP5812 LED Driver
 
-On Fri, Aug 15, 2025 at 03:21:33PM +0200, Andrew Lunn wrote:
-> > > > +		return err;
-> > > > +	}
-> > > > +	do {
-> > > > +		err = wait_event_interruptible_timeout(cookie->wait,
-> > > > +						       cookie->done == 1,
-> > > > +						       cookie->timeout_jiffes);
-> > > > +	} while (err == -ERESTARTSYS);
-> > > 
-> > > This needs a comment, because i don't understand it.
-> > > 
-> > > 
-> > 
-> > wait_event_interruptible_timeout return -ERESTARTSYS if it was interrupted
-> > by a signal, which will cause misjudgement about cookie->done is timeout. 
-> > In this case, just wait for timeout.
-> > Maybe comment link this?
-> > /* If it was interrupted by a signal (-ERESTARTSYS), it is not true timeout,
-> >  * just wait again.
-> >  */
+
+On Mon, 18 Aug 2025 08:26:51 +0700, Nam Tran wrote:
+> The LP5812 is a 4x3 RGB LED driver with an autonomous animation
+> engine and time-cross-multiplexing (TCM) support for up to 12 LEDs
+> or 4 RGB LEDs. It supports both analog (256 levels) and PWM (8-bit)
+> dimming, including exponential PWM for smooth brightness control.
 > 
-> But why use wait_event_interruptible_timout() if you are going to
-> ignore all interrupts, a.k.a. signals? Why not use
-> wait_event_timeout()?
+> Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/leds/ti,lp5812.yaml   | 229 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  2 files changed, 235 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
 > 
 
-Yes, I should use wait_event_timeout, I will fix it.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> > > What exactly is a lane here? Normally we would think of a lane is
-> > > -KR4, 4 SERDES lanes making one port. But the MAC address is a
-> > > property of the port, not the lane within a port.
-> > > 
-> > 
-> > lane is the valid bit in 'reply.mac_addr.ports'.
-> > Maybe change it to 'port', that is more appropriate.
-> 
-> You need to be careful with your terms. I read in another patch, that
-> there is a dual version and a quad version. I've not yet seen how you
-> handle this, but i assume they are identical, and appear on the PCI
-> bus X number of times, and this driver will probe X times, once per
-> instance. We would normally refer to each instance as an
-> interface. But this driver also mentions PF, so i assume you also have
-> VFs? And if you have VF, i assume you have an embedded switch which
-> each of the VFs are connected to. Each VF would normally be connected
-> to a port of the switch.
-> 
-> So even though you don't have VF support yet, you should be thinking
-> forward. In the big picture architecture, what does this lane/port
-> represent? What do other drivers call it?
-> 
+yamllint warnings/errors:
 
-"lane/port" in the code does not refer to SERDES physical lanes (like KR4’s
-4 lanes per port). It is for physical network ports (or a PF). We use
-it as a valid bit since fw cmd support multiple physical network ports
-within a pci device (with one mbx handler). So, for each PCI bus X, 'port'
-is started from 0. 
+dtschema/dtc warnings/errors:
 
-PCI bus X -- port0
-	  |
-	  -- port1
 
-PCI bus Y -- port0
-	  |
-	  -- port1
+doc reference errors (make refcheckdocs):
 
-> > > Another example of a bad structure layout. It would of been much
-> > > better to put the two u8 after speed.
-> > > 
-> > > > +} __packed;
-> > > 
-> > > And because this is packed, and badly aligned, you are forcing the
-> > > compiler to do a lot more work accessing these members.
-> > > 
-> > 
-> > Yes, It is bad. But FW use this define, I can only follow the define...
-> > Maybe I can add comment here?
-> > /* Must follow FW define here */ 
-> 
-> No need. When somebody sees __packed, it becomes obvious this is ABI
-> and cannot be changed. Just think about it for any future extensions
-> to the firmware ABI.
-> 
-> > 
-> > > > +
-> > > > +static inline void ability_update_host_endian(struct hw_abilities *abi)
-> > > > +{
-> > > > +	u32 host_val = le32_to_cpu(abi->ext_ability);
-> > > > +
-> > > > +	abi->e_host = *(typeof(abi->e_host) *)&host_val;
-> > > > +}
-> > > 
-> > > Please add a comment what this is doing, it is not obvious.
-> > > 
-> > > 
-> > 
-> > Maybe link this?
-> > /* Converts the little-endian ext_ability field to host byte order,
-> >  * then copies the value into the e_host field by reinterpreting the
-> >  * memory as the type of e_host (likely a bitfield or structure that
-> >  * represents the extended abilities in a host-friendly format).
-> >  */
-> 
-> This explains what you are doing, but why? Why do you do this only to
-> this field? What about all the others?
-> 
->      Andrew
-> 
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250818012654.143058-2-trannamatk@gmail.com
 
-FW stores extended ability information in `ext_ability` as a 32-bit
-little-endian value. To make these flags easily accessible in the kernel
-(via named 'bitfields' instead of raw bitmask operations), we use the union's
-`e_host` struct, which provides named bits (e.g., `wol_en`, `smbus_en`).
-Others 'not bitfields' is just use 'lexx_to_cpu' when value is used.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Thanks for your feedback.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
