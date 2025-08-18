@@ -1,102 +1,73 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464AF3314A2;
-	Mon, 18 Aug 2025 18:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B891B253355;
+	Mon, 18 Aug 2025 18:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755541646; cv=none; b=F8R+KsSE3Qsh7RlUb/YaL8LxbfCgu8NOH5G7vbdrjDxlp19ItXC3wfsevECOl4SajXGRb6ccdPzCWEItNn3Aa9l//zj1Lw/O0U7BU8D6bGJ9ZTsHqvErYgLY6mvLEUyKAeNowt9ujUxy21pMoXXPtdrgHZAC6npIT8kMOhJTfgQ=
+	t=1755541891; cv=none; b=numkoj1OFXTfj8jKmUoybh4k65ZTMw27gVZDM3ttbVuMSSaTntKeU0KcZftO26IE/Tzc9Dz5KEMzYa0NFMUvmZmXg3db1+fF4y+q6KaM4qVmUS4KExfVnHrqJvElzRbv50j+pasB3+7zz6m8dxY7ur/U0QgGlk6HM336WpOvLUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755541646; c=relaxed/simple;
-	bh=JCKUiyE7LvQKokD1Uq6GmQAvtruiQweC9XXHp0iTSkI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KbE9lzSP0EPRL8TNnfYGImv3tZQ2Du0Y2JzO9/gbsdjflVKpzCLXMVnFf8bLeklU5/dM5sVt+RAEni/ztPUiZPSBLb1YOx6IStj7dsD9LuM1g/962Ek1TfqdfMTLJdSaEAn41a7yzFP03rR+iprsKPlgIIelPbSPJ9hQKirkPlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kJEbi1py; arc=none smtp.client-ip=209.85.215.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755541891; c=relaxed/simple;
+	bh=5cLyi8DTfy4NnbBzqRxkyKq1dYIisK+mHdfaMdalvEw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SCW9kpnvEez/h9q3/gzxbZYtFqmHsDOGEAw29rrb5vUzB/ri5ZakuosCBUpfpaT3Qup0F9hJ8mPmNHhipk73fmIdxz0j2cDFz4awxdbK+d/oPnLk0zOaJRFL/Mn4nB5HpUcV2saAPk3Oc9/bNBxTA/0ytWNO6BGtNiOr+zi5Txw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ETjJCfSH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kJEbi1py"
-Received: by mail-pg1-f195.google.com with SMTP id 41be03b00d2f7-b47156b3b79so3328833a12.0;
-        Mon, 18 Aug 2025 11:27:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755541644; x=1756146444; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1UBICNtV01HOUgPFmy2kmdepvqLkWf1wTnkenSpn6Mc=;
-        b=kJEbi1py1EgtZuF9iamw3yU5fLp70od7KchmM/gYHg2i5nowyPRMSFawTZn5xxmMh9
-         ZZcJ0pvCugHFXUQL8RLTqOkQ6No56qBydMrVTVJNjQ83cG3SmKnHFTv29dasdQtWrhEN
-         tW14dplwrR4gnqiBVfmOHBc6WUrjfN1hpuxSCm/DGkgytfwA2K84Ti3WJSEI4HC3j1jk
-         2nb4Rd3mGUXma8LnWjWXQP5F3TOLiXwzSVPz9fAw5M9lsFtSikykyVqwU09RxH0YVi6x
-         8bGUTGJ9E2GB1uWBjUfLl+MA8a6gf8lE/C+GZ7b1LithCS1rwD7CtLRTadX00LCiXui+
-         Aqfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755541644; x=1756146444;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1UBICNtV01HOUgPFmy2kmdepvqLkWf1wTnkenSpn6Mc=;
-        b=hqbZBVa5R8IZm9KDS6EVCRG2JFL6ZmXUd1orHpkxIE3ZFuL0vjJQMFLqc6BnwlPpuv
-         nxdxjaRn365OqYb6AbfyWO2tmf/49xY39l+n4In87dM/+CbhRGY3Xuq3CWPcpHDYSt0n
-         pFkiwocivSZShfsVxPoo5QFpkjgh9q1n08gvg0OI0twmg68A/RjbP8LAzoIqlazYOyPr
-         oaa1HJsKvjiw8JqcfmmdQ1Gg5rNyiHUQ/gYj2NrdPj7qe1HtlihTRFCb0ui1vyWf7hsz
-         RPW8ikXbkZziilNA00ZiXsH2HQX5XJZRT0Xw92G0w3Z/PTBA6v+HfQf9ht56Wp8KLk3s
-         QmgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLfNHDkrxfJJEsH+0K//12bcod9KBApLWynYy0Hs5lLdNf1AlOZ/HwOU5kiyStC2IbgYB77jc+ShkLtF9T@vger.kernel.org, AJvYcCXVanXIhf67CDRusINzw72qDIB6FiYinWRfpa1c9P50N+6zHdo/cmzBwSA2u4df+4G3q2XjrqLrMuw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh0wwKFmZdt+eAnPjtB10B4rHwgFmNy3+4cUhRmn4v26HVy2ve
-	78TN5EEiKFRRWlyOMXICRzspKnwV2uwdvWoo0KnmyDIkcfj9d0p1d+xN
-X-Gm-Gg: ASbGncttNPDsA2iBKqNeTd41YovI8LGYbZ9zkprbPzaQ77aBadnQYjK3ZpEeTulssA6
-	LOFN35PTXCbD0B8rKfSjsTV3nGv+SVC/iAj+XZx6232bxh7a5FUyTbuBoRsp7bfzf2Akk9itnSB
-	g21ykp64Cn8x0N+Dsi9vVT35W+nB7rSVMAeoJOY2HY+4FvgjQgOkZzW9q+zY6wcNJC14uplCseC
-	pTxnYyDh+Orz3e08mQvVDTXK1HktF2t9Aov5MnPhhHeOglI9wFlgo4QbqkAtldEp+6rgfdXHHEA
-	KUhZ5RI8YcabyHFPgfEpKeOsrl1J+bDggYQNZxQ3REU4AOtDdEAjnHyPDjeT+1BLj1eb7Y2dgCt
-	947U+YUvT4kNwnlQ24W5CzExbH7rqGU/py1mU
-X-Google-Smtp-Source: AGHT+IFo9q22uJAU9Cy1g8OPxX2RxfH+wNKYrCEg9SFElzcpE0VunUzB4MWZu5dWrCeB513oCefNkg==
-X-Received: by 2002:a17:902:ecca:b0:240:5bf7:97ac with SMTP id d9443c01a7336-2449c9be48cmr6168945ad.16.1755541644414;
-        Mon, 18 Aug 2025 11:27:24 -0700 (PDT)
-Received: from Ubuntu24.. ([103.187.64.31])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d50f576sm87080265ad.101.2025.08.18.11.27.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 11:27:23 -0700 (PDT)
-From: Shrikant Raskar <raskar.shree97@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Shrikant Raskar <raskar.shree97@gmail.com>
-Subject: [PATCH] fs: document 'name' parameter in name_contains_dotdot()
-Date: Mon, 18 Aug 2025 23:56:52 +0530
-Message-ID: <20250818182652.29092-1-raskar.shree97@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ETjJCfSH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21105C4CEED;
+	Mon, 18 Aug 2025 18:31:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755541891;
+	bh=5cLyi8DTfy4NnbBzqRxkyKq1dYIisK+mHdfaMdalvEw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ETjJCfSHSE8Wlc2h8oswX/rSB1rtxn62z/0TeX6ZAxCcKeaD5y/sCJIwQTnu1FHqi
+	 g/5Mu2kA9BjXqrq6ei917xWwa+aMn3Ut3FjsZvPL7kulkLbOpY6ezlN59YkkBW0gBV
+	 J4+DLLfkVjUsNy+ZxExbNa6cDM/cUkH66JdxJXNhkPi+5TWRm1EwmG9HjJ/MVI7+Lx
+	 OOUnNsisvu48qx5rPBGKhKEdasQWzFYG17AMT0oBy5DIFm59WAumN71qHTv6nTa2ly
+	 9mS+ivoR/wncrGrJZjY1WUm+ELdNb+fDaRHdTVx9vYmTjpYK70OpQiU8VQD9NrzE9S
+	 w+Gnq9gKQWW4Q==
+Date: Mon, 18 Aug 2025 19:31:23 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jorge Marques <jorge.marques@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: iio: ad3552r: Fix malformed code-block directive
+Message-ID: <20250818193123.6b960398@jic23-huawei>
+In-Reply-To: <a7ce7e35-b761-49c6-9e8c-e3f849fae846@baylibre.com>
+References: <20250818-docs-ad3552r-code-block-fix-v1-1-4430cbc26676@analog.com>
+	<a7ce7e35-b761-49c6-9e8c-e3f849fae846@baylibre.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Adds a brief description of the 'name' parameter to resolve
-the kernel-doc warning.
+On Mon, 18 Aug 2025 10:16:56 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
----
- include/linux/fs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On 8/18/25 9:44 AM, Jorge Marques wrote:
+> > Missing required double dot and line break.
+> > 
+> > Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> > ---  
+> 
+> Reviewed-by: David Lechner <dlechner@baylibre.com>
+> 
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index d7ab4f96d705..9f5c91962e85 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3281,7 +3281,7 @@ static inline bool is_dot_dotdot(const char *name, size_t len)
- 
- /**
-  * name_contains_dotdot - check if a file name contains ".." path components
-- *
-+ * @name: file name or path string to check
-  * Search for ".." surrounded by either '/' or start/end of string.
-  */
- static inline bool name_contains_dotdot(const char *name)
--- 
-2.43.0
+Hmm. This doesn't feel like something that needs a rapid backport
+but the generated html is rather ugly without it so I've given
+it a fixes tag. 
 
+Fixes: ede84c455659 ("docs: iio: add documentation for ad3552r driver")
+
+Applied to the togreg branch of iio.git.
+
+Thanks,
+
+Jonathan
