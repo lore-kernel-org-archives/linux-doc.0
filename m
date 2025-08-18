@@ -1,100 +1,142 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-il1-f201.google.com (mail-il1-f201.google.com [209.85.166.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D77F238C33
-	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 14:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05C6233735
+	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 14:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755526538; cv=none; b=b2q7wDx0S9upNDO/58W4rQ9fe5LO0DBE3qfwiZAZoXhJ+fm+65eMy2rvbNqOBmpbnuH+84YaIsB29k7XrMuHb0P5DkRpL9h7KGPkqKRZnQoVTTIaETOdD8nAiX37GGMtrGDCPbgaNTqPaBWsZtm/WT3zaXLvUKGkrq/58C8OKho=
+	t=1755527340; cv=none; b=qJQCE4JW8H6NSNEw18txFI7Tf9OhA3TQVoPYkAK4VNTfhKMQkIQ7nHBc6DAu6nS67AEz9IX4aCYD/sEPHliXZAOhjlgZu23TeDRt3l73Jp6ZOLg90bmFuaQUPb+Bkay1HMcH4w+4TmB6gjTa2ICZE07oE92tzIG9WkJ0Ci1I1jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755526538; c=relaxed/simple;
-	bh=rUDEqLaGKm6ZQUUXN90WHjd/zoe+fc5cuVujd6LddVQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lZop1Z76blu/e+UpVEzyWKx0K+v79oE+5fQToeGiKhrkFEs3vxO9afoRDznUe9G73ECj23u4f8DUH6ZufpStWSBnDstDtsGrSNWQZ8nGQW0W9Zlf/4degVkrpDdsbDpkDiqMo/ygmlDSMZk0lo1/wQZKAJfaHG2JPlutaDrrxQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=bMEPNlUE; arc=none smtp.client-ip=209.85.167.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1755527340; c=relaxed/simple;
+	bh=41a2+FA9bH8X9sXvLwRCtUwLratquyBIH2dNcY3H2CY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=byXX19H3c+6x/5QZiNOw5TGMCsL5HVe6aPgeMGiFXkj739zm1V7pSFwC+xUSmfDgltfueDLMF9dI7t37U3DuroYEEX30RR7EBqw3JXWQ3/vYIzlvfQ/UOI7ZEEVewtL5czITLsk2mrj7w5J4Xx5ED2/uJG+3F5zFFs0ntpRP9Vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h/3hGC1H; arc=none smtp.client-ip=209.85.166.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="bMEPNlUE"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-435de5b2f29so1302181b6e.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 07:15:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h/3hGC1H"
+Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3e6649d783bso55462005ab.3
+        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 07:28:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1755526535; x=1756131335; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mvgGnTzuqm5EUCC8liL9F7L/fpNCxBXVLfxe21l/PJw=;
-        b=bMEPNlUE2svk3bDa3a8I9vzpTcNDMzqzDfTy+u9BMtR+GRrB6GEOMiuLWmLmRPYEtm
-         W21UvFTU5uRboXuQphWnyBSmeunXvzwsdG7eJUy+5Z6QczKl1hqvH7cv1mW5vUWceWkc
-         giBhYHhuLfqyYoXpvtv5UyD9LbSOgnZVf4dgGeJml1aW3ah1uuCGoibwr05iRknf7N5z
-         eO6Lh1hmE2ZflhEK5mirYLY3Ct88gce9b8SicXRdLnyANk/i/96gMnLVf9EGdgajne0W
-         9HUNHNKFpCm1eOQZnaD9zNaUTXdQe0eWAuj56ZsIIO8H5M673CM4iKrSABCgGUAv2BWT
-         Z01A==
+        d=google.com; s=20230601; t=1755527337; x=1756132137; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3tFznBWM0IW+McHrcF61sMaSKByQa6x4BTWeVHOyUXw=;
+        b=h/3hGC1HYQrRlAE/RQSB32dPF1dobMrrppbfpWldAG6LHFx2zktmoeRje6CC5kxGiG
+         aLRit/nVMqQhQELoN2pce1Y3OOL6qK7lzCfk2va/wkL12oTuyrM7q5zY00aEfUB4lHwg
+         eguxf4NOmcAEP7YMlvdRlRvgeAxqLNLjp4Byi2KC6x3gHEHCjbLF8xGkwpuNoNghTRYU
+         C8+3Fvz3ZdRsaJfK7FwdA7JKfT1SWE5CgHYymr+CHEXOfR1PgETr257d8B9iKd9MxVSO
+         2rNBlmq94g0KOOBCZPAT6K0K0ibMC3XG8icK+toMHglvKTt9XZajRorWi+BeJNIermtW
+         IMhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755526535; x=1756131335;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mvgGnTzuqm5EUCC8liL9F7L/fpNCxBXVLfxe21l/PJw=;
-        b=hJVirTEa6GlOe+CyW44yTuI+STdvzCBcMtdllhHzfmhtcww4iAEOhAqV8NTu67sX+Z
-         4/AO6ToV1Z3GxrVTXmBDCDQpNwou06MZjcSW9Pbxt8NTR9GzRGnX1Zpjn5eJ+eP7v7W/
-         gr31hJC00Fu7lurQjmkhY2AZxkg1b+XHKsRNA496vYVyFoxmlF13R09y36wNpC3vlZjX
-         p8php4kRJXGAxOUzRHhimRe2T7RdhXnjBmNZuB9snGt7hLaTM7wvE1O2sZ2zt9owWgfY
-         dexIAaeQuwAbXokZs+Lt346AUmHVRy1GMKau004hltnyvxB9ZK+RbPIhimRg+D1A70ON
-         SE/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUuoILNAr70sMIkJvERfFTuWb7Vyz+g0ufL1yhlruG0WiXfRglPkpTgCl58XHmqlUTN4V/t84xMJ0Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpqfM6nyMRi1mE3FHhMY06YWjIIs1QjRz2KyxHJWcT8C86sssw
-	V9UtiDMhTV39j8uSk8RDyBEBJHfc4ZCbPqYdUu8VHa3+KsKz94YMpHGkK3ihomMxIhDnY08ZH5Q
-	hLMkW
-X-Gm-Gg: ASbGncuXcOexVbGPlUpuWORc2X5HU2JDrKDBcSpd48Ng86MrAZdeGD3EypMvS257UPQ
-	442ckIUhdx0JfIABXYFj6hYwrXYHBVK4Wo5mWR+ivo4QtlphuyasG2URwTg0e+GRpGNwQa+SMeq
-	OfStKqk31nzlhN+Zi+NJEcPTx0DBXPxmi4M8Zhagaj/nMxVp1s/M6nwaGif61rbSQ42FkT4zd/5
-	9cSP6Bh2E5r/r0/FO4i5qTlhNcudMAo6cRWgRKCmHpyxc/+AiBY7tguENq0ti9DfehXT2ttqq8u
-	KWUZL4Bcxa0OkAGmwRyv6PIU+0+A8Mz4JMo5vDJ2MZ+XQmiEutRNvY315g/prV6SMJkLgXtb
-X-Google-Smtp-Source: AGHT+IHvo7ZOM5rHAk24hmKZc+hkAikSEtRWDKvfOcli7KYViAuT56UrJGkQ79fMBBVlt+XNlS5WsQ==
-X-Received: by 2002:a05:6808:5147:b0:435:7231:74f1 with SMTP id 5614622812f47-435f5e9c626mr5304208b6e.23.1755526534821;
-        Mon, 18 Aug 2025 07:15:34 -0700 (PDT)
-Received: from ziepe.ca ([130.41.10.202])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-435ed1e96adsm1821089b6e.26.2025.08.18.07.15.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 07:15:34 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1uo0e5-00000004NAz-0Sve;
-	Mon, 18 Aug 2025 11:15:33 -0300
-Date: Mon, 18 Aug 2025 11:15:33 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Alessandro Ratti <alessandro@0x65c.net>
-Cc: kevin.tian@intel.com, corbet@lwn.net, skhan@linuxfoundation.org,
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
-	alessandro.ratti@gmail.com
-Subject: Re: [PATCH] Documentation: fix spelling errors in iommufd.rst
-Message-ID: <20250818141533.GF599331@ziepe.ca>
-References: <20250815153840.188213-1-alessandro@0x65c.net>
- <20250815153840.188213-2-alessandro@0x65c.net>
+        d=1e100.net; s=20230601; t=1755527337; x=1756132137;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3tFznBWM0IW+McHrcF61sMaSKByQa6x4BTWeVHOyUXw=;
+        b=jgrCr8KIzBamuQSmto8VuXnmt0JtkVyO1PTTA2paAVfS0fOxBKSVrmoTQFWhh1qui/
+         JoSFAtNN6Pf9J3I8+0qORs7fLw3+e0KTlqecSJml00GUhT2qw6k35JKUsM4xpEPoCP5m
+         dWuWsQfvEixWEKuYK/zmDe3WvCAsYAeb4iutQ+WouqgILF/lc7Wy6ZJhZhffS5AIvNhW
+         LyFVESGhTxrmhbfI6LyGZsj1JHctkXFdLOuMlqRgOkOaeDBqolT6pu6ioAu1RKHd8UlM
+         d8kQAKsUCQaPnWDgfkSqZXOGaLxXKN0AVJ71Ot9YSFUdjnm1oEdhkR1y6aNK8j6Y/b/D
+         mihQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUGI6+mZ90fw8bWzXj5KTE/CJY1KnX9tPxsyqrripiBV9mlK5dR9ze1XUk0HpVvzypJqg9TeFxYNqY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOop9pNBf4uHQ6vuc4CbuuPidL/8Io23BMXKW2F36PoxdfREHC
+	qNwwqtj/U5P3uK6aHF0jbl+prQQ6iFrlv8pGT50gJuofrJc6brGzoeY5nMvR6pKaTpcF/CEspUj
+	G1tESoxqFTA==
+X-Google-Smtp-Source: AGHT+IEBsBH62doUUoirtmqHQgZp9vQHBcGYX9e9luOmWcXQBkoj3b2JLGzvlK8O2+EdtDms+JwRqGLtS19k
+X-Received: from iojp6.prod.google.com ([2002:a5d:8d06:0:b0:881:77ef:6edb])
+ (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6e02:1b05:b0:3e5:4b2e:3afd
+ with SMTP id e9e14a558f8ab-3e57e7fdcb8mr245795495ab.8.1755527337603; Mon, 18
+ Aug 2025 07:28:57 -0700 (PDT)
+Date: Mon, 18 Aug 2025 14:28:01 +0000
+In-Reply-To: <20250818-support-forcepads-v2-0-ca2546e319d5@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250815153840.188213-2-alessandro@0x65c.net>
+Mime-Version: 1.0
+References: <20250818-support-forcepads-v2-0-ca2546e319d5@google.com>
+X-Mailer: b4 0.14.2
+Message-ID: <20250818-support-forcepads-v2-1-ca2546e319d5@google.com>
+Subject: [PATCH v2 01/11] HID: add haptics page defines
+From: Jonathan Denose <jdenose@google.com>
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
+	"Sean O'Brien" <seobrien@google.com>, Jonathan Denose <jdenose@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Aug 15, 2025 at 05:37:26PM +0200, Alessandro Ratti wrote:
-> This patch corrects two minor spelling issues found in
-> Documentation/userspace-api/iommufd.rst:
-> 
-> - "primarly" -> "primarily"
-> - "sharable" -> "shareable"
-> 
-> Found using codespell(1).
-> 
-> Signed-off-by: Alessandro Ratti <alessandro@0x65c.net>
-> ---
->  Documentation/userspace-api/iommufd.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+From: Angela Czubak <aczubak@google.com>
 
-I'll pick this up to for-rc, thanks
+Introduce haptic usages as defined in HID Usage Tables specification.
+Add HID units for newton and gram.
 
-Jason
+Signed-off-by: Angela Czubak <aczubak@google.com>
+Co-developed-by: Jonathan Denose <jdenose@google.com>
+Signed-off-by: Jonathan Denose <jdenose@google.com>
+---
+ include/linux/hid.h | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 568a9d8c749bc5547ff78d5abe6db7bce2f62d2b..344ab0e40f29afe55575e5a7544496b7bb48a266 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -156,6 +156,7 @@ struct hid_item {
+ #define HID_UP_TELEPHONY	0x000b0000
+ #define HID_UP_CONSUMER		0x000c0000
+ #define HID_UP_DIGITIZER	0x000d0000
++#define HID_UP_HAPTIC		0x000e0000
+ #define HID_UP_PID		0x000f0000
+ #define HID_UP_BATTERY		0x00850000
+ #define HID_UP_CAMERA		0x00900000
+@@ -316,6 +317,28 @@ struct hid_item {
+ #define HID_DG_TOOLSERIALNUMBER	0x000d005b
+ #define HID_DG_LATENCYMODE	0x000d0060
+ 
++#define HID_HP_SIMPLECONTROLLER	0x000e0001
++#define HID_HP_WAVEFORMLIST	0x000e0010
++#define HID_HP_DURATIONLIST	0x000e0011
++#define HID_HP_AUTOTRIGGER	0x000e0020
++#define HID_HP_MANUALTRIGGER	0x000e0021
++#define HID_HP_AUTOTRIGGERASSOCIATEDCONTROL 0x000e0022
++#define HID_HP_INTENSITY	0x000e0023
++#define HID_HP_REPEATCOUNT	0x000e0024
++#define HID_HP_RETRIGGERPERIOD	0x000e0025
++#define HID_HP_WAVEFORMVENDORPAGE	0x000e0026
++#define HID_HP_WAVEFORMVENDORID	0x000e0027
++#define HID_HP_WAVEFORMCUTOFFTIME	0x000e0028
++#define HID_HP_WAVEFORMNONE	0x000e1001
++#define HID_HP_WAVEFORMSTOP	0x000e1002
++#define HID_HP_WAVEFORMCLICK	0x000e1003
++#define HID_HP_WAVEFORMBUZZCONTINUOUS	0x000e1004
++#define HID_HP_WAVEFORMRUMBLECONTINUOUS	0x000e1005
++#define HID_HP_WAVEFORMPRESS	0x000e1006
++#define HID_HP_WAVEFORMRELEASE	0x000e1007
++#define HID_HP_VENDORWAVEFORMMIN	0x000e2001
++#define HID_HP_VENDORWAVEFORMMAX	0x000e2fff
++
+ #define HID_BAT_ABSOLUTESTATEOFCHARGE	0x00850065
+ #define HID_BAT_CHARGING		0x00850044
+ 
+@@ -423,6 +446,12 @@ struct hid_item {
+ #define HID_REPORT_PROTOCOL	1
+ #define HID_BOOT_PROTOCOL	0
+ 
++/*
++ * HID units
++ */
++#define HID_UNIT_GRAM		0x0101
++#define HID_UNIT_NEWTON		0xe111
++
+ /*
+  * This is the global environment of the parser. This information is
+  * persistent for main-items. The global environment can be saved and
+
+-- 
+2.51.0.rc1.163.g2494970778-goog
+
