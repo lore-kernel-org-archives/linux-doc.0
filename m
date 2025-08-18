@@ -1,99 +1,90 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B6625BEE8
-	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 15:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20611283FC3;
+	Mon, 18 Aug 2025 15:45:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755531149; cv=none; b=tijym9j9NEKVin++bhUVhDMqx4wqqPVgDC7dBEO31h7z04l0q7/2zAFVkbXauJACG5z2kWxeBSx2lsfFBp3lbpChvLLCV0H1h1dxsENGGsK2K3cGSXsEhqr73Mn9UGbhd4pnI34FlIPAjvKb33MZtsB0FV0T5JJIIcOahWYfRaU=
+	t=1755531955; cv=none; b=ue7XLE0Z94HJDPsv73TRW3gXAj6INDntumVn+5l3fjH8PsPckYzNzohdK8PMfNDZLNMFrbiHyGe0C5M8kQU85PQ7/Q/jEKnkbizcUTEao8jojLIw6J64o3RLxzE5xHeZuPMjbB5EJK7DO/KU+S39IxD9JnDoJpFlczNk3XlwFww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755531149; c=relaxed/simple;
-	bh=icHVjjRqRhE4oRabHZs6Zl5XfsDtmtpgy2tt3jycgLc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ENOwpkfy5B36Ur9tAkxPIjOE/X/NweO3La+HRtyDMIVBgdkFszjYrzXRAW7o+9U33cEtKyJ7hE8JxOqgMrfEQ0jFid6ziZhi4XqZBLdXehA/tPjxTOAqzVJrNpGYxlnHz7daJ2G5+/s4VOpy67vaSUrV5z/ys7Ny7cbV7avot64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cVj9yUO3; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755531955; c=relaxed/simple;
+	bh=hnsi28Tz7v23mH68o8SpW2Z9qHvy5g1uLMZ8O8gitfs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DBhkt/y4u23D4mw+g+H/MXhKKqtciHHsk8zpNeoqeeUVkj0ruCvAiFJQfiG3iObimmPErkLqMQliqYF+NV8rqpA+jHE6N/uKVVx06srI/VOpdJIj/xqONjEzKbmyid/CT4O9vEWdb9Q/6VOssmW/85cEK7/9R0fwFqAW5VeLnBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PuE8IpLI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cVj9yUO3"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-333f82a3a9eso37519431fa.1
-        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 08:32:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755531146; x=1756135946; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=icHVjjRqRhE4oRabHZs6Zl5XfsDtmtpgy2tt3jycgLc=;
-        b=cVj9yUO3/YBoYVQlOI/0T9GXa74iZCsKgxi5pjY6xptA17iKOYJuA1F4fAMZsCln4j
-         DyEhag0TlpExgZOh+hTcNlNPuUQVwC+fFGu/UsYy/SIZjLM4uu5EFqMJ9HrEHAlk7Z+I
-         KDJ6ofGtsPCpFWYxuX0EofVIv7samzfy9Nnamlw9AtCilekIyBbXh9SHZsTTyOoE5nuT
-         0fi7QFIw+Y5BmESCSkpqVmrx4rTEi1g0bcLdbTLdgSIhnJFV1yS+yRE7mbTV/mc+xjxp
-         0bTg9bDP+fUGMzfeInRUKhHeY58lWnOlkkBLTpRaF1ZtwvmjRJBI3M7wDQzJkxeuir6b
-         dKjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755531146; x=1756135946;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=icHVjjRqRhE4oRabHZs6Zl5XfsDtmtpgy2tt3jycgLc=;
-        b=Y+4ZI62vfW1IAHJElJeIxmuD2udnz2dRpe74z3W4LsZmYcUmLE9kR8dXKkBdogKIQy
-         ccyIrs44i9b8lSJ7rY66fpDp8Qfwc6ruGT2KJBfqCeYNbQwvlPeU8vx+g0U4ykojPb+z
-         4dOCFW8vef/OAbUMCl9zYMza+Fcy6t44IT5rgTlB31GpX692AIjQHjQhSWjrLG7ijXnj
-         m864gN/+GOV7e5w5qYpxfEtCiuB4inon5RmTKWLvmieu+suUXJJEapuqSH2eq2ZimrU9
-         T6PAkJAheIhWekW0C4+mztFFALpYdSlakCzFqpXdBsRZ92HJoSl90iCMGgJMrQTkiMPA
-         83wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6cSZjXj15lkrbn5Ef50HCyZdZaF5fIFUq//qTWuHq8PRhzcYHpadoAyUW+VoEQsZ4szYpmNRioU8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWXIAt9uZ7ulHnqVJ+8fM4nPM4f17NYROIpQWaIW1h6ucgjOsm
-	dy4IXhxLm3jNnptigMvVOpz8wWp7urSNVWwtYqdjJAHhaRfDpkVbzmu08+Kv0t+CSiDWEPgJpjp
-	ynMWyRA4hMMnHbd29uQ3g1zA3IV1GC6UKpb60X5csPw==
-X-Gm-Gg: ASbGncuHImEiqfooxHJGswPYWBLHq6wBvZvLJ14QvYt0CtNlHTRq9Q0gkAFxMUqqOLe
-	t5jj8pPydA2QlfDI9B/HtjI7y+TWTlRueNPz0lR8/MzgcFdDOjP6P/2hECpJXm8DIuAStXvNlus
-	Vl63L1Hft7cMV22pCfYw5cDwtrfXdSNIxgOAMfrv3mWyPChqdWwslXCDTEF9cGOD17TccmNmCLE
-	1PFLqJaDUAJ
-X-Google-Smtp-Source: AGHT+IF2orySIXmfTMPdBSc4u2RQ20PPwC0pgvdtHB2BTHUvv++2TxJJ8Foeb7eufqZD9BSVyHFIxOKmcreERDkEtzg=
-X-Received: by 2002:a05:651c:2c6:b0:335:2d26:1408 with SMTP id
- 38308e7fff4ca-3352d261634mr832931fa.21.1755531145800; Mon, 18 Aug 2025
- 08:32:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PuE8IpLI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FCEBC4CEEB;
+	Mon, 18 Aug 2025 15:45:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755531954;
+	bh=hnsi28Tz7v23mH68o8SpW2Z9qHvy5g1uLMZ8O8gitfs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PuE8IpLIWWrlrb6jSAu+ChECzZUvehsysHKUgVTeOmEySKpy9v51Vvyz8PyCPdpp2
+	 3SVgvtIfmh5UZckZ7ySMcg0pZ+IKQx+KMr+Ld00EhS2tEEs2dMT4ISyg3IqVFxCqRI
+	 9s6APYhjaxQiwDz0NbIpjt6L07CkuVPGiVfcqiZ/GHXKLIPI3faUKqdyrVnfpt2zVf
+	 C8XUD0G2XKH/0sSSeZzoknRojICeeGLafizkciiQ6wGSVZIg5vvVw+XAz+qLqmJCfh
+	 zcsDePU6e2R9Bd81AAFaeFfN3mKdqwd9jum/0mnfktZhOMO5lF37euZNGNVSD7lLm0
+	 Ari8ZvaAgjjww==
+Date: Mon, 18 Aug 2025 08:45:52 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Shahar Shitrit <shshitrit@nvidia.com>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Jiri
+ Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, Jonathan
+ Corbet <corbet@lwn.net>, Brett Creeley <brett.creeley@amd.com>, Michael
+ Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>,
+ Cai Huoqing <cai.huoqing@linux.dev>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>, Linu
+ Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Jerin
+ Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya
+ Sundeep <sbhatta@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>, Leon
+ Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Ido Schimmel
+ <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, Manish Chopra
+ <manishc@marvell.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org, Gal Pressman
+ <gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>
+Subject: Re: [PATCH net-next V3 4/5] devlink: Make health reporter error
+ burst period configurable
+Message-ID: <20250818084552.1d182f31@kernel.org>
+In-Reply-To: <016a3fed-2f4b-4721-b92c-cf00cd5f3125@nvidia.com>
+References: <1755111349-416632-1-git-send-email-tariqt@nvidia.com>
+	<1755111349-416632-5-git-send-email-tariqt@nvidia.com>
+	<20250815122627.77877d21@kernel.org>
+	<016a3fed-2f4b-4721-b92c-cf00cd5f3125@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250813081139.93201-1-christian.bruel@foss.st.com>
-In-Reply-To: <20250813081139.93201-1-christian.bruel@foss.st.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 18 Aug 2025 17:32:14 +0200
-X-Gm-Features: Ac12FXx0vB3mITr0yHkMZRFX2ygTlke86KCizQFy_D1MbML6oINtiohhGdzjiEU
-Message-ID: <CACRpkdZGaMf1m9UK7ai3KLJBSJtWJagzMMa6icMxEL04w7fkMA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] Add pinctrl_pm_select_init_state helper function
-To: Christian Bruel <christian.bruel@foss.st.com>
-Cc: corbet@lwn.net, bhelgaas@google.com, mani@kernel.org, 
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 13, 2025 at 10:13=E2=80=AFAM Christian Bruel
-<christian.bruel@foss.st.com> wrote:
+On Sun, 17 Aug 2025 19:08:47 +0300 Shahar Shitrit wrote:
+> On 15/08/2025 22:26, Jakub Kicinski wrote:
+> > On Wed, 13 Aug 2025 21:55:48 +0300 Tariq Toukan wrote:  
+> >> diff --git a/Documentation/netlink/specs/devlink.yaml b/Documentation/netlink/specs/devlink.yaml
+> >> index bb87111d5e16..0e81640dd3b2 100644
+> >> --- a/Documentation/netlink/specs/devlink.yaml
+> >> +++ b/Documentation/netlink/specs/devlink.yaml
+> >> @@ -853,6 +853,9 @@ attribute-sets:
+> >>          type: nest
+> >>          multi-attr: true
+> >>          nested-attributes: dl-rate-tc-bws
+> >> +      -
+> >> +        name: health-reporter-error-burst-period  
+> > 
+> > the "graceful-period" does not have the word "error"
+> > in it. Why is it necessary to include it in this parameter?
+> > What else would be bursting in an error reporter if not errors?  
+> 
+> I see. Would you suggest renaming it to "burst period" through the
+> entire series?
+> for example in devlink.h:
+> default_error_burst_period --> default_burst_period
 
-> Some platforms need to set the pinctrl to an initial state during
-> pm_resume, just like during probe. To achieve this, the missing function
-> pinctrl_pm_select_init_state() is added to the list of already existing
-> pinctrl PM helper functions.
->
-> This allows a driver to use the pinctrl init and default states in the
-> pm_runtime platform resume handlers, just as in probe.
->
-> Additionally the missing documentation describing these pinctrl standard
-> states used during probe has been added.
->
-> This fixes a build issue for the STM32MP25 PCIe staged in the pcie tree,
-> id 5a972a01e24b
-
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Bj=C3=B6rn: Just apply this to the PCI tree.
-
-Yours,
-Linus Walleij
+Yes, AFAICT it won't result in any loss of clarity.
