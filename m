@@ -1,54 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6482725B1CB;
-	Mon, 18 Aug 2025 16:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88E32475D0;
+	Mon, 18 Aug 2025 16:29:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755533804; cv=none; b=UNjuhgC1VYTXTSYgEqzPbA0I3cleoz/YORd52PPIT6G5tL91zZxqXKurdUVLMuu0J4oFiXFAMlLwZg197oW1fTRo5BZ2NjRNM8wri5BfJsxbTP2IXxvrqVf1DldgXggaunjAIw0dkY8Oi9bgkxz+k2chTdUDR3AOoeZf5P2x0Ck=
+	t=1755534575; cv=none; b=N7+QETTU+KNtlb+HQnRJyj3bXEZ21PBA/z53rYPaDVdHFlD3r6rEownabVArtst1q+nmoAA4EhX+1J2Ep6bp2RN3Y8Nxmqo0o07a3WRzVpaZmdi3bWPpSlBaLlgpDAi5XM9yvIDQLWalevdrCM/BbO5IlHWkz0cyBzPcHV0T5Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755533804; c=relaxed/simple;
-	bh=+KreY6XCVUhqfgIGGcQQcVGaWgajloEjSzZ+NQsv0Bk=;
+	s=arc-20240116; t=1755534575; c=relaxed/simple;
+	bh=h4KHE5DA3Gldw56dsMM8N4YwCwCgdqM504Ujq7K5QLQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=DFrHUDnkLGx81e+jrqCLk+LQKXiBstBLu9kaLdcGauFat7DKiaCp4543ULqtDOtNPu4/TnFCvw5XWc5fQ6wY9+jFB6L7k4wBsTNrLeIs2HJUlT405IzJ6hjWLGKPsFI9It67TiJG3E25Zsu+lKUd9b2cau8EIBGRJWOT7gppbXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DKq8OlQs; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=WyG7bsYdVMv/4S0sK3o0DVYnVwjuJa7efDqmsY4Hu0U5yYHGChuBoMKdyK40kd0nEBD26t/a89QfospZcUABNxdG41garjax1vy2QTaQ4sfNrjTcjQ9fTGuTqANTuPhHa54s6OoqHss/Uz4hI9H6+CNcXInb0rHLVZ4JajmIneE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=i2gLu8Ts; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DKq8OlQs"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 29B6A40AB4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="i2gLu8Ts"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 055B940AB4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755533802; bh=Ki3AMnJXQIVgxf0vfWmzLXaMaAZehzEkoGm5efNzOvg=;
+	t=1755534573; bh=Bsofl/J5GkkIUSXyFczLdMQQB7vEUZHt/cin7t/cmlo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DKq8OlQst1vmDzpKS8Gn4N8tQBC1USZWkeAnosxd15GskYHbD3PcVcKCHtXdCFAIt
-	 GxTVMyP503mr8NEv3ZUvk3935awdgT1rvbThRfrX+5q85vh/vaT27fA9C0doSpxFTc
-	 jZ6HGrZWDrifUsTxOO6AKDn2VBqF3EP7cXK2PIOn9jnhgMHjAeRaQypBYuUxinU4j0
-	 WJ2QwuVrGotqX9qz+VEm36d3/giiTAZPxsTuJB1KODGvfMDb1hUCfEn1/xWYV6RslJ
-	 e6q7RI2XstLBwpNBA2gPHxy+m5SQUBpRM6263qi4rh8mVjdg78YKZA0PXvxk0xpPe5
-	 Qv+dZ6K2876BA==
+	b=i2gLu8Ts2wxYmuYLIJcIi4ntf471WBtou9aN+s9M50DDpv0pVf29VCEeBbnY0JSVJ
+	 Us4g7SytDIs6KzmVmLAbRLxgPX8LurCjIcNCMmdqcQxmsXw4XYeaJc0OITraG87tRl
+	 0m9uN7fDlo3Vqup15uTQhx5fuIB5XhN0kZCPGzHfbHKj4H8Jcr6F4XtM2tK1t2ufb5
+	 eFZtPf0DIwHSRB+ajjg5DCI4vZm2BrIA9+RPYY5YQFFsmbFld+QFGOnVHOcvwmRqk0
+	 jS4/L8XZ++Qh8mT+PUupNLajorA0ZUQ5a6a5ouZfktPpeWEbix/YE2pkKgZnCiN4Cz
+	 bAf2nzpfrptqg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 29B6A40AB4;
-	Mon, 18 Aug 2025 16:16:42 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 055B940AB4;
+	Mon, 18 Aug 2025 16:29:32 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Cc: Boqun Feng <boqun.feng@gmail.com>, Clark Williams
- <clrkwllms@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, John Ogness <john.ogness@linutronix.de>, Peter
- Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>, Valentin Schneider
- <vschneid@redhat.com>, Waiman Long <longman@redhat.com>, Will Deacon
- <will@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [PATCH v2 3/3] Documentation: Add real-time to core-api
-In-Reply-To: <20250815093858.930751-4-bigeasy@linutronix.de>
-References: <20250815093858.930751-1-bigeasy@linutronix.de>
- <20250815093858.930751-4-bigeasy@linutronix.de>
-Date: Mon, 18 Aug 2025 10:16:41 -0600
-Message-ID: <87seho8v12.fsf@trenco.lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>, Linux Kernel Selftests
+ <linux-kselftest@vger.kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, David Gow <davidgow@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Tim Bird <Tim.Bird@sony.com>, Rae
+ Moar <rmoar@google.com>
+Subject: Re: [PATCH 0/2] Documentation: ktap: formatting cleanup
+In-Reply-To: <20250814012046.21235-1-bagasdotme@gmail.com>
+References: <20250814012046.21235-1-bagasdotme@gmail.com>
+Date: Mon, 18 Aug 2025 10:29:32 -0600
+Message-ID: <87jz308ufn.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,30 +54,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-One nit:
+> Hi,
+>
+> Just a little formatting cleanup for ktap docs (actually only bullet list
+> items fix in [2/2]; the first patch is trivial spelling fix).
+>
+> Enjoy!
+>
+> Bagas Sanjaya (2):
+>   Documentation: ktap: Correct "its" spelling
+>   Documentation: ktap: Separate first bullet list items
+>
+>  Documentation/dev-tools/ktap.rst | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
-> diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
-> new file mode 100644
-> index 0000000000000..50d994a31e11c
-> --- /dev/null
-> +++ b/Documentation/core-api/real-time/differences.rst
-> @@ -0,0 +1,242 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +========================
-> +Significant differences
-> +========================
+I have applied these, thanks.
 
-That heading text will appear in various places, including in the
-rendering of your new index.rst file.  In such a setting, "significant
-differences" doesn't give a lot of information.  Something like "How
-realtime kernels differ" would be better, IMO.
-
-Otherwise, this all looks good to me.  Did you want me to pick it up, or
-did you have another path in mind for this work?
-
-Thanks,
+It seems nobody has touched these docs since 2022...I suspect KTAP has
+seen a few changes in the meantime...oh well.
 
 jon
