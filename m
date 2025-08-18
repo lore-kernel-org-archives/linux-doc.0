@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286623770B;
-	Mon, 18 Aug 2025 16:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7F124EAB1
+	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 16:11:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755533304; cv=none; b=uzqxObiUW0V5/KwDbGE974y+FjJSI5MFNyebWi2+5q0TOrcLDMz7UaGA7zz0rM3Untp7AnczUbPlO0EA7ijp4VWjKvA/jRHEa1WGY2xCRbl7sgaCW2Jjds9q0+1gZLf0j/daCCEppHrPUjZ8YflPc2iu9lSvMSpKu47NIakpBUE=
+	t=1755533490; cv=none; b=mNVGXeocbfjshkmtENQBTam1wcf6ej8LJVFuIpNUNOLZ4k6AdR2pOMbAWLGisjhv9KXYdMMAiHTLAdWx6htcw33as4/FMFF9UaggEwhWFMW+Rt/6jbALI/gQ9u7DqqVTwvY6vjDg49IqSmKgUAAiij7JDQcaTFOADX0pEwJ9Ric=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755533304; c=relaxed/simple;
-	bh=ou2NodSL61SjBBx3oNoEL8d9FXu/qhf54SYinlYpEpw=;
+	s=arc-20240116; t=1755533490; c=relaxed/simple;
+	bh=78KIoVRhK2iNOIQXHwkoKCA4SvaQtvhUuy63orh2FMk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZgMDNRzIMf6C1EvsD5ClxxovJPOa43e4oQ6VSmdSN6I7NCnbnvwlTuhLwbC7PoGla8+5kqNNoHprCsJFKlmaUz88nO4IC+USEYcRtm/2Bcyxy5Vkovozj6Qt8dT+KI2+uNMueCPw97mRWW184W5bNT6MZmCp0bCVjUVZaMhgFsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FS1soXLa; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=eGkLo90/t8fMgGGMtTzTmc8+6rEFHZnhTHizJqTucVknTb2mg8bFpF8WrSCX2g50wQdAHThBd9ANwMhdOjPD8ZgPlfEeXfI1LWZ6cvM2NJJTlNWuyRItV/XLLSR5pID2CmQdzTJ5c/WIkzfZvRY+2hEZPbDKLBDwXLIAc1hisqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AdJr6Hp4; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FS1soXLa"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5CE0F40AB4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AdJr6Hp4"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 146C340AB4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755533302; bh=PgKB2qnc/bRPAL5RwjdygVePDYnntw4ZWdIavREWLBQ=;
+	t=1755533488; bh=tQDyK6nHE53T/n3wXnrBsriTw/Bt+l3u2fOSaqwokB4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FS1soXLa521ujJUbl/402whSSESTHg9tMk1J4yJXD61Dfi279n3ZYdXUxCAqBrXbP
-	 7uzuyvggLkYoXlerUj63roxK9vLzAUnVybiJ8ADgblvGi5LkC02Rne6uNwELG05I+6
-	 k7OuwJQBxt+73WjptP+fON5qK+HI/wyJ2vePn9MgKDmwsi+JYLLCa/Ou+Yk0IU287M
-	 3Bs39RXJcFhH8aA2anPFcTcN3lReE6Ci8Tc22FjnWBpnYKR6l1Y7r40THAF4d2OISs
-	 tpNV3csYjY/jWhXXQNvQZbmv84TtmdKAC3lrG0p2OxW0RInDuM1q8EFkKH6kheFgli
-	 bhQXe4L9M8KpA==
+	b=AdJr6Hp4zmRMtzrLoAxJBAhnkFQQNeLyjRZFcKjTyj2mqkF4YiQwWk2GW+VNhC7cd
+	 OYBuvHDVN3P5jYjFa+buDPpTIlFcXr63hKDGjDa6xtI6iP1736j8VGVGV57LDpXpJ9
+	 N3lEJRx7p1G7a2WnzBr+jacYckgq2D7ATntoY04GsvG4JbYDfXv+ysGvDzps5QucXc
+	 SzMO4nbhRhMNFW6tv4N/punb/3VfhsTwuOh+ZJW0KitdRbYhDn0JV2cI1zYgUFVxRa
+	 MdPSmT9Bzxr+VwFrRXg06s9tFyBuH6CtS3eY0ePoOnigf2mmNbtSDxkuw6O7V8DhQX
+	 vbloUj5bpeq+Q==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5CE0F40AB4;
-	Mon, 18 Aug 2025 16:08:22 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 146C340AB4;
+	Mon, 18 Aug 2025 16:11:28 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: hariconscious@gmail.com, shuah@kernel.org, catalin.marinas@arm.com,
- will@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: HariKrishna <hariconscious@gmail.com>
-Subject: Re: [PATCH] documentation/arm64 : kdump fixed typo errors
-In-Reply-To: <20250816120731.24508-1-hariconscious@gmail.com>
-References: <20250816120731.24508-1-hariconscious@gmail.com>
-Date: Mon, 18 Aug 2025 10:08:21 -0600
-Message-ID: <871pp8a9ze.fsf@trenco.lwn.net>
+To: vivekyadav1207731111@gmail.com
+Cc: rdunlap@infradead.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org,
+ Vivek Yadav <vivekyadav1207731111@gmail.com>
+Subject: Re: [PATCH v3] kernel-parameters: fix kernel-doc warning
+In-Reply-To: <20250816082452.219009-1-vivekyadav1207731111@gmail.com>
+References: <20250816082452.219009-1-vivekyadav1207731111@gmail.com>
+Date: Mon, 18 Aug 2025 10:11:27 -0600
+Message-ID: <87wm708v9s.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,37 +50,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-hariconscious@gmail.com writes:
+vivekyadav1207731111@gmail.com writes:
 
-> From: HariKrishna <hariconscious@gmail.com>
+> From: Vivek Yadav <vivekyadav1207731111@gmail.com>
 >
-> kdump.rst documentation typos corrected
+> Fix kernel-doc warning in kernel-parameters.txt
 >
-> Signed-off-by: HariKrishna <hariconscious@gmail.com>
+> WARNING: Possible repeated word: 'is'
+>
+> ```
+> [command]
+> ./scripts/checkpatch.pl --strict -f Documentation/admin-guide/kernel-parameters.txt
+>
+> [output]
+> WARNING: Possible repeated word: 'is'
+> +            The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
+>
+> total: 0 errors, 1 warnings, 0 checks, 8339 lines checked
+> ```
+>
+> Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
 > ---
->  Documentation/arch/arm64/kdump.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/arch/arm64/kdump.rst b/Documentation/arch/arm64/kdump.rst
-> index 56a89f45df28..d3195a93a066 100644
-> --- a/Documentation/arch/arm64/kdump.rst
-> +++ b/Documentation/arch/arm64/kdump.rst
-> @@ -5,7 +5,7 @@ crashkernel memory reservation on arm64
->  Author: Baoquan He <bhe@redhat.com>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 747a55abf..302145870 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -7506,7 +7506,7 @@
+>  			Set a trigger on top of a specific event, with an optional
+>  			filter.
 >  
->  Kdump mechanism is used to capture a corrupted kernel vmcore so that
-> -it can be subsequently analyzed. In order to do this, a preliminarily
-> +it can be subsequently analyzed. In order to do this, a preliminary
->  reserved memory is needed to pre-load the kdump kernel and boot such
->  kernel if corruption happens.
+> -			The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
+> +			The format is "trace_trigger=<event>.<trigger>[ if <filter>],..."
 
-I don't think this is right.  While reserving judgment on
-"preliminarily" as a word, the intended use is adverbial, so this change
-does not make things better.  The better fix, perhaps, is to say
-"previously" instead.
+I have applied this, thanks.
 
-Should you choose to resubmit this, we'll need your real name in the
-Signed-off-by tag, please.
+For future reference, "fix a warning" is seldom a good subject-line
+choice.  Warnings are not problems, errors are.  In this case, a proper
+subject would be "docs: remove a duplicated word from
+kernel-parameters.txt".
 
 Thanks,
 
