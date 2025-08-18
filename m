@@ -1,128 +1,190 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFD720ED;
-	Mon, 18 Aug 2025 02:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BDA2459E1;
+	Mon, 18 Aug 2025 02:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755482848; cv=none; b=N1Zau3eObZzEGRtzKfn6pDgGTfybOhohyKVrkN2u3WmpLfnVKehZZxA89PkKRzcT5ZXUd0ZctZsCbDC8Kpe3pw/QcAOKv45U8hhTn2ile7y5Ux2vzjGLDPiyoNmNotz1WzLhIIKxYfKrYvuCJxbbOEy5qklSeiFAI26dwmF1P4M=
+	t=1755483434; cv=none; b=Cd7MnfB2opU5MqNy8BmTIdzhJJxOKru2aah31u34NJ5tExzt++iq71BH7xOxik9wvIBt+/lZ+46hftlTg/vJ0+/rx+hdGF1Ic5lSxo0l1vo9iYs+Cakp4mkCDrRdWpbB4yFHyQo93zSF19hz0Fkgm3VxswALHGeDVDQ9U/5O8ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755482848; c=relaxed/simple;
-	bh=tbK2yh3A3OA8ArQ2ixl3TH5f2ZmJfi3EpsQVKWcU3kE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oRbb1tRy6oyjRhQ//cKeILEnIPEX/H/uh/kjAXtS8CScT6syJO4y0LKv3HuBIFNKKtSx/qJWBsT4F9XoFgvmNOTFqLjSAUc7/tVuMPXETlNHFtS0/viACNG0GUJSTEw9SJF0G7BCmXYzoNwXRzN6C3grUpL8ihNG1volWW9UjEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Pac7SOlr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Pac7SOlr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=2yAFngKlaIbQ81FU5PwiV6FqFqMHMTpSSXBS/3aKEEg=; b=Pac7SOlrI2fWJyImdOoCJ+H+X3
-	87M4L0WiOPPqpNiD57ritTvlD8zN2zXjCpEUAsSj8Xd6N2MG5kfhGtodbSeEfLKwQNUj5agHqosdy
-	riZCVn5tWUA6UpJUj+eDTb83clI50Y0muGDedJsX1K2h9N5Tbg6f6a8lFSLTfqpSLXiOylBbZABKt
-	pd6jYwif/tpL+seDfWYauZpxbXBrALEdAuOxVQLDg3vN6A80fQGHJAIczJJWq6zu1iiu7PvmkBJYh
-	ZZA8Gl9xz6WKBYz6ePBg2p56FDde0BcHpzEwzt+0JkrpPdkyuSBcSzPJj8r1KDVxOrBQOs2BPHYp2
-	pKqPCuAA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unpHN-00000006J4q-2m3U;
-	Mon, 18 Aug 2025 02:07:21 +0000
-Message-ID: <1075a908-23d0-4a9e-97d2-cb68d1d6b675@infradead.org>
-Date: Sun, 17 Aug 2025 19:07:21 -0700
+	s=arc-20240116; t=1755483434; c=relaxed/simple;
+	bh=DkI8PHPeptSQVxGgA+vwNi4TFVYR9eQDIXUem0HipI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sb8hKQG7WuzJKLwaLWOcUNgPfuNHVKuMd1Ils8kchw34PDVoMJ58w6Yce+FTFL1dSgqQTbP252B0QpYgjpT8e8q/ZxBKOw937npgO00iydtFuqh3bKjc3HgUrt5X81idWgrJ3w121hKIts855YDMIT3CbM999RtPWaPtgo8/oHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz9t1755483266t232adb71
+X-QQ-Originating-IP: UCwSp3ZXIX+i4qABggLBvhtpUNEtadG3qkHLkiDF9cI=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 18 Aug 2025 10:14:24 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 12181084716518767878
+Date: Mon, 18 Aug 2025 10:14:24 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <955130413833E341+20250818021424.GA1385422@nic-Precision-5820-Tower>
+References: <20250814073855.1060601-1-dong100@mucse.com>
+ <20250814073855.1060601-5-dong100@mucse.com>
+ <eebc7ed8-f6c5-4095-b33e-251411f26f0a@lunn.ch>
+ <3A381A779EB97B74+20250815063656.GA1148411@nic-Precision-5820-Tower>
+ <0890f9e0-1115-4fa3-8c1c-0f2e8e5625de@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 RESEND 3/4] docs: ABI: Document LP5812 LED sysfs
- interfaces
-To: Nam Tran <trannamatk@gmail.com>, lee@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: pavel@kernel.org, christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org,
- robh@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250818012654.143058-1-trannamatk@gmail.com>
- <20250818012654.143058-4-trannamatk@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250818012654.143058-4-trannamatk@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0890f9e0-1115-4fa3-8c1c-0f2e8e5625de@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NZcrde3zhHkVzeva99MKTzBquxQqcGxPMpv7Q2jOBY4wwScOtv2PPQ3L
+	bH8Yrkibo4FI6VTxo1uajhTpUJ0b6Vasf+YTWXOxj1eqj+NVEsGIo/wOeh7bvn9fMpG05iI
+	iVKrSstUDRnFGKz/U6XgbOjfehubKqhyEcWlzxy8Xy2u0x6seEZ4SvN/4lSuJ0vxrpg/76E
+	iBLSnnko9wKMF6ib/81H4F2FjBZkwqoV07MZQ72dQ+DLFpR3Se1SdlTCehiPXgZD/6wM/YA
+	d1eh71HJbyIOH/jcca7gX/IMF0wAJzXFkCwKvF+idhyj9W1fSdcerr00Bw9T2Hk9fuKNO5a
+	9A8cPX5PWdyX59p5X2FtKzXHlLrrLEHdWt66yjJckfFup4lhqIax2BXxdRacN4NDMw9uJJU
+	k6bzRFmD2Bzs4BkeVhctfeUwYe/giclDYy++0FRtG+nT5ehw+QcmaqmrAi9gxyOLR6eipYk
+	P2y57C3KpWZE0k68xRwxbO28eV6HaTEGiZpJVOQzmMIGAzgSTsKZNY5gY53o8oM2uEGwoIE
+	h+1jo7wOozLhocOzSnmwOujO6RjDAUqpWEvgFZVjLM2CfaJN4ZdUsZx4h6XGdg+lK41ix8s
+	ZpUTLVF6I/B7eRp2qJVHNKechAqvK6dsfEGgbruUv7hjyYeabFPRNvxE17GNOn4ZZGZsWQb
+	7ZyB19n0zaXDyuO8c1JLVYJGsvuAo8yCBnrtFrypMmCIg+6XFvw44hcjMMEkLV0R9KWSAix
+	Zf5BiJnK6v88S8epR+yAJ23Auv2mIaeRpCEJ9nsZ7hqq8vcsGNepx3UleBrXIxCx4YjJfXu
+	lGbsNmZH8j7VCQ9oXizDl/A2r4j2AtsrXx6YnWZHArYHoLg7vGP/0IfD2d0slapw7upgTHo
+	l67VWnsN01qsoqXVIL7b+An6ErcqwzoQ72mhTH4sxjWPKRce4hD80MZgbit52CLZuBdfSOS
+	1gyNcburwUk5NG7IkLXRn91y8q//LjbKBd53Yj08NVHlv3Kn+5l2IkRKADjEYFYChB7WbT4
+	UUVkl0BM2Pbn88cywC
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 
-Hi--
-
-On 8/17/25 6:26 PM, Nam Tran wrote:
-> The LP5812 is a 4x3 matrix RGB LED driver with autonomous animation
-> engine control.
+On Fri, Aug 15, 2025 at 03:21:33PM +0200, Andrew Lunn wrote:
+> > > > +		return err;
+> > > > +	}
+> > > > +	do {
+> > > > +		err = wait_event_interruptible_timeout(cookie->wait,
+> > > > +						       cookie->done == 1,
+> > > > +						       cookie->timeout_jiffes);
+> > > > +	} while (err == -ERESTARTSYS);
+> > > 
+> > > This needs a comment, because i don't understand it.
+> > > 
+> > > 
+> > 
+> > wait_event_interruptible_timeout return -ERESTARTSYS if it was interrupted
+> > by a signal, which will cause misjudgement about cookie->done is timeout. 
+> > In this case, just wait for timeout.
+> > Maybe comment link this?
+> > /* If it was interrupted by a signal (-ERESTARTSYS), it is not true timeout,
+> >  * just wait again.
+> >  */
 > 
-> This patch documents the basic sysfs interfaces provided by the driver,
-> including LED activation, current control, fault status, and simple
-> chip-level operations such as software reset and fault clearing.
-> 
-> Signed-off-by: Nam Tran <trannamatk@gmail.com>
-> ---
->  .../ABI/testing/sysfs-bus-i2c-devices-lp5812  | 32 +++++++++++++++++++
->  .../ABI/testing/sysfs-class-led-lp5812        | 32 +++++++++++++++++++
->  MAINTAINERS                                   |  2 ++
->  3 files changed, 66 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
->  create mode 100644 Documentation/ABI/testing/sysfs-class-led-lp5812
+> But why use wait_event_interruptible_timout() if you are going to
+> ignore all interrupts, a.k.a. signals? Why not use
+> wait_event_timeout()?
 > 
 
+Yes, I should use wait_event_timeout, I will fix it.
 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-lp5812 b/Documentation/ABI/testing/sysfs-class-led-lp5812
-> new file mode 100644
-> index 000000000000..93eeecc60864
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-class-led-lp5812
-> @@ -0,0 +1,32 @@
-> +What:		/sys/class/leds/led_<id>/activate
-> +Date:		July 2025
-> +KernelVersion:	6.17
-> +Contact:	Nam Tran <trannamatk@gmail.com>
-> +Description:
-> +		Activate or deactivate the specified LED channel. (WO)
-> +		1 - Activate
-> +		0 - Deactivate
-> +
-> +What:		/sys/class/leds/led_<id>/led_current
-> +Date:		July 2025
-> +KernelVersion:	6.17
-> +Contact:	Nam Tran <trannamatk@gmail.com>
-> +Description:
-> +		DC current level. (WO)
-> +		Valid values: 0 - 255
-> +
-> +What:		/sys/class/leds/led_<id>/max_current
-> +Date:		July 2025
-> +KernelVersion:	6.17
-> +Contact:	Nam Tran <trannamatk@gmail.com>
-> +Description:
-> +		Shows maximum DC current bit setting. (RO)
-> +		0 (default) means the LED maximum current is set to 25.5 mA.
-> +		1 means the LED maximum current is set to 51 mA.
-> +
-> +What:		/sys/class/leds/led_<id>/lod_lsd
-> +Date:		July 2025
-> +KernelVersion:	6.17
-> +Contact:	Nam Tran <trannamatk@gmail.com>
-> +Description:
-> +		0 0 mean no lod and lsd fault detected, 1 1 mean lod and lsd fault detected (RO)
+> > > What exactly is a lane here? Normally we would think of a lane is
+> > > -KR4, 4 SERDES lanes making one port. But the MAC address is a
+> > > property of the port, not the lane within a port.
+> > > 
+> > 
+> > lane is the valid bit in 'reply.mac_addr.ports'.
+> > Maybe change it to 'port', that is more appropriate.
+> 
+> You need to be careful with your terms. I read in another patch, that
+> there is a dual version and a quad version. I've not yet seen how you
+> handle this, but i assume they are identical, and appear on the PCI
+> bus X number of times, and this driver will probe X times, once per
+> instance. We would normally refer to each instance as an
+> interface. But this driver also mentions PF, so i assume you also have
+> VFs? And if you have VF, i assume you have an embedded switch which
+> each of the VFs are connected to. Each VF would normally be connected
+> to a port of the switch.
+> 
+> So even though you don't have VF support yet, you should be thinking
+> forward. In the big picture architecture, what does this lane/port
+> represent? What do other drivers call it?
+> 
 
-At first the "0 0" and "1 1" confused me (thought it was a typo),
-but I think what you are showing here is a sysfs file with 2 values, right?
-That used to be discouraged (or even nacked), although I don't know the
-current policy on that.
+"lane/port" in the code does not refer to SERDES physical lanes (like KR4’s
+4 lanes per port). It is for physical network ports (or a PF). We use
+it as a valid bit since fw cmd support multiple physical network ports
+within a pci device (with one mbx handler). So, for each PCI bus X, 'port'
+is started from 0. 
 
-@Greg, any comment?
+PCI bus X -- port0
+	  |
+	  -- port1
 
+PCI bus Y -- port0
+	  |
+	  -- port1
 
--- 
-~Randy
+> > > Another example of a bad structure layout. It would of been much
+> > > better to put the two u8 after speed.
+> > > 
+> > > > +} __packed;
+> > > 
+> > > And because this is packed, and badly aligned, you are forcing the
+> > > compiler to do a lot more work accessing these members.
+> > > 
+> > 
+> > Yes, It is bad. But FW use this define, I can only follow the define...
+> > Maybe I can add comment here?
+> > /* Must follow FW define here */ 
+> 
+> No need. When somebody sees __packed, it becomes obvious this is ABI
+> and cannot be changed. Just think about it for any future extensions
+> to the firmware ABI.
+> 
+> > 
+> > > > +
+> > > > +static inline void ability_update_host_endian(struct hw_abilities *abi)
+> > > > +{
+> > > > +	u32 host_val = le32_to_cpu(abi->ext_ability);
+> > > > +
+> > > > +	abi->e_host = *(typeof(abi->e_host) *)&host_val;
+> > > > +}
+> > > 
+> > > Please add a comment what this is doing, it is not obvious.
+> > > 
+> > > 
+> > 
+> > Maybe link this?
+> > /* Converts the little-endian ext_ability field to host byte order,
+> >  * then copies the value into the e_host field by reinterpreting the
+> >  * memory as the type of e_host (likely a bitfield or structure that
+> >  * represents the extended abilities in a host-friendly format).
+> >  */
+> 
+> This explains what you are doing, but why? Why do you do this only to
+> this field? What about all the others?
+> 
+>      Andrew
+> 
+
+FW stores extended ability information in `ext_ability` as a 32-bit
+little-endian value. To make these flags easily accessible in the kernel
+(via named 'bitfields' instead of raw bitmask operations), we use the union's
+`e_host` struct, which provides named bits (e.g., `wol_en`, `smbus_en`).
+Others 'not bitfields' is just use 'lexx_to_cpu' when value is used.
+
+Thanks for your feedback.
 
