@@ -1,65 +1,81 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE60200BBC;
-	Mon, 18 Aug 2025 12:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A1F31E0F8
+	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 12:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755519024; cv=none; b=Iwlmdi+uedzxWf4dzd3PVZdflVOduGX+iorKdU2SCvN/MVESZaSYDIQWVsui8uoTBH+V8KoBjntFo28psgrxDWLLh7NIYt13cAk8GsWAZZdWMDn0HAKZNideq7mFPxkszndH4DIv4C4EDNXn5wBZzO+ow6xZ63Wc/Y8k/p2MOks=
+	t=1755521541; cv=none; b=fNMcrBtT28PoH93khu6ViuTbOA+geGvZp7AYbgtntfD3dSKfhDAVC7sdRErU5AToh89K0jV/ifZgm0Dvr27sAyUx5zJk/dxp7KpfbIcYuUq/JdGrh48i34CtfOOf+RAWkuNe8y/bFfwHhNlv3BlCfvWo4MBmeXx79yuNn7qs7UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755519024; c=relaxed/simple;
-	bh=YkFLGncSbECdhaZvESZJqJcRkidDZNet17BajrML49o=;
+	s=arc-20240116; t=1755521541; c=relaxed/simple;
+	bh=zfyzDSAVxnMaaSs01hyHjmHTlAAMSq3eN1p2RnLSdz8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Udh9zTAWruH2js7TwIJZk2QojgQD5oMX/JxdqCk61evaHHOmuDfQVb+1afajNuYsKLlxptKoOKN5CmdhXP8kLBx9NHD3gzNUfNW+YI/1H6yUbYumvLkTEnxYskwRN60+TReeVaUfIF7+u64ZWinsGi3JrEaqrvfmqOxfIMxNQAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ByzSwL9F; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=a3GDPVeqgAUYwAQ+nsLdiFHcY6S6aYA8X2gxfxfZQ7TKly/fDCv3SkGXKQMv3ZrWH9Z0URmpQ1XZJ+5pJrztLmuSwPh7yrjOz2fgsscK8a7qaWGy8JECsvbUK+bNQ+tO/iuZ/iDb/ZS1bYIOo4BtEO8yYaIEjD+43h8B9g491zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AvhKbEy1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=c7DKhGrX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AvhKbEy1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=c7DKhGrX; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ByzSwL9F"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b471738daabso3796071a12.1;
-        Mon, 18 Aug 2025 05:10:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755519022; x=1756123822; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d5RwcRsrB3qBfjkjq7NkATYIehpp0UF3EbzLPQ4iQnc=;
-        b=ByzSwL9FY9KK4kMM6TDfvqOeX4mG8aPNszTn/wIqqMSuB1LHEOXcrEjCzPdiYsa8nt
-         Nr6JiOVpbfEomM3A1GBU5c3KZc6BQUsOWfaOaszq5mmqRSwrR07D4N4BsLdB44ekq9go
-         e7V/iCbMeKFzNuncnIXskAMQz+Ei5AD8zK45G0TQvdLd4BwufbFMbxnSuLGAe6gsX6PU
-         /7zVVW1s5nEGBLhd9jgb4vxKk1ngu5eeySvntqVPNQaCzZ6/xHkN466BL82++X6RWBq/
-         Q4ItbsGHipNmLge3lSG23luHTba7BGVrfZQW5bFkxfJm9Ey6P3kKtSPFdQ9oKPipIMFa
-         eBcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755519022; x=1756123822;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d5RwcRsrB3qBfjkjq7NkATYIehpp0UF3EbzLPQ4iQnc=;
-        b=qhVn5uaRjxaw4uvdTaKG4y0RfpcGPZ2nLE96hrTC4maEngkh6LEdcUqBhRI/jgWBLz
-         snlJNQkBVkqW+kfTc5+9ofpzL1abkIX2mIY6ppR+7WOhNPqnSz2iu7grLH40ZhdGzI0k
-         KR1gpBBHTK3pYvrn/D9x6dgU7cKPxJloIeBJhcWSMuUEmt0yOCE0R4bA9TzpixyB/2Xq
-         7b058/x02RJP572FVpLiFNPL0UMENYv4HTmasBiw7zzI7BIZhq6pa28rJghLbb3aRprT
-         0HZph7ZwRmHs6OhLoJQP4IGeancuFjxpo4k7X17BwVQSIu5kpjspfzx2zAiyCMQR7I8G
-         hliw==
-X-Forwarded-Encrypted: i=1; AJvYcCVFi0cjVISBSOhFE0/aTRwk/Ls3WvuJxdVspfrjU6kLXYIc/Gu8h/Wn15D1pZRsaE45Nfr3okVVUkk=@vger.kernel.org, AJvYcCXWk+yITsUxrrjXY3oAsmbKfjerY/tUZOIjqUoO3Q+awVCFyqVpI5i80HWLDz4Vz53mb1W6GrEwRO2Gl3LA@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0kAxqgIOLhiCBIaeogibPYhEuI7j1HD7ivqe6/VBAxNxzVwU7
-	k11z1T7VLnil4lWZeJ35rjR+Wlgl89LRHo8+TbprswUqk4bqIK99tE8b
-X-Gm-Gg: ASbGnctUKskYzV0C3hClNaj8nzmu+TIZesbGMVyeGbVjcAqlKHwdG+I0uiFTftcbmZU
-	BgjJUcOhoZhPl8kjNZi8l+kzlMlrtSWOt+Mbl7VCTGox+RKR0MkofaNwsL3M3DZdz5Q34jJODcy
-	1+o0hYpM37KKUq0z+rkToa/auhubC9CALTRm//He6+9hb0TNxwPYae44+X732v5ogrf1a9KE/Zc
-	hgAsLdos598cGtBYJuTA0ZZqpXPt3SdCkbDUGFHC72aRuYOW7HWaCEmO7URmao32QstONFZ/N+Y
-	URoFaHUl/6/GmXftFeUPWQmve0+nboPV7woHP5hlUpuPuBCNWg1IAeRmf5VWPTeRhkK+i9vy+06
-	uqNAd2i7XeqNSLBGCnN3ZLH7B9/ncA45VAdRyZu2NGIHyjf5KdzXqwAwqcZBoHReC4dCD
-X-Google-Smtp-Source: AGHT+IHJoPnaXqghO+4z/heCsbip/wX76fcfe31KQ62rADAvBEdyfegrTBcPpKkgoAMOqBtW3H85Cw==
-X-Received: by 2002:a17:902:d58f:b0:240:5c38:756b with SMTP id d9443c01a7336-2446d710a8fmr145122895ad.14.1755519022013;
-        Mon, 18 Aug 2025 05:10:22 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446ca9d9a7sm79660725ad.23.2025.08.18.05.10.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Aug 2025 05:10:21 -0700 (PDT)
-Message-ID: <ac5454fa-26d4-4520-aeb3-8838e7bc065f@gmail.com>
-Date: Mon, 18 Aug 2025 21:00:34 +0900
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AvhKbEy1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="c7DKhGrX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AvhKbEy1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="c7DKhGrX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A37E51F44E;
+	Mon, 18 Aug 2025 12:52:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755521535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dYgRIvxhgQ9HCB25wkduiasp17FHQMerfEPYfWkM8W4=;
+	b=AvhKbEy19hKEV2FFEiHgKDM8P8hVYDU59C7pdywm8+FgDQ6VNld014PFPF2qu77nm40k0j
+	lmwGJ5rbhFW6V5LnOTOvG9SaayZGPNcSqstuc/4Csq6U9Utx3HdUQJhOwJJFU1kcNFxxnU
+	7+sJ7fwbqe/cfEuQTzVq3bd26gZqN7w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755521535;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dYgRIvxhgQ9HCB25wkduiasp17FHQMerfEPYfWkM8W4=;
+	b=c7DKhGrXdg8go5WZN1alZFwPx+wb0ZMA03t7v79QmYiQB705wP187YVYmqgVrBDYcQ7fIs
+	mUMxMzl4zH+kpAAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AvhKbEy1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=c7DKhGrX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755521535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dYgRIvxhgQ9HCB25wkduiasp17FHQMerfEPYfWkM8W4=;
+	b=AvhKbEy19hKEV2FFEiHgKDM8P8hVYDU59C7pdywm8+FgDQ6VNld014PFPF2qu77nm40k0j
+	lmwGJ5rbhFW6V5LnOTOvG9SaayZGPNcSqstuc/4Csq6U9Utx3HdUQJhOwJJFU1kcNFxxnU
+	7+sJ7fwbqe/cfEuQTzVq3bd26gZqN7w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755521535;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dYgRIvxhgQ9HCB25wkduiasp17FHQMerfEPYfWkM8W4=;
+	b=c7DKhGrXdg8go5WZN1alZFwPx+wb0ZMA03t7v79QmYiQB705wP187YVYmqgVrBDYcQ7fIs
+	mUMxMzl4zH+kpAAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92BEC13686;
+	Mon, 18 Aug 2025 12:52:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kwDmIv4ho2ilewAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 18 Aug 2025 12:52:14 +0000
+Message-ID: <107506e2-7870-45df-b595-583b57137a29@suse.de>
+Date: Mon, 18 Aug 2025 14:52:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,60 +83,128 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
- <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
- <20250816135538.733b80d3@foz.lan>
- <acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
- <20250817133606.79d968ed@sal.lan>
- <b3d97e98-121d-4d12-9624-3efd119b12a4@gmail.com>
- <20250817154544.78d61029@foz.lan>
- <b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
- <816ec5d2-33ea-4399-86e6-51ddc20ead28@gmail.com>
- <20250818114220.7f82d2f7@foz.lan>
- <fc93e36f-7503-430d-a611-983f0325ab1b@gmail.com>
- <20250818133533.153742ed@foz.lan>
+Subject: Re: [PATCH 6/8] nvme-tcp: Support KeyUpdate
+To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20250815050210.1518439-1-alistair.francis@wdc.com>
+ <20250815050210.1518439-7-alistair.francis@wdc.com>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250818133533.153742ed@foz.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250815050210.1518439-7-alistair.francis@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,ietf.org:url,wdc.com:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: A37E51F44E
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 
-On Mon, 18 Aug 2025 13:35:33 +0200, Mauro Carvalho Chehab wrote:
-> Em Mon, 18 Aug 2025 19:06:03 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
+On 8/15/25 07:02, alistair23@gmail.com wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
->> How do you install xindy under AlmaLinux release 9.6 (Sage Margay),
->> Amazon Linux release 2023 (Amazon Linux), CentOS Stream release 9,
->> and the likes?
+> If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+> EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
+> on an KeyUpdate event.
 > 
-> I didn't install it there. 
+> If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> allow the NVMe layer to process the KeyUpdate request and forward the
+> request to userspace. Userspace must then update the key to keep the
+> connection alive.
 > 
-> Yet, on some distros it seems that this is packaged together with
-> a texlive collection package and it is called during pdf build. 
+> This patch allows us to handle the NVMe target sending a KeyUpdate
+> request without aborting the connection. At this time we don't support
+> initiating a KeyUpdate.
 > 
-> This was also causing font issues. So, I added an option at 
-> latex_elements to ensure that, if used, it will request UTF-8 fonts:
+> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>   drivers/nvme/host/tcp.c | 63 ++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 62 insertions(+), 1 deletion(-)
 > 
-> 	latex_elements = {
-> 	    # The paper size ('letterpaper' or 'a4paper').
-> 	    "papersize": "a4paper",
-> 	    "passoptionstopackages": dedent(r"""
-> 	        \PassOptionsToPackage{svgnames}{xcolor}
-> 	        % Avoid encoding troubles when creating indexes
-> 	        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
-> 	    """),
-> 
-> I just built manually on almalinux. There, all pdfs built fine:
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index cc3332529355..0c14d3ad58af 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
+>   	bool			tls_enabled;
+>   	u32			rcv_crc;
+>   	u32			snd_crc;
+> +	key_serial_t		user_key_serial;
+>   	__le32			exp_ddgst;
+>   	__le32			recv_ddgst;
+>   	struct completion       tls_complete;
+> @@ -1313,6 +1314,7 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+>   	struct nvme_tcp_request *req;
+>   	unsigned int noreclaim_flag;
+>   	int ret = 1;
+> +	enum nvme_ctrl_state state = nvme_ctrl_state(&(queue->ctrl->ctrl));
+>   
+>   	if (!queue->request) {
+>   		queue->request = nvme_tcp_fetch_request(queue);
+> @@ -1347,6 +1349,29 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+>   done:
+>   	if (ret == -EAGAIN) {
+>   		ret = 0;
+> +	} else if (ret == -EKEYEXPIRED &&
+> +		state != NVME_CTRL_CONNECTING &&
+> +		state != NVME_CTRL_RESETTING) {
+> +		int qid = nvme_tcp_queue_id(queue);
+> +
+> +		dev_dbg(queue->ctrl->ctrl.device,
+> +			"updating key for queue %d\n", qid);
+> +
+> +		nvme_change_ctrl_state(&(queue->ctrl->ctrl), NVME_CTRL_RESETTING);
 
-Ah, xindy is optional then.  
+Rah. Don't do that.
+The 'resetting' state is tied to the resetting mechanism
+(LIVE->RESETTING->CONNECTING->LIVE) and is being relied on
+for the timeout handler. Setting it manually will confuse error
+handling.
 
-Got it!
+And really, having the key update in two places is a bit ... odd.
+I'd rather stop the I/O queue in nvme_tcp_io_work() once a
+EKEYEXPIRED error has been hit, and start the key update via
+nvme_tcp_start_tls() function directly from there.
+No need to change the controller state.
 
-Sorry for the noise.
+Cheers,
 
-Akira
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
