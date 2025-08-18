@@ -1,116 +1,139 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D8535A28A;
-	Mon, 18 Aug 2025 14:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2054335A2B2;
+	Mon, 18 Aug 2025 14:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755528136; cv=none; b=m541qftepMe9/IKx/UcM0em63adni05KoxWFiEXyhpMjX6l/6cwIHByuZauAVNOjd9RpMGEV5ZGSu6hTr+8ErsSrE1QmRUOIOJKGBkGRV5km2COyglD2DjOvj86UvWyFk6bLQZwi+tyLnYTnlg7wEQmndR5sSSHpN1FT4c5/gew=
+	t=1755528281; cv=none; b=RHiR1wCH8JCdXQFz4EcCb22v6Ga6ZcD0tFDn1jUYLNzKpEZy0rfA9JliqoW2vTdFjUwLgesQInV+5ydEvQiEjvQo79RJ/Oq70PYIl6/eiVHLsMVnHVQasMEfe+0Ku7MLodL7BmaPVvuq2TWoG8qHhikLiUUWBCbcFZNVfNUH0dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755528136; c=relaxed/simple;
-	bh=g8huDsrE0kNMAJ4YeKQeYZ+Jxmi3wLlT5sYTAM6ravQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K0BKnInuiff4QvAqQaa34EbRCSVZNJLu9pcTLBAA9bM4Ai/U1UU8yMdNBICEz+eBZdLUDC5n9QdIXXL1DgC3+XQ5TOaYzhleKImcOFKR6wnwQMpHNXFrUPQudxhVKJmDC/+Jqx1b1hC/SWNq1R05XtyuSFoa9E+4UnQ6SyVI2og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V4AIWgoz; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755528281; c=relaxed/simple;
+	bh=mMKIkhPKdEqNAGhDWDIfws0cG0Cg578nDe0eBj6SHHQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=IG4+THhetn9uDdbj+3XMre667gbobd3RgnP312imkUW0ZoRjaxxVF//9OOH7+P6HDwkWSMX1Wl0I7k3T4ox0u5oMk5IC2UfjHDjTpKeJTmvG3iVpKBiHgg6wFN1a87ahNVym4c92VtLfEH2Srr5g+rMbawVQRy96kTQ9x3mgqXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=M2YuH+oK; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V4AIWgoz"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45a1b0bde14so22026875e9.2;
-        Mon, 18 Aug 2025 07:42:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755528133; x=1756132933; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2VylDR1oWkJ0EiX1c8eLC+dJ8zDkBar7+OrlY7elEsc=;
-        b=V4AIWgozUCxGMK8sf5iEQS/UR0LICoxh7TFSjDC7N/iUl78cVJpAXoZ7oYu8gZ75Q/
-         WWmw2GJnp0jDuQW4or3crBczSfqC2kFeYZ6fRABpa2eJisb/0Cc/bcykKwBD0POUR2Dc
-         GEhDIqTlAXKDydfjQpvytCaJilJmPA0OIQYxcmVf7Xkk2MSxIN6HSIJ7/NZMOmwSOz5Q
-         IoB1z4wDPAFD6acwmA8l1VgH2RoE2tLibBybIvrIOTezmJ7wnYTlj2Zzm6rlhYEU8btW
-         7+eunoFu3VPX/lflPKcSl5HUts5Y0cMFjkUdA+2UdYDgDZcXlfCF885qg9JVxHuu7tVC
-         7FiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755528133; x=1756132933;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2VylDR1oWkJ0EiX1c8eLC+dJ8zDkBar7+OrlY7elEsc=;
-        b=jnkQrX5joVQuy3hOepCAyUWaO7OGEi4kPyC0ahbw+GagZdrEK4v8NwC9JPH3vC858m
-         3bK1BwJg0J94nEK00s/rIEU2r9ZI0+rx7nZZTKKrNjnvMicVR32Q8ngUh5n+bK0I2/V2
-         wre9OmSvuI20mnBdNnYSxek7OTFnC+rMZiTSKUGonZr7xmmCd3shf7cwnJJ8qKzpfrne
-         PNL9fz07xYlmA+Uajpwj8UDnHNITkc5+ct/0luW+bYBBpI4kdxtaSXbdhPwdzVxn9Wdu
-         ysi0JPD1J63g+4rQKpLDxClK1Z8nv84F4OTvIDL4LcSQ6pHLN1U/FEbqEyZeaiVqo2dQ
-         5rjA==
-X-Forwarded-Encrypted: i=1; AJvYcCW9/v4fjTmVAnXcrINa7ar9uM3W2ZNz86fvsYL2FQUPJWh88FD5HIakvwWQ06JS5ocHIswMW7+vWO6v@vger.kernel.org, AJvYcCXwBsRFiAdihL5EKzxSJAJzN25epy6xvUodSSSqeCTv/IS69RZvVA2LKB9yH4FJa5x58OEXAosu+6BgemlY@vger.kernel.org, AJvYcCXwsSDXrJ2kTouludwQGYRoWbAKUKk0HltiihC7KnP5XAn11dtnFtHCRjBMxEc1FcfXZWE+zwgnrH0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpQS/PFGAwqQPWEpNA5r/fNli+Zzn9GyNhQB5mglH5FsMsFgWj
-	RhLG3o+SnMuhZvh+BXPTMKaQWclbUe36I2q4ZOuh3jMx6Kg4l0X1wUliJkZxL26u9nR0Me3dPtD
-	8Kr5THrAgAYr4nNrfI6NKk0+vnCcp9kW4lyuRCZFxNw==
-X-Gm-Gg: ASbGncsk0Zj3t1BZ6oLiJ7U3HuxjvNpM5f5VD4Pe5+/dhviZENLJoF45n/gowzaxcda
-	RMzDQvFs3Tl9LPwBkNKgZn6kL2C90lSywprMHYXz4w5jWCAc0t80/d2sXeXTZZSAnn+aNISaxQp
-	5w0DlyfQh/Rl87DFb+Y6fEdJXVFU9u5wBHMuo5kmjXhIjBYkB6uc3d7Ye0w9sD9ILFOhf8aaxr3
-	xFEENUTvg==
-X-Google-Smtp-Source: AGHT+IF6uyFUGlyDCHbyGxLbiebW15nl1dAN+7KqllTQkgQUSLDjBnckdQ4PrtuCjAiIJxTGaqJ/sn4x3b+8l/vlLUI=
-X-Received: by 2002:a05:6000:24c5:b0:3a4:f50b:ca2 with SMTP id
- ffacd0b85a97d-3bb6636cb19mr9221513f8f.8.1755528132931; Mon, 18 Aug 2025
- 07:42:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="M2YuH+oK"
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57IEYiww025389;
+	Mon, 18 Aug 2025 10:44:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=lW3/LPo9dCqQoq2/cIX+6sSFCzF
+	WxgpwuV5nvG1cwHU=; b=M2YuH+oKVjHg+BPuQySTVY56lEVZ+J2ijaR4BLO9qBW
+	BhFfowSXdh5bRg6+l2t2UtdWJRQLzKz0lGPXoiw8QpLdQl3s48LP4gt+bRGbaqAk
+	fMmEGY61TABK6fmEM7UudpsBRTVR7uhlhi7oNY8KP9875KMiEWAZLRdkCA/dj79w
+	hvNxBaNU0mU7bPsNyHd6GRxpLYyhihVOlGFucYeHTgRlYLvClIRPmnD/dFWd6hE0
+	2MBnqLfZuf+1X2XFK2HD4dflzVYoMqJeB2h2JqioOKU4xvoix11pCwG7K46oJlVv
+	s8JQpvwEeJ7QfswRVLh3wDYn/vYwplmCXMKagrdjIZA==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 48kn0svs6x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Aug 2025 10:44:36 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 57IEiZW6051886
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 18 Aug 2025 10:44:35 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Mon, 18 Aug 2025 10:44:34 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Mon, 18 Aug 2025 10:44:34 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Mon, 18 Aug 2025 10:44:34 -0400
+Received: from HYB-DlYm71t3hSl.ad.analog.com (HYB-DlYm71t3hSl.ad.analog.com [10.44.3.53])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 57IEiOH0012430;
+	Mon, 18 Aug 2025 10:44:26 -0400
+From: Jorge Marques <jorge.marques@analog.com>
+Date: Mon, 18 Aug 2025 16:44:23 +0200
+Subject: [PATCH] docs: iio: ad3552r: Fix malformed code-block directive
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250818075051.996764-1-yeoreum.yun@arm.com> <20250818075051.996764-2-yeoreum.yun@arm.com>
- <CA+fCnZcce88Sj=oAe-cwydu7Ums=wk2Ps=JZkz0RwO-M_DjfVQ@mail.gmail.com> <aKMmcPR8ordnn1AG@e129823.arm.com>
-In-Reply-To: <aKMmcPR8ordnn1AG@e129823.arm.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Mon, 18 Aug 2025 16:42:02 +0200
-X-Gm-Features: Ac12FXwekbsyapeljRABB8AE1hyjZDIfFB0HZbnsKW56XSmgXNqVbJdHAoiUZKU
-Message-ID: <CA+fCnZd9m3WBPimikuxSMNar-xbDaNFNQEJ9Bn=8uCMe-uYHeQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] kasan/hw-tags: introduce kasan.write_only option
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
-	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com, 
-	will@kernel.org, akpm@linux-foundation.org, scott@os.amperecomputing.com, 
-	jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org, 
-	kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org, 
-	oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org, 
-	hardevsinh.palaniya@siliconsignals.io, david@redhat.com, 
-	yang@os.amperecomputing.com, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250818-docs-ad3552r-code-block-fix-v1-1-4430cbc26676@analog.com>
+X-B4-Tracking: v=1; b=H4sIAEY8o2gC/x3MQQqEMAxA0atI1hNoq5XiVWQWNYkaFCstDAPi3
+ S0u31/8C4pklQJDc0GWnxZNR4X9NEBrPBZB5WpwxnkTbEBOVDBy673LSIkFpz3RhrP+sZ/7YNi
+ 6TjxBPZxZan7v4/e+H/whBm9tAAAA
+X-Change-ID: 20250818-docs-ad3552r-code-block-fix-6f680d124e5c
+To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+        Jonathan Cameron
+	<jic23@kernel.org>,
+        David Lechner <dlechner@baylibre.com>,
+        Andy Shevchenko
+	<andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+CC: <linux-iio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Jorge Marques <jorge.marques@analog.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755528264; l=1010;
+ i=jorge.marques@analog.com; s=20250303; h=from:subject:message-id;
+ bh=mMKIkhPKdEqNAGhDWDIfws0cG0Cg578nDe0eBj6SHHQ=;
+ b=+hsDxYSXH2Uqi86QlI8NPUrQtWyjjoSnx/TQrdFtgVia00Ndw11RsBrIeGT5IL2jYd3GYzsCc
+ iT6TXZ0ngk+B0ShxIWnuUQGXxdaOUKnwWgd6lI4Wh20TJuZkKLQ2TJ6
+X-Developer-Key: i=jorge.marques@analog.com; a=ed25519;
+ pk=NUR1IZZMH0Da3QbJ2tBSznSPVfRpuoWdhBzKGSpAdbg=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: oru05bQXb3Me-rQLmyEU2Rrunz1r81CR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE3MDE5OSBTYWx0ZWRfXxhILP4/A/oQK
+ KikVY+hX8czvhLy4GiHY6l2REbz8ChAkuudDC3ZxO4Cv6+9jSgqyanFSU3iWhQhR6HnYCs/oKce
+ Gwkrqauhc4CYV5svNLDZzI31rLvo094dGwHS6tntNCWf7ua+r0/xrgobBE2zgB+/vyy3txCwJPK
+ IBOqjMVkOlh1FLS6FF2twVuMpUG+Go4R6wmJdfYXa+bKUYI5jVfxct2iCu4csYXYRvgYBhCHl0R
+ 9ntqbVfqyU36L1pSMhV415V643HG6vkCkT35hMJ5rZJOv4FoJDaE8ZnHkmonWVcE+BinqLhzFZi
+ WxtQV1QU5an12qrMt7e4H+4g0TtK+N8TllYFqW5qt1aIP7DOEa+2CJ9f+BN1Pnzj8KgFPneDPGl
+ 2NWtRN9m
+X-Authority-Analysis: v=2.4 cv=T6qMT+KQ c=1 sm=1 tr=0 ts=68a33c54 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=gAnH3GRIAAAA:8 a=0rILtPB_kMdZEppRk8EA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: oru05bQXb3Me-rQLmyEU2Rrunz1r81CR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 spamscore=0 bulkscore=0 clxscore=1011
+ priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508170199
 
-On Mon, Aug 18, 2025 at 3:11=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com> w=
-rote:
->
-> > > +           hw_enable_tag_checks_write_only()) {
-> > > +               kasan_arg_write_only =3D=3D KASAN_ARG_WRITE_ONLY_OFF;
-> >
-> > Typo in =3D=3D in the line above. But also I think we can just drop the
-> > line: kasan_arg_write_only is KASAN_ARG_WRITE_ONLY_ON after all, it's
-> > just not supported and thus kasan_flag_write_only is set to false to
-> > reflect that.
->
-> Sorry :\ I've missed this fix from patch 3... this should be =3D=3D to =
-=3D.
->
-> However, we couldn't remove kasan_arg_write_only check in condition.
-> If one of cpu get failed to hw_enable_tag_checks_write_only() then
-> By changing this with KASAN_ARG_WRITE_ONLY_OFF, It prevent to call
-> hw_eanble_tag_checks_write_only() in other cpu.
+Missing required double dot and line break.
 
-Is it possible that the write-only mode will fail to be enabled on one
-CPU but then get enabled successfully for another?
+Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+---
+To resolve the code-block directive syntax not being parsed.
+---
+ Documentation/iio/ad3552r.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-What would happen with the current code if the first CPU succeeds in
-enabling the write-only mode, and the second one fails?
+diff --git a/Documentation/iio/ad3552r.rst b/Documentation/iio/ad3552r.rst
+index f5d59e4e86c7ec8338f3f4e82d7a07587e3d8404..4274e35f503d9f7d8a5427a72d761d6549f4c683 100644
+--- a/Documentation/iio/ad3552r.rst
++++ b/Documentation/iio/ad3552r.rst
+@@ -64,7 +64,8 @@ specific debugfs path ``/sys/kernel/debug/iio/iio:deviceX``.
+ Usage examples
+ --------------
+ 
+-. code-block:: bash
++.. code-block:: bash
++
+ 	root:/sys/bus/iio/devices/iio:device0# cat data_source
+ 	normal
+ 	root:/sys/bus/iio/devices/iio:device0# echo -n ramp-16bit > data_source
 
-> As you said, kasan_flag_write_only reflects the state.
-> But like other option, I keep the condition to call the hw_enable_xxx()
-> by checking the "argments" and keep the "hw enable state" with
-> kasan_flag_write_only.
+---
+base-commit: 35e3d0cd8e89d811b915593cbd8d9891d21d4a1a
+change-id: 20250818-docs-ad3552r-code-block-fix-6f680d124e5c
 
-Assuming we keep this behavior, please add a comment explaining all this.
+Best regards,
+-- 
+Jorge Marques <jorge.marques@analog.com>
+
