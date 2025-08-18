@@ -1,74 +1,89 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EDC320CD8;
-	Mon, 18 Aug 2025 15:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470C2322C6E
+	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 15:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755531977; cv=none; b=d2fC4fA3+496KDweoAaVK8W7tticmRypoThxKMq45eXXunhG0DI+R5giKjwuMtx/hFj0cKjkARKJbJxr28SMWghJznesZgv7qdemtS56/vEi9/c8dn7HcrZ4/andzyhkbmIip6A8fyV6MTkHbipbYCqQ6lZYK1yJ5AmjCHAq9T4=
+	t=1755532222; cv=none; b=Rdj643Z5Pxo2OmtdQHzBKlRmZKX83tLGx1Lqw1hUxYwcrYRjfXp1o75P1KQTM3JG8SWZUvxfWQWU4xxLjZCkVfeOOo2Dmcm+eVKx1OwtrrEcs88gBPr3gmqL0JgZWaDxFXuXuBEumniIpt20Z1NeFQ7xq0TJv5R29OZ6LYxMPfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755531977; c=relaxed/simple;
-	bh=33SvtRRZKRpGEJgkApmw9XDN2PRubckU2zN/pwZlLD0=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eFnNkTKXWo6X33Li0/kFM8D/Vt8s4sIVmOhWAzvTSg06W1xhvwSzMVNECRCuOowftjPhqfBu9ly9Dy+XgM/FV9qoCqytVYVhndGQasmBIO5WqZVaSXPl0kUEBe55z85JwqbS+T7OOlSMl5BCE1cYUW1Wgvx64e7mvKmmc0zcV7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=W+2uVyTM; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1755532222; c=relaxed/simple;
+	bh=TG/w80KxC5LEq8NbqFxphKbLwuVjO5otVCEbIll/TWk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JMrfNNT43h9q/t959xYvq4UHs8ti4fJ87q1vbSRD9Yc6NUhQcw04otamNHrVEVRrJco9MyS2dTxq1wYEFBD+VdyKqTJqw1dVaLNNkZihLun+eS3PbJt0a6O10Uq71fLpCDcYMuqVB3W3jwKCJapuaAkksTMdjNVHJfw/aKWNCL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MSrHuRUv; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="W+2uVyTM"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 73B4E40AB4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755531968; bh=kZm0Bwd6RyfzEuTnBUIgBslD2YQ/6RG8WWIkX9TBaJ4=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=W+2uVyTMXR27DTowkNNp6+t5Lyo4/bR2sMpVLS6Bhvv5PEGFYjXoIOOyMo08MTS4l
-	 vyurismLfczWox23k9/cOuXvqJGl10PDHUDgIacjQyH1luudBuRYNpkhKp75rVVrVb
-	 73pBNW+EwZxzSvPdIcGHxnlZQwgnaEWHxNExRS08X62+sLs/snjhhN87ehWBmcQ1iX
-	 0s6UTYX46UWGrdEBW76Fvo2nDQoWdSDgpD3i8tGJZkC95MWs/9f1KS9IwTppR3Ax2T
-	 BbbjMYvnIjjQ/w0QuLjbp5tH8uvvY35tNa46a5MzIUJ/GP8V4R879xa5Vy1G3a4pAT
-	 T2fSQwzX22xlA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 73B4E40AB4;
-	Mon, 18 Aug 2025 15:46:08 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Iris Shi <0.0@owo.li>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/sphinx: Fix typo in automarkup.py
-In-Reply-To: <8e5ddb7d-8faf-314f-b1b1-2d15d6900862@owo.li>
-References: <8e5ddb7d-8faf-314f-b1b1-2d15d6900862@owo.li>
-Date: Mon, 18 Aug 2025 09:46:07 -0600
-Message-ID: <87ms7wab0g.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MSrHuRUv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=L4iJdsGJ/6faqS1q8q803Yt4X9FQdiT0+NpuZrEh8Ss=; b=MSrHuRUvDWz3JqFAjGDQflXL9Z
+	UZH75XUdDiBAhi7+UacKTOKLMOF48Km86WmzegVNHARYb35pOHB1OblhKYrnyl9XIBQNrZno+7sbV
+	/ohYApkagLfrUsvCVKmTCmS1flyrFurk6BPT2oS397xDbCrjFJeZ1ddqXsCY5msDbVIZHB9JuaYmL
+	ZNArv8qBgoM3HjVOPodBiRRwea58wycRe+LhmH+tqrpusUDlQIJhVWRfkTMSFWXAqtnlPKO5milCI
+	iyD9PEUJliO18RITA3Uf+Er1b7zQy2Ocz5tbb8pdSsMR3ymGXcIqfQPrgHJmHDx81nEnunC6CXSDx
+	k81z4O7g==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uo27j-00000007xNA-1sXS;
+	Mon, 18 Aug 2025 15:50:15 +0000
+Message-ID: <f051d9b9-8344-4de4-99c8-918c107e37ee@infradead.org>
+Date: Mon, 18 Aug 2025 08:50:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kernel-parameters.rst: fix document warnings v2
+To: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>, corbet@lwn.net
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20250818082630.40097-1-kubik.bartlomiej@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250818082630.40097-1-kubik.bartlomiej@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Iris Shi <0.0@owo.li> writes:
+Hi,
 
-> "whan" -> "when"
->
-> Signed-off-by: Iris Shi <0.0@owo.li>
+1) "v2" in the Subject: line should be like this: [PATCH v2]
+
+
+On 8/18/25 1:26 AM, Bartlomiej Kubik wrote:
+> 
+> Fixed missing definite article "states that the parameter" as suggested.
+> 
+> 
+> Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
 > ---
->  Documentation/sphinx/automarkup.py | 2 +-
+>  Documentation/admin-guide/kernel-parameters.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-> index 563033f764bb..1d9dada40a74 100644
-> --- a/Documentation/sphinx/automarkup.py
-> +++ b/Documentation/sphinx/automarkup.py
-> @@ -244,7 +244,7 @@ def add_and_resolve_xref(app, docname, domain, reftype, target, contnode=None):
->      return contnode
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
+> index 445248787e77..7bf8cc7df6b5 100644
+> --- a/Documentation/admin-guide/kernel-parameters.rst
+> +++ b/Documentation/admin-guide/kernel-parameters.rst
+> @@ -215,7 +215,7 @@ need or coordination with <Documentation/arch/x86/boot.rst>.
+>  There are also arch-specific kernel-parameters not documented here.
 >  
->  #
-> -# Variant of markup_abi_ref() that warns whan a reference is not found
-> +# Variant of markup_abi_ref() that warns when a reference is not found
->  #
+>  Note that ALL kernel parameters listed below are CASE SENSITIVE, and that
+> -a trailing = on the name of any parameter states that parameter will
+> +a trailing = on the name of any parameter states that the parameter will
 
-Applied, thanks.
+2) This diff should be against the source file that contains "that that parameter".
+It looks like you did the diff against your previous patch (unless I missed that
+previous patch being merged somewhere).
 
-jon
+>  be entered as an environment variable, whereas its absence indicates that
+>  it will appear as a kernel argument readable via /proc/cmdline by programs
+>  running once the system is up.
+thanks.
+-- 
+~Randy
+
