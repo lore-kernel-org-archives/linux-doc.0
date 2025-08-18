@@ -1,345 +1,288 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013037.outbound.protection.outlook.com [52.101.83.37])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09D031B13A;
-	Mon, 18 Aug 2025 13:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.37
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755522717; cv=fail; b=a2AoZ4UsQX7fDRy7SwT/5ZJDgKE5VVdySBHY/P37Ee/pimZvd6r+QOcCi9atZP+3e0ujYM4+sWrEQBLorc3qDC/J5un2tbKHTCWSxB9I69Z3aU02KWQezI+iMk/YZ6ss7EWnywLzJ5c7AOLp6hA0uRzmre5ruqppjo9oB+l4uY0=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755522717; c=relaxed/simple;
-	bh=45pbpJs+Lz1OIsP6+d2VDJlEBmGp53Zyl28QOOVI1/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=jWhasPHmmWijDNQQFtN0ogtlIbAlq3JimBVe7PHz202nwer24RvHtMRtxs0aBn/jfNquhukpy+dJB9sPX/H6/Cb5Ac5rGzkvqvf7CyvY6Sf143zfqN8SRm3u76nsEjFjZRS0+W+G1CjNA8fFjK3hQmdoNUYC6liLtNuiU/fZcDE=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XrBvsWWi; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XrBvsWWi; arc=fail smtp.client-ip=52.101.83.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24862221DAE;
+	Mon, 18 Aug 2025 13:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755522924; cv=none; b=fMbZeTVb1MAhFhN31kkubco79F2pOyndleYdzwdpZbKyRhNzrLhsxq+JBoFOHzNCXhhLvh1l+mrng07NrrAdw/vDXfqmsb1h4JeD3lsoHcjI2DYpp1rtUwFs+wKv62iA3mJiKrNT5bNnd+ZR4lepz9JnNolXPB37cg8y0cH4PP4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755522924; c=relaxed/simple;
+	bh=GmE6vmhFxKiDew42RvDx5yQMkgRLqkZ/wRjDmOKZpCU=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=V+a+v7ohbdGJ8cNv2QIKotqp2Kwp+P5L2KM4CmmGgk9NJOo70iBi3vJ61VCsBj4FlHFOQ2Jfht3Wqm2FqkzawIY0jW1UftYOEBq2ebCI9zhYOnn80nRCUeRpcNqfaGVQjgH/ugOmcV6DGPkfPd2aNj5QbvBPNmaEIT2XM1YBtDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=a3Lc75A/; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XrBvsWWi";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XrBvsWWi"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=aqQnWSZ4HdCWGIs4ftaZWo6ySkPgLvp7fVlKP2jx4uvpzDUHlM/DWhiWN9lnjJ+Qp2arsrXI8EvW6PMhIJDvC9Zt6v1EIyVEaAx79XFMVLURz1shd8lbja9PFoPkN3w9iZ5+341PEknQeTi7AESMAkdB9NjLVzpP6j829+CuIJCiis+AudNVy0zFBPrgB0LaR2H5XZgWaUDsiLEQ4g1NQ7e3TB3+Qj1lHBqqvUZHMwBv2sjbTmDYCybSj5vKfQL9Oa3icMl8lkKT93OVKDedXVtKDtZ1OxuIsg0VcYIat2capSMRkiKSNj3EebxFS9ub5gJQ7nS+D8uI6xxGBxsY4g==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
- b=V6ramsYPNKdscnxwmV/9NUQZvzixIDfJ6iSzduzLcFerExE66ktqdlsmVtwYfkGLDNKWNxsANyMiqwB5rFo/6Io21OllfepMvI8NvsOvJqrR1S79/ZYaDjiXJ6yBL67RtF4HR7dw1MKKNPDLKBqLLCatWPDNyTXOmNjuSdBPIhvPFT32LlWAt+MH2O5MAvGGukI4hZTwzNoP9X9pAx1twYxRmGl8AZeh2El1oMcqnwp7xmcHzvkK+vsw7/HrShglR0iHBoHb0xucqCEA05vIrdOmaFr4n45o7XxGuC2iFofqcz8sBrNR/VJm/aFoSkmPFKzcLUU9A9d9mQIS5TWZyQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
- b=XrBvsWWi/H0Lv3R6yx+ybnRcTYxRVd9IhGMLZRBtAKr1J64vwxXPSLrSfhrzd8F1LNBTQbayudujucjvbC2/AKiMBfdtLytwAm/LYo10q1GXTjco6z7ZuwG2Sll/+Irdrdaf9uAwj/G9H95Uacj1ezMnb6t5FJKWHG88JmmVpcg=
-Received: from DUZPR01CA0078.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46a::20) by PAWPR08MB8839.eurprd08.prod.outlook.com
- (2603:10a6:102:338::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
- 2025 13:11:48 +0000
-Received: from DU2PEPF00028D11.eurprd03.prod.outlook.com
- (2603:10a6:10:46a:cafe::16) by DUZPR01CA0078.outlook.office365.com
- (2603:10a6:10:46a::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.21 via Frontend Transport; Mon,
- 18 Aug 2025 13:11:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU2PEPF00028D11.mail.protection.outlook.com (10.167.242.25) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.8
- via Frontend Transport; Mon, 18 Aug 2025 13:11:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HN+zCdMA4LfrULOsg/jqlkudWLIH8cG+QQvRMVUWdY2hUSickE1qPYMx/rC3FwWVW22hRYBzwPwxMm3sCVp5gQKrF4ORKS+0nqLoHaMHWtKXWYHGPGEupLmJk193XSP+vMD4crMUn1iV78/pGCj9Mp+A8b0n/s+0CDwCQ4W4gJn1L2XzOw82UQFrTBt7Ng79Gn0SCvyIWsOim4QV99P8rSpq4NWEOwFjdbfsz15ws6bZeBULqdH/yBkK/JfjpNeTScxa4qnapTZjENzHR9NjTg431D4Suf9RQA+zLmud5aPrway/GypS3pkSvLg19kJkSheWi3mGlo2iSD0LXkNF0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
- b=xcGNmjUI2DSOJHNMgclIUME7+lcB20T6IKVgsjN0V77FZUTSDcr3BrWAFDw56Ly6nXSDeHyy6SBEbPLSQOqtdEoXSwWFYwjjoSBLU61d28jBHmITvKL50WX7Nx5CfCSfOQMNcdBp4+mJjzzyiiGmhJ0oTCHIcr2IRJdWzYeUFIH1CTVTmGpXaUMPyAcZswY8rjj2O+Gq87NTjp2DucXR1unxF+P1mQUN3pqz9QIldFjm1QIGWeewUSk99TL2cphskfGlbKJ9bQdjWesdHp6aeNhENu/ilXBqVU49GMPsavbUT8Yx0MLAFklqklBgMMBH4KPMxes18UE0ki3HZLEVLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
- b=XrBvsWWi/H0Lv3R6yx+ybnRcTYxRVd9IhGMLZRBtAKr1J64vwxXPSLrSfhrzd8F1LNBTQbayudujucjvbC2/AKiMBfdtLytwAm/LYo10q1GXTjco6z7ZuwG2Sll/+Irdrdaf9uAwj/G9H95Uacj1ezMnb6t5FJKWHG88JmmVpcg=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20) by AS8PR08MB10144.eurprd08.prod.outlook.com
- (2603:10a6:20b:630::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.22; Mon, 18 Aug
- 2025 13:11:15 +0000
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739%7]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
- 13:11:15 +0000
-Date: Mon, 18 Aug 2025 14:11:12 +0100
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com,
-	will@kernel.org, akpm@linux-foundation.org,
-	scott@os.amperecomputing.com, jhubbard@nvidia.com,
-	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
-	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
-	james.morse@arm.com, ardb@kernel.org,
-	hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
-	yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v4 1/2] kasan/hw-tags: introduce kasan.write_only option
-Message-ID: <aKMmcPR8ordnn1AG@e129823.arm.com>
-References: <20250818075051.996764-1-yeoreum.yun@arm.com>
- <20250818075051.996764-2-yeoreum.yun@arm.com>
- <CA+fCnZcce88Sj=oAe-cwydu7Ums=wk2Ps=JZkz0RwO-M_DjfVQ@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+fCnZcce88Sj=oAe-cwydu7Ums=wk2Ps=JZkz0RwO-M_DjfVQ@mail.gmail.com>
-X-ClientProxiedBy: LO2P123CA0094.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:139::9) To GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="a3Lc75A/"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57I8hKc4021396;
+	Mon, 18 Aug 2025 13:14:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=FbaG45yJJRiI6KhYVq7g3x
+	0CtTcAriZv/tdQ/Z4eD+U=; b=a3Lc75A/JxWzM7HCFqoievfguxVAj5gNxbi2d/
+	//c2vnuXkw6u6DktrQuwOP/hdeYxcmRpcs0698LRh8+MiVKoa/xYfDG6qRvP3mnR
+	Df8jgNZai3JvurNYpMTsfh7M2P6aMa2JeeJDo782waMj2Z+bVr6znAs4bRa1K3c1
+	P6HH0hYXqZG9iVrUwfMdW/nbeJ/L3HEXgEYp2HbseymMD+9WYFk/l0nAlDmdUAK5
+	dc+hQH3jbcAF5QAV5RvDKj3E7fDjOeov+vlirW8AjR9wY7oDOyrdvN9BwVSpBq+g
+	uE/Z4KM0PjeaS21IgMwPPk6sZIr65jgCH7TiXrfD1DmkV3oQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jh074tyw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Aug 2025 13:14:56 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57IDEtV3012809
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Aug 2025 13:14:55 GMT
+Received: from nsssdc-sh01-lnx.ap.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Mon, 18 Aug 2025 06:14:49 -0700
+From: Luo Jie <quic_luoj@quicinc.com>
+Subject: [PATCH net-next v8 00/14] Add PPE driver for Qualcomm IPQ9574 SoC
+Date: Mon, 18 Aug 2025 21:14:24 +0800
+Message-ID: <20250818-qcom_ipq_ppe-v8-0-1d4ff641fce9@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	GV1PR08MB10521:EE_|AS8PR08MB10144:EE_|DU2PEPF00028D11:EE_|PAWPR08MB8839:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70120f7c-81b2-42d3-3fb0-08ddde58c97f
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info-Original:
- =?us-ascii?Q?m2Kv/vpxgEyY6lYBTE0rYGKBcnsLcMt5+w3/OVSJ7MXomC46M5tlOpTtFpnT?=
- =?us-ascii?Q?LQC8lJGrwIi9aVfVn3XeJV+xGnHADbPpFWalP06h82pNjHilVRefLfv2E7Q2?=
- =?us-ascii?Q?OgVfBJx4Usy4W6CLGEHFEVHJwQW0GHSJ9U8lmFBDXFuSQmzUc/7sUcG7KnJO?=
- =?us-ascii?Q?qIVk5iBgTzejuMOvtbRjkvN/ObkhUzr4Tgk4dMEJCCznb9Z/ooarUaB9fkZX?=
- =?us-ascii?Q?iSYFMfkCwSmy+LGX1hXbBkCBAbal2Ya41mkBOlWgHHm/RVqCb7yil5qJ+mN4?=
- =?us-ascii?Q?8s5ayGW6tR+WB65ljpnSme7AzLe3G6PAr4nnYEyP9FROb3uQ9D2vq17+Rttk?=
- =?us-ascii?Q?MySqkIq1uQ6s47YHmMKsIcskrI6ELRjX0NcSK9oh/IcBcEhGSJFVv99UtVQL?=
- =?us-ascii?Q?y+dKHNNDXXBhufwlyYw+qWjJFGjppGHCMzT9qly3CAgTrTKGyGI5lFfymUEX?=
- =?us-ascii?Q?gIOjm/Ud9gUAjmTrDpwi0U2ju1ChYoCATBWT/T+soWmbXVHI5OcGA+vX97wm?=
- =?us-ascii?Q?lBSBxN7hP+ljAjNUFIH6+Sg1OW7MgLvoTH/JVJar3YUru9tpiQI/KEQHc3uY?=
- =?us-ascii?Q?GZH+zRNW/vdk8zsI4x38Olf8Ec5ikeCqyVkZl7whDvZaD/o9a9hXVa6KIx4c?=
- =?us-ascii?Q?Sg23j0XwtJS0Q2UzPAtDbH8Wgq+qR4m66T2oVZQXQ5mAi3H/ukBbMMtdzO3e?=
- =?us-ascii?Q?Fvkx9Z1Vi33wUBMFC8TLjBoJKDpNDvUJENG5Inns2sYA84IIpwsVSK4rO7/y?=
- =?us-ascii?Q?bn+O+fsIrYiq6fJXSRnqd4oD93I1YY5B6H+CFROc6NxmMXYDvHrOX4QtV4JD?=
- =?us-ascii?Q?WR/6nmSHR1jiJkfsYZquqFW446uKCPpGgwX48JCrUndll1BHcg34bybKEhPE?=
- =?us-ascii?Q?5RY6dbjHjmaqojhu3aMerpF/t5DZrduxhCXuck+Xqm76NjbNLIegbL6LGOwK?=
- =?us-ascii?Q?hx6ua1KY30zKaGk95FtdG5y1VGaELBY39Ho5XPNyeGskQRv6ftg0G7NBjdqp?=
- =?us-ascii?Q?S1PKdn2c84Lw5N/153I+t0sdvW278rBCtr9VpfcllkRiFYtueF0zebJxFjKN?=
- =?us-ascii?Q?16niBVfc9iOcn8+kbgrsAAwPlWCs5DoQ6wsgLkklAsnbTdTd2UHT/xIwHe3E?=
- =?us-ascii?Q?zxjot7FxBzJi55IV+OI95LJF0gKY978qvV2gKpLXxXLyexItz1kH7wtxmH01?=
- =?us-ascii?Q?N1R0XIE50isld0qfewTr38LE0DDiLGr/6Mo7ttQTU1NU53C7vnYWyXwrz1Ck?=
- =?us-ascii?Q?bqHuEA/wVjZ4YX+VcPGEyOPPHCOT+yx/Hl0PtlIBvLhvTTAPStDdUBUj+3yp?=
- =?us-ascii?Q?sxaLuZln4DUn4yuFqFwoLglPQUx7Q/rg6oW2WPWlF98rYnz0aGGSCwNkHCt7?=
- =?us-ascii?Q?yPIvLtsa4bH6Px/rg3fhZ4xz05rzKPBQ+azAjGU5cNlzBAP0IrGbtMao5/ck?=
- =?us-ascii?Q?p+XzZPPcVfM=3D?=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10144
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DU2PEPF00028D11.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	da1a94ab-69fc-48e9-eeb0-08ddde58b648
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|35042699022|7416014|376014|14060799003|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?IJoODDviXApvdPto/fdEIskiJtWYh/1NOR+zXe3+VfJiDVlXKGUKzx6cWsVT?=
- =?us-ascii?Q?qdZO2Iii49RWA/Pzfci65JdJAYTZOjGFFjwtUwQwevT3Cy/gwRe61XF39mAG?=
- =?us-ascii?Q?WEqDIDQ7KPC2qwMu/ACW/acSZc8b9nXo8ny6MTLCaXhnnbOZrGvs+7bYrzid?=
- =?us-ascii?Q?nDnLFTGIAILbuVB6Jdkr+O8LEwTlmaMXdNdh69Wr+lby2gFI1FCMZrCySlBl?=
- =?us-ascii?Q?Y9xAPgM+03ocT7xUEQfFX+3sOgHflrD0liOiwgtmNuBGudL39As87PWlBj8B?=
- =?us-ascii?Q?ev5lHPBnRHDzjMkt+tDsL2EWCt2yLcztPgGTothT0bpbvP2iYXb3ohGpz7JT?=
- =?us-ascii?Q?JwVUC0gWfccn51Xzp31vULZ+/nAnjHCmN9t7Vtu7lHumjJ0WbVVIqVXnPyQi?=
- =?us-ascii?Q?Q+GDCkuhQc4nI9MD8p3EV0/iD/hY+Z4aidfT4IPimc076sr230JMVAmTpBhC?=
- =?us-ascii?Q?0GADHCVJW2hL+MTsHJkt007k6wNRVeNvSZvTXC5pWWRABFrFav64QxzbJx92?=
- =?us-ascii?Q?jbCjhEz++/M9E0fI/GzSSpbGOyx/ipU8My0y1sulkon1JDR5YJxoF38iBc7x?=
- =?us-ascii?Q?YT47icyJf89ZKv/k29Y5VCodqHCLPNT6X4BvKtZ+hTzIBpXdFrGPGZ3NPr1W?=
- =?us-ascii?Q?H73sxaBEW0sMZNRJFxWfK0HRhA/vdhmYS2hCNjlQm0BCsezqPllBSjN7thqN?=
- =?us-ascii?Q?lBaCWTSb+bRyXPNIwRxGfBaLvWZ4BhxF4WyrusBuaY2fpt/ZtsShU3mC3QP9?=
- =?us-ascii?Q?0T6t9FVl+bcIXxZ+IW7oAboC8HADT/uDq6Re6c9mjMmt5KbhTS5v6SMn/xjq?=
- =?us-ascii?Q?xLTIRgW8WDBB0JZ2OeSCEiBZgJXuwQGs/5qrxycNBH1rp+VieDep4v9Hhmxz?=
- =?us-ascii?Q?cj8SUJzBpFzxU2HfrD1DMDpSuznxiBmyiOvhNius03ynzXo/EnkkzfIpmk2A?=
- =?us-ascii?Q?2I3AqY29sdaf2jt5nq6yWW0THN5MUf3aNbeahNcRYynAVNqEKfYy3WnH+pqc?=
- =?us-ascii?Q?tV+5L1vVTXoE8HdVdDdKd1wkTOWgBaMmaJHay0/sKL8qCepWumri5A8G3D8V?=
- =?us-ascii?Q?MHvYzYLRVqsE838wUWc4ex7KqY8KsorhRkl4l+SOD0/NTbHBWJc5aJPrBd0J?=
- =?us-ascii?Q?h/s/XLFqB0f2mrTzPofFNi/oi8zkn3AVlMkvD986vkOzbRX0qfLV/uKEDC5s?=
- =?us-ascii?Q?7KHcvA+u8MdW7GNKojINq3GeEeE5ByflhQwpv/F2IAPizys7xXI5pDMj806m?=
- =?us-ascii?Q?wOBapgEVf6Dq0un+Z3yUCkCMFl9V7u5ncDRGy5UQTZAFVWszbZou9UdIcYdg?=
- =?us-ascii?Q?qcX5EckXO/zL8rApWXJHUAzV+dRMJCCL7hsU9XIIEm1J3HGAM5m6rCZ/e/VX?=
- =?us-ascii?Q?+JmURH41sjFnmeBu98OFDZ5jAtR1lklvK1In5hcRcG0Rb8getkXb9QDI/PIq?=
- =?us-ascii?Q?pgtCOJSBHAWm7cr4rcdge3J2MgjZpT+tKxFVXt2itEHhMZnCge9KTj0Ex5C5?=
- =?us-ascii?Q?VncGdkvf0o/W/GZBQR+qE3+s2/fXAgNz3l8e?=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(7416014)(376014)(14060799003)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 13:11:47.4373
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70120f7c-81b2-42d3-3fb0-08ddde58c97f
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU2PEPF00028D11.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB8839
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADEno2gC/23Pyw6CMBAF0F8xXVtTSl+48j+MIaVMdRaWpwRD+
+ HebbgjE5eTOuZNZyAA9wkCup4X0MOGATYiDOZ+Ie9nwBIp1nAlnXDKdadq55l1i25VtC1QrI+r
+ K5cZbQSJpe/A4p7o7CTDSAPNIHjF54TA2/TfdmWTKU6Xial85ScpoIavaqcp45f2t+6DD4C5xK
+ 1VNauOaswNXkQsLReY4y638w/XGTcYPXEeuTSGYqOJjhd3zdV1/81cdITIBAAA=
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
+        Suruchi Agarwal
+	<quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>,
+        "Simon
+ Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook
+	<kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        "Philipp
+ Zabel" <p.zabel@pengutronix.de>
+CC: <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
+        Luo Jie
+	<quic_luoj@quicinc.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755522889; l=8711;
+ i=quic_luoj@quicinc.com; s=20250209; h=from:subject:message-id;
+ bh=GmE6vmhFxKiDew42RvDx5yQMkgRLqkZ/wRjDmOKZpCU=;
+ b=ncJil9G8a0xEt/EGazUR8ze/f1kdphflz7FnKsDWDM+ZYVSGXd+reJ4Piz9+hlctv0oQHAD/1
+ KaxXdtSwnpcCykxhNG/AkSiQu5zFZVrYSCIgLD/UhC5X1c9zvN6vb2O
+X-Developer-Key: i=quic_luoj@quicinc.com; a=ed25519;
+ pk=pzwy8bU5tJZ5UKGTv28n+QOuktaWuriznGmriA9Qkfc=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: -2dGvyg0X4osr7tuYylAXFuHq3n3DDaf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAyMCBTYWx0ZWRfX2GfuOUXarDug
+ +9m3LFMSyhWgVf0fd+fVO6ybSOx58NRwv0CrAQdc/1AQ20kZWMIxW0V13AnfCHGW+wxqdoCwjfh
+ hiu0ANM/iflI9tQqc3QQBfs4EQarzv3XBLhjTKLEqTsdaZKZ180XZuyKR28UohwfDmxnkxCyMZ1
+ dsSiJ7d4yHQ6PSO5SkCet6Es8nBdNBPBkg3UFvDX4F3KFb4tPpOnncX+dOn679fzNRSlzWQXtDf
+ 1PcaaTcj/hYv05XVEl+LGJ0y9lJ2NP05Xb8G34mNzLT65b5WU/1lm0T3M3LOdmUKef0DNn4Xu8x
+ 87w7dAd3ZNRKIjyRiZcozWsg8wIBChZj/lM+Ly/LR287GOuLS087pNqMmaZPGh8/zF29WyykJWo
+ 90Wc2nbc
+X-Authority-Analysis: v=2.4 cv=a+Mw9VSF c=1 sm=1 tr=0 ts=68a32750 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=z2GUvUhWd2_2b9YoxfUA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: -2dGvyg0X4osr7tuYylAXFuHq3n3DDaf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 suspectscore=0 impostorscore=0 phishscore=0
+ adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160020
 
-Hi Andrey,
+The PPE (packet process engine) hardware block is available in Qualcomm
+IPQ chipsets that support PPE architecture, such as IPQ9574 and IPQ5332.
+The PPE in the IPQ9574 SoC includes six Ethernet ports (6 GMAC and 6
+XGMAC), which are used to connect with external PHY devices by PCS. The
+PPE also includes packet processing offload capabilities for various
+networking functions such as route and bridge flows, VLANs, different
+tunnel protocols and VPN. It also includes an L2 switch function for
+bridging packets among the 6 Ethernet ports and the CPU port. The CPU
+port enables packet transfer between the Ethernet ports and the ARM
+cores in the SoC, using the Ethernet DMA.
 
-[...]
+This patch series is the first part of a three part series that will
+together enable Ethernet function for IPQ9574 SoC. While support is
+initially being added for IPQ9574 SoC, the driver will be easily
+extendable to enable Ethernet support for other IPQ SoC such as IPQ5332.
+The driver can also be extended later for adding support for L2/L3
+network offload features that the PPE can support. The functionality
+to be enabled by each of the three series (to be posted sequentially)
+is as below:
 
-> >  static inline const char *kasan_mode_info(void)
-> >  {
-> >         if (kasan_mode == KASAN_MODE_ASYNC)
-> > @@ -257,15 +283,26 @@ void __init kasan_init_hw_tags(void)
-> >                 break;
-> >         }
-> >
-> > +       switch (kasan_arg_write_only) {
-> > +       case KASAN_ARG_WRITE_ONLY_DEFAULT:
->
-> Let's keep this part similar to the other parameters for consistency:
->
-> /* Default is specified by kasan_flag_write_only definition. */
-> break;
+Part 1: The PPE patch series (this series), which enables the platform
+driver, probe and initialization/configuration of different PPE hardware
+blocks.
 
-Okay.
+Part 2: The PPE MAC patch series, which enables the phylink operations
+for the PPE Ethernet ports.
 
-> > +       case KASAN_ARG_WRITE_ONLY_OFF:
-> > +               kasan_flag_write_only = false;
-> > +               break;
-> > +       case KASAN_ARG_WRITE_ONLY_ON:
-> > +               kasan_flag_write_only = true;
-> > +               break;
-> > +       }
-> > +
-> >         kasan_init_tags();
-> >
-> >         /* KASAN is now initialized, enable it. */
-> >         static_branch_enable(&kasan_flag_enabled);
-> >
-> > -       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s)\n",
-> > +       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s\n",
-> >                 kasan_mode_info(),
-> >                 str_on_off(kasan_vmalloc_enabled()),
-> > -               str_on_off(kasan_stack_collection_enabled()));
-> > +               str_on_off(kasan_stack_collection_enabled()),
-> > +               str_on_off(kasan_arg_write_only));
-> >  }
-> >
-> >  #ifdef CONFIG_KASAN_VMALLOC
-> > @@ -392,6 +429,13 @@ void kasan_enable_hw_tags(void)
-> >                 hw_enable_tag_checks_asymm();
-> >         else
-> >                 hw_enable_tag_checks_sync();
-> > +
-> > +       if (kasan_arg_write_only == KASAN_ARG_WRITE_ONLY_ON &&
->
-> We already set kasan_flag_write_only by this point, right? Let's check
-> that one then.
+Part 3: The PPE EDMA patch series, which enables the Rx/Tx Ethernet DMA
+and netdevice driver for the 6 PPE Ethernet ports.
 
-Yes. if user specifies the write_only == on.
->
-> > +           hw_enable_tag_checks_write_only()) {
-> > +               kasan_arg_write_only == KASAN_ARG_WRITE_ONLY_OFF;
->
-> Typo in == in the line above. But also I think we can just drop the
-> line: kasan_arg_write_only is KASAN_ARG_WRITE_ONLY_ON after all, it's
-> just not supported and thus kasan_flag_write_only is set to false to
-> reflect that.
+A more detailed description of the functions enabled by part 1 is below:
+1. Initialize PPE device hardware functions such as buffer management,
+   queue management, scheduler and clocks in order to bring up PPE
+   device.
+2. Enable platform driver and probe functions
+3. Register debugfs file to provide access to various PPE packet
+   counters. These statistics are recorded by the various hardware
+   process counters, such as port RX/TX, CPU code and hardware queue
+   counters.
+4. A detailed introduction of PPE along with the PPE hardware diagram
+   in the first two patches (dt-bindings and documentation).
 
-Sorry :\ I've missed this fix from patch 3... this should be == to =.
+Below is a reference to an earlier RFC discussion with the community
+about enabling Ethernet driver support for Qualcomm IPQ9574 SoC. This
+writeup can help provide a higher level architectural view of various
+other drivers that support the PPE such as clock and PCS drivers.
+Topic: RFC: Advice on adding support for Qualcomm IPQ9574 SoC Ethernet.
+https://lore.kernel.org/linux-arm-msm/d2929bd2-bc9e-4733-a89f-2a187e8bf917@quicinc.com/
 
-However, we couldn't remove kasan_arg_write_only check in condition.
-If one of cpu get failed to hw_enable_tag_checks_write_only() then
-By changing this with KASAN_ARG_WRITE_ONLY_OFF, It prevent to call
-hw_eanble_tag_checks_write_only() in other cpu.
+Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+---
+Changes in v8:
+- Ensure the term "Ethernet" is used consistently.
+- Add a Reviewed-by tag to the Device Tree (DT) binding patch.
+- Link to v7: https://lore.kernel.org/r/20250812-qcom_ipq_ppe-v7-0-789404bdbc9a@quicinc.com
 
-As you said, kasan_flag_write_only reflects the state.
-But like other option, I keep the condition to call the hw_enable_xxx()
-by checking the "argments" and keep the "hw enable state" with
-kasan_flag_write_only.
+Changes in v7:
+- DT binding improvements:
+    * Remove the description "from NSS clock controller" for clocks and
+      resets properties.
+    * Update interconnect property descriptions to specify the use of
+      "bus interconnect path".
+    * Add item constraints for interrupt-names.
+    * Mark 'ethernet-ports' as the mandatory node name for switch ports
+      section.
+- Link to v6: https://lore.kernel.org/r/20250720-qcom_ipq_ppe-v6-0-4ae91c203a5f@quicinc.com
 
-so let me change == to = only in here.
+Changes in v6:
+- DT binding improvements:
+    * Add the missing ethernet-ports node.
+    * Update to use 'ethernet-port' as the port node name.
+    * Ensure the port node numbering is constrained appropriately.
+    * Enhance the commit message to add a brief overview of the switch schema
+      hierarchy and properties.
+- Refactor the RSS hash configuration code to eliminate redundant code.
+- Update copyright to remove year as per guidelines in all driver files.
+- Update 'M' to 'MHz' in the documentation patch for clarity.
+- Link to v5: https://lore.kernel.org/r/20250626-qcom_ipq_ppe-v5-0-95bdc6b8f6ff@quicinc.com
 
->
-> > +               kasan_flag_write_only = false;
-> > +               pr_warn_once("System doesn't support write-only option. Disable it\n");
->
-> Let's do pr_err like the rest of KASAN code. And:
->
-> pr_err_once("write-only mode is not supported and thus not enabled\n");
+Changes in v5:
+- DT binding improvements:
+    * Update example by using clock & reset ID instead of magic number.
+    * Fix the duplicate '>' symbol.
+    * Convert the interrupt number to a fixed value and add the missing but
+      unused interrupts to complete the hardware description.
+    * Constraint the port node with clock and reset.
+- Add debugfs based queue drop counter.
+- Cosmetic update to commit messages to wrap the text correctly.
+- Link to v4: https://lore.kernel.org/r/20250513-qcom_ipq_ppe-v4-0-4fbe40cbbb71@quicinc.com
 
-Okay. Thanks for suggestion.
+Changes in v4:
+- Simplify statements regarding module load in documentation as per comments.
+- Improve data structure definitions for scheduler patch for clarity.
+- Replace u32p_replace_bits() with FIELD_MODIFY().
+- Enhance the comment of the PPE scheduler for BM and QM configurations.
+- Debugfs improvements:
+    *Remove print related macros and inline the code instead.
+    *Return error codes from register read/write wherever applicable.
+    *Split the hardware counter display file into separate files.
+- Link to v3: https://lore.kernel.org/r/20250209-qcom_ipq_ppe-v3-0-453ea18d3271@quicinc.com
 
->
->
->
-> > +       }
-> >  }
-> >
-> >  #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
-> > @@ -404,4 +448,10 @@ VISIBLE_IF_KUNIT void kasan_force_async_fault(void)
-> >  }
-> >  EXPORT_SYMBOL_IF_KUNIT(kasan_force_async_fault);
-> >
-> > +VISIBLE_IF_KUNIT bool kasan_write_only_enabled(void)
-> > +{
-> > +       return kasan_flag_write_only;
-> > +}
-> > +EXPORT_SYMBOL_IF_KUNIT(kasan_write_only_enabled);
-> > +
-> >  #endif
-> > diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> > index 129178be5e64..c1490136c96b 100644
-> > --- a/mm/kasan/kasan.h
-> > +++ b/mm/kasan/kasan.h
-> > @@ -428,6 +428,7 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
-> >  #define hw_enable_tag_checks_sync()            arch_enable_tag_checks_sync()
-> >  #define hw_enable_tag_checks_async()           arch_enable_tag_checks_async()
-> >  #define hw_enable_tag_checks_asymm()           arch_enable_tag_checks_asymm()
-> > +#define hw_enable_tag_checks_write_only()      arch_enable_tag_checks_write_only()
-> >  #define hw_suppress_tag_checks_start()         arch_suppress_tag_checks_start()
-> >  #define hw_suppress_tag_checks_stop()          arch_suppress_tag_checks_stop()
-> >  #define hw_force_async_tag_fault()             arch_force_async_tag_fault()
-> > @@ -437,11 +438,17 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
-> >                         arch_set_mem_tag_range((addr), (size), (tag), (init))
-> >
-> >  void kasan_enable_hw_tags(void);
-> > +bool kasan_write_only_enabled(void);
->
-> This should go next to kasan_force_async_fault().
->
-> >
-> >  #else /* CONFIG_KASAN_HW_TAGS */
-> >
-> >  static inline void kasan_enable_hw_tags(void) { }
-> >
-> > +static inline bool kasan_write_only_enabled(void)
-> > +{
-> > +       return false;
-> > +}
->
-> And this too.
+Changes in v3:
+- Add the top-level ref ethernet-switch.yaml and remove node definition
+  ethernet-ports in the DT binding file.
+- Remove unnecessary error message for devm_kzalloc().
+- Reverse the mapping of BM ceiling bits.
+- Fix multicast queue start/end configurations.
+- Declare the SoC-specific PPE configuration variables as const.
+- Fix kernel documentation errors.
+- Fix the compile errors reported by gcc-14.
+- Improve the commit message of L2 bridge initialization and debugfs patches.
+- Link to v2: https://lore.kernel.org/r/20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com
 
-Right. I'll move them. Thanks!
+Changes in v2:
+- Represent the PPE hardware hierarchy in dtbindings, add PPE hardware diagram.
+- Remove all SoC specific hardware properties from dtbindings since driver
+  maintains them.
+- Move out the PCS (UNIPHY) handling into a separate PCS driver posted
+  separately at below.
+  https://lore.kernel.org/all/20250108-ipq_pcs_net-next-v4-0-0de14cd2902b@quicinc.com
+- Move out the PPE MAC patches into a separate series to limit patch count to
+  15 or less. (PPE MAC patches will be posted sequentially after this series).
+- Rename the hardware initialization related files from ppe_ops.c[h] to
+  ppe_config.c[h]
+- Improve PPE driver documentation and diagram.
+- Fix dtbinding check errors.
+- Link to v1: https://lore.kernel.org/r/20240110114033.32575-1-quic_luoj@quicinc.com
 
-Thanks!
+---
+Lei Wei (2):
+      docs: networking: Add PPE driver documentation for Qualcomm IPQ9574 SoC
+      net: ethernet: qualcomm: Initialize PPE L2 bridge settings
 
---
-Sincerely,
-Yeoreum Yun
+Luo Jie (12):
+      dt-bindings: net: Add PPE for Qualcomm IPQ9574 SoC
+      net: ethernet: qualcomm: Add PPE driver for IPQ9574 SoC
+      net: ethernet: qualcomm: Initialize PPE buffer management for IPQ9574
+      net: ethernet: qualcomm: Initialize PPE queue management for IPQ9574
+      net: ethernet: qualcomm: Initialize the PPE scheduler settings
+      net: ethernet: qualcomm: Initialize PPE queue settings
+      net: ethernet: qualcomm: Initialize PPE service code settings
+      net: ethernet: qualcomm: Initialize PPE port control settings
+      net: ethernet: qualcomm: Initialize PPE RSS hash settings
+      net: ethernet: qualcomm: Initialize PPE queue to Ethernet DMA ring mapping
+      net: ethernet: qualcomm: Add PPE debugfs support for PPE counters
+      MAINTAINERS: Add maintainer for Qualcomm PPE driver
+
+ .../devicetree/bindings/net/qcom,ipq9574-ppe.yaml  |  533 +++++
+ .../networking/device_drivers/ethernet/index.rst   |    1 +
+ .../device_drivers/ethernet/qualcomm/ppe/ppe.rst   |  194 ++
+ MAINTAINERS                                        |    8 +
+ drivers/net/ethernet/qualcomm/Kconfig              |   15 +
+ drivers/net/ethernet/qualcomm/Makefile             |    1 +
+ drivers/net/ethernet/qualcomm/ppe/Makefile         |    7 +
+ drivers/net/ethernet/qualcomm/ppe/ppe.c            |  239 +++
+ drivers/net/ethernet/qualcomm/ppe/ppe.h            |   39 +
+ drivers/net/ethernet/qualcomm/ppe/ppe_config.c     | 2034 ++++++++++++++++++++
+ drivers/net/ethernet/qualcomm/ppe/ppe_config.h     |  317 +++
+ drivers/net/ethernet/qualcomm/ppe/ppe_debugfs.c    |  847 ++++++++
+ drivers/net/ethernet/qualcomm/ppe/ppe_debugfs.h    |   16 +
+ drivers/net/ethernet/qualcomm/ppe/ppe_regs.h       |  591 ++++++
+ 14 files changed, 4842 insertions(+)
+---
+base-commit: bab3ce404553de56242d7b09ad7ea5b70441ea41
+change-id: 20250717-qcom_ipq_ppe-7684dbc38fa4
+
+Best regards,
+-- 
+Luo Jie <quic_luoj@quicinc.com>
+
