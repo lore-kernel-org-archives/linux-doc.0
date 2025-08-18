@@ -1,116 +1,102 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02B21D9346;
-	Mon, 18 Aug 2025 08:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B7922F01
+	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 08:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755505341; cv=none; b=OfarMtMXXXuytF9J3QipS6FUDFeODNiPQuPwRy4qiHqdaFPJHl0AVaRDHAAZQNpJc44wKgxxk9+nBf3RcDv5vklxTRIXfj++gSWePhHxN4Zb7wQF+TcW3Ye4JhVy0HKQ/Mrx2Ng1JRoSKLebWTzlGSqZLc/mVvnNFaJTbZh/a4I=
+	t=1755505599; cv=none; b=Mn4/GYGwSUsCKA8DddzbBdMgEcMpEswyvsDJBMATaqhL70bh+E5x1ETY6gPJlTA4YfLt5VMuDeeEohsm28m4IKonm5rxXQ7t+YViguqvvXU4DCh0K7YVBxQDmcnsv0VZzB67HFLBco21h5GtvfEbcv1gXcTCrpACbCx08GSSh9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755505341; c=relaxed/simple;
-	bh=tQz09CQnpg2v7hXSM+rrQMxQLWtYNk13pbjlIvre16E=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=V6KjxdRE9YS724+exKXPoM06s6WoujOK4Db9OlQK9lprDGLRDne5hDMYQjRNpQEZwOS9I/gcpMNIWhqWRyBdyTs/W0nzZ0gJNHGAAFd6Y9at+GR5D08FpOBk9A87E2vQivZYHx/Pfa2alU8SitpHacxAVZf74HS0IBX3G8pMy6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=zvVmPLrR; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1755505599; c=relaxed/simple;
+	bh=q9XmPtxYoNCiv3K0EgnE3nHKnKasSXwGEQhC1RJGYec=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aSkYsqvOxWDYcEhKAsypcIMti0RwdVOh/R/3sWmheXFEDx+1eAp5ouDD3rWzZvD+iZOSqwSYKUnlcfvwPL68OFkNqXAcb6ChvCaSSGjOA1fHs2/W7C98NeLBuQkF2hdUaDg8qdT8RavhJa5icdDyJKV9wFMByrNI0dAJtBBPkyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GeYQTqdG; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="zvVmPLrR"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id D928D1A0D74;
-	Mon, 18 Aug 2025 08:16:29 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A577E606A6;
-	Mon, 18 Aug 2025 08:16:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPA id EE6F21C22DA38;
-	Mon, 18 Aug 2025 10:15:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1755504988; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=+9Qk2NYCjGmfOUHqDVJHq6gqBPxiEeC5lSxafUieh6E=;
-	b=zvVmPLrR3DlHxwdDO+5udyfppBCbTiVOErcQUikGwVc2r7fpVow4GrUqinlVopdb8ctYOd
-	im04COl7V2zFSJTQWAqeqEnC6roiK+MGn7oTyI2xtVdbUIYU/nQidoytH2k7mH9120zAZf
-	e2fEEEZYKBu+O+e0+dDhej56qlFxqvEJfjJQ7z1eedeWKi0A0lc0lSwvSLSQ6daXwC5Odd
-	bvM8AjxsHhnjz+vDqp4qqx3uI34WTgVrlO9ewWH/WD3mQ58TsBk24HsO6uM0qRR86jIaL7
-	r1JSwb9Yu1PEetB/HQV+TOK/66F+T5reJUGCGgDhpXGgSBIQAZyTdp7vN2oMhQ==
-From: "Maxime Chevallier" <maxime.chevallier@bootlin.com>
-In-Reply-To: <20250815063509.743796-6-o.rempel@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-References: <20250815063509.743796-1-o.rempel@pengutronix.de> <20250815063509.743796-6-o.rempel@pengutronix.de>
-Date: Mon, 18 Aug 2025 10:15:56 +0200
-Cc: "Andrew Lunn" <andrew@lunn.ch>, "Jakub Kicinski" <kuba@kernel.org>, =?utf-8?q?David_S=2E_Miller?= <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>, "Donald Hunter" <donald.hunter@gmail.com>, "Jonathan Corbet" <corbet@lwn.net>, "Heiner Kallweit" <hkallweit1@gmail.com>, "Russell King" <linux@armlinux.org.uk>, "Kory Maincent" <kory.maincent@bootlin.com>, "Nishanth Menon" <nm@ti.com>, kernel@pengutronix.de, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org, "Michal Kubecek" <mkubecek@suse.cz>, "Roan van Dijk" <roan@protonic.nl>
-To: "Oleksij Rempel" <o.rempel@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GeYQTqdG"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-afcb7322da8so661308066b.0
+        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 01:26:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755505595; x=1756110395; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R63hEpdlyxLtZoIyRwRrYtyjfFsvSRKLt6/waz/xGi4=;
+        b=GeYQTqdGt8mjM2qQLtjcAObLeqyD1Q2pJaEFcIikH5W7bBGPUycTqvQcXrWkbwJl75
+         RESPwv0F8MR1uE+9kA18vExqeXH+R/C8iql9yyIIAHHAXRZVa/LFFGwEyIkNqwF7ZqUI
+         7bI0LZANp2BajZ8TFCprmshfPpQKqoXfAPkoyQgCTOO7PzwwMcAva7MvMnfQUfSAR/dv
+         sndXohqsR6IY2NfX1FQTGN/sS6gkxBdaFDvjyOQsx1EXUxpJIQ/klN0wiJG/hQMGyHmz
+         CXufj03pn6YbuVkEH6tWs7OBexpclhxpaVXAw3aDTZIEY+cRwp5U11wOb+Ibk4GIYlkC
+         E1pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755505595; x=1756110395;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R63hEpdlyxLtZoIyRwRrYtyjfFsvSRKLt6/waz/xGi4=;
+        b=Qtxv0AwbdtWLqUCIR+uXsw517XtFrUMofCdf6ie6cZbLFN2cUjhteTk4xnng+u4VVr
+         Kipa9wNxKmhx/Ewj3QyClKrFPY6NdtfwJfgmH64796jP1S88pJb4bt0X3cqiIv/yb6fG
+         nBci0ju+a9qM8N/oUsYBpaHLAMsYMy5jRf6phRyxX8ceBWm32QOyydqlA6FneyfYlyIO
+         dM5L/kAlXWGGeqsZRKLINkfRaQvC9lzOqbuewXxa9SidfICFxONVdV2qBEmfbjlphh+p
+         exnR7KeqPKLjdlE/kPsyqIj6mFH+4AKrepRu7py76wPYSL6BAed2Orl8ppDXVVx0XSwd
+         c1vw==
+X-Forwarded-Encrypted: i=1; AJvYcCV5r9tIhTNN2unhq1+Tob5m8tjATFyO17Uw40l/mnmeOTHlZY/yWSsu4sKowpxN4mdzuHVqsse2k/g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQgQNHNMNPqUat/irgg8ckHQL14GPAKr6i/9V99wMzVI7PDBX3
+	uaO/aUm55q3XQJ2gG56IMlhSb0WXbqVWI8CocnC3FubW4yOU8b6iYbwsjwdegyoSJfQ=
+X-Gm-Gg: ASbGncs3ifSEg6EXpHDJqrx4adQhvM3YlLhARaiM6eRyLpscEfnIk2fymmSnAneAtmZ
+	HdQAxDdBNHVy4kMzvNWCver7+pWJawu1plPD8ejy+jJiqzW2s5EfUo+l85pMQCWTACGe3x3Odbp
+	WLt9R/0kRB3PX7fE1Jm51cmtROESTvs1a1paSNK06tGXLpmaQI1XshuQx2wlumAtbMwNvY8jsvu
+	TF66MtbTS0FEJK+82D8fZvUDwDJhp4m7pdLlnZ/4AH8mcE6wFNdlltm3pUwtlgCqj4ep8sEp8jT
+	C5i2H2o1+oMsnZGO/k3Fi9sGoXWd/M1fZtO4LEzs8Berd75rKn9aeIUxTP1JdZ8ROYXO4Q6IN2X
+	/DrTl9Y1sZCLHgoDib2HOvQlFH2kIud0rqtABYDeiz3cg
+X-Google-Smtp-Source: AGHT+IGStfQvfwvOB/b0pz73T+eWq282Wn28ouUOdCrNbFJNktNYTA0i2GXaeD25QK4tcfNsq2+/5w==
+X-Received: by 2002:a17:907:1b05:b0:af9:71c2:9f7 with SMTP id a640c23a62f3a-afcdc251330mr983455866b.2.1755505594520;
+        Mon, 18 Aug 2025 01:26:34 -0700 (PDT)
+Received: from linuxlab.zamel.local ([178.216.139.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce53d6csm746010466b.6.2025.08.18.01.26.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 01:26:34 -0700 (PDT)
+From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+To: corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	rdunlap@infradead.org,
+	Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+Subject: [PATCH] kernel-parameters.rst: fix document warnings v2
+Date: Mon, 18 Aug 2025 10:26:30 +0200
+Message-Id: <20250818082630.40097-1-kubik.bartlomiej@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <1df-68a2e100-1-20bf1840@149731379>
-Subject: =?utf-8?q?Re=3A?= [PATCH net-next v2 5/5] =?utf-8?q?net=3A?=
- =?utf-8?q?_phy=3A?==?utf-8?q?_dp83td510=3A?= add MSE interface support for 
- 10BASE-T1L
-User-Agent: SOGoMail 5.10.0
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: None
+Content-Transfer-Encoding: 8bit
 
-Hi Oleksij,
 
-On Friday, August 15, 2025 08:35 CEST, Oleksij Rempel <o.rempel@pengutr=
-onix.de> wrote:
+Fixed missing definite article "states that the parameter" as suggested.
 
-> Implement get=5Fmse=5Fconfig() and get=5Fmse=5Fsnapshot() for the DP8=
-3TD510E
-> to expose its Mean Square Error (MSE) register via the new PHY MSE
-> UAPI.
->=20
-> The DP83TD510E does not document any peak MSE values; it only exposes
-> a single average MSE register used internally to derive SQI. This
-> implementation therefore advertises only PHY=5FMSE=5FCAP=5FAVG, along=
- with
-> LINK and channel-A selectors. Scaling is fixed to 0xFFFF, and the
-> refresh interval/number of symbols are estimated from 10BASE-T1L
-> symbol rate (7.5 MBd) and typical diagnostic intervals (~1 ms).
->=20
-> For 10BASE-T1L deployments, SQI is a reliable indicator of link
-> modulation quality once the link is established, but it does not
-> indicate whether autonegotiation pulses will be correctly received
-> in marginal conditions. MSE provides a direct measurement of slicer
-> error rate that can be used to evaluate if autonegotiation is likely
-> to succeed under a given cable length and condition. In practice,
-> testing such scenarios often requires forcing a fixed-link setup to
-> isolate MSE behaviour from the autonegotiation process.
->=20
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-[...]
+Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +static int dp83td510=5Fget=5Fmse=5Fsnapshot(struct phy=5Fdevice *phy=
-dev, u32 channel,
-> +				      struct phy=5Fmse=5Fsnapshot *snapshot)
-> +{
-> +	int ret;
-> +
-> +	if (channel !=3D PHY=5FMSE=5FCHANNEL=5FLINK &&
-> +	    channel !=3D PHY=5FMSE=5FCHANNEL=5FA)
-> +		return -EOPNOTSUPP;
-
-The doc in patch 1 says :
-
-  > + * Link-wide mode:
-  > + *  - Some PHYs only expose a link-wide aggregate MSE, or cannot m=
-ap their
-  > + *    measurement to a specific channel/pair (e.g. 100BASE-TX when=
- MDI/MDI-X
-  > + *    resolution is unknown). In that case, callers must use the L=
-INK selector.
-
-The way I understand that is that PHYs will report either channel-speci=
-fic values or
-link-wide values. Is that correct or are both valid ? In BaseT1 this is=
- the same thing,
-but maybe for consistency, we should report either channel values or li=
-nk-wide values ?
-
-Maxime
+diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
+index 445248787e77..7bf8cc7df6b5 100644
+--- a/Documentation/admin-guide/kernel-parameters.rst
++++ b/Documentation/admin-guide/kernel-parameters.rst
+@@ -215,7 +215,7 @@ need or coordination with <Documentation/arch/x86/boot.rst>.
+ There are also arch-specific kernel-parameters not documented here.
+ 
+ Note that ALL kernel parameters listed below are CASE SENSITIVE, and that
+-a trailing = on the name of any parameter states that parameter will
++a trailing = on the name of any parameter states that the parameter will
+ be entered as an environment variable, whereas its absence indicates that
+ it will appear as a kernel argument readable via /proc/cmdline by programs
+ running once the system is up.
+-- 
+2.39.5
 
