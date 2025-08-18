@@ -1,189 +1,345 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013037.outbound.protection.outlook.com [52.101.83.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F2031CA5B
-	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 13:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755522368; cv=none; b=hwC6sJcik7FhOtg9jbZwlzMT7DzxtA2a29jYLaY/0NW4qNvqLjJT4KP9NFsEip204eLp0QZzBekrj+dwhQDAuFqiAoEGY0yogkJOhkBbwcMJteym061377vdLo0LHetK34k2vr4zXtFGwFMO2vN5annEWPeJ4u7/zr4MBLPo7mo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755522368; c=relaxed/simple;
-	bh=I8ViiZqjxg75RYvEGN4uC+Kfgg9/jGCWinkUUrtlh3o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=orMrah8GoWauxqZCzJUymAOh0quHEcNfT54pTbSZLpP5RoeAgvtpaNG3ubjd/9XeXMruAbtfIEmwMJsOYIvahTMzYtk2v60l7vZrWY5TaQ/t9/Jd/jhaUlTHzSbxJ2/UNkJLQDry2XJ4oFJYZglajr+H+MkMz2X+jizHS+1wOJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ve8s/cxv; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09D031B13A;
+	Mon, 18 Aug 2025 13:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.37
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755522717; cv=fail; b=a2AoZ4UsQX7fDRy7SwT/5ZJDgKE5VVdySBHY/P37Ee/pimZvd6r+QOcCi9atZP+3e0ujYM4+sWrEQBLorc3qDC/J5un2tbKHTCWSxB9I69Z3aU02KWQezI+iMk/YZ6ss7EWnywLzJ5c7AOLp6hA0uRzmre5ruqppjo9oB+l4uY0=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755522717; c=relaxed/simple;
+	bh=45pbpJs+Lz1OIsP6+d2VDJlEBmGp53Zyl28QOOVI1/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=jWhasPHmmWijDNQQFtN0ogtlIbAlq3JimBVe7PHz202nwer24RvHtMRtxs0aBn/jfNquhukpy+dJB9sPX/H6/Cb5Ac5rGzkvqvf7CyvY6Sf143zfqN8SRm3u76nsEjFjZRS0+W+G1CjNA8fFjK3hQmdoNUYC6liLtNuiU/fZcDE=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XrBvsWWi; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XrBvsWWi; arc=fail smtp.client-ip=52.101.83.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ve8s/cxv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755522366;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6lWFVTHNTqihw285zTjFaouowYhqDI1uhwlP3YPVfSU=;
-	b=Ve8s/cxvu/g4HgqFaDkiFZziDn+/DnfntKFogBMXOHtUkys7J4iak4PL+YX1DpbWpYZ9eT
-	XMswz6Hj2FqsesUvPME4FtHn4yNMIpxjBr3sSwfGq472zQleXDeBgI18aw6MJd5K9YSpW0
-	ZLn5xpSrL7FzphwLisUQVTFZ96iJ40k=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-597-7pijqTLSPFODgaqV6DUjkg-1; Mon, 18 Aug 2025 09:06:04 -0400
-X-MC-Unique: 7pijqTLSPFODgaqV6DUjkg-1
-X-Mimecast-MFC-AGG-ID: 7pijqTLSPFODgaqV6DUjkg_1755522363
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45a15f10f31so25168775e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 06:06:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755522363; x=1756127163;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6lWFVTHNTqihw285zTjFaouowYhqDI1uhwlP3YPVfSU=;
-        b=l3EA+CtDDrkHacTvoqN1/ul9hW3HEJ6OgXxrl2bX4fgnd8qnBoCrRSLaUkMJsDLmCY
-         7fvTuJQO4f08JWkFAcrifZU1XNGy8olkvoIloJW5nsWcyneZdvO42n766mUBKxtGZHJY
-         zY7p477WJY6fiHFH0uwDIEOPqxeORnr/0wm5kzIPY9URHwd59GdOM64L+LcxcyVmKKLY
-         EjJe7CZpzjymSkDwOxRjJoCw7Tv89+KGqRY7oUhJhhtut1le2MfDvK6MGwqESvuTNp74
-         lLL84HnAFW+XoGJgVp1aZIadOo7k6hV37Qw8oeh6m9OSFUEVHWD2WcZFbMWLIliKQrpj
-         KaEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVEY7fjH84UGvChJJy37HsYyNqTM9ecTrZlTXT9kcIBldbws2ehSsAQBRWIF3AV6S46QQmfXvFfmY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDo9bdPHCI5AC52U9dLvhtCQnkgFHnxvFHh9r/YwNYfuwRXYyG
-	wyJmKHrVKyIZl2DFYCsCGtMEHQUdPfGIJ1O8kIFdjXPRczakY2Kx2gqemBP6CnmYh+cXceMfdtb
-	OOOveHrUl5NQimOpNvwTPx4gmo41hoD/xpD0ATIJ01dOMR4S9I6x1SsVqlLpRMQ==
-X-Gm-Gg: ASbGncvfpZhNEButexPbhzT25FXGdQ123QlxH1rTUw4pYoPd0M5QMrfHMbKH5KpRQA1
-	YJ77XFCY6t2Jdic2Ae5/8kraF4y4qDMt/OqekMOVOiSFmcWVK7B3KrOE2tTG0JDyz3aMUG71kzG
-	3v7NPQ8B4wYBKW/snT0a3pzHAnjWG0keHgXcoTMw1y2RXuXjUAmrutomrS6rJZYmqErKdCwTYjP
-	OgY7Wfw+vxC0mnnZfOO/j7+wQQoTMc0Ru9tBO/1MBn1kWF3NvqkvP3SoEPPbt6Zbm2WNQRO+6we
-	7p0NwztqGFUnMh/HiCdMD4zDVfEF/5JaGzx2jpbT4y5r4GiRc8CiVg8PcQJlGexueX3dPvGVC0z
-	fiwtUf7D30rhucTxbrpIUk+F7Elr/W+831e1B7U5hxTIDHTaLcf7OkFssGrvSTESM
-X-Received: by 2002:a05:6000:2586:b0:3b5:e6bf:f86b with SMTP id ffacd0b85a97d-3ba5068102amr13511054f8f.11.1755522363118;
-        Mon, 18 Aug 2025 06:06:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEfrgsoT1TOVtpG1c/AniLc8bVaw+tyzrLAfe8E6BPoy9cmQkiw4CgNBczPzw9LaWx4sWZxUg==
-X-Received: by 2002:a05:6000:2586:b0:3b5:e6bf:f86b with SMTP id ffacd0b85a97d-3ba5068102amr13511006f8f.11.1755522362594;
-        Mon, 18 Aug 2025 06:06:02 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f22:600:53c7:df43:7dc3:ae39? (p200300d82f22060053c7df437dc3ae39.dip0.t-ipconnect.de. [2003:d8:2f22:600:53c7:df43:7dc3:ae39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb64758690sm12914199f8f.6.2025.08.18.06.06.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Aug 2025 06:06:02 -0700 (PDT)
-Message-ID: <cdd753ab-61b7-48ac-b535-556f39f46b81@redhat.com>
-Date: Mon, 18 Aug 2025 15:06:00 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XrBvsWWi";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XrBvsWWi"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=aqQnWSZ4HdCWGIs4ftaZWo6ySkPgLvp7fVlKP2jx4uvpzDUHlM/DWhiWN9lnjJ+Qp2arsrXI8EvW6PMhIJDvC9Zt6v1EIyVEaAx79XFMVLURz1shd8lbja9PFoPkN3w9iZ5+341PEknQeTi7AESMAkdB9NjLVzpP6j829+CuIJCiis+AudNVy0zFBPrgB0LaR2H5XZgWaUDsiLEQ4g1NQ7e3TB3+Qj1lHBqqvUZHMwBv2sjbTmDYCybSj5vKfQL9Oa3icMl8lkKT93OVKDedXVtKDtZ1OxuIsg0VcYIat2capSMRkiKSNj3EebxFS9ub5gJQ7nS+D8uI6xxGBxsY4g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
+ b=V6ramsYPNKdscnxwmV/9NUQZvzixIDfJ6iSzduzLcFerExE66ktqdlsmVtwYfkGLDNKWNxsANyMiqwB5rFo/6Io21OllfepMvI8NvsOvJqrR1S79/ZYaDjiXJ6yBL67RtF4HR7dw1MKKNPDLKBqLLCatWPDNyTXOmNjuSdBPIhvPFT32LlWAt+MH2O5MAvGGukI4hZTwzNoP9X9pAx1twYxRmGl8AZeh2El1oMcqnwp7xmcHzvkK+vsw7/HrShglR0iHBoHb0xucqCEA05vIrdOmaFr4n45o7XxGuC2iFofqcz8sBrNR/VJm/aFoSkmPFKzcLUU9A9d9mQIS5TWZyQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
+ b=XrBvsWWi/H0Lv3R6yx+ybnRcTYxRVd9IhGMLZRBtAKr1J64vwxXPSLrSfhrzd8F1LNBTQbayudujucjvbC2/AKiMBfdtLytwAm/LYo10q1GXTjco6z7ZuwG2Sll/+Irdrdaf9uAwj/G9H95Uacj1ezMnb6t5FJKWHG88JmmVpcg=
+Received: from DUZPR01CA0078.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:46a::20) by PAWPR08MB8839.eurprd08.prod.outlook.com
+ (2603:10a6:102:338::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
+ 2025 13:11:48 +0000
+Received: from DU2PEPF00028D11.eurprd03.prod.outlook.com
+ (2603:10a6:10:46a:cafe::16) by DUZPR01CA0078.outlook.office365.com
+ (2603:10a6:10:46a::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.21 via Frontend Transport; Mon,
+ 18 Aug 2025 13:11:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU2PEPF00028D11.mail.protection.outlook.com (10.167.242.25) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.8
+ via Frontend Transport; Mon, 18 Aug 2025 13:11:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HN+zCdMA4LfrULOsg/jqlkudWLIH8cG+QQvRMVUWdY2hUSickE1qPYMx/rC3FwWVW22hRYBzwPwxMm3sCVp5gQKrF4ORKS+0nqLoHaMHWtKXWYHGPGEupLmJk193XSP+vMD4crMUn1iV78/pGCj9Mp+A8b0n/s+0CDwCQ4W4gJn1L2XzOw82UQFrTBt7Ng79Gn0SCvyIWsOim4QV99P8rSpq4NWEOwFjdbfsz15ws6bZeBULqdH/yBkK/JfjpNeTScxa4qnapTZjENzHR9NjTg431D4Suf9RQA+zLmud5aPrway/GypS3pkSvLg19kJkSheWi3mGlo2iSD0LXkNF0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
+ b=xcGNmjUI2DSOJHNMgclIUME7+lcB20T6IKVgsjN0V77FZUTSDcr3BrWAFDw56Ly6nXSDeHyy6SBEbPLSQOqtdEoXSwWFYwjjoSBLU61d28jBHmITvKL50WX7Nx5CfCSfOQMNcdBp4+mJjzzyiiGmhJ0oTCHIcr2IRJdWzYeUFIH1CTVTmGpXaUMPyAcZswY8rjj2O+Gq87NTjp2DucXR1unxF+P1mQUN3pqz9QIldFjm1QIGWeewUSk99TL2cphskfGlbKJ9bQdjWesdHp6aeNhENu/ilXBqVU49GMPsavbUT8Yx0MLAFklqklBgMMBH4KPMxes18UE0ki3HZLEVLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
+ b=XrBvsWWi/H0Lv3R6yx+ybnRcTYxRVd9IhGMLZRBtAKr1J64vwxXPSLrSfhrzd8F1LNBTQbayudujucjvbC2/AKiMBfdtLytwAm/LYo10q1GXTjco6z7ZuwG2Sll/+Irdrdaf9uAwj/G9H95Uacj1ezMnb6t5FJKWHG88JmmVpcg=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20) by AS8PR08MB10144.eurprd08.prod.outlook.com
+ (2603:10a6:20b:630::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.22; Mon, 18 Aug
+ 2025 13:11:15 +0000
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::d430:4ef9:b30b:c739%7]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
+ 13:11:15 +0000
+Date: Mon, 18 Aug 2025 14:11:12 +0100
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com,
+	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com,
+	will@kernel.org, akpm@linux-foundation.org,
+	scott@os.amperecomputing.com, jhubbard@nvidia.com,
+	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
+	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
+	james.morse@arm.com, ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
+	yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v4 1/2] kasan/hw-tags: introduce kasan.write_only option
+Message-ID: <aKMmcPR8ordnn1AG@e129823.arm.com>
+References: <20250818075051.996764-1-yeoreum.yun@arm.com>
+ <20250818075051.996764-2-yeoreum.yun@arm.com>
+ <CA+fCnZcce88Sj=oAe-cwydu7Ums=wk2Ps=JZkz0RwO-M_DjfVQ@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+fCnZcce88Sj=oAe-cwydu7Ums=wk2Ps=JZkz0RwO-M_DjfVQ@mail.gmail.com>
+X-ClientProxiedBy: LO2P123CA0094.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:139::9) To GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 7/7] selftests: prctl: introduce tests for disabling
- THPs except for madvise
-To: Usama Arif <usamaarif642@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Cc: linux-fsdevel@vger.kernel.org, corbet@lwn.net, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org, baohua@kernel.org,
- shakeel.butt@linux.dev, riel@surriel.com, ziy@nvidia.com,
- laoar.shao@gmail.com, dev.jain@arm.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
- Arnd Bergmann <arnd@arndb.de>, sj@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20250815135549.130506-1-usamaarif642@gmail.com>
- <20250815135549.130506-8-usamaarif642@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20250815135549.130506-8-usamaarif642@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-TrafficTypeDiagnostic:
+	GV1PR08MB10521:EE_|AS8PR08MB10144:EE_|DU2PEPF00028D11:EE_|PAWPR08MB8839:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70120f7c-81b2-42d3-3fb0-08ddde58c97f
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info-Original:
+ =?us-ascii?Q?m2Kv/vpxgEyY6lYBTE0rYGKBcnsLcMt5+w3/OVSJ7MXomC46M5tlOpTtFpnT?=
+ =?us-ascii?Q?LQC8lJGrwIi9aVfVn3XeJV+xGnHADbPpFWalP06h82pNjHilVRefLfv2E7Q2?=
+ =?us-ascii?Q?OgVfBJx4Usy4W6CLGEHFEVHJwQW0GHSJ9U8lmFBDXFuSQmzUc/7sUcG7KnJO?=
+ =?us-ascii?Q?qIVk5iBgTzejuMOvtbRjkvN/ObkhUzr4Tgk4dMEJCCznb9Z/ooarUaB9fkZX?=
+ =?us-ascii?Q?iSYFMfkCwSmy+LGX1hXbBkCBAbal2Ya41mkBOlWgHHm/RVqCb7yil5qJ+mN4?=
+ =?us-ascii?Q?8s5ayGW6tR+WB65ljpnSme7AzLe3G6PAr4nnYEyP9FROb3uQ9D2vq17+Rttk?=
+ =?us-ascii?Q?MySqkIq1uQ6s47YHmMKsIcskrI6ELRjX0NcSK9oh/IcBcEhGSJFVv99UtVQL?=
+ =?us-ascii?Q?y+dKHNNDXXBhufwlyYw+qWjJFGjppGHCMzT9qly3CAgTrTKGyGI5lFfymUEX?=
+ =?us-ascii?Q?gIOjm/Ud9gUAjmTrDpwi0U2ju1ChYoCATBWT/T+soWmbXVHI5OcGA+vX97wm?=
+ =?us-ascii?Q?lBSBxN7hP+ljAjNUFIH6+Sg1OW7MgLvoTH/JVJar3YUru9tpiQI/KEQHc3uY?=
+ =?us-ascii?Q?GZH+zRNW/vdk8zsI4x38Olf8Ec5ikeCqyVkZl7whDvZaD/o9a9hXVa6KIx4c?=
+ =?us-ascii?Q?Sg23j0XwtJS0Q2UzPAtDbH8Wgq+qR4m66T2oVZQXQ5mAi3H/ukBbMMtdzO3e?=
+ =?us-ascii?Q?Fvkx9Z1Vi33wUBMFC8TLjBoJKDpNDvUJENG5Inns2sYA84IIpwsVSK4rO7/y?=
+ =?us-ascii?Q?bn+O+fsIrYiq6fJXSRnqd4oD93I1YY5B6H+CFROc6NxmMXYDvHrOX4QtV4JD?=
+ =?us-ascii?Q?WR/6nmSHR1jiJkfsYZquqFW446uKCPpGgwX48JCrUndll1BHcg34bybKEhPE?=
+ =?us-ascii?Q?5RY6dbjHjmaqojhu3aMerpF/t5DZrduxhCXuck+Xqm76NjbNLIegbL6LGOwK?=
+ =?us-ascii?Q?hx6ua1KY30zKaGk95FtdG5y1VGaELBY39Ho5XPNyeGskQRv6ftg0G7NBjdqp?=
+ =?us-ascii?Q?S1PKdn2c84Lw5N/153I+t0sdvW278rBCtr9VpfcllkRiFYtueF0zebJxFjKN?=
+ =?us-ascii?Q?16niBVfc9iOcn8+kbgrsAAwPlWCs5DoQ6wsgLkklAsnbTdTd2UHT/xIwHe3E?=
+ =?us-ascii?Q?zxjot7FxBzJi55IV+OI95LJF0gKY978qvV2gKpLXxXLyexItz1kH7wtxmH01?=
+ =?us-ascii?Q?N1R0XIE50isld0qfewTr38LE0DDiLGr/6Mo7ttQTU1NU53C7vnYWyXwrz1Ck?=
+ =?us-ascii?Q?bqHuEA/wVjZ4YX+VcPGEyOPPHCOT+yx/Hl0PtlIBvLhvTTAPStDdUBUj+3yp?=
+ =?us-ascii?Q?sxaLuZln4DUn4yuFqFwoLglPQUx7Q/rg6oW2WPWlF98rYnz0aGGSCwNkHCt7?=
+ =?us-ascii?Q?yPIvLtsa4bH6Px/rg3fhZ4xz05rzKPBQ+azAjGU5cNlzBAP0IrGbtMao5/ck?=
+ =?us-ascii?Q?p+XzZPPcVfM=3D?=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10144
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DU2PEPF00028D11.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	da1a94ab-69fc-48e9-eeb0-08ddde58b648
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|35042699022|7416014|376014|14060799003|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?IJoODDviXApvdPto/fdEIskiJtWYh/1NOR+zXe3+VfJiDVlXKGUKzx6cWsVT?=
+ =?us-ascii?Q?qdZO2Iii49RWA/Pzfci65JdJAYTZOjGFFjwtUwQwevT3Cy/gwRe61XF39mAG?=
+ =?us-ascii?Q?WEqDIDQ7KPC2qwMu/ACW/acSZc8b9nXo8ny6MTLCaXhnnbOZrGvs+7bYrzid?=
+ =?us-ascii?Q?nDnLFTGIAILbuVB6Jdkr+O8LEwTlmaMXdNdh69Wr+lby2gFI1FCMZrCySlBl?=
+ =?us-ascii?Q?Y9xAPgM+03ocT7xUEQfFX+3sOgHflrD0liOiwgtmNuBGudL39As87PWlBj8B?=
+ =?us-ascii?Q?ev5lHPBnRHDzjMkt+tDsL2EWCt2yLcztPgGTothT0bpbvP2iYXb3ohGpz7JT?=
+ =?us-ascii?Q?JwVUC0gWfccn51Xzp31vULZ+/nAnjHCmN9t7Vtu7lHumjJ0WbVVIqVXnPyQi?=
+ =?us-ascii?Q?Q+GDCkuhQc4nI9MD8p3EV0/iD/hY+Z4aidfT4IPimc076sr230JMVAmTpBhC?=
+ =?us-ascii?Q?0GADHCVJW2hL+MTsHJkt007k6wNRVeNvSZvTXC5pWWRABFrFav64QxzbJx92?=
+ =?us-ascii?Q?jbCjhEz++/M9E0fI/GzSSpbGOyx/ipU8My0y1sulkon1JDR5YJxoF38iBc7x?=
+ =?us-ascii?Q?YT47icyJf89ZKv/k29Y5VCodqHCLPNT6X4BvKtZ+hTzIBpXdFrGPGZ3NPr1W?=
+ =?us-ascii?Q?H73sxaBEW0sMZNRJFxWfK0HRhA/vdhmYS2hCNjlQm0BCsezqPllBSjN7thqN?=
+ =?us-ascii?Q?lBaCWTSb+bRyXPNIwRxGfBaLvWZ4BhxF4WyrusBuaY2fpt/ZtsShU3mC3QP9?=
+ =?us-ascii?Q?0T6t9FVl+bcIXxZ+IW7oAboC8HADT/uDq6Re6c9mjMmt5KbhTS5v6SMn/xjq?=
+ =?us-ascii?Q?xLTIRgW8WDBB0JZ2OeSCEiBZgJXuwQGs/5qrxycNBH1rp+VieDep4v9Hhmxz?=
+ =?us-ascii?Q?cj8SUJzBpFzxU2HfrD1DMDpSuznxiBmyiOvhNius03ynzXo/EnkkzfIpmk2A?=
+ =?us-ascii?Q?2I3AqY29sdaf2jt5nq6yWW0THN5MUf3aNbeahNcRYynAVNqEKfYy3WnH+pqc?=
+ =?us-ascii?Q?tV+5L1vVTXoE8HdVdDdKd1wkTOWgBaMmaJHay0/sKL8qCepWumri5A8G3D8V?=
+ =?us-ascii?Q?MHvYzYLRVqsE838wUWc4ex7KqY8KsorhRkl4l+SOD0/NTbHBWJc5aJPrBd0J?=
+ =?us-ascii?Q?h/s/XLFqB0f2mrTzPofFNi/oi8zkn3AVlMkvD986vkOzbRX0qfLV/uKEDC5s?=
+ =?us-ascii?Q?7KHcvA+u8MdW7GNKojINq3GeEeE5ByflhQwpv/F2IAPizys7xXI5pDMj806m?=
+ =?us-ascii?Q?wOBapgEVf6Dq0un+Z3yUCkCMFl9V7u5ncDRGy5UQTZAFVWszbZou9UdIcYdg?=
+ =?us-ascii?Q?qcX5EckXO/zL8rApWXJHUAzV+dRMJCCL7hsU9XIIEm1J3HGAM5m6rCZ/e/VX?=
+ =?us-ascii?Q?+JmURH41sjFnmeBu98OFDZ5jAtR1lklvK1In5hcRcG0Rb8getkXb9QDI/PIq?=
+ =?us-ascii?Q?pgtCOJSBHAWm7cr4rcdge3J2MgjZpT+tKxFVXt2itEHhMZnCge9KTj0Ex5C5?=
+ =?us-ascii?Q?VncGdkvf0o/W/GZBQR+qE3+s2/fXAgNz3l8e?=
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(7416014)(376014)(14060799003)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 13:11:47.4373
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70120f7c-81b2-42d3-3fb0-08ddde58c97f
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU2PEPF00028D11.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB8839
 
-On 15.08.25 15:54, Usama Arif wrote:
-> The test will set the global system THP setting to never, madvise
-> or always depending on the fixture variant and the 2M setting to
-> inherit before it starts (and reset to original at teardown).
-> The fixture setup will also test if PR_SET_THP_DISABLE prctl call can
-> be made with PR_THP_DISABLE_EXCEPT_ADVISED and skip if it fails.
-> 
-> This tests if the process can:
-> - successfully get the policy to disable THPs expect for madvise.
-> - get hugepages only on MADV_HUGE and MADV_COLLAPSE if the global policy
->    is madvise/always and only with MADV_COLLAPSE if the global policy is
->    never.
-> - successfully reset the policy of the process.
-> - after reset, only get hugepages with:
->    - MADV_COLLAPSE when policy is set to never.
->    - MADV_HUGE and MADV_COLLAPSE when policy is set to madvise.
->    - always when policy is set to "always".
-> - never get a THP with MADV_NOHUGEPAGE.
-> - repeat the above tests in a forked process to make sure  the policy is
->    carried across forks.
-> 
-> Test results:
-> ./prctl_thp_disable
-> TAP version 13
-> 1..12
-> ok 1 prctl_thp_disable_completely.never.nofork
-> ok 2 prctl_thp_disable_completely.never.fork
-> ok 3 prctl_thp_disable_completely.madvise.nofork
-> ok 4 prctl_thp_disable_completely.madvise.fork
-> ok 5 prctl_thp_disable_completely.always.nofork
-> ok 6 prctl_thp_disable_completely.always.fork
-> ok 7 prctl_thp_disable_except_madvise.never.nofork
-> ok 8 prctl_thp_disable_except_madvise.never.fork
-> ok 9 prctl_thp_disable_except_madvise.madvise.nofork
-> ok 10 prctl_thp_disable_except_madvise.madvise.fork
-> ok 11 prctl_thp_disable_except_madvise.always.nofork
-> ok 12 prctl_thp_disable_except_madvise.always.fork
-> 
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> ---
+Hi Andrey,
 
-Acked-by: David Hildenbrand <david@redhat.com>
+[...]
 
--- 
-Cheers
+> >  static inline const char *kasan_mode_info(void)
+> >  {
+> >         if (kasan_mode == KASAN_MODE_ASYNC)
+> > @@ -257,15 +283,26 @@ void __init kasan_init_hw_tags(void)
+> >                 break;
+> >         }
+> >
+> > +       switch (kasan_arg_write_only) {
+> > +       case KASAN_ARG_WRITE_ONLY_DEFAULT:
+>
+> Let's keep this part similar to the other parameters for consistency:
+>
+> /* Default is specified by kasan_flag_write_only definition. */
+> break;
 
-David / dhildenb
+Okay.
 
+> > +       case KASAN_ARG_WRITE_ONLY_OFF:
+> > +               kasan_flag_write_only = false;
+> > +               break;
+> > +       case KASAN_ARG_WRITE_ONLY_ON:
+> > +               kasan_flag_write_only = true;
+> > +               break;
+> > +       }
+> > +
+> >         kasan_init_tags();
+> >
+> >         /* KASAN is now initialized, enable it. */
+> >         static_branch_enable(&kasan_flag_enabled);
+> >
+> > -       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s)\n",
+> > +       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s\n",
+> >                 kasan_mode_info(),
+> >                 str_on_off(kasan_vmalloc_enabled()),
+> > -               str_on_off(kasan_stack_collection_enabled()));
+> > +               str_on_off(kasan_stack_collection_enabled()),
+> > +               str_on_off(kasan_arg_write_only));
+> >  }
+> >
+> >  #ifdef CONFIG_KASAN_VMALLOC
+> > @@ -392,6 +429,13 @@ void kasan_enable_hw_tags(void)
+> >                 hw_enable_tag_checks_asymm();
+> >         else
+> >                 hw_enable_tag_checks_sync();
+> > +
+> > +       if (kasan_arg_write_only == KASAN_ARG_WRITE_ONLY_ON &&
+>
+> We already set kasan_flag_write_only by this point, right? Let's check
+> that one then.
+
+Yes. if user specifies the write_only == on.
+>
+> > +           hw_enable_tag_checks_write_only()) {
+> > +               kasan_arg_write_only == KASAN_ARG_WRITE_ONLY_OFF;
+>
+> Typo in == in the line above. But also I think we can just drop the
+> line: kasan_arg_write_only is KASAN_ARG_WRITE_ONLY_ON after all, it's
+> just not supported and thus kasan_flag_write_only is set to false to
+> reflect that.
+
+Sorry :\ I've missed this fix from patch 3... this should be == to =.
+
+However, we couldn't remove kasan_arg_write_only check in condition.
+If one of cpu get failed to hw_enable_tag_checks_write_only() then
+By changing this with KASAN_ARG_WRITE_ONLY_OFF, It prevent to call
+hw_eanble_tag_checks_write_only() in other cpu.
+
+As you said, kasan_flag_write_only reflects the state.
+But like other option, I keep the condition to call the hw_enable_xxx()
+by checking the "argments" and keep the "hw enable state" with
+kasan_flag_write_only.
+
+so let me change == to = only in here.
+
+>
+> > +               kasan_flag_write_only = false;
+> > +               pr_warn_once("System doesn't support write-only option. Disable it\n");
+>
+> Let's do pr_err like the rest of KASAN code. And:
+>
+> pr_err_once("write-only mode is not supported and thus not enabled\n");
+
+Okay. Thanks for suggestion.
+
+>
+>
+>
+> > +       }
+> >  }
+> >
+> >  #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
+> > @@ -404,4 +448,10 @@ VISIBLE_IF_KUNIT void kasan_force_async_fault(void)
+> >  }
+> >  EXPORT_SYMBOL_IF_KUNIT(kasan_force_async_fault);
+> >
+> > +VISIBLE_IF_KUNIT bool kasan_write_only_enabled(void)
+> > +{
+> > +       return kasan_flag_write_only;
+> > +}
+> > +EXPORT_SYMBOL_IF_KUNIT(kasan_write_only_enabled);
+> > +
+> >  #endif
+> > diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> > index 129178be5e64..c1490136c96b 100644
+> > --- a/mm/kasan/kasan.h
+> > +++ b/mm/kasan/kasan.h
+> > @@ -428,6 +428,7 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+> >  #define hw_enable_tag_checks_sync()            arch_enable_tag_checks_sync()
+> >  #define hw_enable_tag_checks_async()           arch_enable_tag_checks_async()
+> >  #define hw_enable_tag_checks_asymm()           arch_enable_tag_checks_asymm()
+> > +#define hw_enable_tag_checks_write_only()      arch_enable_tag_checks_write_only()
+> >  #define hw_suppress_tag_checks_start()         arch_suppress_tag_checks_start()
+> >  #define hw_suppress_tag_checks_stop()          arch_suppress_tag_checks_stop()
+> >  #define hw_force_async_tag_fault()             arch_force_async_tag_fault()
+> > @@ -437,11 +438,17 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+> >                         arch_set_mem_tag_range((addr), (size), (tag), (init))
+> >
+> >  void kasan_enable_hw_tags(void);
+> > +bool kasan_write_only_enabled(void);
+>
+> This should go next to kasan_force_async_fault().
+>
+> >
+> >  #else /* CONFIG_KASAN_HW_TAGS */
+> >
+> >  static inline void kasan_enable_hw_tags(void) { }
+> >
+> > +static inline bool kasan_write_only_enabled(void)
+> > +{
+> > +       return false;
+> > +}
+>
+> And this too.
+
+Right. I'll move them. Thanks!
+
+Thanks!
+
+--
+Sincerely,
+Yeoreum Yun
