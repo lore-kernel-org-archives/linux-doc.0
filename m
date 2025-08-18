@@ -1,55 +1,55 @@
-Received: from mail-io1-f74.google.com (mail-io1-f74.google.com [209.85.166.74])
+Received: from mail-oi1-f201.google.com (mail-oi1-f201.google.com [209.85.167.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BBA280305
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45632280308
 	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 23:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755558648; cv=none; b=VCkHD9EgJ9FD+x+MvXJo6G/RCubcxM9u5fjJ2lWIsbFYYGYj6eLq/H4B82yMojg1OpN63kGBwU1byUc/7TMISBqLtOfduR5heSV2xNhzLNpuynxaCNhN6THy74odTQPW+m0iH60h+c1SS+5jqzeIbQdNqB4GRTP7C/3ZrOC+rzI=
+	t=1755558648; cv=none; b=ZnPlYswmHMcmNYGJDwa0hu7nTs/T+DQ1aoI8KSpvXcYcOyWc2ari3aKo575VjDQlP0u+rgF9R35N8+KUvMp0XQcqseXWHt2K+KKWEU/mpCZls2TaUjrRghAMt1JirP64rBnZf7abL5VgiLnK6BHnTbDj7BHTKqKm4D2m5SZbwyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755558648; c=relaxed/simple;
-	bh=pm1W0YfpOpWRiFbJt4o4DwVnxjqV5znVwyUekdvRLXU=;
+	bh=2hHEU72PYJh+SNwdPqD8UkbjBlmg8/6dhsKpY3DeON4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=aa1Tt/G+/K29s+/cGcVhIfWECd/ODoHcQOQEapvDhuRiinkJya/EwDpJQg6XVkHiXDy26In8fqV1YkNukTFC2p64Rx/1q4Rwph5IyyMx3EEhMNvUyQXf19B/P9jW9gAbmlnK92ItBuv05UIAHTFRx6lrjIDT8ZYjELipIuFMCbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=obh3M1he; arc=none smtp.client-ip=209.85.166.74
+	 To:Cc:Content-Type; b=WAQR+n4phAxlaJziWQSvSsLtZ812+hzXwAWhQ6zTZ+hb4WMSEdETg3cR4URb/XZ4myjt4Wf19CJUqzUo+gQrtWqTfFep7wtG71oJRa+YISttE+xcLSjlU2cewsggkjy019DeVhu3YeIqXKu0nEKQCo4Zb36DGn0mFYxJBrBEUTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jOrlyiBK; arc=none smtp.client-ip=209.85.167.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="obh3M1he"
-Received: by mail-io1-f74.google.com with SMTP id ca18e2360f4ac-88432e1c782so585144039f.2
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jOrlyiBK"
+Received: by mail-oi1-f201.google.com with SMTP id 5614622812f47-435de8351b9so7399864b6e.3
         for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 16:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20230601; t=1755558645; x=1756163445; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=weSzBVnDQwjDP7j2MvS38YwDqh+Hi+XeLH59AMJj2cU=;
-        b=obh3M1he/uBiWescp4u2j2cnFx0V6CQ8VIFWaPfcNxgQckqYIwj0JkLktkp7fiihcr
-         n+DUjQ6KtEIEC3O7KDhFwyvSpVYVDQkVqN4Wfe2x0vQCHOXFReh1cvrQ+/JCj1HYKf8j
-         x2GuAZVDk7OgFg4Ggpi+dFCrkvnzjk776urDjUauwlgAe18wsPEwHnN2o56NB5X1X7yW
-         TQJr3kPzKZUwyYwISj9eSi8VYdhffgTUGQEHa+ueSHA9YQkouUOoRonZAV33tKvZMOxM
-         CI3ANjSPTZ2kir5KKfdFkaHKrTyQRHPUrF982KyBNdJHC0asiR6QXhEOLNWaOkKqShYs
-         ozMQ==
+        bh=v6LP4kbkBa88jvBhrFEiryEKhPYdSyeLgBMrYzBXaW8=;
+        b=jOrlyiBKYTnXaAb79/VUneC6kJzsV7MaCwLamcSHrzUJQSxMM8EdLcYRWSLp/GHZyC
+         VZzzJBJ1sT6+TL1AxydN/rLis6nxQ0Nw3Y2KKnNvVJ7/EKZP5OoDshHGkv//nquCaF6K
+         iO/rmbxs7V/o7TV6pzzthOB2dZGiX0+zIJTQiFQeNi9GuQZnZ1g44tRczaETACzqHT6b
+         Jirpihi+3OvKupb6u/9CNfm6VFeAY/lIba/SCN6qx8umljrQkl9kiND8ZSIwJ/MhgrJA
+         kjmLGoO49sfY2XT+OYxgqoT9SLJNTJzXIDy6H19YIfjSMhfnOkGwCVDONpJcTnINFx4/
+         Qi8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1755558645; x=1756163445;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=weSzBVnDQwjDP7j2MvS38YwDqh+Hi+XeLH59AMJj2cU=;
-        b=iHFIR+L4yDqX/VlFoCfuqiwU9DGFUJchceENKMZL2lfqtkF/uDlDLQoAkFcdSgxFSe
-         6ABJsiYfqG+atRTeYZ3lWOrgNPWwYXLTI/u6ZTXaoNRHSaUap382hHJQja0r3wGLrUVP
-         mzJ5l+tlw7a8b2dCkuPOF9b3dmQTxRvdVfrPRyUG/2J/MszTmTEscKYZIkZ17YH3GPe7
-         bIJIIg+UvmoQdNbvPZCjRnJe3nFaf9EIDoeX/awSI9Wwd49uF7+u+4WKI4aOm9w+ENAs
-         bz7dCOt+Zsr+L2Zy/6yVFEdgIomYTZWedziHy+335LXtBkSVKFfXDK/XywktTxhZctFE
-         gZdw==
-X-Forwarded-Encrypted: i=1; AJvYcCWycl77lBqYInAcphzoE4dyTh+Xx5agKXtWQ/20AACL11EbTnjxrM5UAZw1er6f33SwL35CbmdnQLk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqPVKIshRy9Rbu+l69lFS+KumrsgWqHpWkb0UL/7MiOfC4LoYA
-	E5NJA3OSTFIRc1dj/ChyQ5YH3A240R8JyJop24W4yWCY1DXIljtpGgyjM62s4zIjRIRrHocYIMi
-	Z3jdOkDamGQ==
-X-Google-Smtp-Source: AGHT+IEaW72/Pb59rNZtAEgraB28P029G7O5swShzAoxNgLe6iTZBLDO7jtuVyNiADWynNE2azecOrk3BnJX
-X-Received: from iobbe15.prod.google.com ([2002:a05:6602:378f:b0:884:3f50:a648])
- (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6602:2dd4:b0:884:315d:e433
- with SMTP id ca18e2360f4ac-88467f6312fmr87282339f.12.1755558635646; Mon, 18
- Aug 2025 16:10:35 -0700 (PDT)
-Date: Mon, 18 Aug 2025 23:08:43 +0000
+        bh=v6LP4kbkBa88jvBhrFEiryEKhPYdSyeLgBMrYzBXaW8=;
+        b=XKmwyxhfnXjAQm2WEWg1uN1a+AhioFzdFEqm44VT2AcexVsItG0ACcP16u1W88uGuA
+         QIJ++XtVN7qmKeGSzlCizpb6ICpVMJ0z3y//EzICoCvrvEqSkw9FmxHFQZNHwEuntFiA
+         HKZnec3NLs5Mbqz2FXPzdWRqBGLh0lwbDmiq/XgYPlUHPrHvwLoGhOnHqakXSvBsgfF0
+         ch0uC4ivKMqW6uK9va297M4icToDg8WeJ/CAZGLDBbY2BRF/0TqAGbuWOPre1gw73P//
+         nf4nB1i3nOk5JHyuXAJsajhQoPP6gCzAErtZ2N8eNtxP7MQVmdfrwQVQ8UCxieZr1OqV
+         STaw==
+X-Forwarded-Encrypted: i=1; AJvYcCXgIP9KwLZCafElAoZQ7FeNsrql5LKWzN9HR/P045Pn5KnNeiCc7vA0Zm8SVm9/uvNyvthQpF12sxc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmyyNz4UCbpAaluZQ769MByBL2CXEIKMAI5wgrswLd4jTG/4Qw
+	gdL40L27NpXrSnc3U5nS6SPDSq18lJED8/Jdn670YnaYUjeEIHtCXQLCS9btKg/xV53I4FGFsjV
+	uJuZC06YOKw==
+X-Google-Smtp-Source: AGHT+IGvHvXylkHG6WHZrQWzPSMwYKk8K05RhCTgWLj+FR1COmKkfK+rlfyJhr4vBYqNgMXFLIyPTGnZ4b1E
+X-Received: from oibbj22.prod.google.com ([2002:a05:6808:1996:b0:408:fef8:9c6e])
+ (user=jdenose job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6808:218f:b0:406:71fd:b610
+ with SMTP id 5614622812f47-436da1e7e5cmr308794b6e.33.1755558645195; Mon, 18
+ Aug 2025 16:10:45 -0700 (PDT)
+Date: Mon, 18 Aug 2025 23:08:52 +0000
 In-Reply-To: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
 X-Mailer: b4 0.14.2
-Message-ID: <20250818-support-forcepads-v3-2-e4f9ab0add84@google.com>
-Subject: [PATCH v3 02/11] Input: add FF_HAPTIC effect type
+Message-ID: <20250818-support-forcepads-v3-11-e4f9ab0add84@google.com>
+Subject: [PATCH v3 11/11] HID: multitouch: add haptic multitouch support
 From: Jonathan Denose <jdenose@google.com>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -72,70 +72,193 @@ Content-Type: text/plain; charset="utf-8"
 
 From: Angela Czubak <aczubak@google.com>
 
-FF_HAPTIC effect type can be used to trigger haptic feedback with HID
-simple haptic usages.
+If CONFIG_HID_HAPTIC is enabled, and the device is recognized to have
+simple haptic capabilities, try initializing the haptic device, check
+input frames for pressure and handle it using hid_haptic_* API.
 
 Signed-off-by: Angela Czubak <aczubak@google.com>
 Co-developed-by: Jonathan Denose <jdenose@google.com>
 Signed-off-by: Jonathan Denose <jdenose@google.com>
 ---
- include/uapi/linux/input.h | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ drivers/hid/hid-haptic.h     | 16 ++++++++++-----
+ drivers/hid/hid-multitouch.c | 47 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+), 5 deletions(-)
 
-diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-index 2557eb7b056178b2b8be98d9cea855eba1bd5aaf..a440fafaa018947f4d9ca0a15af2b4c6bd0ae6a0 100644
---- a/include/uapi/linux/input.h
-+++ b/include/uapi/linux/input.h
-@@ -428,6 +428,24 @@ struct ff_rumble_effect {
- 	__u16 weak_magnitude;
- };
+diff --git a/drivers/hid/hid-haptic.h b/drivers/hid/hid-haptic.h
+index abdd7d710c0b832ad0be8fe63ebfa7692c8ea5ca..c6539ac04c1dbd36fb25eed9370e6fe747a28f10 100644
+--- a/drivers/hid/hid-haptic.h
++++ b/drivers/hid/hid-haptic.h
+@@ -103,19 +103,25 @@ int hid_haptic_input_configured(struct hid_device *hdev,
+ {
+ 	return 0;
+ }
++static inline
++void hid_haptic_reset(struct hid_device *hdev, struct hid_haptic_device *haptic)
++{}
++static inline
+ int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr)
+ {
+ 	return 0;
+ }
+ static inline
+-void hid_haptic_handle_press_release(struct hid_haptic_device *haptic)
+-{}
++void hid_haptic_handle_press_release(struct hid_haptic_device *haptic) {}
+ static inline
+-void hid_haptic_pressure_reset(struct hid_haptic_device *haptic)
+-{}
++bool hid_haptic_handle_input(struct hid_haptic_device *haptic)
++{
++	return false;
++}
++static inline
++void hid_haptic_pressure_reset(struct hid_haptic_device *haptic) {}
+ static inline
+ void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
+ 				  __s32 pressure)
+ {}
+ #endif
+-
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index b41001e02da7e02d492bd85743b359ed7ec16e7f..94dd0033290d6ae37d82f0992b94e24ebbc1f301 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -49,6 +49,8 @@ MODULE_LICENSE("GPL");
  
-+/**
-+ * struct ff_haptic_effect
-+ * @hid_usage: hid_usage according to Haptics page (WAVEFORM_CLICK, etc.)
-+ * @vendor_id: the waveform vendor ID if hid_usage is in the vendor-defined range
-+ * @vendor_waveform_page: the vendor waveform page if hid_usage is in the vendor-defined range
-+ * @intensity: strength of the effect as percentage
-+ * @repeat_count: number of times to retrigger effect
-+ * @retrigger_period: time before effect is retriggered (in ms)
-+ */
-+struct ff_haptic_effect {
-+	__u16 hid_usage;
-+	__u16 vendor_id;
-+	__u8  vendor_waveform_page;
-+	__u16 intensity;
-+	__u16 repeat_count;
-+	__u16 retrigger_period;
-+};
+ #include "hid-ids.h"
+ 
++#include "hid-haptic.h"
 +
- /**
-  * struct ff_effect - defines force feedback effect
-  * @type: type of the effect (FF_CONSTANT, FF_PERIODIC, FF_RAMP, FF_SPRING,
-@@ -464,6 +482,7 @@ struct ff_effect {
- 		struct ff_periodic_effect periodic;
- 		struct ff_condition_effect condition[2]; /* One for each axis */
- 		struct ff_rumble_effect rumble;
-+		struct ff_haptic_effect haptic;
- 	} u;
- };
+ /* quirks to control the device */
+ #define MT_QUIRK_NOT_SEEN_MEANS_UP	BIT(0)
+ #define MT_QUIRK_SLOT_IS_CONTACTID	BIT(1)
+@@ -167,11 +169,13 @@ struct mt_report_data {
+ struct mt_device {
+ 	struct mt_class mtclass;	/* our mt device class */
+ 	struct timer_list release_timer;	/* to release sticky fingers */
++	struct hid_haptic_device *haptic;	/* haptic related configuration */
+ 	struct hid_device *hdev;	/* hid_device we're attached to */
+ 	unsigned long mt_io_flags;	/* mt flags (MT_IO_FLAGS_*) */
+ 	__u8 inputmode_value;	/* InputMode HID feature value */
+ 	__u8 maxcontacts;
+ 	bool is_buttonpad;	/* is this device a button pad? */
++	bool is_haptic_touchpad;	/* is this device a haptic touchpad? */
+ 	bool serial_maybe;	/* need to check for serial protocol */
  
-@@ -471,6 +490,7 @@ struct ff_effect {
-  * Force feedback effect types
-  */
+ 	struct list_head applications;
+@@ -525,6 +529,8 @@ static void mt_feature_mapping(struct hid_device *hdev,
+ 			mt_get_feature(hdev, field->report);
+ 		break;
+ 	}
++
++	hid_haptic_feature_mapping(hdev, td->haptic, field, usage);
+ }
  
-+#define FF_HAPTIC		0x4f
- #define FF_RUMBLE	0x50
- #define FF_PERIODIC	0x51
- #define FF_CONSTANT	0x52
-@@ -480,7 +500,7 @@ struct ff_effect {
- #define FF_INERTIA	0x56
- #define FF_RAMP		0x57
+ static void set_abs(struct input_dev *input, unsigned int code,
+@@ -856,6 +862,9 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 		case HID_DG_TIPPRESSURE:
+ 			set_abs(hi->input, ABS_MT_PRESSURE, field,
+ 				cls->sn_pressure);
++			td->is_haptic_touchpad =
++				hid_haptic_check_pressure_unit(td->haptic,
++							       hi, field);
+ 			MT_STORE_FIELD(p);
+ 			return 1;
+ 		case HID_DG_SCANTIME:
+@@ -980,6 +989,8 @@ static void mt_sync_frame(struct mt_device *td, struct mt_application *app,
  
--#define FF_EFFECT_MIN	FF_RUMBLE
-+#define FF_EFFECT_MIN	FF_HAPTIC
- #define FF_EFFECT_MAX	FF_RAMP
+ 	app->num_received = 0;
+ 	app->left_button_state = 0;
++	if (td->is_haptic_touchpad)
++		hid_haptic_pressure_reset(td->haptic);
  
- /*
+ 	if (test_bit(MT_IO_FLAGS_ACTIVE_SLOTS, &td->mt_io_flags))
+ 		set_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags);
+@@ -1137,6 +1148,9 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+ 			minor = minor >> 1;
+ 		}
+ 
++		if (td->is_haptic_touchpad)
++			hid_haptic_pressure_increase(td->haptic, *slot->p);
++
+ 		x = hdev->quirks & HID_QUIRK_X_INVERT ?
+ 			input_abs_get_max(input, ABS_MT_POSITION_X) - *slot->x :
+ 			*slot->x;
+@@ -1324,6 +1338,9 @@ static int mt_touch_input_configured(struct hid_device *hdev,
+ 	if (cls->is_indirect)
+ 		app->mt_flags |= INPUT_MT_POINTER;
+ 
++	if (td->is_haptic_touchpad)
++		app->mt_flags |= INPUT_MT_TOTAL_FORCE;
++
+ 	if (app->quirks & MT_QUIRK_NOT_SEEN_MEANS_UP)
+ 		app->mt_flags |= INPUT_MT_DROP_UNUSED;
+ 
+@@ -1359,6 +1376,7 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 	struct mt_device *td = hid_get_drvdata(hdev);
+ 	struct mt_application *application;
+ 	struct mt_report_data *rdata;
++	int ret;
+ 
+ 	rdata = mt_find_report_data(td, field->report);
+ 	if (!rdata) {
+@@ -1421,6 +1439,11 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 	if (field->physical == HID_DG_STYLUS)
+ 		hi->application = HID_DG_STYLUS;
+ 
++	ret = hid_haptic_input_mapping(hdev, td->haptic, hi, field, usage, bit,
++				       max);
++	if (ret != 0)
++		return ret;
++
+ 	/* let hid-core decide for the others */
+ 	return 0;
+ }
+@@ -1635,6 +1658,14 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 	struct hid_report *report;
+ 	int ret;
+ 
++	if (td->is_haptic_touchpad && (td->mtclass.name == MT_CLS_WIN_8 ||
++	    td->mtclass.name == MT_CLS_WIN_8_FORCE_MULTI_INPUT)) {
++		if (hid_haptic_input_configured(hdev, td->haptic, hi) == 0)
++			td->is_haptic_touchpad = false;
++	} else {
++		td->is_haptic_touchpad = false;
++	}
++
+ 	list_for_each_entry(report, &hi->reports, hidinput_list) {
+ 		rdata = mt_find_report_data(td, report);
+ 		if (!rdata) {
+@@ -1777,6 +1808,11 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		dev_err(&hdev->dev, "cannot allocate multitouch data\n");
+ 		return -ENOMEM;
+ 	}
++	td->haptic = devm_kzalloc(&hdev->dev, sizeof(*(td->haptic)), GFP_KERNEL);
++	if (!td->haptic)
++		return -ENOMEM;
++
++	td->haptic->hdev = hdev;
+ 	td->hdev = hdev;
+ 	td->mtclass = *mtclass;
+ 	td->inputmode_value = MT_INPUTMODE_TOUCHSCREEN;
+@@ -1840,6 +1876,17 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 
+ 	mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
+ 
++	if (td->is_haptic_touchpad) {
++		if (hid_haptic_init(hdev, &td->haptic)) {
++			dev_warn(&hdev->dev, "Cannot allocate haptic for %s\n",
++				 hdev->name);
++			td->is_haptic_touchpad = false;
++			devm_kfree(&hdev->dev, td->haptic);
++		}
++	} else {
++		devm_kfree(&hdev->dev, td->haptic);
++	}
++
+ 	return 0;
+ }
+ 
 
 -- 
 2.51.0.rc1.193.gad69d77794-goog
