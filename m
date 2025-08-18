@@ -1,91 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A51111A8;
-	Mon, 18 Aug 2025 02:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6A51DDC08;
+	Mon, 18 Aug 2025 03:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755484308; cv=none; b=pAiCg7WqcRXOFirufHYl4zu6OSfCH+7jQKSG7VKLwdGxxYglZhBTn/M8j/3WXj64dY96fWFCumJQKqS2ef1aNzXhGgioyZtT3v3pF4uz6u9vcD1gCwnJZATMyTUK6VU2Pyh0cjTxf40Pcdl+94tY5hZSoF2uMehC6Y3yQjF3JoI=
+	t=1755487513; cv=none; b=Tvdgw/r3o5bzUqb9dRcR4g175HI+bz4EN6ZXTG/uwgAnn+LIwSA0KbhAaHpA+CK3hQQqqQ3bGbVOt/KubcOFwVPwy6Rzh0N8mBuMty6loA8kRhNhV0IE2OJaqiak6f7e9UtDlsQwnBKgY+mD60TZ/Tr1qaBzMaUTqkzpW0AhrqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755484308; c=relaxed/simple;
-	bh=+4qNgvQy+1/DLXb5T9gVXI3Pk7l/GEhUmzDE8+k73io=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=mIWTyGdRE2Oi6xRJ8gGEuglR3PIfdtqV7wUaFZYVxaQP87JlJDK/UBcbD1UbENFak5G9uZDqtNKD4x/kHHubAQOGI7mltN4rVODN9i1xhqFqo2tiZH844zAGczn3UJbY3V5zMLhsyjwEX6h38adzRIylv5TJs7dLrUpVpVGF+k0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvhcQeBh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755487513; c=relaxed/simple;
+	bh=E29G00bJo5W0ceSVlw85nDvCJoLFQhZsxrQRqwDK/6w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JBArsPV6kcHJsl98lYTZbESOSoreTvduySynuyorzM4vjGAWOTzjHvN/8nbbzG6dq+97gH66De1ayhnGzNInVP29etp/T1wZyBKQToFjPQkoA3i0wkJczmGnZGQl8hC95GdvQ4NBkQB5AVxktvtVRU7BerwAjRZ5Gd603GvO/rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KFJxbViO; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvhcQeBh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 444D3C4CEEB;
-	Mon, 18 Aug 2025 02:31:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755484308;
-	bh=+4qNgvQy+1/DLXb5T9gVXI3Pk7l/GEhUmzDE8+k73io=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=FvhcQeBhjPfGwyTq8WFWxQUK2NfwdnlgZlEwiUIyhorqrJYjszn5bZ95MvUQq6jv9
-	 6FXfDMGRXYXq+dUZ2zvu4bXlYoPDTQMF05e3tHCqX34ERBlbWc7zrqPnEEqjtsxtgN
-	 oK0iuWPFZwaRhRsMmWajOAOeQE8ZcMA1f5kS5qjHpmHKrAFLK9Ml4IBfb1AL9A29/8
-	 nC26G72IUWXFFQSu61NCKXHBjX9HVy5a6xnJfOutnGrJ6uToteAKyNAmM1A23W3lvc
-	 tf7NsvzJSpmqS+M+6b6pa6O3bgamHYIpEgPE89UQ6oNMFFOW4V69Bsym1rSBg04rVj
-	 3e3vOdYHuCZeQ==
-Date: Sun, 17 Aug 2025 21:31:47 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KFJxbViO"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-24456f3f669so35191575ad.1;
+        Sun, 17 Aug 2025 20:25:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755487511; x=1756092311; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E29G00bJo5W0ceSVlw85nDvCJoLFQhZsxrQRqwDK/6w=;
+        b=KFJxbViOccUrPQAE7PXLldcuuSZIp8peuoTvOfRjd+ET40R0YOeu3DVrrZqpHq2sWc
+         NVsRfS93saPZnAXixLa/Y3HIyKhzQFmDbnUZGcI5vgA6XYEolmRzUE6tl5XRIS24O4Tv
+         TLecG/R2914qC3LLBfyoMUtHa+EcPJILzveFc/NFpeYOgcztzJaYjwKj9hyk6M5gj/wC
+         HSfSjUwYt7lzGrRLTB80reKDj6HarqCVhJ04z6qQMKrMPGbSlXRAAXsxycd18JEPmxTU
+         3ZB5kPookFavYOnt5WZJQL3DezdXaMyzdLJYdDOq8QelkQyDWTm/w6suJ9NURg4AEy72
+         xFwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755487511; x=1756092311;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E29G00bJo5W0ceSVlw85nDvCJoLFQhZsxrQRqwDK/6w=;
+        b=hVTXf0mETInV8elkCbTVVnytsBJJjK1Y77QyO4+SI1SubQJM/jZ5rbfz7UtSdV37Bn
+         xKfN/HlAfZGG+5UMfQ85T6hEQhs79VT0xPlmW3yP1O9gu5VH3205NUhQHpYzrl9X3qWs
+         xhs63Y1mUHZ/OOOwB4Q+lHPvJ0waLiZWgm0M0dCBClYAs+xq3LOc9mjOL/AQq6gdwo41
+         p4n1kxNj1D+7ELEVY6d9CY7DK7Zx4SGjuy/mIpI5RmOAaDNwUR0Z6HhFnIQKxsxdr3HI
+         ZXe+eS09mtxlhZNfDc6upO9o9XrViE5cIHTKlhdSuHbuHY2wY0WZP1sqSmiXhga3ZpHd
+         UWCw==
+X-Forwarded-Encrypted: i=1; AJvYcCVOqEa0hpemJRk5poLyV+UpnqZGDURDlO3wjqGBgKws0g9msGad0BGq+778ItO8e3EGgSFqXx5ZUelVz9k=@vger.kernel.org, AJvYcCWgDLe2DCXxbB1EuFO0Kk4BMvGwduuF0L22f4EQ9GHMiJkZQo24Gl58sb83+TnX6Ud2voYgYIiinLko@vger.kernel.org, AJvYcCWu+MgPapqRk08NKqYMt0M2zPow/iG9L8ABZ2HTkwxU4lLn6oMSTSfvhmODkqsp54pctM6fGAGZffFk@vger.kernel.org, AJvYcCX5wjyR0HhiUhB3C2twESmqkQ+QkH91D2mzhiBsmydCc9rtLzAcGW5c++G78SVAB4Bmn0HV6dC5CFdOLzrf@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0qfEDhzxyG5g1jOe/U12Xqv3UTDQ1c56pvWGkdGyru/iGDJYw
+	JTPNSrGbYM7r5f7SFn721QU4rGTazCIYkd36sppHbm1/p8b7L8Nk/vbh3PEVUA==
+X-Gm-Gg: ASbGnctrZj1IVGJm518FJZemqSuMYVic2g764VcG3/ebfS6OQvn/sKoSQkIWrx2CxpA
+	aoA/JvKfmY7gKzBfE1BWacm43UndLkkEVlV64gC2TjHRKflNeyYjyJ8AP+Nup39DhdZh6MS0Q3X
+	+1pWK6OooKXnM+ztQA4C6yfmYNanupZLrqDXGv4VPmWX9aeUc4NZB7QcwUHcwDKWnpp9nzlZw5y
+	BcaxJ6eb+NpEBciV63jQcPuegzk0Ge2xJ+c0HYH37njTiLaeVxOQGym6N47HwJl50LlNucZk2qX
+	gE30GzpIP/pLXSI1Z2Z3TelFDCrOj2HMXzNC6W2XXfFpl4bezbRpVgtKS10b1vsc37bhjebVnmM
+	zR3fIt3o8x7bk8KVyiWkxGjiDjIdd1yGu4L+wE07/rqQHXdhzpjpKqeIhfu5llk0nOBuoOAONpH
+	yoiYJdJe+mpzyalv4=
+X-Google-Smtp-Source: AGHT+IGCPuIqztyx4RygtP4sPEfUvqj6mba4WZZZUCuucDqVjtfkJIZWVoAbT28i1nkr55HEWB8rVA==
+X-Received: by 2002:a17:902:d483:b0:234:1e11:95a3 with SMTP id d9443c01a7336-2445978c8ccmr221438235ad.13.1755487511284;
+        Sun, 17 Aug 2025 20:25:11 -0700 (PDT)
+Received: from CNTWS00427A.itotolink.net (111-242-93-174.dynamic-ip.hinet.net. [111.242.93.174])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d592448sm66070415ad.161.2025.08.17.20.25.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Aug 2025 20:25:10 -0700 (PDT)
+From: ChiShih Tsai <tomtsai764@gmail.com>
+To: linux@roeck-us.net
+Cc: conor+dt@kernel.org,
+	corbet@lwn.net,
+	devicetree@vger.kernel.org,
+	jdelvare@suse.com,
+	krzk+dt@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	robh@kernel.org,
+	t630619@gmail.com
+Subject: Re: [PATCH v3 0/2] Add sq24905c support
+Date: Mon, 18 Aug 2025 11:25:07 +0800
+Message-ID: <20250818032507.1195-1-tomtsai764@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <0b7b396a-c53f-4456-ae17-1b5f3c1d6859@roeck-us.net>
+References: <0b7b396a-c53f-4456-ae17-1b5f3c1d6859@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: lee@kernel.org, linux-leds@vger.kernel.org, corbet@lwn.net, 
- christophe.jaillet@wanadoo.fr, devicetree@vger.kernel.org, 
- krzk+dt@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- rdunlap@infradead.org, pavel@kernel.org, conor+dt@kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Nam Tran <trannamatk@gmail.com>
-In-Reply-To: <20250818012654.143058-2-trannamatk@gmail.com>
-References: <20250818012654.143058-1-trannamatk@gmail.com>
- <20250818012654.143058-2-trannamatk@gmail.com>
-Message-Id: <175548430728.3642063.6873272310272616172.robh@kernel.org>
-Subject: Re: [PATCH v13 RESEND 1/4] dt-bindings: leds: add TI/National
- Semiconductor LP5812 LED Driver
+Content-Transfer-Encoding: 8bit
 
+I see, could you review these patches?
 
-On Mon, 18 Aug 2025 08:26:51 +0700, Nam Tran wrote:
-> The LP5812 is a 4x3 RGB LED driver with an autonomous animation
-> engine and time-cross-multiplexing (TCM) support for up to 12 LEDs
-> or 4 RGB LEDs. It supports both analog (256 levels) and PWM (8-bit)
-> dimming, including exponential PWM for smooth brightness control.
-> 
-> Signed-off-by: Nam Tran <trannamatk@gmail.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/leds/ti,lp5812.yaml   | 229 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 235 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250818012654.143058-2-trannamatk@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Thanks,
+ChiShih Tsai
