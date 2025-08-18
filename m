@@ -1,47 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7F725EFBF;
-	Mon, 18 Aug 2025 16:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4150279CF;
+	Mon, 18 Aug 2025 16:52:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755535616; cv=none; b=j+RV/h/dWctLH7swqXjDwHSIByouE6pxU3j9aNhXPyOq4h92UaVr9cOZ3hmcds2aPu4RnR9HpWRxvIfnHHSW05AYQCab+HRP7pSPk1HZdyaXCBHlT8woJum7YJbfunvEN859gef9CUvHT/j+Ty0yBAfxrXO5I3iVa3urZ7ntJNc=
+	t=1755535962; cv=none; b=bZeG0R88dQZsroQWALESupGKgK3ULT84O67xJi6eTt8VycL7nHDj11kXlK6ZLUwtxLaXXGQjiTY7LceDaAJJEHfb+X45YtHXqc2iXpsoJ84KHWHLbi07F43t5gJAM9al4p+QwzCMgjp847dkDoBFYMkT17HfVYi2O7gnf+/ibqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755535616; c=relaxed/simple;
-	bh=JeOgJPKPhlMM+v9nS1Rcs3P9Jhb7OnLeXhQkmAmW7/g=;
+	s=arc-20240116; t=1755535962; c=relaxed/simple;
+	bh=RaZ61BdX4xFg8kvTPwXNCloQmCraD3QMXDwjjRuBcCQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=h/Wm+ijC/ACNdE0htd5DvpTiEd2MzphdOabPSVwuCbTZPr6jMIqWc79z/Fp3HR8KHoO18TKeohzVHdYa5jhgXDMWP5BSPF8ZIf8xw3GJrlMUrZagbbrsl+rAtiK1ZJEcyFnER2kKGgQb4bo+t96tnyJ2t48HV6ZrPxtT1athEbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EeuEBVtC; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=sdztdY7Z/CQPStriYIICj4AMSUGFv6+bpBBNKhfXy2gEmUij08TUHpqM8xyGCD33rz2jit+ps5drSDTkC5FyHmk4xpqgmBe6vlFYoWd9Sw06sBRzKrVn0bwlCWeyMJVOAMmIdd8+WXnTiiDSbo9RhCxTSeBmy3k3kmkSU8Q07T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=a4ClcLts; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EeuEBVtC"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 293C840AB4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="a4ClcLts"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C9FBB40AE3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755535614; bh=eS3VlHL5nEkglHH12GEGXdT6zm/VZKMW+fKKXPIqxEQ=;
+	t=1755535960; bh=jJoGfkPGzsovkqrZFk1ijrUb5+RpNsRfmQGTU3tcLYM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EeuEBVtCRz7ejt7MEOTpnXH1VAkxqyfVkLzOcgqDXvEaJwsUTikh2R/mUbblicGwh
-	 2T2lU6hrHSOLFoazvj6uuNdCDINGjEvfpvBWn/u5uB6d1d+AIIo8eS//tpLZjh55GS
-	 MCsG35L42WzxZXABwAFRNROzPLQSGQ1WhonE2UpaQ2/nofb8zqEiHlmBaxHYVead/K
-	 iYpOT+R5k2Q3ll3HX83Dj2eoPtYJP+PmX+XWxJ0OWAoKkbryXom1P4OpkkpfvWOn1Y
-	 qtktr7116zS9IgsT7iH1dxcXuEiHpv79kvAnuCOFMB/SrOK9ZvaO4OgT6+7X0eWSZw
-	 457VvFR0uUkVQ==
+	b=a4ClcLtseQNfJ2HsK4yIgpDDIPypDBvyfHk33o4L47ucdFlgqbh2V3fPTEPxeGI5C
+	 GGne/mxIGdbeN14dc56VyXkEcUvEEchNZIl5+EFZKJguHI/MOElHpV1WRzjD7h5ljU
+	 mo0zFXMH4VX5wBQEBLpmmrdjSw0kW/g0AOVMC61anZno3VfqRBxlSaTCwGEWW/mtw3
+	 l/eVMfpV+/Z+HgktROcgSl3ehRD+2rGsMVKJ3Mmo5LOmifdc0Nn4jTdR1teTw2KXQV
+	 RZyvnLsxgHiBW0orEIr/9PGu4laR2NLPjyuR+761HNTR7jSXQNbp+PEYX5p87rj+BI
+	 Q6vTnD9as6UcQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 293C840AB4;
-	Mon, 18 Aug 2025 16:46:54 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id C9FBB40AE3;
+	Mon, 18 Aug 2025 16:52:39 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: David Sterba <dsterba@suse.com>, linux-doc@vger.kernel.org
-Cc: Ondrej Mosnacek <omosnace@redhat.com>, Paul Moore <paul@paul-moore.com>,
- selinux@vger.kernel.org, linux-kernel@vger.kernel.org, David Sterba
- <dsterba@suse.com>
-Subject: Re: [PATCH] docs: Remove remainders of reiserfs
-In-Reply-To: <20250813100053.1291961-1-dsterba@suse.com>
-References: <20250813100053.1291961-1-dsterba@suse.com>
-Date: Mon, 18 Aug 2025 10:46:53 -0600
-Message-ID: <87bjoc8tmq.fsf@trenco.lwn.net>
+To: NIKIL PAUL <snikilpaul@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,  skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 2/2 v3] docs: rcu: Replace multiple dead OLS links in
+ RTFP.txt
+In-Reply-To: <CAHHgkHp-oMuCfRGqL6FGrDNSi3a3HzU7uW27vUfNW7evk1m4+Q@mail.gmail.com>
+References: <20250812163233.7330-2-snikilpaul@gmail.com>
+ <CAHHgkHp-oMuCfRGqL6FGrDNSi3a3HzU7uW27vUfNW7evk1m4+Q@mail.gmail.com>
+Date: Mon, 18 Aug 2025 10:52:38 -0600
+Message-ID: <877bz08td5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,28 +51,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-David Sterba <dsterba@suse.com> writes:
+[CCs restored]
 
-> Reiserfs has been removed in 6.13, there are still some mentions in the
-> documentation about it and the tools. Remove those that don't seem
-> relevant anymore but keep references to reiserfs' r5 hash used by some
-> code.
->
-> There's one change in a script scripts/selinux/install_policy.sh but it
-> does not seem to be relevant either.
->
-> Signed-off-by: David Sterba <dsterba@suse.com>
-> ---
->  Documentation/admin-guide/ext4.rst                 |  2 +-
->  Documentation/admin-guide/laptops/laptop-mode.rst  |  8 ++++----
->  .../arch/powerpc/eeh-pci-error-recovery.rst        |  1 -
->  .../translations/it_IT/process/changes.rst         | 14 --------------
->  fs/btrfs/tree-log.c                                |  2 +-
->  scripts/selinux/install_policy.sh                  |  2 +-
->  6 files changed, 7 insertions(+), 22 deletions(-)
+NIKIL PAUL <snikilpaul@gmail.com> writes:
 
-It seems there is more that could be done here, but I have applied this
-as a step forward.
+> A smal follow-up, Do i need to do any more changes on this before getting accepted?
+> It has two more changes which weren't in the previous version.
+
+So I only received 2/2, so I lack some context here.  It seems you only
+reposted this one patch out of the series?  When you make changes, you
+need to post the whole series so that maintainers know what is going on.
 
 Thanks,
 
