@@ -1,120 +1,126 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613A827146F;
-	Mon, 18 Aug 2025 07:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288B125A2C8
+	for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 08:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755503944; cv=none; b=XV/t8uZT2Gs+Hc9j5CXeI7IAVHq+1a4/MPsIjOrtL0ODYHSNY8zmGwtS5tjFyk+4Jic5TGUSTE/YPj1GTx26zsIoeew8+ZUGMG7Ujhi9/XUHh/KxfFUczfXrnYtJ6Rq7umuiAM/ha9R6+E30LlWUG4IN8PVWGmwPjxqtjc+/K6Y=
+	t=1755504178; cv=none; b=nBoQRSCeMyDIWUdNf6yAtIBn/wBWDTLDV/R6bNFKk3LGltuA6Ri4jStbsRs/ORCJBHEgbiU8EoiR8D0v+cFnCtIyh0FEIr6VLbBt5XaJGu0xPJlmy0gHTt0R7fiScBJ/r9WwVkkrcJ1IOvEDn8AX+PToC7/9ogV+gSzLtE1zRaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755503944; c=relaxed/simple;
-	bh=EWJyRicAuWP1Cg/ciYf3MN0Nic24YzVk9b4CA7dDzVg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NWxfA6XXm5aIC7yvVmd6vLpCdgve3KmfP9sgH/GJ1Ig/c/dsDTYM+oMxCjXJI3vVCyV20ArXm2q272xR6jyCd+WQd6eMPxo0cSvyzszZ/2Jj/BjRmOMtQRUP7s7H04YWGVy121FNM7Ri60sWdyfLGW1LoKc1vE0g48GERl21vAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kZ+JGlqa; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755504178; c=relaxed/simple;
+	bh=BTDvtIT10/Y7dpj6Bwu/egzP7OKMQ3oLE5KC8jPsBrs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Iq0rsfvnFBLEmRW9efZgpTDX8cEGvEqRjwmU8P6LRALv75pFJHH6eBxEgiMaA69OVtoz4AgI97EQAda9mufyw3RNnUSi2lUj769R1J2rnBOAhv8jIF8EABfPd6N0b0ZrnXceg9jPXz/cdaTwg/vshwXgxwlvdGnBi9JXTZ38jKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UmKpTFJZ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kZ+JGlqa"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-76e2e60433eso2811602b3a.0;
-        Mon, 18 Aug 2025 00:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755503943; x=1756108743; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jDHYS3CJkI8uOuo2f3JfxcvG8D5qpzTnjM5fht13qCU=;
-        b=kZ+JGlqaCiQwhLuYthJ7ospTwF9jIuXEoE5yMN0UV61pZUzXHDqwvul8vIZcSISVyM
-         QNJO4GCLgisTtnU038rOBjiS4Rh+eo8zCjs4CzjxAVl/gENwIXVL+AqiISYdVbI8zZzJ
-         X8Cq5qAX4+hmfoEMR9SpAEC3BA1ubqgDYkABw4aZkIYzCDEU9p8jZAkMltgM2YJIg4h2
-         NuANNQjab0Uexq0VlcLW+zx2qiazGX2MKiH1I6nlNZwdvsIvaLh4p6b4lVB+jDdC+0Bw
-         R49w4yVpjF6QuPlrisN+f1lIMPMiJLpmfvg88KbcMu/bv22/eMkOXWIKfhb+p0APUBgQ
-         jxlQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UmKpTFJZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755504175;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=BTDvtIT10/Y7dpj6Bwu/egzP7OKMQ3oLE5KC8jPsBrs=;
+	b=UmKpTFJZgVRbvB3GOQlsq08+4K9d+F4jRERJSGY/NYDEaCgNfL7wOM7UFjK/DlER9AEyfj
+	uru4qI3v9Jav8z/L6uOtqUk4M8HmHPwSxzpLxJevdWxBJiSFziND90+OLHZIdrT5L0zOW5
+	MuHu8ReIm0troJRnP2K6LyQZAcmNSjE=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-316-4n-xcaopM3e6zR2e9bPh4A-1; Mon, 18 Aug 2025 04:02:53 -0400
+X-MC-Unique: 4n-xcaopM3e6zR2e9bPh4A-1
+X-Mimecast-MFC-AGG-ID: 4n-xcaopM3e6zR2e9bPh4A_1755504173
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-70a92820fd0so37160686d6.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 Aug 2025 01:02:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755503943; x=1756108743;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jDHYS3CJkI8uOuo2f3JfxcvG8D5qpzTnjM5fht13qCU=;
-        b=raZcX+adB63zoJJ+Q3DYHhky8yMtKzJprxzIUgkBS1mRohnP7dxalAGDvpf1SB1IpG
-         NX/dV7jXX6TiEX4ee1c9NIFOKG1BA6ehMGeGa5ezGrMoZDmDYQU+vIeNSZ+V05UZgQlE
-         /P3obVrlUyH74cDjgP+RilT2MbbGlmtNhdxtdKOaA/u+/O2nUbB3A0QB+BG2Fr5YD14J
-         aULB3MtjPtHYtmyk5c9KdnrnE7ZCr3G9Cx5W+RKHsL0QOtwMJ2emQn+vAs9fBeAmA25c
-         EDu4++VmwnREXHLx49RJh0LdXE84d3jOQuF0iI+YxrLoM62pq/l/2LtAwgTjqHAL2Q30
-         dyeA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTnStFd2UJsENoPg+3P3/keU7d0SRI3aT2wGXNFDJpVXJ1IShUm51r2ce+9VEGnncHx6Ja2w0LXFg=@vger.kernel.org, AJvYcCWdaQJ2+qXg0hRb6WuKn/G35v/2nUVH8QIWBBHFyXUKiv/+Y73aqdw6lwuPR5hsQL4rPrBeG7R7e4J+uqV2nqkN@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsQWQGHJW+xtr+VsdKT348cxCYWUDu+teo7s02N+TY+rz1j3gP
-	QPf+VLWIWAAnPYcSkJgIRzSsKIwkWh4sA+iACx2EQIpfnSXper21EKCU
-X-Gm-Gg: ASbGncv4LVeTzMnZm5Tm2NfXr1Ku7uDejoWOXM8DSmiYZVAvcWhlIXyKFr+LcRN7NM8
-	eTrnf+8ElpEfLMU3kLLUpwhCGWQZFYZgXoWCjWYYHEpVsYOBnyGJyNaL7eZICWKP3nBvLxgwzx7
-	/3SLQYRF9hLn3S23IEtGKDjvo2E1bT27t+P4WPge47tE6HttsAdCgGhEFNsgDOMxydX3dOHpim9
-	cHicxMBnnErIAMPt/3cKbdN016ffzdPY5b/P0AAHI+ax1XxnvEV8u6DRikLraiHRi/is136pZyK
-	9hcCY96ik7tVCfpHqrV/gYo2Ji+9ze/mSEPzrOi9Vm3VFPpEwg1GsED1bpeqs2aAlow/F+tJU+v
-	e/4m1+SoahBRrt3g/WmoQOPh6YLo=
-X-Google-Smtp-Source: AGHT+IGmANJdnVmkKUlr6WDwVqAb8dtFwddRjg9HaR2K4S6JlvmzwYGJnMaEm0GVSS5sXXS+/JFTbg==
-X-Received: by 2002:a05:6a21:32a3:b0:23d:e568:e5ad with SMTP id adf61e73a8af0-240d2ec5e45mr15707814637.28.1755503942656;
-        Mon, 18 Aug 2025 00:59:02 -0700 (PDT)
-Received: from fedora ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4738635006sm5850065a12.52.2025.08.18.00.58.55
+        d=1e100.net; s=20230601; t=1755504173; x=1756108973;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BTDvtIT10/Y7dpj6Bwu/egzP7OKMQ3oLE5KC8jPsBrs=;
+        b=UpPlYJri17eco5mGJwWya1lqBqRc9jdw3bkpnFpZ6UGVU3tbraBNKxr0BSRZqtDjRQ
+         e1sBC4ECOuwgO7LfcSAm0ztyW4me0wXCVHsfLGpM4o8uZQjrFopIlO0Uimf9XHN9Tbg0
+         KBtKyXNDbsjGTAzz2UWzbJChMWNh0SYeKCfjAcWqEb26tc5dsol9jTM3XnVzlGmhe0UV
+         M2D+OpMGjuOe55p/IRFERDFQ9mPRRtTnnfnA8pRKXKFofuJSrBDNRluNIV2JtQVdDFRZ
+         BloYbSWdYnh5jr5+xKmAGHbACmR+CjULXL+QMygJhZepfjGnPoJGk9x2fZ3I5xNr0dod
+         E9SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVR94jGt3ZeRi0l6tPzbfkm2rY1OZmjrO4tsSiM9I22whBGQnL+geefOUHM19bE14qyuGR2MGwL5Jw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsLz4E6MfQZ/2VbKNLm8ZV+sOYuUMvVe13kEGd7i+3CVwMxLgW
+	zXo3IXJ0q370WqINaG2UqAXxpgkltWaltKoi/ekLyZYDZnkMGA5CjSJBUBRXBOkxsTqa+KJsYdl
+	U1U5U7dxDBdB5TCwPIIyPm8WA1+2YTYkNTfXhsMDsTjwGVGMWuEyA0PPd+ulHgg==
+X-Gm-Gg: ASbGncuSHjYKMZ2dkwDkS1mm/ipQ3VXHBIV7HrOYPFreEDEvA7Ff1boM3VL49LAeRpP
+	3uCdbFfwIoLRUa2BoFZ6W7GjoyEjQHdSicuzwGcEcDTakirc6V0TiZu1JHfTepvlVi3AloSdWBf
+	J/1iTH3dd5cXocXsvb4XmER0UWjOzRKFur8aJYe1ZDY5oDQ4lbNQ7mjqMoY/7TloiZuVDmCIUN0
+	50fRYyljk00Ub+BoO6djQmGauVcrp8cmF9yBadQ4NWBfgvpcB/lN3dbJ62XzxnUrx6p3qgEYIy8
+	5p6YHdLVoBg88SmfYhfRqIKbg3J9P5WwMOlP3oEkIY0emdaLZyba04k7V4Keiy40Yw==
+X-Received: by 2002:a05:6214:21e2:b0:707:5e7e:20f with SMTP id 6a1803df08f44-70ba7a8e0c9mr127652476d6.5.1755504173108;
+        Mon, 18 Aug 2025 01:02:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEHbS9oN+bmVLXNWkCtLoe4KkJAUB/SBpAzOahmwwKpbcS5hEqU1zFKZK8VNdKmOFa0tdBVBA==
+X-Received: by 2002:a05:6214:21e2:b0:707:5e7e:20f with SMTP id 6a1803df08f44-70ba7a8e0c9mr127652076d6.5.1755504172501;
+        Mon, 18 Aug 2025 01:02:52 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.42])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70ba959f401sm48756146d6.69.2025.08.18.01.02.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 00:59:02 -0700 (PDT)
-Date: Mon, 18 Aug 2025 07:58:52 +0000
-From: Hangbin Liu <liuhangbin@gmail.com>
-To: Jonas Gorski <jonas.gorski@gmail.com>
-Cc: netdev@vger.kernel.org, Jay Vosburgh <jv@jvosburgh.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
-	Amit Cohen <amcohen@nvidia.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	David Ahern <dsahern@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCHv2 net-next 1/3] bonding: add support for per-port LACP
- actor priority
-Message-ID: <aKLdPPL0w3XqiEDZ@fedora>
-References: <20250814104256.18372-1-liuhangbin@gmail.com>
- <20250814104256.18372-2-liuhangbin@gmail.com>
- <66bea2a5-b873-4e08-9500-a0093648bc39@gmail.com>
+        Mon, 18 Aug 2025 01:02:52 -0700 (PDT)
+Message-ID: <93e01a77105007dff602ab9a2a9af5b4cff86522.camel@redhat.com>
+Subject: Re: [PATCH] Documentation/rv: Fix minor typo in monitor_synthesis
+ page
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Gopi Krishna Menon <krishnagopi487@gmail.com>, rostedt@goodmis.org
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Date: Mon, 18 Aug 2025 10:02:49 +0200
+In-Reply-To: <20250810111249.93181-1-krishnagopi487@gmail.com>
+References: <20250810111249.93181-1-krishnagopi487@gmail.com>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0ByZWRoYXQuY29tPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmbiuWMCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfJzZgD/TXjnqCyqaZH/Y2w+YVbvm93WX2eqBqiVZ6VEjTuGNs8A/iPrKbzdWC7AicnK
+ xyhmqeUWOzFx5P43S1E1dhsrLWgP
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66bea2a5-b873-4e08-9500-a0093648bc39@gmail.com>
 
-On Thu, Aug 14, 2025 at 01:46:10PM +0200, Jonas Gorski wrote:
-> > @@ -77,6 +78,10 @@ static int bond_fill_slave_info(struct sk_buff *skb,
-> >  					ad_port->partner_oper.port_state))
-> >  				goto nla_put_failure;
-> >  		}
-> > +
-> > +		if (nla_put_u16(skb, IFLA_BOND_SLAVE_AD_ACTOR_PORT_PRIO,
-> > +				SLAVE_AD_INFO(slave)->port_priority))
-> > +			goto nla_put_failure;
-> 
-> 
-> This is an 802.3ad (exclusive) setting, shouldn't this be in the
-> 
->   if (BOND_MODE(slave->bond) == BOND_MODE_8023AD) { }
-> 
-> block above this?
+On Sun, 2025-08-10 at 16:42 +0530, Gopi Krishna Menon wrote:
+> Specifically, fix spelling of "practice"
+>=20
+> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 
-Oh, just notice the change is already in the block. The code looks like
+Thanks for finding this!
 
-	if (BOND_MODE(slave->bond) == BOND_MODE_8023AD) {
-		if (agg) {
-		}
+Reviewed-by: Gabriele Monaco <gmonaco@redhat.com>
 
-		if (nla_put_u16(skb, IFLA_BOND_SLAVE_AD_ACTOR_PORT_PRIO, ...)
-			goto nla_put_failure;
-	}
+> ---
+> =C2=A0Documentation/trace/rv/monitor_synthesis.rst | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/trace/rv/monitor_synthesis.rst
+> b/Documentation/trace/rv/monitor_synthesis.rst
+> index ac808a7554f5..3a7d7b2f6cb6 100644
+> --- a/Documentation/trace/rv/monitor_synthesis.rst
+> +++ b/Documentation/trace/rv/monitor_synthesis.rst
+> @@ -181,7 +181,7 @@ which is the list of atomic propositions present
+> in the LTL specification
+> =C2=A0functions interacting with the Buchi automaton.
+> =C2=A0
+> =C2=A0While generating code, `rvgen` cannot understand the meaning of the
+> atomic
+> -propositions. Thus, that task is left for manual work. The
+> recommended pratice
+> +propositions. Thus, that task is left for manual work. The
+> recommended practice
+> =C2=A0is adding tracepoints to places where the atomic propositions
+> change; and in the
+> =C2=A0tracepoints' handlers: the Buchi automaton is executed using::
+> =C2=A0
 
-Thanks
-Hangbin
