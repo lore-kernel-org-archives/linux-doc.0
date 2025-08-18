@@ -1,404 +1,115 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B91730F815;
-	Mon, 18 Aug 2025 09:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA23626FD9D;
+	Mon, 18 Aug 2025 10:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755510823; cv=none; b=q0YeA7H0+TRYQnVtz+L8mJUoSnIPUu84ApjkimSg4k/uZ7kZ9iVqW8O/kcOlNF2mh8NIBPu2mm/1hHGC84645+T/jArFi+tibZFnNy5zBWhsT43wnZW0ipbQYClaoh+W27ki7CMzPupM1EY4a4RbT1YCfTraY79eYp40GoC+0Y4=
+	t=1755511569; cv=none; b=Al5YEtQxCixxWC+nO9ssHQZAJRBkGmIvKekkalowFTIUvvivtkxSCdspvegO1vVtprazMZMO4wAu2NH2yP1BFpOdr4ix4wG+cBVRUWDpyrKBB0pOKrHCNDEY6t2gFW/iCn+p+b2TmgnwSs3/dy7PmkTiJlYiKTvqmRhBgKKy41Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755510823; c=relaxed/simple;
-	bh=E7gwz9n9CpYdb77k+B0PvKvSgtJUdlSp7T2ofGAPwoQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CGcNovJf+Xn98AKPv94TUtKlUolzh3aytuTuYOprnPPYJBjb3z9c88rvnBVbjXiAgfbZTKxy+19ohrNCOCc7+t79wAv/ghp0fr4c9iqNh2DY2WPlv907XokogDs8HYR7q3da03hgZQqjNtW0Vk+9q+oxMfMoh4xEd5gDjyRlHCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lmab21+o; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1755511569; c=relaxed/simple;
+	bh=MlfKA80csAtyMekKy0tuKaDg/8XwAoP1D+tkBCBVi5E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XbCj0EirOaGepngShUY2ZkN9BwFz/y94VzNhWefJR0XYVboWJwZ6hZagehRf8gXeVWveeCawLUUOTDtUR5TltRJTtZENCuBWNL4Wanv7hWc0dBI3zF73bmkQp7VutTXVyyoDO4hEzmrGcL2k1xqnVZxHJRKbD1sZmGMoKRGl7Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cDqe6vpe; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmab21+o"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3b9e415a68fso3734331f8f.2;
-        Mon, 18 Aug 2025 02:53:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cDqe6vpe"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-321cf75482fso4408907a91.0;
+        Mon, 18 Aug 2025 03:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755510819; x=1756115619; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7aUrhtA5C8N8LDrztESsi6kkNfyVuogrllyu5DxXOhU=;
-        b=lmab21+ogmMhtte2QVjuO/lFMIHK54k6WQ/JWy/Pp0P+hIGm9Xp4vHf0l16EcD/FUD
-         Kufu4jKvQHy952AW0Kvl8StovQQ65kxbiuy4NgkrbCqw9poYTDb9m1NBRowROgLp4Tk7
-         0lmRkbxuWxhYR9baBsunuZoG+scYTAJVCSubfvBkwLvUhWiy93QU2hwZOS9s61bwB7gT
-         xkbQcbqDxTubuTYQIUcGRIBgfdpj643J9yTZzXvUhe0IwAWZUjs67rNH0PK64RWMenGu
-         g4iB0ipHU0MqpJcTxforkHTI/pUiVvsEcZEcEGDJmkPE+n/notFCRpCcIFKVbN9csR7h
-         wwhA==
+        d=gmail.com; s=20230601; t=1755511567; x=1756116367; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CaCO6brQwzjW+TX1R3UQhbjIaIZFQtHR+ZTT3gImHsE=;
+        b=cDqe6vpeTU99qPzPp66jRgObSOFEjepQOMltIOz+/R7DIRLVyNFeWiluF5Rn+lvW/8
+         DJPTvNaAJ5bWmCAt5O6dPyOXcRx+BXsSLN1S0jI2xrwKog6nF4UqDm5MryADNQQwi8XP
+         7TwAFJ/y09XfmmeT+pLLYYqUYfq0kX7hf1qDyUyEUU0w+ZEHQR1tycDKZ4f+/K4E+bXg
+         +sf0kuJN70R+WeU52hpqCnMiAvztfPcgd2V+Qij4em5XOCfPtq5cqLUya17eETtivTOM
+         kBUG25hct/+9d//VSXlfDdqul016XPo7zT3bcW7VPiawd7cO+Y+k+mF7NZ6PqFDz2iOt
+         I/fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755510819; x=1756115619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7aUrhtA5C8N8LDrztESsi6kkNfyVuogrllyu5DxXOhU=;
-        b=XK/tkrfBOd2NCxxmnwjqdgL81gHxsLahrdWMkZbnBFV4rquJR0B4IbEAHBgr047txy
-         YV4Q9T6as3BEGsMY6C2DbmXQSVvU0wThbkH+8+PE7GQ29wAPai3ifzHs64weft3EOm/e
-         UNuy8XuJ+m0APxoykh3nZKUzklO9NWtuYYgs7JnQe6ZYhVrJIHOZlRf52NJrXtr6GAec
-         HqgdPOVQzMq8EbPvx4tKgjGTGR0QXr0UAIF4mSssTG+EYjRFZugGNlN9v9W/YSlf2/md
-         SC3KMlEmvfQhay51OhdOIp4K7WWcuSCtoE8+4wWsdq8WJCN+KVSR4E8Zk4FPl0+gm+HR
-         rOLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVa3WL8XNhXF+KJNrpsMsNFFSDy4H8MmIe2sYBYd0l8f+IqLTvNbS9UpzJUUMh0KDlqw5RJxwYHqBw=@vger.kernel.org, AJvYcCW+FAoTDBF2PAOB08wBdjllKtY68BXwN+dLHRx8AbSygFjiB5Nj/SSyfQjL9BJmmj7GqHNsM5BTFiMvR47G@vger.kernel.org, AJvYcCWgUWwoASIPyFNmZtISLikmv/kehE9g3zFItb3Qp1J0fKtqg//85d/U01oTqRB0RHRzAwmEWT6Ty8iv@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4xEVInq8bZUWEYmwODQ9r6xKFT1ArjvgxZ37YDtly4scSf7h2
-	8209pNluHl79AnuxCm3FSLmvUh3r3qaBrFphcJQd4/nvUz1/f5LdSY/LZyOseVZC4h0j0ltE1B3
-	6w7t8ZzrRzbSiEXGRscK61jOy2a4lUG8=
-X-Gm-Gg: ASbGncvQbImIX7iJoYR0AymshY1Dk6Kfa58VbrDzwGH5AimaEUu4Dr5h6WHpTCi0oF4
-	Mkh5bHf/sPfXzUG/CuJ7pxLk66RZOXXGjW/tTSScjQvAqS+DGTXqaJfrEuNBMpIICJRgPWnDBR/
-	7hxa3WW1GQ7I8TfT7oIzbFfNVQxoOYqsT43BvaKPPgHkAc0+BSCQRg82jj2uW9v6WqHB8KNEJWk
-	mHsC3qvaA==
-X-Google-Smtp-Source: AGHT+IE5sWPnO2jWHmGFO9/uqaRATarRkbmdpoRmK2O7FZqlephlWzYr5r52Bl9rK+p5u8FdUbRUw0a6xAxNdaOOYWo=
-X-Received: by 2002:a05:6000:2382:b0:3b7:664a:8416 with SMTP id
- ffacd0b85a97d-3bb672ef363mr7732028f8f.23.1755510819196; Mon, 18 Aug 2025
- 02:53:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755511567; x=1756116367;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CaCO6brQwzjW+TX1R3UQhbjIaIZFQtHR+ZTT3gImHsE=;
+        b=WSFgZooz78gXWs5ZW46h+Cucccxh6RjN5iUK86CeUdVXj+PZnZ5bzlgWEi6TNbiVhP
+         YbPlbTPZiBPoiTLKFW8Hn3dnx4JNFStLYaHPZl/axElMNXf4Rnbcec7cFcH79TI6oqKn
+         R+f8GAFDlk+OtVfXiYgmh/nUUoI+ne9YFTRHIZ1NYA0h7ojSUms6SBc0AfAHI2f3R+rq
+         +ElnMA/6zD0oaIQwhl2/2+kB/T6Kid6piH7oUpE59NtDkShfcdHpyMfEqLBnkBJiRD74
+         JWsOI8bdjvOj30rdP0jCHuBPeabYW1Y1sXk9Z2UE2r2FKq1f6rx2U7snqsa61WFxaW33
+         Unng==
+X-Forwarded-Encrypted: i=1; AJvYcCUwvZVzL5dtA6LjZfXV3eWYTs8Y+zIR9j1Op8JOJeQBOKDkeazQluQnFmE7tt1abrzS3EoFiAi6hMvce36N@vger.kernel.org, AJvYcCX/Rp+ohNHYZ2jrHW0jbAGBmLpbVqNKMBg6rXPfH1Q4S/rIlKBU1Xm81R0e47rEb4X/OSjnB59Aulo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCBfD16yC/DFb/yj2aPNUK69ZCIVtXG9JIvIe//dDTZg9xKcTx
+	viwCzW3rGCxjc0jxTmwpepix++Q1uEPQrxVciBUkJo7Q2CcxhoB9QZ7TK2bv8Q==
+X-Gm-Gg: ASbGncsn7nxLU/YissLDJ1eYdpt9qG1vAFWX+HJNT/y7MD4dtwfFJpRMjW6g3E7mtc6
+	EwqCQAKX7NdPWB4Q9XBeOFO7+ISWKPDPYM92lLQS1lyjJOYdJlJcdiYe2SS1RtavVfiTd8jwubp
+	aiGLoChtYbNvCR4zHKczKQmNoGQbtZOneP0IszKeLtJ4X1JUoWsvU/hQPOHirAXayXgbDj2680+
+	gv7A/xcVHADkGSO3u2sAfMp9dMAfgYaFHaPSFANnPZY4q3U48RvH1Xf3uejBmJddzMCfTOlEu0M
+	TsRS6qOcxHFBC1r5KJTP1GtZqoh3Ynf1JIp0a9xkoAIL2ilKPlSZ5qs/FUvhOWwFaZ93rK84cva
+	z49dtl3iE0jwB/FKevbIEXlKP1m6tlWGP4E79N+5XN+fzQfPa6ic3c2hpdPxIjN21o/0cEc8dhO
+	q2xKI=
+X-Google-Smtp-Source: AGHT+IGkbOz08ZGFXiD0osQcGU8ix6vtUqdWI+23FywJ19dangUDVmkUnIBgZ67NTN05rMbZeikEgQ==
+X-Received: by 2002:a17:90b:53c8:b0:2fa:42f3:e3e4 with SMTP id 98e67ed59e1d1-3232969ad44mr20566918a91.3.1755511566941;
+        Mon, 18 Aug 2025 03:06:06 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3234396471dsm7679447a91.5.2025.08.18.03.06.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Aug 2025 03:06:06 -0700 (PDT)
+Message-ID: <fc93e36f-7503-430d-a611-983f0325ab1b@gmail.com>
+Date: Mon, 18 Aug 2025 19:06:03 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250818075051.996764-1-yeoreum.yun@arm.com> <20250818075051.996764-2-yeoreum.yun@arm.com>
-In-Reply-To: <20250818075051.996764-2-yeoreum.yun@arm.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Mon, 18 Aug 2025 11:53:26 +0200
-X-Gm-Features: Ac12FXzRBfgg3LizE0EW60Q0iO4G5vgy9DjWhPtH5IcEjjDvGoLaCnutYA-AZ-c
-Message-ID: <CA+fCnZcce88Sj=oAe-cwydu7Ums=wk2Ps=JZkz0RwO-M_DjfVQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] kasan/hw-tags: introduce kasan.write_only option
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
-	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com, 
-	will@kernel.org, akpm@linux-foundation.org, scott@os.amperecomputing.com, 
-	jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org, 
-	kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org, 
-	oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org, 
-	hardevsinh.palaniya@siliconsignals.io, david@redhat.com, 
-	yang@os.amperecomputing.com, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1755256868.git.mchehab+huawei@kernel.org>
+ <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
+ <20250816135538.733b80d3@foz.lan>
+ <acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
+ <20250817133606.79d968ed@sal.lan>
+ <b3d97e98-121d-4d12-9624-3efd119b12a4@gmail.com>
+ <20250817154544.78d61029@foz.lan>
+ <b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
+ <816ec5d2-33ea-4399-86e6-51ddc20ead28@gmail.com>
+ <20250818114220.7f82d2f7@foz.lan>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250818114220.7f82d2f7@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 18, 2025 at 9:51=E2=80=AFAM Yeoreum Yun <yeoreum.yun@arm.com> w=
-rote:
->
-> Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
-> raise of tag check fault on store operation only.
-> Introcude KASAN write only mode based on this feature.
->
-> KASAN write only mode restricts KASAN checks operation for write only and
-> omits the checks for fetch/read operations when accessing memory.
-> So it might be used not only debugging enviroment but also normal
-> enviroment to check memory safty.
->
-> This features can be controlled with "kasan.write_only" arguments.
-> When "kasan.write_only=3Don", KASAN checks write operation only otherwise
-> KASAN checks all operations.
->
-> This changes the MTE_STORE_ONLY feature as BOOT_CPU_FEATURE like
-> ARM64_MTE_ASYMM so that makes it initialise in kasan_init_hw_tags()
-> with other function together.
->
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> ---
->  Documentation/dev-tools/kasan.rst  |  3 ++
->  arch/arm64/include/asm/memory.h    |  1 +
->  arch/arm64/include/asm/mte-kasan.h |  6 ++++
->  arch/arm64/kernel/cpufeature.c     |  2 +-
->  arch/arm64/kernel/mte.c            | 18 ++++++++++
->  mm/kasan/hw_tags.c                 | 54 ++++++++++++++++++++++++++++--
->  mm/kasan/kasan.h                   |  7 ++++
->  7 files changed, 88 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/=
-kasan.rst
-> index 0a1418ab72fd..fe1a1e152275 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -143,6 +143,9 @@ disabling KASAN altogether or controlling its feature=
-s:
->    Asymmetric mode: a bad access is detected synchronously on reads and
->    asynchronously on writes.
->
-> +- ``kasan.write_only=3Doff`` or ``kasan.write_only=3Don`` controls wheth=
-er KASAN
-> +  checks the write (store) accesses only or all accesses (default: ``off=
-``)
-> +
->  - ``kasan.vmalloc=3Doff`` or ``=3Don`` disables or enables tagging of vm=
-alloc
->    allocations (default: ``on``).
->
-> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/mem=
-ory.h
-> index 5213248e081b..f1505c4acb38 100644
-> --- a/arch/arm64/include/asm/memory.h
-> +++ b/arch/arm64/include/asm/memory.h
-> @@ -308,6 +308,7 @@ static inline const void *__tag_set(const void *addr,=
- u8 tag)
->  #define arch_enable_tag_checks_sync()          mte_enable_kernel_sync()
->  #define arch_enable_tag_checks_async()         mte_enable_kernel_async()
->  #define arch_enable_tag_checks_asymm()         mte_enable_kernel_asymm()
-> +#define arch_enable_tag_checks_write_only()    mte_enable_kernel_store_o=
-nly()
->  #define arch_suppress_tag_checks_start()       mte_enable_tco()
->  #define arch_suppress_tag_checks_stop()                mte_disable_tco()
->  #define arch_force_async_tag_fault()           mte_check_tfsr_exit()
-> diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/=
-mte-kasan.h
-> index 2e98028c1965..0f9b08e8fb8d 100644
-> --- a/arch/arm64/include/asm/mte-kasan.h
-> +++ b/arch/arm64/include/asm/mte-kasan.h
-> @@ -200,6 +200,7 @@ static inline void mte_set_mem_tag_range(void *addr, =
-size_t size, u8 tag,
->  void mte_enable_kernel_sync(void);
->  void mte_enable_kernel_async(void);
->  void mte_enable_kernel_asymm(void);
-> +int mte_enable_kernel_store_only(void);
->
->  #else /* CONFIG_ARM64_MTE */
->
-> @@ -251,6 +252,11 @@ static inline void mte_enable_kernel_asymm(void)
->  {
->  }
->
-> +static inline int mte_enable_kernel_store_only(void)
-> +{
-> +       return -EINVAL;
-> +}
-> +
->  #endif /* CONFIG_ARM64_MTE */
->
->  #endif /* __ASSEMBLY__ */
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeatur=
-e.c
-> index 9ad065f15f1d..505bd56e21a2 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -2920,7 +2920,7 @@ static const struct arm64_cpu_capabilities arm64_fe=
-atures[] =3D {
->         {
->                 .desc =3D "Store Only MTE Tag Check",
->                 .capability =3D ARM64_MTE_STORE_ONLY,
-> -               .type =3D ARM64_CPUCAP_SYSTEM_FEATURE,
-> +               .type =3D ARM64_CPUCAP_BOOT_CPU_FEATURE,
->                 .matches =3D has_cpuid_feature,
->                 ARM64_CPUID_FIELDS(ID_AA64PFR2_EL1, MTESTOREONLY, IMP)
->         },
-> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-> index e5e773844889..cd5452eb7486 100644
-> --- a/arch/arm64/kernel/mte.c
-> +++ b/arch/arm64/kernel/mte.c
-> @@ -157,6 +157,24 @@ void mte_enable_kernel_asymm(void)
->                 mte_enable_kernel_sync();
->         }
->  }
-> +
-> +int mte_enable_kernel_store_only(void)
-> +{
-> +       /*
-> +        * If the CPU does not support MTE store only,
-> +        * the kernel checks all operations.
-> +        */
-> +       if (!cpus_have_cap(ARM64_MTE_STORE_ONLY))
-> +               return -EINVAL;
-> +
-> +       sysreg_clear_set(sctlr_el1, SCTLR_EL1_TCSO_MASK,
-> +                        SYS_FIELD_PREP(SCTLR_EL1, TCSO, 1));
-> +       isb();
-> +
-> +       pr_info_once("MTE: enabled stonly mode at EL1\n");
-> +
-> +       return 0;
-> +}
->  #endif
->
->  #ifdef CONFIG_KASAN_HW_TAGS
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index 9a6927394b54..df67b48739b4 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -41,9 +41,16 @@ enum kasan_arg_vmalloc {
->         KASAN_ARG_VMALLOC_ON,
->  };
->
-> +enum kasan_arg_write_only {
-> +       KASAN_ARG_WRITE_ONLY_DEFAULT,
-> +       KASAN_ARG_WRITE_ONLY_OFF,
-> +       KASAN_ARG_WRITE_ONLY_ON,
-> +};
-> +
->  static enum kasan_arg kasan_arg __ro_after_init;
->  static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
->  static enum kasan_arg_vmalloc kasan_arg_vmalloc __initdata;
-> +static enum kasan_arg_write_only kasan_arg_write_only __ro_after_init;
->
->  /*
->   * Whether KASAN is enabled at all.
-> @@ -67,6 +74,8 @@ DEFINE_STATIC_KEY_FALSE(kasan_flag_vmalloc);
->  #endif
->  EXPORT_SYMBOL_GPL(kasan_flag_vmalloc);
->
-> +static bool kasan_flag_write_only;
-> +
->  #define PAGE_ALLOC_SAMPLE_DEFAULT      1
->  #define PAGE_ALLOC_SAMPLE_ORDER_DEFAULT        3
->
-> @@ -141,6 +150,23 @@ static int __init early_kasan_flag_vmalloc(char *arg=
-)
->  }
->  early_param("kasan.vmalloc", early_kasan_flag_vmalloc);
->
-> +/* kasan.write_only=3Doff/on */
-> +static int __init early_kasan_flag_write_only(char *arg)
-> +{
-> +       if (!arg)
-> +               return -EINVAL;
-> +
-> +       if (!strcmp(arg, "off"))
-> +               kasan_arg_write_only =3D KASAN_ARG_WRITE_ONLY_OFF;
-> +       else if (!strcmp(arg, "on"))
-> +               kasan_arg_write_only =3D KASAN_ARG_WRITE_ONLY_ON;
-> +       else
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +early_param("kasan.write_only", early_kasan_flag_write_only);
-> +
->  static inline const char *kasan_mode_info(void)
->  {
->         if (kasan_mode =3D=3D KASAN_MODE_ASYNC)
-> @@ -257,15 +283,26 @@ void __init kasan_init_hw_tags(void)
->                 break;
->         }
->
-> +       switch (kasan_arg_write_only) {
-> +       case KASAN_ARG_WRITE_ONLY_DEFAULT:
+On Mon, 18 Aug 2025 11:42:20 +0200, Mauro Carvalho Chehab wrote:
+> Em Mon, 18 Aug 2025 09:44:39 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
+>> Sidenote:
+>>
+>> It looks like texlive-xindy is not available for RHEL based distros.
+> 
+> On several rpm-based distros, extra repositories are needed.
+> 
+> So, if you take a look at rpmfind:
+> 	https://rpmfind.net/linux/rpm2html/search.php?query=python3-sphinx
 
-Let's keep this part similar to the other parameters for consistency:
+No, I'm talking about texlive-xindy.
 
-/* Default is specified by kasan_flag_write_only definition. */
-break;
+     https://rpmfind.net/linux/rpm2html/search.php?query=texlive-xindy
 
-> +       case KASAN_ARG_WRITE_ONLY_OFF:
-> +               kasan_flag_write_only =3D false;
-> +               break;
-> +       case KASAN_ARG_WRITE_ONLY_ON:
-> +               kasan_flag_write_only =3D true;
-> +               break;
-> +       }
-> +
->         kasan_init_tags();
->
->         /* KASAN is now initialized, enable it. */
->         static_branch_enable(&kasan_flag_enabled);
->
-> -       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=3D%s, =
-vmalloc=3D%s, stacktrace=3D%s)\n",
-> +       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=3D%s, =
-vmalloc=3D%s, stacktrace=3D%s, write_only=3D%s\n",
->                 kasan_mode_info(),
->                 str_on_off(kasan_vmalloc_enabled()),
-> -               str_on_off(kasan_stack_collection_enabled()));
-> +               str_on_off(kasan_stack_collection_enabled()),
-> +               str_on_off(kasan_arg_write_only));
->  }
->
->  #ifdef CONFIG_KASAN_VMALLOC
-> @@ -392,6 +429,13 @@ void kasan_enable_hw_tags(void)
->                 hw_enable_tag_checks_asymm();
->         else
->                 hw_enable_tag_checks_sync();
-> +
-> +       if (kasan_arg_write_only =3D=3D KASAN_ARG_WRITE_ONLY_ON &&
+has RPMs for fedora 41/42/rawhide only.
 
-We already set kasan_flag_write_only by this point, right? Let's check
-that one then.
+How do you install xindy under AlmaLinux release 9.6 (Sage Margay),
+Amazon Linux release 2023 (Amazon Linux), CentOS Stream release 9,
+and the likes?
 
-> +           hw_enable_tag_checks_write_only()) {
-> +               kasan_arg_write_only =3D=3D KASAN_ARG_WRITE_ONLY_OFF;
+Thanks,
+Akira
 
-Typo in =3D=3D in the line above. But also I think we can just drop the
-line: kasan_arg_write_only is KASAN_ARG_WRITE_ONLY_ON after all, it's
-just not supported and thus kasan_flag_write_only is set to false to
-reflect that.
-
-> +               kasan_flag_write_only =3D false;
-> +               pr_warn_once("System doesn't support write-only option. D=
-isable it\n");
-
-Let's do pr_err like the rest of KASAN code. And:
-
-pr_err_once("write-only mode is not supported and thus not enabled\n");
-
-
-
-> +       }
->  }
->
->  #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
-> @@ -404,4 +448,10 @@ VISIBLE_IF_KUNIT void kasan_force_async_fault(void)
->  }
->  EXPORT_SYMBOL_IF_KUNIT(kasan_force_async_fault);
->
-> +VISIBLE_IF_KUNIT bool kasan_write_only_enabled(void)
-> +{
-> +       return kasan_flag_write_only;
-> +}
-> +EXPORT_SYMBOL_IF_KUNIT(kasan_write_only_enabled);
-> +
->  #endif
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 129178be5e64..c1490136c96b 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -428,6 +428,7 @@ static inline const void *arch_kasan_set_tag(const vo=
-id *addr, u8 tag)
->  #define hw_enable_tag_checks_sync()            arch_enable_tag_checks_sy=
-nc()
->  #define hw_enable_tag_checks_async()           arch_enable_tag_checks_as=
-ync()
->  #define hw_enable_tag_checks_asymm()           arch_enable_tag_checks_as=
-ymm()
-> +#define hw_enable_tag_checks_write_only()      arch_enable_tag_checks_wr=
-ite_only()
->  #define hw_suppress_tag_checks_start()         arch_suppress_tag_checks_=
-start()
->  #define hw_suppress_tag_checks_stop()          arch_suppress_tag_checks_=
-stop()
->  #define hw_force_async_tag_fault()             arch_force_async_tag_faul=
-t()
-> @@ -437,11 +438,17 @@ static inline const void *arch_kasan_set_tag(const =
-void *addr, u8 tag)
->                         arch_set_mem_tag_range((addr), (size), (tag), (in=
-it))
->
->  void kasan_enable_hw_tags(void);
-> +bool kasan_write_only_enabled(void);
-
-This should go next to kasan_force_async_fault().
-
->
->  #else /* CONFIG_KASAN_HW_TAGS */
->
->  static inline void kasan_enable_hw_tags(void) { }
->
-> +static inline bool kasan_write_only_enabled(void)
-> +{
-> +       return false;
-> +}
-
-And this too.
-
-
-> +
->  #endif /* CONFIG_KASAN_HW_TAGS */
->
->  #if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
-> --
-> LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
->
