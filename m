@@ -1,94 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2830932C33A;
-	Mon, 18 Aug 2025 17:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184912D248E;
+	Mon, 18 Aug 2025 17:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755538309; cv=none; b=WGtXvXVcmm/5gGhPk33XWC0u0GCcVxVfeOJMyABpkknxil36hUmwvXpAOT5v+8ppfb4s9dS278FmaVIAkcu5FaX4hJS2U1LORceDkKNn2XiFjP8Kkq9Ej2KSGSLNHXN7YcjS/UDDFoP0qkmNun+iGSM5L9Ugb4Q+Uj4ehlhy0IU=
+	t=1755539631; cv=none; b=DSUybroIHctrhALwpGhHLuYccl/nHbykwB5SKYRAOKOTrGW8fGfYmlogQe5ulm2TVc+BOmBAA7vIawMG/rDy2JYkhUosy53E3drDR/z3HFBHHFdpbeNjEQIvIFeZNmc3DVIxJ/UZ8ctNjnogCDyDDvXXpQD5iCwvJd5e1ETAJGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755538309; c=relaxed/simple;
-	bh=mF/CW5aAEQgDT+OAezbsRp+d9z4XVVZyDXgDqKkePis=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tgo4oWNp9KcyLr4Q0Tyb/gRbSqy/p4Swxuvs0CIk6cFVWX0oOwjeOrZ2IOPOTp+zjpHtyYuJwsNWPZpRbU1XR0jofU0MVMWuul++MpaDiWuRZXhFPfRek5/SQF6oxtz7QaZbTkX75DOZe9wxjYI115ilzGoPTeNnHhgQdIllOk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZEuau1i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755539631; c=relaxed/simple;
+	bh=HJIUb4G5YI+Rixd/D2ApFQOK4mZ88TMso8AJjwTrMlY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KOfZNzxCFZ7Nxa+JLm4PB24WdZdGg7/gq9+wOdsSXDsrd4C+75JodtWCenedjG1qNHYj64BGvQzWCwPVEStla26wVcL0DOpfqnkdnIQD8jkazmEEXU8fZC7GGL/XuSPMqgvAoHsdoP4h5QWApxr8DZgaZYLzsIi1PI3s/2xuzKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lmFbRHpV; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZEuau1i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D1DDC4CEEB;
-	Mon, 18 Aug 2025 17:31:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755538308;
-	bh=mF/CW5aAEQgDT+OAezbsRp+d9z4XVVZyDXgDqKkePis=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nZEuau1ilMigYR6sE3ycqybvBBfxu4cT4RDewaxT0p3Folqihwx4NGgVB3CmBCg48
-	 ihSDtZdmMy/unNb2Z5kB+E6+qYY6sZKL+h/Q2BxBBbscPlsxa2ZZy6H3I8e4UvTn1j
-	 krRlGfhS96PPTzu3w7WvCXmob+iBe954KeJMUCqdT7wTw39BALf7mDZ9Zq42Cm/pkD
-	 srQPQaLE8L/Z9VvB9R6e7wO5OUhZKvHFMtLaX5r1toCu12Uo2tiXLW1YJyza2AHGZG
-	 DDUhzXlFBL6plUl3fpG27Cuq+THU21JeY2AzUVeh5nmTw3Z1IvaDNsQZHQmGZB9UP6
-	 jrdbQ6U1u48jA==
-Date: Mon, 18 Aug 2025 12:31:47 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-	Gregory Fuchedgi <gfuchedgi@gmail.com>
-Cc: Robert Marko <robert.marko@sartura.hr>,
-	Luka Perkov <luka.perkov@sartura.hr>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: update TI TPS23861 bindings
- with per-port schema
-Message-ID: <20250818173147.GA1496879-robh@kernel.org>
-References: <20250811-hwmon-tps23861-add-class-restrictions-v2-0-ebd122ec5e3b@gmail.com>
- <20250811-hwmon-tps23861-add-class-restrictions-v2-2-ebd122ec5e3b@gmail.com>
- <eab6d2d2-9337-40fe-81c7-95dc1956ce6f@kernel.org>
- <CAAcybusHjAR67N0rumb6M_uG1ct3aa=zv2XkpUjhSSxv0NdzFA@mail.gmail.com>
- <ff167728-a4a7-4f7d-a809-d0e482ab7dd6@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmFbRHpV"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e2e8e2d2dso2705808b3a.1;
+        Mon, 18 Aug 2025 10:53:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755539629; x=1756144429; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9c4GNojMcxWdoHKIoocPUw00TeAK1QWc4rtBiWWbTGg=;
+        b=lmFbRHpVqKgUJylJZhFvAW6g3gT8WC3s7KxhB2uWLBatw0OxBIdmR3k7myEHRtk6i/
+         oEvPUYklfHk5YF+/ySukUajJDuUt4bItb+16ef6ku2l+Va54ooFOT2r80hw1SZeEVJVd
+         ySUiGlbrk306YFFmnMpxRRsbSESfhMeSd1z1mF4mg7P26HArkQfK5t2puHAKIps5JOJ9
+         lTCh0vNx/nqF/8aJHstdl8bBbXpObQ4y30IymOaLydAsgrEXNNlvPhhAbNu26PWMXSnH
+         FOBhZCYVRH7yyWRJmgFmyrTe75q9tUs93kJB/5AyfdsX9787yQQlyTsvoskMyEd9qZuV
+         ZiKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755539629; x=1756144429;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9c4GNojMcxWdoHKIoocPUw00TeAK1QWc4rtBiWWbTGg=;
+        b=H9SJS1GTab/pXzZMZ+TyurTfX+Y+7lIazVSECi5jNlHQw6vhhFHr+z0XXAXhIZU91D
+         lyA2Vkb9QagTSn8PQg68KkC6JAQWBlq0hCFuc72kLvmVkgo8gPUxW/fEnBBgplLCIbZH
+         D37ucIVUuzxxrd1wtNWmRtq6vBlBxyRy+KHrAhIZVgPjYPQppWFXb6e/CtvrmHD8wXLi
+         2bKWcM86RvZIxu9Sv3JColruNAB/Ov72OxTHyzEAxdJgLBBJNBwbNDlss1xHlOEz+YjU
+         6XvNn+YRB9JSOsvkR9V+XRg2sgBIkGx18DjJuElcTDSYVhZmpTCxZq+KzNXD5p8qGtZg
+         Zg+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWU1Us3trrAe08oBhxx8H6M+hc0GghikvR3xH0/Nox1y7/iy2eC6VX6dyraYd33T0aTGL74trAiiCc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkwZf8hp5h8KR9ixkNjPNqKONwoUc7U5oKc7hatxP5iAiQP0ei
+	It0yVdvnxTL9qmoeBbiCuW8/c7DWnwQLmcEden7JeZYwg4xg2sZQPgNFQwEVtlKE90o=
+X-Gm-Gg: ASbGncvXU7hl4Y1qR8XcZoi6c5xU4D2SzL8omYNgV+brhogTKSatHXGX/8ZlOO6eFph
+	IFK+5JlNsnaH/SCqPO8cMiuwmHGLsRYd636v9q/UjvjPz3B/lmFQGuAwHPLO1vQMSvNlQjD9cLy
+	0wmvo6Ekja/9OF+8gEiZ2Bz2T0hcehZ739ijg9XfOyuTqmITD+M/zHzTLsEm41etxaxYN6zRcSI
+	6yIHB9jIc1Sdfg4dhzsdKIPZIStPR26IOSGGYB1Gr/lZ5GWroUWwX6KAiIqKMPmpwCszhHItbow
+	NaKe4QWHlcckpFcjg5dLAcip/tinSlwBP+jRp89W0Vwsi2uNsrR/CiZTx1rryXF4FTQz2zMLYal
+	6XgMjCNC11VlqWy0BEWyahQqhUU9z
+X-Google-Smtp-Source: AGHT+IGimQ0BQxI4HtYUvNmSf65iLZ6R75oRZQfjucpMXUHBcrTZ+pSB/uB+jU0Oaqu0OvBWl6QukA==
+X-Received: by 2002:a05:6a00:1806:b0:76e:3a11:d24f with SMTP id d2e1a72fcca58-76e516de72dmr10789522b3a.15.1755539628773;
+        Mon, 18 Aug 2025 10:53:48 -0700 (PDT)
+Received: from lkmp.. ([223.237.184.72])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d0d22e9sm248437b3a.8.2025.08.18.10.53.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 10:53:48 -0700 (PDT)
+From: Rakuram Eswaran <rakuram.e96@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: dan.j.williams@intel.com,
+	dave@stgolabs.net,
+	dave.jiang@intel.com,
+	jonathan.cameron@huawei.com,
+	vishal.l.verma@intel.com,
+	ira.weiny@intel.com,
+	linux-cxl@vger.kernel.org,
+	alison.schofield@intel.com,
+	gourry@gourry.net,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	corbet@lwn.net,
+	rakuram.e96@gmail.com
+Subject: [PATCH v3] Documentation/driver-api: Fix typo error in cxl
+Date: Mon, 18 Aug 2025 23:23:34 +0530
+Message-ID: <20250818175335.5312-1-rakuram.e96@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ff167728-a4a7-4f7d-a809-d0e482ab7dd6@kernel.org>
 
-On Sun, Aug 17, 2025 at 09:23:09AM +0200, Krzysztof Kozlowski wrote:
-> On 13/08/2025 05:00, Gregory Fuchedgi wrote:
-> > On Tue, Aug 12, 2025 at 12:20 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >>> +  shutdown-gpios:
-> >> powerdown-gpios, see gpio-consumer-common.yaml
-> > It is called shutdown in the datasheet, but seems like neither powerdown nor
-> > shutdown truly reflects its purpose. This pin doesn't power down the controller
-> > itself. It shuts down the ports while keeping the controller available for
-> > configuration over i2c. Should I call it ti,ports-shutdown-gpios or maybe
-> > ti,shutdown-gpios? Any other suggestions?
-> 
-> 
-> Feels more like enable-gpios.
-> 
-> > 
-> >>> +patternProperties:
-> >>> +  "^port@[0-3]$":
-> >> This goes to ports property.
-> > Do you mean I should add another DT node that groups all ports? such as:
-> > compatible = "ti,tps23861"; ports { port@0 {...} port@1 {...} }
-> 
-> 
-> Yes.
+Fixed the following typo errors
 
-Except this is not an OF graph. Don't re-use it when it is not that. 
-Maybe 'poe-port@'? Is multiple ports/channels something common on PoE 
-chips? I'd guess so. If so, then come up with something common.
+intersparsed ==> interspersed
+in Documentation/driver-api/cxl/platform/bios-and-efi.rst
 
-Whether you should have a container node like 'ports' is a separate 
-question. You get exactly 1 address space for any given node. So if you 
-ever might need to address multiple disjoint things, then you probably 
-want a container node.
+---
+Changelog:
 
-Rob
+Changes since v2:
+- Fixed Signed-off-by line to include fullname
+  (feedback from Jonathan Corbet)
+
+Changes since v1:
+- Dropped fix for page-allocator.rst as requested by Gregory
+
+Suggested-by: Gregory Price <gourry@gourry.net> 
+Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+---
+ Documentation/driver-api/cxl/platform/bios-and-efi.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+index 645322632cc9..a9aa0ccd92af 100644
+--- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
++++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+@@ -202,7 +202,7 @@ future and such a configuration should be avoided.
+ 
+ Memory Holes
+ ------------
+-If your platform includes memory holes intersparsed between your CXL memory, it
++If your platform includes memory holes interspersed between your CXL memory, it
+ is recommended to utilize multiple decoders to cover these regions of memory,
+ rather than try to program the decoders to accept the entire range and expect
+ Linux to manage the overlap.
+-- 
+2.43.0
+
