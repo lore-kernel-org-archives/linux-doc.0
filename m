@@ -1,112 +1,135 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E2120E6;
-	Mon, 18 Aug 2025 00:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1918D288A2;
+	Mon, 18 Aug 2025 01:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755477884; cv=none; b=N9bvWCap+8CXGGcPqSCgGokqVzeCNgN92um9xilq4otnaHQfHms4pLL4c6EDe5h3OoXDUzVFuq0LZqquLA0ZvVlwh8J4679Dz03fSP6w1arP7lfpAzcTrvHLPeAeZHURYk7hpiq0Xwp+Qz2YmcRpPETj1FUhdi2zmzUExedEGRY=
+	t=1755479751; cv=none; b=Hi4jDiAiowqJij1bBRK+s9J95XFftArUycbdqGged91tUz6o5kBo0SkduW6P+wif/8kqJf0rLj6Zf1diyFnkC02fhWDhG63M/rhnXtdnB9YTIEaiol8Rtv8FdE5gPcclXVRi5MNyZHcICNW6kyOyhkG5CDKP7+WGjKPxCH/JuA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755477884; c=relaxed/simple;
-	bh=4+Seknn2MoyfoYkQDYJUDCGyj+ihO9qsbYBk77VDubI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sStC6vQqZLhr8/jUN6VdKlblEUYkI7qwmvi3nhX1MWeeE98M61dHvnpZjIEFL1cyhi4Aw+TbD19CXybr+qO2R1cJ451uyQbiU0n7kkouyL6Ve+axNerLI1MDfuM5xNXsAG+nJ2owctTsFzZ6N/PY666OG0CuHQc5oVnCvC4cM4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HjQotmF9; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HjQotmF9"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76e2ea94c7cso3040931b3a.2;
-        Sun, 17 Aug 2025 17:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755477882; x=1756082682; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A3+jGZnoPc1t7HINGfHTDjqwOoO9Iov2mq5P8s9FVss=;
-        b=HjQotmF96fat+sO+i1CnFUKpWAfn04OmRTKoWoslleriTjkE30lscTB/ZgogWsvb8E
-         cFobdRRmxFAiBxspUVIO3gIHOOpS4NJBsMbFVuwzZaMldWOPGmFGeKsnaeJ+GpEPxhqb
-         itLv1hlhdZecgd7vTxquGFyvvn029JeJDGow1nlLpdOSNyua5eqhZU/Dtgi1cG+uVZ9n
-         7s4+xAV6sbe8bayXRIF9PoFg7t7TZwcyqs24XsuRZ9e95Iz8du8GOQVJqTWugQXHWqR6
-         asHuw6XhT5mKv2HEyPPpFLD0nCf0OoICVmvTifbTRfj4AXMukbMlj/9gtZHmQkGMIDFx
-         8JHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755477882; x=1756082682;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A3+jGZnoPc1t7HINGfHTDjqwOoO9Iov2mq5P8s9FVss=;
-        b=v+aHF1B//2RMfy0PsZXkkfWQ2j2dH2w3gZuoA/l6CgXk6uwbpb2vIw6YtfTwq6NLcI
-         +hiIOx86mLGpJ5UN01ITORc91mxs/G1A7u+I9FglSMIW8LIUfzcM2KtwKnXZDhvQbxl4
-         +7qCaEtRpADiFEf9Bd72rxDiTgtiDSL61zbv7hazxJisbL986opzrgzI/O0rcahoVIfF
-         0sz/JYuc80M+9e6OvG1AfCcYrVRAQk7LZKhHZ3Q4nX/vLPp8AV6bNf6135rZhrbORY5a
-         +5yvA5Mo9Yvy5UWBm79aanp+VRNjWebLlU+wjBtRRYZW/z4rAGmJqQI6JezaBJt0pxy7
-         UPjg==
-X-Forwarded-Encrypted: i=1; AJvYcCUSqSEpB/VjMJCF4Pvyge2Qdgjq8VQwEQFg8tlTyi1yK9Jdemqz/MnXMhRIUsKNYeBpsgsYfydajdE=@vger.kernel.org, AJvYcCVkc6lcbs2BdvPMMtPsy3CMIff8EFV+zTgjhjXi5tcVLYOCyjC7wPdBqfknf9Xs1KOxDAQzEwTYsyRvsDcs@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpsmlTss8b+Y9O0PRFuuF/98YXRoJM2LigBN2hOF2Zdbb/BBjX
-	d4Wocof8iwBe9XSo5C5lyq1m6HnATbhFYQmiqfJMq7Fi62R//FTxipMX
-X-Gm-Gg: ASbGncsUCiXrVPiFmXUVc+tTiM0yYcz14fkD9rRXy9hN8PiUrz9jsGudpOpugB6ZFn+
-	mbWkR2i7d3LSWFQxKfrJBZiuWxHLGpLDNiVh4KBBYDcRAzpkom9CN6ZYINrVcFEVtLphqd7Y2yC
-	oH0TCYiMbaKxuAZhQO0ANGUQ8a+pWT3paWp81mkcsbXgRvwHiR4Vv9LkgkBqKEo4m+LyJ3S47mG
-	1GLC3eOzI11SJO6dNfJK84nqeWJTvyct6vnHzM5Na70Zi0QjiIC0oTaC2fxlqb2JFJWaLdiNL4v
-	UpIgVq9pULQacj+wPHZKaerV2yILr6YmGmOqVv5FxxLKSYy3dc8svBqjWN+c/AEsLfwsY8ImZol
-	2u2B8J7XOQry7HEieNCZydPEXuqUavYkwTcdrDJK4vYSPP3UBmPNRmHd4etm88QhQNHSW
-X-Google-Smtp-Source: AGHT+IEWMg6KLtj2JlLiJ+60+Ns6YHDdMe4AdVEPI4k65idxKLNthaFApl4P/JUZnW3nmxgeZ3PNmg==
-X-Received: by 2002:a05:6a00:4fca:b0:76b:e1c6:35d6 with SMTP id d2e1a72fcca58-76e5151e0b0mr9010746b3a.0.1755477882380;
-        Sun, 17 Aug 2025 17:44:42 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e6fdfa95asm320212b3a.93.2025.08.17.17.44.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Aug 2025 17:44:42 -0700 (PDT)
-Message-ID: <816ec5d2-33ea-4399-86e6-51ddc20ead28@gmail.com>
-Date: Mon, 18 Aug 2025 09:44:39 +0900
+	s=arc-20240116; t=1755479751; c=relaxed/simple;
+	bh=re+a3hWvgegvjpaptPnpkLKcIKZ7lfEQo+cdRQVOra0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GD6OF340AQyyoGtd1+FGrs5GJaeSxopi3iLyHCuCN+cTk2WUx3gehqZLh8sup33oi4ri5dDOgTFuQsS90ezRvkzHLtpTdAZ+S3GcPeSBT235YYWgsSG4QiajnAZuwmj3McRvVMpXd7RK4pPVnVjbm4PNglUKInURH0JNHqIwN5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.34.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz8t1755479679t304d19fa
+X-QQ-Originating-IP: U+HouEQjyiYAmzyTLPl5BSeqSP+HEtl38Pp5dE5JTBQ=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 18 Aug 2025 09:14:37 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 10326870123005562293
+Date: Mon, 18 Aug 2025 09:14:37 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/5] net: rnpgbe: Add n500/n210 chip support
+Message-ID: <154C964FB97A8BAE+20250818011437.GA1370135@nic-Precision-5820-Tower>
+References: <20250814073855.1060601-1-dong100@mucse.com>
+ <20250814073855.1060601-3-dong100@mucse.com>
+ <a0553f1d-46dd-470c-aabf-163442449e19@lunn.ch>
+ <F74E98A5E4BF5DA4+20250815023836.GB1137415@nic-Precision-5820-Tower>
+ <63af9ff7-0008-4795-a78b-9bed84d75ae0@lunn.ch>
+ <67844B7C9238FBFB+20250815072103.GC1148411@nic-Precision-5820-Tower>
+ <ade28286-33b9-421c-9f3f-da7963a69d4e@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
- <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
- <20250816135538.733b80d3@foz.lan>
- <acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
- <20250817133606.79d968ed@sal.lan>
- <b3d97e98-121d-4d12-9624-3efd119b12a4@gmail.com>
- <20250817154544.78d61029@foz.lan>
- <b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ade28286-33b9-421c-9f3f-da7963a69d4e@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MbQ6VWviL2slGqhyV++OhRr+yjnS6ZWEM+HzcX5GvEHMAr8vGo0URgJO
+	eZz0WTzDjEW+0rlf7lA9GGM6kMi42yGHCPoAxD4Nm0YbBh+XhvBDlcj/AFsCA9EBN5aTRnu
+	mBw5DMBwuV1yv3YTdnqAE0p0d8wlbhdDW7aRJmRO6ZaHGQWS/DHASVsh0f7aUERAzLq9fL2
+	Dl0ZybfO0Ywh3kszttdHSGD4Msf7OhvqG+gNqHAnablr59EDRNhN/a7KlTake+jxXrfYqWJ
+	MVeU3u4QSbZFHRZsZhga/JsdzYg9CM4Jn3EvzuDibneV0cyIapz0Wp9ptTwqrNUXsQRtIXj
+	+9wWUvdAvUjY+9Ah3UXzoxsy3cSzApXKhKRvjnycyvuGabun4VgKLw7v6xbRJ4dNF5KesCt
+	iLEx6AyhIzRhK5bQX7Uv0UIF3JIf0jsnv0n3ynQP5jnp8rN9nP5EHBMC34QMMH711ED7R9g
+	rNJjAnWNiNMzCeHFSkO+tCn2y7qd9rSUFnSmmZu5sU7Fd84xlK/Bh75+NyKHZkyut9i+VeJ
+	OL9hXzG5E6zr60Fsrm7pDOD1QOS9WBIHCIgCm9A2kyw1Xff92gcNlexJ/PR0HBRcWSgbKh1
+	ey2lJayXkUT7jzsaO9fpNZJ5ODtjeb0DR/8PVQJGlDGIYJLQVp7jAoZjVNSLhFXahDk+xwN
+	DSjw5ss21LmJLt/OZsHgYymV6uTfdZb+0e1fFDeTBlhdVLrTfztaxyj1COfUSzTSssLxaU9
+	ufZs08AdhayrmctuqdOr83Wviw//uVtafCA4Ph9owQhvYgXFSwxi7VNbR2N+K4LIiCBIRAL
+	BC6v3J4iQhxy6sOyFRAQlDbrcD4hzwXj9xHirG+5+x+MOS/tVzaVUlgxPI8aXOnlCRBiIAe
+	o6taEsAxDJtVZ1T5l1EQke0637YfDTNFMgJ1gEBlB7hY/V3HGGwQ9hlAgXzN2LSQP7yAUgC
+	GoTDXA6OBwadrN+QdwzNaaQ6Cjqk5CVRus9HPBJlyUF1t4ORHd9Thg8L44XwOtX1JzDwm0P
+	h7t+erRNQVhD39NLcm1XnYo2p5/hP+hyaj2ZjVplPuVdkLInbysqEOol6eNcqW1/WNQmS3U
+	A==
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
-On Mon, 18 Aug 2025 01:07:24 +0900, Akira Yokosawa wrote:
-[...]
-
+On Fri, Aug 15, 2025 at 03:36:10PM +0200, Andrew Lunn wrote:
+> On Fri, Aug 15, 2025 at 03:21:03PM +0800, Yibo Dong wrote:
+> > On Fri, Aug 15, 2025 at 05:56:30AM +0200, Andrew Lunn wrote:
+> > > > It means driver version 0.2.4.16.
+> > > 
+> > > And what does that mean?
+> > > 
+> > > > I used it in 'mucse_mbx_ifinsmod'(patch4, I will move this to that patch),
+> > > > to echo 'driver version' to FW. FW reply different command for different driver.
+> > > 
+> > > There only is one driver. This driver.
+> > > 
+> > > This all sounds backwards around. Normally the driver asks the
+> > > firmware what version it is. From that, it knows what operations the
+> > > firmware supports, and hence what it can offer to user space.
+> > > 
+> > > So what is your long terms plan? How do you keep backwards
+> > > compatibility between the driver and the firmware?
+> > > 
+> > > 	Andrew
+> > > 
+> > 
+> > To the driver, it is the only driver. It get the fw version and do
+> > interactive with fw, this is ok.
+> > But to the fw, I think it is not interactive with only 'this driver'?
+> > Chips has been provided to various customers with different driver
+> > version......
 > 
-> Ah, I have finally understood what 5/11 is trying to do.
+> They theoretically exist, but mainline does not care about them. 
 > 
-> Its changelog mainly talks about an issue you saw after adding options
-> to xindy in that same commit, and you added
+> > More specific, our FW can report link state with 2 version:
+> > a: without pause status (to driver < 0.2.1.0)
+> > b: with pause status (driver >= 0.2.1.0)
 > 
->    \newfontfamily\headingfont{DejaVu Serif}
+> But mainline does not care about this. It should ask the firmware, do
+> you support pause? If yes, report it, if not EOPNOTSUP. You want to be
+> able to run any version of mainline on any version of the
+> firmware. This means the ABI between the driver and the firmware is
+> fixed. You can extend the ABI, but you cannot make fundamental
+> changes, like adding new fields in the middle of messages. With care,
+> you can add new fields to the end of an existing messages, but you
+> need to do it such that you don't break older versions of the driver
+> which don't expect it.
 > 
-> to resolve it.
+> Please look at other drivers. This is how they all do this. I don't
+> know of any driver which reports its version to the firmware and
+> expects the firmware to change its ABI.
+> 
+> So maybe you should just fill this version with 0xffffffff so the
+> firmware enables everything, and that is the ABI you use. Does the
+> firmware have an RPC to get its version? You can then use that for
+> future extensions to the ABI. Same as all other drivers.
+> 
+> 	Andrew
+> 
 
-Sidenote:
+Ok, I will fill 0xffffffff in mucse_mbx_ifinsmod to echo firmware.
 
-It looks like texlive-xindy is not available for RHEL based distros.
-
-That means, you will need to ask EPEL to provide it.
-Otherwise, you are obsoleting those distros for pdfdocs build
-(under the confinement of "distro packages only").
-
-I think I can live with it.
-
-Akira
-
+Thanks for your feedback.
