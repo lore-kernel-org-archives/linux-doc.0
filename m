@@ -1,111 +1,196 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63DE2566E2;
-	Tue, 19 Aug 2025 16:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B796C255E53;
+	Tue, 19 Aug 2025 16:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755620995; cv=none; b=D4P/VTb/ddyBQVszvLINm6TExK43cA4o24jH3lqyeVAa6PQChWmgwHyqPUtzndqTvSYWL8vtcnpsE1iqPPYHBe0az6fMiCa74ZIKFk0z8icIlBsQyXWpyhpNXmJ90bQJjxyJiO7dorGdZsr6iUKT06HUl3ySDOnviSt6Jdqzf0Q=
+	t=1755622469; cv=none; b=hdpNUNcQKI9MkO5atyvvMZVbipK1epXKTXUFh9Nnea2Ea/9t0s3ZsowhWiiy6p+3c8EL+C3i59EOeldOqmJjicG2X+tGX2TVgaz6G42X/ziBpdz6V0N6tk5pQXEz2zRdflS3H4llQrcX/DryJOXG9NAyg+ynnohrwkrvBw6kZRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755620995; c=relaxed/simple;
-	bh=LEh5+EL4Nzc6sLyJ3DdS8xRDmSSNUY1AsJkhlelX8cQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=H4SRqoTSLKhleV+eQDK/zv2/wOM7c2UcfG2doPX7nZYSFT+jBqSCaXyaNqJNKWgP66V8HeRvD2BP3IaAFekkSkrBqvuRN/Eq06/hxDYgq9fo3vgo94nN9zbSOyfZXfBbhpLzhNDXfRlN25R4C1eckMttskCPE9zkYhze/BozStE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/AHUDJ7; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/AHUDJ7"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-244581d9866so45465285ad.2;
-        Tue, 19 Aug 2025 09:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755620993; x=1756225793; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FqqImRksTG1fesPJZdycheMXzhTsoEqoZjDJ0rDf6ZE=;
-        b=B/AHUDJ72oERfvIIhzLNgPTzCHA24Hp9yBhyDPUJaXR15w15qPxtBxlEp1ziVdDpCj
-         WJ8ab74Taiwt8sscfp8JxENyNtbDCUqB1k6/vxMwzaJVryAWezrpbClqSus1kmamXpkK
-         PdHds/A9x8M182xlujuLekusMAZzUSnLKkGcwGoLxLfSNB2SFe7lRP8ak0h9dw3NXj5A
-         uyeNsEL9LZK3z0oryQ02DHV7uclmo+jPuYijqfqOsiSq8OwloyXM5JGWPFXGlIB7Cmxt
-         xuhjrocFTyE4jj8Er0/+/xBNrhmKD+AIUsjA+lb1klAgwzuVYyno5AxeJhhnpyFhx2fU
-         RCyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755620993; x=1756225793;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FqqImRksTG1fesPJZdycheMXzhTsoEqoZjDJ0rDf6ZE=;
-        b=n60P55gPJELH0MpYgIpRZfyvyYiZVTyfgNs0yVXJYwgNcX6xmQEydeQGyieuc7uDo9
-         qSTg2nNJOsVov4hD+CGWxGbwmv75apjvUk2BuiR0TDGG0skBXLs/xVEY6Q13sYwRluBh
-         y66ZvlXpXkhCZ7G5dzsCFtb/d60jGUS/Ttp//hsBFyF8qvtxIkfWAhqLA6BSE+FhQyiv
-         d5PkVlCqHzCjL0jVx4TDtxUzP5uc3E6dUhf+FC2tuZsKGQMcueVujAvO2kO32JGXaZYm
-         SeR81ROASc4XQ+r4i7mnIWN0wPduSjl6F/vzG6euKTi9NJZmlHvnWhHcRAqhoI8DMzQH
-         E0ag==
-X-Forwarded-Encrypted: i=1; AJvYcCUT63QbGSpLtYFyntkyHDP3b1NR8mt888+DwR5MvRuig5YGq/UtNgxmBUd5F1JNA92HnMWZ3h02vaiIliaj@vger.kernel.org, AJvYcCUgTmX0JZ4pUA2qyWn4MoIObwoA/4bO1M9WFswcDPRxj26+vtriXQ+1pDX0NGAtORfZ5FU7hHobGKpN@vger.kernel.org, AJvYcCVUQrUfEpL/mscCpNGnIas9IHybjri3JSBqsvotQAej7iYl5oxTy1Tsvz3rJ2yDVyySTZWidX6IUdEt@vger.kernel.org, AJvYcCVW2kX4sgLNzRxTdugmVF6b0kkAggW8xWWtuaPzgd0FkHIzhzpY+UVBA9EoAeVQjnoPepScEb3USVKBRQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb7/vUjAIAan2KtQH70ZKG1KKx/kwGMUDb8WrPy81Uvx7Asj2g
-	3loW+Q1q0aAAYpN59832UdhZPJjhjyF/S/GsNL6RVpf54joAVJPMPn/m
-X-Gm-Gg: ASbGncujLqjqCiET/egM0r8Yaa6CM6h7BwWvRu5e7z0KNuEHX3Mog84gAbpspynY8CB
-	ARhwjeQTPMU2k779YJIt1FalGx98oQyWw+i8/qzr5AFaGbu99UjVbTJPFKpDdPiBOXNX56KEWmF
-	yFdku0DN6kqLpWQqlKcfosf/da6Z88VN2DTHirDlG/qHNfi5fnam86DYYsW4gBHbHuzacCSS7sh
-	dHERwDR9q3Lg3n1OQgz9sM6rohaneNMYRJ2mhHJgObHzd/RzUM3eAlVkWvcucEwC2xczvE+rs0b
-	3VVp77CTJpLsHAehIZZ+0t9fvJ6ErQpVPxi4aNlr7oqPeAOEwJEcBQS1IQmCqROYY7v7yP7X4EV
-	e4OUQUQtEc4AvcP+wY7A9pJjc9NhH1B2wYZZ/G8y8Lytz
-X-Google-Smtp-Source: AGHT+IEPPrOZ11ZGYWHJ95bgwYbUGRCGS2tjPJuQVjKEv08VeOHkgaomk1LRMWfyup7vOdhXaXf5Mw==
-X-Received: by 2002:a17:903:98c:b0:242:9d61:2b60 with SMTP id d9443c01a7336-245e02a22edmr35767885ad.6.1755620993119;
-        Tue, 19 Aug 2025 09:29:53 -0700 (PDT)
-Received: from DESKTOP-P76LG1N.lan ([42.116.199.205])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed379e92sm1632755ad.65.2025.08.19.09.29.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 09:29:52 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: rdunlap@infradead.org
-Cc: lee@kernel.org,
-	pavel@kernel.org,
-	gregkh@linuxfoundation.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v13 RESEND 3/4] docs: ABI: Document LP5812 LED sysfs interfaces
-Date: Tue, 19 Aug 2025 23:29:45 +0700
-Message-Id: <20250819162945.231085-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <1075a908-23d0-4a9e-97d2-cb68d1d6b675@infradead.org>
-References: <1075a908-23d0-4a9e-97d2-cb68d1d6b675@infradead.org>
+	s=arc-20240116; t=1755622469; c=relaxed/simple;
+	bh=aTvhuH50RKyGagT1nC1O+DaUbd9uQE1xNum/vjc31Jk=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gPYza/gkne/LHjgVehE41r5Ybbbh3E7R0yH+jACDn3IYsEm+AmYKWzosYCYipurOO9ZeLdL3D5ddBLwa9RGqQfFQ37fHkV1QZjSMB53QNmpFRasDODW272zO5zijHq5WAZ3Ln7m7DsYptrkmqcHU1VESUnMtBL0D5y40lRTsp7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4c5wZy4t9jz6L5BV;
+	Wed, 20 Aug 2025 00:51:22 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3FAA61402F2;
+	Wed, 20 Aug 2025 00:54:23 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 19 Aug
+ 2025 18:54:21 +0200
+Date: Tue, 19 Aug 2025 17:54:20 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: <shiju.jose@huawei.com>
+CC: <rafael@kernel.org>, <bp@alien8.de>, <akpm@linux-foundation.org>,
+	<rppt@kernel.org>, <dferguson@amperecomputing.com>,
+	<linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>, <linuxarm@huawei.com>, <rientjes@google.com>,
+	<jiaqiyan@google.com>, <Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
+	<naoya.horiguchi@nec.com>, <james.morse@arm.com>, <jthoughton@google.com>,
+	<somasundaram.a@hpe.com>, <erdemaktas@google.com>, <pgonda@google.com>,
+	<duenwen@google.com>, <gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
+	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>
+Subject: Re: [PATCH v11 1/3] mm: Add support to retrieve physical address
+ range of memory from the node ID
+Message-ID: <20250819175420.00007ce6@huawei.com>
+In-Reply-To: <20250812142616.2330-2-shiju.jose@huawei.com>
+References: <20250812142616.2330-1-shiju.jose@huawei.com>
+	<20250812142616.2330-2-shiju.jose@huawei.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Sun, 17 Aug 2025, Randy Dunlap wrote:
+On Tue, 12 Aug 2025 15:26:13 +0100
+<shiju.jose@huawei.com> wrote:
 
-> > +What:		/sys/class/leds/led_<id>/lod_lsd
-> > +Date:		July 2025
-> > +KernelVersion:	6.17
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +		0 0 mean no lod and lsd fault detected, 1 1 mean lod and lsd fault detected (RO)
+> From: Shiju Jose <shiju.jose@huawei.com>
 > 
-> At first the "0 0" and "1 1" confused me (thought it was a typo),
-> but I think what you are showing here is a sysfs file with 2 values, right?
-> That used to be discouraged (or even nacked), although I don't know the
-> current policy on that.
+> In the numa_memblks, a lookup facility is required to retrieve the
+> physical address range of memory in a NUMA node. ACPI RAS2 memory
+> features are among the use cases.
+> 
+> Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
 
-The lod_lsd sysfs file currently reports two values: the first value is the LOD
-(LED open detection) fault status, the first value is the LOD (LED open detection)
-fault status.
+Looks fine to me.  Mike, what do you think?
 
-I followed this approach to keep the two related fault bits in a single file, but
-I'm open to splitting them into separate sysfs entries if that is preferred.
+One passing comment inline.
 
-Best regards,
-Nam Tran
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+
+> ---
+>  include/linux/numa.h         |  9 +++++++++
+>  include/linux/numa_memblks.h |  2 ++
+>  mm/numa.c                    | 10 ++++++++++
+>  mm/numa_memblks.c            | 37 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 58 insertions(+)
+> 
+> diff --git a/include/linux/numa.h b/include/linux/numa.h
+> index e6baaf6051bc..1d1aabebd26b 100644
+> --- a/include/linux/numa.h
+> +++ b/include/linux/numa.h
+> @@ -41,6 +41,10 @@ int memory_add_physaddr_to_nid(u64 start);
+>  int phys_to_target_node(u64 start);
+>  #endif
+>  
+> +#ifndef nid_get_mem_physaddr_range
+> +int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end);
+> +#endif
+> +
+>  int numa_fill_memblks(u64 start, u64 end);
+>  
+>  #else /* !CONFIG_NUMA */
+> @@ -63,6 +67,11 @@ static inline int phys_to_target_node(u64 start)
+>  	return 0;
+>  }
+>  
+> +static inline int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end)
+> +{
+> +	return 0;
+> +}
+> +
+>  static inline void alloc_offline_node_data(int nid) {}
+>  #endif
+>  
+> diff --git a/include/linux/numa_memblks.h b/include/linux/numa_memblks.h
+> index 991076cba7c5..7b32d96d0134 100644
+> --- a/include/linux/numa_memblks.h
+> +++ b/include/linux/numa_memblks.h
+> @@ -55,6 +55,8 @@ extern int phys_to_target_node(u64 start);
+>  #define phys_to_target_node phys_to_target_node
+>  extern int memory_add_physaddr_to_nid(u64 start);
+>  #define memory_add_physaddr_to_nid memory_add_physaddr_to_nid
+> +extern int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end);
+> +#define nid_get_mem_physaddr_range nid_get_mem_physaddr_range
+>  #endif /* CONFIG_NUMA_KEEP_MEMINFO */
+>  
+>  #endif /* CONFIG_NUMA_MEMBLKS */
+> diff --git a/mm/numa.c b/mm/numa.c
+> index 7d5e06fe5bd4..5335af1fefee 100644
+> --- a/mm/numa.c
+> +++ b/mm/numa.c
+> @@ -59,3 +59,13 @@ int phys_to_target_node(u64 start)
+>  }
+>  EXPORT_SYMBOL_GPL(phys_to_target_node);
+>  #endif
+> +
+> +#ifndef nid_get_mem_physaddr_range
+> +int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end)
+> +{
+> +	pr_info_once("Unknown target phys addr range for node=%d\n", nid);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(nid_get_mem_physaddr_range);
+> +#endif
+> diff --git a/mm/numa_memblks.c b/mm/numa_memblks.c
+> index 541a99c4071a..e1e56b7a3499 100644
+> --- a/mm/numa_memblks.c
+> +++ b/mm/numa_memblks.c
+> @@ -590,4 +590,41 @@ int memory_add_physaddr_to_nid(u64 start)
+>  }
+>  EXPORT_SYMBOL_GPL(memory_add_physaddr_to_nid);
+>  
+> +/**
+> + * nid_get_mem_physaddr_range - Get the physical address range
+> + *				of the memblk in the NUMA node.
+> + * @nid: NUMA node ID of the memblk
+> + * @start: Start address of the memblk
+> + * @end: End address of the memblk
+> + *
+> + * Find the lowest contiguous physical memory address range of the memblk
+> + * in the NUMA node with the given nid and return the start and end
+> + * addresses.
+> + *
+> + * RETURNS:
+> + * 0 on success, -errno on failure.
+> + */
+> +int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end)
+> +{
+> +	struct numa_meminfo *mi = &numa_meminfo;
+> +	int i;
+> +
+> +	if (!numa_valid_node(nid))
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < mi->nr_blks; i++) {
+> +		if (mi->blk[i].nid == nid) {
+> +			*start = mi->blk[i].start;
+> +			/*
+> +			 * Assumption: mi->blk[i].end is the last address
+> +			 * in the range + 1.
+
+This was my fault for asking on internal review if this was documented
+anywhere. It's kind of implicitly obvious when reading numa_memblk.c
+because there are a bunch of end - 1 prints.
+So can probably drop this comment.
+
+> +			 */
+> +			*end = mi->blk[i].end;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -ENODEV;
+> +}
+> +EXPORT_SYMBOL_GPL(nid_get_mem_physaddr_range);
+>  #endif /* CONFIG_NUMA_KEEP_MEMINFO */
+
