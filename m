@@ -1,80 +1,75 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310053115BD;
-	Tue, 19 Aug 2025 08:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3432925F984;
+	Tue, 19 Aug 2025 08:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755592892; cv=none; b=dy5UyXbnEvBtxN10+ifBwk6ZCbDWt7dPAhZeODHS99UVPXOGCJi2g4GbjGm7m+j3OoDDENz4BJEagy5E95dO2Esseg8ugtEZWfr9x26XDO70m77mTgSAESqBNbP5LnjBamsCwU6gbWIQ15vhIc1vjwgiXlLD+qzN60yAQcmibV8=
+	t=1755593451; cv=none; b=rbFuVq/uWXOjRkMgg8T/+TgPKjg/3atse604jUPHd8vcjpNsYR9oS/TIxoHkfds9Sl3m3ipwU2azWVRVDtYJu+ChbCy3VPv9vsRrGA3+r6KZxA0GfI2qHm5IRfzF6RoDxr9LJ0EY6WOblPOUXd0tCDVYXuKVIC0BvvlfEhAopfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755592892; c=relaxed/simple;
-	bh=hC3FF7CqXvYfG8tLDMZoTpgFfJ5oSyKKqMIelDWPp+o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UdAaNvPki/WNROIYmOSFLg2Wl5ZEhA2dl89zGRfjeMZM9ozyEHTqQi0Z2thuRsyDRwYegm8jIfOy8l4DSkZITgzN1EhxJ3vThNW9DZd5BTp8jrpGVCZEW//8VkZAN+P01/blf6sCYlo6JLNfZkG1lrNv0rbKPhIHtFhxfWRdRxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XVU7q3Mw; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1755593451; c=relaxed/simple;
+	bh=DmkDwkjEVAiC0sDkPJg0pXkSVSJZJEeVV+GgiVYdIbY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Szjti7i5PdMK/10JyzB2xR0VGwzAE8KJM0dHtzhvfkpuoORBLJtAcnx2mznYGvzNZ6HIGDrxLDTqgWdsFo6a4tUiR34SA70k2qT/fwg/YI+30zS/yOQxuLN2mti7IiOjHQHaRt1lPc1ZTABORAgRLx8P+K3Qx2z2IXDSzep6OKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LhYwlSJp; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XVU7q3Mw"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45a1b065d59so25430955e9.1;
-        Tue, 19 Aug 2025 01:41:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LhYwlSJp"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b9d41c3a44so832123f8f.0;
+        Tue, 19 Aug 2025 01:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755592889; x=1756197689; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755593448; x=1756198248; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FLUOi1Tq4O+Xr4PhuCC16k6tnogmko89GEp/A0Hn1CQ=;
-        b=XVU7q3MwTNACpM7lAONPAbzhw5gznjFXHknyuIB7hKtwE9PePKB68XGYWu2X0qyTm4
-         5CmQORvpwDZkojEPb6OejUIZuS6PLWsURGo1h2WE9qJQEjOE4PYYFSl8W3BAWyZWSra4
-         NEN/a7Bm6wNNEl6acpp3YpxXYwKU6zSXUtlXzE552x/TL7nDvPBcDfOFdzM9/+rqKRhq
-         n0YPHYE1gvuAFc88peRuyqd0/4cU5CxvtbAa67Iaqf8q1maS7+WgO9qz0CV+XS6uFRDS
-         sGIxs+tbnprB8Vv/jQpsXU+jF7QEKNlEpUurbeKqlF+SgD0sULRj9yQNXXQiPbghn/SW
-         pxFg==
+        bh=ppSRiVRqts44ynE+tjD/tC5x7x1c70mZiRK8wzwb5ZI=;
+        b=LhYwlSJp+qoRvwlzwNlfvqCskLjNDC/WraisArVBWecNS3lhkCrUfTSSAqSHthDV7+
+         MO4l2IuAQoBoseLiOobmSoXDn7i2kma0KLA+uFSxvK3c6QhsctRpnu9dEav7lVCOoUfh
+         Qg/dhjM2Lmc49MFGlvMJ1zw7JnaX9qJREdAIguI3DpEujpB01FmhwKATlFzBGzrpxVx3
+         uGS8qARbV9r8uSqo7i6T2S0UX1E9UEeXjW6Zpwgqmx6Y6Z1eOjteXnlT5uXSUmR0B7Ra
+         d3VgMiRaBzFYTkYSsh3wAaw3bIrk2QYYhMDeprlptl+zXUhmzYf8O3Jt7VItU3ET8KOL
+         /V3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755592889; x=1756197689;
+        d=1e100.net; s=20230601; t=1755593448; x=1756198248;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FLUOi1Tq4O+Xr4PhuCC16k6tnogmko89GEp/A0Hn1CQ=;
-        b=k+20FM/k3Wy4va2zcZoI9diLnkYdBbhnrQjWe7RX1vBwW4CcHfK+lxLhiqEWUVIiSz
-         X7G2Xhe/AzW5E7ujhrJYxE1RofNu98MSyIXT8uXSc9rRC8eURDtnVSITkl7O+aJDPKkx
-         t/cPBUvwtAenLvzJkMl6g8kcD98kIWGzHxXRoO2j7zuD+5tvf7mdQ5Jo+4Bc9LvtP4EW
-         qPr+wWFgZS2YJdwMDKV/grI/6hXdSROH0gPSy8pCywUDRXRBBg8C6OLvWVTzshh9elfz
-         RjxpWHtAKkFumm460STwVApungDa37myCIjAWgep0KFKVtCycatrWECTs9ZEn3+wryKV
-         yB/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVVMjaaiVuzhksFdavm6K7efayBTSrNb+W+p/wVXbseOCFdWln/n6H/Kicwx894BnLIcOW0WiIGKxw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1L8WOJhUvkW111dvio2LfyJT3LYoYE9tEi/Dd7dwACoJ7wnvb
-	YVmlmh6bYcP7XsRCxFDn0odOl60RQRk8IvecXGiFKuNM5vpDJF3Fi4XgSuZkoFe6Lzg=
-X-Gm-Gg: ASbGnctvBqYmfuWWzu45G/YkK87qYuQroHJlGQKRltBZ/kkoBXlJT5nuuiBj4O+LPYD
-	DqrjlNrykwxXfWeJjnjOvycnoTSdwA32FHiXAhSjyHWrFVQBeakGNkWthxkEF5o9L9SzfH512hY
-	NBwnNDmkr8PgfJSavgSpD4N5ckLh4T4V8xAHDf1rXHRJ3Okjj0SypCr90B4GjvvfYSE6g6UDsOm
-	d/T+/77BbKQ/mxQKMMlTeHZrbgN1pPqhnQEljxB2hvwRrQVxkbwlrl1SA+TKkJsUVjtcyQVy7Ts
-	HT1Qb089AN8bjDQ4ABtf5QEKQ5VkB5DSjDR07msvzFAONCLfsiewvc9ubu5fGicxqYAtjKKTz9R
-	wthxVe7C+bYIbVvjHgVyQKA0myu99vY0=
-X-Google-Smtp-Source: AGHT+IHpZR4chIo9Jhe+nlOC9eKX5wgesPXTSJhgCyQ/YeZ6CrLEnmtm986TctbTOdpsG7HXLXCAnA==
-X-Received: by 2002:a05:600c:5249:b0:456:24aa:958e with SMTP id 5b1f17b1804b1-45b43d464e9mr15595945e9.0.1755592888840;
-        Tue, 19 Aug 2025 01:41:28 -0700 (PDT)
-Received: from moktar-desktop.. ([102.31.181.245])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c074879859sm2746131f8f.3.2025.08.19.01.41.27
+        bh=ppSRiVRqts44ynE+tjD/tC5x7x1c70mZiRK8wzwb5ZI=;
+        b=vF+68SnDn6HvSVgxGkNmEqyAPH67W7ZB12FgupXa/sVLvrEbyGbrKe9sNlfv9ru5n2
+         tLxTtJvK8y1+rP3IjubZYoLLU4AJJgZmtA9PWe7X0OvkLOPcw6UiA1S03w4YXleGnw2b
+         rjW77OcieBoOU6+tj+LztPWKNn1GV1nD9o/bVvC4YUYzqnjDsjaxcLCta7GVFUkTQ5QW
+         tA8AuRnfC9UyunC2Hwi0iQYX6y9t3LssZvZXkxyBGgfJE6DUIJNFYlMJviU0xKcMuURz
+         5OUr/nPyvfWL/o97N/Cbt9GvJb7Qqh99ycHbm5X+RFA8WO/3etagUwbQr512wrzy1jN7
+         0cbg==
+X-Forwarded-Encrypted: i=1; AJvYcCXM2DsWZoTHmRxST5cuSXJwiibHw0THSPdNz4YpGo+pdXhnQpzoLajqcDxF5wG9AMeWg+i4SffpWxpgYnUJ9+wLcqo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZbjFeeA9bx4izOpTrpFnW361oGaI92B4KBnJtfGSTXynM9OvK
+	D16gZGuRlNg33Ms1uIApf9aOresJWT9H0fv1nGULu39yQKbAtt3Fr4DL8tUe/XET
+X-Gm-Gg: ASbGnctqyHn3SXKoZF1i3fJJDi/8pzeiXGqv5Zt7x0sdIHZfTcaiaVApvi4vlhxi21V
+	B+8n+VFVt19dAHOVHIVd3mzTq2vn+0/d4doZSMocoBnuuIa5HpJhwp6C/LuKOf9ezY7i8y6Mxmq
+	Em38DyT5Ndo8LASKKSVFYKXLdgqniO1/DGfxw1Q9BkCuDiDxI/IqBo6BX/hQH0RAJmPfzCUmpef
+	q1ptnBPHgUMuZuOA1TrL+XEdtuFITs0SX3vxWlt6skgOByJe4lMs7C+JOyM3Y79hHWvcUHFs+7b
+	oL9AfuoMzgdPRvBRisZO8FYR0rm522Dp0H3i3fgJE12L8J4SOHs+a/oUiQusTxciTB225/3Up3h
+	d3zDSOJA4eLCwlwZVGD0wlDtK3w==
+X-Google-Smtp-Source: AGHT+IENAMM40Jw4dEcSYO2Fhf9hmnZy96HLWA+f1XfiP1n2rwpiM7hAlE/XZF/W177VE+ht2KtknA==
+X-Received: by 2002:a05:600c:821b:b0:458:a753:f3a1 with SMTP id 5b1f17b1804b1-45b4425f28bmr5609455e9.3.1755593447660;
+        Tue, 19 Aug 2025 01:50:47 -0700 (PDT)
+Received: from bhk ([41.231.66.206])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b42a983f7sm33587315e9.24.2025.08.19.01.50.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 01:41:28 -0700 (PDT)
-From: Moktar SELLAMI <smokthar925@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Gregory Price <gourry@gourry.net>,
-	Moktar SELLAMI <smokthar925@gmail.com>,
-	Alok Tiwari <alok.a.tiwari@oracle.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org
-Subject: [PATCH] Documentation/driver-api: Fix typo error in cxl
-Date: Tue, 19 Aug 2025 09:41:16 +0100
-Message-Id: <20250819084116.13108-1-smokthar925@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 19 Aug 2025 01:50:47 -0700 (PDT)
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+To: linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-trace-kernel@vger.kernel.org,
+	mathieu.desnoyers@efficios.com,
+	corbet@lwn.net
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	mhiramat@kernel.org,
+	rostedt@goodmis.org,
+	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Subject: [PATCH] docs: Corrected typo in trace/events
+Date: Tue, 19 Aug 2025 09:49:00 +0100
+Message-ID: <20250819085040.974388-1-mehdi.benhadjkhelifa@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,28 +78,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixed Typo in the driver-api/cxl/devices/devices.rst
+-Changed 'Dyamically' to 'Dynamically' in trace/events.rst
 
-functionalty -> functionality
+under sections 7.1 and 7.3
 
-Signed-off-by: Moktar SELLAMI <smokthar925@gmail.com>
+Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 ---
- Documentation/driver-api/cxl/devices/device-types.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/trace/events.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
-index 923f5d89bc04..7f69dfa4509b 100644
---- a/Documentation/driver-api/cxl/devices/device-types.rst
-+++ b/Documentation/driver-api/cxl/devices/device-types.rst
-@@ -22,7 +22,7 @@ The basic interaction protocol, similar to PCIe configuration mechanisms.
- Typically used for initialization, configuration, and I/O access for anything
- other than memory (CXL.mem) or cache (CXL.cache) operations.
+diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+index 2d88a2acacc0..18d112963dec 100644
+--- a/Documentation/trace/events.rst
++++ b/Documentation/trace/events.rst
+@@ -629,8 +629,8 @@ following:
+   - tracing synthetic events from in-kernel code
+   - the low-level "dynevent_cmd" API
  
--The Linux CXL driver exposes access to .io functionalty via the various sysfs
-+The Linux CXL driver exposes access to .io functionality via the various sysfs
- interfaces and /dev/cxl/ devices (which exposes direct access to device
- mailboxes).
+-7.1 Dyamically creating synthetic event definitions
+----------------------------------------------------
++7.1 Dynamically creating synthetic event definitions
++----------------------------------------------------
  
+ There are a couple ways to create a new synthetic event from a kernel
+ module or other kernel code.
+@@ -944,8 +944,8 @@ Note that synth_event_trace_end() must be called at the end regardless
+ of whether any of the add calls failed (say due to a bad field name
+ being passed in).
+ 
+-7.3 Dyamically creating kprobe and kretprobe event definitions
+---------------------------------------------------------------
++7.3 Dynamically creating kprobe and kretprobe event definitions
++---------------------------------------------------------------
+ 
+ To create a kprobe or kretprobe trace event from kernel code, the
+ kprobe_event_gen_cmd_start() or kretprobe_event_gen_cmd_start()
 -- 
-2.34.1
+2.50.1
 
