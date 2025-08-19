@@ -1,70 +1,70 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F90322C66
-	for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 10:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3F4322C8A
+	for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 10:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755600014; cv=none; b=Ifz8e4ypwls/MnLm+w+qFRCMAVDlD3ueGpAhK9+1+B7WpEyWdhK9WVEL9yNH5bltYMRrRJq8bYpQzqwLuxVMZQ62aD6gA2DZ2JcboRLJtg1C9XL/5YOohh3a8+5HSrlTs68LmQ20Yvrd7trFZ4Wt5e+mbzj3s8KCmiktahrNWeU=
+	t=1755600409; cv=none; b=hM3iRoBTL6IOOpNIeS9nxCQ39K1hvIo14Xwoor6Wrref+Zd911dlRZGVGdOQtjoQhipr/AJcSKzR3fuxfy3S/dIB0xLGqGrL3sbcG+pvceZr2Pw3bKABeGuFOjtr3flLdfMavm9kvhxl73ZueZzep4n5tco01GMShdtP8g59zl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755600014; c=relaxed/simple;
-	bh=6Mh3OcWG/P/mVc70L6Bz+2SOOMG4XOUFXpU2o4QLQUQ=;
+	s=arc-20240116; t=1755600409; c=relaxed/simple;
+	bh=mN4W5lU/nYDZ1u4qGcbGFkkHXrasqWu0B4ILcHlhbEQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Sb0bBaiM1U9BFEEfODQ5pFguoK8MPQeC5Xt48Kv35aXtPXTrOIafWzal164jMTNCV6NDcg7S62Smu1zyes0cndRWIB8pwsWCAVqx+l/o0HB4Lmlkww3xggkc8B5cQKCWsppRU+6BKqqetNjB+WufkIB12V6XrbCDEQPEtpYo5do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cgG4qm/y; arc=none smtp.client-ip=170.10.133.124
+	 Content-Type:MIME-Version; b=iiens1Bq3SB1U6OjSp3dW6BNbCNo1ek8BubV3ZF1csmOVnX1tyJaH/UFshLsDJtXVkDaHch1XnM7jgtZ/kRddkSODdGliHjAWImRULz5s12+WfA8y5P/R7So+H4NR0EtDUcrP8+2vtYtT777Zv7whJ6uOa16khvOiBMkC5/vOu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H5ho1qPD; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cgG4qm/y"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H5ho1qPD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755600012;
+	s=mimecast20190719; t=1755600406;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6Mh3OcWG/P/mVc70L6Bz+2SOOMG4XOUFXpU2o4QLQUQ=;
-	b=cgG4qm/ybHxUbnzWz4Cpk67HaMCgTrHHfXChu3hCQz0ymSzRzqmPEy2B4A6dsmYrOu8f2W
-	1NyDiVpLVh5YHRXXNy5MOvuD5qLcoDDKjrQv/catJsC28eKOdAlyF8D4JhxPEHnb7RTkPs
-	Ta68HRiSAmCVtdv3hq+gQntn+H+xwbw=
+	bh=Ya9rYpVnEq1bqrzAsmHksoTnC8P3FflAlqr+wlwGFI4=;
+	b=H5ho1qPDVyYwC1o9PGKLC3gCS0J+oqWRWQZUXEYbL9AcN35cVLo1HJb7Ac8OoN0EnGZa0V
+	Ba4v8a2Pz8ENvy3wXct0AIJyEANLDR1CSbHTntWxpafcWaCUJ1zs/O4R3LMZ9i5GrMbHQk
+	v7M2RxhHR/CY0UJsH8cE7hHW0lDUudo=
 Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
  [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-658-iPbhjrODPdyRidy__XJ6EA-1; Tue, 19 Aug 2025 06:40:11 -0400
-X-MC-Unique: iPbhjrODPdyRidy__XJ6EA-1
-X-Mimecast-MFC-AGG-ID: iPbhjrODPdyRidy__XJ6EA_1755600010
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7e870315c98so2381551585a.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 03:40:11 -0700 (PDT)
+ us-mta-599-YcOkD3EQNraC1q-uqsghsQ-1; Tue, 19 Aug 2025 06:46:45 -0400
+X-MC-Unique: YcOkD3EQNraC1q-uqsghsQ-1
+X-Mimecast-MFC-AGG-ID: YcOkD3EQNraC1q-uqsghsQ_1755600405
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7e870316b85so1235554885a.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 03:46:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755600010; x=1756204810;
+        d=1e100.net; s=20230601; t=1755600404; x=1756205204;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Mh3OcWG/P/mVc70L6Bz+2SOOMG4XOUFXpU2o4QLQUQ=;
-        b=XSjbEPIr+yFS5xg6r8AhwEc9P1lNHNPikFQ7JiSlQBuv+PG932w11nspYiHzKYxnLy
-         TAzOxbaqOZUtW8XgOELIFU5K0a8kmNAD2aU6jSw8xGwqc4eZGPUAYlAIkbQ8VD5dnYsT
-         WJtliciAMik96cs39+nBNGc2MFFL6mUADhGFO90x2DJKT8S3yvdK6WG920BNYWfKPo27
-         q8hVAPHW7hth4TZwpULJuX5CAzUxrm5dnYyhJwlYaeueX726/SvcVB5Hy48JK6NVpIUm
-         +DjtPv2gHMN6r7fKM4G4nwefvBDg5kTtVRpVn/oCUlZQuKnGXBAvSadiyAAXxl01U1vS
-         yMTw==
-X-Forwarded-Encrypted: i=1; AJvYcCXzi4YFlYzseDXpnIrYdHekxOZ8vGcBfXeolKMsAEdlsk0aqmHQmEtiACY9fHk0kWORA12JjITDrx8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCCBySjxf1HUdulhaCN+DLb2rWLGKCw4QZ3OZsr/4rwXDDLgzm
-	yfXU+gJZSm+XQVikuZGz2aP5v8qlCwoxw8+RYzrZFHd4N/q3o42tHJPXy3rbUsp0vHBPfjfWGO5
-	7e8qvHzHUvzQWwv+7SQFM66XOsOdwLeLkHgVsnYqgQhUzIDMg+tmlGanUtkgGFw==
-X-Gm-Gg: ASbGncs21b6NkodNh+U/W4FEd/CAa2yt0wMCjkUz4KJ4kOwCXKOuzU3H9k84I6R4OnC
-	R5gyfN/Qb82IjNKqQEpmf83dZNO+tZK9gnLFR9sIiLsxl2drJ/TGS/k9bI7SmQ3jT9OllEk0FGc
-	SaxwjcHhjyTWcfL3OlUnsCZc6S8S+cPU9AwStkpF/NC8WAaWTKSVH6bYatPAgVcXRY1LUIpDEDz
-	2fTmA5wCNxd+Eovk+lG6C0QVoN6Dm23EbMEHnWrc6bmAe0WrmVeco8DA4zEbGfmJoiXC7wFN4Qv
-	lJRRQVrd0OvlsQs+nJSfdoUyHe4IDD7HclBfXtZDyOE/rGhYIgUMJ7Ob4t6zhNuNTg==
-X-Received: by 2002:a05:620a:471f:b0:7e6:998c:99c0 with SMTP id af79cd13be357-7e9f32eac3amr281898685a.24.1755600010543;
-        Tue, 19 Aug 2025 03:40:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFx+fHRkuCSbwkkENyWo6GP3r/1txAJ/JN4LqgGMck+98eE4qPrdw+WG4j41jvp+1cDdp6qNA==
-X-Received: by 2002:a05:620a:471f:b0:7e6:998c:99c0 with SMTP id af79cd13be357-7e9f32eac3amr281895985a.24.1755600010157;
-        Tue, 19 Aug 2025 03:40:10 -0700 (PDT)
+        bh=Ya9rYpVnEq1bqrzAsmHksoTnC8P3FflAlqr+wlwGFI4=;
+        b=FuDd3GdaWVKyDRiHDwh0THyqsk+yI+T25D7wx7Umkd1I8+ICVfBPlDPUCgAZCYYzTK
+         sXQhgVONU2+RtEd4axnF/GhQKsnCRcE2DxnxAk0FtShgfCYxXrs4CmVoU6D1KvvvrVJM
+         OEhWiOjx5SYWqSQYBADa2Raqg/AkGvZcuMdgNAVGJ9IVFN4chh4O9jhoUe/Ovy3T2Qmo
+         yyj0gwZQ7GcHGiwUIqwZTKnx+U/Gvqcq1yJQcTYcAvNr+00KNuLf91/+aV4x+0TFnhfY
+         mgeGxA15tbj3gkdeBpE1jJQpl/Wda1RVkv9Ed9IiH86h4O7WXOSty9BqhZzWzrgUCEzm
+         WeZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUrNxAbInji+5Lp7C7If5Dw2lLaJI5XUfdKkeiYtitwoOO8++tt0uSC5Yivi+XXD42/pYPuCmqvRw4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4sgUaY0AB2mpA8+ijFnQrd1g1dGJ+yagbTH7bWx3DPSLswYCT
+	Wwxoi7WeDwu+P3KiHCGWyFoxl6ChZpT2HMfXTzZtpKXxwO++xi5PVsMr5UNyooXFVgeLCCWDEF1
+	Z4D+FDZK59/O+JxP2fAITA983dew+j7uleYjrjfhEyrOROC2ko2CEJ8DTkHTKyw==
+X-Gm-Gg: ASbGncuGHA6WV4OW72YnSDUAlKkimu/a6nr1/3XDIB7qLM4dJqx8uwMJNFok1kHIB2B
+	FgoQeJWsFudU/Jjb1QtVBGthVPDmBXkpEhFVwgAUGBUsudHhpn5MiKpRhJsAsGKEsUqvH4syWzw
+	GAB8eYKNqcoMqOole/vVwTddLUXoqOHzoO0De7zIdZMsUG8fjFPlrKgWoQSP5c+JiyhUBFq+50v
+	8uQOVkt0rZULie+iF/UQjMH/iZwEH9tjBBkS+gyQKn263N90Yg7tb3pFmDeOgustOaAe7tegXXB
+	0TcrYbIvzDlUy4CJr/h23S2e9qM8HDQeb+vfW/XwNlgQpDqF2GoHBAXVRr8z8BgLLw==
+X-Received: by 2002:a05:620a:17a3:b0:7e8:34b0:6e07 with SMTP id af79cd13be357-7e9f330d21emr238065385a.7.1755600404702;
+        Tue, 19 Aug 2025 03:46:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGePi7pyFUeDcLopu06z03bZieJKd0N149MulemJ5fyts6v+HbKw6uGpTSN7vDff4vEX0HHQw==
+X-Received: by 2002:a05:620a:17a3:b0:7e8:34b0:6e07 with SMTP id af79cd13be357-7e9f330d21emr238063685a.7.1755600404307;
+        Tue, 19 Aug 2025 03:46:44 -0700 (PDT)
 Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.40])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e87e1c0eabsm745844985a.64.2025.08.19.03.40.07
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70ba95cd49asm66838496d6.76.2025.08.19.03.46.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 03:40:09 -0700 (PDT)
-Message-ID: <cdf1912c57cc49d203aec31c645c1c38e863a0ab.camel@redhat.com>
+        Tue, 19 Aug 2025 03:46:44 -0700 (PDT)
+Message-ID: <2e4ee3715146262df549b177ed6534129b827f09.camel@redhat.com>
 Subject: Re: [RFC PATCH 11/17] Documentation/rv: Add documentation about
  hybrid automata
 From: Gabriele Monaco <gmonaco@redhat.com>
@@ -74,11 +74,12 @@ Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
  linux-doc@vger.kernel.org,  Nam Cao <namcao@linutronix.de>, Tomas Glozar
  <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,  Clark Williams
  <williams@redhat.com>, John Kacur <jkacur@redhat.com>
-Date: Tue, 19 Aug 2025 12:40:06 +0200
-In-Reply-To: <aKQ7iaSb9GGUtuCZ@jlelli-thinkpadt14gen4.remote.csb>
+Date: Tue, 19 Aug 2025 12:46:40 +0200
+In-Reply-To: <aKRAeOakjiwmgML_@jlelli-thinkpadt14gen4.remote.csb>
 References: <20250814150809.140739-1-gmonaco@redhat.com>
 	 <20250814150809.140739-12-gmonaco@redhat.com>
 	 <aKQ7iaSb9GGUtuCZ@jlelli-thinkpadt14gen4.remote.csb>
+	 <aKRAeOakjiwmgML_@jlelli-thinkpadt14gen4.remote.csb>
 Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
  keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
  1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0ByZWRoYXQuY29tPoiZBBMWCgBBFiEEysoR+AuB3R
@@ -95,76 +96,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Tue, 2025-08-19 at 10:53 +0200, Juri Lelli wrote:
-> Hi!
->=20
-> On 14/08/25 17:08, Gabriele Monaco wrote:
+
+
+On Tue, 2025-08-19 at 11:14 +0200, Juri Lelli wrote:
+> On 19/08/25 10:53, Juri Lelli wrote:
+> > Hi!
 > >=20
-> > +
-> > +Examples
-> > +--------
+> > On 14/08/25 17:08, Gabriele Monaco wrote:
 >=20
-> Maybe add subsection titles to better mark separation between
-> different examples?
-
-Sure, makes sense.
-
+> ...
 >=20
-> > +The 'wip' (wakeup in preemptive) example introduced as a
-> > deterministic automaton
-> > +can also be described as:
-> > +
-> > +- *X* =3D { ``any_thread_running`` }
-> > +- *E* =3D { ``sched_waking`` }
-> > +- *V* =3D { ``preemptive`` }
-> > +- x\ :subscript:`0` =3D ``any_thread_running``
-> > +- X\ :subscript:`m` =3D {``any_thread_running``}
-> > +- *f* =3D
-> > +=C2=A0=C2=A0 - *f*\ (``any_thread_running``, ``sched_waking``,
-> > ``preemptive=3D=3D0``) =3D ``any_thread_running``
-> > +- *i* =3D
-> > +=C2=A0=C2=A0 - *i*\ (``any_thread_running``) =3D ``true``
-> > +
-> > +Which can be represented graphically as::
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 |
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 |
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 v
-> > +=C2=A0=C2=A0 #=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D#=C2=A0=C2=A0 sched_waking;preemptive=3D=3D0
-> > +=C2=A0=C2=A0 H=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 H ------------=
-------------------+
-> > +=C2=A0=C2=A0 H any_thread_running H=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> > +=C2=A0=C2=A0 H=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 H <-----------=
-------------------+
-> > +=C2=A0=C2=A0 #=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D#
-> > +
-> > +In this example, by using the preemptive state of the system as an
-> > environment
-> > +variable, we can assert this constraint on ``sched_waking``
-> > without requiring
-> > +preemption events (as we would in a deterministic automaton),
-> > which can be
-> > +useful in case those events are not available or not reliable on
-> > the system.
-> > +
-> > +Since all the invariants in *i* are true, we can omit them from
-> > the representation.
-> > +
-> > +As a sample timed automaton we can define 'stall' as:
+> > > +=C2=A0 static bool verify_constraint(enum states curr_state, enum
+> > > events event,
+> > > +				 enum states next_state)
+> > > +=C2=A0 {
+> > > +	bool res =3D true;
+> > > +
+> > > +	/* Validate guards as part of f */
+> > > +	if (curr_state =3D=3D enqueued && event =3D=3D sched_switch_in)
+> > > +		res =3D get_env(clk) < threshold;
+> > > +	else if (curr_state =3D=3D dequeued && event =3D=3D
+> > > sched_wakeup)
+> > > +		reset_env(clk);
+> > > +
+> > > +	/* Validate invariants in i */
+> > > +	if (next_state =3D=3D curr_state)
+> > > +		return res;
+> > > +	if (next_state =3D=3D enqueued && res)
+> > > +		start_timer(clk, threshold);
+> >=20
+> > So, then the timer callback checks the invariant and possibly
+> > reports failure?
 >=20
-> Maybe indicate this first one is a not properly correct example
-> (correct version follows)?
+> Ah, OK. The 'standard' ha_monitor_timer_callback just reports failure
+> (react) in case the timer fires. Which makes sense as at that point
+> the invariant is broken. Maybe add some wording to highlight this?
 
-Yeah I should definitely be clearer about it. As you've guessed, this
-example is to show things can be done differently as a tradeoff with
-responsiveness, I should make that explicitly.
+Yeah indeed. That isn't even the 'standard' one as it isn't explicitly
+configurable, but yes, at the expiration the invariant is already false
+(I currently don't support AND/OR conditions in there).
 
-Thanks for the comments,
+I should make all this process clear, especially that those state
+constraints are the only ones arming a timer and leaving the state
+after that expiration (if the callback didn't run) or going through the
+expiration itself implies a failure.
+
+Thanks for pointing it out!
 Gabriele
 
