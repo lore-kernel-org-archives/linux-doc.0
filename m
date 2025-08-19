@@ -1,54 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E69274666;
-	Tue, 19 Aug 2025 09:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5889F3451D3;
+	Tue, 19 Aug 2025 10:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755596697; cv=none; b=f1VhxVYgb8GJ5tRkzPcZJTxoI7gIe6q3m6vnAVeXMIRhoeDpdbfJkqYygeHyjBG8NMOIMZD4UciHKsB2PT+vt6YVYVTQTpxb9/bCOWhG+tRPylX3Pw8FX0AEOJFhxepSiqEzKsEPDOir6+GrjrtsbEoXXoLQFTPLlHoMb1sgwwM=
+	t=1755597657; cv=none; b=oThOviToYrP9KFULC4vV15fKDU19XfaqjOXNX7+NIh7s44+0VTq05jbi+JWiMvJYnD1LWxrVEPElyLXbWPHGz2P8MaJaYj1KY/xY1CmU4bNJsJ2llel4FuNEf1ZqHmEIuiGNYRyZdBZZgg+TG01CbLsxDNCQobb263MU17b0mt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755596697; c=relaxed/simple;
-	bh=qkoSavUo25iuaFyv6MbaWJ1hYMagYZR2yJl9AnwGilk=;
+	s=arc-20240116; t=1755597657; c=relaxed/simple;
+	bh=tKG385zLApPrmYgg1y212g0XqqpZbgwznZlmTUIjBa8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BxDkymUe4eJmOU67++/b1t+Z+efaNpqmwDp55ZFMMrJeQNtFHmK/zbPvjv2S1ivmc1dwC2Q9aCYZxXxlRH1TYj85h7vw3s4T++CeDLILdn85Ma8LHplcuY/Tk6mFpFDM+goycoAAZjwjal2cXuDUkTCUHOpkKwl4CoR2aKqOdo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n0tVvonW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=un3g8WmezHjFZzv6fQKLMufXtZkRze1PsUErt+b0f4bOUqtoGMSqTqNZ/B5rMNqzWVO02jvHEfh8bUp817RjkNxIPOOY0MMeCWbudnbbbwOdc0NJgQVOJk8pZAEqpZ9Eu5J6KppXMXoCHFBKKkRourfDDkvqV0zLTEZ0GTZKatc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Lc3hCAm9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2brXP8Ck; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n0tVvonW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A37EC4CEF1;
-	Tue, 19 Aug 2025 09:44:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755596697;
-	bh=qkoSavUo25iuaFyv6MbaWJ1hYMagYZR2yJl9AnwGilk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n0tVvonWE1oEyrGMBnKN7BtdvUYyXYUQ+yYnW91g4LS7S3b+Wic8ckZOkm2c0LQgR
-	 W3HpDgxJO3Izhz3SyUlED62hj5dA4ADph7+TZn1CfpcnL1QG2Bfj11Tt4C1oyxNtNS
-	 /H+5TlR76OOTKY6AI8bjUTwfmcr4T6EEcBiPOOAKLNWGu5eKrY4LT2T29dcoyt7OJN
-	 +CXdYIgO/f1SDXr1D5sF+9nefcAflvmgiFFWSy9N73q7Rqk5Y/nVk/HdKlZpnYmlqU
-	 Z+nm9okydm70LTdECMr3tBB+Vn2TrfHNwSC8FvOfv3kbPl/POtg1n8TBtQ9q2QJ2rD
-	 XQ2BbTozJRPLA==
-Date: Tue, 19 Aug 2025 11:44:48 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Daniel Gomez <da.gomez@kernel.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>, 
-	Christoph Hellwig <hch@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
-	David Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez <da.gomez@samsung.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Matthias Maennich <maennich@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v4] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-Message-ID: <20250819-vorgibt-bewalden-d16b7673cc72@brauner>
-References: <20250808-export_modules-v4-1-426945bcc5e1@suse.cz>
- <20250811-wachen-formel-29492e81ee59@brauner>
- <2472a139-064c-4381-bc6e-a69245be01df@kernel.org>
- <20250815-darstellen-pappen-90a9edb193e5@brauner>
- <6cce2564-04f2-44ab-96d3-2f47fc221591@kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Lc3hCAm9";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2brXP8Ck"
+Date: Tue, 19 Aug 2025 12:00:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1755597648;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nJl/XWMsycTjvYGQzFnWsmROTTphBuImum1tAc0aB1k=;
+	b=Lc3hCAm9QqnZszBsyc+HllW9WeRXJc379CQY5oGagFF2UjqaipMjFDJVrQtKfh9+2YGb7Z
+	F8LNVOjResyLPlQy3oP00fajmsBIt0laBcPhQywELgUxi/ExW4aGLzuU1QmGcmE4QP0EFX
+	OPFsmEvt4snxihzsgUlredp6QoBwcgl8VD3/WGUHIDceMwbYsnu8ldyGQzrgulw4dEwuBI
+	JR4Xs78+DN0SLgqDBtTyB4ho9O5ytVBfA5HXIvFV4+7VWHkeGe+mVPiOMoD1RcV6EU6Qqr
+	zQawW4/DDYwPSrxjtArh6AnpbHf+QN/0G+B9hkCR8Yq/weZscC3sMbA/rnfTAQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1755597648;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nJl/XWMsycTjvYGQzFnWsmROTTphBuImum1tAc0aB1k=;
+	b=2brXP8Cknm/wTMNegAihVLlosxexHrtSPaxbeJlUrMga5JiAS/v1ERSmtE1vOYLJlp5OsZ
+	R1BRaBlpgfllzTAg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Waiman Long <llong@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 2/3] Documentation: locking: Add
+ local_lock_nested_bh() to locktypes
+Message-ID: <20250819100046.ymb_o7VA@linutronix.de>
+References: <20250815093858.930751-1-bigeasy@linutronix.de>
+ <20250815093858.930751-3-bigeasy@linutronix.de>
+ <db8defe4-14bf-4060-803f-e8b09a941d42@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,43 +65,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6cce2564-04f2-44ab-96d3-2f47fc221591@kernel.org>
+In-Reply-To: <db8defe4-14bf-4060-803f-e8b09a941d42@redhat.com>
 
-On Fri, Aug 15, 2025 at 05:39:54PM +0200, Daniel Gomez wrote:
+On 2025-08-18 14:06:39 [-0400], Waiman Long wrote:
+> > index 80c914f6eae7a..37b6a5670c2fa 100644
+> > --- a/Documentation/locking/locktypes.rst
+> > +++ b/Documentation/locking/locktypes.rst
+> > @@ -204,6 +204,27 @@ per-CPU data structures on a non PREEMPT_RT kernel.
+> >   local_lock is not suitable to protect against preemption or interrupts on a
+> >   PREEMPT_RT kernel due to the PREEMPT_RT specific spinlock_t semantics.
+> > +CPU local scope and bottom-half
+> > +-------------------------------
+> > +
+> > +Per-CPU variables that are accessed only in softirq context should not rely on
+> > +the assumption that this context is implicitly protected due to being
+> > +non-preemptible. In a PREEMPT_RT kernel, softirq context is preemptible, and
+> > +synchronizing every bottom-half-disabled section via implicit context results
+> > +in an implicit per-CPU "big kernel lock."
+> > +
+> > +A local_lock_t together with local_lock_nested_bh() and
+> > +local_unlock_nested_bh() for locking operations help to identify the locking
+> > +scope.
+> > +
+> > +When lockdep is enabled, these functions verify that data structure access
+> > +occurs within softirq context.
+> > +Unlike local_lock(), local_unlock_nested_bh() does not disable preemption and
+> > +does not add overhead when used without lockdep.
 > 
-> 
-> On 15/08/2025 07.25, Christian Brauner wrote:
-> > On Tue, Aug 12, 2025 at 09:54:43AM +0200, Daniel Gomez wrote:
-> >> On 11/08/2025 07.18, Christian Brauner wrote:j
-> >>> On Fri, 08 Aug 2025 15:28:47 +0200, Vlastimil Babka wrote:
-> >>>> Christoph suggested that the explicit _GPL_ can be dropped from the
-> >>>> module namespace export macro, as it's intended for in-tree modules
-> >>>> only. It would be possible to restrict it technically, but it was
-> >>>> pointed out [2] that some cases of using an out-of-tree build of an
-> >>>> in-tree module with the same name are legitimate. But in that case those
-> >>>> also have to be GPL anyway so it's unnecessary to spell it out in the
-> >>>> macro name.
-> >>>>
-> >>>> [...]
-> >>>
-> >>> Ok, so last I remember we said that this is going upstream rather sooner
-> >>> than later before we keep piling on users. If that's still the case I'll
-> >>> take it via vfs.fixes unless I hear objections.
-> >>
-> >> This used to go through Masahiro's kbuild tree. However, since he is not
-> >> available anymore [1] I think it makes sense that this goes through the modules
-> >> tree. The only reason we waited until rc1 was released was because of Greg's
-> >> advise [2]. Let me know if that makes sense to you and if so, I'll merge this
-> >> ASAP.
-> > 
-> > At this point it would mean messing up all of vfs.fixes to drop it from
-> > there. So I'd just leave it in there and send it to Linus.
-> 
-> Got it. I was waiting for confirmation before taking it into the modules tree,
-> and I agree that at this point it makes sense to keep it in vfs.fixes.
-> 
-> > Next time I know where it'll end up.
-> 
-> Can you clarify what you mean by this?
+> Should it be local_lock_nested_bh()? It doesn't make sense to compare
+> local_unlock_nested_bh() against local_lock(). In a PREEMPT_RT kernel,
+> local_lock() disables migration but not preemption.
 
-Next time I know that you are responsible for taking such patches. :)
+Yes, it should have been the lock and not the unlock part. I mention
+just preemption part here because it focuses on the !RT part compared to
+local_lock() and that it adds no overhead.
+The PREEMPT_RT part below mentions that it behaves as a real lock so
+that should be enough (not to mention the migration part (technically
+migration must be already disabled so we could omit disabling migration
+here but it is just a counter increment/ decrement at this point so we
+don't win much by doing so)).
+
+I made the following:
+
+@@ -219,11 +219,11 @@ scope.
+ 
+ When lockdep is enabled, these functions verify that data structure access
+ occurs within softirq context.
+-Unlike local_lock(), local_unlock_nested_bh() does not disable preemption and
++Unlike local_lock(), local_lock_nested_bh() does not disable preemption and
+ does not add overhead when used without lockdep.
+ 
+ On a PREEMPT_RT kernel, local_lock_t behaves as a real lock and
+-local_unlock_nested_bh() serializes access to the data structure, which allows
++local_lock_nested_bh() serializes access to the data structure, which allows
+ removal of serialization via local_bh_disable().
+ 
+ raw_spinlock_t and spinlock_t
+
+Good?
+
+> Cheers,
+> Longman
+> 
+> > +
+> > +On a PREEMPT_RT kernel, local_lock_t behaves as a real lock and
+> > +local_unlock_nested_bh() serializes access to the data structure, which allows
+> > +removal of serialization via local_bh_disable().
+> >   raw_spinlock_t and spinlock_t
+> >   =============================
+
+Sebastian
