@@ -1,301 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E2D1CA81;
-	Tue, 19 Aug 2025 01:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B9A1E47BA;
+	Tue, 19 Aug 2025 01:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755565364; cv=none; b=NEjLLVIXmuH9kyo/xnnRjBQEz8Vg4Ki4KdywaoMh1WEsaWqDXErKROSIl4dAbGYgT9fXKUCHDIyG5YvS8aIi9LIjltwumt8j2AuEwHPIDQgLKlQ017jqCewfxZMvG30U32LfompaxrKf2dA9Thql7aWrrb/XF7ytzkxi0TTATzw=
+	t=1755566788; cv=none; b=p/XlRh7cQEOP5/gAjr7yU45n+tH5d9oWl5mkLimY0Y5RFPn34pY61SL2f6NJGa3x3rZuzYnnhBtAbsZes8ue8GXZW6ydU5P/K3Ow0QWeiubeiK6hMRWnIZUsv/eN/IyemKONZQa/QOl18wC3FGQs1SqV/DPBhG0qsBIh1fgUjrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755565364; c=relaxed/simple;
-	bh=YaDOaaTEUOeeBcM1XyuKNmtaW3o7dnaiEAL/Toz1Xs0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZhZq5RJ3KZP3grQIKFZaxtAa8aiq6C5gYhH15zLbSAQrHmW6119UcPTzqVHZc1a2m7x7X9cUME2MoNiOXGJia7dEFh3mI+kONcYJ6EYEqYxELeqKqbckoTQa6xozDZse/bv6bMns7dlxrrcYLxTgc4x9ku9djKh8DK2ZblaTd7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lMX9BzjE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755566788; c=relaxed/simple;
+	bh=agYR481QyjyS/7Enp2FSpAI7AE9rLtWb/AeMmfEvraM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Fh/BenRUDE/GyBqjxv01/G9sbHKkUxwiAfpENLh+kGbTCwy6fpnwFBJI+aLqukGBZ71emWcyBeDNA8fcwnyvr4yeQksH415oiJKXAI5SGSTkhlQzX+FUKnSF06zrWSanhamJJ7XZbmtb9l3U6DGiGxNsHGSFMChxUEYxQwjgXyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hb1YSJUR; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lMX9BzjE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40A2EC113D0;
-	Tue, 19 Aug 2025 01:02:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755565363;
-	bh=YaDOaaTEUOeeBcM1XyuKNmtaW3o7dnaiEAL/Toz1Xs0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lMX9BzjEnAYG6Ny7Yr3vkMiJ61BmtFAFMytXHp5yHV2IL0RqDiYDs2YlQcoEPtuDM
-	 ILRzj1qC8ceRqc9f4VDKA7a3YwjDQqnIJl98VSSdJtwqiem7elvg2Gi/4wyMfdLY99
-	 96OmanYeLsnA2Q529Jyxa/gPZmilgosvSBHBjRGSrHYC1Rhf9Cy8Ba2KLyE8+iOsBu
-	 f4AtWuWSRheV2InQeCwYoYMgGgGO0G2wHCejjuOGjiN6g/biQtgGFIFmDhFI8s2pEc
-	 nbnHMW5L3bTbUBcpbctHDxiJFwXfLEQMyU36KKm8ImvtXoPOmE+C64TWc/AUc1O+dD
-	 hTQzaThM4jbWw==
-Date: Tue, 19 Aug 2025 03:02:39 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-Message-ID: <20250819030239.41a2e97f@foz.lan>
-In-Reply-To: <16b48826-6634-4ec9-86a0-7ddb59ce3bed@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
-	<773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
-	<20250816135538.733b80d3@foz.lan>
-	<acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
-	<20250817133606.79d968ed@sal.lan>
-	<b3d97e98-121d-4d12-9624-3efd119b12a4@gmail.com>
-	<20250817154544.78d61029@foz.lan>
-	<b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
-	<87y0rg7e35.fsf@trenco.lwn.net>
-	<16b48826-6634-4ec9-86a0-7ddb59ce3bed@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hb1YSJUR"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-76e2eb9ae80so3645598b3a.3;
+        Mon, 18 Aug 2025 18:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755566785; x=1756171585; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pmmqb+0QJFMvstqyZRbkCupg6wif2qsh214IwZwNpHg=;
+        b=hb1YSJURPDVksdcMEMJWSXuQfRDCl1xcLwTR3cHRO0Znz7cRxgwJSINjFLLEM5q2zW
+         rqluew5G75O8erBAqii89N1hFcLda+PQFRpRSrzGQDPLYmz6d9wpRRrbMyXH/TlWE779
+         8C7Vjmhr+VK/FVnRtLZYy4lZeaxnYcPwd9IRzw7pzhtL7dL9LliHK7yS8fvFlihtMOpy
+         HCvu6+4bgjSnQYlAu60EweJ+vx6HVmh/0JWRH40LRgPpv6bFShKkhN2hbsyxK5IDSjX6
+         ul6G59lAgFagfYJigqdSnmE0VJgESF0hDdpas6e29v8UCcn/tCYTBcE4OQ3H34flljbB
+         JAtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755566785; x=1756171585;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Pmmqb+0QJFMvstqyZRbkCupg6wif2qsh214IwZwNpHg=;
+        b=HeJcdUVFTKZgQyhsFUfckPFuVen0FjYYh8TVM86rvJujYQFz3IhKjuQJUdy+q6UjYV
+         YtHAPEFpTlAF+m24UBxYGbobr8fxnNLw+9O0gDQ8Zw0m48AE/iEVpcUQSqinsKxmMynn
+         INrv7SVvsrfWZnh5VhGiqVPhydYUZouJz6IO0Ljox4P9PsGueYw0dbAbq/YJaxWqeWJ6
+         nrIVWvrGUUydLeaxIiyTCRkSYQzD9e/aDwHIhyTYI6nO+Oy1PdfOnxt9OQH0cR7QGFbF
+         0CVgMGtfhj/b+zubNuz0sOVz2D5sKYPNefhRjHJEDB20DWjIkRdpZEkiVY5zJ8GV3A/w
+         rGWw==
+X-Forwarded-Encrypted: i=1; AJvYcCUhzqQQ+f1S77Q9U3CW/y2BD6CCmKo+D3Vv7V/piT9iKgYRE6xXWLD6mqcPvOvZbQf1kEjg@vger.kernel.org, AJvYcCXrd+Y0kqJMPQRnkmabtK/rzW0Nhq2f++sIxtGgXJkZMG93nB8QBZf+flUEa3EqA8NX1JUYhUfiegE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YziSAkOOyICH6pde8d87snXKyAdF/bkPvfnAVfupK/d/GP6q8my
+	uA/QOthEibJHadh1J45q/uD2Hi0QlX3c1D7sKqDHCJneE+jjhGh2dCGX
+X-Gm-Gg: ASbGnctiYuRKWor8n5wTpEJs4t1QHoAJgBJA/2ItG4rR9DN8XJJD0Bgmy809YrCPZMC
+	+Z/gEm4zapfqMvFOyEa8M7+5FcpIVC4d1ch4o4m0z1zQM/bp4f5DGs2lfZVHsnJDCGAlM64KrEs
+	JWKGLkhPzoBf3SFfiN6X1fS38+AQQj5K4aRXdyvC5KDBxyQr03ilsV0zPTd216fusOpXxaNy9Jp
+	bldkXVOXybT5hHxePhFG0c2K35qak+tGe82IdCZv7ywUYEMM1hned3/oBP1leHWVwN/gq+4gCM4
+	H/E2QyxESOb232H0m+85FWaeDRyPAZ1SVD37qDaMCzabFMgRvR/suOB3oQQRPKuHnmfCDEo1Qg8
+	PbLkzEO9461xzIw/NJnDmcA==
+X-Google-Smtp-Source: AGHT+IEGm3fOi7RZ6OFatZkRkuK8HD72RWjYnMacH+NdmRC96egxUW7vWOrEEdTAOOfeYgZPGVaMUg==
+X-Received: by 2002:a05:6a20:2590:b0:243:78a:827c with SMTP id adf61e73a8af0-2430d4c75b9mr996849637.52.1755566785206;
+        Mon, 18 Aug 2025 18:26:25 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b474e146654sm2266972a12.34.2025.08.18.18.26.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 18:26:24 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id AF29F42BF5D4; Tue, 19 Aug 2025 08:26:22 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux RCU <rcu@vger.kernel.org>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 2/2] Documentation: RCU: Retitle toctree index
+Date: Tue, 19 Aug 2025 08:26:20 +0700
+Message-ID: <20250819012620.14606-3-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250819012620.14606-1-bagasdotme@gmail.com>
+References: <20250819012620.14606-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=815; i=bagasdotme@gmail.com; h=from:subject; bh=agYR481QyjyS/7Enp2FSpAI7AE9rLtWb/AeMmfEvraM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBmLL7kFrMrxaXiw5sOZXfEV51azctbJL5U5cXWKXuzV/ 8F7gz5WdJSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAii/YyMkyr+Jyw7mii/7fY ZPcNec6PPrxawK5/KOGLQn6dgW7VRH+G//6zQ6VECg6UFjP5P/M5Hhr8RVPD/PThjtiHUTOeHP0 whQkA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Em Tue, 19 Aug 2025 08:26:31 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+toctree index title ("RCU concepts") is rather a misnomer: RCU concepts
+is already described in rcu.rst, whereas the toctree suggests that
+the docs themes about handbook on RCU subsystem instead.
 
-> On Mon, 18 Aug 2025 11:07:58 -0600, Jonathan Corbet wrote:
-> > Akira Yokosawa <akiyks@gmail.com> writes:
-> >  =20
-> >> Ah, I have finally understood what 5/11 is trying to do.
-> >>
-> >> Its changelog mainly talks about an issue you saw after adding options
-> >> to xindy in that same commit, and you added
-> >>
-> >>    \newfontfamily\headingfont{DejaVu Serif}
-> >>
-> >> to resolve it.
-> >>
-> >> Current changelog didn't make sense at all for me.
-> >>
-> >> Can you please reword it and make it easier to follow?
-> >>
-> >> With that, feel free to add my
-> >>
-> >> Reviewed-by: Akira Yokosawa <akiyks@gmail.com> =20
-> >=20
-> > So, if I have managed to understand this conversation, this reword is
-> > all we need to get this series merged..? =20
->=20
-> Well, after some thoughts on the conversation took place on xindy,
-> I think I have to withdraw my Reviewed-by: tag.
->=20
-> I was the one who was totally confused.
->=20
-> Please disregard it.
->=20
-> Mauro, I can't review on 5/11 unless you provide me exact steps to reprod=
-uce
-> the font discovery issue you said you have observed under debian at 4/11 =
-of
-> this series.  That is, without assuming your other series of build-wrappe=
-r.
+Edit the title to reflect the fact.
 
-See below.
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/RCU/index.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> The build-wrapper should be upper compatible with the current way of
-> running sub-make, without any change in conf.py.
+diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+index e1be5b3c2c6773..ef26c78507d369 100644
+--- a/Documentation/RCU/index.rst
++++ b/Documentation/RCU/index.rst
+@@ -1,9 +1,9 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. _rcu_concepts:
++.. _rcu_handbook:
+ 
+ ============
+-RCU concepts
++RCU Handbook
+ ============
+ 
+ .. toctree::
+-- 
+An old man doll... just what I always wanted! - Clara
 
-The build-wrapper series doesn't make any changes on conf.py:
-
-	 $ git diff pdfdocs..sphinx-build-wrapper --stat
-
-	 .pylintrc                                |   2 +-
-	 Documentation/Makefile                   | 142 +++-------
-	 Documentation/sphinx/parallel-wrapper.sh |  33 ---
-	 scripts/jobserver-exec                   |  88 ++-----
-	 scripts/lib/jobserver.py                 | 149 +++++++++++
-	 scripts/sphinx-build-wrapper             | 767 ++++++++++++++++++++++++++=
-++++++++++++++++++++++++++++
-	 scripts/sphinx-pre-install               |  14 +-
-	 7 files changed, 994 insertions(+), 201 deletions(-)
-
-It also doesn't change the build logic: it just moves it to the
-script. The only difference was with regards to serializing the build,
-as I forgot to take it into account when I wrote it. However, I sent
-already a patch addressing it.
-
-In summary, all the sphinx-build-wrapper series do is:
-
-- move code from Documentation/Makefile into a python script;
-- get rid of a shell script;
-- split scripts/jobserver-exec into an exec and a library;
-- change the output of doc build to produce a summary at the end,
-  returning an error code only if one or more PDF files were not
-  built;
-- allow calling the script directly without requiring a makefile;
-- add a couple of optional command line parameters to help debugging.
-
-On the other hand, the pdf series diffstat is:
-
-$ git diff netlink_v10..pdfdocs --stat
- Documentation/Makefile     |   4 ++--
- Documentation/conf.py      | 106 +++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++++++++++--------------------------------------------
- scripts/sphinx-pre-install |  41 ++++++++++++++++++++++++++++++++---------
- 3 files changed, 96 insertions(+), 55 deletions(-)
-
-The Makefile change is actually a fix:
-
-	diff --git a/Documentation/Makefile b/Documentation/Makefile
-	index 820f07e0afe6..2ed334971acd 100644
-	--- a/Documentation/Makefile
-	+++ b/Documentation/Makefile
-	@@ -63,2 +63,2 @@ endif #HAVE_LATEXMK
-	-PAPEROPT_a4     =3D -D latex_paper_size=3Da4
-	-PAPEROPT_letter =3D -D latex_paper_size=3Dletter
-	+PAPEROPT_a4     =3D -D latex_elements.papersize=3Da4paper
-	+PAPEROPT_letter =3D -D latex_elements.papersize=3Dletterpaper
-
-So, the entire series do:
-
-1. Fix paper size define, as latex_paper_size doesn=C2=B4t exist since
-   Sphinx 1.x. It got replaced by latex_elements.papersize;
-
-2. Broken package dependencies related to PDF builds on several
-   distros inside sphinx-pre-install;
-
-3. It properly construct the name of pdfdocs to be built when
-   SPHINXDIRS is used;
-
-4. It prevents the usage of T1 fontenc fonts, which could be
-   caused by either one of those two reasons:
-
-	a) \sphinxhyphen{}
-	b) index build
-
-I got those when checking what packages were required on some
-distros (Debian, Ubuntu, Mageia, openMandriva, Gentoo).
-
-Depending on the distro, the Sphinx version and the installed
-packages, the *.tex file ends adding:
-
-	\usepackage[T1]{fontenc}
-
-This is incompatible with xelatex with utf-8 fonts as T1 is not UTF-8
-ready.
-
-with (a), \sphinxhyphen{} logic - together with babel, ends
-requiring pzdr.tfm.
-
-To do the conf.py, I did some changes for it to better align
-with:
-
-	https://www.sphinx-doc.org/en/master/latex.html#module-latex
-
-As the original settings were written for Sphinx 1.4.1 and
-had very little fixes since then.
-
-The changes are:
-
-1. Added:
-	"fontenc": ""
-
-   to prevent a possible default of having:
-	r'\usepackage[T1]{fontenc}'
-
-2. Place font settings at the right place for more modern Spinx versions.
-   If you look there, font specs shall be under "fontpkg", not under
-   "preamble":
-
-+    'fontpkg': dedent(r'''
-+        \usepackage{fontspec}
-+        \setmainfont{DejaVu Serif}
-+        \setsansfont{DejaVu Sans}
-+        \setmonofont{DejaVu Sans Mono}
-
--    # Additional stuff for the LaTeX preamble.
--    "preamble": """
--        % Use some font with UTF-8 support with XeLaTeX
--        \\usepackage{fontspec}
--        \\setsansfont{DejaVu Sans}
--        \\setromanfont{DejaVu Serif}
--        \\setmonofont{DejaVu Sans Mono}
--    """,
- }
-
-3. Added a fix where some LaTeX modules were trying to use T1 fontenc:
-
-        \newfontfamily\headingfont{DejaVu Serif}
-
-4. I used dedent() to remove weird whitespaces at the beginning inside
-   .tex files - no functional changes - this is just cosmetic at the
-   output;
-
-5. I moved preamble from a separate part of conf.py:
-
-+    "preamble": dedent(r"""
-+        % Load kerneldoc specific LaTeX settings
-+        \input{kerneldoc-preamble.sty}
-+    """),
-
--# Load kerneldoc specific LaTeX settings
--latex_elements["preamble"] +=3D """
--        % Load kerneldoc specific LaTeX settings
--        \\input{kerneldoc-preamble.sty}
--"""
-
-6. I solved an issue were xindy was trying to include T1 fontenc.
-   while here, I also added a parameter recommended at sphinx Latex
-   configuration doc:
-
-+    "passoptionstopackages": dedent(r"""
-+        \PassOptionsToPackage{svgnames}{xcolor}
-+        % Avoid encoding troubles when creating indexes
-+        \PassOptionsToPackage{xindy}{language=3Denglish,codepage=3Dutf8,no=
-automatic}
-+    """),
-
-(the xcolor came from the documentation)
-
-The above doesn't load xindy; it just ensures that codepage=3Dutf8 is used
-if it is used;
-
-7. some distros didn't build pdf due to the lack of an index file.
-   So, I added this:
-
-+    'printindex': r'\footnotesize\raggedright\printindex',
-
-which is also suggested at
-	 https://www.sphinx-doc.org/en/master/latex.html#module-latex
-
-So, basically, the changes at conf.py better align it with Sphinx
-documentation, and were experimentally tested: I didn't find
-any regressions on it, and it fixed PDF builds for several distros.
-
-Did you find any regressions?
-
-> I don't think this is too much to ask.=20
-
-Actually, it is... finding a way for you to reproduce it would=20
-require me to start from scratch and redo everything again,
-hoping that I'll do exactly the same way. It took me 2 entire
-weeks to do it the first time.=20
-
-I very much prefer dropping patch 05/11 and keep PDF broken
-than spending 2 weeks redoing it.
-
-> Moving both the goal post
-
-What do you mean by "goal post"?
-
-The pdfdocs series is there just to make sure that pdf builds
-will work on most distros, as currently they don't build on
-several of them.
-
-> and the build script at the same time is the wrong thing to do
-> in my opinion.
-
-Well, we can postpone the PDF series - or at least the patches
-you find problematic.
-
-The build script cleanup is important, though as it affects
-a series I have afterwards addressing some build issues=20
-affecting only the media subsystem, which is the only user
-of kernel-include tag.
-
-Thanks,
-Mauro
