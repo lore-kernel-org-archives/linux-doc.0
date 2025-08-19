@@ -1,137 +1,73 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5889F3451D3;
-	Tue, 19 Aug 2025 10:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A182270EC5;
+	Tue, 19 Aug 2025 10:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755597657; cv=none; b=oThOviToYrP9KFULC4vV15fKDU19XfaqjOXNX7+NIh7s44+0VTq05jbi+JWiMvJYnD1LWxrVEPElyLXbWPHGz2P8MaJaYj1KY/xY1CmU4bNJsJ2llel4FuNEf1ZqHmEIuiGNYRyZdBZZgg+TG01CbLsxDNCQobb263MU17b0mt4=
+	t=1755598467; cv=none; b=N+LVGShbEW7lJciCi3VGc/eWODqDklog7gn1m8qLVX5weNro91Ml/eBULMyXtRkxevZHXEBG/nXvfusRZLV40ztJ6Rt9BXDMWjveFS8h2YXTMSRz7oPC7VvodP/vBTzxiuMx0j4Ty6Ded3+h1rJ69nDL8TQCRSrPIGi+v5G4kKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755597657; c=relaxed/simple;
-	bh=tKG385zLApPrmYgg1y212g0XqqpZbgwznZlmTUIjBa8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=un3g8WmezHjFZzv6fQKLMufXtZkRze1PsUErt+b0f4bOUqtoGMSqTqNZ/B5rMNqzWVO02jvHEfh8bUp817RjkNxIPOOY0MMeCWbudnbbbwOdc0NJgQVOJk8pZAEqpZ9Eu5J6KppXMXoCHFBKKkRourfDDkvqV0zLTEZ0GTZKatc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Lc3hCAm9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2brXP8Ck; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1755598467; c=relaxed/simple;
+	bh=4fXsy2RwHnxDypPVftvAWzSLgWnxEwSKYpqfwfOOj/I=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=efccFLrUB6nC3oQOifOJCjiqIDBkNKi/+7Thqj1d8PDVdcfGjwuJUNEn7HYHHQIT2GK75q0cDyPq3+DieUFCK51JkFKvkBi2xsS8VC9KKm9d2XF0rd7+j8HyFQCY8VrCG3plZajVu/ZBvG1ls7rHJ8Dgqy2maswidPZApcgkKIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gU1d41wL; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Lc3hCAm9";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2brXP8Ck"
-Date: Tue, 19 Aug 2025 12:00:46 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1755597648;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nJl/XWMsycTjvYGQzFnWsmROTTphBuImum1tAc0aB1k=;
-	b=Lc3hCAm9QqnZszBsyc+HllW9WeRXJc379CQY5oGagFF2UjqaipMjFDJVrQtKfh9+2YGb7Z
-	F8LNVOjResyLPlQy3oP00fajmsBIt0laBcPhQywELgUxi/ExW4aGLzuU1QmGcmE4QP0EFX
-	OPFsmEvt4snxihzsgUlredp6QoBwcgl8VD3/WGUHIDceMwbYsnu8ldyGQzrgulw4dEwuBI
-	JR4Xs78+DN0SLgqDBtTyB4ho9O5ytVBfA5HXIvFV4+7VWHkeGe+mVPiOMoD1RcV6EU6Qqr
-	zQawW4/DDYwPSrxjtArh6AnpbHf+QN/0G+B9hkCR8Yq/weZscC3sMbA/rnfTAQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1755597648;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nJl/XWMsycTjvYGQzFnWsmROTTphBuImum1tAc0aB1k=;
-	b=2brXP8Cknm/wTMNegAihVLlosxexHrtSPaxbeJlUrMga5JiAS/v1ERSmtE1vOYLJlp5OsZ
-	R1BRaBlpgfllzTAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Waiman Long <llong@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	John Ogness <john.ogness@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 2/3] Documentation: locking: Add
- local_lock_nested_bh() to locktypes
-Message-ID: <20250819100046.ymb_o7VA@linutronix.de>
-References: <20250815093858.930751-1-bigeasy@linutronix.de>
- <20250815093858.930751-3-bigeasy@linutronix.de>
- <db8defe4-14bf-4060-803f-e8b09a941d42@redhat.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gU1d41wL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=jTfFk0o9rkuryxDLznvP8p5NG9ZmamSXJKO8t6aHeGQ=; b=gU1d41wL3lESKmZWr/806Po0Th
+	8VyGEh1Wz0H1Z0wvpJlkwMG0IytzEILT4hLjIQSYOyhMsmHmI3MK25xcSwN3s7dr3eJYOPKMe75Pz
+	o2+f5CtXqku7AoMBbITculoTQXmuFKOLFjMidphYw+VXG+mYxrWLCptzeFj0fq0LHSxDDqAGcNcfb
+	gKOgS7+6e/NGKlxOhYSRYGRDBk5cBkKChMmvwffU7Br65aGLQQ/L94ouQ2CPD4z6Pfa8O2X5r01oi
+	xZNPz3bS9mbKNSz/NjbeBfqRTY9OwYQ87gE6yvLwVlrqrZEOzGKrmB4+6u5C9Vf575v97jbZrcKH5
+	oSA83fuw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uoJM4-000000000ih-0DQq;
+	Tue, 19 Aug 2025 10:14:12 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 5F6B030036F; Tue, 19 Aug 2025 12:14:11 +0200 (CEST)
+Date: Tue, 19 Aug 2025 12:14:11 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: akpm@linux-foundation.org, wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn,
+	corbet@lwn.net, bsingharora@gmail.com, yang.yang29@zte.com.cn,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	mingo@redhat.com, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+	mgorman@suse.de, vschneid@redhat.com, jiang.kun2@zte.com.cn,
+	xu.xin16@zte.com.cn, wang.yong12@zte.com.cn, zyhtheonly@gmail.com,
+	zyhtheonly@yeah.net
+Subject: Re: [PATCH] delayacct/sched: add SOFTIRQ delay
+Message-ID: <20250819101411.GG4067720@noisy.programming.kicks-ass.net>
+References: <20250819092739.GA31177@didi-ThinkCentre-M930t-N000>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <db8defe4-14bf-4060-803f-e8b09a941d42@redhat.com>
+In-Reply-To: <20250819092739.GA31177@didi-ThinkCentre-M930t-N000>
 
-On 2025-08-18 14:06:39 [-0400], Waiman Long wrote:
-> > index 80c914f6eae7a..37b6a5670c2fa 100644
-> > --- a/Documentation/locking/locktypes.rst
-> > +++ b/Documentation/locking/locktypes.rst
-> > @@ -204,6 +204,27 @@ per-CPU data structures on a non PREEMPT_RT kernel.
-> >   local_lock is not suitable to protect against preemption or interrupts on a
-> >   PREEMPT_RT kernel due to the PREEMPT_RT specific spinlock_t semantics.
-> > +CPU local scope and bottom-half
-> > +-------------------------------
-> > +
-> > +Per-CPU variables that are accessed only in softirq context should not rely on
-> > +the assumption that this context is implicitly protected due to being
-> > +non-preemptible. In a PREEMPT_RT kernel, softirq context is preemptible, and
-> > +synchronizing every bottom-half-disabled section via implicit context results
-> > +in an implicit per-CPU "big kernel lock."
-> > +
-> > +A local_lock_t together with local_lock_nested_bh() and
-> > +local_unlock_nested_bh() for locking operations help to identify the locking
-> > +scope.
-> > +
-> > +When lockdep is enabled, these functions verify that data structure access
-> > +occurs within softirq context.
-> > +Unlike local_lock(), local_unlock_nested_bh() does not disable preemption and
-> > +does not add overhead when used without lockdep.
+On Tue, Aug 19, 2025 at 05:27:39PM +0800, Tio Zhang wrote:
+> Intro SOFTIRQ delay, so we can separate softirq as SOFTIRQ delay
+> and hardirq as {IRQ - SOFTIRQ} delay.
 > 
-> Should it be local_lock_nested_bh()? It doesn't make sense to compare
-> local_unlock_nested_bh() against local_lock(). In a PREEMPT_RT kernel,
-> local_lock() disables migration but not preemption.
-
-Yes, it should have been the lock and not the unlock part. I mention
-just preemption part here because it focuses on the !RT part compared to
-local_lock() and that it adds no overhead.
-The PREEMPT_RT part below mentions that it behaves as a real lock so
-that should be enough (not to mention the migration part (technically
-migration must be already disabled so we could omit disabling migration
-here but it is just a counter increment/ decrement at this point so we
-don't win much by doing so)).
-
-I made the following:
-
-@@ -219,11 +219,11 @@ scope.
- 
- When lockdep is enabled, these functions verify that data structure access
- occurs within softirq context.
--Unlike local_lock(), local_unlock_nested_bh() does not disable preemption and
-+Unlike local_lock(), local_lock_nested_bh() does not disable preemption and
- does not add overhead when used without lockdep.
- 
- On a PREEMPT_RT kernel, local_lock_t behaves as a real lock and
--local_unlock_nested_bh() serializes access to the data structure, which allows
-+local_lock_nested_bh() serializes access to the data structure, which allows
- removal of serialization via local_bh_disable().
- 
- raw_spinlock_t and spinlock_t
-
-Good?
-
-> Cheers,
-> Longman
+> A typical scenario is when tasks delayed by network,
+> if they delayed by rx net packets, i.e, net_rx_action(),
+> SOFTIRQ delay is almost same as IRQ delay;
+> if they delayed by, e.g, bad driver or broken hardware,
+> SOFTIRQ delay is almost 0 while IRQ delay remains big.
 > 
-> > +
-> > +On a PREEMPT_RT kernel, local_lock_t behaves as a real lock and
-> > +local_unlock_nested_bh() serializes access to the data structure, which allows
-> > +removal of serialization via local_bh_disable().
-> >   raw_spinlock_t and spinlock_t
-> >   =============================
+> Examples tool usage could be found in
+> Documentation/accounting/delay-accounting.rst
 
-Sebastian
+accounting will be the death of us :/
+
+How do you account ksoftirqd ?
