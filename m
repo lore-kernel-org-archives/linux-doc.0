@@ -1,133 +1,126 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91591D6DB5;
-	Tue, 19 Aug 2025 17:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E042E2295;
+	Tue, 19 Aug 2025 18:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755625868; cv=none; b=M3Qs1wSY44Drtu2IXaEUw+9mviN2KoLW8qMv4f4uziqs7LdtK2N5+WRVm7xWibyir63UggDdG7sVYar+L1N5vfCL2/rM4r4dhfdp62kluODyQDjbNUq/nu10NJ/QFTQLyTPlZDtxjJfGylDBcAHGysbBnQ0ylaxOR4RBtlM1gp0=
+	t=1755626823; cv=none; b=ZLqHrUIDNesfuwpsh2lN9/6w6PF0fMC7x44ibLL0Wx7KtLDZfsnMJ2GJsSfSycR9uocwoYhpTxt99K2TTfejhQghzR/SLn8q2/DIB7IwqC7IrheBd3lkgcX9UH+iB7XU6ENUzBofdhM01NxwsLFCO0U1uus8TJE/X1/xkB3UQIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755625868; c=relaxed/simple;
-	bh=f0kmNC7ZkTwG3EKPjuZE4Izi+zvTTxFihBN9XnUr9Rg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eOSqH9o3y33qvtx5oHFUscLzEjmIu9u20XlZPcryM0j1b2SaIwJcGycMPuYE5LRqJWhwqJlCOm4i7IHevMzG/7PgLa1GSoHwUgpz1sb0XaBb+prXRTlrckshHK1TOWa2aZMnVyX+PIToD5b1/qbLq/7MQePSdPZrp/NZT+MamBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JTxb3tTD; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1755626823; c=relaxed/simple;
+	bh=3DxhkkThZ4I+6qbZl2FvYXszNoptrc/VngFBPXWfh6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L4RnOJ9kVb3CJHi4zsowvXEDZHfCjioojkFq91s61TkXsVQQkx91oKAIB2LV87cBqpPEky3GU+Tuz0SdGQtpj8aqQR0gB7fVo+AXsgf7N05vcAmac7BmjIE9SI/82htUsPFAePWXCybtMsqW3cmwxBYPrpGAb9sD5vGSX0tvoxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TSdGrhO4; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JTxb3tTD"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-619487c8865so227958a12.1;
-        Tue, 19 Aug 2025 10:51:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TSdGrhO4"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b474e8d6d04so1572052a12.0;
+        Tue, 19 Aug 2025 11:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755625865; x=1756230665; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PmlcDpKD9YCg6XDWMZQyI3wgJy7zu34Qq/sxftvQ6ww=;
-        b=JTxb3tTDwRsuP0SbOfx06x/Io9okl2s886bhxEQzEgpVY2mRrS60+L9PSLTGxs0uJ+
-         o270Ftq5oIcduejrGDSrxH+fP98wE+XHXIoqQCxPooArtKRUEAZrqu0hdNBiAQPCM33N
-         9XFYGVO8bXoI34A1kniRen6spUxaPpM95tnfN6ASrQSfonQhhzow3CYD6eN/0zDqK3ZI
-         QoTI1n+fLsa3YqJTiXlQ9kSD4nMdEP3ZO4yBcbNqeQKPxMib26GGP1xLcya4mEUKdhcM
-         1vSpRRRF9ndRj0yYsLQwdb+hA1bb9hy1Ed2b6fl36NL1Mao9mZ0ryLL/TyPwLrNSfm+K
-         03sg==
+        d=gmail.com; s=20230601; t=1755626820; x=1756231620; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t0R9p2fQn8GJnwVe64YN9Xd1bbPGafk73sPRkSBdSdk=;
+        b=TSdGrhO4HZpRNIoTAmnivmGcJCPUj1PPyMWRNj5Up64j95MQg5tTr5KPUUj8v9mxjv
+         puRsBCTzTdqWQHRc1jyaELXXuMB+OMnP/o1xZIu1a9TLLLUVR+rlLqLCBlwGMyRLQSzV
+         OvO0MOPsfNhwHrqZWvJAbuqGBkqg0kRRbPOWB8KlQWpNa/+J5L5l4TxrlQBBm9KWH95O
+         7p3D/PZH7N+m9f97mYI6JM6nVpocpVsgbZF0zkHvxUI/5dgD+ooU11+Lf2QN6Nubgfl+
+         UWVgP6QhFkTr4jlEZJNuIuUxyG7rXEEU6rPzO574BgQf5OpqG56C9RZdR/HrP8Zr1hlF
+         uzhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755625865; x=1756230665;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PmlcDpKD9YCg6XDWMZQyI3wgJy7zu34Qq/sxftvQ6ww=;
-        b=tLy54rOTnNl83eIbBNca7rnIFHmNmgmG8Jx5zeGu+pbzKjvqSsqFHPhcklAPwvLs9g
-         Gcgox/KeABlfLwHbgMgpd0Ryi7x4P4/wLJkNEhrxAETG75G7uMLKjEfsVSbqOISKlJYk
-         YWfFJGORfI4rFoA2as6M4G7qFijXLg/j9DmjgGFa1AyAalUlz+Xch0l7MvEzRlpnLQ7y
-         EbDDTXxGNVPPgIjy58hCBkkvy64Pq2V9Cj6DmUaFOGZbO38NkziE1nCf4Z0lm6+u+s6k
-         MudAFgwtSO91q16c+WT5pE46mB6O3j2f+E9FIAhwvywXsGfzgnNHH9ufx1hLKQzzL61f
-         YJ4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUC9lnCVgJCM9pZTKfSQzWLCc5hacaGG/kllD4cBSjDO3NMDBzUZQCryhGPa0pEqnJRXkq29H14EU53@vger.kernel.org, AJvYcCVl5orOJmetLCzOGJR9xid1P8p2L2AtJmki5flkcQvHqWZK2w1sSvSQDz5YQ0bEf8C7KZAnr/xUydJC@vger.kernel.org, AJvYcCWbl7homfAxK9d5bixeMAf2pPOdy/n9Nh/iXXr9SKn9hE4BRmeuhb5K/XuZ6cSz4DVzhkyo0hzwME82QYQ=@vger.kernel.org, AJvYcCXvFJ4jpSlxkeJMmP7gieU0/GAt32/fS9IkW0CoLr6t1hvT+NmKXF/v8pz+0mOpjeZPuhg6XLREAad/D4e4@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPnggERSMc1AUK4wYGoKcBd+wDIqKgkQSdaJmdZytKDIE71YwR
-	iQdwa3yQT1BUF1vcYb72DvpZaG4CXh3eFh7t7ND3B5h9LZIp1dpMIpi0UFz9H/ypY+lhGktuAUQ
-	AXEeNlgvOkC+UIFFNjHOmxf1V3Rl0sQ==
-X-Gm-Gg: ASbGnctJs0QO5SNpt9zZBHAX/uUVfL62u+N2ftv5nWUF0k/naRusSEbxUYOaZfM1FVV
-	POIv3i4wAMzyR0nqhsTFQA7q92zv2EYkGd6elxRYLt/EdECPz9lTYmNc5NPA/tMxchVbsE+wskI
-	e+ghIMibvU2/B9C49RvFa8VCv8a3nC1yz1oJLNtqZkvL6j9Y97uEK0MZu6/yu0EfP1/UZcV1tQQ
-	5nbrrdp
-X-Google-Smtp-Source: AGHT+IGIn7OrCgxggr5EugvTj/Sse9SmV8lSb5a2wGootksUGazgLec5LF39WE585X64DXNcz/QNI34UrA6hniB8i/U=
-X-Received: by 2002:a05:6402:21c6:b0:615:8b65:bfb6 with SMTP id
- 4fb4d7f45d1cf-61a9762bdd9mr200792a12.13.1755625864642; Tue, 19 Aug 2025
- 10:51:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755626820; x=1756231620;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t0R9p2fQn8GJnwVe64YN9Xd1bbPGafk73sPRkSBdSdk=;
+        b=Rnum4Kd4hGCB9qCaLObg8kPVIwxiy/RP1Mf5EztCF/3ZBbOGyp6Gw0eQ55H01Me/E+
+         WXpNv9kWauo8+9GM9fyMgyZV1jy+5SktIMflgwvsN3r+1ByQQ8Ksvq35qGbusgbwdjnx
+         fwRQ25NxU0dV9yUooG7k0JxXAnuozdYzvzUF4vrH4jDn+76O/V9PNipbXjJHyld6txkP
+         4tBPYbGBEAVCqi8DtcoZWAfEQJvUmenWGTRrOQtI1khY8qnsh0r9ZfFZn9el1ZTiAmZS
+         Jr/EIfZu+/kCSF9JXnjMfcO5vf807VqV3JQvVgS+1fohyD5g4orimeDo0sneqvnl9TCu
+         xtng==
+X-Forwarded-Encrypted: i=1; AJvYcCWReu4bLA2LeSCII8L0PhitjFcOoHjjabOnQEJEMb+3TTc8pHlv6QvIX8oxv7aSeXyUG+GfomJ9z78iMyU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycK1cIWw9T5DCCsrpTd2nUVO0LiijDVRGWJeQIBSVThTBvvW5a
+	6Zg1xtakTFN0/00+tugjCxJEikAWWJfZPZPC3ya13knhvtsyGlIP1O7cqLDskw+Lr2j9NNg=
+X-Gm-Gg: ASbGncuNNlvEmJe2HFDeDE+gXeVVWlar7LFP1Xfhv6PgFWowGSfoyCgVTabrStYHi8O
+	vkGctsIkSC44b09vJdnc99hYpjFL/P651MAEys2aE4Gbn7Kv/qFeME8UwzCt3+stNDR9Xl/aCdu
+	O6X66ju/U60wm2Gj+maAwiaIG+SeiZ2PN/z4WGhJvNkcx2toqvAw+l5DUwb/wew2jfo0MLVLmTa
+	mcmaX5o/zd5Y1/PGbDrO0vrZCYwdIpcym+Qk6YlX+EAHV32+BLuJvj7m0HY8YDq65ismwNVCHIX
+	J+htqc6bZ6h5UR8VI9hk1Ks7ZMnFqyeSIWSwbo8s1xK26tHP+XWp0vs8arLCv3da+HtDdekeV5Q
+	lMvfXfVbHEraw//jBoptXI1zFTrBfS2ipbbKFimzbZOOOUeUV9T8=
+X-Google-Smtp-Source: AGHT+IEMUDDAgxGLdiNk+Ulj8E4woihdXtGuuFLm76/KtgRJfNvTjmcIEctMlTiCJ1kEYYd+Xu0+Qw==
+X-Received: by 2002:a17:903:2389:b0:240:5c38:756b with SMTP id d9443c01a7336-245e030b78bmr37919655ad.14.1755626820047;
+        Tue, 19 Aug 2025 11:07:00 -0700 (PDT)
+Received: from kerneldocs.. ([157.51.109.40])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed51ae48sm3200305ad.139.2025.08.19.11.06.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 11:06:59 -0700 (PDT)
+From: Nikil Paul S <snikilpaul@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	snikilpaul@gmail.com
+Subject: [PATCH v4] docs: rcu: Replace multiple dead OLS links in RTFP.txt
+Date: Tue, 19 Aug 2025 18:05:46 +0000
+Message-ID: <20250819180545.3561-2-snikilpaul@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250811-hwmon-tps23861-add-class-restrictions-v2-0-ebd122ec5e3b@gmail.com>
- <20250811-hwmon-tps23861-add-class-restrictions-v2-2-ebd122ec5e3b@gmail.com>
- <eab6d2d2-9337-40fe-81c7-95dc1956ce6f@kernel.org> <CAAcybusHjAR67N0rumb6M_uG1ct3aa=zv2XkpUjhSSxv0NdzFA@mail.gmail.com>
- <ff167728-a4a7-4f7d-a809-d0e482ab7dd6@kernel.org> <20250818173147.GA1496879-robh@kernel.org>
-In-Reply-To: <20250818173147.GA1496879-robh@kernel.org>
-From: Gregory Fuchedgi <gfuchedgi@gmail.com>
-Date: Tue, 19 Aug 2025 10:50:27 -0700
-X-Gm-Features: Ac12FXyAVHvUPA_M5rmxd1gHCRHGcX9U5-wyguctTXq3hq_2ENu30t339lVgjh8
-Message-ID: <CAAcybuthoac8h1T8dm96eOn9NdSq_aR0_OD7UKcxqrpK-BExrw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: update TI TPS23861 bindings
- with per-port schema
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Robert Marko <robert.marko@sartura.hr>, 
-	Luka Perkov <luka.perkov@sartura.hr>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 17, 2025 at 09:23:09AM +0200, Krzysztof Kozlowski wrote:
-> On 13/08/2025 05:00, Gregory Fuchedgi wrote:
-> > On Tue, Aug 12, 2025 at 12:20=E2=80=AFAM Krzysztof Kozlowski <krzk@kern=
-el.org> wrote:
-> >>> +  shutdown-gpios:
-> >> powerdown-gpios, see gpio-consumer-common.yaml
-> > It is called shutdown in the datasheet, but seems like neither powerdow=
-n nor
-> > shutdown truly reflects its purpose. This pin doesn't power down the co=
-ntroller
-> > itself. It shuts down the ports while keeping the controller available =
-for
-> > configuration over i2c. Should I call it ti,ports-shutdown-gpios or may=
-be
-> > ti,shutdown-gpios? Any other suggestions?
-> Feels more like enable-gpios.
-Wouldn't that be confusing, since there's no enable pin in the datasheet? A=
-lso
-it doesn't enable/disable the controller itself, but its ports.
-In my mind ti,ports-shutdown-gpios is the most meaningful name for it. That=
- said
-I appreciate the guidance, since I do not know what's the usual way to do t=
-his?
-Happy to go with enable-gpios if that's the convention.
+This patch updates several dead OLS links in RTFP.txt, replacing them
+with working copies hosted on kernel.org.
 
-On Mon, Aug 18, 2025 at 10:31=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
-e:
-> > >>> +patternProperties:
-> > >>> +  "^port@[0-3]$":
-> > >> This goes to ports property.
-> > > Do you mean I should add another DT node that groups all ports? such =
-as:
-> > > compatible =3D "ti,tps23861"; ports { port@0 {...} port@1 {...} }
-> > Yes.
-> Except this is not an OF graph. Don't re-use it when it is not that.
-> Maybe 'poe-port@'? Is multiple ports/channels something common on PoE
-> chips? I'd guess so. If so, then come up with something common.
-poe-port@ sounds good to me. When you say come up with something common, do=
-es
-that imply adding it to a new file, like bindings/hwmon/poe-common.yaml? Or=
- just
-using poe-port in this dt without the parent ports node?
+Originally posted as part of a 2-patch series, this is now being sent
+as a standalone v4 patch to avoid confusion.
 
-> Whether you should have a container node like 'ports' is a separate
-> question. You get exactly 1 address space for any given node. So if you
-> ever might need to address multiple disjoint things, then you probably
-> want a container node.
-I do not want to address anything else in this case, so I'd keep it simple.
-But let me know if I'm missing any important details.
-Appreciate the guidance.
+Changes since v3:
+ - No change in content, only resubmitted as a single patch instead of
+   "2/2" from the earlier series.
+
+Signed-off-by: Nikil Paul S <snikilpaul@gmail.com>
+---
+ Documentation/RCU/RTFP.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
+index db8f16b392aa..8d4e8de4c460 100644
+--- a/Documentation/RCU/RTFP.txt
++++ b/Documentation/RCU/RTFP.txt
+@@ -641,7 +641,7 @@ Orran Krieger and Rusty Russell and Dipankar Sarma and Maneesh Soni"
+ ,Month="July"
+ ,Year="2001"
+ ,note="Available:
+-\url{http://www.linuxsymposium.org/2001/abstracts/readcopy.php}
++\url{https://kernel.org/doc/ols/2001/read-copy.pdf}
+ \url{http://www.rdrop.com/users/paulmck/RCU/rclock_OLS.2001.05.01c.pdf}
+ [Viewed June 23, 2004]"
+ ,annotation={
+@@ -1480,7 +1480,7 @@ Suparna Bhattacharya"
+ ,Year="2006"
+ ,pages="v2 123-138"
+ ,note="Available:
+-\url{http://www.linuxsymposium.org/2006/view_abstract.php?content_key=184}
++\url{https://kernel.org/doc/ols/2006/ols2006v2-pages-131-146.pdf}
+ \url{http://www.rdrop.com/users/paulmck/RCU/OLSrtRCU.2006.08.11a.pdf}
+ [Viewed January 1, 2007]"
+ ,annotation={
+@@ -1511,7 +1511,7 @@ Canis Rufus and Zoicon5 and Anome and Hal Eisen"
+ ,Year="2006"
+ ,pages="v2 249-254"
+ ,note="Available:
+-\url{http://www.linuxsymposium.org/2006/view_abstract.php?content_key=184}
++\url{https://kernel.org/doc/ols/2006/ols2006v2-pages-249-262.pdf}
+ [Viewed January 11, 2009]"
+ ,annotation={
+ 	Uses RCU-protected radix tree for a lockless page cache.
+-- 
+2.43.0
+
