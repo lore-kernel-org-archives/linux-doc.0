@@ -1,394 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1138933CEBD;
-	Tue, 19 Aug 2025 13:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DCA32BF53
+	for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 13:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755610326; cv=none; b=tmaTiQWVYT/hTC0wu7a6wxcnnj63+b9ONpABoEWyyz/9hdK8u8j2y61ErNFBG0D6ay3BbLZbj7Jwn5PAuhvGRTETebY5BwiIsxq8oPmC9rNEN0FZEj0krwWYgYf9R27R4igVo+yZo8UwLpVd5ZEJqmHqqD4lcV++lS7SDawsWaw=
+	t=1755610619; cv=none; b=RawOHIG8lJt3gPo/LdfxgNkrIl1jguNc5b6MH0CzRm8S/grNG7Cr2Gctt+XgHYbijEdnMpMmgTP/4+HEMBVQOpMRIUyQNrhNeQqWzCjTUrdffIgJnqCBA8z8+0eG/QTFlrNDCRYt6G+GJpxP9hvVFW4KztgicjxSc/clSZtoENg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755610326; c=relaxed/simple;
-	bh=LQblbnIfC5gYmuv3Hk+6GKtjD+Do2V4eQ9g1RykUrhI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A2H3krgWIGSMAuLMjke1g5C0W9rnelw58OVSXrZmEXi/VbnpEYOHgCbEav1fZMuV+ajtaK22rLbHpBAFftEkSmucnG6PvAHA4kC9XoJVSU86BMJp4EziYY8XuDnSF83pO4Bom01+6UwiKskFYQcNfVy9zz6N6v6Q+zGbY553Pac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mtg7yybS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755610619; c=relaxed/simple;
+	bh=ses7cvDAgeLlulpRb7LhAvFTG6yY721+EVGzVkEhouY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hG/Na4LGBhFpY+QvneTAaoJUpxyhwCQvlyuyt+DRR8jtcjJ4TODsnmuNG2tyZvM4MXcRUV4yUvt89e3n9+0JW+zX9P32aqZcSwlIGq84uySzcNd87tyzE1DCx/fqBpL0iOErn5qBllZPdPbkX3/a+HrQ3Phy4JQITha4M/bKGSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W00kkBsg; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mtg7yybS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB01C4CEF1;
-	Tue, 19 Aug 2025 13:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755610324;
-	bh=LQblbnIfC5gYmuv3Hk+6GKtjD+Do2V4eQ9g1RykUrhI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Mtg7yybSrKR878pk/EoxxEqSr7NVBrCLXRMLe7rjk1fEmeqnZ6DFvjEUH94JUGYYl
-	 S6RqrxbE5EksMBzyKlHqSVRPVw0XCG/DtWSCgZkeGWn75LXMLeV4H6dh2Enqs1fVQE
-	 2Rofm7snRIimanavXh7CR8Z3xY1nEx4GYQ2QU+Vw96B7eVnNrFnxtZndYZ/Mx/xWUc
-	 DXHzqvTLMXuWLf3ISXY+GSNj2KfD/twGCiYKO/6dDeBl581BFzICjRaCJY3KJ7Vz7y
-	 bgeWbjvsPpIF/EPT2ZmIi1of8Wkz5pSEOuO5Xb9cXTZywdyRsomElMBFng9tiFbzsD
-	 zUxREAMiigmQA==
-Date: Tue, 19 Aug 2025 15:32:00 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-Message-ID: <20250819153200.3c2b2ff6@foz.lan>
-In-Reply-To: <142b209d-613a-4659-a0f7-27efa8c6be85@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
-	<773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
-	<20250816135538.733b80d3@foz.lan>
-	<acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
-	<20250817133606.79d968ed@sal.lan>
-	<b3d97e98-121d-4d12-9624-3efd119b12a4@gmail.com>
-	<20250817154544.78d61029@foz.lan>
-	<b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
-	<87y0rg7e35.fsf@trenco.lwn.net>
-	<16b48826-6634-4ec9-86a0-7ddb59ce3bed@gmail.com>
-	<20250819030239.41a2e97f@foz.lan>
-	<142b209d-613a-4659-a0f7-27efa8c6be85@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W00kkBsg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755610616;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ug3+QB1kigmLvHdV+5tcNTutNLJ6/dvktxgLZPmeoKI=;
+	b=W00kkBsg+YKhqV8IG2bmRnWgua80R3z6UlT/sWZKlZWWCosYUItLj7nvXXqSMI+RXRfHSI
+	NOvJC6FZ3JXqBkvdsmIe6WPGuS9QYuoBM+EDIvTY9XC6BNt8BLmKxE/L75fEwWT7crXiHv
+	nV8P043zvHzwdyyopy6cFpXYodCD+us=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-605-vR47AxqENeGiHfh4CY_qKg-1; Tue, 19 Aug 2025 09:36:55 -0400
+X-MC-Unique: vR47AxqENeGiHfh4CY_qKg-1
+X-Mimecast-MFC-AGG-ID: vR47AxqENeGiHfh4CY_qKg_1755610615
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4b109912a9cso239364051cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 06:36:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755610615; x=1756215415;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ug3+QB1kigmLvHdV+5tcNTutNLJ6/dvktxgLZPmeoKI=;
+        b=TF0IWQjYt+9tTqgoYLdb5tY/66AtHcWN5b+mtBYxGK0mKLnoBPKK4J6fu0JVmnBH6k
+         6G6HyZs7ZYVhEyIAMlYYLLijpjktwMXbwZfdLoXbCoWmEc7c4giIXCTJicS1lRpHYiMG
+         uL4OKETUF1/W+kb1iPHSlYNMN7/gtvwO94bFrqC0ruOiYeqlf5Za/IKhB84JaVKl8J9t
+         xJ9/HTsfJUynCQ7BPVC9pJbipGF/MaDigfFdhRGmStwIavMfO9yv0BgbnLG0/rWGcq7C
+         XbCpwdNRKfcw7NST0urfqN91iBwkIOx7z0+rWGik3NccWE1cufGOVNH8t/Sw36iecZ8j
+         zHow==
+X-Forwarded-Encrypted: i=1; AJvYcCX7ZZ7fTzuaPpT4n6HgPw27O0TpfRmMdpV99t81+5bHU1SGpXvHsXEP7PG1yLa8yuIs4eeO7gqHSkg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJXsYb0bnD5bmkhjfmamRPKF3z0BkKHtqc8I175/gqQeLGZcFO
+	GBPZHdOORF3RTzQQexEKG9aFis5Pmt6Z24l0oRtyvhJXBUpofBcsFDM0u8eSuzj/UXjljqZI+l3
+	xZOWRgFto/6jlr0LUnbbLkYlbn8ki5Yd4H/gdyTLxr9Qq0Yas5GBrU8entmQE8A==
+X-Gm-Gg: ASbGncsAHZy3+xQnRsd1f1pHYduSxsVTBS5vQHjrkjrS004MmdO3X3IwscQFPtPFKvY
+	lvosEt8y5V33EgCCKmyWSKfFfoy3JWX4wpL6YU8Ee5F66KyAB9DB25Q9I48vAd8kee3UB5uvKu5
+	9zmdJ+dlWbAQzmO+AjejP7nJQAKKa/ERF4Gc2WKIR4OIzhIWbA/hdCT2mIP23XxrUanCYsAAiGN
+	a1QIPtrzs21BODVk+Y6ruOBN2850nPvTvdHiuiIOJzMD2lpJ33Q8hsMvXBxNYsim1Ds55WSZzKd
+	9gEQKZQhauACsMRtm+jcxAjppIEjxa8/VHMUjbpC2+YupouEc5Lb918Wb93QjlXrHB5eWcq44W6
+	JxzAKDtWC0sg=
+X-Received: by 2002:a05:622a:4116:b0:4b0:75ed:bbf9 with SMTP id d75a77b69052e-4b286e18a44mr29730621cf.33.1755610614744;
+        Tue, 19 Aug 2025 06:36:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGcuikD+z1aBhWawTZB4Y8+HlULz2fYWJ/MqafPQ1f5iBf4eDR77H0oczmovLBnl4sHDv/v/Q==
+X-Received: by 2002:a05:622a:4116:b0:4b0:75ed:bbf9 with SMTP id d75a77b69052e-4b286e18a44mr29730101cf.33.1755610614332;
+        Tue, 19 Aug 2025 06:36:54 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b11de50e05sm66687671cf.53.2025.08.19.06.36.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Aug 2025 06:36:53 -0700 (PDT)
+Message-ID: <37c9e5fe-e4c4-45f5-aae9-e949cfdc8902@redhat.com>
+Date: Tue, 19 Aug 2025 15:36:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v13 6/8] hinic3: Mailbox framework
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas <helgaas@kernel.org>,
+ luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
+ Shen Chenyang <shenchenyang1@hisilicon.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Fu Guiming <fuguiming@h-partners.com>,
+ Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>,
+ Lee Trager <lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>, Suman Ghosh
+ <sumang@marvell.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Joe Damato <jdamato@fastly.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+References: <cover.1755176101.git.zhuyikai1@h-partners.com>
+ <0b7c811da62813e757ac5261c336a9b7980c53a6.1755176101.git.zhuyikai1@h-partners.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <0b7c811da62813e757ac5261c336a9b7980c53a6.1755176101.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Tue, 19 Aug 2025 11:16:29 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On 8/15/25 3:02 AM, Fan Gong wrote:
+> +int hinic3_init_mbox(struct hinic3_hwdev *hwdev)
+> +{
+> +	struct hinic3_mbox *mbox;
+> +	int err;
+> +
+> +	mbox = kzalloc(sizeof(*mbox), GFP_KERNEL);
+> +	if (!mbox)
+> +		return -ENOMEM;
+> +
+> +	err = hinic3_mbox_pre_init(hwdev, mbox);
+> +	if (err)
+> +		return err;
 
-> Hi Mauro,
-> 
-> Please calm down.
-> Apologizes if my wording has annoyed you.
-> 
-> On Tue, 19 Aug 2025 03:02:39 +0200, Mauro Carvalho Chehab wrote:
-> > Em Tue, 19 Aug 2025 08:26:31 +0900
-> > Akira Yokosawa <akiyks@gmail.com> escreveu:  
-> 
-> [...]
-> 
-> >> Mauro, I can't review on 5/11 unless you provide me exact steps to reproduce
-> >> the font discovery issue you said you have observed under debian at 4/11 of
-> >> this series.  That is, without assuming your other series of build-wrapper.  
-> > 
-> > See below.
-> >   
-> >> The build-wrapper should be upper compatible with the current way of
-> >> running sub-make, without any change in conf.py.  
-> > 
-> > The build-wrapper series doesn't make any changes on conf.py:  
-> 
-> Of course not, I'm well aware of the fact from the cover letter.
-> 
-> [...]
-> 
-> > 4. It prevents the usage of T1 fontenc fonts, which could be
-> >    caused by either one of those two reasons:
-> > 
-> > 	a) \sphinxhyphen{}
-> > 	b) index build
-> > 
-> > I got those when checking what packages were required on some
-> > distros (Debian, Ubuntu, Mageia, openMandriva, Gentoo).  
-> 
-> I couldn't reproduce it at PATCH 4/11 under a Ubnutu-based container
-> I've been using, ignoring your sphinx-build-warpper series.
+Given that all the other error paths resort to the usual goto statement,
+this error handling is confusing (even there are no leak as
+hinic3_mbox_pre_init() frees 'mbox' on error). Please use 'goto
+err_kfree' here...
 
-I'm assuming you're referring to patch 5/11, e.g.:
+> +
+> +	err = init_mgmt_msg_channel(mbox);
+> +	if (err)
+> +		goto err_destroy_workqueue;
+> +
+> +	err = hinic3_init_func_mbox_msg_channel(hwdev);
+> +	if (err)
+> +		goto err_uninit_mgmt_msg_ch;
+> +
+> +	err = alloc_mbox_wb_status(mbox);
+> +	if (err) {
+> +		dev_err(hwdev->dev, "Failed to alloc mbox write back status\n");
+> +		goto err_uninit_func_mbox_msg_ch;
+> +	}
+> +
+> +	prepare_send_mbox(mbox);
+> +
+> +	return 0;
+> +
+> +err_uninit_func_mbox_msg_ch:
+> +	hinic3_uninit_func_mbox_msg_channel(hwdev);
+> +
+> +err_uninit_mgmt_msg_ch:
+> +	uninit_mgmt_msg_channel(mbox);
+> +
+> +err_destroy_workqueue:
+> +	destroy_workqueue(mbox->workq);
 
-	ceaa95123364 ("docs: conf.py: fix some troubles for LaTeX output")
+err_kfree:
+> +	kfree(mbox);
+> +
+> +	return err;
+> +}
 
-> I'd really like to see the issue with my eyes on top current way of
-> doc building!
-> 
-> That's all I am asking.
-> 
-> I have no particular interest in the way you are testing all those
-> variety of distros, and have no idea about it.
-> 
-> Please provide steps to reproduce.
-> I'd like to see a Dockerfile based "FROM ubuntu:latest" as the testing
-> environment.
+And you can remove the kfree call from hinic3_mbox_pre_init().
 
-Heh, that's why you can't reproduce... you're using a Docker container
-and a different Ubuntu version than I.
+/P
 
-What I did here was to use a lxc container with 25.04, and used
-a script to pick the exact recommendations given by sphinx-pre-install.
-
-The container was created with:
-
-<script>
-sudo lxc-create -n ubuntu-test -t download -- --dist ubuntu --release plucky --arch amd64
-sudo mkdir -p /var/lib/lxc/ubuntu-test
-sudo sh -c cat > /var/lib/lxc/ubuntu-test/config <<EOF
-lxc.arch = x86_64
-lxc.pty.max = 1024
-lxc.tty.max = 4
-lxc.net.0.type = veth
-lxc.net.0.link = lxcbr0
-lxc.net.0.flags = up
-lxc.net.0.hwaddr = 00:16:3e:6f:66:8c
-lxc.cap.drop = mac_admin mac_override sys_time sys_module sys_rawio
-lxc.cgroup.devices.allow = a
-lxc.cgroup2.devices.allow = a
-lxc.mount.auto = proc sys cgroup
-lxc.rootfs.path = /var/lib/lxc/ubuntu-test/rootfs
-EOF
-</script>
-
-once you get what's needed for make htmldocs work, installing
-only the dependencies recommended by sphinx-pre-install, you can
-start trying to reproduce the build issues for pdf.
-
-For the steps below, I installed Sphinx latest using venv:
-
-	$ make SPHINXDIRS=peci pdfdocs
-	...
-	This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2025/dev/Debian) (preloaded format=xelatex)
-	entering extended mode
-	Latexmk: Getting log file 'peci.log'
-	Latexmk: Examining 'peci.fls'
-	Latexmk: Examining 'peci.log'
-	Latexmk: Missing input file 'tgtermes.sty' (or dependence on it) from following:
-	  ! LaTeX Error: File `tgtermes.sty' not found.
-	Latexmk: Log file says no output from latex
-	Latexmk: For rule 'xelatex', no output was made
-	Latexmk: Errors, so I did not complete making targets
-	Collected error summary (may duplicate other messages):
-	  xelatex: Command for 'xelatex' gave return code 1
-	      Refer to 'peci.log' and/or above output for details
-
-	Latexmk: Sometimes, the -f option can be used to get latexmk
-	  to try to force complete processing.
-	  But normally, you will need to correct the file(s) that caused the
-	  error, and then rerun latexmk.
-	  In some cases, it is best to clean out generated files before rerunning
-	  latexmk after you've corrected the files.
-	make[3]: *** [Makefile:29: peci.pdf] Error 12
-	make[2]: *** [Documentation/Makefile:148: pdfdocs] Error 1
-	make[1]: *** [/root/Makefile:1806: pdfdocs] Error 2
-	make: *** [Makefile:248: __sub-make] Error 2
-
-Fix the broken font dependencies require installing other packages:
-
-	# apt install tex-gyre texlive-fonts-recommended texlive-lang-chinese
-	texlive-lang-chinese is already the newest version (2024.20250309-1).
-	Installing:
-	  tex-gyre  texlive-fonts-recommended
-	
-	Installing dependencies:
-	  fonts-texgyre  fonts-texgyre-math
-
-As described at sphinx-pre-install patch:
-
-  commit a888d353ac1eb0d558fda5482c6955d6c4a29f23
-  Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-  Date:   Mon Jul 28 15:54:09 2025 +0200
-
-    scripts: sphinx-pre-install: fix PDF build issues on Ubuntu
-    
-    PDF output with current Debian-based distros require other
-    packages for it to work. The main one is pzdr.tfm. Without
-    that, \sphinxhyphen{} won't work, affecting multiple docs.
-    
-    For CJK, tex-gyre is required.
-    
-    Add the missing packages to the list.
-
-Now, here's the thing: to get the above dependencies, I played with 
-installing/uninstalling multiple packages, until I discovered where
-each font dependency was, and where CJK fonts were placed.
-
-Still, the above is not enough:
-
-	$ make cleandocs; LANG=C LC_ALL=C make SPHINXDIRS=peci pdfdocs
-	...
-	entering extended mode
-	Latexmk: Getting log file 'peci.log'
-	Latexmk: Examining 'peci.fls'
-	Latexmk: Examining 'peci.log'
-	Latexmk: Index file 'peci.idx' was written
-	Latexmk: References changed.
-	Latexmk: Missing input file 'peci.toc' (or dependence on it) from following:
-	  No file peci.toc.
-	Latexmk: Missing input file 'peci.ind' (or dependence on it) from following:
-	  No file peci.ind.
-	Latexmk: References changed.
-	Latexmk: References changed.
-	Latexmk: Log file says output to 'peci.xdv'
-	Have index file 'peci.idx', peci.ind peci
-	Latexmk: Errors, so I did not complete making targets
-	Collected error summary (may duplicate other messages):
-	  xelatex: Command for 'xelatex' gave return code 1
-      Refer to 'peci.log' and/or above output for details
-	
-	Latexmk: Sometimes, the -f option can be used to get latexmk
-	  to try to force complete processing.
-	  But normally, you will need to correct the file(s) that caused the
-	  error, and then rerun latexmk.
-	  In some cases, it is best to clean out generated files before rerunning
-	  latexmk after you've corrected the files.
-	make[3]: *** [Makefile:29: peci.pdf] Error 12
-	make[2]: *** [Documentation/Makefile:148: pdfdocs] Error 1
-	make[1]: *** [/root/Makefile:1806: pdfdocs] Error 2
-	make: *** [Makefile:248: __sub-make] Error 2
-
-	$ ls Documentation/output/peci/latex/|grep pdf
-	<none>
-
-PS.: such error is intermitent: re-creating containers sometimes
-fix the issues; sometimes not. It sounds to be that this is due
-to some race condition somewhere.
-
-Also, if you look at the *.tex output, you'll see it is messing with
-fonts:
-
-	# grep usepackage Documentation/output/peci/latex/peci.tex 
-	\usepackage{cmap}
-	\usepackage[T1]{fontenc}
-	\usepackage{amsmath,amssymb,amstext}
-	\usepackage{babel}
-	\usepackage{tgtermes}
-	\usepackage{tgheros}
-	\usepackage[Bjarne]{fncychap}
-	\usepackage[,maxlistdepth=10]{sphinx}
-	\usepackage{geometry}
-	\usepackage{setspace}
-	\usepackage{hyperref}
-	\usepackage{hypcap}% it must be loaded after hyperref.
-	\usepackage{sphinxmessages}
-	        \usepackage{fontspec}
-
-e.g.:
-
-- The tex file is trying to use T1 fontenc and fontspec;
-
-- The fontspec usage came from conf.py preamble, which is not indented
-  well:
-
-	# grep -A7 fontspec Documentation/output/peci/latex/peci.tex
-	        \usepackage{fontspec}
-	        \setsansfont{DejaVu Sans}
-	        \setromanfont{DejaVu Serif}
-	        \setmonofont{DejaVu Sans Mono}
-    
-	        % Load kerneldoc specific LaTeX settings
-	        \input{kerneldoc-preamble.sty}
-
-On several of my attempts, I got those errors:
-
-	Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-	LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
-	6.
-	LaTeX Font Info:    No file T1lmr.fd. on input line 116.
-
-	LaTeX Font Warning: Font shape `T1/lmr/m/n' undefined
-	(Font)              using `T1/lmr/m/n' instead on input line 116.
-
-	! Corrupted NFSS tables.
-	wrong@fontshape ...message {Corrupted NFSS tables}
-                                                  error@fontshape else let f...
-	l.116 ...\familydefault\seriesdefault\shapedefault
-
-If you search for it, you would get references like:
-	https://tex.stackexchange.com/questions/740050/corrupted-nfss-tables
-
-explaining that using T1 together with fontenc is a very bad idea,
-recommending to use instead:
-
-	\usepackage{fontspec}
-	\newfontfamily<sometthing>
-
-and not use T1 fontenc.
-
-Unfortunately, I was not able to reproduce this exact error anymore,
-at least on Ubuntu. Perhaps I got this one on Gentoo or on some other
-distro, but I can't remember anymore how to reproduce this specific
-error message.
-
--
-
-Yet, using my today's container, this specific scenario can be fixed by moving
-the font config data from preamble to "fontenc":
-
-<patch>
-+from textwrap import dedent
-+
- # If extensions (or modules to document with autodoc) are in another directory,
- # add these directories to sys.path here. If the directory is relative to the
- # documentation root, use os.path.abspath to make it absolute, like shown here.
-@@ -441,20 +443,18 @@ latex_elements = {
-     # For CJK One-half spacing, need to be in front of hyperref
-     "extrapackages": r"\usepackage{setspace}",
-     # Additional stuff for the LaTeX preamble.
--    "preamble": """
-+    "fontenc": dedent("""
-         % Use some font with UTF-8 support with XeLaTeX
-         \\usepackage{fontspec}
-         \\setsansfont{DejaVu Sans}
-         \\setromanfont{DejaVu Serif}
-         \\setmonofont{DejaVu Sans Mono}
--    """,
--}
--
--# Load kerneldoc specific LaTeX settings
--latex_elements["preamble"] += """
-+    """),
-+    "preamble": dedent("""
-         % Load kerneldoc specific LaTeX settings
-         \\input{kerneldoc-preamble.sty}
--"""
-+    """)
-+}
-</patch> 
-
-which is one of the main changes I made. At the actual change, I opted to
-use raw strings, to avoid "\\" e.g.:
-
-	"fontenc": dedent(r"""
-             % Use some font with UTF-8 support with XeLaTeX
-             \usepackage{fontspec}
-             \setsansfont{DejaVu Sans}
-             \setromanfont{DejaVu Serif}
-             \setmonofont{DejaVu Sans Mono}
-	"""),
-
-With that, we have now:
-
-	# grep usepackage Documentation/output/peci/latex/*.tex
-	\usepackage{cmap}
-	\usepackage{fontspec}
-	\usepackage{amsmath,amssymb,amstext}
-	\usepackage{babel}
-	\usepackage{tgtermes}
-	\usepackage{tgheros}
-	\usepackage[Bjarne]{fncychap}
-	\usepackage[,maxlistdepth=10]{sphinx}
-	\usepackage{geometry}
-	\usepackage{setspace}
-	\usepackage{hyperref}
-	\usepackage{hypcap}% it must be loaded after hyperref.
-	\usepackage{sphinxmessages}
-
-However, on other tests, including other distros, I found that this
-is not enough, because:
-
-1) the *.ind creation may use xindy on some distros and xindy could try
-   to use T1 fontenc. So, I had to add this line:
-
-	\PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
-
-  to ensure that, if xindy is used, it will get codepage=utf8. 
-
-2) there were some other corner cases that required to add 
-
-	\newfontfamily\headingfont{DejaVu Serif}
-
-Again related to T1 fontenc.
-
-Thanks,
-Mauro
