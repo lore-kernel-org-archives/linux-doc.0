@@ -1,43 +1,44 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A35310654;
-	Tue, 19 Aug 2025 07:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBA881732;
+	Tue, 19 Aug 2025 07:55:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755590100; cv=none; b=lTgJzQ30jg4ELAWpO6rp8x1P8HT9dHWmH7Rj4Pmd3mxJc5R0PEAYiRJoZESd+Y0JAUXlx0YJv5I7ZjqNxGsZjYnSSDYRGrMPm99IyCT/AvKHG12ZLhN5u5/QZb6ECY77mQWfo4kO76I4nA3DUo7XGtVcoKXU8B5twEEmDdbvT38=
+	t=1755590110; cv=none; b=fDsZFgZlhojC+pPl/iKh2OcdtDz8D/CZlYFofYBdJKe9T9jA0OAVINwp73i1ECkEXBhNkQobK2xCCIuZ/M9w09CO+y8QHIti2Wr9CdHcsQaSKXT7Zd5HonaA71dBlWDIADkQq+OE+qfa4Dge10HzszA6BtUSb9UAxdFjEXxEaw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755590100; c=relaxed/simple;
-	bh=lOWRNPjAbWDU1OxWxL8IZOKvD7OnnxkkEk2IxwpgI+w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NzoBzgwK5SkaEWaTeJL1QdRYgj15nxVOmJCPbCT3qC4xWI0tLMJA+obuGxfbblF1BB/xDZNF+JCwuUx0XQbQRMoiMpYu8QLwh3lNJpRvWrwNMEPGu7rC9lHNbHyFZrRKZZCw5OPVM9MJtnMKWfQQ6f1sI05JaSVQQf97syABdTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=o9gOqjB5; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1755590110; c=relaxed/simple;
+	bh=xLuI9J3eKRbOgmyykghu0sMWbo+gDxFTq5myhbGOfLw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VoJkKY6bgAzGrkc4uSULHI2nFa41H4JTY1ofpP6kMta7t7PvyfwNWmlQ3cJi3uL2UPs34Rh5byRO/mYJ5bARcYUdbcZSP+c1njGBdEFx3bkV7o5q/uqQR1oF9q9Tjh00gEF8m/UTxtQDwqI30PqHD8uUDBpkz85zNZPzBl6ZWwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KQuU/FZy; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="o9gOqjB5"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KQuU/FZy"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
 	Content-ID:Content-Description:In-Reply-To:References;
-	bh=4JFfscaUjEj0NSwaHft0IALdktI66k0BP5dIqYD4Mxs=; b=o9gOqjB57YX1BH/x/Ivops8m1e
-	KnBgUygqlfwl3I7BS4cqerhdNwyiAbfeGqC9G4fbm/IyJD2oi9SyQLSRwTbhCL5RWplvRAXbgfSIT
-	ixbRJUKcf2q1fB/yzc99gHfbs8pMqh6YUuQ1ZY2YjSZfV0oGwIWDabyKklMcvdakiZuND9exGJE0m
-	W/CZEB34UCSfKk31iJH8PE6bxgVpHgmZG2MIi6Hjs+YqKNhpd14yphyKB9NBm10DSGkAESUrKVFcE
-	GHvVdSR6/6k4SuzlD9fFj09BFyo3hr6IT8plu4OyCNfyR8/riIHWTM+ipMmsl/brvWeNthLT2BzwC
-	hW1iUFhA==;
+	bh=7Yq37uEARiaeWzVAuQ1673KP3G4WL0vAS2SoUZ9rgsc=; b=KQuU/FZydiS/sP1KorWl2dJriw
+	n0UhmFRYGcF4Wecqrw4HMrzdCLsozhQy/ogCM/a8JQFMlWHmCykFZ4i8FigU3mUETlRYwYa1IhkEJ
+	jWJrkzciCtH8k7yKMZM7HgPxR5RfLkCuo/aBsB11PFJ0B9lcn3qOBlXHD4JtrN6hMYVZ6H4vkOfEB
+	p7CgqT93wbHBlbG2kdQiG8wDjPQjgn4goKebI6+YqbMft5qZ/8LQ/TU0tLueeeBFfkEglhhxN5ijR
+	/GlEe6RYwpWbJGv2pXAwk8lXpmnJ6zcubUvpJnJYBnZE5atqHKD0/32r4BqKLHftRPrYzsLv0ObzD
+	tTPIG2ow==;
 Received: from [50.53.25.54] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoHBJ-00000009jht-1Vuj;
-	Tue, 19 Aug 2025 07:54:57 +0000
+	id 1uoHBU-00000009jl3-1cD3;
+	Tue, 19 Aug 2025 07:55:08 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Rik van Riel <riel@surriel.com>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] docs: sysctl: add a few more top-level /proc/sys entries
-Date: Tue, 19 Aug 2025 00:54:56 -0700
-Message-ID: <20250819075456.113623-1-rdunlap@infradead.org>
+	linux-doc@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH] list.h: add missing kernel-doc for basic macros
+Date: Tue, 19 Aug 2025 00:55:07 -0700
+Message-ID: <20250819075507.113639-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -47,54 +48,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a few missing directories under /proc/sys.
-Fix punctuation and doubled words.
+kernel-doc for the basic LIST_HEAD() and LIST_HEAD_INIT() macros has
+been missing forever (i.e., since git). Add them for completeness.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Rik van Riel <riel@surriel.com>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
 ---
- Documentation/admin-guide/sysctl/index.rst |   18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ include/linux/list.h |    8 ++++++++
+ 1 file changed, 8 insertions(+)
 
---- linux-next-20250814.orig/Documentation/admin-guide/sysctl/index.rst
-+++ linux-next-20250814/Documentation/admin-guide/sysctl/index.rst
-@@ -66,25 +66,31 @@ This documentation is about:
+--- linux-next-20250814.orig/include/linux/list.h
++++ linux-next-20250814/include/linux/list.h
+@@ -20,8 +20,16 @@
+  * using the generic single-entry routines.
+  */
  
- =============== ===============================================================
- abi/		execution domains & personalities
--debug/		<empty>
--dev/		device specific information (eg dev/cdrom/info)
-+<$ARCH>		tuning controls for various CPU architecture (e.g. csky, s390)
-+crypto/		<undocumented>
-+debug/		<undocumented>
-+dev/		device specific information (e.g. dev/cdrom/info)
- fs/		specific filesystems
- 		filehandle, inode, dentry and quota tuning
- 		binfmt_misc <Documentation/admin-guide/binfmt-misc.rst>
- kernel/		global kernel info / tuning
- 		miscellaneous stuff
-+		some architecture-specific controls
-+		security (LSM) stuff
- net/		networking stuff, for documentation look in:
- 		<Documentation/networking/>
- proc/		<empty>
- sunrpc/		SUN Remote Procedure Call (NFS)
-+user/		Per user namespace limits
- vm/		memory management tuning
- 		buffer and cache management
--user/		Per user per user namespace limits
-+xen/		<undocumented>
- =============== ===============================================================
++/**
++ * LIST_HEAD_INIT - initialize a &struct list_head's links to point to itself
++ * @name: name of the list_head
++ */
+ #define LIST_HEAD_INIT(name) { &(name), &(name) }
  
--These are the subdirs I have on my system. There might be more
--or other subdirs in another setup. If you see another dir, I'd
--really like to hear about it :-)
-+These are the subdirs I have on my system or have been discovered by
-+searching through the source code. There might be more or other subdirs
-+in another setup. If you see another dir, I'd really like to hear about
-+it :-)
++/**
++ * LIST_HEAD - definition of a &struct list_head with initialization values
++ * @name: name of the list_head
++ */
+ #define LIST_HEAD(name) \
+ 	struct list_head name = LIST_HEAD_INIT(name)
  
- .. toctree::
-    :maxdepth: 1
