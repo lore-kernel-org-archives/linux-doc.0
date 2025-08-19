@@ -1,48 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8632BD04;
-	Tue, 19 Aug 2025 14:27:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE3920299E;
+	Tue, 19 Aug 2025 14:48:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755613631; cv=none; b=SG1abb5NCXD2yYggRu40V1+YfI6gS7Dl9V6NPGB6bFFmtnkVgeO+QUPZuvQOw1EskQ4Guz+rmsSwOgLoeY0A8zZXNqhSkYcA/ObDLe1ClU2vwz266SihTbbPLrDI52ENUy/NGNDFtkmqIzO1PlmIadshQllz4GWARsvOcDH759Q=
+	t=1755614938; cv=none; b=jStFfSGd0YDbx1TAUn3nV/nqFFTJ3PnFx6XmQHBEOg35Op9161iHE+TLt8ope/PYxtbcGKWDzuC7axpAPbf2/LKLN/6jMhLbstddanVya9fp4kR1hijPT0mg1LjKYp3pjHpEs5bD7sha1l4uMYUT0jE66HLNb/ern226O0gBDuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755613631; c=relaxed/simple;
-	bh=SKAuPgHYFLkG3xi4u2N/IxMYvXw2O5MFk+tqix2Y494=;
+	s=arc-20240116; t=1755614938; c=relaxed/simple;
+	bh=H58fj0I4jkJlHc1hDy1CZKSXx0spVc4T64PEGNgAkqw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OpYNz4asX/oznJZguPhcUE7qwD82PxvbbU3VkNRu6VfUYTPPUQZElSSD0lFv9TPPoQAFU6ZLOCeZhqB342K0groZqg1HbSbPzjRe2P4X3XnU5AXBU4bYcQIHNlRyfrmC0oGNA0+904SrQZMNI0Egkc481T+2s93PswX1GT/4WFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/HDOLVm; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gF/CIKSpHXHERlU8RZ/kw9YMwmN8MAi6gVP3PcG9rqb/SK2L3W6a8HyYJfqCz+/o92wQd11RO9HvcMTJznilie6AIi5vl52ZTUHXT70/tCj2AWub4DslWPmB/uEIq8UHu4TxNBluBCYYjS3XmlD6h8U3YEfbslGc1mKxc+jIvO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k04Ck/8Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/HDOLVm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68283C4CEF1;
-	Tue, 19 Aug 2025 14:27:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k04Ck/8Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62EE3C4CEF1;
+	Tue, 19 Aug 2025 14:48:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755613631;
-	bh=SKAuPgHYFLkG3xi4u2N/IxMYvXw2O5MFk+tqix2Y494=;
+	s=k20201202; t=1755614937;
+	bh=H58fj0I4jkJlHc1hDy1CZKSXx0spVc4T64PEGNgAkqw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y/HDOLVmwAmqhSY0NwTRhTsY/RuI303KBlbDyaFY4O1oPKg+4Z390ZIZYnD2P/gJY
-	 3vX8NWPWBHm3RdiuRoSvLWes9gYJCW6M2B6sBEYrBrRZ9arTdwvnhynhCXYyTShdbo
-	 m+c+0wpqoJ7Ra/V1VxIXMeiMfGYz2YtsW/GFq9XjNvr4Q8RVqfkRnGZTcak3uG1bXr
-	 BQfu8tPiAb4WhGSa0uUH4d5f17vdxH9pCS0CV4k2uKnKnH3FmjuPLnhogVY1JiOGfB
-	 F4OOLXSXFaM5tNPFhSICvAnGPNXsEPzPyPXb0T/lQ1jjYKgXNdboaZkG+kD3REvOJw
-	 OX0J1++b0c2+g==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uoNIr-00000007JRQ-1Hjj;
-	Tue, 19 Aug 2025 16:27:09 +0200
-Date: Tue, 19 Aug 2025 16:27:09 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Akira Yokosawa <akiyks@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 1/1] scripts/sphinx-build-wrapper: allow building PDF
- files in parallel
-Message-ID: <nmdgtlqqaaqx33ynrpuijm4rlfju7vd7gsbjahcpvl5bwig4xw@zxgo6vvbqitw>
-References: <cover.1755540431.git.mchehab+huawei@kernel.org>
- <26e5efca73dbd2f863a51018054a749c9e5f5a19.1755540431.git.mchehab+huawei@kernel.org>
- <19f031e5-0060-4957-8cc8-9cd21e7d6304@gmail.com>
- <87h5y3v456.fsf@trenco.lwn.net>
+	b=k04Ck/8QpSDp835pbZNEz5/PhrvQO6Z8lowWexOiAGI72Zz5hNn3aijoLlAeHu8Yh
+	 yJdJovRzSs6s+Gu0UGO4+B9klCeBj87fHXtydqC9bfszENJmaig5zBvLjVGZWh6D1V
+	 2zeX0FF7Gwik5AUw1gbQ2FT63tFTuP71M0pOnfjQGwrUnMKrzejqzgE+2/LnstPTqw
+	 HDXOHmFObMFr4r01Rt0J/gSMeKI6H/07sVoCaIJC78ko9cI9d3SqlWIwt6aXJcmBVo
+	 enllQ1zwxGnqyxhYGWj8OYPkqkpgGGO8J2dLuJV7VxtELjuJjHprzYbECQm6eANHbU
+	 0MrT5/glfylDw==
+Date: Tue, 19 Aug 2025 07:48:56 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Mallikarjun Thammanavar <mallikarjunst09@gmail.com>
+Cc: tytso@mit.edu, adilger.kernel@dilger.ca, corbet@lwn.net,
+	linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: fix spelling and grammar in atomic_writes
+Message-ID: <20250819144856.GI7938@frogsfrogsfrogs>
+References: <20250819124604.8995-1-mallikarjunst09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,30 +43,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87h5y3v456.fsf@trenco.lwn.net>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <20250819124604.8995-1-mallikarjunst09@gmail.com>
 
-On Tue, Aug 19, 2025 at 07:21:09AM -0600, Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
+On Tue, Aug 19, 2025 at 12:46:04PM +0000, Mallikarjun Thammanavar wrote:
+> Fix minor spelling and grammatical issues in the ext4 atomic_writes
+> documentation.
 > 
-> > I couldn't test this because I couldn't apply your sphinx-build-wrapper
-> > series on top of docs-next.  :-/
-> > Which commit does it based on?
+> Signed-off-by: Mallikarjun Thammanavar <mallikarjunst09@gmail.com>
+
+Much improved, thanks!
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
+> ---
+>  Documentation/filesystems/ext4/atomic_writes.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> It is built on top of the PDF series - I ran into that too.
-
-
-Actually, the sequence is:
-
-	- PDF series
-	- sphinx-build-wrapper
-	- this one
-
-The dependencies between PDF and sphinx-build-wrapper are
-trivial, though: both touches the Makefile; the first one
-changes a broken parameter for PDF; the second one simplifies
-it a lot.
-
--- 
-Thanks,
-Mauro
+> diff --git a/Documentation/filesystems/ext4/atomic_writes.rst b/Documentation/filesystems/ext4/atomic_writes.rst
+> index f65767df3620..b614b5ffe76b 100644
+> --- a/Documentation/filesystems/ext4/atomic_writes.rst
+> +++ b/Documentation/filesystems/ext4/atomic_writes.rst
+> @@ -14,7 +14,7 @@ I/O) on regular files with extents, provided the underlying storage device
+>  supports hardware atomic writes. This is supported in the following two ways:
+>  
+>  1. **Single-fsblock Atomic Writes**:
+> -   EXT4's supports atomic write operations with a single filesystem block since
+> +   EXT4 supports atomic write operations with a single filesystem block since
+>     v6.13. In this the atomic write unit minimum and maximum sizes are both set
+>     to filesystem blocksize.
+>     e.g. doing atomic write of 16KB with 16KB filesystem blocksize on 64KB
+> @@ -50,7 +50,7 @@ Multi-fsblock Implementation Details
+>  
+>  The bigalloc feature changes ext4 to allocate in units of multiple filesystem
+>  blocks, also known as clusters. With bigalloc each bit within block bitmap
+> -represents cluster (power of 2 number of blocks) rather than individual
+> +represents a cluster (power of 2 number of blocks) rather than individual
+>  filesystem blocks.
+>  EXT4 supports multi-fsblock atomic writes with bigalloc, subject to the
+>  following constraints. The minimum atomic write size is the larger of the fs
+> @@ -189,7 +189,7 @@ The write must be aligned to the filesystem's block size and not exceed the
+>  filesystem's maximum atomic write unit size.
+>  See ``generic_atomic_write_valid()`` for more details.
+>  
+> -``statx()`` system call with ``STATX_WRITE_ATOMIC`` flag can provides following
+> +``statx()`` system call with ``STATX_WRITE_ATOMIC`` flag can provide following
+>  details:
+>  
+>   * ``stx_atomic_write_unit_min``: Minimum size of an atomic write request.
+> -- 
+> 2.43.0
+> 
+> 
