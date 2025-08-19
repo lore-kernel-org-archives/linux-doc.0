@@ -1,126 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17BFD531;
-	Tue, 19 Aug 2025 22:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F509202980;
+	Tue, 19 Aug 2025 22:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755642877; cv=none; b=Y3+8Z9BxxUYYBQ9L8wF1mymXi0kEcRbRrX9pOcds1dtyZcglNd0oHGdisj+w8K1yCwLYOYwqlYekx4O1cKu9jh6odPGxBHc511XtHVnhcmlo6afJiIIyLtHoAdo8Q19XQywQio8mQzVaW0YFRc5go2vgzfaVuej59H10tRbzo4Q=
+	t=1755643879; cv=none; b=I6XlAe6jqj9vjIYPD48VYp9Nzkz/ab8aU/lQzLlYDuXlXNs4eRr/sg3S7yMtt1AKBNakkAMn+v61f8tKDo2eZaMllem7q5Ho0cE+ZEhmUg+pGoJfCdK4rGlZEUm+jvSD/hvfpxSSq1XNUt+jiBrzke+FMQjfU/HTXIQfeTM0d5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755642877; c=relaxed/simple;
-	bh=6Sk/MNWBFDioqL39rNr4B4PX+fafxYE5hU6kqwLAC60=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KMeLj4JgA6/Y/5utEJUYvtQKEY7cYJ0QaoF8isMRTA1n2sKsYM3gPISAEq13l4DDF3b/Xtizr7N0F7YDg1ULlTUj9ezN6mgElE4956GbfYNxfADo4s8BxHpmGgRIE+g5tm3vASrC6gu41zsXEPEOSpI4Gax4poIGY9mArTIIuCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m8is8tYV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755643879; c=relaxed/simple;
+	bh=oJ22349EL2XHEtGg6jM/vc8AGMGDUVBvJzvBkmp8xTo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BiAFxQB7a9R2xGN01g6ZRjp2evXGUfeljmFniA09Lqtsw6tZoa/GiAj37K5Nc995FubZKb2CaeEkYEbTVTAZ4b9YZisF7ku/FmuSXDzHn37Wt9H6dvyHPsgYbJlm/PYnDmBlWkaUPDTXlvEwZuQanPVIDs97WQN6VWETiOU4rnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YAMwpERd; arc=none smtp.client-ip=209.85.216.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m8is8tYV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AEE3C4CEF1;
-	Tue, 19 Aug 2025 22:34:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755642876;
-	bh=6Sk/MNWBFDioqL39rNr4B4PX+fafxYE5hU6kqwLAC60=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m8is8tYVtpytE05vnC4AEAiO2Sgb7LQHcA84q4ih6q/pvpskZWaCzrkq70rRw5t37
-	 jW2niufEFAxRDqrPWRCD0R/8ggeM8n9qBliJuziaUG++cgEhWhangonf92ydflG+mm
-	 3DLxBojovVmZmKBTIw68Wc3luWbPWKJbwE+tbrn1RihdyBh1GzgimLUXFppQEnU5Jz
-	 z9pLaxJHCy+hmzcXVv9k3smq+JfcDv9Z78Jp11BGue9+KhjXHJcIxLfkV52Fjoh6Dc
-	 t/qzkwcJ20hJFn0UL+ndD71H2VAdrXTXq2pUxkvYaGdALMFnKKzmQBHeRynzFkWnlM
-	 FXTZ+rPBQni3A==
-Date: Tue, 19 Aug 2025 15:34:35 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: John Groves <John@groves.net>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 14/18] famfs_fuse: GET_DAXDEV message and daxdev_table
-Message-ID: <20250819223435.GH7942@frogsfrogsfrogs>
-References: <20250703185032.46568-1-john@groves.net>
- <20250703185032.46568-15-john@groves.net>
- <CAJfpegv19wFrT0QFkwFrKbc6KXmktt0Ba2Lq9fZoihA=eb8muA@mail.gmail.com>
- <oolcpxrjdzrkqnmj4xvcymnyb6ovdt7np7trxlgndniqe35l3s@ru5adqnjxexh>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YAMwpERd"
+Received: by mail-pj1-f67.google.com with SMTP id 98e67ed59e1d1-321cfa7ad29so305545a91.1;
+        Tue, 19 Aug 2025 15:51:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755643877; x=1756248677; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nfoBdX0Tov8AX3bmnwCFuwfCT/w+2/RjttzP8RxelqA=;
+        b=YAMwpERd/KvCaTHt454BxbMlFHZ45wJEjsNJLTgDRgkIk66Cbk9tK8LkQfBFiSPRCX
+         AaeXw6cHxqXV90olAEL7JTtn344MtCnlWyb9bvI2wwq4rF7P+xUt1QIDqQrLKxRpsuNL
+         jQud14DwFv5xkaK/KwCW6XkLfEtnxIuF25YhLF9Jal6jLCOBG//3nrgl2Ns/90Rkkjyh
+         2InOSR8EwR44OfLgmG6dGZSGxd65k5gDAPDHXncyAel8T3gwuEzs7c/04NZZaZrw5PLs
+         LdbEzyriu9Og3b1qW7yvs1QEd1z6ta5Luk9VC7r5O8W0P3YxySFL08JC1BH5LlP2+pRe
+         tNHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755643877; x=1756248677;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nfoBdX0Tov8AX3bmnwCFuwfCT/w+2/RjttzP8RxelqA=;
+        b=AJr3wzheWYQIm645gSJx8J4IEPEtKIPb4ytczmiQoQipjbNiJGfaX5ptpyWFIyp6IB
+         /zENH19noz3YOdyUUJLPpvRn5pi8UZI1It3Va3xyFGRiuvnxLfbZl/IyHY+JMX8Z8six
+         3BXL+lSOfTJ8ZlbMuQZe4/GkBMPpzdexe/HqvQgfaCrKugsP5ebwLMEseyihYK3RShqj
+         QD8xt0UMSuEDQlmMN07twyImQb2N8rZ4rYQpOtB9aZA9J8ue2o+Km4UMKhlnOgdUNR5I
+         GlhIpyeOz479TgDv89H+ANh7OWuMygjAGClyiCCioJ9FqEkiuAeEH8mja9BFg4Vszy7+
+         gorQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmhuE6pcHv/VYsD24sQ4akjNFG5b9dr5hMqsmqNei/NEMHGwV+74Ne0OpvosaUGRIhUQEiSPehd7w=@vger.kernel.org, AJvYcCXqxBPlHQVZ+TW0zP7U8M6B0Sb72ge0qij17lGZpAIJqHK/PWExeBQZ+bdjIGsfCri4BpX8gbnC34mtIR5v@vger.kernel.org
+X-Gm-Message-State: AOJu0Yznc5p/WDVvZVOhvlMbiOTHn2FZlysKBN2O6YkF/qJ4FrkcjEvt
+	clTvYMgPPzuPiU5YQI/iK25c/9irvGVAXb7P7w3LW9Bd16LqUP+DC/Ek
+X-Gm-Gg: ASbGncvFgyydQ/SZAWzFgOj0Cb0c+i6JkOA4WM45xB7cZW3O6uR8TFuVwITUWQxnUr1
+	V7hRSlF4r52u7Gb1atlQFghJgQwJ8fPhksU9Y2mIAU47E33YrWBYjIQQ+oysREyVmfC1JjrwZm/
+	BkybenXivT17SPJ5R7QiCosOUP7whh3Y0dTb5ZGaJY5hUdkYuwwWx1rZGN3zoPJi+AZP4F3ddn8
+	/WZ/TqbjSkLMB9n83MjGYpaNHtH9hvEFZXmqZ5gOKsIJxRx+nUoRHpJZD5EL/BevsQpS2mWKz8J
+	V3D6nR60X5T+f8UypHXZF1IPnrfn9iKxqXRE6Y1KsOau9ZSr9tk9Y6M4Y5YQx2aWVKC7MQxSut7
+	F1rTJBjEHCXtVPxFFTAm75Ocl7cBO8MP8SPfD3jRllAI9OHTMY8kTKrj13S6R9g==
+X-Google-Smtp-Source: AGHT+IE80zrRdknPxonsTThO68UT2PygfiTcozDdJMAjg7zruSz2CuFtBrDLLBAerfeggg9rrKKCGg==
+X-Received: by 2002:a17:90b:2d0e:b0:2fa:42f3:e3e4 with SMTP id 98e67ed59e1d1-324d33f9646mr4872042a91.3.1755643876589;
+        Tue, 19 Aug 2025 15:51:16 -0700 (PDT)
+Received: from primalkenja-desktop.. (c-98-207-35-177.hsd1.ca.comcast.net. [98.207.35.177])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b476408e4casm651400a12.31.2025.08.19.15.51.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 15:51:16 -0700 (PDT)
+From: Vivek Alurkar <primalkenja@gmail.com>
+To: corbet@lwn.net
+Cc: Vivek Alurkar <primalkenja@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] Fix typo in RAID arrays documentation
+Date: Tue, 19 Aug 2025 15:50:29 -0700
+Message-ID: <20250819225034.8739-2-primalkenja@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <oolcpxrjdzrkqnmj4xvcymnyb6ovdt7np7trxlgndniqe35l3s@ru5adqnjxexh>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 15, 2025 at 11:38:02AM -0500, John Groves wrote:
-> On 25/08/14 03:58PM, Miklos Szeredi wrote:
-> > On Thu, 3 Jul 2025 at 20:54, John Groves <John@groves.net> wrote:
-> > >
-> > > * The new GET_DAXDEV message/response is enabled
-> > > * The command it triggered by the update_daxdev_table() call, if there
-> > >   are any daxdevs in the subject fmap that are not represented in the
-> > >   daxdev_dable yet.
-> > 
-> > This is rather convoluted, the server *should know* which dax devices
-> > it has registered, hence it shouldn't need to be explicitly asked.
-> 
-> That's not impossible, but it's also a bit harder than the current
-> approach for the famfs user space - which I think would need to become
-> stateful as to which daxdevs had been pushed into the kernel. The
-> famfs user space is as unstateful as possible ;)
-> 
-> > 
-> > And there's already an API for registering file descriptors:
-> > FUSE_DEV_IOC_BACKING_OPEN.  Is there a reason that interface couldn't
-> > be used by famfs?
-> 
-> FUSE_DEV_IOC_BACKING_OPEN looks pretty specific to passthrough. The
-> procedure for opening a daxdev is stolen from the way xfs does it in 
-> fs-dax mode. It calls fs_dax_get() rather then open(), and passes in 
-> 'famfs_fuse_dax_holder_ops' to 1) effect exclusivity, and 2) receive
-> callbacks in the event of memory errors. See famfs_fuse_get_daxdev()...
+Changed "write-throuth" to "write-through".
 
-Yeah, that's about what I would do to wire up fsdax in fuse-iomap.
+Signed-off-by: Vivek Alurkar <primalkenja@gmail.com>
+---
+ Documentation/admin-guide/md.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> A *similar* ioctl could be added to push in a daxdev, but that would
-> still add statefulness that isn't required in the current implementation.
-> I didn't go there because there are so few IOCTLs currently (the overall 
-> model is more 'pull' than 'push').
-> 
-> Keep in mind that the baseline case with famfs will be files that are 
-> interleaved across strips from many daxdevs. We commonly create files 
-> that are striped across 16 daxdevs, selected at random from a
-> significantly larger pool. Because interleaving is essential to memory 
-> performance...
-> 
-> There is no "device mapper" analog for memory, so famfs really does 
-> have to span daxdevs. As Darrick commented somewhere, famfs fmaps do 
-> repeating patterns well (i.e. striping)...
-> 
-> I think there is a certain elegance to the current approach, but
-> if you feel strongly I will change it.
+diff --git a/Documentation/admin-guide/md.rst b/Documentation/admin-guide/md.rst
+index 4ff2cc291d18..8b9866cacb87 100644
+--- a/Documentation/admin-guide/md.rst
++++ b/Documentation/admin-guide/md.rst
+@@ -758,7 +758,7 @@ These currently include:
+ 
+   journal_mode (currently raid5 only)
+       The cache mode for raid5. raid5 could include an extra disk for
+-      caching. The mode can be "write-throuth" and "write-back". The
++      caching. The mode can be "write-through" and "write-back". The
+       default is "write-through".
+ 
+   ppl_write_hint
+-- 
+2.48.1
 
-I still kinda wonder if you actually want BPF for this sort of thing
-(programmatically computed file IO mappings) since they'd give you more
-flexibility than hardcoded C in the kernel.
-
---D
-
-> Thanks!
-> John
-> 
-> 
