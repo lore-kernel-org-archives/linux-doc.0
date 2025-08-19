@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9FD20469E;
-	Tue, 19 Aug 2025 17:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378462FD7DF
+	for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 17:19:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755623884; cv=none; b=PD86zns/UMKg/8N7//E0RGW3DzNGXHMNBrNCeadt9kLamMlTzihiz+x4qoAEfeg285UKq5mJ5dTFhH+3oOC5rV7hedXFadX18oWKVlcc2Nt0/EG01JA+kw3+aT8vvLw6n5Jqj0ab2chxD3IssKYy4J++rL24famwGVnwlZyC3CE=
+	t=1755623990; cv=none; b=MPgT8jfOxOrMSwj679NSR7y52Em7GlhkGLhP4yatk7oS7+3M+v5f053iUgnLMTtzLfY/znviHX4E4Y338HQ5WYWOmFhOk5JOnlkQ48IC9yBB0a5ypdOmy/UINEjn71ubUtewT+bhlEL2gNIyVMzVYEPjQjTFPFkZlvuhyGYgfaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755623884; c=relaxed/simple;
-	bh=y1gn1ppItBT617iahNUSOTZgBrO3Bemxe7cvYxvwW40=;
+	s=arc-20240116; t=1755623990; c=relaxed/simple;
+	bh=EbEK+wUrPFyIZL6ejm/I4ihD2VipDGgycgoNU3ybRV0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VeOflyVgOa90+3Mib4ctgRWLPDUnVClXxzTFv3pHVWU45D7hyPx+ZU/k+hb/6FllwRSdqqcewp4VkI/8gTQ65Hjva0ctYDShsXjo+2vRBocUB28EFneW/e9CrswHUA076lFx4stae5wcu9G4m6oAMczJYrm9r7JzQK41XYfZtjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S5hyOat3; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=KvtWPygdzE3oS2rLrhww38jOmETxZGpXOzTYQH7r1gjTK22lMXgtfxQiieFKoyMpF5EkIedo7YEAyqTZKeU4/EVt85TPKuoVpN6WX+yWfIuwOXb5F87JnJI8g1dHSzuJaP53AG0yhyw7xcYRCm7YOo1j1zm2QC8OG20FG6T6+W0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eZBb9Ex3; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S5hyOat3"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eZBb9Ex3"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=k9T40x/ryGpUQ+rzosuC/CwY1mQ6mOTPssvplMLxzqQ=; b=S5hyOat3F9Jn4VPib3g33Aa51X
-	8uyAL+EX5AjjqOkt3IL/YTNdbc64xw4I8jHAGf7ZIc5mFPYqRXvA33pEtaicW9cXJbroan14BbNjC
-	D52IneFLVo/MFGY1A75ChVFA1L+PkFgPP6Xi0dmtc6YAViuKaqNkveMbmsCGyH5MTtJLc4imNeC4r
-	rt20n3kEgCXtk/UbPXQ1aT2dmjSHNw8mqhkoV2t0R6fPsUDXWB2N4LgFXvQe+UzqUt7yEQZpxZKsM
-	FGCoidSZB2jxco10AsO2N31RXWxHN1yd4Nt8ZG829xRAuKw6TSSetTAToKDypOOC7uBZ4B39RycyV
-	9GwY/X5w==;
+	bh=IpCPFBFrffqol+gRZf+Avntwhnq8pE3YbK9M7WF2nzI=; b=eZBb9Ex3Av08HbtVD4OinOwJVu
+	pSIpTEB+WK0HZKK9y1OJSbtiKlMp9+YNdpXz/sWIjZIPqQ2lkUjHbPZDROwtHp6ilgI6w/P/FQLNr
+	c71j2eTSlCH/iDMGrNNUjK5/l1pDatsfGKYy1O/IRA5A0cB3nv0BTzzJZnGQwNvvGAI92oynPBQby
+	ibw4laTHwz3q0QjeP55/m1CS0YAB3aZAlW658rhKZisViWuOs7eSEk6wMBdILd15Tf2qQsaTtgNGr
+	mzC012kfqJBcS68Gh+knP46fI/uGP0wInodcIHOEN/F0zI+OXtLa+kIMp/54OiID9p2AZR9ooyVz1
+	hgWTzNfQ==;
 Received: from [50.53.25.54] (helo=[192.168.254.17])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoPyD-0000000B5HL-1ezR;
-	Tue, 19 Aug 2025 17:18:01 +0000
-Message-ID: <d14df81f-989f-4467-aa0c-5c65009fd66d@infradead.org>
-Date: Tue, 19 Aug 2025 10:18:00 -0700
+	id 1uoPzw-0000000B5Wl-3QJg;
+	Tue, 19 Aug 2025 17:19:48 +0000
+Message-ID: <c34602fb-b05d-4daa-a0c7-02fca96166de@infradead.org>
+Date: Tue, 19 Aug 2025 10:19:48 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,63 +39,63 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Corrected typo in trace/events
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
- linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
- linux-trace-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- corbet@lwn.net
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, mhiramat@kernel.org,
- rostedt@goodmis.org
-References: <20250819085040.974388-1-mehdi.benhadjkhelifa@gmail.com>
+Subject: Re: [PATCH v3] docs: replace a duplicated word and add missing
+ SPDX-License tag
+To: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>, corbet@lwn.net
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20250819113551.34356-1-kubik.bartlomiej@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250819085040.974388-1-mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <20250819113551.34356-1-kubik.bartlomiej@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 8/19/25 1:49 AM, Mehdi Ben Hadj Khelifa wrote:
-> -Changed 'Dyamically' to 'Dynamically' in trace/events.rst
+On 8/19/25 4:35 AM, Bartlomiej Kubik wrote:
+> Fix documentation issues by removing a duplicated word and adding the
+> missing SPDX-License identifier.
 > 
-> under sections 7.1 and 7.3
-> 
-> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+> Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
 
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
 Thanks.
 
 > ---
->  Documentation/trace/events.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-> index 2d88a2acacc0..18d112963dec 100644
-> --- a/Documentation/trace/events.rst
-> +++ b/Documentation/trace/events.rst
-> @@ -629,8 +629,8 @@ following:
->    - tracing synthetic events from in-kernel code
->    - the low-level "dynevent_cmd" API
+> Changelog:
+> 
+> Changes since v2:
+> - Replace “that” with “the.”
+> 
+> Changes since v1:		
+> - Add missing SPDX-License tag
+> - Remove duplicated word "that"
+> 
+>  Documentation/admin-guide/kernel-parameters.rst | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
+> index 39d0e7ff0965..7bf8cc7df6b5 100644
+> --- a/Documentation/admin-guide/kernel-parameters.rst
+> +++ b/Documentation/admin-guide/kernel-parameters.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  .. _kernelparameters:
 >  
-> -7.1 Dyamically creating synthetic event definitions
-> ----------------------------------------------------
-> +7.1 Dynamically creating synthetic event definitions
-> +----------------------------------------------------
+>  The kernel's command-line parameters
+> @@ -213,7 +215,7 @@ need or coordination with <Documentation/arch/x86/boot.rst>.
+>  There are also arch-specific kernel-parameters not documented here.
 >  
->  There are a couple ways to create a new synthetic event from a kernel
->  module or other kernel code.
-> @@ -944,8 +944,8 @@ Note that synth_event_trace_end() must be called at the end regardless
->  of whether any of the add calls failed (say due to a bad field name
->  being passed in).
->  
-> -7.3 Dyamically creating kprobe and kretprobe event definitions
-> ---------------------------------------------------------------
-> +7.3 Dynamically creating kprobe and kretprobe event definitions
-> +---------------------------------------------------------------
->  
->  To create a kprobe or kretprobe trace event from kernel code, the
->  kprobe_event_gen_cmd_start() or kretprobe_event_gen_cmd_start()
+>  Note that ALL kernel parameters listed below are CASE SENSITIVE, and that
+> -a trailing = on the name of any parameter states that that parameter will
+> +a trailing = on the name of any parameter states that the parameter will
+>  be entered as an environment variable, whereas its absence indicates that
+>  it will appear as a kernel argument readable via /proc/cmdline by programs
+>  running once the system is up.
 
 -- 
 ~Randy
