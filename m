@@ -1,134 +1,108 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6DE1401B;
-	Tue, 19 Aug 2025 02:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DE038B;
+	Tue, 19 Aug 2025 04:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755571953; cv=none; b=rAs+eMng0lOhgQrhx8A/FrlWHV4SM2teIrRsQ2fdaMPFJ3oGBq4DIRVH/G6nT1qCDnLU6f0Zc0dPIn0vrFaEw2h7CaG13drd0YFcTKKrng1+iHAym6MRYmDByGI6A50YlKQ8QEv/vZIgTJpO46ox0KiCam6RK+KQ7SJPlz+noXQ=
+	t=1755576970; cv=none; b=AuZM12q5pjXB7wywplG0IKzvA/8Fzuj4e7u05d4OZ8mOjzeTtH81HvKosb5QSmmrb9BTJ/cQsGez208BmhTas12wCrbFkBw+nl3n2rvu0iEyxvUd8Elbphvyj+/BrZs5h8zP8K8X37XXK8RovNzSlaZliIkQwboawEyEXKgqBNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755571953; c=relaxed/simple;
-	bh=Y8x0Dz67DsKdjkPQ4PqlBubQxlf28YguajRC+ZrW2pc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QR/Jt5OIZOl49lwBtmgsGoEhFdbf3B/X15cbsX0OTTkfB2MQhRmBgcS7BY6drLFsoCMllwNJPZkdqiTUkGKsHkx9pPPQTyhdAn6J/gubfJNLZrNdH9WAMNnMJyB1vfUWV0oAtRhHGuAo+y1bySMqQj+ayidI91fwn3IT0s1ZgSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YBy40dAY; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755576970; c=relaxed/simple;
+	bh=mMKWD0WJ0y9QEwCwbcOoeBt1IgYfCGCuNyoc6MTfx0I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g1mQS4ayp4inZRH7yWRrcrcIfYH7/ITvvhB+qRNNeSuM6wxvL5rZ7bGrMbW09Oo6Vrnwyx6BDhDWdZDxFBXbZgBg9lYM9EP47MLRwf4WxGofAR8wHcHENK6cF6Ov0jFlOz4SWn4VcRSVxrUu0X6tX2WQNj1y47fiS3USBwqb+8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=h8ue8rx5; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YBy40dAY"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-323267b7dfcso4460152a91.1;
-        Mon, 18 Aug 2025 19:52:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755571951; x=1756176751; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gkCzBsvlP6/Ffz6cOOw96jrDeHTlV8A8u/fp/nqqvhc=;
-        b=YBy40dAYL5AGJlXpHM4sHkqfMf7vcNODjNbxbcNwUrd3IfT/XVMvvUvHBx2oP6CVOf
-         /o7iGF8rhRDYZ2+UL04MqAFVNd3U8F3Vekx1hxPJVxBaAWRjBj7xm1g3AhZQqBIncq4o
-         eJs09+PSz61HnYl3snOrwv8xF9qiQr9+N+WR6H0DBzxaby/TiHoQmTbU5RSYqkgbO+Qp
-         z2RJjYIW40JUXITLwArlhGkOxkdyuIZcusVj8c2b2NtQdtmlL0P+pMlNfOwZ3uU696pn
-         YVsiOVs3+h/VO3NCorWohMfDsUBcQ9xYGskEWPfRpZZujow906Zny9WtQL9KCNvtMewR
-         nffg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755571951; x=1756176751;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gkCzBsvlP6/Ffz6cOOw96jrDeHTlV8A8u/fp/nqqvhc=;
-        b=X+XxPhPwyiJo7PzbcXpjO+2cdIDgkinE3uLXgatXnReM7VWGG0ft1E/tEHSxPuSbLh
-         cwZoREhqBaxTJzQ3XeAb36C1n0kJ++peA1XF2FWSuEhlQjfZG+kuDc+2SpY5SSoAIrGe
-         SQVcBpyGOsi80/AUscZgGU3oy1FSHxpRJ25Vw/eJXi78n1PY7Wpnr9rnkbjbEkoig1Eo
-         go/oqPCKJr/LP0IzdyLp9NODuHFYNeXpyNicki4jYP70FVGdLu+Jq9ScBRDg14jwKsYH
-         ac0hwGlllzjlJSVczFdadwIZxyugfmqXPmkvsgNUJigB/cpjaSH3aRBF5C4wSMu102Gc
-         cmwg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDVX40sWfYkNDWoS/QZ/4/EsU3mvNJ3h8fXqYfv4VkftH6pSg/SQg/EsFNNoAwlgGkc5TpmMgVqOE=@vger.kernel.org, AJvYcCXOs94FKJx9vfUbbHe8HAx4/5OnZdOlaQCDloW/PHPMSAusz1gW3oNIA/yXmGpWsiISIikJP9cmaL22A4Z8RW8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBUOzxZi5ImUCE6BSnljKx8X6oiN+dHhlgbchyxOmyD0QvU6s6
-	C3rgZbKmNnpp4seoHw7Sl6mRSuSWLCFF1jHhK1sl9aT6WlFHMkU5sHvC
-X-Gm-Gg: ASbGnctLXmn1nXsj1kZTEgvD2BWY3sGqDwW7rXBxDuMrOsGkkn8S+yr33GjecoK4+xt
-	n5gqbUPJaJLOaVkFIkRmcLLF8sIyr8IkGhLDyF2wQMKNdNmwD/8XhPanFlwah/wV0z1XNIPDCwA
-	nrX9/qyz4fR6P2ahUNloO+7JB+VajOPqJekET13EQxhgHW7bggBH2qhVRYwmczFyAyo+V8MD9wF
-	xU2uTMYe2lk1W+pN8ZtZmtl2tIW1NG2C8cs8jF25inBKOj1x6qwj8WV50ElnaVvhUGGRRz12yfv
-	CnkKJ15QPg+/1EtXitNRe73CwTmaX05YYGNR76lZDd6r3+iyXn03f0nnqzq1fPLjFsSplN6CHg7
-	XW0wMuCQVmxv7ZaJcObipJT4I
-X-Google-Smtp-Source: AGHT+IFyQEfl1JPJPxf0BZz+v6ihfWCb5OyV0lLUdFcv0lT0Fbn28LslaGE9gKAirHH4EXO//Ee0AA==
-X-Received: by 2002:a17:90b:2fc3:b0:31f:2bd7:a4d2 with SMTP id 98e67ed59e1d1-32476abd39dmr1551147a91.35.1755571951020;
-        Mon, 18 Aug 2025 19:52:31 -0700 (PDT)
-Received: from linux ([223.185.134.58])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3237e3ecc64sm1315532a91.15.2025.08.18.19.52.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 19:52:30 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: wim@linux-watchdog.org
-Cc: linux@roeck-us.net,
-	corbet@lwn.net,
-	linux-watchdog@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [PATCH] watchdog: cpwd: Clarify wd*_timeout parameters
-Date: Tue, 19 Aug 2025 08:21:10 +0530
-Message-ID: <20250819025159.6292-2-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250819025159.6292-1-viswanathiyyappan@gmail.com>
-References: <20250819025159.6292-1-viswanathiyyappan@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h8ue8rx5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=19oxCXqS33NB+Ssjwi1gbteR7DOix9Rje35Ru1DY3sI=; b=h8ue8rx5qK+78YoY3+G1kobzpr
+	snDiQ5CEVfNjNYwSUErMoAdqw5pcfOPReGnjzpctS8+Bved5Vv3fRVBREZtfDvTvGj2HWgJQLoY16
+	k0nUovOH5rLeW8ghwcdrFsrWPjQyu4d6WhpvdsyPSVMrrX7M95SPUGjGTnRyJOGUJgpGYOg0LLGWc
+	PjcyIGbDUEWWOZHaN38vTCfVl//1oQ8zLjgG6P97iqhfxbl3MVBdbsOYYBR/HB7ohm9XuQB+FR6Fd
+	n/g+eFhpU9QRRoCIQr0Sglws1O99N+aPC+mUOGtw6oIy/9MZ1LE0Rt1Huqgzso83B0BJ3XtX/SuTQ
+	qt3KbU5w==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uoDlV-00000009MZW-0XHm;
+	Tue, 19 Aug 2025 04:16:05 +0000
+Message-ID: <f36daf4d-ed4b-4ac2-9932-10e46abdc109@infradead.org>
+Date: Mon, 18 Aug 2025 21:16:04 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: RCU: Wrap kvm-remote.sh rerun snippet in
+ literal code block
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux RCU <rcu@vger.kernel.org>
+Cc: Davidlohr Bueso <dave@stgolabs.net>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>,
+ Jonathan Corbet <corbet@lwn.net>, Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
+References: <20250819004559.11429-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250819004559.11429-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Reword "in 1/10secs" to "in units of 100 ms" in MODULE_PARAM_DESC
-and the corresponding documentation to avoid misinterpretation of
-the fractional notation.
 
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
- Documentation/watchdog/watchdog-parameters.rst | 6 +++---
- drivers/watchdog/cpwd.c                        | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/watchdog/watchdog-parameters.rst b/Documentation/watchdog/watchdog-parameters.rst
-index 0a0119edfa82..4257a59792de 100644
---- a/Documentation/watchdog/watchdog-parameters.rst
-+++ b/Documentation/watchdog/watchdog-parameters.rst
-@@ -122,11 +122,11 @@ coh901327_wdt:
- 
- cpwd:
-     wd0_timeout:
--	Default watchdog0 timeout in 1/10secs
-+	Default watchdog0 timeout in units of 100 ms
-     wd1_timeout:
--	Default watchdog1 timeout in 1/10secs
-+	Default watchdog1 timeout in units of 100 ms
-     wd2_timeout:
--	Default watchdog2 timeout in 1/10secs
-+	Default watchdog2 timeout in units of 100 ms
- 
- -------------------------------------------------
- 
-diff --git a/drivers/watchdog/cpwd.c b/drivers/watchdog/cpwd.c
-index 13a4d47e68cd..c0a5c6f274e0 100644
---- a/drivers/watchdog/cpwd.c
-+++ b/drivers/watchdog/cpwd.c
-@@ -163,11 +163,11 @@ static int wd1_timeout;
- static int wd2_timeout;
- 
- module_param(wd0_timeout, int, 0);
--MODULE_PARM_DESC(wd0_timeout, "Default watchdog0 timeout in 1/10secs");
-+MODULE_PARM_DESC(wd0_timeout, "Default watchdog0 timeout in units of 100 ms");
- module_param(wd1_timeout, int, 0);
--MODULE_PARM_DESC(wd1_timeout, "Default watchdog1 timeout in 1/10secs");
-+MODULE_PARM_DESC(wd1_timeout, "Default watchdog1 timeout in units of 100 ms");
- module_param(wd2_timeout, int, 0);
--MODULE_PARM_DESC(wd2_timeout, "Default watchdog2 timeout in 1/10secs");
-+MODULE_PARM_DESC(wd2_timeout, "Default watchdog2 timeout in units of 100 ms");
- 
- MODULE_AUTHOR("Eric Brower <ebrower@usa.net>");
- MODULE_DESCRIPTION("Hardware watchdog driver for Sun Microsystems CP1400/1500");
+On 8/18/25 5:45 PM, Bagas Sanjaya wrote:
+> Unlike other kvm*.sh snippets in RCU torture test documentation,
+> kvm-remote.sh rerun snippet isn't formatted as literal code block,
+> causing it to be definition list instead in htmldocs output.
+> 
+> Wrap it like the rest.
+> 
+> Fixes: 0c208a793022 ("doc: Update torture.rst")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+BTW, 20 lines above this change, the text says:
+
+  If you the following command works::
+
+Do you have any idea what word is missing there?
+or maybe Paul can make a suggestion.
+
+Thanks.
+
+> ---
+>  Documentation/RCU/torture.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/RCU/torture.rst b/Documentation/RCU/torture.rst
+> index 4b1f99c4181fee..cc57d01ed700ff 100644
+> --- a/Documentation/RCU/torture.rst
+> +++ b/Documentation/RCU/torture.rst
+> @@ -364,7 +364,7 @@ systems must come first.
+>  The kvm.sh ``--dryrun scenarios`` argument is useful for working out
+>  how many scenarios may be run in one batch across a group of systems.
+>  
+> -You can also re-run a previous remote run in a manner similar to kvm.sh:
+> +You can also re-run a previous remote run in a manner similar to kvm.sh::
+>  
+>  	kvm-remote.sh "system0 system1 system2 system3 system4 system5" \
+>  		tools/testing/selftests/rcutorture/res/2022.11.03-11.26.28-remote \
+> 
+> base-commit: 61399e0c5410567ef60cb1cda34cca42903842e3
+
 -- 
-2.50.1
-
+~Randy
