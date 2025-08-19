@@ -1,112 +1,121 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143943043B4
-	for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 12:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C46E322A22;
+	Tue, 19 Aug 2025 12:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755607026; cv=none; b=o65J/S/v39gUoW7KJuv7yiybqO/9bCnVh1L+9ZzuD8K0xpBdFgXXK444OpUBdq7ofWgb6BMyt/fkKXieTp90ew7FZcRv2lR90NQ2u/rkaTy+xKCf38cyWEV3S0YmFiLV8CpgL/+meYoKWSPje0/8mGg4WMa7mMOYHgDhAzZKLjY=
+	t=1755607571; cv=none; b=DWHrd0Z0bhgiH1Z4PyzDbWmPLwq8hpehJJm/ywHQPIbW9RRQqXV/+M2RXY9ZbZZx20RXf3xr8Db+5qbM6PwlGQ/jZqle0WBdF4XkQwUJqbnmmnhIiAiP7tljZkflNVCORVGRcMYKa/6CkTNP+5MP8UCeyDYdv9NtXcwUKGvdzZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755607026; c=relaxed/simple;
-	bh=kN8PO+yKJPtjoWwliqsS5UIbKU7Fz3RgcBRi7ndKNpc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Janft8dZTxReoejqoTHaLzNZKsf+4o6N215lCPpXyYZaNyXqqb7PgSbnXnxzOn4hF5LFUjkHejaI7DMG68pqKtnX14GShsKU8Dqcw245M04qaTGGpdJbyAzFW1g/kJgsl0SSwci2DzqIYBtfirMKyR4iJTAKqKQ6g6v/TKDGzzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BGCcAq80; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755607571; c=relaxed/simple;
+	bh=pG2DqksVXTDv8BiEOMDJb+cN6yI4T+1iuVCpREYgMk4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MJ0laGKuucDQTLgFMUdsesqc4Cy9o5xhTd9QdvUm4vfbHAh4ZcPXp3AR2IbaWbve3T0sox36QrscV2O2urpS8Vki37qXasVANROgDUydJqydN+/h6dQaQLXveMRoh51lXqOCA5NFkuO8odALcgPXxJq6WbNWafloAk1RD/iCZyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NHQwHGF/; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BGCcAq80"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55cdfcc0ceaso5525572e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 05:37:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NHQwHGF/"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-55ce521f77bso5310762e87.1;
+        Tue, 19 Aug 2025 05:46:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755607023; x=1756211823; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kN8PO+yKJPtjoWwliqsS5UIbKU7Fz3RgcBRi7ndKNpc=;
-        b=BGCcAq807utLEGokMXk9xTPzJ2PItinwPONnVrP7/PpnAc9Y7qVssUNIxhJvzDuTiE
-         srgbAai4+DoRNGsxFpzoC/tVQYScCyT31uIKdMTCvgr3Mg8QEpQZe1GrBmmg2tCaeJD7
-         Tol+Mhj9Pbh0FOs4NxaSE9I0FLiruWqPBAYM6FjSpgU8FGVBNAl2VKHfPtmwuqk/rTCs
-         bFgwxI+Or7+bkUYpg7c0cGODH17Jh0Ejz5HK0uW1Wc+PhxLRe6RJIu9yPwSwzY0cwuXl
-         R2umaS1ZoHl1FIvkS1GtJVZ1CJxyifpGvVFETgZE5ZhYh6TGUiuOeyeTl7GdSVLjJU7J
-         5EtA==
+        d=gmail.com; s=20230601; t=1755607568; x=1756212368; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q7LOzMVNNMA/KN/2H97VViAKJUt9B2Qu2D9DsKhv2Fc=;
+        b=NHQwHGF/HKLBQBuJXPwRDmeLdQvQO/8zsq2F+yxN0GUfs6CTH0v/3wkulMVGf19a9P
+         JDOScJHY5RlWSlLBmtjhmZqv93mCQoGhuuAnLgxBBHUqxT48LSLIWidsfR9oNUMWQmEl
+         DPEK57PMqAj/LK/ANn5V+wzsMPGT69kcMSeKL5ygCXxEK6Ogf8gqPQBEUG3Wb1vqbpEs
+         R7imUYskt8vJh+ajMpipQZq78q86ekMg7AnVN95uR2jvvDFIZJJMomGAgfK1l7q1trca
+         dbSLt7khzotCOY9ZiJEl/6GX9GBjYxpIaPhvbJw+5v6gSp7sr6y8B9yggVlK/h4NrIbO
+         elYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755607023; x=1756211823;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kN8PO+yKJPtjoWwliqsS5UIbKU7Fz3RgcBRi7ndKNpc=;
-        b=w6gMrYbGnHQ+atudiBchhCjKFP4TObtSmemwV9cMGBRq4uoFUe50bOfUjaXxarhiVX
-         Z+TbP9+Pyyab6qHWa4CLha4Rjtdl7b5jSOnbz//kmwEX33zPteS0ZMCug6JV+QvNCNYi
-         2tb5MglfJieLbiaB2tlscYqDJwE+zbmpFg5YWHjjC8lg2UI9F0gQOPKIt6X+bjYLfJKR
-         IvP675LNaiSIYIt+4h9tgdW+0FSQxk+f/qtX5R2d70r6c3+xcwQxI4p6QIY5OrU3/cbE
-         CpnY5Qz5PAp8QB4agqhMx0oPItq2Ql6hlAoy6NzRARr4DnDW8f7mH4H8yuA6umYbOhGQ
-         yO8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWXMhkRuTHFT5J8I4H3rzsgcBdba/WwZm1yNed+ZemAhsYWTklFnyXekrG9a0vxNqkoiB3mhao4jK4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx780TNR6pBdWqQ8Ip2PVqM/63wDXkzAnB5ZB3a1h6CjpgR60Jt
-	lNNKdPTMcT6e0t6Z8uFU91VVXcH+eUSx56XafXoATuS4gfz9h3rXPbYCkv2pLaJDhJjblYD1KzY
-	wTyAp61cWZUB+zlIZ+XyFKxZcEbCKR0quF27r8qXvHQ==
-X-Gm-Gg: ASbGncvFl/9q6NsPtpRXrWnYs7p3Gz4WF3QIpYsq9CuMUx7W4EqApp24QH0ln83+QbN
-	W2gcN31iydVsFD5u0hPxZjgC7kNyC9paZ+6T00htzQ9rkKJ4qetha02U04UvgtFw/TZcH6ydwa6
-	0tii1yv/m/Ib/wzJNtgGBNE5xpUKuv7pfB8DfnoqotRUk2br35PloMV7Xw/ulaTqZbpEv8QUD9C
-	P5IJ5uoXfR/
-X-Google-Smtp-Source: AGHT+IF60h4WVMQ3B1KL8q6jLUasLc8BlggUoJR4OlVpazMLoejvJn79GNV6qXgLhSQX6llyrVFMUqcEDHaass7Rvi4=
-X-Received: by 2002:a05:651c:419c:b0:329:136e:300f with SMTP id
- 38308e7fff4ca-33531447abemr5458501fa.13.1755607023091; Tue, 19 Aug 2025
- 05:37:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755607568; x=1756212368;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q7LOzMVNNMA/KN/2H97VViAKJUt9B2Qu2D9DsKhv2Fc=;
+        b=D9HbWlT1pnRgQUwuV4oB5AEh6Ux+vVSEs5xOp7P5hHNQFMUY7vLsKvg5S0MHwS1zQp
+         YRHVtd4h4To2Wp3zA2DtubVjdXvMNVpQyqYThWLsS8EE2ZqHBlH5/XgPprfq2zOr8qc1
+         IqTl2DDWUoIcRvy8PZ01kMW2h2OZ+D+TU5uO9nBOiT1OEMgE5c6r+oSmfVwvNmDp1+JF
+         LGLWhk+sDuAdRJD8BqPMIMYHX7k9w7QPKCmi0ihlHfLdHXmgLD0T31LEIyvY8Q0HkEPv
+         MpeRKj2NMIfLKsVNLmkYEbywJjRwdw6HwQH4gta00iOpD70+ThCMpnmO6Kz9mc6NOEI5
+         DQqw==
+X-Forwarded-Encrypted: i=1; AJvYcCUfU+AuM3iTw6NytEMLAh5ctWAhR3hgP0AC3pxNWSV904/oB6+14YYyUbSPTU77+cRCuQy6fwAPbMalKmjo@vger.kernel.org, AJvYcCVGDN2LnAfVqtiRt9ZhHdwBUEElBrSBggeAp5QdaVUDgwV/dhitK6b299tChv7waa0/lGM1ZsmPdz0p3w==@vger.kernel.org, AJvYcCW0hL7glSZKfWNJIwTEhlGuEF+YyZ0qWfyuDKFcBDkBOr6f8xD4ZKx/aH0erppBp0zHg7rcNtLXHo4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz07hYALWH/ftKe44S0eB2cjIFtAtnqwBXl9hkDdGmRcm0UdkUI
+	yTvwCa7oukgb725rXlYJP/ZCgPJZEJ9Tdr/E7joaXD8JjwRGHjJE5x3u
+X-Gm-Gg: ASbGncseoKH8teZLhzecuh7jdt4szgvRb4zPSoeeFo+6QCYBG8+cg75v+O29cYTvqc+
+	H9xb8Wduy76G9azKI5QkbkEZix5/IbCKoCMoDUZq0H+Zo+If93sptVolLKgkhh1vHIMi5wc224C
+	5aEEasYZBYyVEdSeJqNu8F8Q+nB+fLZHTESuNhLlJbMfshMnIpmwPEkdTtUOOArka4qVt0TSjCA
+	CoRXb8BaJgG7fjiGX1DYyijC/arHY9pclugxdnjZko4l5HcjVeF4K8+EKrEG9N4xv/aitU1+76Y
+	NkHFdBTjF5QjomDBaGkmLkvAivbl3Plb/MvDi37EjIh3Su2TNRt6q94WhxLJf/Zpqtj2PW20HJB
+	Q7ni5me2ez6DpXcR5Z8DVT1dohcLZY+CpCOgrgcMHZD7TKJDarmu+TKtacNiqKrmt9DqO46egrV
+	3nfox4ENDDEY/YnC+xkS19MWGe81wgOMfvAXRMMfcYiMXLAX6okabdLQ==
+X-Google-Smtp-Source: AGHT+IGuGWV7U/oDcYBoO/dSE1FpDen5x0o2bX2DtOCb/orjQtQT2rTj0HKcoTgezUHktREn8UG7FA==
+X-Received: by 2002:a05:6512:2399:b0:55b:57e8:16c4 with SMTP id 2adb3069b0e04-55e0082cab2mr663991e87.30.1755607567254;
+        Tue, 19 Aug 2025 05:46:07 -0700 (PDT)
+Received: from ip-172-31-45-110.eu-north-1.compute.internal (ec2-16-170-211-41.eu-north-1.compute.amazonaws.com. [16.170.211.41])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cef3ccb38sm2136038e87.97.2025.08.19.05.46.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 05:46:06 -0700 (PDT)
+From: Mallikarjun Thammanavar <mallikarjunst09@gmail.com>
+To: tytso@mit.edu
+Cc: adilger.kernel@dilger.ca,
+	corbet@lwn.net,
+	linux-ext4@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mallikarjun Thammanavar <mallikarjunst09@gmail.com>
+Subject: [PATCH] docs: fix spelling and grammar in atomic_writes
+Date: Tue, 19 Aug 2025 12:46:04 +0000
+Message-ID: <20250819124604.8995-1-mallikarjunst09@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250814-ltc4283-support-v1-0-88b2cef773f2@analog.com>
-In-Reply-To: <20250814-ltc4283-support-v1-0-88b2cef773f2@analog.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 19 Aug 2025 14:36:52 +0200
-X-Gm-Features: Ac12FXxreBRNMQ-2ir2X10nBf7B7qy9Abw0x-1rD12XgK0TSMm41kUIDeST3KoY
-Message-ID: <CACRpkdYWNgU8PxVaxDe3F6Cbb15J5cgEV1-kgDooOHdBoXXs3g@mail.gmail.com>
-Subject: Re: [PATCH 0/6] mfd: Add support for the LTC4283 Hot Swap Controller
-To: nuno.sa@analog.com, Jonathan Cameron <jic23@kernel.org>
-Cc: linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 14, 2025 at 12:52=E2=80=AFPM Nuno S=C3=A1 via B4 Relay
-<devnull+nuno.sa.analog.com@kernel.org> wrote:
+Fix minor spelling and grammatical issues in the ext4 atomic_writes
+documentation.
 
-> The LTC4283 device features programmable current limit with foldback and
-> independently adjustable inrush current to optimize the MOSFET safe
-> operating area (SOA). The SOA timer limits MOSFET temperature rise for
-> reliable protection against overstresses.
->
-> An I2C interface and onboard ADC allow monitoring of board current, volta=
-ge,
-> power, energy, and fault status.
->
-> It also features 8 pins that can be configured as GPIO devices. But since
-> the main usage for this device is monitoring, the GPIO part is optional
-> while the HWMON is being made as required.
+Signed-off-by: Mallikarjun Thammanavar <mallikarjunst09@gmail.com>
+---
+ Documentation/filesystems/ext4/atomic_writes.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This main device just screams Industrial I/O, IIO.
+diff --git a/Documentation/filesystems/ext4/atomic_writes.rst b/Documentation/filesystems/ext4/atomic_writes.rst
+index f65767df3620..b614b5ffe76b 100644
+--- a/Documentation/filesystems/ext4/atomic_writes.rst
++++ b/Documentation/filesystems/ext4/atomic_writes.rst
+@@ -14,7 +14,7 @@ I/O) on regular files with extents, provided the underlying storage device
+ supports hardware atomic writes. This is supported in the following two ways:
+ 
+ 1. **Single-fsblock Atomic Writes**:
+-   EXT4's supports atomic write operations with a single filesystem block since
++   EXT4 supports atomic write operations with a single filesystem block since
+    v6.13. In this the atomic write unit minimum and maximum sizes are both set
+    to filesystem blocksize.
+    e.g. doing atomic write of 16KB with 16KB filesystem blocksize on 64KB
+@@ -50,7 +50,7 @@ Multi-fsblock Implementation Details
+ 
+ The bigalloc feature changes ext4 to allocate in units of multiple filesystem
+ blocks, also known as clusters. With bigalloc each bit within block bitmap
+-represents cluster (power of 2 number of blocks) rather than individual
++represents a cluster (power of 2 number of blocks) rather than individual
+ filesystem blocks.
+ EXT4 supports multi-fsblock atomic writes with bigalloc, subject to the
+ following constraints. The minimum atomic write size is the larger of the fs
+@@ -189,7 +189,7 @@ The write must be aligned to the filesystem's block size and not exceed the
+ filesystem's maximum atomic write unit size.
+ See ``generic_atomic_write_valid()`` for more details.
+ 
+-``statx()`` system call with ``STATX_WRITE_ATOMIC`` flag can provides following
++``statx()`` system call with ``STATX_WRITE_ATOMIC`` flag can provide following
+ details:
+ 
+  * ``stx_atomic_write_unit_min``: Minimum size of an atomic write request.
+-- 
+2.43.0
 
-(I think it's fine to use an MFD core and split off GPIO to a
-separate driver, and I suggest maybe you merge MFD and
-GPIO ahead of the main driver.)
-
-Jonathan (Cameron) will have the last word on it but IMO this firmly
-belongs below drivers/iio.
-
-Perhaps not in one of the existing subdirs there but then it is time to
-be brave and create a new one.
-
-It will take some time and consideration, but I think it would be better
-for everyone.
-
-Yours,
-Linus Walleij
