@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CBF4A35;
-	Tue, 19 Aug 2025 02:22:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A2F13A265;
+	Tue, 19 Aug 2025 02:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755570125; cv=none; b=lRXCfDJNlSIsIg5a5+XoAzrGFp3fK+WnIpfgCx6MdlE+QD/+dg/mAeUjFxtAVG/Z7mmRfaCIO44NjiGOUWIr89DHRjBJq37a9L/L46he6Vz2ZTKcrYwzjR0/daOLxys4ndztJ7pPESqJyt75jq8d+HEsQ8SsCGErSiEB3ZigqtU=
+	t=1755570586; cv=none; b=e6+C/elAOTeLZjiDYT9PW/ZWTZAoSVnetfbM5hMfkJiFmI+EU2agx8iXQblYVy1UMUx+XbC1U849YaV7Ey2L5SCK5Pv/OeYEAj8cQRGXak3eORCYb8f5XFLfmDZTzHKY4+qegupt61gACMVgeZKEDncbE+M2pE3c4N82/D2glvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755570125; c=relaxed/simple;
-	bh=KmNwlcboE1hOA8QF2iB4ukhUt9lpbYp4L6F45Hz+8G0=;
+	s=arc-20240116; t=1755570586; c=relaxed/simple;
+	bh=pnbIGffi+m0JiaoTE1u58BWNGkLr6BjTzLhLMx6GpIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u50/uoLkE7zltZHQMu01o15oxl48XFqbUzdpfoOB8GJkDnRESJYMJn0fiFXm8JkE3w71YQILSrm2gF5hArA8exT3wCxJ1frvzdNylFJb41MBWL6O1ht/j8jp9xTl+kGx29m89CONChIbgaCEl4RvfluSKoJME3l+87aluz6Hr6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aCqNb6jY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=dIgilfNMEQr9+K9sQO8avBfjaCK2GJB+yyJXdjyocNi4myHN0RFcIDuhdV/gI0nF10PePAqNO+Hy9pTzj9kStX9HOH6GayGpu2wTTONkeFI8n0B545IDUCrRbItp37w0P9YPNDEd4UoiF/Bf5nSv/JIdlFEFGy5T2PfXugudloQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MiizOzQU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCqNb6jY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 998A1C4CEEB;
-	Tue, 19 Aug 2025 02:22:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MiizOzQU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80979C4CEED;
+	Tue, 19 Aug 2025 02:29:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755570125;
-	bh=KmNwlcboE1hOA8QF2iB4ukhUt9lpbYp4L6F45Hz+8G0=;
+	s=k20201202; t=1755570584;
+	bh=pnbIGffi+m0JiaoTE1u58BWNGkLr6BjTzLhLMx6GpIM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=aCqNb6jYUj8kZaH/NZeCOyTwxbO6d+d8bWHmyvDrhoNAaSxSoPhQjow5g70nXD0sS
-	 +lK2AgTjLbVePrDMzNsA1xo9RDUxthtVdtiJscZZWdKknMIZOx8th7K0c5svAxWeYX
-	 lUeUAoIiufxnLgb0o2cKeZEkn7rXspQV9mcM9RWQ6M7MbYnjslckJKlxJkLzjQrwFR
-	 BqEghYfTcC8Dt0HDsEl432JEFAFU32ivNvjkkExk1wDAUo9WPFtnCDn9B/O1KjCRaI
-	 Ar69D74wqSbFRPb2vP5rGydADniJZzGKNEKXM6BTu8NFzFIdxkym0W7OQuHHD4E5Gq
-	 GI3l9ZZUAaO+g==
-Date: Mon, 18 Aug 2025 19:22:03 -0700
+	b=MiizOzQUjbCkSIxwlHYSR8zVbvom7LhEBydxrRrbUgRz9NFA+rPRnUdc740pB+o4x
+	 NmGpHReKVnQUmwkuKaf+/aNF+H9N7zgE9dMz9B7ZGrQjZG5etdWoRNJ7Nq4R/ILzol
+	 fVe6+7I1xeAwBjm+oNVGEiOjfCbGkB1TRjcD7Agx9geoR61hjQn7ahxM1Po4YX6hYu
+	 5rnOYfEmOFIKRy3esHKsSP6ZcbPnK+ZhsNm+K65+N8e0hEOG2V/IVbpPomDkxwnVcB
+	 xS6OCXqRN18W0EqkN+qGndEvjH6/nskq5B9e9fUtLeiHdrbt0D8XEonDxis1ovwwWf
+	 CvddQnpGFchcg==
+Date: Mon, 18 Aug 2025 19:29:43 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Ivan Vecera <ivecera@redhat.com>
 Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>, "David S. Miller"
@@ -36,12 +36,12 @@ Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>, "David S. Miller"
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Michal Schmidt
  <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>, Przemek Kitszel
  <przemyslaw.kitszel@intel.com>
-Subject: Re: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading
- functionality
-Message-ID: <20250818192203.364c73b1@kernel.org>
-In-Reply-To: <20250813174408.1146717-4-ivecera@redhat.com>
+Subject: Re: [PATCH net-next v3 5/5] dpll: zl3073x: Implement devlink flash
+ callback
+Message-ID: <20250818192943.342ad511@kernel.org>
+In-Reply-To: <20250813174408.1146717-6-ivecera@redhat.com>
 References: <20250813174408.1146717-1-ivecera@redhat.com>
-	<20250813174408.1146717-4-ivecera@redhat.com>
+	<20250813174408.1146717-6-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,45 +51,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 13 Aug 2025 19:44:06 +0200 Ivan Vecera wrote:
-> +#define ZL3073X_FW_ERR_MSG(_zldev, _extack, _msg, ...)			\
-> +	do {								\
-> +		dev_err((_zldev)->dev, ZL3073X_FW_ERR_PFX _msg "\n",	\
-> +			## __VA_ARGS__);				\
-> +		NL_SET_ERR_MSG_FMT_MOD((_extack),			\
-> +				       ZL3073X_FW_ERR_PFX _msg,		\
-> +				       ## __VA_ARGS__);			\
-> +	} while (0)
-
-Please don't duplicate the messages to the logs.
-If devlink error reporting doesn't work it needs to be fixed 
-in the core.
-
-> +static ssize_t
-> +zl3073x_fw_component_load(struct zl3073x_dev *zldev,
-> +			  struct zl3073x_fw_component **pcomp,
-> +			  const char **psrc, size_t *psize,
-> +			  struct netlink_ext_ack *extack)
-> +{
-> +	const struct zl3073x_fw_component_info *info;
-> +	struct zl3073x_fw_component *comp = NULL;
-> +	struct device *dev = zldev->dev;
-> +	enum zl3073x_fw_component_id id;
-> +	char buf[32], name[16];
-> +	u32 count, size, *dest;
-> +	int pos, rc;
+On Wed, 13 Aug 2025 19:44:08 +0200 Ivan Vecera wrote:
+> +	struct zl3073x_dev *zldev = devlink_priv(devlink);
+> +	struct zl3073x_fw_component *util;
+> +	struct zl3073x_fw *zlfw;
+> +	int rc = 0;
 > +
-> +	/* Fetch image name and size from input */
-> +	strscpy(buf, *psrc, min(sizeof(buf), *psize));
-> +	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
-> +	if (!rc) {
-> +		/* No more data */
-> +		return 0;
-> +	} else if (rc == 1) {
-> +		ZL3073X_FW_ERR_MSG(zldev, extack, "invalid component size");
-> +		return -EINVAL;
-> +	}
-> +	*psrc += pos;
-> +	*psize -= pos;
+> +	/* Load firmware */
 
-what if pos > *psize ? I think the parsing needs more care.
+Please drop the comments which more or less repeat the name 
+of the function called.
+
+> +	zlfw = zl3073x_fw_load(zldev, params->fw->data, params->fw->size,
+> +			       extack);
+> +	if (IS_ERR(zlfw))
+> +		return PTR_ERR(zlfw);
+> +
+> +	util = zlfw->component[ZL_FW_COMPONENT_UTIL];
+> +	if (!util) {
+> +		zl3073x_devlink_flash_notify(zldev,
+> +					     "Utility is missing in firmware",
+> +					     NULL, 0, 0);
+> +		rc = -EOPNOTSUPP;
+
+I'd think -EINVAL would be more appropriate.
+If you want to be fancy maybe ENOEXEC ?
+
+> +		goto error;
+> +	}
+> +
+> +	/* Stop normal operation during flash */
+> +	zl3073x_dev_stop(zldev);
+> +
+> +	/* Enter flashing mode */
+> +	rc = zl3073x_flash_mode_enter(zldev, util->data, util->size, extack);
+> +	if (!rc) {
+> +		/* Flash the firmware */
+> +		rc = zl3073x_fw_flash(zldev, zlfw, extack);
+
+this error code seems to be completely ignored, no?
+
+> +		/* Leave flashing mode */
+> +		zl3073x_flash_mode_leave(zldev, extack);
+> +	}
+> +
+> +	/* Restart normal operation */
+> +	rc = zl3073x_dev_start(zldev, true);
+> +	if (rc)
+> +		dev_warn(zldev->dev, "Failed to re-start normal operation\n");
+
+And also we can't really cleanly handle the failure case.
+
+This is why I was speculating about implementing the down/up portion
+in the devlink core. Add a flag that the driver requires reload_down
+to be called before the flashing operation, and reload_up after.
+This way not only core handles some of the error handling, but also
+it can mark the device as reload_failed if things go sideways, which 
+is a nicer way to surface this sort of permanent error state.
+
+Not feeling strongly about it, but I think it'd be cleaner, so bringing
+it up in case my previous comment from a while back wasn't clear.
+
+> +error:
+> +	/* Free flash context */
+> +	zl3073x_fw_free(zlfw);
+> +
+> +	zl3073x_devlink_flash_notify(zldev,
+> +				     rc ? "Flashing failed" : "Flashing done",
+> +				     NULL, 0, 0);
