@@ -1,54 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B7442A8C;
-	Tue, 19 Aug 2025 13:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CF332BF29;
+	Tue, 19 Aug 2025 13:21:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755609620; cv=none; b=mARX7sorNbbQaFOdsu0zmWQPbNPDlHsFSxkRQJwyBuxVx/OhgBcEDAYh2SAZdxIW17UPxIJJzYXt8E5+r7Uc1hZrvnMDCKMKLDNa/YyePsB+mcMH7+T8s1V1NGxUw0LXzJIHVanRiCvtxkP8jw/ttWBlPqqG/jmqXvem4qvM2B4=
+	t=1755609672; cv=none; b=fIIQ9Nva8iHN1dkIOvXZBnAfT41rqonVxFUIMtNva2b+n+xQH4fYqlTgscNH+65gsmtyPUN9fZ14WohK2T/X18L1A6j/hAo/ALIAdLegBebp80J3xAcDNh4G7vz9hBd0OAZ0Q1rGWmUknE+VYRSunra5IQM9SeExNnyRZvKrEug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755609620; c=relaxed/simple;
-	bh=XU7co7/IhKC1SFIOJ2ctmYNnp6ZOEwiQt191KNHFDnQ=;
+	s=arc-20240116; t=1755609672; c=relaxed/simple;
+	bh=E4SaG2YnUo4NG10JAD9E7nMioi1BFmyERGD+gQPW8Hg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XY9KLjHKAe6lRAtA0lS77eapJKIhh/W25N8MKQ3cg2xhx+v0zlQw0hz5YvYwZb4lizNfu5N9GNfiCIkxlvmsByYJ0dfiOXA2Gfwi2qWba3OHQZh7hfZ1vS9uAqUAtpbT7AqDXSD6GFZta/VE48j/dHqdxwrFWryDP93AvIiLizg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Ms7U26Tv; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=J1HlcCzrAsShufs1kvKlmoZFhioj/qEYagI8VIoUFvkhEkuvSn3NFul1npYp8Ij4yZHD5fm2+BB571FJsElvkb85O0zTQEzmH4/YGyDVspdapJllkzYNkmSfa4/n2Lfukd3In3le1678+zQrmqiY4GqNJCcWIUqShn8Zs/kywLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XYdd0+mL; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ms7U26Tv"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1313E40AB4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XYdd0+mL"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 74A9440AB4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755609617; bh=efICgIMOiqQPSZSk5RbTaKUwai8LvnXvLst5MTuVWT4=;
+	t=1755609670; bh=Ff91uUxiD23SHGk/G+5qDFQQGPwsJuNZWKli8q4KANU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Ms7U26TvAhh2tBh57lX4Hwcs1DeYm4zZ9Ok8oKOzX9+lHT/N2Cf8fPUigYJMpjKMW
-	 GCSbXfwA2rbT7t9vNB4l1m94LO1PcF68hze9LUujTS/Um/WRAWShgel8VAm90JKlZh
-	 Kt98LYj63moZuo5wJQ8GTJizaSTGuz+EJPjQBd4p3cb384RK48dq+5XQD+Tm1SOAa+
-	 qLno0sJwUQ+CwA5IsrDQQrMGxCfytIsRHGe7yg5ZLZcGkSRp2Lv+GveV4D4gZnrMyn
-	 aDaOVfbxq3WK2+JGe++3abZvnlfZlXTzplXtltMTsW6srlieGYrgA7vUMrMct5bfsq
-	 2PdvkL/14WGIg==
+	b=XYdd0+mLD3zynpIqjnUQBsIuZZBDhd4SMX5pw+JI3ip5NGYldKqpCpxw3rznCBiM5
+	 0WZPw9P/UNBgF9JyGCyVdZqxUelnqgDCLwzMBoiUd3qtTgqCwRnvOTOAXL6anOGCKZ
+	 ki7vX5LoBPBsM8fcNaXZqfnol8YRsXATzTRYq33Z8FFG5WeEG4kC5jqICTz9S1JyDX
+	 /SNeGdSgZPJoxmGODjaD8bk8hVFC5EbQ8jq/aOQUd8/I4RNAtEaoQBa7dwNZ0Gl4ov
+	 PRZyIyJk/Hfqhq9plT+6c2rkHYcaKKfYwQVCU9riPSIJgw9cFVexpLUhl9dfj2pJQ7
+	 BVBBSmprI1qdw==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1313E40AB4;
-	Tue, 19 Aug 2025 13:20:17 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 74A9440AB4;
+	Tue, 19 Aug 2025 13:21:10 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>, Clark
- Williams <clrkwllms@kernel.org>, Frederic Weisbecker
- <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, John Ogness
- <john.ogness@linutronix.de>, Peter Zijlstra <peterz@infradead.org>, Steven
- Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
- Valentin Schneider <vschneid@redhat.com>, Waiman Long
- <longman@redhat.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 3/3] Documentation: Add real-time to core-api
-In-Reply-To: <20250819080358.H9R_64I7@linutronix.de>
-References: <20250815093858.930751-1-bigeasy@linutronix.de>
- <20250815093858.930751-4-bigeasy@linutronix.de>
- <87seho8v12.fsf@trenco.lwn.net> <20250819080358.H9R_64I7@linutronix.de>
-Date: Tue, 19 Aug 2025 07:20:16 -0600
-Message-ID: <87ldnfv46n.fsf@trenco.lwn.net>
+To: Akira Yokosawa <akiyks@gmail.com>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 1/1] scripts/sphinx-build-wrapper: allow building PDF
+ files in parallel
+In-Reply-To: <19f031e5-0060-4957-8cc8-9cd21e7d6304@gmail.com>
+References: <cover.1755540431.git.mchehab+huawei@kernel.org>
+ <26e5efca73dbd2f863a51018054a749c9e5f5a19.1755540431.git.mchehab+huawei@kernel.org>
+ <19f031e5-0060-4957-8cc8-9cd21e7d6304@gmail.com>
+Date: Tue, 19 Aug 2025 07:21:09 -0600
+Message-ID: <87h5y3v456.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,39 +53,12 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> On 2025-08-18 10:16:41 [-0600], Jonathan Corbet wrote:
->> Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
->> 
->> One nit:
->> 
->> > diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
->> > new file mode 100644
->> > index 0000000000000..50d994a31e11c
->> > --- /dev/null
->> > +++ b/Documentation/core-api/real-time/differences.rst
->> > @@ -0,0 +1,242 @@
->> > +.. SPDX-License-Identifier: GPL-2.0
->> > +
->> > +========================
->> > +Significant differences
->> > +========================
->> 
->> That heading text will appear in various places, including in the
->> rendering of your new index.rst file.  In such a setting, "significant
->> differences" doesn't give a lot of information.  Something like "How
->> realtime kernels differ" would be better, IMO.
->> 
->> Otherwise, this all looks good to me.  Did you want me to pick it up, or
->> did you have another path in mind for this work?
->
-> Right now this is it. Do you update the text above as suggested or do
-> you want me to resend it?
+> I couldn't test this because I couldn't apply your sphinx-build-wrapper
+> series on top of docs-next.  :-/
+> Which commit does it based on?
 
-I can apply it and make that tweak if you like, yes, no need to resend
-for that.
-
-Thanks,
+It is built on top of the PDF series - I ran into that too.
 
 jon
