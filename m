@@ -1,132 +1,122 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE71C38B;
-	Tue, 19 Aug 2025 09:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953E7315769
+	for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 09:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755594565; cv=none; b=eE1+wtJzCS7rY/gl2Bq4KSj7VzUhV8LnOyz64PG8l+g2Kw/Pq2v4/fR9SK8VFA+R2uPb1u5GpSYbVefaaRyjWJNnJNJFvOZLCZlQ6gqCh2YkNR4M1Q9iWP4FKjX/oGIJmzg4MX45GrT47DAZy2AUFknSeWQGFwqcvWsQ+hXxHWk=
+	t=1755594884; cv=none; b=lA3nMtz6VRLa4VS9oy77wluc8LPQrFBh2VJqn4gqa13+xTwzHCwt9h6QGM+J5hz4O2tRqcQoSiFw/UTujOvCxftf2T2muiaa+UTsFPF9MwgjOKc17wuanfqBz98zj6Bmc66i/wUWsQvwBICUz0llPQleHsuXj7xIWbqsSk3xRzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755594565; c=relaxed/simple;
-	bh=f/L4xjvWw3y93yLNsybSCqBehXX2kkqDpsD/wGF6kjg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZRp//G+w8sDbfyDHrzkPWK3LM3WZmG4FX/S2rbX51cWGillARuiU97DeNmdG778gonWdn60Gb/0vzeXtoU0yzURvFM4qQkO1QRLb5Mimrt3pW1moutdVvS54I9VcCVm67YnNNE9xqhujHSWrPxQ3oMdfOnUmZerRB3Jv6ZFBGV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fk92PaYl; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755594884; c=relaxed/simple;
+	bh=IoV7WBKUuYn16T6F/r3wlHg0NlMpdOlWlmfnqLYAMxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NPYv2gN9orLCDe64ON2/eCNyteowJJtfBj2Z00FimZ2rI3HNUBgZ1AbEPI9izBEU/lS0+p35jSCllBIHwmimpjWRI8yw4lkp3WWZJB46gU6F1PeD8TqP5lYmFxIJyNkThlEU+k1gAHzR9D2A6dkqUv72B8pVUGY+Ay/8KXDjFVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SBYpGrRu; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fk92PaYl"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-323266cb393so4678799a91.0;
-        Tue, 19 Aug 2025 02:09:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755594563; x=1756199363; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pqwiHlNFTNNZmZBdSJVjG8nSL5ZiU/GxNS1GLAUceqE=;
-        b=fk92PaYlTzpYEiOiXhk20Hs9/k9HIUM+nFb15McZKrAieRTo9UOkkWCkjE06MZpR3t
-         yM4MGNTwqTqkG3JwD5d8GE/vkrW5XiA7WXeaSrzEwekSj0pteWE0HO6aAYCiJ4RDHrO4
-         OAY7ids+F1CXTJRRNMGQh5NhjYMtiM+MOsOiGPJHnu+WBCEzZ393KWROvPaUsbwXzgpm
-         mZE1cRGWjgBSrTPeDPcAaM88XErdlXTsrc0YDGL89UhlG1mJ80NWmIXUVXquUWXKzYqg
-         xjf4ocPNW5qCRP6ZVTE1df4V7m0XkVgy3SX4glILpcp543PzfiSrMWMgY/H+kuiDHfsx
-         kjmQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SBYpGrRu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755594881;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WBft0XKYlUGliTx+DSLRnykfjvI7iBuKLMaBXeDuquI=;
+	b=SBYpGrRurGJoXgQUCMdBg2Us+Mp2zXIws+GymozndGclrTU3CeV8gwDBS6bQmBN4T5TZ2f
+	6RfhP/mCxNwjcpcS0RaCoKqrNgtmQ3ZyiqbKCEqyp8vl/k72fqMB609vxCHDbrecoNR/BZ
+	8t3237V+CK+9jqptduW4ewen9BYlAiY=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-549-vTq5azoMNgWyLmf85KsFIQ-1; Tue, 19 Aug 2025 05:14:39 -0400
+X-MC-Unique: vTq5azoMNgWyLmf85KsFIQ-1
+X-Mimecast-MFC-AGG-ID: vTq5azoMNgWyLmf85KsFIQ_1755594879
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7e8704d540cso592862685a.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 02:14:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755594563; x=1756199363;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pqwiHlNFTNNZmZBdSJVjG8nSL5ZiU/GxNS1GLAUceqE=;
-        b=pOVSQN1QZpLVqKKoSwpmZqBFgloPr8o1/zufR7ELX6+/CsUM9fx4PEXGaG+lbJuYqG
-         ORAdTjnO93jq6bjqnWPxZ3tzrSDjEXkJTyNubk/BLw6KAHsWy4Tl840WVm+JH/tOn89u
-         nSBdJwPjmgHw3/H5ppTQlNSbqr8ucf6bISZy/vi55AnMoupPZq6z4g+bytvEwMnxc95+
-         ANq5OxnS9kxxkrYjBXLHP/Va6nH9bo6Uq/dXGTLT6rk1CHx1zaccCvfobw7uo3EBbm6v
-         SqsQCIH+vretR8Z1mNQR0Y9OKWM6PsdN19KlXAdGnB3HgRxBudQxMztzNtmsSvutDfQz
-         G62g==
-X-Forwarded-Encrypted: i=1; AJvYcCW3E3l9VRdgRaC6Y9l9kXxUgDTuXFL73HhONG/hwic01AJjfad3WHo94xS+Ho+Pd6WFhssirZMgHyQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yydd92VGoeSIPeR5T7cxYQR277s0L6dAs9tthYtUYA2/92SVpI+
-	pokfgzMxCFETxL9nC/ntdT888Zj+1ZYGUxDIoofPHMxSrxy3qB+4/RZY
-X-Gm-Gg: ASbGncuZdRh+bp88vyDrkOTGmN+0hb0RDKVeB3HdZbVx/swhg+QH83c4uv9InMdE7ic
-	CYbcrNQ2cXn3ftj6h0N8/ef4K9O5+xSPTNtckWZ/UME+hOXsLJRqZPp8vjCeMTkIowKMC4vbxO6
-	SMcCU1p06sHUN5EO/JTCH85DMso1kjroTlctf9Zr+TUAIjE5ll13VEj8s8iED/BPaGdA9Nk4eF7
-	N00Uy46jPXSarxodubRkQ4HdqkAxvJuqssV1jLWZnD5Iq8pzmyIWsQV60MkLRVB2grrU7gkL6rW
-	9OxyyVqIlDRLzr/HzKdr68oyPQrNVUvQaBWZ6jrLjWeK8TO+5o7zU3KRj+2uN13BWnmqmgW6DV0
-	uSMCppfVsaA0dgUZd7rAixVLa4U8Yu81Inwhv10zwHQJk9cFE8K49pFD5ahCCQlpvpk8f
-X-Google-Smtp-Source: AGHT+IHV7VOI6KP4TwHbQ5qJlhVTQqUCySd4urt+mrDdTZldlbSMNXKQ/Uc+YZrphtil3vdvQARkqg==
-X-Received: by 2002:a17:90b:5447:b0:321:1a89:f692 with SMTP id 98e67ed59e1d1-3245e562fa5mr2872427a91.8.1755594562856;
-        Tue, 19 Aug 2025 02:09:22 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3244230b33csm785004a91.2.2025.08.19.02.09.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Aug 2025 02:09:22 -0700 (PDT)
-Message-ID: <19f031e5-0060-4957-8cc8-9cd21e7d6304@gmail.com>
-Date: Tue, 19 Aug 2025 18:09:20 +0900
+        d=1e100.net; s=20230601; t=1755594878; x=1756199678;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WBft0XKYlUGliTx+DSLRnykfjvI7iBuKLMaBXeDuquI=;
+        b=jAiM15ohSbEmplbWZjGVG7bX7Y5rcZwk+KO9DVR/lb75e0Zu5izMNCHK2utWjbTFp4
+         GYavcBmFhMpb3L0yLqmEPnpd43nXhEArpymH3vE2eQBJ+isRM74Qv40nrlT6CRZIn2oB
+         BmveYhn+FvEnDrQr1e9XOROKE9V0ySt0EZkoaA/aJnUWgrAW8nFtD21MazHn2yMjS8or
+         Vph0olS+rDNkfRN8iL27MdSB4Nm85/7skiy5TiUwWqTUQbsYySYL7vumRcqD5B9eH2Nb
+         pDHuUouua4ZeEx4hZ1oW8uyVG727xD+ebPIxKHvXFhNggMo0UefSoheHzKzRcccbX0lh
+         9NYg==
+X-Forwarded-Encrypted: i=1; AJvYcCWpI3w+UDTB2dplzGdXlKWzMhBpjAwg3pZjGQFk6PSAnAgL0YRLwOoq+rEmye/zU8N2TuXEhjH/Sy8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzhqdid6zwNXmxvvNdWVwbaS3tPsLuKZeSrJGawzA7oXb5ADF43
+	+HamOFT1fK/m9T1uXkbwssGNZ8aFllzT2eXe1cyBmAjMYP+0OBAFjMAZCxubYIEjrUIXbD6Vh4M
+	FzPp3o9KRcrSPhDw+I11XRxlj1Zm3oiwjZtuige+GgFt/pFVDvU3I7/p48/G2Hg==
+X-Gm-Gg: ASbGncurMgzRkXPAc5nBIRoQesrni/Dl3yrixuEXV3GaH91PqwiEgSqyXP0cnlHNOSY
+	LMp8nw5HWOPVFbv4Di/jsJmFJD/7476s8aeWQAIpOb9Zss/2wSP6XwhLs31pnIfWFh799w4ESDW
+	lRRmNi8yAmLN8zdHUSUSTEpvGIOXU20XgLMAle2n4+gwoNL7ecTUltn4bpUG5wKvuR0HGkPFhsH
+	2gr7VoqzOHkRJS/5Jnb0xbU2kG3jYLmd1AqRGN9j4eTmcz1KAtfE+PF8oCviPkLZddjar66G41e
+	7frdtVikRrS02bHbnXZida1uD3zm2tOQCGgWPic55dcwbvnOUa/LHv0mmgUjp+Z0a5JR
+X-Received: by 2002:a05:620a:a48b:b0:7e9:f81f:ceba with SMTP id af79cd13be357-7e9f81fd24fmr40071685a.84.1755594878518;
+        Tue, 19 Aug 2025 02:14:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFmEoj+Ud8zs9th52SpZwFEUaYKQf8oz1qBWLxnyzGAiTxqSStJPJDiPCnTXIiBo4xdTU/u7g==
+X-Received: by 2002:a05:620a:a48b:b0:7e9:f81f:ceba with SMTP id af79cd13be357-7e9f81fd24fmr40069585a.84.1755594878120;
+        Tue, 19 Aug 2025 02:14:38 -0700 (PDT)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.81.70])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e87f16f9ecsm712066085a.24.2025.08.19.02.14.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 02:14:37 -0700 (PDT)
+Date: Tue, 19 Aug 2025 11:14:32 +0200
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Nam Cao <namcao@linutronix.de>, Tomas Glozar <tglozar@redhat.com>,
+	Juri Lelli <jlelli@redhat.com>,
+	Clark Williams <williams@redhat.com>,
+	John Kacur <jkacur@redhat.com>
+Subject: Re: [RFC PATCH 11/17] Documentation/rv: Add documentation about
+ hybrid automata
+Message-ID: <aKRAeOakjiwmgML_@jlelli-thinkpadt14gen4.remote.csb>
+References: <20250814150809.140739-1-gmonaco@redhat.com>
+ <20250814150809.140739-12-gmonaco@redhat.com>
+ <aKQ7iaSb9GGUtuCZ@jlelli-thinkpadt14gen4.remote.csb>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] scripts/sphinx-build-wrapper: allow building PDF
- files in parallel
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>, corbet@lwn.net,
- Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1755540431.git.mchehab+huawei@kernel.org>
- <26e5efca73dbd2f863a51018054a749c9e5f5a19.1755540431.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <26e5efca73dbd2f863a51018054a749c9e5f5a19.1755540431.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aKQ7iaSb9GGUtuCZ@jlelli-thinkpadt14gen4.remote.csb>
 
-On Mon, 18 Aug 2025 20:10:01 +0200, Mauro Carvalho Chehab wrote:
-> Use POSIX jobserver when available or -j<number> to run PDF
-> builds in parallel, restoring pdf build performance. Yet,
-> running it when debugging troubles is a bad idea, so, when
-> calling directly via command line, except if "-j" is splicitly
-> requested, it will serialize the build.
+On 19/08/25 10:53, Juri Lelli wrote:
+> Hi!
 > 
-> With such change, a PDF doc builds now takes around 5 minutes
-> on a Ryzen 9 machine with 32 cpu threads:
-> 
-> 	# Explicitly paralelize both Sphinx and LaTeX pdf builds
-> 	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs -j 33
-> 
-> 	real	5m17.901s
-> 	user	15m1.499s
-> 	sys	2m31.482s
-> 
-> 	# Use POSIX jobserver to paralelize both sphinx-build and LaTeX
-> 	$ make cleandocs; time make pdfdocs
-> 
-> 	real	5m22.369s
-> 	user	15m9.076s
-> 	sys	2m31.419s
-> 
-> 	# Serializes PDF build, while keeping Sphinx parallelized.
-> 	# it is equivalent of passing -jauto via command line
-> 	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs
-> 
-> 	real	11m20.901s
-> 	user	13m2.910s
-> 	sys	1m44.553s
-> 
+> On 14/08/25 17:08, Gabriele Monaco wrote:
 
-Sounds promising to me!
+...
 
-I couldn't test this because I couldn't apply your sphinx-build-wrapper
-series on top of docs-next.  :-/
-Which commit does it based on?
+> > +  static bool verify_constraint(enum states curr_state, enum events event,
+> > +				 enum states next_state)
+> > +  {
+> > +	bool res = true;
+> > +
+> > +	/* Validate guards as part of f */
+> > +	if (curr_state == enqueued && event == sched_switch_in)
+> > +		res = get_env(clk) < threshold;
+> > +	else if (curr_state == dequeued && event == sched_wakeup)
+> > +		reset_env(clk);
+> > +
+> > +	/* Validate invariants in i */
+> > +	if (next_state == curr_state)
+> > +		return res;
+> > +	if (next_state == enqueued && res)
+> > +		start_timer(clk, threshold);
+> 
+> So, then the timer callback checks the invariant and possibly reports
+> failure?
 
-Thanks,
-Akira
-
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Closes: https://lore.kernel.org/linux-doc/9b3b0430-066f-486e-89cc-00e6f1f3b096@gmail.com/
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  scripts/sphinx-build-wrapper | 141 ++++++++++++++++++++++++++---------
->  1 file changed, 106 insertions(+), 35 deletions(-)
+Ah, OK. The 'standard' ha_monitor_timer_callback just reports failure
+(react) in case the timer fires. Which makes sense as at that point the
+invariant is broken. Maybe add some wording to highlight this?
 
