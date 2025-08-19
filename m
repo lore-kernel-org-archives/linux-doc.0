@@ -1,180 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2B4220687;
-	Tue, 19 Aug 2025 21:55:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD69931DD89;
+	Tue, 19 Aug 2025 21:55:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755640511; cv=none; b=nuUPbwPG1eeo+PyWqPmQ0oyiERAUco7H3KmlXnZ7J2BC2QRydqSG3gDAl9MZ718JA98501+VJVEFIv6qllsVydAfKqF6P8dK7+2yBMOaroFGBMOWrq6sFdOA0uB5ITBvdfOCIT0rwPm4fdA6V6qP+dJ/L59cr7UQr0W0n35GAVI=
+	t=1755640533; cv=none; b=OzPh+XjNCASq6FkmfQMaow3Zi9lrndwB+9194i1RLCnTCnVw18H/sFbM3aVpfK/c5BFJtyaab/85ReEl62FtWCcS/AiSFhwDlZVZESzl5tBm2Bkg0IogZlJb4obLw7J4H4WIODphS94MVjjz3NWy6xDLZdql0rMFiuuTdER4Ago=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755640511; c=relaxed/simple;
-	bh=gRjtTaJQgCQg4iLt7DACCXcUdygAh1cA8bBXzSnuB/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DvBXMN++luTLBJa4jIoNiL3ajKUGO3PTKkhBtHcN9nZVX87qMVH3xML4OGNOYaTSygAbgkV+skWSNoZbcRaNGVnLa9OkhV8txU0jCHXWvNtbOTkA9V1Ft8vEptw/jHBsxfowWXBHDZcuNZPB/p7jFoLqMtFFBp95qG71WpyExMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cD6x203S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755640533; c=relaxed/simple;
+	bh=3vhU/lMCE6qPR2EWUaInpiU26gw7Ul+uR3Zkii7rocM=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=JFjx/XRP3AYdw43KVYnYoN6TAdHPDpPaApyQUpUiDRWA0itJAd1fzsWbKsVX70aADcDtm4JI3kPAyq/ZmhzdfmCfKplfwdUZCE0xbEXvE4QuNHDDg78ynSwnVS7Eibe6uUKe4d+Zvg8VMI5+q1cqln5fCRH4MTbxi1mBwqEy2s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=N8x+9Y/7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cD6x203S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7DAAC113CF;
-	Tue, 19 Aug 2025 21:55:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755640510;
-	bh=gRjtTaJQgCQg4iLt7DACCXcUdygAh1cA8bBXzSnuB/M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cD6x203SdI5KeE17Bz9o6vUDD4o/uLGZMbnQG7CTynA32xxJn5G7sWzHCaC/ufxDD
-	 ijaAWbK/met3XTbK0z90vbG3Jk1t1w89yzUHsouH6VRThw35iW9wQngIQx+PqoJjsN
-	 06gSlYHGygWoA1pKJZRCDidRcSxJ8z3BHnv+hpbSZrjzWa66rsPejsJMbDCrzh4b/0
-	 nDE+C5XqI5NmuXxKRjvcxaIj5nvIQo3SztfR3mmgVSy13BxQ3numI4KDhoC/1DuqIF
-	 5CkYwpLA6dDMsxrLXqSW0HCcS5IJ9YlSKgcMnWl4WTC8qwo522/wluiuV6ywXHIOXO
-	 1xDourXu0rrQQ==
-Date: Tue, 19 Aug 2025 14:55:10 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: John Groves <John@groves.net>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 12/18] famfs_fuse: Plumb the GET_FMAP message/response
-Message-ID: <20250819215510.GD7942@frogsfrogsfrogs>
-References: <20250703185032.46568-1-john@groves.net>
- <20250703185032.46568-13-john@groves.net>
- <CAJfpegv6wHOniQE6dgGymq4h1430oc2EyV3OQ2S9DqA20nZZUQ@mail.gmail.com>
- <CAJfpegv=ACZchaG-xt0k481W1ZUKb3hWmLi-Js-aKg92d=yObw@mail.gmail.com>
- <20250814182022.GW7942@frogsfrogsfrogs>
- <hd3tancdc6pgjka44nwhk6laawnasob44jqagwxawrmxtevihe@2orrcse6xyjx>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="N8x+9Y/7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34B02C4CEF1;
+	Tue, 19 Aug 2025 21:55:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1755640532;
+	bh=3vhU/lMCE6qPR2EWUaInpiU26gw7Ul+uR3Zkii7rocM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=N8x+9Y/7FBWoZhOXJBckURArIzGN8dv0F2x9lMKlxqAuLh7RQOs6+rrwT0K2w8C7F
+	 1xduqjaCf/IQHqRP2YjyiSKtK7UwuskcUM6PiwEY01gMzLPRQzJKGjoX/fjFZ5Su3W
+	 SQPaDFbGrpK6MNkpB9lvWgfNKdwxVlAtqAjAJOoA=
+Date: Tue, 19 Aug 2025 14:55:30 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, baohua@kernel.org, willy@infradead.org,
+ peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+ sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+ will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com
+Subject: Re: [PATCH v10 00/13] khugepaged: mTHP support
+Message-Id: <20250819145530.243e02184b743eb9ec506856@linux-foundation.org>
+In-Reply-To: <20250819134205.622806-1-npache@redhat.com>
+References: <20250819134205.622806-1-npache@redhat.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <hd3tancdc6pgjka44nwhk6laawnasob44jqagwxawrmxtevihe@2orrcse6xyjx>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 15, 2025 at 10:06:01AM -0500, John Groves wrote:
-> On 25/08/14 11:20AM, Darrick J. Wong wrote:
-> > On Thu, Aug 14, 2025 at 04:36:57PM +0200, Miklos Szeredi wrote:
-> > > On Thu, 14 Aug 2025 at 15:36, Miklos Szeredi <miklos@szeredi.hu> wrote:
-> > > 
-> > > > I'm still hoping some common ground would benefit both interfaces.
-> > > > Just not sure what it should be.
-> > > 
-> > > Something very high level:
-> > > 
-> > >  - allow several map formats: say a plain one with a list of extents
-> > > and a famfs one
-> > 
-> > Yes, I think that's needed.
+On Tue, 19 Aug 2025 07:41:52 -0600 Nico Pache <npache@redhat.com> wrote:
+
+> The following series provides khugepaged with the capability to collapse
+> anonymous memory regions to mTHPs.
 > 
-> Agreed
-> 
-> > 
-> > >  - allow several types of backing files: say regular and dax dev
-> > 
-> > "block device", for iomap.
-> > 
-> > >  - querying maps has a common protocol, format of maps is opaque to this
-> > >  - maps are cached by a common facility
-> > 
-> > I've written such a cache already. :)
-> 
-> I guess I need to take a look at that. Can you point me to the right place?
-> 
-> > 
-> > >  - each type of mapping has a decoder module
-> > 
-> > I don't know that you need much "decoding" -- for famfs, the regular
-> > mappings correspond to FUSE_IOMAP_TYPE_MAPPED.  The one goofy part is
-> > the device cookie in each IO mapping: fuse-iomap maps each block device
-> > you give it to a device cookie, so I guess famfs will have to do the
-> > same.
-> > 
-> > OTOH you can then have a famfs backed by many persistent memory
-> > devices.
-> 
-> That's handled in the famfs fmaps already. When an fmap is ingested,
-> if it references any previously-unknown daxdevs, they get retrieved
-> (FUSE_GET_DAXDEV).
-> 
-> Oversimplifying a bit, I assume that famfs fmaps won't really change,
-> they'll just be retrieved by a more flexible method and be preceded
-> by a header that identifies the payload as a famfs fmap.
+> ...
+>
+> - I created a test script that I used to push khugepaged to its limits
+>    while monitoring a number of stats and tracepoints. The code is
+>    available here[1] (Run in legacy mode for these changes and set mthp
+>    sizes to inherit)
 
-<nod> Well, I suppose fmaps aren't supposed to change much, but I get
-the strong sense that Miklos would rather we both use the
-FUSE_DEV_IOC_BACKING_OPEN interface...
+Could this be turned into something in tools/testing/selftests/mm/?
 
-> > 
-> > >  - each type of backing file has a module for handling I/O
-> > > 
-> > > Does this make sense?
-> > 
-> > More or less.
-> 
-> I'm nervous about going for too much generalization too soon here,
-> but otherwise yeah.
+> V10 Changes:
 
-...and I've tried to make it simple for famfs to pick up the interface.
-From the new fuse_backing_open:
-
-	/*
-	 * Each _backing_open function should either:
-	 *
-	 * 1. Take a ref to fb if it wants the file and return 0.
-	 * 2. Return 0 without taking a ref if the backing file isn't needed.
-	 * 3. Return an errno explaining why it couldn't attach.
-	 *
-	 * If at least one subsystem bumps the reference count to open it,
-	 * we'll install it into the index and return the index.  If nobody
-	 * opens the file, the error code will be passed up.  EPERM is the
-	 * default.
-	 */
-	passthrough_res = fuse_passthrough_backing_open(fc, fb);
-	iomap_res = fuse_iomap_backing_open(fc, fb);
-
-	if (refcount_read(&fb->count) < 2)
-		/* drop the fuse_backing and return one of the res */
-
-So all your famfs_backing_open function has to do is check that fb->file
-points to a pmem device.  If so, it sets fb->famfs = 1 and bumps the
-fb->count refcount.
-
-Full code here:
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-attrs_2025-08-19
-
-I'll let the build robots find any facepalm problems and post this whole
-series tomorrow.
-
-> > > This doesn't have to be implemented in one go, but for example
-> > > GET_FMAP could be renamed to GET_READ_MAP with an added offset and
-> > > size parameter.  For famfs the offset/size would be set to zero/inf.
-> > > I'd be content with that for now.
-> > 
-> > I'll try to cough up a RFC v4 next week.
-> 
-> Darrick, let's try to chat next week to compare notes.
-> 
-> Based on this thinking, I will keep my rework of GET_FMAP to a minimum
-> since that will likely be a new shared message/response. I think that
-> part can be merged later in the cycle...
-
-<nod>
-
---D
+I'll add this to mm-new, thanks.  I'll suppress the usual emails.
