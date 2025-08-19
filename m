@@ -1,55 +1,101 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DF123CF12;
-	Tue, 19 Aug 2025 17:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9FD20469E;
+	Tue, 19 Aug 2025 17:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755623713; cv=none; b=NhdTU+sDoF+32Az9QdQfFfZ95iZBD4QiqpGYUhL8Odd19CFqrjBIo7Mh3CqdbjoIhIVs1dSDvn6qx93dKFarflvcvOqIFh3dT4QLRENVA5WBdoVng8r5+hT0a2UznSXDw+h6C8Evk0sTkg9XC2Vs7Hr1aZ9KIJLtO7+6RxYreCo=
+	t=1755623884; cv=none; b=PD86zns/UMKg/8N7//E0RGW3DzNGXHMNBrNCeadt9kLamMlTzihiz+x4qoAEfeg285UKq5mJ5dTFhH+3oOC5rV7hedXFadX18oWKVlcc2Nt0/EG01JA+kw3+aT8vvLw6n5Jqj0ab2chxD3IssKYy4J++rL24famwGVnwlZyC3CE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755623713; c=relaxed/simple;
-	bh=ax3Wrz64+irSjkjwqsQbXNTCEf04FRP+UWIxlwJ6EYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YC/S0Gd7D4LYcv9UXv8aZrzduv4rx3GqUfg7AeZe0LSCI3NWbN6VFNlzkAbpGzAQQ5AjeVaeN8tEsDjd/Bog73wuEQqmSQaq2ELEHPsE8p/ntody8H0xbAEON/q8Kc6GJwQEhF+zpJHBkkgqnFbs4wEl/YGZE49UOwUzOYi4BtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=shnnu0Ex; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1755623884; c=relaxed/simple;
+	bh=y1gn1ppItBT617iahNUSOTZgBrO3Bemxe7cvYxvwW40=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VeOflyVgOa90+3Mib4ctgRWLPDUnVClXxzTFv3pHVWU45D7hyPx+ZU/k+hb/6FllwRSdqqcewp4VkI/8gTQ65Hjva0ctYDShsXjo+2vRBocUB28EFneW/e9CrswHUA076lFx4stae5wcu9G4m6oAMczJYrm9r7JzQK41XYfZtjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S5hyOat3; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="shnnu0Ex"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S5hyOat3"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ax3Wrz64+irSjkjwqsQbXNTCEf04FRP+UWIxlwJ6EYo=; b=shnnu0ExgwO5ug+1NjNkSaywhv
-	orlrcgYpxLBCIPL8tEgBKOi7tWJ9kNY8WwO8hJ+rE+3AWo1EwSUWgUqSOfmbWqwxJxCOfW8cnFr9h
-	bG2CKBSPrqMbKIuA4Zsa+wAlMtH9XSCOzyzbcVe0bIjVJPaneNmy2ess+jZOw12WmB7mZ79DsgJIp
-	1TPnHMjoIABaUDoafap4m7If+qd4ofc37VhvtPU8bBtZXdQnLyyXuz0HcozE0L/i3Gcd2bfHgU3CL
-	TuA0KOhauDDXEoUN1BVh1gQxDKkyKiZYqiXTR+dvWQpioTP3/8PqdYKErMX8LkTQL7rWWjI/N1Paa
-	F5VJu+JQ==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoPvQ-00000000cMk-0oYq;
-	Tue, 19 Aug 2025 17:15:08 +0000
-Date: Tue, 19 Aug 2025 18:15:08 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Shrikant Raskar <raskar.shree97@gmail.com>
-Cc: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] fs: document 'name' parameter in name_contains_dotdot()
-Message-ID: <20250819171508.GI222315@ZenIV>
-References: <20250818182652.29092-1-raskar.shree97@gmail.com>
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=k9T40x/ryGpUQ+rzosuC/CwY1mQ6mOTPssvplMLxzqQ=; b=S5hyOat3F9Jn4VPib3g33Aa51X
+	8uyAL+EX5AjjqOkt3IL/YTNdbc64xw4I8jHAGf7ZIc5mFPYqRXvA33pEtaicW9cXJbroan14BbNjC
+	D52IneFLVo/MFGY1A75ChVFA1L+PkFgPP6Xi0dmtc6YAViuKaqNkveMbmsCGyH5MTtJLc4imNeC4r
+	rt20n3kEgCXtk/UbPXQ1aT2dmjSHNw8mqhkoV2t0R6fPsUDXWB2N4LgFXvQe+UzqUt7yEQZpxZKsM
+	FGCoidSZB2jxco10AsO2N31RXWxHN1yd4Nt8ZG829xRAuKw6TSSetTAToKDypOOC7uBZ4B39RycyV
+	9GwY/X5w==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uoPyD-0000000B5HL-1ezR;
+	Tue, 19 Aug 2025 17:18:01 +0000
+Message-ID: <d14df81f-989f-4467-aa0c-5c65009fd66d@infradead.org>
+Date: Tue, 19 Aug 2025 10:18:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250818182652.29092-1-raskar.shree97@gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Corrected typo in trace/events
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
+ linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-trace-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ corbet@lwn.net
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, mhiramat@kernel.org,
+ rostedt@goodmis.org
+References: <20250819085040.974388-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250819085040.974388-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 18, 2025 at 11:56:52PM +0530, Shrikant Raskar wrote:
-> Adds a brief description of the 'name' parameter to resolve
-> the kernel-doc warning.
 
-See https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=fs-next&id=4e021920812d164bb02c30cc40e08a3681b1c755
+
+On 8/19/25 1:49 AM, Mehdi Ben Hadj Khelifa wrote:
+> -Changed 'Dyamically' to 'Dynamically' in trace/events.rst
+> 
+> under sections 7.1 and 7.3
+> 
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/trace/events.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+> index 2d88a2acacc0..18d112963dec 100644
+> --- a/Documentation/trace/events.rst
+> +++ b/Documentation/trace/events.rst
+> @@ -629,8 +629,8 @@ following:
+>    - tracing synthetic events from in-kernel code
+>    - the low-level "dynevent_cmd" API
+>  
+> -7.1 Dyamically creating synthetic event definitions
+> ----------------------------------------------------
+> +7.1 Dynamically creating synthetic event definitions
+> +----------------------------------------------------
+>  
+>  There are a couple ways to create a new synthetic event from a kernel
+>  module or other kernel code.
+> @@ -944,8 +944,8 @@ Note that synth_event_trace_end() must be called at the end regardless
+>  of whether any of the add calls failed (say due to a bad field name
+>  being passed in).
+>  
+> -7.3 Dyamically creating kprobe and kretprobe event definitions
+> ---------------------------------------------------------------
+> +7.3 Dynamically creating kprobe and kretprobe event definitions
+> +---------------------------------------------------------------
+>  
+>  To create a kprobe or kretprobe trace event from kernel code, the
+>  kprobe_event_gen_cmd_start() or kretprobe_event_gen_cmd_start()
+
+-- 
+~Randy
