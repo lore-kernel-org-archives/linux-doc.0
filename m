@@ -1,71 +1,60 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308FE30F818;
-	Tue, 19 Aug 2025 08:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2613451CD;
+	Tue, 19 Aug 2025 08:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755590405; cv=none; b=ZkO522eSKK1QfiH9cbkpLucl99a7xk/FSmXGb807rgHWhBKSz/bFG8EnolVQqJN16LXSPyS6kYZnhh+TXYmw/Inn5W6bVWzCojYaUDmXpgGkZ4losXESdkHrReYDFJZT1U2m6PJ0tNiDddFYoO4LGxP+W/nB5rl7okODWl81pzA=
+	t=1755590643; cv=none; b=STJ0JvICwAiDhGrZJ9GzgvW0DSiTmoXohzOQD2WPE6j704o2n1ZwvGaSb/szAN28kgPLKzBCOXTP5GsP++bq1TjVWAtbAPxmSc0IijN0cDkYoK6hQG6R5SyXLVRRgFoKoxIG9LeARLjUd91p+pkmKtmu66OvnyO0uERBiEH1S14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755590405; c=relaxed/simple;
-	bh=wfpbrorY23l3/fQ6h0rPo3D2UzogLe/Q8BwP914Hi5s=;
+	s=arc-20240116; t=1755590643; c=relaxed/simple;
+	bh=o+GhxMSjLHuGqjJ8c1+AE4D5V08s+XzlJaf4edpTOeU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r55QSmevqRjp3yZ2jA5C/gy/E0sWb4Bx9hAYf+zxwv3nMN2CzRcIzfFKrYyGgUvhpJJsV7wJoVFYbBE4hb5ayhkm/JPB/+C9CZHUlH7Hv8fDjY6BvY/Nq+Pxg/Ti8FK5fjYgbX2XeLQk+EuT9pdvBsKRqutSm/GFpRuym2p1Z08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=kFpOfBYp; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=IVRIWIbcwazwyIFYe3EXoaauUmw0YHteuL15WCHQEPeAXKVQs95L4tdal1M4mPlXhjlvdzjnxXt9+VujRBcm7SyXm9UiUa/oQmHbuug+BKy8snDrNauAPjFldQN/bTb1lEzdLCtJ5C7rEc7lJfuaIAv78U7zcl0UFZyvab/WAQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=095Ez6P/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=claD+OEY; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="kFpOfBYp"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 12EF340E0176;
-	Tue, 19 Aug 2025 07:59:58 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id lIfyCsu2oAOh; Tue, 19 Aug 2025 07:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1755590393; bh=fPv298C70ys2MQghFIdYDN0L2uGa15B8zIq8FzRAKp4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kFpOfBYp9X4UZr76YQvwI7iGazNLlUy0YxdNelqbjA60U1fJmKAnrDxyo9+T0yRMd
-	 h4yEc8kwy+n8M7Jt99/6WxzOAa+dXPVOI1cK0mCAF9t8BK8nIeLnZToSSbVfP1Vnep
-	 vWrOzb79AXB1eT61W3dkramcYu6NqEAAQqtytJopBN0LIneIByDfCpUg1j4QXkiFgn
-	 Y63wHWxZMLRZDR7PberJ4R6YYpRUUZOq61Sxu2eebBwA3ER83z94/2G6BN8gEVAnkW
-	 CuizGc/ARgVBveTLB939xKJpq5bheeoT1aUQn7zGhq2lh3AjcNVMA5324SUTfbie+5
-	 Ct4bXTRgVdIseYRpOEuLimFLg79vPvdy8WslMlVsE0Gtm9ZEVs6sy2IKFNEDgxy24f
-	 44SL+NbrGXK+W6iK5PsK+Ypi55IZCkkRV0ypSskkGBr/yu4+vEAr4PNRBhp5rNYEZw
-	 mrQQRMFW33ooIuU5kSirjf1+gzWHH3S9Gjn5UvT1Qdb7nNkMi71Kbfc9O3HYKXO9eP
-	 hJ3xF3Rohjqx9CAD0lOsuviiXyD0EcJefyL2sUHjF+U7GCK1cTynv424LQVN56YWYN
-	 8c0E+NA2rcli0lgjCl9SPOiGm25R5gqCquI3Aqei2lEaw73ZgAWdDLkhN8Y/weWBmp
-	 fHsFWcvoempRs7lc3/wBYtjI=
-Received: from zn.tnic (pd953092e.dip0.t-ipconnect.de [217.83.9.46])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 55C1C40E0194;
-	Tue, 19 Aug 2025 07:59:26 +0000 (UTC)
-Date: Tue, 19 Aug 2025 09:59:19 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Kim Phillips <kim.phillips@amd.com>
-Cc: "Kalra, Ashish" <ashish.kalra@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>, Neeraj.Upadhyay@amd.com,
-	aik@amd.com, akpm@linux-foundation.org, ardb@kernel.org,
-	arnd@arndb.de, corbet@lwn.net, dave.hansen@linux.intel.com,
-	davem@davemloft.net, hpa@zytor.com, john.allen@amd.com,
-	kvm@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michael.roth@amd.com, mingo@redhat.com, nikunj@amd.com,
-	paulmck@kernel.org, pbonzini@redhat.com, rostedt@goodmis.org,
-	seanjc@google.com, tglx@linutronix.de, thomas.lendacky@amd.com,
-	x86@kernel.org
-Subject: Re: [PATCH v7 0/7] Add SEV-SNP CipherTextHiding feature support
-Message-ID: <20250819075919.GAaKQu135vlUGjqe80@fat_crate.local>
-References: <cover.1752869333.git.ashish.kalra@amd.com>
- <20250811203025.25121-1-Ashish.Kalra@amd.com>
- <aKBDyHxaaUYnzwBz@gondor.apana.org.au>
- <f2fc55bb-3fc4-4c45-8f0a-4995e8bf5890@amd.com>
- <51f0c677-1f9f-4059-9166-82fb2ed0ecbb@amd.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="095Ez6P/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="claD+OEY"
+Date: Tue, 19 Aug 2025 10:03:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1755590640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1gSpu6/ssZRPlPWCatq5ADgMRkNSrJr6QQcFGlfXj3k=;
+	b=095Ez6P/m+l/Wv8URnGFNdyRVMExWAvqVuyTwzh/xVRJNu4E5/7C64HkYIdoq/tfvwef7E
+	4QgqG6DHsWd2Wl+zD6bsOJCcvovtLlq8DOLD0fnkmr4EYpBJ10a8d0hB1pPDWHmEK+tCsc
+	h60ClF9n703sbAdzPWNdOSYnp+sc9OFT6ChYn/fiEmZf+FrA9t3kTDHxuZum7c9pzfXVMY
+	GAko9UpmD7T8AB8BQHxOqOqkJZ8Nx/pjU4Fes8LaqyTb1VweSZLFF7cevHR0Q4GcW7VDpw
+	si6ncWVA1hbQMJQoZXHkJ6rBwyIGde3DI/5E7jMXwB5uh31gEnIHOrFs5s5I1g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1755590640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1gSpu6/ssZRPlPWCatq5ADgMRkNSrJr6QQcFGlfXj3k=;
+	b=claD+OEYuqZGTuc+irwi0DIx78IlcSQ0PyrlbtuLC5Se2NauisCCuFXiLUVt69JncbGMyf
+	0cnl8taWM7TLDJBA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 3/3] Documentation: Add real-time to core-api
+Message-ID: <20250819080358.H9R_64I7@linutronix.de>
+References: <20250815093858.930751-1-bigeasy@linutronix.de>
+ <20250815093858.930751-4-bigeasy@linutronix.de>
+ <87seho8v12.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,24 +63,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <51f0c677-1f9f-4059-9166-82fb2ed0ecbb@amd.com>
+In-Reply-To: <87seho8v12.fsf@trenco.lwn.net>
 
-On Mon, Aug 18, 2025 at 02:38:38PM -0500, Kim Phillips wrote:
-> I have pending comments on patch 7:
+On 2025-08-18 10:16:41 [-0600], Jonathan Corbet wrote:
+> Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
+> 
+> One nit:
+> 
+> > diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
+> > new file mode 100644
+> > index 0000000000000..50d994a31e11c
+> > --- /dev/null
+> > +++ b/Documentation/core-api/real-time/differences.rst
+> > @@ -0,0 +1,242 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +========================
+> > +Significant differences
+> > +========================
+> 
+> That heading text will appear in various places, including in the
+> rendering of your new index.rst file.  In such a setting, "significant
+> differences" doesn't give a lot of information.  Something like "How
+> realtime kernels differ" would be better, IMO.
+> 
+> Otherwise, this all looks good to me.  Did you want me to pick it up, or
+> did you have another path in mind for this work?
 
-If you're so hell-bent on doing your improvements on-top or aside of them, you
-take his patch, add your stuff ontop or rewrite it, test it and then you send
-it out and say why yours is better.
+Right now this is it. Do you update the text above as suggested or do
+you want me to resend it?
 
-Then the maintainer decides.
+> Thanks,
+> 
+> jon
 
-There's no need to debate ad absurdum - you simply offer your idea and the
-maintainer decides which one is better. As it has always been done.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Sebastian
