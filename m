@@ -1,307 +1,122 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DE827D773;
-	Mon, 18 Aug 2025 23:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755561501; cv=fail; b=jyx430Uq9bWeh9hOpKknQVLJVwxm1XFaJksVwaPiQUaqo/H6p8qE99B2dqiARrVGlgwlmaQ2EWitryqUx99x7oHZ7Q2bce7SrUARyWVFZMmKscPdYe8gJ03Xx27JdxguWAbmSxE98FCR8sYBAX0CizWh2ra5Dnui+zNiJ+To0eY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755561501; c=relaxed/simple;
-	bh=+i91BjQnD1E+OJFZa0OjjbmGciBZOke55N3p8ygplQE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=UzVTwRBeDOauPlQbfPrQO8KOYU4Mh8tJtC000gLhtmpkNwvRSYvjbV5AW5q7j/gYj4qXsESbcvmJU5iI5kymxqR2L4BfInEuZcTrtY8fgktsNsRITR4KBvQUl0NhmmdVF4vTsAZHaLBkiCUmpj1YRfSFEwa0r055aMoAEBV/tcI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Cp97+Mh/; arc=fail smtp.client-ip=40.107.237.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644BDD531;
+	Tue, 19 Aug 2025 00:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755564374; cv=none; b=c/N8gJ5/V/NUElCMHSPYsYMwN1xKsyMUt1+xhoACsy9RIfy7dKXQUQIAPCQC/6hp80W2Tkm2WrGAF1LqdYwaiv8eeOu9swVweStddqE4q8hqg8Dl/0W9my5uiMNSQEy5QEimVe+c2T0OBkUdlaUb/7DJ15aBTXJAmCg6eB1XHnE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755564374; c=relaxed/simple;
+	bh=G3NVHyTgKHPdkK52OAVj00DmOZdNFl9ExULiSKmxhXw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s/5AmYv3/z8Wi1ybmbhfQcpEt39N/Z+kGDnjBDjYgmFhOiv2gj74HAxXrTifRFWjT8jsmJ5svB0HJk4+jmaNk5E6DwFLDzWxHUFuGsS4+Fz4o9p12hqW3+BlSBxazZh4JKQuYttp0gFG/HvH0hbvxnxf9TP4XPvUfdDvX2C7Omo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E/RSKbor; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Cp97+Mh/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zOvGZXzmRGKy6Nl1inrRqZk+lSQQos798ktqCh4zSuwMOG8YnPHG4V3BwfbMGaOA+ZHDl1On6lqxQJ7IgIiiW6ZhtdPxfJk+pObyJxeShNuCAPHebyoKuyGIKf9c2y+bxR0+IFsnneOIfcSeMRU6RD0e5+bT/sMhPJZ7jdQOfhzlVjG2Wc0dRxNBfs1mPVAG6D1WCAjb88tH6AA3PofobSr7INYjUGWVA2SUREL9enAUlDGmPuJdaQq5LVNCy08jIuyqDy5oToSllu23PWnYk8KKkfUd4hIfo7ZePzVI6Z1g02jeGci3L4bWkRM/kHaM3um+z8MZv6ANVRFdpIN3qA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s7/knl6khFUDzEwEOV++ySUxDMQuTZRTghQI4IDyXok=;
- b=VHsUYRIVHDKCCVazNMwWTJIl13YeCMGGFfIFrL+zgKKOF3/l3BqvbW8jkQglQXDwZrLLYoVyEB2St8+H9dAVXQASj6FVHLoWSCyyAoBYxgfVTaJHPIOQNsLJ0M30Iv3eKeoWcT7SUBINOGU5CBgu3wnNNo9ZNymTy9KUPwrwfx3fok6CgfBjz5DQbPb9AXkNKD6yPDYgM4jfsj8uGTeUaVHM5vjP+kaTP/YHQgfGHrYX2qWPkL/26cNVOSbd17XfHqKmyeFYtRroPxWkfgEEG7T1Ts283w4Zl33lpLtvQ/ItDWnxcISaIuMu8hmuigiV20IGfxlNQagbIXD2lODJHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s7/knl6khFUDzEwEOV++ySUxDMQuTZRTghQI4IDyXok=;
- b=Cp97+Mh/Ml7ClzLg1gH6Cb6ope+/PR0n5VfgDT1dJ6ZCca2SZS3IAmO2JP4rtz10+54/tZeob5RwbTGH/qpRMlzYZ9Ig7VvsFQwsjwJM0yx9veGmZRS9J1XRyjLqF0c4PzfoNiYutU1ry4RtgALQChVvjoEwd2rHLfSJkNZoIPM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB9066.namprd12.prod.outlook.com (2603:10b6:510:1f6::5)
- by DM4PR12MB6110.namprd12.prod.outlook.com (2603:10b6:8:ad::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9031.24; Mon, 18 Aug 2025 23:58:15 +0000
-Received: from PH7PR12MB9066.namprd12.prod.outlook.com
- ([fe80::954d:ca3a:4eac:213f]) by PH7PR12MB9066.namprd12.prod.outlook.com
- ([fe80::954d:ca3a:4eac:213f%4]) with mapi id 15.20.8989.018; Mon, 18 Aug 2025
- 23:58:15 +0000
-Message-ID: <76ac003b-2502-459a-bf94-55f7b15e2e1b@amd.com>
-Date: Mon, 18 Aug 2025 18:58:08 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/7] Add SEV-SNP CipherTextHiding feature support
-To: Kim Phillips <kim.phillips@amd.com>,
- Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Neeraj.Upadhyay@amd.com, aik@amd.com, akpm@linux-foundation.org,
- ardb@kernel.org, arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
- dave.hansen@linux.intel.com, davem@davemloft.net, hpa@zytor.com,
- john.allen@amd.com, kvm@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- michael.roth@amd.com, mingo@redhat.com, nikunj@amd.com, paulmck@kernel.org,
- pbonzini@redhat.com, rostedt@goodmis.org, seanjc@google.com,
- tglx@linutronix.de, thomas.lendacky@amd.com, x86@kernel.org
-References: <cover.1752869333.git.ashish.kalra@amd.com>
- <20250811203025.25121-1-Ashish.Kalra@amd.com>
- <aKBDyHxaaUYnzwBz@gondor.apana.org.au>
- <f2fc55bb-3fc4-4c45-8f0a-4995e8bf5890@amd.com>
- <51f0c677-1f9f-4059-9166-82fb2ed0ecbb@amd.com>
- <c17990ac-30b2-4bdc-b31a-811af6052782@amd.com>
- <a16f1420-fe20-4c3c-9b75-806b1da22336@amd.com>
-Content-Language: en-US
-From: "Kalra, Ashish" <ashish.kalra@amd.com>
-In-Reply-To: <a16f1420-fe20-4c3c-9b75-806b1da22336@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS7PR03CA0035.namprd03.prod.outlook.com
- (2603:10b6:5:3b5::10) To PH7PR12MB9066.namprd12.prod.outlook.com
- (2603:10b6:510:1f6::5)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E/RSKbor"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-76e2e629fc4so4904199b3a.0;
+        Mon, 18 Aug 2025 17:46:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755564372; x=1756169172; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kwqgeQuU7CThFAo50DvZdBSlqn4aE79i09pcJ8nGCak=;
+        b=E/RSKborZAvztr0HaTqRphgBzinWKEci3T9qTRNrFEdaeLgwAWcCaLIKh9+WwbbSx5
+         7Riio4QhpBts0TKK/9mPFZBqZBipXB+UBowyiXILu1Ab4Ux+3Rio+XcTTgX3TbyHGqlM
+         gOWnHbW3odc4lCVWdzKLqWLAJPF3BMhKRjphowcSU5DtTUiETZx5ZlMVF/GqZotklZRS
+         BGpwAR1bYtsD9EFPMaQelJfQI9w86NJaFHKkU4V8X8NqmI7j/e/fhji0kW2MHWu8DFi9
+         jZM1Sp6wcnTlFII7mUHARKyr1LXzk8pNou6tvPLjZF2NfNT6bS2s60XeP249ycxi7tsc
+         1Rlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755564372; x=1756169172;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kwqgeQuU7CThFAo50DvZdBSlqn4aE79i09pcJ8nGCak=;
+        b=CylvCngs9F4ZJ0ipu2VAlAh43tJk+W+92W2wPwwNeYvw0IHoX6kB5May6kB6Geurup
+         +DqWj9mcLXC2N1wg6/I2Xb3vdS+DNSnx39+X9I1KZwHRt6T4Kx7bjFeNV/KH3jzjlBNm
+         g4QB0ndtJ1n0zSj5lq+InGtV9C4Ap6Kv3f4OktLOaGlG7H6d4239Ry4yI0EATXwZ7ZxO
+         z2N2a9t33YQnsWvPgd2hSTq0ES6SHVBN3gZXnoAHz+ZCFyPs4sGQF8jHhSe17f2KbILr
+         HW3zL6yFmOYpeBFPF4lSJ8ElkJ34IC2OQy486BrvYeLBV9+8ci7Bk5jN/rr0gW6083sv
+         +Xkg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGYYOl0j0G6G1l2HSfJcIOWF+dcyIlfItKO7P44kPZpQ61s2XFJlVjvl3l9Q920uK7fMZO+NRBBnI=@vger.kernel.org, AJvYcCUzeZPAvPk3KoOCBHwadAHU4MOF3WjZzkpOzur1VrpjgqUrMLonCvMkm0k+5fZmVuhvvmKG@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy49pITw81VgS80cSaB8r9G2yHMmSCYD50Nxqeqj2ZeK4a2wPUW
+	di+NVQX8HA2sWjMX9+DryB4+V0nExOhS202k8CDoBWUghZZx+KMQFL8i
+X-Gm-Gg: ASbGnct5/nvlbURvoYWe+yiWa+LrcppintZXeduYiHjF7cTxRNHbdO0oZrXvkZc7n30
+	7bgtnXoX8n0ptUI3+53G+1M5Ooqbd64Rmy1lF+D1IqYge728AcfYIPJDJ1iP0VNOPp0SL4PEMYP
+	4KkenhDtKGPTJ/lM0XPZfQElrl7PdXXDKOBQ2QPr9Xlz1bVJIQ3KhLdnktkg/J1BghivqEZB5he
+	mLczXDllWia8yfRYVVeVXpuiWpel9uzUgW88wpUJgML26wOFLJ9tvoe0aYLPASnNFJ/dknhO6Nl
+	5mnQgvJKRNQz9HD4oG5D3lNKfA7Z5TUMwxQ7GhrB5irYY5eLoL0IhvQyI/BjTIv4a4CLd2QYHqv
+	rWsEzR7FWbXKTJJtoynRkiA==
+X-Google-Smtp-Source: AGHT+IEKfFzwPAE65ZQHLYVZ8yyo8AA43sxL2irwbsjihgYcCJ2yP8wHkZS6v8N4dMYHDU13GNDayA==
+X-Received: by 2002:a05:6a00:4b07:b0:736:a8db:93b4 with SMTP id d2e1a72fcca58-76e80e7711dmr698677b3a.2.1755564372409;
+        Mon, 18 Aug 2025 17:46:12 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d4f76fesm771309b3a.55.2025.08.18.17.46.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 17:46:11 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 9ADD2423F8C2; Tue, 19 Aug 2025 07:46:08 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux RCU <rcu@vger.kernel.org>
+Cc: Davidlohr Bueso <dave@stgolabs.net>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] Documentation: RCU: Wrap kvm-remote.sh rerun snippet in literal code block
+Date: Tue, 19 Aug 2025 07:45:59 +0700
+Message-ID: <20250819004559.11429-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB9066:EE_|DM4PR12MB6110:EE_
-X-MS-Office365-Filtering-Correlation-Id: 350197d7-9b72-4ce3-7bd5-08dddeb317a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VXFWc0ljVzZ4RmYxZTlpZi9SSDRNZ0pIemU3OElBRW02UTM2M0IzaHJsYlVp?=
- =?utf-8?B?M21UWmJoaXQ0S3hDek9WN1AyTFdyVFI2QUJNcXk2bVhseC9samxGNFpGQ0VV?=
- =?utf-8?B?anE1UlRwTTdLclNIWFZLdGY1Y1ZNQ3ZuUUVvSnZJbk5vYUJla3prQXpmOURF?=
- =?utf-8?B?TGN5c1ZkS3dzMTI5T3Zacm5ldzFTUmdCQVIzSWxyakh4RGhxMmVRcFpzNTFp?=
- =?utf-8?B?RmhFb1YzMmV2eGk4U2NHOTUwMGNXOVV1V2J2OUVWUzU5bGZpclJtV2Jtbmtn?=
- =?utf-8?B?Nk9LQ3ZiRUg3UjM1dXdHdkRzclQ2Wk8rOGsyL2Y3RmorYmZDK1ExUWNnbmgx?=
- =?utf-8?B?R2hTRzF2ZjRKWkR2d1N5bm1MYUlZTkJxL1FXbE9aQ2xyNk9ueXFFd1MwYUFv?=
- =?utf-8?B?anBjTGtFWkh2UUFaaVJ0dGZZamt0ZThPeC9vaWkvdVNtZk9WQ3JQZ2hKcVlr?=
- =?utf-8?B?b2Z6ZEovL3YxWkE2dklHejJNRDhZczlidmVkOWU2bVhobWIwY3FCclZPektM?=
- =?utf-8?B?Q3RhcVQ4Qk9qQ1Rwa2xibDc2Yk5GTTVLQ09vS01xZHVqVE5XeTBPby83c2c2?=
- =?utf-8?B?N2R6NkIvUFlPQU5RL1ZZRlR0S3o1eTdMWnh3d2haM0RMWUdLcHNZcnNFbjJ0?=
- =?utf-8?B?Nko3QXcyL0JWeDJWZnNHUXp3eGpmR1A4ZGpuWTRsdDdST2lnVlpZYm1lOWtn?=
- =?utf-8?B?UDRSY1A5bUZXelozazV2aW9XVG5XMk9qaGttTWtaUW9tUUJud09VVU1FZnQ3?=
- =?utf-8?B?WHJVeTU3VTNIcXd6b2JhN1hOTXYzNWFLZWFXaisrbWZOWjNldStPS3VGKzNz?=
- =?utf-8?B?T1lkczJxN256MnV6YTNObmpOTzRxL01jOWFkUUI0dUt3WlJtSTFja2pCWDZO?=
- =?utf-8?B?RTJtUmNSeW5sYVVFZmtCc21RZWpHUXFyZFlSeDRSa1ByejQxTE0yL2E2VldZ?=
- =?utf-8?B?MWtvbkdYcTVwcGhTblNDbkNySFhQZ0VWSTZ2dXYrRGZOcmpOSG9UTXBvNXJo?=
- =?utf-8?B?bjhyS050enVPU1BaTDZkNWV3d1I1MzhGZ3BiQjNXaTh2UE1jQnRoM2tBekJk?=
- =?utf-8?B?S2FzM0ZYMXlhdGRvc1Q5VlVRL3ZEV0xFVmNPenowOFZYdnp6SU9tN21ESGFq?=
- =?utf-8?B?OHNZbUZzWlBPdUlXZXdQYlRjbVBXWS9PU0Q4QXhkMElSR2lsOFcydklZcUNR?=
- =?utf-8?B?dUIyZHJvTExrV0FMdXQrN0srTHhyY1FyS0tITncwaWVIdk5GaWFUcXdWc1hJ?=
- =?utf-8?B?dVdnY1duTjkyQUF3eE1VUjdBWFFwQUJ1MXRESkFZRjY5OXJMTm9RWVNJWW16?=
- =?utf-8?B?bVhoemh3dHA1ZEtEM3VvcGkxdlFFRHd0bEFLY05ZeTVteHFWWlBxQ1gvb0Zt?=
- =?utf-8?B?YWt4OHdLd0JINWY2ckU5K0tYMmMydS9BOEJpcVB1MjhUZzJraHd3Rnc4K2th?=
- =?utf-8?B?NjRKLzd1aXdCQzdpa2YvanQzbDZDbTZpazE3d2JCM1p4TDkrd2JwUitGNC9N?=
- =?utf-8?B?MVNscEhOOGFWZmsxOW5OYXRXNk9KK3BYNysycTdGcUxyV2JCZjYySzdxOFY5?=
- =?utf-8?B?L2RHVWg4RmF0c21oR3d6SVI1QWdCTFZjUHlaZlVzNm55RzJBUUx4eDBkR0FU?=
- =?utf-8?B?bUFFS1c1SWlzaGpkNFNNWm1Ecy9PSzdnSnN0WCtOcXR0eW9DNi8xb2FhWXVs?=
- =?utf-8?B?T2gwYnpoaTB4Z1hGNUk4OHBweWxVamN4UjVRMDVmZnRTb3FzeUhmSmlleVZj?=
- =?utf-8?B?b0Nxci8zcENGZ0djUjhFYzVuUDJRUVJEZnRFK1daMDNxUmV1M2p3NnVNekhy?=
- =?utf-8?Q?l4fEEHK1JiqPz1hSMLIslTIaWyoxlYtUKHN1s=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB9066.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?L1FFYWFCSmJpZzFhMHZKZ3kvVzFnRjZpc0VxVHdXemZkWUg5NkRzRHZENkdM?=
- =?utf-8?B?T0xHdHd1QnBoTzl3ZSsvb05NQW0yK1hFV1NKQ09Tc0VkY282dVIrUHgvU0Y1?=
- =?utf-8?B?L1FkYkg1MldUZEU4aHJUWHJsd1MwVzBRNHowN3RwMXJIcURicExMMVlPRUdo?=
- =?utf-8?B?UHhFa0V5SzNXRTQ1UWFFVlZDbk52RnlkNW1FMmNIWDkrTFBwdmdSY0NRTWVO?=
- =?utf-8?B?TExDdU1RRlE4cXJVaEZDMFBMbUlXR29ZKzVoOWVhRTR0YkQ1bVNLaVlqRjJC?=
- =?utf-8?B?Y1gwT3FIbWxMUDhhWk50M2tkYVAyUERIc2wxbnVkMjhORXR0TDlBZ0lJY3Nv?=
- =?utf-8?B?aERwNnFIRFd1cVljTzlKTzZNRkpHc2FjSXU5K0hsK3Y3U05sSGhFWHR3T0ky?=
- =?utf-8?B?WUVDRXR2aWlyNEloRTgwMjNtZ2NHenBLWmFPdlBPTnRjd2xybHJHcVE4MjJ2?=
- =?utf-8?B?NElrWjVCYlRuUUdWQ0JsNGd4K3pTaXd2R3Rzd3p0MFZkM29JN0JnRnFqM0ti?=
- =?utf-8?B?MElKbWQvTm9yei9TMVYxOTgwK0JhandKeVdDMTVXbGMxb3JHQ21NTnQvTXIr?=
- =?utf-8?B?NCtUZ3dCYXJnN3dQZ0s1TTRLTnRZY1duTTVBM0ZHeGQvVURoYWUyWkJLaC9H?=
- =?utf-8?B?RUJZckNXQVU5WlltU3hkUVhlVE5RVFpKbXVOMUg1Qm5qNXNwcUZybzlOUEY4?=
- =?utf-8?B?RHh1SE9xODVBbDBobGJQanVxb0hPWHhhRTc2dnFmVUs1azRHVmtwaUkycStS?=
- =?utf-8?B?TWQ4UXNVOWxVNEFzbFZUVEx3Z3MwWkd0WUZuOWMwUVpDcVZqQVNrREtSUmd1?=
- =?utf-8?B?ZlN3a1pnaHlFTUtKNWY2YzdnbnZad25Qb2RhRzRqWmNvcFU1RWwrZkxxa1dm?=
- =?utf-8?B?b0V3SS9DQXVTamVVUmxYVW9UeGFCa2ZsL2hwcWRsS013cEpSaXhhWVZqSmUy?=
- =?utf-8?B?TWtxT1FpYWFPMkZWZ0VxVDhaV2JJT0l3OEZ2QjRrbFVsVmlhSjhTLzJZQkNx?=
- =?utf-8?B?ejhoQVNLWHZqY2Z3dnZ6WDNHVjZaUDE3cGdkM1FjUkhsRktHQUhPa1o0cDVt?=
- =?utf-8?B?R3V1dnhMNm4yaHBMSHd3NkRSV1N4UW9IZnlvWkNPbGMwTkY0dWNHcm9rc3A4?=
- =?utf-8?B?Sjd3NU05L3d3UW9nOXZPVnZVallqa1daMjF4Yk50UEl0Q1dWYlIvSWxIdUdI?=
- =?utf-8?B?OWRncml5a3pWNWtoNjR5dEd5YkJkOFdCUkRzWW1ScC9rKzRiNXVJUU4rQTRw?=
- =?utf-8?B?UkFhbm82Z1VYYm5HcHVTMmxWMlBvV1JhRGFrbUx3b2JyS256YWtWempkUGkr?=
- =?utf-8?B?M0RvUXAyanFSWXZWanVDVHByb0JHcGtNeElZS0lFOVB5blNpaFB4R2I1Ujhh?=
- =?utf-8?B?M0FsbVFmcVlxSEUrMEt1L2V1UDBXL0pYYnppc2t6NE9CSzNhU3lmZGpMRS84?=
- =?utf-8?B?Y05HUVJLeG5rbW85M2Q0ZlB5YUVzcnZWMjFxYjVQMVE4T0VGWFZjNzM2ZGxv?=
- =?utf-8?B?YXVjRms3RG1iZCs5a3ZQc0dCcnNMeUNJRnFVNGJxR2FBT3hMRi9Ycm9SbFcv?=
- =?utf-8?B?ZDIxaERWK1piTGRnNW5pcVFiVkt4S1pRaDJGanYrY1QvU3QyMG0xbjZObXJW?=
- =?utf-8?B?RTY1Wk1ZNVB4MW83aFRha3B6bWhZaUdzRkhSWmROcHh6VlpscE5NKzF1SWR2?=
- =?utf-8?B?QVV2RjZPSXphZnU2NlBiemVZNGFTWlhXRGVZS1g0Q3h4OW5GV2VXdk5paVdW?=
- =?utf-8?B?ZURwZGZCNW9STitETnpLVXlPbVFheTJ5cFpUUUs3cU9sRGV4ZWRzY2hjN2wy?=
- =?utf-8?B?bC84WkM5TThUNCtIblpoWUpjL3J0b3UwM1orZXZXM05sOVljUnJBa05tVW9N?=
- =?utf-8?B?ZDIrQ1lxVTZTZWRJcHFSZ0hWZ1JRRFpyMHZOMnBlSTNSenBQd2I1K0FNK1Iy?=
- =?utf-8?B?MlBQVEtEbng1UEFHNEdydERyS1ozb21ycmpFanBjcjk2WEFLZEUxcDArK0dU?=
- =?utf-8?B?WU5vbkpRVUZRa3k2SlUxbGtqTDN5UVhNTmYxMnlxNnVpMTVJRW1MZllOZTZJ?=
- =?utf-8?B?dGloSXBqUnhVWVRDbm1hYmJVTXpMeldNNm1iY21pUkhlZHlsS1dSaHNGbHRy?=
- =?utf-8?Q?IZ2zwnzjaWVrGhEKf9lztPlcI?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 350197d7-9b72-4ce3-7bd5-08dddeb317a4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB9066.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 23:58:14.6344
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2YIhEZgecW64AJ/W7/h2m28Rl+8+vbVRwtg81kWjnB579M/sLDY8zrNEpNgHCDZ+MntNT74CKbhEo17gR9utRA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6110
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1219; i=bagasdotme@gmail.com; h=from:subject; bh=G3NVHyTgKHPdkK52OAVj00DmOZdNFl9ExULiSKmxhXw=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBmLj3f6eKwI0q5jMzkzw3J9e7Th49xL4n5Mhuxi919qX b2ryGbfUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgImcfs/wz+xtfVuEhXERc0NY CrPGdeV4zdr2m3O3rJ52dOtXJiO/fEaG1VeOtRb3TytyS5jCwC/cNulM4+eWS2HhPxl7F0w6MFm bGwA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
+Unlike other kvm*.sh snippets in RCU torture test documentation,
+kvm-remote.sh rerun snippet isn't formatted as literal code block,
+causing it to be definition list instead in htmldocs output.
 
+Wrap it like the rest.
 
-On 8/18/2025 6:23 PM, Kim Phillips wrote:
-> On 8/18/25 3:39 PM, Kalra, Ashish wrote:
->> On 8/18/2025 2:38 PM, Kim Phillips wrote:
->>> On 8/18/25 2:16 PM, Kalra, Ashish wrote:
->>>> On 8/16/2025 3:39 AM, Herbert Xu wrote:
->>>>> On Mon, Aug 11, 2025 at 08:30:25PM +0000, Ashish Kalra wrote:
->>>>>> Hi Herbert, can you please merge patches 1-5.
->>>>>>
->>>>>> Paolo/Sean/Herbert, i don't know how do you want handle cross-tree merging
->>>>>> for patches 6 & 7.
->>>>> These patches will be at the base of the cryptodev tree for 6.17
->>>>> so it could be pulled into another tree without any risks.
->>>>>
->>>>> Cheers,
->>>> Thanks Herbert for pulling in patches 1-5.
->>>>
->>>> Paolo, can you please merge patches 6 and 7 into the KVM tree.
->>> Hi Ashish,
->>>
->>> I have pending comments on patch 7:
->>>
->>> https://lore.kernel.org/kvm/e32a48dc-a8f7-4770-9e2f-1f3721872a63@amd.com/
->>>
->>> If still not welcome, can you say why you think:
->>>
->>> 1. The ciphertext_hiding_asid_nr variable is necessary
->> I prefer safe coding, and i don't want to update max_snp_asid, until i am sure there are no sanity
->> check failures and that's why i prefer using a *temp* variable and then updating max_snp_asid when i
->> am sure all sanity checks have been done.
->>
->> Otherwise, in your case you are updating max_snp_asid and then rolling it back in case of sanity check
->> failures, i don't like that.
-> 
-> Item (1):
-> 
-> The rollback is in a single place, and the extra variable's existence can be avoided, or, at least have 'temp' somewhere in its name.
-> 
-> FWIW, any "Safe coding" practices should have been performed prior to the submission of the patch, IMO.
-> 
->>> 2. The isdigit(ciphertext_hiding_asids[0])) check is needed when it's immediately followed by kstrtoint which effectively makes the open-coded isdigit check  redundant?
->> isdigit() is a MACRO compared to kstrtoint() call, it is more optimal to do an inline check and avoid
->> calling kstrtoint() if the parameter is not a number.
-> 
-> Item (2):
-> 
-> This is module initialization code, it's better optimized for readability than for performance.  As a reader of the code, I'm constantly wondering why the redundancy exists, and am sure it is made objectively easier to read if the isdigit() check were removed.
-> 
->>> 3. Why the 'invalid_parameter:' label referenced by only one goto statement can't be folded and removed.
->> This is for understandable code flow :
->>
->> 1). Check module parameter is set by user.
->> 2). Check ciphertext_hiding_feature enabled.
->> 3). Check if parameter is numeric.
->>      Sanity checks on numeric parameter
->>      If checks fail goto invalid_parameter
->> 4). Check if parameter is the string "max".
->> 5). Set max_snp_asid and min_sev_es_asid.
->> 6). Fall-through to invalid parameter.
->> invalid_parameter:
->>
->> This is overall a more understandable code flow.
-> 
-> Item (3):
-> 
-> That's not how your original v7 flows, but I do now see the non-obvious fall-through from the else if (...'max'...).  I believe I am not alone in missing that, and that a comment would have helped. Also, the 'else' isn't required
-> 
-> Flow readability-wise, comparing the two, after the two common if()s, your original v7 goes:
-> 
-> {
-> ...
->     if (isdigit() {
->         if (kstrtoint())
->             goto invalid_parameter
->         if (temporary variable >= min_sev_asid) {
->             pr_warn()
->             return false;
->     } else if (..."max"...) {
->         temporary variable = ...
->         /* non-obvious fallthrough to invalid_parameter iff temporary_variable == 0 */
->     }
-> 
->     if (temporary variable) {
->         max_snp_asid = ...
->         min_sev_es_asid = ...
->         pr_info(..."enabled"...)
->         return true;
->     }
-> 
-> invalid_parameter:
->     pr_warn()
->     return false;
-> }
-> 
-> vs the result of my latest diff:
-> 
-> {
-> ...
->     if (..."max"...) {
->         max_snp_asid =
->         min_sev_es_asid = ...
->         return true;
->     }
-> 
->     if (kstrtoint()) {
->         pr_warn()
->         return false
->     }
-> 
->     if (max_snp_asid < 1 || >= min_sev_asid) {
->         pr_warn()
->         max_snp_asid = /* rollback */
->         return false;
->     }
-> 
->     min_sev_es_asid = ...
-> 
->     return true;
-> }
-> 
-> So, just from an outright flow perspective, I believe my latest diff is objectively easier to follow.
-> 
+Fixes: 0c208a793022 ("doc: Update torture.rst")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/RCU/torture.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-All the above are your opinions and i don't agree with them and my patch is bug-free and simple and easy to understand and works perfectly, and i am not making any more changes to it.
+diff --git a/Documentation/RCU/torture.rst b/Documentation/RCU/torture.rst
+index 4b1f99c4181fee..cc57d01ed700ff 100644
+--- a/Documentation/RCU/torture.rst
++++ b/Documentation/RCU/torture.rst
+@@ -364,7 +364,7 @@ systems must come first.
+ The kvm.sh ``--dryrun scenarios`` argument is useful for working out
+ how many scenarios may be run in one batch across a group of systems.
+ 
+-You can also re-run a previous remote run in a manner similar to kvm.sh:
++You can also re-run a previous remote run in a manner similar to kvm.sh::
+ 
+ 	kvm-remote.sh "system0 system1 system2 system3 system4 system5" \
+ 		tools/testing/selftests/rcutorture/res/2022.11.03-11.26.28-remote \
 
-Thanks,
-Ashish
+base-commit: 61399e0c5410567ef60cb1cda34cca42903842e3
+-- 
+An old man doll... just what I always wanted! - Clara
 
->> Again, this is just a module parameter checking function and not something which will affect runtime performance by eliminating a single temporary variable or jump label.
-> With this statement, you self-contradict your rationale to keep your version of the above to Item (2): "isdigit() is a MACRO compared to kstrtoint() call, it is more optimal to do an inline check and avoid calling kstrtoint() if the parameter is not a number". If not willing to take my latest diff as-is, I really would like to see:
-> 
-> Item (1)'s variable get a temporary-sounding name,
-> item (2)'s the isdigit() check (and thus a whole indentation level) removed, and
-> item (3)'s flow reconsidered given the (IMO objective) readability enhancement.
->
-> Thanks,
-> 
-> Kim
-> 
