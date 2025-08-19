@@ -1,159 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F247F3469FC
-	for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 17:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91591D6DB5;
+	Tue, 19 Aug 2025 17:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755625143; cv=none; b=hgKUx2pqHSKGggfmCgFmlcCPYxHiRBwLlh4eyfzVvNCmZpG/nlPeJ32BkpP0MSfeix92TM3syQ75N530ITvUTcxMilUNVl6RhYYEwUm6swV/hf68NTMSxik6LCkzDbcwmcM3mdOJzL4rlexN9NdxuXrlwtQMtRte8GOWNmYLWAQ=
+	t=1755625868; cv=none; b=M3Qs1wSY44Drtu2IXaEUw+9mviN2KoLW8qMv4f4uziqs7LdtK2N5+WRVm7xWibyir63UggDdG7sVYar+L1N5vfCL2/rM4r4dhfdp62kluODyQDjbNUq/nu10NJ/QFTQLyTPlZDtxjJfGylDBcAHGysbBnQ0ylaxOR4RBtlM1gp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755625143; c=relaxed/simple;
-	bh=n5fZDRdhpblR94HQcrZl3tuMZof3rDV6okZIfBL90lU=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RAd1vfWsebJEzZVKHSi1R5MzUydZySfSCXKR5vyitp932fwe4i3vCC4/WDjMq8lUBk6cYdCUvf4BZDqhChliOZk2bOjKODnmVrPdopaHPqtMetV8JNsHn+ZAgqYNT/ZSrlp7umyjaoID8UGvmQdH14LO1ZQUwu4k5/wvQLiS2JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R3o8fPpG; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755625868; c=relaxed/simple;
+	bh=f0kmNC7ZkTwG3EKPjuZE4Izi+zvTTxFihBN9XnUr9Rg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eOSqH9o3y33qvtx5oHFUscLzEjmIu9u20XlZPcryM0j1b2SaIwJcGycMPuYE5LRqJWhwqJlCOm4i7IHevMzG/7PgLa1GSoHwUgpz1sb0XaBb+prXRTlrckshHK1TOWa2aZMnVyX+PIToD5b1/qbLq/7MQePSdPZrp/NZT+MamBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JTxb3tTD; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R3o8fPpG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755625140;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G1lVHf9B3MwbthIpxwmrqwUHvb4qbpr6q9mIydElOc0=;
-	b=R3o8fPpGl0GIjyv0sGbaks+tT2L3yRxQENcl1QBg3DV3+uFlwRNHot1/UQOaXyS3yhUJ/X
-	ZaiGcYSoG5u/xXami5BI3IAe6mzgUXRanmbb+szg1ahzW1X2Sd+KIXdGIa1c4kzKRl6GMb
-	65q8yNpdLFc4RIMW1WZ5aPN5+wOQ83U=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-543-osxx1_-dNNqa35y8URQsEw-1; Tue, 19 Aug 2025 13:38:59 -0400
-X-MC-Unique: osxx1_-dNNqa35y8URQsEw-1
-X-Mimecast-MFC-AGG-ID: osxx1_-dNNqa35y8URQsEw_1755625139
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7e87062832bso1689858885a.2
-        for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 10:38:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JTxb3tTD"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-619487c8865so227958a12.1;
+        Tue, 19 Aug 2025 10:51:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755625865; x=1756230665; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PmlcDpKD9YCg6XDWMZQyI3wgJy7zu34Qq/sxftvQ6ww=;
+        b=JTxb3tTDwRsuP0SbOfx06x/Io9okl2s886bhxEQzEgpVY2mRrS60+L9PSLTGxs0uJ+
+         o270Ftq5oIcduejrGDSrxH+fP98wE+XHXIoqQCxPooArtKRUEAZrqu0hdNBiAQPCM33N
+         9XFYGVO8bXoI34A1kniRen6spUxaPpM95tnfN6ASrQSfonQhhzow3CYD6eN/0zDqK3ZI
+         QoTI1n+fLsa3YqJTiXlQ9kSD4nMdEP3ZO4yBcbNqeQKPxMib26GGP1xLcya4mEUKdhcM
+         1vSpRRRF9ndRj0yYsLQwdb+hA1bb9hy1Ed2b6fl36NL1Mao9mZ0ryLL/TyPwLrNSfm+K
+         03sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755625139; x=1756229939;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G1lVHf9B3MwbthIpxwmrqwUHvb4qbpr6q9mIydElOc0=;
-        b=i8vIXO01gtQ0DscJusciYWmqy4ABBzoQ52vgaLo5oWmgl19xiObTfKIL5FY0WneSRE
-         6siK45+v6X9E5Gchs1xh8j0DPcWfghl/hKqwhXAnwx5WxwQEJ27dVoPu7ZxEMxKzGLcO
-         mZI/CLMzoY4i/eptiF3HOQ3LkitUTLpO6SVKQIohkzrPAvMKMP1VqU2zgSszhTwG1QsM
-         3XqWzRxg8es2dkhyCZ2X49L53N+xwtC/xUzqDLKZ1sUmHXEXKzYmZcgkfRqrsBUwFk35
-         NWKnZHSSxV2Gz16oU+16y/n4uEghD09rVzlo3zNDqfiaPDBoPSPk05AxgDizna1etPWe
-         AA1A==
-X-Gm-Message-State: AOJu0YyW32UZN8Z79E2Q05nzwnRlY0pRmNcIFYbceprFG1T4YBbI6+lR
-	7C5Ij7/RFMA5LVgKafEHFQ38B1YjXvGhtP9zrX9ZbO52t+19cdSILuyFqTKehNPNcL8YP9cfZ0F
-	waFbHrQ+b8Zxy4Wr3vz4y+1gFG7OsBkp/53TCHKJx+UGjNZpqvMB30rpndMRaJA==
-X-Gm-Gg: ASbGnctt3ort9YoiciluBY+pvbJn1cterIEbipDdvIMC6rItcQ1OuLW33mxTz4tiKC9
-	B4Od1v7uQ7U/YxCwkFdNLyGZBmvK+UOAar7fSpACtng9uuJOVY9LgwIcXmyR+4Pu69WURMOpJwE
-	KZI3JFzk0+5eMQH/UunQqtXvgH+qIYHFz+j8y1ma6ps8P1Kujhhp53C7UQ2zAPC9t3/ekLbVtFV
-	KWXq5bdSrVLHbEzK/MYwuNoxmhNS2n6JcFWGGkNlHPWyULyhfD7SbRpE6JAjIwHpzvjf3GuM92t
-	B3D/YMBNYOTqClXDNc5tLD9n7uBcHCJ90HNP8t3aP97LGL0NnPpd/8LFY1AEe2H8gB9O/t0OtV7
-	aRgtulBqK9w==
-X-Received: by 2002:a05:620a:2683:b0:7e6:8f41:2055 with SMTP id af79cd13be357-7e9fca94459mr16665785a.21.1755625138696;
-        Tue, 19 Aug 2025 10:38:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHgQk4w8WKFv31m629AzJg48gzsT3wV9vO3Klej86l6vqDXynU+1bYT1HQpPIZsZ30MYOYE+w==
-X-Received: by 2002:a05:620a:2683:b0:7e6:8f41:2055 with SMTP id af79cd13be357-7e9fca94459mr16660385a.21.1755625138182;
-        Tue, 19 Aug 2025 10:38:58 -0700 (PDT)
-Received: from ?IPV6:2601:188:c180:4250:ecbe:130d:668d:951d? ([2601:188:c180:4250:ecbe:130d:668d:951d])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e87e1e15besm805438385a.72.2025.08.19.10.38.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Aug 2025 10:38:57 -0700 (PDT)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <8f36131b-e326-4d0e-96d6-9067b6c439d8@redhat.com>
-Date: Tue, 19 Aug 2025 13:38:55 -0400
+        d=1e100.net; s=20230601; t=1755625865; x=1756230665;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PmlcDpKD9YCg6XDWMZQyI3wgJy7zu34Qq/sxftvQ6ww=;
+        b=tLy54rOTnNl83eIbBNca7rnIFHmNmgmG8Jx5zeGu+pbzKjvqSsqFHPhcklAPwvLs9g
+         Gcgox/KeABlfLwHbgMgpd0Ryi7x4P4/wLJkNEhrxAETG75G7uMLKjEfsVSbqOISKlJYk
+         YWfFJGORfI4rFoA2as6M4G7qFijXLg/j9DmjgGFa1AyAalUlz+Xch0l7MvEzRlpnLQ7y
+         EbDDTXxGNVPPgIjy58hCBkkvy64Pq2V9Cj6DmUaFOGZbO38NkziE1nCf4Z0lm6+u+s6k
+         MudAFgwtSO91q16c+WT5pE46mB6O3j2f+E9FIAhwvywXsGfzgnNHH9ufx1hLKQzzL61f
+         YJ4w==
+X-Forwarded-Encrypted: i=1; AJvYcCUC9lnCVgJCM9pZTKfSQzWLCc5hacaGG/kllD4cBSjDO3NMDBzUZQCryhGPa0pEqnJRXkq29H14EU53@vger.kernel.org, AJvYcCVl5orOJmetLCzOGJR9xid1P8p2L2AtJmki5flkcQvHqWZK2w1sSvSQDz5YQ0bEf8C7KZAnr/xUydJC@vger.kernel.org, AJvYcCWbl7homfAxK9d5bixeMAf2pPOdy/n9Nh/iXXr9SKn9hE4BRmeuhb5K/XuZ6cSz4DVzhkyo0hzwME82QYQ=@vger.kernel.org, AJvYcCXvFJ4jpSlxkeJMmP7gieU0/GAt32/fS9IkW0CoLr6t1hvT+NmKXF/v8pz+0mOpjeZPuhg6XLREAad/D4e4@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPnggERSMc1AUK4wYGoKcBd+wDIqKgkQSdaJmdZytKDIE71YwR
+	iQdwa3yQT1BUF1vcYb72DvpZaG4CXh3eFh7t7ND3B5h9LZIp1dpMIpi0UFz9H/ypY+lhGktuAUQ
+	AXEeNlgvOkC+UIFFNjHOmxf1V3Rl0sQ==
+X-Gm-Gg: ASbGnctJs0QO5SNpt9zZBHAX/uUVfL62u+N2ftv5nWUF0k/naRusSEbxUYOaZfM1FVV
+	POIv3i4wAMzyR0nqhsTFQA7q92zv2EYkGd6elxRYLt/EdECPz9lTYmNc5NPA/tMxchVbsE+wskI
+	e+ghIMibvU2/B9C49RvFa8VCv8a3nC1yz1oJLNtqZkvL6j9Y97uEK0MZu6/yu0EfP1/UZcV1tQQ
+	5nbrrdp
+X-Google-Smtp-Source: AGHT+IGIn7OrCgxggr5EugvTj/Sse9SmV8lSb5a2wGootksUGazgLec5LF39WE585X64DXNcz/QNI34UrA6hniB8i/U=
+X-Received: by 2002:a05:6402:21c6:b0:615:8b65:bfb6 with SMTP id
+ 4fb4d7f45d1cf-61a9762bdd9mr200792a12.13.1755625864642; Tue, 19 Aug 2025
+ 10:51:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] Documentation: locking: Add local_lock_nested_bh()
- to locktypes
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Waiman Long <llong@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
- Clark Williams <clrkwllms@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- John Ogness <john.ogness@linutronix.de>, Jonathan Corbet <corbet@lwn.net>,
- Peter Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Valentin Schneider <vschneid@redhat.com>, Will Deacon <will@kernel.org>
-References: <20250815093858.930751-1-bigeasy@linutronix.de>
- <20250815093858.930751-3-bigeasy@linutronix.de>
- <db8defe4-14bf-4060-803f-e8b09a941d42@redhat.com>
- <20250819100046.ymb_o7VA@linutronix.de>
-Content-Language: en-US
-In-Reply-To: <20250819100046.ymb_o7VA@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250811-hwmon-tps23861-add-class-restrictions-v2-0-ebd122ec5e3b@gmail.com>
+ <20250811-hwmon-tps23861-add-class-restrictions-v2-2-ebd122ec5e3b@gmail.com>
+ <eab6d2d2-9337-40fe-81c7-95dc1956ce6f@kernel.org> <CAAcybusHjAR67N0rumb6M_uG1ct3aa=zv2XkpUjhSSxv0NdzFA@mail.gmail.com>
+ <ff167728-a4a7-4f7d-a809-d0e482ab7dd6@kernel.org> <20250818173147.GA1496879-robh@kernel.org>
+In-Reply-To: <20250818173147.GA1496879-robh@kernel.org>
+From: Gregory Fuchedgi <gfuchedgi@gmail.com>
+Date: Tue, 19 Aug 2025 10:50:27 -0700
+X-Gm-Features: Ac12FXyAVHvUPA_M5rmxd1gHCRHGcX9U5-wyguctTXq3hq_2ENu30t339lVgjh8
+Message-ID: <CAAcybuthoac8h1T8dm96eOn9NdSq_aR0_OD7UKcxqrpK-BExrw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: update TI TPS23861 bindings
+ with per-port schema
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Robert Marko <robert.marko@sartura.hr>, 
+	Luka Perkov <luka.perkov@sartura.hr>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/19/25 6:00 AM, Sebastian Andrzej Siewior wrote:
-> On 2025-08-18 14:06:39 [-0400], Waiman Long wrote:
->>> index 80c914f6eae7a..37b6a5670c2fa 100644
->>> --- a/Documentation/locking/locktypes.rst
->>> +++ b/Documentation/locking/locktypes.rst
->>> @@ -204,6 +204,27 @@ per-CPU data structures on a non PREEMPT_RT kernel.
->>>    local_lock is not suitable to protect against preemption or interrupts on a
->>>    PREEMPT_RT kernel due to the PREEMPT_RT specific spinlock_t semantics.
->>> +CPU local scope and bottom-half
->>> +-------------------------------
->>> +
->>> +Per-CPU variables that are accessed only in softirq context should not rely on
->>> +the assumption that this context is implicitly protected due to being
->>> +non-preemptible. In a PREEMPT_RT kernel, softirq context is preemptible, and
->>> +synchronizing every bottom-half-disabled section via implicit context results
->>> +in an implicit per-CPU "big kernel lock."
->>> +
->>> +A local_lock_t together with local_lock_nested_bh() and
->>> +local_unlock_nested_bh() for locking operations help to identify the locking
->>> +scope.
->>> +
->>> +When lockdep is enabled, these functions verify that data structure access
->>> +occurs within softirq context.
->>> +Unlike local_lock(), local_unlock_nested_bh() does not disable preemption and
->>> +does not add overhead when used without lockdep.
->> Should it be local_lock_nested_bh()? It doesn't make sense to compare
->> local_unlock_nested_bh() against local_lock(). In a PREEMPT_RT kernel,
->> local_lock() disables migration but not preemption.
-> Yes, it should have been the lock and not the unlock part. I mention
-> just preemption part here because it focuses on the !RT part compared to
-> local_lock() and that it adds no overhead.
-> The PREEMPT_RT part below mentions that it behaves as a real lock so
-> that should be enough (not to mention the migration part (technically
-> migration must be already disabled so we could omit disabling migration
-> here but it is just a counter increment/ decrement at this point so we
-> don't win much by doing so)).
->
-> I made the following:
->
-> @@ -219,11 +219,11 @@ scope.
->   
->   When lockdep is enabled, these functions verify that data structure access
->   occurs within softirq context.
-> -Unlike local_lock(), local_unlock_nested_bh() does not disable preemption and
-> +Unlike local_lock(), local_lock_nested_bh() does not disable preemption and
->   does not add overhead when used without lockdep.
->   
->   On a PREEMPT_RT kernel, local_lock_t behaves as a real lock and
-> -local_unlock_nested_bh() serializes access to the data structure, which allows
-> +local_lock_nested_bh() serializes access to the data structure, which allows
->   removal of serialization via local_bh_disable().
->   
->   raw_spinlock_t and spinlock_t
->
-> Good?
+On Sun, Aug 17, 2025 at 09:23:09AM +0200, Krzysztof Kozlowski wrote:
+> On 13/08/2025 05:00, Gregory Fuchedgi wrote:
+> > On Tue, Aug 12, 2025 at 12:20=E2=80=AFAM Krzysztof Kozlowski <krzk@kern=
+el.org> wrote:
+> >>> +  shutdown-gpios:
+> >> powerdown-gpios, see gpio-consumer-common.yaml
+> > It is called shutdown in the datasheet, but seems like neither powerdow=
+n nor
+> > shutdown truly reflects its purpose. This pin doesn't power down the co=
+ntroller
+> > itself. It shuts down the ports while keeping the controller available =
+for
+> > configuration over i2c. Should I call it ti,ports-shutdown-gpios or may=
+be
+> > ti,shutdown-gpios? Any other suggestions?
+> Feels more like enable-gpios.
+Wouldn't that be confusing, since there's no enable pin in the datasheet? A=
+lso
+it doesn't enable/disable the controller itself, but its ports.
+In my mind ti,ports-shutdown-gpios is the most meaningful name for it. That=
+ said
+I appreciate the guidance, since I do not know what's the usual way to do t=
+his?
+Happy to go with enable-gpios if that's the convention.
 
-LGTM, thanks!
+On Mon, Aug 18, 2025 at 10:31=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
+> > >>> +patternProperties:
+> > >>> +  "^port@[0-3]$":
+> > >> This goes to ports property.
+> > > Do you mean I should add another DT node that groups all ports? such =
+as:
+> > > compatible =3D "ti,tps23861"; ports { port@0 {...} port@1 {...} }
+> > Yes.
+> Except this is not an OF graph. Don't re-use it when it is not that.
+> Maybe 'poe-port@'? Is multiple ports/channels something common on PoE
+> chips? I'd guess so. If so, then come up with something common.
+poe-port@ sounds good to me. When you say come up with something common, do=
+es
+that imply adding it to a new file, like bindings/hwmon/poe-common.yaml? Or=
+ just
+using poe-port in this dt without the parent ports node?
 
-Cheers,
-Longman
-
+> Whether you should have a container node like 'ports' is a separate
+> question. You get exactly 1 address space for any given node. So if you
+> ever might need to address multiple disjoint things, then you probably
+> want a container node.
+I do not want to address anything else in this case, so I'd keep it simple.
+But let me know if I'm missing any important details.
+Appreciate the guidance.
