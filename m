@@ -1,104 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DB820E6;
-	Wed, 20 Aug 2025 22:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C53E229B2A;
+	Wed, 20 Aug 2025 22:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755729035; cv=none; b=Ad+ECnwNKvczcnwQ6oemJDpu+LWsyFuy4kTE0bccZfMrA903A3+2VK35iIlz7DFGNhCaRbKAGXVqG/MHsWz8NhiofAEG0ARtK8i4QD69NrhRRmfdidh+N/hWX9PQQ2Ph7/LXyMIXevffIslAxY2McMgoWBnUf32mzPkYZGyZ47A=
+	t=1755729923; cv=none; b=mL4WQJ8G9m3tWP2lOZ9bTdVoQBqjSz0Nbh+mP9KOQMGiImZP7bGbE/hVgk4VfeOfy7N1XppT5/0s/Zit2G2nEXlvqKnKOR5brUfrkVMSYxayvetGV48GTbB8shvpJgP8ARyzEz5EV83qro8im7LIEv5MxW1rFkM+YKDJUBZJ3iU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755729035; c=relaxed/simple;
-	bh=tGAdZc0KS9L/r5jqwEnengTd6HhtdTELMF/rxwYJ2II=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AwEAZn4yzanK5oJb6hMcib9lK9cwp1C//Mv9ZRRW62H1NeKfLt5hy6t5QtwSOsOMP/perzp3vVBrowOGu+8T/Doa3XhbhlRi/WvRjW5A8G2uC2Zd+uFoPZWarq363DdMl5f5fJl6VgG/uR/DSzXCsnweFEMkDTOaqo8g7QhD/3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sNgPr9Tb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755729923; c=relaxed/simple;
+	bh=dOc9PDPMBqmiptZkMu4FCamWCTbHdvtW3swVBPYcP4Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M0Sxretfr5+MMWLrj6781HkqaNdsMq1XuAobUrRUNMqZITf/gzSSGQ0nHLN8sQYS5UEpokXEWVnFCXqupzmZkPAkbjGDVabU0T3q/JQeEwZfT9IAMt12thQVkyQbrkjW34YeMWhBOC8COCLDSBKJFtIDD8LLh4Qsmwi3IYeIijM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YEmmwkbb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sNgPr9Tb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC465C4CEE7;
-	Wed, 20 Aug 2025 22:30:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755729034;
-	bh=tGAdZc0KS9L/r5jqwEnengTd6HhtdTELMF/rxwYJ2II=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sNgPr9TbvOuO5FT4aQkcoymboru/M7IsHTWgI1aK4LDgWZI7NitjiK0FrvWzFfN+X
-	 Zg0OdRE3DHIXKd70iaf+hy4nUl1Kh+sN8EljRSxUT8AVWLfPaMVYG71L5XQSw2GOII
-	 LTGTzaJVN7NBgbltGqtdI1VGJIjAA3Kuzv0pHVtn1DPXYVgDl6eAKWMR/mA+znrCMK
-	 6udb3AAC0WS3qlNA//gTe/b0e1xoRc3M+ebRSa3LrX3ZQxDaOsX2rskr/QJKxwdUci
-	 uxKvytdKrGAdCzX+MpLbOZys9fgWsVuiKZQbX5ZLuDFsLJG41k/yOPVOxxJiMJDAP9
-	 0ct0cxFuydFFw==
-Received: from host86-149-246-145.range86-149.btcentralplus.com ([86.149.246.145] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uorKC-009WCr-U7;
-	Wed, 20 Aug 2025 23:30:33 +0100
-Date: Wed, 20 Aug 2025 23:30:31 +0100
-Message-ID: <87frdlk4mw.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-Subject: Re: [PATCH v15 0/6] KVM: arm64: Provide guest support for GCS
-In-Reply-To: <20250820-arm64-gcs-v15-0-5e334da18b84@kernel.org>
-References: <20250820-arm64-gcs-v15-0-5e334da18b84@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YEmmwkbb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=z5KzQpKSCrGkNRK0A+Nuu0QJ5XEq+csvMXy8Q4LEMVg=; b=YEmmwkbbJreasT2XkCNJqiDGee
+	2J0PubICP/04xFPkYU+ZmpxqNl7SgmwCKpEnW0fhr6ONFZaqJXLFRhJtoZ9PGBp7Bcjq82RBt9dTZ
+	Sh4O5pKx24/T/fyQuCAxi1S9pWOtIrJNQw49iNThpl4nX2y8530LW+lgXl7HNGhkZS9hTUfcdJPR+
+	tiSiwckQbVMYRhaxNZzPAxSR+nxZ1TM3ry10XScmLLSENKhcyQMvs42p0AWRg3KhHpbhOvs1/Jsb5
+	693rcy+FbvNnOg57iaBZKN3krLR4gVAGtMkO+3hhRMdUPwuExLKqZRMDKS81rGz51aBzjblcB+ONN
+	AKq1R2EA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uorYQ-0000000F7RY-0GFl;
+	Wed, 20 Aug 2025 22:45:14 +0000
+Message-ID: <5dff05c1-474e-4fff-a19b-7c17b4db6173@infradead.org>
+Date: Wed, 20 Aug 2025 15:45:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 86.149.246.145
-X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, thiago.bauermann@linaro.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/2] KVM: SEV: Add SEV-SNP CipherTextHiding support
+To: Ashish Kalra <Ashish.Kalra@amd.com>, corbet@lwn.net, seanjc@google.com,
+ pbonzini@redhat.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ thomas.lendacky@amd.com, herbert@gondor.apana.org
+Cc: akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org,
+ michael.roth@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+References: <cover.1755721927.git.ashish.kalra@amd.com>
+ <95abc49edfde36d4fb791570ea2a4be6ad95fd0d.1755721927.git.ashish.kalra@amd.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <95abc49edfde36d4fb791570ea2a4be6ad95fd0d.1755721927.git.ashish.kalra@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 20 Aug 2025 15:14:40 +0100,
-Mark Brown <broonie@kernel.org> wrote:
-> 
-> The arm64 Guarded Control Stack (GCS) feature provides support for
-> hardware protected stacks of return addresses, intended to provide
-> hardening against return oriented programming (ROP) attacks and to make
-> it easier to gather call stacks for applications such as profiling.
-> 
-> When GCS is active a secondary stack called the Guarded Control Stack is
-> maintained, protected with a memory attribute which means that it can
-> only be written with specific GCS operations.  The current GCS pointer
-> can not be directly written to by userspace.  When a BL is executed the
-> value stored in LR is also pushed onto the GCS, and when a RET is
-> executed the top of the GCS is popped and compared to LR with a fault
-> being raised if the values do not match.  GCS operations may only be
-> performed on GCS pages, a data abort is generated if they are not.
-> 
-> The combination of hardware enforcement and lack of extra instructions
-> in the function entry and exit paths should result in something which
-> has less overhead and is more difficult to attack than a purely software
-> implementation like clang's shadow stacks.
-> 
-> This series implements support for managing GCS for KVM guests, it also
-> includes a fix for S1PIE which has also been sent separately as this
-> feature is a dependency for GCS.  It is based on:
-> 
->    https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/gcs
->
 
-Is this cover letter accurate? I don't see any PIE-related patch, and
-you indicate this being rebased on 6.17-rc1...
 
-	M.
+On 8/20/25 1:50 PM, Ashish Kalra wrote:
+> @@ -3064,10 +3070,32 @@ void __init sev_hardware_setup(void)
+>  out:
+>  	if (sev_enabled) {
+>  		init_args.probe = true;
+> +
+> +		if (sev_is_snp_ciphertext_hiding_supported())
+> +			init_args.max_snp_asid = min(nr_ciphertext_hiding_asids,
+> +						     min_sev_asid - 1);
+> +
+>  		if (sev_platform_init(&init_args))
+>  			sev_supported = sev_es_supported = sev_snp_supported = false;
+>  		else if (sev_snp_supported)
+>  			sev_snp_supported = is_sev_snp_initialized();
+> +
+> +		if (sev_snp_supported)
+> +			nr_ciphertext_hiding_asids = init_args.max_snp_asid;
+> +
+> +		/*
+> +		 * If ciphertext hiding is enabled, the joint SEV-ES/SEV-SNP
+> +		 * ASID range is partitioned into separate SEV-ES and SEV-SNP
+> +		 * ASID ranges, with the SEV-SNP range being [1..max_snp_asid]
+> +		 * and the SEV-ES range being [max_snp_asid..max_sev_es_asid].
 
+		                              [max_snp_asid + 1..max_sev_es_asid]
+?
+
+> +		 * Note, SEV-ES may effectively be disabled if all ASIDs from
+> +		 * the joint range are assigned to SEV-SNP.
+> +		 */
 -- 
-Jazz isn't dead. It just smells funny.
+~Randy
+
