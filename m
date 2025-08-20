@@ -1,123 +1,138 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFFB2AE84;
-	Wed, 20 Aug 2025 08:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A302D8763;
+	Wed, 20 Aug 2025 08:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755676857; cv=none; b=N76KuVS+/6MOwv5XFpXTHqgQwIamoSdTru/qK92a+mh20jNlCExVLGEqd4idNlNrkwDNzdA7aFpoK5iIvoxWaCKhIdw9Vc6jIfl0uuMbInGgjyjAZxKp7NLEN8svZA0oUWOZCiZDrnI96BQwK2sUYQ5H9cv75V2Dx0TjPaZxsps=
+	t=1755677649; cv=none; b=EC1IQVt1vsNAYxwHg/I5xhu+1w6w4Swl/ZINUnwEzyt6j/k8Ys6CKIbbfFiA7kLjNwDXxbGYePaXVQpezPA54XdnHgZKOsjW58o3gAEV+bl7ZFYkvcROu/GccHM0Cp3mh71H8dD7m71U4ctEvYvRVEwWnCpPv/KJFTR8zzIGYZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755676857; c=relaxed/simple;
-	bh=8fQkQlxrDLqyzLSA+sNcGFzYd7z3mBw/UF9gi+GN8/A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lbaxea8A1gIyKf4Aa7TK+gzmcKRCBnR/e72w/z0X3ygj4zuTklOme/Kei0ohykRjadhtZP1aaiCPSVdc1yAAtsorOzARG724EVl5DZoZ+UudBf/QVpaaTB+qr/o9slpoca9MFpXkZqy6yqIgKtaXg6Y0PWyViMh/BHpMiZ2KWXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=GF/79iEc; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1755677649; c=relaxed/simple;
+	bh=ZpCtAzS4tzwuzApjtumUN65a/Suv8wxPH+MzhX7js1M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uX83LOLyqbdTt/T395HghArUbmtE9kPsSHuGYM/j4U/NfFGZN+tlrBsfbGIoPL/BQ2ikOBx6O/W4NIxvpH+6wAQPpqo4s7+5HbnE6NrIYEO63sdjuKt9Yt1T3vVqS1cnRND96ARf6HxkKhyNp8f5mNufy2eBHvcQyX1bOj+SiF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MUEli+qR; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="GF/79iEc"
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57K7bE32012597;
-	Wed, 20 Aug 2025 10:00:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	wI/LAwmYZM5Ag3o07cPg4Pzi8Iz1OSE6DoE2ArK/y40=; b=GF/79iEcql/pW2eJ
-	Xguf05F/gINYYsHyZjKAMfCzMRZUHoKIAVLu5TE9zU465K1+rAxla4O9vy6TLC5s
-	IiDVcmsyZIVa87MlpFDw5pbzFy7IRmE/0g3/SLAYc4GksW79lhG47EurFSYQxlPB
-	DVBvVYwv5rlVFzDmdpLsQ4fcVcPKq3s5g+GPBbMSX1hA7hzGL8Y/K90JsFCmlvIp
-	cWPsPBHrrKZM1SYhmFbLFLyJggMVDhwNTXWN0sNyb6jAUBaXtCK+n7VtC84aChy2
-	nkQQPp9O6i38dkbpLVo2MG66wMU9REjhIHCBUVGFl2+wK5evV54X+r9hxMXnTiCs
-	OIMgsA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48n70d8yey-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Aug 2025 10:00:28 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 0B07740047;
-	Wed, 20 Aug 2025 09:58:54 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 91E4E44C785;
-	Wed, 20 Aug 2025 09:57:33 +0200 (CEST)
-Received: from localhost (10.130.77.120) by SHFDAG1NODE3.st.com (10.75.129.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 20 Aug
- 2025 09:57:33 +0200
-From: Christian Bruel <christian.bruel@foss.st.com>
-To: <christian.bruel@foss.st.com>, <lpieralisi@kernel.org>,
-        <kwilczynski@kernel.org>, <mani@kernel.org>, <robh@kernel.org>,
-        <bhelgaas@google.com>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
-        <linus.walleij@linaro.org>, <corbet@lwn.net>, <p.zabel@pengutronix.de>,
-        <shradha.t@samsung.com>, <mayank.rana@oss.qualcomm.com>,
-        <namcao@linutronix.de>, <qiang.yu@oss.qualcomm.com>,
-        <thippeswamy.havalige@amd.com>, <inochiama@gmail.com>,
-        <quic_schintav@quicinc.com>
-CC: <johan+linaro@kernel.org>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v13 11/11] arm64: dts: st: Enable PCIe on the stm32mp257f-ev1 board
-Date: Wed, 20 Aug 2025 09:54:11 +0200
-Message-ID: <20250820075411.1178729-12-christian.bruel@foss.st.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250820075411.1178729-1-christian.bruel@foss.st.com>
-References: <20250820075411.1178729-1-christian.bruel@foss.st.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MUEli+qR"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3e67d83ee4bso1891745ab.1;
+        Wed, 20 Aug 2025 01:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755677647; x=1756282447; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cHdHc+vgGOidBhtPb6TotK5pN0fo9oM/+Sw3uOBxNOQ=;
+        b=MUEli+qRKeSF9n6Asfj3ArWbISbJPo/xBeFFmN+iHTNN0a4Vde3E3mXewrSa691qFG
+         yLbxONEBsz4+63oWR0T9ytw1kkcUEtwPM3o//q7t3FO8vtppPb9fUPgzi+nPbylrrTNX
+         itsw28itLA3bLyUjXLsOIbdurefN+OwlCplJiPJ0RLQIvDHg5Sn156sxkJXDSjWQKg+C
+         ek5w7IBRGNE+K5BOa95yz48NUUlnsZf+N1GS4I4jZmZZTfxS/cHbkydEbv7qJBVI/wsH
+         24IFCFdkRMiV5YAhTZphnZjfiS4tCRCXeGRTelXoV1go9Qb0B1/8bq4tqXam9nZx0AT6
+         wd1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755677647; x=1756282447;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cHdHc+vgGOidBhtPb6TotK5pN0fo9oM/+Sw3uOBxNOQ=;
+        b=uTshnjWYTZO0I48s+nQl16jCwSAfJ757evhnTv/anxm8FlkvGYbOqRAuzdiSEsqO22
+         Nba2yz1vXs7OyYYBxYTgrODNn/ysVB9s6J6C79rS5RqzSmBauBOpCO3DuaJs89bLI8o8
+         uQ7VLwsTLbq+NTCYzssdmLRlmoFXIUW/oRnvMIwr+z8XcKTJ/hXmt1zB6vdlzSv7S2v4
+         24PjPgbbCagXT8hu+edHzX4HN2AeVVyX9sjZvxV90ksrAskanclLkXtb5RKsiMWU1UsC
+         Q77MyTsYpcdk8KJ5Jr7A75hWbnsqYp/Lb5xRELfRZn/IQvgSG3CPSymHCWPErul+m+yb
+         asIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVn4bakxe13Jj4Xzm5nOr4Sk6BPrkGyOoxVmsbsqf+vtERUyzzJQhFMRnD/xhAreql4tPAHjovmk3E=@vger.kernel.org, AJvYcCWIWY9Qpx8yaWRKrW8aB/Xj9Z393tt8XyEKPIPHQtROC0BRLKOcVuNfjZ7gIPUpo/uKyaE9vJ7UcApvqdUp@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpwAf2xEEuyLQyZoS4Y/6lKNthLKdFkbY2T8s07r/JZhFWUoR4
+	F7s0T2NlrUB7d5pclX8ppN5wlsqGL2IpsyWgnfKaB0ddLNJVRa9pvm8nSkT+Nv6Y2Op/gv63if5
+	x9MwVnu6pIofZDckkx+OxkX+Zc6uvLWw=
+X-Gm-Gg: ASbGncsNKnC/74gC0WfWaSSX702lnpSJZIZ5foc6graC2Sph7YmYEP88rg0F8WXfOeT
+	AkaalyjV/omsPsFnZ6ZWIY2ltbcVCdlhYyazo5z6zs1abIgAwUHOnqkHvfjljWFubrrayBPGSzi
+	cFp03CxIVkzD0QLkREht+et4N4gzMY57t6BvswAsLv3a2raQQwQgnvqb1PgjkGAfL1pE3y3HUSe
+	JE36y0Zhujlinmxiw==
+X-Google-Smtp-Source: AGHT+IHCT2tGzbMXEdi3gemb6CiCmK8a60ILAjzEUkta7Borm89v7rF8AZTQkWnJv4wFfOqcg3xMPuu+rNrOCI9ulg0=
+X-Received: by 2002:a6b:e90a:0:b0:881:81cb:57de with SMTP id
+ ca18e2360f4ac-88471b1e791mr341650039f.12.1755677647382; Wed, 20 Aug 2025
+ 01:14:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE3.st.com
- (10.75.129.71)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-20_03,2025-08-20_01,2025-03-28_01
+References: <20250819092739.GA31177@didi-ThinkCentre-M930t-N000> <20250819101411.GG4067720@noisy.programming.kicks-ass.net>
+In-Reply-To: <20250819101411.GG4067720@noisy.programming.kicks-ass.net>
+From: Tio Zhang <zyhtheonly@gmail.com>
+Date: Wed, 20 Aug 2025 16:13:55 +0800
+X-Gm-Features: Ac12FXyDvPHhpL6dkIODj_7Gvsy1T8HJ1e-pyafiHot7ZIFOA6SeRG-8-Np1zDo
+Message-ID: <CAEQmJ=gwOBn5bTY0n1c1c1zu2Gk-peKERCzrW5i+S-4erd7y5Q@mail.gmail.com>
+Subject: Re: [PATCH] delayacct/sched: add SOFTIRQ delay
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: akpm@linux-foundation.org, wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, 
+	corbet@lwn.net, bsingharora@gmail.com, yang.yang29@zte.com.cn, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, mingo@redhat.com, 
+	juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
+	jiang.kun2@zte.com.cn, xu.xin16@zte.com.cn, zyhtheonly@yeah.net, 
+	=?UTF-8?B?5byg5YWD54CaIFRpbyBaaGFuZw==?= <tiozhang@didiglobal.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add PCIe RC and EP support on stm32mp257f-ev1 board.
-Default to RC mode.
+Peter Zijlstra <peterz@infradead.org> =E4=BA=8E2025=E5=B9=B48=E6=9C=8819=E6=
+=97=A5=E5=91=A8=E4=BA=8C 18:14=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Tue, Aug 19, 2025 at 05:27:39PM +0800, Tio Zhang wrote:
+> > Intro SOFTIRQ delay, so we can separate softirq as SOFTIRQ delay
+> > and hardirq as {IRQ - SOFTIRQ} delay.
+> >
+> > A typical scenario is when tasks delayed by network,
+> > if they delayed by rx net packets, i.e, net_rx_action(),
+> > SOFTIRQ delay is almost same as IRQ delay;
+> > if they delayed by, e.g, bad driver or broken hardware,
+> > SOFTIRQ delay is almost 0 while IRQ delay remains big.
+> >
+> > Examples tool usage could be found in
+> > Documentation/accounting/delay-accounting.rst
+>
+> accounting will be the death of us :/
+>
+> How do you account ksoftirqd ?
 
-Signed-off-by: Christian Bruel <christian.bruel@foss.st.com>
----
- arch/arm64/boot/dts/st/stm32mp257f-ev1.dts | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+delay accounting should count delay within the task's own context,
+so ksoftirqd should not be take into consideration in "SOFTIRQ delay".
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-index 836b1958ce65..b20bff82da80 100644
---- a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-+++ b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-@@ -265,6 +265,27 @@ scmi_vdd_sdcard: regulator@23 {
- 	};
- };
- 
-+&pcie_ep {
-+	pinctrl-names = "default", "init";
-+	pinctrl-0 = <&pcie_pins_a>;
-+	pinctrl-1 = <&pcie_init_pins_a>;
-+	reset-gpios = <&gpioj 8 GPIO_ACTIVE_LOW>;
-+	status = "disabled";
-+};
-+
-+&pcie_rc {
-+	pinctrl-names = "default", "init", "sleep";
-+	pinctrl-0 = <&pcie_pins_a>;
-+	pinctrl-1 = <&pcie_init_pins_a>;
-+	pinctrl-2 = <&pcie_sleep_pins_a>;
-+	status = "okay";
-+
-+	pcie@0,0 {
-+		 reset-gpios = <&gpioj 8 GPIO_ACTIVE_LOW>;
-+		 wake-gpios = <&gpioh 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+	};
-+};
-+
- &sdmmc1 {
- 	pinctrl-names = "default", "opendrain", "sleep";
- 	pinctrl-0 = <&sdmmc1_b4_pins_a>;
--- 
-2.34.1
+When a task is delayed by ksoftirqd, the task is exactly delayed
+by ksoftirqd's preemption, not softirq context:
+---------------------------------------------------------------------------=
+-----------------
+              TASK A
+    <runs in A's context>
+    <IRQ context>
+        | -------------------------------------------------------
+        |              counts in A's IRQ delay               |
+        | -------------------------------------------------------
+    <SOFTIRQ context>
+        | -------------------------------------------------------
+        |              counts in A's SOFTIRQ delay      |
+        | -------------------------------------------------------
+     wakeup_softirqd
+     preempted by ksoftirqd
+     <A in rq waiting>
+        | -----------------------------------------------------------------=
+-------
+        |  counts in A's CPU delay (A->sched_info.run_delay) |
+        | -----------------------------------------------------------------=
+-------
+     ksoftirqd gives the cpu
+     <runs in A's context>
+---------------------------------------------------------------------------=
+-----------------
 
+So when ksoftirqd plays a significant role, we will FISRT see
+SOFTIRQ delay increasing in task's delay, THEN see CPU delay
+increasing.
+We should always find out the task delayed by softirq.
+
+Though not working in PRERMPT_RT (No IRQ delay but always CPU delay).
+
+Btw, I did miss exclude ksoftirqd in irqtime_account_irq, will add in V2.
