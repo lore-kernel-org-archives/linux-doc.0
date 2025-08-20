@@ -1,77 +1,133 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABA9308F05;
-	Wed, 20 Aug 2025 12:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9D931CA7D;
+	Wed, 20 Aug 2025 13:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755693760; cv=none; b=jDYoSzHXBeuoGVq3iZtvKipUWEFlrzsS/XOmdjpx5h+EJJDWjLPTIr9bmvX5JyFBTPQvQNOcxi/PQfFIUlUgx0OHWX3EfIoZ7HAsZHtG/dpXEK9TA/U1TWOaVPNrWP1OuDtrO8wC/cGadWxhE/WHSPxRED+2yDJkVTNDhsqLmxY=
+	t=1755696071; cv=none; b=mgHUx593iT8QXksCfotDvF0qlYPrK/k3u1NBtv+DLAp063VrmtvFdWTTL7izvvZKXK+Kg1JOjW1YHGWne2x2kDsU/rioqgOt1KiQMipJUX2ZUSJwyczY+PDiyD7/1Rl+CmLQh3E5mJ1tpMkgi8Ue3yNUy3XraLtwuf1mhfK8lFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755693760; c=relaxed/simple;
-	bh=hLiAIf3ysBiuk0Pn1wvbfd7grr945aO2V4eRGHGq/QY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Pjk7jm6T0yJ6DV5yBm6Vk2MCmfvG1BjuCT3P0pmap/1JEtQ1y3lG4nDaaskW45OEEmpPyCGiGjIh/k4lSL7e9ipZcGqeY9v2jfyKohUx9ZpfWtgE6A0hhGB+6Alxub4JfpqRlCTYeAeV2E30QGLAr2p3ctrGV0BUX9qCEChHruM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tCVO9yWV; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1755696071; c=relaxed/simple;
+	bh=XsGOUexS48UBQOOs/YAItiCIMtGhVhIMcpJQIr9hATU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tA06qKSHHOHB35AJM0YCEZ7BIivAlz8gfJyGRiHXXV+1cfdoV9i0NGEH8ucNAlRRsfAcZTcFVB1aNf5pQzSn2M3NjQ3RcTlyv6SxZkYXeLpfKnDedlZ0YFP6hZxmqfbZcapMuw/RRVku8KgA5G9hwwlSph+8hiuFkDnZ7xsRXrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com; spf=pass smtp.mailfrom=debanilchowdhury.com; dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b=ciWRj656; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RqcYhAWr; arc=none smtp.client-ip=202.12.124.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debanilchowdhury.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tCVO9yWV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 13CA940AD8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755693751; bh=CrN/QXHYTFWh2aboZ2TiLbJ4hoWKn/LbxR1uhwr2IGM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=tCVO9yWV9hMlS6raQBMqFTMGXmDhM71qzb1LJpS+3UEd7lrz6VNm7MPwoLg33eaaZ
-	 6KRoT/SzLaFD0RtYlyIbzJNIiyojLA2TJOdTQBHC3I0gnNZV9LncF+Ut3/2BLhPxMj
-	 PAPOFLEBL7pgef25IF29D9RMvH4s9sTLKqCF9AnXPSxT1m0RcTDelxFgQznX3JpSfq
-	 Ppxp1TxckjZ6mmRO9EnjZz3OFP/QveDL6+2jNUmM20HiMVNMlUQyneg4ZpLuydI8Tf
-	 zrGFtzRMC1uEY9pgyuwU/C9DshiI8bxWbjtgMBjjbkrq2oMaZvEHXLsmVUwYgQx2+r
-	 koi652mnmtFyw==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 13CA940AD8;
-	Wed, 20 Aug 2025 12:42:31 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Kees Cook <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: kfigure.py: don't crash during read/write
-In-Reply-To: <df1602df0da3a6254d58a782654e7f2e60512dc8.1755680997.git.mchehab+huawei@kernel.org>
-References: <df1602df0da3a6254d58a782654e7f2e60512dc8.1755680997.git.mchehab+huawei@kernel.org>
-Date: Wed, 20 Aug 2025 06:42:29 -0600
-Message-ID: <87wm6ytb9m.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b="ciWRj656";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RqcYhAWr"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailflow.stl.internal (Postfix) with ESMTP id 6F91E1300BA1;
+	Wed, 20 Aug 2025 09:21:07 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Wed, 20 Aug 2025 09:21:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	debanilchowdhury.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
+	 t=1755696067; x=1755699667; bh=nEImHcQLvkNTCdFF2RtXX95NV2iRh1V3
+	J2yvcVtfk74=; b=ciWRj656q5wiX4lnyxquvE56D6HFFEZxvfkLf4mPHt+ijgJN
+	Hx8RaXReL73dow2oljr1DsQby7Og6Yu5Ihex8EghsBYpr65qfI76uyZauHgEbq0K
+	1TNUpNHYiYZrxKhdBWrCSm37Ck0kDBgw/qKBT+vwymH7qLz/pYSj5XdCHCbVVY6L
+	0658WvOzIzl31plVzIY1Osi72cKjGfzUeI4w2XynHS/Sj7WnCidV2TIw+629btXK
+	mY7EbRLslbuk/KcsqLx4o/JlV6fXMH98pqS8ysOktZGDtp2vvZTXhqqj5tV8cyhI
+	xgb8JTLPRMmJAGQaTBkSWFDZ44UXm+2Uz0LtlA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1755696067; x=1755699667; bh=nEImHcQLvkNTCdFF2RtXX95NV2iR
+	h1V3J2yvcVtfk74=; b=RqcYhAWrQaCdXoeWDP6EJnvareF2jWFHDlGgseqOkBUR
+	HjFoVIoDus2utHLOEtUf+Y7d9Km2K1nsbImjPHL77TLPMRowyOUrojAhyLdslOs2
+	E1QqpUe958HOqVP5441NY9OKQyn3Behma4r5xqrrIC113tZi9Efjypf9DaMkR/sU
+	I7w5s9/Q4aanxllTCju7AzZ08Lq+kaSyLuhBH2WbZlILut/TyFqyKqedYvHkvH41
+	/uVXA5cTeXw9n78kHpgCGAwcC6kvcVLZ2fwfoCsVBGdvMaAxOcDt3lKE1+nwFgUn
+	sb6aNnlrql6lpcimwteeMfc/iRhsw7BAKLWtu0WXeA==
+X-ME-Sender: <xms:wsulaAH0vk_vJo1M2qtDeSPc3igywCTFuzdQ9eo0_fH6CUseFmiPjw>
+    <xme:wsulaB8OwUkVyz8TF0wLXf2vVyFVP0lH79cT83YZ7BB2IbMEjc66NwhNkgFsxxEq3
+    DiGWBwf25OQU8bmiv0>
+X-ME-Received: <xmr:wsulaBmwW7fBcKPzWe3wNvg1aMsJnOVde3f0E58G7UcsVbMUjIH9clMz88awdLXzI6KCc41X>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduheekgeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtre
+    dtjeenucfhrhhomhepkhgvrhhnvghluggvvhesuggvsggrnhhilhgthhhofiguhhhurhih
+    rdgtohhmnecuggftrfgrthhtvghrnhepgefhleetiedthfelhfehtdevgfejtdeigfegte
+    fgfefhieffheekudevgeelkeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomhepkhgvrhhnvghluggvvhesuggvsggrnhhilhgthhhofiguhhhurh
+    ihrdgtohhmpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtth
+    hopehjuggvlhhvrghrvgesshhushgvrdgtohhmpdhrtghpthhtoheplhhinhhugiesrhho
+    vggtkhdquhhsrdhnvghtpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtg
+    hpthhtohepnhhinhgrugeslhhinhhugidrihgsmhdrtghomhdprhgtphhtthhopehlihhn
+    uhigqdhhfihmohhnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
+    htthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:wsulaMCLF0eZsrnfi0qwk3-W9DxUZ_RiW0cB2oiHJ25xZ7Qvmp3CXg>
+    <xmx:wsulaKVrxn4by8ihI64CdoWc1OaGHn6ki7kQXR_u14tVZgZcwfk12Q>
+    <xmx:wsulaK9Mn1kPljByIwh0tQ7GFKaZ6cc7QjtU35EwPCUD6xjS6Jv_PA>
+    <xmx:wsulaMQdu-0itt_oaNGTUeUyRsl87GQp7GtlDLsM1oPasL02aOtBbw>
+    <xmx:w8ulaEZEjBugC0-U0GT8K1mOIzY4LG9R1SANBC6j34t-nG15ZqfSZRmc>
+Feedback-ID: i77364836:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 Aug 2025 09:21:03 -0400 (EDT)
+From: kerneldev@debanilchowdhury.com
+To: skhan@linuxfoundation.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: ninad@linux.ibm.com,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+Subject: [PATCH] Fix typos in hwmon
+Date: Wed, 20 Aug 2025 18:48:08 +0530
+Message-ID: <20250820132033.11377-1-kerneldev@debanilchowdhury.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+From: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
 
-> By default, Python does a very bad job when reading/writing
-> from files, as it tries to enforce that the character is < 128.
-> Nothing prevents a SVG file to contain, for instance, a comment
-> with an utf-8 accented copyright notice - or even an utf-8
-> invalid char.
+Fixed some typos ("Critial" → "Critical") in hwmon documentation.
 
-Do you have a locale that expects everything to be ASCII?  This seems a
-bit weird.  I would expect utf8 to work by default these days.
+Reported-by: codespell
+Signed-off-by: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+---
+ Documentation/hwmon/crps.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> While testing PDF and html builds, I recently faced one build
-> that got an error at kfigure.py saying that a char was > 128,
-> crashing PDF output.
->
-> To avoid such issues, let's use PEP 383 subrogate escape encoding
-> to prevent read/write errors on such cases.
+diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
+index 87380b496..d42ea59d2 100644
+--- a/Documentation/hwmon/crps.rst
++++ b/Documentation/hwmon/crps.rst
+@@ -43,7 +43,7 @@ curr1_label		"iin"
+ curr1_input		Measured input current
+ curr1_max		Maximum input current
+ curr1_max_alarm		Input maximum current high alarm
+-curr1_crit		Critial high input current
++curr1_crit		Critical high input current
+ curr1_crit_alarm	Input critical current high alarm
+ curr1_rated_max		Maximum rated input current
+ 
+@@ -51,7 +51,7 @@ curr2_label		"iout1"
+ curr2_input		Measured output current
+ curr2_max		Maximum output current
+ curr2_max_alarm		Output maximum current high alarm
+-curr2_crit		Critial high output current
++curr2_crit		Critical high output current
+ curr2_crit_alarm	Output critical current high alarm
+ curr2_rated_max		Maximum rated output current
+ 
+-- 
+2.49.1
 
-Being explicit about utf8 is good...but where are the errors coming
-from?  Is this really a utf8 file?
-
-Thanks,
-
-jon
