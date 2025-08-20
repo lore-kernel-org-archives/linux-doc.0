@@ -1,204 +1,127 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958832C11DA
-	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 06:40:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B66602D24AA;
+	Wed, 20 Aug 2025 07:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755672031; cv=none; b=KaowqkjV1Ejpdwl39cnlS7G+gQk2b4j4k8Mz+jy1bf8C1JDhtfPnRbdI3BvExGm+haD3BAbaDkSFuuvgZ4K1eIYdNxFgalksQF/D9LNzj/7Xb1dPPUXdFXV8r623fWn/G9Xmmvsgx1MDKni1/S9tnINOPxJ4mVuCBTijZ+svplI=
+	t=1755673978; cv=none; b=rpEZDgwW1IziA517i4UjyrBrLk4KYwagA65/ZsrjQ/vxxBCZqGq+0HLNRDsxNHZML6gCT78AzPM9QUVaBihargep5MIogw7bB+03cy5IXmyW/9rBGZa1iQleC1kjYDWVoJAvIRPBwbQfEclMv3P63gO+0oc/8d5YWoADRk4fckI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755672031; c=relaxed/simple;
-	bh=GbYe/xr2KnaQN5qvGP3TKUQEzBohUBz2Hp6+TW9NVTs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=EPg9GOgTipMWcBDPUtzMbV4cDpMr6G1ETq7vPpanOeyv+dB0wfaTZiF78UbDoQzpASyEW0hXt7WWlfX8Lze73nqaAJ1rQIdssJbHdOBTnACVDZpy/TJgdd6CaPjoADNkKA4z9iO4igNOn+oyn4ApFGKSSYYlnZKnYDZVykzN/3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q22XpNY/; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q22XpNY/"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b9dc52c430so3047630f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 Aug 2025 23:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755672028; x=1756276828; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xr7gbAs7NoWP6YIoHdlAkJ/lGPbRe6fvpSA2+GwU+Bk=;
-        b=Q22XpNY/v4WFsPyqp0vCrx632aCx9GiFhSZFmFXYgc8ma4wzl8wFQ4JvJtN3X9v46d
-         wzLIM2Nqs7DHNodo4wNLpCeEHEe05JD5aR4GgNqSBRwMwziXg1206Qu7ue9VKrN2gX33
-         nurZdykczuJiKzfoKiplRhPlgpfynI4TAuRq6/eJTQaIm36/NzFHYaN7YyoaPjSGr3BR
-         75MqsCZtD7WtupCNuvecj0/YzkgoJ/cZELggY3ITevnn4FYgFedElAX4MSlv609oVdcF
-         4iv4RkD3TyyAKPAFJFF/xzyscNXgN6VvhvGKJ5T6f4yXb8WFQvZoTd9kt/Eb2xLu5Ivl
-         ePAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755672028; x=1756276828;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xr7gbAs7NoWP6YIoHdlAkJ/lGPbRe6fvpSA2+GwU+Bk=;
-        b=J2DUIemKdVlVxd47RIwWIDh+1qrgt6ufER477OQEZbeiQdeeFShYaQYjX/OvmWKl8d
-         OVw2ZmbOMXJKIMhCeKNM64nxMcoyfiJZXpCIEc2UJ1R87awNkW+PoiIyXCHw0JquUUR0
-         LrhwWqv1Lx3ZuUJYFE/0pfKKzE15gKccv+UyqdTeDkaLd5EEbyBisks3Ya8aAZDKiP92
-         ZSQdpuhsoBfeq/58xr344A9QSDZSvyDQP5xwaEVnYUI+1vMEH2tAwLsX96N8U2dpQqRo
-         Hc8ArrsfBPR8a0CIgznY31zDWsgxg8qsMXFFPCRlLBBIdZyjsF3VTW0xoep6Pr1FL0kd
-         UlRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQSfX/vtuGANylhgiFGs9As7FnhNPGuQadsNCtWvnuh/JvrKJ0GgGBUQ1hoAQcbfEe6ia69rMAlu4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxymyyDR+kJds2iHO5Dwi/qYyrXBo/pEw9XQ1atHeA+KxJT4b7e
-	+ksqvEz6la/oSvcaFBIYWPFRUvUaghs4GITPBoXI1ohmTcdGByd+Pg01waVwFnXStJc=
-X-Gm-Gg: ASbGncvCsFfnVkIyDDvh8jtA4i//JD5rJ7cTEDZJDoN5w0hdsCreT2/6SjDqcriK15w
-	3wXw6yHaRjwq09/RD4gyBwDXOQR10h6TQtrN0x84eHpMesmNzfKILmEPPN4t7JutPz8503eoEwq
-	EF7Cb+3IkFYMA4rA+y0BiDgwBqJ611gdzqQ+zUwGxcWD5hhsBOXsJiPLv9PpIME4D8WzwjhtNpf
-	owXGrdg2MxRB7Cd3dyJ75cz45w635qDkJdwrguThAbLVQdhid7sHf8pf63HrDjZHcyc+mAfM1DI
-	MjezDAYj50lV9/bGZaljTiaw3xcaxQy/uc3uCIh0xJ4yZ+THQrKBjww2IMtbSShTmp458PNlCj0
-	rJYEIZEoQdcsHHEIZoefiCSjofjw=
-X-Google-Smtp-Source: AGHT+IGAZ6McYMCx54eY6pWpoKew3ITg2+wTSl/nURpfg3Nb30p1pBzhgzsuHH+BOzekuGd6+2v13A==
-X-Received: by 2002:a05:6000:188f:b0:3b8:f358:e80d with SMTP id ffacd0b85a97d-3c32c4345d2mr1070252f8f.5.1755672027829;
-        Tue, 19 Aug 2025 23:40:27 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b47c2865dsm17711515e9.2.2025.08.19.23.40.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 23:40:27 -0700 (PDT)
-Date: Wed, 20 Aug 2025 09:40:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ivan Vecera <ivecera@redhat.com>,
-	netdev@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Subject: Re: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading
- functionality
-Message-ID: <202508200929.zEY4ejFt-lkp@intel.com>
+	s=arc-20240116; t=1755673978; c=relaxed/simple;
+	bh=q++EH1ekCMN6XQhAXOaorrC/5hzw0/AVKNcS9jhKlvQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MwnsWLTM/pie2GwFYuXx7W9s/7BatDGmljOS9mZwjbFFWsmoc2OZVjAIgGNWGxVBxNgrc/WvCpcVbiG2xS+ycxQP2hLcupyRKvAwHB52Qj4gY3ipotjTsJSY0VxJ/aFEYQ1OuDRDz+438W17X9bJ4ngcoJ59MUi3T3kUxWYm7SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3F94106F;
+	Wed, 20 Aug 2025 00:12:40 -0700 (PDT)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 19E3F3F58B;
+	Wed, 20 Aug 2025 00:12:44 -0700 (PDT)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: ryabinin.a.a@gmail.com,
+	glider@google.com,
+	andreyknvl@gmail.com,
+	dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	akpm@linux-foundation.org,
+	scott@os.amperecomputing.com,
+	jhubbard@nvidia.com,
+	pankaj.gupta@amd.com,
+	leitao@debian.org,
+	kaleshsingh@google.com,
+	maz@kernel.org,
+	broonie@kernel.org,
+	oliver.upton@linux.dev,
+	james.morse@arm.com,
+	ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io,
+	david@redhat.com,
+	yang@os.amperecomputing.com
+Cc: kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v5 0/2] introduce kasan.write_only option in hw-tags
+Date: Wed, 20 Aug 2025 08:12:41 +0100
+Message-Id: <20250820071243.1567338-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250813174408.1146717-4-ivecera@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Ivan,
+Hardware tag based KASAN is implemented using the Memory Tagging Extension
+(MTE) feature.
 
-kernel test robot noticed the following build warnings:
+MTE is built on top of the ARMv8.0 virtual address tagging TBI
+(Top Byte Ignore) feature and allows software to access a 4-bit
+allocation tag for each 16-byte granule in the physical address space.
+A logical tag is derived from bits 59-56 of the virtual
+address used for the memory access. A CPU with MTE enabled will compare
+the logical tag against the allocation tag and potentially raise an
+tag check fault on mismatch, subject to system registers configuration.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-zl3073x-Add-functions-to-access-hardware-registers/20250814-014831
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250813174408.1146717-4-ivecera%40redhat.com
-patch subject: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading functionality
-config: xtensa-randconfig-r073-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200929.zEY4ejFt-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 9.5.0
+Since ARMv8.9, FEAT_MTE_STORE_ONLY can be used to restrict raise of tag
+check fault on store operation only.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508200929.zEY4ejFt-lkp@intel.com/
+Using this feature (FEAT_MTE_STORE_ONLY), introduce KASAN write-only mode
+which restricts KASAN check write (store) operation only.
+This mode omits KASAN check for read (fetch/load) operation.
+Therefore, it might be used not only debugging purpose but also in
+normal environment.
 
-smatch warnings:
-drivers/dpll/zl3073x/fw.c:239 zl3073x_fw_component_load() warn: potential user controlled sizeof overflow 'count * 4' '0-u32max * 4'
+This patch is based on v6.17-rc1.
 
-vim +239 drivers/dpll/zl3073x/fw.c
+Patch History
+=============
+from v4 to v5:
+  - fix wrong allocation
+  - add small comments
+  - https://lore.kernel.org/all/20250818075051.996764-1-yeoreum.yun@arm.com/
 
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  202  static ssize_t
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  203  zl3073x_fw_component_load(struct zl3073x_dev *zldev,
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  204  			  struct zl3073x_fw_component **pcomp,
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  205  			  const char **psrc, size_t *psize,
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  206  			  struct netlink_ext_ack *extack)
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  207  {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  208  	const struct zl3073x_fw_component_info *info;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  209  	struct zl3073x_fw_component *comp = NULL;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  210  	struct device *dev = zldev->dev;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  211  	enum zl3073x_fw_component_id id;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  212  	char buf[32], name[16];
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  213  	u32 count, size, *dest;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  214  	int pos, rc;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  215  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  216  	/* Fetch image name and size from input */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  217  	strscpy(buf, *psrc, min(sizeof(buf), *psize));
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  218  	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  219  	if (!rc) {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  220  		/* No more data */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  221  		return 0;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  222  	} else if (rc == 1) {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  223  		ZL3073X_FW_ERR_MSG(zldev, extack, "invalid component size");
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  224  		return -EINVAL;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  225  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  226  	*psrc += pos;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  227  	*psize -= pos;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  228  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  229  	dev_dbg(dev, "Firmware component '%s' found\n", name);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  230  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  231  	id = zl3073x_fw_component_id_get(name);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  232  	if (id == ZL_FW_COMPONENT_INVALID) {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  233  		ZL3073X_FW_ERR_MSG(zldev, extack, "unknown component type '%s'",
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  234  				   name);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  235  		return -EINVAL;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  236  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  237  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  238  	info = &component_info[id];
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13 @239  	size = count * sizeof(u32); /* get size in bytes */
+from v3 to v4:
+  - fix wrong condition
+  - https://lore.kernel.org/all/20250816110018.4055617-1-yeoreum.yun@arm.com/
 
-This is an integer overflow.  Imagine count is 0x80000001.  That means
-size is 4.
+from v2 to v3:
+  - change MET_STORE_ONLY feature as BOOT_CPU_FEATURE
+  - change store_only to write_only
+  - move write_only setup into the place other option's setup place
+  - change static key of kasan_flag_write_only to static boolean.
+  - change macro KUNIT_EXPECT_KASAN_SUCCESS to KUNIT_EXPECT_KASAN_FAIL_READ.
+  - https://lore.kernel.org/all/20250813175335.3980268-1-yeoreum.yun@arm.com/
 
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  240  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  241  	/* Check image size validity */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  242  	if (size > component_info[id].max_size) {
+from v1 to v2:
+  - change cryptic name -- stonly to store_only
+  - remove some TCF check with store which can make memory courruption.
+  - https://lore.kernel.org/all/20250811173626.1878783-1-yeoreum.yun@arm.com/
 
-size is valid.
 
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  243  		ZL3073X_FW_ERR_MSG(zldev, extack,
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  244  				   "[%s] component is too big (%u bytes)\n",
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  245  				   info->name, size);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  246  		return -EINVAL;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  247  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  248  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  249  	dev_dbg(dev, "Indicated component image size: %u bytes\n", size);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  250  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  251  	/* Alloc component */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  252  	comp = zl3073x_fw_component_alloc(size);
+Yeoreum Yun (2):
+  kasan/hw-tags: introduce kasan.write_only option
+  kasan: apply write-only mode in kasan kunit testcases
 
-The allocation succeeds.
+ Documentation/dev-tools/kasan.rst  |   3 +
+ arch/arm64/include/asm/memory.h    |   1 +
+ arch/arm64/include/asm/mte-kasan.h |   6 +
+ arch/arm64/kernel/cpufeature.c     |   2 +-
+ arch/arm64/kernel/mte.c            |  18 +++
+ mm/kasan/hw_tags.c                 |  70 ++++++++-
+ mm/kasan/kasan.h                   |   7 +
+ mm/kasan/kasan_test_c.c            | 237 ++++++++++++++++++++---------
+ 8 files changed, 266 insertions(+), 78 deletions(-)
 
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  253  	if (!comp) {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  254  		ZL3073X_FW_ERR_MSG(zldev, extack, "failed to alloc memory");
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  255  		return -ENOMEM;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  256  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  257  	comp->id = id;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  258  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  259  	/* Load component data from firmware source */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  260  	for (dest = comp->data; count; count--, dest++) {
 
-But count is invalid so so we will loop 134 million times.
-
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  261  		strscpy(buf, *psrc, min(sizeof(buf), *psize));
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  262  		rc = sscanf(buf, "%x %n", dest, &pos);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  263  		if (!rc)
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  264  			goto err_data;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  265  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  266  		*psrc += pos;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  267  		*psize -= pos;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  268  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  269  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  270  	*pcomp = comp;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  271  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  272  	return 1;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  273  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  274  err_data:
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  275  	ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] invalid or missing data",
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  276  			   info->name);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  277  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  278  	zl3073x_fw_component_free(comp);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  279  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  280  	return -ENODATA;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  281  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
