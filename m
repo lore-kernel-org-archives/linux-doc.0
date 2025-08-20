@@ -1,230 +1,98 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39AFF2E339C;
-	Wed, 20 Aug 2025 11:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5DF26056E;
+	Wed, 20 Aug 2025 12:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755690070; cv=none; b=I0312ChLHW2s8EKU+vqYpRO1A/UV0gPdU+hzN9FBoWvwcvbvbyLrxvOfqlm+jwpuVilChqZYm1QOKxCPAtXya+1ceKt2pAExk3i3Gpsmh0PKF0HOBu7aby4CA1tdgnXd2Frq97LhkWe5wcFVnJVPfrGl4A9idyNhirKUEqq/OQA=
+	t=1755691934; cv=none; b=HwpVtWNILTeWvV4zDoWRZtlUlcymZzwXcPSJz1AlPN0gH3IuO8ALf11eSsEoFtgkMTDrhgOfMWyOeF+wERLoGJBuZICk9QFCqEHcX1E1qmy+BABteHUfuxku55xXtZPlHmBgHzXdX3eM39lbG5NNXrdlOtMHJtqmLF9o/cIwPJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755690070; c=relaxed/simple;
-	bh=FDKhP3oxNBolrhoIi7sDu3T3WCzQhnuinOYCpr/GBYM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J39tP34jDlo1I2aO7TkgHuTkSpoVLBToM4R0EU4RXDQ13xvBTBJ5Vi1vyiZudGDJ7HCY1vx6WglehqfdyPQYijbNjwWwXQ7mT3Mms/NGcFT27eczMwWYzAXNXZpRfk8BlmdaFnmGQgrM0qkHL7PZCYfqd0Tq+oFq21qKQyRJeTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CHKeSNJw; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755691934; c=relaxed/simple;
+	bh=bQ5B2Q2m0laiZkfULP0x9I44yylDqllMoUcnwmd0l50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fHpK3/xlmEG0Zq+hGw2c4X3yd+Qo82ya5Od53XvLHFthxMg9Dpaiagq9jvvxjmCWYH+Jn6bS2TgqFzSs7ZKhTkhcjol7acIcnHm02K6hfRvjBk/EN4qxETdY9KdbW84GEqMvK5z/bl1xsheIttarNvzccAiNFLC6GchKl+iOEDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=LpUZAaqD; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CHKeSNJw"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-324e7600bf0so233647a91.0;
-        Wed, 20 Aug 2025 04:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755690068; x=1756294868; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1U217s/MxPIk/owGwkXwnp+FTymNWb/H2aQ0TsKxnoM=;
-        b=CHKeSNJwZhAtnOaiYg4wt7KgcCbu/S6PHrxJZG0VHuUs+ULFEVDphrMiFQE3+KwZQZ
-         xZz48BTWNqlrbuy2lLNSasQNWgoUhh92UAXoYDoKDB5tqVaqJqK3DPKHSpINjDtaBIyH
-         QnU0MrhQ0EWzlweFq1NuvL1sv5wob6Nc9UMQB64hseSBcHsbCRsTpLJ46GSfqfaIVDwf
-         RZbLEoIZMTEtsaju+O90RfyW8jWV5s0ryDbPUaUjUtjCb1TGbEUuhLZ8+OhkFdKCwkuG
-         8n8mF7EnUFK3NIO9dMZBYVAd+ng6+ooe4AVTQTHOJ91pAbph4pwdfGMR07i62DBhIPSQ
-         PvMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755690068; x=1756294868;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1U217s/MxPIk/owGwkXwnp+FTymNWb/H2aQ0TsKxnoM=;
-        b=HgZH3YHssBVJXx6pQuxVnOTXllioqJo6c7JidrQCQW5YjfsWZj7hovz2Qtct0sRCVp
-         wOiEi1Oty0etWsruu4XJBL8xxuWD/omHYqk1veQAxFKkwhtNtaUdGIycWwlPoWcJgqca
-         nPj9hzccrBIg7P66BFKRwu+iRqHHc3YmE811byt0cB+mC5whfJIa+8xMDDtlrSmiaFLG
-         lyx2RnjY9F5oCYw+Wof0CG3pYdwfBKOhdF4WrE94F7SjkUbVceXPJwKjRU6dJe+VbK/N
-         oQ/4X3gN/Z0du1Qd0EG926Kf6EF2yyjDN1ypetSCFsy6H25+Ud5pIdlsKrUx3DYZu8oG
-         2Qew==
-X-Forwarded-Encrypted: i=1; AJvYcCUAAI3qLILQ0Vhvfe7kNVPFLs+wps0aSomFWS/dEHSiLKkqAgRPrwf2ca1ItZanz+xZANRJDzZS8ugchfpj@vger.kernel.org, AJvYcCUKdGZVTWle0qYaNXnnKw1KD9YyW0oE4J7aeX8WLzRt3m4OfITOM2B4vPOZSdbN4EzF1i+/Eca5sU8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQdjhu40mGn3hyjiO1CQeRz+lAx9GqdsU+xTOCCmhlqMr5xGAh
-	dmdEKrJh8KxZeJwl7fu2TBIQ+5+xM5B+WFOeAty03YJ5M6juLkn0QsEb
-X-Gm-Gg: ASbGncusV8GpakbiOja5HkguiZkzj/rtQlxYVjkNUgoN9sjA3M74HGCsn/gtobtbk9Q
-	ew9qwWqi7nEvmLQp5jwKH5BttEcMETX58C7pbws2aBgi6Bk8MISvsthmqc/SAY4Enw2F2fDaCjE
-	Fcf4AXJKrfWDj9shMT7ZgFKRuPDc4GS5VhMq0lysS8gOUN4S0qccKBR1z2QrDn3q9lBaOg/ia0N
-	+o6y3OttEp/MwdI4qXlndYT9SI2T/KAzQGotGdMVBzBzmCkp0sdeTlPBi1G4QNApAZQ9yNHViku
-	a+yCigiormdQggRp8skXu4oWbYqGJef72oe84tDxrGMi+pbLwbX0zGtvmsHOo9fWN5BTBYGIO5Z
-	hQRn+zwsuXafrHJG6RClTSWaVi40QJYXoPRRtHpn6noOV6JgDTQGfI2s9OBELOZSCuqJr
-X-Google-Smtp-Source: AGHT+IFE+TwDcVQnwid3nVBw3dlreFydpUOjG7o6PH9Co3GXVed7LdFgfmI9MvrwEejQtMpjkkurhw==
-X-Received: by 2002:a17:90a:dfc7:b0:31f:ad:aa1b with SMTP id 98e67ed59e1d1-324e131b2b4mr3373520a91.3.1755690068302;
-        Wed, 20 Aug 2025 04:41:08 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-324e26259a9sm2124073a91.18.2025.08.20.04.41.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Aug 2025 04:41:07 -0700 (PDT)
-Message-ID: <3990f1c5-2108-44fe-913f-97ae3bb1ff42@gmail.com>
-Date: Wed, 20 Aug 2025 20:41:05 +0900
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="LpUZAaqD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=sCY9EmTR6BVl/VOfxS38fNAY0QK7jbYuJgUD4YXkdRw=; b=LpUZAaqDgLJ/PVde3O/o9Ay4pw
+	7oD+6g6b89iREJ76gCpmivOylgXU62n2KPKY7zwugF17Wfhh6iglUxoxq4g6wKZA2fz0S1sMQ0M65
+	TeBlE1dQhjQbeRftcAkDSDaVx1eBJXBZ6sT6YN1CH8fnsBPLKbW23BTtob+1yCpl/3xo=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uohfZ-005Jmh-30; Wed, 20 Aug 2025 14:11:57 +0200
+Date: Wed, 20 Aug 2025 14:11:57 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
+Subject: Re: [PATCH net-next v2 5/5] net: phy: dp83td510: add MSE interface
+ support for 10BASE-T1L
+Message-ID: <94745663-b68c-4a4c-95d8-36933c305e34@lunn.ch>
+References: <20250815063509.743796-1-o.rempel@pengutronix.de>
+ <20250815063509.743796-6-o.rempel@pengutronix.de>
+ <1df-68a2e100-1-20bf1840@149731379>
+ <aKLwdrqn-_9KqMaA@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
- <773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
- <20250816135538.733b80d3@foz.lan>
- <acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
- <20250817133606.79d968ed@sal.lan>
- <b3d97e98-121d-4d12-9624-3efd119b12a4@gmail.com>
- <20250817154544.78d61029@foz.lan>
- <b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
- <87y0rg7e35.fsf@trenco.lwn.net>
- <16b48826-6634-4ec9-86a0-7ddb59ce3bed@gmail.com>
- <20250819030239.41a2e97f@foz.lan>
- <142b209d-613a-4659-a0f7-27efa8c6be85@gmail.com>
- <20250819153200.3c2b2ff6@foz.lan>
- <08c3a7eb-0425-4709-a3ea-6d1d726fd3c8@gmail.com>
- <20250820091530.068c4b62@foz.lan>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250820091530.068c4b62@foz.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aKLwdrqn-_9KqMaA@pengutronix.de>
 
-Hi,
-
-On Wed, 20 Aug 2025 09:15:30 +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 20 Aug 2025 08:54:52 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> > The doc in patch 1 says :
+> > 
+> >   > + * Link-wide mode:
+> >   > + *  - Some PHYs only expose a link-wide aggregate MSE, or cannot map their
+> >   > + *    measurement to a specific channel/pair (e.g. 100BASE-TX when MDI/MDI-X
+> >   > + *    resolution is unknown). In that case, callers must use the LINK selector.
+> > 
+> > The way I understand that is that PHYs will report either channel-specific values or
+> > link-wide values. Is that correct or are both valid ? In BaseT1 this is the same thing,
+> > but maybe for consistency, we should report either channel values or link-wide values ?
 > 
->> On Tue, 19 Aug 2025 15:32:00 +0200, Mauro Carvalho Chehab wrote:
-
-[...]
-
->> I've just built a container "FROM ubuntu:plucky", which has inkscape
->> instead of imagemagick + rsvg-convert.
+> for 100Base-T1 the LINK and channel-A selectors are effectively the
+> same, since the PHY only has a single channel. In this case both are
+> valid, and the driver will return the same answer for either request.
 > 
-> I don't think that inkscape x imagemagick/rsvg-convert itself has
-> anyhting to do with the problems I detected, as they're related to
-> font issues (still, I got an issue on one of my builds on kfigure
-> write file: encoding is missing at open, which may cause errors).
+> I decided to expose both for consistency:
+> - on one side, the driver already reports pair_A information for the
+>   cable test, so it makes sense to allow channel-A here as well;
+> - on the other side, if a caller such as a generic link-status/health
+>   request asks for LINK, we can also provide that without special
+>   casing.
+> 
+> So the driver just answers what it can. For this PHY, LINK and
+> channel-A map to the same hardware register, and all other selectors
+> return -EOPNOTSUPP.
 
-OK, so you have spent a lot of time to paper over the ImageMagick issue
-used as an SVG --> PDF converter.
+The document you referenced explicitly says it is for 100BASE-T1.  Are
+there other Open Alliance documents which extend the concept to -T2
+and -T4 links? Do you have access to -T2 or -T4 PHYs which implement
+the concept for multiple pairs?
 
-I have simply given up using ImageMagick and been using inkscape instead.
+I think it is good you are thinking about the API, how it could work
+with -T2 and -T4, but do we need this complexity now?
 
-I can reliably reproduce the warnings and build errors (see below) without
-inkscape installed, instead with imagemagick + rsvg-convert installed,
-under a ubuntu:plucky based container.
-
-When I run: "make cleandocs; make SPHINXDIRS=gpu latexdocs",
-    
-     [**NOTE**] SPHINXDIRS=peci is not affected by this issue!
-
-kfigure.py emits warnings like this:
-
------------------------------------------------------------------------------------
-WARNING: Error #1 when calling: /usr/bin/convert /linux/Documentation/gpu/amdgpu/pipe_and_queue_abstraction.svg /linux/Documentation/output/gpu/latex/pipe_and_queue_abstraction.pdf
-WARNING: Warning msg from convert(1): convert: unrecognized color `context-stroke' @ warning/color.c/GetColorCompliance/1064.
-convert: non-conforming drawing primitive definition `fill' @ error/draw.c/RenderMVGContent/4548.
------------------------------------------------------------------------------------
-
-Nevertheless, "make SPHINXDIRS=gpu pdfdocs" continues building gpu.pdf,
-but ends up in this error in the middle of xelatex run.
-
------------------------------------------------------------------------------------
-------------
-Run number 1 of rule 'xelatex'
-------------
-------------
-Running 'xelatex --no-pdf -interaction=batchmode -no-shell-escape -no-pdf -recorder  "gpu.tex"'
-------------
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2025/dev/Debian) (preloaded format=xelatex)
-entering extended mode
-Latexmk: Getting log file 'gpu.log'
-Latexmk: Examining 'gpu.fls'
-Latexmk: Examining 'gpu.log'
-Latexmk: Index file 'gpu.idx' was written
-Latexmk: References changed.
-Latexmk: Missing input file 'gpu.toc' (or dependence on it) from following:
-  No file gpu.toc.
-Latexmk: Missing input file 'gpu.ind' (or dependence on it) from following:
-  No file gpu.ind.
-Latexmk: References changed.
-Latexmk: References changed.
-Latexmk: Log file says output to 'gpu.xdv'
-Have index file 'gpu.idx', gpu.ind gpu
-Latexmk: Errors, so I did not complete making targets
-Collected error summary (may duplicate other messages):
-  xelatex: Command for 'xelatex' gave return code 1
-      Refer to 'gpu.log' and/or above output for details
-
-Latexmk: Sometimes, the -f option can be used to get latexmk
-  to try to force complete processing.
-  But normally, you will need to correct the file(s) that caused the
-  error, and then rerun latexmk.
-  In some cases, it is best to clean out generated files before rerunning
-  latexmk after you've corrected the files.
-make[3]: *** [Makefile:29: gpu.pdf] Error 12
-make[2]: *** [Documentation/Makefile:148: pdfdocs] Error 1
-make[1]: *** [/linux/Makefile:1806: pdfdocs] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
------------------------------------------------------------------------------------
-
-I think this is (mostly) the same as the issue you have been trying hard
-to track down.
-
-Lastly, I'm afraid but I have to tell you that I see the same error on my
-test branch which has both of your series applied.
-
-From "./scripts/sphinx-build-wrapper pdfdocs --sphinxdirs gpu":
-
------------------------------------------------------------------------------------
-------------
-Run number 1 of rule 'xelatex'
-------------
-------------
-Running 'xelatex --no-pdf  -no-pdf -interaction=batchmode -no-shell-escape -recorder  "/linux/Documentation/output/gpu/latex/gpu.tex"'
-------------
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2025/dev/Debian) (preloaded format=xelatex)
-entering extended mode
-Latexmk: Getting log file 'gpu.log'
-Latexmk: Examining 'gpu.fls'
-Latexmk: Examining 'gpu.log'
-Latexmk: Index file 'gpu.idx' was written
-Latexmk: References changed.
-Latexmk: Missing input file 'gpu.toc' (or dependence on it) from following:
-  No file gpu.toc.
-Latexmk: Missing input file 'gpu.ind' (or dependence on it) from following:
-  No file gpu.ind.
-Latexmk: References changed.
-Latexmk: References changed.
-Latexmk: Log file says output to 'gpu.xdv'
-Have index file 'gpu.idx', gpu.ind gpu
-Latexmk: Errors, so I did not complete making targets
-Collected error summary (may duplicate other messages):
-  xelatex: Command for 'xelatex' gave return code 1
-      Refer to 'gpu.log' and/or above output for details
-
-Latexmk: Sometimes, the -f option can be used to get latexmk
-  to try to force complete processing.
-  But normally, you will need to correct the file(s) that caused the
-  error, and then rerun latexmk.
-  In some cases, it is best to clean out generated files before rerunning
-  latexmk after you've corrected the files.
-
-Summary
-=======
-gpu: FAILED
-
-PDF build failed: not all PDF files were created.
------------------------------------------------------------------------------------
-
-Please test yourself with SPHINXDIRS=gpu and see what happens under your
-test environment.
-
-Thanks,
-Akira
-
+	Andrew
