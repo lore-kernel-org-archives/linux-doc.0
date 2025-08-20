@@ -1,123 +1,77 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657BD233714
-	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 12:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABA9308F05;
+	Wed, 20 Aug 2025 12:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755692806; cv=none; b=IOSakkFP9lOx0y4lEyUfeYnz9Ggmt50y5mD8PsiS5eaOFLX1isx14HI5vxT/4oXw3hHXlMC3LWwQ5LKkxR3ZZaKlhAH/qTO5XgE+nnagJJZi2eOsbvdfGttyFm6oT/P7wEy6FyDgwnXIoPWPLEMj1kregAI76/qu8602gbdaWls=
+	t=1755693760; cv=none; b=jDYoSzHXBeuoGVq3iZtvKipUWEFlrzsS/XOmdjpx5h+EJJDWjLPTIr9bmvX5JyFBTPQvQNOcxi/PQfFIUlUgx0OHWX3EfIoZ7HAsZHtG/dpXEK9TA/U1TWOaVPNrWP1OuDtrO8wC/cGadWxhE/WHSPxRED+2yDJkVTNDhsqLmxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755692806; c=relaxed/simple;
-	bh=ZUckhx0b1FZYrbO+0sEf2kPmwrX8tp3wUpLQSDeGdp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iQ8ePYQw9jxvCaTh9Imz/5bQz2khej37UINzwgoZ7XFKKlBJ2WcjpsxYG4d+2sAllgPRMqCHDQg6H58OerX6WmlvtcDeNhWEFV5rXaGCtrJW2erTx2XpBkH4XVXhbYVY+wEbR4+gXRHGWPCcK9XgtztgsBKm3xWV94wT469fm20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uohtJ-0000bE-Ig; Wed, 20 Aug 2025 14:26:09 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uohtH-001FD8-0H;
-	Wed, 20 Aug 2025 14:26:07 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uohtG-005wUD-36;
-	Wed, 20 Aug 2025 14:26:06 +0200
-Date: Wed, 20 Aug 2025 14:26:06 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
-	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
-Subject: Re: [PATCH net-next v2 5/5] net: phy: dp83td510: add MSE interface
- support for 10BASE-T1L
-Message-ID: <aKW-3sF2g2QrKDpG@pengutronix.de>
-References: <20250815063509.743796-1-o.rempel@pengutronix.de>
- <20250815063509.743796-6-o.rempel@pengutronix.de>
- <1df-68a2e100-1-20bf1840@149731379>
- <aKLwdrqn-_9KqMaA@pengutronix.de>
- <94745663-b68c-4a4c-95d8-36933c305e34@lunn.ch>
+	s=arc-20240116; t=1755693760; c=relaxed/simple;
+	bh=hLiAIf3ysBiuk0Pn1wvbfd7grr945aO2V4eRGHGq/QY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Pjk7jm6T0yJ6DV5yBm6Vk2MCmfvG1BjuCT3P0pmap/1JEtQ1y3lG4nDaaskW45OEEmpPyCGiGjIh/k4lSL7e9ipZcGqeY9v2jfyKohUx9ZpfWtgE6A0hhGB+6Alxub4JfpqRlCTYeAeV2E30QGLAr2p3ctrGV0BUX9qCEChHruM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tCVO9yWV; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tCVO9yWV"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 13CA940AD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755693751; bh=CrN/QXHYTFWh2aboZ2TiLbJ4hoWKn/LbxR1uhwr2IGM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=tCVO9yWV9hMlS6raQBMqFTMGXmDhM71qzb1LJpS+3UEd7lrz6VNm7MPwoLg33eaaZ
+	 6KRoT/SzLaFD0RtYlyIbzJNIiyojLA2TJOdTQBHC3I0gnNZV9LncF+Ut3/2BLhPxMj
+	 PAPOFLEBL7pgef25IF29D9RMvH4s9sTLKqCF9AnXPSxT1m0RcTDelxFgQznX3JpSfq
+	 Ppxp1TxckjZ6mmRO9EnjZz3OFP/QveDL6+2jNUmM20HiMVNMlUQyneg4ZpLuydI8Tf
+	 zrGFtzRMC1uEY9pgyuwU/C9DshiI8bxWbjtgMBjjbkrq2oMaZvEHXLsmVUwYgQx2+r
+	 koi652mnmtFyw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 13CA940AD8;
+	Wed, 20 Aug 2025 12:42:31 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Kees Cook <mchehab+huawei@kernel.org>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: kfigure.py: don't crash during read/write
+In-Reply-To: <df1602df0da3a6254d58a782654e7f2e60512dc8.1755680997.git.mchehab+huawei@kernel.org>
+References: <df1602df0da3a6254d58a782654e7f2e60512dc8.1755680997.git.mchehab+huawei@kernel.org>
+Date: Wed, 20 Aug 2025 06:42:29 -0600
+Message-ID: <87wm6ytb9m.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <94745663-b68c-4a4c-95d8-36933c305e34@lunn.ch>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 
-On Wed, Aug 20, 2025 at 02:11:57PM +0200, Andrew Lunn wrote:
-> > > The doc in patch 1 says :
-> > > 
-> > >   > + * Link-wide mode:
-> > >   > + *  - Some PHYs only expose a link-wide aggregate MSE, or cannot map their
-> > >   > + *    measurement to a specific channel/pair (e.g. 100BASE-TX when MDI/MDI-X
-> > >   > + *    resolution is unknown). In that case, callers must use the LINK selector.
-> > > 
-> > > The way I understand that is that PHYs will report either channel-specific values or
-> > > link-wide values. Is that correct or are both valid ? In BaseT1 this is the same thing,
-> > > but maybe for consistency, we should report either channel values or link-wide values ?
-> > 
-> > for 100Base-T1 the LINK and channel-A selectors are effectively the
-> > same, since the PHY only has a single channel. In this case both are
-> > valid, and the driver will return the same answer for either request.
-> > 
-> > I decided to expose both for consistency:
-> > - on one side, the driver already reports pair_A information for the
-> >   cable test, so it makes sense to allow channel-A here as well;
-> > - on the other side, if a caller such as a generic link-status/health
-> >   request asks for LINK, we can also provide that without special
-> >   casing.
-> > 
-> > So the driver just answers what it can. For this PHY, LINK and
-> > channel-A map to the same hardware register, and all other selectors
-> > return -EOPNOTSUPP.
-> 
-> The document you referenced explicitly says it is for 100BASE-T1.  Are
-> there other Open Alliance documents which extend the concept to -T2
-> and -T4 links? Do you have access to -T2 or -T4 PHYs which implement
-> the concept for multiple pairs?
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-So far I know, following T2/T4 PHYs support MSE:
-LAN8830, KSZ9131, LAN8831, LAN8840, LAN8841
-DP83826*, DP83640, DP83867*, DP83869HM
+> By default, Python does a very bad job when reading/writing
+> from files, as it tries to enforce that the character is < 128.
+> Nothing prevents a SVG file to contain, for instance, a comment
+> with an utf-8 accented copyright notice - or even an utf-8
+> invalid char.
 
-I have access at least to LAN8841.
+Do you have a locale that expects everything to be ASCII?  This seems a
+bit weird.  I would expect utf8 to work by default these days.
 
-> I think it is good you are thinking about the API, how it could work
-> with -T2 and -T4, but do we need this complexity now?
+> While testing PDF and html builds, I recently faced one build
+> that got an error at kfigure.py saying that a char was > 128,
+> crashing PDF output.
+>
+> To avoid such issues, let's use PEP 383 subrogate escape encoding
+> to prevent read/write errors on such cases.
 
-Hm.. I just fear to make same mistake as I did with SQI. So, I analyzed
-as many datasheets as possible.
+Being explicit about utf8 is good...but where are the errors coming
+from?  Is this really a utf8 file?
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Thanks,
+
+jon
