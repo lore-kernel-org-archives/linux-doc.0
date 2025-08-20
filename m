@@ -1,96 +1,126 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09E9353377;
-	Wed, 20 Aug 2025 00:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3FFEACD;
+	Wed, 20 Aug 2025 01:05:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755650654; cv=none; b=pVEAPBjQp6HOX0vFCAFol+8wYNOcJwa5OP/s9/gQnF02Kx/LN7cUIhJRNmLBaLvjnY8NCdA368J8ZhJxv9RMN4d2EgP0lhJ97zwB/Z+yds9AWRERgTWzcU5WNyACPPKPQeIhHj/4ITrGp8XWYn8yZyyYIDa/yce1YoSB3+s4lWk=
+	t=1755651951; cv=none; b=BnXcrOO0i4aowJY6AGaRiSCA+ibthbmFvz8sHF1gonMbAI5HJ0AOWan3V7om5DBIBwPhTFgsz4kUla1X80V0LT9xBg5Kzx8WCKV1xpTrMNlVXpwSYQXBrpUXnSudRJMAu5v63y2Sfmj/7qJKqwxenjUycb/4uJsydBlIqLW1xak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755650654; c=relaxed/simple;
-	bh=Xx1BE2PQOSOIzLk3YWuwBpi4uqq6uqo8cDPkm/P4Mf4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NTvHgShUHGcZwWXbdoP4ofvkSsrXK78ken0EvkF4OWgSQuHe5U9WmfKiCiHYHxX8gsyJ75Rv8mzmRc4ms9O8pD8v4/s+il2EqPtlOb/2w+r45HsK5EtgoS/UWOCfYhOXKX8UNsUdi9u1Z2lVYxFyEXJt7rdFqYYodfbaA27c9DI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=H2rqgFEj; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
+	s=arc-20240116; t=1755651951; c=relaxed/simple;
+	bh=k/0CokvgxVQXuD5EoA1X+9nYuoVnaLv2zm+DaVfTfHU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NCHHhuJjYKq7Nc1oexlvO80VXUUHLlpsrcWm1LKSrmdEp8Suc2HJGihTBO35FpmMfHUY1s9iESdqbekTtrURV2dlzMkkAhOdhuNdfmRYB56CeFad/OSxDY9IKtFC9vlcZ88TFvOzJbId6zELoICGezHjDgNLQrNmScxAv6uqM1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=f9rqNDyW; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="H2rqgFEj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
-	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=Xx1BE2PQOSOIzLk3YWuwBpi4uqq6uqo8cDPkm/P4Mf4=; b=H2rqgFEjQO7oCvrlzT+9wFMP5d
-	OWExBlgeTtgDgkCWRxQCgQRhtE3M2rp3baI/TPB2CCoU4bwEO5CePkBNEWLnXDqHvOB7VamavusTh
-	kH2jxFdjIsCNFNfRdAmuhcW/pG25Zm7lQuSMeoG6W9jsmNIS+jlkTcLJHcZ10zyzQY6cknWZkYUIK
-	EBBmvKpJnIal0/gMTzr4Mpl9b08X8DV4E574v6POmh0GNgdAd5niHFfMAIKx/H2rGxHQ/Y03p4OyT
-	SiZRMvGkvTo+gs3bs96dYLZdTu0pRtGR/jS8caqqN0YLVW3qcRaKUwGRgCjyL1QCHcYlHKZ+EETo7
-	tCL5Ku3w==;
-Received: from fangorn.home.surriel.com ([10.0.13.7])
-	by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <riel@surriel.com>)
-	id 1uoWoa-000000003pk-4Ao9;
-	Tue, 19 Aug 2025 20:36:33 -0400
-Message-ID: <7d39aa331ca881c2c77b6e02587dda726dfdd755.camel@surriel.com>
-Subject: Re: [PATCH] docs: sysctl: add a few more top-level /proc/sys entries
-From: Rik van Riel <riel@surriel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Date: Tue, 19 Aug 2025 20:36:32 -0400
-In-Reply-To: <20250819075456.113623-1-rdunlap@infradead.org>
-References: <20250819075456.113623-1-rdunlap@infradead.org>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="f9rqNDyW"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57JLE2Aa008324;
+	Wed, 20 Aug 2025 01:04:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=/DmF+
+	MuOx9lfBDmRRC8FPNiO57MW57fL18nJmrC16ww=; b=f9rqNDyWguXWS8I3hcAkX
+	X1+oBex+YWZjxY0OjWF3weAMJoB2p1d19UfDHmEMJ/Zd3EPCw7YnMRAdlWBkUa+I
+	XzW12RSIvzijTDDl/J5h+i5AKTKm4492PkE8He4GFKmTXv3kdmE3ZmWkYnl+u/tH
+	IS1f4fSsd8YOBXg4UzcF47uMhW13LpiE11UpOIJI/juZcUfTIfzDxH07Fy5UkVX2
+	AACD+gZjoNaxb8+Tv5/EU+pyFh7aCo/10g4hyCk5xOeeM5sHZH1Ktzt0ob4HyEtM
+	uydW/XfgTuxCWSPo3dcGI3vpj918cf/PQZvm2LVNkLUtN45uFsWR3CcohbQN/LRI
+	Q==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48n0ts88gk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 20 Aug 2025 01:04:50 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57JNZVeL007332;
+	Wed, 20 Aug 2025 01:04:49 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48my3q29w3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 20 Aug 2025 01:04:49 +0000
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57K14NdM011685;
+	Wed, 20 Aug 2025 01:04:48 GMT
+Received: from localhost.localdomain (ca-dev60.us.oracle.com [10.129.136.27])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 48my3q29gw-10;
+	Wed, 20 Aug 2025 01:04:48 +0000
+From: Anthony Yznaga <anthony.yznaga@oracle.com>
+To: linux-mm@kvack.org
+Cc: akpm@linux-foundation.org, andreyknvl@gmail.com, arnd@arndb.de,
+        bp@alien8.de, brauner@kernel.org, bsegall@google.com, corbet@lwn.net,
+        dave.hansen@linux.intel.com, david@redhat.com,
+        dietmar.eggemann@arm.com, ebiederm@xmission.com, hpa@zytor.com,
+        jakub.wartak@mailbox.org, jannh@google.com, juri.lelli@redhat.com,
+        khalid@kernel.org, liam.howlett@oracle.com, linyongting@bytedance.com,
+        lorenzo.stoakes@oracle.com, luto@kernel.org, markhemm@googlemail.com,
+        maz@kernel.org, mhiramat@kernel.org, mgorman@suse.de, mhocko@suse.com,
+        mingo@redhat.com, muchun.song@linux.dev, neilb@suse.de,
+        osalvador@suse.de, pcc@google.com, peterz@infradead.org,
+        pfalcato@suse.de, rostedt@goodmis.org, rppt@kernel.org,
+        shakeel.butt@linux.dev, surenb@google.com, tglx@linutronix.de,
+        vasily.averin@linux.dev, vbabka@suse.cz, vincent.guittot@linaro.org,
+        viro@zeniv.linux.org.uk, vschneid@redhat.com, willy@infradead.org,
+        x86@kernel.org, xhao@linux.alibaba.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: [PATCH v3 09/22] sched/numa: do not scan msharefs vmas
+Date: Tue, 19 Aug 2025 18:04:02 -0700
+Message-ID: <20250820010415.699353-10-anthony.yznaga@oracle.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250820010415.699353-1-anthony.yznaga@oracle.com>
+References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-19_04,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2508110000 definitions=main-2508200007
+X-Proofpoint-GUID: kkX1jrsmAmAWOAdgPkvoTgAV_QB4TK5z
+X-Proofpoint-ORIG-GUID: kkX1jrsmAmAWOAdgPkvoTgAV_QB4TK5z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NyBTYWx0ZWRfX0BPSeq4GrA/L
+ zcO7Tgz46CTrssMsJV5wS1/futixs+GLOYvakk8NrmOdZlica8nXpVsUSRCkA2eufd8HR3A7ZGu
+ WtfGhUo7KPw1v4ADEbD1xtPqCJN5vIyzRB9ac4rYNSMoh9Xf6GrckvYH9Rgps/DdSoAyuGQ0Ec9
+ YHfvbvxxYuoolnI0WT2SMefEJjoO25LD7Z64ZnQV6HYfm9Vb9u5vSUrbw1wnLThPSrKkDshpYGr
+ miZcYEJY5ZQbPMEIKle2JH2tFBGURcNhgLj5EOVLXCGXWHaL4yiv+CnPJV+gkZsBDPqvILdjQmu
+ 73cvbt3i2u/bDVPuI8y7M48qB0CmuupNGTgM0hugejYo7jfAjySQyqij8MdACSaDDCl8RJSjBvq
+ 02W20G4UPnLctmK5FXLCr4Lt7Xbh5w==
+X-Authority-Analysis: v=2.4 cv=HKOa1otv c=1 sm=1 tr=0 ts=68a51f32 cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
+ a=2OwXVqhp2XgA:10 a=yPCof4ZbAAAA:8 a=2OwiNFxuFh20pgB9HS0A:9
+ a=UhEZJTgQB8St2RibIkdl:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=QOGEsqRv6VhmHaoFNykA:22
 
-On Tue, 2025-08-19 at 00:54 -0700, Randy Dunlap wrote:
-> Add a few missing directories under /proc/sys.
-> Fix punctuation and doubled words.
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Rik van Riel <riel@surriel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
->=20
-Thanks for adding those.
+Scanning an msharefs vma results in changes to the shared page
+table but with TLB flushes incorrectly only going to the process
+with the vma.
 
-FWIW, I don't know what those fips files under
-/proc/sys/crypto do, either :)
+Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
+---
+ kernel/sched/fair.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Reviewed-by: Rik van Riel <riel@surriel.com>
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index e256793b9a08..6f28395991cd 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -3379,7 +3379,8 @@ static void task_numa_work(struct callback_head *work)
+ 
+ 	for (; vma; vma = vma_next(&vmi)) {
+ 		if (!vma_migratable(vma) || !vma_policy_mof(vma) ||
+-			is_vm_hugetlb_page(vma) || (vma->vm_flags & VM_MIXEDMAP)) {
++			is_vm_hugetlb_page(vma) || (vma->vm_flags & VM_MIXEDMAP) ||
++			vma_is_mshare(vma)) {
+ 			trace_sched_skip_vma_numa(mm, vma, NUMAB_SKIP_UNSUITABLE);
+ 			continue;
+ 		}
+-- 
+2.47.1
 
---=20
-All Rights Reversed.
