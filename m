@@ -1,299 +1,434 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A762DA776;
-	Wed, 20 Aug 2025 08:17:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mx9.didiglobal.com (mx9.didiglobal.com [111.202.70.124])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 221FC2D8DDD;
+	Wed, 20 Aug 2025 08:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755677855; cv=none; b=DmM2n5wKSRUkwabEgdzAkaeB47wa6uPzK9+mrL7Yml0cqdWQo6f1lgdC8vW129xOvH1xJiW40cIoL34EBAD1VYgcbHsGfm15JzdFLeRF5GuAydgBYTd5CN0h6baitCMEXp8abVG8dkU+vPo1uEfOG3/M7yCzTinZzIeoxJAwEJw=
+	t=1755678168; cv=none; b=G4TW2bIIu1iMQ/RfgxktcMdhVMz4SoBseRjKLW2qUHI7SHlJNOVb4vAozLcyw7AQInZOwrFaCu1oFp881U8rV6m4vDlRvrZZ871zccpGEsgHSUY3PiXYYXu3OgorLTw0tO4QfV/bYQ3z4xiFgz6vm8/Ac33U+NVZWIF3+zFP8zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755677855; c=relaxed/simple;
-	bh=JMpIgp8YIbrOSw336Fx7Pf1imqt/c5Pc3wWDqKBle34=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OtjREno3QO1WeA6yBZa4/H407KS+H91hApde1scI97FtWYTT6kdAIORqrYE6k0ZgrjXZCbTVXLsK6U1Y/RpEEj6jPFgxBKBnnlyPBuwCzXopWjha4/zPBn0gySARFAy9CWejHlI/eBmnY13wwzcn5igiJkcRJCUpYANqsQcZWgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UfJcplxp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755678168; c=relaxed/simple;
+	bh=ejWv421umudWB0+pphWRqY6+WONy50J9y/n5JhsqK2E=;
+	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=QGfFmHYCHlzRWI23L6PKYKhXiVxUyLHp8DJwdjs92RRK38VrkfX8n8DuYGvHSwIIJVEYyC4rz0Oo4BfqPz0LAM211EXVMLAihdp1ZUyep4hSS0L78a/Kn4icn3g3o2sIEnxPMwiQLjFucy07VYAD/Ws1O3OlX616xzk6Fxl37SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b=nyJZif3q; arc=none smtp.client-ip=111.202.70.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UfJcplxp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1CC9C4CEEB;
-	Wed, 20 Aug 2025 08:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755677855;
-	bh=JMpIgp8YIbrOSw336Fx7Pf1imqt/c5Pc3wWDqKBle34=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UfJcplxpUPDflKOZsWezZeWsG7SqcXhO2qVLnFE1MpovVnbQbdfJIGhqjlB50Zz2V
-	 QBPHPE+OooMGlt/sXhN96M57wAN9SlYuJ1S5hFfdq1Y3zbOr+C7yaLlXaL2tZU6U6l
-	 M+XMzFcZLGGcger62L/+Fg59ZZRIR2fJiIkxcMfnTXbi5nZi8KaO++AbfNQIXEkE2s
-	 hM58INCxce4hJ3xqEOIkpshELZ99An5WP/ux6h+5lIujvnWXDcHM49bEDw4yEY8aFn
-	 EdT5rPnT5mVtdP6zcPB3sb2MmwjznUvZqdM+EN+RLmHZqzuum3cHmJSGvAtdRlAW2I
-	 chtYEt1F6zOzQ==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Dawid Niedzwiecki <dawidn@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	tzungbi@kernel.org
-Subject: [PATCH v2 5/5] platform/chrome: cros_ec_chardev: Consume cros_ec_device via revocable
-Date: Wed, 20 Aug 2025 08:16:45 +0000
-Message-ID: <20250820081645.847919-6-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.51.0.rc1.167.g924127e9c0-goog
-In-Reply-To: <20250820081645.847919-1-tzungbi@kernel.org>
-References: <20250820081645.847919-1-tzungbi@kernel.org>
+	dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b="nyJZif3q"
+Received: from mail.didiglobal.com (unknown [10.79.65.19])
+	by mx9.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id C265618334C7A8;
+	Wed, 20 Aug 2025 16:18:35 +0800 (CST)
+Received: from didi-ThinkCentre-M930t-N000 (10.79.71.102) by
+ BJ02-ACTMBX-01.didichuxing.com (10.79.65.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1748.10; Wed, 20 Aug 2025 16:19:27 +0800
+Date: Wed, 20 Aug 2025 16:19:21 +0800
+X-MD-Sfrom: tiozhang@didiglobal.com
+X-MD-SrcIP: 10.79.65.19
+From: Tio Zhang <tiozhang@didiglobal.com>
+To: <akpm@linux-foundation.org>, <wang.yaxin@zte.com.cn>,
+	<fan.yu9@zte.com.cn>, <corbet@lwn.net>, <bsingharora@gmail.com>,
+	<yang.yang29@zte.com.cn>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
+	<vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
+	<rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
+	<vschneid@redhat.com>, <jiang.kun2@zte.com.cn>, <xu.xin16@zte.com.cn>,
+	<tiozhang@didiglobal.com>, <zyhtheonly@gmail.com>, <zyhtheonly@yeah.net>
+Subject: [PATCH v2] delayaccy/sched: add SOFTIRQ delay
+Message-ID: <20250820081908.GA1249@didi-ThinkCentre-M930t-N000>
+Mail-Followup-To: akpm@linux-foundation.org, wang.yaxin@zte.com.cn,
+	fan.yu9@zte.com.cn, corbet@lwn.net, bsingharora@gmail.com,
+	yang.yang29@zte.com.cn, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+	mgorman@suse.de, vschneid@redhat.com, jiang.kun2@zte.com.cn,
+	xu.xin16@zte.com.cn, zyhtheonly@gmail.com, zyhtheonly@yeah.net
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAEQmJ=gwOBn5bTY0n1c1c1zu2Gk-peKERCzrW5i+S-4erd7y5Q@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: BJ03-PUBMBX-01.didichuxing.com (10.79.71.11) To
+ BJ02-ACTMBX-01.didichuxing.com (10.79.65.19)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
+	s=2025; t=1755677917;
+	bh=lB6r8dUP4SAAIR0KYvewCKwsCcyKD0KgdYyNVGK3fXg=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type;
+	b=nyJZif3qCfyyZH4lfkOk7jHQih/waqVln4/NEaOW53YDIM30KxipNsUHqpdDBAuGT
+	 OBXZxzGN1xDxxmDRCX8xhXaQ0ciyH3/py1zvqW98tLvdvFgE/Tc3r535jlRyyF7dCJ
+	 F3p4N67RiP/4dYza/gs4GXwMzHvMHUVXSwY7dkHY=
 
-The cros_ec_chardev driver provides a character device interface to the
-ChromeOS EC.  A file handle to this device can remain open in userspace
-even if the underlying EC device is removed.
+Intro SOFTIRQ delay, so we can separate softirq as SOFTIRQ delay
+and hardirq as {IRQ - SOFTIRQ} delay.
 
-This creates a classic use-after-free vulnerability.  Any file operation
-(ioctl, release, etc.) on the open handle after the EC device has gone
-would access a stale pointer, leading to a system crash.
+A typical scenario is when tasks delayed by network,
+if they delayed by rx net packets, i.e, net_rx_action(),
+SOFTIRQ delay is almost same as IRQ delay;
+if they delayed by, e.g, bad driver or broken hardware,
+SOFTIRQ delay is almost 0 while IRQ delay remains big.
 
-To prevent this, leverage the revocable and convert cros_ec_chardev to a
-resource consumer of cros_ec_device.
+Examples tool usage could be found in
+Documentation/accounting/delay-accounting.rst
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Tio Zhang <tiozhang@didiglobal.com>
 ---
-v2:
-- Rename "ref_proxy" -> "revocable".
-- Fix a sparse warning by removing the redundant __rcu annotation.
+ Documentation/accounting/delay-accounting.rst |  5 +++-
+ include/linux/delayacct.h                     | 18 ++++++++++-----
+ include/uapi/linux/taskstats.h                |  9 +++++++-
+ kernel/delayacct.c                            |  9 +++++++-
+ kernel/sched/core.c                           | 14 +++++++----
+ kernel/sched/cputime.c                        | 23 +++++++++++++++----
+ kernel/sched/psi.c                            |  3 ++-
+ kernel/sched/sched.h                          |  6 ++++-
+ tools/accounting/getdelays.c                  |  7 ++++++
+ 9 files changed, 74 insertions(+), 20 deletions(-)
 
-v1: https://lore.kernel.org/chrome-platform/20250814091020.1302888-4-tzungbi@kernel.org
-
- drivers/platform/chrome/cros_ec_chardev.c | 124 +++++++++++++++-------
- 1 file changed, 84 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-index c9d80ad5b57e..d41c7f574cf1 100644
---- a/drivers/platform/chrome/cros_ec_chardev.c
-+++ b/drivers/platform/chrome/cros_ec_chardev.c
-@@ -22,6 +22,7 @@
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_device.h>
- #include <linux/poll.h>
-+#include <linux/revocable.h>
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <linux/uaccess.h>
-@@ -32,7 +33,7 @@
- #define CROS_MAX_EVENT_LEN	PAGE_SIZE
+diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
+index 8ccc5af5ea1e..b6453723fbac 100644
+--- a/Documentation/accounting/delay-accounting.rst
++++ b/Documentation/accounting/delay-accounting.rst
+@@ -17,6 +17,7 @@ e) thrashing
+ f) direct compact
+ g) write-protect copy
+ h) IRQ/SOFTIRQ
++i) SOFTIRQ
  
- struct chardev_priv {
--	struct cros_ec_device *ec_dev;
-+	struct revocable *ec_dev_rev;
- 	struct notifier_block notifier;
- 	wait_queue_head_t wait_event;
- 	unsigned long event_mask;
-@@ -55,6 +56,7 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
- 	};
- 	struct ec_response_get_version *resp;
- 	struct cros_ec_command *msg;
-+	struct cros_ec_device *ec_dev;
- 	int ret;
+ and makes these statistics available to userspace through
+ the taskstats interface.
+@@ -50,7 +51,7 @@ this structure. See
+ for a description of the fields pertaining to delay accounting.
+ It will generally be in the form of counters returning the cumulative
+ delay seen for cpu, sync block I/O, swapin, memory reclaim, thrash page
+-cache, direct compact, write-protect copy, IRQ/SOFTIRQ etc.
++cache, direct compact, write-protect copy, IRQ/SOFTIRQ, SOFTIRQ etc.
  
- 	msg = kzalloc(sizeof(*msg) + sizeof(*resp), GFP_KERNEL);
-@@ -64,12 +66,19 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
- 	msg->command = EC_CMD_GET_VERSION + priv->cmd_offset;
- 	msg->insize = sizeof(*resp);
+ Taking the difference of two successive readings of a given
+ counter (say cpu_delay_total) for a task will give the delay
+@@ -123,6 +124,8 @@ Get sum and peak of delays, since system boot, for all pids with tgid 242::
+ 	              156       11215873          0.072ms     0.207403ms     0.033913ms
+ 	IRQ         count    delay total  delay average      delay max      delay min
+ 	                0              0          0.000ms     0.000000ms     0.000000ms
++	SOFTIRQ     count    delay total  delay average      delay max      delay min
++	                0              0          0.000ms     0.000000ms     0.000000ms
  
--	ret = cros_ec_cmd_xfer_status(priv->ec_dev, msg);
--	if (ret < 0) {
--		snprintf(str, maxlen,
--			 "Unknown EC version, returned error: %d\n",
--			 msg->result);
--		goto exit;
-+	REVOCABLE(priv->ec_dev_rev, ec_dev) {
-+		if (!ec_dev) {
-+			ret = -ENODEV;
-+			goto exit;
-+		}
+ Get IO accounting for pid 1, it works only with -p::
+ 
+diff --git a/include/linux/delayacct.h b/include/linux/delayacct.h
+index 800dcc360db2..b73d777d7a96 100644
+--- a/include/linux/delayacct.h
++++ b/include/linux/delayacct.h
+@@ -62,13 +62,18 @@ struct task_delay_info {
+ 
+ 	u64 irq_delay_max;
+ 	u64 irq_delay_min;
+-	u64 irq_delay;	/* wait for IRQ/SOFTIRQ */
++	u64 irq_delay;		/* wait for IRQ/SOFTIRQ */
 +
-+		ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-+		if (ret < 0) {
-+			snprintf(str, maxlen,
-+				 "Unknown EC version, returned error: %d\n",
-+				 msg->result);
-+			goto exit;
-+		}
- 	}
++	u64 soft_delay_max;
++	u64 soft_delay_min;
++	u64 soft_delay;		/* wait for SOFTIRQ */
  
- 	resp = (struct ec_response_get_version *)msg->data;
-@@ -92,22 +101,30 @@ static int cros_ec_chardev_mkbp_event(struct notifier_block *nb,
+ 	u32 freepages_count;	/* total count of memory reclaim */
+ 	u32 thrashing_count;	/* total count of thrash waits */
+ 	u32 compact_count;	/* total count of memory compact */
+ 	u32 wpcopy_count;	/* total count of write-protect copy */
+-	u32 irq_count;	/* total count of IRQ/SOFTIRQ */
++	u32 irq_count;		/* total count of IRQ/SOFTIRQ */
++	u32 soft_count;		/* total count of SOFTIRQ */
+ };
+ #endif
+ 
+@@ -98,7 +103,7 @@ extern void __delayacct_compact_start(void);
+ extern void __delayacct_compact_end(void);
+ extern void __delayacct_wpcopy_start(void);
+ extern void __delayacct_wpcopy_end(void);
+-extern void __delayacct_irq(struct task_struct *task, u32 delta);
++extern void __delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft);
+ 
+ static inline void delayacct_tsk_init(struct task_struct *tsk)
  {
- 	struct chardev_priv *priv = container_of(nb, struct chardev_priv,
- 						 notifier);
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev;
- 	struct ec_event *event;
--	unsigned long event_bit = 1 << ec_dev->event_data.event_type;
--	int total_size = sizeof(*event) + ec_dev->event_size;
-+	unsigned long event_bit;
-+	int total_size;
-+
-+	REVOCABLE(priv->ec_dev_rev, ec_dev) {
-+		if (!ec_dev)
-+			return NOTIFY_DONE;
-+
-+		event_bit = 1 << ec_dev->event_data.event_type;
-+		total_size = sizeof(*event) + ec_dev->event_size;
- 
--	if (!(event_bit & priv->event_mask) ||
--	    (priv->event_len + total_size) > CROS_MAX_EVENT_LEN)
--		return NOTIFY_DONE;
-+		if (!(event_bit & priv->event_mask) ||
-+		    (priv->event_len + total_size) > CROS_MAX_EVENT_LEN)
-+			return NOTIFY_DONE;
- 
--	event = kzalloc(total_size, GFP_KERNEL);
--	if (!event)
--		return NOTIFY_DONE;
-+		event = kzalloc(total_size, GFP_KERNEL);
-+		if (!event)
-+			return NOTIFY_DONE;
- 
--	event->size = ec_dev->event_size;
--	event->event_type = ec_dev->event_data.event_type;
--	memcpy(event->data, &ec_dev->event_data.data, ec_dev->event_size);
-+		event->size = ec_dev->event_size;
-+		event->event_type = ec_dev->event_data.event_type;
-+		memcpy(event->data, &ec_dev->event_data.data, ec_dev->event_size);
-+	}
- 
- 	spin_lock(&priv->wait_event.lock);
- 	list_add_tail(&event->node, &priv->events);
-@@ -166,7 +183,12 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	priv->ec_dev = ec_dev;
-+	priv->ec_dev_rev = revocable_alloc(ec_dev->revocable_provider);
-+	if (!priv->ec_dev_rev) {
-+		ret = -ENOMEM;
-+		goto err;
-+	}
-+
- 	priv->cmd_offset = ec->cmd_offset;
- 	filp->private_data = priv;
- 	INIT_LIST_HEAD(&priv->events);
-@@ -178,9 +200,14 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 					       &priv->notifier);
- 	if (ret) {
- 		dev_err(ec_dev->dev, "failed to register event notifier\n");
--		kfree(priv);
-+		goto err;
- 	}
- 
-+	return 0;
-+err:
-+	if (priv->ec_dev_rev)
-+		revocable_free(priv->ec_dev_rev);
-+	kfree(priv);
- 	return ret;
+@@ -233,13 +238,14 @@ static inline void delayacct_wpcopy_end(void)
+ 		__delayacct_wpcopy_end();
  }
  
-@@ -251,11 +278,15 @@ static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
- static int cros_ec_chardev_release(struct inode *inode, struct file *filp)
+-static inline void delayacct_irq(struct task_struct *task, u32 delta)
++static inline void delayacct_irq(struct task_struct *task, u32 delta,
++					u32 delta_soft)
  {
- 	struct chardev_priv *priv = filp->private_data;
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev;
- 	struct ec_event *event, *e;
+ 	if (!static_branch_unlikely(&delayacct_key))
+ 		return;
  
--	blocking_notifier_chain_unregister(&ec_dev->event_notifier,
--					   &priv->notifier);
-+	REVOCABLE(priv->ec_dev_rev, ec_dev) {
-+		if (ec_dev)
-+			blocking_notifier_chain_unregister(&ec_dev->event_notifier,
-+							   &priv->notifier);
-+	}
-+	revocable_free(priv->ec_dev_rev);
+ 	if (task->delays)
+-		__delayacct_irq(task, delta);
++		__delayacct_irq(task, delta, delta_soft);
+ }
  
- 	list_for_each_entry_safe(event, e, &priv->events, node) {
- 		list_del(&event->node);
-@@ -273,6 +304,7 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
+ #else
+@@ -280,7 +286,7 @@ static inline void delayacct_wpcopy_start(void)
+ {}
+ static inline void delayacct_wpcopy_end(void)
+ {}
+-static inline void delayacct_irq(struct task_struct *task, u32 delta)
++static inline void delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft)
+ {}
+ 
+ #endif /* CONFIG_TASK_DELAY_ACCT */
+diff --git a/include/uapi/linux/taskstats.h b/include/uapi/linux/taskstats.h
+index 5929030d4e8b..23307f88e255 100644
+--- a/include/uapi/linux/taskstats.h
++++ b/include/uapi/linux/taskstats.h
+@@ -34,7 +34,7 @@
+  */
+ 
+ 
+-#define TASKSTATS_VERSION	16
++#define TASKSTATS_VERSION	17
+ #define TS_COMM_LEN		32	/* should be >= TASK_COMM_LEN
+ 					 * in linux/sched.h */
+ 
+@@ -230,6 +230,13 @@ struct taskstats {
+ 
+ 	__u64	irq_delay_max;
+ 	__u64	irq_delay_min;
++
++	/* v17: Delay waiting for SOFTIRQ */
++	__u64	soft_count;
++	__u64	soft_delay_total;
++
++	__u64	soft_delay_max;
++	__u64	soft_delay_min;
+ };
+ 
+ 
+diff --git a/kernel/delayacct.c b/kernel/delayacct.c
+index 30e7912ebb0d..15f88ca0c0e6 100644
+--- a/kernel/delayacct.c
++++ b/kernel/delayacct.c
+@@ -189,6 +189,7 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
+ 	UPDATE_DELAY(compact);
+ 	UPDATE_DELAY(wpcopy);
+ 	UPDATE_DELAY(irq);
++	UPDATE_DELAY(soft);
+ 	raw_spin_unlock_irqrestore(&tsk->delays->lock, flags);
+ 
+ 	return 0;
+@@ -289,7 +290,7 @@ void __delayacct_wpcopy_end(void)
+ 		      &current->delays->wpcopy_delay_min);
+ }
+ 
+-void __delayacct_irq(struct task_struct *task, u32 delta)
++void __delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft)
  {
- 	struct cros_ec_command *s_cmd;
- 	struct cros_ec_command u_cmd;
-+	struct cros_ec_device *ec_dev;
- 	long ret;
+ 	unsigned long flags;
  
- 	if (copy_from_user(&u_cmd, arg, sizeof(u_cmd)))
-@@ -299,10 +331,17 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- 	}
+@@ -300,6 +301,12 @@ void __delayacct_irq(struct task_struct *task, u32 delta)
+ 		task->delays->irq_delay_max = delta;
+ 	if (delta && (!task->delays->irq_delay_min || delta < task->delays->irq_delay_min))
+ 		task->delays->irq_delay_min = delta;
++	task->delays->soft_delay += delta_soft;
++	task->delays->soft_count++;
++	if (delta_soft > task->delays->soft_delay_max)
++		task->delays->soft_delay_max = delta_soft;
++	if (delta_soft && (!task->delays->soft_delay_min || delta_soft < task->delays->soft_delay_min))
++		task->delays->soft_delay_min = delta_soft;
+ 	raw_spin_unlock_irqrestore(&task->delays->lock, flags);
+ }
  
- 	s_cmd->command += priv->cmd_offset;
--	ret = cros_ec_cmd_xfer(priv->ec_dev, s_cmd);
--	/* Only copy data to userland if data was received. */
--	if (ret < 0)
--		goto exit;
-+	REVOCABLE(priv->ec_dev_rev, ec_dev) {
-+		if (!ec_dev) {
-+			ret = -ENODEV;
-+			goto exit;
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index be00629f0ba4..30ba2e312356 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -773,11 +773,12 @@ static void update_rq_clock_task(struct rq *rq, s64 delta)
+  * In theory, the compile should just see 0 here, and optimize out the call
+  * to sched_rt_avg_update. But I don't trust it...
+  */
+-	s64 __maybe_unused steal = 0, irq_delta = 0;
++	s64 __maybe_unused steal = 0, irq_delta = 0, soft_delta = 0;
+ 
+ #ifdef CONFIG_IRQ_TIME_ACCOUNTING
+ 	if (irqtime_enabled()) {
+-		irq_delta = irq_time_read(cpu_of(rq)) - rq->prev_irq_time;
++		irq_delta = irq_time_read(cpu_of(rq), &soft_delta) - rq->prev_irq_time;
++		soft_delta -= rq->prev_soft_time;
+ 
+ 		/*
+ 		 * Since irq_time is only updated on {soft,}irq_exit, we might run into
+@@ -794,12 +795,17 @@ static void update_rq_clock_task(struct rq *rq, s64 delta)
+ 		 * the current rq->clock timestamp, except that would require using
+ 		 * atomic ops.
+ 		 */
+-		if (irq_delta > delta)
++		if (soft_delta > delta) {  /* IRQ includes SOFTIRQ */
++			soft_delta = delta;
+ 			irq_delta = delta;
++		} else if (irq_delta > delta) {
++			irq_delta = delta;
 +		}
-+
-+		ret = cros_ec_cmd_xfer(ec_dev, s_cmd);
-+		/* Only copy data to userland if data was received. */
-+		if (ret < 0)
-+			goto exit;
-+	}
  
- 	if (copy_to_user(arg, s_cmd, sizeof(*s_cmd) + s_cmd->insize))
- 		ret = -EFAULT;
-@@ -313,24 +352,29 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
+ 		rq->prev_irq_time += irq_delta;
++		rq->prev_soft_time += soft_delta;
+ 		delta -= irq_delta;
+-		delayacct_irq(rq->curr, irq_delta);
++		delayacct_irq(rq->curr, irq_delta, soft_delta);
+ 	}
+ #endif
+ #ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
+diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
+index 7097de2c8cda..7a553d411ae0 100644
+--- a/kernel/sched/cputime.c
++++ b/kernel/sched/cputime.c
+@@ -38,13 +38,14 @@ void disable_sched_clock_irqtime(void)
+ }
  
- static long cros_ec_chardev_ioctl_readmem(struct chardev_priv *priv, void __user *arg)
+ static void irqtime_account_delta(struct irqtime *irqtime, u64 delta,
+-				  enum cpu_usage_stat idx)
++				  u64 delta_soft, enum cpu_usage_stat idx)
  {
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev;
- 	struct cros_ec_readmem s_mem = { };
- 	long num;
+ 	u64 *cpustat = kcpustat_this_cpu->cpustat;
  
--	/* Not every platform supports direct reads */
--	if (!ec_dev->cmd_readmem)
--		return -ENOTTY;
-+	REVOCABLE(priv->ec_dev_rev, ec_dev) {
-+		if (!ec_dev)
-+			return -ENODEV;
+ 	u64_stats_update_begin(&irqtime->sync);
+ 	cpustat[idx] += delta;
+ 	irqtime->total += delta;
++	irqtime->total_soft += delta_soft;
+ 	irqtime->tick_delta += delta;
+ 	u64_stats_update_end(&irqtime->sync);
+ }
+@@ -57,17 +58,29 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
+ {
+ 	struct irqtime *irqtime = this_cpu_ptr(&cpu_irqtime);
+ 	unsigned int pc;
+-	s64 delta;
++	s64 delta, delta_soft = 0, cpu_clock;
+ 	int cpu;
  
--	if (copy_from_user(&s_mem, arg, sizeof(s_mem)))
--		return -EFAULT;
-+		/* Not every platform supports direct reads */
-+		if (!ec_dev->cmd_readmem)
-+			return -ENOTTY;
+ 	if (!irqtime_enabled())
+ 		return;
  
--	if (s_mem.bytes > sizeof(s_mem.buffer))
--		return -EINVAL;
-+		if (copy_from_user(&s_mem, arg, sizeof(s_mem)))
-+			return -EFAULT;
+ 	cpu = smp_processor_id();
+-	delta = sched_clock_cpu(cpu) - irqtime->irq_start_time;
++	cpu_clock = sched_clock_cpu(cpu);
++	delta = cpu_clock - irqtime->irq_start_time;
+ 	irqtime->irq_start_time += delta;
+ 	pc = irq_count() - offset;
  
--	num = ec_dev->cmd_readmem(ec_dev, s_mem.offset, s_mem.bytes,
--				  s_mem.buffer);
--	if (num <= 0)
--		return num;
-+		if (s_mem.bytes > sizeof(s_mem.buffer))
-+			return -EINVAL;
-+
-+		num = ec_dev->cmd_readmem(ec_dev, s_mem.offset, s_mem.bytes,
-+					  s_mem.buffer);
-+		if (num <= 0)
-+			return num;
++	/*
++	 * We only account softirq time when we are called by
++	 * account_softirq_enter{,exit}
++	 * and we do not account ksoftirqd here.
++	 */
++	if (curr != this_cpu_ksoftirqd() &&
++		((offset & SOFTIRQ_OFFSET) || (pc & SOFTIRQ_OFFSET))) {
++		delta_soft = cpu_clock - irqtime->soft_start_time;
++		irqtime->soft_start_time += delta_soft;
 +	}
++
+ 	/*
+ 	 * We do not account for softirq time from ksoftirqd here.
+ 	 * We want to continue accounting softirq time to ksoftirqd thread
+@@ -75,9 +88,9 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
+ 	 * that do not consume any time, but still wants to run.
+ 	 */
+ 	if (pc & HARDIRQ_MASK)
+-		irqtime_account_delta(irqtime, delta, CPUTIME_IRQ);
++		irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_IRQ);
+ 	else if ((pc & SOFTIRQ_OFFSET) && curr != this_cpu_ksoftirqd())
+-		irqtime_account_delta(irqtime, delta, CPUTIME_SOFTIRQ);
++		irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_SOFTIRQ);
+ }
  
- 	if (copy_to_user((void __user *)arg, &s_mem, sizeof(s_mem)))
- 		return -EFAULT;
+ static u64 irqtime_tick_accounted(u64 maxtime)
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index 59fdb7ebbf22..07f0caf5042d 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -1009,6 +1009,7 @@ void psi_account_irqtime(struct rq *rq, struct task_struct *curr, struct task_st
+ 	struct psi_group_cpu *groupc;
+ 	s64 delta;
+ 	u64 irq;
++	u64 __maybe_unused soft_irq;
+ 	u64 now;
+ 
+ 	if (static_branch_likely(&psi_disabled) || !irqtime_enabled())
+@@ -1021,7 +1022,7 @@ void psi_account_irqtime(struct rq *rq, struct task_struct *curr, struct task_st
+ 	if (prev && task_psi_group(prev) == task_psi_group(curr))
+ 		return;
+ 
+-	irq = irq_time_read(cpu);
++	irq = irq_time_read(cpu, &soft_irq);
+ 	delta = (s64)(irq - rq->psi_irq_time);
+ 	if (delta < 0)
+ 		return;
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index be9745d104f7..b263cb046cfa 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -1219,6 +1219,7 @@ struct rq {
+ 
+ #ifdef CONFIG_IRQ_TIME_ACCOUNTING
+ 	u64			prev_irq_time;
++	u64			prev_soft_time;
+ 	u64			psi_irq_time;
+ #endif
+ #ifdef CONFIG_PARAVIRT
+@@ -3135,8 +3136,10 @@ static inline void sched_core_tick(struct rq *rq) { }
+ 
+ struct irqtime {
+ 	u64			total;
++	u64			total_soft;
+ 	u64			tick_delta;
+ 	u64			irq_start_time;
++	u64			soft_start_time;
+ 	struct u64_stats_sync	sync;
+ };
+ 
+@@ -3153,7 +3156,7 @@ static inline int irqtime_enabled(void)
+  * Otherwise ksoftirqd's sum_exec_runtime is subtracted its own runtime
+  * and never move forward.
+  */
+-static inline u64 irq_time_read(int cpu)
++static inline u64 irq_time_read(int cpu, u64 *total_soft)
+ {
+ 	struct irqtime *irqtime = &per_cpu(cpu_irqtime, cpu);
+ 	unsigned int seq;
+@@ -3162,6 +3165,7 @@ static inline u64 irq_time_read(int cpu)
+ 	do {
+ 		seq = __u64_stats_fetch_begin(&irqtime->sync);
+ 		total = irqtime->total;
++		*total_soft = irqtime->total_soft;
+ 	} while (__u64_stats_fetch_retry(&irqtime->sync, seq));
+ 
+ 	return total;
+diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
+index 21cb3c3d1331..7299cb60aa33 100644
+--- a/tools/accounting/getdelays.c
++++ b/tools/accounting/getdelays.c
+@@ -205,6 +205,7 @@ static int get_family_id(int sd)
+  * version >= 13  - supports WPCOPY statistics
+  * version >= 14  - supports IRQ statistics
+  * version >= 16  - supports *_max and *_min delay statistics
++ * version >= 17  - supports SOFTIRQ statistics
+  *
+  * Always verify version before accessing version-dependent fields
+  * to maintain backward compatibility.
+@@ -296,6 +297,12 @@ static void print_delayacct(struct taskstats *t)
+ 			irq_count, irq_delay_total,
+ 			irq_delay_max, irq_delay_min);
+ 	}
++
++	if (t->version >= 17) {
++		PRINT_FILED_DELAY("SOFTIRQ", t->version, t,
++			soft_count, soft_delay_total,
++			soft_delay_max, soft_delay_min);
++	}
+ }
+ 
+ static void task_context_switch_counts(struct taskstats *t)
 -- 
-2.51.0.rc1.167.g924127e9c0-goog
+2.39.3 (Apple Git-145)
 
