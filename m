@@ -1,200 +1,205 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E069322A0E
-	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 15:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7C32E0411
+	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 15:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755703056; cv=none; b=uG0RwhtJgfEAcICD8s4FEi4C6wQtaHA4N77kQzzUK4pyrpkfKLuLhHwxD+1NzGr55C5M+T6Nu1+oRWYocLeLuZmVj8kxRx6hwMXqrfuqO2YoqLkLNqIX5/zh7mj1Fg1kIhOigP4RvCb9680Uq9w6LTRRuJyydHpN2YEkxBPCt2c=
+	t=1755704471; cv=none; b=KRmbJFG4nDX0NZcqOsVoP7pFMVCJk8Eb9qtvS/wTZTukWTcgu1+S81msqISUvgfeVhN5Xwh12wBYGIlmidNAV3mAB9rL1DQp2pRWbOXUmraeR+1mW5W8Gem4/aSQRTAnOoWc0vr3pwgWQ9TdOrEncnAtvHEYydpKwI9EkILDWvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755703056; c=relaxed/simple;
-	bh=W4duEWOlM+udE5VNJ/zPTR+3z61gEew4hVyTyQpHZM4=;
+	s=arc-20240116; t=1755704471; c=relaxed/simple;
+	bh=1cTJ5YS37dXXDca+7HZLxXlAjhXuuTwagT2XyBDXiAU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EGehn+ilhmLSmSsPO1Q05YUvcO1s4N6u7cxec2Cfp4JiKw8KxMiVzP40Z3fHyLP0DMaQMsoaJljYRcCdwYaIwnto4mqrGibNiHMnAwJyXMQbcBUdvPlTlMDqB8iEltihNaI0WJ/lKtj2mOEEMV4BfgIIc/cJvVN6A22bNJMqJss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dPoisYSV; arc=none smtp.client-ip=170.10.129.124
+	 To:Cc:Content-Type; b=l/QT7DGoJdKKvN+h9mv6mfNMpE0rurJfPti0bZgaU+ktnUJXbBZF8c5eBuMlyyxj3if3Cojx3JwZRZIOPLYEbeX9BpT/MO5ODHAWt6dkJ98tsxjTnUJGNwDiqmYa+hPRHGQEyYlWLmybPzeLBOg4ugjjkeoznc7tVkWR1nCjaHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VJrhIgTx; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dPoisYSV"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VJrhIgTx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755703053;
+	s=mimecast20190719; t=1755704469;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lwfU+IsVElt3h1n12yQUuhxkyKNo90VrK/DGR70vyVI=;
-	b=dPoisYSV/fK/fqqtztdIi9ArPThQTZgWEqzOmSFzZuoGSCDo+sr38PJP37vuHYOgUVvzOl
-	OJKz6R/SvMK1sW1BDPbxSrMuY/4uFrjamlm4XXdtfj+Bnik5t1o3g6ecCW6BOYK9svgJiV
-	m4whFb2AQOXRmJ++QYXJU2Nh9zul/Ik=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=UYSofwZAlBuy0oyzsu8d75QQkZFfweO09q+8sQkHcvo=;
+	b=VJrhIgTxaKnHGn6SuA3yMtKCSbV3OFEFjot6akqx56EB5kZdI3V+PSe/o2gPejjtQssWrx
+	JV8OXESnhrXsAktm4G2Bk94sIXl6sTXEHpLeKIcXYyaBUmk1qB1dGvs2F/dLEsYWjaHAXJ
+	6lpAcCVXamLUWpmwAKB6+GO16gjR2Jw=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-657-9cokob0hPmiEY4p9zEvwTQ-1; Wed, 20 Aug 2025 11:17:32 -0400
-X-MC-Unique: 9cokob0hPmiEY4p9zEvwTQ-1
-X-Mimecast-MFC-AGG-ID: 9cokob0hPmiEY4p9zEvwTQ_1755703052
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4b2955f64b1so302831cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 08:17:32 -0700 (PDT)
+ us-mta-45-tgfwHqaPOiqWt2EwliCnKw-1; Wed, 20 Aug 2025 11:41:08 -0400
+X-MC-Unique: tgfwHqaPOiqWt2EwliCnKw-1
+X-Mimecast-MFC-AGG-ID: tgfwHqaPOiqWt2EwliCnKw_1755704467
+Received: by mail-yb1-f198.google.com with SMTP id 3f1490d57ef6-e933de388a4so5899459276.2
+        for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 08:41:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755703052; x=1756307852;
+        d=1e100.net; s=20230601; t=1755704467; x=1756309267;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lwfU+IsVElt3h1n12yQUuhxkyKNo90VrK/DGR70vyVI=;
-        b=ojPbOBAx/b5EZooDXbJ2X2V7dXRBcqoK48vXQby60OGg9+GicjqG8vQ1WFMoQg3KuQ
-         R1jG0xyL//eeepiJM6STXmeTpDMaiFnJpPue7kyn9QyMd8KQKzCAuXEWHjJvIWnHMvJX
-         Y/f9AXcSABVWy5hQgt4dbPGzjPQ3napRaghbDvEuCvJT96EjucYaesVKGozt8QgiAuWA
-         qR6AusSn9BLJvw2C6MeXbaVMr6ggJev7QAwgeMDOfeqzCtBk/cwr3csjzTASo05hmREq
-         iz+U37/v9tq0xPWtXfWgyUWXfW3+f1Jjm2wMECijoOCgpa6KpC8nck8VBd0hjP4FvVeH
-         16cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX3CAoF4DCB9b0E06YoHpnd1goKFlrLGb18jDpBsQxt0YyIzXMAZpVc5KICq8UWHNXlTAKq50v6f1w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIr/qdtlOyu29h7aiWo2bz2a/ZlUXxmTBlE8djMpDZuQC1rVnZ
-	qA5LW6aeL4xJe7cwic4Sqy0gJVAaKHSSJkiuNSsLNgrpbScKdGDmPkh+uEf/AeONj7gNc7wiQn+
-	iFyNC1sMdwRP1Oq1a1DheiDe2dSGElWpucLeIMshNg1iT1MvLuZOvPMh7LfNRCNh+hXKNBQn08h
-	AvgLtwWvp7NCEnoMnnkyq24ajlLhUJO+BtaboJ
-X-Gm-Gg: ASbGncvP5jaXs5ig0el2o67eCeNHHHRdedxVArqtMNlTl50Cbun3XmSfBJKm6j9HoFN
-	6RJRkk3IJAISDX6KZ6PgLZ54S7vXCU7I/kagu3F88DmU23txFZ3X5mKLz6HVzP0skW+B2A7PgCY
-	33Qm1/8dDztBWWXDMfyKHZH8GrlYh3zdy4eagcmVNf01CqGjZmIz8g
-X-Received: by 2002:a05:622a:5c93:b0:4af:203f:73e9 with SMTP id d75a77b69052e-4b291a45948mr38268841cf.3.1755703051781;
-        Wed, 20 Aug 2025 08:17:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHgNNXQPsAlJCg5PdYpqbUQjKk2La90rXTiB/Xg+AFCp6PDdl0eXQ9VodkzneYLfMLO6npPB65IGBnQ/QO7tyQ=
-X-Received: by 2002:a05:622a:5c93:b0:4af:203f:73e9 with SMTP id
- d75a77b69052e-4b291a45948mr38268261cf.3.1755703051224; Wed, 20 Aug 2025
- 08:17:31 -0700 (PDT)
+        bh=UYSofwZAlBuy0oyzsu8d75QQkZFfweO09q+8sQkHcvo=;
+        b=KCd9ij+a74KNyTHZ0gUAad7566Z2n8ko/92L6iZcc4pXsCa0xTOYi8GMkU4QpWq+K3
+         NtupROndR+nQ8fOuFRBG7TdFJIK+FWq6te+wf92WChJksCCobL/qWnKMBjhAfnQ5lbjF
+         LQq67qIORHZFrP0UVfd174yOGZ4knGxeY4zzx1uu7UgXtcUf4mUFQmjQRD4wUf9XXulg
+         siTEUD6t2uzyW+wAJNoX6sI4q+idBOv6J24LJjBtgKEPzbcIGCwHXxAT2dIC4gFmT3cX
+         ClgoGsU32VBpKQRi7TUJ6m+obmAMkKyBy0iJWO04WCjPdZQYWK9k2t7fFCzV/1HqsLx9
+         eVrw==
+X-Forwarded-Encrypted: i=1; AJvYcCUS3glrSLXGCykGXkyme3+ICCFF4hZLp31XJ+7ESoiJ52Z1hXEUtRZ9pZ1ESyR27x3BLwtZkfQoweo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTf/QT/dQHzcxblz5b/gj8F+TLHZfSpwcv60HGWkofagT1gl1g
+	svMO5yjv4eQl4WU89UX/SjlzL4Y3y5WmOyNDzc8he9SemKcdNQoKTvPP38g69uF/1auTHatDBA7
+	0/uKwncGRGbZ3hG/eQpe+P/ZNH2gFN7g3ig57bgrR5/q0UoceRtB0de6SA2hxjyNDTyOEIE6WeN
+	jcvRxgZKmJolzvyNgNpIV7PD29YppDRHsnfcqXvea1yJFeMmI=
+X-Gm-Gg: ASbGncvMllDNvmOGml3dUgyfafBKUnfMq3ApiTSsQOY1SeBfyFPrqHh2dF5Xh9rkd0y
+	3D4/E8NQ25W2Q/7HQeMD8SWyOmQPRYQGBTCUDmvhPIcLUlRFv0OcL79EijEWHb13Cd5hS1uUC40
+	rvroGijVke5Smx5/B2D6jWWd8=
+X-Received: by 2002:a05:6902:4a84:b0:e94:25a2:f8f5 with SMTP id 3f1490d57ef6-e94f6539a69mr3281635276.3.1755704467407;
+        Wed, 20 Aug 2025 08:41:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHOTBrpkhP4lXt+J3rPPABO3gkD8lKSX5VfjJLDUErExXxnxu+nUSNzUqoP1cAU7FTl4VV3oeWsS3Y6s5hhVS4=
+X-Received: by 2002:a05:6902:4a84:b0:e94:25a2:f8f5 with SMTP id
+ 3f1490d57ef6-e94f6539a69mr3281610276.3.1755704466967; Wed, 20 Aug 2025
+ 08:41:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250815121459.3391223-1-lichliu@redhat.com>
-In-Reply-To: <20250815121459.3391223-1-lichliu@redhat.com>
-From: Lichen Liu <lichliu@redhat.com>
-Date: Wed, 20 Aug 2025 23:17:20 +0800
-X-Gm-Features: Ac12FXz5J-qsSNe_dCy4Is9oFh6XR_1xsHJhV6_kkHN0LaUVbdz8uoGPSmN-wtU
-Message-ID: <CAPmSd0OHB3orya=3V1icz4ZzOoAwHuWTqON_Dk+EaEcACtVtbg@mail.gmail.com>
-Subject: Re: [PATCH v2] fs: Add 'rootfsflags' to set rootfs mount options
-To: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	safinaskar@zohomail.com, kexec@lists.infradead.org, rob@landley.net, 
-	weilongchen@huawei.com, cyphar@cyphar.com, linux-api@vger.kernel.org, 
-	zohar@linux.ibm.com, stefanb@linux.ibm.com, initramfs@vger.kernel.org, 
-	corbet@lwn.net, linux-doc@vger.kernel.org
+References: <20250819134205.622806-1-npache@redhat.com> <20250819134205.622806-4-npache@redhat.com>
+ <cd4dd743-679f-4c55-9635-6d32e6fa5ff7@lucifer.local>
+In-Reply-To: <cd4dd743-679f-4c55-9635-6d32e6fa5ff7@lucifer.local>
+From: Nico Pache <npache@redhat.com>
+Date: Wed, 20 Aug 2025 09:40:40 -0600
+X-Gm-Features: Ac12FXzD1K71b8kZ8iPzUj6lIyXHh5PjcoNqYYPU597Q2ZwJYp0jVWP2zrGYIjI
+Message-ID: <CAA1CXcDORXqm4JoHn4ZSEhT3ajsuY2MAPwefMXk3+YMXcpvqkw@mail.gmail.com>
+Subject: Re: [PATCH v10 03/13] khugepaged: generalize hugepage_vma_revalidate
+ for mTHP support
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
+	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
+	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi all, do you have any comments for this v2 patch?
-
-Thanks,
-Lichen
-
-On Fri, Aug 15, 2025 at 8:15=E2=80=AFPM Lichen Liu <lichliu@redhat.com> wro=
-te:
+On Wed, Aug 20, 2025 at 7:25=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
 >
-> When CONFIG_TMPFS is enabled, the initial root filesystem is a tmpfs.
-> By default, a tmpfs mount is limited to using 50% of the available RAM
-> for its content. This can be problematic in memory-constrained
-> environments, particularly during a kdump capture.
+> On Tue, Aug 19, 2025 at 07:41:55AM -0600, Nico Pache wrote:
+> > For khugepaged to support different mTHP orders, we must generalize thi=
+s
+> > to check if the PMD is not shared by another VMA and the order is enabl=
+ed.
+> >
+> > To ensure madvise_collapse can support working on mTHP orders without t=
+he
+> > PMD order enabled, we need to convert hugepage_vma_revalidate to take a
+> > bitmap of orders.
+> >
+> > No functional change in this patch.
+> >
+> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > Acked-by: David Hildenbrand <david@redhat.com>
+> > Co-developed-by: Dev Jain <dev.jain@arm.com>
+> > Signed-off-by: Dev Jain <dev.jain@arm.com>
+> > Signed-off-by: Nico Pache <npache@redhat.com>
 >
-> In a kdump scenario, the capture kernel boots with a limited amount of
-> memory specified by the 'crashkernel' parameter. If the initramfs is
-> large, it may fail to unpack into the tmpfs rootfs due to insufficient
-> space. This is because to get X MB of usable space in tmpfs, 2*X MB of
-> memory must be available for the mount. This leads to an OOM failure
-> during the early boot process, preventing a successful crash dump.
+> LGTM (modulo nit/query below) so:
 >
-> This patch introduces a new kernel command-line parameter, rootfsflags,
-> which allows passing specific mount options directly to the rootfs when
-> it is first mounted. This gives users control over the rootfs behavior.
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Thanks :)
 >
-> For example, a user can now specify rootfsflags=3Dsize=3D75% to allow the
-> tmpfs to use up to 75% of the available memory. This can significantly
-> reduce the memory pressure for kdump.
+> > ---
+> >  mm/khugepaged.c | 13 ++++++++-----
+> >  1 file changed, 8 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index b7b98aebb670..2d192ec961d2 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -917,7 +917,7 @@ static int collapse_find_target_node(struct collaps=
+e_control *cc)
+> >  static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long=
+ address,
+> >                                  bool expect_anon,
+> >                                  struct vm_area_struct **vmap,
+> > -                                struct collapse_control *cc)
+> > +                                struct collapse_control *cc, unsigned =
+long orders)
+> >  {
+> >       struct vm_area_struct *vma;
+> >       enum tva_type type =3D cc->is_khugepaged ? TVA_KHUGEPAGED :
+> > @@ -930,9 +930,10 @@ static int hugepage_vma_revalidate(struct mm_struc=
+t *mm, unsigned long address,
+> >       if (!vma)
+> >               return SCAN_VMA_NULL;
+> >
+> > +     /* Always check the PMD order to insure its not shared by another=
+ VMA */
 >
-> Consider a practical example:
+> NIT: ensure not insure.
+ack, ill fix that!
 >
-> To unpack a 48MB initramfs, the tmpfs needs 48MB of usable space. With
-> the default 50% limit, this requires a memory pool of 96MB to be
-> available for the tmpfs mount. The total memory requirement is therefore
-> approximately: 16MB (vmlinuz) + 48MB (loaded initramfs) + 48MB (unpacked
-> kernel) + 96MB (for tmpfs) + 12MB (runtime overhead) =E2=89=88 220MB.
+> >       if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
+> >               return SCAN_ADDRESS_RANGE;
+> > -     if (!thp_vma_allowable_order(vma, vma->vm_flags, type, PMD_ORDER)=
+)
+> > +     if (!thp_vma_allowable_orders(vma, vma->vm_flags, type, orders))
+> >               return SCAN_VMA_CHECK;
+> >       /*
+> >        * Anon VMA expected, the address may be unmapped then
+> > @@ -1134,7 +1135,8 @@ static int collapse_huge_page(struct mm_struct *m=
+m, unsigned long address,
+> >               goto out_nolock;
+> >
+> >       mmap_read_lock(mm);
+> > -     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc);
+> > +     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc,
+> > +                                      BIT(HPAGE_PMD_ORDER));
 >
-> By using rootfsflags=3Dsize=3D75%, the memory pool required for the 48MB
-> tmpfs is reduced to 48MB / 0.75 =3D 64MB. This reduces the total memory
-> requirement by 32MB (96MB - 64MB), allowing the kdump to succeed with a
-> smaller crashkernel size, such as 192MB.
+> Shouldn't this be PMD order? Seems equivalent.
+Yeah i'm actually not sure why we have both... they seem to be the
+same thing, but perhaps there is some reason for having two...
 >
-> An alternative approach of reusing the existing rootflags parameter was
-> considered. However, a new, dedicated rootfsflags parameter was chosen
-> to avoid altering the current behavior of rootflags (which applies to
-> the final root filesystem) and to prevent any potential regressions.
->
-> Also add documentation for the new kernel parameter "rootfsflags"
->
-> This approach is inspired by prior discussions and patches on the topic.
-> Ref: https://www.lightofdawn.org/blog/?viewDetailed=3D00128
-> Ref: https://landley.net/notes-2015.html#01-01-2015
-> Ref: https://lkml.org/lkml/2021/6/29/783
-> Ref: https://www.kernel.org/doc/html/latest/filesystems/ramfs-rootfs-init=
-ramfs.html#what-is-rootfs
->
-> Signed-off-by: Lichen Liu <lichliu@redhat.com>
-> Tested-by: Rob Landley <rob@landley.net>
-> ---
-> Changes in v2:
->   - Add documentation for the new kernel parameter.
->
->  Documentation/admin-guide/kernel-parameters.txt |  3 +++
->  fs/namespace.c                                  | 11 ++++++++++-
->  2 files changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index fb8752b42ec8..0c00f651d431 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6220,6 +6220,9 @@
->
->         rootflags=3D      [KNL] Set root filesystem mount option string
->
-> +       rootfsflags=3D    [KNL] Set initial root filesystem mount option =
-string
-> +                       (e.g. tmpfs for initramfs)
-> +
->         rootfstype=3D     [KNL] Set root filesystem type
->
->         rootwait        [KNL] Wait (indefinitely) for root device to show=
- up.
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 8f1000f9f3df..e484c26d5e3f 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -65,6 +65,15 @@ static int __init set_mphash_entries(char *str)
->  }
->  __setup("mphash_entries=3D", set_mphash_entries);
->
-> +static char * __initdata rootfs_flags;
-> +static int __init rootfs_flags_setup(char *str)
-> +{
-> +       rootfs_flags =3D str;
-> +       return 1;
-> +}
-> +
-> +__setup("rootfsflags=3D", rootfs_flags_setup);
-> +
->  static u64 event;
->  static DEFINE_XARRAY_FLAGS(mnt_id_xa, XA_FLAGS_ALLOC);
->  static DEFINE_IDA(mnt_group_ida);
-> @@ -5677,7 +5686,7 @@ static void __init init_mount_tree(void)
->         struct mnt_namespace *ns;
->         struct path root;
->
-> -       mnt =3D vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", NULL);
-> +       mnt =3D vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", rootfs_flags=
-);
->         if (IS_ERR(mnt))
->                 panic("Can't create rootfs");
->
-> --
-> 2.47.0
+> >       if (result !=3D SCAN_SUCCEED) {
+> >               mmap_read_unlock(mm);
+> >               goto out_nolock;
+> > @@ -1168,7 +1170,8 @@ static int collapse_huge_page(struct mm_struct *m=
+m, unsigned long address,
+> >        * mmap_lock.
+> >        */
+> >       mmap_write_lock(mm);
+> > -     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc);
+> > +     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc,
+> > +                                      BIT(HPAGE_PMD_ORDER));
+> >       if (result !=3D SCAN_SUCCEED)
+> >               goto out_up_write;
+> >       /* check if the pmd is still valid */
+> > @@ -2807,7 +2810,7 @@ int madvise_collapse(struct vm_area_struct *vma, =
+unsigned long start,
+> >                       mmap_read_lock(mm);
+> >                       mmap_locked =3D true;
+> >                       result =3D hugepage_vma_revalidate(mm, addr, fals=
+e, &vma,
+> > -                                                      cc);
+> > +                                                      cc, BIT(HPAGE_PM=
+D_ORDER));
+> >                       if (result  !=3D SCAN_SUCCEED) {
+> >                               last_fail =3D result;
+> >                               goto out_nolock;
+> > --
+> > 2.50.1
+> >
 >
 
