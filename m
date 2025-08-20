@@ -1,104 +1,95 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1004526E6F8;
-	Wed, 20 Aug 2025 19:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E2A24A054;
+	Wed, 20 Aug 2025 20:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755719283; cv=none; b=WWLzRUbXI5Pru8VF6QsPWKtKbQhEVNgc0Qk6M/mvSSp9EdA9ipStVGuS4n2OGG0JNIef6CT9H1UAXeCIKM1zUbOhDBmYhesa27tZcLsYLMISEg3z6EJqiotj6FVcb1lHxQ0lHjAOPMEXMGApWCZu2wJVCzn20RNtJm3JbiPvvQQ=
+	t=1755720236; cv=none; b=JgDa9WSsQTU0nfuj6tuK/xmUYrnQbdQJEZGnf46biPHI9074YuoK4sgo+5cAvmrYHhD6j1T5Iz4oVydUEwZnjw/ICqJ0gqLWPIQdEpk1qgFoYn1UpgWErl6JQZ4i/MaV1x33oLxGj60IcIcTwSbf00jHF6QNKyAt2U5Y2GRBuyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755719283; c=relaxed/simple;
-	bh=7qIOJgBGxwOndXtDf/YRbfMmSwGo+zEFbUIAXg/RPq0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gC/kFUNUw1gi2ilBylg9C7Nds+tEZDBXOWt/WUZntxTlOHqin5KqAF3AOzTMG8KabW2xkglWz7VZHxnkIFSEYlNxgqJFQVDSjvz05Ag91EoqX2NRO/gIWYrGo3CRBmqqnZZ07w+DbZF+GDHCO27wzDruEkylB6f2k7lErZMaS1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b8jPfogK; arc=none smtp.client-ip=209.85.166.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755720236; c=relaxed/simple;
+	bh=anNhsvCEDdZAFrVHuAW6Yq14ZRmsgEq59nDp1oTYxZ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s7uXyoQZqmrNEIgJt5nolvE62cqG+WmW8+JYgvZLyqqlvJBdj6ZtxyqSYzK//8TW3fbH10MMvMOmXGbzBDaRMEqd3XbP1zR20HTERiounp/IDi6rkuBT9Ry8d8ux8mVMW03Hgb2KJn3IRFa4un3TLHbtYhILBjc7LWLyF2J14s0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GeHJaS6B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b8jPfogK"
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3e666f35fb3so1158565ab.3;
-        Wed, 20 Aug 2025 12:48:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755719281; x=1756324081; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KY6KYGcofy9B+TK2ypLM7wptypx5fcgkdu8vnUtAJYk=;
-        b=b8jPfogKEFWhdRLA3A4H2n7ZRtDgCYUrl1E/riqOA2EzAVAQZRbwVjiAqnGdYxxMA2
-         YI7JqOkov958OtMF2QMI5UxiYlkHjGUaih9MYEdX9px6bP/Yrjtoqat9ieN2MkxROwUq
-         sMTrc2yUv26OvXF1m+vcOxdbImzBY72cVVhvWRhvhFNIwoOwmKGgOGReI7DFrgrpGFvJ
-         cLUb3ijpwzFQny49E9iigQCWtA4S/6nY+aLrhmZcahD9GJnofJ6h9IIF1OrUZe9BlmRQ
-         B9oUfaCLFMD+SnqhWNgWe+bYxz0w3TvGXirZge233fRoOsK0UuZGMi+8XJSoHEO3BbZI
-         OeYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755719281; x=1756324081;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KY6KYGcofy9B+TK2ypLM7wptypx5fcgkdu8vnUtAJYk=;
-        b=eJuIq7fDWVYk6PikF1E/mIhUsihdOGTMX9OxGeDl9XEYPWxwdxNB3QwVp/WnYslr5y
-         XMo7Lnh1KE0jXbsGu5Gv0hbrXpEModRyebDewROxouE8Octp4ab02B3N8x3Ee9oh0H8z
-         QHHWfwpULLK/J0DbFR4WGo0mzjH4Ou+ZxypZDQQpDOrQLhSojviRte01zXzxkhqVLqNN
-         s1WUsKHecKu4pTHlrbQuNzj+k70nt9M97FRdWBuqX9rVhEwJdtHtKf8EoTdQDjwK/JkM
-         fjLbcrpZu6LcIYzEGmt5+Dg1pX7dHUMLIcLXGHv+EbR6GRlbzJQ2FrtzoH3C2JsioG5F
-         lmjg==
-X-Forwarded-Encrypted: i=1; AJvYcCX/2UOCTR2NXVlPQfa2GgfiUM82ouo5Z7cbs8S2FMcF1wGgZdZC+re5bO2J6x6q5kNmRyINw/HlAupZFGE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxd3od0zsuMrNHl75kqKS/O6O1wdmyOxey37XEyTeBtBFR015cK
-	yEyg35evnvjaD82/8uSyaswDP1na35nnHBRnU/k2uV9wNjysEL9lfDFOQ09BSaFB
-X-Gm-Gg: ASbGnctb0NxXUxU9oEAAzPKFzvq5OjkLd602jvzZ/slCAPR4aQNE4l7EIjhP3Xbsd+l
-	sq52b8xJUtD8XpvuvyaSqCuIY39jgvxH15vv91q6GREZGnZbFiq3otd437yQhCiI3WjOOojGwIZ
-	LsMjZSEM8LuQQj1YCNeQMeASbVUg9W1LL5zyr5tnO56oCx/+c3tu0io4SSeI/R1fBcgN8u72Ku8
-	Bi0m0mnLMlN1SGIqXvISjXqgHO689FGaf4MZgXRBUFMBOUF0GRoudvv6rP9St355sQDaRa2eeAQ
-	ZMejno0L/DFQaI29xomx3p57X4o6tbOEAaGp/WQGQ/a8ttaYle5ysLrnmK/7uRDs+FqXPvqODBI
-	6riRi+6mnaMoR/+izPCO/B4cYfYvNWlALRUulFWDzYwpVc5uRCJfLxUTFV7bUWUFtbIcirnDgiv
-	vOKXBM/5uWCQ==
-X-Google-Smtp-Source: AGHT+IGnW1O/nM4BGcR/+kr2nJncspBQAwK6G1rqHmHSmC9/Rsvt/wGgSsHf0jD2r7w0bTGdk7DNzg==
-X-Received: by 2002:a05:6e02:1a42:b0:3e5:3d13:5d8f with SMTP id e9e14a558f8ab-3e67ca08998mr70705235ab.9.1755719280796;
-        Wed, 20 Aug 2025 12:48:00 -0700 (PDT)
-Received: from fedora (pool-99-240-65-82.cpe.net.cable.rogers.com. [99.240.65.82])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-50c94998c35sm4249485173.66.2025.08.20.12.48.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 12:48:00 -0700 (PDT)
-From: Albin Babu Varghese <albinbabuvarghese20@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Albin Babu Varghese <albinbabuvarghese20@gmail.com>
-Subject: [PATCH v2] Documentation: conf.py: remove repeated word in comment
-Date: Wed, 20 Aug 2025 15:47:15 -0400
-Message-ID: <20250820194714.130513-2-albinbabuvarghese20@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GeHJaS6B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07889C4CEE7;
+	Wed, 20 Aug 2025 20:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755720235;
+	bh=anNhsvCEDdZAFrVHuAW6Yq14ZRmsgEq59nDp1oTYxZ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GeHJaS6B8aM9Udh1FibxBFg3+IsWGhQ5XurO6jabKMivoDhVotrmQPElYvdfiUnRX
+	 y50h/H3ETrqUKhsSB7ipAOr8XJDPlcB5VXzl/QAVJESTe4+OUh1yTMQONS0d0lhS4O
+	 FfSeEtEh0cI18x9kpZkpuGWBxQwqgvgqj4f16DSkyhzeiUTzzk5Hk8K0j6Rz1f6SMz
+	 Bj0gzFyyqGDrFWgKRGtLJ9P1YpqNwB2cyokm+8YF26QOVw0KA9jgP+9jpkgUcRbLHT
+	 Nb7lRBcXe+Y42ezBDMzF7S44Le8bE1CoFX5R+jbW+Fi4wRsDWQJ+ey89iYQb0lMT7G
+	 seJ+tPSW9SU1Q==
+Date: Wed, 20 Aug 2025 15:03:54 -0500
+From: Rob Herring <robh@kernel.org>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, nuno.sa@analog.com,
+	linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Lee Jones <lee@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH 0/6] mfd: Add support for the LTC4283 Hot Swap Controller
+Message-ID: <20250820200354.GA602656-robh@kernel.org>
+References: <20250814-ltc4283-support-v1-0-88b2cef773f2@analog.com>
+ <5713bb5b-3301-46bc-b30a-d2e4c58d1036@roeck-us.net>
+ <2svr42ee7akwxwj5nizwe4a4hqdk4rslv7ivxraqg3jy6m3mxz@lfpn2nx4jdmm>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2svr42ee7akwxwj5nizwe4a4hqdk4rslv7ivxraqg3jy6m3mxz@lfpn2nx4jdmm>
 
-Remove a repeated "are" from a comment in conf.py
+On Thu, Aug 14, 2025 at 03:15:29PM +0100, Nuno Sá wrote:
+> On Thu, Aug 14, 2025 at 05:54:26AM -0700, Guenter Roeck wrote:
+> > On 8/14/25 03:52, Nuno Sá via B4 Relay wrote:
+> > > The LTC4283 device features programmable current limit with foldback and
+> > > independently adjustable inrush current to optimize the MOSFET safe
+> > > operating area (SOA). The SOA timer limits MOSFET temperature rise for
+> > > reliable protection against overstresses.
+> > > 
+> > > An I2C interface and onboard ADC allow monitoring of board current, voltage,
+> > > power, energy, and fault status.
+> > > 
+> > > It also features 8 pins that can be configured as GPIO devices. But since
+> > > the main usage for this device is monitoring, the GPIO part is optional
+> > > while the HWMON is being made as required.
+> > > 
+> > > Also to note that the device has some similarities with the already
+> > > supported ltc4282 hwmon driver but it is different enough to be in it's own
+> > > driver (apart from being added as MFD). The register map is also fairly
+> > > different.
+> > > 
+> > > Last time (for the ltc4282) I tried to add the gpio bits directly in the
+> > > hwmon driver but Guenter did not really liked it and so this time I'm doing
+> > > it as MFD.
+> > > 
+> > Nowadays I suggest that people use auxiliary drivers in such situations.
+> 
+> I see. But do you have any issue with it being MFD?
 
-[v2] Resent with full recipient list. No changes from v1.
+I do...
 
-Thanks, Albin
+> I'm anyways tempted to the auxiliary device idea. The main usage for
+> this device is HWMON and I dunno anyone would use it only as a GPIO
+> controller. With the auxiliary device we would only need one bindings file
+> and slightly better bindings for the pins functionality.
 
-Signed-off-by: Albin Babu Varghese <albinbabuvarghese20@gmail.com>
----
- Documentation/conf.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+For this reason. The driver structure influencing the binding design is 
+a problem, but I think MFD is more to blame on that.
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 700516238d3f..55299665753a 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -224,7 +224,7 @@ author = "The kernel development community"
- # |version| and |release|, also used in various other places throughout the
- # built documents.
- #
--# In a normal build, version and release are are set to KERNELVERSION and
-+# In a normal build, version and release are set to KERNELVERSION and
- # KERNELRELEASE, respectively, from the Makefile via Sphinx command line
- # arguments.
- #
--- 
-2.50.1
-
+Rob
