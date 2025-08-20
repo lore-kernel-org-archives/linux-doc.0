@@ -1,444 +1,303 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B782C21C3
-	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 16:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC9113B58D;
+	Wed, 20 Aug 2025 16:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755707792; cv=none; b=BHO4cY2UQ1bv7RwRLW0/dONUwbSR2MH6Ohm8Ia08MfSICitoNUvTROy+gtQRBph+RJ1zxHkA3KrvaA9Uudhp252RRLgzkDxtoW2csMAXSQlcReoL2gMz65DvxVZZww/26Bj9NuFbrB/o2rguDirdju3SUTGfHEMv4RftuX7sVjQ=
+	t=1755708493; cv=none; b=I0CTAt5RK05VHsDh0tKyXxuun7EQ/b6rnYZ6/+24U+bmDqCaFqCPTyi4JZJkhSk1nM35br4CYRzuuwJy2mF4yIHEhA/yudcWLrCHs49yh4LU6jwYOF/KiHgOkjrUzsdicAedzG2+dnPzal0iRB4zv7FKJA2YrgBoJQUJS5DREUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755707792; c=relaxed/simple;
-	bh=1cJtr5xnb1uIlwFraPS2r+t6B2j92UPF8n4XcrNZCs4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c6OtzgRxcjcR8UVp/f4B5JwdgUPAJP3MYU7GWVzhn7temXUUe31OLZ7CUh02KBx/uNPAt3JttN65YQwabpGS0TmommV8E1lJaxo7VHcn6W68oVZTUYISdbjb1b6sn9Kx1tMMkMRvtBe5VAYfw2BCvuYCgM36SoNYG4mxvJn6nYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=I/rB9ma1; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755708493; c=relaxed/simple;
+	bh=1oWER/hG7V3nM0s85ICVzIy3Cx4bCWXWzRg6rGeVCU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ry3Z+hG2PC+bRyDn4se8oz7Gfsf0tT2PXa4VJJCqPM3yPIQC+G9kmkl8sCInf4Rx1en58IhFtN+xqzeO0Kqp+31U4PTKg41maiWUFBMoWAE3bDalotsY67U9h9jXmHLL+i/mBEKvidvvkJF/XYjVtapkE0TBlfWci+fGbldL8cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBCpSHLh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="I/rB9ma1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755707789;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RvtlwWUqesIYENKIJjSR0UkLBe3hTSdGUFezNYbbvkY=;
-	b=I/rB9ma1qxWzEfpQF3wc1+tMZ2ZcunOxFdK1bvAUvaRaWcQANuLy1zbot3vnWos553IJ2v
-	CxtXNuFqIpT+KJ24leGdJjLgiMSLhRx7z+qDu3t6Y/Bshh8mPyULYuO5MYOP+a4U5JhVlE
-	cblxBiI9Cl3j7H5XgHbS1GFTpG7uBEA=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-303-rhH_-LqfN5CSW_m0W8RI9w-1; Wed, 20 Aug 2025 12:36:27 -0400
-X-MC-Unique: rhH_-LqfN5CSW_m0W8RI9w-1
-X-Mimecast-MFC-AGG-ID: rhH_-LqfN5CSW_m0W8RI9w_1755707787
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-71e86bfa75dso481857b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 09:36:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755707786; x=1756312586;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RvtlwWUqesIYENKIJjSR0UkLBe3hTSdGUFezNYbbvkY=;
-        b=AvGaxD7/dgifzdSgTfrVlJiyq1URJhEcC+F4GsRimzAc2aHnxzjP7gMDUIZ1xQnDue
-         T3v19XXEZzSciaseG3HCkPiWHxv9uqeTz9V90mIjUUeqk+7Ev55NmFc2JMZtLf9ZSNJV
-         iaGQPUa2NH8k41SQfsJW9/tH3fRoioxrUI+jc6PP8cgL3QzLhDvAlq6meEJjqFwN0U2R
-         LuBnTThLEpRDOZEMbGe04rb7z1Y3h9YIfSVH87b9pfOXFEq7rzd205OxqGJye68FXXoB
-         C0HDT3uTmcf9R/G8m/YyTrX2zC5ZgGKYOqfP7sv36Vja+jo5k53rc2bDmghiVjPQGwnz
-         +6fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUS8SK5NEUOxHUkN1M+nLQc1h1GirZl292G4zu+71axPmOrmHP48mxvWN/fP1+9w+PSyGUAQagKfHo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxN3SEIN9ypK9D9MUE36+OOzSuNECjA8rAS1TVw3RePFX4vb/A
-	lw7DT+6x668A9Qj3FtBM9L2/pT88b21fl/bz8fUjkmsVPzhqsaqUQGg8ZcvSuzYPlBqa5g8NIBf
-	Wv0hpE8XwieYV9AyjUL3RK2T5/QrDjKmBHKgJjLzSgv56dwcQ7NvmdfD7EdRUYxUfeCmCpAK/wp
-	fb0RCgyMLfHBObEGD7Ljax2+vyNU4SD2x0luR5
-X-Gm-Gg: ASbGncvxPnC8oxEx9alynp2lo7T0LjEzH8wAPwkA33aT3QejUzFeOzuX/zUHkbwkU5I
-	T5fosB+J4bvITMtkH92+pEBqAN7H88/gPKwrSH9fKbtws0aN0zcQYdL4S/Hs3XZIDawqEPB219q
-	VXX57bR+QdaeX7eKldDTj5Jdw=
-X-Received: by 2002:a05:6902:124c:b0:e94:ffef:f759 with SMTP id 3f1490d57ef6-e94ffeffb71mr1803796276.0.1755707786343;
-        Wed, 20 Aug 2025 09:36:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG4HcRCJqL9vTQ/7ox3BvjpkrAei2D0oMgx2P0qN9HBDbCGUlv1atq6zFqXMh5NOKuFN79QdAgvfzzh1V38bA8=
-X-Received: by 2002:a05:6902:124c:b0:e94:ffef:f759 with SMTP id
- 3f1490d57ef6-e94ffeffb71mr1803742276.0.1755707785709; Wed, 20 Aug 2025
- 09:36:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBCpSHLh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC5BCC4CEE7;
+	Wed, 20 Aug 2025 16:48:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755708492;
+	bh=1oWER/hG7V3nM0s85ICVzIy3Cx4bCWXWzRg6rGeVCU0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mBCpSHLhSMPGELJv+pKHMSF8EB9XxAZDQWX1n8oCq7w8Z6KohCOgS5MMxss03rGJw
+	 lRA+QUJI0TEXceA3mmdyl9Qp7VCy4tz6OkDCcQs0U8PY63v72B2k8qecZw41kI6YAq
+	 iXEd6ncE6RCoHI0MrpisPmMfhIRnNdAHe5euMyAXNhBfmZ6M4Nyh4gtW4fjDHat6SI
+	 CM7mXLLTvarFKJkoe5YUmB82o6crqhVdKmsPOReKPRMJEpcE/tg8ucVdcvx01zbI5g
+	 ypsbxRLwrrLnKj9KiCvJuTNKFKEFMyOUE2ikxuisjtWy5goHVHmRp+gA1pS+hmM/9U
+	 dNwHDrp5XG9bg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uolys-0000000AlCj-2Kyo;
+	Wed, 20 Aug 2025 18:48:10 +0200
+Date: Wed, 20 Aug 2025 18:48:10 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
+Message-ID: <xik6a2kb3mge5xh2mbdtc4p3ikbr4mnjlkk4ujc4sfztb3iqnr@tc76jva4smpm>
+References: <20250817154544.78d61029@foz.lan>
+ <b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
+ <87y0rg7e35.fsf@trenco.lwn.net>
+ <16b48826-6634-4ec9-86a0-7ddb59ce3bed@gmail.com>
+ <20250819030239.41a2e97f@foz.lan>
+ <142b209d-613a-4659-a0f7-27efa8c6be85@gmail.com>
+ <20250819153200.3c2b2ff6@foz.lan>
+ <08c3a7eb-0425-4709-a3ea-6d1d726fd3c8@gmail.com>
+ <20250820091530.068c4b62@foz.lan>
+ <3990f1c5-2108-44fe-913f-97ae3bb1ff42@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250819134205.622806-1-npache@redhat.com> <20250819134205.622806-3-npache@redhat.com>
- <248d57e5-8cd5-408b-a6c8-970df6876b6c@lucifer.local>
-In-Reply-To: <248d57e5-8cd5-408b-a6c8-970df6876b6c@lucifer.local>
-From: Nico Pache <npache@redhat.com>
-Date: Wed, 20 Aug 2025 10:35:57 -0600
-X-Gm-Features: Ac12FXzjf4Igr1tHl9lliKUKtFV236tYdnecnsgkQbabWzhsGT93TnmDGE_Rezk
-Message-ID: <CAA1CXcC-7MudjF06JaJQUvKkNh4vPHTTeoMDBE-devotyFXjkA@mail.gmail.com>
-Subject: Re: [PATCH v10 02/13] introduce collapse_single_pmd to unify
- khugepaged and madvise_collapse
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
-	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
-	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
-	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
-	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3990f1c5-2108-44fe-913f-97ae3bb1ff42@gmail.com>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Wed, Aug 20, 2025 at 5:22=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> On Tue, Aug 19, 2025 at 07:41:54AM -0600, Nico Pache wrote:
-> > The khugepaged daemon and madvise_collapse have two different
-> > implementations that do almost the same thing.
-> >
-> > Create collapse_single_pmd to increase code reuse and create an entry
-> > point to these two users.
-> >
-> > Refactor madvise_collapse and collapse_scan_mm_slot to use the new
-> > collapse_single_pmd function. This introduces a minor behavioral change
-> > that is most likely an undiscovered bug. The current implementation of
-> > khugepaged tests collapse_test_exit_or_disable before calling
-> > collapse_pte_mapped_thp, but we weren't doing it in the madvise_collaps=
-e
-> > case. By unifying these two callers madvise_collapse now also performs
-> > this check.
-> >
-> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> > Acked-by: David Hildenbrand <david@redhat.com>
-> > Signed-off-by: Nico Pache <npache@redhat.com>
-> > ---
-> >  mm/khugepaged.c | 94 ++++++++++++++++++++++++++-----------------------
-> >  1 file changed, 49 insertions(+), 45 deletions(-)
-> >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index 0e7bbadf03ee..b7b98aebb670 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -2382,6 +2382,50 @@ static int collapse_scan_file(struct mm_struct *=
-mm, unsigned long addr,
-> >       return result;
-> >  }
-> >
-> > +/*
-> > + * Try to collapse a single PMD starting at a PMD aligned addr, and re=
-turn
-> > + * the results.
-> > + */
-> > +static int collapse_single_pmd(unsigned long addr,
-> > +                             struct vm_area_struct *vma, bool *mmap_lo=
-cked,
-> > +                             struct collapse_control *cc)
-> > +{
-> > +     int result =3D SCAN_FAIL;
->
-> You assign result in all branches, so this can be uninitialised.
-ack, thanks.
->
-> > +     struct mm_struct *mm =3D vma->vm_mm;
-> > +
-> > +     if (!vma_is_anonymous(vma)) {
-> > +             struct file *file =3D get_file(vma->vm_file);
-> > +             pgoff_t pgoff =3D linear_page_index(vma, addr);
-> > +
-> > +             mmap_read_unlock(mm);
-> > +             *mmap_locked =3D false;
-> > +             result =3D collapse_scan_file(mm, addr, file, pgoff, cc);
-> > +             fput(file);
-> > +             if (result =3D=3D SCAN_PTE_MAPPED_HUGEPAGE) {
-> > +                     mmap_read_lock(mm);
-> > +                     *mmap_locked =3D true;
-> > +                     if (collapse_test_exit_or_disable(mm)) {
-> > +                             mmap_read_unlock(mm);
-> > +                             *mmap_locked =3D false;
-> > +                             result =3D SCAN_ANY_PROCESS;
-> > +                             goto end;
->
-> Don't love that in e.g. collapse_scan_mm_slot() we are using the mmap loc=
-k being
-> disabled as in effect an error code.
->
-> Is SCAN_ANY_PROCESS correct here? Because in collapse_scan_mm_slot() you'=
-d
-> previously:
-https://lore.kernel.org/lkml/a881ed65-351a-469f-b625-a3066d0f1d5c@linux.ali=
-baba.com/
-Baolin brought up a good point a while back that if
-collapse_test_exit_or_disable returns true we will be breaking out of
-the loop and should change the return value to indicate this. So to
-combine the madvise breakout and the scan_slot breakout we drop the
-lock and return SCAN_ANY_PROCESS.
->
->         if (*result =3D=3D SCAN_PTE_MAPPED_HUGEPAGE) {
->                 mmap_read_lock(mm);
->                 if (collapse_test_exit_or_disable(mm))
->                         goto breakouterloop;
->                 ...
->         }
->
-> But now you're setting result =3D SCAN_ANY_PROCESS rather than
-> SCAN_PTE_MAPPED_HUGEPAGE in this instance?
->
-> You don't mention that you're changing this, or at least explicitly enoug=
-h,
-> the commit message should state that you're changing this and explain why
-> it's ok.
-I do state it but perhaps I need to be more verbose! I will update the
-message to state we are also changing the result value too.
->
-> This whole file is horrid, and it's kinda an aside, but I really wish we
-> had some comment going through each of the scan_result cases and explaini=
-ng
-> what each one meant.
-Yeah its been a huge pain to have to investigate what everything is
-supposed to mean, and I often have to go searching to confirm things.
-include/trace/events/huge_memory.h has a "good" summary of them
->
-> Also I think:
->
->         return SCAN_ANY_PROCESS;
->
-> Is better than:
->
->         result =3D SCAN_ANY_PROCESS;
->         goto end;
-I agree! I will change that :)
->         ...
-> end:
->         return result;
->
-> > +                     }
-> > +                     result =3D collapse_pte_mapped_thp(mm, addr,
-> > +                                                      !cc->is_khugepag=
-ed);
->
-> Hm another change here, in the original code in collapse_scan_mm_slot()
-> this is:
->
->         *result =3D collapse_pte_mapped_thp(mm,
->                 khugepaged_scan.address, false);
->
-> Presumably collapse_scan_mm_slot() is only ever invoked with
-> cc->is_khugepaged?
-Correct, but the madvise_collapse calls this with true, hence why it
-now depends on the is_khugepaged variable. No functional change here.
->
-> Maybe worth adding a VM_WARN_ON_ONCE(!cc->is_khugepaged) at the top of
-> collapse_scan_mm_slot() to assert this (and other places where your chang=
-e
-> assumes this to be the case).
-Ok I will investigate doing that but it would take a huge mistake to
-hit that assertion.
->
->
-> > +                     if (result =3D=3D SCAN_PMD_MAPPED)
-> > +                             result =3D SCAN_SUCCEED;
-> > +                     mmap_read_unlock(mm);
-> > +                     *mmap_locked =3D false;
-> > +             }
-> > +     } else {
-> > +             result =3D collapse_scan_pmd(mm, vma, addr, mmap_locked, =
-cc);
-> > +     }
-> > +     if (cc->is_khugepaged && result =3D=3D SCAN_SUCCEED)
-> > +             ++khugepaged_pages_collapsed;
->
-> Similarly, presumably because collapse_scan_mm_slot() only ever invoked
-> khugepaged case this didn't have the cc->is_khugepaged check?
-Correct, we only increment this when its khugepaged, so we need to
-guard it so madvise collapse wont increment this.
->
-> > +end:
-> > +     return result;
-> > +}
->
-> There's a LOT of nesting going on here, I think we can simplify this a
-> lot. If we make the change I noted above re: returning SCAN_ANY_PROCESS< =
-we
-> can move the end label up a bit and avoid a ton of nesting, e.g.:
-Ah I like this much more, I will try to implement/test it.
->
-> static int collapse_single_pmd(unsigned long addr,
->                                 struct vm_area_struct *vma, bool *mmap_lo=
-cked,
->                                 struct collapse_control *cc)
-> {
->         struct mm_struct *mm =3D vma->vm_mm;
->         struct file *file;
->         pgoff_t pgoff;
->         int result;
->
->         if (vma_is_anonymous(vma)) {
->                 result =3D collapse_scan_pmd(mm, vma, addr, mmap_locked, =
-cc);
->                 goto end:
->         }
->
->         file =3D get_file(vma->vm_file);
->         pgoff =3D linear_page_index(vma, addr);
->
->         mmap_read_unlock(mm);
->         *mmap_locked =3D false;
->         result =3D collapse_scan_file(mm, addr, file, pgoff, cc);
->         fput(file);
->         if (result !=3D SCAN_PTE_MAPPED_HUGEPAGE)
->                 goto end;
->
->         mmap_read_lock(mm);
->         *mmap_locked =3D true;
->         if (collapse_test_exit_or_disable(mm)) {
->                 mmap_read_unlock(mm);
->                 *mmap_locked =3D false;
->                 return SCAN_ANY_PROCESS;
->         }
->         result =3D collapse_pte_mapped_thp(mm, addr, !cc->is_khugepaged);
->         if (result =3D=3D SCAN_PMD_MAPPED)
->                 result =3D SCAN_SUCCEED;
->         mmap_read_unlock(mm);
->         *mmap_locked =3D false;
->
-> end:
->         if (cc->is_khugepaged && result =3D=3D SCAN_SUCCEED)
->                 ++khugepaged_pages_collapsed;
->
->         return result;
-> }
->
-> (untested, thrown together so do double check!)
->
-> > +
-> >  static unsigned int collapse_scan_mm_slot(unsigned int pages, int *res=
-ult,
-> >                                           struct collapse_control *cc)
-> >       __releases(&khugepaged_mm_lock)
-> > @@ -2455,34 +2499,9 @@ static unsigned int collapse_scan_mm_slot(unsign=
-ed int pages, int *result,
-> >                       VM_BUG_ON(khugepaged_scan.address < hstart ||
-> >                                 khugepaged_scan.address + HPAGE_PMD_SIZ=
-E >
-> >                                 hend);
-> > -                     if (!vma_is_anonymous(vma)) {
-> > -                             struct file *file =3D get_file(vma->vm_fi=
-le);
-> > -                             pgoff_t pgoff =3D linear_page_index(vma,
-> > -                                             khugepaged_scan.address);
-> > -
-> > -                             mmap_read_unlock(mm);
-> > -                             mmap_locked =3D false;
-> > -                             *result =3D collapse_scan_file(mm,
-> > -                                     khugepaged_scan.address, file, pg=
-off, cc);
-> > -                             fput(file);
-> > -                             if (*result =3D=3D SCAN_PTE_MAPPED_HUGEPA=
-GE) {
-> > -                                     mmap_read_lock(mm);
-> > -                                     if (collapse_test_exit_or_disable=
-(mm))
-> > -                                             goto breakouterloop;
-> > -                                     *result =3D collapse_pte_mapped_t=
-hp(mm,
-> > -                                             khugepaged_scan.address, =
-false);
-> > -                                     if (*result =3D=3D SCAN_PMD_MAPPE=
-D)
-> > -                                             *result =3D SCAN_SUCCEED;
-> > -                                     mmap_read_unlock(mm);
-> > -                             }
-> > -                     } else {
-> > -                             *result =3D collapse_scan_pmd(mm, vma,
-> > -                                     khugepaged_scan.address, &mmap_lo=
-cked, cc);
-> > -                     }
-> > -
-> > -                     if (*result =3D=3D SCAN_SUCCEED)
-> > -                             ++khugepaged_pages_collapsed;
-> >
-> > +                     *result =3D collapse_single_pmd(khugepaged_scan.a=
-ddress,
-> > +                                                     vma, &mmap_locked=
-, cc);
-> >                       /* move to next address */
-> >                       khugepaged_scan.address +=3D HPAGE_PMD_SIZE;
-> >                       progress +=3D HPAGE_PMD_NR;
-> > @@ -2799,34 +2818,19 @@ int madvise_collapse(struct vm_area_struct *vma=
-, unsigned long start,
-> >               mmap_assert_locked(mm);
-> >               memset(cc->node_load, 0, sizeof(cc->node_load));
-> >               nodes_clear(cc->alloc_nmask);
-> > -             if (!vma_is_anonymous(vma)) {
-> > -                     struct file *file =3D get_file(vma->vm_file);
-> > -                     pgoff_t pgoff =3D linear_page_index(vma, addr);
-> >
-> > -                     mmap_read_unlock(mm);
-> > -                     mmap_locked =3D false;
-> > -                     result =3D collapse_scan_file(mm, addr, file, pgo=
-ff, cc);
-> > -                     fput(file);
-> > -             } else {
-> > -                     result =3D collapse_scan_pmd(mm, vma, addr,
-> > -                                                &mmap_locked, cc);
-> > -             }
-> > +             result =3D collapse_single_pmd(addr, vma, &mmap_locked, c=
-c);
-> > +
->
-> Ack the fact you noted the behaviour change re:
-> collapse_test_exit_or_disable() that seems fine.
->
-> >               if (!mmap_locked)
-> >                       *lock_dropped =3D true;
-> >
-> > -handle_result:
-> >               switch (result) {
-> >               case SCAN_SUCCEED:
-> >               case SCAN_PMD_MAPPED:
-> >                       ++thps;
-> >                       break;
-> > -             case SCAN_PTE_MAPPED_HUGEPAGE:
-> > -                     BUG_ON(mmap_locked);
-> > -                     mmap_read_lock(mm);
-> > -                     result =3D collapse_pte_mapped_thp(mm, addr, true=
-);
-> > -                     mmap_read_unlock(mm);
-> > -                     goto handle_result;
->
-> One thing that differs with new code her is we filter SCAN_PMD_MAPPED to
-> SCAN_SUCCEED.
->
-> I was about to say 'but ++thps - is this correct' but now I realise this
-> was looping back on itself with a goto to do just that... ugh ye gads.
->
-> Anwyay that's fine because it doesn't change anything.
->
-> Re: switch statement in general, again would be good to always have each
-> scan possibility in switch statements, but perhaps given so many not
-> practical :)
+On Wed, Aug 20, 2025 at 08:41:05PM +0900, Akira Yokosawa wrote:
+> Hi,
+> 
+> On Wed, 20 Aug 2025 09:15:30 +0200, Mauro Carvalho Chehab wrote:
+> > Em Wed, 20 Aug 2025 08:54:52 +0900
+> > Akira Yokosawa <akiyks@gmail.com> escreveu:
+> > 
+> >> On Tue, 19 Aug 2025 15:32:00 +0200, Mauro Carvalho Chehab wrote:
+> 
+> [...]
+> 
+> >> I've just built a container "FROM ubuntu:plucky", which has inkscape
+> >> instead of imagemagick + rsvg-convert.
+> > 
+> > I don't think that inkscape x imagemagick/rsvg-convert itself has
+> > anyhting to do with the problems I detected, as they're related to
+> > font issues (still, I got an issue on one of my builds on kfigure
+> > write file: encoding is missing at open, which may cause errors).
+> 
+> OK, so you have spent a lot of time to paper over the ImageMagick issue
+> used as an SVG --> PDF converter.
 
-Yeah it may be worth investigating for future changes I have for
-khugepaged (including the new switch statement I implement later and
-you commented on)
->
-> (that way the compiler warns on missing a newly added enum val)
->
-> >               /* Whitelisted set of results where continuing OK */
-> > +             case SCAN_PTE_MAPPED_HUGEPAGE:
-> >               case SCAN_PMD_NULL:
-> >               case SCAN_PTE_NON_PRESENT:
-> >               case SCAN_PTE_UFFD_WP:
-> > --
+Why are you insisting with this? Again: 
 
-Thanks for the review :)
+This series doesn't try to address anything that would be caused
+by either imagemagick/rsvg-convert - or inkscape.
 
--- Nico
-> > 2.50.1
-> >
->
+It only address:
+- wrong dependencies from the existing ones - whatever they are;
+- non-UTF-8 fonts inside the produced *.tex files and a couple of other
+  issues at conf.py - none of them related to images.
 
+> 
+> I have simply given up using ImageMagick and been using inkscape instead.
+> 
+> I can reliably reproduce the warnings and build errors (see below) without
+> inkscape installed, instead with imagemagick + rsvg-convert installed,
+> under a ubuntu:plucky based container.
+> 
+> When I run: "make cleandocs; make SPHINXDIRS=gpu latexdocs",
+>     
+>      [**NOTE**] SPHINXDIRS=peci is not affected by this issue!
+> 
+> kfigure.py emits warnings like this:
+
+I did got kfigure.py issues that can affect both inkscape and
+imagemagic, but those are **NOT** in this series:
+
+- the first issue is that python tries to write PDF output as
+  strings, but Python 3.x can crash because strings have
+  encodings. The default ascii encoding crashes with chars > 127
+  (and probably when there is a "\0" at the code);
+
+- the second issue is that two files use ForeignObject, which
+  is not properly supported by inkscape or ImageMagick.
+  Still both seems to be working fine (I only tried to do
+  conversions by hand today).
+
+I believe that we need to add kfigure.py on our TODO list
+to make it more python 3.x friendly.
+
+Again: this is out of the scope of this series.
+               ================
+
+> -----------------------------------------------------------------------------------
+> WARNING: Error #1 when calling: /usr/bin/convert /linux/Documentation/gpu/amdgpu/pipe_and_queue_abstraction.svg /linux/Documentation/output/gpu/latex/pipe_and_queue_abstraction.pdf
+> WARNING: Warning msg from convert(1): convert: unrecognized color `context-stroke' @ warning/color.c/GetColorCompliance/1064.
+> convert: non-conforming drawing primitive definition `fill' @ error/draw.c/RenderMVGContent/4548.
+> -----------------------------------------------------------------------------------
+> 
+> Nevertheless, "make SPHINXDIRS=gpu pdfdocs" continues building gpu.pdf,
+> but ends up in this error in the middle of xelatex run.
+> 
+> -----------------------------------------------------------------------------------
+> ------------
+> Run number 1 of rule 'xelatex'
+> ------------
+> ------------
+> Running 'xelatex --no-pdf -interaction=batchmode -no-shell-escape -no-pdf -recorder  "gpu.tex"'
+> ------------
+> This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2025/dev/Debian) (preloaded format=xelatex)
+> entering extended mode
+> Latexmk: Getting log file 'gpu.log'
+> Latexmk: Examining 'gpu.fls'
+> Latexmk: Examining 'gpu.log'
+> Latexmk: Index file 'gpu.idx' was written
+> Latexmk: References changed.
+> Latexmk: Missing input file 'gpu.toc' (or dependence on it) from following:
+>   No file gpu.toc.
+> Latexmk: Missing input file 'gpu.ind' (or dependence on it) from following:
+>   No file gpu.ind.
+> Latexmk: References changed.
+> Latexmk: References changed.
+> Latexmk: Log file says output to 'gpu.xdv'
+> Have index file 'gpu.idx', gpu.ind gpu
+> Latexmk: Errors, so I did not complete making targets
+> Collected error summary (may duplicate other messages):
+>   xelatex: Command for 'xelatex' gave return code 1
+>       Refer to 'gpu.log' and/or above output for details
+> 
+> Latexmk: Sometimes, the -f option can be used to get latexmk
+>   to try to force complete processing.
+>   But normally, you will need to correct the file(s) that caused the
+>   error, and then rerun latexmk.
+>   In some cases, it is best to clean out generated files before rerunning
+>   latexmk after you've corrected the files.
+> make[3]: *** [Makefile:29: gpu.pdf] Error 12
+> make[2]: *** [Documentation/Makefile:148: pdfdocs] Error 1
+> make[1]: *** [/linux/Makefile:1806: pdfdocs] Error 2
+> make: *** [Makefile:248: __sub-make] Error 2
+> -----------------------------------------------------------------------------------
+> 
+> I think this is (mostly) the same as the issue you have been trying hard
+> to track down.
+
+No. Up to today(*), I was simply ignoring any warnings/errors related to
+kfigure.py. 
+
+(*) earlier today I submitted exactly one patch related to it:
+
+	https://lore.kernel.org/linux-doc/df1602df0da3a6254d58a782654e7f2e60512dc8.1755680997.git.mchehab+huawei@kernel.org/
+
+Even such patch is unrelated to Inkscape x ImageMagick. It is meant
+to fix troubles during SVG/dot read and during PDF output writes.
+
+- 
+
+As I've been replying over and over and over:
+
+The issue was with [T1]{fontenc} added at the *.tex files
+and/or the usage of other non-UTF-8 fonts.
+
+That happens on very simple files. There are also font issues on some
+distros affecting CJK related fonts due to missing packages and such.
+
+What I pointed is:
+
+I Don't know how you can setup an environment identical to
+mine to reproduce the font issues I got.
+
+-
+
+If you want a more comprehensive answer:
+
+LaTeX is highly dependent lots of packages, including fonts. The
+reason why you can't reproduce the font issues with Docker
+(I wasn't able to reproduce with Docker here as well) is
+probably due to either packaging differences between the
+two containers, due to different environment technologies
+or even due to the way Docker and LXC handles OS virtualization.
+
+Docker, for instance, doesn't have systemd running on it,
+which could affect install logic at packages that could be
+trying do something via systemd. I guess it also doesn't
+implement cgroups. It also requires to download locales
+package to setup locales (such package is already on lxc,
+although not configured).
+
+As the issue is related to fonts, different defaults with
+regards to the fonts already installed at the containers
+could be the root cause.
+
+Also, installing any package (you name it) that might have
+a direct or indirect dependency to a font can affect the
+bug reproduction.
+
+Installing inkscape, for instance, would directly require:
+
+
+<snip>
+# apt-cache depends inkscape
+inkscape
+  Depends: librsvg2-common
+  Depends: <python3:any>
+    python3
+  Depends: lib2geom1.2.0t64
+  Depends: libatkmm-1.6-1v5
+  Depends: libboost-filesystem1.83.0
+  Depends: libc6
+  Depends: libcairo-gobject2
+  Depends: libcairo2
+  Depends: libcairomm-1.0-1v5
+  Depends: libcdr-0.1-1
+  Depends: libfontconfig1
+  Depends: libfreetype6
+  Depends: libgc1
+  Depends: libgcc-s1
+  Depends: libgdk-pixbuf-2.0-0
+  Depends: libglib2.0-0t64
+  Depends: libglibmm-2.4-1t64
+  Depends: libgomp1
+  Depends: libgsl28
+  Depends: libgspell-1-3
+  Depends: libgtk-3-0t64
+  Depends: libgtkmm-3.0-1t64
+  Depends: libharfbuzz0b
+  Depends: libjpeg8
+  Depends: liblcms2-2
+  Depends: libpango-1.0-0
+  Depends: libpangocairo-1.0-0
+  Depends: libpangoft2-1.0-0
+  Depends: libpangomm-1.4-1v5
+  Depends: libpng16-16t64
+  Depends: libpoppler-glib8t64
+  Depends: libpoppler147
+  Depends: libpotrace0
+  Depends: libreadline8t64
+  Depends: librevenge-0.0-0
+  Depends: libsigc++-2.0-0v5
+  Depends: libsoup-2.4-1
+  Depends: libstdc++6
+  Depends: libvisio-0.1-1
+  Depends: libwpg-0.3-3
+  Depends: libx11-6
+  Depends: libxml2
+  Depends: libxslt1.1
+  Depends: zlib1g
+  Recommends: aspell
+  Recommends: fig2dev
+  Recommends: imagemagick
+    graphicsmagick-imagemagick-compat
+    imagemagick-7.q16
+  Recommends: libimage-magick-perl
+  Recommends: libwmf-bin
+  Recommends: python3-cssselect
+  Recommends: python3-lxml
+  Recommends: python3-numpy
+  Recommends: python3-scour
+  Suggests: dia
+  Suggests: inkscape-tutorials
+  Suggests: libsvg-perl
+  Suggests: pstoedit
+  Suggests: python3-packaging
+  Suggests: <python3-uniconvertor>
+  Suggests: ruby
+</snip>
+
+No fonts listed there at the direct dependencies, so in principle,
+installing or not Inkscape or imagemagik won't make any difference
+at the installed fonts, or on installed texlive packages. 
+
+Thanks,
+Mauro
