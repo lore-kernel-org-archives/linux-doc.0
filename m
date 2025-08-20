@@ -1,148 +1,207 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B9227B500;
-	Wed, 20 Aug 2025 07:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E70A2D12F1;
+	Wed, 20 Aug 2025 07:34:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755674134; cv=none; b=Sg3QmE9UWten7JD8Ob2NhCAD0tUEh+o3Sw7fdbHRTQG7hCIyC1CzWurijHITDYJt6iFomCYkvebfG8hXKvpT+lU0FKh8uGqn62T4u6BO87q/VZ1SrGpAORL++rv2Ilmt7uIpODE4mfnDSz8mqh5WSfZfWAzph4MTB+zJnYqIbtM=
+	t=1755675268; cv=none; b=oHGv51o3BIrFdQzfPFQTo2jJlKsoWS3qJ94Yko/+2oLSiEB4811R2ofhZf9MITx7zF3vH7106998NaLYmPcRJXZN4IQ0GtrEWpndzqVw/vz7C/n86oBRXeN3avkmlkKMra/WARcrn+hwPEUmeEqniUeiBSxlz5QjYg1Fr5+xHZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755674134; c=relaxed/simple;
-	bh=1zSdyzJIBXMoAaRMvgYTuw241oUQN7ZyJKqcvWRpilQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r6XQmGlmPgxuOlfFVFL9TF6HNnqbt8pCmSRTbyau5MxXm18Ax5fASxBFWGM3zsSPaUWnEn2c2BdTe8XucVNXDi79ffenMx384NmQoj7lwt8QI1IwaJIvYh3MSvdc9b5oUIKXy7VcZBQRwEwS4svOMpbq4dTjMPMdu7jD6mgKxTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDVl03nq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755675268; c=relaxed/simple;
+	bh=S0V/4dKtt8sp5Rr98YYau2qnf57W5w/l2pXbvrWzIZE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kFUAjtsTfmnaHqulSrxU1SV33lOYF4rznm0p6ImzMwegiMt2S6vpi7y84Seqa6bXQ54a35rrNNiPSggAwFCx37U77IaJS2NxWv5GD4/gysuFbe0ll1IuFHRfZsSNZUg6k9cHm4w8WfW095jq1UNepc3MJiXGpyHjmW2pWMQ0SHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aksLANPG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDVl03nq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82CB0C4CEEB;
-	Wed, 20 Aug 2025 07:15:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aksLANPG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E56EC4CEEB;
+	Wed, 20 Aug 2025 07:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755674134;
-	bh=1zSdyzJIBXMoAaRMvgYTuw241oUQN7ZyJKqcvWRpilQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hDVl03nqhGm7GjdYzV7y2+NEigb2qGneyyRRCF9U1p+KRCp6c3/cg2RDceHQm7XqD
-	 js1lMFWZVQkKeCCbJUk/2HsOOYRjNdcLX6N4d6msEKelFCeejImGBPWR/4yqBXpg53
-	 jVFrZ1WdYMPw3OB5WoKQhQfPevMDO1txjK8pgwthSLWEsWZDAxu6rZLwtJ7xD2BHPx
-	 m3StMwAYrs2WDZhgFljUiYHK9ph4mXgHg/FqEaFSKULvRwtt8/kRZLQ+MidRA3tfU7
-	 nNVmnENtWjT0qvvy3iLexgqQKrin0IBWN4hkaFdnnAs9KxvytJ5Sv/1+Z2bQ3tijd9
-	 kmBDqnd8BPa8A==
-Date: Wed, 20 Aug 2025 09:15:30 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-Message-ID: <20250820091530.068c4b62@foz.lan>
-In-Reply-To: <08c3a7eb-0425-4709-a3ea-6d1d726fd3c8@gmail.com>
-References: <cover.1755256868.git.mchehab+huawei@kernel.org>
-	<773f4968-8ba5-4b1a-8a28-ff513736fa64@gmail.com>
-	<20250816135538.733b80d3@foz.lan>
-	<acc71988-4ed7-4df1-aa1f-a9d7a125ca53@gmail.com>
-	<20250817133606.79d968ed@sal.lan>
-	<b3d97e98-121d-4d12-9624-3efd119b12a4@gmail.com>
-	<20250817154544.78d61029@foz.lan>
-	<b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
-	<87y0rg7e35.fsf@trenco.lwn.net>
-	<16b48826-6634-4ec9-86a0-7ddb59ce3bed@gmail.com>
-	<20250819030239.41a2e97f@foz.lan>
-	<142b209d-613a-4659-a0f7-27efa8c6be85@gmail.com>
-	<20250819153200.3c2b2ff6@foz.lan>
-	<08c3a7eb-0425-4709-a3ea-6d1d726fd3c8@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1755675267;
+	bh=S0V/4dKtt8sp5Rr98YYau2qnf57W5w/l2pXbvrWzIZE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aksLANPGpnI9UQe5XTTQfMLhWuAJfl4+lnUMD7idLLVt/7G9V17mbP2+ZVsieHrkJ
+	 BaP2URMB7jrlbkiQnAvyih2743LQBwny1XJjC3jqtpy8q+zOBXVOjJKoY7jnyPr+/4
+	 g/d7HOMIt3S/WVb2PUjeMQD8HVuB4cDz29q85/KOkhOpUpPQeg5sySUDHAB/j0qVp7
+	 OPdwxIuaYdDRnSLNmiWhNPRBwYX+2JDnESggo5FwcPLsLWEWreiI9lpk3I34F4bn7U
+	 D7Q2snD2Xzqdg3UGTCkZnYHRMpMkD0sP4sqvk7+576a0tL7C6KLY86LHTK9GOIjxjV
+	 mEVgXf8lxy/yg==
+Date: Wed, 20 Aug 2025 10:34:13 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: shiju.jose@huawei.com, rafael@kernel.org, bp@alien8.de,
+	akpm@linux-foundation.org, dferguson@amperecomputing.com,
+	linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
+	lenb@kernel.org, leo.duran@amd.com, Yazen.Ghannam@amd.com,
+	mchehab@kernel.org, linuxarm@huawei.com, rientjes@google.com,
+	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
+	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
+	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
+	duenwen@google.com, gthelen@google.com,
+	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
+	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
+Subject: Re: [PATCH v11 1/3] mm: Add support to retrieve physical address
+ range of memory from the node ID
+Message-ID: <aKV6dVkPiBPw595T@kernel.org>
+References: <20250812142616.2330-1-shiju.jose@huawei.com>
+ <20250812142616.2330-2-shiju.jose@huawei.com>
+ <20250819175420.00007ce6@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250819175420.00007ce6@huawei.com>
 
-Em Wed, 20 Aug 2025 08:54:52 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On Tue, Aug 19, 2025 at 05:54:20PM +0100, Jonathan Cameron wrote:
+> On Tue, 12 Aug 2025 15:26:13 +0100
+> <shiju.jose@huawei.com> wrote:
+> 
+> > From: Shiju Jose <shiju.jose@huawei.com>
+> > 
+> > In the numa_memblks, a lookup facility is required to retrieve the
+> > physical address range of memory in a NUMA node. ACPI RAS2 memory
+> > features are among the use cases.
+> > 
+> > Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+> 
+> Looks fine to me.  Mike, what do you think?
 
-> On Tue, 19 Aug 2025 15:32:00 +0200, Mauro Carvalho Chehab wrote:
-> > Em Tue, 19 Aug 2025 11:16:29 +0900
-> > Akira Yokosawa <akiyks@gmail.com> escreveu:  
+I still don't see why we can't use existing functions like
+get_pfn_range_for_nid() or memblock_search_pfn_nid().
+
+Or even node_start_pfn() and node_spanned_pages().
+
+> One passing comment inline.
 > 
-> [...]
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 > 
-> >> That's all I am asking.
-> >>
-> >> I have no particular interest in the way you are testing all those
-> >> variety of distros, and have no idea about it.
-> >>
-> >> Please provide steps to reproduce.
-> >> I'd like to see a Dockerfile based "FROM ubuntu:latest" as the testing
-> >> environment.  
+> > ---
+> >  include/linux/numa.h         |  9 +++++++++
+> >  include/linux/numa_memblks.h |  2 ++
+> >  mm/numa.c                    | 10 ++++++++++
+> >  mm/numa_memblks.c            | 37 ++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 58 insertions(+)
 > > 
-> > Heh, that's why you can't reproduce... you're using a Docker container
-> > and a different Ubuntu version than I.
-> > 
-> > What I did here was to use a lxc container with 25.04, and used
-> > a script to pick the exact recommendations given by sphinx-pre-install.
-> > 
-> > The container was created with:
+> > diff --git a/include/linux/numa.h b/include/linux/numa.h
+> > index e6baaf6051bc..1d1aabebd26b 100644
+> > --- a/include/linux/numa.h
+> > +++ b/include/linux/numa.h
+> > @@ -41,6 +41,10 @@ int memory_add_physaddr_to_nid(u64 start);
+> >  int phys_to_target_node(u64 start);
+> >  #endif
 > >  
+> > +#ifndef nid_get_mem_physaddr_range
+> > +int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end);
+> > +#endif
+> > +
+> >  int numa_fill_memblks(u64 start, u64 end);
+> >  
+> >  #else /* !CONFIG_NUMA */
+> > @@ -63,6 +67,11 @@ static inline int phys_to_target_node(u64 start)
+> >  	return 0;
+> >  }
+> >  
+> > +static inline int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> >  static inline void alloc_offline_node_data(int nid) {}
+> >  #endif
+> >  
+> > diff --git a/include/linux/numa_memblks.h b/include/linux/numa_memblks.h
+> > index 991076cba7c5..7b32d96d0134 100644
+> > --- a/include/linux/numa_memblks.h
+> > +++ b/include/linux/numa_memblks.h
+> > @@ -55,6 +55,8 @@ extern int phys_to_target_node(u64 start);
+> >  #define phys_to_target_node phys_to_target_node
+> >  extern int memory_add_physaddr_to_nid(u64 start);
+> >  #define memory_add_physaddr_to_nid memory_add_physaddr_to_nid
+> > +extern int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end);
+> > +#define nid_get_mem_physaddr_range nid_get_mem_physaddr_range
+> >  #endif /* CONFIG_NUMA_KEEP_MEMINFO */
+> >  
+> >  #endif /* CONFIG_NUMA_MEMBLKS */
+> > diff --git a/mm/numa.c b/mm/numa.c
+> > index 7d5e06fe5bd4..5335af1fefee 100644
+> > --- a/mm/numa.c
+> > +++ b/mm/numa.c
+> > @@ -59,3 +59,13 @@ int phys_to_target_node(u64 start)
+> >  }
+> >  EXPORT_SYMBOL_GPL(phys_to_target_node);
+> >  #endif
+> > +
+> > +#ifndef nid_get_mem_physaddr_range
+> > +int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end)
+> > +{
+> > +	pr_info_once("Unknown target phys addr range for node=%d\n", nid);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(nid_get_mem_physaddr_range);
+> > +#endif
+> > diff --git a/mm/numa_memblks.c b/mm/numa_memblks.c
+> > index 541a99c4071a..e1e56b7a3499 100644
+> > --- a/mm/numa_memblks.c
+> > +++ b/mm/numa_memblks.c
+> > @@ -590,4 +590,41 @@ int memory_add_physaddr_to_nid(u64 start)
+> >  }
+> >  EXPORT_SYMBOL_GPL(memory_add_physaddr_to_nid);
+> >  
+> > +/**
+> > + * nid_get_mem_physaddr_range - Get the physical address range
+> > + *				of the memblk in the NUMA node.
+> > + * @nid: NUMA node ID of the memblk
+> > + * @start: Start address of the memblk
+> > + * @end: End address of the memblk
+> > + *
+> > + * Find the lowest contiguous physical memory address range of the memblk
+> > + * in the NUMA node with the given nid and return the start and end
+> > + * addresses.
+> > + *
+> > + * RETURNS:
+> > + * 0 on success, -errno on failure.
+> > + */
+> > +int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end)
+> > +{
+> > +	struct numa_meminfo *mi = &numa_meminfo;
+> > +	int i;
+> > +
+> > +	if (!numa_valid_node(nid))
+> > +		return -EINVAL;
+> > +
+> > +	for (i = 0; i < mi->nr_blks; i++) {
+> > +		if (mi->blk[i].nid == nid) {
+> > +			*start = mi->blk[i].start;
+> > +			/*
+> > +			 * Assumption: mi->blk[i].end is the last address
+> > +			 * in the range + 1.
 > 
-> [...]
+> This was my fault for asking on internal review if this was documented
+> anywhere. It's kind of implicitly obvious when reading numa_memblk.c
+> because there are a bunch of end - 1 prints.
+> So can probably drop this comment.
 > 
-> > once you get what's needed for make htmldocs work, installing
-> > only the dependencies recommended by sphinx-pre-install, you can
-> > start trying to reproduce the build issues for pdf.  
+> > +			 */
+> > +			*end = mi->blk[i].end;
+> > +			return 0;
+> > +		}
+> > +	}
+> > +
+> > +	return -ENODEV;
+> > +}
+> > +EXPORT_SYMBOL_GPL(nid_get_mem_physaddr_range);
+> >  #endif /* CONFIG_NUMA_KEEP_MEMINFO */
 > 
-> I've just built a container "FROM ubuntu:plucky", which has inkscape
-> instead of imagemagick + rsvg-convert.
 
-I don't think that inkscape x imagemagick/rsvg-convert itself has
-anyhting to do with the problems I detected, as they're related to
-font issues (still, I got an issue on one of my builds on kfigure
-write file: encoding is missing at open, which may cause errors).
-
-Yet, installing imagemagick + rsvg-convert might affect some other
-packages that LaTeX would use.
-
-> I don't see any font issue at 4/11 of this series under the container
-> (I'm using podman).
-> 
-> Furthermore, after I applied both of your series and the change for
-> parallel runs of xelatex/latexmk and reverting the 5/11, I don't see
-> any issue.
-> 
-> Which strongly suggests 5/11 is not fixing any realistic issues.
-> 
-> FWIW, Dockerfile I'm using for building the container is derived from the
-> one I've been taking care of since 2021 as a LaTeX advisor to perfbook.
-> 
-> If you are interested, here is its repo of Paul:
-> 
->     git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/perfbook.git
-> 
-> You might be interested in seeing docker/Dockerfile.
-> 
-> I think there is something you are missing in the boot strapping phases
-> of building your container.
-> 
-> Just my wild guess.
-
-Just because you can't reproduce the issue, it doesn't mean it doesn't
-exist. LaTeX builds are complex having it has lots of dependencies,
-and may be affected by installed fonts, LC_* and LANG env vars, etc.
-
-It should be noticed that a Docker container doesn't have the same
-packages installed when compared with a LXC one.
-
--
-
-IMO, instead of trying to reproduce the bug that was already fixed
-by my patches, it would be a way more important if you can double
-check if the changes introduce regressions.
-
-I'm planning to submit a new version of this series, with this
-patch split into 3 patches, with a better description, plus a
-couple of other fixes. If you notice a regression caused by any
-of the patches, please let us know, preferably pointing the the exact
-patch that broke it. 
-
-Thanks,
-Mauro
+-- 
+Sincerely yours,
+Mike.
