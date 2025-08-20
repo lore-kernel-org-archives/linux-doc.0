@@ -1,434 +1,227 @@
-Received: from mx9.didiglobal.com (mx9.didiglobal.com [111.202.70.124])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 221FC2D8DDD;
-	Wed, 20 Aug 2025 08:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.124
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C88F1FECA1;
+	Wed, 20 Aug 2025 08:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755678168; cv=none; b=G4TW2bIIu1iMQ/RfgxktcMdhVMz4SoBseRjKLW2qUHI7SHlJNOVb4vAozLcyw7AQInZOwrFaCu1oFp881U8rV6m4vDlRvrZZ871zccpGEsgHSUY3PiXYYXu3OgorLTw0tO4QfV/bYQ3z4xiFgz6vm8/Ac33U+NVZWIF3+zFP8zQ=
+	t=1755680061; cv=none; b=KR3+9Teu7WNoDCdAP0fTYzDsK5O/zTklZ2QIB6pWu9KSWkkqGYWg9wAyVwvIKR7FQCCXQ/6kDtGWZ7+jNMpKpRGhpl3svjooas/s1bSWbVHwByjoaBRmA1gsqz+VU5N7Yzt6ZS1R8AHhcylMo0wNeGwKPWWfHEdkHTGuTxX9pHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755678168; c=relaxed/simple;
-	bh=ejWv421umudWB0+pphWRqY6+WONy50J9y/n5JhsqK2E=;
-	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QGfFmHYCHlzRWI23L6PKYKhXiVxUyLHp8DJwdjs92RRK38VrkfX8n8DuYGvHSwIIJVEYyC4rz0Oo4BfqPz0LAM211EXVMLAihdp1ZUyep4hSS0L78a/Kn4icn3g3o2sIEnxPMwiQLjFucy07VYAD/Ws1O3OlX616xzk6Fxl37SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b=nyJZif3q; arc=none smtp.client-ip=111.202.70.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b="nyJZif3q"
-Received: from mail.didiglobal.com (unknown [10.79.65.19])
-	by mx9.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id C265618334C7A8;
-	Wed, 20 Aug 2025 16:18:35 +0800 (CST)
-Received: from didi-ThinkCentre-M930t-N000 (10.79.71.102) by
- BJ02-ACTMBX-01.didichuxing.com (10.79.65.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1748.10; Wed, 20 Aug 2025 16:19:27 +0800
-Date: Wed, 20 Aug 2025 16:19:21 +0800
-X-MD-Sfrom: tiozhang@didiglobal.com
-X-MD-SrcIP: 10.79.65.19
-From: Tio Zhang <tiozhang@didiglobal.com>
-To: <akpm@linux-foundation.org>, <wang.yaxin@zte.com.cn>,
-	<fan.yu9@zte.com.cn>, <corbet@lwn.net>, <bsingharora@gmail.com>,
-	<yang.yang29@zte.com.cn>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
-	<vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
-	<rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
-	<vschneid@redhat.com>, <jiang.kun2@zte.com.cn>, <xu.xin16@zte.com.cn>,
-	<tiozhang@didiglobal.com>, <zyhtheonly@gmail.com>, <zyhtheonly@yeah.net>
-Subject: [PATCH v2] delayaccy/sched: add SOFTIRQ delay
-Message-ID: <20250820081908.GA1249@didi-ThinkCentre-M930t-N000>
-Mail-Followup-To: akpm@linux-foundation.org, wang.yaxin@zte.com.cn,
-	fan.yu9@zte.com.cn, corbet@lwn.net, bsingharora@gmail.com,
-	yang.yang29@zte.com.cn, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, jiang.kun2@zte.com.cn,
-	xu.xin16@zte.com.cn, zyhtheonly@gmail.com, zyhtheonly@yeah.net
+	s=arc-20240116; t=1755680061; c=relaxed/simple;
+	bh=Q0jCltmdOp/FjWil04xh1U8Myk7S1FnVFZvnd7aW+6g=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oVHKVTDBZ8zMScvEGHOmSiy9M+9ppkmEm4mggG52QAjBqUAJv6CcP8oHb+m9fEJjIhQNHwK9jm2D2fxRZQOt2rF1328oGSl71DnA3WEbAKRtHBMInGm1IAnYOLP5dhom6yuE9CcZb0ewXLc7oHZEQzIMcZnaM9yQbR2e9nslIsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4c6KtT2CW1z6FHD3;
+	Wed, 20 Aug 2025 16:51:13 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 07A5D1402FB;
+	Wed, 20 Aug 2025 16:54:16 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 20 Aug
+ 2025 10:54:14 +0200
+Date: Wed, 20 Aug 2025 09:54:13 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Mike Rapoport <rppt@kernel.org>
+CC: <shiju.jose@huawei.com>, <rafael@kernel.org>, <bp@alien8.de>,
+	<akpm@linux-foundation.org>, <dferguson@amperecomputing.com>,
+	<linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>, <linuxarm@huawei.com>, <rientjes@google.com>,
+	<jiaqiyan@google.com>, <Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
+	<naoya.horiguchi@nec.com>, <james.morse@arm.com>, <jthoughton@google.com>,
+	<somasundaram.a@hpe.com>, <erdemaktas@google.com>, <pgonda@google.com>,
+	<duenwen@google.com>, <gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
+	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>
+Subject: Re: [PATCH v11 1/3] mm: Add support to retrieve physical address
+ range of memory from the node ID
+Message-ID: <20250820095413.00003bd7@huawei.com>
+In-Reply-To: <aKV6dVkPiBPw595T@kernel.org>
+References: <20250812142616.2330-1-shiju.jose@huawei.com>
+	<20250812142616.2330-2-shiju.jose@huawei.com>
+	<20250819175420.00007ce6@huawei.com>
+	<aKV6dVkPiBPw595T@kernel.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAEQmJ=gwOBn5bTY0n1c1c1zu2Gk-peKERCzrW5i+S-4erd7y5Q@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: BJ03-PUBMBX-01.didichuxing.com (10.79.71.11) To
- BJ02-ACTMBX-01.didichuxing.com (10.79.65.19)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
-	s=2025; t=1755677917;
-	bh=lB6r8dUP4SAAIR0KYvewCKwsCcyKD0KgdYyNVGK3fXg=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type;
-	b=nyJZif3qCfyyZH4lfkOk7jHQih/waqVln4/NEaOW53YDIM30KxipNsUHqpdDBAuGT
-	 OBXZxzGN1xDxxmDRCX8xhXaQ0ciyH3/py1zvqW98tLvdvFgE/Tc3r535jlRyyF7dCJ
-	 F3p4N67RiP/4dYza/gs4GXwMzHvMHUVXSwY7dkHY=
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Intro SOFTIRQ delay, so we can separate softirq as SOFTIRQ delay
-and hardirq as {IRQ - SOFTIRQ} delay.
+On Wed, 20 Aug 2025 10:34:13 +0300
+Mike Rapoport <rppt@kernel.org> wrote:
 
-A typical scenario is when tasks delayed by network,
-if they delayed by rx net packets, i.e, net_rx_action(),
-SOFTIRQ delay is almost same as IRQ delay;
-if they delayed by, e.g, bad driver or broken hardware,
-SOFTIRQ delay is almost 0 while IRQ delay remains big.
+> On Tue, Aug 19, 2025 at 05:54:20PM +0100, Jonathan Cameron wrote:
+> > On Tue, 12 Aug 2025 15:26:13 +0100
+> > <shiju.jose@huawei.com> wrote:
+> >   
+> > > From: Shiju Jose <shiju.jose@huawei.com>
+> > > 
+> > > In the numa_memblks, a lookup facility is required to retrieve the
+> > > physical address range of memory in a NUMA node. ACPI RAS2 memory
+> > > features are among the use cases.
+> > > 
+> > > Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > > Signed-off-by: Shiju Jose <shiju.jose@huawei.com>  
+> > 
+> > Looks fine to me.  Mike, what do you think?  
+> 
+> I still don't see why we can't use existing functions like
+> get_pfn_range_for_nid() or memblock_search_pfn_nid().
+> 
+> Or even node_start_pfn() and node_spanned_pages().
 
-Examples tool usage could be found in
-Documentation/accounting/delay-accounting.rst
+Good point.  No reason anyone would scrub this on memory that hasn't
+been hotplugged yet, so no need to use numa-memblk to get the info.
+I guess I was thinking of the wrong hammer :)
 
-Signed-off-by: Tio Zhang <tiozhang@didiglobal.com>
----
- Documentation/accounting/delay-accounting.rst |  5 +++-
- include/linux/delayacct.h                     | 18 ++++++++++-----
- include/uapi/linux/taskstats.h                |  9 +++++++-
- kernel/delayacct.c                            |  9 +++++++-
- kernel/sched/core.c                           | 14 +++++++----
- kernel/sched/cputime.c                        | 23 +++++++++++++++----
- kernel/sched/psi.c                            |  3 ++-
- kernel/sched/sched.h                          |  6 ++++-
- tools/accounting/getdelays.c                  |  7 ++++++
- 9 files changed, 74 insertions(+), 20 deletions(-)
+I'm not sure node_spanned_pages() works though as we need not to include
+ranges that might be on another node as we'd give a wrong impression of
+what was being scrubbed.
 
-diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
-index 8ccc5af5ea1e..b6453723fbac 100644
---- a/Documentation/accounting/delay-accounting.rst
-+++ b/Documentation/accounting/delay-accounting.rst
-@@ -17,6 +17,7 @@ e) thrashing
- f) direct compact
- g) write-protect copy
- h) IRQ/SOFTIRQ
-+i) SOFTIRQ
- 
- and makes these statistics available to userspace through
- the taskstats interface.
-@@ -50,7 +51,7 @@ this structure. See
- for a description of the fields pertaining to delay accounting.
- It will generally be in the form of counters returning the cumulative
- delay seen for cpu, sync block I/O, swapin, memory reclaim, thrash page
--cache, direct compact, write-protect copy, IRQ/SOFTIRQ etc.
-+cache, direct compact, write-protect copy, IRQ/SOFTIRQ, SOFTIRQ etc.
- 
- Taking the difference of two successive readings of a given
- counter (say cpu_delay_total) for a task will give the delay
-@@ -123,6 +124,8 @@ Get sum and peak of delays, since system boot, for all pids with tgid 242::
- 	              156       11215873          0.072ms     0.207403ms     0.033913ms
- 	IRQ         count    delay total  delay average      delay max      delay min
- 	                0              0          0.000ms     0.000000ms     0.000000ms
-+	SOFTIRQ     count    delay total  delay average      delay max      delay min
-+	                0              0          0.000ms     0.000000ms     0.000000ms
- 
- Get IO accounting for pid 1, it works only with -p::
- 
-diff --git a/include/linux/delayacct.h b/include/linux/delayacct.h
-index 800dcc360db2..b73d777d7a96 100644
---- a/include/linux/delayacct.h
-+++ b/include/linux/delayacct.h
-@@ -62,13 +62,18 @@ struct task_delay_info {
- 
- 	u64 irq_delay_max;
- 	u64 irq_delay_min;
--	u64 irq_delay;	/* wait for IRQ/SOFTIRQ */
-+	u64 irq_delay;		/* wait for IRQ/SOFTIRQ */
-+
-+	u64 soft_delay_max;
-+	u64 soft_delay_min;
-+	u64 soft_delay;		/* wait for SOFTIRQ */
- 
- 	u32 freepages_count;	/* total count of memory reclaim */
- 	u32 thrashing_count;	/* total count of thrash waits */
- 	u32 compact_count;	/* total count of memory compact */
- 	u32 wpcopy_count;	/* total count of write-protect copy */
--	u32 irq_count;	/* total count of IRQ/SOFTIRQ */
-+	u32 irq_count;		/* total count of IRQ/SOFTIRQ */
-+	u32 soft_count;		/* total count of SOFTIRQ */
- };
- #endif
- 
-@@ -98,7 +103,7 @@ extern void __delayacct_compact_start(void);
- extern void __delayacct_compact_end(void);
- extern void __delayacct_wpcopy_start(void);
- extern void __delayacct_wpcopy_end(void);
--extern void __delayacct_irq(struct task_struct *task, u32 delta);
-+extern void __delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft);
- 
- static inline void delayacct_tsk_init(struct task_struct *tsk)
- {
-@@ -233,13 +238,14 @@ static inline void delayacct_wpcopy_end(void)
- 		__delayacct_wpcopy_end();
- }
- 
--static inline void delayacct_irq(struct task_struct *task, u32 delta)
-+static inline void delayacct_irq(struct task_struct *task, u32 delta,
-+					u32 delta_soft)
- {
- 	if (!static_branch_unlikely(&delayacct_key))
- 		return;
- 
- 	if (task->delays)
--		__delayacct_irq(task, delta);
-+		__delayacct_irq(task, delta, delta_soft);
- }
- 
- #else
-@@ -280,7 +286,7 @@ static inline void delayacct_wpcopy_start(void)
- {}
- static inline void delayacct_wpcopy_end(void)
- {}
--static inline void delayacct_irq(struct task_struct *task, u32 delta)
-+static inline void delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft)
- {}
- 
- #endif /* CONFIG_TASK_DELAY_ACCT */
-diff --git a/include/uapi/linux/taskstats.h b/include/uapi/linux/taskstats.h
-index 5929030d4e8b..23307f88e255 100644
---- a/include/uapi/linux/taskstats.h
-+++ b/include/uapi/linux/taskstats.h
-@@ -34,7 +34,7 @@
-  */
- 
- 
--#define TASKSTATS_VERSION	16
-+#define TASKSTATS_VERSION	17
- #define TS_COMM_LEN		32	/* should be >= TASK_COMM_LEN
- 					 * in linux/sched.h */
- 
-@@ -230,6 +230,13 @@ struct taskstats {
- 
- 	__u64	irq_delay_max;
- 	__u64	irq_delay_min;
-+
-+	/* v17: Delay waiting for SOFTIRQ */
-+	__u64	soft_count;
-+	__u64	soft_delay_total;
-+
-+	__u64	soft_delay_max;
-+	__u64	soft_delay_min;
- };
- 
- 
-diff --git a/kernel/delayacct.c b/kernel/delayacct.c
-index 30e7912ebb0d..15f88ca0c0e6 100644
---- a/kernel/delayacct.c
-+++ b/kernel/delayacct.c
-@@ -189,6 +189,7 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
- 	UPDATE_DELAY(compact);
- 	UPDATE_DELAY(wpcopy);
- 	UPDATE_DELAY(irq);
-+	UPDATE_DELAY(soft);
- 	raw_spin_unlock_irqrestore(&tsk->delays->lock, flags);
- 
- 	return 0;
-@@ -289,7 +290,7 @@ void __delayacct_wpcopy_end(void)
- 		      &current->delays->wpcopy_delay_min);
- }
- 
--void __delayacct_irq(struct task_struct *task, u32 delta)
-+void __delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft)
- {
- 	unsigned long flags;
- 
-@@ -300,6 +301,12 @@ void __delayacct_irq(struct task_struct *task, u32 delta)
- 		task->delays->irq_delay_max = delta;
- 	if (delta && (!task->delays->irq_delay_min || delta < task->delays->irq_delay_min))
- 		task->delays->irq_delay_min = delta;
-+	task->delays->soft_delay += delta_soft;
-+	task->delays->soft_count++;
-+	if (delta_soft > task->delays->soft_delay_max)
-+		task->delays->soft_delay_max = delta_soft;
-+	if (delta_soft && (!task->delays->soft_delay_min || delta_soft < task->delays->soft_delay_min))
-+		task->delays->soft_delay_min = delta_soft;
- 	raw_spin_unlock_irqrestore(&task->delays->lock, flags);
- }
- 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index be00629f0ba4..30ba2e312356 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -773,11 +773,12 @@ static void update_rq_clock_task(struct rq *rq, s64 delta)
-  * In theory, the compile should just see 0 here, and optimize out the call
-  * to sched_rt_avg_update. But I don't trust it...
-  */
--	s64 __maybe_unused steal = 0, irq_delta = 0;
-+	s64 __maybe_unused steal = 0, irq_delta = 0, soft_delta = 0;
- 
- #ifdef CONFIG_IRQ_TIME_ACCOUNTING
- 	if (irqtime_enabled()) {
--		irq_delta = irq_time_read(cpu_of(rq)) - rq->prev_irq_time;
-+		irq_delta = irq_time_read(cpu_of(rq), &soft_delta) - rq->prev_irq_time;
-+		soft_delta -= rq->prev_soft_time;
- 
- 		/*
- 		 * Since irq_time is only updated on {soft,}irq_exit, we might run into
-@@ -794,12 +795,17 @@ static void update_rq_clock_task(struct rq *rq, s64 delta)
- 		 * the current rq->clock timestamp, except that would require using
- 		 * atomic ops.
- 		 */
--		if (irq_delta > delta)
-+		if (soft_delta > delta) {  /* IRQ includes SOFTIRQ */
-+			soft_delta = delta;
- 			irq_delta = delta;
-+		} else if (irq_delta > delta) {
-+			irq_delta = delta;
-+		}
- 
- 		rq->prev_irq_time += irq_delta;
-+		rq->prev_soft_time += soft_delta;
- 		delta -= irq_delta;
--		delayacct_irq(rq->curr, irq_delta);
-+		delayacct_irq(rq->curr, irq_delta, soft_delta);
- 	}
- #endif
- #ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
-diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-index 7097de2c8cda..7a553d411ae0 100644
---- a/kernel/sched/cputime.c
-+++ b/kernel/sched/cputime.c
-@@ -38,13 +38,14 @@ void disable_sched_clock_irqtime(void)
- }
- 
- static void irqtime_account_delta(struct irqtime *irqtime, u64 delta,
--				  enum cpu_usage_stat idx)
-+				  u64 delta_soft, enum cpu_usage_stat idx)
- {
- 	u64 *cpustat = kcpustat_this_cpu->cpustat;
- 
- 	u64_stats_update_begin(&irqtime->sync);
- 	cpustat[idx] += delta;
- 	irqtime->total += delta;
-+	irqtime->total_soft += delta_soft;
- 	irqtime->tick_delta += delta;
- 	u64_stats_update_end(&irqtime->sync);
- }
-@@ -57,17 +58,29 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
- {
- 	struct irqtime *irqtime = this_cpu_ptr(&cpu_irqtime);
- 	unsigned int pc;
--	s64 delta;
-+	s64 delta, delta_soft = 0, cpu_clock;
- 	int cpu;
- 
- 	if (!irqtime_enabled())
- 		return;
- 
- 	cpu = smp_processor_id();
--	delta = sched_clock_cpu(cpu) - irqtime->irq_start_time;
-+	cpu_clock = sched_clock_cpu(cpu);
-+	delta = cpu_clock - irqtime->irq_start_time;
- 	irqtime->irq_start_time += delta;
- 	pc = irq_count() - offset;
- 
-+	/*
-+	 * We only account softirq time when we are called by
-+	 * account_softirq_enter{,exit}
-+	 * and we do not account ksoftirqd here.
-+	 */
-+	if (curr != this_cpu_ksoftirqd() &&
-+		((offset & SOFTIRQ_OFFSET) || (pc & SOFTIRQ_OFFSET))) {
-+		delta_soft = cpu_clock - irqtime->soft_start_time;
-+		irqtime->soft_start_time += delta_soft;
-+	}
-+
- 	/*
- 	 * We do not account for softirq time from ksoftirqd here.
- 	 * We want to continue accounting softirq time to ksoftirqd thread
-@@ -75,9 +88,9 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
- 	 * that do not consume any time, but still wants to run.
- 	 */
- 	if (pc & HARDIRQ_MASK)
--		irqtime_account_delta(irqtime, delta, CPUTIME_IRQ);
-+		irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_IRQ);
- 	else if ((pc & SOFTIRQ_OFFSET) && curr != this_cpu_ksoftirqd())
--		irqtime_account_delta(irqtime, delta, CPUTIME_SOFTIRQ);
-+		irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_SOFTIRQ);
- }
- 
- static u64 irqtime_tick_accounted(u64 maxtime)
-diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index 59fdb7ebbf22..07f0caf5042d 100644
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -1009,6 +1009,7 @@ void psi_account_irqtime(struct rq *rq, struct task_struct *curr, struct task_st
- 	struct psi_group_cpu *groupc;
- 	s64 delta;
- 	u64 irq;
-+	u64 __maybe_unused soft_irq;
- 	u64 now;
- 
- 	if (static_branch_likely(&psi_disabled) || !irqtime_enabled())
-@@ -1021,7 +1022,7 @@ void psi_account_irqtime(struct rq *rq, struct task_struct *curr, struct task_st
- 	if (prev && task_psi_group(prev) == task_psi_group(curr))
- 		return;
- 
--	irq = irq_time_read(cpu);
-+	irq = irq_time_read(cpu, &soft_irq);
- 	delta = (s64)(irq - rq->psi_irq_time);
- 	if (delta < 0)
- 		return;
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index be9745d104f7..b263cb046cfa 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -1219,6 +1219,7 @@ struct rq {
- 
- #ifdef CONFIG_IRQ_TIME_ACCOUNTING
- 	u64			prev_irq_time;
-+	u64			prev_soft_time;
- 	u64			psi_irq_time;
- #endif
- #ifdef CONFIG_PARAVIRT
-@@ -3135,8 +3136,10 @@ static inline void sched_core_tick(struct rq *rq) { }
- 
- struct irqtime {
- 	u64			total;
-+	u64			total_soft;
- 	u64			tick_delta;
- 	u64			irq_start_time;
-+	u64			soft_start_time;
- 	struct u64_stats_sync	sync;
- };
- 
-@@ -3153,7 +3156,7 @@ static inline int irqtime_enabled(void)
-  * Otherwise ksoftirqd's sum_exec_runtime is subtracted its own runtime
-  * and never move forward.
-  */
--static inline u64 irq_time_read(int cpu)
-+static inline u64 irq_time_read(int cpu, u64 *total_soft)
- {
- 	struct irqtime *irqtime = &per_cpu(cpu_irqtime, cpu);
- 	unsigned int seq;
-@@ -3162,6 +3165,7 @@ static inline u64 irq_time_read(int cpu)
- 	do {
- 		seq = __u64_stats_fetch_begin(&irqtime->sync);
- 		total = irqtime->total;
-+		*total_soft = irqtime->total_soft;
- 	} while (__u64_stats_fetch_retry(&irqtime->sync, seq));
- 
- 	return total;
-diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
-index 21cb3c3d1331..7299cb60aa33 100644
---- a/tools/accounting/getdelays.c
-+++ b/tools/accounting/getdelays.c
-@@ -205,6 +205,7 @@ static int get_family_id(int sd)
-  * version >= 13  - supports WPCOPY statistics
-  * version >= 14  - supports IRQ statistics
-  * version >= 16  - supports *_max and *_min delay statistics
-+ * version >= 17  - supports SOFTIRQ statistics
-  *
-  * Always verify version before accessing version-dependent fields
-  * to maintain backward compatibility.
-@@ -296,6 +297,12 @@ static void print_delayacct(struct taskstats *t)
- 			irq_count, irq_delay_total,
- 			irq_delay_max, irq_delay_min);
- 	}
-+
-+	if (t->version >= 17) {
-+		PRINT_FILED_DELAY("SOFTIRQ", t->version, t,
-+			soft_count, soft_delay_total,
-+			soft_delay_max, soft_delay_min);
-+	}
- }
- 
- static void task_context_switch_counts(struct taskstats *t)
--- 
-2.39.3 (Apple Git-145)
+Should be able to use some combination of node_start_pfn() and maybe
+memblock_search_pfn_nid() to get it though (that also gets the nid
+we already know but meh, no ral harm in that.)
+
+Jonathan
+
+
+
+
+>
+> > One passing comment inline.
+> > 
+> > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> >   
+> > > ---
+> > >  include/linux/numa.h         |  9 +++++++++
+> > >  include/linux/numa_memblks.h |  2 ++
+> > >  mm/numa.c                    | 10 ++++++++++
+> > >  mm/numa_memblks.c            | 37 ++++++++++++++++++++++++++++++++++++
+> > >  4 files changed, 58 insertions(+)
+> > > 
+> > > diff --git a/include/linux/numa.h b/include/linux/numa.h
+> > > index e6baaf6051bc..1d1aabebd26b 100644
+> > > --- a/include/linux/numa.h
+> > > +++ b/include/linux/numa.h
+> > > @@ -41,6 +41,10 @@ int memory_add_physaddr_to_nid(u64 start);
+> > >  int phys_to_target_node(u64 start);
+> > >  #endif
+> > >  
+> > > +#ifndef nid_get_mem_physaddr_range
+> > > +int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end);
+> > > +#endif
+> > > +
+> > >  int numa_fill_memblks(u64 start, u64 end);
+> > >  
+> > >  #else /* !CONFIG_NUMA */
+> > > @@ -63,6 +67,11 @@ static inline int phys_to_target_node(u64 start)
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static inline int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end)
+> > > +{
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static inline void alloc_offline_node_data(int nid) {}
+> > >  #endif
+> > >  
+> > > diff --git a/include/linux/numa_memblks.h b/include/linux/numa_memblks.h
+> > > index 991076cba7c5..7b32d96d0134 100644
+> > > --- a/include/linux/numa_memblks.h
+> > > +++ b/include/linux/numa_memblks.h
+> > > @@ -55,6 +55,8 @@ extern int phys_to_target_node(u64 start);
+> > >  #define phys_to_target_node phys_to_target_node
+> > >  extern int memory_add_physaddr_to_nid(u64 start);
+> > >  #define memory_add_physaddr_to_nid memory_add_physaddr_to_nid
+> > > +extern int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end);
+> > > +#define nid_get_mem_physaddr_range nid_get_mem_physaddr_range
+> > >  #endif /* CONFIG_NUMA_KEEP_MEMINFO */
+> > >  
+> > >  #endif /* CONFIG_NUMA_MEMBLKS */
+> > > diff --git a/mm/numa.c b/mm/numa.c
+> > > index 7d5e06fe5bd4..5335af1fefee 100644
+> > > --- a/mm/numa.c
+> > > +++ b/mm/numa.c
+> > > @@ -59,3 +59,13 @@ int phys_to_target_node(u64 start)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(phys_to_target_node);
+> > >  #endif
+> > > +
+> > > +#ifndef nid_get_mem_physaddr_range
+> > > +int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end)
+> > > +{
+> > > +	pr_info_once("Unknown target phys addr range for node=%d\n", nid);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(nid_get_mem_physaddr_range);
+> > > +#endif
+> > > diff --git a/mm/numa_memblks.c b/mm/numa_memblks.c
+> > > index 541a99c4071a..e1e56b7a3499 100644
+> > > --- a/mm/numa_memblks.c
+> > > +++ b/mm/numa_memblks.c
+> > > @@ -590,4 +590,41 @@ int memory_add_physaddr_to_nid(u64 start)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(memory_add_physaddr_to_nid);
+> > >  
+> > > +/**
+> > > + * nid_get_mem_physaddr_range - Get the physical address range
+> > > + *				of the memblk in the NUMA node.
+> > > + * @nid: NUMA node ID of the memblk
+> > > + * @start: Start address of the memblk
+> > > + * @end: End address of the memblk
+> > > + *
+> > > + * Find the lowest contiguous physical memory address range of the memblk
+> > > + * in the NUMA node with the given nid and return the start and end
+> > > + * addresses.
+> > > + *
+> > > + * RETURNS:
+> > > + * 0 on success, -errno on failure.
+> > > + */
+> > > +int nid_get_mem_physaddr_range(int nid, u64 *start, u64 *end)
+> > > +{
+> > > +	struct numa_meminfo *mi = &numa_meminfo;
+> > > +	int i;
+> > > +
+> > > +	if (!numa_valid_node(nid))
+> > > +		return -EINVAL;
+> > > +
+> > > +	for (i = 0; i < mi->nr_blks; i++) {
+> > > +		if (mi->blk[i].nid == nid) {
+> > > +			*start = mi->blk[i].start;
+> > > +			/*
+> > > +			 * Assumption: mi->blk[i].end is the last address
+> > > +			 * in the range + 1.  
+> > 
+> > This was my fault for asking on internal review if this was documented
+> > anywhere. It's kind of implicitly obvious when reading numa_memblk.c
+> > because there are a bunch of end - 1 prints.
+> > So can probably drop this comment.
+> >   
+> > > +			 */
+> > > +			*end = mi->blk[i].end;
+> > > +			return 0;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	return -ENODEV;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(nid_get_mem_physaddr_range);
+> > >  #endif /* CONFIG_NUMA_KEEP_MEMINFO */  
+> >   
+> 
 
