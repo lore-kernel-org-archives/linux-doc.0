@@ -1,100 +1,120 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD2421A437;
-	Wed, 20 Aug 2025 18:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612532F4A;
+	Wed, 20 Aug 2025 18:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755714741; cv=none; b=JWt9lPoSQGIOPYY2s18D9JJej6J156agzK6JZdd+l1PUdiBunkFcbQh/5Uxjz5yQapjqtQs3FVpoa49A1cL628PfHx2YPwOi3Pho5tscuMfqlCW89A2tZi5fJyJDhfyTlUcXRwu1mOuQPfH6GKK0G1lOVbcKS0HT8u+NRHz1QIY=
+	t=1755714833; cv=none; b=cI8S9AX+H3Va1Mx94tVEEoC6Skq2RuvK80mwwzWpgIJbpTvR3zFxuhumTxVjZguPviVb0+H12G/xTH0ErNSBuK12Pkq2y84KwY3r2oQV6174BipYU6ZiOLdti6OEkI6IkQeuQgmabNfoz5Ps2F4RNZXZ3EMq2MCUk8+z0zxaSA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755714741; c=relaxed/simple;
-	bh=sPmqSitvB0v6mEUeWYf2NHAGdyCmTuIzM9XDmsGb5Fc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IfP9s/+MCJrKlJ0q4Z5OqZDUAyVh1Tp/mEt+Lr2uyOqmcN6jWWjmW7vapQBI/ARIP/eCxugTt2MqnXOK/70qeUK7saklpUH1wxqVCk5spOLtYuKWkjEnwI5PIWlhwAYhl3763koF2xSQLFQTuKE5SLQiS085otqV1qVA8ahLg1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=q/FjGWgG; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1755714833; c=relaxed/simple;
+	bh=4VhT8FfHLfe56J3qPPhQ2cW+yREx7dbjirhN5ZOr9iw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hyNxVaabB7jP3vuoMod6X6qZLFWI8TfbyqOifzd3c1bBBCByUgrc1gWrItF+R2FDjSCF6ahROAyObRL3szooijesFpyDQ6DG+NiX8Po+ab9IduIZ7fDQqxvnR4xKBGP4iFK8GpGUkL3d8NxQpYvRDnPAQXXdqI9+wQR+ECbZS0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRYusP2g; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q/FjGWgG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=/IcasXGt5PbdoVVXgghzry42yNZ+BKaeuG0k8SwqEiE=; b=q/FjGWgGcZoyCpEvqzRf8l3Zr/
-	JIlfqELevVDHITw5RFmNo9AMXsyBB/1XndCSGlTd09RzWkrSjxKUJIjufaLYz8yxfwKpy8ND60NJs
-	76hOsgpGJ+w0JikLmP6MoRsLeA1o9dfAEBPJvORLXkuEWebNamwm+TiBY4A3uaZ+rhmjKxj4UFaBg
-	hZKIUQcipMHbmvUS2rvgor0hab0mUAzjR3Y34FzVMejhHia/4mMiFgK2cGU7j54FxNt8M8wez2KoO
-	vyvtac4XHa1fdJm5170GVZz3r2HJ+QfgDdX+AwW+PcRxDvPmBvIDOlXXXC4jpx5TO5d5arqEghy9q
-	ZHy/YFwA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uonbe-0000000EgzN-1F8t;
-	Wed, 20 Aug 2025 18:32:18 +0000
-Message-ID: <1fc93d62-eb77-46a6-964f-c0bc7348d482@infradead.org>
-Date: Wed, 20 Aug 2025 11:32:17 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRYusP2g"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-76e2e5d54bbso30546b3a.0;
+        Wed, 20 Aug 2025 11:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755714831; x=1756319631; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i8aRl9t5V6Q7AnpZxPp/thjhXQZ7yIoJiGvCzobrjvA=;
+        b=WRYusP2gzXwDL3UbpbKwSBmlNscVbmXX3cUWMLnKuaZynq0xNMZ6/uZO3MbZlamAAm
+         Z418lq9zDCmKjLIwSt5U6wekzy/+WG1l3otDmx3UIK+OlSbhAMSUeT2+J7bFgagHXHg9
+         KFEgiXkY3lqUKJUhU/J96NSyN64d5gM3YeoebDqkwZgtWddlo2fMo+IKR6X/Qrvj3KIM
+         lzQLylP1ChbHXD/fcTOkjaoLbPa1QkxVcFg12Se8SR/AlKiSN3iEgMt9ww+vhLj91c4a
+         JVWkPLrJXyONDyaR+a9OxmMQpTSaRrbmwydkcYqYFkBb1i8qq6XJq68Rkx7A/sVGLQVl
+         wZDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755714831; x=1756319631;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i8aRl9t5V6Q7AnpZxPp/thjhXQZ7yIoJiGvCzobrjvA=;
+        b=Vi1qif1d7daTLnTddNgXm6ejGx6vhkeaXtTU6awNojOwh9k5SZkQpBLn53TsRNX7d0
+         RXMwxFtLyK/rULl4hxpT1dpSFK3IsskeVEaGAHUDCk5dAlWG58zy5Uj3EsycwJTjH0od
+         BvLf0+DlGqnlEqZzymmWmSxb6L7+a0E2wxJmkY/77B0pXZwErjJ9NEM3fXHtMccmXzeJ
+         PueSebVjTCIYAHcZTgb0BQ0yrKNEDDQLtiTOMsn/yHpvbnPS6itxZ9iZMkW9FVW/SE1I
+         nVt9Iipvmjyo0mw0sDW/TRe5tqGRGZTWmO4MD0CC7oUujHCmpPGwuIEeD+wbepODwxnf
+         zXXg==
+X-Forwarded-Encrypted: i=1; AJvYcCV1u4Qv7RkXb4n2b2f25bsPsZ6qBwwQMH+0euy2xiwpKqnsOKWfkN2eb7dfOkAqlN/DxlY/8gcd6B1dStQF@vger.kernel.org, AJvYcCX2t/Mc3q0UgkB7buP7VUlKsBVKu4JyuRKQyMOcFkbtXWhWbDN0HTFpd+JUxMuZgA9yq+z78j1abc0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8uKYJyr+vH/e/yxnh44RTyYN7aBlqbbS81dlTUvbrpnGuP+7D
+	t1cCVo4ZyWzYViHKgnWkv7J6hYO0CYHUf5s0yNJdpQwpF0Ch0tT/cDD7vA0ZWpGVdn/vc1t7wsb
+	u7U+iyI6L67cUgq1aHoJlWXBykK03JghzOg==
+X-Gm-Gg: ASbGncsqHp/MECGMJJBAvKa0tGSAu/EQQaXVWFSKl4CjInk6QB4/8WuUKwvvrlLkXRY
+	4FDa1hMv+48Wjp0F5R3eyNX+Eo9ebljhv2HXPqOT8CPZlL8Uyv9XkWVSRyJWxRozu93z3ej0ZY+
+	gXVEpg88UtMhLPNZ52KB/MPiPawOKcmowLhzeH4XP3OrGd2ygXrX/OPZoOZPkIuuI2a00CfiZj7
+	LUkSkk=
+X-Google-Smtp-Source: AGHT+IHkAy3ca8+jtID/FoWqYaW09/zltQ/aw0SuoLJmcmEe6soi3YAyE7iSaLKvBR0EQAXgHSLAxz7i4pKA8GtkmY4=
+X-Received: by 2002:a17:902:c410:b0:240:3c1d:cbe3 with SMTP id
+ d9443c01a7336-245ef1117cfmr27184545ad.4.1755714831408; Wed, 20 Aug 2025
+ 11:33:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: gpu: Fix spelling mistakes
-To: Rakuram Eswaran <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- corbet@lwn.net
-Cc: tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, simona@ffwll.ch, siqueira@igalia.com,
- harry.wentland@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <20250820182259.11227-1-rakuram.e96@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250820182259.11227-1-rakuram.e96@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250819211957.17871-2-katharasasikumar007@gmail.com>
+In-Reply-To: <20250819211957.17871-2-katharasasikumar007@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 20 Aug 2025 14:33:39 -0400
+X-Gm-Features: Ac12FXzaT8tBvm_ZbhXzy1ligYMWZLBJ-gPMSwG1SDqreVmeqsoG3xwj0dX_b9Q
+Message-ID: <CADnq5_NJdEtMqMfwW8ZN-nNyJD0dDnB3sYYGHeSb5JnwsUyPTQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/gpu/amdgpu: Fix duplicate word in driver-core.rst
+To: Kathara Sasikumar <katharasasikumar007@gmail.com>
+Cc: skhan@linuxfoundation.org, corbet@lwn.net, alexander.deucher@amd.com, 
+	christian.koenig@amd.com, linux-doc@vger.kernel.org, 
+	amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Applied.  Thanks!
 
-On 8/20/25 11:22 AM, Rakuram Eswaran wrote:
-> Fixed following typos reported by Codespell
-> 
-> 1. filp ==> flip
-> In Documentation/gpu/drm-mm.rst
-> 
+Alex
 
-No, that's a "struct file pointer". filp is correct.
-See include/drm/drm_gem.h
-
-The others look good.
-
-One more comment below.
-
-> 
-> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+On Wed, Aug 20, 2025 at 8:32=E2=80=AFAM Kathara Sasikumar
+<katharasasikumar007@gmail.com> wrote:
+>
+> Remove duplicate word 'and' in driver-core.rst.
+>
+> Signed-off-by: Kathara Sasikumar <katharasasikumar007@gmail.com>
 > ---
->  Documentation/gpu/amdgpu/debugfs.rst                       | 4 ++--
->  Documentation/gpu/amdgpu/display/programming-model-dcn.rst | 2 +-
->  Documentation/gpu/amdgpu/process-isolation.rst             | 2 +-
->  Documentation/gpu/drm-mm.rst                               | 2 +-
->  Documentation/gpu/drm-uapi.rst                             | 2 +-
->  Documentation/gpu/todo.rst                                 | 4 ++--
->  6 files changed, 8 insertions(+), 8 deletions(-)
-> 
-
-> diff --git a/Documentation/gpu/amdgpu/process-isolation.rst b/Documentation/gpu/amdgpu/process-isolation.rst
-> index 6b6d70e357a7..c1297a9e4d09 100644
-> --- a/Documentation/gpu/amdgpu/process-isolation.rst
-> +++ b/Documentation/gpu/amdgpu/process-isolation.rst
-> @@ -26,7 +26,7 @@ Example of enabling enforce isolation on a GPU with multiple partitions:
->      $ cat /sys/class/drm/card0/device/enforce_isolation
->      1 0 1 0
->  
-> -The output indicates that enforce isolation is enabled on zeroth and second parition and disabled on first and fourth parition.
-> +The output indicates that enforce isolation is enabled on zeroth and second partition and disabled on first and fourth partition.
-It looks like "fourth" should be "third" here.
-
--- 
-~Randy
-
+> Hi,
+>
+> This patch is part of my work for the LFX Linux Kernel Mentorship
+> Program (LKMP).
+> I would appreciate any feedback.
+>
+> Thanks,
+> Kathara
+>
+>  Documentation/gpu/amdgpu/driver-core.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu=
+/amdgpu/driver-core.rst
+> index 81256318e93c..bd4be32f2725 100644
+> --- a/Documentation/gpu/amdgpu/driver-core.rst
+> +++ b/Documentation/gpu/amdgpu/driver-core.rst
+> @@ -65,7 +65,7 @@ SDMA (System DMA)
+>
+>  GC (Graphics and Compute)
+>      This is the graphics and compute engine, i.e., the block that
+> -    encompasses the 3D pipeline and and shader blocks.  This is by far t=
+he
+> +    encompasses the 3D pipeline and shader blocks.  This is by far the
+>      largest block on the GPU.  The 3D pipeline has tons of sub-blocks.  =
+In
+>      addition to that, it also contains the CP microcontrollers (ME, PFP,=
+ CE,
+>      MEC) and the RLC microcontroller.  It's exposed to userspace for use=
+r mode
+> --
+> 2.47.2
+>
