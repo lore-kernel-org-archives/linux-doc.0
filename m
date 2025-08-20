@@ -1,188 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF402798FE;
-	Wed, 20 Aug 2025 09:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C821F2D23B8;
+	Wed, 20 Aug 2025 09:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755683449; cv=none; b=nuctZBJ6IfXFYl1WG90LJT9oojPf2WUgvd+XvZS+w3TcGD0vSqu+d+rXDiSHvWX87B1M4PVPthzkT5vUkxXusu2HX2nGXGuxirQht0YWmR1xmu4vjDIgmpfc34kCKh8jLdW16iYFJb4dzheQcNSx1+DV0PPKzoVp650eUXdyyCA=
+	t=1755683562; cv=none; b=jvQX7kg0GgLXqwSfRVpYf5xjpOHK1OrR48qmQB+Jaqh0Usm2rXnuFu6I8b1XR5rRx7IKjJyOOtHRxxg6pnxYIipH0nyEIwR3xboqOB0bHjnK+O+rpCKl81XEKaDj5KEOsI2UCkBixnRprll/Ma3BjBkJLz4JVqVqNYIz02QEMlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755683449; c=relaxed/simple;
-	bh=/dGQ/KHU4QWB9oKn1Tz6oNVgq/D6ekwIYY7vjkTbeAA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iE8XjI5ahjsv7IXpg4gHDALzH9eNCuF63lX9QBgRu4nqdDEzb2p8JjAInhPK0b8zI7dQo2ecBNAY9hUCsimac60OM/fnMwMOFR1sPxrR5BJ0NSVnNFFHEmVlEeKWIxJi57/3jaDYot8v+diXkJ15T6tJHaWO/YaCir8W8VK4TGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JEBzBBtH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755683562; c=relaxed/simple;
+	bh=sMhZfTFAeG2QpntP2NVkL4o+Dl3CBT7XGEidA+J56TM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Uw3jH6EwpUXNDS0IPrBG3GYDCvg7KaUweDfJHq1NsoLYSgx6TU4XmwV25zppaDW+y71sc5NS0bW6JNU/6M6W/HR9xvMXxbWih0q+ctzCxZ8DBQvHUVDt3Spg7NOKNg1iaPvi26f0oEmFvGP34RM68OKapWBwkYor59N8v66GSNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=18hhPAgH; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JEBzBBtH"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 248C2C116C6;
-	Wed, 20 Aug 2025 09:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755683449;
-	bh=/dGQ/KHU4QWB9oKn1Tz6oNVgq/D6ekwIYY7vjkTbeAA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=JEBzBBtHkWI+yJiORa5Ux1XW2wpoxQ1cFd8kuxZf7k7RJ0aRIfFqTcvbBlNSgF5g9
-	 eVypj1zdNdq9VYyynGgrp7Qx2isUmLj2ipTyxpSnPW2h+Xf7Q3WvqDUrR7a2pa7a/4
-	 sZeGzIi8DKxDT4adgn9+k6A0+K8MKkz91gbJjMfHwDD9QYZBZknCSIGP9UC4Bwu3TW
-	 biUWCveWcrADKlhL39I/F1U1lW0WeHGWgqNNG+GasKBDDz6OzbhHeM/JLNKwO7r3Dv
-	 ot+dLWHlAjmphDBW66BEyiNkzMHtb6XsWHNwiG07Rrkrg1QLJzox8g/JhtTYmAM5d8
-	 5StaypxlCphVw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD58CA0EDC;
-	Wed, 20 Aug 2025 09:50:49 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Wed, 20 Aug 2025 17:50:39 +0800
-Subject: [PATCH RESEND v7 2/2] hwmon: document: add gpd-fan
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="18hhPAgH"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 1C933C6B3BC;
+	Wed, 20 Aug 2025 09:52:18 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9435B606A0;
+	Wed, 20 Aug 2025 09:52:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 15FFD1C22C448;
+	Wed, 20 Aug 2025 11:52:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1755683550; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=7/YncygtLh6CcLTv8t4vURKiUBBhT1Mh9x7E1RDPudM=;
+	b=18hhPAgHbGoiTmVvQ6R0c79+45Q+FebUjPcQzifAaHGA2DczMh0p59c0wtaT83qlTeSJnM
+	kkHxFLBaWNySPM7QpmsUVAj1Yv6jZenyDKS42klT8Jwh1VUEkNpD/1iWW/ISK+nwutj1gU
+	vdS8twRpPnRyzsgDD2w+mKnMdzk+UKQA1/TNxpuq5afQyeibwcHWNpYg028LUtGMZnLrab
+	dYpyOUDQnu7jDYKbl7XQ0nCEgmTBimizcADOsYuiZwVZSm6v8mMBN/ela6SxES/teDjK0+
+	2g8gJWduR373nMxDnMd1rjaow5eQ2Udg2rHdHSNJoVJp5kajW9d1vDzy7Fx9Dw==
+Date: Wed, 20 Aug 2025 11:52:20 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, Nishanth Menon
+ <nm@ti.com>, kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
+ linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
+ <roan@protonic.nl>
+Subject: Re: [PATCH net-next v3 3/5] ethtool: netlink: add lightweight MSE
+ reporting to LINKSTATE_GET
+Message-ID: <20250820115220.1655e5ff@kmaincent-XPS-13-7390>
+In-Reply-To: <20250819071256.3392659-4-o.rempel@pengutronix.de>
+References: <20250819071256.3392659-1-o.rempel@pengutronix.de>
+	<20250819071256.3392659-4-o.rempel@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250820-gpd_fan-v7-2-10c8058f4dba@uniontech.com>
-References: <20250820-gpd_fan-v7-0-10c8058f4dba@uniontech.com>
-In-Reply-To: <20250820-gpd_fan-v7-0-10c8058f4dba@uniontech.com>
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Cryolitia PukNgae <cryolitia@uniontech.com>
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>, 
- Yao Zi <ziyao@disroot.org>, Derek John Clark <derekjohn.clark@gmail.com>, 
- WangYuli <wangyuli@uniontech.com>, Jun Zhan <zhanjun@uniontech.com>, 
- niecheng1@uniontech.com, guanwentao@uniontech.com, 
- =?utf-8?q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>, 
- someone5678 <someone5678.dev@gmail.com>, 
- Justin Weiss <justin@justinweiss.com>, 
- Antheas Kapenekakis <lkml@antheas.dev>, command_block <mtf@ik.me>, 
- derjohn <himself@derjohn.de>, Crashdummyy <crashdummy1337@proton.me>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755683447; l=3233;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=gh/oPM4ovDnsO6Zc31vhvlqN6f1O4IdwmGmblL0tVrM=;
- b=kVuPITKo4enIBUQCSMFS7B+pfc8vQhyhP7jFEiJ4wpejvwkh7ZMO4f3iNkfgDJ8Jy64QhlLBj
- 9lxyZEAsDYrAoq3VGIEV/5QI/IELkSh4s1i4tDPt4spbnzJjWTyx6/Q
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Le Tue, 19 Aug 2025 09:12:54 +0200,
+Oleksij Rempel <o.rempel@pengutronix.de> a =C3=A9crit :
 
-Add GPD fan driver document
+> Extend ETHTOOL_MSG_LINKSTATE_GET to optionally return a simplified
+> Mean Square Error (MSE) reading alongside existing link status fields.
+>=20
+> The new attributes are:
+>   - ETHTOOL_A_LINKSTATE_MSE_VALUE: current average MSE value
+>   - ETHTOOL_A_LINKSTATE_MSE_MAX: scale limit for the reported value
+>   - ETHTOOL_A_LINKSTATE_MSE_CHANNEL: source channel selector
+>=20
+> This path reuses the PHY MSE core API, but only retrieves a single
+> value intended for quick link-health checks:
+>   * If the PHY supports a WORST channel selector, report its current
+>     average MSE.
+>   * Otherwise, if LINK-wide measurements are supported, report those.
+>   * If neither is available, omit the attributes.
+>=20
+> Unlike the full MSE_GET interface, LINKSTATE_GET does not expose
+> per-channel or peak/worst-peak values and incurs minimal overhead.
+> Drivers that implement get_mse_config() / get_mse_snapshot() will
+> automatically populate this data.
+>=20
+> The intent is to provide tooling with a =E2=80=9Cfast path=E2=80=9D healt=
+h indicator
+> without issuing a separate MSE_GET request, though the long-term
+> overlap with the full interface may need reevaluation.
 
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
----
- Documentation/hwmon/gpd-fan.rst | 71 +++++++++++++++++++++++++++++++++++++++++
- Documentation/hwmon/index.rst   |  1 +
- MAINTAINERS                     |  1 +
- 3 files changed, 73 insertions(+)
+Reviewed-by: Kory Maincent <kory.maincent@bootlin.com>
 
-diff --git a/Documentation/hwmon/gpd-fan.rst b/Documentation/hwmon/gpd-fan.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..82f064c80aac485348f7c5179a9c4104fd6a4745
---- /dev/null
-+++ b/Documentation/hwmon/gpd-fan.rst
-@@ -0,0 +1,71 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver gpd-fan
-+=========================
-+
-+Author:
-+    - Cryolitia PukNgae <cryolitia@uniontech.com>
-+
-+Description
-+------------
-+
-+Handheld devices from Shenzhen GPD Technology Co., Ltd. provide fan readings and fan control through
-+their embedded controllers.
-+
-+Supported devices
-+-----------------
-+
-+Currently the driver supports the following handhelds:
-+
-+ - GPD Win Mini (7840U)
-+ - GPD Win Mini (8840U)
-+ - GPD Win Mini (HX370)
-+ - GPD Pocket 4
-+ - GPD Duo
-+ - GPD Win Max 2 (6800U)
-+ - GPD Win Max 2 2023 (7840U)
-+ - GPD Win Max 2 2024 (8840U)
-+ - GPD Win Max 2 2025 (HX370)
-+ - GPD Win 4 (6800U)
-+ - GPD Win 4 (7840U)
-+
-+Module parameters
-+-----------------
-+
-+gpd_fan_board
-+  Force specific which module quirk should be used.
-+  Use it like "gpd_fan_board=wm2".
-+
-+   - wm2
-+       - GPD Win 4 (7840U)
-+       - GPD Win Max 2 (6800U)
-+       - GPD Win Max 2 2023 (7840U)
-+       - GPD Win Max 2 2024 (8840U)
-+       - GPD Win Max 2 2025 (HX370)
-+   - win4
-+       - GPD Win 4 (6800U)
-+   - win_mini
-+       - GPD Win Mini (7840U)
-+       - GPD Win Mini (8840U)
-+       - GPD Win Mini (HX370)
-+       - GPD Pocket 4
-+       - GPD Duo
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported:
-+
-+fan1_input
-+  Read Only. Reads current fan RPM.
-+
-+pwm1_enable
-+  Read/Write. Enable manual fan control. Write "0" to disable control and run at
-+  full speed. Write "1" to set to manual, write "2" to let the EC control decide
-+  fan speed. Read this attribute to see current status.
-+
-+pwm1
-+  Read/Write. Read this attribute to see current duty cycle in the range [0-255].
-+  When pwm1_enable is set to "1" (manual) write any value in the range [0-255]
-+  to set fan speed.
-+
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index d292a86ac5da902cad02c1965c90f5de530489df..ce4419f064e1368740387af70af38a85cadd952d 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -82,6 +82,7 @@ Hardware Monitoring Kernel Drivers
-    gigabyte_waterforce
-    gsc-hwmon
-    gl518sm
-+   gpd-fan
-    gxp-fan-ctrl
-    hih6130
-    hp-wmi-sensors
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1deb9b817a37998828b6773d3dc8237c982d4bf9..d5af3b7ab7a5fdc778b4032e5645fd9551223148 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10414,6 +10414,7 @@ GPD FAN DRIVER
- M:	Cryolitia PukNgae <cryolitia@uniontech.com>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
-+F:	Documentation/hwmon/gpd-fan.rst
- F:	drivers/hwmon/gpd-fan.c
- 
- GPD POCKET FAN DRIVER
+Thank you!
 
--- 
-2.50.1
-
-
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
