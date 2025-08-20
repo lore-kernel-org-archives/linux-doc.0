@@ -1,112 +1,178 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2009627145F;
-	Wed, 20 Aug 2025 21:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD58C179A3;
+	Wed, 20 Aug 2025 22:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755725521; cv=none; b=NahwMDPj4QfILKR2x4WQ3rlZGdhP5sAIqcn54icNAdeGexZ/vWb28enfcmmkMzz1fCi8cS0j+6lIehXjGngQ65N8sde2WOJCW+9CcrA2BavuxM2VbZhDXGN5YnSJu90wrmG7l3UCvY/ZUwO67dsY4zGs/Hmx3othTE+VV2ehji0=
+	t=1755727337; cv=none; b=bQBGQsDwbJMjmYtPB3SwXj7PtyKNGEoLz6VWImOIrExp7OU9Ugud1ZvyLtVO0NmgO6eheYVmFqPjebT2vtHmh042qJRLPctubnN3DXKEmxfGoLVKwHiWsBPm+DdR7Dd/rvKoRwbG6jfPC0NdZO6HN7szq8Tik9LFfiVm64Lu5Ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755725521; c=relaxed/simple;
-	bh=KI3LaQ1fw0o6+rBDig54tr9HE7QIF3H1XxcVNFHc0Tw=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KX3DT/lRJX28JcAGvkGjJn4dCZ9G96SqqemUNgtC/e82VRNI0ojmKQK20Fl9bbBk6PGLBCpvetCNgMlqBx9jlc5GjFJOYdJq0TEnp7Py8qEPUZy9eMec0xMbbGiFw063QyLqyWcyiocPLeXwpJ9W5EYW8WJZNTx5Wf1bfK9ch3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hpJP7hlJ; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755727337; c=relaxed/simple;
+	bh=qpzq8xFh8O6Sfd7kFjk7FbKEkmABy8wjXxb1oqoY7tI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QsqzkgbRK8VBos50GRAqz+ezhtbEB0qTcd5RDLu6zDXh3d7qK9FwLF5KCTbpRZ4BZ7pexbAxqv3aQfHnf9oBBbKji4pgkzxnTwmoEPoq43xf13WVudw1CDTuBluOV9FPWEYBrm/b9bYFFkc9REkjDYJtZctE/a1pJh06F3R13N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X44mG8TC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hpJP7hlJ"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2445806d44fso2531475ad.1;
-        Wed, 20 Aug 2025 14:31:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755725519; x=1756330319; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KI3LaQ1fw0o6+rBDig54tr9HE7QIF3H1XxcVNFHc0Tw=;
-        b=hpJP7hlJ55vGS5bIssWWxUtV2NU8ed88UVuFVw3sM1XIkbe3PugLRyi4p7UzbjuyRM
-         emR6IuD+794vfgk3aTnTQ1eFQ/QDoFyvJADoulO4uwxWvmQHKIWfSYp6cHQqDVRJlAkO
-         ru79xbCMLH2wJrAU3OZkl6CLITHtckrxuFK7MjbCeJTspnPut512moE3QK2fNpx/ZaKz
-         8wbmupJtgiDpQy33t0x/HH5SZ9vVMe9xdrDNRycuDCWV+O/zur/zGjndOCVHBOn9wQWm
-         /oOhDmOc03+k8XGF5rFms5VliJXItFpqbGwA96UCeW1cYN3hdbDeKjCa0aWFHUgBo7Yh
-         as2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755725519; x=1756330319;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KI3LaQ1fw0o6+rBDig54tr9HE7QIF3H1XxcVNFHc0Tw=;
-        b=i7ExXqv8yaYfopT1ag0lGNpJlbD50/NlcIkmSVGP+mwcxxg2lqBfhluixuQlqKu29d
-         SuYq9HQg1ZI3VBiJu4j4DjS7onz8vWI5OgblwLJhFSjaL62dnm29vP/cr2/dJauRL1Pr
-         CCVbs7kNpURM2WCT6cBnPc2HUq43FwmZZad7CRgX8nTeLS4IBlHH1PTWZqmQxZDGZk/w
-         iYTpn5fEYRibfD6WrS8OvQYM5MYabZVdfBTu8/Kwt8U+yPlqvCSZtRedy9+BYoXo2NM1
-         xsBr29fJr7GULv4gWM8iD9kz+TILtxhdsW51osOc1ihOjvNoB5hRm7atUbgdW6Y5mTbx
-         JmAA==
-X-Forwarded-Encrypted: i=1; AJvYcCVxKlGQ399gHlDVjKZIoBstEXzjjSTnE02/skZchSqhaHqv9rnJRONMKiJ/3QXkEwpkH9GnLiE3Rcgv@vger.kernel.org, AJvYcCWhDEEZkRPdis+Hbh91Qlsa0928NfZbazOhqujzcCYJRaPlzF60Qo9+FxfD8rcLOfrpec1cVRQXRkRgOUESO0ui@vger.kernel.org, AJvYcCXc01nzVFU5WDXCzCy1NZBrZJt0k93nocQCBk1aTNLzJjdRZNlcC04gS6q1Qh9bMpz3SGU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWJtG/h3arV9fi9tCT9Xwg39BU6k992H4B5/McbtFPk+FQbjVz
-	YVht2i94eNN+BCPqKuWhdEDs1gA5Dwk3xI+MSVqnTrOSTJ3qXPiNaoie
-X-Gm-Gg: ASbGncv7AuOckceL961IYoUVk/PZlI5Rc90QPdM7+vUm3hMljcsufC0DI4IR8Pv+tLt
-	ruLeq9kSDyXqT/vyHH3yWi52dUgmYKBlvPFTM8VnQ2jLxZ5ow6MJZvVrBf2Ilji2sKslNuJ2BYd
-	1M7dcrt330Sknol6s5ZUsNKepRiR1wKXr8GfGYKlxQsMtencPVEeIkuX5zFtEbaKrz0h3650dId
-	tTUratgtCDqooNAgFZsZtOgiedzxag06bqV7GI9ZPvVGJ7DGyZCuM8PMkbzlU3fKn/+vdlI21im
-	c19b1raTFq87Ynojc7eNC6QAJOEuUicNzFJuVqDMYwD0SYBsO3ouN1KcsaC0OQBD3Ry1icmtNF0
-	vtkVI1gpRsEzKAJ0rfR5/Vw==
-X-Google-Smtp-Source: AGHT+IHXnQkA6v146KKoCafbiFWO3366g7ibhUgcVzoSqTmRJ3fVK75TlT5LmFWMHbk3AuodFVDgyg==
-X-Received: by 2002:a17:902:e84d:b0:243:597:a2d6 with SMTP id d9443c01a7336-245febec9d1mr3977275ad.1.1755725519058;
-        Wed, 20 Aug 2025 14:31:59 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed361422sm35848205ad.52.2025.08.20.14.31.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 14:31:57 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id C493D4207D14; Wed, 20 Aug 2025 21:11:30 +0700 (WIB)
-Date: Wed, 20 Aug 2025 21:11:30 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Askar Safin <safinaskar@zohomail.com>, git <git@vger.kernel.org>,
-	gitster <gitster@pobox.com>, helpdesk <helpdesk@kernel.org>,
-	kernelnewbies <kernelnewbies@kernelnewbies.org>,
-	kernel-janitors <kernel-janitors@vger.kernel.org>,
-	linux-doc <linux-doc@vger.kernel.org>
-Subject: Re: git: list of my complaints about future graft removal
-Message-ID: <aKXXkvAOhStlS2_m@archie.me>
-References: <198c29e9058.119e3a5c065010.5888624019176274871@zohomail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X44mG8TC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61231C4CEE7;
+	Wed, 20 Aug 2025 22:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755727337;
+	bh=qpzq8xFh8O6Sfd7kFjk7FbKEkmABy8wjXxb1oqoY7tI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=X44mG8TCXKK5v+P1T8NFCEeTLrc+6wn3VP87ZC8S3yaCZgtyj/JJW1cdiFVMevpOR
+	 xoPp+AYCEthoV9/9T/EE6O3/DlVrM2DJiCwxpZjhaT/PKkwNOYRPn+hsSv6gKqqk8R
+	 THzOB/8edGNO+Krn+REkTz5qNsIu/LEzMXTbKu1hsZhU3dwB20Bg6JqGdoEPYZqhmz
+	 Ke5ocy23JyUtOwGSMD7vd+v36QNEKW26ZXbck6uHzEPqaNaTJSUFHCH6geUQJTh4KS
+	 ErXQmnB2FrGYukkGW2oXFHsT34lLGC7ws1wBNwGz6s+clfw3lFVBUK7uVJcng6FOQb
+	 OoQ6KWnyrqGww==
+Received: from host86-149-246-145.range86-149.btcentralplus.com ([86.149.246.145] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1uoqsm-009Vp5-4r;
+	Wed, 20 Aug 2025 23:02:12 +0100
+Date: Wed, 20 Aug 2025 23:02:11 +0100
+Message-ID: <87ms7tk5y4.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v15 4/6] KVM: arm64: Set PSTATE.EXLOCK when entering an exception
+In-Reply-To: <20250820-arm64-gcs-v15-4-5e334da18b84@kernel.org>
+References: <20250820-arm64-gcs-v15-0-5e334da18b84@kernel.org>
+	<20250820-arm64-gcs-v15-4-5e334da18b84@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0n+dSVK2aIu7RrRW"
-Content-Disposition: inline
-In-Reply-To: <198c29e9058.119e3a5c065010.5888624019176274871@zohomail.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 86.149.246.145
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
+On Wed, 20 Aug 2025 15:14:44 +0100,
+Mark Brown <broonie@kernel.org> wrote:
+> 
+> As per DDI 0487 RWTXBY we need to manage PSTATE.EXLOCK when entering an
 
---0n+dSVK2aIu7RrRW
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Nit: please use an underscore between the type of a statement and its
+"name", as it makes it a bit more readable (R_WTXBY).
 
-On Tue, Aug 19, 2025 at 05:57:08PM +0400, Askar Safin wrote:
-> * As well as I understand, "git clone --depth=3D1" rely on grafts, too.
-> I hope "git clone --depth=3D1" will continue to work.
+> exception, when the exception is entered from a lower EL the bit is cleared
+> while if entering from the same EL it is set to GCSCR_ELx.EXLOCKEN.
+> Implement this behaviour in enter_exception64().
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/uapi/asm/ptrace.h |  1 +
+>  arch/arm64/kvm/hyp/exception.c       | 37 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 38 insertions(+)
+> 
+> diff --git a/arch/arm64/include/uapi/asm/ptrace.h b/arch/arm64/include/uapi/asm/ptrace.h
+> index 0f39ba4f3efd..f2fb029fb61a 100644
+> --- a/arch/arm64/include/uapi/asm/ptrace.h
+> +++ b/arch/arm64/include/uapi/asm/ptrace.h
+> @@ -56,6 +56,7 @@
+>  #define PSR_C_BIT	0x20000000
+>  #define PSR_Z_BIT	0x40000000
+>  #define PSR_N_BIT	0x80000000
+> +#define PSR_EXLOCK_BIT 0x400000000
+>  
+>  #define PSR_BTYPE_SHIFT		10
+>  
+> diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+> index 95d186e0bf54..46e1d0c3038c 100644
+> --- a/arch/arm64/kvm/hyp/exception.c
+> +++ b/arch/arm64/kvm/hyp/exception.c
+> @@ -73,6 +73,38 @@ static void __vcpu_write_spsr_und(struct kvm_vcpu *vcpu, u64 val)
+>  		vcpu->arch.ctxt.spsr_und = val;
+>  }
+>  
+> +static unsigned long enter_exception64_gcs(struct kvm_vcpu *vcpu,
+> +					   unsigned long mode,
+> +					   unsigned long target_mode)
 
-So shallow clones should use git-replace(1) under the hood (both on initial
-clone, deepening with --shallow-since and --unshallow), right?
+A more appropriate name would be compute_exlock().
 
-Thanks.
+> +{
+> +	u64 gcscr;
+> +
+> +	if (!kvm_has_gcs(kern_hyp_va(vcpu->kvm)))
+> +		return 0;
+> +
+> +	/* GCS can't be enabled for 32 bit */
+> +	if (mode & PSR_MODE32_BIT)
+> +		return 0;
+> +
+> +	/* When taking an exception to a higher EL EXLOCK is cleared. */
+> +	if ((mode | PSR_MODE_THREAD_BIT) != target_mode)
+> +		return 0;
+> +
+> +	/*
+> +	 * When taking an exception to the same EL EXLOCK is set to
+> +	 * the effective value of GCSR_ELx.EXLOCKEN.
+> +	 */
+> +	if (vcpu_is_el2(vcpu))
+> +		gcscr = __vcpu_read_sys_reg(vcpu, GCSCR_EL2);
+> +	else
+> +		gcscr = __vcpu_read_sys_reg(vcpu, GCSCR_EL1);
+> +
+> +	if (gcscr & GCSCR_ELx_EXLOCKEN)
+> +		return PSR_EXLOCK_BIT;
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * This performs the exception entry at a given EL (@target_mode), stashing PC
+>   * and PSTATE into ELR and SPSR respectively, and compute the new PC/PSTATE.
+> @@ -162,6 +194,11 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+>  	// PSTATE.BTYPE is set to zero upon any exception to AArch64
+>  	// See ARM DDI 0487E.a, pages D1-2293 to D1-2294.
+>  
+> +	// PSTATE.EXLOCK is set to 0 upon any exception to a higher
+> +	// EL, or to GCSCR_ELx.EXLOCKEN for an exception to the same
+> +	// exception level.  See ARM DDI 0487 RWTXBY, D.1.3.2 in K.a.
+> +	new |= enter_exception64_gcs(vcpu, mode, target_mode);
+> +
+>  	new |= PSR_D_BIT;
+>  	new |= PSR_A_BIT;
+>  	new |= PSR_I_BIT;
+> 
 
---=20
-An old man doll... just what I always wanted! - Clara
+But that's not the only case where we have to deal with EXLOCK, is it?
+What of ERET and its PAuth variants? R_TYTWB says:
 
---0n+dSVK2aIu7RrRW
-Content-Type: application/pgp-signature; name=signature.asc
+<quote>
+If in AArch64 state, any of the following situations can cause an
+illegal exception return:
 
------BEGIN PGP SIGNATURE-----
+[...]
 
-iHUEABYKAB0WIQQZO/gRNchuWgPJR+Z7tWyQc2rTCAUCaKXXjAAKCRB7tWyQc2rT
-CP5vAQCVKbnTs4dGZkVn+48GVLHMgTTCrhBdAf5SGiuxFxCxqwD/RZwArnIcVMLF
-rewkM9vMJB/bzQxt81QyHh4mA+m8gwA=
-=mSTU
------END PGP SIGNATURE-----
+- If the Effective value of GCSCR_ELx.EXLOCKEN is 1 and PSTATE.EXLOCK
+  is 0, the execution of an exception return instruction to return to
+  the current Exception level ELx.
+</quote>
 
---0n+dSVK2aIu7RrRW--
+My reading of the spec is that this needs handling.
+
+	M.
+
+-- 
+Jazz isn't dead. It just smells funny.
