@@ -1,35 +1,37 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5DF26056E;
-	Wed, 20 Aug 2025 12:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657BD233714
+	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 12:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755691934; cv=none; b=HwpVtWNILTeWvV4zDoWRZtlUlcymZzwXcPSJz1AlPN0gH3IuO8ALf11eSsEoFtgkMTDrhgOfMWyOeF+wERLoGJBuZICk9QFCqEHcX1E1qmy+BABteHUfuxku55xXtZPlHmBgHzXdX3eM39lbG5NNXrdlOtMHJtqmLF9o/cIwPJY=
+	t=1755692806; cv=none; b=IOSakkFP9lOx0y4lEyUfeYnz9Ggmt50y5mD8PsiS5eaOFLX1isx14HI5vxT/4oXw3hHXlMC3LWwQ5LKkxR3ZZaKlhAH/qTO5XgE+nnagJJZi2eOsbvdfGttyFm6oT/P7wEy6FyDgwnXIoPWPLEMj1kregAI76/qu8602gbdaWls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755691934; c=relaxed/simple;
-	bh=bQ5B2Q2m0laiZkfULP0x9I44yylDqllMoUcnwmd0l50=;
+	s=arc-20240116; t=1755692806; c=relaxed/simple;
+	bh=ZUckhx0b1FZYrbO+0sEf2kPmwrX8tp3wUpLQSDeGdp8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fHpK3/xlmEG0Zq+hGw2c4X3yd+Qo82ya5Od53XvLHFthxMg9Dpaiagq9jvvxjmCWYH+Jn6bS2TgqFzSs7ZKhTkhcjol7acIcnHm02K6hfRvjBk/EN4qxETdY9KdbW84GEqMvK5z/bl1xsheIttarNvzccAiNFLC6GchKl+iOEDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=LpUZAaqD; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="LpUZAaqD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=sCY9EmTR6BVl/VOfxS38fNAY0QK7jbYuJgUD4YXkdRw=; b=LpUZAaqDgLJ/PVde3O/o9Ay4pw
-	7oD+6g6b89iREJ76gCpmivOylgXU62n2KPKY7zwugF17Wfhh6iglUxoxq4g6wKZA2fz0S1sMQ0M65
-	TeBlE1dQhjQbeRftcAkDSDaVx1eBJXBZ6sT6YN1CH8fnsBPLKbW23BTtob+1yCpl/3xo=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uohfZ-005Jmh-30; Wed, 20 Aug 2025 14:11:57 +0200
-Date: Wed, 20 Aug 2025 14:11:57 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iQ8ePYQw9jxvCaTh9Imz/5bQz2khej37UINzwgoZ7XFKKlBJ2WcjpsxYG4d+2sAllgPRMqCHDQg6H58OerX6WmlvtcDeNhWEFV5rXaGCtrJW2erTx2XpBkH4XVXhbYVY+wEbR4+gXRHGWPCcK9XgtztgsBKm3xWV94wT469fm20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uohtJ-0000bE-Ig; Wed, 20 Aug 2025 14:26:09 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uohtH-001FD8-0H;
+	Wed, 20 Aug 2025 14:26:07 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uohtG-005wUD-36;
+	Wed, 20 Aug 2025 14:26:06 +0200
+Date: Wed, 20 Aug 2025 14:26:06 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>
 Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -46,53 +48,76 @@ Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
 Subject: Re: [PATCH net-next v2 5/5] net: phy: dp83td510: add MSE interface
  support for 10BASE-T1L
-Message-ID: <94745663-b68c-4a4c-95d8-36933c305e34@lunn.ch>
+Message-ID: <aKW-3sF2g2QrKDpG@pengutronix.de>
 References: <20250815063509.743796-1-o.rempel@pengutronix.de>
  <20250815063509.743796-6-o.rempel@pengutronix.de>
  <1df-68a2e100-1-20bf1840@149731379>
  <aKLwdrqn-_9KqMaA@pengutronix.de>
+ <94745663-b68c-4a4c-95d8-36933c305e34@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aKLwdrqn-_9KqMaA@pengutronix.de>
+In-Reply-To: <94745663-b68c-4a4c-95d8-36933c305e34@lunn.ch>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-> > The doc in patch 1 says :
+On Wed, Aug 20, 2025 at 02:11:57PM +0200, Andrew Lunn wrote:
+> > > The doc in patch 1 says :
+> > > 
+> > >   > + * Link-wide mode:
+> > >   > + *  - Some PHYs only expose a link-wide aggregate MSE, or cannot map their
+> > >   > + *    measurement to a specific channel/pair (e.g. 100BASE-TX when MDI/MDI-X
+> > >   > + *    resolution is unknown). In that case, callers must use the LINK selector.
+> > > 
+> > > The way I understand that is that PHYs will report either channel-specific values or
+> > > link-wide values. Is that correct or are both valid ? In BaseT1 this is the same thing,
+> > > but maybe for consistency, we should report either channel values or link-wide values ?
 > > 
-> >   > + * Link-wide mode:
-> >   > + *  - Some PHYs only expose a link-wide aggregate MSE, or cannot map their
-> >   > + *    measurement to a specific channel/pair (e.g. 100BASE-TX when MDI/MDI-X
-> >   > + *    resolution is unknown). In that case, callers must use the LINK selector.
+> > for 100Base-T1 the LINK and channel-A selectors are effectively the
+> > same, since the PHY only has a single channel. In this case both are
+> > valid, and the driver will return the same answer for either request.
 > > 
-> > The way I understand that is that PHYs will report either channel-specific values or
-> > link-wide values. Is that correct or are both valid ? In BaseT1 this is the same thing,
-> > but maybe for consistency, we should report either channel values or link-wide values ?
+> > I decided to expose both for consistency:
+> > - on one side, the driver already reports pair_A information for the
+> >   cable test, so it makes sense to allow channel-A here as well;
+> > - on the other side, if a caller such as a generic link-status/health
+> >   request asks for LINK, we can also provide that without special
+> >   casing.
+> > 
+> > So the driver just answers what it can. For this PHY, LINK and
+> > channel-A map to the same hardware register, and all other selectors
+> > return -EOPNOTSUPP.
 > 
-> for 100Base-T1 the LINK and channel-A selectors are effectively the
-> same, since the PHY only has a single channel. In this case both are
-> valid, and the driver will return the same answer for either request.
-> 
-> I decided to expose both for consistency:
-> - on one side, the driver already reports pair_A information for the
->   cable test, so it makes sense to allow channel-A here as well;
-> - on the other side, if a caller such as a generic link-status/health
->   request asks for LINK, we can also provide that without special
->   casing.
-> 
-> So the driver just answers what it can. For this PHY, LINK and
-> channel-A map to the same hardware register, and all other selectors
-> return -EOPNOTSUPP.
+> The document you referenced explicitly says it is for 100BASE-T1.  Are
+> there other Open Alliance documents which extend the concept to -T2
+> and -T4 links? Do you have access to -T2 or -T4 PHYs which implement
+> the concept for multiple pairs?
 
-The document you referenced explicitly says it is for 100BASE-T1.  Are
-there other Open Alliance documents which extend the concept to -T2
-and -T4 links? Do you have access to -T2 or -T4 PHYs which implement
-the concept for multiple pairs?
+So far I know, following T2/T4 PHYs support MSE:
+LAN8830, KSZ9131, LAN8831, LAN8840, LAN8841
+DP83826*, DP83640, DP83867*, DP83869HM
 
-I think it is good you are thinking about the API, how it could work
-with -T2 and -T4, but do we need this complexity now?
+I have access at least to LAN8841.
 
-	Andrew
+> I think it is good you are thinking about the API, how it could work
+> with -T2 and -T4, but do we need this complexity now?
+
+Hm.. I just fear to make same mistake as I did with SQI. So, I analyzed
+as many datasheets as possible.
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
