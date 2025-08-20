@@ -1,65 +1,63 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26572257848;
-	Wed, 20 Aug 2025 04:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D658258EE9;
+	Wed, 20 Aug 2025 04:34:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755664481; cv=none; b=lcnID9T9wfWSYHemcpJa5dCr+mLqOJ1vzxAjJsoJ91okB2wxAPA6eRSZ1Xn3yT/QsBA+X25pF8U323+gvNF5/Unr2YQC0mDjTa3boRgX3RqaHQVtHDOUaYoCh1Jz1I0PzqL3xTNuD699s+vZFmSuOFB8stJQtDQp/9rgcLLOyjs=
+	t=1755664481; cv=none; b=jkKH3Y95Q/XIEzzihAcE3OZx1c6zl1UdOTx2htCvDqcJab9SIw7pMIAYrLNYwOMtx0kVEV7zB04r4b64C1De5ce1zZtO6ymZsTWNzBEBkuOiSLJaOfI9tOnqlENd1ivsgNj5+dOWljTQylw1DpHxFAhbrykXymrINBdAydFia+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755664481; c=relaxed/simple;
-	bh=u0ScB7oJe040CLbxIigtJvBlv0iClHGKbewou78MoPk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B/Xdf5tkMNbUE0wNB9AYxXuC5H2wbda/HF+cHs1NBnM4emAp79PBbig2p6xkOOnTH7srou2fm4RPZufNIb6S/Xo/8s9gSL9QhYCV6UGHO3ijFVpHDoYAs1RWGDL1Lr1XPgjyWTlooDp/ct8x5krAcA8FDeAGJJDTGvUZbZmog7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DG4BIS8U; arc=none smtp.client-ip=209.85.210.176
+	bh=1YeFmIIpqckeiU5NMS7nnNpFzX3lE0cdhFLXDBSyjmo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kS6MicIWdFNo6oxS2v4ZNxcbQAY2yVh9KO0S39ARiTtY5EvuJMtJuuzVuLnu8AQZ79G7CdVNch1kpqBgp9pV9JYSIdS2IjfamK4MbJb0hT5bJBJrFOZ9ekOlnd0rR5adUG1Kq1PGp2Bhtz6d/ScBJF5vJZ/QxVyqoXB3LIhL4mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCHeH+W/; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DG4BIS8U"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-76e7af160f1so1523739b3a.1;
-        Tue, 19 Aug 2025 21:34:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCHeH+W/"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76e2ea6ccb7so4528823b3a.2;
+        Tue, 19 Aug 2025 21:34:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755664479; x=1756269279; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ln0od7Z4vv9pu4v2OzT1GPO1Pii9c7VKabfV2KE9JTQ=;
-        b=DG4BIS8UCJYQhcRaC115hUb2ySuNsKYEns62UpvnGOIV/2DeXc7eLFd+9zB85WT4cd
-         NWGQbw+vdSi1Gsp2QPLSixPXlikbgmxWeK/yFIXDTXYlP6TwdoThAs7KiR+2nD3XFzZb
-         ijcjvzVE25Le3DrjxHOE2uTTQyDUPmgBL+1noEKEL8ffAcoNjvysn1mqJQxK6jS6agaf
-         FqApi0KxQsnYB8qwvTgWKF3GJZnZ8Zo9POKKVKywkA1qKa/86zjtKD5zLuKNUGvVRQoj
-         2+dtfyh7PVO9vjfva59kL8198RuENKUPZwci9oBCYXf39DxRDaAJAthMnDazpnVGKqoF
-         /A7w==
+        d=gmail.com; s=20230601; t=1755664480; x=1756269280; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TTJAhFagm4xZdBY0qvCgrvMP8buEhoobwDciNY3Wj6w=;
+        b=MCHeH+W/Pr2bp7fyXCfI5t3eGrcy1M6ABKrxKlN6DI0ZQzOVDJuAEYZFB2S2+EnmUo
+         wiujbWpLDsOw9BLDDIghqYN6T5AAUPce3HLAPFPdRcRPBBLthHthTMOeu4xjfhQ4LCd9
+         VJIc37yop5h8VNywAWjSpAcCJEm79fUUn5OuPHxGdo65Ae+kAyTbkbMuiNShbtTcMOkV
+         3dxRBUW3o60SyZ9QG0iTae7oEsabIfi10bQlDl54x02RrTU2ejL5E8O0+z8P6CdGlRwo
+         Fnx0SsM4xdm1WDEZ12N9LdIpnXLItcPlSVK6e5DHTmdTdTwDIeE6TB3yj5SyimTvPLoH
+         fXQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755664479; x=1756269279;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ln0od7Z4vv9pu4v2OzT1GPO1Pii9c7VKabfV2KE9JTQ=;
-        b=t+2VyopYeFeitwwFDD9zm1TMmCvqalEci3hOax1rBC8TXPp0gph2F0qAzDsFRyRNH4
-         SRG95+dUXkn2xTGfuzdEkcxE4Ws4WKdhj+AvPBsYcH03aC/QKrZYfXyezuLn3HfxpT4K
-         +GNS2L2CXcbQQHEJXqzMr4pBotaUv7+ZxmnZ68w1dUB/jF83mU5ABxYDKmCgo/VsE7bF
-         hd2/nE3J/P7jhzbjUHqFGOwTNX9JSdHY6Bcp1LNzRXYvKcqXey6NerkYXwSjHNq98We8
-         thyeHAFu9ZNywJoHGQI+lYRgFc9YDBx7/x74Lg09cZJ7BDFAr3d+fT8AP5xFeMO+oIei
-         yx5w==
-X-Forwarded-Encrypted: i=1; AJvYcCUSpwWkp5E5rPnzARs8LSa3EHong+I9apfyNhUa3hpdEKVyrBglOH/zhcj7MHA1bfSyfte17Vrhh7Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBFdM3tpPInfvyjWx9kZFPIZ5XZm5LezHKxfiLId26tZ+gtQ/N
-	vTi1/WhLNqv1ymIGIjUEza74dnu/WnoIgnnGJzblNfnQqPrwlKuZtzhF
-X-Gm-Gg: ASbGncune7Xn/POioxoa/EdLzhkFdak5iT9ZFuRePHK0/DPEnVF8D4frTCzEcjyxaei
-	RHZEjzq5lMQ46cs+u+nnSnMKpGfE/3SP5ZAR9hFlgC5SpkCp/jexj4PQGqAvbmWHbB8RDGyNoXw
-	YDDSc32fbMdr2xXAF+8+DbeykOi53EG+HiOWQJOogfTGhE+9XadiQRZJy+zwL/Zflul211hIsOX
-	+D6pJXLKkFMXhCpUBwOGhtcxRkF3eLN1A/pmcMBEbIeeL64FnedVdrz8z9vwV0JMD/SyxWP134Y
-	zimtLmA56IW+ed21X4+NKKzhIuHp4zHEK2mDgty6gozElIlD6P8aVDD7BH4n1gnIRPJREe9P/0C
-	bzf51KuxX0jJ049S0vZq7XA==
-X-Google-Smtp-Source: AGHT+IFUrF3nY//FbHCmRJnSjf8PGBS6sQaGnh0boWKFjVAtouYQCTp8sIA3TCct7jxHiBbbS2BbPQ==
-X-Received: by 2002:a05:6a20:72a8:b0:220:78b9:f849 with SMTP id adf61e73a8af0-2431b84772cmr2759936637.24.1755664479355;
+        d=1e100.net; s=20230601; t=1755664480; x=1756269280;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TTJAhFagm4xZdBY0qvCgrvMP8buEhoobwDciNY3Wj6w=;
+        b=fjz0adyw/Co2jCbaYI2APwt9/zKfpNILi0Q/PfHBEe6+xpri0uXRuytPIOu7sEmerL
+         7PXjOSV9LHVw7b4+CRvypqtCoQgvMNdZwv6ZrBiMzRIivF5cMVXkO1U6AMg+gwLjdvRX
+         ZGzLHud8cy/X9S1mPk4+mQeFS8+7rvAfPMM+DgosVV1+UgtRcBjhNGFZumQVPN+esx8/
+         imBH9OysVHElruCGrNcPpIZEKQMfaAOk2OhiJhNko4AxvR+BtMGOqS06FTdFx582gWoP
+         299WuzO3qHZzndXf8Tg4rSiJrju4s1kjLigPgmoPw7Q9zoiyUjm6Qkk9EG1zx04W4yWJ
+         XAEw==
+X-Forwarded-Encrypted: i=1; AJvYcCUh0un9fUnw9K2NjO4vb+fsz8RK9ACA+croKrRAZSuhQ95aihRa9VAJxdiG9jonPkpddGHr9I4cMP4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrQgLK0dpHinKvCKpZ54wkG0jqMKFdKfAdX9MzlOAMAm8+6LK9
+	FsW/eURSo2JzgqfZI9DMjx9urwipbI+nPJ6KC39wNrS2LnijPd8cBzxw
+X-Gm-Gg: ASbGncuJjq8SzAmaykVnEJb0E0tlYv+NvkZUv4rrGTQwlG1DDVzQ+kLMziIvjT+eUmA
+	nSv6rG1CArUDr0N6RrI90L5uDQjM9TffynKEKglWTnvmMs/TKiUJgyIl8gPJUK9xDkuzZjUPt7f
+	iG3ZRkATJxyLb4lxlSNuB1hNMJRTbYlnBgMUdZgPDkyTA5OyUwlFfcZ9Z02T3LTa1fNEPvqI72y
+	yV6OshqJiBM+cFAfrCz0KXzYSMJx9H+tHx0BEYJ1ODCdx7Y6PzuG0eqXRmro3u0dzpDYHxXsM1i
+	qafQxWJEGs0dE2Wx5dj5DuYl7f1cpAQTChJ0yyvuHhxctZTC8tfdAcSYO2OXjT6gxxeO3Mh7Uh2
+	ZJc3Lmhw1i+njVQa0eMJiuw==
+X-Google-Smtp-Source: AGHT+IGuGwomy2t/lnkvzOkQfUGyUDRAElqgYIuRb+Qkfx8/mw8d45XT8gZ/QDWISpdBNTf8K08SbQ==
+X-Received: by 2002:a05:6a20:9147:b0:240:1dca:d13d with SMTP id adf61e73a8af0-2431b9f7ab0mr2747454637.43.1755664479710;
         Tue, 19 Aug 2025 21:34:39 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-324e264c470sm857925a91.25.2025.08.19.21.34.37
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d107ecfsm4026901b3a.26.2025.08.19.21.34.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 19 Aug 2025 21:34:38 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 99FDF436C400; Wed, 20 Aug 2025 11:34:35 +0700 (WIB)
+	id 00D4742B408B; Wed, 20 Aug 2025 11:34:34 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -71,50 +69,42 @@ Cc: Jaegeuk Kim <jaegeuk@kernel.org>,
 	Daeho Jeong <daehojeong@google.com>,
 	Yuanye Ma <yuanye.ma20@gmail.com>,
 	Yangtao Li <frank.li@vivo.com>
-Subject: [PATCH 3/6] Documentation: f2fs: Span write hint table section rows
-Date: Wed, 20 Aug 2025 11:34:29 +0700
-Message-ID: <20250820043432.22509-4-bagasdotme@gmail.com>
+Subject: [PATCH 0/6] f2fs: documentation formatting cleanup and improvements
+Date: Wed, 20 Aug 2025 11:34:26 +0700
+Message-ID: <20250820043432.22509-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250820043432.22509-1-bagasdotme@gmail.com>
-References: <20250820043432.22509-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1300; i=bagasdotme@gmail.com; h=from:subject; bh=u0ScB7oJe040CLbxIigtJvBlv0iClHGKbewou78MoPk=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlL/bf16/pGnG/fE1Mh+bX6z5z990Jvaqz0O2F2ZdmOq veHasWOdJSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiXlqMDM/Pz1jXukfId9cn 3vzSh1w7Os7z7LMXuCETknaP2Xfhwf0Mf8XsdM4cvGx/bvWhE/+ulORMa/l0aWXPoV25/Bk9/t4 CG9gB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=784; i=bagasdotme@gmail.com; h=from:subject; bh=1YeFmIIpqckeiU5NMS7nnNpFzX3lE0cdhFLXDBSyjmo=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlL/Td8LdsnMq374B/Zfad9PzpJGv97u1PPqfylYFZW+ YLm+HDHjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEyk1Jfhr+gEa7sPZz8YKcqf fHXyx4R5OfvWLnxu9aZQ40fv+dKVVpGMDPM1FvXXajSUNiRFHDdTU3tY3XZzxreM/dv6Pjho5/Y /ZgUA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Write hint policy table has two rows which act as section rows: buffered
-io and direct io, yet these rows are written as normal rows instead.
+Hi,
 
-Column-span them.
+Here are documentation formatting cleanup for f2fs. This also includes
+docs retitle at the end of series ([6/6]) as a bonus.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/filesystems/f2fs.rst | 2 ++
- 1 file changed, 2 insertions(+)
+This series is based on docs-next tree.
 
-diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-index 132c3080ad5c4c..85e015b712c2e1 100644
---- a/Documentation/filesystems/f2fs.rst
-+++ b/Documentation/filesystems/f2fs.rst
-@@ -800,11 +800,13 @@ ioctl(COLD)           COLD_DATA                WRITE_LIFE_EXTREME
- extension list        "                        "
- 
- -- buffered io
-+------------------------------------------------------------------
- N/A                   COLD_DATA                WRITE_LIFE_EXTREME
- N/A                   HOT_DATA                 WRITE_LIFE_SHORT
- N/A                   WARM_DATA                WRITE_LIFE_NOT_SET
- 
- -- direct io
-+------------------------------------------------------------------
- WRITE_LIFE_EXTREME    COLD_DATA                WRITE_LIFE_EXTREME
- WRITE_LIFE_SHORT      HOT_DATA                 WRITE_LIFE_SHORT
- WRITE_LIFE_NOT_SET    WARM_DATA                WRITE_LIFE_NOT_SET
+Enjoy!
+
+Bagas Sanjaya (6):
+  Documentation: f2fs: Separate errors mode subtable
+  Documentation: f2fs: Format compression level subtable
+  Documentation: f2fs: Span write hint table section rows
+  Documentation: f2fs: Wrap snippets in literal code blocks
+  Documentation: f2fs: Indent compression_mode option list
+  Documentation: f2fs: Reword title
+
+ Documentation/filesystems/f2fs.rst | 88 +++++++++++++++++-------------
+ 1 file changed, 50 insertions(+), 38 deletions(-)
+
+
+base-commit: 37c52167b007d9d0bb8c5ed53dd6efc4969a1356
 -- 
 An old man doll... just what I always wanted! - Clara
 
