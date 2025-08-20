@@ -1,123 +1,130 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB452773CD;
-	Wed, 20 Aug 2025 04:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047E11F3BA4
+	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 04:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755664486; cv=none; b=oqx9YL92xO+sQPA0INxnZTJV4mVhPsYJCTfTjvsdeDYkCCzXNIGrdtzE/K8zZ7OcTv5QwG9/TIIlLXm7qPRDBFTbcDTNLTucci8jxWxypDQuqtPHtlCBFRftcWm9NXskXhlG0XZtvgMtwkAB4aVcdburBsnrnetUYEsCCSw9qgs=
+	t=1755665121; cv=none; b=cNyPtd2zpZQ57tmFKqxglCj35QXRfYtWJVDjemf8gs9y9ANW+PWla1hb7Wv1lJJgQ7u4XbqNL7PPCVOdI0Gr7Dq71y2dquOcGvQPASspV3IZkt1H5bK143QIm2fRlSVOAwedT+6n1xZikg4Z3MDLhGIV442DMFvMjFMTrgcmT/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755664486; c=relaxed/simple;
-	bh=yQk+lQK1CQWqJS13FZep4quP8Zh4Ybk1JXSluoOwpDo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ooOt5I60R1fDYuzUwwBhtvJvqbSKoyW2Vd4CNYAtWHRfMTreDU6iCQDyPl6NtYsOacUwomQO4lNdDzH5RTwLM4NQcGbTAn38LZm1YhkS1DdYwvFZ83waCk2/jN6GLlGMQmulgNRLwzsHIk87my6unv91KBHEIJy1BBlI4GEZ3jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gAOh8mva; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gAOh8mva"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b472fd93ad1so3050612a12.0;
-        Tue, 19 Aug 2025 21:34:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755664484; x=1756269284; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r2IA2P+n6dJDRzMxIzjKYVRIxsfdKmslhVEOaLQ+T/Q=;
-        b=gAOh8mvaP29AjQj10ypQWOC/iiEtZYsgE5aqddhjcTQsYITdIZ+AfYWw0Uf+FDbN5k
-         bIQUFAh69aKKEve21/LQn0V5gbirdaGJbI7+kgV3PNIanHJe7f/wjWk2J9XA5lTqk+rA
-         ZBIUCGNC13Hl82oWqJSFV/aiuutufyB0VI1hv65shTFWmycLJe9xVNAwfPmD719Td6OW
-         abcCuINkTL3VTK+jknIeIaCg+gftLHnYL2a0l3XVB93BtxWven4/FytD/21pQ2Vip4pN
-         TLqM38UnEPKBompTnEkJEhG7n/eR5QQ5jL1W0bsoW7YKXFyi/NN7Kd/D8Mei22JVt852
-         9jVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755664484; x=1756269284;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r2IA2P+n6dJDRzMxIzjKYVRIxsfdKmslhVEOaLQ+T/Q=;
-        b=i0d1AO+H3laWMepuI5y5NXaWDdaUGaGWSCqIqxj4ES1TdrexrhlqaW/4FyVuU8/2JK
-         MH56u3nqB2IejXxvdjR3kBEW2/KCEVTB+Wm+HbhPPaKneB9QrIbV8+AA1kjgTJATBmjN
-         1ipKMlVZpCmoapVtbUhoc3OeFCELGNg9M4WTHMGQ+7qFlrYDRdzApT9GTXlLQ1KuOS+I
-         wYVJNzrKqZB2HneO8e6zpx47ZzJPZwWb90XalVcu71bTH79me9jFG7laKjYw4HwXaSYL
-         dYQk9pjgb41oDWYqLCTGbMC7PCxKQSmSaVcUOcGyCPl3cdkAbEQhgIitHOuBTVuEJzb7
-         QhuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXoCiOxz1Rcm/PITsc52s9mz8bdlDEC4Zv/x+d44zSDdKJyYXKhoYz2NLMnd6yPhwWS2xF5YQ9QCkQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+klVbV7JtCIY3KrZ8DTLjOtU4/So3xJi4l9jS7gIqGMc3Lzv4
-	xVYcbTVEAetn4j1Djd1kKI7klFmjUSNiS0iEDwQJ0hoXmHOEo7hvXeR5
-X-Gm-Gg: ASbGncusDpEoZlnF6WX/MlarKYCFezQAnbJ5gML+qSCkZg5T/t9L0Lw/vW9ClTPoJmn
-	CVKzQ/PbFAVRaH6hdymyo4hKt8YwPh1z3DxB/RGY/30saHYcl6/zkqGLwvNLywmEu70HKmmrAfv
-	LL1DW7gYImZl+3mcDOIfjCALkPz5o3g6+fwyVt+CsHYLkiirBhVSADmdgwUL7co034XYZkTmWcW
-	nsK+q9tlZQzZ9Iz6jcFhP5f9TDoqwpFgvOup4j5d9dKgGY9zIcI9OUKDkQLXVKgDdH/WJp62zFC
-	okXwkt1gk08Xzik7jIIAnJz0eH9ysrGAvNaU03BXeBvFhlroCzteKRfpQLDpA7y3ekojN4Yqmgg
-	uhZxtgMVKknu/+UhPQqAgXQ==
-X-Google-Smtp-Source: AGHT+IFG0K6eJJ/ikjKEya3Hr6JFvroPTkyOpwyDpaD3ZIA3UUuA5xAdu4TqJAiZpI+4uf/BR4ZPCQ==
-X-Received: by 2002:a17:902:dac7:b0:243:11e3:a760 with SMTP id d9443c01a7336-245ef14bf85mr15494885ad.16.1755664483956;
-        Tue, 19 Aug 2025 21:34:43 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed35abfdsm13342545ad.41.2025.08.19.21.34.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 21:34:42 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id D87434401D41; Wed, 20 Aug 2025 11:34:35 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux F2FS <linux-f2fs-devel@lists.sourceforge.net>
-Cc: Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
+	s=arc-20240116; t=1755665121; c=relaxed/simple;
+	bh=FjnnWJI1niM6HBzIl/Pa9v+/KqD2U3tukeGd7ncCZ8I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L8dtnbMHgv2oVnu9xtcgIaSw+jR+gsnTgno+Y30OQjYQwj1OBYjTYjTthYAvp9rBejryoE08r3bIfo1Seh0uAfQVigiD70G9izHBbvr6Ej8LaPHOeP0Ty++x2x3U+9fnuuVdqcH0ZNDPbmfusA7aIKoLwBxSufgfB/6rw8BqpmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uoagY-000120-MU; Wed, 20 Aug 2025 06:44:30 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uoagQ-001Bgj-2e;
+	Wed, 20 Aug 2025 06:44:22 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uoagQ-005pET-2F;
+	Wed, 20 Aug 2025 06:44:22 +0200
+Date: Wed, 20 Aug 2025 06:44:22 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Daeho Jeong <daehojeong@google.com>,
-	Yuanye Ma <yuanye.ma20@gmail.com>,
-	Yangtao Li <frank.li@vivo.com>
-Subject: [PATCH 6/6] Documentation: f2fs: Reword title
-Date: Wed, 20 Aug 2025 11:34:32 +0700
-Message-ID: <20250820043432.22509-7-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250820043432.22509-1-bagasdotme@gmail.com>
-References: <20250820043432.22509-1-bagasdotme@gmail.com>
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
+Subject: Re: [PATCH net-next v2 1/5] ethtool: introduce core UAPI and driver
+ API for PHY MSE diagnostics
+Message-ID: <aKVSpmKR0MGZhAD1@pengutronix.de>
+References: <20250815063509.743796-1-o.rempel@pengutronix.de>
+ <20250815063509.743796-2-o.rempel@pengutronix.de>
+ <489b2959-3374-4766-a982-9e7c26077899@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1215; i=bagasdotme@gmail.com; h=from:subject; bh=yQk+lQK1CQWqJS13FZep4quP8Zh4Ybk1JXSluoOwpDo=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlL/bf1cOctSpnyQUfGsUBlxRuuGQEtwlr2hWfS7hz8s Tbd/dG/jlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEyEv5eRYSnDavfFO+xu57M9 sNTz8TPqZTlWliqw/MNH3uD3gtcvKTMyrDE+l8t34u9LC4tJ50vmr1rZrNUo+2dilU2C+lW175a sXAA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <489b2959-3374-4766-a982-9e7c26077899@lunn.ch>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-"What is F2FS" is rather a mistitle for the whole f2fs docs, as it
-implies the overview section (before "Background and design issues"
-section) and the docs covers beyond that: from mount options to
-filesystem implementation details.
+On Wed, Aug 20, 2025 at 05:03:14AM +0200, Andrew Lunn wrote:
+> > Channel-to-pair mapping is normally straightforward, but in some cases
+> > (e.g. 100BASE-TX with MDI-X resolution unknown) the mapping is ambiguous.
+> > If hardware does not expose MDI-X status, the exact pair cannot be
+> > determined. To avoid returning misleading per-channel data in this case,
+> > a LINK selector is defined for aggregate MSE measurements.
+> 
+> This is the same with cable test. The API just labels the pairs using
+> 
+>         ETHTOOL_A_CABLE_PAIR_A,
+>         ETHTOOL_A_CABLE_PAIR_B,
+>         ETHTOOL_A_CABLE_PAIR_C,
+>         ETHTOOL_A_CABLE_PAIR_D,
+> 
+> It does not take into account MDI-X or anything.
 
-Retitle and add explicit overview section.
+In the case of the cable test, MDI-X does not affect the reported
+results, or if it does, we can actively change the configuration and
+re-run the test. For SQI/MSE on this chip, however, the measurement is
+purely passive. If the hardware does not expose an MDI-X indicator, we
+cannot reliably assign the values to a specific pair, so we need the
+LINK selector to avoid returning misleading data.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/filesystems/f2fs.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+> > @@ -1174,6 +1246,60 @@ struct phy_driver {
+> >  	/** @get_sqi_max: Get the maximum signal quality indication */
+> >  	int (*get_sqi_max)(struct phy_device *dev);
+> >  
+> > +	/**
+> > +	 * get_mse_config - Get configuration and scale of MSE measurement
+> > +	 * @dev:    PHY device
+> > +	 * @config: Output (filled on success)
+> > +	 *
+> > +	 * Fill @config with the PHY's MSE configuration for the current
+> > +	 * link mode: scale limits (max_average_mse, max_peak_mse), update
+> > +	 * interval (refresh_rate_ps), sample length (num_symbols) and the
+> > +	 * capability bitmask (supported_caps).
+> > +	 *
+> > +	 * Implementations may defer configuration until hardware has
+> > +	 * converged; in that case they should return -EAGAIN and allow the
+> > +	 * caller to retry later.
+> > +	 *
+> > +	 * Return:
+> > +	 *  * 0              - success, @config is valid
+> > +	 *  * -EOPNOTSUPP    - MSE configuration not implemented by the PHY
+> > +	 *		       or not supported in the current link mode
+> > +	 *  * -ENETDOWN      - link is down and configuration is not
+> > +	 *		       available in that state
+> 
+> This seems a bit odd. phylib knows the state of the link. If it is
+> down, why would it even ask? 
 
-diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-index 146511d63b684e..10504f774e1dff 100644
---- a/Documentation/filesystems/f2fs.rst
-+++ b/Documentation/filesystems/f2fs.rst
-@@ -1,8 +1,11 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--==========================================
--WHAT IS Flash-Friendly File System (F2FS)?
--==========================================
-+=================================
-+Flash-Friendly File System (F2FS)
-+=================================
-+
-+Overview
-+========
- 
- NAND flash memory-based storage devices, such as SSD, eMMC, and SD cards, have
- been equipped on a variety systems ranging from mobile to server systems. Since
+Good point. I'll remove this part of comment.
+
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
