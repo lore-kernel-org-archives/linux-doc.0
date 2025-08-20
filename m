@@ -1,206 +1,152 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7302E425A;
-	Wed, 20 Aug 2025 09:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC1E1B4233;
+	Wed, 20 Aug 2025 09:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755682985; cv=none; b=imdSzsWdriASkjMHP+UbGx6vzYkWr8b2ZJD6N/40By27fRghJfCtgJPRqHvQz2xsbQoxg3K1dlM5wb04wYjMLMYTM73c2MEkxneOfv7B85i4hHOKUP9ZyCORZb0nMp+dS/LH8DGS+xgGiK89cM+5NOJ0vFXNMIKTOxAvuEXFHhI=
+	t=1755683449; cv=none; b=ppI303p7QJ02vn9nANkx3Jj0pWoiXwnhswBDtXsyT4npntt9fL+owyme1mdjJRP5COzHguvVgX0hESZ56SrndDvXMHmugFM7Pn+Qz0numn/i+aQ40FS6JB2w/bMy/yKyQDGFoVdokvaef4JZsmp6hVy5kC9NAYyLwZSPKBFE+dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755682985; c=relaxed/simple;
-	bh=tg9IjVPKeAoMTFuCx62Uncfr94ePF6KkIVlDLDMLWpI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hO47S6wBTV+4mKjZ8kefSZep9rSACAsKqMGj0Qr/9KbXWhVAmL7YWr3zCUfYUXyx/Y1J372M4twEPbPzfxfe+x3jQe9P0HF1c06wdCv1xhptvfkOz66D1D5GGr2QcpqLSiBnLXqW4q2HSsC/FDvEFcvQrQUwiRp9Ie7gymDEOQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WhczS5GU; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1755683449; c=relaxed/simple;
+	bh=TXa6SwADZW2EnuROnuMdq8thNh5pAy9oJvtuOdFbs9k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=e3Zs8Cf0TmXXgCpPUGXmstHbQxfYd0KowTBJZJNua1FaYnigHbd3Mbo3kNfdtiF6XXUR1D+Eb/hpb2cfZ/AfvbToz0JrwsNyaqLsbk/Rjx21Z6Y3YZWpeBk+PvgXgLSIxYWd561aLMRzONRksTebzuYoC7Gap3pVOihQlzqL40w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pwGMkAP3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WhczS5GU"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 15D1B1A0C84;
-	Wed, 20 Aug 2025 09:42:56 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D36E7606A0;
-	Wed, 20 Aug 2025 09:42:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 534981C22D68B;
-	Wed, 20 Aug 2025 11:42:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1755682974; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=zfvFfiyxPXbBfvwJE5bTDjBpTAzKbRTBc/ZQyDkJoz8=;
-	b=WhczS5GUqPCbwutj7Eq0AMzsZV6det/s0AO9qWO0ei2wr5RMwi+wcFptCoSCLBpJUJiJ3c
-	D+XrnoGOtRMY+T9InT42UKwpaLqEfpD36ugR3SCI8nv4qGfTWl5n+rmcdalgXqQfY4bu7T
-	iH7JrcKU860ZXU8yQA7qvpODkBrtSN7ThKhUx/RkeqIwa6w2bLr49Qpu+vuVLFLXPXXNX4
-	ZsRT9N8h9K6q0J0Soqr2utbOa+65c4Lm/HWZqr7x2sYefuqPjbcos/kiPYbpQkFNeBO7Or
-	912AyA4s88vlrn/1dsA7+i66TGPN+UdF90dlXcaNrNXCaIF20AuMDOwsph80JA==
-Date: Wed, 20 Aug 2025 11:41:58 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Donald Hunter
- <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>, Nishanth Menon
- <nm@ti.com>, kernel@pengutronix.de, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
- linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
- <roan@protonic.nl>
-Subject: Re: [PATCH net-next v3 2/5] ethtool: netlink: add
- ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-Message-ID: <20250820114158.187a5043@kmaincent-XPS-13-7390>
-In-Reply-To: <20250819071256.3392659-3-o.rempel@pengutronix.de>
-References: <20250819071256.3392659-1-o.rempel@pengutronix.de>
-	<20250819071256.3392659-3-o.rempel@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pwGMkAP3"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 03363C4CEEB;
+	Wed, 20 Aug 2025 09:50:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755683449;
+	bh=TXa6SwADZW2EnuROnuMdq8thNh5pAy9oJvtuOdFbs9k=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=pwGMkAP3fShXsgmIxrDNbGfSts1T4hTBVJm2cid/yzLOfjeP1FCMK+ej0o+F8IyTy
+	 c3QUhXDiY94NGRtIvDB/IGVAc2eUr6dmqnx0MiD5TXvk6EnAu+WPwSY64BBmAYWExa
+	 fI8CdiVpigXQQ2F/MKXO+PKLZ8YhCR7wMOlWUZPJfTA/Hj1f1ExhvnNIBbsBgO1OL+
+	 JETPlI9OzjTVHNJTHw7rgxCdfuaqSnhZ0byZ1uTrdJcX/Hl8B8WkiXUDB6mfa4LWPy
+	 ahglHaosGsDKQNmJ898OYCSQChX1zsQFE6Q30LDjdYjDeiaklhVl1FWn3crB7m1DqM
+	 XMqvbDjpv2Pvg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBCD0CA0EDC;
+	Wed, 20 Aug 2025 09:50:48 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Subject: [PATCH RESEND v7 0/2] hwmon: add GPD devices sensor driver
+Date: Wed, 20 Aug 2025 17:50:37 +0800
+Message-Id: <20250820-gpd_fan-v7-0-10c8058f4dba@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAG2apWgC/3XRXUvDMBQG4L8ycquVnHxXEKbbmKB4oRdDREbaJ
+ G3Utls7u82x/26oSEfFy5Oc580LOaDG1t426HJ0QLVtfeOrMgzyfITSXJeZjbwJMyKYMCxBRNn
+ KLJ0uIy4dxTGhqVIMhe1VbZ3fdUkv6HH2NHuYotdwnvtmU9X77oEWuts/WS1EOKIMczBGgsZin
+ BXaf1ykVdFltOTUyd6R4JxMpBVJ7AgkQ0f/cTQ4ZaR1CRBBEzl07NSp3rHgAITljIKOnR06/us
+ 4JgC948EJrBwjnDtsYehE5ybX8231tZ0DbbbPb5MbsVwUJFeaTMztThdnZH+VQcHIal++363XZ
+ nqfjbucQZrsWyh80kKGFpypJDbKcWnk+LMMv72xaf5jj8fjN1HgY1gQAgAA
+X-Change-ID: 20240716-gpd_fan-57f30923c884
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>
+Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>, 
+ Yao Zi <ziyao@disroot.org>, Derek John Clark <derekjohn.clark@gmail.com>, 
+ WangYuli <wangyuli@uniontech.com>, Jun Zhan <zhanjun@uniontech.com>, 
+ niecheng1@uniontech.com, guanwentao@uniontech.com, 
+ =?utf-8?q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>, 
+ someone5678 <someone5678.dev@gmail.com>, 
+ Justin Weiss <justin@justinweiss.com>, 
+ Antheas Kapenekakis <lkml@antheas.dev>, command_block <mtf@ik.me>, 
+ derjohn <himself@derjohn.de>, Crashdummyy <crashdummy1337@proton.me>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755683447; l=2789;
+ i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
+ bh=TXa6SwADZW2EnuROnuMdq8thNh5pAy9oJvtuOdFbs9k=;
+ b=77K97mhcCeUPSUzAKn5zfKgB4jRcNrtMlxnyg46exXHlHVP43IF2mkcf81i56tXInbmviizaw
+ tec0+mxfAtmAG6uf3276jfrqISM5ICFxxTRG6QF/ZR2jdRfGpGC6RLt
+X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
+ auth_id=474
+X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Reply-To: cryolitia@uniontech.com
 
-Le Tue, 19 Aug 2025 09:12:53 +0200,
-Oleksij Rempel <o.rempel@pengutronix.de> a =C3=A9crit :
+Sensors driver for GPD Handhelds that expose fan reading and control
+via hwmon sysfs.
 
-> Introduce the userspace entry point for PHY MSE diagnostics via
-> ethtool netlink. This exposes the core API added previously and
-> returns both configuration and one or more snapshots.
->=20
-> Userspace sends ETHTOOL_MSG_MSE_GET with an optional channel
-> selector. The reply carries:
->   - ETHTOOL_A_MSE_CONFIG: scale limits, timing, and supported
->     capability bitmask
->   - ETHTOOL_A_MSE_SNAPSHOT+: one or more snapshots, each tagged
->     with the selected channel
->=20
-> If no channel is requested, the kernel returns snapshots for all
-> supported selectors (per=E2=80=91channel if available, otherwise WORST,
-> otherwise LINK). Requests for unsupported selectors fail with
-> -EOPNOTSUPP; link down returns -ENOLINK.
->=20
-> Changes:
->   - YAML: add attribute sets (mse, mse-config, mse-snapshot) and
->     the mse-get operation
->   - UAPI (generated): add ETHTOOL_A_MSE_* enums and message IDs,
->     ETHTOOL_MSG_MSE_GET/REPLY
->   - ethtool core: add net/ethtool/mse.c implementing the request,
->     register genl op, and hook into ethnl dispatch
->   - docs: document MSE_GET in ethtool-netlink.rst
->=20
-> The include/uapi/linux/ethtool_netlink_generated.h is generated
-> from Documentation/netlink/specs/ethtool.yaml.
->=20
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
->  Documentation/netlink/specs/ethtool.yaml      |  88 +++++
->  Documentation/networking/ethtool-netlink.rst  |  65 ++++
->  .../uapi/linux/ethtool_netlink_generated.h    |  37 ++
->  net/ethtool/Makefile                          |   2 +-
->  net/ethtool/mse.c                             | 362 ++++++++++++++++++
->  net/ethtool/netlink.c                         |  10 +
->  net/ethtool/netlink.h                         |   2 +
->  7 files changed, 565 insertions(+), 1 deletion(-)
->  create mode 100644 net/ethtool/mse.c
->=20
-> diff --git a/Documentation/netlink/specs/ethtool.yaml
-> b/Documentation/netlink/specs/ethtool.yaml index 6bffac0904f1..ed4774826b=
-16
-> 100644 --- a/Documentation/netlink/specs/ethtool.yaml
-> +++ b/Documentation/netlink/specs/ethtool.yaml
-> @@ -1872,6 +1872,79 @@ attribute-sets:
->          type: uint
->          enum: pse-event
->          doc: List of events reported by the PSE controller
-> +  -
-> +    name: mse-config
-> +    attr-cnt-name: __ethtool-a-mse-config-cnt
+Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
+devices. This driver implements these functions through x86 port-mapped
+IO.
 
-Please use double dash here, Jakub wants to remove all underscore from the
-specs.
+Tested-by: Marcin Strągowski <marcin@stragowski.com>
+Tested-by: someone5678 <someone5678.dev@gmail.com>
+Tested-by: Justin Weiss <justin@justinweiss.com>
+Tested-by: Antheas Kapenekakis <lkml@antheas.dev>
+Tested-by: command_block <mtf@ik.me>
+Tested-by: derjohn <himself@derjohn.de>
+Tested-by: Crashdummyy <crashdummy1337@proton.me>
 
-> +  -
-> +    name: mse-snapshot
-> +    attr-cnt-name: __ethtool-a-mse-snapshot-cnt
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-Same
+---
+Additional explanation: Based on the concerns in the previous version
+of the discussion about placing the driver in the x86 subsystem or the
+hwmon subsystem, I currently do not see any intention from GPD to
+integrate battery management into EC, and would prefer to keep the
+driver in the hwmon subsystem until the hardware manufacturers actually
+make something practical.
 
-> +    name: mse
-> +    attr-cnt-name: __ethtool-a-mse-cnt
+---
+Changes in v7:
+- Add support for GPD Duo
+- Change email from cryolitia@gmail.com to cryolitia@uniontech.com
+- Link to v6: https://lore.kernel.org/r/CAGwozwG13swYjCB6_Wm2h8a2CdHxam+2y=g1m42pynkKqqdDLg@mail.gmail.com
 
-Same
+Changes in v6:
+- fix: nullptr and label followed by a declaration
+- cleanup: clean up code and rename some function
+- format code
+- dmi: add 2025 new GPD devices
+- Link to v5: https://lore.kernel.org/r/20250211-gpd_fan-v5-0-608f4255f0e1@gmail.com
 
-...
+Changes in v5:
+- Rebase on kernel 6.13
+- Remove all value-cache related code
+- Clean up code
+- Link to v4: https://lore.kernel.org/r/20240718-gpd_fan-v4-0-116e5431a9fe@gmail.com
 
-> +MSE Configuration
-> +-----------------
-> +
-> +This nested attribute contains the full configuration properties for the=
- MSE
-> +measurements
-> +
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
-=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +  ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE             u32     max avg_mse s=
-cale
-> +  ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE                u32     max peak_mse =
-scale
-> +  ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS             u64     sample rate (=
-ps)
-> +  ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS                 u64     symbols per s=
-ample
-> +  ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS              bitset  capability bi=
-tmask
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
-=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D +
-> +.. kernel-doc:: include/linux/phy.h
-> +    :identifiers: phy_mse_config
-> +
-> +.. kernel-doc:: include/uapi/linux/ethtool_netlink_generated.h
-> +    :identifiers: phy_mse_snapshot
+Changes in v4:
+- Apply suggest by Krzysztof Kozlowski, thanks!
+- Link to v3: https://lore.kernel.org/r/20240717-gpd_fan-v3-0-8d7efb1263b7@gmail.com
 
-I think you forgot to remove this kernel-doc lines as the MSE snapshot is
-described below.
+Changes in v3:
+- Re-arrange code, thanks to Krzysztof Kozlowski, Guenter Roeck, Yao Zi!
+- Link to v2: https://lore.kernel.org/r/20240717-gpd_fan-v2-0-f7b7e6b9f21b@gmail.com
 
-> +
-> +MSE Snapshot
-> +------------
-> +
-> +This nested attribute contains an atomic snapshot of MSE values for a
-> specific +channel or for the link as a whole.
-> +
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
-=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +  ETHTOOL_A_MSE_SNAPSHOT_CHANNEL                   u32     channel enum =
-value
-> +  ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE               u32     average MSE v=
-alue
-> +  ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE                  u32     current peak =
-MSE
-> +  ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE            u32     worst-case pe=
-ak
-> MSE
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
-=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D +
-> +.. kernel-doc:: include/linux/phy.h
-> +    :identifiers: phy_mse_snapshot
-> +
->  Request translation
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changes in v2:
+- Improved documentation, thanks to Randy Dunlap!
+- Link to v1: https://lore.kernel.org/r/20240716-gpd_fan-v1-0-34051dd71a06@gmail.com
 
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+---
+Cryolitia PukNgae (2):
+      hwmon: add GPD devices sensor driver
+      hwmon: document: add gpd-fan
+
+ Documentation/hwmon/gpd-fan.rst |  71 ++++
+ Documentation/hwmon/index.rst   |   1 +
+ MAINTAINERS                     |   7 +
+ drivers/hwmon/Kconfig           |  10 +
+ drivers/hwmon/Makefile          |   1 +
+ drivers/hwmon/gpd-fan.c         | 753 ++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 843 insertions(+)
+---
+base-commit: b19a97d57c15643494ac8bfaaa35e3ee472d41da
+change-id: 20240716-gpd_fan-57f30923c884
+
+Best regards,
+-- 
+Cryolitia PukNgae <cryolitia@uniontech.com>
+
+
