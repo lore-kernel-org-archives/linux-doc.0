@@ -1,138 +1,219 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A302D8763;
-	Wed, 20 Aug 2025 08:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E752D8DD6;
+	Wed, 20 Aug 2025 08:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755677649; cv=none; b=EC1IQVt1vsNAYxwHg/I5xhu+1w6w4Swl/ZINUnwEzyt6j/k8Ys6CKIbbfFiA7kLjNwDXxbGYePaXVQpezPA54XdnHgZKOsjW58o3gAEV+bl7ZFYkvcROu/GccHM0Cp3mh71H8dD7m71U4ctEvYvRVEwWnCpPv/KJFTR8zzIGYZw=
+	t=1755677778; cv=none; b=ce1Fyv3jYfuI5VpU+ycmTgklcd1sSYsqkUV9Zs0jRJInZctVFIStMoqbKzkBjMpXy90Edounlihk/MUmKj/AqHuGlDXO+UpWA84ojN699KpSnl1osfc6e78M+udIZ0XGwuIaxLEetbNpg6BIfJAfsMELz7JQXQ5e53i5ptYe6Fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755677649; c=relaxed/simple;
-	bh=ZpCtAzS4tzwuzApjtumUN65a/Suv8wxPH+MzhX7js1M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uX83LOLyqbdTt/T395HghArUbmtE9kPsSHuGYM/j4U/NfFGZN+tlrBsfbGIoPL/BQ2ikOBx6O/W4NIxvpH+6wAQPpqo4s7+5HbnE6NrIYEO63sdjuKt9Yt1T3vVqS1cnRND96ARf6HxkKhyNp8f5mNufy2eBHvcQyX1bOj+SiF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MUEli+qR; arc=none smtp.client-ip=209.85.166.172
+	s=arc-20240116; t=1755677778; c=relaxed/simple;
+	bh=IudW00VtJS0Q8BurML9WpP7+hMJo0E73F15/H3LBDJQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=jpxyEuXysY/oYC8FtWqPq6DhtXNxNwIozZZS160p9vgFHsufVf05cn8vI4LCXJlXNAlDXsWPtsF2Mnde9b9dQxwjyyNNftMquoW7t/i0xGTZybxJgyn/cBXWX0BkZBfDfJ5PAQdSL9x+aXvPyZh20pdpVcA4b2lY9r6hLxedLB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PzLyplsk; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MUEli+qR"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3e67d83ee4bso1891745ab.1;
-        Wed, 20 Aug 2025 01:14:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PzLyplsk"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76e1fc69f86so531970b3a.0;
+        Wed, 20 Aug 2025 01:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755677647; x=1756282447; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cHdHc+vgGOidBhtPb6TotK5pN0fo9oM/+Sw3uOBxNOQ=;
-        b=MUEli+qRKeSF9n6Asfj3ArWbISbJPo/xBeFFmN+iHTNN0a4Vde3E3mXewrSa691qFG
-         yLbxONEBsz4+63oWR0T9ytw1kkcUEtwPM3o//q7t3FO8vtppPb9fUPgzi+nPbylrrTNX
-         itsw28itLA3bLyUjXLsOIbdurefN+OwlCplJiPJ0RLQIvDHg5Sn156sxkJXDSjWQKg+C
-         ek5w7IBRGNE+K5BOa95yz48NUUlnsZf+N1GS4I4jZmZZTfxS/cHbkydEbv7qJBVI/wsH
-         24IFCFdkRMiV5YAhTZphnZjfiS4tCRCXeGRTelXoV1go9Qb0B1/8bq4tqXam9nZx0AT6
-         wd1w==
+        d=gmail.com; s=20230601; t=1755677775; x=1756282575; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fYmhEH4K4d+fDyfESiGyhVvw1HTIEYtbH9NjSIIzwI0=;
+        b=PzLyplskcaCqxsZ2xOEtvFTrJMA6UY97065JdJBE2zE4Xkc6LQqXr1SYEAYXKf7i1M
+         9xKHw7uACShsIRs0O7vW1XtuckUrqs37SzPIA/YLcAK5eRakDbetTJgBTidaHqS088+q
+         Wq1gCmNsA+PbMlAM0AgJiXP0J0fvYeTzK/wDr7CdIHF0wMdbzR5HQDvNyy87jn8+07of
+         NMrHfgX375HpqFFFNvQeR7a8KFuJWXYiS7gfBI+GfwS3+G94jWdILLND1/LZb6qPqFN6
+         ZBY2TJ8MAZm2RVyx9m4pDBqOoWKW6pwC+rBFiDUT9k/DMLsFjTSyrBMJL/h258sMPuNX
+         alZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755677647; x=1756282447;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cHdHc+vgGOidBhtPb6TotK5pN0fo9oM/+Sw3uOBxNOQ=;
-        b=uTshnjWYTZO0I48s+nQl16jCwSAfJ757evhnTv/anxm8FlkvGYbOqRAuzdiSEsqO22
-         Nba2yz1vXs7OyYYBxYTgrODNn/ysVB9s6J6C79rS5RqzSmBauBOpCO3DuaJs89bLI8o8
-         uQ7VLwsTLbq+NTCYzssdmLRlmoFXIUW/oRnvMIwr+z8XcKTJ/hXmt1zB6vdlzSv7S2v4
-         24PjPgbbCagXT8hu+edHzX4HN2AeVVyX9sjZvxV90ksrAskanclLkXtb5RKsiMWU1UsC
-         Q77MyTsYpcdk8KJ5Jr7A75hWbnsqYp/Lb5xRELfRZn/IQvgSG3CPSymHCWPErul+m+yb
-         asIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVn4bakxe13Jj4Xzm5nOr4Sk6BPrkGyOoxVmsbsqf+vtERUyzzJQhFMRnD/xhAreql4tPAHjovmk3E=@vger.kernel.org, AJvYcCWIWY9Qpx8yaWRKrW8aB/Xj9Z393tt8XyEKPIPHQtROC0BRLKOcVuNfjZ7gIPUpo/uKyaE9vJ7UcApvqdUp@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpwAf2xEEuyLQyZoS4Y/6lKNthLKdFkbY2T8s07r/JZhFWUoR4
-	F7s0T2NlrUB7d5pclX8ppN5wlsqGL2IpsyWgnfKaB0ddLNJVRa9pvm8nSkT+Nv6Y2Op/gv63if5
-	x9MwVnu6pIofZDckkx+OxkX+Zc6uvLWw=
-X-Gm-Gg: ASbGncsNKnC/74gC0WfWaSSX702lnpSJZIZ5foc6graC2Sph7YmYEP88rg0F8WXfOeT
-	AkaalyjV/omsPsFnZ6ZWIY2ltbcVCdlhYyazo5z6zs1abIgAwUHOnqkHvfjljWFubrrayBPGSzi
-	cFp03CxIVkzD0QLkREht+et4N4gzMY57t6BvswAsLv3a2raQQwQgnvqb1PgjkGAfL1pE3y3HUSe
-	JE36y0Zhujlinmxiw==
-X-Google-Smtp-Source: AGHT+IHCT2tGzbMXEdi3gemb6CiCmK8a60ILAjzEUkta7Borm89v7rF8AZTQkWnJv4wFfOqcg3xMPuu+rNrOCI9ulg0=
-X-Received: by 2002:a6b:e90a:0:b0:881:81cb:57de with SMTP id
- ca18e2360f4ac-88471b1e791mr341650039f.12.1755677647382; Wed, 20 Aug 2025
- 01:14:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755677775; x=1756282575;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fYmhEH4K4d+fDyfESiGyhVvw1HTIEYtbH9NjSIIzwI0=;
+        b=Xj400rylpk9Ew+tjYx+fHM+2qVGuLwkQ+Ny9l8RDtOR6Kf7h8TWzd25wEAPYLIoIfF
+         5SynesVqjPa/Px9m7EA4RMwzee8/Uy1f8dxGGMVhM7LtLVtUpL2F0AXXjgjm1Abryql9
+         TEFItl7diEbLFxHniNtfiYwC4wshML+mtUAiA5NJRP+Rsy3iFSRgsJEJYEZTHfcQ5N1H
+         XCMC5jPz1sBfQ7IOu4Mv0kGZgp6ST2Bs3NbDGDhWwvsO0BMeSfxBYIrAaLZxxXCvdKzc
+         ztUWyOlnV16rW2bDKIkn7cVc44Cl4H9cd1eYZSlfm+6/izEYzOVmAzEayNVBhrQeAnJ5
+         3lYA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+hIkun0nn98pIjAPbn6fTXC7jPx3cGGVBwHBNwLtM4qcfE6s/RWWwdy/H6ULdPGTBHLx6mO4fEiU=@vger.kernel.org, AJvYcCVlkSo48avG0MHreqGSMeBhfGpCHKgjHQATfMDBvoGvRvk4lQFzfUv//gHXfrfu3Ehg877nt1qFDihcdGyL@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTdDdTmqsDqEidgU5gGnWx2N57gJpDuIwjTJdqSM1nd4N1hb04
+	qQehYvqkX4b4rwyb84/9Qg9qrmH0rpIAohIMj2695RgZ0D3C+cSgtc00UcBUlA==
+X-Gm-Gg: ASbGncuSgDDGk4Je3J5cNqJCgu8sdkX6DGJGty3KWN708WIoNrPOebGYS+Jy3lFFzKT
+	YanZTBwyfkbO60Q6f43DunVmrR5C+VOsmcQZysT8rw8GwKJ6dLvtjlQCCihlnT+PWTTkdJx+FYL
+	WiVS3CmqJ5NdV4CVshvfhudZfBvIxYFKjZ1K7VOzZvOn9IpIM1dtbDC5OSggVfAwq4P/JAbtVyL
+	2XAzkO04s30F0sqrk0jXT8A5Wnbwx5JjAu48Eqm/jiqQviDhwXeNOjs1ueirP+1WabXoO99bz0n
+	pZjV9DzAY9Zy7hE3QfeLXGBpx1BxPkiopRjgD4hkKCDREtgoUr2eAVZzz8StC3bDs0oLb1snPfg
+	/Yxw3z3GFpiBbs9nIHxTMVXiOJfPNUiAK/AoAuNZ6BLgLjPyBNhiTkH62dN/20wbyJlk6
+X-Google-Smtp-Source: AGHT+IE7bxhpAJ+akfdkUWBiA7hScOD3JNt2fRrJY/N0X4615uixr90zSZzDnI7omvoMF1q8M8zELw==
+X-Received: by 2002:a17:902:d60d:b0:245:f6aa:1cd0 with SMTP id d9443c01a7336-245f6aa2147mr3016945ad.17.1755677774532;
+        Wed, 20 Aug 2025 01:16:14 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed374f81sm19132735ad.55.2025.08.20.01.16.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Aug 2025 01:16:14 -0700 (PDT)
+Message-ID: <bf58f8ef-5fe8-435c-a2d5-efe0f2fd2ebd@gmail.com>
+Date: Wed, 20 Aug 2025 17:16:11 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250819092739.GA31177@didi-ThinkCentre-M930t-N000> <20250819101411.GG4067720@noisy.programming.kicks-ass.net>
-In-Reply-To: <20250819101411.GG4067720@noisy.programming.kicks-ass.net>
-From: Tio Zhang <zyhtheonly@gmail.com>
-Date: Wed, 20 Aug 2025 16:13:55 +0800
-X-Gm-Features: Ac12FXyDvPHhpL6dkIODj_7Gvsy1T8HJ1e-pyafiHot7ZIFOA6SeRG-8-Np1zDo
-Message-ID: <CAEQmJ=gwOBn5bTY0n1c1c1zu2Gk-peKERCzrW5i+S-4erd7y5Q@mail.gmail.com>
-Subject: Re: [PATCH] delayacct/sched: add SOFTIRQ delay
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: akpm@linux-foundation.org, wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, 
-	corbet@lwn.net, bsingharora@gmail.com, yang.yang29@zte.com.cn, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, mingo@redhat.com, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
-	jiang.kun2@zte.com.cn, xu.xin16@zte.com.cn, zyhtheonly@yeah.net, 
-	=?UTF-8?B?5byg5YWD54CaIFRpbyBaaGFuZw==?= <tiozhang@didiglobal.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 05/11] docs: conf.py: fix some troubles for LaTeX output
+To: mchehab+huawei@kernel.org
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <ceaa9512336444bd148511a4a3bbc336ca317757.1755256868.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+In-Reply-To: <ceaa9512336444bd148511a4a3bbc336ca317757.1755256868.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Peter Zijlstra <peterz@infradead.org> =E4=BA=8E2025=E5=B9=B48=E6=9C=8819=E6=
-=97=A5=E5=91=A8=E4=BA=8C 18:14=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Tue, Aug 19, 2025 at 05:27:39PM +0800, Tio Zhang wrote:
-> > Intro SOFTIRQ delay, so we can separate softirq as SOFTIRQ delay
-> > and hardirq as {IRQ - SOFTIRQ} delay.
-> >
-> > A typical scenario is when tasks delayed by network,
-> > if they delayed by rx net packets, i.e, net_rx_action(),
-> > SOFTIRQ delay is almost same as IRQ delay;
-> > if they delayed by, e.g, bad driver or broken hardware,
-> > SOFTIRQ delay is almost 0 while IRQ delay remains big.
-> >
-> > Examples tool usage could be found in
-> > Documentation/accounting/delay-accounting.rst
->
-> accounting will be the death of us :/
->
-> How do you account ksoftirqd ?
+Hi Mauro,
 
-delay accounting should count delay within the task's own context,
-so ksoftirqd should not be take into consideration in "SOFTIRQ delay".
+Looks like my word choice annoyed you.  Apologies again.
 
-When a task is delayed by ksoftirqd, the task is exactly delayed
-by ksoftirqd's preemption, not softirq context:
----------------------------------------------------------------------------=
------------------
-              TASK A
-    <runs in A's context>
-    <IRQ context>
-        | -------------------------------------------------------
-        |              counts in A's IRQ delay               |
-        | -------------------------------------------------------
-    <SOFTIRQ context>
-        | -------------------------------------------------------
-        |              counts in A's SOFTIRQ delay      |
-        | -------------------------------------------------------
-     wakeup_softirqd
-     preempted by ksoftirqd
-     <A in rq waiting>
-        | -----------------------------------------------------------------=
--------
-        |  counts in A's CPU delay (A->sched_info.run_delay) |
-        | -----------------------------------------------------------------=
--------
-     ksoftirqd gives the cpu
-     <runs in A's context>
----------------------------------------------------------------------------=
------------------
+I've just realized your response while composing this, but I'm sending
+it anyway.  Please see below.
 
-So when ksoftirqd plays a significant role, we will FISRT see
-SOFTIRQ delay increasing in task's delay, THEN see CPU delay
-increasing.
-We should always find out the task delayed by softirq.
+On Fri, 15 Aug 2025 13:36:21 +0200, Mauro Carvalho Chehab wrote:
+> While PDF docs work fine on RPM-based distros, it causes conflicts
+> on Debian & friends:
+> 
+> Documentation/output/process/latex/process.log:
+> 
+> 	Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+> 	LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+> 	6.
+> 	LaTeX Font Info:    No file T1lmr.fd. on input line 116.
+> 
+> 	LaTeX Font Warning: Font shape `T1/lmr/m/n' undefined
+> 	(Font)              using `T1/lmr/m/n' instead on input line 116.
+> 
+> 	! Corrupted NFSS tables.
+> 	wrong@fontshape ...message {Corrupted NFSS tables}
+>                                                   error@fontshape else let f...
+> 	l.116 ...\familydefault\seriesdefault\shapedefault
+> 
+> Change some logic inside latex_elements to avoid such issues,
+> following the example from Sphinx documentation:
+> 
+> 	https://www.sphinx-doc.org/en/master/latex.html
+> 
 
-Though not working in PRERMPT_RT (No IRQ delay but always CPU delay).
+I spotted a wrong looking LaTeX macro use.  See below:
 
-Btw, I did miss exclude ksoftirqd in irqtime_account_irq, will add in V2.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/conf.py | 39 +++++++++++++++++++++++----------------
+>  1 file changed, 23 insertions(+), 16 deletions(-)
+> 
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 6e12c7d8e07e..712e0a016727 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -9,6 +9,8 @@ import os
+>  import shutil
+>  import sys
+>  
+> +from  textwrap import dedent
+> +
+>  import sphinx
+>  
+>  # If extensions (or modules to document with autodoc) are in another directory,
+> @@ -454,19 +456,38 @@ htmlhelp_basename = "TheLinuxKerneldoc"
+>  latex_elements = {
+>      # The paper size ('letterpaper' or 'a4paper').
+>      "papersize": "a4paper",
+> +    "passoptionstopackages": dedent(r"""
+> +        \PassOptionsToPackage{svgnames}{xcolor}
+> +        % Avoid encoding troubles when creating indexes
+> +        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
+> +    """),
+
+This use of \PassOptionsToPackage{}{} looks very wrong, because its 1st
+argument is the option string you would like to pass to a latex package
+given in the 2nd argument.
+
+See: https://latexref.xyz/_005cPassOptionsToClass-_0026-_005cPassOptionsToPackage.html
+
+Furthermore, as there is no such latex package named "xindy",
+this will have any effect even if you reverse the argument order.
+
+I imagine you had some illusion and believed it would fix some issue
+you had observed.
+
+Also, I don't see the need of \PassOptionsToPackage{svgnames}{xcolor}.
+Please clarify who needs that color namespace option in the changelog.
+
+>      # The font size ('10pt', '11pt' or '12pt').
+>      "pointsize": "11pt",
+> +    # Needed to generate a .ind file
+> +    'printindex': r'\footnotesize\raggedright\printindex',
+
+I would mention this as an improvement in the changelog.
+
+And the following changes look good to me.
+
+Thanks, Akira
+
+>      # Latex figure (float) alignment
+>      # 'figure_align': 'htbp',
+>      # Don't mangle with UTF-8 chars
+> +    "fontenc": "",
+>      "inputenc": "",
+>      "utf8extra": "",
+> +    'fontpkg': dedent(r'''
+> +        \usepackage{fontspec}
+> +        \setmainfont{DejaVu Serif}
+> +        \setsansfont{DejaVu Sans}
+> +        \setmonofont{DejaVu Sans Mono}
+> +        \newfontfamily\headingfont{DejaVu Serif}
+> +    '''),
+>      # Set document margins
+> -    "sphinxsetup": """
+> +    "sphinxsetup": dedent(r"""
+>          hmargin=0.5in, vmargin=1in,
+>          parsedliteralwraps=true,
+>          verbatimhintsturnover=false,
+> -    """,
+> +    """),
+> +    "preamble": dedent(r"""
+> +        % Load kerneldoc specific LaTeX settings
+> +        \input{kerneldoc-preamble.sty}
+> +    """),
+>      #
+>      # Some of our authors are fond of deep nesting; tell latex to
+>      # cope.
+> @@ -474,22 +495,8 @@ latex_elements = {
+>      "maxlistdepth": "10",
+>      # For CJK One-half spacing, need to be in front of hyperref
+>      "extrapackages": r"\usepackage{setspace}",
+> -    # Additional stuff for the LaTeX preamble.
+> -    "preamble": """
+> -        % Use some font with UTF-8 support with XeLaTeX
+> -        \\usepackage{fontspec}
+> -        \\setsansfont{DejaVu Sans}
+> -        \\setromanfont{DejaVu Serif}
+> -        \\setmonofont{DejaVu Sans Mono}
+> -    """,
+>  }
+>  
+> -# Load kerneldoc specific LaTeX settings
+> -latex_elements["preamble"] += """
+> -        % Load kerneldoc specific LaTeX settings
+> -        \\input{kerneldoc-preamble.sty}
+> -"""
+> -
+>  # This will be filled up by config-inited event
+>  latex_documents = []
+>  
