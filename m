@@ -1,130 +1,109 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047E11F3BA4
-	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 04:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51E91624C5;
+	Wed, 20 Aug 2025 05:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755665121; cv=none; b=cNyPtd2zpZQ57tmFKqxglCj35QXRfYtWJVDjemf8gs9y9ANW+PWla1hb7Wv1lJJgQ7u4XbqNL7PPCVOdI0Gr7Dq71y2dquOcGvQPASspV3IZkt1H5bK143QIm2fRlSVOAwedT+6n1xZikg4Z3MDLhGIV442DMFvMjFMTrgcmT/g=
+	t=1755666270; cv=none; b=Zrh9z9GcXQ5+WJH3GD2kcy14L098HsegJLX4YUtoHGwA562PN1FFWQSGhjw6YfGp1siuR0ypxI85Ecz4pLfVocPDO/pmE7aHRgrTII+hum4v+X4E008uecT0On/+5XAUs++G+tHn/B7AE0PP2x/dEvO7YtO0+t3OThzIcmgaSwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755665121; c=relaxed/simple;
-	bh=FjnnWJI1niM6HBzIl/Pa9v+/KqD2U3tukeGd7ncCZ8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L8dtnbMHgv2oVnu9xtcgIaSw+jR+gsnTgno+Y30OQjYQwj1OBYjTYjTthYAvp9rBejryoE08r3bIfo1Seh0uAfQVigiD70G9izHBbvr6Ej8LaPHOeP0Ty++x2x3U+9fnuuVdqcH0ZNDPbmfusA7aIKoLwBxSufgfB/6rw8BqpmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uoagY-000120-MU; Wed, 20 Aug 2025 06:44:30 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uoagQ-001Bgj-2e;
-	Wed, 20 Aug 2025 06:44:22 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uoagQ-005pET-2F;
-	Wed, 20 Aug 2025 06:44:22 +0200
-Date: Wed, 20 Aug 2025 06:44:22 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
+	s=arc-20240116; t=1755666270; c=relaxed/simple;
+	bh=+7oJt7mjiQ4+3wCASgTtlO0icWAOnyNJxoLTgl75GmQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ie2MLqx+t2RpcE0di32Na9wT9P0BQaLIrhysPaSTkKLoOYkyOPNkaZMgUPVlvP+cODqDU51CzUStevcuqA/8pi6A1GcVDed7MX6i+bw71YgBM3+MEHX/Tj0Hc1KsPSkJQt/jMronrr4QwD/KbeiPkbGJUsLBqGui5gLQUnXBS1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VBhwTnvE; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBhwTnvE"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-76e2ebe86ecso6948759b3a.3;
+        Tue, 19 Aug 2025 22:04:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755666268; x=1756271068; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wp+M3jDgKcAwOCJY0Je+VMzGmNYc5XHm9kodmrDxfvM=;
+        b=VBhwTnvEOQ29W7YOW1hWnQo9lfKDDMI7G3pi/v9o5envQV+wi4BOKWzaBDtLK6kRRC
+         lFTwa2Wtoc8aZcHDcdK0rZXRo4u43FnEfIQzK1cpjvOOztUGSVvG4WDJh17xkQyIcr8m
+         bCD9tHbtkZyPF+laJ3ilOiEGex9O2JiKMRahbhka/NaZ1vwTESpnX8xrjZR+SUKUfbFH
+         ZT/r3AAVJKpm2FLFZyeivGzhY2DzQ8LvM0IoIbK22S7GY1azUnKtPOZgjkvvcDviT/AJ
+         y+C0oUyd0IpYrLBPAxqH8z9uFfFpRQ/XXKrh+G+ldvIgLRIIEhiJ7WPWAhm77RS1w18E
+         2+lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755666268; x=1756271068;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Wp+M3jDgKcAwOCJY0Je+VMzGmNYc5XHm9kodmrDxfvM=;
+        b=kxFqpWiPrCroKkp5/Llpb+NjOwsNG4cR3d5oAdgfW+6aWwA2PEaI21mjzdBHK+9cJo
+         KhjdsFIEK89ATSaVRxbDfajKVOh6Bg0HmBE3ATweSIr3GcIsvGl7FGjsY9r5ygYASIFb
+         PT3rWEOmdH+hLg/nY4ipoQ+0+4i6pqSSUbPThc5h04k9wg0b+9mNkZgxgsWN1CqQhoUb
+         L+byt7SdvAAM/thgko4c+GYPv6ziCwUJo5ftf3lJKZFyJUY31fMGRsd9Xqg7W40AP/Qo
+         B9OBuXlaTTRkOXKFRdz3lAA+tHO16HSIrMahrhINjwipkGTOlRZavR0WDdDEiWsUG4YT
+         k9ag==
+X-Forwarded-Encrypted: i=1; AJvYcCUGAy4haMmts5i+cKLt03zgTAPqiAmsJd0sK6J3GFpeqqcA8ZE0RvyjKCdifuROItsrov5fZvtAxto=@vger.kernel.org, AJvYcCXfyGbCbOXAdWBZAt9aV8ldQD0EIoS7J8oXkGRno+hrZe7ebInLzs4I+BRTNjsGDsuzySmt2GaaYKKS@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKz8F/xanxflM4TTD653uxwD78MeYghWH06Nb6SApE9jNLvAZI
+	2uz7lg1TIzBcNJZSLypfN8fepjValWIt5EdrPlwgxHkSW+iTWaQtjrcZ
+X-Gm-Gg: ASbGnct5+irEHxTYrrnpRpwEawOkn7GAFWDp3aWzuSjRGPGqxKcB/j7L2zolHu52RrM
+	iBkSoUnC3O0HD1Y2s+6g/+tqnKWl1QZgbZpyYR9s9tz76fYBor/wsYL2ePV4iLH9OwSAW6JecHS
+	OokewWX7typTVUw9UpT0afckziaSLmmE20B0yRMx+Lm1OHolEYRjrJzayCEghx62gesMA/usmHr
+	yvLV4P603OM2K6nCbEKA8XqFdhBdzP/vmtX9nBVRBqrxpkoKZ5EpRUrIG8P/SMJDG7wx1tvU1ci
+	B0InsHU10uHEMD0xlS5P80hCw7Y3KFz1mZ7l75cOWqL9RZs/RldG/XEx1zdlMSQtb23KUZYPZDF
+	nL8zP29TNLCH3HJBLtE1jew==
+X-Google-Smtp-Source: AGHT+IGM6VmwAFXdTYm7N3HTPpLGOkcKrTt5LmW3c0AzShObnErMBHLDonybFzMhQ7ASLye6YmS+Kg==
+X-Received: by 2002:a05:6a20:3ca3:b0:243:78a:82a9 with SMTP id adf61e73a8af0-2431ba80a37mr3263180637.49.1755666268046;
+        Tue, 19 Aug 2025 22:04:28 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3244235e3edsm1761166a91.3.2025.08.19.22.04.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 22:04:27 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id B14FC42B408B; Wed, 20 Aug 2025 12:04:24 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux USB <linux-usb@vger.kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
-	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
-Subject: Re: [PATCH net-next v2 1/5] ethtool: introduce core UAPI and driver
- API for PHY MSE diagnostics
-Message-ID: <aKVSpmKR0MGZhAD1@pengutronix.de>
-References: <20250815063509.743796-1-o.rempel@pengutronix.de>
- <20250815063509.743796-2-o.rempel@pengutronix.de>
- <489b2959-3374-4766-a982-9e7c26077899@lunn.ch>
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] Documentation: driver-api: usb: Limit toctree depth
+Date: Wed, 20 Aug 2025 12:04:16 +0700
+Message-ID: <20250820050416.25219-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <489b2959-3374-4766-a982-9e7c26077899@lunn.ch>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+X-Developer-Signature: v=1; a=openpgp-sha256; l=819; i=bagasdotme@gmail.com; h=from:subject; bh=+7oJt7mjiQ4+3wCASgTtlO0icWAOnyNJxoLTgl75GmQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlLw9QeN+7xCL3pFOZy4ZEJr58C786InkXv37yWkBdZH xT8a4pMRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACaS5MrIcDz/1WTZJcfrgx4/ eKs39dO8xSfVNsfoS+9+MvHszsDQHG1GhlWJL5keF7M5cDctKJI8tslRpIbbZaqkz65nloum5Bd b8gEA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 20, 2025 at 05:03:14AM +0200, Andrew Lunn wrote:
-> > Channel-to-pair mapping is normally straightforward, but in some cases
-> > (e.g. 100BASE-TX with MDI-X resolution unknown) the mapping is ambiguous.
-> > If hardware does not expose MDI-X status, the exact pair cannot be
-> > determined. To avoid returning misleading per-channel data in this case,
-> > a LINK selector is defined for aggregate MSE measurements.
-> 
-> This is the same with cable test. The API just labels the pairs using
-> 
->         ETHTOOL_A_CABLE_PAIR_A,
->         ETHTOOL_A_CABLE_PAIR_B,
->         ETHTOOL_A_CABLE_PAIR_C,
->         ETHTOOL_A_CABLE_PAIR_D,
-> 
-> It does not take into account MDI-X or anything.
+toctree index in USB driver api docs currently spoils the entire docs
+headings due to lack of :maxdepth: option. Add the option to limit
+toctree depth to 1, mirroring usb subsystem docs in
+Documentation/usb/index.rst.
 
-In the case of the cable test, MDI-X does not affect the reported
-results, or if it does, we can actively change the configuration and
-re-run the test. For SQI/MSE on this chip, however, the measurement is
-purely passive. If the hardware does not expose an MDI-X indicator, we
-cannot reliably assign the values to a specific pair, so we need the
-LINK selector to avoid returning misleading data.
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/driver-api/usb/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-> > @@ -1174,6 +1246,60 @@ struct phy_driver {
-> >  	/** @get_sqi_max: Get the maximum signal quality indication */
-> >  	int (*get_sqi_max)(struct phy_device *dev);
-> >  
-> > +	/**
-> > +	 * get_mse_config - Get configuration and scale of MSE measurement
-> > +	 * @dev:    PHY device
-> > +	 * @config: Output (filled on success)
-> > +	 *
-> > +	 * Fill @config with the PHY's MSE configuration for the current
-> > +	 * link mode: scale limits (max_average_mse, max_peak_mse), update
-> > +	 * interval (refresh_rate_ps), sample length (num_symbols) and the
-> > +	 * capability bitmask (supported_caps).
-> > +	 *
-> > +	 * Implementations may defer configuration until hardware has
-> > +	 * converged; in that case they should return -EAGAIN and allow the
-> > +	 * caller to retry later.
-> > +	 *
-> > +	 * Return:
-> > +	 *  * 0              - success, @config is valid
-> > +	 *  * -EOPNOTSUPP    - MSE configuration not implemented by the PHY
-> > +	 *		       or not supported in the current link mode
-> > +	 *  * -ENETDOWN      - link is down and configuration is not
-> > +	 *		       available in that state
-> 
-> This seems a bit odd. phylib knows the state of the link. If it is
-> down, why would it even ask? 
+diff --git a/Documentation/driver-api/usb/index.rst b/Documentation/driver-api/usb/index.rst
+index cfa8797ea6144b..fcb24d0500d91d 100644
+--- a/Documentation/driver-api/usb/index.rst
++++ b/Documentation/driver-api/usb/index.rst
+@@ -3,6 +3,7 @@ Linux USB API
+ =============
+ 
+ .. toctree::
++   :maxdepth: 1
+ 
+    usb
+    gadget
 
-Good point. I'll remove this part of comment.
-
+base-commit: 37c52167b007d9d0bb8c5ed53dd6efc4969a1356
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+An old man doll... just what I always wanted! - Clara
+
