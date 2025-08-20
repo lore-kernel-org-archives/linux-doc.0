@@ -1,315 +1,206 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283DB1B4233;
-	Wed, 20 Aug 2025 09:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7302E425A;
+	Wed, 20 Aug 2025 09:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755682345; cv=none; b=nI29urZDjNzLtXAMxJ+BDsG/QBB90oV6xmMwWQbFkNf/hcs5ZIvgGolXEW5Logp0dWVvvLoxa44qkj4E6EYS+/+2MCIQHmGaaDt2fLDkwDwvPPv5v6SSEpb9B+8O2r3ebk+u4QLutQDxmvnIQnQz9cLTUFcyHPobLnqz5MMgM54=
+	t=1755682985; cv=none; b=imdSzsWdriASkjMHP+UbGx6vzYkWr8b2ZJD6N/40By27fRghJfCtgJPRqHvQz2xsbQoxg3K1dlM5wb04wYjMLMYTM73c2MEkxneOfv7B85i4hHOKUP9ZyCORZb0nMp+dS/LH8DGS+xgGiK89cM+5NOJ0vFXNMIKTOxAvuEXFHhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755682345; c=relaxed/simple;
-	bh=hNULJ87ZxtX6Iu4BqQ00wfoBZmqcZio6prsPuynj+08=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I30QzF0RXpljeNtn/h5CLyYa+5YGjgBiYGPW1jehqj7m1FDhvZiX6GEP363SjCPyjvh9xIwZprxd/ZoomRWgUJa5RTU8U54/UI6P1Vv7JLOuwkuhbfn1dTMG0ugOucA3f8tBj8k9iwM02U1+G8Zxj/5bNSYrcOzvvcQWfQwnH9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4c6Lhr69lGzdcVZ;
-	Wed, 20 Aug 2025 17:27:56 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id D3622180080;
-	Wed, 20 Aug 2025 17:32:19 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.55) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 20 Aug 2025 17:32:18 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
-	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
-	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Fu Guiming <fuguiming@h-partners.com>, Meny Yossefi
-	<meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>, Lee Trager
-	<lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>, Vadim Fedorenko
-	<vadim.fedorenko@linux.dev>, Suman Ghosh <sumang@marvell.com>, Przemek
- Kitszel <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH net-next v14 8/8] hinic3: Interrupt request configuration
-Date: Wed, 20 Aug 2025 17:31:25 +0800
-Message-ID: <37615d5d87ced741e522cd966948d11ec87e4ad6.1755673097.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1755673097.git.zhuyikai1@h-partners.com>
-References: <cover.1755673097.git.zhuyikai1@h-partners.com>
+	s=arc-20240116; t=1755682985; c=relaxed/simple;
+	bh=tg9IjVPKeAoMTFuCx62Uncfr94ePF6KkIVlDLDMLWpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hO47S6wBTV+4mKjZ8kefSZep9rSACAsKqMGj0Qr/9KbXWhVAmL7YWr3zCUfYUXyx/Y1J372M4twEPbPzfxfe+x3jQe9P0HF1c06wdCv1xhptvfkOz66D1D5GGr2QcpqLSiBnLXqW4q2HSsC/FDvEFcvQrQUwiRp9Ie7gymDEOQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WhczS5GU; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WhczS5GU"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 15D1B1A0C84;
+	Wed, 20 Aug 2025 09:42:56 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D36E7606A0;
+	Wed, 20 Aug 2025 09:42:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 534981C22D68B;
+	Wed, 20 Aug 2025 11:42:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1755682974; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=zfvFfiyxPXbBfvwJE5bTDjBpTAzKbRTBc/ZQyDkJoz8=;
+	b=WhczS5GUqPCbwutj7Eq0AMzsZV6det/s0AO9qWO0ei2wr5RMwi+wcFptCoSCLBpJUJiJ3c
+	D+XrnoGOtRMY+T9InT42UKwpaLqEfpD36ugR3SCI8nv4qGfTWl5n+rmcdalgXqQfY4bu7T
+	iH7JrcKU860ZXU8yQA7qvpODkBrtSN7ThKhUx/RkeqIwa6w2bLr49Qpu+vuVLFLXPXXNX4
+	ZsRT9N8h9K6q0J0Soqr2utbOa+65c4Lm/HWZqr7x2sYefuqPjbcos/kiPYbpQkFNeBO7Or
+	912AyA4s88vlrn/1dsA7+i66TGPN+UdF90dlXcaNrNXCaIF20AuMDOwsph80JA==
+Date: Wed, 20 Aug 2025 11:41:58 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, Nishanth Menon
+ <nm@ti.com>, kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
+ linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
+ <roan@protonic.nl>
+Subject: Re: [PATCH net-next v3 2/5] ethtool: netlink: add
+ ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
+Message-ID: <20250820114158.187a5043@kmaincent-XPS-13-7390>
+In-Reply-To: <20250819071256.3392659-3-o.rempel@pengutronix.de>
+References: <20250819071256.3392659-1-o.rempel@pengutronix.de>
+	<20250819071256.3392659-3-o.rempel@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-Configure interrupt request initialization.
-It allows driver to receive packets and management information
-from HW.
+Le Tue, 19 Aug 2025 09:12:53 +0200,
+Oleksij Rempel <o.rempel@pengutronix.de> a =C3=A9crit :
 
-Co-developed-by: Xin Guo <guoxin09@huawei.com>
-Signed-off-by: Xin Guo <guoxin09@huawei.com>
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../ethernet/huawei/hinic3/hinic3_hw_comm.c   |  31 ++++
- .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  13 ++
- .../net/ethernet/huawei/hinic3/hinic3_irq.c   | 136 +++++++++++++++++-
- .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |   4 -
- 4 files changed, 178 insertions(+), 6 deletions(-)
+> Introduce the userspace entry point for PHY MSE diagnostics via
+> ethtool netlink. This exposes the core API added previously and
+> returns both configuration and one or more snapshots.
+>=20
+> Userspace sends ETHTOOL_MSG_MSE_GET with an optional channel
+> selector. The reply carries:
+>   - ETHTOOL_A_MSE_CONFIG: scale limits, timing, and supported
+>     capability bitmask
+>   - ETHTOOL_A_MSE_SNAPSHOT+: one or more snapshots, each tagged
+>     with the selected channel
+>=20
+> If no channel is requested, the kernel returns snapshots for all
+> supported selectors (per=E2=80=91channel if available, otherwise WORST,
+> otherwise LINK). Requests for unsupported selectors fail with
+> -EOPNOTSUPP; link down returns -ENOLINK.
+>=20
+> Changes:
+>   - YAML: add attribute sets (mse, mse-config, mse-snapshot) and
+>     the mse-get operation
+>   - UAPI (generated): add ETHTOOL_A_MSE_* enums and message IDs,
+>     ETHTOOL_MSG_MSE_GET/REPLY
+>   - ethtool core: add net/ethtool/mse.c implementing the request,
+>     register genl op, and hook into ethnl dispatch
+>   - docs: document MSE_GET in ethtool-netlink.rst
+>=20
+> The include/uapi/linux/ethtool_netlink_generated.h is generated
+> from Documentation/netlink/specs/ethtool.yaml.
+>=20
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  Documentation/netlink/specs/ethtool.yaml      |  88 +++++
+>  Documentation/networking/ethtool-netlink.rst  |  65 ++++
+>  .../uapi/linux/ethtool_netlink_generated.h    |  37 ++
+>  net/ethtool/Makefile                          |   2 +-
+>  net/ethtool/mse.c                             | 362 ++++++++++++++++++
+>  net/ethtool/netlink.c                         |  10 +
+>  net/ethtool/netlink.h                         |   2 +
+>  7 files changed, 565 insertions(+), 1 deletion(-)
+>  create mode 100644 net/ethtool/mse.c
+>=20
+> diff --git a/Documentation/netlink/specs/ethtool.yaml
+> b/Documentation/netlink/specs/ethtool.yaml index 6bffac0904f1..ed4774826b=
+16
+> 100644 --- a/Documentation/netlink/specs/ethtool.yaml
+> +++ b/Documentation/netlink/specs/ethtool.yaml
+> @@ -1872,6 +1872,79 @@ attribute-sets:
+>          type: uint
+>          enum: pse-event
+>          doc: List of events reported by the PSE controller
+> +  -
+> +    name: mse-config
+> +    attr-cnt-name: __ethtool-a-mse-config-cnt
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
-index 434696ce7dc2..7adcdd569c7b 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
-@@ -8,6 +8,37 @@
- #include "hinic3_hwif.h"
- #include "hinic3_mbox.h"
- 
-+int hinic3_set_interrupt_cfg_direct(struct hinic3_hwdev *hwdev,
-+				    const struct hinic3_interrupt_info *info)
-+{
-+	struct comm_cmd_cfg_msix_ctrl_reg msix_cfg = {};
-+	struct mgmt_msg_params msg_params = {};
-+	int err;
-+
-+	msix_cfg.func_id = hinic3_global_func_id(hwdev);
-+	msix_cfg.msix_index = info->msix_index;
-+	msix_cfg.opcode = MGMT_MSG_CMD_OP_SET;
-+
-+	msix_cfg.lli_credit_cnt = info->lli_credit_limit;
-+	msix_cfg.lli_timer_cnt = info->lli_timer_cfg;
-+	msix_cfg.pending_cnt = info->pending_limit;
-+	msix_cfg.coalesce_timer_cnt = info->coalesc_timer_cfg;
-+	msix_cfg.resend_timer_cnt = info->resend_timer_cfg;
-+
-+	mgmt_msg_params_init_default(&msg_params, &msix_cfg, sizeof(msix_cfg));
-+
-+	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_COMM,
-+				       COMM_CMD_CFG_MSIX_CTRL_REG, &msg_params);
-+	if (err || msix_cfg.head.status) {
-+		dev_err(hwdev->dev,
-+			"Failed to set interrupt config, err: %d, status: 0x%x\n",
-+			err, msix_cfg.head.status);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- int hinic3_func_reset(struct hinic3_hwdev *hwdev, u16 func_id, u64 reset_flag)
- {
- 	struct comm_cmd_func_reset func_reset = {};
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.h b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.h
-index c33a1c77da9c..2270987b126f 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.h
-@@ -8,6 +8,19 @@
- 
- struct hinic3_hwdev;
- 
-+struct hinic3_interrupt_info {
-+	u32 lli_set;
-+	u32 interrupt_coalesc_set;
-+	u16 msix_index;
-+	u8  lli_credit_limit;
-+	u8  lli_timer_cfg;
-+	u8  pending_limit;
-+	u8  coalesc_timer_cfg;
-+	u8  resend_timer_cfg;
-+};
-+
-+int hinic3_set_interrupt_cfg_direct(struct hinic3_hwdev *hwdev,
-+				    const struct hinic3_interrupt_info *info);
- int hinic3_func_reset(struct hinic3_hwdev *hwdev, u16 func_id, u64 reset_flag);
- 
- #endif
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-index 8b92eed25edf..33eb9080739d 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-@@ -38,7 +38,7 @@ static int hinic3_poll(struct napi_struct *napi, int budget)
- 	return work_done;
- }
- 
--void qp_add_napi(struct hinic3_irq_cfg *irq_cfg)
-+static void qp_add_napi(struct hinic3_irq_cfg *irq_cfg)
- {
- 	struct hinic3_nic_dev *nic_dev = netdev_priv(irq_cfg->netdev);
- 
-@@ -50,7 +50,7 @@ void qp_add_napi(struct hinic3_irq_cfg *irq_cfg)
- 	napi_enable(&irq_cfg->napi);
- }
- 
--void qp_del_napi(struct hinic3_irq_cfg *irq_cfg)
-+static void qp_del_napi(struct hinic3_irq_cfg *irq_cfg)
- {
- 	napi_disable(&irq_cfg->napi);
- 	netif_queue_set_napi(irq_cfg->netdev, irq_cfg->irq_id,
-@@ -60,3 +60,135 @@ void qp_del_napi(struct hinic3_irq_cfg *irq_cfg)
- 	netif_stop_subqueue(irq_cfg->netdev, irq_cfg->irq_id);
- 	netif_napi_del(&irq_cfg->napi);
- }
-+
-+static irqreturn_t qp_irq(int irq, void *data)
-+{
-+	struct hinic3_irq_cfg *irq_cfg = data;
-+	struct hinic3_nic_dev *nic_dev;
-+
-+	nic_dev = netdev_priv(irq_cfg->netdev);
-+	hinic3_msix_intr_clear_resend_bit(nic_dev->hwdev,
-+					  irq_cfg->msix_entry_idx, 1);
-+
-+	napi_schedule(&irq_cfg->napi);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int hinic3_request_irq(struct hinic3_irq_cfg *irq_cfg, u16 q_id)
-+{
-+	struct hinic3_interrupt_info info = {};
-+	struct hinic3_nic_dev *nic_dev;
-+	struct net_device *netdev;
-+	int err;
-+
-+	netdev = irq_cfg->netdev;
-+	nic_dev = netdev_priv(netdev);
-+	qp_add_napi(irq_cfg);
-+
-+	info.msix_index = irq_cfg->msix_entry_idx;
-+	info.interrupt_coalesc_set = 1;
-+	info.pending_limit = nic_dev->intr_coalesce[q_id].pending_limit;
-+	info.coalesc_timer_cfg =
-+		nic_dev->intr_coalesce[q_id].coalesce_timer_cfg;
-+	info.resend_timer_cfg = nic_dev->intr_coalesce[q_id].resend_timer_cfg;
-+	err = hinic3_set_interrupt_cfg_direct(nic_dev->hwdev, &info);
-+	if (err) {
-+		netdev_err(netdev, "Failed to set RX interrupt coalescing attribute.\n");
-+		qp_del_napi(irq_cfg);
-+		return err;
-+	}
-+
-+	err = request_irq(irq_cfg->irq_id, qp_irq, 0, irq_cfg->irq_name,
-+			  irq_cfg);
-+	if (err) {
-+		qp_del_napi(irq_cfg);
-+		return err;
-+	}
-+
-+	irq_set_affinity_hint(irq_cfg->irq_id, &irq_cfg->affinity_mask);
-+
-+	return 0;
-+}
-+
-+static void hinic3_release_irq(struct hinic3_irq_cfg *irq_cfg)
-+{
-+	irq_set_affinity_hint(irq_cfg->irq_id, NULL);
-+	free_irq(irq_cfg->irq_id, irq_cfg);
-+}
-+
-+int hinic3_qps_irq_init(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct pci_dev *pdev = nic_dev->pdev;
-+	struct hinic3_irq_cfg *irq_cfg;
-+	struct msix_entry *msix_entry;
-+	u32 local_cpu;
-+	u16 q_id;
-+	int err;
-+
-+	for (q_id = 0; q_id < nic_dev->q_params.num_qps; q_id++) {
-+		msix_entry = &nic_dev->qps_msix_entries[q_id];
-+		irq_cfg = &nic_dev->q_params.irq_cfg[q_id];
-+
-+		irq_cfg->irq_id = msix_entry->vector;
-+		irq_cfg->msix_entry_idx = msix_entry->entry;
-+		irq_cfg->netdev = netdev;
-+		irq_cfg->txq = &nic_dev->txqs[q_id];
-+		irq_cfg->rxq = &nic_dev->rxqs[q_id];
-+		nic_dev->rxqs[q_id].irq_cfg = irq_cfg;
-+
-+		local_cpu = cpumask_local_spread(q_id, dev_to_node(&pdev->dev));
-+		cpumask_set_cpu(local_cpu, &irq_cfg->affinity_mask);
-+
-+		snprintf(irq_cfg->irq_name, sizeof(irq_cfg->irq_name),
-+			 "%s_qp%u", netdev->name, q_id);
-+
-+		err = hinic3_request_irq(irq_cfg, q_id);
-+		if (err) {
-+			netdev_err(netdev, "Failed to request Rx irq\n");
-+			goto err_release_irqs;
-+		}
-+
-+		hinic3_set_msix_auto_mask_state(nic_dev->hwdev,
-+						irq_cfg->msix_entry_idx,
-+						HINIC3_SET_MSIX_AUTO_MASK);
-+		hinic3_set_msix_state(nic_dev->hwdev, irq_cfg->msix_entry_idx,
-+				      HINIC3_MSIX_ENABLE);
-+	}
-+
-+	return 0;
-+
-+err_release_irqs:
-+	while (q_id > 0) {
-+		q_id--;
-+		irq_cfg = &nic_dev->q_params.irq_cfg[q_id];
-+		qp_del_napi(irq_cfg);
-+		hinic3_set_msix_state(nic_dev->hwdev, irq_cfg->msix_entry_idx,
-+				      HINIC3_MSIX_DISABLE);
-+		hinic3_set_msix_auto_mask_state(nic_dev->hwdev,
-+						irq_cfg->msix_entry_idx,
-+						HINIC3_CLR_MSIX_AUTO_MASK);
-+		hinic3_release_irq(irq_cfg);
-+	}
-+
-+	return err;
-+}
-+
-+void hinic3_qps_irq_uninit(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct hinic3_irq_cfg *irq_cfg;
-+	u16 q_id;
-+
-+	for (q_id = 0; q_id < nic_dev->q_params.num_qps; q_id++) {
-+		irq_cfg = &nic_dev->q_params.irq_cfg[q_id];
-+		qp_del_napi(irq_cfg);
-+		hinic3_set_msix_state(nic_dev->hwdev, irq_cfg->msix_entry_idx,
-+				      HINIC3_MSIX_DISABLE);
-+		hinic3_set_msix_auto_mask_state(nic_dev->hwdev,
-+						irq_cfg->msix_entry_idx,
-+						HINIC3_CLR_MSIX_AUTO_MASK);
-+		hinic3_release_irq(irq_cfg);
-+	}
-+}
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-index 9577cc673257..9fad834f9e92 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-@@ -85,8 +85,4 @@ void hinic3_set_netdev_ops(struct net_device *netdev);
- int hinic3_qps_irq_init(struct net_device *netdev);
- void hinic3_qps_irq_uninit(struct net_device *netdev);
- 
--/* Temporary prototypes. Functions become static in later submission. */
--void qp_add_napi(struct hinic3_irq_cfg *irq_cfg);
--void qp_del_napi(struct hinic3_irq_cfg *irq_cfg);
--
- #endif
--- 
-2.43.0
+Please use double dash here, Jakub wants to remove all underscore from the
+specs.
 
+> +  -
+> +    name: mse-snapshot
+> +    attr-cnt-name: __ethtool-a-mse-snapshot-cnt
+
+Same
+
+> +    name: mse
+> +    attr-cnt-name: __ethtool-a-mse-cnt
+
+Same
+
+...
+
+> +MSE Configuration
+> +-----------------
+> +
+> +This nested attribute contains the full configuration properties for the=
+ MSE
+> +measurements
+> +
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
+=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE             u32     max avg_mse s=
+cale
+> +  ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE                u32     max peak_mse =
+scale
+> +  ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS             u64     sample rate (=
+ps)
+> +  ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS                 u64     symbols per s=
+ample
+> +  ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS              bitset  capability bi=
+tmask
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
+=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D +
+> +.. kernel-doc:: include/linux/phy.h
+> +    :identifiers: phy_mse_config
+> +
+> +.. kernel-doc:: include/uapi/linux/ethtool_netlink_generated.h
+> +    :identifiers: phy_mse_snapshot
+
+I think you forgot to remove this kernel-doc lines as the MSE snapshot is
+described below.
+
+> +
+> +MSE Snapshot
+> +------------
+> +
+> +This nested attribute contains an atomic snapshot of MSE values for a
+> specific +channel or for the link as a whole.
+> +
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
+=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  ETHTOOL_A_MSE_SNAPSHOT_CHANNEL                   u32     channel enum =
+value
+> +  ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE               u32     average MSE v=
+alue
+> +  ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE                  u32     current peak =
+MSE
+> +  ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE            u32     worst-case pe=
+ak
+> MSE
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
+=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D +
+> +.. kernel-doc:: include/linux/phy.h
+> +    :identifiers: phy_mse_snapshot
+> +
+>  Request translation
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
