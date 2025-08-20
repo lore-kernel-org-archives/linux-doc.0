@@ -1,120 +1,89 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612532F4A;
-	Wed, 20 Aug 2025 18:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0252028E0F;
+	Wed, 20 Aug 2025 18:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755714833; cv=none; b=cI8S9AX+H3Va1Mx94tVEEoC6Skq2RuvK80mwwzWpgIJbpTvR3zFxuhumTxVjZguPviVb0+H12G/xTH0ErNSBuK12Pkq2y84KwY3r2oQV6174BipYU6ZiOLdti6OEkI6IkQeuQgmabNfoz5Ps2F4RNZXZ3EMq2MCUk8+z0zxaSA8=
+	t=1755715162; cv=none; b=VbDNG4ULe9xQ03orZsDc5GYeSIxj+nMsMlNENQEbcr1qaHPcmJh+FfB1gL6B5SDYbA/y6c7xJAONbpR5vP4Y8ZjriYGFnc+mvKAZsbybuhQj3srmJm0EwXYhgLE5R3xx6iep4VXdI5BNdt9+YCowXWHvQPKjXCwqNH7YiTafzok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755714833; c=relaxed/simple;
-	bh=4VhT8FfHLfe56J3qPPhQ2cW+yREx7dbjirhN5ZOr9iw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hyNxVaabB7jP3vuoMod6X6qZLFWI8TfbyqOifzd3c1bBBCByUgrc1gWrItF+R2FDjSCF6ahROAyObRL3szooijesFpyDQ6DG+NiX8Po+ab9IduIZ7fDQqxvnR4xKBGP4iFK8GpGUkL3d8NxQpYvRDnPAQXXdqI9+wQR+ECbZS0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRYusP2g; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755715162; c=relaxed/simple;
+	bh=nEJy948uTX8LRiCWpvguAaV0klAG04jvykpe1HPoxH4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NapYXhvoz17D/19QajCrMaZ87wclliZfJE5QSoSVXC5YpNGsWoe/jio3akIQNnd2y1g7Hj5uPRvNUU/qOr58IxmmqCIJMOUOE7cZB6uFCsQNmXUWjKCaTQ/h4N/Ywnw65i0yULiAyE3vqYrcefm0RmALTs9ZGCmx9x98E8R5Vrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WbXYoJyC; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRYusP2g"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-76e2e5d54bbso30546b3a.0;
-        Wed, 20 Aug 2025 11:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755714831; x=1756319631; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i8aRl9t5V6Q7AnpZxPp/thjhXQZ7yIoJiGvCzobrjvA=;
-        b=WRYusP2gzXwDL3UbpbKwSBmlNscVbmXX3cUWMLnKuaZynq0xNMZ6/uZO3MbZlamAAm
-         Z418lq9zDCmKjLIwSt5U6wekzy/+WG1l3otDmx3UIK+OlSbhAMSUeT2+J7bFgagHXHg9
-         KFEgiXkY3lqUKJUhU/J96NSyN64d5gM3YeoebDqkwZgtWddlo2fMo+IKR6X/Qrvj3KIM
-         lzQLylP1ChbHXD/fcTOkjaoLbPa1QkxVcFg12Se8SR/AlKiSN3iEgMt9ww+vhLj91c4a
-         JVWkPLrJXyONDyaR+a9OxmMQpTSaRrbmwydkcYqYFkBb1i8qq6XJq68Rkx7A/sVGLQVl
-         wZDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755714831; x=1756319631;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i8aRl9t5V6Q7AnpZxPp/thjhXQZ7yIoJiGvCzobrjvA=;
-        b=Vi1qif1d7daTLnTddNgXm6ejGx6vhkeaXtTU6awNojOwh9k5SZkQpBLn53TsRNX7d0
-         RXMwxFtLyK/rULl4hxpT1dpSFK3IsskeVEaGAHUDCk5dAlWG58zy5Uj3EsycwJTjH0od
-         BvLf0+DlGqnlEqZzymmWmSxb6L7+a0E2wxJmkY/77B0pXZwErjJ9NEM3fXHtMccmXzeJ
-         PueSebVjTCIYAHcZTgb0BQ0yrKNEDDQLtiTOMsn/yHpvbnPS6itxZ9iZMkW9FVW/SE1I
-         nVt9Iipvmjyo0mw0sDW/TRe5tqGRGZTWmO4MD0CC7oUujHCmpPGwuIEeD+wbepODwxnf
-         zXXg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1u4Qv7RkXb4n2b2f25bsPsZ6qBwwQMH+0euy2xiwpKqnsOKWfkN2eb7dfOkAqlN/DxlY/8gcd6B1dStQF@vger.kernel.org, AJvYcCX2t/Mc3q0UgkB7buP7VUlKsBVKu4JyuRKQyMOcFkbtXWhWbDN0HTFpd+JUxMuZgA9yq+z78j1abc0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8uKYJyr+vH/e/yxnh44RTyYN7aBlqbbS81dlTUvbrpnGuP+7D
-	t1cCVo4ZyWzYViHKgnWkv7J6hYO0CYHUf5s0yNJdpQwpF0Ch0tT/cDD7vA0ZWpGVdn/vc1t7wsb
-	u7U+iyI6L67cUgq1aHoJlWXBykK03JghzOg==
-X-Gm-Gg: ASbGncsqHp/MECGMJJBAvKa0tGSAu/EQQaXVWFSKl4CjInk6QB4/8WuUKwvvrlLkXRY
-	4FDa1hMv+48Wjp0F5R3eyNX+Eo9ebljhv2HXPqOT8CPZlL8Uyv9XkWVSRyJWxRozu93z3ej0ZY+
-	gXVEpg88UtMhLPNZ52KB/MPiPawOKcmowLhzeH4XP3OrGd2ygXrX/OPZoOZPkIuuI2a00CfiZj7
-	LUkSkk=
-X-Google-Smtp-Source: AGHT+IHkAy3ca8+jtID/FoWqYaW09/zltQ/aw0SuoLJmcmEe6soi3YAyE7iSaLKvBR0EQAXgHSLAxz7i4pKA8GtkmY4=
-X-Received: by 2002:a17:902:c410:b0:240:3c1d:cbe3 with SMTP id
- d9443c01a7336-245ef1117cfmr27184545ad.4.1755714831408; Wed, 20 Aug 2025
- 11:33:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WbXYoJyC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=0POp/c1KOeqzO/GprTJ0OTlzQ3hXFKiLpUB0jM+6XiQ=; b=WbXYoJyCTDfxnClh3ArubZM3B4
+	ISq8adt/vzK04zOgV/MDYVGImwqFYDcvMvlNHo/j305J5Ki8dA/1jNO8obP7xgAdudj9/A8KFB2uU
+	3GxooO2O16/yFv4vXy4flBbwd+Cao8OnBX2onrYOyOrb0+3KB9/GCsNZgR1Ui5LgfN9ImqT4vOvL9
+	O2TaDCcPnNACOYmafGjYmFqJK2cS1hyGtmLrGkiCtoEcMAMyEV24svXjoVQ9c+/q9LGMbeIdkEzHT
+	aKMPEEJ5yM/RKZ+MGlFq5J/thTjjaCjreYR5QlOHE4fHS/mRYvlDqdlBC0IWzsXH/QQfdlZA9kfcw
+	dgTlYkPg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uoniQ-0000000Eha0-49d5;
+	Wed, 20 Aug 2025 18:39:19 +0000
+Message-ID: <4b691bb8-c047-4546-9ab2-c9a183a10dc8@infradead.org>
+Date: Wed, 20 Aug 2025 11:39:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250819211957.17871-2-katharasasikumar007@gmail.com>
-In-Reply-To: <20250819211957.17871-2-katharasasikumar007@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 20 Aug 2025 14:33:39 -0400
-X-Gm-Features: Ac12FXzaT8tBvm_ZbhXzy1ligYMWZLBJ-gPMSwG1SDqreVmeqsoG3xwj0dX_b9Q
-Message-ID: <CADnq5_NJdEtMqMfwW8ZN-nNyJD0dDnB3sYYGHeSb5JnwsUyPTQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/gpu/amdgpu: Fix duplicate word in driver-core.rst
-To: Kathara Sasikumar <katharasasikumar007@gmail.com>
-Cc: skhan@linuxfoundation.org, corbet@lwn.net, alexander.deucher@amd.com, 
-	christian.koenig@amd.com, linux-doc@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] arm64/sme: Support disabling streaming mode via
+ ptrace on SME only systems
+To: Mark Brown <broonie@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Oleg Nesterov <oleg@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ David Spickett <david.spickett@arm.com>,
+ Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+ Luis Machado <luis.machado.foss@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250820-arm64-sme-ptrace-sme-only-v1-0-f7c22b2871f8@kernel.org>
+ <20250820-arm64-sme-ptrace-sme-only-v1-3-f7c22b2871f8@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250820-arm64-sme-ptrace-sme-only-v1-3-f7c22b2871f8@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Applied.  Thanks!
 
-Alex
 
-On Wed, Aug 20, 2025 at 8:32=E2=80=AFAM Kathara Sasikumar
-<katharasasikumar007@gmail.com> wrote:
->
-> Remove duplicate word 'and' in driver-core.rst.
->
-> Signed-off-by: Kathara Sasikumar <katharasasikumar007@gmail.com>
-> ---
-> Hi,
->
-> This patch is part of my work for the LFX Linux Kernel Mentorship
-> Program (LKMP).
-> I would appreciate any feedback.
->
-> Thanks,
-> Kathara
->
->  Documentation/gpu/amdgpu/driver-core.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu=
-/amdgpu/driver-core.rst
-> index 81256318e93c..bd4be32f2725 100644
-> --- a/Documentation/gpu/amdgpu/driver-core.rst
-> +++ b/Documentation/gpu/amdgpu/driver-core.rst
-> @@ -65,7 +65,7 @@ SDMA (System DMA)
->
->  GC (Graphics and Compute)
->      This is the graphics and compute engine, i.e., the block that
-> -    encompasses the 3D pipeline and and shader blocks.  This is by far t=
-he
-> +    encompasses the 3D pipeline and shader blocks.  This is by far the
->      largest block on the GPU.  The 3D pipeline has tons of sub-blocks.  =
-In
->      addition to that, it also contains the CP microcontrollers (ME, PFP,=
- CE,
->      MEC) and the RLC microcontroller.  It's exposed to userspace for use=
-r mode
-> --
-> 2.47.2
->
+On 8/20/25 11:29 AM, Mark Brown wrote:
+> diff --git a/Documentation/arch/arm64/sve.rst b/Documentation/arch/arm64/sve.rst
+> index 28152492c29c..a61c9d0efe4d 100644
+> --- a/Documentation/arch/arm64/sve.rst
+> +++ b/Documentation/arch/arm64/sve.rst
+> @@ -402,6 +402,11 @@ The regset data starts with struct user_sve_header, containing:
+>    streaming mode and any SETREGSET of NT_ARM_SSVE will enter streaming mode
+>    if the target was not in streaming mode.
+>  
+> +* On systems that do not support SVE it is permitted to use SETREGSET to
+> +  write SVE_PT_REGS_FPSIMD formatted data via NT_ARM_SVE, in this case the
+
+s/,/;/
+or
+                                                 NT_ARM_SVE. In this case
+
+> +  vector length should be specified as 0. This allows streaming mode to be
+> +  disabled on systems with SME but not SVE.
+> +
+>  * If any register data is provided along with SVE_PT_VL_ONEXEC then the
+>    registers data will be interpreted with the current vector length, not
+>    the vector length configured for use on exec.
+
+-- 
+~Randy
+
