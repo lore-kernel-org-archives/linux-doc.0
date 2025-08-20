@@ -1,218 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AD73218B3;
-	Wed, 20 Aug 2025 15:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E069322A0E
+	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 15:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755702439; cv=none; b=E4vhPHJGMKeAtu1RDTyOry99kuBhbDyhk7nLUCH7WLHs2qLkYiEPOw1frU6EmxC+wrXejzD16tyvHsUjojVZDP0/TWfu6v+HaSIk82gyRXQJNue1Cb34F0RjSY3hTwpg1PYE0wmGLB1Ykt+tq3CrWxCz4QWRDVTuRbmgyxhNhSQ=
+	t=1755703056; cv=none; b=uG0RwhtJgfEAcICD8s4FEi4C6wQtaHA4N77kQzzUK4pyrpkfKLuLhHwxD+1NzGr55C5M+T6Nu1+oRWYocLeLuZmVj8kxRx6hwMXqrfuqO2YoqLkLNqIX5/zh7mj1Fg1kIhOigP4RvCb9680Uq9w6LTRRuJyydHpN2YEkxBPCt2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755702439; c=relaxed/simple;
-	bh=bsvWlLsiwAXSsALmAJFw7fx/DntpOaz1JMs8wm09NR8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OvI5603jA2EeLajX751JF3/zNzM8YgBeqyQp8zUP46ob0NtgziccYKwxUnLoMN2OBaiBmVq2BBxKPEsXq9jV/rFuFBc88Um+HnrAThnTqwNA16UUy6w9M+B5L3vkG8YUaVliS2nfQfLPyNZSxlqkmXdTulKJZrndKnjSLwir+t4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mwq5EPkA; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1755703056; c=relaxed/simple;
+	bh=W4duEWOlM+udE5VNJ/zPTR+3z61gEew4hVyTyQpHZM4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EGehn+ilhmLSmSsPO1Q05YUvcO1s4N6u7cxec2Cfp4JiKw8KxMiVzP40Z3fHyLP0DMaQMsoaJljYRcCdwYaIwnto4mqrGibNiHMnAwJyXMQbcBUdvPlTlMDqB8iEltihNaI0WJ/lKtj2mOEEMV4BfgIIc/cJvVN6A22bNJMqJss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dPoisYSV; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mwq5EPkA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755702438; x=1787238438;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bsvWlLsiwAXSsALmAJFw7fx/DntpOaz1JMs8wm09NR8=;
-  b=Mwq5EPkAVM5gkI3yzMWtxZbSpjw1Kp0QGMT1t7OTB11RkbRwUEi01Uiy
-   p3ivJtCGr60W8UyiH3MyoImp86PFYsKcFo02JpygDCUdiRZRXJYwqqWLb
-   u+Q5vpCaFhlMlYiy7iNPU3ZW0bVaHMObZH4IpYoa3eT++HGFD4fM0eEe3
-   01vNEc7Nql0ByKAqthCDFhEv6iT8Fkbg0CcmnWaQldRhcSOkd787vYno9
-   nmzoS79y16c/kURUvyqtCUAt4fKK+rWC9EknfLYO0L+2SuMmU4Uo62Qz/
-   3ZpHhxLuwzXJhAqPb7GeQKWu7euaF93fk62sxX/HYClTOGO6+RuCY8ej/
-   g==;
-X-CSE-ConnectionGUID: 39PJyWMKRaGOLdRJ0s/RCA==
-X-CSE-MsgGUID: 6DlBORC1SHqxHnnWsePsrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57831205"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="57831205"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 08:07:08 -0700
-X-CSE-ConnectionGUID: M6f+Za+pSPO2uduUbHWWGQ==
-X-CSE-MsgGUID: vdLWVx1LQuWjfxWugvrf/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="172378774"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.intel.com) ([10.245.246.85])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 08:07:02 -0700
-From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-To: linux-cxl@vger.kernel.org
-Cc: Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ALOK TIWARI <alok.a.tiwari@oracle.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Gregory Price <gourry@gourry.net>,
-	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-Subject: [PATCH v4] cxl: docs/driver-api/conventions resolve conflicts between CFMWS, LMH, Decoders
-Date: Wed, 20 Aug 2025 17:06:39 +0200
-Message-ID: <20250820150655.1170975-1-fabio.m.de.francesco@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dPoisYSV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755703053;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lwfU+IsVElt3h1n12yQUuhxkyKNo90VrK/DGR70vyVI=;
+	b=dPoisYSV/fK/fqqtztdIi9ArPThQTZgWEqzOmSFzZuoGSCDo+sr38PJP37vuHYOgUVvzOl
+	OJKz6R/SvMK1sW1BDPbxSrMuY/4uFrjamlm4XXdtfj+Bnik5t1o3g6ecCW6BOYK9svgJiV
+	m4whFb2AQOXRmJ++QYXJU2Nh9zul/Ik=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-657-9cokob0hPmiEY4p9zEvwTQ-1; Wed, 20 Aug 2025 11:17:32 -0400
+X-MC-Unique: 9cokob0hPmiEY4p9zEvwTQ-1
+X-Mimecast-MFC-AGG-ID: 9cokob0hPmiEY4p9zEvwTQ_1755703052
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4b2955f64b1so302831cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 08:17:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755703052; x=1756307852;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lwfU+IsVElt3h1n12yQUuhxkyKNo90VrK/DGR70vyVI=;
+        b=ojPbOBAx/b5EZooDXbJ2X2V7dXRBcqoK48vXQby60OGg9+GicjqG8vQ1WFMoQg3KuQ
+         R1jG0xyL//eeepiJM6STXmeTpDMaiFnJpPue7kyn9QyMd8KQKzCAuXEWHjJvIWnHMvJX
+         Y/f9AXcSABVWy5hQgt4dbPGzjPQ3napRaghbDvEuCvJT96EjucYaesVKGozt8QgiAuWA
+         qR6AusSn9BLJvw2C6MeXbaVMr6ggJev7QAwgeMDOfeqzCtBk/cwr3csjzTASo05hmREq
+         iz+U37/v9tq0xPWtXfWgyUWXfW3+f1Jjm2wMECijoOCgpa6KpC8nck8VBd0hjP4FvVeH
+         16cQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX3CAoF4DCB9b0E06YoHpnd1goKFlrLGb18jDpBsQxt0YyIzXMAZpVc5KICq8UWHNXlTAKq50v6f1w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIr/qdtlOyu29h7aiWo2bz2a/ZlUXxmTBlE8djMpDZuQC1rVnZ
+	qA5LW6aeL4xJe7cwic4Sqy0gJVAaKHSSJkiuNSsLNgrpbScKdGDmPkh+uEf/AeONj7gNc7wiQn+
+	iFyNC1sMdwRP1Oq1a1DheiDe2dSGElWpucLeIMshNg1iT1MvLuZOvPMh7LfNRCNh+hXKNBQn08h
+	AvgLtwWvp7NCEnoMnnkyq24ajlLhUJO+BtaboJ
+X-Gm-Gg: ASbGncvP5jaXs5ig0el2o67eCeNHHHRdedxVArqtMNlTl50Cbun3XmSfBJKm6j9HoFN
+	6RJRkk3IJAISDX6KZ6PgLZ54S7vXCU7I/kagu3F88DmU23txFZ3X5mKLz6HVzP0skW+B2A7PgCY
+	33Qm1/8dDztBWWXDMfyKHZH8GrlYh3zdy4eagcmVNf01CqGjZmIz8g
+X-Received: by 2002:a05:622a:5c93:b0:4af:203f:73e9 with SMTP id d75a77b69052e-4b291a45948mr38268841cf.3.1755703051781;
+        Wed, 20 Aug 2025 08:17:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHgNNXQPsAlJCg5PdYpqbUQjKk2La90rXTiB/Xg+AFCp6PDdl0eXQ9VodkzneYLfMLO6npPB65IGBnQ/QO7tyQ=
+X-Received: by 2002:a05:622a:5c93:b0:4af:203f:73e9 with SMTP id
+ d75a77b69052e-4b291a45948mr38268261cf.3.1755703051224; Wed, 20 Aug 2025
+ 08:17:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250815121459.3391223-1-lichliu@redhat.com>
+In-Reply-To: <20250815121459.3391223-1-lichliu@redhat.com>
+From: Lichen Liu <lichliu@redhat.com>
+Date: Wed, 20 Aug 2025 23:17:20 +0800
+X-Gm-Features: Ac12FXz5J-qsSNe_dCy4Is9oFh6XR_1xsHJhV6_kkHN0LaUVbdz8uoGPSmN-wtU
+Message-ID: <CAPmSd0OHB3orya=3V1icz4ZzOoAwHuWTqON_Dk+EaEcACtVtbg@mail.gmail.com>
+Subject: Re: [PATCH v2] fs: Add 'rootfsflags' to set rootfs mount options
+To: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	safinaskar@zohomail.com, kexec@lists.infradead.org, rob@landley.net, 
+	weilongchen@huawei.com, cyphar@cyphar.com, linux-api@vger.kernel.org, 
+	zohar@linux.ibm.com, stefanb@linux.ibm.com, initramfs@vger.kernel.org, 
+	corbet@lwn.net, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add documentation on how to resolve conflicts between CXL Fixed Memory
-Windows, Platform Low Memory Holes, intermediate Switch and Endpoint
-Decoders.
+Hi all, do you have any comments for this v2 patch?
 
-Cc: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
----
+Thanks,
+Lichen
 
-v3 -> v4: Show and explain how CFMWS, Root Decoders, Intermediate
-	  Switch and Endpoint Decoders match and attach Regions in
-	  x86 platforms with Low Memory Holes (Dave, Gregory, Ira)
-	  Remove a wrong argument about large interleaves (Jonathan)
-
-v2 -> v3: Rework a few phrases for better clarity.
-	  Fix grammar and syntactic errors (Randy, Alok).
-	  Fix semantic errors ("size does not comply", Alok).
-	  Fix technical errors ("decoder's total memory?", Alok).
-	  
-v1 -> v2: Rewrite "Summary of the Change" section, 3r paragraph.
-
- Documentation/driver-api/cxl/conventions.rst | 111 +++++++++++++++++++
- 1 file changed, 111 insertions(+)
-
-diff --git a/Documentation/driver-api/cxl/conventions.rst b/Documentation/driver-api/cxl/conventions.rst
-index da347a81a237..714240ed2e04 100644
---- a/Documentation/driver-api/cxl/conventions.rst
-+++ b/Documentation/driver-api/cxl/conventions.rst
-@@ -45,3 +45,114 @@ Detailed Description of the Change
- ----------------------------------
- 
- <Propose spec language that corrects the conflict.>
-+
-+
-+Resolve conflict between CFMWS, Platform Memory Holes, and Endpoint Decoders
-+============================================================================
-+
-+Document
-+--------
-+
-+CXL Revision 3.2, Version 1.0
-+
-+License
-+-------
-+
-+SPDX-License Identifier: CC-BY-4.0
-+
-+Creator/Contributors
-+--------------------
-+
-+Fabio M. De Francesco, Intel
-+Dan J. Williams, Intel
-+Mahesh Natu, Intel
-+
-+Summary of the Change
-+---------------------
-+
-+According to the current CXL Specifications (Revision 3.2, Version 1.0),
-+the CXL Fixed Memory Window Structure (CFMWS) describes zero or more Host
-+Physical Address (HPA) windows associated with each CXL Host Bridge. Each
-+window represents a contiguous HPA range that may be interleaved across
-+one or more targets, including CXL Host Bridges. Each window has a set of
-+restrictions that govern its usage. It is the OSPM’s responsibility to
-+utilize each window for the specified use.
-+
-+Table 9-22 states the Window Size field contains the total number of
-+consecutive bytes of HPA this window represents. This value must be a
-+multiple of the Number of Interleave Ways * 256 MB.
-+
-+Platform Firmware (BIOS) might reserve physical addresses below 4 GB,
-+such as the Low Memory Hole for PCIe MMIO. In such cases, the CFMWS Range
-+Size may not adhere to the NIW * 256 MB rule.
-+
-+On these systems, BIOS publishes CFMWS to communicate the active System
-+Physical Address (SPA) ranges that map to a subset of the Host Physical
-+Address (HPA) ranges. The SPA range trims out the hole, resulting in lost
-+capacity in the endpoint with no SPA to map to the CXL HPA range that
-+exceeds the matching CFMWS range.
-+
-+E.g, a real x86 platform with two CFMWS, 384 GB total memory, and LMH
-+starting at 2 GB:
-+
-+Window | CFMWS Base | CFMWS Size | HDM Decoder Base | HDM Decoder Size | Ways | Granularity
-+  0    |   0 GB     |     2 GB   |      0 GB        |       3 GB       |  12  |    256
-+  1    |   4 GB     |   380 GB   |      0 GB        |     380 GB       |  12  |    256
-+
-+HDM decoder base and HDM decoder size represent all the 12 Endpoint
-+Decoders of a 12 way region and all the intermediate Switch Decoders.
-+They are configured by the BIOS according to the NIW * 256MB rule,
-+resulting in a HPA range size of 3GB.
-+
-+The CFMWS Base and CFMWS Size are used to configure the Root Decoder HPA
-+range base and size. CFMWS cannot intersect Memory Holes, then the CFMWS[0]
-+size is smaller (2GB) than that of the Switch and Endpoint Decoders that
-+make the hierarchy (3GB).
-+
-+On that platform, only the first 2GB will be potentially usable but,
-+because of the current specs, Linux fails to make them available to the
-+users. The driver expects that Root Decoder HPA size, which is equal to
-+the CFMWS from which it is configured, to be greater or equal to the
-+matching Switch and Endpoint HDM Decoders.
-+
-+The CXL driver fails to construct Regions and to attach Endpoint and
-+intermediate Switch Decoders to those Regions after their construction.
-+
-+In order to succeed with Region construction and Decoders attachment,
-+Linux must construct Regions with Root Decoders size, and then attach to
-+them all the intermediate Switch and Endpoint Decoders that are part of the
-+hierarchy, even though the Decoders HPA range sizes may be larger than
-+those Regions whose sizes are trimmed by Low Memory Holes.
-+
-+Benefits of the Change
-+----------------------
-+
-+Without this change, the OSPM wouldn't match Intermediate and Endpoint
-+Decoders with Root Decoders configured with CFMWS HPA sizes that don't
-+align with the NIW * 256MB constraint, leading to lost memdev capacity.
-+This change allows the OSPM to construct Regions and attach Intermediate
-+Switch and Endpoint Decoders to them, so that the addressable part of the
-+memory devices total capacity is not lost.
-+
-+References
-+----------
-+
-+Compute Express Link Specification Revision 3.2, Version 1.0
-+<https://www.computeexpresslink.org/>
-+
-+Detailed Description of the Change
-+----------------------------------
-+
-+The description of the Window Size field in table 9-22 needs to account
-+for platforms with Low Memory Holes, where SPA ranges might be subsets of
-+the endpoints' HPA. Therefore, it has to be changed to the following:
-+
-+"The total number of consecutive bytes of HPA this window represents.
-+This value shall be a multiple of NIW * 256 MB. On platforms that reserve
-+physical addresses below 4 GB, such as the Low Memory Hole for PCIe MMIO
-+on x86 or a requirement for greater than 8-way interleave CXL Regions
-+starting at address 0, an instance of CFMWS whose Base HPA is 0 might have
-+a window size that doesn't align with the NIW * 256 MB constraint. Note
-+that the matching intermediate Switch and Endpoint Decoders' HPA range
-+sizes must still align to the above-mentioned rule, but the memory capacity
-+that exceeds the CFMWS window size will not be accessible."
--- 
-2.50.1
+On Fri, Aug 15, 2025 at 8:15=E2=80=AFPM Lichen Liu <lichliu@redhat.com> wro=
+te:
+>
+> When CONFIG_TMPFS is enabled, the initial root filesystem is a tmpfs.
+> By default, a tmpfs mount is limited to using 50% of the available RAM
+> for its content. This can be problematic in memory-constrained
+> environments, particularly during a kdump capture.
+>
+> In a kdump scenario, the capture kernel boots with a limited amount of
+> memory specified by the 'crashkernel' parameter. If the initramfs is
+> large, it may fail to unpack into the tmpfs rootfs due to insufficient
+> space. This is because to get X MB of usable space in tmpfs, 2*X MB of
+> memory must be available for the mount. This leads to an OOM failure
+> during the early boot process, preventing a successful crash dump.
+>
+> This patch introduces a new kernel command-line parameter, rootfsflags,
+> which allows passing specific mount options directly to the rootfs when
+> it is first mounted. This gives users control over the rootfs behavior.
+>
+> For example, a user can now specify rootfsflags=3Dsize=3D75% to allow the
+> tmpfs to use up to 75% of the available memory. This can significantly
+> reduce the memory pressure for kdump.
+>
+> Consider a practical example:
+>
+> To unpack a 48MB initramfs, the tmpfs needs 48MB of usable space. With
+> the default 50% limit, this requires a memory pool of 96MB to be
+> available for the tmpfs mount. The total memory requirement is therefore
+> approximately: 16MB (vmlinuz) + 48MB (loaded initramfs) + 48MB (unpacked
+> kernel) + 96MB (for tmpfs) + 12MB (runtime overhead) =E2=89=88 220MB.
+>
+> By using rootfsflags=3Dsize=3D75%, the memory pool required for the 48MB
+> tmpfs is reduced to 48MB / 0.75 =3D 64MB. This reduces the total memory
+> requirement by 32MB (96MB - 64MB), allowing the kdump to succeed with a
+> smaller crashkernel size, such as 192MB.
+>
+> An alternative approach of reusing the existing rootflags parameter was
+> considered. However, a new, dedicated rootfsflags parameter was chosen
+> to avoid altering the current behavior of rootflags (which applies to
+> the final root filesystem) and to prevent any potential regressions.
+>
+> Also add documentation for the new kernel parameter "rootfsflags"
+>
+> This approach is inspired by prior discussions and patches on the topic.
+> Ref: https://www.lightofdawn.org/blog/?viewDetailed=3D00128
+> Ref: https://landley.net/notes-2015.html#01-01-2015
+> Ref: https://lkml.org/lkml/2021/6/29/783
+> Ref: https://www.kernel.org/doc/html/latest/filesystems/ramfs-rootfs-init=
+ramfs.html#what-is-rootfs
+>
+> Signed-off-by: Lichen Liu <lichliu@redhat.com>
+> Tested-by: Rob Landley <rob@landley.net>
+> ---
+> Changes in v2:
+>   - Add documentation for the new kernel parameter.
+>
+>  Documentation/admin-guide/kernel-parameters.txt |  3 +++
+>  fs/namespace.c                                  | 11 ++++++++++-
+>  2 files changed, 13 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index fb8752b42ec8..0c00f651d431 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6220,6 +6220,9 @@
+>
+>         rootflags=3D      [KNL] Set root filesystem mount option string
+>
+> +       rootfsflags=3D    [KNL] Set initial root filesystem mount option =
+string
+> +                       (e.g. tmpfs for initramfs)
+> +
+>         rootfstype=3D     [KNL] Set root filesystem type
+>
+>         rootwait        [KNL] Wait (indefinitely) for root device to show=
+ up.
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index 8f1000f9f3df..e484c26d5e3f 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -65,6 +65,15 @@ static int __init set_mphash_entries(char *str)
+>  }
+>  __setup("mphash_entries=3D", set_mphash_entries);
+>
+> +static char * __initdata rootfs_flags;
+> +static int __init rootfs_flags_setup(char *str)
+> +{
+> +       rootfs_flags =3D str;
+> +       return 1;
+> +}
+> +
+> +__setup("rootfsflags=3D", rootfs_flags_setup);
+> +
+>  static u64 event;
+>  static DEFINE_XARRAY_FLAGS(mnt_id_xa, XA_FLAGS_ALLOC);
+>  static DEFINE_IDA(mnt_group_ida);
+> @@ -5677,7 +5686,7 @@ static void __init init_mount_tree(void)
+>         struct mnt_namespace *ns;
+>         struct path root;
+>
+> -       mnt =3D vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", NULL);
+> +       mnt =3D vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", rootfs_flags=
+);
+>         if (IS_ERR(mnt))
+>                 panic("Can't create rootfs");
+>
+> --
+> 2.47.0
+>
 
