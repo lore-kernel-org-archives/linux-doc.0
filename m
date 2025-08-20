@@ -1,43 +1,54 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C032D3A83
-	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 02:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3DC2C859;
+	Wed, 20 Aug 2025 03:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755657121; cv=none; b=LUttyyJ9QEuXlHuW61sQTsjmSzKr3iEeqveWuMbJ/klkS1qUFoq0s2+5vSPF3we6UY5BPcuRQ22znG63HscOCjfFCHFtAMoz/KV7NMmVCsJzi6FMMRhd3PnxxsUMlgkKbckhoAHoadhCrCn2Pmq2xejXrhe/G9xa0aVhH9q5CEI=
+	t=1755659016; cv=none; b=n/VpTOLiscgO/ZpcKnsNlhowYYmi6owrLI/PtfE6S/FSycjyxRnoF0Q6Y4ebQ7n1fA/84iHng1r2lyAj1cGS7q+ECEZtmJlAP0eJl9k22a095m2DJzMPMmZIAbWesbR7YBXcZXt565rD/Z7uP4QsmZLWvv3d97y9zDpurPXhZbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755657121; c=relaxed/simple;
-	bh=ORc9tRVvojOBcH/VtOqvko6ihkFV9iDokJseo8edE2k=;
+	s=arc-20240116; t=1755659016; c=relaxed/simple;
+	bh=pwG7+up/AaR3CHTWrmgAoo7R1642PpG4lENEDoKEt94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fb/MgySfiThRVKW9fXsZjuMLpCY/jOaKBTmgqjnqhfLqg/scEvJKgJMH9Ndc0w9dLzRTVQg46C/Bw734SheB1MT66pm6bt8OAerlPES/FKLKaWRDfYyrTL5rGD/Cu3g1zPQSh+77YG+N3DTmswtLz1jdPaaPthxCeOavnE3KRPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mjyPRuLT; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=UEjb+Sv7skcm4L1OK4boxGm1tFPLNxL63AOa46+LcXqrWjUjbeqKDTmuoUhaT/dQ8M2yNmhJTlbjS5AayKSC0bAnCtCe+6BvVZv28lL9nljGdHyILPQV4l1IpAwAkfqqGjbcmwnvWvLt2jBtH91NeXE2tivbQV/IBz2KtPHuueg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=x1BkXOIm; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mjyPRuLT"
-Date: Tue, 19 Aug 2025 22:31:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1755657107;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xdNoYOWseUjSCiwteKAQBa/K3+p7f9hufOZBy2h3244=;
-	b=mjyPRuLTBRd+fdwWze7SoG4Pb1N3iu5ug5Eg7bZF7+b7H33TOH7Xc8ilj1ymd5pOBgBtUf
-	0msDywFXUim+sUltL92/ZfeGpcHZYtajOBzIzqdsi9TtL7/yi2XN9X0seqTL2DV+cSKpVq
-	+hVEz7Zqq5EGYY+eEj9FlbvAeVrIwmY=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Linux bcachefs <linux-bcachefs@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: bcachefs: Add explicit title for idle
- work design doc
-Message-ID: <yyqgq3brwrstiaqydzv4ua5syesrg4gh7w4uhtwg3flhuxa4ji@7xciwgaluwux>
-References: <20250820002218.11547-1-bagasdotme@gmail.com>
- <p7ocizi2jg36uvk64yy5mv5bzg3dyrvnosz5mhj5j373tzr7iz@txx5juyvhwzf>
- <aKUy_1IYtlKtLEbK@archie.me>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="x1BkXOIm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=T8l7eksCnZgf3owz6oDBmv8SoF3MjbglvYRg9j+ht9A=; b=x1BkXOImnRYA4i7tLz8JrCRgKC
+	kQWymUFMvYEMPrzzhlio2BlNKYqr9nPG6KVXcmxMtL2D1zYEkolO9WFabFiMJY2HJolkWWmBQn418
+	M9ZvZWNsBXvX3cLYhQl0Ej93hUqXYWt1me7Ynq4Kv6GqFgMRMCDkdRicm3dQpHq92Zw0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uoZ6Y-005GlX-N7; Wed, 20 Aug 2025 05:03:14 +0200
+Date: Wed, 20 Aug 2025 05:03:14 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
+Subject: Re: [PATCH net-next v2 1/5] ethtool: introduce core UAPI and driver
+ API for PHY MSE diagnostics
+Message-ID: <489b2959-3374-4766-a982-9e7c26077899@lunn.ch>
+References: <20250815063509.743796-1-o.rempel@pengutronix.de>
+ <20250815063509.743796-2-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,21 +57,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aKUy_1IYtlKtLEbK@archie.me>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20250815063509.743796-2-o.rempel@pengutronix.de>
 
-On Wed, Aug 20, 2025 at 09:29:19AM +0700, Bagas Sanjaya wrote:
-> On Tue, Aug 19, 2025 at 09:08:22PM -0400, Kent Overstreet wrote:
-> > > -Idle/background work classes design doc:
-> > > +Idle/background work classes desiderata
-> > 
-> > .....
-> > what's going on with that spelling?
-> 
-> I'm just suggesting a better title, though. Should I keep it or revert back
-> to design doc?
+> Channel-to-pair mapping is normally straightforward, but in some cases
+> (e.g. 100BASE-TX with MDI-X resolution unknown) the mapping is ambiguous.
+> If hardware does not expose MDI-X status, the exact pair cannot be
+> determined. To avoid returning misleading per-channel data in this case,
+> a LINK selector is defined for aggregate MSE measurements.
 
-Revert back to design doc, please.
+This is the same with cable test. The API just labels the pairs using
 
-(I genuinely had not seen that word before; usually prefer to keep
-things simple).
+        ETHTOOL_A_CABLE_PAIR_A,
+        ETHTOOL_A_CABLE_PAIR_B,
+        ETHTOOL_A_CABLE_PAIR_C,
+        ETHTOOL_A_CABLE_PAIR_D,
+
+It does not take into account MDI-X or anything.
+
+> @@ -1174,6 +1246,60 @@ struct phy_driver {
+>  	/** @get_sqi_max: Get the maximum signal quality indication */
+>  	int (*get_sqi_max)(struct phy_device *dev);
+>  
+> +	/**
+> +	 * get_mse_config - Get configuration and scale of MSE measurement
+> +	 * @dev:    PHY device
+> +	 * @config: Output (filled on success)
+> +	 *
+> +	 * Fill @config with the PHY's MSE configuration for the current
+> +	 * link mode: scale limits (max_average_mse, max_peak_mse), update
+> +	 * interval (refresh_rate_ps), sample length (num_symbols) and the
+> +	 * capability bitmask (supported_caps).
+> +	 *
+> +	 * Implementations may defer configuration until hardware has
+> +	 * converged; in that case they should return -EAGAIN and allow the
+> +	 * caller to retry later.
+> +	 *
+> +	 * Return:
+> +	 *  * 0              - success, @config is valid
+> +	 *  * -EOPNOTSUPP    - MSE configuration not implemented by the PHY
+> +	 *		       or not supported in the current link mode
+> +	 *  * -ENETDOWN      - link is down and configuration is not
+> +	 *		       available in that state
+
+This seems a bit odd. phylib knows the state of the link. If it is
+down, why would it even ask? 
+
+	Andrew
