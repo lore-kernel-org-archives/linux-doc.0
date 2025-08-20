@@ -1,178 +1,412 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D928221F2F;
-	Wed, 20 Aug 2025 17:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE8F2E8B6B
+	for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 17:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755709373; cv=none; b=prQpngrgVqSTeZkSFol/AASHNGhf3U/HBhQ3rlwV695dZViumdb7h56FGd4B5o/FTjyQjEB/qKvNRoYnzsucVCDJZdjx1tKZUAo7tLoM0Qtn6nOpgmj/Kitk6bDscCWJdYIl6WUbWb4lIFQOPGevtotM56fUwYMH+3Are6AWvq0=
+	t=1755709821; cv=none; b=N2gjZGS63IzPiVXHF8pvcxQ8qnKVSZd1oNlmGxM5HwN/DQvV4iLEZfp8vGaQGm/5TRKXwaA8BQrdQd7qBy8wms5/Cfg6hMlbYaf1tOnI+6GJ44F/mOC9z2a70jS2nGX8GhCx7A73sKGk6vwS5snwNOR6A5SMhpTrUV9yWV2wgfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755709373; c=relaxed/simple;
-	bh=HrCdwjFpFxpaKWtgscNZ318aNnsG5NhL9DO1rfmynjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VyNVT4/9qlHhyGzVE1TIwlAXysvyHNg3kaOjLcNEbO0n1Q5MtDaP58RWS54rnUS6hpsrwUlWfv9Opht7DYM1KX+IsKUtdP0DjoQXm0yLYm9w485ypwv44sqOG53QmirTSHBnhCIx1MfvK9qWUeP+wPciN7q6id8Zso/EIaTST94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cNX5FnBn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755709821; c=relaxed/simple;
+	bh=dhBXRqsSJw/h0IlJlmUF0e8yLbJ5Wn30E33N9axnkjQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=KpMQm3/6FBQpD7/FWR+uI9Z/+KjtnP52mQg9OhnWpGvfZYHFLToKhfqoLRSm8Grv83mt3dZnJu6/91ON0I0n5qVVohqZtoP7ArccMTXjPcr3PVteYDT+81TgDhE0irmwNzdWrC8IQPbw/YdIzh4X06cFXdO5G9k3/dJC2FRzj+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DZoDMZQq; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cNX5FnBn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F515C4CEE7;
-	Wed, 20 Aug 2025 17:02:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755709372;
-	bh=HrCdwjFpFxpaKWtgscNZ318aNnsG5NhL9DO1rfmynjw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cNX5FnBnvRPnHvtWE445pbsFMOEnqBch380SOWkKQEEqYR3bTQB3UhYZL1zZq86gy
-	 ZAPvZkHUR2Bb4QrLdatZM7uw1LdxYOvmqWz3/07RD0VAVhBxhDq4rZY85a7K9Gxdg0
-	 0+HnI/K4ybXFFjpiWB56YQ8ARtzypHtkFPkQmpK5ahtnKknsDoPb8mKVzPnjM9L6oJ
-	 XqnFDf/pemk0g94lPuynwtt/HYP8zzZD2e+d0mpAUikbFf7Atz47ODTY5ZcDVIloj8
-	 HQqR2YMk42KWsT4S1D3sc1hBNDesVadUMxcI9A6B8j45r8vsSK+hATFecL0KdfNc5M
-	 jX2YADHI1r3FA==
-Date: Wed, 20 Aug 2025 20:02:38 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Shiju Jose <shiju.jose@huawei.com>
-Cc: Jonathan Cameron <jonathan.cameron@huawei.com>,
-	"rafael@kernel.org" <rafael@kernel.org>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>,
-	"lenb@kernel.org" <lenb@kernel.org>,
-	"leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>,
-	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>,
-	"erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>,
-	"gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>,
-	"Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
-	wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: Re: [PATCH v11 1/3] mm: Add support to retrieve physical address
- range of memory from the node ID
-Message-ID: <aKX_rk0DasbDgJrS@kernel.org>
-References: <20250812142616.2330-1-shiju.jose@huawei.com>
- <20250812142616.2330-2-shiju.jose@huawei.com>
- <20250819175420.00007ce6@huawei.com>
- <aKV6dVkPiBPw595T@kernel.org>
- <20250820095413.00003bd7@huawei.com>
- <964fc2721fb7499daa5f49eddfed54ff@huawei.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DZoDMZQq"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-76e2eb787f2so159371b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 20 Aug 2025 10:10:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1755709818; x=1756314618; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5t4FcDSGXwLSgTF0EICUfOCBIN34cesCy1ccnNe/UjE=;
+        b=DZoDMZQqPwzWfr2071stHOs+HffAAAPcUQrL4a8Zr3DPt4L8NLRpLzwJJZCA7h9QFu
+         yHb18xC0Pr/3MDgpziagShcdy80g09o0lRBVR4CYhFy2h5MQXAyjJNWaJ3+oVOEn58Lf
+         +zm7iaEJD1Fz/C+9XJvgle1OF8WWFSGg3nNy0sY7Vs3PWQDnN+JBGol2C9SZQ8YsfCVW
+         mEp5rmFEN4TWTcuLKd0TPLMOeK5q9eQU7b5Dac0zevF8yQp/PWpOrim7BeoJtZJngBAr
+         kXNWGZl/IXBHqOWl1bROsY3mFkDKcJcC4lUCVGzMdJhykiFLLRCCW312utuDWlDjGkS8
+         X56g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755709818; x=1756314618;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5t4FcDSGXwLSgTF0EICUfOCBIN34cesCy1ccnNe/UjE=;
+        b=nVCJCX53myAQuXWmRP5X8Dc4lW6SQV0d7U19xpieKw3R+THRFMocwmpiseDB5VvUvh
+         hjV6FahKKyDEGlwcDHxidcmQZe8M46JNW8AzaO3cnpwF2gAgaly6/qWJ9wP6tJkfLnEj
+         Zdu7/uuzc5VTouJypftWvkXki7+Fc8RekMzJztRlve/nR43oEKVKQFpIAH+aLYJx7h+l
+         Xyld4OhiPbnEuQBHIXUnNiUg9pZb/Qp2B8v+fqcxTT6U5kgBprIC5mQfoEGvjPB9jxJ2
+         QaRwTIUH6N1nFVCWwSB5PVSqS7m4nGqFWHNxNH3M2PJo/jY+ocJo8qC9eA2S9K5Ap7hl
+         NCzg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1UdLtHZ9QPYL8Pewz6zPX48smqR80j5YZbZa4SuskzMyssvFdU6KW8UmF/qeVzRcEB1/TciX7my4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynPdtK06B1MMYJA/ixSaDteMwGnW60gq77mfwNnZjlqVO4nl1G
+	PyIsUy6omLJDKOfeeiqy8d+VxT5KdUpnUpBlH3BE+kUgNfzPyhhi1W/a4Jv4Wetp47m4raN/D+S
+	cOvhPgw==
+X-Google-Smtp-Source: AGHT+IE6TUwGBI1cmNGcUjN1t5C7h5vmven6pZhphBLAx9IXkOGEoC44GQiPmocw0Fg1uk/d51KtCCBMhOc=
+X-Received: from pjvb16.prod.google.com ([2002:a17:90a:d890:b0:31e:c1fb:dbb2])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:3291:b0:222:d191:5bbd
+ with SMTP id adf61e73a8af0-2431b939322mr5779179637.39.1755709818245; Wed, 20
+ Aug 2025 10:10:18 -0700 (PDT)
+Date: Wed, 20 Aug 2025 10:10:16 -0700
+In-Reply-To: <20250515152621.50648-2-amit@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <964fc2721fb7499daa5f49eddfed54ff@huawei.com>
+Mime-Version: 1.0
+References: <20250515152621.50648-1-amit@kernel.org> <20250515152621.50648-2-amit@kernel.org>
+Message-ID: <aKYBeIokyVC8AKHe@google.com>
+Subject: Re: [PATCH v5 1/1] x86: kvm: svm: set up ERAPS support for guests
+From: Sean Christopherson <seanjc@google.com>
+To: Amit Shah <amit@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org, 
+	linux-doc@vger.kernel.org, amit.shah@amd.com, thomas.lendacky@amd.com, 
+	bp@alien8.de, tglx@linutronix.de, peterz@infradead.org, jpoimboe@kernel.org, 
+	pawan.kumar.gupta@linux.intel.com, corbet@lwn.net, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, hpa@zytor.com, pbonzini@redhat.com, 
+	daniel.sneddon@linux.intel.com, kai.huang@intel.com, sandipan.das@amd.com, 
+	boris.ostrovsky@oracle.com, Babu.Moger@amd.com, david.kaplan@amd.com, 
+	dwmw@amazon.co.uk, andrew.cooper3@citrix.com
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Aug 20, 2025 at 10:00:50AM +0000, Shiju Jose wrote:
-> >-----Original Message-----
-> >From: Jonathan Cameron <jonathan.cameron@huawei.com>
-> >Sent: 20 August 2025 09:54
-> >To: Mike Rapoport <rppt@kernel.org>
-> >Cc: Shiju Jose <shiju.jose@huawei.com>; rafael@kernel.org; bp@alien8.de;
-> >akpm@linux-foundation.org; dferguson@amperecomputing.com; linux-
-> >edac@vger.kernel.org; linux-acpi@vger.kernel.org; linux-mm@kvack.org; linux-
-> >doc@vger.kernel.org; tony.luck@intel.com; lenb@kernel.org;
-> >leo.duran@amd.com; Yazen.Ghannam@amd.com; mchehab@kernel.org;
-> >Linuxarm <linuxarm@huawei.com>; rientjes@google.com;
-> >jiaqiyan@google.com; Jon.Grimm@amd.com; dave.hansen@linux.intel.com;
-> >naoya.horiguchi@nec.com; james.morse@arm.com; jthoughton@google.com;
-> >somasundaram.a@hpe.com; erdemaktas@google.com; pgonda@google.com;
-> >duenwen@google.com; gthelen@google.com;
-> >wschwartz@amperecomputing.com; wbs@os.amperecomputing.com;
-> >nifan.cxl@gmail.com; tanxiaofei <tanxiaofei@huawei.com>; Zengtao (B)
-> ><prime.zeng@hisilicon.com>; Roberto Sassu <roberto.sassu@huawei.com>;
-> >kangkang.shen@futurewei.com; wanghuiqiang <wanghuiqiang@huawei.com>
-> >Subject: Re: [PATCH v11 1/3] mm: Add support to retrieve physical address
-> >range of memory from the node ID
-> >
-> >On Wed, 20 Aug 2025 10:34:13 +0300
-> >Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> >> On Tue, Aug 19, 2025 at 05:54:20PM +0100, Jonathan Cameron wrote:
-> >> > On Tue, 12 Aug 2025 15:26:13 +0100
-> >> > <shiju.jose@huawei.com> wrote:
-> >> >
-> >> > > From: Shiju Jose <shiju.jose@huawei.com>
-> >> > >
-> >> > > In the numa_memblks, a lookup facility is required to retrieve the
-> >> > > physical address range of memory in a NUMA node. ACPI RAS2 memory
-> >> > > features are among the use cases.
-> >> > >
-> >> > > Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> >> > > Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
-> >> >
-> >> > Looks fine to me.  Mike, what do you think?
-> >>
-> >> I still don't see why we can't use existing functions like
-> >> get_pfn_range_for_nid() or memblock_search_pfn_nid().
-> >>
-> >> Or even node_start_pfn() and node_spanned_pages().
-> >
-> >Good point.  No reason anyone would scrub this on memory that hasn't been
-> >hotplugged yet, so no need to use numa-memblk to get the info.
-> >I guess I was thinking of the wrong hammer :)
-> >
-> >I'm not sure node_spanned_pages() works though as we need not to include
-> >ranges that might be on another node as we'd give a wrong impression of what
-> >was being scrubbed.
-
-If nodes are not interleaved node_spanned_pages() would work, even if there
-are holes inside the node, like e.g. e820-reserved memory.
-So with non-interleaved nodes node_start_pfn() and either
-node_spanned_pages() or node_end_pfn() will give the node extents and they
-are faster than get_pfn_range_for_nid().
-
-If the nodes are interleaved, though, a single mem_base, mem_size are not
-enough for a node as there are a few contiguous ranges in that node, e.g.
-
-  0              4G              8G             12G            16G
-  +-------------+ +-------------+ +-------------+ +-------------+
-  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
-  +-------------+ +-------------+ +-------------+ +-------------+
-
-I didn't look into the details of the RAS2 driver, but isn't it's something
-it should handle?
-
-> >Should be able to use some combination of node_start_pfn() and maybe
-> >memblock_search_pfn_nid() to get it though (that also gets the nid we already
-> >know but meh, no ral harm in that.)
+On Thu, May 15, 2025, Amit Shah wrote:
+> From: Amit Shah <amit.shah@amd.com>
 > 
-> Thanks Mike and Jonathan.
+> AMD CPUs with the Enhanced Return Address Predictor (ERAPS) feature
+> Zen5+) obviate the need for FILL_RETURN_BUFFER sequences right after
+> VMEXITs.  The feature adds guest/host tags to entries in the RSB (a.k.a.
+> RAP).  This helps with speculation protection across the VM boundary,
+> and it also preserves host and guest entries in the RSB that can improve
+> software performance (which would otherwise be flushed due to the
+> FILL_RETURN_BUFFER sequences).  This feature also extends the size of
+> the RSB from the older standard (of 32 entries) to a new default
+> enumerated in CPUID leaf 0x80000021:EBX bits 23:16 -- which is 64
+> entries in Zen5 CPUs.
 > 
-> The following approaches were tried as you suggested, instead of newly proposed
-> nid_get_mem_physaddr_range().
-> Methods 1 to 3 give the same result as nid_get_mem_physaddr_range(), but
-> Method 4 gives a different value for the size.
+> In addition to flushing the RSB across VMEXIT boundaries, CPUs with
+> this feature also flush the RSB when the CR3 is updated (i.e. whenever
+> there's a context switch), to prevent one userspace process poisoning
+> the RSB that may affect another process.  The relevance of this for KVM
+> is explained below in caveat 2.
+> 
+> The hardware feature is always-on, and the host context uses the full
+> default RSB size without any software changes necessary.  The presence
+> of this feature allows software (both in host and guest contexts) to
+> drop all RSB filling routines in favour of the hardware doing it.
+> 
+> For guests to observe and use this feature, 
 
-I believe that's because on x86 the node 0 is really scrambled because of
-e820/efi reservations that never make it to memblock.
+Guests don't necessarily "use" this feature.  It's something that's enabled by
+KVM and affects harware behavior regardless of whether or not the guest is even
+aware ERAPS is a thing.
+
+> the hypervisor needs to expose the CPUID bit, and also set a VMCB bit.
+> Without one or both of those, 
+
+No?  If there's no enabling for bare metal usage, I don't see how emulation of
+CPUID can possibly impact usage of RAP size.  The only thing that matters is the
+VMCB bit.  And nothing in this patch queries guest CPUID.
+
+Observing ERAPS _might_ cause the guest to forego certain mitigations, but KVM
+has zero visibility into whether or not such mitigations exist, if the guest will
+care about ERAPS, etc.
+
+> guests continue to use the older default RSB size and behaviour for backwards
+> compatibility.  This means the hardware RSB size is limited to 32 entries for
+> guests that do not have this feature exposed to them.
+> 
+> There are two guest/host configurations that need to be addressed before
+> allowing a guest to use this feature: nested guests, and hosts using
+> shadow paging (or when NPT is disabled):
+> 
+> 1. Nested guests: the ERAPS feature adds host/guest tagging to entries
+>    in the RSB, but does not distinguish between the guest ASIDs.  To
+>    prevent the case of an L2 guest poisoning the RSB to attack the L1
+>    guest, the CPU exposes a new VMCB bit (FLUSH_RAP_ON_VMRUN).  The next
+>    VMRUN with a VMCB that has this bit set causes the CPU to flush the
+>    RSB before entering the guest context.  In this patch, we set the bit
+
+"this patch", "we".
+
+>    in VMCB01 after a nested #VMEXIT to ensure the next time the L1 guest
+>    runs, its RSB contents aren't polluted by the L2's contents.
+>    Similarly, when an exit from L1 to the hypervisor happens, we set
+>    that bit for VMCB02, so that the L1 guest's RSB contents are not
+>    leaked/used in the L2 context.
+> 
+> 2. Hosts that disable NPT: the ERAPS feature also flushes the RSB
+>    entries when the CR3 is updated.  When using shadow paging, CR3
+>    updates within the guest do not update the CPU's CR3 register.
+
+Yes they do, just indirectly.  KVM changes the effective CR3 in reaction to the
+guest's new CR3.  If hardware doesn't flush in that situation, then it's trivially
+easy to set ERAP_CONTROL_FLUSH_RAP on writes to CR3.
+
+>    In this case, do not expose the ERAPS feature to guests,
+>    and the guests continue with existing mitigations to fill the RSB.
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index 571c906ffcbf..0cca1865826e 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -1187,6 +1187,9 @@ void kvm_set_cpu_caps(void)
+>  		F(SRSO_USER_KERNEL_NO),
+>  	);
+>  
+> +	if (tdp_enabled)
+> +		kvm_cpu_cap_check_and_set(X86_FEATURE_ERAPS);
+
+_If_ ERAPS is conditionally enabled, then it probably makes sense to do this in
+svm_set_cpu_caps().  But I think we can just support ERAPS unconditionally.
+
+> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+> index a89c271a1951..a2b075ed4133 100644
+> --- a/arch/x86/kvm/svm/svm.c
+> +++ b/arch/x86/kvm/svm/svm.c
+> @@ -1363,6 +1363,9 @@ static void init_vmcb(struct kvm_vcpu *vcpu)
+>  	if (boot_cpu_has(X86_FEATURE_V_SPEC_CTRL))
+>  		set_msr_interception(vcpu, svm->msrpm, MSR_IA32_SPEC_CTRL, 1, 1);
+>  
+> +	if (boot_cpu_has(X86_FEATURE_ERAPS) && npt_enabled)
+	
+Don't regurgitate the same check in multiple places.
+
+	if (kvm_cpu_cap_has(X86_FEATURE_ERAPS))
+
+
+	
+> +		vmcb_enable_extended_rap(svm->vmcb);
+> +
+>  	if (kvm_vcpu_apicv_active(vcpu))
+>  		avic_init_vmcb(svm, vmcb);
+>  
+> @@ -3482,6 +3485,7 @@ static void dump_vmcb(struct kvm_vcpu *vcpu)
+>  	pr_err("%-20s%016llx\n", "tsc_offset:", control->tsc_offset);
+>  	pr_err("%-20s%d\n", "asid:", control->asid);
+>  	pr_err("%-20s%d\n", "tlb_ctl:", control->tlb_ctl);
+> +	pr_err("%-20s%d\n", "erap_ctl:", control->erap_ctl);
+>  	pr_err("%-20s%08x\n", "int_ctl:", control->int_ctl);
+>  	pr_err("%-20s%08x\n", "int_vector:", control->int_vector);
+>  	pr_err("%-20s%08x\n", "int_state:", control->int_state);
+> @@ -3663,6 +3667,11 @@ static int svm_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
+>  
+>  		trace_kvm_nested_vmexit(vcpu, KVM_ISA_SVM);
+>  
+> +		if (vmcb_is_extended_rap(svm->vmcb01.ptr)) {
+> +			vmcb_set_flush_guest_rap(svm->vmcb01.ptr);
+> +			vmcb_clr_flush_guest_rap(svm->nested.vmcb02.ptr);
+> +		}
+> +
+>  		vmexit = nested_svm_exit_special(svm);
+>  
+>  		if (vmexit == NESTED_EXIT_CONTINUE)
+> @@ -3670,6 +3679,11 @@ static int svm_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
+>  
+>  		if (vmexit == NESTED_EXIT_DONE)
+>  			return 1;
+> +	} else {
+> +		if (vmcb_is_extended_rap(svm->vmcb01.ptr) && svm->nested.initialized) {
+> +			vmcb_set_flush_guest_rap(svm->nested.vmcb02.ptr);
+> +			vmcb_clr_flush_guest_rap(svm->vmcb01.ptr);
+> +		}
+
+Handling this in the common exit path is confusing, inefficient, and lacking.
+
+Assuming hardware doesn't automatically clear ERAP_CONTROL_FLUSH_RAP, then KVM
+should clear the flag after _any_ exit, not just exits that reach this point,
+e.g. if KVM stays in the fast path.
+
+And IIUC, ERAP_CONTROL_FLUSH_RAP needs to be done on _every_ nested transition,
+not just those that occur in direct response to a hardware #VMEXIT. So, hook
+nested_vmcb02_prepare_control() for nested VMRUN and nested_svm_vmexit() for
+nested #VMEXIT.
+
+Side topic, the changelog should call out that KVM deliberately ignores guest
+CPUID, and instead unconditionally enables the full size RAP when ERAPS is
+supported.  I.e. KVM _could_ check guest_cpu_cap_has() instead of kvm_cpu_cap_has()
+in all locations, to avoid having to flush the RAP on nested transitions when
+ERAPS isn't enumerated to the guest, but presumably using the full size RAP is
+better for overall performance.
+
+The changelog should also call out that if the full size RAP is enabled, then
+it's KVM's responsibility to flush the RAP on nested transitions irrespective
+of whether or not ERAPS is advertised to the guest.  Because if ERAPS isn't
+advertised, the the guest's mitigations will likely be insufficient.
+
+>  	}
+>  
+>  	if (svm->vmcb->control.exit_code == SVM_EXIT_ERR) {
+> diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
+> index f16b068c4228..7f44f7c9b1d5 100644
+> --- a/arch/x86/kvm/svm/svm.h
+> +++ b/arch/x86/kvm/svm/svm.h
+> @@ -493,6 +493,26 @@ static inline bool svm_is_intercept(struct vcpu_svm *svm, int bit)
+>  	return vmcb_is_intercept(&svm->vmcb->control, bit);
+>  }
+>  
+> +static inline void vmcb_set_flush_guest_rap(struct vmcb *vmcb)
+> +{
+> +	vmcb->control.erap_ctl |= ERAP_CONTROL_FLUSH_RAP;
+> +}
+> +
+> +static inline void vmcb_clr_flush_guest_rap(struct vmcb *vmcb)
+> +{
+> +	vmcb->control.erap_ctl &= ~ERAP_CONTROL_FLUSH_RAP;
+> +}
+> +
+> +static inline void vmcb_enable_extended_rap(struct vmcb *vmcb)
+> +{
+> +	vmcb->control.erap_ctl |= ERAP_CONTROL_ALLOW_LARGER_RAP;
+> +}
+> +
+> +static inline bool vmcb_is_extended_rap(struct vmcb *vmcb)
+> +{
+> +	return !!(vmcb->control.erap_ctl & ERAP_CONTROL_ALLOW_LARGER_RAP);
+> +}
+
+Eh, just drop all of these wrappers.
+
+With the caveat that I'm taking a wild guess on the !npt behavior, something
+like this?
+
+---
+ arch/x86/include/asm/cpufeatures.h | 1 +
+ arch/x86/include/asm/svm.h         | 6 +++++-
+ arch/x86/kvm/cpuid.c               | 7 ++++++-
+ arch/x86/kvm/svm/nested.c          | 6 ++++++
+ arch/x86/kvm/svm/svm.c             | 9 +++++++++
+ 5 files changed, 27 insertions(+), 2 deletions(-)
+
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index eb859299d514..87d9284c166a 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -466,6 +466,7 @@
+ #define X86_FEATURE_GP_ON_USER_CPUID	(20*32+17) /* User CPUID faulting */
  
-> Please advise which method should be used for the RAS2?
-> 
-> Thanks,
-> Shiju
-> 
+ #define X86_FEATURE_PREFETCHI		(20*32+20) /* Prefetch Data/Instruction to Cache Level */
++#define X86_FEATURE_ERAPS		(20*32+24) /* Enhanced Return Address Predictor Security */
+ #define X86_FEATURE_SBPB		(20*32+27) /* Selective Branch Prediction Barrier */
+ #define X86_FEATURE_IBPB_BRTYPE		(20*32+28) /* MSR_PRED_CMD[IBPB] flushes all branch type predictions */
+ #define X86_FEATURE_SRSO_NO		(20*32+29) /* CPU is not affected by SRSO */
+diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
+index ffc27f676243..58a079d6c3ef 100644
+--- a/arch/x86/include/asm/svm.h
++++ b/arch/x86/include/asm/svm.h
+@@ -131,7 +131,8 @@ struct __attribute__ ((__packed__)) vmcb_control_area {
+ 	u64 tsc_offset;
+ 	u32 asid;
+ 	u8 tlb_ctl;
+-	u8 reserved_2[3];
++	u8 erap_ctl;
++	u8 reserved_2[2];
+ 	u32 int_ctl;
+ 	u32 int_vector;
+ 	u32 int_state;
+@@ -182,6 +183,9 @@ struct __attribute__ ((__packed__)) vmcb_control_area {
+ #define TLB_CONTROL_FLUSH_ASID 3
+ #define TLB_CONTROL_FLUSH_ASID_LOCAL 7
+ 
++#define ERAP_CONTROL_FULL_SIZE_RAP BIT(0)
++#define ERAP_CONTROL_FLUSH_RAP BIT(1)
++
+ #define V_TPR_MASK 0x0f
+ 
+ #define V_IRQ_SHIFT 8
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index ad6cadf09930..184a810b53e3 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -1177,6 +1177,7 @@ void kvm_set_cpu_caps(void)
+ 		F(AUTOIBRS),
+ 		F(PREFETCHI),
+ 		EMULATED_F(NO_SMM_CTL_MSR),
++		F(ERAPS),
+ 		/* PrefetchCtlMsr */
+ 		/* GpOnUserCpuid */
+ 		/* EPSF */
+@@ -1760,9 +1761,13 @@ static inline int __do_cpuid_func(struct kvm_cpuid_array *array, u32 function)
+ 		entry->eax = entry->ebx = entry->ecx = entry->edx = 0;
+ 		break;
+ 	case 0x80000021:
+-		entry->ebx = entry->edx = 0;
++		entry->edx = 0;
+ 		cpuid_entry_override(entry, CPUID_8000_0021_EAX);
+ 		cpuid_entry_override(entry, CPUID_8000_0021_ECX);
++		if (kvm_cpu_cap_has(X86_FEATURE_ERAPS))
++			entry->ebx &= GENMASK(23, 16);
++		else
++			entry->ebx = 0;
+ 		break;
+ 	/* AMD Extended Performance Monitoring and Debug */
+ 	case 0x80000022: {
+diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
+index b7fd2e869998..77794fd809e1 100644
+--- a/arch/x86/kvm/svm/nested.c
++++ b/arch/x86/kvm/svm/nested.c
+@@ -861,6 +861,9 @@ static void nested_vmcb02_prepare_control(struct vcpu_svm *svm,
+ 		}
+ 	}
+ 
++	if (kvm_cpu_cap_has(X86_FEATURE_ERAPS))
++		vmcb02->control.erap_ctl |= ERAP_CONTROL_FLUSH_RAP;
++
+ 	/*
+ 	 * Merge guest and host intercepts - must be called with vcpu in
+ 	 * guest-mode to take effect.
+@@ -1144,6 +1147,9 @@ int nested_svm_vmexit(struct vcpu_svm *svm)
+ 
+ 	kvm_nested_vmexit_handle_ibrs(vcpu);
+ 
++	if (kvm_cpu_cap_has(X86_FEATURE_ERAPS))
++		vmcb01->control.erap_ctl |= ERAP_CONTROL_FLUSH_RAP;
++
+ 	svm_switch_vmcb(svm, &svm->vmcb01);
+ 
+ 	/*
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index 7e7821ee8ee1..501596e56d39 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -1205,6 +1205,9 @@ static void init_vmcb(struct kvm_vcpu *vcpu)
+ 		svm_clr_intercept(svm, INTERCEPT_PAUSE);
+ 	}
+ 
++	if (kvm_cpu_cap_has(X86_FEATURE_ERAPS))
++		svm->vmcb->control.erap_ctl |= ERAP_CONTROL_FULL_SIZE_RAP;
++
+ 	if (kvm_vcpu_apicv_active(vcpu))
+ 		avic_init_vmcb(svm, vmcb);
+ 
+@@ -2560,6 +2563,8 @@ static int cr_interception(struct kvm_vcpu *vcpu)
+ 			break;
+ 		case 3:
+ 			err = kvm_set_cr3(vcpu, val);
++			if (!err && nested && kvm_cpu_cap_has(X86_FEATURE_ERAPS))
++				svm->vmcb->control.erap_ctl |= ERAP_CONTROL_FLUSH_RAP;
+ 			break;
+ 		case 4:
+ 			err = kvm_set_cr4(vcpu, val);
+@@ -3322,6 +3327,7 @@ static void dump_vmcb(struct kvm_vcpu *vcpu)
+ 	pr_err("%-20s%016llx\n", "tsc_offset:", control->tsc_offset);
+ 	pr_err("%-20s%d\n", "asid:", control->asid);
+ 	pr_err("%-20s%d\n", "tlb_ctl:", control->tlb_ctl);
++	pr_err("%-20s%d\n", "erap_ctl:", control->erap_ctl);
+ 	pr_err("%-20s%08x\n", "int_ctl:", control->int_ctl);
+ 	pr_err("%-20s%08x\n", "int_vector:", control->int_vector);
+ 	pr_err("%-20s%08x\n", "int_state:", control->int_state);
+@@ -4366,6 +4372,9 @@ static __no_kcsan fastpath_t svm_vcpu_run(struct kvm_vcpu *vcpu, u64 run_flags)
+ 	}
+ 
+ 	svm->vmcb->control.tlb_ctl = TLB_CONTROL_DO_NOTHING;
++	if (cpu_feature_enabled(X86_FEATURE_ERAPS))
++		svm->vmcb->control.erap_ctl &= ~ERAP_CONTROL_FLUSH_RAP;
++
+ 	vmcb_mark_all_clean(svm->vmcb);
+ 
+ 	/* if exit due to PF check for async PF */
 
--- 
-Sincerely yours,
-Mike.
+base-commit: 91b392ada892a2e8b1c621b9493c50f6fb49880f
+--
