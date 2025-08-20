@@ -1,82 +1,98 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD11C194A45;
-	Wed, 20 Aug 2025 01:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EAD4274661;
+	Wed, 20 Aug 2025 01:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755652834; cv=none; b=oRmPWgXnB0z/9obKifgXzXixp9J8Ki2oGwVHfFzEeHXbqM1EenHRKDHO1/MWN2d6y+SmiAOMd2FnFDPu8r2w8QFfoI2R6v5ZkZstrFELIwbErzfpYGOf77nJsAuHw/v0Lp3/XNAync3+f01yF5r8asJJLqLgDh26BR78W00AaYg=
+	t=1755654323; cv=none; b=qPDiOHgLSLyZ0xEiwc07rh+GYVmnisBDZIy50tmOCBBnwwwLnmhphxL/Z+xOD1Uy4GN7AdBQfCvMPkDQojt9wosrnrwfdqq+qlvKTDp/RB1kYhlNTMVMD6p+WX0fKem5Bi2I0o4lZ2HWNTpZbOUc+RA9sukp/L9jxRxWMs9Ypag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755652834; c=relaxed/simple;
-	bh=svWzG9sF031XyKJb72JtwTqDoEzVn7DJp417oOQkgMc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KHkIXPQs5SFy/IZuH+zmk6Wq6zDa+aOBL+2/ACeiUpg3vmJuioCNsZe2/IUIU4M7LBqTbBf65a5WLtMPwWfhXgdfY/q/FRRfXv6xMIwL+5n8BlaeP1n1ylExC9z+n/aUl1LZTfdiQVtc29MProoGol0Mm23yIJ29Nb1wifBokaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tYqB962O; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tYqB962O"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=tuR6rPmIqpc8DdqsUiEd4fLkPe8oIAaXR6ncnw2kdj4=; b=tYqB962O0mDQXwvZLSAplvyIMi
-	ZNTlcMg22fy1nCKIlFOGM6hrrAyqM3Wp2/0WfSYjjmGACI8SR3dmGkkMFhbEsPqK1Zhb+PVGoPgHf
-	5eUexB9ePTVZfR2MhnqxM/vkCQ2lEtJz4RawtpFMrIn1DTgUaa0lPQy6NSTtFkgnwUgy2HUKV+X3Q
-	ShxAytFT3gT+eT4jCYuvrkFJE2piSjlqg3sB85B7VqjmV26U8Cxcx1H10HOV2KUJROwDkQhJ4FXIM
-	7hbmhxUuPzphBghtmnvcy7MuYTQFyg/XL04YIRS5mRVcUXQC4rOVJ7hSDW6uZ4GU/M5FMnHBT5LLF
-	uAIYhf4Q==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoXVA-0000000C4bD-1ZDo;
-	Wed, 20 Aug 2025 01:20:32 +0000
-Message-ID: <bc5d5208-4dd1-4eaf-9c4a-76020ec3c959@infradead.org>
-Date: Tue, 19 Aug 2025 18:20:31 -0700
+	s=arc-20240116; t=1755654323; c=relaxed/simple;
+	bh=wuaetC6HYS8jrlxmZDyqgB/sWl2EQU24EWs61R7V8CQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FC4BTDDpSn0McFNCgGP+ZbY36kN0myRCY+Z9Bf0t7IcWxZ0SwQMhijoiiUnqOpbNb/+IxhfJGSLZFYGB2nJBDDfsIF9Z1R6T3+5zcwcst9DSXpCSUrS7rmY+wv6qRrl/z0eUp+nxlYnc/zR6gAUwc8N02iRnkOVIDjVqiMpkpE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpsz19t1755654224td6a0dcb8
+X-QQ-Originating-IP: HTig/urfuy1c10xTqU33eaHLWL43Nj039I3rn71CoV0=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 20 Aug 2025 09:43:42 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 8384300150430436104
+Date: Wed, 20 Aug 2025 09:43:41 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 2/5] net: rnpgbe: Add n500/n210 chip support
+Message-ID: <78DD9702C797EEA1+20250820014341.GA1580474@nic-Precision-5820-Tower>
+References: <20250818112856.1446278-1-dong100@mucse.com>
+ <20250818112856.1446278-3-dong100@mucse.com>
+ <d4a84d76-8982-4a9d-a383-2e2d4d66550a@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Fix typo in RAID arrays documentation
-To: Vivek Alurkar <primalkenja@gmail.com>, corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250819225034.8739-2-primalkenja@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250819225034.8739-2-primalkenja@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4a84d76-8982-4a9d-a383-2e2d4d66550a@linux.dev>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OBDSLDo3By90FrPc21Vfk7dBBPSf0XMltTOezz3bfOb9pKkyW3kXRur7
+	4cXO1IYYJc+FKN00cURPj7hPrhYgBv7gf7NNRdmKnpqzAQEDorMWUOHF6janB7UxmpXGAYm
+	WxynZj9qqo1ci3cY7t8fc/rXERfc8TChXCyeRkngkIyam8gTzoysd0DcZSNnJqOsDwwI1FK
+	zlOq5I42McGuN8ZT9gX1aZFHzMXNuom9JFI0/ykCu4++CnjEK20xKU+q1BMz4v+BicEqQU1
+	hJn6e34U9yQ0ohpy2sVU7MOUUFuWmLE4DKLcwi9kMrotZ97ofhltzE9j4iXSQah2aweyNZF
+	vc9m/zQrFuvUjyzqXECOKLWZ7sQWOo8AAmxz6GDmZOl7IRDBtry2Dk7Q8hk+0fQs229NF+Q
+	Dchg9hsMMKIxYcP0Wdk/nssuXmbuEbtmzchosLxV23lrsZ445wZweFoAQ8OWHaD0VvcHDY/
+	0V1rJTdnZVE+Liz2FDsFeX//iLUiSZehwloez/VHwa0FeMIZLOYPxAnoEWzZBDwZAisQcop
+	bcieYS/pgosjsRpD1qmsUooNvtSv1tBhOfZm0JcWd139ZYBTDxc4MqhNAqv8O93zU2iRgUr
+	VoH+62QkFlseC9Jzkr29uqcYJdcgidTb1sMhJG8EmBLLlr/z6XCYy8OJ35xG2oYdOeNuPUl
+	fWLfPdMhti4igL+CL4ZhIqa3c1i23fWS+RK/3+oENvN0QGZIjEDtCkSXFoN7rp+OZfKx4Au
+	4ysVVFU2Q/7kDjmY3wF8GkIfbBmlZImg0gXucjozTZ+EDReg6IETIU+OGcdCGAZItF368IZ
+	DAqRQ+8TxOjzzWt7bzvxHPQ1DPSPV+tvkuRo9rT5AZgSE/eEDzH6fku0x3JHACgkPY6V218
+	LBRvlCeEudvZ862Bh4ttemEPdsxjoyQwPzmOKavKLD1jZqGC2SpEWKDAD1FWXt6mXyzjXur
+	C1GgKo6RrgoE6Ri/BJAoU4uaUUbuR3b5hQGHEdDeE+AVKVKRcEuA/RPOfrIZ5uTYEPCg=
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
-Hi,
-
-On 8/19/25 3:50 PM, Vivek Alurkar wrote:
-> Changed "write-throuth" to "write-through".
+On Tue, Aug 19, 2025 at 02:59:09PM +0100, Vadim Fedorenko wrote:
+> On 18/08/2025 12:28, Dong Yibo wrote:
+> > Initialize n500/n210 chip bar resource map and
+> > dma, eth, mbx ... info for future use.
+> > 
+> [...]
 > 
-> Signed-off-by: Vivek Alurkar <primalkenja@gmail.com>
-> ---
->  Documentation/admin-guide/md.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > +struct mucse_hw {
+> > +	void __iomem *hw_addr;
+> > +	void __iomem *ring_msix_base;
+> > +	struct pci_dev *pdev;
+> > +	enum rnpgbe_hw_type hw_type;
+> > +	struct mucse_dma_info dma;
+> > +	struct mucse_eth_info eth;
+> > +	struct mucse_mac_info mac;
+> > +	struct mucse_mbx_info mbx;
+> > +	u32 usecstocount;
 > 
-> diff --git a/Documentation/admin-guide/md.rst b/Documentation/admin-guide/md.rst
-> index 4ff2cc291d18..8b9866cacb87 100644
-> --- a/Documentation/admin-guide/md.rst
-> +++ b/Documentation/admin-guide/md.rst
-> @@ -758,7 +758,7 @@ These currently include:
->  
->    journal_mode (currently raid5 only)
->        The cache mode for raid5. raid5 could include an extra disk for
-> -      caching. The mode can be "write-throuth" and "write-back". The
+> What is this field for? You don't use it anywhere in the patchset apart
+> from initialization. Maybe it's better to introduce it once it's used?
+> Together with the defines of values for this field...
+> 
 
-preferably:                                        or
+It is used to store chip frequency which is used to calculate values
+related to 'delay register' in the future. I will improve this.
 
-> +      caching. The mode can be "write-through" and "write-back". The
->        default is "write-through".
->  
->    ppl_write_hint
-thanks.
--- 
-~Randy
+Thanks for your feedback.
 
