@@ -1,127 +1,106 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CFB258ECA;
-	Wed, 20 Aug 2025 03:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3428C23B61A;
+	Wed, 20 Aug 2025 04:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755659519; cv=none; b=TpZas3IqZzbW5Ct41kfUtd+ijvEI6T3lkgi2y9KaS2BecTbXRcUCsT2Qz3Eor4wITEDYRlj6DGvzEf8Z0vfXSmoEeEEJUd+zThKiQqRRXoUz+gIwhhIZLcgZxF4DAeZQm2qozCNp2sBEhD8Zqlw36eABTG6lan4IctXX6XP3FPw=
+	t=1755664182; cv=none; b=kzYnvHCotvqNdz7zgPTacw2cUFoklN7KOnl/CzB+Jt3IGHdLw02TZSkrcxOGwIrLyb0vMBTq+Ui9YWEQeFWcKF+ZzJf2y2ecvZiqu8AmBqarbYQVmeW0W0pqvlx8/79Dl7SC6NHXFdzfOJmDymWkMSH/K1G5nmVuOsDAGaWCaOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755659519; c=relaxed/simple;
-	bh=46xGZNjG8EaGPJz9NcMXGPgRzezsUmAR9Xov6OuJmgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bRAyFxk2+nBvS62Vvt6wQsrtJlraf/7tBjJVGDkObi/kdr6nyPpQUgicCxoEIL3xJJji/B1tuiucs2+wikzGTugz/BTOHu79jpKjGOKYLt9u67YMRTU+aczyCJLs5BE3JauRgq5dJ6e47+HVPYabQTvaoQ+h4i+hO+667xJPYps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WETQhtDt; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1755664182; c=relaxed/simple;
+	bh=LS6eu4y80ZkjO8n1yQxxcyxmL2M70DHTrJlqAImuvkM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=up1p9xGiWhSOGOShI0/dUE6FAkc8uICjnNxRTettLUUG+iqDGTmH3NlVWLecbxT+1nbrsjkypf4HSHKxVjgRVKChek+BRgrZdV8eFg+xgDnsQu8jUF4kshqNWmYtwNOfIKsd1Fn0NShVIhrEHKGJTZGDhufzEUb7ZqpuhjoLO48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gFYs9N5x; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WETQhtDt"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-76e93370ab8so114206b3a.1;
-        Tue, 19 Aug 2025 20:11:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gFYs9N5x"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-76e34c4ce54so549013b3a.0;
+        Tue, 19 Aug 2025 21:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755659517; x=1756264317; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=46xGZNjG8EaGPJz9NcMXGPgRzezsUmAR9Xov6OuJmgM=;
-        b=WETQhtDtKev5napiU7z+TvxqSRpbEq727w2xA3U7GWe7oo8oMi2UtJfXDpBe4LZWvg
-         RtWbDcA4MGPtIjJr3OKTk907z4Pk4yWShpAvexueNWovXq9gQKGKqMkkr+qL2o3nurra
-         Ynbwnin7m27wXcOXnjyYBtvNtkcLCli7BfEQAbB1CtcQNWbB2twfhX2LqkAbB1pkNEPc
-         Se6HqAmBy+6lg3zVXAGIQEXOlLLkHAUjSxxIWmdO9gF29MhV38DImdd6PfzvodEsd8l3
-         skZLTb/PdBRr2kg+l0Cv7wvWzeQMhwGXLzNu6ONSb20oDzYPqRq8FCpocn8koq3ssZGr
-         gZZQ==
+        d=gmail.com; s=20230601; t=1755664180; x=1756268980; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zYdMpU8vMjvK2DOSIHRQXqU5/Lf0GAx2OK6XP3SZnEs=;
+        b=gFYs9N5x/JXx95yx7npH7Pahpph5WtxMPJwSbtU1U5t3245rVeO3YkkwyIwHK8D6/h
+         fa7grlGiDkGicB1UjvZlQHcReLcUK19na1Vbubh3ulwSuT1DH9shNM24hban5OcXtp9t
+         DncFTUtA25Yelnj+Hi5eZSkuZWrdjTo7RaYTCEONeWmhkI6i5s/Y9Nnw081nkrDYyp0y
+         8jY8PWfw6fURTspV6kijW7lRgDFV7CfnLamrXhHRzvCN3O8eEVEhJMXq5ty9gXnflzRr
+         fzm6BEkpfPgMhaGRvr5pYRpG91Rz5b+cQHgz7EOT9+V3LpSDK82AbghYkEHWNoOJGOf3
+         aEpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755659517; x=1756264317;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=46xGZNjG8EaGPJz9NcMXGPgRzezsUmAR9Xov6OuJmgM=;
-        b=MPMGVmuiJRnu/66vkfhYf+CkWKgdoR0hGSPVw9HOD9lrHYvTZMgbHBqbCtu8o232p5
-         za5VsuojuSiRodsQopvvU6IDNqOwwyu/OC2wI5B/yTJxBG1+VewOvDPNb4SVyOnXEV2V
-         NL4FjwfprKIawFE1J4VMZeWfcY+EuacnsrCrqNfVHLO7bhDW+KAHJTuZLqyFwgn8qFXo
-         bUj/N6sR/QwoRoKVDQuOly7hju+8Vd+7CgFk1/VcFDz4GUIRDKf7OrDP7Z7ti2plFqKy
-         MjOp9SDRq931bBCKCty1rHe5qI7u1CvgfJpiCCKAJ8bHGuRDTF3/Le4kqR5IUyotJMw2
-         ZtIA==
-X-Forwarded-Encrypted: i=1; AJvYcCWXqaurzr56P/wBrh9WUemH3IIuzvYPjQArRyYNdaqaGPHNguNTdwBCOD78zttplaR4l+Rig2kRVr071vfV1Q==@vger.kernel.org, AJvYcCXBOujDl5bMVomaN6TRtbzxI0IQXLfpI6Q0zl/bO2tqyERUE3wyGZfj/PvVsc3ZDVfYc5/SDeCHSkwj@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2oZxmhroFjdIRbsNHbz0kpyY7IuRU1vVl+4L+iahzXTetjbrX
-	goz81XUEXwRYbI+TPGv66rx4TzJnYHSwbZN5+EAknVbBks5YSnZH67+F
-X-Gm-Gg: ASbGncsaNeo57zcJAPGWaXTzT6D9dxkb5q/mHhB6W9ol0TlUFoQdW9ldTNy4NjSAFo3
-	PtC/EhkL1ZH5nwdMVoSQm0v9InrpbGB902c6eyxxM6nUt+t0+fqZn4fTHycyVLd7Ws5tF1qho1U
-	doxrgz0vNf3yHYJiptAFmZPNQcSFRJbqE8SEKKF2B7lL/rhWA17xa6hXsH5Kyzep8c1vI4g0NRa
-	srl3aqghFkn/bVYuZ6mipvV/qO6RfEV7AvcA7b4UxHpc4w8CCCz3yNtYhY4hRUF3fdI5bQ8IHEb
-	jk45BmgOgDs4jlVJmM5GyBFC14kT80aeghlWO6BM7zq2Vy+965tklNp8sOAZWPksAJUqlAUDf+l
-	rADtj6aJSYoeO86UYGNB0zim9BzRvkjix
-X-Google-Smtp-Source: AGHT+IGp2pdDUdCnk4NysV4+/7dFzbTqnFkq3Dgxp7DmrVANBzOwII7pqXGfh4whvuVRvz4CnS7QgQ==
-X-Received: by 2002:a05:6a20:158b:b0:240:2371:d003 with SMTP id adf61e73a8af0-2431b92c4f8mr2303668637.28.1755659516990;
-        Tue, 19 Aug 2025 20:11:56 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b47640b91a6sm965342a12.49.2025.08.19.20.11.55
+        d=1e100.net; s=20230601; t=1755664180; x=1756268980;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zYdMpU8vMjvK2DOSIHRQXqU5/Lf0GAx2OK6XP3SZnEs=;
+        b=Y66HiZlKarPl/o9J3CVlzBK6KsvD61kBB4I2Ta2Pn7Md/hVq6pMzFeZLR6HlO778R5
+         mUKGAtjd6Sy5Wnz/EUlW/LH8qFKb1eHTcwgKpR5IiGHHNt76/oYBzLJJZjA1U3l0u5hf
+         /kpCZqvHeNCtc04Pt6eUjEwjTnyfrLYoo9r/cQSOhq5D5NyuIHqAJIkoMKQ+Ih1vNl3h
+         VRfCpqhkotcSq+50ttRDVn42N8z5EjjshYKqrh1eV2METEMI72ZI2HFeIj4QJA4zjJOQ
+         rTCir2zw/guNbqV4zXktbdXdPnYMijrxwQ6o60rgghTNQeBOA5YVZShinNsDiBOnnvSB
+         uAOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUwFVd27d9K2rRXd4R5CjyyeQ+gM+q57L+fKsFjx77Jc6TGdsfZUIOXjsGjR0NxEVUzltrb7CqiYU0=@vger.kernel.org, AJvYcCV3BY4f5KswDYdY6YVMNa7keAqeicLW23tUZh9LzS0eEzPItiLjtEaX/cM63Q1g7hz16DjpBUvrRWZl/gBE@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZfisqTVxWNB+l/u5jZxrMDObZ2KiRGvVEhsxayFnP1F416HEs
+	Qc/HzovRdL8tyAbHiTQyTcE48n0n/Ix8PgsOEXBYbSohamHvi9UopIKS/D7+7gdQjqY=
+X-Gm-Gg: ASbGncsVc/WUo6Srd150W+vikoXeCC3ofSPqSoglzYcmsCuWhsQwBLgPTT3cfrDNEI0
+	qmvHCjkq7FGErmBvggbe1NrRdcAMnedgTDLpTZm6oCJLxMdVSkTXe2mj93hQBpUBn/nog6brF0p
+	CuxbRCzCTyMgt/UUYxVeylhgnr3T6WoZX9yPhpIxaWrC5LKT67j4qpjF7iqPZpeOJKFt+A1IHLi
+	q4KugD3BWT5dK6kwiEqFSW7f5SoMRc0mZIyfUe4VgEMYKUDc3RzIXxcTT6kR0mMcrDDXppluHwr
+	zeye1k5lCnkZRN8sm6WTdOjKo2E5fu1ChJbrquYRgCAy+5XzQuDaVfBznegNNdx4xuSuE6qHDD+
+	sdM0/1zDif2NoGgBMhsjdF6XXVVd7Cp1Bm2Tk0vAnDKylh1tWPA==
+X-Google-Smtp-Source: AGHT+IHF+rjqgbLfRW+bQuDEElr4xApCdVU0xbOq6N+xH763334TwG5tSwmdgIyqdHYlkb8aoiMetA==
+X-Received: by 2002:a05:6a00:14c5:b0:736:5969:2b6f with SMTP id d2e1a72fcca58-76e8d6163f6mr2099243b3a.6.1755664180252;
+        Tue, 19 Aug 2025 21:29:40 -0700 (PDT)
+Received: from localhost.localdomain ([202.164.136.133])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d5513fcsm3939537b3a.111.2025.08.19.21.29.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 20:11:56 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 07FDC423F8CD; Wed, 20 Aug 2025 10:11:52 +0700 (WIB)
-Date: Wed, 20 Aug 2025 10:11:52 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux bcachefs <linux-bcachefs@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: bcachefs: Add explicit title for idle
- work design doc
-Message-ID: <aKU8-Bb1iIeYJTZQ@archie.me>
-References: <20250820002218.11547-1-bagasdotme@gmail.com>
- <p7ocizi2jg36uvk64yy5mv5bzg3dyrvnosz5mhj5j373tzr7iz@txx5juyvhwzf>
- <aKUy_1IYtlKtLEbK@archie.me>
- <yyqgq3brwrstiaqydzv4ua5syesrg4gh7w4uhtwg3flhuxa4ji@7xciwgaluwux>
+        Tue, 19 Aug 2025 21:29:39 -0700 (PDT)
+Received: (nullmailer pid 63721 invoked by uid 1000);
+	Wed, 20 Aug 2025 04:28:12 -0000
+From: Kathara Sasikumar <katharasasikumar007@gmail.com>
+To: skhan@linuxfoundation.org
+Cc: corbet@lwn.net, alexander.deucher@amd.com, christian.koenig@amd.com, linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, Kathara Sasikumar <katharasasikumar007@gmail.com>
+Subject: [PATCH] ktest: fix typo in comment
+Date: Wed, 20 Aug 2025 04:24:45 +0000
+Message-ID: <20250820042444.63439-2-katharasasikumar007@gmail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8tdEDuhiKwPKhCWB"
-Content-Disposition: inline
-In-Reply-To: <yyqgq3brwrstiaqydzv4ua5syesrg4gh7w4uhtwg3flhuxa4ji@7xciwgaluwux>
+Content-Transfer-Encoding: 8bit
 
+Correct the spelling of "usefull" to "useful" in xapic_ipi_test comment.
 
---8tdEDuhiKwPKhCWB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Kathara Sasikumar <katharasasikumar007@gmail.com>
+---
+Hi,
 
-On Tue, Aug 19, 2025 at 10:31:43PM -0400, Kent Overstreet wrote:
-> On Wed, Aug 20, 2025 at 09:29:19AM +0700, Bagas Sanjaya wrote:
-> > On Tue, Aug 19, 2025 at 09:08:22PM -0400, Kent Overstreet wrote:
-> > > > -Idle/background work classes design doc:
-> > > > +Idle/background work classes desiderata
-> > >=20
-> > > .....
-> > > what's going on with that spelling?
-> >=20
-> > I'm just suggesting a better title, though. Should I keep it or revert =
-back
-> > to design doc?
->=20
-> Revert back to design doc, please.
->=20
-> (I genuinely had not seen that word before; usually prefer to keep
-> things simple).
+Submitted as part of LFX Linux Kernel Mentorship (LKMP) task.
+Thank you for your time and review.
 
-OK, thanks!
+Thanks,
+Kathara
 
---=20
-An old man doll... just what I always wanted! - Clara
+ tools/testing/selftests/kvm/x86/xapic_ipi_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---8tdEDuhiKwPKhCWB
-Content-Type: application/pgp-signature; name=signature.asc
+diff --git a/tools/testing/selftests/kvm/x86/xapic_ipi_test.c b/tools/testing/selftests/kvm/x86/xapic_ipi_test.c
+index 35cb9de54a82..d7abf9a91b65 100644
+--- a/tools/testing/selftests/kvm/x86/xapic_ipi_test.c
++++ b/tools/testing/selftests/kvm/x86/xapic_ipi_test.c
+@@ -17,7 +17,7 @@
+  * amongst the available numa nodes on the machine.
+  *
+  * Migration is a command line option. When used on non-numa machines will 
+- * exit with error. Test is still usefull on non-numa for testing IPIs.
++ * exit with error. Test is still useful on non-numa for testing IPIs.
+  */
+ #include <getopt.h>
+ #include <pthread.h>
+-- 
+2.47.2
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaKU88wAKCRD2uYlJVVFO
-oyE1APsGEPC684fA9XtLC9UJesUUouHpdw2idaw5kcemFooD5AEA9UM/tRH1MY7v
-t0fiuI7JdBV5mS689gNHTswGzJ0FMgw=
-=Zpmb
------END PGP SIGNATURE-----
-
---8tdEDuhiKwPKhCWB--
