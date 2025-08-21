@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E5E284685;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC820284B4E;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786099; cv=none; b=PZXBChTjm5Yvpqs3mZIgUGub+qBeTcpvViqrin+OZ7/2F4BMUwTNUA9iNXVOTwYj+q4JCdO+k/JLRHB7C+t7Pm5YEbg85UIJ+8DcDw4sEH94jjN4Cw48LJz74AAoZL5fQtfke5S2J+7fgU8MmkGXcnB7YcjlrgStWgZZytQvt5c=
+	t=1755786099; cv=none; b=U/Ti2l6qQyv+kF8bqyIblIJoyvAZnTQc/VZVgl6vIgp+Z7cLLUcJnH1bvlTt1ccNejCmtxLNG0EPbpJAglo732XDiEvJhc3hwcl0H3mXUmB2jGAvABJXn8K2q+8J1lvKPXHLOnPgTwvgQ//x2jwfwPyt++c4PGTyqZV0gXVoaMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755786099; c=relaxed/simple;
-	bh=UW2xelo4TnzX16OxyxtwPo8LfwSKWCjViRI3KVdm6R4=;
+	bh=Ws1QXmr61TBgn6INp6mbk145NP3+6J63X8KSGxb87Js=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dbc9uaCeI5uuhQ5wrI2s1OwloYTgrm/YX4zkx4+3GjGEvgNCpyOOJEMCw112s7a0uUC60CDAPhh8Mw5HQU1l18agC4hgHX/N2+85D/TCvUdT203LeJruLXe897KQ6zSU6TDKLLe1RM2UKV8mbWgKDSyEXV64S0hRG3FO6L//8MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bvQPhZY4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=WoEISo7Nd+uHPPulCtc/kvB2EVRZYVLz8TbwDRb6KwDweu4anvqpU1erDivEx0RDvvtVJ/yj1akL+IuJfbYL0jIcHjl5LDlPSvNxxumxG8lZbTDi0NuX909woGxDAnWGN3AhdcCwlK2lnwsXZNbpeHO0TfQro+i9C4dPKDJeyxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Po/npVGg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bvQPhZY4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DE97C2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Po/npVGg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3860BC4AF0E;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755786099;
-	bh=UW2xelo4TnzX16OxyxtwPo8LfwSKWCjViRI3KVdm6R4=;
+	bh=Ws1QXmr61TBgn6INp6mbk145NP3+6J63X8KSGxb87Js=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bvQPhZY4nHQ1YyOL93Na7XeAh5dPqn4BvSGFmtRoWUs5DOdm3rw4znxFweyIMQ/QC
-	 PD/87OSFXRK5PU9rxq8qqAzzIB62xpQCKMM8agLYjH4lcIP8zOQXBE9qPGjfLP4AbJ
-	 tlyY1wrzJxpN8nVC3SdiFt74bpps52wj1XSK5u3KzTAx8eDNt0CrYrqseUZkTN/Ue5
-	 tGfuHe0/o7WLPwP5qoE241NKU2NvVDoprVega4K4De37xJBY1u5fjMnwUEeCrtInpZ
-	 sQ+Jn7SqsvaKtVc/0glPACJfMmvWRoh15IHPoAkajRfftNi5g+8kejMMS63+xjyYYo
-	 +IkDXS+ltVIJg==
+	b=Po/npVGgnsdCdD5oVXuzmKjwuCyVuhasVX1oMR6sWXAwhUpxLoJFf+q4e8RoDOHB5
+	 kvYtePU5w6gcHXlsqtg/Gi1fMQ8mFkxOx5ZMr3y/nDpdQ0HtVNyUNMFhegA8up6chy
+	 aS1l9rKxltnST7NQt65ito0gKqBsZpGW5MBDqwfTmjJNVRh7c3C7bg0aC0OML8K8Fd
+	 xRtltGsKMikh5K63IsvcC5LXZg4Q9q0Vklo4KQxhBIDpAeiiqgqXzomlTjjuYqing1
+	 PZdGRhscAfmkHQA3nBeWSsgIgAhogRLHN/Vb97z703MOZGUrFMwcqHGYxGnjWJS0lZ
+	 LueazZwTfK05w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up6Ab-0000000BT8m-1EiT;
+	id 1up6Ab-0000000BT9E-1zuD;
 	Thu, 21 Aug 2025 16:21:37 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Kees Cook <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 12/24] docs: kernel_include.py: generate warnings for broken refs
-Date: Thu, 21 Aug 2025 16:21:18 +0200
-Message-ID: <c255292fda753f14a59c31e3075dc9dc706ff544.1755784930.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 19/24] docs: kernel_include.py: move apply_range() and add a docstring
+Date: Thu, 21 Aug 2025 16:21:25 +0200
+Message-ID: <b7d6bd379aba82a5960abc62c84b4f0fa8f2b8fc.1755784930.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
 References: <cover.1755784929.git.mchehab+huawei@kernel.org>
@@ -48,200 +48,106 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-In the past, Sphinx used to warn about broken references. That's
-basically the rationale for adding media uAPI files: to get
-warnings about missed symbols.
+While not required, better to have caller functions at the end.
+As apply_range() is now called by xref_text(), move it to be
+before the latter.
 
-This is not true anymore. So, we need to explicitly check them
-after doctree-resolved event.
-
-While here, move setup() to the end, to make it closer to
-what we do on other extensions.
+No functional changes.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 108 ++++++++++++++++++++-----
- 1 file changed, 89 insertions(+), 19 deletions(-)
+ Documentation/sphinx/kernel_include.py | 68 ++++++++++++++------------
+ 1 file changed, 36 insertions(+), 32 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index fc37e6fa9d96..0a3e5377dd1e 100755
+index 90ed8428f776..fd4887f80577 100755
 --- a/Documentation/sphinx/kernel_include.py
 +++ b/Documentation/sphinx/kernel_include.py
-@@ -26,7 +26,7 @@
-     environment variable name. Malformed variable names and references to
-     non-existing variables are left unchanged.
+@@ -113,6 +113,42 @@ class KernelInclude(Include):
+             except UnicodeError as error:
+                 raise self.severe('Problem with directive:\n%s' % ErrorString(error))
  
--    This extension overrides Sphinx include directory, adding two extra
-+    This extension overrides Sphinx include directory, adding some extra
-     arguments:
- 
-     1. :generate-cross-refs:
-@@ -35,14 +35,20 @@
-         class, which converts C data structures into cross-references to
-         be linked to ReST files containing a more comprehensive documentation;
- 
--        Don't use it together with :start-line: and/or :end-line:, as
--        filtering input file line range is currently not supported.
--
-     2. :exception-file:
- 
--        Used together with :generate-cross-refs:. Points to a file containing
--        rules to ignore C data structs or to use a different reference name,
--        optionally using a different reference type.
-+        Used together with :generate-cross-refs
++    def apply_range(self, rawtext):
++        """
++        Handles start-line, end-line, start-after and end-before parameters
++        """
 +
-+        Points to a file containing rules to ignore C data structs or to
-+        use a different reference name, optionally using a different
-+        reference type.
++        # Get to-be-included content
++        startline = self.options.get('start-line', None)
++        endline = self.options.get('end-line', None)
++        try:
++            if startline or (endline is not None):
++                lines = rawtext.splitlines()
++                rawtext = '\n'.join(lines[startline:endline])
++        except UnicodeError as error:
++            raise self.severe(f'Problem with "{self.name}" directive:\n'
++                              + io.error_string(error))
++        # start-after/end-before: no restrictions on newlines in match-text,
++        # and no restrictions on matching inside lines vs. line boundaries
++        after_text = self.options.get("start-after", None)
++        if after_text:
++            # skip content in rawtext before *and incl.* a matching text
++            after_index = rawtext.find(after_text)
++            if after_index < 0:
++                raise self.severe('Problem with "start-after" option of "%s" '
++                                  "directive:\nText not found." % self.name)
++            rawtext = rawtext[after_index + len(after_text) :]
++        before_text = self.options.get("end-before", None)
++        if before_text:
++            # skip content in rawtext after *and incl.* a matching text
++            before_index = rawtext.find(before_text)
++            if before_index < 0:
++                raise self.severe('Problem with "end-before" option of "%s" '
++                                  "directive:\nText not found." % self.name)
++            rawtext = rawtext[:before_index]
 +
-+    3. :warn-broken:
++        return rawtext
 +
-+        Used together with :generate-cross-refs:
-+
-+        Detect if the auto-generated cross references doesn't exist.
-+
- """
+     def xref_text(self, env, path, tab_width):
+         """
+         Read and add contents from a C file parsed to have cross references.
+@@ -163,38 +199,6 @@ class KernelInclude(Include):
  
- # ==============================================================================
-@@ -50,6 +56,7 @@
- # ==============================================================================
- 
- import os.path
-+import re
- import sys
- 
- from docutils import io, nodes, statemachine
-@@ -58,23 +65,18 @@ from docutils.parsers.rst import directives
- from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
- from docutils.parsers.rst.directives.misc import Include
- 
-+from sphinx.util import logging
-+
- srctree = os.path.abspath(os.environ["srctree"])
- sys.path.insert(0, os.path.join(srctree, "tools/docs/lib"))
- 
- from parse_data_structs import ParseDataStructs
- 
- __version__ = "1.0"
-+logger = logging.getLogger(__name__)
- 
--
--# ==============================================================================
--def setup(app):
--    """Setup Sphinx exension"""
--    app.add_directive("kernel-include", KernelInclude)
--    return {
--        "version": __version__,
--        "parallel_read_safe": True,
--        "parallel_write_safe": True,
--    }
-+RE_DOMAIN_REF = re.compile(r'\\ :(ref|c:type|c:func):`([^<`]+)(?:<([^>]+)>)?`\\')
-+RE_SIMPLE_REF = re.compile(r'`([^`]+)`')
- 
- 
- # ==============================================================================
-@@ -86,6 +88,7 @@ class KernelInclude(Include):
- 
-     option_spec.update({
-         'generate-cross-refs': directives.flag,
-+        'warn-broken': directives.flag,
-         'exception-file': directives.unchanged,
-     })
- 
-@@ -103,9 +106,9 @@ class KernelInclude(Include):
-         env.note_dependency(os.path.abspath(path))
- 
-         # return super(KernelInclude, self).run() # won't work, see HINTs in _run()
--        return self._run()
-+        return self._run(env)
- 
--    def _run(self):
-+    def _run(self, env):
-         """Include a file as part of the content of this reST file."""
- 
-         # HINT: I had to copy&paste the whole Include.run method. I'am not happy
-@@ -151,6 +154,10 @@ class KernelInclude(Include):
- 
-             if "code" not in self.options:
-                 rawtext = ".. parsed-literal::\n\n" + rawtext
-+
-+            # Store references on a symbol dict to be used at check time
-+            if 'warn-broken' in self.options:
-+                env._xref_files.add(path)
-         else:
-             try:
-                 self.state.document.settings.record_dependencies.add(path)
-@@ -239,3 +246,66 @@ class KernelInclude(Include):
-             return codeblock.run()
-         self.state_machine.insert_input(include_lines, path)
          return []
-+
-+# ==============================================================================
-+
-+reported = set()
-+
-+def check_missing_refs(app, env, node, contnode):
-+    """Check broken refs for the files it creates xrefs"""
-+    if not node.source:
-+        return None
-+
-+    try:
-+        xref_files = env._xref_files
-+    except AttributeError:
-+        logger.critical("FATAL: _xref_files not initialized!")
-+        raise
-+
-+    # Only show missing references for kernel-include reference-parsed files
-+    if node.source not in xref_files:
-+        return None
-+
-+    target = node.get('reftarget', '')
-+    domain = node.get('refdomain', 'std')
-+    reftype = node.get('reftype', '')
-+
-+    msg = f"can't link to: {domain}:{reftype}:: {target}"
-+
-+    # Don't duplicate warnings
-+    data = (node.source, msg)
-+    if data in reported:
-+        return None
-+    reported.add(data)
-+
-+    logger.warning(msg, location=node, type='ref', subtype='missing')
-+
-+    return None
-+
-+def merge_xref_info(app, env, docnames, other):
-+    """
-+    As each process modify env._xref_files, we need to merge them back.
-+    """
-+    if not hasattr(other, "_xref_files"):
-+        return
-+    env._xref_files.update(getattr(other, "_xref_files", set()))
-+
-+def init_xref_docs(app, env, docnames):
-+    """Initialize a list of files that we're generating cross references¨"""
-+    app.env._xref_files = set()
-+
-+# ==============================================================================
-+
-+def setup(app):
-+    """Setup Sphinx exension"""
-+
-+    app.connect("env-before-read-docs", init_xref_docs)
-+    app.connect("env-merge-info", merge_xref_info)
-+    app.add_directive("kernel-include", KernelInclude)
-+    app.connect("missing-reference", check_missing_refs)
-+
-+    return {
-+        "version": __version__,
-+        "parallel_read_safe": True,
-+        "parallel_write_safe": True,
-+    }
+ 
+-    def apply_range(self, rawtext):
+-        # Get to-be-included content
+-        startline = self.options.get('start-line', None)
+-        endline = self.options.get('end-line', None)
+-        try:
+-            if startline or (endline is not None):
+-                lines = rawtext.splitlines()
+-                rawtext = '\n'.join(lines[startline:endline])
+-        except UnicodeError as error:
+-            raise self.severe(f'Problem with "{self.name}" directive:\n'
+-                              + io.error_string(error))
+-        # start-after/end-before: no restrictions on newlines in match-text,
+-        # and no restrictions on matching inside lines vs. line boundaries
+-        after_text = self.options.get("start-after", None)
+-        if after_text:
+-            # skip content in rawtext before *and incl.* a matching text
+-            after_index = rawtext.find(after_text)
+-            if after_index < 0:
+-                raise self.severe('Problem with "start-after" option of "%s" '
+-                                  "directive:\nText not found." % self.name)
+-            rawtext = rawtext[after_index + len(after_text) :]
+-        before_text = self.options.get("end-before", None)
+-        if before_text:
+-            # skip content in rawtext after *and incl.* a matching text
+-            before_index = rawtext.find(before_text)
+-            if before_index < 0:
+-                raise self.severe('Problem with "end-before" option of "%s" '
+-                                  "directive:\nText not found." % self.name)
+-            rawtext = rawtext[:before_index]
+-
+-        return rawtext
+-
+     def literal(self, path, tab_width, rawtext):
+         """Output a literal block"""
+ 
 -- 
 2.50.1
 
