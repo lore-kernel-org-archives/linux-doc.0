@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F172EB85D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17E62EB86C;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764224; cv=none; b=X6+3fpqq8cjccWKCMgxZehEsArr8fDLiNXpxjAGjlYSV0/EZJiVJGl6d6CugzesUGcuZq3rirSPEqN7ENG4IgktxmbGcTIJfPwCxBVeBx79ANVXTBZmR0Q91sLXX2DJ7eTokkaYc1ZyXxM8hcTTAPSzQeuQ+7od+dnvHTKRauos=
+	t=1755764225; cv=none; b=PgbJZNwKeFCcTD5qmyLw3LsOk3r8WaGTj26L7Qfv61P/8eGLL2IBIHRLCCx5nZSmFNv6P+cHtjYlihRgE2q2OGpH4YyQvRBfgo2rzrOQjyZxvWtpexJUJqzrkttWu2yPJOy3EtG1ErMX4AWOvfp26549xCfVibO4m+grFafePu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755764224; c=relaxed/simple;
-	bh=TuZzM907xB+KTOv4gNdoJ0KIyd5sboPQJN60CO9pPLo=;
+	s=arc-20240116; t=1755764225; c=relaxed/simple;
+	bh=DbSg1eVMzWOl8sp3iwWjKfFikdD3ZrhJkW3NI3ZW7Hk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ILmAUjDez8XVfC5ODUtPLcDGBjvu3Nq5RTdQM+wMjjQCGd2cfAgQS594I0Hts38XIAV7kOPIBp9UCeAGO5RrtG8si6Lg6QR0Tj42McXaQtlnhjhpkMFHMNuocYAWToc3i13SfzPoivi8/3CjNyOR28u7dT54It6tiGIJBSCuI5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KAc78K0n; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=p23bWhs7TaHRJcWuIA4Bb8b+Z0AV2LJ24tlpqQN0RoztsrLWcn4DBpgK1sGtMoITvdxUiQ9hgBrMqI2zP09BWmm/BVFAFcsoMvSts2HhYH7envAlepJmlKjVlBSC4a+S4YIVd4PRZJO9bjTfejbppzp3+TgJI3Ivu2HYdtOFaMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qbFBenZZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KAc78K0n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73992C19421;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qbFBenZZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A34C4AF0B;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755764224;
-	bh=TuZzM907xB+KTOv4gNdoJ0KIyd5sboPQJN60CO9pPLo=;
+	bh=DbSg1eVMzWOl8sp3iwWjKfFikdD3ZrhJkW3NI3ZW7Hk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KAc78K0n906bqvlnrznWY63kjBqp5ET2aODKVPx+m94hCUANr5sZ5HOHk4aHLI/ug
-	 QUeI96V5wpT+vYRSuSsTYA93xSO8D64TlkFFHYjfaMWTz2OHHmlT63aLBZy2pB9rMI
-	 VSI6aDy9ldaLz796clBKyd9JjDbmHwurmDnWKJ0BNvRQs9WFz5uqhNidBIVPa3mcwa
-	 ojUMchYqigcKMbdOGjauuFoClYFvwfz17zUmUNh7a/Exd1Merde9xDxRDtqeHtxyHo
-	 LR7TNUop1yha9QUK66F/7AyrRPjevLXOW59EOtnPt2PIgg3CxpSw+QUqlsBw9ermjL
-	 wsTJ0x8jbSsWA==
+	b=qbFBenZZGSqb6+92iV9k8tbt5QVzepDHP6dfiWwWmRrQWWMHIbP51Exzp+t1LRrsQ
+	 NuT8Xa/htYETEn5gLTAWLSTbhnnjyi2du+7pU5Xl8VAF2sacylRtKfnMn+o5Lpds8m
+	 wFVQT3H7LGKP/3pjypwYhh87T54nMH3SRr4zX2FnCKivWIARZ+5mYw+qShd1z73/RI
+	 H1JQbkz4WcWDu4m1+OM+kDDWhiAPkaFomzb/GcNhamYCxWv4OZZjhbyP5rS2iyKvPZ
+	 wVh6B7mWjB4R1pWY90Aal+jSPy5EGP+LYn1xKfXOHSqwAWg9S+sKjU3IKEhmW8aKNq
+	 2FrqNTW5aHulw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up0Tm-0000000BLgT-34TO;
+	id 1up0Tm-0000000BLgj-3X8Z;
 	Thu, 21 Aug 2025 10:17:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/14] docs: conf.py: extra cleanups and fixes
-Date: Thu, 21 Aug 2025 10:16:43 +0200
-Message-ID: <08d16c2ad817910eb5606842f776d3f77d83282f.1755763127.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 11/14] scripts: sphinx-pre-install: fix dependencies for OpenMandriva
+Date: Thu, 21 Aug 2025 10:16:47 +0200
+Message-ID: <669e759ba366328e5c8d5b14a591ba45a1f58176.1755763127.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755763127.git.mchehab+huawei@kernel.org>
 References: <cover.1755763127.git.mchehab+huawei@kernel.org>
@@ -48,67 +48,58 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Makes it more adehent with modern Sphinx LaTeX build setup as
-defined at:
+The dependeny list for OpenMandriva is wrong. Update it.
 
-	https://www.sphinx-doc.org/en/master/latex.html
+Yet, on my tests with OpenMandriva LX 4.3, the texlive packages are
+broken: xelatex can't build anything there, as it lacks xelatex.sfm.
 
-There, it suggests:
-
-1) to add: 'printindex'
-
-    “printindex” call, the last thing in the file. Override if you want to generate
-    the index differently, append some content after the index, or change the font.
-    As LaTeX uses two-column mode for the index it is often advisable to set this
-    key to r'\footnotesize\raggedright\printindex'.
-
-This indeed solved a corner case on a distro where the index was not properly
-generated.
-
-2) to add at the main example:
-         \PassOptionsToPackage{svgnames}{xcolor}
-
-3) I got a corner case on one of the distros was using xindy to produce
-   indexes. This ended causing the build logic to incorretly try to use
-   T1 fontenc, which is not UTF-8 compatible.
-
-   This patch adds:
-
-        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
-
-   to cover such case. It should be noticed that, as the config doesn't
-   have \usepackage{xindy}, this will be used only if latexmk ends
-   using xindy.
+Yet, this could be a problem at the way I created the container.
+Just in case, add a note about that.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/conf.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ scripts/sphinx-pre-install | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 5888e2988b4f..1c4695727208 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -456,8 +456,15 @@ htmlhelp_basename = "TheLinuxKerneldoc"
- latex_elements = {
-     # The paper size ('letterpaper' or 'a4paper').
-     "papersize": "a4paper",
-+    "passoptionstopackages": dedent(r"""
-+        \PassOptionsToPackage{svgnames}{xcolor}
-+        % Avoid encoding troubles when creating indexes
-+        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
-+    """),
-     # The font size ('10pt', '11pt' or '12pt').
-     "pointsize": "11pt",
-+    # Needed to generate a .ind file
-+    "printindex": r"\footnotesize\raggedright\printindex",
-     # Latex figure (float) alignment
-     # 'figure_align': 'htbp',
-     # Don't mangle with UTF-8 chars
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 86f129c76ecd..224db3af17db 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -984,13 +984,19 @@ class SphinxDependencyChecker(MissingCheckers):
+         if re.search(r"OpenMandriva", self.system_release):
+             packager_cmd = "dnf install"
+             noto_sans = "noto-sans-cjk-fonts"
+-            tex_pkgs = ["texlive-collection-fontsextra"]
++            tex_pkgs = [
++                "texlive-collection-basic",
++                "texlive-collection-langcjk",
++                "texlive-collection-fontsextra",
++                "texlive-collection-fontsrecommended"
++            ]
+ 
+             # Tested on OpenMandriva Lx 4.3
+             progs["convert"] = "imagemagick"
+             progs["yaml"] = "python-pyyaml"
+             progs["python-virtualenv"] = "python-virtualenv"
+             progs["python-sphinx"] = "python-sphinx"
++            progs["xelatex"] = "texlive"
+ 
+             self.check_program("python-virtualenv", DepManager.PYTHON_MANDATORY)
+ 
+@@ -1004,7 +1010,9 @@ class SphinxDependencyChecker(MissingCheckers):
+ 
+             if not self.distro_msg:
+                 self.distro_msg = \
+-                    "Note: for venv, ensurepip could be broken, preventing its install method."
++                    "Notes:\n"\
++                    "1. for venv, ensurepip could be broken, preventing its install method.\n" \
++                    "2. at least on OpenMandriva LX 4.3, texlive packages seem broken"
+ 
+         else:
+             packager_cmd = "urpmi"
 -- 
 2.50.1
 
