@@ -1,94 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6022DA76D
-	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 09:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CB22DC332;
+	Thu, 21 Aug 2025 09:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755770003; cv=none; b=HemCdHqb0YWTtwhXIDTPUPbUusH2ZUaJwnBvAIwp3J+Co0J4JKzwWYdlpMLhM5uQgWU0I9sDclQsm5ZCn8TcRulwOatk8BVyCuh16V/3/8jwwR4Qcbp2GCWKsovJONz+aDpsBbIm+ZN+bC0h8CE7ojUVnxYS/VdDJPseKPij1Cc=
+	t=1755770380; cv=none; b=Oj5bFAMG1bhvsQN0qwxzyT8/fPpTrGfpuYBP0d49mG/eiZOeYmvtBpIsQsJz3BAyg5xl9ekl6y0P7qhhdcrsqSr5/t1aWNlLOWsHKpQ1FlwycouDkmDsJUUKiawbxuxOeju6Fa0Qbfe+wj/sl439S/ofULrCAdIvDqRC3qhsiyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755770003; c=relaxed/simple;
-	bh=UzJBO8sITaqSq4Tz2jRF5YdNlCPVLgbvAWTyYwHZBmQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HqEdIpa1kkf9YDQ4ouZgAKnvrSGN2JzUcLVlk2hvBfRoeZ0ktkemP2ekz4lhqfxcX+4W6twjEk+ArBNW0d3kCH216F0lbD+41Q+aBKuzZ1c5ejjJKzJLXXeW5L53KeLDOVku/Qmi3Fe1BsNvLoYjUJrcj9aLXvgJXqaiPI9M7X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LOuhpKOe; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755770380; c=relaxed/simple;
+	bh=qqfVWCXciiPUVUyqqSDg0kOjI471fKmQt+rEZPSTbtI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fUr6ae8dviJ7LfhfHtSbLTc8bivWcUDMkRprw6XbFDB2ENdRCG28KGilqXe28yQmmdmHsyBJM8OUxRngXvlk8FyfQPzGhmmicKBeg3PeolhGRiznrrTLjEkzt9ofLVKtcTr8yvzJ3gtt03TccQK5mrrJd1CszIBGO51Iok5Comw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Sq1KoDHi; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LOuhpKOe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755770002; x=1787306002;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UzJBO8sITaqSq4Tz2jRF5YdNlCPVLgbvAWTyYwHZBmQ=;
-  b=LOuhpKOewn1B/SG4vuYrPApvtEMVB9mCkThdUcewhFNKiqfT8iLiGlRT
-   Bhl3mozpr5R27b+OcMBqo5hWQKZUKR3aS9R+HOrnMKmafOQOGoyNPJC4d
-   nd0DQiz5B9bJTVeuB9Zle1dzoCt/KXRhnAld3skMSie/+ZyuVrcN9nndu
-   iYMnhMvsZfaunUYQMQgE/akfiIi0h6slPHK55KklojvBVmZn5yvG8iO3G
-   OObm1UVYOPKqrkS1iQsVlo+R2bFAYFE8wln0sm2VFmFJbHJVOiuwKK+Fg
-   3Y4fhyDI5dpJBftPxt1ugo0/iEtq/aBgQDxWfC3LGv46Uk5BuXyiNrkGn
-   w==;
-X-CSE-ConnectionGUID: wN4hZgn9QimP1K8Bh1haeQ==
-X-CSE-MsgGUID: sssaMsnjQdS7hDe71iQQRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="75503401"
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="75503401"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 02:53:22 -0700
-X-CSE-ConnectionGUID: vvqFNzQ0R5uhZUlhSiPc6A==
-X-CSE-MsgGUID: mUxzKZi6QrCGCZGA2czU3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="172617802"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Aug 2025 02:53:20 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1up1yv-0001il-2v;
-	Thu, 21 Aug 2025 09:53:17 +0000
-Date: Thu, 21 Aug 2025 11:53:13 +0200
-From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [krzk-github:b4/dt-bindings-display 7/7] htmldocs: Warning:
- Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml references a
- file that doesn't exist:
- Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-Message-ID: <202508211155.bEvXYKpB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Sq1KoDHi"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id B1C8BC653FE;
+	Thu, 21 Aug 2025 09:59:13 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5D20360303;
+	Thu, 21 Aug 2025 09:59:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 82EB21C2286DB;
+	Thu, 21 Aug 2025 11:59:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1755770366; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=UXi3DuBgIr4bBk+OUpKFphqn8o2nLKh/CMmHtgGF9Ug=;
+	b=Sq1KoDHi/UohzLYwq/XWgHG0gAKsV6rpOpsg7pr33SMwgfiY0vZ0boZ4yz3YEYYgRzyKS/
+	pUSMhe3blqZ0TD5DLm6e9sSF6WCMkb/hfByUdvLyFze1A4LdV1/D/odwP77jYaJB7tDY3R
+	QtIU0YlLGKXpnx2hqjJHS9kXeSWw4zZB0Y9t1cd7Y5G6z97X2aCNVTd8ZcuYGIkJZit+cI
+	p9eLlKgCNbCxlzsHnshouapV+6bIBw2iLSk6OCX4zCLYgkiokFvOkvIeaJRaMKleWR2qL8
+	1Jc7ayVwFDbm0nVNIqu2qPmP7Hl6yWos3fIttJaMChrkPF0TH6oi87kYJu+PFg==
+Date: Thu, 21 Aug 2025 11:59:14 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, Nishanth Menon
+ <nm@ti.com>, kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
+ linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
+ <roan@protonic.nl>
+Subject: Re: [PATCH net-next v4 2/5] ethtool: netlink: add
+ ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
+Message-ID: <20250821115830.3a231885@kmaincent-XPS-13-7390>
+In-Reply-To: <20250821091101.1979201-3-o.rempel@pengutronix.de>
+References: <20250821091101.1979201-1-o.rempel@pengutronix.de>
+	<20250821091101.1979201-3-o.rempel@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-tree:   https://github.com/krzk/linux b4/dt-bindings-display
-head:   6c8e41c23e9a77b2d17170b3fbf527f23f453dec
-commit: 6c8e41c23e9a77b2d17170b3fbf527f23f453dec [7/7] dt-bindings: mfd: Move embedded controllers to own directory
-reproduce: (https://download.01.org/0day-ci/archive/20250821/202508211155.bEvXYKpB-lkp@intel.com/reproduce)
+Hello Oleksij,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508211155.bEvXYKpB-lkp@intel.com/
+Le Thu, 21 Aug 2025 11:10:58 +0200,
+Oleksij Rempel <o.rempel@pengutronix.de> a =C3=A9crit :
 
-All warnings (new ones prefixed by >>):
+> Introduce the userspace entry point for PHY MSE diagnostics via
+> ethtool netlink. This exposes the core API added previously and
+> returns both configuration and one or more snapshots.
+>=20
+> Userspace sends ETHTOOL_MSG_MSE_GET with an optional channel
+> selector. The reply carries:
+>   - ETHTOOL_A_MSE_CONFIG: scale limits, timing, and supported
+>     capability bitmask
+>   - ETHTOOL_A_MSE_SNAPSHOT+: one or more snapshots, each tagged
+>     with the selected channel
+>=20
+> If no channel is requested, the kernel returns snapshots for all
+> supported selectors (per=E2=80=91channel if available, otherwise WORST,
+> otherwise LINK). Requests for unsupported selectors fail with
+> -EOPNOTSUPP; link down returns -ENOLINK.
+>=20
+> Changes:
+>   - YAML: add attribute sets (mse, mse-config, mse-snapshot) and
+>     the mse-get operation
+>   - UAPI (generated): add ETHTOOL_A_MSE_* enums and message IDs,
+>     ETHTOOL_MSG_MSE_GET/REPLY
+>   - ethtool core: add net/ethtool/mse.c implementing the request,
+>     register genl op, and hook into ethnl dispatch
+>   - docs: document MSE_GET in ethtool-netlink.rst
+>=20
+> The include/uapi/linux/ethtool_netlink_generated.h is generated
+> from Documentation/netlink/specs/ethtool.yaml.
+>=20
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt-link<../../networking/netlink_spec/rt-link>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
->> Warning: Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/gpio/gpio-dsp-keystone.txt
->> Warning: Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/trace/rv/da_monitor_instrumentation.rst references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+...
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +MSE Configuration
+> +-----------------
+> +
+> +This nested attribute contains the full configuration properties for the=
+ MSE
+> +measurements
+> +
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
+=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE             u32     max avg_mse s=
+cale
+> +  ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE                u32     max peak_mse =
+scale
+> +  ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS             u64     sample rate (=
+ps)
+> +  ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS                 u64     symbols per s=
+ample
+> +  ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS              bitset  capability bi=
+tmask
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
+=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D +
+
+Why did you remove the kernel doc identifiers to phy_mse_config?
+It was useful for the documentation.
+
+> +MSE Snapshot
+> +------------
+> +
+> +This nested attribute contains an atomic snapshot of MSE values for a
+> specific +channel or for the link as a whole.
+> +
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
+=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  ETHTOOL_A_MSE_SNAPSHOT_CHANNEL                   u32     channel enum =
+value
+> +  ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE               u32     average MSE v=
+alue
+> +  ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE                  u32     current peak =
+MSE
+> +  ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE            u32     worst-case pe=
+ak
+> MSE
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =
+=3D=3D=3D=3D=3D=3D
+
+Same question here for phy_mse_snapshot.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
