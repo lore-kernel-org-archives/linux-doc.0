@@ -1,282 +1,229 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743CD2E7176
-	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 12:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F8E319D8A7;
+	Thu, 21 Aug 2025 12:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755779393; cv=none; b=JotQjrKkjswAIywCifzXrEXD92P8kbnxbHvbPhx8OE/fCElxHge2Z/fNn/zOigW3YK3ROxZm02ncYEjvswoq9wXVRBwhyD2ZrnLLdPu5jrAt/eh/rfaox10B8XehQY3Sx3PZ+vVl5bNahYCytERzEYenGEgtVxnujuaknjNua5k=
+	t=1755779498; cv=none; b=iPfWKP4bb0bMckcXV/jJ3A0PeD1Vp/25iheW8b9g69qba/LSLxVats8TIkBw6rERIePMklIp2XtaWQzBFtrrwZnf1+bEXTC/+eVEU4aImhvyKik7heBRm+XegD407WmP55gUQoy1rPZPXk4TGHrK8gQW6Esf726Eg0c5lsYrwhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755779393; c=relaxed/simple;
-	bh=zkDbxvo7pdEoYH6PpNr9aonByAeBiVU4hVH0AT2E4j0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u3nKj7gXnb4QtSbVFoM7pJIv3ffAHTk8cOETIvq97bu+jtfTrp1i7ZRHnKSk3dzIevIf49sXCuWtFidECsDiEgtitFXfgyjDjDgXhwW9l1Ck30bnUk1nJEatR7RMpvijoHvMWaKWBYP8a1F4GdG54pAXrIFcrS437iGDHmY0aF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XiaaPxYJ; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XiaaPxYJ"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4b109921fe7so11098231cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 05:29:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755779390; x=1756384190; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yMyf7TUTcVlmFShDFbUR03mYlUdBmR7tL66qjPszynQ=;
-        b=XiaaPxYJ9KsUdsZ31BNVF9RoGzGI+oG8SXeJNgH8C2WS3D6F+qxqkjlbF+kKCZcNqn
-         k1yU+lXbKFQCK2j2HOP2gO5xGGgqcYLXEYunyppSA8bz/JmgOssllQSWyN5CZkaqyC50
-         oZDAHAmVALsWyUp5MeIFxBngn/fABw7QHTG8fGNnJMG9/TF9SGzmnQH535aDkA8ksAng
-         UzGRVYIMbMCLAsgeUBDk8qDzUjx+ulDMmJ6gYbZRTE2GxKy4h+OoxTa57QHA3RF+VYwx
-         CZncZayiMWgSg0hzlvGNgGq9NN8GjeBoSFzedGDZHF7t8e3MECY1NUHZ4FnMWUv+vLRc
-         lbFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755779390; x=1756384190;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yMyf7TUTcVlmFShDFbUR03mYlUdBmR7tL66qjPszynQ=;
-        b=W50qfpNUUSLr4SF1K0elZ2jRIwDz2X7uyAQ5GNMEyQkCtcVgpOa6WYZByk71xWW2/6
-         pPbbLmWkO7rXZYLjxf3UUwaDx3NaPiRooTczSJotiHcnPEIIlngIgYZ8phbYfZ+j00Tg
-         zuG+3NC/t9ATc/DczuwVUjp6yK0Xb889VasZRs0ZUM13dEnRaDT/8QDx1vVwqeVYuyV8
-         A0ep73kR6qDCm50YXTaAcDd/4zpSLmsrCdTOIO0kys0BeIODvVzjabu35lSlctuepYlJ
-         oyU2vm/gxe8xCCdfeT2BVqpXo74xFKvay2gqNfxmzmq6tZQHCoe/OjcwYchIcxH4pDjU
-         Di3w==
-X-Forwarded-Encrypted: i=1; AJvYcCWUIk+HVhHoidyMdxThlx9OU2vfBSzc8O23wFFmv5ez3aeslH6odazMb5HrkMJ40AZ2X8WovNWyr8o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRAcD9oaW0Z/JHHeCBC9xeuD5PSJ97tEL9f6koeDFsMI1paC1J
-	bF2pzhbJhB/+Idffi3hC1S5oBo0A4rL5uxATclByHq72+kvwlSXlBnHMLDBGvbVK3HXdDywnv6Q
-	ISTy1prHUXAg/6N3//WrZJfTNY4tjlJ2Tveot4KUW
-X-Gm-Gg: ASbGncu9z089cNa57qTfPtFqaKGymFsVuNGtfJ7FTJvf27aAHMjkxhGB+evjvI7HfgO
-	06yLByBFoEnZO38x2SvIQ3OdyECmbt5MZh63aSftNMysRzsEaAtQfGSnlIq0t8kYDm3/7NLSj33
-	2yZ/A6UqOVGkoO7yUWR2z5ovEUBfwEqIVIYbOjYi0sZBE18vcz4ZAFUUJWKXYZS78sBAuT9vWTH
-	RzR4GqK8uCK6h2IfOZfAN8Klw==
-X-Google-Smtp-Source: AGHT+IGiDTu4Nx/S2i7PXKBQcL0zSflTE4ZdcC1UihTgHSCzCGsNJVk9lvVSiXeTSusqav8nRJ0XJpzvxKMBN8t/Gxk=
-X-Received: by 2002:a05:622a:242:b0:4b2:9c3d:bc4c with SMTP id
- d75a77b69052e-4b29fa6dac9mr26388591cf.33.1755779389674; Thu, 21 Aug 2025
- 05:29:49 -0700 (PDT)
+	s=arc-20240116; t=1755779498; c=relaxed/simple;
+	bh=wSBvw55YuhTUqmASHzPdh67urTqTQ8G3C8Yt7petnF8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m6cvIXv2r6SR9HVh9vXEYvaBzwhgcNSLoF4rVF8OpdiFcmbpgYk3vI0or/bajhcYkBNPDtqO+bMI31ZtP9Zct5S0bjsM9fg/ut8K/NJsgz752hB1g2vRH5Y6meHD2qeo+wUzzTvm26/fJPvAVVWKxyq61cUN+EwZRo1pJBEhfio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D09B168F;
+	Thu, 21 Aug 2025 05:31:27 -0700 (PDT)
+Received: from [10.57.1.220] (unknown [10.57.1.220])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8ED163F63F;
+	Thu, 21 Aug 2025 05:31:18 -0700 (PDT)
+Message-ID: <9eb211ee-94bf-431b-981c-e305c8ea5e0b@arm.com>
+Date: Thu, 21 Aug 2025 13:30:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250815083930.10547-1-chia-yu.chang@nokia-bell-labs.com> <20250815083930.10547-11-chia-yu.chang@nokia-bell-labs.com>
-In-Reply-To: <20250815083930.10547-11-chia-yu.chang@nokia-bell-labs.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 21 Aug 2025 05:29:38 -0700
-X-Gm-Features: Ac12FXwtX6Y71JLad1BL80WdVtDYKWVSK_UzOY3Wd_laWGj2k0iPGrLqT8yKhgM
-Message-ID: <CANn89iKPTWBdi8upoxjFok2CPFhkGB9S3crZcefZ0mRhFHGPhQ@mail.gmail.com>
-Subject: Re: [PATCH v15 net-next 10/14] tcp: accecn: AccECN option
-To: chia-yu.chang@nokia-bell-labs.com
-Cc: pabeni@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net, 
-	horms@kernel.org, dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org, 
-	netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com, 
-	kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com, 
-	jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch, 
-	donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com, 
-	shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org, 
-	ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com, 
-	g.white@cablelabs.com, ingemar.s.johansson@ericsson.com, 
-	mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at, 
-	Jason_Livingood@comcast.com, vidhi_goel@apple.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/18] kasan: x86: arm64: KASAN tag-based mode for x86
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: nathan@kernel.org, arnd@arndb.de, broonie@kernel.org,
+ Liam.Howlett@oracle.com, urezki@gmail.com, will@kernel.org,
+ kaleshsingh@google.com, rppt@kernel.org, leitao@debian.org, coxu@redhat.com,
+ surenb@google.com, akpm@linux-foundation.org, luto@kernel.org,
+ jpoimboe@kernel.org, changyuanl@google.com, hpa@zytor.com,
+ dvyukov@google.com, kas@kernel.org, corbet@lwn.net,
+ vincenzo.frascino@arm.com, smostafa@google.com,
+ nick.desaulniers+lkml@gmail.com, morbo@google.com, andreyknvl@gmail.com,
+ alexander.shishkin@linux.intel.com, thiago.bauermann@linaro.org,
+ catalin.marinas@arm.com, ryabinin.a.a@gmail.com, jan.kiszka@siemens.com,
+ jbohac@suse.cz, dan.j.williams@intel.com, joel.granados@kernel.org,
+ baohua@kernel.org, kevin.brodsky@arm.com, nicolas.schier@linux.dev,
+ pcc@google.com, andriy.shevchenko@linux.intel.com, wei.liu@kernel.org,
+ bp@alien8.de, xin@zytor.com, pankaj.gupta@amd.com, vbabka@suse.cz,
+ glider@google.com, jgross@suse.com, kees@kernel.org, jhubbard@nvidia.com,
+ joey.gouly@arm.com, ardb@kernel.org, thuth@redhat.com,
+ pasha.tatashin@soleen.com, kristina.martsenko@arm.com,
+ bigeasy@linutronix.de, lorenzo.stoakes@oracle.com, jason.andryuk@amd.com,
+ david@redhat.com, graf@amazon.com, wangkefeng.wang@huawei.com,
+ ziy@nvidia.com, mark.rutland@arm.com, dave.hansen@linux.intel.com,
+ samuel.holland@sifive.com, kbingham@kernel.org, trintaeoitogc@gmail.com,
+ scott@os.amperecomputing.com, justinstitt@google.com,
+ kuan-ying.lee@canonical.com, maz@kernel.org, tglx@linutronix.de,
+ samitolvanen@google.com, mhocko@suse.com, nunodasneves@linux.microsoft.com,
+ brgerst@gmail.com, willy@infradead.org, ubizjak@gmail.com,
+ peterz@infradead.org, mingo@redhat.com, sohil.mehta@intel.com,
+ linux-mm@kvack.org, linux-kbuild@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, x86@kernel.org, llvm@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Ada Couprie Diaz <ada.coupriediaz@arm.com>
+References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
+From: Ada Couprie Diaz <ada.coupriediaz@arm.com>
+Content-Language: en-US
+Organization: Arm Ltd.
+In-Reply-To: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 15, 2025 at 1:40=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.com>=
- wrote:
->
-> From: Ilpo J=C3=A4rvinen <ij@kernel.org>
->
-> The Accurate ECN allows echoing back the sum of bytes for
-> each IP ECN field value in the received packets using
-> AccECN option. This change implements AccECN option tx & rx
-> side processing without option send control related features
-> that are added by a later change.
->
-> Based on specification:
->   https://tools.ietf.org/id/draft-ietf-tcpm-accurate-ecn-28.txt
-> (Some features of the spec will be added in the later changes
-> rather than in this one).
->
-> A full-length AccECN option is always attempted but if it does
-> not fit, the minimum length is selected based on the counters
-> that have changed since the last update. The AccECN option
-> (with 24-bit fields) often ends in odd sizes so the option
-> write code tries to take advantage of some nop used to pad
-> the other TCP options.
->
-> The delivered_ecn_bytes pairs with received_ecn_bytes similar
-> to how delivered_ce pairs with received_ce. In contrast to
-> ACE field, however, the option is not always available to update
-> delivered_ecn_bytes. For ACK w/o AccECN option, the delivered
-> bytes calculated based on the cumulative ACK+SACK information
-> are assigned to one of the counters using an estimation
-> heuristic to select the most likely ECN byte counter. Any
-> estimation error is corrected when the next AccECN option
-> arrives. It may occur that the heuristic gets too confused
-> when there are enough different byte counter deltas between
-> ACKs with the AccECN option in which case the heuristic just
-> gives up on updating the counters for a while.
->
-> tcp_ecn_option sysctl can be used to select option sending
-> mode for AccECN: TCP_ECN_OPTION_DISABLED, TCP_ECN_OPTION_MINIMUM,
-> and TCP_ECN_OPTION_FULL.
->
-> This patch increases the size of tcp_info struct, as there is
-> no existing holes for new u32 variables. Below are the pahole
-> outcomes before and after this patch:
->
-> [BEFORE THIS PATCH]
-> struct tcp_info {
->     [...]
->      __u32                     tcpi_total_rto_time;  /*   244     4 */
->
->     /* size: 248, cachelines: 4, members: 61 */
-> }
->
-> [AFTER THIS PATCH]
-> struct tcp_info {
->     [...]
->     __u32                      tcpi_total_rto_time;  /*   244     4 */
->     __u32                      tcpi_received_ce;     /*   248     4 */
->     __u32                      tcpi_delivered_e1_bytes; /*   252     4 */
->     __u32                      tcpi_delivered_e0_bytes; /*   256     4 */
->     __u32                      tcpi_delivered_ce_bytes; /*   260     4 */
->     __u32                      tcpi_received_e1_bytes; /*   264     4 */
->     __u32                      tcpi_received_e0_bytes; /*   268     4 */
->     __u32                      tcpi_received_ce_bytes; /*   272     4 */
->
->     /* size: 280, cachelines: 5, members: 68 */
-> }
->
-> This patch uses the existing 1-byte holes in the tcp_sock_write_txrx
-> group for new u8 members, but adds a 4-byte hole in tcp_sock_write_rx
-> group after the new u32 delivered_ecn_bytes[3] member. Therefore, the
-> group size of tcp_sock_write_rx is increased from 96 to 112. Below
-> are the pahole outcomes before and after this patch:
->
-> [BEFORE THIS PATCH]
-> struct tcp_sock {
->     [...]
->     u8                         received_ce_pending:4; /*  2522: 0  1 */
->     u8                         unused2:4;             /*  2522: 4  1 */
->     /* XXX 1 byte hole, try to pack */
->
->     [...]
->     u32                        rcv_rtt_last_tsecr;    /*  2668     4 */
->
->     [...]
->     __cacheline_group_end__tcp_sock_write_rx[0];      /*  2728     0 */
->
->     [...]
->     /* size: 3200, cachelines: 50, members: 167 */
-> }
->
-> [AFTER THIS PATCH]
-> struct tcp_sock {
->     [...]
->     u8                         received_ce_pending:4;/*  2522: 0  1 */
->     u8                         unused2:4;            /*  2522: 4  1 */
->     u8                         accecn_minlen:2;      /*  2523: 0  1 */
->     u8                         est_ecnfield:2;       /*  2523: 2  1 */
->     u8                         unused3:4;            /*  2523: 4  1 */
->
->     [...]
->     u32                        rcv_rtt_last_tsecr;   /*  2668     4 */
->     u32                        delivered_ecn_bytes[3];/*  2672    12 */
->     /* XXX 4 bytes hole, try to pack */
->
->     [...]
->     __cacheline_group_end__tcp_sock_write_rx[0];     /*  2744     0 */
->
->     [...]
->     /* size: 3200, cachelines: 50, members: 171 */
-> }
->
-> Signed-off-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
-> Signed-off-by: Neal Cardwell <ncardwell@google.com>
-> Co-developed-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
->
-> ---
-> v13
-> - Move TCP_ACCECN_E1B_INIT_OFFSET, TCP_ACCECN_E0B_INIT_OFFSET, and
->   TCP_ACCECN_CEB_INIT_OFFSET to this patch
-> - Use static array lookup in tcp_accecn_optfield_to_ecnfield()
-> - Return false when WARN_ON_ONCE() is true in tcp_accecn_process_option()
-> - Make synack_ecn_bytes as static const array and use const u32 pointer
->   in tcp_options_write()
-> - Use ALIGN() and ALIGN_DOWN() in tcp_options_fit_accecn() to pad TCP Acc=
-ECN
->   option to dword
->
-> v10
-> - Add documentation of tcp_ecn_option in ip-sysctl.rst to this patch
-> - Remove the global variable u32 synack_ecn_bytes[3]
-> - Add READ_ONCE() over every reads of sysctl
->
-> v9:
-> - Restruct the code in the for loop of tcp_accecn_process_option()
-> - Remove ecn_bytes and add use_synack_ecn_bytes flag in tcp_out_options
->   struct to identify whether syn_ack_bytes or received_ecn_bytes is used
-> - Replace leftover_bytes and leftover_size with leftover_highbyte and
->   leftover_lowbyte and add comments in tcp_options_write()
->
-> v8:
-> - Reset leftover_size to 2 once leftover_bytes is used
-> ---
->  Documentation/networking/ip-sysctl.rst        |  19 ++
->  .../networking/net_cachelines/tcp_sock.rst    |   3 +
->  include/linux/tcp.h                           |   9 +-
->  include/net/netns/ipv4.h                      |   1 +
->  include/net/tcp.h                             |  13 ++
->  include/net/tcp_ecn.h                         |  89 +++++++++-
->  include/uapi/linux/tcp.h                      |   7 +
->  net/ipv4/sysctl_net_ipv4.c                    |   9 +
->  net/ipv4/tcp.c                                |  15 +-
->  net/ipv4/tcp_input.c                          |  94 +++++++++-
->  net/ipv4/tcp_ipv4.c                           |   1 +
->  net/ipv4/tcp_output.c                         | 165 +++++++++++++++++-
->  12 files changed, 412 insertions(+), 13 deletions(-)
->
+Hi,
 
-
-             minlen);
-> +               }
->         }
->  }
+On 12/08/2025 14:23, Maciej Wieczor-Retman wrote:
+> [...]
+> ======= Testing
+> Checked all the kunits for both software tags and generic KASAN after
+> making changes.
 >
-> @@ -263,6 +347,9 @@ static inline void tcp_accecn_init_counters(struct tc=
-p_sock *tp)
->         tp->received_ce =3D 0;
->         tp->received_ce_pending =3D 0;
->         __tcp_accecn_init_bytes_counters(tp->received_ecn_bytes);
-> +       __tcp_accecn_init_bytes_counters(tp->delivered_ecn_bytes);
-> +       tp->accecn_minlen =3D 0;
-> +       tp->est_ecnfield =3D 0;
->  }
+> In generic mode the results were:
 >
->  /* Used for make_synack to form the ACE flags */
-> diff --git a/include/uapi/linux/tcp.h b/include/uapi/linux/tcp.h
-> index bdac8c42fa82..53e0e85b52be 100644
-> --- a/include/uapi/linux/tcp.h
-> +++ b/include/uapi/linux/tcp.h
-> @@ -316,6 +316,13 @@ struct tcp_info {
->                                          * in milliseconds, including any
->                                          * unfinished recovery.
->                                          */
-> +       __u32   tcpi_received_ce;    /* # of CE marks received */
-> +       __u32   tcpi_delivered_e1_bytes;  /* Accurate ECN byte counters *=
-/
-> +       __u32   tcpi_delivered_e0_bytes;
-> +       __u32   tcpi_delivered_ce_bytes;
-> +       __u32   tcpi_received_e1_bytes;
-> +       __u32   tcpi_received_e0_bytes;
-> +       __u32   tcpi_received_ce_bytes;
->  };
+> kasan: pass:59 fail:0 skip:13 total:72
+> Totals: pass:59 fail:0 skip:13 total:72
+> ok 1 kasan
 >
+> and for software tags:
+>
+> kasan: pass:63 fail:0 skip:9 total:72
+> Totals: pass:63 fail:0 skip:9 total:72
+> ok 1 kasan
+I tested the series on arm64 and after fixing the build issues mentioned
+I was able to boot without issues and did not observe any regressions
+in the KASAN KUnit tests with either generic or software tags.
 
-We do not add more fields to tcp_info, unless added fields are a
-multiple of 64 bits.
+So this is Tested-by: Ada Couprie Diaz <ada.coupriediaz@arm.com> (For arm64)
 
-Otherwise a hole is added and can not be recovered.
+I will note that the tests `kmalloc_memmove_negative_size` and
+`kmalloc_memmove_invalid_size` seem to be able to corrupt memory
+and lead to kernel crashes if `memmove()` is not properly instrumented,
+which I discovered while investigating [0].
+> [...]
+> ======= Compilation
+> Clang was used to compile the series (make LLVM=1) since gcc doesn't
+> seem to have support for KASAN tag-based compiler instrumentation on
+> x86.
+
+Interestingly, while investigating [0], this comment slipped by me and
+I managed to compile your series for x86 with software tags using GCC,
+though it is a bit hacky.
+You need to update the CC_HAS_KASAN_SW_TAGS to pass `-mlam=u48`
+or `-mlam=u57`, as it is disabled by default, and pass `-march=arrowlake`
+for compilation (the support for software tags depends on the arch).
+You could then test with GCC (though the issue in [0] also applies to x86).
+
+Best,
+Ada
+
+[0]: https://groups.google.com/g/kasan-dev/c/v1PYeoitg88
+
+> ======= Dependencies
+> The base branch for the series is the mainline kernel, tag 6.17-rc1.
+>
+> ======= Enabling LAM for testing
+> Since LASS is needed for LAM and it can't be compiled without it I
+> applied the LASS series [1] first, then applied my patches.
+>
+> [1] https://lore.kernel.org/all/20250707080317.3791624-1-kirill.shutemov@linux.intel.com/
+>
+> Changes v4:
+> - Revert x86 kasan_mem_to_shadow() scheme to the same on used in generic
+>    KASAN. Keep the arithmetic shift idea for the KASAN in general since
+>    it makes more sense for arm64 and in risc-v.
+> - Fix inline mode but leave it unavailable until a complementary
+>    compiler patch can be merged.
+> - Apply Dave Hansen's comments on series formatting, patch style and
+>    code simplifications.
+>
+> Changes v3:
+> - Remove the runtime_const patch and setup a unified offset for both 5
+>    and 4 paging levels.
+> - Add a fix for inline mode on x86 tag-based KASAN. Add a handler for
+>    int3 that is generated on inline tag mismatches.
+> - Fix scripts/gdb/linux/kasan.py so the new signed mem_to_shadow() is
+>    reflected there.
+> - Fix Documentation/arch/arm64/kasan-offsets.sh to take new offsets into
+>    account.
+> - Made changes to the kasan_non_canonical_hook() according to upstream
+>    discussion.
+> - Remove patches 2 and 3 since they related to risc-v and this series
+>    adds only x86 related things.
+> - Reorder __tag_*() functions so they're before arch_kasan_*(). Remove
+>    CONFIG_KASAN condition from __tag_set().
+>
+> Changes v2:
+> - Split the series into one adding KASAN tag-based mode (this one) and
+>    another one that adds the dense mode to KASAN (will post later).
+> - Removed exporting kasan_poison() and used a wrapper instead in
+>    kasan_init_64.c
+> - Prepended series with 4 patches from the risc-v series and applied
+>    review comments to the first patch as the rest already are reviewed.
+>
+> Maciej Wieczor-Retman (16):
+>    kasan: Fix inline mode for x86 tag-based mode
+>    x86: Add arch specific kasan functions
+>    kasan: arm64: x86: Make special tags arch specific
+>    x86: Reset tag for virtual to physical address conversions
+>    mm: x86: Untag addresses in EXECMEM_ROX related pointer arithmetic
+>    x86: Physical address comparisons in fill_p*d/pte
+>    x86: KASAN raw shadow memory PTE init
+>    x86: LAM compatible non-canonical definition
+>    x86: LAM initialization
+>    x86: Minimal SLAB alignment
+>    kasan: arm64: x86: Handle int3 for inline KASAN reports
+>    kasan: x86: Apply multishot to the inline report handler
+>    kasan: x86: Logical bit shift for kasan_mem_to_shadow
+>    mm: Unpoison pcpu chunks with base address tag
+>    mm: Unpoison vms[area] addresses with a common tag
+>    x86: Make software tag-based kasan available
+>
+> Samuel Holland (2):
+>    kasan: sw_tags: Use arithmetic shift for shadow computation
+>    kasan: sw_tags: Support tag widths less than 8 bits
+>
+>   Documentation/arch/arm64/kasan-offsets.sh |  8 ++-
+>   Documentation/arch/x86/x86_64/mm.rst      |  6 +-
+>   MAINTAINERS                               |  4 +-
+>   arch/arm64/Kconfig                        | 10 ++--
+>   arch/arm64/include/asm/kasan-tags.h       |  9 +++
+>   arch/arm64/include/asm/kasan.h            |  6 +-
+>   arch/arm64/include/asm/memory.h           | 14 ++++-
+>   arch/arm64/include/asm/uaccess.h          |  1 +
+>   arch/arm64/kernel/traps.c                 | 17 +-----
+>   arch/arm64/mm/kasan_init.c                |  7 ++-
+>   arch/x86/Kconfig                          |  4 +-
+>   arch/x86/boot/compressed/misc.h           |  1 +
+>   arch/x86/include/asm/cache.h              |  4 ++
+>   arch/x86/include/asm/kasan-tags.h         |  9 +++
+>   arch/x86/include/asm/kasan.h              | 71 ++++++++++++++++++++++-
+>   arch/x86/include/asm/page.h               | 24 +++++++-
+>   arch/x86/include/asm/page_64.h            |  2 +-
+>   arch/x86/kernel/alternative.c             |  4 +-
+>   arch/x86/kernel/head_64.S                 |  3 +
+>   arch/x86/kernel/setup.c                   |  2 +
+>   arch/x86/kernel/traps.c                   |  4 ++
+>   arch/x86/mm/Makefile                      |  2 +
+>   arch/x86/mm/init.c                        |  3 +
+>   arch/x86/mm/init_64.c                     | 11 ++--
+>   arch/x86/mm/kasan_init_64.c               | 19 +++++-
+>   arch/x86/mm/kasan_inline.c                | 26 +++++++++
+>   arch/x86/mm/pat/set_memory.c              |  1 +
+>   arch/x86/mm/physaddr.c                    |  1 +
+>   include/linux/kasan-tags.h                | 21 +++++--
+>   include/linux/kasan.h                     | 51 +++++++++++++++-
+>   include/linux/mm.h                        |  6 +-
+>   include/linux/mmzone.h                    |  1 -
+>   include/linux/page-flags-layout.h         |  9 +--
+>   lib/Kconfig.kasan                         |  3 +-
+>   mm/execmem.c                              |  4 +-
+>   mm/kasan/hw_tags.c                        | 11 ++++
+>   mm/kasan/report.c                         | 45 ++++++++++++--
+>   mm/kasan/shadow.c                         | 18 ++++++
+>   mm/vmalloc.c                              |  8 +--
+>   scripts/Makefile.kasan                    |  3 +
+>   scripts/gdb/linux/kasan.py                |  5 +-
+>   scripts/gdb/linux/mm.py                   |  5 +-
+>   42 files changed, 381 insertions(+), 82 deletions(-)
+>   mode change 100644 => 100755 Documentation/arch/arm64/kasan-offsets.sh
+>   create mode 100644 arch/arm64/include/asm/kasan-tags.h
+>   create mode 100644 arch/x86/include/asm/kasan-tags.h
+>   create mode 100644 arch/x86/mm/kasan_inline.c
+>
