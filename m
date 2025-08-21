@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E832741D1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46571F91C8;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786099; cv=none; b=l3AiaCeoSu/73/fG/0rgfgsudu/Ef9Hkj6WS4Sf0bCBLegNFUZJ04A2VOarPt4wo4TYMc/3E5PrfPJPmhMXF3eGWZnxSozhyZqvxQn1CjFEukkBYcOtSHyL4clGZkmR5C4YqnZaBIrbzhQfQ93z5HRy4u32lujLVmYXtbf6YC7I=
+	t=1755786099; cv=none; b=ewwS6oS1NR/GqRCH1jOJsslQhoGyd/8t9YbmEK/0D0QnL4sSOc9B7WiSSxYCY2TO3Sp59se7PymB5xhiqhgEtcN9Btqdl38/bRbWl7nV5pPPu95J+BeE5ypRrBjGGpyAqvAkksis3GoMz+efapHos0cf4LWZEt/ddzKBX4AEyeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755786099; c=relaxed/simple;
-	bh=wQmzELiyLlP6dYnGbR5xm0Wl2cXgsAK4Vx4o5Slpgnw=;
+	bh=lRH9SEB4iDb1LfHInxrSMa8aPsx5ggsWJbqLQRJAoqQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gLjMRP0UMEUqH7Qas3vXizUuFhXgfOzWjcNWmZVYlfe+a9aFgPx/zYnM5MTFzhoyoiTwpnn07BsmMV8qMqEiy5I4uChA+Z+1sWRMgZ1r4dk2nLilrKqtNrPmOE0TrBTAlHVLXUECWohJD6uWLfM+JfxnAIyjQmLpofMrbVF5RfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MouVHQ/S; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Dnqodbs2GFq6A53YbrKT6yirHt5sruFikzY+gojlT0setTR/PkVmoDYChOXbMtpyuIghAsRtfuxFBwVccoksPiYyvQKUfqq3V3sUkByH7Nr+gzX34jKbdSnUlgsPYn2al3wApBVQTAK3Q+Mg3SxfOaVxeLWU9+heYDG+leNkRLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LdUJS5bj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MouVHQ/S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D5DBC4AF0C;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LdUJS5bj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF21C16AAE;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755786099;
-	bh=wQmzELiyLlP6dYnGbR5xm0Wl2cXgsAK4Vx4o5Slpgnw=;
+	bh=lRH9SEB4iDb1LfHInxrSMa8aPsx5ggsWJbqLQRJAoqQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MouVHQ/SUz3h0bXRfAPJnNzPcYS1KVcbXEpqYXmzjR9pv6IyOCGPq9HcaPZSWCVjK
-	 NezXokJ5LOPYcYmU4rR8kq78U/FJ+o50TA8FBODGNmk04ZWLGrMeKOBE9SDhNg+5qB
-	 IJ+cV2BfTZSXWILLqPIC0xs+Z0Dpp/kkbDEcID7+wHH7zvE4gzQkS2+SmObfANlx9h
-	 66CL2bZ5FPEcdEYcBo8Dzl7ftnvR+ko7Ypm+z2Q86can4pFMwMJN1L9lvNbv2UiPV8
-	 bminWawp9iEX++gneBk7Ht6cs8als6I1NPK8cocagTSZYXt3ToNMWpz2CulPuqxT4l
-	 0vxxfZM/z+kEg==
+	b=LdUJS5bjPd3m1j90lbHlIC5VKp8nJ32DTzMXAaTtF6EKyzXABJdliCu/gSadIPbKS
+	 cOW7oLiG5nziwKncu79UYUY1Ov/r8qc/fMEcFSpOW11xPJJ/LgicTMf4I+LmYlXdh/
+	 3KekxDWiDk8Iowx6fHA/zO9JHnetiZC2dwD241mDXM4NHPIl8a8UXqIAiCNjDSsgTi
+	 KaD0+wO3ygjfOhClkzwMhvMKkW8Yqt2WDQqclJA4qIIib/vpa+sZUq7Ud6NP+FZZ7D
+	 VXysuvN6OnQHw0Hb49Ny0wQNYe0u5ZcTIy+8lUXhsQHA6oaUbG9K4YX7zNW3NFfwY0
+	 6FBUfnd77Q6bA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up6Ab-0000000BT8y-1Z67;
+	id 1up6Ab-0000000BT8i-17v9;
 	Thu, 21 Aug 2025 16:21:37 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Kees Cook <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 15/24] docs: kernel_include.py: remove range restriction for gen docs
-Date: Thu, 21 Aug 2025 16:21:21 +0200
-Message-ID: <92f8d6245a5891918281bca9cf7575da206aa27a.1755784930.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 11/24] docs: kernel_include.py: allow cross-reference generation
+Date: Thu, 21 Aug 2025 16:21:17 +0200
+Message-ID: <1e30edc994a3edba976aafbf182eef2ed5439ede.1755784930.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
 References: <cover.1755784929.git.mchehab+huawei@kernel.org>
@@ -51,42 +51,189 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Originally, parse-readers were generating an output where
-the first two lines were setting a literal block.
+kernel_include extension was originally designed to be used by the
+media comprehensive uAPI documentation, where, instead of simpler
+kernel-doc markups, the uAPI documentation is enriched with a larger
+text, with images, complex tables, graphs, etc.
 
-The script now gets only the actual parsed data without that,
-so it is now safe to allow start-line and end-line parameters
-to be handled.
+There, we wanted to include the much simpler yet documented .h
+file.
+
+This extension is needed to include files from other parts of the
+Kernel tree outside Documentation, because the original Sphinx
+include tag doesn't allow going outside of the directory passed
+via sphinx-build command line.
+
+Yet, the cross-references themselves to the full documentation
+were using a perl script to create cross-references against the
+comprehensive documentation.
+
+As the perl script is now converted to Phython and there is a
+Python class producing an include-compatible output with cross
+references, add two optional arguments to kernel_include.py:
+
+1. :generate-cross-refs:
+
+        If present, instead of reading the file, it calls ParseDataStructs()
+        class, which converts C data structures into cross-references to
+        be linked to ReST files containing a more comprehensive documentation;
+
+        Don't use it together with :start-line: and/or :end-line:, as
+        filtering input file line range is currently not supported.
+
+2. :exception-file:
+
+        Used together with :generate-cross-refs:. Points to a file containing
+        rules to ignore C data structs or to use a different reference name,
+        optionally using a different reference type.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 6 ------
- 1 file changed, 6 deletions(-)
+ Documentation/sphinx/kernel_include.py | 94 ++++++++++++++++++++------
+ 1 file changed, 74 insertions(+), 20 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index c5f4f34e22cb..4cdd1c77982e 100755
+index 1212786ac516..fc37e6fa9d96 100755
 --- a/Documentation/sphinx/kernel_include.py
 +++ b/Documentation/sphinx/kernel_include.py
-@@ -122,9 +122,6 @@ class KernelInclude(Include):
-             exceptions_file = os.path.join(source_dir, self.options['exception-file'])
-             parser.process_exceptions(exceptions_file)
+@@ -25,6 +25,24 @@
+     Substrings of the form $name or ${name} are replaced by the value of
+     environment variable name. Malformed variable names and references to
+     non-existing variables are left unchanged.
++
++    This extension overrides Sphinx include directory, adding two extra
++    arguments:
++
++    1. :generate-cross-refs:
++
++        If present, instead of reading the file, it calls ParseDataStructs()
++        class, which converts C data structures into cross-references to
++        be linked to ReST files containing a more comprehensive documentation;
++
++        Don't use it together with :start-line: and/or :end-line:, as
++        filtering input file line range is currently not supported.
++
++    2. :exception-file:
++
++        Used together with :generate-cross-refs:. Points to a file containing
++        rules to ignore C data structs or to use a different reference name,
++        optionally using a different reference type.
+ """
  
--        if self.options.get("start-line") or self.options.get("end-line"):
--            raise self.severe('generate-cross-refs can\'t be used with "start-line" or "end-line"')
--
-         # Store references on a symbol dict to be used at check time
-         if 'warn-broken' in self.options:
-             env._xref_files.add(path)
-@@ -209,9 +206,6 @@ class KernelInclude(Include):
+ # ==============================================================================
+@@ -32,6 +50,7 @@
+ # ==============================================================================
  
-             title = os.path.basename(path)
+ import os.path
++import sys
  
--            if startline or endline:
--                raise self.severe('generate-cross-refs can\'t be used together with "start-line" or "end-line"')
--
-             if "code" not in self.options:
-                 rawtext = ".. parsed-literal::\n\n" + rawtext
-         else:
+ from docutils import io, nodes, statemachine
+ from docutils.utils.error_reporting import SafeString, ErrorString
+@@ -39,6 +58,11 @@ from docutils.parsers.rst import directives
+ from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
+ from docutils.parsers.rst.directives.misc import Include
+ 
++srctree = os.path.abspath(os.environ["srctree"])
++sys.path.insert(0, os.path.join(srctree, "tools/docs/lib"))
++
++from parse_data_structs import ParseDataStructs
++
+ __version__ = "1.0"
+ 
+ 
+@@ -57,6 +81,14 @@ def setup(app):
+ class KernelInclude(Include):
+     """KernelInclude (``kernel-include``) directive"""
+ 
++    # Add extra options
++    option_spec = Include.option_spec.copy()
++
++    option_spec.update({
++        'generate-cross-refs': directives.flag,
++        'exception-file': directives.unchanged,
++    })
++
+     def run(self):
+         env = self.state.document.settings.env
+         path = os.path.realpath(os.path.expandvars(self.arguments[0]))
+@@ -99,28 +131,49 @@ class KernelInclude(Include):
+         e_handler = self.state.document.settings.input_encoding_error_handler
+         tab_width = self.options.get("tab-width",
+                                      self.state.document.settings.tab_width)
+-        try:
+-            self.state.document.settings.record_dependencies.add(path)
+-            include_file = io.FileInput(source_path=path, encoding=encoding,
+-                                        error_handler=e_handler)
+-        except UnicodeEncodeError:
+-            raise self.severe('Problems with "%s" directive path:\n'
+-                              'Cannot encode input file path "%s" '
+-                              "(wrong locale?)." % (self.name, SafeString(path)))
+-        except IOError as error:
+-            raise self.severe('Problems with "%s" directive path:\n%s.'
+-                              % (self.name, ErrorString(error)))
+         startline = self.options.get("start-line", None)
+         endline = self.options.get("end-line", None)
+-        try:
+-            if startline or (endline is not None):
+-                lines = include_file.readlines()
+-                rawtext = "".join(lines[startline:endline])
+-            else:
+-                rawtext = include_file.read()
+-        except UnicodeError as error:
+-            raise self.severe('Problem with "%s" directive:\n%s' %
+-                              (self.name, ErrorString(error)))
++
++        # Get optional arguments to related to cross-references generation
++        if 'generate-cross-refs' in self.options:
++            parser = ParseDataStructs()
++            parser.parse_file(path)
++
++            exceptions_file = self.options.get('exception-file')
++            if exceptions_file:
++                exceptions_file = os.path.join(source_dir, exceptions_file)
++                parser.process_exceptions(exceptions_file)
++
++            title = os.path.basename(path)
++            rawtext = parser.gen_output()
++            if startline or endline:
++                raise self.severe('generate-cross-refs can\'t be used together with "start-line" or "end-line"')
++
++            if "code" not in self.options:
++                rawtext = ".. parsed-literal::\n\n" + rawtext
++        else:
++            try:
++                self.state.document.settings.record_dependencies.add(path)
++                include_file = io.FileInput(source_path=path, encoding=encoding,
++                                            error_handler=e_handler)
++            except UnicodeEncodeError:
++                raise self.severe('Problems with "%s" directive path:\n'
++                                'Cannot encode input file path "%s" '
++                                "(wrong locale?)." % (self.name, SafeString(path)))
++            except IOError as error:
++                raise self.severe('Problems with "%s" directive path:\n%s.'
++                                % (self.name, ErrorString(error)))
++
++            try:
++                if startline or (endline is not None):
++                    lines = include_file.readlines()
++                    rawtext = "".join(lines[startline:endline])
++                else:
++                    rawtext = include_file.read()
++            except UnicodeError as error:
++                raise self.severe('Problem with "%s" directive:\n%s' %
++                                (self.name, ErrorString(error)))
++
+         # start-after/end-before: no restrictions on newlines in match-text,
+         # and no restrictions on matching inside lines vs. line boundaries
+         after_text = self.options.get("start-after", None)
+@@ -171,6 +224,7 @@ class KernelInclude(Include):
+             else:
+                 literal_block += nodes.Text(text, text)
+             return [literal_block]
++
+         if "code" in self.options:
+             self.options["source"] = path
+             codeblock = CodeBlock(self.name,
 -- 
 2.50.1
 
