@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8EA72EB85C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F172EB85D;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764224; cv=none; b=aRO7QkIBKcwYu7QB119kHrGo7foURG7vvLe+wuIfN65+q3zRinEFagL67u561KPhrjozjGRLvKnQmYja+y+lkcYqNKco+NDVDYib4T0JydY4ZEB5JPjNo4tbgKoSM3wkrnxsneZPIiEYiXpNAkVEXuytcEnKr8httaDwxjv3Ppw=
+	t=1755764224; cv=none; b=X6+3fpqq8cjccWKCMgxZehEsArr8fDLiNXpxjAGjlYSV0/EZJiVJGl6d6CugzesUGcuZq3rirSPEqN7ENG4IgktxmbGcTIJfPwCxBVeBx79ANVXTBZmR0Q91sLXX2DJ7eTokkaYc1ZyXxM8hcTTAPSzQeuQ+7od+dnvHTKRauos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755764224; c=relaxed/simple;
-	bh=HCGgBM0J4x5ZSkA2bXVd4+Dveru9uIKWtG31kDwRdHA=;
+	bh=TuZzM907xB+KTOv4gNdoJ0KIyd5sboPQJN60CO9pPLo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hzps09SxXV6w3pECg3YEGtCWCnQ7234ONMF2Pv2OofAU5dhusoPpjfO9aU1a5O4DyyeWbHEnRd7X+e2QGFBtO9yeD3P2bKTulywL/xEh7z/Z+Fl3oEG8yqcTXNszSmewCbPpfgwZdObNxk+8kuOSeTlSe6syj2/ySMn9ohkcPW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArhJONt0; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ILmAUjDez8XVfC5ODUtPLcDGBjvu3Nq5RTdQM+wMjjQCGd2cfAgQS594I0Hts38XIAV7kOPIBp9UCeAGO5RrtG8si6Lg6QR0Tj42McXaQtlnhjhpkMFHMNuocYAWToc3i13SfzPoivi8/3CjNyOR28u7dT54It6tiGIJBSCuI5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KAc78K0n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArhJONt0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 718FDC116C6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KAc78K0n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73992C19421;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755764224;
-	bh=HCGgBM0J4x5ZSkA2bXVd4+Dveru9uIKWtG31kDwRdHA=;
+	bh=TuZzM907xB+KTOv4gNdoJ0KIyd5sboPQJN60CO9pPLo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ArhJONt05WX96QiNYYKM7WO6oLWNsG1jAhUlGD61772x8312GWK87V9EGLflKXltv
-	 TdJR/S+zMswUXwsoCvIOXwikGyWyvIz8lx1ESK4uKrqpld4kxpkzUVveKlLQ87Uqbi
-	 WCrpYVvg/tkGbSDqysfU4DIZnh93YQGddhfv+u0ReSoyTcF7tgo6RX/qvasHFB6Jrl
-	 BQfNJYPstE2HGLPS/9YgdC2NYQOvI7LkCWGBFNJgQ1tElWaLs3okG7AWRnI5cI5Wo/
-	 RriFfN2RLHSdE5uz+6omt/ndygF+eFhuZemL94C1a6fDZpLPfPQzc75Uh5fwB4EwmU
-	 0BQu2gURGBKDQ==
+	b=KAc78K0n906bqvlnrznWY63kjBqp5ET2aODKVPx+m94hCUANr5sZ5HOHk4aHLI/ug
+	 QUeI96V5wpT+vYRSuSsTYA93xSO8D64TlkFFHYjfaMWTz2OHHmlT63aLBZy2pB9rMI
+	 VSI6aDy9ldaLz796clBKyd9JjDbmHwurmDnWKJ0BNvRQs9WFz5uqhNidBIVPa3mcwa
+	 ojUMchYqigcKMbdOGjauuFoClYFvwfz17zUmUNh7a/Exd1Merde9xDxRDtqeHtxyHo
+	 LR7TNUop1yha9QUK66F/7AyrRPjevLXOW59EOtnPt2PIgg3CxpSw+QUqlsBw9ermjL
+	 wsTJ0x8jbSsWA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up0Tm-0000000BLgL-2qpD;
+	id 1up0Tm-0000000BLgT-34TO;
 	Thu, 21 Aug 2025 10:17:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/14] docs: conf.py: use dedent and r-strings for LaTeX macros
-Date: Thu, 21 Aug 2025 10:16:41 +0200
-Message-ID: <0d245fbd872ab3ec21bd8fe78b01340ba77ce365.1755763127.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 07/14] docs: conf.py: extra cleanups and fixes
+Date: Thu, 21 Aug 2025 10:16:43 +0200
+Message-ID: <08d16c2ad817910eb5606842f776d3f77d83282f.1755763127.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755763127.git.mchehab+huawei@kernel.org>
 References: <cover.1755763127.git.mchehab+huawei@kernel.org>
@@ -48,80 +48,67 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Instead of adding extra weird indentation at the tex
-file, use dedent(). While here, also use r-strings, to make
-easier to make its content identical to the .tex output.
+Makes it more adehent with modern Sphinx LaTeX build setup as
+defined at:
 
-While here, also merge "preamble" that was added on two
-separate parts of the code (in the past, there were some
-version-specific checks).
+	https://www.sphinx-doc.org/en/master/latex.html
 
-No functional changes, just cosmetic ones.
+There, it suggests:
+
+1) to add: 'printindex'
+
+    “printindex” call, the last thing in the file. Override if you want to generate
+    the index differently, append some content after the index, or change the font.
+    As LaTeX uses two-column mode for the index it is often advisable to set this
+    key to r'\footnotesize\raggedright\printindex'.
+
+This indeed solved a corner case on a distro where the index was not properly
+generated.
+
+2) to add at the main example:
+         \PassOptionsToPackage{svgnames}{xcolor}
+
+3) I got a corner case on one of the distros was using xindy to produce
+   indexes. This ended causing the build logic to incorretly try to use
+   T1 fontenc, which is not UTF-8 compatible.
+
+   This patch adds:
+
+        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
+
+   to cover such case. It should be noticed that, as the config doesn't
+   have \usepackage{xindy}, this will be used only if latexmk ends
+   using xindy.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/conf.py | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+ Documentation/conf.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 6e12c7d8e07e..628af81e6879 100644
+index 5888e2988b4f..1c4695727208 100644
 --- a/Documentation/conf.py
 +++ b/Documentation/conf.py
-@@ -9,6 +9,8 @@ import os
- import shutil
- import sys
- 
-+from  textwrap import dedent
-+
- import sphinx
- 
- # If extensions (or modules to document with autodoc) are in another directory,
-@@ -462,11 +464,11 @@ latex_elements = {
-     "inputenc": "",
-     "utf8extra": "",
-     # Set document margins
--    "sphinxsetup": """
-+    "sphinxsetup": dedent(r"""
-         hmargin=0.5in, vmargin=1in,
-         parsedliteralwraps=true,
-         verbatimhintsturnover=false,
--    """,
+@@ -456,8 +456,15 @@ htmlhelp_basename = "TheLinuxKerneldoc"
+ latex_elements = {
+     # The paper size ('letterpaper' or 'a4paper').
+     "papersize": "a4paper",
++    "passoptionstopackages": dedent(r"""
++        \PassOptionsToPackage{svgnames}{xcolor}
++        % Avoid encoding troubles when creating indexes
++        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
 +    """),
-     #
-     # Some of our authors are fond of deep nesting; tell latex to
-     # cope.
-@@ -475,20 +477,16 @@ latex_elements = {
-     # For CJK One-half spacing, need to be in front of hyperref
-     "extrapackages": r"\usepackage{setspace}",
-     # Additional stuff for the LaTeX preamble.
--    "preamble": """
-+    "preamble": dedent(r"""
-         % Use some font with UTF-8 support with XeLaTeX
--        \\usepackage{fontspec}
--        \\setsansfont{DejaVu Sans}
--        \\setromanfont{DejaVu Serif}
--        \\setmonofont{DejaVu Sans Mono}
--    """,
--}
--
--# Load kerneldoc specific LaTeX settings
--latex_elements["preamble"] += """
-+        \usepackage{fontspec}
-+        \setsansfont{DejaVu Sans}
-+        \setromanfont{DejaVu Serif}
-+        \setmonofont{DejaVu Sans Mono}
-         % Load kerneldoc specific LaTeX settings
--        \\input{kerneldoc-preamble.sty}
--"""
-+        \input{kerneldoc-preamble.sty}
-+    """)
-+}
- 
- # This will be filled up by config-inited event
- latex_documents = []
+     # The font size ('10pt', '11pt' or '12pt').
+     "pointsize": "11pt",
++    # Needed to generate a .ind file
++    "printindex": r"\footnotesize\raggedright\printindex",
+     # Latex figure (float) alignment
+     # 'figure_align': 'htbp',
+     # Don't mangle with UTF-8 chars
 -- 
 2.50.1
 
