@@ -1,46 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDCF33CE8E;
-	Thu, 21 Aug 2025 18:00:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1361EB5C2;
+	Thu, 21 Aug 2025 18:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755799226; cv=none; b=eax8OS+xbc2P3oQyjEcmf7AzAvpwIQNnXFmGNvKHKzQhGwwMufkEcZoqvcmh5kpgZuZwiwLIH72zF6OqVHL5EVUqKL+O96I7vFLJqnMP0P3+HkH9vqYtQMyAzWm6iuYRIuTOYhBKMWW9ZO14BsL3rjWxOp+26D46ygqr3NM7w6o=
+	t=1755802234; cv=none; b=ixeEBppHjKy0Ji+4CCg0rCoPgDAVt9eZiwpKNLSpUbqiYt4s6wrgjOKOPEHs6nHNcX0OPIkSmrl0sccqYE4gB1NYvz3CT6Ol3mkRkaJzDgAbJWwio8ycrLmA3hRKipuu/MBnuNYf7ADqDmUQ470m3KzGqUqOUBkTrvHqRV13wqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755799226; c=relaxed/simple;
-	bh=ozmNUcy63K0EXVK6yBko48j5rKxmFUTvtSlsQjejRTk=;
+	s=arc-20240116; t=1755802234; c=relaxed/simple;
+	bh=MCotrZmNT7RLq9JXnxjTqoY/y3Qcia8Pef8k45/qlxk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pIjIGNDK+IVId+rHGNq9UjJDI/PVuo66w+EtrBmMVwVpVWCTmY8BPJzOaEaHoUbf5di4xrro+k+LPSwsd3RIlYgG3K4a+G/BP5H3wVv6HM86LMvrWbUGq4LYRSfTAHBhdSWaIt3yzgESG1Sqf4FBu7rc00FgqUQKpIBeVK3t2Tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=TkWY1O6K; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=lf50fX3oCEvLd3e72Ij1q1P7ynkXq+FduP9Sqj+SBLKev89QarG2QVvH6lbfnGdhKTFLPiyJQfB0u2oJlEBglZQZlyKC0w9RAaRXPcsf105Wz1LKkzQHaOdOLWgyZYUCdP+nTEs7ufEic4XoKZhM2CqwcPzWtSg6MSZkNy2o7Bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PbLQdufb; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TkWY1O6K"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A192440AB4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PbLQdufb"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71C5240AD5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755799222; bh=a0gmvmSgejJ2wUvpYDcnJHbLc5WuFKYJx7fuNwr+z00=;
+	t=1755802230; bh=wR+ymNRSdxLoxdfwbiG8L4tIz2EGNW+ebvxDR/PAd7o=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TkWY1O6Kf57G+OF12yTCxsfPyp7zXK+uLHKjSL1COuAoElD4hrxRH7285jZFxQ8Fl
-	 NXbc6WHeJ/maF2sDxMq8CKmHdcPxiaUZc6TVqJ5Slmh62ITBeO3qoZ1x5XLs1n0pJS
-	 +kjDR+2L9CJztQyXepfonjysKYWPMxFv6DM+pN7XzIOZPveo2xYXzp4iCRA0NBOP+g
-	 517h1jyD7Z/m3K5kBJS5o6KhPwgWJVHQMzwzEG76ntwutTkQ4QFWyyLjiXmPW8fFfy
-	 HkP0yP8o+JXK7qM4UzOWbBS2P07niRIY32t//LWiWjCwoS2nxYf8NxgB1l7dHzOiPB
-	 cs8GKT1uhsyIw==
+	b=PbLQdufb4JYWtd0/ScdfGma9Fmb+G9nq8KE7Wq1vmRHzdTiOayaCe/HK1Alr8qj5Y
+	 TO+ms1z4PkD82hzBtTxml6n08S8CzgI4wz61JPr/MhTe2QYE6Gm7K0a5HokUaoKC/t
+	 s936+FSWZHwv0JALXRixKcyixHilakGJg3FVtXfsjUhwmhawOlYmWduM92ym8c4H1J
+	 94ab/BHHRC8jX0Pb1C9dCgemYYwvzgZRONu/vQsfJnJaaqzMfV761kXQHZXjjN6NnC
+	 lG/+8VS3UikPGSRdnqGmpBHtQtE+ZpsAi4MfsEjU4GNZGABA0LQrbsxCwhQq1/IkDZ
+	 1XKV2rnFeuF7w==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A192440AB4;
-	Thu, 21 Aug 2025 18:00:22 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 71C5240AD5;
+	Thu, 21 Aug 2025 18:50:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Rik van Riel <riel@surriel.com>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: sysctl: add a few more top-level /proc/sys entries
-In-Reply-To: <20250819075456.113623-1-rdunlap@infradead.org>
-References: <20250819075456.113623-1-rdunlap@infradead.org>
-Date: Thu, 21 Aug 2025 12:00:21 -0600
-Message-ID: <878qjc7dxm.fsf@trenco.lwn.net>
+To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>,
+ viro@zeniv.linux.org.uk, brauner@kernel.org, skhan@linuxfoundation.org
+Cc: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] docs: fix trailing whitespace error and remove repeated
+ words in propagate_umount.txt
+In-Reply-To: <20250818181934.55491-2-rpthibeault@gmail.com>
+References: <20250818181934.55491-2-rpthibeault@gmail.com>
+Date: Thu, 21 Aug 2025 12:50:29 -0600
+Message-ID: <875xeg7bm2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,18 +52,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com> writes:
 
-> Add a few missing directories under /proc/sys.
-> Fix punctuation and doubled words.
+> in Documentation/filesystems/propagate_umount.txt:
+> line 289: remove whitespace on blank line
+> line 315: remove duplicate "that"
+> line 364: remove duplicate "in"
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Rik van Riel <riel@surriel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
 > ---
->  Documentation/admin-guide/sysctl/index.rst |   18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
+>  Documentation/filesystems/propagate_umount.txt | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
 Applied, thanks.
 
