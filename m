@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC820284B4E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6385285042;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786099; cv=none; b=U/Ti2l6qQyv+kF8bqyIblIJoyvAZnTQc/VZVgl6vIgp+Z7cLLUcJnH1bvlTt1ccNejCmtxLNG0EPbpJAglo732XDiEvJhc3hwcl0H3mXUmB2jGAvABJXn8K2q+8J1lvKPXHLOnPgTwvgQ//x2jwfwPyt++c4PGTyqZV0gXVoaMo=
+	t=1755786099; cv=none; b=d5HjfOdT0clD3yoiM6lYhZiILrRjQR7I9Kl7Qz85tOx7I4uMk6S6P6cC9Ei44CV5QFW/SaMGjeD6n5/ICrmmQrfhiZI98OzMVr2RO+SA4t9gmJNbsH2P9iL7OWIAkRMuCosZj8iMNfWbesJ9vihHl6d/q2QY1mrahBog4xHNrdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755786099; c=relaxed/simple;
-	bh=Ws1QXmr61TBgn6INp6mbk145NP3+6J63X8KSGxb87Js=;
+	bh=R6Yr4duEC8arn5hYajMGz65rXfC8mfkSt1jOlvNU8yA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WoEISo7Nd+uHPPulCtc/kvB2EVRZYVLz8TbwDRb6KwDweu4anvqpU1erDivEx0RDvvtVJ/yj1akL+IuJfbYL0jIcHjl5LDlPSvNxxumxG8lZbTDi0NuX909woGxDAnWGN3AhdcCwlK2lnwsXZNbpeHO0TfQro+i9C4dPKDJeyxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Po/npVGg; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=W3cGBM9HPZzwH7ZzG05iHCDTyu8qwZO1kHx1KvtGHfaQIJ+IJOyF4Jhw/aS/CFYzDksRblOYQ3UC1XID2bk1Vug7UES7e24fwdECwspLgXx7pHFVUTVHfa94p3lT8oqbd4iSzXGpyy213SCigTNtfGi25ysP6s1QQAdMQhab/4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HqH23nLl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Po/npVGg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3860BC4AF0E;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HqH23nLl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A596C2BCB6;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755786099;
-	bh=Ws1QXmr61TBgn6INp6mbk145NP3+6J63X8KSGxb87Js=;
+	bh=R6Yr4duEC8arn5hYajMGz65rXfC8mfkSt1jOlvNU8yA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Po/npVGgnsdCdD5oVXuzmKjwuCyVuhasVX1oMR6sWXAwhUpxLoJFf+q4e8RoDOHB5
-	 kvYtePU5w6gcHXlsqtg/Gi1fMQ8mFkxOx5ZMr3y/nDpdQ0HtVNyUNMFhegA8up6chy
-	 aS1l9rKxltnST7NQt65ito0gKqBsZpGW5MBDqwfTmjJNVRh7c3C7bg0aC0OML8K8Fd
-	 xRtltGsKMikh5K63IsvcC5LXZg4Q9q0Vklo4KQxhBIDpAeiiqgqXzomlTjjuYqing1
-	 PZdGRhscAfmkHQA3nBeWSsgIgAhogRLHN/Vb97z703MOZGUrFMwcqHGYxGnjWJS0lZ
-	 LueazZwTfK05w==
+	b=HqH23nLlB0O2qhbrws+Op98u1vfopuebC0S2m0L4PBLY4VIgLiBJTHsiQm0+bw92I
+	 LzYrzHa/8mx+UIQdWdBgobQFIlQPm58BtinK8j4wzICBF86AcMkPri3BPA/1U9AvN+
+	 vdQmOJqgrNmpeoYnOsScGMTGP7/k1zsEQH5Q6DnHYHD64XKO8nysuoCzfdnORQmKX9
+	 ycW9haBIgMrQArSNfcvXfWSxYMmVXwcstKvXNo6zRIvz10adlDFJV4J3EaL5HUI7i+
+	 F0O/Mew5N5fGsjQSGBw+qQRNFus8PZpQbtQeyawiegAVKCcwkcwNicckrNWapXU/aU
+	 /tpvOmsvce/6Q==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up6Ab-0000000BT9E-1zuD;
+	id 1up6Ab-0000000BT96-1mXD;
 	Thu, 21 Aug 2025 16:21:37 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Kees Cook <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 19/24] docs: kernel_include.py: move apply_range() and add a docstring
-Date: Thu, 21 Aug 2025 16:21:25 +0200
-Message-ID: <b7d6bd379aba82a5960abc62c84b4f0fa8f2b8fc.1755784930.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 17/24] docs: kernel_include.py: add support to generate a TOC table
+Date: Thu, 21 Aug 2025 16:21:23 +0200
+Message-ID: <a91896f6d8050b3bc62cdbca40906cc2804be50d.1755784930.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
 References: <cover.1755784929.git.mchehab+huawei@kernel.org>
@@ -51,103 +51,108 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While not required, better to have caller functions at the end.
-As apply_range() is now called by xref_text(), move it to be
-before the latter.
+When generate-cross-refs is used, instead of just implementing
+the default of generating a literal block, we can also
+generate a ReST file as a TOC.
 
-No functional changes.
+The advantage is that, by being a ReST file, missing references
+will point to the place inside the header file that has the
+broken link.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 68 ++++++++++++++------------
- 1 file changed, 36 insertions(+), 32 deletions(-)
+ Documentation/sphinx/kernel_include.py | 36 ++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 14 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index 90ed8428f776..fd4887f80577 100755
+index 0909eb3a07ea..79682408105e 100755
 --- a/Documentation/sphinx/kernel_include.py
 +++ b/Documentation/sphinx/kernel_include.py
-@@ -113,6 +113,42 @@ class KernelInclude(Include):
+@@ -89,6 +89,7 @@ class KernelInclude(Include):
+     option_spec.update({
+         'generate-cross-refs': directives.flag,
+         'warn-broken': directives.flag,
++        'toc': directives.flag,
+         'exception-file': directives.unchanged,
+     })
+ 
+@@ -111,7 +112,7 @@ class KernelInclude(Include):
              except UnicodeError as error:
                  raise self.severe('Problem with directive:\n%s' % ErrorString(error))
  
-+    def apply_range(self, rawtext):
-+        """
-+        Handles start-line, end-line, start-after and end-before parameters
-+        """
-+
-+        # Get to-be-included content
-+        startline = self.options.get('start-line', None)
-+        endline = self.options.get('end-line', None)
-+        try:
-+            if startline or (endline is not None):
-+                lines = rawtext.splitlines()
-+                rawtext = '\n'.join(lines[startline:endline])
-+        except UnicodeError as error:
-+            raise self.severe(f'Problem with "{self.name}" directive:\n'
-+                              + io.error_string(error))
-+        # start-after/end-before: no restrictions on newlines in match-text,
-+        # and no restrictions on matching inside lines vs. line boundaries
-+        after_text = self.options.get("start-after", None)
-+        if after_text:
-+            # skip content in rawtext before *and incl.* a matching text
-+            after_index = rawtext.find(after_text)
-+            if after_index < 0:
-+                raise self.severe('Problem with "start-after" option of "%s" '
-+                                  "directive:\nText not found." % self.name)
-+            rawtext = rawtext[after_index + len(after_text) :]
-+        before_text = self.options.get("end-before", None)
-+        if before_text:
-+            # skip content in rawtext after *and incl.* a matching text
-+            before_index = rawtext.find(before_text)
-+            if before_index < 0:
-+                raise self.severe('Problem with "end-before" option of "%s" '
-+                                  "directive:\nText not found." % self.name)
-+            rawtext = rawtext[:before_index]
-+
-+        return rawtext
-+
-     def xref_text(self, env, path, tab_width):
-         """
-         Read and add contents from a C file parsed to have cross references.
-@@ -163,38 +199,6 @@ class KernelInclude(Include):
+-    def read_rawtext_with_xrefs(self, env, path):
++    def read_rawtext_with_xrefs(self, env, path, output_type):
+         parser = ParseDataStructs()
+         parser.parse_file(path)
  
+@@ -126,7 +127,10 @@ class KernelInclude(Include):
+         if 'warn-broken' in self.options:
+             env._xref_files.add(path)
+ 
+-        return parser.gen_output()
++        if output_type == "toc":
++            return parser.gen_toc()
++
++        return ".. parsed-literal::\n\n" + parser.gen_output()
+ 
+     def apply_range(self, rawtext):
+         # Get to-be-included content
+@@ -243,39 +247,43 @@ class KernelInclude(Include):
+         e_handler = self.state.document.settings.input_encoding_error_handler
+         tab_width = self.options.get("tab-width",
+                                      self.state.document.settings.tab_width)
+-        startline = self.options.get("start-line", None)
+-        endline = self.options.get("end-line", None)
+ 
+         if "literal" in self.options:
+-            ouptut_type = "literal"
++            output_type = "literal"
+         elif "code" in self.options:
+-            ouptut_type = "code"
++            output_type = "code"
+         else:
+-            ouptut_type = "normal"
++            output_type = "rst"
+ 
+         # Get optional arguments to related to cross-references generation
+-        if 'generate-cross-refs' in self.options:
+-            rawtext = self.read_rawtext_with_xrefs(env, path)
++        if "generate-cross-refs" in self.options:
++            if "toc" in self.options:
++                 output_type = "toc"
++
++            rawtext = self.read_rawtext_with_xrefs(env, path, output_type)
++
++            # When :generate-cross-refs: is used, the input is always a C
++            # file, so it has to be handled as a parsed-literal
++            if output_type == "rst":
++                output_type = "literal"
+ 
+             title = os.path.basename(path)
+-
+-            if "code" not in self.options:
+-                rawtext = ".. parsed-literal::\n\n" + rawtext
+         else:
+             rawtext = self.read_rawtext(path, encoding)
+ 
+         rawtext = self.apply_range(rawtext)
+ 
+-        if ouptut_type == "literal":
++        if output_type == "literal":
+             return self.literal(path, tab_width, rawtext)
+ 
+         include_lines = statemachine.string2lines(rawtext, tab_width,
+                                                   convert_whitespace=True)
+ 
+-        if ouptut_type == "code":
++        if output_type == "code":
+             return self.code(path, include_lines)
+ 
+         self.state_machine.insert_input(include_lines, path)
++
          return []
  
--    def apply_range(self, rawtext):
--        # Get to-be-included content
--        startline = self.options.get('start-line', None)
--        endline = self.options.get('end-line', None)
--        try:
--            if startline or (endline is not None):
--                lines = rawtext.splitlines()
--                rawtext = '\n'.join(lines[startline:endline])
--        except UnicodeError as error:
--            raise self.severe(f'Problem with "{self.name}" directive:\n'
--                              + io.error_string(error))
--        # start-after/end-before: no restrictions on newlines in match-text,
--        # and no restrictions on matching inside lines vs. line boundaries
--        after_text = self.options.get("start-after", None)
--        if after_text:
--            # skip content in rawtext before *and incl.* a matching text
--            after_index = rawtext.find(after_text)
--            if after_index < 0:
--                raise self.severe('Problem with "start-after" option of "%s" '
--                                  "directive:\nText not found." % self.name)
--            rawtext = rawtext[after_index + len(after_text) :]
--        before_text = self.options.get("end-before", None)
--        if before_text:
--            # skip content in rawtext after *and incl.* a matching text
--            before_index = rawtext.find(before_text)
--            if before_index < 0:
--                raise self.severe('Problem with "end-before" option of "%s" '
--                                  "directive:\nText not found." % self.name)
--            rawtext = rawtext[:before_index]
--
--        return rawtext
--
-     def literal(self, path, tab_width, rawtext):
-         """Output a literal block"""
- 
+ # ==============================================================================
 -- 
 2.50.1
 
