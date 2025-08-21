@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1B42EA754;
-	Thu, 21 Aug 2025 22:37:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B122EA75F;
+	Thu, 21 Aug 2025 22:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755815881; cv=none; b=bthatTldZpTdqYHZfWbwWmnbabgx7MCUeAMxwt8dzj/YqCjjSt/ZebrNR0OTPPgJMBI9Z9zZBtVw5DtQEGwrVKwz1PQxmjXDiC2qlqtxnRAiADqSUnVojOf1E9IiKe7pVV8Z49Er1aytYAn2mCsJrd52Ka2FpX5xXxqlqTNsA1Q=
+	t=1755815881; cv=none; b=R1L/2D9ho7hXhUpJ65kwXg9lP1WXbT123i3UaB0xuhtie8V6drgeT55J2Mod+dE4KYxw7MUcGTPZNx5ljtpli8AvbGW8uWUz4/Y1d5oU/McA/WdPHbj5T1DATCVMumxAdHh4bM9jo5Rear1qu0tZGtPSeMSyPkkeI3d9i3jTjus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755815881; c=relaxed/simple;
-	bh=U4wg6bOm2m/HVDn3dgmX332I0PObfM6g46MMo75qTM0=;
+	bh=bb+mMM+2R1GGL+ISqfJEjc8M0WPMQMYHn8h9/LNEH7s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PV8BacTiyFx8NnUMOppj/XOEM4Aigbze2NFqIr4YETw6kMEohqaFGpvMhqOohWyNltOqbWi+XYvE9xfxMht/jTjYpC3oBdQ9YoH556ElQA0ubjjb+AIVc6Qk1eG/fTv3iss4l/Td0rJkCvg4G16/z+5wDdqkWh8ZtQ+JlFW26F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=jD/zGROb; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=i/4kHw+EMnQ0ufjiau/u7lKdTzl5PKsgP0Byld0kIiZnI5JxvdbnTdfLg22xPg2cA8lCIOSYBPA8VizL2umjrlP+F/retQOguVR3l95horQ13V98lm8iBbuyoDaszWclb2uOb/ob/aq2e2PG5gSFLZlkReyqp9IS4hcF1Yo/nMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=CwmTsXAI; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="jD/zGROb"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="CwmTsXAI"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 57LMaUOb984441
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 57LMaUOR984441
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Thu, 21 Aug 2025 15:36:53 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 57LMaUOb984441
+	Thu, 21 Aug 2025 15:36:44 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 57LMaUOR984441
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025072201; t=1755815814;
-	bh=kXZsNCNQxnlS0l40K6SZBC5tiDx2L8eSoG9y6lUMtaA=;
+	s=2025072201; t=1755815804;
+	bh=pVfsURoxW25plJu6OY0riprPo8AJo3HjtE6mfTFD3hU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jD/zGRObtbnU9ywo2xk67zwGb9lfJcqmP3+yuwY400Yr52FCYaIHiYlXTSUuMuz9t
-	 c17NY1+4DwczmcPpciWwX9ULNNpiBk0tnx1zMg4PH9jnR3K/v6ndjpLKWEetMsUnWy
-	 uUhFNN2h6I5xi/ThZVr7vGln6kromtHmlV5w26aqFDMr6UOSaGqsvm+gbPCwoljIfD
-	 qg6dqy2QaggK2d4c4lFG9pPZZRHT8mhnS/YtW+W38NCwuOLO3tNojQ2HNMlUbRpZat
-	 6EckIc5HMZ+3V9qhahGrI7X8/1msxDwGQDbrkdeASigG6EsZlPSQnqSy3wp59vh5yh
-	 Yoq8Dv/VL1Htw==
+	b=CwmTsXAIPRUGpBLi9PTGnrR3Qoo9/2azgyoQHG1bG+SnU/OX0pqaKd0TeTvy/dokC
+	 xrtlFbEVoxtZ4AypMLpdcukuLJhAkRb5msqsuGu5p1gJJDOlCQPQJGyvWnU0SJHIJt
+	 AT3qPktZwm5i83iU0DcMOhevSinFEJiUH5zQdC3FkxRbLGW8OTeYt1JBnxrqKV2Da1
+	 5aM1jD/MGQh19bmbgiOfATXMjaOCwQ6uTBfJQ30CtAarTKdegk47gZmRRa1wE0oxyY
+	 QJ3nkS8soA/iqtjnRGGNm9Df89Ing47KNnxd2je403sRSb3ATEDZYY41fMOMcw+Dwu
+	 esgCxbdMCf4yg==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -40,9 +40,9 @@ Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
         x86@kernel.org, hpa@zytor.com, xin@zytor.com, luto@kernel.org,
         peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
         hch@infradead.org
-Subject: [PATCH v6 13/20] KVM: x86: Mark CR4.FRED as not reserved
-Date: Thu, 21 Aug 2025 15:36:22 -0700
-Message-ID: <20250821223630.984383-14-xin@zytor.com>
+Subject: [PATCH v6 03/20] KVM: VMX: Disable FRED if FRED consistency checks fail
+Date: Thu, 21 Aug 2025 15:36:12 -0700
+Message-ID: <20250821223630.984383-4-xin@zytor.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250821223630.984383-1-xin@zytor.com>
 References: <20250821223630.984383-1-xin@zytor.com>
@@ -56,59 +56,66 @@ Content-Transfer-Encoding: 8bit
 
 From: Xin Li <xin3.li@intel.com>
 
-The CR4.FRED bit, i.e., CR4[32], is no longer a reserved bit when
-guest cpu cap has FRED, i.e.,
-  1) All of FRED KVM support is in place.
-  2) Guest enumerates FRED.
+Do not virtualize FRED if FRED consistency checks fail.
 
-Otherwise it is still a reserved bit.
+Either on broken hardware, or when run KVM on top of another hypervisor
+before the underlying hypervisor implements nested FRED correctly.
 
+Suggested-by: Chao Gao <chao.gao@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+Reviewed-by: Chao Gao <chao.gao@intel.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Tested-by: Xuelian Guo <xuelian.guo@intel.com>
 ---
 
-Change in v5:
+Changes in v5:
+* Drop the cpu_feature_enabled() in cpu_has_vmx_fred() (Sean).
 * Add TB from Xuelian Guo.
 
 Change in v4:
-* Rebase on top of "guest_cpu_cap".
-
-Change in v3:
-* Don't allow CR4.FRED=1 before all of FRED KVM support is in place
-  (Sean Christopherson).
+* Call out the reason why not check FRED VM-exit controls in
+  cpu_has_vmx_fred() (Chao Gao).
 ---
- arch/x86/include/asm/kvm_host.h | 2 +-
- arch/x86/kvm/x86.h              | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ arch/x86/kvm/vmx/capabilities.h | 10 ++++++++++
+ arch/x86/kvm/vmx/vmx.c          |  3 +++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 7549e5143249..0b5857997b22 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -142,7 +142,7 @@
- 			  | X86_CR4_OSXSAVE | X86_CR4_SMEP | X86_CR4_FSGSBASE \
- 			  | X86_CR4_OSXMMEXCPT | X86_CR4_LA57 | X86_CR4_VMXE \
- 			  | X86_CR4_SMAP | X86_CR4_PKE | X86_CR4_UMIP \
--			  | X86_CR4_LAM_SUP | X86_CR4_CET))
-+			  | X86_CR4_LAM_SUP | X86_CR4_CET | X86_CR4_FRED))
+diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
+index 7b9e306c359d..7fe95a601c9f 100644
+--- a/arch/x86/kvm/vmx/capabilities.h
++++ b/arch/x86/kvm/vmx/capabilities.h
+@@ -408,6 +408,16 @@ static inline bool vmx_pebs_supported(void)
+ 	return boot_cpu_has(X86_FEATURE_PEBS) && kvm_pmu_cap.pebs_ept;
+ }
  
- #define CR8_RESERVED_BITS (~(unsigned long)X86_CR8_TPR)
++static inline bool cpu_has_vmx_fred(void)
++{
++	/*
++	 * setup_vmcs_config() guarantees FRED VM-entry/exit controls
++	 * are either all set or none.  So, no need to check FRED VM-exit
++	 * controls.
++	 */
++	return (vmcs_config.vmentry_ctrl & VM_ENTRY_LOAD_IA32_FRED);
++}
++
+ static inline bool cpu_has_notify_vmexit(void)
+ {
+ 	return vmcs_config.cpu_based_2nd_exec_ctrl &
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 3b5e2805a06d..c8b95c215869 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -7993,6 +7993,9 @@ static __init void vmx_set_cpu_caps(void)
+ 		kvm_cpu_cap_check_and_set(X86_FEATURE_DTES64);
+ 	}
  
-diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
-index 685eb710b1f2..c9f010862b2a 100644
---- a/arch/x86/kvm/x86.h
-+++ b/arch/x86/kvm/x86.h
-@@ -688,6 +688,8 @@ static inline bool __kvm_is_valid_cr4(struct kvm_vcpu *vcpu, unsigned long cr4)
- 	if (!__cpu_has(__c, X86_FEATURE_SHSTK) &&       \
- 	    !__cpu_has(__c, X86_FEATURE_IBT))           \
- 		__reserved_bits |= X86_CR4_CET;         \
-+	if (!__cpu_has(__c, X86_FEATURE_FRED))          \
-+		__reserved_bits |= X86_CR4_FRED;        \
- 	__reserved_bits;                                \
- })
- 
++	if (!cpu_has_vmx_fred())
++		kvm_cpu_cap_clear(X86_FEATURE_FRED);
++
+ 	if (!enable_pmu)
+ 		kvm_cpu_cap_clear(X86_FEATURE_PDCM);
+ 	kvm_caps.supported_perf_cap = vmx_get_perf_capabilities();
 -- 
 2.50.1
 
