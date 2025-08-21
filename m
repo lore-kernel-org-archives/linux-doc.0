@@ -1,161 +1,177 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2046.outbound.protection.outlook.com [40.107.223.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DE32F28FA
-	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 10:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755771370; cv=none; b=MS94cImiwgktZy2KbY4qpn2WNEk1dH+jRXoU3+0lczGoU9scKi4gx3Opv0z4OyMdxgfoMDBuz0GZ4JciWAd/VXHFRRZt7T2ZO58wUOMVVHrWKqdsoy5e1d1+H+td/tHn7B8L5pQ06TwSGzUV/lA7o4c7zN710+qb1nRl3Sqx0gA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755771370; c=relaxed/simple;
-	bh=GBwCNdsSPTgkl6+MZ/58UzFmAiMnptb1wekxJ049+9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GeLi/w7w76FBeiB9gmYnmFAwhXZ1zqIVYzegF6H9G8LtBr9O58yuTToFNK+0cq+ovqI/DVw5wZLkFtRIzMYMMGNON9CFaW1lcQ5kJ0jp9HgCmBZxGwCD7EOxJYTxGcpHBd/GroqEVe3vc0me+2+kGmoHvhvJpyVHJ+KxsmIEq00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1up2Kk-0001Yg-Jm; Thu, 21 Aug 2025 12:15:50 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1up2Ki-001OYX-0t;
-	Thu, 21 Aug 2025 12:15:48 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1up2Ki-00805O-0T;
-	Thu, 21 Aug 2025 12:15:48 +0200
-Date: Thu, 21 Aug 2025 12:15:48 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
-	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
-Subject: Re: [PATCH net-next v4 2/5] ethtool: netlink: add
- ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-Message-ID: <aKbx1EoO0iWe2bMU@pengutronix.de>
-References: <20250821091101.1979201-1-o.rempel@pengutronix.de>
- <20250821091101.1979201-3-o.rempel@pengutronix.de>
- <20250821115830.3a231885@kmaincent-XPS-13-7390>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EC517A2F6;
+	Thu, 21 Aug 2025 10:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755772256; cv=fail; b=W646EPSIrm3k8LxpVluUobt58wlPDehYFHWx4HmS0QZ1GvcO3eIJkmaNfQqD09CNUfXTDsQSVgaBrGZcQ/vt3e25TcnKbXlC9/p0tPG9hiLRfucvxxQtLwlKX5p0RjWPd2zHrVq4uSIk8L+azToYAXTxrbXd/kBkBVEVnf1m2Jc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755772256; c=relaxed/simple;
+	bh=59+uE9LbnxRbHPOcJnxqrwFFLzbC/MmOOb3LCplrQJs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Ya7aXgSiWF9EcYlAoL/evn0XUgVqVcZY7eRQS1BVuytPmk4NaubJnvnlZfdCSKeT0M3C4X4nn9MOaBvUUxZvRuFyc6VkuFGw2ukLdsWXoxlBkMG0FL04BNnRukyrrcfhQWzxc0FJD2sc4mEaDxSgYILrt2vr5jeAUVfwHg1rHDQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2hX44oDb; arc=fail smtp.client-ip=40.107.223.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2hX44oDb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kA0lTiQa4a+39aZPU9Xuo4ojDs5QRw5/Iw+7eBblrP1nAamH41Iu+2fZEJXSKWTBWRXrzLJPEiO1FWzyTh6/jhLOim0aFsQmhNM4HdKdKgoMNp5490J4qgChrFqbOAFhWzp01VpdJ943Fnxt3+yM+Vm9yuapJP1gIs8UbsJ0Bfsj4qvH10xG6QFS1E9gHFlHVDkY8tqsEXYj81ma73ltw7HRn/cJvLA/FD7k8QAsOevd75WfnvfWdONnNSfgtauefa4b3+bcgY5GeNRLQCknjT+rKocyyP02fQxCZtyiUz4DeDB9paBl8bVKKUSOuiR3GqSEx8aJF9ob9K3E/Lc60Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HpDzRj6Ok3bJUhOf2ZTh4l6Oy56Mv9CYzxBZieCO9aE=;
+ b=sj1LnsbIC/NNah60YzmW9725TscX7/f24bWhOk3sjKZ7RMTw6fNy3n33KZNIn9816F1Ub+oeAJfHwp0ia5Y0GCfLcQlVTsc12v8MdOLu0PLmOO7Xts6xdcYIWNORbBdxVFlSQ1Qb37gEDmDKik9s58IiTVYZ/HqtwZ8J5vUPWKcr8V4xt7mkgJUenu+wHqOqMROTVLkMkOilOaMDX9ROZK9QV+imbI81b357Rc9bYB/iS/WKeWTntuEfQU9vh5QTL/1InDz6wkXP6isjnWKp0lGrv97oMZAfleb8058d/5MQEcJbNerIHGjHC6YwVHw+V5bhH8Skd7IlOQ/vyZzjaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=infradead.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HpDzRj6Ok3bJUhOf2ZTh4l6Oy56Mv9CYzxBZieCO9aE=;
+ b=2hX44oDbBtbJUVUiv/8ViuL1Ej5ds4dGRFy51zVhLxH/bSM6t+6tepjWbg72oXnLqkkFFp74jYTVDKsw0id0TdwMYaZ13m28olJ+LEBQNE8yguINnye2sMMYnsQm03qeeMbQma04w5yQKLf0H4jgLhWyj9wozYxMrdZb1k38ojg=
+Received: from BN0PR08CA0030.namprd08.prod.outlook.com (2603:10b6:408:142::9)
+ by DS0PR12MB6464.namprd12.prod.outlook.com (2603:10b6:8:c4::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9052.14; Thu, 21 Aug 2025 10:30:53 +0000
+Received: from BN1PEPF00006002.namprd05.prod.outlook.com
+ (2603:10b6:408:142:cafe::91) by BN0PR08CA0030.outlook.office365.com
+ (2603:10b6:408:142::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.16 via Frontend Transport; Thu,
+ 21 Aug 2025 10:30:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN1PEPF00006002.mail.protection.outlook.com (10.167.243.234) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9052.8 via Frontend Transport; Thu, 21 Aug 2025 10:30:52 +0000
+Received: from [10.236.30.53] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Aug
+ 2025 05:30:51 -0500
+Message-ID: <922eaff1-b2dc-447c-9b9c-ac1281ee000d@amd.com>
+Date: Thu, 21 Aug 2025 05:30:45 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250821115830.3a231885@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/2] KVM: SEV: Add SEV-SNP CipherTextHiding support
+To: "Kalra, Ashish" <ashish.kalra@amd.com>, Randy Dunlap
+	<rdunlap@infradead.org>, <corbet@lwn.net>, <seanjc@google.com>,
+	<pbonzini@redhat.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	<hpa@zytor.com>, <thomas.lendacky@amd.com>, <herbert@gondor.apana.org>
+CC: <akpm@linux-foundation.org>, <rostedt@goodmis.org>, <paulmck@kernel.org>,
+	<michael.roth@amd.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
+References: <cover.1755721927.git.ashish.kalra@amd.com>
+ <95abc49edfde36d4fb791570ea2a4be6ad95fd0d.1755721927.git.ashish.kalra@amd.com>
+ <5dff05c1-474e-4fff-a19b-7c17b4db6173@infradead.org>
+ <7eed1970-4e7d-4b3a-a3c1-198b0a6521d5@amd.com>
+From: Kim Phillips <kim.phillips@amd.com>
+Content-Language: en-US
+In-Reply-To: <7eed1970-4e7d-4b3a-a3c1-198b0a6521d5@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00006002:EE_|DS0PR12MB6464:EE_
+X-MS-Office365-Filtering-Correlation-Id: 16071f50-c6a5-4a29-9fd1-08dde09dcdf5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|7416014|376014|82310400026|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OWJBRkMxdlIvQ25pLzlyaFJyUjU1aEhDWGNyY0ZRWDE2Rk1JY0Z2VHhTZVR0?=
+ =?utf-8?B?ZlZXVzlxdzF1a0o3cWVEZ2NLR3hRYkYyN2g3RVVueHV4UUlUeWJFYmowNCt6?=
+ =?utf-8?B?VzZlZ1F0MHU1VmR4MEwzQzM0NC9uLzQ0dXRrTU5tNVJIanBWRmg3WHpvKzFs?=
+ =?utf-8?B?cDZCTEtXNnQ1aGJld0t5dzgyaS9TOFBLUFQ2dHhtYnBOQmZqTXBLUTFxbU5K?=
+ =?utf-8?B?VUZnWk5nNE1xTEwzNktiaG93U0NOUlRiSWczTndlSFFzb3I1MUpBK1EzNEZZ?=
+ =?utf-8?B?bjRWZCtRejdRWUpvUDJSdGJ5Mm5KaDJJK1QxOEdYNURhZWdEQ2tPZGNsa3d6?=
+ =?utf-8?B?aFdGbVpvWFRSWjRYTFU4TU1sZmptS0hjWVcrOFc2R3gvaXZMak5yUDN3UjlN?=
+ =?utf-8?B?UEVhcnVtS3JSVDd3NnVGSlBqbC84M09vMUhkd1pyWEFWZFkraWhMTGxpVnRP?=
+ =?utf-8?B?NWk3aWhNQmhwRXFnZFU5TXBaQnBQQVRxdFBkZW5IYXhERWtMWjh5a05EM3dk?=
+ =?utf-8?B?a3FHV2JoUzhvRjhQRXBTYlRuVkx4WHNkQXhmWlErZkkwelEyRWsvRjJDWG82?=
+ =?utf-8?B?L29EMSt3Z2pra3N2WHQyRjdzODk2L2t6d0FrS3Q2ZWFpTEtMbnM5SHk0YUUy?=
+ =?utf-8?B?bnBSYmJYZUVrOWVUUi9vUjFEYll5VkdlU2g4aVppN1BGOWVnOVNoUjJONStY?=
+ =?utf-8?B?V2dEV0dlaWdNM1MwQnVHeEpSVkx4czRBM0U3SWRJUHVFMUpMSU5RWjB1Yll6?=
+ =?utf-8?B?Y25mOTByRUlwM0pGUVVMUjNDT3ZaSzNObFpWODNRVjZIeHRGQkQ2TTdUOFVE?=
+ =?utf-8?B?cU1zcDB1ZGVPdEREcEVVVW9CZEpvOERBTEw4WVRCVWlDN05xRkR0bTZKald3?=
+ =?utf-8?B?a2lxU2JoenZySGlXaXJKVEE3MUovcGkzQ3cva01QRm5lU0NncUxadHBkYW9B?=
+ =?utf-8?B?VktTTXY3NW8ybk5rbnk4ZjBSTHNqMDVjTWxNb3VBdW5KNHN0YllpU3VsaDdQ?=
+ =?utf-8?B?VnhlUDVqK3FFcUo1ZjFxSk9RcGxUWWpIc2tQOWRoT2hZVWlpc0hSREkyRXZm?=
+ =?utf-8?B?V05DangvZHQ4Z1IvMy9YMWYyNEM4UGJDeHg3TU9QRFVoYW1ZTHRINTVzcjE0?=
+ =?utf-8?B?eldrZExFSXFVVkc5WFBKdWhVZFQ2UTkxakxIcklmaERjNXYzaGhNdWg0STFj?=
+ =?utf-8?B?b29KTFdkVzgvQjdZRUdpVUpWT2RweEZwYmRDMy91Z1o4THd2YnZFVU5zbDVz?=
+ =?utf-8?B?bGJHTUZYRFN3QS96SmErRHk0M2VidFB6c3JCbWRUTUZETXhlNHBaU0F3MTVN?=
+ =?utf-8?B?T2lJZW9wWXlTUTdRTEdUWTk2SE1yWFUxYjhNeHVheXVrK0VTYmRxTTBxUXBa?=
+ =?utf-8?B?cy9TeUd5L1hPYnFKcFBlZWd6cHluNmlONVVDQ21qdHlzd1NxRUVlelBzNWZi?=
+ =?utf-8?B?Wkd6S3BDMXVNSU1rbytGQzhkblNOaU0rTFhveWNXVk40VmJGMDVWUXBSSkln?=
+ =?utf-8?B?N2VOWkRSb3kwYXRIVVhqM2J1RzA4cGNzT3oveFJuMWpreEtJaU52S2lWTG10?=
+ =?utf-8?B?c3hYNUtaWDQ1eFZhT1dlVGFZR2crQUxaY1kxUlRLbEFMOHp6aUo3UlE2VE9p?=
+ =?utf-8?B?cytUYmhwMVZsek1WRlhCV1VwRGdjc2hUcEJ4Z1J3ZUtvenRJcUYrcmd2ZWd0?=
+ =?utf-8?B?MWcrUHRXenBLdzRmOFBpZHZtd212MDYrNGw3WUlSTjYrV2RpN29ESktpYko4?=
+ =?utf-8?B?UmRwYzJqV0xtMlh0aHZZelJIZVl0UUF6MUhsM0xYOFM4NFhVMjZqQmlUaTR3?=
+ =?utf-8?B?RkV1alY2RUJzeUF2T0JLK25sNmlpb3BjODZiY3dKM2YzSXd0MENxbVlVdzlG?=
+ =?utf-8?B?WG9DaDQ5OEN5am9rWm9IcllJL1dFWThQZzhYTW1EWGRadTFaWWJ1Vm05L0JE?=
+ =?utf-8?B?ZkxWcjZQR000emM0Skg0bEduOGlxRWFORm5xY0s3bjBrVW5NaytjZVhHNVYv?=
+ =?utf-8?B?Rmhsa21XSXNnU2dIcXQrZGtSODFVbkVhNnl0c252M2MxWDFJQUE2OEZTVmdI?=
+ =?utf-8?B?cHZMdXdUbmZ1enRENDlvaGlMNVhORHdnaXptZz09?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(7416014)(376014)(82310400026)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 10:30:52.5967
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16071f50-c6a5-4a29-9fd1-08dde09dcdf5
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00006002.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6464
 
-Hello Kory,
+On 8/20/25 6:23 PM, Kalra, Ashish wrote:
+> On 8/20/2025 5:45 PM, Randy Dunlap wrote:
+>> On 8/20/25 1:50 PM, Ashish Kalra wrote:
+>>> @@ -3064,10 +3070,32 @@ void __init sev_hardware_setup(void)
+>>>   out:
+>>>   	if (sev_enabled) {
+>>>   		init_args.probe = true;
+>>> +
+>>> +		if (sev_is_snp_ciphertext_hiding_supported())
+>>> +			init_args.max_snp_asid = min(nr_ciphertext_hiding_asids,
+>>> +						     min_sev_asid - 1);
+>>> +
+>>>   		if (sev_platform_init(&init_args))
+>>>   			sev_supported = sev_es_supported = sev_snp_supported = false;
+>>>   		else if (sev_snp_supported)
+>>>   			sev_snp_supported = is_sev_snp_initialized();
+>>> +
+>>> +		if (sev_snp_supported)
+>>> +			nr_ciphertext_hiding_asids = init_args.max_snp_asid;
+>>> +
+>>> +		/*
+>>> +		 * If ciphertext hiding is enabled, the joint SEV-ES/SEV-SNP
+>>> +		 * ASID range is partitioned into separate SEV-ES and SEV-SNP
+>>> +		 * ASID ranges, with the SEV-SNP range being [1..max_snp_asid]
+>>> +		 * and the SEV-ES range being [max_snp_asid..max_sev_es_asid].
+>> 		                              [max_snp_asid + 1..max_sev_es_asid]
+>> ?
+> Yes.
 
-On Thu, Aug 21, 2025 at 11:59:14AM +0200, Kory Maincent wrote:
-> Hello Oleksij,
-> 
-> Le Thu, 21 Aug 2025 11:10:58 +0200,
-> Oleksij Rempel <o.rempel@pengutronix.de> a écrit :
-> 
-> > Introduce the userspace entry point for PHY MSE diagnostics via
-> > ethtool netlink. This exposes the core API added previously and
-> > returns both configuration and one or more snapshots.
-> > 
-> > Userspace sends ETHTOOL_MSG_MSE_GET with an optional channel
-> > selector. The reply carries:
-> >   - ETHTOOL_A_MSE_CONFIG: scale limits, timing, and supported
-> >     capability bitmask
-> >   - ETHTOOL_A_MSE_SNAPSHOT+: one or more snapshots, each tagged
-> >     with the selected channel
-> > 
-> > If no channel is requested, the kernel returns snapshots for all
-> > supported selectors (per‑channel if available, otherwise WORST,
-> > otherwise LINK). Requests for unsupported selectors fail with
-> > -EOPNOTSUPP; link down returns -ENOLINK.
-> > 
-> > Changes:
-> >   - YAML: add attribute sets (mse, mse-config, mse-snapshot) and
-> >     the mse-get operation
-> >   - UAPI (generated): add ETHTOOL_A_MSE_* enums and message IDs,
-> >     ETHTOOL_MSG_MSE_GET/REPLY
-> >   - ethtool core: add net/ethtool/mse.c implementing the request,
-> >     register genl op, and hook into ethnl dispatch
-> >   - docs: document MSE_GET in ethtool-netlink.rst
-> > 
-> > The include/uapi/linux/ethtool_netlink_generated.h is generated
-> > from Documentation/netlink/specs/ethtool.yaml.
-> > 
-> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> 
-> ...
-> 
-> > +MSE Configuration
-> > +-----------------
-> > +
-> > +This nested attribute contains the full configuration properties for the MSE
-> > +measurements
-> > +
-> > +  ===============================================  ======
-> > ====================
-> > +  ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE             u32     max avg_mse scale
-> > +  ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE                u32     max peak_mse scale
-> > +  ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS             u64     sample rate (ps)
-> > +  ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS                 u64     symbols per sample
-> > +  ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS              bitset  capability bitmask
-> > +  ===============================================  ======
-> > ==================== +
-> 
-> Why did you remove the kernel doc identifiers to phy_mse_config?
-> It was useful for the documentation.
-> 
-> > +MSE Snapshot
-> > +------------
-> > +
-> > +This nested attribute contains an atomic snapshot of MSE values for a
-> > specific +channel or for the link as a whole.
-> > +
-> > +  ===============================================  ======
-> > ======================
-> > +  ETHTOOL_A_MSE_SNAPSHOT_CHANNEL                   u32     channel enum value
-> > +  ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE               u32     average MSE value
-> > +  ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE                  u32     current peak MSE
-> > +  ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE            u32     worst-case peak
-> > MSE
-> > +  ===============================================  ======
-> 
-> Same question here for phy_mse_snapshot.
+So why wouldn't you have left Sean's original 
+"(max_snp_asid..max_sev_es_asid]" as-is?
 
-I had following warnings:
-Documentation/networking/ethtool-netlink:2499: ./include/linux/phy.h:3: WARNING: Duplicate C declaration, also defined at kapi:892. 
-Declaration is '.. c:struct:: phy_mse_config'. 
-Documentation/networking/ethtool-netlink:2515: ./include/linux/phy.h:3: WARNING: Duplicate C declaration, also defined at kapi:915.
-Declaration is '.. c:struct:: phy_mse_snapshot'
+Kim
 
-I didn't found proper was to solve it, so I removed them.
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
