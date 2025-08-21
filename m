@@ -1,28 +1,28 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509633F9D2;
-	Thu, 21 Aug 2025 01:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0770E5FEE6;
+	Thu, 21 Aug 2025 01:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755739880; cv=none; b=e6m8RphoYtl5tiyGB8i7aNl+zYLzfhzXLmiPDtkTaXZclw1GKH45f5b6nRDmx7s5/pfZKh9/ZsCu6i5PuJzet2C1S1iIqQIizdUCd10F8I4a2iX4ylSG9s3UhoHczyOQ659FO1iB11WiBjz8mB7NlaGLPpjUQLnCTd5U2w8YrBE=
+	t=1755740744; cv=none; b=RljBiRvkMWnIY+bNSGqKxnAn7HwUvCsymscAJtKexbZze/UIDoiWZxn2vV59A46U6m+DFyYCqdLZ/0gHJtTr07ZbOXgxsw/OTOLjqiGXAuVtHEaogmNidKNKcdIjGlNa0KnBCZBFmwDpUs4wUs6KVdRRwI5x8o+Uh2PZUmZCrrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755739880; c=relaxed/simple;
-	bh=vSYcJ0aHEHWUirTFp5oX8P5I3M5GKhP0AGzOqF/u6Wo=;
+	s=arc-20240116; t=1755740744; c=relaxed/simple;
+	bh=/spv7jWo69UbbuIZnbqkbS+7Kk/f7i+A+U1mM8kITus=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fNc815pTS3JtxliIhCBFHmERzylfInNOInE6q7TWftXTLxVZ+E2NkhoFoCEwIZaGU5vckQYJ00y0VV35jsCA6BJ8Otd0ck7/Z2A/7KH6Ykj+cHlfwZCV0GnyRhVxQtDiWgnl4msLNfOSfx3664pxaLyJyHjA3Yd7Jcati2a7F/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mwz2Cm7bYBjhrbuASHplkm6Ck/dQRw+qOKJ2Q6kO+E6eCWF9VCYGOF0dOrfm61tysUQbXrOKQNJyS37yOfDurhMd19kudaGs5LDcpdx+4g0Gb6h/lIeNVIx0JSjNPvkjcn1jZQ01tbwUcWwirSPZZaP40/aaTIn70uqPIqyFGcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz18t1755739791t57bdd104
-X-QQ-Originating-IP: AHknXJ7UDHE8zUvEpK7b2spqug7488n8a6smgTHyaQw=
+X-QQ-mid: esmtpgz16t1755740653t744f92ac
+X-QQ-Originating-IP: sSkp9uld1sPBcAjgjwrJDFdHIEDs46stzol3q4J49GU=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 21 Aug 2025 09:29:49 +0800 (CST)
+	id ; Thu, 21 Aug 2025 09:44:11 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3096026230268940680
-Date: Thu, 21 Aug 2025 09:29:49 +0800
+X-BIZMAIL-ID: 11662485468357027338
+Date: Thu, 21 Aug 2025 09:44:11 +0800
 From: Yibo Dong <dong100@mucse.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
@@ -34,11 +34,11 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/5] net: rnpgbe: Add build support for rnpgbe
-Message-ID: <8DE9B7420E7CCA57+20250821012949.GA1742451@nic-Precision-5820-Tower>
+Subject: Re: [PATCH v5 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <6981CF6C1312658E+20250821014411.GB1742451@nic-Precision-5820-Tower>
 References: <20250818112856.1446278-1-dong100@mucse.com>
- <20250818112856.1446278-2-dong100@mucse.com>
- <7696f764-7046-4967-813e-5a14557b9711@lunn.ch>
+ <20250818112856.1446278-4-dong100@mucse.com>
+ <5cced097-52db-41c9-93e4-927aab5ffb2e@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,70 +47,123 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7696f764-7046-4967-813e-5a14557b9711@lunn.ch>
+In-Reply-To: <5cced097-52db-41c9-93e4-927aab5ffb2e@lunn.ch>
 X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MC2LmCE9YcPx8m4m2xUMBhfqWynfml5xxmbpjMWh1MGhEilwEES/Sp7R
-	yJuCLKOaLzeQW/0mvUJKyYH0WuUlIMB22whrn0+CD7zpr8tSZMtKqH4qs/q4Glue1KO+q36
-	ysYo0fkJejoJBo1AgJoTlmAojAZ35qIdQn+4BWkrlQm+ilypXRQBY404Zh0v6bqXWp6wFth
-	bhMwsTfNbuK2sz4G/tQMBUSX6/Cac+9hem/Ba5OyJTGYP7Bwr3wi83NijA0/LTHWIjgo+LX
-	sgWBNMGjnt6FvzcYQAC7mfkzX7NN6MWQu2ejIOJ8NSfM7wZbQxh8erxUnE88p8s/qSucnKY
-	kUcePPPRy7zLaZRrEMBQXJ9ZGa53opZMYarQxbgH1Hw1pxHB5kFqMbVSzs2RA1KrudUDWR/
-	uqZgHSOEzkNCB/hbMmW5j9XCz6x42SQ26XQNzoMzEYuHCcdW8KzsD4n7ZogocI+OTnOEzWO
-	9jRbLDOKcRc1rzsywm5Z8nqlYezsNC/wzzIHS4WjjupKPMNcHfzlog8TcjbCT6Uf7Von03m
-	g+UPEfYnYYeL61GJaS8dohRXlFOcb+9DWqF/Q6lkWYOQGn7c7ev41APhJiOY4M853B2rPfY
-	ZFm4euVTtRaz24snpos7A32ovFUYR1rdwKUyRsG2x3k4hBBfN7DJyLU7y0pyxYsesgsUESE
-	4f2Rz4wWxclywgqvZauCltzNg5k8AgpHy/H0UX7VdxWFAsiu3yt0MvlJx7dvhKYlu9B4EGw
-	KKiOquYHZWTEVz0RAdSuB9BnV2ANiL9HP8n6dCZPJPflhiGIJ8vuvyVsg0gePJ7Hj+dcxOA
-	acr8/rjy6MsvwF1f6Xtl6jdmB4q4NtyfoFimDBnn+kEPVWoMPrVHenUlNRRnhYVSoRpcO2H
-	FRpe83IUJcY4CydOnRIb3QDg3jwvQwKUS1exUnT2md/MIFpHFjp0ZkYeVvERb++COuYPzu0
-	WnMTQ6/aURgakgavo/2oFOerPvOtCAkDrhnAecdIvn9NdI5V9llgAET0xa6ildmiQBtg=
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: Nc4Sv39/e83WJDUNsElZp8KdUH0jeXE/sPOeNjm+0sZ/xAW2aIY6Utqj
+	bD8E8tE7jmtG3oCw8CqmFW4WWTpYxJntUgesWl/czFrN1uFdNgT+hLJ3/Idkn9Rr7EE2oAf
+	lS9lfAKN7wo3e/p/0opR/IUK2QE0kGkbWkO3vBn9tyM1zxFzqtMO5lbki3pl6sVX0Kbf1Cw
+	TtrQrvI3Daeey0Ku5zP2HXoDL4UrFbR8VPiygep0I8lqIgbz9hMrMPS4bLmehxx6MV2w8qA
+	XOrJSmZl+8vMMVAO1m4rOlnqBMk1iELATjeY2tz6ZWCRV0lVcJPOO7IGATP0+Bm8MDqBlCn
+	rXsX5UZTDrnTAvZ6gPm5bAFIP+Y8AJ3vB8f8+qCcRVt6ekbmks6Ymo1MkQ7G92XrmVG3TxZ
+	63XbjELWKxCMAJdDVHdE0qfhlNr9/wL+Zq+0GvaOY0oxEhwxPMewNVOGZHl7zMwbv8eikk1
+	sovBbNJ18xBtor3jogRhryJn4W5UcXO4Z2mKoHcxfY5B4xjSy0I3Vs5tq/rhkl7aCAWirxa
+	N10sUyWviZmlMErVVbpWDxtqlnhfYxl2ZXdoZ7hCqA3cmk8Gq9W6vYVlAtE7yjyg7laz0Uo
+	Jpa6WKnQEmY6oI/aFsAW6rnhaRHDa+XJc8AbLZ5zuXlbb1wqmgz3pWWa5lXPjEI13n4fGit
+	ONsbRaS9huoA/uzgg2K1eADgiQl4gP/YY4jmc7MNlGWWek7l+XmTAtQYLo3ewy9kV7gYNl8
+	lAbO+Uwe4BycVFt7LPLNrZ1l5gWpamt/aH9UwuFHRVN8NOyX3EJhxW2JCZb20AhNBLdXfzu
+	clzLy2S2YNpYxJMrsz8kJZ0rjogqzvbeRgCvIGHOKA/MQ6j76sWrwwm0qxJQ4qjHDm7XnRO
+	xX00g0NpicOKB8a6dbNBKaveWQGit3KoHSfwTKilciQCOxgfMcnwMsmutEJkchgONcZoQJ9
+	LUZFBQUyGglDQ+M0aOU50g2lri7SnVrPCKDQPahsQOhbmIKxQFFCTPU19mpZkeYITVIwnL+
+	e6Ssq7M8sU4qXZ5GXk7O4Zl5KlsJI=
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
 X-QQ-RECHKSPAM: 0
 
-On Wed, Aug 20, 2025 at 10:06:00PM +0200, Andrew Lunn wrote:
+On Wed, Aug 20, 2025 at 10:23:44PM +0200, Andrew Lunn wrote:
 > > +/**
-> > + * rnpgbe_init_module - Driver init routine
+> > + * mucse_mbx_get_ack - Read ack from reg
+> > + * @mbx: pointer to the MBX structure
+> > + * @reg: register to read
 > > + *
-> > + * rnpgbe_init_module is called when driver insmod
+> > + * @return: the ack value
+> > + **/
+> > +static u16 mucse_mbx_get_ack(struct mucse_mbx_info *mbx, int reg)
+> > +{
+> > +	return (mbx_data_rd32(mbx, reg) >> 16);
+> > +}
+> 
+> > +static int mucse_check_for_ack_pf(struct mucse_hw *hw)
+> > +{
+> > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > +	u16 hw_fw_ack;
+> > +
+> > +	hw_fw_ack = mucse_mbx_get_ack(mbx, MBX_FW2PF_COUNTER);
+> 
+> > +int mucse_write_mbx_pf(struct mucse_hw *hw, u32 *msg, u16 size)
+> > +{
+> > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > +	int size_inwords = size / 4;
+> > +	u32 ctrl_reg;
+> > +	int ret;
+> > +	int i;
+> > +
+> > +	ctrl_reg = PF2FW_MBOX_CTRL(mbx);
+> > +	ret = mucse_obtain_mbx_lock_pf(hw);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	for (i = 0; i < size_inwords; i++)
+> > +		mbx_data_wr32(mbx, MBX_FW_PF_SHM_DATA + i * 4, msg[i]);
+> > +
+> > +	/* flush msg and acks as we are overwriting the message buffer */
+> > +	hw->mbx.fw_ack = mucse_mbx_get_ack(mbx, MBX_FW2PF_COUNTER);
+> 
+> It seems like the ACK is always at MBX_FW2PF_COUNTER. So why pass it
+> to mucse_mbx_get_ack()? Please look at your other getters and setters.
+> 
+
+'mucse_mbx_get_ack' is always at MBX_FW2PF_COUNTER now, just for pf-fw mbx. 
+But, in the future, there will be pf-vf mbx with different input.
+Should I move 'MBX_FW2PF_COUNTER' to function 'mucse_mbx_get_ack', and
+update the function when I add vf relative code in the future?
+
+> > +/**
+> > + * mucse_write_mbx - Write a message to the mailbox
+> > + * @hw: pointer to the HW structure
+> > + * @msg: the message buffer
+> > + * @size: length of buffer
 > > + *
 > > + * @return: 0 on success, negative on failure
 > > + **/
-> > +static int __init rnpgbe_init_module(void)
+> > +int mucse_write_mbx(struct mucse_hw *hw, u32 *msg, u16 size)
 > > +{
-> > +	return pci_register_driver(&rnpgbe_driver);
+> > +	return mucse_write_mbx_pf(hw, msg, size);
 > > +}
-> > +
-> > +module_init(rnpgbe_init_module);
+> 
+> This function does not do anything useful. Why not call
+> mucse_write_mbx_pf() directly?
+> 
+
+Yes, I should call it directly. 
+
+> > +/**
+> > + * mucse_check_for_msg - Check to see if fw sent us mail
+> > + * @hw: pointer to the HW structure
+> > + *
+> > + * @return: 0 on success, negative on failure
+> > + **/
+> > +int mucse_check_for_msg(struct mucse_hw *hw)
+> > +{
+> > +	return mucse_check_for_msg_pf(hw);
+> > +}
 > > +
 > > +/**
-> > + * rnpgbe_exit_module - Driver remove routine
+> > + * mucse_check_for_ack - Check to see if fw sent us ACK
+> > + * @hw: pointer to the HW structure
 > > + *
-> > + * rnpgbe_exit_module is called when driver is removed
+> > + * @return: 0 on success, negative on failure
 > > + **/
-> > +static void __exit rnpgbe_exit_module(void)
+> > +int mucse_check_for_ack(struct mucse_hw *hw)
 > > +{
-> > +	pci_unregister_driver(&rnpgbe_driver);
+> > +	return mucse_check_for_ack_pf(hw);
 > > +}
-> > +
-> > +module_exit(rnpgbe_exit_module);
 > 
-> This can be replaced by module_pci_driver()
-> 
+> These as well.
 
-Ok, I will improve it.
-By the way, if I want to add some functions(maybe workqueue to handle
-link status, or debugfs for the driver) in the future. The function is
-only one for driver, not each for every pci device, should I turn back to
-'module_exit' and 'module_init'?
-Maybe workqueue can use 'system_power_efficient_wq' just like libwx
-does? 
+Got it, I will update it.
 
 > 
->     Andrew
-> 
-> ---
-> pw-bot: cr
+> 	Andrew
 > 
 
 Thanks for your feedback.
