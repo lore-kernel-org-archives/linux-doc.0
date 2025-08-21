@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6172EF66F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E66D2EF673
 	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 09:11:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755767494; cv=none; b=hNoFCUCBg1XZgaSmreWSv4Cy1uynY9opUatRSspGNDnJHWWPruQp9acqAjlzr9j3MxB3kGyC17S3K0sWjqMST8FQFpNOeKdaqNIiudQbtUN0QCN9nhBA/NWB6icK63MlhLilwRiP/f1BcV3IZHpxGAZhS4WK2pC0s4AHylEygzU=
+	t=1755767495; cv=none; b=Wc0cnqNg6L6Zie8wdjdq/6tPBNKDEnjpfVofyFkjGcW9OOg1U8kA6OmNq5EOmeEg0vdfwNa0rPbdItema5pmPcuH+2aEPaYZIdsUwMeX5TfJOqOPqNCb6b9iTpOth+9KTLzRuTC87rffvXqBlHvTQ53XfmBOgHjZzNgGN2kFsX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755767494; c=relaxed/simple;
-	bh=Ti9yK+DxmGjIMVGfu7+APd3GtTKKV9VpkLTQVUaSaio=;
+	s=arc-20240116; t=1755767495; c=relaxed/simple;
+	bh=BDQ9HEKEwXpOltALcc0Rk0geDvDulzrrf8YVsL8bVDw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=isRRvgz8VaS8H9NLMALJbj41ki01sgDFWbcwhFPl/C9YK2IlNuBeDyuWcHx1PtlXtyQgqExCmjEm1KN0PDf8paYoLUGRNaDQJQwYpHF0Mqz0ZFtAdMc5gTpfwn6cOlkIF9MofBnv9+47QyUguaxEqrxxsKMticCMmvntPydrwuI=
+	 MIME-Version:Content-Type; b=M2BYfMbrz4vnSDQCQ491pYcxo+leRM1x9Zn7MqtUUcHmgA8qkICnE4Loz79ALc91LpZI/wQ5LJixLiLm8vBbLpx8VFoF5gwWW7cHDTBB5XCYwDJZl1LWi06+BL7Jmqz8F7amo5PN/q23EuDEmzqpgtRKmCxA6/zXdbkxItPG+Gg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,16 +18,16 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1up1K4-0001Pv-32; Thu, 21 Aug 2025 11:11:04 +0200
+	id 1up1K4-0001Pk-33; Thu, 21 Aug 2025 11:11:04 +0200
 Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1up1K2-001O8A-1e;
+	id 1up1K2-001O88-1U;
 	Thu, 21 Aug 2025 11:11:02 +0200
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1up1K2-008ItZ-1M;
+	id 1up1K2-008ItF-1C;
 	Thu, 21 Aug 2025 11:11:02 +0200
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Andrew Lunn <andrew@lunn.ch>,
@@ -51,9 +51,9 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
 	linux-doc@vger.kernel.org,
 	Michal Kubecek <mkubecek@suse.cz>,
 	Roan van Dijk <roan@protonic.nl>
-Subject: [PATCH net-next v4 3/5] ethtool: netlink: add lightweight MSE reporting to LINKSTATE_GET
-Date: Thu, 21 Aug 2025 11:10:59 +0200
-Message-Id: <20250821091101.1979201-4-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v4 1/5] ethtool: introduce core UAPI and driver API for PHY MSE diagnostics
+Date: Thu, 21 Aug 2025 11:10:57 +0200
+Message-Id: <20250821091101.1979201-2-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250821091101.1979201-1-o.rempel@pengutronix.de>
 References: <20250821091101.1979201-1-o.rempel@pengutronix.de>
@@ -70,226 +70,347 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Extend ETHTOOL_MSG_LINKSTATE_GET to optionally return a simplified
-Mean Square Error (MSE) reading alongside existing link status fields.
+Add the base infrastructure for Mean Square Error (MSE) diagnostics,
+as proposed by the OPEN Alliance "Advanced diagnostic features for
+100BASE-T1 automotive Ethernet PHYs" [1] specification.
 
-The new attributes are:
-  - ETHTOOL_A_LINKSTATE_MSE_VALUE: current average MSE value
-  - ETHTOOL_A_LINKSTATE_MSE_MAX: scale limit for the reported value
-  - ETHTOOL_A_LINKSTATE_MSE_CHANNEL: source channel selector
+The OPEN Alliance spec defines only average MSE and average peak MSE
+over a fixed number of symbols. However, other PHYs, such as the
+KSZ9131, additionally expose a worst-peak MSE value latched since the
+last channel capture. This API accounts for such vendor extensions by
+adding a distinct capability bit and snapshot field.
 
-This path reuses the PHY MSE core API, but only retrieves a single
-value intended for quick link-health checks:
-  * If the PHY supports a WORST channel selector, report its current
-    average MSE.
-  * Otherwise, if LINK-wide measurements are supported, report those.
-  * If neither is available, omit the attributes.
+Channel-to-pair mapping is normally straightforward, but in some cases
+(e.g. 100BASE-TX with MDI-X resolution unknown) the mapping is ambiguous.
+If hardware does not expose MDI-X status, the exact pair cannot be
+determined. To avoid returning misleading per-channel data in this case,
+a LINK selector is defined for aggregate MSE measurements.
 
-Unlike the full MSE_GET interface, LINKSTATE_GET does not expose
-per-channel or peak/worst-peak values and incurs minimal overhead.
-Drivers that implement get_mse_config() / get_mse_snapshot() will
-automatically populate this data.
+All investigated devices differ in MSE configuration parameters, such
+as sample rate, number of analyzed symbols, and scaling factors.
+For example, the KSZ9131 uses different scaling for MSE and pMSE.
+To make this visible to userspace, scale limits and timing information
+are returned via get_mse_config().
 
-The intent is to provide tooling with a “fast path” health indicator
-without issuing a separate MSE_GET request, though the long-term
-overlap with the full interface may need reevaluation.
+Some PHYs sample very few symbols at high frequency (e.g. 2 µs update
+rate). To cover such cases and allow for future high-speed PHYs with
+even shorter intervals, the refresh rate is reported as u64 in
+picoseconds.
+
+This patch defines new UAPI enums for MSE capability flags and channel
+selectors in ethtool_netlink (generated from YAML), kernel-side
+`struct phy_mse_config` and `struct phy_mse_snapshot`, and new
+phy_driver ops:
+
+  - get_mse_config(): report supported capabilities, scaling, and
+    sampling parameters for the current link mode
+  - get_mse_snapshot(): retrieve a correlated set of MSE values from
+    the latest measurement window
+
+These definitions form the core API; no driver implements them yet.
+
+[1] <https://opensig.org/wp-content/uploads/2024/01/
+     Advanced_PHY_features_for_automotive_Ethernet_V1.0.pdf>
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Reviewed-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
-changes v3:
-- add missing yaml spec
+changes v4:
+- remove -ENETDOWN as expected error value for get_mse_config() and
+  get_mse_snapshot()
+- fix htmldocs builds
 ---
- Documentation/netlink/specs/ethtool.yaml      |  9 ++
- Documentation/networking/ethtool-netlink.rst  |  9 ++
- .../uapi/linux/ethtool_netlink_generated.h    |  3 +
- net/ethtool/linkstate.c                       | 84 +++++++++++++++++++
- 4 files changed, 105 insertions(+)
+ Documentation/netlink/specs/ethtool.yaml      |  78 ++++++++++++
+ include/linux/phy.h                           | 115 ++++++++++++++++++
+ .../uapi/linux/ethtool_netlink_generated.h    |  54 ++++++++
+ 3 files changed, 247 insertions(+)
 
 diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
-index d69dd3fb534b..3f1f19c9c18a 100644
+index 13d8dcfa8dc5..969477f50d84 100644
 --- a/Documentation/netlink/specs/ethtool.yaml
 +++ b/Documentation/netlink/specs/ethtool.yaml
-@@ -708,6 +708,15 @@ attribute-sets:
-       -
-         name: ext-down-cnt
-         type: u32
-+      -
-+        name: mse-value
-+        type: u32
-+      -
-+        name: mse-max
-+        type: u32
-+      -
-+        name: mse-channel
-+        type: u32
-   -
-     name: debug
-     attr-cnt-name: __ethtool-a-debug-cnt
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index 06d0563d311d..1271df21ea79 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -530,6 +530,9 @@ Kernel response contents:
-   ``ETHTOOL_A_LINKSTATE_EXT_STATE``     u8      link extended state
-   ``ETHTOOL_A_LINKSTATE_EXT_SUBSTATE``  u8      link extended substate
-   ``ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT``  u32     count of link down events
-+  ``ETHTOOL_A_LINKSTATE_MSE_VALUE``     u32     Current average MSE value
-+  ``ETHTOOL_A_LINKSTATE_MSE_MAX``       u32     Max scale for average MSE
-+  ``ETHTOOL_A_LINKSTATE_MSE_CHANNEL``   u32     Source of MSE value
-   ====================================  ======  ============================
+@@ -211,6 +211,84 @@ definitions:
+         name: discard
+         value: 31
  
- For most NIC drivers, the value of ``ETHTOOL_A_LINKSTATE_LINK`` returns
-@@ -541,6 +544,12 @@ optional values. ethtool core can provide either both
- ``ETHTOOL_A_LINKSTATE_EXT_STATE`` and ``ETHTOOL_A_LINKSTATE_EXT_SUBSTATE``,
- or only ``ETHTOOL_A_LINKSTATE_EXT_STATE``, or none of them.
- 
-+``ETHTOOL_A_LINKSTATE_MSE_VALUE`` and ``ETHTOOL_A_LINKSTATE_MSE_MAX`` are
-+optional values. The MSE value provided by this interface is a lightweight,
-+less detailed version for quick health checks. If only one channel is used, it
-+returns the current average MSE value. If multiple channels are supported, it
-+returns the current average MSE of the channel with the worst MSE.
++  -
++    name: phy-mse-capability
++    doc: |
++      Bitmask flags for MSE capabilities.
 +
- ``LINKSTATE_GET`` allows dump requests (kernel returns reply messages for all
- devices supporting the request).
++      These flags are used in the 'supported_caps' field of struct
++      phy_mse_config to indicate which measurement capabilities are supported
++      by the PHY hardware.
++    type: flags
++    name-prefix: phy-mse-cap-
++    entries:
++      -
++        name: avg
++        doc: Average MSE value is supported.
++      -
++        name: peak
++        doc: Current peak MSE value is supported.
++      -
++        name: worst-peak
++        doc: Worst-case peak MSE (latched high-water mark) is supported.
++      -
++        name: channel-a
++        doc: Diagnostics for Channel A are supported.
++      -
++        name: channel-b
++        doc: Diagnostics for Channel B are supported.
++      -
++        name: channel-c
++        doc: Diagnostics for Channel C are supported.
++      -
++        name: channel-d
++        doc: Diagnostics for Channel D are supported.
++      -
++        name: worst-channel
++        doc: |
++          Hardware or drivers can identify the single worst-performing channel
++          without needing to query each one individually.
++      -
++        name: link
++        doc: |
++          Hardware provides only a link-wide aggregate MSE or cannot map
++          the measurement to a specific channel/pair. Typical for media where
++          the MDI/MDI-X resolution or pair mapping is unknown (e.g. 100BASE-TX).
++
++  -
++    name: phy-mse-channel
++    doc: |
++      Identifiers for the 'channel' parameter used to select which diagnostic
++      data to retrieve.
++    type: enum
++    name-prefix: phy-mse-channel-
++    entries:
++      -
++        name: a
++        value: 0
++        doc: Request data for channel A.
++      -
++        name: b
++        doc: Request data for channel B.
++      -
++        name: c
++        doc: Request data for channel C.
++      -
++        name: d
++        doc: Request data for channel D.
++      -
++        name: link
++        doc: |
++          Request data for the link as a whole. Use when the PHY exposes only
++          a link-wide aggregate MSE or cannot attribute results to any single
++          channel/pair (e.g. 100BASE-TX with unknown MDI/MDI-X mapping).
++      -
++        name: worst
++        doc: |
++          Request data for the single worst-performing channel. This is a
++          convenience for PHYs or drivers that can identify the worst channel
++          in hardware.
++
+ attribute-sets:
+   -
+     name: header
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index 4c2b8b6e7187..2175f7572dad 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -893,6 +893,74 @@ struct phy_led {
  
+ #define to_phy_led(d) container_of(d, struct phy_led, led_cdev)
+ 
++/**
++ * struct phy_mse_config - Configuration for Mean Square Error (MSE) measurement
++ *
++ * Describes the MSE measurement capabilities for the current link mode. These
++ * properties are dynamic and may change when link settings are modified.
++ * Callers should re-query this configuration after any link state change to
++ * ensure they have the most up-to-date information.
++ *
++ * Callers should only request measurements for channels and types that are
++ * indicated as supported by the @supported_caps bitmask. If @supported_caps
++ * is 0, the device provides no MSE diagnostics, and driver operations should
++ * typically return -EOPNOTSUPP.
++ *
++ * Snapshot values for average and peak MSE can be normalized to a 0..1 ratio
++ * by dividing the raw snapshot by the corresponding @max_average_mse or
++ * @max_peak_mse value.
++ *
++ * @max_average_mse: The maximum value for an average MSE snapshot. This
++ *   defines the scale for the measurement. If the PHY_MSE_CAP_AVG capability is
++ *   supported, this value MUST be greater than 0.
++ * @max_peak_mse: The maximum value for a peak MSE snapshot. If either
++ *   PHY_MSE_CAP_PEAK or PHY_MSE_CAP_WORST_PEAK is supported, this value MUST
++ *   be greater than 0.
++ * @refresh_rate_ps: The typical interval, in picoseconds, between hardware
++ *   updates of the MSE values. This is an estimate, and callers should not
++ *   assume synchronous sampling.
++ * @num_symbols: The number of symbols aggregated per hardware sample to
++ *   calculate the MSE.
++ * @supported_caps: A bitmask of PHY_MSE_CAP_* values indicating which
++ *   measurement types (e.g., average, peak) and channels
++ *   (e.g., per-pair or link-wide) are supported.
++ */
++struct phy_mse_config {
++	u32 max_average_mse;
++	u32 max_peak_mse;
++	u64 refresh_rate_ps;
++	u64 num_symbols;
++	u32 supported_caps;
++};
++
++/**
++ * struct phy_mse_snapshot - A snapshot of Mean Square Error (MSE) diagnostics
++ *
++ * Holds a set of MSE diagnostic values that were all captured from a single
++ * measurement window.
++ *
++ * The @channel field is an input parameter specified by the caller. Drivers
++ * must validate the requested channel against the capabilities returned by
++ * get_mse_config(). If an unsupported channel is requested, the driver must
++ * return -EOPNOTSUPP and must not coerce the request to a different channel
++ * (e.g., changing a per-channel request to a link-wide one).
++ *
++ * @channel: Input: The requested channel for the measurement, which must
++ *   be one of the PHY_MSE_CHANNEL_* constants.
++ * @average_mse: The average MSE value over the measurement window.
++ * @peak_mse: The peak MSE value observed within the measurement window.
++ * @worst_peak_mse: A latched high-water mark of the peak MSE. This value
++ *   represents the worst (highest) peak seen since this field
++ *   was last read. It MUST be cleared by the driver or hardware
++ *   upon reading (i.e., it has read-to-clear semantics).
++ */
++struct phy_mse_snapshot {
++	u32 channel;
++	u32 average_mse;
++	u32 peak_mse;
++	u32 worst_peak_mse;
++};
++
+ /**
+  * struct phy_driver - Driver structure for a particular PHY type
+  *
+@@ -1174,6 +1242,53 @@ struct phy_driver {
+ 	/** @get_sqi_max: Get the maximum signal quality indication */
+ 	int (*get_sqi_max)(struct phy_device *dev);
+ 
++	/**
++	 * @get_mse_config: Get configuration and scale of MSE measurement
++	 * @dev:    PHY device
++	 * @config: Output (filled on success)
++	 *
++	 * Fill @config with the PHY's MSE configuration for the current
++	 * link mode: scale limits (max_average_mse, max_peak_mse), update
++	 * interval (refresh_rate_ps), sample length (num_symbols) and the
++	 * capability bitmask (supported_caps).
++	 *
++	 * Implementations may defer configuration until hardware has
++	 * converged; in that case they should return -EAGAIN and allow the
++	 * caller to retry later.
++	 *
++	 * Return: 0 on success. On failure, returns a negative errno code, such
++	 * as -EOPNOTSUPP if MSE measurement is not supported by the PHY or in
++	 * the current link mode, or -EAGAIN if the configuration is not yet
++	 * available.
++	 */
++	int (*get_mse_config)(struct phy_device *dev,
++			      struct phy_mse_config *config);
++
++	/**
++	 * @get_mse_snapshot: Retrieve a snapshot of MSE diagnostic values
++	 * @dev:      PHY device
++	 * @channel:  Channel identifier (PHY_MSE_CHANNEL_*)
++	 * @snapshot: Output (filled on success)
++	 *
++	 * Fill @snapshot with a correlated set of MSE values from the most
++	 * recent measurement window.
++	 *
++	 * Callers must validate @channel against supported_caps returned by
++	 * get_mse_config(). Drivers must not coerce @channel; if the requested
++	 * selector is not implemented by the device or current link mode,
++	 * the operation must fail.
++	 *
++	 * On success, @snapshot->channel MUST equal the requested @channel.
++	 * worst_peak_mse is latched and must be treated as read-to-clear.
++	 *
++	 * Return: 0 on success. On failure, returns a negative errno code, such
++	 * as -EOPNOTSUPP if MSE measurement is not supported by the PHY or in
++	 * the current link mode, or -EAGAIN if the configuration is not yet
++	 * available.
++	 */
++	int (*get_mse_snapshot)(struct phy_device *dev, u32 channel,
++				struct phy_mse_snapshot *snapshot);
++
+ 	/* PLCA RS interface */
+ 	/** @get_plca_cfg: Return the current PLCA configuration */
+ 	int (*get_plca_cfg)(struct phy_device *dev,
 diff --git a/include/uapi/linux/ethtool_netlink_generated.h b/include/uapi/linux/ethtool_netlink_generated.h
-index 8317e4b230a5..a9ef0ec11695 100644
+index 0af7b90101c1..d36faf5f20f4 100644
 --- a/include/uapi/linux/ethtool_netlink_generated.h
 +++ b/include/uapi/linux/ethtool_netlink_generated.h
-@@ -331,6 +331,9 @@ enum {
- 	ETHTOOL_A_LINKSTATE_EXT_STATE,
- 	ETHTOOL_A_LINKSTATE_EXT_SUBSTATE,
- 	ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT,
-+	ETHTOOL_A_LINKSTATE_MSE_VALUE,
-+	ETHTOOL_A_LINKSTATE_MSE_MAX,
-+	ETHTOOL_A_LINKSTATE_MSE_CHANNEL,
+@@ -77,6 +77,60 @@ enum ethtool_pse_event {
+ 	ETHTOOL_PSE_EVENT_SW_PW_CONTROL_ERROR = 64,
+ };
  
- 	__ETHTOOL_A_LINKSTATE_CNT,
- 	ETHTOOL_A_LINKSTATE_MAX = (__ETHTOOL_A_LINKSTATE_CNT - 1)
-diff --git a/net/ethtool/linkstate.c b/net/ethtool/linkstate.c
-index 05a5f72c99fa..b27fb0ffc526 100644
---- a/net/ethtool/linkstate.c
-+++ b/net/ethtool/linkstate.c
-@@ -14,6 +14,9 @@ struct linkstate_reply_data {
- 	int					link;
- 	int					sqi;
- 	int					sqi_max;
-+	u32					mse_value;
-+	u32					mse_max;
-+	u32					mse_channel;
- 	struct ethtool_link_ext_stats		link_stats;
- 	bool					link_ext_state_provided;
- 	struct ethtool_link_ext_state_info	ethtool_link_ext_state_info;
-@@ -76,6 +79,65 @@ static bool linkstate_sqi_valid(struct linkstate_reply_data *data)
- 	       data->sqi <= data->sqi_max;
- }
- 
-+static int linkstate_get_mse(struct phy_device *phydev,
-+			     struct linkstate_reply_data *data)
-+{
-+	struct phy_mse_snapshot snapshot = {};
-+	struct phy_mse_config config = {};
-+	int channel, ret;
++/**
++ * enum ethtool_phy_mse_capability - Bitmask flags for MSE capabilities. These
++ *   flags are used in the 'supported_caps' field of struct phy_mse_config to
++ *   indicate which measurement capabilities are supported by the PHY hardware.
++ * @PHY_MSE_CAP_AVG: Average MSE value is supported.
++ * @PHY_MSE_CAP_PEAK: Current peak MSE value is supported.
++ * @PHY_MSE_CAP_WORST_PEAK: Worst-case peak MSE (latched high-water mark) is
++ *   supported.
++ * @PHY_MSE_CAP_CHANNEL_A: Diagnostics for Channel A are supported.
++ * @PHY_MSE_CAP_CHANNEL_B: Diagnostics for Channel B are supported.
++ * @PHY_MSE_CAP_CHANNEL_C: Diagnostics for Channel C are supported.
++ * @PHY_MSE_CAP_CHANNEL_D: Diagnostics for Channel D are supported.
++ * @PHY_MSE_CAP_WORST_CHANNEL: Hardware or drivers can identify the single
++ *   worst-performing channel without needing to query each one individually.
++ * @PHY_MSE_CAP_LINK: Hardware provides only a link-wide aggregate MSE or
++ *   cannot map the measurement to a specific channel/pair. Typical for media
++ *   where the MDI/MDI-X resolution or pair mapping is unknown (e.g.
++ *   100BASE-TX).
++ */
++enum ethtool_phy_mse_capability {
++	PHY_MSE_CAP_AVG = 1,
++	PHY_MSE_CAP_PEAK = 2,
++	PHY_MSE_CAP_WORST_PEAK = 4,
++	PHY_MSE_CAP_CHANNEL_A = 8,
++	PHY_MSE_CAP_CHANNEL_B = 16,
++	PHY_MSE_CAP_CHANNEL_C = 32,
++	PHY_MSE_CAP_CHANNEL_D = 64,
++	PHY_MSE_CAP_WORST_CHANNEL = 128,
++	PHY_MSE_CAP_LINK = 256,
++};
 +
-+	if (!phydev)
-+		return -EOPNOTSUPP;
++/**
++ * enum ethtool_phy_mse_channel - Identifiers for the 'channel' parameter used
++ *   to select which diagnostic data to retrieve.
++ * @PHY_MSE_CHANNEL_A: Request data for channel A.
++ * @PHY_MSE_CHANNEL_B: Request data for channel B.
++ * @PHY_MSE_CHANNEL_C: Request data for channel C.
++ * @PHY_MSE_CHANNEL_D: Request data for channel D.
++ * @PHY_MSE_CHANNEL_LINK: Request data for the link as a whole. Use when the
++ *   PHY exposes only a link-wide aggregate MSE or cannot attribute results to
++ *   any single channel/pair (e.g. 100BASE-TX with unknown MDI/MDI-X mapping).
++ * @PHY_MSE_CHANNEL_WORST: Request data for the single worst-performing
++ *   channel. This is a convenience for PHYs or drivers that can identify the
++ *   worst channel in hardware.
++ */
++enum ethtool_phy_mse_channel {
++	PHY_MSE_CHANNEL_A,
++	PHY_MSE_CHANNEL_B,
++	PHY_MSE_CHANNEL_C,
++	PHY_MSE_CHANNEL_D,
++	PHY_MSE_CHANNEL_LINK,
++	PHY_MSE_CHANNEL_WORST,
++};
 +
-+	mutex_lock(&phydev->lock);
-+
-+	if (!phydev->drv || !phydev->drv->get_mse_config ||
-+	    !phydev->drv->get_mse_snapshot) {
-+		ret = -EOPNOTSUPP;
-+		goto unlock;
-+	}
-+
-+	if (!phydev->link) {
-+		ret = -ENETDOWN;
-+		goto unlock;
-+	}
-+
-+	ret = phydev->drv->get_mse_config(phydev, &config);
-+	if (ret)
-+		goto unlock;
-+
-+	if (config.supported_caps & PHY_MSE_CAP_WORST_CHANNEL) {
-+		channel = PHY_MSE_CHANNEL_WORST;
-+	} else if (config.supported_caps & PHY_MSE_CAP_LINK) {
-+		channel = PHY_MSE_CHANNEL_LINK;
-+	} else {
-+		ret = -EOPNOTSUPP;
-+		goto unlock;
-+	}
-+
-+	ret = phydev->drv->get_mse_snapshot(phydev, channel, &snapshot);
-+	if (ret)
-+		goto unlock;
-+
-+	data->mse_value = snapshot.average_mse;
-+	data->mse_max = config.max_average_mse;
-+	data->mse_channel = channel;
-+
-+unlock:
-+	mutex_unlock(&phydev->lock);
-+	return ret;
-+}
-+
-+static bool linkstate_mse_critical_error(int err)
-+{
-+	return err < 0 && err != -EOPNOTSUPP && err != -ENETDOWN;
-+}
-+
-+static bool linkstate_mse_valid(struct linkstate_reply_data *data)
-+{
-+	return data->mse_max > 0 && data->mse_value <= data->mse_max;
-+}
-+
- static int linkstate_get_link_ext_state(struct net_device *dev,
- 					struct linkstate_reply_data *data)
- {
-@@ -125,6 +187,10 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
- 		goto out;
- 	data->sqi_max = ret;
- 
-+	ret = linkstate_get_mse(phydev, data);
-+	if (linkstate_mse_critical_error(ret))
-+		goto out;
-+
- 	if (dev->flags & IFF_UP) {
- 		ret = linkstate_get_link_ext_state(dev, data);
- 		if (ret < 0 && ret != -EOPNOTSUPP && ret != -ENODATA)
-@@ -164,6 +230,12 @@ static int linkstate_reply_size(const struct ethnl_req_info *req_base,
- 		len += nla_total_size(sizeof(u32)); /* LINKSTATE_SQI_MAX */
- 	}
- 
-+	if (linkstate_mse_valid(data)) {
-+		len += nla_total_size(sizeof(u32)); /* LINKSTATE_MSE_VALUE */
-+		len += nla_total_size(sizeof(u32)); /* LINKSTATE_MSE_MAX */
-+		len += nla_total_size(sizeof(u32)); /* LINKSTATE_MSE_CHANNEL */
-+	}
-+
- 	if (data->link_ext_state_provided)
- 		len += nla_total_size(sizeof(u8)); /* LINKSTATE_EXT_STATE */
- 
-@@ -195,6 +267,18 @@ static int linkstate_fill_reply(struct sk_buff *skb,
- 			return -EMSGSIZE;
- 	}
- 
-+	if (linkstate_mse_valid(data)) {
-+		if (nla_put_u32(skb, ETHTOOL_A_LINKSTATE_MSE_VALUE,
-+				data->mse_value))
-+			return -EMSGSIZE;
-+		if (nla_put_u32(skb, ETHTOOL_A_LINKSTATE_MSE_MAX,
-+				data->mse_max))
-+			return -EMSGSIZE;
-+		if (nla_put_u32(skb, ETHTOOL_A_LINKSTATE_MSE_CHANNEL,
-+				data->mse_channel))
-+			return -EMSGSIZE;
-+	}
-+
- 	if (data->link_ext_state_provided) {
- 		if (nla_put_u8(skb, ETHTOOL_A_LINKSTATE_EXT_STATE,
- 			       data->ethtool_link_ext_state_info.link_ext_state))
+ enum {
+ 	ETHTOOL_A_HEADER_UNSPEC,
+ 	ETHTOOL_A_HEADER_DEV_INDEX,
 -- 
 2.39.5
 
