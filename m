@@ -1,160 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C202D47F9;
-	Thu, 21 Aug 2025 09:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0332DFA38
+	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 09:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755767531; cv=none; b=EfpsJgGhu5UcIt57/DpkoT6WCA/7ngVPH9V1nmv0f8jEEo+VS1l0OEUy0CikmGaz8bwbvgtmAH+4LQXxxVyarFa3ujqKZOae5UcIQHOH+u27T/wOlEmQ7mKxI4CTUDQnI+aisZX3DUV9TOQuNUgvfcnB72jHJmxGlqOyVp+K4Oc=
+	t=1755767685; cv=none; b=bGO4ZG7ZyaVQe+7s02MtsYVMZaxWMZrecgVW6KOfFzgUHgfcMqiQ3qEPpGKuOKxyzzjgwtBGLZi9uhthBlHS+fOFDlcvPxgpxKbQY4RVYFt2JCtancrCA0XAFgmGdIQZa6ZChhKDfoEENkLDlKOrE0w8Uyrd24qkBYuA71eZ31Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755767531; c=relaxed/simple;
-	bh=4ftSy9AZquCD3YWX8ybfUXm27XjKd0BU4eleDXm0U4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sw/mt571HJRyX/zQRXAQotyMGrPceMlyRKiJ/yRGxGmFYbZ4dAlAYNIzSj5q7KMtjSQnfz5HuymaO+NW8UGgpSSIg0odfqJX0xNLYSIIMvd2qbLAOAxGeMgo80HNPGtN6IJv3Xyl/gUtVTEIwH32g/CbrVShFe+Fozmt9QjNwG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iY5lnBm1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755767685; c=relaxed/simple;
+	bh=1ewMSBBg9cmq1Asjak1aE7nAcBgixBHay9BTXHvKZ8g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OtFmdb/XTFuqCR1m6sBM/RaIDWNXEEL1nZ7ChcpuyQfkZLrhRFNgBwTDAAOjn0qJGvdKJET+2ppAyhgz5jaMauziWEHgvJEplswehmwEv83bs/JUgP+N+geLLtXYaflfTXFgVMbmFuh1+zmhGLtqoHfoJvVe6z+ueYisnY3innI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TPmTz98N; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iY5lnBm1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0151DC4CEEB;
-	Thu, 21 Aug 2025 09:12:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755767530;
-	bh=4ftSy9AZquCD3YWX8ybfUXm27XjKd0BU4eleDXm0U4Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=iY5lnBm1olCBsRPpghgXxjzWZdmWakMe3D/6nbyS2OprH7brpDtHHH/UUufrJGZR5
-	 B7r/WIwLcEjYDiMmTTFqoNkshhOjUO4blI6LAUBgme+yLpTj64TWn2rdP/Can+daZ3
-	 SFTt1jN6qYzZoa2xhi5ymDOsVGR26AcoG53sVjQ43yMoFZsYweql/iA9FMsywjdq38
-	 /st3OYMAucW8PRMLoQjfCraPDXPBnjiCljyFCrjt1sOG4HMA59qK4pJkDdvDMgpvrV
-	 gAllTDP/NimibpVJ/Fd3bl9C9YbMCO4qljO+V+n1t4pN1TiuZP76w+gLUjdYf0J+18
-	 GZOlnoyAoCZFw==
-Date: Thu, 21 Aug 2025 11:12:05 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Inkscape - Was: Re: [PATCH 00/11] Fix PDF doc builds on major
- distros
-Message-ID: <20250821111205.15dc7843@foz.lan>
-In-Reply-To: <5fb6ce64-747b-46e4-b135-0d987334a12c@gmail.com>
-References: <20250817154544.78d61029@foz.lan>
-	<b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
-	<87y0rg7e35.fsf@trenco.lwn.net>
-	<16b48826-6634-4ec9-86a0-7ddb59ce3bed@gmail.com>
-	<20250819030239.41a2e97f@foz.lan>
-	<142b209d-613a-4659-a0f7-27efa8c6be85@gmail.com>
-	<20250819153200.3c2b2ff6@foz.lan>
-	<08c3a7eb-0425-4709-a3ea-6d1d726fd3c8@gmail.com>
-	<20250820091530.068c4b62@foz.lan>
-	<3990f1c5-2108-44fe-913f-97ae3bb1ff42@gmail.com>
-	<xik6a2kb3mge5xh2mbdtc4p3ikbr4mnjlkk4ujc4sfztb3iqnr@tc76jva4smpm>
-	<526d1aee-d401-4f04-8ddc-122f1fef7905@gmail.com>
-	<5fb6ce64-747b-46e4-b135-0d987334a12c@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TPmTz98N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755767682;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d/cls12ySWE3NAa48m4sMHEPJFNdbq2Fp43VAzgYuEY=;
+	b=TPmTz98NyWIBT4cp0ZJBrTe/4chifDMw8jb1Sa4djuLZ5/waJb+/Kf8Q29VojSkQsazdn6
+	wTJNpCE21iZFNxAbx4C5ZxoIMCACSFfe14QQ/CQ07pi7kNr+GFNOvz70I8wtDzhHU7flqj
+	h4TrisJlEr4BMNMFZQ7cSjXjtmMtmdo=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-617-B3vByokkN_W89TD7RCi-Ow-1; Thu, 21 Aug 2025 05:14:40 -0400
+X-MC-Unique: B3vByokkN_W89TD7RCi-Ow-1
+X-Mimecast-MFC-AGG-ID: B3vByokkN_W89TD7RCi-Ow_1755767680
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7e870662c1dso192747685a.2
+        for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 02:14:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755767680; x=1756372480;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d/cls12ySWE3NAa48m4sMHEPJFNdbq2Fp43VAzgYuEY=;
+        b=tCHs3ezuA9Sw6memrbivYFhoHJ7ryowhveBYrbb+kGYd3nzEdxp85JIDhyVRDhz7Hy
+         6W/mU6jsfccOTLXmhONBZb9BY+BYSpyAWHP3sTxL45BX6Dp2rYVGVGbHeSB1S03MJ2E7
+         wATx4Zf9dSIFXezEVOSd/9FRWK/mTtoq+xnV0QkYxgEzdCsZEanAo1lj4V8gX+sGuXMY
+         7tEoR6mW2G20GQHpF71kGvHP4ZnOv5VJ7T8nZJbmfjlhTUIFNFOFr5gaoQzroFfyYWmK
+         mTi/0REIuRMIGl88iG8OeIrYF8fiiKIbP3Qbe2l9AMamsOZquRt+s8xkzD1KeQxaTjWa
+         asww==
+X-Forwarded-Encrypted: i=1; AJvYcCV3bya4zJWEBRWr8fX1V1F2VZeQrde44Lyp3E7vZO6eUdoxc3XpgcwRLz/varQ9sRjFiErD+skt/Ls=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfPtX/X/xy4YkrPkvi4wkMy8e3lzz01H0+KsogtUu9itjkf90o
+	Z8fpnoCs5e7H5pXa/QAmrDByj4iUzP/bP2YDqv61r1cLdlUZ/B9S5CLBDJzAYzegM1rVUfw61sE
+	1wBJYe1hPf1D7yvQTyOxQft0/JHq1MXvf/PDAXkQLwCtdu/uLjvwww1z7EKonmQ==
+X-Gm-Gg: ASbGnctza0d6djrmMdAilJZ/BZdvJ6wXJSZyWfPrTcSUexAhS6SCVzZYzUGg2dq319f
+	WDtcI1/GFTibP3KqLrskf7RQszYhzTa0gDVRYOH8Oszvxwn6F0b7fhDXrHH3qeFy5h68nP8JiuY
+	p/8/2baJ3bDRths7otvz0f+PyHe3UhoktLOfiacGQ73cXHyxoG4vlJS5X8dpVoSmdrczJUM6ldL
+	7OHPFtcYxynY5L1VzEL3xQpwfaQX2uxrmrXOisVsxXf//3KrIuvVOek01XM9BG/iSrmMn8IoHYo
+	ivqYoz6zYY6AZGuytD8cD4g6QqMBlGUNGKDgcNSrKfJcul/WH4yqH8ErvkUv6x4YV180MWxy/N1
+	ZWAqxm049wsY=
+X-Received: by 2002:a05:620a:31a9:b0:7e8:7eee:7d66 with SMTP id af79cd13be357-7ea08e3ecedmr181781785a.40.1755767679887;
+        Thu, 21 Aug 2025 02:14:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFZ0c/CeAt2mU1zijFZ8Xtf8yg68lytCTDkdCZS7E9eYRtoLIMsMFMlh4Pv2bSyDJHFqzlT3w==
+X-Received: by 2002:a05:620a:31a9:b0:7e8:7eee:7d66 with SMTP id af79cd13be357-7ea08e3ecedmr181778085a.40.1755767679305;
+        Thu, 21 Aug 2025 02:14:39 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e87e04abd8sm1085524985a.18.2025.08.21.02.14.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Aug 2025 02:14:38 -0700 (PDT)
+Message-ID: <ea44c100-34fc-4dec-a749-454d224fa84e@redhat.com>
+Date: Thu, 21 Aug 2025 11:14:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv3 net-next 3/3] selftests: bonding: add test for LACP
+ actor port priority
+To: Hangbin Liu <liuhangbin@gmail.com>, netdev@vger.kernel.org
+Cc: Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
+ Amit Cohen <amcohen@nvidia.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Stephen Hemminger <stephen@networkplumber.org>,
+ David Ahern <dsahern@gmail.com>, Jonas Gorski <jonas.gorski@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20250818092311.383181-1-liuhangbin@gmail.com>
+ <20250818092311.383181-4-liuhangbin@gmail.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250818092311.383181-4-liuhangbin@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 21 Aug 2025 09:09:41 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On 8/18/25 11:23 AM, Hangbin Liu wrote:
+> +# Trigger link state change to reselect the aggregator
+> +ip -n "${c_ns}" link set eth1 down
+> +sleep 1
+> +ip -n "${c_ns}" link set eth1 up
+> +# the active agg should be connect to switch
+> +bond_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show bond0" ".[].linkinfo.info_data.ad_info.aggregator")
+> +eth0_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show eth0" ".[].linkinfo.info_slave_data.ad_aggregator_id")
+> +[ "${bond_agg_id}" -ne "${eth0_agg_id}" ] && RET=1
 
-> Hi,
-> 
-> Let me do a quick follow up.
-> I messed up the table.
-> 
-> On Thu, 21 Aug 2025 08:53:04 +0900, Akira Yokosawa wrote:
-> > Hi,
-> > 
-> > Commenting on your observation quoted below.
-> > 
-> > On Wed, 20 Aug 2025 18:48:10 +0200, Mauro Carvalho Chehab wrote:
-> > [...]
-> >   
-> >> If you want a more comprehensive answer:
-> >>
-> >> LaTeX is highly dependent lots of packages, including fonts. The
-> >> reason why you can't reproduce the font issues with Docker
-> >> (I wasn't able to reproduce with Docker here as well) is
-> >> probably due to either packaging differences between the
-> >> two containers, due to different environment technologies
-> >> or even due to the way Docker and LXC handles OS virtualization.
-> >>  
-> > 
-> > I'm not saying there is no difference between Docker and LXC.
-> > 
-> > Can you fill in ???? cells in the table below ?  
-> I mean                                          with this series applied
-> 
-> > Docker column is my observation of "FROM ubuntu:plucky" podman runs.
-> > 
-> >  "make SPHINXDIRS=gpu pdfdocs" under Ubuntu Plucky
-> >   
-> 
-> I meant:
-> 
->      --------------- --------- ----------
->      SVG --> PDF     Docker    LXC
->      --------------- --------- ----------
->      imagemagick     FAIL      ????
->      inkscape        SUCCESS   ????
->      imagemagick [*] FAIL      ????
->      --------------- --------- ----------
-> 
-> >     --------------- --------- ----------
-> >     SVG --> PDF     Docker    LXC
-> >     --------------- --------- ----------
-> >     imagemagick     FAIL      FAIL
-> >     inkscape        SUCCESS   ????
-> >     imagemagick [*] FAIL      ????
-> >     --------------- --------- ----------
-> > 
-> > [*] after installing both inkscape and imagemagick, remove inkscape
-> >     with all its dependencies kept.
-> > 
-> > Do you see any difference between Docker and LXC columns in the table?
-> > I'm all ears.
+A few lines above exceed 100 chars, it would be better to wrap them
 
-I'm repeating my tests again. This time, it has just this
-series applied:
+> +log_test "bond 802.3ad" "actor_port_prio select"
+> +
+> +# Change the actor port prio and re-test
+> +ip -n "${c_ns}" link set eth0 type bond_slave actor_port_prio 10
+> +ip -n "${c_ns}" link set eth2 type bond_slave actor_port_prio 1000
+> +# Trigger link state change to reselect the aggregator
+> +ip -n "${c_ns}" link set eth1 down
+> +sleep 1
+> +ip -n "${c_ns}" link set eth1 up
+> +# now the active agg should be connect to backup switch
+> +bond_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show bond0" ".[].linkinfo.info_data.ad_info.aggregator")
+> +eth2_agg_id=$(cmd_jq "ip -n ${c_ns} -d -j link show eth2" ".[].linkinfo.info_slave_data.ad_aggregator_id")
+> +# shellcheck disable=SC2034
+> +if [ "${bond_agg_id}" -ne "${eth2_agg_id}" ]; then
+> +	RET=1
+> +fi
+> +log_test "bond 802.3ad" "actor_port_prio switch"
 
-	https://lore.kernel.org/linux-doc/cover.1755763127.git.mchehab+huawei@kernel.org/T/#t
-
-(without that, not even simple PDF docs build here via Sphinx on Ubuntu)
-
-
-LXC container created from scratch, with a couple unrelated packages
-to make life easier (things like ssh server) and with locale-gen
-executed there.
-
-After its creation, I copied the
-relevant files from my machine to the container with:
-
-	for ip in 10.0.3.129; do for d in Documentation scripts Makefile arch include tools; do rsync -av --times --delete "$d" "root@$ip:/root" --exclude output/; done; done
-
-Then, at the container (accessed via ssh):
-
-	# Sphinx pre-install recommendations
-        sudo apt-get install dvipng fonts-noto-cjk graphviz imagemagick latexmk librsvg2-bin tex-gyre texlive-fonts-recommended texlive-lang-chinese texlive-xetex
-        sudo apt-get install python3-sphinx
-
-	# Needed to avoid sphinx-build crashes
-	for i in $(set|grep LC|cut  -d'=' -f1); do unset $i;done
-	export LC_ALL=C
-	export LANG=C
-
-with that:
-
-imagemagick: FAIL
-inkscape: PASS
-imagemagick(*): FAIL
-
-I wonder if this is related to the kfigure.py bug of writing
-a binary output with a file opened in "w" mode. In Python,
-"w" crashes for characters > 127. It should instead be "wb".
+The test above is basically the same of the previous one, with a
+slightly different style, it would be better to factor the whole
+status cycling, data fetching and comparison in an helper to avoid code
+duplication and the mentioned confusing difference.
 
 Thanks,
-Mauro
+
+Paolo
+
