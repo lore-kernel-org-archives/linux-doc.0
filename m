@@ -1,151 +1,76 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6DC157A48;
-	Thu, 21 Aug 2025 18:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4601F7569;
+	Thu, 21 Aug 2025 18:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755802325; cv=none; b=T8P0quY53OOxF68No5jfL4y1VSc1dfKXFWsuDKXx83wHbSA8FYX9wuO0TtmzI40wObVgnae1epJyFguBJ7BfN+imPiQahS6dospfkFLC1gmpR8Di4JjiHn9mYegZdBbJ8MgpIgprScc/2E7ChJrMxa4F7+fajBuPPAqjkTLU62E=
+	t=1755802548; cv=none; b=ZZ9Mv0hNA1zshIr2Ylz3DCMxwe+x26VUeUZ9YSCSSE0WDfsoOSRLIG6uuZ5DRvi0mIHHssumPlKN40ejmuyYD+42mhGw9Jgl2oUx/YlbE3AizPFk1O4EOJ1ONSnqT0RfvzEvZ0LeYVc5Hd+LDb2irq5/2J/kWoXFx/2oUpYxUdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755802325; c=relaxed/simple;
-	bh=rg/kDEvhXZwRvKUvqdPIc+V9sNjRhfxnVbeEH9rTFFw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bGi86PTknBJALxF+4rw/327H7Fu7K/J25ycJPqgvcz6Bm+QxoprQmLIksUSz3f3rfaT72Bd41vlM+lfpQPYprncvVdLmMoUzBBN38KDGIhKMgFUQ8a75G3MNF7sRsRuj8BaZyeVpg0oJCuqJk191liBq8u93J1FGpoWLnRrNtA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=doOtMWm+; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755802548; c=relaxed/simple;
+	bh=zFUHcDJvbzNOwl1FWr1YwH7RVqJbXkRfrZIyqreRl1c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kSXjTG5cNLZPCnfhbsvhVdDbooOWwm1yRyNYrsA/PC4fRRNvRC3lLLaO3YKoZOD+z8fWI+mWsiXv845n7WN0khcp0jgwqOAfIUgBy2fzgID55GEIqm2Ks6GgpDVye7U71SJIHOQ50uKBhtTz/tShE/+LxOfftSTsye3FLimPq1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Mx5SsSH3; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="doOtMWm+"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-24616482efeso4688205ad.1;
-        Thu, 21 Aug 2025 11:52:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755802323; x=1756407123; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SEsDiCBMxIThKgCKK1ovgopu+gxDTLw7Ffj6tqKTBc8=;
-        b=doOtMWm+aKyJl6+amTavRWHacqZNcLJt10koduKqhYxUnjb4XPlo8Kpa116+oCdWxG
-         yqpNwGM7eGZ69eiZo/7fx+BQrzFFf+Spf9/0wFDc0fBVtMV3negfMiGt6l5brgIOJ5sM
-         1tBPux7Trb3g8/qZ4hyroKPkKjdDQMgYqDeIzBJq8mBAIGNGFA36zh/PHms0nnjGKz7p
-         e2IADwMkZ1jrNT5IYZth2Ae1b5dAnlt1uAkpT1Pt3vyvQu84sNaTvAKIxiIZOAKj7LMD
-         sezuQiG5NP+MqW7GlY930Td8vfCQEwLQXl70PSLq4VBpy0O8Fa0117muHCYkkH0rPEEu
-         ya1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755802323; x=1756407123;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SEsDiCBMxIThKgCKK1ovgopu+gxDTLw7Ffj6tqKTBc8=;
-        b=UXmjSfPXpK6X2uWOdn1awJ79tsTh9HvvmfFGSU8C8D9q+p/Y+I+FC+dKWb68PkUTCP
-         KcF5+5NcJDb3g8QmJpQYnaIe8DRpV7DSSvSYGKRkW//wum3Iq/vilm/QYvLdQJ6CaUos
-         IFfYqOzqQJV81OulzzjRBgHWxciN3Xc627kjOXLG0LmKoT5EQaVW4N8nTJAuq2vv53kO
-         Y8+bpxy87J1cyA8AVA4GURTvBcZSHRkxwygyflOfthQe7qlh5rVChTq+rMeTwuwsgZyv
-         JWCf8wdNJ6/aMMGMSceWN10T/AJL8kqiFfptkR646RRgFychHZMgUBBUln1HfunYPCJF
-         KYew==
-X-Forwarded-Encrypted: i=1; AJvYcCUib9YoqVA04IHhS3eIneljsmlA6BZJrnagXlIrVVleE8f2vHzgcsNZjHEzEWsaT2bapRyq1MXuyDgEXDvA@vger.kernel.org, AJvYcCUra91rN6fcHFhtV0eWr9nm0xVm1KCEUBSwo64zRvH/P523mW9q8ol9rJImJQ/kouTrgxliE5cW@vger.kernel.org, AJvYcCV9WyYv7x1Qn70shocDpuNHC5PmNBGqYgrG9qeevGP8xTQOO5bXOMzPWoy8NNt7j0fxdNbBMk1OcxmO@vger.kernel.org, AJvYcCWVvkvAsmZsXG6b36f0x4dAoMouDMpgRKPvId24b5jqcAjaA/XcNTAlnuxApnVfZw0Lm/Xfgo5JrIsv@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRMXTjgKOF+ZMXvZk+ixj+3ajdUAa4RTIDtyNe4DoMh/aiZN0s
-	6QZJ+1h4qQQBP5nn+nj/6L7xoMCzymZBQWNHaTqZnhdKKTk+wck3VFOp8BM65BeKNEU=
-X-Gm-Gg: ASbGncuONBwC9BcL2iJSGDpZfrtIAof0bgnE0Fw6ZOCbiO89o58ebgyp7/ur04DdSEr
-	fkX8nLTe5F5RlxlJmlm/HTzmFzTxEwpdA+aHibVUoZTh4UhZBui8sUhL96ZCFzqh7BtLg+Xhojq
-	sXCP2JdWxDQKUDCB+DMrskGfB1x0W09NzPFFzXNHZHGydNKBpKi5/ZyCLwCjf23ElS4Pp2SwtgX
-	xw/cKRQCUD5Kfttl7xb6vP/rHN5yrcAE5VHwPiigv+6Jb9CNuveGjoOqloNlsg6mJRT7AjtwGyx
-	wumIY0IXCzOcfvd7+uwUMYIxvVgFz4eikL4qO2NMkp1wA58qgzWwt+kl0oSyHUETlL2/INIwvDV
-	laItiE04FH9rjHxYMhBbPh2igT9sPyPqhDaR/FVhj9MvBrUfVKwfn+0akLNvVTk+txQ==
-X-Google-Smtp-Source: AGHT+IH/aXJyxQ0KAGjciL/p9SJZ07FKZiRVvEFDDSCSKns92HHYUggbcR1QLy5gI55C4S85fXltXQ==
-X-Received: by 2002:a17:902:db0c:b0:240:10dc:b7c9 with SMTP id d9443c01a7336-2462ee2ba4dmr4120325ad.9.1755802322934;
-        Thu, 21 Aug 2025 11:52:02 -0700 (PDT)
-Received: from chandna-HP-Laptop-15s-fq2xxx.. ([2401:4900:1cb5:9824:c72c:ee5d:1c89:315f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2462eaca84fsm2573365ad.151.2025.08.21.11.51.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 11:52:02 -0700 (PDT)
-From: Sahil Chandna <chandna.linuxkernel@gmail.com>
-To: corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	kent.overstreet@linux.dev,
-	tj@kernel.org,
-	cem@kernel.org
-Cc: linux-bcachefs@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	chandna.linuxkernel@gmail.com
-Subject: [PATCH] Documentation: Fix documentation typos
-Date: Fri, 22 Aug 2025 00:21:45 +0530
-Message-Id: <20250821185145.18944-1-chandna.linuxkernel@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Mx5SsSH3"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A594640AD5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755802545; bh=L00NMz1INkZAETrRSptXWQEUzU6BVCW7sUXaka2fiyQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Mx5SsSH3dMFU13a7juS/VwetTdbl44ygyoOcWGDEYbPKydePzTtnhQrciRNkfMSZA
+	 oqkk1pMxvFxXLUG6Om6NQHorKOWjj4Tamp1gB9s/MoJe99jVqSyqVFmXLuBz6pfXSV
+	 XJ/reSnz282MvA22ltejXHG4QUvTSIxsKBaIbBXBLvRz8HUFP5e3CkfxnkzXbedVYg
+	 n+oa/t1fy3KhlW+zAEBRQNHP3cz/FBMvT9VvHg5L88ZinU1tB+GUXhD1uo8Gv1oboU
+	 vKh9SUH4UvXfRvPTRxIX94EVpp1DvFgOw44vYGqxxhyx6zZ2c0Xh0N4w++3oZzF7sl
+	 W0QWQj8nLu5tg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A594640AD5;
+	Thu, 21 Aug 2025 18:55:45 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>, Clark
+ Williams <clrkwllms@kernel.org>, Frederic Weisbecker
+ <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, John Ogness
+ <john.ogness@linutronix.de>, Peter Zijlstra <peterz@infradead.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Valentin Schneider <vschneid@redhat.com>, Waiman Long
+ <longman@redhat.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 3/3] Documentation: Add real-time to core-api
+In-Reply-To: <20250819132828.cs64VMsW@linutronix.de>
+References: <20250815093858.930751-1-bigeasy@linutronix.de>
+ <20250815093858.930751-4-bigeasy@linutronix.de>
+ <87seho8v12.fsf@trenco.lwn.net> <20250819080358.H9R_64I7@linutronix.de>
+ <87ldnfv46n.fsf@trenco.lwn.net> <20250819132828.cs64VMsW@linutronix.de>
+Date: Thu, 21 Aug 2025 12:55:44 -0600
+Message-ID: <87349k7bdb.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Fix several spelling mistakes in documentation:
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
 
-- Availablity -> Availability
-- heirarchy  -> hierarchy
-- maping     -> mapping
-Findings are based on v6.17-rc2.
+> On 2025-08-19 07:20:16 [-0600], Jonathan Corbet wrote:
+>> > Right now this is it. Do you update the text above as suggested or do
+>> > you want me to resend it?
+>> 
+>> I can apply it and make that tweak if you like, yes, no need to resend
+>> for that.
+>
+> That would be lovely.
 
-Signed-off-by: Sahil Chandna <chandna.linuxkernel@gmail.com>
----
- Documentation/admin-guide/cgroup-v2.rst                  | 2 +-
- Documentation/filesystems/bcachefs/future/idle_work.rst  | 6 +++---
- Documentation/filesystems/xfs/xfs-online-fsck-design.rst | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+OK, I have done that.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index d9d3cc7df348..29172f03b863 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -435,7 +435,7 @@ both cgroups.
- Controlling Controllers
- -----------------------
- 
--Availablity
-+Availability
- ~~~~~~~~~~~
- 
- A controller is available in a cgroup when it is supported by the kernel (i.e.,
-diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
-index 59a332509dcd..f1202113dde0 100644
---- a/Documentation/filesystems/bcachefs/future/idle_work.rst
-+++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
-@@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
- background work while the system should be idle.
- 
- The complicating factor is that there are a number of background tasks, which
--form a heirarchy (or a digraph, depending on how you divide it up) - one
-+form a hierarchy (or a digraph, depending on how you divide it up) - one
- background task may generate work for another.
- 
--Thus proper idle detection needs to model this heirarchy.
-+Thus proper idle detection needs to model this hierarchy.
- 
- - Foreground writes
- - Page cache writeback
-@@ -51,7 +51,7 @@ IDLE REGIME
- When the system becomes idle, we should start flushing our pending work
- quicker so the system can go to sleep.
- 
--Note that the definition of "idle" depends on where in the heirarchy a task
-+Note that the definition of "idle" depends on where in the hierarchy a task
- is - a task should start flushing work more quickly when the task above it has
- stopped generating new work.
- 
-diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-index e231d127cd40..e872d480691b 100644
---- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-+++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-@@ -4179,7 +4179,7 @@ When the exchange is initiated, the sequence of operations is as follows:
-    This will be discussed in more detail in subsequent sections.
- 
- If the filesystem goes down in the middle of an operation, log recovery will
--find the most recent unfinished maping exchange log intent item and restart
-+find the most recent unfinished mapping exchange log intent item and restart
- from there.
- This is how atomic file mapping exchanges guarantees that an outside observer
- will either see the old broken structure or the new one, and never a mismash of
--- 
-2.34.1
+Thanks,
 
+jon
