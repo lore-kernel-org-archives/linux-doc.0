@@ -1,84 +1,74 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C0C346A13;
-	Thu, 21 Aug 2025 19:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BDF1D2F42;
+	Thu, 21 Aug 2025 19:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755803402; cv=none; b=jXdoaQT1H1MCaQL4VnFuBOqc8b4DaEYKDxydwc6ida3z+fLsGiZBbF+327g68ebcD0OeVKdFNQyAPp+jWMvsauzmInZkbRqDVeFJ+Uf45dritbD+KNEb4Nvx02B7P8gU4ScS0MJXhw3itnQhL63Vk+hWzWRoq8Oug0maN3qcg3w=
+	t=1755804153; cv=none; b=WVXUyYGVr130XPz4RtbcgAtN4hdtxk3WF4Ldo+BW0tuE2RvZPQi4RX26CnbSk8QjX/DHs4pJyEIOjh7Ygeu6nkz0HuLNvQt0oOIYSVwhCRjrtFmwmI2/QxeRHTcwgQRYZKELbYEz8zbr2smoZxrk2pjvbQAFnFFmaSLJtBfKfeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755803402; c=relaxed/simple;
-	bh=RqaKHsUnY8ZpE16ezGuvNa6u2HglQRzPt+MIDv+XSik=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sKTQJaPpUdOrWGd1XSMExgG/2d9ziOQDuLHj1lS6O7TvjTgqoitqbHnBya8cD1GzYvXvapE8UY/6ue4N+p35W7UbLizOIkQfcAppS3U/4hlbw7Y60arhAo2NBzEipQhbGcJlhfL/Ap4uw4cGJGUx+bVyipczNwEFv8dN8oFOrw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FLRo7wbp; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1755804153; c=relaxed/simple;
+	bh=eqpxT8Akg9rcLVQcFKQxNoaLgF9UucXwjbEfd9RDP3U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZabZ+9juvwGn7nDAdUwhmiJUo0DSBK35P57cTiMR/WK0V1ymQzBGWBkNmGroWoXP542ppQ13VE5WvIcmbB9HHJj8Cp3cr9qweHrYXNJ+KCetpDTgutsXv7y0k+pREnOBAZyTbtuKcKVUhkAfm23jpgPTADWak6XMr8p0Unkf4ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=e89V9QoO; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FLRo7wbp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=AZd0cgU/MbuYTGO6sr/f9a7i3dIJ9uqk3pbudrbqon4=; b=FLRo7wbpbNYwSsQW69+1lbiJKd
-	p1kfY3fzg5EbM15+8HYEYzoJryC1zsHxTYFajiqtqqXE35tEaObAUtWhU0yV36NoTicov8m37Br2Q
-	Mk4gMZWLA2togwH4iUyY+R1axjbWGR3D1A5PYHsRG2KridoJrnk5DUTa/FS8vcwhVRvU3lkDZ+rZZ
-	fDFMUX/zLYZAwyKySCy7Wn5OR9MiTg9jRZcFPC5TzAHJwIB2a9iPw7x3ycCnQ8aHfXXQgstE5XyY3
-	i8yiyMEKgdLb4pIzi3eJt88kmDm4haEfwFdY1/Sov7rAyjE7GPYROAkEeYBeAay2Tx79wvV6KZ731
-	dtXtcOLA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1upAfe-00000000E2q-3f3j;
-	Thu, 21 Aug 2025 19:09:58 +0000
-Message-ID: <4cae933a-d171-48aa-a854-b4323d10b347@infradead.org>
-Date: Thu, 21 Aug 2025 12:09:57 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="e89V9QoO"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 56A4D40AD5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755804150; bh=eqpxT8Akg9rcLVQcFKQxNoaLgF9UucXwjbEfd9RDP3U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=e89V9QoONR1oGXET/xBFAg5fplIG8liCmjMcP5AA0rKkcivqA/AUGgG4GZZ7SiENJ
+	 ylA5e1x7t2JV5bmZtfqLhNRAQmU7875IecbxlNEkZbLrWPs7f670RF4fNW9dDt58fO
+	 ddus703JdI239uRnXhsd38ZUpC1+TCCyP0ddHEUmNOO9md7QlxAqnXup/0HljaLAXX
+	 /FJXeLHlG6vxK3CTjnkvFFMTuCi6Y7zZJHWJ3TOBVt/Sb2wfvb20sY1zf4nHzdtjtD
+	 ySl4oTXy/uH0kXmh7nIMJmx4guqcM/0L5D0+l1tJUgZMxvhbvgTkVoH55Dmx/9l6Qf
+	 2Y9WchpEPswQA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 56A4D40AD5;
+	Thu, 21 Aug 2025 19:22:30 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org, =?utf-8?Q?Bj?=
+ =?utf-8?Q?=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, Alice
+ Ryhl <aliceryhl@google.com>, Andreas Hindborg <mchehab+huawei@kernel.org>,
+ Benno Lossin <mchehab+huawei@kernel.org>, Boqun Feng
+ <boqun.feng@gmail.com>, Danilo Krummrich <mchehab+huawei@kernel.org>, Gary
+ Guo <gary@garyguo.net>, Miguel Ojeda <mchehab+huawei@kernel.org>, Trevor
+ Gross <tmgross@umich.edu>, bpf@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 00/14] Fix PDF doc builds on major distros
+In-Reply-To: <cover.1755763127.git.mchehab+huawei@kernel.org>
+References: <cover.1755763127.git.mchehab+huawei@kernel.org>
+Date: Thu, 21 Aug 2025 13:22:29 -0600
+Message-ID: <87zfbs5vka.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Fix documentation typos
-To: Sahil Chandna <chandna.linuxkernel@gmail.com>, corbet@lwn.net,
- linux-doc@vger.kernel.org, kent.overstreet@linux.dev, tj@kernel.org,
- cem@kernel.org
-Cc: linux-bcachefs@vger.kernel.org, cgroups@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org
-References: <20250821185145.18944-1-chandna.linuxkernel@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250821185145.18944-1-chandna.linuxkernel@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
+> Hi Jon,
+>
+> Here it is the second version of the PDF series. I opted to split one of
+> the patches in 3, to have a clearer changelog and description.
 
-On 8/21/25 11:51 AM, Sahil Chandna wrote:
-> Fix several spelling mistakes in documentation:
-> 
-> - Availablity -> Availability
-> - heirarchy  -> hierarchy
-> - maping     -> mapping
-> Findings are based on v6.17-rc2.
-> 
-> Signed-off-by: Sahil Chandna <chandna.linuxkernel@gmail.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst                  | 2 +-
->  Documentation/filesystems/bcachefs/future/idle_work.rst  | 6 +++---
->  Documentation/filesystems/xfs/xfs-online-fsck-design.rst | 2 +-
->  3 files changed, 5 insertions(+), 5 deletions(-)
-> 
+OK, in the hopes of pushing through some of this stuff, I have gone
+ahead and applied this set; if things need tweaking, we can tweak in the
+coming weeks.
 
-Looks good, although there was just another patch that also fixed the maping/mapping
-spelling for XFS.
+Thanks,
 
-And various maintainers might request that you split the patch up by
-subsystem/filesystem (i.e., 3 patches here) unless Jon merges it as is.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
--- 
-~Randy
+jon
