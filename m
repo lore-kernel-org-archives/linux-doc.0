@@ -1,135 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E612EB5CC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8EA72EB85C;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764224; cv=none; b=beqeqj5JNj6ZsMrpANutEy9MJuR5v64bHky4XifJCC1lgJkWx3IY7TW4l4enH/XzEcYFVa9IaBCNCRDlGQ2ogKLZo/oG3GyGpwmTkVY1Gfng+dG8bWKim1wylw7VNdGfk/IdyiuRj3OKkC/PSJXbHx0g71vO6Uh6EdcQ/eBxoWc=
+	t=1755764224; cv=none; b=aRO7QkIBKcwYu7QB119kHrGo7foURG7vvLe+wuIfN65+q3zRinEFagL67u561KPhrjozjGRLvKnQmYja+y+lkcYqNKco+NDVDYib4T0JydY4ZEB5JPjNo4tbgKoSM3wkrnxsneZPIiEYiXpNAkVEXuytcEnKr8httaDwxjv3Ppw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755764224; c=relaxed/simple;
-	bh=pCs2a5GtHIUVqWsvAf6JbIDTiB41Hz/jWLA7wnaYB14=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q+YLi+wlh3SJeyA0HwY2XmlhO+hSAbwPSKA/8yZPdYp9y4JzB48y+wECewKC2V0RTTlMcYUC/ZtprHKs1W2wgsjoxZoOpBNZpiBgJVZT7jw6RrCH6UgtvunQpTF7p5hTRkRp5xB2jM+sdHvYfRCZwyuFKT2IjS4MZva77YIBtuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7Rz1CGb; arc=none smtp.client-ip=10.30.226.201
+	bh=HCGgBM0J4x5ZSkA2bXVd4+Dveru9uIKWtG31kDwRdHA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Hzps09SxXV6w3pECg3YEGtCWCnQ7234ONMF2Pv2OofAU5dhusoPpjfO9aU1a5O4DyyeWbHEnRd7X+e2QGFBtO9yeD3P2bKTulywL/xEh7z/Z+Fl3oEG8yqcTXNszSmewCbPpfgwZdObNxk+8kuOSeTlSe6syj2/ySMn9ohkcPW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArhJONt0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7Rz1CGb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F032C4CEED;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArhJONt0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 718FDC116C6;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755764224;
-	bh=pCs2a5GtHIUVqWsvAf6JbIDTiB41Hz/jWLA7wnaYB14=;
-	h=From:To:Cc:Subject:Date:From;
-	b=k7Rz1CGbqlTAdaRCI72izKdN48N5xxD+9hPKBsJpD4AOKeaHyx8wkhLe1FLGypxsz
-	 TKJlTJPc2ngIpap1JM6HttsPDDrxWhQRbLW9tq6DOCiKjIsQaNd2U5F75Ww4ts+5XL
-	 14XxrLyZfbuGJBPREYO9vXC3z5Dzi5CE+I+MNrNd0iFC4haHGMGGWDkzhPjKxzRJSx
-	 esZIMmQlFhfNHaTLnDkTW9tqOZNStnc3mLQ4O77UbvW17orF5gJmu1QgPGEBNA9zso
-	 XjxGx525edh/DsKXwmM+cyfQIKJUxND2tc8+OeDFE1FQM+Ir6oC4z4Riz9VUjAFkez
-	 KyyzsIkFlO9+g==
+	bh=HCGgBM0J4x5ZSkA2bXVd4+Dveru9uIKWtG31kDwRdHA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ArhJONt05WX96QiNYYKM7WO6oLWNsG1jAhUlGD61772x8312GWK87V9EGLflKXltv
+	 TdJR/S+zMswUXwsoCvIOXwikGyWyvIz8lx1ESK4uKrqpld4kxpkzUVveKlLQ87Uqbi
+	 WCrpYVvg/tkGbSDqysfU4DIZnh93YQGddhfv+u0ReSoyTcF7tgo6RX/qvasHFB6Jrl
+	 BQfNJYPstE2HGLPS/9YgdC2NYQOvI7LkCWGBFNJgQ1tElWaLs3okG7AWRnI5cI5Wo/
+	 RriFfN2RLHSdE5uz+6omt/ndygF+eFhuZemL94C1a6fDZpLPfPQzc75Uh5fwB4EwmU
+	 0BQu2gURGBKDQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up0Tm-0000000BLg2-2IUN;
+	id 1up0Tm-0000000BLgL-2qpD;
 	Thu, 21 Aug 2025 10:17:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andreas Hindborg <mchehab+huawei@kernel.org>,
-	Benno Lossin <mchehab+huawei@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Danilo Krummrich <mchehab+huawei@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	bpf@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v2 00/14] Fix PDF doc builds on major distros
-Date: Thu, 21 Aug 2025 10:16:36 +0200
-Message-ID: <cover.1755763127.git.mchehab+huawei@kernel.org>
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 05/14] docs: conf.py: use dedent and r-strings for LaTeX macros
+Date: Thu, 21 Aug 2025 10:16:41 +0200
+Message-ID: <0d245fbd872ab3ec21bd8fe78b01340ba77ce365.1755763127.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1755763127.git.mchehab+huawei@kernel.org>
+References: <cover.1755763127.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Jon,
+Instead of adding extra weird indentation at the tex
+file, use dedent(). While here, also use r-strings, to make
+easier to make its content identical to the .tex output.
 
-Here it is the second version of the PDF series. I opted to split one of
-the patches in 3, to have a clearer changelog and description.
+While here, also merge "preamble" that was added on two
+separate parts of the code (in the past, there were some
+version-specific checks).
 
-Also, archlinux LXC image download started working again, so I added
-an extra patch addressing texlive packae dependencies.
+No functional changes, just cosmetic ones.
 
-This series is taking me a way more time than antecipated.
-
-This series as 3 goals:
-
-1. Fix a pre-Sphinx 1.7 PDF variable that got renamed, but
-   our Makefile still uses the old one that is not supported
-   since Sphinx 1.7;
-
-2. Fix broken or incomplete texlive dependencies on several
-   distros;
-
-4. "modernize" conf.py to solve font conflicts related to UTF-8
-   and non-UTF fonts from [T1]{fontenc}  LaTeX package.
-
-   Using fontenc with xelatex is problematic, as documented at
-
-	https://www.sphinx-doc.org/en/master/latex.html
-
-Please notice that:
-
-- It doesn't pretend to fix all  PDF issues. It focus only at the
-  above;
-- there are still distros where PDF builds fail either partially
-  or as a hole. On my checks, those are due to problematic
-  texlive packages shipped on such distros;
-- it doesn't touch/address/alter anyhing related to kfigure.py.
-  as such, it doesn't touch/change/improve/drop anything with
-  regards ImageMagick and/or Inkscape.
-
-I think we need a separate series addressing kfigure.py:
-it currently breaks if either input or output has a char > 127,
-meaning that PDF output there may eventually break.
-
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
-v2:
-  - one of the conf.py packages were split to help reviewers
-    to check the actual changes;
-  - added an extra sphinx-pre-install patch for ArchLinux.
+ Documentation/conf.py | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-Mauro Carvalho Chehab (14):
-  docs: Makefile: Fix LaTeX paper size settings
-  docs: conf.py: better handle latex documents
-  docs: conf.py: fix doc name with SPHINXDIRS
-  docs: conf.py: rename some vars at latex_documents logic
-  docs: conf.py: use dedent and r-strings for LaTeX macros
-  docs: conf.py: fix some troubles for LaTeX output
-  docs: conf.py: extra cleanups and fixes
-  scripts: sphinx-pre-install: fix PDF build issues on Ubuntu
-  scripts: sphinx-pre-install: add missing gentoo pdf dependencies
-  scripts: sphinx-pre-install: fix PDF dependencies for openSuse
-  scripts: sphinx-pre-install: fix dependencies for OpenMandriva
-  scripts: sphinx-pre-install: fix pdf dependencies for Mageia 9
-  scripts: sphinx-pre-install: fix PDF dependencies for gentoo
-  scripts/sphinx-pre-install: fix Archlinux PDF dependencies
-
- Documentation/Makefile     |   4 +-
- Documentation/conf.py      | 106 ++++++++++++++++++++++---------------
- scripts/sphinx-pre-install |  46 ++++++++++++----
- 3 files changed, 101 insertions(+), 55 deletions(-)
-
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 6e12c7d8e07e..628af81e6879 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -9,6 +9,8 @@ import os
+ import shutil
+ import sys
+ 
++from  textwrap import dedent
++
+ import sphinx
+ 
+ # If extensions (or modules to document with autodoc) are in another directory,
+@@ -462,11 +464,11 @@ latex_elements = {
+     "inputenc": "",
+     "utf8extra": "",
+     # Set document margins
+-    "sphinxsetup": """
++    "sphinxsetup": dedent(r"""
+         hmargin=0.5in, vmargin=1in,
+         parsedliteralwraps=true,
+         verbatimhintsturnover=false,
+-    """,
++    """),
+     #
+     # Some of our authors are fond of deep nesting; tell latex to
+     # cope.
+@@ -475,20 +477,16 @@ latex_elements = {
+     # For CJK One-half spacing, need to be in front of hyperref
+     "extrapackages": r"\usepackage{setspace}",
+     # Additional stuff for the LaTeX preamble.
+-    "preamble": """
++    "preamble": dedent(r"""
+         % Use some font with UTF-8 support with XeLaTeX
+-        \\usepackage{fontspec}
+-        \\setsansfont{DejaVu Sans}
+-        \\setromanfont{DejaVu Serif}
+-        \\setmonofont{DejaVu Sans Mono}
+-    """,
+-}
+-
+-# Load kerneldoc specific LaTeX settings
+-latex_elements["preamble"] += """
++        \usepackage{fontspec}
++        \setsansfont{DejaVu Sans}
++        \setromanfont{DejaVu Serif}
++        \setmonofont{DejaVu Sans Mono}
+         % Load kerneldoc specific LaTeX settings
+-        \\input{kerneldoc-preamble.sty}
+-"""
++        \input{kerneldoc-preamble.sty}
++    """)
++}
+ 
+ # This will be filled up by config-inited event
+ latex_documents = []
 -- 
 2.50.1
-
 
