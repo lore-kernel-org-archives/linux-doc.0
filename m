@@ -1,84 +1,164 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19420482FF;
-	Thu, 21 Aug 2025 17:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA3534166A
+	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 17:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755798372; cv=none; b=obvkv4SSTqtT9ZH5ET3zGPFTI1wFwcn1q43AZ0/tcYDD1f1sOenv0jIBYBDseDzhcj2BGE4GMQhHJod57CurfhzBfhqjCUKnqMKrZ58FEOZJMK3hbXPOYkEynxI3sYii/m9x1eKx86frTuxM1tuc5rnzGNes67zcoZOKHnaQpGg=
+	t=1755798401; cv=none; b=S+bMnUPOUELs/pJYr755YO6VYu4f7wPB2HUNtUrnpd99/I+S583ZXY+XbwV9+ropsOeur7LD28E9CMZpBfYlotFjD5R3pjTp1a4fHG4e+3KMPf5vNOz/2LiUBR5aBIpE3jUVgqPsu+xH99Fk3GFuc3c9joiydOPhRB/g9171efk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755798372; c=relaxed/simple;
-	bh=qhT+LlyRONqaan1vamerAK8oTaKUm0AOI6yLv41vfyo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HngKA2Ki2pp84hAwzE14ybEUmnXfXGFYW1vZkdAAHnSqQgnvsqixJmBYemtA32YtgnFO8N8F0o5VenSj1OtVvdze1Xajs4jZ73NtLPGsDb2Hnd/DHAbOGqJ00MB5Dq9vG44FZjJr0USOrWyfHdomYMooKaYPGipP5LuasYXCZUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LB001szm; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1755798401; c=relaxed/simple;
+	bh=+6CPkCJkU3jwdrOKTxcDt42eFa4pUWh02uNfZWyKCUU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hGwYZAmrdk+WemKzIJBf9O2/5plrGkZyxwFbRVo2kOVuQ88LdAIXHwEFe8qnOF+XBfQa8eRd61t7C2gkqTab9vD8HfCe2pvR93wdHLwmxE/g4VsCXGglbQ01rOnm3mCMxo6Vi5mHKrDNCszx5pmITYnBgFmKHnV2C2Db8wp17jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ufjD5Ioc; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LB001szm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 77AE040AB4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755798360; bh=CI5IIwqpEBf3bKeAEA5qs+18psBFosyojgKFAxoWgJQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=LB001szmpjh9qLBkz99Q1toXRxO85gkuwJnKfxx/7+7SV8zR2KGPLek/RkF5Q/pGF
-	 VujInIUeyphpuFodghvfusPki/zQUV50QkIlHOPxlSoNeaOTFZUseIubj4SCbJdY4P
-	 PUjUK6cGyzN6IZEYRqbFATcS17YJdt7blfJOzLpOQz7hM0zzd3AsI7B74Ct/k88scg
-	 eRj+8/2Rfuh+1YL0KYwptdJ5FIBU/PuSvRcEDZXtxablvYoeNhjpuTLM1YPy4ZO1d6
-	 B7tvNrORvgc4bgyUuUPQdUzbq8qsG5tC1XOJNDS6ysbwgBkZQOvr2f/oEZn0ENAT1b
-	 LV6vjJ67teYig==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 77AE040AB4;
-	Thu, 21 Aug 2025 17:46:00 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Albin Babu Varghese <albinbabuvarghese20@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Albin Babu
- Varghese <albinbabuvarghese20@gmail.com>
-Subject: Re: [PATCH v2] Documentation: conf.py: remove repeated word in comment
-In-Reply-To: <20250820194714.130513-2-albinbabuvarghese20@gmail.com>
-References: <20250820194714.130513-2-albinbabuvarghese20@gmail.com>
-Date: Thu, 21 Aug 2025 11:45:59 -0600
-Message-ID: <87ms7s7elk.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ufjD5Ioc"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4b109c6b9fcso13662881cf.3
+        for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 10:46:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1755798398; x=1756403198; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uzrL+hxbYv3dn1xiOMrlh++7JUhUx/rmU8UbpYquXTw=;
+        b=ufjD5Ioc6f3aeem10cQp6hRCB3ScljLN/y+3d2qWbFN9Eimq8y+FWt+QtvVmXw9dA4
+         opeulrOPmQX5n/mFtbIL/TGlMlZbnTUNNxB6KW6NoHeNABHeSUynR/TgbIGoe2x4zCI6
+         nvopJFZyGt9f6xVR3CQ6tv4ba4GsIlScUEt2kQtHgO9bK/3yrzBsOK6NfZlkRf7O4/ut
+         EqJ9vy9ofIhpmGP3KAjUpbQjMUKP8Pc+HiXVaCxnU2m2kb6QMiPr5JJGGhibv43aZ1Yd
+         tPpr2o+f7YA7GJ8tiVAI7LiTSl9p8BZHc4RputahW2t/HP5d75rCiZ0gDvsgP6mZqPdd
+         3o9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755798398; x=1756403198;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uzrL+hxbYv3dn1xiOMrlh++7JUhUx/rmU8UbpYquXTw=;
+        b=g/bZMVzKZJd2oXs0Hjt1zSteoiIe8tsOlDJN9zjsIod0TV3bAZj7jzF2eacfKTMlgw
+         mDOaxvd8QfdDsxNs1KQ9CPjNvE2gRblothmtHBpo/WDGQT1ccCA6wLQcb0jcVSW7p8Tz
+         8PN8qMsMP7Bq9OW1aHBeUxlrvFMjL0XiFCD0Oi9x/Mxi4ySXP68btuGngh/brHL+PHS8
+         bwF2cNYxCf08SAg3RX9ySjTfBGZO1DwwBhsItjWLDdS+sGr9quqoHweW77vkzwFsFxpy
+         EN2NKDlFP72EQkQcHgrlzLguretW9ttSPCyckJBqjcvg5HBYEbZg6A1v/B4KNN9G7J9M
+         fAXg==
+X-Forwarded-Encrypted: i=1; AJvYcCWyWwb+Ysvy0zU3nHKphafAalYtqtqxAlVzpVSnATduhhMyWC1k6ApBExF8+f8Wjz68+dP/XjeJtW8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqeMWHWv9ZVvNDlWq7fNO8RTZ+INi3PGpt+iIf0A+0dV8c7nFD
+	ipWAO9uAyiHSa8eEgfCCCeyEmDnFO4SRXXe6ZLoUSY6iH00jA+N3udBq6wp4Wa2ubKvSHpqsyRo
+	b+WClVwx0qQsmkOaLCq628JGhia8xQIgayClnCqJs
+X-Gm-Gg: ASbGncs4d56C/AmOkuEHAih8Flf4xe8ZnQVKDMo3zLugtoamP8byddzcw3Z0Kz477IP
+	peQWlUhMDswmRwEmcI3P7sODkE6IJ2+rVPz5MfUZhzYS+mTfYSsfRrbJzbknch/23y2MDW0Fgdo
+	ub20m3wqqOtiUjl8L+O66eKNnv0KbVXz0WcGXg+f6xe5m+vdT+hjRUu5wAF/okx6fh9jJn1wUdU
+	TxyzlHOD/LO
+X-Google-Smtp-Source: AGHT+IEPW6QZom8xTHjRvXzIsbS/Xb3yKjPQUt3+2w0w7igAKtZFc1SFusSTDUIJPiCoiwOQWVVN1GDfEbX7kTFDR6k=
+X-Received: by 2002:a05:622a:4246:b0:4a9:c8e3:a38 with SMTP id
+ d75a77b69052e-4b2aaa43606mr2186881cf.30.1755798398051; Thu, 21 Aug 2025
+ 10:46:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250815083930.10547-1-chia-yu.chang@nokia-bell-labs.com>
+ <20250815083930.10547-11-chia-yu.chang@nokia-bell-labs.com>
+ <CANn89iKPTWBdi8upoxjFok2CPFhkGB9S3crZcefZ0mRhFHGPhQ@mail.gmail.com> <PAXPR07MB798496F6B674558AFD2B1641A332A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+In-Reply-To: <PAXPR07MB798496F6B674558AFD2B1641A332A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Thu, 21 Aug 2025 10:46:26 -0700
+X-Gm-Features: Ac12FXzuY5h4-8nywf9JRUgDh45lUrIesLySxStr10g3ePmx7oNQt6qd-NsptN8
+Message-ID: <CANn89iKyU-r93MWukKRh4qPmEgLwSNKudOp_xQ2A6YpaWoUJFw@mail.gmail.com>
+Subject: Re: [PATCH v15 net-next 10/14] tcp: accecn: AccECN option
+To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>, Neal Cardwell <ncardwell@google.com>
+Cc: "pabeni@redhat.com" <pabeni@redhat.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org" <dsahern@kernel.org>, 
+	"kuniyu@amazon.com" <kuniyu@amazon.com>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "jhs@mojatatu.com" <jhs@mojatatu.com>, 
+	"kuba@kernel.org" <kuba@kernel.org>, "stephen@networkplumber.org" <stephen@networkplumber.org>, 
+	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>, 
+	"davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, 
+	"donald.hunter@gmail.com" <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>, 
+	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>, 
+	"Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>, 
+	"g.white@cablelabs.com" <g.white@cablelabs.com>, 
+	"ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>, 
+	"mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>, "cheshire@apple.com" <cheshire@apple.com>, 
+	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, 
+	"Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Albin Babu Varghese <albinbabuvarghese20@gmail.com> writes:
-
-> Remove a repeated "are" from a comment in conf.py
+On Thu, Aug 21, 2025 at 7:58=E2=80=AFAM Chia-Yu Chang (Nokia)
+<chia-yu.chang@nokia-bell-labs.com> wrote:
 >
-> [v2] Resent with full recipient list. No changes from v1.
+> > -----Original Message-----
+> > From: Eric Dumazet <edumazet@google.com>
+> > Sent: Thursday, August 21, 2025 2:30 PM
+> > To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
+> > Cc: pabeni@redhat.com; linux-doc@vger.kernel.org; corbet@lwn.net; horms=
+@kernel.org; dsahern@kernel.org; kuniyu@amazon.com; bpf@vger.kernel.org; ne=
+tdev@vger.kernel.org; dave.taht@gmail.com; jhs@mojatatu.com; kuba@kernel.or=
+g; stephen@networkplumber.org; xiyou.wangcong@gmail.com; jiri@resnulli.us; =
+davem@davemloft.net; andrew+netdev@lunn.ch; donald.hunter@gmail.com; ast@fi=
+berby.net; liuhangbin@gmail.com; shuah@kernel.org; linux-kselftest@vger.ker=
+nel.org; ij@kernel.org; ncardwell@google.com; Koen De Schepper (Nokia) <koe=
+n.de_schepper@nokia-bell-labs.com>; g.white@cablelabs.com; ingemar.s.johans=
+son@ericsson.com; mirja.kuehlewind@ericsson.com; cheshire@apple.com; rs.iet=
+f@gmx.at; Jason_Livingood@comcast.com; vidhi_goel@apple.com
+> > Subject: Re: [PATCH v15 net-next 10/14] tcp: accecn: AccECN option
+> >
+> >
+> > CAUTION: This is an external email. Please be very careful when clickin=
+g links or opening attachments. See the URL nok.it/ext for additional infor=
+mation.
+> >
+> >
+> >
+> > On Fri, Aug 15, 2025 at 1:40=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.=
+com> wrote:
+> [...]
+> > >  /* Used for make_synack to form the ACE flags */ diff --git
+> > > a/include/uapi/linux/tcp.h b/include/uapi/linux/tcp.h index
+> > > bdac8c42fa82..53e0e85b52be 100644
+> > > --- a/include/uapi/linux/tcp.h
+> > > +++ b/include/uapi/linux/tcp.h
+> > > @@ -316,6 +316,13 @@ struct tcp_info {
+> > >                                          * in milliseconds, including=
+ any
+> > >                                          * unfinished recovery.
+> > >                                          */
+> > > +       __u32   tcpi_received_ce;    /* # of CE marks received */
+> > > +       __u32   tcpi_delivered_e1_bytes;  /* Accurate ECN byte counte=
+rs */
+> > > +       __u32   tcpi_delivered_e0_bytes;
+> > > +       __u32   tcpi_delivered_ce_bytes;
+> > > +       __u32   tcpi_received_e1_bytes;
+> > > +       __u32   tcpi_received_e0_bytes;
+> > > +       __u32   tcpi_received_ce_bytes;
+> > >  };
+> > >
+> >
+> > We do not add more fields to tcp_info, unless added fields are a multip=
+le of 64 bits.
+> >
+> > Otherwise a hole is added and can not be recovered.
 >
-> Thanks, Albin
-
-For future reference, information about resends and such should go below
-the "---" line so that the maintainer does not have to edit them out
-when applying the patch.  I have taken care of that this time around.
-
-> Signed-off-by: Albin Babu Varghese <albinbabuvarghese20@gmail.com>
-> ---
->  Documentation/conf.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Hi Eric,
 >
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 700516238d3f..55299665753a 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -224,7 +224,7 @@ author = "The kernel development community"
->  # |version| and |release|, also used in various other places throughout the
->  # built documents.
->  #
-> -# In a normal build, version and release are are set to KERNELVERSION and
-> +# In a normal build, version and release are set to KERNELVERSION and
->  # KERNELRELEASE, respectively, from the Makefile via Sphinx command line
+> Thanks for the feedback.
+>
+> Then, would it make sense to add __u32 reserved; here or this is not an o=
+ption?
+>
 
-Applied, thanks.
+I would prefer we take the opportunity to export a 32bit field right
+there, instead of a hole.
 
-jon
+A reserved field makes it difficult for ss commands to know if a new
+kernel is using it for a different purpose.
+
+Neal, any idea of what would be useful ?
+
+I was thinking lately of sk_err_soft, but I am not yet convinced.
