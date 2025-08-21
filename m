@@ -1,139 +1,112 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429B5257444;
-	Thu, 21 Aug 2025 02:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF4328466E;
+	Thu, 21 Aug 2025 03:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755744627; cv=none; b=D4SOjHQkEHd93RnMUVz0gK0CVNU92wabZRHtCIG3cc9YwIuFTqMr4TDwauEq0XIeLDyZzKNnXbC+QETs7+oppXElRdugUVs4G1pGHA6OGEtYk9nY9xq+RqSBUyNGpX8Vq2O28XMojvvqY2W542LLX4gv7K7Sq/T4A1Lnbg8MVAw=
+	t=1755745263; cv=none; b=L97nFO3U3a9rXq18TEpP7TnWlBxi8Zm1EPm2JNs/uks5RhG6/+Qd235aMH4utsCXN9b8POHx2l67xOmQjIAWsc0Cz7k5kIRJ+M4iRs55Y0N37/FGr2Z+2b2wbFlG8a2xMlfD0IcWKgnPmegWw2J6O5M+hP5N3dDMINCf7PLTurE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755744627; c=relaxed/simple;
-	bh=PxgeMwMuKv1sf/Jw8hoEPPd+SqpGsYOFkotxhNq7MrU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BB4VgClVeW9mQSta3UXogO/Tv0wKnrvEB/QdSFGLrhbHhlKrUqp89j/ASobFN3/+69SKwanLrOF50oFy7EM42S+YDWOzG9fTptL+xAUw77hNi19/ia+IL2akFF1UTSjJUb8bRDTpCixBUVg4sPSvYCgRod8t8apkZdLZ3WPxl78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpgz13t1755744557ta3696645
-X-QQ-Originating-IP: IRI4JVT8dnqpFasF7EfI29Fv/GrSs4XUrjhwgvGABck=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 21 Aug 2025 10:49:15 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 16182991720817672807
-Date: Thu, 21 Aug 2025 10:49:16 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <458C8E59A94CE79B+20250821024916.GF1742451@nic-Precision-5820-Tower>
-References: <20250818112856.1446278-1-dong100@mucse.com>
- <20250818112856.1446278-5-dong100@mucse.com>
- <39262c11-b14f-462f-b9c0-4e7bd1f32f0d@lunn.ch>
+	s=arc-20240116; t=1755745263; c=relaxed/simple;
+	bh=Wnj4zpvupDfJwbDnmrVHBhHb2H+f2JtBrQtLkPCOY9w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=imWcuum4dREZog3aErTxOAhLHn6cqcJQRdvvAfeU0IDqVFfT/4KXxoHEifPHTdOu11GW+cPvbRlUBh36IaZQpR1KRiVaF7Xe6llg9D68qP/t2yw0VZ8sBmnlqtb8XVXo6GoMtLoJVO7vYoVgCF95v6iOp86L5IP/GDzOJV5WOtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gaSDnzkH; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gaSDnzkH"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b472fd93b4aso406032a12.0;
+        Wed, 20 Aug 2025 20:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755745261; x=1756350061; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uLIq0IXj0ljbI/uh1YhQvF3IAqw8jhRLNek2lIEpThg=;
+        b=gaSDnzkHkLJiIiV7nkTEjsmaY4FbUGUKggA0GctCAN5coQG8j/RNgGS4W0iFz1mD+D
+         SAnUEj1JhN9O0YZjHynAEeq0Kz3kr/aWjiTTuaj2A2rUEExiy81ahNCW8Q+c0YkWnuxB
+         icC9mAy1Vc5IZMjhRSoLtBumUVH1+a+5E1ROzUtCzVmKHiVcbhQOEUC+PMVC98f7mZcc
+         0zrsDKHmwmwiO5LKe1vojFne9o4QkyElQooV6o+w2UYvaJ8K03Ica0NiJU6m7AYpVOP5
+         AcGDkQF+ancKnSWpqe4M1oZbF1yMWeuZI8rh/RUjB83lBSz/fdrOlnlEBWiAYFSRcN4Q
+         0dSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755745261; x=1756350061;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uLIq0IXj0ljbI/uh1YhQvF3IAqw8jhRLNek2lIEpThg=;
+        b=SPGzo+OA3Y8ghgqWEvhiV176JPBY+O/rbqOOtfUrSrqjLG9Gt0R9s7glUNUNl/EolI
+         ZEib+X3KI++2WIqMCnDsaYM00sGPHiWZUrt6zZWOd2Sbw/zwyx7SZvJi0XcY76XzSp3u
+         szFeCZjPr2tFnzPMFLyMT+CmhTOW4ei3HBWTXrQVgY+u1Tff+2hIKOHL3tlMXBFoBG8U
+         QBBg6NfnGmc+S3Ls+O4nsVQhM3t7/JWi5ClXFxF62twswKHcXymLNKb/99Q5r++Azy5F
+         JszmIU0cZjjyqRoVP2alUWu6eXvIJCprhA2mS+dqs/k7eUauotGKm9v4H6a9q/Op9APB
+         F8EQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9K2+NzpkK47T5Z93tzsIBldNxSaQpIWy34JkE1Arh6gsPIXHL86rLWSHxMSnrF8uhcha+Z6Wv2RNG+gM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywvp1nB7wGnAnWv4oS/2iDk1oHUSry9Osysem4Nag93LU7D4AMF
+	lLdzu3Qp7xjIGvYLJCpyEBEyijgS1oug3Ql7uY5eRC3IZgzxlOc8ARd8kXXRqQtImkw=
+X-Gm-Gg: ASbGncsabaH89b3IpTmHCN7LbvX62SwKe9C6buIdXb3828fSabejgLKZAk55Zt73Ufs
+	S4nM1i3pOfvof/ZFZ2HWFkQZ0drFlKc+wD67TY0w66YsL/vR966lG8ZqIpJntk+wAkWH7AzVuT7
+	7vZodpSCRSmdwquCWHqzTvFulcUnMWPvPW5R7NxXC2rs7M91DP6Dl48fCqhjLUdjgK6FJWN8Anw
+	fKM0HPyyzpVoODCY+DhnOqGI2S/E4HMVQOojV6uZVT5oLxLnOqBcaF0hD3LK6Rn3xWuS/P/WHib
+	Fa0AgskMizHWt0J/wMskqtpYUlqg+xPt49BNcsHCHUTyrNmE8pGIlhge6QaQ8hiDfEcvCu/TgI0
+	sjE5s3G7lPFyrl6hkarbGHWnm+jWAOgkJtn7CFg==
+X-Google-Smtp-Source: AGHT+IFvneYPfHw10OoTjF7DG4R4kNeVCtXde9LOb10gF9Bf3fn+/lBg5GgGDr671XjIvWiL9/bblQ==
+X-Received: by 2002:a17:902:f706:b0:240:1953:f9a with SMTP id d9443c01a7336-245febe9311mr14910865ad.2.1755745260921;
+        Wed, 20 Aug 2025 20:01:00 -0700 (PDT)
+Received: from lkmp.. ([49.37.161.210])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed4c73f2sm40160695ad.94.2025.08.20.20.00.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Aug 2025 20:01:00 -0700 (PDT)
+From: Rakuram Eswaran <rakuram.e96@gmail.com>
+To: linux-doc@vger.kernel.org,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	airlied@gmail.com,
+	corbet@lwn.net
+Cc: tzimmermann@suse.de,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	simona@ffwll.ch,
+	siqueira@igalia.com,
+	harry.wentland@amd.com,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	rakuram.e96@gmail.com
+Subject: [PATCH v2 0/2] docs: gpu: fix typo
+Date: Thu, 21 Aug 2025 08:29:54 +0530
+Message-ID: <20250821025957.22546-1-rakuram.e96@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <39262c11-b14f-462f-b9c0-4e7bd1f32f0d@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MtJoEQFRGvIz+NzKHcymgitHH9mkdki7M6BU+/P44iTr3hUY+HJLcPIQ
-	Dtkee77cDJu2Raw6kfel34D72s5CBCDnn0vsyaAuEJh23CCCD4LX/oqXb1Oh2maWfiMvFU/
-	wCzU03PPOf25vyCtxy3eXZ5qa3S16t9QTVFKZRPHFqAbrJHuqR/DEFqahscvBoC22YLSXM5
-	tZQg72Suy+DQ9X8HUIqUZqeGHxnaoBKyG2rkmS6F9DR3lYTqP62yRtgpEBu2G0VNDm0T78Q
-	j1Q4COSX+sSHUrh3Axrym0u7OkWtXqx10DkQbGTxUQ6sFP9/wYXmJcPtfPuSjFMKqTKtU6S
-	e1lA8QtLq7mlik5dmeO5MzR5O3LxyHuIE3P5YkkaioyAlASxbm2thusV3O6DF3JjWAWHVbA
-	k1qAwraswiEB2CKVWZh/jngTDF+Id+WYKsRP5jryZ+AUbPwQ12wDWe8aQ7Qj18xkoJt3itM
-	NG5bjbpIVYHcmrz7+Pg9G7sKamkN8r9n1OY6joEU0KkScvFZOcICRdwX0zUInAQkfKTjB8C
-	k/T6E1Csz6Knhwvtdx3qSMpThv/cCpQoOx9tZ8jd9D4+/fbobFLFskwPK/Ch7CjuhCPyK30
-	1j33SO18r3CP8PmeN0ZOsLw+a0AGjdiBjj05drW1bUhRidUjdG7iNVp4u/LYTq8M9hok116
-	Uokdugnmt0u+AfiTHn0FrQEYMKowfWaHPjCMdAMzq9jrhgyUyg4GcV5BlZUVWX9iB68cbEy
-	IcrTuKRrOLPZB6VnrPdBXXslxbl1sAUfXPdW+RYhEAUraNi75YQc9YEq+9Y7bTqnBYBS27u
-	xVzpOWdeiqjfdt6QcDsZOnCM9PavQzFo8Rnt9L7kuovD0FJvhcIwgFx1LnLtjCERzZnRk/D
-	N8EUQ+AdDJjxLStQcuz/cOFJqNOrzNwdN80Mi5KMkA7PfmazaCdpamoeBAld+R+YvoAKFBH
-	5Av3H6BhoyvYELBuSJI/z6kisKje9fcT0VK9wQakDKB1OXcdtyXFH9q8glyY1ZHqmLXz9iF
-	LXm9e/wrQkhnGOdcfxDQCPntkjRFg=
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 20, 2025 at 10:37:01PM +0200, Andrew Lunn wrote:
-> > +static int mucse_mbx_fw_post_req(struct mucse_hw *hw,
-> > +				 struct mbx_fw_cmd_req *req,
-> > +				 struct mbx_req_cookie *cookie)
-> > +{
-> > +	int len = le16_to_cpu(req->datalen);
-> > +	int err;
-> > +
-> > +	cookie->errcode = 0;
-> > +	cookie->done = 0;
-> > +	init_waitqueue_head(&cookie->wait);
-> > +	err = mutex_lock_interruptible(&hw->mbx.lock);
-> > +	if (err)
-> > +		return err;
-> > +	err = mucse_write_mbx(hw, (u32 *)req, len);
-> > +	if (err)
-> > +		goto out;
-> > +	err = wait_event_timeout(cookie->wait,
-> > +				 cookie->done == 1,
-> > +				 cookie->timeout_jiffies);
-> > +
-> > +	if (!err)
-> > +		err = -ETIMEDOUT;
-> > +	else
-> > +		err = 0;
-> > +	if (!err && cookie->errcode)
-> > +		err = cookie->errcode;
-> > +out:
-> > +	mutex_unlock(&hw->mbx.lock);
-> > +	return err;
-> 
-> What is your design with respect to mutex_lock_interruptible() and
-> then calling wait_event_timeout() which will ignore signals?
-> 
-> Is your intention that you can always ^C the driver, and it will clean
-> up whatever it was doing and return -EINTR? Such unwinding can be
-> tricky and needs careful review. Before i do that, i just want to make
-> sure this is your intention, and you yourself have carefully reviewed
-> the code.
-> 
->    Andrew
-> 
-> 
+Fixed multiple typos in GPU documentation reported by Codespell.
 
-'mucse_mbx_fw_post_req' is designed can be called by 'cat /sys/xxx', So I used
-xx_interruptible() before.
-The design sequence is:
-write_mbx with cookie ------> fw ----> dirver_irq_handler(call wake_up)
-			|                |
-			V                V
-	   wait_event_xxxx  ------------------->  free(cookie)
+This series touches both amdgpu- and drm-related files.
 
-But if ^C just after 'wait_event_interruptible_timeout', cookie will
-be free before fw really response, a crash will happen.
-cookie pointer is in mbx.req, and fw response with no change.
+Changelog:
 
-write_mbx with cookie ------> fw ---------> dirver_irq_handler(call wake_up)
-			|                          |
-			V                          V
-	   wait_event_xxxx  --->  free(cookie)   crash with freed cookie
-			     |
-			     v
-			    ^C
+Changes since v1:
+- Dropped fix for drm-mm.rst (was included in v1)
+- Split into a patch series targeting both amdgpu and drm
 
-So I use goto retry if -ERESTARTSYS with wait_event_interruptible_timeout.
-And it is the same with wait_event_timeout.
-If ^C in mutex_lock_interruptible, it is safe return since no write to
-fw and no response from fw.
+Rakuram Eswaran (2):
+  docs: gpu: amdgpu: Fix spelling in amdgpu documentation
+  docs: gpu: Fix spelling in gpu documentation
+
+ Documentation/gpu/amdgpu/debugfs.rst                       | 4 ++--
+ Documentation/gpu/amdgpu/display/programming-model-dcn.rst | 2 +-
+ Documentation/gpu/amdgpu/process-isolation.rst             | 2 +-
+ Documentation/gpu/drm-uapi.rst                             | 2 +-
+ Documentation/gpu/todo.rst                                 | 4 ++--
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+
+-- 
+2.43.0
+
