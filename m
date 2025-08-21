@@ -1,28 +1,28 @@
-Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E330E22156B;
-	Thu, 21 Aug 2025 01:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAA8230BCE;
+	Thu, 21 Aug 2025 02:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755741351; cv=none; b=eJ0CnmlX52ZoTuDbP2jSkneLzei21wK6zohBW4157CrrM5Qh4QPdcjI+21smV6mjFex+6flxiNS+YPsiZe9G4L13p61FXIkDQQ5rCekzyIRMWAILDn2JJdoxwNxEQF/YHVxdC1f/SWXwPLe7OahigXCu8hzHqPnpWtR5IfgfrHk=
+	t=1755741917; cv=none; b=ZfgpzNMsmwbt7QisdrjoM2VTOIf6YfZhzt15cSWDywSZ8SdoQDizFGX/ww202d9fotehpeCd1WsAO4dOlezRGlCRlB1Ia1U1J7oFpIlkyV/zFq1w9WKp2+jLP7ttbQQFSAOlAeCYHsPlqSz2SB4xgSOlCuuTW1/D8vlCOmllbho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755741351; c=relaxed/simple;
-	bh=Hjt2XKIqo3+Dd1a74qTezfLIh4/05/HZfR0EMUnHXBg=;
+	s=arc-20240116; t=1755741917; c=relaxed/simple;
+	bh=FNLBdWhtXd2m9yHwmeI8KFlYBcHkijGv9Sr7nDG2Uyc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kdjY0Vi1MIoI3Exp9TUqA49ZiTDqsNqFUQARggkJiq3LuMI4UkuGEF0D+vYHYgmAJM11d4a1jlLTeVNFBAkVqOFb3WkXXrTw44babYtOqcDq7Q8NTiHG/vgwJrBn/KjgmGjWMCUamfL8kxyv/X/qW3SDfexsHSTNllwXblT+7o4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=52.59.177.22
+	 Content-Type:Content-Disposition:In-Reply-To; b=TNpLi9fyNVxQePIgfs/P5TcndLjoPxFHsyvpKw/OCyAtCJvkUg8kW0ogxTp4tpN1Rp2oU9rtL1lJUSPywfIlT7WJAAqODcq/YsCC55DrEbWy3F7IX+1qOmVDOjPd0MGC0J6U7jriH7OCjznL8WAQjH5dLThoYmHSBSB7vl0S2Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz10t1755741264t689e7382
-X-QQ-Originating-IP: U0fEyWnwHg6dZLkemjeK4dcZ8M2S6VxDy3X/6ajZ+TY=
+X-QQ-mid: esmtpgz12t1755741849tfda9277f
+X-QQ-Originating-IP: CBo+yViVKO1fMalkEw0THj+HBznWJv82D9hIYlQUVFM=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 21 Aug 2025 09:54:22 +0800 (CST)
+	id ; Thu, 21 Aug 2025 10:04:07 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3627118193617159813
-Date: Thu, 21 Aug 2025 09:54:23 +0800
+X-BIZMAIL-ID: 4256339024035975856
+Date: Thu, 21 Aug 2025 10:04:08 +0800
 From: Yibo Dong <dong100@mucse.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
@@ -34,11 +34,11 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	alexanderduyck@fb.com, richardcochran@gmail.com,
 	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/5] net: rnpgbe: Add n500/n210 chip support
-Message-ID: <B6794BB31A93D48F+20250821015423.GD1742451@nic-Precision-5820-Tower>
+Subject: Re: [PATCH v5 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <9BFA6532A427F621+20250821020408.GE1742451@nic-Precision-5820-Tower>
 References: <20250818112856.1446278-1-dong100@mucse.com>
- <20250818112856.1446278-3-dong100@mucse.com>
- <3e5e73f7-bbf5-490c-9cff-24f34d550d24@lunn.ch>
+ <20250818112856.1446278-5-dong100@mucse.com>
+ <399be32e-5e11-479d-bd2a-bd75de0c2ff5@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,55 +47,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3e5e73f7-bbf5-490c-9cff-24f34d550d24@lunn.ch>
+In-Reply-To: <399be32e-5e11-479d-bd2a-bd75de0c2ff5@lunn.ch>
 X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: OE3tIrIEWSq4puDeqjqCrWWgjxg2349e+OeiqYoiQRRBXzcLB0+8oXeD
-	qadmSnrmTyZOquFtDSaLPWuNHB16ioryxlw8ebmPLI1jKhJ3LLG++Ri8bk9jHPfK4+CXChM
-	VvXqEacjYfHMqQSPHrSf9arZhF8uZbYdI9k3Yuqih6mH5lurIWz14mZgnskw/iy5lM5RWKx
-	1oo5eq+wlTiIlvQydo53CeAGH8QhMPOUIY60rT3gof+KSTamzvwBGr57to8TcXaMwy+HFvJ
-	n81ULboQ6EiWXmHs3JmQJWtrfGkdmVHYBVTOJKmJFsOoRCugHbhSWQJqsifn3sri2OFPJfF
-	Jz6MMrKBkOTHxCxqP8JlGW1NlDzu8nAvLF1xDHWg/XfS4/JwTzP/t50Q3E0i8heR8gPxUDG
-	CzmmjycfjODSD+uNzbtkVWNX2xH7N0XVEOkoOcTaEXHUoWmpjUEIa293H5QagbUBxAhnpD8
-	ZUbkF/StJURC3pr44L++6pcg7Z8T5m41puflgVEZbojYeC10pU/07kZSm2f5kwFY8L2Fv9R
-	gDfQ2YKDAyexb9SnMxs04cjXflqH2ga+P8Adk8Sr7GYlYyJUKlhCJJPaTsD26UpjiJGwiYy
-	EdYcEukXGNJnsiyiACzO5GHKAQMspngt2EEjGYZ2g3sRDKQnYHRxyH9ZZ5rvga9guLCcY+O
-	GGOryvzHQ0zF0sUfNSQXo/kV0Ct3uNkb8Q9GpfvwUKVfhj9nfGIsc3/+vLdTCi4BWS+88ZK
-	tGLQjxnn5p7Ae9WnTjDAh+JtPGaTFJkANzpG2lQwqk48w4KslDDMrxP8ROJLOKkkhOTO43o
-	YPZmqG8KR8B52aPTOE5PmrnKUsMcVftrvsRNhjWqk2VKMYL7jG/OJRSzE7LKXexpWd2m9RP
-	2D24lpgCr6xwJQDnr/38L6ZyejX3A02s5wEbG18MGAxpYfgFgplR/3ywwn10AUGfGNXNAit
-	4bToR+4Xx4opuo4Uk2c6xrsXIYJV2pAVv7R5RMbhOPSMuJgJ5VVbrAba5Nn2dvaaqpuUySs
-	+is4Cb6moPZSUCo1SWs3hbm4kUvPXVOQJOYdX39Q==
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NY3HYYTs4gYSjrhh3m4f0J0Kvtdb/NldPTYVgytLe5LaYOwshZEv00FW
+	vk75Ova3HY7YABMvLPcTpJ0x2t7juGYgsk6GdypMPmazhtZNY+UBwUEmHna+w81AfgIlvMx
+	tiSW5We2O9FJuhlbG3cOpAEpVe+eDDlhsOzu0LuhdTKLZtMcP/TCnZGRBQwkfm09LpxJeiZ
+	m9wnEDEEwCXbcuq+MDLzvZPItSRnkpRLYvKMNa+UvxM/eG2v6b5pXMnx6DYHwGBpdcJ+BJG
+	5Z28k4rMbHU2C+Emcwy1HYH5HRw1eTLXO+ihWyw3J+4g/wnD1S3J746RRpXm5QLvG7vz2qq
+	MMog3g/ZQSUFMAb7K+YfNhc8MknPO4agjHByGRrpr6deXMJqmBonxzViW8M8OJHJDn+eNNl
+	pg/SWlo63yPH+yShLAKY/PinkhO8ijnpW9Enm72zCmbzG6zdHq82VGgz5iZLJUcNGIbUZxP
+	HulYLTG6fkwtt7ShPxgqNslqYpuqtPcH1+5usAFPDbxwBXO5kAzlQZDRDPg/9eP6C0ztkFl
+	KuM0fwGrJTwUA8QtjmbmV2s0J8luxGr2T0wpoDgb9kAGssRcFiNXNUo9IqzPLpnvYmpPHgr
+	C7c+KTjeWgnM6x8SPRuWSBTu2TffvkSslkm3d+NaY4LCtZ+Hq7sIaSWxWrPegQo/3WAh8vo
+	wie/phgYRHBvBg6HXmLVe2RgEr/3pGPeZlfETywdmAkeRwmJzkrcNf45YWfQW8+zxkZ6HAl
+	W9gOX5PzDy5fsYxCJq3j9IdLiv4poXKRruc7emxMcqu4Pf7SXxDD552xWss6H2RZdKJDrc1
+	WqCH2TY72RVSTE6XSvSZZqttRF9sUOGfk480KMh0s0zoi+UgcewQnV5cPR5/H/tw/1FHWMP
+	nT8jFyyb29FisGEujhLptRT0dFoFSzwGD5Er8rHuZaWlNShAXPjQNZUtyNpEM6RGvrpnVMx
+	kWF98bEC+aaK4rC9ju9W+MNR9rQJtI4A1QJZFPpb1oBnvN2civXjeqUsv1lawWs0I6bfq0J
+	RxupG4DZzxPafjWwNVpZ6DgfKsCsOi5XJ9mvG9l+XnEa86ccIB
+X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
 X-QQ-RECHKSPAM: 0
 
-On Wed, Aug 20, 2025 at 10:16:00PM +0200, Andrew Lunn wrote:
-> > +const struct rnpgbe_info rnpgbe_n500_info = {
-> > +	.total_queue_pair_cnts = RNPGBE_MAX_QUEUES,
-> > +	.hw_type = rnpgbe_hw_n500,
-> > +	.init = &rnpgbe_init_n500,
-> > +};
+On Wed, Aug 20, 2025 at 10:30:17PM +0200, Andrew Lunn wrote:
+> > +int mucse_mbx_get_capability(struct mucse_hw *hw)
+> > +{
+> > +	struct hw_abilities ability = {};
+> > +	int try_cnt = 3;
+> > +	int err = -EIO;
 > > +
-> > +const struct rnpgbe_info rnpgbe_n210_info = {
-> > +	.total_queue_pair_cnts = RNPGBE_MAX_QUEUES,
-> > +	.hw_type = rnpgbe_hw_n210,
-> > +	.init = &rnpgbe_init_n210,
-> > +};
-> > +
-> > +const struct rnpgbe_info rnpgbe_n210L_info = {
-> > +	.total_queue_pair_cnts = RNPGBE_MAX_QUEUES,
-> > +	.hw_type = rnpgbe_hw_n210L,
-> > +	.init = &rnpgbe_init_n210,
-> > +};
+> > +	while (try_cnt--) {
+> > +		err = mucse_fw_get_capability(hw, &ability);
+> > +		if (err)
+> > +			continue;
+> > +		hw->pfvfnum = le16_to_cpu(ability.pfnum);
+> > +		hw->fw_version = le32_to_cpu(ability.fw_version);
+> > +		hw->usecstocount = le32_to_cpu(ability.axi_mhz);
 > 
-> total_queue_pair_cnts is the same for all three. So it probably does
-> not need to be in the structure. You can just use RNPGBE_MAX_QUEUES.
+> If you can get it from the hardware, why do you need to initialise it
+> in the earlier patch?
+> 
+> I guess you have a bootstrap problem, you need it to get it. But
+> cannot you just initialise it to a single pessimistic value which will
+> work well enough for all hardware variants until you can actually ask
+> the hardware?
 > 
 >     Andrew
 > 
 
-Got it, I will update it.
+It is a problem related with fw version. Older fw may return with axi_mhz
+0, So I init a no-zero default value first. Also, I missed to check the axi_mhz
+here. The 'usecstocount' is removed in v6, I will update here like this in
+the patch which truely use 'usecstocount':
 
-> ---
-> pw-bot: cr
-> 
+if (le32_to_cpu(ability.axi_mhz))
+	hw->usecstocount = le32_to_cpu(ability.axi_mhz);
+/* else keep use the default value */
+
+Thanks for your feedback.
