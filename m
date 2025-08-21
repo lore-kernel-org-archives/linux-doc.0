@@ -1,73 +1,72 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595342E11D7
-	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 12:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743CD2E7176
+	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 12:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755779069; cv=none; b=hmfpxcmuzovYvi5NT7wXqQqjgX8IG6QT0Dwxwv5tEA9U1VgRHgqxGfF4l23O7+duiRQND4TOJxbOh2CwdTlNfwpsByEo87I0osYSCot8d5xst/dqmTvnW6BVG808qkHkNBf7akdznirkntZVEMFPaakr1FbPpzy9A1aijHm0bvU=
+	t=1755779393; cv=none; b=JotQjrKkjswAIywCifzXrEXD92P8kbnxbHvbPhx8OE/fCElxHge2Z/fNn/zOigW3YK3ROxZm02ncYEjvswoq9wXVRBwhyD2ZrnLLdPu5jrAt/eh/rfaox10B8XehQY3Sx3PZ+vVl5bNahYCytERzEYenGEgtVxnujuaknjNua5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755779069; c=relaxed/simple;
-	bh=f1AbBbvLlmetpbm2cknoVOkum8sEWbncoukC/4LrwuI=;
+	s=arc-20240116; t=1755779393; c=relaxed/simple;
+	bh=zkDbxvo7pdEoYH6PpNr9aonByAeBiVU4hVH0AT2E4j0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dTuk15QGlSESUBk9gL0XevWO9SfWVtvgM8ud1sayH9N2xMw7gmdUUTOsw8G48WH61unmE/JN2pVBIWCvlkAOuApzylYaQrk5/VfYy1IFrkIVpUc3PNJKp32iO+FLoszPqsqz1yfEI+sX+1CZl3IEbECYJKnZ0PbDykGSFaIP8js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1d0O64rI; arc=none smtp.client-ip=209.85.160.178
+	 To:Cc:Content-Type; b=u3nKj7gXnb4QtSbVFoM7pJIv3ffAHTk8cOETIvq97bu+jtfTrp1i7ZRHnKSk3dzIevIf49sXCuWtFidECsDiEgtitFXfgyjDjDgXhwW9l1Ck30bnUk1nJEatR7RMpvijoHvMWaKWBYP8a1F4GdG54pAXrIFcrS437iGDHmY0aF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XiaaPxYJ; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1d0O64rI"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4b109c63e84so10337651cf.3
-        for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 05:24:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XiaaPxYJ"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4b109921fe7so11098231cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 05:29:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755779067; x=1756383867; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1755779390; x=1756384190; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f1AbBbvLlmetpbm2cknoVOkum8sEWbncoukC/4LrwuI=;
-        b=1d0O64rICsWpfp1eb4Q5gc2LxsR6uLVDSPIZcm8PyqVlfeafi0vD4fErSm4wlrEwGY
-         /1C5qgn34lKV/0q8/M2nkGtaLrphZRFmZJxRp1sq+trcmeasboSJlozEWSfuMVj5v2ln
-         pS9wSyf7yCWv01yYzqo27s37v/XmdSFrHvIcVpyVn6NtPjWJRsReafak0htJaHRKJe6N
-         il5/tD0mWSvOwIaTSwHaqHL+w1QjF5BxZScQ8x4Z4m2EzA9dpcH93fFQfASCSCdWVMDS
-         eis4A4mS+ZKuiweh7NLa8za4Hc1zI02G+ScsdFmibuMenFxbz/1Z008uPaI5wDi9Sex0
-         QTEA==
+        bh=yMyf7TUTcVlmFShDFbUR03mYlUdBmR7tL66qjPszynQ=;
+        b=XiaaPxYJ9KsUdsZ31BNVF9RoGzGI+oG8SXeJNgH8C2WS3D6F+qxqkjlbF+kKCZcNqn
+         k1yU+lXbKFQCK2j2HOP2gO5xGGgqcYLXEYunyppSA8bz/JmgOssllQSWyN5CZkaqyC50
+         oZDAHAmVALsWyUp5MeIFxBngn/fABw7QHTG8fGNnJMG9/TF9SGzmnQH535aDkA8ksAng
+         UzGRVYIMbMCLAsgeUBDk8qDzUjx+ulDMmJ6gYbZRTE2GxKy4h+OoxTa57QHA3RF+VYwx
+         CZncZayiMWgSg0hzlvGNgGq9NN8GjeBoSFzedGDZHF7t8e3MECY1NUHZ4FnMWUv+vLRc
+         lbFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755779067; x=1756383867;
+        d=1e100.net; s=20230601; t=1755779390; x=1756384190;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f1AbBbvLlmetpbm2cknoVOkum8sEWbncoukC/4LrwuI=;
-        b=IpU8tlRPrW3Wb6khw+cb3EloOWzZUmnvRviW9IlVLz5xBaKtjeP4zNdM01YwQzL7WH
-         R9HcgBMOhVFEUtOk2v3SnUYhoBDc0DLl+v4Wiiz8zTd+ks3Lj23JFHIpphoCPFZYjLgG
-         1YfL63GG+4aYy7Rdrdd5FxLfKBVmnY/oD7A4h9EGMebi34tK2HRHFGbnEDY1yU6xz9XC
-         rkdbJ+v1F/wuxxm4TObXF5W52PyB2MQjZwIWEdtbMy/ZpSz1B6ORoFjFgWBcyQx0DQkU
-         AcTCdZdYs9Ndny4+BCi8WxfXM4QcD/2i6W+W/CJjjOyVtLaLAI3O3r/vSu1y6XoiqP+z
-         yV4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUKgNLfd7Un4LN2qKq1Wxq8X0ijiMRBc96tjHOwC/fZ+q8gC6gR1ePe3JtyTWDPReUDPa5u6GsQ0oE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4dhiqYPSVW2OTsYDPBtQ9cazZMbNAjvlGPoLe/m+ZQwI59yQN
-	cTeaNDAiYJu0+RiM+jTYXsO3SwBDSk/M4b0TfOhA4OwYeMu+tWqdHduo3Zr2OBgeaPXXLhZhBLH
-	D7xi9vt+m6ZJf1DozuHiTveXFQvND7knzX5vD/Vwc
-X-Gm-Gg: ASbGncsZpIvb96qQGfwveYVdzHad189mqdcCBU+etymprUJ7b6nRzd6V7jfN7kpi1KZ
-	BgWdrkleMQ1E3+M6Zsgie5UaOHwDYDE6O1JiOrxYWWOn6KYoCi+gUE7eBui+s+FAAnaUhnxeCQK
-	HkvC2zE0h7kYHwr3E2hDsBIsIgDK4a0HyIjUscFOC2v0dJXBFTEUOAbGH3aGYZbG1DoS5MkRtxl
-	za8Beh26cwOK6oENEoUac2Ogg==
-X-Google-Smtp-Source: AGHT+IE9nHthnuO3iyaaTFTophq+5yluqv4flsuTIbWyobQg+AKCHWYdoAelc0nDHS8WwCDQgE8Y49CEmLBBB7iUtng=
-X-Received: by 2002:a05:622a:5e17:b0:4b2:8ac5:25aa with SMTP id
- d75a77b69052e-4b29ffc2c09mr20057031cf.83.1755779066699; Thu, 21 Aug 2025
- 05:24:26 -0700 (PDT)
+        bh=yMyf7TUTcVlmFShDFbUR03mYlUdBmR7tL66qjPszynQ=;
+        b=W50qfpNUUSLr4SF1K0elZ2jRIwDz2X7uyAQ5GNMEyQkCtcVgpOa6WYZByk71xWW2/6
+         pPbbLmWkO7rXZYLjxf3UUwaDx3NaPiRooTczSJotiHcnPEIIlngIgYZ8phbYfZ+j00Tg
+         zuG+3NC/t9ATc/DczuwVUjp6yK0Xb889VasZRs0ZUM13dEnRaDT/8QDx1vVwqeVYuyV8
+         A0ep73kR6qDCm50YXTaAcDd/4zpSLmsrCdTOIO0kys0BeIODvVzjabu35lSlctuepYlJ
+         oyU2vm/gxe8xCCdfeT2BVqpXo74xFKvay2gqNfxmzmq6tZQHCoe/OjcwYchIcxH4pDjU
+         Di3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWUIk+HVhHoidyMdxThlx9OU2vfBSzc8O23wFFmv5ez3aeslH6odazMb5HrkMJ40AZ2X8WovNWyr8o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRAcD9oaW0Z/JHHeCBC9xeuD5PSJ97tEL9f6koeDFsMI1paC1J
+	bF2pzhbJhB/+Idffi3hC1S5oBo0A4rL5uxATclByHq72+kvwlSXlBnHMLDBGvbVK3HXdDywnv6Q
+	ISTy1prHUXAg/6N3//WrZJfTNY4tjlJ2Tveot4KUW
+X-Gm-Gg: ASbGncu9z089cNa57qTfPtFqaKGymFsVuNGtfJ7FTJvf27aAHMjkxhGB+evjvI7HfgO
+	06yLByBFoEnZO38x2SvIQ3OdyECmbt5MZh63aSftNMysRzsEaAtQfGSnlIq0t8kYDm3/7NLSj33
+	2yZ/A6UqOVGkoO7yUWR2z5ovEUBfwEqIVIYbOjYi0sZBE18vcz4ZAFUUJWKXYZS78sBAuT9vWTH
+	RzR4GqK8uCK6h2IfOZfAN8Klw==
+X-Google-Smtp-Source: AGHT+IGiDTu4Nx/S2i7PXKBQcL0zSflTE4ZdcC1UihTgHSCzCGsNJVk9lvVSiXeTSusqav8nRJ0XJpzvxKMBN8t/Gxk=
+X-Received: by 2002:a05:622a:242:b0:4b2:9c3d:bc4c with SMTP id
+ d75a77b69052e-4b29fa6dac9mr26388591cf.33.1755779389674; Thu, 21 Aug 2025
+ 05:29:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250815083930.10547-1-chia-yu.chang@nokia-bell-labs.com> <20250815083930.10547-9-chia-yu.chang@nokia-bell-labs.com>
-In-Reply-To: <20250815083930.10547-9-chia-yu.chang@nokia-bell-labs.com>
+References: <20250815083930.10547-1-chia-yu.chang@nokia-bell-labs.com> <20250815083930.10547-11-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <20250815083930.10547-11-chia-yu.chang@nokia-bell-labs.com>
 From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 21 Aug 2025 05:24:15 -0700
-X-Gm-Features: Ac12FXz4ItLodbd6ls4z56PUPr7M6ZV9VCYXJm2RKx6YiZF5T39E5oM6J1bp_oU
-Message-ID: <CANn89iKvwM4EFwzuLXOr8OzddQto_rPfdBHUMLzS=xxG3USzTg@mail.gmail.com>
-Subject: Re: [PATCH v15 net-next 08/14] tcp: accecn: AccECN needs to know
- delivered bytes
+Date: Thu, 21 Aug 2025 05:29:38 -0700
+X-Gm-Features: Ac12FXwtX6Y71JLad1BL80WdVtDYKWVSK_UzOY3Wd_laWGj2k0iPGrLqT8yKhgM
+Message-ID: <CANn89iKPTWBdi8upoxjFok2CPFhkGB9S3crZcefZ0mRhFHGPhQ@mail.gmail.com>
+Subject: Re: [PATCH v15 net-next 10/14] tcp: accecn: AccECN option
 To: chia-yu.chang@nokia-bell-labs.com
 Cc: pabeni@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net, 
 	horms@kernel.org, dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org, 
@@ -83,25 +82,201 @@ Cc: pabeni@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 15, 2025 at 1:39=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.com>=
+On Fri, Aug 15, 2025 at 1:40=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.com>=
  wrote:
 >
 > From: Ilpo J=C3=A4rvinen <ij@kernel.org>
 >
-> AccECN byte counter estimation requires delivered bytes
-> which can be calculated while processing SACK blocks and
-> cumulative ACK. The delivered bytes will be used to estimate
-> the byte counters between AccECN option (on ACKs w/o the
-> option).
+> The Accurate ECN allows echoing back the sum of bytes for
+> each IP ECN field value in the received packets using
+> AccECN option. This change implements AccECN option tx & rx
+> side processing without option send control related features
+> that are added by a later change.
 >
-> Non-SACK calculation is quite annoying, inaccurate, and
-> likely bogus.
-
-Does it mean AccECN depends on SACK ?
-
+> Based on specification:
+>   https://tools.ietf.org/id/draft-ietf-tcpm-accurate-ecn-28.txt
+> (Some features of the spec will be added in the later changes
+> rather than in this one).
+>
+> A full-length AccECN option is always attempted but if it does
+> not fit, the minimum length is selected based on the counters
+> that have changed since the last update. The AccECN option
+> (with 24-bit fields) often ends in odd sizes so the option
+> write code tries to take advantage of some nop used to pad
+> the other TCP options.
+>
+> The delivered_ecn_bytes pairs with received_ecn_bytes similar
+> to how delivered_ce pairs with received_ce. In contrast to
+> ACE field, however, the option is not always available to update
+> delivered_ecn_bytes. For ACK w/o AccECN option, the delivered
+> bytes calculated based on the cumulative ACK+SACK information
+> are assigned to one of the counters using an estimation
+> heuristic to select the most likely ECN byte counter. Any
+> estimation error is corrected when the next AccECN option
+> arrives. It may occur that the heuristic gets too confused
+> when there are enough different byte counter deltas between
+> ACKs with the AccECN option in which case the heuristic just
+> gives up on updating the counters for a while.
+>
+> tcp_ecn_option sysctl can be used to select option sending
+> mode for AccECN: TCP_ECN_OPTION_DISABLED, TCP_ECN_OPTION_MINIMUM,
+> and TCP_ECN_OPTION_FULL.
+>
+> This patch increases the size of tcp_info struct, as there is
+> no existing holes for new u32 variables. Below are the pahole
+> outcomes before and after this patch:
+>
+> [BEFORE THIS PATCH]
+> struct tcp_info {
+>     [...]
+>      __u32                     tcpi_total_rto_time;  /*   244     4 */
+>
+>     /* size: 248, cachelines: 4, members: 61 */
+> }
+>
+> [AFTER THIS PATCH]
+> struct tcp_info {
+>     [...]
+>     __u32                      tcpi_total_rto_time;  /*   244     4 */
+>     __u32                      tcpi_received_ce;     /*   248     4 */
+>     __u32                      tcpi_delivered_e1_bytes; /*   252     4 */
+>     __u32                      tcpi_delivered_e0_bytes; /*   256     4 */
+>     __u32                      tcpi_delivered_ce_bytes; /*   260     4 */
+>     __u32                      tcpi_received_e1_bytes; /*   264     4 */
+>     __u32                      tcpi_received_e0_bytes; /*   268     4 */
+>     __u32                      tcpi_received_ce_bytes; /*   272     4 */
+>
+>     /* size: 280, cachelines: 5, members: 68 */
+> }
+>
+> This patch uses the existing 1-byte holes in the tcp_sock_write_txrx
+> group for new u8 members, but adds a 4-byte hole in tcp_sock_write_rx
+> group after the new u32 delivered_ecn_bytes[3] member. Therefore, the
+> group size of tcp_sock_write_rx is increased from 96 to 112. Below
+> are the pahole outcomes before and after this patch:
+>
+> [BEFORE THIS PATCH]
+> struct tcp_sock {
+>     [...]
+>     u8                         received_ce_pending:4; /*  2522: 0  1 */
+>     u8                         unused2:4;             /*  2522: 4  1 */
+>     /* XXX 1 byte hole, try to pack */
+>
+>     [...]
+>     u32                        rcv_rtt_last_tsecr;    /*  2668     4 */
+>
+>     [...]
+>     __cacheline_group_end__tcp_sock_write_rx[0];      /*  2728     0 */
+>
+>     [...]
+>     /* size: 3200, cachelines: 50, members: 167 */
+> }
+>
+> [AFTER THIS PATCH]
+> struct tcp_sock {
+>     [...]
+>     u8                         received_ce_pending:4;/*  2522: 0  1 */
+>     u8                         unused2:4;            /*  2522: 4  1 */
+>     u8                         accecn_minlen:2;      /*  2523: 0  1 */
+>     u8                         est_ecnfield:2;       /*  2523: 2  1 */
+>     u8                         unused3:4;            /*  2523: 4  1 */
+>
+>     [...]
+>     u32                        rcv_rtt_last_tsecr;   /*  2668     4 */
+>     u32                        delivered_ecn_bytes[3];/*  2672    12 */
+>     /* XXX 4 bytes hole, try to pack */
+>
+>     [...]
+>     __cacheline_group_end__tcp_sock_write_rx[0];     /*  2744     0 */
+>
+>     [...]
+>     /* size: 3200, cachelines: 50, members: 171 */
+> }
 >
 > Signed-off-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
+> Signed-off-by: Neal Cardwell <ncardwell@google.com>
+> Co-developed-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
 > Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> Acked-by: Paolo Abeni <pabeni@redhat.com>
+>
+> ---
+> v13
+> - Move TCP_ACCECN_E1B_INIT_OFFSET, TCP_ACCECN_E0B_INIT_OFFSET, and
+>   TCP_ACCECN_CEB_INIT_OFFSET to this patch
+> - Use static array lookup in tcp_accecn_optfield_to_ecnfield()
+> - Return false when WARN_ON_ONCE() is true in tcp_accecn_process_option()
+> - Make synack_ecn_bytes as static const array and use const u32 pointer
+>   in tcp_options_write()
+> - Use ALIGN() and ALIGN_DOWN() in tcp_options_fit_accecn() to pad TCP Acc=
+ECN
+>   option to dword
+>
+> v10
+> - Add documentation of tcp_ecn_option in ip-sysctl.rst to this patch
+> - Remove the global variable u32 synack_ecn_bytes[3]
+> - Add READ_ONCE() over every reads of sysctl
+>
+> v9:
+> - Restruct the code in the for loop of tcp_accecn_process_option()
+> - Remove ecn_bytes and add use_synack_ecn_bytes flag in tcp_out_options
+>   struct to identify whether syn_ack_bytes or received_ecn_bytes is used
+> - Replace leftover_bytes and leftover_size with leftover_highbyte and
+>   leftover_lowbyte and add comments in tcp_options_write()
+>
+> v8:
+> - Reset leftover_size to 2 once leftover_bytes is used
+> ---
+>  Documentation/networking/ip-sysctl.rst        |  19 ++
+>  .../networking/net_cachelines/tcp_sock.rst    |   3 +
+>  include/linux/tcp.h                           |   9 +-
+>  include/net/netns/ipv4.h                      |   1 +
+>  include/net/tcp.h                             |  13 ++
+>  include/net/tcp_ecn.h                         |  89 +++++++++-
+>  include/uapi/linux/tcp.h                      |   7 +
+>  net/ipv4/sysctl_net_ipv4.c                    |   9 +
+>  net/ipv4/tcp.c                                |  15 +-
+>  net/ipv4/tcp_input.c                          |  94 +++++++++-
+>  net/ipv4/tcp_ipv4.c                           |   1 +
+>  net/ipv4/tcp_output.c                         | 165 +++++++++++++++++-
+>  12 files changed, 412 insertions(+), 13 deletions(-)
+>
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+
+             minlen);
+> +               }
+>         }
+>  }
+>
+> @@ -263,6 +347,9 @@ static inline void tcp_accecn_init_counters(struct tc=
+p_sock *tp)
+>         tp->received_ce =3D 0;
+>         tp->received_ce_pending =3D 0;
+>         __tcp_accecn_init_bytes_counters(tp->received_ecn_bytes);
+> +       __tcp_accecn_init_bytes_counters(tp->delivered_ecn_bytes);
+> +       tp->accecn_minlen =3D 0;
+> +       tp->est_ecnfield =3D 0;
+>  }
+>
+>  /* Used for make_synack to form the ACE flags */
+> diff --git a/include/uapi/linux/tcp.h b/include/uapi/linux/tcp.h
+> index bdac8c42fa82..53e0e85b52be 100644
+> --- a/include/uapi/linux/tcp.h
+> +++ b/include/uapi/linux/tcp.h
+> @@ -316,6 +316,13 @@ struct tcp_info {
+>                                          * in milliseconds, including any
+>                                          * unfinished recovery.
+>                                          */
+> +       __u32   tcpi_received_ce;    /* # of CE marks received */
+> +       __u32   tcpi_delivered_e1_bytes;  /* Accurate ECN byte counters *=
+/
+> +       __u32   tcpi_delivered_e0_bytes;
+> +       __u32   tcpi_delivered_ce_bytes;
+> +       __u32   tcpi_received_e1_bytes;
+> +       __u32   tcpi_received_e0_bytes;
+> +       __u32   tcpi_received_ce_bytes;
+>  };
+>
+
+We do not add more fields to tcp_info, unless added fields are a
+multiple of 64 bits.
+
+Otherwise a hole is added and can not be recovered.
