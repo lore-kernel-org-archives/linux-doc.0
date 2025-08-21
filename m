@@ -1,111 +1,136 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D465322A1F
-	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 12:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B94319844;
+	Thu, 21 Aug 2025 12:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755780955; cv=none; b=u3yoPNQX7ixJt8Ln3GCD1WiIEjKBtyg1jr9ENQOJv4VStrFuNbmCzGNWSFuaJoTH0AeAs1ayRQj4GQB3bjon/KN+DguqJ/c/J+ePZnIsxo1h6uzmAgzCUNHerQYa/fQiWHibCKc3gAx+GTL5fMqewjnW+y92s+IkqYKYqC8xpTs=
+	t=1755780976; cv=none; b=eGIFG+VEzCI1jUHX+KTVhaiwI8n6VeynMzztPXtOUTwuzzqS+JAtqkztRYQ0jP216ycjghOHj3FqUo4kVyv8Mq+gwhntOumwVbAHtcWJN9xSiv9EFED+u6s/cjkUge+V8Yft4QvHFKZyLNyuUid3jX4uSTa4+kT/0Q7OWQrqckY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755780955; c=relaxed/simple;
-	bh=yP4uFd+CVN8QmVu0Qh7N2PPSnM2w3mGXDGkAjb/uMEA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OtFyRUd8HTugXRBmETwF/TL4mgA+xCjcdaW0NfLM/Cc9d5dNSvJwyiGcAL63GtYH34tU2hQeymTAalNHxumD+H2jHLJv78jrLczFNg78jgOpRsfmAUiyrKifz0zWpxqvK1/8KpvMtfkMb1cIsdnbupyfHtTweY9SUSKoP3FMAXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0v9oDKlh; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1755780976; c=relaxed/simple;
+	bh=whkJEqsTOCyePNjD7NYZqFQXAji21QPdY2r46YSe06w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OZhx5drUCeTg1okG/9go1NGHMwA6qbyw+sifCys1ow8ZQ43YO0h8TorPC24s3aNcxwZEjyZkwTbdF19q18Lilu4WD3sUI5p0HpYu2eXaOBcFnVszTl3yCiBdSmi+T3Z4rySDeTtqgHorwbr/ZTxDZ2JvJpCdZ25d9zFM2wGgQ3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com; spf=pass smtp.mailfrom=debanilchowdhury.com; dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b=FqdcS1LB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Y9XkwSiW; arc=none smtp.client-ip=202.12.124.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debanilchowdhury.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0v9oDKlh"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4b109914034so11102961cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 05:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755780953; x=1756385753; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5528SypKxmfUKQp47IYx/CNrd7NN62FARpZB0q9InII=;
-        b=0v9oDKlhRpjnuMvP16A2EZtSRJmnIUAzPrkFiknLNjiksyODNmtE5ZUHemXXP8cNVo
-         +nWpxM4EhCNHrH+9ykjIKmFA+n0yQY/pFJ+4oqcJ33n8KqC9qRuBljoPXKKzSChHQPGb
-         FC8PpKql0hhlMF1UPYzhYMnoUn5FlH+HBiKG30NYdYerqzbKni0ucCZVH7Dil/1Uheoc
-         ylMPlpX9UXXs7hkojeuXmJsvCj+WexH49ki8M15XE5ZggqZVEgcC6apRqZfp3g/4zyJh
-         HnLxGKxlkhfzI9yNlnc+OhrqjZgRJi5wKoHS9DV2dkL0OxCUS0mEpG1xKiv928QRi5Z5
-         GC/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755780953; x=1756385753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5528SypKxmfUKQp47IYx/CNrd7NN62FARpZB0q9InII=;
-        b=Bm8PhqYMU/96PUAZ+4A0oDj2W27kEDZ8YgLLhk7y9JTOL+8XgVTvpRafHMHhwlWWsc
-         rxA+OgMQ2FFt/0fJd0MWZWCVDz7vAclfX75YFMyX/dFxJZ89fkrp6sCGwEsoUvC0/INs
-         QFe4Ct7sH45Q7PJ+I79XvTHqbkSnvX81AHjgYuoQTwRrNJ+89Xgo4nWZoi3QbAe9aXGU
-         J8fsoGaz2IVRH/znFcW1MwJ+CS/yuLNP58+DIkPpiOoZqp8kL+gKidqrep1afo65FAdt
-         dXeHKLbCzcE6JYhChOTIFAqFn+gdb5CHAphY4F0bPNmUpkuQXYsXQGGAxwzREhA0knl2
-         +s5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVmL3UzlD9+31y4sQIcLO80J91epQfMj4tzazT7BSaCKk77oECvpydIt+RBE1tUTanF/cgKujL09h8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGdAFOpPYlJKwEJVHGD/pnnYzAhRnCgTk7qBeDsjQRFLvmiWQM
-	kROYjlFa10VIcf2vxkTZkPCIHaFldtY/2M6HEJ4A/VMbjUpPRK6km2OhaeTj+3gVAnOJEge5/zs
-	QQADG51CTJGQc1Tar3ZTLoJcxDHvyDzyUra1rCsD0
-X-Gm-Gg: ASbGncs53BZoHrU3A4xq8onEvn9BECuinApSh1OKdVfncrpHCt8wYfJ5BJvv7zuAg8O
-	1uKVKAxBjohcCaIpe7wON6OlHx5gidJb/rMO6mguA4DaeN81cutv4h9Ph1iiv6szQD72ewSSOVo
-	Wh3vETGG1u5nLPhh3sLdE3a/9mDseial60CQsURinYzKp5QIvue2FpEuTxTGjje7XgZ4Hxiib5q
-	17mBRR1AxGtbUs=
-X-Google-Smtp-Source: AGHT+IGxDBe1t3tqBTBMYOGbwfPoYLNM6YX1F3rAdQHXVgz1RYTgaAusYj182uyw4hmqn9/ToW6pADpoA8RYUEd0S3w=
-X-Received: by 2002:a05:622a:5917:b0:4b0:f059:74a0 with SMTP id
- d75a77b69052e-4b29fe8f3b0mr29953531cf.38.1755780952620; Thu, 21 Aug 2025
- 05:55:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b="FqdcS1LB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Y9XkwSiW"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.stl.internal (Postfix) with ESMTP id 784BA1300595;
+	Thu, 21 Aug 2025 08:56:11 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 21 Aug 2025 08:56:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	debanilchowdhury.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
+	 t=1755780971; x=1755784571; bh=yBewjbsnFCVygw4nugjy4355G6givRfy
+	7NgyrPli+2A=; b=FqdcS1LB2GklU63pvDvxbGY3hYnvGEPRIB1dXcrlMcld8lsz
+	Y0prwgvAg0AtlWiWblqQM285FIx4ynBMRUsx58RK6k/M8tHuvr4QfuX4Cg1Glzgj
+	X4sRYitrxAB7awuamTDxq4Fo9qDDhE0KfpVlpD3B/aHZGCnmtOENczbVzbcBbpCV
+	ZhRzMeZvSCWwiVJqxWA8kw/Ut6lDmm7FRFNtTSrliB4wqdkIw92xVcE7AcL7fKum
+	tKTL2WvkKqUpTUozONVGOzxm4DZ+R1VRUw51/KvtcdgMrC5nKCvx1TJjEa5OvRjD
+	N7VOr9fGVUOmgwlvjgC+mtl+YT+XXFLteq1nUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1755780971; x=1755784571; bh=yBewjbsnFCVygw4nugjy4355G6gi
+	vRfy7NgyrPli+2A=; b=Y9XkwSiWw2oKIrsGmOYdovQrZP/myCrInJVy/wWNVcoE
+	g1BGRYhToWe65vXU0UMwYZIvvg45ts+v0GayJoCkHsdDjAgDHtyosSGJ/pNH3raL
+	5prr4UGWqL1iuj24YRa3QFReZUXeyM3WwY0HZ04r+j39P9aQfYhmEA5DaUvxl3d3
+	oa4Q1ihYLMO0D+iF1k1yIIXc/2b5CrYF1u+Bf6/lrDwMdnOGKfDSmrXWGaf7WTMd
+	nX8ot8yubYtKnKeTLMkS1s6DSGdLK+B/EFZMPLpmFdlj5NpcW/UwMCRW94c4FUaN
+	Nn1NYEgw9X+G/d7ghYGHotKUUU26qjaRjTjR7TUaTQ==
+X-ME-Sender: <xms:ahenaFT-UyARaEYh9hqMmKXXcfeap6glqh-ApRDcBi6WNUxSJDbl4A>
+    <xme:ahenaHYFAX_l_p3HqPykRK7wRf8UH8ZURF9KzSo3gJYFJEdQiuQMGxp3OiPCNzXCm
+    pgSU0fUMYwfTTiJOrw>
+X-ME-Received: <xmr:ahenaCQqBFLqhdalGjPKx3Hz9hnWrE450AoOOe5wMDZ8jvNB-nMI5qsbj7KtisYEBewLF6nJ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduieduvdelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtre
+    dtjeenucfhrhhomhepffgvsggrnhhilhcuvehhohifughhuhhrhicuoehkvghrnhgvlhgu
+    vghvseguvggsrghnihhltghhohifughhuhhrhidrtghomheqnecuggftrfgrthhtvghrnh
+    epuddtfefgffffiefgtddugeefvdeuteefhfeltdeuieejvdeludetveettdetheefnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhgvrhhnvg
+    hluggvvhesuggvsggrnhhilhgthhhofiguhhhurhihrdgtohhmpdhnsggprhgtphhtthho
+    pedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshhkhhgrnheslhhinhhugi
+    hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehjuggvlhhvrghrvgesshhushgv
+    rdgtohhmpdhrtghpthhtoheplhhinhhugiesrhhovggtkhdquhhsrdhnvghtpdhrtghpth
+    htoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqkhgvrhhn
+    vghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepnh
+    hinhgrugeslhhinhhugidrihgsmhdrtghomhdprhgtphhtthhopehlihhnuhigqdhhfihm
+    ohhnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotg
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:ahenaG9knYorJgkQYRgz7YM3p3lyPRV3cqoNG12IkcW2WVDJd2_z6Q>
+    <xmx:ahenaCjoxALiQ0LkmrMCoGmxime9ZmmBJowKr7VgggAgf00oRPz2Tg>
+    <xmx:ahenaHYCnJMsyND4BYWUig_CWYyeOONuPqY9VPKx8vJEq8xdDe_NxQ>
+    <xmx:ahenaH9NGc_jfnMYr0cNHSJU4u0xP9zIJvp2SeDU0pd0idND-FKhpw>
+    <xmx:axenaDWR-9T882OJpeI-NS_0A7OeDipszvLn5FjvJKT-cuJ90gvuDVdd>
+Feedback-ID: i77364836:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 21 Aug 2025 08:56:07 -0400 (EDT)
+From: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+To: skhan@linuxfoundation.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: linux-kernel-mentees@lists.linux.dev,
+	ninad@linux.ibm.com,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+Subject: [PATCH v2] Fix typos in hwmon docs
+Date: Thu, 21 Aug 2025 18:20:24 +0530
+Message-ID: <20250821125539.58313-1-kerneldev@debanilchowdhury.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250815083930.10547-1-chia-yu.chang@nokia-bell-labs.com> <20250815083930.10547-13-chia-yu.chang@nokia-bell-labs.com>
-In-Reply-To: <20250815083930.10547-13-chia-yu.chang@nokia-bell-labs.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 21 Aug 2025 05:55:41 -0700
-X-Gm-Features: Ac12FXzVorC3Kl9sEMZivEmtWbDbh3dePBwk2mL_884gL-t00rnVrn0sX3b2dM8
-Message-ID: <CANn89i+xNs7jfc3OF42J0jat=-ivrQgTfycJPyKW28yTJPaaDg@mail.gmail.com>
-Subject: Re: [PATCH v15 net-next 12/14] tcp: accecn: AccECN option failure handling
-To: chia-yu.chang@nokia-bell-labs.com
-Cc: pabeni@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net, 
-	horms@kernel.org, dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org, 
-	netdev@vger.kernel.org, jhs@mojatatu.com, kuba@kernel.org, 
-	stephen@networkplumber.org, xiyou.wangcong@gmail.com, jiri@resnulli.us, 
-	davem@davemloft.net, andrew+netdev@lunn.ch, donald.hunter@gmail.com, 
-	ast@fiberby.net, liuhangbin@gmail.com, shuah@kernel.org, 
-	linux-kselftest@vger.kernel.org, ij@kernel.org, ncardwell@google.com, 
-	koen.de_schepper@nokia-bell-labs.com, g.white@cablelabs.com, 
-	ingemar.s.johansson@ericsson.com, mirja.kuehlewind@ericsson.com, 
-	cheshire@apple.com, rs.ietf@gmx.at, Jason_Livingood@comcast.com, 
-	vidhi_goel@apple.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 15, 2025 at 1:40=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.com>=
- wrote:
->
-> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
->
-> AccECN option may fail in various way, handle these:
-> - Attempt to negotiate the use of AccECN on the 1st retransmitted SYN
->         - From the 2nd retransmitted SYN, stop AccECN negotiation
-> - Remove option from SYN/ACK rexmits to handle blackholes
-> - If no option arrives in SYN/ACK, assume Option is not usable
->         - If an option arrives later, re-enabled
-> - If option is zeroed, disable AccECN option processing
->
-> This patch use existing padding bits in tcp_request_sock and
-> holes in tcp_sock without increasing the size.
->
-> Signed-off-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
-> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+Fixed some typos ("Critial" → "Critical") in hwmon documentation.
 
-Truly invasive changes, what can I say....
+Reported-by: codespell
+Signed-off-by: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+---
+changed in v2:
+- In previous patch "From" header did not have my name in it. Fixed
+  that.
 
-Not sure why you CC so many folks which will very unlikely give any feedbac=
-k.
+ Documentation/hwmon/crps.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-What is the purpose of WARN_ON_ONCE() in tcp_accecn_option_init() ?
+diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
+index 87380b496..d42ea59d2 100644
+--- a/Documentation/hwmon/crps.rst
++++ b/Documentation/hwmon/crps.rst
+@@ -43,7 +43,7 @@ curr1_label		"iin"
+ curr1_input		Measured input current
+ curr1_max		Maximum input current
+ curr1_max_alarm		Input maximum current high alarm
+-curr1_crit		Critial high input current
++curr1_crit		Critical high input current
+ curr1_crit_alarm	Input critical current high alarm
+ curr1_rated_max		Maximum rated input current
+ 
+@@ -51,7 +51,7 @@ curr2_label		"iout1"
+ curr2_input		Measured output current
+ curr2_max		Maximum output current
+ curr2_max_alarm		Output maximum current high alarm
+-curr2_crit		Critial high output current
++curr2_crit		Critical high output current
+ curr2_crit_alarm	Output critical current high alarm
+ curr2_rated_max		Maximum rated output current
+ 
+-- 
+2.49.1
 
-Just to feed syzbot ?
