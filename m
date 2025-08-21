@@ -1,194 +1,157 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9102EF662
-	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 12:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6F53203B8
+	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 12:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755780514; cv=none; b=RJhkH/6CHQuKQf0ztSDtYtfZ0muR33Tqr6DOKpDq/z5HVyxTy/7lvCBVsPIFzvqmxXQWfn5WiqmkvNcInqsai41QsXty8N9vf/BIdCmi+0Z2wVB8FQMZAeAGkUmH59vKx8wK/eVGBLiY3NDZFDLXbQvM5O736CPhcMN6aLdv2T8=
+	t=1755780741; cv=none; b=RwYGRxYTrE/9ukzSYZB4HgD6NImj/y6nCqIBm1wzwdSUuZMGqQ0hsxA/BoX1t4hF5CtBs/r+oiWk8K9Urlm/pF/sorO0CIz5l8M29pea0BDvROamHJIwLpK0aY/BSFl/W+8B4vdmx2dUzXWQDB4zsA6/c1rgy5ypgaNcl3GQNHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755780514; c=relaxed/simple;
-	bh=e5AxcMNFe2BmP6DgNRaFjmyz8146UxtEiz8JgyQYR5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KXo+a6bkFY1FPN1y+BcrB/Uji9Zo7PETHMGAoH8s8E+AeK9eTCka9yfycUOm7mFU2woZaEPoMg+5hKvm96D+YO7VnJ+m/mrZ67ebEmgXay7KnTB3nST28E/h5PKrWRSvrCnTNMMHfxptQO7w4/p0sYUs6Tddq0l8WGBzSpmrm+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oPBDgy4w; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1755780741; c=relaxed/simple;
+	bh=LLujgo17aIxSBLq0GGYcaNSwdVWwDosgbd4HO6Yv0z0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BC1NHnSOVWMlFDzueKkGoKzI82LopLuM4LpBUSpNiY9vAiMsEpOhhKbA2vNGOWS+MHNuUib6DW61Uykz6/63YWUDHp7DYEJ+J039jC9MvTV57jF4fs6RX3yIpiGEI0WLQdNt9grmnyYxX7V/06+iIgD2Qnhd8hd8uhATo7GFGvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZwxRVUqu; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oPBDgy4w"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 31404C6B38E;
-	Thu, 21 Aug 2025 12:48:16 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C5C6C60303;
-	Thu, 21 Aug 2025 12:48:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C17B51C22C719;
-	Thu, 21 Aug 2025 14:48:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1755780508; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=p8uUxuNsLfBmFT0zlKo0G7eW+/dKQR0Dj6mRGBqxQII=;
-	b=oPBDgy4w0QUcLO4TwoWiFiQCaejSvwVTsMz91KWgY770lHRSAy+FtmThrUsMF9sWKZGgVX
-	1ft1wk4m6FJ1RUO9ZV/lcLnzCVRqsS9TcRFkJ9FmN4kkJ7mFSbJxIPJmSTBKpDx2MQ+Ub6
-	kloAf4CWZdQA9R/MNVbT1lSeBL6Cro6zep/6PiY7v3SGtARu6QakJxjorbXIUho2AaCD3y
-	X/cQ5gLPrDPawtz0TZ+2DpDa+R0w0Exj/bamBj8Cnm+/HFo+KUQFqyAwwmyBhO8Zj2qvik
-	RZm2KQJxZem+uOka/X4VQRHL57YEYsOVYKhoybDrUAYvWScSzaOhgnyuhRdQFQ==
-Date: Thu, 21 Aug 2025 14:47:56 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Donald Hunter
- <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>, Nishanth Menon
- <nm@ti.com>, kernel@pengutronix.de, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
- linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
- <roan@protonic.nl>
-Subject: Re: [PATCH net-next v4 2/5] ethtool: netlink: add
- ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-Message-ID: <20250821144756.7385b313@kmaincent-XPS-13-7390>
-In-Reply-To: <aKbx1EoO0iWe2bMU@pengutronix.de>
-References: <20250821091101.1979201-1-o.rempel@pengutronix.de>
-	<20250821091101.1979201-3-o.rempel@pengutronix.de>
-	<20250821115830.3a231885@kmaincent-XPS-13-7390>
-	<aKbx1EoO0iWe2bMU@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZwxRVUqu"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45a1b00f23eso5551665e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 05:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755780736; x=1756385536; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FUsL83zsecC7yRV/e3S2bWkQ9rwjTqlIbBsHbqavuDw=;
+        b=ZwxRVUquafbd/ELBupcDXlwK/jhzyMMDdHRxfaVjlIcK2qIU5Zbkzx+yuSgiJBG/0B
+         KDTy9/cS7fGvHKAqoESzIgpXSH4crgCnQYpoX0v+X0R0ZqaN/MagyRDFRdGsalr1HLZL
+         qZasoT8RS9FTnCC93f+/y5lWsp/ydL0tK7jDSb6C/gUBeIrEXlwqPBsmr0vs3F8rMkrZ
+         8JnxBwNCxs3S+We0dqIhw9hWwlUtVAFsSTv5/AVZz19w/j2SALVNQmIadsxsoGvri58H
+         k0MEDIqk9WrZJMU1WeW8UtfSS9rHDQpYTCrW5Tyzg0c0WouKpRLGixi59mMeHzoxwhdY
+         Ql+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755780736; x=1756385536;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FUsL83zsecC7yRV/e3S2bWkQ9rwjTqlIbBsHbqavuDw=;
+        b=XPwmaA0TPmwWdWUrKJNntMs5nuXwOBk0zrfYUrW/DPulJsc3mzouvD/lkb7akH9esS
+         r/sCkUMZJCpIzbAZCGof7899vQNLWk8OA925lSSJRoW6m8EKfXf3ZxJPFAH4m+4rYTtd
+         kUcx3o13fM3HlJMv4/hpBfhZWSAiXYTKzOobsbVV3qobbrphmE0anE4Nb3oHfsQGrG+q
+         NFXdxApiSkXHhw6HppSzZt8izqNPEFxaccVR2xvT/Nkrou4j4IHSadB2sIg7/buLyD0h
+         jnDvWOS/YUmAMTpkpyeqIQFdW4OhCVo0wxbmAx0FYNLsSO3auBrvGnSUT6D1H97aZy+q
+         q92w==
+X-Forwarded-Encrypted: i=1; AJvYcCVhCIxrok4Jk4lcz30Ob3jxE9e/pko4+oKG8y9QV2ho4j+unkeF2IBH1KrXntKhCZDAtBJly/EhY8M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCzCqERKkAsi5ILaP77VPQbfGSnf6BcqcfJ2eeoQjjcY/swiGw
+	xx9BIJa/zHs+gptpqLCRAPWKAWSknlzoZk6mscgWwYxpSk6X2bqVANiosKLfPVqV1Lc=
+X-Gm-Gg: ASbGnctA9QFPUKmZQY4RuXfDBU8nx1Vpqz6mya8iUsbWI4hFhTcE5yry3hC6fthSgpY
+	j1fJHVOmjT6niA5dGEn/H5oHnlvUIZWqHeSD+T0BFgpH585Ov+K/JRo6s6dsTZDy513qgdVTMBZ
+	/JTAjOUph9DUKZxAHwx2g+HNYTa8SzcwoSjuuptoRuKkbIZ9VCiXz5++a75dwaQd5vyBaNrR0Xi
+	4SwKq3OZ6eoyiCpXqDGJ4/lOXXEZVk09cwHs3yNebc5OwgvFXsLek1jWHhTODqaD7eQGpGBXMS5
+	zKk6Rx48POtfucsA6O6cmZj7afb0I4/OOXIR6beKaKekYG0aM3yqducCDg1xtGEIVh9RA1r1dUR
+	x7T2ieb8UKSLG5uWVysMX6Wd3Kf0vizIKGnZYGw==
+X-Google-Smtp-Source: AGHT+IFks1UjqoTs3zcB6As7czWYaenw+YDRjeJCaniM0ZwF9o4gJA0TsV6eIfS1nlqXA8r4whdavg==
+X-Received: by 2002:a05:600c:3b04:b0:459:dde3:1a3d with SMTP id 5b1f17b1804b1-45b4d86c120mr20248785e9.26.1755780736319;
+        Thu, 21 Aug 2025 05:52:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b4db2ab9esm27009175e9.9.2025.08.21.05.52.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Aug 2025 05:52:15 -0700 (PDT)
+Date: Thu, 21 Aug 2025 15:52:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mohsin Bashir <mohsin.bashr@gmail.com>
+Cc: netdev@vger.kernel.org, aleksander.lobakin@intel.com,
+	alexanderduyck@fb.com, andrew+netdev@lunn.ch, ast@kernel.org,
+	bpf@vger.kernel.org, corbet@lwn.net, daniel@iogearbox.net,
+	davem@davemloft.net, edumazet@google.com, hawk@kernel.org,
+	horms@kernel.org, john.fastabend@gmail.com, kernel-team@meta.com,
+	kuba@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, pabeni@redhat.com, sdf@fomichev.me,
+	vadim.fedorenko@linux.dev
+Subject: Re: [PATCH net-next V4 5/9] eth: fbnic: Add XDP pass, drop, abort
+ support
+Message-ID: <aKcWe3bm3wQqlfdx@stanley.mountain>
+References: <20250813221319.3367670-1-mohsin.bashr@gmail.com>
+ <20250813221319.3367670-6-mohsin.bashr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250813221319.3367670-6-mohsin.bashr@gmail.com>
 
-Le Thu, 21 Aug 2025 12:15:48 +0200,
-Oleksij Rempel <o.rempel@pengutronix.de> a =C3=A9crit :
+On Wed, Aug 13, 2025 at 03:13:15PM -0700, Mohsin Bashir wrote:
+> @@ -1251,6 +1293,7 @@ static void fbnic_free_napi_vector(struct fbnic_net *fbn,
+>  	}
+>  
+>  	for (j = 0; j < nv->rxt_count; j++, i++) {
+> +		xdp_rxq_info_unreg(&nv->qt[i].xdp_rxq);
+>  		fbnic_remove_rx_ring(fbn, &nv->qt[i].sub0);
+>  		fbnic_remove_rx_ring(fbn, &nv->qt[i].sub1);
+>  		fbnic_remove_rx_ring(fbn, &nv->qt[i].cmpl);
+> @@ -1423,6 +1466,11 @@ static int fbnic_alloc_napi_vector(struct fbnic_dev *fbd, struct fbnic_net *fbn,
+>  		fbnic_ring_init(&qt->cmpl, db, rxq_idx, FBNIC_RING_F_STATS);
+>  		fbn->rx[rxq_idx] = &qt->cmpl;
+>  
+> +		err = xdp_rxq_info_reg(&qt->xdp_rxq, fbn->netdev, rxq_idx,
+> +				       nv->napi.napi_id);
+> +		if (err)
+> +			goto free_ring_cur_qt;
+> +
+>  		/* Update Rx queue index */
+>  		rxt_count--;
+>  		rxq_idx += v_count;
+> @@ -1433,6 +1481,25 @@ static int fbnic_alloc_napi_vector(struct fbnic_dev *fbd, struct fbnic_net *fbn,
+>  
+>  	return 0;
+>  
+> +	while (rxt_count < nv->rxt_count) {
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+This should be <= otherwise it won't free enough.  Then qt will point to
+the wrong thing and the next loop will crash.
 
-> Hello Kory,
->=20
-> On Thu, Aug 21, 2025 at 11:59:14AM +0200, Kory Maincent wrote:
-> > Hello Oleksij,
-> >=20
-> > Le Thu, 21 Aug 2025 11:10:58 +0200,
-> > Oleksij Rempel <o.rempel@pengutronix.de> a =C3=A9crit :
-> >  =20
-> > > Introduce the userspace entry point for PHY MSE diagnostics via
-> > > ethtool netlink. This exposes the core API added previously and
-> > > returns both configuration and one or more snapshots.
-> > >=20
-> > > Userspace sends ETHTOOL_MSG_MSE_GET with an optional channel
-> > > selector. The reply carries:
-> > >   - ETHTOOL_A_MSE_CONFIG: scale limits, timing, and supported
-> > >     capability bitmask
-> > >   - ETHTOOL_A_MSE_SNAPSHOT+: one or more snapshots, each tagged
-> > >     with the selected channel
-> > >=20
-> > > If no channel is requested, the kernel returns snapshots for all
-> > > supported selectors (per=E2=80=91channel if available, otherwise WORS=
-T,
-> > > otherwise LINK). Requests for unsupported selectors fail with
-> > > -EOPNOTSUPP; link down returns -ENOLINK.
-> > >=20
-> > > Changes:
-> > >   - YAML: add attribute sets (mse, mse-config, mse-snapshot) and
-> > >     the mse-get operation
-> > >   - UAPI (generated): add ETHTOOL_A_MSE_* enums and message IDs,
-> > >     ETHTOOL_MSG_MSE_GET/REPLY
-> > >   - ethtool core: add net/ethtool/mse.c implementing the request,
-> > >     register genl op, and hook into ethnl dispatch
-> > >   - docs: document MSE_GET in ethtool-netlink.rst
-> > >=20
-> > > The include/uapi/linux/ethtool_netlink_generated.h is generated
-> > > from Documentation/netlink/specs/ethtool.yaml.
-> > >=20
-> > > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de> =20
-> >=20
-> > ...
-> >  =20
-> > > +MSE Configuration
-> > > +-----------------
-> > > +
-> > > +This nested attribute contains the full configuration properties for=
- the
-> > > MSE +measurements
-> > > +
-> > > +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-  =3D=3D=3D=3D=3D=3D
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +  ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE             u32     max avg_m=
-se
-> > > scale
-> > > +  ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE                u32     max peak_=
-mse
-> > > scale
-> > > +  ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS             u64     sample ra=
-te
-> > > (ps)
-> > > +  ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS                 u64     symbols p=
-er
-> > > sample
-> > > +  ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS              bitset  capability
-> > > bitmask
-> > > +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-  =3D=3D=3D=3D=3D=3D
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D + =20
-> >=20
-> > Why did you remove the kernel doc identifiers to phy_mse_config?
-> > It was useful for the documentation.
-> >  =20
-> > > +MSE Snapshot
-> > > +------------
-> > > +
-> > > +This nested attribute contains an atomic snapshot of MSE values for a
-> > > specific +channel or for the link as a whole.
-> > > +
-> > > +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-  =3D=3D=3D=3D=3D=3D
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +  ETHTOOL_A_MSE_SNAPSHOT_CHANNEL                   u32     channel e=
-num
-> > > value
-> > > +  ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE               u32     average M=
-SE
-> > > value
-> > > +  ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE                  u32     current p=
-eak
-> > > MSE
-> > > +  ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE            u32     worst-case
-> > > peak MSE
-> > > +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-  =3D=3D=3D=3D=3D=3D =20
-> >=20
-> > Same question here for phy_mse_snapshot. =20
->=20
-> I had following warnings:
-> Documentation/networking/ethtool-netlink:2499: ./include/linux/phy.h:3:
-> WARNING: Duplicate C declaration, also defined at kapi:892. Declaration is
-> '.. c:struct:: phy_mse_config'.
-> Documentation/networking/ethtool-netlink:2515: ./include/linux/phy.h:3:
-> WARNING: Duplicate C declaration, also defined at kapi:915. Declaration is
-> '.. c:struct:: phy_mse_snapshot'
->=20
-> I didn't found proper was to solve it, so I removed them.
+The loops in this function are mind bendingly complicated.  It might be
+easiter to write them as:
 
-Indeed kapi.rst is already referencing phy.h globally.
-I don't know if there is a way to avoid this warning.
+	for (i = 0; i < nv->txt_count; i++) {
+		qt = &nv->qt[i];
+		...
+	}
 
-Else you could simply add something like that:
-See ``struct phy_mse_config`` Kernel documentation defined in
-``include/linux/phy.h``
+	for (i = 0; i < nv->rxt_count; i++) {
+		qt = &nv->qt[txt_count + i];
+		...
+	}
 
-Regards
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Generally, I would just unwind the partial loop before the goto instead
+of doing a jump to the middle of the goto.  It's more lines of code, but
+I'm stupid, so I prefer code which is easy even if it's longer.
+
+regards,
+dan carpenter
+
+> +		qt--;
+> +
+> +		xdp_rxq_info_unreg(&qt->xdp_rxq);
+> +free_ring_cur_qt:
+> +		fbnic_remove_rx_ring(fbn, &qt->sub0);
+> +		fbnic_remove_rx_ring(fbn, &qt->sub1);
+> +		fbnic_remove_rx_ring(fbn, &qt->cmpl);
+> +		rxt_count++;
+> +	}
+> +	while (txt_count < nv->txt_count) {
+> +		qt--;
+> +
+> +		fbnic_remove_tx_ring(fbn, &qt->sub0);
+> +		fbnic_remove_tx_ring(fbn, &qt->cmpl);
+> +
+> +		txt_count++;
+> +	}
+> +	fbnic_napi_free_irq(fbd, nv);
+>  pp_destroy:
+>  	page_pool_destroy(nv->page_pool);
+>  napi_del:
+
