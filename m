@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CCB28505A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30FF285C89;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786099; cv=none; b=PLma+dfdsW0I+FS31gyBAoXfCazmLJ/0zhQmXbDalqoQ/UAeBYKbakL3QncMPDyGhAZfmpfDzVCTeHNk9btM/LvKxLg0U/M3vXcgx10BNzUMIHeMJAzdR39bvfO0hwqpehei7tNHNlS7sHTt3SN0t3waeDxEjHvNdasERRvwzuQ=
+	t=1755786100; cv=none; b=Xp9ObjSle798aUpTvRdijWGfzLqyW9v6rTPjHnhNyyvBjiE1WmeIs/Fm/iWOM01vJ30dsSQLd8xjFpYzxre9oUgFXmaPyw/5Tck2/CaCw+x3nsdbIS9E7yyrO3MMryDzFuMHtIzAMfIcbRiBjMJoKfzITjM5KzIuuovZXThidKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755786099; c=relaxed/simple;
-	bh=LbPxF3kGKvZLO+UE6KiArHqAGzi0BSWTiNNAdqSOJS4=;
+	s=arc-20240116; t=1755786100; c=relaxed/simple;
+	bh=TiBwJFe/nRO7mW633U4ruwZsiS7f5kmzwOmkA8jDJ8g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DFqiXuD6jYfKxth6luaYGSQHx7kJz7X1gaW5WKAaJj02nOswNO/9ENPGSzbL8vc+lcywj4lybmr0Cv3S7ReoaxnWhF9gxQIaYNbIrGP6QixkfP5n2Dk1jgvk1/X3V2UEC2XnlsIiribBiCoOfop8mLnos2zI9w//wm6xIHjoytU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fb53XVar; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=WwjJfkTSJR0fDhFYAxd5AT/v9ZsYgYwx2T0vn0gGCVSpQD26jAtZj2WoGn7+WhWC783uIgFhEG8ITJNILDcG5HQ3f2zf+Rpim8S+oD7ywscG043NBeYWOENUqx9XWDK60xLCk/PdmCQYKVYv8Uds8/ZLV174XI7iaRsvH2d7dPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ULo+QUmB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fb53XVar"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4FDC2BCC7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ULo+QUmB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C141C2BCC9;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755786099;
-	bh=LbPxF3kGKvZLO+UE6KiArHqAGzi0BSWTiNNAdqSOJS4=;
+	bh=TiBwJFe/nRO7mW633U4ruwZsiS7f5kmzwOmkA8jDJ8g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Fb53XVar4QcXj4ZqCEwqyRSFWaW6oNAes6/hAsfIcE/O0nvOYDjoBkRkmrF3bFrAk
-	 ZLnSl0IxtpE+IBFG7usy81JmKgKh/WxzsNprAaBzAa0kxzmw9Z5AX6F4otQvch/1vM
-	 cHlhLEX3zetONcuvTdbNVo7ID0eflU9vGvZNEBNHdsm9KbDbD4g92Hk0SvHtk3nLWw
-	 eOsfzTFmvZ8Vu+3j/f6BUTQjuWXOZ2poEjFc6R6odv98EGZ+1Sy9xwwgg4bR4uHj8z
-	 PeG8gaLUrPLQhCWXmltDoauEfZR/EX9M/a4EdpJDk30CjjvVC5YQ6OAlywOmry/l9B
-	 QjcvpzWHCC4dw==
+	b=ULo+QUmB54xEzR0C4mSfwuNIvkI0BqwOrRW9zwTCpXX2KoiCZyBzA8LWulT1N/TRE
+	 injM4rnqbmpUMHAnQhm43jBXklaQO0JIqq/X/ZfCUGnkVnCdn9gs2jCgWRlzuB4es7
+	 AaEIO+oZ49T2gZxFWBllVu9cg0ABIyEaK1aJr5s1L4NVgL9IXxMNH5mqFHIBnn7JJy
+	 eV20V956KN9i0ODMDmOR7zx9i4O1GQhSLVMBNRuayqyg0QY2ltyVJra9IvjFvYGXx9
+	 ripHaUqePJ84z0uyUlbvn/RhgcEFkdfLWysnG20D2DM7+KJP6sdOpHbTVmRzbQeGMt
+	 n7Zcc96zrVysA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up6Ab-0000000BT9Q-2JzK;
+	id 1up6Ab-0000000BT9I-26Yc;
 	Thu, 21 Aug 2025 16:21:37 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Kees Cook <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 22/24] docs: kernel_include.py: document all supported parameters
-Date: Thu, 21 Aug 2025 16:21:28 +0200
-Message-ID: <2bbd518941dd4cae29b3a6f86c6afae711347266.1755784930.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 20/24] docs: kernel_include.py: remove line numbers from parsed-literal
+Date: Thu, 21 Aug 2025 16:21:26 +0200
+Message-ID: <c09b0aa739574739686da9dc08ebe944fabd3442.1755784930.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
 References: <cover.1755784929.git.mchehab+huawei@kernel.org>
@@ -51,134 +51,48 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As we're actually a fork of Sphinx Include, update its
-docstring to contain the documentation for the actual
-implemented parameters.
-
-Let's use :param: for parameters, as defined at:
-https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html
+When parsed-literal directive is added to rawtext, while cross
+references will be properly displayed, Sphinx will ignore
+line numbers. So, it is not worth adding them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 88 +++++++++++++++++---------
- 1 file changed, 58 insertions(+), 30 deletions(-)
+ Documentation/sphinx/kernel_include.py | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index e6f734476ab3..23566ab74866 100755
+index fd4887f80577..3a1753486319 100755
 --- a/Documentation/sphinx/kernel_include.py
 +++ b/Documentation/sphinx/kernel_include.py
-@@ -2,53 +2,81 @@
- # SPDX-License-Identifier: GPL-2.0
- # pylint: disable=R0903, R0912, R0914, R0915, C0209,W0707
+@@ -171,13 +171,24 @@ class KernelInclude(Include):
+         if 'warn-broken' in self.options:
+             env._xref_files.add(path)
  
+-        if "toc" in self.options:
+-            rawtext = parser.gen_toc()
+-        else:
++        if "toc" not in self.options:
 +
- """
--    kernel-include
--    ~~~~~~~~~~~~~~
-+Implementation of the ``kernel-include`` reST-directive.
+             rawtext = ".. parsed-literal::\n\n" + parser.gen_output()
+             self.apply_range(rawtext)
  
--    Implementation of the ``kernel-include`` reST-directive.
-+:copyright:  Copyright (C) 2016  Markus Heiser
-+:license:    GPL Version 2, June 1991 see linux/COPYING for details.
- 
--    :copyright:  Copyright (C) 2016  Markus Heiser
--    :license:    GPL Version 2, June 1991 see linux/COPYING for details.
-+The ``kernel-include`` reST-directive is a replacement for the ``include``
-+directive. The ``kernel-include`` directive expand environment variables in
-+the path name and allows to include files from arbitrary locations.
- 
--    The ``kernel-include`` reST-directive is a replacement for the ``include``
--    directive. The ``kernel-include`` directive expand environment variables in
--    the path name and allows to include files from arbitrary locations.
-+.. hint::
- 
--    .. hint::
-+    Including files from arbitrary locations (e.g. from ``/etc``) is a
-+    security risk for builders. This is why the ``include`` directive from
-+    docutils *prohibit* pathnames pointing to locations *above* the filesystem
-+    tree where the reST document with the include directive is placed.
- 
--      Including files from arbitrary locations (e.g. from ``/etc``) is a
--      security risk for builders. This is why the ``include`` directive from
--      docutils *prohibit* pathnames pointing to locations *above* the filesystem
--      tree where the reST document with the include directive is placed.
-+Substrings of the form $name or ${name} are replaced by the value of
-+environment variable name. Malformed variable names and references to
-+non-existing variables are left unchanged.
- 
--    Substrings of the form $name or ${name} are replaced by the value of
--    environment variable name. Malformed variable names and references to
--    non-existing variables are left unchanged.
-+**Supported Sphinx Include Options**:
- 
--    This extension overrides Sphinx include directory, adding some extra
--    arguments:
-+:param literal:
-+    If present, the included file is inserted as a literal block.
- 
--    1. :generate-cross-refs:
-+:param code:
-+    Specify the language for syntax highlighting (e.g., 'c', 'python').
- 
--        If present, instead of reading the file, it calls ParseDataStructs()
--        class, which converts C data structures into cross-references to
--        be linked to ReST files containing a more comprehensive documentation;
-+:param encoding:
-+    Specify the encoding of the included file (default: 'utf-8').
- 
--    2. :exception-file:
-+:param tab-width:
-+    Specify the number of spaces that a tab represents.
- 
--        Used together with :generate-cross-refs
-+:param start-line:
-+    Line number at which to start including the file (1-based).
- 
--        Points to a file containing rules to ignore C data structs or to
--        use a different reference name, optionally using a different
--        reference type.
-+:param end-line:
-+    Line number at which to stop including the file (inclusive).
- 
--    3. :warn-broken:
-+:param start-after:
-+    Include lines after the first line matching this text.
- 
--        Used together with :generate-cross-refs:
-+:param end-before:
-+    Include lines before the first line matching this text.
- 
--        Detect if the auto-generated cross references doesn't exist.
-+:param number-lines:
-+    Number the included lines (integer specifies start number).
-+    Only effective with 'literal' or 'code' options.
- 
-+:param class:
-+    Specify HTML class attribute for the included content.
+-        title = os.path.basename(path)
++            include_lines = statemachine.string2lines(rawtext, tab_width,
++                                                      convert_whitespace=True)
 +
-+**Kernel-specific Extensions**:
++            # Sphinx always blame the ".. <directive>", so placing
++            # line numbers here won't make any difference
 +
-+:param generate-cross-refs:
-+    If present, instead of directly including the file, it calls
-+    ParseDataStructs() to convert C data structures into cross-references
-+    that link to comprehensive documentation in other ReST files.
++            self.state_machine.insert_input(include_lines, path)
++            return []
 +
-+:param exception-file:
-+    (Used with generate-cross-refs)
++        # TOC output is a ReST file, not a literal. So, we can add line
++        # numbers
 +
-+    Path to a file containing rules for handling special cases:
-+    - Ignore specific C data structures
-+    - Use alternative reference names
-+    - Specify different reference types
-+
-+:param warn-broken:
-+    (Used with generate-cross-refs)
-+
-+    Enables warnings when auto-generated cross-references don't point to
-+    existing documentation targets.
- """
++        rawtext = parser.gen_toc()
  
- # ==============================================================================
+         include_lines = statemachine.string2lines(rawtext, tab_width,
+                                                   convert_whitespace=True)
 -- 
 2.50.1
 
