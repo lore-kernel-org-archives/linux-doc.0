@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9819F2EA755;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DEB2EB5C8;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764224; cv=none; b=BdCXz2QMt6r+ze8SQOxWse2ywATIcJCS9FDxSWGBfPOekqUGYJTB3iKfBi55sNNwzC8S2hFYWo1iB+yrTeLYVJzuUxNypIE2wImTsM/zacpkAFxBK4t5VrAbw8cyeemxjtKTt36gbj3g9pbaiwVJ1gpZiYheOt0ZeS+k7pc8Ico=
+	t=1755764224; cv=none; b=jY8ss2TDDFLGTuUpHPTknCYKLTX/1o3vHlE6IMDqCX6M3L6lzeVsKphL6AueUpBAF9No04GbVBU5iqtPn3vrj9PfUf9BEzyBTSRYtOIePtRyR+LogEap8UdxMxAj3MZba3l419A5xdYDmIY+y+VuRmpR0px234QUig1n9opAqu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755764224; c=relaxed/simple;
-	bh=x7MW3bRve0BOOp4971V2uJ3c3u7EbdqpTM9d9SjBZLs=;
+	bh=7SndwlVAORMkK7k0a/gvSMQNE5mjIwPthu9bKP5Mrso=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IckyZqkBLeulE0vU8yO6ohcHTKqMs+etBqHmRFoXDUOOYWXUb9Cj9u3zjothDwX8sb3MKxR56+K2ZbWukw0cDGeTm/ynilaQPpoF+qJrnFqvMNE7ez1SV3mHn7wqNXJAfDhnWl8Bj3kbTYZVijoHhPgGB1jFPThQ4JWJ6HBr0Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aq29AYcK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=OWrBpTuJLNi6BwcbWP5Ko5JAUfiw2qgqoVamnCW0hpZ5e+4ah7NA7du9Z2jiZ0L/PmxNosZPQQwqU+qAHMMpGfUU4WN/A14wVSSjnVQfplva4ZSoxmK0+7S6JWqbXrqKLw7FprtsKr2eAhr90xzt3CPERQdxHlRhGSY38WVG2pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EzqVNAzw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aq29AYcK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA2DC4AF09;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EzqVNAzw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D82C113CF;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755764224;
-	bh=x7MW3bRve0BOOp4971V2uJ3c3u7EbdqpTM9d9SjBZLs=;
+	bh=7SndwlVAORMkK7k0a/gvSMQNE5mjIwPthu9bKP5Mrso=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Aq29AYcK3/fmmD1mm67PX9D3SOq1g6qwRFR1B2cM4yrDtQy4M+eYCLzs5zn8Cwmww
-	 ZTzWFccbaHQ4gK/nzOcA1RY0DmF/mO8affn7NFkL7sOQ1M/E48UjJXg5K2CBriXrwR
-	 TazNrQCvI1Y0mhzVoGym9p5ecMAC+7oo0Hz8SK1FWBq4adyh7SwFnLpKkBJqP3SWWB
-	 lNwPZGxvhGCjgDrrP74CiVKwlLJVZGQ0SPPryUmJnIzatkaaAYUNriu55WUrFPWwEO
-	 GJeH8amUIBrFgZM9aQ7OwS9mCxdv1EDPaHSH1ho4ueyX0Vmz26g2EU/arzE5llBxEU
-	 2OewrTHgmeczg==
+	b=EzqVNAzwy+aRE154ZUX8u8PjCB5ANN18wqn882Mpa6XV1eBH6oGh6BB84VjXpdrT8
+	 6gYGbF+n4voI0e0h9eEyG7SY9k+ARMYjHSyNUc8HkKdfy8/UcKJl6mYU3m/uSVQ0i4
+	 0SX691xRuM0rW4EhzkDQweywtn5SN3gsMqhYrtbMiKTonz/t5zyTrRPhbxBj2ounVm
+	 BVsVLSVVbh6fZdByK4YqN7MWX6Hd3WDDcKuCeyCtqAE7Q1TMDtKLvBNL2cwTaNX8Na
+	 sZIU6h/AN/fI/OK/g9Jmb+8bS2SUpL9L9ur4aooWLxVQGIFWNG2/UZrnlJ+eRqGP1S
+	 NLQz2S1K9EM5A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up0Tm-0000000BLg9-2WXv;
+	id 1up0Tm-0000000BLg5-2Pub;
 	Thu, 21 Aug 2025 10:17:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 02/14] docs: conf.py: better handle latex documents
-Date: Thu, 21 Aug 2025 10:16:38 +0200
-Message-ID: <de23b35a770210950c609deaa32b98cb3673a53a.1755763127.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 01/14] docs: Makefile: Fix LaTeX paper size settings
+Date: Thu, 21 Aug 2025 10:16:37 +0200
+Message-ID: <c50db42ead36010fd42ce1e6a2b9da766c11927b.1755763127.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755763127.git.mchehab+huawei@kernel.org>
 References: <cover.1755763127.git.mchehab+huawei@kernel.org>
@@ -51,105 +51,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The original logic assumed that app.srcdir is identical to the
-current working dir. This is the case for a normal build, but,
-when SPHINXDIRS="some dir" is used, this is not the case anymore.
+According with:
+	https://www.sphinx-doc.org/en/master/latex.html
 
-Adjust the logic to fill the LaTeX documents considering
-app.srcdir, in a way that it will work properly on all cases.
+The variable that handles paper size changed during version 1.5,
+as pointed at:
+	https://www.sphinx-doc.org/en/master/changes/1.5.html
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/conf.py | 54 +++++++++++++++++++++----------------------
- 1 file changed, 26 insertions(+), 28 deletions(-)
+ Documentation/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index f9828f3862f9..2c1be59fd54b 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -51,11 +51,13 @@ else:
-     dyn_exclude_patterns.append("devicetree/bindings/**.yaml")
-     dyn_exclude_patterns.append("core-api/kho/bindings/**.yaml")
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 820f07e0afe6..2ed334971acd 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -60,8 +60,8 @@ ifeq ($(HAVE_LATEXMK),1)
+ endif #HAVE_LATEXMK
  
--# Properly handle include/exclude patterns
--# ----------------------------------------
-+# Properly handle directory patterns and LaTeX docs
-+# -------------------------------------------------
- 
--def update_patterns(app, config):
-+def config_init(app, config):
-     """
-+    Initialize path-dependent variabled
-+
-     On Sphinx, all directories are relative to what it is passed as
-     SOURCEDIR parameter for sphinx-build. Due to that, all patterns
-     that have directory names on it need to be dynamically set, after
-@@ -86,6 +88,25 @@ def update_patterns(app, config):
- 
-         config.exclude_patterns.append(rel_path)
- 
-+    # LaTeX and PDF output require a list of documents with are dependent
-+    # of the app.srcdir. Add them here
-+
-+    for fn in os.listdir(app.srcdir):
-+        doc = os.path.join(fn, "index")
-+        if not os.path.exists(os.path.join(app.srcdir, doc + ".rst")):
-+            continue
-+
-+        has = False
-+        for l in latex_documents:
-+            if l[0] == doc:
-+                has = True
-+                break
-+
-+        if not has:
-+            latex_documents.append((doc, fn + ".tex",
-+                                    "Linux %s Documentation" % fn.capitalize(),
-+                                    "The kernel development community",
-+                                    "manual"))
- 
- # helper
- # ------
-@@ -456,32 +477,9 @@ latex_elements["preamble"] += """
-         \\input{kerneldoc-preamble.sty}
- """
- 
--# Grouping the document tree into LaTeX files. List of tuples
--# (source start file, target name, title,
--#  author, documentclass [howto, manual, or own class]).
--# Sorted in alphabetical order
-+# This will be filled up by config-inited event
- latex_documents = []
- 
--# Add all other index files from Documentation/ subdirectories
--for fn in os.listdir("."):
--    doc = os.path.join(fn, "index")
--    if os.path.exists(doc + ".rst"):
--        has = False
--        for l in latex_documents:
--            if l[0] == doc:
--                has = True
--                break
--        if not has:
--            latex_documents.append(
--                (
--                    doc,
--                    fn + ".tex",
--                    "Linux %s Documentation" % fn.capitalize(),
--                    "The kernel development community",
--                    "manual",
--                )
--            )
--
- # The name of an image file (relative to this directory) to place at the top of
- # the title page.
- # latex_logo = None
-@@ -577,4 +575,4 @@ loadConfig(globals())
- def setup(app):
-     """Patterns need to be updated at init time on older Sphinx versions"""
- 
--    app.connect('config-inited', update_patterns)
-+    app.connect('config-inited', config_init)
+ # Internal variables.
+-PAPEROPT_a4     = -D latex_paper_size=a4
+-PAPEROPT_letter = -D latex_paper_size=letter
++PAPEROPT_a4     = -D latex_elements.papersize=a4paper
++PAPEROPT_letter = -D latex_elements.papersize=letterpaper
+ ALLSPHINXOPTS   = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
+ ALLSPHINXOPTS   += $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
+ ifneq ($(wildcard $(srctree)/.config),)
 -- 
 2.50.1
 
