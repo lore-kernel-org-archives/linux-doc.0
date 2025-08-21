@@ -1,46 +1,92 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56612236FA;
-	Thu, 21 Aug 2025 03:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7291FBEA6;
+	Thu, 21 Aug 2025 03:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755747240; cv=none; b=L5diK9NMXclvnljB42kjDOueRCJWRn+mgKwQGwjviLimp7DIdCEkmedWEY+6tJhS1p5USWpm/vogvcXHNpsepNchTESviAjsSyTrlhgLTN496ns6uGmFTqRvLFqOqUfgL3Y1JGD9huYs5JQhkBWnUWxPkjXdHDaT8D8RdJhmm9k=
+	t=1755747718; cv=none; b=VBjOXiGc5SUjxQIeWRr2oTbe9DbzLd0y6y+dqG+/1/yTDD5ln14P6X/0w2cbrKZMMFwTEzaWK8CY70H+kVzQvmVTSimisdt/PO2TAUU7If8OFCzRHMTbUDW135lfJ5C/iy8UHPgSqJNowsjSHlhOVp5/mr+XvoMX2JZRrz/YzMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755747240; c=relaxed/simple;
-	bh=4LFcMDfo/zbUYfGKlorYccLY9PwrEh1kqHEyrvJizI0=;
+	s=arc-20240116; t=1755747718; c=relaxed/simple;
+	bh=X+MusV7/pRuzSWK84Guko9Sj7ekebKWsuoI3ckFV02k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GqUpxfzAkxEbwtHZTHpRv0ibH8TqoZn8Dzuo8qXOVRH3IWiUi/mpJlc3CCSUzqQhKpZo/j+8hXbtb+8Xn4lJfSK/1LUxy5b7CgyaNjhVV8IYcbQj4RweJcJeoGquKI/olcL1NmL0PN7V3RmFEwUShSbZ7xxJLF/yeqC5wYPZ3aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz8t1755747174t1aeda2f3
-X-QQ-Originating-IP: B3BZVKqW3jX07jw0veN9lGFzHwGmjdz36KID2sMYiu0=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 21 Aug 2025 11:32:52 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 9983899224186391793
-Date: Thu, 21 Aug 2025 11:32:53 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <7FCBCC1F18AFE0F3+20250821033253.GA1754449@nic-Precision-5820-Tower>
-References: <20250818112856.1446278-1-dong100@mucse.com>
- <20250818112856.1446278-5-dong100@mucse.com>
- <39262c11-b14f-462f-b9c0-4e7bd1f32f0d@lunn.ch>
- <458C8E59A94CE79B+20250821024916.GF1742451@nic-Precision-5820-Tower>
- <47aa140e-552b-4650-9031-8931475f0719@lunn.ch>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yv+ThHgazDQZ7/63QA2mh9seUZehGiVzUpqm0hpuFab4YfuuvepxSNwvP3vwdlWnicGQdUIrW5QY6EOqHXvlDOsCZYuFsGBFbHsNY0JVDQyEHEOVOSWu4+DL9cc9xKMLKIXNRIhCNoASLzqfekX8ov+5nX+Z0kl9WewhbS6dKiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZEMdT9DK; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZEMdT9DK"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb73394b4so81144966b.0;
+        Wed, 20 Aug 2025 20:41:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755747715; x=1756352515; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ly8HhEQvY9JxMVhrYHzoh/hAff3HjFqcoEOj5b7KCq4=;
+        b=ZEMdT9DKGVPUePaus5FFyXbk3eLDWC8B6ohc3qetL7MdDsWjxA3kT5ey1D9i7Nu3T+
+         lTTC9S+mPBPbF1bdBcI5kLy/QHns9OFTc2p3MxwOhucGUJbWCNW8TD01uoyWZNF6UgKG
+         O9PeKfqJICWpp6Cw9CeZngFxE9nA4Q0gAx2B/SoMSwrOdaJrrOI6BjZ06fkszz9mourR
+         DkGMXe+YQ/KeAHu++P4yMqFBWadA9CyCjLarGklfhSQdx4GmCY/FFJcf0L+mWFGwmo8w
+         AVZBHNHs9z06ewFE96wpAVNMXJu+APjVECh0E/lsPK41T2tNPeyQg8mYRYBIGqX8HuPk
+         kN3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755747715; x=1756352515;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ly8HhEQvY9JxMVhrYHzoh/hAff3HjFqcoEOj5b7KCq4=;
+        b=cgJExGWyBzlUXk7CDAiYAGKkJl+oOF/8M0qYwaGjH2lj1EhyEQ1VZLj7cU9DqpJWmx
+         G/VmKTJ5s2lkhEkfLHa8kYWu363NfpxIvK7hvugx4VPJYeIYmnvn/XTAHntX69++RMy6
+         78VH+3e4juFJP+KXZHcq2doUry0XKmhlUHkMuY/3Lqb4bbGAB63RZi4bdsSErmF9q22R
+         pm/GFZYO//MGt5UbL1hMxCCGusQ3Yer8mjRnvVSzBXK+E3cKPy5jjw8hvmfnZ1AvcqkI
+         IclBPOBn6sf1+pvbxgbP40gNusDgy41RX6PwPz3xyKGMWkpGjHzpDqEiIIA/C2GKTPGN
+         6dYA==
+X-Forwarded-Encrypted: i=1; AJvYcCW78S5+yZ2JacgKY4ce0EoEqjMXnGSOCcwkFTNscxEMkFDcj5h/dHkCSuBPuYG6L6YQFoEwFynuNxwl0okQ@vger.kernel.org, AJvYcCW88HcGYAHvdY9BCLNNFquzmWKyzERn53YaHot8qIog27vTm0dRYxDgXz5j0YIv4pPifGIr4xEPPvM=@vger.kernel.org, AJvYcCX0f0T2kQ20kUvdrH9IOfrVE7wVT5vPIwx83K6mMNigOfZjJLinQuWiHPTRdl34ECBO6zh62DQCIfuVYXkBeakshhu7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy050G6Yvky7ECqvi9I5ZkMq7XFflsBiZZAM9EqZi5D855WvImZ
+	N8XjUJ6wQeRblfIyOVVGuBhdoL22L4PRqxNB7nUNVSn4rzVkE2DiviF4
+X-Gm-Gg: ASbGncv7WyuS9Prxf0OsIuqe/qfwCeMbhNbmpvLcaXpr7X9nXFCyo5Q7FyiQP5cg7A0
+	i8/RPYV1395JrCPLyVAGjzFVDDbn4NnHgBob+k2L/gz9tH2Ze2oAH3EFpHGto8s9qiaMcnyfIcR
+	hJ+aDYpUFFBuG3XNY+v1bJ/A725OvCpqlVVaNUrTZJSoYqXaQzKkETa/PmtkaxmrdOgtP52Pt9f
+	8W31MklQhFIfgHhb2d1PRt95lKbRTj6ls2/pf3C3P72QHXfn/TwHTCJxrVmUK1w9s+cuRDEdSjs
+	v2DtF/POZHo/DQTSLJT+7KJhmIyfJ6Sh6MgnCPSz532cBAgQdAMFAKscHO5CMRXZeB/oLnpMJWR
+	jwn9p38wnce1Pyd7L4zs1rQ==
+X-Google-Smtp-Source: AGHT+IGaJqB8Du4nZbwZH6+ZZ1UR1jsjKqH51Z9VenWWYM+Y2riY0qwNibopPt1+EA0CWK1IUnGClQ==
+X-Received: by 2002:a17:907:3e8d:b0:af2:5a26:b32a with SMTP id a640c23a62f3a-afe07c154d7mr97515766b.30.1755747714772;
+        Wed, 20 Aug 2025 20:41:54 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded2ba31dsm299249166b.12.2025.08.20.20.41.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 20 Aug 2025 20:41:54 -0700 (PDT)
+Date: Thu, 21 Aug 2025 03:41:53 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Nico Pache <npache@redhat.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, david@redhat.com,
+	ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+	baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+	wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+	sunnanyong@huawei.com, vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com,
+	raquini@redhat.com, anshuman.khandual@arm.com,
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+	jglisse@google.com, surenb@google.com, zokeefe@google.com,
+	hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+	rdunlap@infradead.org, hughd@google.com
+Subject: Re: [PATCH v10 03/13] khugepaged: generalize hugepage_vma_revalidate
+ for mTHP support
+Message-ID: <20250821034153.uyxjy5yvxx5no5sf@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250819134205.622806-1-npache@redhat.com>
+ <20250819134205.622806-4-npache@redhat.com>
+ <cd4dd743-679f-4c55-9635-6d32e6fa5ff7@lucifer.local>
+ <CAA1CXcDORXqm4JoHn4ZSEhT3ajsuY2MAPwefMXk3+YMXcpvqkw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,45 +95,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <47aa140e-552b-4650-9031-8931475f0719@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: OQNQM5UP8StMDdmKQ4cRpMLnC0k46CBi0zEzzNyRSLR/BE1SaKY5q1S5
-	K2ciQrHPMZWVMGLWSPv2RPzvZUoHtkmM727bE3FIvzcaj640sji/YkyObHfR/zTYTvTTXrM
-	WajR/GvMSxvFWai706RlPJsdQVovluBoUnPXZrYljKLIHaSviX/OIxI51dYZu7jvGwxlpWm
-	GN1ZzGpEyZ39BBeu/zObz28Pt8y9MpOzsx5A683DPj158Tv9z2JL78WUqOKyC/PYQRjWT4F
-	T8Ja1q3KQ65zTmvV5p0YA0TkGazHHWk7nWxpup69emVymgV3SvKfKejewonNLCoGdyrrlEL
-	y9Gq10EFBAKY1KrFXLobEGSG/ZUg0vev0B6Rkfb0szg4CxI/JN506iqbE9mWb5Vzyo7d9EX
-	3iZvTR5XIDtejL7NbCVQcrwG9oK0kREzXGANpnpddUUj8j1chaaGUEIeTLvZV1MggEEjSiu
-	z2txRmyqTJlb1LhXOb2riTM6/gJx+0CqorB0Py/wxf5VHvMcCH3LLpcp5/ebqb5nGUyfNiN
-	Q0BkHu0vUjb8z1hCbJTPnSFHFhaFUmCXkhdDvqHBEz2J+xm+QPFeLju0vU/SA+w6VZGPQBw
-	geDL4hVZc8v0agMLuW2QHgp49ahWMX30g9kC8Q91shRIjSTzJLJCldyPWbqv44zV7lafl6V
-	dgDx/+7KVF8XpSZqqxGabMzbnJDNYG7SLnt5oTLSk5F22t5VtoN5zi1Yy4QmmeO5g/Mwcpf
-	IHhPgVOZm6D6nwAGVa83/EqJJq67LVFcwIiR966M3T0Xnj5mxSzgHWg87zYANAnV7ivgk9O
-	/OZ7MJjfcPgHLYpNWhWT4binXdpge6dh+MR1GRgqtjdgUcgNr+nPZfdIfr5hUztsbplykJ6
-	YYivsi+QkLtqQvWK1wLiKO2mRFYPzJ9AIb8e3idBV6DyUrrV5yTgt22hsoD7iRlIoEARGVp
-	slTz8m/AwIX3akMbtGTnQ6dU5vye6hk8xqagUAxxXf3LnUojoUhLPA+/2fgpcyKl25RI4vE
-	NJdMh0L7xuUxQmerNO8t7OKi4NCqRTpy4/KGcSRQ==
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-QQ-RECHKSPAM: 0
+In-Reply-To: <CAA1CXcDORXqm4JoHn4ZSEhT3ajsuY2MAPwefMXk3+YMXcpvqkw@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Thu, Aug 21, 2025 at 05:13:27AM +0200, Andrew Lunn wrote:
-> > 'mucse_mbx_fw_post_req' is designed can be called by 'cat /sys/xxx',
-> 
-> It is pretty unusual for ethernet drivers to export data in /sys,
-> except via standard APIs, like statistics, carrier, address, opstate
-> etc.  I don't know how well the core will handle EINTR. It is not
-> something most drivers do. -ETIMEDOUT is more likely when the firmware
-> has crashed and does not respond in time.
-> 
-> Do you have any operations which take a long time when things are
-> working correctly?
-> 
-> 	Andrew
-> 
+On Wed, Aug 20, 2025 at 09:40:40AM -0600, Nico Pache wrote:
+[...]
+>>
+>> >       if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
+>> >               return SCAN_ADDRESS_RANGE;
+>> > -     if (!thp_vma_allowable_order(vma, vma->vm_flags, type, PMD_ORDER))
+>> > +     if (!thp_vma_allowable_orders(vma, vma->vm_flags, type, orders))
+>> >               return SCAN_VMA_CHECK;
+>> >       /*
+>> >        * Anon VMA expected, the address may be unmapped then
+>> > @@ -1134,7 +1135,8 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>> >               goto out_nolock;
+>> >
+>> >       mmap_read_lock(mm);
+>> > -     result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
+>> > +     result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
+>> > +                                      BIT(HPAGE_PMD_ORDER));
+>>
+>> Shouldn't this be PMD order? Seems equivalent.
+>Yeah i'm actually not sure why we have both... they seem to be the
+>same thing, but perhaps there is some reason for having two...
 
-'Update firmware operation' will take long time, maybe more than
-10s. If user use 'ethtool -f' to update firmware, and ^C before done?
-If ^C before mucse_write_mbx, return as soon as possible. If after mucse_write_mbx,
-wait until fw true response.
+I am confused with these two, PMD_ORDER above and HPAGE_PMD_ORDER from here.
 
+Do we have a guide on when to use which?
+
+>>
+>> >       if (result != SCAN_SUCCEED) {
+>> >               mmap_read_unlock(mm);
+>> >               goto out_nolock;
+>> > @@ -1168,7 +1170,8 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>> >        * mmap_lock.
+>> >        */
+>> >       mmap_write_lock(mm);
+>> > -     result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
+>> > +     result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
+>> > +                                      BIT(HPAGE_PMD_ORDER));
+>> >       if (result != SCAN_SUCCEED)
+>> >               goto out_up_write;
+>> >       /* check if the pmd is still valid */
+>> > @@ -2807,7 +2810,7 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+>> >                       mmap_read_lock(mm);
+>> >                       mmap_locked = true;
+>> >                       result = hugepage_vma_revalidate(mm, addr, false, &vma,
+>> > -                                                      cc);
+>> > +                                                      cc, BIT(HPAGE_PMD_ORDER));
+>> >                       if (result  != SCAN_SUCCEED) {
+>> >                               last_fail = result;
+>> >                               goto out_nolock;
+>> > --
+>> > 2.50.1
+>> >
+>>
+>
+
+-- 
+Wei Yang
+Help you, Help me
