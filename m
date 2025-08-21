@@ -1,150 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFCE2E0404;
-	Thu, 21 Aug 2025 17:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816CD2D46AB;
+	Thu, 21 Aug 2025 17:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755797585; cv=none; b=K1qCOGy10t5kL+1T/WvU2WVVnZt4kLjOTG4yoPBmvvmhy9T1njvS9t2A/o2k3PqLk5+3zYCFXug8mEmYNrfGBPh2DxC0HMnQXL0q1oGoDp1ShXwixbQyWpCSaTpLNAwDdZsxagGIaFr6gJ41WrPHq1l8sYXa0YxkCDFqhob7gX4=
+	t=1755797953; cv=none; b=IW2kb1og2nui4Ac0jImnw8Tfted3+0A4sCL7Xd7Y2NiawpxNZDZhL8+4u7MdUYgYStg79ppH7c4cTM61hH6FQQ4azpzVvj+uLmIKSHoIzKhobciIxr2Cl5y1yCUt0FKfoYuMaiDJMH/acyEWSQ9Y1uQ8S0FFHaQJvGCWKfGBQR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755797585; c=relaxed/simple;
-	bh=Q9rh8Lkqpu5Ldx6YYZa4TBRMwiKb+sHCQo3ITuYkI8k=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=pp+g2OVRMugLIo4uLkq0NA5IsGk+XyJ3jbGn7C4MJzV5CGmV7mzSUkylYt8J0ruKeCykMNZ57eS6kG7q1JNgQPm/yutvi/CV474qHaHUCAIezYOMWiwul+S0XHumTv9uX444hwD1C7l2nO1za4FocPqgDJzb0HpuSudxavpEdnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ocYGHGSr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755797953; c=relaxed/simple;
+	bh=QkUqQ3zvMKz0kwF5LuYb7dPTc8lI1Aq+1yTo+jAi8q4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f8KC331K+O7p1/I01oA2BInWG4h5tNitWOmHSKCValyetoEYifJXYbKY0WHI7dAlox+bJ2YUBeG/IFEcsC3bge6Psqkn4c05yomtf2CRujWxG7pVtU7ITC9M+jxjHZl6qSNpuoMZ689VE9H/c78RioZ+Y7TJ5+4KmHtNTuLI0Ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IpNSHfY1; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ocYGHGSr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15A75C4CEEB;
-	Thu, 21 Aug 2025 17:33:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755797584;
-	bh=Q9rh8Lkqpu5Ldx6YYZa4TBRMwiKb+sHCQo3ITuYkI8k=;
-	h=From:Date:To:cc:Subject:In-Reply-To:References:From;
-	b=ocYGHGSrIjyruo1m6k+xsPQPitnjESHHx1y+Yucjy2Md5b2HyUOw/UzE15RgRm9Ot
-	 v6Q7C8CSdq3Kq07xHCZ2qxToiNn3nIlRUiCFGANW0RDiLs2Kdz8JBEG5npbKKe2/L5
-	 /U95IpDZplwL4q6OtK0236ji7ilO+uj0K398nxywZbC2i9tMfN9dPTqhRIoQcVQb6z
-	 7EY/F7SwJfhXhNWC5FKvVdnuaivpWPLY4s1FW8G7vlgXVBLvIcuGrTojhu+WMN+MTA
-	 8gyH2QKsgfK+myahwdgJF8Aq1nnfdRp/mwhZlsS5UgqliUhYKFqrtHa2fja/TzMU9D
-	 HIPTJWjcuRQsg==
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ij@kernel.org>
-Date: Thu, 21 Aug 2025 20:32:59 +0300 (EEST)
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-cc: Eric Dumazet <edumazet@google.com>, 
-    "pabeni@redhat.com" <pabeni@redhat.com>, 
-    "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-    "corbet@lwn.net" <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>, 
-    "dsahern@kernel.org" <dsahern@kernel.org>, 
-    "kuniyu@amazon.com" <kuniyu@amazon.com>, 
-    "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-    "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
-    "dave.taht@gmail.com" <dave.taht@gmail.com>, 
-    "jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>, 
-    "stephen@networkplumber.org" <stephen@networkplumber.org>, 
-    "xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, 
-    "jiri@resnulli.us" <jiri@resnulli.us>, 
-    "davem@davemloft.net" <davem@davemloft.net>, 
-    "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, 
-    "donald.hunter@gmail.com" <donald.hunter@gmail.com>, 
-    "ast@fiberby.net" <ast@fiberby.net>, 
-    "liuhangbin@gmail.com" <liuhangbin@gmail.com>, 
-    "shuah@kernel.org" <shuah@kernel.org>, 
-    "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
-    "ncardwell@google.com" <ncardwell@google.com>, 
-    "Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>, 
-    "g.white@cablelabs.com" <g.white@cablelabs.com>, 
-    "ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>, 
-    "mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>, 
-    "cheshire@apple.com" <cheshire@apple.com>, 
-    "rs.ietf@gmx.at" <rs.ietf@gmx.at>, 
-    "Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>, 
-    "vidhi_goel@apple.com" <vidhi_goel@apple.com>
-Subject: RE: [PATCH v15 net-next 10/14] tcp: accecn: AccECN option
-In-Reply-To:  <PAXPR07MB798496F6B674558AFD2B1641A332A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Message-ID: <f11c16d9-5b29-b0d8-c9bc-d6bdb49f00d1@kernel.org>
-References: <20250815083930.10547-1-chia-yu.chang@nokia-bell-labs.com> <20250815083930.10547-11-chia-yu.chang@nokia-bell-labs.com> <CANn89iKPTWBdi8upoxjFok2CPFhkGB9S3crZcefZ0mRhFHGPhQ@mail.gmail.com> 
- <PAXPR07MB798496F6B674558AFD2B1641A332A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IpNSHfY1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755797951; x=1787333951;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QkUqQ3zvMKz0kwF5LuYb7dPTc8lI1Aq+1yTo+jAi8q4=;
+  b=IpNSHfY1Ci6rw58Dc5Z49i11uWK3JQ99kHYprKSdwgOm82YZRo66GXPt
+   iVE5jqKE62woBwiUfXzY1pULRPP0OMG60N+ARpkzqhkZpLkMM+nu9bO1k
+   ZxmtVRZcn8/+p/vc952PLnJ+wirpCd5syMdndC8KyfgOXOnK8MP6ia7jZ
+   PYA8ngNu7wBF5aRYKsDdpgnnSReVx/PKoRksVDLadGWGGpiOwtwrqXm2k
+   Qk4N8F8eHnIwSLU2psWmt8+/1epof86xEYYOoe+TlGndthSRV7ZjrplDL
+   kVQO15ed/8DClDfCNjWjrAV7D5lEPe2JTF6CezouVZDE2wTJtZMOS99MQ
+   w==;
+X-CSE-ConnectionGUID: o2EgGGkTT5mRTycqavb8Aw==
+X-CSE-MsgGUID: Kt4EigyDQHC7d1r/VAq4nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58166496"
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="58166496"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 10:39:10 -0700
+X-CSE-ConnectionGUID: 0g9v6kcyRjG2mrRUEjPaaQ==
+X-CSE-MsgGUID: 7vEKTR1VRdqY9c/BKGa2mQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="199346532"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO [10.247.119.210]) ([10.247.119.210])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 10:39:04 -0700
+Message-ID: <690d68e2-1efd-4de4-8b78-3a75c71d944e@intel.com>
+Date: Thu, 21 Aug 2025 10:38:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-579655347-1755797579=:1081"
-
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-579655347-1755797579=:1081
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Documentation/driver-api: Fix typo error in cxl
+To: Rakuram Eswaran <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org
+Cc: dan.j.williams@intel.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
+ vishal.l.verma@intel.com, ira.weiny@intel.com, linux-cxl@vger.kernel.org,
+ alison.schofield@intel.com, gourry@gourry.net, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, corbet@lwn.net
+References: <20250818175335.5312-1-rakuram.e96@gmail.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20250818175335.5312-1-rakuram.e96@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 
-On Thu, 21 Aug 2025, Chia-Yu Chang (Nokia) wrote:
 
-> > -----Original Message-----
-> > From: Eric Dumazet <edumazet@google.com>=20
-> > Sent: Thursday, August 21, 2025 2:30 PM
-> > To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
-> > Cc: pabeni@redhat.com; linux-doc@vger.kernel.org; corbet@lwn.net; horms=
-@kernel.org; dsahern@kernel.org; kuniyu@amazon.com; bpf@vger.kernel.org; ne=
-tdev@vger.kernel.org; dave.taht@gmail.com; jhs@mojatatu.com; kuba@kernel.or=
-g; stephen@networkplumber.org; xiyou.wangcong@gmail.com; jiri@resnulli.us; =
-davem@davemloft.net; andrew+netdev@lunn.ch; donald.hunter@gmail.com; ast@fi=
-berby.net; liuhangbin@gmail.com; shuah@kernel.org; linux-kselftest@vger.ker=
-nel.org; ij@kernel.org; ncardwell@google.com; Koen De Schepper (Nokia) <koe=
-n.de_schepper@nokia-bell-labs.com>; g.white@cablelabs.com; ingemar.s.johans=
-son@ericsson.com; mirja.kuehlewind@ericsson.com; cheshire@apple.com; rs.iet=
-f@gmx.at; Jason_Livingood@comcast.com; vidhi_goel@apple.com
-> > Subject: Re: [PATCH v15 net-next 10/14] tcp: accecn: AccECN option
-> >=20
-> >=20
-> > CAUTION: This is an external email. Please be very careful when clickin=
-g links or opening attachments. See the URL nok.it/ext for additional infor=
-mation.
-> >=20
-> >=20
-> >=20
-> > On Fri, Aug 15, 2025 at 1:40=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.=
-com> wrote:
-> [...]
-> > >  /* Used for make_synack to form the ACE flags */ diff --git=20
-> > > a/include/uapi/linux/tcp.h b/include/uapi/linux/tcp.h index=20
-> > > bdac8c42fa82..53e0e85b52be 100644
-> > > --- a/include/uapi/linux/tcp.h
-> > > +++ b/include/uapi/linux/tcp.h
-> > > @@ -316,6 +316,13 @@ struct tcp_info {
-> > >                                          * in milliseconds, including=
- any
-> > >                                          * unfinished recovery.
-> > >                                          */
-> > > +       __u32   tcpi_received_ce;    /* # of CE marks received */
-> > > +       __u32   tcpi_delivered_e1_bytes;  /* Accurate ECN byte counte=
-rs */
-> > > +       __u32   tcpi_delivered_e0_bytes;
-> > > +       __u32   tcpi_delivered_ce_bytes;
-> > > +       __u32   tcpi_received_e1_bytes;
-> > > +       __u32   tcpi_received_e0_bytes;
-> > > +       __u32   tcpi_received_ce_bytes;
-> > >  };
-> > >
-> >=20
-> > We do not add more fields to tcp_info, unless added fields are a multip=
-le of 64 bits.
-> >=20
-> > Otherwise a hole is added and can not be recovered.
->=20
-> Hi Eric,
->=20
-> Thanks for the feedback.
->=20
-> Then, would it make sense to add __u32 reserved; here or this is not an=
-=20
-> option?
 
-Wouldn't it also make sense to change the byte counters to __u64?
+On 8/18/25 10:53 AM, Rakuram Eswaran wrote:
+> Fixed the following typo errors
+> 
+> intersparsed ==> interspersed
+> in Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> 
+> ---
+> Changelog:
+> 
+> Changes since v2:
+> - Fixed Signed-off-by line to include fullname
+>   (feedback from Jonathan Corbet)
+> 
+> Changes since v1:
+> - Dropped fix for page-allocator.rst as requested by Gregory
+> 
+> Suggested-by: Gregory Price <gourry@gourry.net> 
+> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
 
-(It won't help the alignment though if the CE counter is left __u32.)
+applied to cxl/next
+561c4e30bff93b3c33e694a459f8580f8a6b3c8c
 
---=20
- i.
+> ---
+>  Documentation/driver-api/cxl/platform/bios-and-efi.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> index 645322632cc9..a9aa0ccd92af 100644
+> --- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> +++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> @@ -202,7 +202,7 @@ future and such a configuration should be avoided.
+>  
+>  Memory Holes
+>  ------------
+> -If your platform includes memory holes intersparsed between your CXL memory, it
+> +If your platform includes memory holes interspersed between your CXL memory, it
+>  is recommended to utilize multiple decoders to cover these regions of memory,
+>  rather than try to program the decoders to accept the entire range and expect
+>  Linux to manage the overlap.
 
---8323328-579655347-1755797579=:1081--
