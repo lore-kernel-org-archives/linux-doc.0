@@ -1,100 +1,80 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72632E54BB;
-	Thu, 21 Aug 2025 16:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFE82E54D0;
+	Thu, 21 Aug 2025 16:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755795265; cv=none; b=ZmF+JiFhphpCkSQEA/4uVZjETsbMQJenfdnl1h14qX0TEF1MMGwYqMNVkoFfH0MfEi0XNQ+N+VekecRR+e4t1TfbgtjNAG7mZNg/ImWN9pSn083oSDhhvpYqd/2HhEDxo7GIn342nrG/DkefFwxjYnky5Qk8ZJI4Qwseyre9jZA=
+	t=1755795304; cv=none; b=R4Q+gsfK2vgmSqjxyvaonqvNbNvYP4zwRSniq9xJMSDTtiPPvKzbFLuSTIiG2ZLV+geGILYgWnYGXDVd4Tg6qP9onThmZkdNEr0+eDj8QUgtH9dk08F0JVw14dx2weVYqfXUEdBdhnB6VeSJCIHMat5b9m0Q/BAEHW0haPSotmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755795265; c=relaxed/simple;
-	bh=bt+tEXL0o101qeK29J89ca1C04CoxJ9sH7VeW3cYQKM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EAm2imMrWgVR5inw2nq6hn927RJslgp4CvFi83La3QH0u4mUREoJt6uurL/Zr77Eak4RvC7V8/qkqaBAxaKyGKYadyHWlIzpyTrP/OY5OB6OT68yBEmI6GWoWNMt8jf3nbl3l7ODlg80fxQ3ZJNHDBumozfBi7zOa1Wzph17E58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=j7N/qHGx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="j7N/qHGx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=iPnqnQzbSMv2nhZCkJ+MksbPL9Ipc1Ay1hgUjybJex0=; b=j7N/qHGxtBYJNa/3bQfGE7Dpq8
-	C0AkCqRoODmVcHqxNuf1AZ1S6zDgM7GrBDe20pAxKQhO8n2IJ0nRcwwwZbzgrKp7q8xAONQBvTo71
-	rYZnvAv1fqb2+mBhSvGPTJT/kwR3AE4ozokyGAlnMPnSLQC/zQbFYoR/9n+WcRExXe/nPcgf3EeZ3
-	fxi6lEkxQSaM1eVFLeFdElUeVTaw3PyEcLyuZNAcFZbEJ+LCyyW1NZsPmWIsXWAZX6/TBECQfsYOl
-	VJGVx+7Alhgt4zkyuxRuztc7AIqb2x5IZ/itCBmiVCnWqBrDQaD5nB106DYkTdjE/ZkqRtB07YS53
-	ds1wAtOA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1up8YP-0000000HarF-22Ao;
-	Thu, 21 Aug 2025 16:54:21 +0000
-Message-ID: <70c48801-83fe-413f-8a8e-5db71c8d1c8d@infradead.org>
-Date: Thu, 21 Aug 2025 09:54:20 -0700
+	s=arc-20240116; t=1755795304; c=relaxed/simple;
+	bh=IZzk16PUsXdv1hJTrUS2W5MkkFnk99+e5RRwlkaxhwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QAg3+064UN9taGo7YNaPrEtzsWtc69Wfl8Wgf6r5UrVWnlOUlLO3BPLtWTTBgXTSV7vyg+iHYM5Ms9h/JPS382xkUSivU208SeG3ntCAn2xOiTfliVNKBXMTcr51OeO742mfo8/yJpq77pP9wDrppGvNw/h9dRBcWfD/g3TbhAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf16.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id 06922C0485;
+	Thu, 21 Aug 2025 16:54:51 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id 40E0120018;
+	Thu, 21 Aug 2025 16:54:41 +0000 (UTC)
+Date: Thu, 21 Aug 2025 12:54:45 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, david@redhat.com, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
+ peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+ sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+ will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com
+Subject: Re: [PATCH v10 07/13] khugepaged: skip collapsing mTHP to smaller
+ orders
+Message-ID: <20250821125445.5fb61e90@gandalf.local.home>
+In-Reply-To: <b6ebe641-0a0b-40b2-a34b-07393f883985@lucifer.local>
+References: <20250819134205.622806-1-npache@redhat.com>
+	<20250819134205.622806-8-npache@redhat.com>
+	<b6ebe641-0a0b-40b2-a34b-07393f883985@lucifer.local>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/filesystems/xfs: Fix typo error
-To: Alperen Aksu <aksulperen@gmail.com>, corbet@lwn.net
-Cc: linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-References: <20250821131404.25461-1-aksulperen@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250821131404.25461-1-aksulperen@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Stat-Signature: qibcagcc111tgj47qy51jo96stw8z185
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 40E0120018
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/b6eVfnCtrADYpbZkvhr6irAR8DA0EUBs=
+X-HE-Tag: 1755795281-660595
+X-HE-Meta: U2FsdGVkX19Wf7TImvNRKkdHzzdV7rkvIZhG+KmuYqaxLydUul5FOaS3X4td4dGtT9hZEXmh4L+Dk8si1hh/hVBWR74FiuUmhfbXmOOdNsDbKjyxYi57fiY6knL4h00MpaMfUIRDYdx3ziQrdIsPCvPgRRHrclGadS48nN02wTZ6PBrjY2LCI4Cx6XQvgzeBaGI9oL4ltMiwZnPR2Yi0mXZPr7egX1qPLgUYcMX9zTYFyPwQ7S8+0OCclKm2BNIeOnyiIs/374my40vMRvHjeexxt6cc3ZwRILylZC8aFqZhZnXFnIGB5uFwg43P3fQzfHePcSZ5aET9TTEaSV2JJ2QzqHIoYI0P
 
+On Thu, 21 Aug 2025 13:05:42 +0100
+Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
 
-
-On 8/21/25 6:13 AM, Alperen Aksu wrote:
-> Fixed typo error in referring to the section's headline
-> Fixed to correct spelling of "mapping"
+> > +		/*
+> > +		 * TODO: In some cases of partially-mapped folios, we'd actually
+> > +		 * want to collapse.
+> > +		 */  
 > 
-> Signed-off-by: Alperen Aksu <aksulperen@gmail.com>
+> Not a fan of adding todo's in code, they have a habit of being left forever.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+It's a way to make the developer more depressed by reminding them that they
+will never be able to complete their TODO list :-p
 
-> ---
->  Documentation/filesystems/xfs/xfs-online-fsck-design.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-> index e231d127cd40..b39b588bb995 100644
-> --- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-> +++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-> @@ -475,7 +475,7 @@ operation, which may cause application failure or an unplanned filesystem
->  shutdown.
->  
->  Inspiration for the secondary metadata repair strategy was drawn from section
-> -2.4 of Srinivasan above, and sections 2 ("NSF: Inded Build Without Side-File")
-> +2.4 of Srinivasan above, and sections 2 ("NSF: Index Build Without Side-File")
->  and 3.1.1 ("Duplicate Key Insert Problem") in C. Mohan, `"Algorithms for
+Personally, I enjoy the torture of these comments in the code ;-)
 
-In the PDF that I looked at, section 3.1.1 is
-
-  3.1.1. Duplicate-Key-Insert Problem
-
-if it matters.
-
->  Creating Indexes for Very Large Tables Without Quiescing Updates"
->  <https://dl.acm.org/doi/10.1145/130283.130337>`_, 1992.
-> @@ -4179,7 +4179,7 @@ When the exchange is initiated, the sequence of operations is as follows:
->     This will be discussed in more detail in subsequent sections.
->  
->  If the filesystem goes down in the middle of an operation, log recovery will
-> -find the most recent unfinished maping exchange log intent item and restart
-> +find the most recent unfinished mapping exchange log intent item and restart
->  from there.
->  This is how atomic file mapping exchanges guarantees that an outside observer
->  will either see the old broken structure or the new one, and never a mismash of
-
-
-thanks.
--- 
-~Randy
+-- Steve
